@@ -160,6 +160,7 @@ void CScriptNode::DrawAsset(ERenderOptions Options, u32 Asset)
 
 void CScriptNode::DrawSelection()
 {
+    glBlendFunc(GL_ONE, GL_ZERO);
     CDrawUtil::DrawWireCube(AABox(), CColor::skTransparentWhite);
 
     if (mpInstance)
