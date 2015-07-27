@@ -108,3 +108,13 @@ bool CFourCC::operator<=(const CFourCC& other) const
 {
     return (ToLong() <= other.ToLong());
 }
+
+char CFourCC::operator[](int index)
+{
+    return mFourCC[index];
+}
+
+const char CFourCC::operator[](int index) const
+{
+    return mFourCC[index];
+}

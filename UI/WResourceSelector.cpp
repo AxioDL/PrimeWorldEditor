@@ -13,19 +13,20 @@
 
 WResourceSelector::WResourceSelector(QWidget *parent) : QWidget(parent)
 {
-    // Initialize Members
-    mHasMultipleExtensions = false;
+    // Initialize Selector Members
     mShowEditButton = false;
     mShowExportButton = false;
 
+    // Initialize Preview Panel Members
     mpPreviewPanel = nullptr;
     mEnablePreviewPanel = true;
     mPreviewPanelValid = false;
     mShowingPreviewPanel = false;
     mAdjustPreviewToParent = false;
 
+    // Initialize Resource Members
     mpResource = nullptr;
-    mResType = eInvalidResType;
+    mResourceValid = false;
 
     // Create Widgets
     mUI.LineEdit = new QLineEdit(this);
@@ -94,12 +95,20 @@ bool WResourceSelector::eventFilter(QObject *pObj, QEvent *pEvent)
     return false;
 }
 
-// ************ GETTERS ************
-EResType WResourceSelector::GetResType()
+bool WResourceSelector::IsSupportedExtension(const QString& extension)
 {
-    return mResType;
+    foreach(const QString& str, mSupportedExtensions)
+        if (str == extension) return true;
+
+    return false;
 }
 
+bool WResourceSelector::HasSupportedExtension(CResource* pRes)
+{
+    return IsSupportedExtension( QString::fromStdString( StringUtil::GetExtension(pRes->FullSource()) ) );
+}
+
+// ************ GETTERS ************
 QString WResourceSelector::GetText()
 {
     return mUI.LineEdit->text();
@@ -129,14 +138,13 @@ void WResourceSelector::SetResource(CResource *pRes)
 
     if (pRes)
     {
-        CFourCC ext = StringUtil::GetExtension(pRes->Source());
-        mResType = CResource::ResTypeForExtension(ext);
+        mResourceValid = HasSupportedExtension(pRes);
         mUI.LineEdit->setText(QString::fromStdString(pRes->Source()));
     }
 
     else
     {
-        mResType = eInvalidResType;
+        mResourceValid = false;
         mUI.LineEdit->clear();
     }
 
@@ -144,18 +152,17 @@ void WResourceSelector::SetResource(CResource *pRes)
     SetButtonsBasedOnResType();
 }
 
-void WResourceSelector::SetResType(EResType Type)
+void WResourceSelector::SetAllowedExtensions(const QString& extension)
 {
-    mResType = Type;
-    mpResource = nullptr;
-    mResToken.Unlock();
-    mUI.LineEdit->clear();
-    CreatePreviewPanel();
-    SetButtonsBasedOnResType();
+    mSupportedExtensions.clear();
+    mSupportedExtensions << extension;
 }
 
-void WResourceSelector::SetResTypes(const CStringList &ExtensionList)
+void WResourceSelector::SetAllowedExtensions(const CStringList& extensions)
 {
+    mSupportedExtensions.clear();
+    for (auto it = extensions.begin(); it != extensions.end(); it++)
+        mSupportedExtensions << QString::fromStdString(*it);
 }
 
 void WResourceSelector::SetText(const QString& ResPath)
@@ -197,14 +204,29 @@ void WResourceSelector::OnLineEditTextEdited()
 
 void WResourceSelector::OnBrowseButtonClicked()
 {
-    QString Filter = gskResourceFilters[mResType];
+    // Construct filter string
+    QString filter;
 
-    std::string ResTypeStr = Filter.toStdString();
-    size_t EndName = ResTypeStr.find_last_of("(") - 1;
-    ResTypeStr = ResTypeStr.substr(0, EndName);
-    QString ResType = QString::fromStdString(ResTypeStr);
+    if (mSupportedExtensions.size() > 1)
+    {
+        QString all = "All supported extensions (";
 
-    QString NewRes = QFileDialog::getOpenFileName(this, "Select " + ResType, "", Filter);
+        for (u32 iExt = 0; iExt < mSupportedExtensions.size(); iExt++)
+        {
+            if (iExt > 0) all += " ";
+            all += "*." + mSupportedExtensions[iExt];
+        }
+        all += ")";
+        filter += all + ";;";
+    }
+
+    for (u32 iExt = 0; iExt < mSupportedExtensions.size(); iExt++)
+    {
+        if (iExt > 0) filter += ";;";
+        filter += UICommon::ExtensionFilterString(mSupportedExtensions[iExt]);
+    }
+
+    QString NewRes = QFileDialog::getOpenFileName(this, "Select resource", "", filter);
 
     if (!NewRes.isEmpty())
     {
@@ -236,10 +258,38 @@ void WResourceSelector::Export()
     emit ExportResource(mpResource);
 }
 
+void WResourceSelector::LoadResource(const QString& ResPath)
+{
+    mpResource = nullptr;
+    mResToken.Unlock();
+
+    std::string pathStr = ResPath.toStdString();
+    std::string ext = StringUtil::GetExtension(pathStr);
+
+    if (IsSupportedExtension( QString::fromStdString(ext) ))
+    {
+        if ((ext != "MREA") && (ext != "MLVL"))
+        {
+            mpResource = gResCache.GetResource(pathStr);
+            mResToken = CToken(mpResource);
+
+            if (mPreviewPanelValid) mpPreviewPanel->SetResource(mpResource);
+        }
+        else mResourceValid = false;
+    }
+    else mResourceValid = false;
+
+    SetButtonsBasedOnResType();
+    CreatePreviewPanel();
+    emit ResourceChanged(ResPath);
+}
+
 void WResourceSelector::CreatePreviewPanel()
 {
     delete mpPreviewPanel;
-    mpPreviewPanel = IPreviewPanel::CreatePanel(mResType, this);
+
+    if (mResourceValid)
+        mpPreviewPanel = IPreviewPanel::CreatePanel(mpResource->Type(), this);
 
     if (!mpPreviewPanel) mPreviewPanelValid = false;
 
@@ -253,7 +303,7 @@ void WResourceSelector::CreatePreviewPanel()
 
 void WResourceSelector::ShowPreviewPanel()
 {
-    if ((mPreviewPanelValid) && (mpResource != nullptr))
+    if (mPreviewPanelValid)
     {
         // Preferred panel point is lower-right, but can move if there's not enough room
         QPoint Position = parentWidget()->mapToGlobal(pos());
@@ -293,33 +343,17 @@ void WResourceSelector::HidePreviewPanel()
     }
 }
 
-void WResourceSelector::LoadResource(const QString& ResPath)
-{
-    mpResource = nullptr;
-    mResToken.Unlock();
-
-    if ((mResType != eArea) && (mResType != eWorld))
-    {
-        std::string PathStr = ResPath.toStdString();
-        CFourCC ResExt = StringUtil::GetExtension(PathStr).c_str();
-
-        if (CResource::ResTypeForExtension(ResExt) == mResType)
-        {
-            mpResource = gResCache.GetResource(PathStr);
-            mResToken = CToken(mpResource);
-
-            if (mPreviewPanelValid) mpPreviewPanel->SetResource(mpResource);
-        }
-    }
-
-    emit ResourceChanged(ResPath);
-}
-
 void WResourceSelector::SetButtonsBasedOnResType()
 {
     // Basically this function sets whether the "Export" and "Edit"
     // buttons are present based on the resource type.
-    switch (mResType)
+    if (!mpResource)
+    {
+        SetEditButtonEnabled(false);
+        SetExportButtonEnabled(false);
+    }
+
+    else switch (mpResource->Type())
     {
     // Export button should be enabled here because CTexture already has a DDS export function
     // However, need to figure out what sort of interface to create to do it. Disabling until then.

@@ -41,9 +41,9 @@ CModelEditorWindow::CModelEditorWindow(QWidget *parent) :
 
     // UI initialization
     UpdateAnimParamUI(-1);
-    ui->IndTextureResSelector->SetResType(eTexture);
+    ui->IndTextureResSelector->SetAllowedExtensions("TXTR");
     ui->IndTextureResSelector->SetPreviewPanelEnabled(true);
-    ui->PassTextureResSelector->SetResType(eTexture);
+    ui->PassTextureResSelector->SetAllowedExtensions("TXTR");
     ui->PassTextureResSelector->SetPreviewPanelEnabled(true);
     ui->PassTable->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
     ui->PassTable->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeToContents);

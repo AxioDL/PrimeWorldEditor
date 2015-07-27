@@ -18,7 +18,6 @@ class WResourceSelector : public QWidget
 
     // Selector
     QStringList mSupportedExtensions;
-    bool mHasMultipleExtensions;
     bool mShowEditButton;
     bool mShowExportButton;
 
@@ -32,7 +31,7 @@ class WResourceSelector : public QWidget
     // Resource
     CResource *mpResource;
     CToken mResToken;
-    EResType mResType;
+    bool mResourceValid;
 
     // UI
     struct {
@@ -43,6 +42,7 @@ class WResourceSelector : public QWidget
         QHBoxLayout *Layout;
     } mUI;
 
+    // Functions
 signals:
     void ResourceChanged(const QString& NewResPath);
     void EditResource(CResource *pRes);
@@ -53,9 +53,10 @@ public:
     ~WResourceSelector();
     bool event(QEvent *);
     bool eventFilter(QObject *, QEvent *);
+    bool IsSupportedExtension(const QString& extension);
+    bool HasSupportedExtension(CResource* pRes);
 
     // Getters
-    EResType GetResType();
     QString GetText();
     bool IsEditButtonEnabled();
     bool IsExportButtonEnabled();
@@ -63,8 +64,9 @@ public:
 
     // Setters
     void SetResource(CResource *pRes);
-    void SetResType(EResType Type);
-    void SetResTypes(const CStringList& ExtensionList);
+    void SetAllowedExtensions(const QString& extension);
+    void SetAllowedExtensions(const QStringList& extensions);
+    void SetAllowedExtensions(const CStringList& extensions);
     void SetText(const QString& ResPath);
     void SetEditButtonEnabled(bool Enabled);
     void SetExportButtonEnabled(bool Enabled);
@@ -81,10 +83,10 @@ public slots:
 private:
     void Edit();
     void Export();
+    void LoadResource(const QString& ResPath);
     void CreatePreviewPanel();
     void ShowPreviewPanel();
     void HidePreviewPanel();
-    void LoadResource(const QString& ResPath);
     void SetButtonsBasedOnResType();
 };
 

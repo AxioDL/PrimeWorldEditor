@@ -190,6 +190,7 @@ void WPropertyEditor::CreateEditor()
         WResourceSelector *pResourceSelector = new WResourceSelector(this);
 
         pResourceSelector->AdjustPreviewToParent(true);
+        pResourceSelector->SetAllowedExtensions(pFileCast->AllowedExtensions());
         pResourceSelector->SetResource(pFileCast->Get());
 
         mUI.EditorWidget = pResourceSelector;
@@ -316,6 +317,7 @@ void WPropertyEditor::UpdateEditor()
     {
         CFileProperty *pFileCast = static_cast<CFileProperty*>(mpProperty);
         WResourceSelector *pResourceSelector = static_cast<WResourceSelector*>(mUI.EditorWidget);
+        pResourceSelector->SetAllowedExtensions(pFileCast->AllowedExtensions());
         pResourceSelector->SetResource(pFileCast->Get());
         break;
     }

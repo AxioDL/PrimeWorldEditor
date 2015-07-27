@@ -33,7 +33,8 @@ public:
     bool operator>=(const CFourCC& other) const;
     bool operator<(const CFourCC& other) const;
     bool operator<=(const CFourCC& other) const;
-
+    char operator[](int index);
+    const char operator[](int index) const;
 };
 
 #endif // CFOURCC_H

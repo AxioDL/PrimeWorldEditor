@@ -4,6 +4,7 @@
 /*
  * This header file declares some classes used to track script object properties
  * CPropertyBase, __CProperty (and typedefs), CPropertyStruct
+ * It's a bit hard to read, should be reorganized at some point
  */
 #include "../CResource.h"
 #include "CScriptTemplate.h"
@@ -90,6 +91,10 @@ public:
             Value = v;
             mToken = CToken(v);
         }
+    }
+    const CStringList& AllowedExtensions()
+    {
+        return static_cast<CFileTemplate*>(Template())->Extensions();
     }
 };
 
