@@ -154,8 +154,8 @@ void WResourceSelector::SetResource(CResource *pRes)
 
 void WResourceSelector::SetAllowedExtensions(const QString& extension)
 {
-    mSupportedExtensions.clear();
-    mSupportedExtensions << extension;
+    CStringList list = StringUtil::Tokenize(extension.toStdString(), ",");
+    SetAllowedExtensions(list);
 }
 
 void WResourceSelector::SetAllowedExtensions(const CStringList& extensions)
@@ -209,7 +209,7 @@ void WResourceSelector::OnBrowseButtonClicked()
 
     if (mSupportedExtensions.size() > 1)
     {
-        QString all = "All supported extensions (";
+        QString all = "All allowed extensions (";
 
         for (u32 iExt = 0; iExt < mSupportedExtensions.size(); iExt++)
         {
