@@ -1,11 +1,9 @@
 #include "CFourCC.h"
 
+// ************ CONSTRUCTORS ************
 CFourCC::CFourCC()
 {
-    FourCC[0] = 0;
-    FourCC[1] = 0;
-    FourCC[2] = 0;
-    FourCC[3] = 0;
+    memset(mFourCC, 0, 4);
 }
 
 CFourCC::CFourCC(const char *src)
@@ -18,81 +16,30 @@ CFourCC::CFourCC(const std::string& src)
     *this = src;
 }
 
-CFourCC::CFourCC(long src)
+CFourCC::CFourCC(u32 src)
 {
     *this = src;
 }
 
 CFourCC::CFourCC(CInputStream& src)
 {
-    src.ReadBytes(&FourCC[0], 4);
+    src.ReadBytes(&mFourCC[0], 4);
 }
 
+// ************ FUNCTIONALITY ************
 void CFourCC::Write(COutputStream &Output)
 {
-    Output.WriteBytes(FourCC, 4);
+    Output.WriteBytes(mFourCC, 4);
 }
 
-CFourCC& CFourCC::operator=(const char *src)
+u32 CFourCC::ToLong() const
 {
-
-    memcpy(&FourCC[0], src, 4);
-    return *this;
-}
-
-CFourCC& CFourCC::operator=(const std::string& src)
-{
-    memcpy(&FourCC[0], src.c_str(), 4);
-    return *this;
-}
-
-CFourCC& CFourCC::operator=(long src)
-{
-    FourCC[0] = (src >> 24) & 0xFF;
-    FourCC[1] = (src >> 16) & 0xFF;
-    FourCC[2] = (src >>  8) & 0xFF;
-    FourCC[3] = (src >>  0) & 0xFF;
-    return *this;
-}
-
-bool CFourCC::operator==(const CFourCC& other) const
-{
-    return ((FourCC[0] == other.FourCC[0]) && (FourCC[1] == other.FourCC[1]) && (FourCC[2] == other.FourCC[2]) && (FourCC[3] == other.FourCC[3]));
-}
-
-bool CFourCC::operator!=(const CFourCC& other) const
-{
-    return (!(*this == other));
-}
-
-bool CFourCC::operator==(const char *other) const
-{
-    return (*this == CFourCC(other));
-}
-
-bool CFourCC::operator!=(const char *other) const
-{
-    return (!(*this == other));
-}
-
-bool CFourCC::operator==(const long other) const
-{
-    return (*this == CFourCC(other));
-}
-
-bool CFourCC::operator!=(const long other) const
-{
-    return (!(*this == other));
-}
-
-long CFourCC::ToLong() const
-{
-    return FourCC[0] << 24 | FourCC[1] << 16 | FourCC[2] << 8 | FourCC[3];
+    return mFourCC[0] << 24 | mFourCC[1] << 16 | mFourCC[2] << 8 | mFourCC[3];
 }
 
 std::string CFourCC::ToString() const
 {
-    return std::string(FourCC, 4);
+    return std::string(mFourCC, 4);
 }
 
 CFourCC CFourCC::ToUpper() const
@@ -101,11 +48,63 @@ CFourCC CFourCC::ToUpper() const
 
     for (int c = 0; c < 4; c++)
     {
-        if ((FourCC[c] >= 0x61) && (FourCC[c] <= 0x7A))
-            Out.FourCC[c] = FourCC[c] - 0x20;
+        if ((mFourCC[c] >= 0x61) && (mFourCC[c] <= 0x7A))
+            Out.mFourCC[c] = mFourCC[c] - 0x20;
         else
-            Out.FourCC[c] = FourCC[c];
+            Out.mFourCC[c] = mFourCC[c];
     }
 
     return Out;
+}
+
+// ************ OPERATORS ************
+CFourCC& CFourCC::operator=(const char *src)
+{
+    memcpy(&mFourCC[0], src, 4);
+    return *this;
+}
+
+CFourCC& CFourCC::operator=(const std::string& src)
+{
+    memcpy(&mFourCC[0], src.c_str(), 4);
+    return *this;
+}
+
+CFourCC& CFourCC::operator=(u32 src)
+{
+    mFourCC[0] = (src >> 24) & 0xFF;
+    mFourCC[1] = (src >> 16) & 0xFF;
+    mFourCC[2] = (src >>  8) & 0xFF;
+    mFourCC[3] = (src >>  0) & 0xFF;
+    return *this;
+}
+
+bool CFourCC::operator==(const CFourCC& other) const
+{
+    return ((mFourCC[0] == other.mFourCC[0]) && (mFourCC[1] == other.mFourCC[1]) && (mFourCC[2] == other.mFourCC[2]) && (mFourCC[3] == other.mFourCC[3]));
+}
+
+bool CFourCC::operator!=(const CFourCC& other) const
+{
+    return (!(*this == other));
+}
+
+bool CFourCC::operator>(const CFourCC& other) const
+{
+    return (ToLong() > other.ToLong());
+}
+
+bool CFourCC::operator>=(const CFourCC& other) const
+{
+    return (ToLong() >= other.ToLong());
+}
+
+bool CFourCC::operator<(const CFourCC& other) const
+{
+    return (ToLong() < other.ToLong());
+}
+
+bool CFourCC::operator<=(const CFourCC& other) const
+{
+    return (ToLong() <= other.ToLong());
 }
