@@ -16,9 +16,9 @@ IPreviewPanel* IPreviewPanel::CreatePanel(EResType Type, QWidget *pParent)
 {
     switch (Type)
     {
-    case eTexture: return new WTexturePreviewPanel(pParent);
+    case eTexture:     return new WTexturePreviewPanel(pParent);
     case eStringTable: return new WStringPreviewPanel(pParent);
-    case eScan: return new WScanPreviewPanel(pParent);
+    case eScan:        return new WScanPreviewPanel(pParent);
     default: return nullptr;
     }
 }

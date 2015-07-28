@@ -11,14 +11,15 @@ WStringPreviewPanel::WStringPreviewPanel(QWidget *pParent) : IPreviewPanel(pPare
     mpLayout->setAlignment(Qt::AlignTop);
     mpLayout->addWidget(mpTextLabel);
     setLayout(mpLayout);
-
-    QFontMetrics metrics(mpTextLabel->font());
-    this->resize(400, 100);
-    this->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Minimum);
 }
 
 WStringPreviewPanel::~WStringPreviewPanel()
 {
+}
+
+QSize WStringPreviewPanel::sizeHint() const
+{
+    return QSize(400, 0);
 }
 
 EResType WStringPreviewPanel::ResType()
@@ -30,22 +31,16 @@ void WStringPreviewPanel::SetResource(CResource *pRes)
 {
     mpTextLabel->clear();
 
-    if ((pRes) && (pRes->Type() == eStringTable))
+    if (pRes && (pRes->Type() == eStringTable))
     {
         CStringTable *pString = static_cast<CStringTable*>(pRes);
         QString text;
 
-        // Build text string using first four strings from table (or less if there aren't 4)
-        u32 numStrings = (pString->GetStringCount() < 4 ? pString->GetStringCount() : 4);
-        for (u32 iStr = 0; iStr < numStrings; iStr++)
+        for (u32 iStr = 0; iStr < pString->GetStringCount(); iStr++)
         {
+            if (iStr > 0) text += "\n";
             text += QString::fromStdWString(pString->GetString(0, iStr));
-            text += "\n";
         }
-
-        // Build text layout to determine where to elide the label
-        QTextLayout layout(text);
-
 
         mpTextLabel->setText(text);
     }

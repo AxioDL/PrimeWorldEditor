@@ -3,6 +3,7 @@
 
 #include "CResource.h"
 #include "CStringTable.h"
+#include "EFormatVersion.h"
 #include <Core/CToken.h>
 
 class CScan : public CResource
@@ -21,6 +22,7 @@ public:
     };
 
 private:
+    EGame mVersion;
     CResource *mpFrame;
     CStringTable *mpStringTable;
     CToken mFrameToken;
@@ -33,6 +35,7 @@ public:
     CScan();
     ~CScan();
     EResType Type();
+    EGame Version();
     CStringTable* ScanText();
     bool IsImportant();
     bool IsSlow();

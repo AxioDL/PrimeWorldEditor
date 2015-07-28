@@ -12,11 +12,11 @@ class WStringPreviewPanel : public IPreviewPanel
 
     QLabel *mpTextLabel;
     QVBoxLayout *mpLayout;
-    QSpacerItem *mpSpacer;
 
 public:
     explicit WStringPreviewPanel(QWidget *pParent = 0);
     ~WStringPreviewPanel();
+    QSize sizeHint() const;
     EResType ResType();
     void SetResource(CResource *pRes);
 };

@@ -13,6 +13,7 @@ class CScanLoader
     CScan* LoadScanMP1(CInputStream& SCAN);
     CScan* LoadScanMP2(CInputStream& SCAN);
     void LoadParamsMP2(CInputStream& SCAN);
+    void LoadParamsMP3(CInputStream& SCAN);
 
 public:
     static CScan* LoadSCAN(CInputStream& SCAN);

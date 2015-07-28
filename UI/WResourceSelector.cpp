@@ -139,7 +139,7 @@ void WResourceSelector::SetResource(CResource *pRes)
     if (pRes)
     {
         mResourceValid = HasSupportedExtension(pRes);
-        mUI.LineEdit->setText(QString::fromStdString(pRes->Source()));
+        mUI.LineEdit->setText(QString::fromStdString(pRes->FullSource()));
     }
 
     else
@@ -272,6 +272,7 @@ void WResourceSelector::LoadResource(const QString& ResPath)
         {
             mpResource = gResCache.GetResource(pathStr);
             mResToken = CToken(mpResource);
+            mResourceValid = (mpResource != nullptr);
 
             if (mPreviewPanelValid) mpPreviewPanel->SetResource(mpResource);
         }
@@ -287,6 +288,7 @@ void WResourceSelector::LoadResource(const QString& ResPath)
 void WResourceSelector::CreatePreviewPanel()
 {
     delete mpPreviewPanel;
+    mpPreviewPanel = nullptr;
 
     if (mResourceValid)
         mpPreviewPanel = IPreviewPanel::CreatePanel(mpResource->Type(), this);

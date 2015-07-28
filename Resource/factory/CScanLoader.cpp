@@ -15,6 +15,7 @@ CScan* CScanLoader::LoadScanMP1(CInputStream &SCAN)
     mpScan->mIsSlow = (SCAN.ReadLong() != 0);
     mpScan->mCategory = (CScan::ELogbookCategory) SCAN.ReadLong();
     mpScan->mIsImportant = (SCAN.ReadByte() == 1);
+    mpScan->mVersion = ePrime;
     return mpScan;
 }
 
@@ -60,7 +61,9 @@ CScan* CScanLoader::LoadScanMP2(CInputStream& SCAN)
     case 0x14:
         LoadParamsMP2(SCAN);
         break;
-
+    case 0x16:
+        LoadParamsMP3(SCAN);
+        break;
     default:
         Log::FileError(SCAN.GetSourceString(), SCAN.Tell() - 2, "Invalid SNFO property count: " + StringUtil::ToHexString(NumProperties));
         delete mpScan;
@@ -70,7 +73,7 @@ CScan* CScanLoader::LoadScanMP2(CInputStream& SCAN)
     return mpScan;
 }
 
-void CScanLoader::LoadParamsMP2(CInputStream &SCAN)
+void CScanLoader::LoadParamsMP2(CInputStream& SCAN)
 {
     // Function begins after the SNFO property count
     for (u32 iProp = 0; iProp < 20; iProp++)
@@ -93,11 +96,39 @@ void CScanLoader::LoadParamsMP2(CInputStream &SCAN)
         case 0x7B714814:
             mpScan->mIsImportant = (SCAN.ReadByte() != 0);
             break;
+        }
 
-        case 0x53336141:
-            u32 TextureID = SCAN.ReadLong();
-            if (TextureID != 0xFFFFFFFF)
-                Log::FileWarning(SCAN.GetSourceString(), "SCAN with texture found!");
+        SCAN.Seek(Next, SEEK_SET);
+    }
+
+    mpScan->mCategory = CScan::eNone;
+    mpScan->mVersion = eEchoes;
+}
+
+void CScanLoader::LoadParamsMP3(CInputStream& SCAN)
+{
+    // Function begins after the SNFO property count
+    // Function is near-identical to the MP2 one, but when I add support
+    // for the other params, there will be more differences
+    for (u32 iProp = 0; iProp < 20; iProp++)
+    {
+        u32 PropertyID = SCAN.ReadLong();
+        u16 PropertySize = SCAN.ReadShort();
+        u32 Next = SCAN.Tell() + PropertySize;
+
+        switch (PropertyID)
+        {
+        case 0x2F5B6423:
+            mpScan->mpStringTable = (CStringTable*) gResCache.GetResource(SCAN.ReadLongLong(), "STRG");
+            mpScan->mStringToken = CToken(mpScan->mpStringTable);
+            break;
+
+        case 0xC308A322:
+            mpScan->mIsSlow = (SCAN.ReadLong() != 0);
+            break;
+
+        case 0x7B714814:
+            mpScan->mIsImportant = (SCAN.ReadByte() != 0);
             break;
         }
 
@@ -105,6 +136,7 @@ void CScanLoader::LoadParamsMP2(CInputStream &SCAN)
     }
 
     mpScan->mCategory = CScan::eNone;
+    mpScan->mVersion = eCorruption;
 }
 
 // ************ STATIC/PUBLIC ************

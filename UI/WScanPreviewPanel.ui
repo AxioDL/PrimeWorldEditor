@@ -7,8 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>114</height>
+    <height>47</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>Form</string>
@@ -27,7 +33,7 @@
     <number>0</number>
    </property>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_4">
+    <layout class="QHBoxLayout" name="ScanInfoLayout">
      <property name="leftMargin">
       <number>9</number>
      </property>
@@ -41,7 +47,7 @@
       <number>0</number>
      </property>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
+      <layout class="QHBoxLayout" name="ScanTypeInfoLayout">
        <item>
         <widget class="QLabel" name="TypeInfoLabel">
          <property name="text">
@@ -59,7 +65,7 @@
       </layout>
      </item>
      <item>
-      <spacer name="horizontalSpacer">
+      <spacer name="HorizSpacer1">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
@@ -72,7 +78,38 @@
       </spacer>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <layout class="QHBoxLayout" name="ScanCategoryInfoLayout">
+       <item>
+        <widget class="QLabel" name="CategoryInfoLabel">
+         <property name="text">
+          <string>Logbook:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="ScanCategoryLabel">
+         <property name="text">
+          <string>TextLabel</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <spacer name="HorizSpacer2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="ScanSpeedInfoLayout">
        <item>
         <widget class="QLabel" name="SpeedInfoLabel">
          <property name="text">
@@ -89,41 +126,10 @@
        </item>
       </layout>
      </item>
-     <item>
-      <spacer name="horizontalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_3">
-       <item>
-        <widget class="QLabel" name="LogbookInfoLabel">
-         <property name="text">
-          <string>Logbook:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="ScanCategoryLabel">
-         <property name="text">
-          <string>TextLabel</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
     </layout>
    </item>
    <item>
-    <widget class="Line" name="line">
+    <widget class="Line" name="Divider">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
@@ -132,7 +138,7 @@
    <item>
     <widget class="WStringPreviewPanel" name="ScanTextWidget" native="true">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
        <verstretch>1</verstretch>
       </sizepolicy>

@@ -14,6 +14,7 @@ class WScanPreviewPanel : public IPreviewPanel
 public:
     explicit WScanPreviewPanel(QWidget *parent = 0);
     ~WScanPreviewPanel();
+    QSize sizeHint() const;
     EResType ResType();
     void SetResource(CResource *pRes);
 

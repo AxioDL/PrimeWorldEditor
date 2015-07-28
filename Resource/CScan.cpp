@@ -18,6 +18,11 @@ EResType CScan::Type()
     return eScan;
 }
 
+EGame CScan::Version()
+{
+    return mVersion;
+}
+
 CStringTable* CScan::ScanText()
 {
     return mpStringTable;

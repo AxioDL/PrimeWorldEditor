@@ -8,13 +8,19 @@ WScanPreviewPanel::WScanPreviewPanel(QWidget *parent) :
     ui(new Ui::WScanPreviewPanel)
 {
     ui->setupUi(this);
+
     ui->ScanTextWidget->setFrameShape(QFrame::NoFrame);
-    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum  );
+    ui->ScanTextWidget->layout()->setContentsMargins(9,0,9,9);
 }
 
 WScanPreviewPanel::~WScanPreviewPanel()
 {
     delete ui;
+}
+
+QSize WScanPreviewPanel::sizeHint() const
+{
+    return QSize(400, 0);
 }
 
 EResType WScanPreviewPanel::ResType()
@@ -30,7 +36,7 @@ void WScanPreviewPanel::SetResource(CResource *pRes)
     ui->ScanCategoryLabel->clear();
 
     // Set up new UI
-    if (pRes->Type() == eScan)
+    if (pRes && (pRes->Type() == eScan))
     {
         CScan *pScan = static_cast<CScan*>(pRes);
 
@@ -38,7 +44,12 @@ void WScanPreviewPanel::SetResource(CResource *pRes)
         if (pScan->IsImportant())
             ui->ScanTypeLabel->setText("<b><font color=\"red\">Important</font></b>");
         else
-            ui->ScanTypeLabel->setText("<b><font color=\"orange\">Normal</font></b>");
+        {
+            if (pScan->Version() <= ePrime)
+                ui->ScanTypeLabel->setText("<b><font color=\"#FF9030\">Normal</font></b>");
+            else
+                ui->ScanTypeLabel->setText("<b><font color=\"#A0A0FF\">Normal</font></b>");
+        }
 
         // Scan speed
         if (pScan->IsSlow())
@@ -68,6 +79,19 @@ void WScanPreviewPanel::SetResource(CResource *pRes)
 
         // Scan text
         ui->ScanTextWidget->SetResource(pScan->ScanText());
+
+        // Show logbook category? (Yes on MP1, no on MP2+)
+        if (pScan->Version() <= ePrime)
+        {
+            ui->CategoryInfoLabel->show();
+            ui->ScanCategoryLabel->show();
+        }
+
+        else
+        {
+            ui->CategoryInfoLabel->hide();
+            ui->ScanCategoryLabel->hide();
+        }
     }
 
     else
