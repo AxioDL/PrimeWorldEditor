@@ -23,7 +23,7 @@ class CRenderer
 {
 public:
     enum EBloomMode {
-        eNoBloom, eBloom, eBloomMaps
+        eNoBloom, eBloom, eBloomMaps, eFakeBloom
     };
 
 private:

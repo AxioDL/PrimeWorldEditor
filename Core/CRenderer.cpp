@@ -148,8 +148,13 @@ void CRenderer::RenderBloom()
                                             CColor((u8) 53, 53, 53, 255),
                                             CColor((u8) 17, 17, 17, 255) };
 
+    float BloomWidth = (mBloomMode == eBloom ? mBloomWidth : mViewportWidth);
+    float BloomHeight = (mBloomMode == eBloom ? mBloomHeight : mViewportHeight);
+    float BloomHScale = (mBloomMode == eBloom ? mBloomHScale : 0);
+    float BloomVScale = (mBloomMode == eBloom ? mBloomVScale : 0);
+
     glDisable(GL_DEPTH_TEST);
-    glViewport(0, 0, mBloomWidth, mBloomHeight);
+    glViewport(0, 0, BloomWidth, BloomHeight);
     glClearColor(0.f, 0.f, 0.f, 0.f);
     glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 
@@ -159,7 +164,7 @@ void CRenderer::RenderBloom()
     CGraphics::UpdateMVPBlock();
 
     // Pass 1: Alpha-blend the scene texture on a black background
-    mBloomFramebuffers[0].Resize(mBloomWidth, mBloomHeight);
+    mBloomFramebuffers[0].Resize(BloomWidth, BloomHeight);
     mBloomFramebuffers[0].Bind();
     glClear(GL_COLOR_BUFFER_BIT);
 
@@ -169,7 +174,7 @@ void CRenderer::RenderBloom()
     CDrawUtil::DrawSquare();
 
     // Pass 2: Horizontal blur
-    mBloomFramebuffers[1].Resize(mBloomWidth, mBloomHeight);
+    mBloomFramebuffers[1].Resize(BloomWidth, BloomHeight);
     mBloomFramebuffers[1].Bind();
 
     CDrawUtil::UseTextureShader(CColor::skGray);
@@ -180,7 +185,7 @@ void CRenderer::RenderBloom()
     for (u32 iPass = 0; iPass < 6; iPass++)
     {
         CDrawUtil::UseTextureShader(skTintColors[iPass]);
-        CVector3f Translate(skHOffset[iPass] * mBloomHScale, 0.f, 0.f);
+        CVector3f Translate(skHOffset[iPass] * BloomHScale, 0.f, 0.f);
         CGraphics::sMVPBlock.ModelMatrix = CTransform4f::TranslationMatrix(Translate).ToMatrix4f();
         CGraphics::UpdateMVPBlock();
         glBlendFunc(GL_ONE, GL_ONE);
@@ -188,7 +193,7 @@ void CRenderer::RenderBloom()
     }
 
     // Pass 3: Vertical blur
-    mBloomFramebuffers[2].Resize(mBloomWidth, mBloomHeight);
+    mBloomFramebuffers[2].Resize(BloomWidth, BloomHeight);
     mBloomFramebuffers[2].Bind();
     glClear(GL_COLOR_BUFFER_BIT);
 
@@ -200,7 +205,7 @@ void CRenderer::RenderBloom()
     for (u32 iPass = 0; iPass < 6; iPass++)
     {
         CDrawUtil::UseTextureShader(skTintColors[iPass]);
-        CVector3f Translate(0.f, skVOffset[iPass] * mBloomVScale, 0.f);
+        CVector3f Translate(0.f, skVOffset[iPass] * BloomVScale, 0.f);
         CGraphics::sMVPBlock.ModelMatrix = CTransform4f::TranslationMatrix(Translate).ToMatrix4f();
         CGraphics::UpdateMVPBlock();
         glBlendFunc(GL_ONE, GL_ONE);
@@ -272,7 +277,7 @@ void CRenderer::BeginFrame()
 void CRenderer::EndFrame()
 {
     // Post-processing
-    if (mBloomMode == eBloom)
+    if ((mBloomMode == eBloom) || (mBloomMode == eFakeBloom))
         RenderBloom();
 
     // Render result to screen
@@ -293,7 +298,7 @@ void CRenderer::EndFrame()
     mSceneFramebuffer.Texture()->Bind(0);
     CDrawUtil::DrawSquare();
 
-    if (mBloomMode == eBloom)
+    if ((mBloomMode == eBloom) || (mBloomMode == eFakeBloom))
     {
         CDrawUtil::UseTextureShader();
         glBlendFunc(GL_ONE, GL_ONE);

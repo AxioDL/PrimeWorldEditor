@@ -104,11 +104,11 @@ void CWorldEditor::SetArea(CWorld *pWorld, CGameArea *pArea)
     CVector3f AreaPosition(AreaTransform[0][3], AreaTransform[1][3], AreaTransform[2][3]);
     ui->MainViewport->Camera().Snap(AreaPosition);
 
-    // Default bloom to ON for Metroid Prime 3; disable for other games
+    // Default bloom to Fake Bloom for Metroid Prime 3; disable for other games
     if (mpWorld->Version() == eCorruption)
     {
         ui->menuBloom->setEnabled(true);
-        on_ActionBloom_triggered();
+        on_ActionFakeBloom_triggered();
     }
 
     else
@@ -420,6 +420,7 @@ void CWorldEditor::on_ActionNoBloom_triggered()
     mpRenderer->SetBloom(CRenderer::eNoBloom);
     ui->ActionNoBloom->setChecked(true);
     ui->ActionBloomMaps->setChecked(false);
+    ui->ActionFakeBloom->setChecked(false);
     ui->ActionBloom->setChecked(false);
 }
 
@@ -428,6 +429,16 @@ void CWorldEditor::on_ActionBloomMaps_triggered()
     mpRenderer->SetBloom(CRenderer::eBloomMaps);
     ui->ActionNoBloom->setChecked(false);
     ui->ActionBloomMaps->setChecked(true);
+    ui->ActionFakeBloom->setChecked(false);
+    ui->ActionBloom->setChecked(false);
+}
+
+void CWorldEditor::on_ActionFakeBloom_triggered()
+{
+    mpRenderer->SetBloom(CRenderer::eFakeBloom);
+    ui->ActionNoBloom->setChecked(false);
+    ui->ActionBloomMaps->setChecked(false);
+    ui->ActionFakeBloom->setChecked(true);
     ui->ActionBloom->setChecked(false);
 }
 
@@ -436,6 +447,7 @@ void CWorldEditor::on_ActionBloom_triggered()
     mpRenderer->SetBloom(CRenderer::eBloom);
     ui->ActionNoBloom->setChecked(false);
     ui->ActionBloomMaps->setChecked(false);
+    ui->ActionFakeBloom->setChecked(false);
     ui->ActionBloom->setChecked(true);
 }
 

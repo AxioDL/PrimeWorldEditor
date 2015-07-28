@@ -84,6 +84,7 @@
      </property>
      <addaction name="ActionNoBloom"/>
      <addaction name="ActionBloomMaps"/>
+     <addaction name="ActionFakeBloom"/>
      <addaction name="ActionBloom"/>
     </widget>
     <addaction name="ActionZoomOnSelection"/>
@@ -578,6 +579,14 @@
   <action name="ActionEditLayers">
    <property name="text">
     <string>Edit Layers</string>
+   </property>
+  </action>
+  <action name="ActionFakeBloom">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Fake Bloom</string>
    </property>
   </action>
  </widget>

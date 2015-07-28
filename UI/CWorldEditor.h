@@ -84,6 +84,7 @@ private slots:
     void on_ActionWorldLighting_triggered();
     void on_ActionNoBloom_triggered();
     void on_ActionBloomMaps_triggered();
+    void on_ActionFakeBloom_triggered();
     void on_ActionBloom_triggered();
     void on_ActionZoomOnSelection_triggered();
     void on_ActionDisableBackfaceCull_triggered();
