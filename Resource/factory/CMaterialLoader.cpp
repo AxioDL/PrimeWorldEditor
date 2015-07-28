@@ -561,6 +561,15 @@ void CMaterialLoader::CreateCorruptionPasses(CMaterial *pMat)
             pPass->SetAlphaOutput(ePrevReg);
         }
 
+        // X-Ray - since we don't support X-Ray previews, no effect
+        else if (Type == "XRAY")
+        {
+            pPass->SetColorInputs(eZeroRGB, eZeroRGB, eZeroRGB, ePrevRGB);
+            pPass->SetAlphaInputs(eZeroAlpha, eZeroAlpha, eZeroAlpha, ePrevAlpha);
+            pPass->SetColorOutput(ePrevReg);
+            pPass->SetAlphaOutput(ePrevReg);
+        }
+
         // Toon? Don't know what it's for but got TEV setup from shader dumps
         else if (Type == "TOON")
         {
