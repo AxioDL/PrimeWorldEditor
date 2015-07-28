@@ -5,11 +5,9 @@
 
 WStringPreviewPanel::WStringPreviewPanel(QWidget *pParent) : IPreviewPanel(pParent)
 {
-    mpTextLabel = new QLabel(this);
-    mpTextLabel->setWordWrap(true);
     mpLayout = new QVBoxLayout(this);
     mpLayout->setAlignment(Qt::AlignTop);
-    mpLayout->addWidget(mpTextLabel);
+    mpLayout->setSpacing(0);
     setLayout(mpLayout);
 }
 
@@ -29,19 +27,24 @@ EResType WStringPreviewPanel::ResType()
 
 void WStringPreviewPanel::SetResource(CResource *pRes)
 {
-    mpTextLabel->clear();
+    foreach(const QLabel *pLabel, mLabels)
+        delete pLabel;
+    mLabels.clear();
 
     if (pRes && (pRes->Type() == eStringTable))
     {
         CStringTable *pString = static_cast<CStringTable*>(pRes);
-        QString text;
+        mLabels.reserve(pString->GetStringCount());
 
         for (u32 iStr = 0; iStr < pString->GetStringCount(); iStr++)
         {
-            if (iStr > 0) text += "\n";
-            text += QString::fromStdWString(pString->GetString(0, iStr));
+            QString text = QString::fromStdWString(pString->GetString(0, iStr));
+            QLabel *pLabel = new QLabel(text, this);
+            pLabel->setWordWrap(true);
+            pLabel->setFrameStyle(QFrame::Plain | QFrame::Box);
+            pLabel->setMargin(3);
+            mLabels.push_back(pLabel);
+            mpLayout->addWidget(pLabel);
         }
-
-        mpTextLabel->setText(text);
     }
 }

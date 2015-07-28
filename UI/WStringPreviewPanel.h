@@ -4,13 +4,13 @@
 #include "IPreviewPanel.h"
 #include <QLabel>
 #include <QVBoxLayout>
-#include <QSpacerItem>
+#include <QVector>
 
 class WStringPreviewPanel : public IPreviewPanel
 {
     Q_OBJECT
 
-    QLabel *mpTextLabel;
+    QVector<QLabel*> mLabels;
     QVBoxLayout *mpLayout;
 
 public:
