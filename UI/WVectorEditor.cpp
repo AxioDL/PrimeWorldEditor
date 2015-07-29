@@ -7,6 +7,9 @@ WVectorEditor::WVectorEditor(QWidget *pParent) : QWidget(pParent)
     mpSpinBoxX = new WDraggableSpinBox(this);
     mpSpinBoxY = new WDraggableSpinBox(this);
     mpSpinBoxZ = new WDraggableSpinBox(this);
+    mpSpinBoxX->setDecimals(4);
+    mpSpinBoxY->setDecimals(4);
+    mpSpinBoxZ->setDecimals(4);
     mpSpinBoxX->setFocusPolicy(Qt::StrongFocus);
     mpSpinBoxY->setFocusPolicy(Qt::StrongFocus);
     mpSpinBoxZ->setFocusPolicy(Qt::StrongFocus);
@@ -41,8 +44,8 @@ WVectorEditor::WVectorEditor(const CVector3f& Value, QWidget *pParent) : QWidget
     mpSpinBoxY = new WDraggableSpinBox(this);
     mpSpinBoxZ = new WDraggableSpinBox(this);
     mpSpinBoxX->setDecimals(4);
-    mpSpinBoxX->setDecimals(4);
-    mpSpinBoxX->setDecimals(4);
+    mpSpinBoxY->setDecimals(4);
+    mpSpinBoxZ->setDecimals(4);
     mpSpinBoxX->setValue((double) Value.x);
     mpSpinBoxY->setValue((double) Value.y);
     mpSpinBoxZ->setValue((double) Value.z);
