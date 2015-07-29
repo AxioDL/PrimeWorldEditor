@@ -7,6 +7,9 @@ WVectorEditor::WVectorEditor(QWidget *pParent) : QWidget(pParent)
     mpSpinBoxX = new WDraggableSpinBox(this);
     mpSpinBoxY = new WDraggableSpinBox(this);
     mpSpinBoxZ = new WDraggableSpinBox(this);
+    mpSpinBoxX->setFocusPolicy(Qt::StrongFocus);
+    mpSpinBoxY->setFocusPolicy(Qt::StrongFocus);
+    mpSpinBoxZ->setFocusPolicy(Qt::StrongFocus);
     connect(mpSpinBoxX, SIGNAL(valueChanged(double)), this, SLOT(SetX(double)));
     connect(mpSpinBoxY, SIGNAL(valueChanged(double)), this, SLOT(SetY(double)));
     connect(mpSpinBoxZ, SIGNAL(valueChanged(double)), this, SLOT(SetZ(double)));
@@ -46,6 +49,9 @@ WVectorEditor::WVectorEditor(const CVector3f& Value, QWidget *pParent) : QWidget
     mpSpinBoxX->setMaximumHeight(21);
     mpSpinBoxY->setMaximumHeight(21);
     mpSpinBoxZ->setMaximumHeight(21);
+    mpSpinBoxX->setFocusPolicy(Qt::StrongFocus);
+    mpSpinBoxY->setFocusPolicy(Qt::StrongFocus);
+    mpSpinBoxZ->setFocusPolicy(Qt::StrongFocus);
     connect(mpSpinBoxX, SIGNAL(valueChanged(double)), this, SLOT(SetX(double)));
     connect(mpSpinBoxY, SIGNAL(valueChanged(double)), this, SLOT(SetY(double)));
     connect(mpSpinBoxZ, SIGNAL(valueChanged(double)), this, SLOT(SetZ(double)));

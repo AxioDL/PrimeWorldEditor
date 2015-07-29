@@ -131,7 +131,8 @@ SOURCES += \
     Resource/CScan.cpp \
     Resource/factory/CScanLoader.cpp \
     UI/WStringPreviewPanel.cpp \
-    UI/WScanPreviewPanel.cpp
+    UI/WScanPreviewPanel.cpp \
+    UI/WIntegralSpinBox.cpp
 
 HEADERS  += \
     Common/AnimUtil.h \
@@ -277,7 +278,8 @@ HEADERS  += \
     Resource/CScan.h \
     Resource/factory/CScanLoader.h \
     UI/WStringPreviewPanel.h \
-    UI/WScanPreviewPanel.h
+    UI/WScanPreviewPanel.h \
+    UI/WIntegralSpinBox.h
 
 FORMS    += \
     UI/CWorldEditorWindow.ui \

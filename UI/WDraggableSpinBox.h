@@ -14,9 +14,10 @@ class WDraggableSpinBox : public QDoubleSpinBox
 public:
     explicit WDraggableSpinBox(QWidget *parent = 0);
     ~WDraggableSpinBox();
-    void mousePressEvent(QMouseEvent *Event);
-    void mouseReleaseEvent(QMouseEvent *Event);
-    void mouseMoveEvent(QMouseEvent *Event);
+    void mousePressEvent(QMouseEvent *pEvent);
+    void mouseReleaseEvent(QMouseEvent *pEvent);
+    void mouseMoveEvent(QMouseEvent *pEvent);
+    void wheelEvent(QWheelEvent *pEvent);
 };
 
 #endif // WDRAGGABLESPINBOX_H

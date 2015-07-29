@@ -77,3 +77,9 @@ void WDraggableSpinBox::mouseMoveEvent(QMouseEvent*)
         mLastY = QCursor::pos().y();
     }
 }
+
+void WDraggableSpinBox::wheelEvent(QWheelEvent *pEvent)
+{
+    if (!hasFocus()) pEvent->ignore();
+    else QDoubleSpinBox::wheelEvent(pEvent);
+}

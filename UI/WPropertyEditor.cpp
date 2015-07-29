@@ -1,5 +1,6 @@
 #include "WPropertyEditor.h"
 #include "WDraggableSpinBox.h"
+#include "WIntegralSpinBox.h"
 #include "WResourceSelector.h"
 #include "WColorPicker.h"
 #include "WVectorEditor.h"
@@ -85,39 +86,42 @@ void WPropertyEditor::CreateEditor()
         break;
     }
 
-    // Byte - QSpinBox
+    // Byte - WIntegralSpinBox
     case eByteProperty:
     {
         CByteProperty *pByteCast = static_cast<CByteProperty*>(mpProperty);
-        QSpinBox *pSpinBox = new QSpinBox(this);
+        QSpinBox *pSpinBox = new WIntegralSpinBox(this);
 
         pSpinBox->setRange(-128, 128);
+        pSpinBox->setFocusPolicy(Qt::StrongFocus);
         pSpinBox->setValue(pByteCast->Get());
 
         mUI.EditorWidget = pSpinBox;
         break;
     }
 
-    // Short - QSpinBox
+    // Short - WIntegralSpinBox
     case eShortProperty:
     {
         CShortProperty *pShortCast = static_cast<CShortProperty*>(mpProperty);
-        QSpinBox *pSpinBox = new QSpinBox(this);
+        QSpinBox *pSpinBox = new WIntegralSpinBox(this);
 
         pSpinBox->setRange(-32768, 32767);
+        pSpinBox->setFocusPolicy(Qt::StrongFocus);
         pSpinBox->setValue(pShortCast->Get());
 
         mUI.EditorWidget = pSpinBox;
         break;
     }
 
-    // Long - QSpinBox
+    // Long - WIntegralSpinBox
     case eLongProperty:
     {
         CLongProperty *pLongCast = static_cast<CLongProperty*>(mpProperty);
-        QSpinBox *pSpinBox = new QSpinBox(this);
+        QSpinBox *pSpinBox = new WIntegralSpinBox(this);
 
         pSpinBox->setRange(-2147483648, 2147483647);
+        pSpinBox->setFocusPolicy(Qt::StrongFocus);
         pSpinBox->setValue(pLongCast->Get());
 
         mUI.EditorWidget = pSpinBox;
@@ -131,6 +135,7 @@ void WPropertyEditor::CreateEditor()
         WDraggableSpinBox *pDraggableSpinBox = new WDraggableSpinBox(this);
 
         pDraggableSpinBox->setDecimals(4);
+        pDraggableSpinBox->setFocusPolicy(Qt::StrongFocus);
         pDraggableSpinBox->setValue(pFloatCast->Get());
 
         mUI.EditorWidget = pDraggableSpinBox;
