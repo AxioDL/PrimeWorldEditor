@@ -395,7 +395,6 @@ bool CTemplateLoader::ParseAttribExtra(tinyxml2::XMLElement *pElem, CAttribTempl
 void CTemplateLoader::LoadMasterTemplate(tinyxml2::XMLDocument *pDoc)
 {
     tinyxml2::XMLNode *pNode = pDoc->FirstChild()->NextSibling()->FirstChild();
-    FILE *f = fopen("a.txt", "w");
 
     while (pNode)
     {
@@ -463,13 +462,6 @@ void CTemplateLoader::LoadMasterTemplate(tinyxml2::XMLDocument *pDoc)
                         {
                             mpMaster->mTemplates[ID] = pTemp;
                             Cat.AddTemplate(pTemp);
-
-                            std::string ID = "| <code>" + CFourCC(pTemp->ObjectID()).ToString() + "</code>\n";
-                            std::string Name = "| [[" + pTemp->TemplateName() + " (Metroid Prime 2)|" + pTemp->TemplateName() + "]]\n";
-                            fprintf(f, ID.c_str());
-                            fprintf(f, Name.c_str());
-                            fprintf(f, "| \n");
-                            fprintf(f, "|-\n");
                         }
                     }
 
@@ -500,12 +492,6 @@ void CTemplateLoader::LoadMasterTemplate(tinyxml2::XMLDocument *pDoc)
                 std::string StateName = pState->Attribute("name");
                 mpMaster->mStates[StateID] = StateName;
                 pState = pState->NextSiblingElement("state");
-
-                std::string ID = "| <code>" + StrID + "</code>\n";
-                std::string Name = "| " + StateName + "\n";
-                fprintf(f, ID.c_str());
-                fprintf(f, Name.c_str());
-                fprintf(f, "|-\n");
             }
         }
 
@@ -527,19 +513,11 @@ void CTemplateLoader::LoadMasterTemplate(tinyxml2::XMLDocument *pDoc)
                 std::string MessageName = pMessage->Attribute("name");
                 mpMaster->mMessages[MessageID] = MessageName;
                 pMessage = pMessage->NextSiblingElement("message");
-
-                std::string ID = "| <code>" + StrID + "</code>\n";
-                std::string Name = "| " + MessageName + "\n";
-                fprintf(f, ID.c_str());
-                fprintf(f, Name.c_str());
-                fprintf(f, "|-\n");
             }
         }
 
         pNode = pNode->NextSibling();
     }
-
-    fclose(f);
 }
 
 void CTemplateLoader::LoadPropertyList(tinyxml2::XMLDocument *pDoc, const std::string& ListName)
