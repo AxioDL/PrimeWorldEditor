@@ -8,9 +8,8 @@ class WDraggableSpinBox : public QDoubleSpinBox
     Q_OBJECT
     bool mBeingDragged;
     bool mBeenDragged;
-    double mInitialValue;
     double mDefaultValue;
-    int mInitialY;
+    int mLastY;
 
 public:
     explicit WDraggableSpinBox(QWidget *parent = 0);

@@ -1,6 +1,7 @@
 #include "WDraggableSpinBox.h"
-#include <QMouseEvent>
+#include <QApplication>
 #include <QDesktopWidget>
+#include <QMouseEvent>
 
 WDraggableSpinBox::WDraggableSpinBox(QWidget *parent) : QDoubleSpinBox(parent)
 {
@@ -8,19 +9,17 @@ WDraggableSpinBox::WDraggableSpinBox(QWidget *parent) : QDoubleSpinBox(parent)
     mDefaultValue = value();
     setMinimum(-1000000.0);
     setMaximum(1000000.0);
-    setDecimals(4);
 }
 
 WDraggableSpinBox::~WDraggableSpinBox()
 {
 }
 
-void WDraggableSpinBox::mousePressEvent(QMouseEvent *Event)
+void WDraggableSpinBox::mousePressEvent(QMouseEvent*)
 {
     mBeingDragged = true;
     mBeenDragged = false;
-    mInitialY = Event->y();
-    mInitialValue = value();
+    mLastY = QCursor::pos().y();
 }
 
 void WDraggableSpinBox::mouseReleaseEvent(QMouseEvent *Event)
@@ -36,6 +35,11 @@ void WDraggableSpinBox::mouseReleaseEvent(QMouseEvent *Event)
             else
                 stepDown();
         }
+
+        else
+        {
+            setCursor(Qt::ArrowCursor);
+        }
     }
 
     else if (Event->button() == Qt::RightButton)
@@ -44,12 +48,32 @@ void WDraggableSpinBox::mouseReleaseEvent(QMouseEvent *Event)
     }
 }
 
-void WDraggableSpinBox::mouseMoveEvent(QMouseEvent *Event)
+void WDraggableSpinBox::mouseMoveEvent(QMouseEvent*)
 {
     if (mBeingDragged)
     {
-        double DragAmount = (singleStep() / 10.0) * (mInitialY - Event->y());
-        setValue(mInitialValue + DragAmount);
-        if (DragAmount != 0) mBeenDragged = true;
+        QPoint cursorPos = QCursor::pos();
+
+        // Update value
+        double DragAmount = (singleStep() / 10.0) * (mLastY - cursorPos.y());
+        setValue(value() + DragAmount);
+
+        // Wrap cursor
+        int screenHeight = QApplication::desktop()->screenGeometry().height();
+
+        if (cursorPos.y() == screenHeight - 1)
+            QCursor::setPos(cursorPos.x(), 1);
+        if (cursorPos.y() == 0)
+            QCursor::setPos(cursorPos.x(), screenHeight - 2);
+
+        // Set cursor shape
+        if (DragAmount != 0)
+        {
+            mBeenDragged = true;
+            setCursor(Qt::SizeVerCursor);
+        }
+
+        // Update last Y
+        mLastY = QCursor::pos().y();
     }
 }

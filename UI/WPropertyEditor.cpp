@@ -130,6 +130,7 @@ void WPropertyEditor::CreateEditor()
         CFloatProperty *pFloatCast = static_cast<CFloatProperty*>(mpProperty);
         WDraggableSpinBox *pDraggableSpinBox = new WDraggableSpinBox(this);
 
+        pDraggableSpinBox->setDecimals(4);
         pDraggableSpinBox->setValue(pFloatCast->Get());
 
         mUI.EditorWidget = pDraggableSpinBox;
