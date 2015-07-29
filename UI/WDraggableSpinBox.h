@@ -18,6 +18,8 @@ public:
     void mouseReleaseEvent(QMouseEvent *pEvent);
     void mouseMoveEvent(QMouseEvent *pEvent);
     void wheelEvent(QWheelEvent *pEvent);
+    void contextMenuEvent(QContextMenuEvent *pEvent);
+    void SetDefaultValue(double value);
 };
 
 #endif // WDRAGGABLESPINBOX_H

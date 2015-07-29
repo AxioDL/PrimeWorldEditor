@@ -74,6 +74,7 @@ private:
     void UpdateStatusBar();
 
 private slots:
+    void OnCameraSpeedChange(double speed);
     void on_ActionDrawWorld_triggered();
     void on_ActionDrawCollision_triggered();
     void on_ActionDrawObjects_triggered();

@@ -7,6 +7,7 @@
 #include <QOpenGLContext>
 #include <QFontMetrics>
 #include <Core/Log.h>
+#include "WDraggableSpinBox.h"
 
 #include "WorldEditor/CLayerEditor.h"
 #include "WorldEditor/WModifyTab.h"
@@ -29,8 +30,6 @@ CWorldEditor::CWorldEditor(QWidget *parent) :
     mpArea = nullptr;
     mpWorld = nullptr;
     mpHoverNode = nullptr;
-    //mpInstanceModel = new CInstanceModel(this);
-    //ui->InstancesTreeView->setModel(mpInstanceModel);
     mDrawSky = true;
 
     mFrameCount = 0;
@@ -47,11 +46,16 @@ CWorldEditor::CWorldEditor(QWidget *parent) :
 
     delete pOldTitleBar;
 
-    ResetHover();
 
+    // Initialize UI stuff
     ui->ModifyTabContents->SetEditor(this);
     ui->InstancesTabContents->SetEditor(this, mpSceneManager);
     ui->MainDock->installEventFilter(this);
+    ui->CamSpeedSpinBox->SetDefaultValue(1.0);
+    ResetHover();
+
+    // Connect signals and slots
+    connect(ui->CamSpeedSpinBox, SIGNAL(valueChanged(double)), this, SLOT(OnCameraSpeedChange(double)));
     connect(ui->MainViewport, SIGNAL(PreRender()), this, SLOT(ViewportPreRender()));
     connect(ui->MainViewport, SIGNAL(Render(CCamera&)), this, SLOT(ViewportRender(CCamera&)));
     connect(ui->MainViewport, SIGNAL(ViewportResized(int,int)), this, SLOT(SetViewportSize(int,int)));
@@ -362,9 +366,25 @@ void CWorldEditor::UpdateSelectionUI()
     QFontMetrics Metrics(ui->SelectionInfoLabel->font());
     SelectionText = Metrics.elidedText(SelectionText, Qt::ElideRight, ui->SelectionInfoFrame->width() - 10);
     ui->SelectionInfoLabel->setText(SelectionText);
+
+    // Update transform
+    CVector3f pos = (!mSelectedNodes.empty() ? mSelectedNodes.front()->GetAbsolutePosition() : CVector3f::skZero);
+    ui->XSpinBox->setValue(pos.x);
+    ui->YSpinBox->setValue(pos.y);
+    ui->ZSpinBox->setValue(pos.z);
 }
 
 // ************ ACTIONS ************
+void CWorldEditor::OnCameraSpeedChange(double speed)
+{
+    static const double skDefaultSpeed = 1.0;
+    ui->MainViewport->Camera().SetMoveSpeed(skDefaultSpeed * speed);
+
+    ui->CamSpeedSpinBox->blockSignals(true);
+    ui->CamSpeedSpinBox->setValue(speed);
+    ui->CamSpeedSpinBox->blockSignals(false);
+}
+
 // These functions are from "Go to slot" in the designer
 void CWorldEditor::on_ActionDrawWorld_triggered()
 {

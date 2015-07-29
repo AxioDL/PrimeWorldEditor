@@ -6,7 +6,7 @@
 WDraggableSpinBox::WDraggableSpinBox(QWidget *parent) : QDoubleSpinBox(parent)
 {
     mBeingDragged = false;
-    mDefaultValue = value();
+    mDefaultValue = 0;
     setMinimum(-1000000.0);
     setMaximum(1000000.0);
 }
@@ -25,6 +25,7 @@ void WDraggableSpinBox::mousePressEvent(QMouseEvent*)
 void WDraggableSpinBox::mouseReleaseEvent(QMouseEvent *Event)
 {
     mBeingDragged = false;
+    setCursor(Qt::ArrowCursor);
 
     if (Event->button() == Qt::LeftButton)
     {
@@ -34,11 +35,6 @@ void WDraggableSpinBox::mouseReleaseEvent(QMouseEvent *Event)
                 stepUp();
             else
                 stepDown();
-        }
-
-        else
-        {
-            setCursor(Qt::ArrowCursor);
         }
     }
 
@@ -82,4 +78,14 @@ void WDraggableSpinBox::wheelEvent(QWheelEvent *pEvent)
 {
     if (!hasFocus()) pEvent->ignore();
     else QDoubleSpinBox::wheelEvent(pEvent);
+}
+
+void WDraggableSpinBox::contextMenuEvent(QContextMenuEvent *pEvent)
+{
+    pEvent->ignore();
+}
+
+void WDraggableSpinBox::SetDefaultValue(double value)
+{
+    mDefaultValue = value;
 }

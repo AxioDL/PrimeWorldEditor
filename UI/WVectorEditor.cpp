@@ -40,6 +40,9 @@ WVectorEditor::WVectorEditor(const CVector3f& Value, QWidget *pParent) : QWidget
     mpSpinBoxX = new WDraggableSpinBox(this);
     mpSpinBoxY = new WDraggableSpinBox(this);
     mpSpinBoxZ = new WDraggableSpinBox(this);
+    mpSpinBoxX->setDecimals(4);
+    mpSpinBoxX->setDecimals(4);
+    mpSpinBoxX->setDecimals(4);
     mpSpinBoxX->setValue((double) Value.x);
     mpSpinBoxY->setValue((double) Value.y);
     mpSpinBoxZ->setValue((double) Value.z);

@@ -38,12 +38,6 @@
         <verstretch>1</verstretch>
        </sizepolicy>
       </property>
-      <zorder>YLabel</zorder>
-      <zorder>YSpinBox</zorder>
-      <zorder>XSpinBox</zorder>
-      <zorder>XLabel</zorder>
-      <zorder>ZSpinBox</zorder>
-      <zorder>ZLabel</zorder>
      </widget>
     </item>
     <item>
@@ -158,6 +152,9 @@
            <height>16777215</height>
           </size>
          </property>
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
+         </property>
          <property name="decimals">
           <number>4</number>
          </property>
@@ -198,6 +195,9 @@
            <width>70</width>
            <height>16777215</height>
           </size>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
          </property>
          <property name="decimals">
           <number>4</number>
@@ -240,6 +240,9 @@
            <height>16777215</height>
           </size>
          </property>
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
+         </property>
          <property name="decimals">
           <number>4</number>
          </property>
@@ -277,6 +280,9 @@
              <width>50</width>
              <height>16777215</height>
             </size>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
            </property>
            <property name="frame">
             <bool>true</bool>
