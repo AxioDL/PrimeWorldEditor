@@ -67,20 +67,29 @@ bool CMaterial::SetCurrent(ERenderOptions Options)
     if (mShaderStatus == eShaderFailed)
         return false;
 
-    // Set blend equation - force to ZERO/ONE if alpha is disabled
-    if (Options & eNoAlpha)
-        glBlendFunc(GL_ONE, GL_ZERO);
-    else
-        glBlendFunc(mBlendSrcFac, mBlendDstFac);
+    // Set RGB blend equation - force to ZERO/ONE if alpha is disabled
+    GLenum srcRGB, dstRGB, srcAlpha, dstAlpha;
 
-    // Set color mask. This is for rendering bloom - bloom maps render to the framebuffer alpha
-    // We can only render bloom on materials that aren't alpha blended.
+    if (Options & eNoAlpha) {
+        srcRGB = GL_ONE;
+        dstRGB = GL_ZERO;
+    } else {
+        srcRGB = mBlendSrcFac;
+        dstRGB = mBlendDstFac;
+    }
+
+    // Set alpha blend equation
     bool AlphaBlended = ((mBlendSrcFac == GL_SRC_ALPHA) && (mBlendDstFac == GL_ONE_MINUS_SRC_ALPHA));
 
-    if ((mEnableBloom) && (Options & eEnableBloom) && (!AlphaBlended))
-        glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-    else
-        glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_FALSE);
+    if ((mEnableBloom) && (Options & eEnableBloom) && (!AlphaBlended)) {
+        srcAlpha = mBlendSrcFac;
+        dstAlpha = mBlendDstFac;
+    } else {
+        srcAlpha = GL_ZERO;
+        dstAlpha = GL_ZERO;
+    }
+
+    glBlendFuncSeparate(srcRGB, dstRGB, srcAlpha, dstAlpha);
 
     // Set konst inputs
     for (u32 iKonst = 0; iKonst < 4; iKonst++)

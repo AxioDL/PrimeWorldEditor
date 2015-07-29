@@ -117,7 +117,7 @@ void CScriptNode::Draw(ERenderOptions Options)
 
     if (!mpActiveModel)
     {
-        glBlendFunc(GL_ONE, GL_ZERO);
+        glBlendFuncSeparate(GL_ONE, GL_ZERO, GL_ZERO, GL_ZERO);
         glDepthMask(GL_TRUE);
 
         LoadModelMatrix();
