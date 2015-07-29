@@ -538,6 +538,8 @@ void CTemplateLoader::LoadMasterTemplate(tinyxml2::XMLDocument *pDoc)
 
         pNode = pNode->NextSibling();
     }
+
+    fclose(f);
 }
 
 void CTemplateLoader::LoadPropertyList(tinyxml2::XMLDocument *pDoc, const std::string& ListName)
