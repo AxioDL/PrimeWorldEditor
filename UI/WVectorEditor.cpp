@@ -13,16 +13,12 @@ WVectorEditor::WVectorEditor(QWidget *pParent) : QWidget(pParent)
     mpSpinBoxX->setFocusPolicy(Qt::StrongFocus);
     mpSpinBoxY->setFocusPolicy(Qt::StrongFocus);
     mpSpinBoxZ->setFocusPolicy(Qt::StrongFocus);
+    mpSpinBoxX->setContextMenuPolicy(Qt::NoContextMenu);
+    mpSpinBoxY->setContextMenuPolicy(Qt::NoContextMenu);
+    mpSpinBoxZ->setContextMenuPolicy(Qt::NoContextMenu);
     connect(mpSpinBoxX, SIGNAL(valueChanged(double)), this, SLOT(SetX(double)));
     connect(mpSpinBoxY, SIGNAL(valueChanged(double)), this, SLOT(SetY(double)));
     connect(mpSpinBoxZ, SIGNAL(valueChanged(double)), this, SLOT(SetZ(double)));
-
-    /*mpLayout = new QHBoxLayout(this);
-    mpLayout->setContentsMargins(0,0,0,0);
-    mpLayout->addWidget(mpSpinBoxX);
-    mpLayout->addWidget(mpSpinBoxY);
-    mpLayout->addWidget(mpSpinBoxZ);
-    setLayout(mpLayout);*/
 
     mpGroupBox = new QGroupBox(this);
     mpFormLayout = new QFormLayout(mpGroupBox);

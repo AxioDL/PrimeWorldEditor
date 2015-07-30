@@ -1,6 +1,7 @@
 #include "WDraggableSpinBox.h"
 #include <QApplication>
 #include <QDesktopWidget>
+#include <QLineEdit>
 #include <QMouseEvent>
 
 WDraggableSpinBox::WDraggableSpinBox(QWidget *parent) : QDoubleSpinBox(parent)
@@ -9,6 +10,7 @@ WDraggableSpinBox::WDraggableSpinBox(QWidget *parent) : QDoubleSpinBox(parent)
     mDefaultValue = 0;
     setMinimum(-1000000.0);
     setMaximum(1000000.0);
+    lineEdit()->installEventFilter(this);
 }
 
 WDraggableSpinBox::~WDraggableSpinBox()
@@ -80,9 +82,12 @@ void WDraggableSpinBox::wheelEvent(QWheelEvent *pEvent)
     else QDoubleSpinBox::wheelEvent(pEvent);
 }
 
-void WDraggableSpinBox::contextMenuEvent(QContextMenuEvent *pEvent)
+bool WDraggableSpinBox::eventFilter(QObject *, QEvent *pEvent)
 {
-    pEvent->ignore();
+    if (pEvent->type() == QEvent::MouseButtonPress)
+        setFocus();
+
+    return false;
 }
 
 void WDraggableSpinBox::SetDefaultValue(double value)

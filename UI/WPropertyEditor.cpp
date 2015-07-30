@@ -94,6 +94,7 @@ void WPropertyEditor::CreateEditor()
 
         pSpinBox->setRange(-128, 128);
         pSpinBox->setFocusPolicy(Qt::StrongFocus);
+        pSpinBox->setContextMenuPolicy(Qt::NoContextMenu);
         pSpinBox->setValue(pByteCast->Get());
 
         mUI.EditorWidget = pSpinBox;
@@ -108,6 +109,7 @@ void WPropertyEditor::CreateEditor()
 
         pSpinBox->setRange(-32768, 32767);
         pSpinBox->setFocusPolicy(Qt::StrongFocus);
+        pSpinBox->setContextMenuPolicy(Qt::NoContextMenu);
         pSpinBox->setValue(pShortCast->Get());
 
         mUI.EditorWidget = pSpinBox;
@@ -122,6 +124,7 @@ void WPropertyEditor::CreateEditor()
 
         pSpinBox->setRange(-2147483648, 2147483647);
         pSpinBox->setFocusPolicy(Qt::StrongFocus);
+        pSpinBox->setContextMenuPolicy(Qt::NoContextMenu);
         pSpinBox->setValue(pLongCast->Get());
 
         mUI.EditorWidget = pSpinBox;
@@ -136,6 +139,7 @@ void WPropertyEditor::CreateEditor()
 
         pDraggableSpinBox->setDecimals(4);
         pDraggableSpinBox->setFocusPolicy(Qt::StrongFocus);
+        pDraggableSpinBox->setContextMenuPolicy(Qt::NoContextMenu);
         pDraggableSpinBox->setValue(pFloatCast->Get());
 
         mUI.EditorWidget = pDraggableSpinBox;

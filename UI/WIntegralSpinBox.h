@@ -11,6 +11,7 @@ public:
     explicit WIntegralSpinBox(QWidget *pParent);
     ~WIntegralSpinBox();
     void wheelEvent(QWheelEvent *pEvent);
+    bool eventFilter(QObject *pObj, QEvent *pEvent);
 };
 
 #endif // WINTEGRALSPINBOX_H

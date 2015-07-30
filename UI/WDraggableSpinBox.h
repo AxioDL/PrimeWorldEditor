@@ -18,7 +18,7 @@ public:
     void mouseReleaseEvent(QMouseEvent *pEvent);
     void mouseMoveEvent(QMouseEvent *pEvent);
     void wheelEvent(QWheelEvent *pEvent);
-    void contextMenuEvent(QContextMenuEvent *pEvent);
+    bool eventFilter(QObject *pObj, QEvent *pEvent);
     void SetDefaultValue(double value);
 };
 
