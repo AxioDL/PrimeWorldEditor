@@ -306,8 +306,6 @@ bool CShaderGenerator::CreatePixelShader(const CMaterial& Mat)
 {
     std::stringstream ShaderCode;
     ShaderCode << "#version 330 core\n"
-               << "\n"
-               << "#extension GL_ARB_shading_language_420pack : enable\n" // Needed to set texture binding layouts
                << "\n";
 
     EVertexDescription VtxDesc = Mat.VtxDesc();
@@ -335,7 +333,7 @@ bool CShaderGenerator::CreatePixelShader(const CMaterial& Mat)
 
     for (u32 iPass = 0; iPass < PassCount; iPass++)
         if (Mat.Pass(iPass)->Texture() != nullptr)
-            ShaderCode << "layout(binding = " << iPass << ") uniform sampler2D Texture" << iPass << ";\n";
+            ShaderCode << "uniform sampler2D Texture" << iPass << ";\n";
 
     ShaderCode <<"\n";
 

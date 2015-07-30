@@ -49,70 +49,79 @@ void CMaterial::GenerateShader()
 bool CMaterial::SetCurrent(ERenderOptions Options)
 {
     // Bind textures
-    for (u32 iPass = 0; iPass < mPasses.size(); iPass++)
-        mPasses[iPass]->LoadTexture(iPass);
+    const char *skpSamplers[8] = {
+        "Texture0", "Texture1", "Texture2", "Texture3",
+        "Texture4", "Texture5", "Texture6", "Texture7"
+    };
 
     // Skip material setup if the currently bound material is identical
-    if (sCurrentMaterial == HashParameters())
+    if (sCurrentMaterial != HashParameters())
     {
-        GLuint NumLightsLoc = CShader::CurrentShader()->GetUniformLocation("NumLights");
-        glUniform1i(NumLightsLoc, CGraphics::sNumLights);
-        return true;
+        // Shader setup
+        if (mShaderStatus == eNoShader) GenerateShader();
+        mpShader->SetCurrent();
+
+        if (mShaderStatus == eShaderFailed)
+            return false;
+
+        // Set RGB blend equation - force to ZERO/ONE if alpha is disabled
+        GLenum srcRGB, dstRGB, srcAlpha, dstAlpha;
+
+        if (Options & eNoAlpha) {
+            srcRGB = GL_ONE;
+            dstRGB = GL_ZERO;
+        } else {
+            srcRGB = mBlendSrcFac;
+            dstRGB = mBlendDstFac;
+        }
+
+        // Set alpha blend equation
+        bool AlphaBlended = ((mBlendSrcFac == GL_SRC_ALPHA) && (mBlendDstFac == GL_ONE_MINUS_SRC_ALPHA));
+
+        if ((mEnableBloom) && (Options & eEnableBloom) && (!AlphaBlended)) {
+            srcAlpha = mBlendSrcFac;
+            dstAlpha = mBlendDstFac;
+        } else {
+            srcAlpha = GL_ZERO;
+            dstAlpha = GL_ZERO;
+        }
+
+        glBlendFuncSeparate(srcRGB, dstRGB, srcAlpha, dstAlpha);
+
+        // Set konst inputs
+        for (u32 iKonst = 0; iKonst < 4; iKonst++)
+            CGraphics::sPixelBlock.Konst[iKonst] = mKonstColors[iKonst].ToVector4f();
+
+        // Set color channels
+        // COLOR0_Amb is initialized by the node instead of by the material
+        CGraphics::sVertexBlock.COLOR0_Mat = CColor::skWhite.ToVector4f();
+
+        // Set depth write - force on if alpha is disabled (lots of weird depth issues otherwise)
+        if ((mOptions & eDepthWrite) || (Options & eNoAlpha)) glDepthMask(GL_TRUE);
+        else glDepthMask(GL_FALSE);
+
+        // Load uniforms
+        for (u32 iPass = 0; iPass < mPasses.size(); iPass++)
+            mPasses[iPass]->SetAnimCurrent(Options, iPass);
+
+        CGraphics::UpdateVertexBlock();
+        CGraphics::UpdatePixelBlock();
+        sCurrentMaterial = HashParameters();
     }
 
-    // Shader setup
-    if (mShaderStatus == eNoShader) GenerateShader();
-    mpShader->SetCurrent();
+    // Bind textures
+    CShader *pShader = CShader::CurrentShader();
 
-    if (mShaderStatus == eShaderFailed)
-        return false;
-
-    // Set RGB blend equation - force to ZERO/ONE if alpha is disabled
-    GLenum srcRGB, dstRGB, srcAlpha, dstAlpha;
-
-    if (Options & eNoAlpha) {
-        srcRGB = GL_ONE;
-        dstRGB = GL_ZERO;
-    } else {
-        srcRGB = mBlendSrcFac;
-        dstRGB = mBlendDstFac;
-    }
-
-    // Set alpha blend equation
-    bool AlphaBlended = ((mBlendSrcFac == GL_SRC_ALPHA) && (mBlendDstFac == GL_ONE_MINUS_SRC_ALPHA));
-
-    if ((mEnableBloom) && (Options & eEnableBloom) && (!AlphaBlended)) {
-        srcAlpha = mBlendSrcFac;
-        dstAlpha = mBlendDstFac;
-    } else {
-        srcAlpha = GL_ZERO;
-        dstAlpha = GL_ZERO;
-    }
-
-    glBlendFuncSeparate(srcRGB, dstRGB, srcAlpha, dstAlpha);
-
-    // Set konst inputs
-    for (u32 iKonst = 0; iKonst < 4; iKonst++)
-        CGraphics::sPixelBlock.Konst[iKonst] = mKonstColors[iKonst].ToVector4f();
-
-    // Set color channels
-    // COLOR0_Amb is initialized by the node instead of by the material
-    CGraphics::sVertexBlock.COLOR0_Mat = CColor::skWhite.ToVector4f();
-
-    // Set depth write - force on if alpha is disabled (lots of weird depth issues otherwise)
-    if ((mOptions & eDepthWrite) || (Options & eNoAlpha)) glDepthMask(GL_TRUE);
-    else glDepthMask(GL_FALSE);
-
-    // Load uniforms
     for (u32 iPass = 0; iPass < mPasses.size(); iPass++)
-        mPasses[iPass]->SetAnimCurrent(Options, iPass);
+    {
+        mPasses[iPass]->LoadTexture(iPass);
+        GLint sampler = pShader->GetUniformLocation(skpSamplers[iPass]);
+        glUniform1i(sampler, iPass);
+    }
 
-    GLuint NumLightsLoc = mpShader->GetUniformLocation("NumLights");
+    // Bind num lights
+    GLuint NumLightsLoc = pShader->GetUniformLocation("NumLights");
     glUniform1i(NumLightsLoc, CGraphics::sNumLights);
-
-    CGraphics::UpdateVertexBlock();
-    CGraphics::UpdatePixelBlock();
-    sCurrentMaterial = HashParameters();
     return true;
 }
 
