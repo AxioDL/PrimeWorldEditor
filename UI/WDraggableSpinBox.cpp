@@ -17,11 +17,14 @@ WDraggableSpinBox::~WDraggableSpinBox()
 {
 }
 
-void WDraggableSpinBox::mousePressEvent(QMouseEvent*)
+void WDraggableSpinBox::mousePressEvent(QMouseEvent *pEvent)
 {
-    mBeingDragged = true;
-    mBeenDragged = false;
-    mLastY = QCursor::pos().y();
+    if (pEvent->button() == Qt::LeftButton)
+    {
+        mBeingDragged = true;
+        mBeenDragged = false;
+        mLastY = QCursor::pos().y();
+    }
 }
 
 void WDraggableSpinBox::mouseReleaseEvent(QMouseEvent *Event)
