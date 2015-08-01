@@ -33,28 +33,29 @@ CMaterialSet* CMaterialLoader::LoadMaterialSet(CInputStream& Mat, EGame Version)
 void CMaterialLoader::ReadPrimeMatSet()
 {
     // Textures
-    u32 TexCount = mpFile->ReadLong();
-    mpSet->textures.resize(TexCount);
+    u32 numTextures = mpFile->ReadLong();
+    mTextures.resize(numTextures);
 
-    for (u32 t = 0; t < TexCount; t++)
+    for (u32 iTex = 0; iTex < numTextures; iTex++)
     {
         u32 TextureID = mpFile->ReadLong();
-        mpSet->textures[t] = (CTexture*) gResCache.GetResource(TextureID, "TXTR");
+        mTextures[iTex] = (CTexture*) gResCache.GetResource(TextureID, "TXTR");
     }
 
     // Materials
-    u32 MatCount = mpFile->ReadLong();
-    std::vector<u32> offsets(MatCount);
-    for (u32 m = 0; m < MatCount; m++)
-        offsets[m] = mpFile->ReadLong();
+    u32 numMats = mpFile->ReadLong();
+    std::vector<u32> offsets(numMats);
+    for (u32 iMat = 0; iMat < numMats; iMat++)
+        offsets[iMat] = mpFile->ReadLong();
 
-    u32 mats_start = mpFile->Tell();
-    mpSet->materials.resize(MatCount);
-    for (u32 m = 0; m < MatCount; m++)
+    u32 matsStart = mpFile->Tell();
+    mpSet->mMaterials.resize(numMats);
+    for (u32 iMat = 0; iMat < numMats; iMat++)
     {
-        mpSet->materials[m] = ReadPrimeMaterial();
-        mpSet->materials[m]->mVersion = mVersion;
-        mpFile->Seek(mats_start + offsets[m], SEEK_SET);
+        mpSet->mMaterials[iMat] = ReadPrimeMaterial();
+        mpSet->mMaterials[iMat]->mVersion = mVersion;
+        mpSet->mMaterials[iMat]->mName = std::string("Material #") + std::to_string(iMat);
+        mpFile->Seek(matsStart + offsets[iMat], SEEK_SET);
     }
 }
 
@@ -108,7 +109,7 @@ CMaterial* CMaterialLoader::ReadPrimeMaterial()
     if (pMat->mOptions & CMaterial::eIndStage)
     {
         u32 IndTexIndex = mpFile->ReadLong();
-        pMat->mpIndirectTexture = mpSet->textures[IndTexIndex];
+        pMat->mpIndirectTexture = mTextures[IndTexIndex];
     }
 
     // Color channels
@@ -149,13 +150,14 @@ CMaterial* CMaterialLoader::ReadPrimeMaterial()
         CMaterialPass *pPass = pMat->Pass(iTev);
 
         u8 TexSel = mpFile->ReadByte();
-        if ((TexSel == 0xFF) || (TexSel >= mpSet->textures.size()))
+
+        if ((TexSel == 0xFF) || (TexSel >= mTextures.size()))
         {
             pPass->mpTexture = nullptr;
         }
         else
         {
-            pPass->mpTexture = mpSet->textures[ TextureIndices[TexSel] ];
+            pPass->mpTexture = mTextures[TextureIndices[TexSel]];
             pPass->mTexToken = CToken(pPass->mpTexture);
         }
 
@@ -245,14 +247,15 @@ CMaterial* CMaterialLoader::ReadPrimeMaterial()
 void CMaterialLoader::ReadCorruptionMatSet()
 {
     u32 NumMats = mpFile->ReadLong();
-    mpSet->materials.resize(NumMats);
+    mpSet->mMaterials.resize(NumMats);
 
     for (u32 iMat = 0; iMat < NumMats; iMat++)
     {
         u32 Size = mpFile->ReadLong();
         u32 Next = mpFile->Tell() + Size;
-        mpSet->materials[iMat] = ReadCorruptionMaterial();
-        mpSet->materials[iMat]->mVersion = mVersion;
+        mpSet->mMaterials[iMat] = ReadCorruptionMaterial();
+        mpSet->mMaterials[iMat]->mVersion = mVersion;
+        mpSet->mMaterials[iMat]->mName = std::string("Material #") + std::to_string(iMat);
         mpFile->Seek(Next, SEEK_SET);
     }
 }
@@ -357,7 +360,6 @@ CMaterial* CMaterialLoader::ReadCorruptionMaterial()
             }
 
             CTexture *pTex = (CTexture*) gResCache.GetResource(TextureID, "TXTR");
-            mpSet->textures.push_back(pTex);
             pPass->mpTexture = pTex;
             pPass->mTexToken = CToken(pTex);
 

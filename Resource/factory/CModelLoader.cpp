@@ -115,128 +115,116 @@ void CModelLoader::LoadSurfaceOffsets(CInputStream& Model)
     mpBlockMgr->ToNextBlock();
 }
 
-SModelData* CModelLoader::LoadSurfaces(CInputStream& Model)
+SSurface* CModelLoader::LoadSurface(CInputStream& Model)
 {
-    // This function is meant to be called at the start of the first surface
-    SModelData *pData = new SModelData;
-    u32 Offset = Model.Tell();
+    SSurface *pSurf = new SSurface;
 
-    // Surfaces
-    pData->mSurfaces.resize(mSurfaceCount);
+    // Surface header
+    if (mVersion  < eReturns)
+        LoadSurfaceHeaderPrime(Model, pSurf);
+    else
+        LoadSurfaceHeaderDKCR(Model, pSurf);
 
-    for (u32 iSurf = 0; iSurf < mSurfaceCount; iSurf++)
+    bool HasAABB = (pSurf->AABox != CAABox::skInfinite);
+    CMaterial *pMat = mMaterials[0]->MaterialByIndex(pSurf->MaterialID);
+
+    // Primitive table
+    u8 Flag = Model.ReadByte();
+    u32 NextSurface = mpBlockMgr->NextOffset();
+
+    while ((Flag != 0) && ((u32) Model.Tell() < NextSurface))
     {
-        SSurface *pSurf = new SSurface;
-        pData->mSurfaces[iSurf] = pSurf;
-        u32 NextSurface = mpBlockMgr->NextOffset();
+        SSurface::SPrimitive Prim;
+        Prim.Type = EGXPrimitiveType(Flag & 0xF8);
+        u16 VertexCount = Model.ReadShort();
 
-        // Surface header
-        if (mVersion  < eReturns)
-            LoadSurfaceHeaderPrime(Model, pSurf);
-        else
-            LoadSurfaceHeaderDKCR(Model, pSurf);
-
-        bool HasAABB = (pSurf->AABox != CAABox::skInfinite);
-        CMaterial *pMat = mMaterials[0]->materials[pSurf->MaterialID];
-
-        // Primitive table
-        u8 Flag = Model.ReadByte();
-
-        while ((Flag != 0) && ((u32) Model.Tell() < NextSurface))
+        for (u16 iVtx = 0; iVtx < VertexCount; iVtx++)
         {
-            SSurface::SPrimitive Prim;
-            Prim.Type = EGXPrimitiveType(Flag & 0xF8);
-            u16 VertexCount = Model.ReadShort();
+            CVertex Vtx;
+            EVertexDescription VtxDesc = pMat->VtxDesc();
 
-            for (u16 iVtx = 0; iVtx < VertexCount; iVtx++)
+            for (u32 iMtxAttr = 0; iMtxAttr < 8; iMtxAttr++)
+                if (VtxDesc & (ePosMtx << iMtxAttr)) Model.Seek(0x1, SEEK_CUR);
+
+            // Only thing to do here is check whether each attribute is present, and if so, read it.
+            // A couple attributes have special considerations; normals can be floats or shorts, as can tex0, depending on vtxfmt.
+            // tex0 can also be read from either UV buffer; depends what the material says.
+
+            // Position
+            if (VtxDesc & ePosition)
             {
-                CVertex Vtx;
-                EVertexDescription VtxDesc = pMat->VtxDesc();
+                u16 PosIndex = Model.ReadShort() & 0xFFFF;
+                Vtx.Position = mPositions[PosIndex];
+                Vtx.ArrayPosition = PosIndex;
 
-                for (u32 iMtxAttr = 0; iMtxAttr < 8; iMtxAttr++)
-                    if (VtxDesc & (ePosMtx << iMtxAttr)) Model.Seek(0x1, SEEK_CUR);
-
-                // Only thing to do here is check whether each attribute is present, and if so, read it.
-                // A couple attributes have special considerations; normals can be floats or shorts, as can tex0, depending on vtxfmt.
-                // tex0 can also be read from either UV buffer; depends what the material says.
-
-                // Position
-                if (VtxDesc & ePosition)
-                {
-                    u16 PosIndex = Model.ReadShort() & 0xFFFF;
-                    Vtx.Position = mPositions[PosIndex];
-                    Vtx.ArrayPosition = PosIndex;
-
-                    if (!HasAABB) pSurf->AABox.ExpandBounds(Vtx.Position);
-                }
-
-                // Normal
-                if (VtxDesc & eNormal)
-                    Vtx.Normal = mNormals[Model.ReadShort() & 0xFFFF];
-
-                // Color
-                for (u32 c = 0; c < 2; c++)
-                    if (VtxDesc & (eColor0 << (c * 2)))
-                        Vtx.Color[c] = mColors[Model.ReadShort() & 0xFFFF];
-
-                // Tex Coords - these are done a bit differently in DKCR than in the Prime series
-                if (mVersion < eReturns)
-                {
-                    // Tex0
-                    if (VtxDesc & eTex0)
-                    {
-                        if ((mFlags & eHasTex1) && (pMat->Options() & CMaterial::eShortTexCoord))
-                            Vtx.Tex[0] = mTex1[Model.ReadShort() & 0xFFFF];
-                        else
-                            Vtx.Tex[0] = mTex0[Model.ReadShort() & 0xFFFF];
-                    }
-
-                    // Tex1-7
-                    for (u32 iTex = 1; iTex < 7; iTex++)
-                        if (VtxDesc & (eTex0 << (iTex * 2)))
-                            Vtx.Tex[iTex] = mTex0[Model.ReadShort() & 0xFFFF];
-                }
-
-                else
-                {
-                    // Tex0-7
-                    for (u32 iTex = 0; iTex < 7; iTex++)
-                    {
-                        if (VtxDesc & (eTex0 << iTex * 2))
-                        {
-                            if (!mSurfaceUsingTex1)
-                                Vtx.Tex[iTex] = mTex0[Model.ReadShort() & 0xFFFF];
-                            else
-                                Vtx.Tex[iTex] = mTex1[Model.ReadShort() & 0xFFFF];
-                        }
-                    }
-                }
-
-                Prim.Vertices.push_back(Vtx);
-            } // Vertex array end
-
-            // Update vertex/triangle count
-            pSurf->VertexCount += VertexCount;
-
-            switch (Prim.Type)
-            {
-                case eGX_Triangles:
-                    pSurf->TriangleCount += VertexCount / 3;
-                    break;
-                case eGX_TriangleFan:
-                case eGX_TriangleStrip:
-                    pSurf->TriangleCount += VertexCount - 2;
-                    break;
+                if (!HasAABB) pSurf->AABox.ExpandBounds(Vtx.Position);
             }
 
-            pSurf->Primitives.push_back(Prim);
-            Flag = Model.ReadByte();
-        } // Primitive table end
+            // Normal
+            if (VtxDesc & eNormal)
+                Vtx.Normal = mNormals[Model.ReadShort() & 0xFFFF];
 
-        mpBlockMgr->ToNextBlock();
-    } // Submesh table end
+            // Color
+            for (u32 c = 0; c < 2; c++)
+                if (VtxDesc & (eColor0 << (c * 2)))
+                    Vtx.Color[c] = mColors[Model.ReadShort() & 0xFFFF];
 
-    return pData;
+            // Tex Coords - these are done a bit differently in DKCR than in the Prime series
+            if (mVersion < eReturns)
+            {
+                // Tex0
+                if (VtxDesc & eTex0)
+                {
+                    if ((mFlags & eHasTex1) && (pMat->Options() & CMaterial::eShortTexCoord))
+                        Vtx.Tex[0] = mTex1[Model.ReadShort() & 0xFFFF];
+                    else
+                        Vtx.Tex[0] = mTex0[Model.ReadShort() & 0xFFFF];
+                }
+
+                // Tex1-7
+                for (u32 iTex = 1; iTex < 7; iTex++)
+                    if (VtxDesc & (eTex0 << (iTex * 2)))
+                        Vtx.Tex[iTex] = mTex0[Model.ReadShort() & 0xFFFF];
+            }
+
+            else
+            {
+                // Tex0-7
+                for (u32 iTex = 0; iTex < 7; iTex++)
+                {
+                    if (VtxDesc & (eTex0 << iTex * 2))
+                    {
+                        if (!mSurfaceUsingTex1)
+                            Vtx.Tex[iTex] = mTex0[Model.ReadShort() & 0xFFFF];
+                        else
+                            Vtx.Tex[iTex] = mTex1[Model.ReadShort() & 0xFFFF];
+                    }
+                }
+            }
+
+            Prim.Vertices.push_back(Vtx);
+        } // Vertex array end
+
+        // Update vertex/triangle count
+        pSurf->VertexCount += VertexCount;
+
+        switch (Prim.Type)
+        {
+            case eGX_Triangles:
+                pSurf->TriangleCount += VertexCount / 3;
+                break;
+            case eGX_TriangleFan:
+            case eGX_TriangleStrip:
+                pSurf->TriangleCount += VertexCount - 2;
+                break;
+        }
+
+        pSurf->Primitives.push_back(Prim);
+        Flag = Model.ReadByte();
+    } // Primitive table end
+
+    mpBlockMgr->ToNextBlock();
+    return pSurf;
 }
 
 void CModelLoader::LoadSurfaceHeaderPrime(CInputStream& Model, SSurface *pSurf)
@@ -378,19 +366,23 @@ CModel* CModelLoader::LoadCMDL(CInputStream& CMDL)
     // Mesh
     Loader.LoadAttribArrays(CMDL);
     Loader.LoadSurfaceOffsets(CMDL);
-    SModelData *pData = Loader.LoadSurfaces(CMDL);
+    pModel->mSurfaces.reserve(Loader.mSurfaceCount);
 
-    pModel->SetData(pData);
+    for (u32 iSurf = 0; iSurf < Loader.mSurfaceCount; iSurf++)
+    {
+        SSurface *pSurf = Loader.LoadSurface(CMDL);
+        pModel->mSurfaces.push_back(pSurf);
+    }
+
     pModel->mAABox = AABox;
     pModel->mHasOwnSurfaces = true;
 
     // Cleanup
-    delete pData;
     delete Loader.mpBlockMgr;
     return pModel;
 }
 
-SModelData* CModelLoader::LoadWorldModel(CInputStream& MREA, CBlockMgrIn& BlockMgr, CMaterialSet& MatSet, EGame Version)
+CModel* CModelLoader::LoadWorldModel(CInputStream& MREA, CBlockMgrIn& BlockMgr, CMaterialSet& MatSet, EGame Version)
 {
     CModelLoader Loader;
     Loader.mpBlockMgr = &BlockMgr;
@@ -403,13 +395,27 @@ SModelData* CModelLoader::LoadWorldModel(CInputStream& MREA, CBlockMgrIn& BlockM
     Loader.LoadWorldMeshHeader(MREA);
     Loader.LoadAttribArrays(MREA);
     Loader.LoadSurfaceOffsets(MREA);
-    SModelData *pData = Loader.LoadSurfaces(MREA);
-    pData->mAABox = Loader.mAABox;
 
-    return pData;
+    CModel *pModel = new CModel();
+    pModel->mMaterialSets.resize(1);
+    pModel->mMaterialSets[0] = &MatSet;
+    pModel->mHasOwnMaterials = false;
+    pModel->mSurfaces.reserve(Loader.mSurfaceCount);
+    pModel->mHasOwnSurfaces = true;
+
+    for (u32 iSurf = 0; iSurf < Loader.mSurfaceCount; iSurf++)
+    {
+        SSurface *pSurf = Loader.LoadSurface(MREA);
+        pModel->mSurfaces.push_back(pSurf);
+        pModel->mVertexCount += pSurf->VertexCount;
+        pModel->mTriangleCount += pSurf->TriangleCount;
+    }
+
+    pModel->mAABox = Loader.mAABox;
+    return pModel;
 }
 
-SModelData* CModelLoader::LoadCorruptionWorldModel(CInputStream &MREA, CBlockMgrIn &BlockMgr, CMaterialSet &MatSet, u32 HeaderSecNum, u32 GPUSecNum, EGame Version)
+CModel* CModelLoader::LoadCorruptionWorldModel(CInputStream &MREA, CBlockMgrIn &BlockMgr, CMaterialSet &MatSet, u32 HeaderSecNum, u32 GPUSecNum, EGame Version)
 {
     CModelLoader Loader;
     Loader.mpBlockMgr = &BlockMgr;
@@ -423,12 +429,26 @@ SModelData* CModelLoader::LoadCorruptionWorldModel(CInputStream &MREA, CBlockMgr
     BlockMgr.ToBlock(HeaderSecNum);
     Loader.LoadWorldMeshHeader(MREA);
     Loader.LoadSurfaceOffsets(MREA);
-
     BlockMgr.ToBlock(GPUSecNum);
     Loader.LoadAttribArrays(MREA);
-    SModelData *pData = Loader.LoadSurfaces(MREA);
-    pData->mAABox = Loader.mAABox;
-    return pData;
+
+    CModel *pModel = new CModel();
+    pModel->mMaterialSets.resize(1);
+    pModel->mMaterialSets[0] = &MatSet;
+    pModel->mHasOwnMaterials = false;
+    pModel->mSurfaces.reserve(Loader.mSurfaceCount);
+    pModel->mHasOwnSurfaces = true;
+
+    for (u32 iSurf = 0; iSurf < Loader.mSurfaceCount; iSurf++)
+    {
+        SSurface *pSurf = Loader.LoadSurface(MREA);
+        pModel->mSurfaces.push_back(pSurf);
+        pModel->mVertexCount += pSurf->VertexCount;
+        pModel->mTriangleCount += pSurf->TriangleCount;
+    }
+
+    pModel->mAABox = Loader.mAABox;
+    return pModel;
 }
 
 EGame CModelLoader::GetFormatVersion(u32 Version)

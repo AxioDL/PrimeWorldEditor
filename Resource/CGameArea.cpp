@@ -44,40 +44,40 @@ void CGameArea::MergeTerrain()
     if (mTerrainMerged) return;
 
     // Nothing really complicated here - iterate through every terrain submesh, add each to a static model
-    for (u32 tm = 0; tm < mTerrainModels.size(); tm++)
+    for (u32 iMdl = 0; iMdl < mTerrainModels.size(); iMdl++)
     {
-        CModel *mdl = mTerrainModels[tm];
-        u32 SubmeshCount = mdl->GetSurfaceCount();
+        CModel *pMdl = mTerrainModels[iMdl];
+        u32 SubmeshCount = pMdl->GetSurfaceCount();
 
-        for (u32 sub = 0; sub < SubmeshCount; sub++)
+        for (u32 iSurf = 0; iSurf < SubmeshCount; iSurf++)
         {
-            SSurface *s = mdl->GetSurface(sub);
-            CMaterial *mat = mMaterialSet->materials[s->MaterialID];
+            SSurface *pSurf = pMdl->GetSurface(iSurf);
+            CMaterial *pMat = mMaterialSet->MaterialByIndex(pSurf->MaterialID);
 
-            bool NewMat = true;
+            bool newMat = true;
             for (std::vector<CStaticModel*>::iterator it = mStaticTerrainModels.begin(); it != mStaticTerrainModels.end(); it++)
             {
-                if ((*it)->GetMaterial() == mat)
+                if ((*it)->GetMaterial() == pMat)
                 {
                     // When we append a new submesh to an existing static model, we bump it to the back of the vector.
                     // This is because mesh ordering actually matters sometimes
                     // (particularly with multi-layered transparent meshes)
                     // so we need to at least try to maintain it.
                     // This is maybe not the most efficient way to do this, but it works.
-                    CStaticModel *mdl = *it;
-                    mdl->AddSurface(s);
+                    CStaticModel *pStatic = *it;
+                    pStatic->AddSurface(pSurf);
                     mStaticTerrainModels.erase(it);
-                    mStaticTerrainModels.push_back(mdl);
-                    NewMat = false;
+                    mStaticTerrainModels.push_back(pStatic);
+                    newMat = false;
                     break;
                 }
             }
 
-            if (NewMat)
+            if (newMat)
             {
-                CStaticModel *smdl = new CStaticModel(mat);
-                smdl->AddSurface(s);
-                mStaticTerrainModels.push_back(smdl);
+                CStaticModel *pStatic = new CStaticModel(pMat);
+                pStatic->AddSurface(pSurf);
+                mStaticTerrainModels.push_back(pStatic);
             }
         }
     }

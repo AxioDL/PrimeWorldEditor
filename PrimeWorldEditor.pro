@@ -180,7 +180,6 @@ HEADERS  += \
     Resource/model/CModel.h \
     Resource/model/CStaticModel.h \
     Resource/model/CVertex.h \
-    Resource/model/SModelData.h \
     Resource/script/CProperty.h \
     Resource/script/CScriptLayer.h \
     Resource/script/CScriptObject.h \

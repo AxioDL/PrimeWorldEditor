@@ -6,22 +6,8 @@ CModel::CModel() : CBasicModel()
 {
     mHasOwnMaterials = true;
     mHasOwnSurfaces = true;
-}
-
-CModel::CModel(SModelData *pModelData) : CBasicModel()
-{
-    SetData(pModelData);
-    mHasOwnMaterials = false;
-    mHasOwnSurfaces = true;
-}
-
-CModel::CModel(SModelData *data, CMaterialSet *pMatSet) : CBasicModel()
-{
-    SetData(data);
-    mMaterialSets.resize(1);
-    mMaterialSets[0] = pMatSet;
-    mHasOwnMaterials = false;
-    mHasOwnSurfaces = true;
+    mVertexCount = 0;
+    mTriangleCount = 0;
 }
 
 CModel::~CModel()
@@ -29,22 +15,6 @@ CModel::~CModel()
     if (mHasOwnMaterials)
         for (u32 m = 0; m < mMaterialSets.size(); m++)
             delete mMaterialSets[m];
-}
-
-void CModel::SetData(SModelData *pModelData)
-{
-    mAABox = pModelData->mAABox;
-    mSurfaces = pModelData->mSurfaces;
-
-    mVertexCount = 0;
-    mTriangleCount = 0;
-
-    for (u32 iSurf = 0; iSurf < mSurfaces.size(); iSurf++)
-    {
-        SSurface *pSurf = mSurfaces[iSurf];
-        mVertexCount += pSurf->VertexCount;
-        mTriangleCount += pSurf->TriangleCount;
-    }
 }
 
 void CModel::BufferGL()
@@ -117,7 +87,7 @@ void CModel::DrawSurface(ERenderOptions Options, u32 Surface, u32 MatSet)
 
     // Bind material
     SSurface *pSurf = mSurfaces[Surface];
-    CMaterial *pMat = mMaterialSets[MatSet]->materials[pSurf->MaterialID];
+    CMaterial *pMat = mMaterialSets[MatSet]->MaterialByIndex(pSurf->MaterialID);
 
     if ((Options & eNoMaterialSetup) == 0)
     {
@@ -147,7 +117,7 @@ u32 CModel::GetMatSetCount()
 u32 CModel::GetMatCount()
 {
     if (mMaterialSets.empty()) return 0;
-    else return mMaterialSets[0]->materials.size();
+    else return mMaterialSets[0]->NumMaterials();
 }
 
 CMaterialSet* CModel::GetMatSet(u32 MatSet)
@@ -163,7 +133,7 @@ CMaterial* CModel::GetMaterialByIndex(u32 MatSet, u32 Index)
     if (GetMatCount() == 0)
         return nullptr;
 
-    return mMaterialSets[MatSet]->materials[Index];
+    return mMaterialSets[MatSet]->MaterialByIndex(Index);
 }
 
 CMaterial* CModel::GetMaterialBySurface(u32 MatSet, u32 Surface)
@@ -176,8 +146,8 @@ bool CModel::HasTransparency(u32 MatSet)
     if (MatSet >= mMaterialSets.size())
         MatSet = mMaterialSets.size() - 1;
 
-    for (u32 iMat = 0; iMat < mMaterialSets[MatSet]->materials.size(); iMat++)
-        if (mMaterialSets[MatSet]->materials[iMat]->Options() & CMaterial::eTransparent ) return true;
+    for (u32 iMat = 0; iMat < mMaterialSets[MatSet]->NumMaterials(); iMat++)
+        if (mMaterialSets[MatSet]->MaterialByIndex(iMat)->Options() & CMaterial::eTransparent ) return true;
 
     return false;
 }
@@ -188,7 +158,7 @@ bool CModel::IsSurfaceTransparent(u32 Surface, u32 MatSet)
         MatSet = mMaterialSets.size() - 1;
 
     u32 matID = mSurfaces[Surface]->MaterialID;
-    return (mMaterialSets[MatSet]->materials[matID]->Options() & CMaterial::eTransparent) != 0;
+    return (mMaterialSets[MatSet]->MaterialByIndex(matID)->Options() & CMaterial::eTransparent) != 0;
 }
 
 CIndexBuffer* CModel::InternalGetIBO(u32 Surface, EGXPrimitiveType Primitive)

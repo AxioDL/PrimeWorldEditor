@@ -11,11 +11,11 @@ void CMaterialCooker::WriteMatSetPrime(COutputStream& Out)
 {
     // Gather texture list from the materials before starting
     mTextureIDs.clear();
-    u32 NumMats = mpSet->materials.size();
+    u32 NumMats = mpSet->mMaterials.size();
 
     for (u32 iMat = 0; iMat < NumMats; iMat++)
     {
-        CMaterial *pMat = mpSet->materials[iMat];
+        CMaterial *pMat = mpSet->mMaterials[iMat];
 
         u32 NumPasses  = pMat->PassCount();
         for (u32 iPass = 0; iPass < NumPasses; iPass++)
@@ -49,7 +49,7 @@ void CMaterialCooker::WriteMatSetPrime(COutputStream& Out)
 
     for (u32 iMat = 0; iMat < NumMats; iMat++)
     {
-        mpMat = mpSet->materials[iMat];
+        mpMat = mpSet->mMaterials[iMat];
         WriteMaterialPrime(Out);
         MatEndOffsets[iMat] = Out.Tell() - MatsStart;
     }

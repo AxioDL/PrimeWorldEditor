@@ -21,10 +21,8 @@ class CModel : public CBasicModel
     
 public:
     CModel();
-    CModel(SModelData *pModelData);
-    CModel(SModelData *pModelData, CMaterialSet *pMatSet);
+    CModel(CMaterialSet *pSet);
     ~CModel();
-    void SetData(SModelData *pModelData);
 
     void BufferGL();
     void ClearGLBuffer();

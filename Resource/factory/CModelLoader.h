@@ -47,14 +47,14 @@ private:
     void LoadAttribArrays(CInputStream& Model);
     void LoadAttribArraysDKCR(CInputStream& Model);
     void LoadSurfaceOffsets(CInputStream& Model);
-    SModelData* LoadSurfaces(CInputStream& Model);
+    SSurface* LoadSurface(CInputStream& Model);
     void LoadSurfaceHeaderPrime(CInputStream& Model, SSurface *pSurf);
     void LoadSurfaceHeaderDKCR(CInputStream& Model, SSurface *pSurf);
 
 public:
     static CModel* LoadCMDL(CInputStream& CMDL);
-    static SModelData* LoadWorldModel(CInputStream& MREA, CBlockMgrIn& BlockMgr, CMaterialSet& MatSet, EGame Version);
-    static SModelData* LoadCorruptionWorldModel(CInputStream& MREA, CBlockMgrIn& BlockMgr, CMaterialSet& MatSet, u32 HeaderSecNum, u32 GPUSecNum, EGame Version);
+    static CModel* LoadWorldModel(CInputStream& MREA, CBlockMgrIn& BlockMgr, CMaterialSet& MatSet, EGame Version);
+    static CModel* LoadCorruptionWorldModel(CInputStream& MREA, CBlockMgrIn& BlockMgr, CMaterialSet& MatSet, u32 HeaderSecNum, u32 GPUSecNum, EGame Version);
     static EGame GetFormatVersion(u32 Version);
 };
 

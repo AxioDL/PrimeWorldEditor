@@ -50,6 +50,7 @@ private:
     static CColor sCurrentTint;  // The tint for the currently bound material
 
     // Members
+    std::string mName;              // Name of the material
     CShader *mpShader;              // This material's generated shader. Created with GenerateShader().
     EShaderStatus mShaderStatus;    // A status variable so that PWE won't crash if a shader fails to compile.
     u64 mParametersHash;            // A hash of all the parameters that can identify this TEV setup.
@@ -72,13 +73,16 @@ private:
 
 public:
     CMaterial();
+    CMaterial(EGame version, EVertexDescription vtxDesc);
     ~CMaterial();
+    CMaterial* Clone();
     void GenerateShader();
     bool SetCurrent(ERenderOptions Options);
     u64 HashParameters();
     void Update();
 
     // Getters
+    std::string Name() const;
     EGame Version() const;
     EMaterialOptions Options() const;
     EVertexDescription VtxDesc() const;
@@ -93,6 +97,7 @@ public:
     CMaterialPass* Pass(u32 PassIndex) const;
 
     // Setters
+    void SetName(const std::string& name);
     void SetOptions(EMaterialOptions Options);
     void SetBlendMode(GLenum SrcFac, GLenum DstFac);
     void SetKonst(CColor& Konst, u32 KIndex);

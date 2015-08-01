@@ -12,6 +12,7 @@ class CMaterialLoader
     CMaterialSet *mpSet;
     CInputStream *mpFile;
     EGame mVersion;
+    std::vector<CTexture*> mTextures;
     bool mHasOPAC;
     bool mHas0x400;
 

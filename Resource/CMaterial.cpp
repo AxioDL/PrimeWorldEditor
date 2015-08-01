@@ -29,12 +29,54 @@ CMaterial::CMaterial()
     mpIndirectTexture = nullptr;
 }
 
+CMaterial::CMaterial(EGame version, EVertexDescription vtxDesc)
+{
+    mpShader = nullptr;
+    mShaderStatus = eNoShader;
+    mRecalcHash = true;
+    mEnableBloom = (version == eCorruption);
+    mVersion = version;
+    mOptions = eDepthWrite;
+    mVtxDesc = vtxDesc;
+    mBlendSrcFac = GL_ONE;
+    mBlendDstFac = GL_ZERO;
+    mLightingEnabled = true;
+    mEchoesUnknownA = 0;
+    mEchoesUnknownB = 0;
+    mpIndirectTexture = nullptr;
+}
+
 CMaterial::~CMaterial()
 {
     for (u32 iPass = 0; iPass < mPasses.size(); iPass++)
         delete mPasses[iPass];
 
     delete mpShader;
+}
+
+CMaterial* CMaterial::Clone()
+{
+    CMaterial *pOut = new CMaterial();
+    pOut->mName = mName;
+    pOut->mEnableBloom = mEnableBloom;
+    pOut->mVersion = mVersion;
+    pOut->mOptions = mOptions;
+    pOut->mVtxDesc = mVtxDesc;
+    for (u32 iKonst = 0; iKonst < 4; iKonst++)
+        pOut->mKonstColors[iKonst] = mKonstColors[iKonst];
+    pOut->mBlendSrcFac = mBlendSrcFac;
+    pOut->mBlendDstFac = mBlendDstFac;
+    pOut->mLightingEnabled = mLightingEnabled;
+    pOut->mEchoesUnknownA = mEchoesUnknownA;
+    pOut->mEchoesUnknownB = mEchoesUnknownB;
+    pOut->mpIndirectTexture = mpIndirectTexture;
+    pOut->mIndTextureToken = CToken(pOut->mpIndirectTexture);
+
+    pOut->mPasses.resize(mPasses.size());
+    for (u32 iPass = 0; iPass < mPasses.size(); iPass++)
+        pOut->mPasses[iPass] = mPasses[iPass]->Clone(pOut);
+
+    return pOut;
 }
 
 void CMaterial::GenerateShader()
@@ -159,6 +201,11 @@ void CMaterial::Update()
 }
 
 // ************ GETTERS ************
+std::string CMaterial::Name() const
+{
+    return mName;
+}
+
 EGame CMaterial::Version() const
 {
     return mVersion;
@@ -220,6 +267,11 @@ CMaterialPass* CMaterial::Pass(u32 PassIndex) const
 
 
 // ************ SETTERS ************
+void CMaterial::SetName(const std::string& name)
+{
+    mName = name;
+}
+
 void CMaterial::SetOptions(EMaterialOptions Options)
 {
     mOptions = Options;

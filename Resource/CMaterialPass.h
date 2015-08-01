@@ -44,6 +44,7 @@ private:
 public:
     CMaterialPass(CMaterial *pParent);
     ~CMaterialPass();
+    CMaterialPass* Clone(CMaterial *pParent);
     void HashParameters(CHashFNV1A& Hash);
     void LoadTexture(u32 PassIndex);
     void SetAnimCurrent(ERenderOptions Options, u32 PassIndex);

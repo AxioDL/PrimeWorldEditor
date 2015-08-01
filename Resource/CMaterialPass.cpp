@@ -30,6 +30,31 @@ CMaterialPass::~CMaterialPass()
 {
 }
 
+CMaterialPass* CMaterialPass::Clone(CMaterial *pParent)
+{
+    CMaterialPass *pOut = new CMaterialPass(pParent);
+    pOut->mPassType = mPassType;
+    pOut->mSettings = mSettings;
+    for (u32 iIn = 0; iIn < 4; iIn++) {
+        pOut->mColorInputs[iIn] = mColorInputs[iIn];
+        pOut->mAlphaInputs[iIn] = mAlphaInputs[iIn];
+    }
+    pOut->mColorOutput = mColorOutput;
+    pOut->mAlphaOutput = mAlphaOutput;
+    pOut->mKColorSel = mKColorSel;
+    pOut->mKAlphaSel = mKAlphaSel;
+    pOut->mRasSel = mRasSel;
+    pOut->mTexCoordSource = mTexCoordSource;
+    pOut->mpTexture = mpTexture;
+    pOut->mTexToken = CToken(pOut->mpTexture);
+    pOut->mAnimMode = mAnimMode;
+    for (u32 iParam = 0; iParam < 4; iParam++)
+        pOut->mAnimParams[iParam] = mAnimParams[iParam];
+    pOut->mEnabled = mEnabled;
+
+    return pOut;
+}
+
 void CMaterialPass::HashParameters(CHashFNV1A &Hash)
 {
     if (mEnabled)

@@ -75,8 +75,7 @@ void CAreaLoader::ReadGeometryPrime()
     for (u32 m = 0; m < mNumMeshes; m++) {
         std::cout << "\rLoading mesh " << std::dec << m + 1 << "/" << mNumMeshes;
 
-        SModelData *data = CModelLoader::LoadWorldModel(*mpMREA, *mBlockMgr, *mpArea->mMaterialSet, mVersion);
-        CModel *pTerrainModel = new CModel(data, mpArea->mMaterialSet);
+        CModel *pTerrainModel = CModelLoader::LoadWorldModel(*mpMREA, *mBlockMgr, *mpArea->mMaterialSet, mVersion);
         mpArea->AddWorldModel(pTerrainModel);
 
         if (mVersion >= eEchoes) {
@@ -326,8 +325,7 @@ void CAreaLoader::ReadGeometryCorruption()
     {
         std::cout << "\rLoading mesh " << std::dec << iMesh + 1 << "/" << mNumMeshes;
 
-        SModelData *pData = CModelLoader::LoadCorruptionWorldModel(*mpMREA, *mBlockMgr, *mpArea->mMaterialSet, CurWOBJSection, CurGPUSection, mVersion);
-        CModel *pWorldModel = new CModel(pData, mpArea->mMaterialSet);
+        CModel *pWorldModel = CModelLoader::LoadCorruptionWorldModel(*mpMREA, *mBlockMgr, *mpArea->mMaterialSet, CurWOBJSection, CurGPUSection, mVersion);
         mpArea->AddWorldModel(pWorldModel);
 
         CurWOBJSection += 4;
