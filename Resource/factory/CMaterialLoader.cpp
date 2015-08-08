@@ -15,21 +15,6 @@ CMaterialLoader::~CMaterialLoader()
 {
 }
 
-CMaterialSet* CMaterialLoader::LoadMaterialSet(CInputStream& Mat, EGame Version)
-{
-    CMaterialLoader Loader;
-    Loader.mpSet = new CMaterialSet();
-    Loader.mpFile = &Mat;
-    Loader.mVersion = Version;
-
-    if ((Version >= ePrimeKioskDemo) && (Version <= eEchoes))
-        Loader.ReadPrimeMatSet();
-    else
-        Loader.ReadCorruptionMatSet();
-
-    return Loader.mpSet;
-}
-
 void CMaterialLoader::ReadPrimeMatSet()
 {
     // Textures
@@ -589,4 +574,20 @@ void CMaterialLoader::CreateCorruptionPasses(CMaterial *pMat)
             pPass->mEnabled = false;
         }
     }
+}
+
+// ************ STATIC ************
+CMaterialSet* CMaterialLoader::LoadMaterialSet(CInputStream& Mat, EGame Version)
+{
+    CMaterialLoader Loader;
+    Loader.mpSet = new CMaterialSet();
+    Loader.mpFile = &Mat;
+    Loader.mVersion = Version;
+
+    if ((Version >= ePrimeKioskDemo) && (Version <= eEchoes))
+        Loader.ReadPrimeMatSet();
+    else
+        Loader.ReadCorruptionMatSet();
+
+    return Loader.mpSet;
 }

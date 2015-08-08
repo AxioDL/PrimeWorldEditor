@@ -1,20 +1,8 @@
 #include <QApplication>
 #include <UI/CStartWindow.h>
-#include <UI/CWorldEditorWindow.h>
-#include <UI/CModelEditorWindow.h>
-#include <UI/TestDialog.h>
-#include <Common/CTimer.h>
-#include <iostream>
 #include <QStyleFactory>
 #include <UI/CDarkStyle.h>
-#include <time.h>
-#include <Resource/factory/CTextureDecoder.h>
-#include <Resource/cooker/CTextureEncoder.h>
-#include <Common/CMatrix4f.h>
 #include <Resource/factory/CTemplateLoader.h>
-#include <Common/StringUtil.h>
-
-#include <QDir>
 
 int main(int argc, char *argv[])
 {
@@ -24,8 +12,6 @@ int main(int argc, char *argv[])
     w.show();
 
     CTemplateLoader::LoadGameList();
-    //CTexture *pTex = CTextureDecoder::LoadDDS(CFileInStream("E:/34f7c12211777ce8.dds", IOUtil::LittleEndian));
-    //CTextureEncoder::EncodeTXTR(CFileOutStream("E:/Unpacked/Metroid Prime 3 Dolphin/Metroid4-pak/34f7c12211777ce8.TXTR", IOUtil::BigEndian), pTex);
 
     app.setStyle(new CDarkStyle);
     qApp->setStyle(QStyleFactory::create("Fusion"));

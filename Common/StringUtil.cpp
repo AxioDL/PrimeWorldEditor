@@ -211,7 +211,7 @@ namespace StringUtil
             int CodePoint;
 
             // One byte
-            if ((cstr[0] & 0x80000000) == 0)
+            if ((cstr[0] & 0x80) == 0)
             {
                 CodePoint = cstr[0] & 0x7FFFFFFF;
                 cstr++;

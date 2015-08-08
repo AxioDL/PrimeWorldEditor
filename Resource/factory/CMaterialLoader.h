@@ -32,6 +32,7 @@ class CMaterialLoader
     CMaterial* ReadCorruptionMaterial();
     void CreateCorruptionPasses(CMaterial *pMat);
 
+    // Static
 public:
     static CMaterialSet* LoadMaterialSet(CInputStream& Mat, EGame Version);
 };

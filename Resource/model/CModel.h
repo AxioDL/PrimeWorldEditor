@@ -2,7 +2,6 @@
 #define CMODEL_H
 
 #include "CBasicModel.h"
-#include "SModelData.h"
 #include "SSurface.h"
 #include "../CMaterialSet.h"
 

@@ -40,3 +40,10 @@ CMaterial* CMaterialSet::MaterialByName(const std::string &name)
         if ((*it)->Name() == name) return *it;
     return nullptr;
 }
+
+u32 CMaterialSet::MaterialIndexByName(const std::string& name)
+{
+    for (u32 iMat = 0; iMat < mMaterials.size(); iMat++)
+        if (mMaterials[iMat]->Name() == name) return iMat;
+    return -1;
+}

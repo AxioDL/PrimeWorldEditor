@@ -132,7 +132,8 @@ SOURCES += \
     Resource/factory/CScanLoader.cpp \
     UI/WStringPreviewPanel.cpp \
     UI/WScanPreviewPanel.cpp \
-    UI/WIntegralSpinBox.cpp
+    UI/WIntegralSpinBox.cpp \
+    UI/CAboutDialog.cpp
 
 HEADERS  += \
     Common/AnimUtil.h \
@@ -278,7 +279,8 @@ HEADERS  += \
     Resource/factory/CScanLoader.h \
     UI/WStringPreviewPanel.h \
     UI/WScanPreviewPanel.h \
-    UI/WIntegralSpinBox.h
+    UI/WIntegralSpinBox.h \
+    UI/CAboutDialog.h
 
 FORMS    += \
     UI/CWorldEditorWindow.ui \
@@ -292,7 +294,8 @@ FORMS    += \
     UI/WorldEditor/WModifyTab.ui \
     UI/WorldEditor/WInstancesTab.ui \
     UI/WorldEditor/CLayerEditor.ui \
-    UI/WScanPreviewPanel.ui
+    UI/WScanPreviewPanel.ui \
+    UI/CAboutDialog.ui
 
 INCLUDEPATH += E:\C++\Libraries\glm\glm  .\
 
@@ -337,4 +340,5 @@ DISTFILES += \
 
 RESOURCES += \
     Icons.qrc
+
 

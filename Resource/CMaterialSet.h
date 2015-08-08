@@ -20,6 +20,7 @@ public:
     u32 NumMaterials();
     CMaterial* MaterialByIndex(u32 index);
     CMaterial* MaterialByName(const std::string& name);
+    u32 MaterialIndexByName(const std::string& name);
 };
 
 #endif // CMATERIALSET_H

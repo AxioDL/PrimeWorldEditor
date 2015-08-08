@@ -1,7 +1,6 @@
 #ifndef CMODELLOADER_H
 #define CMODELLOADER_H
 
-#include "../model/SModelData.h"
 #include "../model/CBasicModel.h"
 #include "../model/CModel.h"
 #include "../EFormatVersion.h"
