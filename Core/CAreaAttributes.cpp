@@ -30,9 +30,8 @@ bool CAreaAttributes::IsSkyEnabled()
     {
     case ePrime:
     case eEchoes:
-        return static_cast<CBoolProperty*>(pBaseStruct->PropertyByIndex(1))->Get();
     case eCorruption:
-        return static_cast<CBoolProperty*>(pBaseStruct->PropertyByIndex(9))->Get();
+        return static_cast<CBoolProperty*>(pBaseStruct->PropertyByIndex(1))->Get();
     default:
         return false;
     }
