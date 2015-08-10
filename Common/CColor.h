@@ -36,6 +36,11 @@ public:
     CColor operator/(const CColor& other) const;
     void operator/=(const CColor& other);
 
+    // Static
+    static CColor RandomColor(bool transparent);
+    static CColor RandomLightColor(bool transparent);
+    static CColor RandomDarkColor(bool transparent);
+
     // some predefined colors below for ease of use
     static const CColor skRed;
     static const CColor skGreen;

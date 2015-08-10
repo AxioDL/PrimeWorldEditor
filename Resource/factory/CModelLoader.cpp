@@ -5,6 +5,7 @@
 CModelLoader::CModelLoader()
 {
     mFlags = eNoFlags;
+    mNumVertices = 0;
 }
 
 CModelLoader::~CModelLoader()
@@ -272,6 +273,99 @@ void CModelLoader::LoadSurfaceHeaderDKCR(CInputStream& Model, SSurface *pSurf)
     Model.SeekToBoundary(32);
 }
 
+SSurface* CModelLoader::LoadAssimpMesh(const aiMesh *pMesh, CMaterialSet *pSet)
+{
+    // Create vertex description and assign it to material
+    CMaterial *pMat = pSet->MaterialByIndex(pMesh->mMaterialIndex);
+    EVertexDescription desc = pMat->VtxDesc();
+
+    if (desc == eNoAttributes)
+    {
+        if (pMesh->HasPositions()) desc |= ePosition;
+        if (pMesh->HasNormals())   desc |= eNormal;
+
+        for (u32 iUV = 0; iUV < pMesh->GetNumUVChannels(); iUV++)
+            desc |= (eTex0 << (iUV * 2));
+
+        pMat->SetVertexDescription(desc);
+    }
+
+    // Create surface
+    SSurface *pSurf = new SSurface();
+    pSurf->MaterialID = pMesh->mMaterialIndex;
+
+    if (pMesh->mNumFaces > 0)
+    {
+        pSurf->Primitives.resize(1);
+        SSurface::SPrimitive& prim = pSurf->Primitives[0];
+
+        // Check primitive type on first face
+        u32 numIndices = pMesh->mFaces[0].mNumIndices;
+        if (numIndices == 1) prim.Type = eGX_Points;
+        else if (numIndices == 2) prim.Type = eGX_Lines;
+        else if (numIndices == 3) prim.Type = eGX_Triangles;
+
+        // Generate bounding box, center point, and reflection projection
+        pSurf->CenterPoint = CVector3f::skZero;
+        pSurf->ReflectionDirection = CVector3f::skZero;
+
+        for (u32 iVtx = 0; iVtx < pMesh->mNumVertices; iVtx++)
+        {
+            aiVector3D aiPos = pMesh->mVertices[iVtx];
+            pSurf->AABox.ExpandBounds(CVector3f(aiPos.x, aiPos.y, aiPos.z));
+
+            if (pMesh->HasNormals()) {
+                aiVector3D aiNrm = pMesh->mNormals[iVtx];
+                pSurf->ReflectionDirection += CVector3f(aiNrm.x, aiNrm.y, aiNrm.z);
+            }
+        }
+        pSurf->CenterPoint = pSurf->AABox.Center();
+
+        if (pMesh->HasNormals())
+            pSurf->ReflectionDirection /= pMesh->mNumVertices;
+        else
+            pSurf->ReflectionDirection = CVector3f(1.f, 0.f, 0.f);
+
+        // Set vertex/triangle count
+        pSurf->VertexCount = pMesh->mNumVertices;
+        pSurf->TriangleCount = (prim.Type == eGX_Triangles ? pMesh->mNumFaces : 0);
+
+        // Create primitive
+        for (u32 iFace = 0; iFace < pMesh->mNumFaces; iFace++)
+        {
+            for (u32 iIndex = 0; iIndex < numIndices; iIndex++)
+            {
+                u32 index = pMesh->mFaces[iFace].mIndices[iIndex];
+
+                // Create vertex and add it to the primitive
+                CVertex vert;
+                vert.ArrayPosition = index + mNumVertices;
+
+                if (pMesh->HasPositions()) {
+                    aiVector3D aiPos = pMesh->mVertices[index];
+                    vert.Position = CVector3f(aiPos.x, aiPos.y, aiPos.z);
+                }
+
+                if (pMesh->HasNormals()) {
+                    aiVector3D aiNrm = pMesh->mNormals[index];
+                    vert.Normal = CVector3f(aiNrm.x, aiNrm.y, aiNrm.z);
+                }
+
+                for (u32 iTex = 0; iTex < pMesh->GetNumUVChannels(); iTex++) {
+                    aiVector3D aiTex = pMesh->mTextureCoords[iTex][index];
+                    vert.Tex[iTex] = CVector2f(aiTex.x, aiTex.y);
+                }
+
+                prim.Vertices.push_back(vert);
+            }
+        }
+
+        mNumVertices += pMesh->mNumVertices;
+    }
+
+    return pSurf;
+}
+
 // ************ STATIC ************
 CModel* CModelLoader::LoadCMDL(CInputStream& CMDL)
 {
@@ -449,6 +543,27 @@ CModel* CModelLoader::LoadCorruptionWorldModel(CInputStream &MREA, CBlockMgrIn &
 
     pModel->mAABox = Loader.mAABox;
     return pModel;
+}
+
+CModel* CModelLoader::ImportAssimpNode(const aiNode *pNode, const aiScene *pScene, CMaterialSet& matSet)
+{
+    CModelLoader loader;
+    loader.mpModel = new CModel(&matSet, true);
+    loader.mpModel->mSurfaces.reserve(pNode->mNumMeshes);
+
+    for (u32 iMesh = 0; iMesh < pNode->mNumMeshes; iMesh++)
+    {
+        u32 meshIndex = pNode->mMeshes[iMesh];
+        const aiMesh *pMesh = pScene->mMeshes[meshIndex];
+        SSurface *pSurf = loader.LoadAssimpMesh(pMesh, &matSet);
+
+        loader.mpModel->mSurfaces.push_back(pSurf);
+        loader.mpModel->mAABox.ExpandBounds(pSurf->AABox);
+        loader.mpModel->mVertexCount += pSurf->VertexCount;
+        loader.mpModel->mTriangleCount += pSurf->TriangleCount;
+    }
+
+    return loader.mpModel;
 }
 
 EGame CModelLoader::GetFormatVersion(u32 Version)

@@ -278,6 +278,12 @@ void CMaterial::SetOptions(EMaterialOptions Options)
     mRecalcHash = true;
 }
 
+void CMaterial::SetVertexDescription(EVertexDescription desc)
+{
+    mVtxDesc = desc;
+    mRecalcHash = true;
+}
+
 void CMaterial::SetBlendMode(GLenum SrcFac, GLenum DstFac)
 {
     mBlendSrcFac = SrcFac;

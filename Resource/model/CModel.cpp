@@ -10,6 +10,17 @@ CModel::CModel() : CBasicModel()
     mTriangleCount = 0;
 }
 
+CModel::CModel(CMaterialSet *pSet, bool ownsMatSet)
+{
+    mHasOwnMaterials = ownsMatSet;
+    mHasOwnSurfaces = true;
+    mVertexCount = 0;
+    mTriangleCount = 0;
+
+    mMaterialSets.resize(1);
+    mMaterialSets[0] = pSet;
+}
+
 CModel::~CModel()
 {
     if (mHasOwnMaterials)
@@ -99,6 +110,7 @@ void CModel::DrawSurface(ERenderOptions Options, u32 Surface, u32 MatSet)
 
     // Draw IBOs
     mVBO.Bind();
+    glLineWidth(1.f);
 
     for (u32 iIBO = 0; iIBO < mSubmeshIndexBuffers[Surface].size(); iIBO++)
     {

@@ -1,10 +1,12 @@
 #ifndef CMATERIALLOADER_H
 #define CMATERIALLOADER_H
 
-#include <FileIO/FileIO.h>
 #include "../CMaterialSet.h"
 #include "../EFormatVersion.h"
 #include <Core/CResCache.h>
+
+#include <FileIO/FileIO.h>
+#include <assimp/scene.h>
 
 class CMaterialLoader
 {
@@ -32,9 +34,12 @@ class CMaterialLoader
     CMaterial* ReadCorruptionMaterial();
     void CreateCorruptionPasses(CMaterial *pMat);
 
+    CMaterial* LoadAssimpMaterial(const aiMaterial *pAiMat);
+
     // Static
 public:
     static CMaterialSet* LoadMaterialSet(CInputStream& Mat, EGame Version);
+    static CMaterialSet* ImportAssimpMaterials(const aiScene *pScene, EGame targetVersion);
 };
 
 #endif // CMATERIALLOADER_H

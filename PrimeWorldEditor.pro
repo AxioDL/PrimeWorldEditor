@@ -342,3 +342,9 @@ RESOURCES += \
     Icons.qrc
 
 
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../Libraries/assimp/lib/ -lassimp-vc120-mt
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../Libraries/assimp/lib/ -lassimp-vc120-mtd
+
+INCLUDEPATH += $$PWD/../../Libraries/assimp/include
+DEPENDPATH += $$PWD/../../Libraries/assimp/include

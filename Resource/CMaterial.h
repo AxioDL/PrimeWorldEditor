@@ -99,6 +99,7 @@ public:
     // Setters
     void SetName(const std::string& name);
     void SetOptions(EMaterialOptions Options);
+    void SetVertexDescription(EVertexDescription desc);
     void SetBlendMode(GLenum SrcFac, GLenum DstFac);
     void SetKonst(CColor& Konst, u32 KIndex);
     void SetIndTexture(CTexture *pTex);

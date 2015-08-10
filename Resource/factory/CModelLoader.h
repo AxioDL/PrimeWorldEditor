@@ -8,6 +8,7 @@
 #include <FileIO/FileIO.h>
 #include <Core/CResCache.h>
 #include <Common/EnumUtil.h>
+#include <assimp/scene.h>
 
 class CModelLoader
 {
@@ -28,6 +29,7 @@ private:
     CAABox mAABox;
     EGame mVersion;
 
+    u32 mNumVertices;
     std::vector<CVector3f> mPositions;
     std::vector<CVector3f> mNormals;
     std::vector<CColor> mColors;
@@ -49,11 +51,13 @@ private:
     SSurface* LoadSurface(CInputStream& Model);
     void LoadSurfaceHeaderPrime(CInputStream& Model, SSurface *pSurf);
     void LoadSurfaceHeaderDKCR(CInputStream& Model, SSurface *pSurf);
+    SSurface* LoadAssimpMesh(const aiMesh *pMesh, CMaterialSet *pSet);
 
 public:
     static CModel* LoadCMDL(CInputStream& CMDL);
     static CModel* LoadWorldModel(CInputStream& MREA, CBlockMgrIn& BlockMgr, CMaterialSet& MatSet, EGame Version);
     static CModel* LoadCorruptionWorldModel(CInputStream& MREA, CBlockMgrIn& BlockMgr, CMaterialSet& MatSet, u32 HeaderSecNum, u32 GPUSecNum, EGame Version);
+    static CModel* ImportAssimpNode(const aiNode *pNode, const aiScene *pScene, CMaterialSet& matSet);
     static EGame GetFormatVersion(u32 Version);
 };
 

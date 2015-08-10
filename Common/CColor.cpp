@@ -162,6 +162,37 @@ void CColor::operator/=(const CColor& other)
     *this = (*this / other);
 }
 
+// ************ STATIC ************
+CColor CColor::RandomColor(bool transparent)
+{
+    CColor out;
+    out.r = rand() % 255;
+    out.g = rand() % 255;
+    out.b = rand() % 255;
+    out.a = (transparent ? rand() % 255 : 0);
+    return out;
+}
+
+CColor CColor::RandomLightColor(bool transparent)
+{
+    CColor out;
+    out.r = 127 + (rand() % 128);
+    out.g = 127 + (rand() % 128);
+    out.b = 127 + (rand() % 128);
+    out.a = (transparent ? 127 + (rand() % 128) : 0);
+    return out;
+}
+
+CColor CColor::RandomDarkColor(bool transparent)
+{
+    CColor out;
+    out.r = rand() % 128;
+    out.g = rand() % 128;
+    out.b = rand() % 128;
+    out.a = (transparent ? rand() % 128 : 0);
+    return out;
+}
+
 // defining predefined colors
 const CColor CColor::skRed   (u32(0xFF0000FF));
 const CColor CColor::skGreen (u32(0x00FF00FF));

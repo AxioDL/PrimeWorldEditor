@@ -20,7 +20,7 @@ class CModel : public CBasicModel
     
 public:
     CModel();
-    CModel(CMaterialSet *pSet);
+    CModel(CMaterialSet *pSet, bool ownsMatSet);
     ~CModel();
 
     void BufferGL();

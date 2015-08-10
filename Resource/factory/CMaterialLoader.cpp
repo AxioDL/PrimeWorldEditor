@@ -576,6 +576,24 @@ void CMaterialLoader::CreateCorruptionPasses(CMaterial *pMat)
     }
 }
 
+CMaterial* CMaterialLoader::LoadAssimpMaterial(const aiMaterial *pAiMat)
+{
+    // todo: generate new material using import values.
+    CMaterial *pMat = new CMaterial(mVersion, eNoAttributes);
+
+    // Create generic custom pass that uses Konst color
+    CMaterialPass *pPass = new CMaterialPass(pMat);
+    pPass->SetColorInputs(eZeroRGB, eRasRGB, eKonstRGB, eZeroRGB);
+    pPass->SetAlphaInputs(eZeroAlpha, eZeroAlpha, eZeroAlpha, eKonstAlpha);
+    pPass->SetKColorSel(eKonst0_RGB);
+    pPass->SetKAlphaSel(eKonstOne);
+    pPass->SetRasSel(eRasColor0A0);
+    pMat->mKonstColors[0] = CColor::RandomLightColor(false);
+    pMat->mPasses.push_back(pPass);
+
+    return pMat;
+}
+
 // ************ STATIC ************
 CMaterialSet* CMaterialLoader::LoadMaterialSet(CInputStream& Mat, EGame Version)
 {
@@ -590,4 +608,21 @@ CMaterialSet* CMaterialLoader::LoadMaterialSet(CInputStream& Mat, EGame Version)
         Loader.ReadCorruptionMatSet();
 
     return Loader.mpSet;
+}
+
+CMaterialSet* CMaterialLoader::ImportAssimpMaterials(const aiScene *pScene, EGame targetVersion)
+{
+    CMaterialLoader loader;
+    loader.mVersion = targetVersion;
+
+    CMaterialSet *pOut = new CMaterialSet();
+    pOut->mMaterials.reserve(pScene->mNumMaterials);
+
+    for (u32 iMat = 0; iMat < pScene->mNumMaterials; iMat++)
+    {
+        CMaterial *pMat = loader.LoadAssimpMaterial(pScene->mMaterials[iMat]);
+        pOut->mMaterials.push_back(pMat);
+    }
+
+    return pOut;
 }
