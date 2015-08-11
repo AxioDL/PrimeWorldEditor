@@ -25,6 +25,7 @@ class CModelEditorWindow : public QMainWindow
     Ui::CModelEditorWindow *ui;
     CRenderer *mpRenderer;
     CSceneManager *mpScene;
+    QString mOutputFilename;
     CModel *mpCurrentModel;
     CToken mModelToken;
     CModelNode *mpCurrentModelNode;
@@ -114,6 +115,10 @@ private slots:
     void on_FlatPreviewButton_clicked();
 
     void on_ClearColorPicker_colorChanged(const QColor &);
+
+    void on_actionImport_triggered();
+
+    void on_actionSave_as_triggered();
 
 signals:
     void Closed();

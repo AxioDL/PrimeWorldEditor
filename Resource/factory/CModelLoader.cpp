@@ -288,6 +288,14 @@ SSurface* CModelLoader::LoadAssimpMesh(const aiMesh *pMesh, CMaterialSet *pSet)
             desc |= (eTex0 << (iUV * 2));
 
         pMat->SetVertexDescription(desc);
+
+        // TEMP - disable dynamic lighting on geometry with no normals
+        if (!pMesh->HasNormals())
+        {
+            pMat->SetLightingEnabled(false);
+            pMat->Pass(0)->SetColorInputs(eZeroRGB, eOneRGB, eKonstRGB, eZeroRGB);
+            pMat->Pass(0)->SetRasSel(eRasColorNull);
+        }
     }
 
     // Create surface
@@ -466,6 +474,8 @@ CModel* CModelLoader::LoadCMDL(CInputStream& CMDL)
     {
         SSurface *pSurf = Loader.LoadSurface(CMDL);
         pModel->mSurfaces.push_back(pSurf);
+        pModel->mVertexCount += pSurf->VertexCount;
+        pModel->mTriangleCount += pSurf->TriangleCount;
     }
 
     pModel->mAABox = AABox;

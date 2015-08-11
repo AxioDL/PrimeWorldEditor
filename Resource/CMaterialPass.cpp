@@ -15,7 +15,7 @@ CMaterialPass::CMaterialPass(CMaterial *pParent)
     mKColorSel = eKonstOne;
     mKAlphaSel = eKonstOne;
     mRasSel = eRasColorNull;
-    mTexCoordSource = 0;
+    mTexCoordSource = 0xFF;
     mAnimMode = eNoUVAnim;
 
     for (u32 iParam = 0; iParam < 4; iParam++)

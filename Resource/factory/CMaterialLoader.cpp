@@ -39,7 +39,7 @@ void CMaterialLoader::ReadPrimeMatSet()
     {
         mpSet->mMaterials[iMat] = ReadPrimeMaterial();
         mpSet->mMaterials[iMat]->mVersion = mVersion;
-        mpSet->mMaterials[iMat]->mName = std::string("Material #") + std::to_string(iMat);
+        mpSet->mMaterials[iMat]->mName = std::string("Material #") + std::to_string(iMat + 1);
         mpFile->Seek(matsStart + offsets[iMat], SEEK_SET);
     }
 }
@@ -240,7 +240,7 @@ void CMaterialLoader::ReadCorruptionMatSet()
         u32 Next = mpFile->Tell() + Size;
         mpSet->mMaterials[iMat] = ReadCorruptionMaterial();
         mpSet->mMaterials[iMat]->mVersion = mVersion;
-        mpSet->mMaterials[iMat]->mName = std::string("Material #") + std::to_string(iMat);
+        mpSet->mMaterials[iMat]->mName = std::string("Material #") + std::to_string(iMat + 1);
         mpFile->Seek(Next, SEEK_SET);
     }
 }
@@ -580,6 +580,10 @@ CMaterial* CMaterialLoader::LoadAssimpMaterial(const aiMaterial *pAiMat)
 {
     // todo: generate new material using import values.
     CMaterial *pMat = new CMaterial(mVersion, eNoAttributes);
+
+    aiString name;
+    pAiMat->Get(AI_MATKEY_NAME, name);
+    pMat->SetName(name.C_Str());
 
     // Create generic custom pass that uses Konst color
     CMaterialPass *pPass = new CMaterialPass(pMat);

@@ -133,7 +133,8 @@ SOURCES += \
     UI/WStringPreviewPanel.cpp \
     UI/WScanPreviewPanel.cpp \
     UI/WIntegralSpinBox.cpp \
-    UI/CAboutDialog.cpp
+    UI/CAboutDialog.cpp \
+    UI/CGizmo.cpp
 
 HEADERS  += \
     Common/AnimUtil.h \
@@ -280,7 +281,8 @@ HEADERS  += \
     UI/WStringPreviewPanel.h \
     UI/WScanPreviewPanel.h \
     UI/WIntegralSpinBox.h \
-    UI/CAboutDialog.h
+    UI/CAboutDialog.h \
+    UI/CGizmo.h
 
 FORMS    += \
     UI/CWorldEditorWindow.ui \

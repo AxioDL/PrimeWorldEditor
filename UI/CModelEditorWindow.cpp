@@ -9,12 +9,16 @@
 #include <Core/CDrawUtil.h>
 #include <Core/CRenderer.h>
 #include <Core/CSceneManager.h>
+#include <Resource/factory/CModelLoader.h>
+#include <Resource/factory/CMaterialLoader.h>
 #include <Resource/factory/CTextureDecoder.h>
 #include <Resource/cooker/CModelCooker.h>
 #include "WColorPicker.h"
 
 #include <iostream>
-#include <gtc/matrix_transform.hpp>
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 
 CModelEditorWindow::CModelEditorWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -145,14 +149,18 @@ void CModelEditorWindow::SetActiveModel(CModel *pModel)
     mpCurrentModel = pModel;
     mModelToken = CToken(pModel);
 
-    ui->MeshInfoLabel->setText(QString::number(pModel->GetVertexCount()) + " vertices, " + QString::number(pModel->GetTriangleCount()) + " triangles");
-    ui->MatInfoLabel->setText(QString::number(pModel->GetMatCount()) + " materials, " + QString::number(pModel->GetMatSetCount()) + " set" + (pModel->GetMatSetCount() == 1 ? "" : "s"));
+    u32 numVertices = (pModel ? pModel->GetVertexCount() : 0);
+    u32 numTriangles = (pModel ? pModel->GetTriangleCount() : 0);
+    u32 numMats = (pModel ? pModel->GetMatCount() : 0);
+    u32 numMatSets = (pModel ? pModel->GetMatSetCount() : 0);
+    ui->MeshInfoLabel->setText(QString::number(numVertices) + " vertices, " + QString::number(numTriangles) + " triangles");
+    ui->MatInfoLabel->setText(QString::number(numMats) + " materials, " + QString::number(numMatSets) + " set" + (numMatSets == 1 ? "" : "s"));
 
     // Set items in matset combo box
     ui->SetSelectionComboBox->blockSignals(true);
     ui->SetSelectionComboBox->clear();
 
-    for (u32 iSet = 0; iSet < pModel->GetMatSetCount(); iSet++)
+    for (u32 iSet = 0; iSet < numMatSets; iSet++)
         ui->SetSelectionComboBox->addItem("Set #" + QString::number(iSet + 1));
 
     ui->SetSelectionComboBox->setCurrentIndex(0);
@@ -162,19 +170,22 @@ void CModelEditorWindow::SetActiveModel(CModel *pModel)
     ui->MatSelectionComboBox->blockSignals(true);
     ui->MatSelectionComboBox->clear();
 
-    for (u32 iMat = 0; iMat < pModel->GetMatCount(); iMat++)
-        ui->MatSelectionComboBox->addItem("Material #" + QString::number(iMat + 1));
+    for (u32 iMat = 0; iMat < numMats; iMat++)
+    {
+        std::string matName = pModel->GetMaterialByIndex(0, iMat)->Name();
+        ui->MatSelectionComboBox->addItem(QString::fromStdString(matName));
+    }
 
     ui->MatSelectionComboBox->setCurrentIndex(0);
-    ui->MatSelectionComboBox->setEnabled( pModel->GetMatCount() > 1 );
+    ui->MatSelectionComboBox->setEnabled( numMats > 1 );
     ui->MatSelectionComboBox->blockSignals(false);
 
     // Emit signals to set up UI
     ui->SetSelectionComboBox->currentIndexChanged(0);
 
     // Gray out set selection for models with one set
-    ui->SetSelectionComboBox->setEnabled( pModel->GetMatSetCount() > 1 );
-    ui->MatSelectionComboBox->setEnabled( pModel->GetMatCount() > 1 );
+    ui->SetSelectionComboBox->setEnabled( numMatSets > 1 );
+    ui->MatSelectionComboBox->setEnabled( numMats > 1 );
 }
 
 void CModelEditorWindow::SetActiveMaterial(int MatIndex)
@@ -284,7 +295,7 @@ void CModelEditorWindow::SetActivePass(int PassIndex)
     u32 TexCoordSrc = mpCurrentPass->TexCoordSource();
     if (KColor >= 0xC) KColor -= 4;
     if (KAlpha >= 0x10) KAlpha -= 8;
-    if (Ras == 0xFF) Ras = 10;
+    if (Ras == 0xFF) Ras = 7;
     if (TexCoordSrc == 0xFF) TexCoordSrc = 0;
     else TexCoordSrc++;
     if (TexCoordSrc >= 5) TexCoordSrc -= 2;
@@ -746,14 +757,15 @@ void CModelEditorWindow::on_actionConvert_to_DDS_triggered()
 
 void CModelEditorWindow::on_actionOpen_triggered()
 {
-    QString ModelFilename = QFileDialog::getOpenFileName(this, "Retro Model (*.CMDL)", "", "*.CMDL");
+    QString ModelFilename = QFileDialog::getOpenFileName(this, "Save model", "", "Retro Model (*.CMDL)");
     if (ModelFilename.isEmpty()) return;
 
-    CModel *Model = (CModel*) gResCache.GetResource(ModelFilename.toStdString());
-    if (Model)
+    CModel *pModel = (CModel*) gResCache.GetResource(ModelFilename.toStdString());
+    if (pModel)
     {
-        SetActiveModel(Model);
-        setWindowTitle("Prime World Editor - Model Editor: " + QString::fromStdString(Model->Source()));
+        SetActiveModel(pModel);
+        setWindowTitle("Prime World Editor - Model Editor: " + QString::fromStdString(pModel->Source()));
+        mOutputFilename = QString::fromStdString(pModel->FullSource());
     }
 
     gResCache.Clean();
@@ -763,7 +775,13 @@ void CModelEditorWindow::on_actionSave_triggered()
 {
     if (!mpCurrentModel) return;
 
-    CFileOutStream CMDLOut(mpCurrentModel->Source(), IOUtil::BigEndian);
+    if (mOutputFilename.isEmpty())
+    {
+        on_actionSave_as_triggered();
+        return;
+    }
+
+    CFileOutStream CMDLOut(mOutputFilename.toStdString(), IOUtil::BigEndian);
     CModelCooker::WriteCookedModel(mpCurrentModel, ePrime, CMDLOut);
     QMessageBox::information(this, "Saved", "Model saved!");
 }
@@ -792,4 +810,53 @@ void CModelEditorWindow::on_ClearColorPicker_colorChanged(const QColor &Color)
 {
     CColor NewColor((u8) Color.red(), (u8) Color.green(), (u8) Color.blue(), 255);
     mpRenderer->SetClearColor(NewColor);
+}
+
+void CModelEditorWindow::on_actionImport_triggered()
+{
+    QString filename = QFileDialog::getOpenFileName(this, "Model", "", "*.obj;*.fbx;*.dae;*.3ds;*.blend");
+    if (filename.isEmpty()) return;
+
+    Assimp::Importer importer;
+    importer.SetPropertyInteger(AI_CONFIG_PP_FD_REMOVE, 1);
+    importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS,
+                                aiComponent_TANGENTS_AND_BITANGENTS |
+                                aiComponent_ANIMATIONS |
+                                aiComponent_LIGHTS |
+                                aiComponent_CAMERAS);
+
+    const aiScene *pScene = importer.ReadFile(filename.toStdString(),
+                                              aiProcess_JoinIdenticalVertices |
+                                              aiProcess_Triangulate |
+                                              aiProcess_RemoveComponent |
+                                              //aiProcess_GenSmoothNormals |
+                                              //aiProcess_SplitLargeMeshes |
+                                              //aiProcess_PreTransformVertices |
+                                              aiProcess_SortByPType |
+                                              //aiProcess_FindDegenerates |
+                                              //aiProcess_FindInvalidData |
+                                              //aiProcess_GenUVCoords |
+                                              aiProcess_RemoveRedundantMaterials |
+                                              aiProcess_OptimizeGraph);
+
+    CModel *pModel = nullptr;
+    CMaterialSet *pSet = CMaterialLoader::ImportAssimpMaterials(pScene, ePrime);
+    pModel = CModelLoader::ImportAssimpNode(pScene->mRootNode, pScene, *pSet);
+
+    SetActiveModel(pModel);
+    setWindowTitle("Prime World Editor - Model Editor: Untitled");
+    mOutputFilename = "";
+    gResCache.Clean();
+}
+
+void CModelEditorWindow::on_actionSave_as_triggered()
+{
+    QString filename = QFileDialog::getSaveFileName(this, "Save model", "", "Retro Model (*.CMDL)");
+    if (filename.isEmpty()) return;
+
+    mOutputFilename = filename;
+    on_actionSave_triggered();
+
+    std::string name = StringUtil::GetFileNameWithExtension(filename.toStdString());
+    setWindowTitle("Prime World Editor - Model Editor: " + QString::fromStdString(name));
 }
