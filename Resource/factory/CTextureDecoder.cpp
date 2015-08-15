@@ -6,7 +6,7 @@
 
 // Number of pixels * this = number of bytes
 static const float gskPixelsToBytes[] = {
-    1.f, 1.f, 2.f, 2.f, 4.f, 4.f, 0.f, 2.f, 4.f, 4.f, 0.5f
+    2.f, 2.f, 2.f, 2.f, 4.f, 4.f, 0.f, 2.f, 4.f, 4.f, 0.5f
 };
 
 // Bits per pixel for each GX texture format
