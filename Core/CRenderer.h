@@ -8,12 +8,12 @@
 #include "CRenderBucket.h"
 #include "ERenderOptions.h"
 #include "ERenderCommand.h"
+#include "SRenderablePtr.h"
 #include <Common/CAABox.h>
 #include <Common/CColor.h>
 #include <Common/CMatrix4f.h>
 #include <Common/types.h>
 #include <OpenGL/CFramebuffer.h>
-#include <OpenGL/SMeshPointer.h>
 #include <Resource/CFont.h>
 #include <Resource/CLight.h>
 #include <Resource/CTexture.h>
@@ -65,11 +65,11 @@ public:
     void SetViewportSize(u32 Width, u32 Height);
 
     // Render
-    void RenderScene(CCamera& Camera);
+    void RenderBuckets(CCamera& Camera);
     void RenderBloom();
     void RenderSky(CModel *pSkyboxModel, CVector3f CameraPosition);
-    void AddOpaqueMesh(CSceneNode *pNode, u32 AssetID, CAABox& AABox, ERenderCommand Command);
-    void AddTransparentMesh(CSceneNode *pNode, u32 AssetID, CAABox& AABox, ERenderCommand Command);
+    void AddOpaqueMesh(IRenderable *pRenderable, u32 AssetID, CAABox& AABox, ERenderCommand Command);
+    void AddTransparentMesh(IRenderable *pRenderable, u32 AssetID, CAABox& AABox, ERenderCommand Command);
     void BeginFrame();
     void EndFrame();
 

@@ -159,7 +159,6 @@ HEADERS  += \
     OpenGL/CShaderGenerator.h \
     OpenGL/CVertexBuffer.h \
     OpenGL/GLCommon.h \
-    OpenGL/SMeshPointer.h \
     UI/CWorldEditorWindow.h \
     UI/PWEMaterialEditor.h \
     UI/CStartWindow.h \
@@ -282,7 +281,9 @@ HEADERS  += \
     UI/WScanPreviewPanel.h \
     UI/WIntegralSpinBox.h \
     UI/CAboutDialog.h \
-    UI/CGizmo.h
+    UI/CGizmo.h \
+    Core/IRenderable.h \
+    Core/SRenderablePtr.h
 
 FORMS    += \
     UI/CWorldEditorWindow.ui \

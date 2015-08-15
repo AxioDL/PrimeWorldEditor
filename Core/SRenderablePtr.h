@@ -1,5 +1,5 @@
-#ifndef SMESHPOINTER_H
-#define SMESHPOINTER_H
+#ifndef SRENDERABLEPTR_H
+#define SRENDERABLEPTR_H
 
 #include <Common/CAABox.h>
 #include <Common/types.h>
@@ -7,12 +7,12 @@
 #include <Scene/CSceneNode.h>
 #include <Resource/CMaterial.h>
 
-struct SMeshPointer
+struct SRenderablePtr
 {
-    CSceneNode *pNode;
+    IRenderable *pRenderable;
     u32 Asset;
     CAABox AABox;
     ERenderCommand Command;
 };
 
-#endif // SMESHPOINTER_H
+#endif // SRENDERABLEPTR_H

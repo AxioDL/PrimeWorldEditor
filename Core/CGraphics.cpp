@@ -157,3 +157,10 @@ void CGraphics::SetDefaultLighting()
     sDefaultDirectionalLights[1].Load();
     sDefaultDirectionalLights[2].Load();
 }
+
+void CGraphics::SetIdentityMVP()
+{
+    sMVPBlock.ModelMatrix = CMatrix4f::skIdentity;
+    sMVPBlock.ViewMatrix = CMatrix4f::skIdentity;
+    sMVPBlock.ProjectionMatrix = CMatrix4f::skIdentity;
+}

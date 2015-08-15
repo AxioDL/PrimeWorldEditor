@@ -92,6 +92,7 @@ public:
     static void ReleaseContext(u32 Index);
     static void SetActiveContext(u32 Index);
     static void SetDefaultLighting();
+    static void SetIdentityMVP();
 };
 
 #endif // CGRAPHICS_H

@@ -1,6 +1,7 @@
 #ifndef CSCENENODE_H
 #define CSCENENODE_H
 
+#include <Core/IRenderable.h>
 #include "ENodeType.h"
 #include <Common/CVector3f.h>
 #include <Common/CQuaternion.h>
@@ -16,7 +17,7 @@
 class CRenderer;
 class CSceneManager;
 
-class CSceneNode
+class CSceneNode : public IRenderable
 {
 private:
     CTransform4f _mCachedTransform;
@@ -50,9 +51,8 @@ public:
     virtual ~CSceneNode();
     virtual ENodeType NodeType() = 0;
     virtual std::string PrefixedName() const;
-    virtual void AddToRenderer(CRenderer *pRenderer) = 0;
-    virtual void Draw(ERenderOptions Options) = 0;
-    virtual void DrawAsset(ERenderOptions Options, u32 Asset) = 0;
+    virtual void Draw(ERenderOptions options) = 0;
+    virtual void DrawAsset(ERenderOptions options, u32 asset) = 0;
     virtual void DrawSelection();
     virtual void RayAABoxIntersectTest(CRayCollisionTester& Tester);
     virtual SRayIntersection RayNodeIntersectTest(const CRay& Ray, u32 AssetID) = 0;

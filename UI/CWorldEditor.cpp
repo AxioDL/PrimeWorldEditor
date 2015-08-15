@@ -281,7 +281,8 @@ void CWorldEditor::ViewportRender(CCamera& Camera)
         if (pSky) mpRenderer->RenderSky(pSky, Camera.Position());
     }
 
-    mpRenderer->RenderScene(Camera);
+    mpRenderer->RenderBuckets(Camera);
+    mpRenderer->RenderBloom();
     mpRenderer->EndFrame();
     mFrameTimer.Stop();
     mFrameCount++;

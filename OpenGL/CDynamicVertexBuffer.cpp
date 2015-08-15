@@ -71,9 +71,9 @@ void CDynamicVertexBuffer::ClearBuffers()
 {
     for (u32 iAttrib = 0; iAttrib < 12; iAttrib++)
     {
-        u8 Bit = 1 << iAttrib;
+        int bit = 1 << iAttrib;
 
-        if (mBufferedFlags & Bit)
+        if (mBufferedFlags & bit)
             glDeleteBuffers(1, &mAttribBuffers[iAttrib]);
     }
 

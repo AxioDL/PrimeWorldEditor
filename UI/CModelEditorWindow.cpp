@@ -587,7 +587,7 @@ void CModelEditorWindow::PaintViewport(CCamera& Camera)
     {
         CDrawUtil::DrawGrid();
         mpCurrentModelNode->AddToRenderer(mpRenderer);
-        mpRenderer->RenderScene(Camera);
+        mpRenderer->RenderBuckets(Camera);
     }
 
     else if (mDrawMode == eDrawSphere)

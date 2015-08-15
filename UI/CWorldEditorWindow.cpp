@@ -98,7 +98,7 @@ void CWorldEditorWindow::PaintViewport(double DeltaTime)
         if (pSky) mpRenderer->RenderSky(pSky, mCamera.Position());
     }
 
-    mpRenderer->RenderScene(mCamera);
+    mpRenderer->RenderBuckets(mCamera);
     mpRenderer->EndFrame();
 }
 

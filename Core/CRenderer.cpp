@@ -60,12 +60,14 @@ bool CRenderer::IsUVAnimationOn()
 
 void CRenderer::ToggleBackfaceCull(bool b)
 {
-    mOptions = (ERenderOptions) ((mOptions & ~eEnableBackfaceCull) | (b << 1));
+    if (b) mOptions |= eEnableBackfaceCull;
+    else   mOptions &= ~eEnableBackfaceCull;
 }
 
 void CRenderer::ToggleUVAnimation(bool b)
 {
-    mOptions = (ERenderOptions) ((mOptions & ~eEnableUVScroll) | b);
+    if (b) mOptions |= eEnableUVScroll;
+    else   mOptions &= ~eEnableUVScroll;
 }
 
 void CRenderer::ToggleGrid(bool b)
@@ -75,12 +77,14 @@ void CRenderer::ToggleGrid(bool b)
 
 void CRenderer::ToggleOccluders(bool b)
 {
-    mOptions = (ERenderOptions) ((mOptions & ~eEnableOccluders) | (b << 2));
+    if (b) mOptions |= eEnableOccluders;
+    else   mOptions &= ~eEnableOccluders;
 }
 
 void CRenderer::ToggleAlphaDisabled(bool b)
 {
-    mOptions = (ERenderOptions) ((mOptions & ~eNoAlpha) | (b << 5));
+    if (b) mOptions |= eNoAlpha;
+    else   mOptions &= ~eNoAlpha;
 }
 
 void CRenderer::SetBloom(EBloomMode BloomMode)
@@ -88,9 +92,9 @@ void CRenderer::SetBloom(EBloomMode BloomMode)
     mBloomMode = BloomMode;
 
     if (BloomMode != eNoBloom)
-        mOptions = (ERenderOptions) (mOptions | eEnableBloom);
+        mOptions |= eEnableBloom;
     else
-        mOptions = (ERenderOptions) (mOptions & ~eEnableBloom);
+        mOptions &= ~eEnableBloom;
 }
 
 void CRenderer::SetFont(CFont *pFont)
@@ -118,22 +122,33 @@ void CRenderer::SetViewportSize(u32 Width, u32 Height)
 }
 
 // ************ RENDER ************
-void CRenderer::RenderScene(CCamera& Camera)
+void CRenderer::RenderBuckets(CCamera& Camera)
 {
     if (!mInitialized) Init();
 
+    // Set backface culling
+    if (mOptions & eEnableBackfaceCull) glEnable(GL_CULL_FACE);
+    else glDisable(GL_CULL_FACE);
+
     // Render scene to texture
     glDepthRange(0.f, 1.f);
+    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 
     mOpaqueBucket.Draw(mOptions);
     mOpaqueBucket.Clear();
     mTransparentBucket.Sort(Camera);
     mTransparentBucket.Draw(mOptions);
     mTransparentBucket.Clear();
+
+    // Clear depth buffer to enable more rendering passes
+    glClear(GL_DEPTH_BUFFER_BIT);
 }
 
 void CRenderer::RenderBloom()
 {
+    // Check to ensure bloom is enabled
+    if (mBloomMode == eNoBloom) return;
+
     // Setup
     static const float skHOffset[6] = { -0.008595f, -0.005470f, -0.002345f,
                                          0.002345f,  0.005470f,  0.008595f };
@@ -158,9 +173,7 @@ void CRenderer::RenderBloom()
     glClearColor(0.f, 0.f, 0.f, 0.f);
     glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 
-    CGraphics::sMVPBlock.ModelMatrix = CMatrix4f::skIdentity;
-    CGraphics::sMVPBlock.ViewMatrix = CMatrix4f::skIdentity;
-    CGraphics::sMVPBlock.ProjectionMatrix = CMatrix4f::skIdentity;
+    CGraphics::SetIdentityMVP();
     CGraphics::UpdateMVPBlock();
 
     // Pass 1: Alpha-blend the scene texture on a black background
@@ -211,6 +224,28 @@ void CRenderer::RenderBloom()
         glBlendFunc(GL_ONE, GL_ONE);
         CDrawUtil::DrawSquare();
     }
+
+    // Render result onto main scene framebuffer
+    mSceneFramebuffer.Bind();
+    glViewport(0, 0, mViewportWidth, mViewportHeight);
+    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_FALSE);
+
+    CGraphics::SetIdentityMVP();
+    CGraphics::UpdateMVPBlock();
+
+    CDrawUtil::UseTextureShader();
+    glBlendFunc(GL_ONE, GL_ONE);
+    mBloomFramebuffers[2].Texture()->Bind(0);
+    CDrawUtil::DrawSquare();
+
+    if (mBloomMode == eBloomMaps)
+    {
+        // Bloom maps are in the framebuffer alpha channel.
+        // White * dst alpha = bloom map colors
+        CDrawUtil::UseColorShader(CColor::skWhite);
+        glBlendFunc(GL_DST_ALPHA, GL_ZERO);
+        CDrawUtil::DrawSquare();
+    }
 }
 
 void CRenderer::RenderSky(CModel *pSkyboxModel, CVector3f CameraPosition)
@@ -236,24 +271,24 @@ void CRenderer::RenderSky(CModel *pSkyboxModel, CVector3f CameraPosition)
     pSkyboxModel->Draw(mOptions, 0);
 }
 
-void CRenderer::AddOpaqueMesh(CSceneNode *pNode, u32 AssetID, CAABox& AABox, ERenderCommand Command)
+void CRenderer::AddOpaqueMesh(IRenderable *pRenderable, u32 AssetID, CAABox& AABox, ERenderCommand Command)
 {
-    SMeshPointer mesh;
-    mesh.pNode = pNode;
-    mesh.Asset = AssetID;
-    mesh.AABox = AABox;
-    mesh.Command = Command;
-    mOpaqueBucket.Add(mesh);
+    SRenderablePtr ptr;
+    ptr.pRenderable = pRenderable;
+    ptr.Asset = AssetID;
+    ptr.AABox = AABox;
+    ptr.Command = Command;
+    mOpaqueBucket.Add(ptr);
 }
 
-void CRenderer::AddTransparentMesh(CSceneNode *pNode, u32 AssetID, CAABox& AABox, ERenderCommand Command)
+void CRenderer::AddTransparentMesh(IRenderable *pRenderable, u32 AssetID, CAABox& AABox, ERenderCommand Command)
 {
-    SMeshPointer mesh;
-    mesh.pNode = pNode;
-    mesh.Asset = AssetID;
-    mesh.AABox = AABox;
-    mesh.Command = Command;
-    mTransparentBucket.Add(mesh);
+    SRenderablePtr ptr;
+    ptr.pRenderable = pRenderable;
+    ptr.Asset = AssetID;
+    ptr.AABox = AABox;
+    ptr.Command = Command;
+    mTransparentBucket.Add(ptr);
 }
 
 void CRenderer::BeginFrame()
@@ -269,15 +304,12 @@ void CRenderer::BeginFrame()
     glViewport(0, 0, mViewportWidth, mViewportHeight);
 
     InitFramebuffer();
-
-    if (mOptions & eEnableBackfaceCull) glEnable(GL_CULL_FACE);
-    else glDisable(GL_CULL_FACE);
 }
 
 void CRenderer::EndFrame()
 {
     // Post-processing
-    if ((mBloomMode == eBloom) || (mBloomMode == eFakeBloom))
+    if (mBloomMode != eNoBloom)
         RenderBloom();
 
     // Render result to screen
@@ -285,9 +317,7 @@ void CRenderer::EndFrame()
     InitFramebuffer();
     glViewport(0, 0, mViewportWidth, mViewportHeight);
 
-    CGraphics::sMVPBlock.ModelMatrix = CMatrix4f::skIdentity;
-    CGraphics::sMVPBlock.ViewMatrix = CMatrix4f::skIdentity;
-    CGraphics::sMVPBlock.ProjectionMatrix = CMatrix4f::skIdentity;
+    CGraphics::SetIdentityMVP();
     CGraphics::UpdateMVPBlock();
 
     glDisable(GL_DEPTH_TEST);
@@ -297,23 +327,6 @@ void CRenderer::EndFrame()
     glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
     mSceneFramebuffer.Texture()->Bind(0);
     CDrawUtil::DrawSquare();
-
-    if ((mBloomMode == eBloom) || (mBloomMode == eFakeBloom))
-    {
-        CDrawUtil::UseTextureShader();
-        glBlendFunc(GL_ONE, GL_ONE);
-        mBloomFramebuffers[2].Texture()->Bind(0);
-        CDrawUtil::DrawSquare();
-    }
-
-    else if (mBloomMode == eBloomMaps)
-    {
-        // Bloom maps are in the framebuffer alpha channel.
-        // White * dst alpha = bloom map colors
-        CDrawUtil::UseColorShader(CColor::skWhite);
-        glBlendFunc(GL_DST_ALPHA, GL_ZERO);
-        CDrawUtil::DrawSquare();
-    }
 
     glEnable(GL_DEPTH_TEST);
     gDrawCount = 0;

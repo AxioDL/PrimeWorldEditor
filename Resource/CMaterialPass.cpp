@@ -120,7 +120,7 @@ void CMaterialPass::SetAnimCurrent(ERenderOptions Options, u32 PassIndex)
 
     case eUVScroll: // Mode 2
     {
-        if (Options & eUVScroll)
+        if (Options & eEnableUVScroll)
         {
             TexMtx[0][3] = (s * mAnimParams[2]) + mAnimParams[0];
             TexMtx[1][3] = (s * mAnimParams[3]) + mAnimParams[1];
@@ -130,7 +130,7 @@ void CMaterialPass::SetAnimCurrent(ERenderOptions Options, u32 PassIndex)
 
     case eUVRotation: // Mode 3
     {
-        if (Options & eUVScroll)
+        if (Options & eEnableUVScroll)
         {
             float Angle = (s * mAnimParams[1]) + mAnimParams[0];
 
@@ -150,7 +150,7 @@ void CMaterialPass::SetAnimCurrent(ERenderOptions Options, u32 PassIndex)
     case eHFilmstrip: // Mode 4
     case eVFilmstrip: // Mode 5
     {
-        if (Options & eUVScroll)
+        if (Options & eEnableUVScroll)
         {
             float Offset = mAnimParams[2] * mAnimParams[0] * (mAnimParams[3] + s);
             Offset = (float)(short)(float)(mAnimParams[1] * fmod(Offset, 1.0f)) * mAnimParams[2];

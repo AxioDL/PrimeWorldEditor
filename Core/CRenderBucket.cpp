@@ -14,12 +14,12 @@ void CRenderBucket::SetSortType(ESortType Type)
     mSortType = Type;
 }
 
-void CRenderBucket::Add(const SMeshPointer& Mesh)
+void CRenderBucket::Add(const SRenderablePtr& ptr)
 {
     if (mSize >= mEstSize)
-        mNodes.push_back(Mesh);
+        mRenderables.push_back(ptr);
     else
-        mNodes[mSize] = Mesh;
+        mRenderables[mSize] = ptr;
 
     mSize++;
 }
@@ -28,7 +28,7 @@ void CRenderBucket::Sort(CCamera& Camera)
 {
     struct {
         CCamera *pCamera;
-        bool operator()(SMeshPointer left, SMeshPointer right) {
+        bool operator()(SRenderablePtr left, SRenderablePtr right) {
             CVector3f cPos = pCamera->Position();
             CVector3f cDir = pCamera->GetDirection();
 
@@ -42,7 +42,7 @@ void CRenderBucket::Sort(CCamera& Camera)
     backToFront.pCamera = &Camera;
 
     if (mSortType == BackToFront)
-        std::stable_sort(mNodes.begin(), mNodes.begin() + mSize, backToFront);
+        std::stable_sort(mRenderables.begin(), mRenderables.begin() + mSize, backToFront);
 
     // Test: draw node bounding boxes + vertices used for sorting
     /*for (u32 iNode = 0; iNode < mNodes.size(); iNode++)
@@ -67,7 +67,7 @@ void CRenderBucket::Sort(CCamera& Camera)
 void CRenderBucket::Clear()
 {
     mEstSize = mSize;
-    if (mNodes.size() > mSize) mNodes.resize(mSize);
+    if (mRenderables.size() > mSize) mRenderables.resize(mSize);
     mSize = 0;
 }
 
@@ -75,14 +75,14 @@ void CRenderBucket::Draw(ERenderOptions Options)
 {
     for (u32 n = 0; n < mSize; n++)
     {
-        if (mNodes[n].Command == eDrawMesh)
-            mNodes[n].pNode->Draw(Options);
+        if (mRenderables[n].Command == eDrawMesh)
+            mRenderables[n].pRenderable->Draw(Options);
 
-        else if (mNodes[n].Command == eDrawAsset)
-            mNodes[n].pNode->DrawAsset(Options, mNodes[n].Asset);
+        else if (mRenderables[n].Command == eDrawAsset)
+            mRenderables[n].pRenderable->DrawAsset(Options, mRenderables[n].Asset);
 
-        else if (mNodes[n].Command == eDrawSelection)
-            mNodes[n].pNode->DrawSelection();
+        else if (mRenderables[n].Command == eDrawSelection)
+            mRenderables[n].pRenderable->DrawSelection();
 
         // todo: implementation for eDrawExtras
     }
