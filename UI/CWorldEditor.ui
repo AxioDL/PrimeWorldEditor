@@ -441,6 +441,9 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="Toolbar">
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
+   </property>
    <property name="windowTitle">
     <string>toolBar_2</string>
    </property>
@@ -591,6 +594,9 @@
    </widget>
   </widget>
   <widget class="QToolBar" name="toolBar">
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
+   </property>
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
@@ -603,6 +609,7 @@
    <addaction name="ActionLink"/>
    <addaction name="ActionUnlink"/>
    <addaction name="separator"/>
+   <addaction name="ActionSelectObjects"/>
    <addaction name="ActionTranslate"/>
    <addaction name="ActionRotate"/>
    <addaction name="ActionScale"/>
@@ -631,6 +638,9 @@
    <property name="toolTip">
     <string>Translate</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+W</string>
+   </property>
   </action>
   <action name="ActionRotate">
    <property name="checkable">
@@ -646,6 +656,9 @@
    <property name="toolTip">
     <string>Rotate</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+E</string>
+   </property>
   </action>
   <action name="ActionScale">
    <property name="checkable">
@@ -660,6 +673,9 @@
    </property>
    <property name="toolTip">
     <string>Scale</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
    </property>
   </action>
   <action name="actionOpen_model_viewer">
@@ -871,6 +887,55 @@
     <string>Fake Bloom</string>
    </property>
   </action>
+  <action name="ActionSelectObjects">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Icons.qrc">
+     <normaloff>:/icons/EditorAssets/SelectMode.png</normaloff>:/icons/EditorAssets/SelectMode.png</iconset>
+   </property>
+   <property name="text">
+    <string>Select Objects</string>
+   </property>
+   <property name="toolTip">
+    <string>Select Objects</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="ActionIncrementGizmo">
+   <property name="text">
+    <string>Increment Gizmo Size</string>
+   </property>
+   <property name="toolTip">
+    <string>Increment Gizmo Size</string>
+   </property>
+   <property name="shortcut">
+    <string>=</string>
+   </property>
+   <property name="shortcutContext">
+    <enum>Qt::WindowShortcut</enum>
+   </property>
+  </action>
+  <action name="ActionDecrementGizmo">
+   <property name="text">
+    <string>Decrement Gizmo Size</string>
+   </property>
+   <property name="toolTip">
+    <string>Decrement Gizmo Size</string>
+   </property>
+   <property name="shortcut">
+    <string>-</string>
+   </property>
+   <property name="shortcutContext">
+    <enum>Qt::WindowShortcut</enum>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -878,6 +943,11 @@
    <extends>QWidget</extends>
    <header>CEditorGLWidget.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>WDraggableSpinBox</class>
+   <extends>QDoubleSpinBox</extends>
+   <header>WDraggableSpinBox.h</header>
   </customwidget>
   <customwidget>
    <class>WModifyTab</class>
@@ -890,11 +960,6 @@
    <extends>QWidget</extends>
    <header>WorldEditor/WInstancesTab.h</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>WDraggableSpinBox</class>
-   <extends>QDoubleSpinBox</extends>
-   <header>WDraggableSpinBox.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

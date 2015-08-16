@@ -13,8 +13,8 @@ public:
     IRenderable() {}
     virtual ~IRenderable() {}
     virtual void AddToRenderer(CRenderer *pRenderer) = 0;
-    virtual void Draw(ERenderOptions options) = 0;
-    virtual void DrawAsset(ERenderOptions, u32) {}
+    virtual void Draw(ERenderOptions options) {}
+    virtual void DrawAsset(ERenderOptions options, u32 asset) {}
     virtual void DrawSelection() {}
 };
 

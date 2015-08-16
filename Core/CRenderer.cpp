@@ -125,6 +125,7 @@ void CRenderer::SetViewportSize(u32 Width, u32 Height)
 void CRenderer::RenderBuckets(CCamera& Camera)
 {
     if (!mInitialized) Init();
+    mSceneFramebuffer.Bind();
 
     // Set backface culling
     if (mOptions & eEnableBackfaceCull) glEnable(GL_CULL_FACE);
@@ -141,6 +142,7 @@ void CRenderer::RenderBuckets(CCamera& Camera)
     mTransparentBucket.Clear();
 
     // Clear depth buffer to enable more rendering passes
+    glDepthMask(GL_TRUE);
     glClear(GL_DEPTH_BUFFER_BIT);
 }
 
@@ -172,6 +174,7 @@ void CRenderer::RenderBloom()
     glViewport(0, 0, BloomWidth, BloomHeight);
     glClearColor(0.f, 0.f, 0.f, 0.f);
     glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+    glDepthMask(GL_FALSE);
 
     CGraphics::SetIdentityMVP();
     CGraphics::UpdateMVPBlock();
@@ -308,10 +311,6 @@ void CRenderer::BeginFrame()
 
 void CRenderer::EndFrame()
 {
-    // Post-processing
-    if (mBloomMode != eNoBloom)
-        RenderBloom();
-
     // Render result to screen
     glBindFramebuffer(GL_FRAMEBUFFER, mDefaultFramebuffer);
     InitFramebuffer();

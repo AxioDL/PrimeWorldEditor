@@ -31,6 +31,7 @@ CWorldEditor::CWorldEditor(QWidget *parent) :
     mpWorld = nullptr;
     mpHoverNode = nullptr;
     mDrawSky = true;
+    mShowGizmo = false;
 
     mFrameCount = 0;
     mFPSTimer.Start();
@@ -53,6 +54,10 @@ CWorldEditor::CWorldEditor(QWidget *parent) :
     ui->MainDock->installEventFilter(this);
     ui->CamSpeedSpinBox->SetDefaultValue(1.0);
     ResetHover();
+
+    // Initialize offscreen actions
+    addAction(ui->ActionIncrementGizmo);
+    addAction(ui->ActionDecrementGizmo);
 
     // Connect signals and slots
     connect(ui->CamSpeedSpinBox, SIGNAL(valueChanged(double)), this, SLOT(OnCameraSpeedChange(double)));
@@ -283,6 +288,19 @@ void CWorldEditor::ViewportRender(CCamera& Camera)
 
     mpRenderer->RenderBuckets(Camera);
     mpRenderer->RenderBloom();
+
+    if (mShowGizmo && (mSelectedNodes.size() > 0))
+    {
+        Camera.LoadMatrices();
+        mGizmo.UpdateForCamera(Camera);
+        mGizmo.AddToRenderer(mpRenderer);
+
+        if (mGizmo.Mode() == CGizmo::eRotate)
+            mGizmo.DrawRotationOutline();
+
+        mpRenderer->RenderBuckets(Camera);
+    }
+
     mpRenderer->EndFrame();
     mFrameTimer.Stop();
     mFrameCount++;
@@ -373,6 +391,9 @@ void CWorldEditor::UpdateSelectionUI()
     ui->XSpinBox->setValue(pos.x);
     ui->YSpinBox->setValue(pos.y);
     ui->ZSpinBox->setValue(pos.z);
+
+    // Update gizmo
+    mGizmo.SetPosition(pos);
 }
 
 // ************ ACTIONS ************
@@ -521,4 +542,53 @@ void CWorldEditor::on_ActionEditLayers_triggered()
     CLayerEditor Editor(this);
     Editor.SetArea(mpArea);
     Editor.exec();
+}
+
+void CWorldEditor::on_ActionSelectObjects_triggered()
+{
+    mShowGizmo = false;
+    ui->ActionSelectObjects->setChecked(true);
+    ui->ActionTranslate->setChecked(false);
+    ui->ActionRotate->setChecked(false);
+    ui->ActionScale->setChecked(false);
+}
+
+void CWorldEditor::on_ActionTranslate_triggered()
+{
+    mShowGizmo = true;
+    mGizmo.SetMode(CGizmo::eTranslate);
+    ui->ActionSelectObjects->setChecked(false);
+    ui->ActionTranslate->setChecked(true);
+    ui->ActionRotate->setChecked(false);
+    ui->ActionScale->setChecked(false);
+}
+
+void CWorldEditor::on_ActionRotate_triggered()
+{
+    mShowGizmo = true;
+    mGizmo.SetMode(CGizmo::eRotate);
+    ui->ActionSelectObjects->setChecked(false);
+    ui->ActionTranslate->setChecked(false);
+    ui->ActionRotate->setChecked(true);
+    ui->ActionScale->setChecked(false);
+}
+
+void CWorldEditor::on_ActionScale_triggered()
+{
+    mShowGizmo = true;
+    mGizmo.SetMode(CGizmo::eScale);
+    ui->ActionSelectObjects->setChecked(false);
+    ui->ActionTranslate->setChecked(false);
+    ui->ActionRotate->setChecked(false);
+    ui->ActionScale->setChecked(true);
+}
+
+void CWorldEditor::on_ActionIncrementGizmo_triggered()
+{
+    mGizmo.IncrementSize();
+}
+
+void CWorldEditor::on_ActionDecrementGizmo_triggered()
+{
+    mGizmo.DecrementSize();
 }

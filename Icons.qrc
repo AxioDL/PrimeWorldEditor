@@ -27,5 +27,6 @@
         <file>EditorAssets/Modify.png</file>
         <file>EditorAssets/Unlink.png</file>
         <file>EditorAssets/World.png</file>
+        <file>EditorAssets/SelectMode.png</file>
     </qresource>
 </RCC>

@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QList>
 
+#include "CGizmo.h"
 #include <Common/CRay.h>
 #include <Common/CTimer.h>
 #include <Common/EKeyInputs.h>
@@ -23,6 +24,7 @@ class CWorldEditor : public QMainWindow
     Q_OBJECT
     CRenderer *mpRenderer;
     CSceneManager *mpSceneManager;
+    CGizmo mGizmo;
     CCamera mCamera;
     CGameArea *mpArea;
     CWorld *mpWorld;
@@ -30,6 +32,7 @@ class CWorldEditor : public QMainWindow
     CToken mWorldToken;
     CTimer mFrameTimer;
     bool mDrawSky;
+    bool mShowGizmo;
 
     CVector3f mHoverPoint;
     CSceneNode *mpHoverNode;
@@ -91,6 +94,12 @@ private slots:
     void on_ActionDisableBackfaceCull_triggered();
     void on_ActionDisableAlpha_triggered();
     void on_ActionEditLayers_triggered();
+    void on_ActionSelectObjects_triggered();
+    void on_ActionTranslate_triggered();
+    void on_ActionRotate_triggered();
+    void on_ActionScale_triggered();
+    void on_ActionIncrementGizmo_triggered();
+    void on_ActionDecrementGizmo_triggered();
 };
 
 #endif // CWORLDEDITOR_H
