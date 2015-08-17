@@ -12,9 +12,12 @@
 #define CGIZMO_TRANSLATE_X 0
 #define CGIZMO_TRANSLATE_Y 1
 #define CGIZMO_TRANSLATE_Z 2
-#define CGIZMO_TRANSLATE_XY 3
-#define CGIZMO_TRANSLATE_XZ 4
-#define CGIZMO_TRANSLATE_YZ 5
+#define CGIZMO_TRANSLATE_LINES_XY 3
+#define CGIZMO_TRANSLATE_LINES_XZ 4
+#define CGIZMO_TRANSLATE_LINES_YZ 5
+#define CGIZMO_TRANSLATE_POLY_XY 6
+#define CGIZMO_TRANSLATE_POLY_XZ 7
+#define CGIZMO_TRANSLATE_POLY_YZ 8
 #define CGIZMO_ROTATE_X 0
 #define CGIZMO_ROTATE_Y 1
 #define CGIZMO_ROTATE_Z 2
@@ -22,10 +25,13 @@
 #define CGIZMO_SCALE_X 0
 #define CGIZMO_SCALE_Y 1
 #define CGIZMO_SCALE_Z 2
-#define CGIZMO_SCALE_XY 3
-#define CGIZMO_SCALE_XZ 4
-#define CGIZMO_SCALE_YZ 5
-#define CGIZMO_SCALE_XYZ 6
+#define CGIZMO_SCALE_LINES_XY 3
+#define CGIZMO_SCALE_LINES_XZ 4
+#define CGIZMO_SCALE_LINES_YZ 5
+#define CGIZMO_SCALE_POLY_XY 6
+#define CGIZMO_SCALE_POLY_XZ 7
+#define CGIZMO_SCALE_POLY_YZ 8
+#define CGIZMO_SCALE_XYZ 9
 
 class CGizmo : public IRenderable
 {
@@ -66,27 +72,31 @@ private:
     bool mFlipScaleY;
     bool mFlipScaleZ;
 
-    // Static
     struct SModelPart
     {
         EGizmoAxes modelAxes;
+        bool enableRayCast;
         CModel *pModel;
         CToken modelToken;
 
         SModelPart() {}
-        SModelPart(EGizmoAxes axes, CModel *_pModel) :
-            modelAxes(axes), pModel(_pModel), modelToken(_pModel) {}
+        SModelPart(EGizmoAxes axes, bool rayCastOn, CModel *_pModel) :
+            modelAxes(axes), enableRayCast(rayCastOn), pModel(_pModel), modelToken(_pModel) {}
     };
+    SModelPart *mpCurrentParts;
+    u32 mNumCurrentParts;
 
+    // Static
     static bool smModelsLoaded;
-    static SModelPart smTranslateModels[6];
+    static SModelPart smTranslateModels[9];
     static SModelPart smRotateModels[4];
-    static SModelPart smScaleModels[7];
+    static SModelPart smScaleModels[10];
     static SModelPart smRotateClipOutline;
 
 public:
     CGizmo();
     ~CGizmo();
+
     void AddToRenderer(CRenderer *pRenderer);
     void DrawAsset(ERenderOptions options, u32 asset);
     void DrawRotationOutline();
@@ -99,6 +109,7 @@ public:
     EGizmoMode Mode();
     void SetMode(EGizmoMode mode);
     void SetPosition(const CVector3f& position);
+    void ResetSelectedAxes();
 
     // Protected
 protected:

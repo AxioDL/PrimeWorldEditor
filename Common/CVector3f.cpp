@@ -60,7 +60,7 @@ float CVector3f::Magnitude() const
 
 float CVector3f::SquaredMagnitude() const
 {
-    return (powf(x,2) + powf(y,2) + powf(z,2));
+    return Dot(*this);
 }
 
 CVector3f CVector3f::Normalized() const

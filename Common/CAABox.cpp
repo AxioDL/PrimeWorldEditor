@@ -34,7 +34,7 @@ CVector3f CAABox::Center() const
     return (mMax - ((mMax - mMin) * 0.5f));
 }
 
-CVector3f CAABox::GetSize() const
+CVector3f CAABox::Size() const
 {
     return (mMax - mMin);
 }
@@ -49,14 +49,24 @@ CVector3f CAABox::Max() const
     return mMax;
 }
 
+void CAABox::SetMin(const CVector3f& min)
+{
+    mMin = min;
+}
+
+void CAABox::SetMax(const CVector3f& max)
+{
+    mMax = max;
+}
+
 bool CAABox::IsNull() const
 {
-    return (GetSize() == CVector3f::skZero);
+    return (Size() == CVector3f::skZero);
 }
 
 bool CAABox::IsInfinite() const
 {
-    return (GetSize() == CVector3f::skInfinite);
+    return (Size() == CVector3f::skInfinite);
 }
 
 void CAABox::ExpandBounds(const CVector3f& vtx)
@@ -74,6 +84,13 @@ void CAABox::ExpandBounds(const CAABox& AABox)
 {
     ExpandBounds(AABox.mMin);
     ExpandBounds(AABox.mMax);
+}
+
+void CAABox::ExpandBy(const CVector3f& amount)
+{
+    CVector3f halfAmount = amount / 2.f;
+    mMin -= halfAmount;
+    mMax += halfAmount;
 }
 
 CAABox CAABox::Transformed(const CTransform4f& transform) const

@@ -33,6 +33,7 @@ class CWorldEditor : public QMainWindow
     CTimer mFrameTimer;
     bool mDrawSky;
     bool mShowGizmo;
+    bool mGizmoHovering;
 
     CVector3f mHoverPoint;
     CSceneNode *mpHoverNode;

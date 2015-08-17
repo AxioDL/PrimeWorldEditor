@@ -144,6 +144,69 @@ std::pair<bool,float> RayBoxIntersection(const CRay& Ray, const CAABox& Box)
     return std::pair<bool,float>(Hit, lowt);
 }
 
+std::pair<bool,float> RayLineIntersection(const CRay& ray, const CVector3f& pointA,
+                                          const CVector3f& pointB, float threshold)
+{
+    // http://geomalgorithms.com/a07-_distance.html
+    // http://www.gamedev.net/topic/589705-rayline-intersection-in-3d/
+    CVector3f u = ray.Direction();
+    CVector3f v = pointB - pointA;
+    CVector3f w = ray.Origin() - pointA;
+    float a = u.Dot(u);
+    float b = u.Dot(v);
+    float c = v.Dot(v);
+    float d = u.Dot(w);
+    float e = v.Dot(w);
+    float D = a * c - b * b;
+    float sc, sN, sD = D;
+    float tc, tN, tD = D;
+
+    if (D < FLT_EPSILON) {
+        sN = 0.f;
+        sD = 1.f;
+        tN = e;
+        tD = c;
+    }
+    else {
+        sN = b * e - c * d;
+        tN = a * e - b * d;
+
+        if (sN < 0.f) {
+            sN = 0.f;
+            tN = e;
+            tD = c;
+        }
+    }
+
+    if (tN < 0.f) {
+        tN = 0.f;
+
+        if (-d < 0.f)
+            sN = 0.f;
+        else {
+            sN = -d;
+            sD = a;
+        }
+    }
+    else if (tN > tD) {
+        tN = tD;
+
+        if (-d + b < 0.f)
+            sN = 0.f;
+        else {
+            sN = -d + b;
+            sD = a;
+        }
+    }
+
+    sc = (fabs(sN) < FLT_EPSILON ? 0.f : sN / sD);
+    tc = (fabs(tN) < FLT_EPSILON ? 0.f : tN / tD);
+
+    CVector3f dP = w + (u * sc) - (v * tc);
+    bool hit = (dP.Magnitude() <= threshold);
+    return std::pair<bool,float>(hit, sc);
+}
+
 std::pair<bool,float> RayTriangleIntersection(const CRay& Ray,
                                               const CVector3f& vtxA, const CVector3f& vtxB,
                                               const CVector3f& vtxC, bool AllowBackfaces)

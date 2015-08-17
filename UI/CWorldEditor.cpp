@@ -135,6 +135,10 @@ void CWorldEditor::ViewportRayCast(CRay Ray)
 {
     if (!ui->MainViewport->IsMouseInputActive())
     {
+        // Gizmo ray check
+        mGizmoHovering = mGizmo.IntersectsRay(Ray);
+
+        // Scene ray check
         SRayIntersection Result = mpSceneManager->SceneRayCast(Ray);
 
         if (Result.Hit)
@@ -151,7 +155,10 @@ void CWorldEditor::ViewportRayCast(CRay Ray)
             ResetHover();
     }
     else
+    {
+        mGizmo.ResetSelectedAxes();
         ResetHover();
+    }
 }
 
 CRenderer* CWorldEditor::Renderer()
@@ -347,7 +354,9 @@ void CWorldEditor::UpdateCursor()
 {
     if (ui->MainViewport->IsCursorVisible())
     {
-        if ((mpHoverNode) && (mpHoverNode->NodeType() != eStaticNode))
+        if (mGizmoHovering)
+            ui->MainViewport->SetCursorState(Qt::SizeAllCursor);
+        else if ((mpHoverNode) && (mpHoverNode->NodeType() != eStaticNode))
             ui->MainViewport->SetCursorState(Qt::PointingHandCursor);
         else
             ui->MainViewport->SetCursorState(Qt::ArrowCursor);
@@ -359,7 +368,7 @@ void CWorldEditor::UpdateStatusBar()
     // Would be cool to do more frequent status bar updates with more info. Unfortunately, this causes lag.
     QString StatusText = "";
 
-    if (mpHoverNode)
+    if (!mGizmoHovering && mpHoverNode)
     {
         if (mpHoverNode->NodeType() != eStaticNode)
             StatusText = QString::fromStdString(mpHoverNode->Name());

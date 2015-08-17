@@ -151,7 +151,7 @@ void CDrawUtil::DrawWireCube(const CAABox& kAABox, const CColor& kColor)
 
     // Calculate model matrix
     CTransform4f Transform;
-    Transform.Scale(kAABox.GetSize());
+    Transform.Scale(kAABox.Size());
     Transform.Translate(kAABox.Center());
     CGraphics::sMVPBlock.ModelMatrix = Transform.ToMatrix4f();
     CGraphics::UpdateMVPBlock();

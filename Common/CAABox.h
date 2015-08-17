@@ -19,14 +19,17 @@ public:
     CAABox(CInputStream& input);
     void Write(COutputStream& Output);
     CVector3f Center() const;
-    CVector3f GetSize() const;
+    CVector3f Size() const;
     CVector3f Min() const;
     CVector3f Max() const;
+    void SetMin(const CVector3f& min);
+    void SetMax(const CVector3f& max);
     bool IsNull() const;
     bool IsInfinite() const;
 
     void ExpandBounds(const CVector3f& vtx);
     void ExpandBounds(const CAABox& AABox);
+    void ExpandBy(const CVector3f& amount);
     CAABox Transformed(const CTransform4f& transform) const;
 
     bool IsPointInBox(const CVector3f& Point) const;

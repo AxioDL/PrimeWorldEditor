@@ -3,9 +3,8 @@
 #include <Common/Math.h>
 #include <Core/CDrawUtil.h>
 
-std::pair<bool,float> SSurface::IntersectsRay(const CRay& Ray, const CTransform4f& Transform)
+std::pair<bool,float> SSurface::IntersectsRay(const CRay& Ray, float LineThreshold)
 {
-    //CDrawUtil::DrawWireCube(AABox.Transformed(Transform), CColor::skRed);
     bool Hit = false;
     float HitDist;
 
@@ -14,6 +13,7 @@ std::pair<bool,float> SSurface::IntersectsRay(const CRay& Ray, const CTransform4
         SPrimitive *pPrim = &Primitives[iPrim];
         u32 NumVerts = pPrim->Vertices.size();
 
+        // Triangles
         if ((pPrim->Type == eGX_Triangles) || (pPrim->Type == eGX_TriangleFan) || (pPrim->Type == eGX_TriangleStrip))
         {
             u32 NumTris;
@@ -22,14 +22,6 @@ std::pair<bool,float> SSurface::IntersectsRay(const CRay& Ray, const CTransform4
                 NumTris = NumVerts / 3;
             else
                 NumTris = NumVerts - 2;
-
-            CColor LineColor;
-            if (pPrim->Type == eGX_Triangles)
-                LineColor = CColor::skRed;
-            else if (pPrim->Type == eGX_TriangleStrip)
-                LineColor = CColor::skYellow;
-            else if (pPrim->Type == eGX_TriangleFan)
-                LineColor = CColor::skGreen;
 
             for (u32 iTri = 0; iTri < NumTris; iTri++)
             {
@@ -82,7 +74,38 @@ std::pair<bool,float> SSurface::IntersectsRay(const CRay& Ray, const CTransform4
             }
         }
 
-        // todo: Intersection tests for line primitives
+        // Lines
+        if ((pPrim->Type == eGX_Lines) || (pPrim->Type == eGX_LineStrip))
+        {
+            u32 NumLines;
+
+            if (pPrim->Type == eGX_Lines)
+                NumLines = NumVerts / 2;
+            else
+                NumLines = NumVerts - 1;
+
+            for (u32 iLine = 0; iLine < NumLines; iLine++)
+            {
+                CVector3f vtxA, vtxB;
+
+                // Get the two vertices that make up the current line
+                u32 index = (pPrim->Type == eGX_Lines ? iLine * 2 : iLine);
+                vtxA = pPrim->Vertices[index].Position;
+                vtxB = pPrim->Vertices[index+1].Position;
+
+                // Intersection test
+                std::pair<bool,float> result = Math::RayLineIntersection(Ray, vtxA, vtxB, LineThreshold);
+
+                if (result.first)
+                {
+                    if ((!Hit) || (result.second < HitDist))
+                    {
+                        Hit = true;
+                        HitDist = result.second;
+                    }
+                }
+            }
+        }
     }
 
     return std::pair<bool,float>(Hit, HitDist);

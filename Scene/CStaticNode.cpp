@@ -95,7 +95,7 @@ SRayIntersection CStaticNode::RayNodeIntersectTest(const CRay &Ray, u32 AssetID)
     out.AssetIndex = AssetID;
 
     CRay TransformedRay = Ray.Transformed(Transform().Inverse());
-    std::pair<bool,float> Result = mpModel->GetSurface(AssetID)->IntersectsRay(TransformedRay, Transform());
+    std::pair<bool,float> Result = mpModel->GetSurface(AssetID)->IntersectsRay(TransformedRay);
 
     if (Result.first)
     {

@@ -213,7 +213,7 @@ SRayIntersection CScriptNode::RayNodeIntersectTest(const CRay &Ray, u32 AssetID)
 
     CRay TransformedRay = Ray.Transformed(Transform().Inverse());
     CModel *pModel = (mpActiveModel ? mpActiveModel : CDrawUtil::GetCubeModel());
-    std::pair<bool,float> Result = pModel->GetSurface(AssetID)->IntersectsRay(TransformedRay, Transform());
+    std::pair<bool,float> Result = pModel->GetSurface(AssetID)->IntersectsRay(TransformedRay);
 
     if (Result.first)
     {
@@ -267,8 +267,8 @@ void CScriptNode::GeneratePosition()
             CScriptNode *pNode = mpScene->ScriptNodeByID(link.ObjectID);
             pNode->GeneratePosition();
             mPosition = pNode->GetAbsolutePosition();
-            mPosition.z += (pNode->AABox().GetSize().z / 2.f);
-            mPosition.z += (AABox().GetSize().z / 2.f);
+            mPosition.z += (pNode->AABox().Size().z / 2.f);
+            mPosition.z += (AABox().Size().z / 2.f);
             mPosition.z += 2.f;
         }
 

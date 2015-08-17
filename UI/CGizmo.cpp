@@ -1,4 +1,5 @@
 #include "CGizmo.h"
+#include <Common/Math.h>
 #include <Core/CRenderer.h>
 #include <Core/CResCache.h>
 
@@ -6,7 +7,7 @@ CGizmo::CGizmo()
 {
     LoadModels();
 
-    mMode = eRotate;
+    SetMode(eTranslate);
     mSelectedAxes = eNone;
     mGizmoSize = 1.f;
     mCameraDist = 0.f;
@@ -31,29 +32,15 @@ void CGizmo::AddToRenderer(CRenderer *pRenderer)
     // Transform is updated every frame even if the user doesn't modify the gizmo
     // in order to account for scale changes based on camera distance
     UpdateTransform();
-
-    // Determine which SModelPart array to use
-    SModelPart *pParts;
-    u32 numParts;
-
-    if (mMode == eTranslate) {
-        pParts = smTranslateModels;
-        numParts = 6;
-    } else if (mMode == eRotate) {
-        pParts = smRotateModels;
-        numParts = 4;
-    } else if (mMode == eScale) {
-        pParts = smScaleModels;
-        numParts = 7;
-    }
+    SModelPart *pPart = mpCurrentParts;
 
     // Add all parts to renderer
-    for (u32 iPart = 0; iPart < numParts; iPart++)
+    for (u32 iPart = 0; iPart < mNumCurrentParts; iPart++)
     {
-        CModel *pModel = pParts->pModel;
+        CModel *pModel = pPart->pModel;
 
         // Determine whether to use the mat set for regular (0) or highlight (1)
-        bool isHighlighted = (mSelectedAxes & pParts->modelAxes) == pParts->modelAxes;
+        bool isHighlighted = (mSelectedAxes & pPart->modelAxes) == pPart->modelAxes;
         u32 setID = (isHighlighted ? 1 : 0);
 
         // Add to renderer...
@@ -62,7 +49,7 @@ void CGizmo::AddToRenderer(CRenderer *pRenderer)
         else
             pRenderer->AddOpaqueMesh(this, iPart, pModel->AABox().Transformed(mTransform), eDrawAsset);
 
-        pParts++;
+        pPart++;
     }
 }
 
@@ -72,26 +59,13 @@ void CGizmo::DrawAsset(ERenderOptions options, u32 asset)
     CGraphics::UpdateMVPBlock();
 
     // Determine which SModelPart array to use
-    SModelPart *pParts;
-    u32 numParts;
-
-    if (mMode == eTranslate) {
-        pParts = smTranslateModels;
-        numParts = 6;
-    } else if (mMode == eRotate) {
-        pParts = smRotateModels;
-        numParts = 4;
-    } else if (mMode == eScale) {
-        pParts = smScaleModels;
-        numParts = 7;
-    }
-
-    if (asset >= numParts) return;
+    if (asset >= mNumCurrentParts) return;
+    SModelPart *pPart = mpCurrentParts;
 
     // Draw model
-    bool isHighlighted = (mSelectedAxes & pParts[asset].modelAxes) == pParts[asset].modelAxes;
+    bool isHighlighted = (mSelectedAxes & pPart[asset].modelAxes) == pPart[asset].modelAxes;
     u32 setID = (isHighlighted ? 1 : 0);
-    pParts[asset].pModel->Draw((ERenderOptions) 0, setID);
+    pPart[asset].pModel->Draw((ERenderOptions) 0, setID);
 }
 
 void CGizmo::DrawRotationOutline()
@@ -135,6 +109,80 @@ void CGizmo::UpdateForCamera(const CCamera &camera)
     mBillboardRotation = CQuaternion::FromAxisAngle(angle, axis);
 }
 
+bool CGizmo::IntersectsRay(const CRay &ray)
+{
+    // todo: fix raycasting for rotate gizmo; currently it can hit the invisible back side of the model
+    CRay localRay = ray.Transformed(mTransform.Inverse());
+    float threshold = 0.02f * mGizmoSize * mCameraDist;
+
+    // Do raycast on each model
+    SModelPart *pPart = mpCurrentParts;
+
+    struct SResult {
+        SModelPart *pPart;
+        float dist;
+    };
+    std::list<SResult> results;
+
+    for (u32 iPart = 0; iPart < mNumCurrentParts; iPart++)
+    {
+        if (!pPart->enableRayCast) continue;
+        CModel *pModel = pPart->pModel;
+
+        // Ray/Model AABox test - allow buffer room because lines are small
+        CAABox AABox = pModel->AABox();
+        AABox.ExpandBy(CVector3f::skOne);
+        bool modelBoxCheck = Math::RayBoxIntersection(localRay, AABox).first;
+
+        if (modelBoxCheck)
+        {
+            bool hit = false;
+            float dist;
+
+            for (u32 iSurf = 0; iSurf < pModel->GetSurfaceCount(); iSurf++)
+            {
+                // Skip surface/box check
+                SSurface *pSurf = pModel->GetSurface(iSurf);
+                std::pair<bool,float> surfCheck = pSurf->IntersectsRay(localRay, 0.05f);
+
+                if (surfCheck.first)
+                {
+                    if ((!hit) || (surfCheck.second < dist))
+                        dist = surfCheck.second;
+
+                    hit = true;
+                }
+            }
+
+            if (hit)
+            {
+                SResult result;
+                result.pPart = pPart;
+                result.dist = dist;
+                results.push_back(result);
+            }
+        }
+
+        pPart++;
+    }
+
+    // Results list empty = no hits
+    if (results.empty())
+    {
+        mSelectedAxes = eNone;
+        return false;
+    }
+
+    // Otherwise, we have at least one hit - sort results and set selected axes
+    results.sort([](const SResult& a, SResult& b) -> bool
+            {
+                return (a.dist < b.dist);
+            });
+
+    mSelectedAxes = results.front().pPart->modelAxes;
+    return true;
+}
+
 CGizmo::EGizmoMode CGizmo::Mode()
 {
     return mMode;
@@ -143,6 +191,24 @@ CGizmo::EGizmoMode CGizmo::Mode()
 void CGizmo::SetMode(EGizmoMode mode)
 {
     mMode = mode;
+
+    switch (mode)
+    {
+    case eTranslate:
+        mpCurrentParts = smTranslateModels;
+        mNumCurrentParts = 9;
+        break;
+
+    case eRotate:
+        mpCurrentParts = smRotateModels;
+        mNumCurrentParts = 4;
+        break;
+
+    case eScale:
+        mpCurrentParts = smScaleModels;
+        mNumCurrentParts = 10;
+        break;
+    }
 }
 
 void CGizmo::SetPosition(const CVector3f& position)
@@ -150,31 +216,42 @@ void CGizmo::SetPosition(const CVector3f& position)
     mPosition = position;
 }
 
+void CGizmo::ResetSelectedAxes()
+{
+    mSelectedAxes = eNone;
+}
+
 // ************ PRIVATE STATIC ************
 void CGizmo::LoadModels()
 {
     if (!smModelsLoaded)
     {
-        smTranslateModels[CGIZMO_TRANSLATE_X]  = SModelPart(eX,  (CModel*) gResCache.GetResource("../resources/editor/TranslateGizmoX.CMDL"));
-        smTranslateModels[CGIZMO_TRANSLATE_Y]  = SModelPart(eY,  (CModel*) gResCache.GetResource("../resources/editor/TranslateGizmoY.CMDL"));
-        smTranslateModels[CGIZMO_TRANSLATE_Z]  = SModelPart(eZ,  (CModel*) gResCache.GetResource("../resources/editor/TranslateGizmoZ.CMDL"));
-        smTranslateModels[CGIZMO_TRANSLATE_XY] = SModelPart(eXY, (CModel*) gResCache.GetResource("../resources/editor/TranslateGizmoXY.CMDL"));
-        smTranslateModels[CGIZMO_TRANSLATE_XZ] = SModelPart(eXZ, (CModel*) gResCache.GetResource("../resources/editor/TranslateGizmoXZ.CMDL"));
-        smTranslateModels[CGIZMO_TRANSLATE_YZ] = SModelPart(eYZ, (CModel*) gResCache.GetResource("../resources/editor/TranslateGizmoYZ.CMDL"));
+        smTranslateModels[CGIZMO_TRANSLATE_X]        = SModelPart(eX,  true,  (CModel*) gResCache.GetResource("../resources/editor/TranslateX.CMDL"));
+        smTranslateModels[CGIZMO_TRANSLATE_Y]        = SModelPart(eY,  true,  (CModel*) gResCache.GetResource("../resources/editor/TranslateY.CMDL"));
+        smTranslateModels[CGIZMO_TRANSLATE_Z]        = SModelPart(eZ,  true,  (CModel*) gResCache.GetResource("../resources/editor/TranslateZ.CMDL"));
+        smTranslateModels[CGIZMO_TRANSLATE_LINES_XY] = SModelPart(eXY, true,  (CModel*) gResCache.GetResource("../resources/editor/TranslateLinesXY.CMDL"));
+        smTranslateModels[CGIZMO_TRANSLATE_LINES_XZ] = SModelPart(eXZ, true,  (CModel*) gResCache.GetResource("../resources/editor/TranslateLinesXZ.CMDL"));
+        smTranslateModels[CGIZMO_TRANSLATE_LINES_YZ] = SModelPart(eYZ, true,  (CModel*) gResCache.GetResource("../resources/editor/TranslateLinesYZ.CMDL"));
+        smTranslateModels[CGIZMO_TRANSLATE_POLY_XY]  = SModelPart(eXY, false, (CModel*) gResCache.GetResource("../resources/editor/TranslatePolyXY.CMDL"));
+        smTranslateModels[CGIZMO_TRANSLATE_POLY_XZ]  = SModelPart(eXZ, false, (CModel*) gResCache.GetResource("../resources/editor/TranslatePolyXZ.CMDL"));
+        smTranslateModels[CGIZMO_TRANSLATE_POLY_YZ]  = SModelPart(eYZ, false, (CModel*) gResCache.GetResource("../resources/editor/TranslatePolyYZ.CMDL"));
 
-        smRotateModels[CGIZMO_ROTATE_X]       = SModelPart(eX,    (CModel*) gResCache.GetResource("../resources/editor/RotateGizmoX.CMDL"));
-        smRotateModels[CGIZMO_ROTATE_Y]       = SModelPart(eY,    (CModel*) gResCache.GetResource("../resources/editor/RotateGizmoY.CMDL"));
-        smRotateModels[CGIZMO_ROTATE_Z]       = SModelPart(eZ,    (CModel*) gResCache.GetResource("../resources/editor/RotateGizmoZ.CMDL"));
-        smRotateModels[CGIZMO_ROTATE_XYZ]     = SModelPart(eXYZ,  (CModel*) gResCache.GetResource("../resources/editor/RotateGizmoXYZ.CMDL"));
-        smRotateClipOutline                   = SModelPart(eNone, (CModel*) gResCache.GetResource("../resources/editor/RotateGizmoClipOutline.CMDL"));
+        smRotateModels[CGIZMO_ROTATE_X]       = SModelPart(eX,    true,  (CModel*) gResCache.GetResource("../resources/editor/RotateX.CMDL"));
+        smRotateModels[CGIZMO_ROTATE_Y]       = SModelPart(eY,    true,  (CModel*) gResCache.GetResource("../resources/editor/RotateY.CMDL"));
+        smRotateModels[CGIZMO_ROTATE_Z]       = SModelPart(eZ,    true,  (CModel*) gResCache.GetResource("../resources/editor/RotateZ.CMDL"));
+        smRotateModels[CGIZMO_ROTATE_XYZ]     = SModelPart(eXYZ,  false, (CModel*) gResCache.GetResource("../resources/editor/RotateXYZ.CMDL"));
+        smRotateClipOutline                   = SModelPart(eNone, false, (CModel*) gResCache.GetResource("../resources/editor/RotateClipOutline.CMDL"));
 
-        smScaleModels[CGIZMO_SCALE_X]   = SModelPart(eX,   (CModel*) gResCache.GetResource("../resources/editor/ScaleGizmoX.CMDL"));
-        smScaleModels[CGIZMO_SCALE_Y]   = SModelPart(eY,   (CModel*) gResCache.GetResource("../resources/editor/ScaleGizmoY.CMDL"));
-        smScaleModels[CGIZMO_SCALE_Z]   = SModelPart(eZ,   (CModel*) gResCache.GetResource("../resources/editor/ScaleGizmoZ.CMDL"));
-        smScaleModels[CGIZMO_SCALE_XY]  = SModelPart(eXY,  (CModel*) gResCache.GetResource("../resources/editor/ScaleGizmoXY.CMDL"));
-        smScaleModels[CGIZMO_SCALE_XZ]  = SModelPart(eXZ,  (CModel*) gResCache.GetResource("../resources/editor/ScaleGizmoXZ.CMDL"));
-        smScaleModels[CGIZMO_SCALE_YZ]  = SModelPart(eYZ,  (CModel*) gResCache.GetResource("../resources/editor/ScaleGizmoYZ.CMDL"));
-        smScaleModels[CGIZMO_SCALE_XYZ] = SModelPart(eXYZ, (CModel*) gResCache.GetResource("../resources/editor/ScaleGizmoXYZ.CMDL"));
+        smScaleModels[CGIZMO_SCALE_X]         = SModelPart(eX,   true,  (CModel*) gResCache.GetResource("../resources/editor/ScaleX.CMDL"));
+        smScaleModels[CGIZMO_SCALE_Y]         = SModelPart(eY,   true,  (CModel*) gResCache.GetResource("../resources/editor/ScaleY.CMDL"));
+        smScaleModels[CGIZMO_SCALE_Z]         = SModelPart(eZ,   true,  (CModel*) gResCache.GetResource("../resources/editor/ScaleZ.CMDL"));
+        smScaleModels[CGIZMO_SCALE_LINES_XY]  = SModelPart(eXY,  true,  (CModel*) gResCache.GetResource("../resources/editor/ScaleLinesXY.CMDL"));
+        smScaleModels[CGIZMO_SCALE_LINES_XZ]  = SModelPart(eXZ,  true,  (CModel*) gResCache.GetResource("../resources/editor/ScaleLinesXZ.CMDL"));
+        smScaleModels[CGIZMO_SCALE_LINES_YZ]  = SModelPart(eYZ,  true,  (CModel*) gResCache.GetResource("../resources/editor/ScaleLinesYZ.CMDL"));
+        smScaleModels[CGIZMO_SCALE_POLY_XY]   = SModelPart(eXY,  false, (CModel*) gResCache.GetResource("../resources/editor/ScalePolyXY.CMDL"));
+        smScaleModels[CGIZMO_SCALE_POLY_XZ]   = SModelPart(eXZ,  false, (CModel*) gResCache.GetResource("../resources/editor/ScalePolyXZ.CMDL"));
+        smScaleModels[CGIZMO_SCALE_POLY_YZ]   = SModelPart(eYZ,  false, (CModel*) gResCache.GetResource("../resources/editor/ScalePolyYZ.CMDL"));
+        smScaleModels[CGIZMO_SCALE_XYZ]       = SModelPart(eXYZ, true,  (CModel*) gResCache.GetResource("../resources/editor/ScaleXYZ.CMDL"));
 
         smModelsLoaded = true;
     }
@@ -215,7 +292,7 @@ void CGizmo::UpdateTransform()
 
 // ************ STATIC MEMBER INITIALIZATION ************
 bool CGizmo::smModelsLoaded = false;
-CGizmo::SModelPart CGizmo::smTranslateModels[6];
+CGizmo::SModelPart CGizmo::smTranslateModels[9];
 CGizmo::SModelPart CGizmo::smRotateModels[4];
-CGizmo::SModelPart CGizmo::smScaleModels[7];
+CGizmo::SModelPart CGizmo::smScaleModels[10];
 CGizmo::SModelPart CGizmo::smRotateClipOutline;
