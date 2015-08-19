@@ -147,7 +147,7 @@ void CStringLoader::LoadNameTable(CInputStream& STRG)
     }
 
     // Name strings
-    mpStringTable->mStringNames.resize(NameCount);
+    mpStringTable->mStringNames.resize(mpStringTable->mNumStrings);
     for (u32 iName = 0; iName < NameCount; iName++)
     {
         SNameDef *pDef = &NameDefs[iName];
