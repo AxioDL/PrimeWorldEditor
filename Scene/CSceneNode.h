@@ -3,13 +3,14 @@
 
 #include <Core/IRenderable.h>
 #include "ENodeType.h"
-#include <Common/CVector3f.h>
-#include <Common/CQuaternion.h>
 #include <Common/CAABox.h>
+#include <Common/CQuaternion.h>
 #include <Common/CRay.h>
 #include <Common/CRayCollisionTester.h>
-#include <Common/types.h>
 #include <Common/CTransform4f.h>
+#include <Common/CVector3f.h>
+#include <Common/ETransformSpace.h>
+#include <Common/types.h>
 #include <Core/ERenderOptions.h>
 #include <Resource/CLight.h>
 #include <Resource/CGameArea.h>
@@ -68,8 +69,9 @@ public:
     void DrawBoundingBox();
 
     // Transform
-    void Translate(const CVector3f& Translation);
-    void Scale(const CVector3f& Scale);
+    void Translate(const CVector3f& translation, ETransformSpace transformSpace);
+    void Rotate(const CQuaternion& rotation, ETransformSpace transformSpace);
+    void Scale(const CVector3f& scale, ETransformSpace transformSpace);
     void UpdateTransform();
     void ForceRecalculateTransform();
     void MarkTransformChanged();
@@ -79,12 +81,12 @@ public:
     std::string Name() const;
     CSceneNode* Parent() const;
     CSceneManager* Scene();
-    CVector3f GetPosition() const;
-    CVector3f GetAbsolutePosition() const;
-    CQuaternion GetRotation() const;
-    CQuaternion GetAbsoluteRotation() const;
-    CVector3f GetScale() const;
-    CVector3f GetAbsoluteScale() const;
+    CVector3f LocalPosition() const;
+    CVector3f AbsolutePosition() const;
+    CQuaternion LocalRotation() const;
+    CQuaternion AbsoluteRotation() const;
+    CVector3f LocalScale() const;
+    CVector3f AbsoluteScale() const;
     CAABox AABox();
     CVector3f CenterPoint();
     bool MarkedVisible() const;

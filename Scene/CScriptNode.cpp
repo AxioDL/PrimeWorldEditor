@@ -45,7 +45,7 @@ CScriptNode::CScriptNode(CSceneManager *pScene, CSceneNode *pParent, CScriptObje
             {
                 mpVolumePreviewNode = new CModelNode(pScene, this, pVolumeModel);
                 mpVolumePreviewNode->SetInheritance(true, (VolumeShape == 1), false);
-                mpVolumePreviewNode->Scale(mpInstance->GetVolume());
+                mpVolumePreviewNode->Scale(mpInstance->GetVolume(), eWorldTransform);
                 mpVolumePreviewNode->ForceAlphaEnabled(true);
             }
         }
@@ -266,7 +266,7 @@ void CScriptNode::GeneratePosition()
             const SLink& link = (mpInstance->NumInLinks() > 0 ? mpInstance->InLink(0) : mpInstance->OutLink(0));
             CScriptNode *pNode = mpScene->ScriptNodeByID(link.ObjectID);
             pNode->GeneratePosition();
-            mPosition = pNode->GetAbsolutePosition();
+            mPosition = pNode->AbsolutePosition();
             mPosition.z += (pNode->AABox().Size().z / 2.f);
             mPosition.z += (AABox().Size().z / 2.f);
             mPosition.z += 2.f;

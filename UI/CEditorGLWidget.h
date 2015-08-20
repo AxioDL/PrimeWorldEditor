@@ -54,6 +54,7 @@ signals:
     void Render(CCamera& Camera);
     void PostRender();
     void MouseClick(QMouseEvent *pEvent);
+    void MouseRelease(QMouseEvent *pEvent);
     void MouseDrag(QMouseEvent *pEvent);
 
 private:

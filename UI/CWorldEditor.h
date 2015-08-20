@@ -9,6 +9,7 @@
 #include <Common/CTimer.h>
 #include <Common/EKeyInputs.h>
 #include <Common/SRayIntersection.h>
+#include <Common/ETransformSpace.h>
 #include <Core/CRenderer.h>
 #include <Core/CSceneManager.h>
 #include <Core/CToken.h>
@@ -25,6 +26,7 @@ class CWorldEditor : public QMainWindow
     CRenderer *mpRenderer;
     CSceneManager *mpSceneManager;
     CGizmo mGizmo;
+    ETransformSpace mTransformSpace;
     CCamera mCamera;
     CGameArea *mpArea;
     CWorld *mpWorld;
@@ -34,6 +36,8 @@ class CWorldEditor : public QMainWindow
     bool mDrawSky;
     bool mShowGizmo;
     bool mGizmoHovering;
+    bool mGizmoTransforming;
+    bool mUpdateUILater;
 
     CVector3f mHoverPoint;
     CSceneNode *mpHoverNode;
@@ -64,7 +68,9 @@ public slots:
     void ViewportPostRender();
     void ViewportMouseDrag(QMouseEvent *pEvent);
     void ViewportMouseClick(QMouseEvent *pEvent);
+    void ViewportMouseRelease(QMouseEvent *pEvent);
     void SetViewportSize(int Width, int Height);
+    void SetTransformSpace(int space);
 
 private:
     Ui::CWorldEditor *ui;

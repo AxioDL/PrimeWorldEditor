@@ -75,10 +75,13 @@ public:
     static const CVector3f skZero;
     static const CVector3f skOne;
     static const CVector3f skInfinite;
-    static const CVector3f skForward;
-    static const CVector3f skBack;
+    static const CVector3f skUnitX;
+    static const CVector3f skUnitY;
+    static const CVector3f skUnitZ;
     static const CVector3f skRight;
     static const CVector3f skLeft;
+    static const CVector3f skForward;
+    static const CVector3f skBack;
     static const CVector3f skUp;
     static const CVector3f skDown;
 

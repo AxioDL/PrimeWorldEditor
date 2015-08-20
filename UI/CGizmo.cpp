@@ -2,6 +2,8 @@
 #include <Common/Math.h>
 #include <Core/CRenderer.h>
 #include <Core/CResCache.h>
+#include <Core/CDrawUtil.h>
+#include <iostream>
 
 CGizmo::CGizmo()
 {
@@ -15,9 +17,10 @@ CGizmo::CGizmo()
     mPosition = CVector3f::skZero;
     mRotation = CQuaternion::skIdentity;
     mScale = CVector3f::skOne;
-    mDeltaPosition = CVector3f::skZero;
+    mDeltaTranslation = CVector3f::skZero;
     mDeltaRotation = CQuaternion::skIdentity;
     mDeltaScale = CVector3f::skOne;
+    mSetOffset = false;
     mFlipScaleX = false;
     mFlipScaleY = false;
     mFlipScaleZ = false;
@@ -109,11 +112,10 @@ void CGizmo::UpdateForCamera(const CCamera &camera)
     mBillboardRotation = CQuaternion::FromAxisAngle(angle, axis);
 }
 
-bool CGizmo::IntersectsRay(const CRay &ray)
+bool CGizmo::CheckSelectedAxes(const CRay &ray)
 {
     // todo: fix raycasting for rotate gizmo; currently it can hit the invisible back side of the model
     CRay localRay = ray.Transformed(mTransform.Inverse());
-    float threshold = 0.02f * mGizmoSize * mCameraDist;
 
     // Do raycast on each model
     SModelPart *pPart = mpCurrentParts;
@@ -126,7 +128,12 @@ bool CGizmo::IntersectsRay(const CRay &ray)
 
     for (u32 iPart = 0; iPart < mNumCurrentParts; iPart++)
     {
-        if (!pPart->enableRayCast) continue;
+        if (!pPart->enableRayCast)
+        {
+            pPart++;
+            continue;
+        }
+
         CModel *pModel = pPart->pModel;
 
         // Ray/Model AABox test - allow buffer room because lines are small
@@ -141,7 +148,7 @@ bool CGizmo::IntersectsRay(const CRay &ray)
 
             for (u32 iSurf = 0; iSurf < pModel->GetSurfaceCount(); iSurf++)
             {
-                // Skip surface/box check
+                // Skip surface/box check - since we use lines the boxes might be too small
                 SSurface *pSurf = pModel->GetSurface(iSurf);
                 std::pair<bool,float> surfCheck = pSurf->IntersectsRay(localRay, 0.05f);
 
@@ -183,9 +190,127 @@ bool CGizmo::IntersectsRay(const CRay &ray)
     return true;
 }
 
+u32 CGizmo::NumSelectedAxes()
+{
+    u32 out = 0;
+
+    for (u32 iAxis = 1; iAxis < 8; iAxis <<= 1)
+        if (mSelectedAxes & (EGizmoAxes) iAxis) out++;
+
+    return out;
+}
+
+void CGizmo::ResetSelectedAxes()
+{
+    mSelectedAxes = eNone;
+}
+
+void CGizmo::StartTransform()
+{
+    mSetOffset = false;
+    mTotalTranslation = CVector3f::skZero;
+    mTotalRotation = CQuaternion::skIdentity;
+    mTotalScale = CVector3f::skOne;
+}
+
+bool CGizmo::TransformFromInput(const CRay& ray, const CCamera& camera)
+{
+    if (mMode == eTranslate)
+    {
+        // Create translate plane
+        CVector3f axisA, axisB;
+        u32 numAxes = NumSelectedAxes();
+
+        if (numAxes == 1)
+        {
+            if (mSelectedAxes & eX) axisB = mRotation.XAxis();
+            else if (mSelectedAxes & eY) axisB = mRotation.YAxis();
+            else axisB = mRotation.ZAxis();
+
+            CVector3f gizmoToCamera = (mPosition - camera.Position()).Normalized();
+            axisA = axisB.Cross(gizmoToCamera);
+        }
+
+        else if (numAxes == 2)
+        {
+            axisA = (mSelectedAxes & eX ? mRotation.XAxis() : mRotation.YAxis());
+            axisB = (mSelectedAxes & eZ ? mRotation.ZAxis() : mRotation.YAxis());
+        }
+
+        CVector3f planeNormal = axisA.Cross(axisB);
+        mTranslatePlane.Redefine(planeNormal, mPosition);
+
+        // Do translate
+        std::pair<bool,float> result = Math::RayPlaneIntersecton(ray, mTranslatePlane);
+
+        if (result.first)
+        {
+            CVector3f hit = ray.PointOnRay(result.second);
+            CVector3f localDelta = mRotation.Inverse() * (hit - mPosition);
+
+            // Calculate new position
+            CVector3f newPos = mPosition;
+            if (mSelectedAxes & eX) newPos += mRotation.XAxis() * localDelta.x;
+            if (mSelectedAxes & eY) newPos += mRotation.YAxis() * localDelta.y;
+            if (mSelectedAxes & eZ) newPos += mRotation.ZAxis() * localDelta.z;
+
+            // Check relativity of new pos to camera to reduce issue where the gizmo might
+            // go flying off into the distance if newPosToCamera is parallel to the plane
+            CVector3f newPosToCamera = (newPos - camera.Position()).Normalized();
+            float dot = Math::Abs(planeNormal.Dot(newPosToCamera));
+            if (dot < 0.02f) return false;
+
+            // Set offset
+            if (!mSetOffset)
+            {
+                mTranslateOffset = mPosition - newPos;
+                mDeltaTranslation = CVector3f::skZero;
+                mSetOffset = true;
+                return false;
+            }
+
+            // Apply translation
+            else
+            {
+                mDeltaTranslation = mRotation.Inverse() * (newPos - mPosition + mTranslateOffset);
+                mTotalTranslation += mDeltaTranslation;
+                mPosition = newPos + mTranslateOffset;
+                return true;
+            }
+        }
+
+        else
+        {
+            mDeltaTranslation = CVector3f::skZero;
+            return false;
+        }
+    }
+
+    return false;
+}
+
+void CGizmo::EndTransform()
+{
+}
+
 CGizmo::EGizmoMode CGizmo::Mode()
 {
     return mMode;
+}
+
+CVector3f CGizmo::Position()
+{
+    return mPosition;
+}
+
+CVector3f CGizmo::DeltaTranslation()
+{
+    return mDeltaTranslation;
+}
+
+CVector3f CGizmo::TotalTranslation()
+{
+    return mTotalTranslation;
 }
 
 void CGizmo::SetMode(EGizmoMode mode)
@@ -197,16 +322,22 @@ void CGizmo::SetMode(EGizmoMode mode)
     case eTranslate:
         mpCurrentParts = smTranslateModels;
         mNumCurrentParts = 9;
+        mDeltaRotation = CQuaternion::skIdentity;
+        mDeltaScale = CVector3f::skOne;
         break;
 
     case eRotate:
         mpCurrentParts = smRotateModels;
         mNumCurrentParts = 4;
+        mDeltaTranslation = CVector3f::skZero;
+        mDeltaScale = CVector3f::skOne;
         break;
 
     case eScale:
         mpCurrentParts = smScaleModels;
         mNumCurrentParts = 10;
+        mDeltaTranslation = CVector3f::skZero;
+        mDeltaRotation = CQuaternion::skIdentity;
         break;
     }
 }
@@ -216,9 +347,9 @@ void CGizmo::SetPosition(const CVector3f& position)
     mPosition = position;
 }
 
-void CGizmo::ResetSelectedAxes()
+void CGizmo::SetOrientation(const CQuaternion& orientation)
 {
-    mSelectedAxes = eNone;
+    mRotation = orientation;
 }
 
 // ************ PRIVATE STATIC ************

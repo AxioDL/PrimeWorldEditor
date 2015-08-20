@@ -105,24 +105,31 @@ void CEditorGLWidget::mousePressEvent(QMouseEvent *pEvent)
 
     // Left click only activates if mouse input is inactive to prevent the user from
     // clicking on things and creating selection rectangles while the cursor is hidden
-    else if (pEvent->button() == Qt::LeftButton)
-        mButtonsPressed |= eLeftButton;
+    else
+    {
+        if (pEvent->button() == Qt::LeftButton)
+            mButtonsPressed |= eLeftButton;
+
+        emit MouseClick(pEvent);
+    }
 
     mLastMousePos = pEvent->globalPos();
 }
 
 void CEditorGLWidget::mouseReleaseEvent(QMouseEvent *pEvent)
 {
+    bool fromMouseInput = IsMouseInputActive();
     if (pEvent->button() == Qt::LeftButton)  mButtonsPressed &= ~eLeftButton;
     if (pEvent->button() == Qt::MidButton)   mButtonsPressed &= ~eMiddleButton;
     if (pEvent->button() == Qt::RightButton) mButtonsPressed &= ~eRightButton;
 
-    // Make cursor visible and emit mouse click event if middle/right mouse buttons are both released
+    // Make cursor visible if needed
     if (!IsMouseInputActive())
-    {
         SetCursorVisible(true);
-        emit MouseClick(pEvent);
-    }
+
+    // Emit mouse release event if we didn't just exit mouse input (or regardless on left click)
+    if (!fromMouseInput || (pEvent->button() == Qt::LeftButton))
+        emit MouseRelease(pEvent);
 }
 
 void CEditorGLWidget::keyPressEvent(QKeyEvent *pEvent)

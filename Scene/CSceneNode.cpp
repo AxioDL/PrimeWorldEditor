@@ -185,15 +185,29 @@ void CSceneNode::DrawBoundingBox()
 }
 
 // ************ TRANSFORM ************
-void CSceneNode::Translate(const CVector3f& Translation)
+void CSceneNode::Translate(const CVector3f& translation, ETransformSpace transformSpace)
 {
-    mPosition += Translation;
+    switch (transformSpace)
+    {
+    case eWorldTransform:
+        mPosition += translation;
+        break;
+    case eLocalTransform:
+        mPosition += mRotation * translation;
+        break;
+    }
     MarkTransformChanged();
 }
 
-void CSceneNode::Scale(const CVector3f& Scale)
+void CSceneNode::Rotate(const CQuaternion& rotation, ETransformSpace transformSpace)
 {
-    mScale *= Scale;
+    mRotation *= rotation;
+    MarkTransformChanged();
+}
+
+void CSceneNode::Scale(const CVector3f& scale, ETransformSpace transformSpace)
+{
+    mScale *= scale;
     MarkTransformChanged();
 }
 
@@ -209,9 +223,9 @@ void CSceneNode::UpdateTransform()
 void CSceneNode::ForceRecalculateTransform()
 {
     _mCachedTransform = CTransform4f::skIdentity;
-    _mCachedTransform.Scale(GetAbsoluteScale());
-    _mCachedTransform.Rotate(GetAbsoluteRotation());
-    _mCachedTransform.Translate(GetAbsolutePosition());
+    _mCachedTransform.Scale(AbsoluteScale());
+    _mCachedTransform.Rotate(AbsoluteRotation());
+    _mCachedTransform.Translate(AbsolutePosition());
     _mCachedAABox = mLocalAABox.Transformed(_mCachedTransform);
 
     // Sync with children - only needed if caller hasn't marked transform changed already
@@ -259,47 +273,47 @@ CSceneManager* CSceneNode::Scene()
     return mpScene;
 }
 
-CVector3f CSceneNode::GetPosition() const
+CVector3f CSceneNode::LocalPosition() const
 {
     return mPosition;
 }
 
-CVector3f CSceneNode::GetAbsolutePosition() const
+CVector3f CSceneNode::AbsolutePosition() const
 {
     CVector3f ret = mPosition;
 
     if ((mpParent) && (InheritsPosition()))
-        ret += mpParent->GetAbsolutePosition();
+        ret += mpParent->AbsolutePosition();
 
     return ret;
 }
 
-CQuaternion CSceneNode::GetRotation() const
+CQuaternion CSceneNode::LocalRotation() const
 {
     return mRotation;
 }
 
-CQuaternion CSceneNode::GetAbsoluteRotation() const
+CQuaternion CSceneNode::AbsoluteRotation() const
 {
     CQuaternion ret = mRotation;
 
     if ((mpParent) && (InheritsRotation()))
-        ret *= mpParent->GetAbsoluteRotation();
+        ret *= mpParent->AbsoluteRotation();
 
     return ret;
 }
 
-CVector3f CSceneNode::GetScale() const
+CVector3f CSceneNode::LocalScale() const
 {
     return mScale;
 }
 
-CVector3f CSceneNode::GetAbsoluteScale() const
+CVector3f CSceneNode::AbsoluteScale() const
 {
     CVector3f ret = mScale;
 
     if ((mpParent) && (InheritsScale()))
-        ret *= mpParent->GetAbsoluteScale();
+        ret *= mpParent->AbsoluteScale();
 
     return ret;
 }

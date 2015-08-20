@@ -72,6 +72,7 @@ public:
     void AddTransparentMesh(IRenderable *pRenderable, u32 AssetID, CAABox& AABox, ERenderCommand Command);
     void BeginFrame();
     void EndFrame();
+    void ClearDepthBuffer();
 
     // Private
 private:

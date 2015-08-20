@@ -3,6 +3,7 @@
 
 #include "CAABox.h"
 #include "CRay.h"
+#include "CPlane.h"
 #include "CVector3f.h"
 #include "SRayIntersection.h"
 #include <utility>
@@ -10,9 +11,13 @@
 namespace Math
 {
 
+float Abs(float v);
+
 float Pow(float Base, float Exponent);
 
 float Distance(const CVector3f& A, const CVector3f& B);
+
+std::pair<bool,float> RayPlaneIntersecton(const CRay& ray, const CPlane& plane);
 
 std::pair<bool,float> RayBoxIntersection(const CRay& Ray, const CAABox& Box);
 

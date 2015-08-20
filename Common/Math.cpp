@@ -3,6 +3,11 @@
 namespace Math
 {
 
+float Abs(float v)
+{
+    return fabs(v);
+}
+
 float Pow(float Base, float Exponent)
 {
     return pow(Base, Exponent);
@@ -13,6 +18,23 @@ float Distance(const CVector3f& A, const CVector3f& B)
     return sqrtf( Pow(B.x - A.x, 2.f) +
                   Pow(B.y - A.y, 2.f) +
                   Pow(B.z - A.z, 2.f) );
+}
+
+std::pair<bool,float> RayPlaneIntersecton(const CRay& ray, const CPlane& plane)
+{
+    // Code based on ray/plane intersect code from Ogre
+    // https://bitbucket.org/sinbad/ogre/src/197116fd2ac62c57cdeed1666f9866c3dddd4289/OgreMain/src/OgreMath.cpp?at=default#OgreMath.cpp-350
+
+    // Are ray and plane parallel?
+    float denom = plane.Normal().Dot(ray.Direction());
+
+    if (Abs(denom) < FLT_EPSILON)
+        return std::pair<bool,float>(false, 0.f);
+
+    // Not parallel
+    float nom = plane.Normal().Dot(ray.Origin()) + plane.Dist();
+    float t = -(nom / denom);
+    return std::pair<bool,float>(t >= 0.f, t);
 }
 
 std::pair<bool,float> RayBoxIntersection(const CRay& Ray, const CAABox& Box)

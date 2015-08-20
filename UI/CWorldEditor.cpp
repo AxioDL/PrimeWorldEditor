@@ -6,6 +6,7 @@
 #include <iostream>
 #include <QOpenGLContext>
 #include <QFontMetrics>
+#include <QComboBox>
 #include <Core/Log.h>
 #include "WDraggableSpinBox.h"
 
@@ -32,6 +33,9 @@ CWorldEditor::CWorldEditor(QWidget *parent) :
     mpHoverNode = nullptr;
     mDrawSky = true;
     mShowGizmo = false;
+    mGizmoHovering = false;
+    mGizmoTransforming = false;
+    mUpdateUILater = false;
 
     mFrameCount = 0;
     mFPSTimer.Start();
@@ -47,7 +51,6 @@ CWorldEditor::CWorldEditor(QWidget *parent) :
 
     delete pOldTitleBar;
 
-
     // Initialize UI stuff
     ui->ModifyTabContents->SetEditor(this);
     ui->InstancesTabContents->SetEditor(this, mpSceneManager);
@@ -55,17 +58,27 @@ CWorldEditor::CWorldEditor(QWidget *parent) :
     ui->CamSpeedSpinBox->SetDefaultValue(1.0);
     ResetHover();
 
+    mTransformSpace = eWorldTransform;
+
+    QComboBox *pTransformCombo = new QComboBox(this);
+    pTransformCombo->setMinimumWidth(75);
+    pTransformCombo->addItem("World");
+    pTransformCombo->addItem("Local");
+    ui->MainToolBar->insertWidget(0, pTransformCombo);
+
     // Initialize offscreen actions
     addAction(ui->ActionIncrementGizmo);
     addAction(ui->ActionDecrementGizmo);
 
     // Connect signals and slots
+    connect(pTransformCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(SetTransformSpace(int)));
     connect(ui->CamSpeedSpinBox, SIGNAL(valueChanged(double)), this, SLOT(OnCameraSpeedChange(double)));
     connect(ui->MainViewport, SIGNAL(PreRender()), this, SLOT(ViewportPreRender()));
     connect(ui->MainViewport, SIGNAL(Render(CCamera&)), this, SLOT(ViewportRender(CCamera&)));
     connect(ui->MainViewport, SIGNAL(ViewportResized(int,int)), this, SLOT(SetViewportSize(int,int)));
     connect(ui->MainViewport, SIGNAL(frameSwapped()), this, SLOT(ViewportPostRender()));
     connect(ui->MainViewport, SIGNAL(MouseClick(QMouseEvent*)), this, SLOT(ViewportMouseClick(QMouseEvent*)));
+    connect(ui->MainViewport, SIGNAL(MouseRelease(QMouseEvent*)), this, SLOT(ViewportMouseRelease(QMouseEvent*)));
 }
 
 CWorldEditor::~CWorldEditor()
@@ -135,28 +148,58 @@ void CWorldEditor::ViewportRayCast(CRay Ray)
 {
     if (!ui->MainViewport->IsMouseInputActive())
     {
-        // Gizmo ray check
-        mGizmoHovering = mGizmo.IntersectsRay(Ray);
-
-        // Scene ray check
-        SRayIntersection Result = mpSceneManager->SceneRayCast(Ray);
-
-        if (Result.Hit)
+        if (!mGizmoTransforming)
         {
-            if (mpHoverNode)
-                mpHoverNode->SetMouseHovering(false);
+            // Gizmo hover check
+            if (mShowGizmo && !mSelectedNodes.empty())
+                mGizmoHovering = mGizmo.CheckSelectedAxes(Ray);
+            else
+            {
+                mGizmoHovering = false;
+                mGizmo.ResetSelectedAxes();
+            }
 
-            mpHoverNode = Result.pNode;
-            mpHoverNode->SetMouseHovering(true);
+            // Scene ray check
+            SRayIntersection Result = mpSceneManager->SceneRayCast(Ray);
 
-            mHoverPoint = Ray.PointOnRay(Result.Distance);
+            if (Result.Hit)
+            {
+                if (mpHoverNode)
+                    mpHoverNode->SetMouseHovering(false);
+
+                mpHoverNode = Result.pNode;
+                mpHoverNode->SetMouseHovering(true);
+
+                mHoverPoint = Ray.PointOnRay(Result.Distance);
+            }
+            else
+                ResetHover();
         }
         else
-            ResetHover();
+        {
+            bool moved = mGizmo.TransformFromInput(Ray, ui->MainViewport->Camera());
+
+            if (moved)
+            {
+                CVector3f delta = mGizmo.DeltaTranslation();
+
+                for (auto it = mSelectedNodes.begin(); it != mSelectedNodes.end(); it++)
+                {
+                    (*it)->Translate(delta, mTransformSpace);
+                    (*it)->BuildLightList(this->mpArea);
+                }
+                RecalculateSelectionBounds();
+                mUpdateUILater = true;
+            }
+        }
     }
     else
     {
-        mGizmo.ResetSelectedAxes();
+        if (!mGizmoTransforming)
+        {
+            mGizmoHovering = false;
+            mGizmo.ResetSelectedAxes();
+        }
         ResetHover();
     }
 }
@@ -229,44 +272,73 @@ void CWorldEditor::ClearSelection()
 // ************ SLOTS ************
 void CWorldEditor::ViewportMouseDrag(QMouseEvent *pEvent)
 {
-    // todo: gizmo translate/rotate/scale implementation
 }
 
 void CWorldEditor::ViewportMouseClick(QMouseEvent *pEvent)
 {
-    // Process left click (button press)
+    bool AltPressed = ((pEvent->modifiers() & Qt::AltModifier) != 0);
+    bool CtrlPressed = ((pEvent->modifiers() & Qt::ControlModifier) != 0);
+
+    if (mGizmoHovering && !AltPressed && !CtrlPressed)
+    {
+        mGizmoTransforming = true;
+        mGizmo.StartTransform();
+    }
+}
+
+void CWorldEditor::ViewportMouseRelease(QMouseEvent *pEvent)
+{
     if (pEvent->button() == Qt::LeftButton)
     {
-        bool ValidNode = ((mpHoverNode) && (mpHoverNode->NodeType() != eStaticNode));
-        bool AltPressed = ((pEvent->modifiers() & Qt::AltModifier) != 0);
-        bool CtrlPressed = ((pEvent->modifiers() & Qt::ControlModifier) != 0);
-
-        // Alt pressed - deselect object
-        if (AltPressed)
+        // Gizmo transform stop
+        if (mGizmoTransforming)
         {
-            // No valid node selected - do nothing
-            if (!ValidNode)
-                return;
-
-            DeselectNode(mpHoverNode);
+            mGizmoTransforming = false;
         }
 
-        // Other - select object
-        else
+        // Object selection/deselection
+        else if (!ui->MainViewport->IsMouseInputActive())
         {
-            // Control not pressed - clear existing selection
-            if (!CtrlPressed)
-                ClearSelection();
+            bool ValidNode = ((mpHoverNode) && (mpHoverNode->NodeType() != eStaticNode));
+            bool AltPressed = ((pEvent->modifiers() & Qt::AltModifier) != 0);
+            bool CtrlPressed = ((pEvent->modifiers() & Qt::ControlModifier) != 0);
 
-            // Add hover node to selection
-            if (ValidNode)
-                SelectNode(mpHoverNode);
+            // Alt pressed - deselect object
+            if (AltPressed)
+            {
+                // No valid node selected - do nothing
+                if (!ValidNode)
+                    return;
+
+                DeselectNode(mpHoverNode);
+            }
+
+            // Ctrl pressed - add object to selection
+            else if (CtrlPressed)
+            {
+                // Add hover node to selection
+                if (ValidNode)
+                    SelectNode(mpHoverNode);
+            }
+
+            // Neither pressed
+            else
+            {
+                // If the gizmo isn't under the mouse, clear existing selection + select object (if applicable)
+                if (!mGizmoHovering)
+                {
+                    ClearSelection();
+
+                    if (ValidNode)
+                        SelectNode(mpHoverNode);
+                }
+            }
+
+            UpdateSelectionUI();
         }
-
-        UpdateSelectionUI();
     }
 
-    // Later, possibly expand to context menu creation for right-click
+    // todo: context menu creation on right-click goes here
 }
 
 // ************ SLOTS ************
@@ -298,8 +370,10 @@ void CWorldEditor::ViewportRender(CCamera& Camera)
 
     if (mShowGizmo && (mSelectedNodes.size() > 0))
     {
+        mpRenderer->ClearDepthBuffer();
+
         Camera.LoadMatrices();
-        mGizmo.UpdateForCamera(Camera);
+        if (!mGizmoTransforming) mGizmo.UpdateForCamera(Camera);
         mGizmo.AddToRenderer(mpRenderer);
 
         if (mGizmo.Mode() == CGizmo::eRotate)
@@ -318,11 +392,33 @@ void CWorldEditor::ViewportPostRender()
     // Update UI with raycast results
     UpdateCursor();
     UpdateStatusBar();
+
+    if (mUpdateUILater)
+    {
+        UpdateSelectionUI();
+        mUpdateUILater = false;
+    }
 }
 
 void CWorldEditor::SetViewportSize(int Width, int Height)
 {
     mpRenderer->SetViewportSize(Width, Height);
+}
+
+void CWorldEditor::SetTransformSpace(int space)
+{
+    switch (space)
+    {
+    case 0:
+        mTransformSpace = eWorldTransform;
+        mGizmo.SetOrientation(CQuaternion::skIdentity);
+        break;
+    case 1:
+        mTransformSpace = eLocalTransform;
+        if (!mSelectedNodes.empty())
+            mGizmo.SetOrientation(mSelectedNodes.front()->AbsoluteRotation());
+        break;
+    }
 }
 
 // ************ PRIVATE ************
@@ -396,13 +492,21 @@ void CWorldEditor::UpdateSelectionUI()
     ui->SelectionInfoLabel->setText(SelectionText);
 
     // Update transform
-    CVector3f pos = (!mSelectedNodes.empty() ? mSelectedNodes.front()->GetAbsolutePosition() : CVector3f::skZero);
+    CVector3f pos = (!mSelectedNodes.empty() ? mSelectedNodes.front()->AbsolutePosition() : CVector3f::skZero);
     ui->XSpinBox->setValue(pos.x);
     ui->YSpinBox->setValue(pos.y);
     ui->ZSpinBox->setValue(pos.z);
 
     // Update gizmo
-    mGizmo.SetPosition(pos);
+    if (!mGizmoTransforming)
+    {
+        mGizmo.SetPosition(pos);
+
+        if ((mTransformSpace == eLocalTransform) && !mSelectedNodes.empty())
+            mGizmo.SetOrientation(mSelectedNodes.front()->AbsoluteRotation());
+        else
+            mGizmo.SetOrientation(CQuaternion::skIdentity);
+    }
 }
 
 // ************ ACTIONS ************

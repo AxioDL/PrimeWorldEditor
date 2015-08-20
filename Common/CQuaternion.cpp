@@ -18,6 +18,47 @@ CQuaternion::CQuaternion(float _x, float _y, float _z, float _w)
     w = _w;
 }
 
+CVector3f CQuaternion::XAxis()
+{
+    return (*this * CVector3f::skUnitX);
+}
+
+CVector3f CQuaternion::YAxis()
+{
+    return (*this * CVector3f::skUnitY);
+}
+
+CVector3f CQuaternion::ZAxis()
+{
+    return (*this * CVector3f::skUnitZ);
+}
+
+CQuaternion CQuaternion::Inverse()
+{
+    float fNorm = (w * w) + (x * x) + (y * y) + (z * z);
+
+    if (fNorm > 0.f)
+    {
+        float fInvNorm = 1.f / fNorm;
+        return CQuaternion(-x * fInvNorm, -y * fInvNorm, -z * fInvNorm, w * fInvNorm);
+    }
+    else
+        return CQuaternion::skZero;
+}
+
+// ************ OPERATORS ************
+CVector3f CQuaternion::operator*(const CVector3f& vec) const
+{
+    CVector3f uv, uuv;
+    CVector3f qvec(x, y, z);
+    uv = qvec.Cross(vec);
+    uuv = qvec.Cross(uv);
+    uv *= (2.0f * w);
+    uuv *= 2.0f;
+
+    return vec + uv + uuv;
+}
+
 CQuaternion CQuaternion::operator*(const CQuaternion& other) const
 {
     CQuaternion out;
@@ -84,3 +125,4 @@ CQuaternion CQuaternion::FromAxisAngle(float angle, CVector3f axis)
 }
 
 CQuaternion CQuaternion::skIdentity = CQuaternion(0.f, 0.f, 0.f, 1.f);
+CQuaternion CQuaternion::skZero = CQuaternion(0.f, 0.f, 0.f, 0.f);

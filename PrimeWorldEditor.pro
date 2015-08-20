@@ -134,7 +134,8 @@ SOURCES += \
     UI/WScanPreviewPanel.cpp \
     UI/WIntegralSpinBox.cpp \
     UI/CAboutDialog.cpp \
-    UI/CGizmo.cpp
+    UI/CGizmo.cpp \
+    Common/CPlane.cpp
 
 HEADERS  += \
     Common/AnimUtil.h \
@@ -283,7 +284,9 @@ HEADERS  += \
     UI/CAboutDialog.h \
     UI/CGizmo.h \
     Core/IRenderable.h \
-    Core/SRenderablePtr.h
+    Core/SRenderablePtr.h \
+    Common/ETransformSpace.h \
+    Common/CPlane.h
 
 FORMS    += \
     UI/CWorldEditorWindow.ui \

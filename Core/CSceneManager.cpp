@@ -157,7 +157,6 @@ void CSceneManager::SetActiveArea(CGameArea* _area)
         {
             CScriptObject *pObj = pGenLayer->ObjectByIndex(o);
             CScriptNode *Node = AddScriptObject(pObj);
-            Node->BuildLightList(mpArea);
 
             // Add to map
             mScriptNodeMap[pObj->InstanceID()] = Node;
@@ -165,9 +164,12 @@ void CSceneManager::SetActiveArea(CGameArea* _area)
     }
     PickEnvironmentObjects();
 
-    // Ensure script nodes have valid positions
+    // Ensure script nodes have valid positions + build light lists
     for (auto it = mScriptNodeMap.begin(); it != mScriptNodeMap.end(); it++)
+    {
         it->second->GeneratePosition();
+        it->second->BuildLightList(mpArea);
+    }
 
     u32 NumLightLayers = mpArea->GetLightLayerCount();
     CGraphics::sAreaAmbientColor = CColor::skBlack;

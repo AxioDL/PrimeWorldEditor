@@ -1,8 +1,9 @@
 #ifndef CGIZMO_H
 #define CGIZMO_H
 
-#include <Common/CVector3f.h>
+#include <Common/CPlane.h>
 #include <Common/CQuaternion.h>
+#include <Common/CVector3f.h>
 #include <Common/EnumUtil.h>
 #include <Core/CCamera.h>
 #include <Core/CToken.h>
@@ -63,14 +64,23 @@ private:
 
     CTransform4f mTransform;
     CVector3f mPosition;
+    CVector3f mDeltaTranslation;
+    CVector3f mTotalTranslation;
     CQuaternion mRotation;
-    CVector3f mScale;
-    CVector3f mDeltaPosition;
     CQuaternion mDeltaRotation;
+    CQuaternion mTotalRotation;
+    CVector3f mScale;
     CVector3f mDeltaScale;
+    CVector3f mTotalScale;
     bool mFlipScaleX;
     bool mFlipScaleY;
     bool mFlipScaleZ;
+
+    CPlane mTranslatePlane;
+    CVector3f mLastTranslatePosition;
+    CVector3f mTranslateOffset;
+    bool mSetOffset;
+
 
     struct SModelPart
     {
@@ -104,12 +114,20 @@ public:
     void IncrementSize();
     void DecrementSize();
     void UpdateForCamera(const CCamera& camera);
-    bool IntersectsRay(const CRay& ray);
+    bool CheckSelectedAxes(const CRay& ray);
+    u32 NumSelectedAxes();
+    void ResetSelectedAxes();
+    void StartTransform();
+    bool TransformFromInput(const CRay& ray, const CCamera& camera);
+    void EndTransform();
 
     EGizmoMode Mode();
+    CVector3f Position();
+    CVector3f DeltaTranslation();
+    CVector3f TotalTranslation();
     void SetMode(EGizmoMode mode);
     void SetPosition(const CVector3f& position);
-    void ResetSelectedAxes();
+    void SetOrientation(const CQuaternion& orientation);
 
     // Protected
 protected:

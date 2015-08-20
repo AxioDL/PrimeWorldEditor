@@ -279,12 +279,15 @@ const float& CVector3f::operator[](long index) const
 const CVector3f CVector3f::skZero     = CVector3f(0.f);
 const CVector3f CVector3f::skOne      = CVector3f(1.f);
 const CVector3f CVector3f::skInfinite = CVector3f(FLT_MAX);
-const CVector3f CVector3f::skForward  = CVector3f(0.f,  1.f, 0.f);
-const CVector3f CVector3f::skBack     = CVector3f(0.f, -1.f, 0.f);
-const CVector3f CVector3f::skRight    = CVector3f( 1.f, 0.f, 0.f);
-const CVector3f CVector3f::skLeft     = CVector3f(-1.f, 0.f, 0.f);
-const CVector3f CVector3f::skUp       = CVector3f(0.f, 0.f,  1.f);
-const CVector3f CVector3f::skDown     = CVector3f(0.f, 0.f, -1.f);
+const CVector3f CVector3f::skUnitX    = CVector3f(1.f, 0.f, 0.f);
+const CVector3f CVector3f::skUnitY    = CVector3f(0.f, 1.f, 0.f);
+const CVector3f CVector3f::skUnitZ    = CVector3f(0.f, 0.f, 1.f);
+const CVector3f CVector3f::skRight    = CVector3f::skUnitX;
+const CVector3f CVector3f::skLeft     = -CVector3f::skUnitX;
+const CVector3f CVector3f::skForward  = CVector3f::skUnitY;
+const CVector3f CVector3f::skBack     = -CVector3f::skUnitY;
+const CVector3f CVector3f::skUp       = CVector3f::skUnitZ;
+const CVector3f CVector3f::skDown     = -CVector3f::skUnitZ;
 
 // ************ OTHER ************
 std::ostream& operator<<(std::ostream& o, const CVector3f& Vector)

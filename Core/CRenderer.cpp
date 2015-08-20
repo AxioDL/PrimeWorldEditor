@@ -140,10 +140,6 @@ void CRenderer::RenderBuckets(CCamera& Camera)
     mTransparentBucket.Sort(Camera);
     mTransparentBucket.Draw(mOptions);
     mTransparentBucket.Clear();
-
-    // Clear depth buffer to enable more rendering passes
-    glDepthMask(GL_TRUE);
-    glClear(GL_DEPTH_BUFFER_BIT);
 }
 
 void CRenderer::RenderBloom()
@@ -329,6 +325,12 @@ void CRenderer::EndFrame()
 
     glEnable(GL_DEPTH_TEST);
     gDrawCount = 0;
+}
+
+void CRenderer::ClearDepthBuffer()
+{
+    glDepthMask(GL_TRUE);
+    glClear(GL_DEPTH_BUFFER_BIT);
 }
 
 // ************ PRIVATE ************
