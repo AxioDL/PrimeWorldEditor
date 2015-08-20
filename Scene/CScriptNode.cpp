@@ -115,26 +115,29 @@ void CScriptNode::Draw(ERenderOptions Options)
 {
     if (!mpInstance) return;
 
-    if (!mpActiveModel)
-    {
-        glBlendFuncSeparate(GL_ONE, GL_ZERO, GL_ZERO, GL_ZERO);
-        glDepthMask(GL_TRUE);
-
-        LoadModelMatrix();
-        CGraphics::SetDefaultLighting();
-        CGraphics::UpdateLightBlock();
-        CDrawUtil::DrawShadedCube(CColor::skTransparentPurple);
-        return;
-    }
+    // Set lighting
+    LoadModelMatrix();
+    LoadLights();
 
     if (CGraphics::sLightMode == CGraphics::WorldLighting)
         CGraphics::sVertexBlock.COLOR0_Amb = CGraphics::sAreaAmbientColor.ToVector4f() * CGraphics::sWorldLightMultiplier;
     else
         CGraphics::sVertexBlock.COLOR0_Amb = CGraphics::skDefaultAmbientColor.ToVector4f();
 
-    LoadModelMatrix();
-    LoadLights();
+    // Default to drawing purple box if no model
+    if (!mpActiveModel)
+    {
+        glBlendFuncSeparate(GL_ONE, GL_ZERO, GL_ZERO, GL_ZERO);
+        glDepthMask(GL_TRUE);
 
+        LoadModelMatrix();
+        CGraphics::UpdateVertexBlock();
+        CGraphics::UpdateLightBlock();
+        CDrawUtil::DrawShadedCube(CColor::skTransparentPurple);
+        return;
+    }
+
+    // Set tev color (used rarely)
     CGraphics::sPixelBlock.TevColor = mpInstance->GetTevColor().ToVector4f();
 
     mpActiveModel->Draw(Options, 0);

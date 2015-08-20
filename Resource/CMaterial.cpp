@@ -146,9 +146,20 @@ bool CMaterial::SetCurrent(ERenderOptions Options)
         for (u32 iPass = 0; iPass < mPasses.size(); iPass++)
             mPasses[iPass]->SetAnimCurrent(Options, iPass);
 
-        CGraphics::UpdateVertexBlock();
-        CGraphics::UpdatePixelBlock();
         sCurrentMaterial = HashParameters();
+    }
+
+    // If the passes are otherwise the same, update UV anims that use the model matrix
+    else
+    {
+        for (u32 iPass = 0; iPass < mPasses.size(); iPass++)
+        {
+            EUVAnimMode mode = mPasses[iPass]->AnimMode();
+
+            if ((mode == eInverseMV) || (mode == eInverseMVTranslated) ||
+                (mode == eModelMatrix) || (mode == eSimpleMode))
+                mPasses[iPass]->SetAnimCurrent(Options, iPass);
+        }
     }
 
     // Bind textures
@@ -164,6 +175,11 @@ bool CMaterial::SetCurrent(ERenderOptions Options)
     // Bind num lights
     GLuint NumLightsLoc = pShader->GetUniformLocation("NumLights");
     glUniform1i(NumLightsLoc, CGraphics::sNumLights);
+
+    // Update shader blocks
+    CGraphics::UpdateVertexBlock();
+    CGraphics::UpdatePixelBlock();
+
     return true;
 }
 
