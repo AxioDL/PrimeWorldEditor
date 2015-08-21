@@ -1,21 +1,22 @@
-    #include "CQuaternion.h"
+#include "CQuaternion.h"
 #include <cmath>
 #include <math.h>
+#include <Common/Math.h>
 
 CQuaternion::CQuaternion()
 {
-    x = 0;
-    y = 0;
-    z = 0;
-    w = 0;
+    w = 0.f;
+    x = 0.f;
+    y = 0.f;
+    z = 0.f;
 }
 
-CQuaternion::CQuaternion(float _x, float _y, float _z, float _w)
+CQuaternion::CQuaternion(float _w, float _x, float _y, float _z)
 {
+    w = _w;
     x = _x;
     y = _y;
     z = _z;
-    w = _w;
 }
 
 CVector3f CQuaternion::XAxis()
@@ -40,10 +41,23 @@ CQuaternion CQuaternion::Inverse()
     if (fNorm > 0.f)
     {
         float fInvNorm = 1.f / fNorm;
-        return CQuaternion(-x * fInvNorm, -y * fInvNorm, -z * fInvNorm, w * fInvNorm);
+        return CQuaternion( w * fInvNorm, -x * fInvNorm, -y * fInvNorm, -z * fInvNorm);
     }
     else
         return CQuaternion::skZero;
+}
+
+CVector3f CQuaternion::ToEuler()
+{
+    // There is more than one way to do this conversion, based on rotation order.
+    // But since we only care about the rotation order used in Retro games, which is consistent,
+    // we can just have a single conversion function. Handy!
+    // https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+
+    float ex = atan2f(2 * (w*x + y*z), 1 - (2 * (Math::Pow(x,2) + Math::Pow(y,2))));
+    float ey = asinf(2 * (w*y - z*x));
+    float ez = atan2f(2 * (w*z + x*y), 1 - (2 * (Math::Pow(y,2) + Math::Pow(z,2))));
+    return CVector3f(Math::RadiansToDegrees(ex), Math::RadiansToDegrees(ey), Math::RadiansToDegrees(ez));
 }
 
 // ************ OPERATORS ************
@@ -62,10 +76,10 @@ CVector3f CQuaternion::operator*(const CVector3f& vec) const
 CQuaternion CQuaternion::operator*(const CQuaternion& other) const
 {
     CQuaternion out;
+    out.w = (-x * other.x) - (y * other.y) - (z * other.z) + (w * other.w);
     out.x = ( x * other.w) + (y * other.z) - (z * other.y) + (w * other.x);
     out.y = (-x * other.z) + (y * other.w) + (z * other.x) + (w * other.y);
     out.z = ( x * other.y) - (y * other.x) + (z * other.w) + (w * other.z);
-    out.w = (-x * other.x) - (y * other.y) - (z * other.z) + (w * other.w);
     return out;
 }
 
@@ -113,16 +127,16 @@ CQuaternion CQuaternion::FromAxisAngle(float angle, CVector3f axis)
 {
     CQuaternion quat;
     axis = axis.Normalized();
-    angle = angle * 3.14159265358979323846f / 180;
+    angle = Math::DegreesToRadians(angle);
 
-    float sa = sin(angle / 2);
+    float sa = sinf(angle / 2);
+    quat.w = cosf(angle / 2);
     quat.x = axis.x * sa;
     quat.y = axis.y * sa;
     quat.z = axis.z * sa;
-    quat.w = cos(angle / 2);
     return quat;
 
 }
 
-CQuaternion CQuaternion::skIdentity = CQuaternion(0.f, 0.f, 0.f, 1.f);
+CQuaternion CQuaternion::skIdentity = CQuaternion(1.f, 0.f, 0.f, 0.f);
 CQuaternion CQuaternion::skZero = CQuaternion(0.f, 0.f, 0.f, 0.f);

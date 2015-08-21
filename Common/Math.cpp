@@ -20,6 +20,16 @@ float Distance(const CVector3f& A, const CVector3f& B)
                   Pow(B.z - A.z, 2.f) );
 }
 
+float DegreesToRadians(float deg)
+{
+    return deg * skPi / 180.f;
+}
+
+float RadiansToDegrees(float rad)
+{
+    return rad * 180.f / skPi;
+}
+
 std::pair<bool,float> RayPlaneIntersecton(const CRay& ray, const CPlane& plane)
 {
     // Code based on ray/plane intersect code from Ogre

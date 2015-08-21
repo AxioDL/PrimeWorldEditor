@@ -6,15 +6,16 @@
 class CQuaternion
 {
 public:
-    float x, y, z, w;
+    float w, x, y, z;
 
     CQuaternion();
-    CQuaternion(float _x, float _y, float _z, float _w);
+    CQuaternion(float _w, float _x, float _y, float _z);
 
     CVector3f XAxis();
     CVector3f YAxis();
     CVector3f ZAxis();
     CQuaternion Inverse();
+    CVector3f ToEuler();
 
     // Operators
     CVector3f operator*(const CVector3f& vec) const;
