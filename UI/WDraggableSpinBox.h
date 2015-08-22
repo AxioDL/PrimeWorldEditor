@@ -10,6 +10,8 @@ class WDraggableSpinBox : public QDoubleSpinBox
     bool mBeenDragged;
     double mDefaultValue;
     int mLastY;
+    int mMinDecimals;
+    bool mTrimTrailingZeroes;
 
 public:
     explicit WDraggableSpinBox(QWidget *parent = 0);
@@ -19,7 +21,10 @@ public:
     void mouseMoveEvent(QMouseEvent *pEvent);
     void wheelEvent(QWheelEvent *pEvent);
     bool eventFilter(QObject *pObj, QEvent *pEvent);
+    QString textFromValue(double val) const;
     void SetDefaultValue(double value);
+    void SetMinDecimals(int dec);
+    void TrimTrailingZeroes(bool trim);
 };
 
 #endif // WDRAGGABLESPINBOX_H

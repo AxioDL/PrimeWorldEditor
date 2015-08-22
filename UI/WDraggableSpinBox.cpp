@@ -8,6 +8,8 @@ WDraggableSpinBox::WDraggableSpinBox(QWidget *parent) : QDoubleSpinBox(parent)
 {
     mBeingDragged = false;
     mDefaultValue = 0;
+    mMinDecimals = 1;
+    mTrimTrailingZeroes = true;
     setMinimum(-1000000.0);
     setMaximum(1000000.0);
     lineEdit()->installEventFilter(this);
@@ -93,7 +95,60 @@ bool WDraggableSpinBox::eventFilter(QObject *, QEvent *pEvent)
     return false;
 }
 
+QString WDraggableSpinBox::textFromValue(double val) const
+{
+    QString str = QString::number(val, 'f', decimals());
+    int decIndex = str.indexOf('.');
+    int numDecs;
+
+    if (decIndex == -1)
+        numDecs = 0;
+    else
+        numDecs = str.size() - decIndex - 1;
+
+    if (numDecs < mMinDecimals)
+    {
+        int size = str.size() + mMinDecimals + 1;
+        str.reserve(size);
+
+        str += '.';
+
+        for (int iDec = 0; iDec < mMinDecimals; iDec++)
+            str += '0';
+    }
+
+    else if ((numDecs > mMinDecimals) && mTrimTrailingZeroes)
+    {
+        while (numDecs > mMinDecimals)
+        {
+            if (str.endsWith('0')) {
+                str.chop(1);
+                numDecs--;
+            }
+
+            else if (str.endsWith('.')) {
+                str.chop(1);
+                break;
+            }
+
+            else break;
+        }
+    }
+
+    return str;
+}
+
 void WDraggableSpinBox::SetDefaultValue(double value)
 {
     mDefaultValue = value;
+}
+
+void WDraggableSpinBox::SetMinDecimals(int dec)
+{
+    mMinDecimals = dec;
+}
+
+void WDraggableSpinBox::TrimTrailingZeroes(bool trim)
+{
+    mTrimTrailingZeroes = trim;
 }
