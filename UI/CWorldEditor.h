@@ -37,7 +37,7 @@ class CWorldEditor : public QMainWindow
     bool mShowGizmo;
     bool mGizmoHovering;
     bool mGizmoTransforming;
-    bool mUpdateUILater;
+    bool mGizmoUIOutdated;
 
     CVector3f mHoverPoint;
     CSceneNode *mpHoverNode;
@@ -52,7 +52,7 @@ public:
     ~CWorldEditor();
     bool eventFilter(QObject *pObj, QEvent *pEvent);
     void SetArea(CWorld *pWorld, CGameArea *pArea);
-    void ViewportRayCast(CRay Ray);
+    void ViewportRayCast();
     CRenderer* Renderer();
     CSceneManager* Scene();
     CGameArea* ActiveArea();
@@ -82,6 +82,7 @@ private:
     void OnSidebarResize();
     void UpdateSelectionUI();
     void UpdateStatusBar();
+    void UpdateGizmoUI();
 
 private slots:
     void OnCameraSpeedChange(double speed);

@@ -245,6 +245,9 @@ void CRenderer::RenderBloom()
         glBlendFunc(GL_DST_ALPHA, GL_ZERO);
         CDrawUtil::DrawSquare();
     }
+
+    // Clean up
+    glEnable(GL_DEPTH_TEST);
 }
 
 void CRenderer::RenderSky(CModel *pSkyboxModel, CVector3f CameraPosition)

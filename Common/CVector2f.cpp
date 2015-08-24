@@ -28,6 +28,26 @@ void CVector2f::Write(COutputStream &Output)
     Output.WriteFloat(y);
 }
 
+float CVector2f::Magnitude() const
+{
+    return sqrtf(SquaredMagnitude());
+}
+
+float CVector2f::SquaredMagnitude() const
+{
+    return Dot(*this);
+}
+
+CVector2f CVector2f::Normalized() const
+{
+    return *this / Magnitude();
+}
+
+float CVector2f::Dot(const CVector2f& other) const
+{
+    return ((x * other.x) + (y * other.y));
+}
+
 CVector2f CVector2f::operator+(const CVector2f& src) const
 {
     CVector2f out;
@@ -142,7 +162,17 @@ bool CVector2f::operator!=(const CVector2f& other) const
     return (!(*this == other));
 }
 
+CVector2f CVector2f::operator-() const
+{
+    return CVector2f(-x, -y);
+}
+
 float& CVector2f::operator[](long index)
+{
+    return (&x)[index];
+}
+
+const float& CVector2f::operator[](long index) const
 {
     return (&x)[index];
 }

@@ -153,7 +153,14 @@ CRay CCamera::CastRay(CVector2f DeviceCoords)
 void CCamera::LoadMatrices()
 {
     CGraphics::sMVPBlock.ViewMatrix = ViewMatrix();
-    CGraphics::sMVPBlock.ProjectionMatrix  = ProjectionMatrix();
+    CGraphics::sMVPBlock.ProjectionMatrix = ProjectionMatrix();
+    CGraphics::UpdateMVPBlock();
+}
+
+void CCamera::LoadRotationOnlyMatrices()
+{
+    CGraphics::sMVPBlock.ViewMatrix = RotationOnlyViewMatrix();
+    CGraphics::sMVPBlock.ProjectionMatrix = ProjectionMatrix();
     CGraphics::UpdateMVPBlock();
 }
 
@@ -185,6 +192,17 @@ const CMatrix4f& CCamera::ViewMatrix()
         CalculateView();
 
     return mCachedViewMatrix;
+}
+
+const CMatrix4f& CCamera::RotationOnlyViewMatrix()
+{
+    if (mViewOutdated)
+        CalculateView();
+
+    return CMatrix4f(mCachedViewMatrix[0][0], mCachedViewMatrix[0][1], mCachedViewMatrix[0][2], 0.f,
+                     mCachedViewMatrix[1][0], mCachedViewMatrix[1][1], mCachedViewMatrix[1][2], 0.f,
+                     mCachedViewMatrix[2][0], mCachedViewMatrix[2][1], mCachedViewMatrix[2][2], 0.f,
+                     mCachedViewMatrix[3][0], mCachedViewMatrix[3][1], mCachedViewMatrix[3][2], 1.f);
 }
 
 const CMatrix4f& CCamera::ProjectionMatrix()

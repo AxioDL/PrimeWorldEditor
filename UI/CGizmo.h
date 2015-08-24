@@ -5,6 +5,7 @@
 #include <Common/CQuaternion.h>
 #include <Common/CVector3f.h>
 #include <Common/EnumUtil.h>
+#include <Common/ETransformSpace.h>
 #include <Core/CCamera.h>
 #include <Core/CToken.h>
 #include <Core/IRenderable.h>
@@ -19,10 +20,11 @@
 #define CGIZMO_TRANSLATE_POLY_XY 6
 #define CGIZMO_TRANSLATE_POLY_XZ 7
 #define CGIZMO_TRANSLATE_POLY_YZ 8
-#define CGIZMO_ROTATE_X 0
-#define CGIZMO_ROTATE_Y 1
-#define CGIZMO_ROTATE_Z 2
-#define CGIZMO_ROTATE_XYZ 3
+#define CGIZMO_ROTATE_OUTLINE 0
+#define CGIZMO_ROTATE_X 1
+#define CGIZMO_ROTATE_Y 2
+#define CGIZMO_ROTATE_Z 3
+#define CGIZMO_ROTATE_XYZ 4
 #define CGIZMO_SCALE_X 0
 #define CGIZMO_SCALE_Y 1
 #define CGIZMO_SCALE_Z 2
@@ -57,10 +59,16 @@ public:
 private:
     EGizmoMode mMode;
     EGizmoAxes mSelectedAxes;
+    ETransformSpace mTransformSpace;
+    CVector3f mHitPoint;
     CTransform4f mBillboardTransform;
     CQuaternion mBillboardRotation;
     float mGizmoSize;
     float mCameraDist;
+    bool mIsTransforming;
+    bool mHasTransformed;
+    CVector2f mWrapOffset;
+    bool mEnableCursorWrap;
 
     CTransform4f mTransform;
     CVector3f mPosition;
@@ -68,7 +76,8 @@ private:
     CVector3f mTotalTranslation;
     CQuaternion mRotation;
     CQuaternion mDeltaRotation;
-    CQuaternion mTotalRotation;
+    CQuaternion mCurrentRotation;
+    CVector3f mTotalRotation; // This is a CVector3f because this value displays on the UI and a quat would cause rollover
     CVector3f mScale;
     CVector3f mDeltaScale;
     CVector3f mTotalScale;
@@ -77,21 +86,24 @@ private:
     bool mFlipScaleZ;
 
     CPlane mTranslatePlane;
-    CVector3f mLastTranslatePosition;
     CVector3f mTranslateOffset;
+    float mRotateOffset;
     bool mSetOffset;
 
+    CVector3f mRotateHitPoint;
+    CVector3f mClockwiseDir;
 
     struct SModelPart
     {
         EGizmoAxes modelAxes;
         bool enableRayCast;
+        bool isBillboard;
         CModel *pModel;
         CToken modelToken;
 
         SModelPart() {}
-        SModelPart(EGizmoAxes axes, bool rayCastOn, CModel *_pModel) :
-            modelAxes(axes), enableRayCast(rayCastOn), pModel(_pModel), modelToken(_pModel) {}
+        SModelPart(EGizmoAxes axes, bool rayCastOn, bool billboard, CModel *_pModel) :
+            modelAxes(axes), enableRayCast(rayCastOn), isBillboard(billboard), pModel(_pModel), modelToken(_pModel) {}
     };
     SModelPart *mpCurrentParts;
     u32 mNumCurrentParts;
@@ -99,9 +111,8 @@ private:
     // Static
     static bool smModelsLoaded;
     static SModelPart smTranslateModels[9];
-    static SModelPart smRotateModels[4];
+    static SModelPart smRotateModels[5];
     static SModelPart smScaleModels[10];
-    static SModelPart smRotateClipOutline;
 
 public:
     CGizmo();
@@ -109,7 +120,6 @@ public:
 
     void AddToRenderer(CRenderer *pRenderer);
     void DrawAsset(ERenderOptions options, u32 asset);
-    void DrawRotationOutline();
 
     void IncrementSize();
     void DecrementSize();
@@ -118,20 +128,30 @@ public:
     u32 NumSelectedAxes();
     void ResetSelectedAxes();
     void StartTransform();
-    bool TransformFromInput(const CRay& ray, const CCamera& camera);
+    bool TransformFromInput(const CRay& ray, CCamera& camera);
     void EndTransform();
+    bool HasTransformed();
 
     EGizmoMode Mode();
     CVector3f Position();
     CVector3f DeltaTranslation();
     CVector3f TotalTranslation();
+    CQuaternion Rotation();
+    CQuaternion DeltaRotation();
+    CVector3f TotalRotation();
+    CVector3f Scale();
+    CVector3f DeltaScale();
+    CVector3f TotalScale();
     void SetMode(EGizmoMode mode);
+    void SetTransformSpace(ETransformSpace space);
     void SetPosition(const CVector3f& position);
-    void SetOrientation(const CQuaternion& orientation);
+    void SetRotation(const CQuaternion& orientation);
+    void EnableCursorWrap(bool wrap);
 
     // Protected
 protected:
     void UpdateTransform();
+    void WrapCursor();
 
     // Private Static
 private:

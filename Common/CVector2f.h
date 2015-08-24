@@ -14,6 +14,11 @@ public:
     CVector2f(CInputStream& Input);
     void Write(COutputStream& Output);
 
+    float Magnitude() const;
+    float SquaredMagnitude() const;
+    CVector2f Normalized() const;
+    float Dot(const CVector2f& other) const;
+
     CVector2f operator+(const CVector2f& other) const;
     CVector2f operator-(const CVector2f& other) const;
     CVector2f operator*(const CVector2f& other) const;
@@ -32,7 +37,9 @@ public:
     void operator/=(const float other);
     bool operator==(const CVector2f& other) const;
     bool operator!=(const CVector2f& other) const;
+    CVector2f operator-() const;
     float& operator[](long index);
+    const float& operator[](long index) const;
 
     // Static Members
     static const CVector2f skZero;

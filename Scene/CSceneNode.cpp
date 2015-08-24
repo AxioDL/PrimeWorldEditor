@@ -201,7 +201,15 @@ void CSceneNode::Translate(const CVector3f& translation, ETransformSpace transfo
 
 void CSceneNode::Rotate(const CQuaternion& rotation, ETransformSpace transformSpace)
 {
-    mRotation *= rotation;
+    switch (transformSpace)
+    {
+    case eWorldTransform:
+        mRotation = rotation * mRotation;
+        break;
+    case eLocalTransform:
+        mRotation *= rotation;
+        break;
+    }
     MarkTransformChanged();
 }
 
@@ -368,6 +376,30 @@ bool CSceneNode::InheritsScale() const
 void CSceneNode::SetName(const std::string& Name)
 {
     mName = Name;
+}
+
+void CSceneNode::SetPosition(const CVector3f& position)
+{
+    mPosition = position;
+    MarkTransformChanged();
+}
+
+void CSceneNode::SetRotation(const CQuaternion& rotation)
+{
+    mRotation = rotation;
+    MarkTransformChanged();
+}
+
+void CSceneNode::SetRotation(const CVector3f& rotEuler)
+{
+    mRotation = CQuaternion::FromEuler(rotEuler);
+    MarkTransformChanged();
+}
+
+void CSceneNode::SetScale(const CVector3f& scale)
+{
+    mScale = scale;
+    MarkTransformChanged();
 }
 
 void CSceneNode::SetMouseHovering(bool Hovering)

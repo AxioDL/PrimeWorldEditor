@@ -98,6 +98,10 @@ public:
 
     // Setters
     void SetName(const std::string& Name);
+    void SetPosition(const CVector3f& position);
+    void SetRotation(const CQuaternion& rotation);
+    void SetRotation(const CVector3f& rotEuler);
+    void SetScale(const CVector3f& scale);
     void SetMouseHovering(bool Hovering);
     void SetSelected(bool Selected);
     void SetVisible(bool Visible);

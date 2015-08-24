@@ -35,7 +35,7 @@ CWorldEditor::CWorldEditor(QWidget *parent) :
     mShowGizmo = false;
     mGizmoHovering = false;
     mGizmoTransforming = false;
-    mUpdateUILater = false;
+    mGizmoUIOutdated = true;
 
     mFrameCount = 0;
     mFPSTimer.Start();
@@ -144,15 +144,20 @@ void CWorldEditor::SetArea(CWorld *pWorld, CGameArea *pArea)
     ui->InstancesTabContents->SetMaster(pMaster);
 }
 
-void CWorldEditor::ViewportRayCast(CRay Ray)
+void CWorldEditor::ViewportRayCast()
 {
     if (!ui->MainViewport->IsMouseInputActive())
     {
+        // Cast ray
+        CVector2f mouseCoords = ui->MainViewport->MouseDeviceCoordinates();
+        CCamera camera = ui->MainViewport->Camera();
+        CRay ray = camera.CastRay(mouseCoords);
+
         if (!mGizmoTransforming)
         {
             // Gizmo hover check
             if (mShowGizmo && !mSelectedNodes.empty())
-                mGizmoHovering = mGizmo.CheckSelectedAxes(Ray);
+                mGizmoHovering = mGizmo.CheckSelectedAxes(ray);
             else
             {
                 mGizmoHovering = false;
@@ -160,7 +165,7 @@ void CWorldEditor::ViewportRayCast(CRay Ray)
             }
 
             // Scene ray check
-            SRayIntersection Result = mpSceneManager->SceneRayCast(Ray);
+            SRayIntersection Result = mpSceneManager->SceneRayCast(ray);
 
             if (Result.Hit)
             {
@@ -170,26 +175,44 @@ void CWorldEditor::ViewportRayCast(CRay Ray)
                 mpHoverNode = Result.pNode;
                 mpHoverNode->SetMouseHovering(true);
 
-                mHoverPoint = Ray.PointOnRay(Result.Distance);
+                mHoverPoint = ray.PointOnRay(Result.Distance);
             }
             else
                 ResetHover();
         }
         else
         {
-            bool moved = mGizmo.TransformFromInput(Ray, ui->MainViewport->Camera());
+            bool transformed = mGizmo.TransformFromInput(ray, ui->MainViewport->Camera());
 
-            if (moved)
+            if (transformed)
             {
-                CVector3f delta = mGizmo.DeltaTranslation();
-
-                for (auto it = mSelectedNodes.begin(); it != mSelectedNodes.end(); it++)
+                switch (mGizmo.Mode())
                 {
-                    (*it)->Translate(delta, mTransformSpace);
-                    (*it)->BuildLightList(this->mpArea);
+                case CGizmo::eTranslate:
+                {
+                    CVector3f delta = mGizmo.DeltaTranslation();
+
+                    for (auto it = mSelectedNodes.begin(); it != mSelectedNodes.end(); it++)
+                    {
+                        (*it)->Translate(delta, mTransformSpace);
+                        (*it)->BuildLightList(this->mpArea);
+                    }
+                    break;
                 }
+
+                case CGizmo::eRotate:
+                {
+                    CQuaternion delta = mGizmo.DeltaRotation();
+
+                    for (auto it = mSelectedNodes.begin(); it != mSelectedNodes.end(); it++)
+                        (*it)->Rotate(delta, mTransformSpace);
+
+                    break;
+                }
+                }
+
                 RecalculateSelectionBounds();
-                mUpdateUILater = true;
+                mGizmoUIOutdated = true;
             }
         }
     }
@@ -293,7 +316,9 @@ void CWorldEditor::ViewportMouseRelease(QMouseEvent *pEvent)
         // Gizmo transform stop
         if (mGizmoTransforming)
         {
+            mGizmo.EndTransform();
             mGizmoTransforming = false;
+            mGizmoUIOutdated = true;
         }
 
         // Object selection/deselection
@@ -346,7 +371,7 @@ void CWorldEditor::ViewportPreRender()
 {
     // Perform raycast
     if (ui->MainViewport->underMouse())
-        ViewportRayCast(ui->MainViewport->CastRay());
+        ViewportRayCast();
     else
         ResetHover();
 
@@ -373,13 +398,11 @@ void CWorldEditor::ViewportRender(CCamera& Camera)
         mpRenderer->ClearDepthBuffer();
 
         Camera.LoadMatrices();
-        if (!mGizmoTransforming) mGizmo.UpdateForCamera(Camera);
+        mGizmo.UpdateForCamera(Camera);
         mGizmo.AddToRenderer(mpRenderer);
 
-        if (mGizmo.Mode() == CGizmo::eRotate)
-            mGizmo.DrawRotationOutline();
-
         mpRenderer->RenderBuckets(Camera);
+        mpRenderer->ClearDepthBuffer();
     }
 
     mpRenderer->EndFrame();
@@ -393,11 +416,7 @@ void CWorldEditor::ViewportPostRender()
     UpdateCursor();
     UpdateStatusBar();
 
-    if (mUpdateUILater)
-    {
-        UpdateSelectionUI();
-        mUpdateUILater = false;
-    }
+    if (mGizmoUIOutdated) UpdateGizmoUI();
 }
 
 void CWorldEditor::SetViewportSize(int Width, int Height)
@@ -411,14 +430,16 @@ void CWorldEditor::SetTransformSpace(int space)
     {
     case 0:
         mTransformSpace = eWorldTransform;
-        mGizmo.SetOrientation(CQuaternion::skIdentity);
+        mGizmo.SetRotation(CQuaternion::skIdentity);
         break;
     case 1:
         mTransformSpace = eLocalTransform;
         if (!mSelectedNodes.empty())
-            mGizmo.SetOrientation(mSelectedNodes.front()->AbsoluteRotation());
+            mGizmo.SetRotation(mSelectedNodes.front()->AbsoluteRotation());
         break;
     }
+
+    mGizmo.SetTransformSpace(mTransformSpace);
 }
 
 // ************ PRIVATE ************
@@ -491,22 +512,62 @@ void CWorldEditor::UpdateSelectionUI()
     SelectionText = Metrics.elidedText(SelectionText, Qt::ElideRight, ui->SelectionInfoFrame->width() - 10);
     ui->SelectionInfoLabel->setText(SelectionText);
 
-    // Update transform
-    CVector3f pos = (!mSelectedNodes.empty() ? mSelectedNodes.front()->AbsolutePosition() : CVector3f::skZero);
-    ui->XSpinBox->setValue(pos.x);
-    ui->YSpinBox->setValue(pos.y);
-    ui->ZSpinBox->setValue(pos.z);
+    // Update gizmo stuff
+    UpdateGizmoUI();
+}
+
+void CWorldEditor::UpdateGizmoUI()
+{
+    // Update transform XYZ spin boxes
+    CVector3f spinBoxValue = CVector3f::skZero;
+
+    // If the gizmo is transforming, use the total transform amount
+    // Otherwise, use the first selected node transform, or 0 if no selection
+    if (mShowGizmo)
+    {
+        switch (mGizmo.Mode())
+        {
+        case CGizmo::eTranslate:
+            if (mGizmoTransforming && mGizmo.HasTransformed())
+                spinBoxValue = mGizmo.TotalTranslation();
+            else if (!mSelectedNodes.empty())
+                spinBoxValue = mSelectedNodes.front()->AbsolutePosition();
+            break;
+
+        case CGizmo::eRotate:
+            if (mGizmoTransforming && mGizmo.HasTransformed())
+                spinBoxValue = mGizmo.TotalRotation();
+            else if (!mSelectedNodes.empty())
+                spinBoxValue = mSelectedNodes.front()->AbsoluteRotation().ToEuler();
+            break;
+
+        case CGizmo::eScale:
+            if (mGizmoTransforming && mGizmo.HasTransformed())
+                spinBoxValue = mGizmo.TotalScale();
+            else if (!mSelectedNodes.empty())
+                spinBoxValue = mSelectedNodes.front()->AbsoluteScale();
+            break;
+        }
+    }
+    else if (!mSelectedNodes.empty()) spinBoxValue = mSelectedNodes.front()->AbsolutePosition();
+
+    ui->XSpinBox->setValue(spinBoxValue.x);
+    ui->YSpinBox->setValue(spinBoxValue.y);
+    ui->ZSpinBox->setValue(spinBoxValue.z);
 
     // Update gizmo
     if (!mGizmoTransforming)
     {
-        mGizmo.SetPosition(pos);
+        if (!mSelectedNodes.empty())
+            mGizmo.SetPosition(mSelectedNodes.front()->AbsolutePosition());
 
         if ((mTransformSpace == eLocalTransform) && !mSelectedNodes.empty())
-            mGizmo.SetOrientation(mSelectedNodes.front()->AbsoluteRotation());
+            mGizmo.SetRotation(mSelectedNodes.front()->AbsoluteRotation());
         else
-            mGizmo.SetOrientation(CQuaternion::skIdentity);
+            mGizmo.SetRotation(CQuaternion::skIdentity);
     }
+
+    mGizmoUIOutdated = false;
 }
 
 // ************ ACTIONS ************
@@ -660,6 +721,7 @@ void CWorldEditor::on_ActionEditLayers_triggered()
 void CWorldEditor::on_ActionSelectObjects_triggered()
 {
     mShowGizmo = false;
+    mGizmoUIOutdated = true;
     ui->ActionSelectObjects->setChecked(true);
     ui->ActionTranslate->setChecked(false);
     ui->ActionRotate->setChecked(false);
@@ -669,6 +731,7 @@ void CWorldEditor::on_ActionSelectObjects_triggered()
 void CWorldEditor::on_ActionTranslate_triggered()
 {
     mShowGizmo = true;
+    mGizmoUIOutdated = true;
     mGizmo.SetMode(CGizmo::eTranslate);
     ui->ActionSelectObjects->setChecked(false);
     ui->ActionTranslate->setChecked(true);
@@ -679,6 +742,7 @@ void CWorldEditor::on_ActionTranslate_triggered()
 void CWorldEditor::on_ActionRotate_triggered()
 {
     mShowGizmo = true;
+    mGizmoUIOutdated = true;
     mGizmo.SetMode(CGizmo::eRotate);
     ui->ActionSelectObjects->setChecked(false);
     ui->ActionTranslate->setChecked(false);
@@ -689,6 +753,7 @@ void CWorldEditor::on_ActionRotate_triggered()
 void CWorldEditor::on_ActionScale_triggered()
 {
     mShowGizmo = true;
+    mGizmoUIOutdated = true;
     mGizmo.SetMode(CGizmo::eScale);
     ui->ActionSelectObjects->setChecked(false);
     ui->ActionTranslate->setChecked(false);

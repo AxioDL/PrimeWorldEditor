@@ -45,6 +45,7 @@ public:
     void ProcessMouseInput(EKeyInputs KeyFlags, EMouseInputs MouseFlags, float XMovement, float YMovement);
     CRay CastRay(CVector2f DeviceCoords);
     void LoadMatrices();
+    void LoadRotationOnlyMatrices();
 
     // Getters
     CVector3f Position() const;
@@ -52,6 +53,7 @@ public:
     float GetYaw() const;
     float GetPitch() const;
     const CMatrix4f& ViewMatrix();
+    const CMatrix4f& RotationOnlyViewMatrix();
     const CMatrix4f& ProjectionMatrix();
 
     // Setters

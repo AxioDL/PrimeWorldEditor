@@ -65,7 +65,7 @@ float CVector3f::SquaredMagnitude() const
 
 CVector3f CVector3f::Normalized() const
 {
-    return *this / Magnitude();;
+    return *this / Magnitude();
 }
 
 float CVector3f::Dot(const CVector3f& other) const
