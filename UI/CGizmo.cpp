@@ -29,6 +29,7 @@ CGizmo::CGizmo()
     mDeltaTranslation = CVector3f::skZero;
     mDeltaRotation = CQuaternion::skIdentity;
     mDeltaScale = CVector3f::skOne;
+    mTotalScale = CVector3f::skOne;
     mSetOffset = false;
     mFlipScaleX = false;
     mFlipScaleY = false;
