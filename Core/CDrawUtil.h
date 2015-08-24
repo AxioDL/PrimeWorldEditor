@@ -54,9 +54,12 @@ public:
     static void DrawSquare(const CVector2f& TexUL, const CVector2f& TexUR, const CVector2f& TexBR, const CVector2f& TexBL);
     static void DrawSquare(const float *pTexCoords);
     static void DrawLine(const CVector3f& PointA, const CVector3f& PointB);
+    static void DrawLine(const CVector2f& PointA, const CVector2f& PointB);
     static void DrawLine(const CVector3f& PointA, const CVector3f& PointB, const CColor& LineColor);
+    static void DrawLine(const CVector2f& PointA, const CVector2f& PointB, const CColor& LineColor);
     static void DrawCube();
     static void DrawCube(const CColor& Color);
+    static void DrawCube(const CVector3f& Position, const CColor& Color);
     static void DrawShadedCube(const CColor& Color);
     static void DrawWireCube();
     static void DrawWireCube(const CAABox& AABox, const CColor& Color);

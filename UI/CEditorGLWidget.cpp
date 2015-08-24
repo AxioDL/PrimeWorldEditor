@@ -67,7 +67,6 @@ void CEditorGLWidget::paintGL()
     // Camera movement is processed here in order to sync it with the paint event
     // This way movement happens exactly once per frame - no more, no less
     ProcessInput(DeltaTime);
-    mCamera.LoadMatrices();
 
     // Pre-render signal allows for per-frame operations to be performed before the draw happens
     emit PreRender();

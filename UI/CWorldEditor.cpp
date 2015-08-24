@@ -387,9 +387,10 @@ void CWorldEditor::ViewportRender(CCamera& Camera)
     if (mDrawSky)
     {
         CModel *pSky = mpSceneManager->GetActiveSkybox();
-        if (pSky) mpRenderer->RenderSky(pSky, Camera.Position());
+        if (pSky) mpRenderer->RenderSky(pSky, Camera);
     }
 
+    Camera.LoadMatrices();
     mpRenderer->RenderBuckets(Camera);
     mpRenderer->RenderBloom();
 

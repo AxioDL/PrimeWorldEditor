@@ -97,6 +97,12 @@ void CDrawUtil::DrawLine(const CVector3f& PointA, const CVector3f& PointB)
     DrawLine(PointA, PointB, CColor::skWhite);
 }
 
+void CDrawUtil::DrawLine(const CVector2f& PointA, const CVector2f& PointB)
+{
+    // Overload for 2D lines
+    DrawLine(CVector3f(PointA.x, PointA.y, 0.f), CVector3f(PointB.x, PointB.y, 0.f), CColor::skWhite);
+}
+
 void CDrawUtil::DrawLine(const CVector3f& PointA, const CVector3f& PointB, const CColor& LineColor)
 {
     Init();
@@ -116,6 +122,12 @@ void CDrawUtil::DrawLine(const CVector3f& PointA, const CVector3f& PointB, const
     mLineVertices.Unbind();
 }
 
+void CDrawUtil::DrawLine(const CVector2f& PointA, const CVector2f& PointB, const CColor& LineColor)
+{
+    // Overload for 2D lines
+    DrawLine(CVector3f(PointA.x, PointA.y, 0.f), CVector3f(PointB.x, PointB.y, 0.f), LineColor);
+}
+
 void CDrawUtil::DrawCube()
 {
     Init();
@@ -125,6 +137,14 @@ void CDrawUtil::DrawCube()
 void CDrawUtil::DrawCube(const CColor& Color)
 {
     Init();
+    UseColorShader(Color);
+    DrawCube();
+}
+
+void CDrawUtil::DrawCube(const CVector3f& Position, const CColor& Color)
+{
+    CGraphics::sMVPBlock.ModelMatrix = CTransform4f::TranslationMatrix(Position).ToMatrix4f();
+    CGraphics::UpdateMVPBlock();
     UseColorShader(Color);
     DrawCube();
 }

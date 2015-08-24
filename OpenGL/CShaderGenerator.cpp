@@ -218,8 +218,8 @@ bool CShaderGenerator::CreateVertexShader(const CMaterial& Mat)
    ShaderCode  << "// Main\n"
                << "void main()\n"
                << "{\n"
-               << "    mat4 MVP = ModelMtx * ViewMtx * ProjMtx;\n"
-               << "    mat4 MV = ModelMtx * ViewMtx;\n";
+               << "    mat4 MV = ModelMtx * ViewMtx;\n"
+               << "    mat4 MVP = MV * ProjMtx;\n";
 
     if (VtxDesc & ePosition) ShaderCode << "    gl_Position = vec4(RawPosition, 1) * MVP;\n";
     if (VtxDesc & eNormal)   ShaderCode << "    Normal = normalize(RawNormal.xyz * inverse(transpose(mat3(MV))));\n";

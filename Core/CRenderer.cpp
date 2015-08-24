@@ -126,6 +126,7 @@ void CRenderer::RenderBuckets(CCamera& Camera)
 {
     if (!mInitialized) Init();
     mSceneFramebuffer.Bind();
+    Camera.LoadMatrices();
 
     // Set backface culling
     if (mOptions & eEnableBackfaceCull) glEnable(GL_CULL_FACE);
@@ -250,21 +251,18 @@ void CRenderer::RenderBloom()
     glEnable(GL_DEPTH_TEST);
 }
 
-void CRenderer::RenderSky(CModel *pSkyboxModel, CVector3f CameraPosition)
+void CRenderer::RenderSky(CModel *pSkyboxModel, CCamera& Camera)
 {
     if (!mInitialized) Init();
-
     if (!pSkyboxModel) return;
+
     glEnable(GL_CULL_FACE);
+    Camera.LoadRotationOnlyMatrices();
 
-    CTransform4f ModelMtx;
-    ModelMtx.Translate(CameraPosition);
-
-    CGraphics::sMVPBlock.ModelMatrix = ModelMtx.ToMatrix4f();
+    CGraphics::sMVPBlock.ModelMatrix = CMatrix4f::skIdentity;
     CGraphics::sVertexBlock.COLOR0_Amb = CVector4f(1.f, 1.f, 1.f, 1.f);
     CGraphics::sPixelBlock.TevColor = CVector4f(1.f, 1.f, 1.f, 1.f);
     CGraphics::sNumLights = 0;
-    CGraphics::UpdateMVPBlock();
     CGraphics::UpdateVertexBlock();
     CGraphics::UpdatePixelBlock();
     CGraphics::UpdateLightBlock();

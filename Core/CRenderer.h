@@ -67,7 +67,7 @@ public:
     // Render
     void RenderBuckets(CCamera& Camera);
     void RenderBloom();
-    void RenderSky(CModel *pSkyboxModel, CVector3f CameraPosition);
+    void RenderSky(CModel *pSkyboxModel, CCamera& Camera);
     void AddOpaqueMesh(IRenderable *pRenderable, u32 AssetID, CAABox& AABox, ERenderCommand Command);
     void AddTransparentMesh(IRenderable *pRenderable, u32 AssetID, CAABox& AABox, ERenderCommand Command);
     void BeginFrame();

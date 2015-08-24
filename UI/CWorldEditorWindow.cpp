@@ -95,7 +95,7 @@ void CWorldEditorWindow::PaintViewport(double DeltaTime)
     if (mShouldDrawSky)
     {
         CModel *pSky = mpSceneManager->GetActiveSkybox();
-        if (pSky) mpRenderer->RenderSky(pSky, mCamera.Position());
+        if (pSky) mpRenderer->RenderSky(pSky, mCamera);
     }
 
     mpRenderer->RenderBuckets(mCamera);
