@@ -9,6 +9,7 @@
 #include <QComboBox>
 #include <Core/Log.h>
 #include "WDraggableSpinBox.h"
+#include "WVectorEditor.h"
 
 #include "WorldEditor/CLayerEditor.h"
 #include "WorldEditor/WModifyTab.h"
@@ -55,6 +56,8 @@ CWorldEditor::CWorldEditor(QWidget *parent) :
     ui->ModifyTabContents->SetEditor(this);
     ui->InstancesTabContents->SetEditor(this, mpSceneManager);
     ui->MainDock->installEventFilter(this);
+    ui->TransformSpinBox->SetOrientation(Qt::Horizontal);
+    ui->TransformSpinBox->layout()->setContentsMargins(0,0,0,0);
     ui->CamSpeedSpinBox->SetDefaultValue(1.0);
     ResetHover();
 
@@ -71,6 +74,8 @@ CWorldEditor::CWorldEditor(QWidget *parent) :
     addAction(ui->ActionDecrementGizmo);
 
     // Connect signals and slots
+    connect(ui->TransformSpinBox, SIGNAL(EditingDone(CVector3f)), this, SLOT(OnTransformSpinBoxEdited(CVector3f)));
+    connect(ui->TransformSpinBox, SIGNAL(ValueChanged(CVector3f)), this, SLOT(OnTransformSpinBoxModified(CVector3f)));
     connect(pTransformCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(SetTransformSpace(int)));
     connect(ui->CamSpeedSpinBox, SIGNAL(valueChanged(double)), this, SLOT(OnCameraSpeedChange(double)));
     connect(ui->MainViewport, SIGNAL(PreRender()), this, SLOT(ViewportPreRender()));
@@ -520,41 +525,44 @@ void CWorldEditor::UpdateSelectionUI()
 void CWorldEditor::UpdateGizmoUI()
 {
     // Update transform XYZ spin boxes
-    CVector3f spinBoxValue = CVector3f::skZero;
-
-    // If the gizmo is transforming, use the total transform amount
-    // Otherwise, use the first selected node transform, or 0 if no selection
-    if (mShowGizmo)
+    if (!ui->TransformSpinBox->IsBeingDragged())
     {
-        switch (mGizmo.Mode())
+        CVector3f spinBoxValue = CVector3f::skZero;
+
+        // If the gizmo is transforming, use the total transform amount
+        // Otherwise, use the first selected node transform, or 0 if no selection
+        if (mShowGizmo)
         {
-        case CGizmo::eTranslate:
-            if (mGizmoTransforming && mGizmo.HasTransformed())
-                spinBoxValue = mGizmo.TotalTranslation();
-            else if (!mSelectedNodes.empty())
-                spinBoxValue = mSelectedNodes.front()->AbsolutePosition();
-            break;
+            switch (mGizmo.Mode())
+            {
+            case CGizmo::eTranslate:
+                if (mGizmoTransforming && mGizmo.HasTransformed())
+                    spinBoxValue = mGizmo.TotalTranslation();
+                else if (!mSelectedNodes.empty())
+                    spinBoxValue = mSelectedNodes.front()->AbsolutePosition();
+                break;
 
-        case CGizmo::eRotate:
-            if (mGizmoTransforming && mGizmo.HasTransformed())
-                spinBoxValue = mGizmo.TotalRotation();
-            else if (!mSelectedNodes.empty())
-                spinBoxValue = mSelectedNodes.front()->AbsoluteRotation().ToEuler();
-            break;
+            case CGizmo::eRotate:
+                if (mGizmoTransforming && mGizmo.HasTransformed())
+                    spinBoxValue = mGizmo.TotalRotation();
+                else if (!mSelectedNodes.empty())
+                    spinBoxValue = mSelectedNodes.front()->AbsoluteRotation().ToEuler();
+                break;
 
-        case CGizmo::eScale:
-            if (mGizmoTransforming && mGizmo.HasTransformed())
-                spinBoxValue = mGizmo.TotalScale();
-            else if (!mSelectedNodes.empty())
-                spinBoxValue = mSelectedNodes.front()->AbsoluteScale();
-            break;
+            case CGizmo::eScale:
+                if (mGizmoTransforming && mGizmo.HasTransformed())
+                    spinBoxValue = mGizmo.TotalScale();
+                else if (!mSelectedNodes.empty())
+                    spinBoxValue = mSelectedNodes.front()->AbsoluteScale();
+                break;
+            }
         }
-    }
-    else if (!mSelectedNodes.empty()) spinBoxValue = mSelectedNodes.front()->AbsolutePosition();
+        else if (!mSelectedNodes.empty()) spinBoxValue = mSelectedNodes.front()->AbsolutePosition();
 
-    ui->XSpinBox->setValue(spinBoxValue.x);
-    ui->YSpinBox->setValue(spinBoxValue.y);
-    ui->ZSpinBox->setValue(spinBoxValue.z);
+        ui->TransformSpinBox->blockSignals(true);
+        ui->TransformSpinBox->SetValue(spinBoxValue);
+        ui->TransformSpinBox->blockSignals(false);
+    }
 
     // Update gizmo
     if (!mGizmoTransforming)
@@ -580,6 +588,35 @@ void CWorldEditor::OnCameraSpeedChange(double speed)
     ui->CamSpeedSpinBox->blockSignals(true);
     ui->CamSpeedSpinBox->setValue(speed);
     ui->CamSpeedSpinBox->blockSignals(false);
+}
+
+void CWorldEditor::OnTransformSpinBoxModified(CVector3f value)
+{
+    switch (mGizmo.Mode())
+    {
+    case CGizmo::eTranslate:
+        for (auto it = mSelectedNodes.begin(); it != mSelectedNodes.end(); it++)
+            (*it)->SetPosition(value);
+        break;
+
+    case CGizmo::eRotate:
+        for (auto it = mSelectedNodes.begin(); it != mSelectedNodes.end(); it++)
+            (*it)->SetRotation(value);
+        break;
+
+    case CGizmo::eScale:
+        for (auto it = mSelectedNodes.begin(); it != mSelectedNodes.end(); it++)
+            (*it)->SetScale(value);
+        break;
+    }
+
+    RecalculateSelectionBounds();
+    UpdateGizmoUI();
+}
+
+void CWorldEditor::OnTransformSpinBoxEdited(CVector3f)
+{
+    UpdateGizmoUI();
 }
 
 // These functions are from "Go to slot" in the designer
@@ -738,6 +775,9 @@ void CWorldEditor::on_ActionTranslate_triggered()
     ui->ActionTranslate->setChecked(true);
     ui->ActionRotate->setChecked(false);
     ui->ActionScale->setChecked(false);
+
+    ui->TransformSpinBox->SetSingleStep(0.1);
+    ui->TransformSpinBox->SetDefaultValue(0.0);
 }
 
 void CWorldEditor::on_ActionRotate_triggered()
@@ -749,6 +789,9 @@ void CWorldEditor::on_ActionRotate_triggered()
     ui->ActionTranslate->setChecked(false);
     ui->ActionRotate->setChecked(true);
     ui->ActionScale->setChecked(false);
+
+    ui->TransformSpinBox->SetSingleStep(1.0);
+    ui->TransformSpinBox->SetDefaultValue(0.0);
 }
 
 void CWorldEditor::on_ActionScale_triggered()
@@ -760,6 +803,9 @@ void CWorldEditor::on_ActionScale_triggered()
     ui->ActionTranslate->setChecked(false);
     ui->ActionRotate->setChecked(false);
     ui->ActionScale->setChecked(true);
+
+    ui->TransformSpinBox->SetSingleStep(0.1);
+    ui->TransformSpinBox->SetDefaultValue(1.0);
 }
 
 void CWorldEditor::on_ActionIncrementGizmo_triggered()

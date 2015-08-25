@@ -14,30 +14,45 @@ class WVectorEditor : public QWidget
     Q_OBJECT
 
     CVector3f mValue;
+
+    Qt::Orientation mOrientation;
+    QLayout *mpLayout;
+    QHBoxLayout *mpXLayout;
+    QHBoxLayout *mpYLayout;
+    QHBoxLayout *mpZLayout;
     WDraggableSpinBox *mpSpinBoxX;
     WDraggableSpinBox *mpSpinBoxY;
     WDraggableSpinBox *mpSpinBoxZ;
-    QHBoxLayout *mpLayout;
-
-    // new layout test
-    QGroupBox *mpGroupBox;
     QLabel *mpLabelX;
     QLabel *mpLabelY;
     QLabel *mpLabelZ;
-    QFormLayout *mpFormLayout;
 
 public:
     explicit WVectorEditor(QWidget *pParent = 0);
-    WVectorEditor(const CVector3f& Value, QWidget *pParent = 0);
+    WVectorEditor(const CVector3f& value, QWidget *pParent = 0);
     ~WVectorEditor();
     CVector3f Value();
-    void SetValue(const CVector3f& Value);
-    void SetText(const QString& Text);
+    void SetOrientation(Qt::Orientation orientation);
+    void SetValue(const CVector3f& value);
+    void SetDefaultValue(double value);
+    void SetSingleStep(double step);
+    void SetLabelsHidden(bool hidden);
+    bool IsBeingDragged();
 
 public slots:
     void SetX(double x);
     void SetY(double y);
     void SetZ(double z);
+
+signals:
+    void ValueChanged(const CVector3f& value);
+    void EditingDone(const CVector3f& value);
+
+private:
+    void SetupUI();
+
+private slots:
+    void OnSpinBoxEditingDone();
 };
 
 #endif // WVECTOREDITOR_H

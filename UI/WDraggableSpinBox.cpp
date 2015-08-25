@@ -49,6 +49,8 @@ void WDraggableSpinBox::mouseReleaseEvent(QMouseEvent *Event)
     {
         setValue(mDefaultValue);
     }
+
+    emit editingFinished();
 }
 
 void WDraggableSpinBox::mouseMoveEvent(QMouseEvent*)
@@ -136,6 +138,11 @@ QString WDraggableSpinBox::textFromValue(double val) const
     }
 
     return str;
+}
+
+bool WDraggableSpinBox::IsBeingDragged()
+{
+    return mBeingDragged;
 }
 
 void WDraggableSpinBox::SetDefaultValue(double value)

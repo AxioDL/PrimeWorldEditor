@@ -160,17 +160,24 @@ void WPropertyEditor::CreateEditor()
         break;
     }
 
-    // Vector3 - WVectorEditor
+    // Vector3 - WVectorEditor (inside QGroupBox)
     case eVector3Property:
     {
         CVector3Property *pVector3Cast = static_cast<CVector3Property*>(mpProperty);
-        WVectorEditor *pVectorEditor = new WVectorEditor(this);
+        QGroupBox *pGroupBox = new QGroupBox(this);
+        WVectorEditor *pVectorEditor = new WVectorEditor(pGroupBox);
 
+        QVBoxLayout *pGroupLayout = new QVBoxLayout(pGroupBox);
+        pGroupLayout->addWidget(pVectorEditor);
+        pGroupLayout->setContentsMargins(0,0,0,0);
+        pGroupBox->setLayout(pGroupLayout);
+
+        pGroupBox->setTitle(QString::fromStdString(mpProperty->Name()));
         pVectorEditor->SetValue(pVector3Cast->Get());
-        pVectorEditor->SetText(QString::fromStdString(mpProperty->Name()));
+        pVectorEditor->SetOrientation(Qt::Vertical);
         mUI.PropertyName->hide();
 
-        mUI.EditorWidget = pVectorEditor;
+        mUI.EditorWidget = pGroupBox;
         break;
     }
 
@@ -303,7 +310,9 @@ void WPropertyEditor::UpdateEditor()
     case eVector3Property:
     {
         CVector3Property *pVector3Cast = static_cast<CVector3Property*>(mpProperty);
-        WVectorEditor *pVectorEditor = static_cast<WVectorEditor*>(mUI.EditorWidget);
+        QGroupBox *pGroupBox = static_cast<QGroupBox*>(mUI.EditorWidget);
+
+        WVectorEditor *pVectorEditor = static_cast<WVectorEditor*>(pGroupBox->children().first());
         pVectorEditor->SetValue(pVector3Cast->Get());
         break;
     }

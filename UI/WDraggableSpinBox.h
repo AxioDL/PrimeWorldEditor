@@ -22,6 +22,7 @@ public:
     void wheelEvent(QWheelEvent *pEvent);
     bool eventFilter(QObject *pObj, QEvent *pEvent);
     QString textFromValue(double val) const;
+    bool IsBeingDragged();
     void SetDefaultValue(double value);
     void SetMinDecimals(int dec);
     void TrimTrailingZeroes(bool trim);
