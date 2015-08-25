@@ -53,14 +53,14 @@ QVariant CLinkModel::data(const QModelIndex &index, int role) const
         {
             CScriptObject *pTargetObj = mpObject->Area()->GetInstanceByID(link.ObjectID);
 
-            if (role == Qt::DisplayRole) {
-                if (pTargetObj) return QString::fromStdString(pTargetObj->GetInstanceName());
-                else return QString("0x") + QString::number(link.ObjectID, 16);
+            if (pTargetObj) {
+                QString ObjType = QString("[%1] ").arg(QString::fromStdString(pTargetObj->Template()->TemplateName()));
+                return ObjType + QString::fromStdString(pTargetObj->GetInstanceName());
             }
             else {
-                QString ObjType = QString("[%1] ").arg(QString::fromStdString(pTargetObj->Template()->TemplateName()));
-                if (pTargetObj) return ObjType + QString::fromStdString(pTargetObj->GetInstanceName());
-                else return ObjType + QString("0x") + QString::number(link.ObjectID, 16);
+                QString strID = QString::number(link.ObjectID, 16);
+                while (strID.length() < 8) strID = "0" + strID;
+                return QString("External: 0x") + strID;
             }
         }
 
