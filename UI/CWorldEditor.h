@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QList>
+#include <QComboBox>
 
 #include "CGizmo.h"
 #include <Common/CRay.h>
@@ -26,7 +27,8 @@ class CWorldEditor : public QMainWindow
     CRenderer *mpRenderer;
     CSceneManager *mpSceneManager;
     CGizmo mGizmo;
-    ETransformSpace mTransformSpace;
+    ETransformSpace mTranslateSpace;
+    ETransformSpace mRotateSpace;
     CCamera mCamera;
     CGameArea *mpArea;
     CWorld *mpWorld;
@@ -43,6 +45,8 @@ class CWorldEditor : public QMainWindow
     CSceneNode *mpHoverNode;
     std::list<CSceneNode*> mSelectedNodes;
     CAABox mSelectionAABox;
+
+    QComboBox *mpTransformSpaceComboBox;
 
     CTimer mFPSTimer;
     int mFrameCount;

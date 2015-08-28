@@ -115,9 +115,9 @@ CQuaternion CQuaternion::FromEuler(CVector3f euler)
     quat.y =  ((c1 * s2 * c3) - (s1 * c2 * s3));
     quat.z =  ((s1 * s2 * c3) + (c1 * c2 * s3));*/
 
-    CQuaternion x = CQuaternion::FromAxisAngle(euler.x, CVector3f(1,0,0));
-    CQuaternion y = CQuaternion::FromAxisAngle(euler.y, CVector3f(0,1,0));
-    CQuaternion z = CQuaternion::FromAxisAngle(euler.z, CVector3f(0,0,1));
+    CQuaternion x = CQuaternion::FromAxisAngle(Math::DegreesToRadians(euler.x), CVector3f(1,0,0));
+    CQuaternion y = CQuaternion::FromAxisAngle(Math::DegreesToRadians(euler.y), CVector3f(0,1,0));
+    CQuaternion z = CQuaternion::FromAxisAngle(Math::DegreesToRadians(euler.z), CVector3f(0,0,1));
     CQuaternion quat = z * y * x;
 
     return quat;
@@ -127,7 +127,6 @@ CQuaternion CQuaternion::FromAxisAngle(float angle, CVector3f axis)
 {
     CQuaternion quat;
     axis = axis.Normalized();
-    angle = Math::DegreesToRadians(angle);
 
     float sa = sinf(angle / 2);
     quat.w = cosf(angle / 2);

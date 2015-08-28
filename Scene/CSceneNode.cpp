@@ -213,8 +213,9 @@ void CSceneNode::Rotate(const CQuaternion& rotation, ETransformSpace transformSp
     MarkTransformChanged();
 }
 
-void CSceneNode::Scale(const CVector3f& scale, ETransformSpace transformSpace)
+void CSceneNode::Scale(const CVector3f& scale)
 {
+    // No support for stretch/skew world-space scaling; local only
     mScale *= scale;
     MarkTransformChanged();
 }

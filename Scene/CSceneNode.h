@@ -71,7 +71,7 @@ public:
     // Transform
     void Translate(const CVector3f& translation, ETransformSpace transformSpace);
     void Rotate(const CQuaternion& rotation, ETransformSpace transformSpace);
-    void Scale(const CVector3f& scale, ETransformSpace transformSpace);
+    void Scale(const CVector3f& scale);
     void UpdateTransform();
     void ForceRecalculateTransform();
     void MarkTransformChanged();

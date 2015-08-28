@@ -61,13 +61,14 @@ CWorldEditor::CWorldEditor(QWidget *parent) :
     ui->CamSpeedSpinBox->SetDefaultValue(1.0);
     ResetHover();
 
-    mTransformSpace = eWorldTransform;
+    mTranslateSpace = eWorldTransform;
+    mRotateSpace = eWorldTransform;
 
-    QComboBox *pTransformCombo = new QComboBox(this);
-    pTransformCombo->setMinimumWidth(75);
-    pTransformCombo->addItem("World");
-    pTransformCombo->addItem("Local");
-    ui->MainToolBar->insertWidget(0, pTransformCombo);
+    mpTransformSpaceComboBox = new QComboBox(this);
+    mpTransformSpaceComboBox->setMinimumWidth(75);
+    mpTransformSpaceComboBox->addItem("World");
+    mpTransformSpaceComboBox->addItem("Local");
+    ui->MainToolBar->insertWidget(0, mpTransformSpaceComboBox);
 
     // Initialize offscreen actions
     addAction(ui->ActionIncrementGizmo);
@@ -76,7 +77,7 @@ CWorldEditor::CWorldEditor(QWidget *parent) :
     // Connect signals and slots
     connect(ui->TransformSpinBox, SIGNAL(EditingDone(CVector3f)), this, SLOT(OnTransformSpinBoxEdited(CVector3f)));
     connect(ui->TransformSpinBox, SIGNAL(ValueChanged(CVector3f)), this, SLOT(OnTransformSpinBoxModified(CVector3f)));
-    connect(pTransformCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(SetTransformSpace(int)));
+    connect(mpTransformSpaceComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(SetTransformSpace(int)));
     connect(ui->CamSpeedSpinBox, SIGNAL(valueChanged(double)), this, SLOT(OnCameraSpeedChange(double)));
     connect(ui->MainViewport, SIGNAL(PreRender()), this, SLOT(ViewportPreRender()));
     connect(ui->MainViewport, SIGNAL(Render(CCamera&)), this, SLOT(ViewportRender(CCamera&)));
@@ -193,27 +194,37 @@ void CWorldEditor::ViewportRayCast()
             {
                 switch (mGizmo.Mode())
                 {
-                case CGizmo::eTranslate:
-                {
-                    CVector3f delta = mGizmo.DeltaTranslation();
-
-                    for (auto it = mSelectedNodes.begin(); it != mSelectedNodes.end(); it++)
+                    case CGizmo::eTranslate:
                     {
-                        (*it)->Translate(delta, mTransformSpace);
-                        (*it)->BuildLightList(this->mpArea);
+                        CVector3f delta = mGizmo.DeltaTranslation();
+
+                        for (auto it = mSelectedNodes.begin(); it != mSelectedNodes.end(); it++)
+                        {
+                            (*it)->Translate(delta, mTranslateSpace);
+                            (*it)->BuildLightList(this->mpArea);
+                        }
+                        break;
                     }
-                    break;
-                }
 
-                case CGizmo::eRotate:
-                {
-                    CQuaternion delta = mGizmo.DeltaRotation();
+                    case CGizmo::eRotate:
+                    {
+                        CQuaternion delta = mGizmo.DeltaRotation();
 
-                    for (auto it = mSelectedNodes.begin(); it != mSelectedNodes.end(); it++)
-                        (*it)->Rotate(delta, mTransformSpace);
+                        for (auto it = mSelectedNodes.begin(); it != mSelectedNodes.end(); it++)
+                            (*it)->Rotate(delta, mRotateSpace);
 
-                    break;
-                }
+                        break;
+                    }
+
+                    case CGizmo::eScale:
+                    {
+                        CVector3f delta = mGizmo.DeltaScale();
+
+                        for (auto it = mSelectedNodes.begin(); it != mSelectedNodes.end(); it++)
+                            (*it)->Scale(delta);
+
+                        break;
+                    }
                 }
 
                 RecalculateSelectionBounds();
@@ -432,20 +443,23 @@ void CWorldEditor::SetViewportSize(int Width, int Height)
 
 void CWorldEditor::SetTransformSpace(int space)
 {
+    if (mGizmo.Mode() == CGizmo::eScale) return;
+    ETransformSpace& transformSpace = (mGizmo.Mode() == CGizmo::eTranslate ? mTranslateSpace : mRotateSpace);
+
     switch (space)
     {
     case 0:
-        mTransformSpace = eWorldTransform;
-        mGizmo.SetRotation(CQuaternion::skIdentity);
+        transformSpace = eWorldTransform;
+        mGizmo.SetLocalRotation(CQuaternion::skIdentity);
         break;
     case 1:
-        mTransformSpace = eLocalTransform;
+        transformSpace = eLocalTransform;
         if (!mSelectedNodes.empty())
-            mGizmo.SetRotation(mSelectedNodes.front()->AbsoluteRotation());
+            mGizmo.SetLocalRotation(mSelectedNodes.front()->AbsoluteRotation());
         break;
     }
 
-    mGizmo.SetTransformSpace(mTransformSpace);
+    mGizmo.SetTransformSpace(transformSpace);
 }
 
 // ************ PRIVATE ************
@@ -570,10 +584,17 @@ void CWorldEditor::UpdateGizmoUI()
         if (!mSelectedNodes.empty())
             mGizmo.SetPosition(mSelectedNodes.front()->AbsolutePosition());
 
-        if ((mTransformSpace == eLocalTransform) && !mSelectedNodes.empty())
-            mGizmo.SetRotation(mSelectedNodes.front()->AbsoluteRotation());
-        else
-            mGizmo.SetRotation(CQuaternion::skIdentity);
+        // Determine transform space
+        ETransformSpace space;
+        if (mGizmo.Mode() == CGizmo::eTranslate)   space = mTranslateSpace;
+        else if (mGizmo.Mode() == CGizmo::eRotate) space = mRotateSpace;
+        else                                       space = eLocalTransform;
+
+        // Set gizmo transform space
+        mGizmo.SetTransformSpace(space);
+
+        if (!mSelectedNodes.empty())
+            mGizmo.SetLocalRotation(mSelectedNodes.front()->AbsoluteRotation());
     }
 
     mGizmoUIOutdated = false;
@@ -764,6 +785,16 @@ void CWorldEditor::on_ActionSelectObjects_triggered()
     ui->ActionTranslate->setChecked(false);
     ui->ActionRotate->setChecked(false);
     ui->ActionScale->setChecked(false);
+
+    // Set transform spin box settings
+    ui->TransformSpinBox->SetSingleStep(0.1);
+    ui->TransformSpinBox->SetDefaultValue(0.0);
+
+    // Set transform space combo box
+    mpTransformSpaceComboBox->setEnabled(false);
+    mpTransformSpaceComboBox->blockSignals(true);
+    mpTransformSpaceComboBox->setCurrentIndex(0);
+    mpTransformSpaceComboBox->blockSignals(false);
 }
 
 void CWorldEditor::on_ActionTranslate_triggered()
@@ -771,13 +802,22 @@ void CWorldEditor::on_ActionTranslate_triggered()
     mShowGizmo = true;
     mGizmoUIOutdated = true;
     mGizmo.SetMode(CGizmo::eTranslate);
+    mGizmo.SetTransformSpace(mTranslateSpace);
     ui->ActionSelectObjects->setChecked(false);
     ui->ActionTranslate->setChecked(true);
     ui->ActionRotate->setChecked(false);
     ui->ActionScale->setChecked(false);
 
+    // Set transform spin box settings
     ui->TransformSpinBox->SetSingleStep(0.1);
     ui->TransformSpinBox->SetDefaultValue(0.0);
+
+    // Set transform space combo box
+    int index = (mTranslateSpace == eWorldTransform ? 0 : 1);
+    mpTransformSpaceComboBox->setEnabled(true);
+    mpTransformSpaceComboBox->blockSignals(true);
+    mpTransformSpaceComboBox->setCurrentIndex(index);
+    mpTransformSpaceComboBox->blockSignals(false);
 }
 
 void CWorldEditor::on_ActionRotate_triggered()
@@ -785,13 +825,22 @@ void CWorldEditor::on_ActionRotate_triggered()
     mShowGizmo = true;
     mGizmoUIOutdated = true;
     mGizmo.SetMode(CGizmo::eRotate);
+    mGizmo.SetTransformSpace(mRotateSpace);
     ui->ActionSelectObjects->setChecked(false);
     ui->ActionTranslate->setChecked(false);
     ui->ActionRotate->setChecked(true);
     ui->ActionScale->setChecked(false);
 
+    // Set transform spin box settings
     ui->TransformSpinBox->SetSingleStep(1.0);
     ui->TransformSpinBox->SetDefaultValue(0.0);
+
+    // Set transform space combo box
+    int index = (mRotateSpace == eWorldTransform ? 0 : 1);
+    mpTransformSpaceComboBox->setEnabled(true);
+    mpTransformSpaceComboBox->blockSignals(true);
+    mpTransformSpaceComboBox->setCurrentIndex(index);
+    mpTransformSpaceComboBox->blockSignals(false);
 }
 
 void CWorldEditor::on_ActionScale_triggered()
@@ -799,13 +848,21 @@ void CWorldEditor::on_ActionScale_triggered()
     mShowGizmo = true;
     mGizmoUIOutdated = true;
     mGizmo.SetMode(CGizmo::eScale);
+    mGizmo.SetTransformSpace(eLocalTransform);
     ui->ActionSelectObjects->setChecked(false);
     ui->ActionTranslate->setChecked(false);
     ui->ActionRotate->setChecked(false);
     ui->ActionScale->setChecked(true);
 
+    // Set transform spin box settings
     ui->TransformSpinBox->SetSingleStep(0.1);
     ui->TransformSpinBox->SetDefaultValue(1.0);
+
+    // Set transform space combo box - force to local
+    mpTransformSpaceComboBox->setEnabled(false);
+    mpTransformSpaceComboBox->blockSignals(true);
+    mpTransformSpaceComboBox->setCurrentIndex(1);
+    mpTransformSpaceComboBox->blockSignals(false);
 }
 
 void CWorldEditor::on_ActionIncrementGizmo_triggered()

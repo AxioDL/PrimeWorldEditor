@@ -60,8 +60,6 @@ private:
     EGizmoMode mMode;
     EGizmoAxes mSelectedAxes;
     ETransformSpace mTransformSpace;
-    CVector3f mHitPoint;
-    CTransform4f mBillboardTransform;
     CQuaternion mBillboardRotation;
     float mGizmoSize;
     float mCameraDist;
@@ -71,27 +69,32 @@ private:
     bool mEnableCursorWrap;
 
     CTransform4f mTransform;
+    CTransform4f mBillboardTransform;
+    CTransform4f mScaledTransform;
     CVector3f mPosition;
-    CVector3f mDeltaTranslation;
-    CVector3f mTotalTranslation;
     CQuaternion mRotation;
-    CQuaternion mDeltaRotation;
-    CQuaternion mCurrentRotation;
-    CVector3f mTotalRotation; // This is a CVector3f because this value displays on the UI and a quat would cause rollover
+    CQuaternion mLocalRotation;
     CVector3f mScale;
-    CVector3f mDeltaScale;
-    CVector3f mTotalScale;
     bool mFlipScaleX;
     bool mFlipScaleY;
     bool mFlipScaleZ;
 
+    CVector3f mDeltaTranslation;
+    CVector3f mTotalTranslation;
+    CQuaternion mDeltaRotation;
+    CQuaternion mCurrentRotation;
+    CVector3f mTotalRotation; // This is a CVector3f because this value displays on the UI and a quat would cause rollover
+    CVector3f mDeltaScale;
+    CVector3f mTotalScale;
+
     CPlane mTranslatePlane;
     CVector3f mTranslateOffset;
     float mRotateOffset;
+    float mScaleOffset;
     bool mSetOffset;
 
-    CVector3f mRotateHitPoint;
-    CVector3f mClockwiseDir;
+    CVector3f mHitPoint;
+    CVector3f mMoveDir;
 
     struct SModelPart
     {
@@ -145,7 +148,7 @@ public:
     void SetMode(EGizmoMode mode);
     void SetTransformSpace(ETransformSpace space);
     void SetPosition(const CVector3f& position);
-    void SetRotation(const CQuaternion& orientation);
+    void SetLocalRotation(const CQuaternion& orientation);
     void EnableCursorWrap(bool wrap);
 
     // Protected

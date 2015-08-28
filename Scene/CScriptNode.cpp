@@ -45,7 +45,7 @@ CScriptNode::CScriptNode(CSceneManager *pScene, CSceneNode *pParent, CScriptObje
             {
                 mpVolumePreviewNode = new CModelNode(pScene, this, pVolumeModel);
                 mpVolumePreviewNode->SetInheritance(true, (VolumeShape == 1), false);
-                mpVolumePreviewNode->Scale(mpInstance->GetVolume(), eWorldTransform);
+                mpVolumePreviewNode->Scale(mpInstance->GetVolume());
                 mpVolumePreviewNode->ForceAlphaEnabled(true);
             }
         }
