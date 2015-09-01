@@ -2124,7 +2124,7 @@
          <number>0</number>
         </property>
         <item>
-         <widget class="CEditorGLWidget" name="PreviewGLWidget" native="true">
+         <widget class="CModelEditorViewport" name="Viewport" native="true">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
             <horstretch>250</horstretch>
@@ -2481,6 +2481,11 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>WDraggableSpinBox</class>
+   <extends>QDoubleSpinBox</extends>
+   <header>WDraggableSpinBox.h</header>
+  </customwidget>
+  <customwidget>
    <class>WColorPicker</class>
    <extends>QWidget</extends>
    <header>WColorPicker.h</header>
@@ -2496,15 +2501,10 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>CEditorGLWidget</class>
+   <class>CModelEditorViewport</class>
    <extends>QWidget</extends>
-   <header>CEditorGLWidget.h</header>
+   <header>CModelEditorViewport.h</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>WDraggableSpinBox</class>
-   <extends>QDoubleSpinBox</extends>
-   <header>WDraggableSpinBox.h</header>
   </customwidget>
  </customwidgets>
  <resources>

@@ -31,7 +31,7 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="CEditorGLWidget" name="MainViewport" native="true">
+     <widget class="CSceneViewport" name="MainViewport" native="true">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
         <horstretch>0</horstretch>
@@ -245,8 +245,6 @@
     <property name="title">
      <string>Edit</string>
     </property>
-    <addaction name="ActionUndo"/>
-    <addaction name="ActionRedo"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -475,10 +473,6 @@
    <addaction name="ActionLink"/>
    <addaction name="ActionUnlink"/>
    <addaction name="separator"/>
-   <addaction name="ActionSelectObjects"/>
-   <addaction name="ActionTranslate"/>
-   <addaction name="ActionRotate"/>
-   <addaction name="ActionScale"/>
   </widget>
   <action name="ActionOpen">
    <property name="text">
@@ -488,60 +482,6 @@
   <action name="ActionSave">
    <property name="text">
     <string>Save</string>
-   </property>
-  </action>
-  <action name="ActionTranslate">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="../Icons.qrc">
-     <normaloff>:/icons/EditorAssets/Translate.png</normaloff>:/icons/EditorAssets/Translate.png</iconset>
-   </property>
-   <property name="text">
-    <string>Translate</string>
-   </property>
-   <property name="toolTip">
-    <string>Translate</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+W</string>
-   </property>
-  </action>
-  <action name="ActionRotate">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="../Icons.qrc">
-     <normaloff>:/icons/EditorAssets/Rotate.png</normaloff>:/icons/EditorAssets/Rotate.png</iconset>
-   </property>
-   <property name="text">
-    <string>Rotate</string>
-   </property>
-   <property name="toolTip">
-    <string>Rotate</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+E</string>
-   </property>
-  </action>
-  <action name="ActionScale">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="../Icons.qrc">
-     <normaloff>:/icons/EditorAssets/Scale.png</normaloff>:/icons/EditorAssets/Scale.png</iconset>
-   </property>
-   <property name="text">
-    <string>Scale</string>
-   </property>
-   <property name="toolTip">
-    <string>Scale</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+R</string>
    </property>
   </action>
   <action name="actionOpen_model_viewer">
@@ -571,22 +511,6 @@
    </property>
    <property name="toolTip">
     <string>Unlink</string>
-   </property>
-  </action>
-  <action name="ActionUndo">
-   <property name="text">
-    <string>Undo</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Z</string>
-   </property>
-  </action>
-  <action name="ActionRedo">
-   <property name="text">
-    <string>Redo</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Y</string>
    </property>
   </action>
   <action name="ActionDrawWorld">
@@ -753,27 +677,6 @@
     <string>Fake Bloom</string>
    </property>
   </action>
-  <action name="ActionSelectObjects">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="../Icons.qrc">
-     <normaloff>:/icons/EditorAssets/SelectMode.png</normaloff>:/icons/EditorAssets/SelectMode.png</iconset>
-   </property>
-   <property name="text">
-    <string>Select Objects</string>
-   </property>
-   <property name="toolTip">
-    <string>Select Objects</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Q</string>
-   </property>
-  </action>
   <action name="ActionIncrementGizmo">
    <property name="text">
     <string>Increment Gizmo Size</string>
@@ -805,12 +708,6 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>CEditorGLWidget</class>
-   <extends>QWidget</extends>
-   <header>CEditorGLWidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>WDraggableSpinBox</class>
    <extends>QDoubleSpinBox</extends>
    <header>WDraggableSpinBox.h</header>
@@ -831,6 +728,12 @@
    <class>WVectorEditor</class>
    <extends>QWidget</extends>
    <header>WVectorEditor.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>CSceneViewport</class>
+   <extends>QWidget</extends>
+   <header>CSceneViewport.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

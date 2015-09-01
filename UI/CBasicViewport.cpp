@@ -1,49 +1,31 @@
+#include "CBasicViewport.h"
+#include <Core/CDrawUtil.h>
+#include <Core/CGraphics.h>
+#include <Common/Math.h>
 #include <GL/glew.h>
-#include <gtc/matrix_transform.hpp>
-#include <gtx/transform.hpp>
-#include <Core/CGraphics.h>
-#include <Core/CRenderer.h>
-#include <QTimer>
-#include "CEditorGLWidget.h"
-#include <iostream>
-#include <Core/CGraphics.h>
-#include <Resource/factory/CTextureDecoder.h>
-#include <Common/CTimer.h>
-#include <Common/CVector4f.h>
-#include <QOpenGLContext>
-#include <QPainter>
-#include <QOpenGLPaintDevice>
 
-QTimer CEditorGLWidget::sRefreshTimer;
-
-CEditorGLWidget::CEditorGLWidget(QWidget *pParent) :
-    QOpenGLWidget(pParent)
+CBasicViewport::CBasicViewport(QWidget *pParent) :
+    QOpenGLWidget(pParent),
+    mLastDrawTime(CTimer::GlobalTime()),
+    mKeysPressed(0),
+    mButtonsPressed(0),
+    mCursorState(Qt::ArrowCursor),
+    mCursorVisible(true)
 {
     setMouseTracking(true);
-    mLastDrawTime = CTimer::GlobalTime();
-    mKeysPressed = 0;
-    mButtonsPressed = 0;
-    mCursorState = Qt::ArrowCursor;
-    mCursorVisible = true;
     mCamera.SetAspectRatio((float) width() / height());
-
-    connect(&sRefreshTimer, SIGNAL(timeout()), this, SLOT(update()));
-
-    if (!sRefreshTimer.isActive())
-        sRefreshTimer.start(0);
 }
 
-CEditorGLWidget::~CEditorGLWidget()
+CBasicViewport::~CBasicViewport()
 {
 }
 
-void CEditorGLWidget::initializeGL()
+void CBasicViewport::initializeGL()
 {
     // Initialize CGraphics
     CGraphics::Initialize();
 
     // Setting various GL flags
-    glEnable(GL_DEPTH_TEST);
     glEnable(GL_PRIMITIVE_RESTART);
     glPrimitiveRestartIndex(0xFFFF);
     glDepthFunc(GL_LEQUAL);
@@ -55,44 +37,33 @@ void CEditorGLWidget::initializeGL()
     CMaterial::KillCachedMaterial();
     CShader::KillCachedShader();
 
-    // Initialize renderer
-    emit ViewportResized(width(), height());
+    // Initialize size
+    OnResize();
 }
 
-void CEditorGLWidget::paintGL()
+void CBasicViewport::paintGL()
 {
-    double DeltaTime = CTimer::GlobalTime() - mLastDrawTime;
-    mLastDrawTime = CTimer::GlobalTime();
+    // Prep render
+    glViewport(0, 0, width(), height());
+    glLineWidth(1.f);
+    glEnable(GL_DEPTH_TEST);
 
-    // Camera movement is processed here in order to sync it with the paint event
-    // This way movement happens exactly once per frame - no more, no less
-    ProcessInput(DeltaTime);
+    // Actual rendering is intended to be handled by subclassing CBasicViewport and
+    // reimplementing Render().
+    Paint();
 
-    // Pre-render signal allows for per-frame operations to be performed before the draw happens
-    emit PreRender();
-
-    // We emit a signal to indicate it's time to render the viewport instead of doing the rendering here.
-    // This allows the editor GL widget class to be reused among multiple editors with different rendering needs.
-    emit Render(mCamera);
-
-    // Post-render signal allows for the frame to be completed with post-processing
-    emit PostRender();
+    // Finally, draw XYZ axes in the corner
+//    DrawAxes();
 }
 
-void CEditorGLWidget::resizeGL(int w, int h)
+void CBasicViewport::resizeGL(int w, int h)
 {
     mCamera.SetAspectRatio((float) w / h);
     glViewport(0, 0, w, h);
-    emit ViewportResized(w, h);
+    OnResize();
 }
 
-void CEditorGLWidget::mouseMoveEvent(QMouseEvent *pEvent)
-{
-    if ((!IsMouseInputActive()) && (mButtonsPressed & eLeftButton))
-        emit MouseDrag(pEvent);
-}
-
-void CEditorGLWidget::mousePressEvent(QMouseEvent *pEvent)
+void CBasicViewport::mousePressEvent(QMouseEvent *pEvent)
 {
     setFocus();
 
@@ -100,7 +71,11 @@ void CEditorGLWidget::mousePressEvent(QMouseEvent *pEvent)
     if (pEvent->button() == Qt::RightButton) mButtonsPressed |= eRightButton;
 
     if (IsMouseInputActive())
+    {
         SetCursorVisible(false);
+        mMouseMoved = false;
+        mMoveTimer.Restart();
+    }
 
     // Left click only activates if mouse input is inactive to prevent the user from
     // clicking on things and creating selection rectangles while the cursor is hidden
@@ -109,13 +84,13 @@ void CEditorGLWidget::mousePressEvent(QMouseEvent *pEvent)
         if (pEvent->button() == Qt::LeftButton)
             mButtonsPressed |= eLeftButton;
 
-        emit MouseClick(pEvent);
+        OnMouseClick(pEvent);
     }
 
     mLastMousePos = pEvent->globalPos();
 }
 
-void CEditorGLWidget::mouseReleaseEvent(QMouseEvent *pEvent)
+void CBasicViewport::mouseReleaseEvent(QMouseEvent *pEvent)
 {
     bool fromMouseInput = IsMouseInputActive();
     if (pEvent->button() == Qt::LeftButton)  mButtonsPressed &= ~eLeftButton;
@@ -126,12 +101,23 @@ void CEditorGLWidget::mouseReleaseEvent(QMouseEvent *pEvent)
     if (!IsMouseInputActive())
         SetCursorVisible(true);
 
-    // Emit mouse release event if we didn't just exit mouse input (or regardless on left click)
+    // Run mouse release if we didn't just exit mouse input (or regardless on left click)
     if (!fromMouseInput || (pEvent->button() == Qt::LeftButton))
-        emit MouseRelease(pEvent);
+        OnMouseRelease(pEvent);
 }
 
-void CEditorGLWidget::keyPressEvent(QKeyEvent *pEvent)
+void CBasicViewport::mouseMoveEvent(QMouseEvent *pEvent)
+{
+    // todo: draggable selection rectangle
+}
+
+void CBasicViewport::wheelEvent(QWheelEvent *pEvent)
+{
+    // Maybe track a "wheel delta" member variable and let CCamera decide what to do with it?
+    mCamera.Zoom(pEvent->angleDelta().y() / 6000.f);
+}
+
+void CBasicViewport::keyPressEvent(QKeyEvent *pEvent)
 {
     switch (pEvent->key())
     {
@@ -145,7 +131,7 @@ void CEditorGLWidget::keyPressEvent(QKeyEvent *pEvent)
     }
 }
 
-void CEditorGLWidget::keyReleaseEvent(QKeyEvent *pEvent)
+void CBasicViewport::keyReleaseEvent(QKeyEvent *pEvent)
 {
     switch (pEvent->key())
     {
@@ -159,13 +145,7 @@ void CEditorGLWidget::keyReleaseEvent(QKeyEvent *pEvent)
     }
 }
 
-void CEditorGLWidget::wheelEvent(QWheelEvent *pEvent)
-{
-    // Maybe track a "wheel delta" member variable and let CCamera decide what to do with it?
-    mCamera.Zoom(pEvent->angleDelta().y() / 6000.f);
-}
-
-void CEditorGLWidget::focusOutEvent(QFocusEvent*)
+void CBasicViewport::focusOutEvent(QFocusEvent*)
 {
     // When the widget loses focus, release all input.
     mButtonsPressed = 0;
@@ -173,7 +153,14 @@ void CEditorGLWidget::focusOutEvent(QFocusEvent*)
     SetCursorVisible(true);
 }
 
-void CEditorGLWidget::SetCursorState(const QCursor &Cursor)
+void CBasicViewport::contextMenuEvent(QContextMenuEvent *pEvent)
+{
+    // Only allow context menu if we aren't exiting mouse input mode.
+    if (!mMouseMoved && (mMoveTimer.Time() < 0.5))
+        ContextMenu(pEvent);
+}
+
+void CBasicViewport::SetCursorState(const QCursor &Cursor)
 {
     mCursorState = Cursor;
 
@@ -181,7 +168,7 @@ void CEditorGLWidget::SetCursorState(const QCursor &Cursor)
         setCursor(Cursor);
 }
 
-void CEditorGLWidget::SetCursorVisible(bool visible)
+void CBasicViewport::SetCursorVisible(bool visible)
 {
     mCursorVisible = visible;
 
@@ -191,35 +178,35 @@ void CEditorGLWidget::SetCursorVisible(bool visible)
         setCursor(Qt::BlankCursor);
 }
 
-bool CEditorGLWidget::IsCursorVisible()
+bool CBasicViewport::IsCursorVisible()
 {
     return mCursorVisible;
 }
 
-bool CEditorGLWidget::IsMouseInputActive()
+bool CBasicViewport::IsMouseInputActive()
 {
     static const int skMoveButtons = eMiddleButton | eRightButton;
     return ((mButtonsPressed & skMoveButtons) != 0);
 }
 
-bool CEditorGLWidget::IsKeyboardInputActive()
+bool CBasicViewport::IsKeyboardInputActive()
 {
     static const int skMoveKeys = eQKey | eWKey | eEKey | eAKey | eSKey | eDKey;
     return ((mKeysPressed & skMoveKeys) != 0);
 }
 
-CCamera& CEditorGLWidget::Camera()
+CCamera& CBasicViewport::Camera()
 {
     return mCamera;
 }
 
-CRay CEditorGLWidget::CastRay()
+CRay CBasicViewport::CastRay()
 {
     CVector2f MouseCoords = MouseDeviceCoordinates();
     return mCamera.CastRay(MouseCoords);
 }
 
-CVector2f CEditorGLWidget::MouseDeviceCoordinates()
+CVector2f CBasicViewport::MouseDeviceCoordinates()
 {
     QPoint MousePos = QCursor::pos();
     QPoint ThisPos = this->mapToGlobal(pos());
@@ -232,10 +219,18 @@ CVector2f CEditorGLWidget::MouseDeviceCoordinates()
     return Device;
 }
 
-
-// ************ PRIVATE ************
-void CEditorGLWidget::ProcessInput(double DeltaTime)
+double CBasicViewport::LastRenderDuration()
 {
+    return mFrameTimer.Time();
+}
+
+// ************ PUBLIC SLOTS ************
+void CBasicViewport::ProcessInput()
+{
+    // Process camera input
+    double DeltaTime = CTimer::GlobalTime() - mLastDrawTime;
+    mLastDrawTime = CTimer::GlobalTime();
+
     if (IsMouseInputActive())
     {
         float XMovement = (QCursor::pos().x() - mLastMousePos.x()) * 0.01f;
@@ -245,9 +240,42 @@ void CEditorGLWidget::ProcessInput(double DeltaTime)
         {
             mCamera.ProcessMouseInput((EKeyInputs) mKeysPressed, (EMouseInputs) mButtonsPressed, XMovement, YMovement);
             QCursor::setPos(mLastMousePos);
+            mMouseMoved = true;
         }
     }
 
     if (IsKeyboardInputActive())
         mCamera.ProcessKeyInput((EKeyInputs) mKeysPressed, DeltaTime);
+
+    // Check user input
+    CheckUserInput();
+}
+
+void CBasicViewport::Render()
+{
+    mFrameTimer.Start();
+    update();
+    mFrameTimer.Stop();
+}
+
+// ************ PRIVATE ************
+void CBasicViewport::ProcessInput(double DeltaTime)
+{
+}
+
+void CBasicViewport::DrawAxes()
+{
+    // Draw 64x64 axes in lower-left corner with 8px margins
+    glViewport(8, height() - 72, 64, 64);
+    glEnable(GL_DEPTH_TEST);
+    glClear(GL_DEPTH_BUFFER_BIT);
+
+    CGraphics::sMVPBlock.ViewMatrix = CTransform4f::TranslationMatrix(CVector3f(0,2,0)).ToMatrix4f() * mCamera.RotationOnlyViewMatrix();
+    CGraphics::sMVPBlock.ProjectionMatrix = Math::PerspectiveMatrix(mCamera.FieldOfView(), 1.f, 0.1f, 4096.f);
+    CGraphics::UpdateMVPBlock();
+
+    glLineWidth(2.f);
+    CDrawUtil::DrawLine(CVector3f(0,0,0), CVector3f(1,0,0), CColor::skRed);   // X
+    CDrawUtil::DrawLine(CVector3f(0,0,0), CVector3f(0,1,0), CColor::skGreen); // Y
+    CDrawUtil::DrawLine(CVector3f(0,0,0), CVector3f(0,0,1), CColor::skBlue);  // Z
 }

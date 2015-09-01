@@ -9,6 +9,8 @@
 #include <Resource/CFont.h>
 #include <Resource/model/CModel.h>
 #include <Scene/CModelNode.h>
+#include <QTimer>
+#include "CModelEditorViewport.h"
 
 namespace Ui {
 class CModelEditorWindow;
@@ -18,12 +20,7 @@ class CModelEditorWindow : public QMainWindow
 {
     Q_OBJECT
 
-    enum EDrawMode {
-        eDrawMesh, eDrawSphere, eDrawSquare
-    };
-
     Ui::CModelEditorWindow *ui;
-    CRenderer *mpRenderer;
     CSceneManager *mpScene;
     QString mOutputFilename;
     CModel *mpCurrentModel;
@@ -32,8 +29,7 @@ class CModelEditorWindow : public QMainWindow
     CMaterial *mpCurrentMat;
     CMaterialPass *mpCurrentPass;
     bool mIgnoreSignals;
-    EDrawMode mDrawMode;
-    float mViewportAspectRatio;
+    QTimer mRefreshTimer;
 
 public:
     explicit CModelEditorWindow(QWidget *parent = 0);
@@ -42,6 +38,7 @@ public:
     void closeEvent(QCloseEvent *pEvent);
 
 public slots:
+    void RefreshViewport();
     void SetActiveMaterial(int MatIndex);
     void SetActivePass(int PassIndex);
     void UpdateMaterial();
@@ -52,8 +49,6 @@ public slots:
     void UpdateMaterial(QColor eColorProperty);
     void UpdateUI(int Value);
     void UpdateAnimParamUI(int Mode);
-    void PaintViewport(CCamera& Camera);
-    void SetViewportSize(int Width, int Height);
 
 private:
     void ActivateMatEditUI(bool Active);

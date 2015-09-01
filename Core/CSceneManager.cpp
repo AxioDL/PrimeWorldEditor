@@ -200,8 +200,11 @@ void CSceneManager::SetActiveWorld(CWorld* _world)
 
 void CSceneManager::ClearScene()
 {
-    mpAreaRootNode->Unparent();
-    delete mpAreaRootNode;
+    if (mpAreaRootNode)
+    {
+        mpAreaRootNode->Unparent();
+        delete mpAreaRootNode;
+    }
 
     mModelNodes.clear();
     mStaticNodes.clear();

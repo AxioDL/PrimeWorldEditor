@@ -30,7 +30,7 @@ void CRenderBucket::Sort(CCamera& Camera)
         CCamera *pCamera;
         bool operator()(SRenderablePtr left, SRenderablePtr right) {
             CVector3f cPos = pCamera->Position();
-            CVector3f cDir = pCamera->GetDirection();
+            CVector3f cDir = pCamera->Direction();
 
             CVector3f distL = left.AABox.ClosestPointAlongVector(cDir) - cPos;
             float dotL = distL.Dot(cDir);

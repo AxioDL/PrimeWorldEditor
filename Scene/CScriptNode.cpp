@@ -108,6 +108,12 @@ void CScriptNode::AddToRenderer(CRenderer *pRenderer)
 
         if (mHasVolumePreview)
             mpVolumePreviewNode->AddToRenderer(pRenderer);
+
+        if (mpInstance->ObjectTypeID() == 0xC)
+        {
+            CGraphics::sMVPBlock.ViewMatrix = Transform().Inverse().ToMatrix4f();
+            CGraphics::UpdateMVPBlock();
+        }
     }
 }
 

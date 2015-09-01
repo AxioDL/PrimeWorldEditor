@@ -61,8 +61,6 @@ void WVectorEditor::SetOrientation(Qt::Orientation orientation)
     mpLayout->addItem(mpZLayout);
     mpLayout->setContentsMargins(5,5,5,5);
     setLayout(mpLayout);
-
-    emit
 }
 
 void WVectorEditor::SetDefaultValue(double value)

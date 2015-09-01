@@ -38,7 +38,7 @@ void WModifyTab::SetEditor(CWorldEditor *pEditor)
     mpWorldEditor = pEditor;
 }
 
-void WModifyTab::GenerateUI(std::list<CSceneNode*>& Selection)
+void WModifyTab::GenerateUI(QList<CSceneNode*>& Selection)
 {
     WPropertyEditor *pOldEditor = mpCurPropEditor;
     ClearUI();

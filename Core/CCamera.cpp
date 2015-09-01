@@ -1,7 +1,7 @@
 #include "CCamera.h"
 #include "CGraphics.h"
 #include <Common/CQuaternion.h>
-
+#include <Common/Math.h>
 #include <gtc/matrix_transform.hpp>
 
 #define HALF_PI 1.570796371f
@@ -170,21 +170,25 @@ CVector3f CCamera::Position() const
     return mPosition;
 }
 
-CVector3f CCamera::GetDirection() const
+CVector3f CCamera::Direction() const
 {
     return mDirection;
 }
 
-float CCamera::GetYaw() const
+float CCamera::Yaw() const
 {
     return mYaw;
 }
 
-float CCamera::GetPitch() const
+float CCamera::Pitch() const
 {
     return mPitch;
 }
 
+float CCamera::FieldOfView() const
+{
+    return 55.f;
+}
 
 const CMatrix4f& CCamera::ViewMatrix()
 {
@@ -298,7 +302,6 @@ void CCamera::CalculateView()
 
 void CCamera::CalculateProjection()
 {
-    // todo: don't use glm
-    mCachedProjectionMatrix = CMatrix4f::FromGlmMat4(glm::perspective(55.f, mAspectRatio, 0.1f, 4096.f)).Transpose();
+    mCachedProjectionMatrix = Math::PerspectiveMatrix(55.f, mAspectRatio, 0.1f, 4096.f);
     mProjectionOutdated = false;
 }

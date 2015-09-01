@@ -33,7 +33,7 @@ public:
     explicit WModifyTab(QWidget *pParent = 0);
     ~WModifyTab();
     void SetEditor(CWorldEditor *pEditor);
-    void GenerateUI(std::list<CSceneNode*>& Selection);
+    void GenerateUI(QList<CSceneNode*>& Selection);
     void ClearUI();
     void ClearCachedEditors();
 

@@ -41,7 +41,7 @@ class CGizmo : public IRenderable
 public:
     enum EGizmoMode
     {
-        eTranslate, eRotate, eScale
+        eTranslate, eRotate, eScale, eOff
     };
 
     enum EGizmoAxes
@@ -68,6 +68,7 @@ private:
     CVector2f mWrapOffset;
     bool mEnableCursorWrap;
 
+    // Transform
     CTransform4f mTransform;
     CTransform4f mBillboardTransform;
     CTransform4f mScaledTransform;
@@ -79,6 +80,7 @@ private:
     bool mFlipScaleY;
     bool mFlipScaleZ;
 
+    // Delta transform
     CVector3f mDeltaTranslation;
     CVector3f mTotalTranslation;
     CQuaternion mDeltaRotation;
@@ -87,15 +89,16 @@ private:
     CVector3f mDeltaScale;
     CVector3f mTotalScale;
 
+    // Transform helpers
     CPlane mTranslatePlane;
     CVector3f mTranslateOffset;
     float mRotateOffset;
     float mScaleOffset;
     bool mSetOffset;
-
     CVector3f mHitPoint;
     CVector3f mMoveDir;
 
+    // Model parts
     struct SModelPart
     {
         EGizmoAxes modelAxes;
@@ -133,9 +136,11 @@ public:
     void StartTransform();
     bool TransformFromInput(const CRay& ray, CCamera& camera);
     void EndTransform();
+    bool IsTransforming();
     bool HasTransformed();
 
     EGizmoMode Mode();
+    ETransformSpace TransformSpace();
     CVector3f Position();
     CVector3f DeltaTranslation();
     CVector3f TotalTranslation();

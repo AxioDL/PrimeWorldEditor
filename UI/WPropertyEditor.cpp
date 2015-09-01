@@ -154,7 +154,7 @@ void WPropertyEditor::CreateEditor()
 
         pLineEdit->setText(QString::fromStdString(pStringCast->Get()));
         pLineEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-        pLineEdit->setCursorPosition(0);
+        //pLineEdit->setCursorPosition(0);
 
         mUI.EditorWidget = pLineEdit;
         break;

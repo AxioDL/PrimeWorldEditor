@@ -1,9 +1,13 @@
 #ifndef CWORLDEDITOR_H
 #define CWORLDEDITOR_H
 
-#include <QMainWindow>
-#include <QList>
+#include "INodeEditor.h"
+
 #include <QComboBox>
+#include <QList>
+#include <QMainWindow>
+#include <QTimer>
+#include <QUndoStack>
 
 #include "CGizmo.h"
 #include <Common/CRay.h>
@@ -21,74 +25,38 @@ namespace Ui {
 class CWorldEditor;
 }
 
-class CWorldEditor : public QMainWindow
+class CWorldEditor : public INodeEditor
 {
     Q_OBJECT
-    CRenderer *mpRenderer;
-    CSceneManager *mpSceneManager;
-    CGizmo mGizmo;
-    ETransformSpace mTranslateSpace;
-    ETransformSpace mRotateSpace;
-    CCamera mCamera;
-    CGameArea *mpArea;
+    Ui::CWorldEditor *ui;
+
     CWorld *mpWorld;
+    CGameArea *mpArea;
     CToken mAreaToken;
     CToken mWorldToken;
-    CTimer mFrameTimer;
-    bool mDrawSky;
-    bool mShowGizmo;
-    bool mGizmoHovering;
-    bool mGizmoTransforming;
-    bool mGizmoUIOutdated;
-
-    CVector3f mHoverPoint;
-    CSceneNode *mpHoverNode;
-    std::list<CSceneNode*> mSelectedNodes;
-    CAABox mSelectionAABox;
-
-    QComboBox *mpTransformSpaceComboBox;
-
-    CTimer mFPSTimer;
-    int mFrameCount;
+    QTimer mRefreshTimer;
 
 public:
     explicit CWorldEditor(QWidget *parent = 0);
     ~CWorldEditor();
     bool eventFilter(QObject *pObj, QEvent *pEvent);
     void SetArea(CWorld *pWorld, CGameArea *pArea);
-    void ViewportRayCast();
-    CRenderer* Renderer();
-    CSceneManager* Scene();
     CGameArea* ActiveArea();
 
-    // Selection
-    void SelectNode(CSceneNode *pNode);
-    void DeselectNode(CSceneNode *pNode);
-    void ClearSelection();
-
-public slots:
-    void ViewportPreRender();
-    void ViewportRender(CCamera& Camera);
-    void ViewportPostRender();
-    void ViewportMouseDrag(QMouseEvent *pEvent);
-    void ViewportMouseClick(QMouseEvent *pEvent);
-    void ViewportMouseRelease(QMouseEvent *pEvent);
-    void SetViewportSize(int Width, int Height);
-    void SetTransformSpace(int space);
-
-private:
-    Ui::CWorldEditor *ui;
-    void RecalculateSelectionBounds();
-    void ResetHover();
-    void UpdateCursor();
-
-    // UI
-    void OnSidebarResize();
+    // Update UI
+    void UpdateGizmoUI();
     void UpdateSelectionUI();
     void UpdateStatusBar();
-    void UpdateGizmoUI();
+
+protected:
+    void GizmoModeChanged(CGizmo::EGizmoMode mode);
+
+private:
+    void UpdateCursor();
+    void OnSidebarResize();
 
 private slots:
+    void RefreshViewport();
     void OnCameraSpeedChange(double speed);
     void OnTransformSpinBoxModified(CVector3f value);
     void OnTransformSpinBoxEdited(CVector3f value);
@@ -108,10 +76,6 @@ private slots:
     void on_ActionDisableBackfaceCull_triggered();
     void on_ActionDisableAlpha_triggered();
     void on_ActionEditLayers_triggered();
-    void on_ActionSelectObjects_triggered();
-    void on_ActionTranslate_triggered();
-    void on_ActionRotate_triggered();
-    void on_ActionScale_triggered();
     void on_ActionIncrementGizmo_triggered();
     void on_ActionDecrementGizmo_triggered();
 };

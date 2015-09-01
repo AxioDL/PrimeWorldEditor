@@ -11,7 +11,7 @@
 #include <Common/StringUtil.h>
 #include <Core/CGraphics.h>
 #include <gtc/matrix_transform.hpp>
-#include "CEditorGLWidget.h"
+#include "CBasicViewport.h"
 
 CWorldEditorWindow::CWorldEditorWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -30,13 +30,13 @@ CWorldEditorWindow::CWorldEditorWindow(QWidget *parent) :
     mViewportKeysPressed = 0;
     mShouldDrawSky = true;
 
-    connect(ui->CentralGLWidget, SIGNAL(ViewportResized(int,int)), this, SLOT(SetViewportSize(int,int)));
+    /*connect(ui->CentralGLWidget, SIGNAL(ViewportResized(int,int)), this, SLOT(SetViewportSize(int,int)));
     connect(ui->CentralGLWidget, SIGNAL(PaintViewport(double)), this, SLOT(PaintViewport(double)));
     connect(ui->CentralGLWidget, SIGNAL(MouseClicked(QMouseEvent*)), this, SLOT(OnViewportRayCast(QMouseEvent*)));
     connect(ui->CentralGLWidget, SIGNAL(MouseMoved(QMouseEvent*, float, float)), this, SLOT(OnViewportMouseMove(QMouseEvent*, float, float)));
     connect(ui->CentralGLWidget, SIGNAL(KeyPressed(QKeyEvent*)), this, SLOT(OnViewportKeyPress(QKeyEvent*)));
     connect(ui->CentralGLWidget, SIGNAL(KeyReleased(QKeyEvent*)), this, SLOT(OnViewportKeyRelease(QKeyEvent*)));
-    connect(ui->CentralGLWidget, SIGNAL(WheelScroll(int)), this, SLOT(OnViewportWheelScroll(int)));
+    connect(ui->CentralGLWidget, SIGNAL(WheelScroll(int)), this, SLOT(OnViewportWheelScroll(int)));*/
 }
 
 CWorldEditorWindow::~CWorldEditorWindow()

@@ -126,7 +126,7 @@ void CRenderer::RenderBuckets(CCamera& Camera)
 {
     if (!mInitialized) Init();
     mSceneFramebuffer.Bind();
-    Camera.LoadMatrices();
+    //Camera.LoadMatrices();
 
     // Set backface culling
     if (mOptions & eEnableBackfaceCull) glEnable(GL_CULL_FACE);

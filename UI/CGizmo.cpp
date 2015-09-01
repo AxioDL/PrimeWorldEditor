@@ -476,7 +476,7 @@ bool CGizmo::TransformFromInput(const CRay& ray, CCamera& camera)
 
         mDeltaScale = mTotalScale / oldScale;
 
-        if (!mHasTransformed && (scaleAmount != 0.f))
+        if (!mHasTransformed && (scaleAmount != 1.f))
             mHasTransformed = true;
 
         return true;
@@ -491,6 +491,11 @@ void CGizmo::EndTransform()
     mIsTransforming = false;
 }
 
+bool CGizmo::IsTransforming()
+{
+    return mIsTransforming;
+}
+
 bool CGizmo::HasTransformed()
 {
     return mHasTransformed;
@@ -499,6 +504,11 @@ bool CGizmo::HasTransformed()
 CGizmo::EGizmoMode CGizmo::Mode()
 {
     return mMode;
+}
+
+ETransformSpace CGizmo::TransformSpace()
+{
+    return mTransformSpace;
 }
 
 CVector3f CGizmo::Position()

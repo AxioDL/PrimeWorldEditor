@@ -28,7 +28,7 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="CEditorGLWidget" name="CentralGLWidget" native="true"/>
+     <widget class="QWidget" name="CentralGLWidget" native="true"/>
     </item>
    </layout>
   </widget>
@@ -133,8 +133,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>294</width>
-          <height>654</height>
+          <width>272</width>
+          <height>330</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout">
@@ -447,14 +447,6 @@
    </property>
   </action>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>CEditorGLWidget</class>
-   <extends>QWidget</extends>
-   <header>CEditorGLWidget.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

@@ -72,7 +72,6 @@ SOURCES += \
     Resource/factory/CWorldLoader.cpp \
     Resource/CStringTable.cpp \
     Resource/factory/CStringLoader.cpp \
-    UI/CEditorGLWidget.cpp \
     Core/CGraphics.cpp \
     Resource/CFont.cpp \
     Resource/factory/CFontLoader.cpp \
@@ -135,7 +134,17 @@ SOURCES += \
     UI/WIntegralSpinBox.cpp \
     UI/CAboutDialog.cpp \
     UI/CGizmo.cpp \
-    Common/CPlane.cpp
+    Common/CPlane.cpp \
+    UI/undo/CTranslateNodeCommand.cpp \
+    UI/undo/CClearSelectionCommand.cpp \
+    UI/undo/CSelectNodeCommand.cpp \
+    UI/undo/CDeselectNodeCommand.cpp \
+    UI/CBasicViewport.cpp \
+    UI/INodeEditor.cpp \
+    UI/CSceneViewport.cpp \
+    UI/undo/CRotateNodeCommand.cpp \
+    UI/undo/CScaleNodeCommand.cpp \
+    UI/CModelEditorViewport.cpp
 
 HEADERS  += \
     Common/AnimUtil.h \
@@ -208,7 +217,6 @@ HEADERS  += \
     Resource/SDependency.h \
     Resource/CStringTable.h \
     Resource/factory/CStringLoader.h \
-    UI/CEditorGLWidget.h \
     Core/CGraphics.h \
     Resource/CFont.h \
     Resource/factory/CFontLoader.h \
@@ -286,7 +294,19 @@ HEADERS  += \
     Core/IRenderable.h \
     Core/SRenderablePtr.h \
     Common/ETransformSpace.h \
-    Common/CPlane.h
+    Common/CPlane.h \
+    UI/undo/CTranslateNodeCommand.h \
+    UI/undo/EUndoCommand.h \
+    UI/undo/CClearSelectionCommand.h \
+    UI/undo/CSelectNodeCommand.h \
+    UI/undo/CDeselectNodeCommand.h \
+    UI/undo/UndoCommands.h \
+    UI/CBasicViewport.h \
+    UI/INodeEditor.h \
+    UI/CSceneViewport.h \
+    UI/undo/CRotateNodeCommand.h \
+    UI/undo/CScaleNodeCommand.h \
+    UI/CModelEditorViewport.h
 
 FORMS    += \
     UI/CWorldEditorWindow.ui \

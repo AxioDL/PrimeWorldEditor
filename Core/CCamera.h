@@ -49,9 +49,10 @@ public:
 
     // Getters
     CVector3f Position() const;
-    CVector3f GetDirection() const;
-    float GetYaw() const;
-    float GetPitch() const;
+    CVector3f Direction() const;
+    float Yaw() const;
+    float Pitch() const;
+    float FieldOfView() const;
     const CMatrix4f& ViewMatrix();
     const CMatrix4f& RotationOnlyViewMatrix();
     const CMatrix4f& ProjectionMatrix();

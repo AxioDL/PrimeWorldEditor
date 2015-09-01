@@ -1,4 +1,6 @@
 #include "Math.h"
+#include <Common/CMatrix4f.h>
+#include <gtc/matrix_transform.hpp>
 
 namespace Math
 {
@@ -334,6 +336,12 @@ std::pair<bool,float> RayTriangleIntersection(const CRay& Ray,
     }
 
     return std::pair<bool,float>(true, t);
+}
+
+CMatrix4f PerspectiveMatrix(float fov, float aspect, float near, float far)
+{
+    // todo: don't use glm
+    return CMatrix4f::FromGlmMat4(glm::perspective(fov, aspect, near, far)).Transpose();
 }
 
 } // End namespace

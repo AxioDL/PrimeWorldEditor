@@ -32,6 +32,8 @@ std::pair<bool,float> RayTriangleIntersection(const CRay& Ray, const CVector3f& 
                                               const CVector3f& PointB, const CVector3f& PointC,
                                               bool AllowBackfaces = false);
 
+CMatrix4f PerspectiveMatrix(float fov, float aspect, float near, float far);
+
 // Constants
 static const float skPi = 3.14159265358979323846f;
 static const float skHalfPi = skPi / 2.f;

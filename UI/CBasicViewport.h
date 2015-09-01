@@ -11,34 +11,44 @@
 #include <Core/CRenderer.h>
 #include <Resource/CFont.h>
 #include <Common/CRay.h>
+#include <Common/CTimer.h>
 
-class CEditorGLWidget : public QOpenGLWidget
+class CBasicViewport : public QOpenGLWidget
 {
     Q_OBJECT
 
-    static QTimer sRefreshTimer;
+protected:
+    // Render
     CCamera mCamera;
-    QPoint mLastMousePos;
+    CTimer mFrameTimer;
     double mLastDrawTime;
-    QPoint mLeftClickPoint;
-    int mButtonsPressed; // int container for EMouseInputs flags
-    int mKeysPressed;    // int container for EKeyInputs flags
+
+    // Cursor settings
     QCursor mCursorState;
     bool mCursorVisible;
 
+    // Input
+    QPoint mLastMousePos;
+    bool mMouseMoved;
+    CTimer mMoveTimer;
+    int mButtonsPressed; // int container for EMouseInputs flags
+    int mKeysPressed;    // int container for EKeyInputs flags
+
 public:
-    explicit CEditorGLWidget(QWidget *pParent = 0);
-    ~CEditorGLWidget();
+    explicit CBasicViewport(QWidget *pParent = 0);
+    ~CBasicViewport();
     void initializeGL();
     void paintGL();
     void resizeGL(int w, int h);
-    void mouseMoveEvent(QMouseEvent *pEvent);
     void mousePressEvent(QMouseEvent *pEvent);
     void mouseReleaseEvent(QMouseEvent *pEvent);
+    void mouseMoveEvent(QMouseEvent *pEvent);
+    void wheelEvent(QWheelEvent *pEvent);
     void keyPressEvent(QKeyEvent *pEvent);
     void keyReleaseEvent(QKeyEvent *pEvent);
-    void wheelEvent(QWheelEvent *pEvent);
     void focusOutEvent(QFocusEvent *pEvent);
+    void contextMenuEvent(QContextMenuEvent *pEvent);
+
     void SetCursorState(const QCursor& Cursor);
     void SetCursorVisible(bool visible);
     bool IsCursorVisible();
@@ -47,18 +57,23 @@ public:
     CCamera& Camera();
     CRay CastRay();
     CVector2f MouseDeviceCoordinates();
+    double LastRenderDuration();
 
-signals:
-    void ViewportResized(int w, int h);
-    void PreRender();
-    void Render(CCamera& Camera);
-    void PostRender();
-    void MouseClick(QMouseEvent *pEvent);
-    void MouseRelease(QMouseEvent *pEvent);
-    void MouseDrag(QMouseEvent *pEvent);
+public slots:
+    void ProcessInput();
+    void Render();
+
+protected slots:
+    virtual void CheckUserInput() {}
+    virtual void Paint() {}
+    virtual void ContextMenu(QContextMenuEvent *pEvent) {}
+    virtual void OnResize() {}
+    virtual void OnMouseClick(QMouseEvent *pEvent) {}
+    virtual void OnMouseRelease(QMouseEvent *pEvent) {}
 
 private:
     void ProcessInput(double DeltaTime);
+    void DrawAxes();
 };
 
 #endif

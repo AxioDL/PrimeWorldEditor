@@ -33,15 +33,13 @@ CModelEditorWindow::CModelEditorWindow(QWidget *parent) :
     mpCurrentPass = nullptr;
     mIgnoreSignals = false;
 
-    mpRenderer = new CRenderer();
-    mpRenderer->ToggleGrid(true);
-    mpRenderer->SetClearColor(CColor(0.3f, 0.3f, 0.3f, 1.f));
+    ui->Viewport->SetNode(mpCurrentModelNode);
+    ui->Viewport->SetClearColor(CColor(0.3f, 0.3f, 0.3f, 1.f));
 
-    CCamera& Camera = ui->PreviewGLWidget->Camera();
-    Camera.Snap(CVector3f(0, 3, 1));
-    Camera.SetFree();
-    Camera.SetMoveSpeed(0.5f);
-    mDrawMode = eDrawMesh;
+    CCamera& camera = ui->Viewport->Camera();
+    camera.Snap(CVector3f(0, 3, 1));
+    camera.SetFree();
+    camera.SetMoveSpeed(0.5f);
 
     // UI initialization
     UpdateAnimParamUI(-1);
@@ -54,8 +52,8 @@ CModelEditorWindow::CModelEditorWindow(QWidget *parent) :
     ui->ClearColorPicker->setColor(QColor(76, 76, 76, 255));
 
     // Viewport Signal/Slot setup
-    connect(ui->PreviewGLWidget, SIGNAL(ViewportResized(int,int)), this, SLOT(SetViewportSize(int,int)));
-    connect(ui->PreviewGLWidget, SIGNAL(Render(CCamera&)), this, SLOT(PaintViewport(CCamera&)));
+    connect(&mRefreshTimer, SIGNAL(timeout()), this, SLOT(RefreshViewport()));
+    mRefreshTimer.start(0);
 
     // Editor UI Signal/Slot setup
     ui->SetSelectionComboBox->setProperty          ("ModelEditorWidgetType", eSetSelectComboBox);
@@ -139,8 +137,13 @@ CModelEditorWindow::CModelEditorWindow(QWidget *parent) :
 CModelEditorWindow::~CModelEditorWindow()
 {
     delete mpCurrentModelNode;
-    delete mpRenderer;
     delete ui;
+}
+
+void CModelEditorWindow::RefreshViewport()
+{
+    ui->Viewport->ProcessInput();
+    ui->Viewport->Render();
 }
 
 void CModelEditorWindow::SetActiveModel(CModel *pModel)
@@ -194,6 +197,7 @@ void CModelEditorWindow::SetActiveMaterial(int MatIndex)
 
     u32 SetIndex = ui->SetSelectionComboBox->currentIndex();
     mpCurrentMat = mpCurrentModel->GetMaterialByIndex(SetIndex, MatIndex);
+    ui->Viewport->SetActiveMaterial(mpCurrentMat);
     if (!mpCurrentMat) return;
     //mpCurrentMat->SetTint(CColor(1.f, 0.5f, 0.5f, 1.f));
 
@@ -572,66 +576,6 @@ void CModelEditorWindow::UpdateUI(int Value)
     }
 }
 
-void CModelEditorWindow::PaintViewport(CCamera& Camera)
-{
-    mpRenderer->BeginFrame();
-
-    Camera.LoadMatrices();
-
-    if (!mpCurrentModel)
-    {
-        CDrawUtil::DrawGrid();
-    }
-
-    else if (mDrawMode == eDrawMesh)
-    {
-        CDrawUtil::DrawGrid();
-        mpCurrentModelNode->AddToRenderer(mpRenderer);
-        mpRenderer->RenderBuckets(Camera);
-    }
-
-    else if (mDrawMode == eDrawSphere)
-    {
-        if (!mpCurrentMat) return;
-        glEnable(GL_CULL_FACE);
-
-        CGraphics::sVertexBlock.COLOR0_Amb = CGraphics::skDefaultAmbientColor.ToVector4f();
-        CGraphics::sMVPBlock.ModelMatrix = CMatrix4f::skIdentity;
-        CGraphics::UpdateMVPBlock();
-        CGraphics::SetDefaultLighting();
-        CGraphics::UpdateLightBlock(); // Note: vertex block is updated by the material
-        mpCurrentMat->SetCurrent(eEnableUVScroll | eEnableBackfaceCull | eEnableOccluders);
-
-        CDrawUtil::DrawSphere(true);
-    }
-
-    else if (mDrawMode == eDrawSquare)
-    {
-        if (!mpCurrentMat) return;
-        glDisable(GL_CULL_FACE);
-
-        CGraphics::SetDefaultLighting();
-        CGraphics::UpdateLightBlock();
-        CGraphics::sVertexBlock.COLOR0_Amb = CGraphics::skDefaultAmbientColor.ToVector4f();
-
-        CGraphics::sMVPBlock.ModelMatrix = CMatrix4f::skIdentity;
-        CGraphics::sMVPBlock.ViewMatrix = CMatrix4f::skIdentity;
-        CGraphics::sMVPBlock.ProjectionMatrix = CMatrix4f::skIdentity;
-        CGraphics::UpdateMVPBlock();
-
-        mpCurrentMat->SetCurrent(eEnableUVScroll | eEnableOccluders);
-        CDrawUtil::DrawSquare();
-    }
-
-    mpRenderer->EndFrame();
-}
-
-void CModelEditorWindow::SetViewportSize(int Width, int Height)
-{
-    mViewportAspectRatio = (float) Width / (float) Height;
-    mpRenderer->SetViewportSize(Width, Height);
-}
-
 // ************ PRIVATE ************
 void CModelEditorWindow::ActivateMatEditUI(bool Active)
 {
@@ -793,23 +737,23 @@ void CModelEditorWindow::closeEvent(QCloseEvent*)
 
 void CModelEditorWindow::on_MeshPreviewButton_clicked()
 {
-    mDrawMode = eDrawMesh;
+    ui->Viewport->SetDrawMode(CModelEditorViewport::eDrawMesh);
 }
 
 void CModelEditorWindow::on_SpherePreviewButton_clicked()
 {
-    mDrawMode = eDrawSphere;
+    ui->Viewport->SetDrawMode(CModelEditorViewport::eDrawSphere);
 }
 
 void CModelEditorWindow::on_FlatPreviewButton_clicked()
 {
-    mDrawMode = eDrawSquare;
+    ui->Viewport->SetDrawMode(CModelEditorViewport::eDrawSquare);
 }
 
 void CModelEditorWindow::on_ClearColorPicker_colorChanged(const QColor &Color)
 {
     CColor NewColor((u8) Color.red(), (u8) Color.green(), (u8) Color.blue(), 255);
-    mpRenderer->SetClearColor(NewColor);
+    ui->Viewport->SetClearColor(NewColor);
 }
 
 void CModelEditorWindow::on_actionImport_triggered()
