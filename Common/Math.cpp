@@ -344,4 +344,9 @@ CMatrix4f PerspectiveMatrix(float fov, float aspect, float near, float far)
     return CMatrix4f::FromGlmMat4(glm::perspective(fov, aspect, near, far)).Transpose();
 }
 
+CMatrix4f OrthographicMatrix(float left, float right, float bottom, float top, float near, float far)
+{
+    return CMatrix4f::FromGlmMat4(glm::ortho(left, right, bottom, top, near, far)).Transpose();
+}
+
 } // End namespace

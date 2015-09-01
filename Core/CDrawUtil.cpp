@@ -107,10 +107,6 @@ void CDrawUtil::DrawLine(const CVector3f& PointA, const CVector3f& PointB, const
 {
     Init();
 
-    glLineWidth(1.f);
-    CGraphics::sMVPBlock.ModelMatrix = CMatrix4f::skIdentity;
-    CGraphics::UpdateMVPBlock();
-
     // Copy vec3s into an array to ensure they are adjacent in memory
     CVector3f Points[2] = { PointA, PointB };
     mLineVertices.BufferAttrib(ePosition, Points);

@@ -313,8 +313,9 @@ void CWorldEditor::OnTransformSpinBoxModified(CVector3f value)
 
 void CWorldEditor::OnTransformSpinBoxEdited(CVector3f)
 {
+    // bit of a hack - the vector editor emits a second "editing done" signal when it loses focus
     ui->TransformSpinBox->blockSignals(true);
-    setFocus();
+    ui->MainViewport->setFocus();
     ui->TransformSpinBox->blockSignals(false);
     if (mSelection.empty()) return;
 

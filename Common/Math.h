@@ -34,6 +34,8 @@ std::pair<bool,float> RayTriangleIntersection(const CRay& Ray, const CVector3f& 
 
 CMatrix4f PerspectiveMatrix(float fov, float aspect, float near, float far);
 
+CMatrix4f OrthographicMatrix(float left, float right, float bottom, float top, float near, float far);
+
 // Constants
 static const float skPi = 3.14159265358979323846f;
 static const float skHalfPi = skPi / 2.f;

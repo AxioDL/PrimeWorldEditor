@@ -4,15 +4,13 @@
 #include <Common/Math.h>
 #include <gtc/matrix_transform.hpp>
 
-#define HALF_PI 1.570796371f
-
 CCamera::CCamera()
 {
     mMode = eFreeCamera;
     mPosition = CVector3f(0);
     mAspectRatio = 1.7777777f;
 
-    mYaw = -HALF_PI;
+    mYaw = -Math::skHalfPi;
     mPitch = 0.0f;
     CalculateDirection();
 
@@ -30,7 +28,7 @@ CCamera::CCamera(CVector3f Position, CVector3f)
     mMoveSpeed = 1.f; // Old: 0.01f
     mLookSpeed = 1.f; // Old: 0.003f
     mPosition = Position;
-    mYaw = -HALF_PI;
+    mYaw = -Math::skHalfPi;
     mPitch = 0.0f;
     CalculateDirection();
 }
@@ -43,8 +41,8 @@ void CCamera::Pan(float XAmount, float YAmount)
     case eFreeCamera:
     {
         CVector3f Right(
-            cos(mYaw - HALF_PI),
-            sin(mYaw - HALF_PI),
+            cos(mYaw - Math::skHalfPi),
+            sin(mYaw - Math::skHalfPi),
             0
         );
         CVector3f Up = Right.Cross(mDirection);
@@ -59,8 +57,8 @@ void CCamera::Pan(float XAmount, float YAmount)
     case eOrbitCamera:
     {
         CVector3f Right(
-            cos(mYaw - HALF_PI),
-            sin(mYaw - HALF_PI),
+            cos(mYaw - Math::skHalfPi),
+            sin(mYaw - Math::skHalfPi),
             0
         );
         CVector3f Up = Right.Cross(mDirection);
@@ -92,7 +90,7 @@ void CCamera::Zoom(float Amount)
 void CCamera::Snap(CVector3f Position)
 {
     mPosition = Position;
-    mYaw = -1.570796371f;
+    mYaw = -Math::skHalfPi;
     mPitch = 0.0f;
     mViewOutdated = true;
 }
@@ -198,7 +196,7 @@ const CMatrix4f& CCamera::ViewMatrix()
     return mCachedViewMatrix;
 }
 
-const CMatrix4f& CCamera::RotationOnlyViewMatrix()
+CMatrix4f CCamera::RotationOnlyViewMatrix()
 {
     if (mViewOutdated)
         CalculateView();
@@ -270,8 +268,8 @@ void CCamera::SetAspectRatio(float AspectRatio)
 // ************ PRIVATE ************
 void CCamera::CalculateDirection()
 {
-    if (mPitch > HALF_PI)  mPitch = HALF_PI;
-    if (mPitch < -HALF_PI) mPitch = -HALF_PI;
+    if (mPitch > Math::skHalfPi)  mPitch = Math::skHalfPi;
+    if (mPitch < -Math::skHalfPi) mPitch = -Math::skHalfPi;
 
     mDirection = CVector3f(
                  cos(mPitch) * cos(mYaw),
@@ -286,8 +284,8 @@ void CCamera::CalculateView()
     CalculateDirection();
 
     CVector3f Right(
-        cos(mYaw - HALF_PI),
-        sin(mYaw - HALF_PI),
+        cos(mYaw - Math::skHalfPi),
+        sin(mYaw - Math::skHalfPi),
         0
     );
 

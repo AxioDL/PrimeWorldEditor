@@ -53,7 +53,7 @@ void CBasicViewport::paintGL()
     Paint();
 
     // Finally, draw XYZ axes in the corner
-//    DrawAxes();
+    DrawAxes();
 }
 
 void CBasicViewport::resizeGL(int w, int h)
@@ -266,15 +266,17 @@ void CBasicViewport::ProcessInput(double DeltaTime)
 void CBasicViewport::DrawAxes()
 {
     // Draw 64x64 axes in lower-left corner with 8px margins
-    glViewport(8, height() - 72, 64, 64);
+    glViewport(8, 8, 64, 64);
     glEnable(GL_DEPTH_TEST);
     glClear(GL_DEPTH_BUFFER_BIT);
+    glDepthRange(0.f, 1.f);
 
-    CGraphics::sMVPBlock.ViewMatrix = CTransform4f::TranslationMatrix(CVector3f(0,2,0)).ToMatrix4f() * mCamera.RotationOnlyViewMatrix();
-    CGraphics::sMVPBlock.ProjectionMatrix = Math::PerspectiveMatrix(mCamera.FieldOfView(), 1.f, 0.1f, 4096.f);
+    CGraphics::sMVPBlock.ModelMatrix = CTransform4f::TranslationMatrix(mCamera.Direction() * 5).ToMatrix4f();
+    CGraphics::sMVPBlock.ViewMatrix = mCamera.RotationOnlyViewMatrix();
+    CGraphics::sMVPBlock.ProjectionMatrix = Math::OrthographicMatrix(-1.f, 1.f, -1.f, 1.f, 0.1f, 100.f);
     CGraphics::UpdateMVPBlock();
 
-    glLineWidth(2.f);
+    glLineWidth(1.f);
     CDrawUtil::DrawLine(CVector3f(0,0,0), CVector3f(1,0,0), CColor::skRed);   // X
     CDrawUtil::DrawLine(CVector3f(0,0,0), CVector3f(0,1,0), CColor::skGreen); // Y
     CDrawUtil::DrawLine(CVector3f(0,0,0), CVector3f(0,0,1), CColor::skBlue);  // Z

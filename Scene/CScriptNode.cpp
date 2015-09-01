@@ -168,6 +168,9 @@ void CScriptNode::DrawSelection()
 
     if (mpInstance)
     {
+        CGraphics::sMVPBlock.ModelMatrix = CMatrix4f::skIdentity;
+        CGraphics::UpdateMVPBlock();
+
         for (u32 iIn = 0; iIn < mpInstance->NumInLinks(); iIn++)
         {
             const SLink& con = mpInstance->InLink(iIn);

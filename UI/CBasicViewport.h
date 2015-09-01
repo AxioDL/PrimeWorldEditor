@@ -1,17 +1,18 @@
 #ifndef CEDITORGLWIDGET_H
 #define CEDITORGLWIDGET_H
 
-#include <QTimer>
 #include <gl/glew.h>
 #include <QOpenGLWidget>
-#include <QMouseEvent>
-#include <Common/CVector2f.h>
-#include <Common/CVector2i.h>
-#include <Core/CSceneManager.h>
+
 #include <Core/CRenderer.h>
-#include <Resource/CFont.h>
 #include <Common/CRay.h>
 #include <Common/CTimer.h>
+#include <Common/CVector2i.h>
+#include <Common/CVector2f.h>
+
+#include <QMouseEvent>
+#include <QPoint>
+#include <QTimer>
 
 class CBasicViewport : public QOpenGLWidget
 {
@@ -54,6 +55,7 @@ public:
     bool IsCursorVisible();
     bool IsMouseInputActive();
     bool IsKeyboardInputActive();
+    CRenderer* Renderer();
     CCamera& Camera();
     CRay CastRay();
     CVector2f MouseDeviceCoordinates();

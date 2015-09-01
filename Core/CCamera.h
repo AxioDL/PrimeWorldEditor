@@ -54,7 +54,7 @@ public:
     float Pitch() const;
     float FieldOfView() const;
     const CMatrix4f& ViewMatrix();
-    const CMatrix4f& RotationOnlyViewMatrix();
+    CMatrix4f RotationOnlyViewMatrix();
     const CMatrix4f& ProjectionMatrix();
 
     // Setters

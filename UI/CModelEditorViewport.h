@@ -2,6 +2,7 @@
 #define CMODELEDITORVIEWPORT_H
 
 #include "CBasicViewport.h"
+#include <Scene/CModelNode.h>
 
 class CModelEditorViewport : public CBasicViewport
 {
