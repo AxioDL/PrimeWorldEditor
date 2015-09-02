@@ -257,7 +257,6 @@ void CRenderer::RenderSky(CModel *pSkyboxModel, CCamera& Camera)
     if (!pSkyboxModel) return;
 
     glEnable(GL_CULL_FACE);
-    Camera.LoadRotationOnlyMatrices();
 
     CGraphics::sMVPBlock.ModelMatrix = CMatrix4f::skIdentity;
     CGraphics::sVertexBlock.COLOR0_Amb = CVector4f(1.f, 1.f, 1.f, 1.f);
@@ -266,6 +265,7 @@ void CRenderer::RenderSky(CModel *pSkyboxModel, CCamera& Camera)
     CGraphics::UpdateVertexBlock();
     CGraphics::UpdatePixelBlock();
     CGraphics::UpdateLightBlock();
+    Camera.LoadRotationOnlyMatrices();
 
     glDepthRange(1.f, 1.f);
     pSkyboxModel->Draw(mOptions, 0);
