@@ -4,7 +4,7 @@
 // Global version enum that can be easily shared between loaders
 enum EGame
 {
-    ePrimeKioskDemo = 0,
+    ePrimeDemo = 0,
     ePrime = 1,
     eEchoesDemo = 2,
     eEchoes = 3,

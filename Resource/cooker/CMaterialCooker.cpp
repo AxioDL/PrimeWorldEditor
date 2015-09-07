@@ -336,7 +336,7 @@ void CMaterialCooker::WriteCookedMatSet(CMaterialSet *pSet, EGame Version, COutp
 
     switch (Version)
     {
-    case ePrimeKioskDemo:
+    case ePrimeDemo:
     case ePrime:
     case eEchoesDemo:
     case eEchoes:
@@ -353,7 +353,7 @@ void CMaterialCooker::WriteCookedMaterial(CMaterial *pMat, EGame Version, COutpu
 
     switch (Version)
     {
-    case ePrimeKioskDemo:
+    case ePrimeDemo:
     case ePrime:
     case eEchoesDemo:
     case eEchoes:

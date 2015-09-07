@@ -330,7 +330,7 @@ EGame CWorldLoader::GetFormatVersion(u32 Version)
 {
     switch (Version)
     {
-        case 0xD: return ePrimeKioskDemo;
+        case 0xD: return ePrimeDemo;
         case 0x11: return ePrime;
         case 0x14: return eEchoesDemo;
         case 0x17: return eEchoes;

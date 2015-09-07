@@ -240,7 +240,7 @@ void CModelCooker::WriteCookedModel(CModel *pModel, EGame Version, COutputStream
 
     switch (Version)
     {
-    case ePrimeKioskDemo:
+    case ePrimeDemo:
     case ePrime:
     case eEchoesDemo:
     case eEchoes:
@@ -257,7 +257,7 @@ u32 CModelCooker::GetCMDLVersion(EGame Version)
 {
     switch (Version)
     {
-    case ePrimeKioskDemo:
+    case ePrimeDemo:
     case ePrime:
         return 0x2;
     case eEchoesDemo:

@@ -480,7 +480,7 @@ CGameArea* CAreaLoader::LoadMREA(CInputStream& MREA)
 
     switch (Loader.mVersion)
     {
-        case ePrimeKioskDemo:
+        case ePrimeDemo:
         case ePrime:
             Loader.ReadHeaderPrime();
             Loader.ReadGeometryPrime();
@@ -524,7 +524,7 @@ EGame CAreaLoader::GetFormatVersion(u32 version)
 {
     switch (version)
     {
-        case 0xC: return ePrimeKioskDemo;
+        case 0xC: return ePrimeDemo;
         case 0xF: return ePrime;
         case 0x15: return eEchoesDemo;
         case 0x19: return eEchoes;

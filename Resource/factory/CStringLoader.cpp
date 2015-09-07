@@ -175,10 +175,10 @@ CStringTable* CStringLoader::LoadSTRG(CInputStream& STRG)
         {
             STRG.Seek(Magic, SEEK_SET);
             if ((STRG.EoF()) || (STRG.ReadShort() == 0xFFFF))
-                Version = ePrimeKioskDemo;
+                Version = ePrimeDemo;
         }
 
-        if (Version != ePrimeKioskDemo)
+        if (Version != ePrimeDemo)
         {
             Log::FileError(STRG.GetSourceString(), "Invalid STRG magic: " + StringUtil::ToHexString(Magic));
             return nullptr;
@@ -202,7 +202,7 @@ CStringTable* CStringLoader::LoadSTRG(CInputStream& STRG)
     Loader.mpStringTable = new CStringTable();
     Loader.mVersion = Version;
 
-    if (Version == ePrimeKioskDemo) Loader.LoadPrimeDemoSTRG(STRG);
+    if (Version == ePrimeDemo) Loader.LoadPrimeDemoSTRG(STRG);
     else if (Version < eCorruption) Loader.LoadPrimeSTRG(STRG);
     else Loader.LoadCorruptionSTRG(STRG);
 

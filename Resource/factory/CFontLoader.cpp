@@ -13,7 +13,7 @@ CFont* CFontLoader::LoadFont(CInputStream& FONT)
     mpFont->mLineHeight = FONT.ReadLong();
     mpFont->mVerticalOffset = FONT.ReadLong();
     mpFont->mLineMargin = FONT.ReadLong();
-    if (mVersion > ePrimeKioskDemo) FONT.Seek(0x4, SEEK_CUR);
+    if (mVersion > ePrimeDemo) FONT.Seek(0x4, SEEK_CUR);
     FONT.Seek(0x2, SEEK_CUR);
     mpFont->mDefaultSize = FONT.ReadLong();
     mpFont->mFontName = FONT.ReadString();
@@ -110,7 +110,7 @@ EGame CFontLoader::GetFormatVersion(u32 Version)
 {
     switch (Version)
     {
-    case 1: return ePrimeKioskDemo;
+    case 1: return ePrimeDemo;
     case 2: return ePrime;
     case 4: return eEchoes;
     case 5: return eCorruption;

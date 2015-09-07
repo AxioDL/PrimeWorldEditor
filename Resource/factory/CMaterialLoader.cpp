@@ -606,7 +606,7 @@ CMaterialSet* CMaterialLoader::LoadMaterialSet(CInputStream& Mat, EGame Version)
     Loader.mpFile = &Mat;
     Loader.mVersion = Version;
 
-    if ((Version >= ePrimeKioskDemo) && (Version <= eEchoes))
+    if ((Version >= ePrimeDemo) && (Version <= eEchoes))
         Loader.ReadPrimeMatSet();
     else
         Loader.ReadCorruptionMatSet();
