@@ -19,33 +19,44 @@ CScriptNode::CScriptNode(CSceneManager *pScene, CSceneNode *pParent, CScriptObje
 
     if (mpInstance)
     {
+        CScriptTemplate *pTemp = mpInstance->Template();
+
         mpActiveModel = mpInstance->GetDisplayModel();
-        mPosition = mpInstance->GetPosition();
-        mRotation = CQuaternion::FromEuler(mpInstance->GetRotation());
-        mScale = mpInstance->GetScale();
-        SetName("[" + mpInstance->Template()->TemplateName() + "] " + mpInstance->GetInstanceName());
+        mPosition = mpInstance->Position();
+        mRotation = CQuaternion::FromEuler(mpInstance->Rotation());
+        SetName("[" + pTemp->TemplateName(mpInstance->NumProperties()) + "] " + mpInstance->InstanceName());
+
+        if (pTemp->ScaleType() == CScriptTemplate::eScaleEnabled)
+            mScale = mpInstance->Scale();
+
         MarkTransformChanged();
 
-        mHasValidPosition = ((mpInstance->GetAttribFlags() & ePositionAttrib) != 0);
-        mHasVolumePreview = ((mpInstance->GetAttribFlags() & eVolumeAttrib) != 0);
+        mHasValidPosition = pTemp->HasPosition();
+        mHasVolumePreview = (pTemp->ScaleType() == CScriptTemplate::eScaleVolume);
 
         // Create volume preview node
         if (mHasVolumePreview)
         {
-            u32 VolumeShape = mpInstance->GetVolumeShape();
+            EVolumeShape shape = mpInstance->VolumeShape();
             CModel *pVolumeModel = nullptr;
 
-            if ((VolumeShape == 0) || (VolumeShape == 1)) // Box/OrientedBox
+            if ((shape == eAxisAlignedBoxShape) || (shape == eBoxShape))
                 pVolumeModel = (CModel*) gResCache.GetResource("../resources/VolumeBox.cmdl");
 
-            else if (VolumeShape == 2) // Sphere
+            else if (shape == eEllipsoidShape)
                 pVolumeModel = (CModel*) gResCache.GetResource("../resources/VolumeSphere.cmdl");
+
+            else if (shape == eCylinderShape)
+                pVolumeModel = (CModel*) gResCache.GetResource("../resources/VolumeCylinder.cmdl");
+
+            else if (shape == eCylinderLargeShape)
+                pVolumeModel = (CModel*) gResCache.GetResource("../resources/VolumeCylinderLarge.cmdl");
 
             if (pVolumeModel)
             {
                 mpVolumePreviewNode = new CModelNode(pScene, this, pVolumeModel);
-                mpVolumePreviewNode->SetInheritance(true, (VolumeShape == 1), false);
-                mpVolumePreviewNode->Scale(mpInstance->GetVolume());
+                mpVolumePreviewNode->SetInheritance(true, (shape != eAxisAlignedBoxShape), false);
+                mpVolumePreviewNode->Scale(mpInstance->Scale());
                 mpVolumePreviewNode->ForceAlphaEnabled(true);
             }
         }
@@ -70,7 +81,7 @@ ENodeType CScriptNode::NodeType()
 
 std::string CScriptNode::PrefixedName() const
 {
-    return "[" + mpInstance->Template()->TemplateName() + "] " + mpInstance->GetInstanceName();
+    return "[" + mpInstance->Template()->TemplateName() + "] " + mpInstance->InstanceName();
 }
 
 void CScriptNode::AddToRenderer(CRenderer *pRenderer)
@@ -137,9 +148,6 @@ void CScriptNode::Draw(ERenderOptions Options)
         return;
     }
 
-    // Set tev color (used rarely)
-    CGraphics::sPixelBlock.TevColor = mpInstance->GetTevColor().ToVector4f();
-
     mpActiveModel->Draw(Options, 0);
 }
 
@@ -155,8 +163,6 @@ void CScriptNode::DrawAsset(ERenderOptions Options, u32 Asset)
 
     LoadModelMatrix();
     LoadLights();
-
-    CGraphics::sPixelBlock.TevColor = mpInstance->GetTevColor().ToVector4f();
 
     mpActiveModel->DrawSurface(Options, Asset, 0);
 }

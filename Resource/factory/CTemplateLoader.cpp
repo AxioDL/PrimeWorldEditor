@@ -3,474 +3,408 @@
 #include "../script/EAttribType.h"
 #include <Core/Log.h>
 
-// ************ PROPERTY ************
-CPropertyTemplate* CTemplateLoader::LoadPropertyTemplate(tinyxml2::XMLElement *pElem, const std::string& TemplateName)
+void CTemplateLoader::LoadStructProperties(tinyxml2::XMLElement *pElem, CStructTemplate *pTemp, const std::string& templateName)
 {
-    const char *pElemName = pElem->Name();
+    tinyxml2::XMLElement *pChild = pElem->FirstChildElement();
 
-    // Load multi-property struct
-    if (strcmp(pElemName, "struct") == 0)
+    while (pChild)
     {
-        CStructTemplate *pStruct = LoadStructTemplate(pElem, TemplateName);
+        CPropertyTemplate *pProp = LoadPropertyTemplate(pChild, templateName);
 
-        if (pStruct)
-            pStruct->mIsSingleProperty = false;
+        if (pProp)
+            pTemp->mProperties.push_back(pProp);
 
-        return pStruct;
+        pChild = pChild->NextSiblingElement();
+    }
+}
+
+CPropertyTemplate* CTemplateLoader::LoadPropertyTemplate(tinyxml2::XMLElement *pElem, const std::string& templateName)
+{
+    const char *kpIDStr = pElem->Attribute("ID");
+    const char *kpNameStr = pElem->Attribute("name");
+    const char *kpTypeStr = pElem->Attribute("type");
+    const char *kpExtensionsStr = pElem->Attribute("ext");
+    const char *kpTemplateStr = pElem->Attribute("template");
+
+    // Get ID + name, find source template if it exists
+    u32 ID = StringUtil::ToInt32(kpIDStr);
+    CPropertyTemplate *pSource = nullptr;
+    std::string name;
+
+    if (mpMaster->HasPropertyList())
+        pSource = mpMaster->GetProperty(ID);
+
+    if (kpNameStr)
+        name = kpNameStr;
+    else if (pSource)
+        name = pSource->Name();
+    else
+        name = StringUtil::ToHexString(ID);
+
+    // Load Property
+    if (strcmp(pElem->Name(), "property") == 0)
+    {
+        CPropertyTemplate *pProp;
+        EPropertyType type = eInvalidProperty;
+
+        // Type
+        if (kpTypeStr)
+            type = PropStringToPropEnum(kpTypeStr);
+        else if (pSource)
+            type = pSource->Type();
+
+        // File property
+        if (type == eFileProperty)
+        {
+            CStringList extensions;
+            if (kpExtensionsStr)
+                extensions = StringUtil::Tokenize(kpExtensionsStr, ",");
+            else if (pSource)
+                extensions = static_cast<CFileTemplate*>(pSource)->Extensions();
+
+            pProp = new CFileTemplate(name, ID, extensions);
+        }
+
+        // Regular property
+        else
+            pProp = new CPropertyTemplate(type, name, ID);
+
+        return pProp;
     }
 
-    else if (strcmp(pElemName, "property") == 0)
+    // Load Struct
+    else if (strcmp(pElem->Name(), "struct") == 0)
     {
-        // Get name, type, and ID
-        std::string Name;
-        EPropertyType Type;
-        u32 ID;
-        GetPropertyInfo(pElem, Name, Type, ID);
+        CStructTemplate *pStruct = new CStructTemplate();
 
-        // Error check
-        if (Type == eInvalidProperty)
+        pStruct->mPropID = ID;
+
+        // Read children properties
+        // Priority: [Embedded] -> [Template] -> [Master]
+
+        // Embedded
+        if (!pElem->NoChildren())
+            LoadStructProperties(pElem, pStruct, templateName);
+
+        // Template
+        else if (kpTemplateStr)
         {
-            const char *pType = pElem->Attribute("type");
+            std::string tempPath = mMasterDir + kpTemplateStr;
 
-            if (pType)
-                Log::Error("Invalid property type in " + TemplateName + " template: " + pType);
-            else
-                Log::Error("Property " + Name + " in " + TemplateName + " template has no type");
-        }
+            tinyxml2::XMLDocument structXML;
+            structXML.LoadFile(tempPath.c_str());
 
-        // Load single-property struct
-        if (Type == eStructProperty)
-        {
-            CStructTemplate *pStruct = LoadStructTemplate(pElem, TemplateName);
-            pStruct->mIsSingleProperty = true;
-            return pStruct;
-        }
-
-        // Load file property
-        else if (Type == eFileProperty)
-        {
-            // Fetch file extension
-            CFileTemplate *pFile = nullptr;
-            const char *pExt = pElem->Attribute("ext");
-
-            if (pExt)
-                pFile = new CFileTemplate(Name, ID, StringUtil::Tokenize(pExt, ","));
+            if (structXML.Error())
+                Log::Error("Couldn't open struct XML: " + mMasterDir + kpTemplateStr);
 
             else
             {
-                CFileTemplate *pSrc = (CFileTemplate*) mpMaster->GetProperty(ID);
+                tinyxml2::XMLElement *pRoot = structXML.FirstChildElement("struct");
+                pStruct->mSourceFile = kpTemplateStr;
 
-                if (pSrc)
-                    pFile = new CFileTemplate(Name, ID, pSrc->Extensions());
+                if (pRoot->Attribute("type"))
+                    pStruct->mIsSingleProperty = (strcmp(pRoot->Attribute("type"), "single") == 0);
+
+                if (pRoot->Attribute("name"))
+                    pStruct->mPropName = pRoot->Attribute("name");
+
+                LoadStructProperties(pRoot, pStruct, templateName);
             }
-
-            // Check if extensions are valid
-            if (!pFile)
-            {
-                Log::Error("File property " + Name + " in " + TemplateName + " template has no extension");
-                return nullptr;
-            }
-
-            else
-                return pFile;
         }
 
-        // Load regular property
-        else
+        // Master
+        else if (pSource)
         {
-            CPropertyTemplate *pProperty = new CPropertyTemplate(Type, Name, ID);
-            return pProperty;
+            CStructTemplate *pSourceStruct = static_cast<CStructTemplate*>(pSource);
+
+            for (u32 iProp = 0; iProp < pSourceStruct->Count(); iProp++)
+                pStruct->mProperties.push_back(pSourceStruct->PropertyByIndex(iProp));
         }
+
+        // If it's none of these, then it probably has no children because it's a property list entry.
+
+        // Single property?
+        if (kpTypeStr)
+            pStruct->mIsSingleProperty = (strcmp(kpTypeStr, "single") == 0);
+        else if (pSource)
+            pStruct->mIsSingleProperty = static_cast<CStructTemplate*>(pSource)->IsSingleProperty();
+
+        // Name
+        if (!name.empty())
+            pStruct->mPropName = name;
+
+        return pStruct;
     }
 
     return nullptr;
 }
 
-CStructTemplate* CTemplateLoader::LoadStructTemplate(tinyxml2::XMLElement *pElem, const std::string& TemplateName)
+// ************ SCRIPT OBJECT ************
+CScriptTemplate* CTemplateLoader::LoadScriptTemplate(tinyxml2::XMLDocument *pDoc, const std::string& templateName, u32 objectID)
 {
-    CStructTemplate *pStruct = new CStructTemplate();
+    CScriptTemplate *pScript = new CScriptTemplate(mpMaster);
+    pScript->mObjectID = objectID;
 
-    // Get name, type, and ID
-    GetPropertyInfo(pElem, pStruct->mPropName, pStruct->mPropType, pStruct->mPropID);
-    const char *pTemp = pElem->Attribute("template");
-    if (!pTemp) pTemp = pElem->Attribute("target");
+    tinyxml2::XMLElement *pRoot = pDoc->FirstChildElement("ScriptTemplate");
 
-    // Get source template from the master property list, if it exists
-    CStructTemplate *pSrc = (CStructTemplate*) mpMaster->GetProperty(pStruct->mPropID);
+    // Name
+    tinyxml2::XMLElement *pNameElem = pRoot->FirstChildElement("name");
 
-    // "IsSingleProperty" means, does the struct contain multiple properties, each with separate IDs
-    // or does the entire struct as a whole count as just one property?
-    if (pSrc)
-        pStruct->mIsSingleProperty = pSrc->IsSingleProperty();
-    else
-        pStruct->mIsSingleProperty = (strcmp(pElem->Name(), "property") == 0);
+    if (pNameElem)
+        pScript->mTemplateName = pNameElem->GetText();
 
-    // Read struct children. Priority is [Embedded -> Template -> Master].
-    // Embedded
-    if (!pElem->NoChildren())
+    // Properties
+    tinyxml2::XMLElement *pPropsElem = pRoot->FirstChildElement("properties");
+
+    while (pPropsElem)
     {
-        // Get count
-        const char *pCount = pElem->Attribute("count");
+        CScriptTemplate::SPropertySet set;
 
-        if (pCount)
-            pStruct->mPropertyCount = std::stoul(pCount);
+        const char *kpVersion = pPropsElem->Attribute("version");
+        set.SetName = (kpVersion ? kpVersion : "");
+        set.pBaseStruct = new CStructTemplate();
+        set.pBaseStruct->mIsSingleProperty = false;
+        set.pBaseStruct->mPropID = -1;
+        set.pBaseStruct->mPropName = pScript->mTemplateName;
+        LoadStructProperties(pPropsElem, set.pBaseStruct, pScript->mTemplateName);
+        pScript->mPropertySets.push_back(set);
 
-        // Parse sub-elements
-        tinyxml2::XMLElement *pChild = pElem->FirstChildElement();
-
-        while (pChild)
-        {
-            CPropertyTemplate *pProp = LoadPropertyTemplate(pChild, TemplateName);
-
-            if (pProp)
-                pStruct->mProperties.push_back(pProp);
-
-            pChild = pChild->NextSiblingElement();
-        }
-
+        pPropsElem = pPropsElem->NextSiblingElement("properties");
     }
 
-    // Template
-    else if (pTemp)
+    // Editor Parameters
+    tinyxml2::XMLElement *pEditor = pRoot->FirstChildElement("editor");
+
+    if (pEditor)
     {
-        // Get handle for XML
-        std::string TempPath = mMasterDir + pTemp;
+        // Editor Properties
+        tinyxml2::XMLElement *pEdProperties = pEditor->FirstChildElement("properties");
+        tinyxml2::XMLElement *pEdProp = pEdProperties->FirstChildElement("property");
 
-        tinyxml2::XMLDocument TempXML;
-        TempXML.LoadFile(TempPath.c_str());
-
-        if (TempXML.Error())
-            Log::Error("Couldn't open struct template: " + TempPath);
-
-        else
+        while (pEdProp)
         {
-            tinyxml2::XMLElement *pVersionElem = TempXML.FirstChildElement()->FirstChildElement("version");
-            tinyxml2::XMLElement *pPropertiesElem = TempXML.FirstChildElement()->FirstChildElement("properties");
+            const char *kpName = pEdProp->Attribute("name");
+            const char *kpID = pEdProp->Attribute("ID");
 
-            if (!pVersionElem) Log::Error("Struct template has no version element: " + TempPath);
-            if (!pPropertiesElem) Log::Error("Struct template has no properties element: " + TempPath);
-
-            if (pVersionElem && pPropertiesElem)
+            if (kpName && kpID)
             {
-                // Get version number
-                u32 VersionNumber = std::stoul(pVersionElem->GetText());
+                if (strcmp(kpName, "InstanceName") == 0)
+                    pScript->mNameIDString = kpID;
+                else if (strcmp(kpName, "Position") == 0)
+                    pScript->mPositionIDString = kpID;
+                else if (strcmp(kpName, "Rotation") == 0)
+                    pScript->mRotationIDString = kpID;
+                else if (strcmp(kpName, "Scale") == 0)
+                    pScript->mScaleIDString = kpID;
+                else if (strcmp(kpName, "Active") == 0)
+                    pScript->mActiveIDString = kpID;
+                else if (strcmp(kpName, "LightParameters") == 0)
+                    pScript->mLightParametersIDString = kpID;
+            }
 
-                // Get property count
-                const char *pCount = pPropertiesElem->Attribute("count");
+            pEdProp = pEdProp->NextSiblingElement("property");
+        }
 
-                if (pCount)
-                    pStruct->mPropertyCount = std::stoul(pCount);
+        // Editor Assets
+        tinyxml2::XMLElement *pEdAssets = pEditor->FirstChildElement("assets");
+        tinyxml2::XMLElement *pAsset = pEdAssets->FirstChildElement();
 
-                // Parse properties
-                tinyxml2::XMLElement *pPropElem = pPropertiesElem->FirstChildElement();
+        while (pAsset)
+        {
+            const char *kpSource = pAsset->Attribute("source");
+            const char *kpID = pAsset->GetText();
 
-                while (pPropElem)
+            if (kpSource && kpID)
+            {
+                CScriptTemplate::SEditorAsset asset;
+
+                if (strcmp(pAsset->Name(), "animparams") == 0)
+                    asset.AssetType = CScriptTemplate::SEditorAsset::eAnimParams;
+                else if (strcmp(pAsset->Name(), "model") == 0)
+                    asset.AssetType = CScriptTemplate::SEditorAsset::eModel;
+                else
                 {
-                    if (!pPropElem) break;
+                    pAsset = pAsset->NextSiblingElement();
+                    continue;
+                }
 
-                    CPropertyTemplate *pProp = LoadPropertyTemplate(pPropElem, TemplateName);
+                if (strcmp(kpSource, "property") == 0)
+                    asset.AssetSource = CScriptTemplate::SEditorAsset::eProperty;
+                else if (strcmp(kpSource, "file") == 0)
+                    asset.AssetSource = CScriptTemplate::SEditorAsset::eFile;
+                else
+                {
+                    pAsset = pAsset->NextSiblingElement();
+                    continue;
+                }
 
-                    if (pProp)
-                        pStruct->mProperties.push_back(pProp);
+                const char *kpForce = pAsset->Attribute("force");
+                if (kpForce)
+                    asset.ForceNodeIndex = StringUtil::ToInt32(kpForce);
+                else
+                    asset.ForceNodeIndex = -1;
 
-                    pPropElem = pPropElem->NextSiblingElement();
+                asset.AssetLocation = kpID;
+                pScript->mAssets.push_back(asset);
+            }
+
+            pAsset = pAsset->NextSiblingElement();
+        }
+
+        // Rotation
+        tinyxml2::XMLElement *pRotType = pEditor->FirstChildElement("rotation_type");
+
+        if (pRotType)
+        {
+            const char *kpType = pRotType->GetText();
+
+            if (kpType)
+            {
+                if (strcmp(kpType, "disabled") == 0) pScript->mRotationType = CScriptTemplate::eRotationDisabled;
+                else pScript->mRotationType = CScriptTemplate::eRotationEnabled;
+            }
+        }
+
+        // Scale
+        tinyxml2::XMLElement *pScaleType = pEditor->FirstChildElement("scale_type");
+
+        if (pScaleType)
+        {
+            const char *kpType = pScaleType->GetText();
+
+            if (kpType)
+            {
+                if (strcmp(kpType, "disabled") == 0) pScript->mScaleType = CScriptTemplate::eScaleDisabled;
+                else if (strcmp(kpType, "volume") == 0) pScript->mScaleType = CScriptTemplate::eScaleVolume;
+                else pScript->mScaleType = CScriptTemplate::eScaleEnabled;
+            }
+        }
+
+        // Preview Volume
+        if (pScript->mScaleType == CScriptTemplate::eScaleVolume)
+        {
+            tinyxml2::XMLElement *pVolume = pEditor->FirstChildElement("preview_volume");
+
+            // Lambda to avoid duplicating volume shape code
+            auto GetVolumeType = [](const char *kpType) -> EVolumeShape {
+                if (strcmp(kpType, "none") == 0)           return eNoShape;
+                if (strcmp(kpType, "Box") == 0)            return eBoxShape;
+                if (strcmp(kpType, "AxisAlignedBox") == 0) return eAxisAlignedBoxShape;
+                if (strcmp(kpType, "Ellipsoid") == 0)      return eEllipsoidShape;
+                if (strcmp(kpType, "Cylinder") == 0)       return eCylinderShape;
+                if (strcmp(kpType, "CylinderLarge") == 0)  return eCylinderLargeShape;
+                if (strcmp(kpType, "Conditional") == 0)    return eConditionalShape;
+                return eInvalidShape;
+            };
+
+            const char *kpShape = pVolume->Attribute("shape");
+
+            if (kpShape)
+                pScript->mVolumeShape = GetVolumeType(kpShape);
+
+            // Conditional
+            if (pScript->mVolumeShape == eConditionalShape)
+            {
+                const char *kpID = pVolume->Attribute("propertyID");
+
+                if (kpID)
+                {
+                    pScript->mVolumeConditionIDString = kpID;
+                    tinyxml2::XMLElement *pCondition = pVolume->FirstChildElement("condition");
+
+                    while (pCondition)
+                    {
+                        const char *kpConditionValue = pCondition->Attribute("value");
+                        const char *kpConditionShape = pCondition->Attribute("shape");
+
+                        if (kpConditionValue && kpConditionShape)
+                        {
+                            CScriptTemplate::SVolumeCondition condition;
+                            condition.Shape = GetVolumeType(kpConditionShape);
+
+                            if (strcmp(kpConditionValue, "true") == 0)
+                                condition.Value = 1;
+                            else if (strcmp(kpConditionValue, "false") == 0)
+                                condition.Value = 0;
+                            else
+                                condition.Value = StringUtil::ToInt32(kpConditionValue);
+
+                            pScript->mVolumeConditions.push_back(condition);
+                        }
+
+                        pCondition = pCondition->NextSiblingElement("condition");
+                    }
                 }
             }
         }
     }
-
-    // Master
-    else if (pSrc)
-    {
-        pStruct->mPropertyCount = pSrc->TemplateCount();
-
-        for (u32 p = 0; p < pSrc->Count(); p++)
-            pStruct->mProperties.push_back(pSrc->PropertyByIndex(p));
-    }
-
-    // If it's none of these things, then it probably has no children because it's a property list entry
-    return pStruct;
-}
-
-void CTemplateLoader::GetPropertyInfo(tinyxml2::XMLElement *pElem, std::string& Name, EPropertyType& Type, u32& ID)
-{
-    const char *pNameStr = pElem->Attribute("name");
-    const char *pTypeStr = pElem->Attribute("type");
-    const char *pIDStr   = pElem->Attribute("ID");
-    bool IsBaseStruct = (strcmp(pElem->Name(), "properties") == 0);
-
-    // Fetch source template, if available
-    CPropertyTemplate *pSrcTmp;
-
-    if (pIDStr)
-    {
-        ID = std::stoul(pIDStr, 0, 16);
-        pSrcTmp = mpMaster->GetProperty(ID);
-    }
-    else
-    {
-        ID = 0xFFFFFFFF;
-        pSrcTmp = nullptr;
-    }
-
-    // Get name
-    if (pNameStr)
-        Name = pNameStr;
-    else if (pSrcTmp)
-        Name = pSrcTmp->Name();
-    else if (IsBaseStruct)
-        Name = "Base";
-    else
-        Name = "";
-
-    // Get type
-    if (strcmp(pElem->Name(), "struct") == 0)
-        Type = eStructProperty;
-    else if (IsBaseStruct)
-        Type = eStructProperty;
-    else if (pTypeStr)
-        Type = PropStringToPropEnum(pTypeStr);
-    else if (pSrcTmp)
-        Type = pSrcTmp->Type();
-    else
-        Type = eInvalidProperty;
-}
-
-// ************ SCRIPT OBJECT ************
-CScriptTemplate* CTemplateLoader::LoadScriptTemplate(tinyxml2::XMLDocument *pDoc, const std::string& TemplateName, u32 ObjectID)
-{
-    tinyxml2::XMLElement *pBaseElement = pDoc->FirstChildElement();
-
-    CScriptTemplate *pScript = new CScriptTemplate(mpMaster);
-    pScript->mObjectID = ObjectID;
-    pScript->mTemplateName = pBaseElement->Name();
-
-    // Properties?
-    tinyxml2::XMLElement *pProperties = pBaseElement->FirstChildElement("properties");
-    if (pProperties)
-    {
-        pScript->mpBaseStruct = LoadStructTemplate(pBaseElement->FirstChildElement("properties"), TemplateName);
-        pScript->mpBaseStruct->SetName(pScript->mTemplateName);
-    }
-
-    // Attribs?
-    tinyxml2::XMLElement *pAttributes = pBaseElement->FirstChildElement("attributes");
-    if (pAttributes) LoadScriptAttribs(pAttributes, pScript);
 
     return pScript;
-}
-
-void CTemplateLoader::LoadScriptAttribs(tinyxml2::XMLElement *pElem, CScriptTemplate *pScript)
-{
-    // Parsing attribs
-    tinyxml2::XMLElement *pAttrib = pElem->FirstChildElement("attrib");
-    while (pAttrib)
-    {
-        CAttribTemplate Attrib;
-        Attrib.ExtraSettings = -1;
-
-        const char *pType = pAttrib->Attribute("type");
-        if (!pType)
-            Log::Error("An attrib in " + pScript->TemplateName() + " template has no type set");
-
-        else
-        {
-            // Initialize attrib template values
-            Attrib.AttribType = AttribStringToAttribEnum(pType);
-
-            if (Attrib.AttribType == eInvalidAttrib)
-                Log::Error("An attrib in " + pScript->TemplateName() + " template has an invalid type: " + pType);
-
-            else
-            {
-                bool NoError = ParseAttribExtra(pAttrib, Attrib, pScript->TemplateName());
-
-                if (NoError)
-                {
-                    Attrib.AttribTarget = pAttrib->Attribute("target");
-                    CPropertyTemplate *pTargetProp = nullptr;
-
-                    if (Attrib.ResFile.empty())
-                    {
-                        pTargetProp = pScript->mpBaseStruct->PropertyByName(Attrib.AttribTarget); // Ensure target is valid if it points to a property
-
-                        if (!pTargetProp)
-                           Log::Error("An attrib in " + pScript->TemplateName() + " template of type " + pType + " has an invalid target: " + Attrib.AttribTarget);
-                    }
-
-                    if ((pTargetProp) || (!Attrib.ResFile.empty()))
-                        pScript->mAttribs.push_back(Attrib);
-                }
-            }
-        }
-
-        pAttrib = pAttrib->NextSiblingElement("attrib");
-    }
-}
-
-bool CTemplateLoader::ParseAttribExtra(tinyxml2::XMLElement *pElem, CAttribTemplate& Attrib, const std::string& TemplateName)
-{
-    // This function is for parsing extra tags that some attribs have, such as "source" for models or "forcenode" for animsets
-
-    // AnimSet
-    if (Attrib.Type() == eAnimSetAttrib)
-    {
-        // Check res source
-        const char *pSource = pElem->Attribute("source");
-
-        if ((pSource) && (strcmp(pSource, "file") == 0))
-        {
-            const char *pFileName = pElem->Attribute("target");
-            if (pFileName)
-                Attrib.ResFile = std::string("../resources/") + pFileName;
-            else
-            {
-                Log::Error("An attrib in " + TemplateName + " template of type animset has an invalid target: \"" + pFileName + "\"");
-                return false;
-            }
-        }
-
-        // Check forcenode
-        const char *pForceNode = pElem->Attribute("forcenode");
-        if (pForceNode)
-        {
-            if (!StringUtil::IsHexString(pForceNode))
-            {
-                Log::Error("An animset attrib in " + TemplateName + " has an invalid \"forcenode\" setting: \"" + pForceNode + "\"");
-                return false;
-            }
-            else
-                Attrib.ExtraSettings = std::stoul(pForceNode);
-        }
-    }
-
-    // Model
-    if (Attrib.Type() == eModelAttrib)
-    {
-        // Check res source
-        const char *pSource = pElem->Attribute("source");
-        if ((pSource) && (strcmp(pSource, "file") == 0))
-        {
-            const char *pFileName = pElem->Attribute("target");
-            if (pFileName)
-                Attrib.ResFile = std::string("../resources/") + pFileName;
-            else
-            {
-                Log::Error("An attrib in " + TemplateName + " template of type model has an invalid target: \"" + pFileName + "\"");
-                return false;
-            }
-        }
-    }
-
-    // Volume
-    if (Attrib.Type() == eVolumeAttrib)
-    {
-        const char *pShape = pElem->Attribute("shape");
-
-        if (pShape)
-        {
-            if (strcmp(pShape, "Box") == 0)
-                Attrib.ExtraSettings = 0;
-            else if (strcmp(pShape, "OrientedBox") == 0)
-                Attrib.ExtraSettings = 1;
-            else if (strcmp(pShape, "Sphere") == 0)
-                Attrib.ExtraSettings = 2;
-            else
-            {
-                Log::Error("Volume attrib in " + TemplateName + " template has an invalid shape: " + pShape);
-                return false;
-            }
-        }
-        else
-        {
-            Log::Error("Volume attrib in " + TemplateName + " template has no shape attribute");
-            return false;
-        }
-    }
-
-    return true;
 }
 
 // ************ MASTER ************
 void CTemplateLoader::LoadMasterTemplate(tinyxml2::XMLDocument *pDoc)
 {
-    tinyxml2::XMLNode *pNode = pDoc->FirstChild()->NextSibling()->FirstChild();
+    tinyxml2::XMLElement *pRoot = pDoc->FirstChildElement("MasterTemplate");
+    mpMaster->mVersion = StringUtil::ToInt32(pRoot->Attribute("version"));
 
-    while (pNode)
+    tinyxml2::XMLElement *pElem = pRoot->FirstChildElement();
+
+    while (pElem)
     {
-        tinyxml2::XMLElement *pElem = pNode->ToElement();
-
-        // Version
-        if (strcmp(pElem->Name(), "version") == 0)
-        {
-            u32 Version = std::stoul(pElem->GetText());
-            mpMaster->mVersion = Version;
-        }
-
         // Properties
-        else if (strcmp(pElem->Name(), "properties") == 0)
+        if (strcmp(pElem->Name(), "properties") == 0)
         {
-            std::string PropListPath = mMasterDir + pElem->GetText();
+            std::string propListPath = mMasterDir + pElem->GetText();
 
-            tinyxml2::XMLDocument PropListXML;
-            PropListXML.LoadFile(PropListPath.c_str());
+            tinyxml2::XMLDocument propListXML;
+            propListXML.LoadFile(propListPath.c_str());
 
-            if (PropListXML.Error())
-                Log::Error("Couldn't open property list: " + PropListPath);
+            if (propListXML.Error())
+                Log::Error("Couldn't open property list: " + propListPath);
 
             else
-                LoadPropertyList(&PropListXML, PropListPath);
+                LoadPropertyList(&propListXML, propListPath);
         }
 
         // Objects
         else if (strcmp(pElem->Name(), "objects") == 0)
         {
-            // Iterate categories
-            tinyxml2::XMLElement *pCat = pElem->FirstChildElement("category");
+            tinyxml2::XMLElement *pObj = pElem->FirstChildElement("object");
 
-            while (pCat)
+            while (pObj)
             {
-                CTemplateCategory Cat(pCat->Attribute("name"));
-                tinyxml2::XMLElement *pObj = pCat->FirstChildElement("object");
+                // ID can either be a hex number or an ASCII fourCC
+                std::string strID = pObj->Attribute("ID");
+                u32 ID;
 
-                while (pObj)
+                if (StringUtil::IsHexString(strID, true))
+                    ID = StringUtil::ToInt32(strID);
+                else
+                    ID = CFourCC(strID).ToLong();
+
+                // Load up the object
+                std::string templateName = pObj->Attribute("template");
+                std::string templatePath = mMasterDir + templateName;
+
+                tinyxml2::XMLDocument scriptXML;
+                scriptXML.LoadFile(templatePath.c_str());
+
+                if (scriptXML.Error())
+                    Log::Error("Couldn't open script template: " + templatePath);
+
+                else
                 {
-                    // ID can either be a hex number or an ASCII fourCC
-                    std::string StrID = pObj->Attribute("ID");
-                    u32 ID;
+                    CScriptTemplate *pTemp = LoadScriptTemplate(&scriptXML, templateName, ID);
 
-                    if (StringUtil::IsHexString(StrID, true))
-                        ID = std::stoul(StrID, 0, 16);
-                    else
-                        ID = CFourCC(StrID).ToLong();
-
-                    // Load up the object
-                    std::string TemplateName = pObj->Attribute("template");
-                    std::string TemplatePath = mMasterDir + TemplateName;
-
-                    tinyxml2::XMLDocument ObjectXML;
-                    ObjectXML.LoadFile(TemplatePath.c_str());
-
-                    if (ObjectXML.Error())
-                        Log::Error("Couldn't open script template: " + TemplatePath);
-
-                    else
+                    if (pTemp)
                     {
-                        CScriptTemplate *pTemp = LoadScriptTemplate(&ObjectXML, TemplateName, ID);
-
-                        if (pTemp)
-                        {
-                            mpMaster->mTemplates[ID] = pTemp;
-                            Cat.AddTemplate(pTemp);
-                        }
+                        pTemp->mSourceFile = templateName;
+                        mpMaster->mTemplates[ID] = pTemp;
                     }
-
-                    pObj = pObj->NextSiblingElement("object");
                 }
 
-                Cat.Sort();
-                mpMaster->mCategories.push_back(Cat);
-                pCat = pCat->NextSiblingElement("category");
+                pObj = pObj->NextSiblingElement("object");
             }
         }
 
@@ -481,16 +415,16 @@ void CTemplateLoader::LoadMasterTemplate(tinyxml2::XMLDocument *pDoc)
 
             while (pState)
             {
-                std::string StrID = pState->Attribute("ID");
-                u32 StateID;
+                std::string strID = pState->Attribute("ID");
+                u32 stateID;
 
-                if (StringUtil::IsHexString(StrID, true))
-                    StateID = std::stoul(StrID, 0, 16);
+                if (StringUtil::IsHexString(strID, true))
+                    stateID = StringUtil::ToInt32(strID);
                 else
-                    StateID = CFourCC(StrID).ToLong();
+                    stateID = CFourCC(strID).ToLong();
 
-                std::string StateName = pState->Attribute("name");
-                mpMaster->mStates[StateID] = StateName;
+                std::string stateName = pState->Attribute("name");
+                mpMaster->mStates[stateID] = stateName;
                 pState = pState->NextSiblingElement("state");
             }
         }
@@ -502,37 +436,39 @@ void CTemplateLoader::LoadMasterTemplate(tinyxml2::XMLDocument *pDoc)
 
             while (pMessage)
             {
-                std::string StrID = pMessage->Attribute("ID");
-                u32 MessageID;
+                std::string strID = pMessage->Attribute("ID");
+                u32 messageID;
 
-                if (StringUtil::IsHexString(StrID, true))
-                    MessageID = std::stoul(StrID, 0, 16);
+                if (StringUtil::IsHexString(strID, true))
+                    messageID = StringUtil::ToInt32(strID);
                 else
-                    MessageID = CFourCC(StrID).ToLong();
+                    messageID = CFourCC(strID).ToLong();
 
-                std::string MessageName = pMessage->Attribute("name");
-                mpMaster->mMessages[MessageID] = MessageName;
+                std::string messageName = pMessage->Attribute("name");
+                mpMaster->mMessages[messageID] = messageName;
                 pMessage = pMessage->NextSiblingElement("message");
             }
         }
 
-        pNode = pNode->NextSibling();
+        pElem = pElem->NextSiblingElement();
     }
 }
 
-void CTemplateLoader::LoadPropertyList(tinyxml2::XMLDocument *pDoc, const std::string& ListName)
+void CTemplateLoader::LoadPropertyList(tinyxml2::XMLDocument *pDoc, const std::string& listName)
 {
     tinyxml2::XMLElement *pElem = pDoc->FirstChildElement()->FirstChildElement();
 
     while (pElem)
     {
-        CPropertyTemplate *pProp = LoadPropertyTemplate(pElem, ListName);
+        CPropertyTemplate *pProp = LoadPropertyTemplate(pElem, listName);
 
         if (pProp)
             mpMaster->mPropertyList[pProp->PropertyID()] = pProp;
 
         pElem = pElem->NextSiblingElement();
     }
+
+    mpMaster->mHasPropList = true;
 }
 
 CMasterTemplate* CTemplateLoader::LoadGame(tinyxml2::XMLNode *pNode)
@@ -561,9 +497,15 @@ CMasterTemplate* CTemplateLoader::LoadGame(tinyxml2::XMLNode *pNode)
             MasterXML.LoadFile(MasterPath.c_str());
 
             if (MasterXML.Error())
+            {
                 Log::Error("Couldn't open master template at " + MasterPath + " - error " + std::to_string(MasterXML.ErrorID()));
+            }
+
             else
+            {
                 LoadMasterTemplate(&MasterXML);
+                mpMaster->mSourceFile = pGameElem->GetText();
+            }
         }
         pGameElem = pGameElem->NextSiblingElement();
     }
@@ -575,17 +517,17 @@ CMasterTemplate* CTemplateLoader::LoadGame(tinyxml2::XMLNode *pNode)
 // ************ PUBLIC ************
 void CTemplateLoader::LoadGameList()
 {
-    static const std::string TemplatesDir = "../templates/";
-    static const std::string GameListPath = TemplatesDir + "GameList.xml";
+    static const std::string skTemplatesDir = "../templates/";
+    static const std::string skGameListPath = skTemplatesDir + "GameList.xml";
     Log::Write("Loading game list");
 
     // Load Game List XML
     tinyxml2::XMLDocument GameListXML;
-    GameListXML.LoadFile(GameListPath.c_str());
+    GameListXML.LoadFile(skGameListPath.c_str());
 
     if (GameListXML.Error())
     {
-        Log::Error("Couldn't open game list at " + GameListPath + " - error " + std::to_string(GameListXML.ErrorID()));
+        Log::Error("Couldn't open game list at " + skGameListPath + " - error " + std::to_string(GameListXML.ErrorID()));
         return;
     }
 
@@ -606,7 +548,7 @@ void CTemplateLoader::LoadGameList()
         // Games
         else if (strcmp(pElement->Name(), "game") == 0)
         {
-            CTemplateLoader Loader(TemplatesDir);
+            CTemplateLoader Loader(skTemplatesDir);
             CMasterTemplate *pMaster = Loader.LoadGame(pNode);
 
             if (!pMaster->IsLoadedSuccessfully())

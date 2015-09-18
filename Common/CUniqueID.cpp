@@ -237,7 +237,7 @@ CUniqueID CUniqueID::FromString(std::string String)
             CUniqueID ID;
             ID.mLength = e32Bit;
 
-            u32 LongID = StringUtil::StrToRes32(Name);
+            u32 LongID = StringUtil::ToInt32(Name);
 
             if (SystemEndianness == LittleEndian)
                 memcpy(ID.mID, &LongID, 4);
@@ -252,7 +252,7 @@ CUniqueID CUniqueID::FromString(std::string String)
             CUniqueID ID;
             ID.mLength = e64Bit;
 
-            u64 LongID = StringUtil::StrToRes64(Name);
+            u64 LongID = StringUtil::ToInt64(Name);
 
             if (SystemEndianness == LittleEndian)
                 memcpy(ID.mID, &LongID, 8);
@@ -266,7 +266,7 @@ CUniqueID CUniqueID::FromString(std::string String)
         {
             CUniqueID ID;
             ID.mLength = e128Bit;
-            StringUtil::StrToRes128(Name, (char*) ID.mID);
+            StringUtil::ToInt128(Name, (char*) ID.mID);
             return ID;
         }
     }

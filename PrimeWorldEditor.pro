@@ -144,7 +144,11 @@ SOURCES += \
     UI/CSceneViewport.cpp \
     UI/undo/CRotateNodeCommand.cpp \
     UI/undo/CScaleNodeCommand.cpp \
-    UI/CModelEditorViewport.cpp
+    UI/CModelEditorViewport.cpp \
+    Resource/cooker/CTemplateWriter.cpp \
+    Resource/cooker/CWorldCooker.cpp \
+    Resource/script/CPropertyTemplate.cpp \
+    Resource/script/CProperty.cpp
 
 HEADERS  += \
     Common/AnimUtil.h \
@@ -306,7 +310,11 @@ HEADERS  += \
     UI/CSceneViewport.h \
     UI/undo/CRotateNodeCommand.h \
     UI/undo/CScaleNodeCommand.h \
-    UI/CModelEditorViewport.h
+    UI/CModelEditorViewport.h \
+    Resource/cooker/CTemplateWriter.h \
+    Resource/cooker/CWorldCooker.h \
+    Resource/script/CPropertyTemplate.h \
+    Resource/script/EVolumeShape.h
 
 FORMS    += \
     UI/CWorldEditorWindow.ui \
@@ -374,3 +382,7 @@ else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../Libraries/assimp/
 
 INCLUDEPATH += $$PWD/../../Libraries/assimp/include
 DEPENDPATH += $$PWD/../../Libraries/assimp/include
+
+CONFIG(release, debug|release): LIBS += -LE:/C++/Libraries/boost_1_56_0/lib32-msvc-12.0 -llibboost_filesystem-vc120-mt-1_56
+CONFIG(debug, debug|release): LIBS += -LE:/C++/Libraries/boost_1_56_0/lib32-msvc-12.0 -llibboost_filesystem-vc120-mt-gd-1_56
+INCLUDEPATH += E:/C++/Libraries/boost_1_56_0

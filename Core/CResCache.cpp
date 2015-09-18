@@ -116,11 +116,11 @@ CResource* CResCache::GetResource(CUniqueID ResID, CFourCC type)
     // Load from folder
     else
     {
-        Source = mResSource.Path + StringUtil::ResToStr(ResID.ToLong()) + "." + type.ToString();
+        Source = mResSource.Path + StringUtil::ToString(ResID.ToLong()) + "." + type.ToString();
         CFileInStream file(Source, IOUtil::BigEndian);
         if (!file.IsValid())
         {
-            Source = mResSource.Path + StringUtil::ResToStr(ResID.ToLongLong()) + "." + type.ToString();
+            Source = mResSource.Path + StringUtil::ToString(ResID.ToLongLong()) + "." + type.ToString();
             file.Open(Source, IOUtil::BigEndian);
             if (!file.IsValid())
             {

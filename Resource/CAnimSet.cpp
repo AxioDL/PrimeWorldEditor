@@ -11,7 +11,7 @@ CAnimSet::~CAnimSet()
 
 EResType CAnimSet::Type()
 {
-    return eCharacter;
+    return eAnimSet;
 }
 
 u32 CAnimSet::getNodeCount()

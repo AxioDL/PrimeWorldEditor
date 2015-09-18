@@ -5,27 +5,29 @@
 #include "CTemplateCategory.h"
 #include "../EFormatVersion.h"
 #include <Common/types.h>
-#include <unordered_map>
+#include <map>
 #include <tinyxml2.h>
 
 class CMasterTemplate
 {
     friend class CTemplateLoader;
+    friend class CTemplateWriter;
 
     EGame mGame;
     std::string mGameName;
+    std::string mSourceFile;
     u32 mVersion;
     bool mFullyLoaded;
 
-    std::unordered_map<u32, CScriptTemplate*> mTemplates;
-    std::unordered_map<u32, std::string> mStates;
-    std::unordered_map<u32, std::string> mMessages;
+    std::map<u32, CScriptTemplate*> mTemplates;
+    std::map<u32, std::string> mStates;
+    std::map<u32, std::string> mMessages;
     std::vector<CTemplateCategory> mCategories;
 
     bool mHasPropList;
-    std::unordered_map<u32, CPropertyTemplate*> mPropertyList;
+    std::map<u32, CPropertyTemplate*> mPropertyList;
 
-    static std::unordered_map<EGame, CMasterTemplate*> smMasterMap;
+    static std::map<EGame, CMasterTemplate*> smMasterMap;
     static u32 smGameListVersion;
 
 public:
@@ -45,9 +47,11 @@ public:
     std::string MessageByID(const CFourCC& MessageID);
     std::string MessageByIndex(u32 Index);
     CPropertyTemplate* GetProperty(u32 PropertyID);
+    bool HasPropertyList();
     bool IsLoadedSuccessfully();
 
     static CMasterTemplate* GetMasterForGame(EGame Game);
+    static std::list<CMasterTemplate*> GetMasterList();
 };
 
 // ************ INLINE ************

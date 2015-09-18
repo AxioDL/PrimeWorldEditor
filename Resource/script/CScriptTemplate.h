@@ -1,141 +1,128 @@
 #ifndef CSCRIPTTEMPLATE_H
 #define CSCRIPTTEMPLATE_H
 
+#include "CPropertyTemplate.h"
+#include "CProperty.h"
 #include "EPropertyType.h"
+#include "EVolumeShape.h"
 #include "EAttribType.h"
 #include <Common/CFourCC.h>
 #include <Common/types.h>
 #include <list>
 #include <vector>
 #include <tinyxml2.h>
-#include <Resource/CResource.h>
+#include <Resource/model/CModel.h>
 
 class CMasterTemplate;
+class CScriptObject;
 
-/**
- * CPropertyTemplate and CStructTemplate each define the layout of a single property/struct.
- * The reason they're classes instead of structs is so their internal values can't be externally modified.
- * CFileTemplate is a very simple subclass with one extra value - a file extension fourCC
- */
-class CPropertyTemplate
-{
-    friend class CTemplateLoader;
+typedef std::string TIDString;
 
-protected:
-    EPropertyType mPropType;
-    std::string mPropName;
-    u32 mPropID;
-public:
-    CPropertyTemplate(u32 ID) { mPropID = ID; }
-    CPropertyTemplate(EPropertyType type, std::string name, u32 ID) : mPropType(type), mPropName(name), mPropID(ID) {}
-
-    virtual EPropertyType Type() const { return mPropType; }
-    inline std::string Name() const { return mPropName; }
-    inline u32 PropertyID() const { return mPropID; }
-    inline void SetName(const std::string& Name) { mPropName = Name; }
-};
-
-class CFileTemplate : public CPropertyTemplate
-{
-    friend class CTemplateLoader;
-
-    CStringList mAcceptedExtensions;
-public:
-    CFileTemplate(u32 ID) : CPropertyTemplate(ID) { mPropType = eFileProperty; }
-
-    CFileTemplate(std::string name, u32 ID, const CStringList& extensions)
-        : CPropertyTemplate(ID) {
-        mPropType = eFileProperty; mPropName = name; mAcceptedExtensions = extensions;
-    }
-
-    EPropertyType Type() const { return eFileProperty; }
-    const CStringList& Extensions() const { return mAcceptedExtensions; }
-};
-
-class CStructTemplate : public CPropertyTemplate
-{
-    friend class CTemplateLoader;
-
-    bool mIsSingleProperty;
-    s32 mPropertyCount;
-    std::vector<CPropertyTemplate*> mProperties;
-public:
-    CStructTemplate();
-    ~CStructTemplate();
-
-    EPropertyType Type() const;
-    bool IsSingleProperty() const;
-    s32 TemplateCount() const;
-    u32 Count() const;
-    CPropertyTemplate* PropertyByIndex(u32 index);
-    CPropertyTemplate* PropertyByName(std::string name);
-    CPropertyTemplate* PropertyByID(u32 ID);
-    CStructTemplate* StructByIndex(u32 index);
-    CStructTemplate* StructByName(std::string name);
-    CStructTemplate* StructByID(u32 ID);
-   void DebugPrintProperties(std::string base);
-};
-
-/**
- * CAttribTemplate defines editor attributes.
- * They enable PWE to access and use object properties for use in the world editor.
- */
-class CAttribTemplate
-{
-    friend class CTemplateLoader;
-
-    EAttribType AttribType;
-    std::string AttribTarget;
-    std::string ResFile;
-    u32 ExtraSettings;
-public:
-    CAttribTemplate() {}
-    EAttribType Type() const { return AttribType; }
-    std::string Target() const { return AttribTarget; }
-    std::string Resource() const { return ResFile; }
-    u32 Settings() const { return ExtraSettings; }
-};
-
-/**
+/*
  * CScriptTemplate is a class that encases the data contained in one of the XML templates.
  * It essentially sets the layout of any given script object.
  *
  * It contains any data that applies globally to every instance of the object, such as
- *   property names, editor attribute properties, etc.
+ * property names, editor attribute properties, etc.
  */
-class CScriptObject;
-
 class CScriptTemplate
 {
     friend class CTemplateLoader;
+    friend class CTemplateWriter;
+
+public:
+    enum ERotationType {
+        eRotationEnabled, eRotationDisabled
+    };
+
+    enum EScaleType {
+        eScaleEnabled, eScaleDisabled, eScaleVolume
+    };
+
+private:
+    struct SPropertySet {
+        std::string SetName;
+        CStructTemplate *pBaseStruct;
+    };
+
+    struct SEditorAsset
+    {
+        enum {
+            eModel, eAnimParams
+        } AssetType;
+
+        enum {
+            eProperty, eFile
+        } AssetSource;
+
+        TIDString AssetLocation;
+        s32 ForceNodeIndex; // Force animsets to use specific node instead of one from property
+    };
 
     CMasterTemplate *mpMaster;
-    CStructTemplate *mpBaseStruct;
+    std::vector<SPropertySet> mPropertySets;
     std::list<CScriptObject*> mObjectList;
+    ERotationType mRotationType;
+    EScaleType mScaleType;
     std::string mTemplateName;
-    std::vector<CAttribTemplate> mAttribs;
+    std::string mSourceFile;
     u32 mObjectID;
     bool mVisible;
+
+    // Editor Properties
+    TIDString mNameIDString;
+    TIDString mPositionIDString;
+    TIDString mRotationIDString;
+    TIDString mScaleIDString;
+    TIDString mActiveIDString;
+    TIDString mLightParametersIDString;
+    std::vector<SEditorAsset> mAssets;
+
+    // Preview Volume
+    EVolumeShape mVolumeShape;
+    TIDString mVolumeConditionIDString;
+
+    struct SVolumeCondition {
+        int Value;
+        EVolumeShape Shape;
+    };
+    std::vector<SVolumeCondition> mVolumeConditions;
 
 public:
     CScriptTemplate(CMasterTemplate *pMaster);
     ~CScriptTemplate();
 
     CMasterTemplate* MasterTemplate();
-    std::string TemplateName() const;
-    CStructTemplate* BaseStruct();
-    u32 AttribCount() const;
-    CAttribTemplate* Attrib(u32 index);
+    std::string TemplateName(s32 propCount = -1) const;
+    std::string PropertySetNameByCount(s32 propCount) const;
+    std::string PropertySetNameByIndex(u32 index) const;
+    u32 NumPropertySets() const;
+    ERotationType RotationType() const;
+    EScaleType ScaleType() const;
     u32 ObjectID() const;
+    void SetVisible(bool visible);
+    bool IsVisible() const;
+    void DebugPrintProperties(int propCount = -1);
+
+    // Property Fetching
+    CStructTemplate* BaseStructByCount(s32 propCount);
+    CStructTemplate* BaseStructByIndex(u32 index);
+    EVolumeShape VolumeShape(CScriptObject *pObj);
+    CStringProperty* FindInstanceName(CPropertyStruct *pProperties);
+    CVector3Property* FindPosition(CPropertyStruct *pProperties);
+    CVector3Property* FindRotation(CPropertyStruct *pProperties);
+    CVector3Property* FindScale(CPropertyStruct *pProperties);
+    CBoolProperty* FindActive(CPropertyStruct *pProperties);
+    CPropertyStruct* FindLightParameters(CPropertyStruct *pProperties);
+    CModel* FindDisplayModel(CPropertyStruct *pProperties);
+    bool HasPosition();
+
+    // Object Tracking
     u32 NumObjects() const;
     const std::list<CScriptObject*>& ObjectList() const;
     void AddObject(CScriptObject *pObject);
     void RemoveObject(CScriptObject *pObject);
     void SortObjects();
-    void SetVisible(bool Visible);
-    bool IsVisible();
-
-    void DebugPrintProperties();
 };
 
 #endif // CSCRIPTTEMPLATE_H

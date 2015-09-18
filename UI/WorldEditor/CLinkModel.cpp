@@ -55,7 +55,7 @@ QVariant CLinkModel::data(const QModelIndex &index, int role) const
 
             if (pTargetObj) {
                 QString ObjType = QString("[%1] ").arg(QString::fromStdString(pTargetObj->Template()->TemplateName()));
-                return ObjType + QString::fromStdString(pTargetObj->GetInstanceName());
+                return ObjType + QString::fromStdString(pTargetObj->InstanceName());
             }
             else {
                 QString strID = QString::number(link.ObjectID, 16);

@@ -39,22 +39,6 @@ namespace StringUtil
         return path.substr(endname + 1, path.size() - endname);
     }
 
-
-    // Not convinced stringstream is the best way to do string conversions of asset IDs - don't know of a better way tho
-    std::string ResToStr(unsigned long assetID)
-    {
-        std::stringstream sstream;
-        sstream << std::hex << std::setw(8) << std::setfill('0') << assetID << std::dec;
-        return sstream.str();
-    }
-
-    std::string ResToStr(unsigned long long assetID)
-    {
-        std::stringstream sstream;
-        sstream << std::hex << std::setw(16) << std::setfill('0') << assetID << std::dec;
-        return sstream.str();
-    }
-
     std::string ToUpper(std::string str)
     {
         for (unsigned int i = 0; i < str.length(); i++)
@@ -77,22 +61,25 @@ namespace StringUtil
         return str;
     }
 
-    std::string ToHexString(unsigned char num, bool addPrefix, int width)
+    std::string ToHexString(unsigned char num, bool addPrefix, bool uppercase, int width)
     {
-        return ToHexString((unsigned long) num, addPrefix, width);
+        return ToHexString((unsigned long) num, addPrefix, uppercase, width);
     }
 
-    std::string ToHexString(unsigned short num, bool addPrefix, int width)
+    std::string ToHexString(unsigned short num, bool addPrefix, bool uppercase, int width)
     {
-        return ToHexString((unsigned long) num, addPrefix, width);
+        return ToHexString((unsigned long) num, addPrefix, uppercase, width);
     }
 
-    std::string ToHexString(unsigned long num, bool addPrefix, int width)
+    std::string ToHexString(unsigned long num, bool addPrefix, bool uppercase, int width)
     {
-        std::stringstream str;
-        if (addPrefix) str << "0x";
-        str << std::hex << std::setw(width) << std::setfill('0') << num;
-        return str.str();
+        std::stringstream stream;
+        stream << std::hex << std::setw(width) << std::setfill('0') << num;
+
+        std::string str = stream.str();
+        if (uppercase) str = ToUpper(str);
+        if (addPrefix) str = std::string("0x") + str;
+        return str;
     }
 
     long Hash32(std::string str)
@@ -119,15 +106,15 @@ namespace StringUtil
         return hash;
     }
 
-    long StrToRes32(std::string str) {
+    long ToInt32(std::string str) {
         return std::stoul(str, nullptr, 16);
     }
 
-    long long StrToRes64(std::string str) {
+    long long ToInt64(std::string str) {
         return std::stoull(str, nullptr, 16);
     }
 
-    void StrToRes128(std::string str, char *out) {
+    void ToInt128(std::string str, char *out) {
         long long Part1 = std::stoull(str.substr(0, 16), nullptr, 16);
         long long Part2 = std::stoull(str.substr(16, 16), nullptr, 16);
 
@@ -141,14 +128,18 @@ namespace StringUtil
         memcpy(out + 8, &Part2, 8);
     }
 
-    long GetResID32(std::string str)
+    std::string ToString(unsigned long v)
     {
-        long resID;
-        if (IsHexString(str, false, 8))
-            resID = StrToRes32(str);
-        else
-            resID = Hash32(GetFileName(str));
-        return resID;
+        std::stringstream sstream;
+        sstream << std::hex << std::setw(8) << std::setfill('0') << v << std::dec;
+        return sstream.str();
+    }
+
+    std::string ToString(unsigned long long v)
+    {
+        std::stringstream sstream;
+        sstream << std::hex << std::setw(16) << std::setfill('0') << v << std::dec;
+        return sstream.str();
     }
 
     bool IsHexString(std::string str, bool requirePrefix, long width)

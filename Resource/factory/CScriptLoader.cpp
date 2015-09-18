@@ -10,78 +10,78 @@ CScriptLoader::CScriptLoader()
     mpObj = nullptr;
 }
 
-CPropertyStruct* CScriptLoader::LoadStructMP1(CInputStream& SCLY, CStructTemplate *tmp)
+CPropertyStruct* CScriptLoader::LoadStructMP1(CInputStream& SCLY, CStructTemplate *pTemp)
 {
-    u32 StructStart = SCLY.Tell();
-    CPropertyStruct *PropStruct = new CPropertyStruct();
-    PropStruct->tmp = tmp;
+    u32 structStart = SCLY.Tell();
+    CPropertyStruct *propStruct = new CPropertyStruct();
+    propStruct->mpTemplate = pTemp;
 
     // Verify property count
-    s32 TemplatePropCount = tmp->TemplateCount();
-    if (TemplatePropCount >= 0)
+    u32 propCount = pTemp->Count();
+
+    if (!pTemp->IsSingleProperty())
     {
-        u32 FilePropCount = SCLY.ReadLong();
-        if (TemplatePropCount != FilePropCount)
-            Log::FileWarning(SCLY.GetSourceString(), StructStart, "Struct \"" + tmp->Name() + "\" template prop count doesn't match file");
+        u32 filePropCount = SCLY.ReadLong();
+        if (propCount != filePropCount)
+            Log::FileWarning(SCLY.GetSourceString(), structStart, "Struct \"" + pTemp->Name() + "\" template prop count doesn't match file");
     }
 
     // Parse properties
-    u32 PropCount = tmp->Count();
-    PropStruct->Reserve(PropCount);
+    propStruct->Reserve(propCount);
 
-    for (u32 p = 0; p < PropCount; p++)
+    for (u32 iProp = 0; iProp < propCount; iProp++)
     {
-        CPropertyBase *prop = nullptr;
-        CPropertyTemplate *proptmp = tmp->PropertyByIndex(p);
-        EPropertyType type = proptmp->Type();
+        CPropertyBase *pProp = nullptr;
+        CPropertyTemplate *pPropTmp = pTemp->PropertyByIndex(iProp);
+        EPropertyType type = pPropTmp->Type();
 
         switch (type)
         {
 
         case eBoolProperty: {
             bool v = (SCLY.ReadByte() == 1);
-            prop = new CBoolProperty(v);
+            pProp = new CBoolProperty(v);
             break;
         }
         case eByteProperty: {
             char v = SCLY.ReadByte();
-            prop = new CByteProperty(v);
+            pProp = new CByteProperty(v);
             break;
         }
         case eShortProperty: {
             short v = SCLY.ReadShort();
-            prop = new CShortProperty(v);
+            pProp = new CShortProperty(v);
             break;
         }
         case eLongProperty: {
             long v = SCLY.ReadLong();
-            prop = new CLongProperty(v);
+            pProp = new CLongProperty(v);
             break;
         }
         case eFloatProperty: {
             float v = SCLY.ReadFloat();
-            prop = new CFloatProperty(v);
+            pProp = new CFloatProperty(v);
             break;
         }
         case eStringProperty: {
             std::string v = SCLY.ReadString();
-            prop = new CStringProperty(v);
+            pProp = new CStringProperty(v);
             break;
         }
         case eVector3Property: {
             CVector3f v(SCLY);
-            prop = new CVector3Property(v);
+            pProp = new CVector3Property(v);
             break;
         }
         case eColorProperty: {
             CVector4f color(SCLY);
             CColor v(color.x, color.y, color.z, color.w);
-            prop = new CColorProperty(v);
+            pProp = new CColorProperty(v);
             break;
         }
         case eFileProperty: {
             u32 ResID = SCLY.ReadLong();
-            const CStringList& Extensions = static_cast<CFileTemplate*>(proptmp)->Extensions();
+            const CStringList& Extensions = static_cast<CFileTemplate*>(pPropTmp)->Extensions();
 
             CResource *pRes = nullptr;
 
@@ -94,65 +94,75 @@ CPropertyStruct* CScriptLoader::LoadStructMP1(CInputStream& SCLY, CStructTemplat
                 if (pRes) break;
             }
 
-            prop = new CFileProperty(pRes);
+            pProp = new CFileProperty(pRes);
             break;
         }
         case eStructProperty: {
-            CStructTemplate *StructTmp = tmp->StructByIndex(p);
-            prop = LoadStructMP1(SCLY, StructTmp);
+            CStructTemplate *StructTmp = pTemp->StructByIndex(iProp);
+            pProp = LoadStructMP1(SCLY, StructTmp);
             break;
         }
+        default:
+            pProp = new CUnknownProperty();
+            break;
         }
 
-        if (prop)
+        if (pProp)
         {
-            prop->tmp = proptmp;
-            PropStruct->Properties.push_back(prop);
+            pProp->mpTemplate = pPropTmp;
+            propStruct->mProperties.push_back(pProp);
         }
     }
 
-    return PropStruct;
+    return propStruct;
 }
 
 CScriptObject* CScriptLoader::LoadObjectMP1(CInputStream& SCLY)
 {
-    u32 ObjStart = SCLY.Tell();
+    u32 objStart = SCLY.Tell();
     u8 type = SCLY.ReadByte();
     u32 size = SCLY.ReadLong();
     u32 end = SCLY.Tell() + size;
 
-    CScriptTemplate *tmp = mpMaster->TemplateByID((u32) type);
-    if (!tmp)
+    CScriptTemplate *pTemp = mpMaster->TemplateByID((u32) type);
+    if (!pTemp)
     {
         // No valid template for this object; can't load
-        Log::FileError(SCLY.GetSourceString(), ObjStart, "Invalid object ID encountered  - " + StringUtil::ToHexString(type));
+        Log::FileError(SCLY.GetSourceString(), objStart, "Invalid object ID encountered: " + StringUtil::ToHexString(type));
         SCLY.Seek(end, SEEK_SET);
         return nullptr;
     }
 
-    mpObj = new CScriptObject(mpArea, mpLayer, tmp);
+    mpObj = new CScriptObject(mpArea, mpLayer, pTemp);
     mpObj->mInstanceID = SCLY.ReadLong();
 
     // Load connections
-    u32 numConnections = SCLY.ReadLong();
-    mpObj->mOutConnections.reserve(numConnections);
+    u32 numLinks = SCLY.ReadLong();
+    mpObj->mOutConnections.reserve(numLinks);
 
-    for (u32 c = 0; c < numConnections; c++)
+    for (u32 iLink = 0; iLink < numLinks; iLink++)
     {
-        SLink con;
-        con.State = SCLY.ReadLong();
-        con.Message = SCLY.ReadLong();
-        con.ObjectID = SCLY.ReadLong();
-        mpObj->mOutConnections.push_back(con);
+        SLink link;
+        link.State = SCLY.ReadLong();
+        link.Message = SCLY.ReadLong();
+        link.ObjectID = SCLY.ReadLong();
+        mpObj->mOutConnections.push_back(link);
     }
 
     // Load object...
-    CStructTemplate *base = tmp->BaseStruct();
-    mpObj->mpProperties = LoadStructMP1(SCLY, base);
-    SetupAttribs();
+    u32 count = SCLY.PeekLong();
+    CStructTemplate *pBase = pTemp->BaseStructByCount(count);
+
+    if (!pBase) {
+        Log::Error(pTemp->TemplateName() + " template doesn't match file property count (" + StringUtil::ToString(count) + ")");
+        pBase = pTemp->BaseStructByIndex(0);
+    }
+    mpObj->mpProperties = LoadStructMP1(SCLY, pBase);
 
     // Cleanup and return
     SCLY.Seek(end, SEEK_SET);
+
+    mpObj->EvaluateProperties();
     return mpObj;
 }
 
@@ -184,41 +194,41 @@ void CScriptLoader::LoadStructMP2(CInputStream& SCLY, CPropertyStruct *pStruct, 
     // Verify property count
     if (!pTemp->IsSingleProperty())
     {
-        u16 NumProperties = SCLY.ReadShort();
-        if ((pTemp->TemplateCount() >= 0) && (NumProperties != pTemp->TemplateCount()))
+        u16 numProperties = SCLY.ReadShort();
+        if (numProperties != pTemp->Count())
            Log::FileWarning(SCLY.GetSourceString(), SCLY.Tell() - 2, "Struct \"" + pTemp->Name() + "\" template property count doesn't match file");
     }
 
     // Parse properties
-    u32 PropCount = pTemp->Count();
-    pStruct->Reserve(PropCount);
+    u32 propCount = pTemp->Count();
+    pStruct->Reserve(propCount);
 
-    for (u32 p = 0; p < PropCount; p++)
+    for (u32 iProp = 0; iProp < propCount; iProp++)
     {
         CPropertyBase *pProp;
         CPropertyTemplate *pPropTemp;
-        u32 PropertyStart = SCLY.Tell();
-        u32 PropertyID = -1;
+        u32 propertyStart = SCLY.Tell();
+        u32 propertyID = -1;
         u16 PropertyLength = 0;
         u32 NextProperty = 0;
 
         if (pTemp->IsSingleProperty())
         {
-            pProp = pStruct->PropertyByIndex(p);
-            pPropTemp = pTemp->PropertyByIndex(p);
+            pProp = pStruct->PropertyByIndex(iProp);
+            pPropTemp = pTemp->PropertyByIndex(iProp);
         }
         else
         {
-            PropertyID = SCLY.ReadLong();
+            propertyID = SCLY.ReadLong();
             PropertyLength = SCLY.ReadShort();
             NextProperty = SCLY.Tell() + PropertyLength;
 
-            pProp = pStruct->PropertyByID(PropertyID);
-            pPropTemp = pTemp->PropertyByID(PropertyID);
+            pProp = pStruct->PropertyByID(propertyID);
+            pPropTemp = pTemp->PropertyByID(propertyID);
         }
 
         if (!pPropTemp)
-            Log::FileError(SCLY.GetSourceString(), PropertyStart, "Can't find template for property " + StringUtil::ToHexString(PropertyID) + " - skipping");
+            Log::FileError(SCLY.GetSourceString(), propertyStart, "Can't find template for property " + StringUtil::ToHexString(propertyID) + " - skipping");
 
         else
         {
@@ -312,7 +322,7 @@ void CScriptLoader::LoadStructMP2(CInputStream& SCLY, CPropertyStruct *pStruct, 
                         if (it != Extensions.begin()) ExtList += "/";
                         ExtList += *it;
                     }
-                    Log::FileWarning(SCLY.GetSourceString(), "Incorrect resource type? " + ExtList + " " + StringUtil::ToHexString(PropertyID));
+                    Log::FileWarning(SCLY.GetSourceString(), "Incorrect resource type? " + ExtList + " " + StringUtil::ToHexString(propertyID));
                 }
 
                 pFileCast->Set(pRes);
@@ -330,6 +340,14 @@ void CScriptLoader::LoadStructMP2(CInputStream& SCLY, CPropertyStruct *pStruct, 
             case eStructProperty: {
                 CPropertyStruct *pStructCast = static_cast<CPropertyStruct*>(pProp);
                 LoadStructMP2(SCLY, pStructCast, static_cast<CStructTemplate*>(pPropTemp));
+                break;
+            }
+
+            case eArrayProperty: {
+                CArrayProperty *pArrayCast = static_cast<CArrayProperty*>(pProp);
+                std::vector<u8> buf(PropertyLength);
+                SCLY.ReadBytes(buf.data(), buf.size());
+                pArrayCast->Set(buf);
                 break;
             }
 
@@ -357,7 +375,7 @@ CScriptObject* CScriptLoader::LoadObjectMP2(CInputStream& SCLY)
         return nullptr;
     }
 
-    mpObj = CScriptObject::CopyFromTemplate(pTemplate, mpArea, mpLayer);
+    mpObj = new CScriptObject(mpArea, mpLayer, pTemplate);
     mpObj->mpTemplate = pTemplate;
     mpObj->mInstanceID = SCLY.ReadLong();
 
@@ -375,12 +393,16 @@ CScriptObject* CScriptLoader::LoadObjectMP2(CInputStream& SCLY)
     }
 
     // Load object
-    CStructTemplate *pBase = pTemplate->BaseStruct();
     SCLY.Seek(0x6, SEEK_CUR); // Skip base struct ID + size
-    LoadStructMP2(SCLY, mpObj->mpProperties, pBase);
-    SetupAttribs();
+    u16 numProps = SCLY.PeekShort();
+    mpObj->CopyFromTemplate(pTemplate, (u32) numProps);
 
+    CStructTemplate *pBase = pTemplate->BaseStructByCount(numProps);
+    LoadStructMP2(SCLY, mpObj->mpProperties, pBase);
+
+    // Cleanup and return
     SCLY.Seek(ObjEnd, SEEK_SET);
+    mpObj->EvaluateProperties();
     return mpObj;
 }
 
@@ -414,32 +436,6 @@ CScriptLayer* CScriptLoader::LoadLayerMP2(CInputStream& SCLY)
         mpLayer->SetActive(true);
     }
     return mpLayer;
-}
-
-void CScriptLoader::SetupAttribs()
-{
-    // Add template attributes
-    u32 numAttribs = mpObj->mpTemplate->AttribCount();
-    for (u32 a = 0; a < numAttribs; a++)
-    {
-        CAttribTemplate *AttribTmp = mpObj->mpTemplate->Attrib(a);
-        CPropertyBase *prop = mpObj->PropertyByName( AttribTmp->Target() );
-
-        // Check for static resource
-        CResource *res = nullptr;
-        std::string ResStr = AttribTmp->Resource();
-        if (!ResStr.empty())
-            res = gResCache.GetResource(ResStr);
-
-        mpObj->mAttribs.emplace_back(CScriptObject::SAttrib(AttribTmp->Type(), res, AttribTmp->Settings(), prop) );
-        mpObj->mAttribFlags |= AttribTmp->Type();
-    }
-
-    // Initial attribute evaluation
-    mpObj->EvaluateInstanceName();
-    mpObj->EvalutateXForm();
-    mpObj->EvaluateTevColor();
-    mpObj->EvaluateDisplayModel();
 }
 
 CScriptLayer* CScriptLoader::LoadLayer(CInputStream &SCLY, CGameArea *pArea, EGame version)

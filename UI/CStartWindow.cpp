@@ -113,9 +113,9 @@ void CStartWindow::FillAreaUI()
     u64 MREA = mpWorld->GetAreaResourceID(mSelectedAreaIndex);
     std::string MREAStr;
     if (MREA & 0xFFFFFFFF00000000)
-        MREAStr = StringUtil::ResToStr(MREA);
+        MREAStr = StringUtil::ToString(MREA);
     else
-        MREAStr = StringUtil::ResToStr( (u32) MREA );
+        MREAStr = StringUtil::ToString( (u32) MREA );
 
     ui->AreaMREALineEdit->setText(QString::fromStdString(MREAStr) + QString(".MREA") );
 

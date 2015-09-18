@@ -235,7 +235,7 @@ QVariant CTypesInstanceModel::data(const QModelIndex &index, int role) const
             CScriptObject *pObj = static_cast<CScriptObject*>(index.internalPointer());
 
             if (index.column() == 0)
-                return QString::fromStdString(pObj->GetInstanceName());
+                return QString::fromStdString(pObj->InstanceName());
 
             else if (index.column() == 1)
             {

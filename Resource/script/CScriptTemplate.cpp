@@ -5,230 +5,19 @@
 #include <string>
 #include <Core/Log.h>
 #include <Core/CResCache.h>
+#include <Resource/CAnimSet.h>
 
-EPropertyType PropStringToPropEnum(std::string prop)
-{
-    if (prop == "bool")     return eBoolProperty;
-    if (prop == "byte")     return eByteProperty;
-    if (prop == "short")    return eShortProperty;
-    if (prop == "long")     return eLongProperty;
-    if (prop == "float")    return eFloatProperty;
-    if (prop == "string")   return eStringProperty;
-    if (prop == "color")    return eColorProperty;
-    if (prop == "vector3f") return eVector3Property;
-    if (prop == "file")     return eFileProperty;
-    if (prop == "struct")   return eStructProperty;
-    if (prop == "unknown")  return eUnknownProperty;
-                            return eInvalidProperty;
-}
-
-std::string PropEnumToPropString(EPropertyType prop)
-{
-    switch (prop)
-    {
-    case eBoolProperty:    return "bool";
-    case eByteProperty:    return "byte";
-    case eShortProperty:   return "short";
-    case eLongProperty:    return "long";
-    case eFloatProperty:   return "float";
-    case eStringProperty:  return "string";
-    case eColorProperty:   return "color";
-    case eVector3Property: return "vector3f";
-    case eFileProperty:    return "file";
-    case eStructProperty:  return "struct";
-    case eUnknownProperty: return "unknown";
-
-    case eInvalidProperty:
-    default:
-        return "invalid";
-    }
-}
-
-EAttribType AttribStringToAttribEnum(const std::string& Attrib)
-{
-    if (Attrib == "name")          return eNameAttrib;
-    if (Attrib == "position")      return ePositionAttrib;
-    if (Attrib == "rotation")      return eRotationAttrib;
-    if (Attrib == "scale")         return eScaleAttrib;
-    if (Attrib == "model")         return eModelAttrib;
-    if (Attrib == "animset")       return eAnimSetAttrib;
-    if (Attrib == "volume")        return eVolumeAttrib;
-    if (Attrib == "vulnerability") return eVulnerabilityAttrib;
-                                   return eInvalidAttrib;
-}
-
-std::string AttribEnumToAttribString(EAttribType Attrib)
-{
-    switch (Attrib)
-    {
-    case eNameAttrib:          return "name";
-    case ePositionAttrib:      return "position";
-    case eRotationAttrib:      return "rotation";
-    case eScaleAttrib:         return "scale";
-    case eModelAttrib:         return "model";
-    case eAnimSetAttrib:       return "animset";
-    case eVolumeAttrib:        return "volume";
-    case eVulnerabilityAttrib: return "vulnerability";
-
-    case eInvalidAttrib:
-    default:
-        return "invalid";
-    }
-}
-
-/*******************
- * CStructTemplate *
- *******************/
-CStructTemplate::CStructTemplate() : CPropertyTemplate(-1)
-{
-    mIsSingleProperty = false;
-    mPropertyCount = -1;
-    mPropType = eStructProperty;
-}
-
-CStructTemplate::~CStructTemplate()
-{
-    for (auto it = mProperties.begin(); it != mProperties.end(); it++)
-        delete *it;
-}
-
-// ************ GETTERS ************
-EPropertyType CStructTemplate::Type() const
-{
-    return eStructProperty;
-}
-
-bool CStructTemplate::IsSingleProperty() const
-{
-    return mIsSingleProperty;
-}
-
-s32 CStructTemplate::TemplateCount() const
-{
-    return mPropertyCount;
-}
-
-u32 CStructTemplate::Count() const
-{
-    return mProperties.size();
-}
-
-CPropertyTemplate* CStructTemplate::PropertyByIndex(u32 index)
-{
-    if (mProperties.size() > index)
-        return mProperties[index];
-    else
-        return nullptr;
-}
-
-CPropertyTemplate* CStructTemplate::PropertyByName(std::string name)
-{
-    // Resolve namespace
-    std::string::size_type NsStart = name.find_first_of("::");
-    std::string::size_type PropStart = NsStart + 2;
-
-    // Namespace; the requested property is within a struct
-    if (NsStart != std::string::npos)
-    {
-        std::string StructName = name.substr(0, NsStart);
-        std::string PropName = name.substr(PropStart, name.length() - PropStart);
-
-        CStructTemplate *tmp = StructByName(StructName);
-        if (!tmp) return nullptr;
-        else return tmp->PropertyByName(PropName);
-    }
-
-    // No namespace; fetch the property from this struct
-    else
-    {
-        // ID string lookup
-        if (StringUtil::IsHexString(name))
-            return PropertyByID(std::stoul(name, 0, 16));
-
-        // Name lookup
-        else
-        {
-            for (auto it = mProperties.begin(); it != mProperties.end(); it++)
-            {
-                if ((*it)->Name() == name)
-                    return *it;
-            }
-            return nullptr;
-        }
-    }
-}
-
-CPropertyTemplate* CStructTemplate::PropertyByID(u32 ID)
-{
-    for (auto it = mProperties.begin(); it != mProperties.end(); it++)
-    {
-        if ((*it)->PropertyID() == ID)
-            return *it;
-    }
-    return nullptr;
-}
-
-CStructTemplate* CStructTemplate::StructByIndex(u32 index)
-{
-    CPropertyTemplate *prop = PropertyByIndex(index);
-
-    if (prop->Type() == eStructProperty)
-        return static_cast<CStructTemplate*>(prop);
-    else
-        return nullptr;
-}
-
-CStructTemplate* CStructTemplate::StructByName(std::string name)
-{
-    CPropertyTemplate *prop = PropertyByName(name);
-
-    if (prop && prop->Type() == eStructProperty)
-        return static_cast<CStructTemplate*>(prop);
-    else
-        return nullptr;
-}
-
-CStructTemplate* CStructTemplate::StructByID(u32 ID)
-{
-    CPropertyTemplate *prop = PropertyByID(ID);
-
-    if (prop && prop->Type() == eStructProperty)
-        return static_cast<CStructTemplate*>(prop);
-    else
-        return nullptr;
-}
-
-// ************ DEBUG ************
-void CStructTemplate::DebugPrintProperties(std::string base)
-{
-    base = base + Name() + "::";
-    for (auto it = mProperties.begin(); it != mProperties.end(); it++)
-    {
-        CPropertyTemplate *tmp = *it;
-        if (tmp->Type() == eStructProperty)
-        {
-            CStructTemplate *tmp2 = static_cast<CStructTemplate*>(tmp);
-            tmp2->DebugPrintProperties(base);
-        }
-        else
-            std::cout << base << tmp->Name() << "\n";
-    }
-}
-
-/*******************
- * CScriptTemplate *
- *******************/
 CScriptTemplate::CScriptTemplate(CMasterTemplate *pMaster)
 {
-    mpBaseStruct = nullptr;
     mpMaster = pMaster;
     mVisible = true;
+    mVolumeShape = eNoShape;
 }
 
 CScriptTemplate::~CScriptTemplate()
 {
-    if (mpBaseStruct)
-        delete mpBaseStruct;
+    for (u32 iSet = 0; iSet < mPropertySets.size(); iSet++)
+        delete mPropertySets[iSet].pBaseStruct;
 }
 
 CMasterTemplate* CScriptTemplate::MasterTemplate()
@@ -236,27 +25,51 @@ CMasterTemplate* CScriptTemplate::MasterTemplate()
     return mpMaster;
 }
 
-std::string CScriptTemplate::TemplateName() const
+std::string CScriptTemplate::TemplateName(s32 propCount) const
 {
-    return mTemplateName;
+    // Return original name if there is only one property set
+    // or if caller doesn't want to distinguish between sets
+    if ((NumPropertySets() == 1) || (propCount == -1))
+        return mTemplateName;
+
+    // Otherwise we return the template name with the set name appended
+    for (auto it = mPropertySets.begin(); it != mPropertySets.end(); it++)
+        if (it->pBaseStruct->Count() == propCount)
+            return mTemplateName + " (" + it->SetName + ")";
+
+    return mTemplateName + " (Invalid)";
 }
 
-CStructTemplate* CScriptTemplate::BaseStruct()
+std::string CScriptTemplate::PropertySetNameByCount(s32 propCount) const
 {
-    return mpBaseStruct;
+    for (auto it = mPropertySets.begin(); it != mPropertySets.end(); it++)
+        if (it->pBaseStruct->Count() == propCount)
+            return it->SetName;
+
+    return "";
 }
 
-u32 CScriptTemplate::AttribCount() const
+std::string CScriptTemplate::PropertySetNameByIndex(u32 index) const
 {
-    return mAttribs.size();
-}
-
-CAttribTemplate* CScriptTemplate::Attrib(u32 index)
-{
-    if (mAttribs.size() > index)
-        return &mAttribs[index];
+    if (index < NumPropertySets())
+        return mPropertySets[index].SetName;
     else
-        return nullptr;
+        return "";
+}
+
+u32 CScriptTemplate::NumPropertySets() const
+{
+    return mPropertySets.size();
+}
+
+CScriptTemplate::ERotationType CScriptTemplate::RotationType() const
+{
+    return mRotationType;
+}
+
+CScriptTemplate::EScaleType CScriptTemplate::ScaleType() const
+{
+    return mScaleType;
 }
 
 u32 CScriptTemplate::ObjectID() const
@@ -264,6 +77,206 @@ u32 CScriptTemplate::ObjectID() const
     return mObjectID;
 }
 
+void CScriptTemplate::SetVisible(bool visible)
+{
+    mVisible = visible;
+}
+
+bool CScriptTemplate::IsVisible() const
+{
+    return mVisible;
+}
+
+void CScriptTemplate::DebugPrintProperties(int propCount)
+{
+    CStructTemplate *pTemp = BaseStructByCount(propCount);
+    if (pTemp) pTemp->DebugPrintProperties("");
+}
+
+// ************ PROPERTY FETCHING ************
+template<typename t, EPropertyType propType>
+t TFetchProperty(CPropertyStruct *pProperties, const TIDString& ID)
+{
+    if (ID.empty()) return nullptr;
+    CPropertyBase *pProp = pProperties->PropertyByIDString(ID);
+
+    if (pProp && (pProp->Type() == propType))
+        return static_cast<t>(pProp);
+    else
+        return nullptr;
+}
+
+CStructTemplate* CScriptTemplate::BaseStructByCount(s32 propCount)
+{
+    for (u32 iSet = 0; iSet < mPropertySets.size(); iSet++)
+        if (mPropertySets[iSet].pBaseStruct->Count() == propCount)
+            return mPropertySets[iSet].pBaseStruct;
+
+    return nullptr;
+}
+
+CStructTemplate* CScriptTemplate::BaseStructByIndex(u32 index)
+{
+    if (index < NumPropertySets())
+        return mPropertySets[index].pBaseStruct;
+    else
+        return nullptr;
+}
+
+EVolumeShape CScriptTemplate::VolumeShape(CScriptObject *pObj)
+{
+    if (pObj->Template() != this)
+    {
+        Log::Error(pObj->Template()->TemplateName() + " instance somehow called VolumeShape() on " + TemplateName() + " template");
+        return eInvalidShape;
+    }
+
+    if (mVolumeShape == eConditionalShape)
+    {
+        CPropertyBase *pProp = pObj->Properties()->PropertyByIDString(mVolumeConditionIDString);
+
+        // Get value of the condition test property (only boolean, integral, and enum types supported)
+        int v;
+        switch (pProp->Type())
+        {
+        case eBoolProperty:
+            v = (static_cast<CBoolProperty*>(pProp)->Get() ? 1 : 0);
+            break;
+
+        case eByteProperty:
+            v = (int) static_cast<CByteProperty*>(pProp)->Get();
+            break;
+
+        case eShortProperty:
+            v = (int) static_cast<CShortProperty*>(pProp)->Get();
+            break;
+
+        case eLongProperty:
+        case eEnumProperty:
+            v = (int) static_cast<CLongProperty*>(pProp)->Get();
+            break;
+        }
+
+        // Test and check whether any of the conditions are true
+        for (auto it = mVolumeConditions.begin(); it != mVolumeConditions.end(); it++)
+        {
+            if (it->Value == v)
+                return it->Shape;
+        }
+
+        Log::Error(TemplateName() + " instance " + StringUtil::ToHexString(pObj->InstanceID(), true, true, 8) + " has unexpected volume shape value of " + StringUtil::ToHexString((u32) v, true, true));
+        return eInvalidShape;
+    }
+
+    else return mVolumeShape;
+}
+
+CStringProperty* CScriptTemplate::FindInstanceName(CPropertyStruct *pProperties)
+{
+    return TFetchProperty<CStringProperty*, eStringProperty>(pProperties, mNameIDString);
+}
+
+CVector3Property* CScriptTemplate::FindPosition(CPropertyStruct *pProperties)
+{
+    return TFetchProperty<CVector3Property*, eVector3Property>(pProperties, mPositionIDString);
+}
+
+CVector3Property* CScriptTemplate::FindRotation(CPropertyStruct *pProperties)
+{
+    return TFetchProperty<CVector3Property*, eVector3Property>(pProperties, mRotationIDString);
+}
+
+CVector3Property* CScriptTemplate::FindScale(CPropertyStruct *pProperties)
+{
+    return TFetchProperty<CVector3Property*, eVector3Property>(pProperties, mScaleIDString);
+}
+
+CBoolProperty* CScriptTemplate::FindActive(CPropertyStruct *pProperties)
+{
+    return TFetchProperty<CBoolProperty*, eBoolProperty>(pProperties, mActiveIDString);
+}
+
+CPropertyStruct* CScriptTemplate::FindLightParameters(CPropertyStruct *pProperties)
+{
+    return TFetchProperty<CPropertyStruct*, eStructProperty>(pProperties, mLightParametersIDString);
+}
+
+CModel* CScriptTemplate::FindDisplayModel(CPropertyStruct *pProperties)
+{
+    for (auto it = mAssets.begin(); it != mAssets.end(); it++)
+    {
+        CResource *pRes = nullptr;
+        int animSetIndex = -1;
+
+        // File
+        if (it->AssetSource == SEditorAsset::eFile)
+        {
+            std::string path = "../resources/" + it->AssetLocation;
+            pRes = gResCache.GetResource(path);
+        }
+
+        // Property
+        else
+        {
+            CPropertyBase *pProp = pProperties->PropertyByIDString(it->AssetLocation);
+
+            if (pProp->Type() == eFileProperty)
+            {
+                CFileProperty *pFile = static_cast<CFileProperty*>(pProp);
+                pRes = pFile->Get();
+            }
+
+            else if (pProp->Type() == eStructProperty)
+            {
+                CPropertyStruct *pStruct = static_cast<CPropertyStruct*>(pProp);
+
+                // Slightly hacky code to fetch the correct parameters for each game
+                EGame game = mpMaster->GetGame();
+
+                if (game <= eCorruption)
+                    pRes = static_cast<CFileProperty*>(pStruct->PropertyByIndex(0))->Get();
+                else
+                    pRes = static_cast<CFileProperty*>(pStruct->PropertyByIndex(1))->Get();
+
+                if (it->ForceNodeIndex >= 0)
+                    animSetIndex = it->ForceNodeIndex;
+                else if (game >= eCorruptionProto)
+                    animSetIndex = 0;
+                else
+                    animSetIndex = static_cast<CLongProperty*>(pStruct->PropertyByIndex(1))->Get();
+            }
+        }
+
+        // Verify resource exists + is correct type
+        if (pRes)
+        {
+            if ((it->AssetType == SEditorAsset::eModel) && (pRes->Type() == eModel))
+                return static_cast<CModel*>(pRes);
+
+            if ((it->AssetType == SEditorAsset::eAnimParams) && ((pRes->Type() == eAnimSet)))
+            {
+                CAnimSet *pSet = static_cast<CAnimSet*>(pRes);
+
+                if (animSetIndex < pSet->getNodeCount())
+                {
+                    CModel *pModel = pSet->getNodeModel(animSetIndex);
+
+                    if (pModel && (pModel->Type() == eModel))
+                        return pModel;
+                }
+            }
+        }
+    }
+
+    return nullptr;
+}
+
+bool CScriptTemplate::HasPosition()
+{
+    return (!mPositionIDString.empty());
+}
+
+// ************ OBJECT TRACKING ************
 u32 CScriptTemplate::NumObjects() const
 {
     return mObjectList.size();
@@ -297,20 +310,4 @@ void CScriptTemplate::SortObjects()
     mObjectList.sort([](CScriptObject *pA, CScriptObject *pB) -> bool {
         return (pA->InstanceID() < pB->InstanceID());
     });
-}
-
-void CScriptTemplate::SetVisible(bool Visible)
-{
-    mVisible = Visible;
-}
-
-bool CScriptTemplate::IsVisible()
-{
-    return mVisible;
-}
-
-// Debug function
-void CScriptTemplate::DebugPrintProperties()
-{
-    mpBaseStruct->DebugPrintProperties("");
 }

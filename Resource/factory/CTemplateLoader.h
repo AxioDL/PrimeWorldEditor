@@ -12,21 +12,18 @@ class CTemplateLoader
     std::string mMasterDir;
 
     // Constructor
-    CTemplateLoader(const std::string& TemplatesDir) : mTemplatesDir(TemplatesDir) {}
+    CTemplateLoader(const std::string& templatesDir) : mTemplatesDir(templatesDir) {}
 
     // Load Property
-    CPropertyTemplate* LoadPropertyTemplate(tinyxml2::XMLElement *pElem, const std::string& TemplateName);
-    CStructTemplate* LoadStructTemplate(tinyxml2::XMLElement *pElem, const std::string& TemplateName);
-    void GetPropertyInfo(tinyxml2::XMLElement *pElem, std::string& Name, EPropertyType& Type, u32& ID);
+    void LoadStructProperties(tinyxml2::XMLElement *pElem, CStructTemplate *pTemp, const std::string& templateName);
+    CPropertyTemplate* LoadPropertyTemplate(tinyxml2::XMLElement *pElem, const std::string& templateName);
 
     // Load Script Object
-    CScriptTemplate* LoadScriptTemplate(tinyxml2::XMLDocument *pDoc, const std::string& TemplateName, u32 ObjectID);
-    void LoadScriptAttribs(tinyxml2::XMLElement *pElem, CScriptTemplate *pScript);
-    bool ParseAttribExtra(tinyxml2::XMLElement *pElem, CAttribTemplate& Attrib, const std::string& TemplateName);
+    CScriptTemplate* LoadScriptTemplate(tinyxml2::XMLDocument *pDoc, const std::string& templateName, u32 objectID);
 
     // Load Master
     void LoadMasterTemplate(tinyxml2::XMLDocument *pDoc);
-    void LoadPropertyList(tinyxml2::XMLDocument *pDoc, const std::string& ListName);
+    void LoadPropertyList(tinyxml2::XMLDocument *pDoc, const std::string& listName);
     CMasterTemplate* LoadGame(tinyxml2::XMLNode *pNode);
 
 public:

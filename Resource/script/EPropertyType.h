@@ -16,6 +16,7 @@ enum EPropertyType
     eEnumProperty,
     eFileProperty,
     eStructProperty,
+    eArrayProperty,
     eUnknownProperty,
     eInvalidProperty
 };

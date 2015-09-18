@@ -6,6 +6,7 @@ CMasterTemplate::CMasterTemplate()
 {
     mVersion = 0;
     mFullyLoaded = false;
+    mHasPropList = false;
 }
 
 CMasterTemplate::~CMasterTemplate()
@@ -92,15 +93,17 @@ CPropertyTemplate* CMasterTemplate::GetProperty(u32 PropertyID)
         return nullptr;
 }
 
+bool CMasterTemplate::HasPropertyList()
+{
+    return mHasPropList;
+}
+
 bool CMasterTemplate::IsLoadedSuccessfully()
 {
     return mFullyLoaded;
 }
 
 // ************ STATIC ************
-std::unordered_map<EGame, CMasterTemplate*> CMasterTemplate::smMasterMap;
-u32 CMasterTemplate::smGameListVersion;
-
 CMasterTemplate* CMasterTemplate::GetMasterForGame(EGame Game)
 {
     auto it = smMasterMap.find(Game);
@@ -110,3 +113,16 @@ CMasterTemplate* CMasterTemplate::GetMasterForGame(EGame Game)
     else
         return nullptr;
 }
+
+std::list<CMasterTemplate*> CMasterTemplate::GetMasterList()
+{
+    std::list<CMasterTemplate*> list;
+
+    for (auto it = smMasterMap.begin(); it != smMasterMap.end(); it++)
+        list.push_back(it->second);
+
+    return list;
+}
+
+std::map<EGame, CMasterTemplate*> CMasterTemplate::smMasterMap;
+u32 CMasterTemplate::smGameListVersion;

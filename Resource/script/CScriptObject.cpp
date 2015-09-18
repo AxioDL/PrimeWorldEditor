@@ -4,11 +4,10 @@
 
 CScriptObject::CScriptObject(CGameArea *pArea, CScriptLayer *pLayer, CScriptTemplate *pTemplate)
 {
+    mpTemplate = pTemplate;
     mpArea = pArea;
     mpLayer = pLayer;
-    mpTemplate = pTemplate;
     mpProperties = nullptr;
-    mAttribFlags = 0;
     mpTemplate->AddObject(this);
 }
 
@@ -19,184 +18,70 @@ CScriptObject::~CScriptObject()
 }
 
 // ************ DATA MANIPULATION ************
-void CScriptObject::EvalutateXForm()
+void CScriptObject::CopyFromTemplate(CScriptTemplate *pTemp, u32 propCount)
 {
-    // Reset XForm values to defaults
-    mPosition    = CVector3f(0);
-    mRotation    = CVector3f(0);
-    mScale       = CVector3f(1);
-    mVolumeSize  = CVector3f(0);
-    mVolumeShape = -1;
-
-    // Look for PRS attribs
-    for (u32 a = 0; a < mAttribs.size(); a++)
-    {
-        if ((mAttribs[a].Type == ePositionAttrib) ||
-            (mAttribs[a].Type == eRotationAttrib) ||
-            (mAttribs[a].Type == eScaleAttrib)    ||
-            (mAttribs[a].Type == eVolumeAttrib))
-        {
-            CVector3Property *attrib = static_cast<CVector3Property*>(mAttribs[a].Prop);
-
-            if (mAttribs[a].Type == ePositionAttrib)
-                mPosition = attrib->Get();
-            else if (mAttribs[a].Type == eRotationAttrib)
-                mRotation = attrib->Get();
-            else if (mAttribs[a].Type == eScaleAttrib)
-                mScale = attrib->Get();
-            else if (mAttribs[a].Type == eVolumeAttrib) {
-                mVolumeSize = attrib->Get();
-                mVolumeShape = mAttribs[a].Settings;
-            }
-        }
-    }
+    CStructTemplate *pBaseStruct = pTemp->BaseStructByCount(propCount);
+    delete mpProperties;
+    mpProperties = CPropertyStruct::CopyFromTemplate(pBaseStruct);
 }
 
-void CScriptObject::EvaluateInstanceName()
+void CScriptObject::EvaluateProperties()
 {
-    // Reset instance name to default
-    mInstanceName = mpTemplate->TemplateName();
-
-    // Simply look for an instance name - set if we find it
-    for (u32 a = 0; a < mAttribs.size(); a++)
-    {
-        if (mAttribs[a].Type == eNameAttrib)
-        {
-            CStringProperty *str = static_cast<CStringProperty*>(mAttribs[a].Prop);
-            mInstanceName = str->Get();
-            return;
-        }
-    }
-}
-
-void CScriptObject::EvaluateTevColor()
-{
-    // Evaluate the TEV color initializer - this is used for beam troopers
-    mTevColor = CColor::skWhite; // Initialize to white in case there's no vulnerability attrib
-
-    for (u32 a = 0; a < mAttribs.size(); a++)
-    {
-        if (mAttribs[a].Type == eVulnerabilityAttrib)
-        {
-            CPropertyStruct* vuln = static_cast<CPropertyStruct*>(mAttribs[a].Prop);
-
-            u32 Power = static_cast<CLongProperty*>(vuln->PropertyByIndex(0))->Get();
-            u32 Ice = static_cast<CLongProperty*>(vuln->PropertyByIndex(1))->Get();
-            u32 Wave = static_cast<CLongProperty*>(vuln->PropertyByIndex(2))->Get();
-            u32 Plasma = static_cast<CLongProperty*>(vuln->PropertyByIndex(3))->Get();
-
-            if (Plasma != 2)     mTevColor = CColor::skRed;
-            else if (Ice != 2)   mTevColor = CColor::skWhite;
-            else if (Power != 2) mTevColor = CColor::skYellow;
-            else if (Wave != 2)  mTevColor = CColor::skPurple;
-            else                 mTevColor = CColor::skWhite;
-
-            break;
-        }
-    }
+    mpInstanceName = mpTemplate->FindInstanceName(mpProperties);
+    mpPosition = mpTemplate->FindPosition(mpProperties);
+    mpRotation = mpTemplate->FindRotation(mpProperties);
+    mpScale = mpTemplate->FindScale(mpProperties);
+    mpActive = mpTemplate->FindActive(mpProperties);
+    mpLightParameters = mpTemplate->FindLightParameters(mpProperties);
+    mVolumeShape = mpTemplate->VolumeShape(this);
+    EvaluateDisplayModel();
 }
 
 void CScriptObject::EvaluateDisplayModel()
 {
-    // Look for animset or model
-    for (u32 a = 0; a < mAttribs.size(); a++)
-    {
-        // Evaluate AnimSet attrib
-        if (mAttribs[a].Type == eAnimSetAttrib)
-        {
-            // Get the AnimationParameters struct so we can fetch relevant values from it...
-            SAttrib *Attrib = &mAttribs[a];
-            CPropertyStruct *AnimParams = static_cast<CPropertyStruct*>(Attrib->Prop);
-            EGame game = mpTemplate->MasterTemplate()->GetGame();
-
-            CResource *ANCS;
-            if (Attrib->Res)
-                ANCS = Attrib->Res;
-            else if (game <= eCorruption)
-                ANCS = static_cast<CFileProperty*>( (*AnimParams)[0] )->Get();
-            else
-                ANCS = static_cast<CFileProperty*>( (*AnimParams)[1] )->Get();
-
-            if ((ANCS) && (ANCS->Type() == eCharacter))
-            {
-                // Get animset + node index and return the relevant model
-                CAnimSet *set = static_cast<CAnimSet*>(ANCS);
-                u32 node;
-
-                if (mpTemplate->MasterTemplate()->GetGame() >= eCorruptionProto)
-                    node = 0;
-                else if (Attrib->Settings == -1)
-                    node = static_cast<CLongProperty*>( (*AnimParams)[1] )->Get();
-                else
-                    node = Attrib->Settings;
-
-                CModel *model = set->getNodeModel(node);
-                if (model && (model->Type() == eModel))
-                {
-                    mpDisplayModel = model;
-                    return;
-                }
-            }
-        }
-
-        // Evaluate Model attrib
-        else if (mAttribs[a].Type == eModelAttrib)
-        {
-            SAttrib *Attrib = &mAttribs[a];
-            CResource *CMDL;
-
-            if (Attrib->Res)
-                CMDL = Attrib->Res;
-            else
-                CMDL = static_cast<CFileProperty*>(Attrib->Prop)->Get();
-
-            if (CMDL && (CMDL->Type() == eModel))
-            {
-                mpDisplayModel = static_cast<CModel*>(CMDL);
-                return;
-            }
-        }
-    }
-
-    // No valid display asset
-    mpDisplayModel = nullptr;
-    return;
+    mpDisplayModel = mpTemplate->FindDisplayModel(mpProperties);
+    mModelToken = CToken(mpDisplayModel);
 }
 
 // ************ GETTERS ************
-CPropertyBase* CScriptObject::PropertyByIndex(u32 index)
+CPropertyBase* CScriptObject::PropertyByIndex(u32 index) const
 {
     return mpProperties->PropertyByIndex(index);
 }
 
-CPropertyBase* CScriptObject::PropertyByName(std::string name)
+CPropertyBase* CScriptObject::PropertyByIDString(std::string str) const
 {
-    return mpProperties->PropertyByName(name);
+    return mpProperties->PropertyByIDString(str);
 }
 
-CScriptTemplate* CScriptObject::Template()
+CScriptTemplate* CScriptObject::Template() const
 {
     return mpTemplate;
 }
 
-CMasterTemplate* CScriptObject::MasterTemplate()
+CMasterTemplate* CScriptObject::MasterTemplate() const
 {
     return mpTemplate->MasterTemplate();
 }
 
-CGameArea* CScriptObject::Area()
+CGameArea* CScriptObject::Area() const
 {
     return mpArea;
 }
 
-CScriptLayer* CScriptObject::Layer()
+CScriptLayer* CScriptObject::Layer() const
 {
     return mpLayer;
 }
 
-CPropertyStruct* CScriptObject::Properties()
+CPropertyStruct* CScriptObject::Properties() const
 {
     return mpProperties;
+}
+
+u32 CScriptObject::NumProperties() const
+{
+    return mpProperties->Count();
 }
 
 u32 CScriptObject::ObjectTypeID() const
@@ -229,40 +114,74 @@ const SLink& CScriptObject::OutLink(u32 index) const
     return mOutConnections[index];
 }
 
-// Attribs
-CVector3f CScriptObject::GetPosition() const
+std::string CScriptObject::InstanceName() const
 {
-    return mPosition;
+    if (mpInstanceName)
+        return mpInstanceName->Get();
+    else
+        return "";
 }
 
-CVector3f CScriptObject::GetRotation() const
+CVector3f CScriptObject::Position() const
 {
-    return mRotation;
+    if (mpPosition)
+        return mpPosition->Get();
+    else
+        return CVector3f::skZero;
 }
 
-CVector3f CScriptObject::GetScale() const
+CVector3f CScriptObject::Rotation() const
 {
-    return mScale;
+    if (mpRotation)
+        return mpRotation->Get();
+    else
+        return CVector3f::skZero;
 }
 
-CVector3f CScriptObject::GetVolume() const
+CVector3f CScriptObject::Scale() const
 {
-    return mVolumeSize;
+    if (mpScale)
+        return mpScale->Get();
+    else
+        return CVector3f::skOne;
 }
 
-u32 CScriptObject::GetVolumeShape() const
+bool CScriptObject::IsActive() const
 {
-    return mVolumeShape;
+    if (mpActive)
+        return mpActive->Get();
+    else
+        return true;
 }
 
-std::string CScriptObject::GetInstanceName() const
+void CScriptObject::SetPosition(const CVector3f& newPos)
 {
-    return mInstanceName;
+    if (mpPosition) mpPosition->Set(newPos);
 }
 
-CColor CScriptObject::GetTevColor() const
+void CScriptObject::SetRotation(const CVector3f& newRot)
 {
-    return mTevColor;
+    if (mpRotation) mpRotation->Set(newRot);
+}
+
+void CScriptObject::SetScale(const CVector3f& newScale)
+{
+    if (mpScale) mpScale->Set(newScale);
+}
+
+void CScriptObject::SetName(const std::string& newName)
+{
+    if (mpInstanceName) mpInstanceName->Set(newName);
+}
+
+void CScriptObject::SetActive(bool isActive)
+{
+    if (mpActive) mpActive->Set(isActive);
+}
+
+CPropertyStruct* CScriptObject::LightParameters() const
+{
+    return mpLightParameters;
 }
 
 CModel* CScriptObject::GetDisplayModel() const
@@ -270,18 +189,7 @@ CModel* CScriptObject::GetDisplayModel() const
     return mpDisplayModel;
 }
 
-int CScriptObject::GetAttribFlags() const
+EVolumeShape CScriptObject::VolumeShape() const
 {
-    return mAttribFlags;
-}
-
-// ************ STATIC ************
-CScriptObject* CScriptObject::CopyFromTemplate(CScriptTemplate *pTemp, CGameArea *pArea, CScriptLayer *pLayer)
-{
-    CScriptObject *pObj = new CScriptObject(pArea, pLayer, pTemp);
-
-    CStructTemplate *pBaseStruct = pTemp->BaseStruct();
-    pObj->mpProperties = CPropertyStruct::CopyFromTemplate(pBaseStruct);
-
-    return pObj;
+    return mVolumeShape;
 }

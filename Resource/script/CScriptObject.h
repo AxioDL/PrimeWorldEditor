@@ -3,6 +3,7 @@
 
 #include "SConnection.h"
 #include "CProperty.h"
+#include "CPropertyTemplate.h"
 #include "CScriptTemplate.h"
 #include "EAttribType.h"
 #include "../model/CModel.h"
@@ -24,48 +25,32 @@ class CScriptObject
     std::vector<SLink> mInConnections;
     CPropertyStruct *mpProperties;
 
-    CVector3f mPosition, mRotation, mScale;
-    CVector3f mVolumeSize;
-    u32 mVolumeShape;
-    std::string mInstanceName;
-    CColor mTevColor;
-    CModel* mpDisplayModel;
-
-    struct SAttrib
-    {
-        EAttribType Type;
-        u32 Settings;
-        CResource *Res;
-        CToken ResToken;
-        CPropertyBase *Prop;
-
-        // Convenience constructor
-        SAttrib(EAttribType type, CResource *res, u32 settings, CPropertyBase *prop) {
-            Type = type;
-            Res = res;
-            ResToken = CToken(res);
-            Settings = settings;
-            Prop = prop;
-        }
-    };
-    std::vector<SAttrib> mAttribs;
-
-    int mAttribFlags; // int container for EAttribType flags
+    CStringProperty *mpInstanceName;
+    CVector3Property *mpPosition;
+    CVector3Property *mpRotation;
+    CVector3Property *mpScale;
+    CBoolProperty *mpActive;
+    CPropertyStruct *mpLightParameters;
+    CModel *mpDisplayModel;
+    CToken mModelToken;
+    EVolumeShape mVolumeShape;
 
 public:
     CScriptObject(CGameArea *pArea, CScriptLayer *pLayer, CScriptTemplate *pTemplate);
     ~CScriptObject();
 
+    void CopyFromTemplate(CScriptTemplate *pTemp, u32 propCount);
+    void EvaluateProperties();
     void EvaluateDisplayModel();
-    void EvaluateInstanceName();
-    void EvaluateTevColor();
-    void EvalutateXForm();
 
-    CScriptTemplate* Template();
-    CMasterTemplate* MasterTemplate();
-    CGameArea* Area();
-    CScriptLayer* Layer();
-    CPropertyStruct* Properties();
+    CScriptTemplate* Template() const;
+    CMasterTemplate* MasterTemplate() const;
+    CGameArea* Area() const;
+    CScriptLayer* Layer() const;
+    CPropertyStruct* Properties() const;
+    u32 NumProperties() const;
+    CPropertyBase* PropertyByIndex(u32 index) const;
+    CPropertyBase* PropertyByIDString(std::string str) const;
     u32 ObjectTypeID() const;
     u32 InstanceID() const;
     u32 NumInLinks() const;
@@ -73,21 +58,19 @@ public:
     const SLink& InLink(u32 index) const;
     const SLink& OutLink(u32 index) const;
 
-    CPropertyBase* PropertyByIndex(u32 index);
-    CPropertyBase* PropertyByName(std::string name);
-
-    CVector3f GetPosition() const;
-    CVector3f GetRotation() const;
-    CVector3f GetScale() const;
-    CVector3f GetVolume() const;
-    u32 GetVolumeShape() const;
-    std::string GetInstanceName() const;
-    CColor GetTevColor() const;
+    CVector3f Position() const;
+    CVector3f Rotation() const;
+    CVector3f Scale() const;
+    std::string InstanceName() const;
+    bool IsActive() const;
+    void SetPosition(const CVector3f& newPos);
+    void SetRotation(const CVector3f& newRot);
+    void SetScale(const CVector3f& newScale);
+    void SetName(const std::string& newName);
+    void SetActive(bool isActive);
+    CPropertyStruct* LightParameters() const;
     CModel* GetDisplayModel() const;
-    int GetAttribFlags() const;
-
-    // Static
-    static CScriptObject* CopyFromTemplate(CScriptTemplate *pTemp, CGameArea *pArea, CScriptLayer *pLayer);
+    EVolumeShape VolumeShape() const;
 };
 
 #endif // CSCRIPTOBJECT_H
