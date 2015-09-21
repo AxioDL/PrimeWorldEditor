@@ -4,12 +4,16 @@
 #include "WResourceSelector.h"
 #include "WColorPicker.h"
 #include "WVectorEditor.h"
+#include "WAnimParamsEditor.h"
+#include <Resource/CAnimSet.h>
+
 #include <QCheckBox>
-#include <QSpinBox>
+#include <QComboBox>
 #include <QDoubleSpinBox>
-#include <QLineEdit>
-#include <QGroupBox>
 #include <QFontMetrics>
+#include <QGroupBox>
+#include <QLineEdit>
+#include <QSpinBox>
 
 static const QString gskNullProperty = "[NULL]";
 static const QString gskUnsupportedType = "Invalid property type";
@@ -218,9 +222,10 @@ void WPropertyEditor::CreateEditor()
     case eStructProperty:
     {
         CPropertyStruct *pStructCast = static_cast<CPropertyStruct*>(mpProperty);
-        QGroupBox *pGroupBox = new QGroupBox(this);
 
+        QGroupBox *pGroupBox = new QGroupBox(this);
         QVBoxLayout *pStructLayout = new QVBoxLayout(pGroupBox);
+        pStructLayout->setContentsMargins(5,5,5,5);
         pGroupBox->setLayout(pStructLayout);
         pGroupBox->setTitle(QString::fromStdString(pStructCast->Name()));
         mUI.PropertyName->hide();
@@ -235,6 +240,20 @@ void WPropertyEditor::CreateEditor()
         break;
     }
 
+    // AnimParams - WAnimParamsEditor
+    case eAnimParamsProperty:
+    {
+        CAnimParamsProperty *pAnimCast = static_cast<CAnimParamsProperty*>(mpProperty);
+        CAnimationParameters params = pAnimCast->Get();
+
+        WAnimParamsEditor *pEditor = new WAnimParamsEditor(params, this);
+        pEditor->SetTitle(QString::fromStdString(pAnimCast->Name()));
+
+        mUI.PropertyName->hide();
+        mUI.EditorWidget = pEditor;
+        break;
+    }
+
     // Invalid
     case eInvalidProperty:
     default:
@@ -243,7 +262,9 @@ void WPropertyEditor::CreateEditor()
     }
 
     // For some reason setting a minimum size on group boxes flattens it...
-    if ((mpProperty->Type() != eStructProperty) && (mpProperty->Type() != eVector3Property))
+    if ((mpProperty->Type() != eStructProperty) &&
+        (mpProperty->Type() != eVector3Property) &&
+        (mpProperty->Type() != eAnimParamsProperty))
     {
         mUI.EditorWidget->setMinimumHeight(21);
         mUI.EditorWidget->setMaximumHeight(21);
@@ -358,6 +379,14 @@ void WPropertyEditor::UpdateEditor()
                 PropNum++;
             }
         }
+        break;
+    }
+
+    case eAnimParamsProperty:
+    {
+        CAnimParamsProperty *pAnimCast = static_cast<CAnimParamsProperty*>(mpProperty);
+        WAnimParamsEditor *pEditor = static_cast<WAnimParamsEditor*>(mUI.EditorWidget);
+        pEditor->SetParameters(pAnimCast->Get());
         break;
     }
 

@@ -5,7 +5,6 @@
 #include "CProperty.h"
 #include "EPropertyType.h"
 #include "EVolumeShape.h"
-#include "EAttribType.h"
 #include <Common/CFourCC.h>
 #include <Common/types.h>
 #include <list>

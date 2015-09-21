@@ -2,7 +2,6 @@
 #define CMASTERTEMPLATE_H
 
 #include "CScriptTemplate.h"
-#include "CTemplateCategory.h"
 #include "../EFormatVersion.h"
 #include <Common/types.h>
 #include <map>
@@ -22,7 +21,6 @@ class CMasterTemplate
     std::map<u32, CScriptTemplate*> mTemplates;
     std::map<u32, std::string> mStates;
     std::map<u32, std::string> mMessages;
-    std::vector<CTemplateCategory> mCategories;
 
     bool mHasPropList;
     std::map<u32, CPropertyTemplate*> mPropertyList;

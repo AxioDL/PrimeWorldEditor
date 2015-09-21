@@ -3,37 +3,39 @@
 
 EPropertyType PropStringToPropEnum(std::string prop)
 {
-    if (prop == "bool")     return eBoolProperty;
-    if (prop == "byte")     return eByteProperty;
-    if (prop == "short")    return eShortProperty;
-    if (prop == "long")     return eLongProperty;
-    if (prop == "float")    return eFloatProperty;
-    if (prop == "string")   return eStringProperty;
-    if (prop == "color")    return eColorProperty;
-    if (prop == "vector3f") return eVector3Property;
-    if (prop == "file")     return eFileProperty;
-    if (prop == "struct")   return eStructProperty;
-    if (prop == "array")    return eArrayProperty;
-    if (prop == "unknown")  return eUnknownProperty;
-                            return eInvalidProperty;
+    if (prop == "bool")       return eBoolProperty;
+    if (prop == "byte")       return eByteProperty;
+    if (prop == "short")      return eShortProperty;
+    if (prop == "long")       return eLongProperty;
+    if (prop == "float")      return eFloatProperty;
+    if (prop == "string")     return eStringProperty;
+    if (prop == "color")      return eColorProperty;
+    if (prop == "vector3f")   return eVector3Property;
+    if (prop == "file")       return eFileProperty;
+    if (prop == "struct")     return eStructProperty;
+    if (prop == "array")      return eArrayProperty;
+    if (prop == "animparams") return eAnimParamsProperty;
+    if (prop == "unknown")    return eUnknownProperty;
+                              return eInvalidProperty;
 }
 
 std::string PropEnumToPropString(EPropertyType prop)
 {
     switch (prop)
     {
-    case eBoolProperty:    return "bool";
-    case eByteProperty:    return "byte";
-    case eShortProperty:   return "short";
-    case eLongProperty:    return "long";
-    case eFloatProperty:   return "float";
-    case eStringProperty:  return "string";
-    case eColorProperty:   return "color";
-    case eVector3Property: return "vector3f";
-    case eFileProperty:    return "file";
-    case eStructProperty:  return "struct";
-    case eArrayProperty:   return "array";
-    case eUnknownProperty: return "unknown";
+    case eBoolProperty:       return "bool";
+    case eByteProperty:       return "byte";
+    case eShortProperty:      return "short";
+    case eLongProperty:       return "long";
+    case eFloatProperty:      return "float";
+    case eStringProperty:     return "string";
+    case eColorProperty:      return "color";
+    case eVector3Property:    return "vector3f";
+    case eFileProperty:       return "file";
+    case eStructProperty:     return "struct";
+    case eArrayProperty:      return "array";
+    case eAnimParamsProperty: return "animparams";
+    case eUnknownProperty:    return "unknown";
 
     case eInvalidProperty:
     default:

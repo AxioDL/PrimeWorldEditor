@@ -7,6 +7,7 @@
  * It's a bit hard to read, should be reorganized at some point
  */
 #include "../CResource.h"
+#include "../CAnimationParameters.h"
 #include "CPropertyTemplate.h"
 #include "EPropertyType.h"
 #include <Common/CColor.h>
@@ -54,17 +55,18 @@ public:
     inline t Get() { return mValue; }
     inline void Set(t v) { mValue = v; }
 };
-typedef __CProperty<bool, eBoolProperty>               CBoolProperty;
-typedef __CProperty<char, eByteProperty>               CByteProperty;
-typedef __CProperty<short, eShortProperty>             CShortProperty;
-typedef __CProperty<long, eLongProperty>               CLongProperty;
-typedef __CProperty<float, eFloatProperty>             CFloatProperty;
-typedef __CProperty<std::string, eStringProperty>      CStringProperty;
-typedef __CProperty<CVector3f, eVector3Property>       CVector3Property;
-typedef __CProperty<CColor, eColorProperty>            CColorProperty;
-typedef __CProperty<CResource*, eFileProperty>         CFileProperty;
-typedef __CProperty<std::vector<u8>, eArrayProperty>   CArrayProperty;
-typedef __CProperty<std::vector<u8>, eUnknownProperty> CUnknownProperty;
+typedef __CProperty<bool, eBoolProperty>                       CBoolProperty;
+typedef __CProperty<char, eByteProperty>                       CByteProperty;
+typedef __CProperty<short, eShortProperty>                     CShortProperty;
+typedef __CProperty<long, eLongProperty>                       CLongProperty;
+typedef __CProperty<float, eFloatProperty>                     CFloatProperty;
+typedef __CProperty<std::string, eStringProperty>              CStringProperty;
+typedef __CProperty<CVector3f, eVector3Property>               CVector3Property;
+typedef __CProperty<CColor, eColorProperty>                    CColorProperty;
+typedef __CProperty<CResource*, eFileProperty>                 CFileProperty;
+typedef __CProperty<CAnimationParameters, eAnimParamsProperty> CAnimParamsProperty;
+typedef __CProperty<std::vector<u8>, eArrayProperty>           CArrayProperty;
+typedef __CProperty<std::vector<u8>, eUnknownProperty>         CUnknownProperty;
 
 /*
  * Template specialization for CFileProperty to allow a token for resources

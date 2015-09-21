@@ -96,18 +96,19 @@ CPropertyStruct* CPropertyStruct::CopyFromTemplate(CStructTemplate *pTemp)
 
         switch (pPropTemp->Type())
         {
-        case eBoolProperty:    pProp = new CBoolProperty(false); break;
-        case eByteProperty:    pProp = new CByteProperty(0);     break;
-        case eShortProperty:   pProp = new CShortProperty(0); break;
-        case eLongProperty:    pProp = new CLongProperty(0); break;
-        case eFloatProperty:   pProp = new CFloatProperty(0.f); break;
-        case eStringProperty:  pProp = new CStringProperty(""); break;
-        case eVector3Property: pProp = new CVector3Property(CVector3f::skZero); break;
-        case eColorProperty:   pProp = new CColorProperty(CColor::skBlack); break;
-        case eFileProperty:    pProp = new CFileProperty(); break;
-        case eArrayProperty:   pProp = new CArrayProperty(); break;
-        case eUnknownProperty: pProp = new CUnknownProperty(); break;
-        case eStructProperty:  pProp = CPropertyStruct::CopyFromTemplate(static_cast<CStructTemplate*>(pPropTemp)); break;
+        case eBoolProperty:       pProp = new CBoolProperty(false); break;
+        case eByteProperty:       pProp = new CByteProperty(0);     break;
+        case eShortProperty:      pProp = new CShortProperty(0); break;
+        case eLongProperty:       pProp = new CLongProperty(0); break;
+        case eFloatProperty:      pProp = new CFloatProperty(0.f); break;
+        case eStringProperty:     pProp = new CStringProperty(""); break;
+        case eVector3Property:    pProp = new CVector3Property(CVector3f::skZero); break;
+        case eColorProperty:      pProp = new CColorProperty(CColor::skBlack); break;
+        case eFileProperty:       pProp = new CFileProperty(); break;
+        case eArrayProperty:      pProp = new CArrayProperty(); break;
+        case eAnimParamsProperty: pProp = new CAnimParamsProperty(); break;
+        case eUnknownProperty:    pProp = new CUnknownProperty(); break;
+        case eStructProperty:     pProp = CPropertyStruct::CopyFromTemplate(static_cast<CStructTemplate*>(pPropTemp)); break;
         }
 
         if (pProp)

@@ -5,7 +5,6 @@
 #include "CProperty.h"
 #include "CPropertyTemplate.h"
 #include "CScriptTemplate.h"
-#include "EAttribType.h"
 #include "../model/CModel.h"
 
 class CGameArea;

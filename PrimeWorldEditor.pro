@@ -148,7 +148,9 @@ SOURCES += \
     Resource/cooker/CTemplateWriter.cpp \
     Resource/cooker/CWorldCooker.cpp \
     Resource/script/CPropertyTemplate.cpp \
-    Resource/script/CProperty.cpp
+    Resource/script/CProperty.cpp \
+    Resource/CAnimationParameters.cpp \
+    UI/WAnimParamsEditor.cpp
 
 HEADERS  += \
     Common/AnimUtil.h \
@@ -208,7 +210,6 @@ HEADERS  += \
     Scene/CModelNode.h \
     Scene/CSceneNode.h \
     Scene/CStaticNode.h \
-    Resource/script/EAttribType.h \
     Resource/CAnimSet.h \
     Resource/factory/CAnimSetLoader.h \
     Resource/factory/CScriptLoader.h \
@@ -279,7 +280,6 @@ HEADERS  += \
     UI/WPropertyEditor.h \
     UI/WVectorEditor.h \
     Resource/script/CMasterTemplate.h \
-    Resource/script/CTemplateCategory.h \
     Resource/factory/CTemplateLoader.h \
     Core/CAreaAttributes.h \
     UI/WorldEditor/CLinkModel.h \
@@ -314,7 +314,9 @@ HEADERS  += \
     Resource/cooker/CTemplateWriter.h \
     Resource/cooker/CWorldCooker.h \
     Resource/script/CPropertyTemplate.h \
-    Resource/script/EVolumeShape.h
+    Resource/script/EVolumeShape.h \
+    Resource/CAnimationParameters.h \
+    UI/WAnimParamsEditor.h
 
 FORMS    += \
     UI/CWorldEditorWindow.ui \

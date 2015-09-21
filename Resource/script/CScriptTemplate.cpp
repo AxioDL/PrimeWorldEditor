@@ -108,6 +108,8 @@ t TFetchProperty(CPropertyStruct *pProperties, const TIDString& ID)
 
 CStructTemplate* CScriptTemplate::BaseStructByCount(s32 propCount)
 {
+    if (mPropertySets.size() == 1) return mPropertySets[0].pBaseStruct;
+
     for (u32 iSet = 0; iSet < mPropertySets.size(); iSet++)
         if (mPropertySets[iSet].pBaseStruct->Count() == propCount)
             return mPropertySets[iSet].pBaseStruct;
@@ -206,7 +208,6 @@ CModel* CScriptTemplate::FindDisplayModel(CPropertyStruct *pProperties)
     for (auto it = mAssets.begin(); it != mAssets.end(); it++)
     {
         CResource *pRes = nullptr;
-        int animSetIndex = -1;
 
         // File
         if (it->AssetSource == SEditorAsset::eFile)
@@ -226,46 +227,16 @@ CModel* CScriptTemplate::FindDisplayModel(CPropertyStruct *pProperties)
                 pRes = pFile->Get();
             }
 
-            else if (pProp->Type() == eStructProperty)
+            else if (pProp->Type() == eAnimParamsProperty)
             {
-                CPropertyStruct *pStruct = static_cast<CPropertyStruct*>(pProp);
-
-                // Slightly hacky code to fetch the correct parameters for each game
-                EGame game = mpMaster->GetGame();
-
-                if (game <= eCorruption)
-                    pRes = static_cast<CFileProperty*>(pStruct->PropertyByIndex(0))->Get();
-                else
-                    pRes = static_cast<CFileProperty*>(pStruct->PropertyByIndex(1))->Get();
-
-                if (it->ForceNodeIndex >= 0)
-                    animSetIndex = it->ForceNodeIndex;
-                else if (game >= eCorruptionProto)
-                    animSetIndex = 0;
-                else
-                    animSetIndex = static_cast<CLongProperty*>(pStruct->PropertyByIndex(1))->Get();
+                CAnimParamsProperty *pParams = static_cast<CAnimParamsProperty*>(pProp);
+                pRes = pParams->Get().GetCurrentModel(it->ForceNodeIndex);
             }
         }
 
         // Verify resource exists + is correct type
-        if (pRes)
-        {
-            if ((it->AssetType == SEditorAsset::eModel) && (pRes->Type() == eModel))
-                return static_cast<CModel*>(pRes);
-
-            if ((it->AssetType == SEditorAsset::eAnimParams) && ((pRes->Type() == eAnimSet)))
-            {
-                CAnimSet *pSet = static_cast<CAnimSet*>(pRes);
-
-                if (animSetIndex < pSet->getNodeCount())
-                {
-                    CModel *pModel = pSet->getNodeModel(animSetIndex);
-
-                    if (pModel && (pModel->Type() == eModel))
-                        return pModel;
-                }
-            }
-        }
+        if (pRes && (pRes->Type() == eModel))
+            return static_cast<CModel*>(pRes);
     }
 
     return nullptr;

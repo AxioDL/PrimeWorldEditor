@@ -102,6 +102,10 @@ CPropertyStruct* CScriptLoader::LoadStructMP1(CInputStream& SCLY, CStructTemplat
             pProp = LoadStructMP1(SCLY, StructTmp);
             break;
         }
+        case eAnimParamsProperty: {
+            pProp = new CAnimParamsProperty(CAnimationParameters(SCLY, mVersion));
+            break;
+        }
         default:
             pProp = new CUnknownProperty();
             break;
@@ -192,15 +196,17 @@ CScriptLayer* CScriptLoader::LoadLayerMP1(CInputStream &SCLY)
 void CScriptLoader::LoadStructMP2(CInputStream& SCLY, CPropertyStruct *pStruct, CStructTemplate *pTemp)
 {
     // Verify property count
+    u32 propCount = pTemp->Count();
+
     if (!pTemp->IsSingleProperty())
     {
         u16 numProperties = SCLY.ReadShort();
-        if (numProperties != pTemp->Count())
+        if ((numProperties != propCount) && (mVersion < eReturns))
            Log::FileWarning(SCLY.GetSourceString(), SCLY.Tell() - 2, "Struct \"" + pTemp->Name() + "\" template property count doesn't match file");
+        propCount = numProperties;
     }
 
     // Parse properties
-    u32 propCount = pTemp->Count();
     pStruct->Reserve(propCount);
 
     for (u32 iProp = 0; iProp < propCount; iProp++)
@@ -351,6 +357,11 @@ void CScriptLoader::LoadStructMP2(CInputStream& SCLY, CPropertyStruct *pStruct, 
                 break;
             }
 
+            case eAnimParamsProperty: {
+                CAnimParamsProperty *pAnimCast = static_cast<CAnimParamsProperty*>(pProp);
+                pAnimCast->Set(CAnimationParameters(SCLY, mVersion));
+                break;
+            }
             }
         }
 

@@ -1,6 +1,5 @@
 #include "CTemplateLoader.h"
 #include "CWorldLoader.h"
-#include "../script/EAttribType.h"
 #include <Core/Log.h>
 
 void CTemplateLoader::LoadStructProperties(tinyxml2::XMLElement *pElem, CStructTemplate *pTemp, const std::string& templateName)
