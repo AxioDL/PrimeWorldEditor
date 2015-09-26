@@ -72,7 +72,7 @@ EResType CResource::ResTypeForExtension(CFourCC Extension)
             if (Extension == "CSMP") return eAudioSample;
             if (Extension == "CSNG") return eMidi;
             if (Extension == "CTWK") return eTweak;
-            if (Extension == "DCLN") return eCollisionMesh;
+            if (Extension == "DCLN") return eCollisionMeshGroup;
             if (Extension == "DGRP") return eDependencyGroup;
             if (Extension == "DSP ") return eMusicTrack;
             if (Extension == "DUMB") return eDataDump;

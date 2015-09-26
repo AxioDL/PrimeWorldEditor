@@ -135,7 +135,7 @@ CStaticModel* CGameArea::GetStaticModel(u32 mdl)
     return mStaticTerrainModels[mdl];
 }
 
-CCollisionMesh* CGameArea::GetCollision()
+CCollisionMeshGroup* CGameArea::GetCollision()
 {
     return mCollision;
 }

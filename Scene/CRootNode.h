@@ -20,7 +20,7 @@ public:
     inline void DrawAsset(ERenderOptions, u32) {}
     inline void RayAABoxIntersectTest(CRayCollisionTester &) {}
 
-    inline SRayIntersection RayNodeIntersectTest(const CRay &, u32) {
+    inline SRayIntersection RayNodeIntersectTest(const CRay &, u32, ERenderOptions) {
         return SRayIntersection(false, 0.f, nullptr, 0);
     }
 

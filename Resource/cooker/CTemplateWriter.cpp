@@ -262,8 +262,15 @@ void CTemplateWriter::SaveScriptTemplate(CScriptTemplate *pTemp, const std::stri
 
     for (auto it = pTemp->mAssets.begin(); it != pTemp->mAssets.end(); it++)
     {
-        std::string type = (it->AssetType == CScriptTemplate::SEditorAsset::eAnimParams ? "animparams" : "model");
         std::string source = (it->AssetSource == CScriptTemplate::SEditorAsset::eFile ? "file" : "property");
+        std::string type;
+
+        switch (it->AssetType)
+        {
+        case CScriptTemplate::SEditorAsset::eModel:      type = "model"; break;
+        case CScriptTemplate::SEditorAsset::eAnimParams: type = "animparams"; break;
+        case CScriptTemplate::SEditorAsset::eCollision:  type = "collision"; break;
+        }
 
         s32 force = -1;
         if (it->AssetSource == CScriptTemplate::SEditorAsset::eAnimParams) force = it->ForceNodeIndex;

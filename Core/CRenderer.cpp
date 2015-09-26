@@ -20,7 +20,8 @@ u32 CRenderer::sNumRenderers = 0;
 // ************ INITIALIZATION ************
 CRenderer::CRenderer()
 {
-    mOptions = eEnableUVScroll | eEnableBackfaceCull;
+    mOptions = eDrawWorld | eDrawObjects | eDrawLights | eDrawSky |
+               eEnableUVScroll | eEnableBackfaceCull;
     mBloomMode = eNoBloom;
     mDrawGrid = true;
     mInitialized = false;
@@ -53,9 +54,45 @@ void CRenderer::Init()
 }
 
 // ************ GETTERS/SETTERS ************
-bool CRenderer::IsUVAnimationOn()
+ERenderOptions CRenderer::RenderOptions()
 {
-    return ((mOptions & eUVScroll) != 0);
+    return mOptions;
+}
+
+void CRenderer::ToggleWorld(bool b)
+{
+    if (b) mOptions |= eDrawWorld;
+    else   mOptions &= ~eDrawWorld;
+}
+
+void CRenderer::ToggleWorldCollision(bool b)
+{
+    if (b) mOptions |= eDrawWorldCollision;
+    else   mOptions &= ~eDrawWorldCollision;
+}
+
+void CRenderer::ToggleObjects(bool b)
+{
+    if (b) mOptions |= eDrawObjects;
+    else   mOptions &= ~eDrawObjects;
+}
+
+void CRenderer::ToggleObjectCollision(bool b)
+{
+    if (b) mOptions |= eDrawObjectCollision;
+    else   mOptions &= ~eDrawObjectCollision;
+}
+
+void CRenderer::ToggleLights(bool b)
+{
+    if (b) mOptions |= eDrawLights;
+    else   mOptions &= ~eDrawLights;
+}
+
+void CRenderer::ToggleSky(bool b)
+{
+    if (b) mOptions |= eDrawSky;
+    else   mOptions &= ~eDrawSky;
 }
 
 void CRenderer::ToggleBackfaceCull(bool b)

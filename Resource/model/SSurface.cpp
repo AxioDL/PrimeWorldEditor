@@ -3,7 +3,7 @@
 #include <Common/Math.h>
 #include <Core/CDrawUtil.h>
 
-std::pair<bool,float> SSurface::IntersectsRay(const CRay& Ray, float LineThreshold)
+std::pair<bool,float> SSurface::IntersectsRay(const CRay& Ray, bool allowBackfaces, float LineThreshold)
 {
     bool Hit = false;
     float HitDist;
@@ -61,7 +61,7 @@ std::pair<bool,float> SSurface::IntersectsRay(const CRay& Ray, float LineThresho
                 }
 
                 // Intersection test
-                std::pair<bool,float> TriResult = Math::RayTriangleIntersection(Ray, vtxA, vtxB, vtxC);
+                std::pair<bool,float> TriResult = Math::RayTriangleIntersection(Ray, vtxA, vtxB, vtxC, allowBackfaces);
 
                 if (TriResult.first)
                 {

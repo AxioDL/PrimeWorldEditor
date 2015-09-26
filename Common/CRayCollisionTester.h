@@ -6,6 +6,7 @@
 #include "CVector3f.h"
 #include "SRayIntersection.h"
 #include "types.h"
+#include <Core/ERenderOptions.h>
 
 #include <list>
 
@@ -21,7 +22,7 @@ public:
     ~CRayCollisionTester();
     const CRay& Ray() const;
     void AddNode(CSceneNode *pNode, u32 AssetIndex, float Distance);
-    SRayIntersection TestNodes();
+    SRayIntersection TestNodes(ERenderOptions options);
 };
 
 inline const CRay& CRayCollisionTester::Ray() const

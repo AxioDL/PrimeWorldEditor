@@ -1,7 +1,7 @@
 #ifndef CGAMEAREA_H
 #define CGAMEAREA_H
 
-#include "CCollisionMesh.h"
+#include "CCollisionMeshGroup.h"
 #include "CLight.h"
 #include "CMaterialSet.h"
 #include "model/CModel.h"
@@ -32,7 +32,7 @@ class CGameArea : public CResource
     std::unordered_map<u32, CScriptObject*> mObjectMap;
 
     // Collision
-    CCollisionMesh *mCollision;
+    CCollisionMeshGroup *mCollision;
     // Lights
     std::vector<std::vector<CLight*>> mLightLayers;
 
@@ -52,7 +52,7 @@ public:
     u32 GetStaticModelCount();
     CModel* GetTerrainModel(u32 mdl);
     CStaticModel* GetStaticModel(u32 mdl);
-    CCollisionMesh* GetCollision();
+    CCollisionMeshGroup* GetCollision();
     u32 GetScriptLayerCount();
     CScriptLayer* GetScriptLayer(u32 index);
     CScriptLayer* GetGeneratorLayer();

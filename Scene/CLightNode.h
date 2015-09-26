@@ -13,7 +13,7 @@ public:
     void AddToRenderer(CRenderer *pRenderer);
     void Draw(ERenderOptions Options);
     void DrawAsset(ERenderOptions Options, u32 asset);
-    SRayIntersection RayNodeIntersectTest(const CRay &Ray, u32 AssetID);
+    SRayIntersection RayNodeIntersectTest(const CRay &Ray, u32 AssetID, ERenderOptions options);
     CLight* Light();
 };
 

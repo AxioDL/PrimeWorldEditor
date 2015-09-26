@@ -57,10 +57,12 @@ void CLightNode::DrawAsset(ERenderOptions, u32)
     // Not using parameter 2 (u32 - asset)
 }
 
-SRayIntersection CLightNode::RayNodeIntersectTest(const CRay &Ray, u32 AssetID)
+SRayIntersection CLightNode::RayNodeIntersectTest(const CRay &Ray, u32 AssetID, ERenderOptions options)
 {
     // Needs redo if I ever make these look like something other than boxes
-    if (AABox().IsPointInBox(Ray.Origin()))
+    bool allowBackfaces = ((options & eEnableBackfaceCull) == 0);
+
+    if (!allowBackfaces && (AABox().IsPointInBox(Ray.Origin())))
         return SRayIntersection(false, 0.f, nullptr, 0);
 
     std::pair<bool,float> BoxResult = AABox().IntersectsRay(Ray);

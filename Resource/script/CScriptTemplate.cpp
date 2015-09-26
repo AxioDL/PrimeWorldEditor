@@ -242,6 +242,39 @@ CModel* CScriptTemplate::FindDisplayModel(CPropertyStruct *pProperties)
     return nullptr;
 }
 
+CCollisionMeshGroup* CScriptTemplate::FindCollision(CPropertyStruct *pProperties)
+{
+    for (auto it = mAssets.begin(); it != mAssets.end(); it++)
+    {
+        CResource *pRes = nullptr;
+
+        // File
+        if (it->AssetSource == SEditorAsset::eFile)
+        {
+            std::string path = "../resources/" + it->AssetLocation;
+            pRes = gResCache.GetResource(path);
+        }
+
+        // Property
+        else
+        {
+            CPropertyBase *pProp = pProperties->PropertyByIDString(it->AssetLocation);
+
+            if (pProp->Type() == eFileProperty)
+            {
+                CFileProperty *pFile = static_cast<CFileProperty*>(pProp);
+                pRes = pFile->Get();
+            }
+        }
+
+        // Verify resource exists + is correct type
+        if (pRes && (pRes->Type() == eCollisionMeshGroup))
+            return static_cast<CCollisionMeshGroup*>(pRes);
+    }
+
+    return nullptr;
+}
+
 bool CScriptTemplate::HasPosition()
 {
     return (!mPositionIDString.empty());

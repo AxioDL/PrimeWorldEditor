@@ -78,6 +78,7 @@ private slots:
     void on_ActionEditLayers_triggered();
     void on_ActionIncrementGizmo_triggered();
     void on_ActionDecrementGizmo_triggered();
+    void on_ActionDrawObjectCollision_triggered();
 };
 
 #endif // CWORLDEDITOR_H

@@ -1,7 +1,7 @@
 #include "CCollisionMesh.h"
 #include <Core/CRenderer.h>
 
-CCollisionMesh::CCollisionMesh() : CResource()
+CCollisionMesh::CCollisionMesh()
 {
     mVBO.SetVertexDesc(ePosition);
     mVertexCount = 0;
@@ -19,11 +19,6 @@ CCollisionMesh::~CCollisionMesh()
         mVBO.Clear();
         mBuffered = false;
     }
-}
-
-EResType CCollisionMesh::Type()
-{
-    return eCollisionMesh;
 }
 
 void CCollisionMesh::BufferGL()
@@ -88,7 +83,7 @@ void CCollisionMesh::Draw()
     mVBO.Unbind();
 }
 
-void CCollisionMesh::DrawLines()
+void CCollisionMesh::DrawWireframe()
 {
     if (!mBuffered) BufferGL();
 

@@ -19,10 +19,6 @@
  */
 CSceneManager::CSceneManager()
 {
-    mShowTerrain = true;
-    mShowCollision = false;
-    mShowObjects = true;
-    mShowLights = true;
     mSplitTerrain = true;
     mNodeCount = 0;
     mpSceneRootNode = new CRootNode(this, nullptr);
@@ -56,7 +52,7 @@ CStaticNode* CSceneManager::AddStaticModel(CStaticModel *mdl)
     return node;
 }
 
-CCollisionNode* CSceneManager::AddCollision(CCollisionMesh *mesh)
+CCollisionNode* CSceneManager::AddCollision(CCollisionMeshGroup *mesh)
 {
     if (mesh == nullptr) return nullptr;
 
@@ -143,7 +139,7 @@ void CSceneManager::SetActiveArea(CGameArea* _area)
             switch (pObj->ObjectTypeID())
             {
             case 0x4E:       // MP1 AreaAttributes ID
-            case 0x52454141: // MP2 AreaAttributes ID ("REAA")
+            case 0x52454141: // MP2/MP3/DKCR AreaAttributes ID ("REAA")
                 mAreaAttributesObjects.emplace_back( CAreaAttributes(pObj) );
                 break;
             }
@@ -221,7 +217,9 @@ void CSceneManager::ClearScene()
 
 void CSceneManager::AddSceneToRenderer(CRenderer *pRenderer)
 {
-    if (mShowTerrain)
+    ERenderOptions options = pRenderer->RenderOptions();
+
+    if (options & eDrawWorld)
     {
         for (u32 n = 0; n < mModelNodes.size(); n++)
             if (mModelNodes[n]->IsVisible())
@@ -232,29 +230,29 @@ void CSceneManager::AddSceneToRenderer(CRenderer *pRenderer)
                 mStaticNodes[n]->AddToRenderer(pRenderer);
     }
 
-    if (mShowCollision)
+    if (options & eDrawWorldCollision)
     {
         for (u32 n = 0; n < mCollisionNodes.size(); n++)
             if (mCollisionNodes[n]->IsVisible())
                 mCollisionNodes[n]->AddToRenderer(pRenderer);
     }
 
-    if (mShowObjects)
-    {
-        for (u32 n = 0; n < mScriptNodes.size(); n++)
-            if (mScriptNodes[n]->IsVisible())
-                mScriptNodes[n]->AddToRenderer(pRenderer);
-    }
-
-    if (mShowLights)
+    if (options & eDrawLights)
     {
         for (u32 n = 0; n < mLightNodes.size(); n++)
             if (mLightNodes[n]->IsVisible())
                 mLightNodes[n]->AddToRenderer(pRenderer);
     }
+
+    if ((options & eDrawObjects) || (options & eDrawObjectCollision))
+    {
+        for (u32 n = 0; n < mScriptNodes.size(); n++)
+            if (mScriptNodes[n]->IsVisible())
+                mScriptNodes[n]->AddToRenderer(pRenderer);
+    }
 }
 
-SRayIntersection CSceneManager::SceneRayCast(const CRay& Ray)
+SRayIntersection CSceneManager::SceneRayCast(const CRay& Ray, ERenderOptions renderOptions)
 {
     // Terribly hacky stuff to avoid having tons of redundant code
     // because I'm too lazy to rewrite CSceneManager right now and fix it
@@ -267,7 +265,8 @@ SRayIntersection CSceneManager::SceneRayCast(const CRay& Ray)
         reinterpret_cast<std::vector<CSceneNode*>*>(&mLightNodes),
     };
     bool NodesVisible[5] = {
-        true, mShowTerrain, mShowCollision, mShowObjects, mShowLights
+        true, ((renderOptions & eDrawWorld) != 0), ((renderOptions & eDrawWorldCollision) != 0),
+              ((renderOptions & ((ERenderOptions) (eDrawObjects | eDrawObjectCollision))) != 0), ((renderOptions & eDrawLights) != 0)
     };
 
     // Less hacky stuff
@@ -284,7 +283,7 @@ SRayIntersection CSceneManager::SceneRayCast(const CRay& Ray)
                 vec[iNode]->RayAABoxIntersectTest(Tester);
     }
 
-    return Tester.TestNodes();
+    return Tester.TestNodes(renderOptions);
 }
 
 void CSceneManager::PickEnvironmentObjects()
@@ -342,44 +341,4 @@ CModel* CSceneManager::GetActiveSkybox()
 CGameArea* CSceneManager::GetActiveArea()
 {
     return mpArea;
-}
-
-void CSceneManager::SetWorld(bool on)
-{
-    mShowTerrain = on;
-}
-
-void CSceneManager::SetCollision(bool on)
-{
-    mShowCollision = on;
-}
-
-void CSceneManager::SetLights(bool on)
-{
-    mShowLights = on;
-}
-
-void CSceneManager::SetObjects(bool on)
-{
-    mShowObjects = on;
-}
-
-bool CSceneManager::IsTerrainEnabled()
-{
-    return mShowTerrain;
-}
-
-bool CSceneManager::IsCollisionEnabled()
-{
-    return mShowCollision;
-}
-
-bool CSceneManager::AreLightsEnabled()
-{
-    return mShowLights;
-}
-
-bool CSceneManager::AreScriptObjectsEnabled()
-{
-    return mShowObjects;
 }

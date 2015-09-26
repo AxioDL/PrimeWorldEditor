@@ -15,7 +15,7 @@ public:
     void Draw(ERenderOptions Options);
     void DrawAsset(ERenderOptions Options, u32 asset);
     void RayAABoxIntersectTest(CRayCollisionTester &Tester);
-    SRayIntersection RayNodeIntersectTest(const CRay &Ray, u32 AssetID);
+    SRayIntersection RayNodeIntersectTest(const CRay &Ray, u32 AssetID, ERenderOptions options);
 };
 
 #endif // CSTATICNODE_H

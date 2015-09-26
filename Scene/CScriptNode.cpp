@@ -16,12 +16,14 @@ CScriptNode::CScriptNode(CSceneManager *pScene, CSceneNode *pParent, CScriptObje
     // Evaluate instance
     mpInstance = pObject;
     mpActiveModel = nullptr;
+    mpCollisionNode = new CCollisionNode(pScene, this);
+    mpCollisionNode->SetInheritance(true, true, false);
 
     if (mpInstance)
     {
         CScriptTemplate *pTemp = mpInstance->Template();
 
-        mpActiveModel = mpInstance->GetDisplayModel();
+        // Determine transform
         mPosition = mpInstance->Position();
         mRotation = CQuaternion::FromEuler(mpInstance->Rotation());
         SetName("[" + pTemp->TemplateName(mpInstance->NumProperties()) + "] " + mpInstance->InstanceName());
@@ -31,10 +33,16 @@ CScriptNode::CScriptNode(CSceneManager *pScene, CSceneNode *pParent, CScriptObje
 
         MarkTransformChanged();
 
+        // Determine display assets
+        mpActiveModel = mpInstance->GetDisplayModel();
+        mModelToken = CToken(mpActiveModel);
+
+        mpCollisionNode->SetCollision(mpInstance->GetCollision());
+
+        // Create preview volume node
         mHasValidPosition = pTemp->HasPosition();
         mHasVolumePreview = (pTemp->ScaleType() == CScriptTemplate::eScaleVolume);
 
-        // Create volume preview node
         if (mHasVolumePreview)
         {
             EVolumeShape shape = mpInstance->VolumeShape();
@@ -87,33 +95,40 @@ std::string CScriptNode::PrefixedName() const
 void CScriptNode::AddToRenderer(CRenderer *pRenderer)
 {
     if (!mpInstance) return;
+    ERenderOptions options = pRenderer->RenderOptions();
 
-    if (!mpActiveModel)
-        pRenderer->AddOpaqueMesh(this, 0, AABox(), eDrawMesh);
+    if (options & eDrawObjectCollision)
+        mpCollisionNode->AddToRenderer(pRenderer);
 
-    else
+    if (options & eDrawObjects)
     {
-        if (!mpActiveModel->IsBuffered())
-            mpActiveModel->BufferGL();
-
-        if (!mpActiveModel->HasTransparency(0))
+        if (!mpActiveModel)
             pRenderer->AddOpaqueMesh(this, 0, AABox(), eDrawMesh);
 
         else
         {
-            u32 SubmeshCount = mpActiveModel->GetSurfaceCount();
+            if (!mpActiveModel->IsBuffered())
+                mpActiveModel->BufferGL();
 
-            for (u32 s = 0; s < SubmeshCount; s++)
+            if (!mpActiveModel->HasTransparency(0))
+                pRenderer->AddOpaqueMesh(this, 0, AABox(), eDrawMesh);
+
+            else
             {
-                if (!mpActiveModel->IsSurfaceTransparent(s, 0))
-                    pRenderer->AddOpaqueMesh(this, s, mpActiveModel->GetSurfaceAABox(s).Transformed(Transform()), eDrawAsset);
-                else
-                    pRenderer->AddTransparentMesh(this, s, mpActiveModel->GetSurfaceAABox(s).Transformed(Transform()), eDrawAsset);
+                u32 SubmeshCount = mpActiveModel->GetSurfaceCount();
+
+                for (u32 s = 0; s < SubmeshCount; s++)
+                {
+                    if (!mpActiveModel->IsSurfaceTransparent(s, 0))
+                        pRenderer->AddOpaqueMesh(this, s, mpActiveModel->GetSurfaceAABox(s).Transformed(Transform()), eDrawAsset);
+                    else
+                        pRenderer->AddTransparentMesh(this, s, mpActiveModel->GetSurfaceAABox(s).Transformed(Transform()), eDrawAsset);
+                }
             }
         }
     }
 
-    if (IsSelected())
+    if (IsSelected() && (options & ((ERenderOptions) (eDrawObjects | eDrawObjectCollision))) != 0)
     {
         pRenderer->AddOpaqueMesh(this, 0, AABox(), eDrawSelection);
 
@@ -217,27 +232,32 @@ void CScriptNode::RayAABoxIntersectTest(CRayCollisionTester &Tester)
     }
 }
 
-SRayIntersection CScriptNode::RayNodeIntersectTest(const CRay &Ray, u32 AssetID)
+SRayIntersection CScriptNode::RayNodeIntersectTest(const CRay &Ray, u32 AssetID, ERenderOptions options)
 {
+    CRay TransformedRay = Ray.Transformed(Transform().Inverse());
+
     SRayIntersection out;
     out.pNode = this;
     out.AssetIndex = AssetID;
 
-    CRay TransformedRay = Ray.Transformed(Transform().Inverse());
-    CModel *pModel = (mpActiveModel ? mpActiveModel : CDrawUtil::GetCubeModel());
-    std::pair<bool,float> Result = pModel->GetSurface(AssetID)->IntersectsRay(TransformedRay);
-
-    if (Result.first)
+    if (options & eDrawObjects)
     {
-        out.Hit = true;
+        CModel *pModel = (mpActiveModel ? mpActiveModel : CDrawUtil::GetCubeModel());
+        std::pair<bool,float> Result = pModel->GetSurface(AssetID)->IntersectsRay(TransformedRay, ((options & eEnableBackfaceCull) == 0));
 
-        CVector3f HitPoint = TransformedRay.PointOnRay(Result.second);
-        CVector3f WorldHitPoint = Transform() * HitPoint;
-        out.Distance = Math::Distance(Ray.Origin(), WorldHitPoint);
+        if (Result.first)
+        {
+            out.Hit = true;
+
+            CVector3f HitPoint = TransformedRay.PointOnRay(Result.second);
+            CVector3f WorldHitPoint = Transform() * HitPoint;
+            out.Distance = Math::Distance(Ray.Origin(), WorldHitPoint);
+        }
+
+        else
+            out.Hit = false;
     }
-
-    else
-        out.Hit = false;
+    else out.Hit = false;
 
     return out;
 }

@@ -21,10 +21,6 @@
 
 class CSceneManager
 {
-    bool mShowTerrain;
-    bool mShowCollision;
-    bool mShowObjects;
-    bool mShowLights;
     bool mSplitTerrain;
 
     u32 mNodeCount;
@@ -55,14 +51,14 @@ public:
     // Scene Management
     CModelNode* AddModel(CModel *mdl);
     CStaticNode* AddStaticModel(CStaticModel *mdl);
-    CCollisionNode* AddCollision(CCollisionMesh *mesh);
+    CCollisionNode* AddCollision(CCollisionMeshGroup *mesh);
     CScriptNode* AddScriptObject(CScriptObject *obj);
     CLightNode* AddLight(CLight *Light);
     void SetActiveArea(CGameArea *_area);
     void SetActiveWorld(CWorld *_world);
     void ClearScene();
     void AddSceneToRenderer(CRenderer *pRenderer);
-    SRayIntersection SceneRayCast(const CRay& Ray);
+    SRayIntersection SceneRayCast(const CRay& Ray, ERenderOptions renderOptions);
     void PickEnvironmentObjects();
     CScriptNode* ScriptNodeByID(u32 InstanceID);
     CScriptNode* NodeForObject(CScriptObject *pObj);
@@ -71,17 +67,6 @@ public:
     // Setters/Getters
     CModel* GetActiveSkybox();
     CGameArea* GetActiveArea();
-
-    void SetBackfaceCulling(bool on);
-    void SetWorld(bool on);
-    void SetCollision(bool on);
-    void SetObjects(bool on);
-    void SetLights(bool on);
-    bool IsBackfaceCullEnabled();
-    bool IsTerrainEnabled();
-    bool IsCollisionEnabled();
-    bool AreLightsEnabled();
-    bool AreScriptObjectsEnabled();
 };
 
 #endif // CSCENEMANAGER_H

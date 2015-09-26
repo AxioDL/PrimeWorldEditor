@@ -88,14 +88,14 @@ void CStaticNode::RayAABoxIntersectTest(CRayCollisionTester &Tester)
     }
 }
 
-SRayIntersection CStaticNode::RayNodeIntersectTest(const CRay &Ray, u32 AssetID)
+SRayIntersection CStaticNode::RayNodeIntersectTest(const CRay &Ray, u32 AssetID, ERenderOptions options)
 {
     SRayIntersection out;
     out.pNode = this;
     out.AssetIndex = AssetID;
 
     CRay TransformedRay = Ray.Transformed(Transform().Inverse());
-    std::pair<bool,float> Result = mpModel->GetSurface(AssetID)->IntersectsRay(TransformedRay);
+    std::pair<bool,float> Result = mpModel->GetSurface(AssetID)->IntersectsRay(TransformedRay, ((options & eEnableBackfaceCull) == 0));
 
     if (Result.first)
     {

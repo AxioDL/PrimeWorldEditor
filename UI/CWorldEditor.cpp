@@ -329,22 +329,22 @@ void CWorldEditor::OnTransformSpinBoxEdited(CVector3f)
 // These functions are from "Go to slot" in the designer
 void CWorldEditor::on_ActionDrawWorld_triggered()
 {
-    mScene.SetWorld(ui->ActionDrawWorld->isChecked());
+    ui->MainViewport->Renderer()->ToggleWorld(ui->ActionDrawWorld->isChecked());
 }
 
 void CWorldEditor::on_ActionDrawCollision_triggered()
 {
-    mScene.SetCollision(ui->ActionDrawCollision->isChecked());
+    ui->MainViewport->Renderer()->ToggleWorldCollision(ui->ActionDrawCollision->isChecked());
 }
 
 void CWorldEditor::on_ActionDrawObjects_triggered()
 {
-    mScene.SetObjects(ui->ActionDrawObjects->isChecked());
+    ui->MainViewport->Renderer()->ToggleObjects(ui->ActionDrawObjects->isChecked());
 }
 
 void CWorldEditor::on_ActionDrawLights_triggered()
 {
-    mScene.SetLights(ui->ActionDrawLights->isChecked());
+    ui->MainViewport->Renderer()->ToggleLights(ui->ActionDrawLights->isChecked());
 }
 
 void CWorldEditor::on_ActionDrawSky_triggered()
@@ -469,4 +469,9 @@ void CWorldEditor::on_ActionIncrementGizmo_triggered()
 void CWorldEditor::on_ActionDecrementGizmo_triggered()
 {
     mGizmo.DecrementSize();
+}
+
+void CWorldEditor::on_ActionDrawObjectCollision_triggered()
+{
+    ui->MainViewport->Renderer()->ToggleObjectCollision(ui->ActionDrawObjectCollision->isChecked());
 }

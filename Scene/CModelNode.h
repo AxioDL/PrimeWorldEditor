@@ -20,7 +20,7 @@ public:
     virtual void Draw(ERenderOptions Options);
     virtual void DrawAsset(ERenderOptions Options, u32 asset);
     virtual void RayAABoxIntersectTest(CRayCollisionTester &Tester);
-    virtual SRayIntersection RayNodeIntersectTest(const CRay &Ray, u32 AssetID);
+    virtual SRayIntersection RayNodeIntersectTest(const CRay &Ray, u32 AssetID, ERenderOptions options);
 
     void SetModel(CModel *pModel);
     void SetMatSet(u32 MatSet);

@@ -6,7 +6,7 @@
 #include <OpenGL/CIndexBuffer.h>
 #include "CResource.h"
 
-class CCollisionMesh : public CResource
+class CCollisionMesh
 {
     friend class CCollisionLoader;
 
@@ -79,11 +79,10 @@ class CCollisionMesh : public CResource
 public:
     CCollisionMesh();
     ~CCollisionMesh();
-    EResType Type();
 
     void BufferGL();
     void Draw();
-    void DrawLines();
+    void DrawWireframe();
 };
 
 #endif // CCOLLISIONMESH_H

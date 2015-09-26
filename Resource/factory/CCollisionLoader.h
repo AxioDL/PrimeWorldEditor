@@ -2,30 +2,28 @@
 #define CCOLLISIONLOADER_H
 
 #include "../CCollisionMesh.h"
+#include "../CCollisionMeshGroup.h"
+#include "../EFormatVersion.h"
 
 class CCollisionLoader
 {
-    enum ECollisionVersion;
-
-    CCollisionMesh *mesh;
-    ECollisionVersion version;
-    std::vector<CCollisionMesh::SCollisionProperties> properties;
-
-    enum ECollisionVersion
-    {
-        Prime = 0x3,
-        Echoes = 0x4,
-        DonkeyKongCountryReturns = 0x5
-    };
+    CCollisionMeshGroup *mpGroup;
+    CCollisionMesh *mpMesh;
+    EGame mVersion;
+    std::vector<CCollisionMesh::SCollisionProperties> mProperties;
 
     CCollisionLoader();
-    CCollisionMesh::CCollisionOctree* parseOctree(CInputStream& src);
-    CCollisionMesh::CCollisionOctree::SBranch* parseOctreeBranch(CInputStream& src);
-    CCollisionMesh::CCollisionOctree::SLeaf* parseOctreeLeaf(CInputStream& src);
-    void readPropertyFlags(CInputStream& src);
+    CCollisionMesh::CCollisionOctree* ParseOctree(CInputStream& src);
+    CCollisionMesh::CCollisionOctree::SBranch* ParseOctreeBranch(CInputStream& src);
+    CCollisionMesh::CCollisionOctree::SLeaf* ParseOctreeLeaf(CInputStream& src);
+    void ParseOBBNode(CInputStream& DCLN);
+    void ReadPropertyFlags(CInputStream& src);
+    void LoadCollisionIndices(CInputStream& file, bool buildAABox);
 
 public:
-    static CCollisionMesh* LoadAreaCollision(CInputStream& MREA);
+    static CCollisionMeshGroup* LoadAreaCollision(CInputStream& MREA);
+    static CCollisionMeshGroup* LoadDCLN(CInputStream& DCLN);
+    static EGame GetFormatVersion(u32 version);
 };
 
 #endif // CCOLLISIONLOADER_H

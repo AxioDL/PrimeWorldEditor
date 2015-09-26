@@ -33,7 +33,7 @@ struct SSurface
         TriangleCount = 0;
     }
 
-    std::pair<bool,float> IntersectsRay(const CRay& Ray, float LineThreshold = 0.02f);
+    std::pair<bool,float> IntersectsRay(const CRay& Ray, bool allowBackfaces = false, float LineThreshold = 0.02f);
 };
 
 #endif // SSURFACE_H

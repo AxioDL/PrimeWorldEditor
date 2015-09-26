@@ -11,6 +11,7 @@
 #include <vector>
 #include <tinyxml2.h>
 #include <Resource/model/CModel.h>
+#include <Resource/CCollisionMeshGroup.h>
 
 class CMasterTemplate;
 class CScriptObject;
@@ -47,7 +48,7 @@ private:
     struct SEditorAsset
     {
         enum {
-            eModel, eAnimParams
+            eModel, eAnimParams, eCollision
         } AssetType;
 
         enum {
@@ -114,6 +115,7 @@ public:
     CBoolProperty* FindActive(CPropertyStruct *pProperties);
     CPropertyStruct* FindLightParameters(CPropertyStruct *pProperties);
     CModel* FindDisplayModel(CPropertyStruct *pProperties);
+    CCollisionMeshGroup* FindCollision(CPropertyStruct *pProperties);
     bool HasPosition();
 
     // Object Tracking

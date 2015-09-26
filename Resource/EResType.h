@@ -13,7 +13,7 @@ enum EResType
     eAudioStream         = 7,
     eAudioTable          = 8,
     eCharacter           = 9,
-    eCollisionMesh       = 10,
+    eCollisionMeshGroup  = 10,
     eCollisionResponse   = 11,
     eDataDump            = 12,
     eDecal               = 13,

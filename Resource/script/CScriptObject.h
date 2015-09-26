@@ -6,6 +6,7 @@
 #include "CPropertyTemplate.h"
 #include "CScriptTemplate.h"
 #include "../model/CModel.h"
+#include "../CCollisionMeshGroup.h"
 
 class CGameArea;
 class CScriptLayer;
@@ -31,7 +32,9 @@ class CScriptObject
     CBoolProperty *mpActive;
     CPropertyStruct *mpLightParameters;
     CModel *mpDisplayModel;
+    CCollisionMeshGroup *mpCollision;
     CToken mModelToken;
+    CToken mCollisionToken;
     EVolumeShape mVolumeShape;
 
 public:
@@ -41,6 +44,7 @@ public:
     void CopyFromTemplate(CScriptTemplate *pTemp, u32 propCount);
     void EvaluateProperties();
     void EvaluateDisplayModel();
+    void EvaluateCollisionModel();
 
     CScriptTemplate* Template() const;
     CMasterTemplate* MasterTemplate() const;
@@ -69,6 +73,7 @@ public:
     void SetActive(bool isActive);
     CPropertyStruct* LightParameters() const;
     CModel* GetDisplayModel() const;
+    CCollisionMeshGroup* GetCollision() const;
     EVolumeShape VolumeShape() const;
 };
 

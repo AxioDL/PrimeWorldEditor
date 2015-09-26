@@ -77,7 +77,7 @@ void CSceneViewport::SceneRayCast(const CRay& ray)
         return;
     }
 
-    SRayIntersection result = mpScene->SceneRayCast(ray);
+    SRayIntersection result = mpScene->SceneRayCast(ray, mpRenderer->RenderOptions());
 
     if (result.Hit)
     {

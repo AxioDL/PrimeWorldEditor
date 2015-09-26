@@ -176,17 +176,17 @@ void CWorldEditorWindow::on_actionBackface_culling_triggered()
 
 void CWorldEditorWindow::on_actionWorld_triggered()
 {
-    mpSceneManager->SetWorld(ui->actionWorld->isChecked());
+    mpRenderer->ToggleWorld(ui->actionWorld->isChecked());
 }
 
 void CWorldEditorWindow::on_actionCollision_triggered()
 {
-    mpSceneManager->SetCollision(ui->actionCollision->isChecked());
+    mpRenderer->ToggleWorldCollision(ui->actionCollision->isChecked());
 }
 
 void CWorldEditorWindow::on_actionObjects_triggered()
 {
-    mpSceneManager->SetObjects(ui->actionObjects->isChecked());
+    mpRenderer->ToggleObjects(ui->actionObjects->isChecked());
 }
 
 void CWorldEditorWindow::setupInstanceViewLayers()
@@ -233,7 +233,7 @@ void CWorldEditorWindow::on_actionMaterial_Animations_triggered()
 
 void CWorldEditorWindow::on_actionLights_triggered()
 {
-    mpSceneManager->SetLights(ui->actionLights->isChecked());
+    mpRenderer->ToggleLights(ui->actionLights->isChecked());
 }
 
 void CWorldEditorWindow::on_actionLightingNone_triggered()

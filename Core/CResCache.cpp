@@ -150,6 +150,7 @@ CResource* CResCache::GetResource(CUniqueID ResID, CFourCC type)
     else if (type == "STRG") Res = CStringLoader::LoadSTRG(mem);
     else if (type == "FONT") Res = CFontLoader::LoadFONT(mem);
     else if (type == "SCAN") Res = CScanLoader::LoadSCAN(mem);
+    else if (type == "DCLN") Res = CCollisionLoader::LoadDCLN(mem);
     else SupportedFormat = false;
 
     // Log errors
@@ -201,6 +202,7 @@ CResource* CResCache::GetResource(std::string ResPath)
     else if (type == "MLVL") Res = CWorldLoader::LoadMLVL(file);
     else if (type == "FONT") Res = CFontLoader::LoadFONT(file);
     else if (type == "SCAN") Res = CScanLoader::LoadSCAN(file);
+    else if (type == "DCLN") Res = CCollisionLoader::LoadDCLN(file);
     else SupportedFormat = false;
 
     if (!Res) Res = new CResource(); // Default for unsupported formats

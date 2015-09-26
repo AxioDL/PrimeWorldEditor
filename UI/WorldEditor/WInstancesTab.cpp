@@ -97,15 +97,6 @@ void WInstancesTab::OnTreeClick(QModelIndex Index)
             }
         }
 
-        // Show/Hide Node Type
-        else if (mpTypesModel->IndexType(Index) == CTypesInstanceModel::eNodeTypeIndex)
-        {
-            CTypesInstanceModel::ENodeType type = mpTypesModel->IndexNodeType(Index);
-
-            if (type == CTypesInstanceModel::eScriptType)
-                mpScene->SetObjects(!mpScene->AreScriptObjectsEnabled());
-        }
-
         if (sender() == ui->LayersTreeView)
             ui->LayersTreeView->update(Index);
         else if (sender() == ui->TypesTreeView)

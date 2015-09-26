@@ -262,12 +262,7 @@ std::pair<bool,float> RayTriangleIntersection(const CRay& Ray,
             if (!AllowBackfaces)
                 return std::pair<bool,float>(false, 0);
         }
-        else if (denom < - std::numeric_limits<float>::epsilon())
-        {
-            if (false)
-                return std::pair<bool,float>(false, 0);
-        }
-        else
+        else if (denom >= - std::numeric_limits<float>::epsilon())
         {
             // Parallel or triangle area is close to zero when
             // the plane normal not normalised.

@@ -3,11 +3,10 @@
 #include <Core/CGraphics.h>
 #include <Core/CRenderer.h>
 
-CCollisionNode::CCollisionNode(CSceneManager *pScene, CSceneNode *pParent, CCollisionMesh *pMesh)
+CCollisionNode::CCollisionNode(CSceneManager *pScene, CSceneNode *pParent, CCollisionMeshGroup *pCollision)
     : CSceneNode(pScene, pParent)
 {
-    mpMesh = pMesh;
-    mMeshToken = CToken(pMesh);
+    SetCollision(pCollision);
     SetName("Collision");
 }
 
@@ -18,7 +17,7 @@ ENodeType CCollisionNode::NodeType()
 
 void CCollisionNode::AddToRenderer(CRenderer *pRenderer)
 {
-    if (!mpMesh) return;
+    if (!mpCollision) return;
 
     pRenderer->AddOpaqueMesh(this, 0, AABox(), eDrawMesh);
 
@@ -29,7 +28,7 @@ void CCollisionNode::AddToRenderer(CRenderer *pRenderer)
 void CCollisionNode::Draw(ERenderOptions)
 {
     // Not using parameter 1 (ERenderOptions - Options)
-    if (!mpMesh) return;
+    if (!mpCollision) return;
 
     LoadModelMatrix();
 
@@ -38,9 +37,9 @@ void CCollisionNode::Draw(ERenderOptions)
     glDepthMask(GL_TRUE);
 
     CDrawUtil::UseCollisionShader();
-    mpMesh->Draw();
+    mpCollision->Draw();
     CDrawUtil::UseColorShader(CColor::skTransparentBlack);
-    mpMesh->DrawLines();
+    mpCollision->DrawWireframe();
 }
 
 void CCollisionNode::DrawAsset(ERenderOptions, u32)
@@ -49,10 +48,16 @@ void CCollisionNode::DrawAsset(ERenderOptions, u32)
     // Not using parameter 2 (u32 - asset)
 }
 
-SRayIntersection CCollisionNode::RayNodeIntersectTest(const CRay &Ray, u32 AssetID)
+SRayIntersection CCollisionNode::RayNodeIntersectTest(const CRay &Ray, u32 AssetID, ERenderOptions options)
 {
     // todo
     SRayIntersection Result;
     Result.Hit = false;
     return Result;
+}
+
+void CCollisionNode::SetCollision(CCollisionMeshGroup *pCollision)
+{
+    mpCollision = pCollision;
+    mCollisionToken = CToken(pCollision);
 }

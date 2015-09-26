@@ -3,12 +3,15 @@
 
 #include "CSceneNode.h"
 #include "CModelNode.h"
+#include "CCollisionNode.h"
 #include <Resource/script/CScriptObject.h>
 
 class CScriptNode : public CSceneNode
 {
     CScriptObject *mpInstance;
     CModel *mpActiveModel;
+    CToken mModelToken;
+    CCollisionNode *mpCollisionNode;
 
     bool mHasValidPosition;
     bool mHasVolumePreview;
@@ -23,7 +26,7 @@ public:
     void DrawAsset(ERenderOptions Options, u32 Asset);
     void DrawSelection();
     void RayAABoxIntersectTest(CRayCollisionTester &Tester);
-    SRayIntersection RayNodeIntersectTest(const CRay &Ray, u32 AssetID);
+    SRayIntersection RayNodeIntersectTest(const CRay &Ray, u32 AssetID, ERenderOptions options);
     bool IsVisible() const;
     CScriptObject* Object();
     CModel* ActiveModel();
