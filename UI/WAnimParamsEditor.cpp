@@ -137,8 +137,9 @@ void WAnimParamsEditor::SetupUI()
         mpCharComboBox = new QComboBox(this);
         CAnimSet *pSet = static_cast<CAnimSet*>(mParams.Resource());
 
-        for (u32 iChar = 0; iChar < pSet->getNodeCount(); iChar++)
-            mpCharComboBox->addItem(QString::fromStdString(pSet->getNodeName(iChar)));
+        if (pSet)
+            for (u32 iChar = 0; iChar < pSet->getNodeCount(); iChar++)
+                mpCharComboBox->addItem(QString::fromStdString(pSet->getNodeName(iChar)));
 
         mpCharComboBox->setCurrentIndex(mParams.CharacterIndex());
         mpLabels[1] = new QLabel("Character", this);
