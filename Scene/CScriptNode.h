@@ -21,7 +21,7 @@ public:
     CScriptNode(CSceneManager *pScene, CSceneNode *pParent = 0, CScriptObject *pObject = 0);
     ENodeType NodeType();
     std::string PrefixedName() const;
-    void AddToRenderer(CRenderer *pRenderer);
+    void AddToRenderer(CRenderer *pRenderer, const CFrustumPlanes& frustum);
     void Draw(ERenderOptions Options);
     void DrawAsset(ERenderOptions Options, u32 Asset);
     void DrawSelection();

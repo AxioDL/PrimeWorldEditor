@@ -1,6 +1,7 @@
 #ifndef CCAMERA_H
 #define CCAMERA_H
 
+#include "CFrustumPlanes.h"
 #include <Common/CAABox.h>
 #include <Common/CMatrix4f.h>
 #include <Common/CRay.h>
@@ -30,8 +31,10 @@ class CCamera
 
     CMatrix4f mCachedViewMatrix;
     CMatrix4f mCachedProjectionMatrix;
+    CFrustumPlanes mCachedFrustumPlanes;
     bool mViewOutdated;
     bool mProjectionOutdated;
+    bool mFrustumPlanesOutdated;
 
 public:
     CCamera();
@@ -56,6 +59,7 @@ public:
     const CMatrix4f& ViewMatrix();
     CMatrix4f RotationOnlyViewMatrix();
     const CMatrix4f& ProjectionMatrix();
+    const CFrustumPlanes& FrustumPlanes();
 
     // Setters
     void SetPosition(CVector3f Position);
@@ -74,6 +78,7 @@ private:
     void CalculateDirection();
     void CalculateView();
     void CalculateProjection();
+    void CalculateFrustumPlanes();
 };
 
 #endif // CCAMERA_H

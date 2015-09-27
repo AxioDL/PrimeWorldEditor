@@ -42,7 +42,7 @@ CGizmo::~CGizmo()
 {
 }
 
-void CGizmo::AddToRenderer(CRenderer *pRenderer)
+void CGizmo::AddToRenderer(CRenderer *pRenderer, const CFrustumPlanes&)
 {
     // Transform is updated every frame even if the user doesn't modify the gizmo
     // in order to account for scale changes based on camera distance

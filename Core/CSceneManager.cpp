@@ -215,7 +215,7 @@ void CSceneManager::ClearScene()
     mNodeCount = 0;
 }
 
-void CSceneManager::AddSceneToRenderer(CRenderer *pRenderer)
+void CSceneManager::AddSceneToRenderer(CRenderer *pRenderer, CCamera& camera)
 {
     ERenderOptions options = pRenderer->RenderOptions();
 
@@ -223,32 +223,32 @@ void CSceneManager::AddSceneToRenderer(CRenderer *pRenderer)
     {
         for (u32 n = 0; n < mModelNodes.size(); n++)
             if (mModelNodes[n]->IsVisible())
-                mModelNodes[n]->AddToRenderer(pRenderer);
+                mModelNodes[n]->AddToRenderer(pRenderer, camera.FrustumPlanes());
 
         for (u32 n = 0; n < mStaticNodes.size(); n++)
             if (mStaticNodes[n]->IsVisible())
-                mStaticNodes[n]->AddToRenderer(pRenderer);
+                mStaticNodes[n]->AddToRenderer(pRenderer, camera.FrustumPlanes());
     }
 
     if (options & eDrawWorldCollision)
     {
         for (u32 n = 0; n < mCollisionNodes.size(); n++)
             if (mCollisionNodes[n]->IsVisible())
-                mCollisionNodes[n]->AddToRenderer(pRenderer);
+                mCollisionNodes[n]->AddToRenderer(pRenderer, camera.FrustumPlanes());
     }
 
     if (options & eDrawLights)
     {
         for (u32 n = 0; n < mLightNodes.size(); n++)
             if (mLightNodes[n]->IsVisible())
-                mLightNodes[n]->AddToRenderer(pRenderer);
+                mLightNodes[n]->AddToRenderer(pRenderer, camera.FrustumPlanes());
     }
 
     if ((options & eDrawObjects) || (options & eDrawObjectCollision))
     {
         for (u32 n = 0; n < mScriptNodes.size(); n++)
             if (mScriptNodes[n]->IsVisible())
-                mScriptNodes[n]->AddToRenderer(pRenderer);
+                mScriptNodes[n]->AddToRenderer(pRenderer, camera.FrustumPlanes());
     }
 }
 

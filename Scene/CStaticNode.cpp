@@ -19,10 +19,11 @@ ENodeType CStaticNode::NodeType()
     return eStaticNode;
 }
 
-void CStaticNode::AddToRenderer(CRenderer *pRenderer)
+void CStaticNode::AddToRenderer(CRenderer *pRenderer, const CFrustumPlanes& frustum)
 {
     if (!mpModel) return;
     if (mpModel->IsOccluder()) return;
+    if (!frustum.BoxInFrustum(AABox())) return;
 
     if (!mpModel->IsTransparent())
         pRenderer->AddOpaqueMesh(this, 0, AABox(), eDrawMesh);
@@ -32,7 +33,8 @@ void CStaticNode::AddToRenderer(CRenderer *pRenderer)
         u32 sm_count = mpModel->GetSurfaceCount();
         for (u32 s = 0; s < sm_count; s++)
         {
-            pRenderer->AddTransparentMesh(this, s, mpModel->GetSurfaceAABox(s).Transformed(Transform()), eDrawAsset);
+            if (frustum.BoxInFrustum(mpModel->GetSurfaceAABox(s).Transformed(Transform())))
+                pRenderer->AddTransparentMesh(this, s, mpModel->GetSurfaceAABox(s).Transformed(Transform()), eDrawAsset);
         }
     }
 

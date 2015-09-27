@@ -328,5 +328,4 @@ void CMaterial::SetLightingEnabled(bool Enabled)
 void CMaterial::KillCachedMaterial()
 {
     sCurrentMaterial = 0;
-    CShader::KillCachedShader();
 }

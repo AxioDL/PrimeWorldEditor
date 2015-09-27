@@ -16,7 +16,7 @@ public:
     explicit CModelNode(CSceneManager *pScene, CSceneNode *pParent = 0, CModel *pModel = 0);
 
     virtual ENodeType NodeType();
-    virtual void AddToRenderer(CRenderer *pRenderer);
+    virtual void AddToRenderer(CRenderer *pRenderer, const CFrustumPlanes& frustum);
     virtual void Draw(ERenderOptions Options);
     virtual void DrawAsset(ERenderOptions Options, u32 asset);
     virtual void RayAABoxIntersectTest(CRayCollisionTester &Tester);

@@ -15,9 +15,10 @@ ENodeType CCollisionNode::NodeType()
     return eCollisionNode;
 }
 
-void CCollisionNode::AddToRenderer(CRenderer *pRenderer)
+void CCollisionNode::AddToRenderer(CRenderer *pRenderer, const CFrustumPlanes& frustum)
 {
     if (!mpCollision) return;
+    if (!frustum.BoxInFrustum(AABox())) return;
 
     pRenderer->AddOpaqueMesh(this, 0, AABox(), eDrawMesh);
 

@@ -151,7 +151,8 @@ SOURCES += \
     Resource/script/CProperty.cpp \
     Resource/CAnimationParameters.cpp \
     UI/WAnimParamsEditor.cpp \
-    Resource/CCollisionMeshGroup.cpp
+    Resource/CCollisionMeshGroup.cpp \
+    Core/CFrustumPlanes.cpp
 
 HEADERS  += \
     Common/AnimUtil.h \
@@ -318,7 +319,8 @@ HEADERS  += \
     Resource/script/EVolumeShape.h \
     Resource/CAnimationParameters.h \
     UI/WAnimParamsEditor.h \
-    Resource/CCollisionMeshGroup.h
+    Resource/CCollisionMeshGroup.h \
+    Core/CFrustumPlanes.h
 
 FORMS    += \
     UI/CWorldEditorWindow.ui \

@@ -92,48 +92,58 @@ std::string CScriptNode::PrefixedName() const
     return "[" + mpInstance->Template()->TemplateName() + "] " + mpInstance->InstanceName();
 }
 
-void CScriptNode::AddToRenderer(CRenderer *pRenderer)
+void CScriptNode::AddToRenderer(CRenderer *pRenderer, const CFrustumPlanes& frustum)
 {
     if (!mpInstance) return;
+
     ERenderOptions options = pRenderer->RenderOptions();
 
     if (options & eDrawObjectCollision)
-        mpCollisionNode->AddToRenderer(pRenderer);
+        mpCollisionNode->AddToRenderer(pRenderer, frustum);
 
     if (options & eDrawObjects)
     {
-        if (!mpActiveModel)
-            pRenderer->AddOpaqueMesh(this, 0, AABox(), eDrawMesh);
-
-        else
+        if (frustum.BoxInFrustum(AABox()))
         {
-            if (!mpActiveModel->IsBuffered())
-                mpActiveModel->BufferGL();
-
-            if (!mpActiveModel->HasTransparency(0))
+            if (!mpActiveModel)
                 pRenderer->AddOpaqueMesh(this, 0, AABox(), eDrawMesh);
 
             else
             {
-                u32 SubmeshCount = mpActiveModel->GetSurfaceCount();
+                if (!mpActiveModel->IsBuffered())
+                    mpActiveModel->BufferGL();
 
-                for (u32 s = 0; s < SubmeshCount; s++)
+                if (!mpActiveModel->HasTransparency(0))
+                    pRenderer->AddOpaqueMesh(this, 0, AABox(), eDrawMesh);
+
+                else
                 {
-                    if (!mpActiveModel->IsSurfaceTransparent(s, 0))
-                        pRenderer->AddOpaqueMesh(this, s, mpActiveModel->GetSurfaceAABox(s).Transformed(Transform()), eDrawAsset);
-                    else
-                        pRenderer->AddTransparentMesh(this, s, mpActiveModel->GetSurfaceAABox(s).Transformed(Transform()), eDrawAsset);
+                    u32 SubmeshCount = mpActiveModel->GetSurfaceCount();
+
+                    for (u32 s = 0; s < SubmeshCount; s++)
+                    {
+                        if (frustum.BoxInFrustum(mpActiveModel->GetSurfaceAABox(s).Transformed(Transform())))
+                        {
+                            if (!mpActiveModel->IsSurfaceTransparent(s, 0))
+                                pRenderer->AddOpaqueMesh(this, s, mpActiveModel->GetSurfaceAABox(s).Transformed(Transform()), eDrawAsset);
+                            else
+                                pRenderer->AddTransparentMesh(this, s, mpActiveModel->GetSurfaceAABox(s).Transformed(Transform()), eDrawAsset);
+                        }
+                    }
                 }
             }
+
         }
     }
 
-    if (IsSelected() && (options & ((ERenderOptions) (eDrawObjects | eDrawObjectCollision))) != 0)
+    if (IsSelected())
     {
+        // Script nodes always draw their selections regardless of frustum planes
+        // in order to ensure that script connection lines don't get improperly culled.
         pRenderer->AddOpaqueMesh(this, 0, AABox(), eDrawSelection);
 
         if (mHasVolumePreview)
-            mpVolumePreviewNode->AddToRenderer(pRenderer);
+            mpVolumePreviewNode->AddToRenderer(pRenderer, frustum);
     }
 }
 

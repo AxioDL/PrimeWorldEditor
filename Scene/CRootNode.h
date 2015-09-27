@@ -15,7 +15,7 @@ public:
         return eRootNode;
     }
 
-    inline void AddToRenderer(CRenderer *) {}
+    inline void AddToRenderer(CRenderer *, const CFrustumPlanes&) {}
     inline void Draw(ERenderOptions) {}
     inline void DrawAsset(ERenderOptions, u32) {}
     inline void RayAABoxIntersectTest(CRayCollisionTester &) {}

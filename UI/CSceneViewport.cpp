@@ -135,7 +135,7 @@ void CSceneViewport::Paint()
     }
 
     mCamera.LoadMatrices();
-    mpScene->AddSceneToRenderer(mpRenderer);
+    mpScene->AddSceneToRenderer(mpRenderer, mCamera);
     mpRenderer->RenderBuckets(mCamera);
     mpRenderer->RenderBloom();
 
@@ -146,7 +146,7 @@ void CSceneViewport::Paint()
 
         mpRenderer->ClearDepthBuffer();
         pGizmo->UpdateForCamera(mCamera);
-        pGizmo->AddToRenderer(mpRenderer);
+        pGizmo->AddToRenderer(mpRenderer, mCamera.FrustumPlanes());
         mpRenderer->RenderBuckets(mCamera);
     }
 

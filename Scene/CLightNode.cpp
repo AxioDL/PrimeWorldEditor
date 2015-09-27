@@ -24,8 +24,10 @@ ENodeType CLightNode::NodeType()
     return eLightNode;
 }
 
-void CLightNode::AddToRenderer(CRenderer *pRenderer)
+void CLightNode::AddToRenderer(CRenderer *pRenderer, const CFrustumPlanes& frustum)
 {
+    if (!frustum.BoxInFrustum(AABox())) return;
+
     pRenderer->AddOpaqueMesh(this, 0, CAABox(mPosition + 0.5f, mPosition - 0.5f), eDrawMesh);
 
     if (IsSelected())

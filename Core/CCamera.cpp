@@ -18,6 +18,7 @@ CCamera::CCamera()
     mLookSpeed = 1.f; // Old: 0.003f
     mViewOutdated = true;
     mProjectionOutdated = true;
+    mFrustumPlanesOutdated = true;
 }
 
 CCamera::CCamera(CVector3f Position, CVector3f)
@@ -50,6 +51,7 @@ void CCamera::Pan(float XAmount, float YAmount)
         mPosition += Right * (XAmount * mMoveSpeed);
         mPosition += Up * (YAmount * mMoveSpeed);
         mViewOutdated = true;
+        mFrustumPlanesOutdated = true;
         break;
     }
 
@@ -77,6 +79,7 @@ void CCamera::Rotate(float XAmount, float YAmount)
         mYaw -= (XAmount * mLookSpeed * 0.3f);
         mPitch -= (YAmount * mLookSpeed * 0.3f);
         mViewOutdated = true;
+        mFrustumPlanesOutdated = true;
         break;
     }
 }
@@ -85,6 +88,7 @@ void CCamera::Zoom(float Amount)
 {
     mPosition += (mDirection * Amount) * (mMoveSpeed * 25.f);
     mViewOutdated = true;
+    mFrustumPlanesOutdated = true;
 }
 
 void CCamera::Snap(CVector3f Position)
@@ -93,6 +97,8 @@ void CCamera::Snap(CVector3f Position)
     mYaw = -Math::skHalfPi;
     mPitch = 0.0f;
     mViewOutdated = true;
+    mFrustumPlanesOutdated = true;
+    CalculateDirection();
 }
 
 void CCamera::ProcessKeyInput(EKeyInputs KeyFlags, double DeltaTime)
@@ -132,6 +138,8 @@ void CCamera::ProcessMouseInput(EKeyInputs KeyFlags, EMouseInputs MouseFlags, fl
         else if ((MouseFlags & eMiddleButton) || (MouseFlags & eRightButton))
             Pan(XMovement, YMovement);
     }
+
+    CalculateDirection();
 }
 
 CRay CCamera::CastRay(CVector2f DeviceCoords)
@@ -215,17 +223,27 @@ const CMatrix4f& CCamera::ProjectionMatrix()
     return mCachedProjectionMatrix;
 }
 
+const CFrustumPlanes& CCamera::FrustumPlanes()
+{
+    if (mFrustumPlanesOutdated)
+        CalculateFrustumPlanes();
+
+    return mCachedFrustumPlanes;
+}
+
 // ************ SETTERS ************
 void CCamera::SetPosition(CVector3f Position)
 {
     mPosition = Position;
     mViewOutdated = true;
+    mFrustumPlanesOutdated = true;
 }
 
 void CCamera::SetDirection(CVector3f Direction)
 {
     mDirection = Direction;
     mViewOutdated = true;
+    mFrustumPlanesOutdated = true;
 }
 
 void CCamera::SetYaw(float Yaw)
@@ -263,6 +281,7 @@ void CCamera::SetAspectRatio(float AspectRatio)
 {
     mAspectRatio = AspectRatio;
     mProjectionOutdated = true;
+    mFrustumPlanesOutdated = true;
 }
 
 // ************ PRIVATE ************
@@ -302,4 +321,10 @@ void CCamera::CalculateProjection()
 {
     mCachedProjectionMatrix = Math::PerspectiveMatrix(55.f, mAspectRatio, 0.1f, 4096.f);
     mProjectionOutdated = false;
+}
+
+void CCamera::CalculateFrustumPlanes()
+{
+    mCachedFrustumPlanes.SetPlanes(mPosition, mDirection, 55.f, mAspectRatio, 0.1f, 4096.f);
+    mFrustumPlanesOutdated = false;
 }

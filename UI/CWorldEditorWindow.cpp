@@ -89,7 +89,7 @@ void CWorldEditorWindow::PaintViewport(double DeltaTime)
     mCamera.ProcessKeyInput((EKeyInputs) mViewportKeysPressed, DeltaTime);
     mCamera.LoadMatrices();
     mpRenderer->BeginFrame();
-    mpSceneManager->AddSceneToRenderer(mpRenderer);
+    mpSceneManager->AddSceneToRenderer(mpRenderer, mCamera);
 
 
     if (mShouldDrawSky)

@@ -57,7 +57,7 @@ public:
     void SetActiveArea(CGameArea *_area);
     void SetActiveWorld(CWorld *_world);
     void ClearScene();
-    void AddSceneToRenderer(CRenderer *pRenderer);
+    void AddSceneToRenderer(CRenderer *pRenderer, CCamera& camera);
     SRayIntersection SceneRayCast(const CRay& Ray, ERenderOptions renderOptions);
     void PickEnvironmentObjects();
     CScriptNode* ScriptNodeByID(u32 InstanceID);

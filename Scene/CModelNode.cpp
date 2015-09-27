@@ -16,9 +16,10 @@ ENodeType CModelNode::NodeType()
     return eModelNode;
 }
 
-void CModelNode::AddToRenderer(CRenderer *pRenderer)
+void CModelNode::AddToRenderer(CRenderer *pRenderer, const CFrustumPlanes& frustum)
 {
     if (!mpModel) return;
+    if (!frustum.BoxInFrustum(AABox())) return;
 
     if (!mpModel->HasTransparency(mActiveMatSet))
         pRenderer->AddOpaqueMesh(this, 0, AABox(), eDrawMesh);
@@ -29,10 +30,13 @@ void CModelNode::AddToRenderer(CRenderer *pRenderer)
 
         for (u32 iSurf = 0; iSurf < SurfaceCount; iSurf++)
         {
-            if (!mpModel->IsSurfaceTransparent(iSurf, mActiveMatSet))
-                pRenderer->AddOpaqueMesh(this, iSurf, mpModel->GetSurfaceAABox(iSurf).Transformed(Transform()), eDrawAsset);
-            else
-                pRenderer->AddTransparentMesh(this, iSurf, mpModel->GetSurfaceAABox(iSurf).Transformed(Transform()), eDrawAsset);
+            if (frustum.BoxInFrustum(mpModel->GetSurfaceAABox(iSurf).Transformed(Transform())))
+            {
+                if (!mpModel->IsSurfaceTransparent(iSurf, mActiveMatSet))
+                    pRenderer->AddOpaqueMesh(this, iSurf, mpModel->GetSurfaceAABox(iSurf).Transformed(Transform()), eDrawAsset);
+                else
+                    pRenderer->AddTransparentMesh(this, iSurf, mpModel->GetSurfaceAABox(iSurf).Transformed(Transform()), eDrawAsset);
+            }
         }
     }
 

@@ -49,7 +49,7 @@ void CModelEditorViewport::Paint()
     else if (mMode == eDrawMesh)
     {
         CDrawUtil::DrawGrid();
-        mpModelNode->AddToRenderer(mpRenderer);
+        mpModelNode->AddToRenderer(mpRenderer, mCamera.FrustumPlanes());
         mpRenderer->RenderBuckets(mCamera);
     }
 
