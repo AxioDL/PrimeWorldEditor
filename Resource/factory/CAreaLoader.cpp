@@ -507,7 +507,7 @@ CGameArea* CAreaLoader::LoadMREA(CInputStream& MREA)
             Loader.ReadHeaderCorruption();
             Loader.ReadGeometryCorruption();
             Loader.ReadSCLYEchoes();
-            if (Loader.mVersion != eReturns) Loader.ReadCollision();
+            Loader.ReadCollision();
             break;
         default:
             Log::FileError(MREA.GetSourceString(), "Unsupported MREA version: " + StringUtil::ToHexString(version));

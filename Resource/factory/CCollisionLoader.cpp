@@ -49,10 +49,16 @@ void CCollisionLoader::ReadPropertyFlags(CInputStream& src)
         property.Invert = (flag >> 25) & 0x1;
     }
 
-    if (mVersion == eEchoes)
+    else if (mVersion == eEchoes)
     {
         u64 flag = src.ReadLongLong();
         property.Invert = (flag >> 24) & 0x1;
+    }
+
+    else if (mVersion == eReturns)
+    {
+        u64 flag = src.ReadLongLong();
+        property.Invert = (flag >> 28) & 0x1;
     }
 
     mProperties.push_back(property);
@@ -103,7 +109,7 @@ void CCollisionLoader::LoadCollisionIndices(CInputStream &file, bool buildAABox)
     }
 
     // Echoes introduces a new data chunk; don't know what it is yet, skipping for now
-    if (mVersion == eEchoes)
+    if (mVersion >= eEchoes)
     {
         u32 unknownCount = file.ReadLong();
         file.Seek(unknownCount * 2, SEEK_CUR);
@@ -138,13 +144,7 @@ CCollisionMeshGroup* CCollisionLoader::LoadAreaCollision(CInputStream& MREA)
         return nullptr;
     }
 
-    u32 version = MREA.ReadLong();
-    loader.mVersion = GetFormatVersion(version);
-    if ((loader.mVersion != ePrime) && (loader.mVersion != eEchoes))
-    {
-        Log::FileError(MREA.GetSourceString(), MREA.Tell() - 4, "Unsupported collision version: " + StringUtil::ToHexString(version));
-        return nullptr;
-    }
+    loader.mVersion = GetFormatVersion(MREA.ReadLong());
 
     loader.mpGroup = new CCollisionMeshGroup;
     loader.mpMesh = new CCollisionMesh;
@@ -182,21 +182,17 @@ CCollisionMeshGroup* CCollisionLoader::LoadDCLN(CInputStream &DCLN)
             return nullptr;
         }
 
-        u32 version = DCLN.ReadLong();
-        loader.mVersion = GetFormatVersion(version);
-
-        if ((loader.mVersion != ePrime) && (loader.mVersion != eEchoes))
-        {
-            Log::FileError(DCLN.GetSourceString(), DCLN.Tell() - 4, "Unsupported collision version: " + StringUtil::ToHexString(version));
-            return nullptr;
-        }
+        loader.mVersion = GetFormatVersion(DCLN.ReadLong());
 
         loader.mpMesh = new CCollisionMesh;
         loader.mpMesh->mOctreeLoaded = false;
 
+        if (loader.mVersion == eReturns)
+            loader.mpMesh->mAABox = CAABox(DCLN);
+
         // Read indices and return
         DCLN.Seek(0x4, SEEK_CUR);
-        loader.LoadCollisionIndices(DCLN, true);
+        loader.LoadCollisionIndices(DCLN, loader.mVersion != eReturns);
         loader.mpGroup->AddMesh(loader.mpMesh);
 
         // Parse OBB tree
