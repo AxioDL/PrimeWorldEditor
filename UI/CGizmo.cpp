@@ -69,7 +69,7 @@ void CGizmo::AddToRenderer(CRenderer *pRenderer, const CFrustumPlanes&)
     }
 }
 
-void CGizmo::DrawAsset(ERenderOptions options, u32 asset)
+void CGizmo::DrawAsset(ERenderOptions /*options*/, u32 asset)
 {
     // Determine which SModelPart array to use
     if (asset >= mNumCurrentParts) return;
@@ -464,6 +464,7 @@ bool CGizmo::TransformFromInput(const CRay& ray, CCamera& camera)
         // Apply scale
         scaleAmount = scaleAmount + mScaleOffset + 1.f;
 
+        // A multiplier is applied to the scale amount of it's less than 1 to prevent it from going negative
         if (scaleAmount < 1.f)
             scaleAmount = 1.f / (-(scaleAmount - 1.f) + 1.f);
 
@@ -491,67 +492,67 @@ void CGizmo::EndTransform()
     mIsTransforming = false;
 }
 
-bool CGizmo::IsTransforming()
+bool CGizmo::IsTransforming() const
 {
     return mIsTransforming;
 }
 
-bool CGizmo::HasTransformed()
+bool CGizmo::HasTransformed() const
 {
     return mHasTransformed;
 }
 
-CGizmo::EGizmoMode CGizmo::Mode()
+CGizmo::EGizmoMode CGizmo::Mode() const
 {
     return mMode;
 }
 
-ETransformSpace CGizmo::TransformSpace()
+ETransformSpace CGizmo::TransformSpace() const
 {
     return mTransformSpace;
 }
 
-CVector3f CGizmo::Position()
+CVector3f CGizmo::Position() const
 {
     return mPosition;
 }
 
-CVector3f CGizmo::DeltaTranslation()
+CVector3f CGizmo::DeltaTranslation() const
 {
     return mDeltaTranslation;
 }
 
-CVector3f CGizmo::TotalTranslation()
+CVector3f CGizmo::TotalTranslation() const
 {
     return mTotalTranslation;
 }
 
-CQuaternion CGizmo::Rotation()
+CQuaternion CGizmo::Rotation() const
 {
     return mRotation;
 }
 
-CQuaternion CGizmo::DeltaRotation()
+CQuaternion CGizmo::DeltaRotation() const
 {
     return mDeltaRotation;
 }
 
-CVector3f CGizmo::TotalRotation()
+CVector3f CGizmo::TotalRotation() const
 {
     return mTotalRotation;
 }
 
-CVector3f CGizmo::Scale()
+CVector3f CGizmo::Scale() const
 {
     return mScale;
 }
 
-CVector3f CGizmo::DeltaScale()
+CVector3f CGizmo::DeltaScale() const
 {
     return mDeltaScale;
 }
 
-CVector3f CGizmo::TotalScale()
+CVector3f CGizmo::TotalScale() const
 {
     return mTotalScale;
 }
