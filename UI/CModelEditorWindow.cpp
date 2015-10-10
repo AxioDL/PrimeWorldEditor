@@ -149,6 +149,7 @@ void CModelEditorWindow::RefreshViewport()
 void CModelEditorWindow::SetActiveModel(CModel *pModel)
 {
     mpCurrentModelNode->SetModel(pModel);
+    mpCurrentModelNode->MarkTransformChanged();
     mpCurrentModel = pModel;
     mModelToken = CToken(pModel);
 
