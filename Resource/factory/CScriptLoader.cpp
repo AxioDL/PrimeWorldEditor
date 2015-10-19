@@ -58,6 +58,13 @@ CPropertyStruct* CScriptLoader::LoadStructMP1(CInputStream& SCLY, CStructTemplat
             pProp = new CLongProperty(v);
             break;
         }
+        case eEnumProperty: {
+            CEnumTemplate *pTemp = static_cast<CEnumTemplate*>(pPropTmp);
+            long ID = SCLY.ReadLong();
+            long index = pTemp->EnumeratorIndex(ID);
+            pProp = new CEnumProperty(index);
+            break;
+        }
         case eFloatProperty: {
             float v = SCLY.ReadFloat();
             pProp = new CFloatProperty(v);
@@ -262,6 +269,15 @@ void CScriptLoader::LoadStructMP2(CInputStream& SCLY, CPropertyStruct *pStruct, 
             case eLongProperty: {
                 CLongProperty *pLongCast = static_cast<CLongProperty*>(pProp);
                 pLongCast->Set(SCLY.ReadLong());
+                break;
+            }
+
+            case eEnumProperty: {
+                CEnumProperty *pEnumCast = static_cast<CEnumProperty*>(pProp);
+                CEnumTemplate *pTemp = static_cast<CEnumTemplate*>(pPropTemp);
+                long ID = SCLY.ReadLong();
+                long index = pTemp->EnumeratorIndex(ID);
+                pEnumCast->Set(index);
                 break;
             }
 

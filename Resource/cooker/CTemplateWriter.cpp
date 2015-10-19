@@ -377,6 +377,27 @@ void CTemplateWriter::SaveStructTemplate(CStructTemplate *pTemp, CMasterTemplate
     structXML.SaveFile(outFile.c_str());
 }
 
+void CTemplateWriter::SaveEnumTemplate(CEnumTemplate *pTemp, const std::string& dir)
+{
+    // Create directory
+    std::string outFile = dir + pTemp->mSourceFile;
+    std::string outDir = StringUtil::GetFileDirectory(outFile);
+    std::string name = StringUtil::GetFileName(pTemp->mSourceFile);
+    boost::filesystem::create_directory(outDir);
+
+    // Create new document and write enumerators to it
+    XMLDocument enumXML;
+
+    XMLDeclaration *pDecl = enumXML.NewDeclaration();
+    enumXML.LinkEndChild(pDecl);
+
+    XMLElement *pBase = enumXML.NewElement("enum");
+    SaveEnumerators(&enumXML, pBase, pTemp);
+    enumXML.LinkEndChild(pBase);
+
+    enumXML.SaveFile(outFile.c_str());
+}
+
 void CTemplateWriter::SaveProperties(XMLDocument *pDoc, XMLElement *pParent, CStructTemplate *pTemp, CMasterTemplate *pMaster, const std::string& dir)
 {
     for (u32 iProp = 0; iProp < pTemp->Count(); iProp++)
@@ -422,6 +443,30 @@ void CTemplateWriter::SaveProperties(XMLDocument *pDoc, XMLElement *pParent, CSt
             pParent->LinkEndChild(pElem);
         }
 
+        else if (pProp->Type() == eEnumProperty)
+        {
+            CEnumTemplate *pEnumTemp = static_cast<CEnumTemplate*>(pProp);
+            bool isExternal = (!pEnumTemp->mSourceFile.empty());
+
+            XMLElement *pElem = pDoc->NewElement("enum");
+            pElem->SetAttribute("ID", strID.c_str());
+
+            if ((!pMaster->HasPropertyList()) || (pProp->PropertyID() == -1))
+                pElem->SetAttribute("name", pProp->Name().c_str());
+
+            if (isExternal)
+            {
+                SaveEnumTemplate(pEnumTemp, dir);
+                pElem->SetAttribute("template", pEnumTemp->mSourceFile.c_str());
+            }
+
+            else
+            {
+                SaveEnumerators(pDoc, pElem, pEnumTemp);
+            }
+
+            pParent->LinkEndChild(pElem);
+        }
         else
         {
             XMLElement *pElem = pDoc->NewElement("property");
@@ -456,3 +501,13 @@ void CTemplateWriter::SaveProperties(XMLDocument *pDoc, XMLElement *pParent, CSt
     }
 }
 
+void CTemplateWriter::SaveEnumerators(XMLDocument *pDoc, XMLElement *pParent, CEnumTemplate *pTemp)
+{
+    for (u32 iEnum = 0; iEnum < pTemp->NumEnumerators(); iEnum++)
+    {
+        XMLElement *pElem = pDoc->NewElement("enumerator");
+        pElem->SetAttribute("ID", StringUtil::ToHexString(pTemp->EnumeratorID(iEnum), true, true, 8).c_str());
+        pElem->SetAttribute("name", pTemp->EnumeratorName(iEnum).c_str());
+        pParent->LinkEndChild(pElem);
+    }
+}

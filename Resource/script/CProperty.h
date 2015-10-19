@@ -59,6 +59,7 @@ typedef __CProperty<bool, eBoolProperty>                       CBoolProperty;
 typedef __CProperty<char, eByteProperty>                       CByteProperty;
 typedef __CProperty<short, eShortProperty>                     CShortProperty;
 typedef __CProperty<long, eLongProperty>                       CLongProperty;
+typedef __CProperty<long, eEnumProperty>                       CEnumProperty;
 typedef __CProperty<float, eFloatProperty>                     CFloatProperty;
 typedef __CProperty<std::string, eStringProperty>              CStringProperty;
 typedef __CProperty<CVector3f, eVector3Property>               CVector3Property;

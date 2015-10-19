@@ -135,6 +135,27 @@ void WPropertyEditor::CreateEditor()
         break;
     }
 
+    // Enum - QComboBox
+    case eEnumProperty:
+    {
+        CEnumProperty *pEnumCast = static_cast<CEnumProperty*>(mpProperty);
+        CEnumTemplate *pTemplate = static_cast<CEnumTemplate*>(pEnumCast->Template());
+        QComboBox *pComboBox = new QComboBox(this);
+
+        for (u32 iEnum = 0; iEnum < pTemplate->NumEnumerators(); iEnum++)
+        {
+            std::string name = pTemplate->EnumeratorName(iEnum);
+            pComboBox->addItem(QString::fromStdString(name));
+        }
+
+        pComboBox->setCurrentIndex(pEnumCast->Get());
+        pComboBox->setFocusPolicy(Qt::StrongFocus);
+        pComboBox->setContextMenuPolicy(Qt::NoContextMenu);
+
+        mUI.EditorWidget = pComboBox;
+        break;
+    }
+
     // Float - WDraggableSpinBox
     case eFloatProperty:
     {
@@ -198,11 +219,6 @@ void WPropertyEditor::CreateEditor()
         mUI.EditorWidget = pColorPicker;
         break;
     }
-
-    // Enum - todo (will be QComboBox)
-    case eEnumProperty:
-        mUI.EditorWidget = new QLabel("[placeholder]", this);
-        break;
 
     // File - WResourceSelector
     case eFileProperty:
@@ -311,6 +327,14 @@ void WPropertyEditor::UpdateEditor()
         break;
     }
 
+    case eEnumProperty:
+    {
+        CEnumProperty *pEnumCast = static_cast<CEnumProperty*>(mpProperty);
+        QComboBox *pComboBox = static_cast<QComboBox*>(mUI.EditorWidget);
+        pComboBox->setCurrentIndex(pEnumCast->Get());
+        break;
+    }
+
     case eFloatProperty:
     {
         CFloatProperty *pFloatCast = static_cast<CFloatProperty*>(mpProperty);
@@ -349,9 +373,6 @@ void WPropertyEditor::UpdateEditor()
 
         break;
     }
-
-    case eEnumProperty:
-        break;
 
     case eFileProperty:
     {

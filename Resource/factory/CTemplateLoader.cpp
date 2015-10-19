@@ -2,6 +2,31 @@
 #include "CWorldLoader.h"
 #include <Core/Log.h>
 
+void CTemplateLoader::LoadEnumerators(tinyxml2::XMLElement *pElem, CEnumTemplate *pTemp, const std::string& templateName)
+{
+    tinyxml2::XMLElement *pChild = pElem->FirstChildElement("enumerator");
+
+    while (pChild)
+    {
+        const char *kpID = pChild->Attribute("value");
+        const char *kpName = pChild->Attribute("name");
+
+        if (kpID && kpName)
+            pTemp->mEnumerators.push_back(CEnumTemplate::SEnumerator(kpName, StringUtil::ToInt32(kpID)));
+
+        else
+        {
+            std::string LogErrorBase = "Couldn't parse enumerator in " + templateName + "; ";
+
+            if (!kpID && kpName) Log::Error(LogErrorBase + "no valid ID (" + kpName + ")");
+            if (kpID && !kpName) Log::Error(LogErrorBase + "no valid name (ID " + kpID + ")");
+            else Log::Error(LogErrorBase + "no valid ID or name");
+        }
+
+        pChild = pChild->NextSiblingElement("enumerator");
+    }
+}
+
 void CTemplateLoader::LoadStructProperties(tinyxml2::XMLElement *pElem, CStructTemplate *pTemp, const std::string& templateName)
 {
     tinyxml2::XMLElement *pChild = pElem->FirstChildElement();
@@ -133,6 +158,48 @@ CPropertyTemplate* CTemplateLoader::LoadPropertyTemplate(tinyxml2::XMLElement *p
             pStruct->mPropName = name;
 
         return pStruct;
+    }
+
+    // Load Enum
+    else if (strcmp(pElem->Name(), "enum") == 0)
+    {
+        CEnumTemplate *pEnum = new CEnumTemplate(ID);
+
+        // Read children enumerators
+        // Priority: [Embedded] -> [Template]
+
+        // Embedded
+        if (!pElem->NoChildren())
+            LoadEnumerators(pElem, pEnum, templateName);
+
+        // Template
+        else if (kpTemplateStr)
+        {
+            std::string tempPath = mMasterDir + kpTemplateStr;
+
+            tinyxml2::XMLDocument enumXML;
+            enumXML.LoadFile(tempPath.c_str());
+
+            if (enumXML.Error())
+                Log::Error("Couldn't open enum XML: " + mMasterDir + kpTemplateStr);
+
+            else
+            {
+                tinyxml2::XMLElement *pRoot = enumXML.FirstChildElement("enum");
+                pEnum->mSourceFile = kpTemplateStr;
+
+                if (pRoot->Attribute("name"))
+                    pEnum->mPropName = pRoot->Attribute("name");
+
+                LoadEnumerators(pRoot, pEnum, kpTemplateStr );
+            }
+
+            // Name
+            if (!name.empty())
+                pEnum->mPropName = name;
+
+            return pEnum;
+        }
     }
 
     return nullptr;

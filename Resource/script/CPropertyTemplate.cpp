@@ -7,6 +7,7 @@ EPropertyType PropStringToPropEnum(std::string prop)
     if (prop == "byte")       return eByteProperty;
     if (prop == "short")      return eShortProperty;
     if (prop == "long")       return eLongProperty;
+    if (prop == "enum")       return eEnumProperty;
     if (prop == "float")      return eFloatProperty;
     if (prop == "string")     return eStringProperty;
     if (prop == "color")      return eColorProperty;
@@ -27,6 +28,7 @@ std::string PropEnumToPropString(EPropertyType prop)
     case eByteProperty:       return "byte";
     case eShortProperty:      return "short";
     case eLongProperty:       return "long";
+    case eEnumProperty:       return "enum";
     case eFloatProperty:      return "float";
     case eStringProperty:     return "string";
     case eColorProperty:      return "color";
