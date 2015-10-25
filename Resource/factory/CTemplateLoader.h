@@ -15,6 +15,7 @@ class CTemplateLoader
     CTemplateLoader(const std::string& templatesDir) : mTemplatesDir(templatesDir) {}
 
     // Load Property
+    void LoadBitFlags(tinyxml2::XMLElement *pElem, CBitfieldTemplate *pTemp, const std::string& templateName);
     void LoadEnumerators(tinyxml2::XMLElement *pElem, CEnumTemplate *pTemp, const std::string& templateName);
     void LoadStructProperties(tinyxml2::XMLElement *pElem, CStructTemplate *pTemp, const std::string& templateName);
     CPropertyTemplate* LoadPropertyTemplate(tinyxml2::XMLElement *pElem, const std::string& templateName);

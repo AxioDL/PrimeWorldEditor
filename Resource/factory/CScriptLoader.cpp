@@ -58,6 +58,21 @@ CPropertyStruct* CScriptLoader::LoadStructMP1(CInputStream& SCLY, CStructTemplat
             pProp = new CLongProperty(v);
             break;
         }
+        case eBitfieldProperty: {
+            long v = SCLY.ReadLong();
+            pProp = new CBitfieldProperty(v);
+
+            // Validate
+            u32 mask = 0;
+            CBitfieldTemplate *pBitfieldTemp = static_cast<CBitfieldTemplate*>(pPropTmp);
+            for (u32 iMask = 0; iMask < pBitfieldTemp->NumFlags(); iMask++)
+                mask |= pBitfieldTemp->FlagMask(iMask);
+
+            u32 check = v & ~mask;
+            if (check != 0) Log::FileWarning(SCLY.GetSourceString(), SCLY.Tell() - 4, "Bitfield property \"" + pBitfieldTemp->Name() + "\" in struct \"" + pTemp->Name() + "\" has flags set that aren't in the template: " + StringUtil::ToHexString(check, true, true, 8));
+
+            break;
+        }
         case eEnumProperty: {
             CEnumTemplate *pEnumTemp = static_cast<CEnumTemplate*>(pPropTmp);
             u32 ID = SCLY.ReadLong();
@@ -270,6 +285,22 @@ void CScriptLoader::LoadStructMP2(CInputStream& SCLY, CPropertyStruct *pStruct, 
             case eLongProperty: {
                 CLongProperty *pLongCast = static_cast<CLongProperty*>(pProp);
                 pLongCast->Set(SCLY.ReadLong());
+                break;
+            }
+
+            case eBitfieldProperty: {
+                CBitfieldProperty *pBitfieldCast = static_cast<CBitfieldProperty*>(pProp);
+                pBitfieldCast->Set(SCLY.ReadLong());
+
+                // Validate
+                u32 mask = 0;
+                CBitfieldTemplate *pBitfieldTemp = static_cast<CBitfieldTemplate*>(pPropTemp);
+                for (u32 iMask = 0; iMask < pBitfieldTemp->NumFlags(); iMask++)
+                    mask |= pBitfieldTemp->FlagMask(iMask);
+
+                u32 check = pBitfieldCast->Get() & ~mask;
+                if (check != 0) Log::FileWarning(SCLY.GetSourceString(), SCLY.Tell() - 4, "Bitfield property \"" + pBitfieldTemp->Name() + "\" in struct \"" + pTemp->Name() + "\" has flags set that aren't in the template: " + StringUtil::ToHexString(check, true, true, 8));
+
                 break;
             }
 

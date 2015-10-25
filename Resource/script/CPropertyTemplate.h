@@ -142,6 +142,54 @@ public:
     }
 };
 
+class CBitfieldTemplate : public CPropertyTemplate
+{
+    friend class CTemplateLoader;
+    friend class CTemplateWriter;
+
+    struct SBitFlag
+    {
+        std::string Name;
+        u32 Mask;
+
+        SBitFlag(const std::string& _name, u32 _mask)
+            : Name(_name), Mask(_mask) {}
+    };
+    std::vector<SBitFlag> mBitFlags;
+    std::string mSourceFile;
+
+public:
+    CBitfieldTemplate(u32 ID)
+        : CPropertyTemplate(ID)
+    {
+        mPropType = eBitfieldProperty;
+    }
+
+    CBitfieldTemplate(const std::string& name, u32 ID)
+        : CPropertyTemplate(eBitfieldProperty, name, ID)
+    {}
+
+    EPropertyType Type() const
+    {
+        return eBitfieldProperty;
+    }
+
+    u32 NumFlags()
+    {
+        return mBitFlags.size();
+    }
+
+    std::string FlagName(u32 index)
+    {
+        return mBitFlags[index].Name;
+    }
+
+    u32 FlagMask(u32 index)
+    {
+        return mBitFlags[index].Mask;
+    }
+};
+
 class CStructTemplate : public CPropertyTemplate
 {
     friend class CTemplateLoader;

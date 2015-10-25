@@ -2,6 +2,31 @@
 #include "CWorldLoader.h"
 #include <Core/Log.h>
 
+void CTemplateLoader::LoadBitFlags(tinyxml2::XMLElement *pElem, CBitfieldTemplate *pTemp, const std::string& templateName)
+{
+    tinyxml2::XMLElement *pChild = pElem->FirstChildElement("bitflag");
+
+    while (pChild)
+    {
+        const char *kpMask = pChild->Attribute("mask");
+        const char *kpName = pChild->Attribute("name");
+
+        if (kpMask && kpName)
+            pTemp->mBitFlags.push_back(CBitfieldTemplate::SBitFlag(kpName, StringUtil::ToInt32(kpMask)));
+
+        else
+        {
+            std::string LogErrorBase = "Couldn't parse bit flag in " + templateName + "; ";
+
+            if      (!kpMask && kpName) Log::Error(LogErrorBase + "no mask (" + kpName + ")");
+            else if (kpMask && !kpName) Log::Error(LogErrorBase + "no name (mask " + kpMask + ")");
+            else Log::Error(LogErrorBase + "no valid ID or name");
+        }
+
+        pChild = pChild->NextSiblingElement("bitflag");
+    }
+}
+
 void CTemplateLoader::LoadEnumerators(tinyxml2::XMLElement *pElem, CEnumTemplate *pTemp, const std::string& templateName)
 {
     tinyxml2::XMLElement *pChild = pElem->FirstChildElement("enumerator");
@@ -18,8 +43,8 @@ void CTemplateLoader::LoadEnumerators(tinyxml2::XMLElement *pElem, CEnumTemplate
         {
             std::string LogErrorBase = "Couldn't parse enumerator in " + templateName + "; ";
 
-            if (!kpID && kpName) Log::Error(LogErrorBase + "no valid ID (" + kpName + ")");
-            if (kpID && !kpName) Log::Error(LogErrorBase + "no valid name (ID " + kpID + ")");
+            if      (!kpID && kpName) Log::Error(LogErrorBase + "no valid ID (" + kpName + ")");
+            else if (kpID && !kpName) Log::Error(LogErrorBase + "no valid name (ID " + kpID + ")");
             else Log::Error(LogErrorBase + "no valid ID or name");
         }
 
@@ -193,15 +218,54 @@ CPropertyTemplate* CTemplateLoader::LoadPropertyTemplate(tinyxml2::XMLElement *p
 
                 LoadEnumerators(pRoot, pEnum, kpTemplateStr );
             }
-
-            // Name
-            if (!name.empty())
-                pEnum->mPropName = name;
-
-            return pEnum;
         }
+
+        // Name
+        if (!name.empty())
+            pEnum->mPropName = name;
+
+        return pEnum;
     }
 
+
+    // Load Bitfield
+    else if (strcmp(pElem->Name(), "bitfield") == 0)
+    {
+        CBitfieldTemplate *pBitfield = new CBitfieldTemplate(ID);
+
+        // Embedded
+        if (!pElem->NoChildren())
+            LoadBitFlags(pElem, pBitfield, templateName);
+
+        // Template
+        else if (kpTemplateStr)
+        {
+            std::string tempPath = mMasterDir + kpTemplateStr;
+
+            tinyxml2::XMLDocument bitfieldXML;
+            bitfieldXML.LoadFile(tempPath.c_str());
+
+            if (bitfieldXML.Error())
+                Log::Error("Couldn't open bitfield XML: " + mMasterDir + kpTemplateStr);
+
+            else
+            {
+                tinyxml2::XMLElement *pRoot = bitfieldXML.FirstChildElement("bitfield");
+                pBitfield->mSourceFile = kpTemplateStr;
+
+                if (pRoot->Attribute("name"))
+                    pBitfield->mPropName = pRoot->Attribute("name");
+
+                LoadBitFlags(pRoot, pBitfield, kpTemplateStr);
+            }
+        }
+
+        // Name
+        if (!name.empty())
+            pBitfield->mPropName = name;
+
+        return pBitfield;
+    }
     return nullptr;
 }
 

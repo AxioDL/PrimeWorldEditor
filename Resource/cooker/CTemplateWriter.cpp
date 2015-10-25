@@ -392,10 +392,33 @@ void CTemplateWriter::SaveEnumTemplate(CEnumTemplate *pTemp, const std::string& 
     enumXML.LinkEndChild(pDecl);
 
     XMLElement *pBase = enumXML.NewElement("enum");
+    pBase->SetName("name", name.c_str());
     SaveEnumerators(&enumXML, pBase, pTemp);
     enumXML.LinkEndChild(pBase);
 
     enumXML.SaveFile(outFile.c_str());
+}
+
+void CTemplateWriter::SaveBitfieldTemplate(CBitfieldTemplate *pTemp, const std::string& dir)
+{
+    // Create directory
+    std::string outFile = dir + pTemp->mSourceFile;
+    std::string outDir = StringUtil::GetFileDirectory(outFile);
+    std::string name = StringUtil::GetFileName(pTemp->mSourceFile);
+    boost::filesystem::create_directory(outDir);
+
+    // Create new document and write enumerators to it
+    XMLDocument bitfieldXML;
+
+    XMLDeclaration *pDecl = bitfieldXML.NewDeclaration();
+    bitfieldXML.LinkEndChild(pDecl);
+
+    XMLElement *pBase = bitfieldXML.NewElement("bitfield");
+    pBase->SetName("name", name.c_str());
+    SaveBitFlags(&bitfieldXML, pBase, pTemp);
+    bitfieldXML.LinkEndChild(pBase);
+
+    bitfieldXML.SaveFile(outFile.c_str());
 }
 
 void CTemplateWriter::SaveProperties(XMLDocument *pDoc, XMLElement *pParent, CStructTemplate *pTemp, CMasterTemplate *pMaster, const std::string& dir)
@@ -467,6 +490,30 @@ void CTemplateWriter::SaveProperties(XMLDocument *pDoc, XMLElement *pParent, CSt
 
             pParent->LinkEndChild(pElem);
         }
+        else if (pProp->Type() == eBitfieldProperty)
+        {
+            CBitfieldTemplate *pBitfieldTemp = static_cast<CBitfieldTemplate*>(pProp);
+            bool isExternal = (!pBitfieldTemp->mSourceFile.empty());
+
+            XMLElement *pElem = pDoc->NewElement("bitfield");
+            pElem->SetAttribute("ID", strID.c_str());
+
+            if ((!pMaster->HasPropertyList()) || (pProp->PropertyID() == -1))
+                pElem->SetAttribute("name", pProp->Name().c_str());
+
+            if (isExternal)
+            {
+                SaveBitfieldTemplate(pBitfieldTemp, dir);
+                pElem->SetAttribute("template", pBitfieldTemp->mSourceFile.c_str());
+            }
+
+            else
+            {
+                SaveBitFlags(pDoc, pElem, pBitfieldTemp);
+            }
+
+            pParent->LinkEndChild(pElem);
+        }
         else
         {
             XMLElement *pElem = pDoc->NewElement("property");
@@ -508,6 +555,17 @@ void CTemplateWriter::SaveEnumerators(XMLDocument *pDoc, XMLElement *pParent, CE
         XMLElement *pElem = pDoc->NewElement("enumerator");
         pElem->SetAttribute("ID", StringUtil::ToHexString(pTemp->EnumeratorID(iEnum), true, true, 8).c_str());
         pElem->SetAttribute("name", pTemp->EnumeratorName(iEnum).c_str());
+        pParent->LinkEndChild(pElem);
+    }
+}
+
+void CTemplateWriter::SaveBitFlags(tinyxml2::XMLDocument *pDoc, tinyxml2::XMLElement *pParent, CBitfieldTemplate *pTemp)
+{
+    for (u32 iFlag = 0; iFlag < pTemp->NumFlags(); iFlag++)
+    {
+        XMLElement *pElem = pDoc->NewElement("bitflag");
+        pElem->SetAttribute("mask", StringUtil::ToHexString(pTemp->FlagMask(iFlag), true, true, 8).c_str());
+        pElem->SetAttribute("name", pTemp->FlagName(iFlag).c_str());
         pParent->LinkEndChild(pElem);
     }
 }

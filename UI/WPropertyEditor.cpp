@@ -157,6 +157,34 @@ void WPropertyEditor::CreateEditor()
         break;
     }
 
+    // Bitfield - QGroupBox containing QCheckBoxes
+    case eBitfieldProperty:
+    {
+        CBitfieldProperty *pBitfieldCast = static_cast<CBitfieldProperty*>(mpProperty);
+        CBitfieldTemplate *pTemplate = static_cast<CBitfieldTemplate*>(pBitfieldCast->Template());
+        long value = pBitfieldCast->Get();
+
+        QGroupBox *pGroupBox = new QGroupBox(this);
+        QVBoxLayout *pBitfieldLayout = new QVBoxLayout(pGroupBox);
+        pBitfieldLayout->setContentsMargins(5,5,5,5);
+        pGroupBox->setLayout(pBitfieldLayout);
+        pGroupBox->setTitle(QString::fromStdString(pBitfieldCast->Name()));
+        mUI.PropertyName->hide();
+
+        for (u32 iFlag = 0; iFlag < pTemplate->NumFlags(); iFlag++)
+        {
+            std::string flagName = pTemplate->FlagName(iFlag);
+            long mask = pTemplate->FlagMask(iFlag);
+
+            QCheckBox *pCheckBox = new QCheckBox(QString::fromStdString(flagName), pGroupBox);
+            pCheckBox->setChecked((value & mask) != 0);
+            pBitfieldLayout->addWidget(pCheckBox);
+        }
+
+        mUI.EditorWidget = pGroupBox;
+        break;
+    }
+
     // Float - WDraggableSpinBox
     case eFloatProperty:
     {
@@ -280,6 +308,7 @@ void WPropertyEditor::CreateEditor()
 
     // For some reason setting a minimum size on group boxes flattens it...
     if ((mpProperty->Type() != eStructProperty) &&
+        (mpProperty->Type() != eBitfieldProperty) &&
         (mpProperty->Type() != eVector3Property) &&
         (mpProperty->Type() != eAnimParamsProperty))
     {
@@ -333,6 +362,29 @@ void WPropertyEditor::UpdateEditor()
         CEnumProperty *pEnumCast = static_cast<CEnumProperty*>(mpProperty);
         QComboBox *pComboBox = static_cast<QComboBox*>(mUI.EditorWidget);
         pComboBox->setCurrentIndex(pEnumCast->Get());
+        break;
+    }
+
+    case eBitfieldProperty:
+    {
+        CBitfieldProperty *pBitfieldCast = static_cast<CBitfieldProperty*>(mpProperty);
+        CBitfieldTemplate *pTemplate = static_cast<CBitfieldTemplate*>(pBitfieldCast->Template());
+        QGroupBox *pGroupBox = static_cast<QGroupBox*>(mUI.EditorWidget);
+
+        QObjectList ChildList = pGroupBox->children();
+        long value = pBitfieldCast->Get();
+        u32 propNum = 0;
+
+        foreach (QObject *pObj, ChildList)
+        {
+            if (pObj != pGroupBox->layout())
+            {
+                u32 mask = pTemplate->FlagMask(propNum);
+                QCheckBox *pCheckBox = static_cast<QCheckBox*>(pObj);
+                pCheckBox->setChecked((value & mask) != 0);
+                propNum++;
+            }
+        }
         break;
     }
 

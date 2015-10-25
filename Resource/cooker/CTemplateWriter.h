@@ -15,9 +15,10 @@ public:
     static void SaveScriptTemplate(CScriptTemplate *pTemp, const std::string& dir);
     static void SaveStructTemplate(CStructTemplate *pTemp, CMasterTemplate *pMaster, const std::string& dir);
     static void SaveEnumTemplate(CEnumTemplate *pTemp, const std::string& dir);
+    static void SaveBitfieldTemplate(CBitfieldTemplate *pTemp, const std::string& dir);
     static void SaveProperties(tinyxml2::XMLDocument *pDoc, tinyxml2::XMLElement *pParent, CStructTemplate *pTemp, CMasterTemplate *pMaster, const std::string& dir);
     static void SaveEnumerators(tinyxml2::XMLDocument *pDoc, tinyxml2::XMLElement *pParent, CEnumTemplate *pTemp);
-    // todo: save enum templates
+    static void SaveBitFlags(tinyxml2::XMLDocument *pDoc, tinyxml2::XMLElement *pParent, CBitfieldTemplate *pTemp);
 };
 
 #endif // CTEMPLATEWRITER_H

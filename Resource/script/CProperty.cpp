@@ -101,6 +101,7 @@ CPropertyStruct* CPropertyStruct::CopyFromTemplate(CStructTemplate *pTemp)
         case eShortProperty:      pProp = new CShortProperty(0); break;
         case eLongProperty:       pProp = new CLongProperty(0); break;
         case eEnumProperty:       pProp = new CEnumProperty(0); break;
+        case eBitfieldProperty:   pProp = new CBitfieldProperty(0); break;
         case eFloatProperty:      pProp = new CFloatProperty(0.f); break;
         case eStringProperty:     pProp = new CStringProperty(""); break;
         case eVector3Property:    pProp = new CVector3Property(CVector3f::skZero); break;

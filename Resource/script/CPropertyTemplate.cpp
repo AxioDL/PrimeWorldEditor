@@ -8,6 +8,7 @@ EPropertyType PropStringToPropEnum(std::string prop)
     if (prop == "short")      return eShortProperty;
     if (prop == "long")       return eLongProperty;
     if (prop == "enum")       return eEnumProperty;
+    if (prop == "bitfield")   return eBitfieldProperty;
     if (prop == "float")      return eFloatProperty;
     if (prop == "string")     return eStringProperty;
     if (prop == "color")      return eColorProperty;
@@ -29,6 +30,7 @@ std::string PropEnumToPropString(EPropertyType prop)
     case eShortProperty:      return "short";
     case eLongProperty:       return "long";
     case eEnumProperty:       return "enum";
+    case eBitfieldProperty:   return "bitfield";
     case eFloatProperty:      return "float";
     case eStringProperty:     return "string";
     case eColorProperty:      return "color";
