@@ -59,9 +59,10 @@ CPropertyStruct* CScriptLoader::LoadStructMP1(CInputStream& SCLY, CStructTemplat
             break;
         }
         case eEnumProperty: {
-            CEnumTemplate *pTemp = static_cast<CEnumTemplate*>(pPropTmp);
-            long ID = SCLY.ReadLong();
-            long index = pTemp->EnumeratorIndex(ID);
+            CEnumTemplate *pEnumTemp = static_cast<CEnumTemplate*>(pPropTmp);
+            u32 ID = SCLY.ReadLong();
+            u32 index = pEnumTemp->EnumeratorIndex(ID);
+            if (index == -1) Log::FileError(SCLY.GetSourceString(), SCLY.Tell() - 4, "Enum property \"" + pEnumTemp->Name() + "\" in struct \"" + pTemp->Name() + "\" has invalid enumerator value: " + StringUtil::ToHexString(ID, true, true, 8));
             pProp = new CEnumProperty(index);
             break;
         }
@@ -274,9 +275,10 @@ void CScriptLoader::LoadStructMP2(CInputStream& SCLY, CPropertyStruct *pStruct, 
 
             case eEnumProperty: {
                 CEnumProperty *pEnumCast = static_cast<CEnumProperty*>(pProp);
-                CEnumTemplate *pTemp = static_cast<CEnumTemplate*>(pPropTemp);
-                long ID = SCLY.ReadLong();
-                long index = pTemp->EnumeratorIndex(ID);
+                CEnumTemplate *pEnumTemp = static_cast<CEnumTemplate*>(pPropTemp);
+                u32 ID = SCLY.ReadLong();
+                u32 index = pEnumTemp->EnumeratorIndex(ID);
+                if (index == -1) Log::FileError(SCLY.GetSourceString(), SCLY.Tell() - 4, "Enum property \"" + pEnumTemp->Name() + "\" in struct \"" + pTemp->Name() + "\" has invalid enumerator value: " + StringUtil::ToHexString(ID, true, true, 8));
                 pEnumCast->Set(index);
                 break;
             }

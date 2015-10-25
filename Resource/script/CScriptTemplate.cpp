@@ -154,9 +154,16 @@ EVolumeShape CScriptTemplate::VolumeShape(CScriptObject *pObj)
             break;
 
         case eLongProperty:
-        case eEnumProperty:
             v = (int) static_cast<CLongProperty*>(pProp)->Get();
             break;
+
+        case eEnumProperty: {
+            CEnumProperty *pEnumCast = static_cast<CEnumProperty*>(pProp);
+            CEnumTemplate *pEnumTemp = static_cast<CEnumTemplate*>(pEnumCast->Template());
+            int index = static_cast<CEnumProperty*>(pProp)->Get();
+            v = pEnumTemp->EnumeratorID(index);
+            break;
+        }
         }
 
         // Test and check whether any of the conditions are true

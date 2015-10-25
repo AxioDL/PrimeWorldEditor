@@ -148,7 +148,8 @@ void WPropertyEditor::CreateEditor()
             pComboBox->addItem(QString::fromStdString(name));
         }
 
-        pComboBox->setCurrentIndex(pEnumCast->Get());
+        u32 index = pEnumCast->Get();
+        if (index < pTemplate->NumEnumerators()) pComboBox->setCurrentIndex(index);
         pComboBox->setFocusPolicy(Qt::StrongFocus);
         pComboBox->setContextMenuPolicy(Qt::NoContextMenu);
 
