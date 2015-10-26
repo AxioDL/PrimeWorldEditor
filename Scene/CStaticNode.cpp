@@ -46,7 +46,7 @@ void CStaticNode::Draw(ERenderOptions Options)
 {
     if (!mpModel) return;
 
-    CGraphics::sVertexBlock.COLOR0_Amb =    CVector4f(0, 0, 0, 1);
+    CGraphics::sVertexBlock.COLOR0_Amb = CVector4f(0, 0, 0, 1);
     float Multiplier = CGraphics::sWorldLightMultiplier;
     CGraphics::sPixelBlock.TevColor = CVector4f(Multiplier,Multiplier,Multiplier,1);
     CGraphics::sNumLights = 0;

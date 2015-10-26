@@ -45,7 +45,11 @@ void CLightNode::Draw(ERenderOptions)
     CGraphics::sVertexBlock.COLOR0_Amb = CVector4f(1.f);
     CGraphics::sVertexBlock.COLOR0_Mat = CVector4f(1.f);
     CGraphics::UpdateVertexBlock();
-    CDrawUtil::DrawShadedCube(mpLight->GetColor());
+
+    // Force alpha to 0 to prevent issues with bloom
+    CColor cubeColor = mpLight->GetColor();
+    cubeColor.a = 0;
+    CDrawUtil::DrawShadedCube(cubeColor);
 
     // Below commented-out code is for light radius visualization as a bounding box
     /*float r = mLight->GetRadius();

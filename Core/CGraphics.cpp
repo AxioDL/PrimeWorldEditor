@@ -156,6 +156,10 @@ void CGraphics::SetDefaultLighting()
     sDefaultDirectionalLights[0].Load();
     sDefaultDirectionalLights[1].Load();
     sDefaultDirectionalLights[2].Load();
+    UpdateLightBlock();
+
+    sVertexBlock.COLOR0_Amb = CColor::skGray.ToVector4f();
+    UpdateVertexBlock();
 }
 
 void CGraphics::SetIdentityMVP()

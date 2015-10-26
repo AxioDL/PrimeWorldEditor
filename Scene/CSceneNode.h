@@ -44,8 +44,10 @@ protected:
     bool mVisible;
     std::list<CSceneNode*> mChildren;
 
+    u32 mLightLayerIndex;
     u32 mLightCount;
     CLight* mLights[8];
+    CColor mAmbientColor;
 
 public:
     explicit CSceneNode(CSceneManager *pScene, CSceneNode *pParent = 0);
@@ -89,6 +91,7 @@ public:
     CVector3f AbsoluteScale() const;
     CAABox AABox();
     CVector3f CenterPoint();
+    u32 LightLayerIndex() const;
     bool MarkedVisible() const;
     bool IsMouseHovering() const;
     bool IsSelected() const;
@@ -102,6 +105,7 @@ public:
     void SetRotation(const CQuaternion& rotation);
     void SetRotation(const CVector3f& rotEuler);
     void SetScale(const CVector3f& scale);
+    void SetLightLayerIndex(u32 index);
     void SetMouseHovering(bool Hovering);
     void SetSelected(bool Selected);
     void SetVisible(bool Visible);

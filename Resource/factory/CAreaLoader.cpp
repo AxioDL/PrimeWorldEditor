@@ -198,6 +198,7 @@ void CAreaLoader::ReadLightsPrime()
                                             1.f, 0.f, 0.f);
             }
 
+            Light->SetLayer(ly);
             mpArea->mLightLayers[ly][l] = Light;
         }
     }
@@ -336,7 +337,87 @@ void CAreaLoader::ReadGeometryCorruption()
     std::cout << "\n";
 }
 
-// ************ RETURNS ************
+void CAreaLoader::ReadLightsCorruption()
+{
+    Log::FileWrite(mpMREA->GetSourceString(), "Reading MREA dynamic lights (MP3)");
+    mBlockMgr->ToBlock(mLightsBlockNum);
+
+    u32 babedead = mpMREA->ReadLong();
+    if (babedead != 0xbabedead) return;
+
+    mpArea->mLightLayers.resize(4);
+
+    for (u32 iLayer = 0; iLayer < 4; iLayer++)
+    {
+        u32 NumLights = mpMREA->ReadLong();
+        mpArea->mLightLayers[iLayer].resize(NumLights);
+
+        for (u32 iLight = 0; iLight < NumLights; iLight++)
+        {
+            ELightType Type = (ELightType) mpMREA->ReadLong();
+
+            float r = mpMREA->ReadFloat();
+            float g = mpMREA->ReadFloat();
+            float b = mpMREA->ReadFloat();
+            float a = mpMREA->ReadFloat();
+            CColor LightColor(r, g, b, a);
+
+            CVector3f Position(*mpMREA);
+            CVector3f Direction(*mpMREA);
+            mpMREA->Seek(0xC, SEEK_CUR);
+
+            float Multiplier = mpMREA->ReadFloat();
+            float SpotCutoff = mpMREA->ReadFloat();
+            mpMREA->Seek(0x9, SEEK_CUR);
+            u32 FalloffType = mpMREA->ReadLong();
+            mpMREA->Seek(0x18, SEEK_CUR);
+
+            // Relevant data is read - now we process and form a CLight out of it
+            CLight *Light;
+
+            if (Multiplier < FLT_EPSILON)
+                Multiplier = FLT_EPSILON;
+
+            // Local Ambient
+            if (Type == eLocalAmbient)
+            {
+                Light = CLight::BuildLocalAmbient(Position, LightColor * Multiplier);
+            }
+
+            // Directional
+            else if (Type == eDirectional)
+            {
+                Light = CLight::BuildDirectional(Position, Direction, LightColor);
+            }
+
+            // Spot
+            else if (Type == eSpot)
+            {
+                Light = CLight::BuildSpot(Position, Direction.Normalized(), LightColor, SpotCutoff);
+
+                float DistAttenA = (FalloffType == 0) ? (2.f / Multiplier) : 0.f;
+                float DistAttenB = (FalloffType == 1) ? (250.f / Multiplier) : 0.f;
+                float DistAttenC = (FalloffType == 2) ? (25000.f / Multiplier) : 0.f;
+                Light->SetDistAtten(DistAttenA, DistAttenB, DistAttenC);
+            }
+
+            // Custom
+            else
+            {
+                float DistAttenA = (FalloffType == 0) ? (2.f / Multiplier) : 0.f;
+                float DistAttenB = (FalloffType == 1) ? (249.9998f / Multiplier) : 0.f;
+                float DistAttenC = (FalloffType == 2) ? (25000.f / Multiplier) : 0.f;
+
+                Light = CLight::BuildCustom(Position, Direction, LightColor,
+                                            DistAttenA, DistAttenB, DistAttenC,
+                                            1.f, 0.f, 0.f);
+            }
+
+            Light->SetLayer(iLayer);
+            mpArea->mLightLayers[iLayer][iLight] = Light;
+        }
+    }
+}
 
 // ************ COMMON ************
 void CAreaLoader::ReadCompressedBlocks()
@@ -508,6 +589,7 @@ CGameArea* CAreaLoader::LoadMREA(CInputStream& MREA)
             Loader.ReadGeometryCorruption();
             Loader.ReadSCLYEchoes();
             Loader.ReadCollision();
+            if (Loader.mVersion == eCorruption) Loader.ReadLightsCorruption();
             break;
         default:
             Log::FileError(MREA.GetSourceString(), "Unsupported MREA version: " + StringUtil::ToHexString(version));

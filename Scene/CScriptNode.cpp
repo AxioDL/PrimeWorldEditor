@@ -7,6 +7,7 @@
 #include <Core/CRenderer.h>
 #include <Core/CResCache.h>
 #include <Core/CSceneManager.h>
+#include <Resource/script/CMasterTemplate.h>
 
 CScriptNode::CScriptNode(CSceneManager *pScene, CSceneNode *pParent, CScriptObject *pObject)
     : CSceneNode(pScene, pParent)
@@ -68,6 +69,10 @@ CScriptNode::CScriptNode(CSceneManager *pScene, CSceneNode *pParent, CScriptObje
                 mpVolumePreviewNode->ForceAlphaEnabled(true);
             }
         }
+
+        // Fetch LightParameters
+        mpLightParameters = new CLightParameters(mpInstance->LightParameters(), mpInstance->MasterTemplate()->GetGame());
+        SetLightLayerIndex(mpLightParameters->LightLayerIndex());
     }
 
     else
@@ -154,11 +159,6 @@ void CScriptNode::Draw(ERenderOptions Options)
     // Set lighting
     LoadModelMatrix();
     LoadLights();
-
-    if (CGraphics::sLightMode == CGraphics::WorldLighting)
-        CGraphics::sVertexBlock.COLOR0_Amb = CGraphics::sAreaAmbientColor.ToVector4f() * CGraphics::sWorldLightMultiplier;
-    else
-        CGraphics::sVertexBlock.COLOR0_Amb = CGraphics::skDefaultAmbientColor.ToVector4f();
 
     // Default to drawing purple box if no model
     if (!mpActiveModel)

@@ -88,6 +88,11 @@ ELightType CLight::GetType() const
     return mType;
 }
 
+u32 CLight::GetLayerIndex() const
+{
+    return mLayerIndex;
+}
+
 CVector3f CLight::GetPosition() const
 {
     return mPosition;
@@ -136,6 +141,11 @@ float CLight::GetIntensity()
 }
 
 // ************ SETTERS ************
+void CLight::SetLayer(u32 index)
+{
+    mLayerIndex = index;
+}
+
 void CLight::SetPosition(const CVector3f& Position)
 {
     mPosition = Position;

@@ -23,12 +23,14 @@ enum ELightType
 class CLight
 {
     ELightType mType;
+    u32 mLayerIndex;
     CVector3f mPosition;
     CVector3f mDirection;
     CColor mColor;
     float mSpotCutoff;
     CVector3f mDistAttenCoefficients;
     CVector3f mAngleAttenCoefficients;
+
     float mRadius;
     float mIntensity;
     u8 mFlags;
@@ -45,6 +47,7 @@ private:
 public:
     // Getters
     ELightType GetType() const;
+    u32 GetLayerIndex() const;
     CVector3f GetPosition() const;
     CVector3f GetDirection() const;
     CColor GetColor() const;
@@ -54,6 +57,7 @@ public:
     float GetIntensity();
 
     // Setters
+    void SetLayer(u32 index);
     void SetPosition(const CVector3f& Position);
     void SetDirection(const CVector3f& Direction);
     void SetColor(const CColor& Color);

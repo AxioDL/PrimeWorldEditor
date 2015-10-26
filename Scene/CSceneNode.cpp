@@ -26,6 +26,9 @@ CSceneNode::CSceneNode(CSceneManager *pScene, CSceneNode *pParent)
     _mInheritsRotation = true;
     _mInheritsScale = true;
 
+    mLightLayerIndex = 0;
+    mLightCount = 0;
+
     mMouseHovering = false;
     mSelected = false;
     mVisible = true;
@@ -115,8 +118,10 @@ void CSceneNode::LoadModelMatrix()
 void CSceneNode::BuildLightList(CGameArea *pArea)
 {
     mLightCount = 0;
+    mAmbientColor = CColor::skBlack;
 
-    u32 LayerCount = pArea->GetLightLayerCount();
+    u32 index = mLightLayerIndex;
+    if ((pArea->GetLightLayerCount() <= index) || (pArea->GetLightCount(index) == 0)) index = 0;
 
     struct SLightEntry {
         CLight *pLight;
@@ -131,28 +136,27 @@ void CSceneNode::BuildLightList(CGameArea *pArea)
     };
     std::vector<SLightEntry> LightEntries;
 
-    for (u32 iLayer = 0; iLayer < LayerCount; iLayer++)
+    // Default ambient color to white if there are no lights on the selected layer
+    u32 numLights = pArea->GetLightCount(index);
+    if (numLights == 0) mAmbientColor = CColor::skWhite;
+
+    for (u32 iLight = 0; iLight < numLights; iLight++)
     {
-        u32 LightCount = pArea->GetLightCount(iLayer);
+        CLight* pLight = pArea->GetLight(index, iLight);
 
-        for (u32 iLight = 0; iLight < LightCount; iLight++)
+        // Ambient lights should only be present one per layer; need to check how the game deals with multiple ambients
+        if (pLight->GetType() == eLocalAmbient)
+            mAmbientColor = pLight->GetColor();
+
+        // Other lights will be used depending which are closest to the node
+        else
         {
-            CLight* pLight = pArea->GetLight(iLayer, iLight);
+            bool IsInRange = AABox().IntersectsSphere(pLight->GetPosition(), pLight->GetRadius());
 
-            // Directional/Spot lights take priority over custom lights.
-            if ((pLight->GetType() == eDirectional) || (pLight->GetType() == eSpot))
-                LightEntries.push_back(SLightEntry(pLight, 0));
-
-            // Custom lights will be used depending which are closest to the node
-            else if (pLight->GetType() == eCustom)
+            if (IsInRange)
             {
-                bool IsInRange = AABox().IntersectsSphere(pLight->GetPosition(), pLight->GetRadius());
-
-                if (IsInRange)
-                {
-                    float Dist = mPosition.Distance(pLight->GetPosition());
-                    LightEntries.push_back(SLightEntry(pLight, Dist));
-                }
+                float Dist = mPosition.Distance(pLight->GetPosition());
+                LightEntries.push_back(SLightEntry(pLight, Dist));
             }
         }
     }
@@ -169,12 +173,28 @@ void CSceneNode::LoadLights()
 {
     CGraphics::sNumLights = 0;
 
-    if (CGraphics::sLightMode == CGraphics::BasicLighting)
-        CGraphics::SetDefaultLighting();
+    switch (CGraphics::sLightMode)
+    {
+    case CGraphics::NoLighting:
+        // No lighting: default ambient color, no dynamic lights
+        CGraphics::sVertexBlock.COLOR0_Amb = CGraphics::skDefaultAmbientColor.ToVector4f();
+        break;
 
-    else if (CGraphics::sLightMode == CGraphics::WorldLighting)
+    case CGraphics::BasicLighting:
+        // Basic lighting: default ambient color, default dynamic lights
+        CGraphics::SetDefaultLighting();
+        CGraphics::sVertexBlock.COLOR0_Amb = CGraphics::skDefaultAmbientColor.ToVector4f();
+        break;
+
+    case CGraphics::WorldLighting:
+        // World lighting: world ambient color, node dynamic lights
+        CGraphics::sVertexBlock.COLOR0_Amb = mAmbientColor.ToVector4f();
+
         for (u32 iLight = 0; iLight < mLightCount; iLight++)
             mLights[iLight]->Load();
+
+        break;
+    }
 
     CGraphics::UpdateLightBlock();
 }
@@ -340,6 +360,11 @@ CVector3f CSceneNode::CenterPoint()
     return AABox().Center();
 }
 
+u32 CSceneNode::LightLayerIndex() const
+{
+    return mLightLayerIndex;
+}
+
 bool CSceneNode::MarkedVisible() const
 {
     // The reason I have this function is because the instance view needs to know whether a node is marked
@@ -401,6 +426,11 @@ void CSceneNode::SetScale(const CVector3f& scale)
 {
     mScale = scale;
     MarkTransformChanged();
+}
+
+void CSceneNode::SetLightLayerIndex(u32 index)
+{
+    mLightLayerIndex = index;
 }
 
 void CSceneNode::SetMouseHovering(bool Hovering)

@@ -4,6 +4,7 @@
 #include "CSceneNode.h"
 #include "CModelNode.h"
 #include "CCollisionNode.h"
+#include <Core/CLightParameters.h>
 #include <Resource/script/CScriptObject.h>
 
 class CScriptNode : public CSceneNode
@@ -16,6 +17,8 @@ class CScriptNode : public CSceneNode
     bool mHasValidPosition;
     bool mHasVolumePreview;
     CModelNode *mpVolumePreviewNode;
+
+    CLightParameters *mpLightParameters;
 
 public:
     CScriptNode(CSceneManager *pScene, CSceneNode *pParent = 0, CScriptObject *pObject = 0);

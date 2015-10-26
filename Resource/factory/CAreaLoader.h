@@ -67,6 +67,7 @@ class CAreaLoader
     // Corruption
     void ReadHeaderCorruption();
     void ReadGeometryCorruption();
+    void ReadLightsCorruption();
 
     // Common
     void ReadCompressedBlocks();
