@@ -73,7 +73,7 @@ void CTextureEncoder::EncodeTXTR(COutputStream& TXTR, CTexture *pTex)
     Encoder.WriteTXTR(TXTR);
 }
 
-void CTextureEncoder::EncodeTXTR(COutputStream& TXTR, CTexture *pTex, ETexelFormat OutputFormat)
+void CTextureEncoder::EncodeTXTR(COutputStream& TXTR, CTexture *pTex, ETexelFormat /*OutputFormat*/)
 {
     // todo: support for encoding a specific format
     EncodeTXTR(TXTR, pTex);
@@ -89,6 +89,7 @@ ETexelFormat CTextureEncoder::GetGXFormat(ETexelFormat Format)
     case eRGB565: return eGX_RGB565;
     case eRGBA8: return eGX_RGBA8;
     case eDXT1: return eGX_CMPR;
+    default: return eInvalidTexelFormat;
     }
 }
 
@@ -102,5 +103,6 @@ ETexelFormat CTextureEncoder::GetFormat(ETexelFormat Format)
     case eGX_IA8: return eLuminanceAlpha;
         // todo rest of these
     case eGX_CMPR: return eDXT1;
+    default: return eInvalidTexelFormat;
     }
 }

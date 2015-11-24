@@ -148,7 +148,7 @@ void WAnimParamsEditor::SetupUI()
 
         // Create unknown spin box
         mpSpinBoxes[0] = new WIntegralSpinBox(this);
-        mpSpinBoxes[0]->setRange(-2147483648, 2147483647);
+        mpSpinBoxes[0]->setRange(INT32_MIN, INT32_MAX);
         mpSpinBoxes[0]->setFocusPolicy(Qt::StrongFocus);
         mpSpinBoxes[0]->setContextMenuPolicy(Qt::NoContextMenu);
         mpSpinBoxes[0]->setValue(mParams.Unknown(0));
@@ -179,7 +179,7 @@ void WAnimParamsEditor::SetupUI()
     {
         // Create unknown spin box
         mpSpinBoxes[0] = new WIntegralSpinBox(this);
-        mpSpinBoxes[0]->setRange(-2147483648, 2147483647);
+        mpSpinBoxes[0]->setRange(INT32_MIN, INT32_MAX);
         mpSpinBoxes[0]->setFocusPolicy(Qt::StrongFocus);
         mpSpinBoxes[0]->setContextMenuPolicy(Qt::NoContextMenu);
         mpSpinBoxes[0]->setValue(mParams.Unknown(0));
@@ -221,7 +221,7 @@ void WAnimParamsEditor::SetupUI()
         for (u32 iBox = 1; iBox < 4; iBox++)
         {
             mpSpinBoxes[iBox] = new WIntegralSpinBox(this);
-            mpSpinBoxes[iBox]->setRange(-2147483648, 2147483647);
+            mpSpinBoxes[iBox]->setRange(INT32_MIN, INT32_MAX);
             mpSpinBoxes[iBox]->setFocusPolicy(Qt::StrongFocus);
             mpSpinBoxes[iBox]->setContextMenuPolicy(Qt::NoContextMenu);
             mpSpinBoxes[iBox]->setValue(mParams.Unknown(iBox));

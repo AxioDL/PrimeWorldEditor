@@ -43,13 +43,11 @@ void CCollisionNode::Draw(ERenderOptions)
     mpCollision->DrawWireframe();
 }
 
-void CCollisionNode::DrawAsset(ERenderOptions, u32)
+void CCollisionNode::DrawAsset(ERenderOptions /*Options*/, u32 /*asset*/)
 {
-    // Not using parameter 1 (ERenderOptions - Options)
-    // Not using parameter 2 (u32 - asset)
 }
 
-SRayIntersection CCollisionNode::RayNodeIntersectTest(const CRay &Ray, u32 AssetID, ERenderOptions options)
+SRayIntersection CCollisionNode::RayNodeIntersectTest(const CRay& /*Ray*/, u32 /*AssetID*/, ERenderOptions /*options*/)
 {
     // todo
     SRayIntersection Result;

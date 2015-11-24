@@ -261,7 +261,7 @@ u32 CTexture::FormatBPP(ETexelFormat Format)
 void CTexture::CalcLinearSize()
 {
     float BytesPerPixel = FormatBPP(mTexelFormat) / 8.f;
-    mLinearSize = mWidth * mHeight * BytesPerPixel;
+    mLinearSize = (u32) (mWidth * mHeight * BytesPerPixel);
 }
 
 u32 CTexture::CalcTotalSize()
@@ -272,7 +272,7 @@ u32 CTexture::CalcTotalSize()
 
     for (u32 iMip = 0; iMip < mNumMipMaps; iMip++)
     {
-        Size += MipW * MipH * BytesPerPixel;
+        Size += (u32) (MipW * MipH * BytesPerPixel);
         MipW /= 2;
         MipH /= 2;
     }
@@ -310,7 +310,7 @@ void CTexture::CopyGLBuffer()
 
         glGetTexImage(GL_TEXTURE_2D, iMip, GL_RGBA, GL_UNSIGNED_BYTE, pData);
 
-        MipOffset += MipW * MipH * BytesPerPixel;
+        MipOffset += (u32) (MipW * MipH * BytesPerPixel);
         MipW /= 2;
         MipH /= 2;
     }

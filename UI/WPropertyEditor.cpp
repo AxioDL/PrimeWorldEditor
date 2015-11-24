@@ -38,7 +38,7 @@ WPropertyEditor::~WPropertyEditor()
 
 }
 
-void WPropertyEditor::resizeEvent(QResizeEvent *pEvent)
+void WPropertyEditor::resizeEvent(QResizeEvent* /*pEvent*/)
 {
     CreateLabelText();
 }
@@ -127,7 +127,7 @@ void WPropertyEditor::CreateEditor()
         CLongProperty *pLongCast = static_cast<CLongProperty*>(mpProperty);
         QSpinBox *pSpinBox = new WIntegralSpinBox(this);
 
-        pSpinBox->setRange(-2147483648, 2147483647);
+        pSpinBox->setRange(INT32_MIN, INT32_MAX);
         pSpinBox->setFocusPolicy(Qt::StrongFocus);
         pSpinBox->setContextMenuPolicy(Qt::NoContextMenu);
         pSpinBox->setValue(pLongCast->Get());

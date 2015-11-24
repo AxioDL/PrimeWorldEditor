@@ -353,8 +353,7 @@ CMaterial* CMaterialLoader::ReadCorruptionMaterial()
 
             if (AnimSize > 0)
             {
-                u16 Unknown1 = mpFile->ReadShort();
-                u16 Unknown2 = mpFile->ReadShort();
+                mpFile->Seek(0x4, SEEK_CUR);
                 pPass->mAnimMode = (EUVAnimMode) mpFile->ReadLong();
 
                 switch (pPass->mAnimMode)

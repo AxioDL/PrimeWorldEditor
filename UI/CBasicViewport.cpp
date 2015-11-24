@@ -106,7 +106,7 @@ void CBasicViewport::mouseReleaseEvent(QMouseEvent *pEvent)
         OnMouseRelease(pEvent);
 }
 
-void CBasicViewport::mouseMoveEvent(QMouseEvent *pEvent)
+void CBasicViewport::mouseMoveEvent(QMouseEvent* /*pEvent*/)
 {
     // todo: draggable selection rectangle
 }
@@ -259,7 +259,7 @@ void CBasicViewport::Render()
 }
 
 // ************ PRIVATE ************
-void CBasicViewport::ProcessInput(double DeltaTime)
+void CBasicViewport::ProcessInput(double /*DeltaTime*/)
 {
 }
 

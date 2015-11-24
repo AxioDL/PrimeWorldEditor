@@ -153,7 +153,7 @@ void CSceneViewport::Paint()
     mpRenderer->EndFrame();
 }
 
-void CSceneViewport::ContextMenu(QContextMenuEvent *pEvent)
+void CSceneViewport::ContextMenu(QContextMenuEvent* /*pEvent*/)
 {
 }
 

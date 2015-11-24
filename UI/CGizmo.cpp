@@ -169,7 +169,7 @@ bool CGizmo::CheckSelectedAxes(const CRay &ray)
             {
                 // Skip surface/box check - since we use lines the boxes might be too small
                 SSurface *pSurf = pModel->GetSurface(iSurf);
-                std::pair<bool,float> surfCheck = pSurf->IntersectsRay(partRay, 0.05f);
+                std::pair<bool,float> surfCheck = pSurf->IntersectsRay(partRay, false, 0.05f);
 
                 if (surfCheck.first)
                 {

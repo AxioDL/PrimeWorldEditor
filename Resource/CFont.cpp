@@ -28,11 +28,9 @@ inline float PtsToFloat(s32 pt)
     return 0.00208333f * pt;
 }
 
-CVector2f CFont::RenderString(const TString& String, CRenderer *pRenderer, float,
-                              CVector2f, CColor FillColor, CColor StrokeColor, u32 FontSize)
+CVector2f CFont::RenderString(const TString& String, CRenderer* /*pRenderer*/, float /*AspectRatio*/,
+                              CVector2f /*Position*/, CColor FillColor, CColor StrokeColor, u32 FontSize)
 {
-    // Not using parameter 3 (float - AspectRatio)
-    // Not using parameter 4 (CVector2f - Position)
     // WIP
     if (!smBuffersInitialized) InitBuffers();
 

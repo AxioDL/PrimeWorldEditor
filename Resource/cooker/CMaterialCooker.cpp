@@ -188,7 +188,7 @@ void CMaterialCooker::WriteMaterialPrime(COutputStream& Out)
 
     // Color Channels
     Out.WriteLong(1);
-    Out.WriteLong(0x3000 | mpMat->IsLightingEnabled());
+    Out.WriteLong(0x3000 | (mpMat->IsLightingEnabled() ? 1 : 0));
 
     // TEV
     u32 NumPasses = mpMat->PassCount();
@@ -235,7 +235,7 @@ void CMaterialCooker::WriteMaterialPrime(COutputStream& Out)
         }
 
         else
-            Out.WriteShort(0xFFFF);
+            Out.WriteShort((u16) 0xFFFF);
     }
 
     // TexGen

@@ -60,7 +60,7 @@ void CModelCooker::GenerateSurfaceData()
     mNumVertices = mVertices.size();
 }
 
-void CModelCooker::WriteEditorModel(COutputStream& Out)
+void CModelCooker::WriteEditorModel(COutputStream& /*Out*/)
 {
 }
 
@@ -155,7 +155,7 @@ void CModelCooker::WriteModelPrime(COutputStream& Out)
 
         pSurface->CenterPoint.Write(Out);
         Out.WriteLong(pSurface->MaterialID);
-        Out.WriteShort(0x8000);
+        Out.WriteShort((u16) 0x8000);
         u32 PrimTableSizeOffset = Out.Tell();
         Out.WriteShort(0);
         Out.WriteLongLong(0);
@@ -183,7 +183,7 @@ void CModelCooker::WriteModelPrime(COutputStream& Out)
                             Out.WriteByte(pVert->MatrixIndices[iMtxAttribs]);
                 }
 
-                u16 VertexIndex = pVert->ArrayPosition;
+                u16 VertexIndex = (u16) pVert->ArrayPosition;
 
                 if (MatAttribs & ePosition)
                     Out.WriteShort(VertexIndex);
@@ -203,7 +203,7 @@ void CModelCooker::WriteModelPrime(COutputStream& Out)
                     if (MatAttribs & (eTex0 << (iTex * 2)))
                     {
                         Out.WriteShort(VertexIndex + TexOffset);
-                        TexOffset += mNumVertices;
+                        TexOffset += (u16) mNumVertices;
                     }
                 }
             }
@@ -249,7 +249,7 @@ void CModelCooker::WriteCookedModel(CModel *pModel, EGame Version, COutputStream
     }
 }
 
-void CModelCooker::WriteUncookedModel(CModel *pModel, COutputStream& EMDL)
+void CModelCooker::WriteUncookedModel(CModel* /*pModel*/, COutputStream& /*EMDL*/)
 {
 }
 

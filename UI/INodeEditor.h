@@ -64,7 +64,7 @@ public slots:
     void OnGizmoMoved();
 
 protected:
-    virtual void GizmoModeChanged(CGizmo::EGizmoMode mode) {}
+    virtual void GizmoModeChanged(CGizmo::EGizmoMode /*mode*/) {}
 
 private slots:
     void OnSelectObjectsTriggered();

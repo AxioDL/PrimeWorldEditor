@@ -43,27 +43,27 @@ QVariant CLayersInstanceModel::headerData(int section, Qt::Orientation orientati
     return QVariant::Invalid;
 }
 
-QModelIndex CLayersInstanceModel::index(int row, int column, const QModelIndex &parent) const
+QModelIndex CLayersInstanceModel::index(int /*row*/, int /*column*/, const QModelIndex& /*parent*/) const
 {
     return QModelIndex();
 }
 
-QModelIndex CLayersInstanceModel::parent(const QModelIndex &child) const
+QModelIndex CLayersInstanceModel::parent(const QModelIndex& /*child*/) const
 {
     return QModelIndex();
 }
 
-int CLayersInstanceModel::rowCount(const QModelIndex &parent) const
+int CLayersInstanceModel::rowCount(const QModelIndex& /*parent*/) const
 {
     return 0;
 }
 
-int CLayersInstanceModel::columnCount(const QModelIndex &parent) const
+int CLayersInstanceModel::columnCount(const QModelIndex& /*parent*/) const
 {
     return 3;
 }
 
-QVariant CLayersInstanceModel::data(const QModelIndex &index, int role) const
+QVariant CLayersInstanceModel::data(const QModelIndex& /*index*/, int /*role*/) const
 {
     return QVariant::Invalid;
 }
@@ -75,22 +75,22 @@ void CLayersInstanceModel::SetEditor(CWorldEditor *pEditor)
     mpArea = (pEditor ? pEditor->ActiveArea() : nullptr);
 }
 
-void CLayersInstanceModel::NodeCreated(CSceneNode *pNode)
+void CLayersInstanceModel::NodeCreated(CSceneNode* /*pNode*/)
 {
     emit layoutChanged();
 }
 
-void CLayersInstanceModel::NodeDeleted(CSceneNode *pNode)
+void CLayersInstanceModel::NodeDeleted(CSceneNode* /*pNode*/)
 {
     emit layoutChanged();
 }
 
-CScriptLayer* CLayersInstanceModel::IndexLayer(const QModelIndex& index) const
+CScriptLayer* CLayersInstanceModel::IndexLayer(const QModelIndex& /*index*/) const
 {
     return nullptr;
 }
 
-CScriptObject* CLayersInstanceModel::IndexObject(const QModelIndex& index) const
+CScriptObject* CLayersInstanceModel::IndexObject(const QModelIndex& /*index*/) const
 {
     return nullptr;
 }

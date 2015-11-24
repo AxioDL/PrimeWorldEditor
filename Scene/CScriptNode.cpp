@@ -341,7 +341,7 @@ void CScriptNode::GeneratePosition()
                 }
             }
 
-            mPosition = NewPos / NumLinks;
+            mPosition = NewPos / (float) NumLinks;
             mPosition.x += 2.f;
         }
 

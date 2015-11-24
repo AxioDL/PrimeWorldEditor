@@ -63,7 +63,7 @@ void CLightNode::DrawAsset(ERenderOptions, u32)
     // Not using parameter 2 (u32 - asset)
 }
 
-SRayIntersection CLightNode::RayNodeIntersectTest(const CRay &Ray, u32 AssetID, ERenderOptions options)
+SRayIntersection CLightNode::RayNodeIntersectTest(const CRay& Ray, u32 /*AssetID*/, ERenderOptions options)
 {
     // Needs redo if I ever make these look like something other than boxes
     bool allowBackfaces = ((options & eEnableBackfaceCull) == 0);

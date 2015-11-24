@@ -80,7 +80,7 @@ CModel* CAnimationParameters::GetCurrentModel(s32 nodeIndex)
     if (nodeIndex == -1) nodeIndex = mNodeIndex;
 
     CAnimSet *pSet = static_cast<CAnimSet*>(mpCharSet);
-    if (pSet->getNodeCount() <= nodeIndex) return nullptr;
+    if (pSet->getNodeCount() <= (u32) nodeIndex) return nullptr;
     return pSet->getNodeModel(nodeIndex);
 }
 

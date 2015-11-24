@@ -340,16 +340,16 @@ void CModelEditorWindow::UpdateMaterial()
     if (!mpCurrentMat) return;
     if (mIgnoreSignals) return;
 
-    EModelEditorWidget Widget = (EModelEditorWidget) sender()->property("ModelEditorWidgetType").toInt();
+    /*EModelEditorWidget Widget = (EModelEditorWidget) sender()->property("ModelEditorWidgetType").toInt();
 
     switch (Widget)
     {
-    /*case eAddPassButton:
+    case eAddPassButton:
         break;
 
     case eDeletePassButton:
-        break;*/
-    }
+        break;
+    }*/
 }
 
 void CModelEditorWindow::UpdateMaterial(int Value)

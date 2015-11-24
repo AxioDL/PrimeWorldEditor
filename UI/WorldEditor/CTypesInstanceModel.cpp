@@ -86,7 +86,7 @@ QModelIndex CTypesInstanceModel::index(int row, int column, const QModelIndex &p
             if (mModelType == eLayers)
             {
                 CScriptLayer *pLayer = mpArea->GetScriptLayer(parent.row());
-                if (row >= pLayer->GetNumObjects())
+                if ((u32) row >= pLayer->GetNumObjects())
                     return QModelIndex();
                 else
                     return createIndex(row, column, (*pLayer)[row]);
@@ -95,7 +95,7 @@ QModelIndex CTypesInstanceModel::index(int row, int column, const QModelIndex &p
             else if (mModelType == eTypes)
             {
                 const std::list<CScriptObject*>& list = mTemplateList[parent.row()]->ObjectList();
-                if (row >= list.size())
+                if ((u32) row >= list.size())
                     return QModelIndex();
                 else
                 {
@@ -146,7 +146,7 @@ QModelIndex CTypesInstanceModel::parent(const QModelIndex &child) const
         {
             CScriptTemplate *pTemp = pObj->Template();
 
-            for (u32 iTemp = 0; iTemp < mTemplateList.size(); iTemp++)
+            for (int iTemp = 0; iTemp < mTemplateList.size(); iTemp++)
             {
                 if (mTemplateList[iTemp] == pTemp)
                     return createIndex(iTemp, 0, (iTemp << TYPES_ROW_INDEX_SHIFT) | 1);
@@ -193,7 +193,7 @@ int CTypesInstanceModel::rowCount(const QModelIndex &parent) const
         return 0;
 }
 
-int CTypesInstanceModel::columnCount(const QModelIndex &parent) const
+int CTypesInstanceModel::columnCount(const QModelIndex& /*parent*/) const
 {
     return 3;
 }

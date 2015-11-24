@@ -17,7 +17,7 @@ void WIntegralSpinBox::wheelEvent(QWheelEvent *pEvent)
     else QSpinBox::wheelEvent(pEvent);
 }
 
-bool WIntegralSpinBox::eventFilter(QObject *pObj, QEvent *pEvent)
+bool WIntegralSpinBox::eventFilter(QObject* /*pObj*/, QEvent *pEvent)
 {
     if (pEvent->type() == QEvent::MouseButtonPress)
         setFocus();

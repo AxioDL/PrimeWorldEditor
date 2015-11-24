@@ -7,7 +7,11 @@ namespace Log
 {
 
 static const TString gskLogFilename = "primeworldeditor.log";
+
+#pragma warning(push)
+#pragma warning(disable: 4996) // Can't use fopen_s here without creating a separate init function for the log
 FILE *gpLogFile = fopen(*gskLogFilename, "w");
+#pragma warning(pop)
 
 void Write(const TString& message)
 {
@@ -16,9 +20,11 @@ void Write(const TString& message)
         time_t RawTime;
         time(&RawTime);
 
-        tm *pTimeInfo = localtime(&RawTime);
+        tm pTimeInfo;
+        localtime_s(&pTimeInfo, &RawTime);
+
         char Buffer[80];
-        strftime(Buffer, 80, "[%H:%M:%S]", pTimeInfo);
+        strftime(Buffer, 80, "[%H:%M:%S]", &pTimeInfo);
 
         fprintf(gpLogFile, "%s %s\n", Buffer, *message);
         fflush(gpLogFile);

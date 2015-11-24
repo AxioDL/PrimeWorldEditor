@@ -34,7 +34,7 @@ int CLinkModel::rowCount(const QModelIndex&) const
     else return 0;
 }
 
-int CLinkModel::columnCount(const QModelIndex &parent) const
+int CLinkModel::columnCount(const QModelIndex& /*parent*/) const
 {
     return 3;
 }

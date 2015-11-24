@@ -98,7 +98,7 @@ void CMaterialPass::SetAnimCurrent(ERenderOptions Options, u32 PassIndex)
     case eInverseMV: // Mode 0
     case eSimpleMode: // Mode 10 - maybe not correct?
     {
-        glm::mat4 mtx = glm::inverse(glm::transpose(CGraphics::sMVPBlock.ViewMatrix.ToGlmMat4()) * glm::transpose(CGraphics::sMVPBlock.ModelMatrix.ToGlmMat4()));
+        glm::mat4 mtx = glm::inverse(glm::transpose(ViewMtx.ToGlmMat4()) * glm::transpose(ModelMtx.ToGlmMat4()));
         mtx[0][3] = mtx[1][3] = mtx[2][3] = 0.f;
         TexMtx  = CMatrix4f::FromGlmMat4(mtx);
         PostMtx = CMatrix4f(0.5f, 0.0f, 0.0f, 0.5f,
@@ -110,7 +110,7 @@ void CMaterialPass::SetAnimCurrent(ERenderOptions Options, u32 PassIndex)
 
     case eInverseMVTranslated: // Mode 1
     {
-        glm::mat4 mtx = glm::inverse(glm::transpose(CGraphics::sMVPBlock.ViewMatrix.ToGlmMat4()) * glm::transpose(CGraphics::sMVPBlock.ModelMatrix.ToGlmMat4()));
+        glm::mat4 mtx = glm::inverse(glm::transpose(ViewMtx.ToGlmMat4()) * glm::transpose(ModelMtx.ToGlmMat4()));
         TexMtx  = CMatrix4f::FromGlmMat4(mtx);
         PostMtx = CMatrix4f(0.5f, 0.0f, 0.0f, 0.5f,
                             0.0f, 0.5f, 0.0f, 0.5f,
@@ -163,7 +163,7 @@ void CMaterialPass::SetAnimCurrent(ERenderOptions Options, u32 PassIndex)
     case eModelMatrix: // Mode 6
     {
         // It looks ok, but I can't tell whether it's correct...
-        TexMtx  = CMatrix4f::FromGlmMat4(glm::transpose(CGraphics::sMVPBlock.ModelMatrix.ToGlmMat4()));
+        TexMtx  = CMatrix4f::FromGlmMat4(glm::transpose(ModelMtx.ToGlmMat4()));
         PostMtx = CMatrix4f(0.5f, 0.0f, 0.0f, TexMtx[0][3] * 0.50000001f,
                             0.0f, 0.5f, 0.0f, TexMtx[1][3] * 0.50000001f,
                             0.0f, 0.0f, 0.0f, 1.0f,
@@ -178,7 +178,7 @@ void CMaterialPass::SetAnimCurrent(ERenderOptions Options, u32 PassIndex)
         CMatrix4f view = CGraphics::sMVPBlock.ViewMatrix;
 
         // Oh god I seriously need a CMatrix4f inverse function.
-        glm::mat4 mtx = glm::inverse(glm::transpose(CGraphics::sMVPBlock.ViewMatrix.ToGlmMat4()) * glm::transpose(CGraphics::sMVPBlock.ModelMatrix.ToGlmMat4()));
+        glm::mat4 mtx = glm::inverse(glm::transpose(ViewMtx.ToGlmMat4()) * glm::transpose(ModelMtx.ToGlmMat4()));
         mtx[0][3] = mtx[1][3] = mtx[2][3] = 0.f;
         TexMtx  = CMatrix4f::FromGlmMat4(mtx);
 

@@ -11,7 +11,7 @@ CLayerModel::~CLayerModel()
 {
 }
 
-int CLayerModel::rowCount(const QModelIndex &parent) const
+int CLayerModel::rowCount(const QModelIndex& /*parent*/) const
 {
     if (!mpArea) return 0;
     if (mHasGenerateLayer) return mpArea->GetScriptLayerCount() + 1;
@@ -38,7 +38,7 @@ CScriptLayer* CLayerModel::Layer(const QModelIndex& index) const
     if (!mpArea) return nullptr;
     u32 NumLayers = mpArea->GetScriptLayerCount();
 
-    if (index.row() < NumLayers)
+    if (index.row() < (int) NumLayers)
         return mpArea->GetScriptLayer(index.row());
     if (mHasGenerateLayer && (index.row() == NumLayers))
         return mpArea->GetGeneratorLayer();

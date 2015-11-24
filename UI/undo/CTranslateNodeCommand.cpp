@@ -52,7 +52,7 @@ bool CTranslateNodeCommand::mergeWith(const QUndoCommand *other)
 
         if ((mpEditor == pCmd->mpEditor) && (mNodeList.size() == pCmd->mNodeList.size()))
         {
-            for (u32 iNode = 0; iNode < mNodeList.size(); iNode++)
+            for (int iNode = 0; iNode < mNodeList.size(); iNode++)
                 mNodeList[iNode].newPos = pCmd->mNodeList[iNode].newPos;
 
             return true;

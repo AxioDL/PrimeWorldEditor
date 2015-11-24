@@ -86,7 +86,7 @@ bool WResourceSelector::event(QEvent *pEvent)
     return false;
 }
 
-bool WResourceSelector::eventFilter(QObject *pObj, QEvent *pEvent)
+bool WResourceSelector::eventFilter(QObject* /*pObj*/, QEvent *pEvent)
 {
     if (pEvent->type() == QEvent::MouseMove)
         if (mEnablePreviewPanel)
@@ -211,7 +211,7 @@ void WResourceSelector::OnBrowseButtonClicked()
     {
         QString all = "All allowed extensions (";
 
-        for (u32 iExt = 0; iExt < mSupportedExtensions.size(); iExt++)
+        for (int iExt = 0; iExt < mSupportedExtensions.size(); iExt++)
         {
             if (iExt > 0) all += " ";
             all += "*." + mSupportedExtensions[iExt];
@@ -220,7 +220,7 @@ void WResourceSelector::OnBrowseButtonClicked()
         filter += all + ";;";
     }
 
-    for (u32 iExt = 0; iExt < mSupportedExtensions.size(); iExt++)
+    for (int iExt = 0; iExt < mSupportedExtensions.size(); iExt++)
     {
         if (iExt > 0) filter += ";;";
         filter += UICommon::ExtensionFilterString(mSupportedExtensions[iExt]);

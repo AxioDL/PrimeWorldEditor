@@ -270,7 +270,7 @@ CPropertyTemplate* CTemplateLoader::LoadPropertyTemplate(tinyxml2::XMLElement *p
 }
 
 // ************ SCRIPT OBJECT ************
-CScriptTemplate* CTemplateLoader::LoadScriptTemplate(tinyxml2::XMLDocument *pDoc, const TString& templateName, u32 objectID)
+CScriptTemplate* CTemplateLoader::LoadScriptTemplate(tinyxml2::XMLDocument *pDoc, const TString& /*templateName*/, u32 objectID)
 {
     CScriptTemplate *pScript = new CScriptTemplate(mpMaster);
     pScript->mObjectID = objectID;

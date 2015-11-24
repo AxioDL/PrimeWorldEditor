@@ -12,6 +12,7 @@ CONFIG += console
 
 TARGET = PrimeWorldEditor
 TEMPLATE = app
+QMAKE_CXXFLAGS += /WX
 
 SOURCES += \
     Common/AnimUtil.cpp \
@@ -58,7 +59,6 @@ SOURCES += \
     Scene/CModelNode.cpp \
     Scene/CSceneNode.cpp \
     Scene/CStaticNode.cpp \
-    UI/CWorldEditorWindow.cpp \
     UI/CStartWindow.cpp \
     Resource/script/CScriptTemplate.cpp \
     Resource/script/CScriptLayer.cpp \
@@ -178,7 +178,6 @@ HEADERS  += \
     OpenGL/CShaderGenerator.h \
     OpenGL/CVertexBuffer.h \
     OpenGL/GLCommon.h \
-    UI/CWorldEditorWindow.h \
     UI/PWEMaterialEditor.h \
     UI/CStartWindow.h \
     Resource/CCollisionMesh.h \
@@ -325,7 +324,6 @@ HEADERS  += \
     Core/CLightParameters.h
 
 FORMS    += \
-    UI/CWorldEditorWindow.ui \
     UI/CStartWindow.ui \
     UI/CModelEditorWindow.ui \
     UI/TestDialog.ui \

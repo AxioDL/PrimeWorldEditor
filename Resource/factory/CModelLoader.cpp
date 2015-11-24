@@ -330,7 +330,7 @@ SSurface* CModelLoader::LoadAssimpMesh(const aiMesh *pMesh, CMaterialSet *pSet)
         pSurf->CenterPoint = pSurf->AABox.Center();
 
         if (pMesh->HasNormals())
-            pSurf->ReflectionDirection /= pMesh->mNumVertices;
+            pSurf->ReflectionDirection /= (float) pMesh->mNumVertices;
         else
             pSurf->ReflectionDirection = CVector3f(1.f, 0.f, 0.f);
 

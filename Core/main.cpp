@@ -3,6 +3,7 @@
 #include <QStyleFactory>
 #include <UI/CDarkStyle.h>
 #include <Resource/factory/CTemplateLoader.h>
+#include <Common/TString.h>
 
 int main(int argc, char *argv[])
 {

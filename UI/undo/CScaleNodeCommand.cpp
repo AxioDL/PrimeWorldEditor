@@ -9,7 +9,7 @@ CScaleNodeCommand::CScaleNodeCommand()
 {
 }
 
-CScaleNodeCommand::CScaleNodeCommand(INodeEditor *pEditor, const QList<CSceneNode*>& nodes, const CVector3f& pivot, const CVector3f& delta)
+CScaleNodeCommand::CScaleNodeCommand(INodeEditor *pEditor, const QList<CSceneNode*>& nodes, const CVector3f& /*pivot*/, const CVector3f& delta)
     : QUndoCommand("Scale"),
       mpEditor(pEditor),
       mCommandEnded(false)
@@ -54,7 +54,7 @@ bool CScaleNodeCommand::mergeWith(const QUndoCommand *other)
 
         if ((mpEditor == pCmd->mpEditor) && (mNodeList.size() == pCmd->mNodeList.size()))
         {
-            for (u32 iNode = 0; iNode < mNodeList.size(); iNode++)
+            for (int iNode = 0; iNode < mNodeList.size(); iNode++)
             {
                 mNodeList[iNode].newPos = pCmd->mNodeList[iNode].newPos;
                 mNodeList[iNode].newScale = pCmd->mNodeList[iNode].newScale;

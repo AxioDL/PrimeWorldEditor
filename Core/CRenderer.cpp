@@ -134,7 +134,7 @@ void CRenderer::SetBloom(EBloomMode BloomMode)
         mOptions &= ~eEnableBloom;
 }
 
-void CRenderer::SetFont(CFont *pFont)
+void CRenderer::SetFont(CFont* /*pFont*/)
 {
 }
 
@@ -199,8 +199,8 @@ void CRenderer::RenderBloom()
                                             CColor((u8) 53, 53, 53, 255),
                                             CColor((u8) 17, 17, 17, 255) };
 
-    float BloomWidth = (mBloomMode == eBloom ? mBloomWidth : mViewportWidth);
-    float BloomHeight = (mBloomMode == eBloom ? mBloomHeight : mViewportHeight);
+    u32 BloomWidth  = (mBloomMode == eBloom ? mBloomWidth  : mViewportWidth);
+    u32 BloomHeight = (mBloomMode == eBloom ? mBloomHeight : mViewportHeight);
     float BloomHScale = (mBloomMode == eBloom ? mBloomHScale : 0);
     float BloomVScale = (mBloomMode == eBloom ? mBloomVScale : 0);
 

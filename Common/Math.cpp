@@ -53,8 +53,8 @@ std::pair<bool,float> RayBoxIntersection(const CRay& Ray, const CAABox& Box)
 {
     // Code slightly modified from Ogre
     // https://github.com/ehsan/ogre/blob/master/OgreMain/src/OgreMath.cpp
-    if (Box.IsNull())     return std::pair<bool,float>(false, 0);
-    if (Box.IsInfinite()) return std::pair<bool,float>(true, 0);
+    if (Box.IsNull())     return std::pair<bool,float>(false, 0.f);
+    if (Box.IsInfinite()) return std::pair<bool,float>(true, 0.f);
 
     float lowt = 0.0f;
     float t;
@@ -68,7 +68,7 @@ std::pair<bool,float> RayBoxIntersection(const CRay& Ray, const CAABox& Box)
     // Check origin inside first
     if ( RayOrig > Min && RayOrig < Max )
     {
-        return std::pair<bool, float>(true, 0);
+        return std::pair<bool, float>(true, 0.f);
     }
 
     // Check each face in turn, only check closest 3
@@ -260,13 +260,13 @@ std::pair<bool,float> RayTriangleIntersection(const CRay& Ray,
         if (denom > + std::numeric_limits<float>::epsilon())
         {
             if (!AllowBackfaces)
-                return std::pair<bool,float>(false, 0);
+                return std::pair<bool,float>(false, 0.f);
         }
         else if (denom >= - std::numeric_limits<float>::epsilon())
         {
             // Parallel or triangle area is close to zero when
             // the plane normal not normalised.
-            return std::pair<bool,float>(false, 0);
+            return std::pair<bool,float>(false, 0.f);
         }
 
         t = FaceNormal.Dot(vtxA - Ray.Origin()) / denom;
@@ -274,7 +274,7 @@ std::pair<bool,float> RayTriangleIntersection(const CRay& Ray,
         if (t < 0)
         {
             // Intersection is behind origin
-            return std::pair<bool,float>(false, 0);
+            return std::pair<bool,float>(false, 0.f);
         }
     }
 
@@ -321,12 +321,12 @@ std::pair<bool,float> RayTriangleIntersection(const CRay& Ray,
         if (area > 0)
         {
             if (alpha < tolerance || beta < tolerance || alpha+beta > area-tolerance)
-                return std::pair<bool,float>(false, 0);
+                return std::pair<bool,float>(false, 0.f);
         }
         else
         {
             if (alpha > tolerance || beta > tolerance || alpha+beta < area-tolerance)
-                return std::pair<bool,float>(false, 0);
+                return std::pair<bool,float>(false, 0.f);
         }
     }
 

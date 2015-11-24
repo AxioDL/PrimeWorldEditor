@@ -228,7 +228,7 @@ void CWorldLoader::LoadReturnsMLVL(CInputStream& MLVL)
 {
     mpWorld->mpWorldName = (CStringTable*) gResCache.GetResource(MLVL.ReadLongLong(), "STRG");
 
-    bool Check = MLVL.ReadByte();
+    bool Check = (MLVL.ReadByte() != 0);
     if (Check)
     {
         MLVL.ReadString();

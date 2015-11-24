@@ -392,7 +392,7 @@ void CTemplateWriter::SaveEnumTemplate(CEnumTemplate *pTemp, const TString& dir)
     enumXML.LinkEndChild(pDecl);
 
     XMLElement *pBase = enumXML.NewElement("enum");
-    pBase->SetName("name", *name);
+    pBase->SetAttribute("name", *name);
     SaveEnumerators(&enumXML, pBase, pTemp);
     enumXML.LinkEndChild(pBase);
 
@@ -414,7 +414,7 @@ void CTemplateWriter::SaveBitfieldTemplate(CBitfieldTemplate *pTemp, const TStri
     bitfieldXML.LinkEndChild(pDecl);
 
     XMLElement *pBase = bitfieldXML.NewElement("bitfield");
-    pBase->SetName("name", *name);
+    pBase->SetAttribute("name", *name);
     SaveBitFlags(&bitfieldXML, pBase, pTemp);
     bitfieldXML.LinkEndChild(pBase);
 
