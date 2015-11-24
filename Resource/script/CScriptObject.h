@@ -32,8 +32,10 @@ class CScriptObject
     CBoolProperty *mpActive;
     CPropertyStruct *mpLightParameters;
     CModel *mpDisplayModel;
+    CTexture *mpBillboard;
     CCollisionMeshGroup *mpCollision;
     CToken mModelToken;
+    CToken mBillboardToken;
     CToken mCollisionToken;
     EVolumeShape mVolumeShape;
 
@@ -44,6 +46,7 @@ public:
     void CopyFromTemplate(CScriptTemplate *pTemp, u32 propCount);
     void EvaluateProperties();
     void EvaluateDisplayModel();
+    void EvaluateBillboard();
     void EvaluateCollisionModel();
 
     CScriptTemplate* Template() const;
@@ -73,6 +76,7 @@ public:
     void SetActive(bool isActive);
     CPropertyStruct* LightParameters() const;
     CModel* GetDisplayModel() const;
+    CTexture* GetBillboard() const;
     CCollisionMeshGroup* GetCollision() const;
     EVolumeShape VolumeShape() const;
 };

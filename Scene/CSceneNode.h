@@ -83,6 +83,7 @@ public:
     TString Name() const;
     CSceneNode* Parent() const;
     CSceneManager* Scene();
+    CColor TintColor() const;
     CVector3f LocalPosition() const;
     CVector3f AbsolutePosition() const;
     CQuaternion LocalRotation() const;
@@ -112,6 +113,7 @@ public:
 
     // Static
     static int NumNodes();
+    static CColor skSelectionTint;
 };
 
 // ************ INLINE FUNCTIONS ************

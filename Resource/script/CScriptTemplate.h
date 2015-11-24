@@ -48,7 +48,7 @@ private:
     struct SEditorAsset
     {
         enum {
-            eModel, eAnimParams, eCollision
+            eModel, eAnimParams, eBillboard, eCollision
         } AssetType;
 
         enum {
@@ -115,6 +115,7 @@ public:
     CBoolProperty* FindActive(CPropertyStruct *pProperties);
     CPropertyStruct* FindLightParameters(CPropertyStruct *pProperties);
     CModel* FindDisplayModel(CPropertyStruct *pProperties);
+    CTexture* FindBillboardTexture(CPropertyStruct *pProperties);
     CCollisionMeshGroup* FindCollision(CPropertyStruct *pProperties);
     bool HasPosition();
 

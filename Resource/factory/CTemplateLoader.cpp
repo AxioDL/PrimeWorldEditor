@@ -352,6 +352,8 @@ CScriptTemplate* CTemplateLoader::LoadScriptTemplate(tinyxml2::XMLDocument *pDoc
                     asset.AssetType = CScriptTemplate::SEditorAsset::eAnimParams;
                 else if (strcmp(pAsset->Name(), "model") == 0)
                     asset.AssetType = CScriptTemplate::SEditorAsset::eModel;
+                else if (strcmp(pAsset->Name(), "billboard") == 0)
+                    asset.AssetType = CScriptTemplate::SEditorAsset::eBillboard;
                 else if (strcmp(pAsset->Name(), "collision") == 0)
                     asset.AssetType = CScriptTemplate::SEditorAsset::eCollision;
                 else

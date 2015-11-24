@@ -10,6 +10,7 @@ CScriptObject::CScriptObject(CGameArea *pArea, CScriptLayer *pLayer, CScriptTemp
     mpProperties = nullptr;
     mpTemplate->AddObject(this);
     mpDisplayModel = nullptr;
+    mpBillboard = nullptr;
     mpCollision = nullptr;
 }
 
@@ -37,6 +38,7 @@ void CScriptObject::EvaluateProperties()
     mpLightParameters = mpTemplate->FindLightParameters(mpProperties);
     mVolumeShape = mpTemplate->VolumeShape(this);
     EvaluateDisplayModel();
+    EvaluateBillboard();
     EvaluateCollisionModel();
 }
 
@@ -44,6 +46,12 @@ void CScriptObject::EvaluateDisplayModel()
 {
     mpDisplayModel = mpTemplate->FindDisplayModel(mpProperties);
     mModelToken = CToken(mpDisplayModel);
+}
+
+void CScriptObject::EvaluateBillboard()
+{
+    mpBillboard = mpTemplate->FindBillboardTexture(mpProperties);
+    mBillboardToken = CToken(mpBillboard);
 }
 
 void CScriptObject::EvaluateCollisionModel()
@@ -196,6 +204,11 @@ CPropertyStruct* CScriptObject::LightParameters() const
 CModel* CScriptObject::GetDisplayModel() const
 {
     return mpDisplayModel;
+}
+
+CTexture* CScriptObject::GetBillboard() const
+{
+    return mpBillboard;
 }
 
 CCollisionMeshGroup* CScriptObject::GetCollision() const

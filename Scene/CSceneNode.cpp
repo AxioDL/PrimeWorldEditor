@@ -10,6 +10,7 @@
 #include <algorithm>
 
 u32 CSceneNode::smNumNodes = 0;
+CColor CSceneNode::skSelectionTint((u8) 156, 133, 155, 255);
 
 CSceneNode::CSceneNode(CSceneManager *pScene, CSceneNode *pParent)
 {
@@ -300,6 +301,12 @@ CSceneNode* CSceneNode::Parent() const
 CSceneManager* CSceneNode::Scene()
 {
     return mpScene;
+}
+
+CColor CSceneNode::TintColor() const
+{
+    // convenience; this is/will be a fairly common operation
+    return (IsSelected() ? skSelectionTint : CColor::skWhite);
 }
 
 CVector3f CSceneNode::LocalPosition() const

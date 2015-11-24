@@ -29,27 +29,11 @@ void CLightNode::AddToRenderer(CRenderer *pRenderer, const CFrustumPlanes& frust
     if (!frustum.BoxInFrustum(AABox())) return;
 
     pRenderer->AddOpaqueMesh(this, 0, CAABox(mPosition + 0.5f, mPosition - 0.5f), eDrawMesh);
-
-    if (IsSelected())
-        pRenderer->AddOpaqueMesh(this, 0, AABox(), eDrawSelection);
 }
 
-void CLightNode::Draw(ERenderOptions)
+void CLightNode::Draw(ERenderOptions /*Options*/)
 {
-    // Not using parameter 1 (ERenderOptions - Options)
-    glBlendFunc(GL_ONE, GL_ZERO);
-    glDepthMask(GL_TRUE);
-    LoadModelMatrix();
-    CGraphics::SetDefaultLighting();
-    CGraphics::UpdateLightBlock();
-    CGraphics::sVertexBlock.COLOR0_Amb = CVector4f(1.f);
-    CGraphics::sVertexBlock.COLOR0_Mat = CVector4f(1.f);
-    CGraphics::UpdateVertexBlock();
-
-    // Force alpha to 0 to prevent issues with bloom
-    CColor cubeColor = mpLight->GetColor();
-    cubeColor.a = 0;
-    CDrawUtil::DrawShadedCube(cubeColor);
+    CDrawUtil::DrawLightBillboard(mpLight->GetType(), mpLight->GetColor(), mPosition, mScale.xy() * CVector2f(0.75f), TintColor());
 
     // Below commented-out code is for light radius visualization as a bounding box
     /*float r = mLight->GetRadius();
@@ -57,10 +41,8 @@ void CLightNode::Draw(ERenderOptions)
     pRenderer->DrawBoundingBox(mLight->GetColor(), AABB);*/
 }
 
-void CLightNode::DrawAsset(ERenderOptions, u32)
+void CLightNode::DrawAsset(ERenderOptions /*Options*/, u32 /*asset*/)
 {
-    // Not using parameter 1 (ERenderOptions - Options)
-    // Not using parameter 2 (u32 - asset)
 }
 
 SRayIntersection CLightNode::RayNodeIntersectTest(const CRay& Ray, u32 /*AssetID*/, ERenderOptions options)

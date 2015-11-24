@@ -5,6 +5,7 @@
 #include <OpenGL/CDynamicVertexBuffer.h>
 #include <OpenGL/CIndexBuffer.h>
 #include <Resource/model/CModel.h>
+#include <Resource/CLight.h>
 
 class CDrawUtil
 {
@@ -37,6 +38,8 @@ class CDrawUtil
     // Shaders
     static CShader *mpColorShader;
     static CShader *mpColorShaderLighting;
+    static CShader *mpBillboardShader;
+    static CShader *mpLightBillboardShader;
     static CShader *mpTextureShader;
     static CShader *mpCollisionShader;
     static CShader *mpTextShader;
@@ -45,33 +48,50 @@ class CDrawUtil
     static CTexture *mpCheckerTexture;
     static CToken mCheckerTextureToken;
 
+    static CTexture *mpLightTextures[4];
+    static CTexture *mpLightMasks[4];
+    static CToken mLightTextureTokens[8];
+
     // Have all the above members been initialized?
     static bool mDrawUtilInitialized;
 
 public:
     static void DrawGrid();
+
     static void DrawSquare();
     static void DrawSquare(const CVector2f& TexUL, const CVector2f& TexUR, const CVector2f& TexBR, const CVector2f& TexBL);
     static void DrawSquare(const float *pTexCoords);
+
     static void DrawLine(const CVector3f& PointA, const CVector3f& PointB);
     static void DrawLine(const CVector2f& PointA, const CVector2f& PointB);
     static void DrawLine(const CVector3f& PointA, const CVector3f& PointB, const CColor& LineColor);
     static void DrawLine(const CVector2f& PointA, const CVector2f& PointB, const CColor& LineColor);
+
     static void DrawCube();
     static void DrawCube(const CColor& Color);
     static void DrawCube(const CVector3f& Position, const CColor& Color);
     static void DrawShadedCube(const CColor& Color);
+
     static void DrawWireCube();
     static void DrawWireCube(const CAABox& AABox, const CColor& Color);
+
     static void DrawSphere(bool DoubleSided = false);
     static void DrawSphere(const CColor& Color);
+
+    static void DrawBillboard(CTexture* pTexture, const CVector3f& Position, const CVector2f& Scale = CVector2f::skOne, const CColor& Tint = CColor::skWhite);
+
+    static void DrawLightBillboard(ELightType Type, const CColor& LightColor, const CVector3f& Position, const CVector2f& Scale = CVector2f::skOne, const CColor& Tint = CColor::skWhite);
+
     static void UseColorShader(const CColor& Color);
     static void UseColorShaderLighting(const CColor& Color);
     static void UseTextureShader();
     static void UseTextureShader(const CColor& TintColor);
     static void UseCollisionShader();
+
     static CShader* GetTextShader();
     static void LoadCheckerboardTexture(u32 GLTextureUnit);
+    static CTexture* GetLightTexture(ELightType Type);
+    static CTexture* GetLightMask(ELightType Type);
     static CModel* GetCubeModel();
 
 private:

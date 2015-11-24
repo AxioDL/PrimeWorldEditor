@@ -269,6 +269,7 @@ void CTemplateWriter::SaveScriptTemplate(CScriptTemplate *pTemp, const TString& 
         {
         case CScriptTemplate::SEditorAsset::eModel:      type = "model"; break;
         case CScriptTemplate::SEditorAsset::eAnimParams: type = "animparams"; break;
+        case CScriptTemplate::SEditorAsset::eBillboard:  type = "billboard"; break;
         case CScriptTemplate::SEditorAsset::eCollision:  type = "collision"; break;
         }
 

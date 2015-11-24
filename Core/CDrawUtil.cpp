@@ -28,12 +28,18 @@ CToken CDrawUtil::mDoubleSidedSphereToken;
 
 CShader *CDrawUtil::mpColorShader;
 CShader *CDrawUtil::mpColorShaderLighting;
+CShader *CDrawUtil::mpBillboardShader;
+CShader *CDrawUtil::mpLightBillboardShader;
 CShader *CDrawUtil::mpTextureShader;
 CShader *CDrawUtil::mpCollisionShader;
 CShader *CDrawUtil::mpTextShader;
 
 CTexture *CDrawUtil::mpCheckerTexture;
 CToken CDrawUtil::mCheckerTextureToken;
+
+CTexture *CDrawUtil::mpLightTextures[4];
+CTexture *CDrawUtil::mpLightMasks[4];
+CToken CDrawUtil::mLightTextureTokens[8];
 
 bool CDrawUtil::mDrawUtilInitialized = false;
 
@@ -193,6 +199,79 @@ void CDrawUtil::DrawSphere(const CColor &kColor)
     DrawSphere(false);
 }
 
+void CDrawUtil::DrawBillboard(CTexture* pTexture, const CVector3f& Position, const CVector2f& Scale /*= CVector2f::skOne*/, const CColor& Tint /*= CColor::skWhite*/)
+{
+    Init();
+
+    // Create translation-only model matrix
+    CGraphics::sMVPBlock.ModelMatrix = CTransform4f::TranslationMatrix(Position).ToMatrix4f();
+    CGraphics::UpdateMVPBlock();
+
+    // Set uniforms
+    mpBillboardShader->SetCurrent();
+
+    GLuint ScaleLoc = mpBillboardShader->GetUniformLocation("BillboardScale");
+    glUniform2f(ScaleLoc, Scale.x, Scale.y);
+
+    GLuint TintLoc = mpBillboardShader->GetUniformLocation("TintColor");
+    CVector4f Tint4f = Tint.ToVector4f();
+    glUniform4f(TintLoc, Tint4f.x, Tint4f.y, Tint4f.z, Tint4f.w);
+
+    pTexture->Bind(0);
+
+    // Set other properties
+    CMaterial::KillCachedMaterial();
+    glBlendFunc(GL_ONE, GL_ZERO);
+    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+    glDepthMask(GL_TRUE);
+
+    // Draw
+    DrawSquare();
+}
+
+void CDrawUtil::DrawLightBillboard(ELightType Type, const CColor& LightColor, const CVector3f& Position, const CVector2f& Scale /*= CVector2f::skOne*/, const CColor& Tint /*= CColor::skWhite*/)
+{
+    Init();
+
+    // Create translation-only model matrix
+    CGraphics::sMVPBlock.ModelMatrix = CTransform4f::TranslationMatrix(Position).ToMatrix4f();
+    CGraphics::UpdateMVPBlock();
+
+    // Set uniforms
+    mpLightBillboardShader->SetCurrent();
+
+    GLuint ScaleLoc = mpLightBillboardShader->GetUniformLocation("BillboardScale");
+    glUniform2f(ScaleLoc, Scale.x, Scale.y);
+
+    GLuint ColorLoc = mpLightBillboardShader->GetUniformLocation("LightColor");
+    CVector4f Color4f = LightColor.ToVector4f();
+    glUniform4f(ColorLoc, Color4f.x, Color4f.y, Color4f.z, Color4f.w);
+
+    GLuint TintLoc = mpLightBillboardShader->GetUniformLocation("TintColor");
+    CVector4f Tint4f = Tint.ToVector4f();
+    glUniform4f(TintLoc, Tint4f.x, Tint4f.y, Tint4f.z, Tint4f.w);
+
+    CTexture *pTexA = GetLightTexture(Type);
+    CTexture *pTexB = GetLightMask(Type);
+    pTexA->Bind(0);
+    pTexB->Bind(1);
+
+    GLuint TextureLoc = mpLightBillboardShader->GetUniformLocation("Texture");
+    GLuint MaskLoc    = mpLightBillboardShader->GetUniformLocation("LightMask");
+    glUniform1i(TextureLoc, 0);
+    glUniform1i(MaskLoc, 1);
+
+    // Set other properties
+    CMaterial::KillCachedMaterial();
+    glBlendFunc(GL_ONE, GL_ZERO);
+    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+    glDepthMask(GL_TRUE);
+
+    // Draw
+    DrawSquare();
+
+}
+
 void CDrawUtil::UseColorShader(const CColor& kColor)
 {
     Init();
@@ -256,6 +335,18 @@ void CDrawUtil::LoadCheckerboardTexture(u32 GLTextureUnit)
 {
     Init();
     mpCheckerTexture->Bind(GLTextureUnit);
+}
+
+CTexture* CDrawUtil::GetLightTexture(ELightType Type)
+{
+    Init();
+    return mpLightTextures[Type];
+}
+
+CTexture* CDrawUtil::GetLightMask(ELightType Type)
+{
+    Init();
+    return mpLightMasks[Type];
 }
 
 CModel* CDrawUtil::GetCubeModel()
@@ -420,18 +511,36 @@ void CDrawUtil::InitSphere()
 void CDrawUtil::InitShaders()
 {
     Log::Write("Creating shaders");
-    mpColorShader         = CShader::FromResourceFile("ColorShader");
-    mpColorShaderLighting = CShader::FromResourceFile("ColorShaderLighting");
-    mpTextureShader       = CShader::FromResourceFile("TextureShader");
-    mpCollisionShader     = CShader::FromResourceFile("CollisionShader");
-    mpTextShader          = CShader::FromResourceFile("TextShader");
+    mpColorShader          = CShader::FromResourceFile("ColorShader");
+    mpColorShaderLighting  = CShader::FromResourceFile("ColorShaderLighting");
+    mpBillboardShader      = CShader::FromResourceFile("BillboardShader");
+    mpLightBillboardShader = CShader::FromResourceFile("LightBillboardShader");
+    mpTextureShader        = CShader::FromResourceFile("TextureShader");
+    mpCollisionShader      = CShader::FromResourceFile("CollisionShader");
+    mpTextShader           = CShader::FromResourceFile("TextShader");
 }
 
 void CDrawUtil::InitTextures()
 {
-    Log::Write("Loading checkerboard texture");
+    Log::Write("Loading textures");
     mpCheckerTexture = (CTexture*) gResCache.GetResource("../resources/Checkerboard.txtr");
     mCheckerTextureToken = CToken(mpCheckerTexture);
+
+    mpLightTextures[0] = (CTexture*) gResCache.GetResource("../resources/LightAmbient.txtr");
+    mpLightTextures[1] = (CTexture*) gResCache.GetResource("../resources/LightDirectional.txtr");
+    mpLightTextures[2] = (CTexture*) gResCache.GetResource("../resources/LightCustom.txtr");
+    mpLightTextures[3] = (CTexture*) gResCache.GetResource("../resources/LightSpot.txtr");
+
+    mpLightMasks[0] = (CTexture*) gResCache.GetResource("../resources/LightAmbientMask.txtr");
+    mpLightMasks[1] = (CTexture*) gResCache.GetResource("../resources/LightDirectionalMask.txtr");
+    mpLightMasks[2] = (CTexture*) gResCache.GetResource("../resources/LightCustomMask.txtr");
+    mpLightMasks[3] = (CTexture*) gResCache.GetResource("../resources/LightSpotMask.txtr");
+
+    for (int i = 0; i < 4; i++)
+    {
+        mLightTextureTokens[i]   = CToken(mpLightTextures[i]);
+        mLightTextureTokens[i+4] = CToken(mpLightMasks[i]);
+    }
 }
 
 void CDrawUtil::Shutdown()

@@ -11,7 +11,9 @@ class CScriptNode : public CSceneNode
 {
     CScriptObject *mpInstance;
     CModel *mpActiveModel;
+    CTexture *mpBillboard;
     CToken mModelToken;
+    CToken mBillboardToken;
     CCollisionNode *mpCollisionNode;
 
     bool mHasValidPosition;

@@ -17,6 +17,7 @@ CScriptNode::CScriptNode(CSceneManager *pScene, CSceneNode *pParent, CScriptObje
     // Evaluate instance
     mpInstance = pObject;
     mpActiveModel = nullptr;
+    mpBillboard = nullptr;
     mpCollisionNode = new CCollisionNode(pScene, this);
     mpCollisionNode->SetInheritance(true, true, false);
 
@@ -37,6 +38,9 @@ CScriptNode::CScriptNode(CSceneManager *pScene, CSceneNode *pParent, CScriptObje
         // Determine display assets
         mpActiveModel = mpInstance->GetDisplayModel();
         mModelToken = CToken(mpActiveModel);
+
+        mpBillboard = mpInstance->GetBillboard();
+        mBillboardToken = CToken(mpBillboard);
 
         mpCollisionNode->SetCollision(mpInstance->GetCollision());
 
@@ -156,24 +160,33 @@ void CScriptNode::Draw(ERenderOptions Options)
 {
     if (!mpInstance) return;
 
-    // Set lighting
-    LoadModelMatrix();
-    LoadLights();
+    // Draw model
+    if (mpActiveModel)
+    {
+        LoadModelMatrix();
+        LoadLights();
+        mpActiveModel->Draw(Options, 0);
+    }
 
-    // Default to drawing purple box if no model
-    if (!mpActiveModel)
+    // Draw billboard
+    else if (mpBillboard)
+    {
+        CDrawUtil::DrawBillboard(mpBillboard, mPosition, mScale.xy() * CVector2f(0.75f), TintColor());
+    }
+
+    // If no model or billboard, default to drawing a purple box
+    else
     {
         glBlendFuncSeparate(GL_ONE, GL_ZERO, GL_ZERO, GL_ZERO);
         glDepthMask(GL_TRUE);
 
         LoadModelMatrix();
+        LoadLights();
         CGraphics::UpdateVertexBlock();
         CGraphics::UpdateLightBlock();
         CDrawUtil::DrawShadedCube(CColor::skTransparentPurple);
         return;
     }
-
-    mpActiveModel->Draw(Options, 0);
 }
 
 void CScriptNode::DrawAsset(ERenderOptions Options, u32 Asset)
@@ -195,7 +208,13 @@ void CScriptNode::DrawAsset(ERenderOptions Options, u32 Asset)
 void CScriptNode::DrawSelection()
 {
     glBlendFunc(GL_ONE, GL_ZERO);
-    CDrawUtil::DrawWireCube(AABox(), CColor::skTransparentWhite);
+
+    // Only draw bounding box for models; billboards get a tint color
+    if (mpActiveModel || !mpBillboard)
+    {
+        LoadModelMatrix();
+        CDrawUtil::DrawWireCube(AABox(), CColor::skTransparentWhite);
+    }
 
     if (mpInstance)
     {

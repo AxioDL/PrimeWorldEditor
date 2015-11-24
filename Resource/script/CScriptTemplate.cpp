@@ -210,10 +210,12 @@ CPropertyStruct* CScriptTemplate::FindLightParameters(CPropertyStruct *pProperti
     return TFetchProperty<CPropertyStruct*, eStructProperty>(pProperties, mLightParametersIDString);
 }
 
+// todo: merge these three functions, they have near-identical code
 CModel* CScriptTemplate::FindDisplayModel(CPropertyStruct *pProperties)
 {
     for (auto it = mAssets.begin(); it != mAssets.end(); it++)
     {
+        if ((it->AssetType != SEditorAsset::eModel) && (it->AssetType != SEditorAsset::eAnimParams)) continue;
         CResource *pRes = nullptr;
 
         // File
@@ -249,10 +251,45 @@ CModel* CScriptTemplate::FindDisplayModel(CPropertyStruct *pProperties)
     return nullptr;
 }
 
+CTexture* CScriptTemplate::FindBillboardTexture(CPropertyStruct *pProperties)
+{
+    for (auto it = mAssets.begin(); it != mAssets.end(); it++)
+    {
+        if (it->AssetType != SEditorAsset::eBillboard) continue;
+        CResource *pRes = nullptr;
+
+        // File
+        if (it->AssetSource == SEditorAsset::eFile)
+        {
+            TString path = "../resources/" + it->AssetLocation;
+            pRes = gResCache.GetResource(path);
+        }
+
+        // Property
+        else
+        {
+            CPropertyBase *pProp = pProperties->PropertyByIDString(it->AssetLocation);
+
+            if (pProp->Type() == eFileProperty)
+            {
+                CFileProperty *pFile = static_cast<CFileProperty*>(pProp);
+                pRes = pFile->Get();
+            }
+        }
+
+        // Verify resource exists + is correct type
+        if (pRes && (pRes->Type() == eTexture))
+            return static_cast<CTexture*>(pRes);
+    }
+
+    return nullptr;
+}
+
 CCollisionMeshGroup* CScriptTemplate::FindCollision(CPropertyStruct *pProperties)
 {
     for (auto it = mAssets.begin(); it != mAssets.end(); it++)
     {
+        if (it->AssetType != SEditorAsset::eCollision) continue;
         CResource *pRes = nullptr;
 
         // File
