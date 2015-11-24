@@ -72,11 +72,6 @@ public:
     {
     }
 
-    // Forward declares of some static functions that are handy for internal use
-    //static bool CompareCStrings(const CharType*, const CharType*);
-    //static u32 CStringLength(const CharType*);
-    //static bool IsWhitespace(CharType);
-
     // Data Accessors
     inline const CharType* CString() const
     {
@@ -198,6 +193,7 @@ public:
 
     _TString ToUpper() const
     {
+        // todo: doesn't handle accented characters
         _TString out(Size());
 
         for (u32 iChar = 0; iChar < Size(); iChar++)
@@ -215,6 +211,7 @@ public:
 
     _TString ToLower() const
     {
+        // todo: doesn't handle accented characters
         _TString out(Size());
 
         for (u32 iChar = 0; iChar < Size(); iChar++)

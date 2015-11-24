@@ -34,19 +34,13 @@ void Write(const TString& message)
 void Error(const TString& message)
 {
     Write("ERROR: " + message);
-
-#ifdef _DEBUG
-        std::cout << "ERROR: " << message << "\n";
-#endif
+    std::cout << "ERROR: " << message << "\n";
 }
 
 void Warning(const TString& message)
 {
     Write("Warning: " + message);
-
-#ifdef _DEBUG
     std::cout << "Warning: " << message << "\n";
-#endif
 }
 
 void FileWrite(const TString& filename, const TString& message)
