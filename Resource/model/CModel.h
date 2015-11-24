@@ -27,6 +27,7 @@ public:
     void ClearGLBuffer();
     void Draw(ERenderOptions Options, u32 MatSet);
     void DrawSurface(ERenderOptions Options, u32 Surface, u32 MatSet);
+    void DrawWireframe(ERenderOptions Options, const CColor& WireColor = CColor::skWhite);
 
     u32 GetMatSetCount();
     u32 GetMatCount();

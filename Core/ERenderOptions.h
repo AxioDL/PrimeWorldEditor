@@ -5,6 +5,7 @@
 
 enum ERenderOptions
 {
+    eNoRenderOptions     = 0x0,
     eDrawWorld           = 0x1,
     eDrawWorldCollision  = 0x2,
     eDrawObjects         = 0x4,

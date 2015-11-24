@@ -1,4 +1,5 @@
 #include "CModel.h"
+#include <Core/CDrawUtil.h>
 #include <Core/CRenderer.h>
 #include <OpenGL/GLCommon.h>
 
@@ -97,11 +98,11 @@ void CModel::DrawSurface(ERenderOptions Options, u32 Surface, u32 MatSet)
         MatSet = mMaterialSets.size() - 1;
 
     // Bind material
-    SSurface *pSurf = mSurfaces[Surface];
-    CMaterial *pMat = mMaterialSets[MatSet]->MaterialByIndex(pSurf->MaterialID);
-
     if ((Options & eNoMaterialSetup) == 0)
     {
+        SSurface *pSurf = mSurfaces[Surface];
+        CMaterial *pMat = mMaterialSets[MatSet]->MaterialByIndex(pSurf->MaterialID);
+
         if ((!(Options & eEnableOccluders)) && (pMat->Options() & CMaterial::eOccluder))
             return;
 
@@ -119,6 +120,23 @@ void CModel::DrawSurface(ERenderOptions Options, u32 Surface, u32 MatSet)
     }
 
     mVBO.Unbind();
+}
+
+void CModel::DrawWireframe(ERenderOptions Options, const CColor& WireColor)
+{
+    if (!mBuffered) BufferGL();
+
+    // Set up wireframe
+    CDrawUtil::UseColorShader(WireColor);
+    Options |= eNoMaterialSetup;
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+    // Draw surfaces
+    for (u32 iSurf = 0; iSurf < mSurfaces.size(); iSurf++)
+        DrawSurface(Options, iSurf, 0);
+
+    // Cleanup
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
 u32 CModel::GetMatSetCount()

@@ -1,4 +1,5 @@
 #include "CStaticModel.h"
+#include <Core/CDrawUtil.h>
 #include <Core/CRenderer.h>
 #include <OpenGL/GLCommon.h>
 
@@ -104,6 +105,7 @@ void CStaticModel::Draw(ERenderOptions Options)
 
     // Draw IBOs
     mVBO.Bind();
+    glLineWidth(1.f);
 
     for (u32 iIBO = 0; iIBO < mIBOs.size(); iIBO++)
     {
@@ -122,6 +124,7 @@ void CStaticModel::DrawSurface(ERenderOptions Options, u32 Surface)
     if (!mBuffered) BufferGL();
 
     mVBO.Bind();
+    glLineWidth(1.f);
     if ((Options & eNoMaterialSetup) == 0) mpMaterial->SetCurrent(Options);
 
     for (u32 iIBO = 0; iIBO < mIBOs.size(); iIBO++)
@@ -139,6 +142,23 @@ void CStaticModel::DrawSurface(ERenderOptions Options, u32 Surface)
     }
 
     mVBO.Unbind();
+}
+
+void CStaticModel::DrawWireframe(ERenderOptions Options, const CColor& WireColor)
+{
+    if (!mBuffered) BufferGL();
+
+    // Set up wireframe
+    CDrawUtil::UseColorShader(WireColor);
+    Options |= eNoMaterialSetup;
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+    // Draw surfaces
+    for (u32 iSurf = 0; iSurf < mSurfaces.size(); iSurf++)
+        DrawSurface(Options, iSurf);
+
+    // Cleanup
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
 CMaterial* CStaticModel::GetMaterial()
