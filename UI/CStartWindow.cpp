@@ -6,6 +6,7 @@
 
 #include "CModelEditorWindow.h"
 #include "CWorldEditor.h"
+#include "UICommon.h"
 #include <Core/CResCache.h>
 
 CStartWindow::CStartWindow(QWidget *parent) :
@@ -30,7 +31,7 @@ void CStartWindow::on_actionOpen_MLVL_triggered()
     QString WorldFile = QFileDialog::getOpenFileName(this, "Open MLVL", "", "Metroid Prime World (*.MLVL)");
     if (WorldFile.isEmpty()) return;
 
-    gResCache.SetFolder(StringUtil::GetFileDirectory(WorldFile.toStdString()));
+    gResCache.SetFolder(TString(WorldFile.toStdString()).GetFileDirectory());
     mpWorld = (CWorld*) gResCache.GetResource(WorldFile.toStdString());
     mWorldToken = CToken(mpWorld);
     mpWorldEditor->close();
@@ -44,9 +45,9 @@ void CStartWindow::FillWorldUI()
     CStringTable *pWorldName = mpWorld->GetWorldName();
     if (pWorldName)
     {
-        std::wstring WorldName = pWorldName->GetString("ENGL", 0);
-        ui->WorldNameLabel->setText( QString("<font size=5><b>") + QString::fromStdWString(WorldName) + QString("</b></font>") );
-        ui->WorldNameSTRGLineEdit->setText( QString::fromStdString(pWorldName->Source()) );
+        TWideString WorldName = pWorldName->GetString("ENGL", 0);
+        ui->WorldNameLabel->setText( QString("<font size=5><b>") + TO_QSTRING(WorldName) + QString("</b></font>") );
+        ui->WorldNameSTRGLineEdit->setText(TO_QSTRING(pWorldName->Source()));
     }
     else
     {
@@ -56,25 +57,25 @@ void CStartWindow::FillWorldUI()
 
     CStringTable *pDarkWorldName = mpWorld->GetDarkWorldName();
     if (pDarkWorldName)
-        ui->DarkWorldNameSTRGLineEdit->setText( QString::fromStdString(pDarkWorldName->Source()) );
+        ui->DarkWorldNameSTRGLineEdit->setText(TO_QSTRING(pDarkWorldName->Source()));
     else
         ui->DarkWorldNameSTRGLineEdit->clear();
 
     CModel *pDefaultSkybox = mpWorld->GetDefaultSkybox();
     if (pDefaultSkybox)
-        ui->DefaultSkyboxCMDLLineEdit->setText( QString::fromStdString(pDefaultSkybox->Source()) );
+        ui->DefaultSkyboxCMDLLineEdit->setText(TO_QSTRING(pDefaultSkybox->Source()));
     else
         ui->DefaultSkyboxCMDLLineEdit->clear();
 
     CResource *pSaveWorld = mpWorld->GetSaveWorld();
     if (pSaveWorld)
-        ui->WorldSAVWLineEdit->setText( QString::fromStdString(pSaveWorld->Source()) );
+        ui->WorldSAVWLineEdit->setText(TO_QSTRING(pSaveWorld->Source()));
     else
         ui->WorldSAVWLineEdit->clear();
 
     CResource *pMapWorld = mpWorld->GetMapWorld();
     if (pMapWorld)
-        ui->WorldMAPWLineEdit->setText( QString::fromStdString(pMapWorld->Source()) );
+        ui->WorldMAPWLineEdit->setText(TO_QSTRING(pMapWorld->Source()));
     else
         ui->WorldMAPWLineEdit->clear();
 
@@ -86,7 +87,7 @@ void CStartWindow::FillWorldUI()
     for (u32 iArea = 0; iArea < NumAreas; iArea++)
     {
         CStringTable *pAreaName = mpWorld->GetAreaName(iArea);
-        QString AreaName = (pAreaName != nullptr) ? QString::fromStdWString(pAreaName->GetString("ENGL", 0)) : QString("!!") + QString::fromStdString(mpWorld->GetAreaInternalName(iArea));
+        QString AreaName = (pAreaName != nullptr) ? TO_QSTRING(pAreaName->GetString("ENGL", 0)) : QString("!!") + TO_QSTRING(mpWorld->GetAreaInternalName(iArea));
         ui->AreaSelectComboBox->addItem(AreaName);
     }
 }
@@ -102,22 +103,22 @@ void CStartWindow::FillAreaUI()
     ui->AreaSelectComboBox->setCurrentIndex(mSelectedAreaIndex);
     ui->AreaSelectComboBox->blockSignals(false);
 
-    ui->AreaNameLineEdit->setText( QString::fromStdString(mpWorld->GetAreaInternalName(mSelectedAreaIndex)));
+    ui->AreaNameLineEdit->setText(TO_QSTRING(mpWorld->GetAreaInternalName(mSelectedAreaIndex)));
 
     CStringTable *pAreaName = mpWorld->GetAreaName(mSelectedAreaIndex);
     if (pAreaName)
-        ui->AreaNameSTRGLineEdit->setText( QString::fromStdString( pAreaName->Source() ));
+        ui->AreaNameSTRGLineEdit->setText(TO_QSTRING(pAreaName->Source()));
     else
         ui->AreaNameSTRGLineEdit->clear();
 
     u64 MREA = mpWorld->GetAreaResourceID(mSelectedAreaIndex);
-    std::string MREAStr;
+    TString MREAStr;
     if (MREA & 0xFFFFFFFF00000000)
-        MREAStr = StringUtil::ToString(MREA);
+        MREAStr = TString::FromInt64(MREA, 16);
     else
-        MREAStr = StringUtil::ToString( (u32) MREA );
+        MREAStr = TString::FromInt32(MREA, 8);
 
-    ui->AreaMREALineEdit->setText(QString::fromStdString(MREAStr) + QString(".MREA") );
+    ui->AreaMREALineEdit->setText(TO_QSTRING(MREAStr) + QString(".MREA"));
 
     u32 NumAttachedAreas = mpWorld->GetAreaAttachedCount(mSelectedAreaIndex);
     ui->AttachedAreasList->clear();
@@ -130,9 +131,9 @@ void CStartWindow::FillAreaUI()
         QString AttachedStr;
 
         if (AttachedAreaSTRG)
-            AttachedStr = QString::fromStdWString(AttachedAreaSTRG->GetString("ENGL", 0) );
+            AttachedStr = TO_QSTRING(AttachedAreaSTRG->GetString("ENGL", 0));
         else
-            AttachedStr = QString("!!") + QString::fromStdString(mpWorld->GetAreaInternalName(AttachedAreaIndex));
+            AttachedStr = QString("!!") + TO_QSTRING(mpWorld->GetAreaInternalName(AttachedAreaIndex));
 
         ui->AttachedAreasList->addItem(AttachedStr);
     }

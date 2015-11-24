@@ -68,10 +68,10 @@ public slots:
 protected slots:
     virtual void CheckUserInput() {}
     virtual void Paint() {}
-    virtual void ContextMenu(QContextMenuEvent *pEvent) {}
+    virtual void ContextMenu(QContextMenuEvent* /*pEvent*/) {}
     virtual void OnResize() {}
-    virtual void OnMouseClick(QMouseEvent *pEvent) {}
-    virtual void OnMouseRelease(QMouseEvent *pEvent) {}
+    virtual void OnMouseClick(QMouseEvent* /*pEvent*/) {}
+    virtual void OnMouseRelease(QMouseEvent* /*pEvent*/) {}
 
 private:
     void ProcessInput(double DeltaTime);

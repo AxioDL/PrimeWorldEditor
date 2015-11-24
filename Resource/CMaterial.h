@@ -50,7 +50,7 @@ private:
     static CColor sCurrentTint;  // The tint for the currently bound material
 
     // Members
-    std::string mName;              // Name of the material
+    TString mName;                  // Name of the material
     CShader *mpShader;              // This material's generated shader. Created with GenerateShader().
     EShaderStatus mShaderStatus;    // A status variable so that PWE won't crash if a shader fails to compile.
     u64 mParametersHash;            // A hash of all the parameters that can identify this TEV setup.
@@ -82,7 +82,7 @@ public:
     void Update();
 
     // Getters
-    std::string Name() const;
+    TString Name() const;
     EGame Version() const;
     EMaterialOptions Options() const;
     EVertexDescription VtxDesc() const;
@@ -97,7 +97,7 @@ public:
     CMaterialPass* Pass(u32 PassIndex) const;
 
     // Setters
-    void SetName(const std::string& name);
+    void SetName(const TString& name);
     void SetOptions(EMaterialOptions Options);
     void SetVertexDescription(EVertexDescription desc);
     void SetBlendMode(GLenum SrcFac, GLenum DstFac);

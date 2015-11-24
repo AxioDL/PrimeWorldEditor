@@ -7,7 +7,7 @@
 struct SNamedResource
 {
     CFourCC resType;
-    std::string resName;
+    TString resName;
     u64 resID;
 };
 

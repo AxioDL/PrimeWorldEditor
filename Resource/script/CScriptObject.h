@@ -53,7 +53,7 @@ public:
     CPropertyStruct* Properties() const;
     u32 NumProperties() const;
     CPropertyBase* PropertyByIndex(u32 index) const;
-    CPropertyBase* PropertyByIDString(std::string str) const;
+    CPropertyBase* PropertyByIDString(const TIDString& str) const;
     u32 ObjectTypeID() const;
     u32 InstanceID() const;
     u32 NumInLinks() const;
@@ -64,12 +64,12 @@ public:
     CVector3f Position() const;
     CVector3f Rotation() const;
     CVector3f Scale() const;
-    std::string InstanceName() const;
+    TString InstanceName() const;
     bool IsActive() const;
     void SetPosition(const CVector3f& newPos);
     void SetRotation(const CVector3f& newRot);
     void SetScale(const CVector3f& newScale);
-    void SetName(const std::string& newName);
+    void SetName(const TString& newName);
     void SetActive(bool isActive);
     CPropertyStruct* LightParameters() const;
     CModel* GetDisplayModel() const;

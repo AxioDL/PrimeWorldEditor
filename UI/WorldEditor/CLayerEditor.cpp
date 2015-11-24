@@ -1,5 +1,6 @@
 #include "CLayerEditor.h"
 #include "ui_CLayerEditor.h"
+#include "../UICommon.h"
 
 CLayerEditor::CLayerEditor(QWidget *parent) :
     QDialog(parent),
@@ -38,7 +39,7 @@ void CLayerEditor::SetCurrentIndex(int index)
     QModelIndex ModelIndex = mpModel->index(index);
     mpCurrentLayer = mpModel->Layer(ModelIndex);
 
-    ui->NameLineEdit->setText(QString::fromStdString(mpCurrentLayer->Name()));
+    ui->NameLineEdit->setText(TO_QSTRING(mpCurrentLayer->Name()));
     ui->ActiveCheckBox->setChecked(mpCurrentLayer->IsActive());
 }
 

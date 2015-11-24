@@ -11,7 +11,7 @@ CFourCC::CFourCC(const char *src)
     *this = src;
 }
 
-CFourCC::CFourCC(const std::string& src)
+CFourCC::CFourCC(const TString& src)
 {
     *this = src;
 }
@@ -37,9 +37,9 @@ u32 CFourCC::ToLong() const
     return mFourCC[0] << 24 | mFourCC[1] << 16 | mFourCC[2] << 8 | mFourCC[3];
 }
 
-std::string CFourCC::ToString() const
+TString CFourCC::ToString() const
 {
-    return std::string(mFourCC, 4);
+    return TString(mFourCC, 4);
 }
 
 CFourCC CFourCC::ToUpper() const
@@ -64,9 +64,9 @@ CFourCC& CFourCC::operator=(const char *src)
     return *this;
 }
 
-CFourCC& CFourCC::operator=(const std::string& src)
+CFourCC& CFourCC::operator=(const TString& src)
 {
-    memcpy(&mFourCC[0], src.c_str(), 4);
+    memcpy(&mFourCC[0], src.CString(), 4);
     return *this;
 }
 

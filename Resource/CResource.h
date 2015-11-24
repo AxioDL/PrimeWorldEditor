@@ -5,7 +5,7 @@
 #include <Common/CFourCC.h>
 #include <Common/CUniqueID.h>
 #include <Common/types.h>
-#include <Common/StringUtil.h>
+#include <Common/TString.h>
 
 class CResCache;
 
@@ -13,7 +13,7 @@ class CResource
 {
     friend class CResCache;
 
-    std::string mResSource;
+    TString mResSource;
     CUniqueID mID;
     int mRefCount;
 
@@ -21,8 +21,8 @@ public:
     CResource();
     virtual ~CResource();
     virtual EResType Type();
-    std::string Source();
-    std::string FullSource();
+    TString Source();
+    TString FullSource();
     CUniqueID ResID();
     void Lock();
     void Release();

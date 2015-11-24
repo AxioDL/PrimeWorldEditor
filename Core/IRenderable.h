@@ -13,9 +13,9 @@ class IRenderable
 public:
     IRenderable() {}
     virtual ~IRenderable() {}
-    virtual void AddToRenderer(CRenderer *pRenderer, const CFrustumPlanes& frustum) = 0;
-    virtual void Draw(ERenderOptions options) {}
-    virtual void DrawAsset(ERenderOptions options, u32 asset) {}
+    virtual void AddToRenderer(CRenderer* pRenderer, const CFrustumPlanes& frustum) = 0;
+    virtual void Draw(ERenderOptions /*options*/) {}
+    virtual void DrawAsset(ERenderOptions /*options*/, u32 /*asset*/) {}
     virtual void DrawSelection() {}
 };
 

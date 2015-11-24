@@ -2,6 +2,7 @@
 #define CUNIQUEID_H
 
 #include "types.h"
+#include "TString.h"
 #include <FileIO/FileIO.h>
 
 enum EUIDLength
@@ -25,7 +26,7 @@ public:
     CUniqueID(CInputStream& Input, EUIDLength Length);
     u32 ToLong() const;
     u64 ToLongLong() const;
-    std::string ToString() const;
+    TString ToString() const;
     void Reverse();
     EUIDLength Length() const;
     void SetLength(EUIDLength Length);
@@ -44,7 +45,7 @@ public:
     bool operator!=(u64 Other) const;
 
     // Static
-    static CUniqueID FromString(std::string String);
+    static CUniqueID FromString(const TString& String);
     static CUniqueID FromData(void *pData, EUIDLength Length);
     static CUniqueID RandomID();
 

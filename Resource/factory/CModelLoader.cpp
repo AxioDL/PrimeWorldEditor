@@ -432,7 +432,7 @@ CModel* CModelLoader::LoadCMDL(CInputStream& CMDL)
 
     else
     {
-        Log::FileError(CMDL.GetSourceString(), "Invalid CMDL magic: " + StringUtil::ToHexString(Magic));
+        Log::FileError(CMDL.GetSourceString(), "Invalid CMDL magic: " + TString::HexString(Magic));
         return nullptr;
     }
 
@@ -441,7 +441,7 @@ CModel* CModelLoader::LoadCMDL(CInputStream& CMDL)
 
     if (Loader.mVersion == eUnknownVersion)
     {
-        Log::FileError(CMDL.GetSourceString(), "Unsupported CMDL version: " + StringUtil::ToHexString(Magic));
+        Log::FileError(CMDL.GetSourceString(), "Unsupported CMDL version: " + TString::HexString(Magic));
         return nullptr;
     }
 

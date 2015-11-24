@@ -1,4 +1,5 @@
 #include "WPropertyEditor.h"
+#include "UICommon.h"
 #include "WDraggableSpinBox.h"
 #include "WIntegralSpinBox.h"
 #include "WResourceSelector.h"
@@ -71,8 +72,8 @@ void WPropertyEditor::CreateEditor()
     delete mUI.EditorWidget;
 
     // Set name
-    mUI.PropertyName->setText(QString::fromStdString(mpProperty->Name()));
-    mUI.PropertyName->setToolTip(QString::fromStdString(mpProperty->Name()));
+    mUI.PropertyName->setText(TO_QSTRING(mpProperty->Name()));
+    mUI.PropertyName->setToolTip(TO_QSTRING(mpProperty->Name()));
 
     // Set editor widget
     switch (mpProperty->Type())
@@ -144,8 +145,8 @@ void WPropertyEditor::CreateEditor()
 
         for (u32 iEnum = 0; iEnum < pTemplate->NumEnumerators(); iEnum++)
         {
-            std::string name = pTemplate->EnumeratorName(iEnum);
-            pComboBox->addItem(QString::fromStdString(name));
+            TString name = pTemplate->EnumeratorName(iEnum);
+            pComboBox->addItem(TO_QSTRING(name));
         }
 
         u32 index = pEnumCast->Get();
@@ -168,15 +169,15 @@ void WPropertyEditor::CreateEditor()
         QVBoxLayout *pBitfieldLayout = new QVBoxLayout(pGroupBox);
         pBitfieldLayout->setContentsMargins(5,5,5,5);
         pGroupBox->setLayout(pBitfieldLayout);
-        pGroupBox->setTitle(QString::fromStdString(pBitfieldCast->Name()));
+        pGroupBox->setTitle(TO_QSTRING(pBitfieldCast->Name()));
         mUI.PropertyName->hide();
 
         for (u32 iFlag = 0; iFlag < pTemplate->NumFlags(); iFlag++)
         {
-            std::string flagName = pTemplate->FlagName(iFlag);
+            TString flagName = pTemplate->FlagName(iFlag);
             long mask = pTemplate->FlagMask(iFlag);
 
-            QCheckBox *pCheckBox = new QCheckBox(QString::fromStdString(flagName), pGroupBox);
+            QCheckBox *pCheckBox = new QCheckBox(TO_QSTRING(flagName), pGroupBox);
             pCheckBox->setChecked((value & mask) != 0);
             pBitfieldLayout->addWidget(pCheckBox);
         }
@@ -206,7 +207,7 @@ void WPropertyEditor::CreateEditor()
         CStringProperty *pStringCast = static_cast<CStringProperty*>(mpProperty);
         QLineEdit *pLineEdit = new QLineEdit(this);
 
-        pLineEdit->setText(QString::fromStdString(pStringCast->Get()));
+        pLineEdit->setText(TO_QSTRING(pStringCast->Get()));
         pLineEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
         //pLineEdit->setCursorPosition(0);
 
@@ -226,7 +227,7 @@ void WPropertyEditor::CreateEditor()
         pGroupLayout->setContentsMargins(0,0,0,0);
         pGroupBox->setLayout(pGroupLayout);
 
-        pGroupBox->setTitle(QString::fromStdString(mpProperty->Name()));
+        pGroupBox->setTitle(TO_QSTRING(mpProperty->Name()));
         pVectorEditor->SetValue(pVector3Cast->Get());
         pVectorEditor->SetOrientation(Qt::Vertical);
         mUI.PropertyName->hide();
@@ -272,7 +273,7 @@ void WPropertyEditor::CreateEditor()
         QVBoxLayout *pStructLayout = new QVBoxLayout(pGroupBox);
         pStructLayout->setContentsMargins(5,5,5,5);
         pGroupBox->setLayout(pStructLayout);
-        pGroupBox->setTitle(QString::fromStdString(pStructCast->Name()));
+        pGroupBox->setTitle(TO_QSTRING(pStructCast->Name()));
         mUI.PropertyName->hide();
 
         for (u32 p = 0; p < pStructCast->Count(); p++)
@@ -292,7 +293,7 @@ void WPropertyEditor::CreateEditor()
         CAnimationParameters params = pAnimCast->Get();
 
         WAnimParamsEditor *pEditor = new WAnimParamsEditor(params, this);
-        pEditor->SetTitle(QString::fromStdString(pAnimCast->Name()));
+        pEditor->SetTitle(TO_QSTRING(pAnimCast->Name()));
 
         mUI.PropertyName->hide();
         mUI.EditorWidget = pEditor;
@@ -400,7 +401,7 @@ void WPropertyEditor::UpdateEditor()
     {
         CStringProperty *pStringCast = static_cast<CStringProperty*>(mpProperty);
         QLineEdit *pLineEdit = static_cast<QLineEdit*>(mUI.EditorWidget);
-        pLineEdit->setText(QString::fromStdString(pStringCast->Get()));
+        pLineEdit->setText(TO_QSTRING(pStringCast->Get()));
         pLineEdit->setCursorPosition(0);
         break;
     }
@@ -470,8 +471,8 @@ void WPropertyEditor::UpdateEditor()
 
 void WPropertyEditor::CreateLabelText()
 {
-    mUI.PropertyName->setText(QString::fromStdString(mpProperty->Name()));
+    mUI.PropertyName->setText(TO_QSTRING(mpProperty->Name()));
     QFontMetrics metrics(mUI.PropertyName->font());
-    QString text = metrics.elidedText(QString::fromStdString(mpProperty->Name()), Qt::ElideRight, mUI.PropertyName->width());
+    QString text = metrics.elidedText(TO_QSTRING(mpProperty->Name()), Qt::ElideRight, mUI.PropertyName->width());
     mUI.PropertyName->setText(text);
 }

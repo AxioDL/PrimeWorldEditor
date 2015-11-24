@@ -1,18 +1,16 @@
 #include <ctime>
 #include <iostream>
-#include <string>
+#include <Common/TString.h>
 #include <QMessageBox>
-#include <Common/StringUtil.h>
 
 namespace Log
 {
 
-static const std::string gskLogFilename = "primeworldeditor.log";
-FILE *gpLogFile = fopen(gskLogFilename.c_str(), "w");
+static const TString gskLogFilename = "primeworldeditor.log";
+FILE *gpLogFile = fopen(*gskLogFilename, "w");
 
-void Write(const std::string& message)
+void Write(const TString& message)
 {
-
     if (gpLogFile)
     {
         time_t RawTime;
@@ -22,12 +20,12 @@ void Write(const std::string& message)
         char Buffer[80];
         strftime(Buffer, 80, "[%H:%M:%S]", pTimeInfo);
 
-        fprintf(gpLogFile, "%s %s\n", Buffer, message.c_str());
+        fprintf(gpLogFile, "%s %s\n", Buffer, *message);
         fflush(gpLogFile);
     }
 }
 
-void Error(const std::string& message)
+void Error(const TString& message)
 {
     Write("ERROR: " + message);
 
@@ -36,7 +34,7 @@ void Error(const std::string& message)
 #endif
 }
 
-void Warning(const std::string& message)
+void Warning(const TString& message)
 {
     Write("Warning: " + message);
 
@@ -45,34 +43,34 @@ void Warning(const std::string& message)
 #endif
 }
 
-void FileWrite(const std::string& filename, const std::string& message)
+void FileWrite(const TString& filename, const TString& message)
 {
     Write(filename + " : " + message);
 }
 
-void FileWrite(const std::string& filename, unsigned long offset, const std::string& message)
+void FileWrite(const TString& filename, unsigned long offset, const TString& message)
 {
-    Write(filename + " : " + StringUtil::ToHexString(offset) + " - " + message);
+    Write(filename + " : " + TString::HexString(offset) + " - " + message);
 }
 
-void FileError(const std::string& filename, const std::string& message)
+void FileError(const TString& filename, const TString& message)
 {
     Error(filename + " : " + message);
 }
 
-void FileError(const std::string &filename, unsigned long offset, const std::string &message)
+void FileError(const TString& filename, unsigned long offset, const TString& message)
 {
-    Error(filename + " : " + StringUtil::ToHexString(offset) + " - " + message);
+    Error(filename + " : " + TString::HexString(offset) + " - " + message);
 }
 
-void FileWarning(const std::string& filename, const std::string& message)
+void FileWarning(const TString& filename, const TString& message)
 {
     Warning(filename + " : " + message);
 }
 
-void FileWarning(const std::string& filename, unsigned long offset, const std::string& message)
+void FileWarning(const TString& filename, unsigned long offset, const TString& message)
 {
-    Warning(filename + " : " + StringUtil::ToHexString(offset) + " - " + message);
+    Warning(filename + " : " + TString::HexString(offset) + " - " + message);
 }
 
 }

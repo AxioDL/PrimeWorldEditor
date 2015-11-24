@@ -16,7 +16,7 @@
 class CMasterTemplate;
 class CScriptObject;
 
-typedef std::string TIDString;
+typedef TString TIDString;
 
 /*
  * CScriptTemplate is a class that encases the data contained in one of the XML templates.
@@ -41,7 +41,7 @@ public:
 
 private:
     struct SPropertySet {
-        std::string SetName;
+        TString SetName;
         CStructTemplate *pBaseStruct;
     };
 
@@ -64,8 +64,8 @@ private:
     std::list<CScriptObject*> mObjectList;
     ERotationType mRotationType;
     EScaleType mScaleType;
-    std::string mTemplateName;
-    std::string mSourceFile;
+    TString mTemplateName;
+    TString mSourceFile;
     u32 mObjectID;
     bool mVisible;
 
@@ -93,9 +93,9 @@ public:
     ~CScriptTemplate();
 
     CMasterTemplate* MasterTemplate();
-    std::string TemplateName(s32 propCount = -1) const;
-    std::string PropertySetNameByCount(s32 propCount) const;
-    std::string PropertySetNameByIndex(u32 index) const;
+    TString TemplateName(s32 propCount = -1) const;
+    TString PropertySetNameByCount(s32 propCount) const;
+    TString PropertySetNameByIndex(u32 index) const;
     u32 NumPropertySets() const;
     ERotationType RotationType() const;
     EScaleType ScaleType() const;

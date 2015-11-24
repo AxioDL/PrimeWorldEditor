@@ -44,7 +44,7 @@ void CScriptLayer::Reserve(u32 amount)
 }
 
 // ************* GETTERS *************
-std::string CScriptLayer::Name()
+TString CScriptLayer::Name()
 {
     return mLayerName;
 }
@@ -79,7 +79,7 @@ CScriptObject* CScriptLayer::ObjectByID(u32 ID)
 }
 
 // ************* SETTERS *************
-void CScriptLayer::SetName(std::string name)
+void CScriptLayer::SetName(const TString& name)
 {
     mLayerName = name;
 }

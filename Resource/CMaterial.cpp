@@ -217,7 +217,7 @@ void CMaterial::Update()
 }
 
 // ************ GETTERS ************
-std::string CMaterial::Name() const
+TString CMaterial::Name() const
 {
     return mName;
 }
@@ -283,7 +283,7 @@ CMaterialPass* CMaterial::Pass(u32 PassIndex) const
 
 
 // ************ SETTERS ************
-void CMaterial::SetName(const std::string& name)
+void CMaterial::SetName(const TString& name)
 {
     mName = name;
 }

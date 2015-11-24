@@ -48,7 +48,7 @@ CScan* CScanLoader::LoadScanMP2(CInputStream& SCAN)
 
     u32 BasePropID = SCAN.ReadLong();
     if (BasePropID != 0xFFFFFFFF) {
-        Log::FileError(SCAN.GetSourceString(), SCAN.Tell() - 4, "Invalid base proprty ID: " + StringUtil::ToHexString(BasePropID));
+        Log::FileError(SCAN.GetSourceString(), SCAN.Tell() - 4, "Invalid base proprty ID: " + TString::HexString(BasePropID));
         return nullptr;
     }
 
@@ -65,7 +65,7 @@ CScan* CScanLoader::LoadScanMP2(CInputStream& SCAN)
         LoadParamsMP3(SCAN);
         break;
     default:
-        Log::FileError(SCAN.GetSourceString(), SCAN.Tell() - 2, "Invalid SNFO property count: " + StringUtil::ToHexString(NumProperties));
+        Log::FileError(SCAN.GetSourceString(), SCAN.Tell() - 2, "Invalid SNFO property count: " + TString::HexString(NumProperties));
         delete mpScan;
         return nullptr;
     }
@@ -164,13 +164,13 @@ CScan* CScanLoader::LoadSCAN(CInputStream &SCAN)
 
     if (magic != 0x0BADBEEF)
     {
-        Log::FileError(SCAN.GetSourceString(), "Invalid SCAN magic: " + StringUtil::ToHexString(magic));
+        Log::FileError(SCAN.GetSourceString(), "Invalid SCAN magic: " + TString::HexString(magic));
         return nullptr;
     }
 
     if (fileVersion != 5)
     {
-        Log::FileError(SCAN.GetSourceString(), "Unsupported SCAN version: " + StringUtil::ToHexString(fileVersion));
+        Log::FileError(SCAN.GetSourceString(), "Unsupported SCAN version: " + TString::HexString(fileVersion));
         return nullptr;
     }
 

@@ -69,7 +69,7 @@ public:
         return mPassType;
     }
 
-    inline std::string NamedType() const {
+    inline TString NamedType() const {
         return PassTypeName(mPassType);
     }
 
@@ -122,7 +122,7 @@ public:
     }
 
     // Static
-    static std::string PassTypeName(CFourCC Type);
+    static TString PassTypeName(CFourCC Type);
 };
 
 #endif // CMATERIALPASS_H

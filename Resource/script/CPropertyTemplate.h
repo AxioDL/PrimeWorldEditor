@@ -2,10 +2,11 @@
 #define CPROPERTYTEMPLATE
 
 #include "EPropertyType.h"
-#include <Common/StringUtil.h>
+#include <Common/TString.h>
 #include <Common/types.h>
-#include <string>
 #include <vector>
+
+typedef TString TIDString;
 
 class CPropertyTemplate
 {
@@ -14,7 +15,7 @@ class CPropertyTemplate
 
 protected:
     EPropertyType mPropType;
-    std::string mPropName;
+    TString mPropName;
     u32 mPropID;
 public:
     CPropertyTemplate(u32 ID)
@@ -22,7 +23,7 @@ public:
     {
     }
 
-    CPropertyTemplate(EPropertyType type, std::string name, u32 ID)
+    CPropertyTemplate(EPropertyType type, TString name, u32 ID)
         : mPropType(type),
           mPropName(name),
           mPropID(ID)
@@ -34,7 +35,7 @@ public:
         return mPropType;
     }
 
-    inline std::string Name() const
+    inline TString Name() const
     {
         return mPropName;
     }
@@ -44,7 +45,7 @@ public:
         return mPropID;
     }
 
-    inline void SetName(const std::string& Name)
+    inline void SetName(const TString& Name)
     {
         mPropName = Name;
     }
@@ -55,11 +56,11 @@ class CFileTemplate : public CPropertyTemplate
     friend class CTemplateLoader;
     friend class CTemplateWriter;
 
-    CStringList mAcceptedExtensions;
+    TStringList mAcceptedExtensions;
 public:
     CFileTemplate(u32 ID) : CPropertyTemplate(ID) { mPropType = eFileProperty; }
 
-    CFileTemplate(const std::string& name, u32 ID, const CStringList& extensions)
+    CFileTemplate(const TString& name, u32 ID, const TStringList& extensions)
         : CPropertyTemplate(ID)
     {
         mPropType = eFileProperty;
@@ -72,7 +73,7 @@ public:
         return eFileProperty;
     }
 
-    const CStringList& Extensions() const
+    const TStringList& Extensions() const
     {
         return mAcceptedExtensions;
     }
@@ -85,14 +86,14 @@ class CEnumTemplate : public CPropertyTemplate
 
     struct SEnumerator
     {
-        std::string Name;
+        TString Name;
         u32 ID;
 
-        SEnumerator(const std::string& _name, u32 _ID)
+        SEnumerator(const TString& _name, u32 _ID)
             : Name(_name), ID(_ID) {}
     };
     std::vector<SEnumerator> mEnumerators;
-    std::string mSourceFile;
+    TString mSourceFile;
 
 public:
     CEnumTemplate(u32 ID)
@@ -101,7 +102,7 @@ public:
         mPropType = eEnumProperty;
     }
 
-    CEnumTemplate(const std::string& name, u32 ID)
+    CEnumTemplate(const TString& name, u32 ID)
         : CPropertyTemplate(eEnumProperty, name, ID)
     {}
 
@@ -133,7 +134,7 @@ public:
         else return -1;
     }
 
-    std::string EnumeratorName(u32 enumIndex)
+    TString EnumeratorName(u32 enumIndex)
     {
         if (mEnumerators.size() > enumIndex)
             return mEnumerators[enumIndex].Name;
@@ -149,14 +150,14 @@ class CBitfieldTemplate : public CPropertyTemplate
 
     struct SBitFlag
     {
-        std::string Name;
+        TString Name;
         u32 Mask;
 
-        SBitFlag(const std::string& _name, u32 _mask)
+        SBitFlag(const TString& _name, u32 _mask)
             : Name(_name), Mask(_mask) {}
     };
     std::vector<SBitFlag> mBitFlags;
-    std::string mSourceFile;
+    TString mSourceFile;
 
 public:
     CBitfieldTemplate(u32 ID)
@@ -165,7 +166,7 @@ public:
         mPropType = eBitfieldProperty;
     }
 
-    CBitfieldTemplate(const std::string& name, u32 ID)
+    CBitfieldTemplate(const TString& name, u32 ID)
         : CPropertyTemplate(eBitfieldProperty, name, ID)
     {}
 
@@ -179,7 +180,7 @@ public:
         return mBitFlags.size();
     }
 
-    std::string FlagName(u32 index)
+    TString FlagName(u32 index)
     {
         return mBitFlags[index].Name;
     }
@@ -197,7 +198,7 @@ class CStructTemplate : public CPropertyTemplate
 
     bool mIsSingleProperty;
     std::vector<CPropertyTemplate*> mProperties;
-    std::string mSourceFile;
+    TString mSourceFile;
 public:
     CStructTemplate();
     ~CStructTemplate();
@@ -207,11 +208,11 @@ public:
     u32 Count() const;
     CPropertyTemplate* PropertyByIndex(u32 index);
     CPropertyTemplate* PropertyByID(u32 ID);
-    CPropertyTemplate* PropertyByIDString(const std::string& str);
+    CPropertyTemplate* PropertyByIDString(const TIDString& str);
     CStructTemplate* StructByIndex(u32 index);
     CStructTemplate* StructByID(u32 ID);
-    CStructTemplate* StructByIDString(const std::string& str);
-   void DebugPrintProperties(std::string base);
+    CStructTemplate* StructByIDString(const TIDString& str);
+   void DebugPrintProperties(TString base);
 };
 
 #endif // CPROPERTYTEMPLATE

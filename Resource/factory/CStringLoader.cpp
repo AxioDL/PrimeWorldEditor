@@ -121,7 +121,7 @@ void CStringLoader::LoadCorruptionSTRG(CInputStream& STRG)
             STRG.Seek(StringsStart + LangOffsets[iLang][iStr], SEEK_SET);
             STRG.Seek(0x4, SEEK_CUR); // Skipping string size
 
-            pLang->Strings[iStr] = StringUtil::UTF8to16(STRG.ReadString());
+            pLang->Strings[iStr] = STRG.ReadString();
         }
     }
 }
@@ -180,7 +180,7 @@ CStringTable* CStringLoader::LoadSTRG(CInputStream& STRG)
 
         if (Version != ePrimeDemo)
         {
-            Log::FileError(STRG.GetSourceString(), "Invalid STRG magic: " + StringUtil::ToHexString(Magic));
+            Log::FileError(STRG.GetSourceString(), "Invalid STRG magic: " + TString::HexString(Magic));
             return nullptr;
         }
     }
@@ -192,7 +192,7 @@ CStringTable* CStringLoader::LoadSTRG(CInputStream& STRG)
 
         if (FileVersion == eUnknownVersion)
         {
-            Log::FileError(STRG.GetSourceString(), "Unsupported STRG version: " + StringUtil::ToHexString(FileVersion));
+            Log::FileError(STRG.GetSourceString(), "Unsupported STRG version: " + TString::HexString(FileVersion));
             return nullptr;
         }
     }

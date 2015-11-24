@@ -5,7 +5,7 @@
 
 #include <Common/CRay.h>
 #include <Common/CRayCollisionTester.h>
-#include <Common/StringUtil.h>
+#include <Common/TString.h>
 #include <Core/CGraphics.h>
 #include <Core/CResCache.h>
 #include <FileIO/CFileInStream.h>

@@ -1,4 +1,5 @@
 #include "CTypesInstanceModel.h"
+#include "../UICommon.h"
 #include <Scene/CScriptNode.h>
 #include <QApplication>
 #include <QIcon>
@@ -219,9 +220,9 @@ QVariant CTypesInstanceModel::data(const QModelIndex &index, int role) const
         {
             if (index.column() == 0) {
                 if (mModelType == eLayers)
-                    return QString::fromStdString(mpEditor->ActiveArea()->GetScriptLayer(index.row())->Name());
+                    return TO_QSTRING(mpEditor->ActiveArea()->GetScriptLayer(index.row())->Name());
                 else
-                    return QString::fromStdString(mTemplateList[index.row()]->TemplateName());
+                    return TO_QSTRING(mTemplateList[index.row()]->TemplateName());
             }
             // todo: show/hide button in column 2
             else
@@ -235,14 +236,14 @@ QVariant CTypesInstanceModel::data(const QModelIndex &index, int role) const
             CScriptObject *pObj = static_cast<CScriptObject*>(index.internalPointer());
 
             if (index.column() == 0)
-                return QString::fromStdString(pObj->InstanceName());
+                return TO_QSTRING(pObj->InstanceName());
 
             else if (index.column() == 1)
             {
                 if (mModelType == eLayers)
-                    return QString::fromStdString(pObj->Template()->TemplateName());
+                    return TO_QSTRING(pObj->Template()->TemplateName());
                 else if (mModelType == eTypes)
-                    return QString::fromStdString(pObj->Layer()->Name());
+                    return TO_QSTRING(pObj->Layer()->Name());
             }
 
             else

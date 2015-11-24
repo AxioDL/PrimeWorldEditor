@@ -68,7 +68,7 @@ CAnimationParameters::CAnimationParameters(CInputStream& SCLY, EGame game)
         else if (mUnknown1 != 0x80)
         {
             Log::FileError(SCLY.GetSourceString(), offset,
-                           "Unexpected AnimationParameters byte: " + StringUtil::ToHexString(mUnknown1, true, true, 2) + " (property " + StringUtil::ToHexString(propID, true, true, 8) + ")");
+                           "Unexpected AnimationParameters byte: " + TString::HexString(mUnknown1, true, true, 2) + " (property " + TString::HexString(propID, true, true, 8) + ")");
         }
     }
 }

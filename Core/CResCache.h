@@ -2,13 +2,14 @@
 #define CRESCACHE_H
 
 #include <Common/types.h>
+#include <Common/TString.h>
 #include <Resource/CPakFile.h>
 #include <Resource/CResource.h>
 #include <unordered_map>
 
 struct SResSource
 {
-    std::string Path;
+    TString Path;
     enum {
         Folder, PakFile
     } Source;
@@ -24,13 +25,13 @@ public:
     CResCache();
     ~CResCache();
     void Clean();
-    void SetFolder(std::string path);
-    void SetPak(std::string path);
+    void SetFolder(TString path);
+    void SetPak(const TString& path);
     void SetResSource(SResSource& ResSource);
     SResSource GetResSource();
-    std::string GetSourcePath();
+    TString GetSourcePath();
     CResource* GetResource(CUniqueID ResID, CFourCC type);
-    CResource* GetResource(std::string res);
+    CResource* GetResource(const TString& ResPath);
     void CacheResource(CResource *pRes);
     void DeleteResource(CUniqueID ResID);
 };

@@ -1,5 +1,7 @@
 #include "WTexturePreviewPanel.h"
 #include "ui_WTexturePreviewPanel.h"
+
+#include "UICommon.h"
 #include "WTextureGLWidget.h"
 
 WTexturePreviewPanel::WTexturePreviewPanel(QWidget *parent, CTexture *pTexture) :
@@ -27,8 +29,8 @@ void WTexturePreviewPanel::SetResource(CResource *pRes)
 
     if (pTexture)
     {
-        std::string Name = StringUtil::GetFileNameWithExtension(pTexture->Source());
-        ui->TextureNameLabel->setText( QString::fromStdString(Name) );
+        TString Name = pTexture->Source();
+        ui->TextureNameLabel->setText( TO_QSTRING(Name) );
 
         QString TexInfo;
         TexInfo += QString::number(pTexture->Width()) + "x" + QString::number(pTexture->Height());

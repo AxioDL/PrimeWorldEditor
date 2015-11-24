@@ -58,7 +58,7 @@ CPropertyBase* CScriptObject::PropertyByIndex(u32 index) const
     return mpProperties->PropertyByIndex(index);
 }
 
-CPropertyBase* CScriptObject::PropertyByIDString(std::string str) const
+CPropertyBase* CScriptObject::PropertyByIDString(const TString& str) const
 {
     return mpProperties->PropertyByIDString(str);
 }
@@ -123,7 +123,7 @@ const SLink& CScriptObject::OutLink(u32 index) const
     return mOutConnections[index];
 }
 
-std::string CScriptObject::InstanceName() const
+TString CScriptObject::InstanceName() const
 {
     if (mpInstanceName)
         return mpInstanceName->Get();
@@ -178,7 +178,7 @@ void CScriptObject::SetScale(const CVector3f& newScale)
     if (mpScale) mpScale->Set(newScale);
 }
 
-void CScriptObject::SetName(const std::string& newName)
+void CScriptObject::SetName(const TString& newName)
 {
     if (mpInstanceName) mpInstanceName->Set(newName);
 }

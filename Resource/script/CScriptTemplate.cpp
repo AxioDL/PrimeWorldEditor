@@ -25,7 +25,7 @@ CMasterTemplate* CScriptTemplate::MasterTemplate()
     return mpMaster;
 }
 
-std::string CScriptTemplate::TemplateName(s32 propCount) const
+TString CScriptTemplate::TemplateName(s32 propCount) const
 {
     // Return original name if there is only one property set
     // or if caller doesn't want to distinguish between sets
@@ -40,7 +40,7 @@ std::string CScriptTemplate::TemplateName(s32 propCount) const
     return mTemplateName + " (Invalid)";
 }
 
-std::string CScriptTemplate::PropertySetNameByCount(s32 propCount) const
+TString CScriptTemplate::PropertySetNameByCount(s32 propCount) const
 {
     for (auto it = mPropertySets.begin(); it != mPropertySets.end(); it++)
         if (it->pBaseStruct->Count() == propCount)
@@ -49,7 +49,7 @@ std::string CScriptTemplate::PropertySetNameByCount(s32 propCount) const
     return "";
 }
 
-std::string CScriptTemplate::PropertySetNameByIndex(u32 index) const
+TString CScriptTemplate::PropertySetNameByIndex(u32 index) const
 {
     if (index < NumPropertySets())
         return mPropertySets[index].SetName;
@@ -97,7 +97,7 @@ void CScriptTemplate::DebugPrintProperties(int propCount)
 template<typename t, EPropertyType propType>
 t TFetchProperty(CPropertyStruct *pProperties, const TIDString& ID)
 {
-    if (ID.empty()) return nullptr;
+    if (ID.IsEmpty()) return nullptr;
     CPropertyBase *pProp = pProperties->PropertyByIDString(ID);
 
     if (pProp && (pProp->Type() == propType))
@@ -173,7 +173,7 @@ EVolumeShape CScriptTemplate::VolumeShape(CScriptObject *pObj)
                 return it->Shape;
         }
 
-        Log::Error(TemplateName() + " instance " + StringUtil::ToHexString(pObj->InstanceID(), true, true, 8) + " has unexpected volume shape value of " + StringUtil::ToHexString((u32) v, true, true));
+        Log::Error(TemplateName() + " instance " + TString::HexString(pObj->InstanceID(), true, true, 8) + " has unexpected volume shape value of " + TString::HexString((u32) v, true, true));
         return eInvalidShape;
     }
 
@@ -219,7 +219,7 @@ CModel* CScriptTemplate::FindDisplayModel(CPropertyStruct *pProperties)
         // File
         if (it->AssetSource == SEditorAsset::eFile)
         {
-            std::string path = "../resources/" + it->AssetLocation;
+            TString path = "../resources/" + it->AssetLocation;
             pRes = gResCache.GetResource(path);
         }
 
@@ -258,7 +258,7 @@ CCollisionMeshGroup* CScriptTemplate::FindCollision(CPropertyStruct *pProperties
         // File
         if (it->AssetSource == SEditorAsset::eFile)
         {
-            std::string path = "../resources/" + it->AssetLocation;
+            TString path = "../resources/" + it->AssetLocation;
             pRes = gResCache.GetResource(path);
         }
 
@@ -284,7 +284,7 @@ CCollisionMeshGroup* CScriptTemplate::FindCollision(CPropertyStruct *pProperties
 
 bool CScriptTemplate::HasPosition()
 {
-    return (!mPositionIDString.empty());
+    return (!mPositionIDString.IsEmpty());
 }
 
 // ************ OBJECT TRACKING ************

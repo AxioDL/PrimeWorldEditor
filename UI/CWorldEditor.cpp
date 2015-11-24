@@ -11,6 +11,7 @@
 #include "WDraggableSpinBox.h"
 #include "WVectorEditor.h"
 #include "undo/UndoCommands.h"
+#include "UICommon.h"
 
 #include "WorldEditor/CLayerEditor.h"
 #include "WorldEditor/WModifyTab.h"
@@ -164,7 +165,7 @@ void CWorldEditor::UpdateStatusBar()
             CSceneNode *pHoverNode = ui->MainViewport->HoverNode();
 
             if (pHoverNode && (pHoverNode->NodeType() != eStaticNode))
-                StatusText = QString::fromStdString(pHoverNode->Name());
+                StatusText = TO_QSTRING(pHoverNode->Name());
         }
     }
 
@@ -181,7 +182,7 @@ void CWorldEditor::UpdateSelectionUI()
     QString SelectionText;
 
     if (mSelection.size() == 1)
-        SelectionText = QString::fromStdString(mSelection.front()->Name());
+        SelectionText = TO_QSTRING(mSelection.front()->Name());
     else if (mSelection.size() > 1)
         SelectionText = QString("%1 objects selected").arg(mSelection.size());
 

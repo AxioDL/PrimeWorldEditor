@@ -140,7 +140,7 @@ CCollisionMeshGroup* CCollisionLoader::LoadAreaCollision(CInputStream& MREA)
     u32 deafbabe = MREA.ReadLong();
     if (deafbabe != 0xDEAFBABE)
     {
-        Log::FileError(MREA.GetSourceString(), MREA.Tell() - 4, "Invalid collision magic: " + StringUtil::ToHexString(deafbabe));
+        Log::FileError(MREA.GetSourceString(), MREA.Tell() - 4, "Invalid collision magic: " + TString::HexString(deafbabe));
         return nullptr;
     }
 
@@ -177,7 +177,7 @@ CCollisionMeshGroup* CCollisionLoader::LoadDCLN(CInputStream &DCLN)
 
         if (deafbabe != 0xDEAFBABE)
         {
-            Log::FileError(DCLN.GetSourceString(), DCLN.Tell() - 4, "Invalid collision magic: " + StringUtil::ToHexString(deafbabe));
+            Log::FileError(DCLN.GetSourceString(), DCLN.Tell() - 4, "Invalid collision magic: " + TString::HexString(deafbabe));
             delete loader.mpGroup;
             return nullptr;
         }

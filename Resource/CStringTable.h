@@ -11,13 +11,13 @@ class CStringTable : public CResource
 {
     friend class CStringLoader;
 
-    std::vector<std::string> mStringNames;
+    std::vector<TString> mStringNames;
     u32 mNumStrings;
 
     struct SLangTable
     {
         CFourCC Language;
-        std::vector<std::wstring> Strings;
+        std::vector<TWideString> Strings;
     };
     std::vector<SLangTable> mLangTables;
 
@@ -31,9 +31,9 @@ public:
     u32 GetStringCount();
     u32 GetLangCount();
     CFourCC GetLangTag(u32 Index);
-    std::wstring GetString(CFourCC Lang, u32 StringIndex);
-    std::wstring GetString(u32 LangIndex, u32 StringIndex);
-    std::string GetStringName(u32 StringIndex);
+    TWideString GetString(CFourCC Lang, u32 StringIndex);
+    TWideString GetString(u32 LangIndex, u32 StringIndex);
+    TString GetStringName(u32 StringIndex);
 };
 
 #endif // CSTRINGTABLE_H

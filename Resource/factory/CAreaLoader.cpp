@@ -475,9 +475,9 @@ void CAreaLoader::Decompress()
         }
     }
 
-    std::string Source = mpMREA->GetSourceString();
+    TString Source = mpMREA->GetSourceString();
     mpMREA = new CMemoryInStream(mDecmpBuffer, mTotalDecmpSize, IOUtil::BigEndian);
-    mpMREA->SetSourceString(Source);
+    mpMREA->SetSourceString(Source.ToStdString());
     mBlockMgr->SetInputStream(mpMREA);
     mHasDecompressedBuffer = true;
 }
@@ -549,7 +549,7 @@ CGameArea* CAreaLoader::LoadMREA(CInputStream& MREA)
     u32 deadbeef = MREA.ReadLong();
     if (deadbeef != 0xdeadbeef)
     {
-        Log::FileError(MREA.GetSourceString(), "Invalid MREA magic: " + StringUtil::ToHexString(deadbeef));
+        Log::FileError(MREA.GetSourceString(), "Invalid MREA magic: " + TString::HexString(deadbeef));
         return nullptr;
     }
 
@@ -592,7 +592,7 @@ CGameArea* CAreaLoader::LoadMREA(CInputStream& MREA)
             if (Loader.mVersion == eCorruption) Loader.ReadLightsCorruption();
             break;
         default:
-            Log::FileError(MREA.GetSourceString(), "Unsupported MREA version: " + StringUtil::ToHexString(version));
+            Log::FileError(MREA.GetSourceString(), "Unsupported MREA version: " + TString::HexString(version));
             delete Loader.mpArea;
             return nullptr;
     }

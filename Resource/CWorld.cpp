@@ -90,7 +90,7 @@ u32 CWorld::GetAreaAttachedID(u32 AreaIndex, u32 AttachedIndex)
     return (u32) mAreas[AreaIndex].AttachedAreaIDs[AttachedIndex];
 }
 
-std::string CWorld::GetAreaInternalName(u32 AreaIndex)
+TString CWorld::GetAreaInternalName(u32 AreaIndex)
 {
     return mAreas[AreaIndex].InternalName;
 }

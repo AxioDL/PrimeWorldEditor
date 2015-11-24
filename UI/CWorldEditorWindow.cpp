@@ -8,7 +8,7 @@
 #include <Core/CResCache.h>
 #include <Core/CSceneManager.h>
 #include <FileIO/FileIO.h>
-#include <Common/StringUtil.h>
+#include <Common/TString.h>
 #include <Core/CGraphics.h>
 #include <gtc/matrix_transform.hpp>
 #include "CBasicViewport.h"
@@ -206,8 +206,8 @@ void CWorldEditorWindow::setupInstanceViewLayers()
         for (u32 o = 0; o < object_count; o++) {
 
             PrimeObject object = m->getObject(l, o);
-            std::string name = object.getStringProperty("Name");
-            if (name.empty()) name = "[no name]";
+            TString name = object.getStringProperty("Name");
+            if (name.IsEmpty()) name = "[no name]";
 
             QTreeWidgetItem* obj = new QTreeWidgetItem;
             obj->setText(0, QString::fromStdString(name));

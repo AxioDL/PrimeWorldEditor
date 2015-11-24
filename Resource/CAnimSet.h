@@ -14,7 +14,7 @@ class CAnimSet : public CResource
 
     struct SNode
     {
-        std::string name;
+        TString name;
         CModel *model;
         u32 skinID;
         u32 skelID;
@@ -30,7 +30,7 @@ public:
     EResType Type();
 
     u32 getNodeCount();
-    std::string getNodeName(u32 node);
+    TString getNodeName(u32 node);
     CModel* getNodeModel(u32 node);
 };
 

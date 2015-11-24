@@ -300,7 +300,7 @@ void CMaterialPass::SetEnabled(bool Enabled)
 }
 
 // ************ STATIC ************
-std::string CMaterialPass::PassTypeName(CFourCC Type)
+TString CMaterialPass::PassTypeName(CFourCC Type)
 {
     if (Type == "CUST") return "Custom";
     if (Type == "DIFF") return "Light";

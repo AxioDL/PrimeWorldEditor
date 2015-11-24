@@ -45,7 +45,7 @@ CSceneNode::~CSceneNode()
 }
 
 // ************ VIRTUAL ************
-std::string CSceneNode::PrefixedName() const
+TString CSceneNode::PrefixedName() const
 {
     return Name();
 }
@@ -287,7 +287,7 @@ const CTransform4f& CSceneNode::Transform()
 }
 
 // ************ GETTERS ************
-std::string CSceneNode::Name() const
+TString CSceneNode::Name() const
 {
     return mName;
 }
@@ -399,7 +399,7 @@ bool CSceneNode::InheritsScale() const
 }
 
 // ************ SETTERS ************
-void CSceneNode::SetName(const std::string& Name)
+void CSceneNode::SetName(const TString& Name)
 {
     mName = Name;
 }

@@ -2,7 +2,7 @@
 #define CSHADER_H
 
 #include <gl/glew.h>
-#include <string>
+#include <Common/TString.h>
 
 class CShader
 {
@@ -29,17 +29,17 @@ public:
     bool LinkShaders();
     bool IsValidProgram();
     GLuint GetProgramID();
-    GLuint GetUniformLocation(const char* Uniform);
-    GLuint GetUniformBlockIndex(const char* UniformBlock);
+    GLuint GetUniformLocation(const char* kpUniform);
+    GLuint GetUniformBlockIndex(const char* kpUniformBlock);
     void SetCurrent();
 
     // Static
-    static CShader* FromResourceFile(std::string ShaderName);
+    static CShader* FromResourceFile(const TString& ShaderName);
     static CShader* CurrentShader();
     static void KillCachedShader();
 
 private:
-    void DumpShaderSource(GLuint Shader, std::string Out);
+    void DumpShaderSource(GLuint Shader, const TString& Out);
 };
 
 #endif // CSHADER_H

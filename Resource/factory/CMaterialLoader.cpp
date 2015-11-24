@@ -39,7 +39,7 @@ void CMaterialLoader::ReadPrimeMatSet()
     {
         mpSet->mMaterials[iMat] = ReadPrimeMaterial();
         mpSet->mMaterials[iMat]->mVersion = mVersion;
-        mpSet->mMaterials[iMat]->mName = std::string("Material #") + std::to_string(iMat + 1);
+        mpSet->mMaterials[iMat]->mName = TString("Material #") + std::to_string(iMat + 1);
         mpFile->Seek(matsStart + offsets[iMat], SEEK_SET);
     }
 }
@@ -189,7 +189,7 @@ CMaterial* CMaterialLoader::ReadPrimeMaterial()
         case 6: // Model Matrix
             break;
         default:
-            Log::FileError(mpFile->GetSourceString(), mpFile->Tell() - 4, "Unsupported animation mode encountered: " + StringUtil::ToHexString((u32) Anims[iAnim].Mode));
+            Log::FileError(mpFile->GetSourceString(), mpFile->Tell() - 4, "Unsupported animation mode encountered: " + TString::HexString((u32) Anims[iAnim].Mode));
             break;
         }
     }
@@ -240,7 +240,7 @@ void CMaterialLoader::ReadCorruptionMatSet()
         u32 Next = mpFile->Tell() + Size;
         mpSet->mMaterials[iMat] = ReadCorruptionMaterial();
         mpSet->mMaterials[iMat]->mVersion = mVersion;
-        mpSet->mMaterials[iMat]->mName = std::string("Material #") + std::to_string(iMat + 1);
+        mpSet->mMaterials[iMat]->mName = TString("Material #") + std::to_string(iMat + 1);
         mpFile->Seek(Next, SEEK_SET);
     }
 }
@@ -378,7 +378,7 @@ CMaterial* CMaterialLoader::ReadCorruptionMaterial()
                 case 10: // Yet-to-be-named
                     break;
                 default:
-                    Log::FileError(mpFile->GetSourceString(), mpFile->Tell() - 8, "Unsupported animation mode encountered: " + StringUtil::ToHexString((u32) pPass->mAnimMode));
+                    Log::FileError(mpFile->GetSourceString(), mpFile->Tell() - 8, "Unsupported animation mode encountered: " + TString::HexString((u32) pPass->mAnimMode));
                     break;
                 }
 

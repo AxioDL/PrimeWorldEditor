@@ -92,7 +92,7 @@ ENodeType CScriptNode::NodeType()
     return eScriptNode;
 }
 
-std::string CScriptNode::PrefixedName() const
+TString CScriptNode::PrefixedName() const
 {
     return "[" + mpInstance->Template()->TemplateName() + "] " + mpInstance->InstanceName();
 }

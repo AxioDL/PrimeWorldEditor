@@ -1,4 +1,5 @@
 #include "CLayerModel.h"
+#include "../UICommon.h"
 
 CLayerModel::CLayerModel(QObject *pParent) : QAbstractListModel(pParent)
 {
@@ -20,7 +21,7 @@ int CLayerModel::rowCount(const QModelIndex &parent) const
 QVariant CLayerModel::data(const QModelIndex &index, int role) const
 {
     if (mpArea && (role == Qt::DisplayRole) && (index.row() < rowCount(QModelIndex())))
-        return QString::fromStdString(Layer(index)->Name());
+        return TO_QSTRING(Layer(index)->Name());
 
     return QVariant::Invalid;
 }

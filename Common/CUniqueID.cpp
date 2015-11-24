@@ -1,5 +1,5 @@
 #include "CUniqueID.h"
-#include <Common/StringUtil.h>
+#include <Common/TString.h>
 
 #include <iomanip>
 #include <random>
@@ -81,26 +81,28 @@ u64 CUniqueID::ToLongLong() const
         return *((u64*) &mID[8]);
 }
 
-std::string CUniqueID::ToString() const
+TString CUniqueID::ToString() const
 {
-    std::stringstream Ret;
-    Ret << std::hex << std::setfill('0');
-
     switch (mLength)
     {
     case e32Bit:
-        Ret << std::setw(8) << ToLong();
-        break;
+        return TString::FromInt32(ToLong(), 8);
+
     case e64Bit:
-        Ret << std::setw(16) << ToLongLong();
-        break;
+        return TString::FromInt64(ToLongLong(), 16);
+
     case e128Bit:
+        // todo: TString should have a "FromInt128" function
+        std::stringstream Ret;
+        Ret << std::hex << std::setfill('0');
+
         for (u32 i = 0; i < 16; i++)
             Ret << std::setw(2) << (u32) mID[i];
-        break;
+
+        return Ret.str();
     }
 
-    return Ret.str();
+    return "INVALID ID LENGTH";
 }
 
 void CUniqueID::Reverse()
@@ -223,21 +225,20 @@ bool CUniqueID::operator!=(u64 Other) const
 }
 
 // ************ STATIC ************
-CUniqueID CUniqueID::FromString(std::string String)
+CUniqueID CUniqueID::FromString(const TString& String)
 {
     // If the input is a hex ID in string form, then preserve it... otherwise, generate an ID by hashing the string
-    std::string Name = StringUtil::GetFileName(String);
-    if (Name.back() == '\0') Name.pop_back();
-    u32 NameLength = Name.length();
+    TString Name = String.GetFileName(false);
+    u32 NameLength = Name.Length();
 
-    if (StringUtil::IsHexString(Name))
+    if (Name.IsHexString())
     {
         if (NameLength == 8)
         {
             CUniqueID ID;
             ID.mLength = e32Bit;
 
-            u32 LongID = StringUtil::ToInt32(Name);
+            u32 LongID = Name.ToInt32();
 
             if (SystemEndianness == LittleEndian)
                 memcpy(ID.mID, &LongID, 4);
@@ -252,7 +253,7 @@ CUniqueID CUniqueID::FromString(std::string String)
             CUniqueID ID;
             ID.mLength = e64Bit;
 
-            u64 LongID = StringUtil::ToInt64(Name);
+            u64 LongID = Name.ToInt64();
 
             if (SystemEndianness == LittleEndian)
                 memcpy(ID.mID, &LongID, 8);
@@ -266,12 +267,12 @@ CUniqueID CUniqueID::FromString(std::string String)
         {
             CUniqueID ID;
             ID.mLength = e128Bit;
-            StringUtil::ToInt128(Name, (char*) ID.mID);
+            Name.ToInt128((char*) ID.mID);
             return ID;
         }
     }
 
-    return CUniqueID( (u64) StringUtil::Hash64(String) );
+    return CUniqueID(String.Hash64());
 }
 
 CUniqueID CUniqueID::FromData(void *pData, EUIDLength Length)

@@ -2,7 +2,7 @@
 #include "CWorldLoader.h"
 #include <Core/Log.h>
 
-void CTemplateLoader::LoadBitFlags(tinyxml2::XMLElement *pElem, CBitfieldTemplate *pTemp, const std::string& templateName)
+void CTemplateLoader::LoadBitFlags(tinyxml2::XMLElement *pElem, CBitfieldTemplate *pTemp, const TString& templateName)
 {
     tinyxml2::XMLElement *pChild = pElem->FirstChildElement("bitflag");
 
@@ -12,11 +12,11 @@ void CTemplateLoader::LoadBitFlags(tinyxml2::XMLElement *pElem, CBitfieldTemplat
         const char *kpName = pChild->Attribute("name");
 
         if (kpMask && kpName)
-            pTemp->mBitFlags.push_back(CBitfieldTemplate::SBitFlag(kpName, StringUtil::ToInt32(kpMask)));
+            pTemp->mBitFlags.push_back(CBitfieldTemplate::SBitFlag(kpName, TString(kpMask).ToInt32()));
 
         else
         {
-            std::string LogErrorBase = "Couldn't parse bit flag in " + templateName + "; ";
+            TString LogErrorBase = "Couldn't parse bit flag in " + templateName + "; ";
 
             if      (!kpMask && kpName) Log::Error(LogErrorBase + "no mask (" + kpName + ")");
             else if (kpMask && !kpName) Log::Error(LogErrorBase + "no name (mask " + kpMask + ")");
@@ -27,7 +27,7 @@ void CTemplateLoader::LoadBitFlags(tinyxml2::XMLElement *pElem, CBitfieldTemplat
     }
 }
 
-void CTemplateLoader::LoadEnumerators(tinyxml2::XMLElement *pElem, CEnumTemplate *pTemp, const std::string& templateName)
+void CTemplateLoader::LoadEnumerators(tinyxml2::XMLElement *pElem, CEnumTemplate *pTemp, const TString& templateName)
 {
     tinyxml2::XMLElement *pChild = pElem->FirstChildElement("enumerator");
 
@@ -37,11 +37,11 @@ void CTemplateLoader::LoadEnumerators(tinyxml2::XMLElement *pElem, CEnumTemplate
         const char *kpName = pChild->Attribute("name");
 
         if (kpID && kpName)
-            pTemp->mEnumerators.push_back(CEnumTemplate::SEnumerator(kpName, StringUtil::ToInt32(kpID)));
+            pTemp->mEnumerators.push_back(CEnumTemplate::SEnumerator(kpName, TString(kpID).ToInt32()));
 
         else
         {
-            std::string LogErrorBase = "Couldn't parse enumerator in " + templateName + "; ";
+            TString LogErrorBase = "Couldn't parse enumerator in " + templateName + "; ";
 
             if      (!kpID && kpName) Log::Error(LogErrorBase + "no valid ID (" + kpName + ")");
             else if (kpID && !kpName) Log::Error(LogErrorBase + "no valid name (ID " + kpID + ")");
@@ -52,7 +52,7 @@ void CTemplateLoader::LoadEnumerators(tinyxml2::XMLElement *pElem, CEnumTemplate
     }
 }
 
-void CTemplateLoader::LoadStructProperties(tinyxml2::XMLElement *pElem, CStructTemplate *pTemp, const std::string& templateName)
+void CTemplateLoader::LoadStructProperties(tinyxml2::XMLElement *pElem, CStructTemplate *pTemp, const TString& templateName)
 {
     tinyxml2::XMLElement *pChild = pElem->FirstChildElement();
 
@@ -67,7 +67,7 @@ void CTemplateLoader::LoadStructProperties(tinyxml2::XMLElement *pElem, CStructT
     }
 }
 
-CPropertyTemplate* CTemplateLoader::LoadPropertyTemplate(tinyxml2::XMLElement *pElem, const std::string& templateName)
+CPropertyTemplate* CTemplateLoader::LoadPropertyTemplate(tinyxml2::XMLElement *pElem, const TString& templateName)
 {
     const char *kpIDStr = pElem->Attribute("ID");
     const char *kpNameStr = pElem->Attribute("name");
@@ -76,9 +76,9 @@ CPropertyTemplate* CTemplateLoader::LoadPropertyTemplate(tinyxml2::XMLElement *p
     const char *kpTemplateStr = pElem->Attribute("template");
 
     // Get ID + name, find source template if it exists
-    u32 ID = StringUtil::ToInt32(kpIDStr);
+    u32 ID = TString(kpIDStr).ToInt32();
     CPropertyTemplate *pSource = nullptr;
-    std::string name;
+    TString name;
 
     if (mpMaster->HasPropertyList())
         pSource = mpMaster->GetProperty(ID);
@@ -88,7 +88,7 @@ CPropertyTemplate* CTemplateLoader::LoadPropertyTemplate(tinyxml2::XMLElement *p
     else if (pSource)
         name = pSource->Name();
     else
-        name = StringUtil::ToHexString(ID);
+        name = TString::HexString(ID);
 
     // Load Property
     if (strcmp(pElem->Name(), "property") == 0)
@@ -105,9 +105,9 @@ CPropertyTemplate* CTemplateLoader::LoadPropertyTemplate(tinyxml2::XMLElement *p
         // File property
         if (type == eFileProperty)
         {
-            CStringList extensions;
+            TStringList extensions;
             if (kpExtensionsStr)
-                extensions = StringUtil::Tokenize(kpExtensionsStr, ",");
+                extensions = TString(kpExtensionsStr).Split(",");
             else if (pSource)
                 extensions = static_cast<CFileTemplate*>(pSource)->Extensions();
 
@@ -138,10 +138,10 @@ CPropertyTemplate* CTemplateLoader::LoadPropertyTemplate(tinyxml2::XMLElement *p
         // Template
         else if (kpTemplateStr)
         {
-            std::string tempPath = mMasterDir + kpTemplateStr;
+            TString tempPath = mMasterDir + kpTemplateStr;
 
             tinyxml2::XMLDocument structXML;
-            structXML.LoadFile(tempPath.c_str());
+            structXML.LoadFile(*tempPath);
 
             if (structXML.Error())
                 Log::Error("Couldn't open struct XML: " + mMasterDir + kpTemplateStr);
@@ -179,7 +179,7 @@ CPropertyTemplate* CTemplateLoader::LoadPropertyTemplate(tinyxml2::XMLElement *p
             pStruct->mIsSingleProperty = static_cast<CStructTemplate*>(pSource)->IsSingleProperty();
 
         // Name
-        if (!name.empty())
+        if (!name.IsEmpty())
             pStruct->mPropName = name;
 
         return pStruct;
@@ -200,10 +200,10 @@ CPropertyTemplate* CTemplateLoader::LoadPropertyTemplate(tinyxml2::XMLElement *p
         // Template
         else if (kpTemplateStr)
         {
-            std::string tempPath = mMasterDir + kpTemplateStr;
+            TString tempPath = mMasterDir + kpTemplateStr;
 
             tinyxml2::XMLDocument enumXML;
-            enumXML.LoadFile(tempPath.c_str());
+            enumXML.LoadFile(*tempPath);
 
             if (enumXML.Error())
                 Log::Error("Couldn't open enum XML: " + mMasterDir + kpTemplateStr);
@@ -221,7 +221,7 @@ CPropertyTemplate* CTemplateLoader::LoadPropertyTemplate(tinyxml2::XMLElement *p
         }
 
         // Name
-        if (!name.empty())
+        if (!name.IsEmpty())
             pEnum->mPropName = name;
 
         return pEnum;
@@ -240,10 +240,10 @@ CPropertyTemplate* CTemplateLoader::LoadPropertyTemplate(tinyxml2::XMLElement *p
         // Template
         else if (kpTemplateStr)
         {
-            std::string tempPath = mMasterDir + kpTemplateStr;
+            TString tempPath = mMasterDir + kpTemplateStr;
 
             tinyxml2::XMLDocument bitfieldXML;
-            bitfieldXML.LoadFile(tempPath.c_str());
+            bitfieldXML.LoadFile(*tempPath);
 
             if (bitfieldXML.Error())
                 Log::Error("Couldn't open bitfield XML: " + mMasterDir + kpTemplateStr);
@@ -261,7 +261,7 @@ CPropertyTemplate* CTemplateLoader::LoadPropertyTemplate(tinyxml2::XMLElement *p
         }
 
         // Name
-        if (!name.empty())
+        if (!name.IsEmpty())
             pBitfield->mPropName = name;
 
         return pBitfield;
@@ -270,7 +270,7 @@ CPropertyTemplate* CTemplateLoader::LoadPropertyTemplate(tinyxml2::XMLElement *p
 }
 
 // ************ SCRIPT OBJECT ************
-CScriptTemplate* CTemplateLoader::LoadScriptTemplate(tinyxml2::XMLDocument *pDoc, const std::string& templateName, u32 objectID)
+CScriptTemplate* CTemplateLoader::LoadScriptTemplate(tinyxml2::XMLDocument *pDoc, const TString& templateName, u32 objectID)
 {
     CScriptTemplate *pScript = new CScriptTemplate(mpMaster);
     pScript->mObjectID = objectID;
@@ -372,7 +372,7 @@ CScriptTemplate* CTemplateLoader::LoadScriptTemplate(tinyxml2::XMLDocument *pDoc
 
                 const char *kpForce = pAsset->Attribute("force");
                 if (kpForce)
-                    asset.ForceNodeIndex = StringUtil::ToInt32(kpForce);
+                    asset.ForceNodeIndex = TString(kpForce).ToInt32();
                 else
                     asset.ForceNodeIndex = -1;
 
@@ -459,7 +459,7 @@ CScriptTemplate* CTemplateLoader::LoadScriptTemplate(tinyxml2::XMLDocument *pDoc
                             else if (strcmp(kpConditionValue, "false") == 0)
                                 condition.Value = 0;
                             else
-                                condition.Value = StringUtil::ToInt32(kpConditionValue);
+                                condition.Value = TString(kpConditionValue).ToInt32();
 
                             pScript->mVolumeConditions.push_back(condition);
                         }
@@ -478,7 +478,7 @@ CScriptTemplate* CTemplateLoader::LoadScriptTemplate(tinyxml2::XMLDocument *pDoc
 void CTemplateLoader::LoadMasterTemplate(tinyxml2::XMLDocument *pDoc)
 {
     tinyxml2::XMLElement *pRoot = pDoc->FirstChildElement("MasterTemplate");
-    mpMaster->mVersion = StringUtil::ToInt32(pRoot->Attribute("version"));
+    mpMaster->mVersion = TString(pRoot->Attribute("version")).ToInt32();
 
     tinyxml2::XMLElement *pElem = pRoot->FirstChildElement();
 
@@ -487,10 +487,10 @@ void CTemplateLoader::LoadMasterTemplate(tinyxml2::XMLDocument *pDoc)
         // Properties
         if (strcmp(pElem->Name(), "properties") == 0)
         {
-            std::string propListPath = mMasterDir + pElem->GetText();
+            TString propListPath = mMasterDir + pElem->GetText();
 
             tinyxml2::XMLDocument propListXML;
-            propListXML.LoadFile(propListPath.c_str());
+            propListXML.LoadFile(*propListPath);
 
             if (propListXML.Error())
                 Log::Error("Couldn't open property list: " + propListPath);
@@ -507,20 +507,20 @@ void CTemplateLoader::LoadMasterTemplate(tinyxml2::XMLDocument *pDoc)
             while (pObj)
             {
                 // ID can either be a hex number or an ASCII fourCC
-                std::string strID = pObj->Attribute("ID");
+                TString strID = pObj->Attribute("ID");
                 u32 ID;
 
-                if (StringUtil::IsHexString(strID, true))
-                    ID = StringUtil::ToInt32(strID);
+                if (strID.IsHexString(true))
+                    ID = strID.ToInt32();
                 else
                     ID = CFourCC(strID).ToLong();
 
                 // Load up the object
-                std::string templateName = pObj->Attribute("template");
-                std::string templatePath = mMasterDir + templateName;
+                TString templateName = pObj->Attribute("template");
+                TString templatePath = mMasterDir + templateName;
 
                 tinyxml2::XMLDocument scriptXML;
-                scriptXML.LoadFile(templatePath.c_str());
+                scriptXML.LoadFile(*templatePath);
 
                 if (scriptXML.Error())
                     Log::Error("Couldn't open script template: " + templatePath);
@@ -547,15 +547,15 @@ void CTemplateLoader::LoadMasterTemplate(tinyxml2::XMLDocument *pDoc)
 
             while (pState)
             {
-                std::string strID = pState->Attribute("ID");
+                TString strID = pState->Attribute("ID");
                 u32 stateID;
 
-                if (StringUtil::IsHexString(strID, true))
-                    stateID = StringUtil::ToInt32(strID);
+                if (strID.IsHexString(true))
+                    stateID = strID.ToInt32();
                 else
                     stateID = CFourCC(strID).ToLong();
 
-                std::string stateName = pState->Attribute("name");
+                TString stateName = pState->Attribute("name");
                 mpMaster->mStates[stateID] = stateName;
                 pState = pState->NextSiblingElement("state");
             }
@@ -568,15 +568,15 @@ void CTemplateLoader::LoadMasterTemplate(tinyxml2::XMLDocument *pDoc)
 
             while (pMessage)
             {
-                std::string strID = pMessage->Attribute("ID");
+                TString strID = pMessage->Attribute("ID");
                 u32 messageID;
 
-                if (StringUtil::IsHexString(strID, true))
-                    messageID = StringUtil::ToInt32(strID);
+                if (strID.IsHexString(true))
+                    messageID = strID.ToInt32();
                 else
                     messageID = CFourCC(strID).ToLong();
 
-                std::string messageName = pMessage->Attribute("name");
+                TString messageName = pMessage->Attribute("name");
                 mpMaster->mMessages[messageID] = messageName;
                 pMessage = pMessage->NextSiblingElement("message");
             }
@@ -586,7 +586,7 @@ void CTemplateLoader::LoadMasterTemplate(tinyxml2::XMLDocument *pDoc)
     }
 }
 
-void CTemplateLoader::LoadPropertyList(tinyxml2::XMLDocument *pDoc, const std::string& listName)
+void CTemplateLoader::LoadPropertyList(tinyxml2::XMLDocument *pDoc, const TString& listName)
 {
     tinyxml2::XMLElement *pElem = pDoc->FirstChildElement()->FirstChildElement();
 
@@ -622,11 +622,11 @@ CMasterTemplate* CTemplateLoader::LoadGame(tinyxml2::XMLNode *pNode)
 
         else if (strcmp(pGameElem->Name(), "master") == 0)
         {
-            std::string MasterPath = mTemplatesDir + pGameElem->GetText();
-            mMasterDir = StringUtil::GetFileDirectory(MasterPath);
+            TString MasterPath = mTemplatesDir + pGameElem->GetText();
+            mMasterDir = MasterPath.GetFileDirectory();
 
             tinyxml2::XMLDocument MasterXML;
-            MasterXML.LoadFile(MasterPath.c_str());
+            MasterXML.LoadFile(*MasterPath);
 
             if (MasterXML.Error())
             {
@@ -649,13 +649,13 @@ CMasterTemplate* CTemplateLoader::LoadGame(tinyxml2::XMLNode *pNode)
 // ************ PUBLIC ************
 void CTemplateLoader::LoadGameList()
 {
-    static const std::string skTemplatesDir = "../templates/";
-    static const std::string skGameListPath = skTemplatesDir + "GameList.xml";
+    static const TString skTemplatesDir = "../templates/";
+    static const TString skGameListPath = skTemplatesDir + "GameList.xml";
     Log::Write("Loading game list");
 
     // Load Game List XML
     tinyxml2::XMLDocument GameListXML;
-    GameListXML.LoadFile(skGameListPath.c_str());
+    GameListXML.LoadFile(*skGameListPath);
 
     if (GameListXML.Error())
     {

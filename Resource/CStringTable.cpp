@@ -35,7 +35,7 @@ CFourCC CStringTable::GetLangTag(u32 Index)
     return mLangTables[Index].Language;
 }
 
-std::wstring CStringTable::GetString(CFourCC Lang, u32 StringIndex)
+TWideString CStringTable::GetString(CFourCC Lang, u32 StringIndex)
 {
     for (u32 iLang = 0; iLang < GetLangCount(); iLang++)
     {
@@ -46,12 +46,12 @@ std::wstring CStringTable::GetString(CFourCC Lang, u32 StringIndex)
     return std::wstring();
 }
 
-std::wstring CStringTable::GetString(u32 LangIndex, u32 StringIndex)
+TWideString CStringTable::GetString(u32 LangIndex, u32 StringIndex)
 {
     return mLangTables[LangIndex].Strings[StringIndex];
 }
 
-std::string CStringTable::GetStringName(u32 StringIndex)
+TString CStringTable::GetStringName(u32 StringIndex)
 {
     return mStringNames[StringIndex];
 }

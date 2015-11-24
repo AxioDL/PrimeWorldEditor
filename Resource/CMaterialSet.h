@@ -19,8 +19,8 @@ public:
     CMaterialSet* Clone();
     u32 NumMaterials();
     CMaterial* MaterialByIndex(u32 index);
-    CMaterial* MaterialByName(const std::string& name);
-    u32 MaterialIndexByName(const std::string& name);
+    CMaterial* MaterialByName(const TString& name);
+    u32 MaterialIndexByName(const TString& name);
 };
 
 #endif // CMATERIALSET_H

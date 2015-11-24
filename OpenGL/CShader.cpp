@@ -53,7 +53,7 @@ bool CShader::CompileVertexSource(const char* kpSource)
 
     if (CompileStatus == GL_FALSE)
     {
-        std::string Out = "dump/BadVS_" + std::to_string(gFailedCompileCount) + ".txt";
+        TString Out = "dump/BadVS_" + std::to_string(gFailedCompileCount) + ".txt";
         std::cout << "ERROR: Unable to compile vertex shader; dumped to " << Out << "\n";
         DumpShaderSource(mVertexShader, Out);
 
@@ -65,7 +65,7 @@ bool CShader::CompileVertexSource(const char* kpSource)
     // Debug dump
     else if (gDebugDumpShaders == true)
     {
-        std::string Out = "dump/VS_" + std::to_string(gSuccessfulCompileCount) + ".txt";
+        TString Out = "dump/VS_" + TString::FromInt64(gSuccessfulCompileCount, 8, 10) + ".txt";
         std::cout << "Debug shader dumping enabled; dumped to " << Out << "\n";
         DumpShaderSource(mVertexShader, Out);
 
@@ -88,7 +88,7 @@ bool CShader::CompilePixelSource(const char* kpSource)
 
     if (CompileStatus == GL_FALSE)
     {
-        std::string Out = "dump/BadPS_" + std::to_string(gFailedCompileCount) + ".txt";
+        TString Out = "dump/BadPS_" + TString::FromInt64(gFailedCompileCount, 8, 10) + ".txt";
         std::cout << "ERROR: Unable to compile pixel shader; dumped to " << Out << "\n";
         DumpShaderSource(mPixelShader, Out);
 
@@ -100,7 +100,7 @@ bool CShader::CompilePixelSource(const char* kpSource)
     // Debug dump
     else if (gDebugDumpShaders == true)
     {
-        std::string Out = "dump/PS_" + std::to_string(gSuccessfulCompileCount) + ".txt";
+        TString Out = "dump/PS_" + TString::FromInt64(gSuccessfulCompileCount, 8, 10) + ".txt";
         std::cout << "Debug shader dumping enabled; dumped to " << Out << "\n";
         DumpShaderSource(mPixelShader, Out);
 
@@ -131,7 +131,7 @@ bool CShader::LinkShaders()
 
     if (LinkStatus == GL_FALSE)
     {
-        std::string Out = "dump/BadLink_" + std::to_string(gFailedCompileCount) + ".txt";
+        TString Out = "dump/BadLink_" + TString::FromInt64(gFailedCompileCount, 8, 10) + ".txt";
         std::cout << "ERROR: Unable to link shaders. Dumped error log to " << Out << "\n";
 
         GLint LogLen;
@@ -140,7 +140,7 @@ bool CShader::LinkShaders()
         glGetProgramInfoLog(mProgram, LogLen, NULL, InfoLog);
 
         std::ofstream LinkOut;
-        LinkOut.open(Out.c_str());
+        LinkOut.open(*Out);
 
         if (LogLen > 0)
             LinkOut << InfoLog;
@@ -197,12 +197,12 @@ void CShader::SetCurrent()
 }
 
 // ************ STATIC ************
-CShader* CShader::FromResourceFile(std::string ShaderName)
+CShader* CShader::FromResourceFile(const TString& ShaderName)
 {
-    std::string VertexShaderFilename = "../resources/shaders/" + ShaderName + ".vs";
-    std::string PixelShaderFilename = "../resources/shaders/" + ShaderName + ".ps";
-    CTextInStream VertexShaderFile(VertexShaderFilename);
-    CTextInStream PixelShaderFile(PixelShaderFilename);
+    TString VertexShaderFilename = "../resources/shaders/" + ShaderName + ".vs";
+    TString PixelShaderFilename = "../resources/shaders/" + ShaderName + ".ps";
+    CTextInStream VertexShaderFile(VertexShaderFilename.ToStdString());
+    CTextInStream PixelShaderFile(PixelShaderFilename.ToStdString());
 
     if (!VertexShaderFile.IsValid())
         std::cout << "Error: Couldn't load vertex shader file for " << ShaderName << "\n";
@@ -236,7 +236,7 @@ void CShader::KillCachedShader()
 }
 
 // ************ PRIVATE ************
-void CShader::DumpShaderSource(GLuint Shader, std::string Out)
+void CShader::DumpShaderSource(GLuint Shader, const TString& Out)
 {
     GLint SourceLen;
     glGetShaderiv(Shader, GL_SHADER_SOURCE_LENGTH, &SourceLen);
@@ -249,7 +249,7 @@ void CShader::DumpShaderSource(GLuint Shader, std::string Out)
     glGetShaderInfoLog(Shader, LogLen, NULL, InfoLog);
 
     std::ofstream ShaderOut;
-    ShaderOut.open(Out.c_str());
+    ShaderOut.open(*Out);
 
     if (SourceLen > 0)
         ShaderOut << Source;

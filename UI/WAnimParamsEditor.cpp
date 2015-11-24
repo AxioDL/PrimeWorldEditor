@@ -1,4 +1,6 @@
 #include "WAnimParamsEditor.h"
+
+#include "UICommon.h"
 #include <Core/CResCache.h>
 #include <Resource/CAnimSet.h>
 
@@ -139,7 +141,7 @@ void WAnimParamsEditor::SetupUI()
 
         if (pSet)
             for (u32 iChar = 0; iChar < pSet->getNodeCount(); iChar++)
-                mpCharComboBox->addItem(QString::fromStdString(pSet->getNodeName(iChar)));
+                mpCharComboBox->addItem(TO_QSTRING(pSet->getNodeName(iChar)));
 
         mpCharComboBox->setCurrentIndex(mParams.CharacterIndex());
         mpLabels[1] = new QLabel("Character", this);

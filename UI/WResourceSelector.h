@@ -66,7 +66,7 @@ public:
     void SetResource(CResource *pRes);
     void SetAllowedExtensions(const QString& extension);
     void SetAllowedExtensions(const QStringList& extensions);
-    void SetAllowedExtensions(const CStringList& extensions);
+    void SetAllowedExtensions(const TStringList& extensions);
     void SetText(const QString& ResPath);
     void SetEditButtonEnabled(bool Enabled);
     void SetExportButtonEnabled(bool Enabled);

@@ -1,7 +1,7 @@
 #include "CPropertyTemplate.h"
 #include <iostream>
 
-EPropertyType PropStringToPropEnum(std::string prop)
+EPropertyType PropStringToPropEnum(const TString& prop)
 {
     if (prop == "bool")       return eBoolProperty;
     if (prop == "byte")       return eByteProperty;
@@ -21,7 +21,7 @@ EPropertyType PropStringToPropEnum(std::string prop)
                               return eInvalidProperty;
 }
 
-std::string PropEnumToPropString(EPropertyType prop)
+TString PropEnumToPropString(EPropertyType prop)
 {
     switch (prop)
     {
@@ -96,20 +96,20 @@ CPropertyTemplate* CStructTemplate::PropertyByID(u32 ID)
     return nullptr;
 }
 
-CPropertyTemplate* CStructTemplate::PropertyByIDString(const std::string& str)
+CPropertyTemplate* CStructTemplate::PropertyByIDString(const TIDString& str)
 {
     // Resolve namespace
-    std::string::size_type nsStart = str.find_first_of("::");
-    std::string::size_type propStart = nsStart + 2;
+    u32 nsStart = str.IndexOf(":");
+    u32 propStart = nsStart + 1;
 
     // String has namespace; the requested property is within a struct
-    if (nsStart != std::string::npos)
+    if (nsStart != -1)
     {
-        std::string strStructID = str.substr(0, nsStart);
-        if (!StringUtil::IsHexString(strStructID)) return nullptr;
+        TString strStructID = str.SubString(0, nsStart);
+        if (!strStructID.IsHexString()) return nullptr;
 
-        u32 structID = StringUtil::ToInt32(strStructID);
-        std::string propName = str.substr(propStart, str.length() - propStart);
+        u32 structID = strStructID.ToInt32();
+        TString propName = str.SubString(propStart, str.Length() - propStart);
 
         CStructTemplate *pStruct = StructByID(structID);
         if (!pStruct) return nullptr;
@@ -120,8 +120,8 @@ CPropertyTemplate* CStructTemplate::PropertyByIDString(const std::string& str)
     else
     {
         // ID string lookup
-        if (StringUtil::IsHexString(str))
-            return PropertyByID(std::stoul(str, 0, 16));
+        if (str.IsHexString())
+            return PropertyByID(str.ToInt32());
         else
             return nullptr;
     }
@@ -147,7 +147,7 @@ CStructTemplate* CStructTemplate::StructByID(u32 ID)
         return nullptr;
 }
 
-CStructTemplate* CStructTemplate::StructByIDString(const std::string& str)
+CStructTemplate* CStructTemplate::StructByIDString(const TString& str)
 {
     CPropertyTemplate *pProp = PropertyByIDString(str);
 
@@ -158,7 +158,7 @@ CStructTemplate* CStructTemplate::StructByIDString(const std::string& str)
 }
 
 // ************ DEBUG ************
-void CStructTemplate::DebugPrintProperties(std::string base)
+void CStructTemplate::DebugPrintProperties(TString base)
 {
     base = base + Name() + "::";
     for (auto it = mProperties.begin(); it != mProperties.end(); it++)

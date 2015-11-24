@@ -82,7 +82,7 @@ CAnimSet* CAnimSetLoader::LoadANCS(CInputStream& ANCS)
     u32 magic = ANCS.ReadLong();
     if (magic != 0x00010001)
     {
-        Log::FileError(ANCS.GetSourceString(), "Invalid ANCS magic: " + StringUtil::ToHexString(magic));
+        Log::FileError(ANCS.GetSourceString(), "Invalid ANCS magic: " + TString::HexString(magic));
         return nullptr;
     }
 
@@ -194,6 +194,6 @@ CAnimSet* CAnimSetLoader::LoadCHAR(CInputStream &CHAR)
         return loader.LoadReturnsCHAR(CHAR);
     }
 
-    Log::FileError(CHAR.GetSourceString(), "CHAR has invalid first byte: " + StringUtil::ToHexString(check));
+    Log::FileError(CHAR.GetSourceString(), "CHAR has invalid first byte: " + TString::HexString(check));
     return nullptr;
 }

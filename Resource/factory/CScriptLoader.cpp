@@ -69,7 +69,7 @@ CPropertyStruct* CScriptLoader::LoadStructMP1(CInputStream& SCLY, CStructTemplat
                 mask |= pBitfieldTemp->FlagMask(iMask);
 
             u32 check = v & ~mask;
-            if (check != 0) Log::FileWarning(SCLY.GetSourceString(), SCLY.Tell() - 4, "Bitfield property \"" + pBitfieldTemp->Name() + "\" in struct \"" + pTemp->Name() + "\" has flags set that aren't in the template: " + StringUtil::ToHexString(check, true, true, 8));
+            if (check != 0) Log::FileWarning(SCLY.GetSourceString(), SCLY.Tell() - 4, "Bitfield property \"" + pBitfieldTemp->Name() + "\" in struct \"" + pTemp->Name() + "\" has flags set that aren't in the template: " + TString::HexString(check, true, true, 8));
 
             break;
         }
@@ -77,7 +77,7 @@ CPropertyStruct* CScriptLoader::LoadStructMP1(CInputStream& SCLY, CStructTemplat
             CEnumTemplate *pEnumTemp = static_cast<CEnumTemplate*>(pPropTmp);
             u32 ID = SCLY.ReadLong();
             u32 index = pEnumTemp->EnumeratorIndex(ID);
-            if (index == -1) Log::FileError(SCLY.GetSourceString(), SCLY.Tell() - 4, "Enum property \"" + pEnumTemp->Name() + "\" in struct \"" + pTemp->Name() + "\" has invalid enumerator value: " + StringUtil::ToHexString(ID, true, true, 8));
+            if (index == -1) Log::FileError(SCLY.GetSourceString(), SCLY.Tell() - 4, "Enum property \"" + pEnumTemp->Name() + "\" in struct \"" + pTemp->Name() + "\" has invalid enumerator value: " + TString::HexString(ID, true, true, 8));
             pProp = new CEnumProperty(index);
             break;
         }
@@ -87,7 +87,7 @@ CPropertyStruct* CScriptLoader::LoadStructMP1(CInputStream& SCLY, CStructTemplat
             break;
         }
         case eStringProperty: {
-            std::string v = SCLY.ReadString();
+            TString v = SCLY.ReadString();
             pProp = new CStringProperty(v);
             break;
         }
@@ -104,13 +104,13 @@ CPropertyStruct* CScriptLoader::LoadStructMP1(CInputStream& SCLY, CStructTemplat
         }
         case eFileProperty: {
             u32 ResID = SCLY.ReadLong();
-            const CStringList& Extensions = static_cast<CFileTemplate*>(pPropTmp)->Extensions();
+            const TStringList& Extensions = static_cast<CFileTemplate*>(pPropTmp)->Extensions();
 
             CResource *pRes = nullptr;
 
             for (auto it = Extensions.begin(); it != Extensions.end(); it++)
             {
-                const std::string& ext = *it;
+                const TString& ext = *it;
                 if ((ext != "MREA") && (ext != "MLVL")) // Let's avoid recursion please
                     pRes = gResCache.GetResource(ResID, ext);
 
@@ -155,7 +155,7 @@ CScriptObject* CScriptLoader::LoadObjectMP1(CInputStream& SCLY)
     if (!pTemp)
     {
         // No valid template for this object; can't load
-        Log::FileError(SCLY.GetSourceString(), objStart, "Invalid object ID encountered: " + StringUtil::ToHexString(type));
+        Log::FileError(SCLY.GetSourceString(), objStart, "Invalid object ID encountered: " + TString::HexString(type));
         SCLY.Seek(end, SEEK_SET);
         return nullptr;
     }
@@ -181,7 +181,7 @@ CScriptObject* CScriptLoader::LoadObjectMP1(CInputStream& SCLY)
     CStructTemplate *pBase = pTemp->BaseStructByCount(count);
 
     if (!pBase) {
-        Log::Error(pTemp->TemplateName() + " template doesn't match file property count (" + StringUtil::ToString(count) + ")");
+        Log::Error(pTemp->TemplateName() + " template doesn't match file property count (" + TString::FromInt32(count) + ")");
         pBase = pTemp->BaseStructByIndex(0);
     }
     mpObj->mpProperties = LoadStructMP1(SCLY, pBase);
@@ -257,7 +257,7 @@ void CScriptLoader::LoadStructMP2(CInputStream& SCLY, CPropertyStruct *pStruct, 
         }
 
         if (!pPropTemp)
-            Log::FileError(SCLY.GetSourceString(), propertyStart, "Can't find template for property " + StringUtil::ToHexString(propertyID) + " - skipping");
+            Log::FileError(SCLY.GetSourceString(), propertyStart, "Can't find template for property " + TString::HexString(propertyID) + " - skipping");
 
         else
         {
@@ -299,7 +299,7 @@ void CScriptLoader::LoadStructMP2(CInputStream& SCLY, CPropertyStruct *pStruct, 
                     mask |= pBitfieldTemp->FlagMask(iMask);
 
                 u32 check = pBitfieldCast->Get() & ~mask;
-                if (check != 0) Log::FileWarning(SCLY.GetSourceString(), SCLY.Tell() - 4, "Bitfield property \"" + pBitfieldTemp->Name() + "\" in struct \"" + pTemp->Name() + "\" has flags set that aren't in the template: " + StringUtil::ToHexString(check, true, true, 8));
+                if (check != 0) Log::FileWarning(SCLY.GetSourceString(), SCLY.Tell() - 4, "Bitfield property \"" + pBitfieldTemp->Name() + "\" in struct \"" + pTemp->Name() + "\" has flags set that aren't in the template: " + TString::HexString(check, true, true, 8));
 
                 break;
             }
@@ -309,7 +309,7 @@ void CScriptLoader::LoadStructMP2(CInputStream& SCLY, CPropertyStruct *pStruct, 
                 CEnumTemplate *pEnumTemp = static_cast<CEnumTemplate*>(pPropTemp);
                 u32 ID = SCLY.ReadLong();
                 u32 index = pEnumTemp->EnumeratorIndex(ID);
-                if (index == -1) Log::FileError(SCLY.GetSourceString(), SCLY.Tell() - 4, "Enum property \"" + pEnumTemp->Name() + "\" in struct \"" + pTemp->Name() + "\" has invalid enumerator value: " + StringUtil::ToHexString(ID, true, true, 8));
+                if (index == -1) Log::FileError(SCLY.GetSourceString(), SCLY.Tell() - 4, "Enum property \"" + pEnumTemp->Name() + "\" in struct \"" + pTemp->Name() + "\" has invalid enumerator value: " + TString::HexString(ID, true, true, 8));
                 pEnumCast->Set(index);
                 break;
             }
@@ -343,7 +343,7 @@ void CScriptLoader::LoadStructMP2(CInputStream& SCLY, CPropertyStruct *pStruct, 
                 CFileProperty *pFileCast = static_cast<CFileProperty*>(pProp);
 
                 CUniqueID ResID = (mVersion < eCorruptionProto ? SCLY.ReadLong() : SCLY.ReadLongLong());
-                const CStringList& Extensions = static_cast<CFileTemplate*>(pPropTemp)->Extensions();
+                const TStringList& Extensions = static_cast<CFileTemplate*>(pPropTemp)->Extensions();
 
                 CResource *pRes = nullptr;
 
@@ -356,7 +356,7 @@ void CScriptLoader::LoadStructMP2(CInputStream& SCLY, CPropertyStruct *pStruct, 
                 {
                     for (auto it = Extensions.begin(); it != Extensions.end(); it++)
                     {
-                        const std::string& ext = *it;
+                        const TString& ext = *it;
 
                         if ((ext != "MREA") && (ext != "MLVL")) {
                             pRes = gResCache.GetResource(ResID, ext);
@@ -371,13 +371,13 @@ void CScriptLoader::LoadStructMP2(CInputStream& SCLY, CPropertyStruct *pStruct, 
                 // Property may have an incorrect extension listed - print error
                 if ((!pRes) && (CUniqueID(ResID).IsValid()) && (!hasIgnoredExt))
                 {
-                    std::string ExtList;
+                    TString ExtList;
                     for (auto it = Extensions.begin(); it != Extensions.end(); it++)
                     {
                         if (it != Extensions.begin()) ExtList += "/";
                         ExtList += *it;
                     }
-                    Log::FileWarning(SCLY.GetSourceString(), "Incorrect resource type? " + ExtList + " " + StringUtil::ToHexString(propertyID));
+                    Log::FileWarning(SCLY.GetSourceString(), "Incorrect resource type? " + ExtList + " " + TString::HexString(propertyID));
                 }
 
                 pFileCast->Set(pRes);
@@ -474,7 +474,7 @@ CScriptLayer* CScriptLoader::LoadLayerMP2(CInputStream& SCLY)
     else if (SCLY_Magic == "SCGN") SCLY.Seek(0x2, SEEK_CUR);
     else
     {
-        Log::FileError(SCLY.GetSourceString(), SCLY.Tell() - 4, "Invalid script layer magic: " + StringUtil::ToHexString((u32) SCLY_Magic.ToLong()));
+        Log::FileError(SCLY.GetSourceString(), SCLY.Tell() - 4, "Invalid script layer magic: " + TString::HexString((u32) SCLY_Magic.ToLong()));
         return nullptr;
     }
 

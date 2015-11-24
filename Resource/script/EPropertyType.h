@@ -1,7 +1,7 @@
 #ifndef EPROPERTYTYPE
 #define EPROPERTYTYPE
 
-#include <string>
+#include <Common/TString.h>
 
 enum EPropertyType
 {
@@ -24,8 +24,8 @@ enum EPropertyType
 };
 
 // functions defined in CScriptTemplate.cpp
-EPropertyType PropStringToPropEnum(std::string prop);
-std::string PropEnumToPropString(EPropertyType prop);
+EPropertyType PropStringToPropEnum(const TString& prop);
+TString PropEnumToPropString(EPropertyType prop);
 
 #endif // EPROPERTYTYPE
 

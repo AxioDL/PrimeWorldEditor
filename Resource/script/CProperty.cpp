@@ -25,17 +25,16 @@ CPropertyBase* CPropertyStruct::PropertyByID(u32 ID)
 CPropertyBase* CPropertyStruct::PropertyByIDString(const TIDString& str)
 {
     // Resolve namespace
-    std::string::size_type nsStart = str.find_first_of(":");
-    std::string::size_type propStart = nsStart + 1;
+    u32 nsStart = str.IndexOf(":");
 
     // String has namespace; the requested property is within a struct
-    if (nsStart != std::string::npos)
+    if (nsStart != -1)
     {
-        std::string strStructID = str.substr(0, nsStart);
-        if (!StringUtil::IsHexString(strStructID)) return nullptr;
+        TString strStructID = str.Truncate(nsStart);
+        if (!strStructID.IsHexString()) return nullptr;
 
-        u32 structID = StringUtil::ToInt32(strStructID);
-        std::string propName = str.substr(propStart, str.length() - propStart);
+        u32 structID = strStructID.ToInt32();
+        TString propName = str.ChopFront(nsStart + 1);
 
         CPropertyStruct *pStruct = StructByID(structID);
         if (!pStruct) return nullptr;
@@ -45,8 +44,8 @@ CPropertyBase* CPropertyStruct::PropertyByIDString(const TIDString& str)
     // No namespace; fetch the property from this struct
     else
     {
-        if (StringUtil::IsHexString(str))
-            return PropertyByID(StringUtil::ToInt32(str));
+        if (str.IsHexString())
+            return PropertyByID(str.ToInt32());
         else
             return nullptr;
     }

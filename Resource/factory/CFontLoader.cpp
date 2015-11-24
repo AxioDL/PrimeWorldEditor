@@ -88,7 +88,7 @@ CFont* CFontLoader::LoadFONT(CInputStream& FONT)
     CFourCC Magic(FONT);
     if (Magic != "FONT")
     {
-        Log::FileError(FONT.GetSourceString(), "Invalid FONT magic: " + StringUtil::ToHexString((u32) Magic.ToLong()));
+        Log::FileError(FONT.GetSourceString(), "Invalid FONT magic: " + TString::HexString((u32) Magic.ToLong()));
         return nullptr;
     }
 
@@ -96,7 +96,7 @@ CFont* CFontLoader::LoadFONT(CInputStream& FONT)
     EGame Version = GetFormatVersion(FileVersion);
     if (Version == eUnknownVersion)
     {
-        Log::FileError(FONT.GetSourceString(), "Unsupported FONT version: " + StringUtil::ToHexString(FileVersion));
+        Log::FileError(FONT.GetSourceString(), "Unsupported FONT version: " + TString::HexString(FileVersion));
         return nullptr;
     }
 

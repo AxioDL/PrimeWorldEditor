@@ -66,7 +66,7 @@ void CHashFNV1A::HashFloat(const float& v)
     HashData(&v, 4);
 }
 
-void CHashFNV1A::HashString(const std::string& v)
+void CHashFNV1A::HashString(const TString& v)
 {
-    HashData(v.data(), v.size());
+    HashData(v.Data(), v.Size());
 }

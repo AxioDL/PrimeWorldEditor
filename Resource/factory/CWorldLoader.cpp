@@ -300,7 +300,7 @@ CWorld* CWorldLoader::LoadMLVL(CInputStream& MLVL)
     u32 Magic = MLVL.ReadLong();
     if (Magic != 0xDEAFBABE)
     {
-        Log::FileError(MLVL.GetSourceString(), "Invalid MLVL magic: " + StringUtil::ToHexString(Magic));
+        Log::FileError(MLVL.GetSourceString(), "Invalid MLVL magic: " + TString::HexString(Magic));
         return nullptr;
     }
 
@@ -308,7 +308,7 @@ CWorld* CWorldLoader::LoadMLVL(CInputStream& MLVL)
     EGame Version = GetFormatVersion(FileVersion);
     if (Version == eUnknownVersion)
     {
-        Log::FileError(MLVL.GetSourceString(), "Unsupported MLVL version: " + StringUtil::ToHexString(FileVersion));
+        Log::FileError(MLVL.GetSourceString(), "Unsupported MLVL version: " + TString::HexString(FileVersion));
         return nullptr;
     }
 

@@ -12,13 +12,13 @@
 #include "EPropertyType.h"
 #include <Common/CColor.h>
 #include <Common/CVector3f.h>
+#include <Common/TString.h>
 #include <Core/CToken.h>
-#include <string>
 #include <list>
 
 class CScriptTemplate;
 
-typedef std::string TIDString;
+typedef TString TIDString;
 
 /*
  * CPropertyBase is the base class, containing just some virtual function definitions
@@ -34,7 +34,7 @@ public:
     inline virtual EPropertyType Type() = 0;
     inline CPropertyTemplate *Template() { return mpTemplate; }
     inline void SetTemplate(CPropertyTemplate *_tmp) { mpTemplate = _tmp; }
-    inline std::string Name() { return mpTemplate->Name(); }
+    inline TString Name() { return mpTemplate->Name(); }
     inline u32 ID() { return mpTemplate->PropertyID(); }
 };
 
@@ -62,7 +62,7 @@ typedef __CProperty<long, eLongProperty>                       CLongProperty;
 typedef __CProperty<long, eEnumProperty>                       CEnumProperty;
 typedef __CProperty<long, eBitfieldProperty>                   CBitfieldProperty;
 typedef __CProperty<float, eFloatProperty>                     CFloatProperty;
-typedef __CProperty<std::string, eStringProperty>              CStringProperty;
+typedef __CProperty<TString, eStringProperty>                  CStringProperty;
 typedef __CProperty<CVector3f, eVector3Property>               CVector3Property;
 typedef __CProperty<CColor, eColorProperty>                    CColorProperty;
 typedef __CProperty<CResource*, eFileProperty>                 CFileProperty;
@@ -101,7 +101,7 @@ public:
             mToken = CToken(v);
         }
     }
-    const CStringList& AllowedExtensions()
+    const TStringList& AllowedExtensions()
     {
         return static_cast<CFileTemplate*>(Template())->Extensions();
     }

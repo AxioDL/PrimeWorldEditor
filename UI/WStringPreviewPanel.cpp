@@ -1,4 +1,5 @@
 #include "WStringPreviewPanel.h"
+#include "UICommon.h"
 #include <QFontMetrics>
 #include <QTextLayout>
 #include <Resource/CStringTable.h>
@@ -38,7 +39,7 @@ void WStringPreviewPanel::SetResource(CResource *pRes)
 
         for (u32 iStr = 0; iStr < pString->GetStringCount(); iStr++)
         {
-            QString text = QString::fromStdWString(pString->GetString("ENGL", iStr));
+            QString text = TO_QSTRING(pString->GetString("ENGL", iStr));
             QLabel *pLabel = new QLabel(text, this);
             pLabel->setWordWrap(true);
             pLabel->setFrameStyle(QFrame::Plain | QFrame::Box);

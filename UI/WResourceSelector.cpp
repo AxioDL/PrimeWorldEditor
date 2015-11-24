@@ -105,7 +105,7 @@ bool WResourceSelector::IsSupportedExtension(const QString& extension)
 
 bool WResourceSelector::HasSupportedExtension(CResource* pRes)
 {
-    return IsSupportedExtension( QString::fromStdString( StringUtil::GetExtension(pRes->FullSource()) ) );
+    return IsSupportedExtension(TO_QSTRING(pRes->FullSource().GetFileExtension()));
 }
 
 // ************ GETTERS ************
@@ -139,7 +139,7 @@ void WResourceSelector::SetResource(CResource *pRes)
     if (pRes)
     {
         mResourceValid = HasSupportedExtension(pRes);
-        mUI.LineEdit->setText(QString::fromStdString(pRes->FullSource()));
+        mUI.LineEdit->setText(TO_QSTRING(pRes->FullSource()));
     }
 
     else
@@ -154,15 +154,15 @@ void WResourceSelector::SetResource(CResource *pRes)
 
 void WResourceSelector::SetAllowedExtensions(const QString& extension)
 {
-    CStringList list = StringUtil::Tokenize(extension.toStdString(), ",");
+    TStringList list = TString(extension.toStdString()).Split(",");
     SetAllowedExtensions(list);
 }
 
-void WResourceSelector::SetAllowedExtensions(const CStringList& extensions)
+void WResourceSelector::SetAllowedExtensions(const TStringList& extensions)
 {
     mSupportedExtensions.clear();
     for (auto it = extensions.begin(); it != extensions.end(); it++)
-        mSupportedExtensions << QString::fromStdString(*it);
+        mSupportedExtensions << TO_QSTRING(*it);
 }
 
 void WResourceSelector::SetText(const QString& ResPath)
@@ -263,10 +263,10 @@ void WResourceSelector::LoadResource(const QString& ResPath)
     mpResource = nullptr;
     mResToken.Unlock();
 
-    std::string pathStr = ResPath.toStdString();
-    std::string ext = StringUtil::GetExtension(pathStr);
+    TString pathStr = ResPath.toStdString();
+    TString ext = pathStr.GetFileExtension();
 
-    if (IsSupportedExtension( QString::fromStdString(ext) ))
+    if (IsSupportedExtension(TO_QSTRING(ext)))
     {
         if ((ext != "MREA") && (ext != "MLVL"))
         {

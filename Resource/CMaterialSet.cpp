@@ -34,14 +34,14 @@ CMaterial* CMaterialSet::MaterialByIndex(u32 index)
     return mMaterials[index];
 }
 
-CMaterial* CMaterialSet::MaterialByName(const std::string &name)
+CMaterial* CMaterialSet::MaterialByName(const TString& name)
 {
     for (auto it = mMaterials.begin(); it != mMaterials.end(); it++)
         if ((*it)->Name() == name) return *it;
     return nullptr;
 }
 
-u32 CMaterialSet::MaterialIndexByName(const std::string& name)
+u32 CMaterialSet::MaterialIndexByName(const TString& name)
 {
     for (u32 iMat = 0; iMat < mMaterials.size(); iMat++)
         if (mMaterials[iMat]->Name() == name) return iMat;

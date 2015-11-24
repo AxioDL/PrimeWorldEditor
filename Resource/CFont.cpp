@@ -28,7 +28,7 @@ inline float PtsToFloat(s32 pt)
     return 0.00208333f * pt;
 }
 
-CVector2f CFont::RenderString(std::string String, CRenderer *pRenderer, float,
+CVector2f CFont::RenderString(const TString& String, CRenderer *pRenderer, float,
                               CVector2f, CColor FillColor, CColor StrokeColor, u32 FontSize)
 {
     // Not using parameter 3 (float - AspectRatio)
@@ -58,7 +58,7 @@ CVector2f CFont::RenderString(std::string String, CRenderer *pRenderer, float,
     if (FontSize == CFONT_DEFAULT_SIZE) Scale = 1.f;
     else Scale = (float) FontSize / (mDefaultSize != 0 ? mDefaultSize : 18);
 
-    for (u32 iChar = 0; iChar < String.length(); iChar++)
+    for (u32 iChar = 0; iChar < String.Length(); iChar++)
     {
         // Get character, check for newline
         char Char = String[iChar];

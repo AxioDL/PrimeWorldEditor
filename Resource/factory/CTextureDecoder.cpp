@@ -157,7 +157,7 @@ void CTextureDecoder::ReadDDS(CInputStream& DDS)
     CFourCC Magic(DDS);
     if (Magic != "DDS ")
     {
-        Log::FileError(DDS.GetSourceString(), "Invalid DDS magic: " + StringUtil::ToHexString((u32) Magic.ToLong()));
+        Log::FileError(DDS.GetSourceString(), "Invalid DDS magic: " + TString::HexString((u32) Magic.ToLong()));
         return;
     }
 

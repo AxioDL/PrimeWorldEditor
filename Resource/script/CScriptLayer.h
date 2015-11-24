@@ -8,7 +8,7 @@
 
 class CScriptLayer
 {
-    std::string mLayerName;
+    TString mLayerName;
     bool mActive;
     bool mVisible;
     std::vector<CScriptObject*> mObjects;
@@ -23,14 +23,14 @@ public:
     void Reserve(u32 amount);
 
     // Getters and Setters
-    std::string Name();
+    TString Name();
     bool IsActive();
     bool IsVisible();
     u32 GetNumObjects();
     CScriptObject* ObjectByIndex(u32 index);
     CScriptObject* ObjectByID(u32 ID);
 
-    void SetName(std::string name);
+    void SetName(const TString& name);
     void SetActive(bool active);
     void SetVisible(bool visible);
 

@@ -2,7 +2,7 @@
 #define CHASHFNV1A_H
 
 #include "types.h"
-#include <string>
+#include "TString.h"
 
 class CHashFNV1A
 {
@@ -30,7 +30,7 @@ public:
     void HashShort(const u16& v);
     void HashLong(const u32& v);
     void HashFloat(const float& v);
-    void HashString(const std::string& v);
+    void HashString(const TString& v);
 };
 
 #endif // CHASHFNV1A_H

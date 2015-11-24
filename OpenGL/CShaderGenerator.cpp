@@ -4,7 +4,7 @@
 #include <gl/glew.h>
 #include "CShaderGenerator.h"
 
-const std::string gkCoordSrc[] = {
+const TString gkCoordSrc[] = {
     "RawPosition.xyz",
     "RawNormal.xyz",
     "0.0, 0.0, 0.0",
@@ -19,7 +19,7 @@ const std::string gkCoordSrc[] = {
     "RawTex7.xy, 1.0"
 };
 
-const std::string gkRasSel[] = {
+const TString gkRasSel[] = {
     "vec4(COLOR0A0.rgb, 1.0)",
     "vec4(COLOR1A1.rgb, 1.0)",
     "vec4(0.0, 0.0, 0.0, COLOR0A0.a)",
@@ -29,7 +29,7 @@ const std::string gkRasSel[] = {
     "vec4(0.0, 0.0, 0.0, 0.0)"
 };
 
-const std::string gkKonstColor[] = {
+const TString gkKonstColor[] = {
     "1.0, 1.0, 1.0",
     "0.875, 0.875, 0.875",
     "0.75, 0.75, 0.75",
@@ -64,7 +64,7 @@ const std::string gkKonstColor[] = {
     "KonstColors[3].aaa"
 };
 
-const std::string gkKonstAlpha[] = {
+const TString gkKonstAlpha[] = {
     "1.0",
     "0.875",
     "0.75",
@@ -99,7 +99,7 @@ const std::string gkKonstAlpha[] = {
     "KonstColors[3].a"
 };
 
-const std::string gkTevColor[] = {
+const TString gkTevColor[] = {
     "Prev.rgb",
     "Prev.aaa",
     "C0.rgb",
@@ -118,7 +118,7 @@ const std::string gkTevColor[] = {
     "0.0, 0.0, 0.0"
 };
 
-const std::string gkTevAlpha[] = {
+const TString gkTevAlpha[] = {
     "Prev.a",
     "C0.a",
     "C1.a",
@@ -129,7 +129,7 @@ const std::string gkTevAlpha[] = {
     "0.0"
 };
 
-const std::string gkTevRigid[] = {
+const TString gkTevRigid[] = {
     "Prev",
     "C0",
     "C1",

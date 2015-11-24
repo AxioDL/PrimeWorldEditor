@@ -34,10 +34,11 @@ template<class CharType>
 class TBasicString
 {
     typedef TBasicString<CharType> _TString;
+    typedef std::basic_string<CharType> _TStdString;
     typedef std::list<_TString> _TStringList;
 
 protected:
-    std::basic_string<CharType> mInternalString;
+    _TStdString mInternalString;
 
 public:
     // Constructors
@@ -61,15 +62,30 @@ public:
     {
     }
 
-    TBasicString(const std::basic_string<CharType>& rkText)
+    TBasicString(const CharType* pkText, u32 length)
+        : mInternalString(pkText, length)
+    {
+    }
+
+    TBasicString(const _TStdString& rkText)
         : mInternalString(rkText)
     {
     }
+
+    // Forward declares of some static functions that are handy for internal use
+    //static bool CompareCStrings(const CharType*, const CharType*);
+    //static u32 CStringLength(const CharType*);
+    //static bool IsWhitespace(CharType);
 
     // Data Accessors
     inline const CharType* CString() const
     {
         return mInternalString.c_str();
+    }
+
+    inline const CharType* Data() const
+    {
+        return mInternalString.data();
     }
 
     inline CharType At(u32 pos) const
@@ -103,12 +119,22 @@ public:
 
     inline u32 IndexOf(const CharType* pkCharacters) const
     {
-        return (u32) mInternalString.find_first_of(pkCharacters);
+        size_t pos = mInternalString.find_first_of(pkCharacters);
+
+        if (pos == _TStdString::npos)
+            return -1;
+        else
+            return (u32) pos;
     }
 
     inline u32 LastIndexOf(const CharType* pkCharacters) const
     {
-        return (u32) mInternalString.find_last_of(pkCharacters);
+        size_t pos = mInternalString.find_last_of(pkCharacters);
+
+        if (pos == _TStdString::npos)
+            return -1;
+        else
+            return (u32) pos;
     }
 
     // Modify String
@@ -206,7 +232,6 @@ public:
 
     _TString Trimmed() const
     {
-        static bool _TString::IsWhitespace(CharType);
         int start, end;
 
         for (u32 iChar = 0; iChar < Size(); iChar++)
@@ -271,12 +296,12 @@ public:
         return hash;
     }
 
-    inline u32 ToInt32(int base = 10) const
+    inline u32 ToInt32(int base = 16) const
     {
         return std::stoul(mInternalString, nullptr, base);
     }
 
-    inline u64 ToInt64(int base = 10) const
+    inline u64 ToInt64(int base = 16) const
     {
         return std::stoull(mInternalString, nullptr, base);
     }
@@ -295,6 +320,11 @@ public:
 
         memcpy(pOut, &part1, 8);
         memcpy(pOut + 8, &part2, 8);
+    }
+
+    inline _TStdString ToStdString() const
+    {
+        return mInternalString;
     }
 
     _TStringList Split(const CharType* pkTokens) const
@@ -342,6 +372,11 @@ public:
     }
 
     // Check String
+    bool IsEmpty() const
+    {
+        return (Size() == 0);
+    }
+
     bool StartsWith(const _TString& str) const
     {
         if (Size() < str.Size())
@@ -484,9 +519,24 @@ public:
         return *this;
     }
 
+    inline CharType& operator[](int pos)
+    {
+        return mInternalString[pos];
+    }
+
+    inline const CharType& operator[](int pos) const
+    {
+        return mInternalString[pos];
+    }
+
+    inline const CharType* operator*() const
+    {
+        return CString();
+    }
+
     _TString operator+(const CharType* pkOther) const
     {
-        size_t len = strlen(pkOther);
+        u32 len = CStringLength(pkOther);
 
         _TString out(len + Size());
         memcpy(&out[0], mInternalString.data(), Size() * sizeof(CharType));
@@ -511,7 +561,7 @@ public:
 
     inline friend _TString operator+(const CharType* pkLeft, const _TString& rkRight)
     {
-        size_t len = strlen(pkLeft);
+        u32 len = CStringLength(pkLeft);
 
         _TString out(len + rkRight.Size());
         memcpy(&out[0], pkLeft, len * sizeof(CharType));
@@ -519,19 +569,32 @@ public:
         return out;
     }
 
-    inline CharType& operator[](int pos)
+    inline friend _TString operator+(const _TStdString& rkLeft, const _TString& rkRight)
     {
-        return mInternalString[pos];
-    }
-
-    inline const CharType& operator[](int pos) const
-    {
-        return mInternalString[pos];
+        _TString out(rkLeft.size() + rkRight.Size());
+        memcpy(&out[0], rkLeft.data(), rkLeft.size() * sizeof(CharType));
+        memcpy(&out[rkLeft.size()], rkRight.Data(), rkRight.Size() * sizeof(CharType));
+        return out;
     }
 
     inline bool operator==(const CharType *pkText) const
     {
-        return strcmp(pkText, mInternalString.data()) == 0;
+        return CompareCStrings(pkText, CString());
+    }
+
+    inline bool operator==(const _TString& rkOther) const
+    {
+        return (mInternalString == rkOther.mInternalString);
+    }
+
+    inline friend bool operator==(const CharType *pkText, const _TString& rkString)
+    {
+        return (rkString == pkText);
+    }
+
+    inline friend bool operator==(const _TStdString& rkStringA, const _TString& rkStringB)
+    {
+        return (rkStringB == rkStringA);
     }
 
     inline bool operator!=(const CharType *pkText) const
@@ -539,50 +602,125 @@ public:
         return (!(*this == pkText));
     }
 
-    inline bool operator==(const _TString& rkOther) const
-    {
-        return (strcmp(mInternalString.data(), rkOther.mInternalString.data()) == 0);
-    }
-
     inline bool operator!=(const _TString& rkOther) const
     {
         return (!(*this == rkOther));
     }
 
-    inline friend bool operator==(const CharType *pText, const _TString& rkString)
+    inline friend bool operator!=(const CharType *pkText, const _TString& rkString)
     {
-        return (rkString == pText);
+        return (rkString != pkText);
     }
 
-    inline friend bool operator!=(const CharType *pText, const _TString& rkString)
+    inline friend bool operator!=(const _TStdString& rkStringA, const _TString& rkStringB)
     {
-        return (rkString != pText);
+        return (rkStringB != rkStringA);
     }
 
-    inline friend std::ostream& operator<<(std::ostream& rLeft, const _TString& rkRight)
+    inline bool operator<(const CharType* pkText) const
     {
-        rLeft << rkRight.mInternalString;
-        return rLeft;
+        return (mInternalString < pkText);
     }
 
-    inline friend std::istream& operator>>(std::istream& rLeft, const _TString& rkRight)
+    inline bool operator<(const _TString& rkOther) const
     {
-        rLeft >> rkRight.mInternalString;
-        return rLeft;
+        return (mInternalString < rkOther.mInternalString);
+    }
+
+    inline friend bool operator<(const CharType* pkText, const _TString& rkString)
+    {
+        return (rkString > pkText);
+    }
+
+    inline friend bool operator<(const _TStdString& rkStringA, const _TString& rkStringB)
+    {
+        return (rkStringB > rkStringA);
+    }
+
+    inline bool operator<=(const CharType* pkText) const
+    {
+        return (mInternalString <= pkText);
+    }
+
+    inline bool operator<=(const _TString& rkOther) const
+    {
+        return (mInternalString <= rkOther.mInternalString);
+    }
+
+    inline friend bool operator<=(const CharType* pkText, const _TString& rkString)
+    {
+        return (rkString >= pkText);
+    }
+
+    inline friend bool operator<=(const _TStdString& rkStringA, const _TString& rkStringB)
+    {
+        return (rkStringB >= rkStringA);
+    }
+
+    inline bool operator>(const CharType* pkText) const
+    {
+        return (mInternalString > pkText);
+    }
+
+    inline bool operator>(const _TString& rkOther) const
+    {
+        return (mInternalString > rkOther.mInternalString);
+    }
+
+    inline friend bool operator>(const CharType* pkText, const _TString& rkString)
+    {
+        return (rkString < pkText);
+    }
+
+    inline friend bool operator>(const _TStdString& rkStringA, const _TString& rkStringB)
+    {
+        return (rkStringB < rkStringA);
+    }
+
+    inline bool operator>=(const CharType* pkText) const
+    {
+        return (mInternalString >= pkText);
+    }
+
+    inline bool operator>=(const _TString& rkOther) const
+    {
+        return (mInternalString >= rkOther.mInternalString);
+    }
+
+    inline friend bool operator>=(const CharType* pkText, const _TString& rkString)
+    {
+        return (rkString <= pkText);
+    }
+
+    inline friend bool operator>=(const _TStdString& rkStringA, const _TString& rkStringB)
+    {
+        return (rkStringB <= rkStringA);
+    }
+
+    inline friend std::ostream& operator<<(std::ostream& rStream, const _TString& rkString)
+    {
+        rStream << rkString.mInternalString;
+        return rStream;
+    }
+
+    inline friend std::istream& operator>>(std::istream& rStream, const _TString& rkString)
+    {
+        rStream >> rkString.mInternalString;
+        return rStream;
     }
 
     // Static
-    static TBasicString<CharType> FromInt32(u32 value, int base = 10)
+    static TBasicString<CharType> FromInt32(u32 value, int width = 0, int base = 16)
     {
         std::basic_stringstream<CharType> sstream;
-        sstream << std::setbase(base) << value;
+        sstream << std::setbase(base) << std::setw(width) << std::setfill('0') << value;
         return sstream.str();
     }
 
-    static TBasicString<CharType> FromInt64(u64 value, int base = 10)
+    static TBasicString<CharType> FromInt64(u64 value, int width = 0, int base = 16)
     {
         std::basic_stringstream<CharType> sstream;
-        sstream << std::setbase(base) << value;
+        sstream << std::setbase(base) << std::setw(width) << std::setfill('0') << value;
         return sstream.str();
     }
 
@@ -607,6 +745,31 @@ public:
         return str;
     }
 
+    static bool CompareCStrings(const CharType* pkA, const CharType* pkB)
+    {
+        // Replacement for strcmp so we can compare any CharType
+        while (true)
+        {
+            if (*pkA != *pkB) return false;
+            if ((*pkA == 0) || (*pkB == 0)) return true;
+            pkA++;
+            pkB++;
+        }
+    }
+
+    static u32 CStringLength(const CharType* pkStr)
+    {
+        // Replacement for strlen so we can measure any CharType
+        u32 out = 0;
+
+        while (true)
+        {
+            if (*pkStr == 0) return out;
+            out++;
+            pkStr++;
+        }
+    }
+
     static bool IsWhitespace(CharType c)
     {
         return ( (c == '\t') ||
@@ -626,15 +789,12 @@ public:
     TString(size_t size)                        : TBasicString<char>(size) {}
     TString(size_t size, char fill)             : TBasicString<char>(size, fill) {}
     TString(const char* pkText)                 : TBasicString<char>(pkText) {}
+    TString(const char* pkText, u32 length)     : TBasicString<char>(pkText, length) {}
     TString(const std::string& rkText)          : TBasicString<char>(rkText) {}
     TString(const TBasicString<char>& rkStr)    : TBasicString<char>(rkStr) {}
     TString(const wchar_t* pkText);
+    TString(const std::wstring& rkText);
     TString(const class TWideString& rkText);
-
-    inline std::string ToStdString()
-    {
-        return mInternalString;
-    }
 
     class TWideString ToUTF16() const;
 };
@@ -647,15 +807,12 @@ public:
     TWideString(u32 size)                           : TBasicString<wchar_t>(size) {}
     TWideString(u32 size, wchar_t fill)             : TBasicString<wchar_t>(size, fill) {}
     TWideString(const wchar_t* pkText)              : TBasicString<wchar_t>(pkText) {}
+    TWideString(const wchar_t* pkText, u32 length)  : TBasicString<wchar_t>(pkText, length) {}
     TWideString(const std::wstring& rkText)         : TBasicString<wchar_t>(rkText) {}
     TWideString(const TBasicString<wchar_t>& rkStr) : TBasicString<wchar_t>(rkStr) {}
     TWideString(const char* pkText);
+    TWideString(const std::string& rkText);
     TWideString(const TString& rkText);
-
-    inline std::wstring ToStdWString()
-    {
-        return mInternalString;
-    }
 
     class TString ToUTF8() const;
 };

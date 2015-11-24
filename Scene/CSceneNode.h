@@ -31,7 +31,7 @@ private:
 
 protected:
     static u32 smNumNodes;
-    std::string mName;
+    TString mName;
     CSceneNode *mpParent;
     CSceneManager *mpScene;
 
@@ -53,7 +53,7 @@ public:
     explicit CSceneNode(CSceneManager *pScene, CSceneNode *pParent = 0);
     virtual ~CSceneNode();
     virtual ENodeType NodeType() = 0;
-    virtual std::string PrefixedName() const;
+    virtual TString PrefixedName() const;
     virtual void Draw(ERenderOptions options) = 0;
     virtual void DrawAsset(ERenderOptions options, u32 asset) = 0;
     virtual void DrawSelection();
@@ -80,7 +80,7 @@ public:
     const CTransform4f& Transform();
 
     // Getters
-    std::string Name() const;
+    TString Name() const;
     CSceneNode* Parent() const;
     CSceneManager* Scene();
     CVector3f LocalPosition() const;
@@ -100,7 +100,7 @@ public:
     bool InheritsScale() const;
 
     // Setters
-    void SetName(const std::string& Name);
+    void SetName(const TString& Name);
     void SetPosition(const CVector3f& position);
     void SetRotation(const CQuaternion& rotation);
     void SetRotation(const CVector3f& rotEuler);

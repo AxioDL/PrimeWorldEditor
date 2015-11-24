@@ -43,7 +43,7 @@ class CWorld : public CResource
 
     struct SArea
     {
-        std::string InternalName;
+        TString InternalName;
         CStringTable *pAreaName;
         CTransform4f Transform;
         CAABox AetherBox;
@@ -53,7 +53,7 @@ class CWorld : public CResource
 
         std::vector<u16> AttachedAreaIDs;
         std::vector<SDependency> Dependencies;
-        std::vector<std::string> RelFilenames;
+        std::vector<TString> RelFilenames;
         std::vector<u32> RelOffsets;
         u32 CommonDependenciesStart;
 
@@ -71,7 +71,7 @@ class CWorld : public CResource
 
         struct SLayer
         {
-            std::string LayerName;
+            TString LayerName;
             bool EnabledByDefault;
             u8 LayerID[16];
             u32 LayerDependenciesStart; // Offset into Dependencies vector
@@ -100,7 +100,7 @@ public:
     u64 GetAreaResourceID(u32 AreaIndex);
     u32 GetAreaAttachedCount(u32 AreaIndex);
     u32 GetAreaAttachedID(u32 AreaIndex, u32 AttachedIndex);
-    std::string GetAreaInternalName(u32 AreaIndex);
+    TString GetAreaInternalName(u32 AreaIndex);
     CStringTable* GetAreaName(u32 AreaIndex);
 };
 

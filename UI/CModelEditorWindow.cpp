@@ -4,8 +4,9 @@
 #include <QFileDialog>
 #include <QMessageBox>
 
+#include "UICommon.h"
 #include "WResourceSelector.h"
-#include <Common/StringUtil.h>
+#include <Common/TString.h>
 #include <Core/CDrawUtil.h>
 #include <Core/CRenderer.h>
 #include <Core/CSceneManager.h>
@@ -176,8 +177,8 @@ void CModelEditorWindow::SetActiveModel(CModel *pModel)
 
     for (u32 iMat = 0; iMat < numMats; iMat++)
     {
-        std::string matName = pModel->GetMaterialByIndex(0, iMat)->Name();
-        ui->MatSelectionComboBox->addItem(QString::fromStdString(matName));
+        TString matName = pModel->GetMaterialByIndex(0, iMat)->Name();
+        ui->MatSelectionComboBox->addItem(TO_QSTRING(matName));
     }
 
     ui->MatSelectionComboBox->setCurrentIndex(0);
@@ -223,7 +224,7 @@ void CModelEditorWindow::SetActiveMaterial(int MatIndex)
     ui->DestBlendComboBox->setCurrentIndex(DstFac);
 
     if (Settings & CMaterial::eIndStage)
-        ui->IndTextureResSelector->SetText(QString::fromStdString(mpCurrentMat->IndTexture()->FullSource()));
+        ui->IndTextureResSelector->SetText(TO_QSTRING(mpCurrentMat->IndTexture()->FullSource()));
     else
         ui->IndTextureResSelector->SetText("");
 
@@ -250,7 +251,7 @@ void CModelEditorWindow::SetActiveMaterial(int MatIndex)
     {
         CMaterialPass *pPass = mpCurrentMat->Pass(iPass);
 
-        QTableWidgetItem *pItemA = new QTableWidgetItem("Pass #" + QString::number(iPass + 1) + ": " + QString::fromStdString(pPass->NamedType()));
+        QTableWidgetItem *pItemA = new QTableWidgetItem("Pass #" + QString::number(iPass + 1) + ": " + TO_QSTRING(pPass->NamedType()));
         QTableWidgetItem *pItemB = new QTableWidgetItem();
 
         if (pPass->IsEnabled())
@@ -307,7 +308,7 @@ void CModelEditorWindow::SetActivePass(int PassIndex)
 
     CTexture *pPassTex = mpCurrentPass->Texture();
     if (pPassTex)
-        ui->PassTextureResSelector->SetText(QString::fromStdString(pPassTex->FullSource()));
+        ui->PassTextureResSelector->SetText(TO_QSTRING(pPassTex->FullSource()));
     else
         ui->PassTextureResSelector->SetText("");
 
@@ -683,13 +684,14 @@ void CModelEditorWindow::UpdateAnimParamUI(int Mode)
 
 void CModelEditorWindow::on_actionConvert_to_DDS_triggered()
 {
-    QString TexFilename = QFileDialog::getOpenFileName(this, "Retro Texture (*.TXTR)", "", "*.TXTR");
-    if (TexFilename.isEmpty()) return;
+    QString Input = QFileDialog::getOpenFileName(this, "Retro Texture (*.TXTR)", "", "*.TXTR");
+    if (Input.isEmpty()) return;
 
-    CTexture *Tex = (CTexture*) gResCache.GetResource(TexFilename.toStdString());
-    std::string OutName = StringUtil::GetPathWithoutExtension(TexFilename.toStdString()) + ".dds";
+    TString TexFilename = Input.toStdString();
+    CTexture *Tex = (CTexture*) gResCache.GetResource(TexFilename);
+    TString OutName = TexFilename.GetFilePathWithoutExtension() + ".dds";
 
-    CFileOutStream Out(OutName, IOUtil::LittleEndian);
+    CFileOutStream Out(OutName.ToStdString(), IOUtil::LittleEndian);
     if (!Out.IsValid()) QMessageBox::warning(this, "Error", "Couldn't open output DDS!");
 
     else
@@ -709,8 +711,8 @@ void CModelEditorWindow::on_actionOpen_triggered()
     if (pModel)
     {
         SetActiveModel(pModel);
-        setWindowTitle("Prime World Editor - Model Editor: " + QString::fromStdString(pModel->Source()));
-        mOutputFilename = QString::fromStdString(pModel->FullSource());
+        setWindowTitle("Prime World Editor - Model Editor: " + TO_QSTRING(pModel->Source()));
+        mOutputFilename = TO_QSTRING(pModel->FullSource());
     }
 
     gResCache.Clean();
@@ -802,6 +804,6 @@ void CModelEditorWindow::on_actionSave_as_triggered()
     mOutputFilename = filename;
     on_actionSave_triggered();
 
-    std::string name = StringUtil::GetFileNameWithExtension(filename.toStdString());
-    setWindowTitle("Prime World Editor - Model Editor: " + QString::fromStdString(name));
+    TString name = TString(filename.toStdString());
+    setWindowTitle("Prime World Editor - Model Editor: " + TO_QSTRING(name));
 }

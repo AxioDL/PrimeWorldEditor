@@ -16,12 +16,12 @@ EResType CResource::Type()
     return eResource;
 }
 
-std::string CResource::Source()
+TString CResource::Source()
 {
-    return StringUtil::GetFileNameWithExtension(mResSource);
+    return mResSource.GetFileName();
 }
 
-std::string CResource::FullSource()
+TString CResource::FullSource()
 {
     return mResSource;
 }

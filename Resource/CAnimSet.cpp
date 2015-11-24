@@ -19,7 +19,7 @@ u32 CAnimSet::getNodeCount()
     return nodes.size();
 }
 
-std::string CAnimSet::getNodeName(u32 node)
+TString CAnimSet::getNodeName(u32 node)
 {
     if (node >= nodes.size())
         return nodes[0].name;

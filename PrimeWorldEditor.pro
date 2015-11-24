@@ -26,7 +26,7 @@ SOURCES += \
     Common/CVector2f.cpp \
     Common/CVector3f.cpp \
     Common/CVector4f.cpp \
-    Common/StringUtil.cpp \
+    Common/TString.cpp \
     Core/main.cpp \
     Core/CSceneManager.cpp \
     Core/CRenderer.cpp \
@@ -168,7 +168,7 @@ HEADERS  += \
     Common/CVector2f.h \
     Common/CVector3f.h \
     Common/CVector4f.h \
-    Common/StringUtil.h \
+    Common/TString.h \
     Common/types.h \
     Core/CCamera.h \
     Core/CRenderer.h \

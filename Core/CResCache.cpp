@@ -1,6 +1,6 @@
 #include "CResCache.h"
 #include "Log.h"
-#include <Common/StringUtil.h>
+#include <Common/TString.h>
 #include <FileIO/FileIO.h>
 #include <iostream>
 #include <string>
@@ -54,17 +54,17 @@ void CResCache::Clean()
     Log::Write(std::to_string(mResourceCache.size()) + " resources loaded");
 }
 
-void CResCache::SetFolder(std::string path)
+void CResCache::SetFolder(TString path)
 {
-    StringUtil::AppendSlash(path);
+    path.EnsureEndsWith("/");
     mResSource.Path = path;
     mResSource.Source = SResSource::Folder;
     Log::Write("Set resource folder: " + path);
 }
 
-void CResCache::SetPak(std::string path)
+void CResCache::SetPak(const TString& path)
 {
-    CFileInStream *pakfile = new CFileInStream(path, IOUtil::BigEndian);
+    CFileInStream *pakfile = new CFileInStream(path.ToStdString(), IOUtil::BigEndian);
     if (!pakfile->IsValid())
     {
         Log::Error("Couldn't load pak file: " + path);
@@ -89,7 +89,7 @@ SResSource CResCache::GetResSource()
     return mResSource;
 }
 
-std::string CResCache::GetSourcePath()
+TString CResCache::GetSourcePath()
 {
     return mResSource.Path;
 }
@@ -104,7 +104,7 @@ CResource* CResCache::GetResource(CUniqueID ResID, CFourCC type)
         return got->second;
 
     std::vector<u8> *pBuffer = nullptr;
-    std::string Source;
+    TString Source;
 
     // Load from pak
     if (mResSource.Source == SResSource::PakFile)
@@ -116,17 +116,12 @@ CResource* CResCache::GetResource(CUniqueID ResID, CFourCC type)
     // Load from folder
     else
     {
-        Source = mResSource.Path + StringUtil::ToString(ResID.ToLong()) + "." + type.ToString();
-        CFileInStream file(Source, IOUtil::BigEndian);
+        Source = mResSource.Path + ResID.ToString() + "." + type.ToString();
+        CFileInStream file(Source.ToStdString(), IOUtil::BigEndian);
         if (!file.IsValid())
         {
-            Source = mResSource.Path + StringUtil::ToString(ResID.ToLongLong()) + "." + type.ToString();
-            file.Open(Source, IOUtil::BigEndian);
-            if (!file.IsValid())
-            {
-                Log::Error("Couldn't open resource: " + ResID.ToString() + "." + type.ToString());
-                return nullptr;
-            }
+            Log::Error("Couldn't open resource: " + ResID.ToString() + "." + type.ToString());
+            return nullptr;
         }
 
         pBuffer = new std::vector<u8>;
@@ -137,7 +132,7 @@ CResource* CResCache::GetResource(CUniqueID ResID, CFourCC type)
 
     // Load resource
     CMemoryInStream mem(pBuffer->data(), pBuffer->size(), IOUtil::BigEndian);
-    mem.SetSourceString(StringUtil::GetFileNameWithExtension(Source));
+    mem.SetSourceString(*Source.GetFileName());
     CResource *Res = nullptr;
     bool SupportedFormat = true;
 
@@ -167,17 +162,17 @@ CResource* CResCache::GetResource(CUniqueID ResID, CFourCC type)
     return Res;
 }
 
-CResource* CResCache::GetResource(std::string ResPath)
+CResource* CResCache::GetResource(const TString& ResPath)
 {
     // Since this function takes a string argument it always loads directly from a file - no pak
-    CUniqueID ResID = StringUtil::Hash64(ResPath);
+    CUniqueID ResID = ResPath.Hash64();
 
     auto got = mResourceCache.find(ResID.ToLongLong());
 
     if (got != mResourceCache.end())
         return got->second;
 
-    CFileInStream file(ResPath, IOUtil::BigEndian);
+    CFileInStream file(ResPath.ToStdString(), IOUtil::BigEndian);
     if (!file.IsValid())
     {
         Log::Error("Couldn't open resource: " + ResPath);
@@ -187,11 +182,11 @@ CResource* CResCache::GetResource(std::string ResPath)
     // Save old ResSource to restore later
     const SResSource OldSource = mResSource;
     mResSource.Source = SResSource::Folder;
-    mResSource.Path = StringUtil::GetFileDirectory(ResPath);
+    mResSource.Path = ResPath.GetFileDirectory();
 
     // Load resource
     CResource *Res = nullptr;
-    CFourCC type = StringUtil::ToUpper( StringUtil::GetExtension(ResPath) ).c_str();
+    CFourCC type = ResPath.GetFileExtension().ToUpper();
     bool SupportedFormat = true;
 
     if      (type == "CMDL") Res = CModelLoader::LoadCMDL(file);
@@ -208,7 +203,7 @@ CResource* CResCache::GetResource(std::string ResPath)
     if (!Res) Res = new CResource(); // Default for unsupported formats
 
     // Add to cache and cleanup
-    Res->mID = ResPath.c_str();
+    Res->mID = *ResPath;
     Res->mResSource = ResPath;
     mResourceCache[ResID.ToLongLong()] = Res;
     mResSource = OldSource;

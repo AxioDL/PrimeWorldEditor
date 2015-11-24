@@ -41,7 +41,7 @@ CScriptTemplate* CMasterTemplate::TemplateByIndex(u32 Index)
     return (std::next(it, Index))->second;
 }
 
-std::string CMasterTemplate::StateByID(u32 StateID)
+TString CMasterTemplate::StateByID(u32 StateID)
 {
     auto it = mStates.find(StateID);
 
@@ -51,18 +51,18 @@ std::string CMasterTemplate::StateByID(u32 StateID)
         return "Invalid";
 }
 
-std::string CMasterTemplate::StateByID(const CFourCC& State)
+TString CMasterTemplate::StateByID(const CFourCC& State)
 {
     return StateByID(State.ToLong());
 }
 
-std::string CMasterTemplate::StateByIndex(u32 Index)
+TString CMasterTemplate::StateByIndex(u32 Index)
 {
     auto it = mStates.begin();
     return (std::next(it, Index))->second;
 }
 
-std::string CMasterTemplate::MessageByID(u32 MessageID)
+TString CMasterTemplate::MessageByID(u32 MessageID)
 {
     auto it = mMessages.find(MessageID);
 
@@ -72,12 +72,12 @@ std::string CMasterTemplate::MessageByID(u32 MessageID)
         return "Invalid";
 }
 
-std::string CMasterTemplate::MessageByID(const CFourCC& MessageID)
+TString CMasterTemplate::MessageByID(const CFourCC& MessageID)
 {
     return MessageByID(MessageID.ToLong());
 }
 
-std::string CMasterTemplate::MessageByIndex(u32 Index)
+TString CMasterTemplate::MessageByIndex(u32 Index)
 {
     auto it = mMessages.begin();
     return (std::next(it, Index))->second;

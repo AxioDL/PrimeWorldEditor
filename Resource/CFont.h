@@ -28,7 +28,7 @@ class CFont : public CResource
     u32 mLineMargin;         // Gap between lines, in points - this is added to the line height
     u32 mVerticalOffset;     // In points. This is used to reposition glyphs after the per-glyph vertical offset is applied
     u32 mDefaultSize;        // In points.
-    std::string mFontName;   // Self-explanatory
+    TString mFontName;       // Self-explanatory
     CTexture *mpFontTexture; // The texture used by this font
     CToken mTextureToken;    // Token for the font
     u32 mTextureFormat;      // Indicates which layers on the texture are for what - multiple glyph layers or fill/stroke
@@ -62,7 +62,7 @@ public:
     ~CFont();
     EResType Type();
     CResource* MakeCopy(CResCache *pCopyCache);
-    CVector2f RenderString(std::string String, CRenderer *pRenderer, float AspectRatio,
+    CVector2f RenderString(const TString& String, CRenderer *pRenderer, float AspectRatio,
                            CVector2f Position = CVector2f(0,0),
                            CColor FillColor = CColor::skWhite, CColor StrokeColor = CColor::skBlack,
                            u32 FontSize = CFONT_DEFAULT_SIZE);

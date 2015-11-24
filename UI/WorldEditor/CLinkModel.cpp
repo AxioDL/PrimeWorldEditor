@@ -1,4 +1,5 @@
 #include "CLinkModel.h"
+#include "../UICommon.h"
 #include <Resource/CGameArea.h>
 #include <Resource/script/CMasterTemplate.h>
 
@@ -54,8 +55,8 @@ QVariant CLinkModel::data(const QModelIndex &index, int role) const
             CScriptObject *pTargetObj = mpObject->Area()->GetInstanceByID(link.ObjectID);
 
             if (pTargetObj) {
-                QString ObjType = QString("[%1] ").arg(QString::fromStdString(pTargetObj->Template()->TemplateName()));
-                return ObjType + QString::fromStdString(pTargetObj->InstanceName());
+                QString ObjType = QString("[%1] ").arg(UICommon::ToQString(pTargetObj->Template()->TemplateName()));
+                return ObjType + UICommon::ToQString(pTargetObj->InstanceName());
             }
             else {
                 QString strID = QString::number(link.ObjectID, 16);
@@ -66,14 +67,14 @@ QVariant CLinkModel::data(const QModelIndex &index, int role) const
 
         case 1: // Column 1 - State
         {
-            std::string StateName = mpObject->MasterTemplate()->StateByID(link.State);
-            return QString::fromStdString(StateName);
+            TString StateName = mpObject->MasterTemplate()->StateByID(link.State);
+            return UICommon::ToQString(StateName);
         }
 
         case 2: // Column 2 - Message
         {
-            std::string MessageName = mpObject->MasterTemplate()->MessageByID(link.Message);
-            return QString::fromStdString(MessageName);
+            TString MessageName = mpObject->MasterTemplate()->MessageByID(link.Message);
+            return UICommon::ToQString(MessageName);
         }
 
         default:
