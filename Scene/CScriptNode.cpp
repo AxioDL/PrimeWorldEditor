@@ -101,18 +101,18 @@ TString CScriptNode::PrefixedName() const
     return "[" + mpInstance->Template()->TemplateName() + "] " + mpInstance->InstanceName();
 }
 
-void CScriptNode::AddToRenderer(CRenderer *pRenderer, const CFrustumPlanes& frustum)
+void CScriptNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
 {
     if (!mpInstance) return;
 
     ERenderOptions options = pRenderer->RenderOptions();
 
     if (options & eDrawObjectCollision)
-        mpCollisionNode->AddToRenderer(pRenderer, frustum);
+        mpCollisionNode->AddToRenderer(pRenderer, ViewInfo);
 
     if (options & eDrawObjects)
     {
-        if (frustum.BoxInFrustum(AABox()))
+        if (ViewInfo.ViewFrustum.BoxInFrustum(AABox()))
         {
             if (!mpActiveModel)
                 pRenderer->AddOpaqueMesh(this, 0, AABox(), eDrawMesh);
@@ -131,7 +131,7 @@ void CScriptNode::AddToRenderer(CRenderer *pRenderer, const CFrustumPlanes& frus
 
                     for (u32 s = 0; s < SubmeshCount; s++)
                     {
-                        if (frustum.BoxInFrustum(mpActiveModel->GetSurfaceAABox(s).Transformed(Transform())))
+                        if (ViewInfo.ViewFrustum.BoxInFrustum(mpActiveModel->GetSurfaceAABox(s).Transformed(Transform())))
                         {
                             if (!mpActiveModel->IsSurfaceTransparent(s, 0))
                                 pRenderer->AddOpaqueMesh(this, s, mpActiveModel->GetSurfaceAABox(s).Transformed(Transform()), eDrawAsset);
@@ -152,7 +152,7 @@ void CScriptNode::AddToRenderer(CRenderer *pRenderer, const CFrustumPlanes& frus
         pRenderer->AddOpaqueMesh(this, 0, AABox(), eDrawSelection);
 
         if (mHasVolumePreview)
-            mpVolumePreviewNode->AddToRenderer(pRenderer, frustum);
+            mpVolumePreviewNode->AddToRenderer(pRenderer, ViewInfo);
     }
 }
 
@@ -171,7 +171,7 @@ void CScriptNode::Draw(ERenderOptions Options)
     // Draw billboard
     else if (mpBillboard)
     {
-        CDrawUtil::DrawBillboard(mpBillboard, mPosition, mScale.xy() * CVector2f(0.75f), TintColor());
+        CDrawUtil::DrawBillboard(mpBillboard, mPosition, BillboardScale(), TintColor());
     }
 
     // If no model or billboard, default to drawing a purple box
@@ -243,27 +243,44 @@ void CScriptNode::RayAABoxIntersectTest(CRayCollisionTester &Tester)
         return;
 
     const CRay& Ray = Tester.Ray();
-    std::pair<bool,float> BoxResult = AABox().IntersectsRay(Ray);
 
-    if (BoxResult.first)
+    if (mpActiveModel || !mpBillboard)
     {
-        if (mpActiveModel)
-        {
-            for (u32 iSurf = 0; iSurf < mpActiveModel->GetSurfaceCount(); iSurf++)
-            {
-                std::pair<bool,float> SurfResult = mpActiveModel->GetSurfaceAABox(iSurf).Transformed(Transform()).IntersectsRay(Ray);
+        std::pair<bool,float> BoxResult = AABox().IntersectsRay(Ray);
 
-                if (SurfResult.first)
-                    Tester.AddNode(this, iSurf, SurfResult.second);
+        if (BoxResult.first)
+        {
+            if (mpActiveModel)
+            {
+                for (u32 iSurf = 0; iSurf < mpActiveModel->GetSurfaceCount(); iSurf++)
+                {
+                    std::pair<bool,float> SurfResult = mpActiveModel->GetSurfaceAABox(iSurf).Transformed(Transform()).IntersectsRay(Ray);
+
+                    if (SurfResult.first)
+                        Tester.AddNode(this, iSurf, SurfResult.second);
+                }
             }
+            else Tester.AddNode(this, 0, BoxResult.second);
         }
-        else Tester.AddNode(this, 0, BoxResult.second);
+    }
+
+    else
+    {
+        // Because the billboard rotates a lot, expand the AABox on the X/Y axes to cover any possible orientation
+        CVector2f BillScale = BillboardScale();
+        float ScaleXY = (BillScale.x > BillScale.y ? BillScale.x : BillScale.y);
+
+        CAABox BillBox = CAABox(mPosition + CVector3f(-ScaleXY, -ScaleXY, -BillScale.y),
+                                mPosition + CVector3f( ScaleXY,  ScaleXY,  BillScale.y));
+
+        std::pair<bool,float> BoxResult = BillBox.IntersectsRay(Ray);
+        if (BoxResult.first) Tester.AddNode(this, 0, BoxResult.second);
     }
 }
 
-SRayIntersection CScriptNode::RayNodeIntersectTest(const CRay &Ray, u32 AssetID, ERenderOptions options)
+SRayIntersection CScriptNode::RayNodeIntersectTest(const CRay& Ray, u32 AssetID, const SViewInfo& ViewInfo)
 {
-    CRay TransformedRay = Ray.Transformed(Transform().Inverse());
+    ERenderOptions options = ViewInfo.pRenderer->RenderOptions();
 
     SRayIntersection out;
     out.pNode = this;
@@ -271,20 +288,75 @@ SRayIntersection CScriptNode::RayNodeIntersectTest(const CRay &Ray, u32 AssetID,
 
     if (options & eDrawObjects)
     {
-        CModel *pModel = (mpActiveModel ? mpActiveModel : CDrawUtil::GetCubeModel());
-        std::pair<bool,float> Result = pModel->GetSurface(AssetID)->IntersectsRay(TransformedRay, ((options & eEnableBackfaceCull) == 0));
-
-        if (Result.first)
+        // Model test
+        if (mpActiveModel || !mpBillboard)
         {
-            out.Hit = true;
+            CModel *pModel = (mpActiveModel ? mpActiveModel : CDrawUtil::GetCubeModel());
 
-            CVector3f HitPoint = TransformedRay.PointOnRay(Result.second);
-            CVector3f WorldHitPoint = Transform() * HitPoint;
-            out.Distance = Math::Distance(Ray.Origin(), WorldHitPoint);
+            CRay TransformedRay = Ray.Transformed(Transform().Inverse());
+            std::pair<bool,float> Result = pModel->GetSurface(AssetID)->IntersectsRay(TransformedRay, ((options & eEnableBackfaceCull) == 0));
+
+            if (Result.first)
+            {
+                out.Hit = true;
+
+                CVector3f HitPoint = TransformedRay.PointOnRay(Result.second);
+                CVector3f WorldHitPoint = Transform() * HitPoint;
+                out.Distance = Math::Distance(Ray.Origin(), WorldHitPoint);
+            }
+
+            else
+                out.Hit = false;
         }
 
+        // Billboard test
+        // todo: come up with a better way to share this code between CScriptNode and CLightNode
         else
-            out.Hit = false;
+        {
+            // Step 1: check whether the ray intersects with the plane the billboard is on
+            CPlane BillboardPlane(-ViewInfo.pCamera->Direction(), mPosition);
+            std::pair<bool,float> PlaneTest = Math::RayPlaneIntersecton(Ray, BillboardPlane);
+
+            if (PlaneTest.first)
+            {
+                // Step 2: transform the hit point into the plane's local space
+                CVector3f PlaneHitPoint = Ray.PointOnRay(PlaneTest.second);
+                CVector3f RelHitPoint = PlaneHitPoint - mPosition;
+
+                CVector3f PlaneForward = -ViewInfo.pCamera->Direction();
+                CVector3f PlaneRight = -ViewInfo.pCamera->RightVector();
+                CVector3f PlaneUp = ViewInfo.pCamera->UpVector();
+                CQuaternion PlaneRot = CQuaternion::FromAxes(PlaneRight, PlaneForward, PlaneUp);
+
+                CVector3f RotatedHitPoint = PlaneRot.Inverse() * RelHitPoint;
+                CVector2f LocalHitPoint = RotatedHitPoint.xz() / BillboardScale();
+
+                // Step 3: check whether the transformed hit point is in the -1 to 1 range
+                if ((LocalHitPoint.x >= -1.f) && (LocalHitPoint.x <= 1.f) && (LocalHitPoint.y >= -1.f) && (LocalHitPoint.y <= 1.f))
+                {
+                    // Step 4: look up the hit texel and check whether it's transparent or opaque
+                    CVector2f TexCoord = (LocalHitPoint + CVector2f(1.f)) * 0.5f;
+                    TexCoord.x = -TexCoord.x + 1.f;
+                    float TexelAlpha = mpBillboard->ReadTexelAlpha(TexCoord);
+
+                    if (TexelAlpha < 0.25f)
+                        out.Hit = false;
+
+                    else
+                    {
+                        // It's opaque... we have a hit!
+                        out.Hit = true;
+                        out.Distance = PlaneTest.second;
+                    }
+                }
+
+                else
+                    out.Hit = false;
+            }
+
+            else
+                out.Hit = false;
+        }
     }
     else out.Hit = false;
 
@@ -379,4 +451,10 @@ CAABox CScriptNode::PreviewVolumeAABox()
         return CAABox::skZero;
     else
         return mpVolumePreviewNode->AABox();
+}
+
+CVector2f CScriptNode::BillboardScale()
+{
+    CVector2f out = (mpInstance->Template()->ScaleType() == CScriptTemplate::eScaleEnabled ? mScale.xz() : CVector2f(1.f));
+    return out * 0.5f;
 }

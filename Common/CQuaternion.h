@@ -25,6 +25,8 @@ public:
     // Static
     static CQuaternion FromEuler(CVector3f euler);
     static CQuaternion FromAxisAngle(float angle, CVector3f axis);
+    static CQuaternion FromRotationMatrix(const CMatrix4f& RotMtx);
+    static CQuaternion FromAxes(const CVector3f& X, const CVector3f& Y, const CVector3f& Z);
 
     static CQuaternion skIdentity;
     static CQuaternion skZero;

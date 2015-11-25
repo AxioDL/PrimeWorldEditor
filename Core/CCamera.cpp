@@ -163,13 +163,6 @@ void CCamera::LoadMatrices()
     CGraphics::UpdateMVPBlock();
 }
 
-void CCamera::LoadRotationOnlyMatrices()
-{
-    CGraphics::sMVPBlock.ViewMatrix = RotationOnlyViewMatrix();
-    CGraphics::sMVPBlock.ProjectionMatrix = ProjectionMatrix();
-    CGraphics::UpdateMVPBlock();
-}
-
 // ************ GETTERS ************
 CVector3f CCamera::Position() const
 {
@@ -179,6 +172,16 @@ CVector3f CCamera::Position() const
 CVector3f CCamera::Direction() const
 {
     return mDirection;
+}
+
+CVector3f CCamera::UpVector() const
+{
+    return mUpVector;
+}
+
+CVector3f CCamera::RightVector() const
+{
+    return mRightVector;
 }
 
 float CCamera::Yaw() const
@@ -202,17 +205,6 @@ const CMatrix4f& CCamera::ViewMatrix()
         CalculateView();
 
     return mCachedViewMatrix;
-}
-
-CMatrix4f CCamera::RotationOnlyViewMatrix()
-{
-    if (mViewOutdated)
-        CalculateView();
-
-    return CMatrix4f(mCachedViewMatrix[0][0], mCachedViewMatrix[0][1], mCachedViewMatrix[0][2], 0.f,
-                     mCachedViewMatrix[1][0], mCachedViewMatrix[1][1], mCachedViewMatrix[1][2], 0.f,
-                     mCachedViewMatrix[2][0], mCachedViewMatrix[2][1], mCachedViewMatrix[2][2], 0.f,
-                     mCachedViewMatrix[3][0], mCachedViewMatrix[3][1], mCachedViewMatrix[3][2], 1.f);
 }
 
 const CMatrix4f& CCamera::ProjectionMatrix()
@@ -295,6 +287,14 @@ void CCamera::CalculateDirection()
                  cos(mPitch) * sin(mYaw),
                  sin(mPitch)
                  );
+
+    mRightVector = CVector3f(
+        cos(mYaw - Math::skHalfPi),
+        sin(mYaw - Math::skHalfPi),
+        0
+    );
+
+    mUpVector = mRightVector.Cross(mDirection);
 }
 
 void CCamera::CalculateView()
@@ -302,17 +302,9 @@ void CCamera::CalculateView()
     // todo: don't use glm
     CalculateDirection();
 
-    CVector3f Right(
-        cos(mYaw - Math::skHalfPi),
-        sin(mYaw - Math::skHalfPi),
-        0
-    );
-
-    CVector3f Up = Right.Cross(mDirection);
-
     glm::vec3 glmpos(mPosition.x, mPosition.y, mPosition.z);
     glm::vec3 glmdir(mDirection.x, mDirection.y, mDirection.z);
-    glm::vec3 glmup(Up.x, Up.y, Up.z);
+    glm::vec3 glmup(mUpVector.x, mUpVector.y, mUpVector.z);
     mCachedViewMatrix = CMatrix4f::FromGlmMat4(glm::lookAt(glmpos, glmpos + glmdir, glmup)).Transpose();
     mViewOutdated = false;
 }

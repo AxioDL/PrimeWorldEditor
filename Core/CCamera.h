@@ -21,6 +21,8 @@ class CCamera
     ECameraMoveMode mMode;
     CVector3f mPosition;
     CVector3f mDirection;
+    CVector3f mRightVector;
+    CVector3f mUpVector;
     float mAspectRatio;
 
     float mYaw;
@@ -48,16 +50,16 @@ public:
     void ProcessMouseInput(EKeyInputs KeyFlags, EMouseInputs MouseFlags, float XMovement, float YMovement);
     CRay CastRay(CVector2f DeviceCoords);
     void LoadMatrices();
-    void LoadRotationOnlyMatrices();
 
     // Getters
     CVector3f Position() const;
     CVector3f Direction() const;
+    CVector3f UpVector() const;
+    CVector3f RightVector() const;
     float Yaw() const;
     float Pitch() const;
     float FieldOfView() const;
     const CMatrix4f& ViewMatrix();
-    CMatrix4f RotationOnlyViewMatrix();
     const CMatrix4f& ProjectionMatrix();
     const CFrustumPlanes& FrustumPlanes();
 

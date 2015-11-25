@@ -16,11 +16,11 @@ public:
     explicit CModelNode(CSceneManager *pScene, CSceneNode *pParent = 0, CModel *pModel = 0);
 
     virtual ENodeType NodeType();
-    virtual void AddToRenderer(CRenderer *pRenderer, const CFrustumPlanes& frustum);
+    virtual void AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo);
     virtual void Draw(ERenderOptions Options);
     virtual void DrawAsset(ERenderOptions Options, u32 asset);
     virtual void RayAABoxIntersectTest(CRayCollisionTester &Tester);
-    virtual SRayIntersection RayNodeIntersectTest(const CRay &Ray, u32 AssetID, ERenderOptions options);
+    virtual SRayIntersection RayNodeIntersectTest(const CRay &Ray, u32 AssetID, const SViewInfo& ViewInfo);
 
     void SetModel(CModel *pModel);
     void SetMatSet(u32 MatSet);

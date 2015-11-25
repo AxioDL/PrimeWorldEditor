@@ -10,11 +10,13 @@ class CLightNode : public CSceneNode
 public:
     CLightNode(CSceneManager *pScene, CSceneNode *pParent = 0, CLight *Light = 0);
     ENodeType NodeType();
-    void AddToRenderer(CRenderer *pRenderer, const CFrustumPlanes& frustum);
+    void AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo);
     void Draw(ERenderOptions Options);
     void DrawAsset(ERenderOptions Options, u32 asset);
-    SRayIntersection RayNodeIntersectTest(const CRay &Ray, u32 AssetID, ERenderOptions options);
+    void RayAABoxIntersectTest(CRayCollisionTester& Tester);
+    SRayIntersection RayNodeIntersectTest(const CRay &Ray, u32 AssetID, const SViewInfo& ViewInfo);
     CLight* Light();
+    CVector2f BillboardScale();
 };
 
 #endif // CLIGHTNODE_H

@@ -113,7 +113,6 @@ SOURCES += \
     Resource/model/SSurface.cpp \
     Common/CRayCollisionTester.cpp \
     Common/Math.cpp \
-    Scene/CBoundingBoxNode.cpp \
     Core/Log.cpp \
     Common/CVector2i.cpp \
     UI/CNodeSelection.cpp \
@@ -273,7 +272,6 @@ HEADERS  += \
     Common/CRayCollisionTester.h \
     Scene/ENodeType.h \
     Common/Math.h \
-    Scene/CBoundingBoxNode.h \
     Core/Log.h \
     Scene/CRootNode.h \
     Common/CVector2i.h \
@@ -321,7 +319,8 @@ HEADERS  += \
     UI/WAnimParamsEditor.h \
     Resource/CCollisionMeshGroup.h \
     Core/CFrustumPlanes.h \
-    Core/CLightParameters.h
+    Core/CLightParameters.h \
+    Core/SViewInfo.h
 
 FORMS    += \
     UI/CStartWindow.ui \

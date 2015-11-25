@@ -9,6 +9,7 @@
 #include "ERenderOptions.h"
 #include "ERenderCommand.h"
 #include "SRenderablePtr.h"
+#include "SViewInfo.h"
 #include <Common/CAABox.h>
 #include <Common/CColor.h>
 #include <Common/CMatrix4f.h>
@@ -53,7 +54,7 @@ public:
     void Init();
 
     // Getters/Setters
-    ERenderOptions RenderOptions();
+    ERenderOptions RenderOptions() const;
     void ToggleWorld(bool b);
     void ToggleWorldCollision(bool b);
     void ToggleObjects(bool b);
@@ -71,9 +72,9 @@ public:
     void SetViewportSize(u32 Width, u32 Height);
 
     // Render
-    void RenderBuckets(CCamera& Camera);
+    void RenderBuckets(const SViewInfo& ViewInfo);
     void RenderBloom();
-    void RenderSky(CModel *pSkyboxModel, CCamera& Camera);
+    void RenderSky(CModel *pSkyboxModel, const SViewInfo& ViewInfo);
     void AddOpaqueMesh(IRenderable *pRenderable, u32 AssetID, CAABox& AABox, ERenderCommand Command);
     void AddTransparentMesh(IRenderable *pRenderable, u32 AssetID, CAABox& AABox, ERenderCommand Command);
     void BeginFrame();

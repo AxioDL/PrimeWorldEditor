@@ -5,6 +5,7 @@
 #include <QOpenGLWidget>
 
 #include <Core/CRenderer.h>
+#include <Core/SViewInfo.h>
 #include <Common/CRay.h>
 #include <Common/CTimer.h>
 #include <Common/CVector2i.h>
@@ -23,6 +24,7 @@ protected:
     CCamera mCamera;
     CTimer mFrameTimer;
     double mLastDrawTime;
+    SViewInfo mViewInfo;
 
     // Cursor settings
     QCursor mCursorState;
@@ -55,7 +57,6 @@ public:
     bool IsCursorVisible();
     bool IsMouseInputActive();
     bool IsKeyboardInputActive();
-    CRenderer* Renderer();
     CCamera& Camera();
     CRay CastRay();
     CVector2f MouseDeviceCoordinates();
@@ -74,7 +75,6 @@ protected slots:
     virtual void OnMouseRelease(QMouseEvent* /*pEvent*/) {}
 
 private:
-    void ProcessInput(double DeltaTime);
     void DrawAxes();
 };
 

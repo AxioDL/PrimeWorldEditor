@@ -16,10 +16,10 @@ ENodeType CModelNode::NodeType()
     return eModelNode;
 }
 
-void CModelNode::AddToRenderer(CRenderer *pRenderer, const CFrustumPlanes& frustum)
+void CModelNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
 {
     if (!mpModel) return;
-    if (!frustum.BoxInFrustum(AABox())) return;
+    if (!ViewInfo.ViewFrustum.BoxInFrustum(AABox())) return;
 
     if (!mpModel->HasTransparency(mActiveMatSet))
         pRenderer->AddOpaqueMesh(this, 0, AABox(), eDrawMesh);
@@ -30,7 +30,7 @@ void CModelNode::AddToRenderer(CRenderer *pRenderer, const CFrustumPlanes& frust
 
         for (u32 iSurf = 0; iSurf < SurfaceCount; iSurf++)
         {
-            if (frustum.BoxInFrustum(mpModel->GetSurfaceAABox(iSurf).Transformed(Transform())))
+            if (ViewInfo.ViewFrustum.BoxInFrustum(mpModel->GetSurfaceAABox(iSurf).Transformed(Transform())))
             {
                 if (!mpModel->IsSurfaceTransparent(iSurf, mActiveMatSet))
                     pRenderer->AddOpaqueMesh(this, iSurf, mpModel->GetSurfaceAABox(iSurf).Transformed(Transform()), eDrawAsset);
@@ -109,13 +109,14 @@ void CModelNode::RayAABoxIntersectTest(CRayCollisionTester &Tester)
     }
 }
 
-SRayIntersection CModelNode::RayNodeIntersectTest(const CRay &Ray, u32 AssetID, ERenderOptions options)
+SRayIntersection CModelNode::RayNodeIntersectTest(const CRay &Ray, u32 AssetID, const SViewInfo& ViewInfo)
 {
     SRayIntersection out;
     out.pNode = this;
     out.AssetIndex = AssetID;
 
     CRay TransformedRay = Ray.Transformed(Transform().Inverse());
+    ERenderOptions options = ViewInfo.pRenderer->RenderOptions();
     std::pair<bool,float> Result = mpModel->GetSurface(AssetID)->IntersectsRay(TransformedRay, ((options & eEnableBackfaceCull) == 0));
 
     if (Result.first)

@@ -7,6 +7,7 @@
 
 #include "CAreaAttributes.h"
 #include "CRenderer.h"
+#include "SViewInfo.h"
 #include <Common/SRayIntersection.h>
 #include <Common/types.h>
 #include <Scene/CSceneNode.h>
@@ -57,8 +58,8 @@ public:
     void SetActiveArea(CGameArea *_area);
     void SetActiveWorld(CWorld *_world);
     void ClearScene();
-    void AddSceneToRenderer(CRenderer *pRenderer, CCamera& camera);
-    SRayIntersection SceneRayCast(const CRay& Ray, ERenderOptions renderOptions);
+    void AddSceneToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo);
+    SRayIntersection SceneRayCast(const CRay& Ray, const SViewInfo& ViewInfo);
     void PickEnvironmentObjects();
     CScriptNode* ScriptNodeByID(u32 InstanceID);
     CScriptNode* NodeForObject(CScriptObject *pObj);

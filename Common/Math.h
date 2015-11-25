@@ -15,6 +15,8 @@ float Abs(float v);
 
 float Pow(float Base, float Exponent);
 
+float Sqrt(float v);
+
 float Distance(const CVector3f& A, const CVector3f& B);
 
 float DegreesToRadians(float deg);

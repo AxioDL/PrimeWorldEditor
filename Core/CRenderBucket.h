@@ -25,7 +25,7 @@ public:
     CRenderBucket();
     void SetSortType(ESortType Type);
     void Add(const SRenderablePtr& ptr);
-    void Sort(CCamera& Camera);
+    void Sort(CCamera* pCamera);
     void Clear();
     void Draw(ERenderOptions Options);
 };

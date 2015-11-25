@@ -1,7 +1,8 @@
 #include "CQuaternion.h"
 #include <cmath>
 #include <math.h>
-#include <Common/Math.h>
+#include "Math.h"
+#include "CMatrix4f.h"
 
 CQuaternion::CQuaternion()
 {
@@ -135,6 +136,59 @@ CQuaternion CQuaternion::FromAxisAngle(float angle, CVector3f axis)
     quat.z = axis.z * sa;
     return quat;
 
+}
+
+CQuaternion CQuaternion::FromRotationMatrix(const CMatrix4f& RotMtx)
+{
+    // http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/
+    CQuaternion out;
+    float trace = RotMtx[0][0] + RotMtx[1][1] + RotMtx[2][2];
+
+    if (trace > 0.f)
+    {
+      float s = Math::Sqrt(trace + 1.f) * 2; // s = 4*w
+      out.w = 0.25f * s;
+      out.x = (RotMtx[2][1] - RotMtx[1][2]) / s;
+      out.y = (RotMtx[0][2] - RotMtx[2][0]) / s;
+      out.z = (RotMtx[1][0] - RotMtx[0][1]) / s;
+    }
+
+    else if ((RotMtx[0][0] > RotMtx[1][1]) && (RotMtx[0][0] > RotMtx[2][2]))
+    {
+      float s = Math::Sqrt(1.f + RotMtx[0][0] - RotMtx[1][1] - RotMtx[2][2]) * 2; // s = 4*x
+      out.w = (RotMtx[2][1] - RotMtx[1][2]) / s;
+      out.x = 0.25f * s;
+      out.y = (RotMtx[0][1] + RotMtx[1][0]) / s;
+      out.z = (RotMtx[0][2] + RotMtx[2][0]) / s;
+    }
+
+    else if (RotMtx[1][1] > RotMtx[2][2]) {
+      float s = Math::Sqrt(1.f + RotMtx[1][1] - RotMtx[0][0] - RotMtx[2][2]) * 2; // s = 4*y
+      out.w = (RotMtx[0][2] - RotMtx[2][0]) / s;
+      out.x = (RotMtx[0][1] + RotMtx[1][0]) / s;
+      out.y = 0.25f * s;
+      out.z = (RotMtx[1][2] + RotMtx[2][1]) / s;
+    }
+
+    else {
+      float s = Math::Sqrt(1.f + RotMtx[2][2] - RotMtx[0][0] - RotMtx[1][1]) * 2; // S=4*qz
+      out.w = (RotMtx[1][0] - RotMtx[0][1]) / s;
+      out.x = (RotMtx[0][2] + RotMtx[2][0]) / s;
+      out.y = (RotMtx[1][2] + RotMtx[2][1]) / s;
+      out.z = 0.25f * s;
+    }
+
+    return out;
+}
+
+CQuaternion CQuaternion::FromAxes(const CVector3f& X, const CVector3f& Y, const CVector3f& Z)
+{
+    CMatrix4f RotMtx(X.x, Y.x, Z.x, 0.f,
+                     X.y, Y.y, Z.y, 0.f,
+                     X.z, Y.z, Z.z, 0.f,
+                     0.f, 0.f, 0.f, 1.f);
+
+    return CQuaternion::FromRotationMatrix(RotMtx);
 }
 
 CQuaternion CQuaternion::skIdentity = CQuaternion(1.f, 0.f, 0.f, 0.f);

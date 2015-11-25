@@ -1,5 +1,6 @@
 #include "CSceneViewport.h"
 #include "undo/UndoCommands.h"
+#include <Core/SViewInfo.h>
 
 CSceneViewport::CSceneViewport(QWidget *pParent)
     : CBasicViewport(pParent),
@@ -13,6 +14,9 @@ CSceneViewport::CSceneViewport(QWidget *pParent)
     mpRenderer = new CRenderer();
     mpRenderer->SetClearColor(CColor::skBlack);
     mpRenderer->SetViewportSize(width(), height());
+
+    mViewInfo.pScene = mpScene;
+    mViewInfo.pRenderer = mpRenderer;
 }
 
 CSceneViewport::~CSceneViewport()
@@ -77,7 +81,7 @@ void CSceneViewport::SceneRayCast(const CRay& ray)
         return;
     }
 
-    SRayIntersection result = mpScene->SceneRayCast(ray, mpRenderer->RenderOptions());
+    SRayIntersection result = mpScene->SceneRayCast(ray, mViewInfo);
 
     if (result.Hit)
     {
@@ -131,12 +135,12 @@ void CSceneViewport::Paint()
     if (mDrawSky)
     {
         CModel *pSky = mpScene->GetActiveSkybox();
-        if (pSky) mpRenderer->RenderSky(pSky, mCamera);
+        if (pSky) mpRenderer->RenderSky(pSky, mViewInfo);
     }
 
     mCamera.LoadMatrices();
-    mpScene->AddSceneToRenderer(mpRenderer, mCamera);
-    mpRenderer->RenderBuckets(mCamera);
+    mpScene->AddSceneToRenderer(mpRenderer, mViewInfo);
+    mpRenderer->RenderBuckets(mViewInfo);
     mpRenderer->RenderBloom();
 
     if (mpEditor->IsGizmoVisible())
@@ -146,8 +150,8 @@ void CSceneViewport::Paint()
 
         mpRenderer->ClearDepthBuffer();
         pGizmo->UpdateForCamera(mCamera);
-        pGizmo->AddToRenderer(mpRenderer, mCamera.FrustumPlanes());
-        mpRenderer->RenderBuckets(mCamera);
+        pGizmo->AddToRenderer(mpRenderer, mViewInfo);
+        mpRenderer->RenderBuckets(mViewInfo);
     }
 
     mpRenderer->EndFrame();

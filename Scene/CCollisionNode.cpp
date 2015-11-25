@@ -15,10 +15,10 @@ ENodeType CCollisionNode::NodeType()
     return eCollisionNode;
 }
 
-void CCollisionNode::AddToRenderer(CRenderer *pRenderer, const CFrustumPlanes& frustum)
+void CCollisionNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
 {
     if (!mpCollision) return;
-    if (!frustum.BoxInFrustum(AABox())) return;
+    if (!ViewInfo.ViewFrustum.BoxInFrustum(AABox())) return;
 
     pRenderer->AddOpaqueMesh(this, 0, AABox(), eDrawMesh);
 
@@ -47,7 +47,7 @@ void CCollisionNode::DrawAsset(ERenderOptions /*Options*/, u32 /*asset*/)
 {
 }
 
-SRayIntersection CCollisionNode::RayNodeIntersectTest(const CRay& /*Ray*/, u32 /*AssetID*/, ERenderOptions /*options*/)
+SRayIntersection CCollisionNode::RayNodeIntersectTest(const CRay& /*Ray*/, u32 /*AssetID*/, const SViewInfo& /*ViewInfo*/)
 {
     // todo
     SRayIntersection Result;

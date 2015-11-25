@@ -14,6 +14,7 @@ CBasicViewport::CBasicViewport(QWidget *pParent) :
 {
     setMouseTracking(true);
     mCamera.SetAspectRatio((float) width() / height());
+    mViewInfo.pCamera = &mCamera;
 }
 
 CBasicViewport::~CBasicViewport()
@@ -47,9 +48,11 @@ void CBasicViewport::paintGL()
     glViewport(0, 0, width(), height());
     glLineWidth(1.f);
     glEnable(GL_DEPTH_TEST);
+    mViewInfo.ViewFrustum = mCamera.FrustumPlanes();
+    CGraphics::sMVPBlock.ProjectionMatrix = mCamera.ProjectionMatrix();
 
     // Actual rendering is intended to be handled by subclassing CBasicViewport and
-    // reimplementing Render().
+    // reimplementing Paint().
     Paint();
 
     // Finally, draw XYZ axes in the corner
@@ -247,6 +250,15 @@ void CBasicViewport::ProcessInput()
     if (IsKeyboardInputActive())
         mCamera.ProcessKeyInput((EKeyInputs) mKeysPressed, DeltaTime);
 
+    // Update view info
+    const CMatrix4f& View = mCamera.ViewMatrix();
+    mViewInfo.RotationOnlyViewMatrix = CMatrix4f(View[0][0], View[0][1], View[0][2], 0.f,
+                                                 View[1][0], View[1][1], View[1][2], 0.f,
+                                                 View[2][0], View[2][1], View[2][2], 0.f,
+                                                 View[3][0], View[3][1], View[3][2], 1.f);
+
+    mViewInfo.ViewFrustum = mCamera.FrustumPlanes();
+
     // Check user input
     CheckUserInput();
 }
@@ -259,10 +271,6 @@ void CBasicViewport::Render()
 }
 
 // ************ PRIVATE ************
-void CBasicViewport::ProcessInput(double /*DeltaTime*/)
-{
-}
-
 void CBasicViewport::DrawAxes()
 {
     // Draw 64x64 axes in lower-left corner with 8px margins
@@ -272,7 +280,7 @@ void CBasicViewport::DrawAxes()
     glDepthRange(0.f, 1.f);
 
     CGraphics::sMVPBlock.ModelMatrix = CTransform4f::TranslationMatrix(mCamera.Direction() * 5).ToMatrix4f();
-    CGraphics::sMVPBlock.ViewMatrix = mCamera.RotationOnlyViewMatrix();
+    CGraphics::sMVPBlock.ViewMatrix = mViewInfo.RotationOnlyViewMatrix;
     CGraphics::sMVPBlock.ProjectionMatrix = Math::OrthographicMatrix(-1.f, 1.f, -1.f, 1.f, 0.1f, 100.f);
     CGraphics::UpdateMVPBlock();
 

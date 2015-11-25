@@ -26,18 +26,19 @@ public:
     CScriptNode(CSceneManager *pScene, CSceneNode *pParent = 0, CScriptObject *pObject = 0);
     ENodeType NodeType();
     TString PrefixedName() const;
-    void AddToRenderer(CRenderer *pRenderer, const CFrustumPlanes& frustum);
+    void AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo);
     void Draw(ERenderOptions Options);
     void DrawAsset(ERenderOptions Options, u32 Asset);
     void DrawSelection();
     void RayAABoxIntersectTest(CRayCollisionTester &Tester);
-    SRayIntersection RayNodeIntersectTest(const CRay &Ray, u32 AssetID, ERenderOptions options);
+    SRayIntersection RayNodeIntersectTest(const CRay &Ray, u32 AssetID, const SViewInfo& ViewInfo);
     bool IsVisible() const;
     CScriptObject* Object();
     CModel* ActiveModel();
     void GeneratePosition();
     bool HasPreviewVolume();
     CAABox PreviewVolumeAABox();
+    CVector2f BillboardScale();
 };
 
 #endif // CSCRIPTNODE_H

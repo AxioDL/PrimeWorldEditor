@@ -58,7 +58,7 @@ public:
     virtual void DrawAsset(ERenderOptions options, u32 asset) = 0;
     virtual void DrawSelection();
     virtual void RayAABoxIntersectTest(CRayCollisionTester& Tester);
-    virtual SRayIntersection RayNodeIntersectTest(const CRay& Ray, u32 AssetID, ERenderOptions options) = 0;
+    virtual SRayIntersection RayNodeIntersectTest(const CRay& Ray, u32 AssetID, const SViewInfo& ViewInfo) = 0;
     virtual bool IsVisible() const;
 
     void Unparent();

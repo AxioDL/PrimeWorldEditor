@@ -24,7 +24,7 @@ void CRenderBucket::Add(const SRenderablePtr& ptr)
     mSize++;
 }
 
-void CRenderBucket::Sort(CCamera& Camera)
+void CRenderBucket::Sort(CCamera* pCamera)
 {
     struct {
         CCamera *pCamera;
@@ -39,7 +39,7 @@ void CRenderBucket::Sort(CCamera& Camera)
             return (dotL > dotR);
         }
     } backToFront;
-    backToFront.pCamera = &Camera;
+    backToFront.pCamera = pCamera;
 
     if (mSortType == BackToFront)
         std::stable_sort(mRenderables.begin(), mRenderables.begin() + mSize, backToFront);

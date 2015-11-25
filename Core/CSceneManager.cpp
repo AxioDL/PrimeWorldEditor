@@ -215,48 +215,50 @@ void CSceneManager::ClearScene()
     mNodeCount = 0;
 }
 
-void CSceneManager::AddSceneToRenderer(CRenderer *pRenderer, CCamera& camera)
+void CSceneManager::AddSceneToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
 {
-    ERenderOptions options = pRenderer->RenderOptions();
+    ERenderOptions Options = pRenderer->RenderOptions();
 
-    if (options & eDrawWorld)
+    if (Options & eDrawWorld)
     {
         for (u32 n = 0; n < mModelNodes.size(); n++)
             if (mModelNodes[n]->IsVisible())
-                mModelNodes[n]->AddToRenderer(pRenderer, camera.FrustumPlanes());
+                mModelNodes[n]->AddToRenderer(pRenderer, ViewInfo);
 
         for (u32 n = 0; n < mStaticNodes.size(); n++)
             if (mStaticNodes[n]->IsVisible())
-                mStaticNodes[n]->AddToRenderer(pRenderer, camera.FrustumPlanes());
+                mStaticNodes[n]->AddToRenderer(pRenderer, ViewInfo);
     }
 
-    if (options & eDrawWorldCollision)
+    if (Options & eDrawWorldCollision)
     {
         for (u32 n = 0; n < mCollisionNodes.size(); n++)
             if (mCollisionNodes[n]->IsVisible())
-                mCollisionNodes[n]->AddToRenderer(pRenderer, camera.FrustumPlanes());
+                mCollisionNodes[n]->AddToRenderer(pRenderer, ViewInfo);
     }
 
-    if (options & eDrawLights)
+    if (Options & eDrawLights)
     {
         for (u32 n = 0; n < mLightNodes.size(); n++)
             if (mLightNodes[n]->IsVisible())
-                mLightNodes[n]->AddToRenderer(pRenderer, camera.FrustumPlanes());
+                mLightNodes[n]->AddToRenderer(pRenderer, ViewInfo);
     }
 
-    if ((options & eDrawObjects) || (options & eDrawObjectCollision))
+    if ((Options & eDrawObjects) || (Options & eDrawObjectCollision))
     {
         for (u32 n = 0; n < mScriptNodes.size(); n++)
             if (mScriptNodes[n]->IsVisible())
-                mScriptNodes[n]->AddToRenderer(pRenderer, camera.FrustumPlanes());
+                mScriptNodes[n]->AddToRenderer(pRenderer, ViewInfo);
     }
 }
 
-SRayIntersection CSceneManager::SceneRayCast(const CRay& Ray, ERenderOptions renderOptions)
+SRayIntersection CSceneManager::SceneRayCast(const CRay& Ray, const SViewInfo& ViewInfo)
 {
     // Terribly hacky stuff to avoid having tons of redundant code
     // because I'm too lazy to rewrite CSceneManager right now and fix it
     // (I'm probably going to do it soon...)
+    ERenderOptions renderOptions = ViewInfo.pRenderer->RenderOptions();
+
     std::vector<CSceneNode*> *pNodeVectors[5] = {
         reinterpret_cast<std::vector<CSceneNode*>*>(&mModelNodes),
         reinterpret_cast<std::vector<CSceneNode*>*>(&mStaticNodes),
@@ -283,7 +285,7 @@ SRayIntersection CSceneManager::SceneRayCast(const CRay& Ray, ERenderOptions ren
                 vec[iNode]->RayAABoxIntersectTest(Tester);
     }
 
-    return Tester.TestNodes(renderOptions);
+    return Tester.TestNodes(ViewInfo);
 }
 
 void CSceneManager::PickEnvironmentObjects()

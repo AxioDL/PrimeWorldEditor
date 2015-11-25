@@ -124,7 +124,7 @@ public:
     CGizmo();
     ~CGizmo();
 
-    void AddToRenderer(CRenderer *pRenderer, const CFrustumPlanes& frustum);
+    void AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo);
     void DrawAsset(ERenderOptions options, u32 asset);
 
     void IncrementSize();

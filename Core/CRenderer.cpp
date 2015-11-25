@@ -54,7 +54,7 @@ void CRenderer::Init()
 }
 
 // ************ GETTERS/SETTERS ************
-ERenderOptions CRenderer::RenderOptions()
+ERenderOptions CRenderer::RenderOptions() const
 {
     return mOptions;
 }
@@ -159,11 +159,10 @@ void CRenderer::SetViewportSize(u32 Width, u32 Height)
 }
 
 // ************ RENDER ************
-void CRenderer::RenderBuckets(CCamera& Camera)
+void CRenderer::RenderBuckets(const SViewInfo& ViewInfo)
 {
     if (!mInitialized) Init();
     mSceneFramebuffer.Bind();
-    //Camera.LoadMatrices();
 
     // Set backface culling
     if (mOptions & eEnableBackfaceCull) glEnable(GL_CULL_FACE);
@@ -175,7 +174,7 @@ void CRenderer::RenderBuckets(CCamera& Camera)
 
     mOpaqueBucket.Draw(mOptions);
     mOpaqueBucket.Clear();
-    mTransparentBucket.Sort(Camera);
+    mTransparentBucket.Sort(ViewInfo.pCamera);
     mTransparentBucket.Draw(mOptions);
     mTransparentBucket.Clear();
 }
@@ -288,7 +287,7 @@ void CRenderer::RenderBloom()
     glEnable(GL_DEPTH_TEST);
 }
 
-void CRenderer::RenderSky(CModel *pSkyboxModel, CCamera& Camera)
+void CRenderer::RenderSky(CModel *pSkyboxModel, const SViewInfo& ViewInfo)
 {
     if (!mInitialized) Init();
     if (!pSkyboxModel) return;
@@ -302,7 +301,10 @@ void CRenderer::RenderSky(CModel *pSkyboxModel, CCamera& Camera)
     CGraphics::UpdateVertexBlock();
     CGraphics::UpdatePixelBlock();
     CGraphics::UpdateLightBlock();
-    Camera.LoadRotationOnlyMatrices();
+
+    // Load rotation-only view matrix
+    CGraphics::sMVPBlock.ViewMatrix = ViewInfo.RotationOnlyViewMatrix;
+    CGraphics::UpdateMVPBlock();
 
     glDepthRange(1.f, 1.f);
     pSkyboxModel->Draw(mOptions, 0);

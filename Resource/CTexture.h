@@ -2,6 +2,7 @@
 #define CTEXTURE_H
 
 #include <Common/types.h>
+#include <Common/CVector2f.h>
 #include <FileIO/FileIO.h>
 #include <gl/glew.h>
 #include "CResource.h"
@@ -35,6 +36,7 @@ public:
     bool BufferGL();
     void Bind(u32 GLTextureUnit);
     void Resize(u32 Width, u32 Height);
+    float ReadTexelAlpha(const CVector2f& TexCoord);
     bool WriteDDS(COutputStream& out);
 
     // Getters

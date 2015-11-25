@@ -15,12 +15,12 @@ public:
         return eRootNode;
     }
 
-    inline void AddToRenderer(CRenderer *, const CFrustumPlanes&) {}
+    inline void AddToRenderer(CRenderer *, const SViewInfo&) {}
     inline void Draw(ERenderOptions) {}
     inline void DrawAsset(ERenderOptions, u32) {}
     inline void RayAABoxIntersectTest(CRayCollisionTester &) {}
 
-    inline SRayIntersection RayNodeIntersectTest(const CRay &, u32, ERenderOptions) {
+    inline SRayIntersection RayNodeIntersectTest(const CRay &, u32, const SViewInfo&) {
         return SRayIntersection(false, 0.f, nullptr, 0);
     }
 

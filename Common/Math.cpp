@@ -15,6 +15,11 @@ float Pow(float Base, float Exponent)
     return pow(Base, Exponent);
 }
 
+float Sqrt(float v)
+{
+    return sqrtf(v);
+}
+
 float Distance(const CVector3f& A, const CVector3f& B)
 {
     return sqrtf( Pow(B.x - A.x, 2.f) +

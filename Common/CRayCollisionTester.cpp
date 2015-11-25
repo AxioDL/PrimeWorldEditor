@@ -19,7 +19,7 @@ void CRayCollisionTester::AddNode(CSceneNode *pNode, u32 AssetIndex, float Dista
     Intersection.Distance = Distance;
 }
 
-SRayIntersection CRayCollisionTester::TestNodes(ERenderOptions options)
+SRayIntersection CRayCollisionTester::TestNodes(const SViewInfo& ViewInfo)
 {
     // Sort nodes by distance from ray
     mBoxIntersectList.sort(
@@ -43,7 +43,7 @@ SRayIntersection CRayCollisionTester::TestNodes(ERenderOptions options)
 
         // Otherwise, more intersection tests...
         CSceneNode *pNode = Intersection.pNode;
-        SRayIntersection MidResult = pNode->RayNodeIntersectTest(mRay, Intersection.AssetIndex, options);
+        SRayIntersection MidResult = pNode->RayNodeIntersectTest(mRay, Intersection.AssetIndex, ViewInfo);
 
         if (MidResult.Hit)
         {

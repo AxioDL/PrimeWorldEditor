@@ -152,6 +152,49 @@ void CTexture::Resize(u32 Width, u32 Height)
     }
 }
 
+float CTexture::ReadTexelAlpha(const CVector2f& TexCoord)
+{
+    // todo: support texel formats other than DXT1
+    // DXT1 is definitely the most complicated one anyway; try reusing CTextureDecoder functions for other formats
+    u32 TexelX = (u32) ((mWidth - 1) * TexCoord.x);
+    u32 TexelY = (u32) ((mHeight - 1) * (1.f - fmodf(TexCoord.y, 1.f)));
+
+    if (mTexelFormat == eDXT1 && mBufferExists)
+    {
+        CMemoryInStream Buffer(mImgDataBuffer, mImgDataSize, IOUtil::SystemEndianness);
+
+        // 8 bytes per 4x4 16-pixel block, left-to-right top-to-bottom
+        u32 BlockIdxX = TexelX / 4;
+        u32 BlockIdxY = TexelY / 4;
+        u32 BlocksPerRow = mWidth / 4;
+
+        u32 BufferPos = (8 * BlockIdxX) + (8 * BlockIdxY * BlocksPerRow);
+        Buffer.Seek(BufferPos, SEEK_SET);
+
+        u16 PaletteA = Buffer.ReadShort();
+        u16 PaletteB = Buffer.ReadShort();
+
+        if (PaletteA > PaletteB)
+        {
+            // No palette colors have alpha
+            return 1.f;
+        }
+
+        // We only care about alpha, which is only present on palette index 3.
+        // We don't need to calculate/decode the actual palette colors.
+        u32 BlockCol = (TexelX & 0xF) / 4;
+        u32 BlockRow = (TexelY & 0xF) / 4;
+
+        Buffer.Seek(BlockRow, SEEK_CUR);
+        u8 Row = Buffer.ReadByte();
+        u8 Shift = (u8) (6 - (BlockCol * 2));
+        u8 PaletteIndex = (Row >> Shift) & 0x3;
+        return (PaletteIndex == 3 ? 0.f : 1.f);
+    }
+
+    return 1.f;
+}
+
 bool CTexture::WriteDDS(COutputStream& out)
 {
     if (!out.IsValid()) return false;
