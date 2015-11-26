@@ -27,7 +27,7 @@ void CCollisionNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewIn
         pRenderer->AddOpaqueMesh(this, 0, AABox(), eDrawSelection);
 }
 
-void CCollisionNode::Draw(ERenderOptions)
+void CCollisionNode::Draw(ERenderOptions, const SViewInfo& ViewInfo)
 {
     // Not using parameter 1 (ERenderOptions - Options)
     if (!mpCollision) return;
@@ -38,14 +38,10 @@ void CCollisionNode::Draw(ERenderOptions)
     glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
     glDepthMask(GL_TRUE);
 
-    CDrawUtil::UseCollisionShader();
+    CDrawUtil::UseCollisionShader(TintColor(ViewInfo));
     mpCollision->Draw();
     CDrawUtil::UseColorShader(CColor::skTransparentBlack);
     mpCollision->DrawWireframe();
-}
-
-void CCollisionNode::DrawAsset(ERenderOptions /*Options*/, u32 /*asset*/)
-{
 }
 
 SRayIntersection CCollisionNode::RayNodeIntersectTest(const CRay& /*Ray*/, u32 /*AssetID*/, const SViewInfo& /*ViewInfo*/)

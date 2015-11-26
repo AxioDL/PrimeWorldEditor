@@ -118,29 +118,26 @@ void CColor::operator-=(const CColor& other)
 
 CColor CColor::operator*(const CColor& other) const
 {
-    u16 NewR = r * other.r;
-    if (NewR > 255) NewR = 255;
-    u16 NewG = g * other.g;
-    if (NewG > 255) NewG = 255;
-    u16 NewB = b * other.b;
-    if (NewB > 255) NewB = 255;
-    u16 NewA = a * other.a;
-    if (NewA > 255) NewA = 255;
-    return CColor((u8) NewR, (u8) NewG, (u8) NewB, (u8) NewA);
+    CVector4f A = ToVector4f();
+    CVector4f B = other.ToVector4f();
+
+    float NewR = A.x * B.x;
+    float NewG = A.y * B.y;
+    float NewB = A.z * B.z;
+    float NewA = A.w * B.w;
+
+    return CColor(NewR, NewG, NewB, NewA);
 }
 
 void CColor::operator*=(const CColor& other)
 {
-    *this = (*this - other);
+    *this = (*this * other);
 }
 
 CColor CColor::operator*(const float other) const
 {
-    u8 NewR = (u8) (r * other);
-    u8 NewG = (u8) (g * other);
-    u8 NewB = (u8) (b * other);
-    u8 NewA = (u8) (a * other);
-    return CColor(NewR, NewG, NewB, NewA);
+    CVector4f Vec4f = ToVector4f() * other;
+    return CColor(Vec4f.x, Vec4f.y, Vec4f.z, Vec4f.w);
 }
 
 void CColor::operator*=(const float other)

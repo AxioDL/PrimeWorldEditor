@@ -2,6 +2,7 @@
 #include <algorithm>
 #include "CDrawUtil.h"
 #include "CGraphics.h"
+#include "CRenderer.h"
 
 CRenderBucket::CRenderBucket()
 {
@@ -71,15 +72,17 @@ void CRenderBucket::Clear()
     mSize = 0;
 }
 
-void CRenderBucket::Draw(ERenderOptions Options)
+void CRenderBucket::Draw(const SViewInfo& ViewInfo)
 {
+    ERenderOptions Options = ViewInfo.pRenderer->RenderOptions();
+
     for (u32 n = 0; n < mSize; n++)
     {
         if (mRenderables[n].Command == eDrawMesh)
-            mRenderables[n].pRenderable->Draw(Options);
+            mRenderables[n].pRenderable->Draw(Options, ViewInfo);
 
         else if (mRenderables[n].Command == eDrawAsset)
-            mRenderables[n].pRenderable->DrawAsset(Options, mRenderables[n].Asset);
+            mRenderables[n].pRenderable->DrawAsset(Options, mRenderables[n].Asset, ViewInfo);
 
         else if (mRenderables[n].Command == eDrawSelection)
             mRenderables[n].pRenderable->DrawSelection();

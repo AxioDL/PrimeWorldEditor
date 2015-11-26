@@ -10,7 +10,7 @@
 #include <algorithm>
 
 u32 CSceneNode::smNumNodes = 0;
-CColor CSceneNode::skSelectionTint((u8) 156, 133, 155, 255);
+CColor CSceneNode::skSelectionTint((u8) 39, 154, 167, 255);
 
 CSceneNode::CSceneNode(CSceneManager *pScene, CSceneNode *pParent)
 {
@@ -69,6 +69,11 @@ void CSceneNode::RayAABoxIntersectTest(CRayCollisionTester& Tester)
 bool CSceneNode::IsVisible() const
 {
     return mVisible;
+}
+
+CColor CSceneNode::WireframeColor() const
+{
+    return CColor::skWhite;
 }
 
 // ************ MAIN FUNCTIONALITY ************
@@ -303,10 +308,10 @@ CSceneManager* CSceneNode::Scene()
     return mpScene;
 }
 
-CColor CSceneNode::TintColor() const
+CColor CSceneNode::TintColor(const SViewInfo& ViewInfo) const
 {
     // convenience; this is/will be a fairly common operation
-    return (IsSelected() ? skSelectionTint : CColor::skWhite);
+    return (IsSelected() && !ViewInfo.GameMode ? skSelectionTint : CColor::skWhite);
 }
 
 CVector3f CSceneNode::LocalPosition() const

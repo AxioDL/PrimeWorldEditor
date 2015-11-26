@@ -16,8 +16,8 @@ public:
     }
 
     inline void AddToRenderer(CRenderer *, const SViewInfo&) {}
-    inline void Draw(ERenderOptions) {}
-    inline void DrawAsset(ERenderOptions, u32) {}
+    inline void Draw(ERenderOptions, const SViewInfo&) {}
+    inline void DrawAsset(ERenderOptions, u32, const SViewInfo&) {}
     inline void RayAABoxIntersectTest(CRayCollisionTester &) {}
 
     inline SRayIntersection RayNodeIntersectTest(const CRay &, u32, const SViewInfo&) {

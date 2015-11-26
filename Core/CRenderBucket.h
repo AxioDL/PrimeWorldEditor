@@ -27,7 +27,7 @@ public:
     void Add(const SRenderablePtr& ptr);
     void Sort(CCamera* pCamera);
     void Clear();
-    void Draw(ERenderOptions Options);
+    void Draw(const SViewInfo& ViewInfo);
 };
 
 #endif // CRENDERBUCKET_H

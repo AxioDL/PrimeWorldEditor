@@ -164,7 +164,7 @@ void CScriptNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
     }
 }
 
-void CScriptNode::Draw(ERenderOptions Options)
+void CScriptNode::Draw(ERenderOptions Options, const SViewInfo& ViewInfo)
 {
     if (!mpInstance) return;
 
@@ -173,13 +173,14 @@ void CScriptNode::Draw(ERenderOptions Options)
     {
         LoadModelMatrix();
         LoadLights();
+        CGraphics::sPixelBlock.TintColor = TintColor(ViewInfo).ToVector4f();
         mpActiveModel->Draw(Options, 0);
     }
 
     // Draw billboard
     else if (mpBillboard)
     {
-        CDrawUtil::DrawBillboard(mpBillboard, mPosition, BillboardScale(), TintColor());
+        CDrawUtil::DrawBillboard(mpBillboard, mPosition, BillboardScale(), TintColor(ViewInfo));
     }
 
     // If no model or billboard, default to drawing a purple box
@@ -192,12 +193,12 @@ void CScriptNode::Draw(ERenderOptions Options)
         LoadLights();
         CGraphics::UpdateVertexBlock();
         CGraphics::UpdateLightBlock();
-        CDrawUtil::DrawShadedCube(CColor::skTransparentPurple);
+        CDrawUtil::DrawShadedCube(CColor::skTransparentPurple * TintColor(ViewInfo));
         return;
     }
 }
 
-void CScriptNode::DrawAsset(ERenderOptions Options, u32 Asset)
+void CScriptNode::DrawAsset(ERenderOptions Options, u32 Asset, const SViewInfo& ViewInfo)
 {
     if (!mpInstance) return;
     if (!mpActiveModel) return;
@@ -207,6 +208,7 @@ void CScriptNode::DrawAsset(ERenderOptions Options, u32 Asset)
     else
         CGraphics::sVertexBlock.COLOR0_Amb = CGraphics::skDefaultAmbientColor.ToVector4f();
 
+    CGraphics::sPixelBlock.TintColor = TintColor(ViewInfo).ToVector4f();
     LoadModelMatrix();
     LoadLights();
 
@@ -217,11 +219,12 @@ void CScriptNode::DrawSelection()
 {
     glBlendFunc(GL_ONE, GL_ZERO);
 
-    // Only draw bounding box for models; billboards get a tint color
+    // Draw wireframe for models; billboards only get tinted
     if (mpActiveModel || !mpBillboard)
     {
         LoadModelMatrix();
-        CDrawUtil::DrawWireCube(AABox(), CColor::skTransparentWhite);
+        CModel *pModel = (mpActiveModel ? mpActiveModel : CDrawUtil::GetCubeModel());
+        pModel->DrawWireframe(eNoRenderOptions, WireframeColor());
     }
 
     if (mpInstance)
@@ -383,8 +386,13 @@ SRayIntersection CScriptNode::RayNodeIntersectTest(const CRay& Ray, u32 AssetID,
 
 bool CScriptNode::IsVisible() const
 {
-    // Reimplementation of CSceneNode::IsHidden() to allow for layer and template visiblity to be taken into account
+    // Reimplementation of CSceneNode::IsVisible() to allow for layer and template visiblity to be taken into account
     return (mVisible && mpInstance->Layer()->IsVisible() && mpInstance->Template()->IsVisible());
+}
+
+CColor CScriptNode::WireframeColor() const
+{
+    return CColor((u8) 12, 135, 194, 255);
 }
 
 CScriptObject* CScriptNode::Object()

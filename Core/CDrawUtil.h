@@ -7,6 +7,9 @@
 #include <Resource/model/CModel.h>
 #include <Resource/CLight.h>
 
+// todo: CDrawUtil should work with CRenderer to queue primitives for rendering
+// rather than trying to draw them straight away, so that CDrawUtil functions can
+// be called from anywhere in the codebase and still function correctly
 class CDrawUtil
 {
     // 7x7 Grid
@@ -86,7 +89,7 @@ public:
     static void UseColorShaderLighting(const CColor& Color);
     static void UseTextureShader();
     static void UseTextureShader(const CColor& TintColor);
-    static void UseCollisionShader();
+    static void UseCollisionShader(const CColor& TintColor = CColor::skWhite);
 
     static CShader* GetTextShader();
     static void LoadCheckerboardTexture(u32 GLTextureUnit);

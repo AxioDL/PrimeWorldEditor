@@ -33,18 +33,14 @@ void CLightNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
     pRenderer->AddOpaqueMesh(this, 0, CAABox(mPosition + 0.5f, mPosition - 0.5f), eDrawMesh);
 }
 
-void CLightNode::Draw(ERenderOptions /*Options*/)
+void CLightNode::Draw(ERenderOptions /*Options*/, const SViewInfo& ViewInfo)
 {
-    CDrawUtil::DrawLightBillboard(mpLight->GetType(), mpLight->GetColor(), mPosition, BillboardScale(), TintColor());
+    CDrawUtil::DrawLightBillboard(mpLight->GetType(), mpLight->GetColor(), mPosition, BillboardScale(), TintColor(ViewInfo));
 
     // Below commented-out code is for light radius visualization as a bounding box
     /*float r = mLight->GetRadius();
     CAABox AABB(Position + r, Position - r);
     pRenderer->DrawBoundingBox(mLight->GetColor(), AABB);*/
-}
-
-void CLightNode::DrawAsset(ERenderOptions /*Options*/, u32 /*asset*/)
-{
 }
 
 void CLightNode::RayAABoxIntersectTest(CRayCollisionTester &Tester)

@@ -17,8 +17,9 @@ public:
 
     virtual ENodeType NodeType();
     virtual void AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo);
-    virtual void Draw(ERenderOptions Options);
-    virtual void DrawAsset(ERenderOptions Options, u32 asset);
+    virtual void Draw(ERenderOptions Options, const SViewInfo& ViewInfo);
+    virtual void DrawAsset(ERenderOptions Options, u32 asset, const SViewInfo& ViewInfo);
+    virtual void DrawSelection();
     virtual void RayAABoxIntersectTest(CRayCollisionTester &Tester);
     virtual SRayIntersection RayNodeIntersectTest(const CRay &Ray, u32 AssetID, const SViewInfo& ViewInfo);
 

@@ -172,10 +172,10 @@ void CRenderer::RenderBuckets(const SViewInfo& ViewInfo)
     glDepthRange(0.f, 1.f);
     glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 
-    mOpaqueBucket.Draw(mOptions);
+    mOpaqueBucket.Draw(ViewInfo);
     mOpaqueBucket.Clear();
     mTransparentBucket.Sort(ViewInfo.pCamera);
-    mTransparentBucket.Draw(mOptions);
+    mTransparentBucket.Draw(ViewInfo);
     mTransparentBucket.Clear();
 }
 

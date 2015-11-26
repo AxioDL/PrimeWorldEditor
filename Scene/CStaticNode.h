@@ -12,8 +12,9 @@ public:
     CStaticNode(CSceneManager *pScene, CSceneNode *pParent = 0, CStaticModel *pModel = 0);
     ENodeType NodeType();
     void AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo);
-    void Draw(ERenderOptions Options);
-    void DrawAsset(ERenderOptions Options, u32 asset);
+    void Draw(ERenderOptions Options, const SViewInfo& ViewInfo);
+    void DrawAsset(ERenderOptions Options, u32 asset, const SViewInfo& ViewInfo);
+    void DrawSelection();
     void RayAABoxIntersectTest(CRayCollisionTester &Tester);
     SRayIntersection RayNodeIntersectTest(const CRay &Ray, u32 AssetID, const SViewInfo& ViewInfo);
 };

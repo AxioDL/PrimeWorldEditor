@@ -42,13 +42,14 @@ void CStaticNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
         pRenderer->AddOpaqueMesh(this, 0, AABox(), eDrawSelection);
 }
 
-void CStaticNode::Draw(ERenderOptions Options)
+void CStaticNode::Draw(ERenderOptions Options, const SViewInfo& ViewInfo)
 {
     if (!mpModel) return;
 
     CGraphics::sVertexBlock.COLOR0_Amb = CVector4f(0, 0, 0, 1);
     float Multiplier = CGraphics::sWorldLightMultiplier;
     CGraphics::sPixelBlock.TevColor = CVector4f(Multiplier,Multiplier,Multiplier,1);
+    CGraphics::sPixelBlock.TintColor = TintColor(ViewInfo).ToVector4f();
     CGraphics::sNumLights = 0;
     CGraphics::UpdateLightBlock();
     LoadModelMatrix();
@@ -56,18 +57,26 @@ void CStaticNode::Draw(ERenderOptions Options)
     mpModel->Draw(Options);
 }
 
-void CStaticNode::DrawAsset(ERenderOptions Options, u32 Asset)
+void CStaticNode::DrawAsset(ERenderOptions Options, u32 Asset, const SViewInfo& ViewInfo)
 {
     if (!mpModel) return;
 
     CGraphics::sVertexBlock.COLOR0_Amb = CVector4f(0,0,0,1);
     CGraphics::sPixelBlock.TevColor = CVector4f(1,1,1,1);
+    CGraphics::sPixelBlock.TintColor = TintColor(ViewInfo).ToVector4f();
     CGraphics::sNumLights = 0;
     CGraphics::UpdateLightBlock();
     LoadModelMatrix();
 
     mpModel->DrawSurface(Options, Asset);
     //CDrawUtil::DrawWireCube(mpModel->GetSurfaceAABox(Asset), CColor::skWhite);
+}
+
+void CStaticNode::DrawSelection()
+{
+    if (!mpModel) return;
+    LoadModelMatrix();
+    mpModel->DrawWireframe(eNoRenderOptions, WireframeColor());
 }
 
 void CStaticNode::RayAABoxIntersectTest(CRayCollisionTester &Tester)

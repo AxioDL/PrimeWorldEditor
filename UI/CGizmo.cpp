@@ -69,7 +69,7 @@ void CGizmo::AddToRenderer(CRenderer *pRenderer, const SViewInfo&)
     }
 }
 
-void CGizmo::DrawAsset(ERenderOptions /*options*/, u32 asset)
+void CGizmo::DrawAsset(ERenderOptions /*options*/, u32 asset, const SViewInfo& /*ViewInfo*/)
 {
     // Determine which SModelPart array to use
     if (asset >= mNumCurrentParts) return;

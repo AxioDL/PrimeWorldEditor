@@ -1,5 +1,6 @@
 #include "CModelNode.h"
 #include <Common/Math.h>
+#include <Core/CDrawUtil.h>
 #include <Core/CRenderer.h>
 #include <Core/CGraphics.h>
 
@@ -45,7 +46,7 @@ void CModelNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
         pRenderer->AddOpaqueMesh(this, 0, AABox(), eDrawSelection);
 }
 
-void CModelNode::Draw(ERenderOptions Options)
+void CModelNode::Draw(ERenderOptions Options, const SViewInfo& ViewInfo)
 {
     if (!mpModel) return;
     if (mForceAlphaOn) Options = (ERenderOptions) (Options & ~eNoAlpha);
@@ -63,12 +64,13 @@ void CModelNode::Draw(ERenderOptions Options)
     }
 
     CGraphics::sPixelBlock.TevColor = CVector4f(1,1,1,1);
+    CGraphics::sPixelBlock.TintColor = TintColor(ViewInfo).ToVector4f();
     LoadModelMatrix();
 
     mpModel->Draw(Options, mActiveMatSet);
 }
 
-void CModelNode::DrawAsset(ERenderOptions Options, u32 Asset)
+void CModelNode::DrawAsset(ERenderOptions Options, u32 Asset, const SViewInfo& ViewInfo)
 {
     if (!mpModel) return;
     if (mForceAlphaOn) Options = (ERenderOptions) (Options & ~eNoAlpha);
@@ -86,9 +88,17 @@ void CModelNode::DrawAsset(ERenderOptions Options, u32 Asset)
     }
 
     CGraphics::sPixelBlock.TevColor = CVector4f(1,1,1,1);
+    CGraphics::sPixelBlock.TintColor = TintColor(ViewInfo).ToVector4f();
     LoadModelMatrix();
 
     mpModel->DrawSurface(Options, Asset, mActiveMatSet);
+}
+
+void CModelNode::DrawSelection()
+{
+    if (!mpModel) return;
+    LoadModelMatrix();
+    mpModel->DrawWireframe(eNoRenderOptions, WireframeColor());
 }
 
 void CModelNode::RayAABoxIntersectTest(CRayCollisionTester &Tester)

@@ -316,11 +316,15 @@ void CDrawUtil::UseTextureShader(const CColor& TintColor)
     CMaterial::KillCachedMaterial();
 }
 
-void CDrawUtil::UseCollisionShader()
+void CDrawUtil::UseCollisionShader(const CColor& TintColor /*= CColor::skWhite*/)
 {
     Init();
     mpCollisionShader->SetCurrent();
     LoadCheckerboardTexture(0);
+
+    GLuint TintColorLoc = mpCollisionShader->GetUniformLocation("TintColor");
+    CVector4f Tint4f = TintColor.ToVector4f();
+    glUniform4f(TintColorLoc, Tint4f.x, Tint4f.y, Tint4f.z, Tint4f.w);
 
     CMaterial::KillCachedMaterial();
 }

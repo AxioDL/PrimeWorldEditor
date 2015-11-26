@@ -423,7 +423,7 @@ bool CShaderGenerator::CreatePixelShader(const CMaterial& Mat)
         }
     }
 
-    ShaderCode << "    PixelColor = Prev.rgba;\n"
+    ShaderCode << "    PixelColor = Prev.rgba * TintColor;\n"
                << "}\n\n";
 
     // Done!
