@@ -95,6 +95,7 @@ void CWorldEditor::SetArea(CWorld *pWorld, CGameArea *pArea)
     ui->ModifyTabContents->ClearCachedEditors();
     ui->InstancesTabContents->SetMaster(nullptr);
     ui->InstancesTabContents->SetArea(pArea);
+    mUndoStack.clear();
 
     // Clear old area - hack until better world/area loader is implemented
     if ((mpArea) && (pArea != mpArea))
@@ -109,10 +110,17 @@ void CWorldEditor::SetArea(CWorld *pWorld, CGameArea *pArea)
     mScene.SetActiveWorld(pWorld);
     mScene.SetActiveArea(pArea);
 
-    // Snap camera to location of area
-    CTransform4f AreaTransform = pArea->GetTransform();
-    CVector3f AreaPosition(AreaTransform[0][3], AreaTransform[1][3], AreaTransform[2][3]);
-    ui->MainViewport->Camera().Snap(AreaPosition);
+    // Snap camera to new area
+    CCamera *pCamera = &ui->MainViewport->Camera();
+
+    if (pCamera->MoveMode() == eFreeCamera)
+    {
+        CTransform4f AreaTransform = pArea->GetTransform();
+        CVector3f AreaPosition(AreaTransform[0][3], AreaTransform[1][3], AreaTransform[2][3]);
+        pCamera->Snap(AreaPosition);
+    }
+
+    UpdateCameraOrbit();
 
     // Default bloom to Fake Bloom for Metroid Prime 3; disable for other games
     if (mpWorld->Version() == eCorruption)
@@ -137,63 +145,7 @@ CGameArea* CWorldEditor::ActiveArea()
     return mpArea;
 }
 
-// ************ SLOTS ************
-void CWorldEditor::UpdateCursor()
-{
-    if (ui->MainViewport->IsCursorVisible())
-    {
-        CSceneNode *pHoverNode = ui->MainViewport->HoverNode();
-
-        if (ui->MainViewport->IsHoveringGizmo())
-            ui->MainViewport->SetCursorState(Qt::SizeAllCursor);
-        else if ((pHoverNode) && (pHoverNode->NodeType() != eStaticNode))
-            ui->MainViewport->SetCursorState(Qt::PointingHandCursor);
-        else
-            ui->MainViewport->SetCursorState(Qt::ArrowCursor);
-    }
-}
-
-void CWorldEditor::UpdateStatusBar()
-{
-    // Would be cool to do more frequent status bar updates with more info. Unfortunately, this causes lag.
-    QString StatusText = "";
-
-    if (!mGizmoHovering)
-    {
-        if (ui->MainViewport->underMouse())
-        {
-            CSceneNode *pHoverNode = ui->MainViewport->HoverNode();
-
-            if (pHoverNode && (pHoverNode->NodeType() != eStaticNode))
-                StatusText = TO_QSTRING(pHoverNode->Name());
-        }
-    }
-
-    if (ui->statusbar->currentMessage() != StatusText)
-        ui->statusbar->showMessage(StatusText);
-}
-
-void CWorldEditor::UpdateSelectionUI()
-{
-    // Update sidebar
-    ui->ModifyTabContents->GenerateUI(mSelection);
-
-    // Update selection info text
-    QString SelectionText;
-
-    if (mSelection.size() == 1)
-        SelectionText = TO_QSTRING(mSelection.front()->Name());
-    else if (mSelection.size() > 1)
-        SelectionText = QString("%1 objects selected").arg(mSelection.size());
-
-    QFontMetrics Metrics(ui->SelectionInfoLabel->font());
-    SelectionText = Metrics.elidedText(SelectionText, Qt::ElideRight, ui->SelectionInfoFrame->width() - 10);
-    ui->SelectionInfoLabel->setText(SelectionText);
-
-    // Update gizmo stuff
-    UpdateGizmoUI();
-}
-
+// ************ UPDATE UI ************
 void CWorldEditor::UpdateGizmoUI()
 {
     // Update transform XYZ spin boxes
@@ -248,13 +200,83 @@ void CWorldEditor::UpdateGizmoUI()
     }
 }
 
+void CWorldEditor::UpdateSelectionUI()
+{
+    // Update camera orbit
+    UpdateCameraOrbit();
+
+    // Update sidebar
+    ui->ModifyTabContents->GenerateUI(mSelection);
+
+    // Update selection info text
+    QString SelectionText;
+
+    if (mSelection.size() == 1)
+        SelectionText = TO_QSTRING(mSelection.front()->Name());
+    else if (mSelection.size() > 1)
+        SelectionText = QString("%1 objects selected").arg(mSelection.size());
+
+    QFontMetrics Metrics(ui->SelectionInfoLabel->font());
+    SelectionText = Metrics.elidedText(SelectionText, Qt::ElideRight, ui->SelectionInfoFrame->width() - 10);
+    ui->SelectionInfoLabel->setText(SelectionText);
+
+    // Update gizmo stuff
+    UpdateGizmoUI();
+}
+
+void CWorldEditor::UpdateStatusBar()
+{
+    // Would be cool to do more frequent status bar updates with more info. Unfortunately, this causes lag.
+    QString StatusText = "";
+
+    if (!mGizmoHovering)
+    {
+        if (ui->MainViewport->underMouse())
+        {
+            CSceneNode *pHoverNode = ui->MainViewport->HoverNode();
+
+            if (pHoverNode && (pHoverNode->NodeType() != eStaticNode))
+                StatusText = TO_QSTRING(pHoverNode->Name());
+        }
+    }
+
+    if (ui->statusbar->currentMessage() != StatusText)
+        ui->statusbar->showMessage(StatusText);
+}
+
+// ************ PROTECTED ************
 void CWorldEditor::GizmoModeChanged(CGizmo::EGizmoMode mode)
 {
     ui->TransformSpinBox->SetSingleStep( (mode == CGizmo::eRotate ? 1.0 : 0.1) );
     ui->TransformSpinBox->SetDefaultValue( (mode == CGizmo::eScale ? 1.0 : 0.0) );
 }
 
-// ************ ACTIONS ************
+void CWorldEditor::UpdateCursor()
+{
+    if (ui->MainViewport->IsCursorVisible())
+    {
+        CSceneNode *pHoverNode = ui->MainViewport->HoverNode();
+
+        if (ui->MainViewport->IsHoveringGizmo())
+            ui->MainViewport->SetCursorState(Qt::SizeAllCursor);
+        else if ((pHoverNode) && (pHoverNode->NodeType() != eStaticNode))
+            ui->MainViewport->SetCursorState(Qt::PointingHandCursor);
+        else
+            ui->MainViewport->SetCursorState(Qt::ArrowCursor);
+    }
+}
+
+void CWorldEditor::UpdateCameraOrbit()
+{
+    CCamera *pCamera = &ui->MainViewport->Camera();
+
+    if (!mSelection.isEmpty())
+        pCamera->SetOrbit(mSelectionBounds);
+    else
+        pCamera->SetOrbit(mpArea->AABox(), 0.8f);
+}
+
+// ************ PRIVATE SLOTS ************
 void CWorldEditor::RefreshViewport()
 {
     if (!mGizmo.IsTransforming())
@@ -411,37 +433,6 @@ void CWorldEditor::on_ActionBloom_triggered()
     ui->ActionBloomMaps->setChecked(false);
     ui->ActionFakeBloom->setChecked(false);
     ui->ActionBloom->setChecked(true);
-}
-
-void CWorldEditor::on_ActionZoomOnSelection_triggered()
-{
-    static const float skDistScale = 2.5f;
-    static const float skAreaDistScale = 0.8f;
-
-    CCamera& Camera = ui->MainViewport->Camera();
-    CVector3f CamDir = Camera.Direction();
-    CVector3f NewPos;
-
-    // Zoom on selection
-    if (mSelection.size() != 0)
-    {
-        CVector3f Min = mSelectionBounds.Min();
-        CVector3f Max = mSelectionBounds.Max();
-        float Dist = ((Max.x - Min.x) + (Max.y - Min.y) + (Max.z - Min.z)) / 3.f;
-        NewPos = mSelectionBounds.Center() + (CamDir * -(Dist * skDistScale));
-    }
-
-    // Zoom on area
-    else
-    {
-        CAABox AreaBox = mpArea->AABox();
-        CVector3f Min = AreaBox.Min();
-        CVector3f Max = AreaBox.Max();
-        float Dist = ((Max.x - Min.x) + (Max.y - Min.y) + (Max.z - Min.z)) / 3.f;
-        NewPos = AreaBox.Center() + (CamDir * -(Dist * skAreaDistScale));
-    }
-
-    Camera.SetPosition(NewPos);
 }
 
 void CWorldEditor::on_ActionDisableBackfaceCull_triggered()

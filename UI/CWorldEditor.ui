@@ -267,8 +267,6 @@
      <addaction name="ActionFakeBloom"/>
      <addaction name="ActionBloom"/>
     </widget>
-    <addaction name="ActionZoomOnSelection"/>
-    <addaction name="separator"/>
     <addaction name="ActionDrawWorld"/>
     <addaction name="ActionDrawObjects"/>
     <addaction name="ActionDrawCollision"/>

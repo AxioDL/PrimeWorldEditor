@@ -34,6 +34,9 @@ public:
     void ResetHover();
     bool IsHoveringGizmo();
 
+    void keyPressEvent(QKeyEvent* pEvent);
+    void keyReleaseEvent(QKeyEvent* pEvent);
+
 signals:
     void GizmoMoved();
 

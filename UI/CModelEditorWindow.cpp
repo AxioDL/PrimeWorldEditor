@@ -39,7 +39,8 @@ CModelEditorWindow::CModelEditorWindow(QWidget *parent) :
 
     CCamera& camera = ui->Viewport->Camera();
     camera.Snap(CVector3f(0, 3, 1));
-    camera.SetFree();
+    camera.SetMoveMode(eOrbitCamera);
+    camera.SetOrbit(CVector3f(0, 0, 1), 3.f);
     camera.SetMoveSpeed(0.5f);
 
     // UI initialization
@@ -153,6 +154,7 @@ void CModelEditorWindow::SetActiveModel(CModel *pModel)
     mpCurrentModelNode->MarkTransformChanged();
     mpCurrentModel = pModel;
     mModelToken = CToken(pModel);
+    ui->Viewport->Camera().SetOrbit(pModel->AABox());
 
     u32 numVertices = (pModel ? pModel->GetVertexCount() : 0);
     u32 numTriangles = (pModel ? pModel->GetTriangleCount() : 0);
@@ -806,4 +808,27 @@ void CModelEditorWindow::on_actionSave_as_triggered()
 
     TString name = TString(filename.toStdString());
     setWindowTitle("Prime World Editor - Model Editor: " + TO_QSTRING(name));
+}
+
+void CModelEditorWindow::on_CameraModeButton_clicked()
+{
+    CCamera *pCam = &ui->Viewport->Camera();
+
+    if (pCam->MoveMode() == eOrbitCamera)
+    {
+        pCam->SetMoveMode(eFreeCamera);
+        ui->CameraModeButton->setIcon(QIcon(":/icons/EditorAssets/Free Camera.png"));
+        ui->CameraModeButton->setToolTip(QString("Free Camera"));
+    }
+
+    else if (pCam->MoveMode() == eFreeCamera)
+    {
+        pCam->SetMoveMode(eOrbitCamera);
+        ui->CameraModeButton->setIcon(QIcon(":/icons/EditorAssets/Orbit Camera v2.png"));
+        ui->CameraModeButton->setToolTip(QString("Orbit Camera"));
+
+        CVector3f Pos = pCam->Position();
+        CVector3f Target = mpCurrentModelNode->AABox().Center();
+        pCam->SetOrbitDistance(Pos.Distance(Target));
+    }
 }

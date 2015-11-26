@@ -47,8 +47,8 @@ public:
     void mouseReleaseEvent(QMouseEvent *pEvent);
     void mouseMoveEvent(QMouseEvent *pEvent);
     void wheelEvent(QWheelEvent *pEvent);
-    void keyPressEvent(QKeyEvent *pEvent);
-    void keyReleaseEvent(QKeyEvent *pEvent);
+    virtual void keyPressEvent(QKeyEvent *pEvent);
+    virtual void keyReleaseEvent(QKeyEvent *pEvent);
     void focusOutEvent(QFocusEvent *pEvent);
     void contextMenuEvent(QContextMenuEvent *pEvent);
 

@@ -50,10 +50,8 @@ public:
 
 protected:
     void GizmoModeChanged(CGizmo::EGizmoMode mode);
-
-private:
     void UpdateCursor();
-    void OnSidebarResize();
+    void UpdateCameraOrbit();
 
 private slots:
     void RefreshViewport();
@@ -72,7 +70,6 @@ private slots:
     void on_ActionBloomMaps_triggered();
     void on_ActionFakeBloom_triggered();
     void on_ActionBloom_triggered();
-    void on_ActionZoomOnSelection_triggered();
     void on_ActionDisableBackfaceCull_triggered();
     void on_ActionDisableAlpha_triggered();
     void on_ActionEditLayers_triggered();

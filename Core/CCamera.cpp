@@ -12,81 +12,63 @@ CCamera::CCamera()
 
     mYaw = -Math::skHalfPi;
     mPitch = 0.0f;
-    CalculateDirection();
+    SetOrbit(CVector3f(0), 5.f);
+    Update();
 
-    mMoveSpeed = 1.f; // Old: 0.01f
-    mLookSpeed = 1.f; // Old: 0.003f
+    mMoveSpeed = 1.f;
+    mLookSpeed = 1.f;
     mViewOutdated = true;
     mProjectionOutdated = true;
     mFrustumPlanesOutdated = true;
 }
 
-CCamera::CCamera(CVector3f Position, CVector3f)
+CCamera::CCamera(CVector3f Position, CVector3f /*Target*/)
 {
     // todo: make it actually look at the target!
-    // Not using parameter 2 (CVector3f - Target)
     mMode = eFreeCamera;
-    mMoveSpeed = 1.f; // Old: 0.01f
-    mLookSpeed = 1.f; // Old: 0.003f
+    mMoveSpeed = 1.f;
+    mLookSpeed = 1.f;
     mPosition = Position;
     mYaw = -Math::skHalfPi;
     mPitch = 0.0f;
-    CalculateDirection();
+    Update();
 }
 
 void CCamera::Pan(float XAmount, float YAmount)
 {
-    switch (mMode)
+    if (mMode == eFreeCamera)
     {
-
-    case eFreeCamera:
-    {
-        CVector3f Right(
-            cos(mYaw - Math::skHalfPi),
-            sin(mYaw - Math::skHalfPi),
-            0
-        );
-        CVector3f Up = Right.Cross(mDirection);
-
-        mPosition += Right * (XAmount * mMoveSpeed);
-        mPosition += Up * (YAmount * mMoveSpeed);
+        Update();
+        mPosition += mRightVector * (XAmount * mMoveSpeed);
+        mPosition += mUpVector * (YAmount * mMoveSpeed);
         mViewOutdated = true;
         mFrustumPlanesOutdated = true;
-        break;
     }
 
-    // Unfinished
-    case eOrbitCamera:
-    {
-        CVector3f Right(
-            cos(mYaw - Math::skHalfPi),
-            sin(mYaw - Math::skHalfPi),
-            0
-        );
-        CVector3f Up = Right.Cross(mDirection);
-
-        CVector3f TargetDirection = mPosition - mOrbitTarget;
-        //CMatrix4f YawRotation = CQuaternion::F
-        }
-    }
+    else
+        Rotate(-XAmount * 0.3f, YAmount * 0.3f);
 }
 
 void CCamera::Rotate(float XAmount, float YAmount)
 {
-    switch (mMode)
-    {
-    case eFreeCamera:
-        mYaw -= (XAmount * mLookSpeed * 0.3f);
-        mPitch -= (YAmount * mLookSpeed * 0.3f);
-        mViewOutdated = true;
-        mFrustumPlanesOutdated = true;
-        break;
-    }
+    mYaw -= (XAmount * mLookSpeed * 0.3f);
+    mPitch -= (YAmount * mLookSpeed * 0.3f);
+
+    mViewOutdated = true;
+    mFrustumPlanesOutdated = true;
 }
 
 void CCamera::Zoom(float Amount)
 {
-    mPosition += (mDirection * Amount) * (mMoveSpeed * 25.f);
+    if (mMode == eFreeCamera)
+    {
+        Update();
+        mPosition += (mDirection * Amount) * (mMoveSpeed * 25.f);
+    }
+
+    else
+        mOrbitDistance -= Amount * mMoveSpeed * 25.f;
+
     mViewOutdated = true;
     mFrustumPlanesOutdated = true;
 }
@@ -98,21 +80,19 @@ void CCamera::Snap(CVector3f Position)
     mPitch = 0.0f;
     mViewOutdated = true;
     mFrustumPlanesOutdated = true;
-    CalculateDirection();
+    Update();
 }
 
 void CCamera::ProcessKeyInput(EKeyInputs KeyFlags, double DeltaTime)
 {
     float FDeltaTime = (float) DeltaTime;
-    if (mMode == eFreeCamera)
-    {
-        if (KeyFlags & eWKey) Zoom(FDeltaTime);
-        if (KeyFlags & eSKey) Zoom(-FDeltaTime);
-        if (KeyFlags & eQKey) Pan(0, -FDeltaTime * 25.f);
-        if (KeyFlags & eEKey) Pan(0, FDeltaTime * 25.f);
-        if (KeyFlags & eAKey) Pan(-FDeltaTime * 25.f, 0);
-        if (KeyFlags & eDKey) Pan(FDeltaTime * 25.f, 0);
-    }
+
+    if (KeyFlags & eWKey) Zoom(FDeltaTime);
+    if (KeyFlags & eSKey) Zoom(-FDeltaTime);
+    if (KeyFlags & eQKey) Pan(0, -FDeltaTime * 25.f);
+    if (KeyFlags & eEKey) Pan(0, FDeltaTime * 25.f);
+    if (KeyFlags & eAKey) Pan(-FDeltaTime * 25.f, 0);
+    if (KeyFlags & eDKey) Pan(FDeltaTime * 25.f, 0);
 }
 
 void CCamera::ProcessMouseInput(EKeyInputs KeyFlags, EMouseInputs MouseFlags, float XMovement, float YMovement)
@@ -132,14 +112,9 @@ void CCamera::ProcessMouseInput(EKeyInputs KeyFlags, EMouseInputs MouseFlags, fl
     // Orbit Camera
     else if (mMode == eOrbitCamera)
     {
-        if ((MouseFlags & eMiddleButton) && (KeyFlags & eCtrlKey))
-            Zoom(-YMovement * 0.2f);
-
-        else if ((MouseFlags & eMiddleButton) || (MouseFlags & eRightButton))
-            Pan(XMovement, YMovement);
+        if ((MouseFlags & eMiddleButton) || (MouseFlags & eRightButton))
+            Pan(-XMovement, YMovement);
     }
-
-    CalculateDirection();
 }
 
 CRay CCamera::CastRay(CVector2f DeviceCoords)
@@ -154,6 +129,52 @@ CRay CCamera::CastRay(CVector2f DeviceCoords)
     Ray.SetOrigin(RayOrigin);
     Ray.SetDirection(RayDir);
     return Ray;
+}
+
+void CCamera::SetMoveMode(ECameraMoveMode Mode)
+{
+    mMode = Mode;
+    mViewOutdated = true;
+    mFrustumPlanesOutdated = true;
+}
+
+void CCamera::SetOrbit(const CVector3f& OrbitTarget, float Distance)
+{
+    mOrbitTarget = OrbitTarget;
+    mOrbitDistance = Distance;
+
+    if (mMode == eOrbitCamera)
+    {
+        mViewOutdated = true;
+        mFrustumPlanesOutdated = true;
+    }
+}
+
+void CCamera::SetOrbit(const CAABox& OrbitTarget, float DistScale /*= 2.5f*/)
+{
+    CVector3f Min = OrbitTarget.Min();
+    CVector3f Max = OrbitTarget.Max();
+
+    mOrbitTarget = OrbitTarget.Center();
+    mOrbitDistance = ((Max.x - Min.x) + (Max.y - Min.y) + (Max.z - Min.z)) / 3.f;
+    mOrbitDistance *= DistScale;
+
+    if (mMode == eOrbitCamera)
+    {
+        mViewOutdated = true;
+        mFrustumPlanesOutdated = true;
+    }
+}
+
+void CCamera::SetOrbitDistance(float Distance)
+{
+    mOrbitDistance = Distance;
+
+    if (mMode == eOrbitCamera)
+    {
+        mViewOutdated = true;
+        mFrustumPlanesOutdated = true;
+    }
 }
 
 void CCamera::LoadMatrices()
@@ -199,10 +220,15 @@ float CCamera::FieldOfView() const
     return 55.f;
 }
 
+ECameraMoveMode CCamera::MoveMode() const
+{
+    return mMode;
+}
+
 const CMatrix4f& CCamera::ViewMatrix()
 {
     if (mViewOutdated)
-        CalculateView();
+        UpdateView();
 
     return mCachedViewMatrix;
 }
@@ -210,7 +236,7 @@ const CMatrix4f& CCamera::ViewMatrix()
 const CMatrix4f& CCamera::ProjectionMatrix()
 {
     if (mProjectionOutdated)
-        CalculateProjection();
+        UpdateProjection();
 
     return mCachedProjectionMatrix;
 }
@@ -218,7 +244,7 @@ const CMatrix4f& CCamera::ProjectionMatrix()
 const CFrustumPlanes& CCamera::FrustumPlanes()
 {
     if (mFrustumPlanesOutdated)
-        CalculateFrustumPlanes();
+        UpdateFrustum();
 
     return mCachedFrustumPlanes;
 }
@@ -258,17 +284,6 @@ void CCamera::SetLookSpeed(float LookSpeed)
     mLookSpeed = LookSpeed;
 }
 
-void CCamera::SetFree()
-{
-    mMode = eFreeCamera;
-}
-
-void CCamera::SetOrbit(const CVector3f& OrbitTarget)
-{
-    mMode = eOrbitCamera;
-    mOrbitTarget = OrbitTarget;
-}
-
 void CCamera::SetAspectRatio(float AspectRatio)
 {
     mAspectRatio = AspectRatio;
@@ -277,8 +292,9 @@ void CCamera::SetAspectRatio(float AspectRatio)
 }
 
 // ************ PRIVATE ************
-void CCamera::CalculateDirection()
+void CCamera::Update()
 {
+    // Update direction
     if (mPitch > Math::skHalfPi)  mPitch = Math::skHalfPi;
     if (mPitch < -Math::skHalfPi) mPitch = -Math::skHalfPi;
 
@@ -295,12 +311,22 @@ void CCamera::CalculateDirection()
     );
 
     mUpVector = mRightVector.Cross(mDirection);
+
+    // Update position
+    if (mMode == eOrbitCamera)
+    {
+        if (mOrbitDistance < 1.f) mOrbitDistance = 1.f;
+        mPosition = mOrbitTarget + (mDirection * -mOrbitDistance);
+    }
+
+    mViewOutdated = true;
+    mFrustumPlanesOutdated = true;
 }
 
-void CCamera::CalculateView()
+void CCamera::UpdateView()
 {
     // todo: don't use glm
-    CalculateDirection();
+    Update();
 
     glm::vec3 glmpos(mPosition.x, mPosition.y, mPosition.z);
     glm::vec3 glmdir(mDirection.x, mDirection.y, mDirection.z);
@@ -309,13 +335,13 @@ void CCamera::CalculateView()
     mViewOutdated = false;
 }
 
-void CCamera::CalculateProjection()
+void CCamera::UpdateProjection()
 {
     mCachedProjectionMatrix = Math::PerspectiveMatrix(55.f, mAspectRatio, 0.1f, 4096.f);
     mProjectionOutdated = false;
 }
 
-void CCamera::CalculateFrustumPlanes()
+void CCamera::UpdateFrustum()
 {
     mCachedFrustumPlanes.SetPlanes(mPosition, mDirection, 55.f, mAspectRatio, 0.1f, 4096.f);
     mFrustumPlanesOutdated = false;

@@ -109,6 +109,26 @@ bool CSceneViewport::IsHoveringGizmo()
     return mGizmoHovering;
 }
 
+void CSceneViewport::keyPressEvent(QKeyEvent* pEvent)
+{
+    CBasicViewport::keyPressEvent(pEvent);
+
+    if (pEvent->key() == Qt::Key_Z)
+    {
+        mCamera.SetMoveMode(eOrbitCamera);
+    }
+}
+
+void CSceneViewport::keyReleaseEvent(QKeyEvent* pEvent)
+{
+    CBasicViewport::keyReleaseEvent(pEvent);
+
+    if (pEvent->key() == Qt::Key_Z)
+    {
+        mCamera.SetMoveMode(eFreeCamera);
+    }
+}
+
 // ************ PROTECTED SLOTS ************
 void CSceneViewport::CheckUserInput()
 {

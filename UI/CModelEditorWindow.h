@@ -115,6 +115,8 @@ private slots:
 
     void on_actionSave_as_triggered();
 
+    void on_CameraModeButton_clicked();
+
 signals:
     void Closed();
 };

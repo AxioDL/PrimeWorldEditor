@@ -28,6 +28,7 @@ class CCamera
     float mYaw;
     float mPitch;
     CVector3f mOrbitTarget;
+    float mOrbitDistance;
     float mMoveSpeed;
     float mLookSpeed;
 
@@ -51,6 +52,11 @@ public:
     CRay CastRay(CVector2f DeviceCoords);
     void LoadMatrices();
 
+    void SetMoveMode(ECameraMoveMode Mode);
+    void SetOrbit(const CVector3f& OrbitTarget, float Distance);
+    void SetOrbit(const CAABox& OrbitTarget, float DistScale = 2.5f);
+    void SetOrbitDistance(float Distance);
+
     // Getters
     CVector3f Position() const;
     CVector3f Direction() const;
@@ -59,6 +65,7 @@ public:
     float Yaw() const;
     float Pitch() const;
     float FieldOfView() const;
+    ECameraMoveMode MoveMode() const;
     const CMatrix4f& ViewMatrix();
     const CMatrix4f& ProjectionMatrix();
     const CFrustumPlanes& FrustumPlanes();
@@ -70,17 +77,14 @@ public:
     void SetPitch(float Pitch);
     void SetMoveSpeed(float MoveSpeed);
     void SetLookSpeed(float LookSpeed);
-    void SetFree();
-    void SetOrbit(const CVector3f& OrbitTarget);
-    void SetOrbit(const CAABox& OrbitTarget);
     void SetAspectRatio(float AspectRatio);
 
     // Private
 private:
-    void CalculateDirection();
-    void CalculateView();
-    void CalculateProjection();
-    void CalculateFrustumPlanes();
+    void Update();
+    void UpdateView();
+    void UpdateProjection();
+    void UpdateFrustum();
 };
 
 #endif // CCAMERA_H

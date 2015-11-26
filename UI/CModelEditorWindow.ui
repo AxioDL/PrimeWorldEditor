@@ -2140,7 +2140,7 @@
          </widget>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0,0,0,0,0,0,0,0">
+         <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0,0,0,0,0,0,0,0,0">
           <property name="spacing">
            <number>50</number>
           </property>
@@ -2221,6 +2221,32 @@
             </property>
             <property name="checked">
              <bool>true</bool>
+            </property>
+            <property name="flat">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="CameraModeButton">
+            <property name="toolTip">
+             <string>Orbit Camera</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../Icons.qrc">
+              <normaloff>:/icons/EditorAssets/Orbit Camera.png</normaloff>:/icons/EditorAssets/Orbit Camera.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="checkable">
+             <bool>false</bool>
             </property>
             <property name="flat">
              <bool>true</bool>
