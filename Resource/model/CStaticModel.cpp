@@ -144,14 +144,16 @@ void CStaticModel::DrawSurface(ERenderOptions Options, u32 Surface)
     mVBO.Unbind();
 }
 
-void CStaticModel::DrawWireframe(ERenderOptions Options, const CColor& WireColor)
+void CStaticModel::DrawWireframe(ERenderOptions Options, CColor WireColor /*= CColor::skWhite*/)
 {
     if (!mBuffered) BufferGL();
 
     // Set up wireframe
+    WireColor.a = 0;
     CDrawUtil::UseColorShader(WireColor);
     Options |= eNoMaterialSetup;
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glBlendFunc(GL_ONE, GL_ZERO);
 
     // Draw surfaces
     for (u32 iSurf = 0; iSurf < mSurfaces.size(); iSurf++)
