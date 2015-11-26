@@ -66,7 +66,7 @@ public:
     void SetInheritance(bool InheritPos, bool InheritRot, bool InheritScale);
     void LoadModelMatrix();
     void BuildLightList(CGameArea *pArea);
-    void LoadLights();
+    void LoadLights(const SViewInfo& ViewInfo);
     void DrawBoundingBox();
 
     // Transform

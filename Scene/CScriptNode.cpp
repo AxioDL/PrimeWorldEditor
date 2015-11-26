@@ -172,7 +172,7 @@ void CScriptNode::Draw(ERenderOptions Options, const SViewInfo& ViewInfo)
     if (mpActiveModel)
     {
         LoadModelMatrix();
-        LoadLights();
+        LoadLights(ViewInfo);
         CGraphics::sPixelBlock.TintColor = TintColor(ViewInfo).ToVector4f();
         mpActiveModel->Draw(Options, 0);
     }
@@ -190,7 +190,7 @@ void CScriptNode::Draw(ERenderOptions Options, const SViewInfo& ViewInfo)
         glDepthMask(GL_TRUE);
 
         LoadModelMatrix();
-        LoadLights();
+        LoadLights(ViewInfo);
         CGraphics::UpdateVertexBlock();
         CGraphics::UpdateLightBlock();
         CDrawUtil::DrawShadedCube(CColor::skTransparentPurple * TintColor(ViewInfo));
@@ -210,7 +210,7 @@ void CScriptNode::DrawAsset(ERenderOptions Options, u32 Asset, const SViewInfo& 
 
     CGraphics::sPixelBlock.TintColor = TintColor(ViewInfo).ToVector4f();
     LoadModelMatrix();
-    LoadLights();
+    LoadLights(ViewInfo);
 
     mpActiveModel->DrawSurface(Options, Asset, 0);
 }
