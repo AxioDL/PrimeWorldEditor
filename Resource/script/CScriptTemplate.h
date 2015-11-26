@@ -117,6 +117,7 @@ public:
     CModel* FindDisplayModel(CPropertyStruct *pProperties);
     CTexture* FindBillboardTexture(CPropertyStruct *pProperties);
     CCollisionMeshGroup* FindCollision(CPropertyStruct *pProperties);
+    bool HasInGameModel(CPropertyStruct *pProperties);
     bool HasPosition();
 
     // Object Tracking

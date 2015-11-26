@@ -19,6 +19,7 @@ void CCollisionNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewIn
 {
     if (!mpCollision) return;
     if (!ViewInfo.ViewFrustum.BoxInFrustum(AABox())) return;
+    if (ViewInfo.GameMode) return;
 
     pRenderer->AddOpaqueMesh(this, 0, AABox(), eDrawMesh);
 

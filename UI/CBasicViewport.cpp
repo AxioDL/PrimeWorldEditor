@@ -15,6 +15,7 @@ CBasicViewport::CBasicViewport(QWidget *pParent) :
     setMouseTracking(true);
     mCamera.SetAspectRatio((float) width() / height());
     mViewInfo.pCamera = &mCamera;
+    mViewInfo.GameMode = false;
 }
 
 CBasicViewport::~CBasicViewport()
@@ -56,7 +57,8 @@ void CBasicViewport::paintGL()
     Paint();
 
     // Finally, draw XYZ axes in the corner
-    DrawAxes();
+    if (!mViewInfo.GameMode)
+        DrawAxes();
 }
 
 void CBasicViewport::resizeGL(int w, int h)
@@ -161,6 +163,11 @@ void CBasicViewport::contextMenuEvent(QContextMenuEvent *pEvent)
     // Only allow context menu if we aren't exiting mouse input mode.
     if (!mMouseMoved && (mMoveTimer.Time() < 0.5))
         ContextMenu(pEvent);
+}
+
+void CBasicViewport::SetGameMode(bool Enabled)
+{
+    mViewInfo.GameMode = Enabled;
 }
 
 void CBasicViewport::SetCursorState(const QCursor &Cursor)

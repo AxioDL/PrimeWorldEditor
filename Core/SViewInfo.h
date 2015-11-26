@@ -11,6 +11,7 @@ struct SViewInfo
     class CRenderer *pRenderer;
 
     class CCamera *pCamera;
+    bool GameMode;
     CFrustumPlanes ViewFrustum;
     CMatrix4f RotationOnlyViewMatrix;
 };

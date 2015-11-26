@@ -210,7 +210,7 @@ CPropertyStruct* CScriptTemplate::FindLightParameters(CPropertyStruct *pProperti
     return TFetchProperty<CPropertyStruct*, eStructProperty>(pProperties, mLightParametersIDString);
 }
 
-// todo: merge these three functions, they have near-identical code
+// todo: merge these four functions, they have near-identical code
 CModel* CScriptTemplate::FindDisplayModel(CPropertyStruct *pProperties)
 {
     for (auto it = mAssets.begin(); it != mAssets.end(); it++)
@@ -317,6 +317,36 @@ CCollisionMeshGroup* CScriptTemplate::FindCollision(CPropertyStruct *pProperties
     }
 
     return nullptr;
+}
+
+bool CScriptTemplate::HasInGameModel(CPropertyStruct *pProperties)
+{
+    for (auto it = mAssets.begin(); it != mAssets.end(); it++)
+    {
+        if ((it->AssetType != SEditorAsset::eModel) && (it->AssetType != SEditorAsset::eAnimParams)) continue;
+        if (it->AssetSource == SEditorAsset::eFile) continue;
+        CResource *pRes = nullptr;
+
+        CPropertyBase *pProp = pProperties->PropertyByIDString(it->AssetLocation);
+
+        if (pProp->Type() == eFileProperty)
+        {
+            CFileProperty *pFile = static_cast<CFileProperty*>(pProp);
+            pRes = pFile->Get();
+        }
+
+        else if (pProp->Type() == eAnimParamsProperty)
+        {
+            CAnimParamsProperty *pParams = static_cast<CAnimParamsProperty*>(pProp);
+            pRes = pParams->Get().GetCurrentModel(it->ForceNodeIndex);
+        }
+
+        // Verify resource exists + is correct type
+        if (pRes && (pRes->Type() == eModel))
+            return true;
+    }
+
+    return false;
 }
 
 bool CScriptTemplate::HasPosition()

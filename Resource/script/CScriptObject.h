@@ -37,6 +37,8 @@ class CScriptObject
     CToken mModelToken;
     CToken mBillboardToken;
     CToken mCollisionToken;
+    bool mHasInGameModel;
+
     EVolumeShape mVolumeShape;
 
 public:
@@ -69,6 +71,7 @@ public:
     CVector3f Scale() const;
     TString InstanceName() const;
     bool IsActive() const;
+    bool HasInGameModel() const;
     void SetPosition(const CVector3f& newPos);
     void SetRotation(const CVector3f& newRot);
     void SetScale(const CVector3f& newScale);

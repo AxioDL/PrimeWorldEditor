@@ -12,6 +12,7 @@ CScriptObject::CScriptObject(CGameArea *pArea, CScriptLayer *pLayer, CScriptTemp
     mpDisplayModel = nullptr;
     mpBillboard = nullptr;
     mpCollision = nullptr;
+    mHasInGameModel = false;
 }
 
 CScriptObject::~CScriptObject()
@@ -36,6 +37,7 @@ void CScriptObject::EvaluateProperties()
     mpScale = mpTemplate->FindScale(mpProperties);
     mpActive = mpTemplate->FindActive(mpProperties);
     mpLightParameters = mpTemplate->FindLightParameters(mpProperties);
+    mHasInGameModel = mpTemplate->HasInGameModel(mpProperties);
     mVolumeShape = mpTemplate->VolumeShape(this);
     EvaluateDisplayModel();
     EvaluateBillboard();
@@ -168,7 +170,12 @@ bool CScriptObject::IsActive() const
     if (mpActive)
         return mpActive->Get();
     else
-        return true;
+        return false;
+}
+
+bool CScriptObject::HasInGameModel() const
+{
+    return mHasInGameModel;
 }
 
 void CScriptObject::SetPosition(const CVector3f& newPos)

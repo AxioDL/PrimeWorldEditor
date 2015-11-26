@@ -132,15 +132,21 @@ void CSceneViewport::keyReleaseEvent(QKeyEvent* pEvent)
 // ************ PROTECTED SLOTS ************
 void CSceneViewport::CheckUserInput()
 {
-    if (!underMouse() || IsMouseInputActive())
+    bool MouseActive = (underMouse() && !IsMouseInputActive());
+
+    if (!MouseActive || mViewInfo.GameMode)
     {
         ResetHover();
         mGizmoHovering = false;
-        return;
+
+        if (!MouseActive)
+            return;
     }
 
     CRay ray = CastRay();
-    CheckGizmoInput(ray);
+
+    if (!mViewInfo.GameMode)
+        CheckGizmoInput(ray);
 
     if (!mpEditor->Gizmo()->IsTransforming())
         SceneRayCast(ray);
@@ -152,7 +158,7 @@ void CSceneViewport::Paint()
 
     mpRenderer->BeginFrame();
 
-    if (mDrawSky)
+    if (mDrawSky || mViewInfo.GameMode)
     {
         CModel *pSky = mpScene->GetActiveSkybox();
         if (pSky) mpRenderer->RenderSky(pSky, mViewInfo);
@@ -163,7 +169,7 @@ void CSceneViewport::Paint()
     mpRenderer->RenderBuckets(mViewInfo);
     mpRenderer->RenderBloom();
 
-    if (mpEditor->IsGizmoVisible())
+    if (mpEditor->IsGizmoVisible() && !mViewInfo.GameMode)
     {
         CGizmo *pGizmo = mpEditor->Gizmo();
         mCamera.LoadMatrices();

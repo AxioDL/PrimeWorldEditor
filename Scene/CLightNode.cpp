@@ -28,6 +28,7 @@ ENodeType CLightNode::NodeType()
 void CLightNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
 {
     if (!ViewInfo.ViewFrustum.BoxInFrustum(AABox())) return;
+    if (ViewInfo.GameMode) return;
 
     pRenderer->AddOpaqueMesh(this, 0, CAABox(mPosition + 0.5f, mPosition - 0.5f), eDrawMesh);
 }

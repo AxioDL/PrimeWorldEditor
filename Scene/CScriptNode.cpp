@@ -105,12 +105,20 @@ void CScriptNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
 {
     if (!mpInstance) return;
 
+    // If we're in game mode, then override other visibility settings.
+    if (ViewInfo.GameMode)
+    {
+        if (!mpInstance->IsActive() || !mpInstance->HasInGameModel())
+            return;
+    }
+
+    // Otherwise, we proceed as normal
     ERenderOptions options = pRenderer->RenderOptions();
 
-    if (options & eDrawObjectCollision)
+    if ((options & eDrawObjectCollision) && (!ViewInfo.GameMode))
         mpCollisionNode->AddToRenderer(pRenderer, ViewInfo);
 
-    if (options & eDrawObjects)
+    if (options & eDrawObjects || ViewInfo.GameMode)
     {
         if (ViewInfo.ViewFrustum.BoxInFrustum(AABox()))
         {
@@ -145,7 +153,7 @@ void CScriptNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
         }
     }
 
-    if (IsSelected())
+    if (IsSelected() && !ViewInfo.GameMode)
     {
         // Script nodes always draw their selections regardless of frustum planes
         // in order to ensure that script connection lines don't get improperly culled.
@@ -286,7 +294,17 @@ SRayIntersection CScriptNode::RayNodeIntersectTest(const CRay& Ray, u32 AssetID,
     out.pNode = this;
     out.AssetIndex = AssetID;
 
-    if (options & eDrawObjects)
+    // If we're in game mode, then check whether we're visible before proceeding with the ray test.
+    if (ViewInfo.GameMode)
+    {
+        if (!mpInstance->IsActive() || !mpInstance->HasInGameModel())
+        {
+            out.Hit = false;
+            return out;
+        }
+    }
+
+    if (options & eDrawObjects || ViewInfo.GameMode)
     {
         // Model test
         if (mpActiveModel || !mpBillboard)

@@ -467,3 +467,8 @@ void CWorldEditor::on_ActionDrawObjectCollision_triggered()
 {
     ui->MainViewport->Renderer()->ToggleObjectCollision(ui->ActionDrawObjectCollision->isChecked());
 }
+
+void CWorldEditor::on_ActionGameMode_triggered()
+{
+    ui->MainViewport->SetGameMode(ui->ActionGameMode->isChecked());
+}

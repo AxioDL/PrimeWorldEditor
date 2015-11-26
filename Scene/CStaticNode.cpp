@@ -38,7 +38,7 @@ void CStaticNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
         }
     }
 
-    if (mSelected)
+    if (mSelected && !ViewInfo.GameMode)
         pRenderer->AddOpaqueMesh(this, 0, AABox(), eDrawSelection);
 }
 

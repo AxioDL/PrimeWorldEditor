@@ -219,7 +219,7 @@ void CSceneManager::AddSceneToRenderer(CRenderer *pRenderer, const SViewInfo& Vi
 {
     ERenderOptions Options = pRenderer->RenderOptions();
 
-    if (Options & eDrawWorld)
+    if (Options & eDrawWorld || ViewInfo.GameMode)
     {
         for (u32 n = 0; n < mModelNodes.size(); n++)
             if (mModelNodes[n]->IsVisible())
@@ -230,21 +230,21 @@ void CSceneManager::AddSceneToRenderer(CRenderer *pRenderer, const SViewInfo& Vi
                 mStaticNodes[n]->AddToRenderer(pRenderer, ViewInfo);
     }
 
-    if (Options & eDrawWorldCollision)
+    if (Options & eDrawWorldCollision && !ViewInfo.GameMode)
     {
         for (u32 n = 0; n < mCollisionNodes.size(); n++)
             if (mCollisionNodes[n]->IsVisible())
                 mCollisionNodes[n]->AddToRenderer(pRenderer, ViewInfo);
     }
 
-    if (Options & eDrawLights)
+    if (Options & eDrawLights && !ViewInfo.GameMode)
     {
         for (u32 n = 0; n < mLightNodes.size(); n++)
             if (mLightNodes[n]->IsVisible())
                 mLightNodes[n]->AddToRenderer(pRenderer, ViewInfo);
     }
 
-    if ((Options & eDrawObjects) || (Options & eDrawObjectCollision))
+    if ((Options & eDrawObjects) || (Options & eDrawObjectCollision) || ViewInfo.GameMode)
     {
         for (u32 n = 0; n < mScriptNodes.size(); n++)
             if (mScriptNodes[n]->IsVisible())
@@ -270,6 +270,16 @@ SRayIntersection CSceneManager::SceneRayCast(const CRay& Ray, const SViewInfo& V
         true, ((renderOptions & eDrawWorld) != 0), ((renderOptions & eDrawWorldCollision) != 0),
               ((renderOptions & ((ERenderOptions) (eDrawObjects | eDrawObjectCollision))) != 0), ((renderOptions & eDrawLights) != 0)
     };
+
+    // Override visibility for game mode
+    if (ViewInfo.GameMode)
+    {
+        NodesVisible[0] = false;
+        NodesVisible[1] = true;
+        NodesVisible[2] = false;
+        NodesVisible[3] = true;
+        NodesVisible[4] = false;
+    }
 
     // Less hacky stuff
     CRayCollisionTester Tester(Ray);

@@ -20,6 +20,7 @@ void CModelNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
 {
     if (!mpModel) return;
     if (!ViewInfo.ViewFrustum.BoxInFrustum(AABox())) return;
+    if (ViewInfo.GameMode) return;
 
     if (!mpModel->HasTransparency(mActiveMatSet))
         pRenderer->AddOpaqueMesh(this, 0, AABox(), eDrawMesh);

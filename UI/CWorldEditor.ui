@@ -267,6 +267,8 @@
      <addaction name="ActionFakeBloom"/>
      <addaction name="ActionBloom"/>
     </widget>
+    <addaction name="ActionGameMode"/>
+    <addaction name="separator"/>
     <addaction name="ActionDrawWorld"/>
     <addaction name="ActionDrawObjects"/>
     <addaction name="ActionDrawCollision"/>
@@ -713,6 +715,17 @@
    </property>
    <property name="shortcut">
     <string>4</string>
+   </property>
+  </action>
+  <action name="ActionGameMode">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Game Mode</string>
+   </property>
+   <property name="shortcut">
+    <string>G</string>
    </property>
   </action>
  </widget>
