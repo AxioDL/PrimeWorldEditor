@@ -14,6 +14,7 @@
 #include <Resource/factory/CMaterialLoader.h>
 #include <Resource/factory/CTextureDecoder.h>
 #include <Resource/cooker/CModelCooker.h>
+#include <Resource/cooker/CTextureEncoder.h>
 #include "WColorPicker.h"
 
 #include <iostream>
@@ -830,5 +831,30 @@ void CModelEditorWindow::on_CameraModeButton_clicked()
         CVector3f Pos = pCam->Position();
         CVector3f Target = mpCurrentModelNode->AABox().Center();
         pCam->SetOrbitDistance(Pos.Distance(Target));
+    }
+}
+
+void CModelEditorWindow::on_actionConvert_DDS_to_TXTR_triggered()
+{
+    QString Input = QFileDialog::getOpenFileName(this, "DirectDraw Surface (*.dds)", "", "*.dds");
+    if (Input.isEmpty()) return;
+
+    TString TexFilename = TO_TSTRING(Input);
+    CTexture *Tex = CTextureDecoder::LoadDDS(CFileInStream(TexFilename.ToStdString(), IOUtil::LittleEndian));
+    TString OutName = TexFilename.GetFilePathWithoutExtension() + ".txtr";
+
+    if ((Tex->TexelFormat() != eDXT1) || (Tex->NumMipMaps() > 1))
+        QMessageBox::warning(this, "Error", "Can't convert DDS to TXTR! Save your texture as a DXT1 DDS with no mipmaps, then try again.");
+
+    else
+    {
+        CFileOutStream Out(OutName.ToStdString(), IOUtil::BigEndian);
+        if (!Out.IsValid()) QMessageBox::warning(this, "Error", "Couldn't open output TXTR!");
+
+        else
+        {
+            CTextureEncoder::EncodeTXTR(Out, Tex, eGX_CMPR);
+            QMessageBox::information(this, "Success", "Successfully converted to TXTR!");
+        }
     }
 }

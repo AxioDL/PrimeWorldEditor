@@ -117,6 +117,8 @@ private slots:
 
     void on_CameraModeButton_clicked();
 
+    void on_actionConvert_DDS_to_TXTR_triggered();
+
 signals:
     void Closed();
 };

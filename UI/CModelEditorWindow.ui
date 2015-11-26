@@ -2443,6 +2443,7 @@
      <string>Textures</string>
     </property>
     <addaction name="actionConvert_to_DDS"/>
+    <addaction name="actionConvert_DDS_to_TXTR"/>
    </widget>
    <widget class="QMenu" name="menuWindow">
     <property name="title">
@@ -2502,6 +2503,11 @@
   <action name="actionSave_as">
    <property name="text">
     <string>Save as...</string>
+   </property>
+  </action>
+  <action name="actionConvert_DDS_to_TXTR">
+   <property name="text">
+    <string>Convert DDS to TXTR</string>
    </property>
   </action>
  </widget>
