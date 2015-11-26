@@ -113,7 +113,7 @@ void CSceneViewport::keyPressEvent(QKeyEvent* pEvent)
 {
     CBasicViewport::keyPressEvent(pEvent);
 
-    if (pEvent->key() == Qt::Key_Z)
+    if (!pEvent->modifiers() && pEvent->key() == Qt::Key_Z)
     {
         mCamera.SetMoveMode(eOrbitCamera);
     }

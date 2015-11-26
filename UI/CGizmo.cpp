@@ -85,6 +85,10 @@ void CGizmo::DrawAsset(ERenderOptions /*options*/, u32 asset, const SViewInfo& /
 
     CGraphics::UpdateMVPBlock();
 
+    // Clear tint color
+    CGraphics::sPixelBlock.TintColor = CColor::skWhite.ToVector4f();
+    CGraphics::UpdatePixelBlock();
+
     // Choose material set
     EGizmoAxes partAxes = pPart[asset].modelAxes;
     bool isHighlighted = (partAxes != eNone) && ((mSelectedAxes & partAxes) == pPart[asset].modelAxes);

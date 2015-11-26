@@ -198,6 +198,9 @@ void CWorldEditor::UpdateGizmoUI()
             mGizmo.SetLocalRotation(mSelection.front()->AbsoluteRotation());
         }
     }
+
+    // Update camera orbit
+    UpdateCameraOrbit();
 }
 
 void CWorldEditor::UpdateSelectionUI()
@@ -272,7 +275,7 @@ void CWorldEditor::UpdateCameraOrbit()
 
     if (!mSelection.isEmpty())
         pCamera->SetOrbit(mSelectionBounds);
-    else
+    else if (mpArea)
         pCamera->SetOrbit(mpArea->AABox(), 0.8f);
 }
 
