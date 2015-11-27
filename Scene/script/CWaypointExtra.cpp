@@ -89,12 +89,12 @@ void CWaypointExtra::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewIn
             CScriptNode *pNode = mLinks[iLink].pWaypoint;
 
             if (pNode->IsVisible() && !pNode->IsSelected() && ViewInfo.ViewFrustum.BoxInFrustum(mLinks[iLink].LineAABB))
-                pRenderer->AddOpaqueMesh(this, iLink, mLinks[iLink].LineAABB, eDrawAsset);
+                pRenderer->AddOpaqueMesh(this, iLink, mLinks[iLink].LineAABB, eDrawMesh);
         }
     }
 }
 
-void CWaypointExtra::DrawAsset(ERenderOptions /*Options*/, u32 AssetID, const SViewInfo& /*ViewInfo*/)
+void CWaypointExtra::Draw(ERenderOptions /*Options*/, int ComponentIndex, const SViewInfo& /*ViewInfo*/)
 {
     glBlendFunc(GL_ONE, GL_ZERO);
     glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
@@ -102,5 +102,5 @@ void CWaypointExtra::DrawAsset(ERenderOptions /*Options*/, u32 AssetID, const SV
 
     CGraphics::sMVPBlock.ModelMatrix = CMatrix4f::skIdentity;
     CGraphics::UpdateMVPBlock();
-    CDrawUtil::DrawLine(mpParent->AABox().Center(), mLinks[AssetID].pWaypoint->AABox().Center(), mColor);
+    CDrawUtil::DrawLine(mpParent->AABox().Center(), mLinks[ComponentIndex].pWaypoint->AABox().Center(), mColor);
 }

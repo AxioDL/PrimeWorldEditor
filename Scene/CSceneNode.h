@@ -70,6 +70,7 @@ public:
     void BuildLightList(CGameArea *pArea);
     void LoadLights(const SViewInfo& ViewInfo);
     void DrawBoundingBox();
+    void AddSurfacesToRenderer(CRenderer *pRenderer, CModel *pModel, u32 MatSet, const SViewInfo& ViewInfo);
 
     // Transform
     void Translate(const CVector3f& translation, ETransformSpace transformSpace);

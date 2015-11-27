@@ -184,7 +184,7 @@ void CSceneNode::LoadLights(const SViewInfo& ViewInfo)
 {
     CGraphics::sNumLights = 0;
 
-    if (CGraphics::sLightMode == CGraphics::WorldLighting || ViewInfo.GameMode)
+    if (CGraphics::sLightMode == CGraphics::eWorldLighting || ViewInfo.GameMode)
     {
         // World lighting: world ambient color, node dynamic lights
         CGraphics::sVertexBlock.COLOR0_Amb = mAmbientColor.ToVector4f();
@@ -193,14 +193,14 @@ void CSceneNode::LoadLights(const SViewInfo& ViewInfo)
             mLights[iLight]->Load();
     }
 
-    else if (CGraphics::sLightMode == CGraphics::BasicLighting)
+    else if (CGraphics::sLightMode == CGraphics::eBasicLighting)
     {
         // Basic lighting: default ambient color, default dynamic lights
         CGraphics::SetDefaultLighting();
         CGraphics::sVertexBlock.COLOR0_Amb = CGraphics::skDefaultAmbientColor.ToVector4f();
     }
 
-    else if (CGraphics::sLightMode == CGraphics::NoLighting)
+    else if (CGraphics::sLightMode == CGraphics::eNoLighting)
     {
         // No lighting: default ambient color, no dynamic lights
         CGraphics::sVertexBlock.COLOR0_Amb = CGraphics::skDefaultAmbientColor.ToVector4f();
@@ -212,6 +212,24 @@ void CSceneNode::LoadLights(const SViewInfo& ViewInfo)
 void CSceneNode::DrawBoundingBox()
 {
     CDrawUtil::DrawWireCube(AABox(), CColor::skWhite);
+}
+
+void CSceneNode::AddSurfacesToRenderer(CRenderer *pRenderer, CModel *pModel, u32 MatSet, const SViewInfo& rkViewInfo)
+{
+    u32 SurfaceCount = pModel->GetSurfaceCount();
+
+    for (u32 iSurf = 0; iSurf < SurfaceCount; iSurf++)
+    {
+        CAABox TransformedBox = pModel->GetSurfaceAABox(iSurf).Transformed(Transform());
+
+        if (rkViewInfo.ViewFrustum.BoxInFrustum(TransformedBox))
+        {
+            if (!pModel->IsSurfaceTransparent(iSurf, MatSet))
+                pRenderer->AddOpaqueMesh(this, (int) iSurf, TransformedBox, eDrawMesh);
+            else
+                pRenderer->AddTransparentMesh(this, (int) iSurf, TransformedBox, eDrawMesh);
+        }
+    }
 }
 
 // ************ TRANSFORM ************

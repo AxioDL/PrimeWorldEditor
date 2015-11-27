@@ -30,10 +30,10 @@ void CLightNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
     if (!ViewInfo.ViewFrustum.BoxInFrustum(AABox())) return;
     if (ViewInfo.GameMode) return;
 
-    pRenderer->AddOpaqueMesh(this, 0, CAABox(mPosition + 0.5f, mPosition - 0.5f), eDrawMesh);
+    pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawMesh);
 }
 
-void CLightNode::Draw(ERenderOptions /*Options*/, const SViewInfo& ViewInfo)
+void CLightNode::Draw(ERenderOptions /*Options*/, int /*ComponentIndex*/, const SViewInfo& ViewInfo)
 {
     CDrawUtil::DrawLightBillboard(mpLight->GetType(), mpLight->GetColor(), mPosition, BillboardScale(), TintColor(ViewInfo));
 

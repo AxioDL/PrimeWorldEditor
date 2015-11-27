@@ -26,23 +26,25 @@ void CStaticNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
     if (!ViewInfo.ViewFrustum.BoxInFrustum(AABox())) return;
 
     if (!mpModel->IsTransparent())
-        pRenderer->AddOpaqueMesh(this, 0, AABox(), eDrawMesh);
+        pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawMesh);
 
     else
     {
-        u32 sm_count = mpModel->GetSurfaceCount();
-        for (u32 s = 0; s < sm_count; s++)
+        u32 NumSurfaces = mpModel->GetSurfaceCount();
+        for (u32 iSurf = 0; iSurf < NumSurfaces; iSurf++)
         {
-            if (ViewInfo.ViewFrustum.BoxInFrustum(mpModel->GetSurfaceAABox(s).Transformed(Transform())))
-                pRenderer->AddTransparentMesh(this, s, mpModel->GetSurfaceAABox(s).Transformed(Transform()), eDrawAsset);
+            CAABox TransformedBox = mpModel->GetSurfaceAABox(iSurf).Transformed(Transform());
+
+            if (ViewInfo.ViewFrustum.BoxInFrustum(TransformedBox))
+                pRenderer->AddTransparentMesh(this, iSurf, TransformedBox, eDrawMesh);
         }
     }
 
     if (mSelected && !ViewInfo.GameMode)
-        pRenderer->AddOpaqueMesh(this, 0, AABox(), eDrawSelection);
+        pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawSelection);
 }
 
-void CStaticNode::Draw(ERenderOptions Options, const SViewInfo& ViewInfo)
+void CStaticNode::Draw(ERenderOptions Options, int ComponentIndex, const SViewInfo& ViewInfo)
 {
     if (!mpModel) return;
 
@@ -54,22 +56,10 @@ void CStaticNode::Draw(ERenderOptions Options, const SViewInfo& ViewInfo)
     CGraphics::UpdateLightBlock();
     LoadModelMatrix();
 
-    mpModel->Draw(Options);
-}
-
-void CStaticNode::DrawAsset(ERenderOptions Options, u32 Asset, const SViewInfo& ViewInfo)
-{
-    if (!mpModel) return;
-
-    CGraphics::sVertexBlock.COLOR0_Amb = CVector4f(0,0,0,1);
-    CGraphics::sPixelBlock.TevColor = CVector4f(1,1,1,1);
-    CGraphics::sPixelBlock.TintColor = TintColor(ViewInfo).ToVector4f();
-    CGraphics::sNumLights = 0;
-    CGraphics::UpdateLightBlock();
-    LoadModelMatrix();
-
-    mpModel->DrawSurface(Options, Asset);
-    //CDrawUtil::DrawWireCube(mpModel->GetSurfaceAABox(Asset), CColor::skWhite);
+    if (ComponentIndex < 0)
+        mpModel->Draw(Options);
+    else
+        mpModel->DrawSurface(Options, ComponentIndex);
 }
 
 void CStaticNode::DrawSelection()

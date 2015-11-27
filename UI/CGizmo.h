@@ -125,7 +125,7 @@ public:
     ~CGizmo();
 
     void AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo);
-    void DrawAsset(ERenderOptions options, u32 asset, const SViewInfo& ViewInfo);
+    void Draw(ERenderOptions Options, int ComponentIndex, const SViewInfo& ViewInfo);
 
     void IncrementSize();
     void DecrementSize();

@@ -75,8 +75,8 @@ public:
     void RenderBuckets(const SViewInfo& ViewInfo);
     void RenderBloom();
     void RenderSky(CModel *pSkyboxModel, const SViewInfo& ViewInfo);
-    void AddOpaqueMesh(IRenderable *pRenderable, u32 AssetID, CAABox& AABox, ERenderCommand Command);
-    void AddTransparentMesh(IRenderable *pRenderable, u32 AssetID, CAABox& AABox, ERenderCommand Command);
+    void AddOpaqueMesh(IRenderable *pRenderable, int AssetID, CAABox& AABox, ERenderCommand Command);
+    void AddTransparentMesh(IRenderable *pRenderable, int AssetID, CAABox& AABox, ERenderCommand Command);
     void BeginFrame();
     void EndFrame();
     void ClearDepthBuffer();

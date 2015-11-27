@@ -29,8 +29,7 @@ public:
     ENodeType NodeType();
     TString PrefixedName() const;
     void AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo);
-    void Draw(ERenderOptions Options, const SViewInfo& ViewInfo);
-    void DrawAsset(ERenderOptions Options, u32 Asset, const SViewInfo& ViewInfo);
+    void Draw(ERenderOptions Options, int ComponentIndex, const SViewInfo& ViewInfo);
     void DrawSelection();
     void RayAABoxIntersectTest(CRayCollisionTester &Tester);
     SRayIntersection RayNodeIntersectTest(const CRay &Ray, u32 AssetID, const SViewInfo& ViewInfo);

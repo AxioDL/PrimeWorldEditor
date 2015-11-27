@@ -21,15 +21,14 @@ void CCollisionNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewIn
     if (!ViewInfo.ViewFrustum.BoxInFrustum(AABox())) return;
     if (ViewInfo.GameMode) return;
 
-    pRenderer->AddOpaqueMesh(this, 0, AABox(), eDrawMesh);
+    pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawMesh);
 
     if (mSelected)
-        pRenderer->AddOpaqueMesh(this, 0, AABox(), eDrawSelection);
+        pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawSelection);
 }
 
-void CCollisionNode::Draw(ERenderOptions, const SViewInfo& ViewInfo)
+void CCollisionNode::Draw(ERenderOptions /*Options*/, int /*ComponentIndex*/, const SViewInfo& ViewInfo)
 {
-    // Not using parameter 1 (ERenderOptions - Options)
     if (!mpCollision) return;
 
     LoadModelMatrix();

@@ -24,29 +24,15 @@ void CModelNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
     if (ViewInfo.GameMode) return;
 
     if (!mpModel->HasTransparency(mActiveMatSet))
-        pRenderer->AddOpaqueMesh(this, 0, AABox(), eDrawMesh);
-
+        pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawMesh);
     else
-    {
-        u32 SurfaceCount = mpModel->GetSurfaceCount();
-
-        for (u32 iSurf = 0; iSurf < SurfaceCount; iSurf++)
-        {
-            if (ViewInfo.ViewFrustum.BoxInFrustum(mpModel->GetSurfaceAABox(iSurf).Transformed(Transform())))
-            {
-                if (!mpModel->IsSurfaceTransparent(iSurf, mActiveMatSet))
-                    pRenderer->AddOpaqueMesh(this, iSurf, mpModel->GetSurfaceAABox(iSurf).Transformed(Transform()), eDrawAsset);
-                else
-                    pRenderer->AddTransparentMesh(this, iSurf, mpModel->GetSurfaceAABox(iSurf).Transformed(Transform()), eDrawAsset);
-            }
-        }
-    }
+        AddSurfacesToRenderer(pRenderer, mpModel, mActiveMatSet, ViewInfo);
 
     if (mSelected)
-        pRenderer->AddOpaqueMesh(this, 0, AABox(), eDrawSelection);
+        pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawSelection);
 }
 
-void CModelNode::Draw(ERenderOptions Options, const SViewInfo& ViewInfo)
+void CModelNode::Draw(ERenderOptions Options, int ComponentIndex, const SViewInfo& ViewInfo)
 {
     if (!mpModel) return;
     if (mForceAlphaOn) Options = (ERenderOptions) (Options & ~eNoAlpha);
@@ -67,32 +53,10 @@ void CModelNode::Draw(ERenderOptions Options, const SViewInfo& ViewInfo)
     CGraphics::sPixelBlock.TintColor = TintColor(ViewInfo).ToVector4f();
     LoadModelMatrix();
 
-    mpModel->Draw(Options, mActiveMatSet);
-}
-
-void CModelNode::DrawAsset(ERenderOptions Options, u32 Asset, const SViewInfo& ViewInfo)
-{
-    if (!mpModel) return;
-    if (mForceAlphaOn) Options = (ERenderOptions) (Options & ~eNoAlpha);
-
-    if (mLightingEnabled)
-    {
-        CGraphics::SetDefaultLighting();
-        CGraphics::UpdateLightBlock();
-        CGraphics::sVertexBlock.COLOR0_Amb = CGraphics::skDefaultAmbientColor.ToVector4f();
-    }
+    if (ComponentIndex < 0)
+        mpModel->Draw(Options, mActiveMatSet);
     else
-    {
-        CGraphics::sNumLights = 0;
-        CGraphics::sVertexBlock.COLOR0_Amb = CColor::skBlack.ToVector4f();
-    }
-
-    CGraphics::sPixelBlock.TevColor = CVector4f(1,1,1,1);
-    CGraphics::sPixelBlock.TintColor = TintColor(ViewInfo).ToVector4f();
-    CGraphics::UpdatePixelBlock();
-    LoadModelMatrix();
-
-    mpModel->DrawSurface(Options, Asset, mActiveMatSet);
+        mpModel->DrawSurface(Options, ComponentIndex, mActiveMatSet);
 }
 
 void CModelNode::DrawSelection()
@@ -110,15 +74,7 @@ void CModelNode::RayAABoxIntersectTest(CRayCollisionTester &Tester)
     std::pair<bool,float> BoxResult = AABox().IntersectsRay(Ray);
 
     if (BoxResult.first)
-    {
-        for (u32 iSurf = 0; iSurf < mpModel->GetSurfaceCount(); iSurf++)
-        {
-            std::pair<bool,float> SurfResult = mpModel->GetSurfaceAABox(iSurf).IntersectsRay(Ray);
-
-            if (SurfResult.first)
-                Tester.AddNode(this, iSurf, SurfResult.second);
-        }
-    }
+        Tester.AddNodeModel(this, mpModel);
 }
 
 SRayIntersection CModelNode::RayNodeIntersectTest(const CRay &Ray, u32 AssetID, const SViewInfo& ViewInfo)

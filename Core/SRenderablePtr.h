@@ -10,7 +10,7 @@
 struct SRenderablePtr
 {
     IRenderable *pRenderable;
-    u32 Asset;
+    u32 ComponentIndex;
     CAABox AABox;
     ERenderCommand Command;
 };

@@ -68,7 +68,7 @@ public:
     static SLightBlock sLightBlock;
 
     // Lighting-related
-    enum ELightingMode { NoLighting, BasicLighting, WorldLighting };
+    enum ELightingMode { eNoLighting, eBasicLighting, eWorldLighting };
     static ELightingMode sLightMode;
     static u32 sNumLights;
     static const CColor skDefaultAmbientColor;
@@ -92,6 +92,7 @@ public:
     static void ReleaseContext(u32 Index);
     static void SetActiveContext(u32 Index);
     static void SetDefaultLighting();
+    static void SetupAmbientColor();
     static void SetIdentityMVP();
 };
 

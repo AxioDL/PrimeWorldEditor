@@ -7,6 +7,7 @@
 #include "SRayIntersection.h"
 #include "types.h"
 #include <Core/SViewInfo.h>
+#include <Resource/model/CBasicModel.h>
 
 #include <list>
 
@@ -22,6 +23,7 @@ public:
     ~CRayCollisionTester();
     const CRay& Ray() const;
     void AddNode(CSceneNode *pNode, u32 AssetIndex, float Distance);
+    void AddNodeModel(CSceneNode *pNode, CBasicModel *pModel);
     SRayIntersection TestNodes(const SViewInfo& ViewInfo);
 };
 

@@ -61,24 +61,24 @@ void CGizmo::AddToRenderer(CRenderer *pRenderer, const SViewInfo&)
 
         // Add to renderer...
         if (pModel->HasTransparency(setID))
-            pRenderer->AddTransparentMesh(this, iPart, pModel->AABox().Transformed(mTransform), eDrawAsset);
+            pRenderer->AddTransparentMesh(this, iPart, pModel->AABox().Transformed(mTransform), eDrawMesh);
         else
-            pRenderer->AddOpaqueMesh(this, iPart, pModel->AABox().Transformed(mTransform), eDrawAsset);
+            pRenderer->AddOpaqueMesh(this, iPart, pModel->AABox().Transformed(mTransform), eDrawMesh);
 
         pPart++;
     }
 }
 
-void CGizmo::DrawAsset(ERenderOptions /*options*/, u32 asset, const SViewInfo& /*ViewInfo*/)
+void CGizmo::Draw(ERenderOptions /*Options*/, int ComponentIndex, const SViewInfo& /*ViewInfo*/)
 {
     // Determine which SModelPart array to use
-    if (asset >= mNumCurrentParts) return;
+    if (ComponentIndex >= (int) mNumCurrentParts) return;
     SModelPart *pPart = mpCurrentParts;
 
     // Set model matrix
-    if (pPart[asset].isBillboard)
+    if (pPart[ComponentIndex].isBillboard)
         CGraphics::sMVPBlock.ModelMatrix = mBillboardTransform.ToMatrix4f();
-    else if ((mMode == eScale) && ((mSelectedAxes & pPart[asset].modelAxes) != 0))
+    else if ((mMode == eScale) && ((mSelectedAxes & pPart[ComponentIndex].modelAxes) != 0))
         CGraphics::sMVPBlock.ModelMatrix = mScaledTransform.ToMatrix4f();
     else
         CGraphics::sMVPBlock.ModelMatrix = mTransform.ToMatrix4f();
@@ -90,12 +90,12 @@ void CGizmo::DrawAsset(ERenderOptions /*options*/, u32 asset, const SViewInfo& /
     CGraphics::UpdatePixelBlock();
 
     // Choose material set
-    EGizmoAxes partAxes = pPart[asset].modelAxes;
-    bool isHighlighted = (partAxes != eNone) && ((mSelectedAxes & partAxes) == pPart[asset].modelAxes);
+    EGizmoAxes partAxes = pPart[ComponentIndex].modelAxes;
+    bool isHighlighted = (partAxes != eNone) && ((mSelectedAxes & partAxes) == pPart[ComponentIndex].modelAxes);
     u32 setID = (isHighlighted ? 1 : 0);
 
     // Draw model
-    pPart[asset].pModel->Draw((ERenderOptions) 0, setID);
+    pPart[ComponentIndex].pModel->Draw((ERenderOptions) 0, setID);
 }
 
 void CGizmo::IncrementSize()

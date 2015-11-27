@@ -377,7 +377,7 @@ void CWorldEditor::on_ActionDrawSky_triggered()
 
 void CWorldEditor::on_ActionNoLighting_triggered()
 {
-    CGraphics::sLightMode = CGraphics::NoLighting;
+    CGraphics::sLightMode = CGraphics::eNoLighting;
     ui->ActionNoLighting->setChecked(true);
     ui->ActionBasicLighting->setChecked(false);
     ui->ActionWorldLighting->setChecked(false);
@@ -385,7 +385,7 @@ void CWorldEditor::on_ActionNoLighting_triggered()
 
 void CWorldEditor::on_ActionBasicLighting_triggered()
 {
-    CGraphics::sLightMode = CGraphics::BasicLighting;
+    CGraphics::sLightMode = CGraphics::eBasicLighting;
     ui->ActionNoLighting->setChecked(false);
     ui->ActionBasicLighting->setChecked(true);
     ui->ActionWorldLighting->setChecked(false);
@@ -393,7 +393,7 @@ void CWorldEditor::on_ActionBasicLighting_triggered()
 
 void CWorldEditor::on_ActionWorldLighting_triggered()
 {
-    CGraphics::sLightMode = CGraphics::WorldLighting;
+    CGraphics::sLightMode = CGraphics::eWorldLighting;
     ui->ActionNoLighting->setChecked(false);
     ui->ActionBasicLighting->setChecked(false);
     ui->ActionWorldLighting->setChecked(true);

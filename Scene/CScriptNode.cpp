@@ -134,33 +134,15 @@ void CScriptNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
             if (ViewInfo.ViewFrustum.BoxInFrustum(AABox()))
             {
                 if (!mpActiveModel)
-                    pRenderer->AddOpaqueMesh(this, 0, AABox(), eDrawMesh);
+                    pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawMesh);
 
                 else
                 {
-                    if (!mpActiveModel->IsBuffered())
-                        mpActiveModel->BufferGL();
-
                     if (!mpActiveModel->HasTransparency(0))
-                        pRenderer->AddOpaqueMesh(this, 0, AABox(), eDrawMesh);
-
+                        pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawMesh);
                     else
-                    {
-                        u32 SubmeshCount = mpActiveModel->GetSurfaceCount();
-
-                        for (u32 s = 0; s < SubmeshCount; s++)
-                        {
-                            if (ViewInfo.ViewFrustum.BoxInFrustum(mpActiveModel->GetSurfaceAABox(s).Transformed(Transform())))
-                            {
-                                if (!mpActiveModel->IsSurfaceTransparent(s, 0))
-                                    pRenderer->AddOpaqueMesh(this, s, mpActiveModel->GetSurfaceAABox(s).Transformed(Transform()), eDrawAsset);
-                                else
-                                    pRenderer->AddTransparentMesh(this, s, mpActiveModel->GetSurfaceAABox(s).Transformed(Transform()), eDrawAsset);
-                            }
-                        }
-                    }
+                        AddSurfacesToRenderer(pRenderer, mpActiveModel, 0, ViewInfo);
                 }
-
             }
         }
     }
@@ -170,28 +152,46 @@ void CScriptNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
         // Script nodes always draw their selections regardless of frustum planes
         // in order to ensure that script connection lines don't get improperly culled.
        if (ShouldDraw)
-           pRenderer->AddOpaqueMesh(this, 0, AABox(), eDrawSelection);
+           pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawSelection);
 
         if (mHasVolumePreview && (!mpExtra || mpExtra->ShouldDrawVolume()))
             mpVolumePreviewNode->AddToRenderer(pRenderer, ViewInfo);
     }
 }
 
-void CScriptNode::Draw(ERenderOptions Options, const SViewInfo& ViewInfo)
+void CScriptNode::Draw(ERenderOptions Options, int ComponentIndex, const SViewInfo& ViewInfo)
 {
     if (!mpInstance) return;
 
     // Draw model
-    if (mpActiveModel)
+    if (mpActiveModel || !mpBillboard)
     {
+        CGraphics::SetupAmbientColor();
+        CGraphics::UpdateVertexBlock();
         LoadModelMatrix();
         LoadLights(ViewInfo);
 
-        if (mpExtra) CGraphics::sPixelBlock.TevColor = mpExtra->TevColor().ToVector4f();
-        else CGraphics::sPixelBlock.TevColor = CColor::skWhite.ToVector4f();
+        // Draw model if possible!
+        if (mpActiveModel)
+        {
+            if (mpExtra) CGraphics::sPixelBlock.TevColor = mpExtra->TevColor().ToVector4f();
+            else CGraphics::sPixelBlock.TevColor = CColor::skWhite.ToVector4f();
+            CGraphics::sPixelBlock.TintColor = TintColor(ViewInfo).ToVector4f();
+            CGraphics::UpdatePixelBlock();
 
-        CGraphics::sPixelBlock.TintColor = TintColor(ViewInfo).ToVector4f();
-        mpActiveModel->Draw(Options, 0);
+            if (ComponentIndex < 0)
+                mpActiveModel->Draw(Options, 0);
+            else
+                mpActiveModel->DrawSurface(Options, ComponentIndex, 0);
+        }
+
+        // If no model or billboard, default to drawing a purple box
+        else
+        {
+            glBlendFuncSeparate(GL_ONE, GL_ZERO, GL_ZERO, GL_ZERO);
+            glDepthMask(GL_TRUE);
+            CDrawUtil::DrawShadedCube(CColor::skTransparentPurple * TintColor(ViewInfo));
+        }
     }
 
     // Draw billboard
@@ -199,41 +199,6 @@ void CScriptNode::Draw(ERenderOptions Options, const SViewInfo& ViewInfo)
     {
         CDrawUtil::DrawBillboard(mpBillboard, mPosition, BillboardScale(), TintColor(ViewInfo));
     }
-
-    // If no model or billboard, default to drawing a purple box
-    else
-    {
-        glBlendFuncSeparate(GL_ONE, GL_ZERO, GL_ZERO, GL_ZERO);
-        glDepthMask(GL_TRUE);
-
-        LoadModelMatrix();
-        LoadLights(ViewInfo);
-        CGraphics::UpdateVertexBlock();
-        CGraphics::UpdateLightBlock();
-        CDrawUtil::DrawShadedCube(CColor::skTransparentPurple * TintColor(ViewInfo));
-        return;
-    }
-}
-
-void CScriptNode::DrawAsset(ERenderOptions Options, u32 Asset, const SViewInfo& ViewInfo)
-{
-    if (!mpInstance) return;
-    if (!mpActiveModel) return;
-
-    if (CGraphics::sLightMode == CGraphics::WorldLighting)
-        CGraphics::sVertexBlock.COLOR0_Amb = CGraphics::sAreaAmbientColor.ToVector4f() * CGraphics::sWorldLightMultiplier;
-    else
-        CGraphics::sVertexBlock.COLOR0_Amb = CGraphics::skDefaultAmbientColor.ToVector4f();
-
-    LoadModelMatrix();
-    LoadLights(ViewInfo);
-
-    if (mpExtra) CGraphics::sPixelBlock.TevColor = mpExtra->TevColor().ToVector4f();
-    else CGraphics::sPixelBlock.TevColor = CColor::skWhite.ToVector4f();
-
-    CGraphics::sPixelBlock.TintColor = TintColor(ViewInfo).ToVector4f();
-
-    mpActiveModel->DrawSurface(Options, Asset, 0);
 }
 
 void CScriptNode::DrawSelection()
@@ -293,16 +258,7 @@ void CScriptNode::RayAABoxIntersectTest(CRayCollisionTester &Tester)
 
         if (BoxResult.first)
         {
-            if (mpActiveModel)
-            {
-                for (u32 iSurf = 0; iSurf < mpActiveModel->GetSurfaceCount(); iSurf++)
-                {
-                    std::pair<bool,float> SurfResult = mpActiveModel->GetSurfaceAABox(iSurf).Transformed(Transform()).IntersectsRay(Ray);
-
-                    if (SurfResult.first)
-                        Tester.AddNode(this, iSurf, SurfResult.second);
-                }
-            }
+            if (mpActiveModel) Tester.AddNodeModel(this, mpActiveModel);
             else Tester.AddNode(this, 0, BoxResult.second);
         }
     }

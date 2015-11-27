@@ -79,10 +79,7 @@ void CRenderBucket::Draw(const SViewInfo& ViewInfo)
     for (u32 n = 0; n < mSize; n++)
     {
         if (mRenderables[n].Command == eDrawMesh)
-            mRenderables[n].pRenderable->Draw(Options, ViewInfo);
-
-        else if (mRenderables[n].Command == eDrawAsset)
-            mRenderables[n].pRenderable->DrawAsset(Options, mRenderables[n].Asset, ViewInfo);
+            mRenderables[n].pRenderable->Draw(Options, mRenderables[n].ComponentIndex, ViewInfo);
 
         else if (mRenderables[n].Command == eDrawSelection)
             mRenderables[n].pRenderable->DrawSelection();

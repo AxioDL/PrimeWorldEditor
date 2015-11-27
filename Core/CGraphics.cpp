@@ -45,7 +45,7 @@ void CGraphics::Initialize()
         mpPixelBlockBuffer = new CUniformBuffer(sizeof(sPixelBlock));
         mpLightBlockBuffer = new CUniformBuffer(sizeof(sLightBlock));
 
-        sLightMode = WorldLighting;
+        sLightMode = eWorldLighting;
         sNumLights = 0;
         sWorldLightMultiplier = 1.f;
 
@@ -160,6 +160,14 @@ void CGraphics::SetDefaultLighting()
 
     sVertexBlock.COLOR0_Amb = CColor::skGray.ToVector4f();
     UpdateVertexBlock();
+}
+
+void CGraphics::SetupAmbientColor()
+{
+    if (sLightMode == eWorldLighting)
+        sVertexBlock.COLOR0_Amb = sAreaAmbientColor.ToVector4f() * sWorldLightMultiplier;
+    else
+        sVertexBlock.COLOR0_Amb = skDefaultAmbientColor.ToVector4f();
 }
 
 void CGraphics::SetIdentityMVP()

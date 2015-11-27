@@ -19,6 +19,18 @@ void CRayCollisionTester::AddNode(CSceneNode *pNode, u32 AssetIndex, float Dista
     Intersection.Distance = Distance;
 }
 
+void CRayCollisionTester::AddNodeModel(CSceneNode *pNode, CBasicModel *pModel)
+{
+    // Check each of the model's surfaces and queue them for further testing if they hit
+    for (u32 iSurf = 0; iSurf < pModel->GetSurfaceCount(); iSurf++)
+    {
+        std::pair<bool,float> SurfResult = pModel->GetSurfaceAABox(iSurf).Transformed(pNode->Transform()).IntersectsRay(mRay);
+
+        if (SurfResult.first)
+            AddNode(pNode, iSurf, SurfResult.second);
+    }
+}
+
 SRayIntersection CRayCollisionTester::TestNodes(const SViewInfo& ViewInfo)
 {
     // Sort nodes by distance from ray

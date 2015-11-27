@@ -4,9 +4,7 @@
 enum ERenderCommand
 {
     eDrawMesh,
-    eDrawAsset,
-    eDrawSelection,
-    eDrawExtras
+    eDrawSelection
 };
 
 #endif // ERENDERCOMMAND

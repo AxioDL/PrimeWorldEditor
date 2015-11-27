@@ -311,21 +311,21 @@ void CRenderer::RenderSky(CModel *pSkyboxModel, const SViewInfo& ViewInfo)
     pSkyboxModel->Draw(mOptions, 0);
 }
 
-void CRenderer::AddOpaqueMesh(IRenderable *pRenderable, u32 AssetID, CAABox& AABox, ERenderCommand Command)
+void CRenderer::AddOpaqueMesh(IRenderable *pRenderable, int AssetID, CAABox& AABox, ERenderCommand Command)
 {
     SRenderablePtr ptr;
     ptr.pRenderable = pRenderable;
-    ptr.Asset = AssetID;
+    ptr.ComponentIndex = AssetID;
     ptr.AABox = AABox;
     ptr.Command = Command;
     mOpaqueBucket.Add(ptr);
 }
 
-void CRenderer::AddTransparentMesh(IRenderable *pRenderable, u32 AssetID, CAABox& AABox, ERenderCommand Command)
+void CRenderer::AddTransparentMesh(IRenderable *pRenderable, int AssetID, CAABox& AABox, ERenderCommand Command)
 {
     SRenderablePtr ptr;
     ptr.pRenderable = pRenderable;
-    ptr.Asset = AssetID;
+    ptr.ComponentIndex = AssetID;
     ptr.AABox = AABox;
     ptr.Command = Command;
     mTransparentBucket.Add(ptr);
