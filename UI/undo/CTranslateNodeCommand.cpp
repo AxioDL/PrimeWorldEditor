@@ -25,6 +25,8 @@ CTranslateNodeCommand::CTranslateNodeCommand(INodeEditor *pEditor, const QList<C
         translate.newPos = pNode->LocalPosition();
         mNodeList.push_back(translate);
     }
+
+    mpEditor->SelectionTransformed();
 }
 
 CTranslateNodeCommand::~CTranslateNodeCommand()
@@ -70,6 +72,7 @@ void CTranslateNodeCommand::undo()
         translate.pNode->SetPosition(translate.initialPos);
 
     mpEditor->RecalculateSelectionBounds();
+    mpEditor->SelectionTransformed();
     mpEditor->UpdateGizmoUI();
 }
 
@@ -81,6 +84,7 @@ void CTranslateNodeCommand::redo()
         translate.pNode->SetPosition(translate.newPos);
 
     mpEditor->RecalculateSelectionBounds();
+    mpEditor->SelectionTransformed();
     mpEditor->UpdateGizmoUI();
 }
 

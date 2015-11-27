@@ -62,6 +62,7 @@ public:
 
 signals:
     void SelectionModified();
+    void SelectionTransformed();
 
 public slots:
     void OnGizmoMoved();

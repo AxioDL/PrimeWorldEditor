@@ -113,9 +113,10 @@ void CSceneViewport::keyPressEvent(QKeyEvent* pEvent)
 {
     CBasicViewport::keyPressEvent(pEvent);
 
-    if (!pEvent->modifiers() && pEvent->key() == Qt::Key_Z)
+    if (!pEvent->modifiers() && pEvent->key() == Qt::Key_Z  && !pEvent->isAutoRepeat())
     {
         mCamera.SetMoveMode(eOrbitCamera);
+        emit CameraOrbit();
     }
 }
 
@@ -123,7 +124,7 @@ void CSceneViewport::keyReleaseEvent(QKeyEvent* pEvent)
 {
     CBasicViewport::keyReleaseEvent(pEvent);
 
-    if (pEvent->key() == Qt::Key_Z)
+    if (pEvent->key() == Qt::Key_Z && !pEvent->isAutoRepeat())
     {
         mCamera.SetMoveMode(eFreeCamera);
     }

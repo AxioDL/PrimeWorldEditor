@@ -39,6 +39,7 @@ public:
 
 signals:
     void GizmoMoved();
+    void CameraOrbit();
 
 protected slots:
     void CheckUserInput();

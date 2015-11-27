@@ -78,8 +78,8 @@ void CWaypointExtra::LinksModified()
 
 void CWaypointExtra::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
 {
-    // This call is necessary because if we try to build links in the constructor, it'll
-    // fail because we haven't finished loading the scene yet.
+    // This call is necessary because if we try to build links in the constructor, it
+    // won't work properly because we haven't finished loading the scene yet.
     if (!mLinksBuilt) BuildLinks();
 
     if (!ViewInfo.GameMode && mpParent->IsVisible() && !mpParent->IsSelected())
