@@ -156,7 +156,8 @@ SOURCES += \
     Scene/script/CPointOfInterestExtra.cpp \
     Scene/script/CScriptExtra.cpp \
     Scene/script/CSpacePirateExtra.cpp \
-    Scene/script/CWaypointExtra.cpp
+    Scene/script/CWaypointExtra.cpp \
+    Scene/script/CDoorExtra.cpp
 
 HEADERS  += \
     Common/AnimUtil.h \
@@ -328,7 +329,8 @@ HEADERS  += \
     Scene/script/CScriptExtra.h \
     Scene/script/CPointOfInterestExtra.h \
     Scene/script/CSpacePirateExtra.h \
-    Scene/script/CWaypointExtra.h
+    Scene/script/CWaypointExtra.h \
+    Scene/script/CDoorExtra.h
 
 FORMS    += \
     UI/CStartWindow.ui \

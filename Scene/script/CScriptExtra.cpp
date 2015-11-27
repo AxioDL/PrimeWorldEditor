@@ -3,6 +3,7 @@
 #include "CWaypointExtra.h"
 #include "CSpacePirateExtra.h"
 #include "CPointOfInterestExtra.h"
+#include "CDoorExtra.h"
 
 CScriptExtra* CScriptExtra::CreateExtra(CScriptNode *pNode)
 {
@@ -31,6 +32,10 @@ CScriptExtra* CScriptExtra::CreateExtra(CScriptNode *pNode)
         case 0x42:       // PointOfInterest (MP1)
         case 0x504F494E: // "POIN" PointOfInterest (MP2/MP3)
             pExtra = new CPointOfInterestExtra(pObj, pNode->Scene(), pNode);
+            break;
+
+        case 0x444F4F52: // "DOOR" Door (MP2/MP3)
+            pExtra = new CDoorExtra(pObj, pNode->Scene(), pNode);
             break;
         }
     }
