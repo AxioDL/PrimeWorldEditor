@@ -818,14 +818,14 @@ void CModelEditorWindow::on_CameraModeButton_clicked()
     if (pCam->MoveMode() == eOrbitCamera)
     {
         pCam->SetMoveMode(eFreeCamera);
-        ui->CameraModeButton->setIcon(QIcon(":/icons/EditorAssets/Free Camera.png"));
+        ui->CameraModeButton->setIcon(QIcon(":/icons/EditorAssets/Show.png"));
         ui->CameraModeButton->setToolTip(QString("Free Camera"));
     }
 
     else if (pCam->MoveMode() == eFreeCamera)
     {
         pCam->SetMoveMode(eOrbitCamera);
-        ui->CameraModeButton->setIcon(QIcon(":/icons/EditorAssets/Orbit Camera v2.png"));
+        ui->CameraModeButton->setIcon(QIcon(":/icons/EditorAssets/Orbit Camera.png"));
         ui->CameraModeButton->setToolTip(QString("Orbit Camera"));
 
         CVector3f Pos = pCam->Position();

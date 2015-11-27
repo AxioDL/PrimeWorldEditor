@@ -119,7 +119,7 @@ void CBasicViewport::mouseMoveEvent(QMouseEvent* /*pEvent*/)
 void CBasicViewport::wheelEvent(QWheelEvent *pEvent)
 {
     // Maybe track a "wheel delta" member variable and let CCamera decide what to do with it?
-    mCamera.Zoom(pEvent->angleDelta().y() / 6000.f);
+    mCamera.Zoom(pEvent->angleDelta().y() / 240.f);
 }
 
 void CBasicViewport::keyPressEvent(QKeyEvent *pEvent)

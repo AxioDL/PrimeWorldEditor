@@ -11,6 +11,10 @@ CModelEditorViewport::CModelEditorViewport(QWidget *pParent)
     mpRenderer->SetViewportSize(width(), height());
     mpRenderer->SetClearColor(CColor::skBlack);
     mpRenderer->ToggleGrid(true);
+
+    mViewInfo.pRenderer = mpRenderer;
+    mViewInfo.pScene = nullptr;
+    mViewInfo.GameMode = false;
 }
 
 CModelEditorViewport::~CModelEditorViewport()

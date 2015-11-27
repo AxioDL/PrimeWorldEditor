@@ -51,10 +51,10 @@ public:
 protected:
     void GizmoModeChanged(CGizmo::EGizmoMode mode);
     void UpdateCursor();
-    void UpdateCameraOrbit();
 
 private slots:
     void RefreshViewport();
+    void UpdateCameraOrbit();
     void OnCameraSpeedChange(double speed);
     void OnTransformSpinBoxModified(CVector3f value);
     void OnTransformSpinBoxEdited(CVector3f value);

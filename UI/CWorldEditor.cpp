@@ -64,6 +64,8 @@ CWorldEditor::CWorldEditor(QWidget *parent) :
 
     // Connect signals and slots
     connect(ui->MainViewport, SIGNAL(GizmoMoved()), this, SLOT(OnGizmoMoved()));
+    connect(ui->MainViewport, SIGNAL(GizmoMoved()), this, SLOT(UpdateCameraOrbit()));
+    connect(this, SIGNAL(SelectionModified()), this, SLOT(UpdateCameraOrbit()));
     connect(ui->TransformSpinBox, SIGNAL(ValueChanged(CVector3f)), this, SLOT(OnTransformSpinBoxModified(CVector3f)));
     connect(ui->TransformSpinBox, SIGNAL(EditingDone(CVector3f)), this, SLOT(OnTransformSpinBoxEdited(CVector3f)));
     connect(ui->CamSpeedSpinBox, SIGNAL(valueChanged(double)), this, SLOT(OnCameraSpeedChange(double)));
@@ -198,16 +200,10 @@ void CWorldEditor::UpdateGizmoUI()
             mGizmo.SetLocalRotation(mSelection.front()->AbsoluteRotation());
         }
     }
-
-    // Update camera orbit
-    UpdateCameraOrbit();
 }
 
 void CWorldEditor::UpdateSelectionUI()
 {
-    // Update camera orbit
-    UpdateCameraOrbit();
-
     // Update sidebar
     ui->ModifyTabContents->GenerateUI(mSelection);
 
@@ -269,16 +265,6 @@ void CWorldEditor::UpdateCursor()
     }
 }
 
-void CWorldEditor::UpdateCameraOrbit()
-{
-    CCamera *pCamera = &ui->MainViewport->Camera();
-
-    if (!mSelection.isEmpty())
-        pCamera->SetOrbit(mSelectionBounds);
-    else if (mpArea)
-        pCamera->SetOrbit(mpArea->AABox(), 0.8f);
-}
-
 // ************ PRIVATE SLOTS ************
 void CWorldEditor::RefreshViewport()
 {
@@ -293,6 +279,16 @@ void CWorldEditor::RefreshViewport()
 
     // Render
     ui->MainViewport->Render();
+}
+
+void CWorldEditor::UpdateCameraOrbit()
+{
+    CCamera *pCamera = &ui->MainViewport->Camera();
+
+    if (!mSelection.isEmpty())
+        pCamera->SetOrbit(mSelectionBounds);
+    else if (mpArea)
+        pCamera->SetOrbit(mpArea->AABox(), 0.8f);
 }
 
 void CWorldEditor::OnCameraSpeedChange(double speed)

@@ -63,11 +63,11 @@ void CCamera::Zoom(float Amount)
     if (mMode == eFreeCamera)
     {
         Update();
-        mPosition += (mDirection * Amount) * (mMoveSpeed * 25.f);
+        mPosition += mDirection * (Amount * mMoveSpeed);
     }
 
     else
-        mOrbitDistance -= Amount * mMoveSpeed * 25.f;
+        mOrbitDistance -= Amount * mMoveSpeed;
 
     mViewOutdated = true;
     mFrustumPlanesOutdated = true;
@@ -87,8 +87,8 @@ void CCamera::ProcessKeyInput(EKeyInputs KeyFlags, double DeltaTime)
 {
     float FDeltaTime = (float) DeltaTime;
 
-    if (KeyFlags & eWKey) Zoom(FDeltaTime);
-    if (KeyFlags & eSKey) Zoom(-FDeltaTime);
+    if (KeyFlags & eWKey) Zoom(FDeltaTime * 25.f);
+    if (KeyFlags & eSKey) Zoom(-FDeltaTime * 25.f);
     if (KeyFlags & eQKey) Pan(0, -FDeltaTime * 25.f);
     if (KeyFlags & eEKey) Pan(0, FDeltaTime * 25.f);
     if (KeyFlags & eAKey) Pan(-FDeltaTime * 25.f, 0);

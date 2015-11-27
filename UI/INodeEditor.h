@@ -60,6 +60,9 @@ public:
     virtual void UpdateGizmoUI() = 0;
     virtual void UpdateSelectionUI() = 0;
 
+signals:
+    void SelectionModified();
+
 public slots:
     void OnGizmoMoved();
 

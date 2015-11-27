@@ -134,18 +134,24 @@ void INodeEditor::SelectNode(CSceneNode *pNode)
 {
     if (!pNode->IsSelected())
         mUndoStack.push(new CSelectNodeCommand(this, pNode, mSelection));
+
+    emit SelectionModified();
 }
 
 void INodeEditor::DeselectNode(CSceneNode *pNode)
 {
     if (pNode->IsSelected())
         mUndoStack.push(new CDeselectNodeCommand(this, pNode, mSelection));
+
+    emit SelectionModified();
 }
 
 void INodeEditor::ClearSelection()
 {
     if (!mSelection.empty())
         mUndoStack.push(new CClearSelectionCommand(this, mSelection));
+
+    emit SelectionModified();
 }
 
 void INodeEditor::ClearAndSelectNode(CSceneNode *pNode)
@@ -163,6 +169,8 @@ void INodeEditor::ClearAndSelectNode(CSceneNode *pNode)
         mUndoStack.push(new CSelectNodeCommand(this, pNode, mSelection));
         mUndoStack.endMacro();
     }
+
+    emit SelectionModified();
 }
 
 // ************ PUBLIC SLOTS ************

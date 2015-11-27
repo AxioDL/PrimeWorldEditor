@@ -89,6 +89,7 @@ void CModelNode::DrawAsset(ERenderOptions Options, u32 Asset, const SViewInfo& V
 
     CGraphics::sPixelBlock.TevColor = CVector4f(1,1,1,1);
     CGraphics::sPixelBlock.TintColor = TintColor(ViewInfo).ToVector4f();
+    CGraphics::UpdatePixelBlock();
     LoadModelMatrix();
 
     mpModel->DrawSurface(Options, Asset, mActiveMatSet);
