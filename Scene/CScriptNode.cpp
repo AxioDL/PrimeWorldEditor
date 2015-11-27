@@ -1,5 +1,6 @@
 #include "CScriptNode.h"
-#include <gtx/quaternion.hpp>
+#include "script/CScriptExtra.h"
+
 #include <Common/AnimUtil.h>
 #include <Common/Math.h>
 #include <Core/CDrawUtil.h>
@@ -89,6 +90,8 @@ CScriptNode::CScriptNode(CSceneManager *pScene, CSceneNode *pParent, CScriptObje
         mLocalAABox = mpActiveModel->AABox();
     else
         mLocalAABox = CAABox::skOne;
+
+    mpExtra = CScriptExtra::CreateExtra(this);
 }
 
 ENodeType CScriptNode::NodeType()
@@ -105,6 +108,9 @@ void CScriptNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
 {
     if (!mpInstance) return;
 
+    // Add script extra to renderer first
+    if (mpExtra) mpExtra->AddToRenderer(pRenderer, ViewInfo);
+
     // If we're in game mode, then override other visibility settings.
     if (ViewInfo.GameMode)
     {
@@ -112,44 +118,50 @@ void CScriptNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
             return;
     }
 
-    // Otherwise, we proceed as normal
-    ERenderOptions options = pRenderer->RenderOptions();
+    // Check whether the script extra wants us to render before we render.
+    bool ShouldDraw = (!mpExtra || mpExtra->ShouldDrawNormalAssets());
 
-    if ((options & eDrawObjectCollision) && (!ViewInfo.GameMode))
-        mpCollisionNode->AddToRenderer(pRenderer, ViewInfo);
-
-    if (options & eDrawObjects || ViewInfo.GameMode)
+    if (ShouldDraw)
     {
-        if (ViewInfo.ViewFrustum.BoxInFrustum(AABox()))
+        // Otherwise, we proceed as normal
+        ERenderOptions options = pRenderer->RenderOptions();
+
+        if ((options & eDrawObjectCollision) && (!ViewInfo.GameMode))
+            mpCollisionNode->AddToRenderer(pRenderer, ViewInfo);
+
+        if (options & eDrawObjects || ViewInfo.GameMode)
         {
-            if (!mpActiveModel)
-                pRenderer->AddOpaqueMesh(this, 0, AABox(), eDrawMesh);
-
-            else
+            if (ViewInfo.ViewFrustum.BoxInFrustum(AABox()))
             {
-                if (!mpActiveModel->IsBuffered())
-                    mpActiveModel->BufferGL();
-
-                if (!mpActiveModel->HasTransparency(0))
+                if (!mpActiveModel)
                     pRenderer->AddOpaqueMesh(this, 0, AABox(), eDrawMesh);
 
                 else
                 {
-                    u32 SubmeshCount = mpActiveModel->GetSurfaceCount();
+                    if (!mpActiveModel->IsBuffered())
+                        mpActiveModel->BufferGL();
 
-                    for (u32 s = 0; s < SubmeshCount; s++)
+                    if (!mpActiveModel->HasTransparency(0))
+                        pRenderer->AddOpaqueMesh(this, 0, AABox(), eDrawMesh);
+
+                    else
                     {
-                        if (ViewInfo.ViewFrustum.BoxInFrustum(mpActiveModel->GetSurfaceAABox(s).Transformed(Transform())))
+                        u32 SubmeshCount = mpActiveModel->GetSurfaceCount();
+
+                        for (u32 s = 0; s < SubmeshCount; s++)
                         {
-                            if (!mpActiveModel->IsSurfaceTransparent(s, 0))
-                                pRenderer->AddOpaqueMesh(this, s, mpActiveModel->GetSurfaceAABox(s).Transformed(Transform()), eDrawAsset);
-                            else
-                                pRenderer->AddTransparentMesh(this, s, mpActiveModel->GetSurfaceAABox(s).Transformed(Transform()), eDrawAsset);
+                            if (ViewInfo.ViewFrustum.BoxInFrustum(mpActiveModel->GetSurfaceAABox(s).Transformed(Transform())))
+                            {
+                                if (!mpActiveModel->IsSurfaceTransparent(s, 0))
+                                    pRenderer->AddOpaqueMesh(this, s, mpActiveModel->GetSurfaceAABox(s).Transformed(Transform()), eDrawAsset);
+                                else
+                                    pRenderer->AddTransparentMesh(this, s, mpActiveModel->GetSurfaceAABox(s).Transformed(Transform()), eDrawAsset);
+                            }
                         }
                     }
                 }
-            }
 
+            }
         }
     }
 
@@ -157,9 +169,10 @@ void CScriptNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
     {
         // Script nodes always draw their selections regardless of frustum planes
         // in order to ensure that script connection lines don't get improperly culled.
-        pRenderer->AddOpaqueMesh(this, 0, AABox(), eDrawSelection);
+       if (ShouldDraw)
+           pRenderer->AddOpaqueMesh(this, 0, AABox(), eDrawSelection);
 
-        if (mHasVolumePreview)
+        if (mHasVolumePreview && (!mpExtra || mpExtra->ShouldDrawVolume()))
             mpVolumePreviewNode->AddToRenderer(pRenderer, ViewInfo);
     }
 }
@@ -173,6 +186,10 @@ void CScriptNode::Draw(ERenderOptions Options, const SViewInfo& ViewInfo)
     {
         LoadModelMatrix();
         LoadLights(ViewInfo);
+
+        if (mpExtra) CGraphics::sPixelBlock.TevColor = mpExtra->TevColor().ToVector4f();
+        else CGraphics::sPixelBlock.TevColor = CColor::skWhite.ToVector4f();
+
         CGraphics::sPixelBlock.TintColor = TintColor(ViewInfo).ToVector4f();
         mpActiveModel->Draw(Options, 0);
     }
@@ -208,9 +225,13 @@ void CScriptNode::DrawAsset(ERenderOptions Options, u32 Asset, const SViewInfo& 
     else
         CGraphics::sVertexBlock.COLOR0_Amb = CGraphics::skDefaultAmbientColor.ToVector4f();
 
-    CGraphics::sPixelBlock.TintColor = TintColor(ViewInfo).ToVector4f();
     LoadModelMatrix();
     LoadLights(ViewInfo);
+
+    if (mpExtra) CGraphics::sPixelBlock.TevColor = mpExtra->TevColor().ToVector4f();
+    else CGraphics::sPixelBlock.TevColor = CColor::skWhite.ToVector4f();
+
+    CGraphics::sPixelBlock.TintColor = TintColor(ViewInfo).ToVector4f();
 
     mpActiveModel->DrawSurface(Options, Asset, 0);
 }
@@ -234,9 +255,10 @@ void CScriptNode::DrawSelection()
 
         for (u32 iIn = 0; iIn < mpInstance->NumInLinks(); iIn++)
         {
+            // Don't draw in links if the other object is selected.
             const SLink& con = mpInstance->InLink(iIn);
             CScriptNode *pLinkNode = mpScene->ScriptNodeByID(con.ObjectID);
-            if (pLinkNode) CDrawUtil::DrawLine(CenterPoint(), pLinkNode->CenterPoint(), CColor::skTransparentRed);
+            if (pLinkNode && !pLinkNode->IsSelected()) CDrawUtil::DrawLine(CenterPoint(), pLinkNode->CenterPoint(), CColor::skTransparentRed);
         }
 
         for (u32 iOut = 0; iOut < mpInstance->NumOutLinks(); iOut++)
@@ -253,6 +275,16 @@ void CScriptNode::RayAABoxIntersectTest(CRayCollisionTester &Tester)
     if (!mpInstance)
         return;
 
+    // Let script extra do ray check first
+    if (mpExtra)
+    {
+        mpExtra->RayAABoxIntersectTest(Tester);
+
+        // If the extra doesn't want us rendering, then don't do the ray test either
+        if (!mpExtra->ShouldDrawNormalAssets()) return;
+    }
+
+    // Otherwise, proceed with the ray test as normal...
     const CRay& Ray = Tester.Ray();
 
     if (mpActiveModel || !mpBillboard)
@@ -388,6 +420,13 @@ bool CScriptNode::IsVisible() const
 {
     // Reimplementation of CSceneNode::IsVisible() to allow for layer and template visiblity to be taken into account
     return (mVisible && mpInstance->Layer()->IsVisible() && mpInstance->Template()->IsVisible());
+}
+
+CColor CScriptNode::TintColor(const SViewInfo &ViewInfo) const
+{
+    CColor BaseColor = CSceneNode::TintColor(ViewInfo);
+    if (mpExtra) mpExtra->ModifyTintColor(BaseColor);
+    return BaseColor;
 }
 
 CColor CScriptNode::WireframeColor() const

@@ -93,6 +93,7 @@ public:
     ~CScriptTemplate();
 
     CMasterTemplate* MasterTemplate();
+    EGame Game();
     TString TemplateName(s32 propCount = -1) const;
     TString PropertySetNameByCount(s32 propCount) const;
     TString PropertySetNameByIndex(u32 index) const;

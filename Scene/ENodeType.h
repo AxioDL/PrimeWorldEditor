@@ -8,6 +8,7 @@ enum ENodeType
     eStaticNode,
     eCollisionNode,
     eScriptNode,
+    eScriptExtraNode,
     eLightNode
 };
 

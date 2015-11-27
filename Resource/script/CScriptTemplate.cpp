@@ -25,6 +25,11 @@ CMasterTemplate* CScriptTemplate::MasterTemplate()
     return mpMaster;
 }
 
+EGame CScriptTemplate::Game()
+{
+    return mpMaster->GetGame();
+}
+
 TString CScriptTemplate::TemplateName(s32 propCount) const
 {
     // Return original name if there is only one property set

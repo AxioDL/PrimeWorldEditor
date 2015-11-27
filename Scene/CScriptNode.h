@@ -10,6 +10,8 @@
 class CScriptNode : public CSceneNode
 {
     CScriptObject *mpInstance;
+    class CScriptExtra *mpExtra;
+
     CModel *mpActiveModel;
     CTexture *mpBillboard;
     CToken mModelToken;
@@ -33,6 +35,7 @@ public:
     void RayAABoxIntersectTest(CRayCollisionTester &Tester);
     SRayIntersection RayNodeIntersectTest(const CRay &Ray, u32 AssetID, const SViewInfo& ViewInfo);
     bool IsVisible() const;
+    CColor TintColor(const SViewInfo &ViewInfo) const;
     CColor WireframeColor() const;
 
     CScriptObject* Object();

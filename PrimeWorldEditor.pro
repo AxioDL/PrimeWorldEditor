@@ -152,7 +152,11 @@ SOURCES += \
     UI/WAnimParamsEditor.cpp \
     Resource/CCollisionMeshGroup.cpp \
     Core/CFrustumPlanes.cpp \
-    Core/CLightParameters.cpp
+    Core/CLightParameters.cpp \
+    Scene/script/CPointOfInterestExtra.cpp \
+    Scene/script/CScriptExtra.cpp \
+    Scene/script/CSpacePirateExtra.cpp \
+    Scene/script/CWaypointExtra.cpp
 
 HEADERS  += \
     Common/AnimUtil.h \
@@ -320,7 +324,11 @@ HEADERS  += \
     Resource/CCollisionMeshGroup.h \
     Core/CFrustumPlanes.h \
     Core/CLightParameters.h \
-    Core/SViewInfo.h
+    Core/SViewInfo.h \
+    Scene/script/CScriptExtra.h \
+    Scene/script/CPointOfInterestExtra.h \
+    Scene/script/CSpacePirateExtra.h \
+    Scene/script/CWaypointExtra.h
 
 FORMS    += \
     UI/CStartWindow.ui \

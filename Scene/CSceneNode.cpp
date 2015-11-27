@@ -71,6 +71,11 @@ bool CSceneNode::IsVisible() const
     return mVisible;
 }
 
+CColor CSceneNode::TintColor(const SViewInfo& ViewInfo) const
+{
+    return (IsSelected() && !ViewInfo.GameMode ? skSelectionTint : CColor::skWhite);
+}
+
 CColor CSceneNode::WireframeColor() const
 {
     return CColor::skWhite;
@@ -305,12 +310,6 @@ CSceneNode* CSceneNode::Parent() const
 CSceneManager* CSceneNode::Scene()
 {
     return mpScene;
-}
-
-CColor CSceneNode::TintColor(const SViewInfo& ViewInfo) const
-{
-    // convenience; this is/will be a fairly common operation
-    return (IsSelected() && !ViewInfo.GameMode ? skSelectionTint : CColor::skWhite);
 }
 
 CVector3f CSceneNode::LocalPosition() const

@@ -54,10 +54,12 @@ public:
     virtual ~CSceneNode();
     virtual ENodeType NodeType() = 0;
     virtual TString PrefixedName() const;
+    virtual void AddToRenderer(CRenderer* /*pRenderer*/, const SViewInfo& /*ViewInfo*/) {}
     virtual void DrawSelection();
     virtual void RayAABoxIntersectTest(CRayCollisionTester& Tester);
     virtual SRayIntersection RayNodeIntersectTest(const CRay& Ray, u32 AssetID, const SViewInfo& ViewInfo) = 0;
     virtual bool IsVisible() const;
+    virtual CColor TintColor(const SViewInfo& ViewInfo) const;
     virtual CColor WireframeColor() const;
 
     void Unparent();
@@ -82,7 +84,6 @@ public:
     TString Name() const;
     CSceneNode* Parent() const;
     CSceneManager* Scene();
-    CColor TintColor(const SViewInfo& ViewInfo) const;
     CVector3f LocalPosition() const;
     CVector3f AbsolutePosition() const;
     CQuaternion LocalRotation() const;
