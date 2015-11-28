@@ -47,6 +47,7 @@ public slots:
     void UpdateMaterial(double Value);
     void UpdateMaterial(bool Value);
     void UpdateMaterial(QColor eColorProperty);
+    void UpdateMaterial(QString Value);
     void UpdateUI(int Value);
     void UpdateAnimParamUI(int Mode);
 

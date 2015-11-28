@@ -87,7 +87,8 @@ void CModelEditorViewport::Paint()
         CGraphics::UpdateMVPBlock();
 
         mpActiveMaterial->SetCurrent(eEnableUVScroll | eEnableOccluders);
-        CDrawUtil::DrawSquare();
+        float Aspect = (float) width() / (float) height();
+        CDrawUtil::DrawSquare(CVector2f(0,1), CVector2f(1 * Aspect, 1), CVector2f(1 * Aspect, 0), CVector2f(0,0));
     }
 
     mpRenderer->EndFrame();

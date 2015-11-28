@@ -119,6 +119,7 @@ CModelEditorWindow::CModelEditorWindow(QWidget *parent) :
     connect(ui->TevKAlphaSelComboBox,   SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
     connect(ui->TevRasSelComboBox,      SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
     connect(ui->TexCoordSrcComboBox,    SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
+    connect(ui->PassTextureResSelector, SIGNAL(ResourceChanged(QString)), this, SLOT(UpdateMaterial(QString)));
     connect(ui->TevColor1ComboBox,      SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
     connect(ui->TevColor2ComboBox,      SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
     connect(ui->TevColor3ComboBox,      SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
@@ -562,6 +563,27 @@ void CModelEditorWindow::UpdateMaterial(QColor Color)
     }
 }
 
+void CModelEditorWindow::UpdateMaterial(QString Value)
+{
+    // This function takes input from WResourceSelectors
+    if (!mpCurrentMat) return;
+    if (mIgnoreSignals) return;
+
+    EModelEditorWidget Widget = (EModelEditorWidget) sender()->property("ModelEditorWidgetType").toInt();
+    CTexture *pTex = (CTexture*) gResCache.GetResource(TO_TSTRING(Value));
+    if (pTex->Type() != eTexture) pTex = nullptr;
+
+    switch (Widget)
+    {
+    case ePassTextureResSelector:
+        mpCurrentPass->SetTexture(pTex);
+        break;
+
+    case eIndTextureResSelector:
+        mpCurrentMat->SetIndTexture(pTex);
+        break;
+    }
+}
 void CModelEditorWindow::UpdateUI(int Value)
 {
     EModelEditorWidget Widget = (EModelEditorWidget) sender()->property("ModelEditorWidgetType").toInt();
