@@ -12,7 +12,7 @@ public:
     ENodeType NodeType();
     void AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo);
     void Draw(ERenderOptions Options, int ComponentIndex, const SViewInfo& ViewInfo);
-    void RayAABoxIntersectTest(CRayCollisionTester& Tester);
+    void RayAABoxIntersectTest(CRayCollisionTester& Tester, const SViewInfo& ViewInfo);
     SRayIntersection RayNodeIntersectTest(const CRay &Ray, u32 AssetID, const SViewInfo& ViewInfo);
     CLight* Light();
     CVector2f BillboardScale();

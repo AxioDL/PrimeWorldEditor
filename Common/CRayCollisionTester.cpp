@@ -10,12 +10,12 @@ CRayCollisionTester::~CRayCollisionTester()
 {
 }
 
-void CRayCollisionTester::AddNode(CSceneNode *pNode, u32 AssetIndex, float Distance)
+void CRayCollisionTester::AddNode(CSceneNode *pNode, u32 ComponentIndex, float Distance)
 {
     mBoxIntersectList.emplace_back(SRayIntersection());
     SRayIntersection& Intersection = mBoxIntersectList.back();
     Intersection.pNode = pNode;
-    Intersection.AssetIndex = AssetIndex;
+    Intersection.ComponentIndex = ComponentIndex;
     Intersection.Distance = Distance;
 }
 
@@ -55,7 +55,7 @@ SRayIntersection CRayCollisionTester::TestNodes(const SViewInfo& ViewInfo)
 
         // Otherwise, more intersection tests...
         CSceneNode *pNode = Intersection.pNode;
-        SRayIntersection MidResult = pNode->RayNodeIntersectTest(mRay, Intersection.AssetIndex, ViewInfo);
+        SRayIntersection MidResult = pNode->RayNodeIntersectTest(mRay, Intersection.ComponentIndex, ViewInfo);
 
         if (MidResult.Hit)
         {

@@ -235,7 +235,7 @@ void CScriptNode::DrawSelection()
     }
 }
 
-void CScriptNode::RayAABoxIntersectTest(CRayCollisionTester &Tester)
+void CScriptNode::RayAABoxIntersectTest(CRayCollisionTester& Tester, const SViewInfo& ViewInfo)
 {
     if (!mpInstance)
         return;
@@ -243,10 +243,18 @@ void CScriptNode::RayAABoxIntersectTest(CRayCollisionTester &Tester)
     // Let script extra do ray check first
     if (mpExtra)
     {
-        mpExtra->RayAABoxIntersectTest(Tester);
+        mpExtra->RayAABoxIntersectTest(Tester, ViewInfo);
 
         // If the extra doesn't want us rendering, then don't do the ray test either
-        if (!mpExtra->ShouldDrawNormalAssets()) return;
+        if (!mpExtra->ShouldDrawNormalAssets())
+            return;
+    }
+
+    // If we're in game mode, then check whether we're visible before proceeding with the ray test.
+    if (ViewInfo.GameMode)
+    {
+        if (!mpInstance->IsActive() || !mpInstance->HasInGameModel())
+            return;
     }
 
     // Otherwise, proceed with the ray test as normal...
@@ -283,17 +291,7 @@ SRayIntersection CScriptNode::RayNodeIntersectTest(const CRay& Ray, u32 AssetID,
 
     SRayIntersection out;
     out.pNode = this;
-    out.AssetIndex = AssetID;
-
-    // If we're in game mode, then check whether we're visible before proceeding with the ray test.
-    if (ViewInfo.GameMode)
-    {
-        if (!mpInstance->IsActive() || !mpInstance->HasInGameModel())
-        {
-            out.Hit = false;
-            return out;
-        }
-    }
+    out.ComponentIndex = AssetID;
 
     if (options & eDrawObjects || ViewInfo.GameMode)
     {

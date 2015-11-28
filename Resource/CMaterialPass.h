@@ -18,6 +18,7 @@ class CMaterialPass
 public:
     enum EPassSettings
     {
+        eNoPassSettings   = 0x0,
         eEmissiveBloom    = 0x4,
         eInvertOpacityMap = 0x10
     };

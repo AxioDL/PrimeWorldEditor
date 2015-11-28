@@ -47,6 +47,7 @@ void CDoorExtra::PropertyModified(CPropertyBase *pProperty)
 void CDoorExtra::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
 {
     if (!mpShieldModel) return;
+    if (ViewInfo.GameMode && !mpInstance->IsActive()) return;
 
     if (mpParent->IsVisible() && ViewInfo.ViewFrustum.BoxInFrustum(AABox()))
     {
@@ -90,9 +91,10 @@ void CDoorExtra::DrawSelection()
     mpShieldModel->DrawWireframe(eNoRenderOptions, mpParent->WireframeColor());
 }
 
-void CDoorExtra::RayAABoxIntersectTest(CRayCollisionTester& Tester)
+void CDoorExtra::RayAABoxIntersectTest(CRayCollisionTester& Tester, const SViewInfo& ViewInfo)
 {
     if (!mpShieldModel) return;
+    if (ViewInfo.GameMode && !mpInstance->IsActive()) return;
 
     const CRay& Ray = Tester.Ray();
     std::pair<bool,float> BoxResult = AABox().IntersectsRay(Ray);
@@ -107,7 +109,7 @@ SRayIntersection CDoorExtra::RayNodeIntersectTest(const CRay &Ray, u32 AssetID, 
 
     SRayIntersection out;
     out.pNode = mpParent;
-    out.AssetIndex = AssetID;
+    out.ComponentIndex = AssetID;
 
     CRay TransformedRay = Ray.Transformed(Transform().Inverse());
     std::pair<bool,float> Result = mpShieldModel->GetSurface(AssetID)->IntersectsRay(TransformedRay, ((Options & eEnableBackfaceCull) == 0));

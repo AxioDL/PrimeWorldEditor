@@ -292,7 +292,7 @@ SRayIntersection CSceneManager::SceneRayCast(const CRay& Ray, const SViewInfo& V
 
         for (u32 iNode = 0; iNode < vec.size(); iNode++)
             if (vec[iNode]->IsVisible())
-                vec[iNode]->RayAABoxIntersectTest(Tester);
+                vec[iNode]->RayAABoxIntersectTest(Tester, ViewInfo);
     }
 
     return Tester.TestNodes(ViewInfo);

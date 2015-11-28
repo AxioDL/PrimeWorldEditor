@@ -1,6 +1,7 @@
 #include "CScriptExtra.h"
 
 #include "CWaypointExtra.h"
+#include "CDamageableTriggerExtra.h"
 #include "CSpacePirateExtra.h"
 #include "CPointOfInterestExtra.h"
 #include "CDoorExtra.h"
@@ -23,6 +24,10 @@ CScriptExtra* CScriptExtra::CreateExtra(CScriptNode *pNode)
         case 0x43414D57: // "CAMW" CameraWaypoint (MP2)
         case 0x57415950: // "WAYP" Waypoint (MP2/MP3/DKCR)
             pExtra = new CWaypointExtra(pObj, pNode->Scene(), pNode);
+            break;
+
+        case 0x1A:  // DamageableTrigger (MP1)
+            pExtra = new CDamageableTriggerExtra(pObj, pNode->Scene(), pNode);
             break;
 
         case 0x24: // SpacePirate (MP1)

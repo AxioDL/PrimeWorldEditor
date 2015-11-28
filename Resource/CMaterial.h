@@ -104,6 +104,7 @@ public:
     void SetKonst(CColor& Konst, u32 KIndex);
     void SetIndTexture(CTexture *pTex);
     void SetLightingEnabled(bool Enabled);
+    void SetNumPasses(u32 NumPasses);
 
     // Static
     static void KillCachedMaterial();

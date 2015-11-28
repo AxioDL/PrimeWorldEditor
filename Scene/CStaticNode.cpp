@@ -69,7 +69,7 @@ void CStaticNode::DrawSelection()
     mpModel->DrawWireframe(eNoRenderOptions, WireframeColor());
 }
 
-void CStaticNode::RayAABoxIntersectTest(CRayCollisionTester &Tester)
+void CStaticNode::RayAABoxIntersectTest(CRayCollisionTester& Tester, const SViewInfo& /*ViewInfo*/)
 {
     if ((!mpModel) || (mpModel->IsOccluder()))
         return;
@@ -93,7 +93,7 @@ SRayIntersection CStaticNode::RayNodeIntersectTest(const CRay &Ray, u32 AssetID,
 {
     SRayIntersection out;
     out.pNode = this;
-    out.AssetIndex = AssetID;
+    out.ComponentIndex = AssetID;
 
     CRay TransformedRay = Ray.Transformed(Transform().Inverse());
     ERenderOptions options = ViewInfo.pRenderer->RenderOptions();

@@ -19,7 +19,7 @@ public:
     virtual void AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo);
     virtual void Draw(ERenderOptions Options, int ComponentIndex, const SViewInfo& ViewInfo);
     virtual void DrawSelection();
-    virtual void RayAABoxIntersectTest(CRayCollisionTester &Tester);
+    virtual void RayAABoxIntersectTest(CRayCollisionTester& Tester, const SViewInfo& ViewInfo);
     virtual SRayIntersection RayNodeIntersectTest(const CRay &Ray, u32 AssetID, const SViewInfo& ViewInfo);
 
     void SetModel(CModel *pModel);

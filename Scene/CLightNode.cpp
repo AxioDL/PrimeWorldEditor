@@ -43,7 +43,7 @@ void CLightNode::Draw(ERenderOptions /*Options*/, int /*ComponentIndex*/, const 
     pRenderer->DrawBoundingBox(mLight->GetColor(), AABB);*/
 }
 
-void CLightNode::RayAABoxIntersectTest(CRayCollisionTester &Tester)
+void CLightNode::RayAABoxIntersectTest(CRayCollisionTester& Tester, const SViewInfo& /*ViewInfo*/)
 {
     CVector2f BillScale = BillboardScale();
     float ScaleXY = (BillScale.x > BillScale.y ? BillScale.x : BillScale.y);
@@ -60,7 +60,7 @@ SRayIntersection CLightNode::RayNodeIntersectTest(const CRay& Ray, u32 AssetID, 
     // todo: come up with a better way to share this code between CScriptNode and CLightNode
     SRayIntersection out;
     out.pNode = this;
-    out.AssetIndex = AssetID;
+    out.ComponentIndex = AssetID;
 
     CTexture *pBillboard = CDrawUtil::GetLightTexture(mpLight->GetType());
 

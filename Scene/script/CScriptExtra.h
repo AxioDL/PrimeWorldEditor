@@ -36,6 +36,7 @@ public:
         out.Hit = false;
         return out;
     }
+    virtual CColor WireframeColor() const { return mpParent->WireframeColor(); }
 
     // Virtual CScriptExtra functions
     virtual void InstanceTransformed() {}

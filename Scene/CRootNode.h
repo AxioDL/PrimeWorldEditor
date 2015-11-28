@@ -15,7 +15,7 @@ public:
         return eRootNode;
     }
 
-    inline void RayAABoxIntersectTest(CRayCollisionTester &) {}
+    inline void RayAABoxIntersectTest(CRayCollisionTester&, const SViewInfo&) {}
 
     inline SRayIntersection RayNodeIntersectTest(const CRay &, u32, const SViewInfo&) {
         return SRayIntersection(false, 0.f, nullptr, 0);

@@ -324,6 +324,26 @@ void CMaterial::SetLightingEnabled(bool Enabled)
     mRecalcHash = true;
 }
 
+void CMaterial::SetNumPasses(u32 NumPasses)
+{
+    if (NumPasses < mPasses.size())
+    {
+        for (u32 iPass = NumPasses; iPass < mPasses.size(); iPass++)
+            delete mPasses[iPass];
+    }
+
+    u32 OldCount = mPasses.size();
+    mPasses.resize(NumPasses);
+
+    if (NumPasses > OldCount)
+    {
+        for (u32 iPass = OldCount; iPass < NumPasses; iPass++)
+            mPasses[iPass] = new CMaterialPass(this);
+    }
+
+    mRecalcHash = true;
+}
+
 // ************ STATIC ************
 void CMaterial::KillCachedMaterial()
 {

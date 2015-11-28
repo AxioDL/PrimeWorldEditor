@@ -6,6 +6,7 @@
 CMaterialPass::CMaterialPass(CMaterial *pParent)
 {
     mPassType = "CUST";
+    mSettings = eNoPassSettings;
     mpTexture = nullptr;
     mEnabled = true;
     mpParentMat = pParent;

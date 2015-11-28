@@ -57,7 +57,7 @@ void CSceneNode::DrawSelection()
     CDrawUtil::DrawWireCube(AABox(), CColor::skWhite);
 }
 
-void CSceneNode::RayAABoxIntersectTest(CRayCollisionTester& Tester)
+void CSceneNode::RayAABoxIntersectTest(CRayCollisionTester& Tester, const SViewInfo& /*ViewInfo*/)
 {
     // Default implementation for virtual function
     std::pair<bool,float> result = AABox().IntersectsRay(Tester.Ray());

@@ -56,7 +56,7 @@ public:
     virtual TString PrefixedName() const;
     virtual void AddToRenderer(CRenderer* /*pRenderer*/, const SViewInfo& /*ViewInfo*/) {}
     virtual void DrawSelection();
-    virtual void RayAABoxIntersectTest(CRayCollisionTester& Tester);
+    virtual void RayAABoxIntersectTest(CRayCollisionTester& Tester, const SViewInfo& ViewInfo);
     virtual SRayIntersection RayNodeIntersectTest(const CRay& Ray, u32 AssetID, const SViewInfo& ViewInfo) = 0;
     virtual bool IsVisible() const;
     virtual CColor TintColor(const SViewInfo& ViewInfo) const;

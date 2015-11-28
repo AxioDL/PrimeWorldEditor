@@ -66,7 +66,7 @@ void CModelNode::DrawSelection()
     mpModel->DrawWireframe(eNoRenderOptions, WireframeColor());
 }
 
-void CModelNode::RayAABoxIntersectTest(CRayCollisionTester &Tester)
+void CModelNode::RayAABoxIntersectTest(CRayCollisionTester& Tester, const SViewInfo& /*ViewInfo*/)
 {
     if (!mpModel) return;
 
@@ -81,7 +81,7 @@ SRayIntersection CModelNode::RayNodeIntersectTest(const CRay &Ray, u32 AssetID, 
 {
     SRayIntersection out;
     out.pNode = this;
-    out.AssetIndex = AssetID;
+    out.ComponentIndex = AssetID;
 
     CRay TransformedRay = Ray.Transformed(Transform().Inverse());
     ERenderOptions options = ViewInfo.pRenderer->RenderOptions();
