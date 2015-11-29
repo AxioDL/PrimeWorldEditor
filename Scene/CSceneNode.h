@@ -38,7 +38,9 @@ protected:
     CVector3f mPosition;
     CQuaternion mRotation;
     CVector3f mScale;
+    CVector3f mScaleMultiplier;
     CAABox mLocalAABox;
+
     bool mMouseHovering;
     bool mSelected;
     bool mVisible;
@@ -53,7 +55,6 @@ public:
     explicit CSceneNode(CSceneManager *pScene, CSceneNode *pParent = 0);
     virtual ~CSceneNode();
     virtual ENodeType NodeType() = 0;
-    virtual TString PrefixedName() const;
     virtual void AddToRenderer(CRenderer* /*pRenderer*/, const SViewInfo& /*ViewInfo*/) {}
     virtual void DrawSelection();
     virtual void RayAABoxIntersectTest(CRayCollisionTester& Tester, const SViewInfo& ViewInfo);

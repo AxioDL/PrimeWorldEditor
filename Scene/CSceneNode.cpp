@@ -21,6 +21,7 @@ CSceneNode::CSceneNode(CSceneManager *pScene, CSceneNode *pParent)
     mPosition = CVector3f::skZero;
     mRotation = CQuaternion::skIdentity;
     mScale = CVector3f::skOne;
+    mScaleMultiplier = CVector3f::skOne;
     _mTransformOutdated = true;
 
     _mInheritsPosition = true;
@@ -46,11 +47,6 @@ CSceneNode::~CSceneNode()
 }
 
 // ************ VIRTUAL ************
-TString CSceneNode::PrefixedName() const
-{
-    return Name();
-}
-
 void CSceneNode::DrawSelection()
 {
     // Default implementation for virtual function
@@ -68,16 +64,19 @@ void CSceneNode::RayAABoxIntersectTest(CRayCollisionTester& Tester, const SViewI
 
 bool CSceneNode::IsVisible() const
 {
+    // Default implementation for virtual function
     return mVisible;
 }
 
 CColor CSceneNode::TintColor(const SViewInfo& ViewInfo) const
 {
+    // Default implementation for virtual function
     return (IsSelected() && !ViewInfo.GameMode ? skSelectionTint : CColor::skWhite);
 }
 
 CColor CSceneNode::WireframeColor() const
 {
+    // Default implementation for virtual function
     return CColor::skWhite;
 }
 
@@ -367,7 +366,7 @@ CVector3f CSceneNode::LocalScale() const
 
 CVector3f CSceneNode::AbsoluteScale() const
 {
-    CVector3f ret = mScale;
+    CVector3f ret = mScale * mScaleMultiplier;
 
     if ((mpParent) && (InheritsScale()))
         ret *= mpParent->AbsoluteScale();

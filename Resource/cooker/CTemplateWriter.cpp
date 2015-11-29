@@ -283,6 +283,14 @@ void CTemplateWriter::SaveScriptTemplate(CScriptTemplate *pTemp, const TString& 
         pAssets->LinkEndChild(pAsset);
     }
 
+    // Preview Scale
+    if (pTemp->mPreviewScale != 1.f)
+    {
+        XMLElement *pPreviewScale = scriptXML.NewElement("preview_scale");
+        pEditor->LinkEndChild(pPreviewScale);
+        pPreviewScale->SetText(pTemp->mPreviewScale);
+    }
+
     // Rot/Scale Type
     XMLElement *pRotType = scriptXML.NewElement("rotation_type");
     pEditor->LinkEndChild(pRotType);

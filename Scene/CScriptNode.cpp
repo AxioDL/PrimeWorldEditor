@@ -32,7 +32,10 @@ CScriptNode::CScriptNode(CSceneManager *pScene, CSceneNode *pParent, CScriptObje
         SetName("[" + pTemp->TemplateName(mpInstance->NumProperties()) + "] " + mpInstance->InstanceName());
 
         if (pTemp->ScaleType() == CScriptTemplate::eScaleEnabled)
+        {
             mScale = mpInstance->Scale();
+            mScaleMultiplier = mpInstance->Template()->PreviewScale();
+        }
 
         MarkTransformChanged();
 
@@ -97,11 +100,6 @@ CScriptNode::CScriptNode(CSceneManager *pScene, CSceneNode *pParent, CScriptObje
 ENodeType CScriptNode::NodeType()
 {
     return eScriptNode;
-}
-
-TString CScriptNode::PrefixedName() const
-{
-    return "[" + mpInstance->Template()->TemplateName() + "] " + mpInstance->InstanceName();
 }
 
 void CScriptNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
@@ -474,6 +472,6 @@ CAABox CScriptNode::PreviewVolumeAABox()
 
 CVector2f CScriptNode::BillboardScale()
 {
-    CVector2f out = (mpInstance->Template()->ScaleType() == CScriptTemplate::eScaleEnabled ? mScale.xz() : CVector2f(1.f));
+    CVector2f out = (mpInstance->Template()->ScaleType() == CScriptTemplate::eScaleEnabled ? AbsoluteScale().xz() : CVector2f(1.f));
     return out * 0.5f;
 }

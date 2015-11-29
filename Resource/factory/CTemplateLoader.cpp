@@ -385,6 +385,17 @@ CScriptTemplate* CTemplateLoader::LoadScriptTemplate(tinyxml2::XMLDocument *pDoc
             pAsset = pAsset->NextSiblingElement();
         }
 
+        // Preview Scale
+        tinyxml2::XMLElement *pPreviewScale = pEditor->FirstChildElement("preview_scale");
+
+        if (pPreviewScale)
+        {
+            const char *kpScale = pPreviewScale->GetText();
+
+            if (kpScale)
+                pScript->mPreviewScale = std::stof(kpScale);
+        }
+
         // Rotation
         tinyxml2::XMLElement *pRotType = pEditor->FirstChildElement("rotation_type");
 

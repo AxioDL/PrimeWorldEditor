@@ -180,7 +180,7 @@ void CWorldEditor::UpdateGizmoUI()
                 if (mGizmoTransforming && mGizmo.HasTransformed())
                     spinBoxValue = mGizmo.TotalScale();
                 else if (!mSelection.empty())
-                    spinBoxValue = mSelection.front()->AbsoluteScale();
+                    spinBoxValue = mSelection.front()->LocalScale();
                 break;
             }
         }
@@ -308,6 +308,7 @@ void CWorldEditor::OnTransformSpinBoxModified(CVector3f value)
 
     switch (mGizmo.Mode())
     {
+        // Use absolute position/rotation, but relative scale. (This way spinbox doesn't show preview multiplier)
         case CGizmo::eTranslate:
         {
             CVector3f delta = value - mSelection.front()->AbsolutePosition();
@@ -324,7 +325,7 @@ void CWorldEditor::OnTransformSpinBoxModified(CVector3f value)
 
         case CGizmo::eScale:
         {
-            CVector3f delta = value / mSelection.front()->AbsoluteScale();
+            CVector3f delta = value / mSelection.front()->LocalScale();
             mUndoStack.push(new CScaleNodeCommand(this, mSelection, CVector3f::skZero, delta));
             break;
         }

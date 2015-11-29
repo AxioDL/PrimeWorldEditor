@@ -27,7 +27,6 @@ class CScriptNode : public CSceneNode
 public:
     CScriptNode(CSceneManager *pScene, CSceneNode *pParent = 0, CScriptObject *pObject = 0);
     ENodeType NodeType();
-    TString PrefixedName() const;
     void AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo);
     void Draw(ERenderOptions Options, int ComponentIndex, const SViewInfo& ViewInfo);
     void DrawSelection();

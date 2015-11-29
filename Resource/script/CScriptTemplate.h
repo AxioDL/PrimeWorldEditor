@@ -62,8 +62,6 @@ private:
     CMasterTemplate *mpMaster;
     std::vector<SPropertySet> mPropertySets;
     std::list<CScriptObject*> mObjectList;
-    ERotationType mRotationType;
-    EScaleType mScaleType;
     TString mTemplateName;
     TString mSourceFile;
     u32 mObjectID;
@@ -77,6 +75,10 @@ private:
     TIDString mActiveIDString;
     TIDString mLightParametersIDString;
     std::vector<SEditorAsset> mAssets;
+
+    float mPreviewScale;
+    ERotationType mRotationType;
+    EScaleType mScaleType;
 
     // Preview Volume
     EVolumeShape mVolumeShape;
@@ -100,6 +102,7 @@ public:
     u32 NumPropertySets() const;
     ERotationType RotationType() const;
     EScaleType ScaleType() const;
+    float PreviewScale() const;
     u32 ObjectID() const;
     void SetVisible(bool visible);
     bool IsVisible() const;

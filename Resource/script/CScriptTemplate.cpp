@@ -11,6 +11,7 @@ CScriptTemplate::CScriptTemplate(CMasterTemplate *pMaster)
 {
     mpMaster = pMaster;
     mVisible = true;
+    mPreviewScale = 1.f;
     mVolumeShape = eNoShape;
 }
 
@@ -75,6 +76,11 @@ CScriptTemplate::ERotationType CScriptTemplate::RotationType() const
 CScriptTemplate::EScaleType CScriptTemplate::ScaleType() const
 {
     return mScaleType;
+}
+
+float CScriptTemplate::PreviewScale() const
+{
+    return mPreviewScale;
 }
 
 u32 CScriptTemplate::ObjectID() const

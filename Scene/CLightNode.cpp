@@ -132,5 +132,5 @@ CLight* CLightNode::Light()
 
 CVector2f CLightNode::BillboardScale()
 {
-    return mScale.xz() * 0.75f;
+    return AbsoluteScale().xz() * 0.75f;
 }
