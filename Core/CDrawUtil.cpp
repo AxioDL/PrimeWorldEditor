@@ -26,6 +26,9 @@ CModel *CDrawUtil::mpDoubleSidedSphereModel;
 CToken CDrawUtil::mSphereToken;
 CToken CDrawUtil::mDoubleSidedSphereToken;
 
+CModel *CDrawUtil::mpWireSphereModel;
+CToken CDrawUtil::mWireSphereToken;
+
 CShader *CDrawUtil::mpColorShader;
 CShader *CDrawUtil::mpColorShaderLighting;
 CShader *CDrawUtil::mpBillboardShader;
@@ -197,6 +200,28 @@ void CDrawUtil::DrawSphere(const CColor &kColor)
     Init();
     UseColorShader(kColor);
     DrawSphere(false);
+}
+
+void CDrawUtil::DrawWireSphere(const CVector3f& Position, float Radius, const CColor& Color /*= CColor::skWhite*/)
+{
+    Init();
+
+    // Create model matrix
+    CTransform4f Transform;
+    Transform.Scale(Radius);
+    Transform.Translate(Position);
+    CGraphics::sMVPBlock.ModelMatrix = Transform.ToMatrix4f();
+    CGraphics::UpdateMVPBlock();
+
+    // Set other render params
+    UseColorShader(Color);
+    CMaterial::KillCachedMaterial();
+    glBlendFunc(GL_ONE, GL_ZERO);
+    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+    glDepthMask(GL_TRUE);
+
+    // Draw
+    mpWireSphereModel->Draw(eNoMaterialSetup, 0);
 }
 
 void CDrawUtil::DrawBillboard(CTexture* pTexture, const CVector3f& Position, const CVector2f& Scale /*= CVector2f::skOne*/, const CColor& Tint /*= CColor::skWhite*/)
@@ -375,6 +400,7 @@ void CDrawUtil::Init()
         InitCube();
         InitWireCube();
         InitSphere();
+        InitWireSphere();
         InitShaders();
         InitTextures();
         mDrawUtilInitialized = true;
@@ -510,6 +536,13 @@ void CDrawUtil::InitSphere()
     mpDoubleSidedSphereModel = (CModel*) gResCache.GetResource("../resources/SphereDoubleSided.cmdl");
     mSphereToken = CToken(mpSphereModel);
     mDoubleSidedSphereToken = CToken(mpDoubleSidedSphereModel);
+}
+
+void CDrawUtil::InitWireSphere()
+{
+    Log::Write("Creating wire sphere");
+    mpWireSphereModel = (CModel*) gResCache.GetResource("../resources/WireSphere.cmdl");
+    mWireSphereToken = CToken(mpWireSphereModel);
 }
 
 void CDrawUtil::InitShaders()

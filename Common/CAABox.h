@@ -42,8 +42,10 @@ public:
     std::pair<bool,float> IntersectsRay(const CRay& Ray) const;
 
     // Operators
-    bool operator==(const CAABox& Other);
-    bool operator!=(const CAABox& Other);
+    CAABox operator+(const CVector3f& translate) const;
+    CAABox operator*(float scalar) const;
+    bool operator==(const CAABox& Other) const;
+    bool operator!=(const CAABox& Other) const;
 
     // Constants
     static const CAABox skInfinite;

@@ -153,12 +153,23 @@ std::pair<bool,float> CAABox::IntersectsRay(const CRay &Ray) const
     return Math::RayBoxIntersection(Ray, *this);
 }
 
-bool CAABox::operator==(const CAABox& Other)
+// ************ OPERATORS ************
+CAABox CAABox::operator+(const CVector3f& translate) const
+{
+    return CAABox(mMin + translate, mMax + translate);
+}
+
+CAABox CAABox::operator*(float scalar) const
+{
+    return CAABox(mMin * scalar, mMax * scalar);
+}
+
+bool CAABox::operator==(const CAABox& Other) const
 {
     return ((mMin == Other.mMin) && (mMax == Other.mMax));
 }
 
-bool CAABox::operator!=(const CAABox& Other)
+bool CAABox::operator!=(const CAABox& Other) const
 {
     return (!(*this == Other));
 }

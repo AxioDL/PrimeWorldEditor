@@ -27,20 +27,28 @@ ENodeType CLightNode::NodeType()
 
 void CLightNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
 {
-    if (!ViewInfo.ViewFrustum.BoxInFrustum(AABox())) return;
     if (ViewInfo.GameMode) return;
 
-    pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawMesh);
+    if (ViewInfo.ViewFrustum.BoxInFrustum(AABox()))
+        pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawMesh);
+
+    if (IsSelected() && mpLight->GetType() == eCustom)
+    {
+        CAABox RadiusBox = (CAABox::skOne * 2.f * mpLight->GetRadius()) + mPosition;
+
+        if (ViewInfo.ViewFrustum.BoxInFrustum(RadiusBox))
+            pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawSelection);
+    }
 }
 
 void CLightNode::Draw(ERenderOptions /*Options*/, int /*ComponentIndex*/, const SViewInfo& ViewInfo)
 {
     CDrawUtil::DrawLightBillboard(mpLight->GetType(), mpLight->GetColor(), mPosition, BillboardScale(), TintColor(ViewInfo));
+}
 
-    // Below commented-out code is for light radius visualization as a bounding box
-    /*float r = mLight->GetRadius();
-    CAABox AABB(Position + r, Position - r);
-    pRenderer->DrawBoundingBox(mLight->GetColor(), AABB);*/
+void CLightNode::DrawSelection()
+{
+    CDrawUtil::DrawWireSphere(mPosition, mpLight->GetRadius(), mpLight->GetColor());
 }
 
 void CLightNode::RayAABoxIntersectTest(CRayCollisionTester& Tester, const SViewInfo& /*ViewInfo*/)

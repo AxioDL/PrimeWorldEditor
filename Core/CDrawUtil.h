@@ -38,6 +38,10 @@ class CDrawUtil
     static CToken mSphereToken;
     static CToken mDoubleSidedSphereToken;
 
+    // Wire Sphere
+    static CModel *mpWireSphereModel;
+    static CToken mWireSphereToken;
+
     // Shaders
     static CShader *mpColorShader;
     static CShader *mpColorShaderLighting;
@@ -81,6 +85,8 @@ public:
     static void DrawSphere(bool DoubleSided = false);
     static void DrawSphere(const CColor& Color);
 
+    static void DrawWireSphere(const CVector3f& Position, float Radius, const CColor& Color = CColor::skWhite);
+
     static void DrawBillboard(CTexture* pTexture, const CVector3f& Position, const CVector2f& Scale = CVector2f::skOne, const CColor& Tint = CColor::skWhite);
 
     static void DrawLightBillboard(ELightType Type, const CColor& LightColor, const CVector3f& Position, const CVector2f& Scale = CVector2f::skOne, const CColor& Tint = CColor::skWhite);
@@ -106,6 +112,7 @@ private:
     static void InitCube();
     static void InitWireCube();
     static void InitSphere();
+    static void InitWireSphere();
     static void InitShaders();
     static void InitTextures();
 

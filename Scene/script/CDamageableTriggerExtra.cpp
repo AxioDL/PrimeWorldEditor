@@ -205,6 +205,7 @@ void CDamageableTriggerExtra::Draw(ERenderOptions Options, int /*ComponentIndex*
     CGraphics::sPixelBlock.TintColor = mpParent->TintColor(ViewInfo).ToVector4f();
     mpMat->SetCurrent(Options);
 
+    // Note: The plane the game renders this onto is 5x4.5, which is why we divide the tex coords by this value
     CVector2f TexUL(0.f, mCoordScale.y / 4.5f);
     CVector2f TexUR(mCoordScale.x / 5.f, mCoordScale.y   / 4.5f);
     CVector2f TexBR(mCoordScale.x / 5.f, 0.f);

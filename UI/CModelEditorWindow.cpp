@@ -811,6 +811,12 @@ void CModelEditorWindow::on_actionImport_triggered()
                                               aiProcess_RemoveRedundantMaterials |
                                               aiProcess_OptimizeGraph);
 
+    if (!pScene)
+    {
+        QMessageBox::warning(this, "Error", "Error: Couldn't import file!");
+        return;
+    }
+
     CModel *pModel = nullptr;
     CMaterialSet *pSet = CMaterialLoader::ImportAssimpMaterials(pScene, ePrime);
     pModel = CModelLoader::ImportAssimpNode(pScene->mRootNode, pScene, *pSet);
