@@ -33,6 +33,8 @@ public:
     void DrawSelection();
     void RayAABoxIntersectTest(CRayCollisionTester& Tester, const SViewInfo& ViewInfo);
     SRayIntersection RayNodeIntersectTest(const CRay &Ray, u32 AssetID, const SViewInfo& ViewInfo);
+    bool AllowsRotate() const;
+    bool AllowsScale() const;
     bool IsVisible() const;
     CColor TintColor(const SViewInfo &ViewInfo) const;
     CColor WireframeColor() const;

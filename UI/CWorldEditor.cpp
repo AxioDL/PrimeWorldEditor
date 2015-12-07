@@ -149,6 +149,26 @@ CGameArea* CWorldEditor::ActiveArea()
 }
 
 // ************ UPDATE UI ************
+void CWorldEditor::UpdateStatusBar()
+{
+    // Would be cool to do more frequent status bar updates with more info. Unfortunately, this causes lag.
+    QString StatusText = "";
+
+    if (!mGizmoHovering)
+    {
+        if (ui->MainViewport->underMouse())
+        {
+            CSceneNode *pHoverNode = ui->MainViewport->HoverNode();
+
+            if (pHoverNode && (pHoverNode->NodeType() != eStaticNode))
+                StatusText = TO_QSTRING(pHoverNode->Name());
+        }
+    }
+
+    if (ui->statusbar->currentMessage() != StatusText)
+        ui->statusbar->showMessage(StatusText);
+}
+
 void CWorldEditor::UpdateGizmoUI()
 {
     // Update transform XYZ spin boxes
@@ -222,26 +242,6 @@ void CWorldEditor::UpdateSelectionUI()
 
     // Update gizmo stuff
     UpdateGizmoUI();
-}
-
-void CWorldEditor::UpdateStatusBar()
-{
-    // Would be cool to do more frequent status bar updates with more info. Unfortunately, this causes lag.
-    QString StatusText = "";
-
-    if (!mGizmoHovering)
-    {
-        if (ui->MainViewport->underMouse())
-        {
-            CSceneNode *pHoverNode = ui->MainViewport->HoverNode();
-
-            if (pHoverNode && (pHoverNode->NodeType() != eStaticNode))
-                StatusText = TO_QSTRING(pHoverNode->Name());
-        }
-    }
-
-    if (ui->statusbar->currentMessage() != StatusText)
-        ui->statusbar->showMessage(StatusText);
 }
 
 // ************ PROTECTED ************

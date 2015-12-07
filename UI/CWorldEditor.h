@@ -44,9 +44,11 @@ public:
     CGameArea* ActiveArea();
 
     // Update UI
+    void UpdateStatusBar();
+
+public slots:
     void UpdateGizmoUI();
     void UpdateSelectionUI();
-    void UpdateStatusBar();
 
 protected:
     void GizmoModeChanged(CGizmo::EGizmoMode mode);

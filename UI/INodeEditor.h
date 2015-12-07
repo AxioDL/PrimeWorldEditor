@@ -57,18 +57,20 @@ public:
     void ClearSelection();
     void ClearAndSelectNode(CSceneNode *pNode);
 
-    virtual void UpdateGizmoUI() = 0;
-    virtual void UpdateSelectionUI() = 0;
-
 signals:
     void SelectionModified();
     void SelectionTransformed();
 
 public slots:
     void OnGizmoMoved();
+    virtual void UpdateGizmoUI() = 0;
+    virtual void UpdateSelectionUI() = 0;
 
 protected:
     virtual void GizmoModeChanged(CGizmo::EGizmoMode /*mode*/) {}
+
+private:
+    void UpdateTransformActionsEnabled();
 
 private slots:
     void OnSelectObjectsTriggered();
@@ -76,6 +78,7 @@ private slots:
     void OnRotateTriggered();
     void OnScaleTriggered();
     void OnTransformSpaceChanged(int spaceIndex);
+    void OnSelectionModified();
 };
 
 #endif // INODEEDITOR_H

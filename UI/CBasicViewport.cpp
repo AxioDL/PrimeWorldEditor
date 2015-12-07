@@ -255,7 +255,8 @@ void CBasicViewport::ProcessInput()
     }
 
     if (IsKeyboardInputActive())
-        mCamera.ProcessKeyInput((EKeyInputs) mKeysPressed, DeltaTime);
+        if ((mKeysPressed & eCtrlKey) == 0)
+            mCamera.ProcessKeyInput((EKeyInputs) mKeysPressed, DeltaTime);
 
     // Update view info
     const CMatrix4f& View = mCamera.ViewMatrix();

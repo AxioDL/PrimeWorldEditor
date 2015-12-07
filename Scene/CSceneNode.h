@@ -58,6 +58,9 @@ public:
     virtual void DrawSelection();
     virtual void RayAABoxIntersectTest(CRayCollisionTester& Tester, const SViewInfo& ViewInfo);
     virtual SRayIntersection RayNodeIntersectTest(const CRay& Ray, u32 AssetID, const SViewInfo& ViewInfo) = 0;
+    virtual bool AllowsTranslate() const { return true; }
+    virtual bool AllowsRotate() const { return true; }
+    virtual bool AllowsScale() const { return true; }
     virtual bool IsVisible() const;
     virtual CColor TintColor(const SViewInfo& ViewInfo) const;
     virtual CColor WireframeColor() const;

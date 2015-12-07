@@ -49,6 +49,7 @@ INodeEditor::INodeEditor(QWidget *pParent)
     connect(mGizmoActions[2], SIGNAL(triggered()), this, SLOT(OnRotateTriggered()));
     connect(mGizmoActions[3], SIGNAL(triggered()), this, SLOT(OnScaleTriggered()));
     connect(mpTransformCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(OnTransformSpaceChanged(int)));
+    connect(this, SIGNAL(SelectionModified()), this, SLOT(OnSelectionModified()));
 }
 
 INodeEditor::~INodeEditor()
@@ -134,24 +135,18 @@ void INodeEditor::SelectNode(CSceneNode *pNode)
 {
     if (!pNode->IsSelected())
         mUndoStack.push(new CSelectNodeCommand(this, pNode, mSelection));
-
-    emit SelectionModified();
 }
 
 void INodeEditor::DeselectNode(CSceneNode *pNode)
 {
     if (pNode->IsSelected())
         mUndoStack.push(new CDeselectNodeCommand(this, pNode, mSelection));
-
-    emit SelectionModified();
 }
 
 void INodeEditor::ClearSelection()
 {
     if (!mSelection.empty())
         mUndoStack.push(new CClearSelectionCommand(this, mSelection));
-
-    emit SelectionModified();
 }
 
 void INodeEditor::ClearAndSelectNode(CSceneNode *pNode)
@@ -169,8 +164,6 @@ void INodeEditor::ClearAndSelectNode(CSceneNode *pNode)
         mUndoStack.push(new CSelectNodeCommand(this, pNode, mSelection));
         mUndoStack.endMacro();
     }
-
-    emit SelectionModified();
 }
 
 // ************ PUBLIC SLOTS ************
@@ -202,6 +195,31 @@ void INodeEditor::OnGizmoMoved()
 
     RecalculateSelectionBounds();
     UpdateGizmoUI();
+}
+
+// ************ PRIVATE ************
+void INodeEditor::UpdateTransformActionsEnabled()
+{
+    bool AllowTranslate = true, AllowRotate = true, AllowScale = true;
+    bool SelectedModeWasEnabled = mpGizmoGroup->checkedAction()->isEnabled();
+
+    for (auto it = mSelection.begin(); it != mSelection.end(); it++)
+    {
+        if (!(*it)->AllowsTranslate()) AllowTranslate = false;
+        if (!(*it)->AllowsRotate()) AllowRotate = false;
+        if (!(*it)->AllowsScale()) AllowScale = false;
+    }
+
+    mGizmoActions[1]->setEnabled(AllowTranslate);
+    mGizmoActions[2]->setEnabled(AllowRotate);
+    mGizmoActions[3]->setEnabled(AllowScale);
+
+    bool SelectedModeIsEnabled = mpGizmoGroup->checkedAction()->isEnabled();
+
+    if (SelectedModeWasEnabled && !SelectedModeIsEnabled)
+        OnSelectObjectsTriggered();
+    else if (SelectedModeIsEnabled && !SelectedModeWasEnabled)
+        mpGizmoGroup->checkedAction()->trigger();
 }
 
 // ************ PRIVATE SLOTS ************
@@ -277,4 +295,10 @@ void INodeEditor::OnTransformSpaceChanged(int spaceIndex)
         mRotateSpace = space;
 
     mGizmo.SetTransformSpace(space);
+}
+
+void INodeEditor::OnSelectionModified()
+{
+    UpdateTransformActionsEnabled();
+    UpdateSelectionUI();
 }

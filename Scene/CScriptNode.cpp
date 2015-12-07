@@ -363,6 +363,18 @@ SRayIntersection CScriptNode::RayNodeIntersectTest(const CRay& Ray, u32 AssetID,
     return out;
 }
 
+bool CScriptNode::AllowsRotate() const
+{
+    CScriptTemplate *pTemp = mpInstance->Template();
+    return (pTemp->RotationType() == CScriptTemplate::eRotationEnabled);
+}
+
+bool CScriptNode::AllowsScale() const
+{
+    CScriptTemplate *pTemp = mpInstance->Template();
+    return (pTemp->ScaleType() != CScriptTemplate::eScaleDisabled);
+}
+
 bool CScriptNode::IsVisible() const
 {
     // Reimplementation of CSceneNode::IsVisible() to allow for layer and template visiblity to be taken into account
