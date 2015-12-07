@@ -12,15 +12,15 @@ CLight::CLight()
     mDirection = skDefaultLightDir;
     mDistAttenCoefficients = CVector3f(0.f, 1.f, 0.f);
     mAngleAttenCoefficients = CVector3f(0.f, 1.f, 0.f);
-    mRadius = 0.f;
-    mIntensity = 0.f;
-    mFlags = CLIGHT_NO_RADIUS | CLIGHT_NO_INTENSITY;
+    mCachedRadius = 0.f;
+    mCachedIntensity = 0.f;
+    mDirtyFlags = CLIGHT_NO_RADIUS | CLIGHT_NO_INTENSITY;
 }
 
 // ************ DATA MANIPULATION ************
 
 // This function is reverse engineered from the kiosk demo's code
-float CLight::CalculateRadius()
+float CLight::CalculateRadius() const
 {
     if ((mDistAttenCoefficients.y >= FLT_EPSILON) ||
         (mDistAttenCoefficients.z >= FLT_EPSILON))
@@ -53,7 +53,7 @@ float CLight::CalculateRadius()
 }
 
 // This function is also reverse engineered from the kiosk demo's code
-float CLight::CalculateIntensity()
+float CLight::CalculateIntensity() const
 {
     float Multiplier = (mType == eCustom) ? mAngleAttenCoefficients.x : 1.0f;
     float ColorR = float(mColor.r) / 255.f;
@@ -118,26 +118,26 @@ CVector3f CLight::GetAngleAttenuation() const
     return mAngleAttenCoefficients;
 }
 
-float CLight::GetRadius()
+float CLight::GetRadius() const
 {
-    if (mFlags & CLIGHT_NO_RADIUS)
+    if (mDirtyFlags & CLIGHT_NO_RADIUS)
     {
-        mRadius = CalculateRadius();
-        mFlags &= ~CLIGHT_NO_RADIUS;
+        mCachedRadius = CalculateRadius();
+        mDirtyFlags &= ~CLIGHT_NO_RADIUS;
     }
 
-    return mRadius * 2;
+    return mCachedRadius * 2;
 }
 
-float CLight::GetIntensity()
+float CLight::GetIntensity() const
 {
-    if (mFlags & CLIGHT_NO_INTENSITY)
+    if (mDirtyFlags & CLIGHT_NO_INTENSITY)
     {
-        mIntensity = CalculateIntensity();
-        mFlags &= ~CLIGHT_NO_INTENSITY;
+        mCachedIntensity = CalculateIntensity();
+        mDirtyFlags &= ~CLIGHT_NO_INTENSITY;
     }
 
-    return mIntensity;
+    return mCachedIntensity;
 }
 
 // ************ SETTERS ************
@@ -159,7 +159,7 @@ void CLight::SetDirection(const CVector3f& Direction)
 void CLight::SetColor(const CColor& Color)
 {
     mColor = Color;
-    mFlags = CLIGHT_NO_RADIUS | CLIGHT_NO_INTENSITY;
+    mDirtyFlags = CLIGHT_NO_RADIUS | CLIGHT_NO_INTENSITY;
 }
 
 void CLight::SetSpotCutoff(float Cutoff)

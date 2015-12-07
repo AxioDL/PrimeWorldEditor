@@ -13,36 +13,36 @@ CCamera::CCamera()
     mYaw = -Math::skHalfPi;
     mPitch = 0.0f;
     SetOrbit(CVector3f(0), 5.f);
-    Update();
 
     mMoveSpeed = 1.f;
     mLookSpeed = 1.f;
-    mViewOutdated = true;
-    mProjectionOutdated = true;
-    mFrustumPlanesOutdated = true;
+    mTransformDirty = true;
+    mViewDirty = true;
+    mProjectionDirty = true;
+    mFrustumPlanesDirty = true;
 }
 
 CCamera::CCamera(CVector3f Position, CVector3f /*Target*/)
 {
     // todo: make it actually look at the target!
+    // don't actually use this constructor, it's unfinished and won't work properly
     mMode = eFreeCamera;
     mMoveSpeed = 1.f;
     mLookSpeed = 1.f;
     mPosition = Position;
     mYaw = -Math::skHalfPi;
     mPitch = 0.0f;
-    Update();
 }
 
 void CCamera::Pan(float XAmount, float YAmount)
 {
     if (mMode == eFreeCamera)
     {
-        Update();
         mPosition += mRightVector * (XAmount * mMoveSpeed);
         mPosition += mUpVector * (YAmount * mMoveSpeed);
-        mViewOutdated = true;
-        mFrustumPlanesOutdated = true;
+        mTransformDirty = true;
+        mViewDirty = true;
+        mFrustumPlanesDirty = true;
     }
 
     else
@@ -53,24 +53,26 @@ void CCamera::Rotate(float XAmount, float YAmount)
 {
     mYaw -= (XAmount * mLookSpeed * 0.3f);
     mPitch -= (YAmount * mLookSpeed * 0.3f);
+    ValidatePitch();
 
-    mViewOutdated = true;
-    mFrustumPlanesOutdated = true;
+    mTransformDirty = true;
+    mViewDirty = true;
+    mFrustumPlanesDirty = true;
 }
 
 void CCamera::Zoom(float Amount)
 {
     if (mMode == eFreeCamera)
-    {
-        Update();
         mPosition += mDirection * (Amount * mMoveSpeed);
-    }
 
     else
+    {
         mOrbitDistance -= Amount * mMoveSpeed;
+        mTransformDirty = true;
+    }
 
-    mViewOutdated = true;
-    mFrustumPlanesOutdated = true;
+    mViewDirty = true;
+    mFrustumPlanesDirty = true;
 }
 
 void CCamera::Snap(CVector3f Position)
@@ -78,9 +80,9 @@ void CCamera::Snap(CVector3f Position)
     mPosition = Position;
     mYaw = -Math::skHalfPi;
     mPitch = 0.0f;
-    mViewOutdated = true;
-    mFrustumPlanesOutdated = true;
-    Update();
+    mTransformDirty = true;
+    mViewDirty = true;
+    mFrustumPlanesDirty = true;
 }
 
 void CCamera::ProcessKeyInput(EKeyInputs KeyFlags, double DeltaTime)
@@ -117,7 +119,7 @@ void CCamera::ProcessMouseInput(EKeyInputs KeyFlags, EMouseInputs MouseFlags, fl
     }
 }
 
-CRay CCamera::CastRay(CVector2f DeviceCoords)
+CRay CCamera::CastRay(CVector2f DeviceCoords) const
 {
     CMatrix4f InverseVP = (ViewMatrix().Transpose() * ProjectionMatrix().Transpose()).Inverse();
 
@@ -134,8 +136,11 @@ CRay CCamera::CastRay(CVector2f DeviceCoords)
 void CCamera::SetMoveMode(ECameraMoveMode Mode)
 {
     mMode = Mode;
-    mViewOutdated = true;
-    mFrustumPlanesOutdated = true;
+    mViewDirty = true;
+    mFrustumPlanesDirty = true;
+
+    if (mMode == eOrbitCamera)
+        mTransformDirty = true;
 }
 
 void CCamera::SetOrbit(const CVector3f& OrbitTarget, float Distance)
@@ -145,24 +150,34 @@ void CCamera::SetOrbit(const CVector3f& OrbitTarget, float Distance)
 
     if (mMode == eOrbitCamera)
     {
-        mViewOutdated = true;
-        mFrustumPlanesOutdated = true;
+        mTransformDirty = true;
+        mViewDirty = true;
+        mFrustumPlanesDirty = true;
     }
 }
 
-void CCamera::SetOrbit(const CAABox& OrbitTarget, float DistScale /*= 2.5f*/)
+void CCamera::SetOrbit(const CAABox& OrbitTarget, float DistScale /*= 4.f*/)
 {
     CVector3f Min = OrbitTarget.Min();
     CVector3f Max = OrbitTarget.Max();
 
     mOrbitTarget = OrbitTarget.Center();
-    mOrbitDistance = ((Max.x - Min.x) + (Max.y - Min.y) + (Max.z - Min.z)) / 3.f;
-    mOrbitDistance *= DistScale;
+
+    // Find largest extent
+    CVector3f Extent = (Max - Min) / 2.f;
+    float Dist = 0.f;
+
+    if (Extent.x >= Extent.y && Extent.x >= Extent.z) Dist = Extent.x;
+    else if (Extent.y >= Extent.x && Extent.y >= Extent.z) Dist = Extent.y;
+    else Dist = Extent.z;
+
+    mOrbitDistance = Dist * DistScale;
 
     if (mMode == eOrbitCamera)
     {
-        mViewOutdated = true;
-        mFrustumPlanesOutdated = true;
+        mTransformDirty = true;
+        mViewDirty = true;
+        mFrustumPlanesDirty = true;
     }
 }
 
@@ -172,12 +187,13 @@ void CCamera::SetOrbitDistance(float Distance)
 
     if (mMode == eOrbitCamera)
     {
-        mViewOutdated = true;
-        mFrustumPlanesOutdated = true;
+        mTransformDirty = true;
+        mViewDirty = true;
+        mFrustumPlanesDirty = true;
     }
 }
 
-void CCamera::LoadMatrices()
+void CCamera::LoadMatrices() const
 {
     CGraphics::sMVPBlock.ViewMatrix = ViewMatrix();
     CGraphics::sMVPBlock.ProjectionMatrix = ProjectionMatrix();
@@ -187,21 +203,25 @@ void CCamera::LoadMatrices()
 // ************ GETTERS ************
 CVector3f CCamera::Position() const
 {
+    UpdateTransform();
     return mPosition;
 }
 
 CVector3f CCamera::Direction() const
 {
+    UpdateTransform();
     return mDirection;
 }
 
 CVector3f CCamera::UpVector() const
 {
+    UpdateTransform();
     return mUpVector;
 }
 
 CVector3f CCamera::RightVector() const
 {
+    UpdateTransform();
     return mRightVector;
 }
 
@@ -225,53 +245,36 @@ ECameraMoveMode CCamera::MoveMode() const
     return mMode;
 }
 
-const CMatrix4f& CCamera::ViewMatrix()
+const CMatrix4f& CCamera::ViewMatrix() const
 {
-    if (mViewOutdated)
-        UpdateView();
-
-    return mCachedViewMatrix;
+    UpdateView();
+    return mViewMatrix;
 }
 
-const CMatrix4f& CCamera::ProjectionMatrix()
+const CMatrix4f& CCamera::ProjectionMatrix() const
 {
-    if (mProjectionOutdated)
-        UpdateProjection();
-
-    return mCachedProjectionMatrix;
+    UpdateProjection();
+    return mProjectionMatrix;
 }
 
-const CFrustumPlanes& CCamera::FrustumPlanes()
+const CFrustumPlanes& CCamera::FrustumPlanes() const
 {
-    if (mFrustumPlanesOutdated)
-        UpdateFrustum();
-
-    return mCachedFrustumPlanes;
+    UpdateFrustum();
+    return mFrustumPlanes;
 }
 
 // ************ SETTERS ************
-void CCamera::SetPosition(CVector3f Position)
-{
-    mPosition = Position;
-    mViewOutdated = true;
-    mFrustumPlanesOutdated = true;
-}
-
-void CCamera::SetDirection(CVector3f Direction)
-{
-    mDirection = Direction;
-    mViewOutdated = true;
-    mFrustumPlanesOutdated = true;
-}
-
 void CCamera::SetYaw(float Yaw)
 {
     mYaw = Yaw;
+    mTransformDirty = true;
 }
 
 void CCamera::SetPitch(float Pitch)
 {
     mPitch = Pitch;
+    ValidatePitch();
+    mTransformDirty = true;
 }
 
 void CCamera::SetMoveSpeed(float MoveSpeed)
@@ -287,62 +290,81 @@ void CCamera::SetLookSpeed(float LookSpeed)
 void CCamera::SetAspectRatio(float AspectRatio)
 {
     mAspectRatio = AspectRatio;
-    mProjectionOutdated = true;
-    mFrustumPlanesOutdated = true;
+    mProjectionDirty = true;
+    mFrustumPlanesDirty = true;
 }
 
 // ************ PRIVATE ************
-void CCamera::Update()
+void CCamera::ValidatePitch()
 {
-    // Update direction
+    // This function mainly just exists to ensure the camera doesn't flip upside down
     if (mPitch > Math::skHalfPi)  mPitch = Math::skHalfPi;
     if (mPitch < -Math::skHalfPi) mPitch = -Math::skHalfPi;
-
-    mDirection = CVector3f(
-                 cos(mPitch) * cos(mYaw),
-                 cos(mPitch) * sin(mYaw),
-                 sin(mPitch)
-                 );
-
-    mRightVector = CVector3f(
-        cos(mYaw - Math::skHalfPi),
-        sin(mYaw - Math::skHalfPi),
-        0
-    );
-
-    mUpVector = mRightVector.Cross(mDirection);
-
-    // Update position
-    if (mMode == eOrbitCamera)
-    {
-        if (mOrbitDistance < 1.f) mOrbitDistance = 1.f;
-        mPosition = mOrbitTarget + (mDirection * -mOrbitDistance);
-    }
-
-    mViewOutdated = true;
-    mFrustumPlanesOutdated = true;
 }
 
-void CCamera::UpdateView()
+void CCamera::UpdateTransform() const
+{
+    // Transform should be marked dirty when pitch, yaw, or orbit target/distance are changed
+    if (mTransformDirty)
+    {
+        mDirection = CVector3f(
+                     cos(mPitch) * cos(mYaw),
+                     cos(mPitch) * sin(mYaw),
+                     sin(mPitch)
+                     );
+
+        mRightVector = CVector3f(
+            cos(mYaw - Math::skHalfPi),
+            sin(mYaw - Math::skHalfPi),
+            0
+        );
+
+        mUpVector = mRightVector.Cross(mDirection);
+
+        // Update position
+        if (mMode == eOrbitCamera)
+        {
+            if (mOrbitDistance < 1.f) mOrbitDistance = 1.f;
+            mPosition = mOrbitTarget + (mDirection * -mOrbitDistance);
+        }
+
+        mViewDirty = true;
+        mFrustumPlanesDirty = true;
+        mTransformDirty = false;
+    }
+}
+
+void CCamera::UpdateView() const
 {
     // todo: don't use glm
-    Update();
+    UpdateTransform();
 
-    glm::vec3 glmpos(mPosition.x, mPosition.y, mPosition.z);
-    glm::vec3 glmdir(mDirection.x, mDirection.y, mDirection.z);
-    glm::vec3 glmup(mUpVector.x, mUpVector.y, mUpVector.z);
-    mCachedViewMatrix = CMatrix4f::FromGlmMat4(glm::lookAt(glmpos, glmpos + glmdir, glmup)).Transpose();
-    mViewOutdated = false;
+    if (mViewDirty)
+    {
+        glm::vec3 glmpos(mPosition.x, mPosition.y, mPosition.z);
+        glm::vec3 glmdir(mDirection.x, mDirection.y, mDirection.z);
+        glm::vec3 glmup(mUpVector.x, mUpVector.y, mUpVector.z);
+        mViewMatrix = CMatrix4f::FromGlmMat4(glm::lookAt(glmpos, glmpos + glmdir, glmup)).Transpose();
+        mViewDirty = false;
+    }
 }
 
-void CCamera::UpdateProjection()
+void CCamera::UpdateProjection() const
 {
-    mCachedProjectionMatrix = Math::PerspectiveMatrix(55.f, mAspectRatio, 0.1f, 4096.f);
-    mProjectionOutdated = false;
+    if (mProjectionDirty)
+    {
+        mProjectionMatrix = Math::PerspectiveMatrix(55.f, mAspectRatio, 0.1f, 4096.f);
+        mProjectionDirty = false;
+    }
 }
 
-void CCamera::UpdateFrustum()
+void CCamera::UpdateFrustum() const
 {
-    mCachedFrustumPlanes.SetPlanes(mPosition, mDirection, 55.f, mAspectRatio, 0.1f, 4096.f);
-    mFrustumPlanesOutdated = false;
+    UpdateTransform();
+
+    if (mFrustumPlanesDirty)
+    {
+        mFrustumPlanes.SetPlanes(mPosition, mDirection, 55.f, mAspectRatio, 0.1f, 4096.f);
+        mFrustumPlanesDirty = false;
+    }
 }

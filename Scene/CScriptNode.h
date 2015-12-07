@@ -20,6 +20,7 @@ class CScriptNode : public CSceneNode
 
     bool mHasValidPosition;
     bool mHasVolumePreview;
+    float mScaleMultiplier;
     CModelNode *mpVolumePreviewNode;
 
     CLightParameters *mpLightParameters;
@@ -36,12 +37,16 @@ public:
     CColor TintColor(const SViewInfo &ViewInfo) const;
     CColor WireframeColor() const;
 
-    CScriptObject* Object();
-    CModel* ActiveModel();
     void GeneratePosition();
-    bool HasPreviewVolume();
-    CAABox PreviewVolumeAABox();
-    CVector2f BillboardScale();
+    CScriptObject* Object() const;
+    CModel* ActiveModel() const;
+    bool UsesModel() const;
+    bool HasPreviewVolume() const;
+    CAABox PreviewVolumeAABox() const;
+    CVector2f BillboardScale() const;
+
+protected:
+    void CalculateTransform(CTransform4f& rOut) const;
 };
 
 #endif // CSCRIPTNODE_H

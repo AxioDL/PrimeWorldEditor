@@ -29,15 +29,11 @@ CScriptNode::CScriptNode(CSceneManager *pScene, CSceneNode *pParent, CScriptObje
         // Determine transform
         mPosition = mpInstance->Position();
         mRotation = CQuaternion::FromEuler(mpInstance->Rotation());
-        SetName("[" + pTemp->TemplateName(mpInstance->NumProperties()) + "] " + mpInstance->InstanceName());
-
-        if (pTemp->ScaleType() == CScriptTemplate::eScaleEnabled)
-        {
-            mScale = mpInstance->Scale();
-            mScaleMultiplier = mpInstance->Template()->PreviewScale();
-        }
-
+        mScale = mpInstance->Scale();
+        mScaleMultiplier = mpInstance->Template()->PreviewScale();
         MarkTransformChanged();
+
+        SetName("[" + pTemp->TemplateName(mpInstance->NumProperties()) + "] " + mpInstance->InstanceName());
 
         // Determine display assets
         mpActiveModel = mpInstance->GetDisplayModel();
@@ -72,8 +68,7 @@ CScriptNode::CScriptNode(CSceneManager *pScene, CSceneNode *pParent, CScriptObje
             if (pVolumeModel)
             {
                 mpVolumePreviewNode = new CModelNode(pScene, this, pVolumeModel);
-                mpVolumePreviewNode->SetInheritance(true, (shape != eAxisAlignedBoxShape), false);
-                mpVolumePreviewNode->Scale(mpInstance->Scale());
+                mpVolumePreviewNode->SetInheritance(true, (shape != eAxisAlignedBoxShape), true);
                 mpVolumePreviewNode->ForceAlphaEnabled(true);
             }
         }
@@ -162,7 +157,7 @@ void CScriptNode::Draw(ERenderOptions Options, int ComponentIndex, const SViewIn
     if (!mpInstance) return;
 
     // Draw model
-    if (mpActiveModel || !mpBillboard)
+    if (UsesModel())
     {
         CGraphics::SetupAmbientColor();
         CGraphics::UpdateVertexBlock();
@@ -204,7 +199,7 @@ void CScriptNode::DrawSelection()
     glBlendFunc(GL_ONE, GL_ZERO);
 
     // Draw wireframe for models; billboards only get tinted
-    if (mpActiveModel || !mpBillboard)
+    if (UsesModel())
     {
         LoadModelMatrix();
         CModel *pModel = (mpActiveModel ? mpActiveModel : CDrawUtil::GetCubeModel());
@@ -258,7 +253,7 @@ void CScriptNode::RayAABoxIntersectTest(CRayCollisionTester& Tester, const SView
     // Otherwise, proceed with the ray test as normal...
     const CRay& Ray = Tester.Ray();
 
-    if (mpActiveModel || !mpBillboard)
+    if (UsesModel())
     {
         std::pair<bool,float> BoxResult = AABox().IntersectsRay(Ray);
 
@@ -294,7 +289,7 @@ SRayIntersection CScriptNode::RayNodeIntersectTest(const CRay& Ray, u32 AssetID,
     if (options & eDrawObjects || ViewInfo.GameMode)
     {
         // Model test
-        if (mpActiveModel || !mpBillboard)
+        if (UsesModel())
         {
             CModel *pModel = (mpActiveModel ? mpActiveModel : CDrawUtil::GetCubeModel());
 
@@ -381,21 +376,6 @@ CColor CScriptNode::TintColor(const SViewInfo &ViewInfo) const
     return BaseColor;
 }
 
-CColor CScriptNode::WireframeColor() const
-{
-    return CColor((u8) 12, 135, 194, 255);
-}
-
-CScriptObject* CScriptNode::Object()
-{
-    return mpInstance;
-}
-
-CModel* CScriptNode::ActiveModel()
-{
-    return mpActiveModel;
-}
-
 void CScriptNode::GeneratePosition()
 {
     if  (!mHasValidPosition)
@@ -457,12 +437,32 @@ void CScriptNode::GeneratePosition()
     }
 }
 
-bool CScriptNode::HasPreviewVolume()
+CColor CScriptNode::WireframeColor() const
+{
+    return CColor((u8) 12, 135, 194, 255);
+}
+
+CScriptObject* CScriptNode::Object() const
+{
+    return mpInstance;
+}
+
+CModel* CScriptNode::ActiveModel() const
+{
+    return mpActiveModel;
+}
+
+bool CScriptNode::UsesModel() const
+{
+    return ((mpActiveModel != nullptr) || (mpBillboard == nullptr));
+}
+
+bool CScriptNode::HasPreviewVolume() const
 {
     return mHasVolumePreview;
 }
 
-CAABox CScriptNode::PreviewVolumeAABox()
+CAABox CScriptNode::PreviewVolumeAABox() const
 {
     if (!mHasVolumePreview)
         return CAABox::skZero;
@@ -470,8 +470,25 @@ CAABox CScriptNode::PreviewVolumeAABox()
         return mpVolumePreviewNode->AABox();
 }
 
-CVector2f CScriptNode::BillboardScale()
+CVector2f CScriptNode::BillboardScale() const
 {
     CVector2f out = (mpInstance->Template()->ScaleType() == CScriptTemplate::eScaleEnabled ? AbsoluteScale().xz() : CVector2f(1.f));
     return out * 0.5f;
+}
+
+// ************ PROTECTED ************
+void CScriptNode::CalculateTransform(CTransform4f& rOut) const
+{
+    CScriptTemplate *pTemp = mpInstance->Template();
+
+    if (pTemp->ScaleType() != CScriptTemplate::eScaleDisabled)
+    {
+        CVector3f Scale = (HasPreviewVolume() ? CVector3f::skOne : AbsoluteScale());
+        rOut.Scale(Scale * mScaleMultiplier);
+    }
+
+    if (UsesModel() && pTemp->RotationType() == CScriptTemplate::eRotationEnabled)
+        rOut.Rotate(AbsoluteRotation());
+
+    rOut.Translate(AbsolutePosition());
 }

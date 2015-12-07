@@ -134,3 +134,9 @@ CVector2f CLightNode::BillboardScale()
 {
     return AbsoluteScale().xz() * 0.75f;
 }
+
+void CLightNode::CalculateTransform(CTransform4f& rOut) const
+{
+    // Billboards don't rotate and their scale is applied separately
+    rOut.Translate(AbsolutePosition());
+}

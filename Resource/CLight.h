@@ -6,12 +6,9 @@
 #include <Common/CVector3f.h>
 #include <GL/glew.h>
 
-/**
- * CLight is currently heavily based on the lights system from Metroid Prime,
+/* CLight is currently heavily based on the lights system from Metroid Prime,
  * including code reverse engineered from the game's executable. Not yet sure
- * how much needs to be modified to properly support Prime 3 and DKCR; they
- * have a new light structure.
- */
+ * how much needs to be modified to properly support DKCR. */
 enum ELightType
 {
     eLocalAmbient = 0,
@@ -31,17 +28,17 @@ class CLight
     CVector3f mDistAttenCoefficients;
     CVector3f mAngleAttenCoefficients;
 
-    float mRadius;
-    float mIntensity;
-    u8 mFlags;
+    mutable float mCachedRadius;
+    mutable float mCachedIntensity;
+    mutable u8 mDirtyFlags;
 
 public:
     CLight();
 
 private:
     // Data Manipulation
-    float CalculateRadius();
-    float CalculateIntensity();
+    float CalculateRadius() const;
+    float CalculateIntensity() const;
     CVector3f CalculateSpotAngleAtten();
 
 public:
@@ -53,8 +50,8 @@ public:
     CColor GetColor() const;
     CVector3f GetDistAttenuation() const;
     CVector3f GetAngleAttenuation() const;
-    float GetRadius();
-    float GetIntensity();
+    float GetRadius() const;
+    float GetIntensity() const;
 
     // Setters
     void SetLayer(u32 index);

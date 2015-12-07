@@ -16,28 +16,38 @@ enum ECameraMoveMode
     eFreeCamera, eOrbitCamera
 };
 
+/* This class uses a lot of mutable members as an optimization so that they can
+ * be updated as infrequently as possible (eg only when the values are requested
+ * the next time after changes are made) while still always returning the correct
+ * value via the const get functions. They are not modified in const functions
+ * beyond ensuring that all data is valid and synced with everything else (eg
+ * mPosition is only modified to ensure it's correct in orbit mode given the
+ * target/distance/pitch/yaw; it won't be modified as a camera snap in a const
+ * function). */
 class CCamera
 {
     ECameraMoveMode mMode;
-    CVector3f mPosition;
-    CVector3f mDirection;
-    CVector3f mRightVector;
-    CVector3f mUpVector;
+    mutable CVector3f mPosition;
+    mutable CVector3f mDirection;
+    mutable CVector3f mRightVector;
+    mutable CVector3f mUpVector;
     float mAspectRatio;
 
     float mYaw;
     float mPitch;
     CVector3f mOrbitTarget;
-    float mOrbitDistance;
+    mutable float mOrbitDistance;
     float mMoveSpeed;
     float mLookSpeed;
 
-    CMatrix4f mCachedViewMatrix;
-    CMatrix4f mCachedProjectionMatrix;
-    CFrustumPlanes mCachedFrustumPlanes;
-    bool mViewOutdated;
-    bool mProjectionOutdated;
-    bool mFrustumPlanesOutdated;
+    mutable CMatrix4f mViewMatrix;
+    mutable CMatrix4f mProjectionMatrix;
+    mutable CFrustumPlanes mFrustumPlanes;
+
+    mutable bool mTransformDirty;
+    mutable bool mViewDirty;
+    mutable bool mProjectionDirty;
+    mutable bool mFrustumPlanesDirty;
 
 public:
     CCamera();
@@ -49,12 +59,12 @@ public:
     void Snap(CVector3f Position);
     void ProcessKeyInput(EKeyInputs KeyFlags, double DeltaTime);
     void ProcessMouseInput(EKeyInputs KeyFlags, EMouseInputs MouseFlags, float XMovement, float YMovement);
-    CRay CastRay(CVector2f DeviceCoords);
-    void LoadMatrices();
+    CRay CastRay(CVector2f DeviceCoords) const;
+    void LoadMatrices() const;
 
     void SetMoveMode(ECameraMoveMode Mode);
     void SetOrbit(const CVector3f& OrbitTarget, float Distance);
-    void SetOrbit(const CAABox& OrbitTarget, float DistScale = 2.5f);
+    void SetOrbit(const CAABox& OrbitTarget, float DistScale = 4.f);
     void SetOrbitDistance(float Distance);
 
     // Getters
@@ -66,13 +76,11 @@ public:
     float Pitch() const;
     float FieldOfView() const;
     ECameraMoveMode MoveMode() const;
-    const CMatrix4f& ViewMatrix();
-    const CMatrix4f& ProjectionMatrix();
-    const CFrustumPlanes& FrustumPlanes();
+    const CMatrix4f& ViewMatrix() const;
+    const CMatrix4f& ProjectionMatrix() const;
+    const CFrustumPlanes& FrustumPlanes() const;
 
     // Setters
-    void SetPosition(CVector3f Position);
-    void SetDirection(CVector3f Direction);
     void SetYaw(float Yaw);
     void SetPitch(float Pitch);
     void SetMoveSpeed(float MoveSpeed);
@@ -81,10 +89,11 @@ public:
 
     // Private
 private:
-    void Update();
-    void UpdateView();
-    void UpdateProjection();
-    void UpdateFrustum();
+    void ValidatePitch();
+    void UpdateTransform() const;
+    void UpdateView() const;
+    void UpdateProjection() const;
+    void UpdateFrustum() const;
 };
 
 #endif // CCAMERA_H

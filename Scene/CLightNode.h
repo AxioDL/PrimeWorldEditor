@@ -17,6 +17,9 @@ public:
     SRayIntersection RayNodeIntersectTest(const CRay &Ray, u32 AssetID, const SViewInfo& ViewInfo);
     CLight* Light();
     CVector2f BillboardScale();
+
+protected:
+    void CalculateTransform(CTransform4f& rOut) const;
 };
 
 #endif // CLIGHTNODE_H

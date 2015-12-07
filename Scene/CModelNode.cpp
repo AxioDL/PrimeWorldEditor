@@ -113,6 +113,8 @@ void CModelNode::SetModel(CModel *pModel)
         SetName(pModel->Source());
         mLocalAABox = mpModel->AABox();
     }
+
+    MarkTransformChanged();
 }
 
 void CModelNode::ForceAlphaEnabled(bool Enable)

@@ -180,7 +180,7 @@ void CWorldEditor::UpdateGizmoUI()
                 if (mGizmoTransforming && mGizmo.HasTransformed())
                     spinBoxValue = mGizmo.TotalScale();
                 else if (!mSelection.empty())
-                    spinBoxValue = mSelection.front()->LocalScale();
+                    spinBoxValue = mSelection.front()->AbsoluteScale();
                 break;
             }
         }
@@ -289,7 +289,7 @@ void CWorldEditor::UpdateCameraOrbit()
     if (!mSelection.isEmpty())
         pCamera->SetOrbit(mSelectionBounds);
     else if (mpArea)
-        pCamera->SetOrbit(mpArea->AABox(), 0.8f);
+        pCamera->SetOrbit(mpArea->AABox(), 1.5f);
 }
 
 void CWorldEditor::OnCameraSpeedChange(double speed)
@@ -325,7 +325,7 @@ void CWorldEditor::OnTransformSpinBoxModified(CVector3f value)
 
         case CGizmo::eScale:
         {
-            CVector3f delta = value / mSelection.front()->LocalScale();
+            CVector3f delta = value / mSelection.front()->AbsoluteScale();
             mUndoStack.push(new CScaleNodeCommand(this, mSelection, CVector3f::skZero, delta));
             break;
         }

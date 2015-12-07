@@ -64,7 +64,7 @@ void CDamageableTriggerExtra::CreateMaterial()
     mpMat->SetBlendMode(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     mpMat->SetLightingEnabled(true);
     mpMat->SetOptions(CMaterial::eTransparent);
-    mpMat->SetKonst(CColor((float) 1.f, 1.f, 1.f, 51.f / 255), 0);
+    mpMat->SetKonst(CColor((float) 1.f, 1.f, 1.f, 0.2f), 0);
     mpMat->SetNumPasses(3);
 
     CMaterialPass *pPassA = mpMat->Pass(0);

@@ -21,9 +21,9 @@ class CSceneManager;
 class CSceneNode : public IRenderable
 {
 private:
-    CTransform4f _mCachedTransform;
-    CAABox _mCachedAABox;
-    bool _mTransformOutdated;
+    mutable CTransform4f _mCachedTransform;
+    mutable CAABox _mCachedAABox;
+    mutable bool _mTransformDirty;
 
     bool _mInheritsPosition;
     bool _mInheritsRotation;
@@ -38,7 +38,6 @@ protected:
     CVector3f mPosition;
     CQuaternion mRotation;
     CVector3f mScale;
-    CVector3f mScaleMultiplier;
     CAABox mLocalAABox;
 
     bool mMouseHovering;
@@ -70,30 +69,32 @@ public:
     void LoadModelMatrix();
     void BuildLightList(CGameArea *pArea);
     void LoadLights(const SViewInfo& ViewInfo);
-    void DrawBoundingBox();
+    void DrawBoundingBox() const;
     void AddSurfacesToRenderer(CRenderer *pRenderer, CModel *pModel, u32 MatSet, const SViewInfo& ViewInfo);
 
     // Transform
     void Translate(const CVector3f& translation, ETransformSpace transformSpace);
     void Rotate(const CQuaternion& rotation, ETransformSpace transformSpace);
     void Scale(const CVector3f& scale);
-    void UpdateTransform();
-    void ForceRecalculateTransform();
-    void MarkTransformChanged();
-    const CTransform4f& Transform();
+    const CTransform4f& Transform() const;
+protected:
+    void MarkTransformChanged() const;
+    void ForceRecalculateTransform() const;
+    virtual void CalculateTransform(CTransform4f& rOut) const;
 
+public:
     // Getters
     TString Name() const;
     CSceneNode* Parent() const;
-    CSceneManager* Scene();
+    CSceneManager* Scene() const;
     CVector3f LocalPosition() const;
     CVector3f AbsolutePosition() const;
     CQuaternion LocalRotation() const;
     CQuaternion AbsoluteRotation() const;
     CVector3f LocalScale() const;
     CVector3f AbsoluteScale() const;
-    CAABox AABox();
-    CVector3f CenterPoint();
+    CAABox AABox() const;
+    CVector3f CenterPoint() const;
     u32 LightLayerIndex() const;
     bool MarkedVisible() const;
     bool IsMouseHovering() const;

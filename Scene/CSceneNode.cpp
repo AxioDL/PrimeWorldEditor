@@ -21,8 +21,7 @@ CSceneNode::CSceneNode(CSceneManager *pScene, CSceneNode *pParent)
     mPosition = CVector3f::skZero;
     mRotation = CQuaternion::skIdentity;
     mScale = CVector3f::skOne;
-    mScaleMultiplier = CVector3f::skOne;
-    _mTransformOutdated = true;
+    _mTransformDirty = true;
 
     _mInheritsPosition = true;
     _mInheritsRotation = true;
@@ -208,7 +207,7 @@ void CSceneNode::LoadLights(const SViewInfo& ViewInfo)
     CGraphics::UpdateLightBlock();
 }
 
-void CSceneNode::DrawBoundingBox()
+void CSceneNode::DrawBoundingBox() const
 {
     CDrawUtil::DrawWireCube(AABox(), CColor::skWhite);
 }
@@ -267,50 +266,47 @@ void CSceneNode::Scale(const CVector3f& scale)
     MarkTransformChanged();
 }
 
-void CSceneNode::UpdateTransform()
-{
-    if (_mTransformOutdated)
-    {
-        ForceRecalculateTransform();
-        _mTransformOutdated = false;
-    }
-}
-
-void CSceneNode::ForceRecalculateTransform()
+void CSceneNode::ForceRecalculateTransform() const
 {
     _mCachedTransform = CTransform4f::skIdentity;
-    _mCachedTransform.Scale(AbsoluteScale());
-    _mCachedTransform.Rotate(AbsoluteRotation());
-    _mCachedTransform.Translate(AbsolutePosition());
+    CalculateTransform(_mCachedTransform);
     _mCachedAABox = mLocalAABox.Transformed(_mCachedTransform);
 
     // Sync with children - only needed if caller hasn't marked transform changed already
     // If so, the children will already be marked
-    if (!_mTransformOutdated)
+    if (!_mTransformDirty)
     {
         for (auto it = mChildren.begin(); it != mChildren.end(); it++)
             (*it)->MarkTransformChanged();
     }
-    _mTransformOutdated = false;
+    _mTransformDirty = false;
 }
 
-void CSceneNode::MarkTransformChanged()
+void CSceneNode::MarkTransformChanged() const
 {
-    if (!_mTransformOutdated)
+    if (!_mTransformDirty)
     {
         for (auto it = mChildren.begin(); it != mChildren.end(); it++)
             (*it)->MarkTransformChanged();
     }
 
-    _mTransformOutdated = true;
+    _mTransformDirty = true;
 }
 
-const CTransform4f& CSceneNode::Transform()
+const CTransform4f& CSceneNode::Transform() const
 {
-    if (_mTransformOutdated)
+    if (_mTransformDirty)
         ForceRecalculateTransform();
 
     return _mCachedTransform;
+}
+
+void CSceneNode::CalculateTransform(CTransform4f& rOut) const
+{
+    // Default implementation for virtual function
+    rOut.Scale(AbsoluteScale());
+    rOut.Rotate(AbsoluteRotation());
+    rOut.Translate(AbsolutePosition());
 }
 
 // ************ GETTERS ************
@@ -324,7 +320,7 @@ CSceneNode* CSceneNode::Parent() const
     return mpParent;
 }
 
-CSceneManager* CSceneNode::Scene()
+CSceneManager* CSceneNode::Scene() const
 {
     return mpScene;
 }
@@ -366,7 +362,7 @@ CVector3f CSceneNode::LocalScale() const
 
 CVector3f CSceneNode::AbsoluteScale() const
 {
-    CVector3f ret = mScale * mScaleMultiplier;
+    CVector3f ret = mScale;
 
     if ((mpParent) && (InheritsScale()))
         ret *= mpParent->AbsoluteScale();
@@ -374,15 +370,15 @@ CVector3f CSceneNode::AbsoluteScale() const
     return ret;
 }
 
-CAABox CSceneNode::AABox()
+CAABox CSceneNode::AABox() const
 {
-    if (_mTransformOutdated)
+    if (_mTransformDirty)
         ForceRecalculateTransform();
 
     return _mCachedAABox;
 }
 
-CVector3f CSceneNode::CenterPoint()
+CVector3f CSceneNode::CenterPoint() const
 {
     return AABox().Center();
 }
