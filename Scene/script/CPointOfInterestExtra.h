@@ -9,8 +9,7 @@ class CPointOfInterestExtra : public CScriptExtra
 {
     // Tint POI billboard orange/red depending on scan importance
     CFileProperty *mpScanProperty;
-    CScan *mpScanData;
-    CToken mScanToken;
+    TResPtr<CScan> mpScanData;
 
 public:
     explicit CPointOfInterestExtra(CScriptObject *pInstance, CSceneManager *pScene, CSceneNode *pParent = 0);

@@ -32,8 +32,7 @@ void CStartWindow::on_actionOpen_MLVL_triggered()
     if (WorldFile.isEmpty()) return;
 
     gResCache.SetFolder(TString(WorldFile.toStdString()).GetFileDirectory());
-    mpWorld = (CWorld*) gResCache.GetResource(WorldFile.toStdString());
-    mWorldToken = CToken(mpWorld);
+    mpWorld = gResCache.GetResource(WorldFile.toStdString());
     mpWorldEditor->close();
 
     FillWorldUI();
@@ -156,7 +155,7 @@ void CStartWindow::on_AttachedAreasList_doubleClicked(const QModelIndex &index)
 void CStartWindow::on_LaunchWorldEditorButton_clicked()
 {
     u64 AreaID = mpWorld->GetAreaResourceID(mSelectedAreaIndex);
-    CGameArea *pArea = (CGameArea*) gResCache.GetResource(AreaID, "MREA");
+    TResPtr<CGameArea> pArea = gResCache.GetResource(AreaID, "MREA");
 
     if (!pArea)
     {

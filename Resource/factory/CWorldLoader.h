@@ -8,7 +8,7 @@
 
 class CWorldLoader
 {
-    CWorld *mpWorld;
+    TResPtr<CWorld> mpWorld;
     EGame mVersion;
 
     CWorldLoader();

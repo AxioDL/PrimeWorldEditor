@@ -1,5 +1,6 @@
 #include "CTypesInstanceModel.h"
 #include "../UICommon.h"
+#include <Resource/script/CScriptLayer.h>
 #include <Scene/CScriptNode.h>
 #include <QApplication>
 #include <QIcon>

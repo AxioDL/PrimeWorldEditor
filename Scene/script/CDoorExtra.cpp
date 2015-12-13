@@ -25,20 +25,13 @@ void CDoorExtra::PropertyModified(CPropertyBase *pProperty)
 {
     if (pProperty == mpShieldModelProp)
     {
-        mpShieldModel = (CModel*) mpShieldModelProp->Get();
+        mpShieldModel = mpShieldModelProp->Get();
 
-        if (mpShieldModel && mpShieldModel->Type() == eModel)
-        {
-            mModelToken = CToken(mpShieldModel);
+        if (mpShieldModel)
             mLocalAABox = mpShieldModel->AABox();
-        }
 
         else
-        {
-            mpShieldModel = nullptr;
-            mModelToken.Unlock();
             mLocalAABox = CAABox::skInfinite;
-        }
 
         MarkTransformChanged();
     }

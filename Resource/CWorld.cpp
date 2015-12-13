@@ -1,4 +1,5 @@
 #include "CWorld.h"
+#include "script/CScriptLayer.h"
 #include <Core/CResCache.h>
 
 CWorld::CWorld() : CResource()

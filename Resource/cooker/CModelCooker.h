@@ -7,7 +7,7 @@
 
 class CModelCooker
 {
-    CModel *mpModel;
+    TResPtr<CModel> mpModel;
     EGame mVersion;
     u32 mNumMatSets;
     u32 mNumSurfaces;

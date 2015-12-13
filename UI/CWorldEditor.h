@@ -17,7 +17,7 @@
 #include <Common/ETransformSpace.h>
 #include <Core/CRenderer.h>
 #include <Core/CSceneManager.h>
-#include <Core/CToken.h>
+#include <Core/TResPtr.h>
 #include <Resource/CGameArea.h>
 #include <Resource/CWorld.h>
 
@@ -30,10 +30,8 @@ class CWorldEditor : public INodeEditor
     Q_OBJECT
     Ui::CWorldEditor *ui;
 
-    CWorld *mpWorld;
-    CGameArea *mpArea;
-    CToken mAreaToken;
-    CToken mWorldToken;
+    TResPtr<CWorld> mpWorld;
+    TResPtr<CGameArea> mpArea;
     QTimer mRefreshTimer;
 
 public:

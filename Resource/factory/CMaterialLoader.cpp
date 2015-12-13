@@ -24,7 +24,7 @@ void CMaterialLoader::ReadPrimeMatSet()
     for (u32 iTex = 0; iTex < numTextures; iTex++)
     {
         u32 TextureID = mpFile->ReadLong();
-        mTextures[iTex] = (CTexture*) gResCache.GetResource(TextureID, "TXTR");
+        mTextures[iTex] = gResCache.GetResource(TextureID, "TXTR");
     }
 
     // Materials
@@ -137,14 +137,9 @@ CMaterial* CMaterialLoader::ReadPrimeMaterial()
         u8 TexSel = mpFile->ReadByte();
 
         if ((TexSel == 0xFF) || (TexSel >= mTextures.size()))
-        {
             pPass->mpTexture = nullptr;
-        }
         else
-        {
             pPass->mpTexture = mTextures[TextureIndices[TexSel]];
-            pPass->mTexToken = CToken(pPass->mpTexture);
-        }
 
         TevCoordIndices[iTev] = mpFile->ReadByte();
     }
@@ -344,9 +339,7 @@ CMaterial* CMaterialLoader::ReadCorruptionMaterial()
                 continue;
             }
 
-            CTexture *pTex = (CTexture*) gResCache.GetResource(TextureID, "TXTR");
-            pPass->mpTexture = pTex;
-            pPass->mTexToken = CToken(pTex);
+            pPass->mpTexture = gResCache.GetResource(TextureID, "TXTR");
 
             pPass->mTexCoordSource = 4 + (u8) mpFile->ReadLong();
             u32 AnimSize = mpFile->ReadLong();

@@ -178,7 +178,7 @@ CCollisionMeshGroup* CCollisionLoader::LoadDCLN(CInputStream &DCLN)
         if (deafbabe != 0xDEAFBABE)
         {
             Log::FileError(DCLN.GetSourceString(), DCLN.Tell() - 4, "Invalid collision magic: " + TString::HexString(deafbabe));
-            delete loader.mpGroup;
+            loader.mpGroup.Delete();
             return nullptr;
         }
 

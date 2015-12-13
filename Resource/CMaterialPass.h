@@ -3,7 +3,7 @@
 
 #include <Common/CFourCC.h>
 #include <Common/CHashFNV1A.h>
-#include <Core/CToken.h>
+#include <Core/TResPtr.h>
 #include <Core/ERenderOptions.h>
 #include <Resource/CTexture.h>
 #include "ETevEnums.h"
@@ -36,8 +36,7 @@ private:
     ETevKSel mKAlphaSel;
     ETevRasSel mRasSel;
     u32 mTexCoordSource; // Should maybe be an enum but worried about conflicts with EVertexDescriptionn
-    CTexture *mpTexture;
-    CToken mTexToken;
+    TResPtr<CTexture> mpTexture;
     EUVAnimMode mAnimMode;
     float mAnimParams[4];
     bool mEnabled;

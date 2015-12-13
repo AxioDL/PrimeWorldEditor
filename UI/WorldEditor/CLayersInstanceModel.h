@@ -24,7 +24,7 @@ public:
 private:
     CWorldEditor *mpEditor;
     CSceneManager *mpScene;
-    CGameArea *mpArea;
+    TResPtr<CGameArea> mpArea;
 
 public:
     explicit CLayersInstanceModel(QObject *pParent = 0);

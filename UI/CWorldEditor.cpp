@@ -107,9 +107,6 @@ void CWorldEditor::SetArea(CWorld *pWorld, CGameArea *pArea)
     // Load new area
     mpArea = pArea;
     mpWorld = pWorld;
-    mAreaToken = CToken(pArea);
-    mWorldToken = CToken(pWorld);
-
     mScene.SetActiveWorld(pWorld);
     mScene.SetActiveArea(pArea);
 

@@ -45,9 +45,9 @@ CModel* CAreaAttributes::SkyModel()
     {
     case ePrime:
     case eEchoes:
-        return (CModel*) static_cast<CFileProperty*>(pBaseStruct->PropertyByIndex(7))->Get();
+        return (CModel*) static_cast<CFileProperty*>(pBaseStruct->PropertyByIndex(7))->Get().RawPointer();
     case eCorruption:
-        return (CModel*) static_cast<CFileProperty*>(pBaseStruct->PropertyByIndex(8))->Get();
+        return (CModel*) static_cast<CFileProperty*>(pBaseStruct->PropertyByIndex(8))->Get().RawPointer();
     default:
         return nullptr;
     }

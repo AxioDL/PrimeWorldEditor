@@ -13,7 +13,7 @@
 #include <Common/CColor.h>
 #include <Common/CVector3f.h>
 #include <Common/TString.h>
-#include <Core/CToken.h>
+#include <Core/TResPtr.h>
 #include <list>
 
 class CScriptTemplate;
@@ -65,47 +65,10 @@ typedef __CProperty<float, eFloatProperty>                     CFloatProperty;
 typedef __CProperty<TString, eStringProperty>                  CStringProperty;
 typedef __CProperty<CVector3f, eVector3Property>               CVector3Property;
 typedef __CProperty<CColor, eColorProperty>                    CColorProperty;
-typedef __CProperty<CResource*, eFileProperty>                 CFileProperty;
+typedef __CProperty<TResPtr<CResource>, eFileProperty>         CFileProperty;
 typedef __CProperty<CAnimationParameters, eAnimParamsProperty> CAnimParamsProperty;
 typedef __CProperty<std::vector<u8>, eArrayProperty>           CArrayProperty;
 typedef __CProperty<std::vector<u8>, eUnknownProperty>         CUnknownProperty;
-
-/*
- * Template specialization for CFileProperty to allow a token for resources
- */
-template <>
-class __CProperty<CResource*, eFileProperty> : public CPropertyBase
-{
-    CResource *mValue;
-    CToken mToken;
-
-public:
-    __CProperty<CResource*, eFileProperty>() {
-        mValue = nullptr;
-    }
-
-    __CProperty<CResource*, eFileProperty>(CResource* v) {
-        mValue = v;
-        mToken = CToken(v);
-    }
-
-    ~__CProperty<CResource*, eFileProperty>() {}
-
-    inline EPropertyType Type() { return eFileProperty; }
-    inline CResource* Get() { return mValue; }
-    inline void Set(CResource *v)
-    {
-        if (mValue != v)
-        {
-            mValue = v;
-            mToken = CToken(v);
-        }
-    }
-    const TStringList& AllowedExtensions()
-    {
-        return static_cast<CFileTemplate*>(Template())->Extensions();
-    }
-};
 
 /*
  * CPropertyStruct is for defining structs of properties.

@@ -17,19 +17,19 @@ void CWorldLoader::LoadPrimeMLVL(CInputStream& MLVL)
     // Header
     if (mVersion < eCorruptionProto)
     {
-        mpWorld->mpWorldName = (CStringTable*) gResCache.GetResource(MLVL.ReadLong(), "STRG");
-        if (mVersion == eEchoes) mpWorld->mpDarkWorldName = (CStringTable*) gResCache.GetResource(MLVL.ReadLong(), "STRG");
+        mpWorld->mpWorldName = gResCache.GetResource(MLVL.ReadLong(), "STRG");
+        if (mVersion == eEchoes) mpWorld->mpDarkWorldName = gResCache.GetResource(MLVL.ReadLong(), "STRG");
         if (mVersion > ePrime)   mpWorld->mUnknown1 = MLVL.ReadLong();
         if (mVersion >= ePrime)  mpWorld->mpSaveWorld = gResCache.GetResource(MLVL.ReadLong(), "SAVW");
-        mpWorld->mpDefaultSkybox = (CModel*) gResCache.GetResource(MLVL.ReadLong(), "CMDL");
+        mpWorld->mpDefaultSkybox = gResCache.GetResource(MLVL.ReadLong(), "CMDL");
     }
 
     else
     {
-        mpWorld->mpWorldName = (CStringTable*) gResCache.GetResource(MLVL.ReadLongLong(), "STRG");
+        mpWorld->mpWorldName = gResCache.GetResource(MLVL.ReadLongLong(), "STRG");
         MLVL.Seek(0x4, SEEK_CUR); // Skipping unknown value
         mpWorld->mpSaveWorld = gResCache.GetResource(MLVL.ReadLongLong(), "SAVW");
-        mpWorld->mpDefaultSkybox = (CModel*) gResCache.GetResource(MLVL.ReadLongLong(), "CMDL");
+        mpWorld->mpDefaultSkybox = gResCache.GetResource(MLVL.ReadLongLong(), "CMDL");
     }
 
     // Memory relays - only in MP1
@@ -60,11 +60,10 @@ void CWorldLoader::LoadPrimeMLVL(CInputStream& MLVL)
         CWorld::SArea *pArea = &mpWorld->mAreas[iArea];
 
         if (mVersion < eCorruptionProto)
-            pArea->pAreaName = (CStringTable*) gResCache.GetResource(MLVL.ReadLong(), "STRG");
+            pArea->pAreaName = gResCache.GetResource(MLVL.ReadLong(), "STRG");
         else
-            pArea->pAreaName = (CStringTable*) gResCache.GetResource(MLVL.ReadLongLong(), "STRG");
+            pArea->pAreaName = gResCache.GetResource(MLVL.ReadLongLong(), "STRG");
 
-        pArea->AreaNameToken = CToken(pArea->pAreaName);
         pArea->Transform = CTransform4f(MLVL);
         pArea->AetherBox = CAABox(MLVL);
 
@@ -217,16 +216,11 @@ void CWorldLoader::LoadPrimeMLVL(CInputStream& MLVL)
 
     // Last part of the file is layer name offsets, but we don't need it
     // todo: Layer ID support for MP3
-    mpWorld->mResTokens[0] = CToken(mpWorld->mpWorldName);
-    mpWorld->mResTokens[1] = CToken(mpWorld->mpDarkWorldName);
-    mpWorld->mResTokens[2] = CToken(mpWorld->mpSaveWorld);
-    mpWorld->mResTokens[3] = CToken(mpWorld->mpDefaultSkybox);
-    mpWorld->mResTokens[4] = CToken(mpWorld->mpMapWorld);
 }
 
 void CWorldLoader::LoadReturnsMLVL(CInputStream& MLVL)
 {
-    mpWorld->mpWorldName = (CStringTable*) gResCache.GetResource(MLVL.ReadLongLong(), "STRG");
+    mpWorld->mpWorldName = gResCache.GetResource(MLVL.ReadLongLong(), "STRG");
 
     bool Check = (MLVL.ReadByte() != 0);
     if (Check)
@@ -236,7 +230,7 @@ void CWorldLoader::LoadReturnsMLVL(CInputStream& MLVL)
     }
 
     mpWorld->mpSaveWorld = gResCache.GetResource(MLVL.ReadLongLong(), "SAVW");
-    mpWorld->mpDefaultSkybox = (CModel*) gResCache.GetResource(MLVL.ReadLongLong(), "CMDL");
+    mpWorld->mpDefaultSkybox = gResCache.GetResource(MLVL.ReadLongLong(), "CMDL");
 
     // Areas
     u32 NumAreas = MLVL.ReadLong();
@@ -247,12 +241,11 @@ void CWorldLoader::LoadReturnsMLVL(CInputStream& MLVL)
         // Area header
         CWorld::SArea *pArea = &mpWorld->mAreas[iArea];
 
-        pArea->pAreaName = (CStringTable*) gResCache.GetResource(MLVL.ReadLongLong(), "STRG");
+        pArea->pAreaName = gResCache.GetResource(MLVL.ReadLongLong(), "STRG");
         pArea->Transform = CTransform4f(MLVL);
         pArea->AetherBox = CAABox(MLVL);
         pArea->FileID = MLVL.ReadLongLong();
         pArea->AreaID = MLVL.ReadLongLong();
-        pArea->AreaNameToken = CToken(pArea->pAreaName);
 
         MLVL.Seek(0x4, SEEK_CUR);
         pArea->InternalName = MLVL.ReadString();
@@ -285,11 +278,6 @@ void CWorldLoader::LoadReturnsMLVL(CInputStream& MLVL)
 
     // Last part of the file is layer name offsets, but we don't need it
     // todo: Layer ID support
-    mpWorld->mResTokens[0] = CToken(mpWorld->mpWorldName);
-    mpWorld->mResTokens[1] = CToken(mpWorld->mpDarkWorldName);
-    mpWorld->mResTokens[2] = CToken(mpWorld->mpSaveWorld);
-    mpWorld->mResTokens[3] = CToken(mpWorld->mpDefaultSkybox);
-    mpWorld->mResTokens[4] = CToken(mpWorld->mpMapWorld);
 }
 
 CWorld* CWorldLoader::LoadMLVL(CInputStream& MLVL)

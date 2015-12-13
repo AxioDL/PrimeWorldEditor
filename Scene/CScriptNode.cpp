@@ -9,6 +9,7 @@
 #include <Core/CResCache.h>
 #include <Core/CSceneManager.h>
 #include <Resource/script/CMasterTemplate.h>
+#include <Resource/script/CScriptLayer.h>
 
 CScriptNode::CScriptNode(CSceneManager *pScene, CSceneNode *pParent, CScriptObject *pObject)
     : CSceneNode(pScene, pParent)
@@ -37,11 +38,7 @@ CScriptNode::CScriptNode(CSceneManager *pScene, CSceneNode *pParent, CScriptObje
 
         // Determine display assets
         mpActiveModel = mpInstance->GetDisplayModel();
-        mModelToken = CToken(mpActiveModel);
-
         mpBillboard = mpInstance->GetBillboard();
-        mBillboardToken = CToken(mpBillboard);
-
         mpCollisionNode->SetCollision(mpInstance->GetCollision());
 
         // Create preview volume node
@@ -51,19 +48,19 @@ CScriptNode::CScriptNode(CSceneManager *pScene, CSceneNode *pParent, CScriptObje
         if (mHasVolumePreview)
         {
             EVolumeShape shape = mpInstance->VolumeShape();
-            CModel *pVolumeModel = nullptr;
+            TResPtr<CModel> pVolumeModel = nullptr;
 
             if ((shape == eAxisAlignedBoxShape) || (shape == eBoxShape))
-                pVolumeModel = (CModel*) gResCache.GetResource("../resources/VolumeBox.cmdl");
+                pVolumeModel = gResCache.GetResource("../resources/VolumeBox.cmdl");
 
             else if (shape == eEllipsoidShape)
-                pVolumeModel = (CModel*) gResCache.GetResource("../resources/VolumeSphere.cmdl");
+                pVolumeModel = gResCache.GetResource("../resources/VolumeSphere.cmdl");
 
             else if (shape == eCylinderShape)
-                pVolumeModel = (CModel*) gResCache.GetResource("../resources/VolumeCylinder.cmdl");
+                pVolumeModel = gResCache.GetResource("../resources/VolumeCylinder.cmdl");
 
             else if (shape == eCylinderLargeShape)
-                pVolumeModel = (CModel*) gResCache.GetResource("../resources/VolumeCylinderLarge.cmdl");
+                pVolumeModel = gResCache.GetResource("../resources/VolumeCylinderLarge.cmdl");
 
             if (pVolumeModel)
             {

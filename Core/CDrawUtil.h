@@ -25,22 +25,18 @@ class CDrawUtil
     static CIndexBuffer mLineIndices;
 
     // Cube
-    static CModel *mpCubeModel;
-    static CToken mCubeToken;
+    static TResPtr<CModel> mpCubeModel;
 
     // Wire Cube
     static CVertexBuffer mWireCubeVertices;
     static CIndexBuffer mWireCubeIndices;
 
     // Sphere
-    static CModel *mpSphereModel;
-    static CModel *mpDoubleSidedSphereModel;
-    static CToken mSphereToken;
-    static CToken mDoubleSidedSphereToken;
+    static TResPtr<CModel> mpSphereModel;
+    static TResPtr<CModel> mpDoubleSidedSphereModel;
 
     // Wire Sphere
-    static CModel *mpWireSphereModel;
-    static CToken mWireSphereToken;
+    static TResPtr<CModel> mpWireSphereModel;
 
     // Shaders
     static CShader *mpColorShader;
@@ -52,12 +48,10 @@ class CDrawUtil
     static CShader *mpTextShader;
 
     // Textures
-    static CTexture *mpCheckerTexture;
-    static CToken mCheckerTextureToken;
+    static TResPtr<CTexture> mpCheckerTexture;
 
-    static CTexture *mpLightTextures[4];
-    static CTexture *mpLightMasks[4];
-    static CToken mLightTextureTokens[8];
+    static TResPtr<CTexture> mpLightTextures[4];
+    static TResPtr<CTexture> mpLightMasks[4];
 
     // Have all the above members been initialized?
     static bool mDrawUtilInitialized;

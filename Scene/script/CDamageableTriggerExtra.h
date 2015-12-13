@@ -23,8 +23,7 @@ class CDamageableTriggerExtra : public CScriptExtra
 
     CVector3f mPlaneSize;
     ERenderSide mRenderSide;
-    CTexture *mpTextures[3];
-    CToken mTextureTokens[3];
+    TResPtr<CTexture> mpTextures[3];
 
     CMaterial *mpMat;
     CVector2f mCoordScale;

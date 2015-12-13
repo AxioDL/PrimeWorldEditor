@@ -5,7 +5,7 @@
 #include "CTexture.h"
 #include "model/CVertex.h"
 #include <Common/types.h>
-#include <Core/CToken.h>
+#include <Core/TResPtr.h>
 #include <OpenGL/CDynamicVertexBuffer.h>
 #include <OpenGL/CIndexBuffer.h>
 
@@ -23,15 +23,14 @@ class CFont : public CResource
     static CIndexBuffer smGlyphIndices;          // This is the index buffer used to draw glyphs. It uses a triangle strip.
     static bool smBuffersInitialized;            // This bool indicates whether the vertex/index buffer have been initialized. Checked at the start of RenderString().
 
-    u32 mUnknown;            // Value at offset 0x8. Not sure what this is. Including for experimentation purposes.
-    u32 mLineHeight;         // Height of each line, in points
-    u32 mLineMargin;         // Gap between lines, in points - this is added to the line height
-    u32 mVerticalOffset;     // In points. This is used to reposition glyphs after the per-glyph vertical offset is applied
-    u32 mDefaultSize;        // In points.
-    TString mFontName;       // Self-explanatory
-    CTexture *mpFontTexture; // The texture used by this font
-    CToken mTextureToken;    // Token for the font
-    u32 mTextureFormat;      // Indicates which layers on the texture are for what - multiple glyph layers or fill/stroke
+    u32 mUnknown;                    // Value at offset 0x8. Not sure what this is. Including for experimentation purposes.
+    u32 mLineHeight;                 // Height of each line, in points
+    u32 mLineMargin;                 // Gap between lines, in points - this is added to the line height
+    u32 mVerticalOffset;             // In points. This is used to reposition glyphs after the per-glyph vertical offset is applied
+    u32 mDefaultSize;                // In points.
+    TString mFontName;               // Self-explanatory
+    TResPtr<CTexture> mpFontTexture; // The texture used by this font
+    u32 mTextureFormat;              // Indicates which layers on the texture are for what - multiple glyph layers or fill/stroke
 
     struct SGlyph
     {

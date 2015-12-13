@@ -1,5 +1,6 @@
 #include "CLayerModel.h"
 #include "../UICommon.h"
+#include <Resource/script/CScriptLayer.h>
 
 CLayerModel::CLayerModel(QObject *pParent) : QAbstractListModel(pParent)
 {

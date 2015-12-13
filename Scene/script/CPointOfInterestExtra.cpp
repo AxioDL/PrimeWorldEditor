@@ -42,18 +42,7 @@ CPointOfInterestExtra::CPointOfInterestExtra(CScriptObject *pInstance, CSceneMan
 void CPointOfInterestExtra::PropertyModified(CPropertyBase* pProperty)
 {
     if (mpScanProperty == pProperty)
-    {
-        mpScanData = (CScan*) mpScanProperty->Get();
-
-        if (mpScanData && mpScanData->Type() == eScan)
-            mScanToken = CToken(mpScanData);
-
-        else
-        {
-            mpScanData = nullptr;
-            mScanToken.Unlock();
-        }
-    }
+        mpScanData = mpScanProperty->Get();
 }
 
 void CPointOfInterestExtra::ModifyTintColor(CColor& Color)

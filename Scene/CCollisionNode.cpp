@@ -54,5 +54,4 @@ SRayIntersection CCollisionNode::RayNodeIntersectTest(const CRay& /*Ray*/, u32 /
 void CCollisionNode::SetCollision(CCollisionMeshGroup *pCollision)
 {
     mpCollision = pCollision;
-    mCollisionToken = CToken(pCollision);
 }

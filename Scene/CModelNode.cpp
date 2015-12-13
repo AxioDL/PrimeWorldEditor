@@ -105,7 +105,6 @@ SRayIntersection CModelNode::RayNodeIntersectTest(const CRay &Ray, u32 AssetID, 
 void CModelNode::SetModel(CModel *pModel)
 {
     mpModel = pModel;
-    mModelToken = CToken(pModel);
     mActiveMatSet = 0;
 
     if (pModel)

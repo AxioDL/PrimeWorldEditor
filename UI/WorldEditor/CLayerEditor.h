@@ -11,7 +11,7 @@ class CLayerEditor;
 class CLayerEditor : public QDialog
 {
     Q_OBJECT
-    CGameArea *mpArea;
+    TResPtr<CGameArea> mpArea;
     CLayerModel *mpModel;
     CScriptLayer *mpCurrentLayer;
 

@@ -10,8 +10,7 @@ CScan* CScanLoader::LoadScanMP1(CInputStream &SCAN)
 {
     // Basic support at the moment - don't read animation/scan image data
     SCAN.Seek(0x4, SEEK_CUR); // Skip FRME ID
-    mpScan->mpStringTable = (CStringTable*) gResCache.GetResource(SCAN.ReadLong(), "STRG");
-    mpScan->mStringToken = CToken(mpScan->mpStringTable);
+    mpScan->mpStringTable = gResCache.GetResource(SCAN.ReadLong(), "STRG");
     mpScan->mIsSlow = (SCAN.ReadLong() != 0);
     mpScan->mCategory = (CScan::ELogbookCategory) SCAN.ReadLong();
     mpScan->mIsImportant = (SCAN.ReadByte() == 1);
@@ -85,8 +84,7 @@ void CScanLoader::LoadParamsMP2(CInputStream& SCAN)
         switch (PropertyID)
         {
         case 0x2F5B6423:
-            mpScan->mpStringTable = (CStringTable*) gResCache.GetResource(SCAN.ReadLong(), "STRG");
-            mpScan->mStringToken = CToken(mpScan->mpStringTable);
+            mpScan->mpStringTable = gResCache.GetResource(SCAN.ReadLong(), "STRG");
             break;
 
         case 0xC308A322:
@@ -119,8 +117,7 @@ void CScanLoader::LoadParamsMP3(CInputStream& SCAN)
         switch (PropertyID)
         {
         case 0x2F5B6423:
-            mpScan->mpStringTable = (CStringTable*) gResCache.GetResource(SCAN.ReadLongLong(), "STRG");
-            mpScan->mStringToken = CToken(mpScan->mpStringTable);
+            mpScan->mpStringTable = gResCache.GetResource(SCAN.ReadLongLong(), "STRG");
             break;
 
         case 0xC308A322:

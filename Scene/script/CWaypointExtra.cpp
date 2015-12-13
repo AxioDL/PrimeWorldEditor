@@ -12,7 +12,7 @@ CWaypointExtra::CWaypointExtra(CScriptObject *pInstance, CSceneManager *pScene, 
     CScriptNode *pScript = static_cast<CScriptNode*>(pParent);
     CModel *pModel = pScript->ActiveModel();
 
-    if ((pModel->GetMatSetCount() > 0) && (pModel->GetMatCount() > 0))
+    if (pModel && (pModel->GetMatSetCount() > 0) && (pModel->GetMatCount() > 0))
     {
         CMaterial *pMat = pModel->GetMaterialByIndex(0, 0);
         mColor = pMat->Konst(0);

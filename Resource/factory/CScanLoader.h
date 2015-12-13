@@ -6,7 +6,7 @@
 
 class CScanLoader
 {
-    CScan *mpScan;
+    TResPtr<CScan> mpScan;
     EGame mVersion;
 
     CScanLoader();

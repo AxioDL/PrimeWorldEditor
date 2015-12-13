@@ -32,7 +32,6 @@ CAnimationParameters::CAnimationParameters(CInputStream& SCLY, EGame game)
         mUnknown1 = SCLY.ReadLong();
 
         mpCharSet = gResCache.GetResource(animSetID, "ANCS");
-        mResToken = CToken(mpCharSet);
     }
 
     else if (game <= eCorruption)
@@ -41,7 +40,6 @@ CAnimationParameters::CAnimationParameters(CInputStream& SCLY, EGame game)
         mUnknown1 = SCLY.ReadLong();
 
         mpCharSet = gResCache.GetResource(charID, "CHAR");
-        mResToken = CToken(mpCharSet);
     }
 
     else if (game == eReturns)
@@ -62,7 +60,6 @@ CAnimationParameters::CAnimationParameters(CInputStream& SCLY, EGame game)
             mUnknown4 = SCLY.ReadLong();
 
             mpCharSet = gResCache.GetResource(charID, "CHAR");
-            mResToken = CToken(mpCharSet);
         }
 
         else if (mUnknown1 != 0x80)
@@ -79,7 +76,7 @@ CModel* CAnimationParameters::GetCurrentModel(s32 nodeIndex)
     if (mpCharSet->Type() != eAnimSet) return nullptr;
     if (nodeIndex == -1) nodeIndex = mNodeIndex;
 
-    CAnimSet *pSet = static_cast<CAnimSet*>(mpCharSet);
+    CAnimSet *pSet = static_cast<CAnimSet*>(mpCharSet.RawPointer());
     if (pSet->getNodeCount() <= (u32) nodeIndex) return nullptr;
     return pSet->getNodeModel(nodeIndex);
 }
@@ -118,7 +115,6 @@ void CAnimationParameters::SetResource(CResource *pRes)
     if ((pRes->Type() == eAnimSet) || (pRes->Type() == eCharacter))
     {
         mpCharSet = pRes;
-        mResToken = CToken(pRes);
         mNodeIndex = 0;
     }
     else

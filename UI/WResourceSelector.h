@@ -3,7 +3,7 @@
 
 #include "IPreviewPanel.h"
 #include <Common/CFourCC.h>
-#include <Core/CToken.h>
+#include <Core/TResPtr.h>
 #include <Resource/EResType.h>
 
 #include <QLabel>
@@ -29,8 +29,7 @@ class WResourceSelector : public QWidget
     bool mAdjustPreviewToParent;
 
     // Resource
-    CResource *mpResource;
-    CToken mResToken;
+    TResPtr<CResource> mpResource;
     bool mResourceValid;
 
     // UI

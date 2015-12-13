@@ -47,7 +47,6 @@ CMaterialPass* CMaterialPass::Clone(CMaterial *pParent)
     pOut->mRasSel = mRasSel;
     pOut->mTexCoordSource = mTexCoordSource;
     pOut->mpTexture = mpTexture;
-    pOut->mTexToken = CToken(pOut->mpTexture);
     pOut->mAnimMode = mAnimMode;
     for (u32 iParam = 0; iParam < 4; iParam++)
         pOut->mAnimParams[iParam] = mAnimParams[iParam];
@@ -280,7 +279,6 @@ void CMaterialPass::SetTexCoordSource(u32 Source)
 void CMaterialPass::SetTexture(CTexture *pTex)
 {
     mpTexture = pTex;
-    mTexToken = CToken(pTex);
 }
 
 void CMaterialPass::SetAnimMode(EUVAnimMode Mode)

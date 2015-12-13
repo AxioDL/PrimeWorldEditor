@@ -23,8 +23,7 @@ class CModelEditorWindow : public QMainWindow
     Ui::CModelEditorWindow *ui;
     CSceneManager *mpScene;
     QString mOutputFilename;
-    CModel *mpCurrentModel;
-    CToken mModelToken;
+    TResPtr<CModel> mpCurrentModel;
     CModelNode *mpCurrentModelNode;
     CMaterial *mpCurrentMat;
     CMaterialPass *mpCurrentPass;

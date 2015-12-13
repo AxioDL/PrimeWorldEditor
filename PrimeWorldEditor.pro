@@ -85,7 +85,6 @@ SOURCES += \
     Common/CHashFNV1A.cpp \
     UI/CModelEditorWindow.cpp \
     Resource/CResource.cpp \
-    Core/CToken.cpp \
     Core/CRenderBucket.cpp \
     Core/CDrawUtil.cpp \
     UI/WTextureGLWidget.cpp \
@@ -245,7 +244,6 @@ HEADERS  += \
     Common/CHashFNV1A.h \
     Core/ERenderOptions.h \
     UI/CModelEditorWindow.h \
-    Core/CToken.h \
     Core/CRenderBucket.h \
     Common/EMouseInputs.h \
     Common/EKeyInputs.h \
@@ -332,7 +330,8 @@ HEADERS  += \
     Scene/script/CSpacePirateExtra.h \
     Scene/script/CWaypointExtra.h \
     Scene/script/CDoorExtra.h \
-    Scene/script/CDamageableTriggerExtra.h
+    Scene/script/CDamageableTriggerExtra.h \
+    Core/TResPtr.h
 
 FORMS    += \
     UI/CStartWindow.ui \

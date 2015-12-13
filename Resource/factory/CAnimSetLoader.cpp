@@ -14,8 +14,7 @@ CAnimSet* CAnimSetLoader::LoadCorruptionCHAR(CInputStream& CHAR)
     CAnimSet::SNode& node = set->nodes[0];
 
     node.name = CHAR.ReadString();
-    node.model = (CModel*) gResCache.GetResource(CHAR.ReadLongLong(), "CMDL");
-    node.ModelToken = CToken(node.model);
+    node.model = gResCache.GetResource(CHAR.ReadLongLong(), "CMDL");
     return set;
 }
 
@@ -29,8 +28,7 @@ CAnimSet* CAnimSetLoader::LoadReturnsCHAR(CInputStream& CHAR)
     node.name = CHAR.ReadString();
     CHAR.Seek(0x14, SEEK_CUR);
     CHAR.ReadString();
-    node.model = (CModel*) gResCache.GetResource(CHAR.ReadLongLong(), "CMDL");
-    node.ModelToken = CToken(node.model);
+    node.model = gResCache.GetResource(CHAR.ReadLongLong(), "CMDL");
     return set;
 }
 
@@ -100,10 +98,9 @@ CAnimSet* CAnimSetLoader::LoadANCS(CInputStream& ANCS)
         u16 unknown1 = ANCS.ReadShort();
         if (n == 0) loader.mVersion = (unknown1 == 0xA) ? eEchoes : ePrime; // Best version indicator we know of unfortunately
         node->name = ANCS.ReadString();
-        node->model = (CModel*) gResCache.GetResource(ANCS.ReadLong(), "CMDL");
+        node->model = gResCache.GetResource(ANCS.ReadLong(), "CMDL");
         node->skinID = ANCS.ReadLong();
         node->skelID = ANCS.ReadLong();
-        node->ModelToken = CToken(node->model);
 
         // Unfortunately that's all that's actually supported at the moment. Hope to expand later.
         // Since there's no size value I have to actually read the rest of the node to reach the next one

@@ -7,8 +7,8 @@
 #include "CScriptTemplate.h"
 #include "../model/CModel.h"
 #include "../CCollisionMeshGroup.h"
+#include "../CGameArea.h"
 
-class CGameArea;
 class CScriptLayer;
 
 class CScriptObject
@@ -17,7 +17,7 @@ class CScriptObject
     friend class CAreaLoader;
 
     CScriptTemplate *mpTemplate;
-    CGameArea *mpArea;
+    TResPtr<CGameArea> mpArea;
     CScriptLayer *mpLayer;
 
     u32 mInstanceID;
@@ -31,12 +31,9 @@ class CScriptObject
     CVector3Property *mpScale;
     CBoolProperty *mpActive;
     CPropertyStruct *mpLightParameters;
-    CModel *mpDisplayModel;
-    CTexture *mpBillboard;
-    CCollisionMeshGroup *mpCollision;
-    CToken mModelToken;
-    CToken mBillboardToken;
-    CToken mCollisionToken;
+    TResPtr<CModel> mpDisplayModel;
+    TResPtr<CTexture> mpBillboard;
+    TResPtr<CCollisionMeshGroup> mpCollision;
     bool mHasInGameModel;
 
     EVolumeShape mVolumeShape;

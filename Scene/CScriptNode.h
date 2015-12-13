@@ -12,10 +12,8 @@ class CScriptNode : public CSceneNode
     CScriptObject *mpInstance;
     class CScriptExtra *mpExtra;
 
-    CModel *mpActiveModel;
-    CTexture *mpBillboard;
-    CToken mModelToken;
-    CToken mBillboardToken;
+    TResPtr<CModel> mpActiveModel;
+    TResPtr<CTexture> mpBillboard;
     CCollisionNode *mpCollisionNode;
 
     bool mHasValidPosition;

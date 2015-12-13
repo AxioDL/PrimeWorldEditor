@@ -2,7 +2,7 @@
 #define CANIMSET_H
 
 #include <Common/types.h>
-#include <Core/CToken.h>
+#include <Core/TResPtr.h>
 #include <vector>
 #include "model/CModel.h"
 #include "CResource.h"
@@ -15,10 +15,9 @@ class CAnimSet : public CResource
     struct SNode
     {
         TString name;
-        CModel *model;
+        TResPtr<CModel> model;
         u32 skinID;
         u32 skelID;
-        CToken ModelToken;
 
         SNode() { model = nullptr; }
     };

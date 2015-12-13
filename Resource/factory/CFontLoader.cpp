@@ -18,9 +18,8 @@ CFont* CFontLoader::LoadFont(CInputStream& FONT)
     mpFont->mDefaultSize = FONT.ReadLong();
     mpFont->mFontName = FONT.ReadString();
 
-    if (mVersion <= eEchoes) mpFont->mpFontTexture = (CTexture*) gResCache.GetResource(FONT.ReadLong(), "TXTR");
-    else                    mpFont->mpFontTexture = (CTexture*) gResCache.GetResource(FONT.ReadLongLong(), "TXTR");
-    mpFont->mTextureToken = CToken(mpFont->mpFontTexture);
+    if (mVersion <= eEchoes) mpFont->mpFontTexture = gResCache.GetResource(FONT.ReadLong(), "TXTR");
+    else                     mpFont->mpFontTexture = gResCache.GetResource(FONT.ReadLongLong(), "TXTR");
 
     mpFont->mTextureFormat = FONT.ReadLong();
     u32 NumGlyphs = FONT.ReadLong();

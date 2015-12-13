@@ -14,12 +14,11 @@ class CWorld : public CResource
 
     // Instances of CResource pointers are placeholders for unimplemented resource types (eg CMapWorld)
     EGame mWorldVersion;
-    CStringTable *mpWorldName;
-    CStringTable *mpDarkWorldName;
-    CResource *mpSaveWorld;
-    CModel *mpDefaultSkybox;
-    CResource *mpMapWorld;
-    CToken mResTokens[5];
+    TResPtr<CStringTable> mpWorldName;
+    TResPtr<CStringTable> mpDarkWorldName;
+    TResPtr<CResource>    mpSaveWorld;
+    TResPtr<CModel>       mpDefaultSkybox;
+    TResPtr<CResource>    mpMapWorld;
 
     u32 mUnknown1;
     u32 mUnknownAreas;
@@ -44,12 +43,11 @@ class CWorld : public CResource
     struct SArea
     {
         TString InternalName;
-        CStringTable *pAreaName;
+        TResPtr<CStringTable> pAreaName;
         CTransform4f Transform;
         CAABox AetherBox;
         u64 FileID; // Loading every single area as a CResource would be a very bad idea
         u64 AreaID;
-        CToken AreaNameToken;
 
         std::vector<u16> AttachedAreaIDs;
         std::vector<SDependency> Dependencies;

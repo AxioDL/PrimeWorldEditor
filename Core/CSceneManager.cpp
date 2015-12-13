@@ -9,6 +9,7 @@
 #include <Core/CGraphics.h>
 #include <Core/CResCache.h>
 #include <FileIO/CFileInStream.h>
+#include <Resource/script/CScriptLayer.h>
 
 /**
  * This class direly needs a rewrite
@@ -97,7 +98,6 @@ void CSceneManager::SetActiveArea(CGameArea* _area)
 
     // Create nodes for new area
     mpArea = _area;
-    mAreaToken = CToken(mpArea);
     mpAreaRootNode = new CRootNode(this, mpSceneRootNode);
 
     if (mSplitTerrain)
@@ -191,7 +191,6 @@ void CSceneManager::SetActiveArea(CGameArea* _area)
 void CSceneManager::SetActiveWorld(CWorld* _world)
 {
     mpWorld = _world;
-    mWorldToken = CToken(mpWorld);
 }
 
 void CSceneManager::ClearScene()
@@ -209,9 +208,7 @@ void CSceneManager::ClearScene()
     mLightNodes.clear();
 
     mpArea = nullptr;
-    mAreaToken.Unlock();
     mpWorld = nullptr;
-    mWorldToken.Unlock();
     mNodeCount = 0;
 }
 

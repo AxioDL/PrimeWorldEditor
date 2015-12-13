@@ -16,8 +16,7 @@ class CStartWindow : public QMainWindow
     Q_OBJECT
     Ui::CStartWindow *ui;
 
-    CWorld *mpWorld;
-    CToken mWorldToken;
+    TResPtr<CWorld> mpWorld;
     u32 mSelectedAreaIndex;
 
     CWorldEditor *mpWorldEditor;

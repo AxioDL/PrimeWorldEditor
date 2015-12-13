@@ -30,7 +30,7 @@ public:
 private:
     CWorldEditor *mpEditor;
     CSceneManager *mpScene;
-    CGameArea *mpArea;
+    TResPtr<CGameArea> mpArea;
     CMasterTemplate *mpCurrentMaster;
     EInstanceModelType mModelType;
     QList<CScriptTemplate*> mTemplateList;

@@ -7,7 +7,7 @@
 
 class CFontLoader
 {
-    CFont *mpFont;
+    TResPtr<CFont> mpFont;
     EGame mVersion;
 
     CFontLoader();

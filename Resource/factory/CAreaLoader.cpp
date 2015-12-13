@@ -593,7 +593,7 @@ CGameArea* CAreaLoader::LoadMREA(CInputStream& MREA)
             break;
         default:
             Log::FileError(MREA.GetSourceString(), "Unsupported MREA version: " + TString::HexString(version));
-            delete Loader.mpArea;
+            Loader.mpArea.Delete();
             return nullptr;
     }
 

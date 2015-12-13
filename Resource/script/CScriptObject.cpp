@@ -47,19 +47,16 @@ void CScriptObject::EvaluateProperties()
 void CScriptObject::EvaluateDisplayModel()
 {
     mpDisplayModel = mpTemplate->FindDisplayModel(mpProperties);
-    mModelToken = CToken(mpDisplayModel);
 }
 
 void CScriptObject::EvaluateBillboard()
 {
     mpBillboard = mpTemplate->FindBillboardTexture(mpProperties);
-    mBillboardToken = CToken(mpBillboard);
 }
 
 void CScriptObject::EvaluateCollisionModel()
 {
     mpCollision = mpTemplate->FindCollision(mpProperties);
-    mCollisionToken = CToken(mpCollision);
 }
 
 // ************ GETTERS ************

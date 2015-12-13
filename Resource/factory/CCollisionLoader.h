@@ -7,7 +7,7 @@
 
 class CCollisionLoader
 {
-    CCollisionMeshGroup *mpGroup;
+    TResPtr<CCollisionMeshGroup> mpGroup;
     CCollisionMesh *mpMesh;
     EGame mVersion;
     std::vector<CCollisionMesh::SCollisionProperties> mProperties;

@@ -154,7 +154,6 @@ void CModelEditorWindow::SetActiveModel(CModel *pModel)
 {
     mpCurrentModelNode->SetModel(pModel);
     mpCurrentModel = pModel;
-    mModelToken = CToken(pModel);
     ui->Viewport->Camera().SetOrbit(pModel->AABox());
 
     u32 numVertices = (pModel ? pModel->GetVertexCount() : 0);
@@ -569,7 +568,7 @@ void CModelEditorWindow::UpdateMaterial(QString Value)
     if (mIgnoreSignals) return;
 
     EModelEditorWidget Widget = (EModelEditorWidget) sender()->property("ModelEditorWidgetType").toInt();
-    CTexture *pTex = (CTexture*) gResCache.GetResource(TO_TSTRING(Value));
+    TResPtr<CTexture> pTex = gResCache.GetResource(TO_TSTRING(Value));
     if (pTex->Type() != eTexture) pTex = nullptr;
 
     switch (Widget)
@@ -712,7 +711,7 @@ void CModelEditorWindow::on_actionConvert_to_DDS_triggered()
     if (Input.isEmpty()) return;
 
     TString TexFilename = Input.toStdString();
-    CTexture *Tex = (CTexture*) gResCache.GetResource(TexFilename);
+    TResPtr<CTexture> pTex = (CTexture*) gResCache.GetResource(TexFilename);
     TString OutName = TexFilename.GetFilePathWithoutExtension() + ".dds";
 
     CFileOutStream Out(OutName.ToStdString(), IOUtil::LittleEndian);
@@ -720,7 +719,7 @@ void CModelEditorWindow::on_actionConvert_to_DDS_triggered()
 
     else
     {
-        bool success = Tex->WriteDDS(Out);
+        bool success = pTex->WriteDDS(Out);
         if (!success) QMessageBox::warning(this, "Error", "Couldn't write output DDS!");
         else QMessageBox::information(this, "Success", "Successfully converted to DDS!");
     }
@@ -731,7 +730,7 @@ void CModelEditorWindow::on_actionOpen_triggered()
     QString ModelFilename = QFileDialog::getOpenFileName(this, "Save model", "", "Retro Model (*.CMDL)");
     if (ModelFilename.isEmpty()) return;
 
-    CModel *pModel = (CModel*) gResCache.GetResource(ModelFilename.toStdString());
+    TResPtr<CModel> pModel = gResCache.GetResource(ModelFilename.toStdString());
     if (pModel)
     {
         SetActiveModel(pModel);

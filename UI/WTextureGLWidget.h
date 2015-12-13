@@ -6,7 +6,7 @@
 
 #include <Common/CTransform4f.h>
 #include <Common/CVector2f.h>
-#include <Core/CToken.h>
+#include <Core/TResPtr.h>
 #include <Resource/CTexture.h>
 #include <QTimer>
 
@@ -15,8 +15,7 @@ class WTextureGLWidget : public QOpenGLWidget
     Q_OBJECT
 
     float mAspectRatio;
-    CTexture *mpTexture;
-    CToken mTexToken;
+    TResPtr<CTexture> mpTexture;
     float mTexAspectRatio;
     CTransform4f mTexTransform;
     CVector2f mCheckerCoords[4];

@@ -77,7 +77,6 @@ void WTextureGLWidget::resizeGL(int w, int h)
 void WTextureGLWidget::SetTexture(CTexture *pTex)
 {
     mpTexture = pTex;
-    mTexToken = CToken(pTex);
 
     if (pTex) mTexAspectRatio = (float) pTex->Width() / (float) pTex->Height();
     else mTexAspectRatio = 0.f;

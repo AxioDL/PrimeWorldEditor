@@ -7,6 +7,7 @@
 #include "WVectorEditor.h"
 #include "WAnimParamsEditor.h"
 #include <Resource/CAnimSet.h>
+#include <Resource/script/CScriptLayer.h>
 
 #include <QCheckBox>
 #include <QComboBox>
@@ -254,10 +255,11 @@ void WPropertyEditor::CreateEditor()
     case eFileProperty:
     {
         CFileProperty *pFileCast = static_cast<CFileProperty*>(mpProperty);
+        CFileTemplate *pFileTemp = static_cast<CFileTemplate*>(pFileCast->Template());
         WResourceSelector *pResourceSelector = new WResourceSelector(this);
 
         pResourceSelector->AdjustPreviewToParent(true);
-        pResourceSelector->SetAllowedExtensions(pFileCast->AllowedExtensions());
+        pResourceSelector->SetAllowedExtensions(pFileTemp->Extensions());
         pResourceSelector->SetResource(pFileCast->Get());
 
         mUI.EditorWidget = pResourceSelector;
@@ -431,8 +433,9 @@ void WPropertyEditor::UpdateEditor()
     case eFileProperty:
     {
         CFileProperty *pFileCast = static_cast<CFileProperty*>(mpProperty);
+        CFileTemplate *pFileTemp = static_cast<CFileTemplate*>(pFileCast->Template());
         WResourceSelector *pResourceSelector = static_cast<WResourceSelector*>(mUI.EditorWidget);
-        pResourceSelector->SetAllowedExtensions(pFileCast->AllowedExtensions());
+        pResourceSelector->SetAllowedExtensions(pFileTemp->Extensions());
         pResourceSelector->SetResource(pFileCast->Get());
         break;
     }

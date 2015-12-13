@@ -6,8 +6,7 @@
 
 class CModelNode : public CSceneNode
 {
-    CModel *mpModel;
-    CToken mModelToken;
+    TResPtr<CModel> mpModel;
     u32 mActiveMatSet;
     bool mLightingEnabled;
     bool mForceAlphaOn;

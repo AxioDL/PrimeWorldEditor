@@ -167,13 +167,12 @@ void CDamageableTriggerExtra::PropertyModified(CPropertyBase *pProperty)
         {
             if (pProperty == mpTextureProps[iTex])
             {
-                mpTextures[iTex] = (CTexture*) mpTextureProps[iTex]->Get();
+                mpTextures[iTex] = mpTextureProps[iTex]->Get();
 
                 if (mpTextures[iTex] && mpTextures[iTex]->Type() != eTexture)
                     mpTextures[iTex] = nullptr;
 
                 mpMat->Pass(iTex)->SetTexture(mpTextures[iTex]);
-                mTextureTokens[iTex] = CToken(mpTextures[iTex]);
                 break;
             }
         }

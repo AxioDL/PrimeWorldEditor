@@ -8,7 +8,7 @@
 #include <Common/CColor.h>
 #include <Common/EnumUtil.h>
 #include <Common/types.h>
-#include <Core/CToken.h>
+#include <Core/TResPtr.h>
 #include <Core/ERenderOptions.h>
 #include <FileIO/CInputStream.h>
 #include <OpenGL/CShader.h>
@@ -58,16 +58,15 @@ private:
     bool mEnableBloom;              // Bool that toggles bloom on or off. On by default on MP3 materials, off by default on MP1 materials.
 
     EGame mVersion;
-    EMaterialOptions mOptions;      // See the EMaterialOptions enum above
-    EVertexDescription mVtxDesc;    // Descriptor of vertex attributes used by this material
-    CColor mKonstColors[4];         // Konst color values for TEV
-    GLenum mBlendSrcFac;            // Source blend factor
-    GLenum mBlendDstFac;            // Dest blend factor
-    bool mLightingEnabled;          // Color channel control flags; indicate whether lighting is enabled
-    u32 mEchoesUnknownA;            // First unknown value introduced in Echoes. Included for cooking.
-    u32 mEchoesUnknownB;            // Second unknown value introduced in Echoes. Included for cooking.
-    CTexture *mpIndirectTexture;    // Optional texture used for the indirect stage for reflections
-    CToken mIndTextureToken;        // Token for indirect texture
+    EMaterialOptions mOptions;           // See the EMaterialOptions enum above
+    EVertexDescription mVtxDesc;         // Descriptor of vertex attributes used by this material
+    CColor mKonstColors[4];              // Konst color values for TEV
+    GLenum mBlendSrcFac;                 // Source blend factor
+    GLenum mBlendDstFac;                 // Dest blend factor
+    bool mLightingEnabled;               // Color channel control flags; indicate whether lighting is enabled
+    u32 mEchoesUnknownA;                 // First unknown value introduced in Echoes. Included for cooking.
+    u32 mEchoesUnknownB;                 // Second unknown value introduced in Echoes. Included for cooking.
+    TResPtr<CTexture> mpIndirectTexture; // Optional texture used for the indirect stage for reflections
 
     std::vector<CMaterialPass*> mPasses;
 

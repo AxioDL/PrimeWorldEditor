@@ -4,7 +4,7 @@
 #include "CResource.h"
 #include "CStringTable.h"
 #include "EFormatVersion.h"
-#include <Core/CToken.h>
+#include <Core/TResPtr.h>
 
 class CScan : public CResource
 {
@@ -23,10 +23,8 @@ public:
 
 private:
     EGame mVersion;
-    CResource *mpFrame;
-    CStringTable *mpStringTable;
-    CToken mFrameToken;
-    CToken mStringToken;
+    TResPtr<CResource> mpFrame;
+    TResPtr<CStringTable> mpStringTable;
     bool mIsSlow;
     bool mIsImportant;
     ELogbookCategory mCategory;

@@ -32,10 +32,8 @@ class CSceneManager
     std::vector<CLightNode*> mLightNodes;
     CRootNode *mpSceneRootNode;
 
-    CGameArea *mpArea;
-    CWorld *mpWorld;
-    CToken mAreaToken;
-    CToken mWorldToken;
+    TResPtr<CGameArea> mpArea;
+    TResPtr<CWorld> mpWorld;
     CRootNode *mpAreaRootNode;
 
     // Environment

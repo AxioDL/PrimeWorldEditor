@@ -134,7 +134,6 @@ bool WResourceSelector::IsPreviewPanelEnabled()
 void WResourceSelector::SetResource(CResource *pRes)
 {
     mpResource = pRes;
-    mResToken = CToken(pRes);
 
     if (pRes)
     {
@@ -261,7 +260,6 @@ void WResourceSelector::Export()
 void WResourceSelector::LoadResource(const QString& ResPath)
 {
     mpResource = nullptr;
-    mResToken.Unlock();
 
     TString pathStr = ResPath.toStdString();
     TString ext = pathStr.GetFileExtension();
@@ -271,7 +269,6 @@ void WResourceSelector::LoadResource(const QString& ResPath)
         if ((ext != "MREA") && (ext != "MLVL"))
         {
             mpResource = gResCache.GetResource(pathStr);
-            mResToken = CToken(mpResource);
             mResourceValid = (mpResource != nullptr);
 
             if (mPreviewPanelValid) mpPreviewPanel->SetResource(mpResource);

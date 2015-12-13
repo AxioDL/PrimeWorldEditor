@@ -6,8 +6,7 @@
 
 class CCollisionNode : public CSceneNode
 {
-    CCollisionMeshGroup *mpCollision;
-    CToken mCollisionToken;
+    TResPtr<CCollisionMeshGroup> mpCollision;
 
 public:
     CCollisionNode(CSceneManager *pScene, CSceneNode *pParent = 0, CCollisionMeshGroup *pCollision = 0);

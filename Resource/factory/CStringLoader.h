@@ -4,10 +4,11 @@
 #include "../CStringTable.h"
 #include "../EFormatVersion.h"
 #include <Core/CResCache.h>
+#include <Core/TResPtr.h>
 
 class CStringLoader
 {
-    CStringTable* mpStringTable;
+    TResPtr<CStringTable> mpStringTable;
     EGame mVersion;
 
     CStringLoader();

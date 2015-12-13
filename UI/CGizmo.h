@@ -7,7 +7,7 @@
 #include <Common/EnumUtil.h>
 #include <Common/ETransformSpace.h>
 #include <Core/CCamera.h>
-#include <Core/CToken.h>
+#include <Core/TResPtr.h>
 #include <Core/IRenderable.h>
 #include <Resource/model/CModel.h>
 
@@ -104,12 +104,11 @@ private:
         EGizmoAxes modelAxes;
         bool enableRayCast;
         bool isBillboard;
-        CModel *pModel;
-        CToken modelToken;
+        TResPtr<CModel> pModel;
 
         SModelPart() {}
-        SModelPart(EGizmoAxes axes, bool rayCastOn, bool billboard, CModel *_pModel) :
-            modelAxes(axes), enableRayCast(rayCastOn), isBillboard(billboard), pModel(_pModel), modelToken(_pModel) {}
+        SModelPart(EGizmoAxes axes, bool rayCastOn, bool billboard, TResPtr<CModel> _pModel) :
+            modelAxes(axes), enableRayCast(rayCastOn), isBillboard(billboard), pModel(_pModel) {}
     };
     SModelPart *mpCurrentParts;
     u32 mNumCurrentParts;

@@ -7,10 +7,12 @@
 #include "model/CModel.h"
 #include "model/CStaticModel.h"
 #include "CResource.h"
-#include "script/CScriptLayer.h"
 #include <Common/types.h>
 #include <Common/CTransform4f.h>
 #include <unordered_map>
+
+class CScriptLayer;
+class CScriptObject;
 
 class CGameArea : public CResource
 {

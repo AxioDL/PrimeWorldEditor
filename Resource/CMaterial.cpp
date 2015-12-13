@@ -70,7 +70,6 @@ CMaterial* CMaterial::Clone()
     pOut->mEchoesUnknownA = mEchoesUnknownA;
     pOut->mEchoesUnknownB = mEchoesUnknownB;
     pOut->mpIndirectTexture = mpIndirectTexture;
-    pOut->mIndTextureToken = CToken(pOut->mpIndirectTexture);
 
     pOut->mPasses.resize(mPasses.size());
     for (u32 iPass = 0; iPass < mPasses.size(); iPass++)

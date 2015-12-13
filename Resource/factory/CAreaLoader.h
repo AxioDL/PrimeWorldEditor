@@ -6,13 +6,14 @@
 #include "../EFormatVersion.h"
 #include "CBlockMgrIn.h"
 #include <Core/CResCache.h>
+#include <Resource/script/SConnection.h>
 
 class CAreaLoader
 {
     struct SCompressedCluster;
 
     // Area data
-    CGameArea *mpArea;
+    TResPtr<CGameArea> mpArea;
     CInputStream *mpMREA;
     CBlockMgrIn *mBlockMgr;
     EGame mVersion;

@@ -3,6 +3,7 @@
 
 #include "../CWorldEditor.h"
 #include <Core/CSceneManager.h>
+#include <Resource/script/CScriptLayer.h>
 
 WInstancesTab::WInstancesTab(QWidget *parent) :
     QWidget(parent),

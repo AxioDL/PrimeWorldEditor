@@ -3,14 +3,13 @@
 
 #include "CResource.h"
 #include "model/CModel.h"
-#include <Core/CToken.h>
+#include <Core/TResPtr.h>
 #include "EFormatVersion.h"
 
 class CAnimationParameters
 {
     EGame mGame;
-    CResource *mpCharSet;
-    CToken mResToken;
+    TResPtr<CResource> mpCharSet;
 
     u32 mNodeIndex;
     u32 mUnknown1;

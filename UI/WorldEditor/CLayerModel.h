@@ -6,7 +6,7 @@
 
 class CLayerModel : public QAbstractListModel
 {
-    CGameArea *mpArea;
+    TResPtr<CGameArea> mpArea;
     bool mHasGenerateLayer;
 
 public:

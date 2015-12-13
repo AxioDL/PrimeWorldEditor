@@ -23,7 +23,7 @@ public:
     };
 
 private:
-    CModel *mpModel;
+    TResPtr<CModel> mpModel;
     std::vector<CMaterialSet*> mMaterials;
     CBlockMgrIn *mpBlockMgr;
     CAABox mAABox;

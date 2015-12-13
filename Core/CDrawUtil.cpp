@@ -15,19 +15,15 @@ CIndexBuffer CDrawUtil::mSquareIndices;
 CDynamicVertexBuffer CDrawUtil::mLineVertices;
 CIndexBuffer CDrawUtil::mLineIndices;
 
-CModel *CDrawUtil::mpCubeModel;
-CToken CDrawUtil::mCubeToken;
+TResPtr<CModel> CDrawUtil::mpCubeModel;
 
 CVertexBuffer CDrawUtil::mWireCubeVertices;
 CIndexBuffer CDrawUtil::mWireCubeIndices;
 
-CModel *CDrawUtil::mpSphereModel;
-CModel *CDrawUtil::mpDoubleSidedSphereModel;
-CToken CDrawUtil::mSphereToken;
-CToken CDrawUtil::mDoubleSidedSphereToken;
+TResPtr<CModel> CDrawUtil::mpSphereModel;
+TResPtr<CModel> CDrawUtil::mpDoubleSidedSphereModel;
 
-CModel *CDrawUtil::mpWireSphereModel;
-CToken CDrawUtil::mWireSphereToken;
+TResPtr<CModel> CDrawUtil::mpWireSphereModel;
 
 CShader *CDrawUtil::mpColorShader;
 CShader *CDrawUtil::mpColorShaderLighting;
@@ -37,12 +33,10 @@ CShader *CDrawUtil::mpTextureShader;
 CShader *CDrawUtil::mpCollisionShader;
 CShader *CDrawUtil::mpTextShader;
 
-CTexture *CDrawUtil::mpCheckerTexture;
-CToken CDrawUtil::mCheckerTextureToken;
+TResPtr<CTexture> CDrawUtil::mpCheckerTexture;
 
-CTexture *CDrawUtil::mpLightTextures[4];
-CTexture *CDrawUtil::mpLightMasks[4];
-CToken CDrawUtil::mLightTextureTokens[8];
+TResPtr<CTexture> CDrawUtil::mpLightTextures[4];
+TResPtr<CTexture> CDrawUtil::mpLightMasks[4];
 
 bool CDrawUtil::mDrawUtilInitialized = false;
 
@@ -493,8 +487,7 @@ void CDrawUtil::InitLine()
 void CDrawUtil::InitCube()
 {
     Log::Write("Creating cube");
-    mpCubeModel = (CModel*) gResCache.GetResource("../resources/Cube.cmdl");
-    mCubeToken = CToken(mpCubeModel);
+    mpCubeModel = gResCache.GetResource("../resources/Cube.cmdl");
 }
 
 void CDrawUtil::InitWireCube()
@@ -532,17 +525,14 @@ void CDrawUtil::InitWireCube()
 void CDrawUtil::InitSphere()
 {
     Log::Write("Creating sphere");
-    mpSphereModel = (CModel*) gResCache.GetResource("../resources/Sphere.cmdl");
-    mpDoubleSidedSphereModel = (CModel*) gResCache.GetResource("../resources/SphereDoubleSided.cmdl");
-    mSphereToken = CToken(mpSphereModel);
-    mDoubleSidedSphereToken = CToken(mpDoubleSidedSphereModel);
+    mpSphereModel = gResCache.GetResource("../resources/Sphere.cmdl");
+    mpDoubleSidedSphereModel = gResCache.GetResource("../resources/SphereDoubleSided.cmdl");
 }
 
 void CDrawUtil::InitWireSphere()
 {
     Log::Write("Creating wire sphere");
-    mpWireSphereModel = (CModel*) gResCache.GetResource("../resources/WireSphere.cmdl");
-    mWireSphereToken = CToken(mpWireSphereModel);
+    mpWireSphereModel = gResCache.GetResource("../resources/WireSphere.cmdl");
 }
 
 void CDrawUtil::InitShaders()
@@ -560,24 +550,17 @@ void CDrawUtil::InitShaders()
 void CDrawUtil::InitTextures()
 {
     Log::Write("Loading textures");
-    mpCheckerTexture = (CTexture*) gResCache.GetResource("../resources/Checkerboard.txtr");
-    mCheckerTextureToken = CToken(mpCheckerTexture);
+    mpCheckerTexture = gResCache.GetResource("../resources/Checkerboard.txtr");
 
-    mpLightTextures[0] = (CTexture*) gResCache.GetResource("../resources/LightAmbient.txtr");
-    mpLightTextures[1] = (CTexture*) gResCache.GetResource("../resources/LightDirectional.txtr");
-    mpLightTextures[2] = (CTexture*) gResCache.GetResource("../resources/LightCustom.txtr");
-    mpLightTextures[3] = (CTexture*) gResCache.GetResource("../resources/LightSpot.txtr");
+    mpLightTextures[0] = gResCache.GetResource("../resources/LightAmbient.txtr");
+    mpLightTextures[1] = gResCache.GetResource("../resources/LightDirectional.txtr");
+    mpLightTextures[2] = gResCache.GetResource("../resources/LightCustom.txtr");
+    mpLightTextures[3] = gResCache.GetResource("../resources/LightSpot.txtr");
 
-    mpLightMasks[0] = (CTexture*) gResCache.GetResource("../resources/LightAmbientMask.txtr");
-    mpLightMasks[1] = (CTexture*) gResCache.GetResource("../resources/LightDirectionalMask.txtr");
-    mpLightMasks[2] = (CTexture*) gResCache.GetResource("../resources/LightCustomMask.txtr");
-    mpLightMasks[3] = (CTexture*) gResCache.GetResource("../resources/LightSpotMask.txtr");
-
-    for (int i = 0; i < 4; i++)
-    {
-        mLightTextureTokens[i]   = CToken(mpLightTextures[i]);
-        mLightTextureTokens[i+4] = CToken(mpLightMasks[i]);
-    }
+    mpLightMasks[0] = gResCache.GetResource("../resources/LightAmbientMask.txtr");
+    mpLightMasks[1] = gResCache.GetResource("../resources/LightDirectionalMask.txtr");
+    mpLightMasks[2] = gResCache.GetResource("../resources/LightCustomMask.txtr");
+    mpLightMasks[3] = gResCache.GetResource("../resources/LightSpotMask.txtr");
 }
 
 void CDrawUtil::Shutdown()
@@ -585,9 +568,6 @@ void CDrawUtil::Shutdown()
     if (mDrawUtilInitialized)
     {
         Log::Write("Shutting down");
-        mCubeToken = CToken();
-        mSphereToken = CToken();
-        mDoubleSidedSphereToken = CToken();
         delete mpColorShader;
         delete mpColorShaderLighting;
         delete mpTextureShader;

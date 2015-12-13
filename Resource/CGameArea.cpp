@@ -1,4 +1,5 @@
 #include "CGameArea.h"
+#include "script/CScriptLayer.h"
 #include <Core/CRenderer.h>
 
 CGameArea::CGameArea() : CResource()
