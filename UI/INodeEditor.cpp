@@ -12,8 +12,8 @@ INodeEditor::INodeEditor(QWidget *pParent)
     // Create undo actions
     QAction *pUndoAction = mUndoStack.createUndoAction(this);
     QAction *pRedoAction = mUndoStack.createRedoAction(this);
-    pUndoAction->setShortcut(QKeySequence("Ctrl+Z"));
-    pRedoAction->setShortcut(QKeySequence("Ctrl+Y"));
+    pUndoAction->setShortcut(QKeySequence::Undo);
+    pRedoAction->setShortcut(QKeySequence::Redo);
     mUndoActions.push_back(pUndoAction);
     mUndoActions.push_back(pRedoAction);
 
