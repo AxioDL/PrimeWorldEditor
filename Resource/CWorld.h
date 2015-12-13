@@ -10,6 +10,7 @@
 
 class CWorld : public CResource
 {
+    DECLARE_RESOURCE_TYPE(eWorld)
     friend class CWorldLoader;
 
     // Instances of CResource pointers are placeholders for unimplemented resource types (eg CMapWorld)
@@ -82,7 +83,6 @@ class CWorld : public CResource
 public:
     CWorld();
     ~CWorld();
-    EResType Type();
 
     void SetAreaLayerInfo(CGameArea *pArea, u32 AreaIndex);
 

@@ -8,12 +8,12 @@
 
 class CCollisionMeshGroup : public CResource
 {
+    DECLARE_RESOURCE_TYPE(eCollisionMeshGroup)
     std::vector<CCollisionMesh*> mMeshes;
 
 public:
     CCollisionMeshGroup();
     ~CCollisionMeshGroup();
-    EResType Type();
 
     u32 NumMeshes();
     CCollisionMesh* MeshByIndex(u32 index);

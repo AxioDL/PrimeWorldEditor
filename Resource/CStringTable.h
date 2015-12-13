@@ -9,6 +9,7 @@
 
 class CStringTable : public CResource
 {
+    DECLARE_RESOURCE_TYPE(eStringTable)
     friend class CStringLoader;
 
     std::vector<TString> mStringNames;
@@ -24,7 +25,6 @@ class CStringTable : public CResource
 public:
     CStringTable();
     ~CStringTable();
-    EResType Type();
     CResource* MakeCopy(CResCache *pCopyCache);
 
     // Getters

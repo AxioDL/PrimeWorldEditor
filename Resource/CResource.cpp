@@ -11,11 +11,6 @@ CResource::~CResource()
 {
 }
 
-EResType CResource::Type()
-{
-    return eResource;
-}
-
 TString CResource::Source()
 {
     return mResSource.GetFileName();

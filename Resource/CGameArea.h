@@ -16,6 +16,7 @@ class CScriptObject;
 
 class CGameArea : public CResource
 {
+    DECLARE_RESOURCE_TYPE(eArea)
     friend class CAreaLoader;
 
     u32 mVertexCount;
@@ -41,7 +42,6 @@ class CGameArea : public CResource
 public:
     CGameArea();
     ~CGameArea();
-    EResType Type();
 
     void AddWorldModel(CModel *mdl);
     void MergeTerrain();

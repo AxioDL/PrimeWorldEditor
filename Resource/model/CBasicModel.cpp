@@ -16,11 +16,6 @@ CBasicModel::~CBasicModel()
             delete mSurfaces[iSurf];
 }
 
-EResType CBasicModel::Type()
-{
-    return eModel;
-}
-
 u32 CBasicModel::GetVertexCount()
 {
     return mVertexCount;

@@ -16,11 +16,6 @@ CWorld::~CWorld()
 {
 }
 
-EResType CWorld::Type()
-{
-    return eWorld;
-}
-
 void CWorld::SetAreaLayerInfo(CGameArea *pArea, u32 AreaIndex)
 {
     // The AreaIndex parameter is a placeholder until an improved world loader is implemented.

@@ -10,6 +10,7 @@
 
 class CTexture : public CResource
 {
+    DECLARE_RESOURCE_TYPE(eTexture)
     friend class CTextureDecoder;
     friend class CTextureEncoder;
 
@@ -31,7 +32,6 @@ public:
     CTexture(const CTexture& Source);
     CTexture(u32 Width, u32 Height);
     ~CTexture();
-    EResType Type();
 
     bool BufferGL();
     void Bind(u32 GLTextureUnit);

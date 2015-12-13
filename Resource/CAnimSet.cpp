@@ -9,11 +9,6 @@ CAnimSet::~CAnimSet()
 {
 }
 
-EResType CAnimSet::Type()
-{
-    return eAnimSet;
-}
-
 u32 CAnimSet::getNodeCount()
 {
     return nodes.size();

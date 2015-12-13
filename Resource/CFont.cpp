@@ -16,11 +16,6 @@ CFont::~CFont()
 {
 }
 
-EResType CFont::Type()
-{
-    return eFont;
-}
-
 inline float PtsToFloat(s32 pt)
 {
     // This is a bit of an arbitrary number but it works

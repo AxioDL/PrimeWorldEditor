@@ -13,11 +13,6 @@ CScan::~CScan()
 {
 }
 
-EResType CScan::Type()
-{
-    return eScan;
-}
-
 EGame CScan::Version()
 {
     return mVersion;

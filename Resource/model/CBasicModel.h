@@ -8,6 +8,7 @@
 
 class CBasicModel : public CResource
 {
+    DECLARE_RESOURCE_TYPE(eModel)
 protected:
     CAABox mAABox;
     u32 mVertexCount;
@@ -22,7 +23,6 @@ protected:
 public:
     CBasicModel();
     ~CBasicModel();
-    EResType Type();
 
     u32 GetVertexCount();
     u32 GetTriangleCount();

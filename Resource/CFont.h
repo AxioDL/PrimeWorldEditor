@@ -18,6 +18,7 @@ class CRenderer;
 
 class CFont : public CResource
 {
+    DECLARE_RESOURCE_TYPE(eFont)
     friend class CFontLoader;
     static CDynamicVertexBuffer smGlyphVertices; // This is the vertex buffer used to draw glyphs. It has two attributes - Pos and Tex0. Tex0 should be updated for each glyph.
     static CIndexBuffer smGlyphIndices;          // This is the index buffer used to draw glyphs. It uses a triangle strip.
@@ -59,7 +60,6 @@ class CFont : public CResource
 public:
     CFont();
     ~CFont();
-    EResType Type();
     CResource* MakeCopy(CResCache *pCopyCache);
     CVector2f RenderString(const TString& String, CRenderer *pRenderer, float AspectRatio,
                            CVector2f Position = CVector2f(0,0),

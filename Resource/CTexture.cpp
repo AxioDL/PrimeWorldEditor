@@ -53,11 +53,6 @@ CTexture::~CTexture()
     DeleteBuffers();
 }
 
-EResType CTexture::Type()
-{
-    return eTexture;
-}
-
 bool CTexture::BufferGL()
 {
     glGenTextures(1, &mTextureID);

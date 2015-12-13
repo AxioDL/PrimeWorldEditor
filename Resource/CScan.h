@@ -8,6 +8,7 @@
 
 class CScan : public CResource
 {
+    DECLARE_RESOURCE_TYPE(eScan)
     friend class CScanLoader;
 
 public:
@@ -32,7 +33,6 @@ private:
 public:
     CScan();
     ~CScan();
-    EResType Type();
     EGame Version();
     CStringTable* ScanText();
     bool IsImportant();

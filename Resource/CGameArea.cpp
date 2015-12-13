@@ -27,11 +27,6 @@ CGameArea::~CGameArea()
             delete mLightLayers[lyr][lit];
 }
 
-EResType CGameArea::Type()
-{
-    return eArea;
-}
-
 void CGameArea::AddWorldModel(CModel *mdl)
 {
     mTerrainModels.push_back(mdl);

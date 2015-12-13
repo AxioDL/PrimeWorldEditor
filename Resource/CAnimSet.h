@@ -10,6 +10,7 @@
 // will expand later! this is where animation support will come in
 class CAnimSet : public CResource
 {
+    DECLARE_RESOURCE_TYPE(eAnimSet)
     friend class CAnimSetLoader;
 
     struct SNode
@@ -26,7 +27,6 @@ class CAnimSet : public CResource
 public:
     CAnimSet();
     ~CAnimSet();
-    EResType Type();
 
     u32 getNodeCount();
     TString getNodeName(u32 node);

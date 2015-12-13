@@ -9,8 +9,25 @@
 
 class CResCache;
 
+// This macro creates functions that allow us to easily identify this resource type.
+// Must be included on every CResource subclass.
+#define DECLARE_RESOURCE_TYPE(ResTypeEnum) \
+public: \
+    virtual EResType Type() const \
+    { \
+        return ResTypeEnum; \
+    } \
+    \
+    static EResType StaticType() \
+    { \
+        return ResTypeEnum; \
+    } \
+    \
+private: \
+
 class CResource
 {
+    DECLARE_RESOURCE_TYPE(eResource)
     friend class CResCache;
 
     TString mResSource;
@@ -20,7 +37,6 @@ class CResource
 public:
     CResource();
     virtual ~CResource();
-    virtual EResType Type();
     TString Source();
     TString FullSource();
     CUniqueID ResID();

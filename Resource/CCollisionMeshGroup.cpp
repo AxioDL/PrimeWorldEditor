@@ -10,11 +10,6 @@ CCollisionMeshGroup::~CCollisionMeshGroup()
         delete *it;
 }
 
-EResType CCollisionMeshGroup::Type()
-{
-    return eCollisionMeshGroup;
-}
-
 u32 CCollisionMeshGroup::NumMeshes()
 {
     return mMeshes.size();

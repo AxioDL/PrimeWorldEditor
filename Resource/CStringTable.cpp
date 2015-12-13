@@ -8,11 +8,6 @@ CStringTable::~CStringTable()
 {
 }
 
-EResType CStringTable::Type()
-{
-    return eStringTable;
-}
-
 CResource* CStringTable::MakeCopy(CResCache*)
 {
     // Not using parameter 1 (CResCache* - pResCache)
