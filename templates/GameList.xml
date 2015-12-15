@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GameList version="3">
+    <game>
+        <name>Metroid Prime</name>
+        <mlvl>0x11</mlvl>
+        <master>mp1/MasterTemplate.xml</master>
+    </game>
+    <game>
+        <name>Metroid Prime 2: Echoes</name>
+        <mlvl>0x17</mlvl>
+        <master>mp2/MasterTemplate.xml</master>
+    </game>
+    <game>
+        <name>Metroid Prime 3: Corruption</name>
+        <mlvl>0x19</mlvl>
+        <master>mp3/MasterTemplate.xml</master>
+    </game>
+    <game>
+        <name>Donkey Kong Country Returns</name>
+        <mlvl>0x1B</mlvl>
+        <master>dkcr/MasterTemplate.xml</master>
+    </game>
+</GameList>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="3">
+    <name>SpawnPoint</name>
+    <properties version="NTSC">
+        <struct ID="0x255A4580" type="multi">
+            <property ID="0x494E414D"/>
+            <struct ID="0x5846524D" type="single"/>
+            <property ID="0x41435456"/>
+            <property ID="0x5D298A43"/>
+        </struct>
+        <property ID="0xC0E4521B"/>
+        <property ID="0xB9C40F92"/>
+        <property ID="0xA7A88FEF"/>
+        <property ID="0x210F2626"/>
+        <property ID="0xAB0B9AC4"/>
+        <property ID="0x4AD656DA"/>
+        <struct ID="0xF4ED9547" type="multi">
+            <struct ID="0x52C779C0" type="multi">
+                <struct ID="0x336BD471" type="multi">
+                    <property ID="0x94AF1445"/>
+                    <property ID="0x6DC59F13"/>
+                </struct>
+                <struct ID="0xD31B2209" type="multi">
+                    <property ID="0x94AF1445"/>
+                    <property ID="0x6DC59F13"/>
+                </struct>
+                <struct ID="0x152ED0D9" type="multi">
+                    <property ID="0x94AF1445"/>
+                    <property ID="0x6DC59F13"/>
+                </struct>
+                <struct ID="0x950A91AE" type="multi">
+                    <property ID="0x94AF1445"/>
+                    <property ID="0x6DC59F13"/>
+                </struct>
+            </struct>
+            <struct ID="0xEF43B845" type="multi">
+                <property ID="0xF9BC3E3D"/>
+                <property ID="0x42C900ED"/>
+                <property ID="0x4AE27FE7"/>
+                <property ID="0xF34F99D7"/>
+                <struct ID="0xA387191D" type="multi">
+                    <property ID="0x94AF1445"/>
+                    <property ID="0x6DC59F13"/>
+                </struct>
+                <property ID="0x5DB3E694"/>
+                <property ID="0x9AA405C1"/>
+                <property ID="0xA4658688"/>
+                <property ID="0xD23CF29D"/>
+                <property ID="0x5A7E301E"/>
+                <property ID="0xAFC6082D"/>
+            </struct>
+            <struct ID="0x317D45BB" type="multi">
+                <property ID="0x586A8F75"/>
+                <property ID="0x04FCA2A9"/>
+                <property ID="0xF55DD02C"/>
+            </struct>
+            <struct ID="0xED7F3B4A" type="multi">
+                <property ID="0xF618C8E5"/>
+                <property ID="0x15C99E7A"/>
+                <property ID="0x62FFBD9C"/>
+            </struct>
+            <struct ID="0x267F91E5" type="multi">
+                <property ID="0x09DC3CDD"/>
+                <property ID="0xC0BD8A5E"/>
+                <property ID="0x5A066E2C"/>
+            </struct>
+            <struct ID="0x378E02B2" type="multi">
+                <property ID="0xACBDA45C"/>
+                <property ID="0x9C30FF96"/>
+                <property ID="0x26A85DF4"/>
+                <property ID="0xE5B6CB66"/>
+                <property ID="0xE981E1EB"/>
+                <property ID="0xFE9B2803"/>
+                <property ID="0xECD5261F"/>
+                <property ID="0x2A05E6D9"/>
+                <property ID="0xC9328BE2"/>
+            </struct>
+            <struct ID="0xE9C4A786" type="multi">
+                <struct ID="0x398A3608" type="multi">
+                    <property ID="0x94AF1445"/>
+                    <property ID="0x6DC59F13"/>
+                </struct>
+                <property ID="0xF9AEE109"/>
+            </struct>
+        </struct>
+    </properties>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
+        </properties>
+        <assets/>
+		<preview_scale>0.5</preview_scale>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>enabled</scale_type>
+    </editor>
+</ScriptTemplate>

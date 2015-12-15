@@ -1,0 +1,27 @@
+#version 330 core
+
+// Input
+in vec2 TexCoord;
+
+// Output
+out vec4 PixelColor;
+
+// Uniforms
+uniform int RGBALayer;
+uniform vec4 FontColor;
+uniform sampler2D Texture;
+
+// Main
+void main()
+{
+	switch (RGBALayer)
+	{
+	case 0x0: PixelColor = texture(Texture, TexCoord).rrrr; break;
+	case 0x1: PixelColor = texture(Texture, TexCoord).gggg; break;
+	case 0x2: PixelColor = texture(Texture, TexCoord).bbbb; break;
+	case 0x3: PixelColor = texture(Texture, TexCoord).aaaa; break;
+	default:  PixelColor = vec4(0,0,0,0); break;
+	}
+	
+	PixelColor *= FontColor;
+}

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="3">
+    <name>FishCloud</name>
+    <properties version="NTSC">
+        <struct ID="0x255A4580" type="multi">
+            <property ID="0x494E414D"/>
+            <struct ID="0x5846524D" type="single"/>
+            <property ID="0x41435456"/>
+            <property ID="0x5D298A43"/>
+        </struct>
+        <property ID="0x7990A3B6"/>
+        <property ID="0xA244C9D8"/>
+        <property ID="0x2264062E"/>
+        <property ID="0x97BEFF4F"/>
+        <property ID="0x6392404E"/>
+        <property ID="0xCBAB54C1"/>
+        <property ID="0x7864AD0E"/>
+        <property ID="0x61959F0D"/>
+        <property ID="0x4841F1DE"/>
+        <property ID="0xD293EBC4"/>
+        <property ID="0x5F362A14"/>
+        <property ID="0xEC9B73C2"/>
+        <property ID="0x7FF1469E"/>
+        <property ID="0x7CE17870"/>
+        <property ID="0x3A25F09D"/>
+        <property ID="0x23A160F3"/>
+        <property ID="0xF0671410"/>
+        <property ID="0xA1747268"/>
+        <property ID="0xCE77A8D0"/>
+        <property ID="0x8CB20C53"/>
+        <property ID="0x21B3D07C"/>
+        <property ID="0x9939D085"/>
+        <property ID="0x1F83D350"/>
+        <property ID="0xF630B89F"/>
+        <property ID="0x8A6AB139"/>
+        <property ID="0xFE44B7A4"/>
+        <property ID="0x942D6F2A"/>
+        <property ID="0x5BA86245"/>
+        <property ID="0xA8232FB1"/>
+        <property ID="0x23D57BB1"/>
+        <property ID="0x90F4B1E0"/>
+        <property ID="0xBF583BF2"/>
+        <property ID="0xE25BA471"/>
+        <property ID="0x1660C34E"/>
+        <property ID="0x86D50737"/>
+        <property ID="0x7BB9C270"/>
+        <property ID="0xDD3C10EB"/>
+        <property ID="0x91AE1374"/>
+        <property ID="0xBA371DB0"/>
+        <property ID="0xC7C3F610"/>
+        <property ID="0x05C79560"/>
+        <property ID="0xD7BCE5DA"/>
+        <property ID="0xE8B7E32E"/>
+        <property ID="0xC320A050"/>
+        <property ID="0xCD4C81A1"/>
+        <struct ID="0x0D9C6715" type="multi">
+            <property ID="0x5EDA8D99"/>
+            <property ID="0xE387D414"/>
+            <property ID="0x8D1CF97A"/>
+            <property ID="0x4E815E64"/>
+            <property ID="0xB258D3E8"/>
+            <property ID="0x39E08C8E"/>
+            <property ID="0x34D4321C"/>
+            <property ID="0x2459FC0A"/>
+        </struct>
+    </properties>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
+        </properties>
+        <assets>
+            <animparams source="property">0xA244C9D8</animparams>
+            <model source="property">0x7990A3B6</model>
+        </assets>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>volume</scale_type>
+        <preview_volume shape="Box"/>
+    </editor>
+</ScriptTemplate>

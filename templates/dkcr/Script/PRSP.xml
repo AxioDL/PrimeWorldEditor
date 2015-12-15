@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="3">
+    <name>PRSP</name>
+    <properties version="NTSC">
+        <struct ID="0x255A4580" type="multi">
+            <property ID="0x494E414D"/>
+            <struct ID="0x5846524D" type="single"/>
+            <property ID="0x5D298A43"/>
+        </struct>
+        <struct ID="0x3D97FEF6" type="multi">
+            <property ID="0x2F9DED4B"/>
+            <property ID="0x984AF3ED"/>
+            <property ID="0x2BD2AE32"/>
+            <property ID="0x7C519662"/>
+        </struct>
+        <struct ID="0xCC528ED6" type="multi">
+            <property ID="0x8DCEA34F"/>
+            <property ID="0x2F9DED4B"/>
+            <property ID="0x2BD2AE32"/>
+        </struct>
+        <struct ID="0x416BD9EB" type="multi">
+            <property ID="0x5A8B108C"/>
+            <property ID="0xC12E5CE3"/>
+            <property ID="0xB6B08E13"/>
+            <property ID="0x2D15C27C"/>
+            <property ID="0x598D2BF3"/>
+            <property ID="0xC228679C"/>
+            <property ID="0xB5B6B56C"/>
+            <property ID="0x2E13F903"/>
+            <property ID="0x5C876672"/>
+            <property ID="0xC7222A1D"/>
+            <property ID="0xE2B2C856"/>
+        </struct>
+        <property ID="0xF8B3ABE0"/>
+        <property ID="0x563F35C8"/>
+        <property ID="0x32CE899F"/>
+        <property ID="0x162C827C"/>
+        <property ID="0x899F8473"/>
+    </properties>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+        </properties>
+        <assets>
+            <animparams source="property">0xF8B3ABE0</animparams>
+            <animparams source="property">0x32CE899F</animparams>
+            <animparams source="property">0x162C827C</animparams>
+            <animparams source="property">0x899F8473</animparams>
+        </assets>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>enabled</scale_type>
+    </editor>
+</ScriptTemplate>

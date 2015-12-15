@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="3">
+    <name>RoomAcoustics</name>
+    <properties version="NTSC">
+        <struct ID="0x255A4580" type="multi">
+            <property ID="0x494E414D"/>
+            <struct ID="0x5846524D" type="single"/>
+            <property ID="0x41435456"/>
+            <property ID="0x5D298A43"/>
+        </struct>
+        <property ID="0xBD9EA266"/>
+        <property ID="0x86CF23F4"/>
+        <property ID="0xA00360CC"/>
+        <property ID="0x3263C26E"/>
+        <property ID="0xC5868061"/>
+        <property ID="0xC6F50032"/>
+        <property ID="0xCBA5555D"/>
+        <property ID="0x7319CF50"/>
+        <property ID="0x3DC3F16F"/>
+        <property ID="0xD5518B6C"/>
+        <property ID="0x26997CCB"/>
+        <property ID="0x121BDFAD"/>
+        <property ID="0xE8796BCE"/>
+        <property ID="0x24BBD5E4"/>
+        <property ID="0xFF31631B"/>
+        <property ID="0x4A5BBF90"/>
+        <property ID="0x9662498A"/>
+        <property ID="0x91855D62"/>
+        <property ID="0xD34D2029"/>
+        <property ID="0xDC78E83D"/>
+        <property ID="0x820B509E"/>
+        <property ID="0xE9A36031"/>
+        <property ID="0x62C49457"/>
+        <property ID="0xDA78F332"/>
+        <property ID="0xC8CD5CDC"/>
+        <property ID="0x7C14FF17"/>
+        <property ID="0xC4A89872"/>
+        <property ID="0xD61D379C"/>
+        <property ID="0x9F75987F"/>
+        <property ID="0x27C9FF1A"/>
+        <property ID="0x357C50F4"/>
+        <property ID="0xCF45711C"/>
+        <property ID="0x626D1E9B"/>
+        <property ID="0x7D8EE273"/>
+        <property ID="0x83378E6A"/>
+        <property ID="0xF549D269"/>
+        <property ID="0x11FDAE16"/>
+        <property ID="0xA3C439C1"/>
+        <property ID="0x2DC70EFE"/>
+        <property ID="0xE2BD3706"/>
+        <property ID="0x5E29CEF8"/>
+        <property ID="0x35AE9F10"/>
+        <property ID="0x3E8D8694"/>
+        <property ID="0xF51A1D6A"/>
+        <property ID="0xBB1A0F34"/>
+        <property ID="0xEB009039"/>
+        <property ID="0x58096E0B"/>
+        <property ID="0x3D8CAD84"/>
+        <property ID="0x23C340F6"/>
+        <property ID="0x1E5A52B8"/>
+        <property ID="0x1D69BEC4"/>
+        <property ID="0x24538C4A"/>
+        <property ID="0xD5388116"/>
+    </properties>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
+        </properties>
+        <assets/>
+		<preview_scale>0.5</preview_scale>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>enabled</scale_type>
+    </editor>
+</ScriptTemplate>

@@ -1,0 +1,44 @@
+<?xml version="1.0" ?>
+<enum name="InventorySlot">
+	<enumerator value="0x0" name="Power Beam" />
+	<enumerator value="0x1" name="Ice Beam" />
+	<enumerator value="0x2" name="Wave Beam" />
+	<enumerator value="0x3" name="Plasma Beam" />
+	<enumerator value="0x4" name="Missile" />
+	<enumerator value="0x5" name="Scan Visor" />
+	<enumerator value="0x6" name="Morph Ball Bomb" />
+	<enumerator value="0x7" name="Power Bomb" />
+	<enumerator value="0x8" name="Flamethrower" />
+	<enumerator value="0x9" name="Thermal Visor" />
+	<enumerator value="0xA" name="Charge Beam" />
+	<enumerator value="0xB" name="Super Missile" />
+	<enumerator value="0xC" name="Grapple Beam" />
+	<enumerator value="0xD" name="X-Ray Visor" />
+	<enumerator value="0xE" name="Ice Spreader" />
+	<enumerator value="0xF" name="Space Jump Boots" />
+	<enumerator value="0x10" name="Morph Ball" />
+	<enumerator value="0x11" name="Combat Visor" />
+	<enumerator value="0x12" name="Boost Ball" />
+	<enumerator value="0x13" name="Spider Ball" />
+	<enumerator value="0x14" name="Power Suit" />
+	<enumerator value="0x15" name="Gravity Suit" />
+	<enumerator value="0x16" name="Varia Suit" />
+	<enumerator value="0x17" name="Phazon Suit" />
+	<enumerator value="0x18" name="Energy Tank" />
+	<enumerator value="0x19" name="Unknown Item 1" />
+	<enumerator value="0x1A" name="Health Refill" />
+	<enumerator value="0x1B" name="Unknown Item 2" />
+	<enumerator value="0x1C" name="Wavebuster" />
+	<enumerator value="0x1D" name="Artifact of Truth" />
+	<enumerator value="0x1E" name="Artifact of Strength" />
+	<enumerator value="0x1F" name="Artifact of Elder" />
+	<enumerator value="0x20" name="Artifact of Wild" />
+	<enumerator value="0x21" name="Artifact of Lifegiver" />
+	<enumerator value="0x22" name="Artifact of Warrior" />
+	<enumerator value="0x23" name="Artifact of Chozo" />
+	<enumerator value="0x24" name="Artifact of Nature" />
+	<enumerator value="0x25" name="Artifact of Sun" />
+	<enumerator value="0x26" name="Artifact of World" />
+	<enumerator value="0x27" name="Artifact of Spirit" />
+	<enumerator value="0x28" name="Artifact of Newborn" />
+</enum>

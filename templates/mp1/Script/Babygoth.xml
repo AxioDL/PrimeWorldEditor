@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="3">
+    <name>Babygoth</name>
+    <properties version="NTSC">
+        <property ID="0x00" name="Name" type="string"/>
+        <property ID="0x01" name="Position" type="vector3f"/>
+        <property ID="0x02" name="Rotation" type="vector3f"/>
+        <property ID="0x03" name="Scale" type="vector3f"/>
+        <struct ID="0x04" name="PatternedInfo" template="Structs/PatternedInfo.xml"/>
+        <struct ID="0x05" name="ActorParameters" template="Structs/ActorParameters.xml"/>
+        <property ID="0x06" name="Unknown 1" type="float"/>
+        <property ID="0x07" name="Unknown 2" type="float"/>
+        <property ID="0x08" name="WPSC 1" type="file" ext="WPSC"/>
+        <struct ID="0x09" name="DamageInfo 1" template="Structs/DamageInfo.xml"/>
+        <struct ID="0x0A" name="DamageInfo 2" template="Structs/DamageInfo.xml"/>
+        <property ID="0x0B" name="WPSC 2" type="file" ext="WPSC"/>
+        <property ID="0x0C" name="Particle 1" type="file" ext="PART"/>
+        <struct ID="0x0D" name="DamageInfo 3" template="Structs/DamageInfo.xml"/>
+        <struct ID="0x0E" name="DamageVulnerability 1" template="Structs/DamageVulnerability.xml"/>
+        <struct ID="0x0F" name="DamageVulnerability 2" template="Structs/DamageVulnerability.xml"/>
+        <property ID="0x10" name="Model" type="file" ext="CMDL"/>
+        <property ID="0x11" name="CSKR" type="file" ext="CSKR"/>
+        <property ID="0x12" name="Unknown 3" type="float"/>
+        <property ID="0x13" name="Unknown 4" type="long"/>
+        <property ID="0x14" name="Particle 2" type="file" ext="PART"/>
+        <property ID="0x15" name="Particle 3" type="file" ext="PART"/>
+        <property ID="0x16" name="Particle 4" type="file" ext="PART"/>
+        <property ID="0x17" name="Particle 5" type="file" ext="PART"/>
+        <property ID="0x18" name="Unknown 5" type="long"/>
+        <property ID="0x19" name="Unknown 6" type="long"/>
+        <property ID="0x1A" name="Unknown 7" type="long"/>
+        <property ID="0x1B" name="Unknown 8" type="float"/>
+        <property ID="0x1C" name="Unknown 9" type="float"/>
+        <property ID="0x1D" name="Unknown 10" type="float"/>
+        <property ID="0x1E" name="Texture" type="file" ext="TXTR"/>
+        <property ID="0x1F" name="Unknown 11" type="long"/>
+        <property ID="0x20" name="Particle 6" type="file" ext="PART"/>
+    </properties>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x00"/>
+            <property name="Position" ID="0x01"/>
+            <property name="Rotation" ID="0x02"/>
+            <property name="Scale" ID="0x03"/>
+            <property name="Active" ID="0x04:0x1A"/>
+            <property name="LightParameters" ID="0x05:0x00"/>
+        </properties>
+        <assets>
+            <animparams source="property">0x04:0x19</animparams>
+            <model source="property">0x05:0x02</model>
+            <model source="property">0x05:0x04</model>
+            <model source="property">0x10</model>
+        </assets>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>enabled</scale_type>
+    </editor>
+</ScriptTemplate>

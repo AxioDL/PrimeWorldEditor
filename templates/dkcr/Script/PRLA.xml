@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="3">
+    <name>PRLA</name>
+    <properties version="NTSC">
+        <struct ID="0x255A4580" type="multi">
+            <property ID="0x494E414D"/>
+            <struct ID="0x5846524D" type="single"/>
+            <property ID="0x5D298A43"/>
+        </struct>
+        <struct ID="0x18E3B4E9" type="multi">
+            <property ID="0xFDE3A4F5"/>
+            <property ID="0x8A7D7605"/>
+            <property ID="0x11D83A6A"/>
+            <property ID="0x6540D3E5"/>
+            <property ID="0xFEE59F8A"/>
+        </struct>
+        <struct ID="0x219B19A9" type="multi">
+            <property ID="0xFDE3A4F5"/>
+            <property ID="0x8A7D7605"/>
+            <property ID="0x11D83A6A"/>
+            <property ID="0x6540D3E5"/>
+            <property ID="0xFEE59F8A"/>
+        </struct>
+        <struct ID="0x121CB465" type="multi">
+            <property ID="0xFDE3A4F5"/>
+            <property ID="0x11D83A6A"/>
+            <property ID="0x8A7D7605"/>
+            <property ID="0x6540D3E5"/>
+            <property ID="0xFEE59F8A"/>
+        </struct>
+        <struct ID="0xFFB7A5BE" type="multi">
+            <property ID="0xFDE3A4F5"/>
+            <property ID="0x11D83A6A"/>
+            <property ID="0x8A7D7605"/>
+            <property ID="0xFEE59F8A"/>
+            <property ID="0x6540D3E5"/>
+        </struct>
+    </properties>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+        </properties>
+        <assets/>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>disabled</scale_type>
+    </editor>
+</ScriptTemplate>

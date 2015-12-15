@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="3">
+    <name>DarkSamusBattleStage</name>
+    <properties version="NTSC">
+        <struct ID="0x255A4580" type="multi">
+            <property ID="0x494E414D"/>
+            <struct ID="0x5846524D" type="single"/>
+            <property ID="0x5D298A43"/>
+        </struct>
+        <struct ID="0xD83CAAB6" type="multi">
+            <property ID="0xB5AF7831"/>
+            <property ID="0xAC65EB7A"/>
+            <property ID="0x4F3855A0"/>
+            <property ID="0x08C0B02C"/>
+            <property ID="0x695F68C7"/>
+            <property ID="0xD061FF99"/>
+            <property ID="0x97DBD42A"/>
+            <property ID="0x71BB7BCB"/>
+            <property ID="0xB751778B"/>
+            <struct ID="0xD6740348" type="multi">
+                <property ID="0x7EE77018"/>
+                <property ID="0xBFB7CA5C"/>
+                <property ID="0x1E2DEBC6"/>
+            </struct>
+            <property ID="0x3FF87A8C"/>
+            <property ID="0x49B9936D"/>
+            <property ID="0xC96B8223"/>
+            <property ID="0x53FDCB5B"/>
+            <property ID="0x0D7EF013"/>
+            <property ID="0xAA85C885"/>
+            <property ID="0x80F7E605"/>
+            <property ID="0x479F6A4F"/>
+            <property ID="0x778791F5"/>
+            <property ID="0xCE4C4668"/>
+            <property ID="0x5951A03F"/>
+            <property ID="0x94615651"/>
+            <property ID="0x94F48974"/>
+            <property ID="0x6E40FB76"/>
+            <property ID="0xB2C1E4FA"/>
+            <property ID="0xF5CF3C0F"/>
+            <property ID="0x6847EFA7"/>
+            <property ID="0x083FD602"/>
+            <property ID="0xDB21402F"/>
+            <property ID="0xE63286EB"/>
+            <property ID="0x4AAE6186"/>
+            <property ID="0x2BD1C15B"/>
+            <property ID="0xB53693FA"/>
+            <property ID="0x2D7551E6"/>
+            <property ID="0x93A876F3"/>
+            <property ID="0xAEA228B9"/>
+            <property ID="0x911A2476"/>
+        </struct>
+    </properties>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+        </properties>
+        <assets/>
+		<preview_scale>0.5</preview_scale>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>enabled</scale_type>
+    </editor>
+</ScriptTemplate>

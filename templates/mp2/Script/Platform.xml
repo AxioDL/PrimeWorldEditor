@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="3">
+    <name>Platform</name>
+    <properties version="NTSC">
+        <struct ID="0x255A4580" type="multi">
+            <property ID="0x494E414D"/>
+            <struct ID="0x5846524D" type="single"/>
+            <property ID="0x41435456"/>
+            <property ID="0x5D298A43"/>
+        </struct>
+        <property ID="0xF344C0B0"/>
+        <property ID="0x2E686C2A"/>
+        <property ID="0xC27FFA8F"/>
+        <property ID="0xE25FB08C"/>
+        <struct ID="0x7E397FED" type="multi">
+            <struct ID="0xB028DB0E" type="multi">
+                <property ID="0xCD639B46"/>
+                <property ID="0x1D011A39"/>
+                <property ID="0xECDA4163"/>
+                <property ID="0x3E2CD38D"/>
+                <property ID="0x0328E31B"/>
+                <property ID="0xA33E5B0E"/>
+                <property ID="0xA71810E9"/>
+                <property ID="0x6B5E7509"/>
+                <property ID="0x628E6AC3"/>
+                <property ID="0xD19DE775"/>
+                <property ID="0xCAC1E778"/>
+                <property ID="0x67F4D3DE"/>
+                <property ID="0xFB7A7ABB"/>
+                <property ID="0x61A940D6"/>
+                <property ID="0x1F715FD3"/>
+            </struct>
+            <struct ID="0x375BFD7C" type="multi">
+                <property ID="0xB94E9BE7"/>
+            </struct>
+            <property ID="0xC0BA9E18"/>
+            <property ID="0x9F027D91"/>
+            <property ID="0x6B1FBC3A"/>
+            <property ID="0xEB1D06BE"/>
+            <property ID="0x1499803C"/>
+            <property ID="0x90AA341F"/>
+            <property ID="0x7C269EBC"/>
+            <struct ID="0x05AD250E" type="multi">
+                <property ID="0xFE9DC266"/>
+                <property ID="0xCA19E8C6"/>
+            </struct>
+            <property ID="0xCD4C81A1"/>
+            <property ID="0x799263F1"/>
+            <property ID="0xED3A6E87"/>
+            <property ID="0xF07981E8"/>
+            <property ID="0x6DF33845"/>
+            <property ID="0xC712847C"/>
+            <property ID="0xBA2600D7"/>
+        </struct>
+        <property ID="0x0FC966DC"/>
+        <struct ID="0xCF90D15E" type="multi">
+            <property ID="0xF0668919"/>
+            <property ID="0x3A2D17E4"/>
+        </struct>
+        <struct ID="0x7B71AE90" type="multi">
+            <struct ID="0xAC8BB2A7" type="multi">
+                <property ID="0x852D3871"/>
+                <property ID="0x68ACBD86"/>
+                <property ID="0x93677DA2"/>
+            </struct>
+            <struct ID="0xB19B6D6C" type="multi">
+                <property ID="0x852D3871"/>
+                <property ID="0x68ACBD86"/>
+                <property ID="0x93677DA2"/>
+            </struct>
+            <struct ID="0x002444C6" type="multi">
+                <property ID="0x852D3871"/>
+                <property ID="0x68ACBD86"/>
+                <property ID="0x93677DA2"/>
+            </struct>
+            <struct ID="0xE6BACDE5" type="multi">
+                <property ID="0x852D3871"/>
+                <property ID="0x68ACBD86"/>
+                <property ID="0x93677DA2"/>
+            </struct>
+            <struct ID="0xD99C0400" type="multi">
+                <property ID="0x852D3871"/>
+                <property ID="0x68ACBD86"/>
+                <property ID="0x93677DA2"/>
+            </struct>
+            <struct ID="0xC70D8B8B" type="multi">
+                <property ID="0x852D3871"/>
+                <property ID="0x68ACBD86"/>
+                <property ID="0x93677DA2"/>
+            </struct>
+            <struct ID="0x866F91BF" type="multi">
+                <property ID="0x852D3871"/>
+                <property ID="0x68ACBD86"/>
+                <property ID="0x93677DA2"/>
+            </struct>
+            <struct ID="0x68AE13A0" type="multi">
+                <property ID="0x852D3871"/>
+                <property ID="0x68ACBD86"/>
+                <property ID="0x93677DA2"/>
+            </struct>
+            <struct ID="0xF0B2F4CF" type="multi">
+                <property ID="0x852D3871"/>
+                <property ID="0x68ACBD86"/>
+                <property ID="0x93677DA2"/>
+            </struct>
+            <struct ID="0x00EFE8CB" type="multi">
+                <property ID="0x852D3871"/>
+                <property ID="0x68ACBD86"/>
+                <property ID="0x93677DA2"/>
+            </struct>
+            <struct ID="0xBB70093F" type="multi">
+                <property ID="0x852D3871"/>
+                <property ID="0x68ACBD86"/>
+                <property ID="0x93677DA2"/>
+            </struct>
+            <struct ID="0xBFAC229F" type="multi">
+                <property ID="0x852D3871"/>
+                <property ID="0x68ACBD86"/>
+                <property ID="0x93677DA2"/>
+            </struct>
+            <struct ID="0x50DDE891" type="multi">
+                <property ID="0x852D3871"/>
+                <property ID="0x68ACBD86"/>
+                <property ID="0x93677DA2"/>
+            </struct>
+            <struct ID="0x97B5C68B" type="multi">
+                <property ID="0x852D3871"/>
+                <property ID="0x68ACBD86"/>
+                <property ID="0x93677DA2"/>
+            </struct>
+            <struct ID="0xF4CE8ACF" type="multi">
+                <property ID="0x852D3871"/>
+                <property ID="0x68ACBD86"/>
+                <property ID="0x93677DA2"/>
+            </struct>
+            <struct ID="0x1D52588D" type="multi">
+                <property ID="0x852D3871"/>
+                <property ID="0x68ACBD86"/>
+                <property ID="0x93677DA2"/>
+            </struct>
+            <struct ID="0x64DDD543" type="multi">
+                <property ID="0x852D3871"/>
+                <property ID="0x68ACBD86"/>
+                <property ID="0x93677DA2"/>
+            </struct>
+            <struct ID="0x3D625F10" type="multi">
+                <property ID="0x852D3871"/>
+                <property ID="0x68ACBD86"/>
+                <property ID="0x93677DA2"/>
+            </struct>
+            <struct ID="0x591B80E3" type="multi">
+                <property ID="0x852D3871"/>
+                <property ID="0x68ACBD86"/>
+                <property ID="0x93677DA2"/>
+            </struct>
+            <struct ID="0xA442B4A3" type="multi">
+                <property ID="0x852D3871"/>
+                <property ID="0x68ACBD86"/>
+                <property ID="0x93677DA2"/>
+            </struct>
+            <struct ID="0x2A0F0524" type="multi">
+                <property ID="0x852D3871"/>
+                <property ID="0x68ACBD86"/>
+                <property ID="0x93677DA2"/>
+            </struct>
+            <struct ID="0x949E3C86" type="multi">
+                <property ID="0x852D3871"/>
+                <property ID="0x68ACBD86"/>
+                <property ID="0x93677DA2"/>
+            </struct>
+            <struct ID="0x5BA991B1" type="multi">
+                <property ID="0x852D3871"/>
+                <property ID="0x68ACBD86"/>
+                <property ID="0x93677DA2"/>
+            </struct>
+            <struct ID="0x6924B8C1" type="multi">
+                <property ID="0x852D3871"/>
+                <property ID="0x68ACBD86"/>
+                <property ID="0x93677DA2"/>
+            </struct>
+            <struct ID="0x1AB78BEF" type="multi">
+                <property ID="0x852D3871"/>
+                <property ID="0x68ACBD86"/>
+                <property ID="0x93677DA2"/>
+            </struct>
+            <struct ID="0xFCDCB7D4" type="multi">
+                <property ID="0x852D3871"/>
+                <property ID="0x68ACBD86"/>
+                <property ID="0x93677DA2"/>
+            </struct>
+            <struct ID="0x311FB061" type="multi">
+                <property ID="0x852D3871"/>
+                <property ID="0x68ACBD86"/>
+                <property ID="0x93677DA2"/>
+            </struct>
+            <struct ID="0x89D25DF4" type="multi">
+                <property ID="0x852D3871"/>
+                <property ID="0x68ACBD86"/>
+                <property ID="0x93677DA2"/>
+            </struct>
+            <struct ID="0x3356D37E" type="multi">
+                <property ID="0x852D3871"/>
+                <property ID="0x68ACBD86"/>
+                <property ID="0x93677DA2"/>
+            </struct>
+        </struct>
+        <property ID="0x6150D687"/>
+        <property ID="0xDCD56FE8"/>
+        <property ID="0x682DE15C"/>
+        <property ID="0xAC3ADDA6"/>
+        <property ID="0xF203BC81"/>
+        <struct ID="0x0A9DBF91" type="multi">
+            <struct ID="0x493D6A2D" type="multi">
+                <property ID="0xF53DCDD6"/>
+            </struct>
+            <property ID="0x27E5F874"/>
+            <property ID="0xFD1E2F56"/>
+            <property ID="0xA5753D52"/>
+            <property ID="0xAE80628F"/>
+            <property ID="0x628BDF0F"/>
+            <property ID="0x78D03A32"/>
+            <property ID="0xB4A2E15A"/>
+        </struct>
+        <property ID="0x24FDEEA1"/>
+        <property ID="0xBF69C03E"/>
+    </properties>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
+            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
+        </properties>
+        <assets>
+            <animparams source="property">0xE25FB08C</animparams>
+            <model source="property">0xC27FFA8F</model>
+            <model source="property">0x7E397FED:0xC0BA9E18</model>
+            <model source="property">0x7E397FED:0x6B1FBC3A</model>
+			<collision source="property">0x0FC966DC</collision>
+        </assets>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>enabled</scale_type>
+    </editor>
+</ScriptTemplate>

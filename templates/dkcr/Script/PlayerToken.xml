@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="3">
+    <name>PlayerToken</name>
+    <properties version="NTSC">
+        <struct ID="0x255A4580" type="multi">
+            <property ID="0x494E414D"/>
+            <struct ID="0x5846524D" type="single"/>
+            <property ID="0x5D298A43"/>
+        </struct>
+        <property ID="0xC27FFA8F"/>
+        <property ID="0xA244C9D8"/>
+        <property ID="0xA9EB0FC8"/>
+        <property ID="0x0B30ECAE"/>
+        <property ID="0x7CA5B474"/>
+        <property ID="0xF9786405"/>
+        <struct ID="0x7E397FED" type="multi">
+            <struct ID="0xB028DB0E" type="multi">
+                <property ID="0x6B5E7509"/>
+            </struct>
+        </struct>
+        <struct ID="0x2F7EC0A2" type="multi">
+            <property ID="0xF437A62F"/>
+            <property ID="0x6F92EA40"/>
+            <property ID="0x180C38B0"/>
+        </struct>
+        <struct ID="0x680E96EA" type="multi">
+            <property ID="0xF437A62F"/>
+            <property ID="0x6F92EA40"/>
+            <property ID="0x180C38B0"/>
+        </struct>
+    </properties>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+        </properties>
+        <assets>
+            <animparams source="property">0xA244C9D8</animparams>
+            <animparams source="property">0xA9EB0FC8</animparams>
+            <animparams source="property">0x0B30ECAE</animparams>
+            <animparams source="property">0x7CA5B474</animparams>
+            <model source="property">0xC27FFA8F</model>
+        </assets>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>enabled</scale_type>
+    </editor>
+</ScriptTemplate>

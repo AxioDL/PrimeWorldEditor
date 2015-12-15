@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="3">
+    <name>WorldTeleporter</name>
+    <properties version="NTSC">
+        <struct ID="0x255A4580" type="multi">
+            <property ID="0x494E414D"/>
+            <struct ID="0x5846524D" type="single"/>
+            <property ID="0x41435456"/>
+            <property ID="0x5D298A43"/>
+        </struct>
+        <property ID="0x31EC14BC"/>
+        <property ID="0xE0C17804"/>
+        <property ID="0x474BCCE3"/>
+        <property ID="0xA9496551"/>
+        <property ID="0xBBEF4D0D"/>
+        <property ID="0xCCEFC618"/>
+        <property ID="0x05014C61"/>
+        <property ID="0xF9EF55D4"/>
+        <property ID="0x3C79E121"/>
+        <property ID="0x8E718724"/>
+        <property ID="0x6C176DD6"/>
+        <property ID="0x9182250C"/>
+        <property ID="0xC54082E8"/>
+        <property ID="0xD9B2394F"/>
+        <property ID="0x353582BD"/>
+        <property ID="0x196E17D9"/>
+        <property ID="0xB28F37B1"/>
+        <property ID="0xA1C4E7F8"/>
+        <property ID="0x79CDA57C"/>
+        <property ID="0x0B5240E3"/>
+        <property ID="0x71786711"/>
+        <property ID="0x2E26702D"/>
+        <property ID="0x53963A68"/>
+        <property ID="0x4EBF760D"/>
+        <property ID="0x61930573"/>
+        <property ID="0x5D7E79A1"/>
+        <property ID="0xBB5204C8"/>
+        <property ID="0xB7DCD0CA"/>
+        <property ID="0x04D03E41"/>
+        <property ID="0xC7A7F189"/>
+        <property ID="0xDF4353A3"/>
+        <property ID="0x8DFF5674"/>
+        <property ID="0x31FA1FE0"/>
+        <property ID="0xEA593294"/>
+        <property ID="0x5657CA1C"/>
+        <property ID="0xBD6A406D"/>
+    </properties>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
+        </properties>
+        <assets>
+            <animparams source="property">0xA9496551</animparams>
+            <animparams source="property">0xBBEF4D0D</animparams>
+            <animparams source="property">0x05014C61</animparams>
+            <animparams source="property">0x3C79E121</animparams>
+            <animparams source="property">0x53963A68</animparams>
+            <animparams source="property">0x4EBF760D</animparams>
+            <animparams source="property">0x5D7E79A1</animparams>
+            <animparams source="property">0xBB5204C8</animparams>
+            <model source="property">0xCCEFC618</model>
+            <model source="property">0xB7DCD0CA</model>
+        </assets>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>enabled</scale_type>
+    </editor>
+</ScriptTemplate>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="3">
+    <name>Pickup</name>
+    <properties version="NTSC">
+        <struct ID="0x255A4580" type="multi">
+            <property ID="0x494E414D"/>
+            <struct ID="0x5846524D" type="single"/>
+            <property ID="0x41435456"/>
+            <property ID="0x5D298A43"/>
+        </struct>
+        <property ID="0x16D9A75D"/>
+        <property ID="0x3A3E03BA"/>
+        <property ID="0x2E686C2A"/>
+        <property ID="0xC27FFA8F"/>
+        <property ID="0xA244C9D8"/>
+        <property ID="0x2CF40978"/>
+        <property ID="0x3128976F"/>
+        <struct ID="0x7E397FED" type="multi">
+            <struct ID="0xB028DB0E" type="multi">
+                <property ID="0x6B5E7509"/>
+                <property ID="0x628E6AC3"/>
+                <property ID="0xA71810E9"/>
+                <property ID="0x1F715FD3"/>
+            </struct>
+        </struct>
+        <struct ID="0xD545F36B" type="multi">
+            <property ID="0x2F5456A7"/>
+            <property ID="0xED398EFB"/>
+            <property ID="0xE1CB9EC7"/>
+            <property ID="0xA9FE872A"/>
+            <property ID="0x371CD734"/>
+            <property ID="0xAA125F90"/>
+            <property ID="0xDB5B110D"/>
+            <property ID="0x5DCF63A3"/>
+            <property ID="0x9693B006"/>
+            <property ID="0x1E093B02"/>
+            <property ID="0x2CF86398"/>
+            <property ID="0x93D41865"/>
+            <property ID="0x15406ACB"/>
+            <property ID="0xDE1CB96E"/>
+            <property ID="0x6B40ACEF"/>
+            <property ID="0x961C0D17"/>
+            <property ID="0xA755EB02"/>
+            <property ID="0x69539DFC"/>
+            <property ID="0x85CEA266"/>
+            <property ID="0xA6AA06D5"/>
+            <property ID="0xBC96214F"/>
+            <property ID="0xFC7CFE9B"/>
+            <property ID="0xEA3675C5"/>
+            <property ID="0xE722238D"/>
+            <property ID="0xA02EF0C4"/>
+            <property ID="0x7C269EBC"/>
+            <property ID="0x28C71B54"/>
+            <property ID="0x32DC67F6"/>
+            <property ID="0x94AF1445"/>
+            <property ID="0x39262BCE"/>
+            <property ID="0x059FEFC5"/>
+            <property ID="0xF7FBAAA5"/>
+        </struct>
+        <property ID="0xB0374D34"/>
+        <struct ID="0x9DA7ABFA" type="multi">
+            <property ID="0xD5417338"/>
+            <struct ID="0xD756416E" type="multi">
+                <property ID="0x65C4FB4A"/>
+            </struct>
+            <property ID="0xD5E7B11E"/>
+            <property ID="0xD258286D"/>
+            <property ID="0xE22DD9BB"/>
+        </struct>
+    </properties>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
+            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
+        </properties>
+        <assets>
+            <animparams source="property">0xA244C9D8</animparams>
+            <animparams source="property">0x3128976F</animparams>
+            <model source="property">0xC27FFA8F</model>
+            <model source="property">0xD545F36B:0xED398EFB</model>
+        </assets>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>enabled</scale_type>
+    </editor>
+</ScriptTemplate>

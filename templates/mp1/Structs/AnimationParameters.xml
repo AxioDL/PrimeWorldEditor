@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="AnimationParameters" type="single">
+    <property ID="0x00" name="AnimSet" type="file" ext="ANCS"/>
+    <property ID="0x01" name="Node" type="long"/>
+    <property ID="0x02" name="ANCS int 2" type="long"/>
+</struct>

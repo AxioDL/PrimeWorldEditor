@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="3">
+    <name>AreaAttributes</name>
+    <properties version="NTSC">
+        <property ID="0x00" name="Unknown 1" type="long"/>
+        <property ID="0x01" name="Skybox toggle" type="bool"/>
+        <property ID="0x02" name="Unknown 2" type="long"/>
+        <property ID="0x03" name="Unknown 3" type="float"/>
+        <property ID="0x04" name="Unknown 4" type="float"/>
+        <property ID="0x05" name="Unknown 5" type="float"/>
+        <property ID="0x06" name="Unknown 6" type="float"/>
+        <property ID="0x07" name="Skybox model (uses MLVL skybox if not specified)" type="file" ext="CMDL"/>
+        <property ID="0x08" name="Unknown 7" type="long"/>
+    </properties>
+    <editor>
+        <properties/>
+        <assets>
+            <model source="property">0x07</model>
+        </assets>
+        <rotation_type>disabled</rotation_type>
+        <scale_type>disabled</scale_type>
+    </editor>
+</ScriptTemplate>

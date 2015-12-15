@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="3">
+    <name>RoomAcoustics</name>
+    <properties version="NTSC">
+        <property ID="0x00" name="Name" type="string"/>
+        <property ID="0x01" name="Unknown 1" type="bool"/>
+        <property ID="0x02" name="Unknown 2" type="long"/>
+        <property ID="0x03" name="Unknown 3" type="bool"/>
+        <property ID="0x04" name="Unknown 4" type="bool"/>
+        <property ID="0x05" name="Unknown 5" type="float"/>
+        <property ID="0x06" name="Unknown 6" type="float"/>
+        <property ID="0x07" name="Unknown 7" type="float"/>
+        <property ID="0x08" name="Unknown 8" type="float"/>
+        <property ID="0x09" name="Unknown 9" type="float"/>
+        <property ID="0x0A" name="Unknown 10" type="float"/>
+        <property ID="0x0B" name="Unknown 11" type="bool"/>
+        <property ID="0x0C" name="Unknown 12" type="float"/>
+        <property ID="0x0D" name="Unknown 13" type="float"/>
+        <property ID="0x0E" name="Unknown 14" type="float"/>
+        <property ID="0x0F" name="Unknown 15" type="bool"/>
+        <property ID="0x10" name="Unknown 16" type="bool"/>
+        <property ID="0x11" name="Unknown 17" type="float"/>
+        <property ID="0x12" name="Unknown 18" type="float"/>
+        <property ID="0x13" name="Unknown 19" type="float"/>
+        <property ID="0x14" name="Unknown 20" type="float"/>
+        <property ID="0x15" name="Unknown 21" type="float"/>
+        <property ID="0x16" name="Unknown 22" type="bool"/>
+        <property ID="0x17" name="Unknown 23" type="long"/>
+        <property ID="0x18" name="Unknown 24" type="long"/>
+        <property ID="0x19" name="Unknown 25" type="long"/>
+        <property ID="0x1A" name="Unknown 26" type="long"/>
+        <property ID="0x1B" name="Unknown 27" type="long"/>
+        <property ID="0x1C" name="Unknown 28" type="long"/>
+        <property ID="0x1D" name="Unknown 29" type="long"/>
+        <property ID="0x1E" name="Unknown 30" type="long"/>
+        <property ID="0x1F" name="Unknown 31" type="long"/>
+    </properties>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x00"/>
+        </properties>
+        <assets/>
+        <rotation_type>disabled</rotation_type>
+        <scale_type>disabled</scale_type>
+    </editor>
+</ScriptTemplate>

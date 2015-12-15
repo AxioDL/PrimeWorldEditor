@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="3">
+    <name>SnakeWeedSwarm</name>
+    <properties version="NTSC">
+        <struct ID="0x255A4580" type="multi">
+            <property ID="0x494E414D"/>
+            <struct ID="0x5846524D" type="single"/>
+            <property ID="0x41435456"/>
+            <property ID="0x5D298A43"/>
+        </struct>
+        <property ID="0xE25FB08C"/>
+        <struct ID="0x7E397FED" type="multi">
+            <struct ID="0xB028DB0E" type="multi">
+                <property ID="0xCD639B46"/>
+                <property ID="0x1D011A39"/>
+                <property ID="0xECDA4163"/>
+                <property ID="0x3E2CD38D"/>
+                <property ID="0x0328E31B"/>
+                <property ID="0xA33E5B0E"/>
+                <property ID="0xA71810E9"/>
+                <property ID="0x6B5E7509"/>
+                <property ID="0x628E6AC3"/>
+                <property ID="0xD19DE775"/>
+                <property ID="0xCAC1E778"/>
+                <property ID="0x67F4D3DE"/>
+                <property ID="0xFB7A7ABB"/>
+                <property ID="0x61A940D6"/>
+                <property ID="0x1F715FD3"/>
+            </struct>
+            <struct ID="0x375BFD7C" type="multi">
+                <property ID="0xB94E9BE7"/>
+            </struct>
+            <property ID="0xC0BA9E18"/>
+            <property ID="0x9F027D91"/>
+            <property ID="0x6B1FBC3A"/>
+            <property ID="0xEB1D06BE"/>
+            <property ID="0x1499803C"/>
+            <property ID="0x90AA341F"/>
+            <property ID="0x7C269EBC"/>
+            <struct ID="0x05AD250E" type="multi">
+                <property ID="0xFE9DC266"/>
+                <property ID="0xCA19E8C6"/>
+            </struct>
+            <property ID="0xCD4C81A1"/>
+            <property ID="0x799263F1"/>
+            <property ID="0xED3A6E87"/>
+            <property ID="0xF07981E8"/>
+            <property ID="0x6DF33845"/>
+            <property ID="0xC712847C"/>
+            <property ID="0xBA2600D7"/>
+        </struct>
+        <property ID="0x64E5FE9F"/>
+        <property ID="0x23CEF95F"/>
+        <property ID="0xBE02E456"/>
+        <property ID="0x21CDCF21"/>
+        <property ID="0x89664723"/>
+        <property ID="0x723737BC"/>
+        <property ID="0x57452DD9"/>
+        <property ID="0x5C20B0C7"/>
+        <property ID="0x6497C750"/>
+        <property ID="0x11F854E2"/>
+        <property ID="0xA755C1DF"/>
+        <property ID="0x558C6DD7"/>
+        <property ID="0xC5FF7D3D"/>
+        <property ID="0xB2EBC23A"/>
+        <struct ID="0xD756416E" type="multi">
+            <property ID="0x119FBD31"/>
+            <property ID="0xF2D02613"/>
+            <property ID="0xEE1BE914"/>
+            <property ID="0x555FF80A"/>
+        </struct>
+        <property ID="0xE0CDC7E3"/>
+        <property ID="0xCD7D996E"/>
+        <property ID="0x1026DB89"/>
+        <property ID="0xCDE17346"/>
+    </properties>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
+            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
+        </properties>
+        <assets>
+            <animparams source="property">0xE25FB08C</animparams>
+            <model source="property">0x7E397FED:0xC0BA9E18</model>
+            <model source="property">0x7E397FED:0x6B1FBC3A</model>
+        </assets>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>enabled</scale_type>
+    </editor>
+</ScriptTemplate>

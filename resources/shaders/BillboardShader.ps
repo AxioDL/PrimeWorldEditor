@@ -1,0 +1,22 @@
+#version 330 core
+
+// Input
+in vec2 TexCoord;
+
+// Output
+out vec4 PixelColor;
+
+// Uniforms
+uniform sampler2D Texture;
+uniform vec4 TintColor;
+
+// Main
+void main()
+{
+	vec4 TextureColor = texture(Texture, TexCoord);
+	if (TextureColor.a < 0.25) discard;
+	
+	PixelColor = texture(Texture, TexCoord) * TintColor;
+	PixelColor.a = 0;
+}
+

@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<enum name="TriggerShape">
+	<enumerator value="0x482B22F1" name="Box" />
+	<enumerator value="0x779DB545" name="Also Box?" />
+	<enumerator value="0x8392F5E4" name="Ellipsoid" />
+	<enumerator value="0x39ED7B8E" name="Cylinder" />
+</enum>
+
+
+
+

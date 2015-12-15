@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="3">
+    <name>GrapplePoint</name>
+    <properties version="NTSC">
+        <struct ID="0x255A4580" type="multi">
+            <property ID="0x494E414D"/>
+            <struct ID="0x5846524D" type="single"/>
+            <property ID="0x41435456"/>
+            <property ID="0x5D298A43"/>
+        </struct>
+        <struct ID="0x6A2872D8" type="multi">
+            <property ID="0x2BA7FABC"/>
+            <property ID="0x7A5E41E1"/>
+            <property ID="0x76104D9E"/>
+            <property ID="0xBAA8A527"/>
+            <property ID="0x11B6A17A"/>
+        </struct>
+        <struct ID="0xF609C637" type="multi">
+            <property ID="0x5DCF91E1"/>
+            <property ID="0xC10219BF"/>
+            <property ID="0x1A8DBEA7"/>
+            <property ID="0xA439CA6A"/>
+            <property ID="0x4B848C9B"/>
+            <struct ID="0x5F669BA0" type="multi">
+                <property ID="0x008BD240"/>
+                <property ID="0x54178CB8"/>
+                <property ID="0xDE38F04E"/>
+                <property ID="0x9D0C992F"/>
+                <property ID="0x8382CD42"/>
+                <property ID="0x8A40FD1B"/>
+                <property ID="0xA62BF627"/>
+                <property ID="0xF8A14C37"/>
+                <property ID="0x64FB595C"/>
+                <property ID="0x0887FEFE"/>
+            </struct>
+            <struct ID="0xE2ACF76E" type="multi">
+                <property ID="0x008BD240"/>
+                <property ID="0x54178CB8"/>
+                <property ID="0xDE38F04E"/>
+                <property ID="0x9D0C992F"/>
+                <property ID="0x8382CD42"/>
+                <property ID="0x8A40FD1B"/>
+                <property ID="0xA62BF627"/>
+                <property ID="0xF8A14C37"/>
+                <property ID="0x64FB595C"/>
+                <property ID="0x0887FEFE"/>
+            </struct>
+        </struct>
+        <property ID="0x01B1315C"/>
+        <property ID="0xF6B3C17F"/>
+        <property ID="0xC6869327"/>
+        <property ID="0x3FA80592"/>
+        <property ID="0x6371CDCF"/>
+        <property ID="0xA80B5F61"/>
+        <property ID="0x4789411B"/>
+        <property ID="0x6204350C"/>
+        <property ID="0xD23B2F30"/>
+        <property ID="0x02B1FA08"/>
+        <property ID="0x966525F0"/>
+        <property ID="0x5E139BC2"/>
+    </properties>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
+        </properties>
+        <assets>
+            <billboard source="file">script/common/GrapplePoint.txtr</billboard>
+		</assets>
+		<preview_scale>0.5</preview_scale>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>enabled</scale_type>
+    </editor>
+</ScriptTemplate>

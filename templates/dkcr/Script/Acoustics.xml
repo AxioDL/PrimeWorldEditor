@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="3">
+    <name>Acoustics</name>
+    <properties version="NTSC">
+        <struct ID="0x255A4580" type="multi">
+            <property ID="0x494E414D"/>
+            <struct ID="0x5846524D" type="single"/>
+            <property ID="0x41435456"/>
+            <property ID="0x5D298A43"/>
+        </struct>
+        <property ID="0x765CAE8C"/>
+        <property ID="0xA6BCDF8E"/>
+        <property ID="0x11AA184B"/>
+        <property ID="0x2714DC3B"/>
+        <property ID="0x5A38A08D"/>
+        <property ID="0xE9AD286A"/>
+        <struct ID="0xA383E10B" type="multi">
+            <property ID="0xF060EEEC"/>
+            <property ID="0x22A0058D"/>
+            <property ID="0x3DD7B303"/>
+            <property ID="0xF52AF9F3"/>
+            <property ID="0xC77A8932"/>
+            <property ID="0x5D6B1084"/>
+            <property ID="0xFCF4AAB0"/>
+            <property ID="0xFB11A412"/>
+            <property ID="0x253DA9C6"/>
+            <property ID="0x1F5A38E3"/>
+        </struct>
+    </properties>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
+        </properties>
+        <assets/>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>disabled</scale_type>
+    </editor>
+</ScriptTemplate>

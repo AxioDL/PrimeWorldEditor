@@ -1,0 +1,64 @@
+<?xml version="1.0" ?>
+<enum name="SpecialFunctionType">
+	<enumerator value="0x98C5AED7" name="What" />
+	<enumerator value="0x0E578ADF" name="Function 1 (Unused)" />
+	<enumerator value="0x3D1A78AC" name="Function 2 (Unused)" />
+	<enumerator value="0x136F5286" name="Function 3 (Unused)" />
+	<enumerator value="0x370F508E" name="Boss Energy Bar" />
+	<enumerator value="0x29837C6C" name="Cinematic Skip" />
+	<enumerator value="0x49069735" name="Function 6 (Unused)" />
+	<enumerator value="0x002E5341" name="Credits" />
+	<enumerator value="0x9EB76DEE" name="Countdown Timer" />
+	<enumerator value="0x14B45D36" name="Function 9 (Unused)" />
+	<enumerator value="0x766ED410" name="Function 10 (Unused)" />
+	<enumerator value="0xD5D0EA93" name="Function 11 (Unused)" />
+	<enumerator value="0x7E025D14" name="End Game" />
+	<enumerator value="0x8838D84A" name="Game End Choice" />
+	<enumerator value="0x14A3B65C" name="Function 14 (Unused)" />
+	<enumerator value="0xBBFADF2F" name="Function 15 (Unused)" />
+	<enumerator value="0x2CB1471C" name="ExtraRenderClipPlane" />
+	<enumerator value="0xCFC89663" name="Function 17 (Unused)" />
+	<enumerator value="0xD871451E" name="Function 18 (Unused)" />
+	<enumerator value="0x661EC9E0" name="GameStateEnvVar" />
+	<enumerator value="0x1C7FDCAB" name="HUD Target" />
+	<enumerator value="0xA8B03E1A" name="Simple Hint" />
+	<enumerator value="0xE13871E3" name="Function 22 (Unused)" />
+	<enumerator value="0x90031E91" name="Launch Player" />
+	<enumerator value="0x2C1DC485" name="Map Station" />
+	<enumerator value="0xB5FC495C" name="Function 25 (Unused)" />
+	<enumerator value="0x96AB6130" name="Inventory thing" />
+	<enumerator value="0x698AAB1A" name="Modify Inventory" />
+	<enumerator value="0x83888007" name="Permanent Hypermode" />
+	<enumerator value="0xC15AB262" name="Function 29 (Unused)" />
+	<enumerator value="0x05FE350B" name="Object Follow something" />
+	<enumerator value="0x982A42A3" name="Object Follow Locator" />
+	<enumerator value="0x73810303" name="Object Follow Object" />
+	<enumerator value="0x9EAEB97A" name="Occlusion Relay" />
+	<enumerator value="0xF67ED189" name="Cockpit - Lights - Link To Player Arm" />
+	<enumerator value="0x6E8436F9" name="Function 35 (Unused)" />
+	<enumerator value="0x26F3971D" name="Function 36 (Unused)" />
+	<enumerator value="0xFF6D9BE6" name="Player Follow Locator" />
+	<enumerator value="0xFE41E1E9" name="Player In Area" />
+	<enumerator value="0x663F5984" name="RadarRangeOverride" />
+	<enumerator value="0x9BE4E305" name="Function 40 (Unused)" />
+	<enumerator value="0x78A2DA1C" name="Cockpit - Display Helmet On Map" />
+	<enumerator value="0xB528A4F0" name="Save Station / Checkpoint" />
+	<enumerator value="0x76D71609" name="Set armor for morph to Ghor" />
+	<enumerator value="0x8F226F1D" name="Set SuitType" />
+	<enumerator value="0x9349C56D" name="Inventory thing" />
+	<enumerator value="0x441AEE66" name="Function 46 (Unused)" />
+	<enumerator value="0xE5518864" name="Function 47 (Unused)" />
+	<enumerator value="0x502B7B92" name="Tin Can Score" />
+	<enumerator value="0x83B00647" name="Function 49 (Unused)" />
+	<enumerator value="0x7F0CE328" name="Function 50 (Unused)" />
+	<enumerator value="0x6FC986EA" name="Rotate Skybox" />
+	<enumerator value="0x529380DC" name="Waypoint Overrider" />
+	<enumerator value="0x5640B2F3" name="Phaaze Hypermode HUD Switch" />
+	<enumerator value="0x7E8C0D33" name="Static World Render Controller" />
+	<enumerator value="0xD7E2F62F" name="Sun Generator" />
+	<enumerator value="0xDFE51E86" name="Function 56 (Unused)" />
+	<enumerator value="0x129C99C0" name="View Frustum Tester " />
+	<enumerator value="0xF73614C9" name="Visor Blowout" />
+	<enumerator value="0xD0E2CA63" name="Function 59 (Unused)" />
+	<enumerator value="0x1E46D48C" name="Kill Player" />
+</enum>

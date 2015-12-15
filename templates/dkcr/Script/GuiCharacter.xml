@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="3">
+    <name>GuiCharacter</name>
+    <properties version="NTSC">
+        <struct ID="0x255A4580" type="multi">
+            <property ID="0x494E414D"/>
+            <struct ID="0x5846524D" type="single"/>
+            <property ID="0x41435456"/>
+            <property ID="0x5D298A43"/>
+        </struct>
+        <property ID="0x7C2457BC"/>
+        <property ID="0x8B891F5A"/>
+        <struct ID="0x7E397FED" type="multi">
+            <struct ID="0xB028DB0E" type="multi">
+                <property ID="0x6B5E7509"/>
+                <property ID="0x628E6AC3"/>
+                <property ID="0xCAC1E778"/>
+            </struct>
+        </struct>
+        <property ID="0xA244C9D8"/>
+        <property ID="0x181E33CC"/>
+        <property ID="0xA2A5B38F"/>
+        <property ID="0xC23BD607"/>
+        <property ID="0x4A6A84C1"/>
+        <property ID="0x601FCE68"/>
+        <property ID="0x63E53FD8"/>
+        <property ID="0x247DB024"/>
+        <property ID="0xFDCCB479"/>
+        <property ID="0x10706107"/>
+        <property ID="0x98E160F8"/>
+        <property ID="0x3BB7E651"/>
+        <property ID="0xEC556609"/>
+        <property ID="0xA66BED42"/>
+        <property ID="0x71896D1A"/>
+        <property ID="0xD2DFEBB3"/>
+        <property ID="0x053D6BEB"/>
+        <property ID="0x46A2FD25"/>
+        <property ID="0x91407D7D"/>
+        <property ID="0x579ED88F"/>
+        <property ID="0x807C58D7"/>
+        <property ID="0x232ADE7E"/>
+        <property ID="0xF4C85E26"/>
+        <property ID="0xBEF6D56D"/>
+    </properties>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
+            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
+        </properties>
+        <assets>
+            <animparams source="property">0xA244C9D8</animparams>
+            <animparams source="property">0x181E33CC</animparams>
+        </assets>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>enabled</scale_type>
+    </editor>
+</ScriptTemplate>
