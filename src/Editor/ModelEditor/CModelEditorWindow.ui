@@ -2515,12 +2515,12 @@
   <customwidget>
    <class>WDraggableSpinBox</class>
    <extends>QDoubleSpinBox</extends>
-   <header>WDraggableSpinBox.h</header>
+   <header>Editor/Widgets/WDraggableSpinBox.h</header>
   </customwidget>
   <customwidget>
    <class>WColorPicker</class>
    <extends>QWidget</extends>
-   <header>WColorPicker.h</header>
+   <header>Editor/Widgets/WColorPicker.h</header>
    <container>1</container>
    <slots>
     <signal>colorChanged(QColor)</signal>
@@ -2529,13 +2529,13 @@
   <customwidget>
    <class>WResourceSelector</class>
    <extends>QWidget</extends>
-   <header>WResourceSelector.h</header>
+   <header>Editor/Widgets/WResourceSelector.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>CModelEditorViewport</class>
    <extends>QWidget</extends>
-   <header>CModelEditorViewport.h</header>
+   <header>Editor/ModelEditor/CModelEditorViewport.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

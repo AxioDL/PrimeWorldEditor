@@ -1,6 +1,6 @@
 #include "CSceneViewport.h"
-#include "undo/UndoCommands.h"
-#include <Core/SViewInfo.h>
+#include "Editor/Undo/UndoCommands.h"
+#include <Core/Render/SViewInfo.h>
 
 CSceneViewport::CSceneViewport(QWidget *pParent)
     : CBasicViewport(pParent),

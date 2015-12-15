@@ -1,7 +1,7 @@
 #include "CLinkModel.h"
-#include "../UICommon.h"
-#include <Resource/CGameArea.h>
-#include <Resource/script/CMasterTemplate.h>
+#include "Editor/UICommon.h"
+#include <Core/Resource/CGameArea.h>
+#include <Core/Resource/Script/CMasterTemplate.h>
 
 CLinkModel::CLinkModel(QObject *pParent) : QAbstractTableModel(pParent)
 {

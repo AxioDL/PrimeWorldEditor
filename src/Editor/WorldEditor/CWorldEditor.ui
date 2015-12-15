@@ -733,30 +733,30 @@
   <customwidget>
    <class>WDraggableSpinBox</class>
    <extends>QDoubleSpinBox</extends>
-   <header>WDraggableSpinBox.h</header>
+   <header>Editor/Widgets/WDraggableSpinBox.h</header>
   </customwidget>
   <customwidget>
    <class>WModifyTab</class>
    <extends>QWidget</extends>
-   <header>WorldEditor/WModifyTab.h</header>
+   <header>Editor/WorldEditor/WModifyTab.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>WInstancesTab</class>
    <extends>QWidget</extends>
-   <header>WorldEditor/WInstancesTab.h</header>
+   <header>Editor/WorldEditor/WInstancesTab.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>WVectorEditor</class>
    <extends>QWidget</extends>
-   <header>WVectorEditor.h</header>
+   <header>Editor/Widgets/WVectorEditor.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>CSceneViewport</class>
    <extends>QWidget</extends>
-   <header>CSceneViewport.h</header>
+   <header>Editor/CSceneViewport.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

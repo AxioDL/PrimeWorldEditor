@@ -1,9 +1,9 @@
 #ifndef CMATERIALCOOKER_H
 #define CMATERIALCOOKER_H
 
-#include "../CMaterial.h"
-#include "../CMaterialSet.h"
-#include "../EFormatVersion.h"
+#include "Core/Resource/CMaterial.h"
+#include "Core/Resource/CMaterialSet.h"
+#include "Core/Resource/EFormatVersion.h"
 
 class CMaterialCooker
 {

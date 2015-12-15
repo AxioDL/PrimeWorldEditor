@@ -1,16 +1,16 @@
 #ifndef CMODELEDITORWINDOW_H
 #define CMODELEDITORWINDOW_H
 
-#include <QMainWindow>
-
-#include <Core/CRenderer.h>
-#include <Core/CResCache.h>
-#include <Core/CSceneManager.h>
-#include <Resource/CFont.h>
-#include <Resource/model/CModel.h>
-#include <Scene/CModelNode.h>
-#include <QTimer>
 #include "CModelEditorViewport.h"
+#include <Core/Render/CRenderer.h>
+#include <Core/Resource/CFont.h>
+#include <Core/Resource/CResCache.h>
+#include <Core/Resource/Model/CModel.h>
+#include <Core/Scene/CSceneManager.h>
+#include <Core/Scene/CModelNode.h>
+
+#include <QMainWindow>
+#include <QTimer>
 
 namespace Ui {
 class CModelEditorWindow;

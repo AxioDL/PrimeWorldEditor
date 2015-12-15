@@ -1,8 +1,9 @@
 #include "WStringPreviewPanel.h"
-#include "UICommon.h"
+#include "Editor/UICommon.h"
+#include <Core/Resource/CStringTable.h>
+
 #include <QFontMetrics>
 #include <QTextLayout>
-#include <Resource/CStringTable.h>
 
 WStringPreviewPanel::WStringPreviewPanel(QWidget *pParent) : IPreviewPanel(pParent)
 {

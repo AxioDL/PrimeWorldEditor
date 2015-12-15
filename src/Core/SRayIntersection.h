@@ -1,7 +1,8 @@
 #ifndef SRAYINTERSECTION
 #define SRAYINTERSECTION
 
-#include "types.h"
+#include <Common/types.h>
+
 class CSceneNode;
 
 struct SRayIntersection

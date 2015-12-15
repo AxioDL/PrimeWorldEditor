@@ -1,8 +1,9 @@
 #ifndef CTEMPLATEWRITER_H
 #define CTEMPLATEWRITER_H
 
-#include "../script/CMasterTemplate.h"
-#include "../script/CScriptTemplate.h"
+#include "Core/Resource/Script/CMasterTemplate.h"
+#include "Core/Resource/Script/CScriptTemplate.h"
+#include <tinyxml2.h>
 
 class CTemplateWriter
 {

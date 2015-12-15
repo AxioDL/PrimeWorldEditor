@@ -1,6 +1,6 @@
 #include "CRay.h"
-#include <Common/CVector4f.h>
-#include <Common/CTransform4f.h>
+#include "CVector4f.h"
+#include "CTransform4f.h"
 #include <iostream>
 
 CRay::CRay()

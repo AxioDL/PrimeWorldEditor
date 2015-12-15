@@ -3,11 +3,11 @@
 
 #include "CResource.h"
 #include "CTexture.h"
-#include "model/CVertex.h"
+#include "TResPtr.h"
+#include "Core/Resource/Model/CVertex.h"
+#include "Core/OpenGL/CDynamicVertexBuffer.h"
+#include "Core/OpenGL/CIndexBuffer.h"
 #include <Common/types.h>
-#include <Core/TResPtr.h>
-#include <OpenGL/CDynamicVertexBuffer.h>
-#include <OpenGL/CIndexBuffer.h>
 
 #include <string>
 #include <unordered_map>

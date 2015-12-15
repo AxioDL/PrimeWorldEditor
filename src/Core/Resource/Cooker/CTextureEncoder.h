@@ -1,8 +1,8 @@
 #ifndef CTEXTUREENCODER_H
 #define CTEXTUREENCODER_H
 
-#include "../CTexture.h"
-#include <Core/TResPtr.h>
+#include "Core/Resource/CTexture.h"
+#include "Core/Resource/TResPtr.h"
 
 // Class contains basic functionality right now - only supports directly converting DXT1 to CMPR
 // More advanced functions (including actual encoding!) coming later

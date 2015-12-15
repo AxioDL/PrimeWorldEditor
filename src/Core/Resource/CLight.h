@@ -3,8 +3,7 @@
 
 #include <FileIO/CInputStream.h>
 #include <Common/CColor.h>
-#include <Common/CVector3f.h>
-#include <GL/glew.h>
+#include <Common/Math/CVector3f.h>
 
 /* CLight is currently heavily based on the lights system from Metroid Prime,
  * including code reverse engineered from the game's executable. Not yet sure

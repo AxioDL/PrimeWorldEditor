@@ -1,6 +1,10 @@
 #ifndef WANIMPARAMSEDITOR_H
 #define WANIMPARAMSEDITOR_H
 
+#include "WIntegralSpinBox.h"
+#include "WResourceSelector.h"
+#include <Core/Resource/CAnimationParameters.h>
+
 #include <QWidget>
 #include <QComboBox>
 #include <QGroupBox>
@@ -8,10 +12,6 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QVector>
-
-#include "WIntegralSpinBox.h"
-#include "WResourceSelector.h"
-#include <Resource/CAnimationParameters.h>
 
 class WAnimParamsEditor : public QWidget
 {

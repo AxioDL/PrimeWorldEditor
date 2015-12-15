@@ -2,7 +2,7 @@
 #define WTEXTUREPREVIEWPANEL_H
 
 #include "IPreviewPanel.h"
-#include <Resource/CTexture.h>
+#include <Core/Resource/CTexture.h>
 
 namespace Ui {
 class WTexturePreviewPanel;

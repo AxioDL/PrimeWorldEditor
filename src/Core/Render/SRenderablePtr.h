@@ -1,11 +1,11 @@
 #ifndef SRENDERABLEPTR_H
 #define SRENDERABLEPTR_H
 
-#include <Common/CAABox.h>
+#include "ERenderCommand.h"
+#include "Core/Resource/CMaterial.h"
+#include "Core/Scene/CSceneNode.h"
+#include <Common/Math/CAABox.h>
 #include <Common/types.h>
-#include <Core/ERenderCommand.h>
-#include <Scene/CSceneNode.h>
-#include <Resource/CMaterial.h>
 
 struct SRenderablePtr
 {

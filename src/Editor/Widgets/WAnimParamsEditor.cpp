@@ -1,8 +1,7 @@
 #include "WAnimParamsEditor.h"
-
-#include "UICommon.h"
-#include <Core/CResCache.h>
-#include <Resource/CAnimSet.h>
+#include "Editor/UICommon.h"
+#include <Core/Resource/CAnimSet.h>
+#include <Core/Resource/CResCache.h>
 
 WAnimParamsEditor::WAnimParamsEditor(QWidget *pParent)
     : QWidget(pParent),

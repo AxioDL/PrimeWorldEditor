@@ -1,10 +1,10 @@
 #ifndef CRESCACHE_H
 #define CRESCACHE_H
 
+#include "CPakFile.h"
+#include "CResource.h"
 #include <Common/types.h>
 #include <Common/TString.h>
-#include <Resource/CPakFile.h>
-#include <Resource/CResource.h>
 #include <unordered_map>
 
 struct SResSource

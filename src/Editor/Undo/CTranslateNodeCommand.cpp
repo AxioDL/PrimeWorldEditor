@@ -1,6 +1,6 @@
 #include "CTranslateNodeCommand.h"
 #include "EUndoCommand.h"
-#include "../CWorldEditor.h"
+#include "Editor/INodeEditor.h"
 
 CTranslateNodeCommand::CTranslateNodeCommand()
     : QUndoCommand("Translate"),

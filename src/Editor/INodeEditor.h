@@ -1,16 +1,16 @@
 #ifndef INODEEDITOR_H
 #define INODEEDITOR_H
 
+#include "CGizmo.h"
+#include <Common/Math/ETransformSpace.h>
+#include <Core/Scene/CSceneManager.h>
+
 #include <QMainWindow>
 #include <QAction>
 #include <QActionGroup>
 #include <QComboBox>
 #include <QList>
 #include <QUndoStack>
-
-#include "CGizmo.h"
-#include <Common/ETransformSpace.h>
-#include <Core/CSceneManager.h>
 
 class INodeEditor : public QMainWindow
 {

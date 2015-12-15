@@ -1,8 +1,8 @@
 #ifndef CLIGHTPARAMETERS_H
 #define CLIGHTPARAMETERS_H
 
-#include <Resource/CGameArea.h>
-#include <Resource/script/CProperty.h>
+#include "Core/Resource/CGameArea.h"
+#include "Core/Resource/Script/CProperty.h"
 
 class CLightParameters
 {

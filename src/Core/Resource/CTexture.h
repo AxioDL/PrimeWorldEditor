@@ -1,12 +1,13 @@
 #ifndef CTEXTURE_H
 #define CTEXTURE_H
 
-#include <Common/types.h>
-#include <Common/CVector2f.h>
-#include <FileIO/FileIO.h>
-#include <gl/glew.h>
 #include "CResource.h"
 #include "ETexelFormat.h"
+#include <Common/types.h>
+#include <Common/Math/CVector2f.h>
+#include <FileIO/FileIO.h>
+
+#include <GL/glew.h>
 
 class CTexture : public CResource
 {

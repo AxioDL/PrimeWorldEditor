@@ -1,9 +1,9 @@
 #ifndef CCOLLISIONLOADER_H
 #define CCOLLISIONLOADER_H
 
-#include "../CCollisionMesh.h"
-#include "../CCollisionMeshGroup.h"
-#include "../EFormatVersion.h"
+#include "Core/Resource/CCollisionMesh.h"
+#include "Core/Resource/CCollisionMeshGroup.h"
+#include "Core/Resource/EFormatVersion.h"
 
 class CCollisionLoader
 {

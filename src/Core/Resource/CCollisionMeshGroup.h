@@ -3,7 +3,7 @@
 
 #include "CResource.h"
 #include "CCollisionMesh.h"
-#include <Core/TResPtr.h>
+#include "TResPtr.h"
 #include <vector>
 
 class CCollisionMeshGroup : public CResource

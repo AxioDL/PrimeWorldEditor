@@ -1,8 +1,9 @@
+#include "CStartWindow.h"
+#include "CDarkStyle.h"
+#include <Core/Resource/Factory/CTemplateLoader.h>
+
 #include <QApplication>
-#include <UI/CStartWindow.h>
 #include <QStyleFactory>
-#include <UI/CDarkStyle.h>
-#include <Resource/factory/CTemplateLoader.h>
 
 int main(int argc, char *argv[])
 {

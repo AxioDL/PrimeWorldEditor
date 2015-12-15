@@ -150,7 +150,7 @@
   <customwidget>
    <class>WStringPreviewPanel</class>
    <extends>QWidget</extends>
-   <header>WStringPreviewPanel.h</header>
+   <header>Editor/Widgets/WStringPreviewPanel.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

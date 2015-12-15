@@ -1,6 +1,6 @@
 #include "CTemplateLoader.h"
 #include "CWorldLoader.h"
-#include <Core/Log.h>
+#include "Core/Log.h"
 
 void CTemplateLoader::LoadBitFlags(tinyxml2::XMLElement *pElem, CBitfieldTemplate *pTemp, const TString& templateName)
 {

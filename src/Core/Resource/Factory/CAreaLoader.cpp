@@ -3,10 +3,12 @@
 #include "CModelLoader.h"
 #include "CMaterialLoader.h"
 #include "CScriptLoader.h"
+#include "Core/Log.h"
+
 #include <Common/CFourCC.h>
 #include <Common/CompressionUtil.h>
+
 #include <iostream>
-#include <Core/Log.h>
 
 CAreaLoader::CAreaLoader()
 {

@@ -5,8 +5,8 @@
 #include "CGameArea.h"
 #include "CStringTable.h"
 #include "SDependency.h"
-#include "model/CModel.h"
-#include <Common/CTransform4f.h>
+#include "Core/Resource/Model/CModel.h"
+#include <Common/Math/CTransform4f.h>
 
 class CWorld : public CResource
 {

@@ -1,7 +1,8 @@
 #include "CLayerEditor.h"
 #include "ui_CLayerEditor.h"
-#include "../UICommon.h"
-#include <Resource/script/CScriptLayer.h>
+#include "Editor/UICommon.h"
+
+#include <Core/Resource/Script/CScriptLayer.h>
 
 CLayerEditor::CLayerEditor(QWidget *parent) :
     QDialog(parent),

@@ -1,8 +1,7 @@
 #include "WTexturePreviewPanel.h"
 #include "ui_WTexturePreviewPanel.h"
-
-#include "UICommon.h"
 #include "WTextureGLWidget.h"
+#include "Editor/UICommon.h"
 
 WTexturePreviewPanel::WTexturePreviewPanel(QWidget *parent, CTexture *pTexture) :
     IPreviewPanel(parent),

@@ -1,7 +1,7 @@
 #include "WScanPreviewPanel.h"
 #include "ui_WScanPreviewPanel.h"
 #include "WStringPreviewPanel.h"
-#include <Resource/CScan.h>
+#include <Core/Resource/CScan.h>
 
 WScanPreviewPanel::WScanPreviewPanel(QWidget *parent) :
     IPreviewPanel(parent),

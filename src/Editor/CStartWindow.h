@@ -1,11 +1,12 @@
 #ifndef PWESTARTWINDOW_H
 #define PWESTARTWINDOW_H
 
+#include "WorldEditor/CWorldEditor.h"
+#include "ModelEditor/CModelEditorWindow.h"
+#include <Core/Resource/CWorld.h>
+#include <Core/Resource/CResCache.h>
+
 #include <QMainWindow>
-#include <Resource/CWorld.h>
-#include <Core/CResCache.h>
-#include "CModelEditorWindow.h"
-#include "CWorldEditor.h"
 
 namespace Ui {
 class CStartWindow;

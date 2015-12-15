@@ -1,12 +1,12 @@
 #ifndef CMATERIALPASS_H
 #define CMATERIALPASS_H
 
+#include "TResPtr.h"
+#include "CTexture.h"
+#include "ETevEnums.h"
+#include "Core/Render/ERenderOptions.h"
 #include <Common/CFourCC.h>
 #include <Common/CHashFNV1A.h>
-#include <Core/TResPtr.h>
-#include <Core/ERenderOptions.h>
-#include <Resource/CTexture.h>
-#include "ETevEnums.h"
 
 class CMaterial;
 

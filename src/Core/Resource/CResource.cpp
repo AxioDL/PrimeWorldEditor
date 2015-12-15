@@ -1,5 +1,5 @@
 #include "CResource.h"
-#include <Core/CResCache.h>
+#include "CResCache.h"
 #include <iostream>
 
 CResource::CResource()

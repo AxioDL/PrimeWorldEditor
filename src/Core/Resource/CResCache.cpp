@@ -1,20 +1,18 @@
 #include "CResCache.h"
-#include "Log.h"
+#include "Core/Resource/Factory/CAreaLoader.h"
+#include "Core/Resource/Factory/CAnimSetLoader.h"
+#include "Core/Resource/Factory/CCollisionLoader.h"
+#include "Core/Resource/Factory/CFontLoader.h"
+#include "Core/Resource/Factory/CModelLoader.h"
+#include "Core/Resource/Factory/CScanLoader.h"
+#include "Core/Resource/Factory/CStringLoader.h"
+#include "Core/Resource/Factory/CTextureDecoder.h"
+#include "Core/Resource/Factory/CWorldLoader.h"
+#include "Core/Log.h"
+
 #include <Common/TString.h>
 #include <FileIO/FileIO.h>
 #include <iostream>
-#include <string>
-
-// Loaders
-#include <Resource/factory/CAreaLoader.h>
-#include <Resource/factory/CAnimSetLoader.h>
-#include <Resource/factory/CCollisionLoader.h>
-#include <Resource/factory/CFontLoader.h>
-#include <Resource/factory/CModelLoader.h>
-#include <Resource/factory/CScanLoader.h>
-#include <Resource/factory/CStringLoader.h>
-#include <Resource/factory/CTextureDecoder.h>
-#include <Resource/factory/CWorldLoader.h>
 
 CResCache::CResCache()
 {

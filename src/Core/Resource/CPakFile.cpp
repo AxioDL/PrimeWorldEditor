@@ -2,6 +2,7 @@
 #include <Common/types.h>
 #include <FileIO/CMemoryInStream.h>
 #include <FileIO/FileIO.h>
+
 #include <zlib.h>
 #include <lzo/lzo1x.h>
 #include <iostream>

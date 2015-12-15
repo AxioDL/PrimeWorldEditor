@@ -1,8 +1,8 @@
 #ifndef CCONNECTIONMODEL_H
 #define CCONNECTIONMODEL_H
 
+#include <Core/Resource/Script/CScriptObject.h>
 #include <QAbstractTableModel>
-#include <Resource/script/CScriptObject.h>
 
 class CLinkModel : public QAbstractTableModel
 {

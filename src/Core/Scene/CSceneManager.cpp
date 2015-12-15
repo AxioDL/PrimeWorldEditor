@@ -1,15 +1,15 @@
 #include "CSceneManager.h"
+#include "Core/Render/CGraphics.h"
+#include "Core/Resource/CResCache.h"
+#include "Core/Resource/Script/CScriptLayer.h"
+#include "Core/CRayCollisionTester.h"
+
+#include <Common/Math/CRay.h>
+#include <Common/TString.h>
+#include <FileIO/CFileInStream.h>
 
 #include <list>
 #include <string>
-
-#include <Common/CRay.h>
-#include <Common/CRayCollisionTester.h>
-#include <Common/TString.h>
-#include <Core/CGraphics.h>
-#include <Core/CResCache.h>
-#include <FileIO/CFileInStream.h>
-#include <Resource/script/CScriptLayer.h>
 
 /**
  * This class direly needs a rewrite

@@ -1,7 +1,7 @@
 #ifndef CAREAATTRIBUTES_H
 #define CAREAATTRIBUTES_H
 
-#include <Resource/script/CScriptObject.h>
+#include "Core/Resource/Script/CScriptObject.h"
 
 class CAreaAttributes
 {

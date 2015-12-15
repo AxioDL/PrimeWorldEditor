@@ -1,7 +1,7 @@
 #include "CFont.h"
-#include <Core/CDrawUtil.h>
-#include <Core/CRenderer.h>
-#include <Core/CResCache.h>
+#include "CResCache.h"
+#include "Core/Render/CDrawUtil.h"
+#include "Core/Render/CRenderer.h"
 #include <Common/AnimUtil.h>
 
 CDynamicVertexBuffer CFont::smGlyphVertices;

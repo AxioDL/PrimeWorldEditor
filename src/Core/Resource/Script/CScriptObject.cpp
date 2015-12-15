@@ -1,6 +1,6 @@
 #include "CScriptObject.h"
-#include "../CAnimSet.h"
 #include "CMasterTemplate.h"
+#include "Core/Resource/CAnimSet.h"
 
 CScriptObject::CScriptObject(CGameArea *pArea, CScriptLayer *pLayer, CScriptTemplate *pTemplate)
 {

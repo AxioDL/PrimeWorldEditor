@@ -1,8 +1,8 @@
 #include "CLightNode.h"
-#include <Common/Math.h>
-#include <Core/CDrawUtil.h>
-#include <Core/CGraphics.h>
-#include <Core/CRenderer.h>
+#include "Core/Render/CDrawUtil.h"
+#include "Core/Render/CGraphics.h"
+#include "Core/Render/CRenderer.h"
+#include <Common/Math/Math.h>
 
 CLightNode::CLightNode(CSceneManager *pScene, CSceneNode *pParent, CLight *Light)
     : CSceneNode(pScene, pParent)

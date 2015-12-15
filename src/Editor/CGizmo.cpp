@@ -1,13 +1,13 @@
 #include "CGizmo.h"
-#include <Common/Math.h>
-#include <Core/CRenderer.h>
-#include <Core/CResCache.h>
-#include <Core/CDrawUtil.h>
+#include <Common/Math/Math.h>
+#include <Core/Render/CDrawUtil.h>
+#include <Core/Render/CRenderer.h>
+#include <Core/Resource/CResCache.h>
 #include <Core/Log.h>
 
+#include <iostream>
 #include <QApplication>
 #include <QDesktopWidget>
-#include <iostream>
 
 CGizmo::CGizmo()
 {

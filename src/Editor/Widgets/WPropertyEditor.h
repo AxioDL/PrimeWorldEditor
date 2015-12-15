@@ -1,10 +1,10 @@
 #ifndef WPROPERTYEDITOR_H
 #define WPROPERTYEDITOR_H
 
+#include <Core/Resource/Script/CProperty.h>
 #include <QWidget>
 #include <QHBoxLayout>
 #include <QLabel>
-#include <Resource/script/CProperty.h>
 
 class WPropertyEditor : public QWidget
 {

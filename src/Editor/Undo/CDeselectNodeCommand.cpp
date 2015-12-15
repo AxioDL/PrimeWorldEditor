@@ -1,5 +1,5 @@
 #include "CDeselectNodeCommand.h"
-#include "../CWorldEditor.h"
+#include "Editor/INodeEditor.h"
 
 CDeselectNodeCommand::CDeselectNodeCommand(INodeEditor *pEditor, CSceneNode *pNode, QList<CSceneNode*>& selection)
     : QUndoCommand("Deselect"),

@@ -1,5 +1,5 @@
 #include "CDoorExtra.h"
-#include <Core/CRenderer.h>
+#include "Core/Render/CRenderer.h"
 
 CDoorExtra::CDoorExtra(CScriptObject *pInstance, CSceneManager *pScene, CSceneNode *pParent)
     : CScriptExtra(pInstance, pScene, pParent)

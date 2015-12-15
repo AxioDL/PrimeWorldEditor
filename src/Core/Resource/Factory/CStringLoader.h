@@ -1,10 +1,10 @@
 #ifndef CSTRINGLOADER_H
 #define CSTRINGLOADER_H
 
-#include "../CStringTable.h"
-#include "../EFormatVersion.h"
-#include <Core/CResCache.h>
-#include <Core/TResPtr.h>
+#include "Core/Resource/CStringTable.h"
+#include "Core/Resource/CResCache.h"
+#include "Core/Resource/EFormatVersion.h"
+#include "Core/Resource/TResPtr.h"
 
 class CStringLoader
 {

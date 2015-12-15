@@ -1,7 +1,7 @@
 #include "CLight.h"
+#include "Core/Render/CGraphics.h"
 #include <cmath>
 #include <float.h>
-#include <Core/CGraphics.h>
 
 #define CLIGHT_NO_RADIUS 0x40
 #define CLIGHT_NO_INTENSITY 0x80

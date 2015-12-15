@@ -1,6 +1,6 @@
 #include "CWorldLoader.h"
-#include <Core/CResCache.h>
-#include <Core/Log.h>
+#include "Core/Resource/CResCache.h"
+#include "Core/Log.h"
 #include <iostream>
 
 CWorldLoader::CWorldLoader()

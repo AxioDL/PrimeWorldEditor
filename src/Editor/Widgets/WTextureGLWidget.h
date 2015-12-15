@@ -1,14 +1,14 @@
 #ifndef WTEXTUREGLWIDGET_H
 #define WTEXTUREGLWIDGET_H
 
-#include <gl/glew.h>
-#include <QOpenGLWidget>
+#include <Common/Math/CTransform4f.h>
+#include <Common/Math/CVector2f.h>
+#include <Core/Resource/TResPtr.h>
+#include <Core/Resource/CTexture.h>
 
-#include <Common/CTransform4f.h>
-#include <Common/CVector2f.h>
-#include <Core/TResPtr.h>
-#include <Resource/CTexture.h>
+#include <QOpenGLWidget>
 #include <QTimer>
+#include <GL/glew.h>
 
 class WTextureGLWidget : public QOpenGLWidget
 {

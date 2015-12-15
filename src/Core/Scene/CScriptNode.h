@@ -4,8 +4,8 @@
 #include "CSceneNode.h"
 #include "CModelNode.h"
 #include "CCollisionNode.h"
-#include <Core/CLightParameters.h>
-#include <Resource/script/CScriptObject.h>
+#include "Core/Resource/Script/CScriptObject.h"
+#include "Core/CLightParameters.h"
 
 class CScriptNode : public CSceneNode
 {

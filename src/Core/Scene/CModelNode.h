@@ -2,7 +2,7 @@
 #define CMODELNODE_H
 
 #include "CSceneNode.h"
-#include <Resource/model/CModel.h>
+#include "Core/Resource/Model/CModel.h"
 
 class CModelNode : public CSceneNode
 {

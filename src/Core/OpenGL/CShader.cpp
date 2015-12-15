@@ -1,12 +1,12 @@
 #include "CShader.h"
+#include "Core/Render/CGraphics.h"
+#include <Common/TString.h>
 #include <Common/types.h>
-#include <Core/CGraphics.h>
 #include <FileIO/CTextInStream.h>
 
 #include <fstream>
 #include <iostream>
 #include <sstream>
-#include <string>
 
 bool gDebugDumpShaders = false;
 u64 gFailedCompileCount = 0;

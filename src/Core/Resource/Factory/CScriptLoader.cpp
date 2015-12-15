@@ -1,7 +1,7 @@
 #include "CScriptLoader.h"
-#include "../script/CMasterTemplate.h"
-#include <Core/CResCache.h>
-#include <Core/Log.h>
+#include "Core/Resource/Script/CMasterTemplate.h"
+#include "Core/Resource/CResCache.h"
+#include "Core/Log.h"
 #include <iostream>
 #include <sstream>
 

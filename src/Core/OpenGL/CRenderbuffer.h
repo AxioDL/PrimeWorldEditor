@@ -1,8 +1,8 @@
 #ifndef CRENDERBUFFER_H
 #define CRENDERBUFFER_H
 
-#include <GL/glew.h>
 #include <Common/types.h>
+#include <GL/glew.h>
 
 class CRenderbuffer
 {

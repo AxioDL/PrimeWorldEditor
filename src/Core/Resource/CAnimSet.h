@@ -1,11 +1,12 @@
 #ifndef CANIMSET_H
 #define CANIMSET_H
 
-#include <Common/types.h>
-#include <Core/TResPtr.h>
-#include <vector>
-#include "model/CModel.h"
+#include "TResPtr.h"
 #include "CResource.h"
+#include "Core/Resource/Model/CModel.h"
+#include <Common/types.h>
+
+#include <vector>
 
 // will expand later! this is where animation support will come in
 class CAnimSet : public CResource

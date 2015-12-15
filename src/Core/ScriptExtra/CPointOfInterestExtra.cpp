@@ -1,6 +1,6 @@
 #include "CPointOfInterestExtra.h"
 
-const CColor CPointOfInterestExtra::skRegularColor((u32) 0xFF7000FF);
+const CColor CPointOfInterestExtra::skRegularColor  ((u32) 0xFF7000FF);
 const CColor CPointOfInterestExtra::skImportantColor((u32) 0xFF0000FF);
 
 CPointOfInterestExtra::CPointOfInterestExtra(CScriptObject *pInstance, CSceneManager *pScene, CSceneNode *pParent)

@@ -1,10 +1,11 @@
 #ifndef CWORLDLOADER_H
 #define CWORLDLOADER_H
 
-#include "../CWorld.h"
-#include "../EFormatVersion.h"
+#include "Core/Resource/CWorld.h"
+#include "Core/Resource/CResCache.h"
+#include "Core/Resource/EFormatVersion.h"
+
 #include <FileIO/FileIO.h>
-#include <Core/CResCache.h>
 
 class CWorldLoader
 {

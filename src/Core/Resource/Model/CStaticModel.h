@@ -2,13 +2,12 @@
 #define CSTATICMODEL_H
 
 #include "CBasicModel.h"
-#include <Core/ERenderOptions.h>
-#include <OpenGL/CIndexBuffer.h>
+#include "Core/Render/ERenderOptions.h"
+#include "Core/OpenGL/CIndexBuffer.h"
 
-// A CStaticModel is meant for meshes that don't move. It's built specifically with terrain in mind.
-// It only links to one material, and what it does best is combining submeshes from different models
-// into shared VBOs and IBOs. This allows for a significantly reduced number of draw calls.
-
+/* A CStaticModel is meant for meshes that don't move. It's built specifically with terrain in mind.
+ * It only links to one material, and what it does best is combining submeshes from different models
+ * into shared VBOs and IBOs. This allows for a significantly reduced number of draw calls. */
 class CStaticModel : public CBasicModel
 {
     CMaterial *mpMaterial;

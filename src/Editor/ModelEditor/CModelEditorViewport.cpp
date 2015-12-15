@@ -1,5 +1,5 @@
 #include "CModelEditorViewport.h"
-#include <Core/CDrawUtil.h>
+#include <Core/Render/CDrawUtil.h>
 
 CModelEditorViewport::CModelEditorViewport(QWidget *pParent)
     : CBasicViewport(pParent),

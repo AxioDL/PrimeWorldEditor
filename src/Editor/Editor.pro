@@ -21,8 +21,8 @@ CONFIG(debug, debug|release) {
     TARGET = PrimeWorldEditor-debug
 
     # Debug Libs
-    LIBS += -L$$PWD/../../build/Common/ -lCommon \
-            -L$$PWD/../../build/Core/ -lCore \
+    LIBS += -L$$PWD/../../build/Common/ -lCommond \
+            -L$$PWD/../../build/Core/ -lCored \
             -L$$PWD/../../externals/assimp/lib/ -lassimp-vc120-mtd \
             -L$$PWD/../../externals/FileIO/lib/ -lFileIOd \
             -L$$PWD/../../externals/tinyxml2/lib/ -ltinyxml2d
@@ -98,7 +98,6 @@ HEADERS += \
     CBasicViewport.h \
     CDarkStyle.h \
     CGizmo.h \
-    CMaterialEditor.h \
     CNodeSelection.h \
     CSceneViewport.h \
     CStartWindow.h \
@@ -142,7 +141,6 @@ SOURCES += \
     CBasicViewport.cpp \
     CDarkStyle.cpp \
     CGizmo.cpp \
-    CMaterialEditor.cpp \
     CNodeSelection.cpp \
     CSceneViewport.cpp \
     CStartWindow.cpp \
@@ -152,7 +150,6 @@ SOURCES += \
     UICommon.cpp
 
 FORMS += \
-    CMaterialEditor.ui \
     CStartWindow.ui \
     TestDialog.ui \
     ModelEditor/CModelEditorWindow.ui \

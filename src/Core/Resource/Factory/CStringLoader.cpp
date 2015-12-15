@@ -1,5 +1,5 @@
 #include "CStringLoader.h"
-#include <Core/Log.h>
+#include "Core/Log.h"
 
 CStringLoader::CStringLoader()
 {

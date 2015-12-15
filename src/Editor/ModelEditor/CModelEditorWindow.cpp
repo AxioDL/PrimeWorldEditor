@@ -1,23 +1,23 @@
 #include "CModelEditorWindow.h"
 #include "ui_CModelEditorWindow.h"
+#include "Editor/UICommon.h"
+#include "Editor/Widgets/WColorPicker.h"
+#include "Editor/Widgets/WResourceSelector.h"
 
+#include <Common/TString.h>
+#include <Core/Render/CDrawUtil.h>
+#include <Core/Render/CRenderer.h>
+#include <Core/Resource/cooker/CModelCooker.h>
+#include <Core/Resource/cooker/CTextureEncoder.h>
+#include <Core/Resource/factory/CModelLoader.h>
+#include <Core/Resource/factory/CMaterialLoader.h>
+#include <Core/Resource/factory/CTextureDecoder.h>
+#include <Core/Scene/CSceneManager.h>
+
+#include <iostream>
 #include <QFileDialog>
 #include <QMessageBox>
 
-#include "UICommon.h"
-#include "WResourceSelector.h"
-#include <Common/TString.h>
-#include <Core/CDrawUtil.h>
-#include <Core/CRenderer.h>
-#include <Core/CSceneManager.h>
-#include <Resource/factory/CModelLoader.h>
-#include <Resource/factory/CMaterialLoader.h>
-#include <Resource/factory/CTextureDecoder.h>
-#include <Resource/cooker/CModelCooker.h>
-#include <Resource/cooker/CTextureEncoder.h>
-#include "WColorPicker.h"
-
-#include <iostream>
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>

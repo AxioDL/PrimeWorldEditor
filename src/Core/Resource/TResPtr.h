@@ -1,7 +1,7 @@
 #ifndef TRESPTR_H
 #define TRESPTR_H
 
-#include <Resource/CResource.h>
+#include "CResource.h"
 
 template <typename ResType>
 class TResPtr

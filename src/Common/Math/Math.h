@@ -1,11 +1,10 @@
-#ifndef MATH
-#define MATH
+#ifndef MATH_H
+#define MATH_H
 
 #include "CAABox.h"
 #include "CRay.h"
 #include "CPlane.h"
 #include "CVector3f.h"
-#include "SRayIntersection.h"
 #include <utility>
 
 namespace Math
@@ -43,5 +42,5 @@ static const float skPi = 3.14159265358979323846f;
 static const float skHalfPi = skPi / 2.f;
 }
 
-#endif // MATH
+#endif // MATH_H
 

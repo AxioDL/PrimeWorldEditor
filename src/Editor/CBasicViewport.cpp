@@ -1,7 +1,8 @@
 #include "CBasicViewport.h"
-#include <Core/CDrawUtil.h>
-#include <Core/CGraphics.h>
-#include <Common/Math.h>
+#include <Core/Render/CDrawUtil.h>
+#include <Core/Render/CGraphics.h>
+#include <Common/Math/Math.h>
+
 #include <GL/glew.h>
 
 CBasicViewport::CBasicViewport(QWidget *pParent) :

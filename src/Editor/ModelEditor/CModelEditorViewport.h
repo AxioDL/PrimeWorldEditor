@@ -1,8 +1,8 @@
 #ifndef CMODELEDITORVIEWPORT_H
 #define CMODELEDITORVIEWPORT_H
 
-#include "CBasicViewport.h"
-#include <Scene/CModelNode.h>
+#include "Editor/CBasicViewport.h"
+#include <Core/Scene/CModelNode.h>
 
 class CModelEditorViewport : public CBasicViewport
 {

@@ -1,5 +1,5 @@
 #include "CUniqueID.h"
-#include <Common/TString.h>
+#include "TString.h"
 
 #include <iomanip>
 #include <random>

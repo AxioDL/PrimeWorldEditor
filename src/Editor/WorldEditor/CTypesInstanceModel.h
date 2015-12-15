@@ -1,12 +1,13 @@
 #ifndef CTYPESINSTANCEMODEL_H
 #define CTYPESINSTANCEMODEL_H
 
+#include "CWorldEditor.h"
+#include <Core/Resource/Script/CMasterTemplate.h>
+#include <Core/Resource/Script/CScriptTemplate.h>
+#include <Core/Scene/CSceneNode.h>
+
 #include <QAbstractItemModel>
 #include <QList>
-#include <Resource/script/CMasterTemplate.h>
-#include <Resource/script/CScriptTemplate.h>
-#include <Scene/CSceneNode.h>
-#include "../CWorldEditor.h"
 
 class CTypesInstanceModel : public QAbstractItemModel
 {

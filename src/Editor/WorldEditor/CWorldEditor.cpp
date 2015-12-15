@@ -1,21 +1,22 @@
 #include "CWorldEditor.h"
 #include "ui_CWorldEditor.h"
-#include "CBasicViewport.h"
-#include <gtc/matrix_transform.hpp>
-#include <Core/CDrawUtil.h>
+#include "CLayerEditor.h"
+#include "WModifyTab.h"
+#include "WInstancesTab.h"
+
+#include "Editor/CBasicViewport.h"
+#include "Editor/Widgets/WDraggableSpinBox.h"
+#include "Editor/Widgets/WVectorEditor.h"
+#include "Editor/Undo/UndoCommands.h"
+#include "Editor/UICommon.h"
+
+#include <Core/Render/CDrawUtil.h>
+#include <Core/Log.h>
+
 #include <iostream>
 #include <QOpenGLContext>
 #include <QFontMetrics>
 #include <QComboBox>
-#include <Core/Log.h>
-#include "WDraggableSpinBox.h"
-#include "WVectorEditor.h"
-#include "undo/UndoCommands.h"
-#include "UICommon.h"
-
-#include "WorldEditor/CLayerEditor.h"
-#include "WorldEditor/WModifyTab.h"
-#include "WorldEditor/WInstancesTab.h"
 
 CWorldEditor::CWorldEditor(QWidget *parent) :
     INodeEditor(parent),

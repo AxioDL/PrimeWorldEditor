@@ -3,7 +3,7 @@
 
 #include <FileIO/CInputStream.h>
 #include <FileIO/COutputStream.h>
-#include "CVector4f.h"
+#include "Math/CVector4f.h"
 #include "types.h"
 
 class CColor

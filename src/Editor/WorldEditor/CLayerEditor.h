@@ -1,8 +1,8 @@
 #ifndef CLAYEREDITOR_H
 #define CLAYEREDITOR_H
 
-#include <QDialog>
 #include "CLayerModel.h"
+#include <QDialog>
 
 namespace Ui {
 class CLayerEditor;

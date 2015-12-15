@@ -1,11 +1,12 @@
 #include "CScriptTemplate.h"
 #include "CScriptObject.h"
 #include "CMasterTemplate.h"
+#include "Core/Resource/CResCache.h"
+#include "Core/Resource/CAnimSet.h"
+#include "Core/Log.h"
+
 #include <iostream>
 #include <string>
-#include <Core/Log.h>
-#include <Core/CResCache.h>
-#include <Resource/CAnimSet.h>
 
 CScriptTemplate::CScriptTemplate(CMasterTemplate *pMaster)
 {

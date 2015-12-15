@@ -1,9 +1,10 @@
 #ifndef IPREVIEWPANEL_H
 #define IPREVIEWPANEL_H
 
+#include <Core/Resource/CResource.h>
+#include <Core/Resource/EResType.h>
+
 #include <QFrame>
-#include <Resource/CResource.h>
-#include <Resource/EResType.h>
 
 class IPreviewPanel : public QFrame
 {

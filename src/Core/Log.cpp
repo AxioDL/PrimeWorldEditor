@@ -1,7 +1,6 @@
+#include <Common/TString.h>
 #include <ctime>
 #include <iostream>
-#include <Common/TString.h>
-#include <QMessageBox>
 
 namespace Log
 {

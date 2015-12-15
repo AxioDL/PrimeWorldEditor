@@ -1,7 +1,7 @@
 #include "CMaterialPass.h"
 #include "CMaterial.h"
+#include "Core/Render/CGraphics.h"
 #include <Common/AnimUtil.h>
-#include <Core/CGraphics.h>
 
 CMaterialPass::CMaterialPass(CMaterial *pParent)
 {

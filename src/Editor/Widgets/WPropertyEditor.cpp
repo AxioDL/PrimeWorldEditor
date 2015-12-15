@@ -1,13 +1,13 @@
 #include "WPropertyEditor.h"
-#include "UICommon.h"
 #include "WDraggableSpinBox.h"
 #include "WIntegralSpinBox.h"
 #include "WResourceSelector.h"
 #include "WColorPicker.h"
 #include "WVectorEditor.h"
 #include "WAnimParamsEditor.h"
-#include <Resource/CAnimSet.h>
-#include <Resource/script/CScriptLayer.h>
+#include "Editor/UICommon.h"
+#include <Core/Resource/CAnimSet.h>
+#include <Core/Resource/Script/CScriptLayer.h>
 
 #include <QCheckBox>
 #include <QComboBox>

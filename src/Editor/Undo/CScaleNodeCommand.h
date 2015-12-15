@@ -1,10 +1,11 @@
 #ifndef CSCALENODECOMMAND_H
 #define CSCALENODECOMMAND_H
 
+#include "Editor/INodeEditor.h"
+#include <Core/Scene/CSceneNode.h>
+
 #include <QUndoCommand>
 #include <QList>
-#include <Scene/CSceneNode.h>
-#include "../INodeEditor.h"
 
 class CScaleNodeCommand : public QUndoCommand
 {

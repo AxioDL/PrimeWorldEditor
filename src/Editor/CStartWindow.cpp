@@ -1,13 +1,13 @@
 #include "CStartWindow.h"
 #include "ui_CStartWindow.h"
+#include "UICommon.h"
+
+#include "Editor/ModelEditor/CModelEditorWindow.h"
+#include "Editor/WorldEditor/CWorldEditor.h"
+#include <Core/Resource/CResCache.h>
 
 #include <QFileDialog>
 #include <QMessageBox>
-
-#include "CModelEditorWindow.h"
-#include "CWorldEditor.h"
-#include "UICommon.h"
-#include <Core/CResCache.h>
 
 CStartWindow::CStartWindow(QWidget *parent) :
     QMainWindow(parent),

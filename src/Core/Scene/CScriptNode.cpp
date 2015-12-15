@@ -1,15 +1,14 @@
 #include "CScriptNode.h"
-#include "script/CScriptExtra.h"
-
+#include "CSceneManager.h"
+#include "Core/Render/CDrawUtil.h"
+#include "Core/Render/CGraphics.h"
+#include "Core/Render/CRenderer.h"
+#include "Core/Resource/CResCache.h"
+#include "Core/Resource/Script/CMasterTemplate.h"
+#include "Core/Resource/Script/CScriptLayer.h"
+#include "Core/ScriptExtra/CScriptExtra.h"
 #include <Common/AnimUtil.h>
-#include <Common/Math.h>
-#include <Core/CDrawUtil.h>
-#include <Core/CGraphics.h>
-#include <Core/CRenderer.h>
-#include <Core/CResCache.h>
-#include <Core/CSceneManager.h>
-#include <Resource/script/CMasterTemplate.h>
-#include <Resource/script/CScriptLayer.h>
+#include <Common/Math/Math.h>
 
 CScriptNode::CScriptNode(CSceneManager *pScene, CSceneNode *pParent, CScriptObject *pObject)
     : CSceneNode(pScene, pParent)

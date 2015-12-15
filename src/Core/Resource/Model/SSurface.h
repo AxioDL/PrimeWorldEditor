@@ -1,15 +1,15 @@
 #ifndef SSURFACE_H
 #define SSURFACE_H
 
-#include "../CMaterialSet.h"
 #include "CVertex.h"
+#include "Core/Resource/CMaterialSet.h"
+#include "Core/OpenGL/GLCommon.h"
+#include "Core/SRayIntersection.h"
 #include <Common/types.h>
-#include <Common/CAABox.h>
-#include <Common/CRay.h>
-#include <Common/CTransform4f.h>
-#include <Common/CVector3f.h>
-#include <Common/SRayIntersection.h>
-#include <OpenGL/GLCommon.h>
+#include <Common/Math/CAABox.h>
+#include <Common/Math/CRay.h>
+#include <Common/Math/CTransform4f.h>
+#include <Common/Math/CVector3f.h>
 #include <vector>
 
 struct SSurface

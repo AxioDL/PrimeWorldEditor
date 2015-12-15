@@ -1,9 +1,9 @@
 #ifndef CMATERIALLOADER_H
 #define CMATERIALLOADER_H
 
-#include "../CMaterialSet.h"
-#include "../EFormatVersion.h"
-#include <Core/CResCache.h>
+#include "Core/Resource/CMaterialSet.h"
+#include "Core/Resource/EFormatVersion.h"
+#include "Core/Resource/CResCache.h"
 
 #include <FileIO/FileIO.h>
 #include <assimp/scene.h>
