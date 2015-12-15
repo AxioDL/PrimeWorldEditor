@@ -2,10 +2,10 @@
 #define CSTRINGTABLE_H
 
 #include "CResource.h"
-#include <Common/types.h>
 #include <Common/CFourCC.h>
+#include <Common/TString.h>
+#include <Common/types.h>
 #include <vector>
-#include <string>
 
 class CStringTable : public CResource
 {

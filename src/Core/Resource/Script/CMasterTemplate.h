@@ -2,10 +2,9 @@
 #define CMASTERTEMPLATE_H
 
 #include "CScriptTemplate.h"
-#include "../EFormatVersion.h"
+#include "Core/Resource/EFormatVersion.h"
 #include <Common/types.h>
 #include <map>
-#include <tinyxml2.h>
 
 class CMasterTemplate
 {

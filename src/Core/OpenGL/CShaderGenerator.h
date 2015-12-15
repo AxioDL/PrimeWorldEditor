@@ -1,10 +1,9 @@
 #ifndef SHADERGEN_H
 #define SHADERGEN_H
 
-#include <gl/glew.h>
-
 #include "CShader.h"
-#include <Resource/CMaterial.h>
+#include "Core/Resource/CMaterial.h"
+#include <GL/glew.h>
 
 class CShaderGenerator
 {

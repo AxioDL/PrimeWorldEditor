@@ -1,9 +1,9 @@
 #ifndef CAABOX_H
 #define CAABOX_H
 
+#include "CVector3f.h"
 #include <FileIO/CInputStream.h>
 #include <FileIO/COutputStream.h>
-#include "CVector3f.h"
 #include <utility>
 
 class CRay;

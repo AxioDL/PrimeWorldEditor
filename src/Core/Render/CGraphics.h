@@ -1,15 +1,20 @@
 #ifndef CGRAPHICS_H
 #define CGRAPHICS_H
 
+#include "Core/OpenGL/CUniformBuffer.h"
+#include "Core/OpenGL/CVertexArrayManager.h"
+#include "Core/Resource/CLight.h"
 #include <Common/CColor.h>
-#include <Common/CMatrix4f.h>
-#include <Common/CVector3f.h>
-#include <Common/CVector4f.h>
+#include <Common/Math/CMatrix4f.h>
+#include <Common/Math/CVector3f.h>
+#include <Common/Math/CVector4f.h>
 #include <GL/glew.h>
-#include <OpenGL/CUniformBuffer.h>
-#include <OpenGL/CVertexArrayManager.h>
-#include <Resource/CLight.h>
 
+/**
+ * todo: should probably be replaced with a CGraphicsState class which
+ * can be instantiated and is probably more safe/functional than global access.
+ * also,
+ */
 class CGraphics
 {
     static CUniformBuffer *mpMVPBlockBuffer;

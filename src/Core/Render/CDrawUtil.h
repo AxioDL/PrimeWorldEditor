@@ -1,15 +1,15 @@
 #ifndef CDRAWUTIL
 #define CDRAWUTIL
 
-#include <OpenGL/CVertexBuffer.h>
-#include <OpenGL/CDynamicVertexBuffer.h>
-#include <OpenGL/CIndexBuffer.h>
-#include <Resource/model/CModel.h>
-#include <Resource/CLight.h>
+#include "Core/OpenGL/CVertexBuffer.h"
+#include "Core/OpenGL/CDynamicVertexBuffer.h"
+#include "Core/OpenGL/CIndexBuffer.h"
+#include "Core/Resource/model/CModel.h"
+#include "Core/Resource/CLight.h"
 
-// todo: CDrawUtil should work with CRenderer to queue primitives for rendering
-// rather than trying to draw them straight away, so that CDrawUtil functions can
-// be called from anywhere in the codebase and still function correctly
+/* todo: CDrawUtil should work with CRenderer to queue primitives for rendering
+ * rather than trying to draw them straight away, so that CDrawUtil functions can
+ * be called from anywhere in the codebase and still function correctly     */
 class CDrawUtil
 {
     // 7x7 Grid

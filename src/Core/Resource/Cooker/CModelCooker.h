@@ -1,8 +1,8 @@
 #ifndef CMODELCOOKER_H
 #define CMODELCOOKER_H
 
-#include "../model/CModel.h"
-#include "../EFormatVersion.h"
+#include "Core/Resource/Model/CModel.h"
+#include "Core/Resource/EFormatVersion.h"
 #include <FileIO/FileIO.h>
 
 class CModelCooker

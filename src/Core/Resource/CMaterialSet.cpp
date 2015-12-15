@@ -1,5 +1,5 @@
 #include "CMaterialSet.h"
-#include <Core/CResCache.h>
+#include "CResCache.h"
 #include <iostream>
 
 CMaterialSet::CMaterialSet()

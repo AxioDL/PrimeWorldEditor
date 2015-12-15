@@ -1,7 +1,7 @@
 #include "CCollisionNode.h"
-#include <Core/CDrawUtil.h>
-#include <Core/CGraphics.h>
-#include <Core/CRenderer.h>
+#include "Core/Render/CDrawUtil.h"
+#include "Core/Render/CGraphics.h"
+#include "Core/Render/CRenderer.h"
 
 CCollisionNode::CCollisionNode(CSceneManager *pScene, CSceneNode *pParent, CCollisionMeshGroup *pCollision)
     : CSceneNode(pScene, pParent)

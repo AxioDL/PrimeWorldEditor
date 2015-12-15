@@ -1,8 +1,8 @@
 #ifndef CSCANLOADER_H
 #define CSCANLOADER_H
 
-#include "../CScan.h"
-#include "../EFormatVersion.h"
+#include "Core/Resource/CScan.h"
+#include "Core/Resource/EFormatVersion.h"
 
 class CScanLoader
 {

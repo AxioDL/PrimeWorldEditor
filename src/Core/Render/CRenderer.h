@@ -1,8 +1,6 @@
 #ifndef CRENDERER_H
 #define CRENDERER_H
 
-#include <gl/glew.h>
-
 #include "CCamera.h"
 #include "CGraphics.h"
 #include "CRenderBucket.h"
@@ -10,15 +8,17 @@
 #include "ERenderCommand.h"
 #include "SRenderablePtr.h"
 #include "SViewInfo.h"
-#include <Common/CAABox.h>
+#include "Core/OpenGL/CFramebuffer.h"
+#include "Core/Resource/CFont.h"
+#include "Core/Resource/CLight.h"
+#include "Core/Resource/CTexture.h"
+#include "Core/Scene/CSceneNode.h"
+
+#include <Common/Math/CAABox.h>
+#include <Common/Math/CMatrix4f.h>
 #include <Common/CColor.h>
-#include <Common/CMatrix4f.h>
-#include <Common/types.h>
-#include <OpenGL/CFramebuffer.h>
-#include <Resource/CFont.h>
-#include <Resource/CLight.h>
-#include <Resource/CTexture.h>
-#include <Scene/CSceneNode.h>
+
+#include <GL/glew.h>
 
 class CRenderer
 {

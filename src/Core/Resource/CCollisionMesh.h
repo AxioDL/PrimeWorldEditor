@@ -1,10 +1,10 @@
 #ifndef CCOLLISIONMESH_H
 #define CCOLLISIONMESH_H
 
-#include <Common/CAABox.h>
-#include <OpenGL/CVertexBuffer.h>
-#include <OpenGL/CIndexBuffer.h>
 #include "CResource.h"
+#include "Core/OpenGL/CVertexBuffer.h"
+#include "Core/OpenGL/CIndexBuffer.h"
+#include <Common/Math/CAABox.h>
 
 class CCollisionMesh
 {

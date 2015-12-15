@@ -1,11 +1,12 @@
 #ifndef CTEXTUREDECODER_H
 #define CTEXTUREDECODER_H
 
-#include <FileIO/FileIO.h>
+#include "Core/Resource/CTexture.h"
+#include "Core/Resource/ETexelFormat.h"
 #include <Common/CColor.h>
 #include <Common/types.h>
-#include "../CTexture.h"
-#include "../ETexelFormat.h"
+
+#include <FileIO/FileIO.h>
 
 class CTextureDecoder
 {

@@ -1,6 +1,5 @@
 #include "CVertexBuffer.h"
 #include "CVertexArrayManager.h"
-#include <Core/CGraphics.h>
 
 CVertexBuffer::CVertexBuffer()
 {

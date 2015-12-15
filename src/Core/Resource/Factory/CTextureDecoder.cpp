@@ -1,6 +1,6 @@
-#include <Common/CColor.h>
-#include <Core/Log.h>
 #include "CTextureDecoder.h"
+#include "Core/Log.h"
+#include <Common/CColor.h>
 
 // A cleanup is warranted at some point. Trying to support both partial + full decode ended up really messy.
 

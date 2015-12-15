@@ -1,8 +1,8 @@
 #ifndef GLCOMMON_H
 #define GLCOMMON_H
 
-#include <GL/glew.h>
 #include <Common/types.h>
+#include <GL/glew.h>
 
 enum EBlendFactor
 {

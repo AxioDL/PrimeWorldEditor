@@ -1,8 +1,8 @@
 #include "CRenderBucket.h"
-#include <algorithm>
 #include "CDrawUtil.h"
 #include "CGraphics.h"
 #include "CRenderer.h"
+#include <algorithm>
 
 CRenderBucket::CRenderBucket()
 {

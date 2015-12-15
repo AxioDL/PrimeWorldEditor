@@ -1,10 +1,11 @@
 #ifndef CTRANSLATENODECOMMAND_H
 #define CTRANSLATENODECOMMAND_H
 
+#include <Core/Scene/CSceneNode.h>
+#include "Editor/INodeEditor.h"
+
 #include <QUndoCommand>
 #include <QList>
-#include <Scene/CSceneNode.h>
-#include "../INodeEditor.h"
 
 class CTranslateNodeCommand : public QUndoCommand
 {

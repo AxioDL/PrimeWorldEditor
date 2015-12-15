@@ -1,9 +1,10 @@
 #include "WModifyTab.h"
 #include "ui_WModifyTab.h"
-#include <Scene/CScriptNode.h>
+#include "CWorldEditor.h"
+#include <Core/Scene/CScriptNode.h>
+
 #include <QScrollArea>
 #include <QScrollBar>
-#include "../CWorldEditor.h"
 
 WModifyTab::WModifyTab(QWidget *pParent) :
     QWidget(pParent),

@@ -1,8 +1,8 @@
 #ifndef CWORLDCOOKER_H
 #define CWORLDCOOKER_H
 
+#include "Core/Resource/EFormatVersion.h"
 #include <Common/types.h>
-#include "../EFormatVersion.h"
 
 class CWorldCooker
 {

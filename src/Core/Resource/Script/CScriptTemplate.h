@@ -5,13 +5,12 @@
 #include "CProperty.h"
 #include "EPropertyType.h"
 #include "EVolumeShape.h"
+#include "Core/Resource/Model/CModel.h"
+#include "Core/Resource/CCollisionMeshGroup.h"
 #include <Common/CFourCC.h>
 #include <Common/types.h>
 #include <list>
 #include <vector>
-#include <tinyxml2.h>
-#include <Resource/model/CModel.h>
-#include <Resource/CCollisionMeshGroup.h>
 
 class CMasterTemplate;
 class CScriptObject;

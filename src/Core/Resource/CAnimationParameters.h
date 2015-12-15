@@ -2,9 +2,9 @@
 #define CANIMATIONPARAMETERS_H
 
 #include "CResource.h"
-#include "model/CModel.h"
-#include <Core/TResPtr.h>
+#include "TResPtr.h"
 #include "EFormatVersion.h"
+#include "Core/Resource/Model/CModel.h"
 
 class CAnimationParameters
 {

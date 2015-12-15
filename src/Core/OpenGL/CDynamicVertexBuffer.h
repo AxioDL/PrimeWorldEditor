@@ -1,12 +1,13 @@
 #ifndef CDYNAMICVERTEXBUFFER_H
 #define CDYNAMICVERTEXBUFFER_H
 
-#include <GL/glew.h>
+#include "Core/Resource/Model/EVertexDescription.h"
 #include <Common/types.h>
-#include <Common/CVector2f.h>
-#include <Common/CVector3f.h>
-#include <Resource/model/EVertexDescription.h>
+#include <Common/Math/CVector2f.h>
+#include <Common/Math/CVector3f.h>
+
 #include <vector>
+#include <GL/glew.h>
 
 class CDynamicVertexBuffer
 {

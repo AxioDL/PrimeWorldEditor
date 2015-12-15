@@ -1,8 +1,8 @@
 #include "CModelNode.h"
-#include <Common/Math.h>
-#include <Core/CDrawUtil.h>
-#include <Core/CRenderer.h>
-#include <Core/CGraphics.h>
+#include "Core/Render/CDrawUtil.h"
+#include "Core/Render/CRenderer.h"
+#include "Core/Render/CGraphics.h"
+#include <Common/Math/Math.h>
 
 CModelNode::CModelNode(CSceneManager *pScene, CSceneNode *pParent, CModel *pModel) : CSceneNode(pScene, pParent)
 {

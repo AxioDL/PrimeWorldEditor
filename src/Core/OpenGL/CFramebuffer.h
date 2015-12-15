@@ -2,8 +2,8 @@
 #define CFRAMEBUFFER_H
 
 #include "CRenderbuffer.h"
-#include <Resource/CTexture.h>
-#include <gl/glew.h>
+#include "Core/Resource/CTexture.h"
+#include <GL/glew.h>
 
 class CFramebuffer
 {

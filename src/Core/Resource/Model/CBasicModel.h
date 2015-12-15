@@ -1,10 +1,10 @@
 #ifndef CBASICMODEL_H
 #define CBASICMODEL_H
 
-#include "../CResource.h"
 #include "SSurface.h"
-#include <Common/CAABox.h>
-#include <OpenGL/CVertexBuffer.h>
+#include "Core/Resource/CResource.h"
+#include "Core/OpenGL/CVertexBuffer.h"
+#include <Common/Math/CAABox.h>
 
 class CBasicModel : public CResource
 {

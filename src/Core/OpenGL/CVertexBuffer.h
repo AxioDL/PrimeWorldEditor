@@ -1,10 +1,10 @@
 #ifndef CVERTEXBUFFER_H
 #define CVERTEXBUFFER_H
 
-#include <GL/glew.h>
-#include <Resource/model/CVertex.h>
-#include <Resource/model/EVertexDescription.h>
+#include "Core/Resource/Model/CVertex.h"
+#include "Core/Resource/Model/EVertexDescription.h"
 #include <vector>
+#include <GL/glew.h>
 
 class CVertexBuffer
 {

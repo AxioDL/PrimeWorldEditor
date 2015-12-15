@@ -1,19 +1,19 @@
 #ifndef CSCENENODE_H
 #define CSCENENODE_H
 
-#include <Core/IRenderable.h>
 #include "ENodeType.h"
-#include <Common/CAABox.h>
-#include <Common/CQuaternion.h>
-#include <Common/CRay.h>
-#include <Common/CRayCollisionTester.h>
-#include <Common/CTransform4f.h>
-#include <Common/CVector3f.h>
-#include <Common/ETransformSpace.h>
+#include "Core/Render/ERenderOptions.h"
+#include "Core/Render/IRenderable.h"
+#include "Core/Resource/CLight.h"
+#include "Core/Resource/CGameArea.h"
+#include "Core/CRayCollisionTester.h"
+#include <Common/Math/CAABox.h>
+#include <Common/Math/CQuaternion.h>
+#include <Common/Math/CRay.h>
+#include <Common/Math/CTransform4f.h>
+#include <Common/Math/CVector3f.h>
+#include <Common/Math/ETransformSpace.h>
 #include <Common/types.h>
-#include <Core/ERenderOptions.h>
-#include <Resource/CLight.h>
-#include <Resource/CGameArea.h>
 
 class CRenderer;
 class CSceneManager;

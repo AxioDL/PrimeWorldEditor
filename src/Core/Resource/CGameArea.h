@@ -1,14 +1,15 @@
 #ifndef CGAMEAREA_H
 #define CGAMEAREA_H
 
+#include "CResource.h"
 #include "CCollisionMeshGroup.h"
 #include "CLight.h"
 #include "CMaterialSet.h"
-#include "model/CModel.h"
-#include "model/CStaticModel.h"
-#include "CResource.h"
+#include "Core/Resource/Model/CModel.h"
+#include "Core/Resource/Model/CStaticModel.h"
 #include <Common/types.h>
-#include <Common/CTransform4f.h>
+#include <Common/Math/CTransform4f.h>
+
 #include <unordered_map>
 
 class CScriptLayer;

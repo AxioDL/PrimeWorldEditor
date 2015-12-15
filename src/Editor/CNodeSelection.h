@@ -1,8 +1,8 @@
 #ifndef CNODESELECTION_H
 #define CNODESELECTION_H
 
+#include <Core/Scene/CSceneNode.h>
 #include <list>
-#include <Scene/CSceneNode.h>
 
 class CSceneSelection
 {

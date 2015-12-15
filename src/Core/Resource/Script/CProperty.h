@@ -1,19 +1,17 @@
 #ifndef CPROPERTY
 #define CPROPERTY
 
-/*
- * This header file declares some classes used to track script object properties
+/* This header file declares some classes used to track script object properties
  * CPropertyBase, __CProperty (and typedefs), CPropertyStruct
- * It's a bit hard to read, should be reorganized at some point
- */
-#include "../CResource.h"
-#include "../CAnimationParameters.h"
+ * It's a bit hard to read, should be reorganized at some point */
 #include "CPropertyTemplate.h"
 #include "EPropertyType.h"
+#include "Core/Resource/CResource.h"
+#include "Core/Resource/TResPtr.h"
+#include "Core/Resource/CAnimationParameters.h"
+#include <Common/Math/CVector3f.h>
 #include <Common/CColor.h>
-#include <Common/CVector3f.h>
 #include <Common/TString.h>
-#include <Core/TResPtr.h>
 #include <list>
 
 class CScriptTemplate;

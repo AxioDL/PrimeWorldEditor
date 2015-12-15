@@ -1,9 +1,9 @@
 #include "WInstancesTab.h"
 #include "ui_WInstancesTab.h"
 
-#include "../CWorldEditor.h"
-#include <Core/CSceneManager.h>
-#include <Resource/script/CScriptLayer.h>
+#include "CWorldEditor.h"
+#include <Core/Resource/Script/CScriptLayer.h>
+#include <Core/Scene/CSceneManager.h>
 
 WInstancesTab::WInstancesTab(QWidget *parent) :
     QWidget(parent),

@@ -2,8 +2,8 @@
 #define CPOINTOFINTERESTEXTRA_H
 
 #include "CScriptExtra.h"
+#include "Core/Resource/CScan.h"
 #include <Common/CColor.h>
-#include <Resource/CScan.h>
 
 class CPointOfInterestExtra : public CScriptExtra
 {

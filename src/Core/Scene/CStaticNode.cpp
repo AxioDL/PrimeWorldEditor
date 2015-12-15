@@ -1,9 +1,9 @@
 #include "CStaticNode.h"
-#include <Core/CRenderer.h>
-#include <Core/CGraphics.h>
+#include "Core/Render/CGraphics.h"
+#include "Core/Render/CDrawUtil.h"
+#include "Core/Render/CRenderer.h"
 #include <Common/AnimUtil.h>
-#include <Common/Math.h>
-#include <Core/CDrawUtil.h>
+#include <Common/Math/Math.h>
 
 CStaticNode::CStaticNode(CSceneManager *pScene, CSceneNode *pParent, CStaticModel *pModel)
     : CSceneNode(pScene, pParent)

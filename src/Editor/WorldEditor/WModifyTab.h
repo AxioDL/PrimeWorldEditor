@@ -1,15 +1,15 @@
 #ifndef WMODIFYTAB_H
 #define WMODIFYTAB_H
 
+#include "CLinkModel.h"
+#include "Editor/Widgets/WPropertyEditor.h"
+#include <Core/Scene/CSceneNode.h>
+
 #include <QWidget>
 #include <QScrollArea>
 #include <QTabWidget>
 #include <QVBoxLayout>
 #include <QMap>
-
-#include "CLinkModel.h"
-#include "../WPropertyEditor.h"
-#include <Scene/CSceneNode.h>
 
 class CWorldEditor;
 

@@ -1,15 +1,15 @@
 #ifndef CGIZMO_H
 #define CGIZMO_H
 
-#include <Common/CPlane.h>
-#include <Common/CQuaternion.h>
-#include <Common/CVector3f.h>
+#include <Common/Math/CPlane.h>
+#include <Common/Math/CQuaternion.h>
+#include <Common/Math/CVector3f.h>
+#include <Common/Math/ETransformSpace.h>
 #include <Common/EnumUtil.h>
-#include <Common/ETransformSpace.h>
-#include <Core/CCamera.h>
-#include <Core/TResPtr.h>
-#include <Core/IRenderable.h>
-#include <Resource/model/CModel.h>
+#include <Core/Render/CCamera.h>
+#include <Core/Render/IRenderable.h>
+#include <Core/Resource/Model/CModel.h>
+#include <Core/Resource/TResPtr.h>
 
 #define CGIZMO_TRANSLATE_X 0
 #define CGIZMO_TRANSLATE_Y 1

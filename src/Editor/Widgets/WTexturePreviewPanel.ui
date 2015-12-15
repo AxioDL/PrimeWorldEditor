@@ -68,7 +68,7 @@
   <customwidget>
    <class>WTextureGLWidget</class>
    <extends>QWidget</extends>
-   <header>WTextureGLWidget.h</header>
+   <header>Editor/Widgets/WTextureGLWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

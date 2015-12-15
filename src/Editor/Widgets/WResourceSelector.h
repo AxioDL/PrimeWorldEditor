@@ -3,8 +3,8 @@
 
 #include "IPreviewPanel.h"
 #include <Common/CFourCC.h>
-#include <Core/TResPtr.h>
-#include <Resource/EResType.h>
+#include <Core/Resource/TResPtr.h>
+#include <Core/Resource/EResType.h>
 
 #include <QLabel>
 #include <QString>

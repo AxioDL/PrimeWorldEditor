@@ -1,13 +1,13 @@
 #include "CMaterial.h"
+#include "CResCache.h"
+#include "Core/Render/CDrawUtil.h"
+#include "Core/Render/CRenderer.h"
+#include "Core/OpenGL/GLCommon.h"
+#include "Core/OpenGL/CShaderGenerator.h"
 #include <Common/CHashFNV1A.h>
-#include <Core/CDrawUtil.h>
-#include <Core/CRenderer.h>
-#include <Core/CResCache.h>
-#include <OpenGL/GLCommon.h>
-#include <OpenGL/CShaderGenerator.h>
 
 #include <iostream>
-#include <gl/glew.h>
+#include <GL/glew.h>
 
 u64 CMaterial::sCurrentMaterial = 0;
 CColor CMaterial::sCurrentTint = CColor::skWhite;

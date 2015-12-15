@@ -1,7 +1,7 @@
 #include "CStaticModel.h"
-#include <Core/CDrawUtil.h>
-#include <Core/CRenderer.h>
-#include <OpenGL/GLCommon.h>
+#include "Core/Render/CDrawUtil.h"
+#include "Core/Render/CRenderer.h"
+#include "Core/OpenGL/GLCommon.h"
 
 CStaticModel::CStaticModel() : CBasicModel()
 {

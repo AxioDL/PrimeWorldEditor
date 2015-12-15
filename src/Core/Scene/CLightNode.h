@@ -2,7 +2,7 @@
 #define CLIGHTNODE_H
 
 #include "CSceneNode.h"
-#include <Resource/CLight.h>
+#include "Core/Resource/CLight.h"
 
 class CLightNode : public CSceneNode
 {

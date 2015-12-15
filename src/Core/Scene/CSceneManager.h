@@ -1,24 +1,23 @@
 #ifndef CSCENEMANAGER_h
 #define CSCENEMANAGER_h
 
-#include <string>
-#include <vector>
-#include <GL/glew.h>
-
-#include "CAreaAttributes.h"
-#include "CRenderer.h"
-#include "SViewInfo.h"
-#include <Common/SRayIntersection.h>
+#include "CSceneNode.h"
+#include "CRootNode.h"
+#include "CLightNode.h"
+#include "CModelNode.h"
+#include "CScriptNode.h"
+#include "CStaticNode.h"
+#include "CCollisionNode.h"
+#include "Core/Render/CRenderer.h"
+#include "Core/Render/SViewInfo.h"
+#include "Core/Resource/CGameArea.h"
+#include "Core/Resource/CWorld.h"
+#include "Core/CAreaAttributes.h"
+#include "Core/SRayIntersection.h"
 #include <Common/types.h>
-#include <Scene/CSceneNode.h>
-#include <Scene/CRootNode.h>
-#include <Scene/CLightNode.h>
-#include <Scene/CModelNode.h>
-#include <Scene/CScriptNode.h>
-#include <Scene/CStaticNode.h>
-#include <Scene/CCollisionNode.h>
-#include <Resource/CGameArea.h>
-#include <Resource/CWorld.h>
+
+#include <unordered_map>
+#include <vector>
 
 class CSceneManager
 {

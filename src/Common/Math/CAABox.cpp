@@ -1,8 +1,7 @@
 #include "CAABox.h"
-#include <Common/CTransform4f.h>
-#include <Common/Math.h>
+#include "CTransform4f.h"
+#include "Math.h"
 #include "CRay.h"
-#include "SRayIntersection.h"
 #include <float.h>
 
 CAABox::CAABox()

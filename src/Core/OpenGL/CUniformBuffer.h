@@ -1,8 +1,8 @@
 #ifndef CUNIFORMBUFFER_H
 #define CUNIFORMBUFFER_H
 
-#include <gl/glew.h>
 #include <Common/types.h>
+#include <GL/glew.h>
 
 class CUniformBuffer
 {

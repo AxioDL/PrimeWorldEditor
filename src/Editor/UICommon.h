@@ -1,9 +1,9 @@
 #ifndef UICOMMON
 #define UICOMMON
 
+#include <Common/TString.h>
 #include <QMap>
 #include <QString>
-#include <Common/TString.h>
 
 #define TO_QSTRING(str) UICommon::ToQString(str)
 #define TO_TSTRING(str) UICommon::ToTString(str)

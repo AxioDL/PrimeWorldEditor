@@ -1,6 +1,6 @@
 #include "CMasterTemplate.h"
-#include "../factory/CWorldLoader.h"
-#include <Core/Log.h>
+#include "Core/Resource/Factory/CWorldLoader.h"
+#include "Core/Log.h"
 
 CMasterTemplate::CMasterTemplate()
 {

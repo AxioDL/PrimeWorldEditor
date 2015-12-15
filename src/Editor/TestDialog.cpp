@@ -1,10 +1,11 @@
 #include "TestDialog.h"
 #include "ui_TestDialog.h"
-#include <Core/CResCache.h>
+#include "Editor/Widgets/WResourceSelector.h"
+#include "Editor/Widgets/WTextureGLWidget.h"
+#include <Core/Resource/Factory/CTextureDecoder.h>
+#include <Core/Resource/CResCache.h>
+
 #include <iostream>
-#include "WResourceSelector.h"
-#include "WTextureGLWidget.h"
-#include <Resource/factory/CTextureDecoder.h>
 
 TestDialog::TestDialog(QWidget *parent) :
     QDialog(parent),

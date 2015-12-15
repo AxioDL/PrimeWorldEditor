@@ -1,10 +1,10 @@
 #ifndef CMATERIALSET_H
 #define CMATERIALSET_H
 
-#include <FileIO/CInputStream.h>
-#include <Resource/CTexture.h>
-#include <Resource/CMaterial.h>
+#include "CMaterial.h"
+#include "CTexture.h"
 #include "EFormatVersion.h"
+#include <FileIO/CInputStream.h>
 
 class CMaterialSet
 {

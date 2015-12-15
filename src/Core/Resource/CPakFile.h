@@ -1,10 +1,10 @@
 #ifndef CPAKFILE_H
 #define CPAKFILE_H
 
-#include <Common/types.h>
-#include <FileIO/CFileInStream.h>
 #include "SNamedResource.h"
 #include "SResInfo.h"
+#include <Common/types.h>
+#include <FileIO/CFileInStream.h>
 #include <vector>
 
 class CPakFile

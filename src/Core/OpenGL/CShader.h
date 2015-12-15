@@ -1,8 +1,8 @@
 #ifndef CSHADER_H
 #define CSHADER_H
 
-#include <gl/glew.h>
 #include <Common/TString.h>
+#include <GL/glew.h>
 
 class CShader
 {

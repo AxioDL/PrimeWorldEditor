@@ -1,13 +1,13 @@
 #ifndef CRAYCOLLISIONHELPER_H
 #define CRAYCOLLISIONHELPER_H
 
-#include "CAABox.h"
-#include "CRay.h"
-#include "CVector3f.h"
 #include "SRayIntersection.h"
-#include "types.h"
-#include <Core/SViewInfo.h>
-#include <Resource/model/CBasicModel.h>
+#include "Core/Render/SViewInfo.h"
+#include "Core/Resource/Model/CBasicModel.h"
+#include <Common/Math/CAABox.h>
+#include <Common/Math/CRay.h>
+#include <Common/Math/CVector3f.h>
+#include <Common/types.h>
 
 #include <list>
 

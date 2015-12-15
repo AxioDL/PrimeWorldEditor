@@ -9,6 +9,7 @@
 *.so
 *.dll
 *.dylib
+*.pdb
 
 # Qt-es
 
@@ -37,5 +38,6 @@ Makefile*
 bin/*.log
 bin/dump/*
 bin/PrimeWorldEditor.exe
+bin/PrimeWorldEditor-debug.exe
 build/*
 externals/*

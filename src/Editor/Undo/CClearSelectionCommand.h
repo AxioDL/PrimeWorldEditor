@@ -1,9 +1,10 @@
 #ifndef CCLEARSELECTIONCOMMAND_H
 #define CCLEARSELECTIONCOMMAND_H
 
+#include "Editor/INodeEditor.h"
+#include <Core/Scene/CSceneNode.h>
+
 #include <QUndoCommand>
-#include "../INodeEditor.h"
-#include <Scene/CSceneNode.h>
 
 class CClearSelectionCommand : public QUndoCommand
 {

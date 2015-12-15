@@ -2,10 +2,10 @@
 
 #include "CDrawUtil.h"
 #include "CGraphics.h"
-#include "CResCache.h"
+#include "Core/Resource/CResCache.h"
+#include "Core/Resource/Factory/CTextureDecoder.h"
 #include <Common/AnimUtil.h>
-#include <Common/CTransform4f.h>
-#include <Resource/factory/CTextureDecoder.h>
+#include <Common/Math/CTransform4f.h>
 
 #include <algorithm>
 #include <iostream>

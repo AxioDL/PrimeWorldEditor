@@ -1,8 +1,8 @@
 #ifndef CLAYERMODEL_H
 #define CLAYERMODEL_H
 
+#include <Core/Resource/CGameArea.h>
 #include <QAbstractListModel>
-#include <Resource/CGameArea.h>
 
 class CLayerModel : public QAbstractListModel
 {

@@ -1,5 +1,5 @@
 #include "INodeEditor.h"
-#include "undo/UndoCommands.h"
+#include "Editor/Undo/UndoCommands.h"
 
 INodeEditor::INodeEditor(QWidget *pParent)
     : QMainWindow(pParent),

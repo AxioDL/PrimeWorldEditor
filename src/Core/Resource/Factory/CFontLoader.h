@@ -1,9 +1,9 @@
 #ifndef CFONTLOADER_H
 #define CFONTLOADER_H
 
-#include "../CFont.h"
-#include "../EFormatVersion.h"
-#include <Core/CResCache.h>
+#include "Core/Resource/CFont.h"
+#include "Core/Resource/EFormatVersion.h"
+#include "Core/Resource/CResCache.h"
 
 class CFontLoader
 {

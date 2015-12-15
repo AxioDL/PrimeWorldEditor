@@ -1,10 +1,11 @@
 #ifndef CROTATENODECOMMAND_H
 #define CROTATENODECOMMAND_H
 
+#include "Editor/INodeEditor.h"
+#include <Core/Scene/CSceneNode.h>
+
 #include <QUndoCommand>
 #include <QList>
-#include <Scene/CSceneNode.h>
-#include "../INodeEditor.h"
 
 class CRotateNodeCommand : public QUndoCommand
 {

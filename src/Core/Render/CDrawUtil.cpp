@@ -1,9 +1,9 @@
 #include "CDrawUtil.h"
 #include "CGraphics.h"
-#include "CResCache.h"
-#include <Common/CTransform4f.h>
+#include "Core/Resource/CResCache.h"
+#include "Core/Log.h"
+#include <Common/Math/CTransform4f.h>
 #include <iostream>
-#include "Log.h"
 
 // ************ MEMBER INITIALIZATION ************
 CVertexBuffer CDrawUtil::mGridVertices;

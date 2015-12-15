@@ -1,8 +1,8 @@
+#include "CShaderGenerator.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <gl/glew.h>
-#include "CShaderGenerator.h"
+#include <GL/glew.h>
 
 const TString gkCoordSrc[] = {
     "RawPosition.xyz",

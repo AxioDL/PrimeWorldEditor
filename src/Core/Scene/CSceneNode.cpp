@@ -1,13 +1,14 @@
 #include "CSceneNode.h"
-#include <Core/CRenderer.h>
+#include "Core/Render/CRenderer.h"
+#include "Core/Render/CGraphics.h"
+#include "Core/Render/CDrawUtil.h"
+#include "Core/Resource/CGameArea.h"
+#include <Common/AnimUtil.h>
+#include <Common/Math/CTransform4f.h>
+
+#include <algorithm>
 #include <gtc/quaternion.hpp>
 #include <gtx/transform.hpp>
-#include <Common/AnimUtil.h>
-#include <Common/CTransform4f.h>
-#include <Resource/CGameArea.h>
-#include <Core/CGraphics.h>
-#include <Core/CDrawUtil.h>
-#include <algorithm>
 
 u32 CSceneNode::smNumNodes = 0;
 CColor CSceneNode::skSelectionTint((u8) 39, 154, 167, 255);

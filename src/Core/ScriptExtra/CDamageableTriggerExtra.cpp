@@ -1,6 +1,6 @@
 #include "CDamageableTriggerExtra.h"
-#include <Core/CDrawUtil.h>
-#include <Core/CRenderer.h>
+#include "Core/Render/CDrawUtil.h"
+#include "Core/Render/CRenderer.h"
 
 CDamageableTriggerExtra::CDamageableTriggerExtra(CScriptObject *pInstance, CSceneManager *pScene, CSceneNode *pParent)
     : CScriptExtra(pInstance, pScene, pParent)

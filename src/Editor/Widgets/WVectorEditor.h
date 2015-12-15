@@ -1,13 +1,14 @@
 #ifndef WVECTOREDITOR_H
 #define WVECTOREDITOR_H
 
-#include <QWidget>
-#include <QHBoxLayout>
 #include "WDraggableSpinBox.h"
-#include <Common/CVector3f.h>
-#include <QGroupBox>
-#include <QLabel>
+#include <Common/Math/CVector3f.h>
+
 #include <QFormLayout>
+#include <QGroupBox>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QWidget>
 
 class WVectorEditor : public QWidget
 {

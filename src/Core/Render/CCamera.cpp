@@ -1,7 +1,7 @@
 #include "CCamera.h"
 #include "CGraphics.h"
-#include <Common/CQuaternion.h>
-#include <Common/Math.h>
+#include <Common/Math/CQuaternion.h>
+#include <Common/Math/Math.h>
 #include <gtc/matrix_transform.hpp>
 
 CCamera::CCamera()

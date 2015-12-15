@@ -1,13 +1,14 @@
 #ifndef CMODELLOADER_H
 #define CMODELLOADER_H
 
-#include "../model/CBasicModel.h"
-#include "../model/CModel.h"
-#include "../EFormatVersion.h"
 #include "CBlockMgrIn.h"
-#include <FileIO/FileIO.h>
-#include <Core/CResCache.h>
+#include "Core/Resource/Model/CBasicModel.h"
+#include "Core/Resource/Model/CModel.h"
+#include "Core/Resource/CResCache.h"
+#include "Core/Resource/EFormatVersion.h"
 #include <Common/EnumUtil.h>
+
+#include <FileIO/FileIO.h>
 #include <assimp/scene.h>
 
 class CModelLoader

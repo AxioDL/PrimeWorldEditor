@@ -3,11 +3,10 @@
 
 #include "CBasicModel.h"
 #include "SSurface.h"
-#include "../CMaterialSet.h"
-
-#include <Core/ERenderOptions.h>
-#include <OpenGL/CIndexBuffer.h>
-#include <OpenGL/GLCommon.h>
+#include "Core/Resource/CMaterialSet.h"
+#include "Core/OpenGL/CIndexBuffer.h"
+#include "Core/OpenGL/GLCommon.h"
+#include "Core/Render/ERenderOptions.h"
 
 class CModel : public CBasicModel
 {

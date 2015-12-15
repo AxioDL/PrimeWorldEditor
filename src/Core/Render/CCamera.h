@@ -1,12 +1,12 @@
 #ifndef CCAMERA_H
 #define CCAMERA_H
 
-#include "CFrustumPlanes.h"
-#include <Common/CAABox.h>
-#include <Common/CMatrix4f.h>
-#include <Common/CRay.h>
-#include <Common/CVector2i.h>
-#include <Common/CVector3f.h>
+#include <Common/Math/CAABox.h>
+#include <Common/Math/CFrustumPlanes.h>
+#include <Common/Math/CMatrix4f.h>
+#include <Common/Math/CRay.h>
+#include <Common/Math/CVector2i.h>
+#include <Common/Math/CVector3f.h>
 #include <Common/types.h>
 #include <Common/EKeyInputs.h>
 #include <Common/EMouseInputs.h>
@@ -22,8 +22,8 @@ enum ECameraMoveMode
  * value via the const get functions. They are not modified in const functions
  * beyond ensuring that all data is valid and synced with everything else (eg
  * mPosition is only modified to ensure it's correct in orbit mode given the
- * target/distance/pitch/yaw; it won't be modified as a camera snap in a const
- * function). */
+ * target/distance/pitch/yaw; it won't be snapped to a different location in a
+ * const function). */
 class CCamera
 {
     ECameraMoveMode mMode;

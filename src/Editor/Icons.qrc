@@ -1,32 +1,32 @@
 <RCC>
-    <qresource prefix="/icons">
-        <file>EditorAssets/Down.png</file>
-        <file>EditorAssets/Free Camera.png</file>
-        <file>EditorAssets/Material Highlight.png</file>
-        <file>EditorAssets/Minus v2.png</file>
-        <file>EditorAssets/Minus.png</file>
-        <file>EditorAssets/Orbit Camera v2.png</file>
-        <file>EditorAssets/Orbit Camera.png</file>
-        <file>EditorAssets/Plus.png</file>
-        <file>EditorAssets/Rotate.png</file>
-        <file>EditorAssets/Samus Silhouette Gradient.png</file>
-        <file>EditorAssets/Scale.png</file>
-        <file>EditorAssets/Sphere Preview.png</file>
-        <file>EditorAssets/Square Preview.png</file>
-        <file>EditorAssets/Translate.png</file>
-        <file>EditorAssets/Up.png</file>
-        <file>EditorAssets/Hide.png</file>
-        <file>EditorAssets/Highlight.png</file>
-        <file>EditorAssets/Model Preview.png</file>
-        <file>EditorAssets/Show.png</file>
-        <file>EditorAssets/GridLight.png</file>
-        <file>EditorAssets/Create.png</file>
-        <file>EditorAssets/Display.png</file>
-        <file>EditorAssets/Instances.png</file>
-        <file>EditorAssets/Link.png</file>
-        <file>EditorAssets/Modify.png</file>
-        <file>EditorAssets/Unlink.png</file>
-        <file>EditorAssets/World.png</file>
-        <file>EditorAssets/SelectMode.png</file>
+    <qresource>
+        <file>icons/Down.png</file>
+        <file>icons/Free Camera.png</file>
+        <file>icons/Material Highlight.png</file>
+        <file>icons/Minus v2.png</file>
+        <file>icons/Minus.png</file>
+        <file>icons/Orbit Camera v2.png</file>
+        <file>icons/Orbit Camera.png</file>
+        <file>icons/Plus.png</file>
+        <file>icons/Rotate.png</file>
+        <file>icons/Samus Silhouette Gradient.png</file>
+        <file>icons/Scale.png</file>
+        <file>icons/Sphere Preview.png</file>
+        <file>icons/Square Preview.png</file>
+        <file>icons/Translate.png</file>
+        <file>icons/Up.png</file>
+        <file>icons/Hide.png</file>
+        <file>icons/Highlight.png</file>
+        <file>icons/Model Preview.png</file>
+        <file>icons/Show.png</file>
+        <file>icons/GridLight.png</file>
+        <file>icons/Create.png</file>
+        <file>icons/Display.png</file>
+        <file>icons/Instances.png</file>
+        <file>icons/Link.png</file>
+        <file>icons/Modify.png</file>
+        <file>icons/Unlink.png</file>
+        <file>icons/World.png</file>
+        <file>icons/SelectMode.png</file>
     </qresource>
 </RCC>

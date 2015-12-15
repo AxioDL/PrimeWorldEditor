@@ -1,6 +1,6 @@
 #include "CScaleNodeCommand.h"
 #include "EUndoCommand.h"
-#include "../CWorldEditor.h"
+#include "Editor/INodeEditor.h"
 
 CScaleNodeCommand::CScaleNodeCommand()
     : QUndoCommand("Scale"),

@@ -110,13 +110,13 @@
   <customwidget>
    <class>WRollout</class>
    <extends>QWidget</extends>
-   <header>WRollout.h</header>
+   <header>Editor/Widgets/WRollout.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>WTextureGLWidget</class>
    <extends>QWidget</extends>
-   <header>WTextureGLWidget.h</header>
+   <header>Editor/Widgets/WTextureGLWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

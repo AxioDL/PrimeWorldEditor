@@ -1,5 +1,5 @@
 #include "CRayCollisionTester.h"
-#include <Scene/CSceneNode.h>
+#include "Core/Scene/CSceneNode.h"
 
 CRayCollisionTester::CRayCollisionTester(const CRay& Ray)
     : mRay(Ray)

@@ -1,11 +1,11 @@
 #ifndef CSCRIPTLOADER_H
 #define CSCRIPTLOADER_H
 
-#include "../script/CScriptObject.h"
-#include "../script/CScriptLayer.h"
-#include "../script/CMasterTemplate.h"
-#include "../CGameArea.h"
-#include <Core/CResCache.h>
+#include "Core/Resource/Script/CScriptObject.h"
+#include "Core/Resource/Script/CScriptLayer.h"
+#include "Core/Resource/Script/CMasterTemplate.h"
+#include "Core/Resource/CGameArea.h"
+#include "Core/Resource/CResCache.h"
 
 class CScriptLoader
 {

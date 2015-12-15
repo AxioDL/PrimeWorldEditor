@@ -1,12 +1,13 @@
 #ifndef CAREALOADER_H
 #define CAREALOADER_H
 
-#include <FileIO/FileIO.h>
-#include "../CGameArea.h"
-#include "../EFormatVersion.h"
 #include "CBlockMgrIn.h"
-#include <Core/CResCache.h>
-#include <Resource/script/SConnection.h>
+#include "Core/Resource/Script/SConnection.h"
+#include "Core/Resource/CGameArea.h"
+#include "Core/Resource/EFormatVersion.h"
+#include "Core/Resource/CResCache.h"
+
+#include <FileIO/FileIO.h>
 
 class CAreaLoader
 {

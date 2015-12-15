@@ -1,9 +1,9 @@
 #ifndef CLAYERSINSTANCEMODEL_H
 #define CLAYERSINSTANCEMODEL_H
 
+#include "CWorldEditor.h"
+#include <Core/Resource/Script/CScriptLayer.h>
 #include <QAbstractItemModel>
-#include <Resource/script/CScriptLayer.h>
-#include "../CWorldEditor.h"
 
 // Only supports script layers atm - maybe light layers later...?
 class CLayersInstanceModel : public QAbstractItemModel

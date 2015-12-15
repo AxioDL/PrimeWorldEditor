@@ -1,5 +1,4 @@
 #include "CAnimSet.h"
-#include <Core/CResCache.h>
 
 CAnimSet::CAnimSet() : CResource()
 {

@@ -1,7 +1,7 @@
 #include "WColorPicker.h"
+#include <iostream>
 #include <QPainter>
 #include <QRectF>
-#include <iostream>
 #include <QMouseEvent>
 #include <QColorDialog>
 

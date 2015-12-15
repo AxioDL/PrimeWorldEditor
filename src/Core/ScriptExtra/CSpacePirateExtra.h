@@ -2,7 +2,7 @@
 #define CSPACEPIRATEEXTRA_H
 
 #include "CScriptExtra.h"
-#include <Resource/script/CProperty.h>
+#include "Core/Resource/Script/CProperty.h"
 
 class CSpacePirateExtra : public CScriptExtra
 {

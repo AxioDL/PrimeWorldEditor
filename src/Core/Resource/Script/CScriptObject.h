@@ -5,9 +5,9 @@
 #include "CProperty.h"
 #include "CPropertyTemplate.h"
 #include "CScriptTemplate.h"
-#include "../model/CModel.h"
-#include "../CCollisionMeshGroup.h"
-#include "../CGameArea.h"
+#include "Core/Resource/Model/CModel.h"
+#include "Core/Resource/CCollisionMeshGroup.h"
+#include "Core/Resource/CGameArea.h"
 
 class CScriptLayer;
 

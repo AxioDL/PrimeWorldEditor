@@ -2,7 +2,7 @@
 #define CSTATICNODE_H
 
 #include "CSceneNode.h"
-#include <Resource/model/CStaticModel.h>
+#include "Core/Resource/Model/CStaticModel.h"
 
 class CStaticNode : public CSceneNode
 {

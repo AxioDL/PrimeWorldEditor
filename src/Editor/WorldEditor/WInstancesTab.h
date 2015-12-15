@@ -1,10 +1,11 @@
 #ifndef WINSTANCESTAB_H
 #define WINSTANCESTAB_H
 
+#include "CTypesInstanceModel.h"
+
 #include <QWidget>
 #include <QAction>
 #include <QMenu>
-#include "CTypesInstanceModel.h"
 
 class CWorldEditor;
 class CSceneManager;

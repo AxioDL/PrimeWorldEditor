@@ -1,9 +1,9 @@
 #ifndef CCHARACTERLOADER_H
 #define CCHARACTERLOADER_H
 
-#include "../CAnimSet.h"
-#include "../EFormatVersion.h"
-#include <Core/CResCache.h>
+#include "Core/Resource/CAnimSet.h"
+#include "Core/Resource/EFormatVersion.h"
+#include "Core/Resource/CResCache.h"
 
 class CAnimSetLoader
 {

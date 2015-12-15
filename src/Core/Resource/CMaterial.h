@@ -4,15 +4,15 @@
 #include "CMaterialPass.h"
 #include "CTexture.h"
 #include "EFormatVersion.h"
-#include "model/EVertexDescription.h"
+#include "TResPtr.h"
+#include "Core/Resource/Model/EVertexDescription.h"
+#include "Core/Render/ERenderOptions.h"
+#include "Core/OpenGL/CShader.h"
+
 #include <Common/CColor.h>
 #include <Common/EnumUtil.h>
 #include <Common/types.h>
-#include <Core/TResPtr.h>
-#include <Core/ERenderOptions.h>
 #include <FileIO/CInputStream.h>
-#include <OpenGL/CShader.h>
-#include <Resource/CTexture.h>
 
 class CMaterialSet;
 

@@ -1,5 +1,5 @@
 #include "CClearSelectionCommand.h"
-#include "../CWorldEditor.h"
+#include "Editor/INodeEditor.h"
 
 CClearSelectionCommand::CClearSelectionCommand(INodeEditor *pEditor, QList<CSceneNode*>& selection)
     : QUndoCommand("Clear Selection"),

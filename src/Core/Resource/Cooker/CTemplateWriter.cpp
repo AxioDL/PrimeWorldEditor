@@ -1,7 +1,8 @@
 #include "CTemplateWriter.h"
-#include "../cooker/CWorldCooker.h"
-#include <tinyxml2.h>
+#include "CWorldCooker.h"
+
 #include <boost/filesystem.hpp>
+#include <tinyxml2.h>
 
 using namespace tinyxml2;
 

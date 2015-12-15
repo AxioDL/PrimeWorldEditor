@@ -1,5 +1,4 @@
 #include "CMaterialCooker.h"
-
 #include <algorithm>
 
 CMaterialCooker::CMaterialCooker()

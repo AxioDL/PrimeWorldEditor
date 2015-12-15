@@ -1,19 +1,19 @@
 #ifndef CEDITORGLWIDGET_H
 #define CEDITORGLWIDGET_H
 
-#include <gl/glew.h>
-#include <QOpenGLWidget>
-
-#include <Core/CRenderer.h>
-#include <Core/SViewInfo.h>
-#include <Common/CRay.h>
+#include <Core/Render/CRenderer.h>
+#include <Core/Render/SViewInfo.h>
+#include <Common/Math/CRay.h>
+#include <Common/Math/CVector2i.h>
+#include <Common/Math/CVector2f.h>
 #include <Common/CTimer.h>
-#include <Common/CVector2i.h>
-#include <Common/CVector2f.h>
 
+#include <QOpenGLWidget>
 #include <QMouseEvent>
 #include <QPoint>
 #include <QTimer>
+
+#include <GL/glew.h>
 
 class CBasicViewport : public QOpenGLWidget
 {

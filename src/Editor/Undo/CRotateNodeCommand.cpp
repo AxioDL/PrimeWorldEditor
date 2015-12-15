@@ -1,6 +1,6 @@
 #include "CRotateNodeCommand.h"
 #include "EUndoCommand.h"
-#include "../CWorldEditor.h"
+#include "Editor/INodeEditor.h"
 
 CRotateNodeCommand::CRotateNodeCommand()
     : QUndoCommand("Rotate"),

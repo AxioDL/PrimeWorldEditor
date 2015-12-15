@@ -1,25 +1,25 @@
 #ifndef CWORLDEDITOR_H
 #define CWORLDEDITOR_H
 
-#include "INodeEditor.h"
+#include "Editor/INodeEditor.h"
+#include "Editor/CGizmo.h"
+
+#include <Common/Math/CRay.h>
+#include <Common/Math/ETransformSpace.h>
+#include <Common/CTimer.h>
+#include <Common/EKeyInputs.h>
+#include <Core/Render/CRenderer.h>
+#include <Core/Resource/CGameArea.h>
+#include <Core/Resource/CWorld.h>
+#include <Core/Resource/TResPtr.h>
+#include <Core/Scene/CSceneManager.h>
+#include <Core/SRayIntersection.h>
 
 #include <QComboBox>
 #include <QList>
 #include <QMainWindow>
 #include <QTimer>
 #include <QUndoStack>
-
-#include "CGizmo.h"
-#include <Common/CRay.h>
-#include <Common/CTimer.h>
-#include <Common/EKeyInputs.h>
-#include <Common/SRayIntersection.h>
-#include <Common/ETransformSpace.h>
-#include <Core/CRenderer.h>
-#include <Core/CSceneManager.h>
-#include <Core/TResPtr.h>
-#include <Resource/CGameArea.h>
-#include <Resource/CWorld.h>
 
 namespace Ui {
 class CWorldEditor;
