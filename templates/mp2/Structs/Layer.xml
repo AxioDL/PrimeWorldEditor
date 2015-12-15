@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="Layer" type="single">
+    <property ID="0x00" name="Area ID" type="file" ext="NULL"/>
+    <property ID="0x01" name="Layer No" type="long"/>
+</struct>

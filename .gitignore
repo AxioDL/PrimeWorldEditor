@@ -32,3 +32,10 @@ Makefile*
 #QtCtreator Qml
 *.qmlproject.user
 *.qmlproject.user.*
+
+# PrimeWorldEditor files
+bin/*.log
+bin/dump/*
+bin/PrimeWorldEditor.exe
+build/*
+externals/*

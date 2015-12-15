@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="3">
+    <name>Platform</name>
+    <properties version="NTSC">
+        <struct ID="0x255A4580" type="multi">
+            <property ID="0x494E414D"/>
+            <struct ID="0x5846524D" type="single"/>
+            <property ID="0x41435456"/>
+            <property ID="0x5D298A43"/>
+        </struct>
+        <property ID="0xF344C0B0"/>
+        <property ID="0x2E686C2A"/>
+        <property ID="0xC27FFA8F"/>
+        <property ID="0xA3D63F44"/>
+        <struct ID="0xBF81C83E" type="multi">
+            <property ID="0x64C0C54F"/>
+            <property ID="0x1CF3F468"/>
+            <property ID="0x1524C118"/>
+            <property ID="0xC7C4C8A9"/>
+            <property ID="0xCECB77DD"/>
+        </struct>
+        <struct ID="0x7E397FED" type="multi">
+            <property ID="0x90AA341F"/>
+            <property ID="0x7C269EBC"/>
+            <struct ID="0xB028DB0E" type="multi">
+                <property ID="0xB772D4C1"/>
+                <property ID="0x67F4D3DE"/>
+                <property ID="0x1F715FD3"/>
+                <property ID="0x6B5E7509"/>
+                <property ID="0x3DC5F0C6"/>
+                <property ID="0x628E6AC3"/>
+                <property ID="0xC1B12BB4"/>
+                <property ID="0x61A940D6"/>
+                <property ID="0xCAC1E778"/>
+                <property ID="0xD19DE775"/>
+                <property ID="0xA71810E9"/>
+                <property ID="0xA33E5B0E"/>
+            </struct>
+            <property ID="0x1BCAB75C"/>
+            <property ID="0xED3A6E87"/>
+            <property ID="0x1499803C"/>
+            <property ID="0x101EA33E"/>
+            <property ID="0x6DA86200"/>
+        </struct>
+        <property ID="0x0FC966DC"/>
+        <struct ID="0xCF90D15E" type="multi">
+            <property ID="0xF0668919"/>
+        </struct>
+        <struct ID="0x7B71AE90" type="multi">
+            <property ID="0x10F37815"/>
+            <property ID="0xF65FEEF8"/>
+        </struct>
+        <struct ID="0x0A9DBF91" type="multi">
+            <struct ID="0x493D6A2D" type="multi">
+                <property ID="0xF53DCDD6"/>
+            </struct>
+            <property ID="0x27E5F874"/>
+            <property ID="0xFD1E2F56"/>
+            <property ID="0x4885DFFA"/>
+            <property ID="0xA5753D52"/>
+            <property ID="0xAE80628F"/>
+            <property ID="0x628BDF0F"/>
+            <property ID="0x78D03A32"/>
+            <property ID="0xB4A2E15A"/>
+        </struct>
+        <property ID="0x6B5E87A7"/>
+        <property ID="0x24FDEEA1"/>
+        <property ID="0xBE513E2B"/>
+        <property ID="0xAA719632"/>
+        <property ID="0xB5B16553"/>
+        <property ID="0x981C2921"/>
+        <property ID="0x1FA92AC4"/>
+        <property ID="0xBE04E10B"/>
+        <property ID="0x58EE3422"/>
+        <property ID="0x47E9CC80"/>
+        <struct ID="0xA1172744" type="multi">
+            <property ID="0x22ECF23E"/>
+            <property ID="0xD982BC68"/>
+            <property ID="0xC75386A1"/>
+            <property ID="0x1E456737"/>
+            <property ID="0x5A60111F"/>
+            <property ID="0xCF2F0BF9"/>
+            <property ID="0x5783E404"/>
+            <property ID="0x3D4264EE"/>
+            <property ID="0x57018CF1"/>
+            <property ID="0x5409B2BE"/>
+            <property ID="0xD8A25F18"/>
+        </struct>
+    </properties>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
+            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
+        </properties>
+        <assets>
+            <animparams source="property">0xA3D63F44</animparams>
+            <model source="property">0xC27FFA8F</model>
+			<collision source="property">0x0FC966DC</collision>
+        </assets>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>disabled</scale_type>
+    </editor>
+</ScriptTemplate>

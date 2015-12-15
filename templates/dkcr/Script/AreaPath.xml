@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="3">
+    <name>AreaPath</name>
+    <properties version="NTSC">
+        <struct ID="0x255A4580" type="multi">
+            <property ID="0x494E414D"/>
+            <struct ID="0x5846524D" type="single"/>
+            <property ID="0x5D298A43"/>
+        </struct>
+        <property ID="0xC27FFA8F"/>
+        <property ID="0xA244C9D8"/>
+        <property ID="0xDE5709D9"/>
+        <property ID="0x474BCCE3"/>
+        <struct ID="0x7E397FED" type="multi">
+            <struct ID="0xB028DB0E" type="multi">
+                <property ID="0xB772D4C1"/>
+                <property ID="0x67F4D3DE"/>
+                <property ID="0x1F715FD3"/>
+            </struct>
+            <property ID="0xED3A6E87"/>
+        </struct>
+        <property ID="0x7561F8F7"/>
+        <property ID="0xD626B1D8"/>
+        <property ID="0x9DC43B9C"/>
+        <property ID="0x1989E2E5"/>
+        <property ID="0xFA0EED84"/>
+        <struct ID="0x91FA7B19" type="multi">
+            <property ID="0xF4AC7CAA"/>
+        </struct>
+        <property ID="0x1B32DC50"/>
+        <property ID="0x7C642C9C"/>
+    </properties>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
+        </properties>
+        <assets>
+            <animparams source="property">0xA244C9D8</animparams>
+            <model source="property">0xC27FFA8F</model>
+            <model source="property">0xDE5709D9</model>
+        </assets>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>enabled</scale_type>
+    </editor>
+</ScriptTemplate>

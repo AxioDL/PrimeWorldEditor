@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="3">
+    <name>SpacePirate</name>
+    <properties version="NTSC">
+        <property ID="0x00" name="Name" type="string"/>
+        <property ID="0x01" name="Position" type="vector3f"/>
+        <property ID="0x02" name="Rotation" type="vector3f"/>
+        <property ID="0x03" name="Scale" type="vector3f"/>
+        <struct ID="0x04" name="PatternedInfo" template="Structs/PatternedInfo.xml"/>
+        <struct ID="0x05" name="ActorParameters" template="Structs/ActorParameters.xml"/>
+        <property ID="0x06" name="Unknown 1" type="float"/>
+        <property ID="0x07" name="Unknown 2" type="float"/>
+        <property ID="0x08" name="Unknown 3" type="float"/>
+        <property ID="0x09" name="Unknown 4" type="float"/>
+        <property ID="0x0A" name="Unknown 5" type="float"/>
+        <property ID="0x0B" name="Unknown 6" type="float"/>
+        <property ID="0x0C" name="Unknown 7" type="long"/>
+        <property ID="0x0D" name="Unknown 8" type="bool"/>
+        <property ID="0x0E" name="WPSC 1" type="file" ext="WPSC"/>
+        <struct ID="0x0F" name="DamageInfo 1" template="Structs/DamageInfo.xml"/>
+        <property ID="0x10" name="Sound ID 1" type="long"/>
+        <struct ID="0x11" name="DamageInfo 2" template="Structs/DamageInfo.xml"/>
+        <property ID="0x12" name="Unknown 9" type="float"/>
+        <property ID="0x13" name="WPSC 2" type="file" ext="WPSC"/>
+        <struct ID="0x14" name="DamageInfo 3" template="Structs/DamageInfo.xml"/>
+        <property ID="0x15" name="Unknown 10" type="float"/>
+        <property ID="0x16" name="Sound ID 2" type="long"/>
+        <property ID="0x17" name="Unknown 11" type="float"/>
+        <property ID="0x18" name="Unknown 12" type="float"/>
+        <property ID="0x19" name="Sound ID 3" type="long"/>
+        <property ID="0x1A" name="Unknown 13" type="float"/>
+        <property ID="0x1B" name="Unknown 14" type="long"/>
+        <property ID="0x1C" name="Unknown 15" type="float"/>
+        <property ID="0x1D" name="Unknown 16" type="float"/>
+        <property ID="0x1E" name="Unknown 17" type="float"/>
+        <property ID="0x1F" name="Unknown 18" type="float"/>
+        <property ID="0x20" name="Sound ID 4" type="long"/>
+        <property ID="0x21" name="Sound ID 5" type="long"/>
+        <property ID="0x22" name="Unknown 19" type="float"/>
+        <property ID="0x23" name="Unknown 20" type="float"/>
+    </properties>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x00"/>
+            <property name="Position" ID="0x01"/>
+            <property name="Rotation" ID="0x02"/>
+            <property name="Scale" ID="0x03"/>
+            <property name="Active" ID="0x04:0x1A"/>
+            <property name="LightParameters" ID="0x05:0x00"/>
+        </properties>
+        <assets>
+            <animparams source="property">0x04:0x19</animparams>
+            <model source="property">0x05:0x02</model>
+            <model source="property">0x05:0x04</model>
+        </assets>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>enabled</scale_type>
+    </editor>
+</ScriptTemplate>

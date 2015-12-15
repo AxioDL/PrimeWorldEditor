@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="3">
+    <name>CinematicCamera</name>
+    <properties version="NTSC">
+        <struct ID="0x255A4580" type="multi">
+            <property ID="0x494E414D"/>
+            <struct ID="0x5846524D" type="single"/>
+            <property ID="0x41435456"/>
+            <property ID="0x5D298A43"/>
+        </struct>
+        <property ID="0x16D9A75D"/>
+        <property ID="0xCC08EF1B"/>
+        <property ID="0x6387E44B"/>
+        <property ID="0xA3D63F44"/>
+        <property ID="0x974A961F"/>
+        <property ID="0xAB8151EA"/>
+        <property ID="0x05C5FC6E"/>
+        <property ID="0x27E5F874"/>
+        <property ID="0xC4DFBFA7"/>
+        <struct ID="0x65FC11FF" type="multi">
+            <property ID="0x6219022E"/>
+            <struct ID="0x091F2936" type="multi">
+                <property ID="0x485B0C11"/>
+                <property ID="0x95CDD594"/>
+                <property ID="0x2807B95A"/>
+            </struct>
+            <property ID="0xC4DFBFA7"/>
+            <struct ID="0x0E1F2094" type="multi">
+                <property ID="0x19028BD3"/>
+            </struct>
+            <struct ID="0x86BC03D3" type="multi">
+                <property ID="0x1B4962BF"/>
+                <struct ID="0x609C0608" type="multi">
+                    <property ID="0x9A598FA5"/>
+                </struct>
+                <struct ID="0xF6C828C0" type="multi">
+                    <property ID="0x9A598FA5"/>
+                </struct>
+            </struct>
+            <struct ID="0xE1DEEE27" type="multi">
+                <property ID="0x10E6F366"/>
+            </struct>
+            <property ID="0x5C72A964"/>
+        </struct>
+        <property ID="0x6868D4B3"/>
+        <property ID="0x6E6D8EFD"/>
+        <property ID="0xF4F4798E"/>
+        <struct ID="0x764827D4" type="multi">
+            <property ID="0x1D49D35C"/>
+            <struct ID="0xA738790A" type="multi">
+                <property ID="0x948AF571"/>
+                <struct ID="0x287F9F45" type="multi">
+                    <property ID="0x09B5957D"/>
+                </struct>
+            </struct>
+            <struct ID="0xA768A18E" type="multi">
+                <property ID="0x5C72A964"/>
+            </struct>
+            <struct ID="0x3B8C7CB4" type="multi">
+                <property ID="0x19EA151B"/>
+            </struct>
+            <property ID="0x058C1B1D"/>
+            <struct ID="0x7FAC732A" type="multi">
+                <property ID="0x948AF571"/>
+                <struct ID="0x287F9F45" type="multi">
+                    <property ID="0x09B5957D"/>
+                    <property ID="0x67E3836A"/>
+                    <property ID="0x8B51E23F"/>
+                </struct>
+            </struct>
+            <struct ID="0xDFAB73B6" type="multi">
+                <property ID="0x5C72A964"/>
+                <struct ID="0x8654B081" type="multi">
+                    <property ID="0x09B5957D"/>
+                    <property ID="0x8B51E23F"/>
+                </struct>
+            </struct>
+            <struct ID="0xF391EDBC" type="multi">
+                <property ID="0x19EA151B"/>
+            </struct>
+            <property ID="0x07A6C22C"/>
+        </struct>
+        <property ID="0x29515802"/>
+        <property ID="0xDF1865A6"/>
+    </properties>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
+        </properties>
+        <assets>
+            <animparams source="property">0xA3D63F44</animparams>
+        </assets>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>disabled</scale_type>
+    </editor>
+</ScriptTemplate>

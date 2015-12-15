@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="3">
+    <name>SwingRope</name>
+    <properties version="NTSC">
+        <struct ID="0x255A4580" type="multi">
+            <property ID="0x494E414D"/>
+            <struct ID="0x5846524D" type="single"/>
+            <property ID="0x41435456"/>
+            <property ID="0x5D298A43"/>
+        </struct>
+        <struct ID="0x7E397FED" type="multi">
+            <struct ID="0xB028DB0E" type="multi">
+                <property ID="0x1F715FD3"/>
+                <property ID="0x6B5E7509"/>
+            </struct>
+        </struct>
+        <struct ID="0x6461CCD6" type="multi">
+            <property ID="0x7E20A7C9"/>
+            <property ID="0xD9DF339A"/>
+            <property ID="0xD1F65872"/>
+            <property ID="0x3C5E2D90"/>
+            <property ID="0xD9635583"/>
+            <property ID="0x92AC8836"/>
+            <property ID="0xBF43E511"/>
+            <property ID="0x5B5F1A7D"/>
+            <property ID="0x2C02F3CA"/>
+            <property ID="0x8388E38B"/>
+            <property ID="0x77C8CC96"/>
+            <property ID="0x723A15A5"/>
+            <property ID="0x84594ED5"/>
+            <property ID="0x36F40C13"/>
+            <property ID="0x087EC81B"/>
+            <property ID="0xB0C2AF7E"/>
+            <property ID="0x2D1597C7"/>
+        </struct>
+    </properties>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
+            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
+        </properties>
+        <assets/>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>disabled</scale_type>
+    </editor>
+</ScriptTemplate>

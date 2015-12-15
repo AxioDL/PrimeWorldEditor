@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="3">
+    <name>RobotChickenFlyer</name>
+    <properties version="NTSC">
+        <struct ID="0x255A4580" type="multi">
+            <property ID="0x494E414D"/>
+            <struct ID="0x5846524D" type="single"/>
+            <property ID="0x5D298A43"/>
+        </struct>
+        <struct ID="0x7E397FED" type="multi">
+            <struct ID="0xB028DB0E" type="multi">
+                <property ID="0x1F715FD3"/>
+            </struct>
+            <property ID="0x1BCAB75C"/>
+        </struct>
+        <struct ID="0xB3774750" type="multi">
+            <struct ID="0x7B71AE90" type="multi">
+                <property ID="0x10F37815"/>
+                <property ID="0xF65FEEF8"/>
+            </struct>
+            <struct ID="0xCF90D15E" type="multi">
+                <property ID="0xF0668919"/>
+            </struct>
+            <property ID="0x8A6AB139"/>
+            <property ID="0x2E686C2A"/>
+            <property ID="0xA244C9D8"/>
+            <property ID="0x1749405B"/>
+            <property ID="0x1B21EEB2"/>
+            <property ID="0xDFE74895"/>
+            <property ID="0xC88AD680"/>
+            <property ID="0x64C22667"/>
+        </struct>
+        <struct ID="0x3BFFC0D1" type="multi">
+            <property ID="0xEA0569D2"/>
+            <struct ID="0xA152F46F" type="multi">
+                <property ID="0x39FB7978"/>
+                <property ID="0x9EC4FC10"/>
+                <property ID="0x140EF2CC"/>
+            </struct>
+            <struct ID="0x1F59E2C1" type="multi">
+                <property ID="0x39FB7978"/>
+                <property ID="0x9EC4FC10"/>
+                <property ID="0x140EF2CC"/>
+            </struct>
+            <struct ID="0xC4D0E557" type="multi">
+                <property ID="0x39FB7978"/>
+                <property ID="0x9EC4FC10"/>
+                <property ID="0x140EF2CC"/>
+            </struct>
+            <struct ID="0xF8011EC5" type="multi">
+                <property ID="0x348C9D90"/>
+                <property ID="0xE1E66B24"/>
+                <property ID="0xB413C45F"/>
+                <property ID="0x76C7464C"/>
+                <property ID="0x10E05AAF"/>
+                <property ID="0xB0C2F5F6"/>
+                <property ID="0xBD894993"/>
+                <property ID="0x05291EF7"/>
+                <property ID="0x4C20DEF3"/>
+                <property ID="0x259C0939"/>
+                <property ID="0xC8B23273"/>
+                <property ID="0xBE5F118D"/>
+            </struct>
+            <struct ID="0x68FD49AE" type="multi">
+                <property ID="0xA1266897"/>
+                <property ID="0x6F74F82F"/>
+                <property ID="0x611F9F41"/>
+                <struct ID="0xE67EF99E" type="multi">
+                    <property ID="0xB297F186"/>
+                    <property ID="0xFBC6C110"/>
+                </struct>
+            </struct>
+            <struct ID="0x420151F6" type="multi">
+                <struct ID="0x002CFE87" type="multi">
+                    <property ID="0x07D939A1"/>
+                    <property ID="0x8A58A7F8"/>
+                </struct>
+                <struct ID="0x76C9C7BA" type="multi">
+                    <property ID="0x07D939A1"/>
+                    <property ID="0x8A58A7F8"/>
+                </struct>
+                <struct ID="0xEDBA2D6E" type="multi">
+                    <property ID="0x07D939A1"/>
+                    <property ID="0x8A58A7F8"/>
+                </struct>
+                <struct ID="0x9B03B5C0" type="multi">
+                    <property ID="0x07D939A1"/>
+                    <property ID="0x8A58A7F8"/>
+                </struct>
+            </struct>
+        </struct>
+    </properties>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+        </properties>
+        <assets>
+            <animparams source="property">0xB3774750:0xA244C9D8</animparams>
+        </assets>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>disabled</scale_type>
+    </editor>
+</ScriptTemplate>

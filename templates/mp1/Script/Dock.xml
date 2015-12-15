@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="3">
+    <name>Dock</name>
+    <properties version="NTSC">
+        <property ID="0x00" name="Name" type="string"/>
+        <property ID="0x01" name="Active" type="bool"/>
+        <property ID="0x02" name="Position" type="vector3f"/>
+        <property ID="0x03" name="Volume" type="vector3f"/>
+        <property ID="0x04" name="Dock Number" type="long"/>
+        <property ID="0x05" name="Room Number" type="long"/>
+        <property ID="0x06" name="Load Automatically?" type="bool"/>
+    </properties>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x00"/>
+            <property name="Position" ID="0x02"/>
+            <property name="Scale" ID="0x03"/>
+            <property name="Active" ID="0x01"/>
+        </properties>
+        <assets>
+            <billboard source="file">script/common/Dock.txtr</billboard>
+		</assets>
+        <rotation_type>disabled</rotation_type>
+        <scale_type>volume</scale_type>
+        <preview_volume shape="AxisAlignedBox"/>
+    </editor>
+</ScriptTemplate>

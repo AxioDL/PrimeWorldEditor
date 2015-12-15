@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="3">
+    <name>IslandArea</name>
+    <properties version="NTSC">
+        <struct ID="0x255A4580" type="multi">
+            <property ID="0x494E414D"/>
+            <struct ID="0x5846524D" type="single"/>
+            <property ID="0x5D298A43"/>
+        </struct>
+        <property ID="0xC27FFA8F"/>
+        <property ID="0x0FC966DC"/>
+        <property ID="0xA244C9D8"/>
+        <property ID="0x3B83DD31"/>
+        <property ID="0x6A02F05F"/>
+        <property ID="0x28E29F9B"/>
+        <struct ID="0xDF692967" type="multi">
+            <property ID="0xA4F20C17"/>
+            <property ID="0x8067FE4E"/>
+            <property ID="0xB9B18EF6"/>
+            <property ID="0x241839D4"/>
+            <property ID="0xF9529B46"/>
+            <property ID="0x1359360D"/>
+            <struct ID="0x57CB6052" type="multi">
+                <property ID="0x5FED5C9D"/>
+                <property ID="0x0C5B4DE6"/>
+                <property ID="0x01417435"/>
+            </struct>
+            <struct ID="0x4C256CD9" type="multi">
+                <property ID="0x5FED5C9D"/>
+                <property ID="0x0C5B4DE6"/>
+                <property ID="0x01417435"/>
+            </struct>
+            <struct ID="0xFA4DC52C" type="multi">
+                <property ID="0x5FED5C9D"/>
+                <property ID="0x0C5B4DE6"/>
+                <property ID="0x01417435"/>
+            </struct>
+            <struct ID="0x7803AE46" type="multi">
+                <property ID="0x0C5B4DE6"/>
+                <property ID="0x01417435"/>
+            </struct>
+            <struct ID="0x2ED30BDD" type="multi">
+                <property ID="0x5FED5C9D"/>
+                <property ID="0x0C5B4DE6"/>
+                <property ID="0x01417435"/>
+            </struct>
+            <struct ID="0xCFBDCF70" type="multi">
+                <property ID="0x5FED5C9D"/>
+                <property ID="0x0C5B4DE6"/>
+                <property ID="0x01417435"/>
+            </struct>
+            <struct ID="0xD611406B" type="multi">
+                <property ID="0x5FED5C9D"/>
+                <property ID="0x0C5B4DE6"/>
+                <property ID="0x01417435"/>
+            </struct>
+        </struct>
+        <struct ID="0x0F722357" type="multi">
+            <property ID="0xA28B199D"/>
+            <property ID="0x003E7991"/>
+            <property ID="0x87501D31"/>
+            <property ID="0x72679165"/>
+            <property ID="0xCC70E91C"/>
+            <property ID="0xB2B02A99"/>
+            <property ID="0x4392D0C4"/>
+        </struct>
+    </properties>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+        </properties>
+        <assets>
+            <animparams source="property">0xA244C9D8</animparams>
+            <model source="property">0xC27FFA8F</model>
+        </assets>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>disabled</scale_type>
+    </editor>
+</ScriptTemplate>

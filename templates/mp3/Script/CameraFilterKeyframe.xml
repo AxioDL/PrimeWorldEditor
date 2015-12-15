@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="3">
+    <name>CameraFilterKeyframe</name>
+    <properties version="NTSC">
+        <struct ID="0x255A4580" type="multi">
+            <property ID="0x494E414D"/>
+            <struct ID="0x5846524D" type="single"/>
+            <property ID="0x41435456"/>
+            <property ID="0x5D298A43"/>
+        </struct>
+        <property ID="0x7975DB5B"/>
+        <property ID="0x6A3E9A3D"/>
+        <property ID="0x58BDBD7B"/>
+        <property ID="0x3FDC4B2E"/>
+        <property ID="0x37C7D09D"/>
+        <property ID="0xABD41A36"/>
+        <property ID="0x3EAF78FE"/>
+        <property ID="0xD1F65872"/>
+        <property ID="0xC27FFA8F"/>
+    </properties>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
+        </properties>
+        <assets>
+            <model source="property">0xC27FFA8F</model>
+        </assets>
+		<preview_scale>0.5</preview_scale>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>enabled</scale_type>
+    </editor>
+</ScriptTemplate>

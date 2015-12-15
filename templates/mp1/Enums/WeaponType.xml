@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<enum name="WeaponType">
+	<enumerator value="0x0" name="Power" />
+	<enumerator value="0x1" name="Ice" />
+	<enumerator value="0x2" name="Wave" />
+	<enumerator value="0x3" name="Plasma" />
+	<enumerator value="0x4" name="Bomb" />
+	<enumerator value="0x5" name="Power Bomb" />
+	<enumerator value="0x6" name="Missile" />
+	<enumerator value="0x7" name="Boost Ball" />
+	<enumerator value="0x8" name="Phazon" />
+	<enumerator value="0x9" name="Enemy Weapon 1" />
+	<enumerator value="0xA" name="Enemy Weapon 2 (Poison)" />
+	<enumerator value="0xB" name="Enemy Weapon 3 (Lava)" />
+	<enumerator value="0xC" name="Enemy Weapon 4" />
+	<enumerator value="0xD" name="Unknown Weapon 1" />
+	<enumerator value="0xE" name="Unknown Weapon 2" />
+</enum>

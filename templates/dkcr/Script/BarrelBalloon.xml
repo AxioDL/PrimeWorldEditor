@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="3">
+    <name>BarrelBalloon</name>
+    <properties version="NTSC">
+        <struct ID="0x255A4580" type="multi">
+            <property ID="0x494E414D"/>
+            <struct ID="0x5846524D" type="single"/>
+            <property ID="0x41435456"/>
+            <property ID="0x5D298A43"/>
+        </struct>
+        <struct ID="0x7E397FED" type="multi">
+            <struct ID="0xB028DB0E" type="multi">
+                <property ID="0x6B5E7509"/>
+                <property ID="0x628E6AC3"/>
+                <property ID="0xA71810E9"/>
+            </struct>
+        </struct>
+        <struct ID="0x94F9C48D" type="multi">
+            <property ID="0xF8B3ABE0"/>
+            <property ID="0x82DE5E29"/>
+            <property ID="0x1644AF87"/>
+            <property ID="0xDDB16979"/>
+            <property ID="0x2B201845"/>
+            <property ID="0xBF75E71F"/>
+            <property ID="0xE87BB75C"/>
+            <property ID="0x9545F9EF"/>
+            <property ID="0x1BD4C955"/>
+            <property ID="0x64ACDF7B"/>
+            <property ID="0xCD6E33A5"/>
+            <property ID="0xC3CDAFCB"/>
+            <property ID="0x88BEFDEB"/>
+            <property ID="0x228EE623"/>
+            <property ID="0x7E31967C"/>
+            <property ID="0xDCB3F50E"/>
+            <property ID="0xBD917023"/>
+            <property ID="0x9A27DDC3"/>
+            <property ID="0x409618B6"/>
+            <property ID="0x0EEFA478"/>
+            <property ID="0x6B40ACEF"/>
+            <property ID="0x2672E0BF"/>
+            <property ID="0xE4CD14F9"/>
+            <property ID="0x1A422994"/>
+            <property ID="0x59CD8DEE"/>
+        </struct>
+    </properties>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
+            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
+        </properties>
+        <assets>
+            <animparams source="property">0x94F9C48D:0xF8B3ABE0</animparams>
+        </assets>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>enabled</scale_type>
+    </editor>
+</ScriptTemplate>

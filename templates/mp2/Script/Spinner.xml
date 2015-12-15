@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="3">
+    <name>Spinner</name>
+    <properties version="NTSC">
+        <struct ID="0x255A4580" type="multi">
+            <property ID="0x494E414D"/>
+            <struct ID="0x5846524D" type="single"/>
+            <property ID="0x41435456"/>
+            <property ID="0x5D298A43"/>
+        </struct>
+        <property ID="0xDE4F6A76"/>
+        <property ID="0x54E15A3C"/>
+        <property ID="0x449DD059"/>
+        <property ID="0xFC849759"/>
+        <property ID="0x50501E17"/>
+        <property ID="0x3983CBA7"/>
+        <property ID="0xF1C8A0AE"/>
+        <property ID="0xE8F0A1CE"/>
+        <property ID="0x8B66ECA2"/>
+        <property ID="0x52EDD16B"/>
+        <property ID="0xE88E7D41"/>
+    </properties>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
+        </properties>
+        <assets/>
+		<preview_scale>0.5</preview_scale>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>enabled</scale_type>
+    </editor>
+</ScriptTemplate>

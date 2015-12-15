@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="3">
+    <name>FrontEndDataNetwork</name>
+    <properties version="NTSC">
+        <struct ID="0x255A4580" type="multi">
+            <property ID="0x494E414D"/>
+            <struct ID="0x5846524D" type="single"/>
+            <property ID="0x41435456"/>
+            <property ID="0x5D298A43"/>
+        </struct>
+        <property ID="0x5C3C9E4A"/>
+        <property ID="0x77F59F4A"/>
+        <property ID="0x29C0CB7F"/>
+        <property ID="0x02E74CBA"/>
+        <property ID="0xA2AC58E9"/>
+        <property ID="0xDEE730F5"/>
+        <property ID="0x8B8FA0FE"/>
+        <property ID="0xD0F2D612"/>
+        <property ID="0x5EBC97FD"/>
+        <property ID="0x3E5727AA"/>
+        <property ID="0x547FFFC3"/>
+        <property ID="0xCDAABA00"/>
+        <property ID="0x7F62DA5B"/>
+        <property ID="0xED286CE4"/>
+        <property ID="0xAD671492"/>
+        <property ID="0xB44D4C70"/>
+        <property ID="0x2D23720F"/>
+        <property ID="0xEC45879E"/>
+        <property ID="0xFA20775D"/>
+        <property ID="0x5E30354A"/>
+        <property ID="0x3C1FA2CA"/>
+        <property ID="0xB492C2AF"/>
+        <property ID="0x6D5198B4"/>
+        <property ID="0xDF1B312C"/>
+        <property ID="0xBAC12CA0"/>
+        <property ID="0x4DA90D36"/>
+    </properties>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
+        </properties>
+        <assets/>
+		<preview_scale>0.5</preview_scale>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>enabled</scale_type>
+    </editor>
+</ScriptTemplate>

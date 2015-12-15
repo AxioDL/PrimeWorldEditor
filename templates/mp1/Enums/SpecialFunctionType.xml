@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<enum name="SpecialFunctionType">
+	<enumerator value="0x0" name="What" />
+	<enumerator value="0x1" name="Player Follow Locator" />
+	<enumerator value="0x2" name="Spinner Controller" />
+	<enumerator value="0x3" name="Object Follow Locator" />
+	<enumerator value="0x4" name="Function 4" />
+	<enumerator value="0x5" name="Inventory Activator" />
+	<enumerator value="0x6" name="Map Station" />
+	<enumerator value="0x7" name="Save Station" />
+	<enumerator value="0x8" name="Intro Boss Ring Controller" />
+	<enumerator value="0x9" name="View Frustum Tester (Unused)" />
+	<enumerator value="0xA" name="Shot Spinner Controller" />
+	<enumerator value="0xB" name="Escape Sequence" />
+	<enumerator value="0xC" name="Boss Energy Bar" />
+	<enumerator value="0xD" name="End Game" />
+	<enumerator value="0xE" name="HUD Fade In" />
+	<enumerator value="0xF" name="Cinematic Skip" />
+	<enumerator value="0x10" name="Script Layer Controller" />
+	<enumerator value="0x11" name="Rain Simulator" />
+	<enumerator value="0x12" name="Area Damage" />
+	<enumerator value="0x13" name="Object Follow Object (Unused)" />
+	<enumerator value="0x14" name="Redundant Hint System" />
+	<enumerator value="0x15" name="Drop Bomb" />
+	<enumerator value="0x16" name="Function 22" />
+	<enumerator value="0x17" name="Missile Station" />
+	<enumerator value="0x18" name="Billboard" />
+	<enumerator value="0x19" name="Player In Area Relay" />
+	<enumerator value="0x1A" name="HUD Target" />
+	<enumerator value="0x1B" name="Fog Fader" />
+	<enumerator value="0x1C" name="Enter Logbook Screen" />
+	<enumerator value="0x1D" name="Power Bomb Station" />
+	<enumerator value="0x1E" name="Ending" />
+	<enumerator value="0x1F" name="Fusion Relay" />
+	<enumerator value="0x20" name="Weapon Switch (PAL-only)" />
+</enum>

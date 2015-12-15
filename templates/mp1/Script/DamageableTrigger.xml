@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="3">
+    <name>DamageableTrigger</name>
+    <properties version="NTSC">
+        <property ID="0x00" name="Name" type="string"/>
+        <property ID="0x01" name="Position" type="vector3f"/>
+        <property ID="0x02" name="Volume" type="vector3f"/>
+        <struct ID="0x03" name="HealthInfo" template="Structs/HealthInfo.xml"/>
+        <struct ID="0x04" name="DamageVulnerability" template="Structs/DamageVulnerability.xml"/>
+        <enum ID="0x05" name="Render Side">
+			<enumerator value="0x00" name="Don't Render"/>
+			<enumerator value="0x01" name="North"/>
+			<enumerator value="0x02" name="South"/>
+			<enumerator value="0x04" name="West"/>
+			<enumerator value="0x08" name="East"/>
+			<enumerator value="0x10" name="Top"/>
+			<enumerator value="0x20" name="Bottom"/>
+		</enum>
+        <property ID="0x06" name="Texture 1" type="file" ext="TXTR"/>
+        <property ID="0x07" name="Texture 2" type="file" ext="TXTR"/>
+        <property ID="0x08" name="Texture 3" type="file" ext="TXTR"/>
+        <property ID="0x09" name="Enable Lock-On" type="bool"/>
+        <property ID="0x0A" name="Active" type="bool"/>
+        <struct ID="0x0B" name="VisorParameters" template="Structs/VisorParameters.xml"/>
+    </properties>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x00"/>
+            <property name="Position" ID="0x01"/>
+            <property name="Scale" ID="0x02"/>
+            <property name="Active" ID="0x0A"/>
+        </properties>
+        <assets/>
+        <rotation_type>disabled</rotation_type>
+        <scale_type>volume</scale_type>
+        <preview_volume shape="Box"/>
+    </editor>
+</ScriptTemplate>

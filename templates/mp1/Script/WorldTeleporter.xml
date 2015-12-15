@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="3">
+    <name>WorldTeleporter</name>
+    <properties version="NTSC">
+        <property ID="0x00" name="Name" type="string"/>
+        <property ID="0x01" name="Unknown 1" type="bool"/>
+        <property ID="0x02" name="MLVL" type="file" ext="MLVL"/>
+        <property ID="0x03" name="MREA" type="file" ext="MREA"/>
+        <property ID="0x04" name="AnimationParameters" type="animparams"/>
+        <property ID="0x05" name="Unknown 2" type="vector3f"/>
+        <property ID="0x06" name="Model 1" type="file" ext="CMDL"/>
+        <property ID="0x07" name="Unknown 3" type="vector3f"/>
+        <property ID="0x08" name="Model 2" type="file" ext="CMDL"/>
+        <property ID="0x09" name="Unknown 4" type="vector3f"/>
+        <property ID="0x0A" name="Unknown 5" type="bool"/>
+        <property ID="0x0B" name="Sound?" type="long"/>
+        <property ID="0x0C" name="Unknown 6" type="long"/>
+        <property ID="0x0D" name="Unknown 7" type="long"/>
+        <property ID="0x0E" name="Unknown 8" type="bool"/>
+        <property ID="0x0F" name="FONT" type="file" ext="FONT"/>
+        <property ID="0x10" name="STRG" type="file" ext="STRG"/>
+        <property ID="0x11" name="Unknown 9" type="bool"/>
+        <property ID="0x12" name="Unknown 10" type="float"/>
+        <property ID="0x13" name="Unknown 11" type="float"/>
+        <property ID="0x14" name="Unknown 12" type="float"/>
+    </properties>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x00"/>
+        </properties>
+        <assets>
+            <animparams source="property">0x04</animparams>
+            <model source="property">0x06</model>
+            <model source="property">0x08</model>
+        </assets>
+        <rotation_type>disabled</rotation_type>
+        <scale_type>disabled</scale_type>
+    </editor>
+</ScriptTemplate>

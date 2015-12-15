@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="3">
+    <name>Effect</name>
+    <properties version="NTSC">
+        <struct ID="0x255A4580" type="multi">
+            <property ID="0x494E414D"/>
+            <struct ID="0x5846524D" type="single"/>
+            <property ID="0x41435456"/>
+            <property ID="0x5D298A43"/>
+        </struct>
+        <property ID="0x0A479D6F"/>
+        <property ID="0x3217DFF8"/>
+        <property ID="0x3DF5A489"/>
+        <property ID="0x08349BD6"/>
+        <property ID="0xEE538174"/>
+        <property ID="0xA94B0EFD"/>
+        <property ID="0x93756968"/>
+        <property ID="0x0B94597D"/>
+        <property ID="0xD0E8A496"/>
+        <property ID="0xA8BB6C61"/>
+        <property ID="0x7589D549"/>
+        <property ID="0xA7D7D767"/>
+        <property ID="0xFE69615C"/>
+        <property ID="0x84368D03"/>
+        <property ID="0xA559C066"/>
+        <property ID="0x368BF245"/>
+        <property ID="0xEFFFA3BE"/>
+        <property ID="0x6714021C"/>
+        <property ID="0xBE931927"/>
+        <property ID="0x2FA4E5D7"/>
+        <struct ID="0xB028DB0E" type="multi">
+            <property ID="0xCD639B46"/>
+            <property ID="0xA33E5B0E"/>
+            <property ID="0xA71810E9"/>
+            <property ID="0x6B5E7509"/>
+            <property ID="0x3DC5F0C6"/>
+            <property ID="0x628E6AC3"/>
+            <property ID="0xD19DE775"/>
+            <property ID="0xCAC1E778"/>
+            <property ID="0x67F4D3DE"/>
+            <property ID="0xFB7A7ABB"/>
+            <property ID="0x61A940D6"/>
+            <property ID="0x1F715FD3"/>
+        </struct>
+        <property ID="0x4D55F7D4"/>
+        <property ID="0x3D7406AF"/>
+        <struct ID="0x493D6A2D" type="multi">
+            <property ID="0xF53DCDD6"/>
+        </struct>
+        <struct ID="0x27E5F874" type="single"/>
+        <property ID="0xFD1E2F56"/>
+        <property ID="0x73E63382"/>
+        <property ID="0x608ECAC5"/>
+    </properties>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
+            <property name="LightParameters" ID="0xB028DB0E"/>
+        </properties>
+        <assets>
+            <billboard source="file">script/common/Effect.txtr</billboard>
+		</assets>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>enabled</scale_type>
+    </editor>
+</ScriptTemplate>

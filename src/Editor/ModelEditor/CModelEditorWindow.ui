@@ -1,0 +1,2546 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CModelEditorWindow</class>
+ <widget class="QMainWindow" name="CModelEditorWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1280</width>
+    <height>720</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>400</width>
+    <height>400</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Prime World Editor - Model Editor</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="horizontalLayout_7">
+    <item>
+     <widget class="QSplitter" name="splitter_2">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <widget class="QSplitter" name="splitter">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <widget class="QGroupBox" name="MeshInfoGroupBox">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>150</height>
+         </size>
+        </property>
+        <property name="title">
+         <string>Mesh Info</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_10">
+         <item>
+          <widget class="QLabel" name="MeshInfoLabel">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>0 vertices, 0 triangles</string>
+           </property>
+           <property name="scaledContents">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="MatInfoLabel">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>0 materials, 0 sets</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QFormLayout" name="formLayout_5">
+           <item row="0" column="0">
+            <widget class="QLabel" name="SelectedSetLabel">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>&lt;b&gt;Selected set:&lt;/b&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QComboBox" name="SetSelectionComboBox">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="SelectedMatLabel">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Selected material:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QComboBox" name="MatSelectionComboBox">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QScrollArea" name="scrollArea">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>1</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>250</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="verticalScrollBarPolicy">
+         <enum>Qt::ScrollBarAsNeeded</enum>
+        </property>
+        <property name="horizontalScrollBarPolicy">
+         <enum>Qt::ScrollBarAsNeeded</enum>
+        </property>
+        <property name="sizeAdjustPolicy">
+         <enum>QAbstractScrollArea::AdjustToContents</enum>
+        </property>
+        <property name="widgetResizable">
+         <bool>true</bool>
+        </property>
+        <widget class="QWidget" name="scrollAreaWidgetContents">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>308</width>
+           <height>1184</height>
+          </rect>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_6">
+          <item>
+           <widget class="QGroupBox" name="GeneralGroupBox">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="title">
+             <string>General</string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_8">
+             <item>
+              <widget class="QCheckBox" name="EnableTransparencyCheck">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>Enables depth sorting of transparent materials. Required for transparent materials to render correctly.</string>
+               </property>
+               <property name="text">
+                <string>Enable transparency</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="EnablePunchthroughCheck">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>Enable for &quot;cardboard cut-out&quot; alpha.</string>
+               </property>
+               <property name="text">
+                <string>Enable punchthrough alpha</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="EnableReflectionCheck">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>This will make Samus's reflection appear in the material when the player stands near it. May not work properly on some surfaces.</string>
+               </property>
+               <property name="text">
+                <string>Enable reflection</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="EnableSurfaceReflectionCheck">
+               <property name="text">
+                <string>Enable surface reflection</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="EnableDepthWriteCheck">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>Enable this material to write to the depth buffer. This should be enabled.</string>
+               </property>
+               <property name="text">
+                <string>Enable depth writing</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="EnableOccluderCheck">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>Meshes using this material won't be rendered, but they can be used to cast dynamic shadows on actors. Should only be enabled on terrain.</string>
+               </property>
+               <property name="text">
+                <string>Shadow occluder mesh</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="EnableLightmapCheck">
+               <property name="text">
+                <string>Material uses a lightmap</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="EnableDynamicLightingCheck">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>Enable dynamic lighting on this material. If disabled, the material will appear fullbright.</string>
+               </property>
+               <property name="text">
+                <string>Enable dynamic lighting</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <layout class="QFormLayout" name="formLayout">
+               <item row="0" column="0">
+                <widget class="QLabel" name="SourceBlendLabel">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string>Source blend factor</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QComboBox" name="SourceBlendComboBox">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="toolTip">
+                  <string>When a new pixel is drawn, this value will be multiplied with the source pixel to determine how it gets blended with the destination pixel.&lt;br&gt;&lt;br&gt;Common settings:&lt;br&gt;* &lt;b&gt;One&lt;/b&gt; for source and &lt;b&gt;Zero&lt;/b&gt; for dest, for opaque materials&lt;br&gt;* &lt;b&gt;One&lt;/b&gt; for source and &lt;b&gt;One&lt;/b&gt; for dest, for additive transparency&lt;br&gt;* &lt;b&gt;Source Alpha&lt;/b&gt; for source and &lt;b&gt;Inverse Source Alpha&lt;/b&gt; for dest, for alpha-blended transparency</string>
+                 </property>
+                 <item>
+                  <property name="text">
+                   <string>Zero</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>One</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Source Color</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Inverse Source Color</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Source Alpha</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Inverse Source Alpha</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Dest Alpha</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Inverse Dest Alpha</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="DestBlendLabel">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string>Dest blend factor</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QComboBox" name="DestBlendComboBox">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="toolTip">
+                  <string>When a new pixel is drawn, this value will be multiplied with the destination pixel to determine how it gets blended with the input pixel.&lt;br&gt;&lt;br&gt;Common settings:&lt;br&gt;* &lt;b&gt;One&lt;/b&gt; for source and &lt;b&gt;Zero&lt;/b&gt; for dest, for opaque materials&lt;br&gt;* &lt;b&gt;One&lt;/b&gt; for source and &lt;b&gt;One&lt;/b&gt; for dest, for additive transparency&lt;br&gt;* &lt;b&gt;Source Alpha&lt;/b&gt; for source and &lt;b&gt;Inverse Source Alpha&lt;/b&gt; for dest, for alpha-blended transparency</string>
+                 </property>
+                 <item>
+                  <property name="text">
+                   <string>Zero</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>One</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Dest Color</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Inverse Dest Color</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Source Alpha</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Inverse Source Alpha</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Dest Alpha</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Inverse Dest Alpha</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_8">
+               <item>
+                <widget class="QLabel" name="IndTextureLabel">
+                 <property name="text">
+                  <string>Indirect texture</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="WResourceSelector" name="IndTextureResSelector" native="true">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                   <horstretch>1</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <widget class="QGroupBox" name="KonstGroupBox">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>Custom RGBA colors that can be set to be used as TEV inputs.</string>
+               </property>
+               <property name="title">
+                <string>Konst</string>
+               </property>
+               <layout class="QHBoxLayout" name="horizontalLayout_3">
+                <item>
+                 <widget class="WColorPicker" name="KonstColorPickerA" native="true">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>45</width>
+                    <height>45</height>
+                   </size>
+                  </property>
+                  <property name="focusPolicy">
+                   <enum>Qt::StrongFocus</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="WColorPicker" name="KonstColorPickerB" native="true">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>45</width>
+                    <height>45</height>
+                   </size>
+                  </property>
+                  <property name="focusPolicy">
+                   <enum>Qt::StrongFocus</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="WColorPicker" name="KonstColorPickerC" native="true">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>45</width>
+                    <height>45</height>
+                   </size>
+                  </property>
+                  <property name="focusPolicy">
+                   <enum>Qt::StrongFocus</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="WColorPicker" name="KonstColorPickerD" native="true">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>45</width>
+                    <height>45</height>
+                   </size>
+                  </property>
+                  <property name="focusPolicy">
+                   <enum>Qt::StrongFocus</enum>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="PassGroupBox">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="title">
+             <string>Pass</string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_2">
+             <item>
+              <widget class="QTableWidget" name="PassTable">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>100</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">outline: none;</string>
+               </property>
+               <property name="editTriggers">
+                <set>QAbstractItemView::NoEditTriggers</set>
+               </property>
+               <property name="selectionMode">
+                <enum>QAbstractItemView::NoSelection</enum>
+               </property>
+               <property name="selectionBehavior">
+                <enum>QAbstractItemView::SelectRows</enum>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>16</width>
+                 <height>16</height>
+                </size>
+               </property>
+               <property name="verticalScrollMode">
+                <enum>QAbstractItemView::ScrollPerPixel</enum>
+               </property>
+               <property name="horizontalScrollMode">
+                <enum>QAbstractItemView::ScrollPerPixel</enum>
+               </property>
+               <property name="showGrid">
+                <bool>false</bool>
+               </property>
+               <attribute name="horizontalHeaderVisible">
+                <bool>false</bool>
+               </attribute>
+               <attribute name="horizontalHeaderStretchLastSection">
+                <bool>true</bool>
+               </attribute>
+               <attribute name="verticalHeaderVisible">
+                <bool>false</bool>
+               </attribute>
+               <attribute name="verticalHeaderDefaultSectionSize">
+                <number>21</number>
+               </attribute>
+               <attribute name="verticalHeaderMinimumSectionSize">
+                <number>21</number>
+               </attribute>
+               <column>
+                <property name="text">
+                 <string>Pass</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Show</string>
+                </property>
+               </column>
+              </widget>
+             </item>
+             <item>
+              <widget class="QGroupBox" name="TevParamGroupBox">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="title">
+                <string>TEV Parameters</string>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_5">
+                <item>
+                 <layout class="QFormLayout" name="formLayout_3">
+                  <item row="0" column="0">
+                   <widget class="QLabel" name="TevKColorSelLabel">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="text">
+                     <string>&lt;b&gt;Konst Color:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="1">
+                   <widget class="QComboBox" name="TevKColorSelComboBox">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="toolTip">
+                     <string>Select the Konst RGB color used by this TEV stage. This can be one of the Konst colors set in the general settings above, or it can be a contant grayscale value.</string>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string>1.0</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>0.875</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>0.75</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>0.625</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>0.5</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>0.375</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>0.25</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>0.125</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Konst 1 RGB</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Konst 2 RGB</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Konst 3 RGB</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Konst 4 RGB</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Konst 1 RRR</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Konst 1 GGG</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Konst 1 BBB</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Konst 1 AAA</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Konst 2 RRR</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Konst 2 GGG</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Konst 2 BBB</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Konst 2 AAA</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Konst 3 RRR</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Konst 3 GGG</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Konst 3 BBB</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Konst 3 AAA</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Konst 4 RRR</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Konst 4 GGG</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Konst 4 BBB</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Konst 4 AAA</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                  <item row="1" column="0">
+                   <widget class="QLabel" name="TevKAlphaSelLabel">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="text">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Konst Alpha:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="1">
+                   <widget class="QComboBox" name="TevKAlphaSelComboBox">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="toolTip">
+                     <string>Select the Konst alpha used by this TEV stage. This can be the alpha component from one of the Konst colors set in the general settings above, or it can be a contant value between 0 and 1.</string>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string>1.0</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>0.875</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>0.75</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>0.625</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>0.5</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>0.375</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>0.25</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>0.125</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Konst 1 Red</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Konst 2 Red</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Konst 3 Red</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Konst 4 Red</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Konst 1 Green</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Konst 2 Green</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Konst 3 Green</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Konst 4 Green</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Konst 1 Blue</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Konst 2 Blue</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Konst 3 Blue</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Konst 4 Blue</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Konst 1 Alpha</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Konst 2 Alpha</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Konst 3 Alpha</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Konst 4 Alpha</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                  <item row="2" column="0">
+                   <widget class="QLabel" name="TevRasSelLabel">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="text">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Rasterized color:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="1">
+                   <widget class="QComboBox" name="TevRasSelComboBox">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="toolTip">
+                     <string>Rasterized vertex color after lighting calculations. Should be set to Color0A0, Zero, or Null.</string>
+                    </property>
+                    <property name="currentIndex">
+                     <number>0</number>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string>Color0</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Color1</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Alpha0</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Alpha1</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Color0A0</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Color1A1</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Zero</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Null</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                  <item row="3" column="0">
+                   <widget class="QLabel" name="TexCoordSrcLabel">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="text">
+                     <string>&lt;b&gt;Tex Coord Source:&lt;/b&gt;</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="1">
+                   <widget class="QComboBox" name="TexCoordSrcComboBox">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="toolTip">
+                     <string>Select the vertex attribute that will be used to generate texture coordinates for this pass.</string>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string>None</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Position</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Normal</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Tex Coord 1</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Tex Coord 2</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Tex Coord 3</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Tex Coord 4</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Tex Coord 5</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Tex Coord 6</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Tex Coord 7</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Tex Coord 8</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_6">
+                  <item>
+                   <widget class="QLabel" name="PassTextureLabel">
+                    <property name="text">
+                     <string>&lt;b&gt;Texture:&lt;/b&gt;</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="WResourceSelector" name="PassTextureResSelector" native="true">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                      <horstretch>1</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <widget class="QGroupBox" name="TevColorGroupBox">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <weight>50</weight>
+                    <bold>false</bold>
+                   </font>
+                  </property>
+                  <property name="title">
+                   <string>Color Inputs</string>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_3">
+                   <item>
+                    <widget class="QComboBox" name="TevColor1ComboBox">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <item>
+                      <property name="text">
+                       <string>Previous Stage RGB</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Previous Stage AAA</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Color 0 RGB</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Color 0 AAA</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Color 1 RGB</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Color 1 AAA</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Color 2 RGB</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Color 2 AAA</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Texture RGB</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Texture AAA</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Rasterized RGB</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Rasterized AAA</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>One</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Half</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Konst RGB</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Zero</string>
+                      </property>
+                     </item>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QComboBox" name="TevColor2ComboBox">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <item>
+                      <property name="text">
+                       <string>Previous Stage RGB</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Previous Stage AAA</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Color 0 RGB</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Color 0 AAA</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Color 1 RGB</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Color 1 AAA</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Color 2 RGB</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Color 2 AAA</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Texture RGB</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Texture AAA</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Rasterized RGB</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Rasterized AAA</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>One</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Half</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Konst RGB</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Zero</string>
+                      </property>
+                     </item>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QComboBox" name="TevColor3ComboBox">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <item>
+                      <property name="text">
+                       <string>Previous Stage RGB</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Previous Stage AAA</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Color 0 RGB</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Color 0 AAA</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Color 1 RGB</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Color 1 AAA</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Color 2 RGB</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Color 2 AAA</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Texture RGB</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Texture AAA</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Rasterized RGB</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Rasterized AAA</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>One</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Half</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Konst RGB</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Zero</string>
+                      </property>
+                     </item>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QComboBox" name="TevColor4ComboBox">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <item>
+                      <property name="text">
+                       <string>Previous Stage RGB</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Previous Stage AAA</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Color 0 RGB</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Color 0 AAA</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Color 1 RGB</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Color 1 AAA</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Color 2 RGB</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Color 2 AAA</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Texture RGB</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Texture AAA</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Rasterized RGB</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Rasterized AAA</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>One</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Half</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Konst RGB</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Zero</string>
+                      </property>
+                     </item>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_4">
+                  <item>
+                   <widget class="QLabel" name="TevColorOutputLabel">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="text">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Color Output:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QComboBox" name="TevColorOutputComboBox">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="toolTip">
+                     <string>Choose the register that this TEV stage will save its output color into. You can use this register as an input source in the next stage. The final stage MUST save its output to the Previous Stage register.</string>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string>Previous Stage</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Color 0</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Color 1</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Color 2</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <widget class="QGroupBox" name="TevAlphaGroupBox">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="title">
+                   <string>Alpha Inputs</string>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_7">
+                   <item>
+                    <widget class="QComboBox" name="TevAlpha1ComboBox">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <item>
+                      <property name="text">
+                       <string>Previous Stage</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Color 0</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Color 1</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Color 2</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Texture</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Rasterized</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Konst</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Zero</string>
+                      </property>
+                     </item>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QComboBox" name="TevAlpha2ComboBox">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <item>
+                      <property name="text">
+                       <string>Previous Stage</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Color 0</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Color 1</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Color 2</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Texture</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Rasterized</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Konst</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Zero</string>
+                      </property>
+                     </item>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QComboBox" name="TevAlpha3ComboBox">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <item>
+                      <property name="text">
+                       <string>Previous Stage</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Color 0</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Color 1</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Color 2</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Texture</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Rasterized</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Konst</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Zero</string>
+                      </property>
+                     </item>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QComboBox" name="TevAlpha4ComboBox">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <item>
+                      <property name="text">
+                       <string>Previous Stage</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Color 0</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Color 1</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Color 2</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Texture</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Rasterized</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Konst</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Zero</string>
+                      </property>
+                     </item>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_5">
+                  <item>
+                   <widget class="QLabel" name="TevAlphaOutputLabel">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="text">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Alpha Output:	&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QComboBox" name="TevAlphaOutputComboBox">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="toolTip">
+                     <string>Choose the register that this TEV stage will save its output color into. You can use this register as an input source in the next stage. The final stage MUST save its output to the Previous Stage register.</string>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string>Previous Stage</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Color 0</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Color 1</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Color 2</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QGroupBox" name="AnimationGroupBox">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="title">
+                <string>Animation</string>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_4">
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_2">
+                  <item>
+                   <widget class="QLabel" name="AnimTypeLabel">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="text">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Anim Type:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QComboBox" name="AnimTypeComboBox">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="toolTip">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Choose one of eight available material animation modes.&lt;br/&gt;&lt;br/&gt;* &lt;span style=&quot; font-weight:600;&quot;&gt;ModelView No Translate&lt;/span&gt;: The texture coords will be transformed based on both the camera's position and orientation as well as the model's position in the world. Translation in world space will be ignored. This is ideal for simulating specularity and reflective surfaces using spheremaps.&lt;br/&gt;* &lt;span style=&quot; font-weight:600;&quot;&gt;ModelView&lt;/span&gt;: This is the same as above, except translation in world space will not be ignored.&lt;br/&gt;* &lt;span style=&quot; font-weight:600;&quot;&gt;UV Scroll&lt;/span&gt;: A smooth, simple UV scroll will be applied on both axes. Settings for each axis can be set independently from each other.&lt;br/&gt;* &lt;span style=&quot; font-weight:600;&quot;&gt;Rotation&lt;/span&gt;: This will make the texture rotate.&lt;br/&gt;* &lt;span style=&quot; font-weight:600;&quot;&gt;Horizontal Filmstrip&lt;/span&gt;: The texture will scroll horizontally. This mode can't be used to scroll on both axes simultaneously; however, you get finer control over how the scroll is performed.&lt;br/&gt;* &lt;span style=&quot; font-weight:600;&quot;&gt;Vertical Filmstrip&lt;/span&gt;: Identical to Horizontal Filmstrip, except you will get a vertical scroll instead of a horizontal one.&lt;br/&gt;* &lt;span style=&quot; font-weight:600;&quot;&gt;Model:&lt;/span&gt; The texture will be transformed based on the model's position in the world. The camera's position and orientation will not be taken into account.&lt;br/&gt;* &lt;span style=&quot; font-weight:600;&quot;&gt;Mode-Who-Must-Not-Be-Named&lt;/span&gt;: This is another mode capable of simulating reflective surfaces. Often used for pipes and ice. Unfortunately, we aren't quite sure what to call this one.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string>No Animation</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>ModelView No Translation</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>ModelView</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>UV Scroll</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Rotation</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Horizontal Filmstrip</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Vertical Filmstrip</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Model</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Mode-Who-Must-Not-Be-Named</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QFormLayout" name="formLayout_2">
+                  <item row="0" column="0">
+                   <widget class="QLabel" name="AnimParamALabel">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="text">
+                     <string>&lt;b&gt;ParamA:&lt;/b&gt;</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="1">
+                   <widget class="WDraggableSpinBox" name="AnimParamASpinBox">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="contextMenuPolicy">
+                     <enum>Qt::NoContextMenu</enum>
+                    </property>
+                    <property name="suffix">
+                     <string/>
+                    </property>
+                    <property name="decimals">
+                     <number>3</number>
+                    </property>
+                    <property name="minimum">
+                     <double>-1000.000000000000000</double>
+                    </property>
+                    <property name="maximum">
+                     <double>1000.000000000000000</double>
+                    </property>
+                    <property name="singleStep">
+                     <double>0.100000000000000</double>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="0">
+                   <widget class="QLabel" name="AnimParamBLabel">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="text">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;ParamB:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="1">
+                   <widget class="WDraggableSpinBox" name="AnimParamBSpinBox">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="contextMenuPolicy">
+                     <enum>Qt::NoContextMenu</enum>
+                    </property>
+                    <property name="suffix">
+                     <string/>
+                    </property>
+                    <property name="decimals">
+                     <number>3</number>
+                    </property>
+                    <property name="minimum">
+                     <double>-1000.000000000000000</double>
+                    </property>
+                    <property name="maximum">
+                     <double>1000.000000000000000</double>
+                    </property>
+                    <property name="singleStep">
+                     <double>0.100000000000000</double>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="0">
+                   <widget class="QLabel" name="AnimParamCLabel">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="text">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;ParamC:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="1">
+                   <widget class="WDraggableSpinBox" name="AnimParamCSpinBox">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="contextMenuPolicy">
+                     <enum>Qt::NoContextMenu</enum>
+                    </property>
+                    <property name="suffix">
+                     <string/>
+                    </property>
+                    <property name="decimals">
+                     <number>3</number>
+                    </property>
+                    <property name="minimum">
+                     <double>-1000.000000000000000</double>
+                    </property>
+                    <property name="maximum">
+                     <double>1000.000000000000000</double>
+                    </property>
+                    <property name="singleStep">
+                     <double>0.100000000000000</double>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="0">
+                   <widget class="QLabel" name="AnimParamDLabel">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="text">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;ParamD:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="1">
+                   <widget class="WDraggableSpinBox" name="AnimParamDSpinBox">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="contextMenuPolicy">
+                     <enum>Qt::NoContextMenu</enum>
+                    </property>
+                    <property name="suffix">
+                     <string/>
+                    </property>
+                    <property name="decimals">
+                     <number>3</number>
+                    </property>
+                    <property name="minimum">
+                     <double>-1000.000000000000000</double>
+                    </property>
+                    <property name="maximum">
+                     <double>1000.000000000000000</double>
+                    </property>
+                    <property name="singleStep">
+                     <double>0.100000000000000</double>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="PreviewContainerWidget" native="true">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>1</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="CModelEditorViewport" name="Viewport" native="true">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+            <horstretch>250</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>30</width>
+            <height>30</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0,0,0,0,0,0,0,0,0">
+          <property name="spacing">
+           <number>50</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <spacer name="PreviewButtonsLeftSpacer">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_2">
+            <property name="toolTip">
+             <string>Grid</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../Icons.qrc">
+              <normaloff>:/icons/EditorAssets/GridLight.png</normaloff>:/icons/EditorAssets/GridLight.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+            <property name="flat">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton">
+            <property name="toolTip">
+             <string>Selection Tint</string>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">border: none;</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../Icons.qrc">
+              <normaloff>:/icons/EditorAssets/Highlight.png</normaloff>:/icons/EditorAssets/Highlight.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+            <property name="flat">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="CameraModeButton">
+            <property name="toolTip">
+             <string>Orbit Camera</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../Icons.qrc">
+              <normaloff>:/icons/EditorAssets/Orbit Camera.png</normaloff>:/icons/EditorAssets/Orbit Camera.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="checkable">
+             <bool>false</bool>
+            </property>
+            <property name="flat">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="Line" name="line">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="MeshPreviewButton">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>32</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Mesh Preview</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../Icons.qrc">
+              <normaloff>:/icons/EditorAssets/Model Preview.png</normaloff>:/icons/EditorAssets/Model Preview.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="flat">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="SpherePreviewButton">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>32</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Sphere Preview</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../Icons.qrc">
+              <normaloff>:/icons/EditorAssets/Sphere Preview.png</normaloff>:/icons/EditorAssets/Sphere Preview.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="flat">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="FlatPreviewButton">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>32</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Flat Preview</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../Icons.qrc">
+              <normaloff>:/icons/EditorAssets/Square Preview.png</normaloff>:/icons/EditorAssets/Square Preview.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="flat">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="Line" name="line_2">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="WColorPicker" name="ClearColorPicker" native="true">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Background Color</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="PreviewButtonsRightSpacer">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1280</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionOpen"/>
+    <addaction name="actionSave"/>
+    <addaction name="actionSave_as"/>
+    <addaction name="actionImport"/>
+    <addaction name="separator"/>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menuTextures">
+    <property name="title">
+     <string>Textures</string>
+    </property>
+    <addaction name="actionConvert_to_DDS"/>
+    <addaction name="actionConvert_DDS_to_TXTR"/>
+   </widget>
+   <widget class="QMenu" name="menuWindow">
+    <property name="title">
+     <string>Window</string>
+    </property>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuTextures"/>
+   <addaction name="menuWindow"/>
+  </widget>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionOpen"/>
+   <addaction name="actionSave"/>
+  </widget>
+  <action name="actionOpen">
+   <property name="text">
+    <string>Open</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+   <property name="shortcut">
+    <string>Esc</string>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="text">
+    <string>Save</string>
+   </property>
+  </action>
+  <action name="actionConvert_to_DDS">
+   <property name="text">
+    <string>Export to DDS</string>
+   </property>
+  </action>
+  <action name="actionExport_curent_model_s_textures">
+   <property name="text">
+    <string>Export curent model's textures</string>
+   </property>
+  </action>
+  <action name="actionImport">
+   <property name="text">
+    <string>Import</string>
+   </property>
+  </action>
+  <action name="actionSave_as">
+   <property name="text">
+    <string>Save as...</string>
+   </property>
+  </action>
+  <action name="actionConvert_DDS_to_TXTR">
+   <property name="text">
+    <string>Convert DDS to TXTR</string>
+   </property>
+  </action>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>WDraggableSpinBox</class>
+   <extends>QDoubleSpinBox</extends>
+   <header>WDraggableSpinBox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>WColorPicker</class>
+   <extends>QWidget</extends>
+   <header>WColorPicker.h</header>
+   <container>1</container>
+   <slots>
+    <signal>colorChanged(QColor)</signal>
+   </slots>
+  </customwidget>
+  <customwidget>
+   <class>WResourceSelector</class>
+   <extends>QWidget</extends>
+   <header>WResourceSelector.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>CModelEditorViewport</class>
+   <extends>QWidget</extends>
+   <header>CModelEditorViewport.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../Icons.qrc"/>
+ </resources>
+ <connections/>
+</ui>

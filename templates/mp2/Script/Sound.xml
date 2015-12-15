@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="3">
+    <name>Sound</name>
+    <properties version="NTSC">
+        <struct ID="0x255A4580" type="multi">
+            <property ID="0x494E414D"/>
+            <struct ID="0x5846524D" type="single"/>
+            <property ID="0x41435456"/>
+            <property ID="0x5D298A43"/>
+        </struct>
+        <property ID="0x5F7C352E"/>
+        <property ID="0x214E48A0"/>
+        <property ID="0x08BF2E54"/>
+        <property ID="0x8E16E012"/>
+        <property ID="0x57619496"/>
+        <property ID="0xC712847C"/>
+        <property ID="0x42087650"/>
+        <struct ID="0x0BB62639" type="multi">
+            <property ID="0xDF4353A3"/>
+            <property ID="0x482B88AA"/>
+        </struct>
+        <property ID="0xEDA47FF6"/>
+        <property ID="0x8971B7A7"/>
+        <property ID="0x84F3AC3D"/>
+        <property ID="0x3217DFF8"/>
+        <property ID="0x94721163"/>
+        <property ID="0x85707354"/>
+        <property ID="0xEA03E258"/>
+        <property ID="0x0D7F8C7F"/>
+        <property ID="0xE45C3499"/>
+        <property ID="0x76D40091"/>
+        <property ID="0x8A764463"/>
+        <property ID="0x69EC9107"/>
+    </properties>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
+        </properties>
+        <assets>
+            <model source="file">Sound.cmdl</model>
+        </assets>
+		<preview_scale>0.5</preview_scale>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>enabled</scale_type>
+    </editor>
+</ScriptTemplate>

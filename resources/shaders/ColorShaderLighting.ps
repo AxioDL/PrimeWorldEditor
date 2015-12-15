@@ -1,0 +1,16 @@
+#version 330 core
+
+// Input
+in vec4 COLOR0A0;
+
+// Output
+out vec4 PixelColor;
+
+// Uniforms
+uniform vec4 ColorIn;
+
+// Main
+void main()
+{
+    PixelColor = ColorIn * COLOR0A0;
+}

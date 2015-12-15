@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="3">
+    <name>ColorModulate</name>
+    <properties version="NTSC">
+        <struct ID="0x255A4580" type="multi">
+            <property ID="0x494E414D"/>
+            <struct ID="0x5846524D" type="single"/>
+            <property ID="0x41435456"/>
+            <property ID="0x5D298A43"/>
+        </struct>
+        <property ID="0xD6A3D26F"/>
+        <property ID="0x5037A0C1"/>
+        <property ID="0xFF457546"/>
+        <property ID="0x1AFA5C48"/>
+        <property ID="0x12E12905"/>
+        <property ID="0xCEC5244B"/>
+        <property ID="0x81FC979C"/>
+        <property ID="0x94C01B0C"/>
+        <property ID="0xAED25A51"/>
+        <property ID="0x35DC43D0"/>
+        <property ID="0x3217DFF8"/>
+        <property ID="0x3A7F59F7"/>
+        <property ID="0x08BB73C5"/>
+        <property ID="0x7E379AE8"/>
+        <property ID="0x74081E94"/>
+        <property ID="0x9A306740"/>
+        <struct ID="0x15567FE7" type="single"/>
+    </properties>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
+        </properties>
+        <assets/>
+		<preview_scale>0.5</preview_scale>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>enabled</scale_type>
+    </editor>
+</ScriptTemplate>

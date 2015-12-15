@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="3">
+    <name>Thardus</name>
+    <properties version="NTSC">
+        <property ID="0x00" name="Name" type="string"/>
+        <property ID="0x01" name="Position" type="vector3f"/>
+        <property ID="0x02" name="Rotation" type="vector3f"/>
+        <property ID="0x03" name="Scale" type="vector3f"/>
+        <struct ID="0x04" name="PatternedInfo" template="Structs/PatternedInfo.xml"/>
+        <struct ID="0x05" name="ActorParameters" template="Structs/ActorParameters.xml"/>
+        <property ID="0x06" name="Unknown 1" type="bool"/>
+        <property ID="0x07" name="Unknown 2" type="bool"/>
+        <property ID="0x08" name="Model 1" type="file" ext="CMDL"/>
+        <property ID="0x09" name="Model 2" type="file" ext="CMDL"/>
+        <property ID="0x0A" name="Model 3" type="file" ext="CMDL"/>
+        <property ID="0x0B" name="Model 4" type="file" ext="CMDL"/>
+        <property ID="0x0C" name="Model 5" type="file" ext="CMDL"/>
+        <property ID="0x0D" name="Model 6" type="file" ext="CMDL"/>
+        <property ID="0x0E" name="Model 7" type="file" ext="CMDL"/>
+        <property ID="0x0F" name="Model 8" type="file" ext="CMDL"/>
+        <property ID="0x10" name="Model 9" type="file" ext="CMDL"/>
+        <property ID="0x11" name="Model 10" type="file" ext="CMDL"/>
+        <property ID="0x12" name="Model 11" type="file" ext="CMDL"/>
+        <property ID="0x13" name="Model 12" type="file" ext="CMDL"/>
+        <property ID="0x14" name="Model 13" type="file" ext="CMDL"/>
+        <property ID="0x15" name="Model 14" type="file" ext="CMDL"/>
+        <property ID="0x16" name="Particle 1" type="file" ext="PART"/>
+        <property ID="0x17" name="Particle 2" type="file" ext="PART"/>
+        <property ID="0x18" name="Particle 3" type="file" ext="PART"/>
+        <property ID="0x19" name="AFSM" type="file" ext="AFSM"/>
+        <property ID="0x1A" name="Particle 4" type="file" ext="PART"/>
+        <property ID="0x1B" name="Particle 5" type="file" ext="PART"/>
+        <property ID="0x1C" name="Particle 6" type="file" ext="PART"/>
+        <property ID="0x1D" name="Particle 7" type="file" ext="PART"/>
+        <property ID="0x1E" name="Particle 8" type="file" ext="PART"/>
+        <property ID="0x1F" name="Particle 9" type="file" ext="PART"/>
+        <property ID="0x20" name="Unknown 3" type="float"/>
+        <property ID="0x21" name="Unknown 4" type="float"/>
+        <property ID="0x22" name="Unknown 5" type="float"/>
+        <property ID="0x23" name="Unknown 6" type="float"/>
+        <property ID="0x24" name="Unknown 7" type="float"/>
+        <property ID="0x25" name="Unknown 8" type="float"/>
+        <property ID="0x26" name="Texture" type="file" ext="TXTR"/>
+        <property ID="0x27" name="Unknown 9" type="long"/>
+        <property ID="0x28" name="Particle 10" type="file" ext="PART"/>
+        <property ID="0x29" name="Unknown 10" type="long"/>
+        <property ID="0x2A" name="Unknown 11" type="long"/>
+        <property ID="0x2B" name="Unknown 12" type="long"/>
+    </properties>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x00"/>
+            <property name="Position" ID="0x01"/>
+            <property name="Rotation" ID="0x02"/>
+            <property name="Scale" ID="0x03"/>
+            <property name="Active" ID="0x04:0x1A"/>
+            <property name="LightParameters" ID="0x05:0x00"/>
+        </properties>
+        <assets>
+            <animparams source="property">0x04:0x19</animparams>
+            <model source="property">0x05:0x02</model>
+            <model source="property">0x05:0x04</model>
+            <model source="property">0x08</model>
+            <model source="property">0x09</model>
+            <model source="property">0x0A</model>
+            <model source="property">0x0B</model>
+            <model source="property">0x0C</model>
+            <model source="property">0x0D</model>
+            <model source="property">0x0E</model>
+            <model source="property">0x0F</model>
+            <model source="property">0x10</model>
+            <model source="property">0x11</model>
+            <model source="property">0x12</model>
+            <model source="property">0x13</model>
+            <model source="property">0x14</model>
+            <model source="property">0x15</model>
+        </assets>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>enabled</scale_type>
+    </editor>
+</ScriptTemplate>
