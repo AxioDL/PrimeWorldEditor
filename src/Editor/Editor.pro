@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT += core gui opengl widgets
+QMAKE_CXXFLAGS += /WX
 RESOURCES += Icons.qrc
 
 CONFIG += console
@@ -26,6 +27,11 @@ CONFIG(debug, debug|release) {
             -L$$PWD/../../externals/assimp/lib/ -lassimp-vc120-mtd \
             -L$$PWD/../../externals/FileIO/lib/ -lFileIOd \
             -L$$PWD/../../externals/tinyxml2/lib/ -ltinyxml2d
+
+    win32 {
+        PRE_TARGETDEPS += $$PWD/../../build/Common/Commond.lib \
+                          $$PWD/../../build/Core/Cored.lib
+    }
 }
 
 CONFIG(release, debug|release) {
@@ -41,6 +47,11 @@ CONFIG(release, debug|release) {
             -L$$PWD/../../externals/assimp/lib/ -lassimp-vc120-mt \
             -L$$PWD/../../externals/FileIO/lib/ -lFileIO \
             -L$$PWD/../../externals/tinyxml2/lib/ -ltinyxml2
+
+    win32 {
+        PRE_TARGETDEPS += -L$$PWD/../../build/Common/ -lCommon \
+                          -L$$PWD/../../build/Core/ -lCore
+    }
 }
 
 # Debug/Release Libs

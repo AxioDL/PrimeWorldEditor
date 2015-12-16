@@ -4,7 +4,8 @@
 #
 #-------------------------------------------------
 
-QT       -= core gui
+QT -= core gui
+QMAKE_CXXFLAGS += /WX
 
 CONFIG += staticlib
 TEMPLATE = lib
