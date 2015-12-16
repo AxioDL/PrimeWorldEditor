@@ -177,7 +177,8 @@ HEADERS += \
     OpenGL/CUniformBuffer.h \
     OpenGL/CVertexArrayManager.h \
     OpenGL/CVertexBuffer.h \
-    OpenGL/GLCommon.h
+    OpenGL/GLCommon.h \
+    ScriptExtra/CRadiusSphereExtra.h
 
 # Source Files
 SOURCES += \
@@ -259,4 +260,5 @@ SOURCES += \
     OpenGL/CUniformBuffer.cpp \
     OpenGL/CVertexArrayManager.cpp \
     OpenGL/CVertexBuffer.cpp \
-    OpenGL/GLCommon.cpp
+    OpenGL/GLCommon.cpp \
+    ScriptExtra/CRadiusSphereExtra.cpp

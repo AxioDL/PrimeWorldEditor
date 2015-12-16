@@ -6,7 +6,7 @@
         <property ID="0x01" name="Position" type="vector3f"/>
         <property ID="0x02" name="Active" type="bool"/>
         <struct ID="0x03" name="DamageInfo" template="Structs/DamageInfo.xml"/>
-        <property ID="0x04" name="Unknown 1" type="float"/>
+        <property ID="0x04" name="Radius" type="float"/>
     </properties>
     <editor>
         <properties>
