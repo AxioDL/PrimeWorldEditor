@@ -60,19 +60,16 @@ public:
     TResPtr<ResType>& operator=(void *pPtr)
     {
         // todo: this probably crashes if you try to pass a non-CResource-derived pointer. is there a safer way?
+        // dynamic_cast seems like the best option for type-checking here. other methods don't catch inheritance
+        // eg if you have a TResPtr<CResource> dynamic_cast is the only method that will allow derived resource types
         if (mpRes)
             mpRes->Release();
 
         CResource *pRes = (CResource*) pPtr;
+        mpRes = dynamic_cast<ResType*>(pRes);
 
-        if (ResType::StaticType() == pRes->Type())
-        {
-            mpRes = (ResType*) pRes;
+        if (mpRes)
             mpRes->Lock();
-        }
-
-        else
-            mpRes = nullptr;
 
         return *this;
     }
