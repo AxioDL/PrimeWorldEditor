@@ -15,7 +15,7 @@ class CAreaLoader
 
     // Area data
     TResPtr<CGameArea> mpArea;
-    CInputStream *mpMREA;
+    IInputStream *mpMREA;
     CBlockMgrIn *mBlockMgr;
     EGame mVersion;
     u32 mNumMeshes;
@@ -78,7 +78,7 @@ class CAreaLoader
     void SetUpObjects();
 
 public:
-    static CGameArea* LoadMREA(CInputStream& MREA);
+    static CGameArea* LoadMREA(IInputStream& MREA);
     static EGame GetFormatVersion(u32 version);
 };
 

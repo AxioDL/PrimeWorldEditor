@@ -6,7 +6,7 @@ CScanLoader::CScanLoader()
 {
 }
 
-CScan* CScanLoader::LoadScanMP1(CInputStream &SCAN)
+CScan* CScanLoader::LoadScanMP1(IInputStream &SCAN)
 {
     // Basic support at the moment - don't read animation/scan image data
     SCAN.Seek(0x4, SEEK_CUR); // Skip FRME ID
@@ -18,7 +18,7 @@ CScan* CScanLoader::LoadScanMP1(CInputStream &SCAN)
     return mpScan;
 }
 
-CScan* CScanLoader::LoadScanMP2(CInputStream& SCAN)
+CScan* CScanLoader::LoadScanMP2(IInputStream& SCAN)
 {
     // The SCAN format in MP2 embeds a SNFO object using the same format as SCLY
     // However since the contents of the file are consistent there's no need to delegate to CScriptLoader
@@ -72,7 +72,7 @@ CScan* CScanLoader::LoadScanMP2(CInputStream& SCAN)
     return mpScan;
 }
 
-void CScanLoader::LoadParamsMP2(CInputStream& SCAN)
+void CScanLoader::LoadParamsMP2(IInputStream& SCAN)
 {
     // Function begins after the SNFO property count
     for (u32 iProp = 0; iProp < 20; iProp++)
@@ -103,7 +103,7 @@ void CScanLoader::LoadParamsMP2(CInputStream& SCAN)
     mpScan->mVersion = eEchoes;
 }
 
-void CScanLoader::LoadParamsMP3(CInputStream& SCAN)
+void CScanLoader::LoadParamsMP3(IInputStream& SCAN)
 {
     // Function begins after the SNFO property count
     // Function is near-identical to the MP2 one, but when I add support
@@ -137,7 +137,7 @@ void CScanLoader::LoadParamsMP3(CInputStream& SCAN)
 }
 
 // ************ STATIC/PUBLIC ************
-CScan* CScanLoader::LoadSCAN(CInputStream &SCAN)
+CScan* CScanLoader::LoadSCAN(IInputStream &SCAN)
 {
     if (!SCAN.IsValid()) return nullptr;
     Log::Write("Loading " + SCAN.GetSourceString());

@@ -6,7 +6,7 @@ CMaterialCooker::CMaterialCooker()
     mpMat = nullptr;
 }
 
-void CMaterialCooker::WriteMatSetPrime(COutputStream& Out)
+void CMaterialCooker::WriteMatSetPrime(IOutputStream& Out)
 {
     // Gather texture list from the materials before starting
     mTextureIDs.clear();
@@ -64,13 +64,13 @@ void CMaterialCooker::WriteMatSetPrime(COutputStream& Out)
     Out.Seek(MatsEnd, SEEK_SET);
 }
 
-void CMaterialCooker::WriteMatSetCorruption(COutputStream&)
+void CMaterialCooker::WriteMatSetCorruption(IOutputStream&)
 {
-    // Not using parameter 1 (COutputStream& - Out)
+    // Not using parameter 1 (IOutputStream& - Out)
     // todo
 }
 
-void CMaterialCooker::WriteMaterialPrime(COutputStream& Out)
+void CMaterialCooker::WriteMaterialPrime(IOutputStream& Out)
 {
     // Gather data from the passes before we start writing
     u32 TexFlags = 0;
@@ -320,14 +320,14 @@ void CMaterialCooker::WriteMaterialPrime(COutputStream& Out)
     // Done!
 }
 
-void CMaterialCooker::WriteMaterialCorruption(COutputStream&)
+void CMaterialCooker::WriteMaterialCorruption(IOutputStream&)
 {
-    // Not using parameter 1 (COutputStream& - Out)
+    // Not using parameter 1 (IOutputStream& - Out)
     // todo
 }
 
 // ************ STATIC ************
-void CMaterialCooker::WriteCookedMatSet(CMaterialSet *pSet, EGame Version, COutputStream &Out)
+void CMaterialCooker::WriteCookedMatSet(CMaterialSet *pSet, EGame Version, IOutputStream &Out)
 {
     CMaterialCooker Cooker;
     Cooker.mpSet = pSet;
@@ -344,7 +344,7 @@ void CMaterialCooker::WriteCookedMatSet(CMaterialSet *pSet, EGame Version, COutp
     }
 }
 
-void CMaterialCooker::WriteCookedMaterial(CMaterial *pMat, EGame Version, COutputStream &Out)
+void CMaterialCooker::WriteCookedMaterial(CMaterial *pMat, EGame Version, IOutputStream &Out)
 {
     CMaterialCooker Cooker;
     Cooker.mpMat = pMat;

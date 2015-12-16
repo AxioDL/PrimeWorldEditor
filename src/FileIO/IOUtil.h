@@ -4,19 +4,19 @@
 namespace IOUtil
 {
     enum EEndianness {
-        LittleEndian,
-        BigEndian
+        eLittleEndian,
+        eBigEndian
     };
-    extern const EEndianness SystemEndianness;
+    extern const EEndianness kSystemEndianness;
 
-    void SwapBytes(short& Val);
-    void SwapBytes(unsigned short& Val);
-    void SwapBytes(long& Val);
-    void SwapBytes(unsigned long& Val);
-    void SwapBytes(long long& Val);
-    void SwapBytes(unsigned long long& Val);
-    void SwapBytes(float& Val);
-    void SwapBytes(double& Val);
+    void SwapBytes(short& rVal);
+    void SwapBytes(unsigned short& rVal);
+    void SwapBytes(long& rVal);
+    void SwapBytes(unsigned long& rVal);
+    void SwapBytes(long long& rVal);
+    void SwapBytes(unsigned long long& rVal);
+    void SwapBytes(float& rVal);
+    void SwapBytes(double& rVal);
 }
 
 #endif // IOUTIL_H

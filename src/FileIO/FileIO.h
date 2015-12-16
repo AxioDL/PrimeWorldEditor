@@ -3,12 +3,12 @@
 
 #include "IOUtil.h"
 
-#include "CInputStream.h"
+#include "IInputStream.h"
 #include "CFileInStream.h"
 #include "CMemoryInStream.h"
 #include "CTextInStream.h"
 
-#include "COutputStream.h"
+#include "IOutputStream.h"
 #include "CFileOutStream.h"
 #include "CMemoryOutStream.h"
 #include "CVectorOutStream.h"

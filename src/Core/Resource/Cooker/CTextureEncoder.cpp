@@ -6,7 +6,7 @@ CTextureEncoder::CTextureEncoder()
     mpTexture = nullptr;
 }
 
-void CTextureEncoder::WriteTXTR(COutputStream& TXTR)
+void CTextureEncoder::WriteTXTR(IOutputStream& TXTR)
 {
     // Only DXT1->CMPR supported at the moment
     TXTR.WriteLong(mOutputFormat);
@@ -16,7 +16,7 @@ void CTextureEncoder::WriteTXTR(COutputStream& TXTR)
 
     u32 MipW = mpTexture->Width() / 4;
     u32 MipH = mpTexture->Height() / 4;
-    CMemoryInStream Image(mpTexture->mImgDataBuffer, mpTexture->mImgDataSize, IOUtil::LittleEndian);
+    CMemoryInStream Image(mpTexture->mImgDataBuffer, mpTexture->mImgDataSize, IOUtil::eLittleEndian);
     u32 MipOffset = Image.Tell();
 
     for (u32 iMip = 0; iMip < mpTexture->mNumMipMaps; iMip++)
@@ -45,7 +45,7 @@ void CTextureEncoder::DetermineBestOutputFormat()
     // todo
 }
 
-void CTextureEncoder::ReadSubBlockCMPR(CInputStream& Source, COutputStream& Dest)
+void CTextureEncoder::ReadSubBlockCMPR(IInputStream& Source, IOutputStream& Dest)
 {
     Dest.WriteShort(Source.ReadShort());
     Dest.WriteShort(Source.ReadShort());
@@ -58,7 +58,7 @@ void CTextureEncoder::ReadSubBlockCMPR(CInputStream& Source, COutputStream& Dest
 }
 
 // ************ STATIC ************
-void CTextureEncoder::EncodeTXTR(COutputStream& TXTR, CTexture *pTex)
+void CTextureEncoder::EncodeTXTR(IOutputStream& TXTR, CTexture *pTex)
 {
     if (pTex->mTexelFormat != eDXT1)
     {
@@ -73,7 +73,7 @@ void CTextureEncoder::EncodeTXTR(COutputStream& TXTR, CTexture *pTex)
     Encoder.WriteTXTR(TXTR);
 }
 
-void CTextureEncoder::EncodeTXTR(COutputStream& TXTR, CTexture *pTex, ETexelFormat /*OutputFormat*/)
+void CTextureEncoder::EncodeTXTR(IOutputStream& TXTR, CTexture *pTex, ETexelFormat /*OutputFormat*/)
 {
     // todo: support for encoding a specific format
     EncodeTXTR(TXTR, pTex);

@@ -13,20 +13,20 @@ void CSectionMgrOut::SetSectionCount(u32 Count)
     mSectionSizes.resize(Count);
 }
 
-void CSectionMgrOut::Init(const COutputStream& OutputStream)
+void CSectionMgrOut::Init(const IOutputStream& OutputStream)
 {
     mCurSectionStart = OutputStream.Tell();
     mCurSectionIndex = 0;
 }
 
-void CSectionMgrOut::AddSize(COutputStream& OutputStream)
+void CSectionMgrOut::AddSize(IOutputStream& OutputStream)
 {
     mSectionSizes[mCurSectionIndex] = OutputStream.Tell() - mCurSectionStart;
     mCurSectionIndex++;
     mCurSectionStart = OutputStream.Tell();
 }
 
-void CSectionMgrOut::WriteSizes(COutputStream& OutputStream)
+void CSectionMgrOut::WriteSizes(IOutputStream& OutputStream)
 {
     for (u32 iSec = 0; iSec < mSectionCount; iSec++)
         OutputStream.WriteLong(mSectionSizes[iSec]);

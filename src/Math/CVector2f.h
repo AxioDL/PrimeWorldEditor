@@ -1,8 +1,8 @@
 #ifndef CVECTOR2F
 #define CVECTOR2F
 
-#include <FileIO/CInputStream.h>
-#include <FileIO/COutputStream.h>
+#include <FileIO/IInputStream.h>
+#include <FileIO/IOutputStream.h>
 
 class CVector2f
 {
@@ -11,8 +11,8 @@ public:
     CVector2f();
     CVector2f(float xy);
     CVector2f(float _x, float _y);
-    CVector2f(CInputStream& Input);
-    void Write(COutputStream& Output);
+    CVector2f(IInputStream& Input);
+    void Write(IOutputStream& Output);
 
     float Magnitude() const;
     float SquaredMagnitude() const;

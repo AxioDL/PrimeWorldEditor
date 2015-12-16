@@ -12,7 +12,7 @@ class CMaterialLoader
 {
     // Material data
     CMaterialSet *mpSet;
-    CInputStream *mpFile;
+    IInputStream *mpFile;
     EGame mVersion;
     std::vector<TResPtr<CTexture>> mTextures;
     bool mHasOPAC;
@@ -38,7 +38,7 @@ class CMaterialLoader
 
     // Static
 public:
-    static CMaterialSet* LoadMaterialSet(CInputStream& Mat, EGame Version);
+    static CMaterialSet* LoadMaterialSet(IInputStream& Mat, EGame Version);
     static CMaterialSet* ImportAssimpMaterials(const aiScene *pScene, EGame targetVersion);
 };
 

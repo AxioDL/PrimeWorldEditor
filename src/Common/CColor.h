@@ -1,8 +1,8 @@
 #ifndef CCOLOR_H
 #define CCOLOR_H
 
-#include <FileIO/CInputStream.h>
-#include <FileIO/COutputStream.h>
+#include <FileIO/IInputStream.h>
+#include <FileIO/IOutputStream.h>
 #include "types.h"
 
 class CColor
@@ -11,27 +11,27 @@ public:
     float r, g, b, a;
 
     CColor();
-    CColor(CInputStream& src, bool Integral = false);
+    CColor(IInputStream& rSrc, bool Integral = false);
     CColor(float rgba);
     CColor(float _r, float _g, float _b, float _a = 1.f);
     void SetIntegral(u8 rgba);
     void SetIntegral(u8 _r, u8 _g, u8 _b, u8 _a = 255);
-    void Write(COutputStream& Output, bool Integral = false);
+    void Write(IOutputStream& rOutput, bool Integral = false);
 
     long ToLongRGBA() const;
     long ToLongARGB() const;
-    bool operator==(const CColor& other) const;
-    bool operator!=(const CColor& other) const;
-    CColor operator+(const CColor& other) const;
-    void operator+=(const CColor& other);
-    CColor operator-(const CColor& other) const;
-    void operator-=(const CColor& other);
-    CColor operator*(const CColor& other) const;
-    void operator*=(const CColor& other);
+    bool operator==(const CColor& rkOther) const;
+    bool operator!=(const CColor& rkOther) const;
+    CColor operator+(const CColor& rkOther) const;
+    void operator+=(const CColor& rkOther);
+    CColor operator-(const CColor& rkOther) const;
+    void operator-=(const CColor& rkOther);
+    CColor operator*(const CColor& rkOther) const;
+    void operator*=(const CColor& rkOther);
     CColor operator*(float other) const;
     void operator*=(float other);
-    CColor operator/(const CColor& other) const;
-    void operator/=(const CColor& other);
+    CColor operator/(const CColor& rkOther) const;
+    void operator/=(const CColor& rkOther);
 
     // Static
     static CColor Integral(u8 rgba);

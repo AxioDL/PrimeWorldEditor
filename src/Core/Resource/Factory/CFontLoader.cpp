@@ -6,7 +6,7 @@ CFontLoader::CFontLoader()
 {
 }
 
-CFont* CFontLoader::LoadFont(CInputStream& FONT)
+CFont* CFontLoader::LoadFont(IInputStream& FONT)
 {
     // If I seek past a value without reading it, then it's because I don't know what it is
     mpFont->mUnknown = FONT.ReadLong();
@@ -79,7 +79,7 @@ CFont* CFontLoader::LoadFont(CInputStream& FONT)
     return mpFont;
 }
 
-CFont* CFontLoader::LoadFONT(CInputStream& FONT)
+CFont* CFontLoader::LoadFONT(IInputStream& FONT)
 {
     if (!FONT.IsValid()) return nullptr;
     Log::Write("Loading " + FONT.GetSourceString());

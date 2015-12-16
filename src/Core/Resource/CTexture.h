@@ -38,7 +38,7 @@ public:
     void Bind(u32 GLTextureUnit);
     void Resize(u32 Width, u32 Height);
     float ReadTexelAlpha(const CVector2f& TexCoord);
-    bool WriteDDS(COutputStream& out);
+    bool WriteDDS(IOutputStream& out);
 
     // Getters
     ETexelFormat TexelFormat();

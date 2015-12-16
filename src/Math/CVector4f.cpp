@@ -45,7 +45,7 @@ CVector4f::CVector4f(const CVector3f& xyz, float _w)
     w = _w;
 }
 
-CVector4f::CVector4f(CInputStream& Input)
+CVector4f::CVector4f(IInputStream& Input)
 {
     x = Input.ReadFloat();
     y = Input.ReadFloat();
@@ -53,7 +53,7 @@ CVector4f::CVector4f(CInputStream& Input)
     w = Input.ReadFloat();
 }
 
-void CVector4f::Write(COutputStream &Output)
+void CVector4f::Write(IOutputStream &Output)
 {
     Output.WriteFloat(x);
     Output.WriteFloat(y);

@@ -10,13 +10,13 @@ class CScanLoader
     EGame mVersion;
 
     CScanLoader();
-    CScan* LoadScanMP1(CInputStream& SCAN);
-    CScan* LoadScanMP2(CInputStream& SCAN);
-    void LoadParamsMP2(CInputStream& SCAN);
-    void LoadParamsMP3(CInputStream& SCAN);
+    CScan* LoadScanMP1(IInputStream& SCAN);
+    CScan* LoadScanMP2(IInputStream& SCAN);
+    void LoadParamsMP2(IInputStream& SCAN);
+    void LoadParamsMP3(IInputStream& SCAN);
 
 public:
-    static CScan* LoadSCAN(CInputStream& SCAN);
+    static CScan* LoadSCAN(IInputStream& SCAN);
 };
 
 #endif // CSCANLOADER_H

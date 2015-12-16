@@ -62,7 +62,7 @@ void CResCache::SetFolder(TString path)
 
 void CResCache::SetPak(const TString& path)
 {
-    CFileInStream *pakfile = new CFileInStream(path.ToStdString(), IOUtil::BigEndian);
+    CFileInStream *pakfile = new CFileInStream(path.ToStdString(), IOUtil::eBigEndian);
     if (!pakfile->IsValid())
     {
         Log::Error("Couldn't load pak file: " + path);
@@ -115,7 +115,7 @@ CResource* CResCache::GetResource(CUniqueID ResID, CFourCC type)
     else
     {
         Source = mResSource.Path + ResID.ToString() + "." + type.ToString();
-        CFileInStream file(Source.ToStdString(), IOUtil::BigEndian);
+        CFileInStream file(Source.ToStdString(), IOUtil::eBigEndian);
         if (!file.IsValid())
         {
             Log::Error("Couldn't open resource: " + ResID.ToString() + "." + type.ToString());
@@ -129,7 +129,7 @@ CResource* CResCache::GetResource(CUniqueID ResID, CFourCC type)
     if (!pBuffer) return nullptr;
 
     // Load resource
-    CMemoryInStream mem(pBuffer->data(), pBuffer->size(), IOUtil::BigEndian);
+    CMemoryInStream mem(pBuffer->data(), pBuffer->size(), IOUtil::eBigEndian);
     mem.SetSourceString(*Source.GetFileName());
     CResource *Res = nullptr;
     bool SupportedFormat = true;
@@ -170,7 +170,7 @@ CResource* CResCache::GetResource(const TString& ResPath)
     if (got != mResourceCache.end())
         return got->second;
 
-    CFileInStream file(ResPath.ToStdString(), IOUtil::BigEndian);
+    CFileInStream file(ResPath.ToStdString(), IOUtil::eBigEndian);
     if (!file.IsValid())
     {
         Log::Error("Couldn't open resource: " + ResPath);

@@ -13,13 +13,13 @@ private:
     u32 version;
     std::vector<SNamedResource> NamedResTable;
     std::vector<SResInfo> ResInfoTable;
-    CInputStream* pak;
+    IInputStream* pak;
 
     bool decompress(u8 *src, u32 src_len, u8 *dst, u32 dst_len);
 
 public:
     CPakFile();
-    CPakFile(CInputStream* pakfile);
+    CPakFile(IInputStream* pakfile);
     ~CPakFile();
 
     std::vector<SNamedResource> getNamedResources();

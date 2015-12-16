@@ -2,35 +2,35 @@
 
 CMemoryOutStream::CMemoryOutStream()
 {
-    mDataStart = nullptr;
+    mpDataStart = nullptr;
     mDataSize = 0;
     mPos = 0;
     mUsed = 0;
 }
 
-CMemoryOutStream::CMemoryOutStream(void *Data, unsigned long Size, IOUtil::EEndianness DataEndianness)
+CMemoryOutStream::CMemoryOutStream(void *pData, unsigned long Size, IOUtil::EEndianness DataEndianness)
 {
-    SetData(Data, Size, DataEndianness);
+    SetData(pData, Size, DataEndianness);
 }
 
 CMemoryOutStream::~CMemoryOutStream()
 {
 }
 
-void CMemoryOutStream::SetData(void *Data, unsigned long Size, IOUtil::EEndianness DataEndianness)
+void CMemoryOutStream::SetData(void *pData, unsigned long Size, IOUtil::EEndianness DataEndianness)
 {
-    mDataStart = static_cast<char*>(Data);
+    mpDataStart = static_cast<char*>(pData);
     mDataSize = Size;
     mPos = 0;
     mUsed = 0;
     mDataEndianness = DataEndianness;
 }
 
-void CMemoryOutStream::WriteBytes(void *src, unsigned long Count)
+void CMemoryOutStream::WriteBytes(void *pSrc, unsigned long Count)
 {
     if (!IsValid()) return;
 
-    memcpy(mDataStart + mPos, src, Count);
+    memcpy(mpDataStart + mPos, pSrc, Count);
     mPos += Count;
     if (mPos > mUsed) mUsed = mPos;
 }
@@ -82,7 +82,7 @@ bool CMemoryOutStream::EoF() const
 
 bool CMemoryOutStream::IsValid() const
 {
-    return (mDataStart != nullptr);
+    return (mpDataStart != nullptr);
 }
 
 long CMemoryOutStream::Size() const
@@ -104,10 +104,10 @@ void CMemoryOutStream::SetSize(unsigned long Size)
 
 void* CMemoryOutStream::Data() const
 {
-    return mDataStart;
+    return mpDataStart;
 }
 
 void* CMemoryOutStream::DataAtPosition() const
 {
-    return mDataStart + mPos;
+    return mpDataStart + mPos;
 }

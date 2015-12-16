@@ -1,8 +1,8 @@
 #ifndef CVECTOR2I_H
 #define CVECTOR2I_H
 
-#include <FileIO/CInputStream.h>
-#include <FileIO/COutputStream.h>
+#include <FileIO/IInputStream.h>
+#include <FileIO/IOutputStream.h>
 
 class CVector2i
 {

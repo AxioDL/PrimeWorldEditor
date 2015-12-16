@@ -2,31 +2,31 @@
 
 CMemoryInStream::CMemoryInStream()
 {
-    mDataStart = nullptr;
+    mpDataStart = nullptr;
     mDataSize = 0;
     mPos = 0;
 }
-CMemoryInStream::CMemoryInStream(void *Data, unsigned long Size, IOUtil::EEndianness DataEndianness)
+CMemoryInStream::CMemoryInStream(void *pData, unsigned long Size, IOUtil::EEndianness DataEndianness)
 {
-    SetData(Data, Size, DataEndianness);
+    SetData(pData, Size, DataEndianness);
 }
 
 CMemoryInStream::~CMemoryInStream()
 {
 }
 
-void CMemoryInStream::SetData(void *Data, unsigned long Size, IOUtil::EEndianness DataEndianness)
+void CMemoryInStream::SetData(void *pData, unsigned long Size, IOUtil::EEndianness DataEndianness)
 {
-    mDataStart = static_cast<char*>(Data);
+    mpDataStart = static_cast<char*>(pData);
     mDataSize = Size;
     mPos = 0;
     mDataEndianness = DataEndianness;
 }
 
-void CMemoryInStream::ReadBytes(void *dst, unsigned long Count)
+void CMemoryInStream::ReadBytes(void *pDst, unsigned long Count)
 {
     if (!IsValid()) return;
-    memcpy(dst, mDataStart + mPos, Count);
+    memcpy(pDst, mpDataStart + mPos, Count);
     mPos += Count;
 }
 
@@ -76,7 +76,7 @@ bool CMemoryInStream::EoF() const
 
 bool CMemoryInStream::IsValid() const
 {
-    return (mDataStart != nullptr);
+    return (mpDataStart != nullptr);
 }
 
 long CMemoryInStream::Size() const
@@ -93,10 +93,10 @@ void CMemoryInStream::SetSize(unsigned long Size)
 
 void* CMemoryInStream::Data() const
 {
-    return mDataStart;
+    return mpDataStart;
 }
 
 void* CMemoryInStream::DataAtPosition() const
 {
-    return mDataStart + mPos;
+    return mpDataStart + mPos;
 }

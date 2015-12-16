@@ -12,7 +12,7 @@ CModelLoader::~CModelLoader()
 {
 }
 
-void CModelLoader::LoadWorldMeshHeader(CInputStream &Model)
+void CModelLoader::LoadWorldMeshHeader(IInputStream &Model)
 {
     // I don't really have any need for most of this data, so
     Model.Seek(0x34, SEEK_CUR);
@@ -20,7 +20,7 @@ void CModelLoader::LoadWorldMeshHeader(CInputStream &Model)
     mpBlockMgr->ToNextBlock();
 }
 
-void CModelLoader::LoadAttribArrays(CInputStream& Model)
+void CModelLoader::LoadAttribArrays(IInputStream& Model)
 {
     // Positions
     if (mFlags & eShortPositions) // Shorts (DKCR only)
@@ -105,7 +105,7 @@ void CModelLoader::LoadAttribArrays(CInputStream& Model)
     }
 }
 
-void CModelLoader::LoadSurfaceOffsets(CInputStream& Model)
+void CModelLoader::LoadSurfaceOffsets(IInputStream& Model)
 {
     mSurfaceCount = Model.ReadLong();
     mSurfaceOffsets.resize(mSurfaceCount);
@@ -116,7 +116,7 @@ void CModelLoader::LoadSurfaceOffsets(CInputStream& Model)
     mpBlockMgr->ToNextBlock();
 }
 
-SSurface* CModelLoader::LoadSurface(CInputStream& Model)
+SSurface* CModelLoader::LoadSurface(IInputStream& Model)
 {
     SSurface *pSurf = new SSurface;
 
@@ -228,7 +228,7 @@ SSurface* CModelLoader::LoadSurface(CInputStream& Model)
     return pSurf;
 }
 
-void CModelLoader::LoadSurfaceHeaderPrime(CInputStream& Model, SSurface *pSurf)
+void CModelLoader::LoadSurfaceHeaderPrime(IInputStream& Model, SSurface *pSurf)
 {
     pSurf->CenterPoint = CVector3f(Model);
     pSurf->MaterialID = Model.ReadLong();
@@ -252,7 +252,7 @@ void CModelLoader::LoadSurfaceHeaderPrime(CInputStream& Model, SSurface *pSurf)
     Model.SeekToBoundary(32);
 }
 
-void CModelLoader::LoadSurfaceHeaderDKCR(CInputStream& Model, SSurface *pSurf)
+void CModelLoader::LoadSurfaceHeaderDKCR(IInputStream& Model, SSurface *pSurf)
 {
     pSurf->CenterPoint = CVector3f(Model);
     Model.Seek(0xE, SEEK_CUR);
@@ -375,7 +375,7 @@ SSurface* CModelLoader::LoadAssimpMesh(const aiMesh *pMesh, CMaterialSet *pSet)
 }
 
 // ************ STATIC ************
-CModel* CModelLoader::LoadCMDL(CInputStream& CMDL)
+CModel* CModelLoader::LoadCMDL(IInputStream& CMDL)
 {
     CModelLoader Loader;
     Log::Write("Loading " + CMDL.GetSourceString());
@@ -486,7 +486,7 @@ CModel* CModelLoader::LoadCMDL(CInputStream& CMDL)
     return pModel;
 }
 
-CModel* CModelLoader::LoadWorldModel(CInputStream& MREA, CBlockMgrIn& BlockMgr, CMaterialSet& MatSet, EGame Version)
+CModel* CModelLoader::LoadWorldModel(IInputStream& MREA, CBlockMgrIn& BlockMgr, CMaterialSet& MatSet, EGame Version)
 {
     CModelLoader Loader;
     Loader.mpBlockMgr = &BlockMgr;
@@ -519,7 +519,7 @@ CModel* CModelLoader::LoadWorldModel(CInputStream& MREA, CBlockMgrIn& BlockMgr, 
     return pModel;
 }
 
-CModel* CModelLoader::LoadCorruptionWorldModel(CInputStream &MREA, CBlockMgrIn &BlockMgr, CMaterialSet &MatSet, u32 HeaderSecNum, u32 GPUSecNum, EGame Version)
+CModel* CModelLoader::LoadCorruptionWorldModel(IInputStream &MREA, CBlockMgrIn &BlockMgr, CMaterialSet &MatSet, u32 HeaderSecNum, u32 GPUSecNum, EGame Version)
 {
     CModelLoader Loader;
     Loader.mpBlockMgr = &BlockMgr;

@@ -156,7 +156,7 @@ float CTexture::ReadTexelAlpha(const CVector2f& TexCoord)
 
     if (mTexelFormat == eDXT1 && mBufferExists)
     {
-        CMemoryInStream Buffer(mImgDataBuffer, mImgDataSize, IOUtil::SystemEndianness);
+        CMemoryInStream Buffer(mImgDataBuffer, mImgDataSize, IOUtil::kSystemEndianness);
 
         // 8 bytes per 4x4 16-pixel block, left-to-right top-to-bottom
         u32 BlockIdxX = TexelX / 4;
@@ -190,7 +190,7 @@ float CTexture::ReadTexelAlpha(const CVector2f& TexCoord)
     return 1.f;
 }
 
-bool CTexture::WriteDDS(COutputStream& out)
+bool CTexture::WriteDDS(IOutputStream& out)
 {
     if (!out.IsValid()) return false;
 

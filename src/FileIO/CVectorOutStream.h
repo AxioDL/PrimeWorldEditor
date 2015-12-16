@@ -1,10 +1,10 @@
 #ifndef CVECTOROUTSTREAM_H
 #define CVECTOROUTSTREAM_H
 
-#include "COutputStream.h"
+#include "IOutputStream.h"
 #include <vector>
 
-class CVectorOutStream : public COutputStream
+class CVectorOutStream : public IOutputStream
 {
     std::vector<char> mVector;
     long mPos;
@@ -16,7 +16,7 @@ public:
     CVectorOutStream(unsigned long InitialSize, IOUtil::EEndianness DataEndianness);
     ~CVectorOutStream();
 
-    void WriteBytes(void *src, unsigned long Count);
+    void WriteBytes(void *pSrc, unsigned long Count);
     bool Seek(long Offset, long Origin);
     long Tell() const;
     bool EoF() const;

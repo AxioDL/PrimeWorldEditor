@@ -2,7 +2,7 @@
 
 CVectorOutStream::CVectorOutStream()
 {
-    mDataEndianness = IOUtil::BigEndian;
+    mDataEndianness = IOUtil::eBigEndian;
     mPos = 0;
     mUsed = 0;
 }
@@ -26,14 +26,14 @@ CVectorOutStream::~CVectorOutStream()
 {
 }
 
-void CVectorOutStream::WriteBytes(void *src, unsigned long Count)
+void CVectorOutStream::WriteBytes(void *pSrc, unsigned long Count)
 {
     if (!IsValid()) return;
 
     if ((mPos + Count) > mVector.size())
         mVector.resize(mPos + Count);
 
-    memcpy(mVector.data() + mPos, src, Count);
+    memcpy(mVector.data() + mPos, pSrc, Count);
     mPos += Count;
     if (mPos > mUsed) mUsed = mPos;
 }

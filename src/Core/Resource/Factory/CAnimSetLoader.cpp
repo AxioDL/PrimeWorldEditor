@@ -6,7 +6,7 @@ CAnimSetLoader::CAnimSetLoader()
 {
 }
 
-CAnimSet* CAnimSetLoader::LoadCorruptionCHAR(CInputStream& CHAR)
+CAnimSet* CAnimSetLoader::LoadCorruptionCHAR(IInputStream& CHAR)
 {
     // For now, we only read enough to fetch the model
     CHAR.Seek(0x1, SEEK_CUR);
@@ -18,7 +18,7 @@ CAnimSet* CAnimSetLoader::LoadCorruptionCHAR(CInputStream& CHAR)
     return set;
 }
 
-CAnimSet* CAnimSetLoader::LoadReturnsCHAR(CInputStream& CHAR)
+CAnimSet* CAnimSetLoader::LoadReturnsCHAR(IInputStream& CHAR)
 {
     // For now, we only read enough to fetch the model
     CHAR.Seek(0x16, SEEK_CUR);
@@ -32,7 +32,7 @@ CAnimSet* CAnimSetLoader::LoadReturnsCHAR(CInputStream& CHAR)
     return set;
 }
 
-void CAnimSetLoader::LoadPASDatabase(CInputStream& PAS4)
+void CAnimSetLoader::LoadPASDatabase(IInputStream& PAS4)
 {
     // For now, just parse the data; don't store it
     PAS4.Seek(0x4, SEEK_CUR); // Skipping PAS4 FourCC
@@ -72,7 +72,7 @@ void CAnimSetLoader::LoadPASDatabase(CInputStream& PAS4)
 }
 
 // ************ STATIC ************
-CAnimSet* CAnimSetLoader::LoadANCS(CInputStream& ANCS)
+CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& ANCS)
 {
     if (!ANCS.IsValid()) return nullptr;
     Log::Write("Loading " + ANCS.GetSourceString());
@@ -169,7 +169,7 @@ CAnimSet* CAnimSetLoader::LoadANCS(CInputStream& ANCS)
     return loader.set;
 }
 
-CAnimSet* CAnimSetLoader::LoadCHAR(CInputStream &CHAR)
+CAnimSet* CAnimSetLoader::LoadCHAR(IInputStream &CHAR)
 {
     if (!CHAR.IsValid()) return nullptr;
     Log::Write("Loading " + CHAR.GetSourceString());

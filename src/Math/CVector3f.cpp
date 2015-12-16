@@ -22,14 +22,14 @@ CVector3f::CVector3f(float _x, float _y, float _z)
     z = _z;
 }
 
-CVector3f::CVector3f(CInputStream& Input)
+CVector3f::CVector3f(IInputStream& Input)
 {
     x = Input.ReadFloat();
     y = Input.ReadFloat();
     z = Input.ReadFloat();
 }
 
-void CVector3f::Write(COutputStream &Output)
+void CVector3f::Write(IOutputStream &Output)
 {
     Output.WriteFloat(x);
     Output.WriteFloat(y);

@@ -478,7 +478,7 @@ void CAreaLoader::Decompress()
     }
 
     TString Source = mpMREA->GetSourceString();
-    mpMREA = new CMemoryInStream(mDecmpBuffer, mTotalDecmpSize, IOUtil::BigEndian);
+    mpMREA = new CMemoryInStream(mDecmpBuffer, mTotalDecmpSize, IOUtil::eBigEndian);
     mpMREA->SetSourceString(Source.ToStdString());
     mBlockMgr->SetInputStream(mpMREA);
     mHasDecompressedBuffer = true;
@@ -540,7 +540,7 @@ void CAreaLoader::SetUpObjects()
 }
 
 // ************ STATIC ************
-CGameArea* CAreaLoader::LoadMREA(CInputStream& MREA)
+CGameArea* CAreaLoader::LoadMREA(IInputStream& MREA)
 {
     CAreaLoader Loader;
 

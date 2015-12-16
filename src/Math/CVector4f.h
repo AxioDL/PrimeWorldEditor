@@ -1,8 +1,8 @@
 #ifndef CVECTOR4F
 #define CVECTOR4F
 
-#include <FileIO/CInputStream.h>
-#include <FileIO/COutputStream.h>
+#include <FileIO/IInputStream.h>
+#include <FileIO/IOutputStream.h>
 
 class CMatrix4f;
 class CTransform4f;
@@ -20,8 +20,8 @@ public:
     CVector4f(const CVector2f& xy, float _z, float _w);
     CVector4f(const CVector3f& xyz);
     CVector4f(const CVector3f& xyz, float _w);
-    CVector4f(CInputStream& Input);
-    void Write(COutputStream& Output);
+    CVector4f(IInputStream& Input);
+    void Write(IOutputStream& Output);
 
     // Swizzle
     CVector3f xyz();

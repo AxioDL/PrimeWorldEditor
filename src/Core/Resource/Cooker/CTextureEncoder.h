@@ -13,13 +13,13 @@ class CTextureEncoder
     ETexelFormat mOutputFormat;
 
     CTextureEncoder();
-    void WriteTXTR(COutputStream& TXTR);
+    void WriteTXTR(IOutputStream& TXTR);
     void DetermineBestOutputFormat();
-    void ReadSubBlockCMPR(CInputStream& Source, COutputStream& Dest);
+    void ReadSubBlockCMPR(IInputStream& Source, IOutputStream& Dest);
 
 public:
-    static void EncodeTXTR(COutputStream& TXTR, CTexture *pTex);
-    static void EncodeTXTR(COutputStream& TXTR, CTexture *pTex, ETexelFormat OutputFormat);
+    static void EncodeTXTR(IOutputStream& TXTR, CTexture *pTex);
+    static void EncodeTXTR(IOutputStream& TXTR, CTexture *pTex, ETexelFormat OutputFormat);
     static ETexelFormat GetGXFormat(ETexelFormat Format);
     static ETexelFormat GetFormat(ETexelFormat Format);
 };

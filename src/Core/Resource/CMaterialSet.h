@@ -4,7 +4,7 @@
 #include "CMaterial.h"
 #include "CTexture.h"
 #include "EFormatVersion.h"
-#include <FileIO/CInputStream.h>
+#include <FileIO/IInputStream.h>
 
 class CMaterialSet
 {
