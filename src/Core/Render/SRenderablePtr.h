@@ -4,8 +4,8 @@
 #include "ERenderCommand.h"
 #include "Core/Resource/CMaterial.h"
 #include "Core/Scene/CSceneNode.h"
-#include <Common/Math/CAABox.h>
 #include <Common/types.h>
+#include <Math/CAABox.h>
 
 struct SRenderablePtr
 {

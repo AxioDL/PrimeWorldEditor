@@ -1,6 +1,6 @@
 #include "CQuaternion.h"
 #include "CMatrix4f.h"
-#include "Math.h"
+#include "MathUtil.h"
 #include <cmath>
 #include <math.h>
 

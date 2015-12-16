@@ -3,7 +3,7 @@
 #include "Core/Render/CDrawUtil.h"
 #include "Core/Render/CRenderer.h"
 #include <Common/AnimUtil.h>
-#include <Common/Math/Math.h>
+#include <Math/MathUtil.h>
 
 CStaticNode::CStaticNode(CSceneManager *pScene, CSceneNode *pParent, CStaticModel *pModel)
     : CSceneNode(pScene, pParent)

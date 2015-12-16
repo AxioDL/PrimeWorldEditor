@@ -5,9 +5,9 @@
 #include "Core/OpenGL/CVertexArrayManager.h"
 #include "Core/Resource/CLight.h"
 #include <Common/CColor.h>
-#include <Common/Math/CMatrix4f.h>
-#include <Common/Math/CVector3f.h>
-#include <Common/Math/CVector4f.h>
+#include <Math/CMatrix4f.h>
+#include <Math/CVector3f.h>
+#include <Math/CVector4f.h>
 #include <GL/glew.h>
 
 /**

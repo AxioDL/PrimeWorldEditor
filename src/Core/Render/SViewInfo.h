@@ -1,9 +1,9 @@
 #ifndef SVIEWINFO
 #define SVIEWINFO
 
-#include <Common/Math/CFrustumPlanes.h>
-#include <Common/Math/CMatrix4f.h>
-#include <Common/Math/CRay.h>
+#include <Math/CFrustumPlanes.h>
+#include <Math/CMatrix4f.h>
+#include <Math/CRay.h>
 
 struct SViewInfo
 {

@@ -3,8 +3,8 @@
 
 #include "Core/Resource/Model/EVertexDescription.h"
 #include <Common/types.h>
-#include <Common/Math/CVector2f.h>
-#include <Common/Math/CVector3f.h>
+#include <Math/CVector2f.h>
+#include <Math/CVector3f.h>
 
 #include <vector>
 #include <GL/glew.h>

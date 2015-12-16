@@ -3,9 +3,9 @@
 
 #include "CResource.h"
 #include "ETexelFormat.h"
-#include <Common/types.h>
-#include <Common/Math/CVector2f.h>
 #include <FileIO/FileIO.h>
+#include <Common/types.h>
+#include <Math/CVector2f.h>
 
 #include <GL/glew.h>
 

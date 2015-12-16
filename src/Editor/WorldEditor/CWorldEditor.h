@@ -4,10 +4,10 @@
 #include "Editor/INodeEditor.h"
 #include "Editor/CGizmo.h"
 
-#include <Common/Math/CRay.h>
-#include <Common/Math/ETransformSpace.h>
 #include <Common/CTimer.h>
 #include <Common/EKeyInputs.h>
+#include <Math/CRay.h>
+#include <Math/ETransformSpace.h>
 #include <Core/Render/CRenderer.h>
 #include <Core/Resource/CGameArea.h>
 #include <Core/Resource/CWorld.h>

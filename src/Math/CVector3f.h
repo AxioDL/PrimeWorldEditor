@@ -1,5 +1,5 @@
-#ifndef CVECTOR3F
-#define CVECTOR3F
+#ifndef CVECTOR3F_H
+#define CVECTOR3F_H
 
 #include <FileIO/CInputStream.h>
 #include <FileIO/COutputStream.h>
@@ -89,4 +89,4 @@ public:
     friend std::ostream& operator<<(std::ostream& o, const CVector3f& Vector);
 };
 
-#endif // CVECTOR3F
+#endif // CVECTOR3F_H

@@ -1,9 +1,9 @@
 #ifndef CVERTEX_H
 #define CVERTEX_H
 
-#include <Common/Math/CVector2f.h>
-#include <Common/Math/CVector3f.h>
 #include <Common/CColor.h>
+#include <Math/CVector2f.h>
+#include <Math/CVector3f.h>
 
 class CVertex
 {

@@ -6,6 +6,7 @@
 
 QT -= core gui
 QMAKE_CXXFLAGS += /WX
+DEFINES += PWE_COMMON
 
 CONFIG += staticlib
 TEMPLATE = lib
@@ -22,7 +23,12 @@ CONFIG (debug, debug|release) {
     TARGET = Commond
 
     # Debug Libs
-    LIBS += -L$$PWD/../../externals/FileIO/lib/ -lFileIOd
+    LIBS += -L$$PWD/../../build/FileIO/ -lFileIOd
+
+    # Debug Target Dependencies
+    win32 {
+        PRE_TARGETDEPS += $$PWD/../../build/FileIO/FileIOd.lib
+    }
 }
 
 CONFIG (release, debug|release) {
@@ -31,21 +37,24 @@ CONFIG (release, debug|release) {
     TARGET = Common
 
     # Release Libs
-    LIBS += -L$$PWD/../../externals/FileIO/lib/ -lFileIO
+    LIBS += -L$$PWD/../../build/FileIO/ -lFileIO
+
+    # Release Target Dependencies
+    win32 {
+        PRE_TARGETDEPS += $$PWD/../../build/FileIO/FileIO.lib
+    }
 }
 
 # Debug/Release Libs
 LIBS += -L$$PWD/../../externals/lzo-2.08/lib -llzo-2.08 \
-        -L$$PWD/../../externals/zlib/lib -lzdll \
+        -L$$PWD/../../externals/zlib/lib -lzdll
 
 # Include Paths
 INCLUDEPATH += $$PWD/.. \
-               $$PWD/../../externals/FileIO/include \
-               $$PWD/../../externals/glm/glm \
                $$PWD/../../externals/lzo-2.08/include \
                $$PWD/../../externals/zlib/include
 
-# Source Files
+# Header Files
 HEADERS += \
     AnimUtil.h \
     CColor.h \
@@ -59,20 +68,9 @@ HEADERS += \
     EnumUtil.h \
     ETransformSpace.h \
     TString.h \
-    types.h \
-    Math/CAABox.h \
-    Math/CFrustumPlanes.h \
-    Math/CMatrix4f.h \
-    Math/CPlane.h \
-    Math/CQuaternion.h \
-    Math/CRay.h \
-    Math/CTransform4f.h \
-    Math/CVector2f.h \
-    Math/CVector2i.h \
-    Math/CVector3f.h \
-    Math/CVector4f.h \
-    Math/Math.h
+    types.h
 
+# Source Files
 SOURCES += \
     AnimUtil.cpp \
     CColor.cpp \
@@ -81,16 +79,4 @@ SOURCES += \
     CompressionUtil.cpp \
     CTimer.cpp \
     CUniqueID.cpp \
-    TString.cpp \
-    Math/CAABox.cpp \
-    Math/CFrustumPlanes.cpp \
-    Math/CMatrix4f.cpp \
-    Math/CPlane.cpp \
-    Math/CQuaternion.cpp \
-    Math/CRay.cpp \
-    Math/CTransform4f.cpp \
-    Math/CVector2f.cpp \
-    Math/CVector2i.cpp \
-    Math/CVector3f.cpp \
-    Math/CVector4f.cpp \
-    Math/Math.cpp
+    TString.cpp

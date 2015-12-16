@@ -1,9 +1,9 @@
 #include "WTextureGLWidget.h"
+#include <Common/AnimUtil.h>
+#include <Math/CTransform4f.h>
 #include <Core/Render/CDrawUtil.h>
 #include <Core/Render/CGraphics.h>
 #include <Core/Resource/CResCache.h>
-#include <Common/Math/CTransform4f.h>
-#include <Common/AnimUtil.h>
 #include <iostream>
 #include <iomanip>
 

@@ -8,7 +8,9 @@ QMAKE_CXXFLAGS += /WX
 TEMPLATE = subdirs
 
 SUBDIRS += \
+    FileIO \
     Common \
+    Math \
     Core \
     Editor
 

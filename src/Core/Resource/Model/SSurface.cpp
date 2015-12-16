@@ -1,7 +1,7 @@
 #include "SSurface.h"
 #include "Core/Render/CDrawUtil.h"
 #include "Core/CRayCollisionTester.h"
-#include <Common/Math/Math.h>
+#include <Math/MathUtil.h>
 
 std::pair<bool,float> SSurface::IntersectsRay(const CRay& Ray, bool allowBackfaces, float LineThreshold)
 {

@@ -6,7 +6,7 @@
 #include "CStringTable.h"
 #include "SDependency.h"
 #include "Core/Resource/Model/CModel.h"
-#include <Common/Math/CTransform4f.h>
+#include <Math/CTransform4f.h>
 
 class CWorld : public CResource
 {

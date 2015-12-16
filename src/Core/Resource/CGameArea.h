@@ -8,7 +8,7 @@
 #include "Core/Resource/Model/CModel.h"
 #include "Core/Resource/Model/CStaticModel.h"
 #include <Common/types.h>
-#include <Common/Math/CTransform4f.h>
+#include <Math/CTransform4f.h>
 
 #include <unordered_map>
 

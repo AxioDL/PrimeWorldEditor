@@ -2,7 +2,7 @@
 #define INODEEDITOR_H
 
 #include "CGizmo.h"
-#include <Common/Math/ETransformSpace.h>
+#include <Math/ETransformSpace.h>
 #include <Core/Scene/CSceneManager.h>
 
 #include <QMainWindow>

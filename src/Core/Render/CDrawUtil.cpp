@@ -2,7 +2,7 @@
 #include "CGraphics.h"
 #include "Core/Resource/CResCache.h"
 #include "Core/Log.h"
-#include <Common/Math/CTransform4f.h>
+#include <Math/CTransform4f.h>
 #include <iostream>
 
 // ************ MEMBER INITIALIZATION ************

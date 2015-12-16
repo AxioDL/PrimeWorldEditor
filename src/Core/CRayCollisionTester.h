@@ -4,10 +4,10 @@
 #include "SRayIntersection.h"
 #include "Core/Render/SViewInfo.h"
 #include "Core/Resource/Model/CBasicModel.h"
-#include <Common/Math/CAABox.h>
-#include <Common/Math/CRay.h>
-#include <Common/Math/CVector3f.h>
 #include <Common/types.h>
+#include <Math/CAABox.h>
+#include <Math/CRay.h>
+#include <Math/CVector3f.h>
 
 #include <list>
 

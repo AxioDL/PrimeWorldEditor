@@ -1,5 +1,5 @@
 #include "CGizmo.h"
-#include <Common/Math/Math.h>
+#include <Math/MathUtil.h>
 #include <Core/Render/CDrawUtil.h>
 #include <Core/Render/CRenderer.h>
 #include <Core/Resource/CResCache.h>

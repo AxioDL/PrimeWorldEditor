@@ -4,8 +4,8 @@
 #include "CGraphics.h"
 #include "Core/Resource/CResCache.h"
 #include "Core/Resource/Factory/CTextureDecoder.h"
+#include <Math/CTransform4f.h>
 #include <Common/AnimUtil.h>
-#include <Common/Math/CTransform4f.h>
 
 #include <algorithm>
 #include <iostream>
