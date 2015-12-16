@@ -3,8 +3,8 @@
 
 #include "types.h"
 #include "TString.h"
-#include <FileIO/CInputStream.h>
-#include <FileIO/COutputStream.h>
+#include <FileIO/IInputStream.h>
+#include <FileIO/IOutputStream.h>
 
 class CFourCC
 {
@@ -15,10 +15,10 @@ public:
     CFourCC(const char *src);
     CFourCC(const TString& src);
     CFourCC(u32 src);
-    CFourCC(CInputStream& src);
+    CFourCC(IInputStream& src);
 
     // Functionality
-    void Write(COutputStream& Output);
+    void Write(IOutputStream& Output);
     u32 ToLong() const;
     TString ToString() const;
     CFourCC ToUpper() const;

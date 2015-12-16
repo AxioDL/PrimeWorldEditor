@@ -90,7 +90,7 @@ CTexture* CTextureDecoder::CreateTexture()
 }
 
 // ************ STATIC ************
-CTexture* CTextureDecoder::LoadTXTR(CInputStream& TXTR)
+CTexture* CTextureDecoder::LoadTXTR(IInputStream& TXTR)
 {
     CTextureDecoder Decoder;
     Decoder.ReadTXTR(TXTR);
@@ -98,7 +98,7 @@ CTexture* CTextureDecoder::LoadTXTR(CInputStream& TXTR)
     return Decoder.CreateTexture();
 }
 
-CTexture* CTextureDecoder::DoFullDecode(CInputStream &TXTR)
+CTexture* CTextureDecoder::DoFullDecode(IInputStream &TXTR)
 {
     CTextureDecoder Decoder;
     Decoder.ReadTXTR(TXTR);
@@ -109,7 +109,7 @@ CTexture* CTextureDecoder::DoFullDecode(CInputStream &TXTR)
     return pTexture;
 }
 
-CTexture* CTextureDecoder::LoadDDS(CInputStream &DDS)
+CTexture* CTextureDecoder::LoadDDS(IInputStream &DDS)
 {
     CTextureDecoder Decoder;
     Decoder.ReadDDS(DDS);
@@ -124,7 +124,7 @@ CTexture* CTextureDecoder::DoFullDecode(CTexture*)
 }
 
 // ************ READ ************
-void CTextureDecoder::ReadTXTR(CInputStream& TXTR)
+void CTextureDecoder::ReadTXTR(IInputStream& TXTR)
 {
     // Read TXTR header
     Log::Write("Loading " + TXTR.GetSourceString());
@@ -144,12 +144,12 @@ void CTextureDecoder::ReadTXTR(CInputStream& TXTR)
         mPalettes.resize(PaletteEntryCount * 2);
         TXTR.ReadBytes(mPalettes.data(), mPalettes.size());
 
-        mPaletteInput.SetData(mPalettes.data(), mPalettes.size(), IOUtil::BigEndian);
+        mPaletteInput.SetData(mPalettes.data(), mPalettes.size(), IOUtil::eBigEndian);
     }
     else mHasPalettes = false;
 }
 
-void CTextureDecoder::ReadDDS(CInputStream& DDS)
+void CTextureDecoder::ReadDDS(IInputStream& DDS)
 {
     Log::Write("Loading " + DDS.GetSourceString());
 
@@ -202,7 +202,7 @@ void CTextureDecoder::ReadDDS(CInputStream& DDS)
 }
 
 // ************ DECODE ************
-void CTextureDecoder::PartialDecodeGXTexture(CInputStream& TXTR)
+void CTextureDecoder::PartialDecodeGXTexture(IInputStream& TXTR)
 {
     // Get image data size, create output buffer
     u32 ImageStart = TXTR.Tell();
@@ -214,7 +214,7 @@ void CTextureDecoder::PartialDecodeGXTexture(CInputStream& TXTR)
     if ((mHasPalettes) && (mPaletteFormat == ePalette_RGB5A3)) mDataBufferSize *= 2;
     mpDataBuffer = new u8[mDataBufferSize];
 
-    CMemoryOutStream Out(mpDataBuffer, mDataBufferSize, IOUtil::SystemEndianness);
+    CMemoryOutStream Out(mpDataBuffer, mDataBufferSize, IOUtil::kSystemEndianness);
 
     // Initializing more stuff before we start the mipmap loop
     u32 MipW = mWidth, MipH = mHeight;
@@ -275,7 +275,7 @@ void CTextureDecoder::PartialDecodeGXTexture(CInputStream& TXTR)
     }
 }
 
-void CTextureDecoder::FullDecodeGXTexture(CInputStream& TXTR)
+void CTextureDecoder::FullDecodeGXTexture(IInputStream& TXTR)
 {
     // Get image data size, create output buffer
     u32 ImageStart = TXTR.Tell();
@@ -286,7 +286,7 @@ void CTextureDecoder::FullDecodeGXTexture(CInputStream& TXTR)
     mDataBufferSize = ImageSize * (32 / gskSourceBpp[mTexelFormat]);
     mpDataBuffer = new u8[mDataBufferSize];
 
-    CMemoryOutStream Out(mpDataBuffer, mDataBufferSize, IOUtil::SystemEndianness);
+    CMemoryOutStream Out(mpDataBuffer, mDataBufferSize, IOUtil::kSystemEndianness);
 
     // Initializing more stuff before we start the mipmap loop
     u32 MipW = mWidth, MipH = mHeight;
@@ -359,7 +359,7 @@ void CTextureDecoder::FullDecodeGXTexture(CInputStream& TXTR)
     }
 }
 
-void CTextureDecoder::DecodeDDS(CInputStream &DDS)
+void CTextureDecoder::DecodeDDS(IInputStream &DDS)
 {
     // Get image data size, create output buffer
     u32 ImageStart = DDS.Tell();
@@ -373,7 +373,7 @@ void CTextureDecoder::DecodeDDS(CInputStream &DDS)
     else mDataBufferSize *= 4;
     mpDataBuffer = new u8[mDataBufferSize];
 
-    CMemoryOutStream Out(mpDataBuffer, mDataBufferSize, IOUtil::SystemEndianness);
+    CMemoryOutStream Out(mpDataBuffer, mDataBufferSize, IOUtil::kSystemEndianness);
 
     // Initializing more stuff before we start the mipmap loop
     u32 MipW = mWidth, MipH = mHeight;
@@ -470,7 +470,7 @@ void CTextureDecoder::DecodeDDS(CInputStream &DDS)
 }
 
 // ************ READ PIXELS (PARTIAL DECODE) ************
-void CTextureDecoder::ReadPixelsI4(CInputStream& src, COutputStream& dst)
+void CTextureDecoder::ReadPixelsI4(IInputStream& src, IOutputStream& dst)
 {
     u8 px = src.ReadByte();
     dst.WriteByte(Extend4to8(px >> 4));
@@ -479,14 +479,14 @@ void CTextureDecoder::ReadPixelsI4(CInputStream& src, COutputStream& dst)
     dst.WriteByte(Extend4to8(px));
 }
 
-void CTextureDecoder::ReadPixelI8(CInputStream& src, COutputStream& dst)
+void CTextureDecoder::ReadPixelI8(IInputStream& src, IOutputStream& dst)
 {
     u8 px = src.ReadByte();
     dst.WriteByte(px);
     dst.WriteByte(px);
 }
 
-void CTextureDecoder::ReadPixelIA4(CInputStream& src, COutputStream& dst)
+void CTextureDecoder::ReadPixelIA4(IInputStream& src, IOutputStream& dst)
 {
     // this can be left as-is for DDS conversion, but opengl doesn't support two components in one byte...
     u8 byte = src.ReadByte();
@@ -495,12 +495,12 @@ void CTextureDecoder::ReadPixelIA4(CInputStream& src, COutputStream& dst)
     dst.WriteShort((l << 8) | a);
 }
 
-void CTextureDecoder::ReadPixelIA8(CInputStream& src, COutputStream& dst)
+void CTextureDecoder::ReadPixelIA8(IInputStream& src, IOutputStream& dst)
 {
     dst.WriteShort(src.ReadShort());
 }
 
-void CTextureDecoder::ReadPixelsC4(CInputStream& src, COutputStream& dst)
+void CTextureDecoder::ReadPixelsC4(IInputStream& src, IOutputStream& dst)
 {
     // This isn't how C4 works, but due to the way Retro packed font textures (which use C4)
     // this is the only way to get them to decode correctly for now.
@@ -529,7 +529,7 @@ void CTextureDecoder::ReadPixelsC4(CInputStream& src, COutputStream& dst)
     }
 }
 
-void CTextureDecoder::ReadPixelC8(CInputStream& src, COutputStream& dst)
+void CTextureDecoder::ReadPixelC8(IInputStream& src, IOutputStream& dst)
 {
     // DKCR fonts use C8 :|
     u8 index = src.ReadByte();
@@ -549,13 +549,13 @@ void CTextureDecoder::ReadPixelC8(CInputStream& src, COutputStream& dst)
     else if (mPaletteFormat == ePalette_RGB5A3) ReadPixelRGB5A3(mPaletteInput, dst);
 }
 
-void CTextureDecoder::ReadPixelRGB565(CInputStream& src, COutputStream& dst)
+void CTextureDecoder::ReadPixelRGB565(IInputStream& src, IOutputStream& dst)
 {
     // RGB565 can be used as-is.
     dst.WriteShort(src.ReadShort());
 }
 
-void CTextureDecoder::ReadPixelRGB5A3(CInputStream& src, COutputStream& dst)
+void CTextureDecoder::ReadPixelRGB5A3(IInputStream& src, IOutputStream& dst)
 {
     u16 px = src.ReadShort();
     u8 r, g, b, a;
@@ -580,7 +580,7 @@ void CTextureDecoder::ReadPixelRGB5A3(CInputStream& src, COutputStream& dst)
     dst.WriteLong(c);
 }
 
-void CTextureDecoder::ReadPixelRGBA8(CInputStream& src, COutputStream& dst)
+void CTextureDecoder::ReadPixelRGBA8(IInputStream& src, IOutputStream& dst)
 {
     u16 ar = src.ReadShort();
     src.Seek(0x1E, SEEK_CUR);
@@ -590,7 +590,7 @@ void CTextureDecoder::ReadPixelRGBA8(CInputStream& src, COutputStream& dst)
     dst.WriteLong(px);
 }
 
-void CTextureDecoder::ReadSubBlockCMPR(CInputStream& src, COutputStream& dst)
+void CTextureDecoder::ReadSubBlockCMPR(IInputStream& src, IOutputStream& dst)
 {
     dst.WriteShort(src.ReadShort());
     dst.WriteShort(src.ReadShort());
@@ -629,7 +629,7 @@ CColor CTextureDecoder::DecodePixelIA8(u16 Short)
     return CColor::Integral(Lum, Lum, Lum, Alpha);
 }
 
-CColor CTextureDecoder::DecodePixelC4(u8 Byte, u8 WhichPixel, CInputStream& PaletteStream)
+CColor CTextureDecoder::DecodePixelC4(u8 Byte, u8 WhichPixel, IInputStream& PaletteStream)
 {
     if (WhichPixel == 1) Byte >>= 4;
     Byte &= 0xF;
@@ -641,7 +641,7 @@ CColor CTextureDecoder::DecodePixelC4(u8 Byte, u8 WhichPixel, CInputStream& Pale
     else return CColor::skTransparentBlack;
 }
 
-CColor CTextureDecoder::DecodePixelC8(u8 Byte, CInputStream& PaletteStream)
+CColor CTextureDecoder::DecodePixelC8(u8 Byte, IInputStream& PaletteStream)
 {
     PaletteStream.Seek(Byte * 2, SEEK_SET);
     if (mPaletteFormat == ePalette_IA8)         return DecodePixelIA8(PaletteStream.ReadShort());
@@ -678,7 +678,7 @@ CColor CTextureDecoder::DecodePixelRGB5A3(u16 Short)
     }
 }
 
-void CTextureDecoder::DecodeSubBlockCMPR(CInputStream& src, COutputStream& dst, u16 Width)
+void CTextureDecoder::DecodeSubBlockCMPR(IInputStream& src, IOutputStream& dst, u16 Width)
 {
     CColor Palettes[4];
     u16 PaletteA = src.ReadShort();
@@ -713,7 +713,7 @@ void CTextureDecoder::DecodeSubBlockCMPR(CInputStream& src, COutputStream& dst, 
     }
 }
 
-void CTextureDecoder::DecodeBlockBC1(CInputStream& src, COutputStream& dst, u32 Width)
+void CTextureDecoder::DecodeBlockBC1(IInputStream& src, IOutputStream& dst, u32 Width)
 {
     // Very similar to the CMPR subblock function, but unfortunately a slight
     // difference in the order the pixel indices are read requires a separate function
@@ -750,7 +750,7 @@ void CTextureDecoder::DecodeBlockBC1(CInputStream& src, COutputStream& dst, u32 
     }
 }
 
-void CTextureDecoder::DecodeBlockBC2(CInputStream& src, COutputStream& dst, u32 Width)
+void CTextureDecoder::DecodeBlockBC2(IInputStream& src, IOutputStream& dst, u32 Width)
 {
     CColor CPalettes[4];
     u16 PaletteA = src.ReadShort();
@@ -785,7 +785,7 @@ void CTextureDecoder::DecodeBlockBC2(CInputStream& src, COutputStream& dst, u32 
     }
 }
 
-void CTextureDecoder::DecodeBlockBC3(CInputStream& src, COutputStream& dst, u32 Width)
+void CTextureDecoder::DecodeBlockBC3(IInputStream& src, IOutputStream& dst, u32 Width)
 {
     CColor Palettes[4];
     u16 PaletteA = src.ReadShort();
@@ -820,7 +820,7 @@ void CTextureDecoder::DecodeBlockBC3(CInputStream& src, COutputStream& dst, u32 
     }
 }
 
-CColor CTextureDecoder::DecodeDDSPixel(CInputStream& /*DDS*/)
+CColor CTextureDecoder::DecodeDDSPixel(IInputStream& /*DDS*/)
 {
     return CColor::skWhite;
 }

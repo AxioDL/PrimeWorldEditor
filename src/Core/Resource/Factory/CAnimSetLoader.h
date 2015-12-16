@@ -12,13 +12,13 @@ class CAnimSetLoader
     EGame mVersion;
 
     CAnimSetLoader();
-    CAnimSet* LoadCorruptionCHAR(CInputStream& CHAR);
-    CAnimSet* LoadReturnsCHAR(CInputStream& CHAR);
-    void LoadPASDatabase(CInputStream& PAS4);
+    CAnimSet* LoadCorruptionCHAR(IInputStream& CHAR);
+    CAnimSet* LoadReturnsCHAR(IInputStream& CHAR);
+    void LoadPASDatabase(IInputStream& PAS4);
 
 public:
-    static CAnimSet* LoadANCS(CInputStream& ANCS);
-    static CAnimSet* LoadCHAR(CInputStream& CHAR);
+    static CAnimSet* LoadANCS(IInputStream& ANCS);
+    static CAnimSet* LoadCHAR(IInputStream& CHAR);
 };
 
 #endif // CCHARACTERLOADER_H

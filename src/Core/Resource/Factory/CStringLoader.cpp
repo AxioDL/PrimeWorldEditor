@@ -5,7 +5,7 @@ CStringLoader::CStringLoader()
 {
 }
 
-void CStringLoader::LoadPrimeDemoSTRG(CInputStream& STRG)
+void CStringLoader::LoadPrimeDemoSTRG(IInputStream& STRG)
 {
     // This function starts at 0x4 in the file - right after the size
     // This STRG version only supports one language per file
@@ -32,7 +32,7 @@ void CStringLoader::LoadPrimeDemoSTRG(CInputStream& STRG)
     }
 }
 
-void CStringLoader::LoadPrimeSTRG(CInputStream& STRG)
+void CStringLoader::LoadPrimeSTRG(IInputStream& STRG)
 {
     // This function starts at 0x8 in the file, after magic/version
     // Header
@@ -80,7 +80,7 @@ void CStringLoader::LoadPrimeSTRG(CInputStream& STRG)
     }
 }
 
-void CStringLoader::LoadCorruptionSTRG(CInputStream& STRG)
+void CStringLoader::LoadCorruptionSTRG(IInputStream& STRG)
 {
     // This function starts at 0x8 in the file, after magic/version
     // Header
@@ -126,7 +126,7 @@ void CStringLoader::LoadCorruptionSTRG(CInputStream& STRG)
     }
 }
 
-void CStringLoader::LoadNameTable(CInputStream& STRG)
+void CStringLoader::LoadNameTable(IInputStream& STRG)
 {
     // Name table header
     u32 NameCount = STRG.ReadLong();
@@ -158,7 +158,7 @@ void CStringLoader::LoadNameTable(CInputStream& STRG)
 }
 
 // ************ STATIC ************
-CStringTable* CStringLoader::LoadSTRG(CInputStream& STRG)
+CStringTable* CStringLoader::LoadSTRG(IInputStream& STRG)
 {
     // Verify that this is a valid STRG
     if (!STRG.IsValid()) return nullptr;

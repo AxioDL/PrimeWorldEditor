@@ -6,6 +6,7 @@
 
 QT       -= core gui
 QMAKE_CXXFLAGS += /WX
+DEFINES += PWE_FILEIO
 
 CONFIG += staticlib
 TEMPLATE = lib
@@ -32,25 +33,25 @@ CONFIG (release, debug|release) {
 HEADERS += \
     CFileInStream.h \
     CFileOutStream.h \
-    CInputStream.h \
     CMemoryInStream.h \
     CMemoryOutStream.h \
-    COutputStream.h \
     CTextInStream.h \
     CTextOutStream.h \
     CVectorOutStream.h \
     FileIO.h \
-    IOUtil.h
+    IOUtil.h \
+    IInputStream.h \
+    IOutputStream.h
 
 # Source Files
 SOURCES += \
     CFileInStream.cpp \
     CFileOutStream.cpp \
-    CInputStream.cpp \
     CMemoryInStream.cpp \
     CMemoryOutStream.cpp \
-    COutputStream.cpp \
     CTextInStream.cpp \
     CTextOutStream.cpp \
     CVectorOutStream.cpp \
-    IOUtil.cpp
+    IOUtil.cpp \
+    IInputStream.cpp \
+    IOutputStream.cpp

@@ -60,11 +60,11 @@ void CModelCooker::GenerateSurfaceData()
     mNumVertices = mVertices.size();
 }
 
-void CModelCooker::WriteEditorModel(COutputStream& /*Out*/)
+void CModelCooker::WriteEditorModel(IOutputStream& /*Out*/)
 {
 }
 
-void CModelCooker::WriteModelPrime(COutputStream& Out)
+void CModelCooker::WriteModelPrime(IOutputStream& Out)
 {
     GenerateSurfaceData();
 
@@ -232,7 +232,7 @@ void CModelCooker::WriteModelPrime(COutputStream& Out)
     // Done!
 }
 
-void CModelCooker::WriteCookedModel(CModel *pModel, EGame Version, COutputStream& CMDL)
+void CModelCooker::WriteCookedModel(CModel *pModel, EGame Version, IOutputStream& CMDL)
 {
     CModelCooker Cooker;
     Cooker.mpModel = pModel;
@@ -249,7 +249,7 @@ void CModelCooker::WriteCookedModel(CModel *pModel, EGame Version, COutputStream
     }
 }
 
-void CModelCooker::WriteUncookedModel(CModel* /*pModel*/, COutputStream& /*EMDL*/)
+void CModelCooker::WriteUncookedModel(CModel* /*pModel*/, IOutputStream& /*EMDL*/)
 {
 }
 

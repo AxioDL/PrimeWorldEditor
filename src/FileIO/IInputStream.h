@@ -1,11 +1,11 @@
-#ifndef CINPUTSTREAM_H
-#define CINPUTSTREAM_H
+#ifndef IINPUTSTREAM_H
+#define IINPUTSTREAM_H
 
 #include "IOUtil.h"
 #include <string>
 #include <vector>
 
-class CInputStream
+class IInputStream
 {
 protected:
     IOUtil::EEndianness mDataEndianness;
@@ -32,12 +32,12 @@ public:
 
     void SeekToBoundary(unsigned long boundary);
     void SetEndianness(IOUtil::EEndianness endianness);
-    void SetSourceString(const std::string& source);
+    void SetSourceString(const std::string& rkSource);
     IOUtil::EEndianness GetEndianness() const;
     std::string GetSourceString() const;
 
-    virtual ~CInputStream();
-    virtual void ReadBytes(void *dst, unsigned long count) = 0;
+    virtual ~IInputStream();
+    virtual void ReadBytes(void *pDst, unsigned long count) = 0;
     virtual bool Seek(long offset, long origin) = 0;
     virtual bool Seek64(long long offset, long origin);
     virtual long Tell() const = 0;
@@ -47,4 +47,4 @@ public:
     virtual long Size() const = 0;
 };
 
-#endif // CINPUTSTREAM_H
+#endif // IINPUTSTREAM_H

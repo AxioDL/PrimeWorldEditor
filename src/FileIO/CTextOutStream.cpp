@@ -3,23 +3,23 @@
 
 CTextOutStream::CTextOutStream()
 {
-    mFStream = nullptr;
+    mpFStream = nullptr;
     mSize = 0;
 }
 
-CTextOutStream::CTextOutStream(std::string File)
+CTextOutStream::CTextOutStream(const std::string& rkFile)
 {
-    mFStream = nullptr;
-    Open(File.c_str());
+    mpFStream = nullptr;
+    Open(rkFile.c_str());
 }
 
-CTextOutStream::CTextOutStream(CTextOutStream& src)
+CTextOutStream::CTextOutStream(const CTextOutStream& rkSrc)
 {
-    mFStream = nullptr;
-    Open(src.mFileName);
+    mpFStream = nullptr;
+    Open(rkSrc.mFileName);
 
-    if (src.IsValid())
-        Seek(src.Tell(), SEEK_SET);
+    if (rkSrc.IsValid())
+        Seek(rkSrc.Tell(), SEEK_SET);
 }
 
 CTextOutStream::~CTextOutStream()
@@ -28,54 +28,54 @@ CTextOutStream::~CTextOutStream()
         Close();
 }
 
-void CTextOutStream::Open(std::string File)
+void CTextOutStream::Open(const std::string& rkFile)
 {
-    fopen_s(&mFStream, File.c_str(), "w");
-    mFileName = File;
+    fopen_s(&mpFStream, rkFile.c_str(), "w");
+    mFileName = rkFile;
     mSize = 0;
 }
 
 void CTextOutStream::Close()
 {
     if (IsValid())
-        fclose(mFStream);
-    mFStream = nullptr;
+        fclose(mpFStream);
+    mpFStream = nullptr;
     mSize = 0;
 }
 
-void CTextOutStream::Print(const char *Format, ... )
+void CTextOutStream::Print(const char *pkFormat, ... )
 {
     if (!IsValid()) return;
 
     va_list Args;
-    va_start(Args, Format);
-    vfprintf(mFStream, Format, Args);
+    va_start(Args, pkFormat);
+    vfprintf(mpFStream, pkFormat, Args);
 }
 
 void CTextOutStream::WriteChar(char c)
 {
     if (!IsValid()) return;
-    fputc(c, mFStream);
+    fputc(c, mpFStream);
     if ((unsigned long) Tell() > mSize) mSize = Tell();
 }
 
-void CTextOutStream::WriteString(std::string Str)
+void CTextOutStream::WriteString(const std::string& rkStr)
 {
     if (!IsValid()) return;
-    fputs(Str.c_str(), mFStream);
+    fputs(rkStr.c_str(), mpFStream);
     if ((unsigned long) Tell() > mSize) mSize = Tell();
 }
 
 bool CTextOutStream::Seek(long Offset, long Origin)
 {
     if (!IsValid()) return false;
-    return (fseek(mFStream, Offset, Origin) != 0);
+    return (fseek(mpFStream, Offset, Origin) != 0);
 }
 
 long CTextOutStream::Tell() const
 {
     if (!IsValid()) return 0;
-    return ftell(mFStream);
+    return ftell(mpFStream);
 }
 
 bool CTextOutStream::EoF() const
@@ -85,7 +85,7 @@ bool CTextOutStream::EoF() const
 
 bool CTextOutStream::IsValid() const
 {
-    return (mFStream != 0);
+    return (mpFStream != 0);
 }
 
 long CTextOutStream::Size() const

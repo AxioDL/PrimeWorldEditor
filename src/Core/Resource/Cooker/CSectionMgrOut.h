@@ -2,7 +2,7 @@
 #define CBLOCKMGROUT_H
 
 #include <Common/types.h>
-#include <FileIO/COutputStream.h>
+#include <FileIO/IOutputStream.h>
 #include <vector>
 
 // Small class to manage file sections for CMDL/MREA output
@@ -16,9 +16,9 @@ class CSectionMgrOut
 public:
     CSectionMgrOut();
     void SetSectionCount(u32 Count);
-    void Init(const COutputStream& OutputStream);
-    void AddSize(COutputStream& OutputStream);
-    void WriteSizes(COutputStream& OutputStream);
+    void Init(const IOutputStream& OutputStream);
+    void AddSize(IOutputStream& OutputStream);
+    void WriteSizes(IOutputStream& OutputStream);
 };
 
 #endif // CBLOCKMGROUT_H

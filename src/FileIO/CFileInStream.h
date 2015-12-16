@@ -1,26 +1,26 @@
 #ifndef CFILEINSTREAM_H
 #define CFILEINSTREAM_H
 
-#include "CInputStream.h"
+#include "IInputStream.h"
 #include "IOUtil.h"
 
-class CFileInStream : public CInputStream
+class CFileInStream : public IInputStream
 {
 private:
-    FILE *mFStream;
+    FILE *mpFStream;
     std::string mName;
     long mFileSize;
 
 public:
     CFileInStream();
-    CFileInStream(std::string file);
-    CFileInStream(std::string file, IOUtil::EEndianness FileEndianness);
-    CFileInStream(CFileInStream& src);
+    CFileInStream(const std::string& rkFile);
+    CFileInStream(const std::string& rkFile, IOUtil::EEndianness FileEndianness);
+    CFileInStream(const CFileInStream& rkSrc);
     ~CFileInStream();
-    void Open(std::string file, IOUtil::EEndianness FileEndianness);
+    void Open(const std::string& rkFile, IOUtil::EEndianness FileEndianness);
     void Close();
 
-    void ReadBytes(void *dst, unsigned long count);
+    void ReadBytes(void *pDst, unsigned long count);
     bool Seek(long offset, long origin);
     bool Seek64(long long offset, long origin);
     long Tell() const;

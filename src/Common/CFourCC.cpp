@@ -21,13 +21,13 @@ CFourCC::CFourCC(u32 src)
     *this = src;
 }
 
-CFourCC::CFourCC(CInputStream& src)
+CFourCC::CFourCC(IInputStream& src)
 {
     src.ReadBytes(&mFourCC[0], 4);
 }
 
 // ************ FUNCTIONALITY ************
-void CFourCC::Write(COutputStream &Output)
+void CFourCC::Write(IOutputStream &Output)
 {
     Output.WriteBytes(mFourCC, 4);
 }

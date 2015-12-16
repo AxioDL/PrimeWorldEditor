@@ -12,7 +12,7 @@
 #include <Common/CColor.h>
 #include <Common/EnumUtil.h>
 #include <Common/types.h>
-#include <FileIO/CInputStream.h>
+#include <FileIO/IInputStream.h>
 
 class CMaterialSet;
 

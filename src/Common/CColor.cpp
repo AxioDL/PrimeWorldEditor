@@ -5,7 +5,7 @@ CColor::CColor()
 {
 }
 
-CColor::CColor(CInputStream& rInput, bool Integral /*= false*/)
+CColor::CColor(IInputStream& rInput, bool Integral /*= false*/)
 {
     if (Integral)
     {
@@ -47,7 +47,7 @@ void CColor::SetIntegral(u8 _r, u8 _g, u8 _b, u8 _a /*= 255*/)
     a = _a / 255.f;
 }
 
-void CColor::Write(COutputStream &rOutput, bool Integral /*= false*/)
+void CColor::Write(IOutputStream &rOutput, bool Integral /*= false*/)
 {
     if (Integral)
     {

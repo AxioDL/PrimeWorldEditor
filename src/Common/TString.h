@@ -309,7 +309,7 @@ public:
         u64 part1 = std::stoull(mInternalString.substr(0, 16), nullptr, base);
         u64 part2 = std::stoull(mInternalString.substr(16, 16), nullptr, base);
 
-        if (IOUtil::SystemEndianness == IOUtil::LittleEndian)
+        if (IOUtil::kSystemEndianness == IOUtil::eLittleEndian)
         {
             IOUtil::SwapBytes(part1);
             IOUtil::SwapBytes(part2);

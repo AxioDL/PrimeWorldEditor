@@ -5,21 +5,21 @@
 
 class CTextOutStream
 {
-    FILE *mFStream;
+    FILE *mpFStream;
     std::string mFileName;
     unsigned long mSize;
 
 public:
     CTextOutStream();
-    CTextOutStream(std::string File);
-    CTextOutStream(CTextOutStream& src);
+    CTextOutStream(const std::string& rkFile);
+    CTextOutStream(const CTextOutStream& rkSrc);
     ~CTextOutStream();
-    void Open(std::string file);
+    void Open(const std::string& file);
     void Close();
 
-    void Print(const char *Format, ... );
+    void Print(const char *pkFormat, ... );
     void WriteChar(char c);
-    void WriteString(std::string Str);
+    void WriteString(const std::string& Str);
 
     bool Seek(long Offset, long Origin);
     long Tell() const;

@@ -13,7 +13,7 @@ TestDialog::TestDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    CTexture *pTex = CTextureDecoder::LoadDDS(CFileInStream("E:/test2.dds", IOUtil::LittleEndian));
+    CTexture *pTex = CTextureDecoder::LoadDDS(CFileInStream("E:/test2.dds", IOUtil::eLittleEndian));
     ui->widget->SetTexture(pTex);
 }
 

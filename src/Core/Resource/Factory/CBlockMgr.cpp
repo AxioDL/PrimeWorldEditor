@@ -1,6 +1,6 @@
 #include "CBlockMgrIn.h"
 
-CBlockMgrIn::CBlockMgrIn(unsigned long count, CInputStream* src)
+CBlockMgrIn::CBlockMgrIn(unsigned long count, IInputStream* src)
 {
     mpInputStream = src;
     mBlockCount = count;
@@ -52,7 +52,7 @@ long CBlockMgrIn::CurrentBlockSize()
     return mBlockSizes[mCurBlock];
 }
 
-void CBlockMgrIn::SetInputStream(CInputStream *in)
+void CBlockMgrIn::SetInputStream(IInputStream *in)
 {
     mpInputStream = in;
 }

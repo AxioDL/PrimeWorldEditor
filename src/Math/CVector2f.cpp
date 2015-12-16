@@ -16,13 +16,13 @@ CVector2f::CVector2f(float _x, float _y)
     y = _y;
 }
 
-CVector2f::CVector2f(CInputStream& Input)
+CVector2f::CVector2f(IInputStream& Input)
 {
     x = Input.ReadFloat();
     y = Input.ReadFloat();
 }
 
-void CVector2f::Write(COutputStream &Output)
+void CVector2f::Write(IOutputStream &Output)
 {
     Output.WriteFloat(x);
     Output.WriteFloat(y);

@@ -1,7 +1,7 @@
 #ifndef CLIGHT_H
 #define CLIGHT_H
 
-#include <FileIO/CInputStream.h>
+#include <FileIO/IInputStream.h>
 #include <Common/CColor.h>
 #include <Math/CVector3f.h>
 

@@ -1,10 +1,10 @@
-#ifndef COUTPUTSTREAM_H
-#define COUTPUTSTREAM_H
+#ifndef IOUTPUTSTREAM_H
+#define IOUTPUTSTREAM_H
 
 #include "IOUtil.h"
 #include <string>
 
-class COutputStream
+class IOutputStream
 {
 protected:
     IOUtil::EEndianness mDataEndianness;
@@ -17,19 +17,19 @@ public:
     void WriteLongLong(long long Val);
     void WriteFloat(float Val);
     void WriteDouble(double Val);
-    void WriteString(std::string Val);
-    void WriteString(std::string Val, unsigned long Count, bool Terminate = false);
-    void WriteWString(std::wstring Val);
-    void WriteWString(std::wstring Val, unsigned long Count, bool Terminate = false);
+    void WriteString(const std::string& rkVal);
+    void WriteString(const std::string& rkVal, unsigned long Count, bool Terminate = false);
+    void WriteWideString(const std::wstring& rkVal);
+    void WriteWideString(const std::wstring& rkVal, unsigned long Count, bool Terminate = false);
 
     void WriteToBoundary(unsigned long Boundary, char Fill);
     void SetEndianness(IOUtil::EEndianness Endianness);
-    void SetDestString(const std::string& Dest);
+    void SetDestString(const std::string& rkDest);
     IOUtil::EEndianness GetEndianness() const;
     std::string GetDestString() const;
 
-    virtual ~COutputStream();
-    virtual void WriteBytes(void *src, unsigned long Count) = 0;
+    virtual ~IOutputStream();
+    virtual void WriteBytes(void *pSrc, unsigned long Count) = 0;
     virtual bool Seek(long Offset, long Origin) = 0;
     virtual bool Seek64(long long Offset, long Origin);
     virtual long Tell() const = 0;

@@ -6,9 +6,9 @@
 #include <sstream>
 
 // this class probably isn't optimized! this may not be the best way to do things
-using IOUtil::SystemEndianness;
-using IOUtil::LittleEndian;
-using IOUtil::BigEndian;
+using IOUtil::kSystemEndianness;
+using IOUtil::eLittleEndian;
+using IOUtil::eBigEndian;
 
 CUniqueID::CUniqueID()
 {
@@ -36,7 +36,7 @@ CUniqueID::CUniqueID(u64 ID)
     }
 
     // Reverse for Big Endian
-    if (SystemEndianness == BigEndian)
+    if (kSystemEndianness == eBigEndian)
         Reverse();
 }
 
@@ -53,13 +53,13 @@ CUniqueID::CUniqueID(const char* ID)
     *this = CUniqueID::FromString(ID);
 }
 
-CUniqueID::CUniqueID(CInputStream& Input, EUIDLength Length)
+CUniqueID::CUniqueID(IInputStream& Input, EUIDLength Length)
 {
     memset(mID, 0, 16);
     Input.ReadBytes(&mID[16 - Length], Length);
 
     if (Length != e128Bit)
-        if (SystemEndianness == LittleEndian)
+        if (kSystemEndianness == eLittleEndian)
             Reverse();
 
     mLength = Length;
@@ -67,7 +67,7 @@ CUniqueID::CUniqueID(CInputStream& Input, EUIDLength Length)
 
 u32 CUniqueID::ToLong() const
 {
-    if (SystemEndianness == LittleEndian)
+    if (kSystemEndianness == eLittleEndian)
         return *((u32*) mID);
     else
         return *((u32*) &mID[12]);
@@ -75,7 +75,7 @@ u32 CUniqueID::ToLong() const
 
 u64 CUniqueID::ToLongLong() const
 {
-    if (SystemEndianness == LittleEndian)
+    if (kSystemEndianness == eLittleEndian)
         return *((u64*) mID);
     else
         return *((u64*) &mID[8]);
@@ -240,7 +240,7 @@ CUniqueID CUniqueID::FromString(const TString& String)
 
             u32 LongID = Name.ToInt32();
 
-            if (SystemEndianness == LittleEndian)
+            if (kSystemEndianness == eLittleEndian)
                 memcpy(ID.mID, &LongID, 4);
             else
                 memcpy(&ID.mID[12], &LongID, 4);
@@ -255,7 +255,7 @@ CUniqueID CUniqueID::FromString(const TString& String)
 
             u64 LongID = Name.ToInt64();
 
-            if (SystemEndianness == LittleEndian)
+            if (kSystemEndianness == eLittleEndian)
                 memcpy(ID.mID, &LongID, 8);
             else
                 memcpy(&ID.mID[8], &LongID, 8);

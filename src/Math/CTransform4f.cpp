@@ -10,7 +10,7 @@ CTransform4f::CTransform4f()
     *this = skIdentity;
 }
 
-CTransform4f::CTransform4f(CInputStream& input)
+CTransform4f::CTransform4f(IInputStream& input)
 {
     for (int v = 0; v < 12; v++)
         _m[v] = input.ReadFloat();

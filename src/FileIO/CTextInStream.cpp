@@ -2,19 +2,19 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-CTextInStream::CTextInStream(std::string File)
+CTextInStream::CTextInStream(const std::string& rkFile)
 {
-    mFStream = nullptr;
-    Open(File);
+    mpFStream = nullptr;
+    Open(rkFile);
 }
 
-CTextInStream::CTextInStream(CTextInStream& src)
+CTextInStream::CTextInStream(const CTextInStream& rkSrc)
 {
-    mFStream = nullptr;
-    Open(src.mFileName);
+    mpFStream = nullptr;
+    Open(rkSrc.mFileName);
 
-    if (src.IsValid())
-        Seek(src.Tell(), SEEK_SET);
+    if (rkSrc.IsValid())
+        Seek(rkSrc.Tell(), SEEK_SET);
 }
 
 CTextInStream::~CTextInStream()
@@ -23,13 +23,13 @@ CTextInStream::~CTextInStream()
         Close();
 }
 
-void CTextInStream::Open(std::string File)
+void CTextInStream::Open(const std::string& rkFile)
 {
     if (IsValid())
         Close();
 
-    fopen_s(&mFStream, File.c_str(), "r");
-    mFileName = File;
+    fopen_s(&mpFStream, rkFile.c_str(), "r");
+    mFileName = rkFile;
 
     if (IsValid())
     {
@@ -44,23 +44,23 @@ void CTextInStream::Open(std::string File)
 void CTextInStream::Close()
 {
     if (IsValid())
-        fclose(mFStream);
-    mFStream = nullptr;
+        fclose(mpFStream);
+    mpFStream = nullptr;
 }
 
-void CTextInStream::Scan(const char *Format, ... )
+void CTextInStream::Scan(const char *pkFormat, ... )
 {
     if (!IsValid()) return;
 
     va_list Args;
-    va_start(Args, Format);
-    vfscanf(mFStream, Format, Args);
+    va_start(Args, pkFormat);
+    vfscanf(mpFStream, pkFormat, Args);
 }
 
 char CTextInStream::GetChar()
 {
     if (!IsValid()) return 0;
-    return (char) fgetc(mFStream);
+    return (char) fgetc(mpFStream);
 }
 
 std::string CTextInStream::GetString()
@@ -68,20 +68,20 @@ std::string CTextInStream::GetString()
     if (!IsValid()) return "";
 
     char Buf[0x1000];
-    fgets(Buf, 0x1000, mFStream);
+    fgets(Buf, 0x1000, mpFStream);
     return std::string(Buf);
 }
 
 long CTextInStream::Seek(long Offset, long Origin)
 {
     if (!IsValid()) return 1;
-    return fseek(mFStream, Offset, Origin);
+    return fseek(mpFStream, Offset, Origin);
 }
 
 long CTextInStream::Tell() const
 {
     if (!IsValid()) return 0;
-    return ftell(mFStream);
+    return ftell(mpFStream);
 }
 
 bool CTextInStream::EoF() const
@@ -91,7 +91,7 @@ bool CTextInStream::EoF() const
 
 bool CTextInStream::IsValid() const
 {
-    return (mFStream != 0);
+    return (mpFStream != 0);
 }
 
 long CTextInStream::Size() const

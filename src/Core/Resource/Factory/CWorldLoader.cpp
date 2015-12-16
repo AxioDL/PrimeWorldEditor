@@ -7,7 +7,7 @@ CWorldLoader::CWorldLoader()
 {
 }
 
-void CWorldLoader::LoadPrimeMLVL(CInputStream& MLVL)
+void CWorldLoader::LoadPrimeMLVL(IInputStream& MLVL)
 {
     /**
      * This function loads MLVL files from Prime 1/2
@@ -218,7 +218,7 @@ void CWorldLoader::LoadPrimeMLVL(CInputStream& MLVL)
     // todo: Layer ID support for MP3
 }
 
-void CWorldLoader::LoadReturnsMLVL(CInputStream& MLVL)
+void CWorldLoader::LoadReturnsMLVL(IInputStream& MLVL)
 {
     mpWorld->mpWorldName = gResCache.GetResource(MLVL.ReadLongLong(), "STRG");
 
@@ -280,7 +280,7 @@ void CWorldLoader::LoadReturnsMLVL(CInputStream& MLVL)
     // todo: Layer ID support
 }
 
-CWorld* CWorldLoader::LoadMLVL(CInputStream& MLVL)
+CWorld* CWorldLoader::LoadMLVL(IInputStream& MLVL)
 {
     if (!MLVL.IsValid()) return nullptr;
     Log::Write("Loading " + MLVL.GetSourceString());

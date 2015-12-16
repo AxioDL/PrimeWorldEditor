@@ -45,19 +45,19 @@ private:
 
     CModelLoader();
     ~CModelLoader();
-    void LoadWorldMeshHeader(CInputStream& Model);
-    void LoadAttribArrays(CInputStream& Model);
-    void LoadAttribArraysDKCR(CInputStream& Model);
-    void LoadSurfaceOffsets(CInputStream& Model);
-    SSurface* LoadSurface(CInputStream& Model);
-    void LoadSurfaceHeaderPrime(CInputStream& Model, SSurface *pSurf);
-    void LoadSurfaceHeaderDKCR(CInputStream& Model, SSurface *pSurf);
+    void LoadWorldMeshHeader(IInputStream& Model);
+    void LoadAttribArrays(IInputStream& Model);
+    void LoadAttribArraysDKCR(IInputStream& Model);
+    void LoadSurfaceOffsets(IInputStream& Model);
+    SSurface* LoadSurface(IInputStream& Model);
+    void LoadSurfaceHeaderPrime(IInputStream& Model, SSurface *pSurf);
+    void LoadSurfaceHeaderDKCR(IInputStream& Model, SSurface *pSurf);
     SSurface* LoadAssimpMesh(const aiMesh *pMesh, CMaterialSet *pSet);
 
 public:
-    static CModel* LoadCMDL(CInputStream& CMDL);
-    static CModel* LoadWorldModel(CInputStream& MREA, CBlockMgrIn& BlockMgr, CMaterialSet& MatSet, EGame Version);
-    static CModel* LoadCorruptionWorldModel(CInputStream& MREA, CBlockMgrIn& BlockMgr, CMaterialSet& MatSet, u32 HeaderSecNum, u32 GPUSecNum, EGame Version);
+    static CModel* LoadCMDL(IInputStream& CMDL);
+    static CModel* LoadWorldModel(IInputStream& MREA, CBlockMgrIn& BlockMgr, CMaterialSet& MatSet, EGame Version);
+    static CModel* LoadCorruptionWorldModel(IInputStream& MREA, CBlockMgrIn& BlockMgr, CMaterialSet& MatSet, u32 HeaderSecNum, u32 GPUSecNum, EGame Version);
     static CModel* ImportAssimpNode(const aiNode *pNode, const aiScene *pScene, CMaterialSet& matSet);
     static EGame GetFormatVersion(u32 Version);
 };

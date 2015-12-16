@@ -15,7 +15,7 @@ CAnimationParameters::CAnimationParameters()
     mUnknown4 = 0;
 }
 
-CAnimationParameters::CAnimationParameters(CInputStream& SCLY, EGame game)
+CAnimationParameters::CAnimationParameters(IInputStream& SCLY, EGame game)
 {
     mGame = game;
     mpCharSet = nullptr;

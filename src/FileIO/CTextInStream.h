@@ -6,19 +6,19 @@
 
 class CTextInStream
 {
-    FILE *mFStream;
+    FILE *mpFStream;
     std::string mFileName;
     long mFileSize;
 
 public:
     CTextInStream();
-    CTextInStream(std::string File);
-    CTextInStream(CTextInStream& src);
+    CTextInStream(const std::string& rkFile);
+    CTextInStream(const CTextInStream& rkSrc);
     ~CTextInStream();
-    void Open(std::string File);
+    void Open(const std::string& rkFile);
     void Close();
 
-    void Scan(const char *Format, ... );
+    void Scan(const char *pkFormat, ... );
     char GetChar();
     std::string GetString();
 

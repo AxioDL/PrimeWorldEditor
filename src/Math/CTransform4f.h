@@ -20,7 +20,7 @@ class CTransform4f
 
 public:
     CTransform4f();
-    CTransform4f(CInputStream& input);
+    CTransform4f(IInputStream& input);
     CTransform4f(float v);
     CTransform4f(float m00, float m01, float m02, float m03,
                  float m10, float m11, float m12, float m13,

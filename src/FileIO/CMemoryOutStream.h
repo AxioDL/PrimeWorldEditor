@@ -1,22 +1,22 @@
 #ifndef CMEMORYOUTSTREAM_H
 #define CMEMORYOUTSTREAM_H
 
-#include "COutputStream.h"
+#include "IOutputStream.h"
 
-class CMemoryOutStream : public COutputStream
+class CMemoryOutStream : public IOutputStream
 {
-    char *mDataStart;
+    char *mpDataStart;
     long mDataSize;
     long mPos;
     long mUsed;
 
 public:
     CMemoryOutStream();
-    CMemoryOutStream(void *Data, unsigned long Size, IOUtil::EEndianness mDataEndianness);
+    CMemoryOutStream(void *pData, unsigned long Size, IOUtil::EEndianness mDataEndianness);
     ~CMemoryOutStream();
-    void SetData(void *Data, unsigned long Size, IOUtil::EEndianness mDataEndianness);
+    void SetData(void *pData, unsigned long Size, IOUtil::EEndianness mDataEndianness);
 
-    void WriteBytes(void *src, unsigned long count);
+    void WriteBytes(void *pSrc, unsigned long count);
     bool Seek(long offset, long origin);
     long Tell() const;
     bool EoF() const;

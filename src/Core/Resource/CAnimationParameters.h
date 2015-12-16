@@ -19,7 +19,7 @@ class CAnimationParameters
 
 public:
     CAnimationParameters();
-    CAnimationParameters(CInputStream& SCLY, EGame game);
+    CAnimationParameters(IInputStream& SCLY, EGame game);
     CModel* GetCurrentModel(s32 nodeIndex = -1);
 
     // Getters

@@ -13,7 +13,7 @@ CPakFile::CPakFile()
     pak = nullptr;
 }
 
-CPakFile::CPakFile(CInputStream* pakfile)
+CPakFile::CPakFile(IInputStream* pakfile)
 {
     pak = pakfile;
     if (!pak->IsValid()) return;
@@ -154,7 +154,7 @@ bool CPakFile::decompress(u8 *src, u32 src_len, u8 *dst, u32 dst_len)
         while ((src < src_end) && (dst < dst_end)) {
             short block_size;
             memcpy(&block_size, src, 2);
-            if (IOUtil::SystemEndianness == IOUtil::LittleEndian) IOUtil::SwapBytes(block_size);
+            if (IOUtil::kSystemEndianness == IOUtil::eLittleEndian) IOUtil::SwapBytes(block_size);
             src += 2;
 
             ret = lzo1x_decompress(src, block_size, dst, &decmp, LZO1X_MEM_DECOMPRESS);

@@ -2,8 +2,8 @@
 #define CAABOX_H
 
 #include "CVector3f.h"
-#include <FileIO/CInputStream.h>
-#include <FileIO/COutputStream.h>
+#include <FileIO/IInputStream.h>
+#include <FileIO/IOutputStream.h>
 #include <utility>
 
 class CRay;
@@ -16,8 +16,8 @@ class CAABox
 public:
     CAABox();
     CAABox(const CVector3f& Min, const CVector3f& Max);
-    CAABox(CInputStream& input);
-    void Write(COutputStream& Output);
+    CAABox(IInputStream& input);
+    void Write(IOutputStream& Output);
     CVector3f Center() const;
     CVector3f Size() const;
     CVector3f Min() const;

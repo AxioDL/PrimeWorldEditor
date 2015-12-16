@@ -2,28 +2,28 @@
 
 CFileInStream::CFileInStream()
 {
-    mFStream = nullptr;
+    mpFStream = nullptr;
 }
 
-CFileInStream::CFileInStream(std::string File)
+CFileInStream::CFileInStream(const std::string& rkFile)
 {
-    mFStream = nullptr;
-    Open(File, IOUtil::BigEndian);
+    mpFStream = nullptr;
+    Open(rkFile, IOUtil::eBigEndian);
 }
 
-CFileInStream::CFileInStream(std::string File, IOUtil::EEndianness FileEndianness)
+CFileInStream::CFileInStream(const std::string& rkFile, IOUtil::EEndianness FileEndianness)
 {
-    mFStream = nullptr;
-    Open(File, FileEndianness);
+    mpFStream = nullptr;
+    Open(rkFile, FileEndianness);
 }
 
-CFileInStream::CFileInStream(CFileInStream& src)
+CFileInStream::CFileInStream(const CFileInStream& rkSrc)
 {
-    mFStream = nullptr;
-    Open(src.mName, src.mDataEndianness);
+    mpFStream = nullptr;
+    Open(rkSrc.mName, rkSrc.mDataEndianness);
 
-    if (src.IsValid())
-        Seek(src.Tell(), SEEK_SET);
+    if (rkSrc.IsValid())
+        Seek(rkSrc.Tell(), SEEK_SET);
 }
 
 CFileInStream::~CFileInStream()
@@ -32,13 +32,13 @@ CFileInStream::~CFileInStream()
         Close();
 }
 
-void CFileInStream::Open(std::string File, IOUtil::EEndianness FileEndianness)
+void CFileInStream::Open(const std::string& rkFile, IOUtil::EEndianness FileEndianness)
 {
     if (IsValid())
         Close();
 
-    fopen_s(&mFStream, File.c_str(), "rb");
-    mName = File;
+    fopen_s(&mpFStream, rkFile.c_str(), "rb");
+    mName = rkFile;
     mDataEndianness = FileEndianness;
 
     if (IsValid())
@@ -50,45 +50,45 @@ void CFileInStream::Open(std::string File, IOUtil::EEndianness FileEndianness)
     else
         mFileSize = 0;
 
-    size_t EndPath = File.find_last_of("\\/");
-    SetSourceString(File.substr(EndPath + 1, File.length() - EndPath));
+    size_t EndPath = rkFile.find_last_of("\\/");
+    SetSourceString(rkFile.substr(EndPath + 1, rkFile.length() - EndPath));
 }
 
 void CFileInStream::Close()
 {
     if (IsValid())
-        fclose(mFStream);
-    mFStream = nullptr;
+        fclose(mpFStream);
+    mpFStream = nullptr;
 }
 
-void CFileInStream::ReadBytes(void *dst, unsigned long Count)
+void CFileInStream::ReadBytes(void *pDst, unsigned long Count)
 {
     if (!IsValid()) return;
-    fread(dst, 1, Count, mFStream);
+    fread(pDst, 1, Count, mpFStream);
 }
 
 bool CFileInStream::Seek(long Offset, long Origin)
 {
     if (!IsValid()) return false;
-    return (fseek(mFStream, Offset, Origin) != 0);
+    return (fseek(mpFStream, Offset, Origin) != 0);
 }
 
 bool CFileInStream::Seek64(long long Offset, long Origin)
 {
     if (!IsValid()) return false;
-    return (_fseeki64(mFStream, Offset, Origin) != 0);
+    return (_fseeki64(mpFStream, Offset, Origin) != 0);
 }
 
 long CFileInStream::Tell() const
 {
     if (!IsValid()) return 0;
-    return ftell(mFStream);
+    return ftell(mpFStream);
 }
 
 long long CFileInStream::Tell64() const
 {
     if (!IsValid()) return 0;
-    return _ftelli64(mFStream);
+    return _ftelli64(mpFStream);
 }
 
 bool CFileInStream::EoF() const
@@ -98,7 +98,7 @@ bool CFileInStream::EoF() const
 
 bool CFileInStream::IsValid() const
 {
-    return (mFStream != 0);
+    return (mpFStream != 0);
 }
 
 long CFileInStream::Size() const

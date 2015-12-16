@@ -6,25 +6,22 @@ CCollisionLoader::CCollisionLoader()
 {
 }
 
-CCollisionMesh::CCollisionOctree* CCollisionLoader::ParseOctree(CInputStream&)
+CCollisionMesh::CCollisionOctree* CCollisionLoader::ParseOctree(IInputStream& /*src*/)
 {
-    // Not using: Parameter 1 (CInputStream& - src)
     return nullptr;
 }
 
-CCollisionMesh::CCollisionOctree::SBranch* CCollisionLoader::ParseOctreeBranch(CInputStream&)
+CCollisionMesh::CCollisionOctree::SBranch* CCollisionLoader::ParseOctreeBranch(IInputStream& /*src*/)
 {
-    // Not using: Parameter 1 (CInputStream& - src)
     return nullptr;
 }
 
-CCollisionMesh::CCollisionOctree::SLeaf* CCollisionLoader::ParseOctreeLeaf(CInputStream&)
+CCollisionMesh::CCollisionOctree::SLeaf* CCollisionLoader::ParseOctreeLeaf(IInputStream& /*src*/)
 {
-    // Not using: Parameter 1 (CInputStream& - src)
     return nullptr;
 }
 
-void CCollisionLoader::ParseOBBNode(CInputStream& DCLN)
+void CCollisionLoader::ParseOBBNode(IInputStream& DCLN)
 {
     bool b = false;
 
@@ -39,7 +36,7 @@ void CCollisionLoader::ParseOBBNode(CInputStream& DCLN)
     DCLN.Seek(numFaces * 2, SEEK_CUR);
 }
 
-void CCollisionLoader::ReadPropertyFlags(CInputStream& src)
+void CCollisionLoader::ReadPropertyFlags(IInputStream& src)
 {
     CCollisionMesh::SCollisionProperties property;
 
@@ -64,7 +61,7 @@ void CCollisionLoader::ReadPropertyFlags(CInputStream& src)
     mProperties.push_back(property);
 }
 
-void CCollisionLoader::LoadCollisionIndices(CInputStream &file, bool buildAABox)
+void CCollisionLoader::LoadCollisionIndices(IInputStream &file, bool buildAABox)
 {
     // Properties
     u32 propSetCount = file.ReadLong();
@@ -131,7 +128,7 @@ void CCollisionLoader::LoadCollisionIndices(CInputStream &file, bool buildAABox)
 }
 
 // ************ STATIC ************
-CCollisionMeshGroup* CCollisionLoader::LoadAreaCollision(CInputStream& MREA)
+CCollisionMeshGroup* CCollisionLoader::LoadAreaCollision(IInputStream& MREA)
 {
     if (!MREA.IsValid()) return nullptr;
     CCollisionLoader loader;
@@ -162,7 +159,7 @@ CCollisionMeshGroup* CCollisionLoader::LoadAreaCollision(CInputStream& MREA)
     return loader.mpGroup;
 }
 
-CCollisionMeshGroup* CCollisionLoader::LoadDCLN(CInputStream &DCLN)
+CCollisionMeshGroup* CCollisionLoader::LoadDCLN(IInputStream &DCLN)
 {
     if (!DCLN.IsValid()) return nullptr;
 

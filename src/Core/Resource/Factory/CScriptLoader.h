@@ -17,18 +17,18 @@ class CScriptLoader
 
     CScriptLoader();
 
-    CPropertyStruct* LoadStructMP1(CInputStream& SCLY, CStructTemplate *tmp);
-    CScriptObject* LoadObjectMP1(CInputStream& SCLY);
-    CScriptLayer* LoadLayerMP1(CInputStream& SCLY);
+    CPropertyStruct* LoadStructMP1(IInputStream& SCLY, CStructTemplate *tmp);
+    CScriptObject* LoadObjectMP1(IInputStream& SCLY);
+    CScriptLayer* LoadLayerMP1(IInputStream& SCLY);
 
-    void LoadStructMP2(CInputStream& SCLY, CPropertyStruct *pStruct, CStructTemplate *pTemp);
-    CScriptObject* LoadObjectMP2(CInputStream& SCLY);
-    CScriptLayer* LoadLayerMP2(CInputStream& SCLY);
+    void LoadStructMP2(IInputStream& SCLY, CPropertyStruct *pStruct, CStructTemplate *pTemp);
+    CScriptObject* LoadObjectMP2(IInputStream& SCLY);
+    CScriptLayer* LoadLayerMP2(IInputStream& SCLY);
 
     void SetupAttribs();
 
 public:
-    static CScriptLayer* LoadLayer(CInputStream& SCLY, CGameArea *pArea, EGame version);
+    static CScriptLayer* LoadLayer(IInputStream& SCLY, CGameArea *pArea, EGame version);
 };
 
 #endif // CSCRIPTLOADER_H

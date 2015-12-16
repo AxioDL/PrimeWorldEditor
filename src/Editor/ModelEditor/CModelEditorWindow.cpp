@@ -714,7 +714,7 @@ void CModelEditorWindow::on_actionConvert_to_DDS_triggered()
     TResPtr<CTexture> pTex = (CTexture*) gResCache.GetResource(TexFilename);
     TString OutName = TexFilename.GetFilePathWithoutExtension() + ".dds";
 
-    CFileOutStream Out(OutName.ToStdString(), IOUtil::LittleEndian);
+    CFileOutStream Out(OutName.ToStdString(), IOUtil::eLittleEndian);
     if (!Out.IsValid()) QMessageBox::warning(this, "Error", "Couldn't open output DDS!");
 
     else
@@ -751,7 +751,7 @@ void CModelEditorWindow::on_actionSave_triggered()
         return;
     }
 
-    CFileOutStream CMDLOut(mOutputFilename.toStdString(), IOUtil::BigEndian);
+    CFileOutStream CMDLOut(mOutputFilename.toStdString(), IOUtil::eBigEndian);
     CModelCooker::WriteCookedModel(mpCurrentModel, ePrime, CMDLOut);
     QMessageBox::information(this, "Saved", "Model saved!");
 }
@@ -866,7 +866,7 @@ void CModelEditorWindow::on_actionConvert_DDS_to_TXTR_triggered()
     if (Input.isEmpty()) return;
 
     TString TexFilename = TO_TSTRING(Input);
-    CTexture *Tex = CTextureDecoder::LoadDDS(CFileInStream(TexFilename.ToStdString(), IOUtil::LittleEndian));
+    CTexture *Tex = CTextureDecoder::LoadDDS(CFileInStream(TexFilename.ToStdString(), IOUtil::eLittleEndian));
     TString OutName = TexFilename.GetFilePathWithoutExtension() + ".txtr";
 
     if ((Tex->TexelFormat() != eDXT1) || (Tex->NumMipMaps() > 1))
@@ -874,7 +874,7 @@ void CModelEditorWindow::on_actionConvert_DDS_to_TXTR_triggered()
 
     else
     {
-        CFileOutStream Out(OutName.ToStdString(), IOUtil::BigEndian);
+        CFileOutStream Out(OutName.ToStdString(), IOUtil::eBigEndian);
         if (!Out.IsValid()) QMessageBox::warning(this, "Error", "Couldn't open output TXTR!");
 
         else

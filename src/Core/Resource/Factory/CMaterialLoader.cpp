@@ -591,7 +591,7 @@ CMaterial* CMaterialLoader::LoadAssimpMaterial(const aiMaterial *pAiMat)
 }
 
 // ************ STATIC ************
-CMaterialSet* CMaterialLoader::LoadMaterialSet(CInputStream& Mat, EGame Version)
+CMaterialSet* CMaterialLoader::LoadMaterialSet(IInputStream& Mat, EGame Version)
 {
     CMaterialLoader Loader;
     Loader.mpSet = new CMaterialSet();

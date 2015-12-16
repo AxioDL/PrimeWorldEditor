@@ -10,7 +10,7 @@ CScriptLoader::CScriptLoader()
     mpObj = nullptr;
 }
 
-CPropertyStruct* CScriptLoader::LoadStructMP1(CInputStream& SCLY, CStructTemplate *pTemp)
+CPropertyStruct* CScriptLoader::LoadStructMP1(IInputStream& SCLY, CStructTemplate *pTemp)
 {
     u32 structStart = SCLY.Tell();
     CPropertyStruct *propStruct = new CPropertyStruct();
@@ -143,7 +143,7 @@ CPropertyStruct* CScriptLoader::LoadStructMP1(CInputStream& SCLY, CStructTemplat
     return propStruct;
 }
 
-CScriptObject* CScriptLoader::LoadObjectMP1(CInputStream& SCLY)
+CScriptObject* CScriptLoader::LoadObjectMP1(IInputStream& SCLY)
 {
     u32 objStart = SCLY.Tell();
     u8 type = SCLY.ReadByte();
@@ -192,7 +192,7 @@ CScriptObject* CScriptLoader::LoadObjectMP1(CInputStream& SCLY)
     return mpObj;
 }
 
-CScriptLayer* CScriptLoader::LoadLayerMP1(CInputStream &SCLY)
+CScriptLayer* CScriptLoader::LoadLayerMP1(IInputStream &SCLY)
 {
     u32 LayerStart = SCLY.Tell();
 
@@ -215,7 +215,7 @@ CScriptLayer* CScriptLoader::LoadLayerMP1(CInputStream &SCLY)
     return mpLayer;
 }
 
-void CScriptLoader::LoadStructMP2(CInputStream& SCLY, CPropertyStruct *pStruct, CStructTemplate *pTemp)
+void CScriptLoader::LoadStructMP2(IInputStream& SCLY, CPropertyStruct *pStruct, CStructTemplate *pTemp)
 {
     // Verify property count
     u32 propCount = pTemp->Count();
@@ -417,7 +417,7 @@ void CScriptLoader::LoadStructMP2(CInputStream& SCLY, CPropertyStruct *pStruct, 
     }
 }
 
-CScriptObject* CScriptLoader::LoadObjectMP2(CInputStream& SCLY)
+CScriptObject* CScriptLoader::LoadObjectMP2(IInputStream& SCLY)
 {
     u32 ObjStart = SCLY.Tell();
     u32 ObjectID = SCLY.ReadLong();
@@ -464,7 +464,7 @@ CScriptObject* CScriptLoader::LoadObjectMP2(CInputStream& SCLY)
     return mpObj;
 }
 
-CScriptLayer* CScriptLoader::LoadLayerMP2(CInputStream& SCLY)
+CScriptLayer* CScriptLoader::LoadLayerMP2(IInputStream& SCLY)
 {
     CFourCC SCLY_Magic(SCLY);
 
@@ -496,7 +496,7 @@ CScriptLayer* CScriptLoader::LoadLayerMP2(CInputStream& SCLY)
     return mpLayer;
 }
 
-CScriptLayer* CScriptLoader::LoadLayer(CInputStream &SCLY, CGameArea *pArea, EGame version)
+CScriptLayer* CScriptLoader::LoadLayer(IInputStream &SCLY, CGameArea *pArea, EGame version)
 {
     if (!SCLY.IsValid()) return nullptr;
 

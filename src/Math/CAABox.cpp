@@ -16,13 +16,13 @@ CAABox::CAABox(const CVector3f& Min, const CVector3f& Max)
     mMax = Max;
 }
 
-CAABox::CAABox(CInputStream& input)
+CAABox::CAABox(IInputStream& input)
 {
     mMin = CVector3f(input);
     mMax = CVector3f(input);
 }
 
-void CAABox::Write(COutputStream& Output)
+void CAABox::Write(IOutputStream& Output)
 {
     mMin.Write(Output);
     mMax.Write(Output);

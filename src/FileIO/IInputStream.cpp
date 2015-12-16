@@ -1,57 +1,57 @@
-#include "CInputStream.h"
+#include "IInputStream.h"
 
-CInputStream::~CInputStream()
+IInputStream::~IInputStream()
 {
 }
 
-char CInputStream::ReadByte()
+char IInputStream::ReadByte()
 {
     char Val;
     ReadBytes(&Val, 1);
     return Val;
 }
 
-short CInputStream::ReadShort()
+short IInputStream::ReadShort()
 {
     short Val;
     ReadBytes(&Val, 2);
-    if (mDataEndianness != IOUtil::SystemEndianness) IOUtil::SwapBytes(Val);
+    if (mDataEndianness != IOUtil::kSystemEndianness) IOUtil::SwapBytes(Val);
     return Val;
 }
 
-long CInputStream::ReadLong()
+long IInputStream::ReadLong()
 {
     long Val;
     ReadBytes(&Val, 4);
-    if (mDataEndianness != IOUtil::SystemEndianness) IOUtil::SwapBytes(Val);
+    if (mDataEndianness != IOUtil::kSystemEndianness) IOUtil::SwapBytes(Val);
     return Val;
 }
 
-long long CInputStream::ReadLongLong()
+long long IInputStream::ReadLongLong()
 {
     long long Val;
     ReadBytes(&Val, 8);
-    if (mDataEndianness != IOUtil::SystemEndianness) IOUtil::SwapBytes(Val);
+    if (mDataEndianness != IOUtil::kSystemEndianness) IOUtil::SwapBytes(Val);
     return Val;
 }
 
-float CInputStream::ReadFloat()
+float IInputStream::ReadFloat()
 {
     float Val;
     ReadBytes(&Val, 4);
-    if (mDataEndianness != IOUtil::SystemEndianness) IOUtil::SwapBytes(Val);
+    if (mDataEndianness != IOUtil::kSystemEndianness) IOUtil::SwapBytes(Val);
     return Val;
 }
 
-double CInputStream::ReadDouble()
+double IInputStream::ReadDouble()
 {
     double Val;
     ReadBytes(&Val, 8);
-    if (mDataEndianness != IOUtil::SystemEndianness) IOUtil::SwapBytes(Val);
+    if (mDataEndianness != IOUtil::kSystemEndianness) IOUtil::SwapBytes(Val);
     return Val;
 }
 
-std::string CInputStream::ReadString()
+std::string IInputStream::ReadString()
 {
     std::string Str;
     char c = 1;
@@ -65,7 +65,7 @@ std::string CInputStream::ReadString()
     return Str;
 }
 
-std::string CInputStream::ReadString(unsigned long Count)
+std::string IInputStream::ReadString(unsigned long Count)
 {
     std::string Str(Count, 0);
 
@@ -75,7 +75,7 @@ std::string CInputStream::ReadString(unsigned long Count)
     return Str;
 }
 
-std::wstring CInputStream::ReadWString()
+std::wstring IInputStream::ReadWString()
 {
     std::wstring WStr;
     short c = 1;
@@ -89,7 +89,7 @@ std::wstring CInputStream::ReadWString()
     return WStr;
 }
 
-std::wstring CInputStream::ReadWString(unsigned long Count)
+std::wstring IInputStream::ReadWString(unsigned long Count)
 {
     std::wstring WStr(Count, 0);
 
@@ -100,81 +100,81 @@ std::wstring CInputStream::ReadWString(unsigned long Count)
 }
 
 
-char CInputStream::PeekByte()
+char IInputStream::PeekByte()
 {
     char Val = ReadByte();
     Seek(-1, SEEK_CUR);
     return Val;
 }
 
-short CInputStream::PeekShort()
+short IInputStream::PeekShort()
 {
     short Val = ReadShort();
     Seek(-2, SEEK_CUR);
     return Val;
 }
 
-long CInputStream::PeekLong()
+long IInputStream::PeekLong()
 {
     long Val = ReadLong();
     Seek(-4, SEEK_CUR);
     return Val;
 }
 
-long long CInputStream::PeekLongLong()
+long long IInputStream::PeekLongLong()
 {
     long long Val = ReadLongLong();
     Seek(-8, SEEK_CUR);
     return Val;
 }
 
-float CInputStream::PeekFloat()
+float IInputStream::PeekFloat()
 {
     float Val = ReadFloat();
     Seek(-4, SEEK_CUR);
     return Val;
 }
 
-double CInputStream::PeekDouble()
+double IInputStream::PeekDouble()
 {
     double Val = ReadDouble();
     Seek(-8, SEEK_CUR);
     return Val;
 }
 
-void CInputStream::SeekToBoundary(unsigned long Boundary)
+void IInputStream::SeekToBoundary(unsigned long Boundary)
 {
     long Num = Boundary - (Tell() % Boundary);
     if (Num == Boundary) return;
     else Seek(Num, SEEK_CUR);
 }
 
-void CInputStream::SetEndianness(IOUtil::EEndianness Endianness)
+void IInputStream::SetEndianness(IOUtil::EEndianness Endianness)
 {
     mDataEndianness = Endianness;
 }
 
-void CInputStream::SetSourceString(const std::string& source)
+void IInputStream::SetSourceString(const std::string& rkSource)
 {
-    mDataSource = source;
+    mDataSource = rkSource;
 }
 
-IOUtil::EEndianness CInputStream::GetEndianness() const
+IOUtil::EEndianness IInputStream::GetEndianness() const
 {
     return mDataEndianness;
 }
 
-std::string CInputStream::GetSourceString() const
+std::string IInputStream::GetSourceString() const
 {
     return mDataSource;
 }
 
-bool CInputStream::Seek64(long long Offset, long Origin)
+bool IInputStream::Seek64(long long Offset, long Origin)
 {
     return Seek((long) Offset, Origin);
 }
 
-long long CInputStream::Tell64() const
+long long IInputStream::Tell64() const
 {
     return (long long) Tell();
 }

@@ -18,12 +18,12 @@ class CModelCooker
 
     CModelCooker();
     void GenerateSurfaceData();
-    void WriteEditorModel(COutputStream& Out);
-    void WriteModelPrime(COutputStream& Out);
+    void WriteEditorModel(IOutputStream& Out);
+    void WriteModelPrime(IOutputStream& Out);
 
 public:
-    static void WriteCookedModel(CModel *pModel, EGame Version, COutputStream& Out);
-    static void WriteUncookedModel(CModel *pModel, COutputStream& Out);
+    static void WriteCookedModel(CModel *pModel, EGame Version, IOutputStream& Out);
+    static void WriteUncookedModel(CModel *pModel, IOutputStream& Out);
     static u32 GetCMDLVersion(EGame Version);
 };
 
