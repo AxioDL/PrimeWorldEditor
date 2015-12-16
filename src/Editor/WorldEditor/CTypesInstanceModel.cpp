@@ -257,8 +257,8 @@ QVariant CTypesInstanceModel::data(const QModelIndex &index, int role) const
     {
         if (!mpScene) return QVariant::Invalid;
 
-        static QIcon Visible(":/icons/EditorAssets/Show.png");
-        static QIcon Invisible(":/icons/EditorAssets/Hide.png");
+        static QIcon Visible(":/icons/Show.png");
+        static QIcon Invisible(":/icons/Hide.png");
 
         // Show/Hide Node Types
         if (type == eNodeTypeIndex)

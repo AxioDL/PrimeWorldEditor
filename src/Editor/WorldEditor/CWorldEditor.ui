@@ -342,7 +342,7 @@
         <enum>QTabWidget::Rounded</enum>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>4</number>
        </property>
        <property name="iconSize">
         <size>
@@ -356,7 +356,7 @@
        <widget class="QWidget" name="CreateTab">
         <attribute name="icon">
          <iconset resource="../Icons.qrc">
-          <normaloff>:/icons/EditorAssets/Create.png</normaloff>:/icons/EditorAssets/Create.png</iconset>
+          <normaloff>:/icons/Create.png</normaloff>:/icons/Create.png</iconset>
         </attribute>
         <attribute name="title">
          <string/>
@@ -368,7 +368,7 @@
        <widget class="QWidget" name="ModifyTab">
         <attribute name="icon">
          <iconset resource="../Icons.qrc">
-          <normaloff>:/icons/EditorAssets/Modify.png</normaloff>:/icons/EditorAssets/Modify.png</iconset>
+          <normaloff>:/icons/Modify.png</normaloff>:/icons/Modify.png</iconset>
         </attribute>
         <attribute name="title">
          <string/>
@@ -397,7 +397,7 @@
        <widget class="QWidget" name="InstancesTab">
         <attribute name="icon">
          <iconset resource="../Icons.qrc">
-          <normaloff>:/icons/EditorAssets/Instances.png</normaloff>:/icons/EditorAssets/Instances.png</iconset>
+          <normaloff>:/icons/Instances.png</normaloff>:/icons/Instances.png</iconset>
         </attribute>
         <attribute name="title">
          <string/>
@@ -426,7 +426,7 @@
        <widget class="QWidget" name="DisplayTab">
         <attribute name="icon">
          <iconset resource="../Icons.qrc">
-          <normaloff>:/icons/EditorAssets/Display.png</normaloff>:/icons/EditorAssets/Display.png</iconset>
+          <normaloff>:/icons/Display.png</normaloff>:/icons/Display.png</iconset>
         </attribute>
         <attribute name="title">
          <string/>
@@ -438,7 +438,7 @@
        <widget class="QWidget" name="WorldTab">
         <attribute name="icon">
          <iconset resource="../Icons.qrc">
-          <normaloff>:/icons/EditorAssets/World.png</normaloff>:/icons/EditorAssets/World.png</iconset>
+          <normaloff>:/icons/World.png</normaloff>:/icons/World.png</iconset>
         </attribute>
         <attribute name="title">
          <string/>
@@ -493,7 +493,7 @@
   <action name="ActionLink">
    <property name="icon">
     <iconset resource="../Icons.qrc">
-     <normaloff>:/icons/EditorAssets/Link.png</normaloff>:/icons/EditorAssets/Link.png</iconset>
+     <normaloff>:/icons/Link.png</normaloff>:/icons/Link.png</iconset>
    </property>
    <property name="text">
     <string>Link</string>
@@ -505,7 +505,7 @@
   <action name="ActionUnlink">
    <property name="icon">
     <iconset resource="../Icons.qrc">
-     <normaloff>:/icons/EditorAssets/Unlink.png</normaloff>:/icons/EditorAssets/Unlink.png</iconset>
+     <normaloff>:/icons/Unlink.png</normaloff>:/icons/Unlink.png</iconset>
    </property>
    <property name="text">
     <string>Unlink</string>

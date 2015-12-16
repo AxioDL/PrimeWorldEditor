@@ -11,7 +11,7 @@
 #include <gtx/transform.hpp>
 
 u32 CSceneNode::smNumNodes = 0;
-CColor CSceneNode::skSelectionTint((u8) 39, 154, 167, 255);
+CColor CSceneNode::skSelectionTint = CColor::Integral(39, 154, 167);
 
 CSceneNode::CSceneNode(CSceneManager *pScene, CSceneNode *pParent)
 {
