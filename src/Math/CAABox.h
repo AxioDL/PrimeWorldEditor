@@ -43,7 +43,9 @@ public:
 
     // Operators
     CAABox operator+(const CVector3f& translate) const;
+    void operator+=(const CVector3f& translate);
     CAABox operator*(float scalar) const;
+    void operator*=(float scalar);
     bool operator==(const CAABox& Other) const;
     bool operator!=(const CAABox& Other) const;
 

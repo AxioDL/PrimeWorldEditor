@@ -158,9 +158,19 @@ CAABox CAABox::operator+(const CVector3f& translate) const
     return CAABox(mMin + translate, mMax + translate);
 }
 
+void CAABox::operator+=(const CVector3f& translate)
+{
+    *this = *this + translate;
+}
+
 CAABox CAABox::operator*(float scalar) const
 {
     return CAABox(mMin * scalar, mMax * scalar);
+}
+
+void CAABox::operator*=(float scalar)
+{
+    *this = *this * scalar;
 }
 
 bool CAABox::operator==(const CAABox& Other) const

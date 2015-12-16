@@ -2495,7 +2495,7 @@
     <property ID="0x787855E6" name="Unknown" type="float"/>
     <property ID="0x78871CE9" name="Unknown" type="float"/>
     <struct ID="0x78A69A53" name="Unknown"/>
-    <property ID="0x78C507EB" name="Unknown" type="float"/>
+    <property ID="0x78C507EB" name="Radius" type="float"/>
     <struct ID="0x78D03A32" name="Unknown" template="Structs/ArrayType1.xml"/>
     <struct ID="0x78DF0B7D" name="Unknown"/>
     <property ID="0x78DF0E7F" name="CAUD" type="file" ext="CAUD"/>

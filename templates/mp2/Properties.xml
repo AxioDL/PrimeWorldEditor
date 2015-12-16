@@ -1975,7 +1975,7 @@
     <property ID="0x787855E6" name="Unknown" type="float"/>
     <struct ID="0x78A13CA0" name="Unknown"/>
     <property ID="0x78BE3B8D" name="Unknown" type="unknown"/>
-    <property ID="0x78C507EB" name="Unknown" type="float"/>
+    <property ID="0x78C507EB" name="Radius" type="float"/>
     <property ID="0x78D03A32" name="Unknown" type="array"/>
     <struct ID="0x78D76034" name="Unknown"/>
     <property ID="0x78E22D1B" name="Unknown" type="float"/>
