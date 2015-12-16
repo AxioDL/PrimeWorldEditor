@@ -257,9 +257,9 @@ void CModelEditorWindow::SetActiveMaterial(int MatIndex)
         QTableWidgetItem *pItemB = new QTableWidgetItem();
 
         if (pPass->IsEnabled())
-            pItemB->setIcon(QIcon(":/icons/EditorAssets/Show.png"));
+            pItemB->setIcon(QIcon(":/icons/Show.png"));
         else
-            pItemB->setIcon(QIcon(":/icons/EditorAssets/Hide.png"));
+            pItemB->setIcon(QIcon(":/icons/Hide.png"));
 
         ui->PassTable->setItem(iPass, 0, pItemA);
         ui->PassTable->setItem(iPass, 1, pItemB);
@@ -466,9 +466,9 @@ void CModelEditorWindow::UpdateMaterial(int ValueA, int ValueB)
         mpCurrentMat->Pass(ValueA)->SetEnabled(Enabled);
 
         if (Enabled)
-            ui->PassTable->item(ValueA, ValueB)->setIcon(QIcon(":/icons/EditorAssets/Show.png"));
+            ui->PassTable->item(ValueA, ValueB)->setIcon(QIcon(":/icons/Show.png"));
         else
-            ui->PassTable->item(ValueA, ValueB)->setIcon(QIcon(":/icons/EditorAssets/Hide.png"));
+            ui->PassTable->item(ValueA, ValueB)->setIcon(QIcon(":/icons/Hide.png"));
     }
 }
 
@@ -778,7 +778,7 @@ void CModelEditorWindow::on_FlatPreviewButton_clicked()
 
 void CModelEditorWindow::on_ClearColorPicker_colorChanged(const QColor &Color)
 {
-    CColor NewColor((u8) Color.red(), (u8) Color.green(), (u8) Color.blue(), 255);
+    CColor NewColor = CColor::Integral(Color.red(), Color.green(), Color.blue(), Color.alpha());
     ui->Viewport->SetClearColor(NewColor);
 }
 
@@ -844,14 +844,14 @@ void CModelEditorWindow::on_CameraModeButton_clicked()
     if (pCam->MoveMode() == eOrbitCamera)
     {
         pCam->SetMoveMode(eFreeCamera);
-        ui->CameraModeButton->setIcon(QIcon(":/icons/EditorAssets/Show.png"));
+        ui->CameraModeButton->setIcon(QIcon(":/icons/Show.png"));
         ui->CameraModeButton->setToolTip(QString("Free Camera"));
     }
 
     else if (pCam->MoveMode() == eFreeCamera)
     {
         pCam->SetMoveMode(eOrbitCamera);
-        ui->CameraModeButton->setIcon(QIcon(":/icons/EditorAssets/Orbit Camera.png"));
+        ui->CameraModeButton->setIcon(QIcon(":/icons/Orbit Camera.png"));
         ui->CameraModeButton->setToolTip(QString("Orbit Camera"));
 
         CVector3f Pos = pCam->Position();

@@ -18,10 +18,10 @@ INodeEditor::INodeEditor(QWidget *pParent)
     mUndoActions.push_back(pRedoAction);
 
     // Create gizmo actions
-    mGizmoActions.append(new QAction(QIcon(":/icons/EditorAssets/SelectMode.png"), "Select Objects", this));
-    mGizmoActions.append(new QAction(QIcon(":/icons/EditorAssets/Translate.png"), "Translate", this));
-    mGizmoActions.append(new QAction(QIcon(":/icons/EditorAssets/Rotate.png"), "Rotate", this));
-    mGizmoActions.append(new QAction(QIcon(":/icons/EditorAssets/Scale.png"), "Scale", this));
+    mGizmoActions.append(new QAction(QIcon(":/icons/SelectMode.png"), "Select Objects", this));
+    mGizmoActions.append(new QAction(QIcon(":/icons/Translate.png"), "Translate", this));
+    mGizmoActions.append(new QAction(QIcon(":/icons/Rotate.png"), "Rotate", this));
+    mGizmoActions.append(new QAction(QIcon(":/icons/Scale.png"), "Scale", this));
 
     mGizmoActions[0]->setShortcut(QKeySequence("Ctrl+Q"));
     mGizmoActions[1]->setShortcut(QKeySequence("Ctrl+W"));

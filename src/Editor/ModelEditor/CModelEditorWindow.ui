@@ -2176,7 +2176,7 @@
             </property>
             <property name="icon">
              <iconset resource="../Icons.qrc">
-              <normaloff>:/icons/EditorAssets/GridLight.png</normaloff>:/icons/EditorAssets/GridLight.png</iconset>
+              <normaloff>:/icons/GridLight.png</normaloff>:/icons/GridLight.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -2208,7 +2208,7 @@
             </property>
             <property name="icon">
              <iconset resource="../Icons.qrc">
-              <normaloff>:/icons/EditorAssets/Highlight.png</normaloff>:/icons/EditorAssets/Highlight.png</iconset>
+              <normaloff>:/icons/Highlight.png</normaloff>:/icons/Highlight.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -2237,7 +2237,7 @@
             </property>
             <property name="icon">
              <iconset resource="../Icons.qrc">
-              <normaloff>:/icons/EditorAssets/Orbit Camera.png</normaloff>:/icons/EditorAssets/Orbit Camera.png</iconset>
+              <normaloff>:/icons/Orbit Camera.png</normaloff>:/icons/Orbit Camera.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -2282,7 +2282,7 @@
             </property>
             <property name="icon">
              <iconset resource="../Icons.qrc">
-              <normaloff>:/icons/EditorAssets/Model Preview.png</normaloff>:/icons/EditorAssets/Model Preview.png</iconset>
+              <normaloff>:/icons/Model Preview.png</normaloff>:/icons/Model Preview.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -2317,7 +2317,7 @@
             </property>
             <property name="icon">
              <iconset resource="../Icons.qrc">
-              <normaloff>:/icons/EditorAssets/Sphere Preview.png</normaloff>:/icons/EditorAssets/Sphere Preview.png</iconset>
+              <normaloff>:/icons/Sphere Preview.png</normaloff>:/icons/Sphere Preview.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -2352,7 +2352,7 @@
             </property>
             <property name="icon">
              <iconset resource="../Icons.qrc">
-              <normaloff>:/icons/EditorAssets/Square Preview.png</normaloff>:/icons/EditorAssets/Square Preview.png</iconset>
+              <normaloff>:/icons/Square Preview.png</normaloff>:/icons/Square Preview.png</iconset>
             </property>
             <property name="iconSize">
              <size>
