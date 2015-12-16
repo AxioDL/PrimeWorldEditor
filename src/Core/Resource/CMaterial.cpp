@@ -131,11 +131,11 @@ bool CMaterial::SetCurrent(ERenderOptions Options)
 
         // Set konst inputs
         for (u32 iKonst = 0; iKonst < 4; iKonst++)
-            CGraphics::sPixelBlock.Konst[iKonst] = mKonstColors[iKonst].ToVector4f();
+            CGraphics::sPixelBlock.Konst[iKonst] = mKonstColors[iKonst];
 
         // Set color channels
         // COLOR0_Amb is initialized by the node instead of by the material
-        CGraphics::sVertexBlock.COLOR0_Mat = CColor::skWhite.ToVector4f();
+        CGraphics::sVertexBlock.COLOR0_Mat = CColor::skWhite;
 
         // Set depth write - force on if alpha is disabled (lots of weird depth issues otherwise)
         if ((mOptions & eDepthWrite) || (Options & eNoAlpha)) glDepthMask(GL_TRUE);

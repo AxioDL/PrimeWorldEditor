@@ -46,8 +46,7 @@ void CRenderer::Init()
 {
     if (!mInitialized)
     {
-        CVector4f ClearVec = mClearColor.ToVector4f();
-        glClearColor(ClearVec.x, ClearVec.y, ClearVec.z, ClearVec.w);
+        glClearColor(mClearColor.r, mClearColor.g, mClearColor.b, mClearColor.a);
         mContextIndex = CGraphics::GetContextIndex();
         mInitialized = true;
     }
@@ -134,16 +133,11 @@ void CRenderer::SetBloom(EBloomMode BloomMode)
         mOptions &= ~eEnableBloom;
 }
 
-void CRenderer::SetFont(CFont* /*pFont*/)
-{
-}
-
-void CRenderer::SetClearColor(CColor Clear)
+void CRenderer::SetClearColor(const CColor& Clear)
 {
     mClearColor = Clear;
-    CVector4f ClearVec = Clear.ToVector4f();
-    ClearVec.w = 0.f;
-    glClearColor(ClearVec.x, ClearVec.y, ClearVec.z, ClearVec.w);
+    mClearColor.a = 0.f;
+    glClearColor(mClearColor.r, mClearColor.g, mClearColor.b, mClearColor.a);
 }
 
 void CRenderer::SetViewportSize(u32 Width, u32 Height)
@@ -191,12 +185,12 @@ void CRenderer::RenderBloom()
     static const float skVOffset[6] = { -0.012275f, -0.007815f, -0.003350f,
                                          0.003350f,  0.007815f,  0.012275f };
 
-    static const CColor skTintColors[6] = { CColor((u8) 17, 17, 17, 255),
-                                            CColor((u8) 53, 53, 53, 255),
-                                            CColor((u8) 89, 89, 89, 255),
-                                            CColor((u8) 89, 89, 89, 255),
-                                            CColor((u8) 53, 53, 53, 255),
-                                            CColor((u8) 17, 17, 17, 255) };
+    static const CColor skTintColors[6] = { CColor::Integral(17, 17, 17),
+                                            CColor::Integral(53, 53, 53),
+                                            CColor::Integral(89, 89, 89),
+                                            CColor::Integral(89, 89, 89),
+                                            CColor::Integral(53, 53, 53),
+                                            CColor::Integral(17, 17, 17) };
 
     u32 BloomWidth  = (mBloomMode == eBloom ? mBloomWidth  : mViewportWidth);
     u32 BloomHeight = (mBloomMode == eBloom ? mBloomHeight : mViewportHeight);
@@ -295,9 +289,9 @@ void CRenderer::RenderSky(CModel *pSkyboxModel, const SViewInfo& ViewInfo)
     glEnable(GL_CULL_FACE);
 
     CGraphics::sMVPBlock.ModelMatrix = CMatrix4f::skIdentity;
-    CGraphics::sVertexBlock.COLOR0_Amb = CVector4f(1.f, 1.f, 1.f, 1.f);
-    CGraphics::sPixelBlock.TevColor = CVector4f(1.f, 1.f, 1.f, 1.f);
-    CGraphics::sPixelBlock.TintColor = CColor::skWhite.ToVector4f();
+    CGraphics::sVertexBlock.COLOR0_Amb = CColor::skWhite;
+    CGraphics::sPixelBlock.TevColor = CColor::skWhite;
+    CGraphics::sPixelBlock.TintColor = CColor::skWhite;
     CGraphics::sNumLights = 0;
     CGraphics::UpdateVertexBlock();
     CGraphics::UpdatePixelBlock();
@@ -377,9 +371,7 @@ void CRenderer::ClearDepthBuffer()
 // ************ PRIVATE ************
 void CRenderer::InitFramebuffer()
 {
-    CVector4f Clear = mClearColor.ToVector4f();
-    Clear.w = 0.f;
-    glClearColor(Clear.x, Clear.y, Clear.z, Clear.w);
+    glClearColor(mClearColor.r, mClearColor.g, mClearColor.b, mClearColor.a);
     glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
     glDepthMask(GL_TRUE);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

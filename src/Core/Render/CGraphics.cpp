@@ -158,16 +158,16 @@ void CGraphics::SetDefaultLighting()
     sDefaultDirectionalLights[2].Load();
     UpdateLightBlock();
 
-    sVertexBlock.COLOR0_Amb = CColor::skGray.ToVector4f();
+    sVertexBlock.COLOR0_Amb = CColor::skGray;
     UpdateVertexBlock();
 }
 
 void CGraphics::SetupAmbientColor()
 {
     if (sLightMode == eWorldLighting)
-        sVertexBlock.COLOR0_Amb = sAreaAmbientColor.ToVector4f() * sWorldLightMultiplier;
+        sVertexBlock.COLOR0_Amb = sAreaAmbientColor * sWorldLightMultiplier;
     else
-        sVertexBlock.COLOR0_Amb = skDefaultAmbientColor.ToVector4f();
+        sVertexBlock.COLOR0_Amb = skDefaultAmbientColor;
 }
 
 void CGraphics::SetIdentityMVP()

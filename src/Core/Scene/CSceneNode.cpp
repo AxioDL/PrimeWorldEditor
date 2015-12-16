@@ -182,27 +182,28 @@ void CSceneNode::BuildLightList(CGameArea *pArea)
 void CSceneNode::LoadLights(const SViewInfo& ViewInfo)
 {
     CGraphics::sNumLights = 0;
+    CGraphics::ELightingMode Mode = (ViewInfo.GameMode ? CGraphics::eWorldLighting : CGraphics::sLightMode);
 
-    if (CGraphics::sLightMode == CGraphics::eWorldLighting || ViewInfo.GameMode)
+    switch (Mode)
     {
+    case CGraphics::eNoLighting:
+        // No lighting: default ambient color, no dynamic lights
+        CGraphics::sVertexBlock.COLOR0_Amb = CGraphics::skDefaultAmbientColor;
+        break;
+
+    case CGraphics::eBasicLighting:
+        // Basic lighting: default ambient color, default dynamic lights
+        CGraphics::SetDefaultLighting();
+        CGraphics::sVertexBlock.COLOR0_Amb = CGraphics::skDefaultAmbientColor;
+        break;
+
+    case CGraphics::eWorldLighting:
         // World lighting: world ambient color, node dynamic lights
-        CGraphics::sVertexBlock.COLOR0_Amb = mAmbientColor.ToVector4f();
+        CGraphics::sVertexBlock.COLOR0_Amb = mAmbientColor;
 
         for (u32 iLight = 0; iLight < mLightCount; iLight++)
             mLights[iLight]->Load();
-    }
-
-    else if (CGraphics::sLightMode == CGraphics::eBasicLighting)
-    {
-        // Basic lighting: default ambient color, default dynamic lights
-        CGraphics::SetDefaultLighting();
-        CGraphics::sVertexBlock.COLOR0_Amb = CGraphics::skDefaultAmbientColor.ToVector4f();
-    }
-
-    else if (CGraphics::sLightMode == CGraphics::eNoLighting)
-    {
-        // No lighting: default ambient color, no dynamic lights
-        CGraphics::sVertexBlock.COLOR0_Amb = CGraphics::skDefaultAmbientColor.ToVector4f();
+        break;
     }
 
     CGraphics::UpdateLightBlock();

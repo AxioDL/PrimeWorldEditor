@@ -1,114 +1,120 @@
 #include "CColor.h"
 
 CColor::CColor()
+    : r(0.f), g(0.f), b(0.f), a(0.f)
 {
-    r = g = b = a = 0;
 }
 
-CColor::CColor(CInputStream& src)
+CColor::CColor(CInputStream& rInput, bool Integral /*= false*/)
 {
-    src.ReadBytes(&r, 4);
-}
-
-CColor::CColor(u32 rgba)
-{
-    r = (rgba >> 24) & 0xFF;
-    g = (rgba >> 16) & 0xFF;
-    b = (rgba >>  8) & 0xFF;
-    a = rgba & 0xFF;
-}
-
-CColor::CColor(u8 rgba)
-{
-    r = g = b = a = rgba;
-}
-
-CColor::CColor(u8 _r, u8 _g, u8 _b, u8 _a)
-{
-    r = _r;
-    g = _g;
-    b = _b;
-    a = _a;
+    if (Integral)
+    {
+        r = (u8) rInput.ReadByte() / 255.f;
+        g = (u8) rInput.ReadByte() / 255.f;
+        b = (u8) rInput.ReadByte() / 255.f;
+        a = (u8) rInput.ReadByte() / 255.f;
+    }
+    else
+    {
+        r = rInput.ReadFloat();
+        g = rInput.ReadFloat();
+        b = rInput.ReadFloat();
+        a = rInput.ReadFloat();
+    }
 }
 
 CColor::CColor(float rgba)
+    : r(rgba), g(rgba), b(rgba), a(rgba)
 {
-    r = g = b = a = u8(rgba * 255.f);
 }
 
-CColor::CColor(float _r, float _g, float _b, float _a)
+CColor::CColor(float _r, float _g, float _b, float _a /*= 1.f*/)
+    : r(_r), g(_g), b(_b), a(_a)
 {
-    r = u8(_r * 255.f);
-    g = u8(_g * 255.f);
-    b = u8(_b * 255.f);
-    a = u8(_a * 255.f);
 }
 
-void CColor::Write(COutputStream &Output)
+void CColor::SetIntegral(u8 rgba)
 {
-    Output.WriteBytes(&r, 4);
+    float f = rgba / 255.f;
+    r = g = b = a = f;
 }
 
-long CColor::AsLongRGBA() const
+void CColor::SetIntegral(u8 _r, u8 _g, u8 _b, u8 _a /*= 255*/)
 {
-    return (r << 24) | (g << 16) | (b << 8) | a;
+    r = _r / 255.f;
+    g = _g / 255.f;
+    b = _b / 255.f;
+    a = _a / 255.f;
+}
+
+void CColor::Write(COutputStream &rOutput, bool Integral /*= false*/)
+{
+    if (Integral)
+    {
+        rOutput.WriteLong(ToLongRGBA());
+    }
+
+    else
+    {
+        rOutput.WriteFloat(r);
+        rOutput.WriteFloat(g);
+        rOutput.WriteFloat(b);
+        rOutput.WriteFloat(a);
+    }
+}
+
+long CColor::ToLongRGBA() const
+{
+    u8 _r = (u8) (r * 255);
+    u8 _g = (u8) (g * 255);
+    u8 _b = (u8) (b * 255);
+    u8 _a = (u8) (a * 255);
+    return (_r << 24) | (_g << 16) | (_b << 8) | _a;
 }
 
 long CColor::ToLongARGB() const
 {
-    return (a << 24) | (r << 16) | (g << 8) | b;
+    u8 _r = (u8) (r * 255);
+    u8 _g = (u8) (g * 255);
+    u8 _b = (u8) (b * 255);
+    u8 _a = (u8) (a * 255);
+    return (_a << 24) | (_r << 16) | (_g << 8) | _b;
 }
 
-CVector4f CColor::ToVector4f() const
+bool CColor::operator==(const CColor& rkOther) const
 {
-    return CVector4f(float(r) / 255.f,
-                     float(g) / 255.f,
-                     float(b) / 255.f,
-                     float(a) / 255.f);
+    return ((r == rkOther.r) &&
+            (g == rkOther.g) &&
+            (b == rkOther.b) &&
+            (a == rkOther.a));
 }
 
-bool CColor::operator==(const CColor& other) const
+bool CColor::operator!=(const CColor& rkOther) const
 {
-    return ((r == other.r) &&
-            (g == other.g) &&
-            (b == other.b) &&
-            (a == other.a));
+    return (!(*this == rkOther));
 }
 
-bool CColor::operator!=(const CColor& other) const
+CColor CColor::operator+(const CColor& rkOther) const
 {
-    return (!(*this == other));
+    float NewR = fmin(r + rkOther.r, 1.f);
+    float NewG = fmin(g + rkOther.g, 1.f);
+    float NewB = fmin(b + rkOther.b, 1.f);
+    float NewA = fmin(a + rkOther.a, 1.f);
+    return CColor(NewR, NewG, NewB, NewA);
 }
 
-CColor CColor::operator+(const CColor& other) const
+void CColor::operator+=(const CColor& rkOther)
 {
-    u16 NewR = r + other.r;
-    if (NewR > 255) NewR = 255;
-    u16 NewG = g + other.g;
-    if (NewG > 255) NewG = 255;
-    u16 NewB = b + other.b;
-    if (NewB > 255) NewB = 255;
-    u16 NewA = a + other.a;
-    if (NewA > 255) NewA = 255;
-    return CColor((u8) NewR, (u8) NewG, (u8) NewB, (u8) NewA);
+    *this = (*this + rkOther);
 }
 
-void CColor::operator+=(const CColor& other)
+CColor CColor::operator-(const CColor& rkOther) const
 {
-    *this = (*this + other);
-}
-
-CColor CColor::operator-(const CColor& other) const
-{
-    s16 NewR = r - other.r;
-    if (NewR < 0) NewR = 0;
-    s16 NewG = g - other.g;
-    if (NewG < 0) NewG = 0;
-    s16 NewB = b - other.b;
-    if (NewB < 0) NewB = 0;
-    s16 NewA = a - other.a;
-    if (NewA < 0) NewA = 0;
-    return CColor((u8) NewR, (u8) NewG, (u8) NewB, (u8) NewA);
+    float NewR = fmax(r - rkOther.r, 0.f);
+    float NewG = fmax(g - rkOther.g, 0.f);
+    float NewB = fmax(b - rkOther.b, 0.f);
+    float NewA = fmax(a - rkOther.a, 0.f);
+    return CColor(NewR, NewG, NewB, NewA);
 }
 
 void CColor::operator-=(const CColor& other)
@@ -116,96 +122,106 @@ void CColor::operator-=(const CColor& other)
     *this = (*this - other);
 }
 
-CColor CColor::operator*(const CColor& other) const
+CColor CColor::operator*(const CColor& rkOther) const
 {
-    CVector4f A = ToVector4f();
-    CVector4f B = other.ToVector4f();
-
-    float NewR = A.x * B.x;
-    float NewG = A.y * B.y;
-    float NewB = A.z * B.z;
-    float NewA = A.w * B.w;
-
+    float NewR = r * rkOther.r;
+    float NewG = g * rkOther.g;
+    float NewB = b * rkOther.b;
+    float NewA = a * rkOther.a;
     return CColor(NewR, NewG, NewB, NewA);
 }
 
-void CColor::operator*=(const CColor& other)
+void CColor::operator*=(const CColor& rkOther)
+{
+    *this = (*this * rkOther);
+}
+
+CColor CColor::operator*(float other) const
+{
+    float NewR = fmin( fmax(r * other, 0.f), 1.f);
+    float NewG = fmin( fmax(g * other, 0.f), 1.f);
+    float NewB = fmin( fmax(b * other, 0.f), 1.f);
+    float NewA = fmin( fmax(a * other, 0.f), 1.f);
+    return CColor(NewR, NewG, NewB, NewA);
+}
+
+void CColor::operator*=(float other)
 {
     *this = (*this * other);
 }
 
-CColor CColor::operator*(const float other) const
+CColor CColor::operator/(const CColor& rkOther) const
 {
-    CVector4f Vec4f = ToVector4f() * other;
-    return CColor(Vec4f.x, Vec4f.y, Vec4f.z, Vec4f.w);
+    float NewR = (rkOther.r == 0.f) ? 0.f : r / rkOther.r;
+    float NewG = (rkOther.g == 0.f) ? 0.f : g / rkOther.g;
+    float NewB = (rkOther.b == 0.f) ? 0.f : b / rkOther.b;
+    float NewA = (rkOther.a == 0.f) ? 0.f : a / rkOther.a;
+    return CColor(NewR, NewG, NewB, NewA);
 }
 
-void CColor::operator*=(const float other)
+void CColor::operator/=(const CColor& rkOther)
 {
-    *this = (*this * other);
-}
-
-CColor CColor::operator/(const CColor& other) const
-{
-    u16 NewR = (other.r == 0) ? 0 : r / other.r;
-    u16 NewG = (other.g == 0) ? 0 : g / other.g;
-    u16 NewB = (other.b == 0) ? 0 : b / other.b;
-    u16 NewA = (other.a == 0) ? 0 : a / other.a;
-    return CColor((u8) NewR, (u8) NewG, (u8) NewB, (u8) NewA);
-}
-
-void CColor::operator/=(const CColor& other)
-{
-    *this = (*this / other);
+    *this = (*this / rkOther);
 }
 
 // ************ STATIC ************
-CColor CColor::RandomColor(bool transparent)
+CColor CColor::Integral(u8 rgba)
 {
     CColor out;
-    out.r = rand() % 255;
-    out.g = rand() % 255;
-    out.b = rand() % 255;
-    out.a = (transparent ? rand() % 255 : 0);
+    out.SetIntegral(rgba);
     return out;
+}
+
+CColor CColor::Integral(u8 _r, u8 _g, u8 _b, u8 _a /*= 255*/)
+{
+    CColor out;
+    out.SetIntegral(_r, _g, _b, _a);
+    return out;
+}
+
+CColor CColor::RandomColor(bool transparent)
+{
+    float _r = (rand() % 255) / 255.f;
+    float _g = (rand() % 255) / 255.f;
+    float _b = (rand() % 255) / 255.f;
+    float _a = (transparent ? (rand() % 255) / 255.f : 0);
+    return CColor(_r, _g, _b, _a);
 }
 
 CColor CColor::RandomLightColor(bool transparent)
 {
-    CColor out;
-    out.r = 127 + (rand() % 128);
-    out.g = 127 + (rand() % 128);
-    out.b = 127 + (rand() % 128);
-    out.a = (transparent ? 127 + (rand() % 128) : 0);
-    return out;
+    float _r = 0.5f + (rand() % 128) / 255.f;
+    float _g = 0.5f + (rand() % 128) / 255.f;
+    float _b = 0.5f + (rand() % 128) / 255.f;
+    float _a = (transparent ? 0.5f + ((rand() % 128) / 255.f) : 0);
+    return CColor(_r, _g, _b, _a);
 }
 
 CColor CColor::RandomDarkColor(bool transparent)
 {
-    CColor out;
-    out.r = rand() % 128;
-    out.g = rand() % 128;
-    out.b = rand() % 128;
-    out.a = (transparent ? rand() % 128 : 0);
-    return out;
+    float _r = (rand() % 128) / 255.f;
+    float _g = (rand() % 128) / 255.f;
+    float _b = (rand() % 128) / 255.f;
+    float _a = (transparent ? (rand() % 128) / 255.f : 0);
+    return CColor(_r, _g, _b, _a);
 }
 
 // defining predefined colors
-const CColor CColor::skRed   (u32(0xFF0000FF));
-const CColor CColor::skGreen (u32(0x00FF00FF));
-const CColor CColor::skBlue  (u32(0x0000FFFF));
-const CColor CColor::skYellow(u32(0xFFFF00FF));
-const CColor CColor::skPurple(u32(0xFF00FFFF));
-const CColor CColor::skCyan  (u32(0x00FFFFFF));
-const CColor CColor::skWhite (u32(0xFFFFFFFF));
-const CColor CColor::skBlack (u32(0x000000FF));
-const CColor CColor::skGray  (u32(0x808080FF));
-const CColor CColor::skTransparentRed   (u32(0xFF000000));
-const CColor CColor::skTransparentGreen (u32(0x00FF0000));
-const CColor CColor::skTransparentBlue  (u32(0x0000FF00));
-const CColor CColor::skTransparentYellow(u32(0xFFFF0000));
-const CColor CColor::skTransparentPurple(u32(0xFF00FF00));
-const CColor CColor::skTransparentCyan  (u32(0x00FFFF00));
-const CColor CColor::skTransparentWhite (u32(0xFFFFFF00));
-const CColor CColor::skTransparentBlack (u32(0x00000000));
-const CColor CColor::skTransparentGray  (u32(0x80808000));
+const CColor CColor::skRed   (1.0f, 0.0f, 0.0f);
+const CColor CColor::skGreen (0.0f, 1.0f, 0.0f);
+const CColor CColor::skBlue  (0.0f, 0.0f, 1.0f);
+const CColor CColor::skYellow(1.0f, 1.0f, 0.0f);
+const CColor CColor::skPurple(1.0f, 0.0f, 1.0f);
+const CColor CColor::skCyan  (0.0f, 1.0f, 1.0f);
+const CColor CColor::skWhite (1.0f, 1.0f, 1.0f);
+const CColor CColor::skBlack (0.0f, 0.0f, 0.0f);
+const CColor CColor::skGray  (0.5f, 0.5f, 0.5f);
+const CColor CColor::skTransparentRed   (1.0f, 0.0f, 0.0f, 0.0f);
+const CColor CColor::skTransparentGreen (0.0f, 1.0f, 0.0f, 0.0f);
+const CColor CColor::skTransparentBlue  (0.0f, 0.0f, 1.0f, 0.0f);
+const CColor CColor::skTransparentYellow(1.0f, 1.0f, 0.0f, 0.0f);
+const CColor CColor::skTransparentPurple(1.0f, 0.0f, 1.0f, 0.0f);
+const CColor CColor::skTransparentCyan  (0.0f, 1.0f, 1.0f, 0.0f);
+const CColor CColor::skTransparentWhite (1.0f, 1.0f, 1.0f, 0.0f);
+const CColor CColor::skTransparentBlack (0.0f, 0.0f, 0.0f, 0.0f);
+const CColor CColor::skTransparentGray  (0.5f, 0.5f, 0.5f, 0.0f);

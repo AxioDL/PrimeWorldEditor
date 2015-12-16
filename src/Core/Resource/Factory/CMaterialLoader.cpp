@@ -81,7 +81,7 @@ CMaterial* CMaterialLoader::ReadPrimeMaterial()
         for (u32 iKonst = 0; iKonst < KonstCount; iKonst++)
         {
             if (iKonst >= 4) break;
-            pMat->mKonstColors[iKonst] = CColor(*mpFile);
+            pMat->mKonstColors[iKonst] = CColor(*mpFile, true);
         }
         if (KonstCount > 4) mpFile->Seek(0x4 * (KonstCount - 4), SEEK_CUR);
     }
@@ -303,7 +303,7 @@ CMaterial* CMaterialLoader::ReadCorruptionMaterial()
         if (Type == "CLR ")
         {
             CFourCC ClrType = mpFile->ReadLong();
-            CColor ClrVal(*mpFile);
+            CColor ClrVal(*mpFile, true);
 
             if (ClrType == "DIFB")
             {

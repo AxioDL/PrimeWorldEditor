@@ -62,7 +62,7 @@ void CModelEditorViewport::Paint()
         if (!mpActiveMaterial) return;
         glEnable(GL_CULL_FACE);
 
-        CGraphics::sVertexBlock.COLOR0_Amb = CGraphics::skDefaultAmbientColor.ToVector4f();
+        CGraphics::sVertexBlock.COLOR0_Amb = CGraphics::skDefaultAmbientColor;
         CGraphics::sMVPBlock.ModelMatrix = CMatrix4f::skIdentity;
         CGraphics::UpdateMVPBlock();
         CGraphics::SetDefaultLighting();
@@ -79,7 +79,7 @@ void CModelEditorViewport::Paint()
 
         CGraphics::SetDefaultLighting();
         CGraphics::UpdateLightBlock();
-        CGraphics::sVertexBlock.COLOR0_Amb = CGraphics::skDefaultAmbientColor.ToVector4f();
+        CGraphics::sVertexBlock.COLOR0_Amb = CGraphics::skDefaultAmbientColor;
 
         CGraphics::sMVPBlock.ModelMatrix = CMatrix4f::skIdentity;
         CGraphics::sMVPBlock.ViewMatrix = CMatrix4f::skIdentity;
