@@ -4,9 +4,9 @@
 #include "Core/Resource/Script/CScriptLayer.h"
 #include "Core/CRayCollisionTester.h"
 
-#include <Common/Math/CRay.h>
-#include <Common/TString.h>
 #include <FileIO/CFileInStream.h>
+#include <Common/TString.h>
+#include <Math/CRay.h>
 
 #include <list>
 #include <string>

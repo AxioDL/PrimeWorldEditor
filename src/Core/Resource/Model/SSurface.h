@@ -6,10 +6,10 @@
 #include "Core/OpenGL/GLCommon.h"
 #include "Core/SRayIntersection.h"
 #include <Common/types.h>
-#include <Common/Math/CAABox.h>
-#include <Common/Math/CRay.h>
-#include <Common/Math/CTransform4f.h>
-#include <Common/Math/CVector3f.h>
+#include <Math/CAABox.h>
+#include <Math/CRay.h>
+#include <Math/CTransform4f.h>
+#include <Math/CVector3f.h>
 #include <vector>
 
 struct SSurface

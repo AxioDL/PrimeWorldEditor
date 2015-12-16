@@ -1,4 +1,4 @@
-#include "Common/Math/CVector2f.h"
+#include "CVector2f.h"
 
 CVector2f::CVector2f()
 {

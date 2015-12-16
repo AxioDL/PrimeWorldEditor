@@ -1,11 +1,11 @@
 #ifndef CGIZMO_H
 #define CGIZMO_H
 
-#include <Common/Math/CPlane.h>
-#include <Common/Math/CQuaternion.h>
-#include <Common/Math/CVector3f.h>
-#include <Common/Math/ETransformSpace.h>
 #include <Common/EnumUtil.h>
+#include <Math/CPlane.h>
+#include <Math/CQuaternion.h>
+#include <Math/CVector3f.h>
+#include <Math/ETransformSpace.h>
 #include <Core/Render/CCamera.h>
 #include <Core/Render/IRenderable.h>
 #include <Core/Resource/Model/CModel.h>

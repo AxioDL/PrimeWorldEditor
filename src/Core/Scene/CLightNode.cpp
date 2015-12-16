@@ -2,7 +2,7 @@
 #include "Core/Render/CDrawUtil.h"
 #include "Core/Render/CGraphics.h"
 #include "Core/Render/CRenderer.h"
-#include <Common/Math/Math.h>
+#include <Math/MathUtil.h>
 
 CLightNode::CLightNode(CSceneManager *pScene, CSceneNode *pParent, CLight *Light)
     : CSceneNode(pScene, pParent)

@@ -6,6 +6,7 @@
 
 QT += core gui opengl widgets
 QMAKE_CXXFLAGS += /WX
+DEFINES += PWE_EDITOR
 RESOURCES += Icons.qrc
 
 CONFIG += console
@@ -22,14 +23,18 @@ CONFIG(debug, debug|release) {
     TARGET = PrimeWorldEditor-debug
 
     # Debug Libs
-    LIBS += -L$$PWD/../../build/Common/ -lCommond \
+    LIBS += -L$$PWD/../../build/FileIO/ -lFileIOd \
+            -L$$PWD/../../build/Common/ -lCommond \
+            -L$$PWD/../../build/Math/ -lMathd \
             -L$$PWD/../../build/Core/ -lCored \
             -L$$PWD/../../externals/assimp/lib/ -lassimp-vc120-mtd \
-            -L$$PWD/../../externals/FileIO/lib/ -lFileIOd \
             -L$$PWD/../../externals/tinyxml2/lib/ -ltinyxml2d
 
+    # Debug Target Dependencies
     win32 {
-        PRE_TARGETDEPS += $$PWD/../../build/Common/Commond.lib \
+        PRE_TARGETDEPS += $$PWD/../../build/FileIO/FileIOd.lib \
+                          $$PWD/../../build/Common/Commond.lib \
+                          $$PWD/../../build/Math/Mathd.lib \
                           $$PWD/../../build/Core/Cored.lib
     }
 }
@@ -42,15 +47,19 @@ CONFIG(release, debug|release) {
     TARGET = PrimeWorldEditor
 
     # Release Libs
-    LIBS += -L$$PWD/../../build/Common/ -lCommon \
+    LIBS += -L$$PWD/../../build/FileIO/ -lFileIO \
+            -L$$PWD/../../build/Common/ -lCommon \
+            -L$$PWD/../../build/Math/ -lMath \
             -L$$PWD/../../build/Core/ -lCore \
             -L$$PWD/../../externals/assimp/lib/ -lassimp-vc120-mt \
-            -L$$PWD/../../externals/FileIO/lib/ -lFileIO \
             -L$$PWD/../../externals/tinyxml2/lib/ -ltinyxml2
 
+    # Release Target Dependencies
     win32 {
-        PRE_TARGETDEPS += -L$$PWD/../../build/Common/ -lCommon \
-                          -L$$PWD/../../build/Core/ -lCore
+        PRE_TARGETDEPS += $$PWD/../../build/FileIO/FileIO.lib \
+                          $$PWD/../../build/Common/Common.lib \
+                          $$PWD/../../build/Math/Math.lib \
+                          $$PWD/../../build/Core/Core.lib
     }
 }
 
@@ -63,14 +72,13 @@ LIBS += -L$$PWD/../../externals/glew-1.9.0/lib/ -lglew32s \
 INCLUDEPATH += $$PWD/../ \
                $$PWD/../../externals/assimp/include \
                $$PWD/../../externals/boost_1_56_0 \
-               $$PWD/../../externals/FileIO/include \
                $$PWD/../../externals/glew-1.9.0/include \
                $$PWD/../../externals/glm/glm \
                $$PWD/../../externals/lzo-2.08/include \
                $$PWD/../../externals/tinyxml2/include \
                $$PWD/../../externals/zlib/include
 
-# Source Files
+# Header Files
 HEADERS += \
     ModelEditor/CModelEditorViewport.h \
     ModelEditor/CModelEditorWindow.h \
@@ -116,6 +124,7 @@ HEADERS += \
     TestDialog.h \
     UICommon.h
 
+# Source Files
 SOURCES += \
     ModelEditor/CModelEditorViewport.cpp \
     ModelEditor/CModelEditorWindow.cpp \
@@ -160,6 +169,7 @@ SOURCES += \
     TestDialog.cpp \
     UICommon.cpp
 
+# UI Files
 FORMS += \
     CStartWindow.ui \
     TestDialog.ui \

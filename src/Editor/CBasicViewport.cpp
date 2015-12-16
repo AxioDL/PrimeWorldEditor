@@ -1,7 +1,7 @@
 #include "CBasicViewport.h"
+#include <Math/MathUtil.h>
 #include <Core/Render/CDrawUtil.h>
 #include <Core/Render/CGraphics.h>
-#include <Common/Math/Math.h>
 
 #include <GL/glew.h>
 

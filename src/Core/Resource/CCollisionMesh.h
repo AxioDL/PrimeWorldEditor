@@ -4,7 +4,7 @@
 #include "CResource.h"
 #include "Core/OpenGL/CVertexBuffer.h"
 #include "Core/OpenGL/CIndexBuffer.h"
-#include <Common/Math/CAABox.h>
+#include <Math/CAABox.h>
 
 class CCollisionMesh
 {

@@ -2,7 +2,7 @@
 #define CINDEXBUFFER_H
 
 #include <Common/types.h>
-#include <Common/Math/CVector3f.h>
+#include <Math/CVector3f.h>
 #include <GL/glew.h>
 
 class CIndexBuffer

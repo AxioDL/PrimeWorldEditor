@@ -14,9 +14,9 @@
 #include "Core/Resource/CTexture.h"
 #include "Core/Scene/CSceneNode.h"
 
-#include <Common/Math/CAABox.h>
-#include <Common/Math/CMatrix4f.h>
 #include <Common/CColor.h>
+#include <Math/CAABox.h>
+#include <Math/CMatrix4f.h>
 
 #include <GL/glew.h>
 

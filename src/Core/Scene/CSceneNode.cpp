@@ -4,7 +4,7 @@
 #include "Core/Render/CDrawUtil.h"
 #include "Core/Resource/CGameArea.h"
 #include <Common/AnimUtil.h>
-#include <Common/Math/CTransform4f.h>
+#include <Math/CTransform4f.h>
 
 #include <algorithm>
 #include <gtc/quaternion.hpp>

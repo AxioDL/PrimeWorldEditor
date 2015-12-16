@@ -1,8 +1,8 @@
 #ifndef WTEXTUREGLWIDGET_H
 #define WTEXTUREGLWIDGET_H
 
-#include <Common/Math/CTransform4f.h>
-#include <Common/Math/CVector2f.h>
+#include <Math/CTransform4f.h>
+#include <Math/CVector2f.h>
 #include <Core/Resource/TResPtr.h>
 #include <Core/Resource/CTexture.h>
 

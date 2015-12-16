@@ -2,7 +2,7 @@
 #include "Core/Render/CDrawUtil.h"
 #include "Core/Render/CRenderer.h"
 #include "Core/Render/CGraphics.h"
-#include <Common/Math/Math.h>
+#include <Math/MathUtil.h>
 
 CModelNode::CModelNode(CSceneManager *pScene, CSceneNode *pParent, CModel *pModel) : CSceneNode(pScene, pParent)
 {

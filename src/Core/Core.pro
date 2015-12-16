@@ -6,6 +6,7 @@
 
 QT -= core gui
 QMAKE_CXXFLAGS += /WX
+DEFINES += PWE_CORE
 
 CONFIG += staticlib
 TEMPLATE = lib
@@ -23,14 +24,18 @@ CONFIG (debug, debug|release) {
     TARGET = Cored
 
     # Debug Libs
-    LIBS += -L$$PWD/../../build/Common/ -lCommond \
+    LIBS += -L$$PWD/../../build/FileIO/ -lFileIOd \
+            -L$$PWD/../../build/Common/ -lCommond \
+            -L$$PWD/../../build/Math/ -lMathd \
             -L$$PWD/../../externals/assimp/lib/ -lassimp-vc120-mtd \
             -L$$PWD/../../externals/boost_1_56_0/lib32-msvc-12.0 -llibboost_filesystem-vc120-mt-gd-1_56 \
-            -L$$PWD/../../externals/FileIO/lib/ -lFileIOd \
             -L$$PWD/../../externals/tinyxml2/lib/ -ltinyxml2d
 
+    # Debug Target Dependencies
     win32 {
-        PRE_TARGETDEPS += $$PWD/../../build/Common/Commond.lib
+        PRE_TARGETDEPS += $$PWD/../../build/FileIO/FileIOd.lib \
+                          $$PWD/../../build/Common/Commond.lib \
+                          $$PWD/../../build/Math/Mathd.lib
     }
 }
 
@@ -40,14 +45,18 @@ CONFIG (release, debug|release) {
     TARGET = Core
 
     # Release Libs
-    LIBS += -L$$PWD/../../build/Common/ -lCommon \
+    LIBS += -L$$PWD/../../build/FileIO/ -lFileIO \
+            -L$$PWD/../../build/Common/ -lCommon \
+            -L$$PWD/../../build/Math/ -lMath \
             -L$$PWD/../../externals/assimp/lib/ -lassimp-vc120-mt \
             -L$$PWD/../../externals/boost_1_56_0/lib32-msvc-12.0 -llibboost_filesystem-vc120-mt-1_56 \
-            -L$$PWD/../../externals/FileIO/lib/ -lFileIO \
             -L$$PWD/../../externals/tinyxml2/lib/ -ltinyxml2
 
+    # Release Target Dependencies
     win32 {
-        PRE_TARGETDEPS += -L$$PWD/../../build/Common/Common.lib
+        PRE_TARGETDEPS += $$PWD/../../build/FileIO/FileIO.lib \
+                          $$PWD/../../build/Common/Common.lib \
+                          $$PWD/../../build/Math/Math.lib
     }
 }
 
@@ -60,14 +69,13 @@ LIBS += -L$$PWD/../../externals/glew-1.9.0/lib/ -lglew32s \
 INCLUDEPATH += $$PWD/../ \
                $$PWD/../../externals/assimp/include \
                $$PWD/../../externals/boost_1_56_0 \
-               $$PWD/../../externals/FileIO/include \
                $$PWD/../../externals/glew-1.9.0/include \
                $$PWD/../../externals/glm/glm \
                $$PWD/../../externals/lzo-2.08/include \
                $$PWD/../../externals/tinyxml2/include \
                $$PWD/../../externals/zlib/include
 
-# Source Files
+# Header Files
 HEADERS += \
     Render/CCamera.h \
     Render/CDrawUtil.h \
@@ -171,6 +179,7 @@ HEADERS += \
     OpenGL/CVertexBuffer.h \
     OpenGL/GLCommon.h
 
+# Source Files
 SOURCES += \
     Render/CCamera.cpp \
     Render/CDrawUtil.cpp \

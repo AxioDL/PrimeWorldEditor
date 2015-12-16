@@ -8,7 +8,7 @@
 #include "Core/Resource/Script/CScriptLayer.h"
 #include "Core/ScriptExtra/CScriptExtra.h"
 #include <Common/AnimUtil.h>
-#include <Common/Math/Math.h>
+#include <Math/MathUtil.h>
 
 CScriptNode::CScriptNode(CSceneManager *pScene, CSceneNode *pParent, CScriptObject *pObject)
     : CSceneNode(pScene, pParent)

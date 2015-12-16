@@ -2,7 +2,7 @@
 #define WVECTOREDITOR_H
 
 #include "WDraggableSpinBox.h"
-#include <Common/Math/CVector3f.h>
+#include <Math/CVector3f.h>
 
 #include <QFormLayout>
 #include <QGroupBox>

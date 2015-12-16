@@ -7,13 +7,13 @@
 #include "Core/Resource/CLight.h"
 #include "Core/Resource/CGameArea.h"
 #include "Core/CRayCollisionTester.h"
-#include <Common/Math/CAABox.h>
-#include <Common/Math/CQuaternion.h>
-#include <Common/Math/CRay.h>
-#include <Common/Math/CTransform4f.h>
-#include <Common/Math/CVector3f.h>
-#include <Common/Math/ETransformSpace.h>
 #include <Common/types.h>
+#include <Math/CAABox.h>
+#include <Math/CQuaternion.h>
+#include <Math/CRay.h>
+#include <Math/CTransform4f.h>
+#include <Math/CVector3f.h>
+#include <Math/ETransformSpace.h>
 
 class CRenderer;
 class CSceneManager;

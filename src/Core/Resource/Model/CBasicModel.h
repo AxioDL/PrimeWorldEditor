@@ -4,7 +4,7 @@
 #include "SSurface.h"
 #include "Core/Resource/CResource.h"
 #include "Core/OpenGL/CVertexBuffer.h"
-#include <Common/Math/CAABox.h>
+#include <Math/CAABox.h>
 
 class CBasicModel : public CResource
 {
