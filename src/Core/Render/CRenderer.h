@@ -67,8 +67,7 @@ public:
     void ToggleOccluders(bool b);
     void ToggleAlphaDisabled(bool b);
     void SetBloom(EBloomMode BloomMode);
-    void SetFont(CFont *pFont);
-    void SetClearColor(CColor Clear);
+    void SetClearColor(const CColor& Clear);
     void SetViewportSize(u32 Width, u32 Height);
 
     // Render

@@ -163,9 +163,9 @@ void CScriptNode::Draw(ERenderOptions Options, int ComponentIndex, const SViewIn
         // Draw model if possible!
         if (mpActiveModel)
         {
-            if (mpExtra) CGraphics::sPixelBlock.TevColor = mpExtra->TevColor().ToVector4f();
-            else CGraphics::sPixelBlock.TevColor = CColor::skWhite.ToVector4f();
-            CGraphics::sPixelBlock.TintColor = TintColor(ViewInfo).ToVector4f();
+            if (mpExtra) CGraphics::sPixelBlock.TevColor = mpExtra->TevColor();
+            else CGraphics::sPixelBlock.TevColor = CColor::skWhite;
+            CGraphics::sPixelBlock.TintColor = TintColor(ViewInfo);
             CGraphics::UpdatePixelBlock();
 
             if (ComponentIndex < 0)
@@ -447,7 +447,7 @@ void CScriptNode::GeneratePosition()
 
 CColor CScriptNode::WireframeColor() const
 {
-    return CColor((u8) 12, 135, 194, 255);
+    return CColor::Integral(12, 135, 194);
 }
 
 CScriptObject* CScriptNode::Object() const

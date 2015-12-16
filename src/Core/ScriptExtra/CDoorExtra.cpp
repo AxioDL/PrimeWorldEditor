@@ -67,8 +67,8 @@ void CDoorExtra::Draw(ERenderOptions Options, int ComponentIndex, const SViewInf
     if (mpShieldColorProp)
         Tint *= mpShieldColorProp->Get();
 
-    CGraphics::sPixelBlock.TintColor = Tint.ToVector4f();
-    CGraphics::sPixelBlock.TevColor = CColor::skWhite.ToVector4f();
+    CGraphics::sPixelBlock.TintColor = Tint;
+    CGraphics::sPixelBlock.TevColor = CColor::skWhite;
     CGraphics::UpdatePixelBlock();
 
     if (ComponentIndex < 0)

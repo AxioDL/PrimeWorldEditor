@@ -339,7 +339,7 @@ void CTextureDecoder::FullDecodeGXTexture(CInputStream& TXTR)
                             else if (mTexelFormat == eGX_C8)     Pixel = DecodePixelC8(TXTR.ReadByte(), mPaletteInput);
                             else if (mTexelFormat == eGX_RGB565) Pixel = DecodePixelRGB565(TXTR.ReadShort());
                             else if (mTexelFormat == eGX_RGB5A3) Pixel = DecodePixelRGB5A3(TXTR.ReadShort());
-                            else if (mTexelFormat == eGX_RGBA8)  Pixel = CColor(TXTR);
+                            else if (mTexelFormat == eGX_RGBA8)  Pixel = CColor(TXTR, true);
 
                             Out.WriteLong(Pixel.ToLongARGB());
                         }
@@ -558,25 +558,26 @@ void CTextureDecoder::ReadPixelRGB565(CInputStream& src, COutputStream& dst)
 void CTextureDecoder::ReadPixelRGB5A3(CInputStream& src, COutputStream& dst)
 {
     u16 px = src.ReadShort();
-    CColor c;
+    u8 r, g, b, a;
 
     if (px & 0x8000) // RGB5
     {
-        c.b = Extend5to8(px >> 10);
-        c.g = Extend5to8(px >>  5);
-        c.r = Extend5to8(px >>  0);
-        c.a = 0xFF;
+        b = Extend5to8(px >> 10);
+        g = Extend5to8(px >>  5);
+        r = Extend5to8(px >>  0);
+        a = 255;
     }
 
     else // RGB4A3
     {
-        c.a = Extend3to8(px >> 12);
-        c.b = Extend4to8(px >>  8);
-        c.g = Extend4to8(px >>  4);
-        c.r = Extend4to8(px >>  0);
+        a = Extend3to8(px >> 12);
+        b = Extend4to8(px >>  8);
+        g = Extend4to8(px >>  4);
+        r = Extend4to8(px >>  0);
     }
 
-    dst.WriteLong(c.ToLongARGB());
+    u32 c = (a << 24) | (r << 16) | (g << 8) | b;
+    dst.WriteLong(c);
 }
 
 void CTextureDecoder::ReadPixelRGBA8(CInputStream& src, COutputStream& dst)
@@ -606,26 +607,26 @@ CColor CTextureDecoder::DecodePixelI4(u8 Byte, u8 WhichPixel)
 {
     if (WhichPixel == 1) Byte >>= 4;
     u8 px = Extend4to8(Byte);
-    return CColor(px, px, px, 0xFF);
+    return CColor::Integral(px, px, px);
 }
 
 CColor CTextureDecoder::DecodePixelI8(u8 Byte)
 {
-    return CColor(Byte, Byte, Byte, 0xFF);
+    return CColor::Integral(Byte, Byte, Byte);
 }
 
 CColor CTextureDecoder::DecodePixelIA4(u8 Byte)
 {
     u8 Alpha = Extend4to8(Byte >> 4);
     u8 Lum = Extend4to8(Byte);
-    return CColor(Lum, Lum, Lum, Alpha);
+    return CColor::Integral(Lum, Lum, Lum, Alpha);
 }
 
 CColor CTextureDecoder::DecodePixelIA8(u16 Short)
 {
     u8 Alpha = (Short >> 8) & 0xFF;
     u8 Lum = Short & 0xFF;
-    return CColor(Lum, Lum, Lum, Alpha);
+    return CColor::Integral(Lum, Lum, Lum, Alpha);
 }
 
 CColor CTextureDecoder::DecodePixelC4(u8 Byte, u8 WhichPixel, CInputStream& PaletteStream)
@@ -654,7 +655,7 @@ CColor CTextureDecoder::DecodePixelRGB565(u16 Short)
     u8 b = Extend5to8( (u8) (Short >> 11) );
     u8 g = Extend6to8( (u8) (Short >> 5) );
     u8 r = Extend5to8( (u8) (Short) );
-    return CColor(r, g, b, 0xFF);
+    return CColor::Integral(r, g, b, 0xFF);
 }
 
 CColor CTextureDecoder::DecodePixelRGB5A3(u16 Short)
@@ -664,7 +665,7 @@ CColor CTextureDecoder::DecodePixelRGB5A3(u16 Short)
         u8 b = Extend5to8( (u8) (Short >> 10));
         u8 g = Extend5to8( (u8) (Short >> 5));
         u8 r = Extend5to8( (u8) (Short) );
-        return CColor(r, g, b, 0xFF);
+        return CColor::Integral(r, g, b, 0xFF);
     }
 
     else // RGB4A3
@@ -673,7 +674,7 @@ CColor CTextureDecoder::DecodePixelRGB5A3(u16 Short)
         u8 b = Extend4to8( (u8) (Short >> 8) );
         u8 g = Extend4to8( (u8) (Short >> 4) );
         u8 r = Extend4to8( (u8) (Short) );
-        return CColor(r, g, b, a);
+        return CColor::Integral(r, g, b, a);
     }
 }
 
@@ -819,9 +820,8 @@ void CTextureDecoder::DecodeBlockBC3(CInputStream& src, COutputStream& dst, u32 
     }
 }
 
-CColor CTextureDecoder::DecodeDDSPixel(CInputStream&)
+CColor CTextureDecoder::DecodeDDSPixel(CInputStream& /*DDS*/)
 {
-    // Not using parameter 1 (CInputStream& - DDS)
     return CColor::skWhite;
 }
 

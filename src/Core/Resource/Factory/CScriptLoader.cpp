@@ -97,8 +97,7 @@ CPropertyStruct* CScriptLoader::LoadStructMP1(CInputStream& SCLY, CStructTemplat
             break;
         }
         case eColorProperty: {
-            CVector4f color(SCLY);
-            CColor v(color.x, color.y, color.z, color.w);
+            CColor v(SCLY);
             pProp = new CColorProperty(v);
             break;
         }
@@ -334,8 +333,7 @@ void CScriptLoader::LoadStructMP2(CInputStream& SCLY, CPropertyStruct *pStruct, 
 
             case eColorProperty: {
                 CColorProperty *pColorCast = static_cast<CColorProperty*>(pProp);
-                CVector4f Color(SCLY);
-                pColorCast->Set(CColor(Color.x, Color.y, Color.z, Color.w));
+                pColorCast->Set(CColor(SCLY));
                 break;
             }
 

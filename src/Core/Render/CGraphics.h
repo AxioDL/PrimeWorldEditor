@@ -13,7 +13,9 @@
 /**
  * todo: should probably be replaced with a CGraphicsState class which
  * can be instantiated and is probably more safe/functional than global access.
- * also,
+ * also, should probably have inline set/get functions rather than having all
+ * members public so that we can track when a value is modified and maybe
+ * execute extra functionality when certain values are changed
  */
 class CGraphics
 {
@@ -41,9 +43,9 @@ public:
     {
         CMatrix4f TexMatrices[10];
         CMatrix4f PostMatrices[20];
-        CVector4f COLOR0_Amb;
-        CVector4f COLOR0_Mat;
-        CVector4f COLOR1_Amb;
+        CColor COLOR0_Amb;
+        CColor COLOR0_Mat;
+        CColor COLOR1_Amb;
         CVector4f COLOR1_Mat;
     };
     static SVertexBlock sVertexBlock;
@@ -51,9 +53,9 @@ public:
     // SPixelBlock
     struct SPixelBlock
     {
-        CVector4f Konst[4];
-        CVector4f TevColor;
-        CVector4f TintColor;
+        CColor Konst[4];
+        CColor TevColor;
+        CColor TintColor;
     };
     static SPixelBlock sPixelBlock;
 
@@ -64,7 +66,7 @@ public:
         {
             CVector4f Position;
             CVector4f Direction;
-            CVector4f Color;
+            CColor Color;
             CVector4f DistAtten;
             CVector4f AngleAtten;
         };

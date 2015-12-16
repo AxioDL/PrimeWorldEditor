@@ -173,7 +173,7 @@ void CMaterialCooker::WriteMaterialPrime(COutputStream& Out)
     {
         Out.WriteLong(NumKonst);
         for (u32 iKonst = 0; iKonst < NumKonst; iKonst++)
-            Out.WriteLong( mpMat->Konst(iKonst).AsLongRGBA() );
+            Out.WriteLong( mpMat->Konst(iKonst).ToLongRGBA() );
     }
 
     // Blend Mode

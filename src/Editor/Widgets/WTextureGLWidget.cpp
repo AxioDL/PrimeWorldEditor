@@ -47,7 +47,7 @@ void WTextureGLWidget::paintGL()
     CDrawUtil::DrawSquare(&mCheckerCoords[0].x);
 
     // Make it darker
-    CDrawUtil::UseColorShader(CColor((u8) 0, 0, 0, 128));
+    CDrawUtil::UseColorShader(CColor::Integral(0.0f, 0.0f, 0.0f, 0.5f));
     glDepthMask(GL_FALSE);
     CDrawUtil::DrawSquare();
 

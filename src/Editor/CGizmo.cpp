@@ -86,7 +86,7 @@ void CGizmo::Draw(ERenderOptions /*Options*/, int ComponentIndex, const SViewInf
     CGraphics::UpdateMVPBlock();
 
     // Clear tint color
-    CGraphics::sPixelBlock.TintColor = CColor::skWhite.ToVector4f();
+    CGraphics::sPixelBlock.TintColor = CColor::skWhite;
     CGraphics::UpdatePixelBlock();
 
     // Choose material set

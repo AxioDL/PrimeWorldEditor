@@ -41,16 +41,16 @@ void CModelNode::Draw(ERenderOptions Options, int ComponentIndex, const SViewInf
     {
         CGraphics::SetDefaultLighting();
         CGraphics::UpdateLightBlock();
-        CGraphics::sVertexBlock.COLOR0_Amb = CGraphics::skDefaultAmbientColor.ToVector4f();
+        CGraphics::sVertexBlock.COLOR0_Amb = CGraphics::skDefaultAmbientColor;
     }
     else
     {
         CGraphics::sNumLights = 0;
-        CGraphics::sVertexBlock.COLOR0_Amb = CColor::skBlack.ToVector4f();
+        CGraphics::sVertexBlock.COLOR0_Amb = CColor::skBlack;
     }
 
-    CGraphics::sPixelBlock.TevColor = CVector4f(1,1,1,1);
-    CGraphics::sPixelBlock.TintColor = TintColor(ViewInfo).ToVector4f();
+    CGraphics::sPixelBlock.TevColor = CColor::skWhite;
+    CGraphics::sPixelBlock.TintColor = TintColor(ViewInfo);
     LoadModelMatrix();
 
     if (ComponentIndex < 0)

@@ -48,10 +48,10 @@ void CStaticNode::Draw(ERenderOptions Options, int ComponentIndex, const SViewIn
 {
     if (!mpModel) return;
 
-    CGraphics::sVertexBlock.COLOR0_Amb = CVector4f(0, 0, 0, 1);
-    float Multiplier = CGraphics::sWorldLightMultiplier;
-    CGraphics::sPixelBlock.TevColor = CVector4f(Multiplier,Multiplier,Multiplier,1);
-    CGraphics::sPixelBlock.TintColor = TintColor(ViewInfo).ToVector4f();
+    CGraphics::sVertexBlock.COLOR0_Amb = CColor::skBlack;
+    float Mul = CGraphics::sWorldLightMultiplier;
+    CGraphics::sPixelBlock.TevColor = CColor(Mul,Mul,Mul);
+    CGraphics::sPixelBlock.TintColor = TintColor(ViewInfo);
     CGraphics::sNumLights = 0;
     CGraphics::UpdateLightBlock();
     LoadModelMatrix();

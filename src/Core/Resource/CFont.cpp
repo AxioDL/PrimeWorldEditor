@@ -36,8 +36,6 @@ CVector2f CFont::RenderString(const TString& String, CRenderer* /*pRenderer*/, f
     GLuint ModelMtxLoc = pTextShader->GetUniformLocation("ModelMtx");
     GLuint ColorLoc = pTextShader->GetUniformLocation("FontColor");
     GLuint LayerLoc = pTextShader->GetUniformLocation("RGBALayer");
-    CVector4f FillColor4f = FillColor.ToVector4f();
-    CVector4f StrokeColor4f = StrokeColor.ToVector4f();
     mpFontTexture->Bind(0);
     smGlyphVertices.Bind();
     glDisable(GL_DEPTH_TEST);
@@ -117,7 +115,7 @@ CVector2f CFont::RenderString(const TString& String, CRenderer* /*pRenderer*/, f
 
         // Draw fill
         glUniform1i(LayerLoc, GlyphLayer);
-        glUniform4fv(ColorLoc, 1, &FillColor4f.x);
+        glUniform4fv(ColorLoc, 1, &FillColor.r);
         smGlyphIndices.DrawElements();
 
         // Draw stroke
@@ -129,7 +127,7 @@ CVector2f CFont::RenderString(const TString& String, CRenderer* /*pRenderer*/, f
             else if (mTextureFormat == 8) StrokeLayer = GlyphLayer - 2;
 
             glUniform1i(LayerLoc, StrokeLayer);
-            glUniform4fv(ColorLoc, 1, &StrokeColor4f.x);
+            glUniform4fv(ColorLoc, 1, &StrokeColor.r);
             smGlyphIndices.DrawElements();
         }
 

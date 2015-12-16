@@ -200,21 +200,21 @@ void CLight::Load() const
     case eDirectional:
         Light->Position = CVector4f(-mDirection * 1048576.f, 1.f);
         Light->Direction = CVector4f(mDirection, 0.f);
-        Light->Color = mColor.ToVector4f() * CGraphics::sWorldLightMultiplier;
+        Light->Color = mColor * CGraphics::sWorldLightMultiplier;
         Light->DistAtten = CVector4f(1.f, 0.f, 0.f, 0.f);
         Light->AngleAtten = CVector4f(1.f, 0.f, 0.f, 0.f);
         break;
     case eSpot:
         Light->Position = CVector4f(mPosition,  1.f);
         Light->Direction = CVector4f(mDirection, 0.f);
-        Light->Color = mColor.ToVector4f() * CGraphics::sWorldLightMultiplier;
+        Light->Color = mColor * CGraphics::sWorldLightMultiplier;
         Light->DistAtten = mDistAttenCoefficients;
         Light->AngleAtten = mAngleAttenCoefficients;
         break;
     case eCustom:
         Light->Position = CVector4f(mPosition,  1.f);
         Light->Direction = CVector4f(mDirection, 0.f);
-        Light->Color = mColor.ToVector4f() * CGraphics::sWorldLightMultiplier;
+        Light->Color = mColor * CGraphics::sWorldLightMultiplier;
         Light->DistAtten = mDistAttenCoefficients;
         Light->AngleAtten = mAngleAttenCoefficients;
         break;
