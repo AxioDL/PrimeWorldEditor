@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT -= core gui
+QMAKE_CXXFLAGS += /WX
 
 CONFIG += staticlib
 TEMPLATE = lib
@@ -28,6 +29,9 @@ CONFIG (debug, debug|release) {
             -L$$PWD/../../externals/FileIO/lib/ -lFileIOd \
             -L$$PWD/../../externals/tinyxml2/lib/ -ltinyxml2d
 
+    win32 {
+        PRE_TARGETDEPS += $$PWD/../../build/Common/Commond.lib
+    }
 }
 
 CONFIG (release, debug|release) {
@@ -41,6 +45,10 @@ CONFIG (release, debug|release) {
             -L$$PWD/../../externals/boost_1_56_0/lib32-msvc-12.0 -llibboost_filesystem-vc120-mt-1_56 \
             -L$$PWD/../../externals/FileIO/lib/ -lFileIO \
             -L$$PWD/../../externals/tinyxml2/lib/ -ltinyxml2
+
+    win32 {
+        PRE_TARGETDEPS += -L$$PWD/../../build/Common/Common.lib
+    }
 }
 
 # Debug/Release Libs

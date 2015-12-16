@@ -4,11 +4,12 @@
 #
 #-------------------------------------------------
 
-TEMPLATE = subdirs
 QMAKE_CXXFLAGS += /WX
-CONFIG += ordered
+TEMPLATE = subdirs
 
 SUBDIRS += \
     Common \
     Core \
     Editor
+
+CONFIG += ordered
