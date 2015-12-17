@@ -59,7 +59,7 @@ SRayIntersection CRayCollisionTester::TestNodes(const SViewInfo& ViewInfo)
 
         if (MidResult.Hit)
         {
-            if ((!Result.Hit) || (MidResult.Distance < Result.Distance))
+            if ((!Result.Hit) || (MidResult.Distance <= Result.Distance))
                 Result = MidResult;
         }
     }
