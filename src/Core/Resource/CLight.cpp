@@ -55,15 +55,11 @@ float CLight::CalculateRadius() const
 // This function is also reverse engineered from the kiosk demo's code
 float CLight::CalculateIntensity() const
 {
-    float Multiplier = (mType == eCustom) ? mAngleAttenCoefficients.x : 1.0f;
-    float ColorR = float(mColor.r) / 255.f;
-    float ColorG = float(mColor.g) / 255.f;
-    float ColorB = float(mColor.b) / 255.f;
-
     // Get the color component with the greatest numeric value
-    float Greatest = (ColorG >= ColorB) ? ColorG : ColorB;
-    Greatest = (ColorR >= Greatest) ? ColorR : Greatest;
+    float Greatest = (mColor.g >= mColor.b) ? mColor.g : mColor.b;
+    Greatest = (mColor.r >= Greatest) ? mColor.r : Greatest;
 
+    float Multiplier = (mType == eCustom) ? mAngleAttenCoefficients.x : 1.0f;
     return Greatest * Multiplier;
 }
 
