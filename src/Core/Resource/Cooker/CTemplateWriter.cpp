@@ -320,13 +320,15 @@ void CTemplateWriter::SaveScriptTemplate(CScriptTemplate *pTemp, const TString& 
             case eAxisAlignedBoxShape: return "AxisAlignedBox";
             case eEllipsoidShape:      return "Ellipsoid";
             case eCylinderShape:       return "Cylinder";
-            case eCylinderLargeShape:  return "CylinderLarge";
             case eConditionalShape:    return "Conditional";
             default:                   return "INVALID";
             }
         };
 
         pVolume->SetAttribute("shape", *GetVolumeString(pTemp->mVolumeShape));
+
+        if (pTemp->mVolumeScale != 1.f)
+            pVolume->SetAttribute("scale", pTemp->mVolumeScale);
 
         if (pTemp->mVolumeShape == eConditionalShape)
         {
@@ -355,6 +357,7 @@ void CTemplateWriter::SaveScriptTemplate(CScriptTemplate *pTemp, const TString& 
                 XMLElement *pCondition = scriptXML.NewElement("condition");
                 pCondition->SetAttribute("value", *strVal);
                 pCondition->SetAttribute("shape", *GetVolumeString(it->Shape));
+                if (it->Scale != 1.f) pCondition->SetAttribute("scale", it->Scale);
                 pVolume->LinkEndChild(pCondition);
             }
         }

@@ -8,7 +8,6 @@ enum EVolumeShape
     eBoxShape,
     eEllipsoidShape,
     eCylinderShape,
-    eCylinderLargeShape,
     eConditionalShape,
     eInvalidShape
 };

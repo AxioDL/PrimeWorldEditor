@@ -437,7 +437,6 @@ CScriptTemplate* CTemplateLoader::LoadScriptTemplate(tinyxml2::XMLDocument *pDoc
                 if (strcmp(kpType, "AxisAlignedBox") == 0) return eAxisAlignedBoxShape;
                 if (strcmp(kpType, "Ellipsoid") == 0)      return eEllipsoidShape;
                 if (strcmp(kpType, "Cylinder") == 0)       return eCylinderShape;
-                if (strcmp(kpType, "CylinderLarge") == 0)  return eCylinderLargeShape;
                 if (strcmp(kpType, "Conditional") == 0)    return eConditionalShape;
                 return eInvalidShape;
             };
@@ -446,6 +445,11 @@ CScriptTemplate* CTemplateLoader::LoadScriptTemplate(tinyxml2::XMLDocument *pDoc
 
             if (kpShape)
                 pScript->mVolumeShape = GetVolumeType(kpShape);
+
+            const char *kpScale = pVolume->Attribute("scale");
+
+            if (kpScale)
+                pScript->mVolumeScale = TString(kpScale).ToFloat();
 
             // Conditional
             if (pScript->mVolumeShape == eConditionalShape)
@@ -473,6 +477,12 @@ CScriptTemplate* CTemplateLoader::LoadScriptTemplate(tinyxml2::XMLDocument *pDoc
                                 condition.Value = 0;
                             else
                                 condition.Value = TString(kpConditionValue).ToInt32();
+
+                            const char *kpConditionScale = pCondition->Attribute("scale");
+                            if (kpConditionScale)
+                                condition.Scale = TString(kpConditionScale).ToFloat();
+                            else
+                                condition.Scale = 1.f;
 
                             pScript->mVolumeConditions.push_back(condition);
                         }

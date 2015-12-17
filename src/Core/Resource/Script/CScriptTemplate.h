@@ -81,11 +81,13 @@ private:
 
     // Preview Volume
     EVolumeShape mVolumeShape;
+    float mVolumeScale;
     TIDString mVolumeConditionIDString;
 
     struct SVolumeCondition {
         int Value;
         EVolumeShape Shape;
+        float Scale;
     };
     std::vector<SVolumeCondition> mVolumeConditions;
 
@@ -111,6 +113,7 @@ public:
     CStructTemplate* BaseStructByCount(s32 propCount);
     CStructTemplate* BaseStructByIndex(u32 index);
     EVolumeShape VolumeShape(CScriptObject *pObj);
+    float VolumeScale(CScriptObject *pObj);
     CStringProperty* FindInstanceName(CPropertyStruct *pProperties);
     CVector3Property* FindPosition(CPropertyStruct *pProperties);
     CVector3Property* FindRotation(CPropertyStruct *pProperties);
@@ -129,6 +132,9 @@ public:
     void AddObject(CScriptObject *pObject);
     void RemoveObject(CScriptObject *pObject);
     void SortObjects();
+
+private:
+    s32 CheckVolumeConditions(CScriptObject *pObj, bool LogErrors);
 };
 
 #endif // CSCRIPTTEMPLATE_H

@@ -171,7 +171,7 @@
         <scale_type>volume</scale_type>
         <preview_volume shape="Conditional" propertyID="0xD5869B0B">
             <condition value="0x00" shape="Ellipsoid"/>
-            <condition value="0x01" shape="CylinderLarge"/>
+            <condition value="0x01" shape="Cylinder" scale="2"/>
         </preview_volume>
     </editor>
 </ScriptTemplate>
