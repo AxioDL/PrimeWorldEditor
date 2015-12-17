@@ -49,7 +49,7 @@ void CDoorExtra::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
         else
             pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawMesh);
 
-        if (mpParent->IsSelected())
+        if (mpParent->IsSelected() && !ViewInfo.GameMode)
             pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawSelection);
     }
 }

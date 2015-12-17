@@ -488,7 +488,7 @@ CAABox CScriptNode::PreviewVolumeAABox() const
 CVector2f CScriptNode::BillboardScale() const
 {
     CVector2f out = (mpInstance->Template()->ScaleType() == CScriptTemplate::eScaleEnabled ? AbsoluteScale().xz() : CVector2f(1.f));
-    return out * 0.5f;
+    return out * 0.5f * mScaleMultiplier;
 }
 
 // ************ PROTECTED ************
