@@ -39,6 +39,7 @@ void CScriptObject::EvaluateProperties()
     mpLightParameters = mpTemplate->FindLightParameters(mpProperties);
     mHasInGameModel = mpTemplate->HasInGameModel(mpProperties);
     mVolumeShape = mpTemplate->VolumeShape(this);
+    mVolumeScale = mpTemplate->VolumeScale(this);
     EvaluateDisplayModel();
     EvaluateBillboard();
     EvaluateCollisionModel();
@@ -223,4 +224,9 @@ CCollisionMeshGroup* CScriptObject::GetCollision() const
 EVolumeShape CScriptObject::VolumeShape() const
 {
     return mVolumeShape;
+}
+
+float CScriptObject::VolumeScale() const
+{
+    return mVolumeScale;
 }

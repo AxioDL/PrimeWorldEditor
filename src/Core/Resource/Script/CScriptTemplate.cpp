@@ -13,6 +13,7 @@ CScriptTemplate::CScriptTemplate(CMasterTemplate *pMaster)
     mpMaster = pMaster;
     mVisible = true;
     mPreviewScale = 1.f;
+    mVolumeScale = 1.f;
     mVolumeShape = eNoShape;
 }
 
@@ -147,6 +148,35 @@ EVolumeShape CScriptTemplate::VolumeShape(CScriptObject *pObj)
 
     if (mVolumeShape == eConditionalShape)
     {
+        s32 index = CheckVolumeConditions(pObj, true);
+        if (index == -1) return eInvalidShape;
+        else return mVolumeConditions[index].Shape;
+    }
+    else return mVolumeShape;
+}
+
+float CScriptTemplate::VolumeScale(CScriptObject *pObj)
+{
+    if (pObj->Template() != this)
+    {
+        Log::Error(pObj->Template()->TemplateName() + " instance somehow called VolumeScale() on " + TemplateName() + " template");
+        return -1;
+    }
+
+    if (mVolumeShape == eConditionalShape)
+    {
+        s32 index = CheckVolumeConditions(pObj, false);
+        if (index == -1) return mVolumeScale;
+        else return mVolumeConditions[index].Scale;
+    }
+    else return mVolumeScale;
+}
+
+s32 CScriptTemplate::CheckVolumeConditions(CScriptObject *pObj, bool LogErrors)
+{
+    // Private function
+    if (mVolumeShape == eConditionalShape)
+    {
         CPropertyBase *pProp = pObj->Properties()->PropertyByIDString(mVolumeConditionIDString);
 
         // Get value of the condition test property (only boolean, integral, and enum types supported)
@@ -179,17 +209,17 @@ EVolumeShape CScriptTemplate::VolumeShape(CScriptObject *pObj)
         }
 
         // Test and check whether any of the conditions are true
-        for (auto it = mVolumeConditions.begin(); it != mVolumeConditions.end(); it++)
+        for (u32 iCon = 0; iCon < mVolumeConditions.size(); iCon++)
         {
-            if (it->Value == v)
-                return it->Shape;
+            if (mVolumeConditions[iCon].Value == v)
+                return iCon;
         }
 
-        Log::Error(TemplateName() + " instance " + TString::HexString(pObj->InstanceID(), true, true, 8) + " has unexpected volume shape value of " + TString::HexString((u32) v, true, true));
-        return eInvalidShape;
+        if (LogErrors)
+            Log::Error(pObj->Template()->TemplateName() + " instance " + TString::HexString(pObj->InstanceID(), true, true, 8) + " has unexpected volume shape value of " + TString::HexString((u32) v, true, true));
     }
 
-    else return mVolumeShape;
+    return -1;
 }
 
 CStringProperty* CScriptTemplate::FindInstanceName(CPropertyStruct *pProperties)

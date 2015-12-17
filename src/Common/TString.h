@@ -319,6 +319,11 @@ public:
         memcpy(pOut + 8, &part2, 8);
     }
 
+    inline float ToFloat() const
+    {
+        return std::stof(mInternalString, nullptr);
+    }
+
     inline _TStdString ToStdString() const
     {
         return mInternalString;

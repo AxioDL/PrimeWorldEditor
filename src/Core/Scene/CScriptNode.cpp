@@ -14,6 +14,7 @@ CScriptNode::CScriptNode(CSceneManager *pScene, CSceneNode *pParent, CScriptObje
     : CSceneNode(pScene, pParent)
 {
     mpVolumePreviewNode = nullptr;
+    mHasVolumePreview = false;
 
     // Evaluate instance
     mpInstance = pObject;
@@ -42,29 +43,35 @@ CScriptNode::CScriptNode(CSceneManager *pScene, CSceneNode *pParent, CScriptObje
 
         // Create preview volume node
         mHasValidPosition = pTemp->HasPosition();
-        mHasVolumePreview = (pTemp->ScaleType() == CScriptTemplate::eScaleVolume);
 
-        if (mHasVolumePreview)
+        if (pTemp->ScaleType() == CScriptTemplate::eScaleVolume)
         {
             EVolumeShape shape = mpInstance->VolumeShape();
             TResPtr<CModel> pVolumeModel = nullptr;
 
-            if ((shape == eAxisAlignedBoxShape) || (shape == eBoxShape))
+            switch (shape)
+            {
+            case eAxisAlignedBoxShape:
+            case eBoxShape:
                 pVolumeModel = gResCache.GetResource("../resources/VolumeBox.cmdl");
+                break;
 
-            else if (shape == eEllipsoidShape)
+            case eEllipsoidShape:
                 pVolumeModel = gResCache.GetResource("../resources/VolumeSphere.cmdl");
+                break;
 
-            else if (shape == eCylinderShape)
+            case eCylinderShape:
                 pVolumeModel = gResCache.GetResource("../resources/VolumeCylinder.cmdl");
+                break;
+            }
 
-            else if (shape == eCylinderLargeShape)
-                pVolumeModel = gResCache.GetResource("../resources/VolumeCylinderLarge.cmdl");
+            mHasVolumePreview = (pVolumeModel != nullptr);
 
-            if (pVolumeModel)
+            if (mHasVolumePreview)
             {
                 mpVolumePreviewNode = new CModelNode(pScene, this, pVolumeModel);
                 mpVolumePreviewNode->SetInheritance(true, (shape != eAxisAlignedBoxShape), true);
+                mpVolumePreviewNode->SetScale(mpInstance->VolumeScale());
                 mpVolumePreviewNode->ForceAlphaEnabled(true);
             }
         }

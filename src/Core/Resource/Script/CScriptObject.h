@@ -37,6 +37,7 @@ class CScriptObject
     bool mHasInGameModel;
 
     EVolumeShape mVolumeShape;
+    float mVolumeScale;
 
 public:
     CScriptObject(CGameArea *pArea, CScriptLayer *pLayer, CScriptTemplate *pTemplate);
@@ -79,6 +80,7 @@ public:
     CTexture* GetBillboard() const;
     CCollisionMeshGroup* GetCollision() const;
     EVolumeShape VolumeShape() const;
+    float VolumeScale() const;
 };
 
 #endif // CSCRIPTOBJECT_H
