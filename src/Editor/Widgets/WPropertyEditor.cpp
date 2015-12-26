@@ -244,7 +244,7 @@ void WPropertyEditor::CreateEditor()
         WColorPicker *pColorPicker = new WColorPicker(this);
 
         CColor color = pColorCast->Get();
-        QColor qcolor = QColor(color.r, color.g, color.b, color.a);
+        QColor qcolor = QColor(color.r * 255, color.g * 255, color.b * 255, color.a * 255);
         pColorPicker->setColor(qcolor);
 
         mUI.EditorWidget = pColorPicker;
@@ -424,7 +424,7 @@ void WPropertyEditor::UpdateEditor()
         WColorPicker *pColorPicker = static_cast<WColorPicker*>(mUI.EditorWidget);
 
         CColor color = pColorCast->Get();
-        QColor qcolor = QColor(color.r, color.g, color.b, color.a);
+        QColor qcolor = QColor(color.r * 255, color.g * 255, color.b * 255, color.a * 255);
         pColorPicker->setColor(qcolor);
 
         break;
