@@ -234,10 +234,10 @@ void CModelEditorWindow::SetActiveMaterial(int MatIndex)
     {
         QColor Color;
         CColor KColor = mpCurrentMat->Konst(iKonst);
-        Color.setRed(KColor.r);
-        Color.setGreen(KColor.g);
-        Color.setBlue(KColor.b);
-        Color.setAlpha(KColor.a);
+        Color.setRed(KColor.r * 255);
+        Color.setGreen(KColor.g * 255);
+        Color.setBlue(KColor.b * 255);
+        Color.setAlpha(KColor.a * 255);
 
         if (iKonst == 0) ui->KonstColorPickerA->setColor(Color);
         else if (iKonst == 1) ui->KonstColorPickerB->setColor(Color);
