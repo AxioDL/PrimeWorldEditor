@@ -2,6 +2,11 @@
 #include <stdarg.h>
 #include <stdio.h>
 
+CTextInStream::CTextInStream()
+{
+	mpFStream = nullptr;
+}
+
 CTextInStream::CTextInStream(const std::string& rkFile)
 {
     mpFStream = nullptr;

@@ -229,7 +229,7 @@ public:
 
     _TString Trimmed() const
     {
-        int start, end;
+        int start = -1, end = -1;
 
         for (u32 iChar = 0; iChar < Size(); iChar++)
         {
@@ -239,6 +239,9 @@ public:
                 break;
             }
         }
+
+        // If start is still -1 then there are no non-whitespace characters in this string. Return early.
+        if (start == -1) return "";
 
         for (int iChar = Size() - 1; iChar >= 0; iChar--)
         {
@@ -259,11 +262,13 @@ public:
 
     inline _TString ChopFront(u32 amount) const
     {
+        if (Size() <= amount) return "";
         return SubString(amount, Size() - amount);
     }
 
     inline _TString ChopBack(u32 amount) const
     {
+        if (Size() <= amount) return "";
         return SubString(0, Size() - amount);
     }
 
@@ -712,14 +717,14 @@ public:
     }
 
     // Static
-    static TBasicString<CharType> FromInt32(u32 value, int width = 0, int base = 16)
+    static TBasicString<CharType> FromInt32(s32 value, int width = 0, int base = 16)
     {
         std::basic_stringstream<CharType> sstream;
         sstream << std::setbase(base) << std::setw(width) << std::setfill('0') << value;
         return sstream.str();
     }
 
-    static TBasicString<CharType> FromInt64(u64 value, int width = 0, int base = 16)
+    static TBasicString<CharType> FromInt64(s64 value, int width = 0, int base = 16)
     {
         std::basic_stringstream<CharType> sstream;
         sstream << std::setbase(base) << std::setw(width) << std::setfill('0') << value;
