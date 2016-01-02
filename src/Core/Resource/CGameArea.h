@@ -20,6 +20,7 @@ class CGameArea : public CResource
     DECLARE_RESOURCE_TYPE(eArea)
     friend class CAreaLoader;
 
+    EGame mVersion;
     u32 mVertexCount;
     u32 mTriangleCount;
     bool mTerrainMerged;
@@ -50,6 +51,7 @@ public:
     void ClearScriptLayers();
 
     // Getters
+    EGame Version();
     CTransform4f GetTransform();
     u32 GetTerrainModelCount();
     u32 GetStaticModelCount();

@@ -57,9 +57,11 @@ CScan* CScanLoader::LoadScanMP2(IInputStream& SCAN)
     switch (NumProperties)
     {
     case 0x14:
+    case 0xB:
         mpScan = new CScan();
         LoadParamsMP2(SCAN);
         break;
+    case 0x12:
     case 0x16:
         mpScan = new CScan();
         LoadParamsMP3(SCAN);
@@ -156,6 +158,7 @@ CScan* CScanLoader::LoadSCAN(IInputStream &SCAN)
         // The MP2 load function will check for MP3
         CScanLoader loader;
         loader.mVersion = eEchoes;
+        if (magic == 0x01000000) SCAN.Seek(-4, SEEK_CUR); // The version number isn't present in the Echoes demo
         return loader.LoadScanMP2(SCAN);
     }
 

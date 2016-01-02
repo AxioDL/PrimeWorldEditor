@@ -177,7 +177,7 @@ CAnimSet* CAnimSetLoader::LoadCHAR(IInputStream &CHAR)
     CAnimSetLoader loader;
     u8 check = CHAR.ReadByte();
 
-    if (check == 0x5)
+    if (check == 0x5 || check == 0x3)
     {
         loader.mVersion = eCorruption;
         loader.set = new CAnimSet();
