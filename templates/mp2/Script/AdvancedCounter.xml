@@ -1,27 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>AdvancedCounter</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <property ID="0xFD179A6F"/>
-        <property ID="0x5B851589"/>
-        <property ID="0x7BEF45CA"/>
-        <property ID="0x1628F23A"/>
-        <property ID="0x049D5DD4"/>
-        <property ID="0xBC213AB1"/>
-        <property ID="0x21F60208"/>
-        <property ID="0x994A656D"/>
-        <property ID="0x8BFFCA83"/>
-        <property ID="0x3343ADE6"/>
-        <property ID="0x6B20BDB0"/>
-        <property ID="0xD39CDAD5"/>
-        <property ID="0x9215E813"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0xFD179A6F" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0x5B851589" type="long">
+            <default>10</default>
+        </property>
+        <property ID="0x7BEF45CA" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x1628F23A" type="long">
+            <default>1</default>
+        </property>
+        <property ID="0x049D5DD4" type="long">
+            <default>2</default>
+        </property>
+        <property ID="0xBC213AB1" type="long">
+            <default>3</default>
+        </property>
+        <property ID="0x21F60208" type="long">
+            <default>4</default>
+        </property>
+        <property ID="0x994A656D" type="long">
+            <default>5</default>
+        </property>
+        <property ID="0x8BFFCA83" type="long">
+            <default>6</default>
+        </property>
+        <property ID="0x3343ADE6" type="long">
+            <default>7</default>
+        </property>
+        <property ID="0x6B20BDB0" type="long">
+            <default>8</default>
+        </property>
+        <property ID="0xD39CDAD5" type="long">
+            <default>9</default>
+        </property>
+        <property ID="0x9215E813" type="long">
+            <default>10</default>
+        </property>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>

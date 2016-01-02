@@ -1,68 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>Credits</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x5D298A43"/>
-        </struct>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <struct ID="0x6B9F6B7C" type="multi">
-            <property ID="0xC7A734CE"/>
-            <property ID="0xFCA1515C"/>
-            <property ID="0xB1133A84"/>
-            <property ID="0x9A9A7D1F"/>
-            <struct ID="0xBA717F32" type="multi">
-                <property ID="0xF9E0D0FB"/>
-                <property ID="0xE0417E89"/>
-                <property ID="0xF2E13506"/>
-            </struct>
-            <struct ID="0xC344A09A" type="multi">
-                <property ID="0xF9E0D0FB"/>
-                <property ID="0xE0417E89"/>
-                <property ID="0xF2E13506"/>
-            </struct>
-            <struct ID="0xD834E949" type="multi">
-                <property ID="0xF9E0D0FB"/>
-                <property ID="0xE0417E89"/>
-                <property ID="0xF2E13506"/>
-            </struct>
-            <struct ID="0x917857A0" type="multi">
-                <property ID="0xF9E0D0FB"/>
-                <property ID="0xE0417E89"/>
-                <property ID="0xF2E13506"/>
-            </struct>
-            <struct ID="0x7DFAFF15" type="multi">
-                <property ID="0xF9E0D0FB"/>
-                <property ID="0xE0417E89"/>
-                <property ID="0xF2E13506"/>
-            </struct>
-            <struct ID="0xE60799C8" type="multi">
-                <property ID="0xE0417E89"/>
-                <property ID="0xF2E13506"/>
-            </struct>
-            <property ID="0xB54B9D25"/>
-            <property ID="0x8FDC9487"/>
-            <property ID="0x82EDF36A"/>
-            <struct ID="0xA45E5B13" type="multi">
-                <property ID="0xF9E0D0FB"/>
-                <property ID="0xE0417E89"/>
-            </struct>
-            <property ID="0x79589BF4"/>
-            <property ID="0x0AF707DF"/>
-            <property ID="0x5CE2A9A9"/>
-            <property ID="0x994AA27D"/>
+            <properties>
+                <property ID="0xC7A734CE" type="float">
+                    <default>180.0</default>
+                </property>
+                <property ID="0x4EFE6CDE" type="long">
+                    <default>4</default>
+                </property>
+                <property ID="0x7A54CB5E" type="float">
+                    <default>0.25</default>
+                </property>
+                <property ID="0xFCA1515C" type="float">
+                    <default>0.25</default>
+                </property>
+                <property ID="0xB1133A84" type="float">
+                    <default>1.0</default>
+                </property>
+                <property ID="0x5F230C67" type="float">
+                    <default>2.0</default>
+                </property>
+                <property ID="0x9A9A7D1F" type="float">
+                    <default>1.0</default>
+                </property>
+                <property ID="0xA091F393" type="float">
+                    <default>0.25</default>
+                </property>
+                <property ID="0x98186A70" type="float">
+                    <default>0.25</default>
+                </property>
+                <property ID="0xC1B9EEF1" type="float">
+                    <default>0.25</default>
+                </property>
+                <property ID="0x3BC54219" type="float">
+                    <default>0.25</default>
+                </property>
+                <struct ID="0xBA717F32" template="Structs/UnknownStruct26.xml"/>
+                <struct ID="0xC344A09A" template="Structs/UnknownStruct26.xml"/>
+                <struct ID="0xD834E949" template="Structs/UnknownStruct26.xml"/>
+                <struct ID="0x917857A0" template="Structs/UnknownStruct26.xml"/>
+                <struct ID="0x7DFAFF15" template="Structs/UnknownStruct26.xml"/>
+                <struct ID="0xE60799C8" template="Structs/UnknownStruct26.xml"/>
+                <struct ID="0x45511F61" template="Structs/UnknownStruct26.xml"/>
+                <struct ID="0x92B39F39" template="Structs/UnknownStruct26.xml"/>
+                <property ID="0xB54B9D25" type="float">
+                    <default>4.0</default>
+                </property>
+                <property ID="0x8FDC9487" type="float">
+                    <default>0.25</default>
+                </property>
+                <property ID="0x82EDF36A" type="float">
+                    <default>0.25</default>
+                </property>
+                <struct ID="0xA45E5B13" template="Structs/UnknownStruct26.xml"/>
+                <property ID="0x79589BF4" type="file" extensions="STRG"/>
+                <property ID="0x0AF707DF" type="file" extensions="STRG"/>
+                <property ID="0x5CE2A9A9" type="file" extensions="STRG"/>
+                <property ID="0x994AA27D" type="float">
+                    <default>0.25</default>
+                </property>
+            </properties>
         </struct>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
             <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
             <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
             <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
         </properties>
         <assets/>
+		<preview_scale>0.5</preview_scale>
         <rotation_type>enabled</rotation_type>
-        <scale_type>disabled</scale_type>
+        <scale_type>enabled</scale_type>
     </editor>
 </ScriptTemplate>

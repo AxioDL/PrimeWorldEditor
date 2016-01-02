@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="MetroidHopperStruct" type="multi">
+    <properties>
+        <struct ID="0xF8E45E84" template="Structs/ShockWaveInfo.xml"/>
+        <property ID="0x1CA04D70" type="float">
+            <default>0.1</default>
+        </property>
+        <property ID="0x8D508CA7" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0xC9BA4746" type="float">
+            <default>20.0</default>
+        </property>
+        <property ID="0xE174F463" type="float">
+            <default>15.0</default>
+        </property>
+        <struct ID="0xD1522831" template="Structs/DamageVulnerability.xml"/>
+    </properties>
+</struct>

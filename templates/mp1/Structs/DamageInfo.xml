@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="DamageInfo" type="multi">
-    <enum ID="0x00" name="Weapon Type" template="Enums/WeaponType.xml"/>
-    <property ID="0x01" name="Damage" type="float"/>
-    <property ID="0x02" name="Radius" type="float"/>
-    <property ID="0x03" name="Knockback Power" type="float"/>
+<struct name="DamageInfo.xml" type="multi">
+    <properties>
+        <enum ID="0x00" name="Weapon Type" template="Enums/WeaponType.xml"/>
+        <property ID="0x01" name="Damage" type="float"/>
+        <property ID="0x02" name="Radius" type="float"/>
+        <property ID="0x03" name="Knockback Power" type="float"/>
+    </properties>
 </struct>

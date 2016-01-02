@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="4">
+    <name>SteamBot</name>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <struct ID="0x11375EC0" type="multi">
+            <properties>
+                <property ID="0xBE5E86B9" type="character"/>
+                <struct ID="0xAB247451" template="Structs/LaunchProjectileData.xml"/>
+                <property ID="0x55C19435" type="float">
+                    <default>100.0</default>
+                </property>
+                <property ID="0xB3A13BD4" type="float">
+                    <default>20.0</default>
+                </property>
+                <property ID="0x0588C742" type="float">
+                    <default>5.0</default>
+                </property>
+                <struct ID="0xB98CBA47" template="Structs/LaunchProjectileData.xml"/>
+                <property ID="0x296B1195" type="float">
+                    <default>30.0</default>
+                </property>
+                <property ID="0xCF0BBE74" type="float">
+                    <default>5.0</default>
+                </property>
+                <property ID="0xA0D2AF02" type="float">
+                    <default>0.5</default>
+                </property>
+                <property ID="0xD7B53CDB" type="long">
+                    <default>1</default>
+                </property>
+                <struct ID="0x8DBAEEF2" template="Structs/DamageInfo.xml"/>
+                <property ID="0x582B9B3B" type="float">
+                    <default>5.0</default>
+                </property>
+                <property ID="0xBE4B34DA" type="float">
+                    <default>0.0</default>
+                </property>
+                <property ID="0xEBB134B5" type="float">
+                    <default>0.0</default>
+                </property>
+                <struct ID="0xCA91ECB0" template="Structs/LaunchProjectileData.xml"/>
+                <property ID="0xA296206A" type="float">
+                    <default>5.0</default>
+                </property>
+                <property ID="0x10C7FD02" type="float">
+                    <default>10.0</default>
+                </property>
+                <property ID="0xF6A752E3" type="float">
+                    <default>0.0</default>
+                </property>
+                <property ID="0x802B706E" type="float">
+                    <default>0.05</default>
+                </property>
+                <property ID="0x699DA662" type="float">
+                    <default>0.0</default>
+                </property>
+                <property ID="0x8FFD0983" type="float">
+                    <default>0.0</default>
+                </property>
+                <property ID="0xC80AC7DB" type="float">
+                    <default>6.0</default>
+                </property>
+                <property ID="0x2E6A683A" type="float">
+                    <default>3.0</default>
+                </property>
+                <struct ID="0x48BA8EB1" template="Structs/MayaSpline.xml"/>
+                <struct ID="0x180C38B0" template="Structs/MayaSpline.xml"/>
+                <struct ID="0x0F762790" template="Structs/MayaSpline.xml"/>
+                <struct ID="0x564BD8CD" template="Structs/MayaSpline.xml"/>
+                <property ID="0x9AA90B6B" type="float">
+                    <default>1.0</default>
+                </property>
+                <property ID="0x7626EC89" type="float">
+                    <default>5.0</default>
+                </property>
+                <property ID="0x50A9BD0D" type="float">
+                    <default>5.0</default>
+                </property>
+                <property ID="0x7FC827A2" type="float">
+                    <default>0.5</default>
+                </property>
+                <property ID="0xDEDD30A4" type="bool">
+                    <default>true</default>
+                </property>
+                <property ID="0xF8243D17" type="bool">
+                    <default>false</default>
+                </property>
+            </properties>
+        </struct>
+        <struct ID="0xB3774750" template="Structs/PatternedAITypedef.xml"/>
+        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
+    </properties>
+    <states/>
+    <messages/>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
+            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
+        </properties>
+        <assets>
+            <animparams source="property">0xB3774750:0xA244C9D8</animparams>
+            <animparams source="property">0x11375EC0:0xBE5E86B9</animparams>
+        </assets>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>enabled</scale_type>
+    </editor>
+</ScriptTemplate>

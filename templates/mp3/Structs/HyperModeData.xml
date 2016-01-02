@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="HyperModeData" type="multi">
+    <properties>
+        <property ID="0xB12FDA2B" type="float">
+            <default>15.0</default>
+        </property>
+        <property ID="0x574F75CA" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0xCB83BF77" type="float">
+            <default>25.0</default>
+        </property>
+        <property ID="0x2DE31096" type="float">
+            <default>20.0</default>
+        </property>
+        <property ID="0x0C2506BC" type="float">
+            <default>25.0</default>
+        </property>
+        <property ID="0xEA45A95D" type="float">
+            <default>20.0</default>
+        </property>
+        <property ID="0x95C19D09" type="float">
+            <default>100.0</default>
+        </property>
+        <struct ID="0x55D89AB7" template="Structs/LaunchProjectileData.xml"/>
+        <struct ID="0x7B71AE90" template="Structs/DamageVulnerability.xml"/>
+    </properties>
+</struct>

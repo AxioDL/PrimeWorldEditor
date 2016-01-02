@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="GenericCreatureStructB" type="multi">
+    <properties>
+        <property ID="0xE70D0592" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x016DAA73" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x919A9EE2" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xD78B5788" type="float">
+            <default>3.0</default>
+        </property>
+        <property ID="0x31EBF869" type="float">
+            <default>3.0</default>
+        </property>
+        <property ID="0x7F127AEA" type="float">
+            <default>3.0</default>
+        </property>
+        <property ID="0x9972D50B" type="float">
+            <default>3.0</default>
+        </property>
+        <property ID="0x55D8BBF8" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x5A8AE74A" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x6B6ECC5D" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0x957C56BC" type="long">
+            <default>1</default>
+        </property>
+        <enum ID="0xB8F60F9A">
+            <default>0x0B41B960</default>
+            <enumerators>
+                <enumerator ID="0x0B41B960" name="Unknown 1"/>
+                <enumerator ID="0xD9B88007" name="Unknown 2"/>
+            </enumerators>
+        </enum>
+    </properties>
+</struct>

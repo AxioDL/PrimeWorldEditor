@@ -1,56 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>AreaAttributes</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <property ID="0x95D4BEE7"/>
-        <property ID="0xEA2700E9"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0x95D4BEE7" type="bool">
+            <default>false</default>
+        </property>
+        <enum ID="0xEA2700E9">
+            <default>0xF9A89E57</default>
+            <enumerators>
+                <enumerator ID="0xF9A89E57" name="Unknown 1"/>
+                <enumerator ID="0xB0BB3B2B" name="Unknown 2"/>
+                <enumerator ID="0x316A1435" name="Unknown 3"/>
+                <enumerator ID="0x0B2945E7" name="Unknown 4"/>
+                <enumerator ID="0x64E6A979" name="Unknown 5"/>
+                <enumerator ID="0xAE38F1F3" name="Unknown 6"/>
+            </enumerators>
+        </enum>
         <struct ID="0xCE0328FA" type="multi">
-            <property ID="0x37C7D09D"/>
-            <property ID="0x02F01683"/>
-            <property ID="0xC616093D"/>
-            <property ID="0x7F30924C"/>
-            <property ID="0xAEAD5259"/>
-            <property ID="0xF4F4E856"/>
-            <property ID="0x708DFE03"/>
-            <property ID="0x3399D65B"/>
-            <struct ID="0x8476C57C" type="multi">
-                <property ID="0x948AF571"/>
-                <property ID="0x3C5B0C98"/>
-                <property ID="0x912954E6"/>
-                <property ID="0x89E3D294"/>
-                <property ID="0x080C7499"/>
-            </struct>
-            <property ID="0x5DEB4D57"/>
-            <property ID="0x35355A0B"/>
-            <property ID="0x1A59B781"/>
+            <properties>
+                <property ID="0x37C7D09D" type="color">
+                    <default>1.0, 1.0, 1.0, 0.14902</default>
+                </property>
+                <property ID="0x02F01683" type="float">
+                    <default>-40.0</default>
+                </property>
+                <property ID="0xC616093D" type="float">
+                    <default>1.0</default>
+                </property>
+                <property ID="0x7F30924C" type="float">
+                    <default>3.0</default>
+                </property>
+                <property ID="0xAEAD5259" type="float">
+                    <default>6.0</default>
+                </property>
+                <property ID="0xF4F4E856" type="float">
+                    <default>6.0</default>
+                </property>
+                <property ID="0x708DFE03" type="float">
+                    <default>50.0</default>
+                </property>
+                <property ID="0x3399D65B" type="file" extensions="UNKN"/>
+                <struct ID="0x8476C57C" template="Structs/LayerInfo.xml"/>
+                <property ID="0x5DEB4D57" type="bool">
+                    <default>true</default>
+                </property>
+                <property ID="0x35355A0B" type="file" extensions="CAUD"/>
+                <struct ID="0x1A59B781" template="Structs/MayaSpline.xml"/>
+            </properties>
         </struct>
-        <property ID="0x56263E35"/>
-        <property ID="0x64E5FE9F"/>
-        <property ID="0xBA5F801E"/>
-        <property ID="0x6DADE808"/>
-        <property ID="0xD208C9FA"/>
-        <property ID="0x29445302"/>
-        <property ID="0xE3426206"/>
-        <property ID="0x4E08B984"/>
-        <property ID="0x07B26BF9"/>
-        <property ID="0x46CC1B48"/>
-        <property ID="0xFA873A67"/>
-        <struct ID="0xE7A0E69B" type="multi">
-            <property ID="0x445E00C8"/>
-            <property ID="0xF2D02613"/>
-            <property ID="0xEE1BE914"/>
-            <property ID="0x555FF80A"/>
-            <property ID="0x7A3FE00D"/>
-            <property ID="0xEFE9E465"/>
-        </struct>
+        <property ID="0x56263E35" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0x64E5FE9F" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0xBA5F801E" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x6DADE808" type="float">
+            <default>42.0</default>
+        </property>
+        <property ID="0xD208C9FA" type="file" extensions="CMDL"/>
+        <property ID="0x29445302" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0xE3426206" type="bool">
+            <default>false</default>
+        </property>
+        <enum ID="0x4E08B984">
+            <default>0xF1183492</default>
+            <enumerators>
+                <enumerator ID="0xF1183492" name="Unknown 1"/>
+                <enumerator ID="0x109B4C03" name="Unknown 2"/>
+                <enumerator ID="0x123E7369" name="Unknown 3"/>
+            </enumerators>
+        </enum>
+        <property ID="0x07B26BF9" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0x46CC1B48" type="bool">
+            <default>false</default>
+        </property>
+        <struct ID="0xFA873A67" template="Structs/MayaSpline.xml"/>
+        <struct ID="0xE7A0E69B" template="Structs/DamageInfo.xml"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
             <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
             <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
             <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>

@@ -9,9 +9,8 @@ CWorldLoader::CWorldLoader()
 
 void CWorldLoader::LoadPrimeMLVL(IInputStream& MLVL)
 {
-    /**
+    /*
      * This function loads MLVL files from Prime 1/2
-     * Corruption isn't too different, but having to check for it on every file ID is obnoxious
      * We start immediately after the "version" value (0x8 in the file)
      */
     // Header
@@ -19,8 +18,8 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& MLVL)
     {
         mpWorld->mpWorldName = gResCache.GetResource(MLVL.ReadLong(), "STRG");
         if (mVersion == eEchoes) mpWorld->mpDarkWorldName = gResCache.GetResource(MLVL.ReadLong(), "STRG");
-        if (mVersion > ePrime)   mpWorld->mUnknown1 = MLVL.ReadLong();
-        if (mVersion >= ePrime)  mpWorld->mpSaveWorld = gResCache.GetResource(MLVL.ReadLong(), "SAVW");
+        if (mVersion >= eEchoes) mpWorld->mUnknown1 = MLVL.ReadLong();
+        if (mVersion >= ePrime) mpWorld->mpSaveWorld = gResCache.GetResource(MLVL.ReadLong(), "SAVW");
         mpWorld->mpDefaultSkybox = gResCache.GetResource(MLVL.ReadLong(), "CMDL");
     }
 
@@ -146,7 +145,7 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& MLVL)
         }
 
         // Rels
-        if (mVersion == eEchoes)
+        if ( (mVersion == eEchoesDemo) || (mVersion == eEchoes) )
         {
             u32 NumRels = MLVL.ReadLong();
             pArea->RelFilenames.resize(NumRels);
@@ -154,15 +153,18 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& MLVL)
             for (u32 iRel = 0; iRel < NumRels; iRel++)
                 pArea->RelFilenames[iRel] = MLVL.ReadString();
 
-            u32 NumRelOffsets = MLVL.ReadLong(); // Don't know what these offsets correspond to
-            pArea->RelOffsets.resize(NumRelOffsets);
+            if (mVersion == eEchoes)
+            {
+                u32 NumRelOffsets = MLVL.ReadLong(); // Don't know what these offsets correspond to
+                pArea->RelOffsets.resize(NumRelOffsets);
 
-            for (u32 iOff = 0; iOff < NumRelOffsets; iOff++)
-                pArea->RelOffsets[iOff] = MLVL.ReadLong();
+                for (u32 iOff = 0; iOff < NumRelOffsets; iOff++)
+                    pArea->RelOffsets[iOff] = MLVL.ReadLong();
+            }
         }
 
         // Footer
-        if (mVersion >= eEchoes)
+        if (mVersion >= eEchoesDemo)
             pArea->InternalName = MLVL.ReadString();
     }
 

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="LightParameters" type="multi">
+    <properties>
+        <property ID="0xA33E5B0E" type="color">
+            <default>1.0, 1.0, 1.0, 1.0</default>
+        </property>
+        <property ID="0x6B5E7509" type="long">
+            <default>1</default>
+        </property>
+        <property ID="0x3DC5F0C6" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0x628E6AC3" type="long">
+            <default>1</default>
+        </property>
+        <property ID="0xD19DE775" type="vector3f">
+            <default>0.0, 0.0, 0.0</default>
+        </property>
+        <property ID="0xA71810E9" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0x287DE7BE" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xC1B12BB4" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x61A940D6" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xB772D4C1" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0xCAC1E778" type="long">
+            <default>4</default>
+        </property>
+        <property ID="0x67F4D3DE" type="long">
+            <default>4</default>
+        </property>
+        <property ID="0x9FDF211A" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x1F715FD3" type="long">
+            <default>0</default>
+        </property>
+    </properties>
+</struct>

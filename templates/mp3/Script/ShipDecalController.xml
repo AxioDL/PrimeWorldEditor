@@ -1,66 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>ShipDecalController</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <struct ID="0x15FBDF30" type="multi">
-            <property ID="0x77EDD0F1"/>
-            <property ID="0x2F11C14F"/>
-        </struct>
-        <struct ID="0x59B4B241" type="multi">
-            <property ID="0x77EDD0F1"/>
-            <property ID="0x2F11C14F"/>
-        </struct>
-        <struct ID="0xB663308D" type="multi">
-            <property ID="0x77EDD0F1"/>
-            <property ID="0x2F11C14F"/>
-        </struct>
-        <struct ID="0x7640AD4C" type="multi">
-            <property ID="0x77EDD0F1"/>
-            <property ID="0x2F11C14F"/>
-        </struct>
-        <struct ID="0x9B6EDE52" type="multi">
-            <property ID="0x77EDD0F1"/>
-            <property ID="0x2F11C14F"/>
-        </struct>
-        <struct ID="0xEA024AF3" type="multi">
-            <property ID="0x77EDD0F1"/>
-            <property ID="0x2F11C14F"/>
-        </struct>
-        <struct ID="0xA3B7EE26" type="multi">
-            <property ID="0x77EDD0F1"/>
-            <property ID="0x2F11C14F"/>
-        </struct>
-        <struct ID="0xC7B1DD81" type="multi">
-            <property ID="0x77EDD0F1"/>
-            <property ID="0x2F11C14F"/>
-        </struct>
-        <struct ID="0xD7C6638E" type="multi">
-            <property ID="0x77EDD0F1"/>
-            <property ID="0x2F11C14F"/>
-        </struct>
-        <struct ID="0x124974E5" type="multi">
-            <property ID="0x77EDD0F1"/>
-            <property ID="0x2F11C14F"/>
-        </struct>
-        <struct ID="0xF8CFA987" type="multi">
-            <property ID="0x77EDD0F1"/>
-            <property ID="0x2F11C14F"/>
-        </struct>
-        <struct ID="0xA77487D5" type="multi">
-            <property ID="0x77EDD0F1"/>
-            <property ID="0x2F11C14F"/>
-        </struct>
-        <struct ID="0xE590A13E" type="multi">
-            <property ID="0x77EDD0F1"/>
-            <property ID="0x2F11C14F"/>
-        </struct>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <struct ID="0x15FBDF30" template="Structs/ShipDecalControllerStruct.xml"/>
+        <struct ID="0x59B4B241" template="Structs/ShipDecalControllerStruct.xml"/>
+        <struct ID="0xB663308D" template="Structs/ShipDecalControllerStruct.xml"/>
+        <struct ID="0x7640AD4C" template="Structs/ShipDecalControllerStruct.xml"/>
+        <struct ID="0x9B6EDE52" template="Structs/ShipDecalControllerStruct.xml"/>
+        <struct ID="0xEA024AF3" template="Structs/ShipDecalControllerStruct.xml"/>
+        <struct ID="0xA3B7EE26" template="Structs/ShipDecalControllerStruct.xml"/>
+        <struct ID="0xC7B1DD81" template="Structs/ShipDecalControllerStruct.xml"/>
+        <struct ID="0xD7C6638E" template="Structs/ShipDecalControllerStruct.xml"/>
+        <struct ID="0x124974E5" template="Structs/ShipDecalControllerStruct.xml"/>
+        <struct ID="0xF8CFA987" template="Structs/ShipDecalControllerStruct.xml"/>
+        <struct ID="0xA77487D5" template="Structs/ShipDecalControllerStruct.xml"/>
+        <struct ID="0xE590A13E" template="Structs/ShipDecalControllerStruct.xml"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>

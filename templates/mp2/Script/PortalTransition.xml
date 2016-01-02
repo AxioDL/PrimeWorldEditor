@@ -1,24 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>PortalTransition</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <property ID="0xE25FB08C"/>
-        <property ID="0xE56BA365"/>
-        <property ID="0x80C66C37"/>
-        <property ID="0xD6088BC5"/>
-        <property ID="0xE08E2172"/>
-        <property ID="0xB3E6C4E3"/>
-        <property ID="0x508520E1"/>
-        <property ID="0x34C7C1CC"/>
-        <property ID="0xB253B362"/>
-        <property ID="0x4406DC02"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0xE25FB08C" type="character"/>
+        <property ID="0xE56BA365" type="vector3f">
+            <default>1.0, 1.0, 1.0</default>
+        </property>
+        <property ID="0x80C66C37" type="long">
+            <default>127</default>
+        </property>
+        <property ID="0xD6088BC5" type="long">
+            <default>64</default>
+        </property>
+        <property ID="0xE08E2172" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0xB3E6C4E3" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0x508520E1" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0x34C7C1CC" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0xB253B362" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0x4406DC02" type="long">
+            <default>0</default>
+        </property>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>

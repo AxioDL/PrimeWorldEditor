@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="PuddleStruct" type="multi">
+    <properties>
+        <property ID="0x0B3A08C9" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x14BFDEA6" type="float">
+            <default>1.0</default>
+        </property>
+        <struct ID="0xAE0E60E2" template="Structs/UnknownStruct8.xml"/>
+        <struct ID="0x1FD78DD3" template="Structs/UnknownStruct8.xml"/>
+        <struct ID="0x5D4158A7" template="Structs/UnknownStruct8.xml"/>
+        <struct ID="0xDA4488BF" template="Structs/UnknownStruct8.xml"/>
+        <struct ID="0x57B054DE" template="Structs/UnknownStruct8.xml"/>
+        <property ID="0xA8CC48B3" type="file" extensions="CAUD"/>
+    </properties>
+</struct>

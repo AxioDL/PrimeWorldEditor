@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="ReactiveObjectStruct" type="multi">
+    <properties>
+        <enum ID="0xDE87546A">
+            <default>0x62269F84</default>
+            <enumerators>
+                <enumerator ID="0x62269F84" name="Unknown 1"/>
+                <enumerator ID="0x24C32EF7" name="Unknown 2"/>
+                <enumerator ID="0xBE5A0FFD" name="Unknown 3"/>
+                <enumerator ID="0x3303AD85" name="Unknown 4"/>
+                <enumerator ID="0x7D3B8557" name="Unknown 5"/>
+                <enumerator ID="0xC014DE6C" name="Unknown 6"/>
+                <enumerator ID="0x28F606E6" name="Unknown 7"/>
+                <enumerator ID="0x9E9C49C1" name="Unknown 8"/>
+            </enumerators>
+        </enum>
+        <property ID="0xD5699264" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x16A95D42" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x0793A3F7" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x982948DB" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xBB0EE668" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0x21311DCE" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x21CDCF21" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x8FFEFC1E" type="vector3f">
+            <default>0.0, 0.0, 0.0</default>
+        </property>
+    </properties>
+</struct>

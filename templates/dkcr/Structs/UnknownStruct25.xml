@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="UnknownStruct25" type="multi">
+    <properties>
+        <struct ID="0xD72E09E1" template="Structs/ClingPathControlStruct.xml"/>
+        <property ID="0xA55DACF6" type="file" extensions="CAUD"/>
+    </properties>
+</struct>

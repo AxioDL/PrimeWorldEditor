@@ -1,403 +1,239 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>CameraHint</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <property ID="0x42087650"/>
-        <property ID="0x8747552E"/>
-        <property ID="0x21D720A9"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0x42087650" type="long">
+            <default>50</default>
+        </property>
+        <property ID="0x8747552E" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x21D720A9" type="long">
+            <default>1610905732</default>
+        </property>
         <struct ID="0x97A93F8F" type="multi">
-            <property ID="0x09AB9627"/>
+            <properties>
+                <property ID="0x09AB9627" type="long">
+                    <default>1</default>
+                </property>
+            </properties>
         </struct>
         <struct ID="0xE8EAAF0E" type="multi">
-            <property ID="0x5BFED7DB"/>
-            <property ID="0x02ABD251"/>
-            <property ID="0xE265ED56"/>
-            <property ID="0x8FA9689C"/>
-            <property ID="0x7EBDD66C"/>
+            <properties>
+                <enum ID="0x5BFED7DB">
+                    <default>0x62C2ABD5</default>
+                    <enumerators>
+                        <enumerator ID="0x2D363729" name="Unknown 1"/>
+                        <enumerator ID="0x62C2ABD5" name="Unknown 2"/>
+                    </enumerators>
+                </enum>
+                <enum ID="0x02ABD251">
+                    <default>0xAF3945DE</default>
+                    <enumerators>
+                        <enumerator ID="0xAF3945DE" name="Unknown 1"/>
+                        <enumerator ID="0x3D7A9FCD" name="Unknown 2"/>
+                        <enumerator ID="0x4D529ECE" name="Unknown 3"/>
+                        <enumerator ID="0xA835852B" name="Unknown 4"/>
+                    </enumerators>
+                </enum>
+                <property ID="0xBBB489D0" type="bool">
+                    <default>false</default>
+                </property>
+                <property ID="0x7EBDD66C" type="bool">
+                    <default>false</default>
+                </property>
+                <property ID="0x8FA9689C" type="bool">
+                    <default>false</default>
+                </property>
+                <property ID="0xE265ED56" type="bool">
+                    <default>false</default>
+                </property>
+            </properties>
         </struct>
-        <struct ID="0xD1BD5C40" type="multi">
-            <property ID="0xB1B6CF33"/>
-            <struct ID="0xBBB2D1E6" type="multi">
-                <property ID="0x9D99B2E3"/>
-                <struct ID="0xE69C51D7" type="multi">
-                    <property ID="0x485B0C11"/>
-                    <property ID="0x95CDD594"/>
-                    <property ID="0x2807B95A"/>
-                </struct>
-            </struct>
-            <struct ID="0x07D194AF" type="multi">
-                <struct ID="0x3769A209" type="multi">
-                    <property ID="0x485B0C11"/>
-                    <property ID="0x95CDD594"/>
-                    <property ID="0x2807B95A"/>
-                </struct>
-            </struct>
-            <struct ID="0xE8AB9BC8" type="multi">
-                <property ID="0x259D3279"/>
-                <property ID="0x340E4CA3"/>
-                <struct ID="0x0AED5C7D" type="multi">
-                    <property ID="0x559542AB"/>
-                    <struct ID="0x4150490C" type="multi">
-                        <property ID="0xB80D00A8"/>
-                    </struct>
-                </struct>
-                <property ID="0xC3BF43BE"/>
-                <property ID="0x32F835EC"/>
-                <property ID="0x27E5F874"/>
-                <property ID="0x12861F7D"/>
-                <struct ID="0x0E1F2094" type="multi">
-                    <property ID="0x19028BD3"/>
-                    <property ID="0xF9FB16A2"/>
-                    <property ID="0x0926929B"/>
-                </struct>
-            </struct>
-            <struct ID="0xEBBF81D7" type="multi">
-                <struct ID="0xD52CD4FB" type="multi">
-                    <struct ID="0xB02AAA53" type="multi">
-                        <property ID="0x6F7368E0"/>
-                        <property ID="0xD21C62FF"/>
-                    </struct>
-                    <property ID="0x2B7247AA"/>
-                    <struct ID="0x02B79243" type="multi">
-                        <property ID="0x81DC0C16"/>
-                        <property ID="0x2257AE80"/>
-                        <property ID="0xAED42887"/>
-                    </struct>
-                </struct>
-                <property ID="0x947AA955"/>
-                <property ID="0x8178A60F"/>
-                <struct ID="0x2701771F" type="multi">
-                    <property ID="0xAD50D893"/>
-                    <struct ID="0x02B79243" type="multi">
-                        <property ID="0xAED42887"/>
-                    </struct>
-                    <struct ID="0x774BA905" type="multi">
-                        <property ID="0x3B6740F1"/>
-                        <property ID="0x8130B0D8"/>
-                    </struct>
-                    <struct ID="0x37C8C046" type="multi">
-                        <property ID="0xCD3DD32A"/>
-                        <property ID="0x8F6291D1"/>
-                        <property ID="0xF38C4B4D"/>
-                    </struct>
-                    <struct ID="0xCFFE15A0" type="multi">
-                        <property ID="0xC7D11B34"/>
-                        <property ID="0x4AB0DF83"/>
-                        <property ID="0xB6174A4E"/>
-                        <property ID="0xC241C65A"/>
-                        <property ID="0xCFF710D0"/>
-                        <property ID="0x935DFCFA"/>
-                    </struct>
-                </struct>
-                <struct ID="0x2D63B0F7" type="multi">
-                    <property ID="0xF465A51B"/>
-                    <property ID="0x42A9E2E4"/>
-                </struct>
-                <property ID="0x6717088C"/>
-            </struct>
-            <struct ID="0x9EC1DF0C" type="multi">
-                <property ID="0xB8A6413A"/>
-                <struct ID="0xA0FB9986" type="multi">
-                    <property ID="0x9A598FA5"/>
-                </struct>
-                <struct ID="0x58079583" type="multi">
-                    <property ID="0x9A598FA5"/>
-                </struct>
-                <struct ID="0xE44C1003" type="multi">
-                    <property ID="0x723DD19C"/>
-                    <property ID="0x9A598FA5"/>
-                </struct>
-                <struct ID="0x39936936" type="multi">
-                    <property ID="0x9A598FA5"/>
-                </struct>
-                <struct ID="0x2D8C38B0" type="multi">
-                    <property ID="0x9A598FA5"/>
-                </struct>
-                <struct ID="0x1D2A6188" type="multi">
-                    <property ID="0x9A598FA5"/>
-                </struct>
-                <struct ID="0x91CC9F6A" type="multi">
-                    <property ID="0x9A598FA5"/>
-                </struct>
-                <struct ID="0x905289AC" type="multi">
-                    <property ID="0x723DD19C"/>
-                    <property ID="0x9A598FA5"/>
-                </struct>
-                <struct ID="0xF5F6849D" type="multi">
-                    <property ID="0x9A598FA5"/>
-                </struct>
-                <struct ID="0x7B66A7B4" type="multi">
-                    <property ID="0x9A598FA5"/>
-                </struct>
-                <struct ID="0x68926CCD" type="multi">
-                    <property ID="0x9A598FA5"/>
-                </struct>
-                <struct ID="0x3158FD3B" type="multi">
-                    <property ID="0x9A598FA5"/>
-                </struct>
-            </struct>
-            <property ID="0xB7CD4710"/>
-        </struct>
-        <struct ID="0x4F2CA324" type="multi">
-            <property ID="0xB1B6CF33"/>
-        </struct>
+        <struct ID="0xD1BD5C40" template="Structs/CameraHintStructA.xml"/>
+        <struct ID="0x4F2CA324" template="Structs/CameraHintStructA.xml"/>
         <struct ID="0x4BE3494B" type="multi">
-            <property ID="0x22BD900D"/>
+            <properties>
+                <property ID="0x22BD900D" type="long">
+                    <default>0</default>
+                </property>
+            </properties>
         </struct>
         <struct ID="0xEBC3E775" type="multi">
-            <property ID="0x948AF571"/>
-            <struct ID="0x0C38A009" type="multi">
-                <struct ID="0xAEB294FD" type="multi">
-                    <property ID="0x2EF22401"/>
-                    <struct ID="0x0CF33816" type="multi">
-                        <property ID="0xB3823863"/>
-                        <property ID="0xACB1CDCB"/>
-                        <property ID="0x74D11538"/>
-                    </struct>
-                    <struct ID="0x1FF47DDF" type="multi">
-                        <property ID="0x18C7396A"/>
-                        <property ID="0xBD0B7EDE"/>
-                        <property ID="0x6C84C588"/>
-                    </struct>
+            <properties>
+                <enum ID="0x948AF571">
+                    <default>0x34FBB53B</default>
+                    <enumerators>
+                        <enumerator ID="0x34FBB53B" name="Unknown 1"/>
+                        <enumerator ID="0x6ADB8FE6" name="Unknown 2"/>
+                    </enumerators>
+                </enum>
+                <struct ID="0xB40A41B8" type="multi">
+                    <properties>
+                        <struct ID="0xC1547AF3" template="Structs/UnknownStruct12.xml"/>
+                        <property ID="0x7D0BCA87" type="bool">
+                            <default>false</default>
+                        </property>
+                        <struct ID="0xD9A90EC3" template="Structs/UnknownStruct12.xml"/>
+                        <enum ID="0xB674EA3D">
+                            <default>0xB1059189</default>
+                            <enumerators>
+                                <enumerator ID="0xB1059189" name="Unknown 1"/>
+                                <enumerator ID="0x350BF1BC" name="Unknown 2"/>
+                                <enumerator ID="0x06145F03" name="Unknown 3"/>
+                            </enumerators>
+                        </enum>
+                    </properties>
                 </struct>
-                <struct ID="0x4A4B9B59" type="multi">
-                    <property ID="0x2EF22401"/>
-                    <struct ID="0x0CF33816" type="multi">
-                        <property ID="0xB3823863"/>
-                        <property ID="0xACB1CDCB"/>
-                    </struct>
-                    <struct ID="0x1FF47DDF" type="multi">
-                        <property ID="0x18C7396A"/>
-                        <property ID="0xBD0B7EDE"/>
-                        <property ID="0x6C84C588"/>
-                    </struct>
+                <struct ID="0x0C38A009" type="multi">
+                    <properties>
+                        <struct ID="0xAEB294FD" template="Structs/UnknownStruct12.xml"/>
+                        <struct ID="0x4A4B9B59" template="Structs/UnknownStruct12.xml"/>
+                        <struct ID="0xECDACA25" template="Structs/UnknownStruct12.xml"/>
+                        <property ID="0x7E69A860" type="bool">
+                            <default>true</default>
+                        </property>
+                        <struct ID="0x26BCFF37" template="Structs/UnknownStruct12.xml"/>
+                        <property ID="0x6C1626B9" type="float">
+                            <default>4.0</default>
+                        </property>
+                        <property ID="0x7A323DDA" type="float">
+                            <default>9.0</default>
+                        </property>
+                        <property ID="0x33E6589F" type="float">
+                            <default>1.0</default>
+                        </property>
+                        <property ID="0x1A98A587" type="float">
+                            <default>4.25</default>
+                        </property>
+                        <property ID="0x021F6D9B" type="float">
+                            <default>12.0</default>
+                        </property>
+                    </properties>
                 </struct>
-                <property ID="0x7E69A860"/>
-                <struct ID="0xECDACA25" type="multi">
-                    <property ID="0x2EF22401"/>
-                    <struct ID="0x0CF33816" type="multi">
-                        <property ID="0xACB1CDCB"/>
-                        <property ID="0xB3823863"/>
-                    </struct>
-                    <struct ID="0x1FF47DDF" type="multi">
-                        <property ID="0x18C7396A"/>
-                        <property ID="0xBD0B7EDE"/>
-                    </struct>
-                </struct>
-                <struct ID="0x26BCFF37" type="multi">
-                    <property ID="0x2EF22401"/>
-                    <struct ID="0x0CF33816" type="multi">
-                        <property ID="0xB3823863"/>
-                        <property ID="0xACB1CDCB"/>
-                    </struct>
-                </struct>
-                <property ID="0x6C1626B9"/>
-                <property ID="0x33E6589F"/>
-            </struct>
-            <struct ID="0xB40A41B8" type="multi">
-                <struct ID="0xC1547AF3" type="multi">
-                    <property ID="0x2EF22401"/>
-                    <struct ID="0x0CF33816" type="multi">
-                        <property ID="0xB3823863"/>
-                        <property ID="0xB122A18D"/>
-                        <property ID="0x8E1B83F9"/>
-                        <property ID="0xACB1CDCB"/>
-                        <property ID="0x74D11538"/>
-                    </struct>
-                    <struct ID="0x1FF47DDF" type="multi">
-                        <property ID="0x18C7396A"/>
-                        <property ID="0xBD0B7EDE"/>
-                    </struct>
-                </struct>
-                <property ID="0x7D0BCA87"/>
-                <struct ID="0xD9A90EC3" type="multi">
-                    <property ID="0x2EF22401"/>
-                    <struct ID="0x0CF33816" type="multi">
-                        <property ID="0xB3823863"/>
-                        <property ID="0xACB1CDCB"/>
-                        <property ID="0x74D11538"/>
-                    </struct>
-                    <struct ID="0x1FF47DDF" type="multi">
-                        <property ID="0x18C7396A"/>
-                        <property ID="0xBD0B7EDE"/>
-                    </struct>
-                </struct>
-            </struct>
+            </properties>
         </struct>
-        <struct ID="0x65FC11FF" type="multi">
-            <property ID="0x5C72A964"/>
-            <property ID="0x6219022E"/>
-            <struct ID="0x32468C89" type="multi">
-                <property ID="0x559542AB"/>
-                <struct ID="0x4150490C" type="multi">
-                    <property ID="0xB80D00A8"/>
-                </struct>
-            </struct>
-            <struct ID="0xDA54B3E9" type="multi">
-                <property ID="0x2EF22401"/>
-            </struct>
-            <struct ID="0x091F2936" type="multi">
-                <property ID="0x485B0C11"/>
-                <property ID="0x95CDD594"/>
-                <property ID="0x2807B95A"/>
-            </struct>
-            <property ID="0xC4DFBFA7"/>
-            <struct ID="0x0E1F2094" type="multi">
-                <property ID="0x19028BD3"/>
-            </struct>
-            <struct ID="0x86BC03D3" type="multi">
-                <property ID="0x1B4962BF"/>
-                <struct ID="0x609C0608" type="multi">
-                    <property ID="0x9A598FA5"/>
-                </struct>
-                <struct ID="0xF6C828C0" type="multi">
-                    <property ID="0x723DD19C"/>
-                    <property ID="0x9A598FA5"/>
-                </struct>
-            </struct>
-        </struct>
+        <struct ID="0x65FC11FF" template="Structs/CameraStructA.xml"/>
         <struct ID="0x00A7C38D" type="multi">
-            <struct ID="0xFA698856" type="multi">
-                <property ID="0x2EF22401"/>
-                <struct ID="0x0CF33816" type="multi">
-                    <property ID="0xB3823863"/>
-                </struct>
-            </struct>
+            <properties>
+                <struct ID="0xFA698856" template="Structs/UnknownStruct12.xml"/>
+            </properties>
         </struct>
         <struct ID="0xFC126AD1" type="multi">
-            <property ID="0x69ACC94A"/>
-            <property ID="0xCAFE3DA7"/>
-            <property ID="0x972C0E20"/>
-            <property ID="0x812CF888"/>
-            <property ID="0x19EA151B"/>
+            <properties>
+                <enum ID="0x19EA151B">
+                    <default>0xA93DE248</default>
+                    <enumerators>
+                        <enumerator ID="0xA93DE248" name="Unknown 1"/>
+                        <enumerator ID="0x97F935EE" name="Unknown 2"/>
+                        <enumerator ID="0x3A1B60FF" name="Unknown 3"/>
+                    </enumerators>
+                </enum>
+                <property ID="0x69ACC94A" type="long">
+                    <default>0</default>
+                </property>
+                <enum ID="0xD1E91886">
+                    <default>0x0D2CFE11</default>
+                    <enumerators>
+                        <enumerator ID="0x0D2CFE11" name="Unknown 1"/>
+                        <enumerator ID="0xD35AAB88" name="Unknown 2"/>
+                        <enumerator ID="0xAE296A71" name="Unknown 3"/>
+                    </enumerators>
+                </enum>
+                <property ID="0xCAFE3DA7" type="float">
+                    <default>60.0</default>
+                </property>
+                <struct ID="0x972C0E20" template="Structs/MayaSpline.xml"/>
+                <struct ID="0x812CF888" template="Structs/MayaSpline.xml"/>
+            </properties>
         </struct>
         <struct ID="0xE389796E" type="multi">
-            <struct ID="0xC79AA0C6" type="multi">
-                <property ID="0x1D2830C3"/>
-                <property ID="0xD098956E"/>
-                <property ID="0x685952E3"/>
-                <property ID="0x4A2E425F"/>
-            </struct>
-            <struct ID="0x62243011" type="multi">
-                <property ID="0x343A18A7"/>
-                <property ID="0x82AF371E"/>
-                <property ID="0x6F76EC5E"/>
-                <property ID="0x6D18C318"/>
-                <property ID="0xF88D7EF2"/>
-                <property ID="0x906E98FA"/>
-                <property ID="0xACE23AC6"/>
-                <property ID="0x2D839E6F"/>
-                <property ID="0x0D6C9529"/>
-                <struct ID="0x092F7FD8" type="multi">
-                    <struct ID="0x0CF33816" type="multi">
-                        <property ID="0xB3823863"/>
-                        <property ID="0x74D11538"/>
-                    </struct>
-                    <struct ID="0x1FF47DDF" type="multi">
-                        <property ID="0x18C7396A"/>
-                        <property ID="0xBD0B7EDE"/>
-                    </struct>
+            <properties>
+                <struct ID="0xC79AA0C6" type="multi">
+                    <properties>
+                        <property ID="0x1D2830C3" type="bool">
+                            <default>false</default>
+                        </property>
+                        <property ID="0x685952E3" type="bool">
+                            <default>true</default>
+                        </property>
+                        <property ID="0xD098956E" type="float">
+                            <default>2.0</default>
+                        </property>
+                        <property ID="0x4A2E425F" type="bool">
+                            <default>false</default>
+                        </property>
+                    </properties>
                 </struct>
-                <struct ID="0x29E06213" type="multi">
-                    <property ID="0x2EF22401"/>
-                    <struct ID="0x0CF33816" type="multi">
-                        <property ID="0xB3823863"/>
-                        <property ID="0xACB1CDCB"/>
-                        <property ID="0x74D11538"/>
-                    </struct>
+                <struct ID="0x62243011" type="multi">
+                    <properties>
+                        <struct ID="0x343A18A7" template="Structs/MayaSpline.xml"/>
+                        <property ID="0x82AF371E" type="bool">
+                            <default>true</default>
+                        </property>
+                        <property ID="0x6F76EC5E" type="bool">
+                            <default>false</default>
+                        </property>
+                        <property ID="0x6D18C318" type="float">
+                            <default>1.777</default>
+                        </property>
+                        <property ID="0xACE23AC6" type="bool">
+                            <default>false</default>
+                        </property>
+                        <struct ID="0x2D839E6F" template="Structs/MayaSpline.xml"/>
+                        <property ID="0xF88D7EF2" type="bool">
+                            <default>true</default>
+                        </property>
+                        <property ID="0x906E98FA" type="bool">
+                            <default>true</default>
+                        </property>
+                        <property ID="0x0D6C9529" type="float">
+                            <default>1.5</default>
+                        </property>
+                        <struct ID="0x092F7FD8" template="Structs/UnknownStruct12.xml">
+                            <properties>
+                                <enum ID="0x2EF22401">
+                                    <default>0x0BCC8352</default>
+                                </enum>
+                                <struct ID="0x0CF33816">
+                                    <properties>
+                                        <property ID="0xB3823863">
+                                            <default>15.0</default>
+                                        </property>
+                                        <property ID="0xACB1CDCB">
+                                            <default>100.0</default>
+                                        </property>
+                                    </properties>
+                                </struct>
+                            </properties>
+                        </struct>
+                        <struct ID="0x29E06213" template="Structs/UnknownStruct12.xml"/>
+                        <property ID="0xB21E67C8" type="bool">
+                            <default>false</default>
+                        </property>
+                        <property ID="0x054F1A14" type="float">
+                            <default>30.5</default>
+                        </property>
+                    </properties>
                 </struct>
-                <property ID="0x054F1A14"/>
-                <property ID="0xB21E67C8"/>
-            </struct>
+            </properties>
         </struct>
-        <struct ID="0x764827D4" type="multi">
-            <property ID="0x1D49D35C"/>
-            <property ID="0xC22D6492"/>
-            <struct ID="0xA738790A" type="multi">
-                <property ID="0x948AF571"/>
-                <struct ID="0x287F9F45" type="multi">
-                    <property ID="0x09B5957D"/>
-                    <property ID="0x15567FE7"/>
-                    <property ID="0xB08D3237"/>
-                    <property ID="0x67E3836A"/>
-                    <property ID="0x8B51E23F"/>
-                </struct>
-            </struct>
-            <struct ID="0xA768A18E" type="multi">
-                <property ID="0x5C72A964"/>
-                <struct ID="0x8654B081" type="multi">
-                    <property ID="0x09B5957D"/>
-                    <property ID="0xB08D3237"/>
-                    <property ID="0x67E3836A"/>
-                    <property ID="0x8B51E23F"/>
-                </struct>
-            </struct>
-            <struct ID="0x3B8C7CB4" type="multi">
-                <property ID="0x19EA151B"/>
-                <struct ID="0x9F90014C" type="multi">
-                    <property ID="0x09B5957D"/>
-                    <property ID="0x8B51E23F"/>
-                </struct>
-            </struct>
-            <property ID="0x058C1B1D"/>
-            <struct ID="0x7FAC732A" type="multi">
-                <property ID="0x948AF571"/>
-                <struct ID="0x287F9F45" type="multi">
-                    <property ID="0x09B5957D"/>
-                    <property ID="0x15567FE7"/>
-                    <property ID="0xB08D3237"/>
-                    <property ID="0x67E3836A"/>
-                    <property ID="0x8B51E23F"/>
-                </struct>
-            </struct>
-            <struct ID="0xDFAB73B6" type="multi">
-                <struct ID="0x8654B081" type="multi">
-                    <property ID="0x09B5957D"/>
-                    <property ID="0xB08D3237"/>
-                    <property ID="0x67E3836A"/>
-                    <property ID="0x8B51E23F"/>
-                </struct>
-                <property ID="0x5C72A964"/>
-            </struct>
-            <struct ID="0xF391EDBC" type="multi">
-                <property ID="0x19EA151B"/>
-                <struct ID="0x9F90014C" type="multi">
-                    <property ID="0x8B51E23F"/>
-                </struct>
-            </struct>
-            <property ID="0x07A6C22C"/>
-            <struct ID="0xBC723CAC" type="multi">
-                <property ID="0x948AF571"/>
-                <struct ID="0x287F9F45" type="multi">
-                    <property ID="0x09B5957D"/>
-                    <property ID="0xB08D3237"/>
-                    <property ID="0x67E3836A"/>
-                    <property ID="0x8B51E23F"/>
-                </struct>
-            </struct>
-            <struct ID="0xBE093676" type="multi">
-                <property ID="0x5C72A964"/>
-                <struct ID="0x8654B081" type="multi">
-                    <property ID="0xB08D3237"/>
-                    <property ID="0x67E3836A"/>
-                    <property ID="0x8B51E23F"/>
-                </struct>
-            </struct>
-            <struct ID="0x70754E15" type="multi">
-                <property ID="0x19EA151B"/>
-            </struct>
-        </struct>
+        <struct ID="0x764827D4" template="Structs/CameraStructB.xml"/>
         <struct ID="0xD3696C11" type="multi">
-            <property ID="0xF4817F13"/>
-            <property ID="0x84EC4A74"/>
+            <properties>
+                <property ID="0xF4817F13" type="float">
+                    <default>0.2</default>
+                </property>
+                <property ID="0x84EC4A74" type="float">
+                    <default>750.0</default>
+                </property>
+            </properties>
         </struct>
+        <struct ID="0x95D0D437" template="Structs/CameraHintStructB.xml"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
@@ -407,7 +243,8 @@
             <property name="Active" ID="0x255A4580:0x41435456"/>
         </properties>
         <assets/>
+		<preview_scale>0.5</preview_scale>
         <rotation_type>enabled</rotation_type>
-        <scale_type>disabled</scale_type>
+        <scale_type>enabled</scale_type>
     </editor>
 </ScriptTemplate>

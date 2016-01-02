@@ -1,76 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>PlayerActor</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0xF344C0B0" type="vector3f">
+            <default>0.0, 0.0, 0.0</default>
+        </property>
+        <property ID="0x2E686C2A" type="vector3f">
+            <default>0.0, 0.0, 0.0</default>
+        </property>
+        <property ID="0x75DBB375" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x2F2AE3E5" type="float">
+            <default>0.0</default>
+        </property>
+        <struct ID="0xCF90D15E" template="Structs/HealthInfo.xml"/>
+        <struct ID="0x7B71AE90" template="Structs/DamageVulnerability.xml"/>
+        <property ID="0xC27FFA8F" type="file" extensions="CMDL"/>
+        <property ID="0xA244C9D8" type="character"/>
+        <struct ID="0xBF81C83E" template="Structs/ShadowData.xml"/>
+        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
+        <property ID="0xC08D1B93" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0x87613768" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xE2DDC4C1" type="string"/>
+        <property ID="0x7859B520" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x32FAB97E" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0xAA719632" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x4743294F" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xA6AA06D5" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x73E7BFE9" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x261E92A4" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0xC1B9C601" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x27E50799" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x22E046BA" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xBE513E2B" type="float">
+            <default>1.0</default>
+        </property>
+        <struct ID="0xE1BCEF23" template="Structs/UnknownStruct6.xml">
+            <properties>
+                <enum ID="0x74059F59">
+                    <default>0x1D137B4B</default>
+                </enum>
+            </properties>
         </struct>
-        <property ID="0xF344C0B0"/>
-        <struct ID="0x7B71AE90" type="multi">
-            <property ID="0x10F37815"/>
-            <property ID="0xF65FEEF8"/>
+        <struct ID="0x963E45F6" template="Structs/UnknownStruct6.xml">
+            <properties>
+                <enum ID="0x74059F59">
+                    <default>0x1D137B4B</default>
+                </enum>
+            </properties>
         </struct>
-        <property ID="0xC27FFA8F"/>
-        <property ID="0xA244C9D8"/>
-        <struct ID="0xBF81C83E" type="multi">
-            <property ID="0xCECB77DD"/>
-            <property ID="0x64C0C54F"/>
-            <property ID="0xC7C4C8A9"/>
-            <property ID="0x808E9E32"/>
-        </struct>
-        <struct ID="0x7E397FED" type="multi">
-            <struct ID="0xB028DB0E" type="multi">
-                <property ID="0x1F715FD3"/>
-                <property ID="0xA71810E9"/>
-                <property ID="0xC1B12BB4"/>
-                <property ID="0x6B5E7509"/>
-                <property ID="0x628E6AC3"/>
-                <property ID="0xB772D4C1"/>
-                <property ID="0x287DE7BE"/>
-            </struct>
-        </struct>
-        <property ID="0xC08D1B93"/>
-        <property ID="0x87613768"/>
-        <property ID="0xE2DDC4C1"/>
-        <property ID="0x261E92A4"/>
-        <property ID="0x32FAB97E"/>
-        <property ID="0xAA719632"/>
-        <property ID="0xA6AA06D5"/>
-        <struct ID="0xE1BCEF23" type="multi">
-            <property ID="0x74059F59"/>
-        </struct>
-        <struct ID="0x963E45F6" type="multi">
-            <property ID="0x74059F59"/>
-        </struct>
-        <struct ID="0x6C75E2EA" type="multi">
-            <struct ID="0xDAA9D4BE" type="multi">
-                <property ID="0x5405F708"/>
-                <property ID="0x6B62E419"/>
-            </struct>
-            <struct ID="0xF361604C" type="multi">
-                <property ID="0x5405F708"/>
-                <property ID="0x6B62E419"/>
-            </struct>
-            <struct ID="0x5D09F1DD" type="multi">
-                <property ID="0x5405F708"/>
-                <property ID="0x6B62E419"/>
-            </struct>
-            <property ID="0xC2AD5735"/>
-            <property ID="0x6351A049"/>
-        </struct>
-        <struct ID="0x2E9827AD" type="multi">
-            <property ID="0x2FAE047A"/>
-            <property ID="0x21CF023A"/>
-            <property ID="0x47EB5A68"/>
-            <property ID="0xFC0929F0"/>
-            <property ID="0x359B8513"/>
-            <property ID="0xFB406CA9"/>
-            <property ID="0x6B40ACEF"/>
-        </struct>
+        <struct ID="0x6C75E2EA" template="Structs/UnknownStruct8.xml"/>
+        <struct ID="0x2E9827AD" template="Structs/UnknownStruct46.xml"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>

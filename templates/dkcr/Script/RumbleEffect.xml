@@ -1,17 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>RumbleEffect</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml">
+            <properties>
+                <property ID="0x5D298A43">
+                    <default>1</default>
+                </property>
+            </properties>
         </struct>
-        <property ID="0x4F7FEC39"/>
-        <property ID="0x05A451ED"/>
-        <property ID="0x295D238B"/>
+        <property ID="0x4F7FEC39" type="long">
+            <default>240</default>
+        </property>
+        <enum ID="0x295D238B">
+            <default>0x0186ECB5</default>
+            <enumerators>
+                <enumerator ID="0x0186ECB5" name="Unknown 1"/>
+                <enumerator ID="0x34467A03" name="Unknown 2"/>
+                <enumerator ID="0xBC450D39" name="Unknown 3"/>
+                <enumerator ID="0xA33DC408" name="Unknown 4"/>
+                <enumerator ID="0xAD1366EB" name="Unknown 5"/>
+                <enumerator ID="0xCB452228" name="Unknown 6"/>
+                <enumerator ID="0xA87EC998" name="Unknown 7"/>
+                <enumerator ID="0x5DAEA7B9" name="Unknown 8"/>
+                <enumerator ID="0x78B08D32" name="Unknown 9"/>
+                <enumerator ID="0xD4796F99" name="Unknown 10"/>
+                <enumerator ID="0xD77F748B" name="Unknown 11"/>
+                <enumerator ID="0x0282F7C0" name="Unknown 12"/>
+                <enumerator ID="0x956FE681" name="Unknown 13"/>
+                <enumerator ID="0x5DAE32D4" name="Unknown 14"/>
+                <enumerator ID="0x4570D977" name="Unknown 15"/>
+                <enumerator ID="0x18A94DF6" name="Unknown 16"/>
+                <enumerator ID="0x4C33216B" name="Unknown 17"/>
+                <enumerator ID="0xA9BF7098" name="Unknown 18"/>
+                <enumerator ID="0x40852C39" name="Unknown 19"/>
+                <enumerator ID="0x95238F0C" name="Unknown 20"/>
+                <enumerator ID="0x752B6589" name="Unknown 21"/>
+                <enumerator ID="0xD1D767DD" name="Unknown 22"/>
+                <enumerator ID="0x2E5525FE" name="Unknown 23"/>
+                <enumerator ID="0x3DD52B8B" name="Unknown 24"/>
+                <enumerator ID="0x2A1D82EA" name="Unknown 25"/>
+                <enumerator ID="0xA0E5443D" name="Unknown 26"/>
+            </enumerators>
+        </enum>
+        <struct ID="0x05A451ED" template="Structs/MayaSpline.xml"/>
+        <property ID="0x78C507EB" type="float">
+            <default>20.0</default>
+        </property>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
@@ -21,7 +59,8 @@
             <property name="Active" ID="0x255A4580:0x41435456"/>
         </properties>
         <assets/>
+		<preview_scale>0.5</preview_scale>
         <rotation_type>enabled</rotation_type>
-        <scale_type>disabled</scale_type>
+        <scale_type>enabled</scale_type>
     </editor>
 </ScriptTemplate>

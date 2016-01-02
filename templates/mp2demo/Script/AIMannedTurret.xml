@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="4">
+    <name>AIMannedTurret</name>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml">
+            <properties>
+                <property ID="0x41435456">
+                    <default>false</default>
+                </property>
+            </properties>
+        </struct>
+        <struct ID="0xB15DEC6F" type="multi">
+            <properties>
+                <property ID="0x17CD8B2A" type="float">
+                    <default>90.0</default>
+                </property>
+                <property ID="0x1473DAD2" type="float">
+                    <default>90.0</default>
+                </property>
+                <property ID="0x3650CE75" type="float">
+                    <default>60.0</default>
+                </property>
+                <property ID="0x78520E6E" type="float">
+                    <default>60.0</default>
+                </property>
+                <property ID="0xA39A5D72" type="float">
+                    <default>30.0</default>
+                </property>
+                <property ID="0xFB2E32DB" type="float">
+                    <default>30.0</default>
+                </property>
+                <property ID="0x1B3C8683" type="float">
+                    <default>30.0</default>
+                </property>
+                <property ID="0xC6E48F18" type="float">
+                    <default>1.0</default>
+                </property>
+                <property ID="0xF9BD253E" type="float">
+                    <default>0.0</default>
+                </property>
+                <property ID="0xF11F7384" type="float">
+                    <default>90.0</default>
+                </property>
+                <property ID="0xFF77C96F" type="float">
+                    <default>40.0</default>
+                </property>
+                <property ID="0xB63F274C" type="float">
+                    <default>20.0</default>
+                </property>
+                <property ID="0xF8D1EA77" type="float">
+                    <default>2.0</default>
+                </property>
+                <struct ID="0xBB9D3D6D" type="multi">
+                    <properties>
+                        <property ID="0x4D577910" type="long">
+                            <default>0</default>
+                        </property>
+                        <property ID="0xF3EC8748" type="float">
+                            <default>10.0</default>
+                        </property>
+                        <property ID="0x0F598739" type="float">
+                            <default>1.0</default>
+                        </property>
+                        <property ID="0x56F98C49" type="float">
+                            <default>1.0</default>
+                        </property>
+                    </properties>
+                </struct>
+                <property ID="0xC43360A7" type="long">
+                    <default>-1</default>
+                </property>
+                <struct ID="0xCF90D15E" template="Structs/HealthInfo.xml"/>
+                <struct ID="0x7B71AE90" template="Structs/DamageVulnerability.xml"/>
+                <property ID="0x55744160" type="file" extensions="AFSM"/>
+                <property ID="0x8F68AC21" type="long">
+                    <default>-1</default>
+                </property>
+            </properties>
+        </struct>
+        <struct ID="0x260792CF" template="Structs/MayaSpline.xml"/>
+        <struct ID="0x84284B1C" template="Structs/MayaSpline.xml"/>
+    </properties>
+    <states/>
+    <messages/>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
+        </properties>
+        <assets/>
+		<preview_scale>0.5</preview_scale>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>enabled</scale_type>
+    </editor>
+</ScriptTemplate>

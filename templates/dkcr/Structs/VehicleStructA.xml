@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="VehicleStructA" type="multi">
+    <properties>
+        <property ID="0x2B70FD04" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0x138BAC93" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0xDD96E915" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xE5FCD8DB" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x16A4BA22" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0x1E1D08F4" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0x426980FC" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x73EE7EC2" type="float">
+            <default>1.1</default>
+        </property>
+        <property ID="0x7ABD556D" type="float">
+            <default>15.0</default>
+        </property>
+        <property ID="0x15E63783" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x1A518928" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0xDBD1E3BF" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x4FA972D1" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x4B79DBA9" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xF98EB36C" type="bool">
+            <default>false</default>
+        </property>
+    </properties>
+</struct>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="ForestBossStructB" type="multi">
+    <properties>
+        <property ID="0xC8844CEA" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0x9F8A1CA9" type="float">
+            <default>30.0</default>
+        </property>
+        <property ID="0x72FC2EBD" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0xD2E52E7D" type="float">
+            <default>8.0</default>
+        </property>
+        <property ID="0x66B5BC1E" type="float">
+            <default>7.0</default>
+        </property>
+        <property ID="0xE021CEB0" type="float">
+            <default>6.0</default>
+        </property>
+        <property ID="0x2B7D1D15" type="float">
+            <default>5.0</default>
+        </property>
+        <property ID="0xC4A217AD" type="float">
+            <default>0.1</default>
+        </property>
+        <struct ID="0x84DF6106" template="Structs/UnknownStruct49.xml">
+            <properties>
+                <property ID="0x6392404E">
+                    <default>6.0</default>
+                </property>
+                <property ID="0x39FB7978">
+                    <default>10.0</default>
+                </property>
+                <property ID="0x9EC4FC10">
+                    <default>10.0</default>
+                </property>
+            </properties>
+        </struct>
+        <struct ID="0x9F91359A" template="Structs/UnknownStruct49.xml">
+            <properties>
+                <property ID="0x39FB7978">
+                    <default>10.0</default>
+                </property>
+                <property ID="0x9EC4FC10">
+                    <default>10.0</default>
+                </property>
+                <property ID="0xC9D374D2">
+                    <default>480.0</default>
+                </property>
+            </properties>
+        </struct>
+        <struct ID="0x294BBCA0" template="Structs/UnknownStruct49.xml">
+            <properties>
+                <property ID="0x6392404E">
+                    <default>12.0</default>
+                </property>
+                <property ID="0x39FB7978">
+                    <default>10.0</default>
+                </property>
+                <property ID="0x9EC4FC10">
+                    <default>10.0</default>
+                </property>
+                <property ID="0xC9D374D2">
+                    <default>180.0</default>
+                </property>
+            </properties>
+        </struct>
+        <property ID="0x501CC39F" type="float">
+            <default>20.0</default>
+        </property>
+        <struct ID="0x11C70370" template="Structs/UnknownStruct49.xml">
+            <properties>
+                <property ID="0x6392404E">
+                    <default>20.0</default>
+                </property>
+                <property ID="0x9EC4FC10">
+                    <default>20.0</default>
+                </property>
+                <property ID="0xC9D374D2">
+                    <default>180.0</default>
+                </property>
+            </properties>
+        </struct>
+    </properties>
+</struct>

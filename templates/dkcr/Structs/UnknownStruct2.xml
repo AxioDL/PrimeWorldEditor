@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="UnknownStruct2" type="multi">
+    <properties>
+        <property ID="0xDE5BFC61" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x7C16E269" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xD4903C98" type="float">
+            <default>5.0</default>
+        </property>
+        <property ID="0x2229B37E" type="long">
+            <default>1</default>
+        </property>
+        <property ID="0x19D7AE87" type="float">
+            <default>3.0</default>
+        </property>
+        <property ID="0xFC9C77D8" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xBBD455D6" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xAF452276" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0xF1004C52" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0xA19DB1DF" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xF5A53CC1" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x9D06B0FE" type="bool">
+            <default>true</default>
+        </property>
+    </properties>
+</struct>

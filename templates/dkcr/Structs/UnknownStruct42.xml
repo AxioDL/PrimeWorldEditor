@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="UnknownStruct42" type="multi">
+    <properties>
+        <property ID="0x39E3604C" type="long">
+            <default>10</default>
+        </property>
+        <struct ID="0xFE8F0886" template="Structs/MayaSpline.xml"/>
+    </properties>
+</struct>

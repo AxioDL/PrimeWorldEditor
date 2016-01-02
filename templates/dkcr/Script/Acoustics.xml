@@ -1,32 +1,146 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>Acoustics</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <property ID="0x765CAE8C"/>
-        <property ID="0xA6BCDF8E"/>
-        <property ID="0x11AA184B"/>
-        <property ID="0x2714DC3B"/>
-        <property ID="0x5A38A08D"/>
-        <property ID="0xE9AD286A"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0x765CAE8C" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xC78B91FA" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xA6BCDF8E" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x11AA184B" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0x2714DC3B" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0x5A38A08D" type="float">
+            <default>1.0</default>
+        </property>
+        <enum ID="0xE9AD286A">
+            <default>0x15C2A4E5</default>
+            <enumerators>
+                <enumerator ID="0x15C2A4E5" name="Unknown 1"/>
+                <enumerator ID="0x3451AABF" name="Unknown 2"/>
+                <enumerator ID="0x1526F437" name="Unknown 3"/>
+                <enumerator ID="0xA565970E" name="Unknown 4"/>
+                <enumerator ID="0x3C6CC6B4" name="Unknown 5"/>
+                <enumerator ID="0x305FD4D6" name="Unknown 6"/>
+                <enumerator ID="0x82D700E1" name="Unknown 7"/>
+                <enumerator ID="0x63C5C4A2" name="Unknown 8"/>
+                <enumerator ID="0xA400169F" name="Unknown 9"/>
+                <enumerator ID="0x76F248AC" name="Unknown 10"/>
+                <enumerator ID="0xA5635267" name="Unknown 11"/>
+                <enumerator ID="0x0AD53D06" name="Unknown 12"/>
+                <enumerator ID="0x1FE2B108" name="Unknown 13"/>
+                <enumerator ID="0x32D3C956" name="Unknown 14"/>
+                <enumerator ID="0x13F78AD4" name="Unknown 15"/>
+                <enumerator ID="0x112FF1FC" name="Unknown 16"/>
+                <enumerator ID="0x8826A046" name="Unknown 17"/>
+                <enumerator ID="0x7A0D9732" name="Unknown 18"/>
+                <enumerator ID="0xE304C688" name="Unknown 19"/>
+                <enumerator ID="0x91A41B53" name="Unknown 20"/>
+                <enumerator ID="0x08AD4AE9" name="Unknown 21"/>
+                <enumerator ID="0x7FAA7A7F" name="Unknown 22"/>
+                <enumerator ID="0x4EF81BF8" name="Unknown 23"/>
+                <enumerator ID="0xD7F14A42" name="Unknown 24"/>
+                <enumerator ID="0x1B5A08D8" name="Unknown 25"/>
+                <enumerator ID="0x82535962" name="Unknown 26"/>
+                <enumerator ID="0x555373A4" name="Unknown 27"/>
+                <enumerator ID="0xCC5A221E" name="Unknown 28"/>
+            </enumerators>
+        </enum>
         <struct ID="0xA383E10B" type="multi">
-            <property ID="0xF060EEEC"/>
-            <property ID="0x22A0058D"/>
-            <property ID="0x3DD7B303"/>
-            <property ID="0xF52AF9F3"/>
-            <property ID="0xC77A8932"/>
-            <property ID="0x5D6B1084"/>
-            <property ID="0xFCF4AAB0"/>
-            <property ID="0xFB11A412"/>
-            <property ID="0x253DA9C6"/>
-            <property ID="0x1F5A38E3"/>
+            <properties>
+                <enum ID="0xF060EEEC">
+                    <default>0xC4CB1DA9</default>
+                    <enumerators>
+                        <enumerator ID="0xC4CB1DA9" name="Unknown 1"/>
+                        <enumerator ID="0x5AA68394" name="Unknown 2"/>
+                        <enumerator ID="0x5C6D417F" name="Unknown 3"/>
+                        <enumerator ID="0x48132C7A" name="Unknown 4"/>
+                        <enumerator ID="0x4ED8EE91" name="Unknown 5"/>
+                        <enumerator ID="0xF0AF4B1F" name="Unknown 6"/>
+                        <enumerator ID="0xF66489F4" name="Unknown 7"/>
+                        <enumerator ID="0x6D7873A6" name="Unknown 8"/>
+                    </enumerators>
+                </enum>
+                <property ID="0x3DD7B303" type="float">
+                    <default>0.0</default>
+                </property>
+                <property ID="0xF52AF9F3" type="float">
+                    <default>0.0</default>
+                </property>
+                <enum ID="0x22A0058D">
+                    <default>0x00EDE964</default>
+                    <enumerators>
+                        <enumerator ID="0x00EDE964" name="Unknown 1"/>
+                        <enumerator ID="0x2D99FF73" name="Unknown 2"/>
+                        <enumerator ID="0xCC8B3B30" name="Unknown 3"/>
+                        <enumerator ID="0xD9BCB73E" name="Unknown 4"/>
+                        <enumerator ID="0x217181FE" name="Unknown 5"/>
+                        <enumerator ID="0x9D9D36C4" name="Unknown 6"/>
+                    </enumerators>
+                </enum>
+                <property ID="0xC77A8932" type="float">
+                    <default>0.01</default>
+                </property>
+                <property ID="0x5D6B1084" type="float">
+                    <default>0.0</default>
+                </property>
+                <property ID="0xFCF4AAB0" type="float">
+                    <default>0.0</default>
+                </property>
+                <property ID="0xFB11A412" type="float">
+                    <default>0.0</default>
+                </property>
+                <property ID="0x253DA9C6" type="float">
+                    <default>0.0</default>
+                </property>
+                <property ID="0x1F5A38E3" type="float">
+                    <default>0.0</default>
+                </property>
+            </properties>
+        </struct>
+        <struct ID="0x6530E9CF" type="multi">
+            <properties>
+                <property ID="0x8E16E012" type="float">
+                    <default>0.0</default>
+                </property>
+                <property ID="0xC287B5AF" type="float">
+                    <default>0.0</default>
+                </property>
+                <property ID="0x168AE1DD" type="float">
+                    <default>0.0</default>
+                </property>
+                <property ID="0x1DA37B0D" type="float">
+                    <default>0.0</default>
+                </property>
+            </properties>
+        </struct>
+        <struct ID="0x3BC9DA35" type="multi">
+            <properties>
+                <property ID="0xF5B6BF6C" type="float">
+                    <default>0.0</default>
+                </property>
+                <property ID="0x14FFF39C" type="float">
+                    <default>0.0</default>
+                </property>
+                <property ID="0x1DA37B0D" type="float">
+                    <default>0.0</default>
+                </property>
+                <property ID="0x11BC5E7A" type="float">
+                    <default>0.0</default>
+                </property>
+            </properties>
         </struct>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
@@ -36,7 +150,9 @@
             <property name="Active" ID="0x255A4580:0x41435456"/>
         </properties>
         <assets/>
+		<preview_scale>0.5</preview_scale>
         <rotation_type>enabled</rotation_type>
-        <scale_type>disabled</scale_type>
+        <scale_type>volume</scale_type>
+		<preview_volume shape="Box"/>
     </editor>
 </ScriptTemplate>

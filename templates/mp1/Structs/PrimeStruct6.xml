@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="PrimeStruct6" type="multi">
-    <struct ID="0x00" name="DamageVulnerability" template="Structs/DamageVulnerability.xml"/>
-    <property ID="0x01" name="Unknown 1" type="color"/>
-    <property ID="0x02" name="Unknown 2" type="long"/>
-    <property ID="0x03" name="Unknown 3" type="long"/>
+<struct name="PrimeStruct6.xml" type="multi">
+    <properties>
+        <struct ID="0x00" name="DamageVulnerability" template="Structs/DamageVulnerability.xml"/>
+        <property ID="0x01" name="Unknown 1" type="color"/>
+        <property ID="0x02" name="Unknown 2" type="long"/>
+        <property ID="0x03" name="Unknown 3" type="long"/>
+    </properties>
 </struct>

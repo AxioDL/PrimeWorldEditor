@@ -1,0 +1,558 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="MetroidHatcherStruct" type="multi">
+    <properties>
+        <property ID="0x25474550" type="float">
+            <default>25.0</default>
+        </property>
+        <property ID="0x474FA589" type="float">
+            <default>50.0</default>
+        </property>
+        <property ID="0xF8B0C2BB" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0xFE4588A1" type="float">
+            <default>50.0</default>
+        </property>
+        <property ID="0xC2688B41" type="float">
+            <default>0.5</default>
+        </property>
+        <property ID="0x7B0CC30D" type="float">
+            <default>60.0</default>
+        </property>
+        <struct ID="0x742B3336" template="Structs/DamageVulnerability.xml"/>
+        <struct ID="0x0D9230D1" template="Structs/DamageVulnerability.xml"/>
+        <struct ID="0x243AB10D" template="Structs/DamageVulnerability.xml"/>
+        <property ID="0x012115A2" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0xA12A4409" type="float">
+            <default>0.1</default>
+        </property>
+        <struct ID="0x9F0FF852" template="Structs/DamageVulnerability.xml"/>
+        <property ID="0xB9E0C90D" type="float">
+            <default>20.0</default>
+        </property>
+        <property ID="0x81D39802" type="float">
+            <default>0.1</default>
+        </property>
+        <property ID="0xBA002DCB" type="float">
+            <default>0.3333</default>
+        </property>
+        <property ID="0xF79A10B0" type="float">
+            <default>0.5</default>
+        </property>
+        <property ID="0xC550A481" type="float">
+            <default>0.1</default>
+        </property>
+        <property ID="0x95E7A2C2" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0x76BA1C18" type="float">
+            <default>15.0</default>
+        </property>
+        <property ID="0xE08106ED" type="float">
+            <default>5.0</default>
+        </property>
+        <property ID="0x88D7C540" type="float">
+            <default>5.0</default>
+        </property>
+        <property ID="0xACE62367" type="float">
+            <default>5.0</default>
+        </property>
+        <property ID="0x620B1B3D" type="float">
+            <default>5.0</default>
+        </property>
+        <property ID="0xE1AE51D8" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0xC8D0ACC0" type="float">
+            <default>9.0</default>
+        </property>
+        <property ID="0xF3E8012D" type="float">
+            <default>16.0</default>
+        </property>
+        <property ID="0xE0ADE786" type="float">
+            <default>14.0</default>
+        </property>
+        <property ID="0x0978B98A" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0xCFCD32BB" type="float">
+            <default>-1.5</default>
+        </property>
+        <property ID="0x17D71349" type="float">
+            <default>8.0</default>
+        </property>
+        <property ID="0x9AA90B6B" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x7626EC89" type="float">
+            <default>5.0</default>
+        </property>
+        <property ID="0x7915E2B3" type="long">
+            <default>3</default>
+        </property>
+        <property ID="0xCCC0CF92" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x75E0B0A7" type="float">
+            <default>30.0</default>
+        </property>
+        <property ID="0x2646A843" type="float">
+            <default>20.0</default>
+        </property>
+        <property ID="0x6089191D" type="long">
+            <default>10</default>
+        </property>
+        <property ID="0x258B5A9F" type="long">
+            <default>5</default>
+        </property>
+        <property ID="0x2AE610E5" type="float">
+            <default>20.0</default>
+        </property>
+        <property ID="0x354BAE31" type="float">
+            <default>0.7</default>
+        </property>
+        <property ID="0xF4B2C801" type="float">
+            <default>0.5</default>
+        </property>
+        <property ID="0x3FEE1BA4" type="float">
+            <default>0.5</default>
+        </property>
+        <struct ID="0xCFACFF53" template="Structs/DamageInfo.xml">
+            <properties>
+                <property ID="0xF2D02613">
+                    <default>30.0</default>
+                </property>
+                <property ID="0x555FF80A">
+                    <default>20.0</default>
+                </property>
+                <property ID="0x7A3FE00D">
+                    <default>2</default>
+                </property>
+            </properties>
+        </struct>
+        <property ID="0x6CB6D8C7" type="float">
+            <default>20.0</default>
+        </property>
+        <property ID="0x682CE9ED" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0xBEAF2105" type="float">
+            <default>15.0</default>
+        </property>
+        <property ID="0x54FF4D38" type="float">
+            <default>3.0</default>
+        </property>
+        <property ID="0xB29FE2D9" type="float">
+            <default>2.0</default>
+        </property>
+        <property ID="0x47BE3298" type="float">
+            <default>0.001</default>
+        </property>
+        <property ID="0x42647AD7" type="float">
+            <default>100.0</default>
+        </property>
+        <property ID="0xA404D536" type="float">
+            <default>15.0</default>
+        </property>
+        <property ID="0x248D3599" type="float">
+            <default>0.1</default>
+        </property>
+        <property ID="0xBFD77E62" type="float">
+            <default>0.1</default>
+        </property>
+        <property ID="0xCDAA2C74" type="float">
+            <default>30.0</default>
+        </property>
+        <property ID="0x2BCA8395" type="float">
+            <default>10.0</default>
+        </property>
+        <struct ID="0xCCDD3ACA" template="Structs/FlyerMovementMode.xml">
+            <properties>
+                <property ID="0x6392404E">
+                    <default>3.0</default>
+                </property>
+                <property ID="0x39FB7978">
+                    <default>1.0</default>
+                </property>
+                <property ID="0x6C6426C8">
+                    <default>30.0</default>
+                </property>
+                <property ID="0xC0AC271E">
+                    <default>181.0</default>
+                </property>
+                <property ID="0x9699FA45">
+                    <default>false</default>
+                </property>
+                <property ID="0x1A7B77AB">
+                    <default>7.0</default>
+                </property>
+                <property ID="0x6581358C">
+                    <default>10.0</default>
+                </property>
+                <property ID="0x115BB38C">
+                    <default>8.0</default>
+                </property>
+            </properties>
+        </struct>
+        <struct ID="0xC845D3C0" template="Structs/FlyerMovementMode.xml">
+            <properties>
+                <property ID="0x6392404E">
+                    <default>3.0</default>
+                </property>
+                <property ID="0xC0AC271E">
+                    <default>181.0</default>
+                </property>
+                <property ID="0x9699FA45">
+                    <default>false</default>
+                </property>
+                <property ID="0x1A7B77AB">
+                    <default>7.0</default>
+                </property>
+                <property ID="0x6581358C">
+                    <default>10.0</default>
+                </property>
+                <property ID="0x115BB38C">
+                    <default>8.0</default>
+                </property>
+            </properties>
+        </struct>
+        <struct ID="0xCC7D2E98" template="Structs/FlyerMovementMode.xml">
+            <properties>
+                <property ID="0x6392404E">
+                    <default>3.0</default>
+                </property>
+                <property ID="0x39FB7978">
+                    <default>10.0</default>
+                </property>
+                <property ID="0xC0AC271E">
+                    <default>181.0</default>
+                </property>
+                <property ID="0x1A7B77AB">
+                    <default>6.0</default>
+                </property>
+                <property ID="0x6581358C">
+                    <default>11.0</default>
+                </property>
+                <property ID="0x115BB38C">
+                    <default>8.0</default>
+                </property>
+            </properties>
+        </struct>
+        <struct ID="0xB9C3DB94" template="Structs/FlyerMovementMode.xml">
+            <properties>
+                <property ID="0x6392404E">
+                    <default>0.1</default>
+                </property>
+                <property ID="0x39FB7978">
+                    <default>10.0</default>
+                </property>
+                <property ID="0xE34DC703">
+                    <default>10800.0</default>
+                </property>
+                <property ID="0x6C6426C8">
+                    <default>120.0</default>
+                </property>
+                <property ID="0xC0AC271E">
+                    <default>181.0</default>
+                </property>
+                <property ID="0x9699FA45">
+                    <default>false</default>
+                </property>
+                <property ID="0x1A7B77AB">
+                    <default>9.0</default>
+                </property>
+                <property ID="0xDCD1597D">
+                    <default>0.0</default>
+                </property>
+                <property ID="0x6581358C">
+                    <default>8.0</default>
+                </property>
+                <property ID="0x115BB38C">
+                    <default>8.0</default>
+                </property>
+            </properties>
+        </struct>
+        <struct ID="0x6CA56014" template="Structs/FlyerMovementMode.xml">
+            <properties>
+                <property ID="0x6392404E">
+                    <default>30.0</default>
+                </property>
+                <property ID="0x39FB7978">
+                    <default>50.0</default>
+                </property>
+                <property ID="0xC0AC271E">
+                    <default>181.0</default>
+                </property>
+                <property ID="0x9699FA45">
+                    <default>false</default>
+                </property>
+                <property ID="0x1A7B77AB">
+                    <default>6.0</default>
+                </property>
+                <property ID="0xDCD1597D">
+                    <default>0.0</default>
+                </property>
+                <property ID="0x6581358C">
+                    <default>3.5</default>
+                </property>
+                <property ID="0x115BB38C">
+                    <default>8.0</default>
+                </property>
+            </properties>
+        </struct>
+        <struct ID="0xE20E51C3" template="Structs/FlyerMovementMode.xml">
+            <properties>
+                <property ID="0x6392404E">
+                    <default>30.0</default>
+                </property>
+                <property ID="0x39FB7978">
+                    <default>10.0</default>
+                </property>
+                <property ID="0x6C6426C8">
+                    <default>1.0</default>
+                </property>
+                <property ID="0xC0AC271E">
+                    <default>181.0</default>
+                </property>
+                <property ID="0x9699FA45">
+                    <default>false</default>
+                </property>
+                <property ID="0x1A7B77AB">
+                    <default>6.0</default>
+                </property>
+                <property ID="0xDCD1597D">
+                    <default>1.0</default>
+                </property>
+                <property ID="0x6581358C">
+                    <default>5.0</default>
+                </property>
+                <property ID="0x115BB38C">
+                    <default>8.0</default>
+                </property>
+            </properties>
+        </struct>
+        <struct ID="0x25A68A0E" template="Structs/FlyerMovementMode.xml">
+            <properties>
+                <property ID="0x6392404E">
+                    <default>1.0</default>
+                </property>
+                <property ID="0x39FB7978">
+                    <default>10.0</default>
+                </property>
+                <property ID="0xC0AC271E">
+                    <default>181.0</default>
+                </property>
+                <property ID="0x1A7B77AB">
+                    <default>4.0</default>
+                </property>
+                <property ID="0xDCD1597D">
+                    <default>0.0</default>
+                </property>
+                <property ID="0x6581358C">
+                    <default>10.0</default>
+                </property>
+                <property ID="0x115BB38C">
+                    <default>8.0</default>
+                </property>
+            </properties>
+        </struct>
+        <struct ID="0xD9B5D506" template="Structs/FlyerMovementMode.xml">
+            <properties>
+                <property ID="0x6392404E">
+                    <default>30.0</default>
+                </property>
+                <property ID="0x39FB7978">
+                    <default>20.0</default>
+                </property>
+                <property ID="0x6C6426C8">
+                    <default>1.0</default>
+                </property>
+                <property ID="0xC0AC271E">
+                    <default>181.0</default>
+                </property>
+                <property ID="0x1A7B77AB">
+                    <default>4.0</default>
+                </property>
+                <property ID="0xDCD1597D">
+                    <default>1.0</default>
+                </property>
+                <property ID="0x6581358C">
+                    <default>10.0</default>
+                </property>
+                <property ID="0x115BB38C">
+                    <default>8.0</default>
+                </property>
+            </properties>
+        </struct>
+        <struct ID="0x8BB1C3A2" template="Structs/FlyerMovementMode.xml">
+            <properties>
+                <property ID="0x6392404E">
+                    <default>1.0</default>
+                </property>
+                <property ID="0x39FB7978">
+                    <default>10.0</default>
+                </property>
+                <property ID="0xC0AC271E">
+                    <default>181.0</default>
+                </property>
+                <property ID="0x1A7B77AB">
+                    <default>4.0</default>
+                </property>
+                <property ID="0xDCD1597D">
+                    <default>1.0</default>
+                </property>
+                <property ID="0x6581358C">
+                    <default>10.0</default>
+                </property>
+                <property ID="0x115BB38C">
+                    <default>8.0</default>
+                </property>
+            </properties>
+        </struct>
+        <struct ID="0x389CB515" template="Structs/FlyerMovementMode.xml">
+            <properties>
+                <property ID="0x6392404E">
+                    <default>5.0</default>
+                </property>
+                <property ID="0xC0AC271E">
+                    <default>181.0</default>
+                </property>
+                <property ID="0x9699FA45">
+                    <default>false</default>
+                </property>
+                <property ID="0x1A7B77AB">
+                    <default>8.0</default>
+                </property>
+                <property ID="0xDCD1597D">
+                    <default>1.0</default>
+                </property>
+                <property ID="0x6581358C">
+                    <default>5.0</default>
+                </property>
+                <property ID="0x115BB38C">
+                    <default>8.0</default>
+                </property>
+            </properties>
+        </struct>
+        <struct ID="0xFB2DDFAD" template="Structs/FlyerMovementMode.xml">
+            <properties>
+                <property ID="0x6392404E">
+                    <default>5.0</default>
+                </property>
+                <property ID="0x39FB7978">
+                    <default>10.0</default>
+                </property>
+                <property ID="0x6C6426C8">
+                    <default>15.0</default>
+                </property>
+                <property ID="0xC0AC271E">
+                    <default>181.0</default>
+                </property>
+                <property ID="0x9699FA45">
+                    <default>false</default>
+                </property>
+                <property ID="0x1A7B77AB">
+                    <default>12.0</default>
+                </property>
+                <property ID="0x3AB1F69C">
+                    <default>1.0</default>
+                </property>
+                <property ID="0x6581358C">
+                    <default>10.0</default>
+                </property>
+                <property ID="0x115BB38C">
+                    <default>8.0</default>
+                </property>
+            </properties>
+        </struct>
+        <struct ID="0xC558BC0D" template="Structs/FlyerMovementMode.xml">
+            <properties>
+                <property ID="0x6392404E">
+                    <default>40.0</default>
+                </property>
+                <property ID="0x39FB7978">
+                    <default>100.0</default>
+                </property>
+                <property ID="0xE34DC703">
+                    <default>360.0</default>
+                </property>
+                <property ID="0xC0AC271E">
+                    <default>181.0</default>
+                </property>
+                <property ID="0x50A9BD0D">
+                    <default>1.0</default>
+                </property>
+                <property ID="0x1A7B77AB">
+                    <default>5.0</default>
+                </property>
+                <property ID="0xDCD1597D">
+                    <default>0.5</default>
+                </property>
+                <property ID="0x6581358C">
+                    <default>13.0</default>
+                </property>
+                <property ID="0x115BB38C">
+                    <default>8.0</default>
+                </property>
+            </properties>
+        </struct>
+        <struct ID="0x5FE13A7B" template="Structs/FlyerMovementMode.xml">
+            <properties>
+                <property ID="0x39FB7978">
+                    <default>20.0</default>
+                </property>
+                <property ID="0xC0AC271E">
+                    <default>181.0</default>
+                </property>
+                <property ID="0x1A7B77AB">
+                    <default>6.0</default>
+                </property>
+                <property ID="0x6581358C">
+                    <default>12.0</default>
+                </property>
+                <property ID="0x115BB38C">
+                    <default>12.0</default>
+                </property>
+            </properties>
+        </struct>
+        <property ID="0xFD38A106" type="character"/>
+        <property ID="0x4D7DBEAB" type="character"/>
+        <property ID="0xA17C09BB" type="character"/>
+        <property ID="0x11DC2DAB" type="character"/>
+        <property ID="0xFDDD9ABB" type="character"/>
+        <property ID="0xC99CEE00" type="float">
+            <default>0.6</default>
+        </property>
+        <property ID="0x2FFC41E1" type="float">
+            <default>0.4</default>
+        </property>
+        <property ID="0x7F5D9AB7" type="float">
+            <default>0.8</default>
+        </property>
+        <property ID="0x993D3556" type="float">
+            <default>0.5</default>
+        </property>
+        <property ID="0x08EFEB79" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xEE8F4498" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xC24D8FBD" type="float">
+            <default>20.0</default>
+        </property>
+        <property ID="0x242D205C" type="float">
+            <default>15.0</default>
+        </property>
+        <property ID="0x5BDD1E4C" type="float">
+            <default>30.0</default>
+        </property>
+        <property ID="0x6DA4A3B0" type="file" extensions="ELSC"/>
+        <property ID="0x3FCD8B66" type="file" extensions="UNKN"/>
+        <property ID="0xCC0AF287" type="file" extensions="ELSC"/>
+        <property ID="0xA3E8EC4E" type="file" extensions="CAUD"/>
+        <property ID="0xF40A9C9D" type="file" extensions="PART"/>
+    </properties>
+</struct>

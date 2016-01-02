@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="UnknownStruct39" type="multi">
+    <properties>
+        <property ID="0x30F6A36B" type="float">
+            <default>3.25</default>
+        </property>
+        <property ID="0x80C9B957" type="float">
+            <default>5.25</default>
+        </property>
+        <property ID="0x5D849EF9" type="file" extensions="CAUD"/>
+        <property ID="0xD80F96C2" type="file" extensions="CAUD"/>
+        <property ID="0x95408246" type="file" extensions="CAUD"/>
+        <property ID="0xA3C2FC44" type="file" extensions="CAUD"/>
+        <property ID="0xB9A2AF7D" type="file" extensions="CAUD"/>
+    </properties>
+</struct>

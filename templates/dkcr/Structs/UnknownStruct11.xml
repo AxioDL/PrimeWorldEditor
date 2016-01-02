@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="UnknownStruct11" type="multi">
+    <properties>
+        <enum ID="0x723DD19C">
+            <default>0xCEA073FF</default>
+            <enumerators>
+                <enumerator ID="0xCEA073FF" name="Unknown 1"/>
+                <enumerator ID="0x4E5B5AA9" name="Unknown 2"/>
+                <enumerator ID="0x02612ACD" name="Unknown 3"/>
+                <enumerator ID="0x0A7993B8" name="Unknown 4"/>
+                <enumerator ID="0x60C3E081" name="Unknown 5"/>
+                <enumerator ID="0x8F2901CB" name="Unknown 6"/>
+                <enumerator ID="0x6FAE276E" name="Unknown 7"/>
+                <enumerator ID="0xB8FE02D2" name="Unknown 8"/>
+                <enumerator ID="0xA96ADD5C" name="Unknown 9"/>
+                <enumerator ID="0x72ADC4A3" name="Unknown 10"/>
+                <enumerator ID="0x0223A416" name="Unknown 11"/>
+            </enumerators>
+        </enum>
+        <struct ID="0x9A598FA5" template="Structs/MayaSpline.xml"/>
+    </properties>
+</struct>

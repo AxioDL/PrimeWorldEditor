@@ -7,7 +7,7 @@ class CRadiusSphereExtra : public CScriptExtra
 {
     // Sphere visualization for objects that have a float radius property.
     u32 mObjectType;
-    CFloatProperty *mpRadius;
+    TFloatProperty *mpRadius;
 
 public:
     explicit CRadiusSphereExtra(CScriptObject *pInstance, CSceneManager *pScene, CSceneNode *pParent = 0);

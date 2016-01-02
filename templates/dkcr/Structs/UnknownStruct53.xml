@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="UnknownStruct53" type="multi">
+    <properties>
+        <struct ID="0x45D39080" template="Structs/UnknownStruct54.xml"/>
+        <property ID="0x1F9BCB8F" type="float">
+            <default>0.0</default>
+        </property>
+    </properties>
+</struct>

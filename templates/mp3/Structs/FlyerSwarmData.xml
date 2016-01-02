@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="FlyerSwarmData" type="multi">
+    <properties>
+        <property ID="0x4A85A2DA" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x10CCCD3C" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x1E8E90A4" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x262E586D" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x479A5727" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xD572D1DA" type="float">
+            <default>0.0</default>
+        </property>
+    </properties>
+</struct>

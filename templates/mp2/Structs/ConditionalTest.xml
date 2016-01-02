@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="ConditionalTest" type="multi">
+    <properties>
+        <property ID="0xDE3E40A3" type="long">
+            <default>1</default>
+        </property>
+        <property ID="0xD3AF8D72" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0x03BDEA98" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0x70729364" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0x8DB9398A" type="long">
+            <default>0</default>
+        </property>
+    </properties>
+</struct>

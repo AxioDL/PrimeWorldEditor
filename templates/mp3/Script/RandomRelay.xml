@@ -1,19 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>RandomRelay</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <property ID="0x3291B8A2"/>
-        <property ID="0x7FCB33E8"/>
-        <property ID="0x458076E8"/>
-        <property ID="0xEF7B9826"/>
-        <property ID="0x432E9D73"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0x3291B8A2" type="long">
+            <default>1</default>
+        </property>
+        <property ID="0x7FCB33E8" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0x458076E8" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xEF7B9826" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x432E9D73" type="bool">
+            <default>false</default>
+        </property>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>

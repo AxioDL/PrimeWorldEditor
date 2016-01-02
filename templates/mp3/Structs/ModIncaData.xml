@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="ModIncaData" type="multi">
+    <properties>
+        <property ID="0xF8DF6CD2" type="color">
+            <default>1.0, 1.0, 1.0, 1.0</default>
+        </property>
+        <struct ID="0xC23011D9" template="Structs/MayaSpline.xml"/>
+    </properties>
+</struct>

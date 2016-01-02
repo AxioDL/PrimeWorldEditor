@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="ShadowData" type="multi">
+    <properties>
+        <property ID="0xCECB77DD" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x64C0C54F" type="file" extensions="TXTR"/>
+        <enum ID="0x79CFA775">
+            <default>0xB5F070C1</default>
+            <enumerators>
+                <enumerator ID="0xB5F070C1" name="Unknown 1"/>
+                <enumerator ID="0x67406469" name="Unknown 2"/>
+                <enumerator ID="0x81197C46" name="Unknown 3"/>
+                <enumerator ID="0xBD47002C" name="Unknown 4"/>
+            </enumerators>
+        </enum>
+        <property ID="0x1CF3F468" type="float">
+            <default>0.25</default>
+        </property>
+        <property ID="0xBBC77411" type="float">
+            <default>0.75</default>
+        </property>
+        <property ID="0x1524C118" type="float">
+            <default>0.25</default>
+        </property>
+        <property ID="0xC7C4C8A9" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x565C73A2" type="float">
+            <default>20.0</default>
+        </property>
+        <property ID="0x808E9E32" type="float">
+            <default>0.05</default>
+        </property>
+    </properties>
+</struct>

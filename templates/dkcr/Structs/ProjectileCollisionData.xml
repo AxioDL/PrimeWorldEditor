@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="ProjectileCollisionData" type="multi">
+    <properties>
+        <property ID="0xA9F8A74F" type="long">
+            <default>64</default>
+        </property>
+        <enum ID="0xB674EA3D">
+            <default>0x3AF0EDA3</default>
+            <enumerators>
+                <enumerator ID="0x3AF0EDA3" name="Unknown 1"/>
+                <enumerator ID="0xC4263063" name="Unknown 2"/>
+                <enumerator ID="0x03D38B76" name="Unknown 3"/>
+                <enumerator ID="0x183EE363" name="Unknown 4"/>
+            </enumerators>
+        </enum>
+        <property ID="0xF3D6E959" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0xFEF3D2DA" type="vector3f">
+            <default>0.0, 0.0, 0.0</default>
+        </property>
+        <property ID="0x2918609B" type="vector3f">
+            <default>0.0, 0.0, 0.0</default>
+        </property>
+    </properties>
+</struct>

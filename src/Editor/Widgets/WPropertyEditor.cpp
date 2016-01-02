@@ -20,7 +20,7 @@
 static const QString gskNullProperty = "[NULL]";
 static const QString gskUnsupportedType = "Invalid property type";
 
-WPropertyEditor::WPropertyEditor(QWidget *pParent, CPropertyBase *pProperty)
+WPropertyEditor::WPropertyEditor(QWidget *pParent, IProperty *pProperty)
     : QWidget(pParent)
 {
     mUI.PropertyName = new QLabel(gskNullProperty, this);
@@ -44,7 +44,7 @@ void WPropertyEditor::resizeEvent(QResizeEvent* /*pEvent*/)
     CreateLabelText();
 }
 
-void WPropertyEditor::SetProperty(CPropertyBase *pProperty)
+void WPropertyEditor::SetProperty(IProperty *pProperty)
 {
     if (pProperty)
     {
@@ -83,7 +83,7 @@ void WPropertyEditor::CreateEditor()
     // Bool - QCheckBox
     case eBoolProperty:
     {
-        CBoolProperty *pBoolCast = static_cast<CBoolProperty*>(mpProperty);
+        TBoolProperty *pBoolCast = static_cast<TBoolProperty*>(mpProperty);
         QCheckBox *pCheckBox = new QCheckBox(this);
 
         pCheckBox->setChecked(pBoolCast->Get());
@@ -95,7 +95,7 @@ void WPropertyEditor::CreateEditor()
     // Byte - WIntegralSpinBox
     case eByteProperty:
     {
-        CByteProperty *pByteCast = static_cast<CByteProperty*>(mpProperty);
+        TByteProperty *pByteCast = static_cast<TByteProperty*>(mpProperty);
         QSpinBox *pSpinBox = new WIntegralSpinBox(this);
 
         pSpinBox->setRange(-128, 128);
@@ -110,7 +110,7 @@ void WPropertyEditor::CreateEditor()
     // Short - WIntegralSpinBox
     case eShortProperty:
     {
-        CShortProperty *pShortCast = static_cast<CShortProperty*>(mpProperty);
+        TShortProperty *pShortCast = static_cast<TShortProperty*>(mpProperty);
         QSpinBox *pSpinBox = new WIntegralSpinBox(this);
 
         pSpinBox->setRange(-32768, 32767);
@@ -125,7 +125,7 @@ void WPropertyEditor::CreateEditor()
     // Long - WIntegralSpinBox
     case eLongProperty:
     {
-        CLongProperty *pLongCast = static_cast<CLongProperty*>(mpProperty);
+        TLongProperty *pLongCast = static_cast<TLongProperty*>(mpProperty);
         QSpinBox *pSpinBox = new WIntegralSpinBox(this);
 
         pSpinBox->setRange(INT32_MIN, INT32_MAX);
@@ -140,7 +140,7 @@ void WPropertyEditor::CreateEditor()
     // Enum - QComboBox
     case eEnumProperty:
     {
-        CEnumProperty *pEnumCast = static_cast<CEnumProperty*>(mpProperty);
+        TEnumProperty *pEnumCast = static_cast<TEnumProperty*>(mpProperty);
         CEnumTemplate *pTemplate = static_cast<CEnumTemplate*>(pEnumCast->Template());
         QComboBox *pComboBox = new QComboBox(this);
 
@@ -162,7 +162,7 @@ void WPropertyEditor::CreateEditor()
     // Bitfield - QGroupBox containing QCheckBoxes
     case eBitfieldProperty:
     {
-        CBitfieldProperty *pBitfieldCast = static_cast<CBitfieldProperty*>(mpProperty);
+        TBitfieldProperty *pBitfieldCast = static_cast<TBitfieldProperty*>(mpProperty);
         CBitfieldTemplate *pTemplate = static_cast<CBitfieldTemplate*>(pBitfieldCast->Template());
         long value = pBitfieldCast->Get();
 
@@ -190,7 +190,7 @@ void WPropertyEditor::CreateEditor()
     // Float - WDraggableSpinBox
     case eFloatProperty:
     {
-        CFloatProperty *pFloatCast = static_cast<CFloatProperty*>(mpProperty);
+        TFloatProperty *pFloatCast = static_cast<TFloatProperty*>(mpProperty);
         WDraggableSpinBox *pDraggableSpinBox = new WDraggableSpinBox(this);
 
         pDraggableSpinBox->setDecimals(4);
@@ -205,7 +205,7 @@ void WPropertyEditor::CreateEditor()
     // String - QLineEdit
     case eStringProperty:
     {
-        CStringProperty *pStringCast = static_cast<CStringProperty*>(mpProperty);
+        TStringProperty *pStringCast = static_cast<TStringProperty*>(mpProperty);
         QLineEdit *pLineEdit = new QLineEdit(this);
 
         pLineEdit->setText(TO_QSTRING(pStringCast->Get()));
@@ -219,7 +219,7 @@ void WPropertyEditor::CreateEditor()
     // Vector3 - WVectorEditor (inside QGroupBox)
     case eVector3Property:
     {
-        CVector3Property *pVector3Cast = static_cast<CVector3Property*>(mpProperty);
+        TVector3Property *pVector3Cast = static_cast<TVector3Property*>(mpProperty);
         QGroupBox *pGroupBox = new QGroupBox(this);
         WVectorEditor *pVectorEditor = new WVectorEditor(pGroupBox);
 
@@ -240,7 +240,7 @@ void WPropertyEditor::CreateEditor()
     // Color - WColorPicker
     case eColorProperty:
     {
-        CColorProperty *pColorCast = static_cast<CColorProperty*>(mpProperty);
+        TColorProperty *pColorCast = static_cast<TColorProperty*>(mpProperty);
         WColorPicker *pColorPicker = new WColorPicker(this);
 
         CColor color = pColorCast->Get();
@@ -254,7 +254,7 @@ void WPropertyEditor::CreateEditor()
     // File - WResourceSelector
     case eFileProperty:
     {
-        CFileProperty *pFileCast = static_cast<CFileProperty*>(mpProperty);
+        TFileProperty *pFileCast = static_cast<TFileProperty*>(mpProperty);
         CFileTemplate *pFileTemp = static_cast<CFileTemplate*>(pFileCast->Template());
         WResourceSelector *pResourceSelector = new WResourceSelector(this);
 
@@ -289,9 +289,9 @@ void WPropertyEditor::CreateEditor()
     }
 
     // AnimParams - WAnimParamsEditor
-    case eAnimParamsProperty:
+    case eCharacterProperty:
     {
-        CAnimParamsProperty *pAnimCast = static_cast<CAnimParamsProperty*>(mpProperty);
+        TAnimParamsProperty *pAnimCast = static_cast<TAnimParamsProperty*>(mpProperty);
         CAnimationParameters params = pAnimCast->Get();
 
         WAnimParamsEditor *pEditor = new WAnimParamsEditor(params, this);
@@ -313,7 +313,7 @@ void WPropertyEditor::CreateEditor()
     if ((mpProperty->Type() != eStructProperty) &&
         (mpProperty->Type() != eBitfieldProperty) &&
         (mpProperty->Type() != eVector3Property) &&
-        (mpProperty->Type() != eAnimParamsProperty))
+        (mpProperty->Type() != eCharacterProperty))
     {
         mUI.EditorWidget->setMinimumHeight(21);
         mUI.EditorWidget->setMaximumHeight(21);
@@ -330,7 +330,7 @@ void WPropertyEditor::UpdateEditor()
 
     case eBoolProperty:
     {
-        CBoolProperty *pBoolCast = static_cast<CBoolProperty*>(mpProperty);
+        TBoolProperty *pBoolCast = static_cast<TBoolProperty*>(mpProperty);
         QCheckBox *pCheckBox = static_cast<QCheckBox*>(mUI.EditorWidget);
         pCheckBox->setChecked(pBoolCast->Get());
         break;
@@ -338,7 +338,7 @@ void WPropertyEditor::UpdateEditor()
 
     case eByteProperty:
     {
-        CByteProperty *pByteCast = static_cast<CByteProperty*>(mpProperty);
+        TByteProperty *pByteCast = static_cast<TByteProperty*>(mpProperty);
         QSpinBox *pSpinBox = static_cast<QSpinBox*>(mUI.EditorWidget);
         pSpinBox->setValue(pByteCast->Get());
         break;
@@ -346,7 +346,7 @@ void WPropertyEditor::UpdateEditor()
 
     case eShortProperty:
     {
-        CShortProperty *pShortCast = static_cast<CShortProperty*>(mpProperty);
+        TShortProperty *pShortCast = static_cast<TShortProperty*>(mpProperty);
         QSpinBox *pSpinBox = static_cast<QSpinBox*>(mUI.EditorWidget);
         pSpinBox->setValue(pShortCast->Get());
         break;
@@ -354,7 +354,7 @@ void WPropertyEditor::UpdateEditor()
 
     case eLongProperty:
     {
-        CLongProperty *pLongCast = static_cast<CLongProperty*>(mpProperty);
+        TLongProperty *pLongCast = static_cast<TLongProperty*>(mpProperty);
         QSpinBox *pSpinBox = static_cast<QSpinBox*>(mUI.EditorWidget);
         pSpinBox->setValue(pLongCast->Get());
         break;
@@ -362,7 +362,7 @@ void WPropertyEditor::UpdateEditor()
 
     case eEnumProperty:
     {
-        CEnumProperty *pEnumCast = static_cast<CEnumProperty*>(mpProperty);
+        TEnumProperty *pEnumCast = static_cast<TEnumProperty*>(mpProperty);
         QComboBox *pComboBox = static_cast<QComboBox*>(mUI.EditorWidget);
         pComboBox->setCurrentIndex(pEnumCast->Get());
         break;
@@ -370,7 +370,7 @@ void WPropertyEditor::UpdateEditor()
 
     case eBitfieldProperty:
     {
-        CBitfieldProperty *pBitfieldCast = static_cast<CBitfieldProperty*>(mpProperty);
+        TBitfieldProperty *pBitfieldCast = static_cast<TBitfieldProperty*>(mpProperty);
         CBitfieldTemplate *pTemplate = static_cast<CBitfieldTemplate*>(pBitfieldCast->Template());
         QGroupBox *pGroupBox = static_cast<QGroupBox*>(mUI.EditorWidget);
 
@@ -393,7 +393,7 @@ void WPropertyEditor::UpdateEditor()
 
     case eFloatProperty:
     {
-        CFloatProperty *pFloatCast = static_cast<CFloatProperty*>(mpProperty);
+        TFloatProperty *pFloatCast = static_cast<TFloatProperty*>(mpProperty);
         WDraggableSpinBox *pDraggableSpinBox = static_cast<WDraggableSpinBox*>(mUI.EditorWidget);
         pDraggableSpinBox->setValue(pFloatCast->Get());
         break;
@@ -401,7 +401,7 @@ void WPropertyEditor::UpdateEditor()
 
     case eStringProperty:
     {
-        CStringProperty *pStringCast = static_cast<CStringProperty*>(mpProperty);
+        TStringProperty *pStringCast = static_cast<TStringProperty*>(mpProperty);
         QLineEdit *pLineEdit = static_cast<QLineEdit*>(mUI.EditorWidget);
         pLineEdit->setText(TO_QSTRING(pStringCast->Get()));
         pLineEdit->setCursorPosition(0);
@@ -410,7 +410,7 @@ void WPropertyEditor::UpdateEditor()
 
     case eVector3Property:
     {
-        CVector3Property *pVector3Cast = static_cast<CVector3Property*>(mpProperty);
+        TVector3Property *pVector3Cast = static_cast<TVector3Property*>(mpProperty);
         QGroupBox *pGroupBox = static_cast<QGroupBox*>(mUI.EditorWidget);
 
         WVectorEditor *pVectorEditor = static_cast<WVectorEditor*>(pGroupBox->children().first());
@@ -420,7 +420,7 @@ void WPropertyEditor::UpdateEditor()
 
     case eColorProperty:
     {
-        CColorProperty *pColorCast = static_cast<CColorProperty*>(mpProperty);
+        TColorProperty *pColorCast = static_cast<TColorProperty*>(mpProperty);
         WColorPicker *pColorPicker = static_cast<WColorPicker*>(mUI.EditorWidget);
 
         CColor color = pColorCast->Get();
@@ -432,7 +432,7 @@ void WPropertyEditor::UpdateEditor()
 
     case eFileProperty:
     {
-        CFileProperty *pFileCast = static_cast<CFileProperty*>(mpProperty);
+        TFileProperty *pFileCast = static_cast<TFileProperty*>(mpProperty);
         CFileTemplate *pFileTemp = static_cast<CFileTemplate*>(pFileCast->Template());
         WResourceSelector *pResourceSelector = static_cast<WResourceSelector*>(mUI.EditorWidget);
         pResourceSelector->SetAllowedExtensions(pFileTemp->Extensions());
@@ -452,7 +452,7 @@ void WPropertyEditor::UpdateEditor()
         {
             if (pObj != pGroupBox->layout())
             {
-                CPropertyBase *pProp = pStructCast->PropertyByIndex(PropNum);
+                IProperty *pProp = pStructCast->PropertyByIndex(PropNum);
                 static_cast<WPropertyEditor*>(pObj)->SetProperty(pProp);
                 PropNum++;
             }
@@ -460,9 +460,9 @@ void WPropertyEditor::UpdateEditor()
         break;
     }
 
-    case eAnimParamsProperty:
+    case eCharacterProperty:
     {
-        CAnimParamsProperty *pAnimCast = static_cast<CAnimParamsProperty*>(mpProperty);
+        TAnimParamsProperty *pAnimCast = static_cast<TAnimParamsProperty*>(mpProperty);
         WAnimParamsEditor *pEditor = static_cast<WAnimParamsEditor*>(mUI.EditorWidget);
         pEditor->SetParameters(pAnimCast->Get());
         break;

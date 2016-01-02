@@ -3,7 +3,7 @@
 
 #include "Core/Resource/CCollisionMesh.h"
 #include "Core/Resource/CCollisionMeshGroup.h"
-#include "Core/Resource/EFormatVersion.h"
+#include "Core/Resource/EGame.h"
 
 class CCollisionLoader
 {

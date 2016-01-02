@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="BehaveChance" type="multi">
+    <properties>
+        <property ID="0xD3A313A5" type="float">
+            <default>25.0</default>
+        </property>
+        <property ID="0x3CFA69F1" type="float">
+            <default>25.0</default>
+        </property>
+        <property ID="0x1AF89F4B" type="float">
+            <default>25.0</default>
+        </property>
+        <property ID="0xE7E66F66" type="float">
+            <default>25.0</default>
+        </property>
+        <property ID="0xB9D9C2D2" type="float">
+            <default>2.0</default>
+        </property>
+        <property ID="0xCFABDD5F" type="float">
+            <default>50.0</default>
+        </property>
+        <property ID="0x5AB228B6" type="long">
+            <default>1</default>
+        </property>
+    </properties>
+</struct>

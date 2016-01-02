@@ -1,37 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>Steam</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <struct ID="0x77A27411" type="multi">
-            <property ID="0x97C0611F"/>
-            <property ID="0x50224907"/>
-            <property ID="0x46CC1B48"/>
-            <property ID="0xFA873A67"/>
-            <struct ID="0x337F9524" type="multi">
-                <property ID="0x445E00C8"/>
-                <property ID="0xF2D02613"/>
-                <property ID="0xEE1BE914"/>
-                <property ID="0x555FF80A"/>
-                <property ID="0x7A3FE00D"/>
-                <property ID="0xEFE9E465"/>
-            </struct>
-            <property ID="0x20927E9B"/>
-        </struct>
-        <property ID="0x26346050"/>
-        <property ID="0x4F8F5F5C"/>
-        <property ID="0xC2138F3D"/>
-        <property ID="0x2E9F259E"/>
-        <property ID="0x78C507EB"/>
-        <property ID="0xA366C949"/>
-        <property ID="0x606539FA"/>
-        <property ID="0x92869052"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <struct ID="0x77A27411" template="Structs/TriggerInfo.xml"/>
+        <property ID="0x26346050" type="file" extensions="TXTR"/>
+        <property ID="0x4F8F5F5C" type="float">
+            <default>0.35</default>
+        </property>
+        <property ID="0xC2138F3D" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x2E9F259E" type="float">
+            <default>2.0</default>
+        </property>
+        <property ID="0x78C507EB" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xA366C949" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x606539FA" type="bool">
+            <default>false</default>
+        </property>
+        <enum ID="0x92869052">
+            <default>0x56B01A4A</default>
+            <enumerators>
+                <enumerator ID="0x56B01A4A" name="Unknown 1"/>
+                <enumerator ID="0x6CC92DBA" name="Unknown 2"/>
+                <enumerator ID="0xB0F5486C" name="Unknown 3"/>
+            </enumerators>
+        </enum>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>

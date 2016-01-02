@@ -1,35 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>DamageEffect</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <struct ID="0xEAF272DD" type="multi">
-            <struct ID="0x337F9524" type="multi">
-                <property ID="0x65C4FB4A"/>
-                <property ID="0xF2D02613"/>
-            </struct>
-            <property ID="0x6392404E"/>
-            <property ID="0x6117E78F"/>
-            <property ID="0xDB1C71C2"/>
-            <property ID="0x23EE6C1D"/>
-            <property ID="0x2331D418"/>
-            <property ID="0xA884E63F"/>
-            <property ID="0xD1E5B042"/>
-            <property ID="0x8B51E23F"/>
-            <property ID="0xD5417338"/>
-            <property ID="0xF3112AD9"/>
-            <property ID="0x441D8647"/>
-            <property ID="0x6D1CE525"/>
-            <property ID="0xA55DACF6"/>
-            <property ID="0x78A661EF"/>
-            <property ID="0x418D52D4"/>
-        </struct>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <struct ID="0xEAF272DD" template="Structs/DamageEffectData.xml"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
@@ -39,7 +16,8 @@
             <property name="Active" ID="0x255A4580:0x41435456"/>
         </properties>
         <assets/>
+		<preview_scale>0.5</preview_scale>
         <rotation_type>enabled</rotation_type>
-        <scale_type>disabled</scale_type>
+        <scale_type>enabled</scale_type>
     </editor>
 </ScriptTemplate>

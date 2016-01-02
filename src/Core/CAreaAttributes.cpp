@@ -29,9 +29,11 @@ bool CAreaAttributes::IsSkyEnabled()
     switch (mGame)
     {
     case ePrime:
+    case eEchoesDemo:
     case eEchoes:
+    case eCorruptionProto:
     case eCorruption:
-        return static_cast<CBoolProperty*>(pBaseStruct->PropertyByIndex(1))->Get();
+        return static_cast<TBoolProperty*>(pBaseStruct->PropertyByIndex(1))->Get();
     default:
         return false;
     }
@@ -44,10 +46,12 @@ CModel* CAreaAttributes::SkyModel()
     switch (mGame)
     {
     case ePrime:
+    case eEchoesDemo:
     case eEchoes:
-        return (CModel*) static_cast<CFileProperty*>(pBaseStruct->PropertyByIndex(7))->Get().RawPointer();
+        return (CModel*) static_cast<TFileProperty*>(pBaseStruct->PropertyByID(0xD208C9FA))->Get().RawPointer();
+    case eCorruptionProto:
     case eCorruption:
-        return (CModel*) static_cast<CFileProperty*>(pBaseStruct->PropertyByIndex(8))->Get().RawPointer();
+        return (CModel*) static_cast<TFileProperty*>(pBaseStruct->PropertyByIndex(8))->Get().RawPointer();
     default:
         return nullptr;
     }

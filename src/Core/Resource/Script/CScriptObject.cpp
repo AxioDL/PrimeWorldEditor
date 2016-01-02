@@ -3,16 +3,16 @@
 #include "Core/Resource/CAnimSet.h"
 
 CScriptObject::CScriptObject(CGameArea *pArea, CScriptLayer *pLayer, CScriptTemplate *pTemplate)
+    : mpTemplate(pTemplate)
+    , mpArea(pArea)
+    , mpLayer(pLayer)
+    , mVersion(0)
+    , mpDisplayModel(nullptr)
+    , mpCollision(nullptr)
+    , mHasInGameModel(false)
 {
-    mpTemplate = pTemplate;
-    mpArea = pArea;
-    mpLayer = pLayer;
-    mpProperties = nullptr;
     mpTemplate->AddObject(this);
-    mpDisplayModel = nullptr;
-    mpBillboard = nullptr;
-    mpCollision = nullptr;
-    mHasInGameModel = false;
+    mpProperties = (CPropertyStruct*) pTemplate->BaseStruct()->InstantiateProperty();
 }
 
 CScriptObject::~CScriptObject()
@@ -22,14 +22,7 @@ CScriptObject::~CScriptObject()
 }
 
 // ************ DATA MANIPULATION ************
-void CScriptObject::CopyFromTemplate(CScriptTemplate *pTemp, u32 propCount)
-{
-    CStructTemplate *pBaseStruct = pTemp->BaseStructByCount(propCount);
-    delete mpProperties;
-    mpProperties = CPropertyStruct::CopyFromTemplate(pBaseStruct);
-}
-
-void CScriptObject::EvaluateProperties()
+ void CScriptObject::EvaluateProperties()
 {
     mpInstanceName = mpTemplate->FindInstanceName(mpProperties);
     mpPosition = mpTemplate->FindPosition(mpProperties);
@@ -61,12 +54,12 @@ void CScriptObject::EvaluateCollisionModel()
 }
 
 // ************ GETTERS ************
-CPropertyBase* CScriptObject::PropertyByIndex(u32 index) const
+IProperty* CScriptObject::PropertyByIndex(u32 index) const
 {
     return mpProperties->PropertyByIndex(index);
 }
 
-CPropertyBase* CScriptObject::PropertyByIDString(const TString& str) const
+IProperty* CScriptObject::PropertyByIDString(const TString& str) const
 {
     return mpProperties->PropertyByIDString(str);
 }
@@ -89,6 +82,11 @@ CGameArea* CScriptObject::Area() const
 CScriptLayer* CScriptObject::Layer() const
 {
     return mpLayer;
+}
+
+u32 CScriptObject::Version() const
+{
+    return mVersion;
 }
 
 CPropertyStruct* CScriptObject::Properties() const

@@ -1,17 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>ASAS</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <property ID="0xE7D8D823"/>
-        <property ID="0x05C9246C"/>
-        <property ID="0x2409B906"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <enum ID="0xE7D8D823">
+            <default>0xCBF698CA</default>
+            <enumerators>
+                <enumerator ID="0xCBF698CA" name="Unknown 1"/>
+                <enumerator ID="0xBCF1A85C" name="Unknown 2"/>
+                <enumerator ID="0x25F8F9E6" name="Unknown 3"/>
+                <enumerator ID="0x52FFC970" name="Unknown 4"/>
+                <enumerator ID="0xCC9B5CD3" name="Unknown 5"/>
+                <enumerator ID="0xBB9C6C45" name="Unknown 6"/>
+                <enumerator ID="0x22953DFF" name="Unknown 7"/>
+                <enumerator ID="0x55920D69" name="Unknown 8"/>
+                <enumerator ID="0xC52D10F8" name="Unknown 9"/>
+                <enumerator ID="0xB22A206E" name="Unknown 10"/>
+            </enumerators>
+        </enum>
+        <property ID="0x05C9246C" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x2409B906" type="bool">
+            <default>false</default>
+        </property>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>

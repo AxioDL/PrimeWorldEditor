@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="4">
+    <name>ElitePirate</name>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <struct ID="0xB3774750" template="Structs/PatternedInfo.xml">
+            <properties>
+                <property ID="0xB0CFE015">
+                    <default>3.5</default>
+                </property>
+                <property ID="0xC80E329B">
+                    <default>2.0</default>
+                </property>
+                <property ID="0x4BC4C4D9">
+                    <default>2</default>
+                </property>
+            </properties>
+        </struct>
+        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
+        <struct ID="0xC9416034" template="Structs/DamageInfo.xml"/>
+        <property ID="0x9873A1C1" type="float">
+            <default>9.0</default>
+        </property>
+        <property ID="0x28095CE6" type="float">
+            <default>9.0</default>
+        </property>
+        <property ID="0x691E6360" type="float">
+            <default>35.0</default>
+        </property>
+        <property ID="0xE6299FAC" type="float">
+            <default>15.0</default>
+        </property>
+        <property ID="0x411D1FD5" type="float">
+            <default>80.0</default>
+        </property>
+        <struct ID="0xD3326E65" type="multi">
+            <properties>
+                <property ID="0x3333F896" type="float">
+                    <default>75.0</default>
+                </property>
+                <property ID="0xB5A78A38" type="float">
+                    <default>50.0</default>
+                </property>
+                <property ID="0x7EFB599D" type="float">
+                    <default>25.0</default>
+                </property>
+                <property ID="0x63FE6925" type="float">
+                    <default>10.0</default>
+                </property>
+                <property ID="0xA8A2BA80" type="float">
+                    <default>-1.0</default>
+                </property>
+                <property ID="0x61253A38" type="float">
+                    <default>10.0</default>
+                </property>
+                <property ID="0xECD9D92D" type="float">
+                    <default>50.0</default>
+                </property>
+            </properties>
+        </struct>
+        <property ID="0x61C4C0EA" type="float">
+            <default>8.0</default>
+        </property>
+        <property ID="0xF82D1272" type="float">
+            <default>3.0</default>
+        </property>
+        <struct ID="0xB2EBBFC6" template="Structs/ShockWaveInfo.xml"/>
+        <struct ID="0x09250DB2" template="Structs/ShockWaveInfo.xml"/>
+        <property ID="0x28B39197" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0xE27DE71B" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x665E7ACE" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0xACD4D06D" type="float">
+            <default>2.0</default>
+        </property>
+        <property ID="0xF199F553" type="long">
+            <default>-1</default>
+        </property>
+        <struct ID="0x4063D45C" template="Structs/DamageInfo.xml">
+            <properties>
+                <property ID="0x119FBD31">
+                    <default>9</default>
+                </property>
+                <property ID="0xF2D02613">
+                    <default>10.0</default>
+                </property>
+                <property ID="0xEE1BE914">
+                    <default>5.0</default>
+                </property>
+            </properties>
+        </struct>
+        <property ID="0x624222F8" type="long">
+            <default>2</default>
+        </property>
+        <property ID="0x31E43A1C" type="long">
+            <default>4</default>
+        </property>
+        <property ID="0xD6469119" type="float">
+            <default>0.1</default>
+        </property>
+        <property ID="0x6D1425D8" type="float">
+            <default>3.0</default>
+        </property>
+        <property ID="0xE47334AE" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x3DAD897B" type="float">
+            <default>50.0</default>
+        </property>
+        <property ID="0x06CF4324" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0x23F5E1EE" type="long">
+            <default>-1</default>
+        </property>
+        <struct ID="0x62C744CD" template="Structs/ActorParameters.xml"/>
+        <property ID="0xB92B481D" type="character"/>
+        <property ID="0xBD321538" type="file" extensions="ELSC"/>
+        <property ID="0x58A492EF" type="long">
+            <default>-1</default>
+        </property>
+    </properties>
+    <states/>
+    <messages/>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
+            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
+        </properties>
+        <assets>
+            <animparams source="property">0xB3774750:0xE25FB08C</animparams>
+            <animparams source="property">0xB92B481D</animparams>
+            <animparams source="property">0x7E6E0D38</animparams>
+            <model source="property">0x7E397FED:0xC0BA9E18</model>
+            <model source="property">0x7E397FED:0x6B1FBC3A</model>
+            <model source="property">0x00AE9C61</model>
+            <model source="property">0x62C744CD:0xC0BA9E18</model>
+            <model source="property">0x62C744CD:0x6B1FBC3A</model>
+            <model source="property">0xE61748ED:0xAD54DA11</model>
+        </assets>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>enabled</scale_type>
+    </editor>
+</ScriptTemplate>

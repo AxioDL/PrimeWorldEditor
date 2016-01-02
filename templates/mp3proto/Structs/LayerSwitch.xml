@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="LayerSwitch" type="single">
+	<properties>
+		<property ID="0x00" name="Area ID" type="file" ext="NULL"/>
+		<property ID="0x01" name="Layer #" type="long"/>
+	</properties>
+</struct>

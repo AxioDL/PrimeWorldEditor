@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="UnknownStruct58" type="multi">
+    <properties>
+        <property ID="0x8A58A7F8" type="long">
+            <default>1</default>
+        </property>
+        <property ID="0x72D0DC87" type="float">
+            <default>30.0</default>
+        </property>
+        <property ID="0x8686FDA9" type="long">
+            <default>1</default>
+        </property>
+        <property ID="0xDD6A10B1" type="long">
+            <default>1</default>
+        </property>
+        <property ID="0x9D45FA96" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x56192933" type="float">
+            <default>1.5</default>
+        </property>
+        <property ID="0xD08D5B9D" type="float">
+            <default>2.0</default>
+        </property>
+        <property ID="0x1BD18838" type="float">
+            <default>3.0</default>
+        </property>
+    </properties>
+</struct>

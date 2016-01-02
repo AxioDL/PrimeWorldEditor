@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="ConditionalTest" type="multi">
+    <properties>
+        <property ID="0xDE3E40A3" type="long">
+            <default>1</default>
+        </property>
+        <property ID="0x794F9BEB" type="bool">
+            <default>false</default>
+        </property>
+        <enum ID="0xD3AF8D72" template="Enums/InventorySlot.xml">
+            <default>0xFB73F2B8</default>
+        </enum>
+        <property ID="0x03BDEA98" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0x70729364" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0xAEB694B4" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x8DB9398A" type="long">
+            <default>0</default>
+        </property>
+    </properties>
+</struct>

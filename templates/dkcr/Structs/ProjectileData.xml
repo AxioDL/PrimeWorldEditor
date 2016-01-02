@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="ProjectileData" type="multi">
+    <properties>
+        <property ID="0xD4D4EDFA" type="float">
+            <default>30.0</default>
+        </property>
+        <property ID="0x9CBC24B1" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x7E2EA16C" type="bool">
+            <default>false</default>
+        </property>
+        <struct ID="0xDEFF74EA" template="Structs/DamageInfo.xml"/>
+        <property ID="0xEBEFB1A9" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xF0993BFE" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xA4692E9C" type="file" extensions="PART"/>
+        <property ID="0xA06EDAF9" type="file" extensions="PART"/>
+        <property ID="0xDE1565A9" type="file" extensions="PART"/>
+        <property ID="0x05C67D0B" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xF7F7F6AF" type="file" extensions="CAUD"/>
+        <property ID="0x2B258629" type="file" extensions="CAUD"/>
+        <property ID="0xE1E66B24" type="file" extensions="CAUD"/>
+        <enum ID="0xF4BF6637">
+            <default>0x482099A8</default>
+            <enumerators>
+                <enumerator ID="0x482099A8" name="Unknown 1"/>
+                <enumerator ID="0xEE13B592" name="Unknown 2"/>
+                <enumerator ID="0xFCEEA705" name="Unknown 3"/>
+            </enumerators>
+        </enum>
+        <property ID="0xA17C618D" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x469F8FB8" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xEC0828CE" type="vector3f">
+            <default>0.0, 0.0, 0.0</default>
+        </property>
+        <struct ID="0x0183DC71" type="multi">
+            <properties>
+                <struct ID="0xD6554C1A" template="Structs/UnknownStruct47.xml"/>
+                <struct ID="0xE59C4016" template="Structs/UnknownStruct47.xml"/>
+                <struct ID="0x2416759C" template="Structs/UnknownStruct47.xml"/>
+            </properties>
+        </struct>
+    </properties>
+</struct>

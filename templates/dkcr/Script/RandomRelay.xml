@@ -1,24 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>RandomRelay</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <struct ID="0x3836C403" type="multi">
-            <property ID="0xF3FC6E53"/>
-            <property ID="0xD4470962"/>
-            <property ID="0x432E9D73"/>
-            <property ID="0x54A2D2B1"/>
-            <property ID="0xABBDD047"/>
-            <property ID="0xF50B11EB"/>
-            <property ID="0xDC75ECF3"/>
-            <property ID="0x19A91B3B"/>
+            <properties>
+                <property ID="0x19A91B3B" type="bool">
+                    <default>false</default>
+                </property>
+                <property ID="0x54A2D2B1" type="bool">
+                    <default>false</default>
+                </property>
+                <property ID="0xABBDD047" type="long">
+                    <default>50</default>
+                </property>
+                <property ID="0xF3FC6E53" type="long">
+                    <default>1</default>
+                </property>
+                <property ID="0xD4470962" type="long">
+                    <default>1</default>
+                </property>
+                <property ID="0xF50B11EB" type="long">
+                    <default>50</default>
+                </property>
+                <property ID="0xDC75ECF3" type="long">
+                    <default>50</default>
+                </property>
+                <property ID="0x432E9D73" type="bool">
+                    <default>false</default>
+                </property>
+            </properties>
         </struct>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
@@ -27,8 +42,11 @@
             <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
             <property name="Active" ID="0x255A4580:0x41435456"/>
         </properties>
-        <assets/>
+        <assets>
+            <billboard source="file">script/common/RandomRelay.txtr</billboard>
+		</assets>
+		<preview_scale>0.5</preview_scale>
         <rotation_type>enabled</rotation_type>
-        <scale_type>disabled</scale_type>
+        <scale_type>enabled</scale_type>
     </editor>
 </ScriptTemplate>

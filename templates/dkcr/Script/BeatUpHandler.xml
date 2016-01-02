@@ -1,38 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>BeatUpHandler</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <struct ID="0x50228364" type="multi">
-            <property ID="0x35D40B67"/>
-            <property ID="0x82941381"/>
-            <property ID="0xE83776E6"/>
-            <property ID="0xE399B75A"/>
-            <property ID="0xB5BBE88A"/>
-            <property ID="0xB12E58B8"/>
-            <property ID="0xDD31E55A"/>
-            <struct ID="0x4289B15B" type="multi">
-                <property ID="0x8FA67C9E"/>
-                <property ID="0x7A7B330E"/>
-            </struct>
-            <struct ID="0x351763AB" type="multi">
-                <property ID="0x8FA67C9E"/>
-                <property ID="0xB3E3E1E3"/>
-                <property ID="0x7A7B330E"/>
-            </struct>
-            <struct ID="0xAEB22FC4" type="multi">
-                <property ID="0x8FA67C9E"/>
-                <property ID="0xB3E3E1E3"/>
-                <property ID="0x7A7B330E"/>
-            </struct>
-            <property ID="0x552DB72C"/>
+            <properties>
+                <struct ID="0xF6AE5D7C" template="Structs/UnknownStruct23.xml">
+                    <properties>
+                        <enum ID="0x418B3422">
+                            <default>0x6AD40029</default>
+                        </enum>
+                    </properties>
+                </struct>
+                <struct ID="0xD2FD4F74" template="Structs/UnknownStruct23.xml">
+                    <properties>
+                        <enum ID="0x418B3422">
+                            <default>0xE08296BA</default>
+                        </enum>
+                    </properties>
+                </struct>
+                <property ID="0x35D40B67" type="float">
+                    <default>1.0</default>
+                </property>
+                <property ID="0x82941381" type="float">
+                    <default>0.1</default>
+                </property>
+                <property ID="0xE83776E6" type="float">
+                    <default>0.1</default>
+                </property>
+                <property ID="0xF804D41C" type="bool">
+                    <default>false</default>
+                </property>
+                <property ID="0xE399B75A" type="bool">
+                    <default>false</default>
+                </property>
+                <property ID="0xDD31E55A" type="bool">
+                    <default>false</default>
+                </property>
+                <property ID="0xB5BBE88A" type="float">
+                    <default>0.0</default>
+                </property>
+                <property ID="0xB12E58B8" type="long">
+                    <default>100</default>
+                </property>
+                <struct ID="0x4289B15B" template="Structs/BeatUpHandlerStruct.xml"/>
+                <struct ID="0x351763AB" template="Structs/BeatUpHandlerStruct.xml"/>
+                <struct ID="0xAEB22FC4" template="Structs/BeatUpHandlerStruct.xml"/>
+                <property ID="0x552DB72C" type="file" extensions="CAUD"/>
+            </properties>
         </struct>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
@@ -42,7 +61,8 @@
             <property name="Active" ID="0x255A4580:0x41435456"/>
         </properties>
         <assets/>
+		<preview_scale>0.5</preview_scale>
         <rotation_type>enabled</rotation_type>
-        <scale_type>disabled</scale_type>
+        <scale_type>enabled</scale_type>
     </editor>
 </ScriptTemplate>

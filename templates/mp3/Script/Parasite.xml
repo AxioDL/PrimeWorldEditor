@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="4">
+    <name>Parasite</name>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0xBE73724A" type="long">
+            <default>0</default>
+        </property>
+        <struct ID="0xB3774750" template="Structs/PatternedAI.xml">
+            <properties>
+                <property ID="0x75DBB375">
+                    <default>25.0</default>
+                </property>
+                <struct ID="0xD756416E">
+                    <properties>
+                        <property ID="0xF2D02613">
+                            <default>10.0</default>
+                        </property>
+                        <property ID="0x555FF80A">
+                            <default>5.0</default>
+                        </property>
+                    </properties>
+                </struct>
+                <property ID="0xE0CDC7E3">
+                    <default>3.0</default>
+                </property>
+                <property ID="0x8A6AB139">
+                    <default>0.2</default>
+                </property>
+                <property ID="0x6392404E">
+                    <default>3.0</default>
+                </property>
+                <property ID="0x020C78BB">
+                    <default>720.0</default>
+                </property>
+                <property ID="0x8DB77EE4">
+                    <default>5.0</default>
+                </property>
+                <property ID="0x83DFC40F">
+                    <default>90.0</default>
+                </property>
+                <property ID="0x58434916">
+                    <default>4.0</default>
+                </property>
+                <property ID="0xFF77C96F">
+                    <default>20.0</default>
+                </property>
+                <property ID="0xE287D8DD">
+                    <default>0.0</default>
+                </property>
+            </properties>
+        </struct>
+        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
+        <property ID="0x8458B003" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0x733BD27C" type="float">
+            <default>2.5</default>
+        </property>
+        <property ID="0xAC47C628" type="float">
+            <default>360.0</default>
+        </property>
+        <property ID="0x8E4F7B29" type="float">
+            <default>180.0</default>
+        </property>
+        <property ID="0x3D3C1B76" type="float">
+            <default>120.0</default>
+        </property>
+        <property ID="0x0E7E3698" type="float">
+            <default>0.2</default>
+        </property>
+        <property ID="0xD5C25506" type="float">
+            <default>0.4</default>
+        </property>
+        <property ID="0x280361AA" type="float">
+            <default>6.0</default>
+        </property>
+        <property ID="0x01559F27" type="float">
+            <default>2.6</default>
+        </property>
+        <property ID="0xD293EBC4" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x4841F1DE" type="float">
+            <default>0.8</default>
+        </property>
+        <property ID="0x61959F0D" type="float">
+            <default>0.7</default>
+        </property>
+        <property ID="0xAE11F975" type="float">
+            <default>0.9</default>
+        </property>
+        <property ID="0x5E6A54B8" type="float">
+            <default>0.2</default>
+        </property>
+        <property ID="0x956A1248" type="float">
+            <default>1.3</default>
+        </property>
+        <property ID="0x46AC66AB" type="float">
+            <default>0.2</default>
+        </property>
+        <property ID="0x4EEEC785" type="float">
+            <default>40.0</default>
+        </property>
+        <property ID="0xC3CC437F" type="bool">
+            <default>false</default>
+        </property>
+        <struct ID="0xB718B831" template="Structs/WallCrawlerData.xml"/>
+    </properties>
+    <states/>
+    <messages/>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
+            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
+        </properties>
+        <assets>
+            <animparams source="property">0xB3774750:0xA244C9D8</animparams>
+            <model source="property">0x7E397FED:0xBB52F0BE</model>
+        </assets>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>enabled</scale_type>
+    </editor>
+</ScriptTemplate>

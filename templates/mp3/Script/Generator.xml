@@ -1,24 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>Generator</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <property ID="0x6BDD56D6"/>
-        <property ID="0x845F48AC"/>
-        <property ID="0xE4D247E4"/>
-        <property ID="0x88978E49"/>
-        <property ID="0x1EB8E254"/>
-        <property ID="0x035A5E10"/>
-        <property ID="0x46477064"/>
-        <property ID="0x72BBE7A6"/>
-        <property ID="0xC3861B64"/>
-        <property ID="0x25E6B485"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0x6BDD56D6" type="long">
+            <default>1</default>
+        </property>
+        <property ID="0x845F48AC" type="long">
+            <default>1</default>
+        </property>
+        <property ID="0xE4D247E4" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x88978E49" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x1EB8E254" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x035A5E10" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x46477064" type="vector3f">
+            <default>0.0, 0.0, 0.0</default>
+        </property>
+        <property ID="0x72BBE7A6" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xC3861B64" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x25E6B485" type="float">
+            <default>1.0</default>
+        </property>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="SwarmBasicsData" type="multi">
+    <properties>
+        <struct ID="0xD756416E" template="Structs/DamageInfo.xml">
+            <properties>
+                <property ID="0xEE1BE914">
+                    <default>5.0</default>
+                </property>
+                <property ID="0x555FF80A">
+                    <default>5.0</default>
+                </property>
+            </properties>
+        </struct>
+        <property ID="0xE0CDC7E3" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x8A6AB139" type="float">
+            <default>0.3</default>
+        </property>
+        <property ID="0x068C8E81" type="float">
+            <default>0.7</default>
+        </property>
+        <property ID="0x0F598739" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x6392404E" type="float">
+            <default>3.0</default>
+        </property>
+        <property ID="0x3291B8A2" type="long">
+            <default>50</default>
+        </property>
+        <property ID="0x54B68C4C" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0xB160450E" type="float">
+            <default>2.5</default>
+        </property>
+        <property ID="0x61959F0D" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x4841F1DE" type="float">
+            <default>0.7</default>
+        </property>
+        <property ID="0xD293EBC4" type="float">
+            <default>0.4</default>
+        </property>
+        <property ID="0xAE11F975" type="float">
+            <default>0.7</default>
+        </property>
+        <property ID="0x87EDBCF1" type="float">
+            <default>0.7</default>
+        </property>
+        <property ID="0x542BC812" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0xA355C04F" type="float">
+            <default>6.0</default>
+        </property>
+        <property ID="0x523A405C" type="long">
+            <default>5</default>
+        </property>
+        <property ID="0x1CA0E760" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x88DF3EA8" type="float">
+            <default>0.0</default>
+        </property>
+        <struct ID="0xCF90D15E" template="Structs/HealthInfo.xml">
+            <properties>
+                <property ID="0xF0668919">
+                    <default>2.0</default>
+                </property>
+                <property ID="0x3A2D17E4">
+                    <default>2.0</default>
+                </property>
+            </properties>
+        </struct>
+        <struct ID="0x382E406E" template="Structs/DamageVulnerability.xml"/>
+        <property ID="0x7D462930" type="file" extensions="PART"/>
+        <property ID="0x84F81F55" type="long">
+            <default>5</default>
+        </property>
+        <property ID="0xE1BD61D8" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0xE34DC703" type="float">
+            <default>90.0</default>
+        </property>
+        <property ID="0xC2208B0F" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x7EB5D9E8" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x826BEC80" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0xBC01A28E" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x6D269658" type="file" extensions="UNKN"/>
+        <property ID="0x5064AA8F" type="file" extensions="UNKN"/>
+        <property ID="0xD2986C43" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x214E48A0" type="float">
+            <default>100.0</default>
+        </property>
+        <property ID="0x57619496" type="long">
+            <default>20</default>
+        </property>
+        <property ID="0xC712847C" type="long">
+            <default>127</default>
+        </property>
+        <property ID="0xEF3BD8CF" type="float">
+            <default>5.0</default>
+        </property>
+        <property ID="0xB02DE555" type="float">
+            <default>0.0</default>
+        </property>
+    </properties>
+</struct>

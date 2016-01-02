@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="CameraHintStructB" type="multi">
+    <properties>
+        <property ID="0x7FF86EE2" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x382A1973" type="float">
+            <default>90.0</default>
+        </property>
+    </properties>
+</struct>

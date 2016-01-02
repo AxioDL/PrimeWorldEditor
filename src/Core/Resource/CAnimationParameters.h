@@ -3,7 +3,7 @@
 
 #include "CResource.h"
 #include "TResPtr.h"
-#include "EFormatVersion.h"
+#include "EGame.h"
 #include "Core/Resource/Model/CModel.h"
 
 class CAnimationParameters

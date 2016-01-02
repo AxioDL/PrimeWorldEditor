@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="ForestBossStructA" type="multi">
+    <properties>
+        <property ID="0xA55DACF6" type="file" extensions="CAUD"/>
+        <struct ID="0x8A939379" template="Structs/MayaSpline.xml"/>
+        <struct ID="0x0E727FC4" template="Structs/MayaSpline.xml"/>
+        <struct ID="0xF3FBE484" template="Structs/MayaSpline.xml"/>
+        <property ID="0xE2973405" type="float">
+            <default>15.0</default>
+        </property>
+        <property ID="0xA3800B83" type="float">
+            <default>0.0</default>
+        </property>
+    </properties>
+</struct>

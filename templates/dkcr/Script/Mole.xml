@@ -1,68 +1,126 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>Mole</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <struct ID="0x7E397FED" type="multi">
-            <struct ID="0xB028DB0E" type="multi">
-                <property ID="0xA33E5B0E"/>
-                <property ID="0xCAC1E778"/>
-                <property ID="0x67F4D3DE"/>
-                <property ID="0x1F715FD3"/>
-            </struct>
-        </struct>
-        <struct ID="0xB3774750" type="multi">
-            <struct ID="0x7B71AE90" type="multi">
-                <property ID="0x10F37815"/>
-                <property ID="0xF65FEEF8"/>
-            </struct>
-            <property ID="0xA244C9D8"/>
-            <property ID="0x1749405B"/>
-            <property ID="0x1B21EEB2"/>
-            <property ID="0xDFE74895"/>
-            <property ID="0xC88AD680"/>
-            <property ID="0x64C22667"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
+        <struct ID="0xB3774750" template="Structs/PatternedAI.xml">
+            <properties>
+                <struct ID="0x7B71AE90">
+                    <properties>
+                        <property ID="0x10F37815">
+                            <default>524322</default>
+                        </property>
+                    </properties>
+                </struct>
+                <struct ID="0xD756416E">
+                    <properties>
+                        <property ID="0xF2D02613">
+                            <default>1.0</default>
+                        </property>
+                    </properties>
+                </struct>
+                <struct ID="0xCF90D15E">
+                    <properties>
+                        <property ID="0xF0668919">
+                            <default>1.0</default>
+                        </property>
+                    </properties>
+                </struct>
+                <property ID="0x3011B5DF">
+                    <default>1.0</default>
+                </property>
+            </properties>
         </struct>
         <struct ID="0xCC43CDED" type="multi">
-            <property ID="0x15870845"/>
-            <struct ID="0x4673C93C" type="multi">
-                <property ID="0x44749AB7"/>
-                <property ID="0xA7A8C42A"/>
-                <struct ID="0xE3395655" type="multi">
-                    <property ID="0x43BC661C"/>
-                    <property ID="0x410BDEF2"/>
-                    <property ID="0xE10E94EC"/>
-                    <property ID="0x84B3080B"/>
-                    <property ID="0x69170884"/>
+            <properties>
+                <enum ID="0xE9732110">
+                    <default>0x503F6052</default>
+                    <enumerators>
+                        <enumerator ID="0x503F6052" name="Unknown 1"/>
+                        <enumerator ID="0x0DFD619A" name="Unknown 2"/>
+                    </enumerators>
+                </enum>
+                <property ID="0xC336A4EF" type="float">
+                    <default>0.5</default>
+                </property>
+                <property ID="0x15870845" type="string"/>
+                <struct ID="0x4673C93C" type="multi">
+                    <properties>
+                        <property ID="0xBB3C732E" type="bool">
+                            <default>true</default>
+                        </property>
+                        <property ID="0x44749AB7" type="bool">
+                            <default>false</default>
+                        </property>
+                        <property ID="0xD7F4EA7F" type="bool">
+                            <default>true</default>
+                        </property>
+                        <property ID="0x46997D8A" type="bool">
+                            <default>true</default>
+                        </property>
+                        <property ID="0xA7A8C42A" type="float">
+                            <default>3.5</default>
+                        </property>
+                        <struct ID="0xE3395655" type="multi">
+                            <properties>
+                                <property ID="0x43BC661C" type="bool">
+                                    <default>false</default>
+                                </property>
+                                <property ID="0x410BDEF2" type="bool">
+                                    <default>false</default>
+                                </property>
+                                <property ID="0xE10E94EC" type="float">
+                                    <default>1.0</default>
+                                </property>
+                                <property ID="0x84B3080B" type="string"/>
+                                <property ID="0x69170884" type="string"/>
+                            </properties>
+                        </struct>
+                    </properties>
                 </struct>
-                <property ID="0xBB3C732E"/>
-                <property ID="0xD7F4EA7F"/>
-                <property ID="0x46997D8A"/>
-            </struct>
-            <struct ID="0xA694E8CA" type="multi">
-                <property ID="0x5B94444B"/>
-                <struct ID="0xFE4D6482" type="multi">
-                    <property ID="0x4CD75DB8"/>
-                    <property ID="0xEFEE802B"/>
-                    <property ID="0x50AD6480"/>
+                <struct ID="0xA694E8CA" type="multi">
+                    <properties>
+                        <property ID="0x5B94444B" type="float">
+                            <default>2.0</default>
+                        </property>
+                        <struct ID="0xFE4D6482" type="multi">
+                            <properties>
+                                <property ID="0x4CD75DB8" type="float">
+                                    <default>3.0</default>
+                                </property>
+                                <property ID="0xEFEE802B" type="float">
+                                    <default>2.0</default>
+                                </property>
+                                <property ID="0x50AD6480" type="string"/>
+                            </properties>
+                        </struct>
+                        <struct ID="0x73FF5613" type="multi">
+                            <properties>
+                                <property ID="0x9CCD4A05" type="float">
+                                    <default>1.0</default>
+                                </property>
+                                <property ID="0xA1AFDB3F" type="string"/>
+                            </properties>
+                        </struct>
+                        <struct ID="0xC7150E5A" type="multi">
+                            <properties>
+                                <property ID="0xE578EFC6" type="long">
+                                    <default>2</default>
+                                </property>
+                                <property ID="0x418F204D" type="float">
+                                    <default>0.25</default>
+                                </property>
+                            </properties>
+                        </struct>
+                    </properties>
                 </struct>
-                <struct ID="0x73FF5613" type="multi">
-                    <property ID="0x9CCD4A05"/>
-                    <property ID="0xA1AFDB3F"/>
-                </struct>
-                <struct ID="0xC7150E5A" type="multi">
-                    <property ID="0xE578EFC6"/>
-                    <property ID="0x418F204D"/>
-                </struct>
-            </struct>
-            <property ID="0xE9732110"/>
+            </properties>
         </struct>
+        <struct ID="0x0B16CED2" template="Structs/TrackObjectModuleData.xml"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
@@ -76,6 +134,6 @@
             <animparams source="property">0xB3774750:0xA244C9D8</animparams>
         </assets>
         <rotation_type>enabled</rotation_type>
-        <scale_type>disabled</scale_type>
+        <scale_type>enabled</scale_type>
     </editor>
 </ScriptTemplate>

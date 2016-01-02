@@ -51,21 +51,21 @@ CScan* CScanLoader::LoadScanMP2(IInputStream& SCAN)
         return nullptr;
     }
 
-    mpScan = new CScan();
     SCAN.Seek(0x2, SEEK_CUR);
     u16 NumProperties = SCAN.ReadShort();
 
     switch (NumProperties)
     {
     case 0x14:
+        mpScan = new CScan();
         LoadParamsMP2(SCAN);
         break;
     case 0x16:
+        mpScan = new CScan();
         LoadParamsMP3(SCAN);
         break;
     default:
         Log::FileError(SCAN.GetSourceString(), SCAN.Tell() - 2, "Invalid SNFO property count: " + TString::HexString(NumProperties));
-        delete mpScan;
         return nullptr;
     }
 

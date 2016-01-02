@@ -1,31 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>Trigger</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <enum ID="0x09ECEE0C" template="Enums/TriggerShape.xml"/>
-        <struct ID="0x77A27411" type="multi">
-            <property ID="0x97C0611F"/>
-            <property ID="0x50224907"/>
-            <property ID="0x46CC1B48"/>
-            <property ID="0xFA873A67"/>
-            <struct ID="0x337F9524" type="multi">
-                <property ID="0x445E00C8"/>
-                <property ID="0xF2D02613"/>
-                <property ID="0xEE1BE914"/>
-                <property ID="0x555FF80A"/>
-                <property ID="0x7A3FE00D"/>
-                <property ID="0xEFE9E465"/>
-            </struct>
-            <property ID="0x20927E9B"/>
-        </struct>
-        <property ID="0x66A43EEF"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <enum ID="0x09ECEE0C">
+            <default>0x482B22F1</default>
+            <enumerators>
+                <enumerator ID="0x482B22F1" name="Box"/>
+                <enumerator ID="0x779DB545" name="Box"/>
+                <enumerator ID="0x8392F5E4" name="Cylinder"/>
+                <enumerator ID="0x39ED7B8E" name="Ellipsoid"/>
+            </enumerators>
+        </enum>
+        <struct ID="0x77A27411" template="Structs/TriggerInfo.xml"/>
+        <property ID="0x66A43EEF" type="bool">
+            <default>false</default>
+        </property>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>

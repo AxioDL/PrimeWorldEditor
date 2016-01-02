@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="FOVInterpolationMethod" type="multi">
+    <properties>
+        <enum ID="0x19EA151B">
+            <default>0x2A1B6DFE</default>
+            <enumerators>
+                <enumerator ID="0x2A1B6DFE" name="Unknown 1"/>
+                <enumerator ID="0x4C758A06" name="Unknown 2"/>
+                <enumerator ID="0x84F1CB89" name="Unknown 3"/>
+            </enumerators>
+        </enum>
+        <struct ID="0x9F90014C" template="Structs/InterpolationMethod.xml"/>
+    </properties>
+</struct>

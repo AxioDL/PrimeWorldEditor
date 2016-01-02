@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="FriendlyData" type="multi">
+    <properties>
+        <property ID="0xC1D1E465" type="bool">
+            <default>false</default>
+        </property>
+        <struct ID="0xA149701E" template="Structs/RagDollData.xml"/>
+        <property ID="0x6652BDD7" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x41BAF88D" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0x4D0F8B1D" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xC7E40963" type="float">
+            <default>8.0</default>
+        </property>
+        <property ID="0x5A6B7D83" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0xCC458CB9" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0xC22D3652" type="float">
+            <default>90.0</default>
+        </property>
+        <property ID="0xEF5671D6" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xA4AE2178" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x50A9BD0D" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0x51253BA3" type="file" extensions="WPSC"/>
+        <property ID="0x10E3EFDD" type="file" extensions="CAUD"/>
+        <struct ID="0xCEA30138" template="Structs/DamageInfo.xml">
+            <properties>
+                <property ID="0xF2D02613">
+                    <default>5.0</default>
+                </property>
+            </properties>
+        </struct>
+        <struct ID="0x785C41F5" template="Structs/StaticGeometryTest.xml"/>
+        <struct ID="0xFC5A0A21" template="Structs/StaticGeometryTest.xml"/>
+        <property ID="0xFC34473F" type="file" extensions="BFRC"/>
+        <property ID="0x50340852" type="file" extensions="CMDL"/>
+        <property ID="0x330619CA" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0xA7BE5EDF" type="float">
+            <default>1000.0</default>
+        </property>
+        <property ID="0xF484E0AE" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xEC3FDE21" type="float">
+            <default>60.0</default>
+        </property>
+        <property ID="0x24D18B0A" type="float">
+            <default>90.0</default>
+        </property>
+    </properties>
+</struct>

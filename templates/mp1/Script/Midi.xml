@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>Midi</name>
-    <properties version="NTSC">
+    <properties>
         <property ID="0x00" name="Name" type="string"/>
         <property ID="0x01" name="Unknown 1" type="bool"/>
-        <property ID="0x02" name="CSNG" type="file" ext="CSNG"/>
+        <property ID="0x02" name="CSNG" type="file" extensions="CSNG"/>
         <property ID="0x03" name="Unknown 2" type="float"/>
         <property ID="0x04" name="Unknown 3" type="float"/>
         <property ID="0x05" name="Unknown 4" type="long"/>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="UnknownStruct50" type="multi">
+    <properties>
+        <property ID="0xB335DB07" type="float">
+            <default>2.0</default>
+        </property>
+    </properties>
+</struct>

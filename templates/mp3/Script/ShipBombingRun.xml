@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>ShipBombingRun</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <property ID="0x55477700"/>
-        <property ID="0xCE6A78C8"/>
-        <property ID="0x515460AC"/>
-        <property ID="0x10289804"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0x55477700" type="float">
+            <default>2.5</default>
+        </property>
+        <property ID="0xCE6A78C8" type="file" extensions="CAUD"/>
+        <property ID="0x515460AC" type="file" extensions="CAUD"/>
+        <property ID="0x10289804" type="file" extensions="CAUD"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>

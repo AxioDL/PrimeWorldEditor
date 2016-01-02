@@ -1,48 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>PRSP</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x5D298A43"/>
-        </struct>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0x650016ED" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0x330EDC44" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x1D3DC638" type="bool">
+            <default>true</default>
+        </property>
         <struct ID="0x3D97FEF6" type="multi">
-            <property ID="0x2F9DED4B"/>
-            <property ID="0x984AF3ED"/>
-            <property ID="0x2BD2AE32"/>
-            <property ID="0x7C519662"/>
+            <properties>
+                <property ID="0x9A6210D3" type="bool">
+                    <default>true</default>
+                </property>
+                <property ID="0x7466F048" type="float">
+                    <default>0.8</default>
+                </property>
+                <property ID="0xB0AF3909" type="float">
+                    <default>0.2</default>
+                </property>
+                <property ID="0xC3DD8389" type="float">
+                    <default>1.5</default>
+                </property>
+                <property ID="0xBBD6172C" type="float">
+                    <default>1.5</default>
+                </property>
+                <property ID="0x6F332701" type="float">
+                    <default>2.15</default>
+                </property>
+                <property ID="0xD3C7A4FA" type="float">
+                    <default>3.5</default>
+                </property>
+                <property ID="0x2F9DED4B" type="float">
+                    <default>0.75</default>
+                </property>
+                <property ID="0x984AF3ED" type="float">
+                    <default>0.75</default>
+                </property>
+                <property ID="0x2BD2AE32" type="string"/>
+                <property ID="0x7C519662" type="file" extensions="CAUD"/>
+            </properties>
         </struct>
         <struct ID="0xCC528ED6" type="multi">
-            <property ID="0x8DCEA34F"/>
-            <property ID="0x2F9DED4B"/>
-            <property ID="0x2BD2AE32"/>
+            <properties>
+                <property ID="0xED5EC8A1" type="bool">
+                    <default>true</default>
+                </property>
+                <property ID="0x8DCEA34F" type="float">
+                    <default>0.5</default>
+                </property>
+                <property ID="0x0397DCF7" type="bool">
+                    <default>true</default>
+                </property>
+                <property ID="0x9A6210D3" type="bool">
+                    <default>true</default>
+                </property>
+                <property ID="0x7466F048" type="float">
+                    <default>1.0</default>
+                </property>
+                <property ID="0xC3DD8389" type="float">
+                    <default>1.5</default>
+                </property>
+                <property ID="0x746A13E9" type="float">
+                    <default>0.5</default>
+                </property>
+                <property ID="0x2F9DED4B" type="float">
+                    <default>0.75</default>
+                </property>
+                <property ID="0x2BD2AE32" type="string"/>
+            </properties>
         </struct>
-        <struct ID="0x416BD9EB" type="multi">
-            <property ID="0x5A8B108C"/>
-            <property ID="0xC12E5CE3"/>
-            <property ID="0xB6B08E13"/>
-            <property ID="0x2D15C27C"/>
-            <property ID="0x598D2BF3"/>
-            <property ID="0xC228679C"/>
-            <property ID="0xB5B6B56C"/>
-            <property ID="0x2E13F903"/>
-            <property ID="0x5C876672"/>
-            <property ID="0xC7222A1D"/>
-            <property ID="0xE2B2C856"/>
-        </struct>
-        <property ID="0xF8B3ABE0"/>
-        <property ID="0x563F35C8"/>
-        <property ID="0x32CE899F"/>
-        <property ID="0x162C827C"/>
-        <property ID="0x899F8473"/>
+        <struct ID="0x416BD9EB" template="Structs/UnknownStruct24.xml"/>
+        <property ID="0xF8B3ABE0" type="character"/>
+        <property ID="0x563F35C8" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0x32CE899F" type="character"/>
+        <property ID="0x162C827C" type="character"/>
+        <property ID="0x899F8473" type="character"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
             <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
             <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
             <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
         </properties>
         <assets>
             <animparams source="property">0xF8B3ABE0</animparams>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="4">
+    <name>SwarmBot</name>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <struct ID="0xB3774750" template="Structs/PatternedAITypedef.xml"/>
+        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
+        <struct ID="0x3FA5C15B" type="multi">
+            <properties>
+                <property ID="0x6315837D" type="long">
+                    <default>8</default>
+                </property>
+                <property ID="0x6C605925" type="long">
+                    <default>8</default>
+                </property>
+                <property ID="0x37DED7F2" type="bool">
+                    <default>true</default>
+                </property>
+                <property ID="0xCAB4E0B3" type="long">
+                    <default>3</default>
+                </property>
+                <property ID="0xB3FBFFC8" type="float">
+                    <default>10.0</default>
+                </property>
+                <property ID="0xB07A5895" type="file" extensions="PART"/>
+                <property ID="0xA3B64D8C" type="file" extensions="PART"/>
+                <property ID="0xA5B4ED57" type="file" extensions="PART"/>
+                <property ID="0x10CBC9FD" type="file" extensions="PART"/>
+                <property ID="0x9BC4FC8D" type="bool">
+                    <default>true</default>
+                </property>
+                <property ID="0x46F96675" type="bool">
+                    <default>true</default>
+                </property>
+                <property ID="0xE6C41F91" type="bool">
+                    <default>true</default>
+                </property>
+                <struct ID="0x1E054E04" template="Structs/DamageInfo.xml"/>
+                <struct ID="0xBC7B9832" template="Structs/DamageInfo.xml"/>
+                <property ID="0x2B309650" type="file" extensions="WPSC"/>
+                <struct ID="0x3C8B534D" template="Structs/DamageInfo.xml"/>
+                <struct ID="0x4D19C32E" template="Structs/DamageInfo.xml"/>
+                <struct ID="0x840BA904" template="Structs/DamageInfo.xml"/>
+                <property ID="0xAF7FFE63" type="file" extensions="ELSC"/>
+                <property ID="0x49FAE143" type="file" extensions="ELSC"/>
+                <property ID="0x570AA8F2" type="file" extensions="ELSC"/>
+                <property ID="0xF2DC8618" type="file" extensions="PART"/>
+                <property ID="0xD53F059B" type="file" extensions="PART"/>
+                <property ID="0x0687C33E" type="file" extensions="PART"/>
+                <property ID="0xC3DE457E" type="file" extensions="CAUD"/>
+                <property ID="0xAB633EF1" type="file" extensions="CAUD"/>
+                <property ID="0x2A430EB0" type="file" extensions="CAUD"/>
+                <property ID="0xAF1768C4" type="file" extensions="CAUD"/>
+                <property ID="0x13EC5401" type="file" extensions="CAUD"/>
+                <property ID="0xE5A34FB3" type="file" extensions="CAUD"/>
+                <property ID="0x7B38D80D" type="file" extensions="CAUD"/>
+                <property ID="0xD2BE3AF7" type="file" extensions="CAUD"/>
+                <property ID="0x9ECC3D08" type="file" extensions="CAUD"/>
+                <property ID="0xCF4F5348" type="file" extensions="CAUD"/>
+                <property ID="0x05117E35" type="file" extensions="CAUD"/>
+                <property ID="0x091CB316" type="file" extensions="CAUD"/>
+                <property ID="0x358177CC" type="file" extensions="CAUD"/>
+            </properties>
+        </struct>
+    </properties>
+    <states/>
+    <messages/>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
+            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
+        </properties>
+        <assets>
+            <animparams source="property">0xB3774750:0xA244C9D8</animparams>
+        </assets>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>enabled</scale_type>
+    </editor>
+</ScriptTemplate>

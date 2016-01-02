@@ -1,24 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>Trigger</name>
-    <properties version="NTSC">
+    <properties>
         <property ID="0x00" name="Name" type="string"/>
         <property ID="0x01" name="Position" type="vector3f"/>
         <property ID="0x02" name="Volume" type="vector3f"/>
         <struct ID="0x03" name="DamageInfo" template="Structs/DamageInfo.xml"/>
         <property ID="0x04" name="Force" type="vector3f"/>
         <bitfield ID="0x05" name="Trigger Flags">
-			<bitflag mask="0x00000001" name="Unknown 1"/>
-			<bitflag mask="0x00000002" name="Unknown 2"/>
-			<bitflag mask="0x00000004" name="Unknown 3"/>
-			<bitflag mask="0x00000008" name="Unknown 4"/>
-			<bitflag mask="0x00000800" name="Unknown 5"/>
-			<bitflag mask="0x00001000" name="Unknown 6"/>
-			<bitflag mask="0x00002000" name="Unknown 7"/>
-			<bitflag mask="0x00004000" name="Unknown 8"/>
-			<bitflag mask="0x00010000" name="Unknown 9"/>
-			<bitflag mask="0x00020000" name="Unknown 10"/>
-		</bitfield>
+            <flags>
+                <flag mask="0x00000001" name="Unknown 1"/>
+                <flag mask="0x00000002" name="Unknown 2"/>
+                <flag mask="0x00000004" name="Unknown 3"/>
+                <flag mask="0x00000008" name="Unknown 4"/>
+                <flag mask="0x00000800" name="Unknown 5"/>
+                <flag mask="0x00001000" name="Unknown 6"/>
+                <flag mask="0x00002000" name="Unknown 7"/>
+                <flag mask="0x00004000" name="Unknown 8"/>
+                <flag mask="0x00010000" name="Unknown 9"/>
+                <flag mask="0x00020000" name="Unknown 10"/>
+            </flags>
+        </bitfield>
         <property ID="0x06" name="Active" type="bool"/>
         <property ID="0x07" name="Unknown 2" type="bool"/>
         <property ID="0x08" name="Unknown 3" type="bool"/>

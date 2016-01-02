@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="LightParameters" type="multi">
-    <property ID="0x00" name="Unknown 1" type="bool"/>
-    <property ID="0x01" name="Unknown 2" type="float"/>
-    <property ID="0x02" name="Shadow Tessellation" type="long"/>
-    <property ID="0x03" name="Unknown 3" type="float"/>
-    <property ID="0x04" name="Unknown 4" type="float"/>
-    <property ID="0x05" name="Unknown 5" type="color"/>
-    <property ID="0x06" name="Unknown 6" type="bool"/>
-    <property ID="0x07" name="World Lighting Options" type="long"/>
-    <property ID="0x08" name="Light Recalculation Options" type="long"/>
-    <property ID="0x09" name="Unknown 7" type="vector3f"/>
-    <property ID="0x0A" name="Unknown 8" type="long"/>
-    <property ID="0x0B" name="Unknown 9" type="long"/>
-    <property ID="0x0C" name="Unknown 10" type="bool"/>
-    <property ID="0x0D" name="Unknown 11" type="long"/>
+<struct name="LightParameters.xml" type="multi">
+    <properties>
+        <property ID="0x00" name="Unknown 1" type="bool"/>
+        <property ID="0x01" name="Unknown 2" type="float"/>
+        <property ID="0x02" name="Shadow Tessellation" type="long"/>
+        <property ID="0x03" name="Unknown 3" type="float"/>
+        <property ID="0x04" name="Unknown 4" type="float"/>
+        <property ID="0x05" name="Unknown 5" type="color"/>
+        <property ID="0x06" name="Unknown 6" type="bool"/>
+        <property ID="0x07" name="World Lighting Options" type="long"/>
+        <property ID="0x08" name="Light Recalculation Options" type="long"/>
+        <property ID="0x09" name="Unknown 7" type="vector3f"/>
+        <property ID="0x0A" name="Unknown 8" type="long"/>
+        <property ID="0x0B" name="Unknown 9" type="long"/>
+        <property ID="0x0C" name="Unknown 10" type="bool"/>
+        <property ID="0x0D" name="Unknown 11" type="long"/>
+    </properties>
 </struct>

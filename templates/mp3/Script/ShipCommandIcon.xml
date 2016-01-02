@@ -1,30 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>ShipCommandIcon</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <property ID="0x11234A3F"/>
-        <property ID="0x4B198E71"/>
-        <property ID="0x8B9B584C"/>
-        <property ID="0x95F8D644"/>
-        <property ID="0xC39F8936"/>
-        <property ID="0x222CF8EC"/>
-        <property ID="0x0BF00EB1"/>
-        <property ID="0x6D10C987"/>
-        <property ID="0x97ADB194"/>
-        <property ID="0xA797679C"/>
-        <property ID="0x08072DA5"/>
-        <property ID="0x48EF8ADE"/>
-        <property ID="0x69A7E62C"/>
-        <property ID="0xCE6A78C8"/>
-        <property ID="0x515460AC"/>
-        <property ID="0x10289804"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0x11234A3F" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x4B198E71" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x8B9B584C" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0x95F8D644" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0xC39F8936" type="file" extensions="TXTR"/>
+        <property ID="0x222CF8EC" type="file" extensions="TXTR"/>
+        <property ID="0x0BF00EB1" type="file" extensions="TXTR"/>
+        <property ID="0x6D10C987" type="character"/>
+        <property ID="0x97ADB194" type="character"/>
+        <property ID="0xA797679C" type="character"/>
+        <enum ID="0x08072DA5" template="Enums/InventorySlot.xml">
+            <default>0xFB73F2B8</default>
+        </enum>
+        <enum ID="0x48EF8ADE">
+            <default>0xF16CAFBC</default>
+            <enumerators>
+                <enumerator ID="0x8BC6AF97" name="Unknown 1"/>
+                <enumerator ID="0x405B8040" name="Unknown 2"/>
+                <enumerator ID="0x0E3D3CDE" name="Unknown 3"/>
+                <enumerator ID="0xF16CAFBC" name="Unknown 4"/>
+            </enumerators>
+        </enum>
+        <property ID="0x69A7E62C" type="float">
+            <default>1.5</default>
+        </property>
+        <property ID="0xCE6A78C8" type="file" extensions="CAUD"/>
+        <property ID="0x515460AC" type="file" extensions="CAUD"/>
+        <property ID="0x10289804" type="file" extensions="CAUD"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>

@@ -1,28 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>Camera</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml">
+            <properties>
+                <property ID="0x41435456">
+                    <default>false</default>
+                </property>
+            </properties>
         </struct>
-        <property ID="0x2A53245A"/>
-        <property ID="0x05C5FC6E"/>
-        <property ID="0xD4B29446"/>
-        <struct ID="0x493D6A2D" type="multi">
-            <property ID="0xF53DCDD6"/>
-        </struct>
-        <struct ID="0x5604D304" type="multi">
-            <property ID="0xF53DCDD6"/>
-        </struct>
-        <property ID="0x27E5F874"/>
-        <property ID="0xC4DFBFA7"/>
-        <property ID="0x6868D4B3"/>
-        <property ID="0x6E6D8EFD"/>
-        <property ID="0xF4F4798E"/>
+        <property ID="0x2A53245A" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0x05C5FC6E" type="long">
+            <default>168</default>
+        </property>
+        <property ID="0xD4B29446" type="long">
+            <default>0</default>
+        </property>
+        <struct ID="0x493D6A2D" template="Structs/UnknownStruct1.xml"/>
+        <struct ID="0x5604D304" template="Structs/UnknownStruct1.xml"/>
+        <struct ID="0x27E5F874" template="Structs/MayaSpline.xml"/>
+        <struct ID="0xC4DFBFA7" template="Structs/MayaSpline.xml"/>
+        <struct ID="0x6868D4B3" template="Structs/MayaSpline.xml"/>
+        <struct ID="0x6E6D8EFD" template="Structs/MayaSpline.xml"/>
+        <struct ID="0xF4F4798E" template="Structs/MayaSpline.xml"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>

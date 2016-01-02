@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="BloggStruct" type="multi">
+    <properties>
+        <property ID="0x3E505DDB" type="long">
+            <default>-2143184152</default>
+        </property>
+        <property ID="0x118F1E46" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0x6E603DF2" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x1E74F1EC" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xECBA9FB2" type="float">
+            <default>0.0</default>
+        </property>
+    </properties>
+</struct>

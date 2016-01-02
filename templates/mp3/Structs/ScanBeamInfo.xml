@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="ScanBeamInfo" type="multi">
+    <properties>
+        <property ID="0x382A1973" type="float">
+            <default>20.0</default>
+        </property>
+        <property ID="0x4C41DCD4" type="color">
+            <default>0.247059, 0.0, 0.0, 0.0</default>
+        </property>
+        <property ID="0xCAD5AE7A" type="color">
+            <default>0.498039, 1.0, 0.098039, 0.0</default>
+        </property>
+        <property ID="0x1E52124E" type="color">
+            <default>0.34902, 0.0, 0.0, 0.0</default>
+        </property>
+        <property ID="0x98C660E0" type="color">
+            <default>0.14902, 0.0, 0.0, 0.0</default>
+        </property>
+        <property ID="0x10C1DED2" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0xAE71A22A" type="float">
+            <default>5.0</default>
+        </property>
+        <property ID="0x4E29C85A" type="float">
+            <default>4.0</default>
+        </property>
+        <property ID="0x03660363" type="float">
+            <default>50.0</default>
+        </property>
+        <property ID="0x1D53D1DA" type="file" extensions="CAUD"/>
+    </properties>
+</struct>

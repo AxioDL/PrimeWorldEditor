@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="UnknownStruct13" type="multi">
+    <properties>
+        <enum ID="0x0926929B">
+            <default>0xF6FB5CBC</default>
+            <enumerators>
+                <enumerator ID="0xF6FB5CBC" name="Unknown 1"/>
+                <enumerator ID="0x8ECDED66" name="Unknown 2"/>
+                <enumerator ID="0xC4C8AE38" name="Unknown 3"/>
+            </enumerators>
+        </enum>
+        <struct ID="0x19028BD3" template="Structs/MayaSpline.xml"/>
+        <property ID="0xF9FB16A2" type="bool">
+            <default>true</default>
+        </property>
+    </properties>
+</struct>

@@ -1,19 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>ContextSensitiveActivator</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <property ID="0x3F5D0721"/>
-        <property ID="0x1E4A33DC"/>
-        <property ID="0xE7E3E19F"/>
-        <property ID="0xF2E23F30"/>
-        <property ID="0x87A1C204"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0x3F5D0721" type="float">
+            <default>5.0</default>
+        </property>
+        <property ID="0x1E4A33DC" type="float">
+            <default>90.0</default>
+        </property>
+        <property ID="0xE7E3E19F" type="float">
+            <default>20.0</default>
+        </property>
+        <property ID="0xF2E23F30" type="bool">
+            <default>false</default>
+        </property>
+        <enum ID="0x87A1C204">
+            <default>0x62792E89</default>
+            <enumerators>
+                <enumerator ID="0x62792E89" name="Unknown 1"/>
+                <enumerator ID="0x4CB47445" name="Unknown 2"/>
+                <enumerator ID="0xC7A53277" name="Unknown 3"/>
+                <enumerator ID="0x5FA45235" name="Unknown 4"/>
+                <enumerator ID="0xAC00A131" name="Unknown 5"/>
+            </enumerators>
+        </enum>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>

@@ -9,19 +9,35 @@ CDoorExtra::CDoorExtra(CScriptObject *pInstance, CSceneManager *pScene, CSceneNo
 {
     CPropertyStruct *pBaseStruct = pInstance->Properties();
 
-    mpShieldModelProp = (CFileProperty*) pBaseStruct->PropertyByID(0xB20CC271);
+    mpShieldModelProp = (TFileProperty*) pBaseStruct->PropertyByID(0xB20CC271);
     if (mpShieldModelProp && (mpShieldModelProp->Type() != eFileProperty))
         mpShieldModelProp = nullptr;
 
-    mpShieldColorProp = (CColorProperty*) pBaseStruct->PropertyByID(0x47B4E863);
-    if (mpShieldColorProp && (mpShieldColorProp->Type() != eColorProperty))
-        mpShieldColorProp = nullptr;
-
     if (mpShieldModelProp)
         PropertyModified(mpShieldModelProp);
+
+    if (mGame >= eEchoes)
+    {
+        mpShieldColorProp = (TColorProperty*) pBaseStruct->PropertyByID(0x47B4E863);
+        if (mpShieldColorProp && (mpShieldColorProp->Type() != eColorProperty))
+            mpShieldColorProp = nullptr;
+
+        if (mpShieldColorProp)
+            PropertyModified(mpShieldColorProp);
+    }
+
+    else
+    {
+        mpDisabledProp = (TBoolProperty*) pBaseStruct->PropertyByID(0xDEE730F5);
+        if (mpDisabledProp && (mpDisabledProp->Type() != eBoolProperty))
+            mpDisabledProp = nullptr;
+
+        if (mpDisabledProp)
+            PropertyModified(mpDisabledProp);
+    }
 }
 
-void CDoorExtra::PropertyModified(CPropertyBase *pProperty)
+void CDoorExtra::PropertyModified(IProperty *pProperty)
 {
     if (pProperty == mpShieldModelProp)
     {
@@ -34,6 +50,21 @@ void CDoorExtra::PropertyModified(CPropertyBase *pProperty)
             mLocalAABox = CAABox::skInfinite;
 
         MarkTransformChanged();
+    }
+
+    else if (pProperty == mpShieldColorProp)
+    {
+        mShieldColor = mpShieldColorProp->Get();
+    }
+
+    else if (pProperty == mpDisabledProp)
+    {
+        // The Echoes demo doesn't have the shield color property. The color is
+        // always cyan if the door is unlocked and always white if the door is locked.
+        mShieldColor = CColor::skWhite;
+
+        if (!mpDisabledProp->Get())
+            mShieldColor = CColor::skCyan;
     }
 }
 
@@ -62,10 +93,7 @@ void CDoorExtra::Draw(ERenderOptions Options, int ComponentIndex, const SViewInf
     CGraphics::SetupAmbientColor();
     CGraphics::UpdateVertexBlock();
 
-    CColor Tint = mpParent->TintColor(ViewInfo);
-
-    if (mpShieldColorProp)
-        Tint *= mpShieldColorProp->Get();
+    CColor Tint = mpParent->TintColor(ViewInfo) * mShieldColor;
 
     CGraphics::sPixelBlock.TintColor = Tint;
     CGraphics::sPixelBlock.TevColor = CColor::skWhite;

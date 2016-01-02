@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="UnknownStruct34" type="multi">
+    <properties>
+        <property ID="0xF2299ED6" type="file" extensions="FRME"/>
+        <property ID="0xC02C234F" type="file" extensions="CAUD"/>
+        <property ID="0x6D267E88" type="file" extensions="CAUD"/>
+        <property ID="0xB8E343F5" type="file" extensions="CAUD"/>
+        <property ID="0xFD95ED2A" type="file" extensions="STRG"/>
+    </properties>
+</struct>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="ReptilicusHunterStruct" type="multi">
+    <properties>
+        <property ID="0xDD448CC9" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x8A834618" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0xE9FD5A01" type="float">
+            <default>20.0</default>
+        </property>
+        <property ID="0xF04452F3" type="float">
+            <default>100.0</default>
+        </property>
+        <property ID="0xA3F3BE5D" type="float">
+            <default>20.0</default>
+        </property>
+        <struct ID="0xC8A1EAC8" template="Structs/DamageVulnerability.xml"/>
+    </properties>
+</struct>

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<struct name="AnimationParameters" type="single">
-    <property ID="0x00" name="Unknown" type="byte"/>
-    <property ID="0x01" name="Character" type="file" ext="CHAR"/>
-    <property ID="0x02" name="Unknown" type="long"/>
-    <property ID="0x03" name="Unknown" type="long"/>
-    <property ID="0x04" name="Unknown" type="long"/>
-</struct>

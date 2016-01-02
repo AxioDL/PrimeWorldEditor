@@ -1,54 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>BouncyTire</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <struct ID="0x7E397FED" type="multi">
-            <struct ID="0xB028DB0E" type="multi">
-                <property ID="0x1F715FD3"/>
-                <property ID="0xB772D4C1"/>
-                <property ID="0xCAC1E778"/>
-                <property ID="0x67F4D3DE"/>
-                <property ID="0x6B5E7509"/>
-                <property ID="0x628E6AC3"/>
-                <property ID="0xD19DE775"/>
-            </struct>
-            <property ID="0xED3A6E87"/>
-        </struct>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
         <struct ID="0xC4D5BFDE" type="multi">
-            <property ID="0xA3D63F44"/>
-            <property ID="0xA2A5B38F"/>
-            <property ID="0x0D584A11"/>
-            <property ID="0xCB1931F5"/>
-            <property ID="0x6462907A"/>
-            <property ID="0x2F524FD4"/>
-            <struct ID="0x19287737" type="multi">
-                <property ID="0x22398A4F"/>
-                <property ID="0x719F92AB"/>
-            </struct>
-            <struct ID="0x6A3AFC9E" type="multi">
-                <property ID="0x22398A4F"/>
-                <property ID="0x719F92AB"/>
-            </struct>
-            <property ID="0x83A5293A"/>
-            <property ID="0xA8E46EA2"/>
-            <property ID="0x69156FBE"/>
-            <property ID="0xC00904C2"/>
-            <property ID="0x0FC966DC"/>
-            <property ID="0x74920E0E"/>
-            <property ID="0x592FC47E"/>
-            <property ID="0x82D11331"/>
-            <property ID="0x3D04E592"/>
-            <property ID="0x3595D977"/>
-            <property ID="0xD5505EA4"/>
-            <property ID="0x9D837DA5"/>
+            <properties>
+                <property ID="0xA3D63F44" type="character"/>
+                <property ID="0xA2A5B38F" type="long">
+                    <default>-1</default>
+                </property>
+                <property ID="0x0D584A11" type="long">
+                    <default>-1</default>
+                </property>
+                <property ID="0xCB1931F5" type="long">
+                    <default>-1</default>
+                </property>
+                <property ID="0x6462907A" type="long">
+                    <default>-1</default>
+                </property>
+                <property ID="0x2F524FD4" type="float">
+                    <default>3.1402</default>
+                </property>
+                <struct ID="0x19287737" template="Structs/BouncyTireStruct.xml"/>
+                <struct ID="0x6A3AFC9E" template="Structs/BouncyTireStruct.xml"/>
+                <property ID="0x83A5293A" type="float">
+                    <default>9.0</default>
+                </property>
+                <property ID="0x75DBB375" type="float">
+                    <default>80.0</default>
+                </property>
+                <property ID="0x4F6A5403" type="float">
+                    <default>5.0</default>
+                </property>
+                <property ID="0xA8E46EA2" type="float">
+                    <default>45.0</default>
+                </property>
+                <property ID="0x69156FBE" type="file" extensions="CAUD"/>
+                <property ID="0xC00904C2" type="file" extensions="CAUD"/>
+                <property ID="0x0FC966DC" type="file" extensions="DCLN"/>
+                <property ID="0xAB2E56F4" type="bool">
+                    <default>true</default>
+                </property>
+                <property ID="0x74920E0E" type="bool">
+                    <default>false</default>
+                </property>
+                <property ID="0x592FC47E" type="bool">
+                    <default>false</default>
+                </property>
+                <property ID="0x82D11331" type="bool">
+                    <default>false</default>
+                </property>
+                <property ID="0x9D837DA5" type="bool">
+                    <default>true</default>
+                </property>
+                <property ID="0x3D04E592" type="float">
+                    <default>0.0</default>
+                </property>
+                <property ID="0x3595D977" type="float">
+                    <default>0.0</default>
+                </property>
+                <property ID="0xD5505EA4" type="float">
+                    <default>2.0</default>
+                </property>
+                <property ID="0x2D6A2898" type="float">
+                    <default>2.0</default>
+                </property>
+            </properties>
         </struct>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>

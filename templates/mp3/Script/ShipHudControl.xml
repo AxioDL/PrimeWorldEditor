@@ -1,28 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>ShipHudControl</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <property ID="0xC27FFA8F"/>
-        <property ID="0xA3D63F44"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0xC27FFA8F" type="file" extensions="CMDL"/>
+        <property ID="0xA3D63F44" type="character"/>
         <struct ID="0xE7F92ABC" type="multi">
-            <property ID="0x04131A2A"/>
-            <property ID="0x868CFE92"/>
-            <property ID="0xF1943B5A"/>
-            <property ID="0x44BF1DC9"/>
-            <property ID="0x7C538ED3"/>
-            <property ID="0xFCD2A1A0"/>
-            <property ID="0x1AEC3E02"/>
-            <property ID="0xE0E4573D"/>
-            <property ID="0x21103EC1"/>
-            <property ID="0xC7C06435"/>
+            <properties>
+                <enum ID="0x04131A2A">
+                    <default>0xAAF6CAA5</default>
+                    <enumerators>
+                        <enumerator ID="0xAAF6CAA5" name="Unknown 1"/>
+                        <enumerator ID="0x348DFB55" name="Unknown 2"/>
+                        <enumerator ID="0x574C9EE0" name="Unknown 3"/>
+                    </enumerators>
+                </enum>
+                <property ID="0x868CFE92" type="bool">
+                    <default>true</default>
+                </property>
+                <property ID="0xF1943B5A" type="bool">
+                    <default>false</default>
+                </property>
+                <property ID="0x44BF1DC9" type="long">
+                    <default>-1</default>
+                </property>
+                <property ID="0x7C538ED3" type="long">
+                    <default>-1</default>
+                </property>
+                <property ID="0xFCD2A1A0" type="long">
+                    <default>-1</default>
+                </property>
+                <property ID="0x1AEC3E02" type="long">
+                    <default>-1</default>
+                </property>
+                <property ID="0xE0E4573D" type="long">
+                    <default>-1</default>
+                </property>
+                <property ID="0x21103EC1" type="long">
+                    <default>-1</default>
+                </property>
+                <property ID="0xC7C06435" type="long">
+                    <default>-1</default>
+                </property>
+            </properties>
         </struct>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>

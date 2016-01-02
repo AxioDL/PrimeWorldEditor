@@ -1,50 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>WorldTeleporter</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <property ID="0x31EC14BC"/>
-        <property ID="0xE0C17804"/>
-        <property ID="0x474BCCE3"/>
-        <property ID="0xA9496551"/>
-        <property ID="0xBBEF4D0D"/>
-        <property ID="0xCCEFC618"/>
-        <property ID="0x05014C61"/>
-        <property ID="0xF9EF55D4"/>
-        <property ID="0x3C79E121"/>
-        <property ID="0x8E718724"/>
-        <property ID="0x6C176DD6"/>
-        <property ID="0x9182250C"/>
-        <property ID="0xC54082E8"/>
-        <property ID="0xD9B2394F"/>
-        <property ID="0x353582BD"/>
-        <property ID="0x196E17D9"/>
-        <property ID="0xB28F37B1"/>
-        <property ID="0xA1C4E7F8"/>
-        <property ID="0x79CDA57C"/>
-        <property ID="0x0B5240E3"/>
-        <property ID="0x71786711"/>
-        <property ID="0x2E26702D"/>
-        <property ID="0x53963A68"/>
-        <property ID="0x4EBF760D"/>
-        <property ID="0x61930573"/>
-        <property ID="0x5D7E79A1"/>
-        <property ID="0xBB5204C8"/>
-        <property ID="0xB7DCD0CA"/>
-        <property ID="0x04D03E41"/>
-        <property ID="0xC7A7F189"/>
-        <property ID="0xDF4353A3"/>
-        <property ID="0x8DFF5674"/>
-        <property ID="0x31FA1FE0"/>
-        <property ID="0xEA593294"/>
-        <property ID="0x5657CA1C"/>
-        <property ID="0xBD6A406D"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0x31EC14BC" type="file" extensions="MLVL"/>
+        <property ID="0xE0C17804" type="file" extensions="MREA"/>
+        <enum ID="0x474BCCE3">
+            <default>0xF9C885FF</default>
+            <enumerators>
+                <enumerator ID="0xF9C885FF" name="Unknown 1"/>
+                <enumerator ID="0xD9803B9E" name="Unknown 2"/>
+                <enumerator ID="0x8BDE13AF" name="Unknown 3"/>
+                <enumerator ID="0xC30E5A46" name="Unknown 4"/>
+                <enumerator ID="0xF89B23E1" name="Unknown 5"/>
+            </enumerators>
+        </enum>
+        <property ID="0xA9496551" type="character"/>
+        <property ID="0xBBEF4D0D" type="character"/>
+        <property ID="0xCCEFC618" type="file" extensions="CMDL"/>
+        <property ID="0x05014C61" type="character"/>
+        <struct ID="0xF9EF55D4" template="Structs/MayaSpline.xml"/>
+        <property ID="0x3C79E121" type="character"/>
+        <struct ID="0x8E718724" template="Structs/MayaSpline.xml"/>
+        <property ID="0x6C176DD6" type="file" extensions="FONT"/>
+        <property ID="0x9182250C" type="file" extensions="STRG"/>
+        <property ID="0xC54082E8" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xD9B2394F" type="float">
+            <default>0.01</default>
+        </property>
+        <property ID="0x353582BD" type="float">
+            <default>8.0</default>
+        </property>
+        <property ID="0x196E17D9" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xB28F37B1" type="string"/>
+        <property ID="0xA1C4E7F8" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x79CDA57C" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x0B5240E3" type="float">
+            <default>2.0</default>
+        </property>
+        <property ID="0x71786711" type="float">
+            <default>3.0</default>
+        </property>
+        <property ID="0x2E26702D" type="string"/>
+        <property ID="0x53963A68" type="character"/>
+        <property ID="0x4EBF760D" type="character"/>
+        <property ID="0x61930573" type="string"/>
+        <property ID="0x5D7E79A1" type="character"/>
+        <property ID="0xBB5204C8" type="character"/>
+        <property ID="0xB7DCD0CA" type="file" extensions="CMDL"/>
+        <property ID="0x04D03E41" type="file" extensions="CAUD"/>
+        <property ID="0xC7A7F189" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0xDF4353A3" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x8DFF5674" type="file" extensions="CAUD"/>
+        <property ID="0x31FA1FE0" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0xEA593294" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x5657CA1C" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xBD6A406D" type="float">
+            <default>5.0</default>
+        </property>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
@@ -53,18 +87,8 @@
             <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
             <property name="Active" ID="0x255A4580:0x41435456"/>
         </properties>
-        <assets>
-            <animparams source="property">0xA9496551</animparams>
-            <animparams source="property">0xBBEF4D0D</animparams>
-            <animparams source="property">0x05014C61</animparams>
-            <animparams source="property">0x3C79E121</animparams>
-            <animparams source="property">0x53963A68</animparams>
-            <animparams source="property">0x4EBF760D</animparams>
-            <animparams source="property">0x5D7E79A1</animparams>
-            <animparams source="property">0xBB5204C8</animparams>
-            <model source="property">0xCCEFC618</model>
-            <model source="property">0xB7DCD0CA</model>
-        </assets>
+        <assets/>
+		<preview_scale>0.5</preview_scale>
         <rotation_type>enabled</rotation_type>
         <scale_type>enabled</scale_type>
     </editor>

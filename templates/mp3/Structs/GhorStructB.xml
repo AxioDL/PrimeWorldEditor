@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="GhorStructB" type="multi">
+    <properties>
+        <struct ID="0x078A03D9" template="Structs/LaunchProjectileData.xml"/>
+        <struct ID="0x1598012A" template="Structs/PlasmaBeamInfo.xml"/>
+        <struct ID="0x13E30E4D" template="Structs/DamageInfo.xml"/>
+        <property ID="0x4CACFAE3" type="float">
+            <default>30.0</default>
+        </property>
+        <struct ID="0xE79ECFD4" template="Structs/DamageInfo.xml"/>
+        <struct ID="0x603BFD21" template="Structs/HoverThenHomeProjectile.xml"/>
+        <struct ID="0x8F4D54F9" template="Structs/LaunchProjectileData.xml"/>
+        <property ID="0x63FEE872" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0xA2F2168C" type="vector3f">
+            <default>1.0, 1.0, 1.0</default>
+        </property>
+        <property ID="0x1BA35AF4" type="float">
+            <default>1.0</default>
+        </property>
+        <struct ID="0xDAE21374" type="multi">
+            <properties>
+                <property ID="0x6392404E" type="float">
+                    <default>10.0</default>
+                </property>
+                <property ID="0xC4489506" type="float">
+                    <default>1.0</default>
+                </property>
+                <property ID="0x31CA76C8" type="float">
+                    <default>10.0</default>
+                </property>
+                <property ID="0x963C1729" type="float">
+                    <default>0.5</default>
+                </property>
+                <struct ID="0xD756416E" template="Structs/DamageInfo.xml"/>
+                <struct ID="0x480103F3" template="Structs/DamageInfo.xml"/>
+                <struct ID="0xD80B1F34" template="Structs/DamageInfo.xml"/>
+                <property ID="0x5324CBFB" type="float">
+                    <default>20.0</default>
+                </property>
+                <property ID="0x4F387C49" type="file" extensions="PART"/>
+                <property ID="0xFFE83B77" type="file" extensions="SWHC"/>
+                <property ID="0x3D313DA6" type="file" extensions="CMDL"/>
+                <property ID="0x5C5BCE53" type="file" extensions="CAUD"/>
+                <property ID="0xB97C1467" type="file" extensions="CAUD"/>
+            </properties>
+        </struct>
+        <struct ID="0xC9416034" template="Structs/DamageInfo.xml"/>
+    </properties>
+</struct>

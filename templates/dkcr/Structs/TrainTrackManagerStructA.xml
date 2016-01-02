@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="TrainTrackManagerStructA" type="multi">
+    <properties>
+        <property ID="0xFFB03300" type="float">
+            <default>0.0</default>
+        </property>
+    </properties>
+</struct>

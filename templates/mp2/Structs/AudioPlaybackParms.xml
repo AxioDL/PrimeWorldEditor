@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="AudioPlaybackParms" type="multi">
+    <properties>
+        <property ID="0x0E449F72" type="float">
+            <default>100.0</default>
+        </property>
+        <property ID="0x72531867" type="float">
+            <default>0.1</default>
+        </property>
+        <property ID="0xAF85A374" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0xC712847C" type="long">
+            <default>127</default>
+        </property>
+        <property ID="0x57619496" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0x85707354" type="bool">
+            <default>true</default>
+        </property>
+    </properties>
+</struct>

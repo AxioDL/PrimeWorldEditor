@@ -3,7 +3,7 @@
 
 #include "CMaterialPass.h"
 #include "CTexture.h"
-#include "EFormatVersion.h"
+#include "EGame.h"
 #include "TResPtr.h"
 #include "Core/Resource/Model/EVertexDescription.h"
 #include "Core/Render/ERenderOptions.h"

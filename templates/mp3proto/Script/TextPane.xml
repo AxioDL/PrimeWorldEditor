@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="4">
+    <name>TextPane</name>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0x73939407" type="string"/>
+        <struct ID="0xE0543E66" template="Structs/TextProperties.xml">
+            <properties>
+                <property ID="0xEE521DC6">
+                    <default>80</default>
+                </property>
+                <property ID="0xF2D36ABB">
+                    <default>10</default>
+                </property>
+            </properties>
+        </struct>
+        <struct ID="0xC8E441FA" template="Structs/TextProperties.xml">
+            <properties>
+                <property ID="0xEE521DC6">
+                    <default>80</default>
+                </property>
+                <property ID="0xF2D36ABB">
+                    <default>10</default>
+                </property>
+            </properties>
+        </struct>
+        <property ID="0xDEF21BF5" type="vector3f">
+            <default>0.0, 0.0, 0.0</default>
+        </property>
+        <property ID="0xE7AC3927" type="file" extensions="STRG"/>
+        <property ID="0xD501C87E" type="string"/>
+        <property ID="0x94F0365C" type="long">
+            <default>1</default>
+        </property>
+        <property ID="0x90AA341F" type="float">
+            <default>0.25</default>
+        </property>
+        <property ID="0x7C269EBC" type="float">
+            <default>0.25</default>
+        </property>
+        <property ID="0x94C01B0C" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0xAED25A51" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0x35DC43D0" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xF5937B1F" type="bool">
+            <default>false</default>
+        </property>
+    </properties>
+    <states/>
+    <messages/>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
+        </properties>
+        <assets/>
+		<preview_scale>0.5</preview_scale>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>enabled</scale_type>
+    </editor>
+</ScriptTemplate>

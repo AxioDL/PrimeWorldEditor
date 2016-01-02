@@ -12,19 +12,19 @@ CSpacePirateExtra::CSpacePirateExtra(CScriptObject *pInstance, CSceneManager *pS
 
     if (pVulns && pVulns->Type() == eStructProperty)
     {
-        mpPowerVuln = (CLongProperty*) pVulns->PropertyByID(0x0);
+        mpPowerVuln = (TLongProperty*) pVulns->PropertyByID(0x0);
         if (mpPowerVuln && mpPowerVuln->Type() != eLongProperty && mpPowerVuln->Type() != eEnumProperty)
             mpPowerVuln = nullptr;
 
-        mpWaveVuln = (CLongProperty*) pVulns->PropertyByID(0x2);
+        mpWaveVuln = (TLongProperty*) pVulns->PropertyByID(0x2);
         if (mpWaveVuln && mpWaveVuln->Type() != eLongProperty && mpWaveVuln->Type() != eEnumProperty)
             mpWaveVuln = nullptr;
 
-        mpIceVuln = (CLongProperty*) pVulns->PropertyByID(0x1);
+        mpIceVuln = (TLongProperty*) pVulns->PropertyByID(0x1);
         if (mpIceVuln && mpIceVuln->Type() != eLongProperty && mpIceVuln->Type() != eEnumProperty)
             mpIceVuln = nullptr;
 
-        mpPlasmaVuln = (CLongProperty*) pVulns->PropertyByID(0x3);
+        mpPlasmaVuln = (TLongProperty*) pVulns->PropertyByID(0x3);
         if (mpPlasmaVuln && mpPlasmaVuln->Type() != eLongProperty && mpPlasmaVuln->Type() != eEnumProperty)
             mpPlasmaVuln = nullptr;
     }

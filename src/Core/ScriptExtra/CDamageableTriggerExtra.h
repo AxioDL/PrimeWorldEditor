@@ -17,9 +17,9 @@ class CDamageableTriggerExtra : public CScriptExtra
         eDown     = 6
     };
 
-    CVector3Property *mpSizeProp;
-    CEnumProperty *mpRenderSideProp;
-    CFileProperty *mpTextureProps[3];
+    TVector3Property *mpSizeProp;
+    TEnumProperty *mpRenderSideProp;
+    TFileProperty *mpTextureProps[3];
 
     CVector3f mPlaneSize;
     ERenderSide mRenderSide;
@@ -33,7 +33,7 @@ public:
     ~CDamageableTriggerExtra();
     void CreateMaterial();
     void UpdatePlaneTransform();
-    void PropertyModified(CPropertyBase *pProperty);
+    void PropertyModified(IProperty *pProperty);
     bool ShouldDrawNormalAssets();
     void AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo);
     void Draw(ERenderOptions Options, int ComponentIndex, const SViewInfo& ViewInfo);

@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>Counter</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <property ID="0xFD179A6F"/>
-        <property ID="0x5B851589"/>
-        <property ID="0x7BEF45CA"/>
-        <property ID="0xF076CEF5"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0xFD179A6F" type="long">
+            <default>10</default>
+        </property>
+        <property ID="0x5B851589" type="long">
+            <default>10</default>
+        </property>
+        <property ID="0x7BEF45CA" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xF076CEF5" type="bool">
+            <default>false</default>
+        </property>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>

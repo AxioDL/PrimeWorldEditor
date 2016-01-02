@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="DigitalGuardianHeadStruct" type="multi">
+    <properties>
+        <struct ID="0x59E4C21F" template="Structs/UnknownStruct4.xml"/>
+        <struct ID="0x4F1F2033" template="Structs/UnknownStruct4.xml"/>
+    </properties>
+</struct>

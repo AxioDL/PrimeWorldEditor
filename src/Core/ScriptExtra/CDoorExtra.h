@@ -6,13 +6,15 @@
 class CDoorExtra : public CScriptExtra
 {
     // Render colored door shield in MP2/3
-    CFileProperty *mpShieldModelProp;
-    CColorProperty *mpShieldColorProp;
+    TFileProperty *mpShieldModelProp;
+    TColorProperty *mpShieldColorProp;
+    TBoolProperty *mpDisabledProp;
     TResPtr<CModel> mpShieldModel;
+    CColor mShieldColor;
 
 public:
     explicit CDoorExtra(CScriptObject *pInstance, CSceneManager *pScene, CSceneNode *pParent = 0);
-    void PropertyModified(CPropertyBase *pProperty);
+    void PropertyModified(IProperty *pProperty);
     void AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo);
     void Draw(ERenderOptions Options, int ComponentIndex, const SViewInfo& ViewInfo);
     void DrawSelection();

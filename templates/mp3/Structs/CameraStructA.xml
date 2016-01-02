@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="CameraStructA" type="multi">
+    <properties>
+        <enum ID="0x5C72A964">
+            <default>0x75A7A55F</default>
+            <enumerators>
+                <enumerator ID="0x75A7A55F" name="Unknown 1"/>
+                <enumerator ID="0x290F31B4" name="Unknown 2"/>
+                <enumerator ID="0x26AD4A6B" name="Unknown 3"/>
+                <enumerator ID="0x589A40D9" name="Unknown 4"/>
+                <enumerator ID="0xC60E4B35" name="Unknown 5"/>
+                <enumerator ID="0xC5148ADE" name="Unknown 6"/>
+                <enumerator ID="0x6C2978E3" name="Unknown 7"/>
+            </enumerators>
+        </enum>
+        <property ID="0x6219022E" type="long">
+            <default>8</default>
+        </property>
+        <enum ID="0x44191FB8">
+            <default>0x33D21F2E</default>
+            <enumerators>
+                <enumerator ID="0x33D21F2E" name="Unknown 1"/>
+                <enumerator ID="0xBF3B8FDD" name="Unknown 2"/>
+                <enumerator ID="0xE9DA98B8" name="Unknown 3"/>
+                <enumerator ID="0x4901B714" name="Unknown 4"/>
+                <enumerator ID="0xC68C39EC" name="Unknown 5"/>
+                <enumerator ID="0xFBEF7FBD" name="Unknown 6"/>
+            </enumerators>
+        </enum>
+        <property ID="0xFBC6C110" type="string"/>
+        <property ID="0x6FF7392E" type="float">
+            <default>0.0</default>
+        </property>
+        <struct ID="0x32468C89" template="Structs/CameraHintStructB.xml"/>
+        <property ID="0xC3BF43BE" type="float">
+            <default>0.0</default>
+        </property>
+        <enum ID="0x10E7121B">
+            <default>0x5B45D51F</default>
+            <enumerators>
+                <enumerator ID="0x5B45D51F" name="Unknown 1"/>
+                <enumerator ID="0xC72CAA24" name="Unknown 2"/>
+                <enumerator ID="0xFAAAE0EB" name="Unknown 3"/>
+                <enumerator ID="0xE195171C" name="Unknown 4"/>
+            </enumerators>
+        </enum>
+        <struct ID="0xDA54B3E9" template="Structs/CameraHintStructD.xml">
+            <properties>
+                <struct ID="0x0CF33816">
+                    <properties>
+                        <property ID="0xB3823863">
+                            <default>20.0</default>
+                        </property>
+                        <property ID="0xACB1CDCB">
+                            <default>5.0</default>
+                        </property>
+                    </properties>
+                </struct>
+            </properties>
+        </struct>
+        <struct ID="0x091F2936" type="multi">
+            <properties>
+                <property ID="0x08FF3B44" type="bool">
+                    <default>false</default>
+                </property>
+                <struct ID="0x485B0C11" template="Structs/MayaSpline.xml"/>
+                <struct ID="0x95CDD594" template="Structs/MayaSpline.xml"/>
+                <struct ID="0x2807B95A" template="Structs/MayaSpline.xml"/>
+            </properties>
+        </struct>
+        <struct ID="0xC4DFBFA7" template="Structs/MayaSpline.xml"/>
+        <struct ID="0x86BC03D3" type="multi">
+            <properties>
+                <property ID="0x1B4962BF" type="long">
+                    <default>786432</default>
+                </property>
+                <struct ID="0x609C0608" template="Structs/CameraHintStructC.xml"/>
+                <struct ID="0xF6C828C0" template="Structs/CameraHintStructC.xml"/>
+            </properties>
+        </struct>
+        <struct ID="0xE1DEEE27" type="multi">
+            <properties>
+                <property ID="0x10E6F366" type="long">
+                    <default>256</default>
+                </property>
+            </properties>
+        </struct>
+        <struct ID="0xF6BB44EA" type="multi">
+            <properties>
+                <struct ID="0x43A6DED6" template="Structs/CameraHintStructC.xml"/>
+            </properties>
+        </struct>
+    </properties>
+</struct>

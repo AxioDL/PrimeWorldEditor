@@ -1,82 +1,121 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>IslandArea</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <property ID="0xC27FFA8F"/>
-        <property ID="0x0FC966DC"/>
-        <property ID="0xA244C9D8"/>
-        <property ID="0x3B83DD31"/>
-        <property ID="0x6A02F05F"/>
-        <property ID="0x28E29F9B"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0xF344C0B0" type="vector3f">
+            <default>0.0, 0.0, 0.0</default>
+        </property>
+        <property ID="0x2E686C2A" type="vector3f">
+            <default>0.0, 0.0, 0.0</default>
+        </property>
+        <property ID="0xC27FFA8F" type="file" extensions="CMDL"/>
+        <property ID="0x0FC966DC" type="file" extensions="DCLN"/>
+        <property ID="0xA244C9D8" type="character"/>
+        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
+        <property ID="0x3B83DD31" type="file" extensions="STRG"/>
+        <property ID="0x6A02F05F" type="string"/>
+        <enum ID="0x28E29F9B">
+            <default>0x9DCDF5E0</default>
+            <enumerators>
+                <enumerator ID="0x9DCDF5E0" name="Unknown 1"/>
+                <enumerator ID="0x4CD7A1F7" name="Unknown 2"/>
+                <enumerator ID="0x49791B20" name="Unknown 3"/>
+                <enumerator ID="0x7AE6F698" name="Unknown 4"/>
+                <enumerator ID="0xC9C98F46" name="Unknown 5"/>
+                <enumerator ID="0x2AFAD23B" name="Unknown 6"/>
+                <enumerator ID="0x9CECD3E4" name="Unknown 7"/>
+                <enumerator ID="0x709136D7" name="Unknown 8"/>
+                <enumerator ID="0x3D363417" name="Unknown 9"/>
+            </enumerators>
+        </enum>
         <struct ID="0xDF692967" type="multi">
-            <property ID="0xA4F20C17"/>
-            <property ID="0x8067FE4E"/>
-            <property ID="0xB9B18EF6"/>
-            <property ID="0x241839D4"/>
-            <property ID="0xF9529B46"/>
-            <property ID="0x1359360D"/>
-            <struct ID="0x57CB6052" type="multi">
-                <property ID="0x5FED5C9D"/>
-                <property ID="0x0C5B4DE6"/>
-                <property ID="0x01417435"/>
-            </struct>
-            <struct ID="0x4C256CD9" type="multi">
-                <property ID="0x5FED5C9D"/>
-                <property ID="0x0C5B4DE6"/>
-                <property ID="0x01417435"/>
-            </struct>
-            <struct ID="0xFA4DC52C" type="multi">
-                <property ID="0x5FED5C9D"/>
-                <property ID="0x0C5B4DE6"/>
-                <property ID="0x01417435"/>
-            </struct>
-            <struct ID="0x7803AE46" type="multi">
-                <property ID="0x0C5B4DE6"/>
-                <property ID="0x01417435"/>
-            </struct>
-            <struct ID="0x2ED30BDD" type="multi">
-                <property ID="0x5FED5C9D"/>
-                <property ID="0x0C5B4DE6"/>
-                <property ID="0x01417435"/>
-            </struct>
-            <struct ID="0xCFBDCF70" type="multi">
-                <property ID="0x5FED5C9D"/>
-                <property ID="0x0C5B4DE6"/>
-                <property ID="0x01417435"/>
-            </struct>
-            <struct ID="0xD611406B" type="multi">
-                <property ID="0x5FED5C9D"/>
-                <property ID="0x0C5B4DE6"/>
-                <property ID="0x01417435"/>
-            </struct>
+            <properties>
+                <property ID="0xA4F20C17" type="file" extensions="STRG"/>
+                <property ID="0x8067FE4E" type="file" extensions="STRG"/>
+                <property ID="0xB9B18EF6" type="file" extensions="STRG"/>
+                <property ID="0x241839D4" type="file" extensions="STRG"/>
+                <property ID="0xF9529B46" type="file" extensions="STRG"/>
+                <property ID="0x1359360D" type="file" extensions="STRG"/>
+                <struct ID="0x57CB6052" template="Structs/IslandAreaStruct.xml">
+                    <properties>
+                        <property ID="0x5FED5C9D">
+                            <default>1</default>
+                        </property>
+                    </properties>
+                </struct>
+                <struct ID="0x4C256CD9" template="Structs/IslandAreaStruct.xml">
+                    <properties>
+                        <property ID="0x5FED5C9D">
+                            <default>30</default>
+                        </property>
+                    </properties>
+                </struct>
+                <struct ID="0xFA4DC52C" template="Structs/IslandAreaStruct.xml">
+                    <properties>
+                        <property ID="0x5FED5C9D">
+                            <default>10</default>
+                        </property>
+                    </properties>
+                </struct>
+                <struct ID="0x7803AE46" template="Structs/IslandAreaStruct.xml">
+                    <properties>
+                        <property ID="0x5FED5C9D">
+                            <default>20</default>
+                        </property>
+                    </properties>
+                </struct>
+                <struct ID="0x2ED30BDD" template="Structs/IslandAreaStruct.xml">
+                    <properties>
+                        <property ID="0x5FED5C9D">
+                            <default>7</default>
+                        </property>
+                    </properties>
+                </struct>
+                <struct ID="0xCFBDCF70" template="Structs/IslandAreaStruct.xml">
+                    <properties>
+                        <property ID="0x5FED5C9D">
+                            <default>20</default>
+                        </property>
+                    </properties>
+                </struct>
+                <struct ID="0xD611406B" template="Structs/IslandAreaStruct.xml">
+                    <properties>
+                        <property ID="0x5FED5C9D">
+                            <default>40</default>
+                        </property>
+                    </properties>
+                </struct>
+            </properties>
         </struct>
         <struct ID="0x0F722357" type="multi">
-            <property ID="0xA28B199D"/>
-            <property ID="0x003E7991"/>
-            <property ID="0x87501D31"/>
-            <property ID="0x72679165"/>
-            <property ID="0xCC70E91C"/>
-            <property ID="0xB2B02A99"/>
-            <property ID="0x4392D0C4"/>
+            <properties>
+                <property ID="0xA28B199D" type="file" extensions="CAUD"/>
+                <property ID="0x003E7991" type="file" extensions="CAUD"/>
+                <property ID="0x87501D31" type="file" extensions="CAUD"/>
+                <property ID="0x72679165" type="file" extensions="CAUD"/>
+                <property ID="0xCC70E91C" type="file" extensions="unknown"/>
+                <property ID="0xB2B02A99" type="file" extensions="unknown"/>
+                <property ID="0x4392D0C4" type="file" extensions="CAUD"/>
+            </properties>
         </struct>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
             <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
             <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
             <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
+            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
         </properties>
         <assets>
             <animparams source="property">0xA244C9D8</animparams>
             <model source="property">0xC27FFA8F</model>
         </assets>
         <rotation_type>enabled</rotation_type>
-        <scale_type>disabled</scale_type>
+        <scale_type>enabled</scale_type>
     </editor>
 </ScriptTemplate>

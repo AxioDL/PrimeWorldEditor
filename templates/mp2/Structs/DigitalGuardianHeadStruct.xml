@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="DigitalGuardianHeadStruct" type="multi">
+    <properties>
+        <property ID="0xD20288A4" type="long">
+            <default>4</default>
+        </property>
+        <property ID="0x75DC92BC" type="float">
+            <default>1.25</default>
+        </property>
+        <property ID="0x9E1C3F6C" type="float">
+            <default>2.0</default>
+        </property>
+        <property ID="0xFDFCA535" type="float">
+            <default>25.0</default>
+        </property>
+        <property ID="0xCD03632C" type="float">
+            <default>25.0</default>
+        </property>
+        <property ID="0xF1548397" type="float">
+            <default>25.0</default>
+        </property>
+        <property ID="0xF967E246" type="float">
+            <default>25.0</default>
+        </property>
+    </properties>
+</struct>

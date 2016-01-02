@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>CameraFilterKeyframe</name>
-    <properties version="NTSC">
+    <properties>
         <property ID="0x00" name="Name" type="string"/>
         <property ID="0x01" name="Unknown 1" type="bool"/>
         <property ID="0x02" name="Unknown 2" type="long"/>
@@ -11,7 +11,7 @@
         <property ID="0x06" name="Unknown 6" type="color"/>
         <property ID="0x07" name="Unknown 7" type="float"/>
         <property ID="0x08" name="Unknown 8" type="float"/>
-        <property ID="0x09" name="Texture" type="file" ext="TXTR"/>
+        <property ID="0x09" name="Texture" type="file" extensions="TXTR"/>
     </properties>
     <editor>
         <properties>

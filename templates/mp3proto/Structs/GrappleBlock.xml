@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="GrappleBlock" type="multi">
+    <properties>
+        <property ID="0x008BD240" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0x54178CB8" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xDE38F04E" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x9D0C992F" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x8382CD42" type="float">
+            <default>5.0</default>
+        </property>
+        <property ID="0x8A40FD1B" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0xA62BF627" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0x64FB595C" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0x0887FEFE" type="bool">
+            <default>false</default>
+        </property>
+    </properties>
+</struct>

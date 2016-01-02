@@ -1,81 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>SafeZoneCrystal</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <struct ID="0xD29C031D" type="multi">
-            <struct ID="0xB028DB0E" type="multi">
-                <property ID="0xCD639B46"/>
-                <property ID="0x1D011A39"/>
-                <property ID="0xECDA4163"/>
-                <property ID="0x3E2CD38D"/>
-                <property ID="0x0328E31B"/>
-                <property ID="0xA33E5B0E"/>
-                <property ID="0xA71810E9"/>
-                <property ID="0x6B5E7509"/>
-                <property ID="0x628E6AC3"/>
-                <property ID="0xD19DE775"/>
-                <property ID="0xCAC1E778"/>
-                <property ID="0x67F4D3DE"/>
-                <property ID="0xFB7A7ABB"/>
-                <property ID="0x61A940D6"/>
-                <property ID="0x1F715FD3"/>
-            </struct>
-            <struct ID="0x375BFD7C" type="multi">
-                <property ID="0xB94E9BE7"/>
-            </struct>
-            <property ID="0xC0BA9E18"/>
-            <property ID="0x9F027D91"/>
-            <property ID="0x6B1FBC3A"/>
-            <property ID="0xEB1D06BE"/>
-            <property ID="0x1499803C"/>
-            <property ID="0x90AA341F"/>
-            <property ID="0x7C269EBC"/>
-            <struct ID="0x05AD250E" type="multi">
-                <property ID="0xFE9DC266"/>
-                <property ID="0xCA19E8C6"/>
-            </struct>
-            <property ID="0xCD4C81A1"/>
-            <property ID="0x799263F1"/>
-            <property ID="0xED3A6E87"/>
-            <property ID="0xF07981E8"/>
-            <property ID="0x6DF33845"/>
-            <property ID="0xC712847C"/>
-            <property ID="0xBA2600D7"/>
-        </struct>
-        <property ID="0x9B8B3323"/>
-        <property ID="0xE36E20A7"/>
-        <property ID="0xAC794DA8"/>
-        <property ID="0xC21F264F"/>
-        <property ID="0x1115FB68"/>
-        <property ID="0xA0D9E87F"/>
-        <property ID="0x42A046C2"/>
-        <property ID="0x5B91FF38"/>
-        <property ID="0x5B8275BC"/>
-        <property ID="0xADACEC90"/>
-        <property ID="0x0D2E4AD3"/>
-        <property ID="0x71EFFFC4"/>
-        <property ID="0xC3DD9B75"/>
-        <property ID="0xF1F3D90F"/>
-        <property ID="0x1E864B83"/>
-        <property ID="0xBD30F7A3"/>
-        <property ID="0xA7BDC4F8"/>
-        <property ID="0xF0A45C32"/>
-        <property ID="0xD8116003"/>
-        <property ID="0x415046ED"/>
-        <property ID="0xEC9C01B2"/>
-        <property ID="0x545540E5"/>
-        <property ID="0x5490E214"/>
-        <property ID="0x887E8A8B"/>
-        <property ID="0xB7F5646D"/>
-        <property ID="0x41B72B2C"/>
-        <property ID="0xBBBEE60B"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <struct ID="0xD29C031D" template="Structs/ActorParameters.xml"/>
+        <property ID="0x9B8B3323" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0xE36E20A7" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0xAC794DA8" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0xC21F264F" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0x1115FB68" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0xA0D9E87F" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x42A046C2" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0x5B91FF38" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0x5B8275BC" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0xADACEC90" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0x0D2E4AD3" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0x71EFFFC4" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0xC3DD9B75" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0xF1F3D90F" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0x1E864B83" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0xBD30F7A3" type="float">
+            <default>5.0</default>
+        </property>
+        <property ID="0xA7BDC4F8" type="float">
+            <default>5.0</default>
+        </property>
+        <property ID="0xF0A45C32" type="float">
+            <default>5.0</default>
+        </property>
+        <property ID="0xD8116003" type="float">
+            <default>5.0</default>
+        </property>
+        <property ID="0x415046ED" type="float">
+            <default>3.0</default>
+        </property>
+        <property ID="0xEC9C01B2" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x545540E5" type="float">
+            <default>5.0</default>
+        </property>
+        <property ID="0x5490E214" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0x887E8A8B" type="vector3f">
+            <default>1.0, 1.0, 1.0</default>
+        </property>
+        <property ID="0xB7F5646D" type="vector3f">
+            <default>0.0, 0.0, 0.0</default>
+        </property>
+        <property ID="0x41B72B2C" type="vector3f">
+            <default>0.0, 0.0, 0.0</default>
+        </property>
+        <struct ID="0xBBBEE60B" template="Structs/MayaSpline.xml"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
@@ -83,7 +93,6 @@
             <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
             <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
             <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0xD29C031D:0xB028DB0E"/>
         </properties>
         <assets>
             <model source="property">0xD29C031D:0xC0BA9E18</model>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="ActorParameters" type="multi">
+    <properties>
+        <struct ID="0xB028DB0E" template="Structs/LightParameters.xml"/>
+        <struct ID="0x375BFD7C" template="Structs/ScannableParameters.xml"/>
+        <property ID="0xBB52F0BE" type="file" extensions="CMDL"/>
+        <property ID="0xC647755B" type="file" extensions="UNKN"/>
+        <property ID="0x1499803C" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0x90AA341F" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x7C269EBC" type="float">
+            <default>1.0</default>
+        </property>
+        <struct ID="0x05AD250E" template="Structs/DamageableTriggerInfo.xml"/>
+        <property ID="0x799263F1" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xED3A6E87" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0xF07981E8" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x4D55F7D4" type="bool">
+            <default>false</default>
+        </property>
+        <enum ID="0xE315EE72">
+            <default>0xD086634A</default>
+            <enumerators>
+                <enumerator ID="0xD086634A" name="Unknown 1"/>
+                <enumerator ID="0x41D989A1" name="Unknown 2"/>
+                <enumerator ID="0x989B7842" name="Unknown 3"/>
+                <enumerator ID="0xF0F41378" name="Unknown 4"/>
+                <enumerator ID="0x0A5A4C2F" name="Unknown 5"/>
+                <enumerator ID="0x0220F8C0" name="Unknown 6"/>
+                <enumerator ID="0x29019A90" name="Unknown 7"/>
+                <enumerator ID="0x06CD0BAD" name="Unknown 8"/>
+                <enumerator ID="0x1F07868B" name="Unknown 9"/>
+                <enumerator ID="0x403233D4" name="Unknown 10"/>
+                <enumerator ID="0xA8294FA8" name="Unknown 11"/>
+                <enumerator ID="0xB6A39E41" name="Unknown 12"/>
+                <enumerator ID="0x3ED0780A" name="Unknown 13"/>
+                <enumerator ID="0xD32E4F9E" name="Unknown 14"/>
+                <enumerator ID="0xD4DCF070" name="Unknown 15"/>
+                <enumerator ID="0xA237F316" name="Unknown 16"/>
+                <enumerator ID="0x519DB628" name="Unknown 17"/>
+                <enumerator ID="0x12D7814B" name="Unknown 18"/>
+            </enumerators>
+        </enum>
+        <enum ID="0x583895FA">
+            <default>0xDE8CE5BD</default>
+            <enumerators>
+                <enumerator ID="0xDE8CE5BD" name="Unknown 1"/>
+                <enumerator ID="0x26E57C67" name="Unknown 2"/>
+                <enumerator ID="0x3FDFBD8E" name="Unknown 3"/>
+            </enumerators>
+        </enum>
+        <property ID="0xC712847C" type="long">
+            <default>127</default>
+        </property>
+        <property ID="0x701B61B3" type="bool">
+            <default>false</default>
+        </property>
+    </properties>
+</struct>

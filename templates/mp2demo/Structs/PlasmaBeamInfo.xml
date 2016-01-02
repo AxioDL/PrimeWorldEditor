@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="PlasmaBeamInfo" type="multi">
+    <properties>
+        <property ID="0xFF713AAD" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0x459AE4A8" type="file" extensions="WPSC"/>
+        <property ID="0x4F387C49" type="file" extensions="PART"/>
+        <property ID="0xDDD52E3A" type="file" extensions="PART"/>
+        <property ID="0xC6F229C6" type="file" extensions="TXTR"/>
+        <property ID="0x8F1A76C3" type="file" extensions="TXTR"/>
+        <property ID="0xC26C291C" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0x78C507EB" type="float">
+            <default>0.1</default>
+        </property>
+        <property ID="0xEC773D1D" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0xB02DE555" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0x5180181E" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0x72A96252" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x855ED9B9" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0xB8652FE4" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x3FED5E52" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0x1AFB2B73" type="color">
+            <default>1.0, 1.0, 1.0, 0.0</default>
+        </property>
+        <property ID="0x9FD338FC" type="color">
+            <default>0.0, 0.0, 0.0, 0.0</default>
+        </property>
+        <property ID="0xAEB31AF3" type="file" extensions="PART"/>
+    </properties>
+</struct>

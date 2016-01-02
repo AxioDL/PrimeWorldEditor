@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="ContextActionCombinationLockStruct" type="multi">
+    <properties>
+        <property ID="0x90AC8041" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x89C4CC5F" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x992C2DF5" type="float">
+            <default>-90.0</default>
+        </property>
+        <property ID="0xD9635583" type="float">
+            <default>90.0</default>
+        </property>
+    </properties>
+</struct>

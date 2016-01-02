@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<enum name="BarrelCannonEnum">
+	<enumerators>
+		<enumerator ID="0x1923DFB0" name="Unknown 1"/>
+		<enumerator ID="0xA61445EB" name="Unknown 2"/>
+		<enumerator ID="0x1CD43817" name="Unknown 3"/>
+		<enumerator ID="0x0009FA85" name="Unknown 4"/>
+	</enumerators>
+</enum>

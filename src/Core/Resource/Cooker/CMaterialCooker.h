@@ -3,7 +3,7 @@
 
 #include "Core/Resource/CMaterial.h"
 #include "Core/Resource/CMaterialSet.h"
-#include "Core/Resource/EFormatVersion.h"
+#include "Core/Resource/EGame.h"
 
 class CMaterialCooker
 {

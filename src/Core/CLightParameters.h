@@ -2,7 +2,7 @@
 #define CLIGHTPARAMETERS_H
 
 #include "Core/Resource/CGameArea.h"
-#include "Core/Resource/Script/CProperty.h"
+#include "Core/Resource/Script/IProperty.h"
 
 class CLightParameters
 {

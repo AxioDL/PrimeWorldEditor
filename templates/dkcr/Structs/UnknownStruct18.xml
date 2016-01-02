@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="UnknownStruct18" type="multi">
+    <properties>
+        <property ID="0x3A68EE5C" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x44B331EC" type="bool">
+            <default>true</default>
+        </property>
+    </properties>
+</struct>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="Vector2f" type="multi">
+    <properties>
+        <property ID="0xA1677D4E" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x6A3BAEEB" type="float">
+            <default>0.0</default>
+        </property>
+    </properties>
+</struct>

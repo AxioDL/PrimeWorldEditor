@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>HUDMemo</name>
-    <properties version="NTSC">
+    <properties>
         <property ID="0x00" name="Name" type="string"/>
         <property ID="0x01" name="First message timer" type="float"/>
         <property ID="0x02" name="Unknown 1" type="bool"/>
         <enum ID="0x03" name="Memo Type">
-			<enumerator value="0x0" name="Status Message" />
-			<enumerator value="0x1" name="Message Box" />
-		</enum>
-        <property ID="0x04" name="STRG" type="file" ext="STRG"/>
+            <enumerators>
+                <enumerator ID="0x00000000" name="Status Message"/>
+                <enumerator ID="0x00000001" name="Message Box"/>
+            </enumerators>
+        </enum>
+        <property ID="0x04" name="STRG" type="file" extensions="STRG"/>
         <property ID="0x05" name="Active" type="bool"/>
     </properties>
     <editor>
@@ -19,7 +21,7 @@
         </properties>
         <assets>
             <billboard source="file">script/common/HUDMemo.txtr</billboard>
-		</assets>
+        </assets>
         <rotation_type>disabled</rotation_type>
         <scale_type>enabled</scale_type>
     </editor>

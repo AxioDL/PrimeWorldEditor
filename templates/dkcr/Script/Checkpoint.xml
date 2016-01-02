@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>Checkpoint</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x5D298A43"/>
-        </struct>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <struct ID="0xB9A97FEE" type="multi">
-            <property ID="0x178EAB57"/>
-            <property ID="0x42087650"/>
-            <property ID="0x61AA819F"/>
-            <property ID="0xFE5BBEC8"/>
-            <property ID="0xCCB312C3"/>
+            <properties>
+                <property ID="0x178EAB57" type="bool">
+                    <default>true</default>
+                </property>
+                <property ID="0xCCB312C3" type="bool">
+                    <default>false</default>
+                </property>
+                <property ID="0x42087650" type="long">
+                    <default>0</default>
+                </property>
+                <property ID="0xFE5BBEC8" type="float">
+                    <default>3.0</default>
+                </property>
+                <property ID="0x61AA819F" type="bool">
+                    <default>true</default>
+                </property>
+            </properties>
         </struct>
-        <struct ID="0x416BD9EB" type="multi">
-            <property ID="0x5A8B108C"/>
-            <property ID="0xC12E5CE3"/>
-            <property ID="0xB6B08E13"/>
-            <property ID="0x2D15C27C"/>
-            <property ID="0x598D2BF3"/>
-            <property ID="0xC228679C"/>
-            <property ID="0xB5B6B56C"/>
-            <property ID="0x2E13F903"/>
-            <property ID="0x5C876672"/>
-            <property ID="0xC7222A1D"/>
-            <property ID="0xE2B2C856"/>
-        </struct>
+        <struct ID="0x416BD9EB" template="Structs/UnknownStruct24.xml"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
             <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
             <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
             <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
         </properties>
         <assets/>
+		<preview_scale>0.5</preview_scale>
         <rotation_type>enabled</rotation_type>
-        <scale_type>disabled</scale_type>
+        <scale_type>enabled</scale_type>
     </editor>
 </ScriptTemplate>

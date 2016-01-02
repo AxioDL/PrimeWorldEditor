@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="MultiModelActorStruct" type="multi">
+    <properties>
+        <property ID="0xC27FFA8F" type="file" extensions="CMDL"/>
+        <property ID="0xD4124C4C" type="float">
+            <default>0.0</default>
+        </property>
+    </properties>
+</struct>

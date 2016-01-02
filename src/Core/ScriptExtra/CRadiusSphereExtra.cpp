@@ -11,16 +11,16 @@ CRadiusSphereExtra::CRadiusSphereExtra(CScriptObject *pInstance, CSceneManager *
     switch (mObjectType)
     {
     case 0x63: // Repulsor (MP1)
-        mpRadius = (CFloatProperty*) pInstance->Properties()->PropertyByID(0x3);
+        mpRadius = (TFloatProperty*) pInstance->Properties()->PropertyByID(0x3);
         break;
 
     case 0x68: // RadialDamage (MP1)
-        mpRadius = (CFloatProperty*) pInstance->Properties()->PropertyByID(0x4);
+        mpRadius = (TFloatProperty*) pInstance->Properties()->PropertyByID(0x4);
         break;
 
     case 0x5245504C: // "REPL" Repulsor (MP2/MP3)
     case 0x52414444: // "RADD" RadialDamage (MP2/MP3/DKCR)
-        mpRadius =(CFloatProperty*)  pInstance->Properties()->PropertyByID(0x78C507EB);
+        mpRadius = (TFloatProperty*)  pInstance->Properties()->PropertyByID(0x78C507EB);
         break;
     }
 }

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="4">
+    <name>Trigger</name>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <enum ID="0x09ECEE0C">
+            <default>0x482B22F1</default>
+            <enumerators>
+                <enumerator ID="0x482B22F1" name="Unknown 1"/>
+                <enumerator ID="0x779DB545" name="Unknown 2"/>
+                <enumerator ID="0x8392F5E4" name="Unknown 3"/>
+                <enumerator ID="0x39ED7B8E" name="Unknown 4"/>
+            </enumerators>
+        </enum>
+        <struct ID="0x77A27411" template="Structs/TriggerInfo.xml"/>
+    </properties>
+    <states/>
+    <messages/>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
+        </properties>
+        <assets>
+            <billboard source="file">script/common/Trigger.txtr</billboard>
+        </assets>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>volume</scale_type>
+        <preview_volume shape="Conditional" propertyID="0x09ECEE0C">
+            <condition value="0x482B22F1" shape="Box"/>
+            <condition value="0x779DB545" shape="Box"/>
+            <condition value="0x8392F5E4" shape="Ellipsoid"/>
+            <condition value="0x39ED7B8E" shape="Cylinder"/>
+        </preview_volume>
+    </editor>
+</ScriptTemplate>

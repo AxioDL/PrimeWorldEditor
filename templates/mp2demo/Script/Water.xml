@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="4">
+    <name>Water</name>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <struct ID="0x77A27411" template="Structs/TriggerInfo.xml"/>
+        <property ID="0xDE5EA267" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x22B69324" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x4C60077E" type="float">
+            <default>5.0</default>
+        </property>
+        <property ID="0x8518047A" type="float">
+            <default>5.0</default>
+        </property>
+        <property ID="0x7D606B78" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0x2421A2BF" type="file" extensions="TXTR"/>
+        <property ID="0x5E8B37DD" type="file" extensions="TXTR"/>
+        <property ID="0x031D987E" type="file" extensions="TXTR"/>
+        <property ID="0x5AA79C9F" type="file" extensions="TXTR"/>
+        <property ID="0x2F0645CF" type="file" extensions="TXTR"/>
+        <property ID="0xDE054447" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x7A4B4685" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0x5BA7702E" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0x9A3463A7" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0x041398D5" type="color">
+            <default>0.0, 0.0, 0.498039, 1.0</default>
+        </property>
+        <property ID="0x0F7C6FC2" type="float">
+            <default>0.6</default>
+        </property>
+        <property ID="0x26382FCB" type="float">
+            <default>0.2</default>
+        </property>
+        <property ID="0xC63A0616" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0xDB7A3A6B" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0xB0259D23" type="float">
+            <default>0.0</default>
+        </property>
+        <struct ID="0x244E9E6D" template="Structs/LayerInfo.xml"/>
+        <struct ID="0xE75248E4" template="Structs/LayerInfo.xml"/>
+        <struct ID="0x385E0D43" template="Structs/LayerInfo.xml"/>
+        <struct ID="0xD369B640" template="Structs/LayerInfo.xml"/>
+        <struct ID="0x6DDEA66D" template="Structs/LayerInfo.xml"/>
+        <property ID="0xF14E3A14" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0x33EECDFD" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x5A96218C" type="color">
+            <default>0.0, 0.498039, 1.0, 1.0</default>
+        </property>
+        <property ID="0x13B56C22" type="color">
+            <default>1.0, 1.0, 1.0, 1.0</default>
+        </property>
+        <property ID="0x3027043C" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0x41C12BE2" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0xD6E82200" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0x94A23BF9" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0x43A704FB" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0xBA717F19" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0xAE7C7EFC" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0xEEF81E4C" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0x63C96763" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0xD36209BC" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0xE578C0DD" type="color">
+            <default>1.0, 1.0, 1.0, 1.0</default>
+        </property>
+        <property ID="0xB4B0FD8D" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xB90DFF44" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xF608D35C" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0xFFE26F5C" type="float">
+            <default>0.5</default>
+        </property>
+        <property ID="0xB5E9859F" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0x3425E83F" type="float">
+            <default>0.3</default>
+        </property>
+    </properties>
+    <states/>
+    <messages/>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
+        </properties>
+        <assets/>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>volume</scale_type>
+        <preview_volume shape="Box"/>
+    </editor>
+</ScriptTemplate>

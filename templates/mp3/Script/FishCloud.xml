@@ -1,69 +1,161 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>FishCloud</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <property ID="0x7990A3B6"/>
-        <property ID="0xA244C9D8"/>
-        <property ID="0x2264062E"/>
-        <property ID="0x97BEFF4F"/>
-        <property ID="0x6392404E"/>
-        <property ID="0xCBAB54C1"/>
-        <property ID="0x7864AD0E"/>
-        <property ID="0x61959F0D"/>
-        <property ID="0x4841F1DE"/>
-        <property ID="0xD293EBC4"/>
-        <property ID="0x5F362A14"/>
-        <property ID="0xEC9B73C2"/>
-        <property ID="0x7FF1469E"/>
-        <property ID="0x7CE17870"/>
-        <property ID="0x3A25F09D"/>
-        <property ID="0x23A160F3"/>
-        <property ID="0xF0671410"/>
-        <property ID="0xA1747268"/>
-        <property ID="0xCE77A8D0"/>
-        <property ID="0x8CB20C53"/>
-        <property ID="0x21B3D07C"/>
-        <property ID="0x9939D085"/>
-        <property ID="0x1F83D350"/>
-        <property ID="0xF630B89F"/>
-        <property ID="0x8A6AB139"/>
-        <property ID="0xFE44B7A4"/>
-        <property ID="0x942D6F2A"/>
-        <property ID="0x5BA86245"/>
-        <property ID="0xA8232FB1"/>
-        <property ID="0x23D57BB1"/>
-        <property ID="0x90F4B1E0"/>
-        <property ID="0xBF583BF2"/>
-        <property ID="0xE25BA471"/>
-        <property ID="0x1660C34E"/>
-        <property ID="0x86D50737"/>
-        <property ID="0x7BB9C270"/>
-        <property ID="0xDD3C10EB"/>
-        <property ID="0x91AE1374"/>
-        <property ID="0xBA371DB0"/>
-        <property ID="0xC7C3F610"/>
-        <property ID="0x05C79560"/>
-        <property ID="0xD7BCE5DA"/>
-        <property ID="0xE8B7E32E"/>
-        <property ID="0xC320A050"/>
-        <property ID="0xCD4C81A1"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0x7990A3B6" type="file" extensions="CMDL"/>
+        <property ID="0xA244C9D8" type="character"/>
+        <property ID="0x2264062E" type="long">
+            <default>20</default>
+        </property>
+        <property ID="0x97BEFF4F" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x6392404E" type="float">
+            <default>3.0</default>
+        </property>
+        <property ID="0xCBAB54C1" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x7864AD0E" type="float">
+            <default>2.0</default>
+        </property>
+        <property ID="0x61959F0D" type="float">
+            <default>0.4</default>
+        </property>
+        <property ID="0x4841F1DE" type="float">
+            <default>0.9</default>
+        </property>
+        <property ID="0xD293EBC4" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x5F362A14" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0xEC9B73C2" type="float">
+            <default>0.4</default>
+        </property>
+        <property ID="0x7FF1469E" type="float">
+            <default>0.2</default>
+        </property>
+        <property ID="0x7CE17870" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x3A25F09D" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x23A160F3" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xF0671410" type="float">
+            <default>30.0</default>
+        </property>
+        <property ID="0xA1747268" type="float">
+            <default>0.1</default>
+        </property>
+        <property ID="0xCE77A8D0" type="float">
+            <default>0.1</default>
+        </property>
+        <property ID="0x8CB20C53" type="float">
+            <default>0.5</default>
+        </property>
+        <property ID="0x21B3D07C" type="long">
+            <default>3</default>
+        </property>
+        <enum ID="0x9939D085">
+            <default>0xC22624A2</default>
+            <enumerators>
+                <enumerator ID="0xC22624A2" name="Unknown 1"/>
+                <enumerator ID="0xBA9C442B" name="Unknown 2"/>
+                <enumerator ID="0xDBEED746" name="Unknown 3"/>
+            </enumerators>
+        </enum>
+        <property ID="0x1F83D350" type="color">
+            <default>1.0, 1.0, 1.0, 1.0</default>
+        </property>
+        <property ID="0xF630B89F" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x8A6AB139" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xFE44B7A4" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x942D6F2A" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x5BA86245" type="file" extensions="PART"/>
+        <property ID="0xA8232FB1" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0x23D57BB1" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x90F4B1E0" type="file" extensions="UNKN"/>
+        <property ID="0xBF583BF2" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0xE25BA471" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x1660C34E" type="file" extensions="UNKN"/>
+        <property ID="0x86D50737" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0x7BB9C270" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0xDD3C10EB" type="file" extensions="UNKN"/>
+        <property ID="0x91AE1374" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0xBA371DB0" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0xC7C3F610" type="file" extensions="CAUD"/>
+        <property ID="0x05C79560" type="file" extensions="CAUD"/>
+        <property ID="0xD7BCE5DA" type="float">
+            <default>20.0</default>
+        </property>
+        <property ID="0xE8B7E32E" type="float">
+            <default>25.0</default>
+        </property>
+        <property ID="0xC320A050" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0xCD4C81A1" type="bool">
+            <default>true</default>
+        </property>
         <struct ID="0x0D9C6715" type="multi">
-            <property ID="0x5EDA8D99"/>
-            <property ID="0xE387D414"/>
-            <property ID="0x8D1CF97A"/>
-            <property ID="0x4E815E64"/>
-            <property ID="0xB258D3E8"/>
-            <property ID="0x39E08C8E"/>
-            <property ID="0x34D4321C"/>
-            <property ID="0x2459FC0A"/>
+            <properties>
+                <property ID="0x5EDA8D99" type="float">
+                    <default>2.0</default>
+                </property>
+                <property ID="0xE387D414" type="float">
+                    <default>30.0</default>
+                </property>
+                <property ID="0x8D1CF97A" type="float">
+                    <default>1.0</default>
+                </property>
+                <property ID="0x4E815E64" type="float">
+                    <default>2.0</default>
+                </property>
+                <property ID="0xB258D3E8" type="file" extensions="PART"/>
+                <property ID="0x39E08C8E" type="long">
+                    <default>0</default>
+                </property>
+                <property ID="0x34D4321C" type="float">
+                    <default>0.0</default>
+                </property>
+                <property ID="0x2459FC0A" type="float">
+                    <default>0.0</default>
+                </property>
+            </properties>
         </struct>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>

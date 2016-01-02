@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<enum name="AnimEnum">
+	<enumerators>
+		<enumerator ID="0x8B3D86DC" name="Unknown 1"/>
+		<enumerator ID="0xF095D135" name="Unknown 2"/>
+		<enumerator ID="0xEF006D07" name="Unknown 3"/>
+	</enumerators>
+</enum>

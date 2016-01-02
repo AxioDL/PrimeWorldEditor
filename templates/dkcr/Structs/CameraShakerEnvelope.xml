@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="CameraShakerEnvelope" type="multi">
+    <properties>
+        <enum ID="0xC6089A3F">
+            <default>0x58F1CB59</default>
+            <enumerators>
+                <enumerator ID="0x58F1CB59" name="Unknown 1"/>
+                <enumerator ID="0x6C5BEF22" name="Unknown 2"/>
+            </enumerators>
+        </enum>
+        <struct ID="0x90B3CC7E" template="Structs/MayaSpline.xml"/>
+        <struct ID="0x69A81517" template="Structs/MayaSpline.xml"/>
+    </properties>
+</struct>

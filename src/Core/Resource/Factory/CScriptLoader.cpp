@@ -1,4 +1,5 @@
 #include "CScriptLoader.h"
+#include "CTemplateLoader.h"
 #include "Core/Resource/Script/CMasterTemplate.h"
 #include "Core/Resource/CResCache.h"
 #include "Core/Log.h"
@@ -10,152 +11,215 @@ CScriptLoader::CScriptLoader()
     mpObj = nullptr;
 }
 
-CPropertyStruct* CScriptLoader::LoadStructMP1(IInputStream& SCLY, CStructTemplate *pTemp)
+void CScriptLoader::ReadProperty(IProperty *pProp, u32 Size, IInputStream& SCLY)
 {
-    u32 structStart = SCLY.Tell();
-    CPropertyStruct *propStruct = new CPropertyStruct();
-    propStruct->mpTemplate = pTemp;
+    IPropertyTemplate *pTemp = pProp->Template();
 
-    // Verify property count
-    u32 propCount = pTemp->Count();
-
-    if (!pTemp->IsSingleProperty())
+    switch (pTemp->Type())
     {
-        u32 filePropCount = SCLY.ReadLong();
-        if (propCount != filePropCount)
-            Log::FileWarning(SCLY.GetSourceString(), structStart, "Struct \"" + pTemp->Name() + "\" template prop count doesn't match file");
+
+    case eBoolProperty: {
+        TBoolProperty *pBoolCast = static_cast<TBoolProperty*>(pProp);
+        pBoolCast->Set( (SCLY.ReadByte() != 0) );
+        break;
     }
 
-    // Parse properties
-    propStruct->Reserve(propCount);
+    case eByteProperty: {
+        TByteProperty *pByteCast = static_cast<TByteProperty*>(pProp);
+        pByteCast->Set(SCLY.ReadByte());
+        break;
+    }
 
-    for (u32 iProp = 0; iProp < propCount; iProp++)
-    {
-        CPropertyBase *pProp = nullptr;
-        CPropertyTemplate *pPropTmp = pTemp->PropertyByIndex(iProp);
-        EPropertyType type = pPropTmp->Type();
+    case eShortProperty: {
+        TShortProperty *pShortCast = static_cast<TShortProperty*>(pProp);
+        pShortCast->Set(SCLY.ReadShort());
+        break;
+    }
 
-        switch (type)
+    case eLongProperty: {
+        TLongProperty *pLongCast = static_cast<TLongProperty*>(pProp);
+        pLongCast->Set(SCLY.ReadLong());
+        break;
+    }
+
+    case eBitfieldProperty: {
+        TBitfieldProperty *pBitfieldCast = static_cast<TBitfieldProperty*>(pProp);
+        pBitfieldCast->Set(SCLY.ReadLong());
+
+        // Validate
+        u32 mask = 0;
+        CBitfieldTemplate *pBitfieldTemp = static_cast<CBitfieldTemplate*>(pTemp);
+        for (u32 iMask = 0; iMask < pBitfieldTemp->NumFlags(); iMask++)
+            mask |= pBitfieldTemp->FlagMask(iMask);
+
+        u32 check = pBitfieldCast->Get() & ~mask;
+        if (check != 0)
+            Log::FileWarning(SCLY.GetSourceString(), SCLY.Tell() - 4, "Bitfield property \"" + pBitfieldTemp->Name() + "\" in struct \"" + pTemp->Name() + "\" has flags set that aren't in the template: " + TString::HexString(check, true, true, 8));
+
+        break;
+    }
+
+    case eEnumProperty: {
+        TEnumProperty *pEnumCast = static_cast<TEnumProperty*>(pProp);
+        CEnumTemplate *pEnumTemp = static_cast<CEnumTemplate*>(pTemp);
+        u32 ID = SCLY.ReadLong();
+        u32 index = pEnumTemp->EnumeratorIndex(ID);
+        if (index == -1) Log::FileError(SCLY.GetSourceString(), SCLY.Tell() - 4, "Enum property \"" + pEnumTemp->Name() + "\" in struct \"" + pTemp->Name() + "\" has invalid enumerator value: " + TString::HexString(ID, true, true, 8));
+        pEnumCast->Set(index);
+        break;
+    }
+
+    case eFloatProperty: {
+        TFloatProperty *pFloatCast = static_cast<TFloatProperty*>(pProp);
+        pFloatCast->Set(SCLY.ReadFloat());
+        break;
+    }
+
+    case eStringProperty: {
+        TStringProperty *pStringCast = static_cast<TStringProperty*>(pProp);
+        pStringCast->Set(SCLY.ReadString());
+        break;
+    }
+
+    case eVector3Property: {
+        TVector3Property *pVector3Cast = static_cast<TVector3Property*>(pProp);
+        pVector3Cast->Set(CVector3f(SCLY));
+        break;
+    }
+
+    case eColorProperty: {
+        TColorProperty *pColorCast = static_cast<TColorProperty*>(pProp);
+        pColorCast->Set(CColor(SCLY));
+        break;
+    }
+
+    case eFileProperty: {
+        TFileProperty *pFileCast = static_cast<TFileProperty*>(pProp);
+
+        CUniqueID ResID = (mVersion < eCorruptionProto ? SCLY.ReadLong() : SCLY.ReadLongLong());
+        const TStringList& Extensions = static_cast<CFileTemplate*>(pTemp)->Extensions();
+
+        CResource *pRes = nullptr;
+
+        // Check for each extension individually until we find a match
+        // This could be done better with a function to fetch the extension given the resource ID
+        // and a "does resource exist" function, but this will do for now
+        bool hasIgnoredExt = false;
+
+        if (ResID.IsValid())
         {
-
-        case eBoolProperty: {
-            bool v = (SCLY.ReadByte() == 1);
-            pProp = new CBoolProperty(v);
-            break;
-        }
-        case eByteProperty: {
-            char v = SCLY.ReadByte();
-            pProp = new CByteProperty(v);
-            break;
-        }
-        case eShortProperty: {
-            short v = SCLY.ReadShort();
-            pProp = new CShortProperty(v);
-            break;
-        }
-        case eLongProperty: {
-            long v = SCLY.ReadLong();
-            pProp = new CLongProperty(v);
-            break;
-        }
-        case eBitfieldProperty: {
-            long v = SCLY.ReadLong();
-            pProp = new CBitfieldProperty(v);
-
-            // Validate
-            u32 mask = 0;
-            CBitfieldTemplate *pBitfieldTemp = static_cast<CBitfieldTemplate*>(pPropTmp);
-            for (u32 iMask = 0; iMask < pBitfieldTemp->NumFlags(); iMask++)
-                mask |= pBitfieldTemp->FlagMask(iMask);
-
-            u32 check = v & ~mask;
-            if (check != 0) Log::FileWarning(SCLY.GetSourceString(), SCLY.Tell() - 4, "Bitfield property \"" + pBitfieldTemp->Name() + "\" in struct \"" + pTemp->Name() + "\" has flags set that aren't in the template: " + TString::HexString(check, true, true, 8));
-
-            break;
-        }
-        case eEnumProperty: {
-            CEnumTemplate *pEnumTemp = static_cast<CEnumTemplate*>(pPropTmp);
-            u32 ID = SCLY.ReadLong();
-            u32 index = pEnumTemp->EnumeratorIndex(ID);
-            if (index == -1) Log::FileError(SCLY.GetSourceString(), SCLY.Tell() - 4, "Enum property \"" + pEnumTemp->Name() + "\" in struct \"" + pTemp->Name() + "\" has invalid enumerator value: " + TString::HexString(ID, true, true, 8));
-            pProp = new CEnumProperty(index);
-            break;
-        }
-        case eFloatProperty: {
-            float v = SCLY.ReadFloat();
-            pProp = new CFloatProperty(v);
-            break;
-        }
-        case eStringProperty: {
-            TString v = SCLY.ReadString();
-            pProp = new CStringProperty(v);
-            break;
-        }
-        case eVector3Property: {
-            CVector3f v(SCLY);
-            pProp = new CVector3Property(v);
-            break;
-        }
-        case eColorProperty: {
-            CColor v(SCLY);
-            pProp = new CColorProperty(v);
-            break;
-        }
-        case eFileProperty: {
-            u32 ResID = SCLY.ReadLong();
-            const TStringList& Extensions = static_cast<CFileTemplate*>(pPropTmp)->Extensions();
-
-            CResource *pRes = nullptr;
-
             for (auto it = Extensions.begin(); it != Extensions.end(); it++)
             {
                 const TString& ext = *it;
-                if ((ext != "MREA") && (ext != "MLVL")) // Let's avoid recursion please
+
+                if ((ext != "MREA") && (ext != "MLVL")) {
                     pRes = gResCache.GetResource(ResID, ext);
+                    if (pRes) break;
+                }
 
-                if (pRes) break;
+                else
+                    hasIgnoredExt = true;
             }
-
-            pProp = new CFileProperty(pRes);
-            break;
-        }
-        case eStructProperty: {
-            CStructTemplate *StructTmp = pTemp->StructByIndex(iProp);
-            pProp = LoadStructMP1(SCLY, StructTmp);
-            break;
-        }
-        case eAnimParamsProperty: {
-            pProp = new CAnimParamsProperty(CAnimationParameters(SCLY, mVersion));
-            break;
-        }
-        default:
-            pProp = new CUnknownProperty();
-            break;
         }
 
-        if (pProp)
+        // Property may have an incorrect extension listed - print error
+        if ((!pRes) && (CUniqueID(ResID).IsValid()) && (!hasIgnoredExt))
         {
-            pProp->mpTemplate = pPropTmp;
-            propStruct->mProperties.push_back(pProp);
+            TString ExtList;
+            for (auto it = Extensions.begin(); it != Extensions.end(); it++)
+            {
+                if (it != Extensions.begin()) ExtList += "/";
+                ExtList += *it;
+            }
         }
+
+        pFileCast->Set(pRes);
+        break;
     }
 
-    return propStruct;
+    case eStructProperty: {
+        CPropertyStruct *pStructCast = static_cast<CPropertyStruct*>(pProp);
+
+        if (mVersion < eEchoesDemo)
+            LoadStructMP1(SCLY, pStructCast, static_cast<CStructTemplate*>(pStructCast->Template()));
+        else
+            LoadStructMP2(SCLY, pStructCast, static_cast<CStructTemplate*>(pTemp));
+        break;
+    }
+
+    case eArrayProperty: {
+        CArrayProperty *pArrayCast = static_cast<CArrayProperty*>(pProp);
+        u32 Size = SCLY.ReadLong();
+
+        pArrayCast->Resize(Size);
+
+        for (u32 iElem = 0; iElem < Size; iElem++)
+        {
+            if (mVersion < eEchoesDemo)
+                LoadStructMP1(SCLY, pArrayCast->ElementByIndex(iElem), pArrayCast->SubStructTemplate());
+            else
+                LoadStructMP2(SCLY, pArrayCast->ElementByIndex(iElem), pArrayCast->SubStructTemplate());
+        }
+        break;
+    }
+
+    case eCharacterProperty: {
+        TAnimParamsProperty *pAnimCast = static_cast<TAnimParamsProperty*>(pProp);
+        pAnimCast->Set(CAnimationParameters(SCLY, mVersion));
+        break;
+    }
+
+    case eUnknownProperty: {
+        TUnknownProperty *pUnknownCast = static_cast<TUnknownProperty*>(pProp);
+        std::vector<u8> Buffer(Size);
+        SCLY.ReadBytes(Buffer.data(), Buffer.size());
+        pUnknownCast->Set(Buffer);
+        break;
+    }
+    }
+}
+
+void CScriptLoader::LoadStructMP1(IInputStream& SCLY, CPropertyStruct *pStruct, CStructTemplate *pTemp)
+{
+    u32 StructStart = SCLY.Tell();
+
+    // Verify property count
+    u32 PropCount = pTemp->Count();
+    u32 Version = 0;
+
+    if (!pTemp->IsSingleProperty())
+    {
+        u32 FilePropCount = SCLY.ReadLong();
+        Version = pTemp->VersionForPropertyCount(FilePropCount);
+
+        if (Version == -1)
+            Log::FileWarning(SCLY.GetSourceString(), StructStart, "Struct \"" + pTemp->Name() + "\" template prop count doesn't match file");
+    }
+
+    // Parse properties
+    for (u32 iProp = 0; iProp < PropCount; iProp++)
+    {
+        IPropertyTemplate *pPropTemp = pTemp->PropertyByIndex(iProp);
+        IProperty *pProp = pStruct->PropertyByIndex(iProp);
+
+        if (pPropTemp->CookPreference() != eNeverCook && pPropTemp->IsInVersion(Version))
+            ReadProperty(pProp, 0, SCLY);
+    }
 }
 
 CScriptObject* CScriptLoader::LoadObjectMP1(IInputStream& SCLY)
 {
-    u32 objStart = SCLY.Tell();
-    u8 type = SCLY.ReadByte();
-    u32 size = SCLY.ReadLong();
-    u32 end = SCLY.Tell() + size;
+    u32 ObjStart = SCLY.Tell();
+    u8 Type = SCLY.ReadByte();
+    u32 Size = SCLY.ReadLong();
+    u32 End = SCLY.Tell() + Size;
 
-    CScriptTemplate *pTemp = mpMaster->TemplateByID((u32) type);
+    CScriptTemplate *pTemp = mpMaster->TemplateByID((u32) Type);
     if (!pTemp)
     {
         // No valid template for this object; can't load
-        Log::FileError(SCLY.GetSourceString(), objStart, "Invalid object ID encountered: " + TString::HexString(type));
-        SCLY.Seek(end, SEEK_SET);
+        Log::FileError(SCLY.GetSourceString(), ObjStart, "Invalid object ID encountered: " + TString::HexString(Type));
+        SCLY.Seek(End, SEEK_SET);
         return nullptr;
     }
 
@@ -163,30 +227,24 @@ CScriptObject* CScriptLoader::LoadObjectMP1(IInputStream& SCLY)
     mpObj->mInstanceID = SCLY.ReadLong();
 
     // Load connections
-    u32 numLinks = SCLY.ReadLong();
-    mpObj->mOutConnections.reserve(numLinks);
+    u32 NumLinks = SCLY.ReadLong();
+    mpObj->mOutConnections.reserve(NumLinks);
 
-    for (u32 iLink = 0; iLink < numLinks; iLink++)
+    for (u32 iLink = 0; iLink < NumLinks; iLink++)
     {
-        SLink link;
-        link.State = SCLY.ReadLong();
-        link.Message = SCLY.ReadLong();
-        link.ObjectID = SCLY.ReadLong();
-        mpObj->mOutConnections.push_back(link);
+        SLink Link;
+        Link.State = SCLY.ReadLong();
+        Link.Message = SCLY.ReadLong();
+        Link.ObjectID = SCLY.ReadLong();
+        mpObj->mOutConnections.push_back(Link);
     }
 
     // Load object...
-    u32 count = SCLY.PeekLong();
-    CStructTemplate *pBase = pTemp->BaseStructByCount(count);
-
-    if (!pBase) {
-        Log::Error(pTemp->TemplateName() + " template doesn't match file property count (" + TString::FromInt32(count) + ")");
-        pBase = pTemp->BaseStructByIndex(0);
-    }
-    mpObj->mpProperties = LoadStructMP1(SCLY, pBase);
+    CPropertyStruct *pBase = mpObj->mpProperties;
+    LoadStructMP1(SCLY, pBase, static_cast<CStructTemplate*>(pBase->Template()));
 
     // Cleanup and return
-    SCLY.Seek(end, SEEK_SET);
+    SCLY.Seek(End, SEEK_SET);
 
     mpObj->EvaluateProperties();
     return mpObj;
@@ -210,33 +268,37 @@ CScriptLayer* CScriptLoader::LoadLayerMP1(IInputStream &SCLY)
     }
 
     // Layer sizes are always a multiple of 32 - skip end padding before returning
-    u32 remaining = 32 - ((SCLY.Tell() - LayerStart) & 0x1F);
-    SCLY.Seek(remaining, SEEK_CUR);
+    u32 Remaining = 32 - ((SCLY.Tell() - LayerStart) & 0x1F);
+    SCLY.Seek(Remaining, SEEK_CUR);
     return mpLayer;
 }
 
 void CScriptLoader::LoadStructMP2(IInputStream& SCLY, CPropertyStruct *pStruct, CStructTemplate *pTemp)
 {
     // Verify property count
-    u32 propCount = pTemp->Count();
+    u32 StructStart = SCLY.Tell();
+    StructStart += 0;
+    u32 PropCount = pTemp->Count();
+    u32 Version = 0;
 
     if (!pTemp->IsSingleProperty())
     {
-        u16 numProperties = SCLY.ReadShort();
-        if ((numProperties != propCount) && (mVersion < eReturns))
-           Log::FileWarning(SCLY.GetSourceString(), SCLY.Tell() - 2, "Struct \"" + pTemp->Name() + "\" template property count doesn't match file");
-        propCount = numProperties;
+        u16 NumProperties = SCLY.ReadShort();
+        Version = pTemp->VersionForPropertyCount(NumProperties);
+
+        //if ((NumProperties != PropCount) && (mVersion < eReturns))
+        //   Log::FileWarning(SCLY.GetSourceString(), SCLY.Tell() - 2, "Struct \"" + pTemp->Name() + "\" template property count doesn't match file");
+
+        PropCount = NumProperties;
     }
 
     // Parse properties
-    pStruct->Reserve(propCount);
-
-    for (u32 iProp = 0; iProp < propCount; iProp++)
+    for (u32 iProp = 0; iProp < PropCount; iProp++)
     {
-        CPropertyBase *pProp;
-        CPropertyTemplate *pPropTemp;
-        u32 propertyStart = SCLY.Tell();
-        u32 propertyID = -1;
+        IProperty *pProp;
+        IPropertyTemplate *pPropTemp;
+        u32 PropertyStart = SCLY.Tell();
+        u32 PropertyID = -1;
         u16 PropertyLength = 0;
         u32 NextProperty = 0;
 
@@ -247,170 +309,19 @@ void CScriptLoader::LoadStructMP2(IInputStream& SCLY, CPropertyStruct *pStruct, 
         }
         else
         {
-            propertyID = SCLY.ReadLong();
+            PropertyID = SCLY.ReadLong();
             PropertyLength = SCLY.ReadShort();
             NextProperty = SCLY.Tell() + PropertyLength;
 
-            pProp = pStruct->PropertyByID(propertyID);
-            pPropTemp = pTemp->PropertyByID(propertyID);
+            pProp = pStruct->PropertyByID(PropertyID);
+            pPropTemp = pTemp->PropertyByID(PropertyID);
         }
 
         if (!pPropTemp)
-            Log::FileError(SCLY.GetSourceString(), propertyStart, "Can't find template for property " + TString::HexString(propertyID) + " - skipping");
+            Log::FileError(SCLY.GetSourceString(), PropertyStart, "Can't find template for property " + TString::HexString(PropertyID) + " - skipping");
 
         else
-        {
-            switch (pPropTemp->Type())
-            {
-
-            case eBoolProperty: {
-                CBoolProperty *pBoolCast = static_cast<CBoolProperty*>(pProp);
-                pBoolCast->Set( (SCLY.ReadByte() != 0) );
-                break;
-            }
-
-            case eByteProperty: {
-                CByteProperty *pByteCast = static_cast<CByteProperty*>(pProp);
-                pByteCast->Set(SCLY.ReadByte());
-                break;
-            }
-
-            case eShortProperty: {
-                CShortProperty *pShortCast = static_cast<CShortProperty*>(pProp);
-                pShortCast->Set(SCLY.ReadShort());
-                break;
-            }
-
-            case eLongProperty: {
-                CLongProperty *pLongCast = static_cast<CLongProperty*>(pProp);
-                pLongCast->Set(SCLY.ReadLong());
-                break;
-            }
-
-            case eBitfieldProperty: {
-                CBitfieldProperty *pBitfieldCast = static_cast<CBitfieldProperty*>(pProp);
-                pBitfieldCast->Set(SCLY.ReadLong());
-
-                // Validate
-                u32 mask = 0;
-                CBitfieldTemplate *pBitfieldTemp = static_cast<CBitfieldTemplate*>(pPropTemp);
-                for (u32 iMask = 0; iMask < pBitfieldTemp->NumFlags(); iMask++)
-                    mask |= pBitfieldTemp->FlagMask(iMask);
-
-                u32 check = pBitfieldCast->Get() & ~mask;
-                if (check != 0) Log::FileWarning(SCLY.GetSourceString(), SCLY.Tell() - 4, "Bitfield property \"" + pBitfieldTemp->Name() + "\" in struct \"" + pTemp->Name() + "\" has flags set that aren't in the template: " + TString::HexString(check, true, true, 8));
-
-                break;
-            }
-
-            case eEnumProperty: {
-                CEnumProperty *pEnumCast = static_cast<CEnumProperty*>(pProp);
-                CEnumTemplate *pEnumTemp = static_cast<CEnumTemplate*>(pPropTemp);
-                u32 ID = SCLY.ReadLong();
-                u32 index = pEnumTemp->EnumeratorIndex(ID);
-                if (index == -1) Log::FileError(SCLY.GetSourceString(), SCLY.Tell() - 4, "Enum property \"" + pEnumTemp->Name() + "\" in struct \"" + pTemp->Name() + "\" has invalid enumerator value: " + TString::HexString(ID, true, true, 8));
-                pEnumCast->Set(index);
-                break;
-            }
-
-            case eFloatProperty: {
-                CFloatProperty *pFloatCast = static_cast<CFloatProperty*>(pProp);
-                pFloatCast->Set(SCLY.ReadFloat());
-                break;
-            }
-
-            case eStringProperty: {
-                CStringProperty *pStringCast = static_cast<CStringProperty*>(pProp);
-                pStringCast->Set(SCLY.ReadString());
-                break;
-            }
-
-            case eVector3Property: {
-                CVector3Property *pVector3Cast = static_cast<CVector3Property*>(pProp);
-                pVector3Cast->Set(CVector3f(SCLY));
-                break;
-            }
-
-            case eColorProperty: {
-                CColorProperty *pColorCast = static_cast<CColorProperty*>(pProp);
-                pColorCast->Set(CColor(SCLY));
-                break;
-            }
-
-            case eFileProperty: {
-                CFileProperty *pFileCast = static_cast<CFileProperty*>(pProp);
-
-                CUniqueID ResID = (mVersion < eCorruptionProto ? SCLY.ReadLong() : SCLY.ReadLongLong());
-                const TStringList& Extensions = static_cast<CFileTemplate*>(pPropTemp)->Extensions();
-
-                CResource *pRes = nullptr;
-
-                // Check for each extension individually until we find a match
-                // This could be done better with a function to fetch the extension given the resource ID
-                // and a "does resource exist" function, but this will do for now
-                bool hasIgnoredExt = false;
-
-                if (ResID.IsValid())
-                {
-                    for (auto it = Extensions.begin(); it != Extensions.end(); it++)
-                    {
-                        const TString& ext = *it;
-
-                        if ((ext != "MREA") && (ext != "MLVL")) {
-                            pRes = gResCache.GetResource(ResID, ext);
-                            if (pRes) break;
-                        }
-
-                        else
-                            hasIgnoredExt = true;
-                    }
-                }
-
-                // Property may have an incorrect extension listed - print error
-                if ((!pRes) && (CUniqueID(ResID).IsValid()) && (!hasIgnoredExt))
-                {
-                    TString ExtList;
-                    for (auto it = Extensions.begin(); it != Extensions.end(); it++)
-                    {
-                        if (it != Extensions.begin()) ExtList += "/";
-                        ExtList += *it;
-                    }
-                    Log::FileWarning(SCLY.GetSourceString(), "Incorrect resource type? " + ExtList + " " + TString::HexString(propertyID));
-                }
-
-                pFileCast->Set(pRes);
-                break;
-            }
-
-            case eUnknownProperty: {
-                CUnknownProperty *pUnknownCast = static_cast<CUnknownProperty*>(pProp);
-                std::vector<u8> buf(PropertyLength);
-                SCLY.ReadBytes(buf.data(), buf.size());
-                pUnknownCast->Set(buf);
-                break;
-            }
-
-            case eStructProperty: {
-                CPropertyStruct *pStructCast = static_cast<CPropertyStruct*>(pProp);
-                LoadStructMP2(SCLY, pStructCast, static_cast<CStructTemplate*>(pPropTemp));
-                break;
-            }
-
-            case eArrayProperty: {
-                CArrayProperty *pArrayCast = static_cast<CArrayProperty*>(pProp);
-                std::vector<u8> buf(PropertyLength);
-                SCLY.ReadBytes(buf.data(), buf.size());
-                pArrayCast->Set(buf);
-                break;
-            }
-
-            case eAnimParamsProperty: {
-                CAnimParamsProperty *pAnimCast = static_cast<CAnimParamsProperty*>(pProp);
-                pAnimCast->Set(CAnimationParameters(SCLY, mVersion));
-                break;
-            }
-            }
-        }
+            ReadProperty(pProp, PropertyLength, SCLY);
 
         if (NextProperty > 0)
             SCLY.Seek(NextProperty, SEEK_SET);
@@ -443,20 +354,16 @@ CScriptObject* CScriptLoader::LoadObjectMP2(IInputStream& SCLY)
 
     for (u32 iCon = 0; iCon < NumConnections; iCon++)
     {
-        SLink con;
-        con.State = SCLY.ReadLong();
-        con.Message = SCLY.ReadLong();
-        con.ObjectID = SCLY.ReadLong();
-        mpObj->mOutConnections.push_back(con);
+        SLink Link;
+        Link.State = SCLY.ReadLong();
+        Link.Message = SCLY.ReadLong();
+        Link.ObjectID = SCLY.ReadLong();
+        mpObj->mOutConnections.push_back(Link);
     }
 
     // Load object
     SCLY.Seek(0x6, SEEK_CUR); // Skip base struct ID + size
-    u16 numProps = SCLY.PeekShort();
-    mpObj->CopyFromTemplate(pTemplate, (u32) numProps);
-
-    CStructTemplate *pBase = pTemplate->BaseStructByCount(numProps);
-    LoadStructMP2(SCLY, mpObj->mpProperties, pBase);
+    LoadStructMP2(SCLY, mpObj->mpProperties, mpObj->mpTemplate->BaseStruct());
 
     // Cleanup and return
     SCLY.Seek(ObjEnd, SEEK_SET);
@@ -466,14 +373,30 @@ CScriptObject* CScriptLoader::LoadObjectMP2(IInputStream& SCLY)
 
 CScriptLayer* CScriptLoader::LoadLayerMP2(IInputStream& SCLY)
 {
-    CFourCC SCLY_Magic(SCLY);
+    bool IsSCGN = false;
 
-    if      (SCLY_Magic == "SCLY") SCLY.Seek(0x6, SEEK_CUR);
-    else if (SCLY_Magic == "SCGN") SCLY.Seek(0x2, SEEK_CUR);
+    if (mVersion >= eEchoes)
+    {
+        CFourCC SCLY_Magic(SCLY);
+
+        if (SCLY_Magic == "SCLY")
+        {
+            SCLY.Seek(0x6, SEEK_CUR);
+        }
+        else if (SCLY_Magic == "SCGN")
+        {
+            SCLY.Seek(0x2, SEEK_CUR);
+            IsSCGN = true;
+        }
+        else
+        {
+            Log::FileError(SCLY.GetSourceString(), SCLY.Tell() - 4, "Invalid script layer magic: " + TString::HexString((u32) SCLY_Magic.ToLong()));
+            return nullptr;
+        }
+    }
     else
     {
-        Log::FileError(SCLY.GetSourceString(), SCLY.Tell() - 4, "Invalid script layer magic: " + TString::HexString((u32) SCLY_Magic.ToLong()));
-        return nullptr;
+        SCLY.Seek(0x1, SEEK_CUR);
     }
 
     u32 NumObjects = SCLY.ReadLong();
@@ -488,7 +411,7 @@ CScriptLayer* CScriptLoader::LoadLayerMP2(IInputStream& SCLY)
             mpLayer->AddObject(pObj);
     }
 
-    if (SCLY_Magic == "SCGN")
+    if (IsSCGN)
     {
         mpLayer->SetName("Generated");
         mpLayer->SetActive(true);
@@ -496,13 +419,13 @@ CScriptLayer* CScriptLoader::LoadLayerMP2(IInputStream& SCLY)
     return mpLayer;
 }
 
-CScriptLayer* CScriptLoader::LoadLayer(IInputStream &SCLY, CGameArea *pArea, EGame version)
+CScriptLayer* CScriptLoader::LoadLayer(IInputStream &SCLY, CGameArea *pArea, EGame Version)
 {
     if (!SCLY.IsValid()) return nullptr;
 
     CScriptLoader Loader;
-    Loader.mVersion = version;
-    Loader.mpMaster = CMasterTemplate::GetMasterForGame(version);
+    Loader.mVersion = Version;
+    Loader.mpMaster = CMasterTemplate::GetMasterForGame(Version);
     Loader.mpArea = pArea;
 
     if (!Loader.mpMaster)
@@ -511,7 +434,10 @@ CScriptLayer* CScriptLoader::LoadLayer(IInputStream &SCLY, CGameArea *pArea, EGa
         return nullptr;
     }
 
-    if (version <= ePrime)
+    if (!Loader.mpMaster->IsLoadedSuccessfully())
+        CTemplateLoader::LoadGameTemplates(Version);
+
+    if (Version <= ePrime)
         return Loader.LoadLayerMP1(SCLY);
     else
         return Loader.LoadLayerMP2(SCLY);

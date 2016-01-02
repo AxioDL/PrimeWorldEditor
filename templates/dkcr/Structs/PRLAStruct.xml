@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="PRLAStruct" type="multi">
+    <properties>
+        <property ID="0xFDE3A4F5" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x8A7D7605" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x11D83A6A" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x6540D3E5" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xFEE59F8A" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x897B4D7A" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x12DE0115" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x604A9E64" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xFBEFD20B" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x54E8C18A" type="float">
+            <default>0.0</default>
+        </property>
+    </properties>
+</struct>

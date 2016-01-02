@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="GrappleParameters" type="multi">
+    <properties>
+        <property ID="0x7A797E4F" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0x1D852415" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0xFDF5CB82" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x2EC254E3" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x987F68C7" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x1A6B49AB" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x1E5124D4" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x450EA130" type="float">
+            <default>45.0</default>
+        </property>
+        <property ID="0x55F2BC8F" type="float">
+            <default>90.0</default>
+        </property>
+        <property ID="0xF12BACE9" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xF9E45827" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x11B6A17A" type="bool">
+            <default>false</default>
+        </property>
+    </properties>
+</struct>

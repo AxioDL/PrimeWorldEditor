@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="Ridley1Struct" type="multi">
+    <properties>
+        <property ID="0xA0460B5E" type="float">
+            <default>90.0</default>
+        </property>
+        <property ID="0xF33B0DD4" type="float">
+            <default>65.0</default>
+        </property>
+        <property ID="0xA59260DD" type="float">
+            <default>60.0</default>
+        </property>
+        <property ID="0x5BBDBC45" type="float">
+            <default>35.0</default>
+        </property>
+        <property ID="0xBC1564B9" type="float">
+            <default>1000.0</default>
+        </property>
+        <struct ID="0xE82166DB" template="Structs/DamageInfo.xml"/>
+        <struct ID="0x36307B98" template="Structs/DamageInfo.xml"/>
+        <property ID="0xF616D87B" type="float">
+            <default>15.0</default>
+        </property>
+        <struct ID="0xFAB0199E" template="Structs/DamageInfo.xml"/>
+        <struct ID="0x54031E21" template="Structs/DamageInfo.xml"/>
+        <property ID="0xB5194095" type="float">
+            <default>15.0</default>
+        </property>
+        <struct ID="0xD55917A9" template="Structs/DamageInfo.xml"/>
+        <property ID="0xDDD0212A" type="float">
+            <default>15.0</default>
+        </property>
+        <struct ID="0x6BB8E35C" template="Structs/DamageInfo.xml"/>
+        <property ID="0xF4C13980" type="float">
+            <default>15.0</default>
+        </property>
+        <struct ID="0x47D4427E" template="Structs/DamageInfo.xml"/>
+        <property ID="0xA4CB7B3C" type="float">
+            <default>15.0</default>
+        </property>
+        <struct ID="0x742287F5" template="Structs/DamageInfo.xml"/>
+        <property ID="0xBE3B8E93" type="float">
+            <default>15.0</default>
+        </property>
+        <struct ID="0x78F4A916" template="Structs/DamageInfo.xml"/>
+        <struct ID="0x76F0F23B" template="Structs/DamageInfo.xml"/>
+        <struct ID="0x77EDD892" template="Structs/DamageInfo.xml"/>
+        <struct ID="0xB6C739D2" template="Structs/DamageInfo.xml"/>
+        <struct ID="0x79350AC0" template="Structs/DamageInfo.xml"/>
+        <property ID="0x4FA2BCE1" type="float">
+            <default>8.0</default>
+        </property>
+    </properties>
+</struct>

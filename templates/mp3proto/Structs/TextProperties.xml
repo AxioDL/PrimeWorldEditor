@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="TextProperties" type="multi">
+    <properties>
+        <property ID="0xEE521DC6" type="long">
+            <default>1</default>
+        </property>
+        <property ID="0xF2D36ABB" type="long">
+            <default>1</default>
+        </property>
+        <property ID="0x1A996292" type="float">
+            <default>100.0</default>
+        </property>
+        <property ID="0x05EFF913" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0x45830901" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0x3F39E635" type="color">
+            <default>1.0, 1.0, 1.0, 1.0</default>
+        </property>
+        <property ID="0x60D78569" type="color">
+            <default>0.0, 0.0, 0.0, 1.0</default>
+        </property>
+        <property ID="0x5908EF39" type="color">
+            <default>1.0, 1.0, 1.0, 1.0</default>
+        </property>
+        <property ID="0x0DB9F8B6" type="file" extensions="FONT"/>
+        <property ID="0x18DD95CD" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0x42091548" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0x330573E9" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xD8A2EEF0" type="bool">
+            <default>false</default>
+        </property>
+    </properties>
+</struct>

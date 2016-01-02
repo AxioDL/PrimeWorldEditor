@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="GhorStructA" type="multi">
+    <properties>
+        <property ID="0xF8BEDB63" type="file" extensions="CMDL"/>
+        <property ID="0x1D5CCC2D" type="file" extensions="CMDL"/>
+        <property ID="0x8A660FE5" type="string"/>
+        <property ID="0x5F137AC5" type="string"/>
+    </properties>
+</struct>
