@@ -287,25 +287,6 @@
             <animparams source="property">0xB3774750:0xE25FB08C</animparams>
             <model source="property">0x7E397FED:0xC0BA9E18</model>
             <model source="property">0x7E397FED:0x6B1FBC3A</model>
-            <model source="property">0x91E88D81:0xE47262F5</model>
-            <model source="property">0x91E88D81:0xA9BAC3FE</model>
-            <model source="property">0x91E88D81:0x8B452A19:0x07D8CC4F</model>
-            <model source="property">0x91E88D81:0x8B452A19:0xAE30AE06</model>
-            <model source="property">0x91E88D81:0x8B452A19:0x656C7DA3</model>
-            <model source="property">0x91E88D81:0x8B452A19:0x78694D1B</model>
-            <model source="property">0x91E88D81:0x8B452A19:0xB3359EBE</model>
-            <model source="property">0x91E88D81:0x8B452A19:0x35A1EC10</model>
-            <model source="property">0x91E88D81:0x8B452A19:0xFEFD3FB5</model>
-            <model source="property">0x91E88D81:0x8B452A19:0x37E99C23</model>
-            <model source="property">0x91E88D81:0x0CF8C54C:0x07D8CC4F</model>
-            <model source="property">0x91E88D81:0x0CF8C54C:0xAE30AE06</model>
-            <model source="property">0x91E88D81:0x0CF8C54C:0x656C7DA3</model>
-            <model source="property">0x91E88D81:0x0CF8C54C:0x78694D1B</model>
-            <model source="property">0x91E88D81:0x0CF8C54C:0xB3359EBE</model>
-            <model source="property">0x91E88D81:0x0CF8C54C:0x35A1EC10</model>
-            <model source="property">0x91E88D81:0x0CF8C54C:0xFEFD3FB5</model>
-            <model source="property">0x91E88D81:0x0CF8C54C:0x37E99C23</model>
-            <model source="property">0x91E88D81:0xBBD84681</model>
         </assets>
         <rotation_type>enabled</rotation_type>
         <scale_type>enabled</scale_type>

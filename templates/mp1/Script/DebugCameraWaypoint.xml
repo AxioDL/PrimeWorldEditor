@@ -14,7 +14,7 @@
             <property name="Rotation" ID="0x02"/>
         </properties>
         <assets>
-            <model source="file">script/common/DebugCameraWaypoint.CMDL</model>
+            <model source="file">script/common/CameraWaypoint.cmdl</model>
         </assets>
         <rotation_type>enabled</rotation_type>
         <scale_type>enabled</scale_type>

@@ -141,7 +141,6 @@
             <model source="property">0x7E397FED:0xC0BA9E18</model>
             <model source="property">0x7E397FED:0x6B1FBC3A</model>
             <model source="property">0x0F4D73B7:0x07D8CC4F</model>
-            <model source="property">0x0F4D73B7:0x2FA93722</model>
         </assets>
         <rotation_type>enabled</rotation_type>
         <scale_type>enabled</scale_type>

@@ -75,7 +75,6 @@
             <model source="property">0xC27FFA8F</model>
             <model source="property">0x7E397FED:0xC0BA9E18</model>
             <model source="property">0x7E397FED:0x6B1FBC3A</model>
-			<collision source="property">0x0FC966DC</collision>
         </assets>
         <rotation_type>enabled</rotation_type>
         <scale_type>enabled</scale_type>
