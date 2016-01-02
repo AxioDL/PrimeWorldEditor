@@ -46,12 +46,12 @@ CModel* CAreaAttributes::SkyModel()
     switch (mGame)
     {
     case ePrime:
+        return (CModel*) static_cast<TFileProperty*>(pBaseStruct->PropertyByIndex(7))->Get().RawPointer();
     case eEchoesDemo:
     case eEchoes:
-        return (CModel*) static_cast<TFileProperty*>(pBaseStruct->PropertyByID(0xD208C9FA))->Get().RawPointer();
     case eCorruptionProto:
     case eCorruption:
-        return (CModel*) static_cast<TFileProperty*>(pBaseStruct->PropertyByIndex(8))->Get().RawPointer();
+        return (CModel*) static_cast<TFileProperty*>(pBaseStruct->PropertyByID(0xD208C9FA))->Get().RawPointer();
     default:
         return nullptr;
     }

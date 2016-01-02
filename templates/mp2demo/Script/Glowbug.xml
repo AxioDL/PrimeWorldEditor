@@ -49,7 +49,6 @@
             <animparams source="property">0xB3774750:0xE25FB08C</animparams>
             <model source="property">0x7E397FED:0xC0BA9E18</model>
             <model source="property">0x7E397FED:0x6B1FBC3A</model>
-            <model source="property">0xA9482EB1</model>
         </assets>
         <rotation_type>enabled</rotation_type>
         <scale_type>enabled</scale_type>

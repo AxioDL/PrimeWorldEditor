@@ -22,7 +22,9 @@
             <property name="InstanceName" ID="0x00"/>
             <property name="Position" ID="0x01"/>
         </properties>
-        <assets/>
+        <assets>
+			<billboard source="file">script/common/VisorFlare.txtr</billboard>
+		</assets>
         <rotation_type>disabled</rotation_type>
         <scale_type>disabled</scale_type>
     </editor>

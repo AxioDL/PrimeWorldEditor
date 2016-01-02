@@ -38,7 +38,7 @@ public:
 };
 
 /*
- * __CProperty is a template subclass for actual properties.
+ * TTypedProperty is a template subclass for actual properties.
  */
 template <typename PropType, EPropertyType TypeEnum, class ValueClass>
 class TTypedProperty : public IProperty

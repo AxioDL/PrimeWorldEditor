@@ -17,7 +17,9 @@
             <property name="InstanceName" ID="0x00"/>
             <property name="Active" ID="0x01"/>
         </properties>
-        <assets/>
+        <assets>
+			<billboard source="file">script/common/StreamedAudio.txtr</billboard>
+		</assets>
         <rotation_type>disabled</rotation_type>
         <scale_type>disabled</scale_type>
     </editor>

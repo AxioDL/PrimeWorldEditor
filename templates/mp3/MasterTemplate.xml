@@ -187,7 +187,7 @@
         <object ID="SAMD" template="Script/StreamedAudioModifier.xml"/>
         <object ID="STAU" template="Script/StreamedAudio.xml"/>
         <object ID="MOVI" template="Script/StreamedMovie.xml"/>
-        <object ID="SUBT" template="Script/Subtitle.xml"/>
+        <object ID="SUBT" template="Script/Subtitles.xml"/>
         <object ID="SCTL" template="Script/SurfaceControl.xml"/>
         <object ID="SWBT" template="Script/SwarmBot.xml"/>
         <object ID="SWTC" template="Script/Switch.xml"/>
