@@ -563,6 +563,7 @@ CGameArea* CAreaLoader::LoadMREA(IInputStream& MREA)
     Loader.mpArea = new CGameArea;
     u32 version = MREA.ReadLong();
     Loader.mVersion = GetFormatVersion(version);
+    Loader.mpArea->mVersion = Loader.mVersion;
     Loader.mpMREA = &MREA;
 
     switch (Loader.mVersion)
@@ -594,6 +595,7 @@ CGameArea* CAreaLoader::LoadMREA(IInputStream& MREA)
             Loader.ReadGeometryPrime();
             Loader.ReadSCLYEchoes();
             Loader.ReadCollision();
+            Loader.ReadLightsCorruption();
             break;
         case eCorruption:
         case eReturns:

@@ -345,7 +345,6 @@ CScriptObject* CScriptLoader::LoadObjectMP2(IInputStream& SCLY)
     }
 
     mpObj = new CScriptObject(mpArea, mpLayer, pTemplate);
-    mpObj->mpTemplate = pTemplate;
     mpObj->mInstanceID = SCLY.ReadLong();
 
     // Load connections

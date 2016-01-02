@@ -106,6 +106,11 @@ void CGameArea::ClearScriptLayers()
     mpGeneratorLayer = nullptr;
 }
 
+EGame CGameArea::Version()
+{
+    return mVersion;
+}
+
 CTransform4f CGameArea::GetTransform()
 {
     return mTransform;

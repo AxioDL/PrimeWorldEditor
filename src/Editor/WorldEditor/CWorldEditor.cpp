@@ -137,7 +137,7 @@ void CWorldEditor::SetArea(CWorld *pWorld, CGameArea *pArea)
     }
 
     // Set up sidebar tabs
-    CMasterTemplate *pMaster = CMasterTemplate::GetMasterForGame(mpWorld->Version());
+    CMasterTemplate *pMaster = CMasterTemplate::GetMasterForGame(mpArea->Version());
     ui->InstancesTabContents->SetMaster(pMaster);
 }
 
