@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="TriggerInfo" type="multi">
+    <properties>
+        <struct ID="0x337F9524" template="Structs/DamageInfo.xml"/>
+        <property ID="0x20927E9B" type="vector3f">
+            <default>0.0, 0.0, 0.0</default>
+        </property>
+        <property ID="0x82859F46" type="long">
+            <default>30726</default>
+        </property>
+    </properties>
+</struct>

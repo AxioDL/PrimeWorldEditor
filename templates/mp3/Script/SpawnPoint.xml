@@ -1,89 +1,172 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>SpawnPoint</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <property ID="0xC0E4521B"/>
-        <property ID="0xB9C40F92"/>
-        <property ID="0xA7A88FEF"/>
-        <property ID="0x210F2626"/>
-        <property ID="0xAB0B9AC4"/>
-        <property ID="0x4AD656DA"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0xC0E4521B" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0xB9C40F92" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xA7A88FEF" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x210F2626" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xAB0B9AC4" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x4AD656DA" type="bool">
+            <default>false</default>
+        </property>
         <struct ID="0xF4ED9547" type="multi">
-            <struct ID="0x52C779C0" type="multi">
-                <struct ID="0x336BD471" type="multi">
-                    <property ID="0x94AF1445"/>
-                    <property ID="0x6DC59F13"/>
+            <properties>
+                <struct ID="0x52C779C0" type="multi">
+                    <properties>
+                        <struct ID="0x336BD471" template="Structs/SpawnPointStruct.xml">
+                            <properties>
+                                <property ID="0x94AF1445">
+                                    <default>1</default>
+                                </property>
+                                <property ID="0x6DC59F13">
+                                    <default>1</default>
+                                </property>
+                            </properties>
+                        </struct>
+                        <struct ID="0xD31B2209" template="Structs/SpawnPointStruct.xml">
+                            <properties>
+                                <property ID="0x94AF1445">
+                                    <default>1</default>
+                                </property>
+                                <property ID="0x6DC59F13">
+                                    <default>1</default>
+                                </property>
+                            </properties>
+                        </struct>
+                        <struct ID="0x152ED0D9" template="Structs/SpawnPointStruct.xml"/>
+                        <struct ID="0x950A91AE" template="Structs/SpawnPointStruct.xml"/>
+                    </properties>
                 </struct>
-                <struct ID="0xD31B2209" type="multi">
-                    <property ID="0x94AF1445"/>
-                    <property ID="0x6DC59F13"/>
+                <struct ID="0xEF43B845" type="multi">
+                    <properties>
+                        <property ID="0xF9BC3E3D" type="bool">
+                            <default>true</default>
+                        </property>
+                        <property ID="0x42C900ED" type="bool">
+                            <default>false</default>
+                        </property>
+                        <property ID="0x4AE27FE7" type="bool">
+                            <default>false</default>
+                        </property>
+                        <property ID="0xF34F99D7" type="bool">
+                            <default>false</default>
+                        </property>
+                        <struct ID="0xA387191D" template="Structs/SpawnPointStruct.xml"/>
+                        <property ID="0x5DB3E694" type="bool">
+                            <default>false</default>
+                        </property>
+                        <property ID="0x9AA405C1" type="bool">
+                            <default>false</default>
+                        </property>
+                        <property ID="0xA4658688" type="bool">
+                            <default>false</default>
+                        </property>
+                        <property ID="0xD23CF29D" type="bool">
+                            <default>false</default>
+                        </property>
+                        <property ID="0x5A7E301E" type="bool">
+                            <default>false</default>
+                        </property>
+                        <property ID="0xAFC6082D" type="bool">
+                            <default>false</default>
+                        </property>
+                    </properties>
                 </struct>
-                <struct ID="0x152ED0D9" type="multi">
-                    <property ID="0x94AF1445"/>
-                    <property ID="0x6DC59F13"/>
+                <struct ID="0x317D45BB" type="multi">
+                    <properties>
+                        <property ID="0x586A8F75" type="bool">
+                            <default>false</default>
+                        </property>
+                        <property ID="0x04FCA2A9" type="bool">
+                            <default>false</default>
+                        </property>
+                        <property ID="0xF55DD02C" type="bool">
+                            <default>false</default>
+                        </property>
+                    </properties>
                 </struct>
-                <struct ID="0x950A91AE" type="multi">
-                    <property ID="0x94AF1445"/>
-                    <property ID="0x6DC59F13"/>
+                <struct ID="0xED7F3B4A" type="multi">
+                    <properties>
+                        <property ID="0xF618C8E5" type="bool">
+                            <default>false</default>
+                        </property>
+                        <property ID="0x15C99E7A" type="bool">
+                            <default>false</default>
+                        </property>
+                        <property ID="0x62FFBD9C" type="bool">
+                            <default>false</default>
+                        </property>
+                    </properties>
                 </struct>
-            </struct>
-            <struct ID="0xEF43B845" type="multi">
-                <property ID="0xF9BC3E3D"/>
-                <property ID="0x42C900ED"/>
-                <property ID="0x4AE27FE7"/>
-                <property ID="0xF34F99D7"/>
-                <struct ID="0xA387191D" type="multi">
-                    <property ID="0x94AF1445"/>
-                    <property ID="0x6DC59F13"/>
+                <struct ID="0x267F91E5" type="multi">
+                    <properties>
+                        <property ID="0x09DC3CDD" type="bool">
+                            <default>false</default>
+                        </property>
+                        <property ID="0xC0BD8A5E" type="long">
+                            <default>0</default>
+                        </property>
+                        <property ID="0x5A066E2C" type="long">
+                            <default>0</default>
+                        </property>
+                    </properties>
                 </struct>
-                <property ID="0x5DB3E694"/>
-                <property ID="0x9AA405C1"/>
-                <property ID="0xA4658688"/>
-                <property ID="0xD23CF29D"/>
-                <property ID="0x5A7E301E"/>
-                <property ID="0xAFC6082D"/>
-            </struct>
-            <struct ID="0x317D45BB" type="multi">
-                <property ID="0x586A8F75"/>
-                <property ID="0x04FCA2A9"/>
-                <property ID="0xF55DD02C"/>
-            </struct>
-            <struct ID="0xED7F3B4A" type="multi">
-                <property ID="0xF618C8E5"/>
-                <property ID="0x15C99E7A"/>
-                <property ID="0x62FFBD9C"/>
-            </struct>
-            <struct ID="0x267F91E5" type="multi">
-                <property ID="0x09DC3CDD"/>
-                <property ID="0xC0BD8A5E"/>
-                <property ID="0x5A066E2C"/>
-            </struct>
-            <struct ID="0x378E02B2" type="multi">
-                <property ID="0xACBDA45C"/>
-                <property ID="0x9C30FF96"/>
-                <property ID="0x26A85DF4"/>
-                <property ID="0xE5B6CB66"/>
-                <property ID="0xE981E1EB"/>
-                <property ID="0xFE9B2803"/>
-                <property ID="0xECD5261F"/>
-                <property ID="0x2A05E6D9"/>
-                <property ID="0xC9328BE2"/>
-            </struct>
-            <struct ID="0xE9C4A786" type="multi">
-                <struct ID="0x398A3608" type="multi">
-                    <property ID="0x94AF1445"/>
-                    <property ID="0x6DC59F13"/>
+                <struct ID="0x378E02B2" type="multi">
+                    <properties>
+                        <property ID="0xACBDA45C" type="bool">
+                            <default>false</default>
+                        </property>
+                        <property ID="0x9C30FF96" type="bool">
+                            <default>false</default>
+                        </property>
+                        <property ID="0x26A85DF4" type="bool">
+                            <default>false</default>
+                        </property>
+                        <property ID="0xE5B6CB66" type="bool">
+                            <default>false</default>
+                        </property>
+                        <property ID="0xE981E1EB" type="bool">
+                            <default>false</default>
+                        </property>
+                        <property ID="0xFE9B2803" type="bool">
+                            <default>false</default>
+                        </property>
+                        <property ID="0xECD5261F" type="bool">
+                            <default>false</default>
+                        </property>
+                        <property ID="0x2A05E6D9" type="bool">
+                            <default>false</default>
+                        </property>
+                        <property ID="0xC9328BE2" type="bool">
+                            <default>false</default>
+                        </property>
+                    </properties>
                 </struct>
-                <property ID="0xF9AEE109"/>
-            </struct>
+                <struct ID="0xE9C4A786" type="multi">
+                    <properties>
+                        <struct ID="0x398A3608" template="Structs/SpawnPointStruct.xml"/>
+                        <property ID="0xF9AEE109" type="bool">
+                            <default>false</default>
+                        </property>
+                    </properties>
+                </struct>
+            </properties>
         </struct>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>

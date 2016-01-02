@@ -16,8 +16,9 @@ class CScriptLoader
     CMasterTemplate *mpMaster;
 
     CScriptLoader();
+    void ReadProperty(IProperty *pProp, u32 Size, IInputStream& SCLY);
 
-    CPropertyStruct* LoadStructMP1(IInputStream& SCLY, CStructTemplate *tmp);
+    void LoadStructMP1(IInputStream& SCLY, CPropertyStruct *pStruct, CStructTemplate *pTemp);
     CScriptObject* LoadObjectMP1(IInputStream& SCLY);
     CScriptLayer* LoadLayerMP1(IInputStream& SCLY);
 

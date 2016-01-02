@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="4">
+    <name>PlayerController</name>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml">
+            <properties>
+                <struct ID="0x5846524D">
+                    <properties>
+                        <property ID="0x02">
+                            <default>2.0, 2.0, 2.0</default>
+                        </property>
+                    </properties>
+                </struct>
+            </properties>
+        </struct>
+        <property ID="0xE71DE331" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0xC27FFA8F" type="file" extensions="UNKN"/>
+        <property ID="0xA244C9D8" type="character"/>
+        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
+        <property ID="0xCA56A18A" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0x1D8B933F" type="vector3f">
+            <default>0.0, 0.0, 1.5</default>
+        </property>
+        <property ID="0xCB753319" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0xD9C09CF7" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0xF09C2B4B" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x760859E5" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xBD548A40" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xC012F196" type="vector3f">
+            <default>0.0, 0.0, 0.0</default>
+        </property>
+        <property ID="0x70BC90A6" type="string"/>
+    </properties>
+    <states/>
+    <messages/>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
+            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
+        </properties>
+        <assets/>
+		<preview_scale>0.5</preview_scale>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>enabled</scale_type>
+    </editor>
+</ScriptTemplate>

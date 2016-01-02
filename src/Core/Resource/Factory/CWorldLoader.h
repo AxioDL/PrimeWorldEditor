@@ -3,7 +3,7 @@
 
 #include "Core/Resource/CWorld.h"
 #include "Core/Resource/CResCache.h"
-#include "Core/Resource/EFormatVersion.h"
+#include "Core/Resource/EGame.h"
 
 #include <FileIO/FileIO.h>
 

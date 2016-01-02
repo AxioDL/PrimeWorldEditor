@@ -1,57 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>AreaNode</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <property ID="0xA6F8611C"/>
-        <property ID="0xF1AE2F13"/>
-        <property ID="0x8D3AB314"/>
-        <property ID="0x4DEF7B9B"/>
-        <property ID="0x6A02F05F"/>
-        <property ID="0x737631AD"/>
-        <property ID="0x3B83DD31"/>
-        <property ID="0xF344C0B0"/>
-        <property ID="0x30CBDB68"/>
-        <property ID="0x0FC966DC"/>
-        <property ID="0x33CF5665"/>
-        <property ID="0xA244C9D8"/>
-        <property ID="0xB7CD213C"/>
-        <property ID="0x9F93BC3F"/>
-        <struct ID="0x7E397FED" type="multi">
-            <struct ID="0xB028DB0E" type="multi">
-                <property ID="0x1F715FD3"/>
-            </struct>
-        </struct>
-        <property ID="0x6A789BE3"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0x4DEF7B9B" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xF1AE2F13" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xA6F8611C" type="bool">
+            <default>false</default>
+        </property>
+        <enum ID="0x8D3AB314">
+            <default>0x24E6FE6B</default>
+            <enumerators>
+                <enumerator ID="0x0BB40E5E" name="Unknown 1"/>
+                <enumerator ID="0x24E6FE6B" name="Unknown 2"/>
+                <enumerator ID="0xFB8DD144" name="Unknown 3"/>
+                <enumerator ID="0x060BCB31" name="Unknown 4"/>
+                <enumerator ID="0xC8068C4F" name="Unknown 5"/>
+                <enumerator ID="0xA5355C31" name="Unknown 6"/>
+                <enumerator ID="0x0CA17800" name="Unknown 7"/>
+                <enumerator ID="0x9DFC67D1" name="Unknown 8"/>
+            </enumerators>
+        </enum>
+        <property ID="0x6A02F05F" type="string"/>
+        <property ID="0x737631AD" type="file" extensions="STRG"/>
+        <property ID="0x3B83DD31" type="file" extensions="STRG"/>
+        <property ID="0x30CBDB68" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0xF344C0B0" type="vector3f">
+            <default>0.0, 0.0, 0.0</default>
+        </property>
+        <property ID="0x2E686C2A" type="vector3f">
+            <default>0.0, 0.0, 0.0</default>
+        </property>
+        <property ID="0x0FC966DC" type="file" extensions="DCLN"/>
+        <property ID="0x33CF5665" type="file" extensions="unknown"/>
+        <property ID="0xA244C9D8" type="character"/>
+        <property ID="0xB7CD213C" type="character"/>
+        <property ID="0x9F93BC3F" type="character"/>
+        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
+        <property ID="0x6A789BE3" type="file" extensions="MLVL"/>
         <struct ID="0xA9D29E32" type="multi">
-            <property ID="0xA28B199D"/>
-            <property ID="0x003E7991"/>
+            <properties>
+                <property ID="0xA28B199D" type="file" extensions="CAUD"/>
+                <property ID="0x003E7991" type="file" extensions="CAUD"/>
+            </properties>
         </struct>
         <struct ID="0x86963E8A" type="multi">
-            <property ID="0xFBB7BE45"/>
-            <property ID="0x844AB6B0"/>
-            <property ID="0xA6E3187A"/>
-            <property ID="0x045C4906"/>
-            <property ID="0x9C403177"/>
-            <property ID="0x1F68F1B7"/>
-            <property ID="0x29463E36"/>
-            <property ID="0x103E9376"/>
-            <property ID="0x7024D89B"/>
-            <property ID="0x495C75DB"/>
-            <property ID="0x19080EBD"/>
-            <property ID="0x2070A3FD"/>
+            <properties>
+                <property ID="0xFBB7BE45" type="color">
+                    <default>0.0, 0.0, 0.0, 1.0</default>
+                </property>
+                <property ID="0x0FBCE3FB" type="color">
+                    <default>0.0, 0.0, 0.0, 1.0</default>
+                </property>
+                <property ID="0x844AB6B0" type="color">
+                    <default>0.0, 0.0, 0.0, 1.0</default>
+                </property>
+                <property ID="0xA6E3187A" type="color">
+                    <default>1.0, 1.0, 1.0, 1.0</default>
+                </property>
+                <property ID="0x045C4906" type="color">
+                    <default>0.0, 0.0, 0.0, 1.0</default>
+                </property>
+                <property ID="0x9C403177" type="color">
+                    <default>0.0, 0.0, 0.0, 1.0</default>
+                </property>
+                <property ID="0x29463E36" type="character"/>
+                <property ID="0x103E9376" type="character"/>
+                <property ID="0x7024D89B" type="character"/>
+                <property ID="0x495C75DB" type="character"/>
+                <property ID="0x19080EBD" type="character"/>
+                <property ID="0x2070A3FD" type="character"/>
+            </properties>
         </struct>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
             <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
             <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
             <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
             <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
         </properties>
         <assets>

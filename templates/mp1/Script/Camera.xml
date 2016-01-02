@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>Camera</name>
-    <properties version="NTSC">
+    <properties>
         <property ID="0x00" name="Name" type="string"/>
         <property ID="0x01" name="Position" type="vector3f"/>
         <property ID="0x02" name="Rotation" type="vector3f"/>

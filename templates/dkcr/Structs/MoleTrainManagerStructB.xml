@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="MoleTrainManagerStructB" type="multi">
+    <properties>
+        <property ID="0xD438739D" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0xE1FAC41A" type="long">
+            <default>33</default>
+        </property>
+        <property ID="0xDAF59171" type="long">
+            <default>3</default>
+        </property>
+        <property ID="0x2B846018" type="float">
+            <default>0.25</default>
+        </property>
+        <property ID="0xA11B39C3" type="float">
+            <default>0.25</default>
+        </property>
+        <property ID="0x40AE4A09" type="float">
+            <default>2.0</default>
+        </property>
+        <property ID="0xD1020F2C" type="float">
+            <default>1.25</default>
+        </property>
+        <property ID="0x3E5BAB9D" type="float">
+            <default>-10.0</default>
+        </property>
+        <property ID="0x24447DC3" type="float">
+            <default>60.0</default>
+        </property>
+        <property ID="0x552F8118" type="float">
+            <default>30.5</default>
+        </property>
+        <property ID="0x86DABA3B" type="float">
+            <default>20.0</default>
+        </property>
+    </properties>
+</struct>

@@ -1,38 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>AITaskPoint</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <property ID="0x56941EB7"/>
-        <property ID="0xB553CDA1"/>
-        <property ID="0x53336240"/>
-        <property ID="0x12341132"/>
-        <property ID="0xAACCD7CD"/>
-        <property ID="0xA2A5B38F"/>
-        <property ID="0x799F6F58"/>
-        <property ID="0x121045F5"/>
-        <property ID="0xF470EA14"/>
-        <property ID="0x7AA31371"/>
-        <property ID="0x0AC4D7AD"/>
-        <property ID="0x03D511B9"/>
-        <property ID="0x2BD321DA"/>
-        <property ID="0x2B3BD997"/>
-        <property ID="0xC36101F6"/>
-        <property ID="0x3FA8C740"/>
-        <property ID="0x3ACA31D7"/>
-        <property ID="0xE5D4D300"/>
-        <property ID="0x2528F442"/>
-        <property ID="0x2CF6F605"/>
-        <property ID="0x81591346"/>
-        <property ID="0xF874AA52"/>
-        <property ID="0x5C20CF58"/>
-        <property ID="0x2340B043"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0x56941EB7" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xB553CDA1" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x53336240" type="float">
+            <default>30.0</default>
+        </property>
+        <property ID="0x12341132" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xAACCD7CD" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0xA2A5B38F" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0x799F6F58" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0x121045F5" type="float">
+            <default>5.0</default>
+        </property>
+        <property ID="0xF470EA14" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0x7AA31371" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0x0AC4D7AD" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0x03D511B9" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0x2BD321DA" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0x2B3BD997" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0xC36101F6" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0x3FA8C740" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0x3ACA31D7" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0xE5D4D300" type="long">
+            <default>8</default>
+        </property>
+        <property ID="0x2528F442" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x2CF6F605" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x81591346" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xF874AA52" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0x5C20CF58" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x2340B043" type="bool">
+            <default>true</default>
+        </property>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>

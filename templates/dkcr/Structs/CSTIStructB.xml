@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="CSTIStructB" type="multi">
+    <properties>
+        <enum ID="0x948AF571">
+            <default>0x41B91E67</default>
+            <enumerators>
+                <enumerator ID="0x777171A8" name="Unknown 1"/>
+                <enumerator ID="0x41B91E67" name="Unknown 2"/>
+                <enumerator ID="0x03B5FA68" name="Unknown 3"/>
+                <enumerator ID="0xF1075CB3" name="Unknown 4"/>
+                <enumerator ID="0x15696AE3" name="Unknown 5"/>
+                <enumerator ID="0x978448DD" name="Unknown 6"/>
+                <enumerator ID="0xCED3B632" name="Unknown 7"/>
+            </enumerators>
+        </enum>
+        <struct ID="0x79DE4BA5" type="multi">
+            <properties>
+                <struct ID="0x7FCD6908" template="Structs/AreaPathStructA.xml">
+                    <properties>
+                        <enum ID="0xF4AC7CAA">
+                            <default>0x8C1B1D20</default>
+                        </enum>
+                    </properties>
+                </struct>
+            </properties>
+        </struct>
+        <struct ID="0x287F9F45" template="Structs/CameraHintStructB.xml"/>
+    </properties>
+</struct>

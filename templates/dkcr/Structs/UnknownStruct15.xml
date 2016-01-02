@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="UnknownStruct15" type="multi">
+    <properties>
+        <property ID="0xF38C4B4D" type="float">
+            <default>-1.5</default>
+        </property>
+        <property ID="0xCD3DD32A" type="float">
+            <default>2.75</default>
+        </property>
+        <property ID="0x8F6291D1" type="float">
+            <default>6.0</default>
+        </property>
+    </properties>
+</struct>

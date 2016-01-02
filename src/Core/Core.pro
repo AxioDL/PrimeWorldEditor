@@ -113,8 +113,6 @@ HEADERS += \
     Resource/Model/EVertexDescription.h \
     Resource/Model/SSurface.h \
     Resource/Script/CMasterTemplate.h \
-    Resource/Script/CProperty.h \
-    Resource/Script/CPropertyTemplate.h \
     Resource/Script/CScriptLayer.h \
     Resource/Script/CScriptObject.h \
     Resource/Script/CScriptTemplate.h \
@@ -139,7 +137,6 @@ HEADERS += \
     Resource/CStringTable.h \
     Resource/CTexture.h \
     Resource/CWorld.h \
-    Resource/EFormatVersion.h \
     Resource/EResType.h \
     Resource/ETevEnums.h \
     Resource/ETexelFormat.h \
@@ -178,7 +175,12 @@ HEADERS += \
     OpenGL/CVertexArrayManager.h \
     OpenGL/CVertexBuffer.h \
     OpenGL/GLCommon.h \
-    ScriptExtra/CRadiusSphereExtra.h
+    ScriptExtra/CRadiusSphereExtra.h \
+    Resource/EGame.h \
+    Resource/Cooker/CAreaCooker.h \
+    Resource/Script/IPropertyValue.h \
+    Resource/Script/IPropertyTemplate.h \
+    Resource/Script/IProperty.h
 
 # Source Files
 SOURCES += \
@@ -211,8 +213,6 @@ SOURCES += \
     Resource/Model/CStaticModel.cpp \
     Resource/Model/SSurface.cpp \
     Resource/Script/CMasterTemplate.cpp \
-    Resource/Script/CProperty.cpp \
-    Resource/Script/CPropertyTemplate.cpp \
     Resource/Script/CScriptLayer.cpp \
     Resource/Script/CScriptObject.cpp \
     Resource/Script/CScriptTemplate.cpp \
@@ -261,4 +261,7 @@ SOURCES += \
     OpenGL/CVertexArrayManager.cpp \
     OpenGL/CVertexBuffer.cpp \
     OpenGL/GLCommon.cpp \
-    ScriptExtra/CRadiusSphereExtra.cpp
+    ScriptExtra/CRadiusSphereExtra.cpp \
+    Resource/Cooker/CAreaCooker.cpp \
+    Resource/Script/IPropertyTemplate.cpp \
+    Resource/Script/IProperty.cpp

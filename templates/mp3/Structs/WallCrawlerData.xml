@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="WallCrawlerData" type="multi">
+    <properties>
+        <property ID="0x8A6AB139" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x5A3A30F4" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x8E4F7B29" type="float">
+            <default>60.0</default>
+        </property>
+        <property ID="0x733BD27C" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0xA72530E8" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x742EAB20" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x519C7197" type="float">
+            <default>0.167</default>
+        </property>
+        <property ID="0x1431157A" type="float">
+            <default>0.6</default>
+        </property>
+        <property ID="0x2D5BFAE8" type="float">
+            <default>1.5</default>
+        </property>
+        <property ID="0x79E70805" type="float">
+            <default>0.6</default>
+        </property>
+        <property ID="0xED8C4058" type="float">
+            <default>1.5</default>
+        </property>
+        <property ID="0xC5526004" type="bool">
+            <default>false</default>
+        </property>
+    </properties>
+</struct>

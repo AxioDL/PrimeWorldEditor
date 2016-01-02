@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>MetroidBeta</name>
-    <properties version="NTSC">
+    <properties>
         <property ID="0x00" name="Name" type="string"/>
         <property ID="0x01" name="Position" type="vector3f"/>
         <property ID="0x02" name="Rotation" type="vector3f"/>
@@ -19,11 +19,11 @@
         <property ID="0x0E" name="Unknown 7" type="float"/>
         <property ID="0x0F" name="Unknown 8" type="float"/>
         <property ID="0x10" name="Unknown 9" type="float"/>
-        <property ID="0x11" name="Particle 1" type="file" ext="PART"/>
-        <property ID="0x12" name="SWHC" type="file" ext="SWHC"/>
-        <property ID="0x13" name="Particle 2" type="file" ext="PART"/>
-        <property ID="0x14" name="Particle 3" type="file" ext="PART"/>
-        <property ID="0x15" name="Particle 4" type="file" ext="PART"/>
+        <property ID="0x11" name="Particle 1" type="file" extensions="PART"/>
+        <property ID="0x12" name="SWHC" type="file" extensions="SWHC"/>
+        <property ID="0x13" name="Particle 2" type="file" extensions="PART"/>
+        <property ID="0x14" name="Particle 3" type="file" extensions="PART"/>
+        <property ID="0x15" name="Particle 4" type="file" extensions="PART"/>
         <property ID="0x16" name="Unknown 10" type="bool"/>
     </properties>
     <editor>

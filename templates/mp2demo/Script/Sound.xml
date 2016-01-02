@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="4">
+    <name>Sound</name>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0x5F7C352E" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0x214E48A0" type="float">
+            <default>50.0</default>
+        </property>
+        <property ID="0x08BF2E54" type="float">
+            <default>0.2</default>
+        </property>
+        <property ID="0x8E16E012" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x57619496" type="long">
+            <default>20</default>
+        </property>
+        <property ID="0xC712847C" type="long">
+            <default>127</default>
+        </property>
+        <property ID="0x42087650" type="long">
+            <default>127</default>
+        </property>
+        <property ID="0xD6088BC5" type="long">
+            <default>64</default>
+        </property>
+        <struct ID="0x0BB62639" type="multi">
+            <properties>
+                <property ID="0xDF4353A3" type="float">
+                    <default>0.0</default>
+                </property>
+                <property ID="0x482B88AA" type="float">
+                    <default>0.0</default>
+                </property>
+            </properties>
+        </struct>
+        <property ID="0xEDA47FF6" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x8971B7A7" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x84F3AC3D" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x3217DFF8" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x94721163" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x85707354" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0xEA03E258" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x0D7F8C7F" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x8A764463" type="long">
+            <default>0</default>
+        </property>
+    </properties>
+    <states/>
+    <messages/>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
+        </properties>
+        <assets>
+            <model source="file">Sound.cmdl</model>
+        </assets>
+		<preview_scale>0.5</preview_scale>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>enabled</scale_type>
+    </editor>
+</ScriptTemplate>

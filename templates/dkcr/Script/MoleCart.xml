@@ -1,50 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>MoleCart</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml">
+            <properties>
+                <struct ID="0x5846524D">
+                    <properties>
+                        <property ID="0x01">
+                            <default>0.0, 0.0, 90.0</default>
+                        </property>
+                    </properties>
+                </struct>
+            </properties>
         </struct>
-        <struct ID="0x7E397FED" type="multi">
-            <struct ID="0xB028DB0E" type="multi">
-                <property ID="0x1F715FD3"/>
-                <property ID="0xA33E5B0E"/>
-                <property ID="0x287DE7BE"/>
-                <property ID="0xB772D4C1"/>
-                <property ID="0xCAC1E778"/>
-                <property ID="0x67F4D3DE"/>
-            </struct>
-        </struct>
-        <property ID="0xC27FFA8F"/>
-        <property ID="0x0FC966DC"/>
-        <property ID="0xA3D63F44"/>
-        <property ID="0x1B21EEB2"/>
-        <property ID="0xD0E83E61"/>
+        <property ID="0xF344C0B0" type="vector3f">
+            <default>0.0, 0.0, 0.0</default>
+        </property>
+        <property ID="0x2E686C2A" type="vector3f">
+            <default>0.0, 0.0, 0.0</default>
+        </property>
+        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
+        <property ID="0xC27FFA8F" type="file" extensions="CMDL"/>
+        <property ID="0x0FC966DC" type="file" extensions="DCLN"/>
+        <property ID="0xA3D63F44" type="character"/>
+        <property ID="0x1B21EEB2" type="file" extensions="FSMC"/>
+        <enum ID="0xD0E83E61">
+            <default>0xAF8B265E</default>
+            <enumerators>
+                <enumerator ID="0x9E9C77E4" name="Unknown 1"/>
+                <enumerator ID="0xAF8B265E" name="Unknown 2"/>
+                <enumerator ID="0x6B3D1C5C" name="Unknown 3"/>
+            </enumerators>
+        </enum>
         <struct ID="0xB9FCDE3B" type="multi">
-            <property ID="0xF387A160"/>
+            <properties>
+                <property ID="0x077463A3" type="float">
+                    <default>2.0</default>
+                </property>
+                <property ID="0xF387A160" type="string"/>
+            </properties>
         </struct>
         <struct ID="0xC9425E4B" type="multi">
-            <struct ID="0x5DF3F980" type="multi">
-                <property ID="0x90AA341F"/>
-                <property ID="0xA55DACF6"/>
-                <property ID="0x8A939379"/>
-                <property ID="0x0E727FC4"/>
-                <property ID="0xF3FBE484"/>
-                <property ID="0x6A06FAEE"/>
-            </struct>
-            <struct ID="0x2B16C0BD" type="multi">
-                <property ID="0x90AA341F"/>
-                <property ID="0xA55DACF6"/>
-                <property ID="0x8A939379"/>
-                <property ID="0x0E727FC4"/>
-                <property ID="0xF3FBE484"/>
-            </struct>
-            <property ID="0xC686AF51"/>
+            <properties>
+                <property ID="0xC686AF51" type="long">
+                    <default>2</default>
+                </property>
+                <struct ID="0x5DF3F980" template="Structs/MoleCartStruct.xml"/>
+                <struct ID="0x2B16C0BD" template="Structs/MoleCartStruct.xml"/>
+                <struct ID="0xB0652A69" template="Structs/MoleCartStruct.xml"/>
+                <struct ID="0xC6DCB2C7" template="Structs/MoleCartStruct.xml"/>
+                <struct ID="0x5DAF5813" template="Structs/MoleCartStruct.xml"/>
+            </properties>
         </struct>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>

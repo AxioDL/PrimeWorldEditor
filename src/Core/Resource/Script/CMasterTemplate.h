@@ -2,7 +2,7 @@
 #define CMASTERTEMPLATE_H
 
 #include "CScriptTemplate.h"
-#include "Core/Resource/EFormatVersion.h"
+#include "Core/Resource/EGame.h"
 #include <Common/types.h>
 #include <map>
 
@@ -17,12 +17,13 @@ class CMasterTemplate
     u32 mVersion;
     bool mFullyLoaded;
 
+    std::vector<TString> mGameVersions;
     std::map<u32, CScriptTemplate*> mTemplates;
     std::map<u32, TString> mStates;
     std::map<u32, TString> mMessages;
 
     bool mHasPropList;
-    std::map<u32, CPropertyTemplate*> mPropertyList;
+    std::map<u32, TString> mPropertyNames;
 
     static std::map<EGame, CMasterTemplate*> smMasterMap;
     static u32 smGameListVersion;
@@ -31,6 +32,8 @@ public:
     CMasterTemplate();
     ~CMasterTemplate();
     EGame GetGame();
+    u32 NumGameVersions();
+    u32 GetGameVersion(TString VersionName);
     u32 NumScriptTemplates();
     u32 NumStates();
     u32 NumMessages();
@@ -43,7 +46,7 @@ public:
     TString MessageByID(u32 MessageID);
     TString MessageByID(const CFourCC& MessageID);
     TString MessageByIndex(u32 Index);
-    CPropertyTemplate* GetProperty(u32 PropertyID);
+    TString PropertyName(u32 PropertyID);
     bool HasPropertyList();
     bool IsLoadedSuccessfully();
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>GunTurret</name>
-    <properties version="NTSC">
+    <properties>
         <property ID="0x00" name="Name" type="string"/>
         <property ID="0x01" name="Unknown 1" type="long"/>
         <property ID="0x02" name="Position" type="vector3f"/>
@@ -9,7 +9,7 @@
         <property ID="0x04" name="Scale" type="vector3f"/>
         <property ID="0x05" name="Unknown 2" type="vector3f"/>
         <property ID="0x06" name="Scan Offset" type="vector3f"/>
-        <property ID="0x07" name="AnimationParameters" type="animparams"/>
+        <property ID="0x07" name="AnimationParameters" type="character"/>
         <struct ID="0x08" name="ActorParameters" template="Structs/ActorParameters.xml"/>
         <struct ID="0x09" name="HealthInfo" template="Structs/HealthInfo.xml"/>
         <struct ID="0x0A" name="DamageVulnerability" template="Structs/DamageVulnerability.xml"/>
@@ -28,22 +28,22 @@
         <property ID="0x17" name="Unknown 15" type="float"/>
         <property ID="0x18" name="Unknown 16" type="float"/>
         <property ID="0x19" name="Unknown 17" type="bool"/>
-        <property ID="0x1A" name="Unknown 18" type="file" ext="WPSC"/>
+        <property ID="0x1A" name="Unknown 18" type="file" extensions="WPSC"/>
         <struct ID="0x1B" name="DamageInfo" template="Structs/DamageInfo.xml"/>
-        <property ID="0x1C" name="Particle 1" type="file" ext="PART"/>
-        <property ID="0x1D" name="Particle 2" type="file" ext="PART"/>
-        <property ID="0x1E" name="Particle 3" type="file" ext="PART"/>
-        <property ID="0x1F" name="Particle 4" type="file" ext="PART"/>
-        <property ID="0x20" name="Particle 5" type="file" ext="PART"/>
-        <property ID="0x21" name="Particle 6" type="file" ext="PART"/>
-        <property ID="0x22" name="Particle 7" type="file" ext="PART"/>
+        <property ID="0x1C" name="Particle 1" type="file" extensions="PART"/>
+        <property ID="0x1D" name="Particle 2" type="file" extensions="PART"/>
+        <property ID="0x1E" name="Particle 3" type="file" extensions="PART"/>
+        <property ID="0x1F" name="Particle 4" type="file" extensions="PART"/>
+        <property ID="0x20" name="Particle 5" type="file" extensions="PART"/>
+        <property ID="0x21" name="Particle 6" type="file" extensions="PART"/>
+        <property ID="0x22" name="Particle 7" type="file" extensions="PART"/>
         <property ID="0x23" name="Unknown 19" type="long"/>
         <property ID="0x24" name="Unknown 20" type="long"/>
         <property ID="0x25" name="Unknown 21" type="long"/>
         <property ID="0x26" name="Unknown 22" type="long"/>
         <property ID="0x27" name="Unknown 23" type="long"/>
         <property ID="0x28" name="Unknown 24" type="long"/>
-        <property ID="0x29" name="Model" type="file" ext="CMDL"/>
+        <property ID="0x29" name="Model" type="file" extensions="CMDL"/>
         <property ID="0x2A" name="Unknown 25" type="float"/>
         <property ID="0x2B" name="Unknown 26" type="long"/>
         <property ID="0x2C" name="Unknown 27" type="long"/>

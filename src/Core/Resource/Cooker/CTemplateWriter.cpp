@@ -1,5 +1,5 @@
 #include "CTemplateWriter.h"
-#include "CWorldCooker.h"
+#include "CAreaCooker.h"
 
 #include <boost/filesystem.hpp>
 #include <tinyxml2.h>
@@ -13,104 +13,121 @@ CTemplateWriter::CTemplateWriter()
 void CTemplateWriter::SaveAllTemplates()
 {
     // Create directory
-    std::list<CMasterTemplate*> masterList = CMasterTemplate::GetMasterList();
-    TString out = "../templates/";
-    boost::filesystem::create_directory(out.ToStdString());
+    std::list<CMasterTemplate*> MasterList = CMasterTemplate::GetMasterList();
+    TString Out = "../templates/";
+    boost::filesystem::create_directory(Out.ToStdString());
 
     // Resave master templates
-    for (auto it = masterList.begin(); it != masterList.end(); it++)
-        SaveGameTemplates(*it, out);
+    for (auto it = MasterList.begin(); it != MasterList.end(); it++)
+        SaveGameTemplates(*it, Out);
 
     // Resave game list
-    XMLDocument gameList;
+    XMLDocument GameList;
 
-    XMLDeclaration *pDecl = gameList.NewDeclaration();
-    gameList.LinkEndChild(pDecl);
+    XMLDeclaration *pDecl = GameList.NewDeclaration();
+    GameList.LinkEndChild(pDecl);
 
-    XMLElement *pBase = gameList.NewElement("GameList");
-    pBase->SetAttribute("version", 3);
-    gameList.LinkEndChild(pBase);
+    XMLElement *pBase = GameList.NewElement("GameList");
+    pBase->SetAttribute("version", 4);
+    GameList.LinkEndChild(pBase);
 
-    for (auto it = masterList.begin(); it != masterList.end(); it++)
+    for (auto it = MasterList.begin(); it != MasterList.end(); it++)
     {
         CMasterTemplate *pMaster = *it;
 
-        XMLElement *pGame = gameList.NewElement("game");
-
-        XMLElement *pGameName = gameList.NewElement("name");
-        pGameName->SetText(*pMaster->mGameName);
-
-        XMLElement *pWorldVersion = gameList.NewElement("mlvl");
-        u32 versionNumber = CWorldCooker::GetMLVLVersion(pMaster->GetGame());
-        pWorldVersion->SetText(*TString::HexString(versionNumber, true, true, 2));
-
-        XMLElement *pTempPath = gameList.NewElement("master");
-        pTempPath->SetText(*pMaster->mSourceFile);
-
-        pGame->LinkEndChild(pGameName);
-        pGame->LinkEndChild(pWorldVersion);
-        pGame->LinkEndChild(pTempPath);
+        XMLElement *pGame = GameList.NewElement("game");
         pBase->LinkEndChild(pGame);
+
+        XMLElement *pGameName = GameList.NewElement("name");
+        pGameName->SetText(*pMaster->mGameName);
+        pGame->LinkEndChild(pGameName);
+
+        XMLElement *pAreaVersion = GameList.NewElement("mrea");
+        u32 VersionNumber = CAreaCooker::GetMREAVersion(pMaster->GetGame());
+        pAreaVersion->SetText(*TString::HexString(VersionNumber, true, true, 2));
+        pGame->LinkEndChild(pAreaVersion);
+
+        XMLElement *pTempPath = GameList.NewElement("master");
+        pTempPath->SetText(*pMaster->mSourceFile);
+        pGame->LinkEndChild(pTempPath);
     }
 
-    gameList.SaveFile(*(out + "GameList.xml"));
+    TString GameListName = Out + "GameList.xml";
+    GameList.SaveFile(*GameListName);
 }
 
-void CTemplateWriter::SaveGameTemplates(CMasterTemplate *pMaster, const TString& dir)
+void CTemplateWriter::SaveGameTemplates(CMasterTemplate *pMaster, const TString& rkDir)
 {
     // Create directory
-    TString outFile = dir + pMaster->mSourceFile;
-    TString outDir = outFile.GetFileDirectory();
-    boost::filesystem::create_directory(outDir.ToStdString());
+    TString OutFile = rkDir + pMaster->mSourceFile;
+    TString OutDir = OutFile.GetFileDirectory();
+    boost::filesystem::create_directory(OutDir.ToStdString());
 
     // Resave script templates
     for (auto it = pMaster->mTemplates.begin(); it != pMaster->mTemplates.end(); it++)
-        SaveScriptTemplate(it->second, outDir);
+        SaveScriptTemplate(it->second, OutDir);
 
     // Resave master template
-    XMLDocument master;
+    XMLDocument Master;
 
-    XMLDeclaration *pDecl = master.NewDeclaration();
-    master.LinkEndChild(pDecl);
+    XMLDeclaration *pDecl = Master.NewDeclaration();
+    Master.LinkEndChild(pDecl);
 
-    XMLElement *pBase = master.NewElement("MasterTemplate");
-    pBase->SetAttribute("version", 3);
-    master.LinkEndChild(pBase);
+    XMLElement *pBase = Master.NewElement("MasterTemplate");
+    pBase->SetAttribute("version", 4);
+    Master.LinkEndChild(pBase);
 
     // Write property list
-    if (!pMaster->mPropertyList.empty())
+    if (!pMaster->mPropertyNames.empty())
     {
-        SavePropertyList(pMaster, outDir);
+        SavePropertyList(pMaster, OutDir);
 
-        XMLElement *pPropList = master.NewElement("properties");
+        XMLElement *pPropList = Master.NewElement("properties");
         pPropList->SetText("Properties.xml");
         pBase->LinkEndChild(pPropList);
     }
 
+    // Write versions
+    if (!pMaster->mGameVersions.empty())
+    {
+        XMLElement *pVersionsBlock = Master.NewElement("versions");
+        pBase->LinkEndChild(pVersionsBlock);
+
+        for (auto it = pMaster->mGameVersions.begin(); it != pMaster->mGameVersions.end(); it++)
+        {
+            XMLElement *pVersion = Master.NewElement("version");
+            pVersion->SetText(*(*it));
+            pBase->LinkEndChild(pVersion);
+        }
+    }
+
     // Write script objects
-    XMLElement *pObjects = master.NewElement("objects");
+    XMLElement *pObjects = Master.NewElement("objects");
     pBase->LinkEndChild(pObjects);
 
     for (auto it = pMaster->mTemplates.begin(); it != pMaster->mTemplates.end(); it++)
     {
-        TString objID;
-        u32 intID = (it->second)->ObjectID();
-        if (intID <= 0xFF) objID = TString::HexString(intID, true, true, 2);
-        else objID = CFourCC(intID).ToString();
+        u32 ObjID = (it->second)->ObjectID();
 
-        XMLElement *pObj = master.NewElement("object");
-        pObj->SetAttribute("ID", *objID);
+        TString StrID;
+        if (ObjID <= 0xFF)
+            StrID = TString::HexString(ObjID, true, true, 2);
+        else
+            StrID = CFourCC(ObjID).ToString();
+
+        XMLElement *pObj = Master.NewElement("object");
+        pObj->SetAttribute("ID", *StrID);
         pObj->SetAttribute("template", *(it->second)->mSourceFile);
         pObjects->LinkEndChild(pObj);
     }
 
     // Write script states/messages
     std::map<u32, TString> *pMaps[2] = { &pMaster->mStates, &pMaster->mMessages };
-    TString types[2] = { "state", "message" };
+    TString Types[2] = { "state", "message" };
 
     for (u32 iScr = 0; iScr < 2; iScr++)
     {
-        XMLElement *pElem = master.NewElement(*(types[iScr] + "s"));
+        XMLElement *pElem = Master.NewElement(*(Types[iScr] + "s"));
         pBase->LinkEndChild(pElem);
 
         for (auto it = pMaps[iScr]->begin(); it != pMaps[iScr]->end(); it++)
@@ -119,7 +136,7 @@ void CTemplateWriter::SaveGameTemplates(CMasterTemplate *pMaster, const TString&
             if (it->first <= 0xFF) ID = TString::HexString(it->first, true, true, 2);
             else ID = CFourCC(it->first).ToString();
 
-            XMLElement *pSubElem = master.NewElement(*types[iScr]);
+            XMLElement *pSubElem = Master.NewElement(*Types[iScr]);
             pSubElem->SetAttribute("ID", *ID);
             pSubElem->SetAttribute("name", *(it->second));
             pElem->LinkEndChild(pSubElem);
@@ -127,113 +144,69 @@ void CTemplateWriter::SaveGameTemplates(CMasterTemplate *pMaster, const TString&
     }
 
     // Save file
-    master.SaveFile(*outFile);
+    Master.SaveFile(*OutFile);
 }
 
-void CTemplateWriter::SavePropertyList(CMasterTemplate *pMaster, const TString& dir)
+void CTemplateWriter::SavePropertyList(CMasterTemplate *pMaster, const TString& rkDir)
 {
     // Create XML
-    XMLDocument list;
+    XMLDocument List;
 
-    XMLDeclaration *pDecl = list.NewDeclaration();
-    list.LinkEndChild(pDecl);
+    XMLDeclaration *pDecl = List.NewDeclaration();
+    List.LinkEndChild(pDecl);
 
-    XMLElement *pBase = list.NewElement("Properties");
-    pBase->SetAttribute("version", 3);
-    list.LinkEndChild(pBase);
+    XMLElement *pBase = List.NewElement("Properties");
+    pBase->SetAttribute("version", 4);
+    List.LinkEndChild(pBase);
 
     // Write properties
-    for (auto it = pMaster->mPropertyList.begin(); it != pMaster->mPropertyList.end(); it++)
+    for (auto it = pMaster->mPropertyNames.begin(); it != pMaster->mPropertyNames.end(); it++)
     {
-        CPropertyTemplate *pTemp = it->second;
+        u32 ID = it->first;
+        TString Name = it->second;
 
-        if (pTemp->Type() == eStructProperty)
-        {
-            CStructTemplate *pStructTemp = static_cast<CStructTemplate*>(pTemp);
-
-            XMLElement *pElem = list.NewElement("struct");
-            pElem->SetAttribute("ID", *TString::HexString(pTemp->PropertyID(), true, true, 8));
-            pElem->SetAttribute("name", *pTemp->Name());
-
-            if (!pStructTemp->mSourceFile.IsEmpty())
-            {
-                SaveStructTemplate(pStructTemp, pMaster, dir);
-                pElem->SetAttribute("template", *pStructTemp->mSourceFile);
-            }
-
-            pBase->LinkEndChild(pElem);
-        }
-
-        else
-        {
-            XMLElement *pElem = list.NewElement("property");
-            pElem->SetAttribute("ID", *TString::HexString(pTemp->PropertyID(), true, true, 8));
-            pElem->SetAttribute("name", *pTemp->Name());
-            pElem->SetAttribute("type", *PropEnumToPropString(pTemp->Type()));
-
-            if (pTemp->Type() == eFileProperty)
-            {
-                // Construct extension list string
-                CFileTemplate *pFileProp = static_cast<CFileTemplate*>(pTemp);
-                const TStringList& extensions = pFileProp->Extensions();
-
-                TString strList = "";
-
-                for (auto it = extensions.begin(); it != extensions.end();)
-                {
-                    strList += *it;
-                    it++;
-                    if (it != extensions.end()) strList += ",";
-                }
-
-                pElem->SetAttribute("ext", *strList);
-            }
-
-            pBase->LinkEndChild(pElem);
-        }
+        XMLElement *pElem = List.NewElement("property");
+        pElem->SetAttribute("ID", *TString::HexString(ID, true, true, 8));
+        pElem->SetAttribute("name", *Name);
+        pBase->LinkEndChild(pElem);
     }
 
-    list.SaveFile(*(dir + "Properties.xml"));
+    TString OutFile = rkDir + "Properties.xml";
+    List.SaveFile(*OutFile);
 }
 
-void CTemplateWriter::SaveScriptTemplate(CScriptTemplate *pTemp, const TString& dir)
+void CTemplateWriter::SaveScriptTemplate(CScriptTemplate *pTemp, const TString& rkDir)
 {
     // Create directory
-    TString outFile = dir + pTemp->mSourceFile;
-    TString outDir = outFile.GetFileDirectory();
+    TString OutFile = rkDir + pTemp->mSourceFile;
+    TString outDir = OutFile.GetFileDirectory();
     boost::filesystem::create_directory(*outDir);
 
     // Create new document
-    XMLDocument scriptXML;
+    XMLDocument ScriptXML;
 
-    XMLDeclaration *pDecl = scriptXML.NewDeclaration();
-    scriptXML.LinkEndChild(pDecl);
+    XMLDeclaration *pDecl = ScriptXML.NewDeclaration();
+    ScriptXML.LinkEndChild(pDecl);
 
     // Base element
-    XMLElement *pBase = scriptXML.NewElement("ScriptTemplate");
-    pBase->SetAttribute("version", 3.0f);
-    scriptXML.LinkEndChild(pBase);
+    XMLElement *pRoot = ScriptXML.NewElement("ScriptTemplate");
+    pRoot->SetAttribute("version", 4);
+    ScriptXML.LinkEndChild(pRoot);
 
     // Write object name
-    XMLElement *pName = scriptXML.NewElement("name");
+    XMLElement *pName = ScriptXML.NewElement("name");
     pName->SetText(*pTemp->TemplateName());
-    pBase->LinkEndChild(pName);
+    pRoot->LinkEndChild(pName);
 
     // Write properties
-    for (auto it = pTemp->mPropertySets.begin(); it != pTemp->mPropertySets.end(); it++)
-    {
-        XMLElement *pProperties = scriptXML.NewElement("properties");
-        pProperties->SetAttribute("version", *it->SetName);
-        SaveProperties(&scriptXML, pProperties, it->pBaseStruct, pTemp->MasterTemplate(), dir);
-        pBase->LinkEndChild(pProperties);
-    }
+    SaveProperties(&ScriptXML, pRoot, pTemp->mpBaseStruct, pTemp->MasterTemplate(), rkDir);
 
     // Write editor properties
-    XMLElement *pEditor = scriptXML.NewElement("editor");
-    pBase->LinkEndChild(pEditor);
+    XMLElement *pEditor = ScriptXML.NewElement("editor");
+    pRoot->LinkEndChild(pEditor);
 
     // Editor Properties
-    XMLElement *pEditorProperties = scriptXML.NewElement("properties");
+    XMLElement *pEditorProperties = ScriptXML.NewElement("properties");
     pEditor->LinkEndChild(pEditorProperties);
 
     TString propNames[6] = {
@@ -250,7 +223,7 @@ void CTemplateWriter::SaveScriptTemplate(CScriptTemplate *pTemp, const TString& 
     {
         if (!pPropStrings[iProp]->IsEmpty())
         {
-            XMLElement *pProperty = scriptXML.NewElement("property");
+            XMLElement *pProperty = ScriptXML.NewElement("property");
             pProperty->SetAttribute("name", *propNames[iProp]);
             pProperty->SetAttribute("ID", **pPropStrings[iProp]);
             pEditorProperties->LinkEndChild(pProperty);
@@ -258,28 +231,29 @@ void CTemplateWriter::SaveScriptTemplate(CScriptTemplate *pTemp, const TString& 
     }
 
     // Editor Assets
-    XMLElement *pAssets = scriptXML.NewElement("assets");
+    XMLElement *pAssets = ScriptXML.NewElement("assets");
     pEditor->LinkEndChild(pAssets);
 
     for (auto it = pTemp->mAssets.begin(); it != pTemp->mAssets.end(); it++)
     {
-        TString source = (it->AssetSource == CScriptTemplate::SEditorAsset::eFile ? "file" : "property");
-        TString type;
+        TString Source = (it->AssetSource == CScriptTemplate::SEditorAsset::eFile ? "file" : "property");
+        TString Type;
 
         switch (it->AssetType)
         {
-        case CScriptTemplate::SEditorAsset::eModel:      type = "model"; break;
-        case CScriptTemplate::SEditorAsset::eAnimParams: type = "animparams"; break;
-        case CScriptTemplate::SEditorAsset::eBillboard:  type = "billboard"; break;
-        case CScriptTemplate::SEditorAsset::eCollision:  type = "collision"; break;
+        case CScriptTemplate::SEditorAsset::eModel:      Type = "model"; break;
+        case CScriptTemplate::SEditorAsset::eAnimParams: Type = "animparams"; break;
+        case CScriptTemplate::SEditorAsset::eBillboard:  Type = "billboard"; break;
+        case CScriptTemplate::SEditorAsset::eCollision:  Type = "collision"; break;
         }
 
-        s32 force = -1;
-        if (it->AssetSource == CScriptTemplate::SEditorAsset::eAnimParams) force = it->ForceNodeIndex;
+        s32 Force = -1;
+        if (it->AssetSource == CScriptTemplate::SEditorAsset::eAnimParams)
+            Force = it->ForceNodeIndex;
 
-        XMLElement *pAsset = scriptXML.NewElement(*type);
-        pAsset->SetAttribute("source", *source);
-        if (force >= 0) pAsset->SetAttribute("force", std::to_string(force).c_str());
+        XMLElement *pAsset = ScriptXML.NewElement(*Type);
+        pAsset->SetAttribute("source", *Source);
+        if (Force >= 0) pAsset->SetAttribute("force", std::to_string(Force).c_str());
         pAsset->SetText(*it->AssetLocation);
         pAssets->LinkEndChild(pAsset);
     }
@@ -287,17 +261,17 @@ void CTemplateWriter::SaveScriptTemplate(CScriptTemplate *pTemp, const TString& 
     // Preview Scale
     if (pTemp->mPreviewScale != 1.f)
     {
-        XMLElement *pPreviewScale = scriptXML.NewElement("preview_scale");
+        XMLElement *pPreviewScale = ScriptXML.NewElement("preview_scale");
+        pPreviewScale->SetText(*TString::FromFloat(pTemp->mPreviewScale));
         pEditor->LinkEndChild(pPreviewScale);
-        pPreviewScale->SetText(pTemp->mPreviewScale);
     }
 
     // Rot/Scale Type
-    XMLElement *pRotType = scriptXML.NewElement("rotation_type");
+    XMLElement *pRotType = ScriptXML.NewElement("rotation_type");
     pEditor->LinkEndChild(pRotType);
     pRotType->SetText(pTemp->mRotationType == CScriptTemplate::eRotationEnabled ? "enabled" : "disabled");
 
-    XMLElement *pScaleType = scriptXML.NewElement("scale_type");
+    XMLElement *pScaleType = ScriptXML.NewElement("scale_type");
     pEditor->LinkEndChild(pScaleType);
 
     if (pTemp->mScaleType != CScriptTemplate::eScaleVolume)
@@ -308,7 +282,7 @@ void CTemplateWriter::SaveScriptTemplate(CScriptTemplate *pTemp, const TString& 
         pScaleType->SetText("volume");
 
         // Volume Preview
-        XMLElement *pVolume = scriptXML.NewElement("preview_volume");
+        XMLElement *pVolume = ScriptXML.NewElement("preview_volume");
         pEditor->LinkEndChild(pVolume);
 
         // Enum -> String conversion lambda to avoid redundant code
@@ -335,27 +309,21 @@ void CTemplateWriter::SaveScriptTemplate(CScriptTemplate *pTemp, const TString& 
             pVolume->SetAttribute("propertyID", *pTemp->mVolumeConditionIDString);
 
             // Find conditional test property
-            CPropertyTemplate *pProp;
-
-            for (auto it = pTemp->mPropertySets.begin(); it != pTemp->mPropertySets.end(); it++)
-            {
-                pProp = it->pBaseStruct->PropertyByIDString(pTemp->mVolumeConditionIDString);
-                if (pProp) break;
-            }
+            IPropertyTemplate *pProp = pTemp->mpBaseStruct->PropertyByIDString(pTemp->mVolumeConditionIDString);
 
             // Write conditions
             for (auto it = pTemp->mVolumeConditions.begin(); it != pTemp->mVolumeConditions.end(); it++)
             {
                 // Value should be an integer, or a boolean condition?
-                TString strVal;
+                TString StrVal;
 
                 if (pProp->Type() == eBoolProperty)
-                    strVal = (it->Value == 1 ? "true" : "false");
+                    StrVal = (it->Value == 1 ? "true" : "false");
                 else
-                    strVal = TString::HexString((u32) it->Value, true, true, (it->Value > 0xFF ? 8 : 2));
+                    StrVal = TString::HexString((u32) it->Value, true, true, (it->Value > 0xFF ? 8 : 2));
 
-                XMLElement *pCondition = scriptXML.NewElement("condition");
-                pCondition->SetAttribute("value", *strVal);
+                XMLElement *pCondition = ScriptXML.NewElement("condition");
+                pCondition->SetAttribute("value", *StrVal);
                 pCondition->SetAttribute("shape", *GetVolumeString(it->Shape));
                 if (it->Scale != 1.f) pCondition->SetAttribute("scale", it->Scale);
                 pVolume->LinkEndChild(pCondition);
@@ -364,221 +332,239 @@ void CTemplateWriter::SaveScriptTemplate(CScriptTemplate *pTemp, const TString& 
     }
 
     // Write to file
-    scriptXML.SaveFile(*outFile);
+    ScriptXML.SaveFile(*OutFile);
 }
 
-void CTemplateWriter::SaveStructTemplate(CStructTemplate *pTemp, CMasterTemplate *pMaster, const TString& dir)
+void CTemplateWriter::SaveStructTemplate(CStructTemplate *pTemp, CMasterTemplate *pMaster, const TString& rkDir)
 {
     // Create directory
-    TString outFile = dir + pTemp->mSourceFile;
-    TString outDir = outFile.GetFileDirectory();
-    TString name = pTemp->mSourceFile.GetFileName();
-    boost::filesystem::create_directory(outDir.ToStdString());
+    TString OutFile = rkDir + pTemp->mSourceFile;
+    TString OutDir = OutFile.GetFileDirectory();
+    TString Name = OutFile.GetFileName(false);
+    boost::filesystem::create_directory(OutDir.ToStdString());
 
     // Create new document and write struct properties to it
-    XMLDocument structXML;
+    XMLDocument StructXML;
 
-    XMLDeclaration *pDecl = structXML.NewDeclaration();
-    structXML.LinkEndChild(pDecl);
+    XMLDeclaration *pDecl = StructXML.NewDeclaration();
+    StructXML.LinkEndChild(pDecl);
 
-    XMLElement *pBase = structXML.NewElement("struct");
-    pBase->SetAttribute("name", *name);
-    pBase->SetAttribute("type", (pTemp->IsSingleProperty() ? "single" : "multi"));
-    SaveProperties(&structXML, pBase, pTemp, pMaster, dir);
-    structXML.LinkEndChild(pBase);
+    XMLElement *pRoot = StructXML.NewElement("struct");
+    pRoot->SetAttribute("name", *Name);
+    pRoot->SetAttribute("type", (pTemp->IsSingleProperty() ? "single" : "multi"));
+    StructXML.LinkEndChild(pRoot);
 
-    structXML.SaveFile(*outFile);
+    SaveProperties(&StructXML, pRoot, pTemp, pMaster, rkDir);
+    StructXML.SaveFile(*OutFile);
 }
 
-void CTemplateWriter::SaveEnumTemplate(CEnumTemplate *pTemp, const TString& dir)
+void CTemplateWriter::SaveEnumTemplate(CEnumTemplate *pTemp, const TString& rkDir)
 {
     // Create directory
-    TString outFile = dir + pTemp->mSourceFile;
-    TString outDir = outFile.GetFileDirectory();
-    TString name = pTemp->mSourceFile.GetFileName(false);
-    boost::filesystem::create_directory(*outDir);
+    TString OutFile = rkDir + pTemp->mSourceFile;
+    TString OutDir = OutFile.GetFileDirectory();
+    TString Name = OutFile.GetFileName(false);
+    boost::filesystem::create_directory(*OutDir);
 
     // Create new document and write enumerators to it
-    XMLDocument enumXML;
+    XMLDocument EnumXML;
 
-    XMLDeclaration *pDecl = enumXML.NewDeclaration();
-    enumXML.LinkEndChild(pDecl);
+    XMLDeclaration *pDecl = EnumXML.NewDeclaration();
+    EnumXML.LinkEndChild(pDecl);
 
-    XMLElement *pBase = enumXML.NewElement("enum");
-    pBase->SetAttribute("name", *name);
-    SaveEnumerators(&enumXML, pBase, pTemp);
-    enumXML.LinkEndChild(pBase);
+    XMLElement *pRoot = EnumXML.NewElement("enum");
+    pRoot->SetAttribute("name", *Name);
+    EnumXML.LinkEndChild(pRoot);
 
-    enumXML.SaveFile(*outFile);
+    SaveEnumerators(&EnumXML, pRoot, pTemp);
+    EnumXML.SaveFile(*OutFile);
 }
 
-void CTemplateWriter::SaveBitfieldTemplate(CBitfieldTemplate *pTemp, const TString& dir)
+void CTemplateWriter::SaveBitfieldTemplate(CBitfieldTemplate *pTemp, const TString& rkDir)
 {
     // Create directory
-    TString outFile = dir + pTemp->mSourceFile;
-    TString outDir = outFile.GetFileDirectory();
-    TString name = pTemp->mSourceFile.GetFileName();
-    boost::filesystem::create_directory(*outDir);
+    TString OutFile = rkDir + pTemp->mSourceFile;
+    TString OutDir = OutFile.GetFileDirectory();
+    TString Name = pTemp->mSourceFile.GetFileName(false);
+    boost::filesystem::create_directory(*OutDir);
 
     // Create new document and write enumerators to it
-    XMLDocument bitfieldXML;
+    XMLDocument BitfieldXML;
 
-    XMLDeclaration *pDecl = bitfieldXML.NewDeclaration();
-    bitfieldXML.LinkEndChild(pDecl);
+    XMLDeclaration *pDecl = BitfieldXML.NewDeclaration();
+    BitfieldXML.LinkEndChild(pDecl);
 
-    XMLElement *pBase = bitfieldXML.NewElement("bitfield");
-    pBase->SetAttribute("name", *name);
-    SaveBitFlags(&bitfieldXML, pBase, pTemp);
-    bitfieldXML.LinkEndChild(pBase);
+    XMLElement *pRoot = BitfieldXML.NewElement("bitfield");
+    pRoot->SetAttribute("name", *Name);
+    BitfieldXML.LinkEndChild(pRoot);
 
-    bitfieldXML.SaveFile(*outFile);
+    SaveBitFlags(&BitfieldXML, pRoot, pTemp);
+    BitfieldXML.SaveFile(*OutFile);
 }
 
-void CTemplateWriter::SaveProperties(XMLDocument *pDoc, XMLElement *pParent, CStructTemplate *pTemp, CMasterTemplate *pMaster, const TString& dir)
+void CTemplateWriter::SaveProperties(XMLDocument *pDoc, XMLElement *pParent, CStructTemplate *pTemp, CMasterTemplate *pMaster, const TString& rkDir)
 {
+    // Create base element
+    XMLElement *pPropsBlock = pDoc->NewElement("properties");
+    pParent->LinkEndChild(pPropsBlock);
+
     for (u32 iProp = 0; iProp < pTemp->Count(); iProp++)
     {
-        CPropertyTemplate *pProp = pTemp->PropertyByIndex(iProp);
-        u32 propID = (pProp->PropertyID() == 0xFFFFFFFF ? iProp : pProp->PropertyID());
-        TString strID = TString::HexString(propID, true, true, (propID > 0xFF ? 8 : 2));
+        // Get ID
+        IPropertyTemplate *pProp = pTemp->PropertyByIndex(iProp);
+        u32 ID = pProp->PropertyID();
+        TString StrID = TString::HexString(ID, true, true, (ID > 0xFF ? 8 : 2));
+
+        // Create element
+        XMLElement *pElem;
 
         if (pProp->Type() == eStructProperty)
+            pElem = pDoc->NewElement("struct");
+        else if (pProp->Type() == eEnumProperty)
+            pElem = pDoc->NewElement("enum");
+        else if (pProp->Type() == eBitfieldProperty)
+            pElem = pDoc->NewElement("bitfield");
+        else if (pProp->Type() == eArrayProperty)
+            pElem = pDoc->NewElement("array");
+        else
+            pElem = pDoc->NewElement("property");
+
+        // Set common property parameters, starting with ID
+        pElem->SetAttribute("ID", *StrID);
+
+        // Type
+        if (pProp->Type() == eStructProperty)
+            pElem->SetAttribute("type", (static_cast<CStructTemplate*>(pProp)->mIsSingleProperty ? "single" : "multi"));
+
+        else if (TString(pElem->Name()) == "property")
+            pElem->SetAttribute("type", *PropEnumToPropString(pProp->Type()));
+
+        // Name
+        TString Name = pProp->Name();
+
+        if (pMaster->HasPropertyList())
         {
-            CStructTemplate *pStructTemp = static_cast<CStructTemplate*>(pProp);
-            bool isExternal = (!pStructTemp->mSourceFile.IsEmpty());
+            TString MasterName = pMaster->PropertyName(ID);
 
-            XMLElement *pElem = pDoc->NewElement("struct");
-            pElem->SetAttribute("ID", *strID);
-
-            if ((!pMaster->HasPropertyList()) || (pProp->PropertyID() == -1) || pTemp->IsSingleProperty())
-            {
-                pElem->SetAttribute("name", *pProp->Name());
-            }
-
-            if (!isExternal) {
-                TString type = pStructTemp->IsSingleProperty() ? "single" : "multi";
-                pElem->SetAttribute("type", *type);
-            }
-
-            // Only save properties if this is a multi struct, or if there is no master property list
-            if (!pMaster->HasPropertyList() || !pStructTemp->IsSingleProperty())
-            {
-                // Embed struct or save to external XML?
-                if (!pStructTemp->mSourceFile.IsEmpty())
-                {
-                    SaveStructTemplate(pStructTemp, pMaster, dir);
-                    pElem->SetAttribute("template", *pStructTemp->mSourceFile);
-                }
-
-                else
-                {
-                    SaveProperties(pDoc, pElem, pStructTemp, pMaster, dir);
-                }
-            }
-
-            pParent->LinkEndChild(pElem);
+            if (Name != MasterName)
+                pElem->SetAttribute("name", *Name);
         }
 
+        else
+            pElem->SetAttribute("name", *Name);
+
+        // Default
+        if (pProp->CanHaveDefault())
+        {
+            XMLElement *pDefault = pDoc->NewElement("default");
+            pDefault->SetText(*pProp->DefaultToString());
+            pElem->LinkEndChild(pDefault);
+        }
+
+        // Range
+        if (pProp->IsNumerical() && pProp->HasValidRange())
+        {
+            XMLElement *pRange = pDoc->NewElement("range");
+            pRange->SetText(*pProp->RangeToString());
+            pElem->LinkEndChild(pRange);
+        }
+
+        // Cook Pref
+        ECookPreference CookPref = pProp->CookPreference();
+
+        if (CookPref != eNoCookPreference)
+        {
+            XMLElement *pCookPref = pDoc->NewElement("should_cook");
+            pCookPref->SetText(CookPref == eAlwaysCook ? "always" : "never");
+            pElem->LinkEndChild(pCookPref);
+        }
+
+        // File-specific parameters
+        if (pProp->Type() == eFileProperty)
+        {
+            CFileTemplate *pFile = static_cast<CFileTemplate*>(pProp);
+            const TStringList& rkExtensions = pFile->Extensions();
+            TString ExtensionsString;
+
+            for (auto it = rkExtensions.begin(); it != rkExtensions.end(); it++)
+                ExtensionsString += *it + ",";
+
+            ExtensionsString.ChopBack(1); // Remove extra comma
+            pElem->SetAttribute("extensions", *ExtensionsString);
+        }
+
+        // Enum-specific parameters
         else if (pProp->Type() == eEnumProperty)
         {
-            CEnumTemplate *pEnumTemp = static_cast<CEnumTemplate*>(pProp);
-            bool isExternal = (!pEnumTemp->mSourceFile.IsEmpty());
+            CEnumTemplate *pEnum = static_cast<CEnumTemplate*>(pProp);
 
-            XMLElement *pElem = pDoc->NewElement("enum");
-            pElem->SetAttribute("ID", *strID);
-
-            if ((!pMaster->HasPropertyList()) || (pProp->PropertyID() == -1))
-                pElem->SetAttribute("name", *pProp->Name());
-
-            if (isExternal)
-            {
-                SaveEnumTemplate(pEnumTemp, dir);
-                pElem->SetAttribute("template", *pEnumTemp->mSourceFile);
-            }
+            if (pEnum->mSourceFile.IsEmpty())
+                SaveEnumerators(pDoc, pElem, pEnum);
 
             else
             {
-                SaveEnumerators(pDoc, pElem, pEnumTemp);
+                SaveEnumTemplate(pEnum, rkDir);
+                pElem->SetAttribute("template", *pEnum->mSourceFile);
             }
-
-            pParent->LinkEndChild(pElem);
         }
+
+        // Bitfield-specific parameters
         else if (pProp->Type() == eBitfieldProperty)
         {
-            CBitfieldTemplate *pBitfieldTemp = static_cast<CBitfieldTemplate*>(pProp);
-            bool isExternal = (!pBitfieldTemp->mSourceFile.IsEmpty());
+            CBitfieldTemplate *pBitfield = static_cast<CBitfieldTemplate*>(pProp);
 
-            XMLElement *pElem = pDoc->NewElement("bitfield");
-            pElem->SetAttribute("ID", *strID);
-
-            if ((!pMaster->HasPropertyList()) || (pProp->PropertyID() == -1))
-                pElem->SetAttribute("name", *pProp->Name());
-
-            if (isExternal)
-            {
-                SaveBitfieldTemplate(pBitfieldTemp, dir);
-                pElem->SetAttribute("template", *pBitfieldTemp->mSourceFile);
-            }
+            if (pBitfield->mSourceFile.IsEmpty())
+                SaveBitFlags(pDoc, pElem, pBitfield);
 
             else
             {
-                SaveBitFlags(pDoc, pElem, pBitfieldTemp);
+                SaveBitfieldTemplate(pBitfield, rkDir);
+                pElem->SetAttribute("template", *pBitfield->mSourceFile);
             }
-
-            pParent->LinkEndChild(pElem);
         }
-        else
+
+        // Struct/array-specific parameters
+        if (pProp->Type() == eStructProperty || pProp->Type() == eArrayProperty)
         {
-            XMLElement *pElem = pDoc->NewElement("property");
-            pElem->SetAttribute("ID", *strID);
+            CStructTemplate *pStruct = static_cast<CStructTemplate*>(pProp);
 
-            if ((!pMaster->HasPropertyList()) || (pProp->PropertyID() == -1) || pTemp->IsSingleProperty())
+            if (pStruct->mSourceFile.IsEmpty())
+                SaveProperties(pDoc, pElem, pStruct, pMaster, rkDir);
+
+            else
             {
-                pElem->SetAttribute("name", *pProp->Name());
-                pElem->SetAttribute("type", *PropEnumToPropString(pProp->Type()));
-
-                if (pProp->Type() == eFileProperty)
-                {
-                    // Construct extension list string
-                    CFileTemplate *pFileProp = static_cast<CFileTemplate*>(pProp);
-                    const TStringList& extensions = pFileProp->Extensions();
-
-                    TString strList = "";
-
-                    for (auto it = extensions.begin(); it != extensions.end();)
-                    {
-                        strList += *it;
-                        it++;
-                        if (it != extensions.end()) strList += ",";
-                    }
-
-                    pElem->SetAttribute("ext", *strList);
-                }
+                SaveStructTemplate(pStruct, pMaster, rkDir);
+                pElem->SetAttribute("template", *pStruct->mSourceFile);
             }
-
-            pParent->LinkEndChild(pElem);
         }
     }
 }
 
 void CTemplateWriter::SaveEnumerators(XMLDocument *pDoc, XMLElement *pParent, CEnumTemplate *pTemp)
 {
+    XMLElement *pEnumerators = pDoc->NewElement("enumerators");
+    pParent->LinkEndChild(pEnumerators);
+
     for (u32 iEnum = 0; iEnum < pTemp->NumEnumerators(); iEnum++)
     {
         XMLElement *pElem = pDoc->NewElement("enumerator");
-        pElem->SetAttribute("ID", *TString::HexString(pTemp->EnumeratorID(iEnum), true, true, 8));
+        u32 EnumerID = pTemp->EnumeratorID(iEnum);
+        pElem->SetAttribute("ID", *TString::HexString(EnumerID, true, true, (EnumerID > 0xFF ? 8 : 0)));
         pElem->SetAttribute("name", *pTemp->EnumeratorName(iEnum));
-        pParent->LinkEndChild(pElem);
+        pEnumerators->LinkEndChild(pElem);
     }
 }
 
-void CTemplateWriter::SaveBitFlags(tinyxml2::XMLDocument *pDoc, tinyxml2::XMLElement *pParent, CBitfieldTemplate *pTemp)
+void CTemplateWriter::SaveBitFlags(XMLDocument *pDoc, XMLElement *pParent, CBitfieldTemplate *pTemp)
 {
+    XMLElement *pFlags = pDoc->NewElement("flags");
+    pParent->LinkEndChild(pFlags);
+
     for (u32 iFlag = 0; iFlag < pTemp->NumFlags(); iFlag++)
     {
-        XMLElement *pElem = pDoc->NewElement("bitflag");
+        XMLElement *pElem = pDoc->NewElement("flag");
         pElem->SetAttribute("mask", *TString::HexString(pTemp->FlagMask(iFlag), true, true, 8));
         pElem->SetAttribute("name", *pTemp->FlagName(iFlag));
-        pParent->LinkEndChild(pElem);
+        pFlags->LinkEndChild(pElem);
     }
 }

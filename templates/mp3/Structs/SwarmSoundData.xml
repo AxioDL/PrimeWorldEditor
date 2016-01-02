@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="SwarmSoundData" type="multi">
+    <properties>
+        <property ID="0xFC0D589E" type="file" extensions="CAUD"/>
+        <property ID="0x54B68C4C" type="long">
+            <default>5</default>
+        </property>
+        <property ID="0xB5F9C71A" type="float">
+            <default>2.0</default>
+        </property>
+        <property ID="0xF5B6BF6C" type="float">
+            <default>4.0</default>
+        </property>
+    </properties>
+</struct>

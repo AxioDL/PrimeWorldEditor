@@ -1,30 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>TidalWave</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <property ID="0xA244C9D8"/>
-        <struct ID="0x7E397FED" type="multi">
-            <struct ID="0xB028DB0E" type="multi">
-                <property ID="0xA71810E9"/>
-                <property ID="0x1F715FD3"/>
-                <property ID="0xB772D4C1"/>
-                <property ID="0x67F4D3DE"/>
-            </struct>
-            <property ID="0xED3A6E87"/>
-        </struct>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0xA244C9D8" type="character"/>
+        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
         <struct ID="0x8C5E15C9" type="multi">
-            <property ID="0xD381E63E"/>
-            <property ID="0x278289D8"/>
-            <property ID="0x2AC21A04"/>
-            <property ID="0xE1771396"/>
+            <properties>
+                <property ID="0xB4783F01" type="bool">
+                    <default>false</default>
+                </property>
+                <enum ID="0xD381E63E">
+                    <default>0x6E6E8A1A</default>
+                    <enumerators>
+                        <enumerator ID="0x6E6E8A1A" name="Unknown 1"/>
+                        <enumerator ID="0xA2FE50F9" name="Unknown 2"/>
+                    </enumerators>
+                </enum>
+                <enum ID="0x75A29DF1">
+                    <default>0x59AD38F8</default>
+                    <enumerators>
+                        <enumerator ID="0x59AD38F8" name="Unknown 1"/>
+                        <enumerator ID="0xC0A46942" name="Unknown 2"/>
+                        <enumerator ID="0x40B609B9" name="Unknown 3"/>
+                    </enumerators>
+                </enum>
+                <property ID="0xCCB532DB" type="bool">
+                    <default>true</default>
+                </property>
+                <property ID="0x278289D8" type="bool">
+                    <default>true</default>
+                </property>
+                <enum ID="0x2AC21A04">
+                    <default>0x13520720</default>
+                    <enumerators>
+                        <enumerator ID="0x13520720" name="Unknown 1"/>
+                        <enumerator ID="0x7A138CB0" name="Unknown 2"/>
+                    </enumerators>
+                </enum>
+                <enum ID="0x8CE161CB">
+                    <default>0x24067FD8</default>
+                    <enumerators>
+                        <enumerator ID="0x24067FD8" name="Unknown 1"/>
+                        <enumerator ID="0x3D1D4E99" name="Unknown 2"/>
+                        <enumerator ID="0xBD0F2E62" name="Unknown 3"/>
+                    </enumerators>
+                </enum>
+                <property ID="0x0A40A895" type="bool">
+                    <default>true</default>
+                </property>
+                <property ID="0xE1771396" type="bool">
+                    <default>true</default>
+                </property>
+            </properties>
         </struct>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="4">
+    <name>HUDMemo</name>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0x1A26C1CC" type="float">
+            <default>3.0</default>
+        </property>
+        <property ID="0x84E2496F" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0xA8FADFA5" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0xEF5AA575" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0xD23A8CC5" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0x601A50D5" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0xBD6F7B11" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x4AB3B95B" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0x9182250C" type="file" extensions="STRG"/>
+    </properties>
+    <states/>
+    <messages/>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
+        </properties>
+        <assets>
+            <billboard source="file">script/common/HUDMemo.txtr</billboard>
+		</assets>
+		<preview_scale>0.5</preview_scale>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>enabled</scale_type>
+    </editor>
+</ScriptTemplate>

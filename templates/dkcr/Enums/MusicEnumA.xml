@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<enum name="MusicEnumA">
+	<enumerators>
+		<enumerator ID="0x9EFE0717" name="Unknown 1"/>
+		<enumerator ID="0x28D5A7D7" name="Unknown 2"/>
+		<enumerator ID="0xD6A26606" name="Unknown 3"/>
+	</enumerators>
+</enum>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="AiDifficultySettings" type="multi">
+    <properties>
+        <enum ID="0x2B082C6D" template="Enums/BerserkerEnum.xml">
+            <default>0xF12A35C6</default>
+        </enum>
+    </properties>
+</struct>

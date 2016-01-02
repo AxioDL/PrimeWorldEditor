@@ -20,6 +20,23 @@ EGame CMasterTemplate::GetGame()
     return mGame;
 }
 
+u32 CMasterTemplate::NumGameVersions()
+{
+    if (mGameVersions.empty()) return 1;
+    else return mGameVersions.size();
+}
+
+u32 CMasterTemplate::GetGameVersion(TString VersionName)
+{
+    VersionName = VersionName.ToLower();
+
+    for (u32 iVer = 0; iVer < mGameVersions.size(); iVer++)
+        if (mGameVersions[iVer].ToLower() == VersionName)
+            return iVer;
+
+    return -1;
+}
+
 CScriptTemplate* CMasterTemplate::TemplateByID(u32 ObjectID)
 {
     auto it = mTemplates.find(ObjectID);
@@ -83,14 +100,14 @@ TString CMasterTemplate::MessageByIndex(u32 Index)
     return (std::next(it, Index))->second;
 }
 
-CPropertyTemplate* CMasterTemplate::GetProperty(u32 PropertyID)
+TString CMasterTemplate::PropertyName(u32 PropertyID)
 {
-    auto it = mPropertyList.find(PropertyID);
+    auto it = mPropertyNames.find(PropertyID);
 
-    if (it != mPropertyList.end())
+    if (it != mPropertyNames.end())
         return it->second;
     else
-        return nullptr;
+        return "Unknown";
 }
 
 bool CMasterTemplate::HasPropertyList()

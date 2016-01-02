@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="RobotChickenFlyerStructA" type="multi">
+    <properties>
+        <property ID="0x2F2AE3E5" type="float">
+            <default>55.0</default>
+        </property>
+        <property ID="0x39FB7978" type="float">
+            <default>20.0</default>
+        </property>
+        <property ID="0x9EC4FC10" type="float">
+            <default>12.0</default>
+        </property>
+        <property ID="0x140EF2CC" type="float">
+            <default>12.0</default>
+        </property>
+    </properties>
+</struct>

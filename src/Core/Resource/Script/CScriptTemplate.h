@@ -1,8 +1,8 @@
 #ifndef CSCRIPTTEMPLATE_H
 #define CSCRIPTTEMPLATE_H
 
-#include "CPropertyTemplate.h"
-#include "CProperty.h"
+#include "IPropertyTemplate.h"
+#include "IProperty.h"
 #include "EPropertyType.h"
 #include "EVolumeShape.h"
 #include "Core/Resource/Model/CModel.h"
@@ -39,11 +39,6 @@ public:
     };
 
 private:
-    struct SPropertySet {
-        TString SetName;
-        CStructTemplate *pBaseStruct;
-    };
-
     struct SEditorAsset
     {
         enum {
@@ -59,7 +54,7 @@ private:
     };
 
     CMasterTemplate *mpMaster;
-    std::vector<SPropertySet> mPropertySets;
+    CStructTemplate *mpBaseStruct;
     std::list<CScriptObject*> mObjectList;
     TString mTemplateName;
     TString mSourceFile;
@@ -75,9 +70,9 @@ private:
     TIDString mLightParametersIDString;
     std::vector<SEditorAsset> mAssets;
 
-    float mPreviewScale;
     ERotationType mRotationType;
     EScaleType mScaleType;
+    float mPreviewScale;
 
     // Preview Volume
     EVolumeShape mVolumeShape;
@@ -97,9 +92,7 @@ public:
 
     CMasterTemplate* MasterTemplate();
     EGame Game();
-    TString TemplateName(s32 propCount = -1) const;
-    TString PropertySetNameByCount(s32 propCount) const;
-    TString PropertySetNameByIndex(u32 index) const;
+    TString TemplateName() const;
     u32 NumPropertySets() const;
     ERotationType RotationType() const;
     EScaleType ScaleType() const;
@@ -107,18 +100,17 @@ public:
     u32 ObjectID() const;
     void SetVisible(bool visible);
     bool IsVisible() const;
-    void DebugPrintProperties(int propCount = -1);
+    void DebugPrintProperties();
 
     // Property Fetching
-    CStructTemplate* BaseStructByCount(s32 propCount);
-    CStructTemplate* BaseStructByIndex(u32 index);
+    CStructTemplate* BaseStruct();
     EVolumeShape VolumeShape(CScriptObject *pObj);
     float VolumeScale(CScriptObject *pObj);
-    CStringProperty* FindInstanceName(CPropertyStruct *pProperties);
-    CVector3Property* FindPosition(CPropertyStruct *pProperties);
-    CVector3Property* FindRotation(CPropertyStruct *pProperties);
-    CVector3Property* FindScale(CPropertyStruct *pProperties);
-    CBoolProperty* FindActive(CPropertyStruct *pProperties);
+    TStringProperty* FindInstanceName(CPropertyStruct *pProperties);
+    TVector3Property* FindPosition(CPropertyStruct *pProperties);
+    TVector3Property* FindRotation(CPropertyStruct *pProperties);
+    TVector3Property* FindScale(CPropertyStruct *pProperties);
+    TBoolProperty* FindActive(CPropertyStruct *pProperties);
     CPropertyStruct* FindLightParameters(CPropertyStruct *pProperties);
     CModel* FindDisplayModel(CPropertyStruct *pProperties);
     CTexture* FindBillboardTexture(CPropertyStruct *pProperties);

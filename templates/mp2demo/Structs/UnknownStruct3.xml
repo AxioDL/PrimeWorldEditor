@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="UnknownStruct3" type="multi">
+    <properties>
+        <property ID="0x852D3871" type="float">
+            <default>100.0</default>
+        </property>
+        <property ID="0x68ACBD86" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0x93677DA2" type="bool">
+            <default>false</default>
+        </property>
+    </properties>
+</struct>

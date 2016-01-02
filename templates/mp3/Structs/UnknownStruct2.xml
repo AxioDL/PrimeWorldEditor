@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="UnknownStruct2" type="multi">
+    <properties>
+        <enum ID="0x09B5957D">
+            <default>0xDD7C3483</default>
+            <enumerators>
+                <enumerator ID="0x574B201C" name="Unknown 1"/>
+                <enumerator ID="0xDD7C3483" name="Unknown 2"/>
+                <enumerator ID="0xC740F1F9" name="Unknown 3"/>
+                <enumerator ID="0xF1B5D3EC" name="Unknown 4"/>
+                <enumerator ID="0xED3D458D" name="Unknown 5"/>
+                <enumerator ID="0x7355CEFE" name="Unknown 6"/>
+                <enumerator ID="0x348ED10D" name="Unknown 7"/>
+            </enumerators>
+        </enum>
+        <struct ID="0x15567FE7" template="Structs/MayaSpline.xml"/>
+        <property ID="0xB08D3237" type="float">
+            <default>0.25</default>
+        </property>
+        <property ID="0x67E3836A" type="float">
+            <default>0.75</default>
+        </property>
+        <property ID="0x8B51E23F" type="float">
+            <default>1.0</default>
+        </property>
+    </properties>
+</struct>

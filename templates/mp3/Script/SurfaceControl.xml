@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>SurfaceControl</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <property ID="0xA42B7149"/>
-        <property ID="0x922D151F"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <enum ID="0xA42B7149">
+            <default>0xF07B8212</default>
+            <enumerators>
+                <enumerator ID="0xF07B8212" name="Unknown 1"/>
+                <enumerator ID="0x99CBB3CD" name="Unknown 2"/>
+                <enumerator ID="0x26F204F3" name="Unknown 3"/>
+                <enumerator ID="0x4F56C28C" name="Unknown 4"/>
+                <enumerator ID="0x64D982C6" name="Unknown 5"/>
+            </enumerators>
+        </enum>
+        <struct ID="0x922D151F" template="Structs/MayaSpline.xml"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>

@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<struct name="AnimationParameters" type="single">
-    <property ID="0x00" name="CHAR file" type="file" ext="CHAR"/>
-    <property ID="0x01" name="Unknown" type="long"/>
-</struct>

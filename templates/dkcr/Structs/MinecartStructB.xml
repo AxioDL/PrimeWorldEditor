@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="MinecartStructB" type="multi">
+    <properties>
+        <struct ID="0x013E35FB" template="Structs/UnknownStruct6.xml"/>
+        <property ID="0xE7F952BD" type="string"/>
+        <property ID="0xB0F79539" type="string"/>
+        <property ID="0x6A1BA66F" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x1A2E6372" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xAB3627B8" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x6CDF8683" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0x45E44B4E" type="long">
+            <default>1</default>
+        </property>
+        <property ID="0xE829969A" type="float">
+            <default>0.0</default>
+        </property>
+    </properties>
+</struct>

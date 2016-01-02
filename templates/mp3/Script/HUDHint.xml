@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="4">
+    <name>HUDHint</name>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0xD80447E0" type="file" extensions="UNKN"/>
+        <property ID="0x6078A651" type="float">
+            <default>15.0</default>
+        </property>
+        <property ID="0xF00BB6BB" type="float">
+            <default>16.0</default>
+        </property>
+        <property ID="0x1AD247A1" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x2A53245A" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x6E88D6AD" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0xD993F97B" type="long">
+            <default>15</default>
+        </property>
+    </properties>
+    <states/>
+    <messages/>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
+        </properties>
+        <assets/>
+		<preview_scale>0.5</preview_scale>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>enabled</scale_type>
+    </editor>
+</ScriptTemplate>

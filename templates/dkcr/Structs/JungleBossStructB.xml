@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="JungleBossStructB" type="multi">
+    <properties>
+        <enum ID="0x0F099933">
+            <default>0xA7F21E62</default>
+            <enumerators>
+                <enumerator ID="0x936DB3ED" name="Unknown 1"/>
+                <enumerator ID="0xF8EB5F50" name="Unknown 2"/>
+                <enumerator ID="0x5B65C9A1" name="Unknown 3"/>
+                <enumerator ID="0x80A18B60" name="Unknown 4"/>
+                <enumerator ID="0xC9F74475" name="Unknown 5"/>
+                <enumerator ID="0xD60EF257" name="Unknown 6"/>
+                <enumerator ID="0xA7F21E62" name="Unknown 7"/>
+            </enumerators>
+        </enum>
+        <property ID="0x6C805F56" type="string"/>
+    </properties>
+</struct>

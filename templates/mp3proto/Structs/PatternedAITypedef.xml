@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="PatternedAITypedef" type="multi">
+    <properties>
+        <property ID="0x75DBB375" type="float">
+            <default>150.0</default>
+        </property>
+        <struct ID="0xD756416E" template="Structs/DamageInfo.xml"/>
+        <property ID="0xE0CDC7E3" type="float">
+            <default>2.0</default>
+        </property>
+        <struct ID="0xCF90D15E" template="Structs/HealthInfo.xml"/>
+        <struct ID="0x7B71AE90" template="Structs/DamageVulnerability.xml"/>
+        <property ID="0x8A6AB139" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x3011B5DF" type="float">
+            <default>2.0</default>
+        </property>
+        <property ID="0x2E686C2A" type="vector3f">
+            <default>0.0, 0.0, 0.0</default>
+        </property>
+        <property ID="0xD9355674" type="float">
+            <default>0.1</default>
+        </property>
+        <property ID="0xA244C9D8" type="character"/>
+        <property ID="0xC1C7E255" type="file" extensions="FSM2"/>
+        <property ID="0x98169634" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0x39A6DEC3" type="float">
+            <default>5.0</default>
+        </property>
+        <property ID="0x87011652" type="file" extensions="RULE"/>
+        <property ID="0x4BC4C4D9" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0x6392404E" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x020C78BB" type="float">
+            <default>120.0</default>
+        </property>
+        <property ID="0x8DB77EE4" type="float">
+            <default>100.0</default>
+        </property>
+        <property ID="0x513F04B8" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x83DFC40F" type="float">
+            <default>60.0</default>
+        </property>
+        <property ID="0x58434916" type="float">
+            <default>6.0</default>
+        </property>
+        <property ID="0xFF77C96F" type="float">
+            <default>11.0</default>
+        </property>
+        <property ID="0xB0CFE015" type="float">
+            <default>2.0</default>
+        </property>
+        <property ID="0xC80E329B" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x3FAE47EB" type="float">
+            <default>50.0</default>
+        </property>
+        <property ID="0x13F0B18F" type="float">
+            <default>25.0</default>
+        </property>
+        <property ID="0x7D5A0487" type="float">
+            <default>5.0</default>
+        </property>
+        <property ID="0x87D22D43" type="float">
+            <default>0.1</default>
+        </property>
+        <property ID="0xF0790C1B" type="float">
+            <default>0.1</default>
+        </property>
+        <property ID="0xEF3BD8CF" type="float">
+            <default>2.0</default>
+        </property>
+        <property ID="0x37F86DC4" type="file" extensions="CAUD"/>
+        <property ID="0xE287D8DD" type="float">
+            <default>1000.0</default>
+        </property>
+        <property ID="0x061CBE62" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xE3D9DA58" type="file" extensions="CAUD"/>
+        <property ID="0x487EF257" type="vector3f">
+            <default>0.0, 0.0, 0.0</default>
+        </property>
+        <property ID="0x684F00C9" type="file" extensions="PART"/>
+        <property ID="0xF35F5164" type="file" extensions="UNKN"/>
+        <property ID="0x66CDC6E8" type="float">
+            <default>1000.0</default>
+        </property>
+        <property ID="0x89654F15" type="file" extensions="CAUD"/>
+        <property ID="0xAC0D6AFB" type="file" extensions="UNKN"/>
+        <property ID="0x130539A0" type="vector3f">
+            <default>0.0, 0.0, 0.0</default>
+        </property>
+        <property ID="0xA8DA9239" type="file" extensions="PART"/>
+    </properties>
+</struct>

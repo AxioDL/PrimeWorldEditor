@@ -1,7 +1,7 @@
 #ifndef WPROPERTYEDITOR_H
 #define WPROPERTYEDITOR_H
 
-#include <Core/Resource/Script/CProperty.h>
+#include <Core/Resource/Script/IProperty.h>
 #include <QWidget>
 #include <QHBoxLayout>
 #include <QLabel>
@@ -11,7 +11,7 @@ class WPropertyEditor : public QWidget
     Q_OBJECT
 
     // Editor
-    CPropertyBase *mpProperty;
+    IProperty *mpProperty;
 
     // UI
     struct {
@@ -21,11 +21,11 @@ class WPropertyEditor : public QWidget
     } mUI;
 
 public:
-    explicit WPropertyEditor(QWidget *pParent = 0, CPropertyBase *pProperty = 0);
+    explicit WPropertyEditor(QWidget *pParent = 0, IProperty *pProperty = 0);
     ~WPropertyEditor();
     void resizeEvent(QResizeEvent *pEvent);
 
-    void SetProperty(CPropertyBase *pProperty);
+    void SetProperty(IProperty *pProperty);
 
 private:
     void CreateEditor();

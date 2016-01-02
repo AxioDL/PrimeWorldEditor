@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="StaticGeometryTest" type="multi">
+    <properties>
+        <enum ID="0x14B3F716">
+            <default>0xEC23778C</default>
+            <enumerators>
+                <enumerator ID="0x3B5F9630" name="Unknown 1"/>
+                <enumerator ID="0xEC23778C" name="Unknown 2"/>
+                <enumerator ID="0x549547E6" name="Unknown 3"/>
+            </enumerators>
+        </enum>
+    </properties>
+</struct>

@@ -1,29 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>BallTrigger</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml">
+            <properties>
+                <struct ID="0x5846524D">
+                    <properties>
+                        <property ID="0x02">
+                            <default>2.0, 2.0, 2.0</default>
+                        </property>
+                    </properties>
+                </struct>
+            </properties>
         </struct>
-        <struct ID="0x77A27411" type="multi">
-            <struct ID="0x337F9524" type="multi">
-                <property ID="0x119FBD31"/>
-                <property ID="0xF2D02613"/>
-                <property ID="0xEE1BE914"/>
-                <property ID="0x555FF80A"/>
-            </struct>
-            <property ID="0x20927E9B"/>
-            <property ID="0x82859F46"/>
-        </struct>
-        <property ID="0xB61B1149"/>
-        <property ID="0x81AF51D5"/>
-        <property ID="0xBB38D077"/>
-        <property ID="0xEA511D83"/>
-        <property ID="0xB613F4E4"/>
+        <struct ID="0x77A27411" template="Structs/TriggerInfo.xml"/>
+        <property ID="0xB61B1149" type="float">
+            <default>20.0</default>
+        </property>
+        <property ID="0x81AF51D5" type="float">
+            <default>60.0</default>
+        </property>
+        <property ID="0xBB38D077" type="float">
+            <default>20.0</default>
+        </property>
+        <property ID="0xEA511D83" type="vector3f">
+            <default>1.0, 0.0, 0.0</default>
+        </property>
+        <property ID="0xB613F4E4" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x2766636A" type="float">
+            <default>1.0</default>
+			<versions>
+				<version>Trilogy</version>
+			</versions>
+        </property>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>

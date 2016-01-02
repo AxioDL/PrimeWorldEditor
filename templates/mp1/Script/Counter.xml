@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>Counter</name>
-    <properties version="NTSC">
+    <properties>
         <property ID="0x00" name="Name" type="string"/>
         <property ID="0x01" name="Start value?" type="long"/>
         <property ID="0x02" name="Max value?" type="long"/>
@@ -12,9 +12,9 @@
         <properties>
             <property name="InstanceName" ID="0x00"/>
         </properties>
-		<assets>
+        <assets>
             <billboard source="file">script/common/Counter.txtr</billboard>
-		</assets>
+        </assets>
         <rotation_type>enabled</rotation_type>
         <scale_type>enabled</scale_type>
     </editor>

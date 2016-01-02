@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="ActorMultiKeyframeStruct" type="multi">
+    <properties>
+        <property ID="0xC215A24F" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0xEDA47FF6" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x5CCE5B97" type="bool">
+            <default>false</default>
+        </property>
+    </properties>
+</struct>

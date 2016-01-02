@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="4">
+    <name>Rundas</name>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <struct ID="0x9D90D49F" type="multi">
+            <properties>
+                <property ID="0x1AEB498D" type="float">
+                    <default>90.0</default>
+                </property>
+                <property ID="0x9C7F3B23" type="float">
+                    <default>72.0</default>
+                </property>
+                <property ID="0x8F7F0613" type="float">
+                    <default>4.0</default>
+                </property>
+                <property ID="0x1A662787" type="file" extensions="CMDL"/>
+                <property ID="0x6DCB001F" type="file" extensions="CMDL"/>
+                <property ID="0xAC0B1EA5" type="file" extensions="CMDL"/>
+                <property ID="0x508BF168" type="file" extensions="CMDL"/>
+                <property ID="0x02E83A7C" type="file" extensions="CMDL"/>
+                <property ID="0xE7C1049E" type="file" extensions="CMDL"/>
+                <property ID="0x2C41E9A5" type="file" extensions="CMDL"/>
+                <property ID="0x152658FE" type="file" extensions="CMDL"/>
+                <property ID="0xE22A6DDA" type="file" extensions="CMDL"/>
+                <property ID="0x1EAA8217" type="file" extensions="CMDL"/>
+                <struct ID="0x896D5BD9" template="Structs/DamageVulnerability.xml"/>
+                <struct ID="0x8D4A2668" template="Structs/DamageInfo.xml"/>
+                <property ID="0x199A4CA5" type="file" extensions="PART"/>
+                <property ID="0x9F0E3E0B" type="file" extensions="PART"/>
+                <property ID="0x5452EDAE" type="file" extensions="PART"/>
+                <property ID="0x4957DD16" type="file" extensions="PART"/>
+                <property ID="0xA13303F4" type="file" extensions="PART"/>
+                <property ID="0x3A2D1AA4" type="file" extensions="WPSC"/>
+                <property ID="0xBCB9680A" type="file" extensions="WPSC"/>
+                <property ID="0x77E5BBAF" type="file" extensions="WPSC"/>
+                <property ID="0x6AE08B17" type="file" extensions="WPSC"/>
+                <property ID="0xF41394F6" type="float">
+                    <default>6.0</default>
+                </property>
+                <struct ID="0xB1B44917" template="Structs/DamageInfo.xml"/>
+                <struct ID="0x7FBC7E81" template="Structs/DamageInfo.xml"/>
+                <property ID="0xFF944885" type="float">
+                    <default>0.5</default>
+                </property>
+                <property ID="0x19F4E764" type="float">
+                    <default>6.0</default>
+                </property>
+                <property ID="0x050CB86E" type="float">
+                    <default>6.0</default>
+                </property>
+                <property ID="0xE36C178F" type="float">
+                    <default>13.0</default>
+                </property>
+                <property ID="0x4584843B" type="file" extensions="WPSC"/>
+                <struct ID="0x3063BBF1" template="Structs/DamageInfo.xml"/>
+                <property ID="0x03304D0B" type="file" extensions="TXTR"/>
+                <property ID="0x17789D1C" type="file" extensions="CMDL"/>
+                <struct ID="0x5997EBE1" template="Structs/DamageInfo.xml"/>
+                <property ID="0x8843CE6D" type="file" extensions="PART"/>
+                <property ID="0xC922F0E0" type="float">
+                    <default>35.0</default>
+                </property>
+                <property ID="0x2F425F01" type="float">
+                    <default>200.0</default>
+                </property>
+                <property ID="0x3BE0A66B" type="float">
+                    <default>70.0</default>
+                </property>
+                <property ID="0x3F196C78" type="float">
+                    <default>25.0</default>
+                </property>
+                <property ID="0xE039C4BD" type="file" extensions="CMDL"/>
+                <property ID="0x09C8DB87" type="file" extensions="PART"/>
+                <property ID="0xCBB55845" type="file" extensions="PART"/>
+                <property ID="0xEDCCF9F6" type="file" extensions="PART"/>
+                <property ID="0x9873172A" type="file" extensions="PART"/>
+                <property ID="0x84C33DA6" type="file" extensions="PART"/>
+                <property ID="0x757060D4" type="file" extensions="WPSC"/>
+                <struct ID="0x78DF0B7D" template="Structs/DamageInfo.xml"/>
+                <property ID="0xE4CD7924" type="float">
+                    <default>25.0</default>
+                </property>
+                <property ID="0x3056FFBA" type="float">
+                    <default>7.5</default>
+                </property>
+                <property ID="0x595E38D6" type="float">
+                    <default>18.0</default>
+                </property>
+                <property ID="0xF586836F" type="float">
+                    <default>5.0</default>
+                </property>
+                <property ID="0x7312F1C1" type="float">
+                    <default>2.5</default>
+                </property>
+                <property ID="0x6D0BA041" type="float">
+                    <default>14.0</default>
+                </property>
+                <property ID="0x39D7265E" type="float">
+                    <default>17.0</default>
+                </property>
+                <property ID="0xF80FCAE2" type="float">
+                    <default>10.0</default>
+                </property>
+                <property ID="0x1CC93984" type="float">
+                    <default>25.0</default>
+                </property>
+                <struct ID="0xF609C637" template="Structs/GrappleData.xml"/>
+            </properties>
+        </struct>
+        <struct ID="0xB3774750" template="Structs/PatternedAITypedef.xml">
+            <properties>
+                <struct ID="0xCF90D15E">
+                    <properties>
+                        <property ID="0xF0668919">
+                            <default>100.0</default>
+                        </property>
+                        <property ID="0x3A2D17E4">
+                            <default>2.0</default>
+                        </property>
+                    </properties>
+                </struct>
+                <property ID="0xD9355674">
+                    <default>1.0</default>
+                </property>
+                <property ID="0x4BC4C4D9">
+                    <default>1</default>
+                </property>
+                <property ID="0x3FAE47EB">
+                    <default>100.0</default>
+                </property>
+            </properties>
+        </struct>
+        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
+    </properties>
+    <states/>
+    <messages/>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
+            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
+        </properties>
+        <assets>
+            <animparams source="property">0xB3774750:0xA244C9D8</animparams>
+        </assets>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>enabled</scale_type>
+    </editor>
+</ScriptTemplate>

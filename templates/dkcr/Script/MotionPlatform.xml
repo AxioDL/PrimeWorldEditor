@@ -1,42 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>MotionPlatform</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <struct ID="0x0A9DBF91" type="multi">
-            <property ID="0x27E5F874"/>
-            <property ID="0xAE80628F"/>
-            <property ID="0x628BDF0F"/>
-            <property ID="0x78D03A32"/>
-            <property ID="0xB4A2E15A"/>
-        </struct>
-        <property ID="0xE4F89C8F"/>
-        <property ID="0x3B3B92A6"/>
-        <property ID="0x78C507EB"/>
-        <property ID="0xC5384200"/>
-        <property ID="0xCC6806A1"/>
-        <property ID="0xD9E3D253"/>
-        <struct ID="0x56F4BC93" type="multi">
-            <property ID="0x2EF22401"/>
-            <struct ID="0x0CF33816" type="multi">
-                <property ID="0xB3823863"/>
-                <property ID="0xACB1CDCB"/>
-            </struct>
-        </struct>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <struct ID="0x0A9DBF91" template="Structs/PlatformMotionProperties.xml"/>
+        <property ID="0xE4F89C8F" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x3B3B92A6" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x78C507EB" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0xC5384200" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xCC6806A1" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0xD9E3D253" type="float">
+            <default>-1.0</default>
+        </property>
+        <enum ID="0x0A441E0C">
+            <default>0xDCCF49F4</default>
+            <enumerators>
+                <enumerator ID="0xDCCF49F4" name="Unknown 1"/>
+                <enumerator ID="0x3EB622AA" name="Unknown 2"/>
+            </enumerators>
+        </enum>
+        <struct ID="0x56F4BC93" template="Structs/UnknownStruct12.xml"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
             <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
             <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
             <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
         </properties>
         <assets/>
+		<preview_scale>0.5</preview_scale>
         <rotation_type>enabled</rotation_type>
-        <scale_type>disabled</scale_type>
+        <scale_type>enabled</scale_type>
     </editor>
 </ScriptTemplate>

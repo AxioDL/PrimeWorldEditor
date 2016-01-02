@@ -18,7 +18,6 @@ class CScriptNode : public CSceneNode
 
     bool mHasValidPosition;
     bool mHasVolumePreview;
-    float mScaleMultiplier;
     CModelNode *mpVolumePreviewNode;
 
     CLightParameters *mpLightParameters;
@@ -39,6 +38,7 @@ public:
 
     void GeneratePosition();
     CScriptObject* Object() const;
+    CScriptTemplate* Template() const;
     CModel* ActiveModel() const;
     bool UsesModel() const;
     bool HasPreviewVolume() const;

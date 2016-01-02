@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="PlayerHintStruct" type="multi">
-    <property ID="0x00" name="Unknown 1" type="bool"/>
-    <property ID="0x01" name="Unknown 2" type="bool"/>
-    <property ID="0x02" name="Unknown 3" type="bool"/>
-    <property ID="0x03" name="Unknown 4" type="bool"/>
-    <property ID="0x04" name="Unknown 5" type="bool"/>
-    <property ID="0x05" name="Unknown 6" type="bool"/>
-    <property ID="0x06" name="Unknown 7" type="bool"/>
-    <property ID="0x07" name="Unknown 8" type="bool"/>
-    <property ID="0x08" name="Unknown 9" type="bool"/>
-    <property ID="0x09" name="Unknown 10" type="bool"/>
-    <property ID="0x0A" name="Unknown 11" type="bool"/>
-    <property ID="0x0B" name="Unknown 12" type="bool"/>
-    <property ID="0x0C" name="Unknown 13" type="bool"/>
-    <property ID="0x0D" name="Unknown 14" type="bool"/>
-    <property ID="0x0E" name="Unknown 15" type="bool"/>
+<struct name="PlayerHintStruct.xml" type="multi">
+    <properties>
+        <property ID="0x00" name="Unknown 1" type="bool"/>
+        <property ID="0x01" name="Unknown 2" type="bool"/>
+        <property ID="0x02" name="Unknown 3" type="bool"/>
+        <property ID="0x03" name="Unknown 4" type="bool"/>
+        <property ID="0x04" name="Unknown 5" type="bool"/>
+        <property ID="0x05" name="Unknown 6" type="bool"/>
+        <property ID="0x06" name="Unknown 7" type="bool"/>
+        <property ID="0x07" name="Unknown 8" type="bool"/>
+        <property ID="0x08" name="Unknown 9" type="bool"/>
+        <property ID="0x09" name="Unknown 10" type="bool"/>
+        <property ID="0x0A" name="Unknown 11" type="bool"/>
+        <property ID="0x0B" name="Unknown 12" type="bool"/>
+        <property ID="0x0C" name="Unknown 13" type="bool"/>
+        <property ID="0x0D" name="Unknown 14" type="bool"/>
+        <property ID="0x0E" name="Unknown 15" type="bool"/>
+    </properties>
 </struct>

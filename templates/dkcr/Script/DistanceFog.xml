@@ -1,22 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>DistanceFog</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml">
+            <properties>
+                <property ID="0x41435456">
+                    <default>false</default>
+                </property>
+            </properties>
         </struct>
-        <property ID="0x09AD63DE"/>
-        <property ID="0x37C7D09D"/>
-        <property ID="0x8FC4DBE8"/>
-        <property ID="0x8BC357FF"/>
-        <property ID="0x29AB4727"/>
-        <property ID="0x685255A5"/>
-        <property ID="0x7869A2B0"/>
-        <property ID="0xC5935B67"/>
+        <enum ID="0x88E8D530">
+            <default>0xD863C36B</default>
+            <enumerators>
+                <enumerator ID="0xD863C36B" name="Unknown 1"/>
+            </enumerators>
+        </enum>
+        <property ID="0x09AD63DE" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0x37C7D09D" type="color">
+            <default>0.0, 0.0, 0.0, 0.0</default>
+        </property>
+        <property ID="0x8FC4DBE8" type="float">
+            <default>30.0</default>
+        </property>
+        <property ID="0x8BC357FF" type="float">
+            <default>100.0</default>
+        </property>
+        <property ID="0x29AB4727" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x685255A5" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x7869A2B0" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xC5935B67" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xB5D1EF02" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xB7246843" type="color">
+            <default>0.0, 0.0, 0.0, 0.0</default>
+        </property>
+        <struct ID="0x520D1DD5" template="Structs/DistanceFogStruct.xml"/>
+        <property ID="0xBC86052A" type="float">
+            <default>0.0</default>
+        </property>
+        <struct ID="0xFBA31A97" template="Structs/DistanceFogStruct.xml"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
@@ -26,7 +62,8 @@
             <property name="Active" ID="0x255A4580:0x41435456"/>
         </properties>
         <assets/>
+		<preview_scale>0.5</preview_scale>
         <rotation_type>enabled</rotation_type>
-        <scale_type>disabled</scale_type>
+        <scale_type>enabled</scale_type>
     </editor>
 </ScriptTemplate>

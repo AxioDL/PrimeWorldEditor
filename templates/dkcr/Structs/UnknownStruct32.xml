@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="UnknownStruct32" type="multi">
+    <properties>
+        <struct ID="0x493D6A2D" template="Structs/SplineType.xml"/>
+        <struct ID="0x27E5F874" template="Structs/MayaSpline.xml"/>
+        <property ID="0xFD1E2F56" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0x4885DFFA" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0xA5753D52" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x7FC96014" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x08BB73C5" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x3217DFF8" type="bool">
+            <default>false</default>
+        </property>
+    </properties>
+</struct>

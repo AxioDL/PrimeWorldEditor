@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="HoverThenHomeProjectile" type="multi">
+    <properties>
+        <property ID="0x30AA9AF1" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x845EF489" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x452426BB" type="float">
+            <default>5.0</default>
+        </property>
+        <property ID="0x5A310C3B" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0x66284BF9" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0xCB14D97C" type="float">
+            <default>-1.0</default>
+        </property>
+        <property ID="0x806D064F" type="float">
+            <default>-1.0</default>
+        </property>
+        <property ID="0x4B1C5766" type="file" extensions="CAUD"/>
+    </properties>
+</struct>

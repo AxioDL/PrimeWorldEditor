@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="UnknownStruct33" type="multi">
+    <properties>
+        <enum ID="0x2F827982">
+            <default>0x5EEE75C7</default>
+            <enumerators>
+                <enumerator ID="0x335710ED" name="Unknown 1"/>
+                <enumerator ID="0x5EEE75C7" name="Unknown 2"/>
+                <enumerator ID="0xA2EE5B07" name="Unknown 3"/>
+            </enumerators>
+        </enum>
+        <enum ID="0x74CECBEB">
+            <default>0x4FE7BA46</default>
+            <enumerators>
+                <enumerator ID="0x4FE7BA46" name="Unknown 1"/>
+                <enumerator ID="0x49C9C27C" name="Unknown 2"/>
+                <enumerator ID="0x7C21E0C1" name="Unknown 3"/>
+            </enumerators>
+        </enum>
+        <enum ID="0x23A9ADD2">
+            <default>0xA3617170</default>
+            <enumerators>
+                <enumerator ID="0xA3617170" name="Unknown 1"/>
+                <enumerator ID="0xFEFA48BE" name="Unknown 2"/>
+                <enumerator ID="0xCC63A4B7" name="Unknown 3"/>
+                <enumerator ID="0x7012519F" name="Unknown 4"/>
+                <enumerator ID="0x560F24EA" name="Unknown 5"/>
+            </enumerators>
+        </enum>
+        <property ID="0x48E58214" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x5DE325E7" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xB14C9474" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x2F1BEBAD" type="float">
+            <default>5.0</default>
+        </property>
+        <property ID="0x7F852BB9" type="float">
+            <default>5.0</default>
+        </property>
+        <property ID="0xFAFB3BFE" type="float">
+            <default>5.0</default>
+        </property>
+        <property ID="0xBE0F5BAB" type="float">
+            <default>0.0</default>
+        </property>
+        <struct ID="0xAEA70DD9" template="Structs/MayaSpline.xml"/>
+        <property ID="0x8ABC25F2" type="float">
+            <default>0.0</default>
+        </property>
+        <struct ID="0x59299E65" template="Structs/MayaSpline.xml"/>
+        <property ID="0xD54A5BD8" type="file" extensions="CAUD"/>
+        <property ID="0x4B4818EE" type="file" extensions="CAUD"/>
+        <property ID="0x4A9B4299" type="file" extensions="CAUD"/>
+        <property ID="0x2E2C202D" type="float">
+            <default>0.5</default>
+        </property>
+        <struct ID="0x15CC25FD" template="Structs/MayaSpline.xml"/>
+        <struct ID="0x9169CC59" template="Structs/MayaSpline.xml"/>
+        <struct ID="0x7DDA10CE" template="Structs/MayaSpline.xml"/>
+    </properties>
+</struct>

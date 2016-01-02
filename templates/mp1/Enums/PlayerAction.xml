@@ -1,70 +1,70 @@
 <?xml version="1.0" ?>
 <enum name="PlayerAction">
-	<enumerator value="0x0" name="Forward" />
-	<enumerator value="0x1" name="Backward" />
-	<enumerator value="0x2" name="Turn Left" />
-	<enumerator value="0x3" name="Turn Right" />
-	<enumerator value="0x4" name="Strafe Left" />
-	<enumerator value="0x5" name="Strafe Right" />
-	<enumerator value="0x6" name="Look Left" />
-	<enumerator value="0x7" name="Look Right" />
-	<enumerator value="0x8" name="Look Up" />
-	<enumerator value="0x9" name="Look Down" />
-	<enumerator value="0xA" name="Jump/Boost" />
-	<enumerator value="0xB" name="Fire/Bomb" />
-	<enumerator value="0xC" name="Missile/PowerBomb" />
-	<enumerator value="0xD" name="Morph" />
-	<enumerator value="0xE" name="Aim Up" />
-	<enumerator value="0xF" ame="Aim Down" />
-	<enumerator value="0x10" name="Cycle Beam Up" />
-	<enumerator value="0x11" name="Cycle Beam Down" />
-	<enumerator value="0x12" name="Cycle Item" />
-	<enumerator value="0x13" name="Power Beam" />
-	<enumerator value="0x14" name="Ice Beam" />
-	<enumerator value="0x15" name="Wave Beam" />
-	<enumerator value="0x16" name="Plasma Beam" />
-	<enumerator value="0x17" name="Toggle Holster" />
-	<enumerator value="0x18" name="Orbit Close" />
-	<enumerator value="0x19" name="Orbit Far" />
-	<enumerator value="0x1A" name="Orbit Object" />
-	<enumerator value="0x1B" name="Orbit Select" />
-	<enumerator value="0x1C" name="Orbit Confirm" />
-	<enumerator value="0x1D" name="Orbit Left" />
-	<enumerator value="0x1E" name="Orbit Right" />
-	<enumerator value="0x1F" name="Orbit Up" />
-	<enumerator value="0x20" name="Orbit Down" />
-	<enumerator value="0x21" name="Look Hold1" />
-	<enumerator value="0x22" name="Look Hold2" />
-	<enumerator value="0x23" name="Look Zoom In" />
-	<enumerator value="0x24" name="Look Zoom Out" />
-	<enumerator value="0x25" name="Aim Hold" />
-	<enumerator value="0x26" name="Map Circle Up" />
-	<enumerator value="0x27" name="Map Circle Down" />
-	<enumerator value="0x28" name="Map Circle Left" />
-	<enumerator value="0x29" name="Map Circle Right" />
-	<enumerator value="0x2A" name="Map Move Forward" />
-	<enumerator value="0x2B" name="Map Move Back" />
-	<enumerator value="0x2C" name="Map Move Left" />
-	<enumerator value="0x2D" name="Map Move Right" />
-	<enumerator value="0x2E" name="Map Zoom In" />
-	<enumerator value="0x2F" name="Map Zoom Out" />
-	<enumerator value="0x30" name="SpiderBall" />
-	<enumerator value="0x31" name="Chase Camera" />
-	<enumerator value="0x32" name="XRay Visor" />
-	<enumerator value="0x33" name="Thermo Visor" />
-	<enumerator value="0x34" name="Enviro Visor" />
-	<enumerator value="0x35" name="No Visor" />
-	<enumerator value="0x36" name="Visor Menu" />
-	<enumerator value="0x37" name="Visor Up" />
-	<enumerator value="0x38" name="Visor Down" />
-	<enumerator value="0x39" name="UNKNOWN" />
-	<enumerator value="0x3A" name="UNKNOWN" />
-	<enumerator value="0x3B" name="Use Shield" />
-	<enumerator value="0x3C" name="Scan Item" />
-	<enumerator value="0x3D" name="UNKNOWN" />
-	<enumerator value="0x3E" name="UNKNOWN" />
-	<enumerator value="0x3F" name="UNKNOWN" />
-	<enumerator value="0x40" name="UNKNOWN" />
-	<enumerator value="0x41" name="UNKNOWN" />
-	<enumerator value="0x42" name="UNKNOWN" />
+	<enumerator ID="0x0" name="Forward" />
+	<enumerator ID="0x1" name="Backward" />
+	<enumerator ID="0x2" name="Turn Left" />
+	<enumerator ID="0x3" name="Turn Right" />
+	<enumerator ID="0x4" name="Strafe Left" />
+	<enumerator ID="0x5" name="Strafe Right" />
+	<enumerator ID="0x6" name="Look Left" />
+	<enumerator ID="0x7" name="Look Right" />
+	<enumerator ID="0x8" name="Look Up" />
+	<enumerator ID="0x9" name="Look Down" />
+	<enumerator ID="0xA" name="Jump/Boost" />
+	<enumerator ID="0xB" name="Fire/Bomb" />
+	<enumerator ID="0xC" name="Missile/PowerBomb" />
+	<enumerator ID="0xD" name="Morph" />
+	<enumerator ID="0xE" name="Aim Up" />
+	<enumerator ID="0xF" ame="Aim Down" />
+	<enumerator ID="0x10" name="Cycle Beam Up" />
+	<enumerator ID="0x11" name="Cycle Beam Down" />
+	<enumerator ID="0x12" name="Cycle Item" />
+	<enumerator ID="0x13" name="Power Beam" />
+	<enumerator ID="0x14" name="Ice Beam" />
+	<enumerator ID="0x15" name="Wave Beam" />
+	<enumerator ID="0x16" name="Plasma Beam" />
+	<enumerator ID="0x17" name="Toggle Holster" />
+	<enumerator ID="0x18" name="Orbit Close" />
+	<enumerator ID="0x19" name="Orbit Far" />
+	<enumerator ID="0x1A" name="Orbit Object" />
+	<enumerator ID="0x1B" name="Orbit Select" />
+	<enumerator ID="0x1C" name="Orbit Confirm" />
+	<enumerator ID="0x1D" name="Orbit Left" />
+	<enumerator ID="0x1E" name="Orbit Right" />
+	<enumerator ID="0x1F" name="Orbit Up" />
+	<enumerator ID="0x20" name="Orbit Down" />
+	<enumerator ID="0x21" name="Look Hold1" />
+	<enumerator ID="0x22" name="Look Hold2" />
+	<enumerator ID="0x23" name="Look Zoom In" />
+	<enumerator ID="0x24" name="Look Zoom Out" />
+	<enumerator ID="0x25" name="Aim Hold" />
+	<enumerator ID="0x26" name="Map Circle Up" />
+	<enumerator ID="0x27" name="Map Circle Down" />
+	<enumerator ID="0x28" name="Map Circle Left" />
+	<enumerator ID="0x29" name="Map Circle Right" />
+	<enumerator ID="0x2A" name="Map Move Forward" />
+	<enumerator ID="0x2B" name="Map Move Back" />
+	<enumerator ID="0x2C" name="Map Move Left" />
+	<enumerator ID="0x2D" name="Map Move Right" />
+	<enumerator ID="0x2E" name="Map Zoom In" />
+	<enumerator ID="0x2F" name="Map Zoom Out" />
+	<enumerator ID="0x30" name="SpiderBall" />
+	<enumerator ID="0x31" name="Chase Camera" />
+	<enumerator ID="0x32" name="XRay Visor" />
+	<enumerator ID="0x33" name="Thermo Visor" />
+	<enumerator ID="0x34" name="Enviro Visor" />
+	<enumerator ID="0x35" name="No Visor" />
+	<enumerator ID="0x36" name="Visor Menu" />
+	<enumerator ID="0x37" name="Visor Up" />
+	<enumerator ID="0x38" name="Visor Down" />
+	<enumerator ID="0x39" name="UNKNOWN" />
+	<enumerator ID="0x3A" name="UNKNOWN" />
+	<enumerator ID="0x3B" name="Use Shield" />
+	<enumerator ID="0x3C" name="Scan Item" />
+	<enumerator ID="0x3D" name="UNKNOWN" />
+	<enumerator ID="0x3E" name="UNKNOWN" />
+	<enumerator ID="0x3F" name="UNKNOWN" />
+	<enumerator ID="0x40" name="UNKNOWN" />
+	<enumerator ID="0x41" name="UNKNOWN" />
+	<enumerator ID="0x42" name="UNKNOWN" />
 </enum>

@@ -1,26 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>Spinner</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <property ID="0xDE4F6A76"/>
-        <property ID="0x54E15A3C"/>
-        <property ID="0x449DD059"/>
-        <property ID="0xFC849759"/>
-        <property ID="0x50501E17"/>
-        <property ID="0x3983CBA7"/>
-        <property ID="0xF1C8A0AE"/>
-        <property ID="0xE8F0A1CE"/>
-        <property ID="0x865322CA"/>
-        <property ID="0x7147757A"/>
-        <property ID="0xA8CC48B3"/>
-        <property ID="0x12AFE499"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0xDE4F6A76" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x54E15A3C" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x449DD059" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xFC849759" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x50501E17" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x3983CBA7" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xF1C8A0AE" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xE8F0A1CE" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0x865322CA" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x7147757A" type="file" extensions="CAUD"/>
+        <property ID="0xA8CC48B3" type="file" extensions="CAUD"/>
+        <property ID="0x12AFE499" type="file" extensions="CAUD"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>

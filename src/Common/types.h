@@ -10,6 +10,4 @@ typedef signed short s16;
 typedef signed long s32;
 typedef signed long long s64;
 
-
-
 #endif // TYPES_H

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="UnknownStruct28" type="multi">
+    <properties>
+        <property ID="0xF2299ED6" type="file" extensions="FRME"/>
+        <property ID="0xC02C234F" type="file" extensions="CAUD"/>
+        <property ID="0x277C04FF" type="file" extensions="CAUD"/>
+        <property ID="0x108D9071" type="file" extensions="CAUD"/>
+        <property ID="0x75AC683C" type="file" extensions="CAUD"/>
+        <property ID="0x0C9C9C3B" type="file" extensions="CAUD"/>
+        <property ID="0x6A6AA42E" type="file" extensions="CAUD"/>
+        <property ID="0x078C819F" type="file" extensions="CAUD"/>
+        <property ID="0x4B883E6B" type="file" extensions="STRG"/>
+        <property ID="0x393D5C78" type="file" extensions="STRG"/>
+        <property ID="0x40017917" type="file" extensions="STRG"/>
+        <property ID="0x10922293" type="file" extensions="STRG"/>
+        <property ID="0x766E77C9" type="file" extensions="STRG"/>
+        <property ID="0xF15823C2" type="file" extensions="STRG"/>
+        <struct ID="0x6A598A9B" template="Structs/UnknownStruct26.xml"/>
+    </properties>
+</struct>

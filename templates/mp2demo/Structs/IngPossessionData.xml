@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="IngPossessionData" type="multi">
+    <properties>
+        <property ID="0x888FA435" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xAD54DA11" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0xF5C66384" type="long">
+            <default>-1</default>
+        </property>
+        <struct ID="0x1D852D4B" template="Structs/HealthInfo.xml">
+            <properties>
+                <property ID="0xF0668919">
+                    <default>150.0</default>
+                </property>
+                <property ID="0x3A2D17E4">
+                    <default>2.0</default>
+                </property>
+            </properties>
+        </struct>
+        <property ID="0x487E4F9A" type="float">
+            <default>2.0</default>
+        </property>
+        <property ID="0x2BEFC1BF" type="long">
+            <default>-1</default>
+        </property>
+        <struct ID="0x4AEEC093" template="Structs/DamageVulnerability.xml"/>
+    </properties>
+</struct>

@@ -1,15 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>PlayerProxy</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <property ID="0x9654AF0E"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <enum ID="0x9654AF0E">
+            <default>0xD43A816B</default>
+            <enumerators>
+                <enumerator ID="0xD43A816B" name="Unknown 1"/>
+                <enumerator ID="0xD8DC7212" name="Unknown 2"/>
+                <enumerator ID="0x88B63F61" name="Unknown 3"/>
+                <enumerator ID="0x929711CF" name="Unknown 4"/>
+                <enumerator ID="0x98ACA83D" name="Unknown 5"/>
+                <enumerator ID="0xE3EC9CAE" name="Unknown 6"/>
+                <enumerator ID="0x739501A9" name="Unknown 7"/>
+                <enumerator ID="0x521814AF" name="Unknown 8"/>
+                <enumerator ID="0x97A4BEDE" name="Unknown 9"/>
+            </enumerators>
+        </enum>
+        <property ID="0xD62F2D4E" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x0847909F" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x8927B141" type="vector3f">
+            <default>0.0, 0.0, 0.0</default>
+        </property>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>

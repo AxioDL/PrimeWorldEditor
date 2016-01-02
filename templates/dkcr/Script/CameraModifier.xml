@@ -1,18 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>CameraModifier</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <struct ID="0x106AB581" type="multi">
-            <property ID="0x3CC85F81"/>
-            <property ID="0xC6D0D3A4"/>
+            <properties>
+                <enum ID="0x3CC85F81">
+                    <default>0xE56D8C03</default>
+                    <enumerators>
+                        <enumerator ID="0xE56D8C03" name="Unknown 1"/>
+                        <enumerator ID="0x55E5A863" name="Unknown 2"/>
+                        <enumerator ID="0x70DB1A95" name="Unknown 3"/>
+                        <enumerator ID="0xA5CEA8C5" name="Unknown 4"/>
+                        <enumerator ID="0xFDC5D70D" name="Unknown 5"/>
+                        <enumerator ID="0x2CC33157" name="Unknown 6"/>
+                    </enumerators>
+                </enum>
+                <property ID="0xC6D0D3A4" type="bool">
+                    <default>false</default>
+                </property>
+            </properties>
         </struct>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
@@ -22,7 +33,8 @@
             <property name="Active" ID="0x255A4580:0x41435456"/>
         </properties>
         <assets/>
+		<preview_scale>0.5</preview_scale>
         <rotation_type>enabled</rotation_type>
-        <scale_type>disabled</scale_type>
+        <scale_type>enabled</scale_type>
     </editor>
 </ScriptTemplate>

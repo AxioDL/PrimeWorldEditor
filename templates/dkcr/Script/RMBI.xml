@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="4">
+    <name>RMBI</name>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <struct ID="0xBF81C83E" template="Structs/ShadowData.xml"/>
+        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
+        <struct ID="0x0063F638" template="Structs/UnknownStruct.xml"/>
+        <struct ID="0x43BBB1DD" template="Structs/PatternedAI.xml">
+            <properties>
+                <struct ID="0xCF90D15E">
+                    <properties>
+                        <property ID="0xF0668919">
+                            <default>1000.0</default>
+                        </property>
+                    </properties>
+                </struct>
+                <property ID="0xD9355674">
+                    <default>0.25</default>
+                </property>
+            </properties>
+        </struct>
+        <struct ID="0x6F7438CF" template="Structs/UnknownStruct44.xml"/>
+    </properties>
+    <states/>
+    <messages/>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
+            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
+        </properties>
+        <assets/>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>enabled</scale_type>
+    </editor>
+</ScriptTemplate>

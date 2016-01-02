@@ -16,7 +16,7 @@ CDamageableTriggerExtra::CDamageableTriggerExtra(CScriptObject *pInstance, CScen
     CPropertyStruct *pBaseStruct = pInstance->Properties();
 
     // Fetch render side
-    mpRenderSideProp = (CEnumProperty*) pBaseStruct->PropertyByIndex(0x5);
+    mpRenderSideProp = (TEnumProperty*) pBaseStruct->PropertyByIndex(0x5);
 
     if (mpRenderSideProp && mpRenderSideProp->Type() != eEnumProperty)
         mpRenderSideProp = nullptr;
@@ -24,7 +24,7 @@ CDamageableTriggerExtra::CDamageableTriggerExtra(CScriptObject *pInstance, CScen
     if (mpRenderSideProp) PropertyModified(mpRenderSideProp);
 
     // Fetch scale
-    mpSizeProp = (CVector3Property*) pBaseStruct->PropertyByIndex(0x2);
+    mpSizeProp = (TVector3Property*) pBaseStruct->PropertyByIndex(0x2);
 
     if (mpSizeProp && mpSizeProp->Type() != eVector3Property)
         mpSizeProp = nullptr;
@@ -34,7 +34,7 @@ CDamageableTriggerExtra::CDamageableTriggerExtra(CScriptObject *pInstance, CScen
     // Fetch textures
     for (u32 iTex = 0; iTex < 3; iTex++)
     {
-        mpTextureProps[iTex] = (CFileProperty*) pBaseStruct->PropertyByIndex(0x6 + iTex);
+        mpTextureProps[iTex] = (TFileProperty*) pBaseStruct->PropertyByIndex(0x6 + iTex);
 
         if (mpTextureProps[iTex])
         {
@@ -147,7 +147,7 @@ void CDamageableTriggerExtra::UpdatePlaneTransform()
     MarkTransformChanged();
 }
 
-void CDamageableTriggerExtra::PropertyModified(CPropertyBase *pProperty)
+void CDamageableTriggerExtra::PropertyModified(IProperty *pProperty)
 {
     if (pProperty == mpRenderSideProp)
     {

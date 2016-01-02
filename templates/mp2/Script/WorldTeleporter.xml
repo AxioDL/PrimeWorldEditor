@@ -1,40 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>WorldTeleporter</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <property ID="0x31EC14BC"/>
-        <property ID="0xE0C17804"/>
-        <property ID="0xE25FB08C"/>
-        <property ID="0xE56BA365"/>
-        <property ID="0x9703F961"/>
-        <property ID="0xCA1D9615"/>
-        <property ID="0x09F4B212"/>
-        <property ID="0x84B43BC6"/>
-        <property ID="0x2E997E0B"/>
-        <property ID="0x3133C626"/>
-        <property ID="0xC11FDB3B"/>
-        <property ID="0x80C66C37"/>
-        <property ID="0xD6088BC5"/>
-        <property ID="0xEA974B08"/>
-        <property ID="0x6C176DD6"/>
-        <property ID="0x9182250C"/>
-        <property ID="0xC54082E8"/>
-        <property ID="0xD9B2394F"/>
-        <property ID="0x353582BD"/>
-        <property ID="0x196E17D9"/>
-        <property ID="0xB28F37B1"/>
-        <property ID="0xA1C4E7F8"/>
-        <property ID="0x79CDA57C"/>
-        <property ID="0x0B5240E3"/>
-        <property ID="0x71786711"/>
-        <property ID="0x5657CA1C"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0x31EC14BC" type="file" extensions="MLVL"/>
+        <property ID="0xE0C17804" type="file" extensions="MREA"/>
+        <property ID="0xE25FB08C" type="character"/>
+        <property ID="0xE56BA365" type="vector3f">
+            <default>1.0, 1.0, 1.0</default>
+        </property>
+        <property ID="0x9703F961" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0xCA1D9615" type="vector3f">
+            <default>1.0, 1.0, 1.0</default>
+        </property>
+        <property ID="0x09F4B212" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0x84B43BC6" type="vector3f">
+            <default>1.0, 1.0, 1.0</default>
+        </property>
+        <property ID="0x2E997E0B" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0x3133C626" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0xC11FDB3B" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0x80C66C37" type="long">
+            <default>127</default>
+        </property>
+        <property ID="0xD6088BC5" type="long">
+            <default>64</default>
+        </property>
+        <property ID="0xEA974B08" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x6C176DD6" type="file" extensions="FONT"/>
+        <property ID="0x9182250C" type="file" extensions="STRG"/>
+        <property ID="0xC54082E8" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xD9B2394F" type="float">
+            <default>0.01</default>
+        </property>
+        <property ID="0x353582BD" type="float">
+            <default>8.0</default>
+        </property>
+        <property ID="0x196E17D9" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xB28F37B1" type="string"/>
+        <property ID="0xA1C4E7F8" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x79CDA57C" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x0B5240E3" type="float">
+            <default>2.0</default>
+        </property>
+        <property ID="0x71786711" type="float">
+            <default>3.0</default>
+        </property>
+        <property ID="0x5657CA1C" type="bool">
+            <default>false</default>
+        </property>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>

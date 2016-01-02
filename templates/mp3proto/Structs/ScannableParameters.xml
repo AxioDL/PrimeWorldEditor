@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="ScannableParameters" type="multi">
+    <properties>
+        <property ID="0xB94E9BE7" type="file" extensions="SCAN"/>
+    </properties>
+</struct>

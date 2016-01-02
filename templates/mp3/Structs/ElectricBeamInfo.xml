@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="ElectricBeamInfo" type="multi">
+    <properties>
+        <property ID="0x2D39450E" type="file" extensions="ELSC"/>
+        <property ID="0x1C5687CC" type="file" extensions="UNKN"/>
+        <property ID="0xC95479D4" type="file" extensions="ELSC"/>
+        <property ID="0x174455BA" type="file" extensions="CAUD"/>
+        <property ID="0x104284E6" type="float">
+            <default>1.0</default>
+        </property>
+        <struct ID="0x98821996" template="Structs/DamageInfo.xml"/>
+        <property ID="0xC26C291C" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0x78C507EB" type="float">
+            <default>0.1</default>
+        </property>
+        <property ID="0x3FED5E52" type="float">
+            <default>150.0</default>
+        </property>
+        <property ID="0x4F387C49" type="file" extensions="PART"/>
+        <property ID="0xD4124C4C" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x8F4FB79D" type="float">
+            <default>0.0</default>
+        </property>
+    </properties>
+</struct>

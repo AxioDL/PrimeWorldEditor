@@ -2,7 +2,7 @@
 #define CFONTLOADER_H
 
 #include "Core/Resource/CFont.h"
-#include "Core/Resource/EFormatVersion.h"
+#include "Core/Resource/EGame.h"
 #include "Core/Resource/CResCache.h"
 
 class CFontLoader

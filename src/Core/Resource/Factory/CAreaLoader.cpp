@@ -101,23 +101,27 @@ void CAreaLoader::ReadSCLYPrime()
         return;
     }
 
-    mpMREA->Seek(0x4, SEEK_CUR);
+    if (mVersion <= ePrime)
+        mpMREA->Seek(0x4, SEEK_CUR);
+    else
+        mpMREA->Seek(0x1, SEEK_CUR);
+
     mNumLayers = mpMREA->ReadLong();
     mpArea->mScriptLayers.reserve(mNumLayers);
 
     std::vector<u32> LayerSizes(mNumLayers);
-    for (u32 l = 0; l < mNumLayers; l++)
-        LayerSizes[l] = mpMREA->ReadLong();
+    for (u32 iLayer = 0; iLayer < mNumLayers; iLayer++)
+        LayerSizes[iLayer] = mpMREA->ReadLong();
 
-    for (u32 l = 0; l < mNumLayers; l++)
+    for (u32 iLayer = 0; iLayer < mNumLayers; iLayer++)
     {
-        u32 next = mpMREA->Tell() + LayerSizes[l];
+        u32 Next = mpMREA->Tell() + LayerSizes[iLayer];
 
-        CScriptLayer *layer = CScriptLoader::LoadLayer(*mpMREA, mpArea, mVersion);
-        if (layer)
-            mpArea->mScriptLayers.push_back(layer);
+        CScriptLayer *pLayer = CScriptLoader::LoadLayer(*mpMREA, mpArea, mVersion);
+        if (pLayer)
+            mpArea->mScriptLayers.push_back(pLayer);
 
-        mpMREA->Seek(next, SEEK_SET);
+        mpMREA->Seek(Next, SEEK_SET);
     }
 
     SetUpObjects();
@@ -572,6 +576,12 @@ CGameArea* CAreaLoader::LoadMREA(IInputStream& MREA)
             Loader.ReadLightsPrime();
             break;
         case eEchoesDemo:
+            Loader.ReadHeaderEchoes();
+            Loader.ReadGeometryPrime();
+            Loader.ReadSCLYPrime();
+            Loader.ReadCollision();
+            Loader.ReadLightsPrime();
+            break;
         case eEchoes:
             Loader.ReadHeaderEchoes();
             Loader.ReadGeometryPrime();

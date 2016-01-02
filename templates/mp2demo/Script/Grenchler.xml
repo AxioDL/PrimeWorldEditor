@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="4">
+    <name>Grenchler</name>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <struct ID="0xB3774750" template="Structs/PatternedInfo.xml">
+            <properties>
+                <property ID="0x3FAE47EB">
+                    <default>100.0</default>
+                </property>
+                <property ID="0x8A6AB139">
+                    <default>1.6</default>
+                </property>
+                <property ID="0x3011B5DF">
+                    <default>2.5</default>
+                </property>
+                <property ID="0xD9355674">
+                    <default>1.0</default>
+                </property>
+                <property ID="0x4BC4C4D9">
+                    <default>1</default>
+                </property>
+            </properties>
+        </struct>
+        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
+        <property ID="0x33408E7F" type="bool">
+            <default>false</default>
+        </property>
+        <struct ID="0x0A7326A3" template="Structs/DamageVulnerability.xml"/>
+        <property ID="0xA18F626B" type="character"/>
+        <property ID="0x0ABEF809" type="character"/>
+        <property ID="0x4F3A4566" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0x401BC111" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0xEA4B88C8" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0xAA04F0BE" type="float">
+            <default>25.0</default>
+        </property>
+        <property ID="0x98D5D373" type="float">
+            <default>2.0</default>
+        </property>
+        <property ID="0xD89AAB05" type="float">
+            <default>7.0</default>
+        </property>
+        <property ID="0x2E6096EE" type="float">
+            <default>2.0</default>
+        </property>
+        <property ID="0x6E2FEE98" type="float">
+            <default>3.0</default>
+        </property>
+        <property ID="0x49632B31" type="float">
+            <default>6.0</default>
+        </property>
+        <struct ID="0xDF636C4B" template="Structs/DamageInfo.xml">
+            <properties>
+                <property ID="0x119FBD31">
+                    <default>9</default>
+                </property>
+                <property ID="0xF2D02613">
+                    <default>5.0</default>
+                </property>
+            </properties>
+        </struct>
+        <property ID="0x262B2508" type="float">
+            <default>9.0</default>
+        </property>
+        <property ID="0x66645D7E" type="float">
+            <default>25.0</default>
+        </property>
+        <property ID="0x909E6095" type="float">
+            <default>2.0</default>
+        </property>
+        <property ID="0xD0D118E3" type="float">
+            <default>3.0</default>
+        </property>
+        <property ID="0x49FAE143" type="file" extensions="ELSC"/>
+        <struct ID="0x13E30E4D" template="Structs/DamageInfo.xml">
+            <properties>
+                <property ID="0x119FBD31">
+                    <default>9</default>
+                </property>
+                <property ID="0xF2D02613">
+                    <default>5.0</default>
+                </property>
+            </properties>
+        </struct>
+        <property ID="0x680CE795" type="float">
+            <default>45.0</default>
+        </property>
+        <property ID="0x06F7CEED" type="float">
+            <default>0.5</default>
+        </property>
+        <property ID="0x46B8B69B" type="float">
+            <default>8.0</default>
+        </property>
+        <property ID="0xB0428B70" type="float">
+            <default>2.0</default>
+        </property>
+        <property ID="0xF00DF306" type="float">
+            <default>3.0</default>
+        </property>
+        <property ID="0xB00775E6" type="float">
+            <default>20.0</default>
+        </property>
+        <property ID="0x7EF9AA67" type="long">
+            <default>-1</default>
+        </property>
+        <struct ID="0x5285DB00" template="Structs/DamageInfo.xml">
+            <properties>
+                <property ID="0x119FBD31">
+                    <default>9</default>
+                </property>
+                <property ID="0xF2D02613">
+                    <default>5.0</default>
+                </property>
+            </properties>
+        </struct>
+        <property ID="0x30B81A7E" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0xED76B137" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0xFFCEE1A9" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0x5D47E3DF" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0xF0E4D621" type="long">
+            <default>-1</default>
+        </property>
+        <struct ID="0xEDD43636" template="Structs/DamageInfo.xml"/>
+        <property ID="0x05439A08" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0xD4753FF4" type="long">
+            <default>4</default>
+        </property>
+        <property ID="0x05FC6001" type="float">
+            <default>20.0</default>
+        </property>
+        <property ID="0x8364CBB4" type="float">
+            <default>20.0</default>
+        </property>
+    </properties>
+    <states/>
+    <messages/>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
+            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
+        </properties>
+        <assets>
+            <animparams source="property">0xB3774750:0xE25FB08C</animparams>
+            <animparams source="property">0xA18F626B</animparams>
+            <animparams source="property">0x0ABEF809</animparams>
+            <animparams source="property">0x9B193AE8</animparams>
+            <animparams source="property">0xC24CF580</animparams>
+            <model source="property">0x7E397FED:0xC0BA9E18</model>
+            <model source="property">0x7E397FED:0x6B1FBC3A</model>
+            <model source="property">0x4F3A4566</model>
+            <model source="property">0x72258FE7</model>
+            <model source="property">0xE61748ED:0xAD54DA11</model>
+        </assets>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>enabled</scale_type>
+    </editor>
+</ScriptTemplate>

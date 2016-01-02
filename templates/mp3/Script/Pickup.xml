@@ -1,79 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>Pickup</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <property ID="0x16D9A75D"/>
-        <property ID="0x3A3E03BA"/>
-        <property ID="0x2E686C2A"/>
-        <enum ID="0xA02EF0C4" template="Enums/InventorySlot.xml"/>
-        <property ID="0x28C71B54"/>
-        <property ID="0x165AB069"/>
-        <property ID="0x94AF1445"/>
-        <property ID="0xF7FBAAA5"/>
-        <property ID="0xC80FC827"/>
-        <property ID="0x32DC67F6"/>
-        <property ID="0x56E3CEEF"/>
-        <property ID="0xC27FFA8F"/>
-        <property ID="0xA244C9D8"/>
-        <struct ID="0x7E397FED" type="multi">
-            <struct ID="0xB028DB0E" type="multi">
-                <property ID="0xCD639B46"/>
-                <property ID="0xA33E5B0E"/>
-                <property ID="0xA71810E9"/>
-                <property ID="0x6B5E7509"/>
-                <property ID="0x3DC5F0C6"/>
-                <property ID="0x628E6AC3"/>
-                <property ID="0xD19DE775"/>
-                <property ID="0xCAC1E778"/>
-                <property ID="0x67F4D3DE"/>
-                <property ID="0xFB7A7ABB"/>
-                <property ID="0x61A940D6"/>
-                <property ID="0x1F715FD3"/>
-            </struct>
-            <struct ID="0x375BFD7C" type="multi">
-                <property ID="0xB94E9BE7"/>
-                <property ID="0xFF4AE2EC"/>
-                <property ID="0x42087650"/>
-            </struct>
-            <property ID="0xBB52F0BE"/>
-            <property ID="0xC647755B"/>
-            <property ID="0x1499803C"/>
-            <property ID="0x90AA341F"/>
-            <property ID="0x7C269EBC"/>
-            <struct ID="0x05AD250E" type="multi">
-                <property ID="0xFE9DC266"/>
-                <property ID="0xCA19E8C6"/>
-                <property ID="0x46175A3D"/>
-                <property ID="0xCA6E30B1"/>
-            </struct>
-            <property ID="0x799263F1"/>
-            <property ID="0xED3A6E87"/>
-            <property ID="0xF07981E8"/>
-            <property ID="0x4D55F7D4"/>
-            <property ID="0xE315EE72"/>
-            <property ID="0x583895FA"/>
-            <property ID="0xC712847C"/>
-            <property ID="0x701B61B3"/>
-        </struct>
-        <property ID="0xE585F166"/>
-        <property ID="0xA9FE872A"/>
-        <property ID="0xE10BCB96"/>
-        <property ID="0xCE33239F"/>
-        <property ID="0x2DE4A294"/>
-        <property ID="0xA6EA280D"/>
-        <property ID="0xC2B11CFD"/>
-        <property ID="0x2DB59FCF"/>
-        <property ID="0x961C0D17"/>
-        <property ID="0xA755EB02"/>
-        <property ID="0x850115E4"/>
-        <property ID="0xA09D4A1F"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <struct ID="0x16D9A75D" template="Structs/LayerID.xml"/>
+        <property ID="0x3A3E03BA" type="vector3f">
+            <default>0.0, 0.0, 0.0</default>
+        </property>
+        <property ID="0x2E686C2A" type="vector3f">
+            <default>0.0, 0.0, 0.0</default>
+        </property>
+        <enum ID="0xA02EF0C4" template="Enums/InventorySlot.xml">
+            <default>0xFB73F2B8</default>
+        </enum>
+        <property ID="0x28C71B54" type="long">
+            <default>1</default>
+        </property>
+        <property ID="0x165AB069" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0x94AF1445" type="long">
+            <default>1</default>
+        </property>
+        <property ID="0xF7FBAAA5" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xC80FC827" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x32DC67F6" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x56E3CEEF" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xC27FFA8F" type="file" extensions="CMDL"/>
+        <property ID="0xA244C9D8" type="character"/>
+        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
+        <property ID="0xE585F166" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xA9FE872A" type="file" extensions="PART"/>
+        <property ID="0xE10BCB96" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xCE33239F" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0x2DE4A294" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xA6EA280D" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xC2B11CFD" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x2DB59FCF" type="float">
+            <default>20.0</default>
+        </property>
+        <property ID="0x961C0D17" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xA755EB02" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x850115E4" type="vector3f">
+            <default>0.0, 0.0, 0.0</default>
+        </property>
+        <property ID="0xA09D4A1F" type="bool">
+            <default>false</default>
+        </property>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>

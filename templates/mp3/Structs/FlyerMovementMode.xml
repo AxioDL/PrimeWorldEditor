@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="FlyerMovementMode" type="multi">
+    <properties>
+        <property ID="0x6392404E" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0x39FB7978" type="float">
+            <default>5.0</default>
+        </property>
+        <property ID="0xE34DC703" type="float">
+            <default>1080.0</default>
+        </property>
+        <property ID="0x6C6426C8" type="float">
+            <default>90.0</default>
+        </property>
+        <property ID="0xC0AC271E" type="float">
+            <default>30.0</default>
+        </property>
+        <property ID="0x9699FA45" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0x50A9BD0D" type="float">
+            <default>3.0</default>
+        </property>
+        <property ID="0x1A7B77AB" type="float">
+            <default>2.0</default>
+        </property>
+        <property ID="0xDCD1597D" type="float">
+            <default>2.0</default>
+        </property>
+        <property ID="0x3AB1F69C" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x6581358C" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x115BB38C" type="float">
+            <default>1.0</default>
+        </property>
+    </properties>
+</struct>

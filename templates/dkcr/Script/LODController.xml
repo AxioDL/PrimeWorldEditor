@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="4">
+    <name>LODController</name>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0x00B17E5F" type="long">
+            <default>1</default>
+        </property>
+        <property ID="0x03BEE47E" type="file" extensions="UNKN"/>
+        <property ID="0xA1018EF9" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x852A96D0" type="file" extensions="UNKN"/>
+        <property ID="0x2795FC57" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x4E764575" type="file" extensions="UNKN"/>
+        <property ID="0xECC92FF2" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x537375CD" type="file" extensions="UNKN"/>
+        <property ID="0xF1CC1F4A" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x982FA668" type="file" extensions="UNKN"/>
+        <property ID="0x3A90CCEF" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x1EBBD4C6" type="file" extensions="UNKN"/>
+        <property ID="0xBC04BE41" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xD5E70763" type="file" extensions="UNKN"/>
+        <property ID="0x77586DE4" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x24B1B5B6" type="file" extensions="UNKN"/>
+        <property ID="0x860EDF31" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xEFED6613" type="file" extensions="UNKN"/>
+        <property ID="0x4D520C94" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x6E953C6F" type="file" extensions="UNKN"/>
+        <property ID="0xCC2A56E8" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xB67E3BF9" type="bool">
+            <default>true</default>
+        </property>
+    </properties>
+    <states/>
+    <messages/>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
+        </properties>
+        <assets/>
+		<preview_scale>0.5</preview_scale>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>enabled</scale_type>
+    </editor>
+</ScriptTemplate>

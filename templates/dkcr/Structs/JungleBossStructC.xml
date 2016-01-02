@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="JungleBossStructC" type="multi">
+    <properties>
+        <property ID="0xCB349144" type="long">
+            <default>3</default>
+        </property>
+        <property ID="0xC8401FCE" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x0ECC390F" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xC4CFB8DE" type="float">
+            <default>35.0</default>
+        </property>
+    </properties>
+</struct>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="RagDollData" type="multi">
+    <properties>
+        <property ID="0x9E235C61" type="vector3f">
+            <default>0.0, 0.0, -50.0</default>
+        </property>
+        <property ID="0x6AB0341A" type="float">
+            <default>8000.0</default>
+        </property>
+        <property ID="0x43C02224" type="float">
+            <default>1.2</default>
+        </property>
+        <property ID="0xA0421AA5" type="vector3f">
+            <default>0.0, 0.0, -3.0</default>
+        </property>
+        <property ID="0x6BD4E178" type="float">
+            <default>1000.0</default>
+        </property>
+        <property ID="0x446A33F5" type="float">
+            <default>0.125</default>
+        </property>
+        <property ID="0x08B331CE" type="float">
+            <default>0.85</default>
+        </property>
+        <property ID="0x91936B5E" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x81D40910" type="float">
+            <default>3000.0</default>
+        </property>
+        <property ID="0x16407ED9" type="float">
+            <default>0.5</default>
+        </property>
+        <property ID="0x03E7B2B4" type="float">
+            <default>5.0</default>
+        </property>
+        <property ID="0xE190F77D" type="file" extensions="CAUD"/>
+        <property ID="0xCE5D16C3" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xA99A0E33" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0xE7B88D51" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x7DE2E6BA" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xE1107C4A" type="bool">
+            <default>false</default>
+        </property>
+        <enum ID="0xB674EA3D">
+            <default>0x902E534E</default>
+            <enumerators>
+                <enumerator ID="0x6851D062" name="Unknown 1"/>
+                <enumerator ID="0x1DD8284C" name="Unknown 2"/>
+                <enumerator ID="0x902E534E" name="Unknown 3"/>
+            </enumerators>
+        </enum>
+        <property ID="0x96BB302A" type="vector3f">
+            <default>0.0, 0.0, 1.0</default>
+        </property>
+        <property ID="0x4414D99C" type="float">
+            <default>0.0</default>
+        </property>
+    </properties>
+</struct>

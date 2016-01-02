@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="IslandAreaStruct" type="multi">
+    <properties>
+        <property ID="0x5FED5C9D" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0x0C5B4DE6" type="file" extensions="STRG"/>
+        <property ID="0x01417435" type="file" extensions="STRG"/>
+    </properties>
+</struct>

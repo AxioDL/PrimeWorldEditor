@@ -1,25 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>OceanWave</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <property ID="0xC27FFA8F"/>
-        <struct ID="0x7E397FED" type="multi">
-            <struct ID="0xB028DB0E" type="multi">
-                <property ID="0x1F715FD3"/>
-            </struct>
-        </struct>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0xC27FFA8F" type="file" extensions="CMDL"/>
+        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
         <struct ID="0x7CF4790F" type="multi">
-            <property ID="0x672255F7"/>
-            <property ID="0x3217DFF8"/>
-            <property ID="0x25B7C9B2"/>
+            <properties>
+                <struct ID="0x672255F7" template="Structs/MayaSpline.xml"/>
+                <property ID="0x3217DFF8" type="bool">
+                    <default>true</default>
+                </property>
+                <property ID="0x8B51E23F" type="float">
+                    <default>12.0</default>
+                </property>
+                <property ID="0x396861D0" type="float">
+                    <default>12.0</default>
+                </property>
+                <property ID="0x25B7C9B2" type="float">
+                    <default>55.0</default>
+                </property>
+                <property ID="0x73BEF3CB" type="long">
+                    <default>4</default>
+                </property>
+                <property ID="0xB7074F38" type="float">
+                    <default>0.0</default>
+                </property>
+                <property ID="0x30A1847B" type="float">
+                    <default>3.0</default>
+                </property>
+                <property ID="0x633BDFFF" type="float">
+                    <default>6.0</default>
+                </property>
+                <property ID="0xE49D14BC" type="float">
+                    <default>9.0</default>
+                </property>
+            </properties>
         </struct>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>

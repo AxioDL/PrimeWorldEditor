@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="FlareDef" type="multi">
+    <properties>
+        <property ID="0xD1F65872" type="file" extensions="TXTR"/>
+        <property ID="0xCB99B4DA" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x2C51A676" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x37C7D09D" type="color">
+            <default>1.0, 1.0, 1.0, 1.0</default>
+        </property>
+    </properties>
+</struct>

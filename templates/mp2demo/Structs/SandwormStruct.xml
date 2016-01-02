@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="SandwormStruct" type="multi">
+    <properties>
+        <property ID="0x4B1C3BDA" type="float">
+            <default>-10.0</default>
+        </property>
+        <property ID="0x0699FB0A" type="float">
+            <default>15.0</default>
+        </property>
+        <property ID="0x850FB518" type="float">
+            <default>15.0</default>
+        </property>
+        <property ID="0x2AACEC2F" type="float">
+            <default>15.0</default>
+        </property>
+        <property ID="0x86521C41" type="float">
+            <default>15.0</default>
+        </property>
+    </properties>
+</struct>

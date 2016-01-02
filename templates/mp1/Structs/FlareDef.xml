@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="FlareDef" type="multi">
-    <property ID="0x00" name="Texture" type="file" ext="TXTR"/>
-    <property ID="0x01" name="Unknown 1" type="float"/>
-    <property ID="0x02" name="Unknown 2" type="float"/>
-    <property ID="0x03" name="Unknown 3" type="color"/>
+<struct name="FlareDef.xml" type="multi">
+    <properties>
+        <property ID="0x00" name="Texture" type="file" extensions="TXTR"/>
+        <property ID="0x01" name="Unknown 1" type="float"/>
+        <property ID="0x02" name="Unknown 2" type="float"/>
+        <property ID="0x03" name="Unknown 3" type="color"/>
+    </properties>
 </struct>

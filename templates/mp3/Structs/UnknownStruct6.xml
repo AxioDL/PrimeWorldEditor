@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="UnknownStruct6" type="multi">
+    <properties>
+        <property ID="0xA14433C3" type="float">
+            <default>35.0</default>
+        </property>
+        <property ID="0xAFE48213" type="float">
+            <default>25.0</default>
+        </property>
+        <property ID="0x05A5D4D0" type="float">
+            <default>15.0</default>
+        </property>
+        <property ID="0xD5780905" type="float">
+            <default>25.0</default>
+        </property>
+    </properties>
+</struct>

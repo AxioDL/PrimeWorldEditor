@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="SwampBossStage1Struct" type="multi">
+    <properties>
+        <property ID="0x98106EE2" type="float">
+            <default>50.0</default>
+        </property>
+        <property ID="0x95E7A2C2" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x76BA1C18" type="float">
+            <default>3.0</default>
+        </property>
+        <property ID="0xBB0FFDD6" type="long">
+            <default>3</default>
+        </property>
+        <property ID="0x60B0AE31" type="long">
+            <default>3</default>
+        </property>
+        <property ID="0x9CFA9ACB" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0x180F81DD" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0x42617CFD" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0xC39F864E" type="long">
+            <default>0</default>
+        </property>
+    </properties>
+</struct>

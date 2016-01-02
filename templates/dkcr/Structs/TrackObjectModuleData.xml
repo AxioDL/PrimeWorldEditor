@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="TrackObjectModuleData" type="multi">
+    <properties>
+        <property ID="0x04F3DE3A" type="float">
+            <default>15.0</default>
+        </property>
+        <property ID="0x036DC8DD" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0x37A12336" type="float">
+            <default>5.0</default>
+        </property>
+    </properties>
+</struct>

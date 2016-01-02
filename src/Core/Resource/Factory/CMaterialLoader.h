@@ -2,7 +2,7 @@
 #define CMATERIALLOADER_H
 
 #include "Core/Resource/CMaterialSet.h"
-#include "Core/Resource/EFormatVersion.h"
+#include "Core/Resource/EGame.h"
 #include "Core/Resource/CResCache.h"
 
 #include <FileIO/FileIO.h>

@@ -1,29 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>FogOverlay</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <property ID="0x547B28D5"/>
-        <property ID="0xF977CB35"/>
-        <property ID="0x0D21D348"/>
-        <property ID="0xEB250A0B"/>
-        <property ID="0x37C7D09D"/>
-        <property ID="0x1B9046D6"/>
-        <property ID="0xD0CC9573"/>
-        <property ID="0xF76BCBDD"/>
-        <property ID="0x2C4C6785"/>
-        <property ID="0x6A111B96"/>
-        <property ID="0xFF226EA3"/>
-        <property ID="0x2190AB0A"/>
-        <property ID="0x9F19F0AF"/>
-        <property ID="0x90C10FE7"/>
-        <property ID="0xD8DAFF1D"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0x547B28D5" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0xF977CB35" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x0D21D348" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0xEB250A0B" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x37C7D09D" type="color">
+            <default>1.0, 1.0, 1.0, 0.0</default>
+        </property>
+        <property ID="0x1B9046D6" type="float">
+            <default>0.5</default>
+        </property>
+        <property ID="0xD0CC9573" type="float">
+            <default>0.2</default>
+        </property>
+        <property ID="0xF76BCBDD" type="float">
+            <default>0.1</default>
+        </property>
+        <property ID="0x2C4C6785" type="float">
+            <default>0.1</default>
+        </property>
+        <property ID="0x6A111B96" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0xFF226EA3" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x2190AB0A" type="vector3f">
+            <default>0.0, 0.0, 0.0</default>
+        </property>
+        <property ID="0x9F19F0AF" type="float">
+            <default>0.1</default>
+        </property>
+        <property ID="0x90C10FE7" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0xD8DAFF1D" type="float">
+            <default>1.0</default>
+        </property>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>

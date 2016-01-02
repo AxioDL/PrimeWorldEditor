@@ -2,8 +2,8 @@
 #define CSCRIPTOBJECT_H
 
 #include "SConnection.h"
-#include "CProperty.h"
-#include "CPropertyTemplate.h"
+#include "IProperty.h"
+#include "IPropertyTemplate.h"
 #include "CScriptTemplate.h"
 #include "Core/Resource/Model/CModel.h"
 #include "Core/Resource/CCollisionMeshGroup.h"
@@ -19,17 +19,18 @@ class CScriptObject
     CScriptTemplate *mpTemplate;
     TResPtr<CGameArea> mpArea;
     CScriptLayer *mpLayer;
+    u32 mVersion;
 
     u32 mInstanceID;
     std::vector<SLink> mOutConnections;
     std::vector<SLink> mInConnections;
     CPropertyStruct *mpProperties;
 
-    CStringProperty *mpInstanceName;
-    CVector3Property *mpPosition;
-    CVector3Property *mpRotation;
-    CVector3Property *mpScale;
-    CBoolProperty *mpActive;
+    TStringProperty *mpInstanceName;
+    TVector3Property *mpPosition;
+    TVector3Property *mpRotation;
+    TVector3Property *mpScale;
+    TBoolProperty *mpActive;
     CPropertyStruct *mpLightParameters;
     TResPtr<CModel> mpDisplayModel;
     TResPtr<CTexture> mpBillboard;
@@ -43,7 +44,6 @@ public:
     CScriptObject(CGameArea *pArea, CScriptLayer *pLayer, CScriptTemplate *pTemplate);
     ~CScriptObject();
 
-    void CopyFromTemplate(CScriptTemplate *pTemp, u32 propCount);
     void EvaluateProperties();
     void EvaluateDisplayModel();
     void EvaluateBillboard();
@@ -53,10 +53,11 @@ public:
     CMasterTemplate* MasterTemplate() const;
     CGameArea* Area() const;
     CScriptLayer* Layer() const;
+    u32 Version() const;
     CPropertyStruct* Properties() const;
     u32 NumProperties() const;
-    CPropertyBase* PropertyByIndex(u32 index) const;
-    CPropertyBase* PropertyByIDString(const TIDString& str) const;
+    IProperty* PropertyByIndex(u32 index) const;
+    IProperty* PropertyByIDString(const TIDString& str) const;
     u32 ObjectTypeID() const;
     u32 InstanceID() const;
     u32 NumInLinks() const;

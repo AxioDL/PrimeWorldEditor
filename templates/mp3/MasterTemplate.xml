@@ -1,187 +1,213 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<MasterTemplate version="3">
+<MasterTemplate version="4">
     <properties>Properties.xml</properties>
     <objects>
-        <object ID="ACHI" template="Script/Achievement.xml"/>
-        <object ID="ACKF" template="Script/ActorKeyframe.xml"/>
-        <object ID="ACTR" template="Script/Actor.xml"/>
+        <object ID="AIFZ" template="Script/AIFuse.xml"/>
+        <object ID="AIHT" template="Script/AIHint.xml"/>
+        <object ID="AIKF" template="Script/AIKeyframe.xml"/>
         <object ID="AITP" template="Script/AITaskPoint.xml"/>
         <object ID="AIWP" template="Script/AIWaypoint.xml"/>
-        <object ID="ALRM" template="Script/AlarmController.xml"/>
+        <object ID="ACHI" template="Script/Achievement.xml"/>
+        <object ID="ACTR" template="Script/Actor.xml"/>
+        <object ID="ACKF" template="Script/ActorKeyframe.xml"/>
         <object ID="AMOR" template="Script/ActorMorph.xml"/>
-        <object ID="AOCL" template="Script/AudioOccluder.xml"/>
-        <object ID="ASAS" template="Script/ASAS.xml"/>
-        <object ID="ATMA" template="Script/AtomicAlpha.xml"/>
         <object ID="ATRN" template="Script/ActorTransform.xml"/>
+        <object ID="ALRM" template="Script/AlarmController.xml"/>
+        <object ID="AMIA" template="Script/AmbientAI.xml"/>
+        <object ID="REAA" template="Script/AreaAttributes.xml"/>
+        <object ID="ADMG" template="Script/AreaDamage.xml"/>
+        <object ID="ASAS" template="Script/ASAS.xml"/>
+        <object ID="AVMC" template="Script/AVMC.xml"/>
+        <object ID="ATMA" template="Script/AtomicAlpha.xml"/>
+        <object ID="AOCL" template="Script/AudioOccluder.xml"/>
+        <object ID="AVIS" template="Script/AVIS.xml"/>
         <object ID="AUR1" template="Script/AuroraUnit1.xml"/>
         <object ID="AUR2" template="Script/AuroraUnit2.xml"/>
-        <object ID="AVIS" template="Script/AVIS.xml"/>
-        <object ID="AVMC" template="Script/AVMC.xml"/>
         <object ID="BALT" template="Script/BallTrigger.xml"/>
-        <object ID="BALW" template="Script/SpiderBallWaypoint.xml"/>
-        <object ID="BLUR" template="Script/CameraBlurKeyframe.xml"/>
-        <object ID="BLWF" template="Script/BlinkWolf.xml"/>
-        <object ID="BOS3" template="Script/SeedBoss3.xml"/>
-        <object ID="BSKR" template="Script/Berserker.xml"/>
+        <object ID="BEAM" template="Script/Beam.xml"/>
         <object ID="BSTR" template="Script/BeastRider.xml"/>
+        <object ID="BSKR" template="Script/Berserker.xml"/>
+        <object ID="BLWF" template="Script/BlinkWolf.xml"/>
         <object ID="CABL" template="Script/Cable.xml"/>
-        <object ID="CABP" template="Script/ContextActionButtonPressing.xml"/>
-        <object ID="CACL" template="Script/ContextActionCombinationLock.xml"/>
-        <object ID="CAIF" template="Script/ContextActionImageFocus.xml"/>
+        <object ID="BLUR" template="Script/CameraBlurKeyframe.xml"/>
+        <object ID="FILT" template="Script/CameraFilterKeyframe.xml"/>
         <object ID="CAMH" template="Script/CameraHint.xml"/>
         <object ID="CAMP" template="Script/CameraPitch.xml"/>
         <object ID="CAMS" template="Script/CameraShaker.xml"/>
         <object ID="CANB" template="Script/CannonBall.xml"/>
-        <object ID="CAWL" template="Script/ContextActionWelding.xml"/>
         <object ID="CINE" template="Script/CinematicCamera.xml"/>
         <object ID="CLRM" template="Script/ColorModulate.xml"/>
         <object ID="CMBT" template="Script/CombatTrooper.xml"/>
+        <object ID="CRLY" template="Script/ConditionalRelay.xml"/>
+        <object ID="CABP" template="Script/ContextActionButtonPressing.xml"/>
+        <object ID="CACL" template="Script/ContextActionCombinationLock.xml"/>
+        <object ID="CAIF" template="Script/ContextActionImageFocus.xml"/>
+        <object ID="CAWL" template="Script/ContextActionWelding.xml"/>
+        <object ID="CSAC" template="Script/ContextSensitiveAction.xml"/>
+        <object ID="CSAT" template="Script/ContextSensitiveActivator.xml"/>
+        <object ID="CTLH" template="Script/ControlHint.xml"/>
         <object ID="CNTA" template="Script/ControllerAction.xml"/>
         <object ID="CNTR" template="Script/Counter.xml"/>
         <object ID="COVR" template="Script/CoverPoint.xml"/>
         <object ID="CRAR" template="Script/CrossAreaRelay.xml"/>
-        <object ID="CRLY" template="Script/ConditionalRelay.xml"/>
-        <object ID="CSAC" template="Script/ContextSensitiveAction.xml"/>
-        <object ID="CSAT" template="Script/ContextSensitiveActivator.xml"/>
-        <object ID="CTLH" template="Script/ControlHint.xml"/>
-        <object ID="DEBR" template="Script/Debris.xml"/>
-        <object ID="DEFM" template="Script/DefenseMechanoid.xml"/>
-        <object ID="DFOG" template="Script/DistanceFog.xml"/>
-        <object ID="DGMN" template="Script/DialogueMenu.xml"/>
-        <object ID="DKSE" template="Script/DarkSamusEcho.xml"/>
-        <object ID="DLHT" template="Script/DynamicLight.xml"/>
         <object ID="DMGA" template="Script/DamageActor.xml"/>
-        <object ID="DOCK" template="Script/Dock.xml"/>
-        <object ID="DOOR" template="Script/Door.xml"/>
-        <object ID="DRKS" template="Script/DarkSamus.xml"/>
         <object ID="DTRG" template="Script/DamageableTrigger.xml"/>
         <object ID="DTRO" template="Script/DamageableTriggerOrientated.xml"/>
+        <object ID="DRKS" template="Script/DarkSamus.xml"/>
+        <object ID="DKSE" template="Script/DarkSamusEcho.xml"/>
+        <object ID="DEBR" template="Script/Debris.xml"/>
+        <object ID="DEFM" template="Script/DefenseMechanoid.xml"/>
+        <object ID="DGMN" template="Script/DialogueMenu.xml"/>
+        <object ID="DFOG" template="Script/DistanceFog.xml"/>
+        <object ID="DOCK" template="Script/Dock.xml"/>
+        <object ID="DOOR" template="Script/Door.xml"/>
+        <object ID="DLHT" template="Script/DynamicLight.xml"/>
+        <object ID="EMPU" template="Script/ElectroMagneticPulse.xml"/>
         <object ID="EFCT" template="Script/Effect.xml"/>
-        <object ID="EMPU" template="Script/EMPulse.xml"/>
+        <object ID="EFTR" template="Script/EffectRepulsor.xml"/>
+        <object ID="FXDC" template="Script/EnvFxDensityController.xml"/>
         <object ID="EYEP" template="Script/EyePod.xml"/>
-        <object ID="FGHS" template="Script/FargullHatcherSwarm.xml"/>
-        <object ID="FGHT" template="Script/FargullHatcher.xml"/>
-        <object ID="FILT" template="Script/CameraFilterKeyframe.xml"/>
-        <object ID="FISH" template="Script/FishCloud.xml"/>
         <object ID="FLPS" template="Script/FalsePerspective.xml"/>
-        <object ID="FLYP" template="Script/FlyingPirate.xml"/>
-        <object ID="FOGO" template="Script/FogOverlay.xml"/>
-        <object ID="FRND" template="Script/Friendly.xml"/>
+        <object ID="FGHT" template="Script/FargullHatcher.xml"/>
+        <object ID="FGHS" template="Script/FargullHatcherSwarm.xml"/>
+        <object ID="FISH" template="Script/FishCloud.xml"/>
         <object ID="FSHM" template="Script/FishCloudModifier.xml"/>
         <object ID="FSWM" template="Script/FlyerSwarm.xml"/>
-        <object ID="FXDC" template="Script/EnvFxDensityController.xml"/>
+        <object ID="FLYP" template="Script/FlyingPirate.xml"/>
+        <object ID="FOGO" template="Script/FogOverlay.xml"/>
+        <object ID="FOGV" template="Script/FogVolume.xml"/>
+        <object ID="FRND" template="Script/Friendly.xml"/>
         <object ID="GAND" template="Script/Gandrayda.xml"/>
+        <object ID="GSAC" template="Script/GellSac.xml"/>
+        <object ID="GOBD" template="Script/GeneratedObjectDeleter.xml"/>
         <object ID="GENR" template="Script/Generator.xml"/>
         <object ID="GHOR" template="Script/GhorLowerBody.xml"/>
         <object ID="GHRU" template="Script/GhorUpperBody.xml"/>
+        <object ID="GRFL" template="Script/GragnolFlyer.xml"/>
+        <object ID="GRAP" template="Script/GrapplePoint.xml"/>
         <object ID="GMNU" template="Script/GuiMenu.xml"/>
+        <object ID="GSCR" template="Script/GuiScreen.xml"/>
+        <object ID="GSLD" template="Script/GuiSlider.xml"/>
+        <object ID="GWIG" template="Script/GuiWidget.xml"/>
         <object ID="GNTB" template="Script/GunTurretBase.xml"/>
         <object ID="GNTT" template="Script/GunTurretTop.xml"/>
-        <object ID="GOBD" template="Script/GeneratedObjectDeleter.xml"/>
-        <object ID="GRAP" template="Script/GrapplePoint.xml"/>
-        <object ID="GRFL" template="Script/GragnolFlyer.xml"/>
-        <object ID="GSAC" template="Script/GellSac.xml"/>
-        <object ID="GSCR" template="Script/GuiScreen.xml"/>
-        <object ID="HINT" template="Script/PlayerHint.xml"/>
+        <object ID="HHNT" template="Script/HUDHint.xml"/>
+        <object ID="MEMO" template="Script/HUDMemo.xml"/>
         <object ID="IFTC" template="Script/IFTC.xml"/>
         <object ID="KRAK" template="Script/Korakk.xml"/>
-        <object ID="KRBA" template="Script/KorbaSnatcherSwarm.xml"/>
         <object ID="KRBM" template="Script/KorbaMaw.xml"/>
+        <object ID="KRBA" template="Script/KorbaSnatcherSwarm.xml"/>
+        <object ID="LODC" template="Script/LODController.xml"/>
         <object ID="LUAX" template="Script/LUAScript.xml"/>
         <object ID="LVOL" template="Script/LightVolume.xml"/>
-        <object ID="MEMO" template="Script/HUDMemo.xml"/>
+        <object ID="MRLY" template="Script/MemoryRelay.xml"/>
+        <object ID="MREE" template="Script/Metaree.xml"/>
         <object ID="MHAT" template="Script/MetroidHatcher.xml"/>
         <object ID="MHOP" template="Script/MetroidHopper.xml"/>
-        <object ID="MIIA" template="Script/MIIA.xml"/>
+        <object ID="MPHZ" template="Script/MetroidPhazeoid.xml"/>
+        <object ID="MIIA" template="Script/MiiAccessory.xml"/>
         <object ID="MINI" template="Script/MinorIng.xml"/>
         <object ID="MMDL" template="Script/MultiModelActor.xml"/>
-        <object ID="MOVI" template="Script/StreamedMovie.xml"/>
-        <object ID="MPHZ" template="Script/MetroidPhazeoid.xml"/>
-        <object ID="MREE" template="Script/Metaree.xml"/>
-        <object ID="MRLY" template="Script/MemoryRelay.xml"/>
+        <object ID="MYSF" template="Script/MysteryFlyer.xml"/>
+        <object ID="NBAR" template="Script/NBAR.xml"/>
         <object ID="NOTU" template="Script/NoseTurret.xml"/>
-        <object ID="PCKP" template="Script/Pickup.xml"/>
+        <object ID="OPAA" template="Script/OptionalAreaAsset.xml"/>
+        <object ID="PARA" template="Script/Parasite.xml"/>
         <object ID="PCTL" template="Script/PathControl.xml"/>
-        <object ID="PDRN" template="Script/PirateDrone.xml"/>
-        <object ID="PHHR" template="Script/PhazonHarvester.xml"/>
-        <object ID="PHPF" template="Script/PhazonPuffer.xml"/>
+        <object ID="PMCT" template="Script/PathMeshCtrl.xml"/>
         <object ID="PHZD" template="Script/Phaazoid.xml"/>
         <object ID="PHZS" template="Script/PhazonFlyerSwarm.xml"/>
-        <object ID="PILL" template="Script/PillBug.xml"/>
-        <object ID="PIRT" template="Script/SpacePirate.xml"/>
-        <object ID="PLAC" template="Script/PlayerActor.xml"/>
-        <object ID="PLAT" template="Script/Platform.xml"/>
+        <object ID="PHHR" template="Script/PhazonHarvester.xml"/>
         <object ID="PLCH" template="Script/PhazonLeech.xml"/>
-        <object ID="PLPX" template="Script/PlayerProxy.xml"/>
-        <object ID="PMCT" template="Script/PathMeshCtrl.xml"/>
-        <object ID="POIN" template="Script/PointOfInterest.xml"/>
         <object ID="PPDL" template="Script/PhazonPuddle.xml"/>
+        <object ID="PHPF" template="Script/PhazonPuffer.xml"/>
+        <object ID="PTNT" template="Script/PhazonTentacle.xml"/>
+        <object ID="PDBR" template="Script/PhysicsDebris.xml"/>
+        <object ID="PCKP" template="Script/Pickup.xml"/>
+        <object ID="PILL" template="Script/PillBug.xml"/>
+        <object ID="PDRN" template="Script/PirateDrone.xml"/>
+        <object ID="PSSM" template="Script/PlantScarabSwarm.xml"/>
+        <object ID="PLAT" template="Script/Platform.xml"/>
+        <object ID="PLAC" template="Script/PlayerActor.xml"/>
+        <object ID="PGVS" template="Script/PlayerGravityScalar.xml"/>
+        <object ID="HINT" template="Script/PlayerHint.xml"/>
+        <object ID="PLPX" template="Script/PlayerProxy.xml"/>
         <object ID="PUAP" template="Script/PlayerUserAnimPoint.xml"/>
+        <object ID="POIN" template="Script/PointOfInterest.xml"/>
+        <object ID="SPRL" template="Script/PositionRelay.xml"/>
         <object ID="PUFR" template="Script/Puffer.xml"/>
         <object ID="RADD" template="Script/RadialDamage.xml"/>
-        <object ID="REAA" template="Script/AreaAttributes.xml"/>
+        <object ID="RSPL" template="Script/RSPL.xml"/>
+        <object ID="SRLY" template="Script/Relay.xml"/>
+        <object ID="RRLY" template="Script/RandomRelay.xml"/>
         <object ID="REPH" template="Script/ReptilicusHunter.xml"/>
         <object ID="REPL" template="Script/Repulsor.xml"/>
         <object ID="RID1" template="Script/Ridley1.xml"/>
         <object ID="RIPL" template="Script/Ripple.xml"/>
         <object ID="RMAC" template="Script/RoomAcoustics.xml"/>
-        <object ID="RRLY" template="Script/RandomRelay.xml"/>
         <object ID="RUMB" template="Script/RumbleEffect.xml"/>
         <object ID="RUND" template="Script/Rundas.xml"/>
-        <object ID="SAMD" template="Script/StreamedAudioModifier.xml"/>
         <object ID="SAMF" template="Script/SamusForm.xml"/>
+        <object ID="SBEM" template="Script/ScanBeam.xml"/>
+        <object ID="SCIC" template="Script/SCIC.xml"/>
+        <object ID="SWJT" template="Script/ScrewAttackWallJumpTarget.xml"/>
+        <object ID="SLCT" template="Script/ScriptLayerController.xml"/>
+        <object ID="SDB1" template="Script/SeedBoss1.xml"/>
+        <object ID="SBO1" template="Script/SeedBoss1Orb.xml"/>
+        <object ID="SB2X" template="Script/SeedBoss2BotSwarm.xml"/>
         <object ID="SB2G" template="Script/SeedBoss2GiantForm.xml"/>
         <object ID="SB2P" template="Script/SeedBoss2PrimeBot.xml"/>
-        <object ID="SB2X" template="Script/SeedBoss2BotSwarm.xml"/>
-        <object ID="SBEM" template="Script/ScanBeam.xml"/>
-        <object ID="SBMI" template="Script/SkyboxModInca.xml"/>
-        <object ID="SBO1" template="Script/SeedBoss1Orb.xml"/>
-        <object ID="SCIC" template="Script/SCIC.xml"/>
-        <object ID="SCTL" template="Script/SurfaceControl.xml"/>
-        <object ID="SDB1" template="Script/SeedBoss1.xml"/>
-        <object ID="SDRN" template="Script/SteamDrone.xml"/>
-        <object ID="SHBG" template="Script/ShellBug.xml"/>
-        <object ID="SHBR" template="Script/ShipBombingRun.xml"/>
-        <object ID="SHCI" template="Script/ShipCommandIcon.xml"/>
-        <object ID="SHCP" template="Script/ShipCommandPath.xml"/>
-        <object ID="SHDW" template="Script/ShadowProjector.xml"/>
-        <object ID="SHHC" template="Script/ShipHudControl.xml"/>
-        <object ID="SHIP" template="Script/Ship.xml"/>
-        <object ID="SHPX" template="Script/ShipProxy.xml"/>
-        <object ID="SLCT" template="Script/ScriptLayerController.xml"/>
-        <object ID="SNAG" template="Script/SnagVineHelper.xml"/>
-        <object ID="SNDM" template="Script/SoundModifier.xml"/>
-        <object ID="SOND" template="Script/Sound.xml"/>
-        <object ID="SPDC" template="Script/ShipDecalController.xml"/>
-        <object ID="SPFN" template="Script/SpecialFunction.xml"/>
-        <object ID="SPIN" template="Script/Spinner.xml"/>
-        <object ID="SPRL" template="Script/PositionRelay.xml"/>
-        <object ID="SPWN" template="Script/SpawnPoint.xml"/>
+        <object ID="BOS3" template="Script/SeedBoss3.xml"/>
         <object ID="SQTR" template="Script/SequenceTimer.xml"/>
-        <object ID="SRLY" template="Script/Relay.xml"/>
-        <object ID="STAU" template="Script/StreamedAudio.xml"/>
+        <object ID="SHDW" template="Script/ShadowProjector.xml"/>
+        <object ID="SHBG" template="Script/ShellBug.xml"/>
+        <object ID="SHIP" template="Script/Ship.xml"/>
+        <object ID="SHCI" template="Script/ShipCommandIcon.xml"/>
+        <object ID="SPDC" template="Script/ShipDecalController.xml"/>
+        <object ID="SHBR" template="Script/ShipBombingRun.xml"/>
+        <object ID="SHCP" template="Script/ShipCommandPath.xml"/>
+        <object ID="SHHC" template="Script/ShipHudControl.xml"/>
+        <object ID="SHPX" template="Script/ShipProxy.xml"/>
+        <object ID="SKRP" template="Script/SkyRipple.xml"/>
+        <object ID="SBMI" template="Script/SkyboxModInca.xml"/>
+        <object ID="SNAG" template="Script/SnagVineHelper.xml"/>
+        <object ID="SOND" template="Script/Sound.xml"/>
+        <object ID="SNDM" template="Script/SoundModifier.xml"/>
+        <object ID="PIRT" template="Script/SpacePirate.xml"/>
+        <object ID="SPWN" template="Script/SpawnPoint.xml"/>
+        <object ID="SPFN" template="Script/SpecialFunction.xml"/>
+        <object ID="BALS" template="Script/SpiderBallAttractionSurface.xml"/>
+        <object ID="BALW" template="Script/SpiderBallWaypoint.xml"/>
+        <object ID="SPIN" template="Script/Spinner.xml"/>
+        <object ID="SPRT" template="Script/Sprite.xml"/>
         <object ID="STEM" template="Script/Steam.xml"/>
         <object ID="STMB" template="Script/SteamBot.xml"/>
+        <object ID="SDRN" template="Script/SteamDrone.xml"/>
         <object ID="STML" template="Script/SteamLord.xml"/>
+        <object ID="SAMD" template="Script/StreamedAudioModifier.xml"/>
+        <object ID="STAU" template="Script/StreamedAudio.xml"/>
+        <object ID="MOVI" template="Script/StreamedMovie.xml"/>
         <object ID="SUBT" template="Script/Subtitle.xml"/>
+        <object ID="SCTL" template="Script/SurfaceControl.xml"/>
         <object ID="SWBT" template="Script/SwarmBot.xml"/>
-        <object ID="SWJT" template="Script/ScrewAttackWallJumpTarget.xml"/>
-        <object ID="SWRM" template="Script/SWRM.xml"/>
         <object ID="SWTC" template="Script/Switch.xml"/>
-        <object ID="TEL1" template="Script/WorldTeleporter.xml"/>
         <object ID="TGPT" template="Script/TargetingPoint.xml"/>
-        <object ID="TIMR" template="Script/Timer.xml"/>
-        <object ID="TKEY" template="Script/TimeKeyframe.xml"/>
         <object ID="TMAI" template="Script/TeamAI.xml"/>
-        <object ID="TRGR" template="Script/Trigger.xml"/>
         <object ID="TXPN" template="Script/TextPane.xml"/>
+        <object ID="TKEY" template="Script/TimeKeyframe.xml"/>
+        <object ID="TIMR" template="Script/Timer.xml"/>
+        <object ID="TRGR" template="Script/Trigger.xml"/>
+        <object ID="WEED" template="Script/VenomWeed.xml"/>
+        <object ID="FLAR" template="Script/VisorFlare.xml"/>
         <object ID="VGOO" template="Script/VisorGoo.xml"/>
         <object ID="VOLG" template="Script/VolGroup.xml"/>
+        <object ID="SWRM" template="Script/Swarm.xml"/>
         <object ID="WATR" template="Script/Water.xml"/>
         <object ID="WAYP" template="Script/Waypoint.xml"/>
-        <object ID="WEED" template="Script/VenomWeed.xml"/>
-        <object ID="WLIT" template="Script/WorldLightFader.xml"/>
         <object ID="WPNG" template="Script/WeaponGenerator.xml"/>
+        <object ID="WLDA" template="Script/WorldAttributes.xml"/>
+        <object ID="WLIT" template="Script/WorldLightFader.xml"/>
+        <object ID="TEL1" template="Script/WorldTeleporter.xml"/>
         <object ID="WTAT" template="Script/WorldTeleporterAttributes.xml"/>
         <object ID="WTCR" template="Script/WorldTransitionChoiceRelay.xml"/>
     </objects>

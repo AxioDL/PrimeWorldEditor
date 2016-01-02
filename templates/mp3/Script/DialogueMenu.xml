@@ -1,53 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>DialogueMenu</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <struct ID="0xE0543E66" type="multi">
-            <property ID="0xEE521DC6"/>
-            <property ID="0xF2D36ABB"/>
-            <property ID="0x1A996292"/>
-            <property ID="0x05EFF913"/>
-            <property ID="0x45830901"/>
-            <property ID="0x3F39E635"/>
-            <property ID="0x60D78569"/>
-            <property ID="0x5908EF39"/>
-            <property ID="0x0DB9F8B6"/>
-            <property ID="0x18DD95CD"/>
-            <property ID="0x42091548"/>
-            <property ID="0x330573E9"/>
-            <property ID="0xD8A2EEF0"/>
-        </struct>
-        <struct ID="0xC8E441FA" type="multi">
-            <property ID="0xEE521DC6"/>
-            <property ID="0xF2D36ABB"/>
-            <property ID="0x1A996292"/>
-            <property ID="0x05EFF913"/>
-            <property ID="0x45830901"/>
-            <property ID="0x3F39E635"/>
-            <property ID="0x60D78569"/>
-            <property ID="0x5908EF39"/>
-            <property ID="0x0DB9F8B6"/>
-            <property ID="0x18DD95CD"/>
-            <property ID="0x42091548"/>
-            <property ID="0x330573E9"/>
-            <property ID="0xD8A2EEF0"/>
-        </struct>
-        <property ID="0x7B86E0A2"/>
-        <property ID="0xEB1B90C2"/>
-        <property ID="0xEF505965"/>
-        <property ID="0x69FDB265"/>
-        <property ID="0xD1B74151"/>
-        <property ID="0x3C5E109A"/>
-        <property ID="0x58CBCBCA"/>
-        <property ID="0xE8FE6E9D"/>
-        <property ID="0x9E87E0EB"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <struct ID="0xE0543E66" template="Structs/TextStruct.xml"/>
+        <struct ID="0xC8E441FA" template="Structs/TextStruct.xml"/>
+        <property ID="0x7B86E0A2" type="long">
+            <default>100</default>
+        </property>
+        <property ID="0xEB1B90C2" type="long">
+            <default>100</default>
+        </property>
+        <property ID="0xEF505965" type="color">
+            <default>1.0, 1.0, 1.0, 1.0</default>
+        </property>
+        <property ID="0x69FDB265" type="color">
+            <default>0.0, 0.0, 0.0, 0.0</default>
+        </property>
+        <property ID="0xD1B74151" type="file" extensions="CMDL"/>
+        <property ID="0x3C5E109A" type="long">
+            <default>110</default>
+        </property>
+        <enum ID="0x58CBCBCA">
+            <default>0x29EF53A1</default>
+            <enumerators>
+                <enumerator ID="0x29EF53A1" name="Unknown 1"/>
+                <enumerator ID="0xD3CC5482" name="Unknown 2"/>
+                <enumerator ID="0xA3156F16" name="Unknown 3"/>
+            </enumerators>
+        </enum>
+        <property ID="0xE8FE6E9D" type="file" extensions="CAUD"/>
+        <property ID="0x9E87E0EB" type="file" extensions="CAUD"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>

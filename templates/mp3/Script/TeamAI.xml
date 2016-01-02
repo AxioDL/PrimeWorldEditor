@@ -1,27 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>TeamAI</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <property ID="0xBF37E518"/>
-        <property ID="0xCEBEE4AB"/>
-        <property ID="0x7555C1EA"/>
-        <property ID="0x1C3A365C"/>
-        <property ID="0x9FA9C457"/>
-        <property ID="0x54CD2755"/>
-        <property ID="0xC36ED15C"/>
-        <property ID="0x69CDE528"/>
-        <property ID="0x37A20376"/>
-        <property ID="0xD3AD55B6"/>
-        <property ID="0x8D00B839"/>
-        <property ID="0x9856E6F0"/>
-        <property ID="0x46B94E2C"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0xBF37E518" type="long">
+            <default>20</default>
+        </property>
+        <property ID="0xCEBEE4AB" type="long">
+            <default>2</default>
+        </property>
+        <property ID="0x7555C1EA" type="long">
+            <default>2</default>
+        </property>
+        <property ID="0x1C3A365C" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0x9FA9C457" type="long">
+            <default>30</default>
+        </property>
+        <property ID="0x54CD2755" type="long">
+            <default>1</default>
+        </property>
+        <property ID="0xC36ED15C" type="long">
+            <default>1</default>
+        </property>
+        <property ID="0x69CDE528" type="long">
+            <default>1</default>
+        </property>
+        <property ID="0x37A20376" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0xD3AD55B6" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x8D00B839" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x9856E6F0" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x46B94E2C" type="long">
+            <default>1</default>
+        </property>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>

@@ -1,47 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>Effect</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <property ID="0x0A479D6F"/>
-        <property ID="0x3217DFF8"/>
-        <property ID="0x3613BC90"/>
-        <property ID="0x3DF5A489"/>
-        <property ID="0x08349BD6"/>
-        <property ID="0xA6AA06D5"/>
-        <property ID="0x6714021C"/>
-        <property ID="0xE448AA81"/>
-        <property ID="0xBE931927"/>
-        <property ID="0x2DEF705D"/>
-        <struct ID="0xB028DB0E" type="multi">
-            <property ID="0xA71810E9"/>
-            <property ID="0xB772D4C1"/>
-            <property ID="0xCAC1E778"/>
-            <property ID="0x67F4D3DE"/>
-            <property ID="0x1F715FD3"/>
-            <property ID="0x6B5E7509"/>
-            <property ID="0x628E6AC3"/>
-            <property ID="0xA33E5B0E"/>
-        </struct>
-        <property ID="0xACC1A0AA"/>
-        <property ID="0x3D7406AF"/>
-        <struct ID="0x493D6A2D" type="multi">
-            <property ID="0xF53DCDD6"/>
-        </struct>
-        <property ID="0x27E5F874"/>
-        <property ID="0x73E63382"/>
-        <property ID="0xFD1E2F56"/>
-        <property ID="0x608ECAC5"/>
-        <property ID="0x527B89D3"/>
-        <property ID="0x5D3C7239"/>
-        <property ID="0x70073577"/>
-        <property ID="0xB0F5E028"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0x0A479D6F" type="file" extensions="PART,SWHC,SPSC"/>
+        <property ID="0x3217DFF8" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0x3DF5A489" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x08349BD6" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xA6AA06D5" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x6714021C" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0xBE931927" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xE448AA81" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x3613BC90" type="bool">
+            <default>false</default>
+        </property>
+        <enum ID="0x2DEF705D">
+            <default>0xEC834AD1</default>
+            <enumerators>
+                <enumerator ID="0xA7274141" name="Unknown 1"/>
+                <enumerator ID="0xE3E99324" name="Unknown 2"/>
+                <enumerator ID="0xEC834AD1" name="Unknown 3"/>
+            </enumerators>
+        </enum>
+        <struct ID="0xB028DB0E" template="Structs/LightParameters.xml"/>
+        <property ID="0xACC1A0AA" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x3D7406AF" type="bool">
+            <default>false</default>
+        </property>
+        <struct ID="0x493D6A2D" template="Structs/SplineType.xml"/>
+        <struct ID="0x27E5F874" template="Structs/MayaSpline.xml"/>
+        <property ID="0xFD1E2F56" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0x73E63382" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x608ECAC5" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x527B89D3" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x5D3C7239" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x70073577" type="long">
+            <default>3</default>
+        </property>
+        <property ID="0xB0F5E028" type="bool">
+            <default>false</default>
+        </property>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
@@ -49,10 +76,11 @@
             <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
             <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
             <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0xB028DB0E"/>
         </properties>
-        <assets/>
+        <assets>
+            <billboard source="file">script/common/Effect.txtr</billboard>
+		</assets>
         <rotation_type>enabled</rotation_type>
-        <scale_type>disabled</scale_type>
+        <scale_type>enabled</scale_type>
     </editor>
 </ScriptTemplate>

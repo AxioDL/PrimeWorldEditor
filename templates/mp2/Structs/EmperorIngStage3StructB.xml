@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="EmperorIngStage3StructB" type="multi">
+    <properties>
+        <property ID="0xDFEA46B3" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x95E7A2C2" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x76BA1C18" type="float">
+            <default>0.0</default>
+        </property>
+        <struct ID="0x3826EC75" template="Structs/UnknownStruct2.xml"/>
+        <struct ID="0x93BF1106" template="Structs/UnknownStruct2.xml"/>
+        <struct ID="0xC4B88B80" template="Structs/UnknownStruct2.xml"/>
+        <struct ID="0x32C6DC77" template="Structs/UnknownStruct2.xml"/>
+        <struct ID="0xC6E7B293" template="Structs/UnknownStruct2.xml"/>
+        <struct ID="0x20746B56" template="Structs/UnknownStruct2.xml"/>
+        <struct ID="0x2AB44ADB" template="Structs/UnknownStruct2.xml"/>
+        <struct ID="0xE2E78A78" template="Structs/UnknownStruct2.xml"/>
+    </properties>
+</struct>

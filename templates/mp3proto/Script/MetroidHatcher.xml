@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="4">
+    <name>MetroidHatcher</name>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <struct ID="0x42E95705" type="multi">
+            <properties>
+                <property ID="0x25474550" type="float">
+                    <default>20.0</default>
+                </property>
+                <property ID="0x474FA589" type="float">
+                    <default>40.0</default>
+                </property>
+                <property ID="0xF8B0C2BB" type="float">
+                    <default>10.0</default>
+                </property>
+                <struct ID="0xF609C637" template="Structs/GrappleData.xml"/>
+                <property ID="0xAED07218" type="float">
+                    <default>5.0</default>
+                </property>
+                <property ID="0x810F3185" type="float">
+                    <default>5.0</default>
+                </property>
+                <property ID="0x42493AB9" type="float">
+                    <default>5.0</default>
+                </property>
+                <property ID="0xADCB24C3" type="float">
+                    <default>5.0</default>
+                </property>
+                <property ID="0xFE4588A1" type="float">
+                    <default>50.0</default>
+                </property>
+                <struct ID="0x742B3336" template="Structs/DamageVulnerability.xml"/>
+                <property ID="0xC2688B41" type="float">
+                    <default>0.5</default>
+                </property>
+                <property ID="0x7B0CC30D" type="float">
+                    <default>60.0</default>
+                </property>
+                <property ID="0xBA002DCB" type="float">
+                    <default>20.0</default>
+                </property>
+                <property ID="0xC550A481" type="float">
+                    <default>0.5</default>
+                </property>
+                <property ID="0xAF9B05F4" type="float">
+                    <default>1.0</default>
+                </property>
+                <property ID="0x00D74FC3" type="float">
+                    <default>5.0</default>
+                </property>
+                <property ID="0x95E7A2C2" type="float">
+                    <default>5.0</default>
+                </property>
+                <property ID="0x76BA1C18" type="float">
+                    <default>5.0</default>
+                </property>
+                <property ID="0xE08106ED" type="float">
+                    <default>5.0</default>
+                </property>
+                <property ID="0x88D7C540" type="float">
+                    <default>5.0</default>
+                </property>
+                <property ID="0xACE62367" type="float">
+                    <default>5.0</default>
+                </property>
+                <property ID="0x620B1B3D" type="float">
+                    <default>5.0</default>
+                </property>
+                <property ID="0x3686269C" type="float">
+                    <default>20.0</default>
+                </property>
+                <property ID="0x80576D96" type="float">
+                    <default>10.0</default>
+                </property>
+                <property ID="0x30F803E9" type="float">
+                    <default>360.0</default>
+                </property>
+            </properties>
+        </struct>
+        <struct ID="0xB3774750" template="Structs/PatternedAITypedef.xml">
+            <properties>
+                <struct ID="0xCF90D15E">
+                    <properties>
+                        <property ID="0xF0668919">
+                            <default>100.0</default>
+                        </property>
+                        <property ID="0x3A2D17E4">
+                            <default>2.0</default>
+                        </property>
+                    </properties>
+                </struct>
+                <property ID="0xD9355674">
+                    <default>1.0</default>
+                </property>
+                <property ID="0x3FAE47EB">
+                    <default>100.0</default>
+                </property>
+            </properties>
+        </struct>
+        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
+    </properties>
+    <states/>
+    <messages/>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
+            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
+        </properties>
+        <assets>
+            <animparams source="property">0xB3774750:0xA244C9D8</animparams>
+        </assets>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>enabled</scale_type>
+    </editor>
+</ScriptTemplate>

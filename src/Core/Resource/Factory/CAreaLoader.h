@@ -4,7 +4,7 @@
 #include "CBlockMgrIn.h"
 #include "Core/Resource/Script/SConnection.h"
 #include "Core/Resource/CGameArea.h"
-#include "Core/Resource/EFormatVersion.h"
+#include "Core/Resource/EGame.h"
 #include "Core/Resource/CResCache.h"
 
 #include <FileIO/FileIO.h>

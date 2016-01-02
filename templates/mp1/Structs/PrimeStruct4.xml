@@ -1,34 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="PrimeStruct4" type="single">
-    <property ID="0x00" name="Unknown 1" type="long"/>
-    <property ID="0x01" name="Unknown 2" type="long"/>
-    <property ID="0x02" name="Particle 1" type="file" ext="PART"/>
-    <property ID="0x03" name="Particle 2" type="file" ext="PART"/>
-    <property ID="0x04" name="Texture 1" type="file" ext="TXTR"/>
-    <property ID="0x05" name="Texture 2" type="file" ext="TXTR"/>
-    <property ID="0x06" name="Unknown 3" type="float"/>
-    <property ID="0x07" name="Unknown 4" type="float"/>
-    <property ID="0x08" name="Unknown 5" type="float"/>
-    <property ID="0x09" name="Unknown 6" type="float"/>
-    <property ID="0x0A" name="Unknown 7" type="float"/>
-    <property ID="0x0B" name="Unknown 8" type="float"/>
-    <property ID="0x0C" name="Unknown 9" type="float"/>
-    <property ID="0x0D" name="Unknown 10" type="float"/>
-    <property ID="0x0E" name="Unknown 11" type="float"/>
-    <property ID="0x0F" name="Unknown 12" type="color"/>
-    <property ID="0x10" name="Unknown 13" type="color"/>
-    <property ID="0x11" name="WPSC" type="file" ext="WPSC"/>
-    <struct ID="0x12" name="DamageInfo 1" template="Structs/DamageInfo.xml"/>
-    <struct ID="0x13" name="PrimeStruct5" type="multi">
-        <property ID="0x00" name="Unknown 14" type="file" ext="Unkn"/>
-        <property ID="0x01" name="Unknown 15" type="long"/>
-        <property ID="0x02" name="Unknown 16" type="file" ext="ELSC"/>
-        <property ID="0x03" name="Unknown 17" type="file" ext="PART"/>
-        <property ID="0x04" name="Unknown 18" type="long"/>
-        <property ID="0x05" name="Unknown 19" type="long"/>
-        <property ID="0x06" name="Unknown 20" type="long"/>
-        <property ID="0x07" name="Unknown 21" type="long"/>
-    </struct>
-    <property ID="0x14" name="Unknown 22" type="float"/>
-    <struct ID="0x15" name="DamageInfo 2" template="Structs/DamageInfo.xml"/>
+<struct name="PrimeStruct4.xml" type="single">
+    <properties>
+        <property ID="0x00" name="Unknown 1" type="long"/>
+        <property ID="0x01" name="Unknown 2" type="long"/>
+        <property ID="0x02" name="Particle 1" type="file" extensions="PART"/>
+        <property ID="0x03" name="Particle 2" type="file" extensions="PART"/>
+        <property ID="0x04" name="Texture 1" type="file" extensions="TXTR"/>
+        <property ID="0x05" name="Texture 2" type="file" extensions="TXTR"/>
+        <property ID="0x06" name="Unknown 3" type="float"/>
+        <property ID="0x07" name="Unknown 4" type="float"/>
+        <property ID="0x08" name="Unknown 5" type="float"/>
+        <property ID="0x09" name="Unknown 6" type="float"/>
+        <property ID="0x0A" name="Unknown 7" type="float"/>
+        <property ID="0x0B" name="Unknown 8" type="float"/>
+        <property ID="0x0C" name="Unknown 9" type="float"/>
+        <property ID="0x0D" name="Unknown 10" type="float"/>
+        <property ID="0x0E" name="Unknown 11" type="float"/>
+        <property ID="0x0F" name="Unknown 12" type="color"/>
+        <property ID="0x10" name="Unknown 13" type="color"/>
+        <property ID="0x11" name="WPSC" type="file" extensions="WPSC"/>
+        <struct ID="0x12" name="DamageInfo 1" template="Structs/DamageInfo.xml"/>
+        <struct ID="0x13" name="PrimeStruct5" type="multi">
+            <properties>
+                <property ID="0x00" name="Unknown 14" type="file" extensions="Unkn"/>
+                <property ID="0x01" name="Unknown 15" type="long"/>
+                <property ID="0x02" name="Unknown 16" type="file" extensions="ELSC"/>
+                <property ID="0x03" name="Unknown 17" type="file" extensions="PART"/>
+                <property ID="0x04" name="Unknown 18" type="long"/>
+                <property ID="0x05" name="Unknown 19" type="long"/>
+                <property ID="0x06" name="Unknown 20" type="long"/>
+                <property ID="0x07" name="Unknown 21" type="long"/>
+            </properties>
+        </struct>
+        <property ID="0x14" name="Unknown 22" type="float"/>
+        <struct ID="0x15" name="DamageInfo 2" template="Structs/DamageInfo.xml"/>
+    </properties>
 </struct>

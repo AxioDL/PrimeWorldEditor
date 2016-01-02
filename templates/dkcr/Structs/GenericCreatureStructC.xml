@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="GenericCreatureStructC" type="multi">
+    <properties>
+        <property ID="0x6C805F56" type="string"/>
+        <property ID="0xD29AAAE6" type="file" extensions="RULE"/>
+        <property ID="0x4BABA4A6" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x6E92D661" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x68F484E7" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xE13DE823" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0x99260F54" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x8FBDC112" type="bool">
+            <default>false</default>
+        </property>
+    </properties>
+</struct>

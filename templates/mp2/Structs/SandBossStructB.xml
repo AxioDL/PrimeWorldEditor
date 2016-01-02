@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="SandBossStructB" type="multi">
+    <properties>
+        <struct ID="0x337F9524" template="Structs/DamageInfo.xml">
+            <properties>
+                <property ID="0x119FBD31">
+                    <default>11</default>
+                </property>
+                <property ID="0xF2D02613">
+                    <default>0.5</default>
+                </property>
+                <property ID="0x555FF80A">
+                    <default>10.0</default>
+                </property>
+            </properties>
+        </struct>
+        <property ID="0x8B51E23F" type="float">
+            <default>15.0</default>
+        </property>
+        <property ID="0x82BE06BA" type="float">
+            <default>3.0</default>
+        </property>
+        <property ID="0x1B57D422" type="float">
+            <default>2.0</default>
+        </property>
+        <property ID="0x060B9B84" type="float">
+            <default>50.0</default>
+        </property>
+        <property ID="0x3F5AF46F" type="float">
+            <default>50.0</default>
+        </property>
+        <property ID="0x42D842CD" type="float">
+            <default>50.0</default>
+        </property>
+        <property ID="0x52642B7E" type="float">
+            <default>2.0</default>
+        </property>
+        <property ID="0xFDA3EB4B" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x020C78BB" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0x47CDE539" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x29D8744A" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0x8D4F3B88" type="long">
+            <default>1</default>
+        </property>
+        <property ID="0xBF88FE4F" type="float">
+            <default>3.0</default>
+        </property>
+        <property ID="0x74C702B3" type="float">
+            <default>1.0</default>
+        </property>
+    </properties>
+</struct>

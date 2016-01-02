@@ -25,16 +25,15 @@ CScriptNode::CScriptNode(CSceneManager *pScene, CSceneNode *pParent, CScriptObje
 
     if (mpInstance)
     {
-        CScriptTemplate *pTemp = mpInstance->Template();
+        CScriptTemplate *pTemp = Template();
 
         // Determine transform
         mPosition = mpInstance->Position();
         mRotation = CQuaternion::FromEuler(mpInstance->Rotation());
         mScale = mpInstance->Scale();
-        mScaleMultiplier = mpInstance->Template()->PreviewScale();
         MarkTransformChanged();
 
-        SetName("[" + pTemp->TemplateName(mpInstance->NumProperties()) + "] " + mpInstance->InstanceName());
+        SetName("[" + pTemp->TemplateName() + "] " + mpInstance->InstanceName());
 
         // Determine display assets
         mpActiveModel = mpInstance->GetDisplayModel();
@@ -110,7 +109,7 @@ void CScriptNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
     // If we're in game mode, then override other visibility settings.
     if (ViewInfo.GameMode)
     {
-        if (!mpInstance->IsActive() || !mpInstance->HasInGameModel())
+        if ( (!mpInstance->IsActive() && Template()->Game() != eReturns) || !mpInstance->HasInGameModel())
             return;
     }
 
@@ -163,9 +162,9 @@ void CScriptNode::Draw(ERenderOptions Options, int ComponentIndex, const SViewIn
     if (UsesModel())
     {
         CGraphics::SetupAmbientColor();
-        CGraphics::UpdateVertexBlock();
         LoadModelMatrix();
         LoadLights(ViewInfo);
+        CGraphics::UpdateVertexBlock();
 
         // Draw model if possible!
         if (mpActiveModel)
@@ -249,7 +248,7 @@ void CScriptNode::RayAABoxIntersectTest(CRayCollisionTester& Tester, const SView
     // If we're in game mode, then check whether we're visible before proceeding with the ray test.
     if (ViewInfo.GameMode)
     {
-        if (!mpInstance->IsActive() || !mpInstance->HasInGameModel())
+        if ( (!mpInstance->IsActive() && Template()->Game() != eReturns) || !mpInstance->HasInGameModel())
             return;
     }
 
@@ -368,20 +367,18 @@ SRayIntersection CScriptNode::RayNodeIntersectTest(const CRay& Ray, u32 AssetID,
 
 bool CScriptNode::AllowsRotate() const
 {
-    CScriptTemplate *pTemp = mpInstance->Template();
-    return (pTemp->RotationType() == CScriptTemplate::eRotationEnabled);
+    return (Template()->RotationType() == CScriptTemplate::eRotationEnabled);
 }
 
 bool CScriptNode::AllowsScale() const
 {
-    CScriptTemplate *pTemp = mpInstance->Template();
-    return (pTemp->ScaleType() != CScriptTemplate::eScaleDisabled);
+    return (Template()->ScaleType() != CScriptTemplate::eScaleDisabled);
 }
 
 bool CScriptNode::IsVisible() const
 {
     // Reimplementation of CSceneNode::IsVisible() to allow for layer and template visiblity to be taken into account
-    return (mVisible && mpInstance->Layer()->IsVisible() && mpInstance->Template()->IsVisible());
+    return (mVisible && mpInstance->Layer()->IsVisible() && Template()->IsVisible());
 }
 
 CColor CScriptNode::TintColor(const SViewInfo &ViewInfo) const
@@ -462,6 +459,11 @@ CScriptObject* CScriptNode::Object() const
     return mpInstance;
 }
 
+CScriptTemplate* CScriptNode::Template() const
+{
+    return mpInstance->Template();
+}
+
 CModel* CScriptNode::ActiveModel() const
 {
     return mpActiveModel;
@@ -487,19 +489,19 @@ CAABox CScriptNode::PreviewVolumeAABox() const
 
 CVector2f CScriptNode::BillboardScale() const
 {
-    CVector2f out = (mpInstance->Template()->ScaleType() == CScriptTemplate::eScaleEnabled ? AbsoluteScale().xz() : CVector2f(1.f));
-    return out * 0.5f * mScaleMultiplier;
+    CVector2f out = (Template()->ScaleType() == CScriptTemplate::eScaleEnabled ? AbsoluteScale().xz() : CVector2f(1.f));
+    return out * 0.5f * Template()->PreviewScale();
 }
 
 // ************ PROTECTED ************
 void CScriptNode::CalculateTransform(CTransform4f& rOut) const
 {
-    CScriptTemplate *pTemp = mpInstance->Template();
+    CScriptTemplate *pTemp = Template();
 
     if (pTemp->ScaleType() != CScriptTemplate::eScaleDisabled)
     {
         CVector3f Scale = (HasPreviewVolume() ? CVector3f::skOne : AbsoluteScale());
-        rOut.Scale(Scale * mScaleMultiplier);
+        rOut.Scale(Scale * pTemp->PreviewScale());
     }
 
     if (UsesModel() && pTemp->RotationType() == CScriptTemplate::eRotationEnabled)

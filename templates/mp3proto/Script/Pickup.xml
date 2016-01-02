@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="4">
+    <name>Pickup</name>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0x3A3E03BA" type="vector3f">
+            <default>0.0, 0.0, 0.0</default>
+        </property>
+        <property ID="0x2E686C2A" type="vector3f">
+            <default>0.0, 0.0, 0.0</default>
+        </property>
+        <enum ID="0xA02EF0C4" template="Enums/Item.xml">
+            <default>0xFB73F2B8</default>
+        </enum>
+        <property ID="0x28C71B54" type="long">
+            <default>1</default>
+        </property>
+        <property ID="0x165AB069" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0x94AF1445" type="long">
+            <default>1</default>
+        </property>
+        <property ID="0xF7FBAAA5" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xC80FC827" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x32DC67F6" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x56E3CEEF" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xC27FFA8F" type="file" extensions="CMDL"/>
+        <property ID="0xA244C9D8" type="character"/>
+        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
+        <property ID="0xE585F166" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xA9FE872A" type="file" extensions="PART"/>
+        <property ID="0xE10BCB96" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xCE33239F" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0x2DE4A294" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xA6EA280D" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xC2B11CFD" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x2DB59FCF" type="float">
+            <default>20.0</default>
+        </property>
+        <property ID="0x961C0D17" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xA755EB02" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x850115E4" type="vector3f">
+            <default>0.0, 0.0, 0.0</default>
+        </property>
+    </properties>
+    <states/>
+    <messages/>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
+            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
+        </properties>
+        <assets>
+            <animparams source="property">0xA244C9D8</animparams>
+            <model source="property">0xC27FFA8F</model>
+        </assets>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>enabled</scale_type>
+    </editor>
+</ScriptTemplate>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="DamageInfo" type="multi">
+    <properties>
+        <enum ID="0x65C4FB4A">
+            <default>0x927FA703</default>
+            <enumerators>
+                <enumerator ID="0x927FA703" name="Unknown 1"/>
+                <enumerator ID="0x0675615F" name="Unknown 2"/>
+                <enumerator ID="0x751A3689" name="Unknown 3"/>
+                <enumerator ID="0x2A14AEDE" name="Unknown 4"/>
+                <enumerator ID="0x5E968EA6" name="Unknown 5"/>
+                <enumerator ID="0xC8039280" name="Unknown 6"/>
+                <enumerator ID="0xDE9941ED" name="Unknown 7"/>
+                <enumerator ID="0x0B1B8E49" name="Unknown 8"/>
+                <enumerator ID="0xCB231252" name="Unknown 9"/>
+                <enumerator ID="0xB1AD01BF" name="Unknown 10"/>
+                <enumerator ID="0x099ADF85" name="Unknown 11"/>
+                <enumerator ID="0xA8F27AEC" name="Unknown 12"/>
+                <enumerator ID="0xA319FA4B" name="Unknown 13"/>
+                <enumerator ID="0x8EC53D57" name="Unknown 14"/>
+                <enumerator ID="0x50A8387E" name="Unknown 15"/>
+                <enumerator ID="0xF5A4D59E" name="Unknown 16"/>
+                <enumerator ID="0xC1C3DDB9" name="Unknown 17"/>
+                <enumerator ID="0x8C284EAF" name="Unknown 18"/>
+                <enumerator ID="0x048C912A" name="Unknown 19"/>
+                <enumerator ID="0x744A1F16" name="Unknown 20"/>
+                <enumerator ID="0x6B2540D4" name="Unknown 21"/>
+            </enumerators>
+        </enum>
+        <property ID="0xF2D02613" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xEE1BE914" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x26001979" type="float">
+            <default>4.0</default>
+        </property>
+        <property ID="0x990A1629" type="float">
+            <default>6.0</default>
+        </property>
+        <property ID="0x5F8A1D47" type="float">
+            <default>12.0</default>
+        </property>
+        <property ID="0x131D701B" type="long">
+            <default>0</default>
+        </property>
+        <enum ID="0x8266B529">
+            <default>0x54584D54</default>
+            <enumerators>
+                <enumerator ID="0x0E880ACE" name="Unknown 1"/>
+                <enumerator ID="0x54584D54" name="Unknown 2"/>
+                <enumerator ID="0x72448B21" name="Unknown 3"/>
+            </enumerators>
+        </enum>
+    </properties>
+</struct>

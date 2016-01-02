@@ -1,26 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>FalsePerspective</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <property ID="0x7F7065D3"/>
-        <property ID="0xF4817F13"/>
-        <property ID="0x84EC4A74"/>
-        <property ID="0xA9D5FF48"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0x7F7065D3" type="float">
+            <default>0.001</default>
+        </property>
+        <property ID="0xF4817F13" type="float">
+            <default>20.0</default>
+        </property>
+        <property ID="0x84EC4A74" type="float">
+            <default>8192.0</default>
+        </property>
+        <property ID="0xA9D5FF48" type="bool">
+            <default>false</default>
+        </property>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
             <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
             <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
             <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
         </properties>
         <assets/>
+		<preview_scale>0.5</preview_scale>
         <rotation_type>enabled</rotation_type>
-        <scale_type>disabled</scale_type>
+        <scale_type>enabled</scale_type>
     </editor>
 </ScriptTemplate>

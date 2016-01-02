@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<enum name="UnknownEnum4">
+	<enumerators>
+		<enumerator ID="0x25234BDB" name="Unknown 1"/>
+		<enumerator ID="0xBC2A1A61" name="Unknown 2"/>
+	</enumerators>
+</enum>

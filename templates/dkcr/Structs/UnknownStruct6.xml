@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="UnknownStruct6" type="multi">
+    <properties>
+        <enum ID="0x74059F59">
+            <default>0xD0808BD7</default>
+            <enumerators>
+                <enumerator ID="0xD0808BD7" name="Unknown 1"/>
+                <enumerator ID="0xD0A482B7" name="Unknown 2"/>
+                <enumerator ID="0xBE8C4417" name="Unknown 3"/>
+                <enumerator ID="0x07497303" name="Unknown 4"/>
+                <enumerator ID="0x3C9051BB" name="Unknown 5"/>
+                <enumerator ID="0x1D137B4B" name="Unknown 6"/>
+            </enumerators>
+        </enum>
+    </properties>
+</struct>

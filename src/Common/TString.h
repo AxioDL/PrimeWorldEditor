@@ -58,8 +58,9 @@ public:
     }
 
     TBasicString(const CharType* pkText)
-        : mInternalString(pkText)
     {
+        if (pkText)
+            mInternalString = pkText;
     }
 
     TBasicString(const CharType* pkText, u32 length)
@@ -729,6 +730,20 @@ public:
         std::basic_stringstream<CharType> sstream;
         sstream << std::setbase(base) << std::setw(width) << std::setfill('0') << value;
         return sstream.str();
+    }
+
+    static TBasicString<CharType> FromFloat(float value, int MinDecimals = 1)
+    {
+        TString Out = std::to_string(value);
+        int NumZeroes = Out.Size() - (Out.IndexOf(".") + 1);
+
+        while (Out.Back() == '\0' && NumZeroes > MinDecimals)
+        {
+            Out = Out.ChopBack(1);
+            NumZeroes--;
+        }
+
+        return Out;
     }
 
     static TBasicString<CharType> HexString(unsigned char num, bool addPrefix = true, bool uppercase = false, int width = 0)

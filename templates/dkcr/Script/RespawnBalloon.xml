@@ -1,31 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>RespawnBalloon</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <struct ID="0x7E397FED" type="multi">
-            <struct ID="0xB028DB0E" type="multi">
-                <property ID="0x6B5E7509"/>
-                <property ID="0x628E6AC3"/>
-                <property ID="0xA71810E9"/>
-            </struct>
-        </struct>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
         <struct ID="0x0AA1AAE7" type="multi">
-            <property ID="0xF8B3ABE0"/>
-            <property ID="0x6B40ACEF"/>
-            <property ID="0x9A27DDC3"/>
-            <property ID="0x409618B6"/>
-            <property ID="0xF532B5D3"/>
-            <property ID="0xCAA9B3F5"/>
-            <property ID="0x726C839E"/>
-            <property ID="0x5C6C7838"/>
+            <properties>
+                <property ID="0xF8B3ABE0" type="character"/>
+                <property ID="0x6B40ACEF" type="long">
+                    <default>0</default>
+                </property>
+                <property ID="0x75DBB375" type="float">
+                    <default>10.0</default>
+                </property>
+                <property ID="0xDDB16979" type="float">
+                    <default>3.0</default>
+                </property>
+                <property ID="0x9A27DDC3" type="float">
+                    <default>3.0</default>
+                </property>
+                <property ID="0xC0FE10C6" type="vector3f">
+                    <default>0.0, 0.0, -4.0</default>
+                </property>
+                <property ID="0x409618B6" type="float">
+                    <default>15.0</default>
+                </property>
+                <property ID="0x806178B3" type="float">
+                    <default>1.0</default>
+                </property>
+                <property ID="0xF532B5D3" type="file" extensions="PART"/>
+                <property ID="0xCAA9B3F5" type="file" extensions="PART"/>
+                <property ID="0x726C839E" type="file" extensions="CAUD"/>
+                <property ID="0x5C6C7838" type="file" extensions="CAUD"/>
+                <property ID="0x8069FBA6" type="float">
+                    <default>1.0</default>
+                </property>
+            </properties>
         </struct>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
@@ -39,6 +53,6 @@
             <animparams source="property">0x0AA1AAE7:0xF8B3ABE0</animparams>
         </assets>
         <rotation_type>enabled</rotation_type>
-        <scale_type>disabled</scale_type>
+        <scale_type>enabled</scale_type>
     </editor>
 </ScriptTemplate>

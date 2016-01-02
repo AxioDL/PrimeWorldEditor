@@ -1,52 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>ConditionalRelay</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0x44DB8AF2" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x2CC54E77" type="long">
+            <default>7</default>
+        </property>
+        <struct ID="0xCEC16932" template="Structs/ConditionalTest.xml"/>
+        <struct ID="0xE709DDC0" template="Structs/ConditionalTest.xml">
+            <properties>
+                <property ID="0xDE3E40A3">
+                    <default>0</default>
+                </property>
+            </properties>
         </struct>
-        <property ID="0x44DB8AF2"/>
-        <property ID="0x2CC54E77"/>
-        <struct ID="0xCEC16932" type="multi">
-            <property ID="0xDE3E40A3"/>
-            <property ID="0x794F9BEB"/>
-            <property ID="0xD3AF8D72"/>
-            <property ID="0x03BDEA98"/>
-            <property ID="0x70729364"/>
-            <property ID="0xAEB694B4"/>
-            <property ID="0x8DB9398A"/>
+        <struct ID="0x49614C51" template="Structs/ConditionalTest.xml">
+            <properties>
+                <property ID="0xDE3E40A3">
+                    <default>0</default>
+                </property>
+            </properties>
         </struct>
-        <struct ID="0xE709DDC0" type="multi">
-            <property ID="0xDE3E40A3"/>
-            <property ID="0x794F9BEB"/>
-            <property ID="0xD3AF8D72"/>
-            <property ID="0x03BDEA98"/>
-            <property ID="0x70729364"/>
-            <property ID="0xAEB694B4"/>
-            <property ID="0x8DB9398A"/>
-        </struct>
-        <struct ID="0x49614C51" type="multi">
-            <property ID="0xDE3E40A3"/>
-            <property ID="0x794F9BEB"/>
-            <property ID="0xD3AF8D72"/>
-            <property ID="0x03BDEA98"/>
-            <property ID="0x70729364"/>
-            <property ID="0xAEB694B4"/>
-            <property ID="0x8DB9398A"/>
-        </struct>
-        <struct ID="0xB498B424" type="multi">
-            <property ID="0xDE3E40A3"/>
-            <property ID="0x794F9BEB"/>
-            <property ID="0xD3AF8D72"/>
-            <property ID="0x03BDEA98"/>
-            <property ID="0x70729364"/>
-            <property ID="0xAEB694B4"/>
-            <property ID="0x8DB9398A"/>
+        <struct ID="0xB498B424" template="Structs/ConditionalTest.xml">
+            <properties>
+                <property ID="0xDE3E40A3">
+                    <default>0</default>
+                </property>
+            </properties>
         </struct>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>

@@ -1,26 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>ASAS</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <property ID="0x1BB81937"/>
-        <property ID="0xE7D8D823"/>
-        <property ID="0x05C9246C"/>
-        <property ID="0x244F7338"/>
-        <property ID="0x8C95539A"/>
-        <property ID="0x071E84B6"/>
-        <property ID="0xFDEBA36A"/>
-        <property ID="0x250142A2"/>
-        <property ID="0xEB9F334C"/>
-        <property ID="0xEEB39069"/>
-        <property ID="0xCAB4886B"/>
-        <property ID="0x6748B641"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <enum ID="0xE7D8D823" template="Enums/MusicEnumB.xml">
+            <default>0xCBF698CA</default>
+        </enum>
+        <property ID="0x05C9246C" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x2409B906" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xEB9F334C" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xEEB39069" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x244F7338" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xCAB4886B" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x1BB81937" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x6748B641" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x8C95539A" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x071E84B6" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xFDEBA36A" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x250142A2" type="bool">
+            <default>false</default>
+        </property>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
@@ -30,7 +54,8 @@
             <property name="Active" ID="0x255A4580:0x41435456"/>
         </properties>
         <assets/>
+		<preview_scale>0.5</preview_scale>
         <rotation_type>enabled</rotation_type>
-        <scale_type>disabled</scale_type>
+        <scale_type>enabled</scale_type>
     </editor>
 </ScriptTemplate>

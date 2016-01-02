@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="IngBoostBallGuardianStruct" type="multi">
+    <properties>
+        <property ID="0x25D02BC5" type="float">
+            <default>1.8</default>
+        </property>
+        <property ID="0xABE99DE0" type="float">
+            <default>1.8</default>
+        </property>
+        <property ID="0xE2B23F03" type="float">
+            <default>1.8</default>
+        </property>
+        <property ID="0x2F845006" type="float">
+            <default>150.0</default>
+        </property>
+        <property ID="0x5D1626FB" type="float">
+            <default>0.5</default>
+        </property>
+        <property ID="0xBB76891A" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x285D67AD" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0x6D5F242F" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0xE3FF2ED6" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0xA6FD6D54" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0xECB314B6" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0xA9B15734" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0x1213A7D4" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xC19ED897" type="float">
+            <default>0.0</default>
+        </property>
+    </properties>
+</struct>

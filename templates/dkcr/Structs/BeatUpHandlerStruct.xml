@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="BeatUpHandlerStruct" type="multi">
+    <properties>
+        <enum ID="0xB3E3E1E3" template="Enums/InventorySlot.xml">
+            <default>0xB22FD89B</default>
+        </enum>
+        <property ID="0x8FA67C9E" type="long">
+            <default>1</default>
+        </property>
+        <property ID="0x7A7B330E" type="float">
+            <default>0.0</default>
+        </property>
+    </properties>
+</struct>

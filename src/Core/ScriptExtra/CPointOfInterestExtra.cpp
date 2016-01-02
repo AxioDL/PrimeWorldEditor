@@ -15,14 +15,14 @@ CPointOfInterestExtra::CPointOfInterestExtra(CScriptObject *pInstance, CSceneMan
     {
     case ePrimeDemo:
     case ePrime:
-        mpScanProperty = (CFileProperty*) pBaseProp->PropertyByIDString("0x04:0x00");
+        mpScanProperty = (TFileProperty*) pBaseProp->PropertyByIDString("0x04:0x00");
         break;
 
     case eEchoesDemo:
     case eEchoes:
     case eCorruptionProto:
     case eCorruption:
-        mpScanProperty = (CFileProperty*) pBaseProp->PropertyByIDString("0xBDBEC295:0xB94E9BE7");
+        mpScanProperty = (TFileProperty*) pBaseProp->PropertyByIDString("0xBDBEC295:0xB94E9BE7");
         break;
 
     default:
@@ -39,7 +39,7 @@ CPointOfInterestExtra::CPointOfInterestExtra(CScriptObject *pInstance, CSceneMan
     }
 }
 
-void CPointOfInterestExtra::PropertyModified(CPropertyBase* pProperty)
+void CPointOfInterestExtra::PropertyModified(IProperty* pProperty)
 {
     if (mpScanProperty == pProperty)
         mpScanData = mpScanProperty->Get();

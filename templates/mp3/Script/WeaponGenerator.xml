@@ -1,33 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>WeaponGenerator</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <struct ID="0x3F003133" type="multi">
-            <struct ID="0x337F9524" type="multi">
-                <property ID="0x445E00C8"/>
-                <property ID="0xF2D02613"/>
-                <property ID="0xEE1BE914"/>
-                <property ID="0x555FF80A"/>
-                <property ID="0x7A3FE00D"/>
-                <property ID="0xEFE9E465"/>
-            </struct>
-            <property ID="0x9EF6B290"/>
-            <property ID="0x4E83F4A7"/>
-            <property ID="0xBADA8DEA"/>
-            <property ID="0x921B78A9"/>
-            <struct ID="0xFB0F9549" type="multi">
-                <property ID="0x14B3F716"/>
-            </struct>
-            <property ID="0x482D569D"/>
-            <property ID="0xFBC6C110"/>
+            <properties>
+                <struct ID="0x337F9524" template="Structs/DamageInfo.xml"/>
+                <property ID="0x9EF6B290" type="file" extensions="WPSC"/>
+                <property ID="0x4E83F4A7" type="file" extensions="CAUD"/>
+                <enum ID="0xBADA8DEA">
+                    <default>0x9EFB69B1</default>
+                    <enumerators>
+                        <enumerator ID="0x9EFB69B1" name="Unknown 1"/>
+                    </enumerators>
+                </enum>
+                <enum ID="0x921B78A9">
+                    <default>0x2B9C9A74</default>
+                    <enumerators>
+                        <enumerator ID="0xAFD6A3AA" name="Unknown 1"/>
+                        <enumerator ID="0xD57D2DBA" name="Unknown 2"/>
+                        <enumerator ID="0xAB7F6A00" name="Unknown 3"/>
+                        <enumerator ID="0x2B9C9A74" name="Unknown 4"/>
+                    </enumerators>
+                </enum>
+                <struct ID="0xFB0F9549" template="Structs/StaticGeometryTest.xml"/>
+                <property ID="0x482D569D" type="bool">
+                    <default>false</default>
+                </property>
+                <property ID="0xFBC6C110" type="string"/>
+            </properties>
         </struct>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>

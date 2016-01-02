@@ -28,6 +28,7 @@ CONFIG(debug, debug|release) {
             -L$$PWD/../../build/Math/ -lMathd \
             -L$$PWD/../../build/Core/ -lCored \
             -L$$PWD/../../externals/assimp/lib/ -lassimp-vc120-mtd \
+            -L$$PWD/../../externals/boost_1_56_0/lib32-msvc-12.0 -llibboost_filesystem-vc120-mt-gd-1_56 \
             -L$$PWD/../../externals/tinyxml2/lib/ -ltinyxml2d
 
     # Debug Target Dependencies
@@ -52,6 +53,7 @@ CONFIG(release, debug|release) {
             -L$$PWD/../../build/Math/ -lMath \
             -L$$PWD/../../build/Core/ -lCore \
             -L$$PWD/../../externals/assimp/lib/ -lassimp-vc120-mt \
+            -L$$PWD/../../externals/boost_1_56_0/lib32-msvc-12.0 -llibboost_filesystem-vc120-mt-1_56 \
             -L$$PWD/../../externals/tinyxml2/lib/ -ltinyxml2
 
     # Release Target Dependencies

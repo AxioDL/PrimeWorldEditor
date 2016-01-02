@@ -1,55 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>CSTI</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <property ID="0x67A984CB"/>
-        <property ID="0x382A1973"/>
-        <struct ID="0x84335E71" type="multi">
-            <property ID="0x948AF571"/>
-            <struct ID="0x79DE4BA5" type="multi">
-                <struct ID="0x7FCD6908" type="multi">
-                    <property ID="0xF4AC7CAA"/>
-                </struct>
-            </struct>
-            <struct ID="0x287F9F45" type="multi">
-                <property ID="0x09B5957D"/>
-                <property ID="0xB08D3237"/>
-                <property ID="0x67E3836A"/>
-                <property ID="0x8B51E23F"/>
-                <property ID="0x15567FE7"/>
-            </struct>
-        </struct>
-        <struct ID="0x1DF8D319" type="multi">
-            <property ID="0x5C72A964"/>
-            <struct ID="0x8654B081" type="multi">
-                <property ID="0x09B5957D"/>
-                <property ID="0x15567FE7"/>
-                <property ID="0xB08D3237"/>
-                <property ID="0x67E3836A"/>
-                <property ID="0x8B51E23F"/>
-            </struct>
-        </struct>
-        <struct ID="0x31FAF024" type="multi">
-            <property ID="0x19EA151B"/>
-            <struct ID="0x9F90014C" type="multi">
-                <property ID="0x09B5957D"/>
-            </struct>
-        </struct>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0x67A984CB" type="long">
+            <default>3</default>
+        </property>
+        <property ID="0xC3BF43BE" type="float">
+            <default>100.0</default>
+        </property>
+        <property ID="0x382A1973" type="float">
+            <default>135.0</default>
+        </property>
+        <struct ID="0x84335E71" template="Structs/CSTIStructB.xml"/>
+        <struct ID="0x1DF8D319" template="Structs/CSTIStructC.xml"/>
+        <struct ID="0x31FAF024" template="Structs/CSTIStructA.xml"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
             <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
             <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
             <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
         </properties>
         <assets/>
+		<preview_scale>0.5</preview_scale>
         <rotation_type>enabled</rotation_type>
-        <scale_type>disabled</scale_type>
+        <scale_type>enabled</scale_type>
     </editor>
 </ScriptTemplate>

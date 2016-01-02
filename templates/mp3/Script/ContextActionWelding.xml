@@ -1,81 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>ContextActionWelding</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <struct ID="0x7E397FED" type="multi">
-            <struct ID="0xB028DB0E" type="multi">
-                <property ID="0xCD639B46"/>
-                <property ID="0xA33E5B0E"/>
-                <property ID="0xA71810E9"/>
-                <property ID="0x6B5E7509"/>
-                <property ID="0x3DC5F0C6"/>
-                <property ID="0x628E6AC3"/>
-                <property ID="0xD19DE775"/>
-                <property ID="0xCAC1E778"/>
-                <property ID="0x67F4D3DE"/>
-                <property ID="0xFB7A7ABB"/>
-                <property ID="0x61A940D6"/>
-                <property ID="0x1F715FD3"/>
-            </struct>
-            <struct ID="0x375BFD7C" type="multi">
-                <property ID="0xB94E9BE7"/>
-                <property ID="0xFF4AE2EC"/>
-                <property ID="0x42087650"/>
-            </struct>
-            <property ID="0xBB52F0BE"/>
-            <property ID="0xC647755B"/>
-            <property ID="0x1499803C"/>
-            <property ID="0x90AA341F"/>
-            <property ID="0x7C269EBC"/>
-            <struct ID="0x05AD250E" type="multi">
-                <property ID="0xFE9DC266"/>
-                <property ID="0xCA19E8C6"/>
-                <property ID="0x46175A3D"/>
-                <property ID="0xCA6E30B1"/>
-            </struct>
-            <property ID="0x799263F1"/>
-            <property ID="0xED3A6E87"/>
-            <property ID="0xF07981E8"/>
-            <property ID="0x4D55F7D4"/>
-            <property ID="0xE315EE72"/>
-            <property ID="0x583895FA"/>
-            <property ID="0xC712847C"/>
-            <property ID="0x701B61B3"/>
-        </struct>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
         <struct ID="0x2F74DC89" type="multi">
-            <property ID="0x6ADE8B91"/>
-            <property ID="0xFBF9569B"/>
-            <property ID="0x8E14567B"/>
-            <property ID="0xEA2C7744"/>
-            <property ID="0x5A3ED5A0"/>
-            <property ID="0x70BED427"/>
-            <property ID="0xACD369C1"/>
-            <property ID="0x1DAD13A3"/>
-            <property ID="0x5B468021"/>
-            <property ID="0xCECAD2C3"/>
-            <property ID="0x7E542EAA"/>
-            <property ID="0xBFACE762"/>
-            <property ID="0x3761C8E8"/>
-            <property ID="0x31C8BCAA"/>
-            <property ID="0x1E1A49D5"/>
-            <property ID="0x4A8CF2F7"/>
-            <property ID="0xFBF28895"/>
-            <property ID="0x1961D4A5"/>
-            <property ID="0x1FE966F1"/>
-            <property ID="0x7DEC1AEF"/>
-            <property ID="0xB3B5C8CB"/>
-            <property ID="0x902D66F9"/>
-            <property ID="0xEDF4020E"/>
-            <property ID="0x9CF48EFC"/>
-            <property ID="0xE698941F"/>
+            <properties>
+                <property ID="0x6ADE8B91" type="character"/>
+                <property ID="0xFBF9569B" type="file" extensions="PART"/>
+                <property ID="0x8E14567B" type="file" extensions="PART"/>
+                <property ID="0xEA2C7744" type="file" extensions="PART"/>
+                <property ID="0x5A3ED5A0" type="file" extensions="PART"/>
+                <property ID="0x70BED427" type="file" extensions="PART"/>
+                <property ID="0xACD369C1" type="file" extensions="PART"/>
+                <property ID="0x1DAD13A3" type="file" extensions="PART"/>
+                <property ID="0x5B468021" type="file" extensions="PART"/>
+                <property ID="0xCECAD2C3" type="file" extensions="CMDL"/>
+                <property ID="0x7E542EAA" type="file" extensions="PART"/>
+                <property ID="0xBFACE762" type="color">
+                    <default>1.0, 0.0, 0.0, 1.0</default>
+                </property>
+                <property ID="0x3761C8E8" type="color">
+                    <default>1.0, 1.0, 1.0, 1.0</default>
+                </property>
+                <property ID="0x31C8BCAA" type="file" extensions="CAUD"/>
+                <property ID="0x1E1A49D5" type="file" extensions="CAUD"/>
+                <property ID="0x4A8CF2F7" type="file" extensions="CAUD"/>
+                <property ID="0xFBF28895" type="file" extensions="CAUD"/>
+                <property ID="0x1961D4A5" type="file" extensions="UNKN"/>
+                <property ID="0x1FE966F1" type="file" extensions="UNKN"/>
+                <property ID="0x7DEC1AEF" type="file" extensions="CAUD"/>
+                <property ID="0xB3B5C8CB" type="file" extensions="CAUD"/>
+                <property ID="0x902D66F9" type="float">
+                    <default>0.25</default>
+                </property>
+                <property ID="0xEDF4020E" type="float">
+                    <default>0.4</default>
+                </property>
+                <property ID="0x9CF48EFC" type="float">
+                    <default>100.0</default>
+                </property>
+                <property ID="0xE698941F" type="float">
+                    <default>10.0</default>
+                </property>
+            </properties>
         </struct>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>

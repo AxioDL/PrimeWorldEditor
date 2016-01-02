@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptTemplate version="4">
+    <name>SpecialFunction</name>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <enum ID="0xB8AFCF21">
+            <default>0x98C5AED7</default>
+            <enumerators>
+                <enumerator ID="0x98C5AED7" name="Unknown 1"/>
+                <enumerator ID="0xFF6D9BE6" name="Unknown 2"/>
+                <enumerator ID="0xFC4247D3" name="Unknown 3"/>
+                <enumerator ID="0x982A42A3" name="Unknown 4"/>
+                <enumerator ID="0x746A8F4F" name="Unknown 5"/>
+                <enumerator ID="0xE13871E3" name="Unknown 6"/>
+                <enumerator ID="0x2C1DC485" name="Unknown 7"/>
+                <enumerator ID="0xB528A4F0" name="Unknown 8"/>
+                <enumerator ID="0x1D97AD5B" name="Unknown 9"/>
+                <enumerator ID="0x129C99C0" name="Unknown 10"/>
+                <enumerator ID="0x792634B9" name="Unknown 11"/>
+                <enumerator ID="0xBBFADF2F" name="Unknown 12"/>
+                <enumerator ID="0x370F508E" name="Unknown 13"/>
+                <enumerator ID="0x7E025D14" name="Unknown 14"/>
+                <enumerator ID="0x766ED410" name="Unknown 15"/>
+                <enumerator ID="0x29837C6C" name="Unknown 16"/>
+                <enumerator ID="0x71967142" name="Unknown 17"/>
+                <enumerator ID="0x53DD05AD" name="Unknown 18"/>
+                <enumerator ID="0x3D1A78AC" name="Unknown 19"/>
+                <enumerator ID="0x73810303" name="Unknown 20"/>
+                <enumerator ID="0xA8B03E1A" name="Unknown 21"/>
+                <enumerator ID="0xD5D0EA93" name="Unknown 22"/>
+                <enumerator ID="0x6C963236" name="Unknown 23"/>
+                <enumerator ID="0xB5FC495C" name="Unknown 24"/>
+                <enumerator ID="0x78AD9BEF" name="Unknown 25"/>
+                <enumerator ID="0xFE41E1E9" name="Unknown 26"/>
+                <enumerator ID="0x1C7FDCAB" name="Unknown 27"/>
+                <enumerator ID="0x63F10B1F" name="Unknown 28"/>
+                <enumerator ID="0x14A3B65C" name="Unknown 29"/>
+                <enumerator ID="0xFE065C29" name="Unknown 30"/>
+                <enumerator ID="0x8838D84A" name="Unknown 31"/>
+                <enumerator ID="0x9B86DE10" name="Unknown 32"/>
+                <enumerator ID="0xD4988D98" name="Unknown 33"/>
+                <enumerator ID="0x90031E91" name="Unknown 34"/>
+                <enumerator ID="0x9BE4E305" name="Unknown 35"/>
+                <enumerator ID="0xD6394D61" name="Unknown 36"/>
+                <enumerator ID="0x26AA4AC9" name="Unknown 37"/>
+                <enumerator ID="0xD8AD2D4A" name="Unknown 38"/>
+                <enumerator ID="0xEF4684FC" name="Unknown 39"/>
+                <enumerator ID="0xDF1BE1A6" name="Unknown 40"/>
+                <enumerator ID="0x441AEE66" name="Unknown 41"/>
+                <enumerator ID="0x8F226F1D" name="Unknown 42"/>
+                <enumerator ID="0x96AB6130" name="Unknown 43"/>
+                <enumerator ID="0x83888007" name="Unknown 44"/>
+                <enumerator ID="0x698AAB1A" name="Unknown 45"/>
+                <enumerator ID="0x9349C56D" name="Unknown 46"/>
+                <enumerator ID="0x3D20812F" name="Unknown 47"/>
+                <enumerator ID="0x5F266355" name="Unknown 48"/>
+                <enumerator ID="0x1B2F7D23" name="Unknown 49"/>
+                <enumerator ID="0x08CCC218" name="Unknown 50"/>
+                <enumerator ID="0xC05D96F3" name="Unknown 51"/>
+                <enumerator ID="0x2A535FD6" name="Unknown 52"/>
+                <enumerator ID="0x14B45D36" name="Unknown 53"/>
+                <enumerator ID="0xD7E2F62F" name="Unknown 54"/>
+                <enumerator ID="0x7F0CE328" name="Unknown 55"/>
+                <enumerator ID="0x9EAEB97A" name="Unknown 56"/>
+                <enumerator ID="0xB0D2FCA9" name="Unknown 57"/>
+                <enumerator ID="0x9A22561C" name="Unknown 58"/>
+                <enumerator ID="0x05FE350B" name="Unknown 59"/>
+                <enumerator ID="0xE6472D82" name="Unknown 60"/>
+                <enumerator ID="0x2CB1471C" name="Unknown 61"/>
+                <enumerator ID="0xF73614C9" name="Unknown 62"/>
+                <enumerator ID="0x0E578ADF" name="Unknown 63"/>
+                <enumerator ID="0xDFE51E86" name="Unknown 64"/>
+                <enumerator ID="0x661EC9E0" name="Unknown 65"/>
+                <enumerator ID="0xD3F99123" name="Unknown 66"/>
+                <enumerator ID="0x0BFA25CC" name="Unknown 67"/>
+                <enumerator ID="0x49069735" name="Unknown 68"/>
+                <enumerator ID="0x0B08E8E0" name="Unknown 69"/>
+                <enumerator ID="0x002E5341" name="Unknown 70"/>
+                <enumerator ID="0x136F5286" name="Unknown 71"/>
+            </enumerators>
+        </enum>
+        <property ID="0x9D7A576D" type="string"/>
+        <property ID="0x19028099" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x2C93AAF5" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xE7CF7950" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xFACA49E8" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xA734F8A5" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0xB581574B" type="long">
+            <default>0</default>
+        </property>
+        <enum ID="0x3FA164BC" template="Enums/Item.xml">
+            <default>0xFB73F2B8</default>
+        </enum>
+        <property ID="0x5ECF8F67" type="file" extensions="UNKN"/>
+        <property ID="0xD85BFDC9" type="file" extensions="UNKN"/>
+        <property ID="0x13072E6C" type="file" extensions="UNKN"/>
+    </properties>
+    <states/>
+    <messages/>
+    <editor>
+        <properties>
+            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
+            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
+            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
+            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
+        </properties>
+		<assets>
+            <billboard source="file">script/common/SpecialFunction.txtr</billboard>
+		</assets>
+		<preview_scale>0.5</preview_scale>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>enabled</scale_type>
+    </editor>
+</ScriptTemplate>

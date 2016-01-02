@@ -1,25 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>GuiSlider</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml">
+            <properties>
+                <property ID="0x41435456">
+                    <default>false</default>
+                </property>
+            </properties>
         </struct>
-        <struct ID="0x91CEFA1E" type="multi">
-            <property ID="0x73939407"/>
-            <property ID="0xDB7F4AA2"/>
-            <property ID="0xDEE730F5"/>
-        </struct>
-        <property ID="0x2CCBBDFE"/>
-        <property ID="0x6C84C588"/>
-        <property ID="0x8A68DB52"/>
-        <property ID="0xEDB6062B"/>
-        <property ID="0xD158734B"/>
-        <property ID="0x20DDB661"/>
+        <struct ID="0x91CEFA1E" template="Structs/GuiWidgetProperties.xml"/>
+        <property ID="0x2CCBBDFE" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x6C84C588" type="float">
+            <default>255.0</default>
+        </property>
+        <property ID="0x8A68DB52" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0xEDB6062B" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0xD158734B" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0x20DDB661" type="long">
+            <default>127</default>
+        </property>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>Water</name>
-    <properties version="NTSC">
+    <properties>
         <property ID="0x00" name="Name" type="string"/>
         <property ID="0x01" name="Position" type="vector3f"/>
         <property ID="0x02" name="Volume" type="vector3f"/>
@@ -10,12 +10,12 @@
         <property ID="0x05" name="Unknown 2" type="long"/>
         <property ID="0x06" name="Unknown 3" type="bool"/>
         <property ID="0x07" name="Unknown 4" type="bool"/>
-        <property ID="0x08" name="Texture 1" type="file" ext="TXTR"/>
-        <property ID="0x09" name="Texture 2" type="file" ext="TXTR"/>
-        <property ID="0x0A" name="Texture 3" type="file" ext="TXTR"/>
-        <property ID="0x0B" name="Texture 4" type="file" ext="TXTR"/>
-        <property ID="0x0C" name="Texture 5" type="file" ext="TXTR"/>
-        <property ID="0x0D" name="Texture 6" type="file" ext="TXTR"/>
+        <property ID="0x08" name="Texture 1" type="file" extensions="TXTR"/>
+        <property ID="0x09" name="Texture 2" type="file" extensions="TXTR"/>
+        <property ID="0x0A" name="Texture 3" type="file" extensions="TXTR"/>
+        <property ID="0x0B" name="Texture 4" type="file" extensions="TXTR"/>
+        <property ID="0x0C" name="Texture 5" type="file" extensions="TXTR"/>
+        <property ID="0x0D" name="Texture 6" type="file" extensions="TXTR"/>
         <property ID="0x0E" name="Unknown 5" type="vector3f"/>
         <property ID="0x0F" name="Unknown 6" type="float"/>
         <property ID="0x10" name="Unknown 7" type="float"/>
@@ -25,23 +25,25 @@
         <property ID="0x14" name="Unknown 11" type="bool"/>
         <property ID="0x15" name="Unknown 12" type="float"/>
         <struct ID="0x16" name="FluidUVMotion" type="single">
-            <property ID="0x00" name="Unknown 13" type="long"/>
-            <property ID="0x01" name="Unknown 14" type="float"/>
-            <property ID="0x02" name="Unknown 15" type="float"/>
-            <property ID="0x03" name="Unknown 16" type="float"/>
-            <property ID="0x04" name="Unknown 17" type="float"/>
-            <property ID="0x05" name="Unknown 18" type="long"/>
-            <property ID="0x06" name="Unknown 19" type="float"/>
-            <property ID="0x07" name="Unknown 20" type="float"/>
-            <property ID="0x08" name="Unknown 21" type="float"/>
-            <property ID="0x09" name="Unknown 22" type="float"/>
-            <property ID="0x0A" name="Unknown 23" type="long"/>
-            <property ID="0x0B" name="Unknown 24" type="float"/>
-            <property ID="0x0C" name="Unknown 25" type="float"/>
-            <property ID="0x0D" name="Unknown 26" type="float"/>
-            <property ID="0x0E" name="Unknown 27" type="float"/>
-            <property ID="0x0F" name="Unknown 28" type="float"/>
-            <property ID="0x10" name="Unknown 29" type="float"/>
+            <properties>
+                <property ID="0x00" name="Unknown 13" type="long"/>
+                <property ID="0x01" name="Unknown 14" type="float"/>
+                <property ID="0x02" name="Unknown 15" type="float"/>
+                <property ID="0x03" name="Unknown 16" type="float"/>
+                <property ID="0x04" name="Unknown 17" type="float"/>
+                <property ID="0x05" name="Unknown 18" type="long"/>
+                <property ID="0x06" name="Unknown 19" type="float"/>
+                <property ID="0x07" name="Unknown 20" type="float"/>
+                <property ID="0x08" name="Unknown 21" type="float"/>
+                <property ID="0x09" name="Unknown 22" type="float"/>
+                <property ID="0x0A" name="Unknown 23" type="long"/>
+                <property ID="0x0B" name="Unknown 24" type="float"/>
+                <property ID="0x0C" name="Unknown 25" type="float"/>
+                <property ID="0x0D" name="Unknown 26" type="float"/>
+                <property ID="0x0E" name="Unknown 27" type="float"/>
+                <property ID="0x0F" name="Unknown 28" type="float"/>
+                <property ID="0x10" name="Unknown 29" type="float"/>
+            </properties>
         </struct>
         <property ID="0x17" name="Unknown 30" type="float"/>
         <property ID="0x18" name="Unknown 31" type="float"/>
@@ -53,11 +55,11 @@
         <property ID="0x1E" name="Unknown 37" type="float"/>
         <property ID="0x1F" name="Unknown 38" type="color"/>
         <property ID="0x20" name="Unknown 39" type="color"/>
-        <property ID="0x21" name="Particle 1" type="file" ext="PART"/>
-        <property ID="0x22" name="Particle 2" type="file" ext="PART"/>
-        <property ID="0x23" name="Particle 3" type="file" ext="PART"/>
-        <property ID="0x24" name="Particle 4" type="file" ext="PART"/>
-        <property ID="0x25" name="Particle 5" type="file" ext="PART"/>
+        <property ID="0x21" name="Particle 1" type="file" extensions="PART"/>
+        <property ID="0x22" name="Particle 2" type="file" extensions="PART"/>
+        <property ID="0x23" name="Particle 3" type="file" extensions="PART"/>
+        <property ID="0x24" name="Particle 4" type="file" extensions="PART"/>
+        <property ID="0x25" name="Particle 5" type="file" extensions="PART"/>
         <property ID="0x26" name="Sound? 1" type="long"/>
         <property ID="0x27" name="Sound? 2" type="long"/>
         <property ID="0x28" name="Sound? 3" type="long"/>
@@ -74,7 +76,7 @@
         <property ID="0x33" name="Unknown 48" type="float"/>
         <property ID="0x34" name="Unknown 49" type="float"/>
         <property ID="0x35" name="Unknown 50" type="color"/>
-        <property ID="0x36" name="Texture 7" type="file" ext="TXTR"/>
+        <property ID="0x36" name="Texture 7" type="file" extensions="TXTR"/>
         <property ID="0x37" name="Unknown 51" type="float"/>
         <property ID="0x38" name="Unknown 52" type="float"/>
         <property ID="0x39" name="Unknown 53" type="float"/>

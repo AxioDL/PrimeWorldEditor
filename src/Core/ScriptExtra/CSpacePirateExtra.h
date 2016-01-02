@@ -2,15 +2,15 @@
 #define CSPACEPIRATEEXTRA_H
 
 #include "CScriptExtra.h"
-#include "Core/Resource/Script/CProperty.h"
+#include "Core/Resource/Script/IProperty.h"
 
 class CSpacePirateExtra : public CScriptExtra
 {
     // Render beam troopers with the correct color
-    CLongProperty *mpPowerVuln;
-    CLongProperty *mpWaveVuln;
-    CLongProperty *mpIceVuln;
-    CLongProperty *mpPlasmaVuln;
+    TLongProperty *mpPowerVuln;
+    TLongProperty *mpWaveVuln;
+    TLongProperty *mpIceVuln;
+    TLongProperty *mpPlasmaVuln;
 
 public:
     explicit CSpacePirateExtra(CScriptObject *pInstance, CSceneManager *pScene, CSceneNode *pParent = 0);

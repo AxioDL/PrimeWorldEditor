@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="OceanBridgeStructB" type="multi">
+    <properties>
+        <enum ID="0x5CE1B917">
+            <default>0xAE14FDF2</default>
+            <enumerators>
+                <enumerator ID="0x2C537229" name="Unknown 1"/>
+                <enumerator ID="0xAE14FDF2" name="Unknown 2"/>
+                <enumerator ID="0xD5CA1C57" name="Unknown 3"/>
+                <enumerator ID="0x0E9FDBE0" name="Unknown 4"/>
+            </enumerators>
+        </enum>
+    </properties>
+</struct>

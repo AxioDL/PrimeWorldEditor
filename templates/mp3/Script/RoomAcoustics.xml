@@ -1,23 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>RoomAcoustics</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <property ID="0x0BE7CA9E"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <enum ID="0x0BE7CA9E">
+            <default>0x3AAA1114</default>
+            <enumerators>
+                <enumerator ID="0x1C750ED3" name="Unknown 1"/>
+                <enumerator ID="0x3AAA1114" name="Unknown 2"/>
+                <enumerator ID="0xD42E70C4" name="Unknown 3"/>
+                <enumerator ID="0x1BAD2014" name="Unknown 4"/>
+                <enumerator ID="0x9D82E6BE" name="Unknown 5"/>
+            </enumerators>
+        </enum>
         <struct ID="0x555B055E" type="multi">
-            <property ID="0x44335AFF"/>
-            <property ID="0x5724CCD8"/>
-            <property ID="0xFCF4AAB0"/>
-            <property ID="0x5D6B1084"/>
-            <property ID="0xFB11A412"/>
-            <property ID="0xDE9DD8B8"/>
+            <properties>
+                <property ID="0x44335AFF" type="float">
+                    <default>0.01</default>
+                </property>
+                <property ID="0x5724CCD8" type="float">
+                    <default>0.0</default>
+                </property>
+                <property ID="0xFCF4AAB0" type="float">
+                    <default>0.0</default>
+                </property>
+                <property ID="0x5D6B1084" type="float">
+                    <default>0.0</default>
+                </property>
+                <property ID="0xFB11A412" type="float">
+                    <default>0.0</default>
+                </property>
+                <property ID="0xDE9DD8B8" type="float">
+                    <default>0.3</default>
+                </property>
+            </properties>
         </struct>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>

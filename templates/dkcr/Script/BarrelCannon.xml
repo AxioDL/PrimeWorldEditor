@@ -1,65 +1,149 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>BarrelCannon</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0xF344C0B0" type="vector3f">
+            <default>0.0, 0.0, 0.0</default>
+        </property>
+        <property ID="0x2E686C2A" type="vector3f">
+            <default>0.0, 0.0, 0.0</default>
+        </property>
+        <property ID="0xC27FFA8F" type="file" extensions="CMDL"/>
+        <property ID="0xA3D63F44" type="character"/>
+        <property ID="0x1B21EEB2" type="file" extensions="FSMC"/>
+        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
+        <property ID="0x0FC966DC" type="file" extensions="DCLN"/>
+        <struct ID="0xCF90D15E" template="Structs/HealthInfo.xml"/>
+        <property ID="0xDCD56FE8" type="long">
+            <default>200</default>
+        </property>
+        <property ID="0x682DE15C" type="long">
+            <default>20</default>
+        </property>
+        <property ID="0xAC3ADDA6" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xF203BC81" type="bool">
+            <default>false</default>
+        </property>
+        <struct ID="0x0A9DBF91" template="Structs/PlatformMotionProperties.xml">
+            <properties>
+                <property ID="0xAE80628F">
+                    <default>262176</default>
+                </property>
+            </properties>
         </struct>
-        <property ID="0xC27FFA8F"/>
-        <property ID="0xA3D63F44"/>
-        <property ID="0x1B21EEB2"/>
-        <struct ID="0x7E397FED" type="multi">
-            <struct ID="0xB028DB0E" type="multi">
-                <property ID="0x6B5E7509"/>
-                <property ID="0x1F715FD3"/>
-                <property ID="0xA71810E9"/>
-            </struct>
-            <property ID="0x101EA33E"/>
-        </struct>
-        <property ID="0x0FC966DC"/>
-        <struct ID="0x0A9DBF91" type="multi">
-            <property ID="0x27E5F874"/>
-            <property ID="0xFD1E2F56"/>
-            <property ID="0x4885DFFA"/>
-            <property ID="0xA5753D52"/>
-            <property ID="0xAE80628F"/>
-            <property ID="0x628BDF0F"/>
-            <property ID="0x78D03A32"/>
-            <property ID="0xB4A2E15A"/>
-            <struct ID="0x493D6A2D" type="multi">
-                <property ID="0xF53DCDD6"/>
-            </struct>
-        </struct>
+        <property ID="0x24FDEEA1" type="vector3f">
+            <default>0.0, 0.15, 0.0</default>
+        </property>
+        <property ID="0xBF69C03E" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x6B5E87A7" type="float">
+            <default>1800.0</default>
+        </property>
+        <property ID="0x3DC75733" type="float">
+            <default>30.0</default>
+        </property>
         <struct ID="0xF04C61F3" type="multi">
-            <property ID="0x89664723"/>
-            <property ID="0x2B2F4519"/>
-            <property ID="0x25967162"/>
-            <property ID="0x49D8E65A"/>
-            <property ID="0x2D2A4AD6"/>
-            <property ID="0xD5ED0F77"/>
-            <property ID="0x89D7791E"/>
-            <property ID="0x31381A17"/>
-            <property ID="0xC440842B"/>
-            <property ID="0x9BB1543F"/>
-            <property ID="0x32FAB97E"/>
-            <property ID="0x97AD5BEE"/>
-            <property ID="0x094B5AD6"/>
-            <property ID="0x061321AE"/>
-            <property ID="0x26B5FCDF"/>
-            <property ID="0x06D1B8C7"/>
-            <property ID="0x98501823"/>
-            <property ID="0x098ECAB6"/>
-            <property ID="0x36051905"/>
-            <property ID="0xFC4118DD"/>
-            <property ID="0x4D6847E5"/>
-            <property ID="0x2255A13D"/>
-            <property ID="0x6C2AD8B4"/>
-            <property ID="0x341F63F8"/>
+            <properties>
+                <property ID="0x89664723" type="float">
+                    <default>1.5</default>
+                </property>
+                <property ID="0x2B2F4519" type="float">
+                    <default>3.0</default>
+                </property>
+                <property ID="0xFB35A95A" type="float">
+                    <default>1.0</default>
+                </property>
+                <property ID="0x49D8E65A" type="bool">
+                    <default>false</default>
+                </property>
+                <property ID="0x2D2A4AD6" type="long">
+                    <default>0</default>
+                </property>
+                <property ID="0xD5ED0F77" type="float">
+                    <default>0.15</default>
+                </property>
+                <property ID="0x89D7791E" type="long">
+                    <default>0</default>
+                </property>
+                <property ID="0x31381A17" type="float">
+                    <default>21.0</default>
+                </property>
+                <property ID="0xC440842B" type="float">
+                    <default>0.0</default>
+                </property>
+                <property ID="0x9BB1543F" type="float">
+                    <default>1.05</default>
+                </property>
+                <property ID="0x061321AE" type="float">
+                    <default>0.2</default>
+                </property>
+                <property ID="0x32FAB97E" type="long">
+                    <default>0</default>
+                </property>
+                <property ID="0x97AD5BEE" type="bool">
+                    <default>true</default>
+                </property>
+                <property ID="0x094B5AD6" type="bool">
+                    <default>true</default>
+                </property>
+                <property ID="0x25967162" type="bool">
+                    <default>true</default>
+                </property>
+                <property ID="0x26B5FCDF" type="bool">
+                    <default>true</default>
+                </property>
+                <property ID="0x6C2AD8B4" type="bool">
+                    <default>false</default>
+                </property>
+                <property ID="0x36051905" type="bool">
+                    <default>true</default>
+                </property>
+                <property ID="0xFC4118DD" type="bool">
+                    <default>true</default>
+                </property>
+                <property ID="0x06D1B8C7" type="bool">
+                    <default>false</default>
+                </property>
+                <property ID="0x341F63F8" type="bool">
+                    <default>false</default>
+                </property>
+                <property ID="0x4D6847E5" type="bool">
+                    <default>false</default>
+                </property>
+                <property ID="0x2255A13D" type="bool">
+                    <default>false</default>
+                </property>
+                <enum ID="0x98501823" template="Enums/BarrelCannonEnum.xml">
+                    <default>0xA61445EB</default>
+                </enum>
+                <enum ID="0x098ECAB6" template="Enums/BarrelCannonEnum.xml">
+                    <default>0x0009FA85</default>
+                </enum>
+            </properties>
+        </struct>
+        <property ID="0xFAF13D08" type="bool">
+            <default>false</default>
+        </property>
+        <struct ID="0xC9D225C7" type="multi">
+            <properties>
+                <property ID="0x21970404" type="float">
+                    <default>0.0</default>
+                </property>
+                <property ID="0x10D28308" type="bool">
+                    <default>true</default>
+                </property>
+                <property ID="0x27654F46" type="float">
+                    <default>0.0</default>
+                </property>
+            </properties>
         </struct>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>

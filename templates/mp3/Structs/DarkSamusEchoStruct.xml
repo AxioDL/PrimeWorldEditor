@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="DarkSamusEchoStruct" type="multi">
+    <properties>
+        <property ID="0x0687C33E" type="file" extensions="PART"/>
+        <property ID="0xED08FC4B" type="file" extensions="CAUD"/>
+        <property ID="0x8F0400E2" type="file" extensions="PART"/>
+        <property ID="0xCCC7A920" type="file" extensions="CAUD"/>
+        <property ID="0x446EFCAD" type="float">
+            <default>3.0</default>
+        </property>
+        <property ID="0x2EDF3368" type="float">
+            <default>4.0</default>
+        </property>
+        <property ID="0x9F269614" type="float">
+            <default>2.0</default>
+        </property>
+        <property ID="0x992C7B48" type="float">
+            <default>50.0</default>
+        </property>
+        <struct ID="0x76293001" template="Structs/DamageInfo.xml"/>
+        <property ID="0xC3A06AE1" type="float">
+            <default>0.7</default>
+        </property>
+        <property ID="0x23E3C3BB" type="float">
+            <default>0.3</default>
+        </property>
+        <property ID="0x597245A1" type="float">
+            <default>5.0</default>
+        </property>
+        <property ID="0x76AD063C" type="float">
+            <default>20.0</default>
+        </property>
+        <property ID="0xD03984CD" type="float">
+            <default>135.0</default>
+        </property>
+        <property ID="0xE831A7D0" type="float">
+            <default>5.0</default>
+        </property>
+        <property ID="0xBEB2B793" type="float">
+            <default>3.0</default>
+        </property>
+        <property ID="0x9D9D3760" type="float">
+            <default>3.0</default>
+        </property>
+        <property ID="0x26B752E1" type="character"/>
+        <struct ID="0xDC89CC3C" template="Structs/SpacePirateWeaponData.xml"/>
+    </properties>
+</struct>

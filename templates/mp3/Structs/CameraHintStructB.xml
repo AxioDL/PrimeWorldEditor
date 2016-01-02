@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="CameraHintStructB" type="multi">
+    <properties>
+        <enum ID="0x559542AB">
+            <default>0x571AA317</default>
+            <enumerators>
+                <enumerator ID="0xEBC96FEE" name="Unknown 1"/>
+                <enumerator ID="0xE52BC0C1" name="Unknown 2"/>
+                <enumerator ID="0x571AA317" name="Unknown 3"/>
+                <enumerator ID="0xED705EB1" name="Unknown 4"/>
+            </enumerators>
+        </enum>
+        <struct ID="0x4150490C" type="multi">
+            <properties>
+                <enum ID="0xB80D00A8">
+                    <default>0x15F0534B</default>
+                    <enumerators>
+                        <enumerator ID="0x15F0534B" name="Unknown 1"/>
+                        <enumerator ID="0x33AD3911" name="Unknown 2"/>
+                        <enumerator ID="0x4F4E2D3F" name="Unknown 3"/>
+                        <enumerator ID="0x69134765" name="Unknown 4"/>
+                    </enumerators>
+                </enum>
+            </properties>
+        </struct>
+    </properties>
+</struct>

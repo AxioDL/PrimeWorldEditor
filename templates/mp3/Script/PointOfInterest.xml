@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>PointOfInterest</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <struct ID="0xBDBEC295" type="multi">
-            <property ID="0xB94E9BE7"/>
-            <property ID="0xFF4AE2EC"/>
-            <property ID="0x42087650"/>
-        </struct>
-        <property ID="0x863C16E3"/>
-        <property ID="0x01F9C5BB"/>
-        <property ID="0x91351B69"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <struct ID="0xBDBEC295" template="Structs/ScannableParameters.xml"/>
+        <property ID="0x863C16E3" type="vector3f">
+            <default>0.0, 0.0, 0.0</default>
+        </property>
+        <property ID="0x01F9C5BB" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x91351B69" type="bool">
+            <default>true</default>
+        </property>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>

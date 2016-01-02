@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="ShockWaveInfo" type="multi">
+    <properties>
+        <property ID="0x369F7D09" type="file" extensions="PART"/>
+        <struct ID="0x337F9524" template="Structs/DamageInfo.xml"/>
+        <property ID="0x78C507EB" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xC2BE030D" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0xCF6C1DE9" type="float">
+            <default>0.5</default>
+        </property>
+        <property ID="0x4CD1459B" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x0A57B09B" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xBD321538" type="file" extensions="ELSC"/>
+        <property ID="0x58A492EF" type="long">
+            <default>-1</default>
+        </property>
+    </properties>
+</struct>

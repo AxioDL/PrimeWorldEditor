@@ -1,35 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>StreamedAudio</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <property ID="0x9D1A67A8"/>
-        <property ID="0xB417064A"/>
-        <property ID="0xC03EC271"/>
-        <property ID="0xEA8D54F4"/>
-        <property ID="0xEB250A0B"/>
-        <property ID="0x0E687518"/>
-        <property ID="0x90AA341F"/>
-        <property ID="0x7C269EBC"/>
-        <property ID="0x6E0E81F8"/>
-        <property ID="0xC7A7F189"/>
-        <property ID="0x25D4798A"/>
-        <property ID="0x214E48A0"/>
-        <property ID="0x72531867"/>
-        <property ID="0xE88FF377"/>
-        <property ID="0x85707354"/>
-        <property ID="0x0794C3EB"/>
-        <property ID="0x2E7C745F"/>
-        <property ID="0xC871BD1B"/>
-        <property ID="0x196E17D9"/>
-        <property ID="0x9558711E"/>
-        <property ID="0xFB8F0B1F"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0x9D1A67A8" type="file" extensions="STRM"/>
+        <property ID="0xB417064A" type="string"/>
+        <property ID="0xC03EC271" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x0E687518" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xEA8D54F4" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xEB250A0B" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x90AA341F" type="float">
+            <default>0.05</default>
+        </property>
+        <property ID="0x7C269EBC" type="float">
+            <default>0.25</default>
+        </property>
+        <property ID="0xC7A7F189" type="float">
+            <default>-6.0</default>
+        </property>
+        <property ID="0xDF4353A3" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x6E0E81F8" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x25D4798A" type="float">
+            <default>2.0</default>
+        </property>
+        <property ID="0x214E48A0" type="float">
+            <default>75.0</default>
+        </property>
+        <property ID="0x72531867" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x85707354" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0xE88FF377" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0x0794C3EB" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x2E7C745F" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xD74245A4" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xC871BD1B" type="string"/>
+        <property ID="0x196E17D9" type="float">
+            <default>0.0</default>
+        </property>
+        <enum ID="0xFB8F0B1F" template="Enums/MusicEnumB.xml">
+            <default>0xCBF698CA</default>
+        </enum>
+        <enum ID="0x9558711E" template="Enums/MusicEnumA.xml">
+            <default>0x28D5A7D7</default>
+        </enum>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
@@ -39,7 +78,8 @@
             <property name="Active" ID="0x255A4580:0x41435456"/>
         </properties>
         <assets/>
+		<preview_scale>0.5</preview_scale>
         <rotation_type>enabled</rotation_type>
-        <scale_type>disabled</scale_type>
+        <scale_type>enabled</scale_type>
     </editor>
 </ScriptTemplate>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="ActorParameters" type="multi">
+    <properties>
+        <struct ID="0xB028DB0E" template="Structs/LightParameters.xml"/>
+        <struct ID="0x375BFD7C" template="Structs/ScannableParameters.xml"/>
+        <property ID="0xC0BA9E18" type="file" extensions="UNKN"/>
+        <property ID="0x9F027D91" type="file" extensions="UNKN"/>
+        <property ID="0x6B1FBC3A" type="file" extensions="UNKN"/>
+        <property ID="0xEB1D06BE" type="file" extensions="UNKN"/>
+        <property ID="0x1499803C" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0x90AA341F" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x7C269EBC" type="float">
+            <default>1.0</default>
+        </property>
+        <struct ID="0x05AD250E" template="Structs/VisorParameters.xml"/>
+        <property ID="0xCD4C81A1" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x799263F1" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xED3A6E87" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0xF07981E8" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x6DF33845" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xC712847C" type="long">
+            <default>127</default>
+        </property>
+        <property ID="0xBA2600D7" type="long">
+            <default>127</default>
+        </property>
+    </properties>
+</struct>

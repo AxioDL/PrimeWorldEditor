@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="EditorProperties" type="multi">
+    <properties>
+        <property ID="0x494E414D" type="string"/>
+        <struct ID="0x5846524D" template="Structs/Transform.xml"/>
+        <property ID="0x41435456" type="bool">
+            <default>true</default>
+        </property>
+    </properties>
+</struct>

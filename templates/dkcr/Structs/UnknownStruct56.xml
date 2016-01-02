@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="UnknownStruct56" type="multi">
+    <properties>
+        <struct ID="0x45D39080" template="Structs/UnknownStruct54.xml"/>
+        <struct ID="0x445EF669" type="multi">
+            <properties>
+                <property ID="0x8A58A7F8" type="long">
+                    <default>1</default>
+                </property>
+                <property ID="0xA9AC7DED" type="float">
+                    <default>2.0</default>
+                </property>
+                <struct ID="0x17A93807" template="Structs/UnknownStruct52.xml">
+                    <properties>
+                        <property ID="0xC3BF43BE">
+                            <default>4.0</default>
+                        </property>
+                    </properties>
+                </struct>
+                <struct ID="0x8C219932" template="Structs/UnknownStruct52.xml">
+                    <properties>
+                        <property ID="0xC3BF43BE">
+                            <default>5.0</default>
+                        </property>
+                    </properties>
+                </struct>
+            </properties>
+        </struct>
+        <struct ID="0xEC8DB600" type="multi">
+            <properties>
+                <property ID="0x8A58A7F8" type="long">
+                    <default>1</default>
+                </property>
+                <property ID="0xD43AAC22" type="float">
+                    <default>5.0</default>
+                </property>
+                <property ID="0x59CCAC1B" type="float">
+                    <default>8.0</default>
+                </property>
+                <property ID="0xD06D58A7" type="float">
+                    <default>1.0</default>
+                </property>
+                <property ID="0xD3C1390E" type="file" extensions="PART"/>
+                <struct ID="0xAE342F0F" template="Structs/DamageEffectData.xml"/>
+            </properties>
+        </struct>
+        <struct ID="0xCCB08A34" type="multi">
+            <properties>
+                <property ID="0xE84A887B" type="float">
+                    <default>1.0</default>
+                </property>
+                <property ID="0x8A58A7F8" type="long">
+                    <default>2</default>
+                </property>
+                <property ID="0x1D18EC45" type="bool">
+                    <default>false</default>
+                </property>
+                <property ID="0x2D8DB31D" type="float">
+                    <default>2.0</default>
+                </property>
+                <property ID="0x634415F0" type="float">
+                    <default>1.0</default>
+                </property>
+                <property ID="0x82090854" type="float">
+                    <default>0.5</default>
+                </property>
+                <property ID="0x0C7F57A5" type="float">
+                    <default>0.5</default>
+                </property>
+                <property ID="0x1A75DCE7" type="float">
+                    <default>0.5</default>
+                </property>
+                <property ID="0x89C8BB60" type="float">
+                    <default>4.0</default>
+                </property>
+            </properties>
+        </struct>
+        <struct ID="0x01197C47" type="multi">
+            <properties>
+                <property ID="0xE84A887B" type="float">
+                    <default>1.0</default>
+                </property>
+                <property ID="0x8A58A7F8" type="long">
+                    <default>2</default>
+                </property>
+                <property ID="0x2D8DB31D" type="float">
+                    <default>2.0</default>
+                </property>
+            </properties>
+        </struct>
+        <struct ID="0xF140225C" type="multi">
+            <properties>
+                <property ID="0x8A58A7F8" type="long">
+                    <default>1</default>
+                </property>
+                <property ID="0x474A91DB" type="float">
+                    <default>3.0</default>
+                </property>
+            </properties>
+        </struct>
+        <struct ID="0xBF455E0F" type="multi">
+            <properties>
+                <property ID="0x8A58A7F8" type="long">
+                    <default>1</default>
+                </property>
+                <property ID="0xCCA8AF3D" type="float">
+                    <default>1.0</default>
+                </property>
+                <property ID="0x4655A9C5" type="float">
+                    <default>1.0</default>
+                </property>
+                <property ID="0xE828E54E" type="float">
+                    <default>6.0</default>
+                </property>
+            </properties>
+        </struct>
+        <property ID="0x98CBFEDC" type="float">
+            <default>0.0</default>
+        </property>
+    </properties>
+</struct>

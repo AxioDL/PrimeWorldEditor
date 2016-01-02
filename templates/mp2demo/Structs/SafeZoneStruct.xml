@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="SafeZoneStruct" type="multi">
+    <properties>
+        <property ID="0xC6BFC270" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0xD4839A3F" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xE0903825" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0xE5567935" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0xD09F83E7" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0xC496A6A8" type="float">
+            <default>50.0</default>
+        </property>
+        <property ID="0x74F8A729" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0x521382C7" type="float">
+            <default>-0.04</default>
+        </property>
+        <property ID="0x1BE4426E" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x34B2A190" type="float">
+            <default>4.0</default>
+        </property>
+        <property ID="0xAD4715A8" type="float">
+            <default>2.0</default>
+        </property>
+        <property ID="0x1E712EE2" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0x24F6BBFA" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x229CEF2E" type="float">
+            <default>0.03</default>
+        </property>
+        <property ID="0x1D7A1562" type="float">
+            <default>4.0</default>
+        </property>
+        <property ID="0xBC3A7FD1" type="float">
+            <default>2.0</default>
+        </property>
+        <property ID="0xA3BB422C" type="long">
+            <default>-1</default>
+        </property>
+        <property ID="0x47B4E863" type="color">
+            <default>0.094118, 0.498039, 0.498039, 1.0</default>
+        </property>
+        <property ID="0xE68B1FA8" type="color">
+            <default>0.74902, 0.74902, 0.74902, 1.0</default>
+        </property>
+    </properties>
+</struct>

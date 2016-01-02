@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="CameraShakerData" type="multi">
+    <properties>
+        <property ID="0xC3E75C5F" type="long">
+            <default>16</default>
+        </property>
+        <property ID="0x4D283AC5" type="float">
+            <default>5.0</default>
+        </property>
+        <struct ID="0xF122CD97" template="Structs/MayaSpline.xml"/>
+        <struct ID="0x2927E544" template="Structs/MayaSpline.xml"/>
+        <struct ID="0x7CFA4678" template="Structs/MayaSpline.xml"/>
+        <property ID="0x8B51E23F" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x388D2E46" type="long">
+            <default>-1</default>
+        </property>
+    </properties>
+</struct>

@@ -1,27 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>ClingPathControl</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <property ID="0xB0B97F9F"/>
-        <struct ID="0x20091B54" type="multi">
-            <property ID="0xF53DCDD6"/>
-        </struct>
-        <property ID="0x00DD86E2"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0xB0B97F9F" type="long">
+            <default>0</default>
+        </property>
+        <struct ID="0x20091B54" template="Structs/SplineType.xml"/>
         <struct ID="0x4985A099" type="multi">
-            <property ID="0x8C9927C2"/>
-            <property ID="0xF70BEFC0"/>
-            <property ID="0xD7D2B3DE"/>
-            <struct ID="0xFA166886" type="multi">
-                <property ID="0x95A68D4C"/>
-            </struct>
+            <properties>
+                <struct ID="0xFA166886" template="Structs/ClingPathControlStruct.xml">
+                    <properties>
+                        <enum ID="0x95A68D4C">
+                            <default>0xF0F41378</default>
+                        </enum>
+                    </properties>
+                </struct>
+                <property ID="0xF70BEFC0" type="bool">
+                    <default>false</default>
+                </property>
+                <property ID="0xD7D2B3DE" type="float">
+                    <default>0.0</default>
+                </property>
+                <enum ID="0x8C9927C2">
+                    <default>0x2AEDDF04</default>
+                    <enumerators>
+                        <enumerator ID="0x2AEDDF04" name="Unknown 1"/>
+                        <enumerator ID="0xCDAE7D89" name="Unknown 2"/>
+                        <enumerator ID="0x745FB466" name="Unknown 3"/>
+                    </enumerators>
+                </enum>
+            </properties>
         </struct>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
@@ -31,7 +44,8 @@
             <property name="Active" ID="0x255A4580:0x41435456"/>
         </properties>
         <assets/>
+		<preview_scale>0.5</preview_scale>
         <rotation_type>enabled</rotation_type>
-        <scale_type>disabled</scale_type>
+        <scale_type>enabled</scale_type>
     </editor>
 </ScriptTemplate>

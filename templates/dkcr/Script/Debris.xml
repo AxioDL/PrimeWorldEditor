@@ -1,88 +1,221 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>Debris</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x5D298A43"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml">
+            <properties>
+                <property ID="0x41435456">
+                    <default>false</default>
+                </property>
+            </properties>
         </struct>
-        <struct ID="0x7E397FED" type="multi">
-            <struct ID="0xB028DB0E" type="multi">
-                <property ID="0x1F715FD3"/>
-                <property ID="0x6B5E7509"/>
-                <property ID="0x628E6AC3"/>
-                <property ID="0xA71810E9"/>
-                <property ID="0xD19DE775"/>
-                <property ID="0xA33E5B0E"/>
-            </struct>
-            <property ID="0x90AA341F"/>
-            <property ID="0x7C269EBC"/>
-            <property ID="0xED3A6E87"/>
-        </struct>
+        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
         <struct ID="0x8A1C821D" type="multi">
-            <property ID="0x5C3C4A57"/>
-            <property ID="0xA79FC55F"/>
-            <property ID="0x01A0DFE6"/>
-            <property ID="0xEF90F09D"/>
-            <property ID="0xC4B1E6A1"/>
-            <property ID="0x0185263E"/>
-            <property ID="0x140EF2CC"/>
-            <property ID="0xF78C8AC7"/>
-            <property ID="0xB69BB541"/>
-            <property ID="0xD6594622"/>
-            <property ID="0xFF27BB3A"/>
-            <property ID="0x6B571BA5"/>
-            <property ID="0x50051A17"/>
-            <property ID="0x3A5634D8"/>
-            <property ID="0x6353C409"/>
-            <property ID="0x417F4A91"/>
-            <property ID="0x16B72D49"/>
-            <property ID="0x2F2AE3E5"/>
-            <property ID="0x295F05B7"/>
-            <property ID="0x886E7C9F"/>
-            <property ID="0x80C22A0A"/>
-            <property ID="0xC27FFA8F"/>
-            <property ID="0xEEDBB07E"/>
-            <property ID="0x93F8E0B0"/>
-            <property ID="0xF1925576"/>
-            <property ID="0x991202C3"/>
-            <property ID="0xE82E7ED7"/>
-            <property ID="0x310DFAC8"/>
-            <property ID="0x478D0AA3"/>
-            <property ID="0xDB1FA61C"/>
-            <property ID="0x19A6F71F"/>
-            <struct ID="0xF5DD4690" type="multi">
-                <property ID="0xF4BF6637"/>
-            </struct>
-            <property ID="0xC119780D"/>
-            <struct ID="0x3CE95D9D" type="multi">
-                <property ID="0xF4BF6637"/>
-            </struct>
-            <property ID="0x217C37C2"/>
-            <property ID="0x32375E0E"/>
-            <property ID="0x60D6BF8E"/>
-            <property ID="0xE73B9EB0"/>
-            <struct ID="0xCE59EBFF" type="multi">
-                <property ID="0x055B8291"/>
-            </struct>
-            <property ID="0x8723498A"/>
-            <property ID="0x55D8ACE3"/>
-            <property ID="0x4EDB1D0E"/>
-            <property ID="0xE5ECED02"/>
-            <property ID="0x0F2C673E"/>
-            <property ID="0x0D7FAD55"/>
-            <property ID="0xF83C1C1F"/>
-            <property ID="0x88B1AF46"/>
-            <property ID="0x2C7B18DD"/>
+            <properties>
+                <property ID="0x5C3C4A57" type="float">
+                    <default>180.0</default>
+                </property>
+                <property ID="0xA79FC55F" type="float">
+                    <default>180.0</default>
+                </property>
+                <property ID="0x01A0DFE6" type="vector3f">
+                    <default>0.0, 0.0, 1.0</default>
+                </property>
+                <property ID="0xEF90F09D" type="vector3f">
+                    <default>0.0, 0.0, 0.0</default>
+                </property>
+                <property ID="0xC4B1E6A1" type="bool">
+                    <default>true</default>
+                </property>
+                <property ID="0x0185263E" type="float">
+                    <default>5.0</default>
+                </property>
+                <property ID="0x140EF2CC" type="float">
+                    <default>15.0</default>
+                </property>
+                <property ID="0xF78C8AC7" type="vector3f">
+                    <default>-1.0, -1.0, -1.0</default>
+                </property>
+                <property ID="0xB69BB541" type="vector3f">
+                    <default>1.0, 1.0, 1.0</default>
+                </property>
+                <property ID="0xD6594622" type="float">
+                    <default>2.0</default>
+                </property>
+                <property ID="0xFF27BB3A" type="float">
+                    <default>3.0</default>
+                </property>
+                <property ID="0x6B571BA5" type="float">
+                    <default>0.0</default>
+                </property>
+                <property ID="0x50051A17" type="float">
+                    <default>10.0</default>
+                </property>
+                <property ID="0x6353C409" type="float">
+                    <default>80.0</default>
+                </property>
+                <property ID="0x3A5634D8" type="color">
+                    <default>1.0, 1.0, 1.0, 0.0</default>
+                </property>
+                <property ID="0x7C6EBE98" type="color">
+                    <default>1.0, 1.0, 1.0, 1.0</default>
+                </property>
+                <property ID="0x5AF5867D" type="color">
+                    <default>1.0, 1.0, 1.0, 0.0</default>
+                </property>
+                <property ID="0xD79690B4" type="bool">
+                    <default>false</default>
+                </property>
+                <property ID="0x0145D02D" type="bool">
+                    <default>false</default>
+                </property>
+                <property ID="0x886E7C9F" type="float">
+                    <default>80.0</default>
+                </property>
+                <property ID="0x80C22A0A" type="vector3f">
+                    <default>1.0, 1.0, 1.0</default>
+                </property>
+                <property ID="0x417F4A91" type="float">
+                    <default>0.375</default>
+                </property>
+                <property ID="0x16B72D49" type="float">
+                    <default>0.1</default>
+                </property>
+                <property ID="0x2F2AE3E5" type="float">
+                    <default>25.0</default>
+                </property>
+                <property ID="0x295F05B7" type="float">
+                    <default>1.0</default>
+                </property>
+                <property ID="0xC27FFA8F" type="file" extensions="CMDL"/>
+                <property ID="0xEEDBB07E" type="vector3f">
+                    <default>0.0, 0.0, 0.0</default>
+                </property>
+                <property ID="0x93F8E0B0" type="file" extensions="CAUD"/>
+                <property ID="0xF1925576" type="file" extensions="CAUD"/>
+                <property ID="0x991202C3" type="long">
+                    <default>1</default>
+                </property>
+                <property ID="0x76C79503" type="float">
+                    <default>1.0</default>
+                </property>
+                <property ID="0x310DFAC8" type="float">
+                    <default>1.0</default>
+                </property>
+                <property ID="0x5E9F5215" type="float">
+                    <default>0.1</default>
+                </property>
+                <property ID="0x39743618" type="float">
+                    <default>0.1</default>
+                </property>
+                <property ID="0x33E0FBB4" type="float">
+                    <default>0.1</default>
+                </property>
+                <property ID="0xE82E7ED7" type="float">
+                    <default>0.1</default>
+                </property>
+                <property ID="0x855EE21B" type="float">
+                    <default>0.1</default>
+                </property>
+                <property ID="0x478D0AA3" type="file" extensions="PART"/>
+                <property ID="0x19A6F71F" type="vector3f">
+                    <default>1.0, 1.0, 1.0</default>
+                </property>
+                <property ID="0x3B03A01E" type="bool">
+                    <default>false</default>
+                </property>
+                <property ID="0xDB1FA61C" type="bool">
+                    <default>false</default>
+                </property>
+                <property ID="0x3BDD2FED" type="bool">
+                    <default>true</default>
+                </property>
+                <struct ID="0xF5DD4690" template="Structs/UnknownStruct16.xml"/>
+                <property ID="0xC119780D" type="file" extensions="PART"/>
+                <property ID="0x6E3825EF" type="vector3f">
+                    <default>1.0, 1.0, 1.0</default>
+                </property>
+                <property ID="0xC9544DE6" type="bool">
+                    <default>false</default>
+                </property>
+                <property ID="0x29484BE4" type="bool">
+                    <default>false</default>
+                </property>
+                <property ID="0xC98AC215" type="bool">
+                    <default>true</default>
+                </property>
+                <struct ID="0x3CE95D9D" template="Structs/UnknownStruct16.xml"/>
+                <property ID="0x217C37C2" type="file" extensions="PART"/>
+                <property ID="0x60D6BF8E" type="vector3f">
+                    <default>1.0, 1.0, 1.0</default>
+                </property>
+                <struct ID="0xCE59EBFF" template="Structs/UnknownStruct17.xml"/>
+                <property ID="0x2C7B18DD" type="bool">
+                    <default>true</default>
+                </property>
+                <property ID="0xE73B9EB0" type="bool">
+                    <default>true</default>
+                </property>
+                <property ID="0x0D7FAD55" type="bool">
+                    <default>false</default>
+                </property>
+                <property ID="0x8723498A" type="bool">
+                    <default>false</default>
+                </property>
+                <property ID="0x0F2C673E" type="long">
+                    <default>0</default>
+                </property>
+                <property ID="0x55D8ACE3" type="bool">
+                    <default>false</default>
+                </property>
+                <property ID="0x8EC68A96" type="bool">
+                    <default>false</default>
+                </property>
+                <property ID="0x9BD94326" type="float">
+                    <default>1.0</default>
+                </property>
+                <property ID="0x50859083" type="float">
+                    <default>1.0</default>
+                </property>
+                <property ID="0xBFD82A19" type="bool">
+                    <default>false</default>
+                </property>
+                <property ID="0x723D42D6" type="bool">
+                    <default>true</default>
+                </property>
+                <property ID="0x4EDB1D0E" type="bool">
+                    <default>false</default>
+                </property>
+                <property ID="0xBF496273" type="bool">
+                    <default>false</default>
+                </property>
+                <property ID="0xF83C1C1F" type="bool">
+                    <default>false</default>
+                </property>
+                <property ID="0x88B1AF46" type="bool">
+                    <default>true</default>
+                </property>
+                <property ID="0xA6AA06D5" type="bool">
+                    <default>false</default>
+                </property>
+                <property ID="0x32375E0E" type="bool">
+                    <default>true</default>
+                </property>
+                <property ID="0xE5ECED02" type="bool">
+                    <default>false</default>
+                </property>
+            </properties>
         </struct>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
             <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
             <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
             <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
+            <property name="Active" ID="0x255A4580:0x41435456"/>
             <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
         </properties>
         <assets>

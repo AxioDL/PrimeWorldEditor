@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="JungleBossStructD" type="multi">
+    <properties>
+        <struct ID="0x12D98DC2" template="Structs/VolcanoBossBodyPartStructA.xml"/>
+        <struct ID="0xC0F12817" template="Structs/VolcanoBossBodyPartStructA.xml"/>
+        <struct ID="0xF8019F49" template="Structs/VolcanoBossBodyPartStructA.xml"/>
+        <property ID="0x4AF1E57A" type="float">
+            <default>50.0</default>
+        </property>
+    </properties>
+</struct>

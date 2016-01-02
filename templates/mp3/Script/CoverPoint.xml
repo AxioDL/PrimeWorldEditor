@@ -1,23 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>CoverPoint</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
-        </struct>
-        <property ID="0x969DE5FF"/>
-        <property ID="0x8001C3BE"/>
-        <property ID="0x46774985"/>
-        <property ID="0xD9D7AFA6"/>
-        <property ID="0xEBCA3FCA"/>
-        <property ID="0xF88FD961"/>
-        <property ID="0x308EDC44"/>
-        <property ID="0x25717ACE"/>
-        <property ID="0xC83E3228"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0x969DE5FF" type="long">
+            <default>1</default>
+        </property>
+        <property ID="0x8001C3BE" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0x46774985" type="float">
+            <default>180.0</default>
+        </property>
+        <property ID="0xD9D7AFA6" type="float">
+            <default>90.0</default>
+        </property>
+        <property ID="0xEBCA3FCA" type="float">
+            <default>5.0</default>
+        </property>
+        <property ID="0xF88FD961" type="float">
+            <default>500.0</default>
+        </property>
+        <property ID="0x308EDC44" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0x25717ACE" type="bool">
+            <default>true</default>
+        </property>
+        <property ID="0xC83E3228" type="long">
+            <default>0</default>
+        </property>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>

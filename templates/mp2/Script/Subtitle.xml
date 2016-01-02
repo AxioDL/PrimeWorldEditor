@@ -1,31 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="3">
+<ScriptTemplate version="4">
     <name>Subtitle</name>
-    <properties version="NTSC">
-        <struct ID="0x255A4580" type="multi">
-            <property ID="0x494E414D"/>
-            <struct ID="0x5846524D" type="single"/>
-            <property ID="0x41435456"/>
-            <property ID="0x5D298A43"/>
+    <properties>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <struct ID="0xE0543E66" template="Structs/TextStruct.xml"/>
+        <property ID="0xC33A87C7" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0x7B86E0A2" type="long">
+            <default>0</default>
+        </property>
+        <struct ID="0xC8E441FA" template="Structs/TextStruct.xml">
+            <properties>
+                <property ID="0xEE521DC6">
+                    <default>640</default>
+                </property>
+                <property ID="0xF2D36ABB">
+                    <default>448</default>
+                </property>
+                <property ID="0x18DD95CD">
+                    <default>1</default>
+                </property>
+            </properties>
+			<versions>
+				<version>Trilogy</version>
+			</versions>
         </struct>
-        <struct ID="0xE0543E66" type="multi">
-            <property ID="0xEE521DC6"/>
-            <property ID="0xF2D36ABB"/>
-            <property ID="0x3F39E635"/>
-            <property ID="0x60D78569"/>
-            <property ID="0x5908EF39"/>
-            <property ID="0x0DB9F8B6"/>
-            <property ID="0x18DD95CD"/>
-            <property ID="0x42091548"/>
-            <property ID="0x330573E9"/>
-        </struct>
-        <property ID="0xC33A87C7"/>
-        <property ID="0x7B86E0A2"/>
-        <property ID="0xFD95ED2A"/>
-        <property ID="0x6CE46689"/>
-        <property ID="0x90AA341F"/>
-        <property ID="0x7C269EBC"/>
+        <property ID="0x53A7F7A7" type="long">
+            <default>0</default>
+			<versions>
+				<version>Trilogy</version>
+			</versions>
+        </property>
+        <property ID="0xEB1B90C2" type="long">
+            <default>100</default>
+			<versions>
+				<version>Trilogy</version>
+			</versions>
+        </property>
+		<property ID="0xFD95ED2A" type="file" extensions="STRG"/>
+        <property ID="0x6CE46689" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0x90AA341F" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x7C269EBC" type="float">
+            <default>0.0</default>
+        </property>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x255A4580:0x494E414D"/>

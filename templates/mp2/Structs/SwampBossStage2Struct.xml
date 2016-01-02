@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="SwampBossStage2Struct" type="multi">
+    <properties>
+        <property ID="0x95E7A2C2" type="float">
+            <default>3.0</default>
+        </property>
+        <property ID="0x76BA1C18" type="float">
+            <default>7.0</default>
+        </property>
+        <property ID="0x29E6EAD6" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x1753225E" type="float">
+            <default>2.0</default>
+        </property>
+        <property ID="0xBE1AFBF8" type="float">
+            <default>0.2</default>
+        </property>
+        <property ID="0xA77F6212" type="float">
+            <default>0.2</default>
+        </property>
+        <property ID="0x9CFA9ACB" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0x180F81DD" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0x42617CFD" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0xC39F864E" type="long">
+            <default>7</default>
+        </property>
+        <property ID="0x1994D506" type="long">
+            <default>7</default>
+        </property>
+        <property ID="0xF0668919" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0x2E7E55F2" type="long">
+            <default>5</default>
+        </property>
+        <property ID="0xEF3EFEC0" type="long">
+            <default>2</default>
+        </property>
+        <property ID="0x2B0BFD51" type="long">
+            <default>10</default>
+        </property>
+    </properties>
+</struct>

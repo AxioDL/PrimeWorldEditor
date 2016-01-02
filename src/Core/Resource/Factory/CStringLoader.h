@@ -3,7 +3,7 @@
 
 #include "Core/Resource/CStringTable.h"
 #include "Core/Resource/CResCache.h"
-#include "Core/Resource/EFormatVersion.h"
+#include "Core/Resource/EGame.h"
 #include "Core/Resource/TResPtr.h"
 
 class CStringLoader
