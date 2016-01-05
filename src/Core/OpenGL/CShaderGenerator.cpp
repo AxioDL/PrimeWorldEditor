@@ -153,7 +153,7 @@ bool CShaderGenerator::CreateVertexShader(const CMaterial& Mat)
 
     // Input
     ShaderCode << "// Input\n";
-    EVertexDescription VtxDesc = Mat.VtxDesc();
+    FVertexDescription VtxDesc = Mat.VtxDesc();
     if (VtxDesc & ePosition) ShaderCode << "layout(location = 0) in vec3 RawPosition;\n";
     if (VtxDesc & eNormal)   ShaderCode << "layout(location = 1) in vec3 RawNormal;\n";
     if (VtxDesc & eColor0)   ShaderCode << "layout(location = 2) in vec4 RawColor0;\n";
@@ -308,7 +308,7 @@ bool CShaderGenerator::CreatePixelShader(const CMaterial& Mat)
     ShaderCode << "#version 330 core\n"
                << "\n";
 
-    EVertexDescription VtxDesc = Mat.VtxDesc();
+    FVertexDescription VtxDesc = Mat.VtxDesc();
     if (VtxDesc & ePosition) ShaderCode << "in vec3 Position;\n";
     if (VtxDesc & eNormal)   ShaderCode << "in vec3 Normal;\n";
     if (VtxDesc & eColor0)   ShaderCode << "in vec4 Color0;\n";

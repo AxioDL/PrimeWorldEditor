@@ -50,7 +50,7 @@ CMaterial* CMaterialLoader::ReadPrimeMaterial()
     pMat->mEnableBloom = false;
 
     // Flags
-    pMat->mOptions = (CMaterial::EMaterialOptions) (mpFile->ReadLong() & CMaterial::eAllSettings);
+    pMat->mOptions = (mpFile->ReadLong() & CMaterial::eAllSettings);
 
     // Textures
     u32 NumTextures = mpFile->ReadLong();
@@ -63,7 +63,7 @@ CMaterial* CMaterialLoader::ReadPrimeMaterial()
     }
 
     // Vertex description
-    pMat->mVtxDesc = (EVertexDescription) mpFile->ReadLong();
+    pMat->mVtxDesc = (FVertexDescription) mpFile->ReadLong();
 
     // Unknowns
     if (mVersion >= eEchoesDemo)
@@ -266,7 +266,7 @@ CMaterial* CMaterialLoader::ReadCorruptionMaterial()
     mHas0x400 = ((Flags & 0x400) != 0);
 
     mpFile->Seek(0x8, SEEK_CUR); // Don't know what any of this is
-    pMat->mVtxDesc = (EVertexDescription) mpFile->ReadLong();
+    pMat->mVtxDesc = (FVertexDescription) mpFile->ReadLong();
     mpFile->Seek(0xC, SEEK_CUR);
 
     // Initialize all KColors to white

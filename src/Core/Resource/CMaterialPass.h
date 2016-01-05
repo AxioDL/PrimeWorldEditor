@@ -4,7 +4,7 @@
 #include "TResPtr.h"
 #include "CTexture.h"
 #include "ETevEnums.h"
-#include "Core/Render/ERenderOptions.h"
+#include "Core/Render/FRenderOptions.h"
 #include <Common/CFourCC.h>
 #include <Common/CHashFNV1A.h>
 
@@ -47,7 +47,7 @@ public:
     CMaterialPass* Clone(CMaterial *pParent);
     void HashParameters(CHashFNV1A& Hash);
     void LoadTexture(u32 PassIndex);
-    void SetAnimCurrent(ERenderOptions Options, u32 PassIndex);
+    void SetAnimCurrent(FRenderOptions Options, u32 PassIndex);
 
     // Setters
     void SetType(CFourCC Type);

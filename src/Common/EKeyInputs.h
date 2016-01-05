@@ -1,11 +1,10 @@
 #ifndef EKEYINPUTS
 #define EKEYINPUTS
 
-#include "EnumUtil.h"
+#include "Flags.h"
 
-enum EKeyInputs
+enum EKeyInput
 {
-    eNoKeys  = 0,
     eCtrlKey = 0x1,
     eAltKey  = 0x2,
     eQKey    = 0x4,
@@ -15,7 +14,7 @@ enum EKeyInputs
     eSKey    = 0x40,
     eDKey    = 0x80
 };
-DEFINE_ENUM_FLAGS(EKeyInputs)
+DECLARE_FLAGS(EKeyInput, FKeyInputs)
 
 #endif // EKEYINPUTS
 

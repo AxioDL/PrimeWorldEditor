@@ -65,8 +65,8 @@ HEADERS += \
     CUniqueID.h \
     EKeyInputs.h \
     EMouseInputs.h \
-    EnumUtil.h \
     ETransformSpace.h \
+    Flags.h \
     TString.h \
     types.h
 

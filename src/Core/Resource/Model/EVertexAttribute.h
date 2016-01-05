@@ -1,9 +1,9 @@
-#ifndef EVERTEXDESCRIPTION
-#define EVERTEXDESCRIPTION
+#ifndef EVERTEXATTRIBUTE
+#define EVERTEXATTRIBUTE
 
-#include <Common/EnumUtil.h>
+#include <Common/Flags.h>
 
-enum EVertexDescription
+enum EVertexAttribute
 {
     eNoAttributes  = 0x0,
     ePosition = 0x3,
@@ -27,7 +27,7 @@ enum EVertexDescription
     eTex5Mtx  = 0x40000000,
     eTex6Mtx  = 0x80000000
 };
-DEFINE_ENUM_FLAGS(EVertexDescription)
+DECLARE_FLAGS(EVertexAttribute, FVertexDescription)
 
-#endif // EVERTEXDESCRIPTION
+#endif // EVERTEXATTRIBUTE
 

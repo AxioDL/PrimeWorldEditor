@@ -29,7 +29,7 @@ CMaterial::CMaterial()
     mpIndirectTexture = nullptr;
 }
 
-CMaterial::CMaterial(EGame version, EVertexDescription vtxDesc)
+CMaterial::CMaterial(EGame version, FVertexDescription vtxDesc)
 {
     mpShader = nullptr;
     mShaderStatus = eNoShader;
@@ -87,7 +87,7 @@ void CMaterial::GenerateShader()
     else mShaderStatus = eShaderExists;
 }
 
-bool CMaterial::SetCurrent(ERenderOptions Options)
+bool CMaterial::SetCurrent(FRenderOptions Options)
 {
     // Bind textures
     const char *skpSamplers[8] = {
@@ -226,12 +226,12 @@ EGame CMaterial::Version() const
     return mVersion;
 }
 
-CMaterial::EMaterialOptions CMaterial::Options() const
+CMaterial::FMaterialOptions CMaterial::Options() const
 {
     return mOptions;
 }
 
-EVertexDescription CMaterial::VtxDesc() const
+FVertexDescription CMaterial::VtxDesc() const
 {
     return mVtxDesc;
 }
@@ -287,13 +287,13 @@ void CMaterial::SetName(const TString& name)
     mName = name;
 }
 
-void CMaterial::SetOptions(EMaterialOptions Options)
+void CMaterial::SetOptions(FMaterialOptions Options)
 {
     mOptions = Options;
     mRecalcHash = true;
 }
 
-void CMaterial::SetVertexDescription(EVertexDescription desc)
+void CMaterial::SetVertexDescription(FVertexDescription desc)
 {
     mVtxDesc = desc;
     mRecalcHash = true;

@@ -81,7 +81,7 @@ void CMaterialPass::LoadTexture(u32 PassIndex)
         mpTexture->Bind(PassIndex);
 }
 
-void CMaterialPass::SetAnimCurrent(ERenderOptions Options, u32 PassIndex)
+void CMaterialPass::SetAnimCurrent(FRenderOptions Options, u32 PassIndex)
 {
     if (mAnimMode == eNoUVAnim) return;
 

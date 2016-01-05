@@ -14,7 +14,7 @@ class CModelCooker
     u32 mNumVertices;
     u8 mVertexFormat;
     std::vector<CVertex> mVertices;
-    EVertexDescription mVtxAttribs;
+    FVertexDescription mVtxAttribs;
 
     CModelCooker();
     void GenerateSurfaceData();

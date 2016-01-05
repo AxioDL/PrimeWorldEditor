@@ -55,7 +55,7 @@ void CGizmo::AddToRenderer(CRenderer *pRenderer, const SViewInfo&)
         CModel *pModel = pPart->pModel;
 
         // Determine whether to use the mat set for regular (0) or highlight (1)
-        EGizmoAxes partAxes = pPart->modelAxes;
+        FGizmoAxes partAxes = pPart->modelAxes;
         bool isHighlighted = (partAxes != eNone) && ((mSelectedAxes & partAxes) == pPart->modelAxes);
         u32 setID = (isHighlighted ? 1 : 0);
 
@@ -69,7 +69,7 @@ void CGizmo::AddToRenderer(CRenderer *pRenderer, const SViewInfo&)
     }
 }
 
-void CGizmo::Draw(ERenderOptions /*Options*/, int ComponentIndex, const SViewInfo& /*ViewInfo*/)
+void CGizmo::Draw(FRenderOptions /*Options*/, int ComponentIndex, const SViewInfo& /*ViewInfo*/)
 {
     // Determine which SModelPart array to use
     if (ComponentIndex >= (int) mNumCurrentParts) return;
@@ -90,12 +90,12 @@ void CGizmo::Draw(ERenderOptions /*Options*/, int ComponentIndex, const SViewInf
     CGraphics::UpdatePixelBlock();
 
     // Choose material set
-    EGizmoAxes partAxes = pPart[ComponentIndex].modelAxes;
+    FGizmoAxes partAxes = pPart[ComponentIndex].modelAxes;
     bool isHighlighted = (partAxes != eNone) && ((mSelectedAxes & partAxes) == pPart[ComponentIndex].modelAxes);
     u32 setID = (isHighlighted ? 1 : 0);
 
     // Draw model
-    pPart[ComponentIndex].pModel->Draw((ERenderOptions) 0, setID);
+    pPart[ComponentIndex].pModel->Draw((FRenderOptions) 0, setID);
 }
 
 void CGizmo::IncrementSize()
@@ -221,7 +221,7 @@ u32 CGizmo::NumSelectedAxes()
     u32 out = 0;
 
     for (u32 iAxis = 1; iAxis < 8; iAxis <<= 1)
-        if (mSelectedAxes & (EGizmoAxes) iAxis) out++;
+        if (mSelectedAxes & FGizmoAxes(iAxis)) out++;
 
     return out;
 }

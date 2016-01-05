@@ -1,9 +1,9 @@
-#ifndef ERENDEROPTIONS
-#define ERENDEROPTIONS
+#ifndef FRENDEROPTIONS_H
+#define FRENDEROPTIONS_H
 
-#include <Common/EnumUtil.h>
+#include <Common/Flags.h>
 
-enum ERenderOptions
+enum ERenderOption
 {
     eNoRenderOptions     = 0x0,
     eDrawWorld           = 0x1,
@@ -19,7 +19,7 @@ enum ERenderOptions
     eEnableBloom         = 0x400,
     eNoAlpha             = 0x800
 };
-DEFINE_ENUM_FLAGS(ERenderOptions)
+DECLARE_FLAGS(ERenderOption, FRenderOptions)
 
-#endif // ERENDEROPTIONS
+#endif // FRENDEROPTIONS_H
 

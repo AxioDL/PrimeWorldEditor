@@ -41,7 +41,7 @@ void CLightNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
     }
 }
 
-void CLightNode::Draw(ERenderOptions /*Options*/, int /*ComponentIndex*/, const SViewInfo& ViewInfo)
+void CLightNode::Draw(FRenderOptions /*Options*/, int /*ComponentIndex*/, const SViewInfo& ViewInfo)
 {
     CDrawUtil::DrawLightBillboard(mpLight->GetType(), mpLight->GetColor(), mPosition, BillboardScale(), TintColor(ViewInfo));
 }

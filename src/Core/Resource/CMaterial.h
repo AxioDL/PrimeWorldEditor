@@ -5,12 +5,12 @@
 #include "CTexture.h"
 #include "EGame.h"
 #include "TResPtr.h"
-#include "Core/Resource/Model/EVertexDescription.h"
-#include "Core/Render/ERenderOptions.h"
+#include "Core/Resource/Model/EVertexAttribute.h"
+#include "Core/Render/FRenderOptions.h"
 #include "Core/OpenGL/CShader.h"
 
 #include <Common/CColor.h>
-#include <Common/EnumUtil.h>
+#include <Common/Flags.h>
 #include <Common/types.h>
 #include <FileIO/IInputStream.h>
 
@@ -23,7 +23,7 @@ public:
     friend class CMaterialCooker;
 
     // Enums
-    enum EMaterialOptions
+    enum EMaterialOption
     {
         eNoSettings        = 0,
         eKonst             = 0x8,
@@ -38,6 +38,7 @@ public:
         eShortTexCoord     = 0x2000,
         eAllSettings       = 0x2FF8
     };
+    DECLARE_FLAGS(EMaterialOption, FMaterialOptions)
 
 private:
     enum EShaderStatus
@@ -58,8 +59,8 @@ private:
     bool mEnableBloom;              // Bool that toggles bloom on or off. On by default on MP3 materials, off by default on MP1 materials.
 
     EGame mVersion;
-    EMaterialOptions mOptions;           // See the EMaterialOptions enum above
-    EVertexDescription mVtxDesc;         // Descriptor of vertex attributes used by this material
+    FMaterialOptions mOptions;           // See the EMaterialOptions enum above
+    FVertexDescription mVtxDesc;         // Descriptor of vertex attributes used by this material
     CColor mKonstColors[4];              // Konst color values for TEV
     GLenum mBlendSrcFac;                 // Source blend factor
     GLenum mBlendDstFac;                 // Dest blend factor
@@ -72,19 +73,19 @@ private:
 
 public:
     CMaterial();
-    CMaterial(EGame version, EVertexDescription vtxDesc);
+    CMaterial(EGame version, FVertexDescription vtxDesc);
     ~CMaterial();
     CMaterial* Clone();
     void GenerateShader();
-    bool SetCurrent(ERenderOptions Options);
+    bool SetCurrent(FRenderOptions Options);
     u64 HashParameters();
     void Update();
 
     // Getters
     TString Name() const;
     EGame Version() const;
-    EMaterialOptions Options() const;
-    EVertexDescription VtxDesc() const;
+    FMaterialOptions Options() const;
+    FVertexDescription VtxDesc() const;
     GLenum BlendSrcFac() const;
     GLenum BlendDstFac() const;
     CColor Konst(u32 KIndex) const;
@@ -97,8 +98,8 @@ public:
 
     // Setters
     void SetName(const TString& name);
-    void SetOptions(EMaterialOptions Options);
-    void SetVertexDescription(EVertexDescription desc);
+    void SetOptions(FMaterialOptions Options);
+    void SetVertexDescription(FVertexDescription desc);
     void SetBlendMode(GLenum SrcFac, GLenum DstFac);
     void SetKonst(CColor& Konst, u32 KIndex);
     void SetIndTexture(CTexture *pTex);
@@ -108,6 +109,5 @@ public:
     // Static
     static void KillCachedMaterial();
 };
-DEFINE_ENUM_FLAGS(CMaterial::EMaterialOptions)
 
 #endif // MATERIAL_H

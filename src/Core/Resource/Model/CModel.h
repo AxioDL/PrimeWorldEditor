@@ -6,7 +6,7 @@
 #include "Core/Resource/CMaterialSet.h"
 #include "Core/OpenGL/CIndexBuffer.h"
 #include "Core/OpenGL/GLCommon.h"
-#include "Core/Render/ERenderOptions.h"
+#include "Core/Render/FRenderOptions.h"
 
 class CModel : public CBasicModel
 {
@@ -24,9 +24,9 @@ public:
 
     void BufferGL();
     void ClearGLBuffer();
-    void Draw(ERenderOptions Options, u32 MatSet);
-    void DrawSurface(ERenderOptions Options, u32 Surface, u32 MatSet);
-    void DrawWireframe(ERenderOptions Options, CColor WireColor = CColor::skWhite);
+    void Draw(FRenderOptions Options, u32 MatSet);
+    void DrawSurface(FRenderOptions Options, u32 Surface, u32 MatSet);
+    void DrawWireframe(FRenderOptions Options, CColor WireColor = CColor::skWhite);
 
     u32 GetMatSetCount();
     u32 GetMatCount();

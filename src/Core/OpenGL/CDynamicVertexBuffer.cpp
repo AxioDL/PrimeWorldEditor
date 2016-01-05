@@ -35,14 +35,14 @@ void CDynamicVertexBuffer::Unbind()
     glBindVertexArray(0);
 }
 
-void CDynamicVertexBuffer::SetActiveAttribs(u32 AttribFlags)
+void CDynamicVertexBuffer::SetActiveAttribs(FVertexDescription AttribFlags)
 {
     ClearBuffers();
-    mAttribFlags = (EVertexDescription) AttribFlags;
+    mAttribFlags = AttribFlags;
     InitBuffers();
 }
 
-void CDynamicVertexBuffer::BufferAttrib(EVertexDescription Attrib, const void *pData)
+void CDynamicVertexBuffer::BufferAttrib(EVertexAttribute Attrib, const void *pData)
 {
     u32 Index;
 

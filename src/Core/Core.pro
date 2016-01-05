@@ -83,7 +83,6 @@ HEADERS += \
     Render/CRenderBucket.h \
     Render/CRenderer.h \
     Render/ERenderCommand.h \
-    Render/ERenderOptions.h \
     Render/IRenderable.h \
     Render/SRenderablePtr.h \
     Render/SViewInfo.h \
@@ -110,13 +109,11 @@ HEADERS += \
     Resource/Model/CModel.h \
     Resource/Model/CStaticModel.h \
     Resource/Model/CVertex.h \
-    Resource/Model/EVertexDescription.h \
     Resource/Model/SSurface.h \
     Resource/Script/CMasterTemplate.h \
     Resource/Script/CScriptLayer.h \
     Resource/Script/CScriptObject.h \
     Resource/Script/CScriptTemplate.h \
-    Resource/Script/EObjectType.h \
     Resource/Script/EPropertyType.h \
     Resource/Script/EVolumeShape.h \
     Resource/Script/SConnection.h \
@@ -180,7 +177,9 @@ HEADERS += \
     Resource/Cooker/CAreaCooker.h \
     Resource/Script/IPropertyValue.h \
     Resource/Script/IPropertyTemplate.h \
-    Resource/Script/IProperty.h
+    Resource/Script/IProperty.h \
+    Resource/Model/EVertexAttribute.h \
+    Render/FRenderOptions.h
 
 # Source Files
 SOURCES += \

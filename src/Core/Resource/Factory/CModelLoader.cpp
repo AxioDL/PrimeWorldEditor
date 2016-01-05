@@ -142,7 +142,7 @@ SSurface* CModelLoader::LoadSurface(IInputStream& Model)
         for (u16 iVtx = 0; iVtx < VertexCount; iVtx++)
         {
             CVertex Vtx;
-            EVertexDescription VtxDesc = pMat->VtxDesc();
+            FVertexDescription VtxDesc = pMat->VtxDesc();
 
             for (u32 iMtxAttr = 0; iMtxAttr < 8; iMtxAttr++)
                 if (VtxDesc & (ePosMtx << iMtxAttr)) Model.Seek(0x1, SEEK_CUR);
@@ -277,7 +277,7 @@ SSurface* CModelLoader::LoadAssimpMesh(const aiMesh *pMesh, CMaterialSet *pSet)
 {
     // Create vertex description and assign it to material
     CMaterial *pMat = pSet->MaterialByIndex(pMesh->mMaterialIndex);
-    EVertexDescription desc = pMat->VtxDesc();
+    FVertexDescription desc = pMat->VtxDesc();
 
     if (desc == eNoAttributes)
     {

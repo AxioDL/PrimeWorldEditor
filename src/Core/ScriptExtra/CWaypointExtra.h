@@ -24,7 +24,7 @@ public:
 
     void LinksModified();
     void AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo);
-    void Draw(ERenderOptions Options, int ComponentIndex, const SViewInfo& ViewInfo);
+    void Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& ViewInfo);
 };
 
 #endif // CWAYPOINTEXTRA_H

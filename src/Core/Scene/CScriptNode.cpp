@@ -119,7 +119,7 @@ void CScriptNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
     if (ShouldDraw)
     {
         // Otherwise, we proceed as normal
-        ERenderOptions options = pRenderer->RenderOptions();
+        FRenderOptions options = pRenderer->RenderOptions();
 
         if ((options & eDrawObjectCollision) && (!ViewInfo.GameMode))
             mpCollisionNode->AddToRenderer(pRenderer, ViewInfo);
@@ -154,7 +154,7 @@ void CScriptNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
     }
 }
 
-void CScriptNode::Draw(ERenderOptions Options, int ComponentIndex, const SViewInfo& ViewInfo)
+void CScriptNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& ViewInfo)
 {
     if (!mpInstance) return;
 
@@ -282,7 +282,7 @@ void CScriptNode::RayAABoxIntersectTest(CRayCollisionTester& Tester, const SView
 
 SRayIntersection CScriptNode::RayNodeIntersectTest(const CRay& Ray, u32 AssetID, const SViewInfo& ViewInfo)
 {
-    ERenderOptions options = ViewInfo.pRenderer->RenderOptions();
+    FRenderOptions options = ViewInfo.pRenderer->RenderOptions();
 
     SRayIntersection out;
     out.pNode = this;

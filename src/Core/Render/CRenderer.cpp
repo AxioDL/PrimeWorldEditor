@@ -53,7 +53,7 @@ void CRenderer::Init()
 }
 
 // ************ GETTERS/SETTERS ************
-ERenderOptions CRenderer::RenderOptions() const
+FRenderOptions CRenderer::RenderOptions() const
 {
     return mOptions;
 }

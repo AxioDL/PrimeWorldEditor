@@ -4,7 +4,7 @@
 #include "CCamera.h"
 #include "CGraphics.h"
 #include "CRenderBucket.h"
-#include "ERenderOptions.h"
+#include "FRenderOptions.h"
 #include "ERenderCommand.h"
 #include "SRenderablePtr.h"
 #include "SViewInfo.h"
@@ -28,7 +28,7 @@ public:
     };
 
 private:
-    ERenderOptions mOptions;
+    FRenderOptions mOptions;
     EBloomMode mBloomMode;
     bool mDrawGrid;
     CColor mClearColor;
@@ -54,7 +54,7 @@ public:
     void Init();
 
     // Getters/Setters
-    ERenderOptions RenderOptions() const;
+    FRenderOptions RenderOptions() const;
     void ToggleWorld(bool b);
     void ToggleWorldCollision(bool b);
     void ToggleObjects(bool b);

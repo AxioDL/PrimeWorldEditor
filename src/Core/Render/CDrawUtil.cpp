@@ -85,7 +85,7 @@ void CDrawUtil::DrawSquare(const float *pTexCoords)
     // Set tex coords
     for (u32 iTex = 0; iTex < 8; iTex++)
     {
-        EVertexDescription TexAttrib = (EVertexDescription) (eTex0 << (iTex *2));
+        EVertexAttribute TexAttrib = (EVertexAttribute) (eTex0 << (iTex *2));
         mSquareVertices.BufferAttrib(TexAttrib, pTexCoords);
     }
 
@@ -453,7 +453,7 @@ void CDrawUtil::InitSquare()
 
     for (u32 iTex = 0; iTex < 8; iTex++)
     {
-        EVertexDescription Attrib = (EVertexDescription) (eTex0 << (iTex *2));
+        EVertexAttribute Attrib = (EVertexAttribute) (eTex0 << (iTex *2));
         mSquareVertices.BufferAttrib(Attrib, SquareTexCoords);
     }
 

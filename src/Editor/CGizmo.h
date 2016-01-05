@@ -1,7 +1,7 @@
 #ifndef CGIZMO_H
 #define CGIZMO_H
 
-#include <Common/EnumUtil.h>
+#include <Common/Flags.h>
 #include <Math/CPlane.h>
 #include <Math/CQuaternion.h>
 #include <Math/CVector3f.h>
@@ -44,7 +44,7 @@ public:
         eTranslate, eRotate, eScale, eOff
     };
 
-    enum EGizmoAxes
+    enum EGizmoAxis
     {
         eNone = 0x0,
         eX    = 0x1,
@@ -55,10 +55,11 @@ public:
         eYZ   = eY | eZ,
         eXYZ  = eX | eY | eZ
     };
+    DECLARE_FLAGS(EGizmoAxis, FGizmoAxes)
 
 private:
     EGizmoMode mMode;
-    EGizmoAxes mSelectedAxes;
+    FGizmoAxes mSelectedAxes;
     ETransformSpace mTransformSpace;
     CQuaternion mBillboardRotation;
     float mGizmoSize;
@@ -101,13 +102,13 @@ private:
     // Model parts
     struct SModelPart
     {
-        EGizmoAxes modelAxes;
+        FGizmoAxes modelAxes;
         bool enableRayCast;
         bool isBillboard;
         TResPtr<CModel> pModel;
 
         SModelPart() {}
-        SModelPart(EGizmoAxes axes, bool rayCastOn, bool billboard, TResPtr<CModel> _pModel) :
+        SModelPart(FGizmoAxes axes, bool rayCastOn, bool billboard, TResPtr<CModel> _pModel) :
             modelAxes(axes), enableRayCast(rayCastOn), isBillboard(billboard), pModel(_pModel) {}
     };
     SModelPart *mpCurrentParts;
@@ -124,7 +125,7 @@ public:
     ~CGizmo();
 
     void AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo);
-    void Draw(ERenderOptions Options, int ComponentIndex, const SViewInfo& ViewInfo);
+    void Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& ViewInfo);
 
     void IncrementSize();
     void DecrementSize();
@@ -164,6 +165,5 @@ protected:
 private:
     static void LoadModels();
 };
-DEFINE_ENUM_FLAGS(CGizmo::EGizmoAxes)
 
 #endif // CGIZMO_H

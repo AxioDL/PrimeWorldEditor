@@ -1,15 +1,15 @@
 #ifndef EMOUSEINPUTS
 #define EMOUSEINPUTS
 
-#include "EnumUtil.h"
+#include "Flags.h"
 
-enum EMouseInputs
+enum EMouseInput
 {
     eLeftButton   = 0x1,
     eMiddleButton = 0x2,
     eRightButton  = 0x4
 };
-DEFINE_ENUM_FLAGS(EMouseInputs)
+DECLARE_FLAGS(EMouseInput, FMouseInputs)
 
 #endif // EMOUSEINPUTS
 
