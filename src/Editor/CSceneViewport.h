@@ -21,6 +21,15 @@ class CSceneViewport : public CBasicViewport
     CSceneNode *mpHoverNode;
     CVector3f mHoverPoint;
 
+    // Context Menu
+    QMenu *mpContextMenu;
+    QAction *mpHideNodeAction;
+    QAction *mpHideTypeAction;
+    QAction *mpHideLayerAction;
+    QAction *mpHideUnhideSeparator;
+    QAction *mpUnhideAllAction;
+    CSceneNode *mpMenuNode;
+
 public:
     CSceneViewport(QWidget *pParent = 0);
     ~CSceneViewport();
@@ -37,6 +46,9 @@ public:
     void keyPressEvent(QKeyEvent* pEvent);
     void keyReleaseEvent(QKeyEvent* pEvent);
 
+protected:
+    void CreateContextMenu();
+
 signals:
     void GizmoMoved();
     void CameraOrbit();
@@ -48,6 +60,12 @@ protected slots:
     void OnResize();
     void OnMouseClick(QMouseEvent *pEvent);
     void OnMouseRelease(QMouseEvent *pEvent);
+
+    void OnHideNode();
+    void OnHideType();
+    void OnHideLayer();
+    void OnUnhideAll();
+    void OnContextMenuClose();
 };
 
 #endif // CSCENEVIEWPORT_H

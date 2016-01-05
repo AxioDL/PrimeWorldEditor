@@ -18,13 +18,13 @@
     <number>0</number>
    </property>
    <property name="topMargin">
-    <number>9</number>
+    <number>0</number>
    </property>
    <property name="rightMargin">
     <number>0</number>
    </property>
    <property name="bottomMargin">
-    <number>9</number>
+    <number>0</number>
    </property>
    <item>
     <widget class="QTabWidget" name="ObjectsTabWidget">
@@ -65,7 +65,7 @@
             <x>0</x>
             <y>0</y>
             <width>276</width>
-            <height>439</height>
+            <height>457</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -137,7 +137,7 @@
             <x>0</x>
             <y>0</y>
             <width>276</width>
-            <height>439</height>
+            <height>457</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout">

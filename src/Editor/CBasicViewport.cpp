@@ -3,6 +3,8 @@
 #include <Core/Render/CDrawUtil.h>
 #include <Core/Render/CGraphics.h>
 
+#include <QCursor>
+
 #include <GL/glew.h>
 
 CBasicViewport::CBasicViewport(QWidget *pParent) :
@@ -110,7 +112,14 @@ void CBasicViewport::mouseReleaseEvent(QMouseEvent *pEvent)
     // Run mouse release if we didn't just exit mouse input (or regardless on left click)
     if (!fromMouseInput || (pEvent->button() == Qt::LeftButton))
         OnMouseRelease(pEvent);
-}
+
+    // Send context menu event to subclass if needed
+    if ((pEvent->button() == Qt::RightButton) && (mMoveTimer.Time() <= 0.3) && !mMouseMoved)
+    {
+        QContextMenuEvent Event(QContextMenuEvent::Mouse, QCursor::pos());
+        this->ContextMenu(&Event);
+    }
+ }
 
 void CBasicViewport::mouseMoveEvent(QMouseEvent* /*pEvent*/)
 {
@@ -161,9 +170,7 @@ void CBasicViewport::focusOutEvent(QFocusEvent*)
 
 void CBasicViewport::contextMenuEvent(QContextMenuEvent *pEvent)
 {
-    // Only allow context menu if we aren't exiting mouse input mode.
-    if (!mMouseMoved && (mMoveTimer.Time() < 0.5))
-        ContextMenu(pEvent);
+    pEvent->ignore();
 }
 
 void CBasicViewport::SetGameMode(bool Enabled)
