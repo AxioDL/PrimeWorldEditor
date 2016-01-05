@@ -59,7 +59,7 @@
         <object ID="FOGV" template="Script/FogVolume.xml"/>
         <object ID="FOBS" template="Script/ForestBoss.xml"/>
         <object ID="GMGR" template="Script/GameManager.xml"/>
-        <object ID="CSGO" template="Script/CSGO.xml"/>
+        <object ID="CSGO" template="Script/GameOver.xml"/>
         <object ID="GOBD" template="Script/GeneratedObjectDeleter.xml"/>
         <object ID="GENR" template="Script/Generator.xml"/>
         <object ID="GCTR" template="Script/GenericCreature.xml"/>
@@ -71,7 +71,7 @@
         <object ID="GSLD" template="Script/GuiSlider.xml"/>
         <object ID="GWIG" template="Script/GuiWidget.xml"/>
         <object ID="HUDD" template="Script/HUD.xml"/>
-        <object ID="HUDP" template="Script/HUDP.xml"/>
+        <object ID="HUDP" template="Script/HUDProxy.xml"/>
         <object ID="IHUD" template="Script/IslandHUD.xml"/>
         <object ID="ISAR" template="Script/IslandArea.xml"/>
         <object ID="JB01" template="Script/JungleBoss1.xml"/>
@@ -104,14 +104,14 @@
         <object ID="PLAT" template="Script/Platform.xml"/>
         <object ID="HINT" template="Script/PlayerHint.xml"/>
         <object ID="PLAC" template="Script/PlayerActor.xml"/>
-        <object ID="PRSP" template="Script/PRSP.xml"/>
+        <object ID="PRSP" template="Script/PlayerRespawn.xml"/>
         <object ID="PTOK" template="Script/PlayerToken.xml"/>
         <object ID="POIO" template="Script/PoiObject.xml"/>
         <object ID="SPRL" template="Script/PositionRelay.xml"/>
-        <object ID="PRLA" template="Script/PRLA.xml"/>
+        <object ID="PRLA" template="Script/PickupRelay.xml"/>
         <object ID="PROJ" template="Script/Projectile.xml"/>
         <object ID="RADD" template="Script/RadialDamage.xml"/>
-        <object ID="RMBI" template="Script/RMBI.xml"/>
+        <object ID="RMBI" template="Script/Rambi.xml"/>
         <object ID="RACR" template="Script/RambiCrate.xml"/>
         <object ID="REAC" template="Script/ReactiveObject.xml"/>
         <object ID="RSCL" template="Script/RSCL.xml"/>
@@ -130,7 +130,7 @@
         <object ID="SBMI" template="Script/SkyboxModInca.xml"/>
         <object ID="SOND" template="Script/Sound.xml"/>
         <object ID="SNDM" template="Script/SoundModifier.xml"/>
-        <object ID="SNMD" template="Script/SNMD.xml"/>
+        <object ID="SNMD" template="Script/SoundModifierData.xml"/>
         <object ID="SPWN" template="Script/SpawnPoint.xml"/>
         <object ID="SPFN" template="Script/SpecialFunction.xml"/>
         <object ID="SPIN" template="Script/Spinner.xml"/>

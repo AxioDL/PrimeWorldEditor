@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ScriptTemplate version="4">
-    <name>PRLA</name>
+    <name>PickupRelay</name>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0x18E3B4E9" template="Structs/PRLAStruct.xml"/>
-        <struct ID="0x219B19A9" template="Structs/PRLAStruct.xml"/>
-        <struct ID="0x121CB465" template="Structs/PRLAStruct.xml"/>
-        <struct ID="0xFFB7A5BE" template="Structs/PRLAStruct.xml"/>
+        <struct ID="0x18E3B4E9" template="Structs/PickupRelayStruct.xml"/>
+        <struct ID="0x219B19A9" template="Structs/PickupRelayStruct.xml"/>
+        <struct ID="0x121CB465" template="Structs/PickupRelayStruct.xml"/>
+        <struct ID="0xFFB7A5BE" template="Structs/PickupRelayStruct.xml"/>
     </properties>
     <states/>
     <messages/>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="PRLAStruct" type="multi">
+<struct name="PickupRelayStruct" type="multi">
     <properties>
         <property ID="0xFDE3A4F5" type="float">
             <default>0.0</default>
