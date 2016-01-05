@@ -32,6 +32,7 @@ class IPropertyTemplate
 protected:
     CStructTemplate *mpParent;
     TString mName;
+    TString mDescription;
     u32 mID;
     ECookPreference mCookPreference;
     std::vector<u32> mAllowedVersions;
@@ -72,6 +73,9 @@ public:
             else
                 mCookPreference = eNoCookPreference;
         }
+
+        else if (rkParamName == "description")
+            mDescription = rkValue;
     }
 
     virtual IProperty* InstantiateProperty() = 0;
@@ -79,6 +83,11 @@ public:
     inline TString Name() const
     {
         return mName;
+    }
+
+    inline TString Description() const
+    {
+        return mDescription;
     }
 
     inline u32 PropertyID() const
@@ -91,9 +100,14 @@ public:
         return mCookPreference;
     }
 
-    inline void SetName(const TString& Name)
+    inline void SetName(const TString& rkName)
     {
-        mName = Name;
+        mName = rkName;
+    }
+
+    inline void SetDescription(const TString& rkDesc)
+    {
+        mDescription = rkDesc;
     }
 
     inline CStructTemplate* Parent() const
