@@ -1,5 +1,6 @@
 #include "CStartWindow.h"
 #include "ui_CStartWindow.h"
+#include "CErrorLogDialog.h"
 #include "UICommon.h"
 
 #include "Editor/ModelEditor/CModelEditorWindow.h"
@@ -169,6 +170,13 @@ void CStartWindow::on_LaunchWorldEditorButton_clicked()
         mpWorldEditor->SetArea(mpWorld, pArea);
         mpWorldEditor->setWindowModality(Qt::WindowModal);
         mpWorldEditor->showMaximized();
+
+        // Display errors
+        CErrorLogDialog ErrorDialog(mpWorldEditor);
+        bool HasErrors = ErrorDialog.GatherErrors();
+
+        if (HasErrors)
+            ErrorDialog.exec();
     }
 
     gResCache.Clean();

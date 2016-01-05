@@ -124,7 +124,8 @@ HEADERS += \
     CStartWindow.h \
     INodeEditor.h \
     TestDialog.h \
-    UICommon.h
+    UICommon.h \
+    CErrorLogDialog.h
 
 # Source Files
 SOURCES += \
@@ -169,7 +170,8 @@ SOURCES += \
     INodeEditor.cpp \
     main.cpp \
     TestDialog.cpp \
-    UICommon.cpp
+    UICommon.cpp \
+    CErrorLogDialog.cpp
 
 # UI Files
 FORMS += \
@@ -183,4 +185,5 @@ FORMS += \
     WorldEditor/CWorldEditor.ui \
     WorldEditor/WCreateTab.ui \
     WorldEditor/WInstancesTab.ui \
-    WorldEditor/WModifyTab.ui
+    WorldEditor/WModifyTab.ui \
+    CErrorLogDialog.ui
