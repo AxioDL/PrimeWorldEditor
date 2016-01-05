@@ -141,7 +141,7 @@ void CMaterialCooker::WriteMaterialPrime(IOutputStream& Out)
     else
         Flags = 0x4002;
 
-    Flags |= (HasKonst << 3) | mpMat->Options() | (TexFlags << 16);
+    Flags |= (HasKonst ? 0x8 : 0x0) | mpMat->Options() | (TexFlags << 16);
 
     Out.WriteLong(Flags);
 
@@ -151,10 +151,10 @@ void CMaterialCooker::WriteMaterialPrime(IOutputStream& Out)
         Out.WriteLong(TexIndices[iTex]);
 
     // Vertex description
-    EVertexDescription Desc = mpMat->VtxDesc();
+    FVertexDescription Desc = mpMat->VtxDesc();
 
     if (mVersion < eEchoes)
-        Desc = (EVertexDescription) (Desc & 0x00FFFFFF);
+        Desc &= 0x00FFFFFF;
 
     Out.WriteLong(Desc);
 

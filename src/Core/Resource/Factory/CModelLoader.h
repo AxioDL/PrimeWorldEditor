@@ -6,7 +6,7 @@
 #include "Core/Resource/Model/CModel.h"
 #include "Core/Resource/CResCache.h"
 #include "Core/Resource/EGame.h"
-#include <Common/EnumUtil.h>
+#include <Common/Flags.h>
 
 #include <FileIO/FileIO.h>
 #include <assimp/scene.h>
@@ -14,7 +14,7 @@
 class CModelLoader
 {
 public:
-    enum EModelFlags
+    enum EModelFlag
     {
         eNoFlags        = 0x0,
         eShortPositions = 0x1,
@@ -22,6 +22,7 @@ public:
         eHasTex1        = 0x4,
         eHasVisGroups   = 0x8
     };
+    DECLARE_FLAGS(EModelFlag, FModelFlags)
 
 private:
     TResPtr<CModel> mpModel;
@@ -41,7 +42,7 @@ private:
     u32 mSurfaceCount;
     std::vector<u32> mSurfaceOffsets;
 
-    EModelFlags mFlags;
+    FModelFlags mFlags;
 
     CModelLoader();
     ~CModelLoader();
@@ -61,7 +62,5 @@ public:
     static CModel* ImportAssimpNode(const aiNode *pNode, const aiScene *pScene, CMaterialSet& matSet);
     static EGame GetFormatVersion(u32 Version);
 };
-
-DEFINE_ENUM_FLAGS(CModelLoader::EModelFlags)
 
 #endif // CMODELLOADER_H

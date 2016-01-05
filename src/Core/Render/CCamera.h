@@ -57,8 +57,8 @@ public:
     void Rotate(float XAmount, float YAmount);
     void Zoom(float Amount);
     void Snap(CVector3f Position);
-    void ProcessKeyInput(EKeyInputs KeyFlags, double DeltaTime);
-    void ProcessMouseInput(EKeyInputs KeyFlags, EMouseInputs MouseFlags, float XMovement, float YMovement);
+    void ProcessKeyInput(FKeyInputs KeyFlags, double DeltaTime);
+    void ProcessMouseInput(FKeyInputs KeyFlags, FMouseInputs MouseFlags, float XMovement, float YMovement);
     CRay CastRay(CVector2f DeviceCoords) const;
     void LoadMatrices() const;
 

@@ -2,13 +2,13 @@
 #define CVERTEXBUFFER_H
 
 #include "Core/Resource/Model/CVertex.h"
-#include "Core/Resource/Model/EVertexDescription.h"
+#include "Core/Resource/Model/EVertexAttribute.h"
 #include <vector>
 #include <GL/glew.h>
 
 class CVertexBuffer
 {
-    EVertexDescription mVtxDesc;          // Flags that indicate what vertex attributes are enabled on this vertex buffer
+    FVertexDescription mVtxDesc;          // Flags that indicate what vertex attributes are enabled on this vertex buffer
     GLuint mAttribBuffers[12];            // Separate GL buffer for each attribute to allow not tracking unused attribs. No support for matrix indices currently.
     std::vector<CVector3f> mPositions;    // Vector of vertex positions
     std::vector<CVector3f> mNormals;      // Vector of vertex normals
@@ -18,7 +18,7 @@ class CVertexBuffer
 
 public:
     CVertexBuffer();
-    CVertexBuffer(EVertexDescription Desc);
+    CVertexBuffer(FVertexDescription Desc);
     ~CVertexBuffer();
     u16 AddVertex(const CVertex& vtx);
     u16 AddIfUnique(const CVertex& vtx, u16 start);
@@ -28,8 +28,8 @@ public:
     void Bind();
     void Unbind();
     bool IsBuffered();
-    EVertexDescription VertexDesc();
-    void SetVertexDesc(EVertexDescription Desc);
+    FVertexDescription VertexDesc();
+    void SetVertexDesc(FVertexDescription Desc);
     u32 Size();
     GLuint CreateVAO();
 };

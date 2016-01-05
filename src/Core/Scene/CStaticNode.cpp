@@ -44,7 +44,7 @@ void CStaticNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
         pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawSelection);
 }
 
-void CStaticNode::Draw(ERenderOptions Options, int ComponentIndex, const SViewInfo& ViewInfo)
+void CStaticNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& ViewInfo)
 {
     if (!mpModel) return;
 
@@ -96,7 +96,7 @@ SRayIntersection CStaticNode::RayNodeIntersectTest(const CRay &Ray, u32 AssetID,
     out.ComponentIndex = AssetID;
 
     CRay TransformedRay = Ray.Transformed(Transform().Inverse());
-    ERenderOptions options = ViewInfo.pRenderer->RenderOptions();
+    FRenderOptions options = ViewInfo.pRenderer->RenderOptions();
     std::pair<bool,float> Result = mpModel->GetSurface(AssetID)->IntersectsRay(TransformedRay, ((options & eEnableBackfaceCull) == 0));
 
     if (Result.first)

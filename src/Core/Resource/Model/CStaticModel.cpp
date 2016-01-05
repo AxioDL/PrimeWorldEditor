@@ -97,7 +97,7 @@ void CStaticModel::ClearGLBuffer()
     mBuffered = false;
 }
 
-void CStaticModel::Draw(ERenderOptions Options)
+void CStaticModel::Draw(FRenderOptions Options)
 {
     if (!mBuffered) BufferGL();
 
@@ -119,7 +119,7 @@ void CStaticModel::Draw(ERenderOptions Options)
     mVBO.Unbind();
 }
 
-void CStaticModel::DrawSurface(ERenderOptions Options, u32 Surface)
+void CStaticModel::DrawSurface(FRenderOptions Options, u32 Surface)
 {
     if (!mBuffered) BufferGL();
 
@@ -144,7 +144,7 @@ void CStaticModel::DrawSurface(ERenderOptions Options, u32 Surface)
     mVBO.Unbind();
 }
 
-void CStaticModel::DrawWireframe(ERenderOptions Options, CColor WireColor /*= CColor::skWhite*/)
+void CStaticModel::DrawWireframe(FRenderOptions Options, CColor WireColor /*= CColor::skWhite*/)
 {
     if (!mBuffered) BufferGL();
 

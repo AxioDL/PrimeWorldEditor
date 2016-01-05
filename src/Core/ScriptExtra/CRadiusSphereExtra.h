@@ -12,7 +12,7 @@ class CRadiusSphereExtra : public CScriptExtra
 public:
     explicit CRadiusSphereExtra(CScriptObject *pInstance, CSceneManager *pScene, CSceneNode *pParent = 0);
     void AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo);
-    void Draw(ERenderOptions Options, int ComponentIndex, const SViewInfo& rkViewInfo);
+    void Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& rkViewInfo);
     CColor Color() const;
     CAABox Bounds() const;
 };

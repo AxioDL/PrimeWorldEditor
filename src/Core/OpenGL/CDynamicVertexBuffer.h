@@ -1,7 +1,7 @@
 #ifndef CDYNAMICVERTEXBUFFER_H
 #define CDYNAMICVERTEXBUFFER_H
 
-#include "Core/Resource/Model/EVertexDescription.h"
+#include "Core/Resource/Model/EVertexAttribute.h"
 #include <Common/types.h>
 #include <Math/CVector2f.h>
 #include <Math/CVector3f.h>
@@ -11,8 +11,8 @@
 
 class CDynamicVertexBuffer
 {
-    EVertexDescription mAttribFlags;
-    EVertexDescription mBufferedFlags;
+    FVertexDescription mAttribFlags;
+    FVertexDescription mBufferedFlags;
     u32 mNumVertices;
     GLuint mAttribBuffers[12];
 
@@ -22,8 +22,8 @@ public:
     void SetVertexCount(u32 NumVerts);
     void Bind();
     void Unbind();
-    void SetActiveAttribs(u32 AttribFlags);
-    void BufferAttrib(EVertexDescription Attrib, const void *pData);
+    void SetActiveAttribs(FVertexDescription AttribFlags);
+    void BufferAttrib(EVertexAttribute Attrib, const void *pData);
     void ClearBuffers();
     GLuint CreateVAO();
 private:

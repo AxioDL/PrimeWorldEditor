@@ -1,5 +1,5 @@
-#ifndef ENODETYPE
-#define ENODETYPE
+#ifndef ENODETYPE_H
+#define ENODETYPE_H
 
 enum ENodeType
 {
@@ -12,5 +12,5 @@ enum ENodeType
     eLightNode
 };
 
-#endif // ENODETYPE
+#endif // ENODETYPE_H
 

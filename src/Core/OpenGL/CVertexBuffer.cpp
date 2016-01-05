@@ -7,7 +7,7 @@ CVertexBuffer::CVertexBuffer()
     SetVertexDesc(ePosition | eNormal | eTex0 | eTex1 | eTex2 | eTex3 | eTex4 | eTex5 | eTex6 | eTex7);
 }
 
-CVertexBuffer::CVertexBuffer(EVertexDescription Desc)
+CVertexBuffer::CVertexBuffer(FVertexDescription Desc)
 {
     mBuffered = false;
     SetVertexDesc(Desc);
@@ -174,12 +174,12 @@ bool CVertexBuffer::IsBuffered()
     return mBuffered;
 }
 
-EVertexDescription CVertexBuffer::VertexDesc()
+FVertexDescription CVertexBuffer::VertexDesc()
 {
     return mVtxDesc;
 }
 
-void CVertexBuffer::SetVertexDesc(EVertexDescription Desc)
+void CVertexBuffer::SetVertexDesc(FVertexDescription Desc)
 {
     Clear();
     mVtxDesc = Desc;

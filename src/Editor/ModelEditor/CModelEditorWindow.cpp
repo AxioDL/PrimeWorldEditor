@@ -206,7 +206,7 @@ void CModelEditorWindow::SetActiveMaterial(int MatIndex)
     //mpCurrentMat->SetTint(CColor(1.f, 0.5f, 0.5f, 1.f));
 
     // Set up UI
-    CMaterial::EMaterialOptions Settings = mpCurrentMat->Options();
+    CMaterial::FMaterialOptions Settings = mpCurrentMat->Options();
 
     mIgnoreSignals = true;
     ui->EnableTransparencyCheck->setChecked( Settings & CMaterial::eTransparent );
@@ -267,7 +267,7 @@ void CModelEditorWindow::SetActiveMaterial(int MatIndex)
 
     // Set up the tex coord source combo box so it only shows vertex attributes that exist on this material
     ui->TexCoordSrcComboBox->clear();
-    EVertexDescription Desc = mpCurrentMat->VtxDesc();
+    FVertexDescription Desc = mpCurrentMat->VtxDesc();
 
     ui->TexCoordSrcComboBox->addItem("None");
     if (Desc & ePosition) ui->TexCoordSrcComboBox->addItem("Position");
@@ -516,7 +516,7 @@ void CModelEditorWindow::UpdateMaterial(bool Value)
     case eEnableOccluderCheckBox:
     case eEnableLightmapCheckBox:
     {
-        CMaterial::EMaterialOptions Options = (CMaterial::EMaterialOptions) (mpCurrentMat->Options() & 0x2408);
+        CMaterial::FMaterialOptions Options = (mpCurrentMat->Options() & 0x2408);
         Options |= (ui->EnableTransparencyCheck->isChecked()      <<  4);
         Options |= (ui->EnablePunchthroughCheck->isChecked()      <<  5);
         Options |= (ui->EnableReflectionCheck->isChecked()        <<  6);

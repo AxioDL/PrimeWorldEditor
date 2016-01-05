@@ -74,7 +74,7 @@ void CRenderBucket::Clear()
 
 void CRenderBucket::Draw(const SViewInfo& ViewInfo)
 {
-    ERenderOptions Options = ViewInfo.pRenderer->RenderOptions();
+    FRenderOptions Options = ViewInfo.pRenderer->RenderOptions();
 
     for (u32 n = 0; n < mSize; n++)
     {

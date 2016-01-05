@@ -11,7 +11,7 @@ public:
     explicit CRootNode(CSceneManager *pScene, CSceneNode *pParent = 0) : CSceneNode(pScene, pParent) {}
     ~CRootNode() {}
 
-    inline ENodeType NodeType() {
+    ENodeType NodeType() {
         return eRootNode;
     }
 

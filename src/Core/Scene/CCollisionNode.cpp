@@ -27,7 +27,7 @@ void CCollisionNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewIn
         pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawSelection);
 }
 
-void CCollisionNode::Draw(ERenderOptions /*Options*/, int /*ComponentIndex*/, const SViewInfo& ViewInfo)
+void CCollisionNode::Draw(FRenderOptions /*Options*/, int /*ComponentIndex*/, const SViewInfo& ViewInfo)
 {
     if (!mpCollision) return;
 

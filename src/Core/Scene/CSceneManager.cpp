@@ -214,7 +214,7 @@ void CSceneManager::ClearScene()
 
 void CSceneManager::AddSceneToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
 {
-    ERenderOptions Options = pRenderer->RenderOptions();
+    FRenderOptions Options = pRenderer->RenderOptions();
 
     if (Options & eDrawWorld || ViewInfo.GameMode)
     {
@@ -254,7 +254,7 @@ SRayIntersection CSceneManager::SceneRayCast(const CRay& Ray, const SViewInfo& V
     // Terribly hacky stuff to avoid having tons of redundant code
     // because I'm too lazy to rewrite CSceneManager right now and fix it
     // (I'm probably going to do it soon...)
-    ERenderOptions renderOptions = ViewInfo.pRenderer->RenderOptions();
+    FRenderOptions renderOptions = ViewInfo.pRenderer->RenderOptions();
 
     std::vector<CSceneNode*> *pNodeVectors[5] = {
         reinterpret_cast<std::vector<CSceneNode*>*>(&mModelNodes),
@@ -265,7 +265,7 @@ SRayIntersection CSceneManager::SceneRayCast(const CRay& Ray, const SViewInfo& V
     };
     bool NodesVisible[5] = {
         true, ((renderOptions & eDrawWorld) != 0), ((renderOptions & eDrawWorldCollision) != 0),
-              ((renderOptions & ((ERenderOptions) (eDrawObjects | eDrawObjectCollision))) != 0), ((renderOptions & eDrawLights) != 0)
+              ((renderOptions & ((FRenderOptions) (eDrawObjects | eDrawObjectCollision))) != 0), ((renderOptions & eDrawLights) != 0)
     };
 
     // Override visibility for game mode

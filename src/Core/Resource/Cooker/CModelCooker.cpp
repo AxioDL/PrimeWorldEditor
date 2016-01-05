@@ -164,7 +164,7 @@ void CModelCooker::WriteModelPrime(IOutputStream& Out)
         Out.WriteToBoundary(32, 0);
 
         u32 PrimTableStart = Out.Tell();
-        EVertexDescription MatAttribs = mpModel->GetMaterialBySurface(0, iSurf)->VtxDesc();
+        FVertexDescription MatAttribs = mpModel->GetMaterialBySurface(0, iSurf)->VtxDesc();
 
         for (u32 iPrim = 0; iPrim < pSurface->Primitives.size(); iPrim++)
         {

@@ -2,7 +2,7 @@
 #define CSTATICMODEL_H
 
 #include "CBasicModel.h"
-#include "Core/Render/ERenderOptions.h"
+#include "Core/Render/FRenderOptions.h"
 #include "Core/OpenGL/CIndexBuffer.h"
 
 /* A CStaticModel is meant for meshes that don't move. It's built specifically with terrain in mind.
@@ -23,9 +23,9 @@ public:
 
     void BufferGL();
     void ClearGLBuffer();
-    void Draw(ERenderOptions Options);
-    void DrawSurface(ERenderOptions Options, u32 Surface);
-    void DrawWireframe(ERenderOptions Options, CColor WireColor = CColor::skWhite);
+    void Draw(FRenderOptions Options);
+    void DrawSurface(FRenderOptions Options, u32 Surface);
+    void DrawWireframe(FRenderOptions Options, CColor WireColor = CColor::skWhite);
 
     CMaterial* GetMaterial();
     void SetMaterial(CMaterial *pMat);

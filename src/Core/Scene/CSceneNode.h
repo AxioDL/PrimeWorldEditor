@@ -2,7 +2,7 @@
 #define CSCENENODE_H
 
 #include "ENodeType.h"
-#include "Core/Render/ERenderOptions.h"
+#include "Core/Render/FRenderOptions.h"
 #include "Core/Render/IRenderable.h"
 #include "Core/Resource/CLight.h"
 #include "Core/Resource/CGameArea.h"

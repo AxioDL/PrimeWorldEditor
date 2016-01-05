@@ -11,7 +11,7 @@ public:
     CLightNode(CSceneManager *pScene, CSceneNode *pParent = 0, CLight *Light = 0);
     ENodeType NodeType();
     void AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo);
-    void Draw(ERenderOptions Options, int ComponentIndex, const SViewInfo& ViewInfo);
+    void Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& ViewInfo);
     void DrawSelection();
     void RayAABoxIntersectTest(CRayCollisionTester& Tester, const SViewInfo& ViewInfo);
     SRayIntersection RayNodeIntersectTest(const CRay &Ray, u32 AssetID, const SViewInfo& ViewInfo);

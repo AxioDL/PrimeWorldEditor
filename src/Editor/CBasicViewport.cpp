@@ -256,7 +256,7 @@ void CBasicViewport::ProcessInput()
 
         if ((XMovement != 0) || (YMovement != 0))
         {
-            mCamera.ProcessMouseInput((EKeyInputs) mKeysPressed, (EMouseInputs) mButtonsPressed, XMovement, YMovement);
+            mCamera.ProcessMouseInput((FKeyInputs) mKeysPressed, (FMouseInputs) mButtonsPressed, XMovement, YMovement);
             QCursor::setPos(mLastMousePos);
             mMouseMoved = true;
         }
@@ -264,7 +264,7 @@ void CBasicViewport::ProcessInput()
 
     if (IsKeyboardInputActive())
         if ((mKeysPressed & eCtrlKey) == 0)
-            mCamera.ProcessKeyInput((EKeyInputs) mKeysPressed, DeltaTime);
+            mCamera.ProcessKeyInput((FKeyInputs) mKeysPressed, DeltaTime);
 
     // Update view info
     const CMatrix4f& View = mCamera.ViewMatrix();

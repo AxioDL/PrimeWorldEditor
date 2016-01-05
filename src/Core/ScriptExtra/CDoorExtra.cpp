@@ -85,7 +85,7 @@ void CDoorExtra::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
     }
 }
 
-void CDoorExtra::Draw(ERenderOptions Options, int ComponentIndex, const SViewInfo& ViewInfo)
+void CDoorExtra::Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& ViewInfo)
 {
     LoadModelMatrix();
     mpParent->LoadLights(ViewInfo);
@@ -126,7 +126,7 @@ void CDoorExtra::RayAABoxIntersectTest(CRayCollisionTester& Tester, const SViewI
 
 SRayIntersection CDoorExtra::RayNodeIntersectTest(const CRay &Ray, u32 AssetID, const SViewInfo& ViewInfo)
 {
-    ERenderOptions Options = ViewInfo.pRenderer->RenderOptions();
+    FRenderOptions Options = ViewInfo.pRenderer->RenderOptions();
 
     SRayIntersection out;
     out.pNode = mpParent;

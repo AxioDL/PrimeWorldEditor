@@ -85,7 +85,7 @@ void CCamera::Snap(CVector3f Position)
     mFrustumPlanesDirty = true;
 }
 
-void CCamera::ProcessKeyInput(EKeyInputs KeyFlags, double DeltaTime)
+void CCamera::ProcessKeyInput(FKeyInputs KeyFlags, double DeltaTime)
 {
     float FDeltaTime = (float) DeltaTime;
 
@@ -97,7 +97,7 @@ void CCamera::ProcessKeyInput(EKeyInputs KeyFlags, double DeltaTime)
     if (KeyFlags & eDKey) Pan(FDeltaTime * 25.f, 0);
 }
 
-void CCamera::ProcessMouseInput(EKeyInputs KeyFlags, EMouseInputs MouseFlags, float XMovement, float YMovement)
+void CCamera::ProcessMouseInput(FKeyInputs KeyFlags, FMouseInputs MouseFlags, float XMovement, float YMovement)
 {
     // Free Camera
     if (mMode == eFreeCamera)

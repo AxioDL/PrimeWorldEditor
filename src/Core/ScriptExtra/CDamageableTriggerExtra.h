@@ -36,7 +36,7 @@ public:
     void PropertyModified(IProperty *pProperty);
     bool ShouldDrawNormalAssets();
     void AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo);
-    void Draw(ERenderOptions Options, int ComponentIndex, const SViewInfo& ViewInfo);
+    void Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& ViewInfo);
     void DrawSelection();
     void RayAABoxIntersectTest(CRayCollisionTester& Tester, const SViewInfo& ViewInfo);
     SRayIntersection RayNodeIntersectTest(const CRay& Ray, u32 ComponentIndex, const SViewInfo& ViewInfo);

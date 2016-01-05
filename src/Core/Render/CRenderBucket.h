@@ -2,7 +2,7 @@
 #define CRENDERBUCKET_H
 
 #include "CCamera.h"
-#include "ERenderOptions.h"
+#include "FRenderOptions.h"
 #include "SRenderablePtr.h"
 #include <Common/types.h>
 #include <vector>

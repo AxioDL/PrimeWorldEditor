@@ -82,14 +82,14 @@ void CModel::ClearGLBuffer()
     mBuffered = false;
 }
 
-void CModel::Draw(ERenderOptions Options, u32 MatSet)
+void CModel::Draw(FRenderOptions Options, u32 MatSet)
 {
     if (!mBuffered) BufferGL();
     for (u32 iSurf = 0; iSurf < mSurfaces.size(); iSurf++)
         DrawSurface(Options, iSurf, MatSet);
 }
 
-void CModel::DrawSurface(ERenderOptions Options, u32 Surface, u32 MatSet)
+void CModel::DrawSurface(FRenderOptions Options, u32 Surface, u32 MatSet)
 {
     if (!mBuffered) BufferGL();
 
@@ -122,7 +122,7 @@ void CModel::DrawSurface(ERenderOptions Options, u32 Surface, u32 MatSet)
     mVBO.Unbind();
 }
 
-void CModel::DrawWireframe(ERenderOptions Options, CColor WireColor /*= CColor::skWhite*/)
+void CModel::DrawWireframe(FRenderOptions Options, CColor WireColor /*= CColor::skWhite*/)
 {
     if (!mBuffered) BufferGL();
 
