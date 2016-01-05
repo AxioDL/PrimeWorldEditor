@@ -5,6 +5,7 @@
 namespace Log
 {
 
+TStringList ErrorLog;
 static const TString gskLogFilename = "primeworldeditor.log";
 
 #pragma warning(push)
@@ -12,7 +13,7 @@ static const TString gskLogFilename = "primeworldeditor.log";
 FILE *gpLogFile = fopen(*gskLogFilename, "w");
 #pragma warning(pop)
 
-void Write(const TString& message)
+void Write(const TString& rkMessage)
 {
     if (gpLogFile)
     {
@@ -25,51 +26,65 @@ void Write(const TString& message)
         char Buffer[80];
         strftime(Buffer, 80, "[%H:%M:%S]", &pTimeInfo);
 
-        fprintf(gpLogFile, "%s %s\n", Buffer, *message);
+        fprintf(gpLogFile, "%s %s\n", Buffer, *rkMessage);
         fflush(gpLogFile);
     }
 }
 
-void Error(const TString& message)
+void Error(const TString& rkMessage)
 {
-    Write("ERROR: " + message);
-    std::cout << "ERROR: " << message << "\n";
+    TString FullMessage = "ERROR: " + rkMessage;
+    Write(FullMessage);
+    ErrorLog.push_back(FullMessage);
+    std::cout << FullMessage << "\n";
 }
 
-void Warning(const TString& message)
+void Warning(const TString& rkMessage)
 {
-    Write("Warning: " + message);
-    std::cout << "Warning: " << message << "\n";
+    TString FullMessage = "Warning: " + rkMessage;
+    Write(FullMessage);
+    ErrorLog.push_back(FullMessage);
+    std::cout << FullMessage << "\n";
 }
 
-void FileWrite(const TString& filename, const TString& message)
+void FileWrite(const TString& rkFilename, const TString& rkMessage)
 {
-    Write(filename + " : " + message);
+    Write(rkFilename + " : " + rkMessage);
 }
 
-void FileWrite(const TString& filename, unsigned long offset, const TString& message)
+void FileWrite(const TString& rkFilename, u32 Offset, const TString& rkMessage)
 {
-    Write(filename + " : " + TString::HexString(offset) + " - " + message);
+    Write(rkFilename + " : " + TString::HexString(Offset) + " - " + rkMessage);
 }
 
-void FileError(const TString& filename, const TString& message)
+void FileError(const TString& rkFilename, const TString& rkMessage)
 {
-    Error(filename + " : " + message);
+    Error(rkFilename + " : " + rkMessage);
 }
 
-void FileError(const TString& filename, unsigned long offset, const TString& message)
+void FileError(const TString& rkFilename, u32 Offset, const TString& rkMessage)
 {
-    Error(filename + " : " + TString::HexString(offset) + " - " + message);
+    Error(rkFilename + " : " + TString::HexString(Offset) + " - " + rkMessage);
 }
 
-void FileWarning(const TString& filename, const TString& message)
+void FileWarning(const TString& rkFilename, const TString& rkMessage)
 {
-    Warning(filename + " : " + message);
+    Warning(rkFilename + " : " + rkMessage);
 }
 
-void FileWarning(const TString& filename, unsigned long offset, const TString& message)
+void FileWarning(const TString& rkFilename, u32 Offset, const TString& rkMessage)
 {
-    Warning(filename + " : " + TString::HexString(offset) + " - " + message);
+    Warning(rkFilename + " : " + TString::HexString(Offset) + " - " + rkMessage);
+}
+
+const TStringList& GetErrorLog()
+{
+    return ErrorLog;
+}
+
+void ClearErrorLog()
+{
+    ErrorLog.clear();
 }
 
 }
