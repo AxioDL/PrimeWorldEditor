@@ -1,6 +1,9 @@
 #include "CSceneViewport.h"
+#include "UICommon.h"
 #include "Editor/Undo/UndoCommands.h"
 #include <Core/Render/SViewInfo.h>
+#include <Core/Resource/Script/CScriptLayer.h>
+#include <QMenu>
 
 CSceneViewport::CSceneViewport(QWidget *pParent)
     : CBasicViewport(pParent),
@@ -9,7 +12,9 @@ CSceneViewport::CSceneViewport(QWidget *pParent)
       mDrawSky(true),
       mGizmoTransforming(false),
       mpHoverNode(nullptr),
-      mHoverPoint(CVector3f::skZero)
+      mHoverPoint(CVector3f::skZero),
+      mpContextMenu(nullptr),
+      mpMenuNode(nullptr)
 {
     mpRenderer = new CRenderer();
     mpRenderer->SetClearColor(CColor::skBlack);
@@ -17,6 +22,8 @@ CSceneViewport::CSceneViewport(QWidget *pParent)
 
     mViewInfo.pScene = mpScene;
     mViewInfo.pRenderer = mpRenderer;
+
+    CreateContextMenu();
 }
 
 CSceneViewport::~CSceneViewport()
@@ -130,6 +137,31 @@ void CSceneViewport::keyReleaseEvent(QKeyEvent* pEvent)
     }
 }
 
+// ************ PROTECTED ************
+void CSceneViewport::CreateContextMenu()
+{
+    mpContextMenu = new QMenu(this);
+
+    mpHideNodeAction = new QAction("HideNode", this);
+    connect(mpHideNodeAction, SIGNAL(triggered()), this, SLOT(OnHideNode()));
+
+    mpHideTypeAction = new QAction("HideType", this);
+    connect(mpHideTypeAction, SIGNAL(triggered()), this, SLOT(OnHideType()));
+
+    mpHideLayerAction = new QAction("HideLayer", this);
+    connect(mpHideLayerAction, SIGNAL(triggered()), this, SLOT(OnHideLayer()));
+
+    mpHideUnhideSeparator = new QAction(this);
+    mpHideUnhideSeparator->setSeparator(true);
+
+    mpUnhideAllAction = new QAction("Unhide all", this);
+    connect(mpUnhideAllAction, SIGNAL(triggered()), this, SLOT(OnUnhideAll()));
+
+    QList<QAction*> Actions;
+    Actions << mpHideNodeAction << mpHideTypeAction << mpHideLayerAction << mpHideUnhideSeparator << mpUnhideAllAction;
+    mpContextMenu->addActions(Actions);
+}
+
 // ************ PROTECTED SLOTS ************
 void CSceneViewport::CheckUserInput()
 {
@@ -184,8 +216,36 @@ void CSceneViewport::Paint()
     mpRenderer->EndFrame();
 }
 
-void CSceneViewport::ContextMenu(QContextMenuEvent* /*pEvent*/)
+void CSceneViewport::ContextMenu(QContextMenuEvent* pEvent)
 {
+    // mpHoverNode is cleared during mouse input, so this call is necessary. todo: better way?
+    SceneRayCast(CastRay());
+
+    // Set up actions
+    TString NodeName;
+    bool HasHoverNode = (mpHoverNode && mpHoverNode->NodeType() != eStaticNode);
+    bool IsScriptNode = (mpHoverNode && mpHoverNode->NodeType() == eScriptNode);
+
+    mpHideNodeAction->setVisible(HasHoverNode);
+    mpHideTypeAction->setVisible(IsScriptNode);
+    mpHideLayerAction->setVisible(IsScriptNode);
+    mpHideUnhideSeparator->setVisible(HasHoverNode);
+
+    if (IsScriptNode)
+    {
+        CScriptNode *pScript = static_cast<CScriptNode*>(mpHoverNode);
+        NodeName = pScript->Object()->InstanceName();
+        mpHideTypeAction->setText( QString("Hide all %1 objects").arg(TO_QSTRING(pScript->Template()->TemplateName())) );
+        mpHideLayerAction->setText( QString("Hide layer %1").arg(TO_QSTRING(pScript->Object()->Layer()->Name())) );
+    }
+    else if (HasHoverNode)
+        NodeName = mpHoverNode->Name();
+
+    mpHideNodeAction->setText(QString("Hide %1").arg(TO_QSTRING(NodeName)));
+
+    // Show menu
+    mpMenuNode = mpHoverNode;
+    mpContextMenu->exec(pEvent->pos());
 }
 
 void CSceneViewport::OnResize()
@@ -257,5 +317,30 @@ void CSceneViewport::OnMouseRelease(QMouseEvent *pEvent)
             mpEditor->UpdateSelectionUI();
         }
     }
+}
 
+void CSceneViewport::OnHideNode()
+{
+    mpMenuNode->SetVisible(false);
+}
+
+void CSceneViewport::OnHideType()
+{
+    static_cast<CScriptNode*>(mpMenuNode)->Template()->SetVisible(false);
+}
+
+void CSceneViewport::OnHideLayer()
+{
+    static_cast<CScriptNode*>(mpMenuNode)->Object()->Layer()->SetVisible(false);
+}
+
+void CSceneViewport::OnUnhideAll()
+{
+    // implement when scene iterator exists!
+}
+
+void CSceneViewport::OnContextMenuClose()
+{
+    mpContextMenu = nullptr;
+    mpMenuNode = nullptr;
 }
