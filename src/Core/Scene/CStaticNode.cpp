@@ -48,7 +48,8 @@ void CStaticNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewIn
 {
     if (!mpModel) return;
 
-    CGraphics::sVertexBlock.COLOR0_Amb = CColor::skBlack;
+    bool IsLightingEnabled = CGraphics::sLightMode == CGraphics::eWorldLighting;
+    CGraphics::sVertexBlock.COLOR0_Amb = (IsLightingEnabled ? CColor::skBlack : CColor::skWhite);
     float Mul = CGraphics::sWorldLightMultiplier;
     CGraphics::sPixelBlock.TevColor = CColor(Mul,Mul,Mul);
     CGraphics::sPixelBlock.TintColor = TintColor(ViewInfo);
