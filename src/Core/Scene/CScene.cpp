@@ -210,7 +210,7 @@ void CScene::AddSceneToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
             std::vector<CSceneNode*>& rNodeVec = it->second;
 
             for (u32 iNode = 0; iNode < rNodeVec.size(); iNode++)
-                if (rNodeVec[iNode]->IsVisible())
+                if (ViewInfo.GameMode || rNodeVec[iNode]->IsVisible())
                     rNodeVec[iNode]->AddToRenderer(pRenderer, ViewInfo);
         }
     }

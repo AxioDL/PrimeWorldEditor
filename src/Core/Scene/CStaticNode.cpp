@@ -48,7 +48,7 @@ void CStaticNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewIn
 {
     if (!mpModel) return;
 
-    bool IsLightingEnabled = CGraphics::sLightMode == CGraphics::eWorldLighting;
+    bool IsLightingEnabled = CGraphics::sLightMode == CGraphics::eWorldLighting || ViewInfo.GameMode;
     CGraphics::sVertexBlock.COLOR0_Amb = (IsLightingEnabled ? CColor::skBlack : CColor::skWhite);
     float Mul = CGraphics::sWorldLightMultiplier;
     CGraphics::sPixelBlock.TevColor = CColor(Mul,Mul,Mul);
