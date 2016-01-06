@@ -1,6 +1,6 @@
 #include "CNodeSelection.h"
 
-CSceneSelection::CSceneSelection(CSceneManager *pScene)
+CSceneSelection::CSceneSelection(CScene *pScene)
 {
     mpScene = pScene;
 }

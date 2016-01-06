@@ -3,7 +3,7 @@
 
 #include "CWorldEditor.h"
 #include <Core/Resource/Script/CScriptLayer.h>
-#include <Core/Scene/CSceneManager.h>
+#include <Core/Scene/CScene.h>
 
 WInstancesTab::WInstancesTab(QWidget *parent) :
     QWidget(parent),
@@ -47,7 +47,7 @@ WInstancesTab::~WInstancesTab()
     delete ui;
 }
 
-void WInstancesTab::SetEditor(CWorldEditor *pEditor, CSceneManager *pScene)
+void WInstancesTab::SetEditor(CWorldEditor *pEditor, CScene *pScene)
 {
     mpEditor = pEditor;
     mpScene = pScene;

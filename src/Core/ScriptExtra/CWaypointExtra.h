@@ -18,7 +18,7 @@ class CWaypointExtra : public CScriptExtra
     std::vector<SWaypointLink> mLinks;
 
 public:
-    explicit CWaypointExtra(CScriptObject *pInstance, CSceneManager *pScene, CSceneNode *pParent = 0);
+    explicit CWaypointExtra(CScriptObject *pInstance, CScene *pScene, CSceneNode *pParent = 0);
     void BuildLinks();
     bool IsPathLink(const SLink& rkLink);
 

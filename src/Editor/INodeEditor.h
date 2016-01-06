@@ -3,7 +3,7 @@
 
 #include "CGizmo.h"
 #include <Math/ETransformSpace.h>
-#include <Core/Scene/CSceneManager.h>
+#include <Core/Scene/CScene.h>
 
 #include <QMainWindow>
 #include <QAction>
@@ -22,7 +22,7 @@ protected:
     QList<QAction*> mUndoActions;
 
     // Node management
-    CSceneManager mScene;
+    CScene mScene;
     QList<CSceneNode*> mSelection;
     CAABox mSelectionBounds;
 
@@ -43,7 +43,7 @@ public:
     explicit INodeEditor(QWidget *pParent = 0);
     virtual ~INodeEditor();
     QUndoStack* UndoStack();
-    CSceneManager* Scene();
+    CScene* Scene();
     CGizmo* Gizmo();
     bool IsGizmoVisible();
     void BeginGizmoTransform();

@@ -1,6 +1,6 @@
 #include "CSpacePirateExtra.h"
 
-CSpacePirateExtra::CSpacePirateExtra(CScriptObject *pInstance, CSceneManager *pScene, CSceneNode *pParent)
+CSpacePirateExtra::CSpacePirateExtra(CScriptObject *pInstance, CScene *pScene, CSceneNode *pParent)
     : CScriptExtra(pInstance, pScene ,pParent)
     , mpPowerVuln(nullptr)
     , mpWaveVuln(nullptr)

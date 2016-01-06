@@ -23,7 +23,7 @@ public:
 
 private:
     CWorldEditor *mpEditor;
-    CSceneManager *mpScene;
+    CScene *mpScene;
     TResPtr<CGameArea> mpArea;
 
 public:

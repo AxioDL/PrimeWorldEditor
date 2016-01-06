@@ -8,7 +8,7 @@
 class CRootNode : public CSceneNode
 {
 public:
-    explicit CRootNode(CSceneManager *pScene, CSceneNode *pParent = 0) : CSceneNode(pScene, pParent) {}
+    explicit CRootNode(CScene *pScene, CSceneNode *pParent = 0) : CSceneNode(pScene, pParent) {}
     ~CRootNode() {}
 
     ENodeType NodeType() {

@@ -7,10 +7,10 @@
 
 struct SViewInfo
 {
-    class CSceneManager *pScene;
+    class CScene *pScene;
     class CRenderer *pRenderer;
-
     class CCamera *pCamera;
+
     bool GameMode;
     CFrustumPlanes ViewFrustum;
     CMatrix4f RotationOnlyViewMatrix;

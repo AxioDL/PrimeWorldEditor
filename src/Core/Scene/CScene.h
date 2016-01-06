@@ -1,5 +1,5 @@
-#ifndef CSCENEMANAGER_h
-#define CSCENEMANAGER_h
+#ifndef CSCENE_H
+#define CSCENE_H
 
 #include "CSceneNode.h"
 #include "CRootNode.h"
@@ -19,7 +19,7 @@
 #include <unordered_map>
 #include <vector>
 
-class CSceneManager
+class CScene
 {
     bool mSplitTerrain;
 
@@ -43,8 +43,8 @@ class CSceneManager
     std::unordered_map<u32, CScriptNode*> mScriptNodeMap;
 
 public:
-    CSceneManager();
-    ~CSceneManager();
+    CScene();
+    ~CScene();
 
     // Scene Management
     CModelNode* AddModel(CModel *mdl);
@@ -67,4 +67,4 @@ public:
     CGameArea* GetActiveArea();
 };
 
-#endif // CSCENEMANAGER_H
+#endif // CSCENE_H

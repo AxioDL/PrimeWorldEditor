@@ -145,7 +145,6 @@ HEADERS += \
     Scene/CLightNode.h \
     Scene/CModelNode.h \
     Scene/CRootNode.h \
-    Scene/CSceneManager.h \
     Scene/CSceneNode.h \
     Scene/CScriptNode.h \
     Scene/CStaticNode.h \
@@ -179,7 +178,8 @@ HEADERS += \
     Resource/Script/IPropertyTemplate.h \
     Resource/Script/IProperty.h \
     Resource/Model/EVertexAttribute.h \
-    Render/FRenderOptions.h
+    Render/FRenderOptions.h \
+    Scene/CScene.h
 
 # Source Files
 SOURCES += \
@@ -235,7 +235,6 @@ SOURCES += \
     Scene/CCollisionNode.cpp \
     Scene/CLightNode.cpp \
     Scene/CModelNode.cpp \
-    Scene/CSceneManager.cpp \
     Scene/CSceneNode.cpp \
     Scene/CScriptNode.cpp \
     Scene/CStaticNode.cpp \
@@ -263,4 +262,5 @@ SOURCES += \
     ScriptExtra/CRadiusSphereExtra.cpp \
     Resource/Cooker/CAreaCooker.cpp \
     Resource/Script/IPropertyTemplate.cpp \
-    Resource/Script/IProperty.cpp
+    Resource/Script/IProperty.cpp \
+    Scene/CScene.cpp

@@ -4,7 +4,7 @@
 #include "Core/Render/CRenderer.h"
 #include <Math/MathUtil.h>
 
-CLightNode::CLightNode(CSceneManager *pScene, CSceneNode *pParent, CLight *Light)
+CLightNode::CLightNode(CScene *pScene, CSceneNode *pParent, CLight *Light)
     : CSceneNode(pScene, pParent)
 {
     mpLight = Light;

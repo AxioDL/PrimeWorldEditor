@@ -3,7 +3,7 @@
 #include "Core/Render/CGraphics.h"
 #include "Core/Render/CRenderer.h"
 
-CCollisionNode::CCollisionNode(CSceneManager *pScene, CSceneNode *pParent, CCollisionMeshGroup *pCollision)
+CCollisionNode::CCollisionNode(CScene *pScene, CSceneNode *pParent, CCollisionMeshGroup *pCollision)
     : CSceneNode(pScene, pParent)
 {
     SetCollision(pCollision);

@@ -12,7 +12,7 @@
 #include <Core/Resource/factory/CModelLoader.h>
 #include <Core/Resource/factory/CMaterialLoader.h>
 #include <Core/Resource/factory/CTextureDecoder.h>
-#include <Core/Scene/CSceneManager.h>
+#include <Core/Scene/CScene.h>
 
 #include <iostream>
 #include <QFileDialog>
@@ -28,7 +28,7 @@ CModelEditorWindow::CModelEditorWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    mpScene = new CSceneManager();
+    mpScene = new CScene();
     mpCurrentMat = nullptr;
     mpCurrentModel = nullptr;
     mpCurrentModelNode = new CModelNode(mpScene);

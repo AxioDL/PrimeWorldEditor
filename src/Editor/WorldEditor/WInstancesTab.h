@@ -8,7 +8,7 @@
 #include <QMenu>
 
 class CWorldEditor;
-class CSceneManager;
+class CScene;
 
 namespace Ui {
 class WInstancesTab;
@@ -19,7 +19,7 @@ class WInstancesTab : public QWidget
     Q_OBJECT
 
     CWorldEditor *mpEditor;
-    CSceneManager *mpScene;
+    CScene *mpScene;
     CTypesInstanceModel *mpLayersModel;
     CTypesInstanceModel *mpTypesModel;
 
@@ -32,7 +32,7 @@ class WInstancesTab : public QWidget
 public:
     explicit WInstancesTab(QWidget *parent = 0);
     ~WInstancesTab();
-    void SetEditor(CWorldEditor *pEditor, CSceneManager *pScene);
+    void SetEditor(CWorldEditor *pEditor, CScene *pScene);
     void SetMaster(CMasterTemplate *pMaster);
     void SetArea(CGameArea *pArea);
 

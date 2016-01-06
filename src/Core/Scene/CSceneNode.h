@@ -16,7 +16,7 @@
 #include <Math/ETransformSpace.h>
 
 class CRenderer;
-class CSceneManager;
+class CScene;
 
 class CSceneNode : public IRenderable
 {
@@ -33,7 +33,7 @@ protected:
     static u32 smNumNodes;
     TString mName;
     CSceneNode *mpParent;
-    CSceneManager *mpScene;
+    CScene *mpScene;
 
     CVector3f mPosition;
     CQuaternion mRotation;
@@ -51,7 +51,7 @@ protected:
     CColor mAmbientColor;
 
 public:
-    explicit CSceneNode(CSceneManager *pScene, CSceneNode *pParent = 0);
+    explicit CSceneNode(CScene *pScene, CSceneNode *pParent = 0);
     virtual ~CSceneNode();
     virtual ENodeType NodeType() = 0;
     virtual void AddToRenderer(CRenderer* /*pRenderer*/, const SViewInfo& /*ViewInfo*/) {}
@@ -89,7 +89,7 @@ public:
     // Getters
     TString Name() const;
     CSceneNode* Parent() const;
-    CSceneManager* Scene() const;
+    CScene* Scene() const;
     CVector3f LocalPosition() const;
     CVector3f AbsolutePosition() const;
     CQuaternion LocalRotation() const;

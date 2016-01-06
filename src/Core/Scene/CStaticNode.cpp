@@ -5,7 +5,7 @@
 #include <Common/AnimUtil.h>
 #include <Math/MathUtil.h>
 
-CStaticNode::CStaticNode(CSceneManager *pScene, CSceneNode *pParent, CStaticModel *pModel)
+CStaticNode::CStaticNode(CScene *pScene, CSceneNode *pParent, CStaticModel *pModel)
     : CSceneNode(pScene, pParent)
 {
     mpModel = pModel;

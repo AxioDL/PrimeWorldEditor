@@ -61,7 +61,7 @@ QUndoStack* INodeEditor::UndoStack()
     return &mUndoStack;
 }
 
-CSceneManager* INodeEditor::Scene()
+CScene* INodeEditor::Scene()
 {
     return &mScene;
 }
