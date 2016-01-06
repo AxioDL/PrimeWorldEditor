@@ -1,7 +1,7 @@
 #include "CDoorExtra.h"
 #include "Core/Render/CRenderer.h"
 
-CDoorExtra::CDoorExtra(CScriptObject *pInstance, CSceneManager *pScene, CSceneNode *pParent)
+CDoorExtra::CDoorExtra(CScriptObject *pInstance, CScene *pScene, CSceneNode *pParent)
     : CScriptExtra(pInstance, pScene, pParent)
     , mpShieldModelProp(nullptr)
     , mpShieldColorProp(nullptr)

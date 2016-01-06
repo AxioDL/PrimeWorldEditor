@@ -9,7 +9,7 @@ class CSceneViewport : public CBasicViewport
     Q_OBJECT
 
     INodeEditor *mpEditor;
-    CSceneManager *mpScene;
+    CScene *mpScene;
     CRenderer *mpRenderer;
 
     // Render settings
@@ -33,7 +33,7 @@ class CSceneViewport : public CBasicViewport
 public:
     CSceneViewport(QWidget *pParent = 0);
     ~CSceneViewport();
-    void SetScene(INodeEditor *pEditor, CSceneManager *pScene);
+    void SetScene(INodeEditor *pEditor, CScene *pScene);
     void SetSkyEnabled(bool b);
     CRenderer* Renderer();
     CSceneNode* HoverNode();

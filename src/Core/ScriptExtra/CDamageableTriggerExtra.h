@@ -29,7 +29,7 @@ class CDamageableTriggerExtra : public CScriptExtra
     CVector2f mCoordScale;
 
 public:
-    explicit CDamageableTriggerExtra(CScriptObject *pInstance, CSceneManager *pScene, CSceneNode *pParent = 0);
+    explicit CDamageableTriggerExtra(CScriptObject *pInstance, CScene *pScene, CSceneNode *pParent = 0);
     ~CDamageableTriggerExtra();
     void CreateMaterial();
     void UpdatePlaneTransform();

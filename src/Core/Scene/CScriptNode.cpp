@@ -1,5 +1,5 @@
 #include "CScriptNode.h"
-#include "CSceneManager.h"
+#include "CScene.h"
 #include "Core/Render/CDrawUtil.h"
 #include "Core/Render/CGraphics.h"
 #include "Core/Render/CRenderer.h"
@@ -10,7 +10,7 @@
 #include <Common/AnimUtil.h>
 #include <Math/MathUtil.h>
 
-CScriptNode::CScriptNode(CSceneManager *pScene, CSceneNode *pParent, CScriptObject *pObject)
+CScriptNode::CScriptNode(CScene *pScene, CSceneNode *pParent, CScriptObject *pObject)
     : CSceneNode(pScene, pParent)
 {
     mpVolumePreviewNode = nullptr;

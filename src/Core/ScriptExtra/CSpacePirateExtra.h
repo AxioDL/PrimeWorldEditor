@@ -13,7 +13,7 @@ class CSpacePirateExtra : public CScriptExtra
     TLongProperty *mpPlasmaVuln;
 
 public:
-    explicit CSpacePirateExtra(CScriptObject *pInstance, CSceneManager *pScene, CSceneNode *pParent = 0);
+    explicit CSpacePirateExtra(CScriptObject *pInstance, CScene *pScene, CSceneNode *pParent = 0);
     CColor TevColor();
 };
 

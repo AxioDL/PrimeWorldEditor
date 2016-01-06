@@ -2,7 +2,7 @@
 #include "Core/Render/CDrawUtil.h"
 #include "Core/Render/CRenderer.h"
 
-CDamageableTriggerExtra::CDamageableTriggerExtra(CScriptObject *pInstance, CSceneManager *pScene, CSceneNode *pParent)
+CDamageableTriggerExtra::CDamageableTriggerExtra(CScriptObject *pInstance, CScene *pScene, CSceneNode *pParent)
     : CScriptExtra(pInstance, pScene, pParent)
     , mpRenderSideProp(nullptr)
     , mpMat(nullptr)

@@ -6,7 +6,7 @@
 #include <Core/Resource/CFont.h>
 #include <Core/Resource/CResCache.h>
 #include <Core/Resource/Model/CModel.h>
-#include <Core/Scene/CSceneManager.h>
+#include <Core/Scene/CScene.h>
 #include <Core/Scene/CModelNode.h>
 
 #include <QMainWindow>
@@ -21,7 +21,7 @@ class CModelEditorWindow : public QMainWindow
     Q_OBJECT
 
     Ui::CModelEditorWindow *ui;
-    CSceneManager *mpScene;
+    CScene *mpScene;
     QString mOutputFilename;
     TResPtr<CModel> mpCurrentModel;
     CModelNode *mpCurrentModelNode;

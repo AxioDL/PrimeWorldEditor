@@ -2,7 +2,7 @@
 #include "Core/Render/CDrawUtil.h"
 #include "Core/Render/CRenderer.h"
 
-CRadiusSphereExtra::CRadiusSphereExtra(CScriptObject *pInstance, CSceneManager *pScene, CSceneNode *pParent)
+CRadiusSphereExtra::CRadiusSphereExtra(CScriptObject *pInstance, CScene *pScene, CSceneNode *pParent)
     : CScriptExtra(pInstance, pScene, pParent)
     , mpRadius(nullptr)
 {

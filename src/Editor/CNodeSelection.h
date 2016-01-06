@@ -6,11 +6,11 @@
 
 class CSceneSelection
 {
-    CSceneManager *mpScene;
+    CScene *mpScene;
     std::vector<CSceneNode*> mSelectedNodes;
 
 public:
-    CSceneSelection(CSceneManager *pScene);
+    CSceneSelection(CScene *pScene);
     void SelectNode(CSceneNode *pNode);
     void DeselectNode(CSceneNode *pNode);
     u32 SelectionSize();

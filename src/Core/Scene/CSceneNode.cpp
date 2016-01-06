@@ -13,7 +13,7 @@
 u32 CSceneNode::smNumNodes = 0;
 CColor CSceneNode::skSelectionTint = CColor::Integral(39, 154, 167);
 
-CSceneNode::CSceneNode(CSceneManager *pScene, CSceneNode *pParent)
+CSceneNode::CSceneNode(CScene *pScene, CSceneNode *pParent)
 {
     smNumNodes++;
     mpScene = pScene;
@@ -322,7 +322,7 @@ CSceneNode* CSceneNode::Parent() const
     return mpParent;
 }
 
-CSceneManager* CSceneNode::Scene() const
+CScene* CSceneNode::Scene() const
 {
     return mpScene;
 }

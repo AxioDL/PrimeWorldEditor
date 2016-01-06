@@ -12,7 +12,7 @@
 #include <Core/Resource/CGameArea.h>
 #include <Core/Resource/CWorld.h>
 #include <Core/Resource/TResPtr.h>
-#include <Core/Scene/CSceneManager.h>
+#include <Core/Scene/CScene.h>
 #include <Core/SRayIntersection.h>
 
 #include <QComboBox>

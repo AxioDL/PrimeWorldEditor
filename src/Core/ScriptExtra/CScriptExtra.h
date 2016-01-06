@@ -19,7 +19,7 @@ protected:
     EGame mGame;
 
 public:
-    explicit CScriptExtra(CScriptObject *pInstance, CSceneManager *pScene, CSceneNode *pParent = 0)
+    explicit CScriptExtra(CScriptObject *pInstance, CScene *pScene, CSceneNode *pParent = 0)
         : CSceneNode(pScene, pParent),
           mpInstance(pInstance),
           mGame(pInstance->Template()->Game())

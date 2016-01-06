@@ -31,7 +31,7 @@ CSceneViewport::~CSceneViewport()
     delete mpRenderer;
 }
 
-void CSceneViewport::SetScene(INodeEditor *pEditor, CSceneManager *pScene)
+void CSceneViewport::SetScene(INodeEditor *pEditor, CScene *pScene)
 {
     mpEditor = pEditor;
     mpScene = pScene;

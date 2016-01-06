@@ -23,7 +23,7 @@ class CScriptNode : public CSceneNode
     CLightParameters *mpLightParameters;
 
 public:
-    CScriptNode(CSceneManager *pScene, CSceneNode *pParent = 0, CScriptObject *pObject = 0);
+    CScriptNode(CScene *pScene, CSceneNode *pParent = 0, CScriptObject *pObject = 0);
     ENodeType NodeType();
     void AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo);
     void Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& ViewInfo);

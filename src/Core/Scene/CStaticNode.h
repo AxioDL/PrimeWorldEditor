@@ -9,7 +9,7 @@ class CStaticNode : public CSceneNode
     CStaticModel *mpModel;
 
 public:
-    CStaticNode(CSceneManager *pScene, CSceneNode *pParent = 0, CStaticModel *pModel = 0);
+    CStaticNode(CScene *pScene, CSceneNode *pParent = 0, CStaticModel *pModel = 0);
     ENodeType NodeType();
     void AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo);
     void Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& ViewInfo);

@@ -3,7 +3,7 @@
 const CColor CPointOfInterestExtra::skRegularColor   = CColor::Integral(0xFF,0x70,0x00);
 const CColor CPointOfInterestExtra::skImportantColor = CColor::Integral(0xFF,0x00,0x00);
 
-CPointOfInterestExtra::CPointOfInterestExtra(CScriptObject *pInstance, CSceneManager *pScene, CSceneNode *pParent)
+CPointOfInterestExtra::CPointOfInterestExtra(CScriptObject *pInstance, CScene *pScene, CSceneNode *pParent)
     : CScriptExtra(pInstance, pScene, pParent)
     , mpScanProperty(nullptr)
     , mpScanData(nullptr)

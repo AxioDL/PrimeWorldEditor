@@ -1,4 +1,4 @@
-#include "CSceneManager.h"
+#include "CScene.h"
 #include "Core/Render/CGraphics.h"
 #include "Core/Resource/CResCache.h"
 #include "Core/Resource/Script/CScriptLayer.h"
@@ -18,7 +18,7 @@
  * Advantage of this is that I don't need to write separate functions for every single node type
  * They can all be tracked together and the code could be streamlined a lot.
  */
-CSceneManager::CSceneManager()
+CScene::CScene()
 {
     mSplitTerrain = true;
     mNodeCount = 0;
@@ -28,12 +28,12 @@ CSceneManager::CSceneManager()
     mpAreaRootNode = nullptr;
 }
 
-CSceneManager::~CSceneManager()
+CScene::~CScene()
 {
     ClearScene();
 }
 
-CModelNode* CSceneManager::AddModel(CModel *m)
+CModelNode* CScene::AddModel(CModel *m)
 {
     if (m == nullptr) return nullptr;
 
@@ -43,7 +43,7 @@ CModelNode* CSceneManager::AddModel(CModel *m)
     return node;
 }
 
-CStaticNode* CSceneManager::AddStaticModel(CStaticModel *mdl)
+CStaticNode* CScene::AddStaticModel(CStaticModel *mdl)
 {
     if (mdl == nullptr) return nullptr;
 
@@ -53,7 +53,7 @@ CStaticNode* CSceneManager::AddStaticModel(CStaticModel *mdl)
     return node;
 }
 
-CCollisionNode* CSceneManager::AddCollision(CCollisionMeshGroup *mesh)
+CCollisionNode* CScene::AddCollision(CCollisionMeshGroup *mesh)
 {
     if (mesh == nullptr) return nullptr;
 
@@ -63,7 +63,7 @@ CCollisionNode* CSceneManager::AddCollision(CCollisionMeshGroup *mesh)
     return node;
 }
 
-CScriptNode* CSceneManager::AddScriptObject(CScriptObject *obj)
+CScriptNode* CScene::AddScriptObject(CScriptObject *obj)
 {
     if (obj == nullptr) return nullptr;
 
@@ -73,7 +73,7 @@ CScriptNode* CSceneManager::AddScriptObject(CScriptObject *obj)
     return node;
 }
 
-CLightNode* CSceneManager::AddLight(CLight *Light)
+CLightNode* CScene::AddLight(CLight *Light)
 {
     if (Light == nullptr) return nullptr;
 
@@ -83,7 +83,7 @@ CLightNode* CSceneManager::AddLight(CLight *Light)
     return node;
 }
 
-void CSceneManager::SetActiveArea(CGameArea* _area)
+void CScene::SetActiveArea(CGameArea* _area)
 {
     // Clear existing area
     delete mpAreaRootNode;
@@ -188,12 +188,12 @@ void CSceneManager::SetActiveArea(CGameArea* _area)
     std::cout << CSceneNode::NumNodes() << " nodes\n";
 }
 
-void CSceneManager::SetActiveWorld(CWorld* _world)
+void CScene::SetActiveWorld(CWorld* _world)
 {
     mpWorld = _world;
 }
 
-void CSceneManager::ClearScene()
+void CScene::ClearScene()
 {
     if (mpAreaRootNode)
     {
@@ -212,7 +212,7 @@ void CSceneManager::ClearScene()
     mNodeCount = 0;
 }
 
-void CSceneManager::AddSceneToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
+void CScene::AddSceneToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
 {
     FRenderOptions Options = pRenderer->RenderOptions();
 
@@ -249,7 +249,7 @@ void CSceneManager::AddSceneToRenderer(CRenderer *pRenderer, const SViewInfo& Vi
     }
 }
 
-SRayIntersection CSceneManager::SceneRayCast(const CRay& Ray, const SViewInfo& ViewInfo)
+SRayIntersection CScene::SceneRayCast(const CRay& Ray, const SViewInfo& ViewInfo)
 {
     // Terribly hacky stuff to avoid having tons of redundant code
     // because I'm too lazy to rewrite CSceneManager right now and fix it
@@ -295,7 +295,7 @@ SRayIntersection CSceneManager::SceneRayCast(const CRay& Ray, const SViewInfo& V
     return Tester.TestNodes(ViewInfo);
 }
 
-void CSceneManager::PickEnvironmentObjects()
+void CScene::PickEnvironmentObjects()
 {
     // Pick AreaAttributes
     for (auto it = mAreaAttributesObjects.begin(); it != mAreaAttributesObjects.end(); it++)
@@ -308,7 +308,7 @@ void CSceneManager::PickEnvironmentObjects()
     }
 }
 
-CScriptNode* CSceneManager::ScriptNodeByID(u32 InstanceID)
+CScriptNode* CScene::ScriptNodeByID(u32 InstanceID)
 {
     auto it = mScriptNodeMap.find(InstanceID);
 
@@ -316,12 +316,12 @@ CScriptNode* CSceneManager::ScriptNodeByID(u32 InstanceID)
     else return nullptr;
 }
 
-CScriptNode* CSceneManager::NodeForObject(CScriptObject *pObj)
+CScriptNode* CScene::NodeForObject(CScriptObject *pObj)
 {
     return ScriptNodeByID(pObj->InstanceID());
 }
 
-CLightNode* CSceneManager::NodeForLight(CLight *pLight)
+CLightNode* CScene::NodeForLight(CLight *pLight)
 {
     // Slow. Is there a better way to do this?
     for (auto it = mLightNodes.begin(); it != mLightNodes.end(); it++)
@@ -330,7 +330,7 @@ CLightNode* CSceneManager::NodeForLight(CLight *pLight)
     return nullptr;
 }
 
-CModel* CSceneManager::GetActiveSkybox()
+CModel* CScene::GetActiveSkybox()
 {
     if (mpActiveAreaAttributes)
     {
@@ -347,7 +347,7 @@ CModel* CSceneManager::GetActiveSkybox()
     else return nullptr;
 }
 
-CGameArea* CSceneManager::GetActiveArea()
+CGameArea* CScene::GetActiveArea()
 {
     return mpArea;
 }

@@ -12,7 +12,7 @@ class CModelNode : public CSceneNode
     bool mForceAlphaOn;
 
 public:
-    explicit CModelNode(CSceneManager *pScene, CSceneNode *pParent = 0, CModel *pModel = 0);
+    explicit CModelNode(CScene *pScene, CSceneNode *pParent = 0, CModel *pModel = 0);
 
     virtual ENodeType NodeType();
     virtual void AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo);
