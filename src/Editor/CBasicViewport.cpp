@@ -17,6 +17,7 @@ CBasicViewport::CBasicViewport(QWidget *pParent) :
 {
     setMouseTracking(true);
     mCamera.SetAspectRatio((float) width() / height());
+    mViewInfo.ShowFlags = eShowAll;
     mViewInfo.pCamera = &mCamera;
     mViewInfo.GameMode = false;
 }

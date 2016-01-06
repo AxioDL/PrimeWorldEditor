@@ -11,21 +11,14 @@
 #include <list>
 #include <string>
 
-/**
- * This class direly needs a rewrite
- * Future plan is to integrate a "scene layer" system, where nodes are grouped into layers
- * We would have terrain layer, lights layer, collision layer, multiple script layers, etc
- * Advantage of this is that I don't need to write separate functions for every single node type
- * They can all be tracked together and the code could be streamlined a lot.
- */
 CScene::CScene()
+    : mSplitTerrain(true)
+    , mNumNodes(0)
+    , mpSceneRootNode(new CRootNode(this, nullptr))
+    , mpArea(nullptr)
+    , mpWorld(nullptr)
+    , mpAreaRootNode(nullptr)
 {
-    mSplitTerrain = true;
-    mNodeCount = 0;
-    mpSceneRootNode = new CRootNode(this, nullptr);
-    mpArea = nullptr;
-    mpWorld = nullptr;
-    mpAreaRootNode = nullptr;
 }
 
 CScene::~CScene()
@@ -33,107 +26,105 @@ CScene::~CScene()
     ClearScene();
 }
 
-CModelNode* CScene::AddModel(CModel *m)
+CModelNode* CScene::CreateModelNode(CModel *pModel)
 {
-    if (m == nullptr) return nullptr;
+    if (pModel == nullptr) return nullptr;
 
-    CModelNode *node = new CModelNode(this, mpSceneRootNode, m);
-    mModelNodes.push_back(node);
-    mNodeCount++;
-    return node;
+    CModelNode *pNode = new CModelNode(this, mpSceneRootNode, pModel);
+    mNodes[eShowObjects].push_back(pNode);
+    mNumNodes++;
+    return pNode;
 }
 
-CStaticNode* CScene::AddStaticModel(CStaticModel *mdl)
+CStaticNode* CScene::CreateStaticNode(CStaticModel *pModel)
 {
-    if (mdl == nullptr) return nullptr;
+    if (pModel == nullptr) return nullptr;
 
-    CStaticNode *node = new CStaticNode(this, mpAreaRootNode, mdl);
-    mStaticNodes.push_back(node);
-    mNodeCount++;
-    return node;
+    CStaticNode *pNode = new CStaticNode(this, mpAreaRootNode, pModel);
+    mNodes[eShowWorld].push_back(pNode);
+    mNumNodes++;
+    return pNode;
 }
 
-CCollisionNode* CScene::AddCollision(CCollisionMeshGroup *mesh)
+CCollisionNode* CScene::CreateCollisionNode(CCollisionMeshGroup *pMesh)
 {
-    if (mesh == nullptr) return nullptr;
+    if (pMesh == nullptr) return nullptr;
 
-    CCollisionNode *node = new CCollisionNode(this, mpAreaRootNode, mesh);
-    mCollisionNodes.push_back(node);
-    mNodeCount++;
-    return node;
+    CCollisionNode *pNode = new CCollisionNode(this, mpAreaRootNode, pMesh);
+    mNodes[eShowWorldCollision].push_back(pNode);
+    mNumNodes++;
+    return pNode;
 }
 
-CScriptNode* CScene::AddScriptObject(CScriptObject *obj)
+CScriptNode* CScene::CreateScriptNode(CScriptObject *pObj)
 {
-    if (obj == nullptr) return nullptr;
+    if (pObj == nullptr) return nullptr;
 
-    CScriptNode *node = new CScriptNode(this, mpAreaRootNode, obj);
-    mScriptNodes.push_back(node);
-    mNodeCount++;
-    return node;
+    CScriptNode *pNode = new CScriptNode(this, mpAreaRootNode, pObj);
+    mNodes[eShowObjects].push_back(pNode);
+    mNumNodes++;
+    return pNode;
 }
 
-CLightNode* CScene::AddLight(CLight *Light)
+CLightNode* CScene::CreateLightNode(CLight *pLight)
 {
-    if (Light == nullptr) return nullptr;
+    if (pLight == nullptr) return nullptr;
 
-    CLightNode *node = new CLightNode(this, mpAreaRootNode, Light);
-    mLightNodes.push_back(node);
-    mNodeCount++;
-    return node;
+    CLightNode *pNode = new CLightNode(this, mpAreaRootNode, pLight);
+    mNodes[eShowLights].push_back(pNode);
+    mNumNodes++;
+    return pNode;
 }
 
-void CScene::SetActiveArea(CGameArea* _area)
+void CScene::SetActiveArea(CGameArea *pArea)
 {
     // Clear existing area
     delete mpAreaRootNode;
-    mModelNodes.clear();
-    mStaticNodes.clear();
-    mCollisionNodes.clear();
-    mScriptNodes.clear();
-    mLightNodes.clear();
+    mNodes.clear();
     mAreaAttributesObjects.clear();
-    mpActiveAreaAttributes = nullptr;
     mScriptNodeMap.clear();
 
     // Create nodes for new area
-    mpArea = _area;
+    mpArea = pArea;
     mpAreaRootNode = new CRootNode(this, mpSceneRootNode);
 
     if (mSplitTerrain)
     {
-        u32 count = mpArea->GetStaticModelCount();
-        for (u32 m = 0; m < count; m++)
-            AddStaticModel(mpArea->GetStaticModel(m));
+        u32 Count = mpArea->GetStaticModelCount();
+
+        for (u32 iMdl = 0; iMdl < Count; iMdl++)
+            CreateStaticNode(mpArea->GetStaticModel(iMdl));
     }
     else
     {
-        u32 count = mpArea->GetTerrainModelCount();
-        for (u32 m = 0; m < count; m++)
+        u32 Count = mpArea->GetTerrainModelCount();
+
+        for (u32 iMdl = 0; iMdl < Count; iMdl++)
         {
-            CModel *mdl = mpArea->GetTerrainModel(m);
-            CModelNode *node = AddModel(mdl);
-            node->SetDynamicLighting(false);
+            CModel *pModel = mpArea->GetTerrainModel(iMdl);
+            CModelNode *pNode = CreateModelNode(pModel);
+            pNode->SetDynamicLighting(false);
         }
     }
 
-    AddCollision(mpArea->GetCollision());
+    CreateCollisionNode(mpArea->GetCollision());
 
     u32 NumLayers = mpArea->GetScriptLayerCount();
-    for (u32 l = 0; l < NumLayers; l++)
-    {
-        CScriptLayer *layer = mpArea->GetScriptLayer(l);
-        u32 NumObjects = layer->GetNumObjects();
-        mScriptNodes.reserve(mScriptNodes.size() + NumObjects);
 
-        for (u32 o = 0; o < NumObjects; o++)
+    for (u32 iLyr = 0; iLyr < NumLayers; iLyr++)
+    {
+        CScriptLayer *pLayer = mpArea->GetScriptLayer(iLyr);
+        u32 NumObjects = pLayer->GetNumObjects();
+        mNodes[eShowObjects].reserve(mNodes[eShowObjects].size() + NumObjects);
+
+        for (u32 iObj = 0; iObj < NumObjects; iObj++)
         {
-            CScriptObject *pObj = layer->ObjectByIndex(o);
-            CScriptNode *Node = AddScriptObject( pObj );
-            Node->BuildLightList(mpArea);
+            CScriptObject *pObj = pLayer->ObjectByIndex(iObj);
+            CScriptNode *pNode = CreateScriptNode(pObj);
+            pNode->BuildLightList(mpArea);
 
             // Add to map
-            mScriptNodeMap[pObj->InstanceID()] = Node;
+            mScriptNodeMap[pObj->InstanceID()] = pNode;
 
             // AreaAttributes check
             switch (pObj->ObjectTypeID())
@@ -149,16 +140,15 @@ void CScene::SetActiveArea(CGameArea* _area)
     CScriptLayer *pGenLayer = mpArea->GetGeneratorLayer();
     if (pGenLayer)
     {
-        for (u32 o = 0; o < pGenLayer->GetNumObjects(); o++)
+        for (u32 iObj = 0; iObj < pGenLayer->GetNumObjects(); iObj++)
         {
-            CScriptObject *pObj = pGenLayer->ObjectByIndex(o);
-            CScriptNode *Node = AddScriptObject(pObj);
+            CScriptObject *pObj = pGenLayer->ObjectByIndex(iObj);
+            CScriptNode *pNode = CreateScriptNode(pObj);
 
             // Add to map
-            mScriptNodeMap[pObj->InstanceID()] = Node;
+            mScriptNodeMap[pObj->InstanceID()] = pNode;
         }
     }
-    PickEnvironmentObjects();
 
     // Ensure script nodes have valid positions + build light lists
     for (auto it = mScriptNodeMap.begin(); it != mScriptNodeMap.end(); it++)
@@ -170,27 +160,27 @@ void CScene::SetActiveArea(CGameArea* _area)
     u32 NumLightLayers = mpArea->GetLightLayerCount();
     CGraphics::sAreaAmbientColor = CColor::skBlack;
 
-    for (u32 ly = 0; ly < NumLightLayers; ly++)
+    for (u32 iLyr = 0; iLyr < NumLightLayers; iLyr++)
     {
-        u32 NumLights = mpArea->GetLightCount(ly);
+        u32 NumLights = mpArea->GetLightCount(iLyr);
 
-        for (u32 l = 0; l < NumLights; l++)
+        for (u32 iLit = 0; iLit < NumLights; iLit++)
         {
-            CLight *Light = mpArea->GetLight(ly, l);
+            CLight *pLight = mpArea->GetLight(iLyr, iLit);
 
-            if (Light->GetType() == eLocalAmbient)
-                CGraphics::sAreaAmbientColor += Light->GetColor();
+            if (pLight->GetType() == eLocalAmbient)
+                CGraphics::sAreaAmbientColor += pLight->GetColor();
 
-            AddLight(Light);
+            CreateLightNode(pLight);
         }
     }
 
-    std::cout << CSceneNode::NumNodes() << " nodes\n";
+    Log::Write( TString::FromInt32(CSceneNode::NumNodes()) + " nodes" );
 }
 
-void CScene::SetActiveWorld(CWorld* _world)
+void CScene::SetActiveWorld(CWorld* pWorld)
 {
-    mpWorld = _world;
+    mpWorld = pWorld;
 }
 
 void CScene::ClearScene()
@@ -201,111 +191,49 @@ void CScene::ClearScene()
         delete mpAreaRootNode;
     }
 
-    mModelNodes.clear();
-    mStaticNodes.clear();
-    mCollisionNodes.clear();
-    mScriptNodes.clear();
-    mLightNodes.clear();
+    mNodes.clear();
+    mNumNodes = 0;
 
     mpArea = nullptr;
     mpWorld = nullptr;
-    mNodeCount = 0;
 }
 
 void CScene::AddSceneToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
 {
-    FRenderOptions Options = pRenderer->RenderOptions();
+    // Override show flags in game mode
+    FShowFlags ShowFlags = (ViewInfo.GameMode ? gGameModeShowFlags : ViewInfo.ShowFlags);
 
-    if (Options & eDrawWorld || ViewInfo.GameMode)
+    for (auto it = mNodes.begin(); it != mNodes.end(); it++)
     {
-        for (u32 n = 0; n < mModelNodes.size(); n++)
-            if (mModelNodes[n]->IsVisible())
-                mModelNodes[n]->AddToRenderer(pRenderer, ViewInfo);
+        if (ShowFlags & it->first)
+        {
+            std::vector<CSceneNode*>& rNodeVec = it->second;
 
-        for (u32 n = 0; n < mStaticNodes.size(); n++)
-            if (mStaticNodes[n]->IsVisible())
-                mStaticNodes[n]->AddToRenderer(pRenderer, ViewInfo);
-    }
-
-    if (Options & eDrawWorldCollision && !ViewInfo.GameMode)
-    {
-        for (u32 n = 0; n < mCollisionNodes.size(); n++)
-            if (mCollisionNodes[n]->IsVisible())
-                mCollisionNodes[n]->AddToRenderer(pRenderer, ViewInfo);
-    }
-
-    if (Options & eDrawLights && !ViewInfo.GameMode)
-    {
-        for (u32 n = 0; n < mLightNodes.size(); n++)
-            if (mLightNodes[n]->IsVisible())
-                mLightNodes[n]->AddToRenderer(pRenderer, ViewInfo);
-    }
-
-    if ((Options & eDrawObjects) || (Options & eDrawObjectCollision) || ViewInfo.GameMode)
-    {
-        for (u32 n = 0; n < mScriptNodes.size(); n++)
-            if (mScriptNodes[n]->IsVisible())
-                mScriptNodes[n]->AddToRenderer(pRenderer, ViewInfo);
+            for (u32 iNode = 0; iNode < rNodeVec.size(); iNode++)
+                if (rNodeVec[iNode]->IsVisible())
+                    rNodeVec[iNode]->AddToRenderer(pRenderer, ViewInfo);
+        }
     }
 }
 
 SRayIntersection CScene::SceneRayCast(const CRay& Ray, const SViewInfo& ViewInfo)
 {
-    // Terribly hacky stuff to avoid having tons of redundant code
-    // because I'm too lazy to rewrite CSceneManager right now and fix it
-    // (I'm probably going to do it soon...)
-    FRenderOptions renderOptions = ViewInfo.pRenderer->RenderOptions();
-
-    std::vector<CSceneNode*> *pNodeVectors[5] = {
-        reinterpret_cast<std::vector<CSceneNode*>*>(&mModelNodes),
-        reinterpret_cast<std::vector<CSceneNode*>*>(&mStaticNodes),
-        reinterpret_cast<std::vector<CSceneNode*>*>(&mCollisionNodes),
-        reinterpret_cast<std::vector<CSceneNode*>*>(&mScriptNodes),
-        reinterpret_cast<std::vector<CSceneNode*>*>(&mLightNodes),
-    };
-    bool NodesVisible[5] = {
-        true, ((renderOptions & eDrawWorld) != 0), ((renderOptions & eDrawWorldCollision) != 0),
-              ((renderOptions & ((FRenderOptions) (eDrawObjects | eDrawObjectCollision))) != 0), ((renderOptions & eDrawLights) != 0)
-    };
-
-    // Override visibility for game mode
-    if (ViewInfo.GameMode)
-    {
-        NodesVisible[0] = false;
-        NodesVisible[1] = true;
-        NodesVisible[2] = false;
-        NodesVisible[3] = true;
-        NodesVisible[4] = false;
-    }
-
-    // Less hacky stuff
+    FShowFlags ShowFlags = (ViewInfo.GameMode ? gGameModeShowFlags : ViewInfo.ShowFlags);
     CRayCollisionTester Tester(Ray);
 
-    for (u32 iVec = 0; iVec < 5; iVec++)
+    for (auto it = mNodes.begin(); it != mNodes.end(); it++)
     {
-        if (!NodesVisible[iVec]) continue;
+        if (ShowFlags & it->first)
+        {
+            std::vector<CSceneNode*>& rNodeVec = it->second;
 
-        std::vector<CSceneNode*>& vec = *pNodeVectors[iVec];
-
-        for (u32 iNode = 0; iNode < vec.size(); iNode++)
-            if (vec[iNode]->IsVisible())
-                vec[iNode]->RayAABoxIntersectTest(Tester, ViewInfo);
+            for (u32 iNode = 0; iNode < rNodeVec.size(); iNode++)
+                if (rNodeVec[iNode]->IsVisible())
+                    rNodeVec[iNode]->RayAABoxIntersectTest(Tester, ViewInfo);
+        }
     }
 
     return Tester.TestNodes(ViewInfo);
-}
-
-void CScene::PickEnvironmentObjects()
-{
-    // Pick AreaAttributes
-    for (auto it = mAreaAttributesObjects.begin(); it != mAreaAttributesObjects.end(); it++)
-    {
-        if ((*it).IsLayerEnabled())
-        {
-            mpActiveAreaAttributes = &(*it);
-            break;
-        }
-    }
 }
 
 CScriptNode* CScene::ScriptNodeByID(u32 InstanceID)
@@ -324,26 +252,38 @@ CScriptNode* CScene::NodeForObject(CScriptObject *pObj)
 CLightNode* CScene::NodeForLight(CLight *pLight)
 {
     // Slow. Is there a better way to do this?
-    for (auto it = mLightNodes.begin(); it != mLightNodes.end(); it++)
-        if ((*it)->Light() == pLight) return *it;
+    std::vector<CSceneNode*>& rLights = mNodes[eShowLights];
+
+    for (auto it = rLights.begin(); it != rLights.end(); it++)
+    {
+        CLightNode *pNode = static_cast<CLightNode*>(*it);
+        if (pNode->Light() == pLight) return pNode;
+    }
 
     return nullptr;
 }
 
 CModel* CScene::GetActiveSkybox()
 {
-    if (mpActiveAreaAttributes)
+    bool SkyEnabled = false;
+
+    for (u32 iAtt = 0; iAtt < mAreaAttributesObjects.size(); iAtt++)
     {
-        if (mpActiveAreaAttributes->IsSkyEnabled())
+        const CAreaAttributes& rkAttributes = mAreaAttributesObjects[iAtt];
+        if (rkAttributes.IsSkyEnabled()) SkyEnabled = true;
+
+        if (rkAttributes.IsLayerEnabled())
         {
-            CModel *pSky = mpActiveAreaAttributes->SkyModel();
-            if (pSky) return pSky;
-            else return mpWorld->GetDefaultSkybox();
+            if (rkAttributes.IsSkyEnabled())
+            {
+                SkyEnabled = true;
+                CModel *pSky = rkAttributes.SkyModel();
+                if (pSky) return pSky;
+            }
         }
-        else
-            return nullptr;
     }
 
+    if (SkyEnabled) return mpWorld->GetDefaultSkybox();
     else return nullptr;
 }
 

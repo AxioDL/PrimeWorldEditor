@@ -119,12 +119,10 @@ void CScriptNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
     if (ShouldDraw)
     {
         // Otherwise, we proceed as normal
-        FRenderOptions options = pRenderer->RenderOptions();
-
-        if ((options & eDrawObjectCollision) && (!ViewInfo.GameMode))
+        if ((ViewInfo.ShowFlags & eShowObjectCollision) && (!ViewInfo.GameMode))
             mpCollisionNode->AddToRenderer(pRenderer, ViewInfo);
 
-        if (options & eDrawObjects || ViewInfo.GameMode)
+        if (ViewInfo.ShowFlags & eShowObjectGeometry || ViewInfo.GameMode)
         {
             if (ViewInfo.ViewFrustum.BoxInFrustum(AABox()))
             {
@@ -282,85 +280,81 @@ void CScriptNode::RayAABoxIntersectTest(CRayCollisionTester& Tester, const SView
 
 SRayIntersection CScriptNode::RayNodeIntersectTest(const CRay& Ray, u32 AssetID, const SViewInfo& ViewInfo)
 {
-    FRenderOptions options = ViewInfo.pRenderer->RenderOptions();
+    FRenderOptions Options = ViewInfo.pRenderer->RenderOptions();
 
     SRayIntersection out;
     out.pNode = this;
     out.ComponentIndex = AssetID;
 
-    if (options & eDrawObjects || ViewInfo.GameMode)
+    // Model test
+    if (UsesModel())
     {
-        // Model test
-        if (UsesModel())
+        CModel *pModel = (mpActiveModel ? mpActiveModel : CDrawUtil::GetCubeModel());
+
+        CRay TransformedRay = Ray.Transformed(Transform().Inverse());
+        std::pair<bool,float> Result = pModel->GetSurface(AssetID)->IntersectsRay(TransformedRay, ((Options & eEnableBackfaceCull) == 0));
+
+        if (Result.first)
         {
-            CModel *pModel = (mpActiveModel ? mpActiveModel : CDrawUtil::GetCubeModel());
+            out.Hit = true;
 
-            CRay TransformedRay = Ray.Transformed(Transform().Inverse());
-            std::pair<bool,float> Result = pModel->GetSurface(AssetID)->IntersectsRay(TransformedRay, ((options & eEnableBackfaceCull) == 0));
-
-            if (Result.first)
-            {
-                out.Hit = true;
-
-                CVector3f HitPoint = TransformedRay.PointOnRay(Result.second);
-                CVector3f WorldHitPoint = Transform() * HitPoint;
-                out.Distance = Math::Distance(Ray.Origin(), WorldHitPoint);
-            }
-
-            else
-                out.Hit = false;
+            CVector3f HitPoint = TransformedRay.PointOnRay(Result.second);
+            CVector3f WorldHitPoint = Transform() * HitPoint;
+            out.Distance = Math::Distance(Ray.Origin(), WorldHitPoint);
         }
 
-        // Billboard test
-        // todo: come up with a better way to share this code between CScriptNode and CLightNode
         else
+            out.Hit = false;
+    }
+
+    // Billboard test
+    // todo: come up with a better way to share this code between CScriptNode and CLightNode
+    else
+    {
+        // Step 1: check whether the ray intersects with the plane the billboard is on
+        CPlane BillboardPlane(-ViewInfo.pCamera->Direction(), mPosition);
+        std::pair<bool,float> PlaneTest = Math::RayPlaneIntersecton(Ray, BillboardPlane);
+
+        if (PlaneTest.first)
         {
-            // Step 1: check whether the ray intersects with the plane the billboard is on
-            CPlane BillboardPlane(-ViewInfo.pCamera->Direction(), mPosition);
-            std::pair<bool,float> PlaneTest = Math::RayPlaneIntersecton(Ray, BillboardPlane);
+            // Step 2: transform the hit point into the plane's local space
+            CVector3f PlaneHitPoint = Ray.PointOnRay(PlaneTest.second);
+            CVector3f RelHitPoint = PlaneHitPoint - mPosition;
 
-            if (PlaneTest.first)
+            CVector3f PlaneForward = -ViewInfo.pCamera->Direction();
+            CVector3f PlaneRight = -ViewInfo.pCamera->RightVector();
+            CVector3f PlaneUp = ViewInfo.pCamera->UpVector();
+            CQuaternion PlaneRot = CQuaternion::FromAxes(PlaneRight, PlaneForward, PlaneUp);
+
+            CVector3f RotatedHitPoint = PlaneRot.Inverse() * RelHitPoint;
+            CVector2f LocalHitPoint = RotatedHitPoint.xz() / BillboardScale();
+
+            // Step 3: check whether the transformed hit point is in the -1 to 1 range
+            if ((LocalHitPoint.x >= -1.f) && (LocalHitPoint.x <= 1.f) && (LocalHitPoint.y >= -1.f) && (LocalHitPoint.y <= 1.f))
             {
-                // Step 2: transform the hit point into the plane's local space
-                CVector3f PlaneHitPoint = Ray.PointOnRay(PlaneTest.second);
-                CVector3f RelHitPoint = PlaneHitPoint - mPosition;
+                // Step 4: look up the hit texel and check whether it's transparent or opaque
+                CVector2f TexCoord = (LocalHitPoint + CVector2f(1.f)) * 0.5f;
+                TexCoord.x = -TexCoord.x + 1.f;
+                float TexelAlpha = mpBillboard->ReadTexelAlpha(TexCoord);
 
-                CVector3f PlaneForward = -ViewInfo.pCamera->Direction();
-                CVector3f PlaneRight = -ViewInfo.pCamera->RightVector();
-                CVector3f PlaneUp = ViewInfo.pCamera->UpVector();
-                CQuaternion PlaneRot = CQuaternion::FromAxes(PlaneRight, PlaneForward, PlaneUp);
-
-                CVector3f RotatedHitPoint = PlaneRot.Inverse() * RelHitPoint;
-                CVector2f LocalHitPoint = RotatedHitPoint.xz() / BillboardScale();
-
-                // Step 3: check whether the transformed hit point is in the -1 to 1 range
-                if ((LocalHitPoint.x >= -1.f) && (LocalHitPoint.x <= 1.f) && (LocalHitPoint.y >= -1.f) && (LocalHitPoint.y <= 1.f))
-                {
-                    // Step 4: look up the hit texel and check whether it's transparent or opaque
-                    CVector2f TexCoord = (LocalHitPoint + CVector2f(1.f)) * 0.5f;
-                    TexCoord.x = -TexCoord.x + 1.f;
-                    float TexelAlpha = mpBillboard->ReadTexelAlpha(TexCoord);
-
-                    if (TexelAlpha < 0.25f)
-                        out.Hit = false;
-
-                    else
-                    {
-                        // It's opaque... we have a hit!
-                        out.Hit = true;
-                        out.Distance = PlaneTest.second;
-                    }
-                }
+                if (TexelAlpha < 0.25f)
+                    out.Hit = false;
 
                 else
-                    out.Hit = false;
+                {
+                    // It's opaque... we have a hit!
+                    out.Hit = true;
+                    out.Distance = PlaneTest.second;
+                }
             }
 
             else
                 out.Hit = false;
         }
+
+        else
+            out.Hit = false;
     }
-    else out.Hit = false;
 
     return out;
 }

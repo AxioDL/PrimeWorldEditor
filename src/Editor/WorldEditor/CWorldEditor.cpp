@@ -351,27 +351,27 @@ void CWorldEditor::OnTransformSpinBoxEdited(CVector3f)
 // These functions are from "Go to slot" in the designer
 void CWorldEditor::on_ActionDrawWorld_triggered()
 {
-    ui->MainViewport->Renderer()->ToggleWorld(ui->ActionDrawWorld->isChecked());
+    ui->MainViewport->SetShowFlag(eShowWorld, ui->ActionDrawWorld->isChecked());
 }
 
 void CWorldEditor::on_ActionDrawCollision_triggered()
 {
-    ui->MainViewport->Renderer()->ToggleWorldCollision(ui->ActionDrawCollision->isChecked());
+    ui->MainViewport->SetShowFlag(eShowWorldCollision, ui->ActionDrawCollision->isChecked());
 }
 
 void CWorldEditor::on_ActionDrawObjects_triggered()
 {
-    ui->MainViewport->Renderer()->ToggleObjects(ui->ActionDrawObjects->isChecked());
+    ui->MainViewport->SetShowFlag(eShowObjectGeometry, ui->ActionDrawObjects->isChecked());
 }
 
 void CWorldEditor::on_ActionDrawLights_triggered()
 {
-    ui->MainViewport->Renderer()->ToggleLights(ui->ActionDrawLights->isChecked());
+    ui->MainViewport->SetShowFlag(eShowLights, ui->ActionDrawLights->isChecked());
 }
 
 void CWorldEditor::on_ActionDrawSky_triggered()
 {
-    ui->MainViewport->SetSkyEnabled(ui->ActionDrawSky->isChecked());
+    ui->MainViewport->SetShowFlag(eShowSky, ui->ActionDrawSky->isChecked());
 }
 
 void CWorldEditor::on_ActionNoLighting_triggered()
@@ -464,7 +464,7 @@ void CWorldEditor::on_ActionDecrementGizmo_triggered()
 
 void CWorldEditor::on_ActionDrawObjectCollision_triggered()
 {
-    ui->MainViewport->Renderer()->ToggleObjectCollision(ui->ActionDrawObjectCollision->isChecked());
+    ui->MainViewport->SetShowFlag(eShowObjectCollision, ui->ActionDrawObjectCollision->isChecked());
 }
 
 void CWorldEditor::on_ActionGameMode_triggered()

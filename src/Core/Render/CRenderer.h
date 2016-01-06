@@ -55,12 +55,6 @@ public:
 
     // Getters/Setters
     FRenderOptions RenderOptions() const;
-    void ToggleWorld(bool b);
-    void ToggleWorldCollision(bool b);
-    void ToggleObjects(bool b);
-    void ToggleObjectCollision(bool b);
-    void ToggleLights(bool b);
-    void ToggleSky(bool b);
     void ToggleBackfaceCull(bool b);
     void ToggleUVAnimation(bool b);
     void ToggleGrid(bool b);

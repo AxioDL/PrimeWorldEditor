@@ -8,6 +8,7 @@
 #include "CScriptNode.h"
 #include "CStaticNode.h"
 #include "CCollisionNode.h"
+#include "FShowFlags.h"
 #include "Core/Render/CRenderer.h"
 #include "Core/Render/SViewInfo.h"
 #include "Core/Resource/CGameArea.h"
@@ -23,13 +24,9 @@ class CScene
 {
     bool mSplitTerrain;
 
-    u32 mNodeCount;
-    std::vector<CModelNode*> mModelNodes;
-    std::vector<CStaticNode*> mStaticNodes;
-    std::vector<CCollisionNode*> mCollisionNodes;
-    std::vector<CScriptNode*> mScriptNodes;
-    std::vector<CLightNode*> mLightNodes;
+    u32 mNumNodes;
     CRootNode *mpSceneRootNode;
+    std::unordered_map<EShowFlag, std::vector<CSceneNode*>> mNodes;
 
     TResPtr<CGameArea> mpArea;
     TResPtr<CWorld> mpWorld;
@@ -37,7 +34,6 @@ class CScene
 
     // Environment
     std::vector<CAreaAttributes> mAreaAttributesObjects;
-    CAreaAttributes *mpActiveAreaAttributes;
 
     // Objects
     std::unordered_map<u32, CScriptNode*> mScriptNodeMap;
@@ -47,17 +43,16 @@ public:
     ~CScene();
 
     // Scene Management
-    CModelNode* AddModel(CModel *mdl);
-    CStaticNode* AddStaticModel(CStaticModel *mdl);
-    CCollisionNode* AddCollision(CCollisionMeshGroup *mesh);
-    CScriptNode* AddScriptObject(CScriptObject *obj);
-    CLightNode* AddLight(CLight *Light);
-    void SetActiveArea(CGameArea *_area);
-    void SetActiveWorld(CWorld *_world);
+    CModelNode* CreateModelNode(CModel *pModel);
+    CStaticNode* CreateStaticNode(CStaticModel *pModel);
+    CCollisionNode* CreateCollisionNode(CCollisionMeshGroup *pMesh);
+    CScriptNode* CreateScriptNode(CScriptObject *pObj);
+    CLightNode* CreateLightNode(CLight *pLight);
+    void SetActiveArea(CGameArea *pArea);
+    void SetActiveWorld(CWorld *pWorld);
     void ClearScene();
-    void AddSceneToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo);
-    SRayIntersection SceneRayCast(const CRay& Ray, const SViewInfo& ViewInfo);
-    void PickEnvironmentObjects();
+    void AddSceneToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo);
+    SRayIntersection SceneRayCast(const CRay& rkRay, const SViewInfo& rkViewInfo);
     CScriptNode* ScriptNodeByID(u32 InstanceID);
     CScriptNode* NodeForObject(CScriptObject *pObj);
     CLightNode* NodeForLight(CLight *pLight);

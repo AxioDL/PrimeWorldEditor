@@ -9,7 +9,6 @@ CSceneViewport::CSceneViewport(QWidget *pParent)
     : CBasicViewport(pParent),
       mpEditor(nullptr),
       mpScene(nullptr),
-      mDrawSky(true),
       mGizmoTransforming(false),
       mpHoverNode(nullptr),
       mHoverPoint(CVector3f::skZero),
@@ -22,6 +21,7 @@ CSceneViewport::CSceneViewport(QWidget *pParent)
 
     mViewInfo.pScene = mpScene;
     mViewInfo.pRenderer = mpRenderer;
+    mViewInfo.ShowFlags = eShowWorld | eShowObjectGeometry | eShowLights | eShowSky;
 
     CreateContextMenu();
 }
@@ -37,9 +37,12 @@ void CSceneViewport::SetScene(INodeEditor *pEditor, CScene *pScene)
     mpScene = pScene;
 }
 
-void CSceneViewport::SetSkyEnabled(bool b)
+void CSceneViewport::SetShowFlag(EShowFlag Flag, bool Visible)
 {
-    mDrawSky = b;
+    if (Visible)
+        mViewInfo.ShowFlags |= Flag;
+    else
+        mViewInfo.ShowFlags &= ~Flag;
 }
 
 CRenderer* CSceneViewport::Renderer()
@@ -191,7 +194,7 @@ void CSceneViewport::Paint()
 
     mpRenderer->BeginFrame();
 
-    if (mDrawSky || mViewInfo.GameMode)
+    if ((mViewInfo.ShowFlags & eShowSky) || mViewInfo.GameMode)
     {
         CModel *pSky = mpScene->GetActiveSkybox();
         if (pSky) mpRenderer->RenderSky(pSky, mViewInfo);
@@ -336,7 +339,7 @@ void CSceneViewport::OnHideLayer()
 
 void CSceneViewport::OnUnhideAll()
 {
-    // implement when scene iterator exists!
+    // implement when scene iterator is implemented!
 }
 
 void CSceneViewport::OnContextMenuClose()

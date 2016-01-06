@@ -12,9 +12,9 @@ public:
     CAreaAttributes(CScriptObject *pObj);
     ~CAreaAttributes();
     void SetObject(CScriptObject *pObj);
-    bool IsLayerEnabled();
-    bool IsSkyEnabled();
-    CModel* SkyModel();
+    bool IsLayerEnabled() const;
+    bool IsSkyEnabled() const;
+    CModel* SkyModel() const;
 };
 
 #endif // CAREAATTRIBUTES_H

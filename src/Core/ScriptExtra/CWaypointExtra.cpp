@@ -82,7 +82,7 @@ void CWaypointExtra::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewIn
     // won't work properly because we haven't finished loading the scene yet.
     if (!mLinksBuilt) BuildLinks();
 
-    if (!ViewInfo.GameMode && mpParent->IsVisible() && !mpParent->IsSelected())
+    if (!ViewInfo.GameMode && (ViewInfo.ShowFlags & eShowObjectGeometry) && mpParent->IsVisible() && !mpParent->IsSelected())
     {
         for (u32 iLink = 0; iLink < mLinks.size(); iLink++)
         {

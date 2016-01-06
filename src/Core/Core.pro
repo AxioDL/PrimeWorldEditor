@@ -179,6 +179,7 @@ HEADERS += \
     Resource/Script/IProperty.h \
     Resource/Model/EVertexAttribute.h \
     Render/FRenderOptions.h \
+    Scene/FShowFlags.h \
     Scene/CScene.h
 
 # Source Files
@@ -263,4 +264,5 @@ SOURCES += \
     Resource/Cooker/CAreaCooker.cpp \
     Resource/Script/IPropertyTemplate.cpp \
     Resource/Script/IProperty.cpp \
+    Scene/FShowFlags.cpp \
     Scene/CScene.cpp
