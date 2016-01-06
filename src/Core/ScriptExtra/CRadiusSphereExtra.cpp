@@ -27,7 +27,7 @@ CRadiusSphereExtra::CRadiusSphereExtra(CScriptObject *pInstance, CScene *pScene,
 
 void CRadiusSphereExtra::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo)
 {
-    if (!rkViewInfo.GameMode && mpRadius && mpParent->IsVisible() && mpParent->IsSelected())
+    if (!rkViewInfo.GameMode && (rkViewInfo.ShowFlags & eShowObjectGeometry) && mpRadius && mpParent->IsVisible() && mpParent->IsSelected())
     {
         CAABox BoundingBox = Bounds();
 

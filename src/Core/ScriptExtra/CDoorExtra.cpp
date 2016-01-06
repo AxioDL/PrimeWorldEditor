@@ -72,6 +72,7 @@ void CDoorExtra::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
 {
     if (!mpShieldModel) return;
     if (ViewInfo.GameMode && !mpInstance->IsActive()) return;
+    if ((ViewInfo.ShowFlags & eShowObjectGeometry) == 0) return;
 
     if (mpParent->IsVisible() && ViewInfo.ViewFrustum.BoxInFrustum(AABox()))
     {

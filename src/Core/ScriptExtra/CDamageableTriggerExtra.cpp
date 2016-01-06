@@ -189,6 +189,9 @@ void CDamageableTriggerExtra::AddToRenderer(CRenderer *pRenderer, const SViewInf
     if (ViewInfo.GameMode && !mpInstance->IsActive())
         return;
 
+    if ((ViewInfo.ShowFlags & eShowObjectGeometry) == 0)
+        return;
+
     if (mRenderSide != eNoRender)
     {
         if (ViewInfo.ViewFrustum.BoxInFrustum(AABox()))

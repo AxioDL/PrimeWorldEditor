@@ -20,8 +20,7 @@ u32 CRenderer::sNumRenderers = 0;
 // ************ INITIALIZATION ************
 CRenderer::CRenderer()
 {
-    mOptions = eDrawWorld | eDrawObjects | eDrawLights | eDrawSky |
-               eEnableUVScroll | eEnableBackfaceCull;
+    mOptions = eEnableUVScroll | eEnableBackfaceCull;
     mBloomMode = eNoBloom;
     mDrawGrid = true;
     mInitialized = false;
@@ -56,42 +55,6 @@ void CRenderer::Init()
 FRenderOptions CRenderer::RenderOptions() const
 {
     return mOptions;
-}
-
-void CRenderer::ToggleWorld(bool b)
-{
-    if (b) mOptions |= eDrawWorld;
-    else   mOptions &= ~eDrawWorld;
-}
-
-void CRenderer::ToggleWorldCollision(bool b)
-{
-    if (b) mOptions |= eDrawWorldCollision;
-    else   mOptions &= ~eDrawWorldCollision;
-}
-
-void CRenderer::ToggleObjects(bool b)
-{
-    if (b) mOptions |= eDrawObjects;
-    else   mOptions &= ~eDrawObjects;
-}
-
-void CRenderer::ToggleObjectCollision(bool b)
-{
-    if (b) mOptions |= eDrawObjectCollision;
-    else   mOptions &= ~eDrawObjectCollision;
-}
-
-void CRenderer::ToggleLights(bool b)
-{
-    if (b) mOptions |= eDrawLights;
-    else   mOptions &= ~eDrawLights;
-}
-
-void CRenderer::ToggleSky(bool b)
-{
-    if (b) mOptions |= eDrawSky;
-    else   mOptions &= ~eDrawSky;
 }
 
 void CRenderer::ToggleBackfaceCull(bool b)

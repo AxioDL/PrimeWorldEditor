@@ -17,12 +17,12 @@ void CAreaAttributes::SetObject(CScriptObject *pObj)
     mGame = pObj->Template()->MasterTemplate()->GetGame();
 }
 
-bool CAreaAttributes::IsLayerEnabled()
+bool CAreaAttributes::IsLayerEnabled() const
 {
     return mpObj->Layer()->IsActive();
 }
 
-bool CAreaAttributes::IsSkyEnabled()
+bool CAreaAttributes::IsSkyEnabled() const
 {
     CPropertyStruct *pBaseStruct = mpObj->Properties();
 
@@ -39,7 +39,7 @@ bool CAreaAttributes::IsSkyEnabled()
     }
 }
 
-CModel* CAreaAttributes::SkyModel()
+CModel* CAreaAttributes::SkyModel() const
 {
     CPropertyStruct *pBaseStruct = mpObj->Properties();
 
