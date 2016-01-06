@@ -31,11 +31,7 @@ public:
     CSceneViewport(QWidget *pParent = 0);
     ~CSceneViewport();
     void SetScene(INodeEditor *pEditor, CScene *pScene);
-<<<<<<< Updated upstream
-    void SetSkyEnabled(bool b);
-=======
     void SetShowFlag(EShowFlag Flag, bool Visible);
->>>>>>> Stashed changes
     CRenderer* Renderer();
     CSceneNode* HoverNode();
     CVector3f HoverPoint();

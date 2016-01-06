@@ -201,7 +201,7 @@ void CScene::ClearScene()
 void CScene::AddSceneToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
 {
     // Override show flags in game mode
-    FShowFlags ShowFlags = (ViewInfo.GameMode ? gGameModeShowFlags : ViewInfo.ShowFlags);
+    FShowFlags ShowFlags = (ViewInfo.GameMode ? gkGameModeShowFlags : ViewInfo.ShowFlags);
 
     for (auto it = mNodes.begin(); it != mNodes.end(); it++)
     {
@@ -218,7 +218,7 @@ void CScene::AddSceneToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
 
 SRayIntersection CScene::SceneRayCast(const CRay& Ray, const SViewInfo& ViewInfo)
 {
-    FShowFlags ShowFlags = (ViewInfo.GameMode ? gGameModeShowFlags : ViewInfo.ShowFlags);
+    FShowFlags ShowFlags = (ViewInfo.GameMode ? gkGameModeShowFlags : ViewInfo.ShowFlags);
     CRayCollisionTester Tester(Ray);
 
     for (auto it = mNodes.begin(); it != mNodes.end(); it++)
