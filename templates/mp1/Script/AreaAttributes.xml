@@ -15,8 +15,8 @@
     <editor>
         <properties/>
         <assets>
-            <model source="property">0x07</model>
-        </assets>
+			<billboard source="file">script/common/AreaAttributes.txtr</billboard>
+		</assets>
         <rotation_type>disabled</rotation_type>
         <scale_type>disabled</scale_type>
     </editor>
