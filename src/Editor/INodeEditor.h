@@ -25,6 +25,7 @@ protected:
     CScene mScene;
     QList<CSceneNode*> mSelection;
     CAABox mSelectionBounds;
+    bool mSelectionLocked;
 
     // Gizmo
     CGizmo mGizmo;
@@ -56,6 +57,9 @@ public:
     void DeselectNode(CSceneNode *pNode);
     void ClearSelection();
     void ClearAndSelectNode(CSceneNode *pNode);
+    void SelectAll(FNodeFlags NodeFlags);
+    void InvertSelection(FNodeFlags NodeFlags);
+    void SetSelectionLocked(bool Locked);
 
 signals:
     void SelectionModified();

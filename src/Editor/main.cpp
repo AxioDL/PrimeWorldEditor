@@ -2,9 +2,6 @@
 #include "CDarkStyle.h"
 #include <Core/Resource/Factory/CTemplateLoader.h>
 
-// temp
-#include <Core/Resource/Cooker/CTemplateWriter.h>
-
 #include <QApplication>
 #include <QStyleFactory>
 

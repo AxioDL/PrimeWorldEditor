@@ -245,6 +245,8 @@
     <property name="title">
      <string>Edit</string>
     </property>
+    <addaction name="ActionSelectAll"/>
+    <addaction name="ActionInvertSelection"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -738,6 +740,22 @@
    </property>
    <property name="shortcut">
     <string>G</string>
+   </property>
+  </action>
+  <action name="ActionSelectAll">
+   <property name="text">
+    <string>Select All</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+A</string>
+   </property>
+  </action>
+  <action name="ActionInvertSelection">
+   <property name="text">
+    <string>Invert Selection</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+I</string>
    </property>
   </action>
  </widget>

@@ -11,6 +11,7 @@
 #include "Editor/UICommon.h"
 
 #include <Core/Render/CDrawUtil.h>
+#include <Core/Scene/CSceneIterator.h>
 #include <Core/Log.h>
 
 #include <iostream>
@@ -57,7 +58,8 @@ CWorldEditor::CWorldEditor(QWidget *parent) :
     mpTransformCombo->setMinimumWidth(75);
     ui->MainToolBar->addActions(mGizmoActions);
     ui->MainToolBar->addWidget(mpTransformCombo);
-    ui->menuEdit->addActions(mUndoActions);
+    ui->menuEdit->insertActions(ui->ActionSelectAll, mUndoActions);
+    ui->menuEdit->insertSeparator(ui->ActionSelectAll);
 
     // Initialize offscreen actions
     addAction(ui->ActionIncrementGizmo);
@@ -470,4 +472,18 @@ void CWorldEditor::on_ActionDrawObjectCollision_triggered()
 void CWorldEditor::on_ActionGameMode_triggered()
 {
     ui->MainViewport->SetGameMode(ui->ActionGameMode->isChecked());
+}
+
+void CWorldEditor::on_ActionSelectAll_triggered()
+{
+    FNodeFlags NodeFlags = CScene::NodeFlagsForShowFlags(ui->MainViewport->ShowFlags());
+    NodeFlags &= ~(eStaticNode | eCollisionNode);
+    SelectAll(NodeFlags);
+}
+
+void CWorldEditor::on_ActionInvertSelection_triggered()
+{
+    FNodeFlags NodeFlags = CScene::NodeFlagsForShowFlags(ui->MainViewport->ShowFlags());
+    NodeFlags &= ~(eStaticNode | eCollisionNode);
+    InvertSelection(NodeFlags);
 }

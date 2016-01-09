@@ -2,12 +2,13 @@
 #include "Editor/Undo/UndoCommands.h"
 
 INodeEditor::INodeEditor(QWidget *pParent)
-    : QMainWindow(pParent),
-      mShowGizmo(false),
-      mGizmoHovering(false),
-      mGizmoTransforming(false),
-      mTranslateSpace(eWorldTransform),
-      mRotateSpace(eWorldTransform)
+    : QMainWindow(pParent)
+    , mSelectionLocked(false)
+    , mShowGizmo(false)
+    , mGizmoHovering(false)
+    , mGizmoTransforming(false)
+    , mTranslateSpace(eWorldTransform)
+    , mRotateSpace(eWorldTransform)
 {
     // Create undo actions
     QAction *pUndoAction = mUndoStack.createUndoAction(this);
@@ -133,37 +134,66 @@ void INodeEditor::ExpandSelectionBounds(CSceneNode *pNode)
 
 void INodeEditor::SelectNode(CSceneNode *pNode)
 {
-    if (!pNode->IsSelected())
-        mUndoStack.push(new CSelectNodeCommand(this, pNode, mSelection));
+    if (!mSelectionLocked)
+    {
+        if (!pNode->IsSelected())
+            mUndoStack.push(new CSelectNodeCommand(this, pNode, mSelection));
+    }
 }
 
 void INodeEditor::DeselectNode(CSceneNode *pNode)
 {
-    if (pNode->IsSelected())
-        mUndoStack.push(new CDeselectNodeCommand(this, pNode, mSelection));
+    if (!mSelectionLocked)
+    {
+        if (pNode->IsSelected())
+            mUndoStack.push(new CDeselectNodeCommand(this, pNode, mSelection));
+    }
 }
 
 void INodeEditor::ClearSelection()
 {
-    if (!mSelection.empty())
-        mUndoStack.push(new CClearSelectionCommand(this, mSelection));
+    if (!mSelectionLocked)
+    {
+        if (!mSelection.empty())
+            mUndoStack.push(new CClearSelectionCommand(this, mSelection));
+    }
 }
 
 void INodeEditor::ClearAndSelectNode(CSceneNode *pNode)
 {
-    if (mSelection.empty())
-        mUndoStack.push(new CSelectNodeCommand(this, pNode, mSelection));
-
-    else if ((mSelection.size() == 1) && (mSelection.front() == pNode))
-        return;
-
-    else
+    if (!mSelectionLocked)
     {
-        mUndoStack.beginMacro("Select");
-        mUndoStack.push(new CClearSelectionCommand(this, mSelection));
-        mUndoStack.push(new CSelectNodeCommand(this, pNode, mSelection));
-        mUndoStack.endMacro();
+        if (mSelection.empty())
+            mUndoStack.push(new CSelectNodeCommand(this, pNode, mSelection));
+
+        else if ((mSelection.size() == 1) && (mSelection.front() == pNode))
+            return;
+
+        else
+        {
+            mUndoStack.beginMacro("Select");
+            mUndoStack.push(new CClearSelectionCommand(this, mSelection));
+            mUndoStack.push(new CSelectNodeCommand(this, pNode, mSelection));
+            mUndoStack.endMacro();
+        }
     }
+}
+
+void INodeEditor::SelectAll(FNodeFlags NodeFlags)
+{
+    if (!mSelectionLocked)
+        mUndoStack.push(new CSelectAllCommand(this, mSelection, &mScene, NodeFlags));
+}
+
+void INodeEditor::InvertSelection(FNodeFlags NodeFlags)
+{
+    if (!mSelectionLocked)
+        mUndoStack.push(new CInvertSelectionCommand(this, mSelection, &mScene, NodeFlags));
+}
+
+void INodeEditor::SetSelectionLocked(bool Locked)
+{
+    mSelectionLocked = Locked;
 }
 
 // ************ PUBLIC SLOTS ************
