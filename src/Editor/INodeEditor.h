@@ -49,8 +49,8 @@ public:
     bool IsGizmoVisible();
     void BeginGizmoTransform();
     void EndGizmoTransform();
-
     ETransformSpace CurrentTransformSpace();
+
     void RecalculateSelectionBounds();
     void ExpandSelectionBounds(CSceneNode *pNode);
     void SelectNode(CSceneNode *pNode);
@@ -60,6 +60,8 @@ public:
     void SelectAll(FNodeFlags NodeFlags);
     void InvertSelection(FNodeFlags NodeFlags);
     void SetSelectionLocked(bool Locked);
+    bool HasSelection() const;
+    const QList<CSceneNode*>& GetSelection() const;
 
 signals:
     void SelectionModified();
