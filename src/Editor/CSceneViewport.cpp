@@ -151,23 +151,42 @@ void CSceneViewport::CreateContextMenu()
 {
     mpContextMenu = new QMenu(this);
 
-    mpHideNodeAction = new QAction("HideNode", this);
-    connect(mpHideNodeAction, SIGNAL(triggered()), this, SLOT(OnHideNode()));
+    mpToggleSelectAction = new QAction("ToggleSelect", this);
+    connect(mpToggleSelectAction, SIGNAL(triggered()), this, SLOT(OnToggleSelect()));
 
-    mpHideTypeAction = new QAction("HideType", this);
-    connect(mpHideTypeAction, SIGNAL(triggered()), this, SLOT(OnHideType()));
+    mpHideSelectionSeparator = new QAction(this);
+    mpHideSelectionSeparator->setSeparator(true);
 
-    mpHideLayerAction = new QAction("HideLayer", this);
-    connect(mpHideLayerAction, SIGNAL(triggered()), this, SLOT(OnHideLayer()));
+    mpHideSelectionAction = new QAction("Hide selection", this);
+    connect(mpHideSelectionAction, SIGNAL(triggered()), this, SLOT(OnHideSelection()));
 
-    mpHideUnhideSeparator = new QAction(this);
-    mpHideUnhideSeparator->setSeparator(true);
+    mpHideUnselectedAction = new QAction("Hide unselected", this);
+    connect(mpHideUnselectedAction, SIGNAL(triggered()), this, SLOT(OnHideUnselected()));
+
+    mpHideHoverSeparator = new QAction(this);
+    mpHideHoverSeparator->setSeparator(this);
+
+    mpHideHoverNodeAction = new QAction("HideNode", this);
+    connect(mpHideHoverNodeAction, SIGNAL(triggered()), this, SLOT(OnHideNode()));
+
+    mpHideHoverTypeAction = new QAction("HideType", this);
+    connect(mpHideHoverTypeAction, SIGNAL(triggered()), this, SLOT(OnHideType()));
+
+    mpHideHoverLayerAction = new QAction("HideLayer", this);
+    connect(mpHideHoverLayerAction, SIGNAL(triggered()), this, SLOT(OnHideLayer()));
+
+    mpUnhideSeparator = new QAction(this);
+    mpUnhideSeparator->setSeparator(true);
 
     mpUnhideAllAction = new QAction("Unhide all", this);
     connect(mpUnhideAllAction, SIGNAL(triggered()), this, SLOT(OnUnhideAll()));
 
     QList<QAction*> Actions;
-    Actions << mpHideNodeAction << mpHideTypeAction << mpHideLayerAction << mpHideUnhideSeparator << mpUnhideAllAction;
+    Actions << mpToggleSelectAction
+            << mpHideSelectionSeparator << mpHideSelectionAction << mpHideUnselectedAction
+            << mpHideHoverSeparator << mpHideHoverNodeAction << mpHideHoverTypeAction << mpHideHoverLayerAction
+            << mpUnhideSeparator << mpUnhideAllAction;
+
     mpContextMenu->addActions(Actions);
 }
 
@@ -233,24 +252,41 @@ void CSceneViewport::ContextMenu(QContextMenuEvent* pEvent)
     // Set up actions
     TString NodeName;
     bool HasHoverNode = (mpHoverNode && mpHoverNode->NodeType() != eStaticNode);
+    bool HasSelection = mpEditor->HasSelection();
     bool IsScriptNode = (mpHoverNode && mpHoverNode->NodeType() == eScriptNode);
 
-    mpHideNodeAction->setVisible(HasHoverNode);
-    mpHideTypeAction->setVisible(IsScriptNode);
-    mpHideLayerAction->setVisible(IsScriptNode);
-    mpHideUnhideSeparator->setVisible(HasHoverNode);
+    mpToggleSelectAction->setVisible(HasHoverNode);
+    mpHideSelectionSeparator->setVisible(HasHoverNode);
+    mpHideSelectionAction->setVisible(HasSelection);
+    mpHideUnselectedAction->setVisible(HasSelection);
+    mpHideHoverSeparator->setVisible(HasSelection);
+    mpHideHoverNodeAction->setVisible(HasHoverNode);
+    mpHideHoverTypeAction->setVisible(IsScriptNode);
+    mpHideHoverLayerAction->setVisible(IsScriptNode);
+    mpUnhideSeparator->setVisible(HasHoverNode);
+
+    if (HasHoverNode)
+    {
+        TString Name = IsScriptNode ? static_cast<CScriptNode*>(mpHoverNode)->Object()->InstanceName() : mpHoverNode->Name();
+
+        if (mpHoverNode->IsSelected())
+            mpToggleSelectAction->setText(QString("Deselect %1").arg(TO_QSTRING(Name)));
+        else
+            mpToggleSelectAction->setText(QString("Select %1").arg(TO_QSTRING(Name)));
+    }
 
     if (IsScriptNode)
     {
         CScriptNode *pScript = static_cast<CScriptNode*>(mpHoverNode);
         NodeName = pScript->Object()->InstanceName();
-        mpHideTypeAction->setText( QString("Hide all %1 objects").arg(TO_QSTRING(pScript->Template()->TemplateName())) );
-        mpHideLayerAction->setText( QString("Hide layer %1").arg(TO_QSTRING(pScript->Object()->Layer()->Name())) );
+        mpHideHoverTypeAction->setText( QString("Hide all %1 objects").arg(TO_QSTRING(pScript->Template()->TemplateName())) );
+        mpHideHoverLayerAction->setText( QString("Hide layer %1").arg(TO_QSTRING(pScript->Object()->Layer()->Name())) );
     }
+
     else if (HasHoverNode)
         NodeName = mpHoverNode->Name();
 
-    mpHideNodeAction->setText(QString("Hide %1").arg(TO_QSTRING(NodeName)));
+    mpHideHoverNodeAction->setText(QString("Hide %1").arg(TO_QSTRING(NodeName)));
 
     // Show menu
     mpMenuNode = mpHoverNode;
@@ -326,6 +362,30 @@ void CSceneViewport::OnMouseRelease(QMouseEvent *pEvent)
             mpEditor->UpdateSelectionUI();
         }
     }
+}
+
+// ************ MENU ACTIONS ************
+void CSceneViewport::OnToggleSelect()
+{
+    if (mpMenuNode->IsSelected())
+        mpEditor->DeselectNode(mpMenuNode);
+    else
+        mpEditor->SelectNode(mpMenuNode);
+}
+
+void CSceneViewport::OnHideSelection()
+{
+    const QList<CSceneNode*>& rkSelection = mpEditor->GetSelection();
+
+    foreach (CSceneNode *pNode, rkSelection)
+        pNode->SetVisible(false);
+}
+
+void CSceneViewport::OnHideUnselected()
+{
+    for (CSceneIterator It(mpScene, eScriptNode | eLightNode); !It.DoneIterating(); ++It)
+        if (!It->IsSelected())
+            It->SetVisible(false);
 }
 
 void CSceneViewport::OnHideNode()

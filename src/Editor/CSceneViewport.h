@@ -20,10 +20,15 @@ class CSceneViewport : public CBasicViewport
 
     // Context Menu
     QMenu *mpContextMenu;
-    QAction *mpHideNodeAction;
-    QAction *mpHideTypeAction;
-    QAction *mpHideLayerAction;
-    QAction *mpHideUnhideSeparator;
+    QAction *mpToggleSelectAction;
+    QAction *mpHideSelectionSeparator;
+    QAction *mpHideSelectionAction;
+    QAction *mpHideUnselectedAction;
+    QAction *mpHideHoverSeparator;
+    QAction *mpHideHoverNodeAction;
+    QAction *mpHideHoverTypeAction;
+    QAction *mpHideHoverLayerAction;
+    QAction *mpUnhideSeparator;
     QAction *mpUnhideAllAction;
     CSceneNode *mpMenuNode;
 
@@ -59,6 +64,10 @@ protected slots:
     void OnMouseClick(QMouseEvent *pEvent);
     void OnMouseRelease(QMouseEvent *pEvent);
 
+    // Menu Actions
+    void OnToggleSelect();
+    void OnHideSelection();
+    void OnHideUnselected();
     void OnHideNode();
     void OnHideType();
     void OnHideLayer();

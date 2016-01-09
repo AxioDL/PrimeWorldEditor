@@ -196,6 +196,16 @@ void INodeEditor::SetSelectionLocked(bool Locked)
     mSelectionLocked = Locked;
 }
 
+bool INodeEditor::HasSelection() const
+{
+    return (!mSelection.isEmpty());
+}
+
+const QList<CSceneNode*>& INodeEditor::GetSelection() const
+{
+    return mSelection;
+}
+
 // ************ PUBLIC SLOTS ************
 void INodeEditor::OnGizmoMoved()
 {
