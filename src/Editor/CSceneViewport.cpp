@@ -3,6 +3,7 @@
 #include "Editor/Undo/UndoCommands.h"
 #include <Core/Render/SViewInfo.h>
 #include <Core/Resource/Script/CScriptLayer.h>
+#include <Core/Scene/CSceneIterator.h>
 #include <QMenu>
 
 CSceneViewport::CSceneViewport(QWidget *pParent)
@@ -344,7 +345,32 @@ void CSceneViewport::OnHideLayer()
 
 void CSceneViewport::OnUnhideAll()
 {
-    // implement when scene iterator is implemented!
+    CSceneIterator it(mpScene, eScriptNode | eLightNode, true);
+
+    while (!it.DoneIterating())
+    {
+        if (!it->IsVisible())
+        {
+            if (it->NodeType() == eLightNode)
+                it->SetVisible(true);
+
+            else
+            {
+                CScriptNode *pScript = static_cast<CScriptNode*>(*it);
+
+                if (!pScript->MarkedVisible())
+                    pScript->SetVisible(true);
+
+                else
+                {
+                    pScript->Template()->SetVisible(true);
+                    pScript->Object()->Layer()->SetVisible(true);
+                }
+            }
+        }
+
+        ++it;
+    }
 }
 
 void CSceneViewport::OnContextMenuClose()
