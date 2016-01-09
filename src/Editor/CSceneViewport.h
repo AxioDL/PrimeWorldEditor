@@ -32,6 +32,7 @@ public:
     ~CSceneViewport();
     void SetScene(INodeEditor *pEditor, CScene *pScene);
     void SetShowFlag(EShowFlag Flag, bool Visible);
+    FShowFlags ShowFlags() const;
     CRenderer* Renderer();
     CSceneNode* HoverNode();
     CVector3f HoverPoint();

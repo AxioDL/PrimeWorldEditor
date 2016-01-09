@@ -125,7 +125,9 @@ HEADERS += \
     INodeEditor.h \
     TestDialog.h \
     UICommon.h \
-    CErrorLogDialog.h
+    CErrorLogDialog.h \
+    Undo/CSelectAllCommand.h \
+    Undo/CInvertSelectionCommand.h
 
 # Source Files
 SOURCES += \
@@ -171,7 +173,9 @@ SOURCES += \
     main.cpp \
     TestDialog.cpp \
     UICommon.cpp \
-    CErrorLogDialog.cpp
+    CErrorLogDialog.cpp \
+    Undo/CSelectAllCommand.cpp \
+    Undo/CInvertSelectionCommand.cpp
 
 # UI Files
 FORMS += \

@@ -22,11 +22,13 @@
 
 class CScene
 {
+    friend class CSceneIterator;
+    
     bool mSplitTerrain;
 
     u32 mNumNodes;
     CRootNode *mpSceneRootNode;
-    std::unordered_map<EShowFlag, std::vector<CSceneNode*>> mNodes;
+    std::unordered_map<ENodeType, std::vector<CSceneNode*>> mNodes;
 
     TResPtr<CGameArea> mpArea;
     TResPtr<CWorld> mpWorld;
@@ -60,6 +62,10 @@ public:
     // Setters/Getters
     CModel* GetActiveSkybox();
     CGameArea* GetActiveArea();
+
+    // Static
+    static FShowFlags ShowFlagsForNodeFlags(FNodeFlags NodeFlags);
+    static FNodeFlags NodeFlagsForShowFlags(FShowFlags ShowFlags);
 };
 
 #endif // CSCENE_H

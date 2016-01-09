@@ -7,6 +7,8 @@
 #include "CSelectNodeCommand.h"
 #include "CDeselectNodeCommand.h"
 #include "CClearSelectionCommand.h"
+#include "CSelectAllCommand.h"
+#include "CInvertSelectionCommand.h"
 #include "EUndoCommand.h"
 
 #endif // UNDOCOMMANDS

@@ -77,6 +77,8 @@ private slots:
     void on_ActionDecrementGizmo_triggered();
     void on_ActionDrawObjectCollision_triggered();
     void on_ActionGameMode_triggered();
+    void on_ActionSelectAll_triggered();
+    void on_ActionInvertSelection_triggered();
 };
 
 #endif // CWORLDEDITOR_H

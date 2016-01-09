@@ -31,7 +31,7 @@ CModelNode* CScene::CreateModelNode(CModel *pModel)
     if (pModel == nullptr) return nullptr;
 
     CModelNode *pNode = new CModelNode(this, mpSceneRootNode, pModel);
-    mNodes[eShowObjects].push_back(pNode);
+    mNodes[eModelNode].push_back(pNode);
     mNumNodes++;
     return pNode;
 }
@@ -41,7 +41,7 @@ CStaticNode* CScene::CreateStaticNode(CStaticModel *pModel)
     if (pModel == nullptr) return nullptr;
 
     CStaticNode *pNode = new CStaticNode(this, mpAreaRootNode, pModel);
-    mNodes[eShowWorld].push_back(pNode);
+    mNodes[eStaticNode].push_back(pNode);
     mNumNodes++;
     return pNode;
 }
@@ -51,7 +51,7 @@ CCollisionNode* CScene::CreateCollisionNode(CCollisionMeshGroup *pMesh)
     if (pMesh == nullptr) return nullptr;
 
     CCollisionNode *pNode = new CCollisionNode(this, mpAreaRootNode, pMesh);
-    mNodes[eShowWorldCollision].push_back(pNode);
+    mNodes[eCollisionNode].push_back(pNode);
     mNumNodes++;
     return pNode;
 }
@@ -61,7 +61,7 @@ CScriptNode* CScene::CreateScriptNode(CScriptObject *pObj)
     if (pObj == nullptr) return nullptr;
 
     CScriptNode *pNode = new CScriptNode(this, mpAreaRootNode, pObj);
-    mNodes[eShowObjects].push_back(pNode);
+    mNodes[eScriptNode].push_back(pNode);
     mNumNodes++;
     return pNode;
 }
@@ -71,7 +71,7 @@ CLightNode* CScene::CreateLightNode(CLight *pLight)
     if (pLight == nullptr) return nullptr;
 
     CLightNode *pNode = new CLightNode(this, mpAreaRootNode, pLight);
-    mNodes[eShowLights].push_back(pNode);
+    mNodes[eLightNode].push_back(pNode);
     mNumNodes++;
     return pNode;
 }
@@ -115,7 +115,7 @@ void CScene::SetActiveArea(CGameArea *pArea)
     {
         CScriptLayer *pLayer = mpArea->GetScriptLayer(iLyr);
         u32 NumObjects = pLayer->GetNumObjects();
-        mNodes[eShowObjects].reserve(mNodes[eShowObjects].size() + NumObjects);
+        mNodes[eScriptNode].reserve(mNodes[eScriptNode].size() + NumObjects);
 
         for (u32 iObj = 0; iObj < NumObjects; iObj++)
         {
@@ -202,10 +202,11 @@ void CScene::AddSceneToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
 {
     // Override show flags in game mode
     FShowFlags ShowFlags = (ViewInfo.GameMode ? gkGameModeShowFlags : ViewInfo.ShowFlags);
+    FNodeFlags NodeFlags = NodeFlagsForShowFlags(ShowFlags);
 
     for (auto it = mNodes.begin(); it != mNodes.end(); it++)
     {
-        if (ShowFlags & it->first)
+        if (NodeFlags & it->first)
         {
             std::vector<CSceneNode*>& rNodeVec = it->second;
 
@@ -219,11 +220,12 @@ void CScene::AddSceneToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
 SRayIntersection CScene::SceneRayCast(const CRay& Ray, const SViewInfo& ViewInfo)
 {
     FShowFlags ShowFlags = (ViewInfo.GameMode ? gkGameModeShowFlags : ViewInfo.ShowFlags);
+    FNodeFlags NodeFlags = NodeFlagsForShowFlags(ShowFlags);
     CRayCollisionTester Tester(Ray);
 
     for (auto it = mNodes.begin(); it != mNodes.end(); it++)
     {
-        if (ShowFlags & it->first)
+        if (NodeFlags & it->first)
         {
             std::vector<CSceneNode*>& rNodeVec = it->second;
 
@@ -252,7 +254,7 @@ CScriptNode* CScene::NodeForObject(CScriptObject *pObj)
 CLightNode* CScene::NodeForLight(CLight *pLight)
 {
     // Slow. Is there a better way to do this?
-    std::vector<CSceneNode*>& rLights = mNodes[eShowLights];
+    std::vector<CSceneNode*>& rLights = mNodes[eLightNode];
 
     for (auto it = rLights.begin(); it != rLights.end(); it++)
     {
@@ -290,4 +292,25 @@ CModel* CScene::GetActiveSkybox()
 CGameArea* CScene::GetActiveArea()
 {
     return mpArea;
+}
+
+// ************ STATIC ************
+FShowFlags CScene::ShowFlagsForNodeFlags(FNodeFlags NodeFlags)
+{
+    FShowFlags Out;
+    if (NodeFlags & eStaticNode) Out |= eShowWorld;
+    if (NodeFlags & eScriptNode) Out |= eShowObjects;
+    if (NodeFlags & eCollisionNode) Out |= eShowWorldCollision;
+    if (NodeFlags & eLightNode) Out |= eShowLights;
+    return Out;
+}
+
+FNodeFlags CScene::NodeFlagsForShowFlags(FShowFlags ShowFlags)
+{
+    FNodeFlags Out = eRootNode | eModelNode;
+    if (ShowFlags & eShowWorld) Out |= eStaticNode;
+    if (ShowFlags & eShowWorldCollision) Out |= eCollisionNode;
+    if (ShowFlags & eShowObjects) Out |= eScriptNode | eScriptExtraNode;
+    if (ShowFlags & eShowLights) Out |= eLightNode;
+    return Out;
 }

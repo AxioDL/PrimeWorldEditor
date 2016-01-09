@@ -180,7 +180,8 @@ HEADERS += \
     Resource/Model/EVertexAttribute.h \
     Render/FRenderOptions.h \
     Scene/FShowFlags.h \
-    Scene/CScene.h
+    Scene/CScene.h \
+    Scene/CSceneIterator.h
 
 # Source Files
 SOURCES += \
@@ -265,4 +266,5 @@ SOURCES += \
     Resource/Script/IPropertyTemplate.cpp \
     Resource/Script/IProperty.cpp \
     Scene/FShowFlags.cpp \
-    Scene/CScene.cpp
+    Scene/CScene.cpp \
+    Scene/CSceneIterator.cpp

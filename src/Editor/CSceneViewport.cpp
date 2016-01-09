@@ -45,6 +45,11 @@ void CSceneViewport::SetShowFlag(EShowFlag Flag, bool Visible)
         mViewInfo.ShowFlags &= ~Flag;
 }
 
+FShowFlags CSceneViewport::ShowFlags() const
+{
+    return mViewInfo.ShowFlags;
+}
+
 CRenderer* CSceneViewport::Renderer()
 {
     return mpRenderer;
