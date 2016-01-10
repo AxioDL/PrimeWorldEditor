@@ -32,6 +32,7 @@ public:
     TString GetSourcePath();
     CResource* GetResource(CUniqueID ResID, CFourCC type);
     CResource* GetResource(const TString& ResPath);
+    CFourCC FindResourceType(CUniqueID ResID, const TStringList& rkPossibleTypes);
     void CacheResource(CResource *pRes);
     void DeleteResource(CUniqueID ResID);
 };

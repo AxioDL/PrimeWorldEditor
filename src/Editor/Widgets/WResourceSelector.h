@@ -3,7 +3,7 @@
 
 #include "IPreviewPanel.h"
 #include <Common/CFourCC.h>
-#include <Core/Resource/TResPtr.h>
+#include <Core/Resource/CResourceInfo.h>
 #include <Core/Resource/EResType.h>
 
 #include <QLabel>
@@ -29,7 +29,7 @@ class WResourceSelector : public QWidget
     bool mAdjustPreviewToParent;
 
     // Resource
-    TResPtr<CResource> mpResource;
+    CResourceInfo mResource;
     bool mResourceValid;
 
     // UI
@@ -44,8 +44,8 @@ class WResourceSelector : public QWidget
     // Functions
 signals:
     void ResourceChanged(const QString& NewResPath);
-    void EditResource(CResource *pRes);
-    void ExportResource(CResource *pRes);
+    void EditResource(const CResourceInfo& rkRes);
+    void ExportResource(const CResourceInfo& rkRes);
 
 public:
     explicit WResourceSelector(QWidget *parent = 0);
@@ -53,7 +53,7 @@ public:
     bool event(QEvent *);
     bool eventFilter(QObject *, QEvent *);
     bool IsSupportedExtension(const QString& extension);
-    bool HasSupportedExtension(CResource* pRes);
+    bool HasSupportedExtension(const CResourceInfo& rkRes);
 
     // Getters
     QString GetText();
@@ -63,6 +63,7 @@ public:
 
     // Setters
     void SetResource(CResource *pRes);
+    void SetResource(const CResourceInfo& rkRes);
     void SetAllowedExtensions(const QString& extension);
     void SetAllowedExtensions(const QStringList& extensions);
     void SetAllowedExtensions(const TStringList& extensions);

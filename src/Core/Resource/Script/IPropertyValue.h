@@ -5,6 +5,7 @@
 #include "Core/Log.h"
 #include "Core/Resource/CAnimationParameters.h"
 #include "Core/Resource/CResource.h"
+#include "Core/Resource/CResourceInfo.h"
 #include "Core/Resource/TResPtr.h"
 
 #include <Common/CColor.h>
@@ -253,11 +254,11 @@ public:
     void FromString(const TString&) { }
 };
 
-class CFileValue : public TTypedPropertyValue<TResPtr<CResource>>
+class CFileValue : public TTypedPropertyValue<CResourceInfo>
 {
 public:
     CFileValue() {}
-    CFileValue(CResource *pRes) { mValue = pRes; }
+    CFileValue(const CResourceInfo& rkInfo) { mValue = rkInfo; }
 
     TString ToString() const { return ""; }
     void FromString(const TString&) { }

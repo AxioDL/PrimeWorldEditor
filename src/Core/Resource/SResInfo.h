@@ -11,6 +11,9 @@ struct SResInfo
     u64 resID;
     u32 offset;
     u32 size;
+
+    SResInfo()
+        : compressed(false), resType("NULL"), resID(0), offset(0), size(0) {}
 };
 
 #endif // SRESINFO_H

@@ -167,7 +167,7 @@ void CDamageableTriggerExtra::PropertyModified(IProperty *pProperty)
         {
             if (pProperty == mpTextureProps[iTex])
             {
-                mpTextures[iTex] = mpTextureProps[iTex]->Get();
+                mpTextures[iTex] = mpTextureProps[iTex]->Get().Load();
 
                 if (mpTextures[iTex] && mpTextures[iTex]->Type() != eTexture)
                     mpTextures[iTex] = nullptr;

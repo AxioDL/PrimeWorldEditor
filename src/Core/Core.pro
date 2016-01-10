@@ -181,7 +181,8 @@ HEADERS += \
     Render/FRenderOptions.h \
     Scene/FShowFlags.h \
     Scene/CScene.h \
-    Scene/CSceneIterator.h
+    Scene/CSceneIterator.h \
+    Resource/CResourceInfo.h
 
 # Source Files
 SOURCES += \

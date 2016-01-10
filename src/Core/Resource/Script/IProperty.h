@@ -67,7 +67,7 @@ typedef TTypedProperty<float, eFloatProperty, CFloatValue>                      
 typedef TTypedProperty<TString, eStringProperty, CStringValue>                      TStringProperty;
 typedef TTypedProperty<CVector3f, eVector3Property, CVector3Value>                  TVector3Property;
 typedef TTypedProperty<CColor, eColorProperty, CColorValue>                         TColorProperty;
-typedef TTypedProperty<TResPtr<CResource>, eFileProperty, CFileValue>               TFileProperty;
+typedef TTypedProperty<CResourceInfo, eFileProperty, CFileValue>                    TFileProperty;
 typedef TTypedProperty<CAnimationParameters, eCharacterProperty, CCharacterValue>   TAnimParamsProperty;
 typedef TTypedProperty<std::vector<u8>, eUnknownProperty, CUnknownValue>            TUnknownProperty;
 
