@@ -166,8 +166,10 @@ void CGraphics::SetupAmbientColor()
 {
     if (sLightMode == eWorldLighting)
         sVertexBlock.COLOR0_Amb = sAreaAmbientColor * sWorldLightMultiplier;
-    else
+    else if (sLightMode == eBasicLighting)
         sVertexBlock.COLOR0_Amb = skDefaultAmbientColor;
+    else
+        sVertexBlock.COLOR0_Amb = CColor::skWhite;
 }
 
 void CGraphics::SetIdentityMVP()

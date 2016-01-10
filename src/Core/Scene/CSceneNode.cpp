@@ -187,8 +187,8 @@ void CSceneNode::LoadLights(const SViewInfo& ViewInfo)
     switch (Mode)
     {
     case CGraphics::eNoLighting:
-        // No lighting: default ambient color, no dynamic lights
-        CGraphics::sVertexBlock.COLOR0_Amb = CGraphics::skDefaultAmbientColor;
+        // No lighting: full white ambient, no dynamic lights
+        CGraphics::sVertexBlock.COLOR0_Amb = CColor::skWhite;
         break;
 
     case CGraphics::eBasicLighting:
@@ -206,6 +206,7 @@ void CSceneNode::LoadLights(const SViewInfo& ViewInfo)
         break;
     }
 
+    CGraphics::sPixelBlock.LightmapMultiplier = (Mode == CGraphics::eWorldLighting ? 1.f : 0.f);
     CGraphics::UpdateLightBlock();
 }
 
