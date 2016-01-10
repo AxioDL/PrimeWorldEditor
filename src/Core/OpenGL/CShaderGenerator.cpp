@@ -329,6 +329,7 @@ bool CShaderGenerator::CreatePixelShader(const CMaterial& Mat)
                << "    vec4 KonstColors[4];\n"
                << "    vec4 TevColor;\n"
                << "    vec4 TintColor;\n"
+               << "    float LightmapMultiplier;\n"
                << "};\n\n";
 
     for (u32 iPass = 0; iPass < PassCount; iPass++)
@@ -374,6 +375,11 @@ bool CShaderGenerator::CreatePixelShader(const CMaterial& Mat)
         else if (PassType == "BLOL")
             ShaderCode << ".rgbg";
 
+        // Apply lightmap multiplier
+        if ( (PassType == "DIFF") ||
+             (PassType == "CUST" && (Mat.Options() & CMaterial::eLightmap) && iPass == 0) )
+            ShaderCode << " * LightmapMultiplier";
+
         ShaderCode << ";\n";
 
         ShaderCode << "    Konst = vec4(" << gkKonstColor[pPass->KColorSel()] << ", " << gkKonstAlpha[pPass->KAlphaSel()] << ");\n";
@@ -398,7 +404,7 @@ bool CShaderGenerator::CreatePixelShader(const CMaterial& Mat)
                    << ".rgb = ";
 
         ShaderCode << "clamp(vec3(TevInD.rgb + ((1.0 - TevInC.rgb) * TevInA.rgb + TevInC.rgb * TevInB.rgb))";
-        if ((PassType == "CLR ") && (Lightmap)) ShaderCode << "* 2.0"; // Apply tevscale 2.0 on the color pass if lightmap is present
+        if ((PassType == "CLR ") && (Lightmap)) ShaderCode << "* (2.0 - (1.0 - LightmapMultiplier))"; // Apply tevscale 2.0 on the color pass if lightmap is present. Scale so we don't apply if lightmaps are off.
         ShaderCode << ", vec3(0, 0, 0), vec3(1.0, 1.0, 1.0));\n";
 
         ShaderCode << "    // Alpha Combine\n"

@@ -51,6 +51,7 @@ void CModelNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewInf
 
     CGraphics::sPixelBlock.TevColor = CColor::skWhite;
     CGraphics::sPixelBlock.TintColor = TintColor(ViewInfo);
+    CGraphics::sPixelBlock.LightmapMultiplier = 1.f;
     LoadModelMatrix();
 
     if (ComponentIndex < 0)

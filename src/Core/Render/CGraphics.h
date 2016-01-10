@@ -56,6 +56,7 @@ public:
         CColor Konst[4];
         CColor TevColor;
         CColor TintColor;
+        float LightmapMultiplier;
     };
     static SPixelBlock sPixelBlock;
 

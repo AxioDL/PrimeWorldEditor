@@ -405,15 +405,16 @@ void CMaterialLoader::CreateCorruptionPasses(CMaterial *pMat)
         // Color Map (Diffuse)
         if (Type == "CLR ")
         {
+            pPass->SetRasSel(eRasColor0A0);
+
             if (Lightmap)
             {
-                pPass->SetColorInputs(eZeroRGB, eColor0RGB, eTextureRGB, ePrevRGB);
+                pPass->SetColorInputs(eZeroRGB, eColor0RGB, eTextureRGB, eZeroRGB);
             }
 
             else
             {
-                pPass->SetColorInputs(eZeroRGB, eRasRGB, eTextureRGB, ePrevRGB);
-                pPass->SetRasSel(eRasColor0A0);
+                pPass->SetColorInputs(eZeroRGB, eRasRGB, eTextureRGB, eZeroRGB);
             }
 
 
@@ -439,7 +440,7 @@ void CMaterialLoader::CreateCorruptionPasses(CMaterial *pMat)
         // Lightmap
         else if (Type == "DIFF")
         {
-            pPass->SetColorInputs(eZeroRGB, eKonstRGB, eTextureRGB, eZeroRGB);
+            pPass->SetColorInputs(eZeroRGB, eKonstRGB, eTextureRGB, eRasRGB);
             pPass->SetAlphaInputs(eZeroAlpha, eZeroAlpha, eZeroAlpha, eKonstAlpha);
             pPass->SetColorOutput(eColor0Reg);
             pPass->SetAlphaOutput(eColor0Reg);
