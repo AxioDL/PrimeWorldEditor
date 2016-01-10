@@ -228,7 +228,7 @@ CModel* CScriptTemplate::FindDisplayModel(CPropertyStruct *pProperties)
             if (pProp->Type() == eFileProperty)
             {
                 TFileProperty *pFile = static_cast<TFileProperty*>(pProp);
-                pRes = pFile->Get();
+                pRes = pFile->Get().Load();
             }
 
             else if (pProp->Type() == eCharacterProperty)
@@ -268,7 +268,7 @@ CTexture* CScriptTemplate::FindBillboardTexture(CPropertyStruct *pProperties)
             if (pProp->Type() == eFileProperty)
             {
                 TFileProperty *pFile = static_cast<TFileProperty*>(pProp);
-                pRes = pFile->Get();
+                pRes = pFile->Get().Load();
             }
         }
 
@@ -302,7 +302,7 @@ CCollisionMeshGroup* CScriptTemplate::FindCollision(CPropertyStruct *pProperties
             if (pProp->Type() == eFileProperty)
             {
                 TFileProperty *pFile = static_cast<TFileProperty*>(pProp);
-                pRes = pFile->Get();
+                pRes = pFile->Get().Load();
             }
         }
 
@@ -327,7 +327,7 @@ bool CScriptTemplate::HasInGameModel(CPropertyStruct *pProperties)
         if (pProp->Type() == eFileProperty)
         {
             TFileProperty *pFile = static_cast<TFileProperty*>(pProp);
-            pRes = pFile->Get();
+            pRes = pFile->Get().Load();
         }
 
         else if (pProp->Type() == eCharacterProperty)

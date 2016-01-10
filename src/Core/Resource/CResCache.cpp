@@ -13,6 +13,7 @@
 #include <Common/TString.h>
 #include <FileIO/FileIO.h>
 #include <iostream>
+#include <boost/filesystem.hpp>
 
 CResCache::CResCache()
 {
@@ -206,6 +207,41 @@ CResource* CResCache::GetResource(const TString& ResPath)
     mResourceCache[ResID.ToLongLong()] = Res;
     mResSource = OldSource;
     return Res;
+}
+
+CFourCC CResCache::FindResourceType(CUniqueID ResID, const TStringList& rkPossibleTypes)
+{
+    // If we only have one type then there's only one possibility.
+    if (rkPossibleTypes.size() == 1)
+        return CFourCC(rkPossibleTypes.front());
+
+    // Determine extension from pak
+    if (mResSource.Source == SResSource::PakFile)
+    {
+        for (auto it = rkPossibleTypes.begin(); it != rkPossibleTypes.end(); it++)
+        {
+            SResInfo ResInfo = mpPak->getResourceInfo(ResID.ToLongLong(), CFourCC(*it));
+
+            if (ResInfo.resType != "NULL")
+                return CFourCC(*it);
+        }
+    }
+
+    // Determine extension from filesystem - try every extension until we find one that works
+    else
+    {
+        TString PathBase = mResSource.Path + ResID.ToString() + ".";
+
+        for (auto it = rkPossibleTypes.begin(); it != rkPossibleTypes.end(); it++)
+        {
+            TString NewPath = PathBase + *it;
+
+            if (boost::filesystem::exists(NewPath.ToStdString()))
+                return CFourCC(*it);
+        }
+    }
+
+    return "UNKN";
 }
 
 void CResCache::CacheResource(CResource *pRes)

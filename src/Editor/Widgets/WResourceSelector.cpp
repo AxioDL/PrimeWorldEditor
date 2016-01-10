@@ -24,7 +24,6 @@ WResourceSelector::WResourceSelector(QWidget *parent) : QWidget(parent)
     mAdjustPreviewToParent = false;
 
     // Initialize Resource Members
-    mpResource = nullptr;
     mResourceValid = false;
 
     // Create Widgets
@@ -102,9 +101,9 @@ bool WResourceSelector::IsSupportedExtension(const QString& extension)
     return false;
 }
 
-bool WResourceSelector::HasSupportedExtension(CResource* pRes)
+bool WResourceSelector::HasSupportedExtension(const CResourceInfo& rkRes)
 {
-    return IsSupportedExtension(TO_QSTRING(pRes->FullSource().GetFileExtension()));
+    return IsSupportedExtension(TO_QSTRING(rkRes.Type().ToString()));
 }
 
 // ************ GETTERS ************
@@ -132,12 +131,20 @@ bool WResourceSelector::IsPreviewPanelEnabled()
 // ************ SETTERS ************
 void WResourceSelector::SetResource(CResource *pRes)
 {
-    mpResource = pRes;
-
     if (pRes)
+        SetResource(CResourceInfo(pRes->ResID(), CFourCC(pRes->Source().GetFileExtension())));
+    else
+        SetResource(CResourceInfo());
+}
+
+void WResourceSelector::SetResource(const CResourceInfo& rkRes)
+{
+    mResource = rkRes;
+
+    if (mResource.IsValid())
     {
-        mResourceValid = HasSupportedExtension(pRes);
-        mUI.LineEdit->setText(TO_QSTRING(pRes->FullSource()));
+        mResourceValid = HasSupportedExtension(rkRes);
+        mUI.LineEdit->setText(TO_QSTRING(mResource.ToString()));
     }
 
     else
@@ -248,31 +255,27 @@ void WResourceSelector::OnExportButtonClicked()
 // or delegate it entirely to the signals?
 void WResourceSelector::Edit()
 {
-    emit EditResource(mpResource);
+    emit EditResource(mResource);
 }
 
 void WResourceSelector::Export()
 {
-    emit ExportResource(mpResource);
+    emit ExportResource(mResource);
 }
 
 void WResourceSelector::LoadResource(const QString& ResPath)
 {
-    mpResource = nullptr;
+    mResource = CResourceInfo();
 
-    TString pathStr = ResPath.toStdString();
-    TString ext = pathStr.GetFileExtension();
+    TString PathStr = ResPath.toStdString();
+    TString Ext = PathStr.GetFileExtension();
 
-    if (IsSupportedExtension(TO_QSTRING(ext)))
+    if (IsSupportedExtension(TO_QSTRING(Ext)))
     {
-        if ((ext != "MREA") && (ext != "MLVL"))
-        {
-            mpResource = gResCache.GetResource(pathStr);
-            mResourceValid = (mpResource != nullptr);
+        mResource = CResourceInfo(TO_TSTRING(ResPath));
+        mResourceValid = mResource.IsValid();
 
-            if (mPreviewPanelValid) mpPreviewPanel->SetResource(mpResource);
-        }
-        else mResourceValid = false;
+        if (mPreviewPanelValid) mpPreviewPanel->SetResource(mResource.Load());
     }
     else mResourceValid = false;
 
@@ -287,7 +290,7 @@ void WResourceSelector::CreatePreviewPanel()
     mpPreviewPanel = nullptr;
 
     if (mResourceValid)
-        mpPreviewPanel = IPreviewPanel::CreatePanel(mpResource->Type(), this);
+        mpPreviewPanel = IPreviewPanel::CreatePanel(CResource::ResTypeForExtension(mResource.Type()), this);
 
     if (!mpPreviewPanel) mPreviewPanelValid = false;
 
@@ -295,7 +298,7 @@ void WResourceSelector::CreatePreviewPanel()
     {
         mPreviewPanelValid = true;
         mpPreviewPanel->setWindowFlags(Qt::ToolTip);
-        if (mpResource) mpPreviewPanel->SetResource(mpResource);
+        if (mResourceValid) mpPreviewPanel->SetResource(mResource.Load());
     }
 }
 
@@ -345,13 +348,13 @@ void WResourceSelector::SetButtonsBasedOnResType()
 {
     // Basically this function sets whether the "Export" and "Edit"
     // buttons are present based on the resource type.
-    if (!mpResource)
+    if (!mResource.IsValid())
     {
         SetEditButtonEnabled(false);
         SetExportButtonEnabled(false);
     }
 
-    else switch (mpResource->Type())
+    else switch (CResource::ResTypeForExtension(mResource.Type()))
     {
     // Export button should be enabled here because CTexture already has a DDS export function
     // However, need to figure out what sort of interface to create to do it. Disabling until then.

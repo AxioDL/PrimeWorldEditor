@@ -97,43 +97,17 @@ void CScriptLoader::ReadProperty(IProperty *pProp, u32 Size, IInputStream& SCLY)
         TFileProperty *pFileCast = static_cast<TFileProperty*>(pProp);
 
         CUniqueID ResID = (mVersion < eCorruptionProto ? SCLY.ReadLong() : SCLY.ReadLongLong());
-        const TStringList& Extensions = static_cast<CFileTemplate*>(pTemp)->Extensions();
+        const TStringList& rkExtensions = static_cast<CFileTemplate*>(pTemp)->Extensions();
 
-        CResource *pRes = nullptr;
-
-        // Check for each extension individually until we find a match
-        // This could be done better with a function to fetch the extension given the resource ID
-        // and a "does resource exist" function, but this will do for now
-        bool hasIgnoredExt = false;
+        CResourceInfo Info(ResID, "UNKN");
 
         if (ResID.IsValid())
         {
-            for (auto it = Extensions.begin(); it != Extensions.end(); it++)
-            {
-                const TString& ext = *it;
-
-                if ((ext != "MREA") && (ext != "MLVL")) {
-                    pRes = gResCache.GetResource(ResID, ext);
-                    if (pRes) break;
-                }
-
-                else
-                    hasIgnoredExt = true;
-            }
+            CFourCC Type = gResCache.FindResourceType(ResID, rkExtensions);
+            Info = CResourceInfo(ResID, Type);
         }
 
-        // Property may have an incorrect extension listed - print error
-        if ((!pRes) && (CUniqueID(ResID).IsValid()) && (!hasIgnoredExt))
-        {
-            TString ExtList;
-            for (auto it = Extensions.begin(); it != Extensions.end(); it++)
-            {
-                if (it != Extensions.begin()) ExtList += "/";
-                ExtList += *it;
-            }
-        }
-
-        pFileCast->Set(pRes);
+        pFileCast->Set(Info);
         break;
     }
 
