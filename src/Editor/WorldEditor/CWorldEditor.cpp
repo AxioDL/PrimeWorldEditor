@@ -28,6 +28,7 @@ CWorldEditor::CWorldEditor(QWidget *parent) :
 
     mpArea = nullptr;
     mpWorld = nullptr;
+    mpPoiDialog = nullptr;
     mGizmoHovering = false;
     mGizmoTransforming = false;
 
@@ -80,6 +81,12 @@ CWorldEditor::~CWorldEditor()
     delete ui;
 }
 
+void CWorldEditor::closeEvent(QCloseEvent *)
+{
+    if (mpPoiDialog)
+        mpPoiDialog->close();
+}
+
 bool CWorldEditor::eventFilter(QObject *pObj, QEvent *pEvent)
 {
     if (pObj == ui->MainDock)
@@ -102,6 +109,12 @@ void CWorldEditor::SetArea(CWorld *pWorld, CGameArea *pArea)
     ui->InstancesTabContents->SetMaster(nullptr);
     ui->InstancesTabContents->SetArea(pArea);
     mUndoStack.clear();
+
+    if (mpPoiDialog)
+    {
+        delete mpPoiDialog;
+        mpPoiDialog = nullptr;
+    }
 
     // Clear old area - hack until better world/area loader is implemented
     if ((mpArea) && (pArea != mpArea))
@@ -160,7 +173,7 @@ void CWorldEditor::UpdateStatusBar()
         {
             CSceneNode *pHoverNode = ui->MainViewport->HoverNode();
 
-            if (pHoverNode && (pHoverNode->NodeType() != eStaticNode))
+            if (pHoverNode && (pHoverNode->NodeType() != eStaticNode) && (pHoverNode->NodeType() != eModelNode))
                 StatusText = TO_QSTRING(pHoverNode->Name());
         }
     }
@@ -259,7 +272,7 @@ void CWorldEditor::UpdateCursor()
 
         if (ui->MainViewport->IsHoveringGizmo())
             ui->MainViewport->SetCursorState(Qt::SizeAllCursor);
-        else if ((pHoverNode) && (pHoverNode->NodeType() != eStaticNode))
+        else if ((pHoverNode) && (pHoverNode->NodeType() != eStaticNode) && (pHoverNode->NodeType() != eModelNode))
             ui->MainViewport->SetCursorState(Qt::PointingHandCursor);
         else
             ui->MainViewport->SetCursorState(Qt::ArrowCursor);
@@ -350,10 +363,17 @@ void CWorldEditor::OnTransformSpinBoxEdited(CVector3f)
     UpdateGizmoUI();
 }
 
+void CWorldEditor::OnClosePoiEditDialog()
+{
+    delete mpPoiDialog;
+    mpPoiDialog = nullptr;
+    ui->MainViewport->SetRenderMergedWorld(true);
+}
+
 // These functions are from "Go to slot" in the designer
 void CWorldEditor::on_ActionDrawWorld_triggered()
 {
-    ui->MainViewport->SetShowFlag(eShowWorld, ui->ActionDrawWorld->isChecked());
+    ui->MainViewport->SetShowWorld(ui->ActionDrawWorld->isChecked());
 }
 
 void CWorldEditor::on_ActionDrawCollision_triggered()
@@ -477,13 +497,28 @@ void CWorldEditor::on_ActionGameMode_triggered()
 void CWorldEditor::on_ActionSelectAll_triggered()
 {
     FNodeFlags NodeFlags = CScene::NodeFlagsForShowFlags(ui->MainViewport->ShowFlags());
-    NodeFlags &= ~(eStaticNode | eCollisionNode);
+    NodeFlags &= ~(eModelNode | eStaticNode | eCollisionNode);
     SelectAll(NodeFlags);
 }
 
 void CWorldEditor::on_ActionInvertSelection_triggered()
 {
     FNodeFlags NodeFlags = CScene::NodeFlagsForShowFlags(ui->MainViewport->ShowFlags());
-    NodeFlags &= ~(eStaticNode | eCollisionNode);
+    NodeFlags &= ~(eModelNode | eStaticNode | eCollisionNode);
     InvertSelection(NodeFlags);
+}
+
+void CWorldEditor::on_ActionEditPoiToWorldMap_triggered()
+{
+    if (!mpPoiDialog)
+    {
+        mpPoiDialog = new CPoiMapEditDialog(this, this);
+        mpPoiDialog->show();
+        ui->MainViewport->SetRenderMergedWorld(false);
+        connect(mpPoiDialog, SIGNAL(Closed()), this, SLOT(OnClosePoiEditDialog()));
+    }
+    else
+    {
+        mpPoiDialog->show();
+    }
 }

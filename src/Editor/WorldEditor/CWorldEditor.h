@@ -1,6 +1,7 @@
 #ifndef CWORLDEDITOR_H
 #define CWORLDEDITOR_H
 
+#include "CPoiMapEditDialog.h"
 #include "Editor/INodeEditor.h"
 #include "Editor/CGizmo.h"
 
@@ -34,9 +35,12 @@ class CWorldEditor : public INodeEditor
     TResPtr<CGameArea> mpArea;
     QTimer mRefreshTimer;
 
+    CPoiMapEditDialog *mpPoiDialog;
+
 public:
     explicit CWorldEditor(QWidget *parent = 0);
     ~CWorldEditor();
+    void closeEvent(QCloseEvent *);
     bool eventFilter(QObject *pObj, QEvent *pEvent);
     void SetArea(CWorld *pWorld, CGameArea *pArea);
     CGameArea* ActiveArea();
@@ -58,6 +62,7 @@ private slots:
     void OnCameraSpeedChange(double speed);
     void OnTransformSpinBoxModified(CVector3f value);
     void OnTransformSpinBoxEdited(CVector3f value);
+    void OnClosePoiEditDialog();
     void on_ActionDrawWorld_triggered();
     void on_ActionDrawCollision_triggered();
     void on_ActionDrawObjects_triggered();
@@ -79,6 +84,7 @@ private slots:
     void on_ActionGameMode_triggered();
     void on_ActionSelectAll_triggered();
     void on_ActionInvertSelection_triggered();
+    void on_ActionEditPoiToWorldMap_triggered();
 };
 
 #endif // CWORLDEDITOR_H

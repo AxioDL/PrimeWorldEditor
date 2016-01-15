@@ -5,6 +5,7 @@
 #include "CCollisionMeshGroup.h"
 #include "CLight.h"
 #include "CMaterialSet.h"
+#include "CPoiToWorld.h"
 #include "Core/Resource/Model/CModel.h"
 #include "Core/Resource/Model/CStaticModel.h"
 #include <Common/types.h>
@@ -40,6 +41,8 @@ class CGameArea : public CResource
     CCollisionMeshGroup *mCollision;
     // Lights
     std::vector<std::vector<CLight*>> mLightLayers;
+    // Object to Static Geometry Map
+    TResPtr<CPoiToWorld> mpPoiToWorldMap;
 
 public:
     CGameArea();
@@ -65,6 +68,7 @@ public:
     u32 GetLightLayerCount();
     u32 GetLightCount(u32 layer);
     CLight* GetLight(u32 layer, u32 light);
+    CPoiToWorld* GetPoiToWorldMap();
     CAABox AABox();
 };
 

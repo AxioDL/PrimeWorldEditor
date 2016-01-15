@@ -11,6 +11,7 @@ class CSceneViewport : public CBasicViewport
     INodeEditor *mpEditor;
     CScene *mpScene;
     CRenderer *mpRenderer;
+    bool mRenderingMergedWorld;
 
     // Scene interaction
     bool mGizmoHovering;
@@ -37,6 +38,8 @@ public:
     ~CSceneViewport();
     void SetScene(INodeEditor *pEditor, CScene *pScene);
     void SetShowFlag(EShowFlag Flag, bool Visible);
+    void SetShowWorld(bool Visible);
+    void SetRenderMergedWorld(bool b);
     FShowFlags ShowFlags() const;
     CRenderer* Renderer();
     CSceneNode* HoverNode();

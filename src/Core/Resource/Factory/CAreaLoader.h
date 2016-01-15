@@ -75,6 +75,7 @@ class CAreaLoader
     void ReadCompressedBlocks();
     void Decompress();
     void ReadCollision();
+    void ReadEGMC();
     void SetUpObjects();
 
 public:

@@ -1,6 +1,7 @@
 #include "CScene.h"
 #include "Core/Render/CGraphics.h"
 #include "Core/Resource/CResCache.h"
+#include "Core/Resource/CPoiToWorld.h"
 #include "Core/Resource/Script/CScriptLayer.h"
 #include "Core/CRayCollisionTester.h"
 
@@ -88,23 +89,24 @@ void CScene::SetActiveArea(CGameArea *pArea)
     mpArea = pArea;
     mpAreaRootNode = new CRootNode(this, mpSceneRootNode);
 
-    if (mSplitTerrain)
-    {
-        u32 Count = mpArea->GetStaticModelCount();
+    // Create static nodes
+    u32 Count = mpArea->GetStaticModelCount();
 
-        for (u32 iMdl = 0; iMdl < Count; iMdl++)
-            CreateStaticNode(mpArea->GetStaticModel(iMdl));
+    for (u32 iMdl = 0; iMdl < Count; iMdl++)
+    {
+        CStaticNode *pNode = CreateStaticNode(mpArea->GetStaticModel(iMdl));
+        pNode->SetName("Static World Model " + TString::FromInt32(iMdl, 0, 10));
     }
-    else
-    {
-        u32 Count = mpArea->GetTerrainModelCount();
 
-        for (u32 iMdl = 0; iMdl < Count; iMdl++)
-        {
-            CModel *pModel = mpArea->GetTerrainModel(iMdl);
-            CModelNode *pNode = CreateModelNode(pModel);
-            pNode->SetDynamicLighting(false);
-        }
+    // Create model nodes
+    Count = mpArea->GetTerrainModelCount();
+
+    for (u32 iMdl = 0; iMdl < Count; iMdl++)
+    {
+        CModel *pModel = mpArea->GetTerrainModel(iMdl);
+        CModelNode *pNode = CreateModelNode(pModel);
+        pNode->SetName("World Model " + TString::FromInt32(iMdl, 0, 10));
+        pNode->SetDynamicLighting(false);
     }
 
     CreateCollisionNode(mpArea->GetCollision());
@@ -298,7 +300,8 @@ CGameArea* CScene::GetActiveArea()
 FShowFlags CScene::ShowFlagsForNodeFlags(FNodeFlags NodeFlags)
 {
     FShowFlags Out;
-    if (NodeFlags & eStaticNode) Out |= eShowWorld;
+    if (NodeFlags & eModelNode) Out |= eShowSplitWorld;
+    if (NodeFlags & eStaticNode) Out |= eShowMergedWorld;
     if (NodeFlags & eScriptNode) Out |= eShowObjects;
     if (NodeFlags & eCollisionNode) Out |= eShowWorldCollision;
     if (NodeFlags & eLightNode) Out |= eShowLights;
@@ -307,8 +310,9 @@ FShowFlags CScene::ShowFlagsForNodeFlags(FNodeFlags NodeFlags)
 
 FNodeFlags CScene::NodeFlagsForShowFlags(FShowFlags ShowFlags)
 {
-    FNodeFlags Out = eRootNode | eModelNode;
-    if (ShowFlags & eShowWorld) Out |= eStaticNode;
+    FNodeFlags Out = eRootNode;
+    if (ShowFlags & eShowSplitWorld) Out |= eModelNode;
+    if (ShowFlags & eShowMergedWorld) Out |= eStaticNode;
     if (ShowFlags & eShowWorldCollision) Out |= eCollisionNode;
     if (ShowFlags & eShowObjects) Out |= eScriptNode | eScriptExtraNode;
     if (ShowFlags & eShowLights) Out |= eLightNode;

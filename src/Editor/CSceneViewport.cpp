@@ -10,6 +10,7 @@ CSceneViewport::CSceneViewport(QWidget *pParent)
     : CBasicViewport(pParent),
       mpEditor(nullptr),
       mpScene(nullptr),
+      mRenderingMergedWorld(true),
       mGizmoTransforming(false),
       mpHoverNode(nullptr),
       mHoverPoint(CVector3f::skZero),
@@ -22,7 +23,7 @@ CSceneViewport::CSceneViewport(QWidget *pParent)
 
     mViewInfo.pScene = mpScene;
     mViewInfo.pRenderer = mpRenderer;
-    mViewInfo.ShowFlags = eShowWorld | eShowObjectGeometry | eShowLights | eShowSky;
+    mViewInfo.ShowFlags = eShowMergedWorld | eShowObjectGeometry | eShowLights | eShowSky;
 
     CreateContextMenu();
 }
@@ -44,6 +45,25 @@ void CSceneViewport::SetShowFlag(EShowFlag Flag, bool Visible)
         mViewInfo.ShowFlags |= Flag;
     else
         mViewInfo.ShowFlags &= ~Flag;
+}
+
+void CSceneViewport::SetShowWorld(bool Visible)
+{
+    if (mRenderingMergedWorld)
+        SetShowFlag(eShowMergedWorld, Visible);
+    else
+        SetShowFlag(eShowSplitWorld, Visible);
+}
+
+void CSceneViewport::SetRenderMergedWorld(bool b)
+{
+    mRenderingMergedWorld = b;
+
+    if (mViewInfo.ShowFlags & (eShowSplitWorld | eShowMergedWorld))
+    {
+        SetShowFlag(eShowSplitWorld, !b);
+        SetShowFlag(eShowMergedWorld, b);
+    }
 }
 
 FShowFlags CSceneViewport::ShowFlags() const
@@ -251,7 +271,7 @@ void CSceneViewport::ContextMenu(QContextMenuEvent* pEvent)
 
     // Set up actions
     TString NodeName;
-    bool HasHoverNode = (mpHoverNode && mpHoverNode->NodeType() != eStaticNode);
+    bool HasHoverNode = (mpHoverNode && (mpHoverNode->NodeType() != eStaticNode) && (mpHoverNode->NodeType() != eModelNode));
     bool HasSelection = mpEditor->HasSelection();
     bool IsScriptNode = (mpHoverNode && mpHoverNode->NodeType() == eScriptNode);
 
@@ -327,7 +347,7 @@ void CSceneViewport::OnMouseRelease(QMouseEvent *pEvent)
         // Object selection/deselection
         else
         {
-            bool validNode = (mpHoverNode && (mpHoverNode->NodeType() != eStaticNode));
+            bool validNode = (mpHoverNode && (mpHoverNode->NodeType() != eStaticNode) && (mpHoverNode->NodeType() != eModelNode));
             bool altPressed = ((pEvent->modifiers() & Qt::AltModifier) != 0);
             bool ctrlPressed = ((pEvent->modifiers() & Qt::ControlModifier) != 0);
 

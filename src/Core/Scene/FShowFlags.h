@@ -6,14 +6,15 @@
 enum EShowFlag
 {
     eShowNone               = 0x00,
-    eShowWorld              = 0x01,
-    eShowWorldCollision     = 0x02,
-    eShowObjectGeometry     = 0x04,
-    eShowObjectCollision    = 0x08,
-    eShowObjects            = 0x0C,
-    eShowLights             = 0x10,
-    eShowSky                = 0x20,
-    eShowAll                = 0x3F
+    eShowSplitWorld         = 0x01,
+    eShowMergedWorld        = 0x02,
+    eShowWorldCollision     = 0x04,
+    eShowObjectGeometry     = 0x08,
+    eShowObjectCollision    = 0x10,
+    eShowObjects            = 0x18,
+    eShowLights             = 0x20,
+    eShowSky                = 0x40,
+    eShowAll                = 0x7F
 };
 DECLARE_FLAGS(EShowFlag, FShowFlags)
 

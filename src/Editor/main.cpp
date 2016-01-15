@@ -7,13 +7,16 @@
 
 int main(int argc, char *argv[])
 {
+    // Create application
     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
     QApplication app(argc, argv);
     CStartWindow w;
     w.show();
 
+    // Load templates
     CTemplateLoader::LoadGameList();
 
+    // Set up dark style
     app.setStyle(new CDarkStyle);
     qApp->setStyle(QStyleFactory::create("Fusion"));
 
@@ -35,5 +38,6 @@ int main(int argc, char *argv[])
 
     qApp->setPalette(darkPalette);
 
+    // Execute application
     return app.exec();
 }

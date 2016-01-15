@@ -7,10 +7,12 @@
 #include "Core/Resource/Script/CScriptObject.h"
 #include "Core/CLightParameters.h"
 
+class CScriptExtra;
+
 class CScriptNode : public CSceneNode
 {
     CScriptObject *mpInstance;
-    class CScriptExtra *mpExtra;
+    CScriptExtra *mpExtra;
 
     TResPtr<CModel> mpActiveModel;
     TResPtr<CTexture> mpBillboard;
@@ -39,6 +41,7 @@ public:
     void GeneratePosition();
     CScriptObject* Object() const;
     CScriptTemplate* Template() const;
+    CScriptExtra* Extra() const;
     CModel* ActiveModel() const;
     bool UsesModel() const;
     bool HasPreviewVolume() const;

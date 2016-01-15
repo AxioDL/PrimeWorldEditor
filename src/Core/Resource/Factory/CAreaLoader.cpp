@@ -76,16 +76,25 @@ void CAreaLoader::ReadGeometryPrime()
     // Geometry
     std::vector<CModel*> FileModels;
 
-    for (u32 m = 0; m < mNumMeshes; m++) {
-        std::cout << "\rLoading mesh " << std::dec << m + 1 << "/" << mNumMeshes;
-
+    for (u32 iMesh = 0; iMesh < mNumMeshes; iMesh++)
+    {
         CModel *pModel = CModelLoader::LoadWorldModel(*mpMREA, *mBlockMgr, *mpArea->mMaterialSet, mVersion);
         FileModels.push_back(pModel);
 
         if (mVersion <= ePrime)
             mpArea->AddWorldModel(pModel);
 
-        if (mVersion >= eEchoes) {
+        // For Echoes+, load surface mesh IDs, then skip to the start of the next mesh
+        else
+        {
+            u16 NumSurfaces = mpMREA->ReadShort();
+
+            for (u32 iSurf = 0; iSurf < NumSurfaces; iSurf++)
+            {
+                mpMREA->Seek(0x2, SEEK_CUR);
+                pModel->GetSurface(iSurf)->MeshID = mpMREA->ReadShort();
+            }
+
             mBlockMgr->ToNextBlock();
             mBlockMgr->ToNextBlock();
         }
@@ -102,7 +111,6 @@ void CAreaLoader::ReadGeometryPrime()
     }
 
     mpArea->MergeTerrain();
-    std::cout << "\n";
 }
 
 void CAreaLoader::ReadSCLYPrime()
@@ -341,22 +349,36 @@ void CAreaLoader::ReadGeometryCorruption()
     mBlockMgr->ToNextBlock();
 
     // Geometry
+    std::vector<CModel*> FileModels;
     u32 CurWOBJSection = 1;
     u32 CurGPUSection = mGPUBlockNum;
 
     for (u32 iMesh = 0; iMesh < mNumMeshes; iMesh++)
     {
-        std::cout << "\rLoading mesh " << std::dec << iMesh + 1 << "/" << mNumMeshes;
-
         CModel *pWorldModel = CModelLoader::LoadCorruptionWorldModel(*mpMREA, *mBlockMgr, *mpArea->mMaterialSet, CurWOBJSection, CurGPUSection, mVersion);
-        mpArea->AddWorldModel(pWorldModel);
+        FileModels.push_back(pWorldModel);
 
         CurWOBJSection += 4;
         CurGPUSection = mBlockMgr->CurrentBlock();
+
+        // Load surface mesh IDs
+        mBlockMgr->ToBlock(CurWOBJSection -  2);
+        u16 NumSurfaces = mpMREA->ReadShort();
+
+        for (u32 iSurf = 0; iSurf < NumSurfaces; iSurf++)
+        {
+            mpMREA->Seek(0x2, SEEK_CUR);
+            pWorldModel->GetSurface(iSurf)->MeshID = mpMREA->ReadShort();
+        }
     }
 
+    std::vector<CModel*> SplitModels;
+    CModelLoader::BuildWorldMeshes(FileModels, SplitModels, true);
+
+    for (u32 iMdl = 0; iMdl < SplitModels.size(); iMdl++)
+        mpArea->AddWorldModel(SplitModels[iMdl]);
+
     mpArea->MergeTerrain();
-    std::cout << "\n";
 }
 
 void CAreaLoader::ReadLightsCorruption()
@@ -511,6 +533,14 @@ void CAreaLoader::ReadCollision()
     mpArea->mCollision = CCollisionLoader::LoadAreaCollision(*mpMREA);
 }
 
+void CAreaLoader::ReadEGMC()
+{
+    Log::FileWrite(mpMREA->GetSourceString(), "Reading EGMC");
+    mBlockMgr->ToBlock(mEGMCBlockNum);
+    CUniqueID EGMC(*mpMREA, (mVersion <= eEchoes ? e32Bit : e64Bit));
+    mpArea->mpPoiToWorldMap = gResCache.GetResource(EGMC, "EGMC");
+}
+
 void CAreaLoader::SetUpObjects()
 {
     // Iterate over all objects
@@ -598,6 +628,7 @@ CGameArea* CAreaLoader::LoadMREA(IInputStream& MREA)
             Loader.ReadSCLYPrime();
             Loader.ReadCollision();
             Loader.ReadLightsPrime();
+            Loader.ReadEGMC();
             break;
         case eEchoes:
             Loader.ReadHeaderEchoes();
@@ -605,6 +636,7 @@ CGameArea* CAreaLoader::LoadMREA(IInputStream& MREA)
             Loader.ReadSCLYEchoes();
             Loader.ReadCollision();
             Loader.ReadLightsPrime();
+            Loader.ReadEGMC();
             break;
         case eCorruptionProto:
             Loader.ReadHeaderCorruption();
@@ -612,6 +644,7 @@ CGameArea* CAreaLoader::LoadMREA(IInputStream& MREA)
             Loader.ReadSCLYEchoes();
             Loader.ReadCollision();
             Loader.ReadLightsCorruption();
+            Loader.ReadEGMC();
             break;
         case eCorruption:
         case eReturns:
@@ -619,7 +652,11 @@ CGameArea* CAreaLoader::LoadMREA(IInputStream& MREA)
             Loader.ReadGeometryCorruption();
             Loader.ReadSCLYEchoes();
             Loader.ReadCollision();
-            if (Loader.mVersion == eCorruption) Loader.ReadLightsCorruption();
+            if (Loader.mVersion == eCorruption)
+            {
+                Loader.ReadLightsCorruption();
+                Loader.ReadEGMC();
+            }
             break;
         default:
             Log::FileError(MREA.GetSourceString(), "Unsupported MREA version: " + TString::HexString(version));

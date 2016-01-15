@@ -458,6 +458,11 @@ CScriptTemplate* CScriptNode::Template() const
     return mpInstance->Template();
 }
 
+CScriptExtra* CScriptNode::Extra() const
+{
+    return mpExtra;
+}
+
 CModel* CScriptNode::ActiveModel() const
 {
     return mpActiveModel;
