@@ -12,6 +12,7 @@
 #include <Math/CVector3f.h>
 #include <vector>
 
+// Should prolly be a class
 struct SSurface
 {
     u32 VertexCount;
@@ -20,6 +21,7 @@ struct SSurface
     CVector3f CenterPoint;
     u32 MaterialID;
     CVector3f ReflectionDirection;
+    u16 MeshID;
 
     struct SPrimitive
     {

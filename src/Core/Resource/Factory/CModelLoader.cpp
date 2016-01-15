@@ -1,6 +1,7 @@
 #include "CModelLoader.h"
 #include "CMaterialLoader.h"
 #include "Core/Log.h"
+#include <map>
 
 CModelLoader::CModelLoader()
 {
@@ -236,7 +237,15 @@ void CModelLoader::LoadSurfaceHeaderPrime(IInputStream& Model, SSurface *pSurf)
     Model.Seek(0xC, SEEK_CUR);
     u32 ExtraSize = Model.ReadLong();
     pSurf->ReflectionDirection = CVector3f(Model);
-    if (mVersion >= eEchoesDemo) Model.Seek(0x4, SEEK_CUR); // Extra values in Echoes. Not sure what they are.
+
+    if (mVersion >= eEchoesDemo)
+    {
+        Model.Seek(0x2, SEEK_CUR); // Skipping unknown value
+        pSurf->MeshID = Model.ReadShort();
+    }
+    else
+        pSurf->MeshID = -1;
+
     bool HasAABox = (ExtraSize >= 0x18); // MREAs have a set of bounding box coordinates here.
 
     // If this surface has a bounding box, we can just read it here. Otherwise we'll fill it in manually.
@@ -553,6 +562,57 @@ CModel* CModelLoader::LoadCorruptionWorldModel(IInputStream &MREA, CBlockMgrIn &
 
     pModel->mAABox = Loader.mAABox;
     return pModel;
+}
+
+void CModelLoader::BuildWorldMeshes(const std::vector<CModel*>& rkIn, std::vector<CModel*>& rOut, bool DeleteInputModels)
+{
+    // This function takes the gigantic models with all surfaces combined from MP2/3/DKCR and splits the surfaces to reform the original uncombined meshes.
+    std::map<u32, CModel*> OutputMap;
+
+    for (u32 iMdl = 0; iMdl < rkIn.size(); iMdl++)
+    {
+        CModel *pModel = rkIn[iMdl];
+        pModel->mHasOwnSurfaces = false;
+        pModel->mHasOwnMaterials = false;
+
+        for (u32 iSurf = 0; iSurf < pModel->mSurfaces.size(); iSurf++)
+        {
+            SSurface *pSurf = pModel->mSurfaces[iSurf];
+            u32 ID = (u32) pSurf->MeshID;
+            auto Iter = OutputMap.find(ID);
+
+            // No model for this ID; create one!
+            if (Iter == OutputMap.end())
+            {
+                CModel *pOutMdl = new CModel();
+                pOutMdl->mMaterialSets.resize(1);
+                pOutMdl->mMaterialSets[0] = pModel->mMaterialSets[0];
+                pOutMdl->mHasOwnMaterials = false;
+                pOutMdl->mSurfaces.push_back(pSurf);
+                pOutMdl->mHasOwnSurfaces = true;
+                pOutMdl->mVertexCount = pSurf->VertexCount;
+                pOutMdl->mTriangleCount = pSurf->TriangleCount;
+                pOutMdl->mAABox.ExpandBounds(pSurf->AABox);
+
+                OutputMap[ID] = pOutMdl;
+                rOut.push_back(pOutMdl);
+            }
+
+            // Existing model; add this surface to it
+            else
+            {
+                CModel *pOutMdl = Iter->second;
+                pOutMdl->mSurfaces.push_back(pSurf);
+                pOutMdl->mVertexCount += pSurf->VertexCount;
+                pOutMdl->mTriangleCount += pSurf->TriangleCount;
+                pOutMdl->mAABox.ExpandBounds(pSurf->AABox);
+            }
+        }
+
+        // Done with this model, should we delete it?
+        if (DeleteInputModels)
+            delete pModel;
+    }
 }
 
 CModel* CModelLoader::ImportAssimpNode(const aiNode *pNode, const aiScene *pScene, CMaterialSet& matSet)
