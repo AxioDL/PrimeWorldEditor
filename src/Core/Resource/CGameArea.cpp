@@ -179,6 +179,11 @@ CLight* CGameArea::GetLight(u32 layer, u32 light)
     return mLightLayers[layer][light];
 }
 
+CPoiToWorld* CGameArea::GetPoiToWorldMap()
+{
+    return mpPoiToWorldMap;
+}
+
 CAABox CGameArea::AABox()
 {
     return mAABox;

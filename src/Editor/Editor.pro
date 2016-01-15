@@ -127,7 +127,9 @@ HEADERS += \
     UICommon.h \
     CErrorLogDialog.h \
     Undo/CSelectAllCommand.h \
-    Undo/CInvertSelectionCommand.h
+    Undo/CInvertSelectionCommand.h \
+    WorldEditor/CPoiMapEditDialog.h \
+    WorldEditor/CPoiMapModel.h
 
 # Source Files
 SOURCES += \
@@ -175,7 +177,9 @@ SOURCES += \
     UICommon.cpp \
     CErrorLogDialog.cpp \
     Undo/CSelectAllCommand.cpp \
-    Undo/CInvertSelectionCommand.cpp
+    Undo/CInvertSelectionCommand.cpp \
+    WorldEditor/CPoiMapEditDialog.cpp \
+    WorldEditor/CPoiMapModel.cpp
 
 # UI Files
 FORMS += \
@@ -190,4 +194,5 @@ FORMS += \
     WorldEditor/WCreateTab.ui \
     WorldEditor/WInstancesTab.ui \
     WorldEditor/WModifyTab.ui \
-    CErrorLogDialog.ui
+    CErrorLogDialog.ui \
+    WorldEditor/CPoiMapEditDialog.ui

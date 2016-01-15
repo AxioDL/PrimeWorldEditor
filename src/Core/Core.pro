@@ -182,7 +182,9 @@ HEADERS += \
     Scene/FShowFlags.h \
     Scene/CScene.h \
     Scene/CSceneIterator.h \
-    Resource/CResourceInfo.h
+    Resource/CResourceInfo.h \
+    Resource/CPoiToWorld.h \
+    Resource/Factory/CPoiToWorldLoader.h
 
 # Source Files
 SOURCES += \
@@ -268,4 +270,6 @@ SOURCES += \
     Resource/Script/IProperty.cpp \
     Scene/FShowFlags.cpp \
     Scene/CScene.cpp \
-    Scene/CSceneIterator.cpp
+    Scene/CSceneIterator.cpp \
+    Resource/CPoiToWorld.cpp \
+    Resource/Factory/CPoiToWorldLoader.cpp

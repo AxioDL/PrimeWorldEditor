@@ -4,6 +4,7 @@
 #include "Core/Resource/Factory/CCollisionLoader.h"
 #include "Core/Resource/Factory/CFontLoader.h"
 #include "Core/Resource/Factory/CModelLoader.h"
+#include "Core/Resource/Factory/CPoiToWorldLoader.h"
 #include "Core/Resource/Factory/CScanLoader.h"
 #include "Core/Resource/Factory/CStringLoader.h"
 #include "Core/Resource/Factory/CTextureDecoder.h"
@@ -145,6 +146,7 @@ CResource* CResCache::GetResource(CUniqueID ResID, CFourCC type)
     else if (type == "FONT") Res = CFontLoader::LoadFONT(mem);
     else if (type == "SCAN") Res = CScanLoader::LoadSCAN(mem);
     else if (type == "DCLN") Res = CCollisionLoader::LoadDCLN(mem);
+    else if (type == "EGMC") Res = CPoiToWorldLoader::LoadEGMC(mem);
     else SupportedFormat = false;
 
     // Log errors
@@ -197,6 +199,7 @@ CResource* CResCache::GetResource(const TString& ResPath)
     else if (type == "FONT") Res = CFontLoader::LoadFONT(file);
     else if (type == "SCAN") Res = CScanLoader::LoadSCAN(file);
     else if (type == "DCLN") Res = CCollisionLoader::LoadDCLN(file);
+    else if (type == "EGMC") Res = CPoiToWorldLoader::LoadEGMC(file);
     else SupportedFormat = false;
 
     if (!Res) Res = new CResource(); // Default for unsupported formats

@@ -1,5 +1,5 @@
 <RCC>
-    <qresource>
+    <qresource prefix="/">
         <file>icons/Down.png</file>
         <file>icons/Free Camera.png</file>
         <file>icons/Material Highlight.png</file>
@@ -28,5 +28,7 @@
         <file>icons/Unlink.png</file>
         <file>icons/World.png</file>
         <file>icons/SelectMode.png</file>
+        <file>icons/POI Important.png</file>
+        <file>icons/POI Normal.png</file>
     </qresource>
 </RCC>

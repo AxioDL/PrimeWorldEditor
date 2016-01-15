@@ -10,6 +10,7 @@ class CModelNode : public CSceneNode
     u32 mActiveMatSet;
     bool mLightingEnabled;
     bool mForceAlphaOn;
+    CColor mTintColor;
 
 public:
     explicit CModelNode(CScene *pScene, CSceneNode *pParent = 0, CModel *pModel = 0);
@@ -20,41 +21,20 @@ public:
     virtual void DrawSelection();
     virtual void RayAABoxIntersectTest(CRayCollisionTester& Tester, const SViewInfo& ViewInfo);
     virtual SRayIntersection RayNodeIntersectTest(const CRay &Ray, u32 AssetID, const SViewInfo& ViewInfo);
+    virtual CColor TintColor(const SViewInfo& rkViewInfo) const;
 
+    // Setters
     void SetModel(CModel *pModel);
-    void SetMatSet(u32 MatSet);
-    void SetDynamicLighting(bool Enable);
-    void ForceAlphaEnabled(bool Enable);
-    CModel* Model();
-    u32 MatSet();
-    bool IsDynamicLightingEnabled();
+
+    inline void SetMatSet(u32 MatSet)                   { mActiveMatSet = MatSet; }
+    inline void SetDynamicLighting(bool Enable)         { mLightingEnabled = Enable; }
+    inline void ForceAlphaEnabled(bool Enable)          { mForceAlphaOn = Enable; }
+    inline void SetTintColor(const CColor& rkTintColor) { mTintColor = rkTintColor; }
+    inline void ClearTintColor()                        { mTintColor = CColor::skWhite; }
+    inline CModel* Model() const                        { return mpModel; }
+    inline u32 MatSet() const                           { return mActiveMatSet; }
+    inline bool IsDynamicLightingEnabled() const        { return mLightingEnabled; }
+    inline u32 FindMeshID() const                       { return mpModel->GetSurface(0)->MeshID; }
 };
-
-
-// ************ INLINE FUNCTIONS ************
-inline void CModelNode::SetMatSet(u32 MatSet)
-{
-    mActiveMatSet = MatSet;
-}
-
-inline void CModelNode::SetDynamicLighting(bool Enable)
-{
-    mLightingEnabled = Enable;
-}
-
-inline CModel* CModelNode::Model()
-{
-    return mpModel;
-}
-
-inline u32 CModelNode::MatSet()
-{
-    return mActiveMatSet;
-}
-
-inline bool CModelNode::IsDynamicLightingEnabled()
-{
-    return mLightingEnabled;
-}
 
 #endif // CMODELNODE_H

@@ -173,6 +173,9 @@
                 <attribute name="horizontalHeaderStretchLastSection">
                  <bool>false</bool>
                 </attribute>
+                <attribute name="verticalHeaderDefaultSectionSize">
+                 <number>21</number>
+                </attribute>
                </widget>
               </item>
              </layout>
@@ -194,6 +197,9 @@
                <widget class="QTableView" name="InLinksTableView">
                 <attribute name="horizontalHeaderDefaultSectionSize">
                  <number>75</number>
+                </attribute>
+                <attribute name="verticalHeaderDefaultSectionSize">
+                 <number>21</number>
                 </attribute>
                </widget>
               </item>

@@ -33,18 +33,19 @@ enum EResType
     eParticle            = 27,
     eParticleElectric    = 28,
     eParticleSwoosh      = 29,
-    eProjectile          = 30,
-    eResource            = 31,
-    eSaveWorld           = 32,
-    eScan                = 33,
-    eSkeleton            = 34,
-    eSkin                = 35,
-    eStateMachine        = 36,
-    eStringTable         = 37,
-    eTexture             = 38,
-    eTweak               = 39,
-    eVideo               = 40,
-    eWorld               = 41
+    ePoiToWorld          = 30,
+    eProjectile          = 31,
+    eResource            = 32,
+    eSaveWorld           = 33,
+    eScan                = 34,
+    eSkeleton            = 35,
+    eSkin                = 36,
+    eStateMachine        = 37,
+    eStringTable         = 38,
+    eTexture             = 39,
+    eTweak               = 40,
+    eVideo               = 41,
+    eWorld               = 42
 };
 
 #endif // ERESTYPE

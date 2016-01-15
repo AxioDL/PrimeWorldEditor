@@ -10,6 +10,7 @@ CModelNode::CModelNode(CScene *pScene, CSceneNode *pParent, CModel *pModel) : CS
     mScale = CVector3f(1.f);
     mLightingEnabled = true;
     mForceAlphaOn = false;
+    mTintColor = CColor::skWhite;
 }
 
 ENodeType CModelNode::NodeType()
@@ -103,6 +104,11 @@ SRayIntersection CModelNode::RayNodeIntersectTest(const CRay &Ray, u32 AssetID, 
     return out;
 }
 
+CColor CModelNode::TintColor(const SViewInfo& /*rkViewInfo*/) const
+{
+    return mTintColor;
+}
+
 void CModelNode::SetModel(CModel *pModel)
 {
     mpModel = pModel;
@@ -115,9 +121,4 @@ void CModelNode::SetModel(CModel *pModel)
     }
 
     MarkTransformChanged();
-}
-
-void CModelNode::ForceAlphaEnabled(bool Enable)
-{
-    mForceAlphaOn = Enable;
 }
