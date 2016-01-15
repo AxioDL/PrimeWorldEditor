@@ -59,6 +59,7 @@ public:
     static CModel* LoadCMDL(IInputStream& CMDL);
     static CModel* LoadWorldModel(IInputStream& MREA, CBlockMgrIn& BlockMgr, CMaterialSet& MatSet, EGame Version);
     static CModel* LoadCorruptionWorldModel(IInputStream& MREA, CBlockMgrIn& BlockMgr, CMaterialSet& MatSet, u32 HeaderSecNum, u32 GPUSecNum, EGame Version);
+    static void BuildWorldMeshes(const std::vector<CModel*>& rkIn, std::vector<CModel*>& rOut, bool DeleteInputModels);
     static CModel* ImportAssimpNode(const aiNode *pNode, const aiScene *pScene, CMaterialSet& matSet);
     static EGame GetFormatVersion(u32 Version);
 };

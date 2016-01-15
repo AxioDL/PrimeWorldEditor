@@ -74,17 +74,33 @@ void CAreaLoader::ReadGeometryPrime()
     mBlockMgr->ToNextBlock();
 
     // Geometry
+    std::vector<CModel*> FileModels;
+
     for (u32 m = 0; m < mNumMeshes; m++) {
         std::cout << "\rLoading mesh " << std::dec << m + 1 << "/" << mNumMeshes;
 
-        CModel *pTerrainModel = CModelLoader::LoadWorldModel(*mpMREA, *mBlockMgr, *mpArea->mMaterialSet, mVersion);
-        mpArea->AddWorldModel(pTerrainModel);
+        CModel *pModel = CModelLoader::LoadWorldModel(*mpMREA, *mBlockMgr, *mpArea->mMaterialSet, mVersion);
+        FileModels.push_back(pModel);
+
+        if (mVersion <= ePrime)
+            mpArea->AddWorldModel(pModel);
 
         if (mVersion >= eEchoes) {
             mBlockMgr->ToNextBlock();
             mBlockMgr->ToNextBlock();
         }
     }
+
+    // Split meshes
+    if (mVersion >= eEchoesDemo)
+    {
+        std::vector<CModel*> SplitModels;
+        CModelLoader::BuildWorldMeshes(FileModels, SplitModels, true);
+
+        for (u32 iMdl = 0; iMdl < SplitModels.size(); iMdl++)
+            mpArea->AddWorldModel(SplitModels[iMdl]);
+    }
+
     mpArea->MergeTerrain();
     std::cout << "\n";
 }
