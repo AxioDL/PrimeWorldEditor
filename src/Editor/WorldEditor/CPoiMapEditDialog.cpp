@@ -12,6 +12,7 @@
 
 const CColor CPoiMapEditDialog::skNormalColor(0.137255f, 0.184314f, 0.776471f, 0.5f);
 const CColor CPoiMapEditDialog::skImportantColor(0.721569f, 0.066667f, 0.066667f, 0.5f);
+const CColor CPoiMapEditDialog::skHoverColor(0.047059f, 0.2f, 0.003922f, 0.5f);
 
 CPoiMapEditDialog::CPoiMapEditDialog(CWorldEditor *pEditor, QWidget *parent)
     : QMainWindow(parent)
@@ -20,12 +21,16 @@ CPoiMapEditDialog::CPoiMapEditDialog(CWorldEditor *pEditor, QWidget *parent)
     , mSourceModel(pEditor, this)
     , mHighlightMode(eHighlightSelected)
     , mPickType(eNotPicking)
+    , mPickTool(eNormalTool)
+    , mHoverModelIsMapped(false)
+    , mpHoverModel(nullptr)
 {
     mModel.setSourceModel(&mSourceModel);
     mModel.sort(0);
 
     ui->setupUi(this);
     ui->ListView->setModel(&mModel);
+    ui->ListView->selectionModel()->select(mModel.index(0,0), QItemSelectionModel::Select | QItemSelectionModel::Current);
 
     QActionGroup *pGroup = new QActionGroup(this);
     pGroup->addAction(ui->ActionHighlightSelected);
@@ -41,8 +46,8 @@ CPoiMapEditDialog::CPoiMapEditDialog(CWorldEditor *pEditor, QWidget *parent)
     connect(ui->ListView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnItemDoubleClick(QModelIndex)));
     connect(ui->AddMeshButton, SIGNAL(clicked()), this, SLOT(PickButtonClicked()));
     connect(ui->RemoveMeshButton, SIGNAL(clicked()), this, SLOT(PickButtonClicked()));
-    connect(ui->ButtonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(close()));
-    connect(ui->ButtonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(close()));
+    connect(ui->ToolComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(OnToolComboBoxChanged(int)));
+    connect(ui->ButtonBox->button(QDialogButtonBox::Close), SIGNAL(clicked()), this, SLOT(close()));
     connect(ui->ButtonBox->button(QDialogButtonBox::Save), SIGNAL(clicked()), this, SLOT(Save()));
 }
 
@@ -103,6 +108,54 @@ void CPoiMapEditDialog::UnhighlightModel(CModelNode *pNode)
     pNode->SetScanOverlayEnabled(false);
 }
 
+void CPoiMapEditDialog::RevertHoverModelOverlay()
+{
+    if (mpHoverModel)
+    {
+        if (mHighlightMode == eHighlightAll)
+        {
+            for (int iRow = 0; iRow < mSourceModel.rowCount(QModelIndex()); iRow++)
+            {
+                QModelIndex Index = mSourceModel.index(iRow, 0);
+
+                if (mSourceModel.IsModelMapped(Index, mpHoverModel))
+                {
+                    HighlightModel(Index, mpHoverModel);
+                    return;
+                }
+            }
+
+            UnhighlightModel(mpHoverModel);
+        }
+
+        else if (mHighlightMode == eHighlightSelected)
+        {
+            QModelIndex Index = GetSelectedRow();
+
+            if (mSourceModel.IsModelMapped(Index, mpHoverModel))
+            {
+                HighlightModel(Index, mpHoverModel);
+                mHoverModelIsMapped = true;
+            }
+            else
+            {
+                UnhighlightModel(mpHoverModel);
+                mHoverModelIsMapped = false;
+            }
+        }
+
+        else
+            UnhighlightModel(mpHoverModel);
+    }
+}
+
+CPoiMapEditDialog::EPickType CPoiMapEditDialog::GetRealPickType(bool AltPressed) const
+{
+    if (!AltPressed) return mPickType;
+    if (mPickType == eAddMeshes) return eRemoveMeshes;
+    return eAddMeshes;
+}
+
 bool CPoiMapEditDialog::IsImportant(const QModelIndex& rkIndex)
 {
     CScriptNode *pPOI = mSourceModel.PoiNodePointer(rkIndex);
@@ -114,6 +167,12 @@ bool CPoiMapEditDialog::IsImportant(const QModelIndex& rkIndex)
         Important = pScan->IsImportant();
 
     return Important;
+}
+
+QModelIndex CPoiMapEditDialog::GetSelectedRow() const
+{
+    QModelIndexList Indices = ui->ListView->selectionModel()->selectedRows();
+    return ( Indices.isEmpty() ? QModelIndex() : mModel.mapToSource(Indices.front()) );
 }
 
 void CPoiMapEditDialog::Save()
@@ -135,16 +194,26 @@ void CPoiMapEditDialog::Save()
 void CPoiMapEditDialog::SetHighlightSelected()
 {
     const QItemSelection kSelection = ui->ListView->selectionModel()->selection();
+    QList<QModelIndex> SelectedIndices;
+    QList<QModelIndex> UnselectedIndices;
 
     for (int iRow = 0; iRow < mModel.rowCount(QModelIndex()); iRow++)
     {
         QModelIndex Index = mModel.index(iRow, 0);
 
         if (kSelection.contains(Index))
-            HighlightPoiModels(Index);
+            SelectedIndices << Index;
         else
-            UnhighlightPoiModels(Index);
+            UnselectedIndices << Index;
     }
+
+    for (int iIdx = 0; iIdx < UnselectedIndices.size(); iIdx++)
+        UnhighlightPoiModels(UnselectedIndices[iIdx]);
+    for (int iIdx = 0; iIdx < SelectedIndices.size(); iIdx++)
+        HighlightPoiModels(SelectedIndices[iIdx]);
+
+    if (mpHoverModel && !mHoverModelIsMapped)
+        HighlightModel(GetSelectedRow(), mpHoverModel);
 
     mHighlightMode = eHighlightSelected;
 }
@@ -154,6 +223,13 @@ void CPoiMapEditDialog::SetHighlightAll()
     for (int iRow = 0; iRow < mModel.rowCount(QModelIndex()); iRow++)
         HighlightPoiModels(mModel.index(iRow, 0));
 
+    // Call HighlightPoiModels again on the selected index to prioritize it over the non-selected POIs.
+    if (ui->ListView->selectionModel()->hasSelection())
+        HighlightPoiModels(ui->ListView->selectionModel()->selectedRows().front());
+
+    if (mpHoverModel)
+        HighlightModel(GetSelectedRow(), mpHoverModel);
+
     mHighlightMode = eHighlightAll;
 }
 
@@ -161,6 +237,9 @@ void CPoiMapEditDialog::SetHighlightNone()
 {
     for (int iRow = 0; iRow < mModel.rowCount(QModelIndex()); iRow++)
         UnhighlightPoiModels(mModel.index(iRow, 0));
+
+    if (mpHoverModel)
+        UnhighlightModel(mpHoverModel);
 
     mHighlightMode = eHighlightNone;
 }
@@ -190,6 +269,14 @@ void CPoiMapEditDialog::OnItemDoubleClick(QModelIndex Index)
     mpEditor->ClearAndSelectNode(pPOI);
 }
 
+void CPoiMapEditDialog::OnToolComboBoxChanged(int NewIndex)
+{
+   if (NewIndex == 0)
+       mPickTool = eNormalTool;
+   else
+       mPickTool = eSprayCanTool;
+}
+
 void CPoiMapEditDialog::PickButtonClicked()
 {
     QPushButton *pButton = qobject_cast<QPushButton*>(sender());
@@ -199,9 +286,10 @@ void CPoiMapEditDialog::PickButtonClicked()
 
     else
     {
-        mpEditor->EnterPickMode(eModelNode, false, false);
+        mpEditor->EnterPickMode(eModelNode, false, false, true);
         connect(mpEditor, SIGNAL(PickModeExited()), this, SLOT(StopPicking()));
-        connect(mpEditor, SIGNAL(PickModeClick(CSceneNode*,QMouseEvent*)), this, SLOT(OnNodePicked(CSceneNode*,QMouseEvent*)));
+        connect(mpEditor, SIGNAL(PickModeClick(SRayIntersection,QMouseEvent*)), this, SLOT(OnNodePicked(SRayIntersection,QMouseEvent*)));
+        connect(mpEditor, SIGNAL(PickModeHoverChanged(SRayIntersection,QMouseEvent*)), this, SLOT(OnNodeHover(SRayIntersection,QMouseEvent*)));
         pButton->setChecked(true);
 
         if (pButton == ui->AddMeshButton)
@@ -224,11 +312,16 @@ void CPoiMapEditDialog::StopPicking()
     ui->RemoveMeshButton->setChecked(false);
     mPickType = eNotPicking;
 
+    RevertHoverModelOverlay();
+    mpHoverModel = nullptr;
+
     disconnect(mpEditor, 0, this, 0);
 }
 
-void CPoiMapEditDialog::OnNodePicked(CSceneNode *pNode, QMouseEvent* pEvent)
+void CPoiMapEditDialog::OnNodePicked(const SRayIntersection& rkRayIntersect, QMouseEvent* pEvent)
 {
+    if (!rkRayIntersect.pNode) return;
+
     // Check for valid selection
     QModelIndexList Indices = ui->ListView->selectionModel()->selectedRows();
     if (Indices.isEmpty()) return;
@@ -239,13 +332,10 @@ void CPoiMapEditDialog::OnNodePicked(CSceneNode *pNode, QMouseEvent* pEvent)
         SourceIndices << mModel.mapToSource(*it);
 
     // If alt is pressed, invert the pick mode
-    CModelNode *pModel = static_cast<CModelNode*>(pNode);
-    bool AltPressed = (pEvent->modifiers() & Qt::AltModifier) != 0;
+    CModelNode *pModel = static_cast<CModelNode*>(rkRayIntersect.pNode);
 
-    EPickType PickType;
-    if (!AltPressed)                    PickType = mPickType;
-    else if (mPickType == eAddMeshes)   PickType = eRemoveMeshes;
-    else                                PickType = eAddMeshes;
+    bool AltPressed = (pEvent->modifiers() & Qt::AltModifier) != 0;
+    EPickType PickType = GetRealPickType(AltPressed);
 
     // Add meshes
     if (PickType == eAddMeshes)
@@ -255,6 +345,8 @@ void CPoiMapEditDialog::OnNodePicked(CSceneNode *pNode, QMouseEvent* pEvent)
 
         if (mHighlightMode != eHighlightNone)
             HighlightModel(SourceIndices.front(), pModel);
+
+        mHoverModelIsMapped = true;
     }
 
     // Remove meshes
@@ -264,6 +356,41 @@ void CPoiMapEditDialog::OnNodePicked(CSceneNode *pNode, QMouseEvent* pEvent)
             mSourceModel.RemoveMapping(*it, pModel);
 
         if (mHighlightMode != eHighlightNone)
+            RevertHoverModelOverlay();
+        else
             UnhighlightModel(pModel);
+    }
+}
+
+void CPoiMapEditDialog::OnNodeHover(const SRayIntersection& rkIntersect, QMouseEvent *pEvent)
+{
+    // Restore old hover model to correct overlay color, and set new hover model
+    if (mpHoverModel)
+        RevertHoverModelOverlay();
+
+    mpHoverModel = static_cast<CModelNode*>(rkIntersect.pNode);
+
+    // If we're using the spray can and the mouse is pressed, treat this as a click.
+    if (mPickTool == eSprayCanTool && (pEvent->buttons() & Qt::LeftButton))
+        OnNodePicked(rkIntersect, pEvent);
+
+    // Otherwise, process as a mouseover
+    else
+    {
+        QModelIndex Index = GetSelectedRow();
+
+        // Process new hover model
+        if (mpHoverModel)
+        {
+            bool AltPressed = (pEvent->modifiers() & Qt::AltModifier) != 0;
+            EPickType PickType = GetRealPickType(AltPressed);
+
+            if ( ((PickType == eAddMeshes) && !mSourceModel.IsModelMapped(Index, mpHoverModel)) ||
+                 ((PickType == eRemoveMeshes) && mSourceModel.IsModelMapped(Index, mpHoverModel)) )
+            {
+                mpHoverModel->SetScanOverlayEnabled(true);
+                mpHoverModel->SetScanOverlayColor(skHoverColor);
+            }
+        }
     }
 }

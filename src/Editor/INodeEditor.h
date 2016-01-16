@@ -45,7 +45,11 @@ protected:
     bool mPickMode;
     bool mExitOnInvalidPick;
     bool mEmitOnInvalidPick;
+    bool mEmitOnButtonPress;
     FNodeFlags mAllowedPickNodes;
+    CSceneNode *mpPickHoverNode;
+    Qt::MouseButtons mPickButtons;
+    Qt::KeyboardModifiers mPickModifiers;
 
 public:
     explicit INodeEditor(QWidget *pParent = 0);
@@ -70,7 +74,7 @@ public:
     bool HasSelection() const;
     const QList<CSceneNode*>& GetSelection() const;
 
-    void EnterPickMode(FNodeFlags AllowedNodes, bool ExitOnInvalidPick, bool EmitOnInvalidPick, QCursor Cursor = Qt::CrossCursor);
+    void EnterPickMode(FNodeFlags AllowedNodes, bool ExitOnInvalidPick, bool EmitOnInvalidPick, bool EmitHoverOnButtonPress, QCursor Cursor = Qt::CrossCursor);
     void ExitPickMode();
 
 signals:
@@ -79,7 +83,8 @@ signals:
 
     void PickModeEntered(QCursor Cursor);
     void PickModeExited();
-    void PickModeClick(CSceneNode *pNode, QMouseEvent *pEvent);
+    void PickModeClick(const SRayIntersection& rkRayIntersect, QMouseEvent *pEvent);
+    void PickModeHoverChanged(const SRayIntersection& rkRayIntersect, QMouseEvent *pEvent);
 
 public slots:
     void OnGizmoMoved();
@@ -90,7 +95,8 @@ protected:
     virtual void GizmoModeChanged(CGizmo::EGizmoMode /*mode*/) {}
 
 protected slots:
-    void OnViewportClick(CSceneNode *pHoverNode, QMouseEvent *pEvent);
+    void OnViewportClick(const SRayIntersection& rkRayIntersect, QMouseEvent *pEvent);
+    void OnViewportInputProcessed(const SRayIntersection& rkRayIntersect, QMouseEvent *pEvent);
 
 private:
     void UpdateTransformActionsEnabled();

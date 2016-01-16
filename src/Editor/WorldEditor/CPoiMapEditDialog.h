@@ -35,8 +35,18 @@ class CPoiMapEditDialog : public QMainWindow
         eAddPOIs
     } mPickType;
 
+    enum EPickTool
+    {
+        eNormalTool,
+        eSprayCanTool
+    } mPickTool;
+
+    bool mHoverModelIsMapped;
+    CModelNode *mpHoverModel;
+
     static const CColor skNormalColor;
     static const CColor skImportantColor;
+    static const CColor skHoverColor;
 
 public:
     explicit CPoiMapEditDialog(CWorldEditor *pEditor, QWidget *parent = 0);
@@ -46,8 +56,10 @@ public:
     void UnhighlightPoiModels(const QModelIndex& rkIndex);
     void HighlightModel(const QModelIndex& rkIndex, CModelNode *pNode);
     void UnhighlightModel(CModelNode *pNode);
-    void RefreshHighlights();
     bool IsImportant(const QModelIndex& rkIndex);
+    void RevertHoverModelOverlay();
+    EPickType GetRealPickType(bool AltPressed) const;
+    QModelIndex GetSelectedRow() const;
 
 public slots:
     void Save();
@@ -56,10 +68,12 @@ public slots:
     void SetHighlightNone();
     void OnSelectionChanged(const QItemSelection& rkSelected, const QItemSelection& rkDeselected);
     void OnItemDoubleClick(QModelIndex Index);
+    void OnToolComboBoxChanged(int NewIndex);
 
     void PickButtonClicked();
     void StopPicking();
-    void OnNodePicked(CSceneNode *pNode, QMouseEvent *pEvent);
+    void OnNodePicked(const SRayIntersection& rkIntersect, QMouseEvent *pEvent);
+    void OnNodeHover(const SRayIntersection& rkIntersect, QMouseEvent *pEvent);
 
 signals:
     void Closed();

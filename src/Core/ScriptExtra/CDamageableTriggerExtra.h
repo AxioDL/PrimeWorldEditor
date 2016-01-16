@@ -28,6 +28,8 @@ class CDamageableTriggerExtra : public CScriptExtra
     CMaterial *mpMat;
     CVector2f mCoordScale;
 
+    float mCachedRayDistance;
+
 public:
     explicit CDamageableTriggerExtra(CScriptObject *pInstance, CScene *pScene, CSceneNode *pParent = 0);
     ~CDamageableTriggerExtra();

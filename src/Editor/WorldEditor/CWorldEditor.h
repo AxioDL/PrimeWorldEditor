@@ -45,16 +45,14 @@ public:
     void SetArea(CWorld *pWorld, CGameArea *pArea);
     CGameArea* ActiveArea();
 
-    // Update UI
-    void UpdateStatusBar();
-
 public slots:
+    void UpdateStatusBar();
     void UpdateGizmoUI();
     void UpdateSelectionUI();
+    void UpdateCursor();
 
 protected:
     void GizmoModeChanged(CGizmo::EGizmoMode mode);
-    void UpdateCursor();
 
 private slots:
     void OnPickModeEnter(QCursor Cursor);

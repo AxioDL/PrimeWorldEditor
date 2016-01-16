@@ -250,13 +250,15 @@ void CDamageableTriggerExtra::RayAABoxIntersectTest(CRayCollisionTester& Tester,
     std::pair<bool,float> Result = AABox().IntersectsRay(Ray);
 
     if (Result.first)
+    {
         Tester.AddNode(this, -1, Result.second);
+        mCachedRayDistance = Result.second;
+    }
 }
 
 SRayIntersection CDamageableTriggerExtra::RayNodeIntersectTest(const CRay& Ray, u32 /*ComponentIndex*/, const SViewInfo& /*ViewInfo*/)
 {
     // The bounding box and all other tests already passed in RayAABoxIntersectTest, so we
-    // already know that we have a positive. We just need the distance again.
-    std::pair<bool,float> Result = AABox().IntersectsRay(Ray);
-    return SRayIntersection(true, Result.second, mpParent, -1);
+    // already know that we have a positive.
+    return SRayIntersection(true, mCachedRayDistance, Ray.PointOnRay(mCachedRayDistance), mpParent, -1);
 }

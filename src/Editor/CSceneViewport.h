@@ -16,6 +16,7 @@ class CSceneViewport : public CBasicViewport
     // Scene interaction
     bool mGizmoHovering;
     bool mGizmoTransforming;
+    SRayIntersection mRayIntersection;
     CSceneNode *mpHoverNode;
     CVector3f mHoverPoint;
 
@@ -54,9 +55,11 @@ public:
 
 protected:
     void CreateContextMenu();
+    QMouseEvent CreateMouseEvent();
 
 signals:
-    void ViewportClick(CSceneNode *pNode, QMouseEvent *pEvent);
+    void InputProcessed(const SRayIntersection& rkIntersect, QMouseEvent *pEvent);
+    void ViewportClick(const SRayIntersection& rkIntersect, QMouseEvent *pEvent);
     void GizmoMoved();
     void CameraOrbit();
 
