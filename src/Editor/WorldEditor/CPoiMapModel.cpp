@@ -7,13 +7,12 @@
 CPoiMapModel::CPoiMapModel(CWorldEditor *pEditor, QObject *pParent /*= 0*/)
     : QAbstractListModel(pParent)
     , mpEditor(pEditor)
+    , mpArea(pEditor->ActiveArea())
+    , mpPoiToWorld(mpArea->GetPoiToWorldMap())
 {
-    mpEditor = pEditor;
-    mpPoiToWorld = mpEditor->ActiveArea()->GetPoiToWorldMap();
-
     if (mpPoiToWorld)
     {
-        // Create map of model nodes
+        // Create an ID -> Model Node lookup map
         QMap<u32,CModelNode*> NodeMap;
 
         for (CSceneIterator It(mpEditor->Scene(), eModelNode, true); !It.DoneIterating(); ++It)
@@ -22,24 +21,34 @@ CPoiMapModel::CPoiMapModel(CWorldEditor *pEditor, QObject *pParent /*= 0*/)
             NodeMap[pNode->FindMeshID()] = pNode;
         }
 
-        // Create list of mappings
-        for (u32 iMap = 0; iMap < mpPoiToWorld->NumMeshLinks(); iMap++)
+        // Create internal model map
+        for (u32 iPoi = 0; iPoi < mpPoiToWorld->NumMappedPOIs(); iPoi++)
         {
-            const CPoiToWorld::SPoiMeshLink& rkLink = mpPoiToWorld->MeshLinkByIndex(iMap);
-            CScriptNode *pPOI = mpEditor->Scene()->ScriptNodeByID(rkLink.PoiInstanceID);
+            const CPoiToWorld::SPoiMap *pkMap = mpPoiToWorld->MapByIndex(iPoi);
+            CScriptNode *pPoiNode = mpEditor->Scene()->ScriptNodeByID(pkMap->PoiID);
 
-            if (!mPoiLookupMap.contains(pPOI))
+            if (pPoiNode)
             {
-                SEditorPoiMap Map;
-                Map.pPOI = pPOI;
-                mMaps << Map;
-                mPoiLookupMap[pPOI] = &mMaps.last();
-            }
+                QList<CModelNode*> *pModelList = new QList<CModelNode*>;
 
-            if (NodeMap.contains(rkLink.MeshID))
-                mPoiLookupMap[pPOI]->Models << NodeMap[rkLink.MeshID];
+                for (auto it = pkMap->ModelIDs.begin(); it != pkMap->ModelIDs.end(); it++)
+                {
+                    if (NodeMap.contains(*it))
+                        *pModelList << NodeMap[*it];
+                }
+
+                mModelMap[pPoiNode] = pModelList;
+            }
         }
     }
+}
+
+CPoiMapModel::~CPoiMapModel()
+{
+    QList<QList<CModelNode*>*> Lists = mModelMap.values();
+
+    for (auto it = Lists.begin(); it != Lists.end(); it++)
+        delete *it;
 }
 
 QVariant CPoiMapModel::headerData(int Section, Qt::Orientation Orientation, int Role) const
@@ -52,31 +61,33 @@ QVariant CPoiMapModel::headerData(int Section, Qt::Orientation Orientation, int 
 
 int CPoiMapModel::rowCount(const QModelIndex& /*rkParent*/) const
 {
-    return mMaps.size();
+    return mpPoiToWorld->NumMappedPOIs();
 }
 
 QVariant CPoiMapModel::data(const QModelIndex& rkIndex, int Role) const
 {
-    if (rkIndex.row() < mMaps.size())
+    if (rkIndex.row() < rowCount(QModelIndex()))
     {
-        const SEditorPoiMap& rkMap = mMaps[rkIndex.row()];
+        const CPoiToWorld::SPoiMap *pkMap = mpPoiToWorld->MapByIndex(rkIndex.row());
+        CScriptObject *pPOI = mpArea->GetInstanceByID(pkMap->PoiID);
 
         if (Role == Qt::DisplayRole)
         {
-            if (rkMap.pPOI)
-                return TO_QSTRING(rkMap.pPOI->Object()->InstanceName());
+            if (pPOI)
+                return TO_QSTRING(pPOI->InstanceName());
             else
                 return "[INVALID POI]";
         }
 
         else if (Role == Qt::DecorationRole)
         {
+            CScriptNode *pNode = mpEditor->Scene()->NodeForObject(pPOI);
             bool IsImportant = false;
 
-            if (rkMap.pPOI)
+            if (pNode)
             {
                 // Get scan
-                CScan *pScan = static_cast<CPointOfInterestExtra*>(rkMap.pPOI->Extra())->GetScan();
+                CScan *pScan = static_cast<CPointOfInterestExtra*>(pNode->Extra())->GetScan();
 
                 if (pScan)
                     IsImportant = pScan->IsImportant();
@@ -92,10 +103,66 @@ QVariant CPoiMapModel::data(const QModelIndex& rkIndex, int Role) const
     return QVariant::Invalid;
 }
 
+void CPoiMapModel::AddPOI(CScriptNode *pPOI)
+{
+    if (!mModelMap.contains(pPOI))
+    {
+        QList<CModelNode*> *pList = new QList<CModelNode*>;
+        mModelMap[pPOI] = pList;
+        mpPoiToWorld->AddPoi(pPOI->Object()->InstanceID());
+    }
+}
+
+void CPoiMapModel::AddMapping(const QModelIndex& rkIndex, CModelNode *pNode)
+{
+    CScriptNode *pPOI = PoiNodePointer(rkIndex);
+    AddPOI(pPOI);
+
+    QList<CModelNode*> *pList = mModelMap[pPOI];
+    if (!pList->contains(pNode))
+        pList->append(pNode);
+
+    mpPoiToWorld->AddPoiMeshMap(pPOI->Object()->InstanceID(), pNode->FindMeshID());
+}
+
+void CPoiMapModel::RemovePOI(const QModelIndex& rkIndex)
+{
+    CScriptNode *pPOI = PoiNodePointer(rkIndex);
+
+    if (mModelMap.contains(pPOI))
+    {
+        delete mModelMap[pPOI];
+        mModelMap.remove(pPOI);
+    }
+
+    mpPoiToWorld->RemovePoi(pPOI->Object()->InstanceID());
+}
+
+void CPoiMapModel::RemoveMapping(const QModelIndex& rkIndex, CModelNode *pNode)
+{
+    CScriptNode *pPOI = PoiNodePointer(rkIndex);
+
+    if (mModelMap.contains(pPOI))
+    {
+        QList<CModelNode*> *pList = mModelMap[pPOI];
+        pList->removeOne(pNode);
+
+        if (pList->isEmpty())
+            RemovePOI(rkIndex);
+        else
+            mpPoiToWorld->RemovePoiMeshMap(pPOI->Object()->InstanceID(), pNode->FindMeshID());
+    }
+    else
+        mpPoiToWorld->RemovePoiMeshMap(pPOI->Object()->InstanceID(), pNode->FindMeshID());
+}
+
 CScriptNode* CPoiMapModel::PoiNodePointer(const QModelIndex& rkIndex) const
 {
-    if (rkIndex.row() < mMaps.size())
-        return mMaps[rkIndex.row()].pPOI;
+    if ((u32) rkIndex.row() < mpPoiToWorld->NumMappedPOIs())
+    {
+        const CPoiToWorld::SPoiMap *pkMap = mpPoiToWorld->MapByIndex(rkIndex.row());
+        return mpEditor->Scene()->ScriptNodeByID(pkMap->PoiID);
+    }
 
     return nullptr;
 }
@@ -108,5 +175,5 @@ const QList<CModelNode*>& CPoiMapModel::GetPoiMeshList(const QModelIndex& rkInde
 
 const QList<CModelNode*>& CPoiMapModel::GetPoiMeshList(CScriptNode *pPOI) const
 {
-    return mPoiLookupMap[pPOI]->Models;
+    return *mModelMap[pPOI];
 }

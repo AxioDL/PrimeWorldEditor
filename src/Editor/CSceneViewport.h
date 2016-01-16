@@ -56,6 +56,7 @@ protected:
     void CreateContextMenu();
 
 signals:
+    void ViewportClick(CSceneNode *pNode, QMouseEvent *pEvent);
     void GizmoMoved();
     void CameraOrbit();
 

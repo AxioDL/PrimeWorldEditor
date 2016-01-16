@@ -24,6 +24,7 @@ protected:
     // Node management
     CScene mScene;
     QList<CSceneNode*> mSelection;
+    FNodeFlags mSelectionNodeFlags;
     CAABox mSelectionBounds;
     bool mSelectionLocked;
 
@@ -39,6 +40,12 @@ protected:
     QActionGroup *mpGizmoGroup;
     QList<QAction*> mGizmoActions;
     QComboBox *mpTransformCombo;
+
+    // Pick mode
+    bool mPickMode;
+    bool mExitOnInvalidPick;
+    bool mEmitOnInvalidPick;
+    FNodeFlags mAllowedPickNodes;
 
 public:
     explicit INodeEditor(QWidget *pParent = 0);
@@ -63,9 +70,16 @@ public:
     bool HasSelection() const;
     const QList<CSceneNode*>& GetSelection() const;
 
+    void EnterPickMode(FNodeFlags AllowedNodes, bool ExitOnInvalidPick, bool EmitOnInvalidPick, QCursor Cursor = Qt::CrossCursor);
+    void ExitPickMode();
+
 signals:
     void SelectionModified();
     void SelectionTransformed();
+
+    void PickModeEntered(QCursor Cursor);
+    void PickModeExited();
+    void PickModeClick(CSceneNode *pNode, QMouseEvent *pEvent);
 
 public slots:
     void OnGizmoMoved();
@@ -74,6 +88,9 @@ public slots:
 
 protected:
     virtual void GizmoModeChanged(CGizmo::EGizmoMode /*mode*/) {}
+
+protected slots:
+    void OnViewportClick(CSceneNode *pHoverNode, QMouseEvent *pEvent);
 
 private:
     void UpdateTransformActionsEnabled();

@@ -346,41 +346,7 @@ void CSceneViewport::OnMouseRelease(QMouseEvent *pEvent)
 
         // Object selection/deselection
         else
-        {
-            bool validNode = (mpHoverNode && (mpHoverNode->NodeType() != eStaticNode) && (mpHoverNode->NodeType() != eModelNode));
-            bool altPressed = ((pEvent->modifiers() & Qt::AltModifier) != 0);
-            bool ctrlPressed = ((pEvent->modifiers() & Qt::ControlModifier) != 0);
-
-            // Alt: Deselect
-            if (altPressed)
-            {
-                if (!validNode)
-                    return;
-
-                mpEditor->DeselectNode(mpHoverNode);
-            }
-
-            // Ctrl: Add to selection
-            else if (ctrlPressed)
-            {
-                if (validNode)
-                    mpEditor->SelectNode(mpHoverNode);
-            }
-
-            // Neither: clear selection + select
-            else
-            {
-                if (!mGizmoHovering)
-                {
-                    if (validNode)
-                        mpEditor->ClearAndSelectNode(mpHoverNode);
-                    else
-                        mpEditor->ClearSelection();
-                }
-            }
-
-            mpEditor->UpdateSelectionUI();
-        }
+            emit ViewportClick(mpHoverNode, pEvent);
     }
 }
 

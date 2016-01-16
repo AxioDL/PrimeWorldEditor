@@ -239,12 +239,7 @@ void CModelLoader::LoadSurfaceHeaderPrime(IInputStream& Model, SSurface *pSurf)
     pSurf->ReflectionDirection = CVector3f(Model);
 
     if (mVersion >= eEchoesDemo)
-    {
-        Model.Seek(0x2, SEEK_CUR); // Skipping unknown value
-        pSurf->MeshID = Model.ReadShort();
-    }
-    else
-        pSurf->MeshID = -1;
+        Model.Seek(0x4, SEEK_CUR); // Skipping unknown values
 
     bool HasAABox = (ExtraSize >= 0x18); // MREAs have a set of bounding box coordinates here.
 

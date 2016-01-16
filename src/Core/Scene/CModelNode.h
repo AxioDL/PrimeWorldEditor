@@ -11,6 +11,8 @@ class CModelNode : public CSceneNode
     bool mLightingEnabled;
     bool mForceAlphaOn;
     CColor mTintColor;
+    bool mEnableScanOverlay;
+    CColor mScanOverlayColor;
 
 public:
     explicit CModelNode(CScene *pScene, CSceneNode *pParent = 0, CModel *pModel = 0);
@@ -26,15 +28,17 @@ public:
     // Setters
     void SetModel(CModel *pModel);
 
-    inline void SetMatSet(u32 MatSet)                   { mActiveMatSet = MatSet; }
-    inline void SetDynamicLighting(bool Enable)         { mLightingEnabled = Enable; }
-    inline void ForceAlphaEnabled(bool Enable)          { mForceAlphaOn = Enable; }
-    inline void SetTintColor(const CColor& rkTintColor) { mTintColor = rkTintColor; }
-    inline void ClearTintColor()                        { mTintColor = CColor::skWhite; }
-    inline CModel* Model() const                        { return mpModel; }
-    inline u32 MatSet() const                           { return mActiveMatSet; }
-    inline bool IsDynamicLightingEnabled() const        { return mLightingEnabled; }
-    inline u32 FindMeshID() const                       { return mpModel->GetSurface(0)->MeshID; }
+    inline void SetMatSet(u32 MatSet)                       { mActiveMatSet = MatSet; }
+    inline void SetDynamicLighting(bool Enable)             { mLightingEnabled = Enable; }
+    inline void ForceAlphaEnabled(bool Enable)              { mForceAlphaOn = Enable; }
+    inline void SetTintColor(const CColor& rkTintColor)     { mTintColor = rkTintColor; }
+    inline void ClearTintColor()                            { mTintColor = CColor::skWhite; }
+    inline void SetScanOverlayEnabled(bool Enable)          { mEnableScanOverlay = Enable; }
+    inline void SetScanOverlayColor(const CColor& rkColor)  { mScanOverlayColor = rkColor; }
+    inline CModel* Model() const                            { return mpModel; }
+    inline u32 MatSet() const                               { return mActiveMatSet; }
+    inline bool IsDynamicLightingEnabled() const            { return mLightingEnabled; }
+    inline u32 FindMeshID() const                           { return mpModel->GetSurface(0)->MeshID; }
 };
 
 #endif // CMODELNODE_H

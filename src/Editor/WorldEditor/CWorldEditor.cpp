@@ -31,6 +31,7 @@ CWorldEditor::CWorldEditor(QWidget *parent) :
     mpPoiDialog = nullptr;
     mGizmoHovering = false;
     mGizmoTransforming = false;
+    mSelectionNodeFlags = eScriptNode | eLightNode;
 
     // Start refresh timer
     connect(&mRefreshTimer, SIGNAL(timeout()), this, SLOT(RefreshViewport()));
@@ -67,10 +68,13 @@ CWorldEditor::CWorldEditor(QWidget *parent) :
     addAction(ui->ActionDecrementGizmo);
 
     // Connect signals and slots
+    connect(ui->MainViewport, SIGNAL(ViewportClick(CSceneNode*,QMouseEvent*)), this, SLOT(OnViewportClick(CSceneNode*,QMouseEvent*)));
     connect(ui->MainViewport, SIGNAL(GizmoMoved()), this, SLOT(OnGizmoMoved()));
     connect(ui->MainViewport, SIGNAL(CameraOrbit()), this, SLOT(UpdateCameraOrbit()));
     connect(this, SIGNAL(SelectionModified()), this, SLOT(UpdateCameraOrbit()));
     connect(this, SIGNAL(SelectionTransformed()), this, SLOT(UpdateCameraOrbit()));
+    connect(this, SIGNAL(PickModeEntered(QCursor)), this, SLOT(OnPickModeEnter(QCursor)));
+    connect(this, SIGNAL(PickModeExited()), this, SLOT(OnPickModeExit()));
     connect(ui->TransformSpinBox, SIGNAL(ValueChanged(CVector3f)), this, SLOT(OnTransformSpinBoxModified(CVector3f)));
     connect(ui->TransformSpinBox, SIGNAL(EditingDone(CVector3f)), this, SLOT(OnTransformSpinBoxEdited(CVector3f)));
     connect(ui->CamSpeedSpinBox, SIGNAL(valueChanged(double)), this, SLOT(OnCameraSpeedChange(double)));
@@ -102,6 +106,7 @@ bool CWorldEditor::eventFilter(QObject *pObj, QEvent *pEvent)
 
 void CWorldEditor::SetArea(CWorld *pWorld, CGameArea *pArea)
 {
+    ExitPickMode();
     ui->MainViewport->ResetHover();
     ClearSelection();
     ui->ModifyTabContents->ClearUI();
@@ -173,7 +178,7 @@ void CWorldEditor::UpdateStatusBar()
         {
             CSceneNode *pHoverNode = ui->MainViewport->HoverNode();
 
-            if (pHoverNode && (pHoverNode->NodeType() != eStaticNode) && (pHoverNode->NodeType() != eModelNode))
+            if (pHoverNode && (pHoverNode->NodeType() & mSelectionNodeFlags))
                 StatusText = TO_QSTRING(pHoverNode->Name());
         }
     }
@@ -266,13 +271,13 @@ void CWorldEditor::GizmoModeChanged(CGizmo::EGizmoMode mode)
 
 void CWorldEditor::UpdateCursor()
 {
-    if (ui->MainViewport->IsCursorVisible())
+    if (ui->MainViewport->IsCursorVisible() && !mPickMode)
     {
         CSceneNode *pHoverNode = ui->MainViewport->HoverNode();
 
         if (ui->MainViewport->IsHoveringGizmo())
             ui->MainViewport->SetCursorState(Qt::SizeAllCursor);
-        else if ((pHoverNode) && (pHoverNode->NodeType() != eStaticNode) && (pHoverNode->NodeType() != eModelNode))
+        else if ((pHoverNode) && (pHoverNode->NodeType() & mSelectionNodeFlags))
             ui->MainViewport->SetCursorState(Qt::PointingHandCursor);
         else
             ui->MainViewport->SetCursorState(Qt::ArrowCursor);
@@ -280,6 +285,16 @@ void CWorldEditor::UpdateCursor()
 }
 
 // ************ PRIVATE SLOTS ************
+void CWorldEditor::OnPickModeEnter(QCursor Cursor)
+{
+    ui->MainViewport->SetCursorState(Cursor);
+}
+
+void CWorldEditor::OnPickModeExit()
+{
+    UpdateCursor();
+}
+
 void CWorldEditor::RefreshViewport()
 {
     if (!mGizmo.IsTransforming())

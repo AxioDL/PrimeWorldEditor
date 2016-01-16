@@ -1,8 +1,11 @@
 #include "INodeEditor.h"
 #include "Editor/Undo/UndoCommands.h"
+#include <QMouseEvent>
 
 INodeEditor::INodeEditor(QWidget *pParent)
     : QMainWindow(pParent)
+    , mPickMode(false)
+    , mSelectionNodeFlags(eAllNodeTypes)
     , mSelectionLocked(false)
     , mShowGizmo(false)
     , mGizmoHovering(false)
@@ -206,6 +209,28 @@ const QList<CSceneNode*>& INodeEditor::GetSelection() const
     return mSelection;
 }
 
+void INodeEditor::EnterPickMode(FNodeFlags AllowedNodes, bool ExitOnInvalidPick, bool EmitOnInvalidPick, QCursor Cursor /*= Qt::CrossCursor*/)
+{
+    // If we're already in pick mode, exit first so the previous caller has a chance to disconnect
+    if (mPickMode)
+        ExitPickMode();
+
+    mPickMode = true;
+    mAllowedPickNodes = AllowedNodes;
+    mExitOnInvalidPick = ExitOnInvalidPick;
+    mEmitOnInvalidPick = EmitOnInvalidPick;
+    emit PickModeEntered(Cursor);
+}
+
+void INodeEditor::ExitPickMode()
+{
+    if (mPickMode)
+    {
+        mPickMode = false;
+        emit PickModeExited();
+    }
+}
+
 // ************ PUBLIC SLOTS ************
 void INodeEditor::OnGizmoMoved()
 {
@@ -235,6 +260,60 @@ void INodeEditor::OnGizmoMoved()
 
     RecalculateSelectionBounds();
     UpdateGizmoUI();
+}
+
+// ************ PROTECTED SLOTS ************
+void INodeEditor::OnViewportClick(CSceneNode *pHoverNode, QMouseEvent *pEvent)
+{
+    // Not in pick mode: process node selection/deselection
+    if (!mPickMode)
+    {
+        bool ValidNode = (pHoverNode && (pHoverNode->NodeType() & mSelectionNodeFlags));
+        bool AltPressed = ((pEvent->modifiers() & Qt::AltModifier) != 0);
+        bool CtrlPressed = ((pEvent->modifiers() & Qt::ControlModifier) != 0);
+
+        // Alt: Deselect
+        if (AltPressed)
+        {
+            if (!ValidNode)
+                return;
+
+            DeselectNode(pHoverNode);
+        }
+
+        // Ctrl: Add to selection
+        else if (CtrlPressed)
+        {
+            if (ValidNode)
+                SelectNode(pHoverNode);
+        }
+
+        // Neither: clear selection + select
+        else
+        {
+            if (!mGizmoHovering)
+            {
+                if (ValidNode)
+                    ClearAndSelectNode(pHoverNode);
+                else
+                    ClearSelection();
+            }
+        }
+
+        UpdateSelectionUI();
+    }
+
+    // In pick mode: process node pick
+    else
+    {
+        bool ValidNode = (pHoverNode && (pHoverNode->NodeType() & mAllowedPickNodes));
+
+        if (ValidNode || mEmitOnInvalidPick)
+            emit PickModeClick(pHoverNode, pEvent);
+
+        if (!ValidNode && mExitOnInvalidPick)
+            ExitPickMode();
+    }
 }
 
 // ************ PRIVATE ************

@@ -3,37 +3,41 @@
 
 #include "CResource.h"
 #include <list>
+#include <map>
+#include <vector>
 
 class CPoiToWorld : public CResource
 {
     DECLARE_RESOURCE_TYPE(ePoiToWorld)
-    friend class CPoiToWorldLoader;
 
 public:
-    struct SPoiMeshLink
+    struct SPoiMap
     {
-        u32 MeshID;
-        u32 PoiInstanceID;
+        u32 PoiID;
+        std::list<u32> ModelIDs;
     };
 
 private:
-    std::vector<SPoiMeshLink> mMeshLinks;
+    std::vector<SPoiMap*> mMaps;
+    std::map<u32,SPoiMap*> mPoiLookupMap;
 
 public:
     CPoiToWorld();
     ~CPoiToWorld();
 
-    void LinksForMeshID(std::list<u32>& rOutInstanceIDs, u32 MeshID);
-    void LinksForInstanceID(std::list<u32>& rOutMeshIDs, u32 InstanceID);
+    void AddPoi(u32 PoiID);
+    void AddPoiMeshMap(u32 PoiID, u32 ModelID);
+    void RemovePoi(u32 PoiID);
+    void RemovePoiMeshMap(u32 PoiID, u32 ModelID);
 
-    inline u32 NumMeshLinks()
+    inline u32 NumMappedPOIs() const
     {
-        return mMeshLinks.size();
+        return mMaps.size();
     }
 
-    inline const SPoiMeshLink& MeshLinkByIndex(u32 Index)
+    inline const SPoiMap* MapByIndex(u32 Index) const
     {
-        return mMeshLinks[Index];
+        return mMaps[Index];
     }
 };
 

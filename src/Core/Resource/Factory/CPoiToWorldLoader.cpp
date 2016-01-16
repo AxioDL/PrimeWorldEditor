@@ -3,14 +3,13 @@
 CPoiToWorld* CPoiToWorldLoader::LoadEGMC(IInputStream& rEGMC)
 {
     CPoiToWorld *pOut = new CPoiToWorld();
-    u32 NumLinks = rEGMC.ReadLong();
+    u32 NumMappings = rEGMC.ReadLong();
 
-    for (u32 iLink = 0; iLink < NumLinks; iLink++)
+    for (u32 iMap = 0; iMap < NumMappings; iMap++)
     {
-        CPoiToWorld::SPoiMeshLink Link;
-        Link.MeshID = rEGMC.ReadLong();
-        Link.PoiInstanceID = rEGMC.ReadLong();
-        pOut->mMeshLinks.push_back(Link);
+        u32 MeshID = rEGMC.ReadLong();
+        u32 InstanceID = rEGMC.ReadLong();
+        pOut->AddPoiMeshMap(InstanceID, MeshID);
     }
 
     return pOut;
