@@ -209,7 +209,7 @@ const QList<CSceneNode*>& INodeEditor::GetSelection() const
     return mSelection;
 }
 
-void INodeEditor::EnterPickMode(FNodeFlags AllowedNodes, bool ExitOnInvalidPick, bool EmitOnInvalidPick, QCursor Cursor /*= Qt::CrossCursor*/)
+void INodeEditor::EnterPickMode(FNodeFlags AllowedNodes, bool ExitOnInvalidPick, bool EmitOnInvalidPick, bool EmitHoverOnButtonPress, QCursor Cursor /*= Qt::CrossCursor*/)
 {
     // If we're already in pick mode, exit first so the previous caller has a chance to disconnect
     if (mPickMode)
@@ -219,6 +219,7 @@ void INodeEditor::EnterPickMode(FNodeFlags AllowedNodes, bool ExitOnInvalidPick,
     mAllowedPickNodes = AllowedNodes;
     mExitOnInvalidPick = ExitOnInvalidPick;
     mEmitOnInvalidPick = EmitOnInvalidPick;
+    mEmitOnButtonPress = EmitHoverOnButtonPress;
     emit PickModeEntered(Cursor);
 }
 
@@ -263,12 +264,14 @@ void INodeEditor::OnGizmoMoved()
 }
 
 // ************ PROTECTED SLOTS ************
-void INodeEditor::OnViewportClick(CSceneNode *pHoverNode, QMouseEvent *pEvent)
+void INodeEditor::OnViewportClick(const SRayIntersection& rkRayIntersect, QMouseEvent *pEvent)
 {
+    CSceneNode *pNode = rkRayIntersect.pNode;
+
     // Not in pick mode: process node selection/deselection
     if (!mPickMode)
     {
-        bool ValidNode = (pHoverNode && (pHoverNode->NodeType() & mSelectionNodeFlags));
+        bool ValidNode = (pNode && (pNode->NodeType() & mSelectionNodeFlags));
         bool AltPressed = ((pEvent->modifiers() & Qt::AltModifier) != 0);
         bool CtrlPressed = ((pEvent->modifiers() & Qt::ControlModifier) != 0);
 
@@ -278,14 +281,14 @@ void INodeEditor::OnViewportClick(CSceneNode *pHoverNode, QMouseEvent *pEvent)
             if (!ValidNode)
                 return;
 
-            DeselectNode(pHoverNode);
+            DeselectNode(pNode);
         }
 
         // Ctrl: Add to selection
         else if (CtrlPressed)
         {
             if (ValidNode)
-                SelectNode(pHoverNode);
+                SelectNode(pNode);
         }
 
         // Neither: clear selection + select
@@ -294,7 +297,7 @@ void INodeEditor::OnViewportClick(CSceneNode *pHoverNode, QMouseEvent *pEvent)
             if (!mGizmoHovering)
             {
                 if (ValidNode)
-                    ClearAndSelectNode(pHoverNode);
+                    ClearAndSelectNode(pNode);
                 else
                     ClearSelection();
             }
@@ -306,13 +309,40 @@ void INodeEditor::OnViewportClick(CSceneNode *pHoverNode, QMouseEvent *pEvent)
     // In pick mode: process node pick
     else
     {
-        bool ValidNode = (pHoverNode && (pHoverNode->NodeType() & mAllowedPickNodes));
+        bool ValidNode = (pNode && (pNode->NodeType() & mAllowedPickNodes));
 
         if (ValidNode || mEmitOnInvalidPick)
-            emit PickModeClick(pHoverNode, pEvent);
+            emit PickModeClick(rkRayIntersect, pEvent);
 
         if (!ValidNode && mExitOnInvalidPick)
             ExitPickMode();
+    }
+}
+
+void INodeEditor::OnViewportInputProcessed(const SRayIntersection& rkRayIntersect, QMouseEvent *pEvent)
+{
+    // In pick mode: process node hover
+    if (mPickMode)
+    {
+        CSceneNode *pNode = rkRayIntersect.pNode;
+        bool NewNode = pNode != mpPickHoverNode;
+
+        bool ButtonsChanged = mPickButtons != pEvent->buttons();
+        bool ModifiersChanged = mPickModifiers != pEvent->modifiers();
+
+        if (NewNode || ((ModifiersChanged || ButtonsChanged) && mEmitOnButtonPress))
+        {
+            bool ValidNode = (pNode && (pNode->NodeType() & mAllowedPickNodes));
+
+            if (ValidNode || mEmitOnInvalidPick)
+                emit PickModeHoverChanged(rkRayIntersect, pEvent);
+            else
+                emit PickModeHoverChanged(SRayIntersection(), pEvent);
+        }
+
+        mpPickHoverNode = rkRayIntersect.pNode;
+        mPickButtons = pEvent->buttons();
+        mPickModifiers = pEvent->modifiers();
     }
 }
 

@@ -18,7 +18,7 @@ public:
     inline void RayAABoxIntersectTest(CRayCollisionTester&, const SViewInfo&) {}
 
     inline SRayIntersection RayNodeIntersectTest(const CRay &, u32, const SViewInfo&) {
-        return SRayIntersection(false, 0.f, nullptr, 0);
+        return SRayIntersection();
     }
 
     inline void DrawSelection() {}

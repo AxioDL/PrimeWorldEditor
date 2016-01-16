@@ -68,7 +68,11 @@ CWorldEditor::CWorldEditor(QWidget *parent) :
     addAction(ui->ActionDecrementGizmo);
 
     // Connect signals and slots
-    connect(ui->MainViewport, SIGNAL(ViewportClick(CSceneNode*,QMouseEvent*)), this, SLOT(OnViewportClick(CSceneNode*,QMouseEvent*)));
+    connect(ui->MainViewport, SIGNAL(ViewportClick(SRayIntersection,QMouseEvent*)), this, SLOT(OnViewportClick(SRayIntersection,QMouseEvent*)));
+    connect(ui->MainViewport, SIGNAL(InputProcessed(SRayIntersection,QMouseEvent*)), this, SLOT(OnViewportInputProcessed(SRayIntersection,QMouseEvent*)));
+    connect(ui->MainViewport, SIGNAL(InputProcessed(SRayIntersection,QMouseEvent*)), this, SLOT(UpdateGizmoUI()) );
+    connect(ui->MainViewport, SIGNAL(InputProcessed(SRayIntersection,QMouseEvent*)), this, SLOT(UpdateStatusBar()) );
+    connect(ui->MainViewport, SIGNAL(InputProcessed(SRayIntersection,QMouseEvent*)), this, SLOT(UpdateCursor()) );
     connect(ui->MainViewport, SIGNAL(GizmoMoved()), this, SLOT(OnGizmoMoved()));
     connect(ui->MainViewport, SIGNAL(CameraOrbit()), this, SLOT(UpdateCameraOrbit()));
     connect(this, SIGNAL(SelectionModified()), this, SLOT(UpdateCameraOrbit()));
@@ -166,7 +170,7 @@ CGameArea* CWorldEditor::ActiveArea()
     return mpArea;
 }
 
-// ************ UPDATE UI ************
+// ************ PROTECTED SLOTS ************
 void CWorldEditor::UpdateStatusBar()
 {
     // Would be cool to do more frequent status bar updates with more info. Unfortunately, this causes lag.
@@ -262,13 +266,6 @@ void CWorldEditor::UpdateSelectionUI()
     UpdateGizmoUI();
 }
 
-// ************ PROTECTED ************
-void CWorldEditor::GizmoModeChanged(CGizmo::EGizmoMode mode)
-{
-    ui->TransformSpinBox->SetSingleStep( (mode == CGizmo::eRotate ? 1.0 : 0.1) );
-    ui->TransformSpinBox->SetDefaultValue( (mode == CGizmo::eScale ? 1.0 : 0.0) );
-}
-
 void CWorldEditor::UpdateCursor()
 {
     if (ui->MainViewport->IsCursorVisible() && !mPickMode)
@@ -282,6 +279,13 @@ void CWorldEditor::UpdateCursor()
         else
             ui->MainViewport->SetCursorState(Qt::ArrowCursor);
     }
+}
+
+// ************ PROTECTED ************
+void CWorldEditor::GizmoModeChanged(CGizmo::EGizmoMode mode)
+{
+    ui->TransformSpinBox->SetSingleStep( (mode == CGizmo::eRotate ? 1.0 : 0.1) );
+    ui->TransformSpinBox->SetDefaultValue( (mode == CGizmo::eScale ? 1.0 : 0.0) );
 }
 
 // ************ PRIVATE SLOTS ************
@@ -300,11 +304,8 @@ void CWorldEditor::RefreshViewport()
     if (!mGizmo.IsTransforming())
         mGizmo.ResetSelectedAxes();
 
-    // Process input + update UI
+    // Process input
     ui->MainViewport->ProcessInput();
-    UpdateCursor();
-    UpdateStatusBar();
-    UpdateGizmoUI();
 
     // Render
     ui->MainViewport->Render();

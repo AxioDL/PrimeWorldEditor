@@ -34,8 +34,8 @@ protected:
     QPoint mLastMousePos;
     bool mMouseMoved;
     CTimer mMoveTimer;
-    int mButtonsPressed; // int container for EMouseInputs flags
-    int mKeysPressed;    // int container for EKeyInputs flags
+    FMouseInputs mButtonsPressed;
+    FKeyInputs mKeysPressed;
 
 public:
     explicit CBasicViewport(QWidget *pParent = 0);

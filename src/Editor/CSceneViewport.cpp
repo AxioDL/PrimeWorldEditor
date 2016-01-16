@@ -4,6 +4,7 @@
 #include <Core/Render/SViewInfo.h>
 #include <Core/Resource/Script/CScriptLayer.h>
 #include <Core/Scene/CSceneIterator.h>
+#include <QApplication>
 #include <QMenu>
 
 CSceneViewport::CSceneViewport(QWidget *pParent)
@@ -109,7 +110,7 @@ void CSceneViewport::CheckGizmoInput(const CRay& ray)
     else mGizmoHovering = false;
 }
 
-void CSceneViewport::SceneRayCast(const CRay& ray)
+void CSceneViewport::SceneRayCast(const CRay& rkRay)
 {
     if (mpEditor->Gizmo()->IsTransforming())
     {
@@ -117,16 +118,16 @@ void CSceneViewport::SceneRayCast(const CRay& ray)
         return;
     }
 
-    SRayIntersection result = mpScene->SceneRayCast(ray, mViewInfo);
+    mRayIntersection = mpScene->SceneRayCast(rkRay, mViewInfo);
 
-    if (result.Hit)
+    if (mRayIntersection.Hit)
     {
         if (mpHoverNode)
             mpHoverNode->SetMouseHovering(false);
 
-        mpHoverNode = result.pNode;
+        mpHoverNode = mRayIntersection.pNode;
         mpHoverNode->SetMouseHovering(true);
-        mHoverPoint = ray.PointOnRay(result.Distance);
+        mHoverPoint = rkRay.PointOnRay(mRayIntersection.Distance);
     }
 
     else
@@ -210,6 +211,11 @@ void CSceneViewport::CreateContextMenu()
     mpContextMenu->addActions(Actions);
 }
 
+QMouseEvent CSceneViewport::CreateMouseEvent()
+{
+    return QMouseEvent(QEvent::MouseMove, mapFromGlobal(QCursor::pos()), Qt::NoButton, qApp->mouseButtons(), qApp->keyboardModifiers());
+}
+
 // ************ PROTECTED SLOTS ************
 void CSceneViewport::CheckUserInput()
 {
@@ -219,18 +225,24 @@ void CSceneViewport::CheckUserInput()
     {
         ResetHover();
         mGizmoHovering = false;
-
-        if (!MouseActive)
-            return;
     }
 
-    CRay ray = CastRay();
+    if (MouseActive)
+    {
+        CRay Ray = CastRay();
 
-    if (!mViewInfo.GameMode)
-        CheckGizmoInput(ray);
+        if (!mViewInfo.GameMode)
+            CheckGizmoInput(Ray);
 
-    if (!mpEditor->Gizmo()->IsTransforming())
-        SceneRayCast(ray);
+        if (!mpEditor->Gizmo()->IsTransforming())
+            SceneRayCast(Ray);
+    }
+
+    else
+        mRayIntersection = SRayIntersection();
+
+    QMouseEvent Event = CreateMouseEvent();
+    emit InputProcessed(mRayIntersection, &Event);
 }
 
 void CSceneViewport::Paint()
@@ -346,7 +358,7 @@ void CSceneViewport::OnMouseRelease(QMouseEvent *pEvent)
 
         // Object selection/deselection
         else
-            emit ViewportClick(mpHoverNode, pEvent);
+            emit ViewportClick(mRayIntersection, pEvent);
     }
 }
 

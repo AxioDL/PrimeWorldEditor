@@ -146,14 +146,24 @@ void CPoiMapModel::RemoveMapping(const QModelIndex& rkIndex, CModelNode *pNode)
     {
         QList<CModelNode*> *pList = mModelMap[pPOI];
         pList->removeOne(pNode);
-
-        if (pList->isEmpty())
-            RemovePOI(rkIndex);
-        else
-            mpPoiToWorld->RemovePoiMeshMap(pPOI->Object()->InstanceID(), pNode->FindMeshID());
+        mpPoiToWorld->RemovePoiMeshMap(pPOI->Object()->InstanceID(), pNode->FindMeshID());
     }
     else
         mpPoiToWorld->RemovePoiMeshMap(pPOI->Object()->InstanceID(), pNode->FindMeshID());
+}
+
+bool CPoiMapModel::IsModelMapped(const QModelIndex& rkIndex, CModelNode *pNode) const
+{
+    if (!pNode) return false;
+
+    CScriptNode *pPOI = PoiNodePointer(rkIndex);
+
+    if (mModelMap.contains(pPOI))
+    {
+        QList<CModelNode*> *pList = mModelMap[pPOI];
+        return (pList->contains(pNode));
+    }
+    else return false;
 }
 
 CScriptNode* CPoiMapModel::PoiNodePointer(const QModelIndex& rkIndex) const

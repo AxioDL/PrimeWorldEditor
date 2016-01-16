@@ -144,6 +144,8 @@ void CBasicViewport::keyPressEvent(QKeyEvent *pEvent)
     case Qt::Key_S: mKeysPressed |= eSKey; break;
     case Qt::Key_D: mKeysPressed |= eDKey; break;
     case Qt::Key_Control: mKeysPressed |= eCtrlKey; break;
+    case Qt::Key_Shift: mKeysPressed |= eShiftKey; break;
+    case Qt::Key_Alt: mKeysPressed |= eAltKey; break;
     }
 }
 
@@ -158,6 +160,8 @@ void CBasicViewport::keyReleaseEvent(QKeyEvent *pEvent)
     case Qt::Key_S: mKeysPressed &= ~eSKey; break;
     case Qt::Key_D: mKeysPressed &= ~eDKey; break;
     case Qt::Key_Control: mKeysPressed &= ~eCtrlKey; break;
+    case Qt::Key_Shift: mKeysPressed &= ~eShiftKey; break;
+    case Qt::Key_Alt: mKeysPressed &= ~eAltKey; break;
     }
 }
 
@@ -204,13 +208,13 @@ bool CBasicViewport::IsCursorVisible()
 
 bool CBasicViewport::IsMouseInputActive()
 {
-    static const int skMoveButtons = eMiddleButton | eRightButton;
+    static const FMouseInputs skMoveButtons = eMiddleButton | eRightButton;
     return ((mButtonsPressed & skMoveButtons) != 0);
 }
 
 bool CBasicViewport::IsKeyboardInputActive()
 {
-    static const int skMoveKeys = eQKey | eWKey | eEKey | eAKey | eSKey | eDKey;
+    static const FKeyInputs skMoveKeys = eQKey | eWKey | eEKey | eAKey | eSKey | eDKey;
     return ((mKeysPressed & skMoveKeys) != 0);
 }
 

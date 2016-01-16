@@ -68,10 +68,6 @@ void CPoiToWorld::RemovePoiMeshMap(u32 PoiID, u32 ModelID)
             if (*ListIt == ModelID)
             {
                 pMap->ModelIDs.erase(ListIt);
-
-                if (pMap->ModelIDs.empty())
-                    RemovePoi(PoiID);
-
                 break;
             }
         }
