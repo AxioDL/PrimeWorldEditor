@@ -67,7 +67,7 @@ void WAnimParamsEditor::SetParameters(const CAnimationParameters& params)
 void WAnimParamsEditor::OnResourceChanged(QString path)
 {
     CResource *pRes = gResCache.GetResource(path.toStdString());
-    if (pRes->Type() != eAnimSet) pRes = nullptr;
+    if (pRes && pRes->Type() != eAnimSet) pRes = nullptr;
 
     mParams.SetResource(pRes);
     emit ParametersChanged(mParams);

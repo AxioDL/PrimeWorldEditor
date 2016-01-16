@@ -8,7 +8,7 @@ class CModelNode : public CSceneNode
 {
     TResPtr<CModel> mpModel;
     u32 mActiveMatSet;
-    bool mLightingEnabled;
+    bool mWorldModel;
     bool mForceAlphaOn;
     CColor mTintColor;
     bool mEnableScanOverlay;
@@ -29,7 +29,7 @@ public:
     void SetModel(CModel *pModel);
 
     inline void SetMatSet(u32 MatSet)                       { mActiveMatSet = MatSet; }
-    inline void SetDynamicLighting(bool Enable)             { mLightingEnabled = Enable; }
+    inline void SetWorldModel(bool World)                   { mWorldModel = World; }
     inline void ForceAlphaEnabled(bool Enable)              { mForceAlphaOn = Enable; }
     inline void SetTintColor(const CColor& rkTintColor)     { mTintColor = rkTintColor; }
     inline void ClearTintColor()                            { mTintColor = CColor::skWhite; }
@@ -37,7 +37,7 @@ public:
     inline void SetScanOverlayColor(const CColor& rkColor)  { mScanOverlayColor = rkColor; }
     inline CModel* Model() const                            { return mpModel; }
     inline u32 MatSet() const                               { return mActiveMatSet; }
-    inline bool IsDynamicLightingEnabled() const            { return mLightingEnabled; }
+    inline bool IsWorldModel() const                        { return mWorldModel; }
     inline u32 FindMeshID() const                           { return mpModel->GetSurface(0)->MeshID; }
 };
 

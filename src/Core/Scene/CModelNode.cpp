@@ -8,7 +8,7 @@ CModelNode::CModelNode(CScene *pScene, CSceneNode *pParent, CModel *pModel) : CS
 {
     SetModel(pModel);
     mScale = CVector3f(1.f);
-    mLightingEnabled = true;
+    mWorldModel = false;
     mForceAlphaOn = false;
     mEnableScanOverlay = false;
     mTintColor = CColor::skWhite;
@@ -39,21 +39,38 @@ void CModelNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewInf
     if (!mpModel) return;
     if (mForceAlphaOn) Options = (FRenderOptions) (Options & ~eNoAlpha);
 
-    if (mLightingEnabled)
+    if (!mWorldModel)
     {
         CGraphics::SetDefaultLighting();
         CGraphics::UpdateLightBlock();
         CGraphics::sVertexBlock.COLOR0_Amb = CGraphics::skDefaultAmbientColor;
+        CGraphics::sPixelBlock.LightmapMultiplier = 1.f;
+        CGraphics::sPixelBlock.TevColor = CColor::skWhite;
     }
     else
     {
-        CGraphics::sNumLights = 0;
-        CGraphics::sVertexBlock.COLOR0_Amb = CColor::skBlack;
+        bool IsLightingEnabled = CGraphics::sLightMode == CGraphics::eWorldLighting || ViewInfo.GameMode;
+
+        if (IsLightingEnabled)
+        {
+            CGraphics::sNumLights = 0;
+            CGraphics::sVertexBlock.COLOR0_Amb = CColor::skBlack;
+            CGraphics::sPixelBlock.LightmapMultiplier = 1.f;
+            CGraphics::UpdateLightBlock();
+        }
+
+        else
+        {
+            LoadLights(ViewInfo);
+            if (CGraphics::sLightMode == CGraphics::eNoLighting)
+                CGraphics::sVertexBlock.COLOR0_Amb = CColor::skWhite;
+        }
+
+        float Mul = CGraphics::sWorldLightMultiplier;
+        CGraphics::sPixelBlock.TevColor = CColor(Mul,Mul,Mul);
     }
 
-    CGraphics::sPixelBlock.TevColor = CColor::skWhite;
     CGraphics::sPixelBlock.TintColor = TintColor(ViewInfo);
-    CGraphics::sPixelBlock.LightmapMultiplier = 1.f;
     LoadModelMatrix();
 
     if (ComponentIndex < 0)
