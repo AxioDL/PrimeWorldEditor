@@ -22,7 +22,6 @@ CPoiMapEditDialog::CPoiMapEditDialog(CWorldEditor *pEditor, QWidget *parent)
     , mHighlightMode(eHighlightSelected)
     , mPickType(eNotPicking)
     , mPickTool(eNormalTool)
-    , mHoverModelIsMapped(false)
     , mpHoverModel(nullptr)
 {
     mModel.setSourceModel(&mSourceModel);
@@ -47,6 +46,7 @@ CPoiMapEditDialog::CPoiMapEditDialog(CWorldEditor *pEditor, QWidget *parent)
     connect(ui->AddMeshButton, SIGNAL(clicked()), this, SLOT(PickButtonClicked()));
     connect(ui->RemoveMeshButton, SIGNAL(clicked()), this, SLOT(PickButtonClicked()));
     connect(ui->ToolComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(OnToolComboBoxChanged(int)));
+    connect(ui->UnmapAllButton, SIGNAL(clicked()), this, SLOT(OnUnmapAllPressed()));
     connect(ui->ButtonBox->button(QDialogButtonBox::Close), SIGNAL(clicked()), this, SLOT(close()));
     connect(ui->ButtonBox->button(QDialogButtonBox::Save), SIGNAL(clicked()), this, SLOT(Save()));
 }
@@ -108,9 +108,9 @@ void CPoiMapEditDialog::UnhighlightModel(CModelNode *pNode)
     pNode->SetScanOverlayEnabled(false);
 }
 
-void CPoiMapEditDialog::RevertHoverModelOverlay()
+void CPoiMapEditDialog::RevertModelOverlay(CModelNode *pModel)
 {
-    if (mpHoverModel)
+    if (pModel)
     {
         if (mHighlightMode == eHighlightAll)
         {
@@ -118,34 +118,28 @@ void CPoiMapEditDialog::RevertHoverModelOverlay()
             {
                 QModelIndex Index = mSourceModel.index(iRow, 0);
 
-                if (mSourceModel.IsModelMapped(Index, mpHoverModel))
+                if (mSourceModel.IsModelMapped(Index, pModel))
                 {
-                    HighlightModel(Index, mpHoverModel);
+                    HighlightModel(Index, pModel);
                     return;
                 }
             }
 
-            UnhighlightModel(mpHoverModel);
+            UnhighlightModel(pModel);
         }
 
         else if (mHighlightMode == eHighlightSelected)
         {
             QModelIndex Index = GetSelectedRow();
 
-            if (mSourceModel.IsModelMapped(Index, mpHoverModel))
-            {
-                HighlightModel(Index, mpHoverModel);
-                mHoverModelIsMapped = true;
-            }
+            if (mSourceModel.IsModelMapped(Index, pModel))
+                HighlightModel(Index, pModel);
             else
-            {
-                UnhighlightModel(mpHoverModel);
-                mHoverModelIsMapped = false;
-            }
+                UnhighlightModel(pModel);
         }
 
         else
-            UnhighlightModel(mpHoverModel);
+            UnhighlightModel(pModel);
     }
 }
 
@@ -212,9 +206,6 @@ void CPoiMapEditDialog::SetHighlightSelected()
     for (int iIdx = 0; iIdx < SelectedIndices.size(); iIdx++)
         HighlightPoiModels(SelectedIndices[iIdx]);
 
-    if (mpHoverModel && !mHoverModelIsMapped)
-        HighlightModel(GetSelectedRow(), mpHoverModel);
-
     mHighlightMode = eHighlightSelected;
 }
 
@@ -277,6 +268,18 @@ void CPoiMapEditDialog::OnToolComboBoxChanged(int NewIndex)
        mPickTool = eSprayCanTool;
 }
 
+void CPoiMapEditDialog::OnUnmapAllPressed()
+{
+    QModelIndex Index = GetSelectedRow();
+    QList<CModelNode*> ModelList = mSourceModel.GetPoiMeshList(Index);
+
+    foreach (CModelNode *pModel, ModelList)
+    {
+        mSourceModel.RemoveMapping(Index, pModel);
+        RevertModelOverlay(pModel);
+    }
+}
+
 void CPoiMapEditDialog::PickButtonClicked()
 {
     QPushButton *pButton = qobject_cast<QPushButton*>(sender());
@@ -312,7 +315,7 @@ void CPoiMapEditDialog::StopPicking()
     ui->RemoveMeshButton->setChecked(false);
     mPickType = eNotPicking;
 
-    RevertHoverModelOverlay();
+    RevertModelOverlay(mpHoverModel);
     mpHoverModel = nullptr;
 
     disconnect(mpEditor, 0, this, 0);
@@ -345,8 +348,6 @@ void CPoiMapEditDialog::OnNodePicked(const SRayIntersection& rkRayIntersect, QMo
 
         if (mHighlightMode != eHighlightNone)
             HighlightModel(SourceIndices.front(), pModel);
-
-        mHoverModelIsMapped = true;
     }
 
     // Remove meshes
@@ -356,7 +357,7 @@ void CPoiMapEditDialog::OnNodePicked(const SRayIntersection& rkRayIntersect, QMo
             mSourceModel.RemoveMapping(*it, pModel);
 
         if (mHighlightMode != eHighlightNone)
-            RevertHoverModelOverlay();
+            RevertModelOverlay(mpHoverModel);
         else
             UnhighlightModel(pModel);
     }
@@ -366,7 +367,7 @@ void CPoiMapEditDialog::OnNodeHover(const SRayIntersection& rkIntersect, QMouseE
 {
     // Restore old hover model to correct overlay color, and set new hover model
     if (mpHoverModel)
-        RevertHoverModelOverlay();
+        RevertModelOverlay(mpHoverModel);
 
     mpHoverModel = static_cast<CModelNode*>(rkIntersect.pNode);
 

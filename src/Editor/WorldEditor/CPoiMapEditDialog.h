@@ -41,7 +41,6 @@ class CPoiMapEditDialog : public QMainWindow
         eSprayCanTool
     } mPickTool;
 
-    bool mHoverModelIsMapped;
     CModelNode *mpHoverModel;
 
     static const CColor skNormalColor;
@@ -57,7 +56,7 @@ public:
     void HighlightModel(const QModelIndex& rkIndex, CModelNode *pNode);
     void UnhighlightModel(CModelNode *pNode);
     bool IsImportant(const QModelIndex& rkIndex);
-    void RevertHoverModelOverlay();
+    void RevertModelOverlay(CModelNode *pModel);
     EPickType GetRealPickType(bool AltPressed) const;
     QModelIndex GetSelectedRow() const;
 
@@ -69,6 +68,7 @@ public slots:
     void OnSelectionChanged(const QItemSelection& rkSelected, const QItemSelection& rkDeselected);
     void OnItemDoubleClick(QModelIndex Index);
     void OnToolComboBoxChanged(int NewIndex);
+    void OnUnmapAllPressed();
 
     void PickButtonClicked();
     void StopPicking();

@@ -46,10 +46,17 @@
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="UnmapAllButton">
+        <property name="text">
+         <string>Unmap All</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QComboBox" name="ToolComboBox">
         <property name="minimumSize">
          <size>
-          <width>80</width>
+          <width>85</width>
           <height>0</height>
          </size>
         </property>
