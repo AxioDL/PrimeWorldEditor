@@ -106,7 +106,7 @@ void CScene::SetActiveArea(CGameArea *pArea)
         CModel *pModel = mpArea->GetTerrainModel(iMdl);
         CModelNode *pNode = CreateModelNode(pModel);
         pNode->SetName("World Model " + TString::FromInt32(iMdl, 0, 10));
-        pNode->SetDynamicLighting(false);
+        pNode->SetWorldModel(true);
     }
 
     CreateCollisionNode(mpArea->GetCollision());

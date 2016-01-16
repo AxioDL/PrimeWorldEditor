@@ -112,7 +112,7 @@ u32 CAnimationParameters::Unknown(u32 index)
 // ************ SETTERS ************
 void CAnimationParameters::SetResource(CResource *pRes)
 {
-    if ((pRes->Type() == eAnimSet) || (pRes->Type() == eCharacter))
+    if (!pRes || (pRes->Type() == eAnimSet) || (pRes->Type() == eCharacter))
     {
         mpCharSet = pRes;
         mNodeIndex = 0;
