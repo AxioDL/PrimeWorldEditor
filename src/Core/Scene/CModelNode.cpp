@@ -10,6 +10,7 @@ CModelNode::CModelNode(CScene *pScene, CSceneNode *pParent, CModel *pModel) : CS
     mScale = CVector3f(1.f);
     mLightingEnabled = true;
     mForceAlphaOn = false;
+    mEnableScanOverlay = false;
     mTintColor = CColor::skWhite;
 }
 
@@ -59,6 +60,18 @@ void CModelNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewInf
         mpModel->Draw(Options, mActiveMatSet);
     else
         mpModel->DrawSurface(Options, ComponentIndex, mActiveMatSet);
+
+    if (mEnableScanOverlay)
+    {
+        CDrawUtil::UseColorShader(mScanOverlayColor);
+        glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ZERO, GL_ZERO);
+        Options |= eNoMaterialSetup;
+
+        if (ComponentIndex < 0)
+            mpModel->Draw(Options, 0);
+        else
+            mpModel->DrawSurface(Options, ComponentIndex, mActiveMatSet);
+    }
 }
 
 void CModelNode::DrawSelection()

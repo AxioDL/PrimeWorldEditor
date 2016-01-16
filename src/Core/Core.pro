@@ -184,7 +184,8 @@ HEADERS += \
     Scene/CSceneIterator.h \
     Resource/CResourceInfo.h \
     Resource/CPoiToWorld.h \
-    Resource/Factory/CPoiToWorldLoader.h
+    Resource/Factory/CPoiToWorldLoader.h \
+    Resource/Cooker/CPoiToWorldCooker.h
 
 # Source Files
 SOURCES += \
@@ -272,4 +273,5 @@ SOURCES += \
     Scene/CScene.cpp \
     Scene/CSceneIterator.cpp \
     Resource/CPoiToWorld.cpp \
-    Resource/Factory/CPoiToWorldLoader.cpp
+    Resource/Factory/CPoiToWorldLoader.cpp \
+    Resource/Cooker/CPoiToWorldCooker.cpp

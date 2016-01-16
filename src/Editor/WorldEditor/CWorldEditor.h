@@ -57,6 +57,8 @@ protected:
     void UpdateCursor();
 
 private slots:
+    void OnPickModeEnter(QCursor Cursor);
+    void OnPickModeExit();
     void RefreshViewport();
     void UpdateCameraOrbit();
     void OnCameraSpeedChange(double speed);
