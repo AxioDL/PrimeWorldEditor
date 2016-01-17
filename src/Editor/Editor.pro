@@ -129,7 +129,8 @@ HEADERS += \
     Undo/CSelectAllCommand.h \
     Undo/CInvertSelectionCommand.h \
     WorldEditor/CPoiMapEditDialog.h \
-    WorldEditor/CPoiMapModel.h
+    WorldEditor/CPoiMapModel.h \
+    WorldEditor/CPoiListDialog.h
 
 # Source Files
 SOURCES += \

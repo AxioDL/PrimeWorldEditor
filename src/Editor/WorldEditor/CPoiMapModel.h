@@ -31,6 +31,7 @@ public:
     void AddMapping(const QModelIndex& rkIndex, CModelNode *pNode);
     void RemovePOI(const QModelIndex& rkIndex);
     void RemoveMapping(const QModelIndex& rkIndex, CModelNode *pNode);
+    bool IsPoiTracked(CScriptNode *pPOI) const;
     bool IsModelMapped(const QModelIndex& rkIndex, CModelNode *pNode) const;
 
     CScriptNode* PoiNodePointer(const QModelIndex& rkIndex) const;

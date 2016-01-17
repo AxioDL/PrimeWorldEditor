@@ -1,9 +1,11 @@
 #ifndef CPOIMAPEDITDIALOG_H
 #define CPOIMAPEDITDIALOG_H
 
-#include <QMainWindow>
 #include "CPoiMapModel.h"
+#include "CPoiListDialog.h"
+
 #include <QItemSelection>
+#include <QMainWindow>
 #include <QSortFilterProxyModel>
 
 namespace Ui {
@@ -27,6 +29,7 @@ class CPoiMapEditDialog : public QMainWindow
     QSortFilterProxyModel mModel;
     EHighlightMode mHighlightMode;
 
+    // Viewport Picking
     enum EPickType
     {
         eNotPicking,
@@ -34,12 +37,6 @@ class CPoiMapEditDialog : public QMainWindow
         eRemoveMeshes,
         eAddPOIs
     } mPickType;
-
-    enum EPickTool
-    {
-        eNormalTool,
-        eSprayCanTool
-    } mPickTool;
 
     CModelNode *mpHoverModel;
 
@@ -67,13 +64,15 @@ public slots:
     void SetHighlightNone();
     void OnSelectionChanged(const QItemSelection& rkSelected, const QItemSelection& rkDeselected);
     void OnItemDoubleClick(QModelIndex Index);
-    void OnToolComboBoxChanged(int NewIndex);
     void OnUnmapAllPressed();
 
-    void PickButtonClicked();
+    void OnPickButtonClicked();
     void StopPicking();
-    void OnNodePicked(const SRayIntersection& rkIntersect, QMouseEvent *pEvent);
-    void OnNodeHover(const SRayIntersection& rkIntersect, QMouseEvent *pEvent);
+    void OnInstanceListButtonClicked();
+    void OnRemovePoiButtonClicked();
+    void OnPoiPicked(const SRayIntersection& rkIntersect, QMouseEvent *pEvent);
+    void OnModelPicked(const SRayIntersection& rkIntersect, QMouseEvent *pEvent);
+    void OnModelHover(const SRayIntersection& rkIntersect, QMouseEvent *pEvent);
 
 signals:
     void Closed();

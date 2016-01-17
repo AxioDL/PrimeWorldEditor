@@ -107,9 +107,14 @@ void CPoiMapModel::AddPOI(CScriptNode *pPOI)
 {
     if (!mModelMap.contains(pPOI))
     {
+        int NewIndex = mpPoiToWorld->NumMappedPOIs();
+        beginInsertRows(QModelIndex(), NewIndex, NewIndex);
+
         QList<CModelNode*> *pList = new QList<CModelNode*>;
         mModelMap[pPOI] = pList;
         mpPoiToWorld->AddPoi(pPOI->Object()->InstanceID());
+
+        endInsertRows();
     }
 }
 
@@ -127,6 +132,7 @@ void CPoiMapModel::AddMapping(const QModelIndex& rkIndex, CModelNode *pNode)
 
 void CPoiMapModel::RemovePOI(const QModelIndex& rkIndex)
 {
+    beginRemoveRows(QModelIndex(), rkIndex.row(), rkIndex.row());
     CScriptNode *pPOI = PoiNodePointer(rkIndex);
 
     if (mModelMap.contains(pPOI))
@@ -136,6 +142,7 @@ void CPoiMapModel::RemovePOI(const QModelIndex& rkIndex)
     }
 
     mpPoiToWorld->RemovePoi(pPOI->Object()->InstanceID());
+    endRemoveRows();
 }
 
 void CPoiMapModel::RemoveMapping(const QModelIndex& rkIndex, CModelNode *pNode)
@@ -150,6 +157,11 @@ void CPoiMapModel::RemoveMapping(const QModelIndex& rkIndex, CModelNode *pNode)
     }
     else
         mpPoiToWorld->RemovePoiMeshMap(pPOI->Object()->InstanceID(), pNode->FindMeshID());
+}
+
+bool CPoiMapModel::IsPoiTracked(CScriptNode *pPOI) const
+{
+    return mModelMap.contains(pPOI);
 }
 
 bool CPoiMapModel::IsModelMapped(const QModelIndex& rkIndex, CModelNode *pNode) const
