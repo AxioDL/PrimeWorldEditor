@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>274</width>
-    <height>308</height>
+    <width>263</width>
+    <height>306</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,11 +16,11 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout">
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
-       <widget class="QPushButton" name="AddMeshButton">
+       <widget class="QPushButton" name="MapMeshesButton">
         <property name="text">
-         <string/>
+         <string>Map</string>
         </property>
         <property name="icon">
          <iconset resource="../Icons.qrc">
@@ -32,9 +32,9 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="RemoveMeshButton">
+       <widget class="QPushButton" name="UnmapMeshesButton">
         <property name="text">
-         <string/>
+         <string>Unmap</string>
         </property>
         <property name="icon">
          <iconset resource="../Icons.qrc">
@@ -52,26 +52,10 @@
         </property>
        </widget>
       </item>
-      <item>
-       <widget class="QComboBox" name="ToolComboBox">
-        <property name="minimumSize">
-         <size>
-          <width>85</width>
-          <height>0</height>
-         </size>
-        </property>
-        <item>
-         <property name="text">
-          <string>Normal Tool</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Spray Can</string>
-         </property>
-        </item>
-       </widget>
-      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
        <spacer name="horizontalSpacer">
         <property name="orientation">
@@ -84,6 +68,51 @@
          </size>
         </property>
        </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="AddPoiFromViewportButton">
+        <property name="toolTip">
+         <string>Add from Viewport</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../Icons.qrc">
+          <normaloff>:/icons/SelectMode.png</normaloff>:/icons/SelectMode.png</iconset>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="AddPoiFromInstanceListButton">
+        <property name="toolTip">
+         <string>Add from Instance List</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../Icons.qrc">
+          <normaloff>:/icons/Instances.png</normaloff>:/icons/Instances.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="RemovePoiButton">
+        <property name="toolTip">
+         <string>Remove</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../Icons.qrc">
+          <normaloff>:/icons/Minus v2.png</normaloff>:/icons/Minus v2.png</iconset>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>
