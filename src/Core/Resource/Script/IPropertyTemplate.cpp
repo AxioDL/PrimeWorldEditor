@@ -16,10 +16,20 @@ bool IPropertyTemplate::IsInVersion(u32 Version) const
 
 TIDString IPropertyTemplate::IDString(bool FullPath) const
 {
-    TIDString out;
-    if (mpParent && FullPath) out = mpParent->IDString(true) + ":";
-    out += TIDString::HexString(mID, true, true, 8);
-    return out;
+    if (mID != 0xFFFFFFFF)
+    {
+        TIDString out;
+
+        if (mpParent && FullPath)
+        {
+            out = mpParent->IDString(true);
+            if (!out.IsEmpty()) out += ":";
+        }
+
+        out += TIDString::HexString(mID, true, true, 8);
+        return out;
+    }
+    else return "";
 }
 
 CStructTemplate* IPropertyTemplate::RootStruct()

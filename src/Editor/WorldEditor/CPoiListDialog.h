@@ -111,7 +111,7 @@ public:
         mpListView->setSelectionMode(QListView::ExtendedSelection);
         mpListView->setVerticalScrollMode(QListView::ScrollPerPixel);
 
-        connect(mpListView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnDoubleClickItem(QModelIndex)));
+        connect(mpListView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnOkClicked()));
         connect(mpButtonBox, SIGNAL(accepted()), this, SLOT(OnOkClicked()));
         connect(mpButtonBox, SIGNAL(rejected()), this, SLOT(OnCancelClicked()));
     }
@@ -122,14 +122,6 @@ public:
     }
 
 public slots:
-    void OnDoubleClickItem(QModelIndex Index)
-    {
-        QModelIndex SourceIndex = mModel.mapToSource(Index);
-        mSelection.clear();
-        mSelection << mSourceModel.PoiForIndex(SourceIndex);
-        close();
-    }
-
     void OnOkClicked()
     {
         QModelIndexList SelectedIndices = mpListView->selectionModel()->selectedRows();

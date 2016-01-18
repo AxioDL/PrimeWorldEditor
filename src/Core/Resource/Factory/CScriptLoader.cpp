@@ -167,7 +167,12 @@ void CScriptLoader::LoadStructMP1(IInputStream& SCLY, CPropertyStruct *pStruct, 
         Version = pTemp->VersionForPropertyCount(FilePropCount);
 
         if (Version == -1)
-            Log::FileWarning(SCLY.GetSourceString(), StructStart, "Struct \"" + pTemp->Name() + "\" template prop count doesn't match file");
+        {
+            TIDString IDString = pTemp->IDString(true);
+            if (!IDString.IsEmpty()) IDString = " (" + IDString + ")";
+
+            Log::FileWarning(SCLY.GetSourceString(), StructStart, "Struct \"" + pTemp->Name() + "\"" + IDString + " template prop count doesn't match file");
+        }
     }
 
     // Parse properties
@@ -260,8 +265,13 @@ void CScriptLoader::LoadStructMP2(IInputStream& SCLY, CPropertyStruct *pStruct, 
         u16 NumProperties = SCLY.ReadShort();
         Version = pTemp->VersionForPropertyCount(NumProperties);
 
-        //if ((NumProperties != PropCount) && (mVersion < eReturns))
-        //   Log::FileWarning(SCLY.GetSourceString(), SCLY.Tell() - 2, "Struct \"" + pTemp->Name() + "\" template property count doesn't match file");
+        if ((NumProperties != PropCount) && (mVersion < eReturns))
+        {
+            TIDString IDString = pTemp->IDString(true);
+            if (!IDString.IsEmpty()) IDString = " (" + IDString + ")";
+
+            Log::FileWarning(SCLY.GetSourceString(), StructStart, "Struct \"" + pTemp->Name() + "\"" + IDString + " template prop count doesn't match file");
+        }
 
         PropCount = NumProperties;
     }
