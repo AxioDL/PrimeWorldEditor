@@ -9,9 +9,9 @@
         <property ID="0x2E686C2A" type="vector3f">
             <default>0.0, 0.0, 0.0</default>
         </property>
-        <property ID="0xA02EF0C4" type="long">
+        <enum ID="0xA02EF0C4" template="Enums/Item.xml">
             <default>0</default>
-        </property>
+        </enum>
         <property ID="0x28C71B54" type="long">
             <default>1</default>
         </property>

@@ -12,6 +12,7 @@ WDraggableSpinBox::WDraggableSpinBox(QWidget *parent) : QDoubleSpinBox(parent)
     mTrimTrailingZeroes = true;
     setMinimum(-1000000.0);
     setMaximum(1000000.0);
+    setDecimals(6);
     lineEdit()->installEventFilter(this);
 }
 

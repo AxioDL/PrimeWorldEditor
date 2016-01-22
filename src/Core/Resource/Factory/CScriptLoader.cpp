@@ -138,7 +138,7 @@ void CScriptLoader::ReadProperty(IProperty *pProp, u32 Size, IInputStream& SCLY)
     }
 
     case eCharacterProperty: {
-        TAnimParamsProperty *pAnimCast = static_cast<TAnimParamsProperty*>(pProp);
+        TCharacterProperty *pAnimCast = static_cast<TCharacterProperty*>(pProp);
         pAnimCast->Set(CAnimationParameters(SCLY, mVersion));
         break;
     }

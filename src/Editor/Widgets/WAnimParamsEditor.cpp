@@ -120,7 +120,7 @@ void WAnimParamsEditor::SetupUI()
     mpSelector = new WResourceSelector(this);
     mpSelector->SetAllowedExtensions(mParams.Version() <= eEchoes ? "ANCS" : "CHAR");
     mpSelector->AdjustPreviewToParent(true);
-    mpSelector->SetResource(mParams.Resource());
+    mpSelector->SetResource(mParams.AnimSet());
 
     mpValueLayouts[0] = new QHBoxLayout(this);
     mpValueLayouts[0]->addWidget(mpLabels[0], 0);
@@ -136,7 +136,7 @@ void WAnimParamsEditor::SetupUI()
     {
         // Create character select combo box
         mpCharComboBox = new QComboBox(this);
-        CAnimSet *pSet = static_cast<CAnimSet*>(mParams.Resource());
+        CAnimSet *pSet = static_cast<CAnimSet*>(mParams.AnimSet());
 
         if (pSet)
             for (u32 iChar = 0; iChar < pSet->getNodeCount(); iChar++)

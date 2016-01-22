@@ -98,7 +98,6 @@ HEADERS += \
     Widgets/WColorPicker.h \
     Widgets/WDraggableSpinBox.h \
     Widgets/WIntegralSpinBox.h \
-    Widgets/WPropertyEditor.h \
     Widgets/WResourceSelector.h \
     Widgets/WRollout.h \
     Widgets/WScanPreviewPanel.h \
@@ -130,7 +129,11 @@ HEADERS += \
     Undo/CInvertSelectionCommand.h \
     WorldEditor/CPoiMapEditDialog.h \
     WorldEditor/CPoiMapModel.h \
-    WorldEditor/CPoiListDialog.h
+    WorldEditor/CPoiListDialog.h \
+    PropertyEdit/CPropertyModel.h \
+    PropertyEdit/CPropertyDelegate.h \
+    PropertyEdit/CPropertyView.h \
+    PropertyEdit/CPropertyRelay.h
 
 # Source Files
 SOURCES += \
@@ -148,7 +151,6 @@ SOURCES += \
     Widgets/WColorPicker.cpp \
     Widgets/WDraggableSpinBox.cpp \
     Widgets/WIntegralSpinBox.cpp \
-    Widgets/WPropertyEditor.cpp \
     Widgets/WResourceSelector.cpp \
     Widgets/WRollout.cpp \
     Widgets/WScanPreviewPanel.cpp \
@@ -180,7 +182,10 @@ SOURCES += \
     Undo/CSelectAllCommand.cpp \
     Undo/CInvertSelectionCommand.cpp \
     WorldEditor/CPoiMapEditDialog.cpp \
-    WorldEditor/CPoiMapModel.cpp
+    WorldEditor/CPoiMapModel.cpp \
+    PropertyEdit/CPropertyModel.cpp \
+    PropertyEdit/CPropertyDelegate.cpp \
+    PropertyEdit/CPropertyView.cpp
 
 # UI Files
 FORMS += \

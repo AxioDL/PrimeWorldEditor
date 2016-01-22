@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<enum name="Item">
+	<enumerators>
+		<enumerator ID="0x0" name="Power Beam" />
+		<enumerator ID="0x1" name="Dark Beam" />
+		<enumerator ID="0x2" name="Light Beam" />
+		<enumerator ID="0x3" name="Annihilator Beam" />
+		<enumerator ID="0x4" name="Super Missile" />
+		<enumerator ID="0x5" name="Darkburst" />
+		<enumerator ID="0x6" name="Sunburst" />
+		<enumerator ID="0x7" name="Sonic Boom" />
+		<enumerator ID="0x8" name="Combat Visor" />
+		<enumerator ID="0x9" name="Scan Visor" />
+		<enumerator ID="0xA" name="Dark Visor" />
+		<enumerator ID="0xB" name="Echo Visor" />
+		<enumerator ID="0xC" name="Varia Suit" />
+		<enumerator ID="0xD" name="Dark Suit" />
+		<enumerator ID="0xE" name="Light Suit" />
+		<enumerator ID="0xF" name="Morph Ball" />
+		<enumerator ID="0x10" name="Boost Ball" />
+		<enumerator ID="0x11" name="Spider Ball" />
+		<enumerator ID="0x12" name="Morph Ball Bomb" />
+		<enumerator ID="0x13" name="" />
+		<enumerator ID="0x14" name="" />
+		<enumerator ID="0x15" name="" />
+		<enumerator ID="0x16" name="Charge Beam" />
+		<enumerator ID="0x17" name="Grapple Beam" />
+		<enumerator ID="0x18" name="Space Jump Boots" />
+		<enumerator ID="0x19" name="Gravity Boost" />
+		<enumerator ID="0x1A" name="Seeker Launcher" />
+		<enumerator ID="0x1B" name="Screw Attack" />
+		<enumerator ID="0x1C" name="Energy Transfer Module (Pickup)" />
+		<enumerator ID="0x1D" name="Sky Temple Key 1" />
+		<enumerator ID="0x1E" name="Sky Temple Key 2" />
+		<enumerator ID="0x1F" name="Sky Temple Key 3" />
+		<enumerator ID="0x20" name="Dark Agon Key 1" />
+		<enumerator ID="0x21" name="Dark Agon Key 2" />
+		<enumerator ID="0x22" name="Dark Agon Key 3" />
+		<enumerator ID="0x23" name="Dark Torvus Key 1" />
+		<enumerator ID="0x24" name="Dark Torvus Key 2" />
+		<enumerator ID="0x25" name="Dark Torvus Key 3" />
+		<enumerator ID="0x26" name="Ing Hive Key 1" />
+		<enumerator ID="0x27" name="Ing Hive Key 2" />
+		<enumerator ID="0x28" name="Ing Hive Key 3" />
+		<enumerator ID="0x29" name="Health Refill" />
+		<enumerator ID="0x2A" name="Energy Tank" />
+		<enumerator ID="0x2B" name="Power Bomb" />
+		<enumerator ID="0x2C" name="Missile" />
+		<enumerator ID="0x2D" name="Dark Ammo" />
+		<enumerator ID="0x2E" name="Light Ammo" />
+		<enumerator ID="0x2F" name="Item Percentage" />
+		<enumerator ID="0x30" name="NumPlayersJoined" />
+		<enumerator ID="0x31" name="NumPlayersInOptionsMenu" />
+		<enumerator ID="0x32" name="" />
+		<enumerator ID="0x33" name="" />
+		<enumerator ID="0x34" name="Switch Weapon Power" />
+		<enumerator ID="0x35" name="Switch Weapon Dark" />
+		<enumerator ID="0x36" name="Switch Weapon Light" />
+		<enumerator ID="0x37" name="Switch Weapon Annihilator" />
+		<enumerator ID="0x38" name="" />
+		<enumerator ID="0x39" name="Invisibility" />
+		<enumerator ID="0x3A" name="AmpDamage" />
+		<enumerator ID="0x3B" name="Invincibility" />
+		<enumerator ID="0x3C" name="" />
+		<enumerator ID="0x3D" name="" />
+		<enumerator ID="0x3E" name="" />
+		<enumerator ID="0x3F" name="" />
+		<enumerator ID="0x40" name="" />
+		<enumerator ID="0x41" name="" />
+		<enumerator ID="0x42" name="" />
+		<enumerator ID="0x43" name="" />
+		<enumerator ID="0x44" name="" />
+		<enumerator ID="0x45" name="" />
+		<enumerator ID="0x46" name="" />
+		<enumerator ID="0x47" name="" />
+		<enumerator ID="0x48" name="" />
+		<enumerator ID="0x49" name="" />
+		<enumerator ID="0x4A" name="" />
+		<enumerator ID="0x4B" name="" />
+		<enumerator ID="0x4C" name="" />
+		<enumerator ID="0x4D" name="" />
+		<enumerator ID="0x4E" name="" />
+		<enumerator ID="0x4F" name="" />
+		<enumerator ID="0x50" name="Coin" />
+		<enumerator ID="0x51" name="Unlimited Missiles" />
+		<enumerator ID="0x52" name="Unlimited Beam Ammo" />
+		<enumerator ID="0x53" name="Dark Shield" />
+		<enumerator ID="0x54" name="Light Shield" />
+		<enumerator ID="0x55" name="Absorb Attack" />
+		<enumerator ID="0x56" name="Death Ball" />
+		<enumerator ID="0x57" name="Scan Virus" />
+		<enumerator ID="0x58" name="" />
+		<enumerator ID="0x59" name="(Disable Beams/Beam Ammo?)" />
+		<enumerator ID="0x5A" name="(Disable Missiles?)" />
+		<enumerator ID="0x5B" name="(Disable Unmorph/Remove Morph Ball?)" />
+		<enumerator ID="0x5C" name="Disable Ball" />
+		<enumerator ID="0x5D" name="(Remove Space Jump?)" />
+		<enumerator ID="0x5E" name="" />
+		<enumerator ID="0x5F" name="Hacked Effect" />
+		<enumerator ID="0x60" name="CannonBall" />
+		<enumerator ID="0x61" name="Violet Translator" />
+		<enumerator ID="0x62" name="Amber Translator" />
+		<enumerator ID="0x63" name="Emerald Translator" />
+		<enumerator ID="0x64" name="Cobalt Translator" />
+		<enumerator ID="0x65" name="Sky Temple Key 4" />
+		<enumerator ID="0x66" name="Sky Temple Key 5" />
+		<enumerator ID="0x67" name="Sky Temple Key 6" />
+		<enumerator ID="0x68" name="Sky Temple Key 7" />
+		<enumerator ID="0x69" name="Sky Temple Key 8" />
+		<enumerator ID="0x6A" name="Sky Temple Key 9" />
+		<enumerator ID="0x6B" name="Energy Transfer Module (Inventory)" />
+		<enumerator ID="0x6C" name="Charge Combo" />
+	</enumerators>
+</enum>

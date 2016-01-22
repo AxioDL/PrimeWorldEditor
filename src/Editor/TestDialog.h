@@ -2,6 +2,7 @@
 #define TESTDIALOG_H
 
 #include <QDialog>
+#include "Editor/PropertyEdit/CPropertyModel.h"
 
 namespace Ui {
 class TestDialog;
@@ -10,6 +11,7 @@ class TestDialog;
 class TestDialog : public QDialog
 {
     Q_OBJECT
+    CPropertyModel *mpModel;
 
 public:
     explicit TestDialog(QWidget *parent = 0);

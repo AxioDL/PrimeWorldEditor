@@ -37,22 +37,15 @@ CWorldEditor::CWorldEditor(QWidget *parent) :
     connect(&mRefreshTimer, SIGNAL(timeout()), this, SLOT(RefreshViewport()));
     mRefreshTimer.start(0);
 
-    // Create blank title bar with some space to allow for dragging the dock
-    QWidget *pOldTitleBar = ui->MainDock->titleBarWidget();
-
-    QWidget *pNewTitleBar = new QWidget(ui->MainDock);
-    QVBoxLayout *pTitleLayout = new QVBoxLayout(pNewTitleBar);
-    pTitleLayout->setSpacing(10);
-    pNewTitleBar->setLayout(pTitleLayout);
-    ui->MainDock->setTitleBarWidget(pNewTitleBar);
-
-    delete pOldTitleBar;
+    // Initialize splitter
+    QList<int> SplitterSizes;
+    SplitterSizes << width() * 0.775 << width() * 0.225;
+    ui->splitter->setSizes(SplitterSizes);
 
     // Initialize UI stuff
     ui->MainViewport->SetScene(this, &mScene);
     ui->ModifyTabContents->SetEditor(this);
     ui->InstancesTabContents->SetEditor(this, &mScene);
-    ui->MainDock->installEventFilter(this);
     ui->TransformSpinBox->SetOrientation(Qt::Horizontal);
     ui->TransformSpinBox->layout()->setContentsMargins(0,0,0,0);
     ui->CamSpeedSpinBox->SetDefaultValue(1.0);
@@ -95,16 +88,8 @@ void CWorldEditor::closeEvent(QCloseEvent *)
         mpPoiDialog->close();
 }
 
-bool CWorldEditor::eventFilter(QObject *pObj, QEvent *pEvent)
+bool CWorldEditor::eventFilter(QObject * /*pObj*/, QEvent * /*pEvent*/)
 {
-    if (pObj == ui->MainDock)
-    {
-        if (pEvent->type() == QEvent::Resize)
-        {
-            UpdateSelectionUI();
-        }
-    }
-
     return false;
 }
 
@@ -114,7 +99,6 @@ void CWorldEditor::SetArea(CWorld *pWorld, CGameArea *pArea)
     ui->MainViewport->ResetHover();
     ClearSelection();
     ui->ModifyTabContents->ClearUI();
-    ui->ModifyTabContents->ClearCachedEditors();
     ui->InstancesTabContents->SetMaster(nullptr);
     ui->InstancesTabContents->SetArea(pArea);
     mUndoStack.clear();

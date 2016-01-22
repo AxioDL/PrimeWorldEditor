@@ -107,6 +107,11 @@ bool WResourceSelector::HasSupportedExtension(const CResourceInfo& rkRes)
 }
 
 // ************ GETTERS ************
+CResource* WResourceSelector::GetResource()
+{
+    return mResource.Load();
+}
+
 QString WResourceSelector::GetText()
 {
     return mUI.LineEdit->text();

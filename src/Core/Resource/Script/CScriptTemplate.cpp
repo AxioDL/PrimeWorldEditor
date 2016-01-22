@@ -233,7 +233,7 @@ CModel* CScriptTemplate::FindDisplayModel(CPropertyStruct *pProperties)
 
             else if (pProp->Type() == eCharacterProperty)
             {
-                TAnimParamsProperty *pParams = static_cast<TAnimParamsProperty*>(pProp);
+                TCharacterProperty *pParams = static_cast<TCharacterProperty*>(pProp);
                 pRes = pParams->Get().GetCurrentModel(it->ForceNodeIndex);
             }
         }
@@ -332,7 +332,7 @@ bool CScriptTemplate::HasInGameModel(CPropertyStruct *pProperties)
 
         else if (pProp->Type() == eCharacterProperty)
         {
-            TAnimParamsProperty *pParams = static_cast<TAnimParamsProperty*>(pProp);
+            TCharacterProperty *pParams = static_cast<TCharacterProperty*>(pProp);
             pRes = pParams->Get().GetCurrentModel(it->ForceNodeIndex);
         }
 
