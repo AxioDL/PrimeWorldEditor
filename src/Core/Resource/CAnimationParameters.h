@@ -1,15 +1,15 @@
 #ifndef CANIMATIONPARAMETERS_H
 #define CANIMATIONPARAMETERS_H
 
-#include "CResource.h"
-#include "TResPtr.h"
+#include "CAnimSet.h"
 #include "EGame.h"
+#include "TResPtr.h"
 #include "Core/Resource/Model/CModel.h"
 
 class CAnimationParameters
 {
     EGame mGame;
-    TResPtr<CResource> mpCharSet;
+    TResPtr<CAnimSet> mpCharSet;
 
     u32 mNodeIndex;
     u32 mUnknown1;
@@ -19,19 +19,20 @@ class CAnimationParameters
 
 public:
     CAnimationParameters();
-    CAnimationParameters(IInputStream& SCLY, EGame game);
-    CModel* GetCurrentModel(s32 nodeIndex = -1);
+    CAnimationParameters(IInputStream& SCLY, EGame Game);
+    CModel* GetCurrentModel(s32 NodeIndex = -1);
+    TString GetCurrentCharacterName(s32 NodeIndex = -1);
 
     // Getters
     EGame Version();
-    CResource* Resource();
+    CAnimSet* AnimSet();
     u32 CharacterIndex();
     u32 Unknown(u32 index);
 
     // Setters
     void SetResource(CResource *pRes);
-    void SetNodeIndex(u32 index);
-    void SetUnknown(u32 index, u32 value);
+    void SetNodeIndex(u32 Index);
+    void SetUnknown(u32 Index, u32 Value);
 };
 
 #endif // CANIMATIONPARAMETERS_H

@@ -15,9 +15,9 @@ CAnimationParameters::CAnimationParameters()
     mUnknown4 = 0;
 }
 
-CAnimationParameters::CAnimationParameters(IInputStream& SCLY, EGame game)
+CAnimationParameters::CAnimationParameters(IInputStream& SCLY, EGame Game)
 {
-    mGame = game;
+    mGame = Game;
     mpCharSet = nullptr;
     mNodeIndex = 0;
     mUnknown1 = 0;
@@ -25,28 +25,28 @@ CAnimationParameters::CAnimationParameters(IInputStream& SCLY, EGame game)
     mUnknown3 = 0;
     mUnknown4 = 0;
 
-    if (game <= eEchoes)
+    if (Game <= eEchoes)
     {
-        u32 animSetID = SCLY.ReadLong();
+        u32 AnimSetID = SCLY.ReadLong();
         mNodeIndex = SCLY.ReadLong();
         mUnknown1 = SCLY.ReadLong();
 
-        mpCharSet = gResCache.GetResource(animSetID, "ANCS");
+        mpCharSet = gResCache.GetResource(AnimSetID, "ANCS");
     }
 
-    else if (game <= eCorruption)
+    else if (Game <= eCorruption)
     {
-        u64 charID = SCLY.ReadLongLong();
+        u64 CharID = SCLY.ReadLongLong();
         mUnknown1 = SCLY.ReadLong();
 
-        mpCharSet = gResCache.GetResource(charID, "CHAR");
+        mpCharSet = gResCache.GetResource(CharID, "CHAR");
     }
 
-    else if (game == eReturns)
+    else if (Game == eReturns)
     {
         SCLY.Seek(-6, SEEK_CUR);
-        u32 offset = SCLY.Tell();
-        u32 propID = SCLY.ReadLong();
+        u32 Offset = SCLY.Tell();
+        u32 PropID = SCLY.ReadLong();
         SCLY.Seek(2, SEEK_CUR);
 
         mUnknown1 = (u32) SCLY.ReadByte();
@@ -64,21 +64,30 @@ CAnimationParameters::CAnimationParameters(IInputStream& SCLY, EGame game)
 
         else if (mUnknown1 != 0x80)
         {
-            Log::FileError(SCLY.GetSourceString(), offset,
-                           "Unexpected AnimationParameters byte: " + TString::HexString(mUnknown1, true, true, 2) + " (property " + TString::HexString(propID, true, true, 8) + ")");
+            Log::FileError(SCLY.GetSourceString(), Offset,
+                           "Unexpected AnimationParameters byte: " + TString::HexString(mUnknown1, true, true, 2) + " (property " + TString::HexString(PropID, true, true, 8) + ")");
         }
     }
 }
 
-CModel* CAnimationParameters::GetCurrentModel(s32 nodeIndex)
+CModel* CAnimationParameters::GetCurrentModel(s32 NodeIndex /*= -1*/)
 {
     if (!mpCharSet) return nullptr;
     if (mpCharSet->Type() != eAnimSet) return nullptr;
-    if (nodeIndex == -1) nodeIndex = mNodeIndex;
+    if (NodeIndex == -1) NodeIndex = mNodeIndex;
 
-    CAnimSet *pSet = static_cast<CAnimSet*>(mpCharSet.RawPointer());
-    if (pSet->getNodeCount() <= (u32) nodeIndex) return nullptr;
-    return pSet->getNodeModel(nodeIndex);
+    if (mpCharSet->getNodeCount() <= (u32) NodeIndex) return nullptr;
+    return mpCharSet->getNodeModel(NodeIndex);
+}
+
+TString CAnimationParameters::GetCurrentCharacterName(s32 NodeIndex /*= -1*/)
+{
+    if (!mpCharSet) return "";
+    if (mpCharSet->Type() != eAnimSet) return "";
+    if (NodeIndex == -1) NodeIndex = mNodeIndex;
+
+    if (mpCharSet->getNodeCount() <= (u32) NodeIndex) return "";
+    return mpCharSet->getNodeName((u32) NodeIndex);
 }
 
 // ************ GETTERS ************
@@ -87,7 +96,7 @@ EGame CAnimationParameters::Version()
     return mGame;
 }
 
-CResource* CAnimationParameters::Resource()
+CAnimSet* CAnimationParameters::AnimSet()
 {
     return mpCharSet;
 }
@@ -97,9 +106,9 @@ u32 CAnimationParameters::CharacterIndex()
     return mNodeIndex;
 }
 
-u32 CAnimationParameters::Unknown(u32 index)
+u32 CAnimationParameters::Unknown(u32 Index)
 {
-    switch (index)
+    switch (Index)
     {
     case 0: return mUnknown1;
     case 1: return mUnknown2;
@@ -121,18 +130,18 @@ void CAnimationParameters::SetResource(CResource *pRes)
         Log::Error("Resource with invalid type passed to CAnimationParameters: " + pRes->Source());
 }
 
-void CAnimationParameters::SetNodeIndex(u32 index)
+void CAnimationParameters::SetNodeIndex(u32 Index)
 {
-    mNodeIndex = index;
+    mNodeIndex = Index;
 }
 
-void CAnimationParameters::SetUnknown(u32 index, u32 value)
+void CAnimationParameters::SetUnknown(u32 Index, u32 Value)
 {
-    switch (index)
+    switch (Index)
     {
-    case 0: mUnknown1 = value;
-    case 1: mUnknown2 = value;
-    case 2: mUnknown3 = value;
-    case 3: mUnknown4 = value;
+    case 0: mUnknown1 = Value;
+    case 1: mUnknown2 = Value;
+    case 2: mUnknown3 = Value;
+    case 3: mUnknown4 = Value;
     }
 }

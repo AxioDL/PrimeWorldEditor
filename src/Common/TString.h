@@ -737,7 +737,7 @@ public:
         TString Out = std::to_string(value);
         int NumZeroes = Out.Size() - (Out.IndexOf(".") + 1);
 
-        while (Out.Back() == '\0' && NumZeroes > MinDecimals)
+        while (Out.Back() == '0' && NumZeroes > MinDecimals)
         {
             Out = Out.ChopBack(1);
             NumZeroes--;

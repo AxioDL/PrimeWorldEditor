@@ -66,9 +66,11 @@ public:
     {
         if (rkParamName == "should_cook")
         {
-            if (rkValue == "always")
+            TString lValue = rkValue.ToLower();
+
+            if (lValue == "always")
                 mCookPreference = eAlwaysCook;
-            else if (rkValue == "never")
+            else if (lValue == "never")
                 mCookPreference = eNeverCook;
             else
                 mCookPreference = eNoCookPreference;
@@ -78,7 +80,7 @@ public:
             mDescription = rkValue;
     }
 
-    virtual IProperty* InstantiateProperty() = 0;
+    virtual IProperty* InstantiateProperty(CPropertyStruct *pParent) = 0;
 
     inline TString Name() const
     {
@@ -152,14 +154,14 @@ public:
         IPropertyTemplate::SetParam(rkParamName, rkValue);
 
         if (rkParamName == "default")
-            mDefaultValue.FromString(rkValue);
+            mDefaultValue.FromString(rkValue.ToLower());
     }
 
-    virtual IProperty* InstantiateProperty()
+    virtual IProperty* InstantiateProperty(CPropertyStruct *pParent)
     {
         typedef TTypedProperty<PropType, PropTypeEnum, ValueClass> TPropertyType;
 
-        TPropertyType *pOut = new TPropertyType(this);
+        TPropertyType *pOut = new TPropertyType(this, pParent);
         pOut->Set(GetDefaultValue());
         return pOut;
     }
@@ -215,7 +217,7 @@ public:
 
         if (rkParamName == "range")
         {
-            TStringList Components = rkValue.Split(", ");
+            TStringList Components = rkValue.ToLower().Split(", ");
 
             if (Components.size() == 2)
             {
@@ -271,9 +273,9 @@ public:
     virtual bool CanHaveDefault() const { return false; }
     virtual bool IsNumerical() const    { return false; }
 
-    IProperty* InstantiateProperty()
+    IProperty* InstantiateProperty(CPropertyStruct *pParent)
     {
-        return new TFileProperty(this);
+        return new TFileProperty(this, pParent);
     }
 
     void SetAllowedExtensions(const TStringList& rkExtensions)
@@ -342,9 +344,9 @@ public:
     virtual bool CanHaveDefault() const { return true; }
     virtual bool IsNumerical()    const { return false; }
 
-    virtual IProperty* InstantiateProperty()
+    virtual IProperty* InstantiateProperty(CPropertyStruct *pParent)
     {
-        TEnumProperty *pEnum = new TEnumProperty(this);
+        TEnumProperty *pEnum = new TEnumProperty(this, pParent);
         u32 Index = EnumeratorIndex(GetDefaultValue());
         pEnum->Set(Index);
         return pEnum;
@@ -411,9 +413,9 @@ public:
     virtual bool CanHaveDefault() const { return true; }
     virtual bool IsNumerical()    const { return false; }
 
-    virtual IProperty* InstantiateProperty()
+    virtual IProperty* InstantiateProperty(CPropertyStruct *pParent)
     {
-        TBitfieldProperty *pBitfield = new TBitfieldProperty(this);
+        TBitfieldProperty *pBitfield = new TBitfieldProperty(this, pParent);
         pBitfield->Set(GetDefaultValue());
         return pBitfield;
     }
@@ -466,13 +468,13 @@ public:
     bool CanHaveDefault() const { return false; }
     bool IsNumerical()    const { return false; }
 
-    IProperty* InstantiateProperty()
+    IProperty* InstantiateProperty(CPropertyStruct *pParent)
     {
-        CPropertyStruct *pStruct = new CPropertyStruct(this);
+        CPropertyStruct *pStruct = new CPropertyStruct(this, pParent);
 
         for (u32 iSub = 0; iSub < mSubProperties.size(); iSub++)
         {
-            IProperty *pSubProp = mSubProperties[iSub]->InstantiateProperty();
+            IProperty *pSubProp = mSubProperties[iSub]->InstantiateProperty(pStruct);
             pStruct->AddSubProperty(pSubProp);
         }
 
@@ -516,14 +518,14 @@ public:
 
     EPropertyType Type() const { return eArrayProperty; }
 
-    IProperty* InstantiateProperty()
+    IProperty* InstantiateProperty(CPropertyStruct *pParent)
     {
-        return new CArrayProperty(this);
+        return new CArrayProperty(this, pParent);
     }
 
     CPropertyStruct* CreateSubStruct()
     {
-        return (CPropertyStruct*) CStructTemplate::InstantiateProperty();
+        return (CPropertyStruct*) CStructTemplate::InstantiateProperty(nullptr);
     }
 };
 

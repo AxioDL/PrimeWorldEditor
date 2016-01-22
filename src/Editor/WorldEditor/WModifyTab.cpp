@@ -12,7 +12,10 @@ WModifyTab::WModifyTab(QWidget *pParent) :
 {
     ui->setupUi(this);
 
-    mpCurPropEditor = nullptr;
+    int PropViewWidth = ui->PropertyView->width();
+    ui->PropertyView->header()->resizeSection(0, PropViewWidth * 0.3);
+    ui->PropertyView->header()->resizeSection(1, PropViewWidth * 0.3);
+    ui->PropertyView->header()->setSectionResizeMode(1, QHeaderView::Fixed);
 
     mpInLinkModel = new CLinkModel(this);
     mpInLinkModel->SetConnectionType(CLinkModel::eIncoming);
@@ -41,7 +44,6 @@ void WModifyTab::SetEditor(CWorldEditor *pEditor)
 
 void WModifyTab::GenerateUI(QList<CSceneNode*>& Selection)
 {
-    WPropertyEditor *pOldEditor = mpCurPropEditor;
     ClearUI();
 
     if (Selection.size() == 1)
@@ -54,39 +56,9 @@ void WModifyTab::GenerateUI(QList<CSceneNode*>& Selection)
             ui->ObjectsTabWidget->show();
             CScriptNode *pScriptNode = static_cast<CScriptNode*>(mpSelectedNode);
             CScriptObject *pObj = pScriptNode->Object();
-            CScriptTemplate *pTemplate = pObj->Template();
-            CPropertyStruct *pProperties = pObj->Properties();
 
-            // Check whether a cached UI for this object exists
-            auto it = mCachedPropEditors.find(pTemplate);
-
-            // Load precached UI
-            if (it != mCachedPropEditors.end())
-            {
-                mpCurPropEditor = *it;
-                mpCurPropEditor->SetProperty(pProperties);
-            }
-
-            // Generate new UI
-            else
-            {
-                mpCurPropEditor = new WPropertyEditor(ui->PropertiesScrollContents, pProperties);
-                mCachedPropEditors[pTemplate] = mpCurPropEditor;
-            }
-
-            ui->PropertiesScrollLayout->insertWidget(0, mpCurPropEditor);
-            mpCurPropEditor->show();
-
-            // Scroll back up to the top, but only if this is a new editor.
-            // (This is so clicking on multiple objects of the same type, or even
-            // the same object twice, won't cause you to lose your place.)
-            if (pOldEditor != mpCurPropEditor)
-            {
-                ui->PropertiesScrollArea->horizontalScrollBar()->setValue(0);
-                ui->PropertiesScrollArea->verticalScrollBar()->setValue(0);
-            }
-
-            // Set up connection table model
+            // Set up UI
+            ui->PropertyView->SetBaseStruct(pObj->Properties());
             mpInLinkModel->SetObject(pObj);
             mpOutLinkModel->SetObject(pObj);
         }
@@ -98,23 +70,9 @@ void WModifyTab::GenerateUI(QList<CSceneNode*>& Selection)
 
 void WModifyTab::ClearUI()
 {
-    if (mpCurPropEditor)
-    {
-        ui->PropertiesScrollLayout->removeWidget(mpCurPropEditor);
-        mpCurPropEditor->hide();
-        mpCurPropEditor = nullptr;
-    }
-
     ui->ObjectsTabWidget->hide();
+    ui->PropertyView->SetBaseStruct(nullptr);
     ui->LightGroupBox->hide();
-}
-
-void WModifyTab::ClearCachedEditors()
-{
-    foreach(WPropertyEditor *pEditor, mCachedPropEditors)
-        delete pEditor;
-
-    mCachedPropEditors.clear();
 }
 
 void WModifyTab::OnLinkTableDoubleClick(QModelIndex Index)
@@ -129,8 +87,6 @@ void WModifyTab::OnLinkTableDoubleClick(QModelIndex Index)
             Link = pNode->Object()->InLink(Index.row());
         else if (sender() == ui->OutLinksTableView)
             Link = pNode->Object()->OutLink(Index.row());
-        else
-            std::cout << "Error - OnLinkTableDoubleClick() activated by invalid sender\n";
 
         CScriptNode *pLinkedNode = pNode->Scene()->ScriptNodeByID(Link.ObjectID);
 

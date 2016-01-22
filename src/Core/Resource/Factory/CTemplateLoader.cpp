@@ -77,7 +77,7 @@ IPropertyTemplate* CTemplateLoader::LoadProperty(XMLElement *pElem, CStructTempl
     while (pParams)
     {
         TString ParamName = TString(pParams->Name()).ToLower();
-        TString ParamVal = TString(pParams->GetText()).ToLower();
+        TString ParamVal = TString(pParams->GetText());
 
         // Load versions
         if (ParamName == "versions")

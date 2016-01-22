@@ -12,7 +12,7 @@ CScriptObject::CScriptObject(CGameArea *pArea, CScriptLayer *pLayer, CScriptTemp
     , mHasInGameModel(false)
 {
     mpTemplate->AddObject(this);
-    mpProperties = (CPropertyStruct*) pTemplate->BaseStruct()->InstantiateProperty();
+    mpProperties = (CPropertyStruct*) pTemplate->BaseStruct()->InstantiateProperty(nullptr);
 }
 
 CScriptObject::~CScriptObject()

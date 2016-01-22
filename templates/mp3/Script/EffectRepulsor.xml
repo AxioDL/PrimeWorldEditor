@@ -3,7 +3,7 @@
     <name>EffectRepulsor</name>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <enum ID="0xA169D424" template="Enums/InventorySlot.xml">
+        <enum ID="0xA169D424" template="Enums/Item.xml">
             <default>0xFB73F2B8</default>
         </enum>
         <property ID="0xB68C6D96" type="file" extensions="PART"/>

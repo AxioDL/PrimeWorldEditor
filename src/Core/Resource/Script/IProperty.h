@@ -25,16 +25,29 @@ typedef TString TIDString;
 class IProperty
 {
     friend class CScriptLoader;
-protected:
-    IPropertyTemplate *mpTemplate;
-public:
-    IProperty(IPropertyTemplate *pTemp) : mpTemplate(pTemp) {}
-    virtual ~IProperty() {}
-    virtual EPropertyType Type() = 0;
 
-    IPropertyTemplate* Template();
-    TString Name();
-    u32 ID();
+protected:
+    class CPropertyStruct *mpParent;
+    IPropertyTemplate *mpTemplate;
+
+public:
+    IProperty(IPropertyTemplate *pTemp, CPropertyStruct *pParent)
+        : mpParent(pParent)
+        , mpTemplate(pTemp)
+    {
+    }
+
+    virtual ~IProperty() {}
+    virtual EPropertyType Type() const = 0;
+    virtual TString ToString() const { return ""; }
+
+    inline CPropertyStruct* Parent() const { return mpParent; }
+
+    // These functions can't be in the header to avoid circular includes with IPropertyTemplate.h
+    IPropertyTemplate* Template() const;
+    TString Name() const;
+    u32 ID() const;
+    TIDString IDString(bool FullPath) const;
 };
 
 /*
@@ -46,15 +59,17 @@ class TTypedProperty : public IProperty
     friend class CScriptLoader;
     ValueClass mValue;
 public:
-    TTypedProperty(IPropertyTemplate *pTemp)
-        : IProperty(pTemp) {}
+    TTypedProperty(IPropertyTemplate *pTemp, CPropertyStruct *pParent)
+        : IProperty(pTemp, pParent) {}
 
     TTypedProperty(IPropertyTemplate *pTemp, PropType v)
         : IProperty(pTemp), mValue(v) {}
 
     ~TTypedProperty() {}
-    inline EPropertyType Type() { return TypeEnum; }
-    inline PropType Get() { return mValue.Get(); }
+    virtual EPropertyType Type() const { return TypeEnum; }
+    virtual TString ToString() const { return mValue.ToString(); }
+
+    inline PropType Get() const { return mValue.Get(); }
     inline void Set(PropType v) { mValue.Set(v); }
 };
 typedef TTypedProperty<bool, eBoolProperty, CBoolValue>                             TBoolProperty;
@@ -68,7 +83,7 @@ typedef TTypedProperty<TString, eStringProperty, CStringValue>                  
 typedef TTypedProperty<CVector3f, eVector3Property, CVector3Value>                  TVector3Property;
 typedef TTypedProperty<CColor, eColorProperty, CColorValue>                         TColorProperty;
 typedef TTypedProperty<CResourceInfo, eFileProperty, CFileValue>                    TFileProperty;
-typedef TTypedProperty<CAnimationParameters, eCharacterProperty, CCharacterValue>   TAnimParamsProperty;
+typedef TTypedProperty<CAnimationParameters, eCharacterProperty, CCharacterValue>   TCharacterProperty;
 typedef TTypedProperty<std::vector<u8>, eUnknownProperty, CUnknownValue>            TUnknownProperty;
 
 /*
@@ -79,25 +94,25 @@ class CPropertyStruct : public IProperty
     friend class CScriptLoader;
     std::vector<IProperty*> mProperties;
 public:
-    CPropertyStruct(IPropertyTemplate *pTemp)
-        : IProperty(pTemp) {}
+    CPropertyStruct(IPropertyTemplate *pTemp, CPropertyStruct *pParent)
+        : IProperty(pTemp, pParent) {}
 
     ~CPropertyStruct();
 
-    EPropertyType Type() { return eStructProperty; }
+    EPropertyType Type() const { return eStructProperty; }
 
     // Inline
-    inline u32 Count() { return mProperties.size(); }
+    inline u32 Count() const { return mProperties.size(); }
     inline void AddSubProperty(IProperty *pProp) { mProperties.push_back(pProp); }
     inline IProperty* operator[](u32 index) { return mProperties[index]; }
 
     // Functions
-    IProperty* PropertyByIndex(u32 index);
-    IProperty* PropertyByID(u32 ID);
-    IProperty* PropertyByIDString(const TIDString& rkStr);
-    CPropertyStruct* StructByIndex(u32 index);
-    CPropertyStruct* StructByID(u32 ID);
-    CPropertyStruct* StructByIDString(const TIDString& rkStr);
+    IProperty* PropertyByIndex(u32 index) const;
+    IProperty* PropertyByID(u32 ID) const;
+    IProperty* PropertyByIDString(const TIDString& rkStr) const;
+    CPropertyStruct* StructByIndex(u32 index) const;
+    CPropertyStruct* StructByID(u32 ID) const;
+    CPropertyStruct* StructByIDString(const TIDString& rkStr) const;
 };
 
 /*
@@ -109,20 +124,25 @@ class CArrayProperty : public IProperty
     std::vector<CPropertyStruct*> mSubStructs;
 
 public:
-    CArrayProperty(IPropertyTemplate *pTemp)
-        : IProperty(pTemp) {}
+    CArrayProperty(IPropertyTemplate *pTemp, CPropertyStruct *pParent)
+        : IProperty(pTemp, pParent) {}
 
-    EPropertyType Type() { return eArrayProperty; }
+    ~CArrayProperty() {
+        for (u32 iSub = 0; iSub < mSubStructs.size(); iSub++)
+            delete mSubStructs[iSub];
+    }
+
+    EPropertyType Type() const { return eArrayProperty; }
 
     // Inline
-    inline u32 Count() { return mSubStructs.size(); }
+    inline u32 Count() const { return mSubStructs.size(); }
     inline void Reserve(u32 amount) { mSubStructs.reserve(amount); }
     inline CPropertyStruct* ElementByIndex(u32 index) { return mSubStructs[index]; }
     inline CPropertyStruct* operator[](u32 index) { return ElementByIndex(index); }
 
     // Functions
     void Resize(u32 Size);
-    CStructTemplate* SubStructTemplate();
+    CStructTemplate* SubStructTemplate() const;
 };
 
 #endif // IPROPERTY

@@ -2,7 +2,6 @@
 #define WMODIFYTAB_H
 
 #include "CLinkModel.h"
-#include "Editor/Widgets/WPropertyEditor.h"
 #include <Core/Scene/CSceneNode.h>
 
 #include <QWidget>
@@ -24,8 +23,6 @@ class WModifyTab : public QWidget
     CWorldEditor *mpWorldEditor;
     CSceneNode *mpSelectedNode;
 
-    QMap<CScriptTemplate*, WPropertyEditor*> mCachedPropEditors;
-    WPropertyEditor *mpCurPropEditor;
     CLinkModel *mpInLinkModel;
     CLinkModel *mpOutLinkModel;
 
@@ -35,7 +32,6 @@ public:
     void SetEditor(CWorldEditor *pEditor);
     void GenerateUI(QList<CSceneNode*>& Selection);
     void ClearUI();
-    void ClearCachedEditors();
 
 private:
     Ui::WModifyTab *ui;

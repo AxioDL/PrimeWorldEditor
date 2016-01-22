@@ -2,19 +2,24 @@
 #include "IPropertyTemplate.h"
 
 // ************ IProperty ************
-IPropertyTemplate* IProperty::Template()
+IPropertyTemplate* IProperty::Template() const
 {
     return mpTemplate;
 }
 
-TString IProperty::Name()
+TString IProperty::Name() const
 {
     return mpTemplate->Name();
 }
 
-u32 IProperty::ID()
+u32 IProperty::ID() const
 {
     return mpTemplate->PropertyID();
+}
+
+TIDString IProperty::IDString(bool FullPath) const
+{
+    return mpTemplate->IDString(FullPath);
 }
 
 // ************ CPropertyStruct ************
@@ -24,12 +29,12 @@ CPropertyStruct::~CPropertyStruct()
         delete *it;
 }
 
-IProperty* CPropertyStruct::PropertyByIndex(u32 index)
+IProperty* CPropertyStruct::PropertyByIndex(u32 index) const
 {
     return mProperties[index];
 }
 
-IProperty* CPropertyStruct::PropertyByID(u32 ID)
+IProperty* CPropertyStruct::PropertyByID(u32 ID) const
 {
     for (auto it = mProperties.begin(); it != mProperties.end(); it++)
     {
@@ -39,7 +44,7 @@ IProperty* CPropertyStruct::PropertyByID(u32 ID)
     return nullptr;
 }
 
-IProperty* CPropertyStruct::PropertyByIDString(const TIDString& rkStr)
+IProperty* CPropertyStruct::PropertyByIDString(const TIDString& rkStr) const
 {
     // Resolve namespace
     u32 NSStart = rkStr.IndexOf(":");
@@ -68,7 +73,7 @@ IProperty* CPropertyStruct::PropertyByIDString(const TIDString& rkStr)
     }
 }
 
-CPropertyStruct* CPropertyStruct::StructByIndex(u32 index)
+CPropertyStruct* CPropertyStruct::StructByIndex(u32 index) const
 {
     IProperty *pProp = PropertyByIndex(index);
 
@@ -78,7 +83,7 @@ CPropertyStruct* CPropertyStruct::StructByIndex(u32 index)
         return nullptr;
 }
 
-CPropertyStruct* CPropertyStruct::StructByID(u32 ID)
+CPropertyStruct* CPropertyStruct::StructByID(u32 ID) const
 {
     IProperty *pProp = PropertyByID(ID);
 
@@ -88,7 +93,7 @@ CPropertyStruct* CPropertyStruct::StructByID(u32 ID)
         return nullptr;
 }
 
-CPropertyStruct* CPropertyStruct::StructByIDString(const TIDString& rkStr)
+CPropertyStruct* CPropertyStruct::StructByIDString(const TIDString& rkStr) const
 {
     IProperty *pProp = PropertyByIDString(rkStr);
 
@@ -119,8 +124,8 @@ void CArrayProperty::Resize(u32 Size)
     }
 }
 
-CStructTemplate* CArrayProperty::SubStructTemplate()
+CStructTemplate* CArrayProperty::SubStructTemplate() const
 {
-    // CArrayTemplate inherits from CStructTemplate. It defines the substruct structure.
+    // CArrayTemplate inherits from CStructTemplate. The template defines the substruct structure.
     return static_cast<CStructTemplate*>(Template());
 }
