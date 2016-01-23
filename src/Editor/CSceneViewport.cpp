@@ -311,7 +311,7 @@ void CSceneViewport::ContextMenu(QContextMenuEvent* pEvent)
     {
         CScriptNode *pScript = static_cast<CScriptNode*>(mpHoverNode);
         NodeName = pScript->Object()->InstanceName();
-        mpHideHoverTypeAction->setText( QString("Hide all %1 objects").arg(TO_QSTRING(pScript->Template()->TemplateName())) );
+        mpHideHoverTypeAction->setText( QString("Hide all %1 objects").arg(TO_QSTRING(pScript->Template()->Name())) );
         mpHideHoverLayerAction->setText( QString("Hide layer %1").arg(TO_QSTRING(pScript->Object()->Layer()->Name())) );
     }
 

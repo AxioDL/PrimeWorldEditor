@@ -55,7 +55,7 @@ QVariant CLinkModel::data(const QModelIndex &index, int role) const
             CScriptObject *pTargetObj = mpObject->Area()->GetInstanceByID(link.ObjectID);
 
             if (pTargetObj) {
-                QString ObjType = QString("[%1] ").arg(UICommon::ToQString(pTargetObj->Template()->TemplateName()));
+                QString ObjType = QString("[%1] ").arg(UICommon::ToQString(pTargetObj->Template()->Name()));
                 return ObjType + UICommon::ToQString(pTargetObj->InstanceName());
             }
             else {

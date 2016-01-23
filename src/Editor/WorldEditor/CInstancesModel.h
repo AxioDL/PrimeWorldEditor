@@ -9,7 +9,7 @@
 #include <QAbstractItemModel>
 #include <QList>
 
-class CTypesInstanceModel : public QAbstractItemModel
+class CInstancesModel : public QAbstractItemModel
 {
     Q_OBJECT
 
@@ -38,8 +38,8 @@ private:
     QStringList mBaseItems;
 
 public:
-    explicit CTypesInstanceModel(QObject *pParent = 0);
-    ~CTypesInstanceModel();
+    explicit CInstancesModel(QObject *pParent = 0);
+    ~CInstancesModel();
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
     QModelIndex parent(const QModelIndex &child) const;

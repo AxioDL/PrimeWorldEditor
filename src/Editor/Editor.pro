@@ -108,9 +108,7 @@ HEADERS += \
     WorldEditor/CAboutDialog.h \
     WorldEditor/CLayerEditor.h \
     WorldEditor/CLayerModel.h \
-    WorldEditor/CLayersInstanceModel.h \
     WorldEditor/CLinkModel.h \
-    WorldEditor/CTypesInstanceModel.h \
     WorldEditor/CWorldEditor.h \
     WorldEditor/WCreateTab.h \
     WorldEditor/WInstancesTab.h \
@@ -133,7 +131,9 @@ HEADERS += \
     PropertyEdit/CPropertyModel.h \
     PropertyEdit/CPropertyDelegate.h \
     PropertyEdit/CPropertyView.h \
-    PropertyEdit/CPropertyRelay.h
+    PropertyEdit/CPropertyRelay.h \
+    WorldEditor/CInstancesProxyModel.h \
+    WorldEditor/CInstancesModel.h
 
 # Source Files
 SOURCES += \
@@ -161,9 +161,7 @@ SOURCES += \
     WorldEditor/CAboutDialog.cpp \
     WorldEditor/CLayerEditor.cpp \
     WorldEditor/CLayerModel.cpp \
-    WorldEditor/CLayersInstanceModel.cpp \
     WorldEditor/CLinkModel.cpp \
-    WorldEditor/CTypesInstanceModel.cpp \
     WorldEditor/CWorldEditor.cpp \
     WorldEditor/WCreateTab.cpp \
     WorldEditor/WInstancesTab.cpp \
@@ -185,7 +183,8 @@ SOURCES += \
     WorldEditor/CPoiMapModel.cpp \
     PropertyEdit/CPropertyModel.cpp \
     PropertyEdit/CPropertyDelegate.cpp \
-    PropertyEdit/CPropertyView.cpp
+    PropertyEdit/CPropertyView.cpp \
+    WorldEditor/CInstancesModel.cpp
 
 # UI Files
 FORMS += \
