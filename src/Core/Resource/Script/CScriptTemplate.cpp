@@ -33,7 +33,7 @@ EGame CScriptTemplate::Game()
     return mpMaster->GetGame();
 }
 
-TString CScriptTemplate::TemplateName() const
+TString CScriptTemplate::Name() const
 {
     return mTemplateName;
 }
@@ -95,7 +95,7 @@ EVolumeShape CScriptTemplate::VolumeShape(CScriptObject *pObj)
 {
     if (pObj->Template() != this)
     {
-        Log::Error(pObj->Template()->TemplateName() + " instance somehow called VolumeShape() on " + TemplateName() + " template");
+        Log::Error(pObj->Template()->Name() + " instance somehow called VolumeShape() on " + Name() + " template");
         return eInvalidShape;
     }
 
@@ -112,7 +112,7 @@ float CScriptTemplate::VolumeScale(CScriptObject *pObj)
 {
     if (pObj->Template() != this)
     {
-        Log::Error(pObj->Template()->TemplateName() + " instance somehow called VolumeScale() on " + TemplateName() + " template");
+        Log::Error(pObj->Template()->Name() + " instance somehow called VolumeScale() on " + Name() + " template");
         return -1;
     }
 
@@ -169,7 +169,7 @@ s32 CScriptTemplate::CheckVolumeConditions(CScriptObject *pObj, bool LogErrors)
         }
 
         if (LogErrors)
-            Log::Error(pObj->Template()->TemplateName() + " instance " + TString::HexString(pObj->InstanceID(), true, true, 8) + " has unexpected volume shape value of " + TString::HexString((u32) v, true, true));
+            Log::Error(pObj->Template()->Name() + " instance " + TString::HexString(pObj->InstanceID(), true, true, 8) + " has unexpected volume shape value of " + TString::HexString((u32) v, true, true));
     }
 
     return -1;

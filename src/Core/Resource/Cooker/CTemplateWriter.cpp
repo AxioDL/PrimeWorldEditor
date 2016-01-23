@@ -195,7 +195,7 @@ void CTemplateWriter::SaveScriptTemplate(CScriptTemplate *pTemp, const TString& 
 
     // Write object name
     XMLElement *pName = ScriptXML.NewElement("name");
-    pName->SetText(*pTemp->TemplateName());
+    pName->SetText(*pTemp->Name());
     pRoot->LinkEndChild(pName);
 
     // Write properties

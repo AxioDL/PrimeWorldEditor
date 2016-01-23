@@ -33,7 +33,7 @@ CScriptNode::CScriptNode(CScene *pScene, CSceneNode *pParent, CScriptObject *pOb
         mScale = mpInstance->Scale();
         MarkTransformChanged();
 
-        SetName("[" + pTemp->TemplateName() + "] " + mpInstance->InstanceName());
+        SetName("[" + pTemp->Name() + "] " + mpInstance->InstanceName());
 
         // Determine display assets
         mpActiveModel = mpInstance->GetDisplayModel();

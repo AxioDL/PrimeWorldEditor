@@ -92,7 +92,7 @@ public:
 
     CMasterTemplate* MasterTemplate();
     EGame Game();
-    TString TemplateName() const;
+    TString Name() const;
     u32 NumPropertySets() const;
     ERotationType RotationType() const;
     EScaleType ScaleType() const;
