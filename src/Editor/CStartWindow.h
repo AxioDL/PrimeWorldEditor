@@ -38,9 +38,12 @@ private slots:
 
     void on_actionLaunch_model_viewer_triggered();
 
+    void on_actionExtract_PAK_triggered();
+
 private:
     void FillWorldUI();
     void FillAreaUI();
+    void ExtractPackage(const QString& rkPath, bool PopupOnComplete);
 };
 
 #endif // PWESTARTWINDOW_H
