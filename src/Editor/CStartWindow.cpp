@@ -9,6 +9,7 @@
 
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QProcess>
 
 CStartWindow::CStartWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -186,4 +187,51 @@ void CStartWindow::on_actionLaunch_model_viewer_triggered()
 {
     mpModelEditor->setWindowModality(Qt::ApplicationModal);
     mpModelEditor->show();
+}
+
+void CStartWindow::on_actionExtract_PAK_triggered()
+{
+    QString Pak = QFileDialog::getOpenFileName(this, "Select pak", "", "Package (*.pak)");
+
+    if (!Pak.isEmpty())
+        ExtractPackage(Pak, true);
+}
+
+void CStartWindow::ExtractPackage(const QString& rkPath, bool PopupOnComplete)
+{
+    // Not the ideal way to be handling this but it's the easiest and it'll be a good holdover until later
+    QProcess PakTool(this);
+
+    // Dump assets
+    QStringList PakToolArgs;
+    PakToolArgs << "-x" << rkPath;
+
+    QDialog Dialog;
+    QLayout *pLayout = new QVBoxLayout(&Dialog);
+    pLayout->addWidget(new QLabel("Extracting...", &Dialog));
+    Dialog.setWindowFlags(Qt::Window | Qt::WindowTitleHint);
+
+    connect(&PakTool, SIGNAL(finished(int)), &Dialog, SLOT(done(int)));
+    PakTool.start("PakTool.exe", PakToolArgs);
+    Dialog.exec();
+    int Result = PakTool.exitCode();
+
+    // Dump list
+    if (Result == 0)
+    {
+        PakToolArgs.clear();
+        PakToolArgs << "-d" << rkPath;
+        PakTool.start("PakTool.exe", PakToolArgs);
+        PakTool.waitForFinished();
+        Result = PakTool.exitCode();
+    }
+
+    // Results
+    if (PopupOnComplete)
+    {
+        if (Result == 0)
+            QMessageBox::information(this, "Success", "Extracted pak successfully!");
+        else
+            QMessageBox::warning(this, "Error", "Couldn't extract pak");
+    }
 }
