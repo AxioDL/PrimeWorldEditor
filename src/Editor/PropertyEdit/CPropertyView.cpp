@@ -1,6 +1,7 @@
 #include "CPropertyView.h"
 #include "CPropertyDelegate.h"
 #include <Core/Resource/Script/IPropertyTemplate.h>
+
 #include <QEvent>
 #include <QToolTip>
 
@@ -12,6 +13,9 @@ CPropertyView::CPropertyView(QWidget *pParent)
     setItemDelegateForColumn(1, mpDelegate);
     setEditTriggers(AllEditTriggers);
     setModel(mpModel);
+
+    connect(mpModel, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(SetPersistentEditors(QModelIndex)));
+    connect(this, SIGNAL(expanded(QModelIndex)), this, SLOT(SetPersistentEditors(QModelIndex)));
 }
 
 void CPropertyView::setModel(QAbstractItemModel *pModel)
@@ -104,7 +108,8 @@ void CPropertyView::SetPersistentEditors(const QModelIndex& rkParent)
             break;
         }
 
-        SetPersistentEditors(ChildIndex);
+        if (isExpanded(ChildIndex))
+            SetPersistentEditors(ChildIndex);
     }
 }
 

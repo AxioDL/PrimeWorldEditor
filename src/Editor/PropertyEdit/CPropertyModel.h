@@ -23,6 +23,7 @@ public:
     QModelIndex parent(const QModelIndex& rkChild) const;
     Qt::ItemFlags flags(const QModelIndex& rkIndex) const;
     void UpdateSubProperties(const QModelIndex& rkIndex);
+    void ResizeArray(const QModelIndex& rkIndex, u32 NewSize);
 };
 
 #endif // CPROPERTYMODEL_H

@@ -502,6 +502,7 @@ class CArrayTemplate : public CStructTemplate
 {
     friend class CTemplateLoader;
     friend class CTemplateWriter;
+    TString mElementName;
 
 public:
     CArrayTemplate(u32 ID, CStructTemplate *pParent = 0)
@@ -518,14 +519,25 @@ public:
 
     EPropertyType Type() const { return eArrayProperty; }
 
+    void SetParam(const TString& rkParamName, const TString& rkValue)
+    {
+        if (rkParamName == "element_name")
+            mElementName = rkValue;
+        else
+            CStructTemplate::SetParam(rkParamName, rkValue);
+    }
+
     IProperty* InstantiateProperty(CPropertyStruct *pParent)
     {
         return new CArrayProperty(this, pParent);
     }
 
-    CPropertyStruct* CreateSubStruct()
+    TString ElementName() const                { return mElementName; }
+    void SetElementName(const TString& rkName) { mElementName = rkName; }
+
+    CPropertyStruct* CreateSubStruct(CArrayProperty *pArray)
     {
-        return (CPropertyStruct*) CStructTemplate::InstantiateProperty(nullptr);
+        return (CPropertyStruct*) CStructTemplate::InstantiateProperty(pArray);
     }
 };
 

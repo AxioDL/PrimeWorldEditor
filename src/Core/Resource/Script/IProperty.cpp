@@ -23,12 +23,6 @@ TIDString IProperty::IDString(bool FullPath) const
 }
 
 // ************ CPropertyStruct ************
-CPropertyStruct::~CPropertyStruct()
-{
-    for (auto it = mProperties.begin(); it != mProperties.end(); it++)
-        delete *it;
-}
-
 IProperty* CPropertyStruct::PropertyByIndex(u32 index) const
 {
     return mProperties[index];
@@ -106,21 +100,21 @@ CPropertyStruct* CPropertyStruct::StructByIDString(const TIDString& rkStr) const
 // ************ CArrayProperty ************
 void CArrayProperty::Resize(u32 Size)
 {
-    u32 OldSize = mSubStructs.size();
+    u32 OldSize = mProperties.size();
     if (OldSize == Size) return;
 
     if (Size < OldSize)
     {
-        for (u32 i = mSubStructs.size() - 1; i >= Size; i--)
-            delete mSubStructs[i];
+        for (u32 i = mProperties.size() - 1; i >= Size; i--)
+            delete mProperties[i];
     }
 
-    mSubStructs.resize(Size);
+    mProperties.resize(Size);
 
     if (Size > OldSize)
     {
         for (u32 i = OldSize; i < Size; i++)
-            mSubStructs[i] = static_cast<CArrayTemplate*>(mpTemplate)->CreateSubStruct();
+            mProperties[i] = static_cast<CArrayTemplate*>(mpTemplate)->CreateSubStruct(this);
     }
 }
 
@@ -128,4 +122,9 @@ CStructTemplate* CArrayProperty::SubStructTemplate() const
 {
     // CArrayTemplate inherits from CStructTemplate. The template defines the substruct structure.
     return static_cast<CStructTemplate*>(Template());
+}
+
+TString CArrayProperty::ElementName() const
+{
+    return static_cast<CArrayTemplate*>(Template())->ElementName();
 }

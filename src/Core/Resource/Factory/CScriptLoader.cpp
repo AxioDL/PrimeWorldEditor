@@ -130,9 +130,9 @@ void CScriptLoader::ReadProperty(IProperty *pProp, u32 Size, IInputStream& SCLY)
         for (u32 iElem = 0; iElem < Size; iElem++)
         {
             if (mVersion < eEchoesDemo)
-                LoadStructMP1(SCLY, pArrayCast->ElementByIndex(iElem), pArrayCast->SubStructTemplate());
+                LoadStructMP1(SCLY, static_cast<CPropertyStruct*>(pArrayCast->PropertyByIndex(iElem)), pArrayCast->SubStructTemplate());
             else
-                LoadStructMP2(SCLY, pArrayCast->ElementByIndex(iElem), pArrayCast->SubStructTemplate());
+                LoadStructMP2(SCLY, static_cast<CPropertyStruct*>(pArrayCast->PropertyByIndex(iElem)), pArrayCast->SubStructTemplate());
         }
         break;
     }

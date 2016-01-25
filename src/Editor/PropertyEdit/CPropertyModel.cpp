@@ -43,13 +43,16 @@ int CPropertyModel::columnCount(const QModelIndex& /*rkParent*/) const
 int CPropertyModel::rowCount(const QModelIndex& rkParent) const
 {
     if (!mpBaseStruct) return 0;
+    if (!rkParent.isValid()) return mpBaseStruct->Count();
+    if (rkParent.column() != 0) return 0;
     if (rkParent.internalId() & 0x1) return 0;
+
     IProperty *pProp = PropertyForIndex(rkParent, false);
-    if (pProp == mpBaseStruct) return mpBaseStruct->Count();
 
     switch (pProp->Type())
     {
     case eStructProperty:
+    case eArrayProperty:
         return static_cast<CPropertyStruct*>(pProp)->Count();
 
     case eBitfieldProperty:
@@ -208,7 +211,30 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
             IProperty *pProp = PropertyForIndex(rkIndex, false);
 
             if (rkIndex.column() == 0)
+            {
+                // Check for arrays
+                IProperty *pParent = pProp->Parent();
+
+                if (pParent)
+                {
+                    // For direct array sub-properties, display the element name instead of the property name (the property name is the array name)
+                    if (pProp->Type() == eStructProperty && pParent->Type() == eArrayProperty)
+                    {
+                        TString ElementName = static_cast<CArrayProperty*>(pParent)->ElementName();
+                        return QString("%1 %2").arg(TO_QSTRING(ElementName)).arg(rkIndex.row() + 1);
+                    }
+
+                    // Check whether the parent struct is an array element with one sub-property
+                    if (pParent->Type() == eStructProperty && pParent->Parent() && pParent->Parent()->Type() == eArrayProperty)
+                    {
+                        if (static_cast<CPropertyStruct*>(pParent)->Count() == 1)
+                            return QString("%1 %2").arg(TO_QSTRING(pProp->Name())).arg(rkIndex.row() + 1);
+                    }
+                }
+
+                // Display property name for everything else
                 return TO_QSTRING(pProp->Name());
+            }
 
             if (rkIndex.column() == 1)
             {
@@ -231,6 +257,13 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                         return TO_QSTRING(pTemp->EnumeratorName(pEnum->Get()));
                     }
                     else return "";
+
+                // Display the element count for arrays
+                case eArrayProperty:
+                {
+                    u32 Count = static_cast<CArrayProperty*>(pProp)->Count();
+                    return QString("%1 element%2").arg(Count).arg(Count != 1 ? "s" : "");
+                }
 
                 // No display text on properties with persistent editors
                 case eBoolProperty:
@@ -273,12 +306,8 @@ QModelIndex CPropertyModel::index(int Row, int Column, const QModelIndex& rkPare
     if (!hasIndex(Row, Column, rkParent))
         return QModelIndex();
 
-    // Root index
-    if (!rkParent.isValid())
-        return createIndex(Row, Column, mpBaseStruct->PropertyByIndex(Row));
-
     // Check property for children
-    IProperty *pParent = PropertyForIndex(rkParent, false);
+    IProperty *pParent = (rkParent.isValid() ? PropertyForIndex(rkParent, false) : mpBaseStruct);
 
     // Struct
     if (pParent->Type() == eStructProperty)
@@ -287,9 +316,22 @@ QModelIndex CPropertyModel::index(int Row, int Column, const QModelIndex& rkPare
         return createIndex(Row, Column, pProp);
     }
 
+    // Array
+    if (pParent->Type() == eArrayProperty)
+    {
+        IProperty *pProp = static_cast<CArrayProperty*>(pParent)->PropertyByIndex(Row);
+
+        // If this array element only has one sub-property then let's just skip the redundant tree node and show the sub-property directly.
+        CPropertyStruct *pStruct = static_cast<CPropertyStruct*>(pProp);
+        if (pStruct->Count() == 1)
+            pProp = pStruct->PropertyByIndex(0);
+
+        return createIndex(Row, Column, pProp);
+    }
+
     // Other property
     if (pParent->Type() == eColorProperty || pParent->Type() == eVector3Property || pParent->Type() == eBitfieldProperty || pParent->Type() == eCharacterProperty)
-        return createIndex(Row, Column, rkParent.internalId() | 0x1);
+        return createIndex(Row, Column, u32(pParent) | 0x1);
 
     return QModelIndex();
 }
@@ -314,10 +356,22 @@ QModelIndex CPropertyModel::parent(const QModelIndex& rkChild) const
     // Iterate over grandfather properties until we find the row
     CPropertyStruct *pGrandparent = pParent->Parent();
 
+    // Check for array with one sub-property
+    if (pGrandparent->Type() == eArrayProperty)
+    {
+        CPropertyStruct *pStruct = static_cast<CPropertyStruct*>(pParent);
+
+        if (pStruct->Count() == 1)
+        {
+            pParent = pGrandparent;
+            pGrandparent = pGrandparent->Parent();
+        }
+    }
+
     for (u32 iProp = 0; iProp < pGrandparent->Count(); iProp++)
     {
         if (pGrandparent->PropertyByIndex(iProp) == pParent)
-            return createIndex(iProp, rkChild.column(), pParent);
+            return createIndex(iProp, 0, pParent);
     }
 
     return QModelIndex();
@@ -341,5 +395,32 @@ void CPropertyModel::UpdateSubProperties(const QModelIndex& rkIndex)
             emit dataChanged( index(0, 1, rkIndex), index(2, 1, rkIndex), Roles);
         else if (pProp->Type() == eColorProperty)
             emit dataChanged( index(0, 1, rkIndex), index(3, 1, rkIndex), Roles);
+    }
+}
+
+void CPropertyModel::ResizeArray(const QModelIndex& rkIndex, u32 NewSize)
+{
+    QModelIndex Index = index(rkIndex.row(), 0, rkIndex.parent());
+    CArrayProperty *pArray = static_cast<CArrayProperty*>(PropertyForIndex(rkIndex, false));
+
+    if (pArray && pArray->Type() == eArrayProperty)
+    {
+        u32 OldSize = pArray->Count();
+
+        if (OldSize != NewSize)
+        {
+            if (OldSize < NewSize)
+            {
+                beginInsertRows(Index, OldSize, NewSize - 1);
+                pArray->Resize(NewSize);
+                endInsertRows();
+            }
+            else
+            {
+                beginRemoveRows(Index, NewSize, OldSize - 1);
+                pArray->Resize(NewSize);
+                endRemoveRows();
+            }
+        }
     }
 }

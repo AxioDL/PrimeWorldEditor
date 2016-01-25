@@ -47,9 +47,22 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
             break;
 
         case eShortProperty:
-        case eLongProperty:
-            pOut = new WIntegralSpinBox(pParent);
+        {
+            WIntegralSpinBox *pSpinBox = new WIntegralSpinBox(pParent);
+            pSpinBox->setMinimum(INT16_MIN);
+            pSpinBox->setMaximum(INT16_MAX);
+            pOut = pSpinBox;
             break;
+        }
+
+        case eLongProperty:
+        {
+            WIntegralSpinBox *pSpinBox = new WIntegralSpinBox(pParent);
+            pSpinBox->setMinimum(INT32_MIN);
+            pSpinBox->setMaximum(INT32_MAX);
+            pOut = pSpinBox;
+            break;
+        }
 
         case eFloatProperty:
         {
@@ -90,6 +103,15 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
             CFileTemplate *pTemp = static_cast<CFileTemplate*>(pProp->Template());
             pSelector->SetAllowedExtensions(pTemp->Extensions());
             pOut = pSelector;
+            break;
+        }
+
+        case eArrayProperty:
+        {
+            WIntegralSpinBox *pSpinBox = new WIntegralSpinBox(pParent);
+            pSpinBox->setMinimum(0);
+            pSpinBox->setMaximum(999);
+            pOut = pSpinBox;
             break;
         }
 
@@ -222,6 +244,14 @@ void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkInd
                 break;
             }
 
+            case eArrayProperty:
+            {
+                WIntegralSpinBox *pSpinBox = static_cast<WIntegralSpinBox*>(pEditor);
+                CArrayProperty *pArray = static_cast<CArrayProperty*>(pProp);
+                pSpinBox->setValue(pArray->Count());
+                break;
+            }
+
             }
         }
 
@@ -349,6 +379,14 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
             QComboBox *pComboBox = static_cast<QComboBox*>(pEditor);
             TEnumProperty *pEnum = static_cast<TEnumProperty*>(pProp);
             pEnum->Set(pComboBox->currentIndex());
+            break;
+        }
+
+        case eArrayProperty:
+        {
+            WIntegralSpinBox *pSpinBox = static_cast<WIntegralSpinBox*>(pEditor);
+            u32 NewCount = pSpinBox->value();
+            mpModel->ResizeArray(rkIndex, NewCount);
             break;
         }
 
