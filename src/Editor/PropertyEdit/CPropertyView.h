@@ -17,7 +17,9 @@ public:
     void setModel(QAbstractItemModel *pModel);
     bool event(QEvent *pEvent);
     void SetBaseStruct(CPropertyStruct *pStruct);
-    void SetPersistentEditors(const QModelIndex& rkParent);
+
+public slots:
+    void SetPersistentEditors(const QModelIndex& rkIndex);
 };
 
 #endif // CPROPERTYVIEW_H

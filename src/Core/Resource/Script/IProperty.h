@@ -92,12 +92,16 @@ typedef TTypedProperty<std::vector<u8>, eUnknownProperty, CUnknownValue>        
 class CPropertyStruct : public IProperty
 {
     friend class CScriptLoader;
+protected:
     std::vector<IProperty*> mProperties;
 public:
     CPropertyStruct(IPropertyTemplate *pTemp, CPropertyStruct *pParent)
         : IProperty(pTemp, pParent) {}
 
-    ~CPropertyStruct();
+    ~CPropertyStruct() {
+        for (auto it = mProperties.begin(); it != mProperties.end(); it++)
+            delete *it;
+    }
 
     EPropertyType Type() const { return eStructProperty; }
 
@@ -118,31 +122,23 @@ public:
 /*
  * CArrayProperty stores a repeated property struct.
  */
-class CArrayProperty : public IProperty
+class CArrayProperty : public CPropertyStruct
 {
     friend class CScriptLoader;
-    std::vector<CPropertyStruct*> mSubStructs;
 
 public:
     CArrayProperty(IPropertyTemplate *pTemp, CPropertyStruct *pParent)
-        : IProperty(pTemp, pParent) {}
-
-    ~CArrayProperty() {
-        for (u32 iSub = 0; iSub < mSubStructs.size(); iSub++)
-            delete mSubStructs[iSub];
-    }
+        : CPropertyStruct(pTemp, pParent) {}
 
     EPropertyType Type() const { return eArrayProperty; }
 
     // Inline
-    inline u32 Count() const { return mSubStructs.size(); }
-    inline void Reserve(u32 amount) { mSubStructs.reserve(amount); }
-    inline CPropertyStruct* ElementByIndex(u32 index) { return mSubStructs[index]; }
-    inline CPropertyStruct* operator[](u32 index) { return ElementByIndex(index); }
+    inline void Reserve(u32 amount) { mProperties.reserve(amount); }
 
     // Functions
     void Resize(u32 Size);
     CStructTemplate* SubStructTemplate() const;
+    TString ElementName() const;
 };
 
 #endif // IPROPERTY
