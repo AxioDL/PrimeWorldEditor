@@ -5,8 +5,24 @@
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <array ID="0xEF5C94E9">
             <default>0</default>
-            <properties/>
-        </array>
+			<element_name>Connection</element_name>
+            <properties>
+				<property ID="0x00" name="Connection Index" type="short" />
+				<array ID="0x01" name="Activation Times">
+					<element_name>Activation Time</element_name>
+					<properties>
+						<property ID="0x00" name="Time" type="float" />
+						<property ID="0x01" name="Unknown 1" type="long">
+							<description>Always 0</description>
+						</property>
+						<property ID="0x02" name="Unknown 2" type="long"/>
+						<property ID="0x03" name="Unknown 3" type="long">
+							<description>Always 0</description>
+						</property>
+					</properties>
+				</array>
+            </properties>
+		</array>
         <property ID="0xB8BD2175" type="float">
             <default>0.0</default>
         </property>
