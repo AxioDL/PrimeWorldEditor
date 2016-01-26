@@ -12,7 +12,9 @@
             <property name="InstanceName" ID="0x00"/>
             <property name="Active" ID="0x02"/>
         </properties>
-        <assets/>
+        <assets>
+            <billboard source="file">script/common/PickupGenerator.txtr</billboard>
+        </assets>
         <rotation_type>disabled</rotation_type>
         <scale_type>disabled</scale_type>
     </editor>

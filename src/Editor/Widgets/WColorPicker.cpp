@@ -86,7 +86,10 @@ QColor WColorPicker::getColor()
 
 void WColorPicker::setColor(QColor Color)
 {
-    mColor = Color;
-    emit colorChanged(mColor);
-    update();
+    if (mColor != Color)
+    {
+        mColor = Color;
+        emit colorChanged(mColor);
+        update();
+    }
 }

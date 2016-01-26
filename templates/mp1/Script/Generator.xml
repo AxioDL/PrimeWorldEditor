@@ -15,8 +15,10 @@
         <properties>
             <property name="InstanceName" ID="0x00"/>
         </properties>
-        <assets/>
-        <rotation_type>disabled</rotation_type>
-        <scale_type>disabled</scale_type>
+        <assets>
+            <billboard source="file">script/common/Generator.txtr</billboard>
+        </assets>
+        <rotation_type>enabled</rotation_type>
+        <scale_type>enabled</scale_type>
     </editor>
 </ScriptTemplate>
