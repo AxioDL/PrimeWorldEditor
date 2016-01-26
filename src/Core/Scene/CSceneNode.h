@@ -74,6 +74,7 @@ public:
     void BuildLightList(CGameArea *pArea);
     void LoadLights(const SViewInfo& ViewInfo);
     void DrawBoundingBox() const;
+    void DrawRotationArrow() const;
     void AddSurfacesToRenderer(CRenderer *pRenderer, CModel *pModel, u32 MatSet, const SViewInfo& ViewInfo);
 
     // Transform

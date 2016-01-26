@@ -542,7 +542,7 @@ void CModelEditorWindow::UpdateMaterial(QColor Color)
     if (mIgnoreSignals) return;
 
     EModelEditorWidget Widget = (EModelEditorWidget) sender()->property("ModelEditorWidgetType").toInt();
-    CColor KColor((u8) Color.red(), (u8) Color.green(), (u8) Color.blue(), (u8) Color.alpha());
+    CColor KColor(Color.red() / 255.f, Color.green() / 255.f, Color.blue() / 255.f, Color.alpha() / 255.f);
 
     switch (Widget)
     {

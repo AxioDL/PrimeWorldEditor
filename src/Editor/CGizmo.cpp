@@ -569,21 +569,21 @@ void CGizmo::SetMode(EGizmoMode mode)
     {
     case eTranslate:
         mpCurrentParts = smTranslateModels;
-        mNumCurrentParts = 9;
+        mNumCurrentParts = CGIZMO_TRANSLATE_NUM;
         mDeltaRotation = CQuaternion::skIdentity;
         mDeltaScale = CVector3f::skOne;
         break;
 
     case eRotate:
         mpCurrentParts = smRotateModels;
-        mNumCurrentParts = 5;
+        mNumCurrentParts = CGIZMO_ROTATE_NUM;
         mDeltaTranslation = CVector3f::skZero;
         mDeltaScale = CVector3f::skOne;
         break;
 
     case eScale:
         mpCurrentParts = smScaleModels;
-        mNumCurrentParts = 10;
+        mNumCurrentParts = CGIZMO_SCALE_NUM;
         mDeltaTranslation = CVector3f::skZero;
         mDeltaRotation = CQuaternion::skIdentity;
         break;
@@ -730,6 +730,6 @@ void CGizmo::WrapCursor()
 
 // ************ STATIC MEMBER INITIALIZATION ************
 bool CGizmo::smModelsLoaded = false;
-CGizmo::SModelPart CGizmo::smTranslateModels[9];
-CGizmo::SModelPart CGizmo::smRotateModels[5];
-CGizmo::SModelPart CGizmo::smScaleModels[10];
+CGizmo::SModelPart CGizmo::smTranslateModels[CGIZMO_TRANSLATE_NUM];
+CGizmo::SModelPart CGizmo::smRotateModels[CGIZMO_ROTATE_NUM];
+CGizmo::SModelPart CGizmo::smScaleModels[CGIZMO_SCALE_NUM];

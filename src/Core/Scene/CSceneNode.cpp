@@ -3,6 +3,7 @@
 #include "Core/Render/CGraphics.h"
 #include "Core/Render/CDrawUtil.h"
 #include "Core/Resource/CGameArea.h"
+#include "Core/Resource/CResCache.h"
 #include <Common/AnimUtil.h>
 #include <Math/CTransform4f.h>
 
@@ -213,6 +214,12 @@ void CSceneNode::LoadLights(const SViewInfo& ViewInfo)
 void CSceneNode::DrawBoundingBox() const
 {
     CDrawUtil::DrawWireCube(AABox(), CColor::skWhite);
+}
+
+void CSceneNode::DrawRotationArrow() const
+{
+    static TResPtr<CModel> spArrowModel = gResCache.GetResource("../resources/RotationArrow.cmdl");
+    spArrowModel->Draw(eNoRenderOptions, 0);
 }
 
 void CSceneNode::AddSurfacesToRenderer(CRenderer *pRenderer, CModel *pModel, u32 MatSet, const SViewInfo& rkViewInfo)

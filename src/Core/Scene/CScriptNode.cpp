@@ -197,13 +197,26 @@ void CScriptNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewIn
 void CScriptNode::DrawSelection()
 {
     glBlendFunc(GL_ONE, GL_ZERO);
+    LoadModelMatrix();
 
-    // Draw wireframe for models; billboards only get tinted
+    // Draw wireframe for models
     if (UsesModel())
     {
-        LoadModelMatrix();
         CModel *pModel = (mpActiveModel ? mpActiveModel : CDrawUtil::GetCubeModel());
         pModel->DrawWireframe(eNoRenderOptions, WireframeColor());
+    }
+
+    // Draw rotation arrow for billboards
+    else
+    {
+        // Create model matrix that doesn't take scaling into account, and draw
+        CTransform4f Transform;
+        Transform.Rotate(AbsoluteRotation());
+        Transform.Translate(AbsolutePosition());
+        CGraphics::sMVPBlock.ModelMatrix = Transform.ToMatrix4f();
+        CGraphics::UpdateMVPBlock();
+
+        DrawRotationArrow();
     }
 
     if (mpInstance)
@@ -503,7 +516,7 @@ void CScriptNode::CalculateTransform(CTransform4f& rOut) const
         rOut.Scale(Scale * pTemp->PreviewScale());
     }
 
-    if (UsesModel() && pTemp->RotationType() == CScriptTemplate::eRotationEnabled)
+    if (pTemp->RotationType() == CScriptTemplate::eRotationEnabled)
         rOut.Rotate(AbsoluteRotation());
 
     rOut.Translate(AbsolutePosition());
