@@ -20,11 +20,13 @@
 #define CGIZMO_TRANSLATE_POLY_XY 6
 #define CGIZMO_TRANSLATE_POLY_XZ 7
 #define CGIZMO_TRANSLATE_POLY_YZ 8
+#define CGIZMO_TRANSLATE_NUM 9
 #define CGIZMO_ROTATE_OUTLINE 0
 #define CGIZMO_ROTATE_X 1
 #define CGIZMO_ROTATE_Y 2
 #define CGIZMO_ROTATE_Z 3
 #define CGIZMO_ROTATE_XYZ 4
+#define CGIZMO_ROTATE_NUM 5
 #define CGIZMO_SCALE_X 0
 #define CGIZMO_SCALE_Y 1
 #define CGIZMO_SCALE_Z 2
@@ -35,6 +37,7 @@
 #define CGIZMO_SCALE_POLY_XZ 7
 #define CGIZMO_SCALE_POLY_YZ 8
 #define CGIZMO_SCALE_XYZ 9
+#define CGIZMO_SCALE_NUM 10
 
 class CGizmo : public IRenderable
 {
@@ -116,9 +119,9 @@ private:
 
     // Static
     static bool smModelsLoaded;
-    static SModelPart smTranslateModels[9];
-    static SModelPart smRotateModels[5];
-    static SModelPart smScaleModels[10];
+    static SModelPart smTranslateModels[CGIZMO_TRANSLATE_NUM];
+    static SModelPart smRotateModels[CGIZMO_ROTATE_NUM];
+    static SModelPart smScaleModels[CGIZMO_SCALE_NUM];
 
 public:
     CGizmo();
