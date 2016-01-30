@@ -28,6 +28,7 @@ CScriptNode::CScriptNode(CScene *pScene, CSceneNode *pParent, CScriptObject *pOb
         CScriptTemplate *pTemp = Template();
 
         // Determine transform
+        mHasValidPosition = pTemp->HasPosition();
         mPosition = mpInstance->Position();
         mRotation = CQuaternion::FromEuler(mpInstance->Rotation());
         mScale = mpInstance->Scale();
@@ -41,36 +42,15 @@ CScriptNode::CScriptNode(CScene *pScene, CSceneNode *pParent, CScriptObject *pOb
         mpCollisionNode->SetCollision(mpInstance->GetCollision());
 
         // Create preview volume node
-        mHasValidPosition = pTemp->HasPosition();
+        mpVolumePreviewNode = new CModelNode(pScene, this, nullptr);
 
         if (pTemp->ScaleType() == CScriptTemplate::eScaleVolume)
         {
-            EVolumeShape shape = mpInstance->VolumeShape();
-            TResPtr<CModel> pVolumeModel = nullptr;
-
-            switch (shape)
-            {
-            case eAxisAlignedBoxShape:
-            case eBoxShape:
-                pVolumeModel = gResCache.GetResource("../resources/VolumeBox.cmdl");
-                break;
-
-            case eEllipsoidShape:
-                pVolumeModel = gResCache.GetResource("../resources/VolumeSphere.cmdl");
-                break;
-
-            case eCylinderShape:
-                pVolumeModel = gResCache.GetResource("../resources/VolumeCylinder.cmdl");
-                break;
-            }
-
-            mHasVolumePreview = (pVolumeModel != nullptr);
+            UpdatePreviewVolume();
 
             if (mHasVolumePreview)
             {
-                mpVolumePreviewNode = new CModelNode(pScene, this, pVolumeModel);
-                mpVolumePreviewNode->SetInheritance(true, (shape != eAxisAlignedBoxShape), true);
-                mpVolumePreviewNode->SetScale(mpInstance->VolumeScale());
+                mpVolumePreviewNode->SetInheritance(true, (mpInstance->VolumeShape() != eAxisAlignedBoxShape), true);
                 mpVolumePreviewNode->ForceAlphaEnabled(true);
             }
         }
@@ -393,6 +373,89 @@ CColor CScriptNode::TintColor(const SViewInfo &ViewInfo) const
     CColor BaseColor = CSceneNode::TintColor(ViewInfo);
     if (mpExtra) mpExtra->ModifyTintColor(BaseColor);
     return BaseColor;
+}
+
+void CScriptNode::PropertyModified(IProperty *pProp)
+{
+    // Update volume
+    if ( (pProp->Type() == eBoolProperty) || (pProp->Type() == eByteProperty) || (pProp->Type() == eShortProperty) ||
+         (pProp->Type() == eLongProperty) || (pProp->Type() == eEnumProperty) )
+    {
+        mpInstance->EvaluateVolume();
+        UpdatePreviewVolume();
+    }
+
+    // Update resources
+    if (pProp->Type() == eCharacterProperty)
+    {
+        mpInstance->EvaluateDisplayModel();
+        mpActiveModel = mpInstance->GetDisplayModel();
+    }
+    else if (pProp->Type() == eFileProperty)
+    {
+        CFileTemplate *pFile = static_cast<CFileTemplate*>(pProp->Template());
+
+        if (pFile->AcceptsExtension("CMDL") || pFile->AcceptsExtension("ANCS") || pFile->AcceptsExtension("CHAR"))
+        {
+            mpInstance->EvaluateDisplayModel();
+            mpActiveModel = mpInstance->GetDisplayModel();
+        }
+        else if (pFile->AcceptsExtension("TXTR"))
+        {
+            mpInstance->EvaluateBillboard();
+            mpBillboard = mpInstance->GetBillboard();
+        }
+        else if (pFile->AcceptsExtension("DCLN"))
+        {
+            mpInstance->EvaluateCollisionModel();
+            mpCollisionNode->SetCollision(mpInstance->GetCollision());
+        }
+    }
+
+    // Update other editor properties
+    if (mpInstance->IsEditorProperty(pProp))
+    {
+        SetName("[" + mpInstance->Template()->Name() + "] " + mpInstance->InstanceName());
+        mPosition = mpInstance->Position();
+        mRotation = CQuaternion::FromEuler(mpInstance->Rotation());
+        mScale = mpInstance->Scale();
+        MarkTransformChanged();
+
+        SetLightLayerIndex(mpLightParameters->LightLayerIndex());
+    }
+
+    // Update script extra
+    if (mpExtra) mpExtra->PropertyModified(pProp);
+}
+
+void CScriptNode::UpdatePreviewVolume()
+{
+    EVolumeShape Shape = mpInstance->VolumeShape();
+    TResPtr<CModel> pVolumeModel = nullptr;
+
+    switch (Shape)
+    {
+    case eAxisAlignedBoxShape:
+    case eBoxShape:
+        pVolumeModel = gResCache.GetResource("../resources/VolumeBox.cmdl");
+        break;
+
+    case eEllipsoidShape:
+        pVolumeModel = gResCache.GetResource("../resources/VolumeSphere.cmdl");
+        break;
+
+    case eCylinderShape:
+        pVolumeModel = gResCache.GetResource("../resources/VolumeCylinder.cmdl");
+        break;
+    }
+
+    mHasVolumePreview = (pVolumeModel != nullptr);
+
+    if (mHasVolumePreview)
+    {
+        mpVolumePreviewNode->SetModel(pVolumeModel);
+        mpVolumePreviewNode->SetScale(mpInstance->VolumeScale());
+    }
 }
 
 void CScriptNode::GeneratePosition()

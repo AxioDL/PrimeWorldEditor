@@ -283,6 +283,13 @@ public:
         mAcceptedExtensions = rkExtensions;
     }
 
+    bool AcceptsExtension(const TString& rkExtension)
+    {
+        for (auto it = mAcceptedExtensions.begin(); it != mAcceptedExtensions.end(); it++)
+            if (*it == rkExtension) return true;
+        return false;
+    }
+
     const TStringList& Extensions() const
     {
         return mAcceptedExtensions;
@@ -404,10 +411,16 @@ class CBitfieldTemplate : public TLongTemplate
 
 public:
     CBitfieldTemplate(u32 ID, CStructTemplate *pParent = 0)
-        : TLongTemplate(ID, pParent) {}
+        : TLongTemplate(ID, pParent)
+    {
+        mDefaultValue.SetHexStringOutput(true);
+    }
 
     CBitfieldTemplate(u32 ID, const TString& rkName, ECookPreference CookPreference, CStructTemplate *pParent = 0)
-        : TLongTemplate(ID, rkName, CookPreference, pParent) {}
+        : TLongTemplate(ID, rkName, CookPreference, pParent)
+    {
+        mDefaultValue.SetHexStringOutput(true);
+    }
 
     virtual EPropertyType Type()  const { return eBitfieldProperty; }
     virtual bool CanHaveDefault() const { return true; }

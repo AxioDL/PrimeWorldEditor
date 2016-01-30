@@ -18,8 +18,13 @@ public:
     bool event(QEvent *pEvent);
     void SetBaseStruct(CPropertyStruct *pStruct);
 
+    inline CPropertyModel* PropertyModel() const { return mpModel; }
+
 public slots:
     void SetPersistentEditors(const QModelIndex& rkIndex);
+
+signals:
+    void PropertyModified(const QModelIndex& rkIndex, bool IsDone);
 };
 
 #endif // CPROPERTYVIEW_H

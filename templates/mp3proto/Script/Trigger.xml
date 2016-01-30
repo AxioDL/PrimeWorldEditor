@@ -6,10 +6,10 @@
         <enum ID="0x09ECEE0C">
             <default>0x482B22F1</default>
             <enumerators>
-                <enumerator ID="0x482B22F1" name="Unknown 1"/>
-                <enumerator ID="0x779DB545" name="Unknown 2"/>
-                <enumerator ID="0x8392F5E4" name="Unknown 3"/>
-                <enumerator ID="0x39ED7B8E" name="Unknown 4"/>
+                <enumerator ID="0x482B22F1" name="Box"/>
+                <enumerator ID="0x779DB545" name="Box"/>
+                <enumerator ID="0x8392F5E4" name="Ellipsoid"/>
+                <enumerator ID="0x39ED7B8E" name="Cylinder"/>
             </enumerators>
         </enum>
         <struct ID="0x77A27411" template="Structs/TriggerInfo.xml"/>

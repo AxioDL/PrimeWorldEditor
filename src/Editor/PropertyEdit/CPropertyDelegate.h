@@ -25,6 +25,9 @@ public:
 
 public slots:
     void WidgetEdited(QWidget *pWidget, const QModelIndex& rkIndex);
+
+signals:
+    void PropertyEdited(const QModelIndex& rkIndex, bool IsDone) const;
 };
 
 #endif // CPROPERTYDELEGATE_H
