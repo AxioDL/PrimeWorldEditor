@@ -2,8 +2,24 @@
 #include "CDarkStyle.h"
 #include <Core/Resource/Factory/CTemplateLoader.h>
 
+#include <iostream>
 #include <QApplication>
 #include <QStyleFactory>
+#include <QtGlobal>
+
+// Redirect qDebug output to the log file
+void QtLogRedirect(QtMsgType Type, const QMessageLogContext& /*rkContext*/, const QString& rkMessage)
+{
+    switch (Type)
+    {
+    case QtDebugMsg:    Log::Write(TString("Qt Debug: ") + TO_TSTRING(rkMessage)); break;
+    case QtWarningMsg:  Log::Write(TString("Qt Warning: ") + TO_TSTRING(rkMessage)); break;
+    case QtCriticalMsg: Log::Write(TString("Qt Critical: ") + TO_TSTRING(rkMessage)); break;
+    case QtFatalMsg:    Log::Write(TString("Qt Fatal: ") + TO_TSTRING(rkMessage)); break;
+    }
+
+    std::cout << TO_TSTRING(rkMessage) << "\n";
+}
 
 int main(int argc, char *argv[])
 {
@@ -12,6 +28,9 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     CStartWindow w;
     w.show();
+
+    // Set up debug redirect
+    qInstallMessageHandler(QtLogRedirect);
 
     // Load templates
     CTemplateLoader::LoadGameList();
