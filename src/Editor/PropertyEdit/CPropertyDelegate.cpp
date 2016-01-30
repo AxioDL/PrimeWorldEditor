@@ -42,15 +42,21 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
     {
         switch (pProp->Type())
         {
+
         case eBoolProperty:
-            pOut = new QCheckBox(pParent);
+        {
+            QCheckBox *pCheckBox = new QCheckBox(pParent);
+            CONNECT_RELAY(pCheckBox, rkIndex, toggled(bool))
+            pOut = pCheckBox;
             break;
+        }
 
         case eShortProperty:
         {
             WIntegralSpinBox *pSpinBox = new WIntegralSpinBox(pParent);
             pSpinBox->setMinimum(INT16_MIN);
             pSpinBox->setMaximum(INT16_MAX);
+            CONNECT_RELAY(pSpinBox, rkIndex, valueChanged(int))
             pOut = pSpinBox;
             break;
         }
@@ -60,6 +66,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
             WIntegralSpinBox *pSpinBox = new WIntegralSpinBox(pParent);
             pSpinBox->setMinimum(INT32_MIN);
             pSpinBox->setMaximum(INT32_MAX);
+            CONNECT_RELAY(pSpinBox, rkIndex, valueChanged(int))
             pOut = pSpinBox;
             break;
         }
@@ -67,9 +74,9 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
         case eFloatProperty:
         {
             WDraggableSpinBox *pSpinBox = new WDraggableSpinBox(pParent);
-            CONNECT_RELAY(pSpinBox, rkIndex, valueChanged(double))
             pSpinBox->setSingleStep(0.1);
             pOut = pSpinBox;
+            CONNECT_RELAY(pSpinBox, rkIndex, valueChanged(double))
             break;
         }
 
@@ -82,17 +89,23 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
         }
 
         case eStringProperty:
-            pOut = new QLineEdit(pParent);
+        {
+            QLineEdit *pLineEdit = new QLineEdit(pParent);
+            CONNECT_RELAY(pLineEdit, rkIndex, textEdited(QString))
+            pOut = pLineEdit;
             break;
+        }
 
         case eEnumProperty:
         {
             QComboBox *pComboBox = new QComboBox(pParent);
+
             CEnumTemplate *pTemp = static_cast<CEnumTemplate*>(pProp->Template());
 
             for (u32 iEnum = 0; iEnum < pTemp->NumEnumerators(); iEnum++)
                 pComboBox->addItem(TO_QSTRING(pTemp->EnumeratorName(iEnum)));
 
+            CONNECT_RELAY(pComboBox, rkIndex, currentIndexChanged(int))
             pOut = pComboBox;
             break;
         }
@@ -102,12 +115,15 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
             WResourceSelector *pSelector = new WResourceSelector(pParent);
             CFileTemplate *pTemp = static_cast<CFileTemplate*>(pProp->Template());
             pSelector->SetAllowedExtensions(pTemp->Extensions());
+
+            CONNECT_RELAY(pSelector, rkIndex, ResourceChanged(QString))
             pOut = pSelector;
             break;
         }
 
         case eArrayProperty:
         {
+            // No relay here, would prefer user to be sure of their change before it's reflected on the UI
             WIntegralSpinBox *pSpinBox = new WIntegralSpinBox(pParent);
             pSpinBox->setMinimum(0);
             pSpinBox->setMaximum(999);
@@ -129,13 +145,16 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
 
         // Handle bitfield
         else if (pProp->Type() == eBitfieldProperty)
-            pOut = new QCheckBox(pParent);
+        {
+            QCheckBox *pCheckBox = new QCheckBox(pParent);
+            CONNECT_RELAY(pCheckBox, rkIndex, toggled(bool))
+            pOut = pCheckBox;
+        }
 
         // Handle vector/color
         else
         {
             WDraggableSpinBox *pSpinBox = new WDraggableSpinBox(pParent);
-            CONNECT_RELAY(pSpinBox, rkIndex, valueChanged(double))
             pSpinBox->setSingleStep(0.1);
 
             // Limit to range of 0-1 on colors
@@ -147,6 +166,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
                 pSpinBox->setMaximum(1.0);
             }
 
+            CONNECT_RELAY(pSpinBox, rkIndex, valueChanged(double))
             pOut = pSpinBox;
         }
     }
@@ -442,9 +462,12 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
                 pColor->Set(Value);
             }
 
-            mpModel->dataChanged(rkIndex.parent(), rkIndex.parent());
+            QModelIndex ParentWidgetIndex = mpModel->index(rkIndex.parent().row(), 1, rkIndex.parent().parent());
+            mpModel->dataChanged(ParentWidgetIndex, ParentWidgetIndex);
         }
     }
+
+    emit PropertyEdited(rkIndex, true);
 }
 
 bool CPropertyDelegate::eventFilter(QObject *pObject, QEvent *pEvent)
@@ -483,12 +506,14 @@ QWidget* CPropertyDelegate::CreateCharacterEditor(QWidget *pParent, const QModel
         else
             pSelector->SetAllowedExtensions("CHAR");
 
+        CONNECT_RELAY(pSelector, rkIndex, ResourceChanged(QString))
         return pSelector;
     }
 
     if (Type == eEnumProperty)
     {
         QComboBox *pComboBox = new QComboBox(pParent);
+
         CAnimSet *pAnimSet = Params.AnimSet();
 
         if (pAnimSet)
@@ -497,11 +522,16 @@ QWidget* CPropertyDelegate::CreateCharacterEditor(QWidget *pParent, const QModel
                 pComboBox->addItem(TO_QSTRING(pAnimSet->getNodeName(iChr)));
         }
 
+        CONNECT_RELAY(pComboBox, rkIndex, currentIndexChanged(int))
         return pComboBox;
     }
 
     if (Type == eLongProperty)
-        return new WIntegralSpinBox(pParent);
+    {
+        WIntegralSpinBox *pSpinBox = new WIntegralSpinBox(pParent);
+        CONNECT_RELAY(pSpinBox, rkIndex, valueChanged(int))
+        return pSpinBox;
+    }
 
     return nullptr;
 }

@@ -16,6 +16,7 @@ CPropertyView::CPropertyView(QWidget *pParent)
 
     connect(mpModel, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(SetPersistentEditors(QModelIndex)));
     connect(this, SIGNAL(expanded(QModelIndex)), this, SLOT(SetPersistentEditors(QModelIndex)));
+    connect(mpDelegate, SIGNAL(PropertyEdited(QModelIndex,bool)), this, SIGNAL(PropertyModified(QModelIndex,bool)));
 }
 
 void CPropertyView::setModel(QAbstractItemModel *pModel)

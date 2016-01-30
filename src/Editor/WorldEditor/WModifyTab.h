@@ -3,6 +3,7 @@
 
 #include "CLinkModel.h"
 #include <Core/Scene/CSceneNode.h>
+#include <Core/Scene/CScriptNode.h>
 
 #include <QWidget>
 #include <QScrollArea>
@@ -32,6 +33,9 @@ public:
     void SetEditor(CWorldEditor *pEditor);
     void GenerateUI(QList<CSceneNode*>& Selection);
     void ClearUI();
+
+public slots:
+    void OnPropertyModified(const QModelIndex& rkIndex, bool IsDone);
 
 private:
     Ui::WModifyTab *ui;

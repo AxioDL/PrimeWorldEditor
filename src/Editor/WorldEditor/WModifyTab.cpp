@@ -16,6 +16,7 @@ WModifyTab::WModifyTab(QWidget *pParent) :
     ui->PropertyView->header()->resizeSection(0, PropViewWidth * 0.3);
     ui->PropertyView->header()->resizeSection(1, PropViewWidth * 0.3);
     ui->PropertyView->header()->setSectionResizeMode(1, QHeaderView::Fixed);
+    connect(ui->PropertyView, SIGNAL(PropertyModified(QModelIndex,bool)), this, SLOT(OnPropertyModified(QModelIndex,bool)));
 
     mpInLinkModel = new CLinkModel(this);
     mpInLinkModel->SetConnectionType(CLinkModel::eIncoming);
@@ -73,6 +74,16 @@ void WModifyTab::ClearUI()
     ui->ObjectsTabWidget->hide();
     ui->PropertyView->SetBaseStruct(nullptr);
     ui->LightGroupBox->hide();
+}
+
+void WModifyTab::OnPropertyModified(const QModelIndex& rkIndex, bool /*IsDone*/)
+{
+    if (mpSelectedNode->NodeType() == eScriptNode)
+    {
+        CScriptNode *pNode = static_cast<CScriptNode*>(mpSelectedNode);
+        IProperty *pProperty = ui->PropertyView->PropertyModel()->PropertyForIndex(rkIndex, true);
+        pNode->PropertyModified(pProperty);
+    }
 }
 
 void WModifyTab::OnLinkTableDoubleClick(QModelIndex Index)

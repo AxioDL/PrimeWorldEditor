@@ -38,6 +38,8 @@ public:
     CColor TintColor(const SViewInfo &ViewInfo) const;
     CColor WireframeColor() const;
 
+    void PropertyModified(IProperty *pProp);
+    void UpdatePreviewVolume();
     void GeneratePosition();
     CScriptObject* Object() const;
     CScriptTemplate* Template() const;

@@ -48,6 +48,8 @@ public:
     void EvaluateDisplayModel();
     void EvaluateBillboard();
     void EvaluateCollisionModel();
+    void EvaluateVolume();
+    bool IsEditorProperty(IProperty *pProp);
 
     CScriptTemplate* Template() const;
     CMasterTemplate* MasterTemplate() const;

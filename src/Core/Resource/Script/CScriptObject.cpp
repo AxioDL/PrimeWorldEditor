@@ -31,11 +31,10 @@ CScriptObject::~CScriptObject()
     mpActive = mpTemplate->FindActive(mpProperties);
     mpLightParameters = mpTemplate->FindLightParameters(mpProperties);
     mHasInGameModel = mpTemplate->HasInGameModel(mpProperties);
-    mVolumeShape = mpTemplate->VolumeShape(this);
-    mVolumeScale = mpTemplate->VolumeScale(this);
     EvaluateDisplayModel();
     EvaluateBillboard();
     EvaluateCollisionModel();
+    EvaluateVolume();
 }
 
 void CScriptObject::EvaluateDisplayModel()
@@ -51,6 +50,23 @@ void CScriptObject::EvaluateBillboard()
 void CScriptObject::EvaluateCollisionModel()
 {
     mpCollision = mpTemplate->FindCollision(mpProperties);
+}
+
+void CScriptObject::EvaluateVolume()
+{
+    mVolumeShape = mpTemplate->VolumeShape(this);
+    mVolumeScale = mpTemplate->VolumeScale(this);
+}
+
+bool CScriptObject::IsEditorProperty(IProperty *pProp)
+{
+    return ( (pProp == mpInstanceName) ||
+             (pProp == mpPosition) ||
+             (pProp == mpRotation) ||
+             (pProp == mpScale) ||
+             (pProp == mpActive) ||
+             (pProp->Parent() == mpLightParameters)
+           );
 }
 
 // ************ GETTERS ************
