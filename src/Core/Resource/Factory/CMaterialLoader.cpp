@@ -556,7 +556,16 @@ void CMaterialLoader::CreateCorruptionPasses(CMaterial *pMat)
             pPass->SetColorInputs(eZeroRGB, ePrevRGB, eTextureRGB, eZeroRGB);
             pPass->SetAlphaInputs(eZeroAlpha, eZeroAlpha, eZeroAlpha, eTextureAlpha);
             pPass->SetColorOutput(ePrevReg);
+            pPass->SetAlphaOutput(ePrevReg);
+        }
+
+        // LURD and LRLD are unknown and don't seem to do anything
+        else if ((Type == "LURD") || (Type == "LRLD"))
+        {
+            pPass->SetColorInputs(eZeroRGB, eZeroRGB, eZeroRGB, ePrevRGB);
+            pPass->SetAlphaInputs(eZeroAlpha, eZeroAlpha, eZeroAlpha, ePrevAlpha);
             pPass->SetColorOutput(ePrevReg);
+            pPass->SetAlphaOutput(ePrevReg);
         }
 
         else if (Type == "CUST") {}
