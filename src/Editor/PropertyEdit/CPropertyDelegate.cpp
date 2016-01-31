@@ -3,6 +3,7 @@
 
 #include "Editor/UICommon.h"
 #include "Editor/Undo/CEditScriptPropertyCommand.h"
+#include "Editor/Undo/CResizeScriptArrayCommand.h"
 #include "Editor/Widgets/WColorPicker.h"
 #include "Editor/Widgets/WDraggableSpinBox.h"
 #include "Editor/Widgets/WIntegralSpinBox.h"
@@ -351,7 +352,8 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
 
     if (pProp)
     {
-        pOldValue = pProp->RawValue()->Clone();
+        IPropertyValue *pRawValue = pProp->RawValue();
+        pOldValue = pRawValue ? pRawValue->Clone() : nullptr;
 
         switch (pProp->Type())
         {
@@ -430,8 +432,14 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
         case eArrayProperty:
         {
             WIntegralSpinBox *pSpinBox = static_cast<WIntegralSpinBox*>(pEditor);
+            CArrayProperty *pArray = static_cast<CArrayProperty*>(pProp);
             u32 NewCount = pSpinBox->value();
-            mpModel->ResizeArray(rkIndex, NewCount);
+
+            if (pArray->Count() != NewCount)
+            {
+                CResizeScriptArrayCommand *pCmd = new CResizeScriptArrayCommand(mpModel, rkIndex, NewCount);
+                mpEditor->UndoStack()->push(pCmd);
+            }
             break;
         }
 
@@ -442,7 +450,9 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
     else if (rkIndex.internalId() & 0x1)
     {
         pProp = mpModel->PropertyForIndex(rkIndex, true);
-        pOldValue = pProp->RawValue()->Clone();
+
+        IPropertyValue *pOldValue = pProp->RawValue();
+        pOldValue = pOldValue ? pOldValue->Clone() : nullptr;
 
         if (pProp->Type() == eCharacterProperty)
             SetCharacterModelData(pEditor, rkIndex);
@@ -490,7 +500,7 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
         }
     }
 
-    if (pProp)
+    if (pProp && pOldValue)
     {
         // Check for edit in progress
         bool Matches = pOldValue->Matches(pProp->RawValue());

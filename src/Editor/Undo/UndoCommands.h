@@ -10,6 +10,7 @@
 #include "CSelectAllCommand.h"
 #include "CInvertSelectionCommand.h"
 #include "CEditScriptPropertyCommand.h"
+#include "CResizeScriptArrayCommand.h"
 #include "EUndoCommand.h"
 
 #endif // UNDOCOMMANDS

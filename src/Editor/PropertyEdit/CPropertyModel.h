@@ -24,8 +24,9 @@ public:
     Qt::ItemFlags flags(const QModelIndex& rkIndex) const;
 
     void NotifyPropertyModified(const QModelIndex& rkIndex);
+    void ArrayAboutToBeResized(const QModelIndex& rkIndex, u32 NewSize);
+    void ArrayResized(const QModelIndex& rkIndex, u32 OldSize);
     void ResizeArray(const QModelIndex& rkIndex, u32 NewSize);
-
 signals:
     void PropertyModified(const QModelIndex& rkIndex);
 };

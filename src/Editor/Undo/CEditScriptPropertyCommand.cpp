@@ -2,12 +2,9 @@
 #include "EUndoCommand.h"
 
 CEditScriptPropertyCommand::CEditScriptPropertyCommand(CPropertyModel *pModel, const QModelIndex& rkIndex, IPropertyValue *pOldValue, bool IsDone)
-    : QUndoCommand("Edit Property")
-    , mpModel(pModel)
-    , mIndex(rkIndex)
+    : CBasicPropertyCommand(pModel, rkIndex)
     , mCommandEnded(IsDone)
 {
-    mpProperty = pModel->PropertyForIndex(rkIndex, true);
     mpOldValue = pOldValue;
     mpNewValue = mpProperty->RawValue()->Clone();
 }
@@ -42,12 +39,14 @@ bool CEditScriptPropertyCommand::mergeWith(const QUndoCommand *pkOther)
 
 void CEditScriptPropertyCommand::undo()
 {
+    if (mIsInArray) UpdateArraySubProperty();
     mpProperty->RawValue()->Copy(mpOldValue);
     mpModel->NotifyPropertyModified(mIndex);
 }
 
 void CEditScriptPropertyCommand::redo()
 {
+    if (mIsInArray) UpdateArraySubProperty();
     mpProperty->RawValue()->Copy(mpNewValue);
     mpModel->NotifyPropertyModified(mIndex);
 }
