@@ -28,7 +28,7 @@ CScaleNodeCommand::CScaleNodeCommand(INodeEditor *pEditor, const QList<CSceneNod
         mNodeList.push_back(scale);
     }
 
-    mpEditor->SelectionTransformed();
+    mpEditor->NotifySelectionTransformed();
 }
 
 CScaleNodeCommand::~CScaleNodeCommand()
@@ -80,7 +80,7 @@ void CScaleNodeCommand::undo()
     }
 
     mpEditor->RecalculateSelectionBounds();
-    mpEditor->SelectionTransformed();
+    mpEditor->NotifySelectionTransformed();
     mpEditor->UpdateGizmoUI();
 }
 
@@ -95,7 +95,7 @@ void CScaleNodeCommand::redo()
     }
 
     mpEditor->RecalculateSelectionBounds();
-    mpEditor->SelectionTransformed();
+    mpEditor->NotifySelectionTransformed();
     mpEditor->UpdateGizmoUI();
 }
 

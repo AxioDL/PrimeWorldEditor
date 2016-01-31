@@ -41,27 +41,30 @@ WModifyTab::~WModifyTab()
 void WModifyTab::SetEditor(CWorldEditor *pEditor)
 {
     mpWorldEditor = pEditor;
+    connect(mpWorldEditor, SIGNAL(SelectionTransformed()), this, SLOT(OnWorldSelectionTransformed()));
 }
 
 void WModifyTab::GenerateUI(QList<CSceneNode*>& Selection)
 {
-    ClearUI();
-
     if (Selection.size() == 1)
     {
-        mpSelectedNode = Selection.front();
-
-        // todo: set up editing UI for Light Nodes
-        if (mpSelectedNode->NodeType() == eScriptNode)
+        if (mpSelectedNode != Selection.front())
         {
-            ui->ObjectsTabWidget->show();
-            CScriptNode *pScriptNode = static_cast<CScriptNode*>(mpSelectedNode);
-            CScriptObject *pObj = pScriptNode->Object();
+            mpSelectedNode = Selection.front();
 
-            // Set up UI
-            ui->PropertyView->SetBaseStruct(pObj->Properties());
-            mpInLinkModel->SetObject(pObj);
-            mpOutLinkModel->SetObject(pObj);
+            // todo: set up editing UI for Light Nodes
+            if (mpSelectedNode->NodeType() == eScriptNode)
+            {
+                ui->ObjectsTabWidget->show();
+                CScriptNode *pScriptNode = static_cast<CScriptNode*>(mpSelectedNode);
+                CScriptObject *pObj = pScriptNode->Object();
+
+                // Set up UI
+                ui->PropertyView->SetObject(pObj);
+                mpInLinkModel->SetObject(pObj);
+                mpOutLinkModel->SetObject(pObj);
+                ui->LightGroupBox->hide();
+            }
         }
     }
 
@@ -72,8 +75,14 @@ void WModifyTab::GenerateUI(QList<CSceneNode*>& Selection)
 void WModifyTab::ClearUI()
 {
     ui->ObjectsTabWidget->hide();
-    ui->PropertyView->SetBaseStruct(nullptr);
+    ui->PropertyView->SetObject(nullptr);
     ui->LightGroupBox->hide();
+    mpSelectedNode = nullptr;
+}
+
+void WModifyTab::OnWorldSelectionTransformed()
+{
+    ui->PropertyView->UpdateEditorProperties(QModelIndex());
 }
 
 void WModifyTab::OnPropertyModified(const QModelIndex& rkIndex, bool /*IsDone*/)
@@ -83,6 +92,10 @@ void WModifyTab::OnPropertyModified(const QModelIndex& rkIndex, bool /*IsDone*/)
         CScriptNode *pNode = static_cast<CScriptNode*>(mpSelectedNode);
         IProperty *pProperty = ui->PropertyView->PropertyModel()->PropertyForIndex(rkIndex, true);
         pNode->PropertyModified(pProperty);
+
+        // If this is the instance name property, then other parts of the UI need to be updated to reflect the new name.
+        if (pNode->Object()->IsEditorProperty(pProperty) && pProperty->Type() == eStringProperty)
+            mpWorldEditor->UpdateSelectionUI();
     }
 }
 

@@ -35,6 +35,7 @@ public:
     void ClearUI();
 
 public slots:
+    void OnWorldSelectionTransformed();
     void OnPropertyModified(const QModelIndex& rkIndex, bool IsDone);
 
 private:

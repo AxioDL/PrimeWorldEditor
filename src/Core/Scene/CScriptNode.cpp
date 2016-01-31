@@ -18,7 +18,7 @@ CScriptNode::CScriptNode(CScene *pScene, CSceneNode *pParent, CScriptObject *pOb
 
     // Evaluate instance
     mpInstance = pObject;
-    mpActiveModel = nullptr;
+    SetActiveModel(nullptr);
     mpBillboard = nullptr;
     mpCollisionNode = new CCollisionNode(pScene, this);
     mpCollisionNode->SetInheritance(true, true, false);
@@ -37,7 +37,7 @@ CScriptNode::CScriptNode(CScene *pScene, CSceneNode *pParent, CScriptObject *pOb
         SetName("[" + pTemp->Name() + "] " + mpInstance->InstanceName());
 
         // Determine display assets
-        mpActiveModel = mpInstance->GetDisplayModel();
+        SetActiveModel(mpInstance->GetDisplayModel());
         mpBillboard = mpInstance->GetBillboard();
         mpCollisionNode->SetCollision(mpInstance->GetCollision());
 
@@ -66,17 +66,32 @@ CScriptNode::CScriptNode(CScene *pScene, CSceneNode *pParent, CScriptObject *pOb
         SetName("ScriptNode - NO INSTANCE");
     }
 
-    if (mpActiveModel)
-        mLocalAABox = mpActiveModel->AABox();
-    else
-        mLocalAABox = CAABox::skOne;
-
     mpExtra = CScriptExtra::CreateExtra(this);
 }
 
 ENodeType CScriptNode::NodeType()
 {
     return eScriptNode;
+}
+
+void CScriptNode::OnTransformed()
+{
+    if (mpExtra)
+        mpExtra->OnTransformed();
+
+    if (mpInstance)
+    {
+        CScriptTemplate *pTemplate = Template();
+
+        if (pTemplate->HasPosition() && LocalPosition() != mpInstance->Position())
+            mpInstance->SetPosition(LocalPosition());
+
+        if (pTemplate->HasRotation() && LocalRotation().ToEuler() != mpInstance->Rotation())
+            mpInstance->SetRotation(LocalRotation().ToEuler());
+
+        if (pTemplate->HasScale() && LocalScale() != mpInstance->Scale())
+            mpInstance->SetScale(LocalScale());
+    }
 }
 
 void CScriptNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
@@ -389,7 +404,7 @@ void CScriptNode::PropertyModified(IProperty *pProp)
     if (pProp->Type() == eCharacterProperty)
     {
         mpInstance->EvaluateDisplayModel();
-        mpActiveModel = mpInstance->GetDisplayModel();
+        SetActiveModel(mpInstance->GetDisplayModel());
     }
     else if (pProp->Type() == eFileProperty)
     {
@@ -398,7 +413,7 @@ void CScriptNode::PropertyModified(IProperty *pProp)
         if (pFile->AcceptsExtension("CMDL") || pFile->AcceptsExtension("ANCS") || pFile->AcceptsExtension("CHAR"))
         {
             mpInstance->EvaluateDisplayModel();
-            mpActiveModel = mpInstance->GetDisplayModel();
+            SetActiveModel(mpInstance->GetDisplayModel());
         }
         else if (pFile->AcceptsExtension("TXTR"))
         {
@@ -415,10 +430,20 @@ void CScriptNode::PropertyModified(IProperty *pProp)
     // Update other editor properties
     if (mpInstance->IsEditorProperty(pProp))
     {
-        SetName("[" + mpInstance->Template()->Name() + "] " + mpInstance->InstanceName());
-        mPosition = mpInstance->Position();
-        mRotation = CQuaternion::FromEuler(mpInstance->Rotation());
-        mScale = mpInstance->Scale();
+        CScriptTemplate *pTemplate = Template();
+
+        if (pTemplate->HasName())
+            SetName("[" + mpInstance->Template()->Name() + "] " + mpInstance->InstanceName());
+
+        if (pTemplate->HasPosition())
+            mPosition = mpInstance->Position();
+
+        if (pTemplate->HasRotation())
+            mRotation = CQuaternion::FromEuler(mpInstance->Rotation());
+
+        if (pTemplate->HasScale())
+            mScale = mpInstance->Scale();
+
         MarkTransformChanged();
 
         SetLightLayerIndex(mpLightParameters->LightLayerIndex());
@@ -460,7 +485,7 @@ void CScriptNode::UpdatePreviewVolume()
 
 void CScriptNode::GeneratePosition()
 {
-    if  (!mHasValidPosition)
+    if (!mHasValidPosition)
     {
         // Default to center of the active area; this is to preven recursion issues
         CTransform4f& AreaTransform = mpScene->GetActiveArea()->GetTransform();
@@ -569,6 +594,13 @@ CVector2f CScriptNode::BillboardScale() const
 }
 
 // ************ PROTECTED ************
+void CScriptNode::SetActiveModel(CModel *pModel)
+{
+    mpActiveModel = pModel;
+    mLocalAABox = (pModel ? pModel->AABox() : CAABox::skOne);
+    MarkTransformChanged();
+}
+
 void CScriptNode::CalculateTransform(CTransform4f& rOut) const
 {
     CScriptTemplate *pTemp = Template();

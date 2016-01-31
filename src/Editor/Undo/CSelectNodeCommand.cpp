@@ -26,7 +26,7 @@ void CSelectNodeCommand::undo()
     }
 
     mpEditor->RecalculateSelectionBounds();
-    mpEditor->SelectionModified();
+    mpEditor->NotifySelectionModified();
 }
 
 void CSelectNodeCommand::redo()
@@ -38,5 +38,5 @@ void CSelectNodeCommand::redo()
     }
 
     mpEditor->ExpandSelectionBounds(mpNode);
-    mpEditor->SelectionModified();
+    mpEditor->NotifySelectionModified();
 }

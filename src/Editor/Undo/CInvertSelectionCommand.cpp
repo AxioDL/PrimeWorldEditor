@@ -35,7 +35,7 @@ void CInvertSelectionCommand::undo()
 
     // Update editor
     mpEditor->RecalculateSelectionBounds();
-    mpEditor->SelectionModified();
+    mpEditor->NotifySelectionModified();
 }
 
 void CInvertSelectionCommand::redo()
@@ -52,5 +52,5 @@ void CInvertSelectionCommand::redo()
 
     // Update editor
     mpEditor->RecalculateSelectionBounds();
-    mpEditor->SelectionModified();
+    mpEditor->NotifySelectionModified();
 }

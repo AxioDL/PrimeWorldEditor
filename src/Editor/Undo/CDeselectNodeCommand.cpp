@@ -18,7 +18,7 @@ void CDeselectNodeCommand::undo()
     }
 
     mpEditor->ExpandSelectionBounds(mpNode);
-    mpEditor->SelectionModified();
+    mpEditor->NotifySelectionModified();
 }
 
 void CDeselectNodeCommand::redo()
@@ -38,5 +38,5 @@ void CDeselectNodeCommand::redo()
     }
 
     mpEditor->RecalculateSelectionBounds();
-    mpEditor->SelectionModified();
+    mpEditor->NotifySelectionModified();
 }

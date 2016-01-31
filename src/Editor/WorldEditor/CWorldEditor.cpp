@@ -248,7 +248,9 @@ void CWorldEditor::UpdateSelectionUI()
 
     QFontMetrics Metrics(ui->SelectionInfoLabel->font());
     SelectionText = Metrics.elidedText(SelectionText, Qt::ElideRight, ui->SelectionInfoFrame->width() - 10);
-    ui->SelectionInfoLabel->setText(SelectionText);
+
+    if (ui->SelectionInfoLabel->text() != SelectionText)
+        ui->SelectionInfoLabel->setText(SelectionText);
 
     // Update gizmo stuff
     UpdateGizmoUI();

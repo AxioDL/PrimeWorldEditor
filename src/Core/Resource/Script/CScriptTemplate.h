@@ -116,7 +116,12 @@ public:
     CTexture* FindBillboardTexture(CPropertyStruct *pProperties);
     CCollisionMeshGroup* FindCollision(CPropertyStruct *pProperties);
     bool HasInGameModel(CPropertyStruct *pProperties);
-    bool HasPosition();
+
+    inline bool HasName() const         { return !mNameIDString.IsEmpty(); }
+    inline bool HasPosition() const     { return !mPositionIDString.IsEmpty(); }
+    inline bool HasRotation() const     { return !mRotationIDString.IsEmpty(); }
+    inline bool HasScale() const        { return !mScaleIDString.IsEmpty(); }
+    inline bool HasActive() const       { return !mActiveIDString.IsEmpty(); }
 
     // Object Tracking
     u32 NumObjects() const;

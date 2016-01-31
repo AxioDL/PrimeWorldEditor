@@ -27,7 +27,7 @@ void CClearSelectionCommand::undo()
     }
 
     mpEditor->RecalculateSelectionBounds();
-    mpEditor->SelectionModified();
+    mpEditor->NotifySelectionModified();
 }
 
 void CClearSelectionCommand::redo()
@@ -38,5 +38,5 @@ void CClearSelectionCommand::redo()
 
     mpSelection->clear();
     mpEditor->RecalculateSelectionBounds();
-    mpEditor->SelectionModified();
+    mpEditor->NotifySelectionModified();
 }
