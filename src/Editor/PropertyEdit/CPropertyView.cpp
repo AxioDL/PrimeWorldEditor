@@ -15,6 +15,7 @@ CPropertyView::CPropertyView(QWidget *pParent)
     setModel(mpModel);
 
     connect(this, SIGNAL(expanded(QModelIndex)), this, SLOT(SetPersistentEditors(QModelIndex)));
+    connect(this, SIGNAL(clicked(QModelIndex)), this, SLOT(edit(QModelIndex)));
     connect(mpModel, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(SetPersistentEditors(QModelIndex)));
     connect(mpModel, SIGNAL(PropertyModified(QModelIndex)), this, SLOT(OnPropertyModified(QModelIndex)));
 }

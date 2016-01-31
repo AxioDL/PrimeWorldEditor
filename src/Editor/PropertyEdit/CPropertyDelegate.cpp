@@ -451,8 +451,8 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
     {
         pProp = mpModel->PropertyForIndex(rkIndex, true);
 
-        IPropertyValue *pOldValue = pProp->RawValue();
-        pOldValue = pOldValue ? pOldValue->Clone() : nullptr;
+        IPropertyValue *pRawValue = pProp->RawValue();
+        pOldValue = pRawValue ? pRawValue->Clone() : nullptr;
 
         if (pProp->Type() == eCharacterProperty)
             SetCharacterModelData(pEditor, rkIndex);
