@@ -344,11 +344,6 @@ bool CScriptTemplate::HasInGameModel(CPropertyStruct *pProperties)
     return false;
 }
 
-bool CScriptTemplate::HasPosition()
-{
-    return (!mPositionIDString.IsEmpty());
-}
-
 // ************ OBJECT TRACKING ************
 u32 CScriptTemplate::NumObjects() const
 {

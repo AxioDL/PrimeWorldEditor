@@ -56,6 +56,7 @@ public:
     bool HasSupportedExtension(const CResourceInfo& rkRes);
 
     // Getters
+    CResourceInfo GetResourceInfo();
     CResource* GetResource();
     QString GetText();
     bool IsEditButtonEnabled();

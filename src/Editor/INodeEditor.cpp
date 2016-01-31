@@ -53,7 +53,6 @@ INodeEditor::INodeEditor(QWidget *pParent)
     connect(mGizmoActions[2], SIGNAL(triggered()), this, SLOT(OnRotateTriggered()));
     connect(mGizmoActions[3], SIGNAL(triggered()), this, SLOT(OnScaleTriggered()));
     connect(mpTransformCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(OnTransformSpaceChanged(int)));
-    connect(this, SIGNAL(SelectionModified()), this, SLOT(OnSelectionModified()));
 }
 
 INodeEditor::~INodeEditor()
@@ -232,6 +231,20 @@ void INodeEditor::ExitPickMode()
     }
 }
 
+void INodeEditor::NotifySelectionModified()
+{
+    UpdateSelectionUI();
+    emit SelectionModified();
+}
+
+void INodeEditor::NotifySelectionTransformed()
+{
+    foreach (CSceneNode *pNode, mSelection)
+        pNode->OnTransformed();
+
+    emit SelectionTransformed();
+}
+
 // ************ PUBLIC SLOTS ************
 void INodeEditor::OnGizmoMoved()
 {
@@ -302,8 +315,6 @@ void INodeEditor::OnViewportClick(const SRayIntersection& rkRayIntersect, QMouse
                     ClearSelection();
             }
         }
-
-        UpdateSelectionUI();
     }
 
     // In pick mode: process node pick
@@ -444,10 +455,4 @@ void INodeEditor::OnTransformSpaceChanged(int spaceIndex)
         mRotateSpace = space;
 
     mGizmo.SetTransformSpace(space);
-}
-
-void INodeEditor::OnSelectionModified()
-{
-    UpdateTransformActionsEnabled();
-    UpdateSelectionUI();
 }

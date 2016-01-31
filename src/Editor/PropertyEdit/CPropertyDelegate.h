@@ -9,6 +9,7 @@ class CPropertyDelegate : public QStyledItemDelegate
     Q_OBJECT
 
     CPropertyModel *mpModel;
+    mutable bool mRelaysBlocked;
 
 public:
     CPropertyDelegate(QObject *pParent = 0);
@@ -25,6 +26,9 @@ public:
 
 public slots:
     void WidgetEdited(QWidget *pWidget, const QModelIndex& rkIndex);
+
+protected:
+    void BlockRelays(bool Block) const { mRelaysBlocked = Block; }
 
 signals:
     void PropertyEdited(const QModelIndex& rkIndex, bool IsDone) const;

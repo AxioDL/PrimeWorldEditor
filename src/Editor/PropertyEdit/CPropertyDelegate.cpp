@@ -24,6 +24,7 @@
 CPropertyDelegate::CPropertyDelegate(QObject *pParent /*= 0*/)
     : QStyledItemDelegate(pParent)
     , mpModel(nullptr)
+    , mRelaysBlocked(false)
 {
 }
 
@@ -181,6 +182,8 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
 
 void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkIndex) const
 {
+    BlockRelays(true);
+
     if (pEditor)
     {
         // Set editor data for regular property
@@ -322,6 +325,8 @@ void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkInd
             }
         }
     }
+
+    BlockRelays(false);
 }
 
 void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pModel*/, const QModelIndex &rkIndex) const
@@ -399,6 +404,14 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
             QComboBox *pComboBox = static_cast<QComboBox*>(pEditor);
             TEnumProperty *pEnum = static_cast<TEnumProperty*>(pProp);
             pEnum->Set(pComboBox->currentIndex());
+            break;
+        }
+
+        case eFileProperty:
+        {
+            WResourceSelector *pSelector = static_cast<WResourceSelector*>(pEditor);
+            TFileProperty *pFile = static_cast<TFileProperty*>(pProp);
+            pFile->Set(pSelector->GetResourceInfo());
             break;
         }
 
@@ -544,7 +557,7 @@ void CPropertyDelegate::SetCharacterEditorData(QWidget *pEditor, const QModelInd
 
     if (Type == eFileProperty)
     {
-        static_cast<WResourceSelector*>(pEditor)->SetResource(Params.AnimSet());
+            static_cast<WResourceSelector*>(pEditor)->SetResource(Params.AnimSet());
     }
 
     else if (Type == eEnumProperty)
@@ -569,6 +582,10 @@ void CPropertyDelegate::SetCharacterModelData(QWidget *pEditor, const QModelInde
     if (Type == eFileProperty)
     {
         Params.SetResource( static_cast<WResourceSelector*>(pEditor)->GetResource() );
+        // Reset all other parameters to 0
+        Params.SetNodeIndex(0);
+        for (u32 iUnk = 0; iUnk < 4; iUnk++)
+            Params.SetUnknown(iUnk, 0);
     }
 
     else if (Type == eEnumProperty)
@@ -583,6 +600,14 @@ void CPropertyDelegate::SetCharacterModelData(QWidget *pEditor, const QModelInde
     }
 
     pProp->Set(Params);
+
+    // If we just updated the resource, make sure all the sub-properties of the character are flagged as changed.
+    // We want to do this -after- updating the anim params on the property, which is why we have a second type check.
+    if (Type == eFileProperty)
+    {
+        QModelIndex ParentIndex = rkIndex.parent();
+        mpModel->dataChanged(mpModel->index(1, 1, ParentIndex), mpModel->index(mpModel->rowCount(ParentIndex) - 1, 1, ParentIndex));
+    }
 }
 
 EPropertyType CPropertyDelegate::DetermineCharacterPropType(EGame Game, const QModelIndex& rkIndex) const
@@ -611,5 +636,6 @@ void CPropertyDelegate::WidgetEdited(QWidget *pWidget, const QModelIndex& rkInde
 {
     // This slot is used to update property values as they're being updated so changes can be
     // reflected in realtime in other parts of the application.
-    setModelData(pWidget, mpModel, rkIndex);
+    if (!mRelaysBlocked)
+        setModelData(pWidget, mpModel, rkIndex);
 }

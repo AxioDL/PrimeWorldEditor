@@ -107,6 +107,11 @@ bool WResourceSelector::HasSupportedExtension(const CResourceInfo& rkRes)
 }
 
 // ************ GETTERS ************
+CResourceInfo WResourceSelector::GetResourceInfo()
+{
+    return mResource;
+}
+
 CResource* WResourceSelector::GetResource()
 {
     return mResource.Load();
@@ -137,7 +142,7 @@ bool WResourceSelector::IsPreviewPanelEnabled()
 void WResourceSelector::SetResource(CResource *pRes)
 {
     if (pRes)
-        SetResource(CResourceInfo(pRes->ResID(), CFourCC(pRes->Source().GetFileExtension())));
+        SetResource(CResourceInfo(pRes->FullSource()));
     else
         SetResource(CResourceInfo());
 }

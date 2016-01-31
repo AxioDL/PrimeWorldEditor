@@ -30,7 +30,7 @@
         <object ID="0x1C" template="Script/CameraShaker.xml"/>
         <object ID="0x1D" template="Script/ActorKeyframe.xml"/>
         <object ID="0x20" template="Script/Water.xml"/>
-        <object ID="0x21" template="Script/Warwasp.xml"/>
+        <object ID="0x21" template="Script/WarWasp.xml"/>
         <object ID="0x24" template="Script/SpacePirate.xml"/>
         <object ID="0x25" template="Script/FlyingPirate.xml"/>
         <object ID="0x26" template="Script/ElitePirate.xml"/>

@@ -77,6 +77,9 @@ public:
     void EnterPickMode(FNodeFlags AllowedNodes, bool ExitOnInvalidPick, bool EmitOnInvalidPick, bool EmitHoverOnButtonPress, QCursor Cursor = Qt::CrossCursor);
     void ExitPickMode();
 
+    void NotifySelectionModified();
+    void NotifySelectionTransformed();
+
 signals:
     void SelectionModified();
     void SelectionTransformed();
@@ -107,7 +110,6 @@ private slots:
     void OnRotateTriggered();
     void OnScaleTriggered();
     void OnTransformSpaceChanged(int spaceIndex);
-    void OnSelectionModified();
 };
 
 #endif // INODEEDITOR_H

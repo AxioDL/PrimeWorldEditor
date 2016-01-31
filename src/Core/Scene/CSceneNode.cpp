@@ -8,8 +8,6 @@
 #include <Math/CTransform4f.h>
 
 #include <algorithm>
-#include <gtc/quaternion.hpp>
-#include <gtx/transform.hpp>
 
 u32 CSceneNode::smNumNodes = 0;
 CColor CSceneNode::skSelectionTint = CColor::Integral(39, 154, 167);

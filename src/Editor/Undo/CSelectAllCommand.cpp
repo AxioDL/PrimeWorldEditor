@@ -35,7 +35,7 @@ void CSelectAllCommand::undo()
 
     // Update editor
     mpEditor->RecalculateSelectionBounds();
-    mpEditor->SelectionModified();
+    mpEditor->NotifySelectionModified();
 }
 
 void CSelectAllCommand::redo()
@@ -52,5 +52,5 @@ void CSelectAllCommand::redo()
 
     // Update editor
     mpEditor->RecalculateSelectionBounds();
-    mpEditor->SelectionModified();
+    mpEditor->NotifySelectionModified();
 }

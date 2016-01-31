@@ -28,7 +28,7 @@ CRotateNodeCommand::CRotateNodeCommand(INodeEditor *pEditor, const QList<CSceneN
         mNodeList.push_back(rotate);
     }
 
-    mpEditor->SelectionTransformed();
+    mpEditor->NotifySelectionTransformed();
 }
 
 CRotateNodeCommand::~CRotateNodeCommand()
@@ -80,7 +80,7 @@ void CRotateNodeCommand::undo()
     }
 
     mpEditor->RecalculateSelectionBounds();
-    mpEditor->SelectionTransformed();
+    mpEditor->NotifySelectionTransformed();
     mpEditor->UpdateGizmoUI();
 }
 
@@ -95,7 +95,7 @@ void CRotateNodeCommand::redo()
     }
 
     mpEditor->RecalculateSelectionBounds();
-    mpEditor->SelectionTransformed();
+    mpEditor->NotifySelectionTransformed();
     mpEditor->UpdateGizmoUI();
 }
 

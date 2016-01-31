@@ -284,9 +284,18 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
     {
         if (!(rkIndex.internalId() & 0x1))
         {
+            // Add name
             IProperty *pProp = PropertyForIndex(rkIndex, false);
             QString DisplayText = data(rkIndex, Qt::DisplayRole).toString();
             QString Text = QString("<b>%1</b> <i>(%2)</i>").arg(DisplayText).arg(TO_QSTRING(PropEnumToPropString(pProp->Type())));
+
+            // Add uncooked notification
+            if (pProp->Template()->CookPreference() == eNeverCook)
+            {
+                Text += "<br/><b>This is an uncooked property.</b>";
+            }
+
+            // Add description
             TString Desc = pProp->Template()->Description();
             if (!Desc.IsEmpty()) Text += "<br/>" + TO_QSTRING(Desc);
             return Text;

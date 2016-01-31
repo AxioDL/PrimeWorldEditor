@@ -27,6 +27,7 @@ class CScriptNode : public CSceneNode
 public:
     CScriptNode(CScene *pScene, CSceneNode *pParent = 0, CScriptObject *pObject = 0);
     ENodeType NodeType();
+    void OnTransformed();
     void AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo);
     void Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& ViewInfo);
     void DrawSelection();
@@ -51,6 +52,7 @@ public:
     CVector2f BillboardScale() const;
 
 protected:
+    void SetActiveModel(CModel *pModel);
     void CalculateTransform(CTransform4f& rOut) const;
 };
 

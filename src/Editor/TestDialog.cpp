@@ -17,13 +17,13 @@ TestDialog::TestDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    CTemplateLoader::LoadGameTemplates(eCorruption);
+    /*CTemplateLoader::LoadGameTemplates(eCorruption);
     CMasterTemplate *pMaster = CMasterTemplate::GetMasterForGame(eCorruption);
     CScriptTemplate *pTemp = pMaster->TemplateByID("PCKP");
 
     CPropertyStruct *pBase = static_cast<CPropertyStruct*>(pTemp->BaseStruct()->InstantiateProperty(nullptr));
     ui->treeView->setItemDelegate(new CPropertyDelegate(ui->treeView));
-    ui->treeView->SetBaseStruct(pBase);
+    ui->treeView->SetObject(pBase);*/
 }
 
 TestDialog::~TestDialog()
