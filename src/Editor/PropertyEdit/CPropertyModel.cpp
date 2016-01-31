@@ -409,29 +409,35 @@ void CPropertyModel::NotifyPropertyModified(const QModelIndex& rkIndex)
     emit PropertyModified(rkIndex);
 }
 
-void CPropertyModel::ResizeArray(const QModelIndex& rkIndex, u32 NewSize)
+void CPropertyModel::ArrayAboutToBeResized(const QModelIndex& rkIndex, u32 NewSize)
 {
-    QModelIndex Index = index(rkIndex.row(), 0, rkIndex.parent());
-    CArrayProperty *pArray = static_cast<CArrayProperty*>(PropertyForIndex(rkIndex, false));
+    QModelIndex Index = rkIndex.sibling(rkIndex.row(), 0);
+    CArrayProperty *pArray = static_cast<CArrayProperty*>(PropertyForIndex(Index, false));
 
     if (pArray && pArray->Type() == eArrayProperty)
     {
         u32 OldSize = pArray->Count();
 
-        if (OldSize != NewSize)
+        if (NewSize != OldSize)
         {
-            if (OldSize < NewSize)
-            {
+            if (NewSize > OldSize)
                 beginInsertRows(Index, OldSize, NewSize - 1);
-                pArray->Resize(NewSize);
-                endInsertRows();
-            }
             else
-            {
                 beginRemoveRows(Index, NewSize, OldSize - 1);
-                pArray->Resize(NewSize);
-                endRemoveRows();
-            }
         }
+    }
+}
+
+void CPropertyModel::ArrayResized(const QModelIndex& rkIndex, u32 OldSize)
+{
+    CArrayProperty *pArray = static_cast<CArrayProperty*>(PropertyForIndex(rkIndex, false));
+    u32 NewSize = pArray->Count();
+
+    if (NewSize != OldSize)
+    {
+        if (pArray->Count() > OldSize)
+            endInsertRows();
+        else
+            endRemoveRows();
     }
 }

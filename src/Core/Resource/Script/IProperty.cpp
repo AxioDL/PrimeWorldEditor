@@ -23,6 +23,19 @@ TIDString IProperty::IDString(bool FullPath) const
 }
 
 // ************ CPropertyStruct ************
+void CPropertyStruct::Copy(const IProperty *pkProp)
+{
+    const CPropertyStruct *pkSource = static_cast<const CPropertyStruct*>(pkProp);
+
+    for (auto it = mProperties.begin(); it != mProperties.end(); it++)
+        delete *it;
+
+    mProperties.resize(pkSource->mProperties.size());
+
+    for (u32 iSub = 0; iSub < mProperties.size(); iSub++)
+        mProperties[iSub] = pkSource->mProperties[iSub]->Clone(this);
+}
+
 IProperty* CPropertyStruct::PropertyByIndex(u32 index) const
 {
     return mProperties[index];

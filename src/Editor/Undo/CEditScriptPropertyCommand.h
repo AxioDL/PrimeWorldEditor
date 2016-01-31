@@ -1,15 +1,12 @@
 #ifndef CEDITSCRIPTPROPERTYCOMMAND_H
 #define CEDITSCRIPTPROPERTYCOMMAND_H
 
-#include "Editor/PropertyEdit/CPropertyDelegate.h"
+#include "CBasicPropertyCommand.h"
+#include "Editor/PropertyEdit/CPropertyModel.h"
 #include <QUndoCommand>
 
-class CEditScriptPropertyCommand : public QUndoCommand
+class CEditScriptPropertyCommand : public CBasicPropertyCommand
 {
-    CPropertyModel *mpModel;
-    IProperty *mpProperty;
-    QModelIndex mIndex;
-
     IPropertyValue *mpOldValue;
     IPropertyValue *mpNewValue;
     bool mCommandEnded;

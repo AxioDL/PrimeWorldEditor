@@ -41,8 +41,11 @@ public:
     virtual EPropertyType Type() const = 0;
     virtual TString ToString() const { return ""; }
     virtual IPropertyValue* RawValue() { return nullptr; }
+    virtual void Copy(const IProperty *pkProp) = 0;
+    virtual IProperty* Clone(CPropertyStruct *pParent = 0) const = 0;
 
     inline CPropertyStruct* Parent() const { return mpParent; }
+    inline void SetParent(CPropertyStruct *pParent) { mpParent = pParent; }
 
     // These functions can't be in the header to avoid circular includes with IPropertyTemplate.h
     IPropertyTemplate* Template() const;
@@ -70,6 +73,21 @@ public:
     virtual EPropertyType Type() const { return TypeEnum; }
     virtual TString ToString() const { return mValue.ToString(); }
     virtual IPropertyValue* RawValue() { return &mValue; }
+
+    virtual void Copy(const IProperty *pkProp)
+    {
+        const TTypedProperty *pkCast = static_cast<const TTypedProperty*>(pkProp);
+        mValue.Set(pkCast->mValue.Get());
+    }
+
+    virtual TTypedProperty* Clone(CPropertyStruct *pParent) const
+    {
+        if (!pParent) pParent = mpParent;
+
+        TTypedProperty *pOut = new TTypedProperty(mpTemplate, pParent);
+        pOut->Copy(this);
+        return pOut;
+    }
 
     inline PropType Get() const { return mValue.Get(); }
     inline void Set(PropType v) { mValue.Set(v); }
@@ -107,6 +125,16 @@ public:
 
     EPropertyType Type() const { return eStructProperty; }
 
+    virtual void Copy(const IProperty *pkProp);
+
+    virtual IProperty* Clone(CPropertyStruct *pParent) const
+    {
+        if (!pParent) pParent = mpParent;
+        CPropertyStruct *pOut = new CPropertyStruct(mpTemplate, pParent);
+        pOut->Copy(this);
+        return pOut;
+    }
+
     // Inline
     inline u32 Count() const { return mProperties.size(); }
     inline void AddSubProperty(IProperty *pProp) { mProperties.push_back(pProp); }
@@ -133,6 +161,14 @@ public:
         : CPropertyStruct(pTemp, pParent) {}
 
     EPropertyType Type() const { return eArrayProperty; }
+
+    virtual IProperty* Clone(CPropertyStruct *pParent) const
+    {
+        if (!pParent) pParent = mpParent;
+        CArrayProperty *pOut = new CArrayProperty(mpTemplate, pParent);
+        pOut->Copy(this);
+        return pOut;
+    }
 
     // Inline
     inline void Reserve(u32 amount) { mProperties.reserve(amount); }
