@@ -1,19 +1,25 @@
 #ifndef CPROPERTYDELEGATE_H
 #define CPROPERTYDELEGATE_H
 
-#include <QStyledItemDelegate>
 #include "CPropertyModel.h"
+#include "Editor/WorldEditor/CWorldEditor.h"
+#include <QStyledItemDelegate>
 
 class CPropertyDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 
+    CWorldEditor *mpEditor;
     CPropertyModel *mpModel;
+    bool mInRelayWidgetEdit;
+    mutable bool mEditInProgress;
     mutable bool mRelaysBlocked;
 
 public:
     CPropertyDelegate(QObject *pParent = 0);
-    void SetModel(CPropertyModel *pModel);
+    void SetPropertyModel(CPropertyModel *pModel);
+    void SetEditor(CWorldEditor *pEditor);
+
     virtual QWidget* createEditor(QWidget *pParent, const QStyleOptionViewItem& rkOption, const QModelIndex &rkIndex) const;
     virtual void setEditorData(QWidget *pEditor, const QModelIndex &rkIndex) const;
     virtual void setModelData(QWidget *pEditor, QAbstractItemModel *pModel, const QModelIndex &rkIndex) const;
@@ -29,9 +35,6 @@ public slots:
 
 protected:
     void BlockRelays(bool Block) const { mRelaysBlocked = Block; }
-
-signals:
-    void PropertyEdited(const QModelIndex& rkIndex, bool IsDone) const;
 };
 
 #endif // CPROPERTYDELEGATE_H

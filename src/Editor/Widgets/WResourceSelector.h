@@ -54,6 +54,7 @@ public:
     bool eventFilter(QObject *, QEvent *);
     bool IsSupportedExtension(const QString& extension);
     bool HasSupportedExtension(const CResourceInfo& rkRes);
+    void UpdateFrameColor();
 
     // Getters
     CResourceInfo GetResourceInfo();
@@ -65,6 +66,7 @@ public:
 
     // Setters
     void SetResource(CResource *pRes);
+    void SetResource(const QString& rkRes);
     void SetResource(const CResourceInfo& rkRes);
     void SetAllowedExtensions(const QString& extension);
     void SetAllowedExtensions(const QStringList& extensions);
@@ -85,7 +87,6 @@ public slots:
 private:
     void Edit();
     void Export();
-    void LoadResource(const QString& ResPath);
     void CreatePreviewPanel();
     void ShowPreviewPanel();
     void HidePreviewPanel();

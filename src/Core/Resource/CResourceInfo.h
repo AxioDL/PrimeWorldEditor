@@ -31,10 +31,18 @@ public:
 
     inline CUniqueID ID() const
     {
+        TString FileName = mPath.GetFileName();
+
         if (!mIsPath)
-            return CUniqueID::FromString(mPath.GetFileName());
+            return CUniqueID::FromString(FileName);
+
         else
-            return CUniqueID::skInvalidID64;
+        {
+            if (FileName.IsHexString() && (FileName.Size() == 8 || FileName.Size() == 16))
+                return CUniqueID::FromString(FileName);
+            else
+                return CUniqueID::skInvalidID64;
+        }
     }
 
     inline CFourCC Type() const
@@ -63,6 +71,16 @@ public:
             return ID().IsValid();
         else
             return mIsValidPath;
+    }
+
+    inline bool operator==(const CResourceInfo& rkOther) const
+    {
+        return (mPath.GetFileName() == rkOther.mPath.GetFileName());
+    }
+
+    inline bool operator!=(const CResourceInfo& rkOther) const
+    {
+        return (!(*this == rkOther));
     }
 };
 

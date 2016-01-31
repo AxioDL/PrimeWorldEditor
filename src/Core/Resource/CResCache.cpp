@@ -196,6 +196,7 @@ CResource* CResCache::GetResource(const TString& ResPath)
     else if (type == "CHAR") Res = CAnimSetLoader::LoadCHAR(file);
     else if (type == "MREA") Res = CAreaLoader::LoadMREA(file);
     else if (type == "MLVL") Res = CWorldLoader::LoadMLVL(file);
+    else if (type == "STRG") Res = CStringLoader::LoadSTRG(file);
     else if (type == "FONT") Res = CFontLoader::LoadFONT(file);
     else if (type == "SCAN") Res = CScanLoader::LoadSCAN(file);
     else if (type == "DCLN") Res = CCollisionLoader::LoadDCLN(file);

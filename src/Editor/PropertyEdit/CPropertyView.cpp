@@ -14,16 +14,16 @@ CPropertyView::CPropertyView(QWidget *pParent)
     setEditTriggers(AllEditTriggers);
     setModel(mpModel);
 
-    connect(mpModel, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(SetPersistentEditors(QModelIndex)));
     connect(this, SIGNAL(expanded(QModelIndex)), this, SLOT(SetPersistentEditors(QModelIndex)));
-    connect(mpDelegate, SIGNAL(PropertyEdited(QModelIndex,bool)), this, SLOT(OnPropertyModified(QModelIndex,bool)));
+    connect(mpModel, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(SetPersistentEditors(QModelIndex)));
+    connect(mpModel, SIGNAL(PropertyModified(QModelIndex)), this, SLOT(OnPropertyModified(QModelIndex)));
 }
 
 void CPropertyView::setModel(QAbstractItemModel *pModel)
 {
     CPropertyModel *pPropModel = qobject_cast<CPropertyModel*>(pModel);
     mpModel = pPropModel;
-    mpDelegate->SetModel(pPropModel);
+    mpDelegate->SetPropertyModel(pPropModel);
     QTreeView::setModel(pPropModel);
 
     if (pPropModel)
@@ -61,7 +61,13 @@ bool CPropertyView::event(QEvent *pEvent)
     else return QTreeView::event(pEvent);
 }
 
-void CPropertyView::SetObject(CScriptObject *pObj)
+void CPropertyView::SetEditor(CWorldEditor *pEditor)
+{
+    mpEditor = pEditor;
+    mpDelegate->SetEditor(pEditor);
+}
+
+void CPropertyView::SetInstance(CScriptObject *pObj)
 {
     mpObject = pObj;
     mpModel->SetBaseStruct(pObj ? pObj->Properties() : nullptr);
@@ -168,23 +174,21 @@ void CPropertyView::ClosePersistentEditors(const QModelIndex& rkIndex)
     }
 }
 
-void CPropertyView::OnPropertyModified(const QModelIndex &rkIndex, bool IsDone)
+void CPropertyView::OnPropertyModified(const QModelIndex& rkIndex)
 {
-    // Check for a resource being changed on a character property. If that's the case we need to remake the persistent editors.
-    if (rkIndex.internalId() & 0x1)
-    {
-        if (mpModel->PropertyForIndex(rkIndex, true)->Type() == eCharacterProperty)
-        {
-            EGame Game = static_cast<TCharacterProperty*>(mpModel->PropertyForIndex(rkIndex, true))->Get().Version();
+    // Check for a character resource being changed. If that's the case we need to remake the persistent editors.
+    IProperty *pProp = mpModel->PropertyForIndex(rkIndex, true);
 
-            if (mpDelegate->DetermineCharacterPropType(Game, rkIndex) == eFileProperty)
-            {
-                QModelIndex Parent = rkIndex.parent();
-                ClosePersistentEditors(Parent);
-                SetPersistentEditors(Parent);
-            }
+    if (pProp->Type() == eCharacterProperty && rkIndex.internalId() & 0x1)
+    {
+        EGame Game = static_cast<TCharacterProperty*>(pProp)->Get().Version();
+
+        if (mpDelegate->DetermineCharacterPropType(Game, rkIndex) == eFileProperty)
+        {
+            ClosePersistentEditors(rkIndex.parent());
+            SetPersistentEditors(rkIndex.parent());
         }
     }
 
-    emit PropertyModified(rkIndex, IsDone);
+    emit PropertyModified(pProp);
 }

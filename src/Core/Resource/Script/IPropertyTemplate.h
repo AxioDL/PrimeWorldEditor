@@ -338,13 +338,11 @@ public:
     CEnumTemplate(u32 ID, CStructTemplate *pParent = 0)
         : TLongTemplate(ID, pParent)
     {
-        mDefaultValue.SetHexStringOutput(true);
     }
 
     CEnumTemplate(u32 ID, const TString& rkName, ECookPreference CookPreference, CStructTemplate *pParent = 0)
         : TLongTemplate(ID, rkName, CookPreference, pParent)
     {
-        mDefaultValue.SetHexStringOutput(true);
     }
 
     virtual EPropertyType Type()  const { return eEnumProperty; }
@@ -393,7 +391,7 @@ public:
 
 // CBitfieldTemplate - Property template for bitfields, which can have multiple
 // distinct boolean parameters packed into one property.
-class CBitfieldTemplate : public TLongTemplate
+class CBitfieldTemplate : public TTypedPropertyTemplate<u32, eBitfieldProperty, CHexLongValue>
 {
     friend class CTemplateLoader;
     friend class CTemplateWriter;
@@ -411,15 +409,13 @@ class CBitfieldTemplate : public TLongTemplate
 
 public:
     CBitfieldTemplate(u32 ID, CStructTemplate *pParent = 0)
-        : TLongTemplate(ID, pParent)
+        : TTypedPropertyTemplate(ID, pParent)
     {
-        mDefaultValue.SetHexStringOutput(true);
     }
 
     CBitfieldTemplate(u32 ID, const TString& rkName, ECookPreference CookPreference, CStructTemplate *pParent = 0)
-        : TLongTemplate(ID, rkName, CookPreference, pParent)
+        : TTypedPropertyTemplate(ID, rkName, CookPreference, pParent)
     {
-        mDefaultValue.SetHexStringOutput(true);
     }
 
     virtual EPropertyType Type()  const { return eBitfieldProperty; }

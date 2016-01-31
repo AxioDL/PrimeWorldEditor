@@ -2,6 +2,7 @@
 #include "CPropertyRelay.h"
 
 #include "Editor/UICommon.h"
+#include "Editor/Undo/CEditScriptPropertyCommand.h"
 #include "Editor/Widgets/WColorPicker.h"
 #include "Editor/Widgets/WDraggableSpinBox.h"
 #include "Editor/Widgets/WIntegralSpinBox.h"
@@ -23,14 +24,22 @@
 
 CPropertyDelegate::CPropertyDelegate(QObject *pParent /*= 0*/)
     : QStyledItemDelegate(pParent)
+    , mpEditor(nullptr)
     , mpModel(nullptr)
+    , mInRelayWidgetEdit(false)
+    , mEditInProgress(false)
     , mRelaysBlocked(false)
 {
 }
 
-void CPropertyDelegate::SetModel(CPropertyModel *pModel)
+void CPropertyDelegate::SetPropertyModel(CPropertyModel *pModel)
 {
     mpModel = pModel;
+}
+
+void CPropertyDelegate::SetEditor(CWorldEditor *pEditor)
+{
+    mpEditor = pEditor;
 }
 
 QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionViewItem& /*rkOption*/, const QModelIndex& rkIndex) const
@@ -116,6 +125,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
             WResourceSelector *pSelector = new WResourceSelector(pParent);
             CFileTemplate *pTemp = static_cast<CFileTemplate*>(pProp->Template());
             pSelector->SetAllowedExtensions(pTemp->Extensions());
+            pSelector->setFont(qobject_cast<QWidget*>(parent())->font()); // bit of a hack to stop the resource selector font from changing
 
             CONNECT_RELAY(pSelector, rkIndex, ResourceChanged(QString))
             pOut = pSelector;
@@ -191,90 +201,92 @@ void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkInd
 
         if (pProp)
         {
-            switch (pProp->Type())
+            if (!mEditInProgress)
             {
+                switch (pProp->Type())
+                {
 
-            case eBoolProperty:
-            {
-                QCheckBox *pCheckBox = static_cast<QCheckBox*>(pEditor);
-                TBoolProperty *pBool = static_cast<TBoolProperty*>(pProp);
-                pCheckBox->setChecked(pBool->Get());
-                break;
-            }
+                case eBoolProperty:
+                {
+                    QCheckBox *pCheckBox = static_cast<QCheckBox*>(pEditor);
+                    TBoolProperty *pBool = static_cast<TBoolProperty*>(pProp);
+                    pCheckBox->setChecked(pBool->Get());
+                    break;
+                }
 
-            case eShortProperty:
-            {
-                WIntegralSpinBox *pSpinBox = static_cast<WIntegralSpinBox*>(pEditor);
-                TShortProperty *pShort = static_cast<TShortProperty*>(pProp);
-                pSpinBox->setValue(pShort->Get());
-                break;
-            }
+                case eShortProperty:
+                {
+                    WIntegralSpinBox *pSpinBox = static_cast<WIntegralSpinBox*>(pEditor);
+                    TShortProperty *pShort = static_cast<TShortProperty*>(pProp);
+                    pSpinBox->setValue(pShort->Get());
+                    break;
+                }
 
+                case eLongProperty:
+                {
+                    WIntegralSpinBox *pSpinBox = static_cast<WIntegralSpinBox*>(pEditor);
+                    TLongProperty *pLong = static_cast<TLongProperty*>(pProp);
+                    pSpinBox->setValue(pLong->Get());
+                    break;
+                }
 
-            case eLongProperty:
-            {
-                WIntegralSpinBox *pSpinBox = static_cast<WIntegralSpinBox*>(pEditor);
-                TLongProperty *pLong = static_cast<TLongProperty*>(pProp);
-                pSpinBox->setValue(pLong->Get());
-                break;
-            }
+                case eFloatProperty:
+                {
+                    WDraggableSpinBox *pSpinBox = static_cast<WDraggableSpinBox*>(pEditor);
+                    TFloatProperty *pFloat = static_cast<TFloatProperty*>(pProp);
+                    pSpinBox->setValue(pFloat->Get());
+                    break;
+                }
 
-            case eFloatProperty:
-            {
-                WDraggableSpinBox *pSpinBox = static_cast<WDraggableSpinBox*>(pEditor);
-                TFloatProperty *pFloat = static_cast<TFloatProperty*>(pProp);
-                pSpinBox->setValue(pFloat->Get());
-                break;
-            }
+                case eColorProperty:
+                {
+                    WColorPicker *pColorPicker = static_cast<WColorPicker*>(pEditor);
+                    TColorProperty *pColor = static_cast<TColorProperty*>(pProp);
 
-            case eColorProperty:
-            {
-                WColorPicker *pColorPicker = static_cast<WColorPicker*>(pEditor);
-                TColorProperty *pColor = static_cast<TColorProperty*>(pProp);
+                    CColor SrcColor = pColor->Get();
+                    QColor Color;
+                    Color.setRed(SrcColor.r * 255);
+                    Color.setGreen(SrcColor.g * 255);
+                    Color.setBlue(SrcColor.b * 255);
+                    Color.setAlpha(SrcColor.a * 255);
 
-                CColor SrcColor = pColor->Get();
-                QColor Color;
-                Color.setRed(SrcColor.r * 255);
-                Color.setGreen(SrcColor.g * 255);
-                Color.setBlue(SrcColor.b * 255);
-                Color.setAlpha(SrcColor.a * 255);
+                    pColorPicker->setColor(Color);
+                    break;
+                }
 
-                pColorPicker->setColor(Color);
-                break;
-            }
+                case eStringProperty:
+                {
+                    QLineEdit *pLineEdit = static_cast<QLineEdit*>(pEditor);
+                    TStringProperty *pString = static_cast<TStringProperty*>(pProp);
+                    pLineEdit->setText(TO_QSTRING(pString->Get()));
+                    break;
+                }
 
-            case eStringProperty:
-            {
-                QLineEdit *pLineEdit = static_cast<QLineEdit*>(pEditor);
-                TStringProperty *pString = static_cast<TStringProperty*>(pProp);
-                pLineEdit->setText(TO_QSTRING(pString->Get()));
-                break;
-            }
+                case eEnumProperty:
+                {
+                    QComboBox *pComboBox = static_cast<QComboBox*>(pEditor);
+                    TEnumProperty *pEnum = static_cast<TEnumProperty*>(pProp);
+                    pComboBox->setCurrentIndex(pEnum->Get());
+                    break;
+                }
 
-            case eEnumProperty:
-            {
-                QComboBox *pComboBox = static_cast<QComboBox*>(pEditor);
-                TEnumProperty *pEnum = static_cast<TEnumProperty*>(pProp);
-                pComboBox->setCurrentIndex(pEnum->Get());
-                break;
-            }
+                case eFileProperty:
+                {
+                    WResourceSelector *pSelector = static_cast<WResourceSelector*>(pEditor);
+                    TFileProperty *pFile = static_cast<TFileProperty*>(pProp);
+                    pSelector->SetResource(pFile->Get());
+                    break;
+                }
 
-            case eFileProperty:
-            {
-                WResourceSelector *pSelector = static_cast<WResourceSelector*>(pEditor);
-                TFileProperty *pFile = static_cast<TFileProperty*>(pProp);
-                pSelector->SetResource(pFile->Get());
-                break;
-            }
+                case eArrayProperty:
+                {
+                    WIntegralSpinBox *pSpinBox = static_cast<WIntegralSpinBox*>(pEditor);
+                    CArrayProperty *pArray = static_cast<CArrayProperty*>(pProp);
+                    pSpinBox->setValue(pArray->Count());
+                    break;
+                }
 
-            case eArrayProperty:
-            {
-                WIntegralSpinBox *pSpinBox = static_cast<WIntegralSpinBox*>(pEditor);
-                CArrayProperty *pArray = static_cast<CArrayProperty*>(pProp);
-                pSpinBox->setValue(pArray->Count());
-                break;
-            }
-
+                }
             }
         }
 
@@ -335,9 +347,12 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
     if (!pEditor) return;
 
     IProperty *pProp = mpModel->PropertyForIndex(rkIndex, false);
+    IPropertyValue *pOldValue = nullptr;
 
     if (pProp)
     {
+        pOldValue = pProp->RawValue()->Clone();
+
         switch (pProp->Type())
         {
 
@@ -385,9 +400,6 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
             Color.b = SrcColor.blue() / 255.f;
             Color.a = SrcColor.alpha() / 255.f;
             pColor->Set(Color);
-
-            // Make sure sub-properties update with the new color
-            mpModel->UpdateSubProperties(rkIndex);
             break;
         }
 
@@ -430,6 +442,7 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
     else if (rkIndex.internalId() & 0x1)
     {
         pProp = mpModel->PropertyForIndex(rkIndex, true);
+        pOldValue = pProp->RawValue()->Clone();
 
         if (pProp->Type() == eCharacterProperty)
             SetCharacterModelData(pEditor, rkIndex);
@@ -474,13 +487,33 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
 
                 pColor->Set(Value);
             }
-
-            QModelIndex ParentWidgetIndex = mpModel->index(rkIndex.parent().row(), 1, rkIndex.parent().parent());
-            mpModel->dataChanged(ParentWidgetIndex, ParentWidgetIndex);
         }
     }
 
-    emit PropertyEdited(rkIndex, true);
+    if (pProp)
+    {
+        // Check for edit in progress
+        bool Matches = pOldValue->Matches(pProp->RawValue());
+
+        if (!Matches && mInRelayWidgetEdit && pEditor->hasFocus())
+            mEditInProgress = true;
+
+        bool EditInProgress = mEditInProgress;
+
+        // Check for edit finished
+        if (!mInRelayWidgetEdit || !pEditor->hasFocus())
+            mEditInProgress = false;
+
+        // Create undo command
+        if (!Matches || EditInProgress)
+        {
+            CEditScriptPropertyCommand *pCommand = new CEditScriptPropertyCommand(mpModel, rkIndex, pOldValue, !mEditInProgress);
+            mpEditor->UndoStack()->push(pCommand);
+        }
+
+        else
+            delete pOldValue;
+    }
 }
 
 bool CPropertyDelegate::eventFilter(QObject *pObject, QEvent *pEvent)
@@ -513,6 +546,7 @@ QWidget* CPropertyDelegate::CreateCharacterEditor(QWidget *pParent, const QModel
     if (Type == eFileProperty)
     {
         WResourceSelector *pSelector = new WResourceSelector(pParent);
+        pSelector->setFont(qobject_cast<QWidget*>(parent())->font()); // hack to keep the selector font from changing
 
         if (Params.Version() <= eEchoes)
             pSelector->SetAllowedExtensions("ANCS");
@@ -636,6 +670,10 @@ void CPropertyDelegate::WidgetEdited(QWidget *pWidget, const QModelIndex& rkInde
 {
     // This slot is used to update property values as they're being updated so changes can be
     // reflected in realtime in other parts of the application.
+    mInRelayWidgetEdit = true;
+
     if (!mRelaysBlocked)
         setModelData(pWidget, mpModel, rkIndex);
+
+    mInRelayWidgetEdit = false;
 }

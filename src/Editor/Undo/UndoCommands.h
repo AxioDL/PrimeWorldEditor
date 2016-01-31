@@ -9,6 +9,7 @@
 #include "CClearSelectionCommand.h"
 #include "CSelectAllCommand.h"
 #include "CInvertSelectionCommand.h"
+#include "CEditScriptPropertyCommand.h"
 #include "EUndoCommand.h"
 
 #endif // UNDOCOMMANDS

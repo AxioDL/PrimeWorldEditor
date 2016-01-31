@@ -36,7 +36,7 @@ public:
 
 public slots:
     void OnWorldSelectionTransformed();
-    void OnPropertyModified(const QModelIndex& rkIndex, bool IsDone);
+    void OnPropertyModified(IProperty *pProp);
 
 private:
     Ui::WModifyTab *ui;

@@ -22,8 +22,12 @@ public:
     QModelIndex index(int Row, int Column, const QModelIndex& rkParent) const;
     QModelIndex parent(const QModelIndex& rkChild) const;
     Qt::ItemFlags flags(const QModelIndex& rkIndex) const;
-    void UpdateSubProperties(const QModelIndex& rkIndex);
+
+    void NotifyPropertyModified(const QModelIndex& rkIndex);
     void ResizeArray(const QModelIndex& rkIndex, u32 NewSize);
+
+signals:
+    void PropertyModified(const QModelIndex& rkIndex);
 };
 
 #endif // CPROPERTYMODEL_H

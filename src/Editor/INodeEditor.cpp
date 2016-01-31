@@ -233,6 +233,7 @@ void INodeEditor::ExitPickMode()
 
 void INodeEditor::NotifySelectionModified()
 {
+    RecalculateSelectionBounds();
     UpdateSelectionUI();
     emit SelectionModified();
 }

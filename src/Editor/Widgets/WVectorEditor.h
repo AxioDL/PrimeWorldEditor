@@ -15,6 +15,7 @@ class WVectorEditor : public QWidget
     Q_OBJECT
 
     CVector3f mValue;
+    bool mEditing;
 
     Qt::Orientation mOrientation;
     QLayout *mpLayout;

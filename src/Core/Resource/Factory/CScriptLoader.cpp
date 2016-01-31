@@ -99,7 +99,7 @@ void CScriptLoader::ReadProperty(IProperty *pProp, u32 Size, IInputStream& SCLY)
         CUniqueID ResID = (mVersion < eCorruptionProto ? SCLY.ReadLong() : SCLY.ReadLongLong());
         const TStringList& rkExtensions = static_cast<CFileTemplate*>(pTemp)->Extensions();
 
-        CResourceInfo Info(ResID, "UNKN");
+        CResourceInfo Info(ResID, CFourCC(!rkExtensions.empty() ? rkExtensions.front() : "UNKN"));
 
         if (ResID.IsValid())
         {
