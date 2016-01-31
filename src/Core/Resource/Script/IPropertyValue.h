@@ -17,6 +17,9 @@ class IPropertyValue
 public:
     virtual TString ToString() const = 0;
     virtual void FromString(const TString& rkString) = 0;
+    virtual IPropertyValue* Clone() const = 0;
+    virtual void Copy(IPropertyValue *pValue) = 0;
+    virtual bool Matches(IPropertyValue *pValue) const = 0;
 };
 
 template<typename PropType>
@@ -28,8 +31,20 @@ protected:
 public:
     TTypedPropertyValue() {}
 
-    TTypedPropertyValue(PropType Val)
-        : mValue(Val) {}
+    TTypedPropertyValue(PropType rkVal)
+        : mValue(rkVal) {}
+
+    virtual void Copy(IPropertyValue *pValue)
+    {
+        TTypedPropertyValue *pOther = static_cast<TTypedPropertyValue*>(pValue);
+        mValue = pOther->mValue;
+    }
+
+    virtual bool Matches(IPropertyValue *pValue) const
+    {
+        TTypedPropertyValue *pOther = static_cast<TTypedPropertyValue*>(pValue);
+        return (mValue == pOther->mValue);
+    }
 
     PropType Get() const
     {
@@ -69,6 +84,11 @@ public:
     {
         mValue = (rkString == "true");
     }
+
+    IPropertyValue* Clone() const
+    {
+        return new CBoolValue(mValue);
+    }
 };
 
 class CByteValue : public TTypedPropertyValue<s8>
@@ -86,6 +106,11 @@ public:
     {
         u32 base = (rkString.StartsWith("0x") ? 16 : 10);
         mValue = (s8) rkString.ToInt32(base);
+    }
+
+    IPropertyValue* Clone() const
+    {
+        return new CByteValue(mValue);
     }
 };
 
@@ -105,34 +130,56 @@ public:
         u32 base = (rkString.StartsWith("0x") ? 16 : 10);
         mValue = (s16) rkString.ToInt32(base);
     }
+
+    IPropertyValue* Clone() const
+    {
+        return new CShortValue(mValue);
+    }
 };
 
 class CLongValue : public TTypedPropertyValue<s32>
 {
-protected:
-    bool mShouldOutputHex;
-
 public:
-    CLongValue()        { mShouldOutputHex = false; mValue = 0; }
-    CLongValue(s32 Val) { mShouldOutputHex = false; mValue = Val; }
-
-    void SetHexStringOutput(bool enable)
-    {
-        mShouldOutputHex = enable;
-    }
+    CLongValue()        { mValue = 0; }
+    CLongValue(s32 Val) { mValue = Val; }
 
     TString ToString() const
     {
-        if (mShouldOutputHex)
-            return TString::HexString((u32) mValue, true, true, 8);
-        else
-            return TString::FromInt32(mValue, 0, 10);
+        return TString::FromInt32(mValue, 0, 10);
     }
 
     void FromString(const TString& rkString)
     {
         u32 base = (rkString.StartsWith("0x") ? 16 : 10);
         mValue = (s32) rkString.ToInt32(base);
+    }
+
+    IPropertyValue* Clone() const
+    {
+        return new CLongValue(mValue);
+    }
+};
+
+class CHexLongValue : public TTypedPropertyValue<u32>
+{
+public:
+    CHexLongValue()         { mValue = 0; }
+    CHexLongValue(u32 Val)  { mValue = Val; }
+
+    TString ToString() const
+    {
+        return TString::HexString(mValue, true, true, 8);
+    }
+
+    void FromString(const TString& rkString)
+    {
+        u32 base = (rkString.StartsWith("0x") ? 16 : 10);
+        mValue = (s32) rkString.ToInt32(base);
+    }
+
+    IPropertyValue* Clone() const
+    {
+        return new CHexLongValue(mValue);
     }
 };
 
@@ -151,6 +198,11 @@ public:
     {
         mValue = rkString.ToFloat();
     }
+
+    IPropertyValue* Clone() const
+    {
+        return new CFloatValue(mValue);
+    }
 };
 
 class CStringValue : public TTypedPropertyValue<TString>
@@ -168,6 +220,11 @@ public:
     void FromString(const TString& rkString)
     {
         mValue = rkString;
+    }
+
+    IPropertyValue* Clone() const
+    {
+        return new CStringValue(mValue);
     }
 };
 
@@ -207,6 +264,11 @@ public:
             pPtr++;
         }
     }
+
+    IPropertyValue* Clone() const
+    {
+        return new CColorValue(mValue);
+    }
 };
 
 class CVector3Value : public TTypedPropertyValue<CVector3f>
@@ -243,15 +305,26 @@ public:
             pPtr++;
         }
     }
+
+    IPropertyValue* Clone() const
+    {
+        return new CVector3Value(mValue);
+    }
 };
 
 class CCharacterValue : public TTypedPropertyValue<CAnimationParameters>
 {
 public:
     CCharacterValue() {}
+    CCharacterValue(const CAnimationParameters& rkParams) { mValue = rkParams; }
 
     TString ToString() const { return ""; }
     void FromString(const TString&) { }
+
+    IPropertyValue* Clone() const
+    {
+        return new CCharacterValue(mValue);
+    }
 };
 
 class CFileValue : public TTypedPropertyValue<CResourceInfo>
@@ -262,15 +335,26 @@ public:
 
     TString ToString() const { return ""; }
     void FromString(const TString&) { }
+
+    IPropertyValue* Clone() const
+    {
+        return new CFileValue(mValue);
+    }
 };
 
 class CUnknownValue : public TTypedPropertyValue<std::vector<u8>>
 {
 public:
     CUnknownValue();
+    CUnknownValue(const std::vector<u8>& rkVec) { mValue = rkVec; }
 
     TString ToString() const { return ""; }
     void FromString(const TString&) {}
+
+    IPropertyValue* Clone() const
+    {
+        return new CUnknownValue(mValue);
+    }
 };
 
 #endif // IPROPERTYVALUE_H

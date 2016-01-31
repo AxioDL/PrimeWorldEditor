@@ -40,6 +40,7 @@ public:
     virtual ~IProperty() {}
     virtual EPropertyType Type() const = 0;
     virtual TString ToString() const { return ""; }
+    virtual IPropertyValue* RawValue() { return nullptr; }
 
     inline CPropertyStruct* Parent() const { return mpParent; }
 
@@ -68,6 +69,7 @@ public:
     ~TTypedProperty() {}
     virtual EPropertyType Type() const { return TypeEnum; }
     virtual TString ToString() const { return mValue.ToString(); }
+    virtual IPropertyValue* RawValue() { return &mValue; }
 
     inline PropType Get() const { return mValue.Get(); }
     inline void Set(PropType v) { mValue.Set(v); }
@@ -77,7 +79,7 @@ typedef TTypedProperty<char, eByteProperty, CByteValue>                         
 typedef TTypedProperty<short, eShortProperty, CShortValue>                          TShortProperty;
 typedef TTypedProperty<long, eLongProperty, CLongValue>                             TLongProperty;
 typedef TTypedProperty<long, eEnumProperty, CLongValue>                             TEnumProperty;
-typedef TTypedProperty<long, eBitfieldProperty, CLongValue>                         TBitfieldProperty;
+typedef TTypedProperty<long, eBitfieldProperty, CHexLongValue>                      TBitfieldProperty;
 typedef TTypedProperty<float, eFloatProperty, CFloatValue>                          TFloatProperty;
 typedef TTypedProperty<TString, eStringProperty, CStringValue>                      TStringProperty;
 typedef TTypedProperty<CVector3f, eVector3Property, CVector3Value>                  TVector3Property;

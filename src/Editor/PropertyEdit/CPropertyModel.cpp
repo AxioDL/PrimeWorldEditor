@@ -292,7 +292,7 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
             // Add uncooked notification
             if (pProp->Template()->CookPreference() == eNeverCook)
             {
-                Text += "<br/><b>This is an uncooked property.</b>";
+                Text.prepend("<i>[uncooked]</i>");
             }
 
             // Add description
@@ -393,19 +393,20 @@ Qt::ItemFlags CPropertyModel::flags(const QModelIndex& rkIndex) const
     else return (Qt::ItemIsEnabled | Qt::ItemIsEditable);
 }
 
-void CPropertyModel::UpdateSubProperties(const QModelIndex& rkIndex)
+void CPropertyModel::NotifyPropertyModified(const QModelIndex& rkIndex)
 {
-    IProperty *pProp = PropertyForIndex(rkIndex, false);
+    if (rowCount(rkIndex) != 0)
+        emit dataChanged( index(0, 1, rkIndex), index(rowCount(rkIndex) - 1, 1, rkIndex));
 
-    if (pProp)
+    if (rkIndex.internalId() & 0x1)
     {
-        QVector<int> Roles(Qt::DisplayRole);
-
-        if (pProp->Type() == eVector3Property)
-            emit dataChanged( index(0, 1, rkIndex), index(2, 1, rkIndex), Roles);
-        else if (pProp->Type() == eColorProperty)
-            emit dataChanged( index(0, 1, rkIndex), index(3, 1, rkIndex), Roles);
+        QModelIndex Parent = rkIndex.parent();
+        Parent = Parent.sibling(Parent.row(), 1);
+        emit dataChanged(Parent, Parent);
     }
+
+    emit dataChanged(rkIndex, rkIndex);
+    emit PropertyModified(rkIndex);
 }
 
 void CPropertyModel::ResizeArray(const QModelIndex& rkIndex, u32 NewSize)

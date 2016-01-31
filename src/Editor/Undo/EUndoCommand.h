@@ -5,7 +5,8 @@ enum EUndoCommand
 {
     eTranslateNodeCmd,
     eRotateNodeCmd,
-    eScaleNodeCmd
+    eScaleNodeCmd,
+    eEditScriptPropertyCmd
 };
 
 #endif // EUNDOCOMMAND

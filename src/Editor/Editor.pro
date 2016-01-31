@@ -133,7 +133,8 @@ HEADERS += \
     PropertyEdit/CPropertyView.h \
     PropertyEdit/CPropertyRelay.h \
     WorldEditor/CInstancesProxyModel.h \
-    WorldEditor/CInstancesModel.h
+    WorldEditor/CInstancesModel.h \
+    Undo/CEditScriptPropertyCommand.h
 
 # Source Files
 SOURCES += \
@@ -184,7 +185,8 @@ SOURCES += \
     PropertyEdit/CPropertyModel.cpp \
     PropertyEdit/CPropertyDelegate.cpp \
     PropertyEdit/CPropertyView.cpp \
-    WorldEditor/CInstancesModel.cpp
+    WorldEditor/CInstancesModel.cpp \
+    Undo/CEditScriptPropertyCommand.cpp
 
 # UI Files
 FORMS += \

@@ -108,6 +108,7 @@ void WVectorEditor::SetX(double x)
     mpSpinBoxX->setValue((double) x);
     mpSpinBoxX->blockSignals(false);
 
+    mEditing = true;
     emit ValueChanged(mValue);
 }
 
@@ -119,6 +120,7 @@ void WVectorEditor::SetY(double y)
     mpSpinBoxY->setValue((double) y);
     mpSpinBoxY->blockSignals(false);
 
+    mEditing = true;
     emit ValueChanged(mValue);
 }
 
@@ -130,6 +132,7 @@ void WVectorEditor::SetZ(double z)
     mpSpinBoxZ->setValue((double) z);
     mpSpinBoxZ->blockSignals(false);
 
+    mEditing = true;
     emit ValueChanged(mValue);
 }
 
@@ -181,5 +184,6 @@ void WVectorEditor::SetupUI()
 // ************ PRIVATE SLOTS ************
 void WVectorEditor::OnSpinBoxEditingDone()
 {
-    emit EditingDone(mValue);
+    if (mEditing) emit EditingDone(mValue);
+    mEditing = false;
 }

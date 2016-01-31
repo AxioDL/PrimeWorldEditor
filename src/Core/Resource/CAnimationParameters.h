@@ -33,6 +33,18 @@ public:
     void SetResource(CResource *pRes);
     void SetNodeIndex(u32 Index);
     void SetUnknown(u32 Index, u32 Value);
+
+    // Operators
+    inline bool operator==(const CAnimationParameters& rkOther) const
+    {
+        return ( (mGame == rkOther.mGame) &&
+                 (mpCharSet == rkOther.mpCharSet) &&
+                 (mNodeIndex == rkOther.mNodeIndex) &&
+                 (mUnknown1 == rkOther.mUnknown1) &&
+                 (mUnknown2 == rkOther.mUnknown2) &&
+                 (mUnknown3 == rkOther.mUnknown3) &&
+                 (mUnknown4 == rkOther.mUnknown4) );
+    }
 };
 
 #endif // CANIMATIONPARAMETERS_H

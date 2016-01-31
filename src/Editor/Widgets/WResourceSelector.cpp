@@ -106,6 +106,22 @@ bool WResourceSelector::HasSupportedExtension(const CResourceInfo& rkRes)
     return IsSupportedExtension(TO_QSTRING(rkRes.Type().ToString()));
 }
 
+void WResourceSelector::UpdateFrameColor()
+{
+    bool RedFrame = false;
+
+    // Red frame should only display if an incorrect resource path is entered. It shouldn't display on Invalid Asset ID.
+    if (!mResourceValid)
+    {
+        TString Name = mResource.ToString().GetFileName(false);
+
+        if (!Name.IsHexString() || (Name.Size() != 8 && Name.Size() != 16) || mResource.ID().IsValid())
+            RedFrame = true;
+    }
+    mUI.LineEdit->setStyleSheet(RedFrame ? "border: 1px solid red" : "");
+    mUI.LineEdit->setFont(font());
+}
+
 // ************ GETTERS ************
 CResourceInfo WResourceSelector::GetResourceInfo()
 {
@@ -147,24 +163,38 @@ void WResourceSelector::SetResource(CResource *pRes)
         SetResource(CResourceInfo());
 }
 
+void WResourceSelector::SetResource(const QString& rkRes)
+{
+    TString Res = TO_TSTRING(rkRes);
+    TString Name = Res.GetFileName(false);
+    TString Dir = Res.GetFileDirectory();
+    TString Ext = Res.GetFileExtension();
+
+    if (Dir.IsEmpty() && Name.IsHexString() && (Name.Size() == 8 || Name.Size() == 16) && Ext.Size() == 4)
+        SetResource(CResourceInfo(Name.Size() == 8 ? Name.ToInt32() : Name.ToInt64(), Ext));
+    else
+        SetResource(CResourceInfo(Res));
+}
+
 void WResourceSelector::SetResource(const CResourceInfo& rkRes)
 {
-    mResource = rkRes;
-
-    if (mResource.IsValid())
+    if (mResource != rkRes)
     {
-        mResourceValid = HasSupportedExtension(rkRes);
+        mResource = rkRes;
+
+        if (mResource.IsValid())
+            mResourceValid = HasSupportedExtension(rkRes);
+        else
+            mResourceValid = false;
+
         mUI.LineEdit->setText(TO_QSTRING(mResource.ToString()));
-    }
 
-    else
-    {
-        mResourceValid = false;
-        mUI.LineEdit->clear();
+        UpdateFrameColor();
+        CreatePreviewPanel();
+        SetButtonsBasedOnResType();
+        Q_ASSERT(!mUI.LineEdit->text().isEmpty());
+        emit ResourceChanged(TO_QSTRING(mResource.ToString()));
     }
-
-    CreatePreviewPanel();
-    SetButtonsBasedOnResType();
 }
 
 void WResourceSelector::SetAllowedExtensions(const QString& extension)
@@ -183,7 +213,7 @@ void WResourceSelector::SetAllowedExtensions(const TStringList& extensions)
 void WResourceSelector::SetText(const QString& ResPath)
 {
     mUI.LineEdit->setText(ResPath);
-    LoadResource(ResPath);
+    SetResource(ResPath);
 }
 
 void WResourceSelector::SetEditButtonEnabled(bool Enabled)
@@ -214,7 +244,7 @@ void WResourceSelector::AdjustPreviewToParent(bool adjust)
 // ************ SLOTS ************
 void WResourceSelector::OnLineEditTextEdited()
 {
-    LoadResource(mUI.LineEdit->text());
+    SetResource(mUI.LineEdit->text());
 }
 
 void WResourceSelector::OnBrowseButtonClicked()
@@ -246,7 +276,7 @@ void WResourceSelector::OnBrowseButtonClicked()
     if (!NewRes.isEmpty())
     {
         mUI.LineEdit->setText(NewRes);
-        LoadResource(NewRes);
+        SetResource(NewRes);
     }
 }
 
@@ -271,27 +301,6 @@ void WResourceSelector::Edit()
 void WResourceSelector::Export()
 {
     emit ExportResource(mResource);
-}
-
-void WResourceSelector::LoadResource(const QString& ResPath)
-{
-    mResource = CResourceInfo();
-
-    TString PathStr = ResPath.toStdString();
-    TString Ext = PathStr.GetFileExtension();
-
-    if (IsSupportedExtension(TO_QSTRING(Ext)))
-    {
-        mResource = CResourceInfo(TO_TSTRING(ResPath));
-        mResourceValid = mResource.IsValid();
-
-        if (mPreviewPanelValid) mpPreviewPanel->SetResource(mResource.Load());
-    }
-    else mResourceValid = false;
-
-    SetButtonsBasedOnResType();
-    CreatePreviewPanel();
-    emit ResourceChanged(ResPath);
 }
 
 void WResourceSelector::CreatePreviewPanel()
