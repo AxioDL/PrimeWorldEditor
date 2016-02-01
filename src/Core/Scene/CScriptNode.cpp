@@ -154,16 +154,30 @@ void CScriptNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewIn
     // Draw model
     if (UsesModel())
     {
-        CGraphics::SetupAmbientColor();
+        EWorldLightingOptions LightingOptions = (mpLightParameters ? mpLightParameters->WorldLightingOptions() : eNormalLighting);
+
+        if (CGraphics::sLightMode == CGraphics::eWorldLighting && LightingOptions == eDisableWorldLighting)
+        {
+            CGraphics::sNumLights = 0;
+            CGraphics::sVertexBlock.COLOR0_Amb = CColor::skBlack;
+            CGraphics::sPixelBlock.LightmapMultiplier = 1.f;
+            CGraphics::UpdateLightBlock();
+        }
+
+        else
+        {
+            LoadLights(ViewInfo);
+            CGraphics::UpdateLightBlock();
+        }
+
         LoadModelMatrix();
-        LoadLights(ViewInfo);
-        CGraphics::UpdateVertexBlock();
 
         // Draw model if possible!
         if (mpActiveModel)
         {
             if (mpExtra) CGraphics::sPixelBlock.TevColor = mpExtra->TevColor();
             else CGraphics::sPixelBlock.TevColor = CColor::skWhite;
+
             CGraphics::sPixelBlock.TintColor = TintColor(ViewInfo);
             CGraphics::UpdatePixelBlock();
 
