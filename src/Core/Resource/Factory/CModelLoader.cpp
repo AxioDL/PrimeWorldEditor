@@ -18,7 +18,7 @@ void CModelLoader::LoadWorldMeshHeader(IInputStream &Model)
     // I don't really have any need for most of this data, so
     Model.Seek(0x34, SEEK_CUR);
     mAABox = CAABox(Model);
-    mpBlockMgr->ToNextBlock();
+    mpSectionMgr->ToNextSection();
 }
 
 void CModelLoader::LoadAttribArrays(IInputStream& Model)
@@ -26,7 +26,7 @@ void CModelLoader::LoadAttribArrays(IInputStream& Model)
     // Positions
     if (mFlags & eShortPositions) // Shorts (DKCR only)
     {
-        mPositions.resize(mpBlockMgr->CurrentBlockSize() / 0x6);
+        mPositions.resize(mpSectionMgr->CurrentSectionSize() / 0x6);
         float Divisor = 8192.f; // Might be incorrect! Needs verification via size comparison.
 
         for (u32 iVtx = 0; iVtx < mPositions.size(); iVtx++)
@@ -40,18 +40,18 @@ void CModelLoader::LoadAttribArrays(IInputStream& Model)
 
     else // Floats
     {
-        mPositions.resize(mpBlockMgr->CurrentBlockSize() / 0xC);
+        mPositions.resize(mpSectionMgr->CurrentSectionSize() / 0xC);
 
         for (u32 iVtx = 0; iVtx < mPositions.size(); iVtx++)
             mPositions[iVtx] = CVector3f(Model);
     }
 
-    mpBlockMgr->ToNextBlock();
+    mpSectionMgr->ToNextSection();
 
     // Normals
     if (mFlags & eShortNormals) // Shorts
     {
-        mNormals.resize(mpBlockMgr->CurrentBlockSize() / 0x6);
+        mNormals.resize(mpSectionMgr->CurrentSectionSize() / 0x6);
         float Divisor = (mVersion < eReturns) ? 32768.f : 16384.f;
 
         for (u32 iVtx = 0; iVtx < mNormals.size(); iVtx++)
@@ -64,35 +64,35 @@ void CModelLoader::LoadAttribArrays(IInputStream& Model)
     }
     else // Floats
     {
-        mNormals.resize(mpBlockMgr->CurrentBlockSize() / 0xC);
+        mNormals.resize(mpSectionMgr->CurrentSectionSize() / 0xC);
 
         for (u32 iVtx = 0; iVtx < mNormals.size(); iVtx++)
             mNormals[iVtx] = CVector3f(Model);
     }
 
-    mpBlockMgr->ToNextBlock();
+    mpSectionMgr->ToNextSection();
 
     // Colors
-    mColors.resize(mpBlockMgr->CurrentBlockSize() / 4);
+    mColors.resize(mpSectionMgr->CurrentSectionSize() / 4);
 
     for (u32 iVtx = 0; iVtx < mColors.size(); iVtx++)
         mColors[iVtx] = CColor(Model);
 
-    mpBlockMgr->ToNextBlock();
+    mpSectionMgr->ToNextSection();
 
 
     // Float UVs
-    mTex0.resize(mpBlockMgr->CurrentBlockSize() / 0x8);
+    mTex0.resize(mpSectionMgr->CurrentSectionSize() / 0x8);
 
     for (u32 iVtx = 0; iVtx < mTex0.size(); iVtx++)
         mTex0[iVtx] = CVector2f(Model);
 
-    mpBlockMgr->ToNextBlock();
+    mpSectionMgr->ToNextSection();
 
     // Short UVs
     if (mFlags & eHasTex1)
     {
-        mTex1.resize(mpBlockMgr->CurrentBlockSize() / 0x4);
+        mTex1.resize(mpSectionMgr->CurrentSectionSize() / 0x4);
         float Divisor = (mVersion < eReturns) ? 32768.f : 8192.f;
 
         for (u32 iVtx = 0; iVtx < mTex1.size(); iVtx++)
@@ -102,7 +102,7 @@ void CModelLoader::LoadAttribArrays(IInputStream& Model)
             mTex1[iVtx] = CVector2f(x, y);
         }
 
-        mpBlockMgr->ToNextBlock();
+        mpSectionMgr->ToNextSection();
     }
 }
 
@@ -114,7 +114,7 @@ void CModelLoader::LoadSurfaceOffsets(IInputStream& Model)
     for (u32 iSurf = 0; iSurf < mSurfaceCount; iSurf++)
         mSurfaceOffsets[iSurf] = Model.ReadLong();
 
-    mpBlockMgr->ToNextBlock();
+    mpSectionMgr->ToNextSection();
 }
 
 SSurface* CModelLoader::LoadSurface(IInputStream& Model)
@@ -132,7 +132,7 @@ SSurface* CModelLoader::LoadSurface(IInputStream& Model)
 
     // Primitive table
     u8 Flag = Model.ReadByte();
-    u32 NextSurface = mpBlockMgr->NextOffset();
+    u32 NextSurface = mpSectionMgr->NextOffset();
 
     while ((Flag != 0) && ((u32) Model.Tell() < NextSurface))
     {
@@ -225,7 +225,7 @@ SSurface* CModelLoader::LoadSurface(IInputStream& Model)
         Flag = Model.ReadByte();
     } // Primitive table end
 
-    mpBlockMgr->ToNextBlock();
+    mpSectionMgr->ToNextSection();
     return pSurf;
 }
 
@@ -451,9 +451,9 @@ CModel* CModelLoader::LoadCMDL(IInputStream& CMDL)
 
     CModel *pModel = new CModel();
     Loader.mpModel = pModel;
-    Loader.mpBlockMgr = new CBlockMgrIn(BlockCount, &CMDL);
+    Loader.mpSectionMgr = new CSectionMgrIn(BlockCount, &CMDL);
     CMDL.SeekToBoundary(32);
-    Loader.mpBlockMgr->Init();
+    Loader.mpSectionMgr->Init();
 
     // Materials
     Loader.mMaterials.resize(MatSetCount);
@@ -462,12 +462,12 @@ CModel* CModelLoader::LoadCMDL(IInputStream& CMDL)
         Loader.mMaterials[iMat] = CMaterialLoader::LoadMaterialSet(CMDL, Loader.mVersion);
 
         if (Loader.mVersion < eCorruptionProto)
-            Loader.mpBlockMgr->ToNextBlock();
+            Loader.mpSectionMgr->ToNextSection();
     }
 
     pModel->mMaterialSets = Loader.mMaterials;
     pModel->mHasOwnMaterials = true;
-    if (Loader.mVersion >= eCorruptionProto) Loader.mpBlockMgr->ToNextBlock();
+    if (Loader.mVersion >= eCorruptionProto) Loader.mpSectionMgr->ToNextSection();
 
     // Mesh
     Loader.LoadAttribArrays(CMDL);
@@ -486,14 +486,14 @@ CModel* CModelLoader::LoadCMDL(IInputStream& CMDL)
     pModel->mHasOwnSurfaces = true;
 
     // Cleanup
-    delete Loader.mpBlockMgr;
+    delete Loader.mpSectionMgr;
     return pModel;
 }
 
-CModel* CModelLoader::LoadWorldModel(IInputStream& MREA, CBlockMgrIn& BlockMgr, CMaterialSet& MatSet, EGame Version)
+CModel* CModelLoader::LoadWorldModel(IInputStream& MREA, CSectionMgrIn& BlockMgr, CMaterialSet& MatSet, EGame Version)
 {
     CModelLoader Loader;
-    Loader.mpBlockMgr = &BlockMgr;
+    Loader.mpSectionMgr = &BlockMgr;
     Loader.mVersion = Version;
     Loader.mFlags = eShortNormals;
     if (Version != eCorruptionProto) Loader.mFlags |= eHasTex1;
@@ -523,10 +523,10 @@ CModel* CModelLoader::LoadWorldModel(IInputStream& MREA, CBlockMgrIn& BlockMgr, 
     return pModel;
 }
 
-CModel* CModelLoader::LoadCorruptionWorldModel(IInputStream &MREA, CBlockMgrIn &BlockMgr, CMaterialSet &MatSet, u32 HeaderSecNum, u32 GPUSecNum, EGame Version)
+CModel* CModelLoader::LoadCorruptionWorldModel(IInputStream &MREA, CSectionMgrIn &BlockMgr, CMaterialSet &MatSet, u32 HeaderSecNum, u32 GPUSecNum, EGame Version)
 {
     CModelLoader Loader;
-    Loader.mpBlockMgr = &BlockMgr;
+    Loader.mpSectionMgr = &BlockMgr;
     Loader.mVersion = Version;
     Loader.mFlags = eShortNormals;
     Loader.mMaterials.resize(1);
@@ -534,10 +534,10 @@ CModel* CModelLoader::LoadCorruptionWorldModel(IInputStream &MREA, CBlockMgrIn &
     if (Version == eReturns) Loader.mFlags |= eHasTex1;
 
     // Corruption/DKCR MREAs split the mesh header and surface offsets away from the actual geometry data so I need two section numbers to read it
-    BlockMgr.ToBlock(HeaderSecNum);
+    BlockMgr.ToSection(HeaderSecNum);
     Loader.LoadWorldMeshHeader(MREA);
     Loader.LoadSurfaceOffsets(MREA);
-    BlockMgr.ToBlock(GPUSecNum);
+    BlockMgr.ToSection(GPUSecNum);
     Loader.LoadAttribArrays(MREA);
 
     CModel *pModel = new CModel();

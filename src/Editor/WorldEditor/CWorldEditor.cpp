@@ -11,13 +11,15 @@
 #include "Editor/UICommon.h"
 
 #include <Core/Render/CDrawUtil.h>
+#include <Core/Resource/Cooker/CAreaCooker.h>
 #include <Core/Scene/CSceneIterator.h>
 #include <Core/Log.h>
 
 #include <iostream>
-#include <QOpenGLContext>
-#include <QFontMetrics>
 #include <QComboBox>
+#include <QFontMetrics>
+#include <QMessageBox>
+#include <QOpenGLContext>
 
 CWorldEditor::CWorldEditor(QWidget *parent) :
     INodeEditor(parent),
@@ -527,4 +529,12 @@ void CWorldEditor::on_ActionEditPoiToWorldMap_triggered()
     {
         mpPoiDialog->show();
     }
+}
+
+void CWorldEditor::on_ActionSave_triggered()
+{
+    TString Out = mpArea->FullSource();
+    CFileOutStream MREA(Out.ToStdString(), IOUtil::eBigEndian);
+    CAreaCooker::WriteCookedArea(mpArea, MREA);
+    QMessageBox::information(this, "Success", "Successfully saved area to " + TO_QSTRING(Out));
 }

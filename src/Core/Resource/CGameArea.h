@@ -20,6 +20,7 @@ class CGameArea : public CResource
 {
     DECLARE_RESOURCE_TYPE(eArea)
     friend class CAreaLoader;
+    friend class CAreaCooker;
 
     EGame mVersion;
     u32 mVertexCount;
@@ -28,9 +29,11 @@ class CGameArea : public CResource
     CTransform4f mTransform;
     CAABox mAABox;
 
+    // Section data buffers; this is used to avoid having to regenerate the entire contents of the file on cook
+    std::vector<std::vector<u8>> mSectionDataBuffers;
     // Geometry
     CMaterialSet *mMaterialSet;
-    std::vector<CModel*> mTerrainModels; // TerrainModels is the original version of each model; this is used by the editor (bounding box checks, material editing, etc)
+    std::vector<CModel*> mTerrainModels; // TerrainModels is the original version of each model; this is currently mainly used in the POI map editor
     std::vector<CStaticModel*> mStaticTerrainModels; // StaticTerrainModels is the merged terrain for faster rendering in the world editor
     // Script
     std::vector<CScriptLayer*> mScriptLayers;

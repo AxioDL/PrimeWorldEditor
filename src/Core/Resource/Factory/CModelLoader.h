@@ -1,7 +1,7 @@
 #ifndef CMODELLOADER_H
 #define CMODELLOADER_H
 
-#include "CBlockMgrIn.h"
+#include "CSectionMgrIn.h"
 #include "Core/Resource/Model/CBasicModel.h"
 #include "Core/Resource/Model/CModel.h"
 #include "Core/Resource/CResCache.h"
@@ -27,7 +27,7 @@ public:
 private:
     TResPtr<CModel> mpModel;
     std::vector<CMaterialSet*> mMaterials;
-    CBlockMgrIn *mpBlockMgr;
+    CSectionMgrIn *mpSectionMgr;
     CAABox mAABox;
     EGame mVersion;
 
@@ -57,8 +57,8 @@ private:
 
 public:
     static CModel* LoadCMDL(IInputStream& CMDL);
-    static CModel* LoadWorldModel(IInputStream& MREA, CBlockMgrIn& BlockMgr, CMaterialSet& MatSet, EGame Version);
-    static CModel* LoadCorruptionWorldModel(IInputStream& MREA, CBlockMgrIn& BlockMgr, CMaterialSet& MatSet, u32 HeaderSecNum, u32 GPUSecNum, EGame Version);
+    static CModel* LoadWorldModel(IInputStream& MREA, CSectionMgrIn& BlockMgr, CMaterialSet& MatSet, EGame Version);
+    static CModel* LoadCorruptionWorldModel(IInputStream& MREA, CSectionMgrIn& BlockMgr, CMaterialSet& MatSet, u32 HeaderSecNum, u32 GPUSecNum, EGame Version);
     static void BuildWorldMeshes(const std::vector<CModel*>& rkIn, std::vector<CModel*>& rOut, bool DeleteInputModels);
     static CModel* ImportAssimpNode(const aiNode *pNode, const aiScene *pScene, CMaterialSet& matSet);
     static EGame GetFormatVersion(u32 Version);

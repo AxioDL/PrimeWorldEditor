@@ -1,7 +1,7 @@
 #ifndef CAREALOADER_H
 #define CAREALOADER_H
 
-#include "CBlockMgrIn.h"
+#include "CSectionMgrIn.h"
 #include "Core/Resource/Script/SConnection.h"
 #include "Core/Resource/CGameArea.h"
 #include "Core/Resource/EGame.h"
@@ -16,7 +16,7 @@ class CAreaLoader
     // Area data
     TResPtr<CGameArea> mpArea;
     IInputStream *mpMREA;
-    CBlockMgrIn *mBlockMgr;
+    CSectionMgrIn *mpSectionMgr;
     EGame mVersion;
     u32 mNumMeshes;
     u32 mNumLayers;
@@ -74,6 +74,7 @@ class CAreaLoader
     // Common
     void ReadCompressedBlocks();
     void Decompress();
+    void LoadSectionDataBuffers();
     void ReadCollision();
     void ReadEGMC();
     void SetUpObjects();
