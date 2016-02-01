@@ -7,10 +7,10 @@
 class CSpacePirateExtra : public CScriptExtra
 {
     // Render beam troopers with the correct color
-    TLongProperty *mpPowerVuln;
-    TLongProperty *mpWaveVuln;
-    TLongProperty *mpIceVuln;
-    TLongProperty *mpPlasmaVuln;
+    TEnumProperty *mpPowerVuln;
+    TEnumProperty *mpWaveVuln;
+    TEnumProperty *mpIceVuln;
+    TEnumProperty *mpPlasmaVuln;
 
 public:
     explicit CSpacePirateExtra(CScriptObject *pInstance, CScene *pScene, CSceneNode *pParent = 0);

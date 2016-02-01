@@ -76,9 +76,6 @@ ENodeType CScriptNode::NodeType()
 
 void CScriptNode::OnTransformed()
 {
-    if (mpExtra)
-        mpExtra->OnTransformed();
-
     if (mpInstance)
     {
         CScriptTemplate *pTemplate = Template();
@@ -92,6 +89,9 @@ void CScriptNode::OnTransformed()
         if (pTemplate->HasScale() && LocalScale() != mpInstance->Scale())
             mpInstance->SetScale(LocalScale());
     }
+
+    if (mpExtra)
+        mpExtra->OnTransformed();
 }
 
 void CScriptNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
@@ -167,7 +167,6 @@ void CScriptNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewIn
         else
         {
             LoadLights(ViewInfo);
-            CGraphics::UpdateLightBlock();
         }
 
         LoadModelMatrix();

@@ -3,14 +3,14 @@
 #include "Editor/INodeEditor.h"
 
 CRotateNodeCommand::CRotateNodeCommand()
-    : QUndoCommand("Rotate"),
+    : IUndoCommand("Rotate"),
       mpEditor(nullptr),
       mCommandEnded(false)
 {
 }
 
 CRotateNodeCommand::CRotateNodeCommand(INodeEditor *pEditor, const QList<CSceneNode*>& nodes, const CVector3f& /*pivot*/, const CQuaternion& delta, ETransformSpace transformSpace)
-    : QUndoCommand("Rotate"),
+    : IUndoCommand("Rotate"),
       mpEditor(pEditor),
       mCommandEnded(false)
 {

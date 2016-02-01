@@ -1,13 +1,12 @@
 #ifndef CROTATENODECOMMAND_H
 #define CROTATENODECOMMAND_H
 
+#include "IUndoCommand.h"
 #include "Editor/INodeEditor.h"
 #include <Core/Scene/CSceneNode.h>
-
-#include <QUndoCommand>
 #include <QList>
 
-class CRotateNodeCommand : public QUndoCommand
+class CRotateNodeCommand : public IUndoCommand
 {
     struct SNodeRotate
     {
@@ -29,6 +28,7 @@ public:
     bool mergeWith(const QUndoCommand *other);
     void undo();
     void redo();
+    bool AffectsCleanState() const { return true; }
     static CRotateNodeCommand* End();
 };
 

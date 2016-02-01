@@ -3,14 +3,14 @@
 #include "Editor/INodeEditor.h"
 
 CTranslateNodeCommand::CTranslateNodeCommand()
-    : QUndoCommand("Translate"),
+    : IUndoCommand("Translate"),
       mpEditor(nullptr),
       mCommandEnded(false)
 {
 }
 
 CTranslateNodeCommand::CTranslateNodeCommand(INodeEditor *pEditor, const QList<CSceneNode*>& nodes, const CVector3f& delta, ETransformSpace transformSpace)
-    : QUndoCommand("Translate"),
+    : IUndoCommand("Translate"),
       mpEditor(pEditor),
       mCommandEnded(false)
 {

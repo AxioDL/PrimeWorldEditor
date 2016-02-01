@@ -77,6 +77,9 @@ CWorldEditor::CWorldEditor(QWidget *parent) :
     connect(ui->TransformSpinBox, SIGNAL(ValueChanged(CVector3f)), this, SLOT(OnTransformSpinBoxModified(CVector3f)));
     connect(ui->TransformSpinBox, SIGNAL(EditingDone(CVector3f)), this, SLOT(OnTransformSpinBoxEdited(CVector3f)));
     connect(ui->CamSpeedSpinBox, SIGNAL(valueChanged(double)), this, SLOT(OnCameraSpeedChange(double)));
+    connect(&mUndoStack, SIGNAL(indexChanged(int)), this, SLOT(OnUndoStackIndexChanged()));
+
+    connect(ui->ActionSave, SIGNAL(triggered()), this, SLOT(Save()));
 }
 
 CWorldEditor::~CWorldEditor()
@@ -84,10 +87,33 @@ CWorldEditor::~CWorldEditor()
     delete ui;
 }
 
-void CWorldEditor::closeEvent(QCloseEvent *)
+void CWorldEditor::closeEvent(QCloseEvent *pEvent)
 {
-    if (mpPoiDialog)
-        mpPoiDialog->close();
+    bool ShouldClose = true;
+
+    if (isWindowModified())
+    {
+        int Result = QMessageBox::warning(this, "Save", "You have unsaved changes. Save?", QMessageBox::Yes, QMessageBox::No, QMessageBox::Cancel);
+
+        if (Result == QMessageBox::Yes)
+            ShouldClose = Save();
+
+        else if (Result == QMessageBox::No)
+            ShouldClose = true;
+
+        else if (Result == QMessageBox::Cancel)
+            ShouldClose = false;
+    }
+
+    if (ShouldClose)
+    {
+        if (mpPoiDialog)
+            mpPoiDialog->close();
+    }
+    else
+    {
+        pEvent->ignore();
+    }
 }
 
 bool CWorldEditor::eventFilter(QObject * /*pObj*/, QEvent * /*pEvent*/)
@@ -95,7 +121,7 @@ bool CWorldEditor::eventFilter(QObject * /*pObj*/, QEvent * /*pEvent*/)
     return false;
 }
 
-void CWorldEditor::SetArea(CWorld *pWorld, CGameArea *pArea)
+void CWorldEditor::SetArea(CWorld *pWorld, CGameArea *pArea, u32 AreaIndex)
 {
     ExitPickMode();
     ui->MainViewport->ResetHover();
@@ -153,6 +179,18 @@ void CWorldEditor::SetArea(CWorld *pWorld, CGameArea *pArea)
     // Set up sidebar tabs
     CMasterTemplate *pMaster = CMasterTemplate::GetMasterForGame(mpArea->Version());
     ui->InstancesTabContents->SetMaster(pMaster);
+
+    // Set window title
+    CStringTable *pWorldNameTable = mpWorld->GetWorldName();
+    TWideString WorldName = pWorldNameTable ? pWorldNameTable->GetString("ENGL", 0) : "[Untitled World]";
+
+    CStringTable *pAreaNameTable = mpWorld->GetAreaName(AreaIndex);
+    TWideString AreaName = pAreaNameTable ? pAreaNameTable->GetString("ENGL", 0) : (TWideString("!") + mpWorld->GetAreaInternalName(AreaIndex).ToUTF16());
+
+    if (AreaName.IsEmpty())
+        AreaName = "[Untitled Area]";
+
+    setWindowTitle(QString("Prime World Editor - %1 - %2[*]").arg(TO_QSTRING(WorldName)).arg(TO_QSTRING(AreaName)));
 }
 
 CGameArea* CWorldEditor::ActiveArea()
@@ -160,7 +198,26 @@ CGameArea* CWorldEditor::ActiveArea()
     return mpArea;
 }
 
-// ************ PROTECTED SLOTS ************
+// ************ PUBLIC SLOTS ************
+bool CWorldEditor::Save()
+{
+    TString Out = mpArea->FullSource();
+    CFileOutStream MREA(Out.ToStdString(), IOUtil::eBigEndian);
+
+    if (MREA.IsValid())
+    {
+        CAreaCooker::WriteCookedArea(mpArea, MREA);
+        mUndoStack.setClean();
+        setWindowModified(false);
+        return true;
+    }
+    else
+    {
+        QMessageBox::warning(this, "Error", "Unable to save error; couldn't open output file " + TO_QSTRING(Out));
+        return false;
+    }
+}
+
 void CWorldEditor::UpdateStatusBar()
 {
     // Would be cool to do more frequent status bar updates with more info. Unfortunately, this causes lag.
@@ -281,6 +338,55 @@ void CWorldEditor::GizmoModeChanged(CGizmo::EGizmoMode mode)
 }
 
 // ************ PRIVATE SLOTS ************
+void CWorldEditor::OnUndoStackIndexChanged()
+{
+    // Check the commands that have been executed on the undo stack and find out whether any of them affect the clean state.
+    // This is to prevent commands like select/deselect from altering the clean state.
+    int CurrentIndex = mUndoStack.index();
+    int CleanIndex = mUndoStack.cleanIndex();
+
+    if (CurrentIndex == CleanIndex)
+        setWindowModified(false);
+
+    else
+    {
+        bool IsClean = true;
+        int LowIndex = (CurrentIndex > CleanIndex ? CleanIndex + 1 : CurrentIndex);
+        int HighIndex = (CurrentIndex > CleanIndex ? CurrentIndex - 1 : CleanIndex);
+
+        for (int iIdx = LowIndex; iIdx <= HighIndex; iIdx++)
+        {
+            const QUndoCommand *pkQCmd = mUndoStack.command(iIdx);
+
+            if (pkQCmd->childCount() > 0)
+            {
+                for (int iChild = 0; iChild < pkQCmd->childCount(); iChild++)
+                {
+                    const IUndoCommand *pkCmd = static_cast<const IUndoCommand*>(pkQCmd->child(iChild));
+
+                    if (pkCmd->AffectsCleanState())
+                    {
+                        IsClean = false;
+                        break;
+                    }
+                }
+            }
+
+            else
+            {
+                const IUndoCommand *pkCmd = static_cast<const IUndoCommand*>(pkQCmd);
+
+                if (pkCmd->AffectsCleanState())
+                    IsClean = false;
+            }
+
+            if (!IsClean) break;
+        }
+
+        setWindowModified(!IsClean);
+    }
+}
+
 void CWorldEditor::OnPickModeEnter(QCursor Cursor)
 {
     ui->MainViewport->SetCursorState(Cursor);
@@ -529,12 +635,4 @@ void CWorldEditor::on_ActionEditPoiToWorldMap_triggered()
     {
         mpPoiDialog->show();
     }
-}
-
-void CWorldEditor::on_ActionSave_triggered()
-{
-    TString Out = mpArea->FullSource();
-    CFileOutStream MREA(Out.ToStdString(), IOUtil::eBigEndian);
-    CAreaCooker::WriteCookedArea(mpArea, MREA);
-    QMessageBox::information(this, "Success", "Successfully saved area to " + TO_QSTRING(Out));
 }

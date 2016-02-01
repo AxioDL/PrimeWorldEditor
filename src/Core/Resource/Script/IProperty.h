@@ -71,6 +71,8 @@ public:
 
     ~TTypedProperty() {}
     virtual EPropertyType Type() const { return TypeEnum; }
+    static inline EPropertyType StaticType() { return TypeEnum; }
+
     virtual TString ToString() const { return mValue.ToString(); }
     virtual IPropertyValue* RawValue() { return &mValue; }
 
@@ -124,6 +126,7 @@ public:
     }
 
     EPropertyType Type() const { return eStructProperty; }
+    static inline EPropertyType StaticType() { return eStructProperty; }
 
     virtual void Copy(const IProperty *pkProp);
 
@@ -161,6 +164,7 @@ public:
         : CPropertyStruct(pTemp, pParent) {}
 
     EPropertyType Type() const { return eArrayProperty; }
+    static inline EPropertyType StaticType() { return eArrayProperty; }
 
     virtual IProperty* Clone(CPropertyStruct *pParent) const
     {
@@ -178,6 +182,15 @@ public:
     CStructTemplate* SubStructTemplate() const;
     TString ElementName() const;
 };
+
+/*
+ * Function for casting properties. Returns null if the property is not actually the requested type.
+ */
+template <class PropertyClass>
+PropertyClass* TPropCast(IProperty *pProp)
+{
+    return (pProp && pProp->Type() == PropertyClass::StaticType() ? static_cast<PropertyClass*>(pProp) : nullptr);
+}
 
 #endif // IPROPERTY
 

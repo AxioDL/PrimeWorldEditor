@@ -134,7 +134,7 @@ void CStartWindow::FillAreaUI()
         if (AttachedAreaSTRG)
             AttachedStr = TO_QSTRING(AttachedAreaSTRG->GetString("ENGL", 0));
         else
-            AttachedStr = QString("!!") + TO_QSTRING(mpWorld->GetAreaInternalName(AttachedAreaIndex));
+            AttachedStr = QString("!") + TO_QSTRING(mpWorld->GetAreaInternalName(AttachedAreaIndex));
 
         ui->AttachedAreasList->addItem(AttachedStr);
     }
@@ -168,7 +168,7 @@ void CStartWindow::on_LaunchWorldEditorButton_clicked()
     else
     {
         mpWorld->SetAreaLayerInfo(pArea, mSelectedAreaIndex);
-        mpWorldEditor->SetArea(mpWorld, pArea);
+        mpWorldEditor->SetArea(mpWorld, pArea, mSelectedAreaIndex);
         mpWorldEditor->setWindowModality(Qt::WindowModal);
         mpWorldEditor->showMaximized();
 

@@ -1,12 +1,11 @@
 #ifndef CINVERTSELECTIONCOMMAND_H
 #define CINVERTSELECTIONCOMMAND_H
 
+#include "IUndoCommand.h"
 #include "Editor/INodeEditor.h"
 #include <Core/Scene/CSceneNode.h>
 
-#include <QUndoCommand>
-
-class CInvertSelectionCommand : public QUndoCommand
+class CInvertSelectionCommand : public IUndoCommand
 {
     INodeEditor *mpEditor;
     QList<CSceneNode*> mOldSelection;
@@ -18,6 +17,7 @@ public:
     ~CInvertSelectionCommand();
     void undo();
     void redo();
+    virtual bool AffectsCleanState() const { return false; }
 };
 
 #endif // CINVERTSELECTIONCOMMAND_H

@@ -16,36 +16,18 @@ CDamageableTriggerExtra::CDamageableTriggerExtra(CScriptObject *pInstance, CScen
     CPropertyStruct *pBaseStruct = pInstance->Properties();
 
     // Fetch render side
-    mpRenderSideProp = (TEnumProperty*) pBaseStruct->PropertyByIndex(0x5);
-
-    if (mpRenderSideProp && mpRenderSideProp->Type() != eEnumProperty)
-        mpRenderSideProp = nullptr;
-
+    mpRenderSideProp = TPropCast<TEnumProperty>(pBaseStruct->PropertyByIndex(0x5));
     if (mpRenderSideProp) PropertyModified(mpRenderSideProp);
 
     // Fetch scale
-    mpSizeProp = (TVector3Property*) pBaseStruct->PropertyByIndex(0x2);
-
-    if (mpSizeProp && mpSizeProp->Type() != eVector3Property)
-        mpSizeProp = nullptr;
-
-    if (mpSizeProp) PropertyModified (mpSizeProp);
+    mpSizeProp = TPropCast<TVector3Property>(pBaseStruct->PropertyByIndex(0x2));
+    if (mpSizeProp) PropertyModified(mpSizeProp);
 
     // Fetch textures
     for (u32 iTex = 0; iTex < 3; iTex++)
     {
-        mpTextureProps[iTex] = (TFileProperty*) pBaseStruct->PropertyByIndex(0x6 + iTex);
-
-        if (mpTextureProps[iTex])
-        {
-            if (mpTextureProps[iTex]->Type() == eFileProperty)
-                PropertyModified(mpTextureProps[iTex]);
-            else
-                mpTextureProps[iTex] = nullptr;
-        }
-
-        else
-            mpTextures[iTex] = nullptr;
+        mpTextureProps[iTex] = TPropCast<TFileProperty>(pBaseStruct->PropertyByIndex(0x6 + iTex));
+        if (mpTextureProps[iTex]) PropertyModified(mpTextureProps[iTex]);
     }
 }
 
@@ -147,6 +129,12 @@ void CDamageableTriggerExtra::UpdatePlaneTransform()
     MarkTransformChanged();
 }
 
+void CDamageableTriggerExtra::OnTransformed()
+{
+    mPlaneSize = mpSizeProp->Get();
+    UpdatePlaneTransform();
+}
+
 void CDamageableTriggerExtra::PropertyModified(IProperty *pProperty)
 {
     if (pProperty == mpRenderSideProp)
@@ -209,7 +197,7 @@ void CDamageableTriggerExtra::Draw(FRenderOptions Options, int /*ComponentIndex*
 
     // Note: The plane the game renders this onto is 5x4.5, which is why we divide the tex coords by this value
     CVector2f TexUL(0.f, mCoordScale.y / 4.5f);
-    CVector2f TexUR(mCoordScale.x / 5.f, mCoordScale.y   / 4.5f);
+    CVector2f TexUR(mCoordScale.x / 5.f, mCoordScale.y / 4.5f);
     CVector2f TexBR(mCoordScale.x / 5.f, 0.f);
     CVector2f TexBL(0.f, 0.f);
     CDrawUtil::DrawSquare(TexUL, TexUR, TexBR, TexBL);

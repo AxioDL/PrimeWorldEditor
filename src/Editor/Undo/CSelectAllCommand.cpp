@@ -2,7 +2,7 @@
 #include <Core/Scene/CSceneIterator.h>
 
 CSelectAllCommand::CSelectAllCommand(INodeEditor *pEditor, QList<CSceneNode *> &rSelection, CScene *pScene, FNodeFlags NodeFlags)
-    : QUndoCommand("Select All")
+    : IUndoCommand("Select All")
     , mpEditor(pEditor)
     , mOldSelection(rSelection)
     , mpSelection(&rSelection)

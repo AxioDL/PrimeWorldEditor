@@ -35,6 +35,7 @@ public:
     ~CDamageableTriggerExtra();
     void CreateMaterial();
     void UpdatePlaneTransform();
+    void OnTransformed();
     void PropertyModified(IProperty *pProperty);
     bool ShouldDrawNormalAssets();
     void AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo);

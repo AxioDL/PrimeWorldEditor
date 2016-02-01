@@ -40,12 +40,14 @@ class CWorldEditor : public INodeEditor
 public:
     explicit CWorldEditor(QWidget *parent = 0);
     ~CWorldEditor();
-    void closeEvent(QCloseEvent *);
+    void closeEvent(QCloseEvent *pEvent);
     bool eventFilter(QObject *pObj, QEvent *pEvent);
-    void SetArea(CWorld *pWorld, CGameArea *pArea);
+    void SetArea(CWorld *pWorld, CGameArea *pArea, u32 AreaIndex);
     CGameArea* ActiveArea();
 
 public slots:
+    bool Save();
+
     void UpdateStatusBar();
     void UpdateGizmoUI();
     void UpdateSelectionUI();
@@ -55,6 +57,7 @@ protected:
     void GizmoModeChanged(CGizmo::EGizmoMode mode);
 
 private slots:
+    void OnUndoStackIndexChanged();
     void OnPickModeEnter(QCursor Cursor);
     void OnPickModeExit();
     void RefreshViewport();
@@ -85,7 +88,6 @@ private slots:
     void on_ActionSelectAll_triggered();
     void on_ActionInvertSelection_triggered();
     void on_ActionEditPoiToWorldMap_triggered();
-    void on_ActionSave_triggered();
 };
 
 #endif // CWORLDEDITOR_H
