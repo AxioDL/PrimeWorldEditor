@@ -251,7 +251,6 @@ SOURCES += \
     ScriptExtra/CSpacePirateExtra.cpp \
     ScriptExtra/CWaypointExtra.cpp \
     CAreaAttributes.cpp \
-    CLightParameters.cpp \
     CRayCollisionTester.cpp \
     Log.cpp \
     OpenGL/CDynamicVertexBuffer.cpp \
