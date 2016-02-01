@@ -70,6 +70,25 @@ CAnimationParameters::CAnimationParameters(IInputStream& SCLY, EGame Game)
     }
 }
 
+void CAnimationParameters::Write(IOutputStream& rSCLY)
+{
+    if (mGame <= eEchoes)
+    {
+        if (mpCharSet)
+        {
+            rSCLY.WriteLong(AnimSet()->ResID().ToLong());
+            rSCLY.WriteLong(mNodeIndex);
+            rSCLY.WriteLong(mUnknown1);
+        }
+        else
+        {
+            rSCLY.WriteLong(0xFFFFFFFF);
+            rSCLY.WriteLong(0);
+            rSCLY.WriteLong(0xFFFFFFFF);
+        }
+    }
+}
+
 CModel* CAnimationParameters::GetCurrentModel(s32 NodeIndex /*= -1*/)
 {
     if (!mpCharSet) return nullptr;

@@ -94,7 +94,6 @@ HEADERS += \
     Resource/Cooker/CWorldCooker.h \
     Resource/Factory/CAnimSetLoader.h \
     Resource/Factory/CAreaLoader.h \
-    Resource/Factory/CBlockMgrIn.h \
     Resource/Factory/CCollisionLoader.h \
     Resource/Factory/CFontLoader.h \
     Resource/Factory/CMaterialLoader.h \
@@ -185,7 +184,9 @@ HEADERS += \
     Resource/CResourceInfo.h \
     Resource/CPoiToWorld.h \
     Resource/Factory/CPoiToWorldLoader.h \
-    Resource/Cooker/CPoiToWorldCooker.h
+    Resource/Cooker/CPoiToWorldCooker.h \
+    Resource/Factory/CSectionMgrIn.h \
+    Resource/Cooker/CScriptCooker.h
 
 # Source Files
 SOURCES += \
@@ -202,7 +203,6 @@ SOURCES += \
     Resource/Cooker/CWorldCooker.cpp \
     Resource/Factory/CAnimSetLoader.cpp \
     Resource/Factory/CAreaLoader.cpp \
-    Resource/Factory/CBlockMgr.cpp \
     Resource/Factory/CCollisionLoader.cpp \
     Resource/Factory/CFontLoader.cpp \
     Resource/Factory/CMaterialLoader.cpp \
@@ -274,4 +274,5 @@ SOURCES += \
     Scene/CSceneIterator.cpp \
     Resource/CPoiToWorld.cpp \
     Resource/Factory/CPoiToWorldLoader.cpp \
-    Resource/Cooker/CPoiToWorldCooker.cpp
+    Resource/Cooker/CPoiToWorldCooker.cpp \
+    Resource/Cooker/CScriptCooker.cpp

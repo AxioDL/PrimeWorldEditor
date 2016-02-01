@@ -54,6 +54,12 @@ CTransform4f::CTransform4f(CVector3f, CVector3f, CVector3f)
 {
 }
 
+void CTransform4f::Write(IOutputStream& rOut)
+{
+    for (int iFlt = 0; iFlt < 12; iFlt++)
+        rOut.WriteFloat(_m[iFlt]);
+}
+
 // ************ MATH ************
 void CTransform4f::Translate(CVector3f Translation)
 {

@@ -85,6 +85,7 @@ private slots:
     void on_ActionSelectAll_triggered();
     void on_ActionInvertSelection_triggered();
     void on_ActionEditPoiToWorldMap_triggered();
+    void on_ActionSave_triggered();
 };
 
 #endif // CWORLDEDITOR_H

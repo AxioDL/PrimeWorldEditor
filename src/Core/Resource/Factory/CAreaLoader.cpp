@@ -59,26 +59,27 @@ void CAreaLoader::ReadHeaderPrime()
     mPathBlockNum = mpMREA->ReadLong();
     mOctreeBlockNum = mpMREA->ReadLong();
 
-    mBlockMgr = new CBlockMgrIn(mNumBlocks, mpMREA);
+    mpSectionMgr = new CSectionMgrIn(mNumBlocks, mpMREA);
     mpMREA->SeekToBoundary(32);
-    mBlockMgr->Init();
+    mpSectionMgr->Init();
+    LoadSectionDataBuffers();
 }
 
 void CAreaLoader::ReadGeometryPrime()
 {
     Log::FileWrite(mpMREA->GetSourceString(), "Reading MREA world geometry (MP1/MP2)");
-    mBlockMgr->ToBlock(mGeometryBlockNum);
+    mpSectionMgr->ToSection(mGeometryBlockNum);
 
     // Materials
     mpArea->mMaterialSet = CMaterialLoader::LoadMaterialSet(*mpMREA, mVersion);
-    mBlockMgr->ToNextBlock();
+    mpSectionMgr->ToNextSection();
 
     // Geometry
     std::vector<CModel*> FileModels;
 
     for (u32 iMesh = 0; iMesh < mNumMeshes; iMesh++)
     {
-        CModel *pModel = CModelLoader::LoadWorldModel(*mpMREA, *mBlockMgr, *mpArea->mMaterialSet, mVersion);
+        CModel *pModel = CModelLoader::LoadWorldModel(*mpMREA, *mpSectionMgr, *mpArea->mMaterialSet, mVersion);
         FileModels.push_back(pModel);
 
         if (mVersion <= ePrime)
@@ -95,8 +96,8 @@ void CAreaLoader::ReadGeometryPrime()
                 pModel->GetSurface(iSurf)->MeshID = mpMREA->ReadShort();
             }
 
-            mBlockMgr->ToNextBlock();
-            mBlockMgr->ToNextBlock();
+            mpSectionMgr->ToNextSection();
+            mpSectionMgr->ToNextSection();
         }
     }
 
@@ -116,7 +117,7 @@ void CAreaLoader::ReadGeometryPrime()
 void CAreaLoader::ReadSCLYPrime()
 {
     Log::FileWrite(mpMREA->GetSourceString(), "Reading MREA script layers (MP1)");
-    mBlockMgr->ToBlock(mScriptLayerBlockNum);
+    mpSectionMgr->ToSection(mScriptLayerBlockNum);
 
     CFourCC SCLY(*mpMREA);
     if (SCLY != "SCLY")
@@ -154,7 +155,7 @@ void CAreaLoader::ReadSCLYPrime()
 void CAreaLoader::ReadLightsPrime()
 {
     Log::FileWrite(mpMREA->GetSourceString(), "Reading MREA dynamic lights (MP1/MP2)");
-    mBlockMgr->ToBlock(mLightsBlockNum);
+    mpSectionMgr->ToSection(mLightsBlockNum);
 
     u32 babedead = mpMREA->ReadLong();
     if (babedead != 0xbabedead) return;
@@ -258,7 +259,7 @@ void CAreaLoader::ReadHeaderEchoes()
     if (mVersion == eEchoes) mClusters.resize(mpMREA->ReadLong());
     mpMREA->SeekToBoundary(32);
 
-    mBlockMgr = new CBlockMgrIn(numBlocks, mpMREA);
+    mpSectionMgr = new CSectionMgrIn(numBlocks, mpMREA);
     mpMREA->SeekToBoundary(32);
 
     if (mVersion == eEchoes)
@@ -267,13 +268,14 @@ void CAreaLoader::ReadHeaderEchoes()
         Decompress();
     }
 
-    mBlockMgr->Init();
+    mpSectionMgr->Init();
+    LoadSectionDataBuffers();
 }
 
 void CAreaLoader::ReadSCLYEchoes()
 {
     Log::FileWrite(mpMREA->GetSourceString(), "Reading MREA script layers (MP2/MP3/DKCR)");
-    mBlockMgr->ToBlock(mScriptLayerBlockNum);
+    mpSectionMgr->ToSection(mScriptLayerBlockNum);
 
     // SCLY
     for (u32 l = 0; l < mNumLayers; l++)
@@ -283,11 +285,11 @@ void CAreaLoader::ReadSCLYEchoes()
         if (pLayer)
             mpArea->mScriptLayers.push_back(pLayer);
 
-        mBlockMgr->ToNextBlock();
+        mpSectionMgr->ToNextSection();
     }
 
     // SCGN
-    mBlockMgr->ToBlock(mScriptGeneratorBlockNum);
+    mpSectionMgr->ToSection(mScriptGeneratorBlockNum);
     CScriptLayer *pLayer = CScriptLoader::LoadLayer(*mpMREA, mpArea, mVersion);
 
     if (pLayer)
@@ -309,7 +311,7 @@ void CAreaLoader::ReadHeaderCorruption()
     u32 SectionNumberCount = mpMREA->ReadLong();
     mpMREA->SeekToBoundary(32);
 
-    mBlockMgr = new CBlockMgrIn(NumSections, mpMREA);
+    mpSectionMgr = new CSectionMgrIn(NumSections, mpMREA);
     mpMREA->SeekToBoundary(32);
 
     ReadCompressedBlocks();
@@ -336,17 +338,18 @@ void CAreaLoader::ReadHeaderCorruption()
 
     mpMREA->SeekToBoundary(32);
     Decompress();
-    mBlockMgr->Init();
+    mpSectionMgr->Init();
+    LoadSectionDataBuffers();
 }
 
 void CAreaLoader::ReadGeometryCorruption()
 {
     Log::FileWrite(mpMREA->GetSourceString(), "Reading MREA world geometry (MP3)");
-    mBlockMgr->ToBlock(mGeometryBlockNum);
+    mpSectionMgr->ToSection(mGeometryBlockNum);
 
     // Materials
     mpArea->mMaterialSet = CMaterialLoader::LoadMaterialSet(*mpMREA, mVersion);
-    mBlockMgr->ToNextBlock();
+    mpSectionMgr->ToNextSection();
 
     // Geometry
     std::vector<CModel*> FileModels;
@@ -355,14 +358,14 @@ void CAreaLoader::ReadGeometryCorruption()
 
     for (u32 iMesh = 0; iMesh < mNumMeshes; iMesh++)
     {
-        CModel *pWorldModel = CModelLoader::LoadCorruptionWorldModel(*mpMREA, *mBlockMgr, *mpArea->mMaterialSet, CurWOBJSection, CurGPUSection, mVersion);
+        CModel *pWorldModel = CModelLoader::LoadCorruptionWorldModel(*mpMREA, *mpSectionMgr, *mpArea->mMaterialSet, CurWOBJSection, CurGPUSection, mVersion);
         FileModels.push_back(pWorldModel);
 
         CurWOBJSection += 4;
-        CurGPUSection = mBlockMgr->CurrentBlock();
+        CurGPUSection = mpSectionMgr->CurrentSection();
 
         // Load surface mesh IDs
-        mBlockMgr->ToBlock(CurWOBJSection -  2);
+        mpSectionMgr->ToSection(CurWOBJSection -  2);
         u16 NumSurfaces = mpMREA->ReadShort();
 
         for (u32 iSurf = 0; iSurf < NumSurfaces; iSurf++)
@@ -384,7 +387,7 @@ void CAreaLoader::ReadGeometryCorruption()
 void CAreaLoader::ReadLightsCorruption()
 {
     Log::FileWrite(mpMREA->GetSourceString(), "Reading MREA dynamic lights (MP3)");
-    mBlockMgr->ToBlock(mLightsBlockNum);
+    mpSectionMgr->ToSection(mLightsBlockNum);
 
     u32 babedead = mpMREA->ReadLong();
     if (babedead != 0xbabedead) return;
@@ -522,21 +525,35 @@ void CAreaLoader::Decompress()
     TString Source = mpMREA->GetSourceString();
     mpMREA = new CMemoryInStream(mDecmpBuffer, mTotalDecmpSize, IOUtil::eBigEndian);
     mpMREA->SetSourceString(Source.ToStdString());
-    mBlockMgr->SetInputStream(mpMREA);
+    mpSectionMgr->SetInputStream(mpMREA);
     mHasDecompressedBuffer = true;
+}
+
+void CAreaLoader::LoadSectionDataBuffers()
+{
+   mpArea->mSectionDataBuffers.resize(mpSectionMgr->NumSections());
+   mpSectionMgr->ToSection(0);
+
+   for (u32 iSec = 0; iSec < mpSectionMgr->NumSections(); iSec++)
+   {
+       u32 Size = mpSectionMgr->CurrentSectionSize();
+       mpArea->mSectionDataBuffers[iSec].resize(Size);
+       mpMREA->ReadBytes(mpArea->mSectionDataBuffers[iSec].data(), mpArea->mSectionDataBuffers[iSec].size());
+       mpSectionMgr->ToNextSection();
+   }
 }
 
 void CAreaLoader::ReadCollision()
 {
     Log::FileWrite(mpMREA->GetSourceString(), "Reading collision (MP1/MP2/MP3)");
-    mBlockMgr->ToBlock(mCollisionBlockNum);
+    mpSectionMgr->ToSection(mCollisionBlockNum);
     mpArea->mCollision = CCollisionLoader::LoadAreaCollision(*mpMREA);
 }
 
 void CAreaLoader::ReadEGMC()
 {
     Log::FileWrite(mpMREA->GetSourceString(), "Reading EGMC");
-    mBlockMgr->ToBlock(mEGMCBlockNum);
+    mpSectionMgr->ToSection(mEGMCBlockNum);
     CUniqueID EGMC(*mpMREA, (mVersion <= eEchoes ? e32Bit : e64Bit));
     mpArea->mpPoiToWorldMap = gResCache.GetResource(EGMC, "EGMC");
 }
@@ -665,7 +682,7 @@ CGameArea* CAreaLoader::LoadMREA(IInputStream& MREA)
     }
 
     // Cleanup
-    delete Loader.mBlockMgr;
+    delete Loader.mpSectionMgr;
     return Loader.mpArea;
 }
 

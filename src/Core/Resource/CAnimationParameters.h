@@ -20,6 +20,8 @@ class CAnimationParameters
 public:
     CAnimationParameters();
     CAnimationParameters(IInputStream& SCLY, EGame Game);
+    void Write(IOutputStream& rSCLY);
+
     CModel* GetCurrentModel(s32 NodeIndex = -1);
     TString GetCurrentCharacterName(s32 NodeIndex = -1);
 
