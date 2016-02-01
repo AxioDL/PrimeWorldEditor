@@ -1,13 +1,12 @@
 #ifndef CTRANSLATENODECOMMAND_H
 #define CTRANSLATENODECOMMAND_H
 
+#include "IUndoCommand.h"
 #include <Core/Scene/CSceneNode.h>
 #include "Editor/INodeEditor.h"
-
-#include <QUndoCommand>
 #include <QList>
 
-class CTranslateNodeCommand : public QUndoCommand
+class CTranslateNodeCommand : public IUndoCommand
 {
     struct SNodeTranslate
     {
@@ -27,6 +26,7 @@ public:
     bool mergeWith(const QUndoCommand *other);
     void undo();
     void redo();
+    bool AffectsCleanState() const { return true; }
     static CTranslateNodeCommand* End();
 };
 

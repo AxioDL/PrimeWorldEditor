@@ -1,12 +1,11 @@
 #ifndef CSELECTNODECOMMAND_H
 #define CSELECTNODECOMMAND_H
 
+#include "IUndoCommand.h"
 #include "Editor/INodeEditor.h"
 #include <Core/Scene/CSceneNode.h>
 
-#include <QUndoCommand>
-
-class CSelectNodeCommand : public QUndoCommand
+class CSelectNodeCommand : public IUndoCommand
 {
     INodeEditor *mpEditor;
     CSceneNode *mpNode;
@@ -15,6 +14,7 @@ public:
     CSelectNodeCommand(INodeEditor *pEditor, CSceneNode *pNode, QList<CSceneNode*>& selection);
     void undo();
     void redo();
+    bool AffectsCleanState() const { return false; }
 };
 
 #endif // CSELECTNODECOMMAND_H

@@ -2,7 +2,7 @@
 #include <Core/Resource/Script/IPropertyTemplate.h>
 
 CBasicPropertyCommand::CBasicPropertyCommand(CPropertyModel *pModel, const QModelIndex& rkIndex)
-    : QUndoCommand("Edit Property")
+    : IUndoCommand("Edit Property")
     , mpModel(pModel)
     , mpProperty(pModel->PropertyForIndex(rkIndex, true))
     , mpTemplate(mpProperty->Template())

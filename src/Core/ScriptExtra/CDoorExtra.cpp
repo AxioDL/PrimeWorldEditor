@@ -9,31 +9,19 @@ CDoorExtra::CDoorExtra(CScriptObject *pInstance, CScene *pScene, CSceneNode *pPa
 {
     CPropertyStruct *pBaseStruct = pInstance->Properties();
 
-    mpShieldModelProp = (TFileProperty*) pBaseStruct->PropertyByID(0xB20CC271);
-    if (mpShieldModelProp && (mpShieldModelProp->Type() != eFileProperty))
-        mpShieldModelProp = nullptr;
-
-    if (mpShieldModelProp)
-        PropertyModified(mpShieldModelProp);
+    mpShieldModelProp = TPropCast<TFileProperty>(pBaseStruct->PropertyByID(0xB20CC271));
+    if (mpShieldModelProp) PropertyModified(mpShieldModelProp);
 
     if (mGame >= eEchoes)
     {
-        mpShieldColorProp = (TColorProperty*) pBaseStruct->PropertyByID(0x47B4E863);
-        if (mpShieldColorProp && (mpShieldColorProp->Type() != eColorProperty))
-            mpShieldColorProp = nullptr;
-
-        if (mpShieldColorProp)
-            PropertyModified(mpShieldColorProp);
+        mpShieldColorProp = TPropCast<TColorProperty>(pBaseStruct->PropertyByID(0x47B4E863));
+        if (mpShieldColorProp) PropertyModified(mpShieldColorProp);
     }
 
     else
     {
-        mpDisabledProp = (TBoolProperty*) pBaseStruct->PropertyByID(0xDEE730F5);
-        if (mpDisabledProp && (mpDisabledProp->Type() != eBoolProperty))
-            mpDisabledProp = nullptr;
-
-        if (mpDisabledProp)
-            PropertyModified(mpDisabledProp);
+        mpDisabledProp = TPropCast<TBoolProperty>(pBaseStruct->PropertyByID(0xDEE730F5));
+        if (mpDisabledProp) PropertyModified(mpDisabledProp);
     }
 }
 

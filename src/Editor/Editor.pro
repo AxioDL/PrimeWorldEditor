@@ -136,7 +136,8 @@ HEADERS += \
     WorldEditor/CInstancesModel.h \
     Undo/CEditScriptPropertyCommand.h \
     Undo/CResizeScriptArrayCommand.h \
-    Undo/CBasicPropertyCommand.h
+    Undo/CBasicPropertyCommand.h \
+    Undo/IUndoCommand.h
 
 # Source Files
 SOURCES += \

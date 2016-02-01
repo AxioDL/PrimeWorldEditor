@@ -12,21 +12,10 @@ CSpacePirateExtra::CSpacePirateExtra(CScriptObject *pInstance, CScene *pScene, C
 
     if (pVulns && pVulns->Type() == eStructProperty)
     {
-        mpPowerVuln = (TLongProperty*) pVulns->PropertyByID(0x0);
-        if (mpPowerVuln && mpPowerVuln->Type() != eLongProperty && mpPowerVuln->Type() != eEnumProperty)
-            mpPowerVuln = nullptr;
-
-        mpWaveVuln = (TLongProperty*) pVulns->PropertyByID(0x2);
-        if (mpWaveVuln && mpWaveVuln->Type() != eLongProperty && mpWaveVuln->Type() != eEnumProperty)
-            mpWaveVuln = nullptr;
-
-        mpIceVuln = (TLongProperty*) pVulns->PropertyByID(0x1);
-        if (mpIceVuln && mpIceVuln->Type() != eLongProperty && mpIceVuln->Type() != eEnumProperty)
-            mpIceVuln = nullptr;
-
-        mpPlasmaVuln = (TLongProperty*) pVulns->PropertyByID(0x3);
-        if (mpPlasmaVuln && mpPlasmaVuln->Type() != eLongProperty && mpPlasmaVuln->Type() != eEnumProperty)
-            mpPlasmaVuln = nullptr;
+        mpPowerVuln = TPropCast<TEnumProperty>(pVulns->PropertyByID(0x0));
+        mpWaveVuln = TPropCast<TEnumProperty>(pVulns->PropertyByID(0x2));
+        mpIceVuln = TPropCast<TEnumProperty>(pVulns->PropertyByID(0x1));
+        mpPlasmaVuln = TPropCast<TEnumProperty>(pVulns->PropertyByID(0x3));
     }
 }
 

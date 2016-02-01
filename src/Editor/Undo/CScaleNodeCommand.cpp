@@ -3,14 +3,14 @@
 #include "Editor/INodeEditor.h"
 
 CScaleNodeCommand::CScaleNodeCommand()
-    : QUndoCommand("Scale"),
+    : IUndoCommand("Scale"),
       mpEditor(nullptr),
       mCommandEnded(false)
 {
 }
 
 CScaleNodeCommand::CScaleNodeCommand(INodeEditor *pEditor, const QList<CSceneNode*>& nodes, const CVector3f& /*pivot*/, const CVector3f& delta)
-    : QUndoCommand("Scale"),
+    : IUndoCommand("Scale"),
       mpEditor(pEditor),
       mCommandEnded(false)
 {

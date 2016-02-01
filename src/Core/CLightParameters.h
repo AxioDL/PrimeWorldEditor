@@ -18,7 +18,7 @@ class CLightParameters
     EGame mGame;
 
     TLongProperty *mpLightLayer;
-    TLongProperty *mpWorldLightingOptions;
+    TEnumProperty *mpWorldLightingOptions;
 
 public:
     CLightParameters(CPropertyStruct *pStruct, EGame Game)
@@ -31,13 +31,13 @@ public:
         {
             if (mGame <= ePrime)
             {
-                mpWorldLightingOptions = (TLongProperty*) mpStruct->PropertyByIndex(0x7);
-                mpLightLayer = (TLongProperty*) mpStruct->PropertyByIndex(0xD);
+                mpWorldLightingOptions = TPropCast<TEnumProperty>(mpStruct->PropertyByIndex(0x7));
+                mpLightLayer = TPropCast<TLongProperty>(mpStruct->PropertyByIndex(0xD));
             }
             else
             {
-                mpWorldLightingOptions = (TLongProperty*) mpStruct->PropertyByIndex(0x6B5E7509);
-                mpLightLayer = (TLongProperty*) mpStruct->PropertyByID(0x1F715FD3);
+                mpWorldLightingOptions = TPropCast<TEnumProperty>(mpStruct->PropertyByID(0x6B5E7509));
+                mpLightLayer = TPropCast<TLongProperty>(mpStruct->PropertyByID(0x1F715FD3));
             }
         }
     }

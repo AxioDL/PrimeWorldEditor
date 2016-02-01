@@ -2,7 +2,7 @@
 #include <Core/Scene/CSceneIterator.h>
 
 CInvertSelectionCommand::CInvertSelectionCommand(INodeEditor *pEditor, QList<CSceneNode*>& rSelection, CScene *pScene, FNodeFlags NodeFlags)
-    : QUndoCommand("Invert Selection")
+    : IUndoCommand("Invert Selection")
     , mpEditor(pEditor)
     , mOldSelection(rSelection)
     , mpSelection(&rSelection)

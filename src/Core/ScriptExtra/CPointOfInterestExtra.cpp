@@ -11,32 +11,9 @@ CPointOfInterestExtra::CPointOfInterestExtra(CScriptObject *pInstance, CScene *p
     // Fetch scan data property
     CPropertyStruct *pBaseProp = pInstance->Properties();
 
-    switch (mGame)
-    {
-    case ePrimeDemo:
-    case ePrime:
-        mpScanProperty = (TFileProperty*) pBaseProp->PropertyByIDString("0x04:0x00");
-        break;
-
-    case eEchoesDemo:
-    case eEchoes:
-    case eCorruptionProto:
-    case eCorruption:
-        mpScanProperty = (TFileProperty*) pBaseProp->PropertyByIDString("0xBDBEC295:0xB94E9BE7");
-        break;
-
-    default:
-        mpScanProperty = nullptr;
-        break;
-    }
-
-    if (mpScanProperty)
-    {
-        if (mpScanProperty->Type() == eFileProperty)
-            PropertyModified(mpScanProperty);
-        else
-            mpScanProperty = nullptr;
-    }
+    if (mGame <= ePrime)    mpScanProperty = TPropCast<TFileProperty>(pBaseProp->PropertyByIDString("0x04:0x00"));
+    else                    mpScanProperty = (TFileProperty*) pBaseProp->PropertyByIDString("0xBDBEC295:0xB94E9BE7");
+    if (mpScanProperty) PropertyModified(mpScanProperty);
 }
 
 void CPointOfInterestExtra::PropertyModified(IProperty* pProperty)

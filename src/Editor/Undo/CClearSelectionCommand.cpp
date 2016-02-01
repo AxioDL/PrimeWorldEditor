@@ -2,7 +2,7 @@
 #include "Editor/INodeEditor.h"
 
 CClearSelectionCommand::CClearSelectionCommand(INodeEditor *pEditor, QList<CSceneNode*>& selection)
-    : QUndoCommand("Clear Selection"),
+    : IUndoCommand("Clear Selection"),
       mpEditor(pEditor),
       mSelectionState(selection),
       mpSelection(&selection)

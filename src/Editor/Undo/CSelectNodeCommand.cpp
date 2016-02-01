@@ -2,7 +2,7 @@
 #include "Editor/INodeEditor.h"
 
 CSelectNodeCommand::CSelectNodeCommand(INodeEditor *pEditor, CSceneNode *pNode, QList<CSceneNode*>& selection)
-    : QUndoCommand("Select"),
+    : IUndoCommand("Select"),
       mpEditor(pEditor),
       mpNode(pNode),
       mpSelection(&selection)
