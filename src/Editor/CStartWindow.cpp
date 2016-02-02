@@ -33,11 +33,14 @@ void CStartWindow::on_actionOpen_MLVL_triggered()
     QString WorldFile = QFileDialog::getOpenFileName(this, "Open MLVL", "", "Metroid Prime World (*.MLVL)");
     if (WorldFile.isEmpty()) return;
 
-    gResCache.SetFolder(TString(WorldFile.toStdString()).GetFileDirectory());
-    mpWorld = gResCache.GetResource(WorldFile.toStdString());
-    mpWorldEditor->close();
+    if (mpWorldEditor->CheckUnsavedChanges())
+    {
+        gResCache.SetFolder(TString(WorldFile.toStdString()).GetFileDirectory());
+        mpWorld = gResCache.GetResource(WorldFile.toStdString());
+        mpWorldEditor->close();
 
-    FillWorldUI();
+        FillWorldUI();
+    }
 }
 
 void CStartWindow::FillWorldUI()
@@ -156,31 +159,33 @@ void CStartWindow::on_AttachedAreasList_doubleClicked(const QModelIndex &index)
 
 void CStartWindow::on_LaunchWorldEditorButton_clicked()
 {
-    u64 AreaID = mpWorld->GetAreaResourceID(mSelectedAreaIndex);
-    TResPtr<CGameArea> pArea = gResCache.GetResource(AreaID, "MREA");
-
-    if (!pArea)
+    if (mpWorldEditor->CheckUnsavedChanges())
     {
-        QMessageBox::warning(this, "Error", "Couldn't load area!");
-        mpWorldEditor->close();
+        u64 AreaID = mpWorld->GetAreaResourceID(mSelectedAreaIndex);
+        TResPtr<CGameArea> pArea = gResCache.GetResource(AreaID, "MREA");
+
+        if (!pArea)
+        {
+            QMessageBox::warning(this, "Error", "Couldn't load area!");
+        }
+
+        else
+        {
+            mpWorld->SetAreaLayerInfo(pArea, mSelectedAreaIndex);
+            mpWorldEditor->SetArea(mpWorld, pArea, mSelectedAreaIndex);
+            mpWorldEditor->setWindowModality(Qt::WindowModal);
+            mpWorldEditor->showMaximized();
+
+            // Display errors
+            CErrorLogDialog ErrorDialog(mpWorldEditor);
+            bool HasErrors = ErrorDialog.GatherErrors();
+
+            if (HasErrors)
+                ErrorDialog.exec();
+
+            gResCache.Clean();
+        }
     }
-
-    else
-    {
-        mpWorld->SetAreaLayerInfo(pArea, mSelectedAreaIndex);
-        mpWorldEditor->SetArea(mpWorld, pArea, mSelectedAreaIndex);
-        mpWorldEditor->setWindowModality(Qt::WindowModal);
-        mpWorldEditor->showMaximized();
-
-        // Display errors
-        CErrorLogDialog ErrorDialog(mpWorldEditor);
-        bool HasErrors = ErrorDialog.GatherErrors();
-
-        if (HasErrors)
-            ErrorDialog.exec();
-    }
-
-    gResCache.Clean();
 }
 
 void CStartWindow::on_actionLaunch_model_viewer_triggered()
