@@ -28,24 +28,29 @@ CStartWindow::~CStartWindow()
     delete mpModelEditor;
 }
 
+void CStartWindow::closeEvent(QCloseEvent *pEvent)
+{
+    if (mpWorldEditor->close())
+        qApp->quit();
+    else
+        pEvent->ignore();
+}
+
 void CStartWindow::on_actionOpen_MLVL_triggered()
 {
     QString WorldFile = QFileDialog::getOpenFileName(this, "Open MLVL", "", "Metroid Prime World (*.MLVL)");
     if (WorldFile.isEmpty()) return;
 
-    if (mpWorldEditor->CheckUnsavedChanges())
+    if (mpWorldEditor->close())
     {
         gResCache.SetFolder(TString(WorldFile.toStdString()).GetFileDirectory());
         mpWorld = gResCache.GetResource(WorldFile.toStdString());
-        mpWorldEditor->close();
-
         FillWorldUI();
     }
 }
 
 void CStartWindow::FillWorldUI()
 {
-
     CStringTable *pWorldName = mpWorld->GetWorldName();
     if (pWorldName)
     {

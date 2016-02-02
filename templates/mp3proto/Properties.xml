@@ -258,7 +258,7 @@
     <property ID="0x1EB90D06" name="Unknown"/>
     <property ID="0x1F46CF01" name="Unknown"/>
     <property ID="0x1F6813F1" name="Unknown"/>
-    <property ID="0x1F715FD3" name="Unknown"/>
+    <property ID="0x1F715FD3" name="Light Layer Index"/>
     <property ID="0x1F83D350" name="Unknown"/>
     <property ID="0x1FB988F2" name="Unknown"/>
     <property ID="0x1FD78DD3" name="PuddleControlPhaseData"/>

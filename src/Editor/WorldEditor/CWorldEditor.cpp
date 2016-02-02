@@ -93,6 +93,8 @@ void CWorldEditor::closeEvent(QCloseEvent *pEvent)
 
     if (ShouldClose)
     {
+        mUndoStack.clear();
+
         if (mpPoiDialog)
             mpPoiDialog->close();
     }

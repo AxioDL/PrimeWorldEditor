@@ -864,8 +864,8 @@
     <property ID="0x1F526953" name="Unknown"/>
     <property ID="0x1F5E78C2" name="Unknown"/>
     <property ID="0x1F6813F1" name="Unknown"/>
-    <property ID="0x1F6C1A6B" name="Power BeamInfo"/>
-    <property ID="0x1F715FD3" name="Unknown"/>
+    <property ID="0x1F6C1A6B" name="PowerBeamInfo"/>
+    <property ID="0x1F715FD3" name="Light Layer Index"/>
     <property ID="0x1F80154D" name="Unknown"/>
     <property ID="0x1F83D350" name="Unknown"/>
     <property ID="0x1F844B33" name="Unknown"/>

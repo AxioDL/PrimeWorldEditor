@@ -26,6 +26,7 @@ class CStartWindow : public QMainWindow
 public:
     explicit CStartWindow(QWidget *parent = 0);
     ~CStartWindow();
+    void closeEvent(QCloseEvent *pEvent);
 
 private slots:
     void on_actionOpen_MLVL_triggered();
