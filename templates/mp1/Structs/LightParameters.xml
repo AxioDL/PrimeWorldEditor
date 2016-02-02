@@ -21,6 +21,6 @@
         <property ID="0x0A" name="Unknown 8" type="long"/>
         <property ID="0x0B" name="Unknown 9" type="long"/>
         <property ID="0x0C" name="Unknown 10" type="bool"/>
-        <property ID="0x0D" name="Unknown 11" type="long"/>
+        <property ID="0x0D" name="Light Layer Index" type="long"/>
     </properties>
 </struct>
