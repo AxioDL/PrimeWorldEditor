@@ -44,6 +44,7 @@ public:
     bool eventFilter(QObject *pObj, QEvent *pEvent);
     void SetArea(CWorld *pWorld, CGameArea *pArea, u32 AreaIndex);
     CGameArea* ActiveArea();
+    bool CheckUnsavedChanges();
 
 public slots:
     bool Save();

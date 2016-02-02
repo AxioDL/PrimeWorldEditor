@@ -89,21 +89,7 @@ CWorldEditor::~CWorldEditor()
 
 void CWorldEditor::closeEvent(QCloseEvent *pEvent)
 {
-    bool ShouldClose = true;
-
-    if (isWindowModified())
-    {
-        int Result = QMessageBox::warning(this, "Save", "You have unsaved changes. Save?", QMessageBox::Yes, QMessageBox::No, QMessageBox::Cancel);
-
-        if (Result == QMessageBox::Yes)
-            ShouldClose = Save();
-
-        else if (Result == QMessageBox::No)
-            ShouldClose = true;
-
-        else if (Result == QMessageBox::Cancel)
-            ShouldClose = false;
-    }
+    bool ShouldClose = CheckUnsavedChanges();
 
     if (ShouldClose)
     {
@@ -196,6 +182,28 @@ void CWorldEditor::SetArea(CWorld *pWorld, CGameArea *pArea, u32 AreaIndex)
 CGameArea* CWorldEditor::ActiveArea()
 {
     return mpArea;
+}
+
+bool CWorldEditor::CheckUnsavedChanges()
+{
+    // Check whether the user has unsaved changes, return whether it's okay to clear the scene
+    bool OkToClear = !isWindowModified();
+
+    if (!OkToClear)
+    {
+        int Result = QMessageBox::warning(this, "Save", "You have unsaved changes. Save?", QMessageBox::Yes, QMessageBox::No, QMessageBox::Cancel);
+
+        if (Result == QMessageBox::Yes)
+            OkToClear = Save();
+
+        else if (Result == QMessageBox::No)
+            OkToClear = true;
+
+        else if (Result == QMessageBox::Cancel)
+            OkToClear = false;
+    }
+
+    return OkToClear;
 }
 
 // ************ PUBLIC SLOTS ************
