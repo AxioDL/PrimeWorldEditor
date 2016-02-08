@@ -5,14 +5,14 @@
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <struct ID="0x50228364" type="multi">
             <properties>
-                <struct ID="0xF6AE5D7C" template="Structs/UnknownStruct23.xml">
+                <struct ID="0xF6AE5D7C" template="Structs/ControlCommands.xml">
                     <properties>
                         <enum ID="0x418B3422">
                             <default>0x6AD40029</default>
                         </enum>
                     </properties>
                 </struct>
-                <struct ID="0xD2FD4F74" template="Structs/UnknownStruct23.xml">
+                <struct ID="0xD2FD4F74" template="Structs/ControlCommands.xml">
                     <properties>
                         <enum ID="0x418B3422">
                             <default>0xE08296BA</default>

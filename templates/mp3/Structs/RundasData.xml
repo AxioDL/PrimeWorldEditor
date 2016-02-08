@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="RundasData" type="multi">
+    <properties>
+        <property ID="0x1AEB498D" type="float">
+            <default>180.0</default>
+        </property>
+        <property ID="0x9C7F3B23" type="float">
+            <default>225.0</default>
+        </property>
+        <property ID="0x706186D2" type="float">
+            <default>8.0</default>
+        </property>
+        <property ID="0x3F5D6545" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0x59A93220" type="float">
+            <default>5.0</default>
+        </property>
+        <property ID="0x6CC73EC1" type="float">
+            <default>7.0</default>
+        </property>
+        <property ID="0x57F0A2A7" type="float">
+            <default>5.0</default>
+        </property>
+        <struct ID="0xD1522831" template="Structs/DamageVulnerability.xml"/>
+        <struct ID="0x896D5BD9" template="Structs/DamageVulnerability.xml"/>
+        <struct ID="0x8D4A2668" template="Structs/DamageInfo.xml"/>
+        <property ID="0xF41394F6" type="float">
+            <default>6.0</default>
+        </property>
+        <struct ID="0xB1B44917" template="Structs/DamageInfo.xml"/>
+        <struct ID="0x7FBC7E81" template="Structs/DamageInfo.xml"/>
+        <property ID="0xFF944885" type="float">
+            <default>0.5</default>
+        </property>
+        <property ID="0x19F4E764" type="float">
+            <default>7.0</default>
+        </property>
+        <property ID="0x050CB86E" type="float">
+            <default>6.0</default>
+        </property>
+        <property ID="0xE36C178F" type="float">
+            <default>100.0</default>
+        </property>
+        <struct ID="0x3063BBF1" template="Structs/DamageInfo.xml"/>
+        <struct ID="0x5997EBE1" template="Structs/DamageInfo.xml"/>
+        <property ID="0xC922F0E0" type="float">
+            <default>35.0</default>
+        </property>
+        <property ID="0x2F425F01" type="float">
+            <default>200.0</default>
+        </property>
+        <property ID="0x3BE0A66B" type="float">
+            <default>80.0</default>
+        </property>
+        <property ID="0xF586836F" type="float">
+            <default>5.0</default>
+        </property>
+        <property ID="0x7312F1C1" type="float">
+            <default>2.5</default>
+        </property>
+        <property ID="0x775362CF" type="float">
+            <default>0.5</default>
+        </property>
+        <property ID="0xF1C71061" type="float">
+            <default>0.95</default>
+        </property>
+        <property ID="0x3F196C78" type="float">
+            <default>25.0</default>
+        </property>
+        <struct ID="0x78DF0B7D" template="Structs/DamageInfo.xml"/>
+        <property ID="0xCA04D756" type="long">
+            <default>1</default>
+        </property>
+        <property ID="0xD94131FD" type="long">
+            <default>1</default>
+        </property>
+        <property ID="0x821B0C82" type="float">
+            <default>0.05</default>
+        </property>
+        <property ID="0xE4FE6AF6" type="float">
+            <default>0.45</default>
+        </property>
+        <property ID="0x7EF4EFFE" type="float">
+            <default>0.05</default>
+        </property>
+        <property ID="0x3FE3D078" type="float">
+            <default>0.45</default>
+        </property>
+        <property ID="0x1DCC7E61" type="float">
+            <default>7.0</default>
+        </property>
+        <property ID="0xFBACD180" type="float">
+            <default>11.0</default>
+        </property>
+        <property ID="0xE4CD7924" type="float">
+            <default>25.0</default>
+        </property>
+        <property ID="0x3056FFBA" type="float">
+            <default>7.5</default>
+        </property>
+        <property ID="0x595E38D6" type="float">
+            <default>18.0</default>
+        </property>
+        <property ID="0x6D0BA041" type="float">
+            <default>14.0</default>
+        </property>
+        <property ID="0xC758F52E" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x39D7265E" type="float">
+            <default>17.0</default>
+        </property>
+        <property ID="0xF80FCAE2" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0x531A8C85" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x691746F2" type="float">
+            <default>125.0</default>
+        </property>
+        <property ID="0xCF197148" type="float">
+            <default>20.0</default>
+        </property>
+        <property ID="0x9EE0CA15" type="float">
+            <default>30.0</default>
+        </property>
+        <property ID="0xFC629F72" type="float">
+            <default>5.0</default>
+        </property>
+        <property ID="0xEF2779D9" type="float">
+            <default>10.0</default>
+        </property>
+    </properties>
+</struct>

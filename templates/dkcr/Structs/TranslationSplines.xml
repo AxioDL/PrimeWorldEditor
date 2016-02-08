@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="TranslationSplines" type="multi">
+    <properties>
+        <struct ID="0x24E9A09B" template="Structs/MayaSpline.xml"/>
+        <struct ID="0xCBBB167A" template="Structs/MayaSpline.xml"/>
+        <struct ID="0x213DCB18" template="Structs/MayaSpline.xml"/>
+    </properties>
+</struct>

@@ -89,11 +89,11 @@
                 <property ID="0xA47E51D3" type="file" extensions="UNKN"/>
             </properties>
         </struct>
-        <struct ID="0x02C43C41" template="Structs/DarkSamusStruct.xml"/>
+        <struct ID="0x02C43C41" template="Structs/DarkSamusData.xml"/>
         <struct ID="0xB3774750" template="Structs/PatternedAI.xml"/>
-        <struct ID="0xDD042FE0" template="Structs/DarkSamusStruct.xml"/>
+        <struct ID="0xDD042FE0" template="Structs/DarkSamusData.xml"/>
         <struct ID="0x1464AE05" template="Structs/PatternedAI.xml"/>
-        <struct ID="0xD0621C92" template="Structs/DarkSamusStruct.xml"/>
+        <struct ID="0xD0621C92" template="Structs/DarkSamusData.xml"/>
         <struct ID="0x24D00673" template="Structs/PatternedAI.xml"/>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
     </properties>

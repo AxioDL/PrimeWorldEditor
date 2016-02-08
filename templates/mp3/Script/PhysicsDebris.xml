@@ -114,7 +114,7 @@
                 <property ID="0x3BDD2FED" type="bool">
                     <default>true</default>
                 </property>
-                <struct ID="0x49286613" template="Structs/PhysicsDebrisStruct.xml"/>
+                <struct ID="0x49286613" template="Structs/PhysicsDebrisPropertiesOrientationEnum.xml"/>
                 <property ID="0xC119780D" type="file" extensions="PART"/>
                 <property ID="0x6E3825EF" type="vector3f">
                     <default>1.0, 1.0, 1.0</default>
@@ -128,7 +128,7 @@
                 <property ID="0xC98AC215" type="bool">
                     <default>true</default>
                 </property>
-                <struct ID="0x1E0A4A41" template="Structs/PhysicsDebrisStruct.xml"/>
+                <struct ID="0x1E0A4A41" template="Structs/PhysicsDebrisPropertiesOrientationEnum.xml"/>
                 <property ID="0x2C7B18DD" type="bool">
                     <default>true</default>
                 </property>

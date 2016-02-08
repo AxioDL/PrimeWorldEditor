@@ -68,7 +68,7 @@
         <property ID="0x3D7406AF" type="bool">
             <default>false</default>
         </property>
-        <struct ID="0x493D6A2D" template="Structs/UnknownStruct3.xml"/>
+        <struct ID="0x493D6A2D" template="Structs/SplineType.xml"/>
         <struct ID="0x27E5F874" template="Structs/MayaSpline.xml"/>
         <property ID="0xFD1E2F56" type="float">
             <default>10.0</default>

@@ -129,7 +129,7 @@
                 <property ID="0x3BDD2FED" type="bool">
                     <default>true</default>
                 </property>
-                <struct ID="0xF5DD4690" template="Structs/DebrisStruct.xml"/>
+                <struct ID="0xF5DD4690" template="Structs/DebrisPropertiesOrientationEnum.xml"/>
                 <property ID="0xC119780D" type="file" extensions="PART"/>
                 <property ID="0x6E3825EF" type="vector3f">
                     <default>1.0, 1.0, 1.0</default>
@@ -143,7 +143,7 @@
                 <property ID="0xC98AC215" type="bool">
                     <default>true</default>
                 </property>
-                <struct ID="0x3CE95D9D" template="Structs/DebrisStruct.xml"/>
+                <struct ID="0x3CE95D9D" template="Structs/DebrisPropertiesOrientationEnum.xml"/>
                 <property ID="0x2C7B18DD" type="bool">
                     <default>true</default>
                 </property>

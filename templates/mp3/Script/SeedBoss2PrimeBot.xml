@@ -52,11 +52,11 @@
                 <property ID="0xA959B017" type="file" extensions="CAUD"/>
             </properties>
         </struct>
-        <struct ID="0xB1461BC0" template="Structs/SeedBoss2PrimeBotStruct.xml"/>
+        <struct ID="0xB1461BC0" template="Structs/SeedBoss2PrimeBotData.xml"/>
         <struct ID="0xB3774750" template="Structs/PatternedAI.xml"/>
-        <struct ID="0xD578F188" template="Structs/SeedBoss2PrimeBotStruct.xml"/>
+        <struct ID="0xD578F188" template="Structs/SeedBoss2PrimeBotData.xml"/>
         <struct ID="0x1464AE05" template="Structs/PatternedAI.xml"/>
-        <struct ID="0xE3585B48" template="Structs/SeedBoss2PrimeBotStruct.xml"/>
+        <struct ID="0xE3585B48" template="Structs/SeedBoss2PrimeBotData.xml"/>
         <struct ID="0x24D00673" template="Structs/PatternedAI.xml"/>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
     </properties>

@@ -156,9 +156,9 @@
                 </property>
             </properties>
         </struct>
-        <struct ID="0x42E95705" template="Structs/MetroidHatcherStruct.xml"/>
-        <struct ID="0x266B7D6B" template="Structs/MetroidHatcherStruct.xml"/>
-        <struct ID="0xF189FD33" template="Structs/MetroidHatcherStruct.xml"/>
+        <struct ID="0x42E95705" template="Structs/MetroidHatcherData.xml"/>
+        <struct ID="0x266B7D6B" template="Structs/MetroidHatcherData.xml"/>
+        <struct ID="0xF189FD33" template="Structs/MetroidHatcherData.xml"/>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
     </properties>
     <states/>

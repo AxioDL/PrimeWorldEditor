@@ -12,8 +12,8 @@
             <default>-1</default>
         </property>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <struct ID="0x2F7EC0A2" template="Structs/UnknownStruct21.xml"/>
-        <struct ID="0x680E96EA" template="Structs/UnknownStruct21.xml"/>
+        <struct ID="0x2F7EC0A2" template="Structs/ScaleSplines.xml"/>
+        <struct ID="0x680E96EA" template="Structs/ScaleSplines.xml"/>
     </properties>
     <states/>
     <messages/>

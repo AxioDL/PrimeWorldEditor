@@ -3,9 +3,9 @@
     <name>SeedBoss3</name>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0xFD27ED67" template="Structs/SeedBoss3Struct.xml"/>
-        <struct ID="0x5292969E" template="Structs/SeedBoss3Struct.xml"/>
-        <struct ID="0xCF9D77E8" template="Structs/SeedBoss3Struct.xml"/>
+        <struct ID="0xFD27ED67" template="Structs/SeedBoss3Data.xml"/>
+        <struct ID="0x5292969E" template="Structs/SeedBoss3Data.xml"/>
+        <struct ID="0xCF9D77E8" template="Structs/SeedBoss3Data.xml"/>
         <struct ID="0xB3774750" template="Structs/PatternedAI.xml">
             <properties>
                 <property ID="0x75DBB375">

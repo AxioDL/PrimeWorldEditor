@@ -12,9 +12,9 @@
         <property ID="0xA5753D52" type="float">
             <default>0.0</default>
         </property>
-        <struct ID="0xEFE4EA57" template="Structs/UnknownStruct20.xml"/>
-        <struct ID="0x2F7EC0A2" template="Structs/UnknownStruct21.xml"/>
-        <struct ID="0x692267EA" template="Structs/UnknownStruct22.xml"/>
+        <struct ID="0xEFE4EA57" template="Structs/RotationSplines.xml"/>
+        <struct ID="0x2F7EC0A2" template="Structs/ScaleSplines.xml"/>
+        <struct ID="0x692267EA" template="Structs/TranslationSplines.xml"/>
         <struct ID="0x51B8AACA" template="Structs/MayaSpline.xml"/>
     </properties>
     <states/>

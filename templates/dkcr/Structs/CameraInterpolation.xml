@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="CameraInterpolation" type="multi">
+    <properties>
+        <property ID="0x1D49D35C" type="long">
+            <default>3</default>
+        </property>
+        <property ID="0xC22D6492" type="float">
+            <default>100.0</default>
+        </property>
+        <property ID="0xE02022D5" type="float">
+            <default>135.0</default>
+        </property>
+        <struct ID="0xA738790A" template="Structs/MotionInterpolationMethod.xml"/>
+        <struct ID="0xA768A18E" template="Structs/OrientationInterpolationMethod.xml"/>
+        <struct ID="0x3B8C7CB4" template="Structs/FOVInterpolationMethod.xml"/>
+        <property ID="0x058C1B1D" type="long">
+            <default>3</default>
+        </property>
+        <property ID="0x943F8A27" type="float">
+            <default>100.0</default>
+        </property>
+        <property ID="0x3127E68A" type="float">
+            <default>135.0</default>
+        </property>
+        <struct ID="0x7FAC732A" template="Structs/MotionInterpolationMethod.xml">
+            <properties>
+                <struct ID="0x287F9F45">
+                    <properties>
+                        <property ID="0x8B51E23F">
+                            <default>2.0</default>
+                        </property>
+                    </properties>
+                </struct>
+            </properties>
+        </struct>
+        <struct ID="0xDFAB73B6" template="Structs/OrientationInterpolationMethod.xml"/>
+        <struct ID="0xF391EDBC" template="Structs/FOVInterpolationMethod.xml"/>
+        <property ID="0x07A6C22C" type="long">
+            <default>3</default>
+        </property>
+        <property ID="0xC4E74018" type="float">
+            <default>100.0</default>
+        </property>
+        <property ID="0x28B3B4B5" type="float">
+            <default>135.0</default>
+        </property>
+        <struct ID="0xBC723CAC" template="Structs/MotionInterpolationMethod.xml"/>
+        <struct ID="0xBE093676" template="Structs/OrientationInterpolationMethod.xml"/>
+        <struct ID="0x70754E15" template="Structs/FOVInterpolationMethod.xml"/>
+    </properties>
+</struct>

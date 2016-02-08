@@ -29,7 +29,7 @@
                 <enumerator ID="0x3EB622AA" name="Unknown 2"/>
             </enumerators>
         </enum>
-        <struct ID="0x56F4BC93" template="Structs/UnknownStruct12.xml"/>
+        <struct ID="0x56F4BC93" template="Structs/Convergence.xml"/>
     </properties>
     <states/>
     <messages/>

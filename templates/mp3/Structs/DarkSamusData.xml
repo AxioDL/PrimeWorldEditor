@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="DarkSamusData" type="multi">
+    <properties>
+        <property ID="0xFBC0F458" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x7D5486F6" type="float">
+            <default>625.0</default>
+        </property>
+        <property ID="0xB6085553" type="float">
+            <default>625.0</default>
+        </property>
+        <property ID="0xAB0D65EB" type="float">
+            <default>510.0</default>
+        </property>
+        <property ID="0x6051B64E" type="float">
+            <default>400.0</default>
+        </property>
+        <property ID="0xFD5398EB" type="float">
+            <default>-1.0</default>
+        </property>
+        <property ID="0x7BC7EA45" type="float">
+            <default>-1.0</default>
+        </property>
+        <property ID="0xB09B39E0" type="float">
+            <default>-1.0</default>
+        </property>
+        <property ID="0xAD9E0958" type="float">
+            <default>-1.0</default>
+        </property>
+        <property ID="0x66C2DAFD" type="float">
+            <default>-1.0</default>
+        </property>
+        <property ID="0xF3DBA20B" type="float">
+            <default>11.0</default>
+        </property>
+        <property ID="0x754FD0A5" type="float">
+            <default>11.0</default>
+        </property>
+        <property ID="0xBE130300" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0xA31633B8" type="float">
+            <default>10.0</default>
+        </property>
+        <property ID="0x684AE01D" type="float">
+            <default>9.0</default>
+        </property>
+        <property ID="0xA3AD3CAF" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0xB1189341" type="long">
+            <default>2</default>
+        </property>
+        <property ID="0x09A4F424" type="long">
+            <default>2</default>
+        </property>
+        <property ID="0x9473CC9D" type="long">
+            <default>2</default>
+        </property>
+        <property ID="0x4BF5E22C" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xCD619082" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x063D4327" type="float">
+            <default>100.0</default>
+        </property>
+        <property ID="0x1B38739F" type="float">
+            <default>100.0</default>
+        </property>
+        <property ID="0xD064A03A" type="float">
+            <default>100.0</default>
+        </property>
+        <property ID="0x63CD8FEA" type="float">
+            <default>0.1</default>
+        </property>
+        <property ID="0xE559FD44" type="float">
+            <default>0.2</default>
+        </property>
+        <property ID="0x2E052EE1" type="float">
+            <default>0.3</default>
+        </property>
+        <property ID="0x33001E59" type="float">
+            <default>0.3</default>
+        </property>
+        <property ID="0xF85CCDFC" type="float">
+            <default>0.3</default>
+        </property>
+        <property ID="0x35C8D201" type="float">
+            <default>4.0</default>
+        </property>
+        <property ID="0xB35CA0AF" type="float">
+            <default>3.0</default>
+        </property>
+        <property ID="0x7800730A" type="float">
+            <default>1.3</default>
+        </property>
+        <property ID="0x650543B2" type="float">
+            <default>0.7</default>
+        </property>
+        <property ID="0xAE599017" type="float">
+            <default>0.3</default>
+        </property>
+        <property ID="0x781CC1E9" type="float">
+            <default>750.0</default>
+        </property>
+        <property ID="0xC377B3C1" type="float">
+            <default>375.0</default>
+        </property>
+        <property ID="0x0DF4B149" type="float">
+            <default>21.0</default>
+        </property>
+        <struct ID="0xC9416034" template="Structs/DamageInfo.xml"/>
+        <struct ID="0x414046A8" template="Structs/DamageInfo.xml"/>
+        <struct ID="0xA0E0D7F8" template="Structs/DamageInfo.xml"/>
+        <struct ID="0x429C17BD" template="Structs/DamageInfo.xml"/>
+        <struct ID="0x995AA633" template="Structs/DamageInfo.xml"/>
+        <struct ID="0x55571199" template="Structs/ShockWaveInfo.xml"/>
+        <struct ID="0x598C0005" template="Structs/DamageInfo.xml"/>
+        <property ID="0x4BC4AE5C" type="float">
+            <default>360.0</default>
+        </property>
+        <struct ID="0x93ECF945" template="Structs/DamageInfo.xml"/>
+        <struct ID="0xAEF2F857" template="Structs/DamageInfo.xml"/>
+        <struct ID="0xD74FC76C" template="Structs/DamageInfo.xml"/>
+        <struct ID="0xCAA6ECEE" template="Structs/DamageInfo.xml"/>
+    </properties>
+</struct>

@@ -11,8 +11,8 @@
         <property ID="0x8A1FD661" type="float">
             <default>0.6</default>
         </property>
-        <struct ID="0xEFE4EA57" template="Structs/UnknownStruct20.xml"/>
-        <struct ID="0x692267EA" template="Structs/UnknownStruct22.xml"/>
+        <struct ID="0xEFE4EA57" template="Structs/RotationSplines.xml"/>
+        <struct ID="0x692267EA" template="Structs/TranslationSplines.xml"/>
         <property ID="0x36F96F54" type="file" extensions="unknown"/>
         <property ID="0x465159A3" type="file" extensions="unknown"/>
         <property ID="0x25C9C68F" type="bool">

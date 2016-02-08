@@ -4,7 +4,7 @@
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <struct ID="0x013E35FB" template="Structs/UnknownStruct6.xml"/>
-        <struct ID="0x710FE5D7" template="Structs/UnknownStruct23.xml"/>
+        <struct ID="0x710FE5D7" template="Structs/ControlCommands.xml"/>
         <property ID="0xEAD7B7BB" type="bool">
             <default>false</default>
         </property>

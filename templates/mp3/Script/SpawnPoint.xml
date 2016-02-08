@@ -25,7 +25,7 @@
             <properties>
                 <struct ID="0x52C779C0" type="multi">
                     <properties>
-                        <struct ID="0x336BD471" template="Structs/SpawnPointStruct.xml">
+                        <struct ID="0x336BD471" template="Structs/PlayerInventoryItem.xml">
                             <properties>
                                 <property ID="0x94AF1445">
                                     <default>1</default>
@@ -35,7 +35,7 @@
                                 </property>
                             </properties>
                         </struct>
-                        <struct ID="0xD31B2209" template="Structs/SpawnPointStruct.xml">
+                        <struct ID="0xD31B2209" template="Structs/PlayerInventoryItem.xml">
                             <properties>
                                 <property ID="0x94AF1445">
                                     <default>1</default>
@@ -45,8 +45,8 @@
                                 </property>
                             </properties>
                         </struct>
-                        <struct ID="0x152ED0D9" template="Structs/SpawnPointStruct.xml"/>
-                        <struct ID="0x950A91AE" template="Structs/SpawnPointStruct.xml"/>
+                        <struct ID="0x152ED0D9" template="Structs/PlayerInventoryItem.xml"/>
+                        <struct ID="0x950A91AE" template="Structs/PlayerInventoryItem.xml"/>
                     </properties>
                 </struct>
                 <struct ID="0xEF43B845" type="multi">
@@ -63,7 +63,7 @@
                         <property ID="0xF34F99D7" type="bool">
                             <default>false</default>
                         </property>
-                        <struct ID="0xA387191D" template="Structs/SpawnPointStruct.xml"/>
+                        <struct ID="0xA387191D" template="Structs/PlayerInventoryItem.xml"/>
                         <property ID="0x5DB3E694" type="bool">
                             <default>false</default>
                         </property>
@@ -156,7 +156,7 @@
                 </struct>
                 <struct ID="0xE9C4A786" type="multi">
                     <properties>
-                        <struct ID="0x398A3608" template="Structs/SpawnPointStruct.xml"/>
+                        <struct ID="0x398A3608" template="Structs/PlayerInventoryItem.xml"/>
                         <property ID="0xF9AEE109" type="bool">
                             <default>false</default>
                         </property>

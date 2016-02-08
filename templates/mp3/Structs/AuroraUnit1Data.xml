@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="AuroraUnit1Data" type="multi">
+    <properties>
+        <property ID="0x4A1E8961" type="float">
+            <default>45.0</default>
+        </property>
+        <property ID="0x50E46527" type="float">
+            <default>120.0</default>
+        </property>
+        <property ID="0x073842E7" type="file" extensions="CMDL"/>
+        <property ID="0xDDD72AAD" type="file" extensions="CMDL"/>
+        <struct ID="0x243AB10D" template="Structs/DamageVulnerability.xml"/>
+        <property ID="0x7B4C8A7F" type="float">
+            <default>700.0</default>
+        </property>
+        <property ID="0xA33BD3DF" type="float">
+            <default>10.0</default>
+        </property>
+        <struct ID="0x5B514E8C" type="multi">
+            <properties>
+                <property ID="0xC107A48A" type="character"/>
+                <property ID="0xA6C47CD3" type="float">
+                    <default>100.0</default>
+                </property>
+                <struct ID="0x0FCE03CA" template="Structs/DamageVulnerability.xml"/>
+                <property ID="0xA4B62AA9" type="float">
+                    <default>3.0</default>
+                </property>
+                <property ID="0xB64EA21C" type="float">
+                    <default>1.0</default>
+                </property>
+                <property ID="0xA13B1BA9" type="float">
+                    <default>1.0</default>
+                </property>
+                <property ID="0xD294848C" type="float">
+                    <default>0.5</default>
+                </property>
+                <property ID="0x9C425325" type="float">
+                    <default>2.0</default>
+                </property>
+                <property ID="0xFA22836A" type="float">
+                    <default>1.0</default>
+                </property>
+                <property ID="0xED410449" type="float">
+                    <default>8.0</default>
+                </property>
+                <property ID="0xF768D625" type="float">
+                    <default>0.0</default>
+                </property>
+                <property ID="0xA229FF6A" type="character"/>
+                <property ID="0x52806EFF" type="long">
+                    <default>2</default>
+                </property>
+                <property ID="0x2EA31F83" type="file" extensions="WPSC"/>
+                <struct ID="0x258CFB4D" template="Structs/DamageInfo.xml"/>
+                <property ID="0x7BECDB66" type="float">
+                    <default>100.0</default>
+                </property>
+                <property ID="0x87AFE8D8" type="file" extensions="PART"/>
+                <property ID="0x3DFD1C4F" type="file" extensions="CAUD"/>
+                <property ID="0xB8BF561E" type="float">
+                    <default>6.75</default>
+                </property>
+                <property ID="0xA4166E3C" type="float">
+                    <default>1.0</default>
+                </property>
+                <property ID="0xAA7D527D" type="float">
+                    <default>50.0</default>
+                </property>
+                <property ID="0xF707C050" type="float">
+                    <default>1.0</default>
+                </property>
+                <property ID="0x4128FF6D" type="float">
+                    <default>0.5</default>
+                </property>
+                <property ID="0x3B6218DA" type="float">
+                    <default>0.25</default>
+                </property>
+                <property ID="0x71946EEC" type="float">
+                    <default>0.0</default>
+                </property>
+                <property ID="0xA184D013" type="float">
+                    <default>3.5</default>
+                </property>
+                <property ID="0x09D9BD17" type="float">
+                    <default>0.5</default>
+                </property>
+                <property ID="0x53C1D089" type="float">
+                    <default>8.0</default>
+                </property>
+                <property ID="0x306FD39A" type="long">
+                    <default>1</default>
+                </property>
+                <property ID="0x232A3531" type="long">
+                    <default>3</default>
+                </property>
+                <property ID="0x193C7751" type="float">
+                    <default>1.5</default>
+                </property>
+                <property ID="0x0D55794A" type="float">
+                    <default>0.0</default>
+                </property>
+                <property ID="0x72FB67DA" type="float">
+                    <default>50.0</default>
+                </property>
+                <property ID="0xBDB18B2F" type="float">
+                    <default>10.0</default>
+                </property>
+                <property ID="0x0E958D9E" type="float">
+                    <default>30.0</default>
+                </property>
+                <property ID="0x251C55E3" type="float">
+                    <default>15.0</default>
+                </property>
+                <property ID="0x0A072C48" type="float">
+                    <default>0.6</default>
+                </property>
+                <property ID="0xDDE5AC10" type="float">
+                    <default>0.3</default>
+                </property>
+                <property ID="0x8C63F9D0" type="float">
+                    <default>0.75</default>
+                </property>
+                <property ID="0x6B7E5F47" type="float">
+                    <default>0.5</default>
+                </property>
+                <property ID="0x6AFE0147" type="float">
+                    <default>0.75</default>
+                </property>
+                <property ID="0x04721A06" type="float">
+                    <default>0.5</default>
+                </property>
+                <struct ID="0xD8579BA3" template="Structs/UnknownStruct6.xml"/>
+            </properties>
+        </struct>
+        <struct ID="0x828C2238" type="multi">
+            <properties>
+                <property ID="0x58434916" type="float">
+                    <default>10.0</default>
+                </property>
+                <property ID="0xFF77C96F" type="float">
+                    <default>100.0</default>
+                </property>
+                <property ID="0xEF6D8F65" type="float">
+                    <default>4.0</default>
+                </property>
+                <property ID="0xDB93D177" type="float">
+                    <default>5.0</default>
+                </property>
+                <property ID="0x0D49855C" type="float">
+                    <default>0.5</default>
+                </property>
+                <property ID="0x9DCE6B35" type="float">
+                    <default>1.0</default>
+                </property>
+                <property ID="0x2EDF3368" type="float">
+                    <default>10.0</default>
+                </property>
+                <property ID="0x7D792B8C" type="float">
+                    <default>15.0</default>
+                </property>
+                <property ID="0x6509D9B2" type="float">
+                    <default>50.0</default>
+                </property>
+                <struct ID="0xDC89CC3C" template="Structs/SpacePirateWeaponData.xml"/>
+            </properties>
+        </struct>
+        <struct ID="0x97D16AA1" type="multi">
+            <properties>
+                <property ID="0x16342C18" type="float">
+                    <default>30.0</default>
+                </property>
+            </properties>
+        </struct>
+        <struct ID="0xFAED98DB" type="multi">
+            <properties>
+                <struct ID="0x1598012A" template="Structs/PlasmaBeamInfo.xml"/>
+                <struct ID="0x337F9524" template="Structs/DamageInfo.xml"/>
+                <property ID="0x16342C18" type="float">
+                    <default>8.0</default>
+                </property>
+                <property ID="0x47CDE539" type="float">
+                    <default>0.5</default>
+                </property>
+                <property ID="0x020C78BB" type="float">
+                    <default>20.0</default>
+                </property>
+                <property ID="0x82BD3B10" type="float">
+                    <default>15.0</default>
+                </property>
+                <property ID="0x1A1A315A" type="float">
+                    <default>3.0</default>
+                </property>
+                <property ID="0x700771B7" type="float">
+                    <default>20.0</default>
+                </property>
+                <property ID="0x21FECAEA" type="float">
+                    <default>75.0</default>
+                </property>
+            </properties>
+        </struct>
+        <struct ID="0x9A9EB786" type="multi">
+            <properties>
+                <property ID="0x276A4FC5" type="file" extensions="SCAN"/>
+                <property ID="0xEAD66DD7" type="float">
+                    <default>13.0</default>
+                </property>
+                <property ID="0x7A74AA86" type="float">
+                    <default>10.0</default>
+                </property>
+                <property ID="0x959C653F" type="float">
+                    <default>9.0</default>
+                </property>
+                <property ID="0x0EE58566" type="float">
+                    <default>8.0</default>
+                </property>
+                <property ID="0x137EF87B" type="float">
+                    <default>180.0</default>
+                </property>
+                <property ID="0x0B48027B" type="float">
+                    <default>30.0</default>
+                </property>
+                <property ID="0x1EC3D689" type="float">
+                    <default>90.0</default>
+                </property>
+                <property ID="0xB34E89AE" type="float">
+                    <default>45.0</default>
+                </property>
+                <property ID="0xB7D4B884" type="float">
+                    <default>150.0</default>
+                </property>
+                <struct ID="0x85543E4E" template="Structs/GrappleBlock.xml"/>
+            </properties>
+        </struct>
+        <struct ID="0x7CC2A36E" template="Structs/UnknownStruct6.xml">
+            <properties>
+                <property ID="0xA14433C3">
+                    <default>40.0</default>
+                </property>
+                <property ID="0xAFE48213">
+                    <default>40.0</default>
+                </property>
+                <property ID="0x05A5D4D0">
+                    <default>20.0</default>
+                </property>
+                <property ID="0xD5780905">
+                    <default>0.0</default>
+                </property>
+            </properties>
+        </struct>
+        <struct ID="0x12D3165C" template="Structs/UnknownStruct6.xml">
+            <properties>
+                <property ID="0xA14433C3">
+                    <default>20.0</default>
+                </property>
+                <property ID="0xAFE48213">
+                    <default>20.0</default>
+                </property>
+                <property ID="0x05A5D4D0">
+                    <default>20.0</default>
+                </property>
+                <property ID="0xD5780905">
+                    <default>40.0</default>
+                </property>
+            </properties>
+        </struct>
+        <property ID="0x446EFCAD" type="float">
+            <default>2.0</default>
+        </property>
+        <property ID="0x2CAEC304" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0x2C68FEDF" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x1A79E5D6" type="float">
+            <default>0.5</default>
+        </property>
+        <struct ID="0xB4C02854" template="Structs/ModIncaData.xml"/>
+    </properties>
+</struct>

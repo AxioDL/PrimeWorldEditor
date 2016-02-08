@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="SeedBoss2PrimeBotData" type="multi">
+    <properties>
+        <property ID="0x313D0133" type="float">
+            <default>150.0</default>
+        </property>
+        <property ID="0xECB65675" type="float">
+            <default>500.0</default>
+        </property>
+        <property ID="0x80A300A5" type="float">
+            <default>2.5</default>
+        </property>
+        <property ID="0x8FE03C41" type="float">
+            <default>0.1</default>
+        </property>
+        <property ID="0x4BC36EEE" type="float">
+            <default>160.0</default>
+        </property>
+        <struct ID="0xA40F65C2" template="Structs/ShockWaveInfo.xml"/>
+        <struct ID="0x7651EC00" template="Structs/DamageInfo.xml"/>
+        <struct ID="0x18F91880" template="Structs/DamageInfo.xml"/>
+        <struct ID="0x9562E522" template="Structs/DamageVulnerability.xml"/>
+        <property ID="0xE0794DB1" type="float">
+            <default>0.0</default>
+        </property>
+        <struct ID="0x231D0FC4" template="Structs/DamageInfo.xml"/>
+        <struct ID="0x3E1B90FF" template="Structs/DamageInfo.xml"/>
+        <struct ID="0xD0122838" template="Structs/DamageInfo.xml"/>
+        <struct ID="0x1259AACD" template="Structs/DamageInfo.xml"/>
+        <struct ID="0x8461AB52" template="Structs/DamageInfo.xml"/>
+        <struct ID="0x2872762B" template="Structs/DamageInfo.xml"/>
+        <struct ID="0x0C6B7FA9" template="Structs/DamageVulnerability.xml"/>
+    </properties>
+</struct>

@@ -53,7 +53,7 @@
                         <property ID="0x8033F9A3" type="float">
                             <default>2.736</default>
                         </property>
-                        <struct ID="0xB11D9E90" template="Structs/CameraHintStructD.xml">
+                        <struct ID="0xB11D9E90" template="Structs/Convergence.xml">
                             <properties>
                                 <struct ID="0x0CF33816">
                                     <properties>
@@ -64,7 +64,7 @@
                                 </struct>
                             </properties>
                         </struct>
-                        <struct ID="0x81D49C61" template="Structs/CameraHintStructD.xml">
+                        <struct ID="0x81D49C61" template="Structs/Convergence.xml">
                             <properties>
                                 <struct ID="0x0CF33816">
                                     <properties>
@@ -78,7 +78,7 @@
                                 </struct>
                             </properties>
                         </struct>
-                        <struct ID="0x51B11F91" template="Structs/CameraHintStructD.xml">
+                        <struct ID="0x51B11F91" template="Structs/Convergence.xml">
                             <properties>
                                 <struct ID="0x0CF33816">
                                     <properties>
@@ -108,7 +108,7 @@
                         <property ID="0x8033F9A3" type="float">
                             <default>0.0</default>
                         </property>
-                        <struct ID="0x69114952" template="Structs/CameraHintStructD.xml"/>
+                        <struct ID="0x69114952" template="Structs/Convergence.xml"/>
                     </properties>
                 </struct>
                 <struct ID="0xE8AB9BC8" type="multi">
@@ -126,14 +126,14 @@
                                 <enumerator ID="0x25DCCDF3" name="Unknown 5"/>
                             </enumerators>
                         </enum>
-                        <struct ID="0x0AED5C7D" template="Structs/CameraHintStructB.xml"/>
+                        <struct ID="0x0AED5C7D" template="Structs/PathDetermination.xml"/>
                         <property ID="0xC3BF43BE" type="float">
                             <default>4.0</default>
                         </property>
                         <property ID="0x32F835EC" type="float">
                             <default>3.0</default>
                         </property>
-                        <struct ID="0x959108A5" template="Structs/CameraHintStructD.xml"/>
+                        <struct ID="0x959108A5" template="Structs/Convergence.xml"/>
                         <struct ID="0x27E5F874" template="Structs/MayaSpline.xml"/>
                         <struct ID="0x12861F7D" template="Structs/MayaSpline.xml"/>
                     </properties>
@@ -143,18 +143,18 @@
                         <property ID="0xB8A6413A" type="long">
                             <default>320</default>
                         </property>
-                        <struct ID="0xA0FB9986" template="Structs/CameraHintStructC.xml"/>
-                        <struct ID="0x58079583" template="Structs/CameraHintStructC.xml"/>
-                        <struct ID="0xE44C1003" template="Structs/CameraHintStructC.xml"/>
-                        <struct ID="0x39936936" template="Structs/CameraHintStructC.xml"/>
-                        <struct ID="0x2D8C38B0" template="Structs/CameraHintStructC.xml"/>
-                        <struct ID="0x1D2A6188" template="Structs/CameraHintStructC.xml"/>
-                        <struct ID="0x91CC9F6A" template="Structs/CameraHintStructC.xml"/>
-                        <struct ID="0x905289AC" template="Structs/CameraHintStructC.xml"/>
-                        <struct ID="0xF5F6849D" template="Structs/CameraHintStructC.xml"/>
-                        <struct ID="0x7B66A7B4" template="Structs/CameraHintStructC.xml"/>
-                        <struct ID="0x68926CCD" template="Structs/CameraHintStructC.xml"/>
-                        <struct ID="0x3158FD3B" template="Structs/CameraHintStructC.xml"/>
+                        <struct ID="0xA0FB9986" template="Structs/SpindlePositionInterpolant.xml"/>
+                        <struct ID="0x58079583" template="Structs/SpindlePositionInterpolant.xml"/>
+                        <struct ID="0xE44C1003" template="Structs/SpindlePositionInterpolant.xml"/>
+                        <struct ID="0x39936936" template="Structs/SpindlePositionInterpolant.xml"/>
+                        <struct ID="0x2D8C38B0" template="Structs/SpindlePositionInterpolant.xml"/>
+                        <struct ID="0x1D2A6188" template="Structs/SpindlePositionInterpolant.xml"/>
+                        <struct ID="0x91CC9F6A" template="Structs/SpindlePositionInterpolant.xml"/>
+                        <struct ID="0x905289AC" template="Structs/SpindlePositionInterpolant.xml"/>
+                        <struct ID="0xF5F6849D" template="Structs/SpindlePositionInterpolant.xml"/>
+                        <struct ID="0x7B66A7B4" template="Structs/SpindlePositionInterpolant.xml"/>
+                        <struct ID="0x68926CCD" template="Structs/SpindlePositionInterpolant.xml"/>
+                        <struct ID="0x3158FD3B" template="Structs/SpindlePositionInterpolant.xml"/>
                     </properties>
                 </struct>
                 <struct ID="0xBBB2D1E6" type="multi">
@@ -162,8 +162,8 @@
                         <property ID="0x9D99B2E3" type="long">
                             <default>1</default>
                         </property>
-                        <struct ID="0xE69C51D7" template="Structs/CameraHintStructA.xml"/>
-                        <struct ID="0x959108A5" template="Structs/CameraHintStructD.xml"/>
+                        <struct ID="0xE69C51D7" template="Structs/OffsetInterpolant.xml"/>
+                        <struct ID="0x959108A5" template="Structs/Convergence.xml"/>
                     </properties>
                 </struct>
                 <struct ID="0x07D194AF" type="multi">
@@ -178,7 +178,7 @@
                                 <enumerator ID="0x53FC988F" name="Unknown 5"/>
                             </enumerators>
                         </enum>
-                        <struct ID="0x3769A209" template="Structs/CameraHintStructA.xml"/>
+                        <struct ID="0x3769A209" template="Structs/OffsetInterpolant.xml"/>
                     </properties>
                 </struct>
             </properties>
@@ -192,7 +192,7 @@
         </struct>
         <struct ID="0xEBC3E775" type="multi">
             <properties>
-                <struct ID="0xC1547AF3" template="Structs/CameraHintStructD.xml"/>
+                <struct ID="0xC1547AF3" template="Structs/Convergence.xml"/>
                 <enum ID="0xB674EA3D">
                     <default>0xB1059189</default>
                     <enumerators>
@@ -203,10 +203,10 @@
                 </enum>
             </properties>
         </struct>
-        <struct ID="0x65FC11FF" template="Structs/CameraStructA.xml"/>
+        <struct ID="0x65FC11FF" template="Structs/CameraOrientation.xml"/>
         <struct ID="0x00A7C38D" type="multi">
             <properties>
-                <struct ID="0xFA698856" template="Structs/CameraHintStructD.xml"/>
+                <struct ID="0xFA698856" template="Structs/Convergence.xml"/>
             </properties>
         </struct>
         <struct ID="0xFC126AD1" type="multi">
@@ -245,9 +245,9 @@
                 <property ID="0xE02022D5" type="float">
                     <default>135.0</default>
                 </property>
-                <struct ID="0xA738790A" template="Structs/CameraStructC.xml"/>
-                <struct ID="0xA768A18E" template="Structs/CameraStructD.xml"/>
-                <struct ID="0x3B8C7CB4" template="Structs/CameraStructB.xml"/>
+                <struct ID="0xA738790A" template="Structs/MotionInterpolationMethod.xml"/>
+                <struct ID="0xA768A18E" template="Structs/OrientationInterpolationMethod.xml"/>
+                <struct ID="0x3B8C7CB4" template="Structs/FOVInterpolationMethod.xml"/>
                 <property ID="0x058C1B1D" type="long">
                     <default>3</default>
                 </property>
@@ -257,9 +257,9 @@
                 <property ID="0x3127E68A" type="float">
                     <default>135.0</default>
                 </property>
-                <struct ID="0x7FAC732A" template="Structs/CameraStructC.xml"/>
-                <struct ID="0xDFAB73B6" template="Structs/CameraStructD.xml"/>
-                <struct ID="0xF391EDBC" template="Structs/CameraStructB.xml"/>
+                <struct ID="0x7FAC732A" template="Structs/MotionInterpolationMethod.xml"/>
+                <struct ID="0xDFAB73B6" template="Structs/OrientationInterpolationMethod.xml"/>
+                <struct ID="0xF391EDBC" template="Structs/FOVInterpolationMethod.xml"/>
                 <property ID="0x07A6C22C" type="long">
                     <default>3</default>
                 </property>
@@ -269,12 +269,12 @@
                 <property ID="0x28B3B4B5" type="float">
                     <default>135.0</default>
                 </property>
-                <struct ID="0xBC723CAC" template="Structs/CameraStructC.xml"/>
-                <struct ID="0xBE093676" template="Structs/CameraStructD.xml"/>
-                <struct ID="0x70754E15" template="Structs/CameraStructB.xml"/>
+                <struct ID="0xBC723CAC" template="Structs/MotionInterpolationMethod.xml"/>
+                <struct ID="0xBE093676" template="Structs/OrientationInterpolationMethod.xml"/>
+                <struct ID="0x70754E15" template="Structs/FOVInterpolationMethod.xml"/>
             </properties>
         </struct>
-        <struct ID="0x95D0D437" template="Structs/UnknownStruct2.xml"/>
+        <struct ID="0x95D0D437" template="Structs/InterpolationMethod.xml"/>
     </properties>
     <states/>
     <messages/>
