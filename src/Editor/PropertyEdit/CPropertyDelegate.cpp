@@ -67,6 +67,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
             WIntegralSpinBox *pSpinBox = new WIntegralSpinBox(pParent);
             pSpinBox->setMinimum(INT16_MIN);
             pSpinBox->setMaximum(INT16_MAX);
+            pSpinBox->setSuffix(TO_QSTRING(pProp->Template()->Suffix()));
             CONNECT_RELAY(pSpinBox, rkIndex, valueChanged(int));
             pOut = pSpinBox;
             break;
@@ -77,6 +78,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
             WIntegralSpinBox *pSpinBox = new WIntegralSpinBox(pParent);
             pSpinBox->setMinimum(INT32_MIN);
             pSpinBox->setMaximum(INT32_MAX);
+            pSpinBox->setSuffix(TO_QSTRING(pProp->Template()->Suffix()));
             CONNECT_RELAY(pSpinBox, rkIndex, valueChanged(int));
             pOut = pSpinBox;
             break;
@@ -86,6 +88,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
         {
             WDraggableSpinBox *pSpinBox = new WDraggableSpinBox(pParent);
             pSpinBox->setSingleStep(0.1);
+            pSpinBox->setSuffix(TO_QSTRING(pProp->Template()->Suffix()));
             CONNECT_RELAY(pSpinBox, rkIndex, valueChanged(double));
             pOut = pSpinBox;
             break;

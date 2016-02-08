@@ -316,7 +316,7 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                 // fall through
                 // Display property value to string for everything else
                 default:
-                    return TO_QSTRING(pProp->ToString());
+                    return TO_QSTRING(pProp->ToString() + pProp->Template()->Suffix());
                 }
             }
         }
