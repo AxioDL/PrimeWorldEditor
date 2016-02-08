@@ -6,7 +6,6 @@ CMasterTemplate::CMasterTemplate()
 {
     mVersion = 0;
     mFullyLoaded = false;
-    mHasPropList = false;
 }
 
 CMasterTemplate::~CMasterTemplate()
@@ -100,21 +99,6 @@ TString CMasterTemplate::MessageByIndex(u32 Index)
     return (std::next(it, Index))->second;
 }
 
-TString CMasterTemplate::PropertyName(u32 PropertyID)
-{
-    auto it = mPropertyNames.find(PropertyID);
-
-    if (it != mPropertyNames.end())
-        return it->second;
-    else
-        return "Unknown";
-}
-
-bool CMasterTemplate::HasPropertyList()
-{
-    return mHasPropList;
-}
-
 bool CMasterTemplate::IsLoadedSuccessfully()
 {
     return mFullyLoaded;
@@ -141,5 +125,16 @@ std::list<CMasterTemplate*> CMasterTemplate::GetMasterList()
     return list;
 }
 
+TString CMasterTemplate::GetPropertyName(u32 PropertyID)
+{
+    auto it = smPropertyNames.find(PropertyID);
+
+    if (it != smPropertyNames.end())
+        return it->second;
+    else
+        return "Unknown";
+}
+
 std::map<EGame, CMasterTemplate*> CMasterTemplate::smMasterMap;
+std::map<u32, TString> CMasterTemplate::smPropertyNames;
 u32 CMasterTemplate::smGameListVersion;

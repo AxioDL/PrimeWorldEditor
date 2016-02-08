@@ -11,6 +11,7 @@ class CTemplateLoader
     static const TString mskGameListPath;
 
     CMasterTemplate *mpMaster;
+    EGame mGame;
     TString mTemplatesDir;
     TString mMasterDir;
 
@@ -36,7 +37,6 @@ class CTemplateLoader
     // Load Master
     CMasterTemplate* LoadGameInfo(tinyxml2::XMLNode *pNode);
     void LoadMasterTemplate(tinyxml2::XMLDocument *pDoc, CMasterTemplate *pMaster);
-    void LoadPropertyList(tinyxml2::XMLDocument *pDoc, const TString& rkListName);
 
     // Utility
     static void OpenXML(const TString& rkPath, tinyxml2::XMLDocument& rDoc);
@@ -45,6 +45,7 @@ class CTemplateLoader
 public:
     static void LoadGameList();
     static void LoadGameTemplates(EGame Game);
+    static void LoadPropertyList(tinyxml2::XMLDocument *pDoc, const TString& rkListName);
 };
 
 #endif // CTEMPLATELOADER_H

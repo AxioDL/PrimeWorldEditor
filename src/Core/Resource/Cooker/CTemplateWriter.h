@@ -12,7 +12,7 @@ class CTemplateWriter
 public:
     static void SaveAllTemplates();
     static void SaveGameTemplates(CMasterTemplate *pMaster, const TString& rkDir);
-    static void SavePropertyList(CMasterTemplate *pMaster, const TString& rkDir);
+    static void SavePropertyList(const TString& rkDir);
     static void SaveScriptTemplate(CScriptTemplate *pTemp, const TString& rkDir);
     static void SaveStructTemplate(CStructTemplate *pTemp, CMasterTemplate *pMaster, const TString& rkDir);
     static void SaveEnumTemplate(CEnumTemplate *pTemp, const TString& rkDir);

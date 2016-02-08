@@ -22,10 +22,9 @@ class CMasterTemplate
     std::map<u32, TString> mStates;
     std::map<u32, TString> mMessages;
 
-    bool mHasPropList;
-    std::map<u32, TString> mPropertyNames;
 
     static std::map<EGame, CMasterTemplate*> smMasterMap;
+    static std::map<u32, TString> smPropertyNames;
     static u32 smGameListVersion;
 
 public:
@@ -46,12 +45,11 @@ public:
     TString MessageByID(u32 MessageID);
     TString MessageByID(const CFourCC& MessageID);
     TString MessageByIndex(u32 Index);
-    TString PropertyName(u32 PropertyID);
-    bool HasPropertyList();
     bool IsLoadedSuccessfully();
 
     static CMasterTemplate* GetMasterForGame(EGame Game);
     static std::list<CMasterTemplate*> GetMasterList();
+    static TString GetPropertyName(u32 PropertyID);
 };
 
 // ************ INLINE ************

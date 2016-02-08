@@ -78,9 +78,9 @@ void CTemplateWriter::SaveGameTemplates(CMasterTemplate *pMaster, const TString&
     Master.LinkEndChild(pBase);
 
     // Write property list
-    if (!pMaster->mPropertyNames.empty())
+    if (!pMaster->smPropertyNames.empty())
     {
-        SavePropertyList(pMaster, OutDir);
+        SavePropertyList(OutDir);
 
         XMLElement *pPropList = Master.NewElement("properties");
         pPropList->SetText("Properties.xml");
@@ -147,7 +147,7 @@ void CTemplateWriter::SaveGameTemplates(CMasterTemplate *pMaster, const TString&
     Master.SaveFile(*OutFile);
 }
 
-void CTemplateWriter::SavePropertyList(CMasterTemplate *pMaster, const TString& rkDir)
+void CTemplateWriter::SavePropertyList(const TString& rkDir)
 {
     // Create XML
     XMLDocument List;
@@ -160,7 +160,7 @@ void CTemplateWriter::SavePropertyList(CMasterTemplate *pMaster, const TString& 
     List.LinkEndChild(pBase);
 
     // Write properties
-    for (auto it = pMaster->mPropertyNames.begin(); it != pMaster->mPropertyNames.end(); it++)
+    for (auto it = CMasterTemplate::smPropertyNames.begin(); it != CMasterTemplate::smPropertyNames.end(); it++)
     {
         u32 ID = it->first;
         TString Name = it->second;
@@ -442,9 +442,9 @@ void CTemplateWriter::SaveProperties(XMLDocument *pDoc, XMLElement *pParent, CSt
         // Name
         TString Name = pProp->Name();
 
-        if (pMaster->HasPropertyList())
+        if (pMaster->GetGame() >= eEchoesDemo)
         {
-            TString MasterName = pMaster->PropertyName(ID);
+            TString MasterName = CMasterTemplate::GetPropertyName(ID);
 
             if (Name != MasterName)
                 pElem->SetAttribute("name", *Name);

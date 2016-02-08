@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <MasterTemplate version="4">
-    <properties>Properties.xml</properties>
     <objects>
         <object ID="ACTR" template="Script/Actor.xml"/>
         <object ID="ACKF" template="Script/ActorKeyframe.xml"/>
