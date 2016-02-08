@@ -166,6 +166,8 @@ void CStartWindow::on_LaunchWorldEditorButton_clicked()
 {
     if (mpWorldEditor->CheckUnsavedChanges())
     {
+        Log::ClearErrorLog();
+
         u64 AreaID = mpWorld->GetAreaResourceID(mSelectedAreaIndex);
         TResPtr<CGameArea> pArea = gResCache.GetResource(AreaID, "MREA");
 
