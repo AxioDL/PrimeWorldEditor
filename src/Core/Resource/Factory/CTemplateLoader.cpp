@@ -29,8 +29,8 @@ IPropertyTemplate* CTemplateLoader::LoadProperty(XMLElement *pElem, CStructTempl
 
     if (!NameAttr.IsEmpty())
         Name = NameAttr;
-    else if (mpMaster->HasPropertyList())
-        Name = mpMaster->PropertyName(ID);
+    else if (mGame >= eEchoesDemo)
+        Name = CMasterTemplate::GetPropertyName(ID);
     else
     {
         Log::Error("Error reading " + rkTemplateName + " property " + TString::HexString(ID, true, true, 8) + "; this property doesn't have a name either in the template itself nor in the master list");
@@ -636,17 +636,6 @@ void CTemplateLoader::LoadMasterTemplate(XMLDocument *pDoc, CMasterTemplate *pMa
     {
         TString NodeName = pElem->Name();
 
-        // Properties
-        if (NodeName == "properties")
-        {
-            TString PropListPath = pElem->GetText();
-            XMLDocument PropListXML;
-            OpenXML(mMasterDir + PropListPath, PropListXML);
-
-            if (!PropListXML.Error())
-                LoadPropertyList(&PropListXML, PropListPath);
-        }
-
         // Versions
         if (NodeName == "versions")
         {
@@ -744,32 +733,6 @@ void CTemplateLoader::LoadMasterTemplate(XMLDocument *pDoc, CMasterTemplate *pMa
     pMaster->mFullyLoaded = true;
 }
 
-void CTemplateLoader::LoadPropertyList(XMLDocument *pDoc, const TString& ListName)
-{
-    XMLElement *pRootElem = pDoc->FirstChildElement("Properties");
-
-    if (!pRootElem)
-        Log::Error("Error reading property list at " + ListName + "; there is no root \"Properties\" block element");
-
-    else
-    {
-        XMLElement *pElem = pRootElem->FirstChildElement("property");
-
-        while (pElem)
-        {
-            TString ID = pElem->Attribute("ID");
-            TString Name = pElem->Attribute("name");
-
-            if (!ID.IsEmpty() && !Name.IsEmpty())
-                mpMaster->mPropertyNames[ID.ToInt32()] = Name;
-
-            pElem = pElem->NextSiblingElement();
-        }
-
-        mpMaster->mHasPropList = true;
-    }
-}
-
 CMasterTemplate* CTemplateLoader::LoadGameInfo(XMLNode *pNode)
 {
     CMasterTemplate *pMaster = new CMasterTemplate();
@@ -855,29 +818,38 @@ void CTemplateLoader::LoadGameList()
         return;
 
     // Parse
-    XMLNode *pNode = GameListXML.FirstChild()->NextSibling()->FirstChild();
+    XMLElement *pRoot = GameListXML.FirstChildElement("GameList");
+    const char *pkGameListVersion = pRoot->Attribute("version");
 
-    while (pNode)
+    if (pkGameListVersion)
+        CMasterTemplate::smGameListVersion = TString(pkGameListVersion).ToInt32(10);
+
+    XMLElement *pElem = pRoot->FirstChildElement();
+
+    while (pElem)
     {
-        XMLElement *pElement = pNode->ToElement();
-        TString NodeName = TString(pElement->Name()).ToLower();
+        TString NodeName = TString(pElem->Name()).ToLower();
 
-        // Game List version number
-        if (NodeName == "version")
+        // Properties
+        if (NodeName == "properties")
         {
-            u32 VersionNum = std::stoul(pElement->GetText());
-            CMasterTemplate::smGameListVersion = VersionNum;
+            TString PropListPath = pElem->GetText();
+            XMLDocument PropListXML;
+            OpenXML(mskTemplatesDir + PropListPath, PropListXML);
+
+            if (!PropListXML.Error())
+                LoadPropertyList(&PropListXML, PropListPath);
         }
 
         // Games
         else if (NodeName == "game")
         {
             CTemplateLoader Loader(mskTemplatesDir);
-            CMasterTemplate *pMaster = Loader.LoadGameInfo(pNode);
+            CMasterTemplate *pMaster = Loader.LoadGameInfo(pElem);
             CMasterTemplate::smMasterMap[pMaster->mGame] = pMaster;
         }
 
-        pNode = pNode->NextSibling();
+        pElem = pElem->NextSiblingElement();
     }
 }
 
@@ -897,10 +869,35 @@ void CTemplateLoader::LoadGameTemplates(EGame Game)
             if (!MasterXML.Error())
             {
                 CTemplateLoader Loader(mskTemplatesDir);
+                Loader.mGame = Game;
                 Loader.LoadMasterTemplate(&MasterXML, pMaster);
             }
 
             break;
+        }
+    }
+}
+
+void CTemplateLoader::LoadPropertyList(XMLDocument *pDoc, const TString& ListName)
+{
+    XMLElement *pRootElem = pDoc->FirstChildElement("Properties");
+
+    if (!pRootElem)
+        Log::Error("Error reading property list at " + ListName + "; there is no root \"Properties\" block element");
+
+    else
+    {
+        XMLElement *pElem = pRootElem->FirstChildElement("property");
+
+        while (pElem)
+        {
+            TString ID = pElem->Attribute("ID");
+            TString Name = pElem->Attribute("name");
+
+            if (!ID.IsEmpty() && !Name.IsEmpty())
+                CMasterTemplate::smPropertyNames[ID.ToInt32()] = Name;
+
+            pElem = pElem->NextSiblingElement();
         }
     }
 }

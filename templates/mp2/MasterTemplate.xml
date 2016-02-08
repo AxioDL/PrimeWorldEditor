@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <MasterTemplate version="4">
-    <properties>Properties.xml</properties>
 	<versions>
 		<version>GameCube NTSC</version>
 		<version>Trilogy</version>
