@@ -43,11 +43,17 @@ public:
     void closeEvent(QCloseEvent *pEvent);
     bool eventFilter(QObject *pObj, QEvent *pEvent);
     void SetArea(CWorld *pWorld, CGameArea *pArea, u32 AreaIndex);
-    CGameArea* ActiveArea();
     bool CheckUnsavedChanges();
+
+    inline CGameArea* ActiveArea() const { return mpArea; }
+    inline EGame CurrentGame() const { return mpArea->Version(); }
 
 public slots:
     bool Save();
+    void OnPropertyModified(IProperty *pProp);
+    void SetSelectionActive(bool Active);
+    void SetSelectionInstanceNames(const QString& rkNewName, bool IsDone);
+    void SetSelectionLayer(CScriptLayer *pLayer);
 
     void UpdateStatusBar();
     void UpdateGizmoUI();
@@ -89,6 +95,12 @@ private slots:
     void on_ActionSelectAll_triggered();
     void on_ActionInvertSelection_triggered();
     void on_ActionEditPoiToWorldMap_triggered();
+
+signals:
+    void LayersModified();
+    void InstancesLayerAboutToChange();
+    void InstancesLayerChanged(const QList<CScriptNode*>& rkInstanceList);
+    void PropertyModified(IProperty *pProp, bool IsEditorProperty);
 };
 
 #endif // CWORLDEDITOR_H

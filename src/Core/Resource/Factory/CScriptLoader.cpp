@@ -123,11 +123,11 @@ void CScriptLoader::ReadProperty(IProperty *pProp, u32 Size, IInputStream& SCLY)
 
     case eArrayProperty: {
         CArrayProperty *pArrayCast = static_cast<CArrayProperty*>(pProp);
-        u32 Size = SCLY.ReadLong();
+        int Size = SCLY.ReadLong();
 
         pArrayCast->Resize(Size);
 
-        for (u32 iElem = 0; iElem < Size; iElem++)
+        for (int iElem = 0; iElem < Size; iElem++)
         {
             if (mVersion < eEchoesDemo)
                 LoadStructMP1(SCLY, static_cast<CPropertyStruct*>(pArrayCast->PropertyByIndex(iElem)), pArrayCast->SubStructTemplate());
@@ -243,7 +243,7 @@ CScriptLayer* CScriptLoader::LoadLayerMP1(IInputStream &SCLY)
     {
         CScriptObject *pObj = LoadObjectMP1(SCLY);
         if (pObj)
-            mpLayer->AddObject(pObj);
+            mpLayer->AddInstance(pObj);
     }
 
     // Layer sizes are always a multiple of 32 - skip end padding before returning
@@ -391,7 +391,7 @@ CScriptLayer* CScriptLoader::LoadLayerMP2(IInputStream& SCLY)
     {
         CScriptObject *pObj = LoadObjectMP2(SCLY);
         if (pObj)
-            mpLayer->AddObject(pObj);
+            mpLayer->AddInstance(pObj);
     }
 
     if (IsSCGN)

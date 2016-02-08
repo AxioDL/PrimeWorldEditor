@@ -137,7 +137,9 @@ HEADERS += \
     Undo/CEditScriptPropertyCommand.h \
     Undo/CResizeScriptArrayCommand.h \
     Undo/CBasicPropertyCommand.h \
-    Undo/IUndoCommand.h
+    Undo/IUndoCommand.h \
+    WorldEditor/WEditorProperties.h \
+    Undo/CChangeLayerCommand.h
 
 # Source Files
 SOURCES += \
@@ -191,7 +193,9 @@ SOURCES += \
     WorldEditor/CInstancesModel.cpp \
     Undo/CEditScriptPropertyCommand.cpp \
     Undo/CResizeScriptArrayCommand.cpp \
-    Undo/CBasicPropertyCommand.cpp
+    Undo/CBasicPropertyCommand.cpp \
+    WorldEditor/WEditorProperties.cpp \
+    Undo/CChangeLayerCommand.cpp
 
 # UI Files
 FORMS += \

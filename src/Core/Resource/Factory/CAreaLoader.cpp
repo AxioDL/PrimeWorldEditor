@@ -572,7 +572,7 @@ void CAreaLoader::SetUpObjects()
             if (!pLayer) break;
         }
 
-        for (u32 iObj = 0; iObj < pLayer->GetNumObjects(); iObj++)
+        for (u32 iObj = 0; iObj < pLayer->NumInstances(); iObj++)
         {
             // Add object to object map
             CScriptObject *pObj = (*pLayer)[iObj];

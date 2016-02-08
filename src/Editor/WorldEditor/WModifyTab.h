@@ -36,7 +36,6 @@ public:
 
 public slots:
     void OnWorldSelectionTransformed();
-    void OnPropertyModified(IProperty *pProp);
 
 private:
     Ui::WModifyTab *ui;

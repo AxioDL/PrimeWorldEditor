@@ -3,20 +3,21 @@
 
 #include "IUndoCommand.h"
 #include "Editor/PropertyEdit/CPropertyModel.h"
+#include "Editor/WorldEditor/CWorldEditor.h"
 
 class CBasicPropertyCommand : public IUndoCommand
 {
 protected:
-    CPropertyModel *mpModel;
     IProperty *mpProperty;
     IPropertyTemplate *mpTemplate;
-    QModelIndex mIndex;
+    CPropertyStruct *mpBaseStruct;
+    CWorldEditor *mpEditor;
 
     bool mIsInArray;
     QVector<u32> mArrayIndices;
 
 public:
-    CBasicPropertyCommand(CPropertyModel *pModel, const QModelIndex& rkIndex);
+    CBasicPropertyCommand(IProperty *pProp, CWorldEditor *pEditor, const QString& rkCommandName = "Edit Property");
     virtual void UpdateArraySubProperty();
     virtual bool AffectsCleanState() const { return true; }
 };

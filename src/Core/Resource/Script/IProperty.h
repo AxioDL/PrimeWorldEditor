@@ -47,6 +47,8 @@ public:
     inline CPropertyStruct* Parent() const { return mpParent; }
     inline void SetParent(CPropertyStruct *pParent) { mpParent = pParent; }
 
+    CPropertyStruct* RootStruct();
+
     // These functions can't be in the header to avoid circular includes with IPropertyTemplate.h
     IPropertyTemplate* Template() const;
     TString Name() const;
@@ -178,7 +180,7 @@ public:
     inline void Reserve(u32 amount) { mProperties.reserve(amount); }
 
     // Functions
-    void Resize(u32 Size);
+    void Resize(int Size);
     CStructTemplate* SubStructTemplate() const;
     TString ElementName() const;
 };

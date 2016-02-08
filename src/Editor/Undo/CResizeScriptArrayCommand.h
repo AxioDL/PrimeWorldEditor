@@ -9,13 +9,14 @@ class CResizeScriptArrayCommand : public CBasicPropertyCommand
 {
     CArrayProperty *mpArray;
     QVector<IProperty*> mDeletedProperties;
+    CPropertyModel *mpModel;
 
-    u32 mOldSize;
-    u32 mNewSize;
+    int mOldSize;
+    int mNewSize;
     bool mNewSizeLarger;
 
 public:
-    CResizeScriptArrayCommand(CPropertyModel *pModel, const QModelIndex& rkIndex, u32 NewSize);
+    CResizeScriptArrayCommand(IProperty *pProp, CWorldEditor *pEditor, CPropertyModel *pModel, int NewSize);
     ~CResizeScriptArrayCommand();
     void undo();
     void redo();

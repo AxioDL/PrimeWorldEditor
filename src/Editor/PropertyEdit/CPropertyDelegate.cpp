@@ -21,7 +21,7 @@
 #define CONNECT_RELAY(Widget, Index, Signal) \
     CPropertyRelay *pRelay = new CPropertyRelay(Widget, Index); \
     connect(Widget, SIGNAL(Signal), pRelay, SLOT(OnWidgetEdited())); \
-    connect(pRelay, SIGNAL(WidgetEdited(QWidget*, const QModelIndex&)), this, SLOT(WidgetEdited(QWidget*, const QModelIndex&)));
+    connect(pRelay, SIGNAL(WidgetEdited(QWidget*, const QModelIndex&)), this, SLOT(WidgetEdited(QWidget*, const QModelIndex&)))
 
 CPropertyDelegate::CPropertyDelegate(QObject *pParent /*= 0*/)
     : QStyledItemDelegate(pParent)
@@ -57,7 +57,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
         case eBoolProperty:
         {
             QCheckBox *pCheckBox = new QCheckBox(pParent);
-            CONNECT_RELAY(pCheckBox, rkIndex, toggled(bool))
+            CONNECT_RELAY(pCheckBox, rkIndex, toggled(bool));
             pOut = pCheckBox;
             break;
         }
@@ -67,7 +67,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
             WIntegralSpinBox *pSpinBox = new WIntegralSpinBox(pParent);
             pSpinBox->setMinimum(INT16_MIN);
             pSpinBox->setMaximum(INT16_MAX);
-            CONNECT_RELAY(pSpinBox, rkIndex, valueChanged(int))
+            CONNECT_RELAY(pSpinBox, rkIndex, valueChanged(int));
             pOut = pSpinBox;
             break;
         }
@@ -77,7 +77,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
             WIntegralSpinBox *pSpinBox = new WIntegralSpinBox(pParent);
             pSpinBox->setMinimum(INT32_MIN);
             pSpinBox->setMaximum(INT32_MAX);
-            CONNECT_RELAY(pSpinBox, rkIndex, valueChanged(int))
+            CONNECT_RELAY(pSpinBox, rkIndex, valueChanged(int));
             pOut = pSpinBox;
             break;
         }
@@ -86,15 +86,15 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
         {
             WDraggableSpinBox *pSpinBox = new WDraggableSpinBox(pParent);
             pSpinBox->setSingleStep(0.1);
+            CONNECT_RELAY(pSpinBox, rkIndex, valueChanged(double));
             pOut = pSpinBox;
-            CONNECT_RELAY(pSpinBox, rkIndex, valueChanged(double))
             break;
         }
 
         case eColorProperty:
         {
             WColorPicker *pColorPicker = new WColorPicker(pParent);
-            CONNECT_RELAY(pColorPicker, rkIndex, colorChanged(QColor))
+            CONNECT_RELAY(pColorPicker, rkIndex, colorChanged(QColor));
             pOut = pColorPicker;
             break;
         }
@@ -102,7 +102,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
         case eStringProperty:
         {
             QLineEdit *pLineEdit = new QLineEdit(pParent);
-            CONNECT_RELAY(pLineEdit, rkIndex, textEdited(QString))
+            CONNECT_RELAY(pLineEdit, rkIndex, textEdited(QString));
             pOut = pLineEdit;
             break;
         }
@@ -116,7 +116,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
             for (u32 iEnum = 0; iEnum < pTemp->NumEnumerators(); iEnum++)
                 pComboBox->addItem(TO_QSTRING(pTemp->EnumeratorName(iEnum)));
 
-            CONNECT_RELAY(pComboBox, rkIndex, currentIndexChanged(int))
+            CONNECT_RELAY(pComboBox, rkIndex, currentIndexChanged(int));
             pOut = pComboBox;
             break;
         }
@@ -128,7 +128,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
             pSelector->SetAllowedExtensions(pTemp->Extensions());
             pSelector->setFont(qobject_cast<QWidget*>(parent())->font()); // bit of a hack to stop the resource selector font from changing
 
-            CONNECT_RELAY(pSelector, rkIndex, ResourceChanged(QString))
+            CONNECT_RELAY(pSelector, rkIndex, ResourceChanged(QString));
             pOut = pSelector;
             break;
         }
@@ -159,7 +159,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
         else if (pProp->Type() == eBitfieldProperty)
         {
             QCheckBox *pCheckBox = new QCheckBox(pParent);
-            CONNECT_RELAY(pCheckBox, rkIndex, toggled(bool))
+            CONNECT_RELAY(pCheckBox, rkIndex, toggled(bool));
             pOut = pCheckBox;
         }
 
@@ -178,7 +178,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
                 pSpinBox->setMaximum(1.0);
             }
 
-            CONNECT_RELAY(pSpinBox, rkIndex, valueChanged(double))
+            CONNECT_RELAY(pSpinBox, rkIndex, valueChanged(double));
             pOut = pSpinBox;
         }
     }
@@ -194,6 +194,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
 void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkIndex) const
 {
     BlockRelays(true);
+    mEditInProgress = false; // fixes case where user does undo mid-edit
 
     if (pEditor)
     {
@@ -433,11 +434,11 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
         {
             WIntegralSpinBox *pSpinBox = static_cast<WIntegralSpinBox*>(pEditor);
             CArrayProperty *pArray = static_cast<CArrayProperty*>(pProp);
-            u32 NewCount = pSpinBox->value();
+            int NewCount = pSpinBox->value();
 
             if (pArray->Count() != NewCount)
             {
-                CResizeScriptArrayCommand *pCmd = new CResizeScriptArrayCommand(mpModel, rkIndex, NewCount);
+                CResizeScriptArrayCommand *pCmd = new CResizeScriptArrayCommand(pProp, mpEditor, mpModel, NewCount);
                 mpEditor->UndoStack()->push(pCmd);
             }
             break;
@@ -517,7 +518,8 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
         // Create undo command
         if (!Matches || EditInProgress)
         {
-            CEditScriptPropertyCommand *pCommand = new CEditScriptPropertyCommand(mpModel, rkIndex, pOldValue, !mEditInProgress);
+            // Always consider the edit done for bool properties
+            CEditScriptPropertyCommand *pCommand = new CEditScriptPropertyCommand(pProp, mpEditor, pOldValue, (!mEditInProgress || pProp->Type() == eBoolProperty));
             mpEditor->UndoStack()->push(pCommand);
         }
 
@@ -563,7 +565,7 @@ QWidget* CPropertyDelegate::CreateCharacterEditor(QWidget *pParent, const QModel
         else
             pSelector->SetAllowedExtensions("CHAR");
 
-        CONNECT_RELAY(pSelector, rkIndex, ResourceChanged(QString))
+        CONNECT_RELAY(pSelector, rkIndex, ResourceChanged(QString));
         return pSelector;
     }
 
@@ -579,14 +581,14 @@ QWidget* CPropertyDelegate::CreateCharacterEditor(QWidget *pParent, const QModel
                 pComboBox->addItem(TO_QSTRING(pAnimSet->getNodeName(iChr)));
         }
 
-        CONNECT_RELAY(pComboBox, rkIndex, currentIndexChanged(int))
+        CONNECT_RELAY(pComboBox, rkIndex, currentIndexChanged(int));
         return pComboBox;
     }
 
     if (Type == eLongProperty)
     {
         WIntegralSpinBox *pSpinBox = new WIntegralSpinBox(pParent);
-        CONNECT_RELAY(pSpinBox, rkIndex, valueChanged(int))
+        CONNECT_RELAY(pSpinBox, rkIndex, valueChanged(int));
         return pSpinBox;
     }
 

@@ -14,6 +14,7 @@ public:
     CPropertyModel(QObject *pParent = 0);
     void SetBaseStruct(CPropertyStruct *pBaseStruct);
     IProperty* PropertyForIndex(const QModelIndex& rkIndex, bool HandleFlaggedPointers) const;
+    QModelIndex IndexForProperty(IProperty *pProp) const;
 
     int columnCount(const QModelIndex& rkParent) const;
     int rowCount(const QModelIndex& rkParent) const;
@@ -23,10 +24,14 @@ public:
     QModelIndex parent(const QModelIndex& rkChild) const;
     Qt::ItemFlags flags(const QModelIndex& rkIndex) const;
 
-    void NotifyPropertyModified(const QModelIndex& rkIndex);
     void ArrayAboutToBeResized(const QModelIndex& rkIndex, u32 NewSize);
     void ArrayResized(const QModelIndex& rkIndex, u32 OldSize);
     void ResizeArray(const QModelIndex& rkIndex, u32 NewSize);
+
+public slots:
+    void NotifyPropertyModified(IProperty *pProp);
+    void NotifyPropertyModified(const QModelIndex& rkIndex);
+
 signals:
     void PropertyModified(const QModelIndex& rkIndex);
 };

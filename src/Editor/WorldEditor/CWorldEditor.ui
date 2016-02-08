@@ -20,7 +20,7 @@
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <layout class="QVBoxLayout" name="verticalLayout_4">
         <item>
          <widget class="CSceneViewport" name="MainViewport" native="true">
@@ -251,19 +251,7 @@
         <attribute name="toolTip">
          <string>Create</string>
         </attribute>
-       </widget>
-       <widget class="QWidget" name="ModifyTab">
-        <attribute name="icon">
-         <iconset resource="../Icons.qrc">
-          <normaloff>:/icons/Modify.png</normaloff>:/icons/Modify.png</iconset>
-        </attribute>
-        <attribute name="title">
-         <string/>
-        </attribute>
-        <attribute name="toolTip">
-         <string>Modify</string>
-        </attribute>
-        <layout class="QVBoxLayout" name="verticalLayout">
+        <layout class="QVBoxLayout" name="verticalLayout_2">
          <property name="leftMargin">
           <number>0</number>
          </property>
@@ -277,7 +265,62 @@
           <number>0</number>
          </property>
          <item>
-          <widget class="WModifyTab" name="ModifyTabContents" native="true"/>
+          <widget class="WEditorProperties" name="CreateTabEditorProperties" native="true"/>
+         </item>
+         <item>
+          <spacer name="verticalSpacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="ModifyTab">
+        <attribute name="icon">
+         <iconset resource="../Icons.qrc">
+          <normaloff>:/icons/Modify.png</normaloff>:/icons/Modify.png</iconset>
+        </attribute>
+        <attribute name="title">
+         <string/>
+        </attribute>
+        <attribute name="toolTip">
+         <string>Modify</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <property name="spacing">
+          <number>6</number>
+         </property>
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="WEditorProperties" name="ModifyTabEditorProperties" native="true"/>
+         </item>
+         <item>
+          <widget class="WModifyTab" name="ModifyTabContents" native="true">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>
@@ -292,7 +335,7 @@
         <attribute name="toolTip">
          <string>Instances</string>
         </attribute>
-        <layout class="QHBoxLayout" name="InstancesTabLayout">
+        <layout class="QVBoxLayout" name="verticalLayout_6">
          <property name="leftMargin">
           <number>0</number>
          </property>
@@ -306,7 +349,24 @@
           <number>0</number>
          </property>
          <item>
-          <widget class="WInstancesTab" name="InstancesTabContents" native="true"/>
+          <widget class="WEditorProperties" name="InstancesTabEditorProperties" native="true">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="WInstancesTab" name="InstancesTabContents" native="true">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>
@@ -321,6 +381,36 @@
         <attribute name="toolTip">
          <string>Display</string>
         </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_7">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="WEditorProperties" name="DisplayTabEditorProperties" native="true"/>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
        </widget>
        <widget class="QWidget" name="WorldTab">
         <attribute name="icon">
@@ -333,6 +423,36 @@
         <attribute name="toolTip">
          <string>World</string>
         </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_8">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="WEditorProperties" name="WorldTabEditorProperties" native="true"/>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
        </widget>
       </widget>
      </widget>
@@ -769,6 +889,12 @@
    <class>CSceneViewport</class>
    <extends>QWidget</extends>
    <header>Editor/CSceneViewport.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>WEditorProperties</class>
+   <extends>QWidget</extends>
+   <header>Editor/WorldEditor/WEditorProperties.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

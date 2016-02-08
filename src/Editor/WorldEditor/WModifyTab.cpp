@@ -16,7 +16,6 @@ WModifyTab::WModifyTab(QWidget *pParent) :
     ui->PropertyView->header()->resizeSection(0, PropViewWidth * 0.3);
     ui->PropertyView->header()->resizeSection(1, PropViewWidth * 0.3);
     ui->PropertyView->header()->setSectionResizeMode(1, QHeaderView::Fixed);
-    connect(ui->PropertyView, SIGNAL(PropertyModified(IProperty*)), this, SLOT(OnPropertyModified(IProperty*)));
 
     mpInLinkModel = new CLinkModel(this);
     mpInLinkModel->SetConnectionType(CLinkModel::eIncoming);
@@ -86,30 +85,7 @@ void WModifyTab::OnWorldSelectionTransformed()
     ui->PropertyView->UpdateEditorProperties(QModelIndex());
 }
 
-void WModifyTab::OnPropertyModified(IProperty *pProp)
-{
-    if (mpSelectedNode->NodeType() == eScriptNode)
-    {
-        CScriptNode *pNode = static_cast<CScriptNode*>(mpSelectedNode);
-        pNode->PropertyModified(pProp);
-
-        // If this is the instance name property, then other parts of the UI need to be updated to reflect the new name.
-        if (pNode->Object()->IsEditorProperty(pProp) && pProp->Type() == eStringProperty)
-            mpWorldEditor->UpdateSelectionUI();
-
-        // If this is a model/character, then we'll treat it as a modified selection. This is to make sure the selection bounds updates.
-        if (pProp->Type() == eFileProperty)
-        {
-            CFileTemplate *pFile = static_cast<CFileTemplate*>(pProp->Template());
-
-            if (pFile->AcceptsExtension("CMDL") || pFile->AcceptsExtension("ANCS") || pFile->AcceptsExtension("CHAR"))
-                mpWorldEditor->NotifySelectionModified();
-        }
-        else if (pProp->Type() == eCharacterProperty)
-            mpWorldEditor->NotifySelectionModified();
-    }
-}
-
+// ************ PRIVATE SLOTS ************
 void WModifyTab::OnLinkTableDoubleClick(QModelIndex Index)
 {
     if (Index.column() == 0)

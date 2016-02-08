@@ -1,8 +1,9 @@
 #include "CResizeScriptArrayCommand.h"
 
-CResizeScriptArrayCommand::CResizeScriptArrayCommand(CPropertyModel *pModel, const QModelIndex& rkIndex, u32 NewSize)
-    : CBasicPropertyCommand(pModel, rkIndex)
+CResizeScriptArrayCommand::CResizeScriptArrayCommand(IProperty *pProp, CWorldEditor *pEditor, CPropertyModel *pModel, int NewSize)
+    : CBasicPropertyCommand(pProp, pEditor)
     , mpArray(static_cast<CArrayProperty*>(mpProperty))
+    , mpModel(pModel)
     , mOldSize(mpArray->Count())
     , mNewSize(NewSize)
 {
@@ -10,7 +11,7 @@ CResizeScriptArrayCommand::CResizeScriptArrayCommand(CPropertyModel *pModel, con
 
     if (!mNewSizeLarger)
     {
-        for (u32 iSub = mNewSize; iSub < mOldSize; iSub++)
+        for (int iSub = mNewSize; iSub < mOldSize; iSub++)
         {
             mDeletedProperties << mpArray->PropertyByIndex(iSub)->Clone();
         }
@@ -29,21 +30,22 @@ void CResizeScriptArrayCommand::undo()
     {
         if (mIsInArray) UpdateArraySubProperty();
 
-        mpModel->ArrayAboutToBeResized(mIndex, mOldSize);
+        QModelIndex Index = mpModel->IndexForProperty(mpProperty);
+        mpModel->ArrayAboutToBeResized(Index, (u32) mOldSize);
         mpArray->Resize(mOldSize);
 
         if (!mNewSizeLarger)
         {
-            u32 NumNewElements = mOldSize - mNewSize;
+            int NumNewElements = mOldSize - mNewSize;
 
-            for (u32 iSub = 0; iSub < NumNewElements; iSub++)
+            for (int iSub = 0; iSub < NumNewElements; iSub++)
             {
                 u32 Idx = iSub + mNewSize;
                 mpArray->PropertyByIndex(Idx)->Copy(mDeletedProperties[iSub]);
             }
         }
 
-        mpModel->ArrayResized(mIndex, mNewSize);
+        mpModel->ArrayResized(Index, (u32) mNewSize);
     }
 }
 
@@ -54,9 +56,10 @@ void CResizeScriptArrayCommand::redo()
     {
         if (mIsInArray) UpdateArraySubProperty();
 
-        mpModel->ArrayAboutToBeResized(mIndex, mNewSize);
+        QModelIndex Index = mpModel->IndexForProperty(mpProperty);
+        mpModel->ArrayAboutToBeResized(Index, (u32) mNewSize);
         mpArray->Resize(mNewSize);
-        mpModel->ArrayResized(mIndex, mOldSize);
+        mpModel->ArrayResized(Index, (u32) mOldSize);
     }
 }
 

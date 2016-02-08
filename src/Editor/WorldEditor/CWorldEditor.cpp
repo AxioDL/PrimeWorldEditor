@@ -5,6 +5,7 @@
 #include "WInstancesTab.h"
 
 #include "Editor/CBasicViewport.h"
+#include "Editor/PropertyEdit/CPropertyView.h"
 #include "Editor/Widgets/WDraggableSpinBox.h"
 #include "Editor/Widgets/WVectorEditor.h"
 #include "Editor/Undo/UndoCommands.h"
@@ -80,6 +81,12 @@ CWorldEditor::CWorldEditor(QWidget *parent) :
     connect(&mUndoStack, SIGNAL(indexChanged(int)), this, SLOT(OnUndoStackIndexChanged()));
 
     connect(ui->ActionSave, SIGNAL(triggered()), this, SLOT(Save()));
+
+    ui->CreateTabEditorProperties->SyncToEditor(this);
+    ui->ModifyTabEditorProperties->SyncToEditor(this);
+    ui->InstancesTabEditorProperties->SyncToEditor(this);
+    ui->DisplayTabEditorProperties->SyncToEditor(this);
+    ui->WorldTabEditorProperties->SyncToEditor(this);
 }
 
 CWorldEditor::~CWorldEditor()
@@ -172,18 +179,24 @@ void CWorldEditor::SetArea(CWorld *pWorld, CGameArea *pArea, u32 AreaIndex)
     CStringTable *pWorldNameTable = mpWorld->GetWorldName();
     TWideString WorldName = pWorldNameTable ? pWorldNameTable->GetString("ENGL", 0) : "[Untitled World]";
 
-    CStringTable *pAreaNameTable = mpWorld->GetAreaName(AreaIndex);
-    TWideString AreaName = pAreaNameTable ? pAreaNameTable->GetString("ENGL", 0) : (TWideString("!") + mpWorld->GetAreaInternalName(AreaIndex).ToUTF16());
+    if (CurrentGame() < eReturns)
+    {
+        CStringTable *pAreaNameTable = mpWorld->GetAreaName(AreaIndex);
+        TWideString AreaName = pAreaNameTable ? pAreaNameTable->GetString("ENGL", 0) : (TWideString("!") + mpWorld->GetAreaInternalName(AreaIndex).ToUTF16());
 
-    if (AreaName.IsEmpty())
-        AreaName = "[Untitled Area]";
+        if (AreaName.IsEmpty())
+            AreaName = "[Untitled Area]";
 
-    setWindowTitle(QString("Prime World Editor - %1 - %2[*]").arg(TO_QSTRING(WorldName)).arg(TO_QSTRING(AreaName)));
-}
+        setWindowTitle(QString("Prime World Editor - %1 - %2[*]").arg(TO_QSTRING(WorldName)).arg(TO_QSTRING(AreaName)));
+    }
 
-CGameArea* CWorldEditor::ActiveArea()
-{
-    return mpArea;
+    else
+    {
+        setWindowTitle(QString("Prime World Editor - %1[*]").arg(TO_QSTRING(WorldName)));
+    }
+
+    // Emit signals
+    emit LayersModified();
 }
 
 bool CWorldEditor::CheckUnsavedChanges()
@@ -226,6 +239,110 @@ bool CWorldEditor::Save()
         QMessageBox::warning(this, "Error", "Unable to save error; couldn't open output file " + TO_QSTRING(Out));
         return false;
     }
+}
+
+void CWorldEditor::OnPropertyModified(IProperty *pProp)
+{
+    bool EditorProperty = false;
+
+    if (!mSelection.isEmpty() && mSelection.front()->NodeType() == eScriptNode)
+    {
+        CScriptNode *pScript = static_cast<CScriptNode*>(mSelection.front());
+        pScript->PropertyModified(pProp);
+
+        // Check editor property
+        if (pScript->Object()->IsEditorProperty(pProp))
+            EditorProperty = true;
+
+        // If this is an editor property, update other parts of the UI to reflect the new value.
+        if (EditorProperty)
+        {
+            UpdateStatusBar();
+            UpdateSelectionUI();
+        }
+
+        // If this is a model/character, then we'll treat this as a modified selection. This is to make sure the selection bounds updates.
+        if (pProp->Type() == eFileProperty)
+        {
+            CFileTemplate *pFile = static_cast<CFileTemplate*>(pProp->Template());
+
+            if (pFile->AcceptsExtension("CMDL") || pFile->AcceptsExtension("ANCS") || pFile->AcceptsExtension("CHAR"))
+                NotifySelectionModified();
+        }
+        else if (pProp->Type() == eCharacterProperty)
+            NotifySelectionModified();
+
+        // Emit signal so other widgets can react to the property change
+        emit PropertyModified(pProp, EditorProperty);
+    }
+}
+
+void CWorldEditor::SetSelectionActive(bool Active)
+{
+    // Gather list of selected objects that actually have Active properties
+    QVector<CScriptObject*> Objects;
+
+    foreach (CSceneNode *pNode, mSelection)
+    {
+        if (pNode->NodeType() == eScriptNode)
+        {
+            CScriptNode *pScript = static_cast<CScriptNode*>(pNode);
+            CScriptObject *pInst = pScript->Object();
+            IProperty *pActive = pInst->ActiveProperty();
+
+            if (pActive)
+                Objects << pInst;
+        }
+    }
+
+    if (!Objects.isEmpty())
+    {
+        mUndoStack.beginMacro("Toggle Active");
+
+        foreach (CScriptObject *pInst, Objects)
+        {
+            IProperty *pActive = pInst->ActiveProperty();
+            IPropertyValue *pOld = pActive->RawValue()->Clone();
+            pInst->SetActive(Active);
+            mUndoStack.push(new CEditScriptPropertyCommand(pActive, this, pOld, true));
+        }
+
+        mUndoStack.endMacro();
+    }
+}
+
+void CWorldEditor::SetSelectionInstanceNames(const QString& rkNewName, bool IsDone)
+{
+    // todo: this only supports one node at a time because a macro prevents us from merging undo commands
+    // this is fine right now because this function is only ever called with a selection of one node, but probably want to fix in the future
+    if (mSelection.size() == 1 && mSelection.front()->NodeType() == eScriptNode)
+    {
+        CScriptNode *pNode = static_cast<CScriptNode*>(mSelection.front());
+        CScriptObject *pInst = pNode->Object();
+        IProperty *pName = pInst->InstanceNameProperty();
+
+        if (pName)
+        {
+            TString NewName = TO_TSTRING(rkNewName);
+            IPropertyValue *pOld = pName->RawValue()->Clone();
+            pInst->SetName(NewName);
+            mUndoStack.push(new CEditScriptPropertyCommand(pName, this, pOld, IsDone, "Edit Instance Name"));
+        }
+    }
+}
+
+void CWorldEditor::SetSelectionLayer(CScriptLayer *pLayer)
+{
+    QList<CScriptNode*> ScriptNodes;
+
+    foreach (CSceneNode *pNode, mSelection)
+    {
+        if (pNode->NodeType() == eScriptNode)
+            ScriptNodes << static_cast<CScriptNode*>(pNode);
+    }
+
+    if (!ScriptNodes.isEmpty())
+        mUndoStack.push(new CChangeLayerCommand(this, ScriptNodes, pLayer));
 }
 
 void CWorldEditor::UpdateStatusBar()
@@ -368,7 +485,13 @@ void CWorldEditor::OnUndoStackIndexChanged()
         {
             const QUndoCommand *pkQCmd = mUndoStack.command(iIdx);
 
-            if (pkQCmd->childCount() > 0)
+            if (const IUndoCommand *pkCmd = dynamic_cast<const IUndoCommand*>(pkQCmd))
+            {
+                if (pkCmd->AffectsCleanState())
+                    IsClean = false;
+            }
+
+            else if (pkQCmd->childCount() > 0)
             {
                 for (int iChild = 0; iChild < pkQCmd->childCount(); iChild++)
                 {
@@ -380,14 +503,6 @@ void CWorldEditor::OnUndoStackIndexChanged()
                         break;
                     }
                 }
-            }
-
-            else
-            {
-                const IUndoCommand *pkCmd = static_cast<const IUndoCommand*>(pkQCmd);
-
-                if (pkCmd->AffectsCleanState())
-                    IsClean = false;
             }
 
             if (!IsClean) break;

@@ -17,7 +17,7 @@ CPropertyView::CPropertyView(QWidget *pParent)
     connect(this, SIGNAL(expanded(QModelIndex)), this, SLOT(SetPersistentEditors(QModelIndex)));
     connect(this, SIGNAL(clicked(QModelIndex)), this, SLOT(edit(QModelIndex)));
     connect(mpModel, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(SetPersistentEditors(QModelIndex)));
-    connect(mpModel, SIGNAL(PropertyModified(QModelIndex)), this, SLOT(OnPropertyModified(QModelIndex)));
+    connect(mpModel, SIGNAL(PropertyModified(const QModelIndex&)), this, SLOT(OnPropertyModified(const QModelIndex&)));
 }
 
 void CPropertyView::setModel(QAbstractItemModel *pModel)
@@ -66,6 +66,7 @@ void CPropertyView::SetEditor(CWorldEditor *pEditor)
 {
     mpEditor = pEditor;
     mpDelegate->SetEditor(pEditor);
+    connect(mpEditor, SIGNAL(PropertyModified(IProperty*,bool)), mpModel, SLOT(NotifyPropertyModified(IProperty*)));
 }
 
 void CPropertyView::SetInstance(CScriptObject *pObj)
@@ -83,7 +84,10 @@ void CPropertyView::SetInstance(CScriptObject *pObj)
 
 void CPropertyView::UpdateEditorProperties(const QModelIndex& rkParent)
 {
-    // Iterate over all properties and update if they're an editor property. Ignore structs unless they're EditorProperties or a single struct.
+    // Check what game this is
+    EGame Game = mpEditor->ActiveArea()->Version();
+
+    // Iterate over all properties and update if they're an editor property.
     for (int iRow = 0; iRow < mpModel->rowCount(rkParent); iRow++)
     {
         QModelIndex Index0 = mpModel->index(iRow, 0, rkParent);
@@ -92,11 +96,15 @@ void CPropertyView::UpdateEditorProperties(const QModelIndex& rkParent)
 
         if (pProp)
         {
+            // For structs, update sub-properties.
             if (pProp->Type() == eStructProperty)
             {
                 CStructTemplate *pStruct = static_cast<CStructTemplate*>(pProp->Template());
 
-                if (pStruct->IsSingleProperty() || pStruct->PropertyID() == 0x255A4580)
+                // As an optimization, in MP2+, we don't need to update unless this is a single struct or if
+                // it's EditorProperties, because other structs never have editor properties in them.
+                // In MP1 this isn't the case so we need to update every struct regardless
+                if ((Game <= ePrime) || (pStruct->IsSingleProperty() || pStruct->PropertyID() == 0x255A4580))
                     UpdateEditorProperties(Index0);
                 else
                     continue;
@@ -180,16 +188,9 @@ void CPropertyView::OnPropertyModified(const QModelIndex& rkIndex)
     // Check for a character resource being changed. If that's the case we need to remake the persistent editors.
     IProperty *pProp = mpModel->PropertyForIndex(rkIndex, true);
 
-    if (pProp->Type() == eCharacterProperty && rkIndex.internalId() & 0x1)
+    if (pProp->Type() == eCharacterProperty /*&& rkIndex.internalId() & 0x1*/)
     {
-        EGame Game = static_cast<TCharacterProperty*>(pProp)->Get().Version();
-
-        if (mpDelegate->DetermineCharacterPropType(Game, rkIndex) == eFileProperty)
-        {
-            ClosePersistentEditors(rkIndex.parent());
-            SetPersistentEditors(rkIndex.parent());
-        }
+        ClosePersistentEditors(rkIndex);
+        SetPersistentEditors(rkIndex);
     }
-
-    emit PropertyModified(pProp);
 }

@@ -116,11 +116,11 @@ void CScriptCooker::WriteLayerMP1(CScriptLayer *pLayer)
 {
     u32 LayerStart = mpSCLY->Tell();
     mpSCLY->WriteByte(0); // Unknown value
-    mpSCLY->WriteLong(pLayer->GetNumObjects());
+    mpSCLY->WriteLong(pLayer->NumInstances());
 
-    for (u32 iInst = 0; iInst < pLayer->GetNumObjects(); iInst++)
+    for (u32 iInst = 0; iInst < pLayer->NumInstances(); iInst++)
     {
-        CScriptObject *pInstance = pLayer->ObjectByIndex(iInst);
+        CScriptObject *pInstance = pLayer->InstanceByIndex(iInst);
         WriteInstanceMP1(pInstance);
     }
 
