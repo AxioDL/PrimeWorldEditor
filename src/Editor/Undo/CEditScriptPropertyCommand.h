@@ -3,7 +3,6 @@
 
 #include "CBasicPropertyCommand.h"
 #include "Editor/PropertyEdit/CPropertyModel.h"
-#include <QUndoCommand>
 
 class CEditScriptPropertyCommand : public CBasicPropertyCommand
 {
@@ -12,7 +11,7 @@ class CEditScriptPropertyCommand : public CBasicPropertyCommand
     bool mCommandEnded;
 
 public:
-    CEditScriptPropertyCommand(CPropertyModel *pModel, const QModelIndex& rkIndex, IPropertyValue *pOldValue, bool IsDone);
+    CEditScriptPropertyCommand(IProperty *pProp, CWorldEditor *pEditor, IPropertyValue *pOldValue, bool IsDone, const QString& rkCommandName = "Edit Property");
     ~CEditScriptPropertyCommand();
     int id() const;
     bool mergeWith(const QUndoCommand *pkOther);

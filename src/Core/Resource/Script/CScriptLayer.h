@@ -1,5 +1,5 @@
-#ifndef SSCRIPTLAYER_H
-#define SSCRIPTLAYER_H
+#ifndef CSCRIPTLAYER_H
+#define CSCRIPTLAYER_H
 
 #include "CScriptObject.h"
 #include <Common/types.h>
@@ -11,38 +11,85 @@ class CScriptLayer
     TString mLayerName;
     bool mActive;
     bool mVisible;
-    std::vector<CScriptObject*> mObjects;
+    std::vector<CScriptObject*> mInstances;
 public:
-    CScriptLayer();
-    ~CScriptLayer();
+    CScriptLayer()
+        : mLayerName("New Layer")
+        , mActive(true)
+        , mVisible(true)
+    {
+    }
+
+    ~CScriptLayer()
+    {
+        for (auto it = mInstances.begin(); it != mInstances.end(); it++)
+            delete *it;
+    }
 
     // Data Manipulation
-    void AddObject(CScriptObject* object);
-    void DeleteObjectByIndex(u32 index);
-    void DeleteObjectByID(u32 ID);
-    void Reserve(u32 amount);
+    void AddInstance(CScriptObject *pObject)
+    {
+        mInstances.push_back(pObject);
+    }
 
-    // Getters and Setters
-    TString Name();
-    bool IsActive();
-    bool IsVisible();
-    u32 GetNumObjects();
-    CScriptObject* ObjectByIndex(u32 index);
-    CScriptObject* ObjectByID(u32 ID);
+    void RemoveInstance(CScriptObject *pInstance)
+    {
+        for (auto it = mInstances.begin(); it != mInstances.end(); it++)
+        {
+            if (*it == pInstance)
+            {
+                mInstances.erase(it);
+                break;
+            }
+        }
+    }
 
-    void SetName(const TString& name);
-    void SetActive(bool active);
-    void SetVisible(bool visible);
+    void RemoveInstanceByIndex(u32 Index)
+    {
+        mInstances.erase(mInstances.begin() + Index);
+    }
+
+    void RemoveInstanceByID(u32 ID)
+    {
+        for (auto it = mInstances.begin(); it != mInstances.end(); it++)
+        {
+            if ((*it)->InstanceID() == ID)
+            {
+                mInstances.erase(it);
+                break;
+            }
+        }
+    }
+
+    void Reserve(u32 Amount)
+    {
+        mInstances.reserve(Amount);
+    }
+
+    // Accessors
+    inline TString Name() const         { return mLayerName; }
+    inline bool IsActive() const        { return mActive; }
+    inline bool IsVisible() const       { return mVisible; }
+    inline u32 NumInstances() const     { return mInstances.size(); }
+    inline CScriptObject* InstanceByIndex(u32 Index) const { return mInstances[Index]; }
+
+    inline CScriptObject* InstanceByID(u32 ID) const
+    {
+        for (auto it = mInstances.begin(); it != mInstances.end(); it++)
+        {
+            if ((*it)->InstanceID() == ID)
+                return *it;
+        }
+
+        return nullptr;
+    }
+
+    inline void SetName(const TString& rkName)  { mLayerName = rkName; }
+    inline void SetActive(bool Active)          { mActive = Active; }
+    inline void SetVisible(bool Visible)        { mVisible = Visible; }
 
     // Operators
-    CScriptObject* operator[](u32 index);
+    CScriptObject* operator[](u32 Index) { return InstanceByIndex(Index); }
 };
 
-// ************* INLINE FUNCTIONS *************
-inline CScriptObject* CScriptLayer::operator[](u32 index)
-{
-    return mObjects[index];
-}
-
-
-#endif // SSCRIPTLAYER_H
+#endif // CSCRIPTLAYER_H

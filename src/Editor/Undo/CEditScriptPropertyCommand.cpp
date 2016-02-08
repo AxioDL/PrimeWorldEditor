@@ -1,8 +1,8 @@
 #include "CEditScriptPropertyCommand.h"
 #include "EUndoCommand.h"
 
-CEditScriptPropertyCommand::CEditScriptPropertyCommand(CPropertyModel *pModel, const QModelIndex& rkIndex, IPropertyValue *pOldValue, bool IsDone)
-    : CBasicPropertyCommand(pModel, rkIndex)
+CEditScriptPropertyCommand::CEditScriptPropertyCommand(IProperty *pProp, CWorldEditor *pEditor, IPropertyValue *pOldValue, bool IsDone, const QString& rkCommandName /*= "Edit Property"*/)
+    : CBasicPropertyCommand(pProp, pEditor, rkCommandName)
     , mCommandEnded(IsDone)
 {
     mpOldValue = pOldValue;
@@ -41,12 +41,13 @@ void CEditScriptPropertyCommand::undo()
 {
     if (mIsInArray) UpdateArraySubProperty();
     mpProperty->RawValue()->Copy(mpOldValue);
-    mpModel->NotifyPropertyModified(mIndex);
+    mpEditor->OnPropertyModified(mpProperty);
+    mCommandEnded = true;
 }
 
 void CEditScriptPropertyCommand::redo()
 {
     if (mIsInArray) UpdateArraySubProperty();
     mpProperty->RawValue()->Copy(mpNewValue);
-    mpModel->NotifyPropertyModified(mIndex);
+    mpEditor->OnPropertyModified(mpProperty);
 }

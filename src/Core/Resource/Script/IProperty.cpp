@@ -2,6 +2,11 @@
 #include "IPropertyTemplate.h"
 
 // ************ IProperty ************
+CPropertyStruct* IProperty::RootStruct()
+{
+    return (mpParent ? mpParent->RootStruct() : Type() == eStructProperty ? static_cast<CPropertyStruct*>(this) : nullptr);
+}
+
 IPropertyTemplate* IProperty::Template() const
 {
     return mpTemplate;
@@ -111,23 +116,23 @@ CPropertyStruct* CPropertyStruct::StructByIDString(const TIDString& rkStr) const
 }
 
 // ************ CArrayProperty ************
-void CArrayProperty::Resize(u32 Size)
+void CArrayProperty::Resize(int Size)
 {
-    u32 OldSize = mProperties.size();
+    int OldSize = mProperties.size();
     if (OldSize == Size) return;
 
     if (Size < OldSize)
     {
-        for (u32 i = mProperties.size() - 1; i >= Size; i--)
-            delete mProperties[i];
+        for (int iProp = mProperties.size() - 1; iProp >= Size; iProp--)
+            delete mProperties[iProp];
     }
 
     mProperties.resize(Size);
 
     if (Size > OldSize)
     {
-        for (u32 i = OldSize; i < Size; i++)
-            mProperties[i] = static_cast<CArrayTemplate*>(mpTemplate)->CreateSubStruct(this);
+        for (int iProp = OldSize; iProp < Size; iProp++)
+            mProperties[iProp] = static_cast<CArrayTemplate*>(mpTemplate)->CreateSubStruct(this);
     }
 }
 

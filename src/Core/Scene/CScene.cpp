@@ -116,12 +116,12 @@ void CScene::SetActiveArea(CGameArea *pArea)
     for (u32 iLyr = 0; iLyr < NumLayers; iLyr++)
     {
         CScriptLayer *pLayer = mpArea->GetScriptLayer(iLyr);
-        u32 NumObjects = pLayer->GetNumObjects();
+        u32 NumObjects = pLayer->NumInstances();
         mNodes[eScriptNode].reserve(mNodes[eScriptNode].size() + NumObjects);
 
         for (u32 iObj = 0; iObj < NumObjects; iObj++)
         {
-            CScriptObject *pObj = pLayer->ObjectByIndex(iObj);
+            CScriptObject *pObj = pLayer->InstanceByIndex(iObj);
             CScriptNode *pNode = CreateScriptNode(pObj);
             pNode->BuildLightList(mpArea);
 
@@ -142,9 +142,9 @@ void CScene::SetActiveArea(CGameArea *pArea)
     CScriptLayer *pGenLayer = mpArea->GetGeneratorLayer();
     if (pGenLayer)
     {
-        for (u32 iObj = 0; iObj < pGenLayer->GetNumObjects(); iObj++)
+        for (u32 iObj = 0; iObj < pGenLayer->NumInstances(); iObj++)
         {
-            CScriptObject *pObj = pGenLayer->ObjectByIndex(iObj);
+            CScriptObject *pObj = pGenLayer->InstanceByIndex(iObj);
             CScriptNode *pNode = CreateScriptNode(pObj);
 
             // Add to map

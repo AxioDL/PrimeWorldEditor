@@ -35,6 +35,48 @@ IProperty* CPropertyModel::PropertyForIndex(const QModelIndex& rkIndex, bool Han
     return static_cast<IProperty*>(rkIndex.internalPointer());
 }
 
+QModelIndex CPropertyModel::IndexForProperty(IProperty *pProp) const
+{
+    if (pProp == mpBaseStruct) return QModelIndex();
+
+    QVector<u32> RowNumbers;
+    IProperty *pChild = pProp;
+    CPropertyStruct *pParent = pProp->Parent();
+
+    while (pParent)
+    {
+        // Check for array with one sub-property
+        CPropertyStruct *pGrandparent = pParent->Parent();
+        if (pGrandparent && pGrandparent->Type() == eArrayProperty && pParent->Count() == 1)
+        {
+            pChild = pParent;
+            pParent = pGrandparent;
+            continue;
+        }
+
+        // Find row index for this child property
+        for (u32 iChild = 0; iChild < pParent->Count(); iChild++)
+        {
+            if (pParent->PropertyByIndex(iChild) == pChild)
+            {
+                RowNumbers << iChild;
+                break;
+            }
+        }
+
+        pChild = pParent;
+        pParent = pGrandparent;
+    }
+
+    // Find the corresponding QModelIndex in the same spot
+    QModelIndex Index = QModelIndex();
+
+    for (int iChild = RowNumbers.size() - 1; iChild >= 0; iChild--)
+        Index = index(RowNumbers[iChild], 0, Index);
+
+    return Index;
+}
+
 int CPropertyModel::columnCount(const QModelIndex& /*rkParent*/) const
 {
     return 2;
@@ -393,6 +435,11 @@ Qt::ItemFlags CPropertyModel::flags(const QModelIndex& rkIndex) const
     else return (Qt::ItemIsEnabled | Qt::ItemIsEditable);
 }
 
+void CPropertyModel::NotifyPropertyModified(IProperty *pProp)
+{
+    NotifyPropertyModified(IndexForProperty(pProp));
+}
+
 void CPropertyModel::NotifyPropertyModified(const QModelIndex& rkIndex)
 {
     if (rowCount(rkIndex) != 0)
@@ -405,7 +452,9 @@ void CPropertyModel::NotifyPropertyModified(const QModelIndex& rkIndex)
         emit dataChanged(Parent, Parent);
     }
 
-    emit dataChanged(rkIndex, rkIndex);
+    QModelIndex IndexC1 = rkIndex.sibling(rkIndex.row(), 1);
+    emit dataChanged(IndexC1, IndexC1);
+
     emit PropertyModified(rkIndex);
 }
 

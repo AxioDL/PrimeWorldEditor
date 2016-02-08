@@ -1,4 +1,5 @@
 #include "CScriptObject.h"
+#include "CScriptLayer.h"
 #include "CMasterTemplate.h"
 #include "Core/Resource/CAnimSet.h"
 
@@ -67,6 +68,16 @@ bool CScriptObject::IsEditorProperty(IProperty *pProp)
              (pProp == mpActive) ||
              (pProp->Parent() == mpLightParameters)
            );
+}
+
+void CScriptObject::SetLayer(CScriptLayer *pLayer)
+{
+    if (pLayer != mpLayer)
+    {
+        mpLayer->RemoveInstance(this);
+        mpLayer = pLayer;
+        mpLayer->AddInstance(this);
+    }
 }
 
 // ************ GETTERS ************

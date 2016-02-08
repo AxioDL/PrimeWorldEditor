@@ -5,7 +5,8 @@
 #include <QApplication>
 #include <QIcon>
 
-/* The tree has 3 levels:
+/*
+ * The tree has 3 levels:
  * 1. Node Type (Script Object, Light, World Mesh, etc) - represented with ID of 0
  * 2. Object Type (Actor, Platform, SpawnPoint, etc) - represented with flags
  * 3. Instance - represented with pointer to instance (0x1 bit is guaranteed to be clear)
@@ -15,6 +16,8 @@
  * A: Row index
  * B: Node type row index
  * C: Item type (ObjType, Instance)
+ *
+ * Also this class is kind of a mess, it would be nice to rewrite it at some point
  */
 #define TYPES_ROW_INDEX_MASK  0xFFFFFFE0
 #define TYPES_NODE_TYPE_MASK  0x0000001E
@@ -87,7 +90,7 @@ QModelIndex CInstancesModel::index(int row, int column, const QModelIndex &paren
             if (mModelType == eLayers)
             {
                 CScriptLayer *pLayer = mpArea->GetScriptLayer(parent.row());
-                if ((u32) row >= pLayer->GetNumObjects())
+                if ((u32) row >= pLayer->NumInstances())
                     return QModelIndex();
                 else
                     return createIndex(row, column, (*pLayer)[row]);
@@ -185,7 +188,7 @@ int CInstancesModel::rowCount(const QModelIndex &parent) const
     {
         u32 RowIndex = ((parent.internalId() & TYPES_ROW_INDEX_MASK) >> TYPES_ROW_INDEX_SHIFT);
         if (mModelType == eLayers)
-            return (mpArea ? mpArea->GetScriptLayer(RowIndex)->GetNumObjects() : 0);
+            return (mpArea ? mpArea->GetScriptLayer(RowIndex)->NumInstances() : 0);
         else
             return mTemplateList[RowIndex]->NumObjects();
     }
@@ -310,8 +313,13 @@ QVariant CInstancesModel::data(const QModelIndex &index, int role) const
 
 void CInstancesModel::SetEditor(CWorldEditor *pEditor)
 {
+    if (mpEditor)
+        disconnect(mpEditor, 0, this, 0);
+
     mpEditor = pEditor;
     mpScene = (pEditor ? pEditor->Scene() : nullptr);
+    connect(mpEditor, SIGNAL(InstancesLayerAboutToChange()), this, SLOT(InstancesLayerPreChange()));
+    connect(mpEditor, SIGNAL(InstancesLayerChanged(QList<CScriptNode*>)), this, SLOT(InstancesLayerPostChange(QList<CScriptNode*>)));
 }
 
 void CInstancesModel::SetMaster(CMasterTemplate *pMaster)
@@ -402,6 +410,46 @@ CScriptObject* CInstancesModel::IndexObject(const QModelIndex& index) const
         return nullptr;
 
     return static_cast<CScriptObject*>(index.internalPointer());
+}
+
+// ************ PUBLIC SLOTS ************
+void CInstancesModel::InstancesLayerPreChange()
+{
+    // This is only really needed on layers, which have rows moved.
+    // Types just need to update column 1 so we can handle that when the change is finished.
+    if (mModelType == eLayers)
+        emit layoutAboutToBeChanged();
+}
+
+void CInstancesModel::InstancesLayerPostChange(const QList<CScriptNode*>& rkInstanceList)
+{
+    QList<CScriptObject*> InstanceList;
+    foreach (CScriptNode *pNode, rkInstanceList)
+        InstanceList << pNode->Object();
+
+    QModelIndex ScriptIdx = index(0, 0, QModelIndex());
+
+    // For types, just find the instances that have changed layers and emit dataChanged for column 1.
+    if (mModelType == eTypes)
+    {
+        for (int iType = 0; iType < rowCount(ScriptIdx); iType++)
+        {
+            QModelIndex TypeIdx = index(iType, 0, ScriptIdx);
+
+            for (int iInst = 0; iInst < rowCount(TypeIdx); iInst++)
+            {
+                QModelIndex InstIdx = index(iInst, 1, TypeIdx);
+                CScriptObject *pInst = IndexObject(InstIdx);
+
+                if (InstanceList.contains(pInst))
+                    emit dataChanged(InstIdx, InstIdx);
+            }
+        }
+    }
+
+    // For layers we just need to emit layoutChanged() and done
+    else
+        emit layoutChanged();
 }
 
 // ************ STATIC ************

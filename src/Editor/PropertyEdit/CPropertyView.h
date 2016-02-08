@@ -29,9 +29,6 @@ public slots:
     void SetPersistentEditors(const QModelIndex& rkIndex);
     void ClosePersistentEditors(const QModelIndex& rkIndex);
     void OnPropertyModified(const QModelIndex& rkIndex);
-
-signals:
-    void PropertyModified(IProperty *pProperty);
 };
 
 #endif // CPROPERTYVIEW_H

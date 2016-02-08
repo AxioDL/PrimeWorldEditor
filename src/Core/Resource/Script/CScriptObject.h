@@ -50,6 +50,7 @@ public:
     void EvaluateCollisionModel();
     void EvaluateVolume();
     bool IsEditorProperty(IProperty *pProp);
+    void SetLayer(CScriptLayer *pLayer);
 
     CScriptTemplate* Template() const;
     CMasterTemplate* MasterTemplate() const;
@@ -84,6 +85,12 @@ public:
     CCollisionMeshGroup* GetCollision() const;
     EVolumeShape VolumeShape() const;
     float VolumeScale() const;
+
+    TStringProperty*    InstanceNameProperty() const    { return mpInstanceName; }
+    TVector3Property*   PositionProperty() const        { return mpPosition; }
+    TVector3Property*   RotationProperty() const        { return mpRotation; }
+    TVector3Property*   ScaleProperty() const           { return mpScale; }
+    TBoolProperty*      ActiveProperty() const          { return mpActive; }
 };
 
 #endif // CSCRIPTOBJECT_H

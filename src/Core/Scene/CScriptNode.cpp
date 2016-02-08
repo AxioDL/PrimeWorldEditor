@@ -191,6 +191,8 @@ void CScriptNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewIn
         {
             glBlendFuncSeparate(GL_ONE, GL_ZERO, GL_ZERO, GL_ZERO);
             glDepthMask(GL_TRUE);
+            CGraphics::UpdateVertexBlock();
+            CGraphics::UpdatePixelBlock();
             CDrawUtil::DrawShadedCube(CColor::skTransparentPurple * TintColor(ViewInfo));
         }
     }

@@ -56,6 +56,10 @@ public:
     CScriptTemplate* IndexTemplate(const QModelIndex& index) const;
     CScriptObject* IndexObject(const QModelIndex& index) const;
 
+public slots:
+    void InstancesLayerPreChange();
+    void InstancesLayerPostChange(const QList<CScriptNode*>& rkInstanceList);
+
     // Static
     static EIndexType IndexType(const QModelIndex& index);
     static ENodeType IndexNodeType(const QModelIndex& index);

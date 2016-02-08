@@ -1,16 +1,16 @@
 #include "CBasicPropertyCommand.h"
 #include <Core/Resource/Script/IPropertyTemplate.h>
 
-CBasicPropertyCommand::CBasicPropertyCommand(CPropertyModel *pModel, const QModelIndex& rkIndex)
-    : IUndoCommand("Edit Property")
-    , mpModel(pModel)
-    , mpProperty(pModel->PropertyForIndex(rkIndex, true))
+CBasicPropertyCommand::CBasicPropertyCommand(IProperty *pProp, CWorldEditor *pEditor, const QString& rkCommandName /*="Edit Property"*/)
+    : IUndoCommand(rkCommandName)
+    , mpProperty(pProp)
     , mpTemplate(mpProperty->Template())
-    , mIndex(rkIndex)
+    , mpBaseStruct(pProp->RootStruct())
+    , mpEditor(pEditor)
     , mIsInArray(false)
 {
     // Check for array
-    IProperty *pProp = mpProperty;
+    IProperty *pChild = mpProperty;
     IProperty *pParent = mpProperty->Parent();
 
     while (pParent)
@@ -24,30 +24,27 @@ CBasicPropertyCommand::CBasicPropertyCommand(CPropertyModel *pModel, const QMode
 
             for (u32 iSub = 0; iSub < pArray->Count(); iSub++)
             {
-                if (pArray->PropertyByIndex(iSub) == pProp)
+                if (pArray->PropertyByIndex(iSub) == pChild)
                 {
                     mArrayIndices << iSub;
                     break;
                 }
             }
         }
-        pProp = pParent;
+        pChild = pParent;
         pParent = pParent->Parent();
     }
 }
 
 void CBasicPropertyCommand::UpdateArraySubProperty()
 {
-    // If an array has been sized down and then back up, then we might have an index to an invalid property.
-    // Since we can't assume our index is still valid, we'll use the template and the model to find the corresponding property.
+    // If an array has been sized down and then back up, then we might have a pointer to an invalid property.
+    // Since we can't assume our pointer is still valid, we'll use the template to find the corresponding property.
     IPropertyTemplate *pTemp = mpTemplate;
     CStructTemplate *pParent = mpTemplate->Parent();
 
     QVector<u32> SubIndices;
     int IndexIndex = 0;
-
-    if (mIndex.internalId() & 0x1)
-        SubIndices << mIndex.row();
 
     while (pParent)
     {
@@ -62,6 +59,8 @@ void CBasicPropertyCommand::UpdateArraySubProperty()
                 }
             }
         }
+        else
+            SubIndices << 0;
 
         if (pParent->Type() == eArrayProperty)
         {
@@ -73,15 +72,9 @@ void CBasicPropertyCommand::UpdateArraySubProperty()
         pParent = pParent->Parent();
     }
 
-    // Find corresponding index
-    QModelIndex Index = QModelIndex();
+    // Find corresponding property
+    mpProperty = mpBaseStruct;
 
-    for (int iSub = SubIndices.size() - 1; iSub >= 0; iSub--)
-        Index = mpModel->index(SubIndices[iSub], 0, Index);
-
-    Index = Index.sibling(Index.row(), 1);
-
-    // Get property
-    mpProperty = mpModel->PropertyForIndex(Index, true);
-    mIndex = Index;
+    for (int iChild = SubIndices.size() - 1; iChild >= 0; iChild--)
+        mpProperty = static_cast<CPropertyStruct*>(mpProperty)->PropertyByIndex(SubIndices[iChild]);
 }

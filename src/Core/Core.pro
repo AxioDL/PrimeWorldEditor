@@ -218,7 +218,6 @@ SOURCES += \
     Resource/Model/CStaticModel.cpp \
     Resource/Model/SSurface.cpp \
     Resource/Script/CMasterTemplate.cpp \
-    Resource/Script/CScriptLayer.cpp \
     Resource/Script/CScriptObject.cpp \
     Resource/Script/CScriptTemplate.cpp \
     Resource/CAnimationParameters.cpp \
