@@ -35,11 +35,11 @@
                 <property ID="0xB60DF150" type="file" extensions="UNKN"/>
             </properties>
         </struct>
-        <struct ID="0x5231ED05" template="Structs/DefenseMechanoidStruct.xml"/>
+        <struct ID="0x5231ED05" template="Structs/DefenseMechanoidData.xml"/>
         <struct ID="0xB3774750" template="Structs/PatternedAI.xml"/>
-        <struct ID="0x8E34B059" template="Structs/DefenseMechanoidStruct.xml"/>
+        <struct ID="0x8E34B059" template="Structs/DefenseMechanoidData.xml"/>
         <struct ID="0x1464AE05" template="Structs/PatternedAI.xml"/>
-        <struct ID="0x838EE838" template="Structs/DefenseMechanoidStruct.xml"/>
+        <struct ID="0x838EE838" template="Structs/DefenseMechanoidData.xml"/>
         <struct ID="0x24D00673" template="Structs/PatternedAI.xml"/>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
     </properties>

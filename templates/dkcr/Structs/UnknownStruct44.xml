@@ -626,7 +626,7 @@
                 <property ID="0x4A3BCEB4" type="float">
                     <default>0.0</default>
                 </property>
-                <struct ID="0xA0647DF6" template="Structs/UnknownStruct12.xml"/>
+                <struct ID="0xA0647DF6" template="Structs/Convergence.xml"/>
             </properties>
         </struct>
         <struct ID="0xE31814DB" type="multi">

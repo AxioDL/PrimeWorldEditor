@@ -49,14 +49,14 @@
         <property ID="0xA059D75F" type="float">
             <default>0.25</default>
         </property>
-        <struct ID="0x1E857439" template="Structs/UnknownStruct9.xml"/>
-        <struct ID="0xBAF37BAA" template="Structs/UnknownStruct9.xml"/>
+        <struct ID="0x1E857439" template="Structs/SeedBoss1Action.xml"/>
+        <struct ID="0xBAF37BAA" template="Structs/SeedBoss1Action.xml"/>
         <property ID="0xAF8C9223" type="float">
             <default>0.06</default>
         </property>
-        <struct ID="0xD83D4564" template="Structs/UnknownStruct9.xml"/>
-        <struct ID="0x95B6D3B7" template="Structs/UnknownStruct9.xml"/>
-        <struct ID="0x46AA8016" template="Structs/UnknownStruct9.xml"/>
+        <struct ID="0xD83D4564" template="Structs/SeedBoss1Action.xml"/>
+        <struct ID="0x95B6D3B7" template="Structs/SeedBoss1Action.xml"/>
+        <struct ID="0x46AA8016" template="Structs/SeedBoss1Action.xml"/>
         <property ID="0x4432C4FE" type="long">
             <default>1</default>
         </property>

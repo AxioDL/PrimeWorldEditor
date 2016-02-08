@@ -27,9 +27,9 @@
             </properties>
         </struct>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <struct ID="0xFEE49B25" template="Structs/GandraydaStruct.xml"/>
-        <struct ID="0x49B975E6" template="Structs/GandraydaStruct.xml"/>
-        <struct ID="0x82439CBA" template="Structs/GandraydaStruct.xml"/>
+        <struct ID="0xFEE49B25" template="Structs/GandraydaData.xml"/>
+        <struct ID="0x49B975E6" template="Structs/GandraydaData.xml"/>
+        <struct ID="0x82439CBA" template="Structs/GandraydaData.xml"/>
     </properties>
     <states/>
     <messages/>

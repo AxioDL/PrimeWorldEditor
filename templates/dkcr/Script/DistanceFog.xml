@@ -45,11 +45,11 @@
         <property ID="0xB7246843" type="color">
             <default>0.0, 0.0, 0.0, 0.0</default>
         </property>
-        <struct ID="0x520D1DD5" template="Structs/DistanceFogStruct.xml"/>
+        <struct ID="0x520D1DD5" template="Structs/Vector2f.xml"/>
         <property ID="0xBC86052A" type="float">
             <default>0.0</default>
         </property>
-        <struct ID="0xFBA31A97" template="Structs/DistanceFogStruct.xml"/>
+        <struct ID="0xFBA31A97" template="Structs/Vector2f.xml"/>
     </properties>
     <states/>
     <messages/>

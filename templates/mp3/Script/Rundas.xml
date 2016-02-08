@@ -49,7 +49,7 @@
                 <property ID="0x3D6768D8" type="file" extensions="SCAN"/>
             </properties>
         </struct>
-        <struct ID="0x9D90D49F" template="Structs/RundasStruct.xml"/>
+        <struct ID="0x9D90D49F" template="Structs/RundasData.xml"/>
         <struct ID="0xB3774750" template="Structs/PatternedAI.xml">
             <properties>
                 <property ID="0x3FAE47EB">
@@ -57,7 +57,7 @@
                 </property>
             </properties>
         </struct>
-        <struct ID="0x877B2CE9" template="Structs/RundasStruct.xml"/>
+        <struct ID="0x877B2CE9" template="Structs/RundasData.xml"/>
         <struct ID="0x1464AE05" template="Structs/PatternedAI.xml">
             <properties>
                 <property ID="0x3FAE47EB">
@@ -65,7 +65,7 @@
                 </property>
             </properties>
         </struct>
-        <struct ID="0xCE6183D8" template="Structs/RundasStruct.xml"/>
+        <struct ID="0xCE6183D8" template="Structs/RundasData.xml"/>
         <struct ID="0x24D00673" template="Structs/PatternedAI.xml">
             <properties>
                 <property ID="0x3FAE47EB">

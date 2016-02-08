@@ -55,9 +55,9 @@
                 </property>
             </properties>
         </struct>
-        <struct ID="0x54F9FFA5" template="Structs/BerserkerStruct.xml"/>
-        <struct ID="0x2D8DC0AF" template="Structs/BerserkerStruct.xml"/>
-        <struct ID="0xE10CE828" template="Structs/BerserkerStruct.xml"/>
+        <struct ID="0x54F9FFA5" template="Structs/BerserkerData.xml"/>
+        <struct ID="0x2D8DC0AF" template="Structs/BerserkerData.xml"/>
+        <struct ID="0xE10CE828" template="Structs/BerserkerData.xml"/>
         <struct ID="0x7B8C48C7" type="multi">
             <properties>
                 <enum ID="0x2B082C6D" template="Enums/BerserkerEnum.xml">

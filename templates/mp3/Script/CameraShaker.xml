@@ -15,9 +15,9 @@
                     <default>1.0</default>
                 </property>
                 <property ID="0xC2ACB79E" type="file" extensions="UNKN"/>
-                <struct ID="0xD9EB71E0" template="Structs/CameraShakerStruct.xml"/>
-                <struct ID="0xC5B09632" template="Structs/CameraShakerStruct.xml"/>
-                <struct ID="0x21B704E3" template="Structs/CameraShakerStruct.xml"/>
+                <struct ID="0xD9EB71E0" template="Structs/CameraShakerEnvelope.xml"/>
+                <struct ID="0xC5B09632" template="Structs/CameraShakerEnvelope.xml"/>
+                <struct ID="0x21B704E3" template="Structs/CameraShakerEnvelope.xml"/>
             </properties>
         </struct>
     </properties>

@@ -9,7 +9,7 @@
                 </property>
             </properties>
         </struct>
-        <struct ID="0x91CEFA1E" template="Structs/UnknownStruct19.xml"/>
+        <struct ID="0x91CEFA1E" template="Structs/GuiWidgetProperties.xml"/>
     </properties>
     <states/>
     <messages/>

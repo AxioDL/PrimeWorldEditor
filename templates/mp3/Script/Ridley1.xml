@@ -55,11 +55,11 @@
                 <property ID="0x1A058C4F" type="file" extensions="UNKN"/>
             </properties>
         </struct>
-        <struct ID="0x3A80D135" template="Structs/Ridley1Struct.xml"/>
+        <struct ID="0x3A80D135" template="Structs/Ridley1Data.xml"/>
         <struct ID="0xB3774750" template="Structs/PatternedAI.xml"/>
-        <struct ID="0x1C1698F5" template="Structs/Ridley1Struct.xml"/>
+        <struct ID="0x1C1698F5" template="Structs/Ridley1Data.xml"/>
         <struct ID="0x1464AE05" template="Structs/PatternedAI.xml"/>
-        <struct ID="0x1CF90C26" template="Structs/Ridley1Struct.xml"/>
+        <struct ID="0x1CF90C26" template="Structs/Ridley1Data.xml"/>
         <struct ID="0x24D00673" template="Structs/PatternedAI.xml"/>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
     </properties>

@@ -32,7 +32,7 @@
         </property>
         <struct ID="0x27E5F874" template="Structs/MayaSpline.xml"/>
         <struct ID="0xC4DFBFA7" template="Structs/MayaSpline.xml"/>
-        <struct ID="0x65FC11FF" template="Structs/CameraStructA.xml">
+        <struct ID="0x65FC11FF" template="Structs/CameraOrientation.xml">
             <properties>
                 <enum ID="0x5C72A964">
                     <default>0x26AD4A6B</default>
@@ -59,7 +59,7 @@
         <struct ID="0x6868D4B3" template="Structs/MayaSpline.xml"/>
         <struct ID="0x6E6D8EFD" template="Structs/MayaSpline.xml"/>
         <struct ID="0xF4F4798E" template="Structs/MayaSpline.xml"/>
-        <struct ID="0x764827D4" template="Structs/CameraStructB.xml">
+        <struct ID="0x764827D4" template="Structs/CameraInterpolation.xml">
             <properties>
                 <property ID="0x1D49D35C">
                     <default>0</default>

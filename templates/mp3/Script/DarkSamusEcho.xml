@@ -11,9 +11,9 @@
             </properties>
         </struct>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <struct ID="0x6D8A6608" template="Structs/DarkSamusEchoStruct.xml"/>
-        <struct ID="0x35C49DDD" template="Structs/DarkSamusEchoStruct.xml"/>
-        <struct ID="0xA1178BCF" template="Structs/DarkSamusEchoStruct.xml"/>
+        <struct ID="0x6D8A6608" template="Structs/DarkSamusEchoData.xml"/>
+        <struct ID="0x35C49DDD" template="Structs/DarkSamusEchoData.xml"/>
+        <struct ID="0xA1178BCF" template="Structs/DarkSamusEchoData.xml"/>
     </properties>
     <states/>
     <messages/>

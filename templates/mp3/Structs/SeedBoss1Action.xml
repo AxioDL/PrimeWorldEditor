@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="SeedBoss1Action" type="multi">
+    <properties>
+        <property ID="0x29C77D27" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0x7A7B330E" type="float">
+            <default>100.0</default>
+        </property>
+        <property ID="0xED2D546F" type="float">
+            <default>50.0</default>
+        </property>
+        <property ID="0x9744971E" type="float">
+            <default>0.0</default>
+        </property>
+        <property ID="0xD70BEF68" type="float">
+            <default>1000.0</default>
+        </property>
+    </properties>
+</struct>

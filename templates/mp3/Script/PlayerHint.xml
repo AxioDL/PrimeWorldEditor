@@ -18,7 +18,7 @@
         <property ID="0x68D9122A" type="float">
             <default>180.0</default>
         </property>
-        <struct ID="0x95D0D437" template="Structs/UnknownStruct2.xml"/>
+        <struct ID="0x95D0D437" template="Structs/InterpolationMethod.xml"/>
     </properties>
     <states/>
     <messages/>

@@ -30,7 +30,7 @@
         <property ID="0xF203BC81" type="bool">
             <default>false</default>
         </property>
-        <struct ID="0x0A9DBF91" template="Structs/UnknownStruct4.xml"/>
+        <struct ID="0x0A9DBF91" template="Structs/PlatformMotionProperties.xml"/>
         <property ID="0x24FDEEA1" type="vector3f">
             <default>0.0, 0.15, 0.0</default>
         </property>

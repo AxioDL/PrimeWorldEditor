@@ -4,7 +4,7 @@
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <property ID="0x73939407" type="string"/>
-        <struct ID="0xE0543E66" template="Structs/TextStruct.xml">
+        <struct ID="0xE0543E66" template="Structs/TextProperties.xml">
             <properties>
                 <property ID="0xEE521DC6">
                     <default>80</default>
@@ -14,7 +14,7 @@
                 </property>
             </properties>
         </struct>
-        <struct ID="0xC8E441FA" template="Structs/TextStruct.xml">
+        <struct ID="0xC8E441FA" template="Structs/TextProperties.xml">
             <properties>
                 <property ID="0xEE521DC6">
                     <default>80</default>

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<struct name="DebrisStruct" type="multi">
-    <properties>
-        <enum ID="0xF4BF6637" template="Enums/UnknownEnum1.xml">
-            <default>0x76A5FBFD</default>
-        </enum>
-    </properties>
-</struct>

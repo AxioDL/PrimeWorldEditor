@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="CameraPosition" type="multi">
+    <properties>
+        <enum ID="0xB7CD4710">
+            <default>0x59BFFB56</default>
+            <enumerators>
+                <enumerator ID="0x93F79C1A" name="Unknown 1"/>
+                <enumerator ID="0x59BFFB56" name="Unknown 2"/>
+                <enumerator ID="0x10AB9150" name="Unknown 3"/>
+                <enumerator ID="0x13B150BB" name="Unknown 4"/>
+                <enumerator ID="0xACB5235F" name="Unknown 5"/>
+                <enumerator ID="0x4309158B" name="Unknown 6"/>
+            </enumerators>
+        </enum>
+        <property ID="0xB1B6CF33" type="long">
+            <default>2</default>
+        </property>
+        <struct ID="0xE8AB9BC8" type="multi">
+            <properties>
+                <property ID="0x259D3279" type="long">
+                    <default>0</default>
+                </property>
+                <enum ID="0x340E4CA3">
+                    <default>0xD25FBD92</default>
+                    <enumerators>
+                        <enumerator ID="0xD25FBD92" name="Unknown 1"/>
+                        <enumerator ID="0xB785F3ED" name="Unknown 2"/>
+                        <enumerator ID="0xAFF81F46" name="Unknown 3"/>
+                        <enumerator ID="0x0E2D0AE9" name="Unknown 4"/>
+                        <enumerator ID="0x25DCCDF3" name="Unknown 5"/>
+                    </enumerators>
+                </enum>
+                <struct ID="0x0AED5C7D" template="Structs/PathDetermination.xml"/>
+                <property ID="0xC3BF43BE" type="float">
+                    <default>4.0</default>
+                </property>
+                <property ID="0x32F835EC" type="float">
+                    <default>3.0</default>
+                </property>
+                <struct ID="0x959108A5" template="Structs/Convergence.xml"/>
+                <struct ID="0x27E5F874" template="Structs/MayaSpline.xml"/>
+                <struct ID="0x12861F7D" template="Structs/MayaSpline.xml"/>
+                <struct ID="0x0E1F2094" template="Structs/UnknownStruct13.xml"/>
+            </properties>
+        </struct>
+        <struct ID="0x9EC1DF0C" type="multi">
+            <properties>
+                <property ID="0xB8A6413A" type="long">
+                    <default>320</default>
+                </property>
+                <struct ID="0xA0FB9986" template="Structs/SpindlePositionInterpolant.xml"/>
+                <struct ID="0x58079583" template="Structs/SpindlePositionInterpolant.xml"/>
+                <struct ID="0xE44C1003" template="Structs/SpindlePositionInterpolant.xml"/>
+                <struct ID="0x39936936" template="Structs/SpindlePositionInterpolant.xml"/>
+                <struct ID="0x2D8C38B0" template="Structs/SpindlePositionInterpolant.xml"/>
+                <struct ID="0x1D2A6188" template="Structs/SpindlePositionInterpolant.xml"/>
+                <struct ID="0x91CC9F6A" template="Structs/SpindlePositionInterpolant.xml"/>
+                <struct ID="0x905289AC" template="Structs/SpindlePositionInterpolant.xml"/>
+                <struct ID="0xF5F6849D" template="Structs/SpindlePositionInterpolant.xml"/>
+                <struct ID="0x7B66A7B4" template="Structs/SpindlePositionInterpolant.xml"/>
+                <struct ID="0x68926CCD" template="Structs/SpindlePositionInterpolant.xml"/>
+                <struct ID="0x3158FD3B" template="Structs/SpindlePositionInterpolant.xml"/>
+            </properties>
+        </struct>
+        <struct ID="0xBBB2D1E6" type="multi">
+            <properties>
+                <property ID="0x9D99B2E3" type="long">
+                    <default>1</default>
+                </property>
+                <struct ID="0xE69C51D7" template="Structs/OffsetInterpolant.xml"/>
+                <struct ID="0x959108A5" template="Structs/Convergence.xml"/>
+            </properties>
+        </struct>
+        <struct ID="0x07D194AF" type="multi">
+            <properties>
+                <enum ID="0x70C78C3E">
+                    <default>0x95BBB57E</default>
+                    <enumerators>
+                        <enumerator ID="0x95BBB57E" name="Unknown 1"/>
+                        <enumerator ID="0x0876D71F" name="Unknown 2"/>
+                        <enumerator ID="0xEB977267" name="Unknown 3"/>
+                        <enumerator ID="0xDE0E1DF6" name="Unknown 4"/>
+                        <enumerator ID="0x53FC988F" name="Unknown 5"/>
+                    </enumerators>
+                </enum>
+                <struct ID="0x3769A209" template="Structs/OffsetInterpolant.xml"/>
+            </properties>
+        </struct>
+        <struct ID="0xEBBF81D7" type="multi">
+            <properties>
+                <property ID="0x6717088C" type="vector3f">
+                    <default>26.0, 0.0, 0.0</default>
+                </property>
+                <struct ID="0xD52CD4FB" type="multi">
+                    <properties>
+                        <enum ID="0x2B7247AA">
+                            <default>0xD7ECE572</default>
+                            <enumerators>
+                                <enumerator ID="0xD7ECE572" name="Unknown 1"/>
+                                <enumerator ID="0x525C3ADB" name="Unknown 2"/>
+                                <enumerator ID="0x326B28EE" name="Unknown 3"/>
+                            </enumerators>
+                        </enum>
+                        <struct ID="0xB02AAA53" type="multi">
+                            <properties>
+                                <struct ID="0x6F7368E0" template="Structs/MayaSpline.xml"/>
+                                <property ID="0xD21C62FF" type="bool">
+                                    <default>true</default>
+                                </property>
+                            </properties>
+                        </struct>
+                        <struct ID="0x02B79243" template="Structs/UnknownStruct14.xml"/>
+                    </properties>
+                </struct>
+                <property ID="0x947AA955" type="bool">
+                    <default>false</default>
+                </property>
+                <property ID="0x8178A60F" type="bool">
+                    <default>false</default>
+                </property>
+                <struct ID="0x2701771F" type="multi">
+                    <properties>
+                        <enum ID="0xAD50D893">
+                            <default>0x2AD11F8C</default>
+                            <enumerators>
+                                <enumerator ID="0x2AD11F8C" name="Unknown 1"/>
+                                <enumerator ID="0x3C839B72" name="Unknown 2"/>
+                                <enumerator ID="0xB9B9212C" name="Unknown 3"/>
+                                <enumerator ID="0xA0A930C1" name="Unknown 4"/>
+                                <enumerator ID="0xD24CBC61" name="Unknown 5"/>
+                            </enumerators>
+                        </enum>
+                        <struct ID="0xCFFE15A0" type="multi">
+                            <properties>
+                                <property ID="0xB6174A4E" type="float">
+                                    <default>3.0</default>
+                                </property>
+                                <property ID="0xC241C65A" type="float">
+                                    <default>1.0</default>
+                                </property>
+                                <property ID="0xCFF710D0" type="float">
+                                    <default>14.0</default>
+                                </property>
+                                <property ID="0x37F04700" type="float">
+                                    <default>11.0</default>
+                                </property>
+                                <property ID="0xC7D11B34" type="float">
+                                    <default>5.5</default>
+                                </property>
+                                <property ID="0x4AB0DF83" type="float">
+                                    <default>2.5</default>
+                                </property>
+                                <property ID="0xE0F4C8A2" type="float">
+                                    <default>0.75</default>
+                                </property>
+                                <property ID="0xE7879B05" type="float">
+                                    <default>2.0</default>
+                                </property>
+                                <property ID="0x76DF8563" type="float">
+                                    <default>6.1</default>
+                                </property>
+                                <property ID="0x935DFCFA" type="bool">
+                                    <default>true</default>
+                                </property>
+                                <property ID="0xF2502CD2" type="float">
+                                    <default>1.1</default>
+                                </property>
+                                <property ID="0xF298DCF0" type="bool">
+                                    <default>true</default>
+                                </property>
+                                <property ID="0x84B467F0" type="float">
+                                    <default>0.1</default>
+                                </property>
+                                <property ID="0x1B39C9AB" type="float">
+                                    <default>0.0</default>
+                                </property>
+                            </properties>
+                        </struct>
+                        <struct ID="0x37C8C046" template="Structs/UnknownStruct15.xml"/>
+                        <struct ID="0x774BA905" type="multi">
+                            <properties>
+                                <property ID="0x3B6740F1" type="float">
+                                    <default>2.0</default>
+                                </property>
+                                <property ID="0x8130B0D8" type="float">
+                                    <default>1.0</default>
+                                </property>
+                                <property ID="0x685952E3" type="bool">
+                                    <default>false</default>
+                                </property>
+                            </properties>
+                        </struct>
+                        <struct ID="0x02B79243" template="Structs/UnknownStruct14.xml"/>
+                    </properties>
+                </struct>
+                <struct ID="0xC0C31785" template="Structs/UnknownStruct15.xml"/>
+                <struct ID="0x2D63B0F7" type="multi">
+                    <properties>
+                        <property ID="0xAD122E5D" type="float">
+                            <default>0.5</default>
+                        </property>
+                        <property ID="0xF465A51B" type="bool">
+                            <default>true</default>
+                        </property>
+                        <property ID="0x42A9E2E4" type="float">
+                            <default>0.5</default>
+                        </property>
+                        <property ID="0xE010DC0F" type="float">
+                            <default>1.0</default>
+                        </property>
+                    </properties>
+                </struct>
+            </properties>
+        </struct>
+    </properties>
+</struct>

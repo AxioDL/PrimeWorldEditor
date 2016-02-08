@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="KorakkData" type="multi">
+    <properties>
+        <property ID="0x27B15C35" type="float">
+            <default>1.0</default>
+        </property>
+        <property ID="0x6C6B5700" type="long">
+            <default>4</default>
+        </property>
+        <struct ID="0xED7EDCA3" template="Structs/DamageVulnerability.xml"/>
+        <struct ID="0xDA5E9630" template="Structs/DamageInfo.xml"/>
+        <struct ID="0x508F7177" template="Structs/DamageInfo.xml"/>
+        <struct ID="0x77941011" template="Structs/DamageInfo.xml"/>
+        <struct ID="0x4D07F7B1" template="Structs/DamageInfo.xml"/>
+        <struct ID="0x21A2121D" template="Structs/DamageInfo.xml"/>
+        <struct ID="0x8333B35F" template="Structs/DamageInfo.xml"/>
+        <struct ID="0x946016A9" template="Structs/DamageInfo.xml"/>
+    </properties>
+</struct>

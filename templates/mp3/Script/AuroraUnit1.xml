@@ -11,9 +11,9 @@
             </properties>
         </struct>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <struct ID="0x93AEDAC3" template="Structs/AuroraUnit1Struct.xml"/>
-        <struct ID="0x867AB15E" template="Structs/AuroraUnit1Struct.xml"/>
-        <struct ID="0xB3C5F11B" template="Structs/AuroraUnit1Struct.xml"/>
+        <struct ID="0x93AEDAC3" template="Structs/AuroraUnit1Data.xml"/>
+        <struct ID="0x867AB15E" template="Structs/AuroraUnit1Data.xml"/>
+        <struct ID="0xB3C5F11B" template="Structs/AuroraUnit1Data.xml"/>
     </properties>
     <states/>
     <messages/>

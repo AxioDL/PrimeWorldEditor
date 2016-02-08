@@ -17,7 +17,7 @@
         <property ID="0xF0E07A4B" type="bool">
             <default>false</default>
         </property>
-        <struct ID="0x05AD250E" template="Structs/DamageableTriggerInfo.xml"/>
+        <struct ID="0x05AD250E" template="Structs/VisorParameters.xml"/>
         <enum ID="0x8B9D2123" template="Enums/DamageableTriggerEnum.xml">
             <default>0x1DB35D5F</default>
         </enum>

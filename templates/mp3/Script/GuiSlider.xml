@@ -9,7 +9,7 @@
                 </property>
             </properties>
         </struct>
-        <struct ID="0x91CEFA1E" template="Structs/GuiStruct.xml"/>
+        <struct ID="0x91CEFA1E" template="Structs/GuiWidgetProperties.xml"/>
         <property ID="0x2CCBBDFE" type="float">
             <default>0.0</default>
         </property>

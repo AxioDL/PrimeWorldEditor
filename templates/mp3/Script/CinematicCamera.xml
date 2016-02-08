@@ -27,9 +27,9 @@
         </enum>
         <struct ID="0x9EC65273" type="multi">
             <properties>
-                <struct ID="0xB5C367E9" template="Structs/CameraStructC.xml"/>
-                <struct ID="0xF74F8C89" template="Structs/CameraStructD.xml"/>
-                <struct ID="0x18E6BED2" template="Structs/CameraStructB.xml"/>
+                <struct ID="0xB5C367E9" template="Structs/MotionInterpolationMethod.xml"/>
+                <struct ID="0xF74F8C89" template="Structs/OrientationInterpolationMethod.xml"/>
+                <struct ID="0x18E6BED2" template="Structs/FOVInterpolationMethod.xml"/>
             </properties>
         </struct>
         <enum ID="0x974A961F">
@@ -49,7 +49,7 @@
         </property>
         <struct ID="0x27E5F874" template="Structs/MayaSpline.xml"/>
         <struct ID="0xC4DFBFA7" template="Structs/MayaSpline.xml"/>
-        <struct ID="0x65FC11FF" template="Structs/CameraStructA.xml">
+        <struct ID="0x65FC11FF" template="Structs/CameraOrientation.xml">
             <properties>
                 <enum ID="0x5C72A964">
                     <default>0x26AD4A6B</default>

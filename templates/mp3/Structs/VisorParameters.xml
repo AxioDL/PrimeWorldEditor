@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="VisorParameters" type="multi">
+    <properties>
+        <property ID="0xFE9DC266" type="bool">
+            <default>false</default>
+        </property>
+        <property ID="0xCA19E8C6" type="long">
+            <default>15</default>
+        </property>
+        <property ID="0x46175A3D" type="long">
+            <default>15</default>
+        </property>
+        <property ID="0xCA6E30B1" type="float">
+            <default>5.0</default>
+        </property>
+    </properties>
+</struct>

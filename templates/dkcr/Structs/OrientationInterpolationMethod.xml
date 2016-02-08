@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="OrientationInterpolationMethod" type="multi">
+    <properties>
+        <enum ID="0x5C72A964">
+            <default>0x9087E681</default>
+            <enumerators>
+                <enumerator ID="0x355476D5" name="Unknown 1"/>
+                <enumerator ID="0x65861080" name="Unknown 2"/>
+                <enumerator ID="0x9087E681" name="Unknown 3"/>
+                <enumerator ID="0x11782B2C" name="Unknown 4"/>
+                <enumerator ID="0x3F448DD2" name="Unknown 5"/>
+                <enumerator ID="0xA96BE572" name="Unknown 6"/>
+                <enumerator ID="0xCB07DDB1" name="Unknown 7"/>
+            </enumerators>
+        </enum>
+        <struct ID="0x8654B081" template="Structs/InterpolationMethod.xml">
+            <properties>
+                <enum ID="0x09B5957D">
+                    <default>0xED3D458D</default>
+                </enum>
+            </properties>
+        </struct>
+    </properties>
+</struct>

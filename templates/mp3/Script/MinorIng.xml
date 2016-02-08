@@ -70,9 +70,9 @@
                 <property ID="0x91D5B3CA" type="float">
                     <default>30.0</default>
                 </property>
-                <struct ID="0x5EE136E3" template="Structs/PuddleStruct.xml"/>
-                <struct ID="0xFD6D2B52" template="Structs/PuddleStruct.xml"/>
-                <struct ID="0x17B1C55E" template="Structs/PuddleStruct.xml"/>
+                <struct ID="0x5EE136E3" template="Structs/PuddleControlData.xml"/>
+                <struct ID="0xFD6D2B52" template="Structs/PuddleControlData.xml"/>
+                <struct ID="0x17B1C55E" template="Structs/PuddleControlData.xml"/>
                 <property ID="0x2367F689" type="file" extensions="PART"/>
                 <property ID="0xD473158D" type="file" extensions="PART"/>
                 <property ID="0xCCA298B4" type="file" extensions="PART"/>

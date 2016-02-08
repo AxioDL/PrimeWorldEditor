@@ -23,7 +23,7 @@
                 <property ID="0xA6597839" type="file" extensions="CAUD"/>
             </properties>
         </struct>
-        <struct ID="0xADB462E2" template="Structs/KorakkStruct.xml"/>
+        <struct ID="0xADB462E2" template="Structs/KorakkData.xml"/>
         <struct ID="0xB3774750" template="Structs/PatternedAI.xml">
             <properties>
                 <property ID="0x020C78BB">
@@ -34,7 +34,7 @@
                 </property>
             </properties>
         </struct>
-        <struct ID="0xC8E90B50" template="Structs/KorakkStruct.xml"/>
+        <struct ID="0xC8E90B50" template="Structs/KorakkData.xml"/>
         <struct ID="0x1464AE05" template="Structs/PatternedAI.xml">
             <properties>
                 <property ID="0x020C78BB">
@@ -45,7 +45,7 @@
                 </property>
             </properties>
         </struct>
-        <struct ID="0xBA37072A" template="Structs/KorakkStruct.xml"/>
+        <struct ID="0xBA37072A" template="Structs/KorakkData.xml"/>
         <struct ID="0x24D00673" template="Structs/PatternedAI.xml">
             <properties>
                 <property ID="0x020C78BB">

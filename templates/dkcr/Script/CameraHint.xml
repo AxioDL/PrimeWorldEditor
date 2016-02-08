@@ -51,8 +51,8 @@
                 </property>
             </properties>
         </struct>
-        <struct ID="0xD1BD5C40" template="Structs/CameraHintStructA.xml"/>
-        <struct ID="0x4F2CA324" template="Structs/CameraHintStructA.xml"/>
+        <struct ID="0xD1BD5C40" template="Structs/CameraPosition.xml"/>
+        <struct ID="0x4F2CA324" template="Structs/CameraPosition.xml"/>
         <struct ID="0x4BE3494B" type="multi">
             <properties>
                 <property ID="0x22BD900D" type="long">
@@ -71,11 +71,11 @@
                 </enum>
                 <struct ID="0xB40A41B8" type="multi">
                     <properties>
-                        <struct ID="0xC1547AF3" template="Structs/UnknownStruct12.xml"/>
+                        <struct ID="0xC1547AF3" template="Structs/Convergence.xml"/>
                         <property ID="0x7D0BCA87" type="bool">
                             <default>false</default>
                         </property>
-                        <struct ID="0xD9A90EC3" template="Structs/UnknownStruct12.xml"/>
+                        <struct ID="0xD9A90EC3" template="Structs/Convergence.xml"/>
                         <enum ID="0xB674EA3D">
                             <default>0xB1059189</default>
                             <enumerators>
@@ -88,13 +88,13 @@
                 </struct>
                 <struct ID="0x0C38A009" type="multi">
                     <properties>
-                        <struct ID="0xAEB294FD" template="Structs/UnknownStruct12.xml"/>
-                        <struct ID="0x4A4B9B59" template="Structs/UnknownStruct12.xml"/>
-                        <struct ID="0xECDACA25" template="Structs/UnknownStruct12.xml"/>
+                        <struct ID="0xAEB294FD" template="Structs/Convergence.xml"/>
+                        <struct ID="0x4A4B9B59" template="Structs/Convergence.xml"/>
+                        <struct ID="0xECDACA25" template="Structs/Convergence.xml"/>
                         <property ID="0x7E69A860" type="bool">
                             <default>true</default>
                         </property>
-                        <struct ID="0x26BCFF37" template="Structs/UnknownStruct12.xml"/>
+                        <struct ID="0x26BCFF37" template="Structs/Convergence.xml"/>
                         <property ID="0x6C1626B9" type="float">
                             <default>4.0</default>
                         </property>
@@ -114,10 +114,10 @@
                 </struct>
             </properties>
         </struct>
-        <struct ID="0x65FC11FF" template="Structs/CameraStructA.xml"/>
+        <struct ID="0x65FC11FF" template="Structs/CameraOrientation.xml"/>
         <struct ID="0x00A7C38D" type="multi">
             <properties>
-                <struct ID="0xFA698856" template="Structs/UnknownStruct12.xml"/>
+                <struct ID="0xFA698856" template="Structs/Convergence.xml"/>
             </properties>
         </struct>
         <struct ID="0xFC126AD1" type="multi">
@@ -191,7 +191,7 @@
                         <property ID="0x0D6C9529" type="float">
                             <default>1.5</default>
                         </property>
-                        <struct ID="0x092F7FD8" template="Structs/UnknownStruct12.xml">
+                        <struct ID="0x092F7FD8" template="Structs/Convergence.xml">
                             <properties>
                                 <enum ID="0x2EF22401">
                                     <default>0x0BCC8352</default>
@@ -208,7 +208,7 @@
                                 </struct>
                             </properties>
                         </struct>
-                        <struct ID="0x29E06213" template="Structs/UnknownStruct12.xml"/>
+                        <struct ID="0x29E06213" template="Structs/Convergence.xml"/>
                         <property ID="0xB21E67C8" type="bool">
                             <default>false</default>
                         </property>
@@ -219,7 +219,7 @@
                 </struct>
             </properties>
         </struct>
-        <struct ID="0x764827D4" template="Structs/CameraStructB.xml"/>
+        <struct ID="0x764827D4" template="Structs/CameraInterpolation.xml"/>
         <struct ID="0xD3696C11" type="multi">
             <properties>
                 <property ID="0xF4817F13" type="float">
@@ -230,7 +230,7 @@
                 </property>
             </properties>
         </struct>
-        <struct ID="0x95D0D437" template="Structs/CameraHintStructB.xml"/>
+        <struct ID="0x95D0D437" template="Structs/InterpolationMethod.xml"/>
     </properties>
     <states/>
     <messages/>

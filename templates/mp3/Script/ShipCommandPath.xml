@@ -3,7 +3,7 @@
     <name>ShipCommandPath</name>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0x0A9DBF91" template="Structs/UnknownStruct4.xml"/>
+        <struct ID="0x0A9DBF91" template="Structs/PlatformMotionProperties.xml"/>
         <property ID="0x8DF64D50" type="bool">
             <default>false</default>
         </property>

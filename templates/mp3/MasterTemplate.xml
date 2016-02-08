@@ -16,7 +16,7 @@
         <object ID="AMIA" template="Script/AmbientAI.xml"/>
         <object ID="REAA" template="Script/AreaAttributes.xml"/>
         <object ID="ADMG" template="Script/AreaDamage.xml"/>
-        <object ID="ASAS" template="Script/ASAS.xml"/>
+        <object ID="ASAS" template="Script/AssignedAudioStream.xml"/>
         <object ID="AVMC" template="Script/AVMC.xml"/>
         <object ID="ATMA" template="Script/AtomicAlpha.xml"/>
         <object ID="AOCL" template="Script/AudioOccluder.xml"/>
@@ -93,7 +93,7 @@
         <object ID="GNTT" template="Script/GunTurretTop.xml"/>
         <object ID="HHNT" template="Script/HUDHint.xml"/>
         <object ID="MEMO" template="Script/HUDMemo.xml"/>
-        <object ID="IFTC" template="Script/IFTC.xml"/>
+        <object ID="IFTC" template="Script/IFT.xml"/>
         <object ID="KRAK" template="Script/Korakk.xml"/>
         <object ID="KRBM" template="Script/KorbaMaw.xml"/>
         <object ID="KRBA" template="Script/KorbaSnatcherSwarm.xml"/>
@@ -109,7 +109,7 @@
         <object ID="MINI" template="Script/MinorIng.xml"/>
         <object ID="MMDL" template="Script/MultiModelActor.xml"/>
         <object ID="MYSF" template="Script/MysteryFlyer.xml"/>
-        <object ID="NBAR" template="Script/NBAR.xml"/>
+        <object ID="NBAR" template="Script/Nightbarb.xml"/>
         <object ID="NOTU" template="Script/NoseTurret.xml"/>
         <object ID="OPAA" template="Script/OptionalAreaAsset.xml"/>
         <object ID="PARA" template="Script/Parasite.xml"/>
@@ -149,7 +149,7 @@
         <object ID="RUND" template="Script/Rundas.xml"/>
         <object ID="SAMF" template="Script/SamusForm.xml"/>
         <object ID="SBEM" template="Script/ScanBeam.xml"/>
-        <object ID="SCIC" template="Script/SCIC.xml"/>
+        <object ID="SCIC" template="Script/ScanIncoming.xml"/>
         <object ID="SWJT" template="Script/ScrewAttackWallJumpTarget.xml"/>
         <object ID="SLCT" template="Script/ScriptLayerController.xml"/>
         <object ID="SDB1" template="Script/SeedBoss1.xml"/>
