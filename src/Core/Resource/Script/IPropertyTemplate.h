@@ -58,9 +58,10 @@ public:
     virtual bool CanHaveDefault() const = 0;
     virtual bool IsNumerical()    const = 0;
 
-    virtual bool HasValidRange() const  { return false; }
-    virtual TString DefaultToString()   { return ""; }
-    virtual TString RangeToString()     { return ""; }
+    virtual bool HasValidRange() const      { return false; }
+    virtual TString DefaultToString() const { return ""; }
+    virtual TString RangeToString()   const { return ""; }
+    virtual TString Suffix() const          { return ""; }
 
     virtual void SetParam(const TString& rkParamName, const TString& rkValue)
     {
@@ -144,7 +145,7 @@ public:
     virtual bool CanHaveDefault() const { return true;         }
     virtual bool IsNumerical()    const { return false;        }
 
-    virtual TString DefaultToString()
+    virtual TString DefaultToString() const
     {
         return mDefaultValue.ToString();
     }
@@ -178,7 +179,7 @@ public:
 };
 
 // TNumericalPropertyTemplate - Subclass of TTypedPropertyTemplate for numerical
-// property types, and allows a min/max value to be tracked.
+// property types, and allows a min/max value and a suffix to be tracked.
 template<typename PropType, EPropertyType PropTypeEnum, class ValueClass>
 class TNumericalPropertyTemplate : public TTypedPropertyTemplate<PropType,PropTypeEnum,ValueClass>
 {
@@ -187,6 +188,7 @@ class TNumericalPropertyTemplate : public TTypedPropertyTemplate<PropType,PropTy
 
     ValueClass mMin;
     ValueClass mMax;
+    TString mSuffix;
 
 public:
     TNumericalPropertyTemplate(u32 ID, CStructTemplate *pParent = 0)
@@ -225,14 +227,24 @@ public:
                 mMax.FromString(Components.back());
             }
         }
+
+        else if (rkParamName == "suffix")
+        {
+            mSuffix = rkValue;
+        }
     }
 
-    inline PropType GetMin()
+    virtual TString Suffix() const
+    {
+        return mSuffix;
+    }
+
+    inline PropType GetMin() const
     {
         return mMin.Get();
     }
 
-    inline PropType GetMax()
+    inline PropType GetMax() const
     {
         return mMax.Get();
     }
@@ -241,6 +253,11 @@ public:
     {
         mMin.Set(rkMin);
         mMax.Set(rkMax);
+    }
+
+    inline void SetSuffix(const TString& rkSuffix)
+    {
+        mSuffix = rkSuffix;
     }
 };
 

@@ -469,6 +469,19 @@ void CTemplateWriter::SaveProperties(XMLDocument *pDoc, XMLElement *pParent, CSt
             pElem->LinkEndChild(pRange);
         }
 
+        // Suffix
+        if (pProp->IsNumerical())
+        {
+            TString Suffix = pProp->Suffix();
+
+            if (!Suffix.IsEmpty())
+            {
+                XMLElement *pSuffix = pDoc->NewElement("suffix");
+                pSuffix->SetText(*Suffix);
+                pElem->LinkEndChild(pSuffix);
+            }
+        }
+
         // Cook Pref
         ECookPreference CookPref = pProp->CookPreference();
 
