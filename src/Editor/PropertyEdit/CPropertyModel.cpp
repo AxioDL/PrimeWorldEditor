@@ -2,11 +2,13 @@
 #include "Editor/UICommon.h"
 #include <Core/Resource/Script/IProperty.h>
 #include <Core/Resource/Script/IPropertyTemplate.h>
+#include <QFont>
 #include <QSize>
 
 CPropertyModel::CPropertyModel(QObject *pParent /*= 0*/)
     : QAbstractItemModel(pParent)
     , mpBaseStruct(nullptr)
+    , mBoldModifiedProperties(true)
 {
 }
 
@@ -344,6 +346,58 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
         }
     }
 
+    if (Role == Qt::FontRole && rkIndex.column() == 0)
+    {
+        QFont Font = mFont;
+        bool Bold = false;
+
+        if (mBoldModifiedProperties)
+        {
+            IProperty *pProp = PropertyForIndex(rkIndex, true);
+
+            if (!pProp->IsInArray())
+            {
+                if (rkIndex.internalId() & 0x1)
+                {
+                    if (pProp->Type() == eVector3Property)
+                    {
+                        TVector3Property *pVec = static_cast<TVector3Property*>(pProp);
+                        TVector3Template *pTemp = static_cast<TVector3Template*>(pProp->Template());
+
+                        CVector3f Value = pVec->Get();
+                        CVector3f Default = pTemp->GetDefaultValue();
+
+                        if (rkIndex.row() == 0) Bold = (Value.x != Default.x);
+                        if (rkIndex.row() == 1) Bold = (Value.y != Default.y);
+                        if (rkIndex.row() == 2) Bold = (Value.z != Default.z);
+                    }
+
+                    else if (pProp->Type() == eColorProperty)
+                    {
+                        TColorProperty *pColor = static_cast<TColorProperty*>(pProp);
+                        TColorTemplate *pTemp = static_cast<TColorTemplate*>(pProp->Template());
+
+                        CColor Value = pColor->Get();
+                        CColor Default = pTemp->GetDefaultValue();
+
+                        if (rkIndex.row() == 0) Bold = (Value.r != Default.r);
+                        if (rkIndex.row() == 1) Bold = (Value.g != Default.g);
+                        if (rkIndex.row() == 2) Bold = (Value.b != Default.b);
+                        if (rkIndex.row() == 3) Bold = (Value.a != Default.a);
+                    }
+                }
+
+                else
+                {
+                    Bold = !pProp->MatchesDefault();
+                }
+             }
+        }
+
+        Font.setBold(Bold);
+        return Font;
+    }
+
     if (Role == Qt::SizeHintRole)
     {
         return QSize(0, 23);
@@ -443,17 +497,19 @@ void CPropertyModel::NotifyPropertyModified(IProperty *pProp)
 void CPropertyModel::NotifyPropertyModified(const QModelIndex& rkIndex)
 {
     if (rowCount(rkIndex) != 0)
-        emit dataChanged( index(0, 1, rkIndex), index(rowCount(rkIndex) - 1, 1, rkIndex));
+        emit dataChanged( index(0, 0, rkIndex), index(rowCount(rkIndex) - 1, 1, rkIndex));
 
     if (rkIndex.internalId() & 0x1)
     {
         QModelIndex Parent = rkIndex.parent();
-        Parent = Parent.sibling(Parent.row(), 1);
-        emit dataChanged(Parent, Parent);
+        QModelIndex Col0 = Parent.sibling(Parent.row(), 0);
+        QModelIndex Col1 = Parent.sibling(Parent.row(), 1);
+        emit dataChanged(Col0, Col1);
     }
 
-    QModelIndex IndexC1 = rkIndex.sibling(rkIndex.row(), 1);
-    emit dataChanged(IndexC1, IndexC1);
+    QModelIndex IndexCol0 = rkIndex.sibling(rkIndex.row(), 0);
+    QModelIndex IndexCol1 = rkIndex.sibling(rkIndex.row(), 1);
+    emit dataChanged(IndexCol0, IndexCol1);
 
     emit PropertyModified(rkIndex);
 }

@@ -18,8 +18,8 @@ public:
     virtual TString ToString() const = 0;
     virtual void FromString(const TString& rkString) = 0;
     virtual IPropertyValue* Clone() const = 0;
-    virtual void Copy(IPropertyValue *pValue) = 0;
-    virtual bool Matches(IPropertyValue *pValue) const = 0;
+    virtual void Copy(const IPropertyValue *pkValue) = 0;
+    virtual bool Matches(const IPropertyValue *pkValue) const = 0;
 };
 
 template<typename PropType>
@@ -34,16 +34,16 @@ public:
     TTypedPropertyValue(PropType rkVal)
         : mValue(rkVal) {}
 
-    virtual void Copy(IPropertyValue *pValue)
+    virtual void Copy(const IPropertyValue *pkValue)
     {
-        TTypedPropertyValue *pOther = static_cast<TTypedPropertyValue*>(pValue);
-        mValue = pOther->mValue;
+        const TTypedPropertyValue *pkOther = static_cast<const TTypedPropertyValue*>(pkValue);
+        mValue = pkOther->mValue;
     }
 
-    virtual bool Matches(IPropertyValue *pValue) const
+    virtual bool Matches(const IPropertyValue *pkValue) const
     {
-        TTypedPropertyValue *pOther = static_cast<TTypedPropertyValue*>(pValue);
-        return (mValue == pOther->mValue);
+        const TTypedPropertyValue *pkOther = static_cast<const TTypedPropertyValue*>(pkValue);
+        return ((pkValue != nullptr) && (mValue == pkOther->mValue));
     }
 
     PropType Get() const

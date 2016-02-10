@@ -46,7 +46,7 @@ public:
     bool CheckUnsavedChanges();
 
     inline CGameArea* ActiveArea() const { return mpArea; }
-    inline EGame CurrentGame() const { return mpArea->Version(); }
+    inline EGame CurrentGame() const { return mpArea ? mpArea->Version() : eUnknownVersion; }
 
 public slots:
     bool Save();

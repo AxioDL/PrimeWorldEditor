@@ -7,6 +7,7 @@
 
 CPropertyView::CPropertyView(QWidget *pParent)
     : QTreeView(pParent)
+    , mpEditor(nullptr)
 {
     mpModel = new CPropertyModel(this);
     mpDelegate = new CPropertyDelegate(this);
@@ -72,6 +73,7 @@ void CPropertyView::SetEditor(CWorldEditor *pEditor)
 void CPropertyView::SetInstance(CScriptObject *pObj)
 {
     mpObject = pObj;
+    mpModel->SetBoldModifiedProperties(mpEditor ? (mpEditor->CurrentGame() > ePrime) : true);
     mpModel->SetBaseStruct(pObj ? pObj->Properties() : nullptr);
     SetPersistentEditors(QModelIndex());
 

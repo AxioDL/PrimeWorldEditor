@@ -3,12 +3,15 @@
 
 #include <QAbstractItemModel>
 #include <Core/Resource/Script/IProperty.h>
+#include <QFont>
 
 class CPropertyModel : public QAbstractItemModel
 {
     Q_OBJECT
 
     CPropertyStruct *mpBaseStruct;
+    bool mBoldModifiedProperties;
+    QFont mFont;
 
 public:
     CPropertyModel(QObject *pParent = 0);
@@ -27,6 +30,9 @@ public:
     void ArrayAboutToBeResized(const QModelIndex& rkIndex, u32 NewSize);
     void ArrayResized(const QModelIndex& rkIndex, u32 OldSize);
     void ResizeArray(const QModelIndex& rkIndex, u32 NewSize);
+
+    inline void SetFont(QFont Font) { mFont = Font; }
+    inline void SetBoldModifiedProperties(bool Enable) { mBoldModifiedProperties = Enable; }
 
 public slots:
     void NotifyPropertyModified(IProperty *pProp);

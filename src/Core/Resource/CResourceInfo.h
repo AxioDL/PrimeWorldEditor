@@ -15,7 +15,7 @@ class CResourceInfo
 
 public:
     CResourceInfo()
-        : mPath(""), mIsPath(false), mIsValidPath(false) {}
+        : mPath("FFFFFFFFFFFFFFFF"), mIsPath(false), mIsValidPath(false) {}
 
     CResourceInfo(const TString& rkPath)
         : mPath(rkPath), mIsPath(true)

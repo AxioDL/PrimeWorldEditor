@@ -115,8 +115,11 @@ void WResourceSelector::UpdateFrameColor()
     {
         TString Name = mResource.ToString().GetFileName(false);
 
-        if (!Name.IsHexString() || (Name.Size() != 8 && Name.Size() != 16) || mResource.ID().IsValid())
-            RedFrame = true;
+        if (!Name.IsEmpty())
+        {
+            if (!Name.IsHexString() || (Name.Size() != 8 && Name.Size() != 16) || mResource.ID().IsValid())
+                RedFrame = true;
+        }
     }
     mUI.LineEdit->setStyleSheet(RedFrame ? "border: 1px solid red" : "");
     mUI.LineEdit->setFont(font());
@@ -187,12 +190,13 @@ void WResourceSelector::SetResource(const CResourceInfo& rkRes)
         else
             mResourceValid = false;
 
-        mUI.LineEdit->setText(TO_QSTRING(mResource.ToString()));
+        TString ResStr = mResource.ToString();
+        if (ResStr.Contains("FFFFFFFF", false)) mUI.LineEdit->clear();
+        else mUI.LineEdit->setText(TO_QSTRING(ResStr));
 
         UpdateFrameColor();
         CreatePreviewPanel();
         SetButtonsBasedOnResType();
-        Q_ASSERT(!mUI.LineEdit->text().isEmpty());
         emit ResourceChanged(TO_QSTRING(mResource.ToString()));
     }
 }

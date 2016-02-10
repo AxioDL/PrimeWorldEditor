@@ -406,12 +406,12 @@ public:
         if (Size() < str.Size()) return false;
 
         _TString checkStr(caseSensitive ? *this : ToUpper());
-        if (!caseSensitive) str = str.ToUpper();
+        if (caseSensitive) str = str.ToUpper();
 
-        int latestPossibleStart = Size() - str.Size();
-        int match = 0;
+        u32 latestPossibleStart = Size() - str.Size();
+        u32 match = 0;
 
-        for (int iChr = 0; iChr < latestPossibleStart; iChr++)
+        for (u32 iChr = 0; iChr < Size() && iChr < str.Size(); iChr++)
         {
             // If the current character matches, increment match
             if (checkStr.At(iChr) == str.At(match))
@@ -426,6 +426,9 @@ public:
                     iChr--;
 
                 match = 0;
+
+                if (iChr > latestPossibleStart)
+                    break;
             }
 
             // If we've matched the entire string, then we can return true

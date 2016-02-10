@@ -2,6 +2,19 @@
 #include "IPropertyTemplate.h"
 
 // ************ IProperty ************
+bool IProperty::IsInArray() const
+{
+    CPropertyStruct *pParent = mpParent;
+
+    while (pParent)
+    {
+        if (pParent->Type() == eArrayProperty) return true;
+        pParent = pParent->Parent();
+    }
+
+    return false;
+}
+
 CPropertyStruct* IProperty::RootStruct()
 {
     return (mpParent ? mpParent->RootStruct() : Type() == eStructProperty ? static_cast<CPropertyStruct*>(this) : nullptr);
@@ -24,7 +37,16 @@ u32 IProperty::ID() const
 
 TIDString IProperty::IDString(bool FullPath) const
 {
+    // todo: since this function just returns the template ID string, it doesn't correctly account for array properties;
     return mpTemplate->IDString(FullPath);
+}
+
+bool IProperty::MatchesDefault()
+{
+    const IPropertyValue *pkValue = RawValue();
+    const IPropertyValue *pkDefault = mpTemplate->RawDefaultValue();
+    if (!pkValue || !pkDefault) return false;
+    else return pkValue->Matches(pkDefault);
 }
 
 // ************ CPropertyStruct ************
