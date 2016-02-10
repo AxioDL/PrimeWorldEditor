@@ -57,11 +57,34 @@ public:
     virtual EPropertyType Type()  const = 0;
     virtual bool CanHaveDefault() const = 0;
     virtual bool IsNumerical()    const = 0;
+    virtual IProperty* InstantiateProperty(CPropertyStruct *pParent) = 0;
+    virtual IPropertyTemplate* Clone(CStructTemplate *pParent = 0) const = 0;
 
-    virtual bool HasValidRange() const      { return false; }
-    virtual TString DefaultToString() const { return ""; }
-    virtual TString RangeToString()   const { return ""; }
-    virtual TString Suffix() const          { return ""; }
+    virtual void Copy(const IPropertyTemplate *pkTemp)
+    {
+        mName = pkTemp->mName;
+        mDescription = pkTemp->mDescription;
+        mID = pkTemp->mID;
+        mCookPreference = pkTemp->mCookPreference;
+        mAllowedVersions = pkTemp->mAllowedVersions;
+    }
+
+    virtual bool Matches(const IPropertyTemplate *pkTemp) const
+    {
+        return ( (pkTemp != nullptr) &&
+                 (mName == pkTemp->mName) &&
+                 (mDescription == pkTemp->mDescription) &&
+                 (mID == pkTemp->mID) &&
+                 (mCookPreference == pkTemp->mCookPreference) &&
+                 (mAllowedVersions == pkTemp->mAllowedVersions) &&
+                 (Type() == pkTemp->Type()) );
+    }
+
+    virtual TString DefaultToString() const                 { return ""; }
+    virtual const IPropertyValue* RawDefaultValue() const   { return nullptr; }
+    virtual bool HasValidRange() const                      { return false; }
+    virtual TString RangeToString()   const                 { return ""; }
+    virtual TString Suffix() const                          { return ""; }
 
     virtual void SetParam(const TString& rkParamName, const TString& rkValue)
     {
@@ -81,47 +104,29 @@ public:
             mDescription = rkValue;
     }
 
-    virtual IProperty* InstantiateProperty(CPropertyStruct *pParent) = 0;
-
-    inline TString Name() const
-    {
-        return mName;
-    }
-
-    inline TString Description() const
-    {
-        return mDescription;
-    }
-
-    inline u32 PropertyID() const
-    {
-        return mID;
-    }
-
-    inline ECookPreference CookPreference() const
-    {
-        return mCookPreference;
-    }
-
-    inline void SetName(const TString& rkName)
-    {
-        mName = rkName;
-    }
-
-    inline void SetDescription(const TString& rkDesc)
-    {
-        mDescription = rkDesc;
-    }
-
-    inline CStructTemplate* Parent() const
-    {
-        return mpParent;
-    }
-
     bool IsInVersion(u32 Version) const;
     TIDString IDString(bool FullPath) const;
     CStructTemplate* RootStruct();
+
+    // Inline Accessors
+    inline TString Name() const                         { return mName; }
+    inline TString Description() const                  { return mDescription; }
+    inline u32 PropertyID() const                       { return mID; }
+    inline ECookPreference CookPreference() const       { return mCookPreference; }
+    inline CStructTemplate* Parent() const              { return mpParent; }
+    inline void SetName(const TString& rkName)          { mName = rkName; }
+    inline void SetDescription(const TString& rkDesc)   { mDescription = rkDesc; }
 };
+
+// Macro for defining reimplementations of IPropertyTemplate::Clone(), which are usually identical to each other aside from the class being instantiated
+#define DEFINE_TEMPLATE_CLONE(ClassName) \
+    virtual IPropertyTemplate* Clone(CStructTemplate *pParent = 0) const \
+    { \
+        if (!pParent) pParent = mpParent; \
+        ClassName *pTemp = new ClassName(mID, pParent); \
+        pTemp->Copy(this); \
+        return pTemp; \
+    }
 
 // TTypedPropertyTemplate - Template property class that allows for tracking
 // a default value. Typedefs are set up for a bunch of property types.
@@ -145,9 +150,39 @@ public:
     virtual bool CanHaveDefault() const { return true;         }
     virtual bool IsNumerical()    const { return false;        }
 
+    virtual IProperty* InstantiateProperty(CPropertyStruct *pParent)
+    {
+        typedef TTypedProperty<PropType, PropTypeEnum, ValueClass> TPropertyType;
+
+        TPropertyType *pOut = new TPropertyType(this, pParent);
+        pOut->Set(GetDefaultValue());
+        return pOut;
+    }
+
+    DEFINE_TEMPLATE_CLONE(TTypedPropertyTemplate)
+
+    virtual void Copy(const IPropertyTemplate *pkTemp)
+    {
+        IPropertyTemplate::Copy(pkTemp);
+        mDefaultValue.Copy(&static_cast<const TTypedPropertyTemplate*>(pkTemp)->mDefaultValue);
+    }
+
+    virtual bool Matches(const IPropertyTemplate *pkTemp) const
+    {
+        const TTypedPropertyTemplate *pkTyped = static_cast<const TTypedPropertyTemplate*>(pkTemp);
+
+        return ( (IPropertyTemplate::Matches(pkTemp)) &&
+                 (mDefaultValue.Matches(&pkTyped->mDefaultValue)) );
+    }
+
     virtual TString DefaultToString() const
     {
         return mDefaultValue.ToString();
+    }
+
+    virtual const IPropertyValue* RawDefaultValue() const
+    {
+        return &mDefaultValue;
     }
 
     virtual void SetParam(const TString& rkParamName, const TString& rkValue)
@@ -158,24 +193,8 @@ public:
             mDefaultValue.FromString(rkValue.ToLower());
     }
 
-    virtual IProperty* InstantiateProperty(CPropertyStruct *pParent)
-    {
-        typedef TTypedProperty<PropType, PropTypeEnum, ValueClass> TPropertyType;
-
-        TPropertyType *pOut = new TPropertyType(this, pParent);
-        pOut->Set(GetDefaultValue());
-        return pOut;
-    }
-
-    inline PropType GetDefaultValue() const
-    {
-        return mDefaultValue.Get();
-    }
-
-    inline void SetDefaultValue(const PropType& rkIn)
-    {
-        mDefaultValue.Set(rkIn);
-    }
+    inline PropType GetDefaultValue() const             { return mDefaultValue.Get(); }
+    inline void SetDefaultValue(const PropType& rkIn)   { mDefaultValue.Set(rkIn); }
 };
 
 // TNumericalPropertyTemplate - Subclass of TTypedPropertyTemplate for numerical
@@ -201,11 +220,29 @@ public:
         , mMax(0)
     {}
 
-    virtual bool IsNumerical() const { return true; }
+    virtual bool IsNumerical() const    { return true; }
+    virtual bool HasValidRange() const  { return (mMin != 0 || mMax != 0); }
 
-    virtual bool HasValidRange() const
+    DEFINE_TEMPLATE_CLONE(TNumericalPropertyTemplate)
+
+    virtual void Copy(const IPropertyTemplate *pkTemp)
     {
-        return (mMin != 0 || mMax != 0);
+        TTypedPropertyTemplate::Copy(pkTemp);
+
+        const TNumericalPropertyTemplate *pkNumerical = static_cast<const TNumericalPropertyTemplate*>(pkTemp);
+        mMin.Copy(&pkNumerical->mMin);
+        mMax.Copy(&pkNumerical->mMax);
+        mSuffix = pkNumerical->mSuffix;
+    }
+
+    virtual bool Matches(const IPropertyTemplate *pkTemp) const
+    {
+        const TNumericalPropertyTemplate *pkNumerical = static_cast<const TNumericalPropertyTemplate*>(pkTemp);
+
+        return ( (TTypedPropertyTemplate::Matches(pkTemp)) &&
+                 (mMin.Matches(&pkNumerical->mMin)) &&
+                 (mMax.Matches(&pkNumerical->mMax)) &&
+                 (mSuffix == pkNumerical->mSuffix) );
     }
 
     virtual TString RangeToString() const
@@ -234,20 +271,9 @@ public:
         }
     }
 
-    virtual TString Suffix() const
-    {
-        return mSuffix;
-    }
-
-    inline PropType GetMin() const
-    {
-        return mMin.Get();
-    }
-
-    inline PropType GetMax() const
-    {
-        return mMax.Get();
-    }
+    virtual TString Suffix() const { return mSuffix; }
+    inline PropType GetMin() const { return mMin.Get(); }
+    inline PropType GetMax() const { return mMax.Get(); }
 
     inline void SetRange(const PropType& rkMin, const PropType& rkMax)
     {
@@ -295,9 +321,20 @@ public:
         return new TFileProperty(this, pParent);
     }
 
-    void SetAllowedExtensions(const TStringList& rkExtensions)
+    DEFINE_TEMPLATE_CLONE(CFileTemplate)
+
+    virtual void Copy(const IPropertyTemplate *pkTemp)
     {
-        mAcceptedExtensions = rkExtensions;
+        IPropertyTemplate::Copy(pkTemp);
+        mAcceptedExtensions = static_cast<const CFileTemplate*>(pkTemp)->mAcceptedExtensions;
+    }
+
+    virtual bool Matches(const IPropertyTemplate *pkTemp) const
+    {
+        const CFileTemplate *pkFile = static_cast<const CFileTemplate*>(pkTemp);
+
+        return ( (IPropertyTemplate::Matches(pkTemp)) &&
+                 (mAcceptedExtensions == pkFile->mAcceptedExtensions) );
     }
 
     bool AcceptsExtension(const TString& rkExtension)
@@ -307,10 +344,8 @@ public:
         return false;
     }
 
-    const TStringList& Extensions() const
-    {
-        return mAcceptedExtensions;
-    }
+    void SetAllowedExtensions(const TStringList& rkExtensions)  { mAcceptedExtensions = rkExtensions; }
+    const TStringList& Extensions() const                       { return mAcceptedExtensions; }
 };
 
 // CCharacterTemplate - Typed property that doesn't allow default values.
@@ -332,6 +367,13 @@ public:
     {
         return false;
     }
+
+    IProperty* InstantiateProperty(CPropertyStruct *pParent)
+    {
+        return new TCharacterProperty(this, pParent);
+    }
+
+    DEFINE_TEMPLATE_CLONE(CCharacterTemplate)
 };
 
 // CEnumTemplate - Property template for enums. Tracks a list of possible values (enumerators).
@@ -347,6 +389,11 @@ class CEnumTemplate : public TLongTemplate
 
         SEnumerator(const TString& rkName, u32 _ID)
             : Name(rkName), ID(_ID) {}
+
+        bool operator==(const SEnumerator& rkOther) const
+        {
+            return ( (Name == rkOther.Name) && (ID == rkOther.ID) );
+        }
     };
     std::vector<SEnumerator> mEnumerators;
     TString mSourceFile;
@@ -374,12 +421,32 @@ public:
         return pEnum;
     }
 
-    u32 NumEnumerators()
+    DEFINE_TEMPLATE_CLONE(CEnumTemplate)
+
+    virtual void Copy(const IPropertyTemplate *pkTemp)
+    {
+        TLongTemplate::Copy(pkTemp);
+
+        const CEnumTemplate *pkEnum = static_cast<const CEnumTemplate*>(pkTemp);
+        mEnumerators = pkEnum->mEnumerators;
+        mSourceFile = pkEnum->mSourceFile;
+    }
+
+    virtual bool Matches(const IPropertyTemplate *pkTemp) const
+    {
+        const CEnumTemplate *pkEnum = static_cast<const CEnumTemplate*>(pkTemp);
+
+        return ( (TLongTemplate::Matches(pkTemp)) &&
+                 (mEnumerators == pkEnum->mEnumerators) &&
+                 (mSourceFile == pkEnum->mSourceFile) );
+    }
+
+    inline u32 NumEnumerators() const
     {
         return mEnumerators.size();
     }
 
-    u32 EnumeratorIndex(u32 enumID)
+    u32 EnumeratorIndex(u32 enumID) const
     {
         for (u32 iEnum = 0; iEnum < mEnumerators.size(); iEnum++)
         {
@@ -389,7 +456,7 @@ public:
         return -1;
     }
 
-    u32 EnumeratorID(u32 enumIndex)
+    u32 EnumeratorID(u32 enumIndex) const
     {
         if (mEnumerators.size() > enumIndex)
             return mEnumerators[enumIndex].ID;
@@ -397,7 +464,7 @@ public:
         else return -1;
     }
 
-    TString EnumeratorName(u32 enumIndex)
+    TString EnumeratorName(u32 enumIndex) const
     {
         if (mEnumerators.size() > enumIndex)
             return mEnumerators[enumIndex].Name;
@@ -420,6 +487,11 @@ class CBitfieldTemplate : public TTypedPropertyTemplate<u32, eBitfieldProperty, 
 
         SBitFlag(const TString& _name, u32 _mask)
             : Name(_name), Mask(_mask) {}
+
+        bool operator==(const SBitFlag& rkOther) const
+        {
+            return ( (Name == rkOther.Name) && (Mask == rkOther.Mask) );
+        }
     };
     std::vector<SBitFlag> mBitFlags;
     TString mSourceFile;
@@ -446,20 +518,29 @@ public:
         return pBitfield;
     }
 
-    u32 NumFlags()
+    DEFINE_TEMPLATE_CLONE(CBitfieldTemplate)
+
+    virtual void Copy(const IPropertyTemplate *pkTemp)
     {
-        return mBitFlags.size();
+        TTypedPropertyTemplate::Copy(pkTemp);
+
+        const CBitfieldTemplate *pkBitfield = static_cast<const CBitfieldTemplate*>(pkTemp);
+        mBitFlags = pkBitfield->mBitFlags;
+        mSourceFile = pkBitfield->mSourceFile;
     }
 
-    TString FlagName(u32 index)
+    virtual bool Matches(const IPropertyTemplate *pkTemp) const
     {
-        return mBitFlags[index].Name;
+        const CBitfieldTemplate *pkBitfield = static_cast<const CBitfieldTemplate*>(pkTemp);
+
+        return ( (TTypedPropertyTemplate::Matches(pkTemp)) &&
+                 (mBitFlags == pkBitfield->mBitFlags) &&
+                 (mSourceFile == pkBitfield->mSourceFile) );
     }
 
-    u32 FlagMask(u32 index)
-    {
-        return mBitFlags[index].Mask;
-    }
+    u32 NumFlags() const                { return mBitFlags.size(); }
+    TString FlagName(u32 index) const   { return mBitFlags[index].Name; }
+    u32 FlagMask(u32 index) const       { return mBitFlags[index].Mask; }
 };
 
 // CStructTemplate - Defines structs composed of multiple sub-properties.
@@ -507,6 +588,45 @@ public:
         return pStruct;
     }
 
+    DEFINE_TEMPLATE_CLONE(CStructTemplate)
+
+    virtual void Copy(const IPropertyTemplate *pkTemp)
+    {
+        IPropertyTemplate::Copy(pkTemp);
+
+        const CStructTemplate *pkStruct = static_cast<const CStructTemplate*>(pkTemp);
+        mVersionPropertyCounts = pkStruct->mVersionPropertyCounts;
+        mIsSingleProperty = pkStruct->mIsSingleProperty;
+        mSourceFile = pkStruct->mSourceFile;
+
+        mSubProperties.resize(pkStruct->mSubProperties.size());
+
+        for (u32 iSub = 0; iSub < pkStruct->mSubProperties.size(); iSub++)
+            mSubProperties[iSub] = pkStruct->mSubProperties[iSub]->Clone(this);
+    }
+
+    virtual bool Matches(const IPropertyTemplate *pkTemp) const
+    {
+        const CStructTemplate *pkStruct = static_cast<const CStructTemplate*>(pkTemp);
+
+        if ( (IPropertyTemplate::Matches(pkTemp)) &&
+             (mVersionPropertyCounts == pkStruct->mVersionPropertyCounts) &&
+             (mIsSingleProperty == pkStruct->mIsSingleProperty) &&
+             (mSourceFile == pkStruct->mSourceFile) &&
+             (mSubProperties.size() == pkStruct->mSubProperties.size()) )
+        {
+            for (u32 iSub = 0; iSub < mSubProperties.size(); iSub++)
+            {
+                if (!mSubProperties[iSub]->Matches(pkStruct->mSubProperties[iSub]))
+                    return false;
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
     bool IsSingleProperty() const;
     u32 Count() const;
     u32 NumVersions();
@@ -545,17 +665,33 @@ public:
 
     EPropertyType Type() const { return eArrayProperty; }
 
+    IProperty* InstantiateProperty(CPropertyStruct *pParent)
+    {
+        return new CArrayProperty(this, pParent);
+    }
+
+    DEFINE_TEMPLATE_CLONE(CArrayTemplate)
+
+    virtual void Copy(const IPropertyTemplate *pkTemp)
+    {
+        CStructTemplate::Copy(pkTemp);
+        mElementName = static_cast<const CArrayTemplate*>(pkTemp)->mElementName;
+    }
+
+    virtual bool Matches(const IPropertyTemplate *pkTemp) const
+    {
+        const CArrayTemplate *pkArray = static_cast<const CArrayTemplate*>(pkTemp);
+
+        return ( (mElementName == pkArray->mElementName) &
+                 (CStructTemplate::Matches(pkTemp)) );
+    }
+
     void SetParam(const TString& rkParamName, const TString& rkValue)
     {
         if (rkParamName == "element_name")
             mElementName = rkValue;
         else
             CStructTemplate::SetParam(rkParamName, rkValue);
-    }
-
-    IProperty* InstantiateProperty(CPropertyStruct *pParent)
-    {
-        return new CArrayProperty(this, pParent);
     }
 
     TString ElementName() const                { return mElementName; }

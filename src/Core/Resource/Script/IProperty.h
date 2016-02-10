@@ -43,10 +43,12 @@ public:
     virtual IPropertyValue* RawValue() { return nullptr; }
     virtual void Copy(const IProperty *pkProp) = 0;
     virtual IProperty* Clone(CPropertyStruct *pParent = 0) const = 0;
+    virtual bool Matches(const IProperty *pkProp) const = 0;
 
     inline CPropertyStruct* Parent() const { return mpParent; }
     inline void SetParent(CPropertyStruct *pParent) { mpParent = pParent; }
 
+    bool IsInArray() const;
     CPropertyStruct* RootStruct();
 
     // These functions can't be in the header to avoid circular includes with IPropertyTemplate.h
@@ -54,6 +56,7 @@ public:
     TString Name() const;
     u32 ID() const;
     TIDString IDString(bool FullPath) const;
+    virtual bool MatchesDefault();
 };
 
 /*
@@ -68,8 +71,8 @@ public:
     TTypedProperty(IPropertyTemplate *pTemp, CPropertyStruct *pParent)
         : IProperty(pTemp, pParent) {}
 
-    TTypedProperty(IPropertyTemplate *pTemp, PropType v)
-        : IProperty(pTemp), mValue(v) {}
+    TTypedProperty(IPropertyTemplate *pTemp, CPropertyStruct *pParent, PropType v)
+        : IProperty(pTemp, pParent), mValue(v) {}
 
     ~TTypedProperty() {}
     virtual EPropertyType Type() const { return TypeEnum; }
@@ -93,6 +96,13 @@ public:
         return pOut;
     }
 
+    virtual bool Matches(const IProperty *pkProp) const
+    {
+        const TTypedProperty *pkTyped = static_cast<const TTypedProperty*>(pkProp);
+        return ( (Type() == pkTyped->Type()) &&
+                 mValue.Matches(&pkTyped->mValue) );
+    }
+
     inline PropType Get() const { return mValue.Get(); }
     inline void Set(PropType v) { mValue.Set(v); }
 };
@@ -106,9 +116,40 @@ typedef TTypedProperty<float, eFloatProperty, CFloatValue>                      
 typedef TTypedProperty<TString, eStringProperty, CStringValue>                      TStringProperty;
 typedef TTypedProperty<CVector3f, eVector3Property, CVector3Value>                  TVector3Property;
 typedef TTypedProperty<CColor, eColorProperty, CColorValue>                         TColorProperty;
-typedef TTypedProperty<CResourceInfo, eFileProperty, CFileValue>                    TFileProperty;
-typedef TTypedProperty<CAnimationParameters, eCharacterProperty, CCharacterValue>   TCharacterProperty;
 typedef TTypedProperty<std::vector<u8>, eUnknownProperty, CUnknownValue>            TUnknownProperty;
+
+/*
+ * TFileProperty and TCharacterProperty get little subclasses in order to override MatchesDefault.
+ */
+class TFileProperty : public TTypedProperty<CResourceInfo, eFileProperty, CFileValue>
+{
+public:
+    TFileProperty(IPropertyTemplate *pTemp, CPropertyStruct *pParent)
+        : TTypedProperty(pTemp, pParent) {}
+
+    TFileProperty(IPropertyTemplate *pTemp, CPropertyStruct *pParent, CResourceInfo v)
+        : TTypedProperty(pTemp, pParent, v) {}
+
+    virtual bool MatchesDefault()
+    {
+        return !Get().IsValid();
+    }
+};
+
+class TCharacterProperty : public TTypedProperty<CAnimationParameters, eCharacterProperty, CCharacterValue>
+{
+public:
+    TCharacterProperty(IPropertyTemplate *pTemp, CPropertyStruct *pParent)
+        : TTypedProperty(pTemp, pParent) {}
+
+    TCharacterProperty(IPropertyTemplate *pTemp, CPropertyStruct *pParent, CAnimationParameters v)
+        : TTypedProperty(pTemp, pParent, v) {}
+
+    virtual bool MatchesDefault()
+    {
+        return Get().AnimSet() == nullptr;
+    }
+};
 
 /*
  * CPropertyStruct is for defining structs of properties.
@@ -138,6 +179,36 @@ public:
         CPropertyStruct *pOut = new CPropertyStruct(mpTemplate, pParent);
         pOut->Copy(this);
         return pOut;
+    }
+
+    virtual bool Matches(const IProperty *pkProp) const
+    {
+        const CPropertyStruct *pkStruct = static_cast<const CPropertyStruct*>(pkProp);
+
+        if ( (Type() == pkStruct->Type()) &&
+             (mProperties.size() == pkStruct->mProperties.size()) )
+        {
+            for (u32 iProp = 0; iProp < mProperties.size(); iProp++)
+            {
+                if (!mProperties[iProp]->Matches(pkStruct->mProperties[iProp]))
+                    return false;
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    virtual bool MatchesDefault()
+    {
+        for (u32 iProp = 0; iProp < mProperties.size(); iProp++)
+        {
+            if (!mProperties[iProp]->MatchesDefault())
+                return false;
+        }
+
+        return true;
     }
 
     // Inline
@@ -175,6 +246,8 @@ public:
         pOut->Copy(this);
         return pOut;
     }
+
+    virtual bool MatchesDefault() { return mProperties.empty(); }
 
     // Inline
     inline void Reserve(u32 amount) { mProperties.reserve(amount); }
