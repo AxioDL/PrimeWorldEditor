@@ -153,10 +153,7 @@ s32 CScriptTemplate::CheckVolumeConditions(CScriptObject *pObj, bool LogErrors)
             break;
 
         case eEnumProperty: {
-            TEnumProperty *pEnumCast = static_cast<TEnumProperty*>(pProp);
-            CEnumTemplate *pEnumTemp = static_cast<CEnumTemplate*>(pEnumCast->Template());
-            int index = static_cast<TEnumProperty*>(pProp)->Get();
-            v = pEnumTemp->EnumeratorID(index);
+            v = (int) static_cast<TEnumProperty*>(pProp)->Get();
             break;
         }
         }

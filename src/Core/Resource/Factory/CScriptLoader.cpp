@@ -63,9 +63,12 @@ void CScriptLoader::ReadProperty(IProperty *pProp, u32 Size, IInputStream& SCLY)
         TEnumProperty *pEnumCast = static_cast<TEnumProperty*>(pProp);
         CEnumTemplate *pEnumTemp = static_cast<CEnumTemplate*>(pTemp);
         u32 ID = SCLY.ReadLong();
-        u32 index = pEnumTemp->EnumeratorIndex(ID);
-        if (index == -1) Log::FileError(SCLY.GetSourceString(), SCLY.Tell() - 4, "Enum property \"" + pEnumTemp->Name() + "\" in struct \"" + pTemp->Name() + "\" has invalid enumerator value: " + TString::HexString(ID, true, true, 8));
-        pEnumCast->Set(index);
+
+        // Validate
+        u32 Index = pEnumTemp->EnumeratorIndex(ID);
+        if (Index == -1) Log::FileError(SCLY.GetSourceString(), SCLY.Tell() - 4, "Enum property \"" + pEnumTemp->Name() + "\" in struct \"" + pTemp->Name() + "\" has invalid enumerator value: " + TString::HexString(ID, true, true, 8));
+
+        pEnumCast->Set(ID);
         break;
     }
 

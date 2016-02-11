@@ -21,6 +21,7 @@ class CUniqueID
 public:
     CUniqueID();
     CUniqueID(u64 ID);
+    CUniqueID(u64 ID, EUIDLength Length);
     CUniqueID(u64 Part1, u64 Part2);
     CUniqueID(const char* ID);
     CUniqueID(IInputStream& Input, EUIDLength Length);

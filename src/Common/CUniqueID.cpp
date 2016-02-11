@@ -40,6 +40,30 @@ CUniqueID::CUniqueID(u64 ID)
         Reverse();
 }
 
+CUniqueID::CUniqueID(u64 ID, EUIDLength Length)
+{
+    // This constructor shouldn't be used for 128-bit
+    memset(mID, 0xFF, 16);
+
+    // 64-bit
+    if (Length == e64Bit || Length == e128Bit)
+    {
+        memcpy(&mID, &ID, 8);
+        mLength = e64Bit;
+    }
+
+    // 32-bit
+    else
+    {
+        memcpy(mID, &ID, 4);
+        mLength = e32Bit;
+    }
+
+    // Reverse for Big Endian
+    if (kSystemEndianness == eBigEndian)
+        Reverse();
+}
+
 CUniqueID::CUniqueID(u64 Part1, u64 Part2)
 {
     // Constructor for 128-bit IDs
@@ -295,6 +319,6 @@ CUniqueID CUniqueID::RandomID()
 }
 
 // ************ STATIC MEMBER INITIALIZATION ************
-CUniqueID CUniqueID::skInvalidID32 = CUniqueID((u32) -1);
-CUniqueID CUniqueID::skInvalidID64 = CUniqueID((u64) -1);
+CUniqueID CUniqueID::skInvalidID32 = CUniqueID((u32) -1, e32Bit);
+CUniqueID CUniqueID::skInvalidID64 = CUniqueID((u64) -1, e64Bit);
 CUniqueID CUniqueID::skInvalidID128 = CUniqueID((u64) -1, (u64) -1);
