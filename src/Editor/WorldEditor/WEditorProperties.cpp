@@ -8,6 +8,11 @@ WEditorProperties::WEditorProperties(QWidget *pParent /*= 0*/)
     , mpDisplayNode(nullptr)
     , mHasEditedName(false)
 {
+    mpInstanceInfoLabel = new QLabel;
+    mpInstanceInfoLabel->setText("<i>No selection</i>");
+    mpInstanceInfoLayout = new QHBoxLayout;
+    mpInstanceInfoLayout->addWidget(mpInstanceInfoLabel);
+
     mpActiveCheckBox = new QCheckBox;
     mpActiveCheckBox->setToolTip("Active");
     mpInstanceNameLineEdit = new QLineEdit;
@@ -26,6 +31,7 @@ WEditorProperties::WEditorProperties(QWidget *pParent /*= 0*/)
     mpLayersLayout->addWidget(mpLayersComboBox);
 
     mpMainLayout = new QVBoxLayout;
+    mpMainLayout->addLayout(mpInstanceInfoLayout);
     mpMainLayout->addLayout(mpNameLayout);
     mpMainLayout->addLayout(mpLayersLayout);
     mpMainLayout->setContentsMargins(6, 6, 6, 0);
@@ -36,6 +42,7 @@ WEditorProperties::WEditorProperties(QWidget *pParent /*= 0*/)
     QFont Font = font();
     Font.setPointSize(10);
     setFont(Font);
+    mpInstanceInfoLabel->setFont(Font);
     mpInstanceNameLineEdit->setFont(Font);
     mpLayersLabel->setFont(Font);
 
@@ -103,15 +110,29 @@ void WEditorProperties::OnSelectionModified()
         mpInstanceNameLineEdit->setEnabled(false);
 
         if (rkSelection.empty())
+        {
+            mpInstanceInfoLabel->setText("<i>[No selection]</i>");
             mpInstanceNameLineEdit->clear();
+        }
         else if (mpDisplayNode)
+        {
+            mpInstanceInfoLabel->setText("[Light]");
             mpInstanceNameLineEdit->setText(TO_QSTRING(mpDisplayNode->Name()));
+        }
         else
-            mpInstanceNameLineEdit->setText(QString("[%1 objects selected]").arg(rkSelection.size()));
+        {
+            mpInstanceInfoLabel->setText(QString("<i>[%1 objects selected]</i>").arg(rkSelection.size()));
+            mpInstanceNameLineEdit->clear();
+        }
     }
 
     else
     {
+        CScriptNode *pScript = static_cast<CScriptNode*>(mpDisplayNode);
+        TString InstanceID = TString::HexString(pScript->Object()->InstanceID(), false, true, 8);
+        TString ObjectType = pScript->Template()->Name();
+        mpInstanceInfoLabel->setText(QString("[%1] [%2]").arg( TO_QSTRING(ObjectType) ).arg( TO_QSTRING(InstanceID) ));
+
         UpdatePropertyValues();
     }
 

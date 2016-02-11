@@ -19,6 +19,9 @@ class WEditorProperties : public QWidget
 
     QVBoxLayout *mpMainLayout;
 
+    QLabel *mpInstanceInfoLabel;
+    QHBoxLayout *mpInstanceInfoLayout;
+
     QCheckBox *mpActiveCheckBox;
     QLineEdit *mpInstanceNameLineEdit;
     QHBoxLayout *mpNameLayout;

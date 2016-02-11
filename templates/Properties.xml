@@ -4782,7 +4782,7 @@
     <property ID="0x6B016DB2" name="STRG"/>
     <property ID="0x6B08E2E5" name="Unknown"/>
     <property ID="0x6B08F2F2" name="Unknown"/>
-    <property ID="0x6B1FBC3A" name="Echo Visor model"/>
+    <property ID="0x6B1FBC3A" name="Echo Visor Model"/>
     <property ID="0x6B20BDB0" name="Unknown"/>
     <property ID="0x6B32E09E" name="Unknown"/>
     <property ID="0x6B40ACEF" name="Unknown"/>
@@ -7051,7 +7051,7 @@
     <property ID="0x9EEF71C2" name="WPSC"/>
     <property ID="0x9EF4A101" name="DamageInfo"/>
     <property ID="0x9EF6B290" name="WPSC"/>
-    <property ID="0x9F027D91" name="Unknown"/>
+    <property ID="0x9F027D91" name="Dark Visor Skin"/>
     <property ID="0x9F0677D6" name="Unknown"/>
     <property ID="0x9F0E3E0B" name="PART"/>
     <property ID="0x9F0FF852" name="Unknown"/>
@@ -8583,7 +8583,7 @@
     <property ID="0xC08E06AC" name="Unknown"/>
     <property ID="0xC0A86488" name="Unknown"/>
     <property ID="0xC0AC271E" name="Unknown"/>
-    <property ID="0xC0BA9E18" name="Dark Visor model"/>
+    <property ID="0xC0BA9E18" name="Dark Visor Model"/>
     <property ID="0xC0BD8A5E" name="Unknown"/>
     <property ID="0xC0C31785" name="Unknown"/>
     <property ID="0xC0CB3936" name="Unknown"/>
@@ -10495,7 +10495,7 @@
     <property ID="0xEB03168D" name="Unknown"/>
     <property ID="0xEB12BEE4" name="DamageInfo"/>
     <property ID="0xEB1B90C2" name="Unknown"/>
-    <property ID="0xEB1D06BE" name="Unknown"/>
+    <property ID="0xEB1D06BE" name="Echo Visor Skin"/>
     <property ID="0xEB250A0B" name="Unknown"/>
     <property ID="0xEB300034" name="Unknown"/>
     <property ID="0xEB383668" name="Unknown"/>

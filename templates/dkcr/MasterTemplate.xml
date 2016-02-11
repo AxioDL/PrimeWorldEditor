@@ -14,7 +14,7 @@
         <object ID="ADMG" template="Script/AreaDamage.xml"/>
         <object ID="ARNO" template="Script/AreaNode.xml"/>
         <object ID="ARPA" template="Script/AreaPath.xml"/>
-        <object ID="ASAS" template="Script/ASAS.xml"/>
+        <object ID="ASAS" template="Script/AssignedAudioStream.xml"/>
         <object ID="AOCL" template="Script/AudioOccluder.xml"/>
         <object ID="AVIS" template="Script/AVIS.xml"/>
         <object ID="BABL" template="Script/BarrelBalloon.xml"/>
