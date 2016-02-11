@@ -89,6 +89,12 @@ void CStaticModel::BufferGL()
     mBuffered = true;
 }
 
+void CStaticModel::GenerateMaterialShaders()
+{
+    if (mpMaterial)
+        mpMaterial->GenerateShader(false);
+}
+
 void CStaticModel::ClearGLBuffer()
 {
     mVBO.Clear();

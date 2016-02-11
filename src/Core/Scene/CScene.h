@@ -25,6 +25,7 @@ class CScene
     friend class CSceneIterator;
     
     bool mSplitTerrain;
+    bool mRanPostLoad;
 
     u32 mNumNodes;
     CRootNode *mpSceneRootNode;
@@ -52,6 +53,7 @@ public:
     CLightNode* CreateLightNode(CLight *pLight);
     void SetActiveArea(CGameArea *pArea);
     void SetActiveWorld(CWorld *pWorld);
+    void PostLoad();
     void ClearScene();
     void AddSceneToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo);
     SRayIntersection SceneRayCast(const CRay& rkRay, const SViewInfo& rkViewInfo);

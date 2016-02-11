@@ -36,6 +36,11 @@ public:
         return mpCurNode;
     }
 
+    inline operator bool() const
+    {
+        return DoneIterating();
+    }
+
     inline CSceneNode* operator*() const
     {
         return mpCurNode;

@@ -74,6 +74,15 @@ ENodeType CScriptNode::NodeType()
     return eScriptNode;
 }
 
+void CScriptNode::PostLoad()
+{
+    if (mpActiveModel)
+    {
+        mpActiveModel->BufferGL();
+        mpActiveModel->GenerateMaterialShaders();
+    }
+}
+
 void CScriptNode::OnTransformed()
 {
     if (mpInstance)

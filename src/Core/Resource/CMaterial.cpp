@@ -78,13 +78,16 @@ CMaterial* CMaterial::Clone()
     return pOut;
 }
 
-void CMaterial::GenerateShader()
+void CMaterial::GenerateShader(bool AllowRegen /*= true*/)
 {
-    delete mpShader;
-    mpShader = CShaderGenerator::GenerateShader(*this);
+    if (mShaderStatus != eShaderExists || AllowRegen)
+    {
+        delete mpShader;
+        mpShader = CShaderGenerator::GenerateShader(*this);
 
-    if (!mpShader->IsValidProgram()) mShaderStatus = eShaderFailed;
-    else mShaderStatus = eShaderExists;
+        if (!mpShader->IsValidProgram()) mShaderStatus = eShaderFailed;
+        else mShaderStatus = eShaderExists;
+    }
 }
 
 bool CMaterial::SetCurrent(FRenderOptions Options)

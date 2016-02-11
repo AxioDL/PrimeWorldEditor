@@ -76,7 +76,7 @@ public:
     CMaterial(EGame version, FVertexDescription vtxDesc);
     ~CMaterial();
     CMaterial* Clone();
-    void GenerateShader();
+    void GenerateShader(bool AllowRegen = true);
     bool SetCurrent(FRenderOptions Options);
     u64 HashParameters();
     void Update();

@@ -23,6 +23,7 @@ public:
     ~CModel();
 
     void BufferGL();
+    void GenerateMaterialShaders();
     void ClearGLBuffer();
     void Draw(FRenderOptions Options, u32 MatSet);
     void DrawSurface(FRenderOptions Options, u32 Surface, u32 MatSet);

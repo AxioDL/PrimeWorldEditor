@@ -19,6 +19,15 @@ ENodeType CStaticNode::NodeType()
     return eStaticNode;
 }
 
+void CStaticNode::PostLoad()
+{
+    if (mpModel)
+    {
+        mpModel->BufferGL();
+        mpModel->GenerateMaterialShaders();
+    }
+}
+
 void CStaticNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
 {
     if (!mpModel) return;
