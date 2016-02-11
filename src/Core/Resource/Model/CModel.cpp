@@ -31,48 +31,54 @@ CModel::~CModel()
 
 void CModel::BufferGL()
 {
-    mVBO.Clear();
-    mSubmeshIndexBuffers.clear();
-
-    mSubmeshIndexBuffers.resize(mSurfaces.size());
-
-    for (u32 iSurf = 0; iSurf < mSurfaces.size(); iSurf++)
+    if (!mBuffered)
     {
-        SSurface *pSurf = mSurfaces[iSurf];
+        mVBO.Clear();
+        mSurfaceIndexBuffers.clear();
 
-        u16 VBOStartOffset = (u16) mVBO.Size();
-        mVBO.Reserve((u16) pSurf->VertexCount);
+        mSurfaceIndexBuffers.resize(mSurfaces.size());
 
-        for (u32 iPrim = 0; iPrim < pSurf->Primitives.size(); iPrim++)
+        for (u32 iSurf = 0; iSurf < mSurfaces.size(); iSurf++)
         {
-            SSurface::SPrimitive *pPrim = &pSurf->Primitives[iPrim];
-            CIndexBuffer *pIBO = InternalGetIBO(iSurf, pPrim->Type);
-            pIBO->Reserve(pPrim->Vertices.size() + 1); // Allocate enough space for this primitive, plus the restart index
+            SSurface *pSurf = mSurfaces[iSurf];
 
-            std::vector<u16> Indices(pPrim->Vertices.size());
-            for (u32 iVert = 0; iVert < pPrim->Vertices.size(); iVert++)
-                Indices[iVert] = mVBO.AddIfUnique(pPrim->Vertices[iVert], VBOStartOffset);
+            u16 VBOStartOffset = (u16) mVBO.Size();
+            mVBO.Reserve((u16) pSurf->VertexCount);
 
-            // then add the indices to the IBO. We convert some primitives to strips to minimize draw calls.
-            switch (pPrim->Type) {
-                case eGX_Triangles:
-                    pIBO->TrianglesToStrips(Indices.data(), Indices.size());
-                    break;
-                case eGX_TriangleFan:
-                    pIBO->FansToStrips(Indices.data(), Indices.size());
-                    break;
-                case eGX_Quads:
-                    pIBO->QuadsToStrips(Indices.data(), Indices.size());
-                    break;
-                default:
-                    pIBO->AddIndices(Indices.data(), Indices.size());
-                    pIBO->AddIndex(0xFFFF); // primitive restart
-                    break;
+            for (u32 iPrim = 0; iPrim < pSurf->Primitives.size(); iPrim++)
+            {
+                SSurface::SPrimitive *pPrim = &pSurf->Primitives[iPrim];
+                CIndexBuffer *pIBO = InternalGetIBO(iSurf, pPrim->Type);
+                pIBO->Reserve(pPrim->Vertices.size() + 1); // Allocate enough space for this primitive, plus the restart index
+
+                std::vector<u16> Indices(pPrim->Vertices.size());
+                for (u32 iVert = 0; iVert < pPrim->Vertices.size(); iVert++)
+                    Indices[iVert] = mVBO.AddIfUnique(pPrim->Vertices[iVert], VBOStartOffset);
+
+                // then add the indices to the IBO. We convert some primitives to strips to minimize draw calls.
+                switch (pPrim->Type) {
+                    case eGX_Triangles:
+                        pIBO->TrianglesToStrips(Indices.data(), Indices.size());
+                        break;
+                    case eGX_TriangleFan:
+                        pIBO->FansToStrips(Indices.data(), Indices.size());
+                        break;
+                    case eGX_Quads:
+                        pIBO->QuadsToStrips(Indices.data(), Indices.size());
+                        break;
+                    default:
+                        pIBO->AddIndices(Indices.data(), Indices.size());
+                        pIBO->AddIndex(0xFFFF); // primitive restart
+                        break;
+                }
             }
-        }
-    }
 
-    mBuffered = true;
+            for (u32 iIBO = 0; iIBO < mSurfaceIndexBuffers[iSurf].size(); iIBO++)
+                mSurfaceIndexBuffers[iSurf][iIBO].Buffer();
+        }
+
+        mBuffered = true;
+    }
 }
 
 void CModel::GenerateMaterialShaders()
@@ -92,7 +98,7 @@ void CModel::GenerateMaterialShaders()
 void CModel::ClearGLBuffer()
 {
     mVBO.Clear();
-    mSubmeshIndexBuffers.clear();
+    mSurfaceIndexBuffers.clear();
     mBuffered = false;
 }
 
@@ -127,9 +133,9 @@ void CModel::DrawSurface(FRenderOptions Options, u32 Surface, u32 MatSet)
     mVBO.Bind();
     glLineWidth(1.f);
 
-    for (u32 iIBO = 0; iIBO < mSubmeshIndexBuffers[Surface].size(); iIBO++)
+    for (u32 iIBO = 0; iIBO < mSurfaceIndexBuffers[Surface].size(); iIBO++)
     {
-        CIndexBuffer *pIBO = &mSubmeshIndexBuffers[Surface][iIBO];
+        CIndexBuffer *pIBO = &mSurfaceIndexBuffers[Surface][iIBO];
         pIBO->DrawElements();
     }
 
@@ -209,7 +215,7 @@ bool CModel::IsSurfaceTransparent(u32 Surface, u32 MatSet)
 
 CIndexBuffer* CModel::InternalGetIBO(u32 Surface, EGXPrimitiveType Primitive)
 {
-    std::vector<CIndexBuffer> *pIBOs = &mSubmeshIndexBuffers[Surface];
+    std::vector<CIndexBuffer> *pIBOs = &mSurfaceIndexBuffers[Surface];
     GLenum Type = GXPrimToGLPrim(Primitive);
 
     for (u32 iIBO = 0; iIBO < pIBOs->size(); iIBO++)

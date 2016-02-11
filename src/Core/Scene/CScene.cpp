@@ -33,7 +33,7 @@ CModelNode* CScene::CreateModelNode(CModel *pModel)
 {
     if (pModel == nullptr) return nullptr;
 
-    CModelNode *pNode = new CModelNode(this, mpSceneRootNode, pModel);
+    CModelNode *pNode = new CModelNode(this, mpAreaRootNode, pModel);
     mNodes[eModelNode].push_back(pNode);
     mNumNodes++;
     return pNode;
@@ -82,10 +82,7 @@ CLightNode* CScene::CreateLightNode(CLight *pLight)
 void CScene::SetActiveArea(CGameArea *pArea)
 {
     // Clear existing area
-    delete mpAreaRootNode;
-    mNodes.clear();
-    mAreaAttributesObjects.clear();
-    mScriptNodeMap.clear();
+    ClearScene();
 
     // Create nodes for new area
     mpArea = pArea;
@@ -203,10 +200,11 @@ void CScene::ClearScene()
     }
 
     mNodes.clear();
+    mAreaAttributesObjects.clear();
+    mScriptNodeMap.clear();
     mNumNodes = 0;
 
     mpArea = nullptr;
-    mpWorld = nullptr;
 }
 
 void CScene::AddSceneToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
