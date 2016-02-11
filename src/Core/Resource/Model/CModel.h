@@ -14,7 +14,7 @@ class CModel : public CBasicModel
     friend class CModelCooker;
 
     std::vector<CMaterialSet*> mMaterialSets;
-    std::vector<std::vector<CIndexBuffer>> mSubmeshIndexBuffers;
+    std::vector<std::vector<CIndexBuffer>> mSurfaceIndexBuffers;
     bool mHasOwnMaterials;
     
 public:

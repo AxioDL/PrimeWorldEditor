@@ -34,59 +34,62 @@ void CStaticModel::AddSurface(SSurface *pSurface)
 
 void CStaticModel::BufferGL()
 {
-    mVBO.Clear();
-    mIBOs.clear();
-
-    for (u32 iSurf = 0; iSurf < mSurfaces.size(); iSurf++)
+    if (!mBuffered)
     {
-        SSurface *pSurf = mSurfaces[iSurf];
+        mVBO.Clear();
+        mIBOs.clear();
 
-        u16 VBOStartOffset = (u16) mVBO.Size();
-        mVBO.Reserve((u16) pSurf->VertexCount);
-
-        for (u32 iPrim = 0; iPrim < pSurf->Primitives.size(); iPrim++)
+        for (u32 iSurf = 0; iSurf < mSurfaces.size(); iSurf++)
         {
-            SSurface::SPrimitive *pPrim = &pSurf->Primitives[iPrim];
-            CIndexBuffer *pIBO = InternalGetIBO(pPrim->Type);
-            pIBO->Reserve(pPrim->Vertices.size() + 1); // Allocate enough space for this primitive, plus the restart index
+            SSurface *pSurf = mSurfaces[iSurf];
 
-            // Next step: add new vertices to the VBO and create a small index buffer for the current primitive
-            std::vector<u16> Indices(pPrim->Vertices.size());
-            for (u32 iVert = 0; iVert < pPrim->Vertices.size(); iVert++)
-                Indices[iVert] = mVBO.AddIfUnique(pPrim->Vertices[iVert], VBOStartOffset);
+            u16 VBOStartOffset = (u16) mVBO.Size();
+            mVBO.Reserve((u16) pSurf->VertexCount);
 
-            // then add the indices to the IBO. We convert some primitives to strips to minimize draw calls.
-            switch (pPrim->Type) {
-                case eGX_Triangles:
-                    pIBO->TrianglesToStrips(Indices.data(), Indices.size());
-                    break;
-                case eGX_TriangleFan:
-                    pIBO->FansToStrips(Indices.data(), Indices.size());
-                    break;
-                case eGX_Quads:
-                    pIBO->QuadsToStrips(Indices.data(), Indices.size());
-                    break;
-                default:
-                    pIBO->AddIndices(Indices.data(), Indices.size());
-                    pIBO->AddIndex(0xFFFF); // primitive restart
-                    break;
+            for (u32 iPrim = 0; iPrim < pSurf->Primitives.size(); iPrim++)
+            {
+                SSurface::SPrimitive *pPrim = &pSurf->Primitives[iPrim];
+                CIndexBuffer *pIBO = InternalGetIBO(pPrim->Type);
+                pIBO->Reserve(pPrim->Vertices.size() + 1); // Allocate enough space for this primitive, plus the restart index
+
+                // Next step: add new vertices to the VBO and create a small index buffer for the current primitive
+                std::vector<u16> Indices(pPrim->Vertices.size());
+                for (u32 iVert = 0; iVert < pPrim->Vertices.size(); iVert++)
+                    Indices[iVert] = mVBO.AddIfUnique(pPrim->Vertices[iVert], VBOStartOffset);
+
+                // then add the indices to the IBO. We convert some primitives to strips to minimize draw calls.
+                switch (pPrim->Type) {
+                    case eGX_Triangles:
+                        pIBO->TrianglesToStrips(Indices.data(), Indices.size());
+                        break;
+                    case eGX_TriangleFan:
+                        pIBO->FansToStrips(Indices.data(), Indices.size());
+                        break;
+                    case eGX_Quads:
+                        pIBO->QuadsToStrips(Indices.data(), Indices.size());
+                        break;
+                    default:
+                        pIBO->AddIndices(Indices.data(), Indices.size());
+                        pIBO->AddIndex(0xFFFF); // primitive restart
+                        break;
+                }
             }
+
+            // Make sure the number of submesh offset vectors matches the number of IBOs, then add the offsets
+            while (mIBOs.size() > mSubmeshEndOffsets.size())
+                mSubmeshEndOffsets.emplace_back(std::vector<u32>(mSurfaces.size()));
+
+            for (u32 iIBO = 0; iIBO < mIBOs.size(); iIBO++)
+                mSubmeshEndOffsets[iIBO][iSurf] = mIBOs[iIBO].GetSize();
         }
 
-        // Make sure the number of submesh offset vectors matches the number of IBOs, then add the offsets
-        while (mIBOs.size() > mSubmeshEndOffsets.size())
-            mSubmeshEndOffsets.emplace_back(std::vector<u32>(mSurfaces.size()));
+        mVBO.Buffer();
 
         for (u32 iIBO = 0; iIBO < mIBOs.size(); iIBO++)
-            mSubmeshEndOffsets[iIBO][iSurf] = mIBOs[iIBO].GetSize();
+            mIBOs[iIBO].Buffer();
+
+        mBuffered = true;
     }
-
-    mVBO.Buffer();
-
-    for (u32 iIBO = 0; iIBO < mIBOs.size(); iIBO++)
-        mIBOs[iIBO].Buffer();
-
-    mBuffered = true;
 }
 
 void CStaticModel::GenerateMaterialShaders()
