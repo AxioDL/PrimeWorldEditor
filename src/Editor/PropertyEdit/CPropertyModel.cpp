@@ -298,7 +298,7 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                     {
                         TEnumProperty *pEnum = static_cast<TEnumProperty*>(pProp);
                         CEnumTemplate *pTemp = static_cast<CEnumTemplate*>(pEnum->Template());
-                        return TO_QSTRING(pTemp->EnumeratorName(pEnum->Get()));
+                        return TO_QSTRING(pTemp->EnumeratorName( pTemp->EnumeratorIndex(pEnum->Get()) ));
                     }
                     else return "";
 

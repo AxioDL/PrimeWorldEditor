@@ -8,13 +8,13 @@ class CDamageableTriggerExtra : public CScriptExtra
     // Render fluid planes for doors in MP1
     enum ERenderSide
     {
-        eNoRender = 0,
-        eNorth    = 1,
-        eSouth    = 2,
-        eWest     = 3,
-        eEast     = 4,
-        eUp       = 5,
-        eDown     = 6
+        eNoRender = 0x0,
+        eNorth    = 0x1,
+        eSouth    = 0x2,
+        eWest     = 0x4,
+        eEast     = 0x8,
+        eUp       = 0x10,
+        eDown     = 0x20
     };
 
     TVector3Property *mpSizeProp;

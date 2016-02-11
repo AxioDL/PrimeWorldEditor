@@ -36,9 +36,7 @@ void CScriptCooker::WriteProperty(IProperty *pProp)
     case eEnumProperty:
     {
         TEnumProperty *pEnumCast = static_cast<TEnumProperty*>(pProp);
-        CEnumTemplate *pEnumTemp = static_cast<CEnumTemplate*>(pEnumCast->Template());
-        u32 ID = pEnumTemp->EnumeratorID(pEnumCast->Get());
-        mpSCLY->WriteLong(ID);
+        mpSCLY->WriteLong(pEnumCast->Get());
         break;
     }
 

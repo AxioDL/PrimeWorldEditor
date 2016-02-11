@@ -271,7 +271,8 @@ void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkInd
                 {
                     QComboBox *pComboBox = static_cast<QComboBox*>(pEditor);
                     TEnumProperty *pEnum = static_cast<TEnumProperty*>(pProp);
-                    pComboBox->setCurrentIndex(pEnum->Get());
+                    CEnumTemplate *pTemp = static_cast<CEnumTemplate*>(pProp->Template());
+                    pComboBox->setCurrentIndex(pTemp->EnumeratorIndex(pEnum->Get()));
                     break;
                 }
 
@@ -421,7 +422,8 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
         {
             QComboBox *pComboBox = static_cast<QComboBox*>(pEditor);
             TEnumProperty *pEnum = static_cast<TEnumProperty*>(pProp);
-            pEnum->Set(pComboBox->currentIndex());
+            CEnumTemplate *pTemp = static_cast<CEnumTemplate*>(pProp->Template());
+            pEnum->Set(pTemp->EnumeratorID(pComboBox->currentIndex()));
             break;
         }
 

@@ -416,8 +416,7 @@ public:
     virtual IProperty* InstantiateProperty(CPropertyStruct *pParent)
     {
         TEnumProperty *pEnum = new TEnumProperty(this, pParent);
-        u32 Index = EnumeratorIndex(GetDefaultValue());
-        pEnum->Set(Index);
+        pEnum->Set(GetDefaultValue());
         return pEnum;
     }
 
