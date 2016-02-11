@@ -22,6 +22,7 @@ public:
     void AddSurface(SSurface *pSurface);
 
     void BufferGL();
+    void GenerateMaterialShaders();
     void ClearGLBuffer();
     void Draw(FRenderOptions Options);
     void DrawSurface(FRenderOptions Options, u32 Surface);

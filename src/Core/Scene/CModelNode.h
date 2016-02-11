@@ -18,6 +18,7 @@ public:
     explicit CModelNode(CScene *pScene, CSceneNode *pParent = 0, CModel *pModel = 0);
 
     virtual ENodeType NodeType();
+    virtual void PostLoad();
     virtual void AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo);
     virtual void Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& ViewInfo);
     virtual void DrawSelection();

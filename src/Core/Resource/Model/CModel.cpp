@@ -75,6 +75,20 @@ void CModel::BufferGL()
     mBuffered = true;
 }
 
+void CModel::GenerateMaterialShaders()
+{
+    for (u32 iSet = 0; iSet < mMaterialSets.size(); iSet++)
+    {
+        CMaterialSet *pSet = mMaterialSets[iSet];
+
+        for (u32 iMat = 0; iMat < pSet->NumMaterials(); iMat++)
+        {
+            CMaterial *pMat = pSet->MaterialByIndex(iMat);
+            pMat->GenerateShader(false);
+        }
+    }
+}
+
 void CModel::ClearGLBuffer()
 {
     mVBO.Clear();

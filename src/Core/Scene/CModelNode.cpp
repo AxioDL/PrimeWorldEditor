@@ -19,6 +19,15 @@ ENodeType CModelNode::NodeType()
     return eModelNode;
 }
 
+void CModelNode::PostLoad()
+{
+    if (mpModel)
+    {
+        mpModel->BufferGL();
+        mpModel->GenerateMaterialShaders();
+    }
+}
+
 void CModelNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
 {
     if (!mpModel) return;

@@ -1,4 +1,5 @@
 #include "CScene.h"
+#include "CSceneIterator.h"
 #include "Core/Render/CGraphics.h"
 #include "Core/Resource/CResCache.h"
 #include "Core/Resource/CPoiToWorld.h"
@@ -14,6 +15,7 @@
 
 CScene::CScene()
     : mSplitTerrain(true)
+    , mRanPostLoad(false)
     , mNumNodes(0)
     , mpSceneRootNode(new CRootNode(this, nullptr))
     , mpArea(nullptr)
@@ -177,12 +179,19 @@ void CScene::SetActiveArea(CGameArea *pArea)
         }
     }
 
+    mRanPostLoad = false;
     Log::Write( TString::FromInt32(CSceneNode::NumNodes()) + " nodes" );
 }
 
 void CScene::SetActiveWorld(CWorld* pWorld)
 {
     mpWorld = pWorld;
+}
+
+void CScene::PostLoad()
+{
+    mpSceneRootNode->OnLoadFinished();
+    mRanPostLoad = true;
 }
 
 void CScene::ClearScene()
@@ -202,6 +211,10 @@ void CScene::ClearScene()
 
 void CScene::AddSceneToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
 {
+    // Call PostLoad the first time the scene is rendered to ensure the OpenGL context has been created before it runs.
+    if (!mRanPostLoad)
+        PostLoad();
+
     // Override show flags in game mode
     FShowFlags ShowFlags = (ViewInfo.GameMode ? gkGameModeShowFlags : ViewInfo.ShowFlags);
     FNodeFlags NodeFlags = NodeFlagsForShowFlags(ShowFlags);

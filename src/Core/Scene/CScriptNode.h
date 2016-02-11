@@ -27,6 +27,7 @@ class CScriptNode : public CSceneNode
 public:
     CScriptNode(CScene *pScene, CSceneNode *pParent = 0, CScriptObject *pObject = 0);
     ENodeType NodeType();
+    void PostLoad();
     void OnTransformed();
     void AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo);
     void Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& ViewInfo);

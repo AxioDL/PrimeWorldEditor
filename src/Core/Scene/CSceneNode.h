@@ -67,6 +67,7 @@ public:
     virtual CColor TintColor(const SViewInfo& ViewInfo) const;
     virtual CColor WireframeColor() const;
 
+    void OnLoadFinished();
     void Unparent();
     void RemoveChild(CSceneNode *pChild);
     void DeleteChildren();
@@ -121,14 +122,8 @@ public:
     void SetVisible(bool Visible);
 
     // Static
-    static int NumNodes();
+    inline static int NumNodes() { return smNumNodes; }
     static CColor skSelectionTint;
 };
-
-// ************ INLINE FUNCTIONS ************
-inline int CSceneNode::NumNodes()
-{
-    return smNumNodes;
-}
 
 #endif // CSCENENODE_H

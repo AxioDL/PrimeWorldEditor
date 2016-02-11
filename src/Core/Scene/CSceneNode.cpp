@@ -80,6 +80,14 @@ CColor CSceneNode::WireframeColor() const
 }
 
 // ************ MAIN FUNCTIONALITY ************
+void CSceneNode::OnLoadFinished()
+{
+    PostLoad();
+
+    for (auto it = mChildren.begin(); it != mChildren.end(); it++)
+        (*it)->OnLoadFinished();
+}
+
 void CSceneNode::Unparent()
 {
     // May eventually want to reset XForm so global position = local position
