@@ -3,18 +3,10 @@
     <properties>
         <struct ID="0xB028DB0E" template="Structs/LightParameters.xml"/>
         <struct ID="0x375BFD7C" template="Structs/ScannableParameters.xml"/>
-        <property ID="0xC0BA9E18" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x9F027D91" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x6B1FBC3A" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xEB1D06BE" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xC0BA9E18" type="file" extensions="CMDL"/>
+        <property ID="0x9F027D91" type="file" extensions="CSKR"/>
+        <property ID="0x6B1FBC3A" type="file" extensions="CMDL"/>
+        <property ID="0xEB1D06BE" type="file" extensions="CSKR"/>
         <property ID="0x1499803C" type="bool">
             <default>true</default>
         </property>

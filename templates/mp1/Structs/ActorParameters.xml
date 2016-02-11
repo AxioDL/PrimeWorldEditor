@@ -7,10 +7,10 @@
                 <property ID="0x00" name="SCAN" type="file" extensions="SCAN"/>
             </properties>
         </struct>
-        <property ID="0x02" name="X-Ray model" type="file" extensions="CMDL"/>
-        <property ID="0x03" name="X-Ray skin" type="file" extensions="CSKR"/>
-        <property ID="0x04" name="Thermal model" type="file" extensions="CMDL"/>
-        <property ID="0x05" name="Thermal skin" type="file" extensions="CSKR"/>
+        <property ID="0x02" name="X-Ray Visor Model" type="file" extensions="CMDL"/>
+        <property ID="0x03" name="X-Ray Visor Skin" type="file" extensions="CSKR"/>
+        <property ID="0x04" name="Thermal Visor Model" type="file" extensions="CMDL"/>
+        <property ID="0x05" name="Thermal Visor Skin" type="file" extensions="CSKR"/>
         <property ID="0x06" name="Unknown 1" type="bool"/>
         <property ID="0x07" name="Unknown 2" type="float"/>
         <property ID="0x08" name="Unknown 3" type="float"/>
