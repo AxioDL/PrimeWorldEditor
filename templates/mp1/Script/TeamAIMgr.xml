@@ -13,6 +13,8 @@
         <property ID="0x08" name="Unknown 8" type="float"/>
         <property ID="0x09" name="Unknown 9" type="float"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>

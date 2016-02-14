@@ -1,26 +1,26 @@
 <?xml version="1.0" ?>
 <enum name="ControllerButton">
-	<enumerator ID="0x0" name="None" />
-	<enumerator ID="0x1" name="Left Stick Up" />
-	<enumerator ID="0x2" name="Left Stick Down" />
-	<enumerator ID="0x3" name="Left Stick Left" />
-	<enumerator ID="0x4" name="Left Stick Right" />
-	<enumerator ID="0x5" name="Right Stick Up" />
-	<enumerator ID="0x6" name="Right Stick Down" />
-	<enumerator ID="0x7" name="Right Stick Left" />
-	<enumerator ID="0x8" name="Right Stick Right" />
-	<enumerator ID="0x9" name="Left Trigger" />
-	<enumerator ID="0xA" name="Right Trigger" />
-	<enumerator ID="0xB" name="D-Pad Up" />
-	<enumerator ID="0xC" name="D-Pad Down" />
-	<enumerator ID="0xD" name="D-Pad Left" />
-	<enumerator ID="0xE" name="D-Pad Right" />
-	<enumerator ID="0xF" name="A Button" />
-	<enumerator ID="0x10" name="B Button" />
-	<enumerator ID="0x11" name="X Button" />
-	<enumerator ID="0x12" name="Y Button" />
-	<enumerator ID="0x13" name="Z Button" />
-	<enumerator ID="0x14" name="Left Trigger Press" />
-	<enumerator ID="0x15" name="Right Trigger Press" />
-	<enumerator ID="0x16" name="Start" />
+    <enumerator ID="0x00" name="None" />
+    <enumerator ID="0x01" name="Left Stick Up" />
+    <enumerator ID="0x02" name="Left Stick Down" />
+    <enumerator ID="0x03" name="Left Stick Left" />
+    <enumerator ID="0x04" name="Left Stick Right" />
+    <enumerator ID="0x05" name="Right Stick Up" />
+    <enumerator ID="0x06" name="Right Stick Down" />
+    <enumerator ID="0x07" name="Right Stick Left" />
+    <enumerator ID="0x08" name="Right Stick Right" />
+    <enumerator ID="0x09" name="Left Trigger" />
+    <enumerator ID="0x0A" name="Right Trigger" />
+    <enumerator ID="0x0B" name="D-Pad Up" />
+    <enumerator ID="0x0C" name="D-Pad Down" />
+    <enumerator ID="0x0D" name="D-Pad Left" />
+    <enumerator ID="0x0E" name="D-Pad Right" />
+    <enumerator ID="0x0F" name="A Button" />
+    <enumerator ID="0x10" name="B Button" />
+    <enumerator ID="0x11" name="X Button" />
+    <enumerator ID="0x12" name="Y Button" />
+    <enumerator ID="0x13" name="Z Button" />
+    <enumerator ID="0x14" name="Left Trigger Press" />
+    <enumerator ID="0x15" name="Right Trigger Press" />
+    <enumerator ID="0x16" name="Start" />
 </enum>

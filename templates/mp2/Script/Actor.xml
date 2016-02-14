@@ -36,7 +36,7 @@
         </property>
         <property ID="0x2AFFD6FE" type="bool">
             <default>false</default>
-			<should_cook>never</should_cook>
+            <should_cook>never</should_cook>
         </property>
         <property ID="0x32FAB97E" type="long">
             <default>0</default>
@@ -78,7 +78,7 @@
             <model source="property">0xC27FFA8F</model>
             <model source="property">0x7E397FED:0xC0BA9E18</model>
             <model source="property">0x7E397FED:0x6B1FBC3A</model>
-			<collision source="property">0x0FC966DC</collision>
+            <collision source="property">0x0FC966DC</collision>
         </assets>
         <rotation_type>enabled</rotation_type>
         <scale_type>enabled</scale_type>

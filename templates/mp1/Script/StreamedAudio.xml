@@ -12,14 +12,16 @@
         <property ID="0x07" name="Unknown 6" type="long"/>
         <property ID="0x08" name="Unknown 7" type="bool"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>
             <property name="Active" ID="0x01"/>
         </properties>
         <assets>
-			<billboard source="file">script/common/StreamedAudio.txtr</billboard>
-		</assets>
+            <billboard source="file">script/common/StreamedAudio.txtr</billboard>
+        </assets>
         <rotation_type>disabled</rotation_type>
         <scale_type>disabled</scale_type>
     </editor>

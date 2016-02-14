@@ -21,7 +21,7 @@
             <property name="Active" ID="0x255A4580:0x41435456"/>
         </properties>
         <assets/>
-		<preview_scale>0.5</preview_scale>
+        <preview_scale>0.5</preview_scale>
         <rotation_type>enabled</rotation_type>
         <scale_type>enabled</scale_type>
     </editor>

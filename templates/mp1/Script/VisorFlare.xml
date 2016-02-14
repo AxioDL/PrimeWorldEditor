@@ -17,14 +17,16 @@
         <struct ID="0x0C" name="FlareDef 4" template="Structs/FlareDef.xml"/>
         <struct ID="0x0D" name="FlareDef 5" template="Structs/FlareDef.xml"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>
             <property name="Position" ID="0x01"/>
         </properties>
         <assets>
-			<billboard source="file">script/common/VisorFlare.txtr</billboard>
-		</assets>
+            <billboard source="file">script/common/VisorFlare.txtr</billboard>
+        </assets>
         <rotation_type>disabled</rotation_type>
         <scale_type>disabled</scale_type>
     </editor>

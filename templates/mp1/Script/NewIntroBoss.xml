@@ -16,6 +16,8 @@
         <property ID="0x0B" name="Texture 1" type="file" extensions="TXTR"/>
         <property ID="0x0C" name="Texture 2" type="file" extensions="TXTR"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>

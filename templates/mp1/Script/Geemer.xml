@@ -19,6 +19,8 @@
         <property ID="0x0E" name="Unknown 9" type="long"/>
         <property ID="0x0F" name="Unknown 10" type="long"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>

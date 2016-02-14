@@ -4,16 +4,21 @@
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <array ID="0xEF5C94E9">
-            <default>0</default>
-			<element_name>Connection</element_name>
+            <element_name>Connection</element_name>
             <properties>
-				<property ID="0x00" name="Connection Index" type="short" />
-				<array ID="0x01" name="Activation Times">
-					<properties>
-						<property ID="0x00" name="Time" type="float" />
-					</properties>
-				</array>
-				<property ID="0x02" name="Unknown" type="bool" />
+                <property ID="0x00" name="Connection Index" type="short">
+                    <default>0</default>
+                </property>
+                <array ID="0x01" name="Activation Times">
+                    <properties>
+                        <property ID="0x00" name="Time" type="float">
+                            <default>0.0</default>
+                        </property>
+                    </properties>
+                </array>
+                <property ID="0x02" name="Unknown" type="bool">
+                    <default>false</default>
+                </property>
             </properties>
         </array>
         <property ID="0xB8BD2175" type="float">
@@ -48,7 +53,7 @@
         <assets>
             <billboard source="file">script/common/SequenceTimer.txtr</billboard>
         </assets>
-		<preview_scale>0.5</preview_scale>
+        <preview_scale>0.5</preview_scale>
         <rotation_type>enabled</rotation_type>
         <scale_type>enabled</scale_type>
     </editor>

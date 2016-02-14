@@ -8,6 +8,8 @@
         <property ID="0x03" name="Active" type="bool"/>
         <struct ID="0x04" name="GrappleParameters" template="Structs/GrappleParameters.xml"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>

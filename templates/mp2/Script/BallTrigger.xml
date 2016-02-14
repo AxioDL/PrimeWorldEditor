@@ -30,10 +30,10 @@
             <default>false</default>
         </property>
         <property ID="0x2766636A" type="float">
+            <versions>
+                <version>Trilogy</version>
+            </versions>
             <default>1.0</default>
-			<versions>
-				<version>Trilogy</version>
-			</versions>
         </property>
     </properties>
     <states/>

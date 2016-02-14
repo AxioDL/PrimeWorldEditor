@@ -8,6 +8,8 @@
         <property ID="0x03" name="Scale" type="vector3f"/>
         <property ID="0x04" name="Active" type="bool"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>

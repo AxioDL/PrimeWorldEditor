@@ -23,6 +23,8 @@
         <property ID="0x12" name="Unknown 15" type="bool"/>
         <property ID="0x13" name="Unknown 16" type="long"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>
@@ -30,8 +32,8 @@
             <property name="Rotation" ID="0x02"/>
         </properties>
         <assets>
-			<billboard source="file">script/common/Sound.txtr</billboard>
-		</assets>
+            <billboard source="file">script/common/Sound.txtr</billboard>
+        </assets>
         <rotation_type>enabled</rotation_type>
         <scale_type>disabled</scale_type>
     </editor>

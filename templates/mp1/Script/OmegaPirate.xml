@@ -48,6 +48,8 @@
         <property ID="0x2B" name="CSKR" type="file" extensions="CSKR"/>
         <property ID="0x2C" name="CINF" type="file" extensions="CINF"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>

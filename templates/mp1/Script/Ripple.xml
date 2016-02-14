@@ -7,6 +7,8 @@
         <property ID="0x02" name="Unknown 1" type="bool"/>
         <property ID="0x03" name="Unknown 2" type="float"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>

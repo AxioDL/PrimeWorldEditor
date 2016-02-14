@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <enum name="LocationOfEffect1">
-	<enumerators>
-		<enumerator ID="0x80DD21B4" name="Unknown 1"/>
-		<enumerator ID="0x24CF38F1" name="Unknown 2"/>
-		<enumerator ID="0x23363FD3" name="Unknown 3"/>
-	</enumerators>
+    <enumerators>
+        <enumerator ID="0x80DD21B4" name="Unknown 1"/>
+        <enumerator ID="0x24CF38F1" name="Unknown 2"/>
+        <enumerator ID="0x23363FD3" name="Unknown 3"/>
+    </enumerators>
 </enum>

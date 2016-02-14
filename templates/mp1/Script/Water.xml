@@ -56,8 +56,8 @@
         <property ID="0x1F" name="Unknown 38" type="color"/>
         <property ID="0x20" name="Unknown 39" type="color"/>
         <property ID="0x21" name="Enter Particle" type="file" extensions="PART">
-			<description>This particle plays when an actor/projectile enters the water. It also plays when the morph ball is rolling in it at surface level.</description>
-		</property>
+            <description>This particle plays when an actor/projectile enters the water. It also plays when the morph ball is rolling in it at surface level.</description>
+        </property>
         <property ID="0x22" name="Particle 2" type="file" extensions="PART"/>
         <property ID="0x23" name="Particle 3" type="file" extensions="PART"/>
         <property ID="0x24" name="Particle 4" type="file" extensions="PART"/>
@@ -88,12 +88,14 @@
         <property ID="0x3D" name="Ignore" type="short"/>
         <property ID="0x3E" name="Ignore" type="short"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>
             <property name="Position" ID="0x01"/>
             <property name="Scale" ID="0x02"/>
-			<property name="Active" ID="0x09"/>
+            <property name="Active" ID="0x09"/>
         </properties>
         <assets/>
         <rotation_type>disabled</rotation_type>

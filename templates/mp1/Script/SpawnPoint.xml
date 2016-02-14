@@ -38,6 +38,8 @@
         <property ID="0x21" name="Active" type="bool"/>
         <property ID="0x22" name="Morphed" type="bool"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>

@@ -130,9 +130,6 @@
         </struct>
         <struct ID="0x78D76034" template="Structs/BehaveChance.xml">
             <properties>
-                <property ID="0xD3A313A5">
-                    <default>0.0</default>
-                </property>
                 <property ID="0x1AF89F4B">
                     <default>100.0</default>
                 </property>

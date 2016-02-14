@@ -57,7 +57,7 @@
             <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
         </properties>
         <assets/>
-		<preview_scale>0.5</preview_scale>
+        <preview_scale>0.5</preview_scale>
         <rotation_type>enabled</rotation_type>
         <scale_type>enabled</scale_type>
     </editor>

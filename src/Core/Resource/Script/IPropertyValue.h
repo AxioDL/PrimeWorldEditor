@@ -168,7 +168,7 @@ public:
 
     TString ToString() const
     {
-        return TString::HexString(mValue, true, true, 8);
+        return TString::HexString(mValue, true, true, mValue > 0xFF ? 8 : 2);
     }
 
     void FromString(const TString& rkString)

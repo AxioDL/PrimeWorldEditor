@@ -23,6 +23,8 @@
         <property ID="0x12" name="AnimationParameters 4" type="character"/>
         <property ID="0x13" name="Unknown 8" type="bool"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Properties version="4">
     <property ID="0x0001F679" name="Unknown"/>
     <property ID="0x000E4BAE" name="Sky Temple Key 5"/>
@@ -4333,7 +4333,7 @@
     <property ID="0x60FE934E" name="Unknown"/>
     <property ID="0x610B8FB8" name="Unknown"/>
     <property ID="0x610C0165" name="Unknown"/>
-    <property ID="0x610EEC90" name="This room's #"/>
+    <property ID="0x610EEC90" name="This room&apos;s #"/>
     <property ID="0x6117E78F" name="Unknown"/>
     <property ID="0x611905F1" name="Unknown"/>
     <property ID="0x6119D07F" name="Unknown"/>

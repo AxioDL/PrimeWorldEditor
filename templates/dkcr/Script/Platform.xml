@@ -111,7 +111,7 @@
         <assets>
             <animparams source="property">0xA3D63F44</animparams>
             <model source="property">0xC27FFA8F</model>
-			<collision source="property">0x0FC966DC</collision>
+            <collision source="property">0x0FC966DC</collision>
         </assets>
         <rotation_type>enabled</rotation_type>
         <scale_type>enabled</scale_type>

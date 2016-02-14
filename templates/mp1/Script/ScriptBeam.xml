@@ -29,6 +29,8 @@
         </struct>
         <struct ID="0x06" name="DamageInfo" template="Structs/DamageInfo.xml"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>

@@ -19,6 +19,8 @@
         <struct ID="0x0E" name="DamageVulnerability" template="Structs/DamageVulnerability.xml"/>
         <property ID="0x0F" name="Unknown 9" type="float"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>

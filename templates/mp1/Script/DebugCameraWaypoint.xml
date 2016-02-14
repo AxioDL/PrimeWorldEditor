@@ -7,6 +7,8 @@
         <property ID="0x02" name="Rotation" type="vector3f"/>
         <property ID="0x03" name="Unknown 1" type="long"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>
@@ -16,7 +18,7 @@
         <assets>
             <model source="file">script/common/CameraWaypoint.cmdl</model>
         </assets>
-		<preview_scale>0.5</preview_scale>
+        <preview_scale>0.5</preview_scale>
         <rotation_type>enabled</rotation_type>
         <scale_type>enabled</scale_type>
     </editor>

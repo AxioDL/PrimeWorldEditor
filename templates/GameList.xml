@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GameList version="4">
-	<properties>Properties.xml</properties>
+    <properties>Properties.xml</properties>
     <game>
         <name>Metroid Prime</name>
         <mrea>0x0F</mrea>

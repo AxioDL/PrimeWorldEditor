@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="HealthInfo.xml" type="multi">
+<struct name="HealthInfo" type="multi">
     <properties>
         <property ID="0x00" name="Health" type="float"/>
         <property ID="0x01" name="Knockback Resistance" type="float"/>

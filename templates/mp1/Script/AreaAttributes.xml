@@ -12,11 +12,13 @@
         <property ID="0x07" name="Skybox Model" type="file" extensions="CMDL"/>
         <property ID="0x08" name="Unknown 7" type="long"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties/>
         <assets>
-			<billboard source="file">script/common/AreaAttributes.txtr</billboard>
-		</assets>
+            <billboard source="file">script/common/AreaAttributes.txtr</billboard>
+        </assets>
         <rotation_type>disabled</rotation_type>
         <scale_type>disabled</scale_type>
     </editor>

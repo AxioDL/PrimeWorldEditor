@@ -42,6 +42,8 @@
         <property ID="0x25" name="Sound? 1" type="long"/>
         <property ID="0x26" name="Sound? 2" type="long"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>

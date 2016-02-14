@@ -11,6 +11,8 @@
         <struct ID="0x06" name="ActorParameters" template="Structs/ActorParameters.xml"/>
         <struct ID="0x07" name="GrappleParameters" template="Structs/GrappleParameters.xml"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>

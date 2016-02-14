@@ -28,7 +28,7 @@
         </properties>
         <assets>
             <billboard source="file">script/common/Dock.txtr</billboard>
-		</assets>
+        </assets>
         <rotation_type>enabled</rotation_type>
         <scale_type>volume</scale_type>
         <preview_volume shape="Box"/>

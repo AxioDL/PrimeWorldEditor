@@ -21,13 +21,15 @@
         <property ID="0x06" name="Unknown 8" type="bool"/>
         <property ID="0x07" name="Unknown 9" type="bool"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>
         </properties>
         <assets>
-			<billboard source="file">script/common/DistanceFog.txtr</billboard>
-		</assets>
+            <billboard source="file">script/common/DistanceFog.txtr</billboard>
+        </assets>
         <rotation_type>disabled</rotation_type>
         <scale_type>disabled</scale_type>
     </editor>

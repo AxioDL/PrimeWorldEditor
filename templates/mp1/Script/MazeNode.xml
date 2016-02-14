@@ -13,6 +13,8 @@
         <property ID="0x08" name="Unknown 6" type="vector3f"/>
         <property ID="0x09" name="Unknown 7" type="vector3f"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>

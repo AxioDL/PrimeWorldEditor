@@ -24,6 +24,8 @@
         </struct>
         <property ID="0x0A" name="Unknown 8" type="bool"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>

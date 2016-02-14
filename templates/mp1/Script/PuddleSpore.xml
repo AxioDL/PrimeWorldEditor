@@ -19,6 +19,8 @@
         <property ID="0x0E" name="WPSC" type="file" extensions="WPSC"/>
         <struct ID="0x0F" name="DamageInfo" template="Structs/DamageInfo.xml"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>

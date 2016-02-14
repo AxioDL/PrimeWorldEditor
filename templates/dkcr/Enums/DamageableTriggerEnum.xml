@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <enum name="DamageableTriggerEnum">
-	<enumerators>
-		<enumerator ID="0x1DB35D5F" name="Unknown 1"/>
-		<enumerator ID="0x61939D58" name="Unknown 2"/>
-		<enumerator ID="0x385E6442" name="Unknown 3"/>
-		<enumerator ID="0x0C91B7E6" name="Unknown 4"/>
-	</enumerators>
+    <enumerators>
+        <enumerator ID="0x1DB35D5F" name="Unknown 1"/>
+        <enumerator ID="0x61939D58" name="Unknown 2"/>
+        <enumerator ID="0x385E6442" name="Unknown 3"/>
+        <enumerator ID="0x0C91B7E6" name="Unknown 4"/>
+    </enumerators>
 </enum>

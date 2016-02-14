@@ -104,7 +104,7 @@
             <model source="property">0x6C75E2EA:0xDAA9D4BE:0x5405F708</model>
             <model source="property">0x6C75E2EA:0xF361604C:0x5405F708</model>
             <model source="property">0x6C75E2EA:0x5D09F1DD:0x5405F708</model>
-			<collision source="property">0x0FC966DC</collision>
+            <collision source="property">0x0FC966DC</collision>
         </assets>
         <rotation_type>enabled</rotation_type>
         <scale_type>enabled</scale_type>

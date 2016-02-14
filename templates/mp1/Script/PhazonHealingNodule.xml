@@ -12,6 +12,8 @@
         <property ID="0x07" name="ELSC" type="file" extensions="ELSC"/>
         <property ID="0x08" name="Unknown 2" type="string"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>

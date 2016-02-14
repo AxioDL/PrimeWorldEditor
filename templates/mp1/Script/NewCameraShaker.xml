@@ -72,6 +72,8 @@
             </properties>
         </struct>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>

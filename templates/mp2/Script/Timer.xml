@@ -28,8 +28,8 @@
         </properties>
         <assets>
             <billboard source="file">script/common/Timer.txtr</billboard>
-		</assets>
-		<preview_scale>0.5</preview_scale>
+        </assets>
+        <preview_scale>0.5</preview_scale>
         <rotation_type>enabled</rotation_type>
         <scale_type>enabled</scale_type>
     </editor>

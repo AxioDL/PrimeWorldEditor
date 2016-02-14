@@ -11,13 +11,13 @@
             <default>true</default>
         </property>
         <enum ID="0x6B5E7509">
-            <default>1</default>
-			<enumerators>
-				<enumerator ID="0x00" name="Unknown 1"/>
-				<enumerator ID="0x01" name="Normal World Lighting"/>
-				<enumerator ID="0x02" name="Unknown 2"/>
-				<enumerator ID="0x03" name="Disable World Lighting"/>
-			</enumerators>
+            <default>0x01</default>
+            <enumerators>
+                <enumerator ID="0x00" name="Unknown 1"/>
+                <enumerator ID="0x01" name="Normal World Lighting"/>
+                <enumerator ID="0x02" name="Unknown 2"/>
+                <enumerator ID="0x03" name="Disable World Lighting"/>
+            </enumerators>
         </enum>
         <property ID="0x3DC5F0C6" type="bool">
             <default>true</default>

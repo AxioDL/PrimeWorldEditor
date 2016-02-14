@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="PatternedInfo.xml" type="multi">
+<struct name="PatternedInfo" type="multi">
     <properties>
         <property ID="0x00" name="Mass" type="float"/>
         <property ID="0x01" name="Speed" type="float"/>

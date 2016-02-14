@@ -8,6 +8,8 @@
         <struct ID="0x03" name="DamageInfo" template="Structs/DamageInfo.xml"/>
         <property ID="0x04" name="Radius" type="float"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>

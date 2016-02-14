@@ -16,6 +16,8 @@
         <property ID="0x0B" name="Always FFFFFFFF" type="long"/>
         <property ID="0x0C" name="Particle 4" type="file" extensions="PART"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>

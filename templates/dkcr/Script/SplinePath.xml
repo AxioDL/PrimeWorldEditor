@@ -7,9 +7,9 @@
             <default>false</default>
         </property>
         <struct ID="0x20091B54" template="Structs/SplineType.xml"/>
-		<property ID="0x00DD86E2" type="color">
-			<default>1,0,1,1</default>
-		</property>
+        <property ID="0x00DD86E2" type="color">
+            <default>1.0, 0.0, 1.0, 1.0</default>
+        </property>
     </properties>
     <states/>
     <messages/>
@@ -22,7 +22,7 @@
             <property name="Active" ID="0x255A4580:0x41435456"/>
         </properties>
         <assets/>
-		<preview_scale>0.5</preview_scale>
+        <preview_scale>0.5</preview_scale>
         <rotation_type>enabled</rotation_type>
         <scale_type>enabled</scale_type>
     </editor>

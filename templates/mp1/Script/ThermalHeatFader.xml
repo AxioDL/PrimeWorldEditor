@@ -7,6 +7,8 @@
         <property ID="0x02" name="Faded Heat Level" type="float"/>
         <property ID="0x03" name="Initial Heat Level" type="float"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>

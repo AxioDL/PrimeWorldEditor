@@ -99,6 +99,11 @@ TString CMasterTemplate::MessageByIndex(u32 Index)
     return (std::next(it, Index))->second;
 }
 
+TString CMasterTemplate::GetDirectory() const
+{
+    return mSourceFile.GetFileDirectory();
+}
+
 bool CMasterTemplate::IsLoadedSuccessfully()
 {
     return mFullyLoaded;
@@ -135,6 +140,79 @@ TString CMasterTemplate::GetPropertyName(u32 PropertyID)
         return "Unknown";
 }
 
+void CMasterTemplate::AddProperty(IPropertyTemplate *pTemp, const TString& rkTemplateName)
+{
+    auto it = smIDMap.find(pTemp->PropertyID());
+
+    // Add this property/template to existing ID info
+    if (it != smIDMap.end())
+    {
+        SPropIDInfo& rInfo = it->second;
+        bool NewTemplate = true;
+
+        for (u32 iTemp = 0; iTemp < rInfo.XMLList.size(); iTemp++)
+        {
+            if (rInfo.XMLList[iTemp] == rkTemplateName)
+            {
+                NewTemplate = false;
+                break;
+            }
+        }
+
+        if (NewTemplate)
+            rInfo.XMLList.push_back(rkTemplateName);
+
+        it->second.PropertyList.push_back(pTemp);
+    }
+
+    // Create new ID info
+    else
+    {
+        SPropIDInfo Info;
+        Info.XMLList.push_back(rkTemplateName);
+        Info.PropertyList.push_back(pTemp);
+        smIDMap[pTemp->PropertyID()] = Info;
+    }
+}
+
+void CMasterTemplate::RenameProperty(u32 ID, const TString& rkNewName)
+{
+    auto NameIt = smPropertyNames.find(ID);
+    TString CurName = (NameIt == smPropertyNames.end() ? "" : NameIt->second);
+
+    auto InfoIt = smIDMap.find(ID);
+
+    if (InfoIt != smIDMap.end())
+    {
+        const SPropIDInfo& rkInfo = InfoIt->second;
+
+        for (u32 iTemp = 0; iTemp < rkInfo.PropertyList.size(); iTemp++)
+        {
+            IPropertyTemplate *pTemp = rkInfo.PropertyList[iTemp];
+
+            if (pTemp->Name() == CurName)
+                pTemp->SetName(rkNewName);
+        }
+    }
+
+    if (NameIt != smPropertyNames.end())
+        smPropertyNames[ID] = rkNewName;
+}
+
+std::vector<TString> CMasterTemplate::GetTemplatesUsingID(u32 ID)
+{
+    auto InfoIt = smIDMap.find(ID);
+
+    if (InfoIt != smIDMap.end())
+    {
+        const SPropIDInfo& rkInfo = InfoIt->second;
+        return rkInfo.XMLList;
+    }
+    else
+        return std::vector<TString>();
+}
+
+std::map<u32, CMasterTemplate::SPropIDInfo> CMasterTemplate::smIDMap;
 std::map<EGame, CMasterTemplate*> CMasterTemplate::smMasterMap;
 std::map<u32, TString> CMasterTemplate::smPropertyNames;
 u32 CMasterTemplate::smGameListVersion;

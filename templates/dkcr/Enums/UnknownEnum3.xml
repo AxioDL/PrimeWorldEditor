@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <enum name="UnknownEnum3">
-	<enumerators>
-		<enumerator ID="0x82B6A62A" name="Unknown 1"/>
-		<enumerator ID="0xCE9CA7B2" name="Unknown 2"/>
-	</enumerators>
+    <enumerators>
+        <enumerator ID="0x82B6A62A" name="Unknown 1"/>
+        <enumerator ID="0xCE9CA7B2" name="Unknown 2"/>
+    </enumerators>
 </enum>

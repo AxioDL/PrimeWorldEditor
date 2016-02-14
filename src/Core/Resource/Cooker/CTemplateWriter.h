@@ -8,16 +8,18 @@
 class CTemplateWriter
 {
     CTemplateWriter();
+    static TString smTemplatesDir;
 
 public:
     static void SaveAllTemplates();
-    static void SaveGameTemplates(CMasterTemplate *pMaster, const TString& rkDir);
-    static void SavePropertyList(const TString& rkDir);
-    static void SaveScriptTemplate(CScriptTemplate *pTemp, const TString& rkDir);
-    static void SaveStructTemplate(CStructTemplate *pTemp, CMasterTemplate *pMaster, const TString& rkDir);
-    static void SaveEnumTemplate(CEnumTemplate *pTemp, const TString& rkDir);
-    static void SaveBitfieldTemplate(CBitfieldTemplate *pTemp, const TString& rkDir);
-    static void SaveProperties(tinyxml2::XMLDocument *pDoc, tinyxml2::XMLElement *pParent, CStructTemplate *pTemp, CMasterTemplate *pMaster, const TString& rkDir);
+    static void SaveGameTemplates(CMasterTemplate *pMaster);
+    static void SavePropertyList();
+    static void SaveScriptTemplate(CScriptTemplate *pTemp);
+    static void SaveStructTemplate(CStructTemplate *pTemp, CMasterTemplate *pMaster);
+    static void SaveEnumTemplate(CEnumTemplate *pTemp, CMasterTemplate *pMaster);
+    static void SaveBitfieldTemplate(CBitfieldTemplate *pTemp, CMasterTemplate *pMaster);
+    static void SaveProperties(tinyxml2::XMLDocument *pDoc, tinyxml2::XMLElement *pParent, CStructTemplate *pTemp, CMasterTemplate *pMaster);
+    static void SavePropertyOverrides(tinyxml2::XMLDocument *pDoc, tinyxml2::XMLElement *pParent, CStructTemplate *pStruct, CStructTemplate *pOriginal);
     static void SaveEnumerators(tinyxml2::XMLDocument *pDoc, tinyxml2::XMLElement *pParent, CEnumTemplate *pTemp);
     static void SaveBitFlags(tinyxml2::XMLDocument *pDoc, tinyxml2::XMLElement *pParent, CBitfieldTemplate *pTemp);
 };

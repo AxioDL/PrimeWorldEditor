@@ -11,6 +11,9 @@
             <default>0</default>
         </property>
         <struct ID="0xC8E441FA" template="Structs/TextProperties.xml">
+            <versions>
+                <version>Trilogy</version>
+            </versions>
             <properties>
                 <property ID="0xEE521DC6">
                     <default>640</default>
@@ -22,23 +25,20 @@
                     <default>1</default>
                 </property>
             </properties>
-			<versions>
-				<version>Trilogy</version>
-			</versions>
         </struct>
         <property ID="0x53A7F7A7" type="long">
+            <versions>
+                <version>Trilogy</version>
+            </versions>
             <default>0</default>
-			<versions>
-				<version>Trilogy</version>
-			</versions>
         </property>
         <property ID="0xEB1B90C2" type="long">
+            <versions>
+                <version>Trilogy</version>
+            </versions>
             <default>100</default>
-			<versions>
-				<version>Trilogy</version>
-			</versions>
         </property>
-		<property ID="0xFD95ED2A" type="file" extensions="STRG"/>
+        <property ID="0xFD95ED2A" type="file" extensions="STRG"/>
         <property ID="0x6CE46689" type="long">
             <default>0</default>
         </property>
@@ -60,7 +60,7 @@
             <property name="Active" ID="0x255A4580:0x41435456"/>
         </properties>
         <assets/>
-		<preview_scale>0.5</preview_scale>
+        <preview_scale>0.5</preview_scale>
         <rotation_type>enabled</rotation_type>
         <scale_type>enabled</scale_type>
     </editor>

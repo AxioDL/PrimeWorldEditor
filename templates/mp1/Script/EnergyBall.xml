@@ -23,6 +23,8 @@
         <struct ID="0x12" name="DamageInfo 2" template="Structs/DamageInfo.xml"/>
         <property ID="0x13" name="Unknown 6" type="float"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>
