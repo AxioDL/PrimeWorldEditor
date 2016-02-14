@@ -27,6 +27,8 @@
         <struct ID="0x16" name="SpindleCameraStruct 14" template="Structs/SpindleCameraStruct.xml"/>
         <struct ID="0x17" name="SpindleCameraStruct 15" template="Structs/SpindleCameraStruct.xml"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>

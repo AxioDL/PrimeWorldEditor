@@ -18,6 +18,8 @@
         <struct ID="0x0D" name="DamageInfo" template="Structs/DamageInfo.xml"/>
         <property ID="0x0E" name="Unknown 4" type="bool"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>

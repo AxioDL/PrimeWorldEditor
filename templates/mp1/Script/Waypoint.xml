@@ -16,6 +16,8 @@
         <property ID="0x0B" name="Unknown 9" type="long"/>
         <property ID="0x0C" name="Unknown 10" type="long"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>
@@ -25,7 +27,7 @@
         <assets>
             <model source="file">script/common/Waypoint.CMDL</model>
         </assets>
-		<preview_scale>0.5</preview_scale>
+        <preview_scale>0.5</preview_scale>
         <rotation_type>enabled</rotation_type>
         <scale_type>enabled</scale_type>
     </editor>

@@ -9,6 +9,8 @@
         <property ID="0x04" name="Unknown 2" type="bool"/>
         <property ID="0x05" name="Active" type="bool"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>

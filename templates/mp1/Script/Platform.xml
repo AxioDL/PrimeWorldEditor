@@ -22,6 +22,8 @@
         <property ID="0x11" name="Unknown 6" type="long"/>
         <property ID="0x12" name="Unknown 7" type="long"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>

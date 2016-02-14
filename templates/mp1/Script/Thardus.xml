@@ -47,6 +47,8 @@
         <property ID="0x2A" name="Unknown 11" type="long"/>
         <property ID="0x2B" name="Unknown 12" type="long"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>

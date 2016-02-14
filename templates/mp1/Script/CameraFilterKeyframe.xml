@@ -13,6 +13,8 @@
         <property ID="0x08" name="Unknown 8" type="float"/>
         <property ID="0x09" name="Texture" type="file" extensions="TXTR"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>

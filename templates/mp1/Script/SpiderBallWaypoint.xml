@@ -8,6 +8,8 @@
         <property ID="0x03" name="Unknown 1" type="bool"/>
         <property ID="0x04" name="Unknown 2" type="long"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>
@@ -17,7 +19,7 @@
         <assets>
             <model source="file">script/common/SpiderBallWaypoint.cmdl</model>
         </assets>
-		<preview_scale>0.5</preview_scale>
+        <preview_scale>0.5</preview_scale>
         <rotation_type>enabled</rotation_type>
         <scale_type>enabled</scale_type>
     </editor>

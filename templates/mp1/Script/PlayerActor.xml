@@ -30,6 +30,8 @@
         </struct>
         <property ID="0x12" name="Unknown 13" type="long"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>
@@ -39,7 +41,7 @@
             <property name="LightParameters" ID="0x0C:0x00"/>
         </properties>
         <assets>
-            <animparams source="property" force="0x2">0x0B</animparams>
+            <animparams source="property" force="2">0x0B</animparams>
             <model source="property">0x0A</model>
             <model source="property">0x0C:0x02</model>
             <model source="property">0x0C:0x04</model>

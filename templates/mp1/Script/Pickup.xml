@@ -21,6 +21,8 @@
         <property ID="0x10" name="Unknown 1" type="float"/>
         <property ID="0x11" name="Particle" type="file" extensions="PART"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>

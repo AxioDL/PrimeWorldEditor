@@ -1,41 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <enum name="Item">
-	<enumerators>
-		<enumerator ID="0xFB73F2B8" name="Unknown 1"/>
-		<enumerator ID="0x93AD6DF9" name="Unknown 2"/>
-		<enumerator ID="0x50A0AAA5" name="Unknown 3"/>
-		<enumerator ID="0x35488520" name="Unknown 4"/>
-		<enumerator ID="0x922DA6A8" name="Unknown 5"/>
-		<enumerator ID="0x90F0CED4" name="Unknown 6"/>
-		<enumerator ID="0xB7F4E76D" name="Unknown 7"/>
-		<enumerator ID="0x98FBF053" name="Unknown 8"/>
-		<enumerator ID="0x1FF64711" name="Unknown 9"/>
-		<enumerator ID="0xB9876CD1" name="Unknown 10"/>
-		<enumerator ID="0x96664E97" name="Unknown 11"/>
-		<enumerator ID="0xB3CADC47" name="Unknown 12"/>
-		<enumerator ID="0x73D674EA" name="Unknown 13"/>
-		<enumerator ID="0x662B235A" name="Unknown 14"/>
-		<enumerator ID="0x95C0052A" name="Unknown 15"/>
-		<enumerator ID="0xD9CD9EDE" name="Unknown 16"/>
-		<enumerator ID="0xC7682ACC" name="Unknown 17"/>
-		<enumerator ID="0x26B5C6C5" name="Unknown 18"/>
-		<enumerator ID="0xB36AECDD" name="Unknown 19"/>
-		<enumerator ID="0x50499B43" name="Unknown 20"/>
-		<enumerator ID="0x482F8235" name="Unknown 21"/>
-		<enumerator ID="0xB21BB8C7" name="Unknown 22"/>
-		<enumerator ID="0x4D415752" name="Unknown 23"/>
-		<enumerator ID="0x5568B8C9" name="Unknown 24"/>
-		<enumerator ID="0x49E8A1AC" name="Unknown 25"/>
-		<enumerator ID="0x515556A0" name="Unknown 26"/>
-		<enumerator ID="0x8C4847AB" name="Unknown 27"/>
-		<enumerator ID="0x87560845" name="Unknown 28"/>
-		<enumerator ID="0x57A20D1A" name="Unknown 29"/>
-		<enumerator ID="0x81A153FF" name="Unknown 30"/>
-		<enumerator ID="0x51E1A9FB" name="Unknown 31"/>
-		<enumerator ID="0x1701B527" name="Unknown 32"/>
-		<enumerator ID="0x31062F3E" name="Unknown 33"/>
-		<enumerator ID="0x4B2486FB" name="Unknown 34"/>
-		<enumerator ID="0x7B6A8F3A" name="Unknown 35"/>
-		<enumerator ID="0xB42B43DE" name="Unknown 36"/>
-	</enumerators>
+    <enumerators>
+        <enumerator ID="0xFB73F2B8" name="Unknown 1"/>
+        <enumerator ID="0x93AD6DF9" name="Unknown 2"/>
+        <enumerator ID="0x50A0AAA5" name="Unknown 3"/>
+        <enumerator ID="0x35488520" name="Unknown 4"/>
+        <enumerator ID="0x922DA6A8" name="Unknown 5"/>
+        <enumerator ID="0x90F0CED4" name="Unknown 6"/>
+        <enumerator ID="0xB7F4E76D" name="Unknown 7"/>
+        <enumerator ID="0x98FBF053" name="Unknown 8"/>
+        <enumerator ID="0x1FF64711" name="Unknown 9"/>
+        <enumerator ID="0xB9876CD1" name="Unknown 10"/>
+        <enumerator ID="0x96664E97" name="Unknown 11"/>
+        <enumerator ID="0xB3CADC47" name="Unknown 12"/>
+        <enumerator ID="0x73D674EA" name="Unknown 13"/>
+        <enumerator ID="0x662B235A" name="Unknown 14"/>
+        <enumerator ID="0x95C0052A" name="Unknown 15"/>
+        <enumerator ID="0xD9CD9EDE" name="Unknown 16"/>
+        <enumerator ID="0xC7682ACC" name="Unknown 17"/>
+        <enumerator ID="0x26B5C6C5" name="Unknown 18"/>
+        <enumerator ID="0xB36AECDD" name="Unknown 19"/>
+        <enumerator ID="0x50499B43" name="Unknown 20"/>
+        <enumerator ID="0x482F8235" name="Unknown 21"/>
+        <enumerator ID="0xB21BB8C7" name="Unknown 22"/>
+        <enumerator ID="0x4D415752" name="Unknown 23"/>
+        <enumerator ID="0x5568B8C9" name="Unknown 24"/>
+        <enumerator ID="0x49E8A1AC" name="Unknown 25"/>
+        <enumerator ID="0x515556A0" name="Unknown 26"/>
+        <enumerator ID="0x8C4847AB" name="Unknown 27"/>
+        <enumerator ID="0x87560845" name="Unknown 28"/>
+        <enumerator ID="0x57A20D1A" name="Unknown 29"/>
+        <enumerator ID="0x81A153FF" name="Unknown 30"/>
+        <enumerator ID="0x51E1A9FB" name="Unknown 31"/>
+        <enumerator ID="0x1701B527" name="Unknown 32"/>
+        <enumerator ID="0x31062F3E" name="Unknown 33"/>
+        <enumerator ID="0x4B2486FB" name="Unknown 34"/>
+        <enumerator ID="0x7B6A8F3A" name="Unknown 35"/>
+        <enumerator ID="0xB42B43DE" name="Unknown 36"/>
+    </enumerators>
 </enum>

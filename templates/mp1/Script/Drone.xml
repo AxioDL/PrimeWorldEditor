@@ -48,6 +48,8 @@
         <property ID="0x2B" name="Sound?" type="long"/>
         <property ID="0x2C" name="Unknown 30" type="bool"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>

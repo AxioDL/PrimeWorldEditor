@@ -18,11 +18,18 @@ class CMasterTemplate
     bool mFullyLoaded;
 
     std::vector<TString> mGameVersions;
+    std::map<TString, CStructTemplate*> mStructTemplates;
+
     std::map<u32, CScriptTemplate*> mTemplates;
     std::map<u32, TString> mStates;
     std::map<u32, TString> mMessages;
 
-
+    struct SPropIDInfo
+    {
+        std::vector<TString> XMLList; // List of script/struct templates that use this ID
+        std::vector<IPropertyTemplate*> PropertyList; // List of all properties that use this ID
+    };
+    static std::map<u32, SPropIDInfo> smIDMap;
     static std::map<EGame, CMasterTemplate*> smMasterMap;
     static std::map<u32, TString> smPropertyNames;
     static u32 smGameListVersion;
@@ -45,11 +52,15 @@ public:
     TString MessageByID(u32 MessageID);
     TString MessageByID(const CFourCC& MessageID);
     TString MessageByIndex(u32 Index);
+    TString GetDirectory() const;
     bool IsLoadedSuccessfully();
 
     static CMasterTemplate* GetMasterForGame(EGame Game);
     static std::list<CMasterTemplate*> GetMasterList();
     static TString GetPropertyName(u32 PropertyID);
+    static void AddProperty(IPropertyTemplate *pTemp, const TString& rkTemplateName);
+    static void RenameProperty(u32 ID, const TString& rkNewName);
+    static std::vector<TString> GetTemplatesUsingID(u32 ID);
 };
 
 // ************ INLINE ************

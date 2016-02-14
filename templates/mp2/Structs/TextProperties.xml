@@ -8,24 +8,24 @@
             <default>1</default>
         </property>
         <property ID="0x1A996292" type="float">
+            <versions>
+                <version>Trilogy</version>
+            </versions>
             <default>100.0</default>
-			<versions>
-				<version>Trilogy</version>
-			</versions>
         </property>
         <property ID="0x05EFF913" type="long">
+            <versions>
+                <version>Trilogy</version>
+            </versions>
             <default>0</default>
-			<versions>
-				<version>Trilogy</version>
-			</versions>
         </property>
         <property ID="0x45830901" type="long">
+            <versions>
+                <version>Trilogy</version>
+            </versions>
             <default>0</default>
-			<versions>
-				<version>Trilogy</version>
-			</versions>
         </property>
-		<property ID="0x3F39E635" type="color">
+        <property ID="0x3F39E635" type="color">
             <default>1.0, 1.0, 1.0, 1.0</default>
         </property>
         <property ID="0x60D78569" type="color">

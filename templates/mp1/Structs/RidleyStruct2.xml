@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="RidleyStruct2.xml" type="single">
+<struct name="RidleyStruct2" type="single">
     <properties>
         <property ID="0x00" name="Unknown 1" type="long"/>
         <property ID="0x01" name="Unknown 2" type="float"/>

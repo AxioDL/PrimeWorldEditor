@@ -20,6 +20,8 @@
         <struct ID="0x0F" name="DamageInfo 2" template="Structs/DamageInfo.xml"/>
         <property ID="0x10" name="DCLN" type="file" extensions="DCLN"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>

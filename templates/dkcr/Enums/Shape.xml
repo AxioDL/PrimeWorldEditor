@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <enum name="Shape">
-	<enumerators>
-		<enumerator ID="0x482B22F1" name="Box"/>
-		<enumerator ID="0x779DB545" name="Box"/>
-		<enumerator ID="0x8392F5E4" name="Ellipsoid"/>
-		<enumerator ID="0x39ED7B8E" name="Cylinder"/>
-	</enumerators>
+    <enumerators>
+        <enumerator ID="0x482B22F1" name="Box"/>
+        <enumerator ID="0x779DB545" name="Box"/>
+        <enumerator ID="0x8392F5E4" name="Ellipsoid"/>
+        <enumerator ID="0x39ED7B8E" name="Cylinder"/>
+    </enumerators>
 </enum>

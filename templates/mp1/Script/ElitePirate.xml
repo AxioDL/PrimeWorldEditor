@@ -45,6 +45,8 @@
         <property ID="0x28" name="Unknown 17" type="bool"/>
         <property ID="0x29" name="Unknown 18" type="bool"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>

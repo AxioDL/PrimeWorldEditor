@@ -41,7 +41,7 @@ public:
     IPropertyTemplate(u32 ID, CStructTemplate *pParent = 0)
         : mID(ID)
         , mpParent(pParent)
-        , mName("Unknown")
+        , mName("UNSET PROPERTY NAME")
         , mCookPreference(eNoCookPreference)
     {
     }
@@ -130,7 +130,7 @@ public:
 
 // TTypedPropertyTemplate - Template property class that allows for tracking
 // a default value. Typedefs are set up for a bunch of property types.
-template<typename PropType, EPropertyType PropTypeEnum, class ValueClass>
+template<typename PropType, EPropertyType PropTypeEnum, class ValueClass, bool CanHaveDefaultValue>
 class TTypedPropertyTemplate : public IPropertyTemplate
 {
     friend class CTemplateLoader;
@@ -146,9 +146,9 @@ public:
     TTypedPropertyTemplate(u32 ID, const TString& rkName, ECookPreference CookPreference, CStructTemplate *pParent = 0)
         : IPropertyTemplate(ID, rkName, CookPreference, pParent) {}
 
-    virtual EPropertyType Type()  const { return PropTypeEnum; }
-    virtual bool CanHaveDefault() const { return true;         }
-    virtual bool IsNumerical()    const { return false;        }
+    virtual EPropertyType Type()  const { return PropTypeEnum;          }
+    virtual bool CanHaveDefault() const { return CanHaveDefaultValue;   }
+    virtual bool IsNumerical()    const { return false;                 }
 
     virtual IProperty* InstantiateProperty(CPropertyStruct *pParent)
     {
@@ -200,7 +200,7 @@ public:
 // TNumericalPropertyTemplate - Subclass of TTypedPropertyTemplate for numerical
 // property types, and allows a min/max value and a suffix to be tracked.
 template<typename PropType, EPropertyType PropTypeEnum, class ValueClass>
-class TNumericalPropertyTemplate : public TTypedPropertyTemplate<PropType,PropTypeEnum,ValueClass>
+class TNumericalPropertyTemplate : public TTypedPropertyTemplate<PropType,PropTypeEnum,ValueClass,true>
 {
     friend class CTemplateLoader;
     friend class CTemplateWriter;
@@ -252,7 +252,7 @@ public:
 
     virtual void SetParam(const TString& rkParamName, const TString& rkValue)
     {
-        TTypedPropertyTemplate<PropType,PropTypeEnum,ValueClass>::SetParam(rkParamName, rkValue);
+        TTypedPropertyTemplate::SetParam(rkParamName, rkValue);
 
         if (rkParamName == "range")
         {
@@ -288,14 +288,15 @@ public:
 };
 
 // Typedefs for all property types that don't need further functionality.
-typedef TTypedPropertyTemplate<bool, eBoolProperty, CBoolValue>             TBoolTemplate;
-typedef TNumericalPropertyTemplate<s8, eByteProperty, CByteValue>           TByteTemplate;
-typedef TNumericalPropertyTemplate<s16, eShortProperty, CShortValue>        TShortTemplate;
-typedef TNumericalPropertyTemplate<s32, eLongProperty, CLongValue>          TLongTemplate;
-typedef TNumericalPropertyTemplate<float, eFloatProperty, CFloatValue>      TFloatTemplate;
-typedef TTypedPropertyTemplate<TString, eStringProperty, CStringValue>      TStringTemplate;
-typedef TTypedPropertyTemplate<CVector3f, eVector3Property, CVector3Value>  TVector3Template;
-typedef TTypedPropertyTemplate<CColor, eColorProperty, CColorValue>         TColorTemplate;
+typedef TTypedPropertyTemplate<bool, eBoolProperty, CBoolValue, true>                               TBoolTemplate;
+typedef TNumericalPropertyTemplate<s8, eByteProperty, CByteValue>                                   TByteTemplate;
+typedef TNumericalPropertyTemplate<s16, eShortProperty, CShortValue>                                TShortTemplate;
+typedef TNumericalPropertyTemplate<s32, eLongProperty, CLongValue>                                  TLongTemplate;
+typedef TNumericalPropertyTemplate<float, eFloatProperty, CFloatValue>                              TFloatTemplate;
+typedef TTypedPropertyTemplate<TString, eStringProperty, CStringValue, false>                       TStringTemplate;
+typedef TTypedPropertyTemplate<CVector3f, eVector3Property, CVector3Value, true>                    TVector3Template;
+typedef TTypedPropertyTemplate<CColor, eColorProperty, CColorValue, true>                           TColorTemplate;
+typedef TTypedPropertyTemplate<CAnimationParameters, eCharacterProperty, CCharacterValue, false>    TCharacterTemplate;
 
 // CFileTemplate - Property template for files. Tracks a list of file types that
 // the property is allowed to accept.
@@ -348,36 +349,8 @@ public:
     const TStringList& Extensions() const                       { return mAcceptedExtensions; }
 };
 
-// CCharacterTemplate - Typed property that doesn't allow default values.
-class CCharacterTemplate : public TTypedPropertyTemplate<CAnimationParameters,
-                                                         eCharacterProperty,
-                                                         CCharacterValue>
-{
-    friend class CTemplateLoader;
-    friend class CTemplateWriter;
-
-public:
-    CCharacterTemplate(u32 ID, CStructTemplate *pParent = 0)
-        : TTypedPropertyTemplate(ID, pParent) { }
-
-    CCharacterTemplate(u32 ID, const TString& rkName, ECookPreference CookPreference, CStructTemplate *pParent = 0)
-        : TTypedPropertyTemplate(ID, rkName, CookPreference, pParent) { }
-
-    virtual bool CanHaveDefault() const
-    {
-        return false;
-    }
-
-    IProperty* InstantiateProperty(CPropertyStruct *pParent)
-    {
-        return new TCharacterProperty(this, pParent);
-    }
-
-    DEFINE_TEMPLATE_CLONE(CCharacterTemplate)
-};
-
 // CEnumTemplate - Property template for enums. Tracks a list of possible values (enumerators).
-class CEnumTemplate : public TLongTemplate
+class CEnumTemplate : public TTypedPropertyTemplate<s32, eEnumProperty, CHexLongValue, true>
 {
     friend class CTemplateLoader;
     friend class CTemplateWriter;
@@ -400,12 +373,12 @@ class CEnumTemplate : public TLongTemplate
 
 public:
     CEnumTemplate(u32 ID, CStructTemplate *pParent = 0)
-        : TLongTemplate(ID, pParent)
+        : TTypedPropertyTemplate(ID, pParent)
     {
     }
 
     CEnumTemplate(u32 ID, const TString& rkName, ECookPreference CookPreference, CStructTemplate *pParent = 0)
-        : TLongTemplate(ID, rkName, CookPreference, pParent)
+        : TTypedPropertyTemplate(ID, rkName, CookPreference, pParent)
     {
     }
 
@@ -424,7 +397,7 @@ public:
 
     virtual void Copy(const IPropertyTemplate *pkTemp)
     {
-        TLongTemplate::Copy(pkTemp);
+        TTypedPropertyTemplate::Copy(pkTemp);
 
         const CEnumTemplate *pkEnum = static_cast<const CEnumTemplate*>(pkTemp);
         mEnumerators = pkEnum->mEnumerators;
@@ -435,7 +408,7 @@ public:
     {
         const CEnumTemplate *pkEnum = static_cast<const CEnumTemplate*>(pkTemp);
 
-        return ( (TLongTemplate::Matches(pkTemp)) &&
+        return ( (TTypedPropertyTemplate::Matches(pkTemp)) &&
                  (mEnumerators == pkEnum->mEnumerators) &&
                  (mSourceFile == pkEnum->mSourceFile) );
     }
@@ -474,7 +447,7 @@ public:
 
 // CBitfieldTemplate - Property template for bitfields, which can have multiple
 // distinct boolean parameters packed into one property.
-class CBitfieldTemplate : public TTypedPropertyTemplate<u32, eBitfieldProperty, CHexLongValue>
+class CBitfieldTemplate : public TTypedPropertyTemplate<u32, eBitfieldProperty, CHexLongValue, true>
 {
     friend class CTemplateLoader;
     friend class CTemplateWriter;
@@ -594,6 +567,11 @@ public:
         IPropertyTemplate::Copy(pkTemp);
 
         const CStructTemplate *pkStruct = static_cast<const CStructTemplate*>(pkTemp);
+        CopyStructData(pkStruct);
+    }
+
+    void CopyStructData(const CStructTemplate *pkStruct)
+    {
         mVersionPropertyCounts = pkStruct->mVersionPropertyCounts;
         mIsSingleProperty = pkStruct->mIsSingleProperty;
         mSourceFile = pkStruct->mSourceFile;
@@ -611,7 +589,17 @@ public:
         if ( (IPropertyTemplate::Matches(pkTemp)) &&
              (mVersionPropertyCounts == pkStruct->mVersionPropertyCounts) &&
              (mIsSingleProperty == pkStruct->mIsSingleProperty) &&
-             (mSourceFile == pkStruct->mSourceFile) &&
+             (mSourceFile == pkStruct->mSourceFile) )
+        {
+            return StructDataMatches(pkStruct);
+        }
+
+        return false;
+    }
+
+    bool StructDataMatches(const CStructTemplate *pkStruct) const
+    {
+        if ( (mIsSingleProperty == pkStruct->mIsSingleProperty) &&
              (mSubProperties.size() == pkStruct->mSubProperties.size()) )
         {
             for (u32 iSub = 0; iSub < mSubProperties.size(); iSub++)
@@ -673,6 +661,8 @@ public:
 
     virtual void Copy(const IPropertyTemplate *pkTemp)
     {
+        IPropertyTemplate::Copy(pkTemp);
+
         CStructTemplate::Copy(pkTemp);
         mElementName = static_cast<const CArrayTemplate*>(pkTemp)->mElementName;
     }

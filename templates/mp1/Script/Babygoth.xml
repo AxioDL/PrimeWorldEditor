@@ -36,6 +36,8 @@
         <property ID="0x1F" name="Unknown 11" type="long"/>
         <property ID="0x20" name="Particle 6" type="file" extensions="PART"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <enum name="BerserkerEnum">
-	<enumerators>
-		<enumerator ID="0x9275262C" name="Unknown 1"/>
-		<enumerator ID="0x8CD01A7E" name="Unknown 2"/>
-		<enumerator ID="0x80DA56BD" name="Unknown 3"/>
-		<enumerator ID="0xF12A35C6" name="Unknown 4"/>
-	</enumerators>
+    <enumerators>
+        <enumerator ID="0x9275262C" name="Unknown 1"/>
+        <enumerator ID="0x8CD01A7E" name="Unknown 2"/>
+        <enumerator ID="0x80DA56BD" name="Unknown 3"/>
+        <enumerator ID="0xF12A35C6" name="Unknown 4"/>
+    </enumerators>
 </enum>

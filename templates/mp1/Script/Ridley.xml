@@ -71,6 +71,8 @@
         <property ID="0x2E" name="Sound ID 3" type="long"/>
         <struct ID="0x2F" name="DamageInfo 8" template="Structs/DamageInfo.xml"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>

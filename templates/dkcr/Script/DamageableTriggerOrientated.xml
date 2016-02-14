@@ -26,6 +26,6 @@
         <assets/>
         <rotation_type>enabled</rotation_type>
         <scale_type>volume</scale_type>
-		<preview_volume shape="Box"/>
+        <preview_volume shape="Box"/>
     </editor>
 </ScriptTemplate>

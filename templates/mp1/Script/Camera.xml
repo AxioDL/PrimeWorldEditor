@@ -18,6 +18,8 @@
         <property ID="0x0D" name="Unknown 11" type="bool"/>
         <property ID="0x0E" name="Unknown 12" type="bool"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>

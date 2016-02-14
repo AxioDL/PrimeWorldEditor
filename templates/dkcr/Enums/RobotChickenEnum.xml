@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <enum name="RobotChickenEnum">
-	<enumerators>
-		<enumerator ID="0x8C665F9A" name="Unknown 1"/>
-		<enumerator ID="0x5E7931A4" name="Unknown 2"/>
-	</enumerators>
+    <enumerators>
+        <enumerator ID="0x8C665F9A" name="Unknown 1"/>
+        <enumerator ID="0x5E7931A4" name="Unknown 2"/>
+    </enumerators>
 </enum>

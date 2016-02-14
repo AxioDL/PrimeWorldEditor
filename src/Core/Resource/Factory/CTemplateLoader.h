@@ -45,6 +45,7 @@ class CTemplateLoader
 public:
     static void LoadGameList();
     static void LoadGameTemplates(EGame Game);
+    static void LoadAllGames();
     static void LoadPropertyList(tinyxml2::XMLDocument *pDoc, const TString& rkListName);
 };
 

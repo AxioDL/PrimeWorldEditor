@@ -20,7 +20,7 @@ IPropertyTemplate* CTemplateLoader::LoadProperty(XMLElement *pElem, CStructTempl
     // Get ID + name
     if (IDAttr.IsEmpty())
     {
-        Log::Error("Error reading " + rkTemplateName + "; ran into a property with no ID");
+        Log::Error(rkTemplateName + ": ran into a property with no ID");
         return nullptr;
     }
 
@@ -33,7 +33,7 @@ IPropertyTemplate* CTemplateLoader::LoadProperty(XMLElement *pElem, CStructTempl
         Name = CMasterTemplate::GetPropertyName(ID);
     else
     {
-        Log::Error("Error reading " + rkTemplateName + " property " + TString::HexString(ID, true, true, 8) + "; this property doesn't have a name either in the template itself nor in the master list");
+        Log::Error(rkTemplateName + ": Property " + TString::HexString(ID, true, true, 8) + " doesn't have a name either in the template itself nor in the master list");
         return nullptr;
     }
 
@@ -53,9 +53,9 @@ IPropertyTemplate* CTemplateLoader::LoadProperty(XMLElement *pElem, CStructTempl
         if (Type == eInvalidProperty)
         {
             if (TypeStr.IsEmpty())
-                Log::Error("Error reading " + rkTemplateName + " property " + TString::HexString(ID, true, true, 8) + "; this property doesn't have a valid type set");
+                Log::Error(rkTemplateName + ": Property " + TString::HexString(ID, true, true, 8) + " doesn't have a type set");
             else
-                Log::Error("Error reading " + rkTemplateName + " property " + TString::HexString(ID, true, true, 8) + "; this property has an invalid type set: " + TypeStr);
+                Log::Error(rkTemplateName + ": Property " + TString::HexString(ID, true, true, 8) + " has an invalid type set: " + TypeStr);
 
             return nullptr;
         }
@@ -64,7 +64,7 @@ IPropertyTemplate* CTemplateLoader::LoadProperty(XMLElement *pElem, CStructTempl
 
         if (!pProp)
         {
-            Log::Error("Error reading " + rkTemplateName + " property " + TString::HexString(ID, true, true, 8) + "; seem to have attempted to load a valid but unsupported property type? (" + TypeStr + ")");
+            Log::Error(rkTemplateName + ": Property " + TString::HexString(ID, true, true, 8) + " seems to be using a valid but unsupported property type? (" + TypeStr + ")");
             return nullptr;
         }
     }
@@ -90,7 +90,7 @@ IPropertyTemplate* CTemplateLoader::LoadProperty(XMLElement *pElem, CStructTempl
                 u32 VerIdx = mpMaster->GetGameVersion(VerName);
 
                 if (VerIdx == -1)
-                    Log::Error("Error reading " + rkTemplateName + " property " + TString::HexString(ID, true, true, 8) + "; invalid version \"" + VerName + "\"");
+                    Log::Error(rkTemplateName + ": Property " + TString::HexString(ID, true, true, 8) + " has invalid version \"" + VerName + "\"");
                 else
                     pProp->mAllowedVersions.push_back(VerIdx);
 
@@ -156,15 +156,16 @@ IPropertyTemplate* CTemplateLoader::LoadProperty(XMLElement *pElem, CStructTempl
             LoadStructTemplate(TemplateAttr, pStruct);
 
         if (IsNewProperty && TemplateAttr.IsEmpty() && Type == eStructProperty)
-            pStruct->mIsSingleProperty = (TypeAttr == "single" ? true : false);
+            pStruct->mIsSingleProperty = (TypeAttr == "single");
 
-        // Load sub-properties
+        // Load sub-properties and parameter overrides
         XMLElement *pProperties = pElem->FirstChildElement("properties");
 
         if (pProperties)
             LoadProperties(pProperties, pStruct, rkTemplateName);
     }
 
+    CMasterTemplate::AddProperty(pProp, mMasterDir + rkTemplateName);
     return pProp;
 }
 
@@ -184,7 +185,7 @@ IPropertyTemplate* CTemplateLoader::CreateProperty(u32 ID, EPropertyType Type, c
     case eVector3Property:   pOut = CREATE_PROP_TEMP(TVector3Template);   break;
     case eColorProperty:     pOut = CREATE_PROP_TEMP(TColorTemplate);     break;
     case eFileProperty:      pOut = CREATE_PROP_TEMP(CFileTemplate);      break;
-    case eCharacterProperty: pOut = CREATE_PROP_TEMP(CCharacterTemplate); break;
+    case eCharacterProperty: pOut = CREATE_PROP_TEMP(TCharacterTemplate); break;
     case eEnumProperty:      pOut = CREATE_PROP_TEMP(CEnumTemplate);      break;
     case eBitfieldProperty:  pOut = CREATE_PROP_TEMP(CBitfieldTemplate);  break;
     case eArrayProperty:     pOut = CREATE_PROP_TEMP(CArrayTemplate);     break;
@@ -199,60 +200,81 @@ IPropertyTemplate* CTemplateLoader::CreateProperty(u32 ID, EPropertyType Type, c
 
 void CTemplateLoader::LoadStructTemplate(const TString& rkTemplateFileName, CStructTemplate *pStruct)
 {
-    XMLDocument Doc;
-    OpenXML(mMasterDir + rkTemplateFileName, Doc);
+    // Check whether this struct has already been read
+    auto it = mpMaster->mStructTemplates.find(rkTemplateFileName);
+    CStructTemplate *pSource = (it == mpMaster->mStructTemplates.end() ? nullptr : it->second);
 
-    if (!Doc.Error())
+    // If the source hasn't been read yet, then we read it and add it to master's list
+    if (!pSource)
     {
-        XMLElement *pRootElem;
+        XMLDocument Doc;
+        OpenXML(mskTemplatesDir + mMasterDir + rkTemplateFileName, Doc);
 
-        if (pStruct->Type() == eStructProperty)
+        if (!Doc.Error())
         {
-            pRootElem = Doc.FirstChildElement("struct");
+            XMLElement *pRootElem;
 
-            if (!pRootElem)
+            if (pStruct->Type() == eStructProperty)
             {
-                Log::Error("Error reading struct template " + rkTemplateFileName + ": there is no root \"struct\" element");
-                return;
+                pSource = new CStructTemplate(-1, nullptr);
+                pRootElem = Doc.FirstChildElement("struct");
+
+                if (!pRootElem)
+                {
+                    Log::Error(rkTemplateFileName + ": There is no root \"struct\" element");
+                    return;
+                }
+
+                TString TypeAttr = TString(pRootElem->Attribute("type")).ToLower();
+
+                if (TypeAttr.IsEmpty())
+                {
+                    Log::Error(rkTemplateFileName + ": There is no struct type specified");
+                    return;
+                }
+
+                pSource->mIsSingleProperty = (TypeAttr == "single" ? true : false);
             }
 
-            TString TypeAttr = TString(pRootElem->Attribute("type")).ToLower();
-
-            if (TypeAttr.IsEmpty())
+            else if (pStruct->Type() == eArrayProperty)
             {
-                Log::Error("Error reading struct template " + rkTemplateFileName + "; there is no struct type specified");
-                return;
+                pRootElem = Doc.FirstChildElement("array");
+
+                if (!pRootElem)
+                {
+                    Log::Error(rkTemplateFileName + ": There is no root \"array\" element");
+                    return;
+                }
             }
 
-            pStruct->mIsSingleProperty = (TypeAttr == "single" ? true : false);
+            // Read sub-properties
+            XMLElement *pSubPropsElem = pRootElem->FirstChildElement("properties");
+
+            if (pSubPropsElem)
+            {
+                LoadProperties(pSubPropsElem, pSource, rkTemplateFileName);
+                mpMaster->mStructTemplates[rkTemplateFileName] = pSource;
+                pSource->mSourceFile = rkTemplateFileName;
+            }
+
+            else
+            {
+                Log::Error(rkTemplateFileName + ": There is no \"properties\" block element");
+                delete pSource;
+                pSource = nullptr;
+            }
         }
-
-        else if (pStruct->Type() == eArrayProperty)
-        {
-            pRootElem = Doc.FirstChildElement("array");
-
-            if (!pRootElem)
-            {
-                Log::Error("Error reading array template " + rkTemplateFileName + "; there is no root \"array\" element");
-                return;
-            }
-        }
-
-        // Read sub-properties
-        XMLElement *pSubPropsElem = pRootElem->FirstChildElement("properties");
-
-        if (pSubPropsElem)
-            LoadProperties(pSubPropsElem, pStruct, rkTemplateFileName);
-
-        else
-            Log::Error("Error reading " + TString(pStruct->Type() == eStructProperty ? "struct" : "array") + " template " + rkTemplateFileName + "; there's no \"properties\" block element");
     }
+
+    // Copy source to the new struct template
+    if (pSource)
+        pStruct->CopyStructData(pSource);
 }
 
 void CTemplateLoader::LoadEnumTemplate(const TString& rkTemplateFileName, CEnumTemplate *pEnum)
 {
     XMLDocument Doc;
-    OpenXML(mMasterDir + rkTemplateFileName, Doc);
+    OpenXML(mskTemplatesDir + mMasterDir + rkTemplateFileName, Doc);
 
     if (!Doc.Error())
     {
@@ -260,7 +282,7 @@ void CTemplateLoader::LoadEnumTemplate(const TString& rkTemplateFileName, CEnumT
 
         if (!pRootElem)
         {
-            Log::Error("Error reading enum template " + rkTemplateFileName + "; there is no root \"enum\" element");
+            Log::Error(rkTemplateFileName + ": There is no root \"enum\" element");
             return;
         }
 
@@ -270,14 +292,16 @@ void CTemplateLoader::LoadEnumTemplate(const TString& rkTemplateFileName, CEnumT
             LoadEnumerators(pEnumers, pEnum, rkTemplateFileName);
 
         else
-            Log::Error("Error reading enum template " + rkTemplateFileName + "; there is no \"enumerators\" block element");
+            Log::Error(rkTemplateFileName + ": There is no \"enumerators\" block element");
+
+        pEnum->mSourceFile = rkTemplateFileName;
     }
 }
 
 void CTemplateLoader::LoadBitfieldTemplate(const TString& rkTemplateFileName, CBitfieldTemplate *pBitfield)
 {
     XMLDocument Doc;
-    OpenXML(mMasterDir + rkTemplateFileName, Doc);
+    OpenXML(mskTemplatesDir + mMasterDir + rkTemplateFileName, Doc);
 
     if (!Doc.Error())
     {
@@ -285,7 +309,7 @@ void CTemplateLoader::LoadBitfieldTemplate(const TString& rkTemplateFileName, CB
 
         if (!pRootElem)
         {
-            Log::Error("Error reading bitfield template " + rkTemplateFileName + "; there is no root \"bitfield\" element");
+            Log::Error(rkTemplateFileName + ": There is no root \"bitfield\" element");
             return;
         }
 
@@ -295,7 +319,9 @@ void CTemplateLoader::LoadBitfieldTemplate(const TString& rkTemplateFileName, CB
             LoadBitFlags(pFlags, pBitfield, rkTemplateFileName);
 
         else
-            Log::Error("Error reading bitfield template " + rkTemplateFileName + "; there is no \"flags\" block element");
+            Log::Error(rkTemplateFileName + ": There is no \"flags\" block element");
+
+        pBitfield->mSourceFile = rkTemplateFileName;
     }
 }
 
@@ -309,7 +335,7 @@ void CTemplateLoader::LoadProperties(XMLElement *pPropertiesElem, CStructTemplat
 
         if ( (NodeType != "property") && (NodeType != "struct") && (NodeType != "enum") && (NodeType != "bitfield") && (NodeType != "array") )
         {
-            Log::Error("Error reading " + rkTemplateName + "; a node in a properties block has an invalid name: " + NodeType);
+            Log::Error(rkTemplateName + ": A node in a properties block has an invalid name: " + NodeType);
         }
 
         // LoadProperty adds newly created properties to the struct, so we don't need to do anything other than call it for each sub-element.
@@ -339,7 +365,7 @@ void CTemplateLoader::LoadEnumerators(XMLElement *pEnumeratorsElem, CEnumTemplat
 
         else
         {
-            TString LogErrorBase = "Couldn't parse enumerator in " + rkTemplateName + "; ";
+            TString LogErrorBase = rkTemplateName + ": Couldn't parse enumerator; ";
 
             if      (!pkID && pkName) Log::Error(LogErrorBase + "no valid ID (" + pkName + ")");
             else if (pkID && !pkName) Log::Error(LogErrorBase + "no valid name (ID " + pkID + ")");
@@ -364,7 +390,7 @@ void CTemplateLoader::LoadBitFlags(XMLElement *pFlagsElem, CBitfieldTemplate *pT
 
         else
         {
-            TString LogErrorBase = "Couldn't parse bit flag in " + templateName + "; ";
+            TString LogErrorBase = templateName + ": Couldn't parse bit flag; ";
 
             if      (!pkMask && pkName) Log::Error(LogErrorBase + "no mask (" + pkName + ")");
             else if (pkMask && !pkName) Log::Error(LogErrorBase + "no name (mask " + pkMask + ")");
@@ -381,6 +407,7 @@ CScriptTemplate* CTemplateLoader::LoadScriptTemplate(XMLDocument *pDoc, const TS
     CScriptTemplate *pScript = new CScriptTemplate(mpMaster);
     pScript->mObjectID = ObjectID;
     pScript->mpBaseStruct = new CStructTemplate(-1, nullptr);
+    pScript->mSourceFile = rkTemplateName;
 
     XMLElement *pRoot = pDoc->FirstChildElement("ScriptTemplate");
 
@@ -399,7 +426,7 @@ CScriptTemplate* CTemplateLoader::LoadScriptTemplate(XMLDocument *pDoc, const TS
     if (pPropsElem)
         LoadProperties(pPropsElem, pScript->mpBaseStruct, rkTemplateName);
     else
-        Log::Error("Error reading script template " + rkTemplateName + "; there is no properties block");
+        Log::Error(rkTemplateName + ": There is no \"properties\" block element");
 
     // Editor Parameters
     XMLElement *pEditor = pRoot->FirstChildElement("editor");
@@ -413,7 +440,7 @@ CScriptTemplate* CTemplateLoader::LoadScriptTemplate(XMLDocument *pDoc, const TS
         while (pEdProp)
         {
             TString Name = TString(pEdProp->Attribute("name")).ToLower();
-            TString ID = TString(pEdProp->Attribute("ID")).ToLower();
+            TString ID = TString(pEdProp->Attribute("ID"));
 
             if (!Name.IsEmpty() && !ID.IsEmpty())
             {
@@ -489,7 +516,7 @@ CScriptTemplate* CTemplateLoader::LoadScriptTemplate(XMLDocument *pDoc, const TS
                     {
                         if (!pScript->mpBaseStruct->HasProperty(Asset.AssetLocation))
                         {
-                            Log::Error("Error reading script template " + rkTemplateName + "; invalid property for " + Type + " asset: " + ID);
+                            Log::Error(rkTemplateName + ": Invalid property for " + Type + " asset: " + ID);
                             pAsset = pAsset->NextSiblingElement();
                             continue;
                         }
@@ -501,7 +528,7 @@ CScriptTemplate* CTemplateLoader::LoadScriptTemplate(XMLDocument *pDoc, const TS
                         TString Path = "../resources/" + ID;
                         if (!boost::filesystem::exists(*Path))
                         {
-                            Log::Error("Error reading script template " + rkTemplateName + "; invalid file for " + Type + " asset: " + ID);
+                            Log::Error(rkTemplateName + ": Invalid file for " + Type + " asset: " + ID);
                             pAsset = pAsset->NextSiblingElement();
                             continue;
                         }
@@ -625,7 +652,7 @@ CScriptTemplate* CTemplateLoader::LoadScriptTemplate(XMLDocument *pDoc, const TS
 void CTemplateLoader::LoadMasterTemplate(XMLDocument *pDoc, CMasterTemplate *pMaster)
 {
     mpMaster = pMaster;
-    mMasterDir = mskTemplatesDir + pMaster->mSourceFile.GetFileDirectory();
+    mMasterDir = pMaster->mSourceFile.GetFileDirectory();
 
     XMLElement *pRoot = pDoc->FirstChildElement("MasterTemplate");
     mpMaster->mVersion = TString(pRoot->Attribute("version")).ToInt32();
@@ -668,17 +695,14 @@ void CTemplateLoader::LoadMasterTemplate(XMLDocument *pDoc, CMasterTemplate *pMa
                 TString TemplateName = pObj->Attribute("template");
 
                 XMLDocument ScriptXML;
-                OpenXML(mMasterDir + TemplateName, ScriptXML);
+                OpenXML(mskTemplatesDir + mMasterDir + TemplateName, ScriptXML);
 
                 if (!ScriptXML.Error())
                 {
                     CScriptTemplate *pTemp = LoadScriptTemplate(&ScriptXML, TemplateName, ID);
 
                     if (pTemp)
-                    {
-                        pTemp->mSourceFile = TemplateName;
                         mpMaster->mTemplates[ID] = pTemp;
-                    }
                 }
 
                 pObj = pObj->NextSiblingElement("object");
@@ -773,7 +797,7 @@ void CTemplateLoader::OpenXML(const TString& rkPath, XMLDocument& rDoc)
     if (rDoc.Error())
     {
         TString Name = AbsPath.GetFileName();
-        Log::Error("Error when opening template XML " + Name + ": " + ErrorName(rDoc.ErrorID()));
+        Log::Error("Error opening " + Name + ": " + ErrorName(rDoc.ErrorID()));
     }
 }
 
@@ -781,27 +805,27 @@ TString CTemplateLoader::ErrorName(XMLError Error)
 {
     switch (Error)
     {
-    case XML_SUCCESS: return "Success";
-    case XML_NO_ATTRIBUTE: return "No attribute";
-    case XML_WRONG_ATTRIBUTE_TYPE: return "Wrong attribute type";
-    case XML_ERROR_FILE_NOT_FOUND: return "File not found";
-    case XML_ERROR_FILE_COULD_NOT_BE_OPENED: return "File could not be opened";
-    case XML_ERROR_FILE_READ_ERROR: return "File read error";
-    case XML_ERROR_ELEMENT_MISMATCH: return "Element mismatch";
-    case XML_ERROR_PARSING_ELEMENT: return "Parsing element";
-    case XML_ERROR_PARSING_ATTRIBUTE: return "Parsing attribute";
-    case XML_ERROR_IDENTIFYING_TAG: return "Identifying tag";
-    case XML_ERROR_PARSING_TEXT: return "Parsing text";
-    case XML_ERROR_PARSING_CDATA: return "Parsing CData";
-    case XML_ERROR_PARSING_COMMENT: return "Parsing comment";
-    case XML_ERROR_PARSING_DECLARATION: return "Parsing declaration";
-    case XML_ERROR_PARSING_UNKNOWN: return "Parsing unknown";
-    case XML_ERROR_EMPTY_DOCUMENT: return "Empty document";
-    case XML_ERROR_MISMATCHED_ELEMENT: return "Mismatched element";
-    case XML_ERROR_PARSING: return "Parsing";
-    case XML_CAN_NOT_CONVERT_TEXT: return "Cannot convert text";
-    case XML_NO_TEXT_NODE: return "No text node";
-    default: return "Unknown error";
+    case XML_SUCCESS:                           return "Success";
+    case XML_NO_ATTRIBUTE:                      return "No attribute";
+    case XML_WRONG_ATTRIBUTE_TYPE:              return "Wrong attribute type";
+    case XML_ERROR_FILE_NOT_FOUND:              return "File not found";
+    case XML_ERROR_FILE_COULD_NOT_BE_OPENED:    return "File could not be opened";
+    case XML_ERROR_FILE_READ_ERROR:             return "File read error";
+    case XML_ERROR_ELEMENT_MISMATCH:            return "Element mismatch";
+    case XML_ERROR_PARSING_ELEMENT:             return "Parsing element";
+    case XML_ERROR_PARSING_ATTRIBUTE:           return "Parsing attribute";
+    case XML_ERROR_IDENTIFYING_TAG:             return "Identifying tag";
+    case XML_ERROR_PARSING_TEXT:                return "Parsing text";
+    case XML_ERROR_PARSING_CDATA:               return "Parsing CData";
+    case XML_ERROR_PARSING_COMMENT:             return "Parsing comment";
+    case XML_ERROR_PARSING_DECLARATION:         return "Parsing declaration";
+    case XML_ERROR_PARSING_UNKNOWN:             return "Parsing unknown";
+    case XML_ERROR_EMPTY_DOCUMENT:              return "Empty document";
+    case XML_ERROR_MISMATCHED_ELEMENT:          return "Mismatched element";
+    case XML_ERROR_PARSING:                     return "Parsing";
+    case XML_CAN_NOT_CONVERT_TEXT:              return "Cannot convert text";
+    case XML_NO_TEXT_NODE:                      return "No text node";
+    default:                                    return "Unknown error";
     }
 }
 
@@ -861,7 +885,7 @@ void CTemplateLoader::LoadGameTemplates(EGame Game)
     {
         CMasterTemplate *pMaster = *it;
 
-        if (pMaster->GetGame() == Game)
+        if (pMaster->GetGame() == Game && !pMaster->IsLoadedSuccessfully())
         {
             XMLDocument MasterXML;
             OpenXML(mskTemplatesDir + pMaster->mSourceFile, MasterXML);
@@ -878,12 +902,35 @@ void CTemplateLoader::LoadGameTemplates(EGame Game)
     }
 }
 
+void CTemplateLoader::LoadAllGames()
+{
+    std::list<CMasterTemplate*> MasterList = CMasterTemplate::GetMasterList();
+
+    for (auto it = MasterList.begin(); it != MasterList.end(); it++)
+    {
+        CMasterTemplate *pMaster = *it;
+
+        if (!pMaster->IsLoadedSuccessfully())
+        {
+            XMLDocument MasterXML;
+            OpenXML(mskTemplatesDir + pMaster->mSourceFile, MasterXML);
+
+            if (!MasterXML.Error())
+            {
+                CTemplateLoader Loader(mskTemplatesDir);
+                Loader.mGame = pMaster->GetGame();
+                Loader.LoadMasterTemplate(&MasterXML, pMaster);
+            }
+        }
+    }
+}
+
 void CTemplateLoader::LoadPropertyList(XMLDocument *pDoc, const TString& ListName)
 {
     XMLElement *pRootElem = pDoc->FirstChildElement("Properties");
 
     if (!pRootElem)
-        Log::Error("Error reading property list at " + ListName + "; there is no root \"Properties\" block element");
+        Log::Error(ListName + ": There is no root \"Properties\" block element");
 
     else
     {

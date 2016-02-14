@@ -23,6 +23,8 @@
         <property ID="0x0D" name="Used by SpinnerController 2" type="long"/>
         <property ID="0x0E" name="Used by SpinnerController 3" type="long"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>

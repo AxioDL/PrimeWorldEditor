@@ -12,6 +12,8 @@
         <property ID="0x07" name="Unknown 5" type="vector3f"/>
         <property ID="0x08" name="Unknown 6" type="bool"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>

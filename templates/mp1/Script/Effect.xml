@@ -27,6 +27,8 @@
         <property ID="0x16" name="Unknown 17" type="bool"/>
         <struct ID="0x17" name="LightParameters" template="Structs/LightParameters.xml"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>

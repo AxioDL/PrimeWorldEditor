@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <enum name="InventorySlot">
     <enumerators>
-        <enumerator ID="0x0" name="Power Beam"/>
-        <enumerator ID="0x1" name="Ice Beam"/>
-        <enumerator ID="0x2" name="Wave Beam"/>
-        <enumerator ID="0x3" name="Plasma Beam"/>
-        <enumerator ID="0x4" name="Missile"/>
-        <enumerator ID="0x5" name="Scan Visor"/>
-        <enumerator ID="0x6" name="Morph Ball Bomb"/>
-        <enumerator ID="0x7" name="Power Bomb"/>
-        <enumerator ID="0x8" name="Flamethrower"/>
-        <enumerator ID="0x9" name="Thermal Visor"/>
-        <enumerator ID="0xA" name="Charge Beam"/>
-        <enumerator ID="0xB" name="Super Missile"/>
-        <enumerator ID="0xC" name="Grapple Beam"/>
-        <enumerator ID="0xD" name="X-Ray Visor"/>
-        <enumerator ID="0xE" name="Ice Spreader"/>
-        <enumerator ID="0xF" name="Space Jump Boots"/>
+        <enumerator ID="0x00" name="Power Beam"/>
+        <enumerator ID="0x01" name="Ice Beam"/>
+        <enumerator ID="0x02" name="Wave Beam"/>
+        <enumerator ID="0x03" name="Plasma Beam"/>
+        <enumerator ID="0x04" name="Missile"/>
+        <enumerator ID="0x05" name="Scan Visor"/>
+        <enumerator ID="0x06" name="Morph Ball Bomb"/>
+        <enumerator ID="0x07" name="Power Bomb"/>
+        <enumerator ID="0x08" name="Flamethrower"/>
+        <enumerator ID="0x09" name="Thermal Visor"/>
+        <enumerator ID="0x0A" name="Charge Beam"/>
+        <enumerator ID="0x0B" name="Super Missile"/>
+        <enumerator ID="0x0C" name="Grapple Beam"/>
+        <enumerator ID="0x0D" name="X-Ray Visor"/>
+        <enumerator ID="0x0E" name="Ice Spreader"/>
+        <enumerator ID="0x0F" name="Space Jump Boots"/>
         <enumerator ID="0x10" name="Morph Ball"/>
         <enumerator ID="0x11" name="Combat Visor"/>
         <enumerator ID="0x12" name="Boost Ball"/>

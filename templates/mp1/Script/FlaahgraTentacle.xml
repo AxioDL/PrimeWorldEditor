@@ -9,6 +9,8 @@
         <struct ID="0x04" name="PatternedInfo" template="Structs/PatternedInfo.xml"/>
         <struct ID="0x05" name="ActorParameters" template="Structs/ActorParameters.xml"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>

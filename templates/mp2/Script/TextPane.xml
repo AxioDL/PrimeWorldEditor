@@ -15,6 +15,9 @@
             </properties>
         </struct>
         <struct ID="0xC8E441FA" template="Structs/TextProperties.xml">
+            <versions>
+                <version>Trilogy</version>
+            </versions>
             <properties>
                 <property ID="0xEE521DC6">
                     <default>80</default>
@@ -23,9 +26,6 @@
                     <default>10</default>
                 </property>
             </properties>
-			<versions>
-				<version>Trilogy</version>
-			</versions>
         </struct>
         <property ID="0xDEF21BF5" type="vector3f">
             <default>0.0, 0.0, 0.0</default>
@@ -62,7 +62,7 @@
             <property name="Active" ID="0x255A4580:0x41435456"/>
         </properties>
         <assets/>
-		<preview_scale>0.5</preview_scale>
+        <preview_scale>0.5</preview_scale>
         <rotation_type>enabled</rotation_type>
         <scale_type>enabled</scale_type>
     </editor>

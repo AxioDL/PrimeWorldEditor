@@ -23,6 +23,8 @@
         <property ID="0x12" name="Unknown 12" type="float"/>
         <property ID="0x13" name="Unknown 13" type="bool"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>

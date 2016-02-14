@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <struct name="LayerID" type="single">
     <properties>
-		<property ID="0x00" type="long" name="Layer ID Part 1"/>
-		<property ID="0x01" type="long" name="Layer ID Part 2"/>
-		<property ID="0x02" type="long" name="Layer ID Part 3"/>
-		<property ID="0x03" type="long" name="Layer ID Part 4"/>
+        <property ID="0x00" name="Layer ID Part 1" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0x01" name="Layer ID Part 2" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0x02" name="Layer ID Part 3" type="long">
+            <default>0</default>
+        </property>
+        <property ID="0x03" name="Layer ID Part 4" type="long">
+            <default>0</default>
+        </property>
     </properties>
 </struct>

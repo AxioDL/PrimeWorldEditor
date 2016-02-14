@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <enum name="WeaponType">
     <enumerators>
-        <enumerator ID="0x0" name="Power"/>
-        <enumerator ID="0x1" name="Ice"/>
-        <enumerator ID="0x2" name="Wave"/>
-        <enumerator ID="0x3" name="Plasma"/>
-        <enumerator ID="0x4" name="Bomb"/>
-        <enumerator ID="0x5" name="Power Bomb"/>
-        <enumerator ID="0x6" name="Missile"/>
-        <enumerator ID="0x7" name="Boost Ball"/>
-        <enumerator ID="0x8" name="Phazon"/>
-        <enumerator ID="0x9" name="Enemy Weapon 1"/>
-        <enumerator ID="0xA" name="Enemy Weapon 2 (Poison)"/>
-        <enumerator ID="0xB" name="Enemy Weapon 3 (Lava)"/>
-        <enumerator ID="0xC" name="Enemy Weapon 4"/>
-        <enumerator ID="0xD" name="Unknown Weapon 1"/>
-        <enumerator ID="0xE" name="Unknown Weapon 2"/>
+        <enumerator ID="0x00" name="Power"/>
+        <enumerator ID="0x01" name="Ice"/>
+        <enumerator ID="0x02" name="Wave"/>
+        <enumerator ID="0x03" name="Plasma"/>
+        <enumerator ID="0x04" name="Bomb"/>
+        <enumerator ID="0x05" name="Power Bomb"/>
+        <enumerator ID="0x06" name="Missile"/>
+        <enumerator ID="0x07" name="Boost Ball"/>
+        <enumerator ID="0x08" name="Phazon"/>
+        <enumerator ID="0x09" name="Enemy Weapon 1"/>
+        <enumerator ID="0x0A" name="Enemy Weapon 2 (Poison)"/>
+        <enumerator ID="0x0B" name="Enemy Weapon 3 (Lava)"/>
+        <enumerator ID="0x0C" name="Enemy Weapon 4"/>
+        <enumerator ID="0x0D" name="Unknown Weapon 1"/>
+        <enumerator ID="0x0E" name="Unknown Weapon 2"/>
     </enumerators>
 </enum>

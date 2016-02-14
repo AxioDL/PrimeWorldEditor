@@ -7,13 +7,15 @@
         <property ID="0x02" name="Unknown 1" type="bool"/>
         <enum ID="0x03" name="Memo Type">
             <enumerators>
-                <enumerator ID="0x00000000" name="Status Message"/>
-                <enumerator ID="0x00000001" name="Message Box"/>
+                <enumerator ID="0x00" name="Status Message"/>
+                <enumerator ID="0x01" name="Message Box"/>
             </enumerators>
         </enum>
         <property ID="0x04" name="STRG" type="file" extensions="STRG"/>
         <property ID="0x05" name="Active" type="bool"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>

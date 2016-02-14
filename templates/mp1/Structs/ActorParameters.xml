@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="ActorParameters.xml" type="multi">
+<struct name="ActorParameters" type="multi">
     <properties>
         <struct ID="0x00" name="LightParameters" template="Structs/LightParameters.xml"/>
         <struct ID="0x01" name="ScannableParameters" type="multi">

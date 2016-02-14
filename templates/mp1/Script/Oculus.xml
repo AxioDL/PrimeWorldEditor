@@ -18,6 +18,8 @@
         <property ID="0x0D" name="Unknown 7" type="float"/>
         <struct ID="0x0E" name="DamageInfo" template="Structs/DamageInfo.xml"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>

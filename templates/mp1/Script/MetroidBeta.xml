@@ -26,6 +26,8 @@
         <property ID="0x15" name="Particle 4" type="file" extensions="PART"/>
         <property ID="0x16" name="Unknown 10" type="bool"/>
     </properties>
+    <states/>
+    <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>
