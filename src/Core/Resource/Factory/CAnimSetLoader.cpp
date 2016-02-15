@@ -1,6 +1,6 @@
 #include "CAnimSetLoader.h"
 #include "Core/Resource/CResCache.h"
-#include "Core/Log.h"
+#include <Common/Log.h>
 
 CAnimSetLoader::CAnimSetLoader()
 {
@@ -75,7 +75,6 @@ void CAnimSetLoader::LoadPASDatabase(IInputStream& PAS4)
 CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& ANCS)
 {
     if (!ANCS.IsValid()) return nullptr;
-    Log::Write("Loading " + ANCS.GetSourceString());
 
     u32 magic = ANCS.ReadLong();
     if (magic != 0x00010001)
@@ -172,7 +171,6 @@ CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& ANCS)
 CAnimSet* CAnimSetLoader::LoadCHAR(IInputStream &CHAR)
 {
     if (!CHAR.IsValid()) return nullptr;
-    Log::Write("Loading " + CHAR.GetSourceString());
 
     CAnimSetLoader loader;
     u8 check = CHAR.ReadByte();

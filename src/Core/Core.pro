@@ -157,7 +157,6 @@ HEADERS += \
     CAreaAttributes.h \
     CLightParameters.h \
     CRayCollisionTester.h \
-    Log.h \
     SRayIntersection.h \
     OpenGL/CDynamicVertexBuffer.h \
     OpenGL/CFramebuffer.h \
@@ -251,7 +250,6 @@ SOURCES += \
     ScriptExtra/CWaypointExtra.cpp \
     CAreaAttributes.cpp \
     CRayCollisionTester.cpp \
-    Log.cpp \
     OpenGL/CDynamicVertexBuffer.cpp \
     OpenGL/CFramebuffer.cpp \
     OpenGL/CGL.cpp \

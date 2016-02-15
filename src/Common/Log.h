@@ -6,6 +6,7 @@
 namespace Log
 {
 
+bool InitLog(const TString& rkFilename);
 void Write(const TString& rkMessage);
 void Error(const TString& rkMessage);
 void Warning(const TString& rkMessage);

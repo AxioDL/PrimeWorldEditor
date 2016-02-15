@@ -1,7 +1,7 @@
 #include "CErrorLogDialog.h"
 #include "ui_CErrorLogDialog.h"
 #include "UICommon.h"
-#include <Core/Log.h>
+#include <Common/Log.h>
 
 CErrorLogDialog::CErrorLogDialog(QWidget *parent) :
     QDialog(parent),

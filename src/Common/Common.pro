@@ -68,7 +68,8 @@ HEADERS += \
     ETransformSpace.h \
     Flags.h \
     TString.h \
-    types.h
+    types.h \
+    Log.h
 
 # Source Files
 SOURCES += \
@@ -79,4 +80,5 @@ SOURCES += \
     CompressionUtil.cpp \
     CTimer.cpp \
     CUniqueID.cpp \
-    TString.cpp
+    TString.cpp \
+    Log.cpp

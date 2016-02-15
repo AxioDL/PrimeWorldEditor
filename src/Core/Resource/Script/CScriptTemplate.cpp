@@ -3,7 +3,7 @@
 #include "CMasterTemplate.h"
 #include "Core/Resource/CResCache.h"
 #include "Core/Resource/CAnimSet.h"
-#include "Core/Log.h"
+#include <Common/Log.h>
 
 #include <iostream>
 #include <string>

@@ -1,6 +1,6 @@
 #include "CWorldLoader.h"
 #include "Core/Resource/CResCache.h"
-#include "Core/Log.h"
+#include <Common/Log.h>
 #include <iostream>
 
 CWorldLoader::CWorldLoader()
@@ -285,7 +285,6 @@ void CWorldLoader::LoadReturnsMLVL(IInputStream& MLVL)
 CWorld* CWorldLoader::LoadMLVL(IInputStream& MLVL)
 {
     if (!MLVL.IsValid()) return nullptr;
-    Log::Write("Loading " + MLVL.GetSourceString());
 
     u32 Magic = MLVL.ReadLong();
     if (Magic != 0xDEAFBABE)

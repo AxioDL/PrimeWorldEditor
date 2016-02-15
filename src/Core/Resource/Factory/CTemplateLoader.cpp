@@ -1,7 +1,7 @@
 #include "CTemplateLoader.h"
 #include "CAreaLoader.h"
 #include "Core/Resource/Script/IPropertyTemplate.h"
-#include "Core/Log.h"
+#include <Common/Log.h>
 #include <boost/filesystem.hpp>
 
 const TString CTemplateLoader::mskTemplatesDir = "../templates/";

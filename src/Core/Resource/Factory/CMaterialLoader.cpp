@@ -1,7 +1,7 @@
 #include "CMaterialLoader.h"
 #include "Core/Resource/CResCache.h"
 #include "Core/OpenGL/GLCommon.h"
-#include "Core/Log.h"
+#include <Common/Log.h>
 #include <iostream>
 #include <iomanip>
 

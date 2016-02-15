@@ -1,5 +1,5 @@
 #include "CTextureDecoder.h"
-#include "Core/Log.h"
+#include <Common/Log.h>
 #include <Common/CColor.h>
 
 // A cleanup is warranted at some point. Trying to support both partial + full decode ended up really messy.
@@ -127,7 +127,6 @@ CTexture* CTextureDecoder::DoFullDecode(CTexture*)
 void CTextureDecoder::ReadTXTR(IInputStream& TXTR)
 {
     // Read TXTR header
-    Log::Write("Loading " + TXTR.GetSourceString());
     mTexelFormat = ETexelFormat(TXTR.ReadLong());
     mWidth = TXTR.ReadShort();
     mHeight = TXTR.ReadShort();
@@ -151,8 +150,6 @@ void CTextureDecoder::ReadTXTR(IInputStream& TXTR)
 
 void CTextureDecoder::ReadDDS(IInputStream& DDS)
 {
-    Log::Write("Loading " + DDS.GetSourceString());
-
     // Header
     CFourCC Magic(DDS);
     if (Magic != "DDS ")

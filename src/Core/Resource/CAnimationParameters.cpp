@@ -1,7 +1,7 @@
 #include "CAnimationParameters.h"
 #include "CAnimSet.h"
 #include "CResCache.h"
-#include "Core/Log.h"
+#include <Common/Log.h>
 #include <iostream>
 
 CAnimationParameters::CAnimationParameters()

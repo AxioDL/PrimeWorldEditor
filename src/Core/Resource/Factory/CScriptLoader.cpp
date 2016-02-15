@@ -2,7 +2,7 @@
 #include "CTemplateLoader.h"
 #include "Core/Resource/Script/CMasterTemplate.h"
 #include "Core/Resource/CResCache.h"
-#include "Core/Log.h"
+#include <Common/Log.h>
 #include <iostream>
 #include <sstream>
 

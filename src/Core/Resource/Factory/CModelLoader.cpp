@@ -1,6 +1,6 @@
 #include "CModelLoader.h"
 #include "CMaterialLoader.h"
-#include "Core/Log.h"
+#include <Common/Log.h>
 #include <map>
 
 CModelLoader::CModelLoader()
@@ -382,7 +382,6 @@ SSurface* CModelLoader::LoadAssimpMesh(const aiMesh *pMesh, CMaterialSet *pSet)
 CModel* CModelLoader::LoadCMDL(IInputStream& CMDL)
 {
     CModelLoader Loader;
-    Log::Write("Loading " + CMDL.GetSourceString());
 
     // CMDL header - same across the three Primes, but different structure in DKCR
     u32 Magic = CMDL.ReadLong();

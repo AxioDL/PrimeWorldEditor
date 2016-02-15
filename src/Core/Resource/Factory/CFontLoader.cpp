@@ -1,5 +1,5 @@
 #include "CFontLoader.h"
-#include "Core/Log.h"
+#include <Common/Log.h>
 #include <iostream>
 
 CFontLoader::CFontLoader()
@@ -82,7 +82,6 @@ CFont* CFontLoader::LoadFont(IInputStream& FONT)
 CFont* CFontLoader::LoadFONT(IInputStream& FONT)
 {
     if (!FONT.IsValid()) return nullptr;
-    Log::Write("Loading " + FONT.GetSourceString());
 
     CFourCC Magic(FONT);
     if (Magic != "FONT")

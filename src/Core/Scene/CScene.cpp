@@ -177,7 +177,7 @@ void CScene::SetActiveArea(CGameArea *pArea)
     }
 
     mRanPostLoad = false;
-    Log::Write( TString::FromInt32(CSceneNode::NumNodes()) + " nodes" );
+    Log::Write( TString::FromInt32(CSceneNode::NumNodes(), 0, 10) + " nodes" );
 }
 
 void CScene::SetActiveWorld(CWorld* pWorld)

@@ -1,32 +1,61 @@
-#include <Common/TString.h>
+#include "CTimer.h"
+#include "Log.h"
+#include "TString.h"
+
 #include <ctime>
 #include <iostream>
 
 namespace Log
 {
 
-TStringList ErrorLog;
-static const TString gskLogFilename = "primeworldeditor.log";
+TStringList gErrorLog;
+TString gLogFilename;
+FILE *gpLogFile;
 
-#pragma warning(push)
-#pragma warning(disable: 4996) // Can't use fopen_s here without creating a separate init function for the log
-FILE *gpLogFile = fopen(*gskLogFilename, "w");
-#pragma warning(pop)
+double gAppStartTime = CTimer::GlobalTime();
+
+bool gInitialized = false;
+TStringList gPreInitLogs;
+
+bool InitLog(const TString& rkFilename)
+{
+    fopen_s(&gpLogFile, *rkFilename, "w");
+    gLogFilename = rkFilename;
+    if (!gpLogFile) return false;
+
+    // Print initial message to log
+    time_t RawTime;
+    time(&RawTime);
+
+    tm pTimeInfo;
+    localtime_s(&pTimeInfo, &RawTime);
+
+    char Buffer[80];
+    strftime(Buffer, 80, "%m/%d/%y %H:%M:%S", &pTimeInfo);
+
+    fprintf(gpLogFile, "Opened log file at %s\n", Buffer);
+    fflush(gpLogFile);
+
+    // Print any messages that were attempted before we initialized
+    if (!gPreInitLogs.empty())
+    {
+        for (auto it = gPreInitLogs.begin(); it != gPreInitLogs.end(); it++)
+            Write(*it);
+    }
+
+    gInitialized = true;
+    return true;
+}
 
 void Write(const TString& rkMessage)
 {
-    if (gpLogFile)
+    if (!gInitialized)
+        gPreInitLogs.push_back(rkMessage);
+
+    else if (gpLogFile)
     {
-        time_t RawTime;
-        time(&RawTime);
-
-        tm pTimeInfo;
-        localtime_s(&pTimeInfo, &RawTime);
-
-        char Buffer[80];
-        strftime(Buffer, 80, "[%H:%M:%S]", &pTimeInfo);
-
-        fprintf(gpLogFile, "%s %s\n", Buffer, *rkMessage);
+        double Time = CTimer::GlobalTime() - gAppStartTime;
+        fprintf(gpLogFile, "[%08.3f] %s\n", Time, *rkMessage);
         fflush(gpLogFile);
     }
 }
@@ -35,7 +64,7 @@ void Error(const TString& rkMessage)
 {
     TString FullMessage = "ERROR: " + rkMessage;
     Write(FullMessage);
-    ErrorLog.push_back(FullMessage);
+    gErrorLog.push_back(FullMessage);
     std::cout << FullMessage << "\n";
 }
 
@@ -43,7 +72,7 @@ void Warning(const TString& rkMessage)
 {
     TString FullMessage = "Warning: " + rkMessage;
     Write(FullMessage);
-    ErrorLog.push_back(FullMessage);
+    gErrorLog.push_back(FullMessage);
     std::cout << FullMessage << "\n";
 }
 
@@ -79,12 +108,12 @@ void FileWarning(const TString& rkFilename, u32 Offset, const TString& rkMessage
 
 const TStringList& GetErrorLog()
 {
-    return ErrorLog;
+    return gErrorLog;
 }
 
 void ClearErrorLog()
 {
-    ErrorLog.clear();
+    gErrorLog.clear();
 }
 
 }

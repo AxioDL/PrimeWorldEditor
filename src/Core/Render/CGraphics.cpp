@@ -1,7 +1,7 @@
 #include "CGraphics.h"
 #include "Core/OpenGL/CShader.h"
 #include "Core/Resource/CMaterial.h"
-#include "Core/Log.h"
+#include <Common/Log.h>
 
 // ************ MEMBER INITIALIZATION ************
 CUniformBuffer* CGraphics::mpMVPBlockBuffer;

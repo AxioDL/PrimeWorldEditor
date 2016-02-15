@@ -1,7 +1,7 @@
 #include "CDrawUtil.h"
 #include "CGraphics.h"
 #include "Core/Resource/CResCache.h"
-#include "Core/Log.h"
+#include <Common/Log.h>
 #include <Math/CTransform4f.h>
 #include <iostream>
 

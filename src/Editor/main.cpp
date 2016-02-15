@@ -1,9 +1,10 @@
 #include "CStartWindow.h"
 #include "CDarkStyle.h"
+#include <Common/Log.h>
 #include <Core/Resource/Factory/CTemplateLoader.h>
 
-#include <iostream>
 #include <QApplication>
+#include <QMessageBox>
 #include <QStyleFactory>
 #include <QtGlobal>
 
@@ -26,10 +27,10 @@ int main(int argc, char *argv[])
     // Create application
     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
     QApplication app(argc, argv);
-    CStartWindow w;
-    w.show();
 
-    // Set up debug redirect
+    // Init log
+    bool Initialized = Log::InitLog("primeworldeditor.log");
+    if (!Initialized) QMessageBox::warning(0, "Error", "Couldn't open log file. Logging will not work for this session.");
     qInstallMessageHandler(QtLogRedirect);
 
     // Load templates
@@ -58,5 +59,8 @@ int main(int argc, char *argv[])
     qApp->setPalette(darkPalette);
 
     // Execute application
+    CStartWindow w;
+    w.show();
+
     return app.exec();
 }

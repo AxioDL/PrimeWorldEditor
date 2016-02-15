@@ -14,7 +14,7 @@
 #include <Core/Render/CDrawUtil.h>
 #include <Core/Resource/Cooker/CAreaCooker.h>
 #include <Core/Scene/CSceneIterator.h>
-#include <Core/Log.h>
+#include <Common/Log.h>
 
 #include <iostream>
 #include <QComboBox>
@@ -188,11 +188,17 @@ void CWorldEditor::SetArea(CWorld *pWorld, CGameArea *pArea, u32 AreaIndex)
             AreaName = "[Untitled Area]";
 
         setWindowTitle(QString("Prime World Editor - %1 - %2[*]").arg(TO_QSTRING(WorldName)).arg(TO_QSTRING(AreaName)));
+        Log::Write("Loaded area: " + mpArea->Source() + " (" + TO_TSTRING(TO_QSTRING(AreaName)) + ")");
     }
 
     else
     {
-        setWindowTitle(QString("Prime World Editor - %1[*]").arg(TO_QSTRING(WorldName)));
+        QString LevelName;
+        if (pWorldNameTable) LevelName = TO_QSTRING(WorldName);
+        else LevelName = "!" + TO_QSTRING(mpWorld->GetAreaInternalName(AreaIndex));
+
+        setWindowTitle(QString("Prime World Editor - %1[*]").arg(LevelName));
+        Log::Write("Loaded level: World " + mpWorld->Source() + " / Area " + mpArea->Source() + " (" + TO_TSTRING(LevelName) + ")");
     }
 
     // Emit signals
