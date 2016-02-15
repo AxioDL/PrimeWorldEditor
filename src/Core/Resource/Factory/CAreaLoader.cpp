@@ -514,7 +514,7 @@ void CAreaLoader::Decompress()
             std::vector<u8> cmp(mClusters[c].CompressedSize);
             mpMREA->ReadBytes(cmp.data(), cmp.size());
 
-            bool Success = CompressionUtil::DecompressAreaLZO(cmp.data(), cmp.size(), mDecmpBuffer + Offset, cc->DecompressedSize);
+            bool Success = CompressionUtil::DecompressSegmentedData(cmp.data(), cmp.size(), mDecmpBuffer + Offset, cc->DecompressedSize);
             if (!Success)
                 throw "Failed to decompress MREA!";
 
