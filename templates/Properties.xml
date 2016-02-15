@@ -88,7 +88,7 @@
     <property ID="0x01D82EEB" name="PART"/>
     <property ID="0x01E12C84" name="TGunResources"/>
     <property ID="0x01EAAB17" name="Unknown"/>
-    <property ID="0x01F9C5BB" name="Unknown"/>
+    <property ID="0x01F9C5BB" name="Look At POI"/>
     <property ID="0x01FBA748" name="SCAN"/>
     <property ID="0x020C78BB" name="Turn Speed"/>
     <property ID="0x02149892" name="Completion"/>
@@ -649,7 +649,7 @@
     <property ID="0x0FBCE3FB" name="Unknown"/>
     <property ID="0x0FC0B9E3" name="Unknown"/>
     <property ID="0x0FC813A7" name="SCAN"/>
-    <property ID="0x0FC966DC" name="DCLN"/>
+    <property ID="0x0FC966DC" name="Collision"/>
     <property ID="0x0FCE03CA" name="Unknown"/>
     <property ID="0x0FD7D0F3" name="Unknown"/>
     <property ID="0x0FDF22FC" name="Unknown"/>
@@ -1067,7 +1067,7 @@
     <property ID="0x191F4F62" name="Unknown"/>
     <property ID="0x19275A97" name="Unknown"/>
     <property ID="0x19287737" name="Unknown"/>
-    <property ID="0x192B0E70" name="Unknown"/>
+    <property ID="0x192B0E70" name="EchoParameters"/>
     <property ID="0x193C048F" name="Unknown"/>
     <property ID="0x193C7751" name="Unknown"/>
     <property ID="0x19468F2A" name="Darkburst"/>
@@ -2216,7 +2216,7 @@
     <property ID="0x320723A9" name="Unknown"/>
     <property ID="0x32133B39" name="Unknown"/>
     <property ID="0x32152AB2" name="Unknown"/>
-    <property ID="0x3217DFF8" name="Start immediately"/>
+    <property ID="0x3217DFF8" name="Auto-Start"/>
     <property ID="0x321C97A9" name="Unknown"/>
     <property ID="0x321FAE5B" name="Unknown"/>
     <property ID="0x3221407E" name="Unknown"/>
@@ -2599,7 +2599,7 @@
     <property ID="0x3AC94CF1" name="Unknown"/>
     <property ID="0x3ACA31D7" name="Unknown"/>
     <property ID="0x3ACD0ECC" name="Unknown"/>
-    <property ID="0x3AD39B31" name="Max random addition"/>
+    <property ID="0x3AD39B31" name="Max Random Delay"/>
     <property ID="0x3ADFCFEF" name="Unknown"/>
     <property ID="0x3AE5D1FA" name="Unknown"/>
     <property ID="0x3AE66F80" name="Unknown"/>
@@ -3031,7 +3031,7 @@
     <property ID="0x44303A9C" name="Unknown"/>
     <property ID="0x4432C4FE" name="Unknown"/>
     <property ID="0x4432CCD6" name="Unknown"/>
-    <property ID="0x44335AFF" name="Time"/>
+    <property ID="0x44335AFF" name="Start Time"/>
     <property ID="0x44337A05" name="Unknown"/>
     <property ID="0x4436A388" name="Unknown"/>
     <property ID="0x443FB4E4" name="Unknown"/>
@@ -3237,7 +3237,7 @@
     <property ID="0x48B46E55" name="Unknown"/>
     <property ID="0x48B4B865" name="Unknown"/>
     <property ID="0x48B54A2F" name="Unknown"/>
-    <property ID="0x48B5B2A2" name="Unknown"/>
+    <property ID="0x48B5B2A2" name="ActorMultiKeyframeData"/>
     <property ID="0x48B5DEF1" name="Unknown"/>
     <property ID="0x48BA8EB1" name="Unknown"/>
     <property ID="0x48BE7880" name="Unknown"/>
@@ -3593,7 +3593,7 @@
     <property ID="0x501CC39F" name="Unknown"/>
     <property ID="0x501ED3A3" name="ColliderPosition"/>
     <property ID="0x50224907" name="Unknown"/>
-    <property ID="0x50228364" name="Unknown"/>
+    <property ID="0x50228364" name="BeatUpHandlerData"/>
     <property ID="0x5027D1AA" name="Unknown"/>
     <property ID="0x50340852" name="CMDL"/>
     <property ID="0x5037A0C1" name="Unknown"/>
@@ -5525,7 +5525,7 @@
     <property ID="0x7BE868CE" name="PART"/>
     <property ID="0x7BECDB66" name="Unknown"/>
     <property ID="0x7BEE566E" name="CAUD"/>
-    <property ID="0x7BEF45CA" name="Reset on Zero"/>
+    <property ID="0x7BEF45CA" name="Loop"/>
     <property ID="0x7BF5CD04" name="Unknown"/>
     <property ID="0x7BFAB420" name="Unknown"/>
     <property ID="0x7C018C6C" name="LaunchProjectileData"/>
@@ -5940,7 +5940,7 @@
     <property ID="0x85249BD5" name="Unknown"/>
     <property ID="0x8527B396" name="Unknown"/>
     <property ID="0x852A96D0" name="Unknown"/>
-    <property ID="0x852D3871" name="Damage multiplier"/>
+    <property ID="0x852D3871" name="Damage Multiplier"/>
     <property ID="0x852D3BB0" name="Unknown"/>
     <property ID="0x85437C89" name="Unknown"/>
     <property ID="0x854E412D" name="Unknown"/>
@@ -6680,7 +6680,7 @@
     <property ID="0x95ED96C2" name="Unknown"/>
     <property ID="0x95EE9687" name="Unknown"/>
     <property ID="0x95F112BE" name="Unknown"/>
-    <property ID="0x95F8D644" name="SpecialFunction Type"/>
+    <property ID="0x95F8D644" name="Function"/>
     <property ID="0x95FDEA28" name="Unknown"/>
     <property ID="0x9603A544" name="Unknown"/>
     <property ID="0x9605AAD3" name="Unknown"/>
@@ -8244,7 +8244,7 @@
     <property ID="0xB93990E6" name="Unknown"/>
     <property ID="0xB93E46E5" name="WPSC"/>
     <property ID="0xB9413FE6" name="CAUD"/>
-    <property ID="0xB94E9BE7" name="SCAN"/>
+    <property ID="0xB94E9BE7" name="Scan File"/>
     <property ID="0xB956F379" name="Unknown"/>
     <property ID="0xB95725AC" name="Unknown"/>
     <property ID="0xB95C4953" name="Unknown"/>
@@ -9435,7 +9435,7 @@
     <property ID="0xD2F678EB" name="Unknown"/>
     <property ID="0xD2FA7631" name="Unknown"/>
     <property ID="0xD2FB0FED" name="Unknown"/>
-    <property ID="0xD2FD4F74" name="Unknown"/>
+    <property ID="0xD2FD4F74" name="ControlCommand"/>
     <property ID="0xD3023E6C" name="Unknown"/>
     <property ID="0xD3049E04" name="Unknown"/>
     <property ID="0xD3056808" name="Unknown"/>
@@ -9542,7 +9542,7 @@
     <property ID="0xD5388116" name="Unknown"/>
     <property ID="0xD53F059B" name="PART"/>
     <property ID="0xD5417338" name="Unknown"/>
-    <property ID="0xD545F36B" name="Unknown"/>
+    <property ID="0xD545F36B" name="PickupData"/>
     <property ID="0xD54A5BD8" name="CAUD"/>
     <property ID="0xD54D6FAD" name="Unknown"/>
     <property ID="0xD5505EA4" name="Unknown"/>
@@ -11046,7 +11046,7 @@
     <property ID="0xF68EADC9" name="Unknown"/>
     <property ID="0xF69BED49" name="Unknown"/>
     <property ID="0xF6A752E3" name="Always 0"/>
-    <property ID="0xF6AE5D7C" name="Unknown"/>
+    <property ID="0xF6AE5D7C" name="ControlCommand"/>
     <property ID="0xF6B051B3" name="Unknown"/>
     <property ID="0xF6B3C17F" name="Unknown"/>
     <property ID="0xF6B9A631" name="Unknown"/>

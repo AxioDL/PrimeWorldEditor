@@ -11,6 +11,33 @@ CTemplateWriter::CTemplateWriter()
 {
 }
 
+void CTemplateWriter::SavePropertyTemplate(IPropertyTemplate *pTemp)
+{
+    // Check for a source file in the template's hierarchy; that indicates it's part of a struct template, not a script template
+    TString SourceFile = pTemp->FindStructSource();
+
+    // Struct
+    if (!SourceFile.IsEmpty())
+    {
+        CMasterTemplate *pMaster = pTemp->MasterTemplate();
+        auto StructIt = pMaster->mStructTemplates.find(SourceFile);
+
+        if (StructIt != pMaster->mStructTemplates.end())
+        {
+            CStructTemplate *pStruct = StructIt->second;
+            CTemplateWriter::SaveStructTemplate(pStruct);
+        }
+    }
+
+    // Script
+    else if (pTemp->ScriptTemplate())
+        CTemplateWriter::SaveScriptTemplate(pTemp->ScriptTemplate());
+
+    // Error
+    else
+        Log::Error("Couldn't save property template " + pTemp->IDString(true) + "; no struct template source path or script template found");
+}
+
 void CTemplateWriter::SaveAllTemplates()
 {
     // Create directory
@@ -76,7 +103,7 @@ void CTemplateWriter::SaveGameTemplates(CMasterTemplate *pMaster)
 
     // Resave struct templates
     for (auto it = pMaster->mStructTemplates.begin(); it != pMaster->mStructTemplates.end(); it++)
-        SaveStructTemplate(it->second, pMaster);
+        SaveStructTemplate(it->second);
 
     // Resave master template
     XMLDocument Master;
@@ -202,7 +229,7 @@ void CTemplateWriter::SaveScriptTemplate(CScriptTemplate *pTemp)
     pRoot->LinkEndChild(pName);
 
     // Write properties
-    SaveProperties(&ScriptXML, pRoot, pTemp->mpBaseStruct, pMaster);
+    SaveProperties(&ScriptXML, pRoot, pTemp->mpBaseStruct);
 
     // States/Messages [todo]
     XMLElement *pStates = ScriptXML.NewElement("states");
@@ -345,9 +372,10 @@ void CTemplateWriter::SaveScriptTemplate(CScriptTemplate *pTemp)
     ScriptXML.SaveFile(*OutFile);
 }
 
-void CTemplateWriter::SaveStructTemplate(CStructTemplate *pTemp, CMasterTemplate *pMaster)
+void CTemplateWriter::SaveStructTemplate(CStructTemplate *pTemp)
 {
     // Create directory
+    CMasterTemplate *pMaster = pTemp->MasterTemplate();
     TString OutFile = smTemplatesDir + pMaster->GetDirectory() + pTemp->mSourceFile;
     TString OutDir = OutFile.GetFileDirectory();
     TString Name = OutFile.GetFileName(false);
@@ -364,13 +392,14 @@ void CTemplateWriter::SaveStructTemplate(CStructTemplate *pTemp, CMasterTemplate
     pRoot->SetAttribute("type", (pTemp->IsSingleProperty() ? "single" : "multi"));
     StructXML.LinkEndChild(pRoot);
 
-    SaveProperties(&StructXML, pRoot, pTemp, pMaster);
+    SaveProperties(&StructXML, pRoot, pTemp);
     StructXML.SaveFile(*OutFile);
 }
 
-void CTemplateWriter::SaveEnumTemplate(CEnumTemplate *pTemp, CMasterTemplate *pMaster)
+void CTemplateWriter::SaveEnumTemplate(CEnumTemplate *pTemp)
 {
     // Create directory
+    CMasterTemplate *pMaster = pTemp->MasterTemplate();
     TString OutFile = smTemplatesDir + pMaster->GetDirectory() + pTemp->mSourceFile;
     TString OutDir = OutFile.GetFileDirectory();
     TString Name = OutFile.GetFileName(false);
@@ -390,9 +419,10 @@ void CTemplateWriter::SaveEnumTemplate(CEnumTemplate *pTemp, CMasterTemplate *pM
     EnumXML.SaveFile(*OutFile);
 }
 
-void CTemplateWriter::SaveBitfieldTemplate(CBitfieldTemplate *pTemp, CMasterTemplate *pMaster)
+void CTemplateWriter::SaveBitfieldTemplate(CBitfieldTemplate *pTemp)
 {
     // Create directory
+    CMasterTemplate *pMaster = pTemp->MasterTemplate();
     TString OutFile = smTemplatesDir + pMaster->GetDirectory() + pTemp->mSourceFile;
     TString OutDir = OutFile.GetFileDirectory();
     TString Name = pTemp->mSourceFile.GetFileName(false);
@@ -412,7 +442,7 @@ void CTemplateWriter::SaveBitfieldTemplate(CBitfieldTemplate *pTemp, CMasterTemp
     BitfieldXML.SaveFile(*OutFile);
 }
 
-void CTemplateWriter::SaveProperties(XMLDocument *pDoc, XMLElement *pParent, CStructTemplate *pTemp, CMasterTemplate *pMaster)
+void CTemplateWriter::SaveProperties(XMLDocument *pDoc, XMLElement *pParent, CStructTemplate *pTemp)
 {
     // Create base element
     XMLElement *pPropsBlock = pDoc->NewElement("properties");
@@ -447,7 +477,7 @@ void CTemplateWriter::SaveProperties(XMLDocument *pDoc, XMLElement *pParent, CSt
         // Name
         TString Name = pProp->Name();
 
-        if (pMaster->GetGame() >= eEchoesDemo && ID > 0xFF)
+        if (pProp->Game() >= eEchoesDemo && ID > 0xFF)
         {
             TString MasterName = CMasterTemplate::GetPropertyName(ID);
 
@@ -471,6 +501,7 @@ void CTemplateWriter::SaveProperties(XMLDocument *pDoc, XMLElement *pParent, CSt
             pElem->SetAttribute("type", *PropEnumToPropString(pProp->Type()));
 
         // Versions
+        CMasterTemplate *pMaster = pProp->MasterTemplate();
         u32 NumVersions = pProp->mAllowedVersions.size();
 
         if (NumVersions > 0 && NumVersions != pMaster->mGameVersions.size())
@@ -490,7 +521,7 @@ void CTemplateWriter::SaveProperties(XMLDocument *pDoc, XMLElement *pParent, CSt
         }
 
         // Default
-        if (pProp->CanHaveDefault() && pMaster->GetGame() >= eEchoesDemo)
+        if (pProp->CanHaveDefault() && pProp->Game() >= eEchoesDemo)
         {
             XMLElement *pDefault = pDoc->NewElement("default");
             pDefault->SetText(*pProp->DefaultToString());
@@ -561,7 +592,7 @@ void CTemplateWriter::SaveProperties(XMLDocument *pDoc, XMLElement *pParent, CSt
 
             else
             {
-                SaveEnumTemplate(pEnum, pMaster);
+                SaveEnumTemplate(pEnum);
                 pElem->SetAttribute("template", *pEnum->mSourceFile);
             }
         }
@@ -576,7 +607,7 @@ void CTemplateWriter::SaveProperties(XMLDocument *pDoc, XMLElement *pParent, CSt
 
             else
             {
-                SaveBitfieldTemplate(pBitfield, pMaster);
+                SaveBitfieldTemplate(pBitfield);
                 pElem->SetAttribute("template", *pBitfield->mSourceFile);
             }
         }
@@ -601,14 +632,14 @@ void CTemplateWriter::SaveProperties(XMLDocument *pDoc, XMLElement *pParent, CSt
             CStructTemplate *pStruct = static_cast<CStructTemplate*>(pProp);
 
             if (pStruct->mSourceFile.IsEmpty())
-                SaveProperties(pDoc, pElem, pStruct, pMaster);
+                SaveProperties(pDoc, pElem, pStruct);
 
             else
             {
-                auto it = pMaster->mStructTemplates.find(pStruct->mSourceFile);
+                CStructTemplate *pOriginal = pMaster->GetStructAtSource(pStruct->mSourceFile);
 
-                if (it != pMaster->mStructTemplates.end())
-                    SavePropertyOverrides(pDoc, pElem, pStruct, it->second);
+                if (pOriginal)
+                    SavePropertyOverrides(pDoc, pElem, pStruct, pOriginal);
 
                 pElem->SetAttribute("template", *pStruct->mSourceFile);
             }

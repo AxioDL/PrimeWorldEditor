@@ -117,6 +117,7 @@ public:
     CCollisionMeshGroup* FindCollision(CPropertyStruct *pProperties);
     bool HasInGameModel(CPropertyStruct *pProperties);
 
+    inline TString SourceFile() const   { return mSourceFile; }
     inline bool HasName() const         { return !mNameIDString.IsEmpty(); }
     inline bool HasPosition() const     { return !mPositionIDString.IsEmpty(); }
     inline bool HasRotation() const     { return !mRotationIDString.IsEmpty(); }

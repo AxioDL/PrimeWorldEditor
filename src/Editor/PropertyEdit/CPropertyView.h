@@ -15,6 +15,9 @@ class CPropertyView : public QTreeView
     CPropertyDelegate *mpDelegate;
     CScriptObject *mpObject;
 
+    IProperty *mpMenuProperty;
+    QAction *mpEditTemplateAction;
+
 public:
     CPropertyView(QWidget *pParent = 0);
     void setModel(QAbstractItemModel *pModel);
@@ -29,6 +32,9 @@ public slots:
     void SetPersistentEditors(const QModelIndex& rkIndex);
     void ClosePersistentEditors(const QModelIndex& rkIndex);
     void OnPropertyModified(const QModelIndex& rkIndex);
+
+    void CreateContextMenu(const QPoint& rkPos);
+    void EditPropertyTemplate();
 };
 
 #endif // CPROPERTYVIEW_H

@@ -8,12 +8,15 @@
         </property>
         <property ID="0x3AD39B31" type="float">
             <default>0.0</default>
+            <description>A random value between this number and 0 will be added to the timer's start time.</description>
         </property>
         <property ID="0x7BEF45CA" type="bool">
             <default>false</default>
+            <description>If enabled, when the timer reaches 0, it will reset back to its start time and begin ticking again.</description>
         </property>
         <property ID="0x3217DFF8" type="bool">
             <default>false</default>
+            <description>If enabled, the timer will start ticking automatically on load. Otherwise, it will need to be started with a script message.</description>
         </property>
     </properties>
     <states/>

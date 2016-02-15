@@ -1,13 +1,16 @@
 #include "CPropertyView.h"
 #include "CPropertyDelegate.h"
+#include "Editor/WorldEditor/CTemplateEditDialog.h"
 #include <Core/Resource/Script/IPropertyTemplate.h>
 
 #include <QEvent>
+#include <QMenu>
 #include <QToolTip>
 
 CPropertyView::CPropertyView(QWidget *pParent)
     : QTreeView(pParent)
     , mpEditor(nullptr)
+    , mpMenuProperty(nullptr)
 {
     mpModel = new CPropertyModel(this);
     mpDelegate = new CPropertyDelegate(this);
@@ -15,8 +18,13 @@ CPropertyView::CPropertyView(QWidget *pParent)
     setEditTriggers(AllEditTriggers);
     setModel(mpModel);
 
+    setContextMenuPolicy(Qt::CustomContextMenu);
+    mpEditTemplateAction = new QAction("Edit template", this);
+    connect(mpEditTemplateAction, SIGNAL(triggered()), this, SLOT(EditPropertyTemplate()));
+
     connect(this, SIGNAL(expanded(QModelIndex)), this, SLOT(SetPersistentEditors(QModelIndex)));
     connect(this, SIGNAL(clicked(QModelIndex)), this, SLOT(edit(QModelIndex)));
+    connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(CreateContextMenu(QPoint)));
     connect(mpModel, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(SetPersistentEditors(QModelIndex)));
     connect(mpModel, SIGNAL(PropertyModified(const QModelIndex&)), this, SLOT(OnPropertyModified(const QModelIndex&)));
 }
@@ -195,4 +203,25 @@ void CPropertyView::OnPropertyModified(const QModelIndex& rkIndex)
         ClosePersistentEditors(rkIndex);
         SetPersistentEditors(rkIndex);
     }
+}
+
+void CPropertyView::CreateContextMenu(const QPoint& rkPos)
+{
+    QModelIndex Index = indexAt(rkPos);
+
+    if (Index.isValid())
+    {
+        IProperty *pProp = mpModel->PropertyForIndex(Index, true);
+        mpMenuProperty = pProp;
+
+        QMenu Menu;
+        Menu.addAction(mpEditTemplateAction);
+        Menu.exec(viewport()->mapToGlobal(rkPos));
+    }
+}
+
+void CPropertyView::EditPropertyTemplate()
+{
+    CTemplateEditDialog Dialog(mpMenuProperty->Template(), mpEditor);
+    Dialog.exec();
 }

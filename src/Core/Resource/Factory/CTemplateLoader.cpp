@@ -9,7 +9,7 @@ const TString CTemplateLoader::mskGameListPath = CTemplateLoader::mskTemplatesDi
 
 using namespace tinyxml2;
 
-IPropertyTemplate* CTemplateLoader::LoadProperty(XMLElement *pElem, CStructTemplate *pStruct, const TString& rkTemplateName)
+IPropertyTemplate* CTemplateLoader::LoadProperty(XMLElement *pElem, CScriptTemplate *pScript, CStructTemplate *pStruct, const TString& rkTemplateName)
 {
     TString NodeType = TString(pElem->Name()).ToLower();
     TString IDAttr = TString(pElem->Attribute("ID")).ToLower();
@@ -60,7 +60,7 @@ IPropertyTemplate* CTemplateLoader::LoadProperty(XMLElement *pElem, CStructTempl
             return nullptr;
         }
 
-        pProp = CreateProperty(ID, Type, Name, pStruct);
+        pProp = CreateProperty(ID, Type, Name, pScript, pStruct);
 
         if (!pProp)
         {
@@ -162,15 +162,15 @@ IPropertyTemplate* CTemplateLoader::LoadProperty(XMLElement *pElem, CStructTempl
         XMLElement *pProperties = pElem->FirstChildElement("properties");
 
         if (pProperties)
-            LoadProperties(pProperties, pStruct, rkTemplateName);
+            LoadProperties(pProperties, pScript, pStruct, rkTemplateName);
     }
 
     CMasterTemplate::AddProperty(pProp, mMasterDir + rkTemplateName);
     return pProp;
 }
 
-#define CREATE_PROP_TEMP(Class) new Class(ID, rkName, eNoCookPreference, pStruct)
-IPropertyTemplate* CTemplateLoader::CreateProperty(u32 ID, EPropertyType Type, const TString& rkName, CStructTemplate *pStruct)
+#define CREATE_PROP_TEMP(Class) new Class(ID, rkName, eNoCookPreference, pScript, mpMaster, pStruct)
+IPropertyTemplate* CTemplateLoader::CreateProperty(u32 ID, EPropertyType Type, const TString& rkName, CScriptTemplate *pScript, CStructTemplate *pStruct)
 {
     IPropertyTemplate *pOut = pStruct->PropertyByID(ID);
 
@@ -216,7 +216,7 @@ void CTemplateLoader::LoadStructTemplate(const TString& rkTemplateFileName, CStr
 
             if (pStruct->Type() == eStructProperty)
             {
-                pSource = new CStructTemplate(-1, nullptr);
+                pSource = new CStructTemplate(-1, nullptr, mpMaster);
                 pRootElem = Doc.FirstChildElement("struct");
 
                 if (!pRootElem)
@@ -238,6 +238,7 @@ void CTemplateLoader::LoadStructTemplate(const TString& rkTemplateFileName, CStr
 
             else if (pStruct->Type() == eArrayProperty)
             {
+                pSource = new CArrayTemplate(-1, nullptr, mpMaster);
                 pRootElem = Doc.FirstChildElement("array");
 
                 if (!pRootElem)
@@ -246,15 +247,19 @@ void CTemplateLoader::LoadStructTemplate(const TString& rkTemplateFileName, CStr
                     return;
                 }
             }
+            pSource->mSourceFile = rkTemplateFileName;
+
+            TString NameAttr = TString(pRootElem->Attribute("name"));
+            if (!NameAttr.IsEmpty())
+                pSource->mName = NameAttr;
 
             // Read sub-properties
             XMLElement *pSubPropsElem = pRootElem->FirstChildElement("properties");
 
             if (pSubPropsElem)
             {
-                LoadProperties(pSubPropsElem, pSource, rkTemplateFileName);
+                LoadProperties(pSubPropsElem, nullptr, pSource, rkTemplateFileName);
                 mpMaster->mStructTemplates[rkTemplateFileName] = pSource;
-                pSource->mSourceFile = rkTemplateFileName;
             }
 
             else
@@ -278,6 +283,7 @@ void CTemplateLoader::LoadEnumTemplate(const TString& rkTemplateFileName, CEnumT
 
     if (!Doc.Error())
     {
+        pEnum->mSourceFile = rkTemplateFileName;
         XMLElement *pRootElem = Doc.FirstChildElement("enum");
 
         if (!pRootElem)
@@ -294,7 +300,6 @@ void CTemplateLoader::LoadEnumTemplate(const TString& rkTemplateFileName, CEnumT
         else
             Log::Error(rkTemplateFileName + ": There is no \"enumerators\" block element");
 
-        pEnum->mSourceFile = rkTemplateFileName;
     }
 }
 
@@ -305,6 +310,7 @@ void CTemplateLoader::LoadBitfieldTemplate(const TString& rkTemplateFileName, CB
 
     if (!Doc.Error())
     {
+        pBitfield->mSourceFile = rkTemplateFileName;
         XMLElement *pRootElem = Doc.FirstChildElement("bitfield");
 
         if (!pRootElem)
@@ -320,12 +326,10 @@ void CTemplateLoader::LoadBitfieldTemplate(const TString& rkTemplateFileName, CB
 
         else
             Log::Error(rkTemplateFileName + ": There is no \"flags\" block element");
-
-        pBitfield->mSourceFile = rkTemplateFileName;
     }
 }
 
-void CTemplateLoader::LoadProperties(XMLElement *pPropertiesElem, CStructTemplate *pStruct, const TString& rkTemplateName)
+void CTemplateLoader::LoadProperties(XMLElement *pPropertiesElem, CScriptTemplate *pScript, CStructTemplate *pStruct, const TString& rkTemplateName)
 {
     XMLElement *pChild = pPropertiesElem->FirstChildElement();
 
@@ -341,7 +345,7 @@ void CTemplateLoader::LoadProperties(XMLElement *pPropertiesElem, CStructTemplat
         // LoadProperty adds newly created properties to the struct, so we don't need to do anything other than call it for each sub-element.
         else
         {
-            LoadProperty(pChild, pStruct, rkTemplateName);
+            LoadProperty(pChild, pScript, pStruct, rkTemplateName);
         }
 
         pChild = pChild->NextSiblingElement();
@@ -406,7 +410,7 @@ CScriptTemplate* CTemplateLoader::LoadScriptTemplate(XMLDocument *pDoc, const TS
 {
     CScriptTemplate *pScript = new CScriptTemplate(mpMaster);
     pScript->mObjectID = ObjectID;
-    pScript->mpBaseStruct = new CStructTemplate(-1, nullptr);
+    pScript->mpBaseStruct = new CStructTemplate(-1, nullptr, mpMaster);
     pScript->mSourceFile = rkTemplateName;
 
     XMLElement *pRoot = pDoc->FirstChildElement("ScriptTemplate");
@@ -424,7 +428,7 @@ CScriptTemplate* CTemplateLoader::LoadScriptTemplate(XMLDocument *pDoc, const TS
     XMLElement *pPropsElem = pRoot->FirstChildElement("properties");
 
     if (pPropsElem)
-        LoadProperties(pPropsElem, pScript->mpBaseStruct, rkTemplateName);
+        LoadProperties(pPropsElem, pScript, pScript->mpBaseStruct, rkTemplateName);
     else
         Log::Error(rkTemplateName + ": There is no \"properties\" block element");
 

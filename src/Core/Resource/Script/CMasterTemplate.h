@@ -53,14 +53,17 @@ public:
     TString MessageByID(const CFourCC& MessageID);
     TString MessageByIndex(u32 Index);
     TString GetDirectory() const;
+    CStructTemplate* GetStructAtSource(const TString& rkSource);
     bool IsLoadedSuccessfully();
 
     static CMasterTemplate* GetMasterForGame(EGame Game);
     static std::list<CMasterTemplate*> GetMasterList();
     static TString GetPropertyName(u32 PropertyID);
-    static void AddProperty(IPropertyTemplate *pTemp, const TString& rkTemplateName);
-    static void RenameProperty(u32 ID, const TString& rkNewName);
-    static std::vector<TString> GetTemplatesUsingID(u32 ID);
+    static u32 CreatePropertyID(IPropertyTemplate *pTemp);
+    static void AddProperty(IPropertyTemplate *pTemp, const TString& rkTemplateName = "");
+    static void RenameProperty(IPropertyTemplate *pTemp, const TString& rkNewName);
+    static std::vector<TString> GetXMLsUsingID(u32 ID);
+    static const std::vector<IPropertyTemplate*>* GetTemplatesWithMatchingID(IPropertyTemplate *pTemp);
 };
 
 // ************ INLINE ************

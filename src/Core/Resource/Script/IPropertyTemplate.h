@@ -12,6 +12,7 @@
 #include <vector>
 
 typedef TString TIDString;
+class CMasterTemplate;
 class CStructTemplate;
 class IProperty;
 
@@ -31,6 +32,8 @@ class IPropertyTemplate
 
 protected:
     CStructTemplate *mpParent;
+    CScriptTemplate *mpScriptTemplate;
+    CMasterTemplate *mpMasterTemplate;
     TString mName;
     TString mDescription;
     u32 mID;
@@ -38,17 +41,21 @@ protected:
     std::vector<u32> mAllowedVersions;
 
 public:
-    IPropertyTemplate(u32 ID, CStructTemplate *pParent = 0)
+    IPropertyTemplate(u32 ID, CScriptTemplate *pScript, CMasterTemplate *pMaster, CStructTemplate *pParent = 0)
         : mID(ID)
         , mpParent(pParent)
+        , mpScriptTemplate(pScript)
+        , mpMasterTemplate(pMaster)
         , mName("UNSET PROPERTY NAME")
         , mCookPreference(eNoCookPreference)
     {
     }
 
-    IPropertyTemplate(u32 ID, const TString& rkName, ECookPreference CookPreference, CStructTemplate *pParent = 0)
+    IPropertyTemplate(u32 ID, const TString& rkName, ECookPreference CookPreference, CScriptTemplate *pScript, CMasterTemplate *pMaster, CStructTemplate *pParent = 0)
         : mID(ID)
         , mpParent(pParent)
+        , mpScriptTemplate(pScript)
+        , mpMasterTemplate(pMaster)
         , mName(rkName)
         , mCookPreference(CookPreference)
     {
@@ -58,7 +65,7 @@ public:
     virtual bool CanHaveDefault() const = 0;
     virtual bool IsNumerical()    const = 0;
     virtual IProperty* InstantiateProperty(CPropertyStruct *pParent) = 0;
-    virtual IPropertyTemplate* Clone(CStructTemplate *pParent = 0) const = 0;
+    virtual IPropertyTemplate* Clone(CScriptTemplate *pScript, CStructTemplate *pParent = 0) const = 0;
 
     virtual void Copy(const IPropertyTemplate *pkTemp)
     {
@@ -104,8 +111,12 @@ public:
             mDescription = rkValue;
     }
 
+    EGame Game() const;
     bool IsInVersion(u32 Version) const;
     TIDString IDString(bool FullPath) const;
+    bool IsDescendantOf(const CStructTemplate *pStruct) const;
+    bool IsFromStructTemplate() const;
+    TString FindStructSource() const;
     CStructTemplate* RootStruct();
 
     // Inline Accessors
@@ -114,16 +125,19 @@ public:
     inline u32 PropertyID() const                       { return mID; }
     inline ECookPreference CookPreference() const       { return mCookPreference; }
     inline CStructTemplate* Parent() const              { return mpParent; }
+    inline CScriptTemplate* ScriptTemplate() const      { return mpScriptTemplate; }
+    inline CMasterTemplate* MasterTemplate() const      { return mpMasterTemplate; }
     inline void SetName(const TString& rkName)          { mName = rkName; }
     inline void SetDescription(const TString& rkDesc)   { mDescription = rkDesc; }
 };
 
 // Macro for defining reimplementations of IPropertyTemplate::Clone(), which are usually identical to each other aside from the class being instantiated
-#define DEFINE_TEMPLATE_CLONE(ClassName) \
-    virtual IPropertyTemplate* Clone(CStructTemplate *pParent = 0) const \
+#define IMPLEMENT_TEMPLATE_CLONE(ClassName) \
+    virtual IPropertyTemplate* Clone(CScriptTemplate *pScript, CStructTemplate *pParent = 0) const \
     { \
         if (!pParent) pParent = mpParent; \
-        ClassName *pTemp = new ClassName(mID, pParent); \
+        if (!pScript) pScript = mpScriptTemplate; \
+        ClassName *pTemp = new ClassName(mID, pScript, mpMasterTemplate, pParent); \
         pTemp->Copy(this); \
         return pTemp; \
     }
@@ -140,11 +154,11 @@ protected:
     ValueClass mDefaultValue;
 
 public:
-    TTypedPropertyTemplate(u32 ID, CStructTemplate *pParent = 0)
-        : IPropertyTemplate(ID, pParent) {}
+    TTypedPropertyTemplate(u32 ID, CScriptTemplate *pScript, CMasterTemplate *pMaster, CStructTemplate *pParent = 0)
+        : IPropertyTemplate(ID, pScript, pMaster, pParent) {}
 
-    TTypedPropertyTemplate(u32 ID, const TString& rkName, ECookPreference CookPreference, CStructTemplate *pParent = 0)
-        : IPropertyTemplate(ID, rkName, CookPreference, pParent) {}
+    TTypedPropertyTemplate(u32 ID, const TString& rkName, ECookPreference CookPreference, CScriptTemplate *pScript, CMasterTemplate *pMaster, CStructTemplate *pParent = 0)
+        : IPropertyTemplate(ID, rkName, CookPreference, pScript, pMaster, pParent) {}
 
     virtual EPropertyType Type()  const { return PropTypeEnum;          }
     virtual bool CanHaveDefault() const { return CanHaveDefaultValue;   }
@@ -159,7 +173,7 @@ public:
         return pOut;
     }
 
-    DEFINE_TEMPLATE_CLONE(TTypedPropertyTemplate)
+    IMPLEMENT_TEMPLATE_CLONE(TTypedPropertyTemplate)
 
     virtual void Copy(const IPropertyTemplate *pkTemp)
     {
@@ -210,12 +224,12 @@ class TNumericalPropertyTemplate : public TTypedPropertyTemplate<PropType,PropTy
     TString mSuffix;
 
 public:
-    TNumericalPropertyTemplate(u32 ID, CStructTemplate *pParent = 0)
-        : TTypedPropertyTemplate(ID, pParent)
+    TNumericalPropertyTemplate(u32 ID, CScriptTemplate *pScript, CMasterTemplate *pMaster, CStructTemplate *pParent = 0)
+        : TTypedPropertyTemplate(ID, pScript, pMaster, pParent)
     {}
 
-    TNumericalPropertyTemplate(u32 ID, const TString& rkName, ECookPreference CookPreference, CStructTemplate *pParent = 0)
-        : TTypedPropertyTemplate(ID, rkName, CookPreference, pParent)
+    TNumericalPropertyTemplate(u32 ID, const TString& rkName, ECookPreference CookPreference, CScriptTemplate *pScript, CMasterTemplate *pMaster, CStructTemplate *pParent = 0)
+        : TTypedPropertyTemplate(ID, rkName, CookPreference, pScript, pMaster, pParent)
         , mMin(0)
         , mMax(0)
     {}
@@ -223,7 +237,7 @@ public:
     virtual bool IsNumerical() const    { return true; }
     virtual bool HasValidRange() const  { return (mMin != 0 || mMax != 0); }
 
-    DEFINE_TEMPLATE_CLONE(TNumericalPropertyTemplate)
+    IMPLEMENT_TEMPLATE_CLONE(TNumericalPropertyTemplate)
 
     virtual void Copy(const IPropertyTemplate *pkTemp)
     {
@@ -307,11 +321,11 @@ class CFileTemplate : public IPropertyTemplate
 
     TStringList mAcceptedExtensions;
 public:
-    CFileTemplate(u32 ID, CStructTemplate *pParent = 0)
-        : IPropertyTemplate(ID, pParent) {}
+    CFileTemplate(u32 ID, CScriptTemplate *pScript, CMasterTemplate *pMaster, CStructTemplate *pParent = 0)
+        : IPropertyTemplate(ID, pScript, pMaster, pParent) {}
 
-    CFileTemplate(u32 ID, const TString& rkName, ECookPreference CookPreference, CStructTemplate *pParent = 0)
-        : IPropertyTemplate(ID, rkName, CookPreference, pParent) {}
+    CFileTemplate(u32 ID, const TString& rkName, ECookPreference CookPreference, CScriptTemplate *pScript, CMasterTemplate *pMaster, CStructTemplate *pParent = 0)
+        : IPropertyTemplate(ID, rkName, CookPreference, pScript, pMaster, pParent) {}
 
     virtual EPropertyType Type() const  { return eFileProperty; }
     virtual bool CanHaveDefault() const { return false; }
@@ -322,7 +336,7 @@ public:
         return new TFileProperty(this, pParent);
     }
 
-    DEFINE_TEMPLATE_CLONE(CFileTemplate)
+    IMPLEMENT_TEMPLATE_CLONE(CFileTemplate)
 
     virtual void Copy(const IPropertyTemplate *pkTemp)
     {
@@ -372,13 +386,13 @@ class CEnumTemplate : public TTypedPropertyTemplate<s32, eEnumProperty, CHexLong
     TString mSourceFile;
 
 public:
-    CEnumTemplate(u32 ID, CStructTemplate *pParent = 0)
-        : TTypedPropertyTemplate(ID, pParent)
+    CEnumTemplate(u32 ID, CScriptTemplate *pScript, CMasterTemplate *pMaster, CStructTemplate *pParent = 0)
+        : TTypedPropertyTemplate(ID, pScript, pMaster, pParent)
     {
     }
 
-    CEnumTemplate(u32 ID, const TString& rkName, ECookPreference CookPreference, CStructTemplate *pParent = 0)
-        : TTypedPropertyTemplate(ID, rkName, CookPreference, pParent)
+    CEnumTemplate(u32 ID, const TString& rkName, ECookPreference CookPreference, CScriptTemplate *pScript, CMasterTemplate *pMaster, CStructTemplate *pParent = 0)
+        : TTypedPropertyTemplate(ID, rkName, CookPreference, pScript, pMaster, pParent)
     {
     }
 
@@ -393,7 +407,7 @@ public:
         return pEnum;
     }
 
-    DEFINE_TEMPLATE_CLONE(CEnumTemplate)
+    IMPLEMENT_TEMPLATE_CLONE(CEnumTemplate)
 
     virtual void Copy(const IPropertyTemplate *pkTemp)
     {
@@ -413,10 +427,8 @@ public:
                  (mSourceFile == pkEnum->mSourceFile) );
     }
 
-    inline u32 NumEnumerators() const
-    {
-        return mEnumerators.size();
-    }
+    inline TString SourceFile() const { return mSourceFile; }
+    inline u32 NumEnumerators() const { return mEnumerators.size(); }
 
     u32 EnumeratorIndex(u32 enumID) const
     {
@@ -469,13 +481,13 @@ class CBitfieldTemplate : public TTypedPropertyTemplate<u32, eBitfieldProperty, 
     TString mSourceFile;
 
 public:
-    CBitfieldTemplate(u32 ID, CStructTemplate *pParent = 0)
-        : TTypedPropertyTemplate(ID, pParent)
+    CBitfieldTemplate(u32 ID, CScriptTemplate *pScript, CMasterTemplate *pMaster, CStructTemplate *pParent = 0)
+        : TTypedPropertyTemplate(ID, pScript, pMaster, pParent)
     {
     }
 
-    CBitfieldTemplate(u32 ID, const TString& rkName, ECookPreference CookPreference, CStructTemplate *pParent = 0)
-        : TTypedPropertyTemplate(ID, rkName, CookPreference, pParent)
+    CBitfieldTemplate(u32 ID, const TString& rkName, ECookPreference CookPreference, CScriptTemplate *pScript, CMasterTemplate *pMaster, CStructTemplate *pParent = 0)
+        : TTypedPropertyTemplate(ID, rkName, CookPreference, pScript, pMaster, pParent)
     {
     }
 
@@ -490,7 +502,7 @@ public:
         return pBitfield;
     }
 
-    DEFINE_TEMPLATE_CLONE(CBitfieldTemplate)
+    IMPLEMENT_TEMPLATE_CLONE(CBitfieldTemplate)
 
     virtual void Copy(const IPropertyTemplate *pkTemp)
     {
@@ -510,9 +522,10 @@ public:
                  (mSourceFile == pkBitfield->mSourceFile) );
     }
 
-    u32 NumFlags() const                { return mBitFlags.size(); }
-    TString FlagName(u32 index) const   { return mBitFlags[index].Name; }
-    u32 FlagMask(u32 index) const       { return mBitFlags[index].Mask; }
+    inline TString SourceFile() const           { return mSourceFile; }
+    inline u32 NumFlags() const                 { return mBitFlags.size(); }
+    inline TString FlagName(u32 index) const    { return mBitFlags[index].Name; }
+    inline u32 FlagMask(u32 index) const        { return mBitFlags[index].Mask; }
 };
 
 // CStructTemplate - Defines structs composed of multiple sub-properties.
@@ -529,12 +542,12 @@ protected:
 
     void DetermineVersionPropertyCounts();
 public:
-    CStructTemplate(u32 ID, CStructTemplate *pParent = 0)
-        : IPropertyTemplate(ID, pParent)
+    CStructTemplate(u32 ID, CScriptTemplate *pScript, CMasterTemplate *pMaster, CStructTemplate *pParent = 0)
+        : IPropertyTemplate(ID, pScript, pMaster, pParent)
         , mIsSingleProperty(false) {}
 
-    CStructTemplate(u32 ID, const TString& rkName, ECookPreference CookPreference, CStructTemplate *pParent = 0)
-        : IPropertyTemplate(ID, rkName, CookPreference, pParent)
+    CStructTemplate(u32 ID, const TString& rkName, ECookPreference CookPreference, CScriptTemplate *pScript, CMasterTemplate *pMaster, CStructTemplate *pParent = 0)
+        : IPropertyTemplate(ID, rkName, CookPreference, pScript, pMaster, pParent)
         , mIsSingleProperty(false) {}
 
     ~CStructTemplate()
@@ -560,7 +573,7 @@ public:
         return pStruct;
     }
 
-    DEFINE_TEMPLATE_CLONE(CStructTemplate)
+    IMPLEMENT_TEMPLATE_CLONE(CStructTemplate)
 
     virtual void Copy(const IPropertyTemplate *pkTemp)
     {
@@ -570,17 +583,7 @@ public:
         CopyStructData(pkStruct);
     }
 
-    void CopyStructData(const CStructTemplate *pkStruct)
-    {
-        mVersionPropertyCounts = pkStruct->mVersionPropertyCounts;
-        mIsSingleProperty = pkStruct->mIsSingleProperty;
-        mSourceFile = pkStruct->mSourceFile;
-
-        mSubProperties.resize(pkStruct->mSubProperties.size());
-
-        for (u32 iSub = 0; iSub < pkStruct->mSubProperties.size(); iSub++)
-            mSubProperties[iSub] = pkStruct->mSubProperties[iSub]->Clone(this);
-    }
+    void CopyStructData(const CStructTemplate *pkStruct);
 
     virtual bool Matches(const IPropertyTemplate *pkTemp) const
     {
@@ -614,9 +617,11 @@ public:
         return false;
     }
 
-    bool IsSingleProperty() const;
-    u32 Count() const;
-    u32 NumVersions();
+    inline TString SourceFile() const               { return mSourceFile; }
+    inline bool IsSingleProperty() const            { return mIsSingleProperty; }
+    inline u32 Count() const                        { return mSubProperties.size(); }
+    inline u32 NumVersions() const                  { return mVersionPropertyCounts.size(); }
+
     u32 PropertyCountForVersion(u32 Version);
     u32 VersionForPropertyCount(u32 PropCount);
     IPropertyTemplate* PropertyByIndex(u32 index);
@@ -638,14 +643,14 @@ class CArrayTemplate : public CStructTemplate
     TString mElementName;
 
 public:
-    CArrayTemplate(u32 ID, CStructTemplate *pParent = 0)
-        : CStructTemplate(ID, pParent)
+    CArrayTemplate(u32 ID, CScriptTemplate *pScript, CMasterTemplate *pMaster, CStructTemplate *pParent = 0)
+        : CStructTemplate(ID, pScript, pMaster, pParent)
     {
         mIsSingleProperty = true;
     }
 
-    CArrayTemplate(u32 ID, const TString& rkName, ECookPreference CookPreference, CStructTemplate *pParent = 0)
-        : CStructTemplate(ID, rkName, CookPreference, pParent)
+    CArrayTemplate(u32 ID, const TString& rkName, ECookPreference CookPreference, CScriptTemplate *pScript, CMasterTemplate *pMaster, CStructTemplate *pParent = 0)
+        : CStructTemplate(ID, rkName, CookPreference, pScript, pMaster, pParent)
     {
         mIsSingleProperty = true;
     }
@@ -657,12 +662,10 @@ public:
         return new CArrayProperty(this, pParent);
     }
 
-    DEFINE_TEMPLATE_CLONE(CArrayTemplate)
+    IMPLEMENT_TEMPLATE_CLONE(CArrayTemplate)
 
     virtual void Copy(const IPropertyTemplate *pkTemp)
     {
-        IPropertyTemplate::Copy(pkTemp);
-
         CStructTemplate::Copy(pkTemp);
         mElementName = static_cast<const CArrayTemplate*>(pkTemp)->mElementName;
     }
