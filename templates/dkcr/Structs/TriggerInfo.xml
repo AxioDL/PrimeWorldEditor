@@ -13,7 +13,7 @@
         <property ID="0x46CC1B48" type="bool">
             <default>false</default>
         </property>
-        <struct ID="0xFA873A67" template="Structs/MayaSpline.xml"/>
+        <property ID="0xFA873A67" type="MayaSpline"/>
         <struct ID="0x337F9524" template="Structs/DamageInfo.xml"/>
         <property ID="0x20927E9B" type="vector3f">
             <default>0.0, 0.0, 0.0</default>

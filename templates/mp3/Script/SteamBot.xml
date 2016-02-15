@@ -96,13 +96,13 @@
                 <property ID="0xD8FFAE69" type="float">
                     <default>0.9</default>
                 </property>
-                <struct ID="0x48BA8EB1" template="Structs/MayaSpline.xml"/>
-                <struct ID="0x180C38B0" template="Structs/MayaSpline.xml"/>
-                <struct ID="0x0F762790" template="Structs/MayaSpline.xml"/>
-                <struct ID="0x0FEADC99" template="Structs/MayaSpline.xml"/>
-                <struct ID="0x55BE3E8E" template="Structs/MayaSpline.xml"/>
-                <struct ID="0x79F7CC48" template="Structs/MayaSpline.xml"/>
-                <struct ID="0x564BD8CD" template="Structs/MayaSpline.xml"/>
+                <property ID="0x48BA8EB1" type="MayaSpline"/>
+                <property ID="0x180C38B0" type="MayaSpline"/>
+                <property ID="0x0F762790" type="MayaSpline"/>
+                <property ID="0x0FEADC99" type="MayaSpline"/>
+                <property ID="0x55BE3E8E" type="MayaSpline"/>
+                <property ID="0x79F7CC48" type="MayaSpline"/>
+                <property ID="0x564BD8CD" type="MayaSpline"/>
                 <property ID="0x9AA90B6B" type="float">
                     <default>1.0</default>
                 </property>

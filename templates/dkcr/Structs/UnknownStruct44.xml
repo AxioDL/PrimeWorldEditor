@@ -198,9 +198,9 @@
                 <property ID="0x29A73264" type="float">
                     <default>50.0</default>
                 </property>
-                <struct ID="0x6BD22C75" template="Structs/MayaSpline.xml"/>
-                <struct ID="0xB0B17D58" template="Structs/MayaSpline.xml"/>
-                <struct ID="0xC47FE8AA" template="Structs/MayaSpline.xml"/>
+                <property ID="0x6BD22C75" type="MayaSpline"/>
+                <property ID="0xB0B17D58" type="MayaSpline"/>
+                <property ID="0xC47FE8AA" type="MayaSpline"/>
                 <property ID="0xA8AC80DD" type="float">
                     <default>10.0</default>
                 </property>
@@ -419,9 +419,9 @@
                 <property ID="0xBA30AACA" type="float">
                     <default>0.5</default>
                 </property>
-                <struct ID="0xD9CA50C2" template="Structs/MayaSpline.xml"/>
-                <struct ID="0x84951EC7" template="Structs/MayaSpline.xml"/>
-                <struct ID="0x6A78525F" template="Structs/MayaSpline.xml"/>
+                <property ID="0xD9CA50C2" type="MayaSpline"/>
+                <property ID="0x84951EC7" type="MayaSpline"/>
+                <property ID="0x6A78525F" type="MayaSpline"/>
                 <property ID="0xD7C19141" type="long">
                     <default>0</default>
                 </property>
@@ -456,9 +456,9 @@
                 <property ID="0x5121648E" type="file" extensions="PART"/>
                 <property ID="0xC9D72254" type="string"/>
                 <property ID="0xA2ACF0FA" type="file" extensions="CAUD"/>
-                <struct ID="0xBDAAA9B1" template="Structs/MayaSpline.xml"/>
-                <struct ID="0x7E50A6D2" template="Structs/MayaSpline.xml"/>
-                <struct ID="0x075F730C" template="Structs/MayaSpline.xml"/>
+                <property ID="0xBDAAA9B1" type="MayaSpline"/>
+                <property ID="0x7E50A6D2" type="MayaSpline"/>
+                <property ID="0x075F730C" type="MayaSpline"/>
             </properties>
         </struct>
         <struct ID="0x75586C2B" type="multi">

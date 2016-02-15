@@ -92,6 +92,14 @@ void CScriptCooker::WriteProperty(IProperty *pProp)
         break;
     }
 
+    case eMayaSplineProperty:
+    {
+        TMayaSplineProperty *pSplineCast = static_cast<TMayaSplineProperty*>(pProp);
+        std::vector<u8> Buffer = pSplineCast->Get();
+        mpSCLY->WriteBytes(Buffer.data(), Buffer.size());
+        break;
+    }
+
     case eStructProperty:
     case eArrayProperty:
     {

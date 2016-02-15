@@ -48,7 +48,7 @@
         <property ID="0x74081E94" type="bool">
             <default>false</default>
         </property>
-        <struct ID="0x15567FE7" template="Structs/MayaSpline.xml"/>
+        <property ID="0x15567FE7" type="MayaSpline"/>
     </properties>
     <states/>
     <messages/>

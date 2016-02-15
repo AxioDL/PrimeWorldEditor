@@ -9,7 +9,7 @@
         <property ID="0x1405B5E4" type="long">
             <default>1</default>
         </property>
-        <struct ID="0x922D151F" template="Structs/MayaSpline.xml"/>
+        <property ID="0x922D151F" type="MayaSpline"/>
         <property ID="0x1D8B933F" type="vector3f">
             <default>0.0, 0.0, 0.0</default>
         </property>
@@ -21,8 +21,8 @@
         <property ID="0x33B4F106" type="bool">
             <default>false</default>
         </property>
-        <struct ID="0xC4DFBFA7" template="Structs/MayaSpline.xml"/>
-        <struct ID="0x6868D4B3" template="Structs/MayaSpline.xml"/>
+        <property ID="0xC4DFBFA7" type="MayaSpline"/>
+        <property ID="0x6868D4B3" type="MayaSpline"/>
     </properties>
     <states/>
     <messages/>

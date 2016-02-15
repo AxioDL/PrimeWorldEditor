@@ -146,6 +146,14 @@ void CScriptLoader::ReadProperty(IProperty *pProp, u32 Size, IInputStream& SCLY)
         break;
     }
 
+    case eMayaSplineProperty: {
+        TMayaSplineProperty *pSplineCast = static_cast<TMayaSplineProperty*>(pProp);
+        std::vector<u8> Buffer(Size);
+        SCLY.ReadBytes(Buffer.data(), Buffer.size());
+        pSplineCast->Set(Buffer);
+        break;
+    }
+
     case eUnknownProperty: {
         TUnknownProperty *pUnknownCast = static_cast<TUnknownProperty*>(pProp);
         std::vector<u8> Buffer(Size);

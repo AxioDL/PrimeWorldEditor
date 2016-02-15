@@ -15,8 +15,8 @@
                 <property ID="0x246A1185" type="file" extensions="CMDL"/>
                 <property ID="0xEF36C220" type="file" extensions="unknown"/>
                 <property ID="0xF233F298" type="file" extensions="unknown"/>
-                <struct ID="0xF7AA5F32" template="Structs/MayaSpline.xml"/>
-                <struct ID="0xD0239F95" template="Structs/MayaSpline.xml"/>
+                <property ID="0xF7AA5F32" type="MayaSpline"/>
+                <property ID="0xD0239F95" type="MayaSpline"/>
                 <property ID="0x5688683B" type="float">
                     <default>-0.1</default>
                 </property>
@@ -190,14 +190,14 @@
                 <property ID="0x7B8E2CD2" type="file" extensions="CAUD"/>
                 <property ID="0x28147756" type="file" extensions="unknown"/>
                 <property ID="0x0093800D" type="file" extensions="unknown"/>
-                <struct ID="0xCCBB7330" template="Structs/MayaSpline.xml"/>
-                <struct ID="0xAA62345F" template="Structs/MayaSpline.xml"/>
-                <struct ID="0x1852AF24" template="Structs/MayaSpline.xml"/>
-                <struct ID="0x0BA9A91C" template="Structs/MayaSpline.xml"/>
-                <struct ID="0x6FCC7DD4" template="Structs/MayaSpline.xml"/>
-                <struct ID="0x77C88CC7" template="Structs/MayaSpline.xml"/>
-                <struct ID="0x7B066BAC" template="Structs/MayaSpline.xml"/>
-                <struct ID="0x64FADEA2" template="Structs/MayaSpline.xml"/>
+                <property ID="0xCCBB7330" type="MayaSpline"/>
+                <property ID="0xAA62345F" type="MayaSpline"/>
+                <property ID="0x1852AF24" type="MayaSpline"/>
+                <property ID="0x0BA9A91C" type="MayaSpline"/>
+                <property ID="0x6FCC7DD4" type="MayaSpline"/>
+                <property ID="0x77C88CC7" type="MayaSpline"/>
+                <property ID="0x7B066BAC" type="MayaSpline"/>
+                <property ID="0x64FADEA2" type="MayaSpline"/>
                 <property ID="0x751BFE84" type="file" extensions="CAUD"/>
                 <property ID="0x5EB113BF" type="file" extensions="CAUD"/>
                 <property ID="0x3DBA2F5C" type="file" extensions="CAUD"/>

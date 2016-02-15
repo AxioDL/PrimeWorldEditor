@@ -327,6 +327,21 @@ public:
     }
 };
 
+class CMayaSplineValue : public TTypedPropertyValue<std::vector<u8>>
+{
+public:
+    CMayaSplineValue() {}
+    CMayaSplineValue(const std::vector<u8>& rkData) { mValue = rkData; }
+
+    TString ToString() const { return "[MayaSpline]"; }
+    void FromString(const TString&) {}
+
+    IPropertyValue* Clone() const
+    {
+        return new CMayaSplineValue(mValue);
+    }
+};
+
 class CFileValue : public TTypedPropertyValue<CResourceInfo>
 {
 public:
@@ -334,7 +349,7 @@ public:
     CFileValue(const CResourceInfo& rkInfo) { mValue = rkInfo; }
 
     TString ToString() const { return ""; }
-    void FromString(const TString&) { }
+    void FromString(const TString&) {}
 
     IPropertyValue* Clone() const
     {

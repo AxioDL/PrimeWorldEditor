@@ -11,7 +11,7 @@
                 <property ID="0x65470F5B" type="bool">
                     <default>false</default>
                 </property>
-                <struct ID="0x6057938A" template="Structs/MayaSpline.xml"/>
+                <property ID="0x6057938A" type="MayaSpline"/>
                 <property ID="0x5E96989A" type="file" extensions="TXTR"/>
                 <property ID="0xB883AC66" type="float">
                     <default>0.0</default>

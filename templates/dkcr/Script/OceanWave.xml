@@ -7,7 +7,7 @@
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
         <struct ID="0x7CF4790F" type="multi">
             <properties>
-                <struct ID="0x672255F7" template="Structs/MayaSpline.xml"/>
+                <property ID="0x672255F7" type="MayaSpline"/>
                 <property ID="0x3217DFF8" type="bool">
                     <default>true</default>
                 </property>

@@ -48,19 +48,19 @@
         <property ID="0x2D23720F" type="long">
             <default>-1</default>
         </property>
-        <struct ID="0xEC45879E" template="Structs/MayaSpline.xml"/>
+        <property ID="0xEC45879E" type="MayaSpline"/>
         <property ID="0xFA20775D" type="float">
             <default>0.75</default>
         </property>
-        <struct ID="0x5E30354A" template="Structs/MayaSpline.xml"/>
+        <property ID="0x5E30354A" type="MayaSpline"/>
         <property ID="0x3C1FA2CA" type="float">
             <default>0.75</default>
         </property>
-        <struct ID="0xB492C2AF" template="Structs/MayaSpline.xml"/>
+        <property ID="0xB492C2AF" type="MayaSpline"/>
         <property ID="0x6D5198B4" type="float">
             <default>0.75</default>
         </property>
-        <struct ID="0xDF1B312C" template="Structs/MayaSpline.xml"/>
+        <property ID="0xDF1B312C" type="MayaSpline"/>
         <property ID="0xBAC12CA0" type="float">
             <default>0.75</default>
         </property>

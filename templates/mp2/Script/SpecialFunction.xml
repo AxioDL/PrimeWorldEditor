@@ -9,9 +9,81 @@
                 </property>
             </properties>
         </struct>
-        <property ID="0x95F8D644" type="long">
+        <enum ID="0x95F8D644">
             <default>0</default>
-        </property>
+            <enumerators>
+                <enumerator ID="0x00" name="What"/>
+                <enumerator ID="0x01" name="Player Follow Locator"/>
+                <enumerator ID="0x02" name="Spinner Controller (Unused)"/>
+                <enumerator ID="0x03" name="Object Follow Locator"/>
+                <enumerator ID="0x04" name="Function 4 (Unused)"/>
+                <enumerator ID="0x05" name="Inventory Activator"/>
+                <enumerator ID="0x06" name="Map Station"/>
+                <enumerator ID="0x07" name="Save Station / Checkpoint"/>
+                <enumerator ID="0x08" name="Intro Boss Ring Controller (Unused)"/>
+                <enumerator ID="0x09" name="View Frustum Tester"/>
+                <enumerator ID="0x0A" name="Shot Spinner Controller (Unused)"/>
+                <enumerator ID="0x0B" name="Escape Sequence"/>
+                <enumerator ID="0x0C" name="Boss Energy Bar"/>
+                <enumerator ID="0x0D" name="End Game"/>
+                <enumerator ID="0x0E" name="HUD Fade In (Unused)"/>
+                <enumerator ID="0x0F" name="Cinematic Skip"/>
+                <enumerator ID="0x10" name="Script Layer Controller (Unused)"/>
+                <enumerator ID="0x11" name="Rain Simulator (Unused)"/>
+                <enumerator ID="0x12" name="Area Damage (Unused)"/>
+                <enumerator ID="0x13" name="Object Follow Object"/>
+                <enumerator ID="0x14" name="Redundant Hint System"/>
+                <enumerator ID="0x15" name="Drop Bomb (Unused)"/>
+                <enumerator ID="0x16" name="Function 22 (Unused)"/>
+                <enumerator ID="0x17" name="Missile Station (Unused)"/>
+                <enumerator ID="0x18" name="Billboard (Unused)"/>
+                <enumerator ID="0x19" name="Player In Area Relay"/>
+                <enumerator ID="0x1A" name="HUD Target (Unused)"/>
+                <enumerator ID="0x1B" name="Fog Fader"/>
+                <enumerator ID="0x1C" name="Enter Logbook Screen (Unused)"/>
+                <enumerator ID="0x1D" name="Power Bomb Station (Unused)"/>
+                <enumerator ID="0x1E" name="Ending"/>
+                <enumerator ID="0x1F" name="Fusion Relay (Unused)"/>
+                <enumerator ID="0x20" name="Weapon Switch (Unused)"/>
+                <enumerator ID="0x21" name="Launch Player"/>
+                <enumerator ID="0x22" name="Function 34 (Unused)"/>
+                <enumerator ID="0x23" name="Darkworld"/>
+                <enumerator ID="0x24" name="Function 36 (Unused)"/>
+                <enumerator ID="0x25" name="Function 37 (Unused)"/>
+                <enumerator ID="0x26" name="Function 38 (Unused)"/>
+                <enumerator ID="0x27" name="Function 39 (Unused)"/>
+                <enumerator ID="0x28" name="Set NumPlayers___/Remove Hacked Effect"/>
+                <enumerator ID="0x29" name="Enable Cannon Ball Damage"/>
+                <enumerator ID="0x2A" name="Modify Inventory Amount"/>
+                <enumerator ID="0x2B" name="Increment/Decrement Players Joined Count"/>
+                <enumerator ID="0x2C" name="Inventory Thing 1"/>
+                <enumerator ID="0x2D" name="Inventory Thing 2"/>
+                <enumerator ID="0x2E" name="Function 46 (Unused)"/>
+                <enumerator ID="0x2F" name="Automatic Sun Placement"/>
+                <enumerator ID="0x30" name="Function 48 (Unused)"/>
+                <enumerator ID="0x31" name="Wipe On/Off ___"/>
+                <enumerator ID="0x32" name="Function 50 (Unused)"/>
+                <enumerator ID="0x33" name="Inventory Lost"/>
+                <enumerator ID="0x34" name="Function 52 (Unused)"/>
+                <enumerator ID="0x35" name="Sun Generator Teleporter"/>
+                <enumerator ID="0x36" name="Sky Fader"/>
+                <enumerator ID="0x37" name="Occlusion Relay"/>
+                <enumerator ID="0x38" name="Multiplayer Countdown"/>
+                <enumerator ID="0x39" name="Scale SZ"/>
+                <enumerator ID="0x3A" name="Attach ___"/>
+                <enumerator ID="0x3B" name="Function 59 (Unused)"/>
+                <enumerator ID="0x3C" name="Extra Render Clip Plane"/>
+                <enumerator ID="0x3D" name="Visor Blowout"/>
+                <enumerator ID="0x3E" name="Area Auto Load Controller"/>
+                <enumerator ID="0x3F" name="Unlock Multiplayer Music"/>
+                <enumerator ID="0x40" name="Enable Darkworld Automapper button"/>
+                <enumerator ID="0x41" name="Play Selected Music [Multiplayer]"/>
+                <enumerator ID="0x42" name="Translator Door Location"/>
+                <enumerator ID="0x43" name="Cinematic Skip Signal"/>
+                <enumerator ID="0x44" name="Remove Rezbit Virus"/>
+                <enumerator ID="0x45" name="Credits"/>
+            </enumerators>
+        </enum>
         <property ID="0x9D7A576D" type="string"/>
         <property ID="0x19028099" type="float">
             <default>0.0</default>

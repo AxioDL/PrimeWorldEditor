@@ -27,10 +27,10 @@
                     </properties>
                 </struct>
                 <struct ID="0x810EC49A" template="Structs/GhorStructC.xml"/>
-                <struct ID="0x9B98F8CE" template="Structs/MayaSpline.xml"/>
-                <struct ID="0x3D14FB8E" template="Structs/MayaSpline.xml"/>
+                <property ID="0x9B98F8CE" type="MayaSpline"/>
+                <property ID="0x3D14FB8E" type="MayaSpline"/>
                 <property ID="0x13D02889" type="string"/>
-                <struct ID="0x4A744859" template="Structs/MayaSpline.xml"/>
+                <property ID="0x4A744859" type="MayaSpline"/>
                 <property ID="0x9B2EA489" type="float">
                     <default>25.0</default>
                 </property>

@@ -4,9 +4,9 @@
         <property ID="0xDE3E40A3" type="long">
             <default>1</default>
         </property>
-        <property ID="0xD3AF8D72" type="long">
+        <enum ID="0xD3AF8D72" template="Enums/Item.xml">
             <default>0</default>
-        </property>
+        </enum>
         <property ID="0x03BDEA98" type="long">
             <default>0</default>
         </property>

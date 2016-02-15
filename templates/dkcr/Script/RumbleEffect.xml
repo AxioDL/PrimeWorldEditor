@@ -43,7 +43,7 @@
                 <enumerator ID="0xA0E5443D" name="Unknown 26"/>
             </enumerators>
         </enum>
-        <struct ID="0x05A451ED" template="Structs/MayaSpline.xml"/>
+        <property ID="0x05A451ED" type="MayaSpline"/>
         <property ID="0x78C507EB" type="float">
             <default>20.0</default>
         </property>

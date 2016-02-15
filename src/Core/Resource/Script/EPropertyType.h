@@ -19,13 +19,14 @@ enum EPropertyType
     eStructProperty,
     eArrayProperty,
     eCharacterProperty,
+    eMayaSplineProperty,
     eUnknownProperty,
     eInvalidProperty
 };
 
-// functions defined in CScriptTemplate.cpp
-EPropertyType PropStringToPropEnum(const TString& prop);
-TString PropEnumToPropString(EPropertyType prop);
+// functions defined in IPropertyTemplate.cpp
+EPropertyType PropStringToPropEnum(TString Prop);
+TString PropEnumToPropString(EPropertyType Prop);
 
 #endif // EPROPERTYTYPE
 

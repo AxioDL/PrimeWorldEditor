@@ -19,9 +19,9 @@
         <property ID="0xBBEF4D0D" type="character"/>
         <property ID="0xCCEFC618" type="file" extensions="CMDL"/>
         <property ID="0x05014C61" type="character"/>
-        <struct ID="0xF9EF55D4" template="Structs/MayaSpline.xml"/>
+        <property ID="0xF9EF55D4" type="MayaSpline"/>
         <property ID="0x3C79E121" type="character"/>
-        <struct ID="0x8E718724" template="Structs/MayaSpline.xml"/>
+        <property ID="0x8E718724" type="MayaSpline"/>
         <property ID="0x6C176DD6" type="file" extensions="FONT"/>
         <property ID="0x9182250C" type="file" extensions="STRG"/>
         <property ID="0xC54082E8" type="bool">

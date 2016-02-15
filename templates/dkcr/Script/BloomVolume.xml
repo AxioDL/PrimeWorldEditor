@@ -3,7 +3,7 @@
     <name>BloomVolume</name>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0x3801A56B" template="Structs/MayaSpline.xml"/>
+        <property ID="0x3801A56B" type="MayaSpline"/>
     </properties>
     <states/>
     <messages/>

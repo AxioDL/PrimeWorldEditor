@@ -64,10 +64,10 @@
                 <property ID="0x2E6A683A" type="float">
                     <default>3.0</default>
                 </property>
-                <struct ID="0x48BA8EB1" template="Structs/MayaSpline.xml"/>
-                <struct ID="0x180C38B0" template="Structs/MayaSpline.xml"/>
-                <struct ID="0x0F762790" template="Structs/MayaSpline.xml"/>
-                <struct ID="0x564BD8CD" template="Structs/MayaSpline.xml"/>
+                <property ID="0x48BA8EB1" type="MayaSpline"/>
+                <property ID="0x180C38B0" type="MayaSpline"/>
+                <property ID="0x0F762790" type="MayaSpline"/>
+                <property ID="0x564BD8CD" type="MayaSpline"/>
                 <property ID="0x9AA90B6B" type="float">
                     <default>1.0</default>
                 </property>

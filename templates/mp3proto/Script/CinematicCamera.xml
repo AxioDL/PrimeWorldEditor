@@ -35,8 +35,8 @@
         <property ID="0x05C5FC6E" type="long">
             <default>2132</default>
         </property>
-        <struct ID="0x27E5F874" template="Structs/MayaSpline.xml"/>
-        <struct ID="0xC4DFBFA7" template="Structs/MayaSpline.xml"/>
+        <property ID="0x27E5F874" type="MayaSpline"/>
+        <property ID="0xC4DFBFA7" type="MayaSpline"/>
         <struct ID="0x65FC11FF" template="Structs/CameraOrientation.xml">
             <properties>
                 <enum ID="0x5C72A964">
@@ -47,10 +47,10 @@
                 </property>
             </properties>
         </struct>
-        <struct ID="0x6868D4B3" template="Structs/MayaSpline.xml"/>
-        <struct ID="0x6E6D8EFD" template="Structs/MayaSpline.xml"/>
-        <struct ID="0xF4F4798E" template="Structs/MayaSpline.xml"/>
-        <struct ID="0xDF1865A6" template="Structs/MayaSpline.xml"/>
+        <property ID="0x6868D4B3" type="MayaSpline"/>
+        <property ID="0x6E6D8EFD" type="MayaSpline"/>
+        <property ID="0xF4F4798E" type="MayaSpline"/>
+        <property ID="0xDF1865A6" type="MayaSpline"/>
     </properties>
     <states/>
     <messages/>
