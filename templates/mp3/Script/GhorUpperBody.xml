@@ -29,8 +29,8 @@
                         <property ID="0x7FEC6162" type="float">
                             <default>50.0</default>
                         </property>
-                        <struct ID="0x39D64E40" template="Structs/MayaSpline.xml"/>
-                        <struct ID="0xFC336BED" template="Structs/MayaSpline.xml"/>
+                        <property ID="0x39D64E40" type="MayaSpline"/>
+                        <property ID="0xFC336BED" type="MayaSpline"/>
                         <property ID="0x60BDAA38" type="string"/>
                         <property ID="0xC60B41B4" type="string"/>
                         <property ID="0x67808780" type="string"/>
@@ -60,8 +60,8 @@
                         <property ID="0x05032ED4" type="file" extensions="CMDL"/>
                         <property ID="0x671DBFB5" type="file" extensions="CMDL"/>
                         <property ID="0x828932C1" type="string"/>
-                        <struct ID="0xBFF185FA" template="Structs/MayaSpline.xml"/>
-                        <struct ID="0x1C846646" template="Structs/MayaSpline.xml"/>
+                        <property ID="0xBFF185FA" type="MayaSpline"/>
+                        <property ID="0x1C846646" type="MayaSpline"/>
                         <property ID="0x2EB71B6B" type="float">
                             <default>4.0</default>
                         </property>
@@ -107,13 +107,13 @@
                         </property>
                         <property ID="0x2822A8FA" type="file" extensions="CAUD"/>
                         <property ID="0x95D26130" type="file" extensions="CAUD"/>
-                        <struct ID="0xBFB8336B" template="Structs/MayaSpline.xml"/>
-                        <struct ID="0xF79ADCA8" template="Structs/MayaSpline.xml"/>
+                        <property ID="0xBFB8336B" type="MayaSpline"/>
+                        <property ID="0xF79ADCA8" type="MayaSpline"/>
                         <property ID="0x68454CB4" type="float">
                             <default>20.0</default>
                         </property>
-                        <struct ID="0x34DDD21C" template="Structs/MayaSpline.xml"/>
-                        <struct ID="0x39705DD6" template="Structs/MayaSpline.xml"/>
+                        <property ID="0x34DDD21C" type="MayaSpline"/>
+                        <property ID="0x39705DD6" type="MayaSpline"/>
                         <property ID="0xB2671C2A" type="long">
                             <default>3</default>
                         </property>

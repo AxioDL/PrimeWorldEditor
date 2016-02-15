@@ -5,7 +5,7 @@
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <struct ID="0x882E9F47" type="multi">
             <properties>
-                <struct ID="0xDCBFA4E6" template="Structs/MayaSpline.xml"/>
+                <property ID="0xDCBFA4E6" type="MayaSpline"/>
                 <enum ID="0x1610EB13">
                     <default>0x0B7646F3</default>
                     <enumerators>

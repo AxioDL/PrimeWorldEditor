@@ -199,7 +199,7 @@
                         </property>
                     </properties>
                 </struct>
-                <struct ID="0xA25B96E1" template="Structs/MayaSpline.xml"/>
+                <property ID="0xA25B96E1" type="MayaSpline"/>
                 <property ID="0xD8047CBA" type="float">
                     <default>10.0</default>
                 </property>

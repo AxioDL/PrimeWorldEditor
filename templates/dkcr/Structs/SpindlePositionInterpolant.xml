@@ -17,6 +17,6 @@
                 <enumerator ID="0x0223A416" name="Unknown 11"/>
             </enumerators>
         </enum>
-        <struct ID="0x9A598FA5" template="Structs/MayaSpline.xml"/>
+        <property ID="0x9A598FA5" type="MayaSpline"/>
     </properties>
 </struct>

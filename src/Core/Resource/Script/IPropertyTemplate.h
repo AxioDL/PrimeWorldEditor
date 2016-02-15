@@ -310,7 +310,43 @@ typedef TNumericalPropertyTemplate<float, eFloatProperty, CFloatValue>          
 typedef TTypedPropertyTemplate<TString, eStringProperty, CStringValue, false>                       TStringTemplate;
 typedef TTypedPropertyTemplate<CVector3f, eVector3Property, CVector3Value, true>                    TVector3Template;
 typedef TTypedPropertyTemplate<CColor, eColorProperty, CColorValue, true>                           TColorTemplate;
-typedef TTypedPropertyTemplate<CAnimationParameters, eCharacterProperty, CCharacterValue, false>    TCharacterTemplate;
+
+// TCharacterTemplate and TMayaSplineTemplate - quick subclasses in order to reimplement InstantiateProperty
+class TCharacterTemplate : public TTypedPropertyTemplate<CAnimationParameters, eCharacterProperty, CCharacterValue, false>
+{
+    friend class CTemplateLoader;
+    friend class CTemplateWriter;
+
+public:
+    TCharacterTemplate(u32 ID, CScriptTemplate *pScript, CMasterTemplate *pMaster, CStructTemplate *pParent = 0)
+        : TTypedPropertyTemplate(ID, pScript, pMaster, pParent) {}
+
+    TCharacterTemplate(u32 ID, const TString& rkName, ECookPreference CookPreference, CScriptTemplate *pScript, CMasterTemplate *pMaster, CStructTemplate *pParent = 0)
+        : TTypedPropertyTemplate(ID, rkName, CookPreference, pScript, pMaster, pParent) {}
+
+    IProperty* InstantiateProperty(CPropertyStruct *pParent)
+    {
+        return new TCharacterProperty(this, pParent);
+    }
+};
+
+class TMayaSplineTemplate : public TTypedPropertyTemplate<std::vector<u8>, eMayaSplineProperty, CMayaSplineValue, false>
+{
+    friend class CTemplateLoader;
+    friend class CTemplateWriter;
+
+public:
+    TMayaSplineTemplate(u32 ID, CScriptTemplate *pScript, CMasterTemplate *pMaster, CStructTemplate *pParent = 0)
+        : TTypedPropertyTemplate(ID, pScript, pMaster, pParent) {}
+
+    TMayaSplineTemplate(u32 ID, const TString& rkName, ECookPreference CookPreference, CScriptTemplate *pScript, CMasterTemplate *pMaster, CStructTemplate *pParent = 0)
+        : TTypedPropertyTemplate(ID, rkName, CookPreference, pScript, pMaster, pParent) {}
+
+    IProperty* InstantiateProperty(CPropertyStruct *pParent)
+    {
+        return new TMayaSplineProperty(this, pParent);
+    }
+};
 
 // CFileTemplate - Property template for files. Tracks a list of file types that
 // the property is allowed to accept.

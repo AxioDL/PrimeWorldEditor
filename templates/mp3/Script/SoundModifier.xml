@@ -15,11 +15,11 @@
         <property ID="0x2409B906" type="bool">
             <default>false</default>
         </property>
-        <struct ID="0xF3FBE484" template="Structs/MayaSpline.xml"/>
-        <struct ID="0x2858C9F0" template="Structs/MayaSpline.xml"/>
-        <struct ID="0x5113198F" template="Structs/MayaSpline.xml"/>
-        <struct ID="0x0E727FC4" template="Structs/MayaSpline.xml"/>
-        <struct ID="0xD3049E04" template="Structs/MayaSpline.xml"/>
+        <property ID="0xF3FBE484" type="MayaSpline"/>
+        <property ID="0x2858C9F0" type="MayaSpline"/>
+        <property ID="0x5113198F" type="MayaSpline"/>
+        <property ID="0x0E727FC4" type="MayaSpline"/>
+        <property ID="0xD3049E04" type="MayaSpline"/>
     </properties>
     <states/>
     <messages/>

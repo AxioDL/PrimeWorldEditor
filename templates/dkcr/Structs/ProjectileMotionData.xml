@@ -76,9 +76,9 @@
         </struct>
         <struct ID="0x59C61E48" type="multi">
             <properties>
-                <struct ID="0x97F6EA79" template="Structs/MayaSpline.xml"/>
-                <struct ID="0x4A6033FC" template="Structs/MayaSpline.xml"/>
-                <struct ID="0xF7AA5F32" template="Structs/MayaSpline.xml"/>
+                <property ID="0x97F6EA79" type="MayaSpline"/>
+                <property ID="0x4A6033FC" type="MayaSpline"/>
+                <property ID="0xF7AA5F32" type="MayaSpline"/>
             </properties>
         </struct>
         <struct ID="0x8698751F" type="multi">
@@ -97,8 +97,8 @@
                 <property ID="0x7A0D286C" type="float">
                     <default>3.0</default>
                 </property>
-                <struct ID="0xF122CD97" template="Structs/MayaSpline.xml"/>
-                <struct ID="0x2927E544" template="Structs/MayaSpline.xml"/>
+                <property ID="0xF122CD97" type="MayaSpline"/>
+                <property ID="0x2927E544" type="MayaSpline"/>
                 <property ID="0x0364F0B8" type="bool">
                     <default>false</default>
                 </property>
@@ -107,7 +107,7 @@
         <struct ID="0xFE9257CE" type="multi">
             <properties>
                 <struct ID="0x20091B54" template="Structs/SplineType.xml"/>
-                <struct ID="0x13EB5A7D" template="Structs/MayaSpline.xml"/>
+                <property ID="0x13EB5A7D" type="MayaSpline"/>
             </properties>
         </struct>
         <struct ID="0x608E1757" type="multi">
@@ -122,7 +122,7 @@
                 <property ID="0xE34DC703" type="float">
                     <default>90.0</default>
                 </property>
-                <struct ID="0x13EB5A7D" template="Structs/MayaSpline.xml"/>
+                <property ID="0x13EB5A7D" type="MayaSpline"/>
             </properties>
         </struct>
     </properties>

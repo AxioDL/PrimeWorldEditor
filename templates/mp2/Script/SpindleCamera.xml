@@ -26,7 +26,7 @@
         <property ID="0x33B4F106" type="bool">
             <default>false</default>
         </property>
-        <struct ID="0xC4DFBFA7" template="Structs/MayaSpline.xml"/>
+        <property ID="0xC4DFBFA7" type="MayaSpline"/>
         <struct ID="0x33E4685B" template="Structs/UnknownStruct1.xml"/>
         <property ID="0x431769C6" type="bool">
             <default>false</default>

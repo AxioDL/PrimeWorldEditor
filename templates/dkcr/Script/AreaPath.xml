@@ -29,7 +29,7 @@
         <property ID="0x1989E2E5" type="float">
             <default>0.5</default>
         </property>
-        <struct ID="0xFA0EED84" template="Structs/MayaSpline.xml"/>
+        <property ID="0xFA0EED84" type="MayaSpline"/>
         <struct ID="0x91FA7B19" template="Structs/AreaPathStructA.xml"/>
         <property ID="0x1B32DC50" type="file" extensions="PART"/>
         <property ID="0x7C642C9C" type="file" extensions="CAUD"/>

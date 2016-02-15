@@ -82,7 +82,7 @@
         <property ID="0x41B72B2C" type="vector3f">
             <default>0.0, 0.0, 0.0</default>
         </property>
-        <struct ID="0xBBBEE60B" template="Structs/MayaSpline.xml"/>
+        <property ID="0xBBBEE60B" type="MayaSpline"/>
     </properties>
     <states/>
     <messages/>

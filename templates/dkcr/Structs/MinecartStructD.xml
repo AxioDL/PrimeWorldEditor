@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <struct name="MinecartStructD" type="multi">
     <properties>
-        <struct ID="0x32152AB2" template="Structs/MayaSpline.xml"/>
+        <property ID="0x32152AB2" type="MayaSpline"/>
         <struct ID="0x005E3BE9" template="Structs/UnknownStruct41.xml"/>
         <struct ID="0x44FF1EF1" template="Structs/UnknownStruct41.xml"/>
         <struct ID="0x7384AEA3" type="multi">

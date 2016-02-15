@@ -309,6 +309,10 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                     return QString("%1 element%2").arg(Count).arg(Count != 1 ? "s" : "");
                 }
 
+                // Display "[MayaSpline]" for MayaSplines (todo: proper support)
+                case eMayaSplineProperty:
+                    return "[MayaSpline]";
+
                 // No display text on properties with persistent editors
                 case eBoolProperty:
                 case eFileProperty:
@@ -342,6 +346,11 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
             // Add description
             TString Desc = pProp->Template()->Description();
             if (!Desc.IsEmpty()) Text += "<br/>" + TO_QSTRING(Desc);
+
+            // MayaSpline notification
+            if (pProp->Type() == eMayaSplineProperty)
+                Text += "<br/><i>(NOTE: MayaSpline properties are currently unsupported for editing)</i>";
+
             return Text;
         }
     }

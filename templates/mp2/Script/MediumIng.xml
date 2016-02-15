@@ -68,7 +68,7 @@
         </property>
         <property ID="0x7A9F8249" type="character"/>
         <struct ID="0x38CF133B" template="Structs/ActorParameters.xml"/>
-        <struct ID="0x0767060D" template="Structs/MayaSpline.xml"/>
+        <property ID="0x0767060D" type="MayaSpline"/>
         <struct ID="0x0E6B1E70" template="Structs/CameraShakerData.xml"/>
         <struct ID="0xF683FE08" template="Structs/DamageInfo.xml"/>
         <property ID="0xA77F6212" type="float">
@@ -83,8 +83,8 @@
         <property ID="0xD24B888F" type="float">
             <default>2.0</default>
         </property>
-        <struct ID="0xB459C3E9" template="Structs/MayaSpline.xml"/>
-        <struct ID="0x323E4ED0" template="Structs/MayaSpline.xml"/>
+        <property ID="0xB459C3E9" type="MayaSpline"/>
+        <property ID="0x323E4ED0" type="MayaSpline"/>
         <property ID="0x079BC576" type="long">
             <default>-1</default>
         </property>

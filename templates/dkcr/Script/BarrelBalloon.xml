@@ -48,7 +48,7 @@
                 <property ID="0xDCB3F50E" type="float">
                     <default>0.5</default>
                 </property>
-                <struct ID="0xBD917023" template="Structs/MayaSpline.xml"/>
+                <property ID="0xBD917023" type="MayaSpline"/>
                 <property ID="0x7C8454BD" type="float">
                     <default>2.0</default>
                 </property>

@@ -176,20 +176,21 @@ IPropertyTemplate* CTemplateLoader::CreateProperty(u32 ID, EPropertyType Type, c
 
     switch (Type)
     {
-    case eBoolProperty:      pOut = CREATE_PROP_TEMP(TBoolTemplate);      break;
-    case eByteProperty:      pOut = CREATE_PROP_TEMP(TByteTemplate);      break;
-    case eShortProperty:     pOut = CREATE_PROP_TEMP(TShortTemplate);     break;
-    case eLongProperty:      pOut = CREATE_PROP_TEMP(TLongTemplate);      break;
-    case eFloatProperty:     pOut = CREATE_PROP_TEMP(TFloatTemplate);     break;
-    case eStringProperty:    pOut = CREATE_PROP_TEMP(TStringTemplate);    break;
-    case eVector3Property:   pOut = CREATE_PROP_TEMP(TVector3Template);   break;
-    case eColorProperty:     pOut = CREATE_PROP_TEMP(TColorTemplate);     break;
-    case eFileProperty:      pOut = CREATE_PROP_TEMP(CFileTemplate);      break;
-    case eCharacterProperty: pOut = CREATE_PROP_TEMP(TCharacterTemplate); break;
-    case eEnumProperty:      pOut = CREATE_PROP_TEMP(CEnumTemplate);      break;
-    case eBitfieldProperty:  pOut = CREATE_PROP_TEMP(CBitfieldTemplate);  break;
-    case eArrayProperty:     pOut = CREATE_PROP_TEMP(CArrayTemplate);     break;
-    case eStructProperty:    pOut = CREATE_PROP_TEMP(CStructTemplate);    break;
+    case eBoolProperty:         pOut = CREATE_PROP_TEMP(TBoolTemplate);         break;
+    case eByteProperty:         pOut = CREATE_PROP_TEMP(TByteTemplate);         break;
+    case eShortProperty:        pOut = CREATE_PROP_TEMP(TShortTemplate);        break;
+    case eLongProperty:         pOut = CREATE_PROP_TEMP(TLongTemplate);         break;
+    case eFloatProperty:        pOut = CREATE_PROP_TEMP(TFloatTemplate);        break;
+    case eStringProperty:       pOut = CREATE_PROP_TEMP(TStringTemplate);       break;
+    case eVector3Property:      pOut = CREATE_PROP_TEMP(TVector3Template);      break;
+    case eColorProperty:        pOut = CREATE_PROP_TEMP(TColorTemplate);        break;
+    case eFileProperty:         pOut = CREATE_PROP_TEMP(CFileTemplate);         break;
+    case eCharacterProperty:    pOut = CREATE_PROP_TEMP(TCharacterTemplate);    break;
+    case eMayaSplineProperty:   pOut = CREATE_PROP_TEMP(TMayaSplineTemplate);   break;
+    case eEnumProperty:         pOut = CREATE_PROP_TEMP(CEnumTemplate);         break;
+    case eBitfieldProperty:     pOut = CREATE_PROP_TEMP(CBitfieldTemplate);     break;
+    case eArrayProperty:        pOut = CREATE_PROP_TEMP(CArrayTemplate);        break;
+    case eStructProperty:       pOut = CREATE_PROP_TEMP(CStructTemplate);       break;
     }
 
     if (pOut)

@@ -215,9 +215,9 @@ void CStructTemplate::DetermineVersionPropertyCounts()
 }
 
 // ************ GLOBAL FUNCTIONS ************
-TString PropEnumToPropString(EPropertyType prop)
+TString PropEnumToPropString(EPropertyType Prop)
 {
-    switch (prop)
+    switch (Prop)
     {
     case eBoolProperty:       return "bool";
     case eByteProperty:       return "byte";
@@ -233,6 +233,7 @@ TString PropEnumToPropString(EPropertyType prop)
     case eStructProperty:     return "struct";
     case eArrayProperty:      return "array";
     case eCharacterProperty:  return "character";
+    case eMayaSplineProperty: return "MayaSpline";
     case eUnknownProperty:    return "unknown";
 
     case eInvalidProperty:
@@ -241,23 +242,25 @@ TString PropEnumToPropString(EPropertyType prop)
     }
 }
 
-EPropertyType PropStringToPropEnum(const TString& rkProp)
+EPropertyType PropStringToPropEnum(TString Prop)
 {
-    if (rkProp == "bool")       return eBoolProperty;
-    if (rkProp == "byte")       return eByteProperty;
-    if (rkProp == "short")      return eShortProperty;
-    if (rkProp == "long")       return eLongProperty;
-    if (rkProp == "enum")       return eEnumProperty;
-    if (rkProp == "bitfield")   return eBitfieldProperty;
-    if (rkProp == "float")      return eFloatProperty;
-    if (rkProp == "string")     return eStringProperty;
-    if (rkProp == "color")      return eColorProperty;
-    if (rkProp == "vector3f")   return eVector3Property;
-    if (rkProp == "file")       return eFileProperty;
-    if (rkProp == "struct")     return eStructProperty;
-    if (rkProp == "array")      return eArrayProperty;
-    if (rkProp == "character")  return eCharacterProperty;
-    if (rkProp == "unknown")    return eUnknownProperty;
+    Prop = Prop.ToLower();
+    if (Prop == "bool")       return eBoolProperty;
+    if (Prop == "byte")       return eByteProperty;
+    if (Prop == "short")      return eShortProperty;
+    if (Prop == "long")       return eLongProperty;
+    if (Prop == "enum")       return eEnumProperty;
+    if (Prop == "bitfield")   return eBitfieldProperty;
+    if (Prop == "float")      return eFloatProperty;
+    if (Prop == "string")     return eStringProperty;
+    if (Prop == "color")      return eColorProperty;
+    if (Prop == "vector3f")   return eVector3Property;
+    if (Prop == "file")       return eFileProperty;
+    if (Prop == "struct")     return eStructProperty;
+    if (Prop == "array")      return eArrayProperty;
+    if (Prop == "character")  return eCharacterProperty;
+    if (Prop == "mayaspline") return eMayaSplineProperty;
+    if (Prop == "unknown")    return eUnknownProperty;
                               return eInvalidProperty;
 }
 

@@ -13,7 +13,7 @@
                 <enumerator ID="0x64D982C6" name="Unknown 5"/>
             </enumerators>
         </enum>
-        <struct ID="0x922D151F" template="Structs/MayaSpline.xml"/>
+        <property ID="0x922D151F" type="MayaSpline"/>
     </properties>
     <states/>
     <messages/>

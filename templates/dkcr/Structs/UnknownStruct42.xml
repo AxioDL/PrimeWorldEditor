@@ -4,6 +4,6 @@
         <property ID="0x39E3604C" type="long">
             <default>10</default>
         </property>
-        <struct ID="0xFE8F0886" template="Structs/MayaSpline.xml"/>
+        <property ID="0xFE8F0886" type="MayaSpline"/>
     </properties>
 </struct>

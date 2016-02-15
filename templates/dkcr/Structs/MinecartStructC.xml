@@ -3,13 +3,13 @@
     <properties>
         <struct ID="0xD72E09E1" template="Structs/ClingPathControlStruct.xml"/>
         <property ID="0x36B1ADD6" type="file" extensions="CAUD"/>
-        <struct ID="0xEFE4798F" template="Structs/MayaSpline.xml"/>
-        <struct ID="0x96D4F78B" template="Structs/MayaSpline.xml"/>
-        <struct ID="0x15001E0D" template="Structs/MayaSpline.xml"/>
+        <property ID="0xEFE4798F" type="MayaSpline"/>
+        <property ID="0x96D4F78B" type="MayaSpline"/>
+        <property ID="0x15001E0D" type="MayaSpline"/>
         <property ID="0xE3A63100" type="file" extensions="CAUD"/>
-        <struct ID="0x3B016CFA" template="Structs/MayaSpline.xml"/>
-        <struct ID="0x00C95A55" template="Structs/MayaSpline.xml"/>
-        <struct ID="0x74FDFC73" template="Structs/MayaSpline.xml"/>
+        <property ID="0x3B016CFA" type="MayaSpline"/>
+        <property ID="0x00C95A55" type="MayaSpline"/>
+        <property ID="0x74FDFC73" type="MayaSpline"/>
         <property ID="0xEBE660AF" type="file" extensions="CAUD"/>
         <property ID="0x0E2B82EC" type="file" extensions="CAUD"/>
     </properties>

@@ -18,7 +18,7 @@
         <struct ID="0xA1C6D9DE" template="Structs/UnknownStruct18.xml"/>
         <struct ID="0x0D3A1C85" type="multi">
             <properties>
-                <struct ID="0x2A8FD6D0" template="Structs/MayaSpline.xml"/>
+                <property ID="0x2A8FD6D0" type="MayaSpline"/>
                 <property ID="0x95EE9687" type="float">
                     <default>5.0</default>
                 </property>

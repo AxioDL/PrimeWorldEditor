@@ -77,8 +77,8 @@
                 </property>
             </properties>
         </struct>
-        <struct ID="0x260792CF" template="Structs/MayaSpline.xml"/>
-        <struct ID="0x84284B1C" template="Structs/MayaSpline.xml"/>
+        <property ID="0x260792CF" type="MayaSpline"/>
+        <property ID="0x84284B1C" type="MayaSpline"/>
     </properties>
     <states/>
     <messages/>

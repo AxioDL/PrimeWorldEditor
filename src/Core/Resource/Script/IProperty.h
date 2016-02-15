@@ -151,6 +151,18 @@ public:
     }
 };
 
+class TMayaSplineProperty : public TTypedProperty<std::vector<u8>, eMayaSplineProperty, CMayaSplineValue>
+{
+public:
+    TMayaSplineProperty(IPropertyTemplate *pTemp, CPropertyStruct *pParent)
+        : TTypedProperty(pTemp, pParent) {}
+
+    TMayaSplineProperty(IPropertyTemplate *pTemp, CPropertyStruct *pParent, const std::vector<u8>& v)
+        : TTypedProperty(pTemp, pParent, v) {}
+
+    virtual bool MatchesDefault() { return true; }
+};
+
 /*
  * CPropertyStruct is for defining structs of properties.
  */

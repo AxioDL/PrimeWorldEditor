@@ -2241,7 +2241,7 @@
     <property ID="0x32CE899F" name="Unknown"/>
     <property ID="0x32D6D325" name="Unknown"/>
     <property ID="0x32DA6AA8" name="Unknown"/>
-    <property ID="0x32DC67F6" name="Fade-out timer"/>
+    <property ID="0x32DC67F6" name="Fade Out Time"/>
     <property ID="0x32DCC4F9" name="Unknown"/>
     <property ID="0x32DD1ED4" name="Unknown"/>
     <property ID="0x32F5E918" name="Unknown"/>
@@ -3899,7 +3899,7 @@
     <property ID="0x56C0D040" name="Always 0"/>
     <property ID="0x56C192F3" name="Unknown"/>
     <property ID="0x56C48141" name="BeastRiderData"/>
-    <property ID="0x56E3CEEF" name="Fade-in timer"/>
+    <property ID="0x56E3CEEF" name="Fade In Time"/>
     <property ID="0x56EB17BB" name="Unknown"/>
     <property ID="0x56F3C854" name="Unknown"/>
     <property ID="0x56F41CA8" name="Unknown"/>
@@ -7982,7 +7982,7 @@
     <property ID="0xB335DB07" name="Unknown"/>
     <property ID="0xB33A0CBC" name="Unknown"/>
     <property ID="0xB33EB533" name="HealthInfo"/>
-    <property ID="0xB33F8CE5" name="Unknown"/>
+    <property ID="0xB33F8CE5" name="OceanBridgeData"/>
     <property ID="0xB3408173" name="Unknown"/>
     <property ID="0xB348C46B" name="Unknown"/>
     <property ID="0xB34E89AE" name="Unknown"/>

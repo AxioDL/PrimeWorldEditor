@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <struct name="OffsetInterpolant" type="multi">
     <properties>
-        <struct ID="0x485B0C11" template="Structs/MayaSpline.xml"/>
-        <struct ID="0x95CDD594" template="Structs/MayaSpline.xml"/>
-        <struct ID="0x2807B95A" template="Structs/MayaSpline.xml"/>
+        <property ID="0x485B0C11" type="MayaSpline"/>
+        <property ID="0x95CDD594" type="MayaSpline"/>
+        <property ID="0x2807B95A" type="MayaSpline"/>
     </properties>
 </struct>

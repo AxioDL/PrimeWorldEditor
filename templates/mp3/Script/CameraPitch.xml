@@ -3,16 +3,16 @@
     <name>CameraPitch</name>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0x81D093B3" template="Structs/MayaSpline.xml"/>
-        <struct ID="0xAD9F8E3E" template="Structs/MayaSpline.xml"/>
+        <property ID="0x81D093B3" type="MayaSpline"/>
+        <property ID="0xAD9F8E3E" type="MayaSpline"/>
         <property ID="0x3922D9DC" type="bool">
             <default>false</default>
         </property>
         <property ID="0xC599BCBB" type="float">
             <default>20.0</default>
         </property>
-        <struct ID="0xDF5550CC" template="Structs/MayaSpline.xml"/>
-        <struct ID="0xCA581334" template="Structs/MayaSpline.xml"/>
+        <property ID="0xDF5550CC" type="MayaSpline"/>
+        <property ID="0xCA581334" type="MayaSpline"/>
     </properties>
     <states/>
     <messages/>

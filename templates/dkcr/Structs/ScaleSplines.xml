@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <struct name="ScaleSplines" type="multi">
     <properties>
-        <struct ID="0xF437A62F" template="Structs/MayaSpline.xml"/>
-        <struct ID="0x6F92EA40" template="Structs/MayaSpline.xml"/>
-        <struct ID="0x180C38B0" template="Structs/MayaSpline.xml"/>
+        <property ID="0xF437A62F" type="MayaSpline"/>
+        <property ID="0x6F92EA40" type="MayaSpline"/>
+        <property ID="0x180C38B0" type="MayaSpline"/>
     </properties>
 </struct>

@@ -46,7 +46,7 @@
                     <default>true</default>
                 </property>
                 <property ID="0x35355A0B" type="file" extensions="CAUD"/>
-                <struct ID="0x1A59B781" template="Structs/MayaSpline.xml"/>
+                <property ID="0x1A59B781" type="MayaSpline"/>
             </properties>
         </struct>
         <property ID="0x56263E35" type="long">
@@ -82,7 +82,7 @@
         <property ID="0x46CC1B48" type="bool">
             <default>false</default>
         </property>
-        <struct ID="0xFA873A67" template="Structs/MayaSpline.xml"/>
+        <property ID="0xFA873A67" type="MayaSpline"/>
         <struct ID="0xE7A0E69B" template="Structs/DamageInfo.xml"/>
     </properties>
     <states/>

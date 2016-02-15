@@ -9,7 +9,7 @@
                 <enumerator ID="0xC4C8AE38" name="Unknown 3"/>
             </enumerators>
         </enum>
-        <struct ID="0x19028BD3" template="Structs/MayaSpline.xml"/>
+        <property ID="0x19028BD3" type="MayaSpline"/>
         <property ID="0xF9FB16A2" type="bool">
             <default>true</default>
         </property>

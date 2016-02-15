@@ -6,7 +6,7 @@
         <property ID="0x37C7D09D" type="color">
             <default>1.0, 1.0, 1.0, 0.0</default>
         </property>
-        <struct ID="0x922D151F" template="Structs/MayaSpline.xml"/>
+        <property ID="0x922D151F" type="MayaSpline"/>
     </properties>
     <states/>
     <messages/>

@@ -6,67 +6,67 @@
         <enum ID="0xB8AFCF21">
             <default>0x98C5AED7</default>
             <enumerators>
-                <enumerator ID="0x98C5AED7" name="Unknown 1"/>
-                <enumerator ID="0x0E578ADF" name="Unknown 2"/>
-                <enumerator ID="0x3D1A78AC" name="Unknown 3"/>
-                <enumerator ID="0x136F5286" name="Unknown 4"/>
-                <enumerator ID="0x370F508E" name="Unknown 5"/>
-                <enumerator ID="0x29837C6C" name="Unknown 6"/>
-                <enumerator ID="0x49069735" name="Unknown 7"/>
-                <enumerator ID="0x002E5341" name="Unknown 8"/>
-                <enumerator ID="0x9EB76DEE" name="Unknown 9"/>
-                <enumerator ID="0x14B45D36" name="Unknown 10"/>
-                <enumerator ID="0x766ED410" name="Unknown 11"/>
-                <enumerator ID="0xD5D0EA93" name="Unknown 12"/>
-                <enumerator ID="0x7E025D14" name="Unknown 13"/>
-                <enumerator ID="0x8838D84A" name="Unknown 14"/>
-                <enumerator ID="0x14A3B65C" name="Unknown 15"/>
-                <enumerator ID="0xBBFADF2F" name="Unknown 16"/>
-                <enumerator ID="0x2CB1471C" name="Unknown 17"/>
-                <enumerator ID="0xCFC89663" name="Unknown 18"/>
-                <enumerator ID="0xD871451E" name="Unknown 19"/>
-                <enumerator ID="0x661EC9E0" name="Unknown 20"/>
-                <enumerator ID="0x1C7FDCAB" name="Unknown 21"/>
-                <enumerator ID="0xA8B03E1A" name="Unknown 22"/>
-                <enumerator ID="0xE13871E3" name="Unknown 23"/>
-                <enumerator ID="0x90031E91" name="Unknown 24"/>
-                <enumerator ID="0x2C1DC485" name="Unknown 25"/>
-                <enumerator ID="0xB5FC495C" name="Unknown 26"/>
-                <enumerator ID="0x96AB6130" name="Unknown 27"/>
-                <enumerator ID="0x698AAB1A" name="Unknown 28"/>
-                <enumerator ID="0x83888007" name="Unknown 29"/>
-                <enumerator ID="0xC15AB262" name="Unknown 30"/>
-                <enumerator ID="0x05FE350B" name="Unknown 31"/>
-                <enumerator ID="0x982A42A3" name="Unknown 32"/>
-                <enumerator ID="0x73810303" name="Unknown 33"/>
-                <enumerator ID="0x9EAEB97A" name="Unknown 34"/>
-                <enumerator ID="0xF67ED189" name="Unknown 35"/>
-                <enumerator ID="0x6E8436F9" name="Unknown 36"/>
-                <enumerator ID="0x26F3971D" name="Unknown 37"/>
-                <enumerator ID="0xFF6D9BE6" name="Unknown 38"/>
-                <enumerator ID="0xFE41E1E9" name="Unknown 39"/>
-                <enumerator ID="0x663F5984" name="Unknown 40"/>
-                <enumerator ID="0x9BE4E305" name="Unknown 41"/>
-                <enumerator ID="0x78A2DA1C" name="Unknown 42"/>
-                <enumerator ID="0xB528A4F0" name="Unknown 43"/>
-                <enumerator ID="0x76D71609" name="Unknown 44"/>
-                <enumerator ID="0x8F226F1D" name="Unknown 45"/>
-                <enumerator ID="0x9349C56D" name="Unknown 46"/>
-                <enumerator ID="0x441AEE66" name="Unknown 47"/>
-                <enumerator ID="0xE5518864" name="Unknown 48"/>
-                <enumerator ID="0x502B7B92" name="Unknown 49"/>
-                <enumerator ID="0x83B00647" name="Unknown 50"/>
-                <enumerator ID="0x7F0CE328" name="Unknown 51"/>
-                <enumerator ID="0x6FC986EA" name="Unknown 52"/>
-                <enumerator ID="0x529380DC" name="Unknown 53"/>
-                <enumerator ID="0x5640B2F3" name="Unknown 54"/>
-                <enumerator ID="0x7E8C0D33" name="Unknown 55"/>
-                <enumerator ID="0xD7E2F62F" name="Unknown 56"/>
-                <enumerator ID="0xDFE51E86" name="Unknown 57"/>
-                <enumerator ID="0x129C99C0" name="Unknown 58"/>
-                <enumerator ID="0xF73614C9" name="Unknown 59"/>
-                <enumerator ID="0xD0E2CA63" name="Unknown 60"/>
-                <enumerator ID="0x1E46D48C" name="Unknown 61"/>
+                <enumerator ID="0x98C5AED7" name="What"/>
+                <enumerator ID="0x0E578ADF" name="Function 1 (Unused)"/>
+                <enumerator ID="0x3D1A78AC" name="Function 2 (Unused)"/>
+                <enumerator ID="0x136F5286" name="Function 3 (Unused)"/>
+                <enumerator ID="0x370F508E" name="Boss Energy Bar"/>
+                <enumerator ID="0x29837C6C" name="Cinematic Skip"/>
+                <enumerator ID="0x49069735" name="Function 6 (Unused)"/>
+                <enumerator ID="0x002E5341" name="Credits"/>
+                <enumerator ID="0x9EB76DEE" name="Countdown Timer"/>
+                <enumerator ID="0x14B45D36" name="Function 9 (Unused)"/>
+                <enumerator ID="0x766ED410" name="Function 10 (Unused)"/>
+                <enumerator ID="0xD5D0EA93" name="Function 11 (Unused)"/>
+                <enumerator ID="0x7E025D14" name="End Game"/>
+                <enumerator ID="0x8838D84A" name="Game End Choice"/>
+                <enumerator ID="0x14A3B65C" name="Function 14 (Unused)"/>
+                <enumerator ID="0xBBFADF2F" name="Function 15 (Unused)"/>
+                <enumerator ID="0x2CB1471C" name="ExtraRenderClipPlane"/>
+                <enumerator ID="0xCFC89663" name="Function 17 (Unused)"/>
+                <enumerator ID="0xD871451E" name="Function 18 (Unused)"/>
+                <enumerator ID="0x661EC9E0" name="GameStateEnvVar"/>
+                <enumerator ID="0x1C7FDCAB" name="HUD Target"/>
+                <enumerator ID="0xA8B03E1A" name="Simple Hint"/>
+                <enumerator ID="0xE13871E3" name="Function 22 (Unused)"/>
+                <enumerator ID="0x90031E91" name="Launch Player"/>
+                <enumerator ID="0x2C1DC485" name="Map Station"/>
+                <enumerator ID="0xB5FC495C" name="Function 25 (Unused)"/>
+                <enumerator ID="0x96AB6130" name="Inventory thing"/>
+                <enumerator ID="0x698AAB1A" name="Modify Inventory"/>
+                <enumerator ID="0x83888007" name="Permanent Hypermode"/>
+                <enumerator ID="0xC15AB262" name="Function 29 (Unused)"/>
+                <enumerator ID="0x05FE350B" name="Object Follow something"/>
+                <enumerator ID="0x982A42A3" name="Object Follow Locator"/>
+                <enumerator ID="0x73810303" name="Object Follow Object"/>
+                <enumerator ID="0x9EAEB97A" name="Occlusion Relay"/>
+                <enumerator ID="0xF67ED189" name="Cockpit - Lights - Link To Player Arm"/>
+                <enumerator ID="0x6E8436F9" name="Function 35 (Unused)"/>
+                <enumerator ID="0x26F3971D" name="Function 36 (Unused)"/>
+                <enumerator ID="0xFF6D9BE6" name="Player Follow Locator"/>
+                <enumerator ID="0xFE41E1E9" name="Player In Area"/>
+                <enumerator ID="0x663F5984" name="RadarRangeOverride"/>
+                <enumerator ID="0x9BE4E305" name="Function 40 (Unused)"/>
+                <enumerator ID="0x78A2DA1C" name="Cockpit - Display Helmet On Map"/>
+                <enumerator ID="0xB528A4F0" name="Save Station / Checkpoint"/>
+                <enumerator ID="0x76D71609" name="Set armor for morph to Ghor"/>
+                <enumerator ID="0x8F226F1D" name="Set SuitType"/>
+                <enumerator ID="0x9349C56D" name="Inventory thing"/>
+                <enumerator ID="0x441AEE66" name="Function 46 (Unused)"/>
+                <enumerator ID="0xE5518864" name="Function 47 (Unused)"/>
+                <enumerator ID="0x502B7B92" name="Tin Can Score"/>
+                <enumerator ID="0x83B00647" name="Function 49 (Unused)"/>
+                <enumerator ID="0x7F0CE328" name="Function 50 (Unused)"/>
+                <enumerator ID="0x6FC986EA" name="Rotate Skybox"/>
+                <enumerator ID="0x529380DC" name="Waypoint Overrider"/>
+                <enumerator ID="0x5640B2F3" name="Phaaze Hypermode HUD Switch"/>
+                <enumerator ID="0x7E8C0D33" name="Static World Render Controller"/>
+                <enumerator ID="0xD7E2F62F" name="Sun Generator"/>
+                <enumerator ID="0xDFE51E86" name="Function 56 (Unused)"/>
+                <enumerator ID="0x129C99C0" name="View Frustum Tester"/>
+                <enumerator ID="0xF73614C9" name="Visor Blowout"/>
+                <enumerator ID="0xD0E2CA63" name="Function 59 (Unused)"/>
+                <enumerator ID="0x1E46D48C" name="Kill Player"/>
             </enumerators>
         </enum>
         <property ID="0x9D7A576D" type="string"/>

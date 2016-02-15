@@ -11,23 +11,23 @@
         </property>
         <struct ID="0xEFE4EA57" type="multi">
             <properties>
-                <struct ID="0x69D8447D" template="Structs/MayaSpline.xml"/>
-                <struct ID="0xD0239F95" template="Structs/MayaSpline.xml"/>
-                <struct ID="0xC15EF5EC" template="Structs/MayaSpline.xml"/>
+                <property ID="0x69D8447D" type="MayaSpline"/>
+                <property ID="0xD0239F95" type="MayaSpline"/>
+                <property ID="0xC15EF5EC" type="MayaSpline"/>
             </properties>
         </struct>
         <struct ID="0x2F7EC0A2" type="multi">
             <properties>
-                <struct ID="0xF437A62F" template="Structs/MayaSpline.xml"/>
-                <struct ID="0x6F92EA40" template="Structs/MayaSpline.xml"/>
-                <struct ID="0x180C38B0" template="Structs/MayaSpline.xml"/>
+                <property ID="0xF437A62F" type="MayaSpline"/>
+                <property ID="0x6F92EA40" type="MayaSpline"/>
+                <property ID="0x180C38B0" type="MayaSpline"/>
             </properties>
         </struct>
         <struct ID="0x692267EA" type="multi">
             <properties>
-                <struct ID="0x24E9A09B" template="Structs/MayaSpline.xml"/>
-                <struct ID="0xCBBB167A" template="Structs/MayaSpline.xml"/>
-                <struct ID="0x213DCB18" template="Structs/MayaSpline.xml"/>
+                <property ID="0x24E9A09B" type="MayaSpline"/>
+                <property ID="0xCBBB167A" type="MayaSpline"/>
+                <property ID="0x213DCB18" type="MayaSpline"/>
             </properties>
         </struct>
     </properties>

@@ -38,8 +38,8 @@
                     <default>3.0</default>
                 </property>
                 <struct ID="0x959108A5" template="Structs/Convergence.xml"/>
-                <struct ID="0x27E5F874" template="Structs/MayaSpline.xml"/>
-                <struct ID="0x12861F7D" template="Structs/MayaSpline.xml"/>
+                <property ID="0x27E5F874" type="MayaSpline"/>
+                <property ID="0x12861F7D" type="MayaSpline"/>
                 <struct ID="0x0E1F2094" template="Structs/UnknownStruct13.xml"/>
             </properties>
         </struct>
@@ -103,7 +103,7 @@
                         </enum>
                         <struct ID="0xB02AAA53" type="multi">
                             <properties>
-                                <struct ID="0x6F7368E0" template="Structs/MayaSpline.xml"/>
+                                <property ID="0x6F7368E0" type="MayaSpline"/>
                                 <property ID="0xD21C62FF" type="bool">
                                     <default>true</default>
                                 </property>

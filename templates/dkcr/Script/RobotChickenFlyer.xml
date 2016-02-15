@@ -108,13 +108,13 @@
                             <default>1.0</default>
                         </property>
                         <property ID="0xE1E66B24" type="file" extensions="CAUD"/>
-                        <struct ID="0xB413C45F" template="Structs/MayaSpline.xml"/>
-                        <struct ID="0x76C7464C" template="Structs/MayaSpline.xml"/>
-                        <struct ID="0x10E05AAF" template="Structs/MayaSpline.xml"/>
+                        <property ID="0xB413C45F" type="MayaSpline"/>
+                        <property ID="0x76C7464C" type="MayaSpline"/>
+                        <property ID="0x10E05AAF" type="MayaSpline"/>
                         <property ID="0xB0C2F5F6" type="file" extensions="CAUD"/>
-                        <struct ID="0xBD894993" template="Structs/MayaSpline.xml"/>
-                        <struct ID="0x05291EF7" template="Structs/MayaSpline.xml"/>
-                        <struct ID="0x4C20DEF3" template="Structs/MayaSpline.xml"/>
+                        <property ID="0xBD894993" type="MayaSpline"/>
+                        <property ID="0x05291EF7" type="MayaSpline"/>
+                        <property ID="0x4C20DEF3" type="MayaSpline"/>
                         <property ID="0x259C0939" type="file" extensions="CAUD"/>
                         <property ID="0xC8B23273" type="file" extensions="CAUD"/>
                         <property ID="0xBE5F118D" type="file" extensions="CAUD"/>

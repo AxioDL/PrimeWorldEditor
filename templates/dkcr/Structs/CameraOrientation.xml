@@ -66,12 +66,12 @@
                 <property ID="0x08FF3B44" type="bool">
                     <default>false</default>
                 </property>
-                <struct ID="0x485B0C11" template="Structs/MayaSpline.xml"/>
-                <struct ID="0x95CDD594" template="Structs/MayaSpline.xml"/>
-                <struct ID="0x2807B95A" template="Structs/MayaSpline.xml"/>
+                <property ID="0x485B0C11" type="MayaSpline"/>
+                <property ID="0x95CDD594" type="MayaSpline"/>
+                <property ID="0x2807B95A" type="MayaSpline"/>
             </properties>
         </struct>
-        <struct ID="0xC4DFBFA7" template="Structs/MayaSpline.xml"/>
+        <property ID="0xC4DFBFA7" type="MayaSpline"/>
         <struct ID="0x0E1F2094" template="Structs/UnknownStruct13.xml"/>
         <struct ID="0x86BC03D3" type="multi">
             <properties>
