@@ -1,7 +1,13 @@
 #include "IPropertyTemplate.h"
+#include "CMasterTemplate.h"
 #include <iostream>
 
 // ************ IPropertyTemplate ************
+EGame IPropertyTemplate::Game() const
+{
+    return (mpMasterTemplate ? mpMasterTemplate->GetGame() : eUnknownVersion);
+}
+
 bool IPropertyTemplate::IsInVersion(u32 Version) const
 {
     if (mAllowedVersions.empty())
@@ -32,6 +38,45 @@ TIDString IPropertyTemplate::IDString(bool FullPath) const
     else return "";
 }
 
+bool IPropertyTemplate::IsDescendantOf(const CStructTemplate *pStruct) const
+{
+    CStructTemplate *pParent = mpParent;
+
+    while (pParent)
+    {
+        if (pParent == pStruct) return true;
+        pParent = pParent->Parent();
+    }
+
+    return false;
+}
+
+bool IPropertyTemplate::IsFromStructTemplate() const
+{
+    const CStructTemplate *pParent = Parent();
+
+    while (pParent)
+    {
+        if (!pParent->SourceFile().IsEmpty()) return true;
+        pParent = pParent->Parent();
+    }
+
+    return false;
+}
+
+TString IPropertyTemplate::FindStructSource() const
+{
+    const CStructTemplate *pkStruct = mpParent;
+
+    while (pkStruct)
+    {
+        if (!pkStruct->SourceFile().IsEmpty()) return pkStruct->SourceFile();
+        pkStruct = pkStruct->Parent();
+    }
+
+    return "";
+}
+
 CStructTemplate* IPropertyTemplate::RootStruct()
 {
     if (mpParent) return mpParent->RootStruct();
@@ -40,19 +85,19 @@ CStructTemplate* IPropertyTemplate::RootStruct()
 }
 
 // ************ CStructTemplate ************
-bool CStructTemplate::IsSingleProperty() const
+void CStructTemplate::CopyStructData(const CStructTemplate *pkStruct)
 {
-    return mIsSingleProperty;
-}
+    mVersionPropertyCounts = pkStruct->mVersionPropertyCounts;
+    mIsSingleProperty = pkStruct->mIsSingleProperty;
+    mSourceFile = pkStruct->mSourceFile;
 
-u32 CStructTemplate::Count() const
-{
-    return mSubProperties.size();
-}
+    mSubProperties.resize(pkStruct->mSubProperties.size());
 
-u32 CStructTemplate::NumVersions()
-{
-    return mVersionPropertyCounts.size();
+    for (u32 iSub = 0; iSub < pkStruct->mSubProperties.size(); iSub++)
+    {
+        mSubProperties[iSub] = pkStruct->mSubProperties[iSub]->Clone(mpScriptTemplate, this);
+        CMasterTemplate::AddProperty(mSubProperties[iSub]);
+    }
 }
 
 u32 CStructTemplate::PropertyCountForVersion(u32 Version)

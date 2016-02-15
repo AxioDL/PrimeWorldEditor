@@ -2,11 +2,7 @@
 <struct name="ActorParameters" type="multi">
     <properties>
         <struct ID="0x00" name="LightParameters" template="Structs/LightParameters.xml"/>
-        <struct ID="0x01" name="ScannableParameters" type="multi">
-            <properties>
-                <property ID="0x00" name="SCAN" type="file" extensions="SCAN"/>
-            </properties>
-        </struct>
+        <struct ID="0x01" name="ScannableParameters" template="Structs/ScannableParameters.xml"/>
         <property ID="0x02" name="X-Ray Visor Model" type="file" extensions="CMDL"/>
         <property ID="0x03" name="X-Ray Visor Skin" type="file" extensions="CSKR"/>
         <property ID="0x04" name="Thermal Visor Model" type="file" extensions="CMDL"/>

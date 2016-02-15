@@ -6,11 +6,7 @@
         <property ID="0x01" name="Position" type="vector3f"/>
         <property ID="0x02" name="Rotation" type="vector3f"/>
         <property ID="0x03" name="Unknown 1" type="bool"/>
-        <struct ID="0x04" name="ScannableParameters" type="multi">
-            <properties>
-                <property ID="0x00" name="SCAN" type="file" extensions="SCAN"/>
-            </properties>
-        </struct>
+        <struct ID="0x04" name="ScannableParameters" template="Structs/ScannableParameters.xml"/>
         <property ID="0x05" name="Unknown 2" type="float"/>
     </properties>
     <states/>

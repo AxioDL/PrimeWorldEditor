@@ -17,7 +17,7 @@
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
         <struct ID="0xD545F36B" type="multi">
             <properties>
-                <enum ID="0xA02EF0C4" template="Enums/InventorySlot.xml">
+                <enum ID="0xA02EF0C4" template="Enums/Item.xml">
                     <default>0xB22FD89B</default>
                 </enum>
                 <property ID="0x28C71B54" type="long">

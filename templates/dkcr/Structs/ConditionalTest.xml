@@ -7,7 +7,7 @@
         <property ID="0x794F9BEB" type="bool">
             <default>false</default>
         </property>
-        <enum ID="0xD3AF8D72" template="Enums/InventorySlot.xml">
+        <enum ID="0xD3AF8D72" template="Enums/Item.xml">
             <default>0xB22FD89B</default>
         </enum>
         <property ID="0x03BDEA98" type="long">

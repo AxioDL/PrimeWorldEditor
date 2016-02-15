@@ -104,6 +104,16 @@ TString CMasterTemplate::GetDirectory() const
     return mSourceFile.GetFileDirectory();
 }
 
+CStructTemplate* CMasterTemplate::GetStructAtSource(const TString& rkSource)
+{
+    auto InfoIt = mStructTemplates.find(rkSource);
+
+    if (InfoIt != mStructTemplates.end())
+        return InfoIt->second;
+
+    else return nullptr;
+}
+
 bool CMasterTemplate::IsLoadedSuccessfully()
 {
     return mFullyLoaded;
@@ -140,46 +150,92 @@ TString CMasterTemplate::GetPropertyName(u32 PropertyID)
         return "Unknown";
 }
 
-void CMasterTemplate::AddProperty(IPropertyTemplate *pTemp, const TString& rkTemplateName)
+u32 CMasterTemplate::CreatePropertyID(IPropertyTemplate *pTemp)
 {
-    auto it = smIDMap.find(pTemp->PropertyID());
+    // MP1 properties don't have IDs so we can use this function to create one to track instances of a particular property.
+    // To ensure the IDs are unique we'll create a hash using two things: the struct source file and the ID string (relative to the struct).
+    TString IDString = pTemp->IDString(false);
+    TString Source;
+    CStructTemplate *pStruct = pTemp->Parent();
+
+    while (pStruct)
+    {
+        Source = pStruct->SourceFile();
+        if (!Source.IsEmpty()) break;
+        IDString.Prepend(pStruct->IDString(false) + ":");
+        pStruct = pStruct->Parent();
+    }
+
+    return IDString.Hash32() * Source.Hash32();
+}
+
+void CMasterTemplate::AddProperty(IPropertyTemplate *pTemp, const TString& rkTemplateName /*= ""*/)
+{
+    u32 ID;
+
+    if (pTemp->Game() >= eEchoesDemo)
+        ID = pTemp->PropertyID();
+
+    // Use a different ID for MP1
+    else
+    {
+        // For MP1 we only really need to track properties that come from struct templates.
+        if (!pTemp->IsFromStructTemplate()) return;
+        else ID = CreatePropertyID(pTemp);
+    }
+
+    auto it = smIDMap.find(ID);
 
     // Add this property/template to existing ID info
     if (it != smIDMap.end())
     {
         SPropIDInfo& rInfo = it->second;
-        bool NewTemplate = true;
+        rInfo.PropertyList.push_back(pTemp);
 
-        for (u32 iTemp = 0; iTemp < rInfo.XMLList.size(); iTemp++)
+        if (!rkTemplateName.IsEmpty())
         {
-            if (rInfo.XMLList[iTemp] == rkTemplateName)
+            bool NewTemplate = true;
+
+            for (u32 iTemp = 0; iTemp < rInfo.XMLList.size(); iTemp++)
             {
-                NewTemplate = false;
-                break;
+                if (rInfo.XMLList[iTemp] == rkTemplateName)
+                {
+                    NewTemplate = false;
+                    break;
+                }
             }
+
+            if (NewTemplate)
+                rInfo.XMLList.push_back(rkTemplateName);
         }
-
-        if (NewTemplate)
-            rInfo.XMLList.push_back(rkTemplateName);
-
-        it->second.PropertyList.push_back(pTemp);
     }
 
     // Create new ID info
     else
     {
         SPropIDInfo Info;
-        Info.XMLList.push_back(rkTemplateName);
+        if (!rkTemplateName.IsEmpty()) Info.XMLList.push_back(rkTemplateName);
         Info.PropertyList.push_back(pTemp);
-        smIDMap[pTemp->PropertyID()] = Info;
+        smIDMap[ID] = Info;
     }
 }
 
-void CMasterTemplate::RenameProperty(u32 ID, const TString& rkNewName)
+void CMasterTemplate::RenameProperty(IPropertyTemplate *pTemp, const TString& rkNewName)
 {
-    auto NameIt = smPropertyNames.find(ID);
-    TString CurName = (NameIt == smPropertyNames.end() ? "" : NameIt->second);
+    u32 ID = pTemp->PropertyID();
+    if (ID <= 0xFF) ID = CreatePropertyID(pTemp);
 
+    // Master name list
+    auto NameIt = smPropertyNames.find(ID);
+    TString Original;
+
+    if (NameIt != smPropertyNames.end())
+    {
+        Original = NameIt->second;
+        smPropertyNames[ID] = rkNewName;
+    }
+
+    // Properties
     auto InfoIt = smIDMap.find(ID);
 
     if (InfoIt != smIDMap.end())
@@ -188,18 +244,13 @@ void CMasterTemplate::RenameProperty(u32 ID, const TString& rkNewName)
 
         for (u32 iTemp = 0; iTemp < rkInfo.PropertyList.size(); iTemp++)
         {
-            IPropertyTemplate *pTemp = rkInfo.PropertyList[iTemp];
-
-            if (pTemp->Name() == CurName)
-                pTemp->SetName(rkNewName);
+            if (Original.IsEmpty() || rkInfo.PropertyList[iTemp]->Name() == Original)
+                rkInfo.PropertyList[iTemp]->SetName(rkNewName);
         }
     }
-
-    if (NameIt != smPropertyNames.end())
-        smPropertyNames[ID] = rkNewName;
 }
 
-std::vector<TString> CMasterTemplate::GetTemplatesUsingID(u32 ID)
+std::vector<TString> CMasterTemplate::GetXMLsUsingID(u32 ID)
 {
     auto InfoIt = smIDMap.find(ID);
 
@@ -210,6 +261,21 @@ std::vector<TString> CMasterTemplate::GetTemplatesUsingID(u32 ID)
     }
     else
         return std::vector<TString>();
+}
+
+const std::vector<IPropertyTemplate*>* CMasterTemplate::GetTemplatesWithMatchingID(IPropertyTemplate *pTemp)
+{
+    u32 ID = pTemp->PropertyID();
+    if (ID <= 0xFF) ID = CreatePropertyID(pTemp);
+
+    auto InfoIt = smIDMap.find(ID);
+
+    if (InfoIt != smIDMap.end())
+    {
+        const SPropIDInfo& rkInfo = InfoIt->second;
+        return &rkInfo.PropertyList;
+    }
+    return nullptr;
 }
 
 std::map<u32, CMasterTemplate::SPropIDInfo> CMasterTemplate::smIDMap;

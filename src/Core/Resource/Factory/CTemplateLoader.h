@@ -20,14 +20,14 @@ class CTemplateLoader
         : mTemplatesDir(rkTemplatesDir) {}
 
     // Load Property
-    IPropertyTemplate* LoadProperty(tinyxml2::XMLElement *pElem, CStructTemplate *pParentStruct, const TString& rkTemplateName);
-    IPropertyTemplate* CreateProperty(u32 ID, EPropertyType Type, const TString& rkName, CStructTemplate *pStruct);
+    IPropertyTemplate* LoadProperty(tinyxml2::XMLElement *pElem, CScriptTemplate *pScript, CStructTemplate *pParentStruct, const TString& rkTemplateName);
+    IPropertyTemplate* CreateProperty(u32 ID, EPropertyType Type, const TString& rkName, CScriptTemplate *pScript, CStructTemplate *pStruct);
 
     void LoadStructTemplate(const TString& rkTemplateFileName, CStructTemplate *pStruct);
     void LoadEnumTemplate(const TString& rkTemplateFileName, CEnumTemplate *pEnum);
     void LoadBitfieldTemplate(const TString& rkTemplateFileName, CBitfieldTemplate *pBitfield);
 
-    void LoadProperties(tinyxml2::XMLElement *pPropertiesElem, CStructTemplate *pStruct, const TString& rkTemplateName);
+    void LoadProperties(tinyxml2::XMLElement *pPropertiesElem, CScriptTemplate *pScript, CStructTemplate *pStruct, const TString& rkTemplateName);
     void LoadEnumerators(tinyxml2::XMLElement *pEnumeratorsElem, CEnumTemplate *pEnum, const TString& rkTemplateName);
     void LoadBitFlags(tinyxml2::XMLElement *pFlagsElem, CBitfieldTemplate *pBitfield, const TString& rkTemplateName);
 

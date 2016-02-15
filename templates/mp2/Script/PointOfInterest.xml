@@ -9,6 +9,7 @@
         </property>
         <property ID="0x01F9C5BB" type="bool">
             <default>false</default>
+            <description>If enabled, Samus will turn to look at the POI while scanning it.</description>
         </property>
     </properties>
     <states/>

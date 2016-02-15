@@ -76,7 +76,7 @@
         <property ID="0xB581574B" type="long">
             <default>0</default>
         </property>
-        <enum ID="0x3FA164BC" template="Enums/InventorySlot.xml">
+        <enum ID="0x3FA164BC" template="Enums/Item.xml">
             <default>0xB22FD89B</default>
         </enum>
     </properties>

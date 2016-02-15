@@ -28,7 +28,7 @@
         <property ID="0x18" name="Sound ID 1" type="long"/>
         <property ID="0x19" name="AnimationParameters" type="character"/>
         <property ID="0x1A" name="Active" type="bool"/>
-        <property ID="0x1B" name="AFSM" type="file" extensions="AFSM"/>
+        <property ID="0x1B" name="State Machine" type="file" extensions="AFSM"/>
         <property ID="0x1C" name="Unknown 8" type="float"/>
         <property ID="0x1D" name="Unknown 9" type="float"/>
         <property ID="0x1E" name="Unknown 10" type="float"/>
