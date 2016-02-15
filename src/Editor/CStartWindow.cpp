@@ -57,11 +57,16 @@ void CStartWindow::FillWorldUI()
         TWideString WorldName = pWorldName->GetString("ENGL", 0);
         ui->WorldNameLabel->setText( QString("<font size=5><b>") + TO_QSTRING(WorldName) + QString("</b></font>") );
         ui->WorldNameSTRGLineEdit->setText(TO_QSTRING(pWorldName->Source()));
+
+        // hack to get around lack of UTF16 -> UTF8 support
+        TString WorldNameTStr = TO_TSTRING(QString::fromStdWString(WorldName.ToStdString()));
+        Log::Write("Loaded " + mpWorld->Source() + " (" + WorldNameTStr + ")");
     }
     else
     {
         ui->WorldNameLabel->clear();
         ui->WorldNameSTRGLineEdit->clear();
+        Log::Write("Loaded " + mpWorld->Source() + " (unnamed world)");
     }
 
     CStringTable *pDarkWorldName = mpWorld->GetDarkWorldName();

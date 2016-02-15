@@ -1,5 +1,5 @@
 #include "CCollisionLoader.h"
-#include "Core/Log.h"
+#include <Common/Log.h>
 #include <iostream>
 
 CCollisionLoader::CCollisionLoader()

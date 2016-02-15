@@ -3,7 +3,7 @@
 #include "CModelLoader.h"
 #include "CMaterialLoader.h"
 #include "CScriptLoader.h"
-#include "Core/Log.h"
+#include <Common/Log.h>
 
 #include <Common/CFourCC.h>
 #include <Common/CompressionUtil.h>
@@ -613,7 +613,6 @@ CGameArea* CAreaLoader::LoadMREA(IInputStream& MREA)
 
     // Validation
     if (!MREA.IsValid()) return nullptr;
-    Log::Write("Loading " + MREA.GetSourceString());
 
     u32 deadbeef = MREA.ReadLong();
     if (deadbeef != 0xdeadbeef)

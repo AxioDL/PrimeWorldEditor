@@ -9,7 +9,7 @@
 #include "Core/Resource/Factory/CStringLoader.h"
 #include "Core/Resource/Factory/CTextureDecoder.h"
 #include "Core/Resource/Factory/CWorldLoader.h"
-#include "Core/Log.h"
+#include <Common/Log.h>
 
 #include <Common/TString.h>
 #include <FileIO/FileIO.h>

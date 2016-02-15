@@ -1,6 +1,6 @@
 #include "CAreaCooker.h"
 #include "CScriptCooker.h"
-#include <Core/Log.h>
+#include <Common/Log.h>
 
 CAreaCooker::CAreaCooker()
 {

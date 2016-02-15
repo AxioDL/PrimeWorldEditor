@@ -3,7 +3,7 @@
 #include <Core/Render/CDrawUtil.h>
 #include <Core/Render/CRenderer.h>
 #include <Core/Resource/CResCache.h>
-#include <Core/Log.h>
+#include <Common/Log.h>
 
 #include <iostream>
 #include <QApplication>

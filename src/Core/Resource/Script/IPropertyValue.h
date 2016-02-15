@@ -2,7 +2,7 @@
 #define IPROPERTYVALUE_H
 
 #include "EPropertyType.h"
-#include "Core/Log.h"
+#include <Common/Log.h>
 #include "Core/Resource/CAnimationParameters.h"
 #include "Core/Resource/CResource.h"
 #include "Core/Resource/CResourceInfo.h"

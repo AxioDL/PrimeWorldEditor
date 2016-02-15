@@ -1,5 +1,5 @@
 #include "CStringLoader.h"
-#include "Core/Log.h"
+#include <Common/Log.h>
 
 CStringLoader::CStringLoader()
 {
@@ -162,7 +162,6 @@ CStringTable* CStringLoader::LoadSTRG(IInputStream& STRG)
 {
     // Verify that this is a valid STRG
     if (!STRG.IsValid()) return nullptr;
-    Log::Write("Loading " + STRG.GetSourceString());
 
     u32 Magic = STRG.ReadLong();
     EGame Version = eUnknownVersion;

@@ -1,6 +1,6 @@
 #include "CScanLoader.h"
 #include "Core/Resource/CResCache.h"
-#include "Core/Log.h"
+#include <Common/Log.h>
 
 CScanLoader::CScanLoader()
 {
@@ -142,7 +142,6 @@ void CScanLoader::LoadParamsMP3(IInputStream& SCAN)
 CScan* CScanLoader::LoadSCAN(IInputStream &SCAN)
 {
     if (!SCAN.IsValid()) return nullptr;
-    Log::Write("Loading " + SCAN.GetSourceString());
 
     /* Switching to EGame enum here isn't really useful unfortunately
      * because the MP1 demo can be 1, 2, or 3, while MP1 is 5 and MP2+ is 2
