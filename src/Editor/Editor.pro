@@ -9,6 +9,8 @@ QMAKE_CXXFLAGS += /WX
 DEFINES += PWE_EDITOR
 RESOURCES += Icons.qrc
 
+win32: RC_ICONS += icons/AppIcon.ico
+
 CONFIG += console
 TEMPLATE = app
 DESTDIR = $$PWD/../../bin
