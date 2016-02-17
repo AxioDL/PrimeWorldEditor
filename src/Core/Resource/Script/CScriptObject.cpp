@@ -11,6 +11,7 @@ CScriptObject::CScriptObject(CGameArea *pArea, CScriptLayer *pLayer, CScriptTemp
     , mpDisplayModel(nullptr)
     , mpCollision(nullptr)
     , mHasInGameModel(false)
+    , mIsCheckingNearVisibleActivation(false)
 {
     mpTemplate->AddObject(this);
     mpProperties = (CPropertyStruct*) pTemplate->BaseStruct()->InstantiateProperty(nullptr);
@@ -86,31 +87,38 @@ bool CScriptObject::HasNearVisibleActivation() const
      * decorative actors when the player isn't close to them as an optimization. This means a lot of them are inactive by
      * default but should render in game mode anyway. To get around this, we'll check the links to find out whether this
      * instance has a "Near Visible" activation, which is typically done via a trigger that activates the object on
-     * InternalState04 (usually through a relay). */
+     * InternalState04/05/06 (usually through a relay). */
     std::list<CScriptObject*> Relays;
+    bool IsRelay = (ObjectTypeID() == 0x53524C59);
+
+    if (mIsCheckingNearVisibleActivation) return false;
+    mIsCheckingNearVisibleActivation = true;
 
     for (u32 iLink = 0; iLink < mInConnections.size(); iLink++)
     {
         const SLink& rkLink = mInConnections[iLink];
 
         // Check for trigger activation
-        if (rkLink.State == 0x49533034) // "IS04"
+        if (rkLink.State == 0x49533034 || rkLink.State == 0x49533035 || rkLink.State == 0x49533036) // "IS04", "IS05", or "IS06"
         {
-            if ( (rkLink.Message == 0x41435456) || // "ACTV"
-                 (ObjectTypeID() == 0x53524C59 && rkLink.Message == 0x4143544E) ) // If type is "SRLY" and message is "ACTN"
+            if ( (!IsRelay && rkLink.Message == 0x41435456) || // "ACTV"
+                 (IsRelay  && rkLink.Message == 0x4143544E) )  // "ACTN"
             {
                 CScriptObject *pObj = mpArea->GetInstanceByID(rkLink.ObjectID);
 
                 if (pObj->ObjectTypeID() == 0x54524752) // "TRGR"
+                {
+                    mIsCheckingNearVisibleActivation = false;
                     return true;
+                }
             }
         }
 
         // Check for relay activation
         else if (rkLink.State == 0x524C4159) // "RLAY"
         {
-            if ( (rkLink.Message == 0x41435456) || // "ACTV"
-                 (ObjectTypeID() == 0x53524C59 && rkLink.Message == 0x4143544E) ) // If type is "SRLY" and message is "ACTN"
+            if ( (!IsRelay && rkLink.Message == 0x41435456) || // "ACTV"
+                 (IsRelay  && rkLink.Message == 0x4143544E) )  // "ACTN"
             {
                 CScriptObject *pObj = mpArea->GetInstanceByID(rkLink.ObjectID);
 
@@ -122,9 +130,15 @@ bool CScriptObject::HasNearVisibleActivation() const
 
     // Check whether any of the relays have a near visible activation
     for (auto it = Relays.begin(); it != Relays.end(); it++)
+    {
         if ((*it)->HasNearVisibleActivation())
+        {
+            mIsCheckingNearVisibleActivation = false;
             return true;
+        }
+    }
 
+    mIsCheckingNearVisibleActivation = false;
     return false;
 }
 
