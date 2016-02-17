@@ -12,6 +12,7 @@
 
 CScriptNode::CScriptNode(CScene *pScene, CSceneNode *pParent, CScriptObject *pObject)
     : CSceneNode(pScene, pParent)
+    , mGameModeVisibility(eUntested)
 {
     mpVolumePreviewNode = nullptr;
     mHasVolumePreview = false;
@@ -113,7 +114,10 @@ void CScriptNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
     // If we're in game mode, then override other visibility settings.
     if (ViewInfo.GameMode)
     {
-        if ( (!mpInstance->IsActive() && Template()->Game() != eReturns) || !mpInstance->HasInGameModel())
+        if (mGameModeVisibility == eUntested)
+            TestGameModeVisibility();
+
+        if (mGameModeVisibility != eVisible)
             return;
     }
 
@@ -566,6 +570,17 @@ void CScriptNode::GeneratePosition()
 
         MarkTransformChanged();
     }
+}
+
+void CScriptNode::TestGameModeVisibility()
+{
+    // Don't render if we don't have an ingame model, or if this is the Prime series and the instance is not active.
+    if ((Template()->Game() < eReturns && !mpInstance->IsActive()) || !mpInstance->HasInGameModel())
+        mGameModeVisibility = eNotVisible;
+
+    // If this is Returns, only render if the instance is active OR if it has a near visible activation.
+    else
+        mGameModeVisibility = (mpInstance->IsActive() || mpInstance->HasNearVisibleActivation()) ? eVisible : eNotVisible;
 }
 
 CColor CScriptNode::WireframeColor() const

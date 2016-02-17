@@ -24,6 +24,11 @@ class CScriptNode : public CSceneNode
 
     CLightParameters *mpLightParameters;
 
+    enum EGameModeVisibility
+    {
+        eVisible, eNotVisible, eUntested
+    } mGameModeVisibility;
+
 public:
     CScriptNode(CScene *pScene, CSceneNode *pParent = 0, CScriptObject *pObject = 0);
     ENodeType NodeType();
@@ -43,6 +48,7 @@ public:
     void PropertyModified(IProperty *pProp);
     void UpdatePreviewVolume();
     void GeneratePosition();
+    void TestGameModeVisibility();
     CScriptObject* Object() const;
     CScriptTemplate* Template() const;
     CScriptExtra* Extra() const;

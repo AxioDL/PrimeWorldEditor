@@ -80,6 +80,54 @@ void CScriptObject::SetLayer(CScriptLayer *pLayer)
     }
 }
 
+bool CScriptObject::HasNearVisibleActivation() const
+{
+    /* This function is used to check whether an inactive DKCR object should render in game mode. DKCR deactivates a lot of
+     * decorative actors when the player isn't close to them as an optimization. This means a lot of them are inactive by
+     * default but should render in game mode anyway. To get around this, we'll check the links to find out whether this
+     * instance has a "Near Visible" activation, which is typically done via a trigger that activates the object on
+     * InternalState04 (usually through a relay). */
+    std::list<CScriptObject*> Relays;
+
+    for (u32 iLink = 0; iLink < mInConnections.size(); iLink++)
+    {
+        const SLink& rkLink = mInConnections[iLink];
+
+        // Check for trigger activation
+        if (rkLink.State == 0x49533034) // "IS04"
+        {
+            if ( (rkLink.Message == 0x41435456) || // "ACTV"
+                 (ObjectTypeID() == 0x53524C59 && rkLink.Message == 0x4143544E) ) // If type is "SRLY" and message is "ACTN"
+            {
+                CScriptObject *pObj = mpArea->GetInstanceByID(rkLink.ObjectID);
+
+                if (pObj->ObjectTypeID() == 0x54524752) // "TRGR"
+                    return true;
+            }
+        }
+
+        // Check for relay activation
+        else if (rkLink.State == 0x524C4159) // "RLAY"
+        {
+            if ( (rkLink.Message == 0x41435456) || // "ACTV"
+                 (ObjectTypeID() == 0x53524C59 && rkLink.Message == 0x4143544E) ) // If type is "SRLY" and message is "ACTN"
+            {
+                CScriptObject *pObj = mpArea->GetInstanceByID(rkLink.ObjectID);
+
+                if (pObj->ObjectTypeID() == 0x53524C59) // "SRLY"
+                    Relays.push_back(pObj);
+            }
+        }
+    }
+
+    // Check whether any of the relays have a near visible activation
+    for (auto it = Relays.begin(); it != Relays.end(); it++)
+        if ((*it)->HasNearVisibleActivation())
+            return true;
+
+    return false;
+}
+
 // ************ GETTERS ************
 IProperty* CScriptObject::PropertyByIndex(u32 index) const
 {

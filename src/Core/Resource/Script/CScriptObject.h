@@ -51,6 +51,7 @@ public:
     void EvaluateVolume();
     bool IsEditorProperty(IProperty *pProp);
     void SetLayer(CScriptLayer *pLayer);
+    bool HasNearVisibleActivation() const;
 
     CScriptTemplate* Template() const;
     CMasterTemplate* MasterTemplate() const;

@@ -185,6 +185,8 @@ void CStartWindow::on_LaunchWorldEditorButton_clicked()
         {
             mpWorld->SetAreaLayerInfo(pArea, mSelectedAreaIndex);
             mpWorldEditor->SetArea(mpWorld, pArea, mSelectedAreaIndex);
+            gResCache.Clean();
+
             mpWorldEditor->setWindowModality(Qt::WindowModal);
             mpWorldEditor->showMaximized();
 
@@ -194,8 +196,6 @@ void CStartWindow::on_LaunchWorldEditorButton_clicked()
 
             if (HasErrors)
                 ErrorDialog.exec();
-
-            gResCache.Clean();
         }
     }
 }

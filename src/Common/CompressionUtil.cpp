@@ -233,7 +233,7 @@ namespace CompressionUtil
                 TotalOut = Size;
             }
 
-            // If it's not smaller, write the compressed data
+            // If it IS smaller, write the compressed data
             else
             {
                 // Write new compressed size + data to destination

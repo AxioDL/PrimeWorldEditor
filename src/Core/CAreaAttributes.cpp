@@ -33,6 +33,7 @@ bool CAreaAttributes::IsSkyEnabled() const
     case eEchoes:
     case eCorruptionProto:
     case eCorruption:
+    case eReturns:
         return static_cast<TBoolProperty*>(pBaseStruct->PropertyByIndex(1))->Get();
     default:
         return false;
@@ -51,6 +52,7 @@ CModel* CAreaAttributes::SkyModel() const
     case eEchoes:
     case eCorruptionProto:
     case eCorruption:
+    case eReturns:
         return (CModel*) static_cast<TFileProperty*>(pBaseStruct->PropertyByID(0xD208C9FA))->Get().Load();
     default:
         return nullptr;
