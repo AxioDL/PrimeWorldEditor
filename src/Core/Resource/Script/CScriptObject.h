@@ -40,6 +40,9 @@ class CScriptObject
     EVolumeShape mVolumeShape;
     float mVolumeScale;
 
+    // Recursion guard
+    mutable bool mIsCheckingNearVisibleActivation;
+
 public:
     CScriptObject(CGameArea *pArea, CScriptLayer *pLayer, CScriptTemplate *pTemplate);
     ~CScriptObject();
