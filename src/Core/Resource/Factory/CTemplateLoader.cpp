@@ -165,7 +165,9 @@ IPropertyTemplate* CTemplateLoader::LoadProperty(XMLElement *pElem, CScriptTempl
             LoadProperties(pProperties, pScript, pStruct, rkTemplateName);
     }
 
-    CMasterTemplate::AddProperty(pProp, mMasterDir + rkTemplateName);
+    if (IsNewProperty)
+        CMasterTemplate::AddProperty(pProp, mMasterDir + rkTemplateName);
+
     return pProp;
 }
 
