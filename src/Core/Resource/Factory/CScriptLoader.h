@@ -26,8 +26,6 @@ class CScriptLoader
     CScriptObject* LoadObjectMP2(IInputStream& SCLY);
     CScriptLayer* LoadLayerMP2(IInputStream& SCLY);
 
-    void SetupAttribs();
-
 public:
     static CScriptLayer* LoadLayer(IInputStream& SCLY, CGameArea *pArea, EGame version);
 };
