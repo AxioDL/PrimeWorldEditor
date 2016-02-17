@@ -27,6 +27,7 @@ int main(int argc, char *argv[])
     // Create application
     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
     QApplication app(argc, argv);
+    app.setWindowIcon(QIcon(":/icons/AppIcon.ico"));
 
     // Init log
     bool Initialized = Log::InitLog("primeworldeditor.log");

@@ -30,5 +30,6 @@
         <file>icons/SelectMode.png</file>
         <file>icons/POI Important.png</file>
         <file>icons/POI Normal.png</file>
+        <file>icons/AppIcon.ico</file>
     </qresource>
 </RCC>
