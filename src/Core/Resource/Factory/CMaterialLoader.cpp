@@ -261,8 +261,9 @@ CMaterial* CMaterialLoader::ReadCorruptionMaterial()
         pMat->mOptions |= CMaterial::eTransparent;
     }
 
-    if (Flags & 0x10)  pMat->mOptions |= CMaterial::ePunchthrough;
-    if (Flags & 0x100) pMat->mOptions |= CMaterial::eOccluder;
+    if (Flags & 0x10)       pMat->mOptions |= CMaterial::ePunchthrough;
+    if (Flags & 0x100)      pMat->mOptions |= CMaterial::eOccluder;
+    if (Flags & 0x80000)    pMat->mOptions |= CMaterial::eDrawWhiteAmbient;
     mHas0x400 = ((Flags & 0x400) != 0);
 
     mpFile->Seek(0x8, SEEK_CUR); // Don't know what any of this is

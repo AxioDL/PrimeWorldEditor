@@ -36,7 +36,8 @@ public:
         eIndStage          = 0x400,
         eLightmap          = 0x800,
         eShortTexCoord     = 0x2000,
-        eAllSettings       = 0x2FF8
+        eDrawWhiteAmbient  = 0x80000, // this flag is possibly incorrect! attempted fix for black world models in DKCR
+        eAllSettings       = 0x82FF8
     };
     DECLARE_FLAGS(EMaterialOption, FMaterialOptions)
 
