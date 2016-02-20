@@ -119,6 +119,8 @@ private slots:
 
     void on_actionConvert_DDS_to_TXTR_triggered();
 
+    void on_ToggleGridButton_toggled(bool checked);
+
 signals:
     void Closed();
 };
