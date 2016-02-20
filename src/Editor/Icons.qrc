@@ -31,5 +31,10 @@
         <file>icons/POI Important.png</file>
         <file>icons/POI Normal.png</file>
         <file>icons/AppIcon.ico</file>
+        <file>icons/New.png</file>
+        <file>icons/Open.png</file>
+        <file>icons/Redo.png</file>
+        <file>icons/Save.png</file>
+        <file>icons/Undo.png</file>
     </qresource>
 </RCC>

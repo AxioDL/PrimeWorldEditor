@@ -59,9 +59,18 @@ CWorldEditor::CWorldEditor(QWidget *parent) :
     ui->menuEdit->insertActions(ui->ActionSelectAll, mUndoActions);
     ui->menuEdit->insertSeparator(ui->ActionSelectAll);
 
-    // Initialize offscreen actions
+    // Initialize actions
     addAction(ui->ActionIncrementGizmo);
     addAction(ui->ActionDecrementGizmo);
+
+    QAction *pToolBarUndo = mUndoStack.createUndoAction(this);
+    pToolBarUndo->setIcon(QIcon(":/icons/Undo.png"));
+    ui->MainToolBar->insertAction(ui->ActionLink, pToolBarUndo);
+
+    QAction *pToolBarRedo = mUndoStack.createRedoAction(this);
+    pToolBarRedo->setIcon(QIcon(":/icons/Redo.png"));
+    ui->MainToolBar->insertAction(ui->ActionLink, pToolBarRedo);
+    ui->MainToolBar->insertSeparator(ui->ActionLink);
 
     // Connect signals and slots
     connect(ui->MainViewport, SIGNAL(ViewportClick(SRayIntersection,QMouseEvent*)), this, SLOT(OnViewportClick(SRayIntersection,QMouseEvent*)));
@@ -85,8 +94,6 @@ CWorldEditor::CWorldEditor(QWidget *parent) :
     ui->CreateTabEditorProperties->SyncToEditor(this);
     ui->ModifyTabEditorProperties->SyncToEditor(this);
     ui->InstancesTabEditorProperties->SyncToEditor(this);
-    ui->DisplayTabEditorProperties->SyncToEditor(this);
-    ui->WorldTabEditorProperties->SyncToEditor(this);
 }
 
 CWorldEditor::~CWorldEditor()
@@ -155,21 +162,13 @@ void CWorldEditor::SetArea(CWorld *pWorld, CGameArea *pArea, u32 AreaIndex)
     UpdateCameraOrbit();
 
     // Default bloom to Fake Bloom for Metroid Prime 3; disable for other games
-    if (mpWorld->Version() == eCorruption)
-    {
-        ui->menuBloom->setVisible(true);
-        on_ActionFakeBloom_triggered();
-    }
-
-    else
-    {
-        ui->menuBloom->setVisible(false);
-        on_ActionNoBloom_triggered();
-    }
+    bool AllowBloom = (mpWorld->Version() == eCorruptionProto || mpWorld->Version() == eCorruption);
+    AllowBloom ? on_ActionFakeBloom_triggered() : on_ActionNoBloom_triggered();
+    ui->menuBloom->setEnabled(AllowBloom);
 
     // Disable EGMC editing for Prime 1 and DKCR
     bool AllowEGMC = ( (mpWorld->Version() >= eEchoesDemo) && (mpWorld->Version() <= eCorruption) );
-    ui->ActionEditPoiToWorldMap->setVisible(AllowEGMC);
+    ui->ActionEditPoiToWorldMap->setEnabled(AllowEGMC);
 
     // Set up sidebar tabs
     CMasterTemplate *pMaster = CMasterTemplate::GetMasterForGame(mpArea->Version());
