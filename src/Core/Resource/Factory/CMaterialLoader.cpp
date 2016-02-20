@@ -50,7 +50,7 @@ CMaterial* CMaterialLoader::ReadPrimeMaterial()
     pMat->mEnableBloom = false;
 
     // Flags
-    pMat->mOptions = (mpFile->ReadLong() & CMaterial::eAllSettings);
+    pMat->mOptions = (mpFile->ReadLong() & CMaterial::eAllMP1Settings);
 
     // Textures
     u32 NumTextures = mpFile->ReadLong();
@@ -263,7 +263,7 @@ CMaterial* CMaterialLoader::ReadCorruptionMaterial()
 
     if (Flags & 0x10)       pMat->mOptions |= CMaterial::ePunchthrough;
     if (Flags & 0x100)      pMat->mOptions |= CMaterial::eOccluder;
-    if (Flags & 0x80000)    pMat->mOptions |= CMaterial::eDrawWhiteAmbient;
+    if (Flags & 0x80000)    pMat->mOptions |= CMaterial::eDrawWhiteAmbientDKCR;
     mHas0x400 = ((Flags & 0x400) != 0);
 
     mpFile->Seek(0x8, SEEK_CUR); // Don't know what any of this is
