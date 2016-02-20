@@ -5,7 +5,8 @@ CModelEditorViewport::CModelEditorViewport(QWidget *pParent)
     : CBasicViewport(pParent),
       mMode(eDrawMesh),
       mpActiveMaterial(nullptr),
-      mpModelNode(nullptr)
+      mpModelNode(nullptr),
+      mGridEnabled(true)
 {
     mpRenderer = new CRenderer();
     mpRenderer->SetViewportSize(width(), height());
@@ -42,17 +43,27 @@ void CModelEditorViewport::SetClearColor(CColor color)
     mpRenderer->SetClearColor(color);
 }
 
+void CModelEditorViewport::SetGridEnabled(bool Enable)
+{
+    mGridEnabled = Enable;
+}
+
 void CModelEditorViewport::Paint()
 {
     mpRenderer->BeginFrame();
     mCamera.LoadMatrices();
 
     if (!mpModelNode->Model())
-        CDrawUtil::DrawGrid();
+    {
+        if (mGridEnabled)
+            CDrawUtil::DrawGrid();
+    }
 
     else if (mMode == eDrawMesh)
     {
-        CDrawUtil::DrawGrid();
+        if (mGridEnabled)
+            CDrawUtil::DrawGrid();
+
         mpModelNode->AddToRenderer(mpRenderer, mViewInfo);
         mpRenderer->RenderBuckets(mViewInfo);
     }

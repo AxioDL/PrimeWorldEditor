@@ -16,6 +16,7 @@ private:
     CModelNode *mpModelNode;
     CMaterial *mpActiveMaterial;
     CRenderer *mpRenderer;
+    bool mGridEnabled;
 
 public:
     CModelEditorViewport(QWidget *pParent = 0);
@@ -24,6 +25,7 @@ public:
     void SetActiveMaterial(CMaterial *pMat);
     void SetDrawMode(EDrawMode mode);
     void SetClearColor(CColor color);
+    void SetGridEnabled(bool Enable);
     void Paint();
     void OnResize();
 };

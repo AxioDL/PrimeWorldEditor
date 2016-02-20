@@ -884,3 +884,8 @@ void CModelEditorWindow::on_actionConvert_DDS_to_TXTR_triggered()
         }
     }
 }
+
+void CModelEditorWindow::on_ToggleGridButton_toggled(bool checked)
+{
+    ui->Viewport->SetGridEnabled(checked);
+}
