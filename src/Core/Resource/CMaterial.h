@@ -25,19 +25,19 @@ public:
     // Enums
     enum EMaterialOption
     {
-        eNoSettings        = 0,
-        eKonst             = 0x8,
-        eTransparent       = 0x10,
-        ePunchthrough      = 0x20,
-        eReflection        = 0x40,
-        eDepthWrite        = 0x80,
-        eSurfaceReflection = 0x100,
-        eOccluder          = 0x200,
-        eIndStage          = 0x400,
-        eLightmap          = 0x800,
-        eShortTexCoord     = 0x2000,
-        eDrawWhiteAmbient  = 0x80000, // this flag is possibly incorrect! attempted fix for black world models in DKCR
-        eAllSettings       = 0x82FF8
+        eNoSettings             = 0,
+        eKonst                  = 0x8,
+        eTransparent            = 0x10,
+        ePunchthrough           = 0x20,
+        eReflection             = 0x40,
+        eDepthWrite             = 0x80,
+        eSurfaceReflection      = 0x100,
+        eOccluder               = 0x200,
+        eIndStage               = 0x400,
+        eLightmap               = 0x800,
+        eShortTexCoord          = 0x2000,
+        eAllMP1Settings         = 0x2FF8,
+        eDrawWhiteAmbientDKCR   = 0x80000
     };
     DECLARE_FLAGS(EMaterialOption, FMaterialOptions)
 

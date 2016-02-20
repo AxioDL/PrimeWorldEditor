@@ -58,7 +58,7 @@ void CStaticNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewIn
     if (!mpModel) return;
 
     bool IsLightingEnabled = CGraphics::sLightMode == CGraphics::eWorldLighting || ViewInfo.GameMode;
-    bool UseWhiteAmbient   = (mpModel->GetMaterial()->Options() & CMaterial::eDrawWhiteAmbient) != 0;
+    bool UseWhiteAmbient   = (mpModel->GetMaterial()->Options() & CMaterial::eDrawWhiteAmbientDKCR) != 0;
 
     if (IsLightingEnabled)
     {
