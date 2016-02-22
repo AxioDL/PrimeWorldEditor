@@ -7,6 +7,8 @@ CGameArea::CGameArea() : CResource()
     mVertexCount = 0;
     mTriangleCount = 0;
     mTerrainMerged = false;
+    mOriginalWorldMeshCount = 0;
+    mUsesCompression = false;
     mMaterialSet = nullptr;
     mpGeneratorLayer = nullptr;
     mCollision = nullptr;

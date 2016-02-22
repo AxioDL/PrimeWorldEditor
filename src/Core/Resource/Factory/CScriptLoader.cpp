@@ -367,32 +367,7 @@ CScriptObject* CScriptLoader::LoadObjectMP2(IInputStream& SCLY)
 
 CScriptLayer* CScriptLoader::LoadLayerMP2(IInputStream& SCLY)
 {
-    bool IsSCGN = false;
-
-    if (mVersion >= eEchoes)
-    {
-        CFourCC SCLY_Magic(SCLY);
-
-        if (SCLY_Magic == "SCLY")
-        {
-            SCLY.Seek(0x6, SEEK_CUR);
-        }
-        else if (SCLY_Magic == "SCGN")
-        {
-            SCLY.Seek(0x2, SEEK_CUR);
-            IsSCGN = true;
-        }
-        else
-        {
-            Log::FileError(SCLY.GetSourceString(), SCLY.Tell() - 4, "Invalid script layer magic: " + TString::HexString((u32) SCLY_Magic.ToLong()));
-            return nullptr;
-        }
-    }
-    else
-    {
-        SCLY.Seek(0x1, SEEK_CUR);
-    }
-
+    SCLY.Seek(0x1, SEEK_CUR); // Skipping version. todo: verify this?
     u32 NumObjects = SCLY.ReadLong();
 
     mpLayer = new CScriptLayer();
@@ -405,11 +380,6 @@ CScriptLayer* CScriptLoader::LoadLayerMP2(IInputStream& SCLY)
             mpLayer->AddInstance(pObj);
     }
 
-    if (IsSCGN)
-    {
-        mpLayer->SetName("Generated");
-        mpLayer->SetActive(true);
-    }
     return mpLayer;
 }
 

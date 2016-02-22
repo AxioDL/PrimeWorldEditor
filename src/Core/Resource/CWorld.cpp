@@ -25,6 +25,7 @@ void CWorld::SetAreaLayerInfo(CGameArea *pArea, u32 AreaIndex)
 
     for (u32 iLyr = 0; iLyr < pArea->GetScriptLayerCount(); iLyr++)
     {
+        if (AreaInfo.Layers.size() <= iLyr) break;
         CScriptLayer *pLayer = pArea->GetScriptLayer(iLyr);
         SArea::SLayer& LayerInfo = AreaInfo.Layers[iLyr];
 

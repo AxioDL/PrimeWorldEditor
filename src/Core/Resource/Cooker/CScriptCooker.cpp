@@ -1,7 +1,17 @@
 #include "CScriptCooker.h"
 
-void CScriptCooker::WriteProperty(IProperty *pProp)
+void CScriptCooker::WriteProperty(IProperty *pProp, bool InSingleStruct)
 {
+    u32 SizeOffset = 0, PropStart = 0;
+
+    if (mVersion >= eEchoesDemo && !InSingleStruct)
+    {
+        mpSCLY->WriteLong(pProp->ID());
+        SizeOffset = mpSCLY->Tell();
+        mpSCLY->WriteShort(0x0);
+        PropStart = mpSCLY->Tell();
+    }
+
     switch (pProp->Type())
     {
 
@@ -96,25 +106,81 @@ void CScriptCooker::WriteProperty(IProperty *pProp)
     {
         TMayaSplineProperty *pSplineCast = static_cast<TMayaSplineProperty*>(pProp);
         std::vector<u8> Buffer = pSplineCast->Get();
-        mpSCLY->WriteBytes(Buffer.data(), Buffer.size());
+        if (!Buffer.empty()) mpSCLY->WriteBytes(Buffer.data(), Buffer.size());
+
+        else
+        {
+            if (mVersion < eReturns)
+            {
+                mpSCLY->WriteShort(0);
+                mpSCLY->WriteLong(0);
+                mpSCLY->WriteByte(1);
+                mpSCLY->WriteFloat(0);
+                mpSCLY->WriteFloat(1);
+            }
+            else
+            {
+                mpSCLY->WriteLong(0);
+                mpSCLY->WriteFloat(0);
+                mpSCLY->WriteFloat(1);
+                mpSCLY->WriteShort(0);
+                mpSCLY->WriteByte(1);
+            }
+        }
+
         break;
     }
 
     case eStructProperty:
-    case eArrayProperty:
     {
         CPropertyStruct *pStruct = static_cast<CPropertyStruct*>(pProp);
         CStructTemplate *pTemp = static_cast<CStructTemplate*>(pStruct->Template());
 
-        if (!pTemp->IsSingleProperty() || pProp->Type() == eArrayProperty)
-            mpSCLY->WriteLong(pStruct->Count());
+        std::vector<IProperty*> PropertiesToWrite;
 
         for (u32 iProp = 0; iProp < pStruct->Count(); iProp++)
-            WriteProperty(pStruct->PropertyByIndex(iProp));
+        {
+            IProperty *pSubProp = pStruct->PropertyByIndex(iProp);
+            ECookPreference Pref = pSubProp->Template()->CookPreference();
+            if (Pref == eNeverCook) continue;
+
+            if (mVersion < eReturns || pTemp->IsSingleProperty() || Pref == eAlwaysCook || !pSubProp->MatchesDefault())
+                PropertiesToWrite.push_back(pSubProp);
+        }
+
+        if (!pTemp->IsSingleProperty())
+        {
+            if (mVersion <= ePrime)
+                mpSCLY->WriteLong(PropertiesToWrite.size());
+            else
+                mpSCLY->WriteShort((u16) PropertiesToWrite.size());
+        }
+
+        for (u32 iProp = 0; iProp < PropertiesToWrite.size(); iProp++)
+            WriteProperty(PropertiesToWrite[iProp], pTemp->IsSingleProperty());
 
         break;
     }
 
+    case eArrayProperty:
+    {
+        CArrayProperty *pArray = static_cast<CArrayProperty*>(pProp);
+        mpSCLY->WriteLong(pArray->Count());
+
+        for (u32 iProp = 0; iProp < pArray->Count(); iProp++)
+            WriteProperty(pArray->PropertyByIndex(iProp), true);
+
+        break;
+    }
+
+    }
+
+    if (SizeOffset != 0)
+    {
+        u32 PropEnd = mpSCLY->Tell();
+        mpSCLY->Seek(SizeOffset, SEEK_SET);
+        mpSCLY->WriteShort((u16) (PropEnd - PropStart));
+        mpSCLY->Seek(PropEnd, SEEK_SET);
     }
 }
 
@@ -157,12 +223,61 @@ void CScriptCooker::WriteInstanceMP1(CScriptObject *pInstance)
         mpSCLY->WriteLong(rkLink.ObjectID);
     }
 
-    WriteProperty(pInstance->Properties());
+    WriteProperty(pInstance->Properties(), false);
     u32 InstanceEnd = mpSCLY->Tell();
-    u32 InstanceSize = InstanceEnd - InstanceStart;
 
     mpSCLY->Seek(SizeOffset, SEEK_SET);
-    mpSCLY->WriteLong(InstanceSize);
+    mpSCLY->WriteLong(InstanceEnd - InstanceStart);
+    mpSCLY->Seek(InstanceEnd, SEEK_SET);
+}
+
+void CScriptCooker::WriteLayerMP2(CScriptLayer *pLayer)
+{
+    u32 LayerStart = mpSCLY->Tell();
+    mpSCLY->WriteByte(0x1);
+    mpSCLY->WriteLong(pLayer->NumInstances());
+
+    for (u32 iInst = 0; iInst < pLayer->NumInstances(); iInst++)
+    {
+        CScriptObject *pInstance = pLayer->InstanceByIndex(iInst);
+        WriteInstanceMP2(pInstance);
+    }
+
+    if (mVersion == eEchoesDemo)
+    {
+        u32 LayerSize = mpSCLY->Tell() - LayerStart;
+        u32 NumPadBytes = 32 - (LayerSize % 32);
+        if (NumPadBytes == 32) NumPadBytes = 0;
+
+        for (u32 iPad = 0; iPad < NumPadBytes; iPad++)
+            mpSCLY->WriteByte(0);
+    }
+}
+
+void CScriptCooker::WriteInstanceMP2(CScriptObject *pInstance)
+{
+    mpSCLY->WriteLong(pInstance->ObjectTypeID());
+
+    u32 SizeOffset = mpSCLY->Tell();
+    mpSCLY->WriteShort(0);
+    u32 InstanceStart = mpSCLY->Tell();
+
+    mpSCLY->WriteLong(pInstance->InstanceID());
+    mpSCLY->WriteShort((u16) pInstance->NumOutLinks());
+
+    for (u32 iLink = 0; iLink < pInstance->NumOutLinks(); iLink++)
+    {
+        const SLink& rkLink = pInstance->OutLink(iLink);
+        mpSCLY->WriteLong(rkLink.State);
+        mpSCLY->WriteLong(rkLink.Message);
+        mpSCLY->WriteLong(rkLink.ObjectID);
+    }
+
+    WriteProperty(pInstance->Properties(), false);
+    u32 InstanceEnd = mpSCLY->Tell();
+
+    mpSCLY->Seek(SizeOffset, SEEK_SET);
+    mpSCLY->WriteShort((u16) (InstanceEnd - InstanceStart));
     mpSCLY->Seek(InstanceEnd, SEEK_SET);
 }
 
@@ -172,5 +287,9 @@ void CScriptCooker::WriteLayer(EGame Game, CScriptLayer *pLayer, IOutputStream& 
     CScriptCooker Cooker;
     Cooker.mpSCLY = &rOut;
     Cooker.mVersion = Game;
-    Cooker.WriteLayerMP1(pLayer);
+
+    if (Game <= ePrime)
+        Cooker.WriteLayerMP1(pLayer);
+    else
+        Cooker.WriteLayerMP2(pLayer);
 }
