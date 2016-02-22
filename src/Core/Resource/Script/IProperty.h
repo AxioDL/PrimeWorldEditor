@@ -160,7 +160,7 @@ public:
     TMayaSplineProperty(IPropertyTemplate *pTemp, CPropertyStruct *pParent, const std::vector<u8>& v)
         : TTypedProperty(pTemp, pParent, v) {}
 
-    virtual bool MatchesDefault() { return true; }
+    virtual bool MatchesDefault() { return Get().empty(); }
 };
 
 /*

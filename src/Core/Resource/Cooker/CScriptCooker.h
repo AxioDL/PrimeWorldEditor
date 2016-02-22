@@ -12,9 +12,11 @@ class CScriptCooker
     EGame mVersion;
 
     CScriptCooker() {}
-    void WriteProperty(IProperty *pProp);
+    void WriteProperty(IProperty *pProp, bool InSingleStruct);
     void WriteLayerMP1(CScriptLayer *pLayer);
     void WriteInstanceMP1(CScriptObject *pInstance);
+    void WriteLayerMP2(CScriptLayer *pLayer);
+    void WriteInstanceMP2(CScriptObject *pInstance);
 
 public:
     static void WriteLayer(EGame Game, CScriptLayer *pLayer, IOutputStream& rOut);

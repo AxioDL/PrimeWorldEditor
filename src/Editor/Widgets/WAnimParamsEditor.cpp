@@ -2,6 +2,7 @@
 #include "Editor/UICommon.h"
 #include <Core/Resource/CAnimSet.h>
 #include <Core/Resource/CResCache.h>
+#include <Core/Resource/CResourceInfo.h>
 
 WAnimParamsEditor::WAnimParamsEditor(QWidget *pParent)
     : QWidget(pParent),
@@ -66,10 +67,10 @@ void WAnimParamsEditor::SetParameters(const CAnimationParameters& params)
 // ************ PRIVATE SLOTS ************
 void WAnimParamsEditor::OnResourceChanged(QString path)
 {
-    CResource *pRes = gResCache.GetResource(path.toStdString());
-    if (pRes && pRes->Type() != eAnimSet) pRes = nullptr;
+    CResourceInfo ResInfo(path.toStdString());
+    if (ResInfo.Type() != "ANCS" && ResInfo.Type() != "CHAR") ResInfo = CResourceInfo();
 
-    mParams.SetResource(pRes);
+    mParams.SetResource(ResInfo);
     emit ParametersChanged(mParams);
 }
 
@@ -217,7 +218,7 @@ void WAnimParamsEditor::SetupUI()
         connect(mpSpinBoxes[0], SIGNAL(valueChanged(int)), this, SLOT(OnUnknownChanged()));
 
         // Create unknown spin box B/C/D
-        for (u32 iBox = 1; iBox < 4; iBox++)
+        for (u32 iBox = 1; iBox < 3; iBox++)
         {
             mpSpinBoxes[iBox] = new WIntegralSpinBox(this);
             mpSpinBoxes[iBox]->setRange(INT32_MIN, INT32_MAX);

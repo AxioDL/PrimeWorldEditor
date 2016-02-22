@@ -29,8 +29,18 @@ class CGameArea : public CResource
     CTransform4f mTransform;
     CAABox mAABox;
 
-    // Section data buffers; this is used to avoid having to regenerate the entire contents of the file on cook
+    // Data saved from the original file to help on recook
     std::vector<std::vector<u8>> mSectionDataBuffers;
+    u32 mOriginalWorldMeshCount;
+    bool mUsesCompression;
+
+    struct SSectionNumber
+    {
+        CFourCC SectionID;
+        u32 Index;
+    };
+    std::vector<SSectionNumber> mSectionNumbers;
+
     // Geometry
     CMaterialSet *mMaterialSet;
     std::vector<CModel*> mTerrainModels; // TerrainModels is the original version of each model; this is currently mainly used in the POI map editor
@@ -39,7 +49,6 @@ class CGameArea : public CResource
     std::vector<CScriptLayer*> mScriptLayers;
     CScriptLayer *mpGeneratorLayer;
     std::unordered_map<u32, CScriptObject*> mObjectMap;
-
     // Collision
     CCollisionMeshGroup *mCollision;
     // Lights

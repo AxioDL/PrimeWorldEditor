@@ -63,6 +63,8 @@ void CAreaLoader::ReadHeaderPrime()
     mpMREA->SeekToBoundary(32);
     mpSectionMgr->Init();
     LoadSectionDataBuffers();
+
+    mpArea->mOriginalWorldMeshCount = mNumMeshes;
 }
 
 void CAreaLoader::ReadGeometryPrime()
@@ -116,37 +118,55 @@ void CAreaLoader::ReadGeometryPrime()
 
 void CAreaLoader::ReadSCLYPrime()
 {
+    // Prime, Echoes Demo
     Log::FileWrite(mpMREA->GetSourceString(), "Reading MREA script layers (MP1)");
     mpSectionMgr->ToSection(mScriptLayerBlockNum);
 
     CFourCC SCLY(*mpMREA);
     if (SCLY != "SCLY")
     {
-        Log::Error(mpMREA->GetSourceString() + " - Invalid SCLY magic: " + SCLY.ToString());
+        Log::FileError(mpMREA->GetSourceString(), mpMREA->Tell() - 4, "Invalid SCLY magic: " + SCLY.ToString());
         return;
     }
+    mpMREA->Seek(0x4, SEEK_CUR); // Skipping unknown value which is always 4
 
-    if (mVersion <= ePrime)
-        mpMREA->Seek(0x4, SEEK_CUR);
-    else
-        mpMREA->Seek(0x1, SEEK_CUR);
-
+    // Read layer sizes
     mNumLayers = mpMREA->ReadLong();
-    mpArea->mScriptLayers.reserve(mNumLayers);
-
+    mpArea->mScriptLayers.resize(mNumLayers);
     std::vector<u32> LayerSizes(mNumLayers);
-    for (u32 iLayer = 0; iLayer < mNumLayers; iLayer++)
-        LayerSizes[iLayer] = mpMREA->ReadLong();
 
-    for (u32 iLayer = 0; iLayer < mNumLayers; iLayer++)
+    for (u32 iLyr = 0; iLyr < mNumLayers; iLyr++)
+        LayerSizes[iLyr] = mpMREA->ReadLong();
+
+    // SCLY
+    for (u32 iLyr = 0; iLyr < mNumLayers; iLyr++)
     {
-        u32 Next = mpMREA->Tell() + LayerSizes[iLayer];
-
-        CScriptLayer *pLayer = CScriptLoader::LoadLayer(*mpMREA, mpArea, mVersion);
-        if (pLayer)
-            mpArea->mScriptLayers.push_back(pLayer);
-
+        u32 Next = mpMREA->Tell() + LayerSizes[iLyr];
+        mpArea->mScriptLayers[iLyr] = CScriptLoader::LoadLayer(*mpMREA, mpArea, mVersion);
         mpMREA->Seek(Next, SEEK_SET);
+    }
+
+    // SCGN
+    if (mVersion == eEchoesDemo)
+    {
+        mpSectionMgr->ToSection(mScriptGeneratorBlockNum);
+
+        CFourCC SCGN(*mpMREA);
+        if (SCGN != "SCGN")
+            Log::FileError(mpMREA->GetSourceString(), mpMREA->Tell() - 4, "Invalid SCGN magic: " + SCGN.ToString());
+
+        else
+        {
+            mpMREA->Seek(0x1, SEEK_CUR);
+            CScriptLayer *pLayer = CScriptLoader::LoadLayer(*mpMREA, mpArea, mVersion);
+
+            if (pLayer)
+            {
+                mpArea->mpGeneratorLayer = pLayer;
+                pLayer->SetName("Generated Objects");
+                pLayer->SetActive(true);
+            }
+        }
     }
 
     SetUpObjects();
@@ -270,30 +290,49 @@ void CAreaLoader::ReadHeaderEchoes()
 
     mpSectionMgr->Init();
     LoadSectionDataBuffers();
+
+    mpArea->mOriginalWorldMeshCount = mNumMeshes;
 }
 
 void CAreaLoader::ReadSCLYEchoes()
 {
+    // MP2, MP3 Proto, MP3, DKCR
     Log::FileWrite(mpMREA->GetSourceString(), "Reading MREA script layers (MP2/MP3/DKCR)");
     mpSectionMgr->ToSection(mScriptLayerBlockNum);
+    mpArea->mScriptLayers.resize(mNumLayers);
 
     // SCLY
-    for (u32 l = 0; l < mNumLayers; l++)
+    for (u32 iLyr = 0; iLyr < mNumLayers; iLyr++)
     {
-        CScriptLayer *pLayer = CScriptLoader::LoadLayer(*mpMREA, mpArea, mVersion);
+        CFourCC SCLY(*mpMREA);
+        if (SCLY != "SCLY")
+        {
+            Log::FileError(mpMREA->GetSourceString(), mpMREA->Tell() - 4, "Layer " + TString::FromInt32(iLyr, 0, 10) + " - Invalid SCLY magic: " + SCLY.ToString());
+            mpSectionMgr->ToNextSection();
+            continue;
+        }
 
-        if (pLayer)
-            mpArea->mScriptLayers.push_back(pLayer);
-
+        mpMREA->Seek(0x5, SEEK_CUR); // Skipping unknown + layer index
+        mpArea->mScriptLayers[iLyr] = CScriptLoader::LoadLayer(*mpMREA, mpArea, mVersion);
         mpSectionMgr->ToNextSection();
     }
 
     // SCGN
-    mpSectionMgr->ToSection(mScriptGeneratorBlockNum);
-    CScriptLayer *pLayer = CScriptLoader::LoadLayer(*mpMREA, mpArea, mVersion);
+    CFourCC SCGN(*mpMREA);
+    if (SCGN != "SCGN")
+    {
+        Log::FileError(mpMREA->GetSourceString(), mpMREA->Tell() - 4, "Invalid SCGN magic: " + SCGN.ToString());
+        return;
+    }
 
-    if (pLayer)
-        mpArea->mpGeneratorLayer = pLayer;
+    mpMREA->Seek(0x1, SEEK_CUR); // Skipping unknown
+    mpArea->mpGeneratorLayer = CScriptLoader::LoadLayer(*mpMREA, mpArea, mVersion);
+
+    if (mpArea->mpGeneratorLayer)
+    {
+        mpArea->mpGeneratorLayer->SetName("Generated Objects");
+        mpArea->mpGeneratorLayer->SetActive(true);
+    }
 
     SetUpObjects();
 }
@@ -334,12 +373,19 @@ void CAreaLoader::ReadHeaderCorruption()
         else if (Type == "SOBJ") mScriptLayerBlockNum = Num;
         else if (Type == "SGEN") mScriptGeneratorBlockNum = Num;
         else if (Type == "WOBJ") mGeometryBlockNum = Num; // note WOBJ can show up multiple times, but is always 0
+
+        CGameArea::SSectionNumber SecNum;
+        SecNum.SectionID = Type;
+        SecNum.Index = Num;
+        mpArea->mSectionNumbers.push_back(SecNum);
     }
 
     mpMREA->SeekToBoundary(32);
     Decompress();
     mpSectionMgr->Init();
     LoadSectionDataBuffers();
+
+    mpArea->mOriginalWorldMeshCount = mNumMeshes;
 }
 
 void CAreaLoader::ReadGeometryCorruption()
@@ -478,6 +524,8 @@ void CAreaLoader::ReadCompressedBlocks()
         mClusters[c].CompressedSize = mpMREA->ReadLong();
         mClusters[c].NumSections = mpMREA->ReadLong();
         mTotalDecmpSize += mClusters[c].DecompressedSize;
+
+        if (mClusters[c].CompressedSize != 0) mpArea->mUsesCompression = true;
     }
 
     mpMREA->SeekToBoundary(32);

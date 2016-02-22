@@ -608,7 +608,7 @@ void CPropertyDelegate::SetCharacterEditorData(QWidget *pEditor, const QModelInd
 
     if (Type == eFileProperty)
     {
-            static_cast<WResourceSelector*>(pEditor)->SetResource(Params.AnimSet());
+        static_cast<WResourceSelector*>(pEditor)->SetResource(Params.AnimSet());
     }
 
     else if (Type == eEnumProperty)
@@ -632,10 +632,10 @@ void CPropertyDelegate::SetCharacterModelData(QWidget *pEditor, const QModelInde
 
     if (Type == eFileProperty)
     {
-        Params.SetResource( static_cast<WResourceSelector*>(pEditor)->GetResource() );
+        Params.SetResource( static_cast<WResourceSelector*>(pEditor)->GetResourceInfo() );
         // Reset all other parameters to 0
         Params.SetNodeIndex(0);
-        for (u32 iUnk = 0; iUnk < 4; iUnk++)
+        for (u32 iUnk = 0; iUnk < 3; iUnk++)
             Params.SetUnknown(iUnk, 0);
     }
 
@@ -677,7 +677,7 @@ EPropertyType CPropertyDelegate::DetermineCharacterPropType(EGame Game, const QM
     else
     {
         if      (rkIndex.row() == 0) return eFileProperty;
-        else if (rkIndex.row() <= 3) return eLongProperty;
+        else if (rkIndex.row() <= 2) return eLongProperty;
     }
     return eUnknownProperty;
 }

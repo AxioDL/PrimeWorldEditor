@@ -113,7 +113,7 @@ int CPropertyModel::rowCount(const QModelIndex& rkParent) const
         CAnimationParameters Params = static_cast<TCharacterProperty*>(pProp)->Get();
         if (Params.Version() <= eEchoes) return 3;
         if (Params.Version() <= eCorruption) return 2;
-        return 5;
+        return 4;
     }
 
     default:
@@ -241,7 +241,8 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                     if (rkIndex.column() == 0)
                     {
                         if (rkIndex.row() == 0) return "Character";
-                        else return "Unknown " + QString::number(rkIndex.row());
+                        else if (rkIndex.row() == 1) return "Default Anim";
+                        else return "Unknown " + QString::number(rkIndex.row() - 1);
                     }
 
                     if (rkIndex.column() == 1 && rkIndex.row() > 0)
