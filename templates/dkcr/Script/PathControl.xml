@@ -5,6 +5,7 @@
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <property ID="0xB0B97F9F" type="long">
             <default>0</default>
+            <should_cook>always</should_cook>
         </property>
         <struct ID="0x20091B54" template="Structs/SplineType.xml"/>
     </properties>

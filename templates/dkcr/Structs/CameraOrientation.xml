@@ -15,6 +15,7 @@
         </enum>
         <property ID="0x6219022E" type="long">
             <default>8</default>
+            <should_cook>always</should_cook>
         </property>
         <enum ID="0x44191FB8">
             <default>0x33D21F2E</default>
