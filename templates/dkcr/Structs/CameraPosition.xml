@@ -14,6 +14,7 @@
         </enum>
         <property ID="0xB1B6CF33" type="long">
             <default>2</default>
+            <should_cook>always</should_cook>
         </property>
         <struct ID="0xE8AB9BC8" type="multi">
             <properties>

@@ -8,6 +8,7 @@
         </property>
         <property ID="0x5D298A43" type="long">
             <default>3</default>
+            <should_cook>always</should_cook>
         </property>
     </properties>
 </struct>

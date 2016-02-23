@@ -9,6 +9,7 @@
         </property>
         <property ID="0xAACDB11C" type="long">
             <default>-1</default>
+            <should_cook>always</should_cook>
         </property>
         <property ID="0x15DBA741" type="string"/>
     </properties>
