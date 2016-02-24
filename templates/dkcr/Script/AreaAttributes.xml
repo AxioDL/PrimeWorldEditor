@@ -8,7 +8,6 @@
         </property>
         <property ID="0x56263E35" type="long">
             <default>-1</default>
-            <should_cook>always</should_cook>
         </property>
         <property ID="0xBA5F801E" type="float">
             <default>1.0</default>

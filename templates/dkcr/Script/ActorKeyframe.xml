@@ -5,7 +5,6 @@
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <property ID="0xC215A24F" type="long">
             <default>-1</default>
-            <should_cook>always</should_cook>
         </property>
         <property ID="0x1FE44C3A" type="bool">
             <default>false</default>
@@ -21,7 +20,6 @@
         </property>
         <property ID="0x6D62EF74" type="long">
             <default>8</default>
-            <should_cook>always</should_cook>
         </property>
         <property ID="0x6F8D34CA" type="float">
             <default>1.0</default>

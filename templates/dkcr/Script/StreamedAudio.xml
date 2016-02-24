@@ -59,7 +59,6 @@
         <property ID="0xC871BD1B" type="string"/>
         <property ID="0x196E17D9" type="float">
             <default>0.0</default>
-            <should_cook>always</should_cook>
         </property>
         <enum ID="0xFB8F0B1F" template="Enums/MusicEnumB.xml">
             <default>0xCBF698CA</default>

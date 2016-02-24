@@ -3,7 +3,6 @@
     <properties>
         <property ID="0xDE5BFC61" type="float">
             <default>0.0</default>
-            <should_cook>always</should_cook>
         </property>
         <property ID="0x7C16E269" type="bool">
             <default>false</default>
