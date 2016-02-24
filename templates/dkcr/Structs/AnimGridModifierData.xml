@@ -3,6 +3,7 @@
     <properties>
         <property ID="0xA1266897" type="long">
             <default>-1</default>
+            <should_cook>always</should_cook>
         </property>
         <property ID="0x7BE67947" type="bool">
             <default>true</default>
@@ -74,6 +75,7 @@
             <properties>
                 <property ID="0xB297F186" type="float">
                     <default>0.0</default>
+                    <should_cook>always</should_cook>
                 </property>
                 <property ID="0xCA3E85C5" type="float">
                     <default>15.0</default>

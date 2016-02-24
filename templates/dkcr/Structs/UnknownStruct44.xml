@@ -490,12 +490,15 @@
             <properties>
                 <property ID="0xAACDB11C" type="long">
                     <default>-1</default>
+                    <should_cook>always</should_cook>
                 </property>
                 <property ID="0x7F96D93C" type="long">
                     <default>-1</default>
+                    <should_cook>always</should_cook>
                 </property>
                 <property ID="0xD0ED78B3" type="long">
                     <default>-1</default>
+                    <should_cook>always</should_cook>
                 </property>
                 <property ID="0xF0EB772D" type="string"/>
                 <property ID="0xDA075C18" type="string"/>
@@ -528,9 +531,11 @@
                 </property>
                 <property ID="0x2C60DD92" type="long">
                     <default>0</default>
+                    <should_cook>always</should_cook>
                 </property>
                 <property ID="0xC739D41A" type="long">
                     <default>0</default>
+                    <should_cook>always</should_cook>
                 </property>
             </properties>
         </struct>

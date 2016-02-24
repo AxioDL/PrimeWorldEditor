@@ -3,24 +3,31 @@
     <properties>
         <property ID="0x64543B0C" type="long">
             <default>-1</default>
+            <should_cook>always</should_cook>
         </property>
         <property ID="0x1E67101C" type="long">
             <default>-1</default>
+            <should_cook>always</should_cook>
         </property>
         <property ID="0xCB515E2A" type="long">
             <default>-1</default>
+            <should_cook>always</should_cook>
         </property>
         <property ID="0xC762476C" type="long">
             <default>-1</default>
+            <should_cook>always</should_cook>
         </property>
         <property ID="0xB6641BF0" type="long">
             <default>-1</default>
+            <should_cook>always</should_cook>
         </property>
         <property ID="0x217A54B9" type="long">
             <default>-1</default>
+            <should_cook>always</should_cook>
         </property>
         <property ID="0x8B30D933" type="long">
             <default>-1</default>
+            <should_cook>always</should_cook>
         </property>
     </properties>
 </struct>

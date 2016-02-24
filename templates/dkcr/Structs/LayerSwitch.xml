@@ -2,6 +2,6 @@
 <struct name="LayerSwitch" type="single">
     <properties>
         <property ID="0x00" name="Area ID" type="file" extensions="UNKN"/>
-		<struct ID="0x01" name="Layer ID" template="Structs/LayerID.xml"/>
+        <struct ID="0x01" name="Layer ID" template="Structs/LayerID.xml"/>
     </properties>
 </struct>
