@@ -41,6 +41,20 @@ TIDString IProperty::IDString(bool FullPath) const
     return mpTemplate->IDString(FullPath);
 }
 
+bool IProperty::ShouldCook()
+{
+    if      (mpTemplate->CookPreference() == eNeverCook)    return false;
+    else if (mpTemplate->CookPreference() == eAlwaysCook)   return true;
+
+    else
+    {
+        if (mpTemplate->Game() == eReturns)
+            return !MatchesDefault();
+        else
+            return true;
+    }
+}
+
 bool IProperty::MatchesDefault()
 {
     const IPropertyValue *pkValue = RawValue();
@@ -61,6 +75,19 @@ void CPropertyStruct::Copy(const IProperty *pkProp)
 
     for (u32 iSub = 0; iSub < mProperties.size(); iSub++)
         mProperties[iSub] = pkSource->mProperties[iSub]->Clone(this);
+}
+
+bool CPropertyStruct::ShouldCook()
+{
+    if (mpTemplate->CookPreference() == eNeverCook) return false;
+
+    for (u32 iProp = 0; iProp < mProperties.size(); iProp++)
+    {
+        if (mProperties[iProp]->ShouldCook())
+            return true;
+    }
+
+    return false;
 }
 
 IProperty* CPropertyStruct::PropertyByIndex(u32 index) const
@@ -138,6 +165,11 @@ CPropertyStruct* CPropertyStruct::StructByIDString(const TIDString& rkStr) const
 }
 
 // ************ CArrayProperty ************
+bool CArrayProperty::ShouldCook()
+{
+    return (mpTemplate->CookPreference() == eNeverCook ? false : true);
+}
+
 void CArrayProperty::Resize(int Size)
 {
     int OldSize = mProperties.size();

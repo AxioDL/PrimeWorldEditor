@@ -140,11 +140,9 @@ void CScriptCooker::WriteProperty(IProperty *pProp, bool InSingleStruct)
 
         for (u32 iProp = 0; iProp < pStruct->Count(); iProp++)
         {
-            IProperty *pSubProp = pStruct->PropertyByIndex(iProp);
-            ECookPreference Pref = pSubProp->Template()->CookPreference();
-            if (Pref == eNeverCook) continue;
+            IProperty *pSubProp = pStruct->PropertyByIndex(iProp);\
 
-            if (mVersion < eReturns || pTemp->IsSingleProperty() || Pref == eAlwaysCook || !pSubProp->MatchesDefault())
+            if (pTemp->IsSingleProperty() || pSubProp->ShouldCook())
                 PropertiesToWrite.push_back(pSubProp);
         }
 

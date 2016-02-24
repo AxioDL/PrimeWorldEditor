@@ -45,6 +45,9 @@ public:
     virtual IProperty* Clone(CPropertyStruct *pParent = 0) const = 0;
     virtual bool Matches(const IProperty *pkProp) const = 0;
 
+    virtual bool ShouldCook();      // Can't be const because it calls MatchesDefault()
+    virtual bool MatchesDefault();  // Can't be const because RawValue() isn't const
+
     inline CPropertyStruct* Parent() const { return mpParent; }
     inline void SetParent(CPropertyStruct *pParent) { mpParent = pParent; }
 
@@ -56,13 +59,12 @@ public:
     TString Name() const;
     u32 ID() const;
     TIDString IDString(bool FullPath) const;
-    virtual bool MatchesDefault();
 };
 
 /*
  * TTypedProperty is a template subclass for actual properties.
  */
-template <typename PropType, EPropertyType TypeEnum, class ValueClass>
+template <typename ValueType, EPropertyType TypeEnum, class ValueClass>
 class TTypedProperty : public IProperty
 {
     friend class CScriptLoader;
@@ -71,7 +73,7 @@ public:
     TTypedProperty(IPropertyTemplate *pTemp, CPropertyStruct *pParent)
         : IProperty(pTemp, pParent) {}
 
-    TTypedProperty(IPropertyTemplate *pTemp, CPropertyStruct *pParent, PropType v)
+    TTypedProperty(IPropertyTemplate *pTemp, CPropertyStruct *pParent, ValueType v)
         : IProperty(pTemp, pParent), mValue(v) {}
 
     ~TTypedProperty() {}
@@ -103,8 +105,8 @@ public:
                  mValue.Matches(&pkTyped->mValue) );
     }
 
-    inline PropType Get() const { return mValue.Get(); }
-    inline void Set(PropType v) { mValue.Set(v); }
+    inline ValueType Get() const { return mValue.Get(); }
+    inline void Set(ValueType v) { mValue.Set(v); }
 };
 typedef TTypedProperty<bool, eBoolProperty, CBoolValue>                             TBoolProperty;
 typedef TTypedProperty<char, eByteProperty, CByteValue>                             TByteProperty;
@@ -113,53 +115,48 @@ typedef TTypedProperty<long, eLongProperty, CLongValue>                         
 typedef TTypedProperty<long, eEnumProperty, CLongValue>                             TEnumProperty;
 typedef TTypedProperty<long, eBitfieldProperty, CHexLongValue>                      TBitfieldProperty;
 typedef TTypedProperty<float, eFloatProperty, CFloatValue>                          TFloatProperty;
-typedef TTypedProperty<TString, eStringProperty, CStringValue>                      TStringProperty;
 typedef TTypedProperty<CVector3f, eVector3Property, CVector3Value>                  TVector3Property;
 typedef TTypedProperty<CColor, eColorProperty, CColorValue>                         TColorProperty;
 typedef TTypedProperty<std::vector<u8>, eUnknownProperty, CUnknownValue>            TUnknownProperty;
 
 /*
- * TFileProperty and TCharacterProperty get little subclasses in order to override MatchesDefault.
+ * TStringProperty, TFileProperty, and TCharacterProperty get little subclasses in order to override some virtual functions.
  */
+#define IMPLEMENT_PROPERTY_CTORS(ClassName, ValueType) \
+    ClassName(IPropertyTemplate *pTemp, CPropertyStruct *pParent) \
+        : TTypedProperty(pTemp, pParent) {} \
+    \
+    ClassName(IPropertyTemplate *pTemp, CPropertyStruct *pParent, ValueType v) \
+        : TTypedProperty(pTemp, pParent, v) {}
+
+class TStringProperty : public TTypedProperty<TString, eStringProperty, CStringValue>
+{
+public:
+    IMPLEMENT_PROPERTY_CTORS(TStringProperty, TString)
+    virtual bool MatchesDefault()   { return Get().IsEmpty(); }
+    virtual bool ShouldCook()       { return true; }
+};
+
 class TFileProperty : public TTypedProperty<CResourceInfo, eFileProperty, CFileValue>
 {
 public:
-    TFileProperty(IPropertyTemplate *pTemp, CPropertyStruct *pParent)
-        : TTypedProperty(pTemp, pParent) {}
-
-    TFileProperty(IPropertyTemplate *pTemp, CPropertyStruct *pParent, CResourceInfo v)
-        : TTypedProperty(pTemp, pParent, v) {}
-
-    virtual bool MatchesDefault()
-    {
-        return !Get().IsValid();
-    }
+    IMPLEMENT_PROPERTY_CTORS(TFileProperty, CResourceInfo)
+    virtual bool MatchesDefault()   { return !Get().IsValid(); }
+    virtual bool ShouldCook()       { return true; }
 };
 
 class TCharacterProperty : public TTypedProperty<CAnimationParameters, eCharacterProperty, CCharacterValue>
 {
 public:
-    TCharacterProperty(IPropertyTemplate *pTemp, CPropertyStruct *pParent)
-        : TTypedProperty(pTemp, pParent) {}
-
-    TCharacterProperty(IPropertyTemplate *pTemp, CPropertyStruct *pParent, CAnimationParameters v)
-        : TTypedProperty(pTemp, pParent, v) {}
-
-    virtual bool MatchesDefault()
-    {
-        return Get().AnimSet() == nullptr;
-    }
+    IMPLEMENT_PROPERTY_CTORS(TCharacterProperty, CAnimationParameters)
+    virtual bool MatchesDefault()   { return Get().AnimSet() == nullptr; }
+    virtual bool ShouldCook()       { return true; }
 };
 
 class TMayaSplineProperty : public TTypedProperty<std::vector<u8>, eMayaSplineProperty, CMayaSplineValue>
 {
 public:
-    TMayaSplineProperty(IPropertyTemplate *pTemp, CPropertyStruct *pParent)
-        : TTypedProperty(pTemp, pParent) {}
-
-    TMayaSplineProperty(IPropertyTemplate *pTemp, CPropertyStruct *pParent, const std::vector<u8>& v)
-        : TTypedProperty(pTemp, pParent, v) {}
-
+    IMPLEMENT_PROPERTY_CTORS(TMayaSplineProperty, std::vector<u8>)
     virtual bool MatchesDefault() { return Get().empty(); }
 };
 
@@ -175,7 +172,8 @@ public:
     CPropertyStruct(IPropertyTemplate *pTemp, CPropertyStruct *pParent)
         : IProperty(pTemp, pParent) {}
 
-    ~CPropertyStruct() {
+    ~CPropertyStruct()
+    {
         for (auto it = mProperties.begin(); it != mProperties.end(); it++)
             delete *it;
     }
@@ -223,6 +221,8 @@ public:
         return true;
     }
 
+    virtual bool ShouldCook();
+
     // Inline
     inline u32 Count() const { return mProperties.size(); }
     inline void AddSubProperty(IProperty *pProp) { mProperties.push_back(pProp); }
@@ -260,6 +260,7 @@ public:
     }
 
     virtual bool MatchesDefault() { return mProperties.empty(); }
+    virtual bool ShouldCook();
 
     // Inline
     inline void Reserve(u32 amount) { mProperties.reserve(amount); }
