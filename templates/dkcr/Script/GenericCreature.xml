@@ -268,7 +268,6 @@
                         </property>
                         <property ID="0xF5495F77" type="float">
                             <default>4.0</default>
-                            <should_cook>always</should_cook>
                         </property>
                     </properties>
                 </struct>
@@ -452,7 +451,6 @@
             <properties>
                 <property ID="0x94DD8979" type="long">
                     <default>0</default>
-                    <should_cook>always</should_cook>
                 </property>
                 <struct ID="0x975DCEF7" template="Structs/GenericCreatureStructG.xml"/>
                 <struct ID="0x8ABB25C4" template="Structs/GenericCreatureStructF.xml"/>
