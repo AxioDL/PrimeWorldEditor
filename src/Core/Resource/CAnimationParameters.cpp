@@ -14,6 +14,15 @@ CAnimationParameters::CAnimationParameters()
     mUnknown3 = 0;
 }
 
+CAnimationParameters::CAnimationParameters(EGame Game)
+{
+    mGame = Game;
+    mNodeIndex = 0;
+    mUnknown1 = 0;
+    mUnknown2 = 0;
+    mUnknown3 = 0;
+}
+
 CAnimationParameters::CAnimationParameters(IInputStream& SCLY, EGame Game)
 {
     mGame = Game;

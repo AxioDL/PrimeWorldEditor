@@ -8,7 +8,7 @@
         </property>
         <struct ID="0x20091B54" template="Structs/SplineType.xml"/>
         <property ID="0x00DD86E2" type="color">
-            <default>1.0, 0.0, 1.0, 1.0</default>
+            <default>1.0, 1.0, 1.0, 1.0</default>
         </property>
     </properties>
     <states/>
