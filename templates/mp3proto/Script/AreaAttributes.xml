@@ -5,9 +5,11 @@
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <property ID="0x95D4BEE7" type="bool">
             <default>false</default>
+            <description>Show the skybox. If no Skybox Model is specified, it will show the World's default skybox.</description>
         </property>
         <property ID="0xB24FDE1A" type="bool">
             <default>false</default>
+            <description>Enable Dark World damage and switch to the Dark World map.</description>
         </property>
         <property ID="0x9D0006AB" type="long">
             <default>0</default>

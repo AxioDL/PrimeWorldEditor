@@ -5,13 +5,24 @@
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <property ID="0x95D4BEE7" type="bool">
             <default>false</default>
+            <description>Show the skybox. If no Skybox Model is specified, it will show the World's default skybox.</description>
         </property>
         <property ID="0xB24FDE1A" type="bool">
             <default>false</default>
+            <description>Enable Dark World damage and switch to the Dark World map.</description>
         </property>
-        <property ID="0x9D0006AB" type="long">
+        <enum ID="0x9D0006AB">
             <default>0</default>
-        </property>
+            <enumerators>
+                <enumerator ID="0x00" name="None"/>
+                <enumerator ID="0x01" name="Snow"/>
+                <enumerator ID="0x02" name="Rain"/>
+                <enumerator ID="0x03" name="[Lower Torvus]"/>
+                <enumerator ID="0x04" name="Dark World"/>
+                <enumerator ID="0x05" name="[Aerie]"/>
+                <enumerator ID="0x06" name="Electric Rain"/>
+            </enumerators>
+        </enum>
         <property ID="0x56263E35" type="long">
             <default>-1</default>
         </property>
