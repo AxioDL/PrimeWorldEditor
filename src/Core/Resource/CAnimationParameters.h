@@ -19,6 +19,7 @@ class CAnimationParameters
 
 public:
     CAnimationParameters();
+    CAnimationParameters(EGame Game);
     CAnimationParameters(IInputStream& SCLY, EGame Game);
     void Write(IOutputStream& rSCLY);
 
