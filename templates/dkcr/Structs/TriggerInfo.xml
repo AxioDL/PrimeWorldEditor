@@ -3,9 +3,11 @@
     <properties>
         <property ID="0x97C0611F" type="long">
             <default>1</default>
+            <should_cook>always</should_cook>
         </property>
         <property ID="0x50224907" type="long">
             <default>128</default>
+            <should_cook>always</should_cook>
         </property>
         <property ID="0x7150D7F8" type="bool">
             <default>false</default>

@@ -24,16 +24,16 @@
                 </property>
             </properties>
         </struct>
-		<struct ID="0x1FF47DDF" type="multi">
-			<should_cook>never</should_cook>
-			<properties>
-				<property ID="0x18C7396A" type="bool">
-					<should_cook>always</should_cook>
-					<default>false</default>
-				</property>
-				<property ID="0xBD0B7EDE" type="string"/>
-			</properties>
-		</struct>
+        <struct ID="0x1FF47DDF" type="multi">
+            <should_cook>never</should_cook>
+            <properties>
+                <property ID="0x18C7396A" type="bool">
+                    <default>false</default>
+                    <should_cook>always</should_cook>
+                </property>
+                <property ID="0xBD0B7EDE" type="string"/>
+            </properties>
+        </struct>
         <struct ID="0x0CF33816" type="multi">
             <properties>
                 <property ID="0x6FA2F8BC" type="bool">
@@ -44,6 +44,7 @@
                 </property>
                 <property ID="0xB122A18D" type="float">
                     <default>0.0</default>
+                    <should_cook>always</should_cook>
                 </property>
                 <property ID="0x8E1B83F9" type="float">
                     <default>0.01</default>
