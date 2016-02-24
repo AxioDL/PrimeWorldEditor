@@ -92,7 +92,6 @@ public:
     virtual bool HasValidRange() const                      { return false; }
     virtual TString RangeToString()   const                 { return ""; }
     virtual TString Suffix() const                          { return ""; }
-    virtual ECookPreference CookPreference() const          { return mCookPreference; }
 
     virtual void SetParam(const TString& rkParamName, const TString& rkValue)
     {
@@ -124,6 +123,7 @@ public:
     inline TString Name() const                         { return mName; }
     inline TString Description() const                  { return mDescription; }
     inline u32 PropertyID() const                       { return mID; }
+    inline ECookPreference CookPreference() const       { return mCookPreference; }
     inline CStructTemplate* Parent() const              { return mpParent; }
     inline CScriptTemplate* ScriptTemplate() const      { return mpScriptTemplate; }
     inline CMasterTemplate* MasterTemplate() const      { return mpMasterTemplate; }
@@ -167,9 +167,7 @@ public:
     virtual IProperty* InstantiateProperty(CPropertyStruct *pParent)
     {
         typedef TTypedProperty<PropType, PropTypeEnum, ValueClass> TPropertyType;
-
-        TPropertyType *pOut = new TPropertyType(this, pParent);
-        pOut->Set(GetDefaultValue());
+        TPropertyType *pOut = new TPropertyType(this, pParent, GetDefaultValue());
         return pOut;
     }
 
@@ -327,14 +325,6 @@ public:
     {
         return new TCharacterProperty(this, pParent, CAnimationParameters(Game()));
     }
-
-    ECookPreference CookPreference() const
-    {
-        if (mCookPreference != eNoCookPreference)
-            return mCookPreference;
-        else
-            return eAlwaysCook;
-    }
 };
 
 class TStringTemplate : public TTypedPropertyTemplate<TString, eStringProperty, CStringValue, false>
@@ -352,14 +342,6 @@ public:
     IProperty* InstantiateProperty(CPropertyStruct *pParent)
     {
         return new TStringProperty(this, pParent);
-    }
-
-    ECookPreference CookPreference() const
-    {
-        if (mCookPreference != eNoCookPreference)
-            return mCookPreference;
-        else
-            return eAlwaysCook;
     }
 };
 
@@ -419,14 +401,6 @@ public:
 
         return ( (IPropertyTemplate::Matches(pkTemp)) &&
                  (mAcceptedExtensions == pkFile->mAcceptedExtensions) );
-    }
-
-    ECookPreference CookPreference() const
-    {
-        if (mCookPreference != eNoCookPreference)
-            return mCookPreference;
-        else
-            return eAlwaysCook;
     }
 
     bool AcceptsExtension(const TString& rkExtension)
@@ -694,20 +668,12 @@ public:
         return false;
     }
 
-    virtual ECookPreference CookPreference() const
     {
-        if (mCookPreference != eNoCookPreference) return mCookPreference;
-        bool SubsNeverCook = true;
 
         for (u32 iProp = 0; iProp < mSubProperties.size(); iProp++)
         {
             IPropertyTemplate *pProp = mSubProperties[iProp];
-            ECookPreference Pref = pProp->CookPreference();
-            if (Pref != eNeverCook) SubsNeverCook = false;
-            if (Pref == eAlwaysCook) return eAlwaysCook;
         }
-
-        return (SubsNeverCook ? eNeverCook : eNoCookPreference);
     }
 
     inline TString SourceFile() const               { return mSourceFile; }
@@ -769,14 +735,6 @@ public:
 
         return ( (mElementName == pkArray->mElementName) &
                  (CStructTemplate::Matches(pkTemp)) );
-    }
-
-    ECookPreference CookPreference()
-    {
-        if (mCookPreference != eNoCookPreference)
-            return mCookPreference;
-        else
-            return eAlwaysCook;
     }
 
     void SetParam(const TString& rkParamName, const TString& rkValue)
