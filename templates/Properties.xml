@@ -1029,7 +1029,7 @@
     <property ID="0x185249CF" name="Unknown"/>
     <property ID="0x1852AF24" name="Unknown"/>
     <property ID="0x1858CBDB" name="Unknown"/>
-    <property ID="0x185A88AD" name="WeaponVulnerability"/>
+    <property ID="0x185A88AD" name="Hyper Missile"/>
     <property ID="0x18675E4E" name="Unknown"/>
     <property ID="0x186F6592" name="Unknown"/>
     <property ID="0x187124AF" name="Unknown"/>
@@ -3926,7 +3926,7 @@
     <property ID="0x5796A143" name="Unknown"/>
     <property ID="0x579ED88F" name="Unknown"/>
     <property ID="0x57A46C09" name="Unknown"/>
-    <property ID="0x57A4DFF2" name="WeaponVulnerability"/>
+    <property ID="0x57A4DFF2" name="Ice Missile"/>
     <property ID="0x57B054DE" name="PuddleControlPhaseData"/>
     <property ID="0x57C50812" name="Unknown"/>
     <property ID="0x57CB6052" name="Unknown"/>
@@ -5343,7 +5343,7 @@
     <property ID="0x783635A6" name="Unknown"/>
     <property ID="0x783B382F" name="Unknown"/>
     <property ID="0x783E852F" name="Unknown"/>
-    <property ID="0x784625BD" name="WeaponVulnerability"/>
+    <property ID="0x784625BD" name="Hyper Ball"/>
     <property ID="0x784D143F" name="Unknown"/>
     <property ID="0x7850D13C" name="Unknown"/>
     <property ID="0x78520E6E" name="Unknown"/>
@@ -6671,7 +6671,7 @@
     <property ID="0x95CDD594" name="Unknown"/>
     <property ID="0x95D0D437" name="Unknown"/>
     <property ID="0x95D26130" name="CAUD"/>
-    <property ID="0x95D4BEE7" name="Unknown"/>
+    <property ID="0x95D4BEE7" name="Show Skybox"/>
     <property ID="0x95DADE93" name="Unknown"/>
     <property ID="0x95DEBD1B" name="Unknown"/>
     <property ID="0x95E5BC22" name="Unknown"/>
@@ -6986,7 +6986,7 @@
     <property ID="0x9CFA9ACB" name="Unknown"/>
     <property ID="0x9CFB8A36" name="Unknown"/>
     <property ID="0x9CFDDBA8" name="Always 0"/>
-    <property ID="0x9D0006AB" name="Unknown"/>
+    <property ID="0x9D0006AB" name="Environmental Effect"/>
     <property ID="0x9D06B0FE" name="Unknown"/>
     <property ID="0x9D0C992F" name="Unknown"/>
     <property ID="0x9D1A67A8" name="STRM"/>
@@ -7935,7 +7935,7 @@
     <property ID="0xB21E67C8" name="Unknown"/>
     <property ID="0xB22F0DD3" name="Unknown"/>
     <property ID="0xB2367A60" name="Unknown"/>
-    <property ID="0xB24FDE1A" name="Unknown"/>
+    <property ID="0xB24FDE1A" name="Dark World"/>
     <property ID="0xB253B362" name="Unknown"/>
     <property ID="0xB2556C66" name="CAAD"/>
     <property ID="0xB25774E2" name="Unknown"/>
@@ -8344,7 +8344,7 @@
     <property ID="0xBB5C37E0" name="Unknown"/>
     <property ID="0xBB5FC8A4" name="DeathBall"/>
     <property ID="0xBB655D67" name="Unknown"/>
-    <property ID="0xBB70093F" name="WeaponVulnerability"/>
+    <property ID="0xBB70093F" name="Phazon"/>
     <property ID="0xBB704549" name="Unknown"/>
     <property ID="0xBB751CA2" name="Unknown"/>
     <property ID="0xBB76891A" name="Unknown"/>
@@ -9366,7 +9366,7 @@
     <property ID="0xD1C3FD0D" name="CAUD"/>
     <property ID="0xD1C7504D" name="SCAN"/>
     <property ID="0xD1CA816C" name="Unknown"/>
-    <property ID="0xD1CD493A" name="WeaponVulnerability"/>
+    <property ID="0xD1CD493A" name="Nova (Charged)"/>
     <property ID="0xD1D51E35" name="WPSC"/>
     <property ID="0xD1D9D8BD" name="Unknown"/>
     <property ID="0xD1E5B042" name="Unknown"/>
@@ -9380,7 +9380,7 @@
     <property ID="0xD2046050" name="Unknown"/>
     <property ID="0xD207EF4F" name="Unknown"/>
     <property ID="0xD207FF0F" name="PART"/>
-    <property ID="0xD208C9FA" name="CMDL"/>
+    <property ID="0xD208C9FA" name="Skybox Model"/>
     <property ID="0xD20CECF7" name="Unknown"/>
     <property ID="0xD20ECC07" name="LockDagger"/>
     <property ID="0xD210DFDB" name="Unknown"/>
@@ -9429,7 +9429,7 @@
     <property ID="0xD2E267A2" name="Unknown"/>
     <property ID="0xD2E52E7D" name="Unknown"/>
     <property ID="0xD2E92C37" name="Unknown"/>
-    <property ID="0xD2EA25A6" name="WeaponVulnerability"/>
+    <property ID="0xD2EA25A6" name="Nova Beam"/>
     <property ID="0xD2EB009D" name="Unknown"/>
     <property ID="0xD2EE80B9" name="Unknown"/>
     <property ID="0xD2F678EB" name="Unknown"/>
@@ -9605,7 +9605,7 @@
     <property ID="0xD6FB31BF" name="Unknown"/>
     <property ID="0xD6FF67BF" name="Unknown"/>
     <property ID="0xD702EBD7" name="CAUD"/>
-    <property ID="0xD705C416" name="WeaponVulnerability"/>
+    <property ID="0xD705C416" name="Plasma (Charged)"/>
     <property ID="0xD70BEF68" name="Unknown"/>
     <property ID="0xD7142AFE" name="Unknown"/>
     <property ID="0xD71ADF27" name="CommandData"/>
@@ -9714,7 +9714,7 @@
     <property ID="0xD97F687B" name="GrappleBlock"/>
     <property ID="0xD982BC68" name="Unknown"/>
     <property ID="0xD993F97B" name="Unknown"/>
-    <property ID="0xD99C0400" name="Boost Ball?"/>
+    <property ID="0xD99C0400" name="Boost Ball"/>
     <property ID="0xD9A90EC3" name="Unknown"/>
     <property ID="0xD9B2394F" name="Unknown"/>
     <property ID="0xD9B5D506" name="Unknown"/>
@@ -10167,7 +10167,7 @@
     <property ID="0xE42BAB04" name="Unknown"/>
     <property ID="0xE42E3971" name="Option 5"/>
     <property ID="0xE42F6BE0" name="Unknown"/>
-    <property ID="0xE446A4FC" name="WeaponVulnerability"/>
+    <property ID="0xE446A4FC" name="Plasma Beam"/>
     <property ID="0xE448AA81" name="Unknown"/>
     <property ID="0xE44C1003" name="SpindlePositionInterpolant"/>
     <property ID="0xE44C130C" name="Unknown"/>

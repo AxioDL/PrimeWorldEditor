@@ -12,7 +12,7 @@
         </property>
         <property ID="0x7BEF45CA" type="bool">
             <default>false</default>
-            <description>If enabled, when the timer reaches 0, it will reset back to its start time and begin ticking again.</description>
+            <description>If enabled, when the timer reaches 0, it will reset back to its start time. If Auto-Start is also enabled, it will begin ticking again.</description>
         </property>
         <property ID="0x3217DFF8" type="bool">
             <default>false</default>
