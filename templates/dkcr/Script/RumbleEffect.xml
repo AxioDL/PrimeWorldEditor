@@ -11,7 +11,7 @@
         </struct>
         <property ID="0x4F7FEC39" type="long">
             <default>240</default>
-            <should_cook>always</should_cook>
+            <cook_pref>always</cook_pref>
         </property>
         <enum ID="0x295D238B">
             <default>0x0186ECB5</default>

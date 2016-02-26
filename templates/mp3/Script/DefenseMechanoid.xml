@@ -27,31 +27,31 @@
                 <struct ID="0xF609C637" template="Structs/GrappleData.xml">
                     <properties>
                         <property ID="0xB2BD2723">
-                            <should_cook>never</should_cook>
+                            <cook_pref>never</cook_pref>
                         </property>
                         <property ID="0x5BBBE79E">
-                            <should_cook>never</should_cook>
+                            <cook_pref>never</cook_pref>
                         </property>
                         <property ID="0x426F2F60">
-                            <should_cook>never</should_cook>
+                            <cook_pref>never</cook_pref>
                         </property>
-                        <property ID="0x771A3176">
-                            <should_cook>never</should_cook>
+                        <property ID="0x771A3176" extensions="UNKN">
+                            <cook_pref>never</cook_pref>
                         </property>
                         <property ID="0xEFD287D9">
-                            <should_cook>never</should_cook>
+                            <cook_pref>never</cook_pref>
                         </property>
                         <property ID="0x56F41CA8">
-                            <should_cook>never</should_cook>
+                            <cook_pref>never</cook_pref>
                         </property>
                         <property ID="0x4BDEE69A">
-                            <should_cook>never</should_cook>
+                            <cook_pref>never</cook_pref>
                         </property>
                         <property ID="0x0598B045">
-                            <should_cook>never</should_cook>
+                            <cook_pref>never</cook_pref>
                         </property>
                         <property ID="0x07648F63">
-                            <should_cook>never</should_cook>
+                            <cook_pref>never</cook_pref>
                         </property>
                     </properties>
                 </struct>

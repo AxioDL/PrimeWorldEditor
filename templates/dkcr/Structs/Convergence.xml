@@ -29,7 +29,7 @@
             <properties>
                 <property ID="0x18C7396A" type="bool">
                     <default>false</default>
-                    <should_cook>always</should_cook>
+                    <cook_pref>always</cook_pref>
                 </property>
                 <property ID="0xBD0B7EDE" type="string"/>
                 <property ID="0x6C84C588" type="float">
@@ -47,7 +47,7 @@
                 </property>
                 <property ID="0xB122A18D" type="float">
                     <default>0.0</default>
-                    <should_cook>always</should_cook>
+                    <cook_pref>always</cook_pref>
                 </property>
                 <property ID="0x8E1B83F9" type="float">
                     <default>0.01</default>

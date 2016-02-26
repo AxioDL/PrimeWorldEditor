@@ -3,7 +3,7 @@
     <properties>
         <property ID="0xA9F8A74F" type="long">
             <default>64</default>
-            <should_cook>always</should_cook>
+            <cook_pref>always</cook_pref>
         </property>
         <enum ID="0xB674EA3D">
             <default>0x3AF0EDA3</default>

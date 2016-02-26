@@ -36,7 +36,7 @@
         </property>
         <property ID="0x2AFFD6FE" type="bool">
             <default>false</default>
-            <should_cook>never</should_cook>
+            <cook_pref>never</cook_pref>
         </property>
         <property ID="0x32FAB97E" type="long">
             <default>0</default>

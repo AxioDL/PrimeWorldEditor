@@ -26,7 +26,7 @@
         </property>
         <property ID="0xD6088BC5" type="long">
             <default>64</default>
-            <should_cook>never</should_cook>
+            <cook_pref>never</cook_pref>
         </property>
         <struct ID="0x0BB62639" type="multi">
             <properties>

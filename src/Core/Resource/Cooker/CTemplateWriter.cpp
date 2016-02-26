@@ -562,7 +562,7 @@ void CTemplateWriter::SaveProperties(XMLDocument *pDoc, XMLElement *pParent, CSt
 
         if (CookPref != eNoCookPreference)
         {
-            XMLElement *pCookPref = pDoc->NewElement("should_cook");
+            XMLElement *pCookPref = pDoc->NewElement("cook_pref");
             pCookPref->SetText(CookPref == eAlwaysCook ? "always" : "never");
             pElem->LinkEndChild(pCookPref);
         }
@@ -726,12 +726,12 @@ void CTemplateWriter::SavePropertyOverrides(XMLDocument *pDoc, XMLElement *pPare
                 // Cook Pref
                 if (pProp->CookPreference() != pSource->CookPreference())
                 {
-                    XMLElement *pCookPref = pDoc->NewElement("should_cook");
+                    XMLElement *pCookPref = pDoc->NewElement("cook_pref");
 
                     TString PrefStr;
                     if (pProp->CookPreference() == eAlwaysCook) PrefStr = "always";
                     else if (pProp->CookPreference() == eNeverCook) PrefStr = "never";
-                    else PrefStr = "nopref";
+                    else PrefStr = "none";
 
                     pCookPref->SetText(*PrefStr);
                     pElem->LinkEndChild(pCookPref);

@@ -13,7 +13,7 @@
             <properties>
                 <property ID="0xC3E75C5F" type="long">
                     <default>528</default>
-                    <should_cook>always</should_cook>
+                    <cook_pref>always</cook_pref>
                 </property>
                 <property ID="0x4D283AC5" type="float">
                     <default>5.0</default>

@@ -38,21 +38,21 @@
                 <struct ID="0x7B6C604A" template="Structs/FlyerMovementMode.xml">
                     <properties>
                         <property ID="0x50A9BD0D">
-                            <should_cook>never</should_cook>
+                            <cook_pref>never</cook_pref>
                         </property>
                     </properties>
                 </struct>
                 <struct ID="0x292754AF" template="Structs/FlyerMovementMode.xml">
                     <properties>
                         <property ID="0x50A9BD0D">
-                            <should_cook>never</should_cook>
+                            <cook_pref>never</cook_pref>
                         </property>
                     </properties>
                 </struct>
                 <struct ID="0x18B5143A" template="Structs/FlyerMovementMode.xml">
                     <properties>
                         <property ID="0x50A9BD0D">
-                            <should_cook>never</should_cook>
+                            <cook_pref>never</cook_pref>
                         </property>
                     </properties>
                 </struct>
@@ -127,7 +127,7 @@
                 <struct ID="0x6D417F4C" template="Structs/ElectricBeamInfo.xml">
                     <properties>
                         <property ID="0xC26C291C">
-                            <should_cook>never</should_cook>
+                            <cook_pref>never</cook_pref>
                         </property>
                     </properties>
                 </struct>

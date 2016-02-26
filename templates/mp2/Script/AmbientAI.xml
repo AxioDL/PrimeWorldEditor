@@ -18,56 +18,56 @@
                 <struct ID="0xAC8BB2A7">
                     <properties>
                         <property ID="0x68ACBD86">
-                            <should_cook>never</should_cook>
+                            <cook_pref>never</cook_pref>
                         </property>
                     </properties>
                 </struct>
                 <struct ID="0xD99C0400">
                     <properties>
                         <property ID="0x68ACBD86">
-                            <should_cook>never</should_cook>
+                            <cook_pref>never</cook_pref>
                         </property>
                     </properties>
                 </struct>
                 <struct ID="0x68AE13A0">
                     <properties>
                         <property ID="0x68ACBD86">
-                            <should_cook>never</should_cook>
+                            <cook_pref>never</cook_pref>
                         </property>
                     </properties>
                 </struct>
                 <struct ID="0xF0B2F4CF">
                     <properties>
                         <property ID="0x68ACBD86">
-                            <should_cook>never</should_cook>
+                            <cook_pref>never</cook_pref>
                         </property>
                     </properties>
                 </struct>
                 <struct ID="0x00EFE8CB">
                     <properties>
                         <property ID="0x68ACBD86">
-                            <should_cook>never</should_cook>
+                            <cook_pref>never</cook_pref>
                         </property>
                     </properties>
                 </struct>
                 <struct ID="0xBB70093F">
                     <properties>
                         <property ID="0x68ACBD86">
-                            <should_cook>never</should_cook>
+                            <cook_pref>never</cook_pref>
                         </property>
                     </properties>
                 </struct>
                 <struct ID="0xA442B4A3">
                     <properties>
                         <property ID="0x68ACBD86">
-                            <should_cook>never</should_cook>
+                            <cook_pref>never</cook_pref>
                         </property>
                     </properties>
                 </struct>
                 <struct ID="0x6924B8C1">
                     <properties>
                         <property ID="0x68ACBD86">
-                            <should_cook>never</should_cook>
+                            <cook_pref>never</cook_pref>
                         </property>
                     </properties>
                 </struct>

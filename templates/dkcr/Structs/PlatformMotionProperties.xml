@@ -14,7 +14,7 @@
         </property>
         <property ID="0xAE80628F" type="long">
             <default>262432</default>
-            <should_cook>always</should_cook>
+            <cook_pref>always</cook_pref>
         </property>
         <property ID="0x628BDF0F" type="MayaSpline"/>
         <property ID="0x78D03A32" type="MayaSpline"/>

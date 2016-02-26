@@ -142,24 +142,24 @@
         <struct ID="0xB3774750" template="Structs/PatternedAITypedef.xml">
             <properties>
                 <struct ID="0xD756416E">
-                    <should_cook>never</should_cook>
+                    <cook_pref>never</cook_pref>
                     <properties>
                         <enum ID="0x445E00C8">
-                            <should_cook>never</should_cook>
+                            <cook_pref>never</cook_pref>
                         </enum>
                         <property ID="0xF2D02613">
-                            <should_cook>never</should_cook>
+                            <cook_pref>never</cook_pref>
                         </property>
                         <property ID="0xEE1BE914">
-                            <should_cook>never</should_cook>
+                            <cook_pref>never</cook_pref>
                         </property>
                         <property ID="0x555FF80A">
-                            <should_cook>never</should_cook>
+                            <cook_pref>never</cook_pref>
                         </property>
                     </properties>
                 </struct>
                 <property ID="0xE0CDC7E3">
-                    <should_cook>never</should_cook>
+                    <cook_pref>never</cook_pref>
                 </property>
                 <struct ID="0xCF90D15E">
                     <properties>

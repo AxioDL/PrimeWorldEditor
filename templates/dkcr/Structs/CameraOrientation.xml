@@ -15,7 +15,7 @@
         </enum>
         <property ID="0x6219022E" type="long">
             <default>8</default>
-            <should_cook>always</should_cook>
+            <cook_pref>always</cook_pref>
         </property>
         <enum ID="0x44191FB8">
             <default>0x33D21F2E</default>
@@ -78,7 +78,7 @@
             <properties>
                 <property ID="0x1B4962BF" type="long">
                     <default>786432</default>
-                    <should_cook>always</should_cook>
+                    <cook_pref>always</cook_pref>
                 </property>
                 <struct ID="0x609C0608" template="Structs/SpindlePositionInterpolant.xml"/>
                 <struct ID="0xF6C828C0" template="Structs/SpindlePositionInterpolant.xml"/>
@@ -88,7 +88,7 @@
             <properties>
                 <property ID="0x10E6F366" type="long">
                     <default>256</default>
-                    <should_cook>always</should_cook>
+                    <cook_pref>always</cook_pref>
                 </property>
             </properties>
         </struct>

@@ -14,11 +14,11 @@
         </property>
         <property ID="0x6D62EF74" type="long">
             <default>0</default>
-            <should_cook>never</should_cook>
+            <cook_pref>never</cook_pref>
         </property>
         <property ID="0x6F8D34CA" type="float">
             <default>1.0</default>
-            <should_cook>never</should_cook>
+            <cook_pref>never</cook_pref>
         </property>
     </properties>
     <states/>

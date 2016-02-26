@@ -3,7 +3,7 @@
     <properties>
         <property ID="0x2D39450E" type="file" extensions="ELSC"/>
         <property ID="0x1C5687CC" type="file" extensions="UNKN">
-            <should_cook>never</should_cook>
+            <cook_pref>never</cook_pref>
         </property>
         <property ID="0xC95479D4" type="file" extensions="ELSC"/>
         <property ID="0x174455BA" type="file" extensions="CAUD"/>
@@ -16,18 +16,18 @@
         </property>
         <property ID="0x78C507EB" type="float">
             <default>0.1</default>
-            <should_cook>never</should_cook>
+            <cook_pref>never</cook_pref>
         </property>
         <property ID="0x3FED5E52" type="float">
             <default>150.0</default>
-            <should_cook>never</should_cook>
+            <cook_pref>never</cook_pref>
         </property>
         <property ID="0x4F387C49" type="file" extensions="PART">
-            <should_cook>never</should_cook>
+            <cook_pref>never</cook_pref>
         </property>
         <property ID="0xD4124C4C" type="float">
             <default>1.0</default>
-            <should_cook>never</should_cook>
+            <cook_pref>never</cook_pref>
         </property>
         <property ID="0x8F4FB79D" type="float">
             <default>0.0</default>

@@ -10,7 +10,7 @@
         </property>
         <property ID="0x41BAF88D" type="bool">
             <default>true</default>
-            <should_cook>never</should_cook>
+            <cook_pref>never</cook_pref>
         </property>
         <property ID="0x4D0F8B1D" type="bool">
             <default>false</default>

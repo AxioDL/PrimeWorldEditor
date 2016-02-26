@@ -11,13 +11,13 @@
         </property>
         <property ID="0x21D720A9" type="long">
             <default>1610905732</default>
-            <should_cook>always</should_cook>
+            <cook_pref>always</cook_pref>
         </property>
         <struct ID="0x97A93F8F" type="multi">
             <properties>
                 <property ID="0x09AB9627" type="long">
                     <default>1</default>
-                    <should_cook>always</should_cook>
+                    <cook_pref>always</cook_pref>
                 </property>
             </properties>
         </struct>
@@ -59,7 +59,7 @@
             <properties>
                 <property ID="0x22BD900D" type="long">
                     <default>0</default>
-                    <should_cook>always</should_cook>
+                    <cook_pref>always</cook_pref>
                 </property>
             </properties>
         </struct>
@@ -135,7 +135,7 @@
                 </enum>
                 <property ID="0x69ACC94A" type="long">
                     <default>0</default>
-                    <should_cook>always</should_cook>
+                    <cook_pref>always</cook_pref>
                 </property>
                 <enum ID="0xD1E91886">
                     <default>0x0D2CFE11</default>
