@@ -182,7 +182,8 @@ void CScriptLoader::LoadStructMP1(IInputStream& SCLY, CPropertyStruct *pStruct, 
             TIDString IDString = pTemp->IDString(true);
             if (!IDString.IsEmpty()) IDString = " (" + IDString + ")";
 
-            Log::FileWarning(SCLY.GetSourceString(), StructStart, "Struct \"" + pTemp->Name() + "\"" + IDString + " template prop count doesn't match file");
+            Log::FileWarning(SCLY.GetSourceString(), StructStart, "Struct \"" + pTemp->Name() + "\"" + IDString + " template prop count doesn't match file; template is " + TString::HexString(PropCount, true, true, 2) + ", file is " + TString::HexString(FilePropCount, true, true, 2));
+            Version = 0;
         }
     }
 
@@ -208,7 +209,7 @@ CScriptObject* CScriptLoader::LoadObjectMP1(IInputStream& SCLY)
     if (!pTemp)
     {
         // No valid template for this object; can't load
-        Log::FileError(SCLY.GetSourceString(), ObjStart, "Invalid object ID encountered: " + TString::HexString(Type));
+        Log::FileError(SCLY.GetSourceString(), ObjStart, "Unknown object ID encountered: " + TString::HexString(Type));
         SCLY.Seek(End, SEEK_SET);
         return nullptr;
     }
@@ -269,23 +270,9 @@ void CScriptLoader::LoadStructMP2(IInputStream& SCLY, CPropertyStruct *pStruct, 
     u32 StructStart = SCLY.Tell();
     StructStart += 0;
     u32 PropCount = pTemp->Count();
-    u32 Version = 0;
 
     if (!pTemp->IsSingleProperty())
-    {
-        u16 NumProperties = SCLY.ReadShort();
-        Version = pTemp->VersionForPropertyCount(NumProperties);
-
-        if ((NumProperties != PropCount) && (mVersion < eReturns))
-        {
-            TIDString IDString = pTemp->IDString(true);
-            if (!IDString.IsEmpty()) IDString = " (" + IDString + ")";
-
-            Log::FileWarning(SCLY.GetSourceString(), StructStart, "Struct \"" + pTemp->Name() + "\"" + IDString + " template prop count doesn't match file");
-        }
-
-        PropCount = NumProperties;
-    }
+        PropCount = SCLY.ReadShort();
 
     // Parse properties
     for (u32 iProp = 0; iProp < PropCount; iProp++)
@@ -334,7 +321,7 @@ CScriptObject* CScriptLoader::LoadObjectMP2(IInputStream& SCLY)
 
     if (!pTemplate)
     {
-        Log::FileError(SCLY.GetSourceString(), ObjStart, "Invalid object ID encountered: " + CFourCC(ObjectID).ToString());
+        Log::FileError(SCLY.GetSourceString(), ObjStart, "Unknown object ID encountered: " + CFourCC(ObjectID).ToString());
         SCLY.Seek(ObjEnd, SEEK_SET);
         return nullptr;
     }

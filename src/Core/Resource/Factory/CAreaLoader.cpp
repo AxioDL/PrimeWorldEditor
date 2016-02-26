@@ -128,7 +128,7 @@ void CAreaLoader::ReadSCLYPrime()
         Log::FileError(mpMREA->GetSourceString(), mpMREA->Tell() - 4, "Invalid SCLY magic: " + SCLY.ToString());
         return;
     }
-    mpMREA->Seek(0x4, SEEK_CUR); // Skipping unknown value which is always 4
+    mpMREA->Seek(mVersion <= ePrime ? 4 : 1, SEEK_CUR); // Skipping unknown value which is always 1
 
     // Read layer sizes
     mNumLayers = mpMREA->ReadLong();
