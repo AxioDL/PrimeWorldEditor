@@ -185,6 +185,9 @@
                 <property ID="0x9699FA45">
                     <default>false</default>
                 </property>
+                <property ID="0x50A9BD0D">
+                    <should_cook>never</should_cook>
+                </property>
                 <property ID="0x1A7B77AB">
                     <default>7.0</default>
                 </property>
@@ -206,6 +209,9 @@
                 </property>
                 <property ID="0x9699FA45">
                     <default>false</default>
+                </property>
+                <property ID="0x50A9BD0D">
+                    <should_cook>never</should_cook>
                 </property>
                 <property ID="0x1A7B77AB">
                     <default>7.0</default>
@@ -260,6 +266,9 @@
                 <property ID="0x9699FA45">
                     <default>false</default>
                 </property>
+                <property ID="0x50A9BD0D">
+                    <should_cook>never</should_cook>
+                </property>
                 <property ID="0x1A7B77AB">
                     <default>9.0</default>
                 </property>
@@ -287,6 +296,9 @@
                 </property>
                 <property ID="0x9699FA45">
                     <default>false</default>
+                </property>
+                <property ID="0x50A9BD0D">
+                    <should_cook>never</should_cook>
                 </property>
                 <property ID="0x1A7B77AB">
                     <default>6.0</default>
@@ -318,6 +330,9 @@
                 </property>
                 <property ID="0x9699FA45">
                     <default>false</default>
+                </property>
+                <property ID="0x50A9BD0D">
+                    <should_cook>never</should_cook>
                 </property>
                 <property ID="0x1A7B77AB">
                     <default>6.0</default>
@@ -422,6 +437,9 @@
                 <property ID="0x9699FA45">
                     <default>false</default>
                 </property>
+                <property ID="0x50A9BD0D">
+                    <should_cook>never</should_cook>
+                </property>
                 <property ID="0x1A7B77AB">
                     <default>8.0</default>
                 </property>
@@ -452,6 +470,9 @@
                 </property>
                 <property ID="0x9699FA45">
                     <default>false</default>
+                </property>
+                <property ID="0x50A9BD0D">
+                    <should_cook>never</should_cook>
                 </property>
                 <property ID="0x1A7B77AB">
                     <default>12.0</default>

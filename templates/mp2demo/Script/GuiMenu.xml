@@ -18,6 +18,7 @@
         </property>
         <property ID="0xDB7F4AA2" type="long">
             <default>1</default>
+            <should_cook>never</should_cook>
         </property>
     </properties>
     <states/>

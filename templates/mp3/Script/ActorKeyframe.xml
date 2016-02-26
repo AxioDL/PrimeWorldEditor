@@ -5,6 +5,7 @@
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <property ID="0x1CCD0586" type="long">
             <default>-1</default>
+            <should_cook>never</should_cook>
         </property>
         <property ID="0xC215A24F" type="long">
             <default>-1</default>

@@ -2,7 +2,13 @@
 <ScriptTemplate version="4">
     <name>DarkSamusBattleStage</name>
     <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml">
+            <properties>
+                <property ID="0x41435456">
+                    <should_cook>never</should_cook>
+                </property>
+            </properties>
+        </struct>
         <struct ID="0xD83CAAB6" type="multi">
             <properties>
                 <property ID="0xB5AF7831" type="float">

@@ -15,7 +15,31 @@
                 <property ID="0x303B4954" type="float">
                     <default>10.0</default>
                 </property>
-                <struct ID="0xAB247451" template="Structs/LaunchProjectileData.xml"/>
+                <struct ID="0xAB247451" template="Structs/LaunchProjectileData.xml">
+                    <properties>
+                        <property ID="0x053AE4A7">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0xCF201BFA">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0x88137FA8">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0xB2D02323">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0xF344C0B0">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0x056B20B2">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0xF78469D6">
+                            <should_cook>never</should_cook>
+                        </property>
+                    </properties>
+                </struct>
                 <property ID="0x55C19435" type="float">
                     <default>100.0</default>
                 </property>
@@ -32,7 +56,31 @@
                     <default>1.0</default>
                 </property>
                 <struct ID="0x7039FB9F" template="Structs/HoverThenHomeProjectile.xml"/>
-                <struct ID="0xB98CBA47" template="Structs/LaunchProjectileData.xml"/>
+                <struct ID="0xB98CBA47" template="Structs/LaunchProjectileData.xml">
+                    <properties>
+                        <property ID="0x053AE4A7">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0xCF201BFA">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0x88137FA8">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0xB2D02323">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0xF344C0B0">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0x056B20B2">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0xF78469D6">
+                            <should_cook>never</should_cook>
+                        </property>
+                    </properties>
+                </struct>
                 <property ID="0xDDE5DCCD" type="float">
                     <default>0.1</default>
                 </property>
@@ -61,7 +109,37 @@
                 <property ID="0xEBB134B5" type="float">
                     <default>0.0</default>
                 </property>
-                <struct ID="0xCA91ECB0" template="Structs/LaunchProjectileData.xml"/>
+                <struct ID="0xCA91ECB0" template="Structs/LaunchProjectileData.xml">
+                    <properties>
+                        <property ID="0xEF485DB9">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0xF726E5DA">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0x053AE4A7">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0xCF201BFA">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0x88137FA8">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0xB2D02323">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0xF344C0B0">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0x056B20B2">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0xF78469D6">
+                            <should_cook>never</should_cook>
+                        </property>
+                    </properties>
+                </struct>
                 <property ID="0x58A21824" type="file" extensions="TXTR"/>
                 <property ID="0x6C692453" type="float">
                     <default>0.5</default>

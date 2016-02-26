@@ -5,6 +5,12 @@
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <struct ID="0xB3774750" template="Structs/PatternedInfo.xml">
             <properties>
+                <property ID="0x58434916">
+                    <should_cook>never</should_cook>
+                </property>
+                <property ID="0xFF77C96F">
+                    <should_cook>never</should_cook>
+                </property>
                 <property ID="0xB0CFE015">
                     <default>3.5</default>
                 </property>

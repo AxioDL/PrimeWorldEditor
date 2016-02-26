@@ -34,6 +34,7 @@
                 <version>Trilogy</version>
             </versions>
             <default>1.0</default>
+            <should_cook>never</should_cook>
         </property>
     </properties>
     <states/>

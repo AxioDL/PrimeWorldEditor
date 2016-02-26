@@ -40,8 +40,56 @@
                 <property ID="0x271E49B4" type="float">
                     <default>1.0</default>
                 </property>
-                <struct ID="0x72989547" template="Structs/LaunchProjectileData.xml"/>
-                <struct ID="0x53EAC4BA" template="Structs/LaunchProjectileData.xml"/>
+                <struct ID="0x72989547" template="Structs/LaunchProjectileData.xml">
+                    <properties>
+                        <property ID="0x053AE4A7">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0xCF201BFA">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0x88137FA8">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0xB2D02323">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0xF344C0B0">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0x056B20B2">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0xF78469D6">
+                            <should_cook>never</should_cook>
+                        </property>
+                    </properties>
+                </struct>
+                <struct ID="0x53EAC4BA" template="Structs/LaunchProjectileData.xml">
+                    <properties>
+                        <property ID="0x053AE4A7">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0xCF201BFA">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0x88137FA8">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0xB2D02323">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0xF344C0B0">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0x056B20B2">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0xF78469D6">
+                            <should_cook>never</should_cook>
+                        </property>
+                    </properties>
+                </struct>
                 <property ID="0xF9DF1262" type="float">
                     <default>2.0</default>
                 </property>
@@ -56,6 +104,9 @@
                         <property ID="0x5DCF91E1">
                             <default>1</default>
                         </property>
+                        <property ID="0xB2BD2723">
+                            <should_cook>never</should_cook>
+                        </property>
                         <struct ID="0x5F669BA0">
                             <properties>
                                 <property ID="0x008BD240">
@@ -63,6 +114,100 @@
                                 </property>
                             </properties>
                         </struct>
+                        <struct ID="0x3F3A2EEB">
+                            <should_cook>never</should_cook>
+                            <properties>
+                                <property ID="0x008BD240">
+                                    <should_cook>never</should_cook>
+                                </property>
+                                <property ID="0x54178CB8">
+                                    <should_cook>never</should_cook>
+                                </property>
+                                <property ID="0xDE38F04E">
+                                    <should_cook>never</should_cook>
+                                </property>
+                                <property ID="0x9D0C992F">
+                                    <should_cook>never</should_cook>
+                                </property>
+                                <property ID="0x8382CD42">
+                                    <should_cook>never</should_cook>
+                                </property>
+                                <property ID="0x8A40FD1B">
+                                    <should_cook>never</should_cook>
+                                </property>
+                                <property ID="0xA62BF627">
+                                    <should_cook>never</should_cook>
+                                </property>
+                                <enum ID="0xF8A14C37">
+                                    <should_cook>never</should_cook>
+                                </enum>
+                                <property ID="0x64FB595C">
+                                    <should_cook>never</should_cook>
+                                </property>
+                                <property ID="0x0887FEFE">
+                                    <should_cook>never</should_cook>
+                                </property>
+                            </properties>
+                        </struct>
+                        <struct ID="0x424928B3">
+                            <should_cook>never</should_cook>
+                            <properties>
+                                <property ID="0x008BD240">
+                                    <should_cook>never</should_cook>
+                                </property>
+                                <property ID="0x54178CB8">
+                                    <should_cook>never</should_cook>
+                                </property>
+                                <property ID="0xDE38F04E">
+                                    <should_cook>never</should_cook>
+                                </property>
+                                <property ID="0x9D0C992F">
+                                    <should_cook>never</should_cook>
+                                </property>
+                                <property ID="0x8382CD42">
+                                    <should_cook>never</should_cook>
+                                </property>
+                                <property ID="0x8A40FD1B">
+                                    <should_cook>never</should_cook>
+                                </property>
+                                <property ID="0xA62BF627">
+                                    <should_cook>never</should_cook>
+                                </property>
+                                <enum ID="0xF8A14C37">
+                                    <should_cook>never</should_cook>
+                                </enum>
+                                <property ID="0x64FB595C">
+                                    <should_cook>never</should_cook>
+                                </property>
+                                <property ID="0x0887FEFE">
+                                    <should_cook>never</should_cook>
+                                </property>
+                            </properties>
+                        </struct>
+                        <property ID="0x5BBBE79E">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0x426F2F60">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0x771A3176">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0xEFD287D9">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0x56F41CA8">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0x4BDEE69A">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0x0598B045">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0x07648F63">
+                            <should_cook>never</should_cook>
+                        </property>
                     </properties>
                 </struct>
                 <property ID="0x9AB0A987" type="long">
