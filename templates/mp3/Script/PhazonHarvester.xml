@@ -16,7 +16,31 @@
                 <property ID="0x1CE8F439" type="bool">
                     <default>true</default>
                 </property>
-                <struct ID="0x2036077F" template="Structs/LaunchProjectileData.xml"/>
+                <struct ID="0x2036077F" template="Structs/LaunchProjectileData.xml">
+                    <properties>
+                        <property ID="0x053AE4A7">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0xCF201BFA">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0x88137FA8">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0xB2D02323">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0xF344C0B0">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0x056B20B2">
+                            <should_cook>never</should_cook>
+                        </property>
+                        <property ID="0xF78469D6">
+                            <should_cook>never</should_cook>
+                        </property>
+                    </properties>
+                </struct>
                 <struct ID="0xAE22E0DC" template="Structs/DamageVulnerability.xml"/>
                 <property ID="0x4FDC1683" type="float">
                     <default>20.0</default>
@@ -48,8 +72,20 @@
                 <property ID="0x1DD9E8BF" type="float">
                     <default>2.0</default>
                 </property>
-                <struct ID="0x130CF1A1" template="Structs/FlyerMovementMode.xml"/>
-                <struct ID="0xFC51DF90" template="Structs/FlyerMovementMode.xml"/>
+                <struct ID="0x130CF1A1" template="Structs/FlyerMovementMode.xml">
+                    <properties>
+                        <property ID="0x50A9BD0D">
+                            <should_cook>never</should_cook>
+                        </property>
+                    </properties>
+                </struct>
+                <struct ID="0xFC51DF90" template="Structs/FlyerMovementMode.xml">
+                    <properties>
+                        <property ID="0x50A9BD0D">
+                            <should_cook>never</should_cook>
+                        </property>
+                    </properties>
+                </struct>
                 <property ID="0x7A154E49" type="file" extensions="CMDL"/>
                 <property ID="0xC7426B90" type="file" extensions="CMDL"/>
                 <property ID="0xE2EFEE98" type="file" extensions="CMDL"/>

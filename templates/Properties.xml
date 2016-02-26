@@ -11,7 +11,7 @@
     <property ID="0x003E7991" name="CAUD"/>
     <property ID="0x004297B4" name="Unknown"/>
     <property ID="0x004CAB64" name="Unknown"/>
-    <property ID="0x0057A7D8" name="Always 0"/>
+    <property ID="0x0057A7D8" name="Unknown"/>
     <property ID="0x005E3BE9" name="Unknown"/>
     <property ID="0x00628C84" name="Unknown"/>
     <property ID="0x0063BDC5" name="Unknown"/>
@@ -33,7 +33,7 @@
     <property ID="0x00C3F023" name="Unknown"/>
     <property ID="0x00C95A55" name="Unknown"/>
     <property ID="0x00CE7374" name="STRG"/>
-    <property ID="0x00D1AA67" name="Always 0"/>
+    <property ID="0x00D1AA67" name="Unknown"/>
     <property ID="0x00D74FC3" name="Unknown"/>
     <property ID="0x00DD06CC" name="Unknown"/>
     <property ID="0x00DD86E2" name="Editor Color"/>
@@ -125,7 +125,7 @@
     <property ID="0x02FD0913" name="Unknown"/>
     <property ID="0x03149633" name="Unknown"/>
     <property ID="0x031D987E" name="TXTR"/>
-    <property ID="0x0320895B" name="Always 0"/>
+    <property ID="0x0320895B" name="Unknown"/>
     <property ID="0x03223140" name="Unknown"/>
     <property ID="0x0328E31B" name="Unknown"/>
     <property ID="0x03304D0B" name="TXTR"/>
@@ -146,7 +146,7 @@
     <property ID="0x03660363" name="Unknown"/>
     <property ID="0x03698C10" name="Unknown"/>
     <property ID="0x036DC8DD" name="Unknown"/>
-    <property ID="0x036E3C74" name="Always 0"/>
+    <property ID="0x036E3C74" name="Unknown"/>
     <property ID="0x037280C6" name="Unknown"/>
     <property ID="0x03757D08" name="Unknown"/>
     <property ID="0x038EAD53" name="Unknown"/>
@@ -166,7 +166,7 @@
     <property ID="0x03D27FFD" name="Unknown"/>
     <property ID="0x03D511B9" name="Unknown"/>
     <property ID="0x03D61987" name="Unknown"/>
-    <property ID="0x03E33C95" name="Always 0"/>
+    <property ID="0x03E33C95" name="Unknown"/>
     <property ID="0x03E7B2B4" name="Unknown"/>
     <property ID="0x03EFC783" name="Unknown"/>
     <property ID="0x03F59B70" name="Unknown"/>
@@ -261,7 +261,7 @@
     <property ID="0x05E140B1" name="Unknown"/>
     <property ID="0x05EE18E2" name="Unknown"/>
     <property ID="0x05EF2422" name="UNKNOWN"/>
-    <property ID="0x05EFF913" name="Always 0"/>
+    <property ID="0x05EFF913" name="Unknown"/>
     <property ID="0x05F281C4" name="Unknown"/>
     <property ID="0x05F4D5D7" name="Unknown"/>
     <property ID="0x05FC6001" name="Unknown"/>
@@ -373,7 +373,7 @@
     <property ID="0x08CCFFD0" name="Unknown"/>
     <property ID="0x08DB3464" name="Unknown"/>
     <property ID="0x08E6C42F" name="Unknown"/>
-    <property ID="0x08EFEB79" name="Always 0"/>
+    <property ID="0x08EFEB79" name="Unknown"/>
     <property ID="0x08F1E9D3" name="Unknown"/>
     <property ID="0x08F6BDC5" name="Unknown"/>
     <property ID="0x08FE3ABE" name="Visor Down"/>
@@ -548,7 +548,7 @@
     <property ID="0x0D41E3BA" name="Unknown"/>
     <property ID="0x0D49855C" name="Unknown"/>
     <property ID="0x0D522C38" name="Unknown"/>
-    <property ID="0x0D55794A" name="Always 0"/>
+    <property ID="0x0D55794A" name="Unknown"/>
     <property ID="0x0D584A11" name="Unknown"/>
     <property ID="0x0D5A1F1D" name="Unknown"/>
     <property ID="0x0D5E02A0" name="MapScreenIcons"/>
@@ -840,7 +840,7 @@
     <property ID="0x14143470" name="PART"/>
     <property ID="0x141473B5" name="Unknown"/>
     <property ID="0x141ED3B9" name="Unknown"/>
-    <property ID="0x14239438" name="Always 0"/>
+    <property ID="0x14239438" name="Unknown"/>
     <property ID="0x142433D3" name="Unknown"/>
     <property ID="0x142CB7A1" name="Unknown"/>
     <property ID="0x1431157A" name="Unknown"/>
@@ -935,14 +935,14 @@
     <property ID="0x16342C18" name="Unknown"/>
     <property ID="0x16407ED9" name="Unknown"/>
     <property ID="0x1644AF87" name="Unknown"/>
-    <property ID="0x164F8CA8" name="Always 0"/>
+    <property ID="0x164F8CA8" name="Unknown"/>
     <property ID="0x165943F6" name="Unknown"/>
     <property ID="0x165AB069" name="Percent"/>
     <property ID="0x165CCFAA" name="Unknown"/>
     <property ID="0x165DA321" name="Unknown"/>
     <property ID="0x165E1DFA" name="Unknown"/>
     <property ID="0x165F0FA8" name="Unknown"/>
-    <property ID="0x1660C34E" name="Always FF"/>
+    <property ID="0x1660C34E" name="Unknown"/>
     <property ID="0x166979D4" name="Unknown"/>
     <property ID="0x166C22E0" name="Unknown"/>
     <property ID="0x1680A254" name="Unknown"/>
@@ -1035,7 +1035,7 @@
     <property ID="0x187124AF" name="Unknown"/>
     <property ID="0x18717FA7" name="Unknown"/>
     <property ID="0x1871BA9B" name="Unknown"/>
-    <property ID="0x1874F2CB" name="Always 0"/>
+    <property ID="0x1874F2CB" name="Unknown"/>
     <property ID="0x1878FA08" name="Unknown"/>
     <property ID="0x187BC977" name="Unknown"/>
     <property ID="0x188B8960" name="CSKR"/>
@@ -1146,7 +1146,7 @@
     <property ID="0x1A9FCC68" name="STRG"/>
     <property ID="0x1AA3A419" name="Unknown"/>
     <property ID="0x1AA418F4" name="TXTR"/>
-    <property ID="0x1AA98D7F" name="Always 0"/>
+    <property ID="0x1AA98D7F" name="Unknown"/>
     <property ID="0x1AAE3DB5" name="PlasmaBeamInfo"/>
     <property ID="0x1AAF4C43" name="Unknown"/>
     <property ID="0x1AB2B090" name="Unknown"/>
@@ -1774,7 +1774,7 @@
     <property ID="0x2845923C" name="Unknown"/>
     <property ID="0x2853FA91" name="Unknown"/>
     <property ID="0x2858C9F0" name="Unknown"/>
-    <property ID="0x285B4540" name="Always 0"/>
+    <property ID="0x285B4540" name="Unknown"/>
     <property ID="0x285D67AD" name="Unknown"/>
     <property ID="0x285EFBD9" name="Unknown"/>
     <property ID="0x2872762B" name="Unknown"/>
@@ -1969,7 +1969,7 @@
     <property ID="0x2C93AAF5" name="Unknown"/>
     <property ID="0x2CA3E9CD" name="Unknown"/>
     <property ID="0x2CADDCBE" name="Unknown"/>
-    <property ID="0x2CAEC304" name="Always 0"/>
+    <property ID="0x2CAEC304" name="Unknown"/>
     <property ID="0x2CBB438B" name="Unknown"/>
     <property ID="0x2CBF989B" name="Unknown"/>
     <property ID="0x2CC54E77" name="Unknown"/>
@@ -2297,7 +2297,7 @@
     <property ID="0x33E6589F" name="Unknown"/>
     <property ID="0x33E79B51" name="Unknown"/>
     <property ID="0x33EA54AF" name="Unknown"/>
-    <property ID="0x33EECDFD" name="Always 0"/>
+    <property ID="0x33EECDFD" name="Unknown"/>
     <property ID="0x3400D01C" name="Unknown"/>
     <property ID="0x340BE92F" name="Unknown"/>
     <property ID="0x340E4CA3" name="InitialPosition"/>
@@ -2814,7 +2814,7 @@
     <property ID="0x3FA67145" name="Unknown"/>
     <property ID="0x3FA7DF1C" name="Unknown"/>
     <property ID="0x3FA80592" name="Unknown"/>
-    <property ID="0x3FA8C740" name="Always FF"/>
+    <property ID="0x3FA8C740" name="Unknown"/>
     <property ID="0x3FAE47EB" name="Leash Radius"/>
     <property ID="0x3FB16819" name="Unknown"/>
     <property ID="0x3FBA0B69" name="Unknown"/>
@@ -2847,7 +2847,7 @@
     <property ID="0x4051FD1A" name="Unknown"/>
     <property ID="0x40533B8D" name="Unknown"/>
     <property ID="0x4058D24A" name="Unknown"/>
-    <property ID="0x405E5286" name="Always FF"/>
+    <property ID="0x405E5286" name="Unknown"/>
     <property ID="0x405E8F55" name="Unknown"/>
     <property ID="0x4063422A" name="Unknown"/>
     <property ID="0x4063D45C" name="Unknown"/>
@@ -2889,7 +2889,7 @@
     <property ID="0x412C60DA" name="Unknown"/>
     <property ID="0x4133DBE2" name="Unknown"/>
     <property ID="0x4134F488" name="Unknown"/>
-    <property ID="0x413A3189" name="Always 0"/>
+    <property ID="0x413A3189" name="Unknown"/>
     <property ID="0x413AEE5B" name="Unknown"/>
     <property ID="0x413B2F46" name="Unknown"/>
     <property ID="0x414046A8" name="DamageInfo"/>
@@ -3054,7 +3054,7 @@
     <property ID="0x449233BC" name="Unknown"/>
     <property ID="0x44989F30" name="Unknown"/>
     <property ID="0x449AA4AA" name="Unknown"/>
-    <property ID="0x449DD059" name="Always 0"/>
+    <property ID="0x449DD059" name="Unknown"/>
     <property ID="0x449F5275" name="STRG"/>
     <property ID="0x44B331EC" name="Unknown"/>
     <property ID="0x44BF1DC9" name="Unknown"/>
@@ -3161,7 +3161,7 @@
     <property ID="0x471FEA86" name="STRG"/>
     <property ID="0x472BF35F" name="STRG"/>
     <property ID="0x4738C321" name="Unknown"/>
-    <property ID="0x473B730B" name="Always 0"/>
+    <property ID="0x473B730B" name="Unknown"/>
     <property ID="0x4743294F" name="Unknown"/>
     <property ID="0x474A91DB" name="Unknown"/>
     <property ID="0x474BCCE3" name="Unknown"/>
@@ -3265,7 +3265,7 @@
     <property ID="0x493F3DD8" name="Unknown"/>
     <property ID="0x49469271" name="Unknown"/>
     <property ID="0x49494C3B" name="Unknown"/>
-    <property ID="0x494BE648" name="Always 0"/>
+    <property ID="0x494BE648" name="Unknown"/>
     <property ID="0x494DE4A4" name="Unknown"/>
     <property ID="0x494E414D" name="Name"/>
     <property ID="0x4957DD16" name="PART"/>
@@ -3406,7 +3406,7 @@
     <property ID="0x4BE864FD" name="Unknown"/>
     <property ID="0x4BEC8291" name="Unknown"/>
     <property ID="0x4BF067CB" name="Unknown"/>
-    <property ID="0x4BF5E22C" name="Always 0"/>
+    <property ID="0x4BF5E22C" name="Unknown"/>
     <property ID="0x4BFDE2CC" name="STRG"/>
     <property ID="0x4BFEE56B" name="Unknown"/>
     <property ID="0x4C158FC5" name="Unknown"/>
@@ -3867,7 +3867,7 @@
     <property ID="0x56192933" name="Unknown"/>
     <property ID="0x56245AFC" name="STRG"/>
     <property ID="0x56256F59" name="Unknown"/>
-    <property ID="0x56263E35" name="Always FF"/>
+    <property ID="0x56263E35" name="Unknown"/>
     <property ID="0x56299562" name="CAUD"/>
     <property ID="0x562BF3FD" name="Unknown"/>
     <property ID="0x562CF323" name="Unknown"/>
@@ -3896,7 +3896,7 @@
     <property ID="0x56A720C8" name="Misc"/>
     <property ID="0x56ABB3B8" name="Unknown"/>
     <property ID="0x56AE8C3B" name="Unknown"/>
-    <property ID="0x56C0D040" name="Always 0"/>
+    <property ID="0x56C0D040" name="Unknown"/>
     <property ID="0x56C192F3" name="Unknown"/>
     <property ID="0x56C48141" name="BeastRiderData"/>
     <property ID="0x56E3CEEF" name="Fade In Time"/>
@@ -3962,7 +3962,7 @@
     <property ID="0x587CA175" name="Unknown"/>
     <property ID="0x587FA387" name="Unknown"/>
     <property ID="0x5880BA62" name="Unknown"/>
-    <property ID="0x58810503" name="Always 0"/>
+    <property ID="0x58810503" name="Unknown"/>
     <property ID="0x58889364" name="Unknown"/>
     <property ID="0x589A76FF" name="Unknown"/>
     <property ID="0x589C9074" name="Unknown"/>
@@ -4304,7 +4304,7 @@
     <property ID="0x6078A1F0" name="Unknown"/>
     <property ID="0x6078A651" name="Unknown"/>
     <property ID="0x607BC79E" name="SCAN"/>
-    <property ID="0x6082430F" name="Always 0"/>
+    <property ID="0x6082430F" name="Unknown"/>
     <property ID="0x6089191D" name="Unknown"/>
     <property ID="0x608E1757" name="Unknown"/>
     <property ID="0x608ECAC5" name="Unknown"/>
@@ -4345,7 +4345,7 @@
     <property ID="0x613CAFD8" name="Unknown"/>
     <property ID="0x6145A462" name="Unknown"/>
     <property ID="0x6150D687" name="Unknown"/>
-    <property ID="0x615BB850" name="Always 0"/>
+    <property ID="0x615BB850" name="Unknown"/>
     <property ID="0x61634792" name="Unknown"/>
     <property ID="0x617227B6" name="Unknown"/>
     <property ID="0x6173AD96" name="Unknown"/>
@@ -4404,7 +4404,7 @@
     <property ID="0x62E6105B" name="Unknown"/>
     <property ID="0x62F0CFFC" name="Unknown"/>
     <property ID="0x62F9EBF6" name="Unknown"/>
-    <property ID="0x62FB47A5" name="Always 0"/>
+    <property ID="0x62FB47A5" name="Unknown"/>
     <property ID="0x62FF6D72" name="Unknown"/>
     <property ID="0x62FFBD9C" name="Unknown"/>
     <property ID="0x630D93A1" name="Unknown"/>
@@ -4587,7 +4587,7 @@
     <property ID="0x671DBFB5" name="CMDL"/>
     <property ID="0x672255F7" name="Unknown"/>
     <property ID="0x67259B23" name="Unknown"/>
-    <property ID="0x672A5C88" name="Always 0"/>
+    <property ID="0x672A5C88" name="Unknown"/>
     <property ID="0x672B454D" name="FlyingPirateBlasterData"/>
     <property ID="0x6735F19B" name="Unknown"/>
     <property ID="0x673A2724" name="Unknown"/>
@@ -4723,7 +4723,7 @@
     <property ID="0x69E51CD3" name="Unknown"/>
     <property ID="0x69E6568D" name="Unknown"/>
     <property ID="0x69EC9107" name="Unknown"/>
-    <property ID="0x69ED492E" name="Always 0"/>
+    <property ID="0x69ED492E" name="Unknown"/>
     <property ID="0x69EEFCB8" name="Unknown"/>
     <property ID="0x69F12220" name="Unknown"/>
     <property ID="0x69FC4177" name="Unknown"/>
@@ -4767,7 +4767,7 @@
     <property ID="0x6AB717B5" name="Unknown"/>
     <property ID="0x6AB7C2F5" name="CAUD"/>
     <property ID="0x6ABE7307" name="ScanInfoSecondaryModel"/>
-    <property ID="0x6AD55D50" name="Always 0"/>
+    <property ID="0x6AD55D50" name="Unknown"/>
     <property ID="0x6AD6CBBA" name="CMDL"/>
     <property ID="0x6ADE8B91" name="CHAR"/>
     <property ID="0x6AE08B17" name="WPSC"/>
@@ -4864,7 +4864,7 @@
     <property ID="0x6CD8813E" name="Unknown"/>
     <property ID="0x6CDD19A4" name="UNKNOWN"/>
     <property ID="0x6CDF8683" name="Unknown"/>
-    <property ID="0x6CE46689" name="Always 0"/>
+    <property ID="0x6CE46689" name="Unknown"/>
     <property ID="0x6CEA0EBA" name="Unknown"/>
     <property ID="0x6CEAA8DA" name="Unknown"/>
     <property ID="0x6CEDF364" name="Unknown"/>
@@ -4978,7 +4978,7 @@
     <property ID="0x6F9D9B33" name="VelocityConvergence"/>
     <property ID="0x6FA2F8BC" name="Unknown"/>
     <property ID="0x6FBC1BF9" name="Unknown"/>
-    <property ID="0x6FC4508C" name="Always 0"/>
+    <property ID="0x6FC4508C" name="Unknown"/>
     <property ID="0x6FCAF068" name="Unknown"/>
     <property ID="0x6FCC7DD4" name="Unknown"/>
     <property ID="0x6FDABAD6" name="Unknown"/>
@@ -4989,7 +4989,7 @@
     <property ID="0x70073577" name="Unknown"/>
     <property ID="0x700771B7" name="Unknown"/>
     <property ID="0x700E349F" name="Unknown"/>
-    <property ID="0x70130FE6" name="Always 0"/>
+    <property ID="0x70130FE6" name="Unknown"/>
     <property ID="0x7017EDFC" name="Unknown"/>
     <property ID="0x701B61B3" name="Unknown"/>
     <property ID="0x701D65CD" name="Unknown"/>
@@ -5001,14 +5001,14 @@
     <property ID="0x7044B295" name="Unknown"/>
     <property ID="0x7049EE4D" name="STRG"/>
     <property ID="0x704B5369" name="Unknown"/>
-    <property ID="0x704C4FC6" name="Always 0"/>
+    <property ID="0x704C4FC6" name="Unknown"/>
     <property ID="0x7050D866" name="Unknown"/>
     <property ID="0x705663E8" name="Unknown"/>
     <property ID="0x705876AB" name="Unknown"/>
     <property ID="0x705ED5CB" name="Unknown"/>
     <property ID="0x706186D2" name="Unknown"/>
     <property ID="0x70638EAA" name="Unknown"/>
-    <property ID="0x706CD96C" name="Always 0"/>
+    <property ID="0x706CD96C" name="Unknown"/>
     <property ID="0x706F52FE" name="Unknown"/>
     <property ID="0x70729364" name="Unknown"/>
     <property ID="0x70754E15" name="Unknown"/>
@@ -5062,7 +5062,7 @@
     <property ID="0x7189C83E" name="Unknown"/>
     <property ID="0x719066EB" name="Unknown"/>
     <property ID="0x719345CF" name="Unknown"/>
-    <property ID="0x71946EEC" name="Always 0"/>
+    <property ID="0x71946EEC" name="Unknown"/>
     <property ID="0x719F92AB" name="Unknown"/>
     <property ID="0x719FD06B" name="DamageInfo"/>
     <property ID="0x71A21B50" name="Unknown"/>
@@ -5075,7 +5075,7 @@
     <property ID="0x71C8E644" name="Unknown"/>
     <property ID="0x71CFC8E2" name="PlayerControls"/>
     <property ID="0x71D494F4" name="PART"/>
-    <property ID="0x71DBE2F2" name="Always FF"/>
+    <property ID="0x71DBE2F2" name="Unknown"/>
     <property ID="0x71E83F06" name="SCAN"/>
     <property ID="0x71E9D1A1" name="Unknown"/>
     <property ID="0x71EAB030" name="Unknown"/>
@@ -5211,7 +5211,7 @@
     <property ID="0x7555C1EA" name="Unknown"/>
     <property ID="0x75586C2B" name="Unknown"/>
     <property ID="0x755F0513" name="Unknown"/>
-    <property ID="0x75608ED3" name="Always 0"/>
+    <property ID="0x75608ED3" name="Unknown"/>
     <property ID="0x7561F8F7" name="Unknown"/>
     <property ID="0x7569FDBA" name="Unknown"/>
     <property ID="0x756A3682" name="Unknown"/>
@@ -5444,7 +5444,7 @@
     <property ID="0x7A3FE00D" name="Unknown"/>
     <property ID="0x7A48C3B1" name="Unknown"/>
     <property ID="0x7A49267D" name="Unknown"/>
-    <property ID="0x7A4B4685" name="Always FF"/>
+    <property ID="0x7A4B4685" name="Unknown"/>
     <property ID="0x7A4B4AEA" name="Unknown"/>
     <property ID="0x7A54CB5E" name="Unknown"/>
     <property ID="0x7A5E41E1" name="Unknown"/>
@@ -5687,7 +5687,7 @@
     <property ID="0x7FC50AC2" name="Unknown"/>
     <property ID="0x7FC827A2" name="Unknown"/>
     <property ID="0x7FC96014" name="Unknown"/>
-    <property ID="0x7FCB33E8" name="Always 0"/>
+    <property ID="0x7FCB33E8" name="Unknown"/>
     <property ID="0x7FCD6908" name="PathType"/>
     <property ID="0x7FDA1466" name="Name"/>
     <property ID="0x7FDEE42C" name="Unknown"/>
@@ -5712,7 +5712,7 @@
     <property ID="0x8041BD90" name="Unknown"/>
     <property ID="0x80434AC9" name="Unknown"/>
     <property ID="0x80576D96" name="Unknown"/>
-    <property ID="0x805BCAC6" name="Always 0"/>
+    <property ID="0x805BCAC6" name="Unknown"/>
     <property ID="0x805D5FA3" name="Unknown"/>
     <property ID="0x806052CB" name="FRME"/>
     <property ID="0x806178B3" name="Unknown"/>
@@ -6010,7 +6010,7 @@
     <property ID="0x86C887A5" name="Unknown"/>
     <property ID="0x86CDDE75" name="Unknown"/>
     <property ID="0x86CF23F4" name="Unknown"/>
-    <property ID="0x86D50737" name="Always 0"/>
+    <property ID="0x86D50737" name="Unknown"/>
     <property ID="0x86DABA3B" name="Unknown"/>
     <property ID="0x86E154B4" name="Unknown"/>
     <property ID="0x86EC276A" name="Unknown"/>
@@ -6067,7 +6067,7 @@
     <property ID="0x88232388" name="Unknown"/>
     <property ID="0x88297760" name="Unknown"/>
     <property ID="0x882E9F47" name="Unknown"/>
-    <property ID="0x8836C426" name="Always 0"/>
+    <property ID="0x8836C426" name="Unknown"/>
     <property ID="0x88414F93" name="Unknown"/>
     <property ID="0x8843CE6D" name="PART"/>
     <property ID="0x88461442" name="Unknown"/>
@@ -6343,7 +6343,7 @@
     <property ID="0x8E4F7B29" name="Unknown"/>
     <property ID="0x8E52EB54" name="Unknown"/>
     <property ID="0x8E55276E" name="Unknown"/>
-    <property ID="0x8E5F1638" name="Always 0"/>
+    <property ID="0x8E5F1638" name="Unknown"/>
     <property ID="0x8E5F7E96" name="DamageInfo"/>
     <property ID="0x8E6BBEF1" name="Unknown"/>
     <property ID="0x8E6D20EC" name="Unknown"/>
@@ -6352,7 +6352,7 @@
     <property ID="0x8E7EA4FC" name="Unknown"/>
     <property ID="0x8E870EC0" name="Unknown"/>
     <property ID="0x8E96E5E4" name="PART"/>
-    <property ID="0x8E975BD2" name="Always 0"/>
+    <property ID="0x8E975BD2" name="Unknown"/>
     <property ID="0x8E9BFEA3" name="Unknown"/>
     <property ID="0x8EA67C4F" name="Unknown"/>
     <property ID="0x8EA87062" name="Unknown"/>
@@ -6460,7 +6460,7 @@
     <property ID="0x90DCEF98" name="Unknown"/>
     <property ID="0x90EF04A5" name="Unknown"/>
     <property ID="0x90F35DA8" name="Unknown"/>
-    <property ID="0x90F4B1E0" name="Always FF"/>
+    <property ID="0x90F4B1E0" name="Unknown"/>
     <property ID="0x90F55C5D" name="Unknown"/>
     <property ID="0x90F8E29F" name="Unknown"/>
     <property ID="0x91001508" name="Unknown"/>
@@ -6489,7 +6489,7 @@
     <property ID="0x919A9EE2" name="Unknown"/>
     <property ID="0x919D7DE0" name="Toggle Holster"/>
     <property ID="0x91A9880D" name="Unknown"/>
-    <property ID="0x91AE1374" name="Always 0"/>
+    <property ID="0x91AE1374" name="Unknown"/>
     <property ID="0x91B27CB3" name="Unknown"/>
     <property ID="0x91B4CB73" name="Unknown"/>
     <property ID="0x91B8C18A" name="Unknown"/>
@@ -6517,7 +6517,7 @@
     <property ID="0x925B9D4A" name="Unknown"/>
     <property ID="0x9262A722" name="Unknown"/>
     <property ID="0x92708C7E" name="Unknown"/>
-    <property ID="0x927ED6D8" name="Always 0"/>
+    <property ID="0x927ED6D8" name="Unknown"/>
     <property ID="0x927FC322" name="Unknown"/>
     <property ID="0x92802BB3" name="CAUD"/>
     <property ID="0x92807F97" name="Unknown"/>
@@ -6665,7 +6665,7 @@
     <property ID="0x95C1257F" name="Unknown"/>
     <property ID="0x95C19D09" name="Unknown"/>
     <property ID="0x95C78E5D" name="Unknown"/>
-    <property ID="0x95C7F681" name="Always 0"/>
+    <property ID="0x95C7F681" name="Unknown"/>
     <property ID="0x95C8719D" name="CMDL"/>
     <property ID="0x95CC4ED8" name="Unknown"/>
     <property ID="0x95CDD594" name="Unknown"/>
@@ -6985,7 +6985,7 @@
     <property ID="0x9CF6186B" name="PART"/>
     <property ID="0x9CFA9ACB" name="Unknown"/>
     <property ID="0x9CFB8A36" name="Unknown"/>
-    <property ID="0x9CFDDBA8" name="Always 0"/>
+    <property ID="0x9CFDDBA8" name="Unknown"/>
     <property ID="0x9D0006AB" name="Environmental Effect"/>
     <property ID="0x9D06B0FE" name="Unknown"/>
     <property ID="0x9D0C992F" name="Unknown"/>
@@ -7080,7 +7080,7 @@
     <property ID="0x9F91359A" name="Unknown"/>
     <property ID="0x9F93BC3F" name="Unknown"/>
     <property ID="0x9F9FA6F3" name="Unknown"/>
-    <property ID="0x9FA5117D" name="Always 0"/>
+    <property ID="0x9FA5117D" name="Unknown"/>
     <property ID="0x9FA9C457" name="Unknown"/>
     <property ID="0x9FACEA01" name="Unknown"/>
     <property ID="0x9FB2FAA6" name="Field of View (MP)"/>
@@ -7190,7 +7190,7 @@
     <property ID="0xA1D73380" name="Unknown"/>
     <property ID="0xA1D7E06B" name="Unknown"/>
     <property ID="0xA1D9802E" name="Unknown"/>
-    <property ID="0xA1DD15F6" name="Always 0"/>
+    <property ID="0xA1DD15F6" name="Unknown"/>
     <property ID="0xA1DFFAD2" name="Unknown"/>
     <property ID="0xA1ECC54B" name="Unknown"/>
     <property ID="0xA1ED5408" name="Unknown"/>
@@ -7230,7 +7230,7 @@
     <property ID="0xA296206A" name="Unknown"/>
     <property ID="0xA29CDF22" name="Unknown"/>
     <property ID="0xA2A5B38F" name="Unknown"/>
-    <property ID="0xA2AAC8E7" name="Always 0"/>
+    <property ID="0xA2AAC8E7" name="Unknown"/>
     <property ID="0xA2AC58E9" name="Unknown"/>
     <property ID="0xA2ACF0FA" name="CAUD"/>
     <property ID="0xA2BC7BD1" name="Unknown"/>
@@ -7273,7 +7273,7 @@
     <property ID="0xA39E44FF" name="DamageVulnerability"/>
     <property ID="0xA3A2AC3F" name="Unknown"/>
     <property ID="0xA3A58C06" name="Unknown"/>
-    <property ID="0xA3AD3CAF" name="Always 0"/>
+    <property ID="0xA3AD3CAF" name="Unknown"/>
     <property ID="0xA3B39766" name="Unknown"/>
     <property ID="0xA3B45AB5" name="Unknown"/>
     <property ID="0xA3B64D8C" name="PART"/>
@@ -7397,7 +7397,7 @@
     <property ID="0xA6AF0C57" name="Unknown"/>
     <property ID="0xA6B633FA" name="Unknown"/>
     <property ID="0xA6B75D03" name="Unknown"/>
-    <property ID="0xA6BC177F" name="Always 0"/>
+    <property ID="0xA6BC177F" name="Unknown"/>
     <property ID="0xA6BCDF8E" name="Unknown"/>
     <property ID="0xA6BFE576" name="Unknown"/>
     <property ID="0xA6C1631D" name="Unknown"/>
@@ -7846,7 +7846,7 @@
     <property ID="0xAFECAB12" name="Unknown"/>
     <property ID="0xB00117C9" name="Unknown"/>
     <property ID="0xB00775E6" name="Unknown"/>
-    <property ID="0xB008320B" name="Always 0"/>
+    <property ID="0xB008320B" name="Unknown"/>
     <property ID="0xB018F52C" name="Unknown"/>
     <property ID="0xB01A28D5" name="Unknown"/>
     <property ID="0xB0253266" name="Unknown"/>
@@ -7902,7 +7902,7 @@
     <property ID="0xB1133A84" name="Unknown"/>
     <property ID="0xB1189341" name="Unknown"/>
     <property ID="0xB11D9E90" name="Convergence"/>
-    <property ID="0xB122A18D" name="Always 0"/>
+    <property ID="0xB122A18D" name="Unknown"/>
     <property ID="0xB12E58B8" name="Unknown"/>
     <property ID="0xB12FDA2B" name="Unknown"/>
     <property ID="0xB1338BEB" name="Unknown"/>
@@ -7965,7 +7965,7 @@
     <property ID="0xB2E26D02" name="Unknown"/>
     <property ID="0xB2E8828D" name="DeathMatchTimeLimitChoices"/>
     <property ID="0xB2EBBFC6" name="Unknown"/>
-    <property ID="0xB2EBC23A" name="Always 0"/>
+    <property ID="0xB2EBC23A" name="Unknown"/>
     <property ID="0xB2F64BB4" name="Unknown"/>
     <property ID="0xB2F92674" name="CAUD"/>
     <property ID="0xB2F99759" name="Unknown"/>
@@ -8025,7 +8025,7 @@
     <property ID="0xB3FBC998" name="Unknown"/>
     <property ID="0xB3FBFFC8" name="Unknown"/>
     <property ID="0xB400EBD6" name="Unknown"/>
-    <property ID="0xB4089BE1" name="Always 0"/>
+    <property ID="0xB4089BE1" name="Unknown"/>
     <property ID="0xB40A41B8" name="Unknown"/>
     <property ID="0xB40C6A3B" name="Unknown"/>
     <property ID="0xB40C6FBF" name="Unknown"/>
@@ -8058,7 +8058,7 @@
     <property ID="0xB4A66335" name="Unknown"/>
     <property ID="0xB4A84D85" name="CAUD"/>
     <property ID="0xB4B07D5D" name="Unknown"/>
-    <property ID="0xB4B0FD8D" name="Always 0"/>
+    <property ID="0xB4B0FD8D" name="Unknown"/>
     <property ID="0xB4BC04C4" name="Unknown"/>
     <property ID="0xB4C02854" name="Unknown"/>
     <property ID="0xB4C4FD1C" name="Unknown"/>
@@ -8078,7 +8078,7 @@
     <property ID="0xB54EEFD1" name="Unknown"/>
     <property ID="0xB553CDA1" name="Unknown"/>
     <property ID="0xB55EBD3D" name="Unknown"/>
-    <property ID="0xB56D2286" name="Always 0"/>
+    <property ID="0xB56D2286" name="Unknown"/>
     <property ID="0xB5702CA3" name="Unknown"/>
     <property ID="0xB5752C08" name="Unknown"/>
     <property ID="0xB57BAE86" name="Unknown"/>
@@ -8210,7 +8210,7 @@
     <property ID="0xB8652FE4" name="Unknown"/>
     <property ID="0xB875593B" name="Unknown"/>
     <property ID="0xB87C2C9B" name="PART"/>
-    <property ID="0xB87C5139" name="Always 0"/>
+    <property ID="0xB87C5139" name="Unknown"/>
     <property ID="0xB881B8B3" name="Unknown"/>
     <property ID="0xB883AC66" name="Unknown"/>
     <property ID="0xB889D4CE" name="Unknown"/>
@@ -8477,7 +8477,7 @@
     <property ID="0xBE3B8E93" name="Unknown"/>
     <property ID="0xBE3C29A1" name="Unknown"/>
     <property ID="0xBE3D39AA" name="Unknown"/>
-    <property ID="0xBE4B34DA" name="Always 0"/>
+    <property ID="0xBE4B34DA" name="Unknown"/>
     <property ID="0xBE50269E" name="Unknown"/>
     <property ID="0xBE513E2B" name="Unknown"/>
     <property ID="0xBE564845" name="STRG"/>
@@ -8525,7 +8525,7 @@
     <property ID="0xBF496273" name="Unknown"/>
     <property ID="0xBF4DAAE6" name="Unknown"/>
     <property ID="0xBF4F8D8C" name="TXTR"/>
-    <property ID="0xBF583BF2" name="Always 0"/>
+    <property ID="0xBF583BF2" name="Unknown"/>
     <property ID="0xBF62B633" name="Unknown"/>
     <property ID="0xBF69C03E" name="Unknown"/>
     <property ID="0xBF75E71F" name="Unknown"/>
@@ -8711,7 +8711,7 @@
     <property ID="0xC377B3C1" name="Unknown"/>
     <property ID="0xC37D11B7" name="Unknown"/>
     <property ID="0xC3861B64" name="Unknown"/>
-    <property ID="0xC38B5712" name="Always 0"/>
+    <property ID="0xC38B5712" name="Unknown"/>
     <property ID="0xC3938663" name="Unknown"/>
     <property ID="0xC39F864E" name="Unknown"/>
     <property ID="0xC39F8936" name="TXTR"/>
@@ -8903,7 +8903,7 @@
     <property ID="0xC768C1E9" name="Unknown"/>
     <property ID="0xC77A8932" name="Unknown"/>
     <property ID="0xC77A8BF8" name="Unknown"/>
-    <property ID="0xC77F29DC" name="Always 0"/>
+    <property ID="0xC77F29DC" name="Unknown"/>
     <property ID="0xC78B40E0" name="Unknown"/>
     <property ID="0xC78B91FA" name="Unknown"/>
     <property ID="0xC793C525" name="Unknown"/>
@@ -9140,7 +9140,7 @@
     <property ID="0xCCF05648" name="Unknown"/>
     <property ID="0xCCF0CC68" name="PART"/>
     <property ID="0xCCF1EEE5" name="Unknown"/>
-    <property ID="0xCCF2CAB2" name="Always 0"/>
+    <property ID="0xCCF2CAB2" name="Unknown"/>
     <property ID="0xCD02221C" name="Unknown"/>
     <property ID="0xCD03632C" name="Unknown"/>
     <property ID="0xCD0B4D09" name="Unknown"/>
@@ -9159,7 +9159,7 @@
     <property ID="0xCD562633" name="Unknown"/>
     <property ID="0xCD578193" name="SplineType"/>
     <property ID="0xCD60F18D" name="Unknown"/>
-    <property ID="0xCD619082" name="Always 0"/>
+    <property ID="0xCD619082" name="Unknown"/>
     <property ID="0xCD639B46" name="Unknown"/>
     <property ID="0xCD6E33A5" name="Unknown"/>
     <property ID="0xCD787D9B" name="Unknown"/>
@@ -9182,7 +9182,7 @@
     <property ID="0xCDD9F41C" name="Unknown"/>
     <property ID="0xCDE17346" name="Unknown"/>
     <property ID="0xCDEABA73" name="Unknown"/>
-    <property ID="0xCDF0DF4F" name="Always 0"/>
+    <property ID="0xCDF0DF4F" name="Unknown"/>
     <property ID="0xCDF4D755" name="Unknown"/>
     <property ID="0xCDF6EBF3" name="Unknown"/>
     <property ID="0xCDF7CEB9" name="Unknown"/>
@@ -9530,7 +9530,7 @@
     <property ID="0xD4E26A8E" name="CMDL"/>
     <property ID="0xD4E59E59" name="Unknown"/>
     <property ID="0xD4EB918F" name="Unknown"/>
-    <property ID="0xD4FB3C7C" name="Always 0"/>
+    <property ID="0xD4FB3C7C" name="Unknown"/>
     <property ID="0xD501C87E" name="Unknown"/>
     <property ID="0xD5039D33" name="Unknown"/>
     <property ID="0xD50D757D" name="Unknown"/>
@@ -9631,7 +9631,7 @@
     <property ID="0xD7A1121D" name="Unknown"/>
     <property ID="0xD7AA5BA0" name="Unknown"/>
     <property ID="0xD7B3F3EA" name="Unknown"/>
-    <property ID="0xD7B53CDB" name="Always 0"/>
+    <property ID="0xD7B53CDB" name="Unknown"/>
     <property ID="0xD7BBB5C0" name="Unknown"/>
     <property ID="0xD7BCE5DA" name="Unknown"/>
     <property ID="0xD7BD9904" name="Unknown"/>
@@ -9862,7 +9862,7 @@
     <property ID="0xDD34C3C0" name="DamageVulnerability"/>
     <property ID="0xDD39F60A" name="Unknown"/>
     <property ID="0xDD3AD613" name="Unknown"/>
-    <property ID="0xDD3C10EB" name="Always FF"/>
+    <property ID="0xDD3C10EB" name="Unknown"/>
     <property ID="0xDD411A0A" name="Unknown"/>
     <property ID="0xDD448CC9" name="Unknown"/>
     <property ID="0xDD46DFBB" name="Unknown"/>
@@ -10226,7 +10226,7 @@
     <property ID="0xE578C0DD" name="Unknown"/>
     <property ID="0xE578EFC6" name="Unknown"/>
     <property ID="0xE57CA27C" name="Unknown"/>
-    <property ID="0xE5839374" name="Always 0"/>
+    <property ID="0xE5839374" name="Unknown"/>
     <property ID="0xE585F166" name="Unknown"/>
     <property ID="0xE589A4F9" name="Unknown"/>
     <property ID="0xE58A4113" name="Unknown"/>
@@ -10346,7 +10346,7 @@
     <property ID="0xE82166DB" name="DamageInfo"/>
     <property ID="0xE828E54E" name="Unknown"/>
     <property ID="0xE829969A" name="Unknown"/>
-    <property ID="0xE82B99E1" name="Always 0"/>
+    <property ID="0xE82B99E1" name="Unknown"/>
     <property ID="0xE82E7ED7" name="Unknown"/>
     <property ID="0xE831A7D0" name="Unknown"/>
     <property ID="0xE832241F" name="Unknown"/>
@@ -10468,7 +10468,7 @@
     <property ID="0xEA511D83" name="Unknown"/>
     <property ID="0xEA54B390" name="Unknown"/>
     <property ID="0xEA54C44E" name="Unknown"/>
-    <property ID="0xEA593294" name="Always 0"/>
+    <property ID="0xEA593294" name="Unknown"/>
     <property ID="0xEA6D6548" name="Unknown"/>
     <property ID="0xEA7788C7" name="Unknown"/>
     <property ID="0xEA7F3336" name="Unknown"/>
@@ -10635,7 +10635,7 @@
     <property ID="0xEDE7B374" name="Unknown"/>
     <property ID="0xEDF1189F" name="Unknown"/>
     <property ID="0xEDF4020E" name="Unknown"/>
-    <property ID="0xEDF5F29C" name="Always 0"/>
+    <property ID="0xEDF5F29C" name="Unknown"/>
     <property ID="0xEDF6BA25" name="Unknown"/>
     <property ID="0xEDFF39F1" name="Unknown"/>
     <property ID="0xEE0C7156" name="Unknown"/>
@@ -10664,7 +10664,7 @@
     <property ID="0xEE863C15" name="Unknown"/>
     <property ID="0xEE890A28" name="Unknown"/>
     <property ID="0xEE8A2117" name="Unknown"/>
-    <property ID="0xEE8F4498" name="Always 0"/>
+    <property ID="0xEE8F4498" name="Unknown"/>
     <property ID="0xEEAB8919" name="Unknown"/>
     <property ID="0xEEAD6B4D" name="Unknown"/>
     <property ID="0xEEADEFA6" name="Unknown"/>
@@ -10872,7 +10872,7 @@
     <property ID="0xF34F99D7" name="Unknown"/>
     <property ID="0xF355D075" name="Unknown"/>
     <property ID="0xF3565FF4" name="Unknown"/>
-    <property ID="0xF35F5164" name="Always FF"/>
+    <property ID="0xF35F5164" name="Unknown"/>
     <property ID="0xF361604C" name="Unknown"/>
     <property ID="0xF36ADACB" name="Unknown"/>
     <property ID="0xF371ED59" name="Unknown"/>
@@ -11045,7 +11045,7 @@
     <property ID="0xF688A042" name="Unknown"/>
     <property ID="0xF68EADC9" name="Unknown"/>
     <property ID="0xF69BED49" name="Unknown"/>
-    <property ID="0xF6A752E3" name="Always 0"/>
+    <property ID="0xF6A752E3" name="Unknown"/>
     <property ID="0xF6AE5D7C" name="ControlCommand"/>
     <property ID="0xF6B051B3" name="Unknown"/>
     <property ID="0xF6B3C17F" name="Unknown"/>
@@ -11076,13 +11076,13 @@
     <property ID="0xF74BBAD2" name="Unknown"/>
     <property ID="0xF74F8C89" name="OrientationInterpolationMethod"/>
     <property ID="0xF764A9D2" name="Unknown"/>
-    <property ID="0xF768D625" name="Always 0"/>
+    <property ID="0xF768D625" name="Unknown"/>
     <property ID="0xF769F604" name="PART"/>
     <property ID="0xF76BCBDD" name="Unknown"/>
     <property ID="0xF76F7D0B" name="Unknown"/>
     <property ID="0xF77138D5" name="Unknown"/>
     <property ID="0xF77D0359" name="Unknown"/>
-    <property ID="0xF77E2AE2" name="Always 0"/>
+    <property ID="0xF77E2AE2" name="Unknown"/>
     <property ID="0xF78469D6" name="Unknown"/>
     <property ID="0xF7878A5A" name="Unknown"/>
     <property ID="0xF78947D4" name="Unknown"/>
@@ -11141,7 +11141,7 @@
     <property ID="0xF8A14C37" name="Unknown"/>
     <property ID="0xF8A39001" name="Unknown"/>
     <property ID="0xF8A655DB" name="Unknown"/>
-    <property ID="0xF8ACA397" name="Always 0"/>
+    <property ID="0xF8ACA397" name="Unknown"/>
     <property ID="0xF8AF858C" name="Unknown"/>
     <property ID="0xF8B0C2BB" name="Unknown"/>
     <property ID="0xF8B1D183" name="Unknown"/>
@@ -11290,7 +11290,7 @@
     <property ID="0xFBAA9F01" name="FlyingPirateJetPackData"/>
     <property ID="0xFBACD180" name="Unknown"/>
     <property ID="0xFBB7BE45" name="Unknown"/>
-    <property ID="0xFBC0F458" name="Always 0"/>
+    <property ID="0xFBC0F458" name="Unknown"/>
     <property ID="0xFBC6C110" name="Unknown"/>
     <property ID="0xFBCDB101" name="Unknown"/>
     <property ID="0xFBCE5FEA" name="Unknown"/>
@@ -11331,7 +11331,7 @@
     <property ID="0xFC7CFE9B" name="Unknown"/>
     <property ID="0xFC8227A7" name="Unknown"/>
     <property ID="0xFC827F63" name="Unknown"/>
-    <property ID="0xFC849759" name="Always 0"/>
+    <property ID="0xFC849759" name="Unknown"/>
     <property ID="0xFC8FBDB7" name="Unknown"/>
     <property ID="0xFC913090" name="Unknown"/>
     <property ID="0xFC93CEB8" name="Field of View (SP)"/>

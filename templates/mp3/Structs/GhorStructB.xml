@@ -1,7 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <struct name="GhorStructB" type="multi">
     <properties>
-        <struct ID="0x078A03D9" template="Structs/LaunchProjectileData.xml"/>
+        <struct ID="0x078A03D9" template="Structs/LaunchProjectileData.xml">
+            <properties>
+                <property ID="0x053AE4A7">
+                    <should_cook>never</should_cook>
+                </property>
+                <property ID="0xCF201BFA">
+                    <should_cook>never</should_cook>
+                </property>
+                <property ID="0x88137FA8">
+                    <should_cook>never</should_cook>
+                </property>
+                <property ID="0xB2D02323">
+                    <should_cook>never</should_cook>
+                </property>
+                <property ID="0xF344C0B0">
+                    <should_cook>never</should_cook>
+                </property>
+                <property ID="0x056B20B2">
+                    <should_cook>never</should_cook>
+                </property>
+                <property ID="0xF78469D6">
+                    <should_cook>never</should_cook>
+                </property>
+            </properties>
+        </struct>
         <struct ID="0x1598012A" template="Structs/PlasmaBeamInfo.xml"/>
         <struct ID="0x13E30E4D" template="Structs/DamageInfo.xml"/>
         <property ID="0x4CACFAE3" type="float">
@@ -9,7 +33,31 @@
         </property>
         <struct ID="0xE79ECFD4" template="Structs/DamageInfo.xml"/>
         <struct ID="0x603BFD21" template="Structs/HoverThenHomeProjectile.xml"/>
-        <struct ID="0x8F4D54F9" template="Structs/LaunchProjectileData.xml"/>
+        <struct ID="0x8F4D54F9" template="Structs/LaunchProjectileData.xml">
+            <properties>
+                <property ID="0x053AE4A7">
+                    <should_cook>never</should_cook>
+                </property>
+                <property ID="0xCF201BFA">
+                    <should_cook>never</should_cook>
+                </property>
+                <property ID="0x88137FA8">
+                    <should_cook>never</should_cook>
+                </property>
+                <property ID="0xB2D02323">
+                    <should_cook>never</should_cook>
+                </property>
+                <property ID="0xF344C0B0">
+                    <should_cook>never</should_cook>
+                </property>
+                <property ID="0x056B20B2">
+                    <should_cook>never</should_cook>
+                </property>
+                <property ID="0xF78469D6">
+                    <should_cook>never</should_cook>
+                </property>
+            </properties>
+        </struct>
         <property ID="0x63FEE872" type="float">
             <default>10.0</default>
         </property>

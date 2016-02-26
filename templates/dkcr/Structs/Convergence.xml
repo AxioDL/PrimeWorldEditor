@@ -25,7 +25,7 @@
             </properties>
         </struct>
         <struct ID="0x1FF47DDF" type="multi">
-            <should_cook>never</should_cook>
+		    <description>This struct isn't read by the game, so it has no ingame effect.</description>
             <properties>
                 <property ID="0x18C7396A" type="bool">
                     <default>false</default>

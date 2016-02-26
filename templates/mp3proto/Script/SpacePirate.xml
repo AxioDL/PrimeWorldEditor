@@ -87,6 +87,7 @@
                 </property>
                 <property ID="0x97C95A99" type="bool">
                     <default>true</default>
+                    <should_cook>never</should_cook>
                 </property>
                 <property ID="0x9579B1F2" type="float">
                     <default>10.0</default>

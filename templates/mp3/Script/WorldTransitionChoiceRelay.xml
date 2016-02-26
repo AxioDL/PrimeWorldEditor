@@ -13,57 +13,102 @@
             </properties>
         </struct>
         <struct ID="0x6BB71E37" type="multi">
+            <should_cook>never</should_cook>
             <properties>
-                <property ID="0x31EC14BC" type="file" extensions="MLVL"/>
-                <property ID="0xE0C17804" type="file" extensions="MREA"/>
+                <property ID="0x31EC14BC" type="file" extensions="MLVL">
+                    <should_cook>never</should_cook>
+                </property>
+                <property ID="0xE0C17804" type="file" extensions="MREA">
+                    <should_cook>never</should_cook>
+                </property>
             </properties>
         </struct>
         <struct ID="0xFEC7CAA2" type="multi">
+            <should_cook>never</should_cook>
             <properties>
-                <property ID="0x31EC14BC" type="file" extensions="MLVL"/>
-                <property ID="0xE0C17804" type="file" extensions="MREA"/>
+                <property ID="0x31EC14BC" type="file" extensions="MLVL">
+                    <should_cook>never</should_cook>
+                </property>
+                <property ID="0xE0C17804" type="file" extensions="MREA">
+                    <should_cook>never</should_cook>
+                </property>
             </properties>
         </struct>
         <struct ID="0xA277E9CB" type="multi">
+            <should_cook>never</should_cook>
             <properties>
-                <property ID="0x31EC14BC" type="file" extensions="MLVL"/>
-                <property ID="0xE0C17804" type="file" extensions="MREA"/>
+                <property ID="0x31EC14BC" type="file" extensions="MLVL">
+                    <should_cook>never</should_cook>
+                </property>
+                <property ID="0xE0C17804" type="file" extensions="MREA">
+                    <should_cook>never</should_cook>
+                </property>
             </properties>
         </struct>
         <struct ID="0x37073D5E" type="multi">
+            <should_cook>never</should_cook>
             <properties>
-                <property ID="0x31EC14BC" type="file" extensions="MLVL"/>
-                <property ID="0xE0C17804" type="file" extensions="MREA"/>
+                <property ID="0x31EC14BC" type="file" extensions="MLVL">
+                    <should_cook>never</should_cook>
+                </property>
+                <property ID="0xE0C17804" type="file" extensions="MREA">
+                    <should_cook>never</should_cook>
+                </property>
             </properties>
         </struct>
         <struct ID="0x53E746A0" type="multi">
+            <should_cook>never</should_cook>
             <properties>
-                <property ID="0x31EC14BC" type="file" extensions="MLVL"/>
-                <property ID="0xE0C17804" type="file" extensions="MREA"/>
+                <property ID="0x31EC14BC" type="file" extensions="MLVL">
+                    <should_cook>never</should_cook>
+                </property>
+                <property ID="0xE0C17804" type="file" extensions="MREA">
+                    <should_cook>never</should_cook>
+                </property>
             </properties>
         </struct>
         <struct ID="0xC6979235" type="multi">
+            <should_cook>never</should_cook>
             <properties>
-                <property ID="0x31EC14BC" type="file" extensions="MLVL"/>
-                <property ID="0xE0C17804" type="file" extensions="MREA"/>
+                <property ID="0x31EC14BC" type="file" extensions="MLVL">
+                    <should_cook>never</should_cook>
+                </property>
+                <property ID="0xE0C17804" type="file" extensions="MREA">
+                    <should_cook>never</should_cook>
+                </property>
             </properties>
         </struct>
         <struct ID="0xEA870072" type="multi">
+            <should_cook>never</should_cook>
             <properties>
-                <property ID="0x31EC14BC" type="file" extensions="MLVL"/>
-                <property ID="0xE0C17804" type="file" extensions="MREA"/>
+                <property ID="0x31EC14BC" type="file" extensions="MLVL">
+                    <should_cook>never</should_cook>
+                </property>
+                <property ID="0xE0C17804" type="file" extensions="MREA">
+                    <should_cook>never</should_cook>
+                </property>
             </properties>
         </struct>
         <struct ID="0x7FF7D4E7" type="multi">
+            <should_cook>never</should_cook>
             <properties>
-                <property ID="0x31EC14BC" type="file" extensions="MLVL"/>
-                <property ID="0xE0C17804" type="file" extensions="MREA"/>
+                <property ID="0x31EC14BC" type="file" extensions="MLVL">
+                    <should_cook>never</should_cook>
+                </property>
+                <property ID="0xE0C17804" type="file" extensions="MREA">
+                    <should_cook>never</should_cook>
+                </property>
             </properties>
         </struct>
         <struct ID="0x7DB5008C" type="multi">
+            <should_cook>never</should_cook>
             <properties>
-                <property ID="0x31EC14BC" type="file" extensions="MLVL"/>
-                <property ID="0xE0C17804" type="file" extensions="MREA"/>
+                <property ID="0x31EC14BC" type="file" extensions="MLVL">
+                    <should_cook>never</should_cook>
+                </property>
+                <property ID="0xE0C17804" type="file" extensions="MREA">
+                    <should_cook>never</should_cook>
+                </property>
             </properties>
         </struct>
     </properties>

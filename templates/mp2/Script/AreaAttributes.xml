@@ -2,7 +2,13 @@
 <ScriptTemplate version="4">
     <name>AreaAttributes</name>
     <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <struct ID="0x255A4580" template="Structs/EditorProperties.xml">
+            <properties>
+                <property ID="0x494E414D">
+                    <should_cook>never</should_cook>
+                </property>
+            </properties>
+        </struct>
         <property ID="0x95D4BEE7" type="bool">
             <default>false</default>
             <description>Show the skybox. If no Skybox Model is specified, it will show the World's default skybox.</description>
@@ -12,7 +18,7 @@
             <description>Enable Dark World damage and switch to the Dark World map.</description>
         </property>
         <enum ID="0x9D0006AB">
-            <default>0</default>
+            <default>0x00</default>
             <enumerators>
                 <enumerator ID="0x00" name="None"/>
                 <enumerator ID="0x01" name="Snow"/>

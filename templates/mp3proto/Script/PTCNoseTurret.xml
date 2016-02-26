@@ -91,6 +91,12 @@
                 <property ID="0x3FAE47EB">
                     <default>100.0</default>
                 </property>
+                <property ID="0x13F0B18F">
+                    <should_cook>never</should_cook>
+                </property>
+                <property ID="0x7D5A0487">
+                    <should_cook>never</should_cook>
+                </property>
             </properties>
         </struct>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>

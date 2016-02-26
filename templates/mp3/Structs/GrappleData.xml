@@ -23,7 +23,41 @@
         <struct ID="0xE2ACF76E" template="Structs/GrappleBlock.xml"/>
         <struct ID="0x3F3A2EEB" template="Structs/GrappleBlock.xml"/>
         <struct ID="0x424928B3" template="Structs/GrappleBlock.xml"/>
-        <struct ID="0x9FDFF136" template="Structs/GrappleBlock.xml"/>
+        <struct ID="0x9FDFF136" template="Structs/GrappleBlock.xml">
+            <should_cook>never</should_cook>
+            <properties>
+                <property ID="0x008BD240">
+                    <should_cook>never</should_cook>
+                </property>
+                <property ID="0x54178CB8">
+                    <should_cook>never</should_cook>
+                </property>
+                <property ID="0xDE38F04E">
+                    <should_cook>never</should_cook>
+                </property>
+                <property ID="0x9D0C992F">
+                    <should_cook>never</should_cook>
+                </property>
+                <property ID="0x8382CD42">
+                    <should_cook>never</should_cook>
+                </property>
+                <property ID="0x8A40FD1B">
+                    <should_cook>never</should_cook>
+                </property>
+                <property ID="0xA62BF627">
+                    <should_cook>never</should_cook>
+                </property>
+                <enum ID="0xF8A14C37">
+                    <should_cook>never</should_cook>
+                </enum>
+                <property ID="0x64FB595C">
+                    <should_cook>never</should_cook>
+                </property>
+                <property ID="0x0887FEFE">
+                    <should_cook>never</should_cook>
+                </property>
+            </properties>
+        </struct>
         <property ID="0x5BBBE79E" type="float">
             <default>8.0</default>
         </property>
