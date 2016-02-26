@@ -13,12 +13,19 @@
                 <flag mask="0x00000002" name="Unknown 2"/>
                 <flag mask="0x00000004" name="Unknown 3"/>
                 <flag mask="0x00000008" name="Unknown 4"/>
-                <flag mask="0x00000800" name="Unknown 5"/>
-                <flag mask="0x00001000" name="Unknown 6"/>
-                <flag mask="0x00002000" name="Unknown 7"/>
-                <flag mask="0x00004000" name="Unknown 8"/>
-                <flag mask="0x00010000" name="Unknown 9"/>
-                <flag mask="0x00020000" name="Unknown 10"/>
+                <flag mask="0x00000010" name="Unknown 5"/>
+                <flag mask="0x00000020" name="Unknown 6"/>
+                <flag mask="0x00000040" name="Unknown 7"/>
+                <flag mask="0x00000080" name="Unknown 8"/>
+                <flag mask="0x00000100" name="Unknown 9"/>
+                <flag mask="0x00000200" name="Unknown 10"/>
+                <flag mask="0x00000400" name="Unknown 11"/>
+                <flag mask="0x00000800" name="Unknown 12"/>
+                <flag mask="0x00001000" name="Unknown 13"/>
+                <flag mask="0x00002000" name="Unknown 14"/>
+                <flag mask="0x00004000" name="Unknown 15"/>
+                <flag mask="0x00010000" name="Unknown 16"/>
+                <flag mask="0x00020000" name="Unknown 17"/>
             </flags>
         </bitfield>
         <property ID="0x06" name="Active" type="bool"/>

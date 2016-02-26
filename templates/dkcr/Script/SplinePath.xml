@@ -9,7 +9,7 @@
         <struct ID="0x20091B54" template="Structs/SplineType.xml"/>
         <property ID="0x00DD86E2" type="color">
             <default>1.0, 1.0, 1.0, 1.0</default>
-			<description>This property is purely for editor visualization. It isn't read by the game and has no ingame effect.</description>
+            <description>This property is purely for editor visualization. It isn't read by the game and has no ingame effect.</description>
         </property>
     </properties>
     <states/>
