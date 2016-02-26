@@ -25,13 +25,16 @@
             </properties>
         </struct>
         <struct ID="0x1FF47DDF" type="multi">
-		    <description>This struct isn't read by the game, so it has no ingame effect.</description>
+            <description>This struct isn't read by the game, so it has no ingame effect.</description>
             <properties>
                 <property ID="0x18C7396A" type="bool">
                     <default>false</default>
                     <should_cook>always</should_cook>
                 </property>
                 <property ID="0xBD0B7EDE" type="string"/>
+                <property ID="0x6C84C588" type="float">
+                    <default>0.0</default>
+                </property>
             </properties>
         </struct>
         <struct ID="0x0CF33816" type="multi">

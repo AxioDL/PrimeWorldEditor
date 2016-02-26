@@ -40,6 +40,8 @@
                 <enumerator ID="0x7FD04BC9" name="Unknown 34"/>
                 <enumerator ID="0x82B045FA" name="Unknown 35"/>
                 <enumerator ID="0xF4863F16" name="Unknown 36"/>
+                <enumerator ID="0x955321A2" name="Invalid 1"/>
+                <enumerator ID="0x5F3FCED8" name="Invalid 2"/>
             </enumerators>
         </enum>
     </properties>

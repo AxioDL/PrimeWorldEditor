@@ -282,7 +282,10 @@ void CScriptNode::RayAABoxIntersectTest(CRayCollisionTester& Tester, const SView
     // If we're in game mode, then check whether we're visible before proceeding with the ray test.
     if (ViewInfo.GameMode)
     {
-        if ( (!mpInstance->IsActive() && Template()->Game() != eReturns) || !mpInstance->HasInGameModel())
+        if (mGameModeVisibility == eUntested)
+            TestGameModeVisibility();
+
+        if (mGameModeVisibility != eVisible)
             return;
     }
 

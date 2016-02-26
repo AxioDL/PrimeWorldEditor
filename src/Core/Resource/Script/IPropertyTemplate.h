@@ -668,14 +668,6 @@ public:
         return false;
     }
 
-    {
-
-        for (u32 iProp = 0; iProp < mSubProperties.size(); iProp++)
-        {
-            IPropertyTemplate *pProp = mSubProperties[iProp];
-        }
-    }
-
     inline TString SourceFile() const               { return mSourceFile; }
     inline bool IsSingleProperty() const            { return mIsSingleProperty; }
     inline u32 Count() const                        { return mSubProperties.size(); }
