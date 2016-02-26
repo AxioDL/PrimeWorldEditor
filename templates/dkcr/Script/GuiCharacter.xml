@@ -10,91 +10,91 @@
         <property ID="0x181E33CC" type="character"/>
         <property ID="0xA2A5B38F" type="long">
             <default>-1</default>
-            <should_cook>always</should_cook>
+            <cook_pref>always</cook_pref>
         </property>
         <property ID="0xC23BD607" type="long">
             <default>-1</default>
-            <should_cook>always</should_cook>
+            <cook_pref>always</cook_pref>
         </property>
         <property ID="0x4A6A84C1" type="long">
             <default>-1</default>
-            <should_cook>always</should_cook>
+            <cook_pref>always</cook_pref>
         </property>
         <property ID="0x601FCE68" type="long">
             <default>-1</default>
-            <should_cook>always</should_cook>
+            <cook_pref>always</cook_pref>
         </property>
         <property ID="0x63E53FD8" type="long">
             <default>-1</default>
-            <should_cook>always</should_cook>
+            <cook_pref>always</cook_pref>
         </property>
         <property ID="0x247DB024" type="long">
             <default>-1</default>
-            <should_cook>always</should_cook>
+            <cook_pref>always</cook_pref>
         </property>
         <property ID="0xFDCCB479" type="long">
             <default>-1</default>
-            <should_cook>always</should_cook>
+            <cook_pref>always</cook_pref>
         </property>
         <property ID="0x10706107" type="long">
             <default>-1</default>
-            <should_cook>always</should_cook>
+            <cook_pref>always</cook_pref>
         </property>
         <property ID="0x98E160F8" type="long">
             <default>-1</default>
-            <should_cook>always</should_cook>
+            <cook_pref>always</cook_pref>
         </property>
         <property ID="0x3BB7E651" type="long">
             <default>-1</default>
-            <should_cook>always</should_cook>
+            <cook_pref>always</cook_pref>
         </property>
         <property ID="0xEC556609" type="long">
             <default>-1</default>
-            <should_cook>always</should_cook>
+            <cook_pref>always</cook_pref>
         </property>
         <property ID="0xA66BED42" type="long">
             <default>-1</default>
-            <should_cook>always</should_cook>
+            <cook_pref>always</cook_pref>
         </property>
         <property ID="0x71896D1A" type="long">
             <default>-1</default>
-            <should_cook>always</should_cook>
+            <cook_pref>always</cook_pref>
         </property>
         <property ID="0xD2DFEBB3" type="long">
             <default>-1</default>
-            <should_cook>always</should_cook>
+            <cook_pref>always</cook_pref>
         </property>
         <property ID="0x053D6BEB" type="long">
             <default>-1</default>
-            <should_cook>always</should_cook>
+            <cook_pref>always</cook_pref>
         </property>
         <property ID="0x46A2FD25" type="long">
             <default>-1</default>
-            <should_cook>always</should_cook>
+            <cook_pref>always</cook_pref>
         </property>
         <property ID="0x91407D7D" type="long">
             <default>-1</default>
-            <should_cook>always</should_cook>
+            <cook_pref>always</cook_pref>
         </property>
         <property ID="0x579ED88F" type="long">
             <default>-1</default>
-            <should_cook>always</should_cook>
+            <cook_pref>always</cook_pref>
         </property>
         <property ID="0x807C58D7" type="long">
             <default>-1</default>
-            <should_cook>always</should_cook>
+            <cook_pref>always</cook_pref>
         </property>
         <property ID="0x232ADE7E" type="long">
             <default>-1</default>
-            <should_cook>always</should_cook>
+            <cook_pref>always</cook_pref>
         </property>
         <property ID="0xF4C85E26" type="long">
             <default>-1</default>
-            <should_cook>always</should_cook>
+            <cook_pref>always</cook_pref>
         </property>
         <property ID="0xBEF6D56D" type="long">
             <default>-1</default>
-            <should_cook>always</should_cook>
+            <cook_pref>always</cook_pref>
         </property>
     </properties>
     <states/>

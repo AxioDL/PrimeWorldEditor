@@ -12,17 +12,17 @@
         <property ID="0xCEE68723" type="float">
             <default>0.0</default>
         </property>
-		<property ID="0x58810503" type="long">
-			<default>0</default>
-			<description>This property isn't read by the game and has no ingame effect. Might be a float.</description>
-		</property>
+        <property ID="0x58810503" type="long">
+            <default>0</default>
+            <description>This property isn't read by the game and has no ingame effect. Might be a float.</description>
+        </property>
         <property ID="0x6D62EF74" type="long">
             <default>0</default>
-            <should_cook>never</should_cook>
+            <cook_pref>never</cook_pref>
         </property>
         <property ID="0x6F8D34CA" type="float">
             <default>1.0</default>
-            <should_cook>never</should_cook>
+            <cook_pref>never</cook_pref>
         </property>
     </properties>
     <states/>

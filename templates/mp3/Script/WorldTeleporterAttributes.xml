@@ -94,57 +94,57 @@
             </properties>
         </struct>
         <struct ID="0x85ECA19A" type="multi">
-            <should_cook>never</should_cook>
+            <cook_pref>never</cook_pref>
             <properties>
                 <property ID="0x31EC14BC" type="file" extensions="MLVL">
-                    <should_cook>never</should_cook>
+                    <cook_pref>never</cook_pref>
                 </property>
                 <property ID="0xA909F8D3" type="string">
-                    <should_cook>never</should_cook>
+                    <cook_pref>never</cook_pref>
                 </property>
             </properties>
         </struct>
         <struct ID="0x20673194" type="multi">
-            <should_cook>never</should_cook>
+            <cook_pref>never</cook_pref>
             <properties>
                 <property ID="0x31EC14BC" type="file" extensions="MLVL">
-                    <should_cook>never</should_cook>
+                    <cook_pref>never</cook_pref>
                 </property>
                 <property ID="0xA909F8D3" type="string">
-                    <should_cook>never</should_cook>
+                    <cook_pref>never</cook_pref>
                 </property>
             </properties>
         </struct>
         <struct ID="0xC23C5E8B" type="multi">
-            <should_cook>never</should_cook>
+            <cook_pref>never</cook_pref>
             <properties>
                 <property ID="0x31EC14BC" type="file" extensions="MLVL">
-                    <should_cook>never</should_cook>
+                    <cook_pref>never</cook_pref>
                 </property>
                 <property ID="0xA909F8D3" type="string">
-                    <should_cook>never</should_cook>
+                    <cook_pref>never</cook_pref>
                 </property>
             </properties>
         </struct>
         <struct ID="0x67B7CE85" type="multi">
-            <should_cook>never</should_cook>
+            <cook_pref>never</cook_pref>
             <properties>
                 <property ID="0x31EC14BC" type="file" extensions="MLVL">
-                    <should_cook>never</should_cook>
+                    <cook_pref>never</cook_pref>
                 </property>
                 <property ID="0xA909F8D3" type="string">
-                    <should_cook>never</should_cook>
+                    <cook_pref>never</cook_pref>
                 </property>
             </properties>
         </struct>
         <struct ID="0x1C6020C4" type="multi">
-            <should_cook>never</should_cook>
+            <cook_pref>never</cook_pref>
             <properties>
                 <property ID="0x31EC14BC" type="file" extensions="MLVL">
-                    <should_cook>never</should_cook>
+                    <cook_pref>never</cook_pref>
                 </property>
                 <property ID="0xA909F8D3" type="string">
-                    <should_cook>never</should_cook>
+                    <cook_pref>never</cook_pref>
                 </property>
             </properties>
         </struct>

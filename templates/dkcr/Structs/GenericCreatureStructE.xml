@@ -3,7 +3,7 @@
     <properties>
         <property ID="0xAACDB11C" type="long">
             <default>-1</default>
-            <should_cook>always</should_cook>
+            <cook_pref>always</cook_pref>
         </property>
         <property ID="0x8ACD5B6F" type="long">
             <default>1</default>

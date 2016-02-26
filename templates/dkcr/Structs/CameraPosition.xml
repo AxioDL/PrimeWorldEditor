@@ -14,13 +14,13 @@
         </enum>
         <property ID="0xB1B6CF33" type="long">
             <default>2</default>
-            <should_cook>always</should_cook>
+            <cook_pref>always</cook_pref>
         </property>
         <struct ID="0xE8AB9BC8" type="multi">
             <properties>
                 <property ID="0x259D3279" type="long">
                     <default>0</default>
-                    <should_cook>always</should_cook>
+                    <cook_pref>always</cook_pref>
                 </property>
                 <enum ID="0x340E4CA3">
                     <default>0xD25FBD92</default>
@@ -49,7 +49,7 @@
             <properties>
                 <property ID="0xB8A6413A" type="long">
                     <default>320</default>
-                    <should_cook>always</should_cook>
+                    <cook_pref>always</cook_pref>
                 </property>
                 <struct ID="0xA0FB9986" template="Structs/SpindlePositionInterpolant.xml"/>
                 <struct ID="0x58079583" template="Structs/SpindlePositionInterpolant.xml"/>
@@ -69,7 +69,7 @@
             <properties>
                 <property ID="0x9D99B2E3" type="long">
                     <default>1</default>
-                    <should_cook>always</should_cook>
+                    <cook_pref>always</cook_pref>
                 </property>
                 <struct ID="0xE69C51D7" template="Structs/OffsetInterpolant.xml"/>
                 <struct ID="0x959108A5" template="Structs/Convergence.xml"/>

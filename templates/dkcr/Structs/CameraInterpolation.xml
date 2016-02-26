@@ -3,7 +3,7 @@
     <properties>
         <property ID="0x1D49D35C" type="long">
             <default>3</default>
-            <should_cook>always</should_cook>
+            <cook_pref>always</cook_pref>
         </property>
         <property ID="0xC22D6492" type="float">
             <default>100.0</default>
@@ -16,7 +16,7 @@
         <struct ID="0x3B8C7CB4" template="Structs/FOVInterpolationMethod.xml"/>
         <property ID="0x058C1B1D" type="long">
             <default>3</default>
-            <should_cook>always</should_cook>
+            <cook_pref>always</cook_pref>
         </property>
         <property ID="0x943F8A27" type="float">
             <default>100.0</default>
@@ -39,7 +39,7 @@
         <struct ID="0xF391EDBC" template="Structs/FOVInterpolationMethod.xml"/>
         <property ID="0x07A6C22C" type="long">
             <default>3</default>
-            <should_cook>always</should_cook>
+            <cook_pref>always</cook_pref>
         </property>
         <property ID="0xC4E74018" type="float">
             <default>100.0</default>

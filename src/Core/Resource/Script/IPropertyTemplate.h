@@ -95,7 +95,7 @@ public:
 
     virtual void SetParam(const TString& rkParamName, const TString& rkValue)
     {
-        if (rkParamName == "should_cook")
+        if (rkParamName == "cook_pref")
         {
             TString lValue = rkValue.ToLower();
 

@@ -54,19 +54,19 @@
                     <default>1.0</default>
                 </property>
                 <property ID="0x58434916">
-                    <should_cook>never</should_cook>
+                    <cook_pref>never</cook_pref>
                 </property>
                 <property ID="0xFF77C96F">
-                    <should_cook>never</should_cook>
+                    <cook_pref>never</cook_pref>
                 </property>
                 <property ID="0x3FAE47EB">
                     <default>100.0</default>
                 </property>
                 <property ID="0x13F0B18F">
-                    <should_cook>never</should_cook>
+                    <cook_pref>never</cook_pref>
                 </property>
                 <property ID="0x7D5A0487">
-                    <should_cook>never</should_cook>
+                    <cook_pref>never</cook_pref>
                 </property>
             </properties>
         </struct>

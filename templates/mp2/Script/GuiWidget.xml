@@ -12,7 +12,7 @@
         <struct ID="0x91CEFA1E" template="Structs/GuiWidgetProperties.xml"/>
         <property ID="0xDB7F4AA2" type="long">
             <default>1</default>
-            <should_cook>never</should_cook>
+            <cook_pref>never</cook_pref>
         </property>
     </properties>
     <states/>
