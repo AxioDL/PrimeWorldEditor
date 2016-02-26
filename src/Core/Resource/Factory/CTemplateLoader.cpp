@@ -413,7 +413,7 @@ CScriptTemplate* CTemplateLoader::LoadScriptTemplate(XMLDocument *pDoc, const TS
 {
     CScriptTemplate *pScript = new CScriptTemplate(mpMaster);
     pScript->mObjectID = ObjectID;
-    pScript->mpBaseStruct = new CStructTemplate(-1, nullptr, mpMaster);
+    pScript->mpBaseStruct = new CStructTemplate(-1, pScript, mpMaster);
     pScript->mSourceFile = rkTemplateName;
 
     XMLElement *pRoot = pDoc->FirstChildElement("ScriptTemplate");
