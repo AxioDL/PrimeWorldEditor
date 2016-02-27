@@ -179,7 +179,15 @@ void CScriptNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewIn
 
         else
         {
-            LoadLights(ViewInfo);
+            // DKCR doesn't support world lighting yet, so light nodes that don't have ingame models with default lighting
+            if (Template()->Game() == eReturns && !mpInstance->HasInGameModel() && CGraphics::sLightMode == CGraphics::eWorldLighting)
+            {
+                CGraphics::SetDefaultLighting();
+                CGraphics::sVertexBlock.COLOR0_Amb = CGraphics::skDefaultAmbientColor;
+            }
+
+            else
+                LoadLights(ViewInfo);
         }
 
         LoadModelMatrix();
