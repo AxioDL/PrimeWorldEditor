@@ -185,7 +185,8 @@ HEADERS += \
     Resource/Factory/CPoiToWorldLoader.h \
     Resource/Cooker/CPoiToWorldCooker.h \
     Resource/Factory/CSectionMgrIn.h \
-    Resource/Cooker/CScriptCooker.h
+    Resource/Cooker/CScriptCooker.h \
+    ScriptExtra/CSplinePathExtra.h
 
 # Source Files
 SOURCES += \
@@ -271,4 +272,5 @@ SOURCES += \
     Resource/CPoiToWorld.cpp \
     Resource/Factory/CPoiToWorldLoader.cpp \
     Resource/Cooker/CPoiToWorldCooker.cpp \
-    Resource/Cooker/CScriptCooker.cpp
+    Resource/Cooker/CScriptCooker.cpp \
+    ScriptExtra/CSplinePathExtra.cpp

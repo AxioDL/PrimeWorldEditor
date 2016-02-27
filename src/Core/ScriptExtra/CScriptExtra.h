@@ -27,6 +27,8 @@ public:
     }
 
     virtual ~CScriptExtra() {}
+    inline CScriptObject* Instance() const  { return mpInstance; }
+    inline EGame Game() const               { return mGame; }
 
     // Default implementations for CSceneNode
     virtual ENodeType NodeType() { return eScriptExtraNode; }
