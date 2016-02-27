@@ -8,15 +8,69 @@ CWaypointExtra::CWaypointExtra(CScriptObject *pInstance, CScene *pScene, CSceneN
     , mColor(CColor::skBlack)
     , mLinksBuilt(false)
 {
-    // Fetch color from parent node's model
-    CScriptNode *pScript = static_cast<CScriptNode*>(pParent);
-    CModel *pModel = pScript->ActiveModel();
+    CheckColor();
+}
 
-    if (pModel && (pModel->GetMatSetCount() > 0) && (pModel->GetMatCount() > 0))
+CWaypointExtra::~CWaypointExtra()
+{
+    for (auto it = mPaths.begin(); it != mPaths.end(); it++)
+        (*it)->RemoveWaypoint(this);
+}
+
+void CWaypointExtra::CheckColor()
+{
+    // Fetch color from attached SplinePath
+    if (!mPaths.empty())
     {
-        CMaterial *pMat = pModel->GetMaterialByIndex(0, 0);
-        mColor = pMat->Konst(0);
-        mColor.a = 0;
+        CSplinePathExtra *pPath = mPaths.front();
+        mColor = pPath->PathColor();
+    }
+
+    // Fetch color from parent node's model (MP1/2/3)
+    else if (mGame < eReturns)
+    {
+        CScriptNode *pScript = static_cast<CScriptNode*>(mpParent);
+        CModel *pModel = pScript->ActiveModel();
+
+        if (pModel && (pModel->GetMatSetCount() > 0) && (pModel->GetMatCount() > 0))
+        {
+            CMaterial *pMat = pModel->GetMaterialByIndex(0, 0);
+            mColor = pMat->Konst(0);
+        }
+    }
+
+    // Use preset color (DKCR)
+    else
+    {
+        mColor = CColor::skCyan;
+    }
+
+    mColor.a = 0;
+}
+
+void CWaypointExtra::AddToSplinePath(CSplinePathExtra *pPath)
+{
+    for (auto it = mPaths.begin(); it != mPaths.end(); it++)
+    {
+        if (*it == pPath)
+            return;
+    }
+
+    mPaths.push_back(pPath);
+    if (mPaths.size() == 1)
+        CheckColor();
+}
+
+void CWaypointExtra::RemoveFromSplinePath(CSplinePathExtra *pPath)
+{
+    for (auto it = mPaths.begin(); it != mPaths.end(); it++)
+    {
+        if (*it == pPath)
+        {
+            mPaths.erase(it);
+            CheckColor();
+            break;
+        }
     }
 }
 
@@ -71,6 +125,18 @@ bool CWaypointExtra::IsPathLink(const SLink& rkLink)
     return false;
 }
 
+void CWaypointExtra::GetLinkedWaypoints(std::list<CWaypointExtra*>& rOut)
+{
+    if (!mLinksBuilt) BuildLinks();
+
+    for (u32 iLink = 0; iLink < mLinks.size(); iLink++)
+    {
+        const SWaypointLink& rkLink = mLinks[iLink];
+        CWaypointExtra *pExtra = static_cast<CWaypointExtra*>(rkLink.pWaypoint->Extra());
+        rOut.push_back(pExtra);
+    }
+}
+
 void CWaypointExtra::LinksModified()
 {
     BuildLinks();
@@ -103,4 +169,9 @@ void CWaypointExtra::Draw(FRenderOptions /*Options*/, int ComponentIndex, const 
     CGraphics::sMVPBlock.ModelMatrix = CMatrix4f::skIdentity;
     CGraphics::UpdateMVPBlock();
     CDrawUtil::DrawLine(mpParent->AABox().Center(), mLinks[ComponentIndex].pWaypoint->AABox().Center(), mColor);
+}
+
+CColor CWaypointExtra::TevColor()
+{
+    return (mGame < eReturns ? CColor::skWhite : mColor);
 }

@@ -6,6 +6,7 @@
 #include "CPointOfInterestExtra.h"
 #include "CDoorExtra.h"
 #include "CRadiusSphereExtra.h"
+#include "CSplinePathExtra.h"
 
 CScriptExtra* CScriptExtra::CreateExtra(CScriptNode *pNode)
 {
@@ -49,6 +50,12 @@ CScriptExtra* CScriptExtra::CreateExtra(CScriptNode *pNode)
         case 0x5245504C: // "REPL" Repulsor (MP2/MP3)
         case 0x52414444: // "RADD" RadialDamage (MP2/MP3/DKCR)
             pExtra = new CRadiusSphereExtra(pObj, pNode->Scene(), pNode);
+            break;
+
+        case 0x53505041: // SplinePath (DKCR)
+        case 0x5043544C: // PathControl (DKCR)
+        case 0x434C5043: // ClingPathControl (DKCR)
+            pExtra = new CSplinePathExtra(pObj, pNode->Scene(), pNode);
             break;
         }
     }
