@@ -144,15 +144,11 @@ void WInstancesTab::OnTreeDoubleClick(QModelIndex Index)
     if ((mpEditor) && (IndexType == CInstancesModel::eInstanceIndex))
     {
         CInstancesModel::ENodeType NodeType = mpTypesModel->IndexNodeType(SourceIndex);
-        CSceneNode *pSelectedNode = nullptr;
 
         if (NodeType == CInstancesModel::eScriptType)
-            pSelectedNode = mpScene->NodeForObject( static_cast<CScriptObject*>(SourceIndex.internalPointer()) );
-
-        if (pSelectedNode)
         {
-            mpEditor->ClearSelection();
-            mpEditor->SelectNode(pSelectedNode);
+            CSceneNode *pSelectedNode = mpScene->NodeForObject( static_cast<CScriptObject*>(SourceIndex.internalPointer()) );
+            mpEditor->ClearAndSelectNode(pSelectedNode);
         }
     }
 }
