@@ -111,6 +111,8 @@ void CWorldEditor::closeEvent(QCloseEvent *pEvent)
 
         if (mpPoiDialog)
             mpPoiDialog->close();
+
+        emit Closed();
     }
     else
     {

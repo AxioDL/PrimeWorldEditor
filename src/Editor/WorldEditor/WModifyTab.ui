@@ -59,7 +59,7 @@
           </font>
          </property>
          <property name="styleSheet">
-          <string notr="true">alternate-background-color: rgb(35,35,35);</string>
+          <string notr="true"/>
          </property>
          <property name="editTriggers">
           <set>QAbstractItemView::AllEditTriggers</set>
@@ -149,6 +149,45 @@
                 </attribute>
                </widget>
               </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout">
+                <item>
+                 <widget class="QPushButton" name="AddOutgoingConnectionButton">
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../Icons.qrc">
+                    <normaloff>:/icons/Plus.png</normaloff>:/icons/Plus.png</iconset>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="DeleteOutgoingConnectionButton">
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../Icons.qrc">
+                    <normaloff>:/icons/Minus v2.png</normaloff>:/icons/Minus v2.png</iconset>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="OutgoingButtonsSpacer">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
              </layout>
             </widget>
            </item>
@@ -173,6 +212,45 @@
                  <number>21</number>
                 </attribute>
                </widget>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_2">
+                <item>
+                 <widget class="QPushButton" name="AddIncomingConnectionButton">
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../Icons.qrc">
+                    <normaloff>:/icons/Plus.png</normaloff>:/icons/Plus.png</iconset>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="DeleteIncomingConnectionButton">
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../Icons.qrc">
+                    <normaloff>:/icons/Minus v2.png</normaloff>:/icons/Minus v2.png</iconset>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="IncomingButtonsSpacer">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
               </item>
              </layout>
             </widget>
@@ -201,6 +279,8 @@
    <header>Editor/PropertyEdit/CPropertyView.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../Icons.qrc"/>
+ </resources>
  <connections/>
 </ui>

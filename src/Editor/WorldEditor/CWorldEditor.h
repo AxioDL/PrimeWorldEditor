@@ -97,6 +97,7 @@ private slots:
     void on_ActionEditPoiToWorldMap_triggered();
 
 signals:
+    void Closed();
     void LayersModified();
     void InstancesLayerAboutToChange();
     void InstancesLayerChanged(const QList<CScriptNode*>& rkInstanceList);

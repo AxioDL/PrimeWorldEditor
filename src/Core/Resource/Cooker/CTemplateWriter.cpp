@@ -150,23 +150,39 @@ void CTemplateWriter::SaveGameTemplates(CMasterTemplate *pMaster)
     }
 
     // Write script states/messages
-    std::map<u32, TString> *pMaps[2] = { &pMaster->mStates, &pMaster->mMessages };
-    TString Types[2] = { "state", "message" };
-
-    for (u32 iScr = 0; iScr < 2; iScr++)
+    for (u32 iType = 0; iType < 2; iType++)
     {
-        XMLElement *pElem = Master.NewElement(*(Types[iScr] + "s"));
+        TString Type = (iType == 0 ? "state" : "message");
+        XMLElement *pElem = Master.NewElement(*(Type + "s"));
         pBase->LinkEndChild(pElem);
 
-        for (auto it = pMaps[iScr]->begin(); it != pMaps[iScr]->end(); it++)
-        {
-            TString ID;
-            if (it->first <= 0xFF) ID = TString::HexString(it->first, true, true, 2);
-            else ID = CFourCC(it->first).ToString();
+        u32 Num = (iType == 0 ? pMaster->NumStates() : pMaster->NumMessages());
 
-            XMLElement *pSubElem = Master.NewElement(*Types[iScr]);
-            pSubElem->SetAttribute("ID", *ID);
-            pSubElem->SetAttribute("name", *(it->second));
+        for (u32 iScr = 0; iScr < Num; iScr++)
+        {
+            u32 ID;
+            TString Name;
+
+            if (iType == 0)
+            {
+                SState State = pMaster->StateByIndex(iScr);
+                ID = State.ID;
+                Name = State.Name;
+            }
+            else
+            {
+                SMessage Message = pMaster->MessageByIndex(iScr);
+                ID = Message.ID;
+                Name = Message.Name;
+            }
+
+            TString StrID;
+            if (ID <= 0xFF) StrID = TString::HexString(ID, true, true, 2);
+            else StrID = CFourCC(ID).ToString();
+
+            XMLElement *pSubElem = Master.NewElement(*Type);
+            pSubElem->SetAttribute("ID", *StrID);
+            pSubElem->SetAttribute("name", *Name);
             pElem->LinkEndChild(pSubElem);
         }
     }

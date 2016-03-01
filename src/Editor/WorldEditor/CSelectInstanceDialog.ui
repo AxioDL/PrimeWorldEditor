@@ -1,41 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>WInstancesTab</class>
- <widget class="QWidget" name="WInstancesTab">
+ <class>CSelectInstanceDialog</class>
+ <widget class="QDialog" name="CSelectInstanceDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>253</width>
-    <height>437</height>
+    <width>816</width>
+    <height>534</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Select Instance</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout">
-   <property name="leftMargin">
-    <number>0</number>
-   </property>
-   <property name="topMargin">
-    <number>0</number>
-   </property>
-   <property name="rightMargin">
-    <number>0</number>
-   </property>
-   <property name="bottomMargin">
-    <number>0</number>
-   </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QTabWidget" name="TabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
-     <widget class="QWidget" name="ShowLayersTab">
+     <widget class="QWidget" name="LayersTab">
       <attribute name="title">
-       <string>Layer</string>
+       <string>Layers</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout">
+      <layout class="QVBoxLayout" name="verticalLayout_3">
        <property name="leftMargin">
         <number>0</number>
        </property>
@@ -50,20 +38,17 @@
        </property>
        <item>
         <widget class="QTreeView" name="LayersTreeView">
-         <property name="contextMenuPolicy">
-          <enum>Qt::CustomContextMenu</enum>
-         </property>
          <property name="frameShape">
           <enum>QFrame::NoFrame</enum>
+         </property>
+         <property name="editTriggers">
+          <set>QAbstractItemView::NoEditTriggers</set>
          </property>
          <property name="alternatingRowColors">
           <bool>true</bool>
          </property>
          <property name="verticalScrollMode">
           <enum>QAbstractItemView::ScrollPerPixel</enum>
-         </property>
-         <property name="indentation">
-          <number>13</number>
          </property>
          <property name="sortingEnabled">
           <bool>true</bool>
@@ -72,9 +57,9 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="ShowTypesTab">
+     <widget class="QWidget" name="TypesTab">
       <attribute name="title">
-       <string>Type</string>
+       <string>Types</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <property name="leftMargin">
@@ -91,23 +76,17 @@
        </property>
        <item>
         <widget class="QTreeView" name="TypesTreeView">
-         <property name="contextMenuPolicy">
-          <enum>Qt::CustomContextMenu</enum>
-         </property>
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
          <property name="frameShape">
           <enum>QFrame::NoFrame</enum>
+         </property>
+         <property name="editTriggers">
+          <set>QAbstractItemView::NoEditTriggers</set>
          </property>
          <property name="alternatingRowColors">
           <bool>true</bool>
          </property>
          <property name="verticalScrollMode">
           <enum>QAbstractItemView::ScrollPerPixel</enum>
-         </property>
-         <property name="indentation">
-          <number>13</number>
          </property>
          <property name="sortingEnabled">
           <bool>true</bool>
@@ -118,8 +97,51 @@
      </widget>
     </widget>
    </item>
+   <item>
+    <widget class="QDialogButtonBox" name="ButtonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>ButtonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>CSelectInstanceDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>ButtonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>CSelectInstanceDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

@@ -1,6 +1,7 @@
 #ifndef WMODIFYTAB_H
 #define WMODIFYTAB_H
 
+#include "CLinkDialog.h"
 #include "CLinkModel.h"
 #include <Core/Scene/CSceneNode.h>
 #include <Core/Scene/CScriptNode.h>
@@ -27,15 +28,27 @@ class WModifyTab : public QWidget
     CLinkModel *mpInLinkModel;
     CLinkModel *mpOutLinkModel;
 
+    CLinkDialog *mpLinkDialog;
+
 public:
     explicit WModifyTab(QWidget *pParent = 0);
     ~WModifyTab();
     void SetEditor(CWorldEditor *pEditor);
     void GenerateUI(QList<CSceneNode*>& Selection);
     void ClearUI();
+    void CreateLinkDialog();
+    void DeleteLinkDialog();
 
 public slots:
+    void OnWorldEditorClosed();
     void OnWorldSelectionTransformed();
+
+    void OnAddOutgoingLinkClicked();
+    void OnAddIncomingLinkClicked();
+    void OnDeleteOutgoingLinkClicked();
+    void OnDeleteIncomingLinkClicked();
+    void OnLinkDialogAccept();
+    void OnLinkDialogReject();
 
 private:
     Ui::WModifyTab *ui;

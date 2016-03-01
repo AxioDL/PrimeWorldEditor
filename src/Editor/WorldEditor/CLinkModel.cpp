@@ -67,13 +67,13 @@ QVariant CLinkModel::data(const QModelIndex &index, int role) const
 
         case 1: // Column 1 - State
         {
-            TString StateName = mpObject->MasterTemplate()->StateByID(link.State);
+            TString StateName = mpObject->MasterTemplate()->StateByID(link.State).Name;
             return UICommon::ToQString(StateName);
         }
 
         case 2: // Column 2 - Message
         {
-            TString MessageName = mpObject->MasterTemplate()->MessageByID(link.Message);
+            TString MessageName = mpObject->MasterTemplate()->MessageByID(link.Message).Name;
             return UICommon::ToQString(MessageName);
         }
 

@@ -115,7 +115,6 @@ HEADERS += \
     Resource/Script/CScriptTemplate.h \
     Resource/Script/EPropertyType.h \
     Resource/Script/EVolumeShape.h \
-    Resource/Script/SConnection.h \
     Resource/CAnimationParameters.h \
     Resource/CAnimSet.h \
     Resource/CCollisionMesh.h \
@@ -186,7 +185,8 @@ HEADERS += \
     Resource/Cooker/CPoiToWorldCooker.h \
     Resource/Factory/CSectionMgrIn.h \
     Resource/Cooker/CScriptCooker.h \
-    ScriptExtra/CSplinePathExtra.h
+    ScriptExtra/CSplinePathExtra.h \
+    Resource/Script/SLink.h
 
 # Source Files
 SOURCES += \

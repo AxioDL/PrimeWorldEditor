@@ -38,6 +38,7 @@ CInstancesModel::CInstancesModel(QObject *pParent) : QAbstractItemModel(pParent)
     mpArea = nullptr;
     mpCurrentMaster = nullptr;
     mModelType = eLayers;
+    mShowColumnEnabled = true;
     mBaseItems << "Script";
 }
 
@@ -199,7 +200,7 @@ int CInstancesModel::rowCount(const QModelIndex &parent) const
 
 int CInstancesModel::columnCount(const QModelIndex& /*parent*/) const
 {
-    return 3;
+    return (mShowColumnEnabled ? 3 : 2);
 }
 
 QVariant CInstancesModel::data(const QModelIndex &index, int role) const
@@ -338,6 +339,12 @@ void CInstancesModel::SetArea(CGameArea *pArea)
 void CInstancesModel::SetModelType(EInstanceModelType type)
 {
     mModelType = type;
+}
+
+void CInstancesModel::SetShowColumnEnabled(bool Enabled)
+{
+    mShowColumnEnabled = Enabled;
+    emit layoutChanged();
 }
 
 void CInstancesModel::NodeCreated(CSceneNode *pNode)

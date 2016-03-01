@@ -79,7 +79,7 @@
         </property>
         <property name="icon">
          <iconset resource="../Icons.qrc">
-          <normaloff>:/icons/SelectMode.png</normaloff>:/icons/SelectMode.png</iconset>
+          <normaloff>:/icons/SelectMode_16px.png</normaloff>:/icons/SelectMode_16px.png</iconset>
         </property>
         <property name="checkable">
          <bool>true</bool>
@@ -96,7 +96,7 @@
         </property>
         <property name="icon">
          <iconset resource="../Icons.qrc">
-          <normaloff>:/icons/Instances.png</normaloff>:/icons/Instances.png</iconset>
+          <normaloff>:/icons/Instances_16px.png</normaloff>:/icons/Instances_16px.png</iconset>
         </property>
        </widget>
       </item>

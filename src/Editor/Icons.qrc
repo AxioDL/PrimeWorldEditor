@@ -36,5 +36,9 @@
         <file>icons/Redo.png</file>
         <file>icons/Save.png</file>
         <file>icons/Undo.png</file>
+        <file>icons/Instances_16px.png</file>
+        <file>icons/SelectMode_16px.png</file>
+        <file>icons/Swap_16px.png</file>
+        <file>icons/Swap_24px.png</file>
     </qresource>
 </RCC>

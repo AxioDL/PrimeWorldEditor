@@ -2,6 +2,7 @@
 #define CMASTERTEMPLATE_H
 
 #include "CScriptTemplate.h"
+#include "SLink.h"
 #include "Core/Resource/EGame.h"
 #include <Common/types.h>
 #include <map>
@@ -21,8 +22,8 @@ class CMasterTemplate
     std::map<TString, CStructTemplate*> mStructTemplates;
 
     std::map<u32, CScriptTemplate*> mTemplates;
-    std::map<u32, TString> mStates;
-    std::map<u32, TString> mMessages;
+    std::map<u32, SState> mStates;
+    std::map<u32, SMessage> mMessages;
 
     struct SPropIDInfo
     {
@@ -46,12 +47,12 @@ public:
     CScriptTemplate* TemplateByID(u32 ObjectID);
     CScriptTemplate* TemplateByID(const CFourCC& ObjectID);
     CScriptTemplate* TemplateByIndex(u32 Index);
-    TString StateByID(u32 StateID);
-    TString StateByID(const CFourCC& StateID);
-    TString StateByIndex(u32 Index);
-    TString MessageByID(u32 MessageID);
-    TString MessageByID(const CFourCC& MessageID);
-    TString MessageByIndex(u32 Index);
+    SState StateByID(u32 StateID);
+    SState StateByID(const CFourCC& StateID);
+    SState StateByIndex(u32 Index);
+    SMessage MessageByID(u32 MessageID);
+    SMessage MessageByID(const CFourCC& MessageID);
+    SMessage MessageByIndex(u32 Index);
     TString GetDirectory() const;
     CStructTemplate* GetStructAtSource(const TString& rkSource);
     bool IsLoadedSuccessfully();
