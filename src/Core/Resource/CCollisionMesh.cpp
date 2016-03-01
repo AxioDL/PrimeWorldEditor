@@ -1,5 +1,6 @@
 #include "CCollisionMesh.h"
 #include "Core/Render/CRenderer.h"
+#include "Core/Render/CDrawUtil.h"
 
 CCollisionMesh::CCollisionMesh()
 {
@@ -75,27 +76,16 @@ void CCollisionMesh::Draw()
     if (!mBuffered) BufferGL();
 
     mVBO.Bind();
-    mIBO.Bind();
-
-    glDrawElements(GL_TRIANGLES, mIBO.GetSize(), GL_UNSIGNED_SHORT, (void*) 0);
-    gDrawCount++;
-    mIBO.Unbind();
+    mIBO.DrawElements();
     mVBO.Unbind();
 }
 
 void CCollisionMesh::DrawWireframe()
 {
-    if (!mBuffered) BufferGL();
-
-    mVBO.Bind();
-    mIBO.Bind();
-    for (u32 f = 0; f < mFaceCount; f++)
-    {
-        glDrawElements(GL_LINE_LOOP, 3, GL_UNSIGNED_SHORT, (void*) (f * 6));
-        gDrawCount++;
-    }
-    mIBO.Unbind();
-    mVBO.Unbind();
+    CDrawUtil::UseColorShader(CColor::skBlack);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    Draw();
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
 CCollisionMesh::CCollisionVertex* CCollisionMesh::GetVertex(u16 index)
