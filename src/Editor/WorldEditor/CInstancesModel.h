@@ -36,6 +36,7 @@ private:
     EInstanceModelType mModelType;
     QList<CScriptTemplate*> mTemplateList;
     QStringList mBaseItems;
+    bool mShowColumnEnabled;
 
 public:
     explicit CInstancesModel(QObject *pParent = 0);
@@ -46,10 +47,12 @@ public:
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
+
     void SetEditor(CWorldEditor *pEditor);
     void SetMaster(CMasterTemplate *pMaster);
     void SetArea(CGameArea *pArea);
     void SetModelType(EInstanceModelType type);
+    void SetShowColumnEnabled(bool Enabled);
     void NodeCreated(CSceneNode *pNode);
     void NodeDeleted(CSceneNode *pNode);
     CScriptLayer* IndexLayer(const QModelIndex& index) const;

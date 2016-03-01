@@ -1,7 +1,7 @@
 #ifndef CSCRIPTOBJECT_H
 #define CSCRIPTOBJECT_H
 
-#include "SConnection.h"
+#include "SLink.h"
 #include "IProperty.h"
 #include "IPropertyTemplate.h"
 #include "CScriptTemplate.h"

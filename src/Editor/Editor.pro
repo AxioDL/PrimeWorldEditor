@@ -142,7 +142,10 @@ HEADERS += \
     Undo/IUndoCommand.h \
     WorldEditor/WEditorProperties.h \
     Undo/CChangeLayerCommand.h \
-    WorldEditor/CTemplateEditDialog.h
+    WorldEditor/CTemplateEditDialog.h \
+    WorldEditor/CLinkDialog.h \
+    WorldEditor/CStateMessageModel.h \
+    WorldEditor/CSelectInstanceDialog.h
 
 # Source Files
 SOURCES += \
@@ -199,7 +202,9 @@ SOURCES += \
     Undo/CBasicPropertyCommand.cpp \
     WorldEditor/WEditorProperties.cpp \
     Undo/CChangeLayerCommand.cpp \
-    WorldEditor/CTemplateEditDialog.cpp
+    WorldEditor/CTemplateEditDialog.cpp \
+    WorldEditor/CLinkDialog.cpp \
+    WorldEditor/CSelectInstanceDialog.cpp
 
 # UI Files
 FORMS += \
@@ -216,4 +221,6 @@ FORMS += \
     WorldEditor/WModifyTab.ui \
     CErrorLogDialog.ui \
     WorldEditor/CPoiMapEditDialog.ui \
-    WorldEditor/CTemplateEditDialog.ui
+    WorldEditor/CTemplateEditDialog.ui \
+    WorldEditor/CLinkDialog.ui \
+    WorldEditor/CSelectInstanceDialog.ui

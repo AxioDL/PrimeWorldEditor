@@ -57,43 +57,43 @@ CScriptTemplate* CMasterTemplate::TemplateByIndex(u32 Index)
     return (std::next(it, Index))->second;
 }
 
-TString CMasterTemplate::StateByID(u32 StateID)
+SState CMasterTemplate::StateByID(u32 StateID)
 {
     auto it = mStates.find(StateID);
 
     if (it != mStates.end())
         return it->second;
     else
-        return "Invalid";
+        return SState(-1, "Invalid");
 }
 
-TString CMasterTemplate::StateByID(const CFourCC& State)
+SState CMasterTemplate::StateByID(const CFourCC& State)
 {
     return StateByID(State.ToLong());
 }
 
-TString CMasterTemplate::StateByIndex(u32 Index)
+SState CMasterTemplate::StateByIndex(u32 Index)
 {
     auto it = mStates.begin();
     return (std::next(it, Index))->second;
 }
 
-TString CMasterTemplate::MessageByID(u32 MessageID)
+SMessage CMasterTemplate::MessageByID(u32 MessageID)
 {
     auto it = mMessages.find(MessageID);
 
     if (it != mMessages.end())
         return it->second;
     else
-        return "Invalid";
+        return SMessage(-1, "Invalid");
 }
 
-TString CMasterTemplate::MessageByID(const CFourCC& MessageID)
+SMessage CMasterTemplate::MessageByID(const CFourCC& MessageID)
 {
     return MessageByID(MessageID.ToLong());
 }
 
-TString CMasterTemplate::MessageByIndex(u32 Index)
+SMessage CMasterTemplate::MessageByIndex(u32 Index)
 {
     auto it = mMessages.begin();
     return (std::next(it, Index))->second;

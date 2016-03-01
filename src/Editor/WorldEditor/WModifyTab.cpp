@@ -1,14 +1,16 @@
 #include "WModifyTab.h"
 #include "ui_WModifyTab.h"
+
+#include "CLinkDialog.h"
 #include "CWorldEditor.h"
 #include <Core/Scene/CScriptNode.h>
 
 #include <QScrollArea>
 #include <QScrollBar>
 
-WModifyTab::WModifyTab(QWidget *pParent) :
-    QWidget(pParent),
-    ui(new Ui::WModifyTab)
+WModifyTab::WModifyTab(QWidget *pParent)
+    : QWidget(pParent)
+    , ui(new Ui::WModifyTab)
 {
     ui->setupUi(this);
 
@@ -21,6 +23,7 @@ WModifyTab::WModifyTab(QWidget *pParent) :
     mpInLinkModel->SetConnectionType(CLinkModel::eIncoming);
     mpOutLinkModel = new CLinkModel(this);
     mpOutLinkModel->SetConnectionType(CLinkModel::eOutgoing);
+    mpLinkDialog = nullptr;
 
     ui->InLinksTableView->setModel(mpInLinkModel);
     ui->OutLinksTableView->setModel(mpOutLinkModel);
@@ -28,6 +31,10 @@ WModifyTab::WModifyTab(QWidget *pParent) :
     ui->OutLinksTableView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
     connect(ui->InLinksTableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnLinkTableDoubleClick(QModelIndex)));
     connect(ui->OutLinksTableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnLinkTableDoubleClick(QModelIndex)));
+    connect(ui->AddOutgoingConnectionButton, SIGNAL(clicked()), this, SLOT(OnAddOutgoingLinkClicked()));
+    connect(ui->AddIncomingConnectionButton, SIGNAL(clicked()), this, SLOT(OnAddIncomingLinkClicked()));
+    connect(ui->DeleteOutgoingConnectionButton, SIGNAL(clicked()), this, SLOT(OnDeleteOutgoingLinkClicked()));
+    connect(ui->DeleteIncomingConnectionButton, SIGNAL(clicked()), this, SLOT(OnDeleteIncomingLinkClicked()));
 
     ClearUI();
 }
@@ -41,6 +48,7 @@ void WModifyTab::SetEditor(CWorldEditor *pEditor)
 {
     mpWorldEditor = pEditor;
     ui->PropertyView->SetEditor(mpWorldEditor);
+    connect(mpWorldEditor, SIGNAL(Closed()), this, SLOT(OnWorldEditorClosed()));
     connect(mpWorldEditor, SIGNAL(SelectionTransformed()), this, SLOT(OnWorldSelectionTransformed()));
 }
 
@@ -80,9 +88,93 @@ void WModifyTab::ClearUI()
     mpSelectedNode = nullptr;
 }
 
+void WModifyTab::CreateLinkDialog()
+{
+    if (!mpLinkDialog)
+    {
+        mpLinkDialog = new CLinkDialog(mpWorldEditor, this);
+
+        if (mpSelectedNode && mpSelectedNode->NodeType() == eScriptNode)
+        {
+            CScriptNode *pScript = static_cast<CScriptNode*>(mpSelectedNode);
+            mpLinkDialog->SetMaster(pScript->Object()->MasterTemplate());
+        }
+
+        connect(mpLinkDialog, SIGNAL(accepted()), this, SLOT(OnLinkDialogAccept()));
+        connect(mpLinkDialog, SIGNAL(rejected()), this, SLOT(OnLinkDialogReject()));
+    }
+}
+
+void WModifyTab::DeleteLinkDialog()
+{
+    if (mpLinkDialog)
+    {
+        delete mpLinkDialog;
+        mpLinkDialog = nullptr;
+    }
+}
+
+// ************ PUBLIC SLOTS ************
+void WModifyTab::OnWorldEditorClosed()
+{
+    DeleteLinkDialog();
+}
+
 void WModifyTab::OnWorldSelectionTransformed()
 {
     ui->PropertyView->UpdateEditorProperties(QModelIndex());
+}
+
+void WModifyTab::OnAddOutgoingLinkClicked()
+{
+    if (mpSelectedNode && mpSelectedNode->NodeType() == eScriptNode)
+    {
+        CScriptObject *pInst = static_cast<CScriptNode*>(mpSelectedNode)->Object();
+        CreateLinkDialog();
+
+        if (mpLinkDialog->Sender() != pInst)
+        {
+            mpLinkDialog->SetSender(pInst);
+            mpLinkDialog->SetReceiver(nullptr);
+        }
+
+        mpLinkDialog->show();
+    }
+}
+
+void WModifyTab::OnAddIncomingLinkClicked()
+{
+    if (mpSelectedNode && mpSelectedNode->NodeType() == eScriptNode)
+    {
+        CScriptObject *pInst = static_cast<CScriptNode*>(mpSelectedNode)->Object();
+        CreateLinkDialog();
+
+        if (mpLinkDialog->Receiver() != pInst)
+        {
+            mpLinkDialog->SetSender(nullptr);
+            mpLinkDialog->SetReceiver(pInst);
+        }
+
+        mpLinkDialog->show();
+    }
+}
+
+void WModifyTab::OnDeleteOutgoingLinkClicked()
+{
+}
+
+void WModifyTab::OnDeleteIncomingLinkClicked()
+{
+}
+
+void WModifyTab::OnLinkDialogAccept()
+{
+    DeleteLinkDialog();
+}
+
+void WModifyTab::OnLinkDialogReject()
+{
+    DeleteLinkDialog();
 }
 
 // ************ PRIVATE SLOTS ************

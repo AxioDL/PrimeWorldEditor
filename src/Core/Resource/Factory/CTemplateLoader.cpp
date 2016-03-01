@@ -732,7 +732,7 @@ void CTemplateLoader::LoadMasterTemplate(XMLDocument *pDoc, CMasterTemplate *pMa
                     StateID = CFourCC(StrID).ToLong();
 
                 TString StateName = pState->Attribute("name");
-                mpMaster->mStates[StateID] = StateName;
+                mpMaster->mStates[StateID] = SState(StateID, StateName);
                 pState = pState->NextSiblingElement("state");
             }
         }
@@ -753,7 +753,7 @@ void CTemplateLoader::LoadMasterTemplate(XMLDocument *pDoc, CMasterTemplate *pMa
                     MessageID = CFourCC(StrID).ToLong();
 
                 TString MessageName = pMessage->Attribute("name");
-                mpMaster->mMessages[MessageID] = MessageName;
+                mpMaster->mMessages[MessageID] = SMessage(MessageID, MessageName);
                 pMessage = pMessage->NextSiblingElement("message");
             }
         }

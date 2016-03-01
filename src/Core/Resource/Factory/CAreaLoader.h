@@ -2,7 +2,7 @@
 #define CAREALOADER_H
 
 #include "CSectionMgrIn.h"
-#include "Core/Resource/Script/SConnection.h"
+#include "Core/Resource/Script/SLink.h"
 #include "Core/Resource/CGameArea.h"
 #include "Core/Resource/EGame.h"
 #include "Core/Resource/CResCache.h"
