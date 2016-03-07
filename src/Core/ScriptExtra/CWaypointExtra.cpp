@@ -1,4 +1,5 @@
 #include "CWaypointExtra.h"
+#include "Core/Resource/Script/CLink.h"
 #include "Core/Render/CDrawUtil.h"
 #include "Core/Render/CRenderer.h"
 #include "Core/Scene/CScene.h"
@@ -78,13 +79,13 @@ void CWaypointExtra::BuildLinks()
 {
     mLinks.clear();
 
-    for (u32 iLink = 0; iLink < mpInstance->NumOutLinks(); iLink++)
+    for (u32 iLink = 0; iLink < mpInstance->NumLinks(eOutgoing); iLink++)
     {
-        const SLink& rkLink = mpInstance->OutLink(iLink);
+        CLink *pLink = mpInstance->Link(eOutgoing, iLink);
 
-        if (IsPathLink(rkLink))
+        if (IsPathLink(pLink))
         {
-            CScriptNode *pNode = mpScene->ScriptNodeByID(rkLink.ObjectID);
+            CScriptNode *pNode = mpScene->ScriptNodeByID(pLink->ReceiverID());
 
             SWaypointLink Link;
             Link.pWaypoint = pNode;
@@ -97,26 +98,26 @@ void CWaypointExtra::BuildLinks()
     mLinksBuilt = true;
 }
 
-bool CWaypointExtra::IsPathLink(const SLink& rkLink)
+bool CWaypointExtra::IsPathLink(CLink *pLink)
 {
     bool Valid = false;
 
-    if (rkLink.State < 0xFF)
+    if (pLink->State() < 0xFF)
     {
-        if (rkLink.State == 0x1 && rkLink.Message == 0x8) Valid = true; // Arrived / Next (MP1)
+        if (pLink->State() == 0x1 && pLink->Message() == 0x8) Valid = true; // Arrived / Next (MP1)
     }
 
     else
     {
-        CFourCC State(rkLink.State);
-        CFourCC Message(rkLink.Message);
+        CFourCC State(pLink->State());
+        CFourCC Message(pLink->Message());
         if (State == "ARRV" && Message == "NEXT") Valid = true; // Arrived / Next (MP2)
         if (State == "NEXT" && Message == "ATCH") Valid = true; // Next / Attach (MP3/DKCR)
     }
 
     if (Valid)
     {
-        CScriptNode *pNode = mpScene->ScriptNodeByID(rkLink.ObjectID);
+        CScriptNode *pNode = mpScene->ScriptNodeByID(pLink->ReceiverID());
 
         if (pNode)
             return pNode->Object()->ObjectTypeID() == mpInstance->ObjectTypeID();

@@ -145,7 +145,10 @@ HEADERS += \
     WorldEditor/CTemplateEditDialog.h \
     WorldEditor/CLinkDialog.h \
     WorldEditor/CStateMessageModel.h \
-    WorldEditor/CSelectInstanceDialog.h
+    WorldEditor/CSelectInstanceDialog.h \
+    Undo/CAddLinkCommand.h \
+    Undo/CDeleteLinksCommand.h \
+    Undo/CEditLinkCommand.h
 
 # Source Files
 SOURCES += \
@@ -204,7 +207,10 @@ SOURCES += \
     Undo/CChangeLayerCommand.cpp \
     WorldEditor/CTemplateEditDialog.cpp \
     WorldEditor/CLinkDialog.cpp \
-    WorldEditor/CSelectInstanceDialog.cpp
+    WorldEditor/CSelectInstanceDialog.cpp \
+    Undo/CAddLinkCommand.cpp \
+    Undo/CDeleteLinksCommand.cpp \
+    Undo/CEditLinkCommand.cpp
 
 # UI Files
 FORMS += \

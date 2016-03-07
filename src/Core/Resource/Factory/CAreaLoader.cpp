@@ -627,15 +627,10 @@ void CAreaLoader::SetUpObjects()
             mpArea->mObjectMap[pObj->InstanceID()] = pObj;
 
             // Store outgoing connections
-            for (u32 iCon = 0; iCon < pObj->NumOutLinks(); iCon++)
+            for (u32 iCon = 0; iCon < pObj->NumLinks(eOutgoing); iCon++)
             {
-                SLink Connection = pObj->OutLink(iCon);
-
-                SLink NewConnection;
-                NewConnection.State = Connection.State;
-                NewConnection.Message = Connection.Message;
-                NewConnection.ObjectID = pObj->InstanceID();
-                mConnectionMap[Connection.ObjectID].push_back(NewConnection);
+                CLink *pLink = pObj->Link(eOutgoing, iCon);
+                mConnectionMap[pLink->ReceiverID()].push_back(pLink);
             }
         }
     }
@@ -649,7 +644,7 @@ void CAreaLoader::SetUpObjects()
         if (iConMap != mConnectionMap.end())
         {
             CScriptObject *pObj = mpArea->GetInstanceByID(InstanceID);
-            pObj->mInConnections = iConMap->second;
+            pObj->mInLinks = iConMap->second;
         }
     }
 }

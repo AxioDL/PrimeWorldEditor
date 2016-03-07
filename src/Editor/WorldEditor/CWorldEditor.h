@@ -1,6 +1,7 @@
 #ifndef CWORLDEDITOR_H
 #define CWORLDEDITOR_H
 
+#include "CLinkDialog.h"
 #include "CPoiMapEditDialog.h"
 #include "Editor/INodeEditor.h"
 #include "Editor/CGizmo.h"
@@ -35,6 +36,7 @@ class CWorldEditor : public INodeEditor
     TResPtr<CGameArea> mpArea;
     QTimer mRefreshTimer;
 
+    CLinkDialog *mpLinkDialog;
     CPoiMapEditDialog *mpPoiDialog;
 
 public:
@@ -47,9 +49,11 @@ public:
 
     inline CGameArea* ActiveArea() const { return mpArea; }
     inline EGame CurrentGame() const { return mpArea ? mpArea->Version() : eUnknownVersion; }
+    inline CLinkDialog* LinkDialog() const { return mpLinkDialog; }
 
 public slots:
     bool Save();
+    void OnLinksModified(const QList<CScriptObject*>& rkInstances);
     void OnPropertyModified(IProperty *pProp);
     void SetSelectionActive(bool Active);
     void SetSelectionInstanceNames(const QString& rkNewName, bool IsDone);
@@ -101,6 +105,7 @@ signals:
     void LayersModified();
     void InstancesLayerAboutToChange();
     void InstancesLayerChanged(const QList<CScriptNode*>& rkInstanceList);
+    void InstanceLinksModified(const QList<CScriptObject*>& rkInstances);
     void PropertyModified(IProperty *pProp, bool IsEditorProperty);
 };
 

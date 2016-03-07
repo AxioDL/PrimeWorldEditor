@@ -1,5 +1,6 @@
 #include "CSplinePathExtra.h"
 #include "CWaypointExtra.h"
+#include "Core/Resource/Script/CLink.h"
 #include "Core/Scene/CScene.h"
 
 CSplinePathExtra::CSplinePathExtra(CScriptObject *pInstance, CScene *pScene, CSceneNode *pParent)
@@ -45,14 +46,14 @@ void CSplinePathExtra::AddWaypoints()
 
     std::set<CWaypointExtra*> CheckedWaypoints;
 
-    for (u32 iLink = 0; iLink < mpInstance->NumOutLinks(); iLink++)
+    for (u32 iLink = 0; iLink < mpInstance->NumLinks(eOutgoing); iLink++)
     {
-        const SLink& rkLink = mpInstance->OutLink(iLink);
+        CLink *pLink = mpInstance->Link(eOutgoing, iLink);
 
-        if ( (rkLink.State == 0x49533030 && rkLink.Message == 0x41544348) || // InternalState00/Attach
-             (rkLink.State == 0x4D4F5450 && rkLink.Message == 0x41544348) )  // MotionPath/Attach
+        if ( (pLink->State() == 0x49533030 && pLink->Message() == 0x41544348) || // InternalState00/Attach
+             (pLink->State() == 0x4D4F5450 && pLink->Message() == 0x41544348) )  // MotionPath/Attach
         {
-            CScriptNode *pNode = mpScene->ScriptNodeByID(rkLink.ObjectID);
+            CScriptNode *pNode = mpScene->ScriptNodeByID(pLink->ReceiverID());
 
             if (pNode && pNode->Object()->ObjectTypeID() == 0x57415950) // Waypoint
             {

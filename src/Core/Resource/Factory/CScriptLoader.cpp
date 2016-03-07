@@ -219,15 +219,16 @@ CScriptObject* CScriptLoader::LoadObjectMP1(IInputStream& SCLY)
 
     // Load connections
     u32 NumLinks = SCLY.ReadLong();
-    mpObj->mOutConnections.reserve(NumLinks);
+    mpObj->mOutLinks.reserve(NumLinks);
 
     for (u32 iLink = 0; iLink < NumLinks; iLink++)
     {
-        SLink Link;
-        Link.State = SCLY.ReadLong();
-        Link.Message = SCLY.ReadLong();
-        Link.ObjectID = SCLY.ReadLong();
-        mpObj->mOutConnections.push_back(Link);
+        u32 State = SCLY.ReadLong();
+        u32 Message = SCLY.ReadLong();
+        u32 ReceiverID = SCLY.ReadLong();
+
+        CLink *pLink = new CLink(mpArea, State, Message, mpObj->mInstanceID, ReceiverID);
+        mpObj->mOutLinks.push_back(pLink);
     }
 
     // Load object...
@@ -331,15 +332,16 @@ CScriptObject* CScriptLoader::LoadObjectMP2(IInputStream& SCLY)
 
     // Load connections
     u32 NumConnections = SCLY.ReadShort();
-    mpObj->mOutConnections.reserve(NumConnections);
+    mpObj->mOutLinks.reserve(NumConnections);
 
     for (u32 iCon = 0; iCon < NumConnections; iCon++)
     {
-        SLink Link;
-        Link.State = SCLY.ReadLong();
-        Link.Message = SCLY.ReadLong();
-        Link.ObjectID = SCLY.ReadLong();
-        mpObj->mOutConnections.push_back(Link);
+        u32 State = SCLY.ReadLong();
+        u32 Message = SCLY.ReadLong();
+        u32 ReceiverID = SCLY.ReadLong();
+
+        CLink *pLink = new CLink(mpArea, State, Message, mpObj->mInstanceID, ReceiverID);
+        mpObj->mOutLinks.push_back(pLink);
     }
 
     // Load object

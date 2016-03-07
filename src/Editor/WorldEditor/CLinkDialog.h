@@ -2,12 +2,13 @@
 #define CLINKDIALOG_H
 
 #include "CStateMessageModel.h"
-#include "CWorldEditor.h"
 #include <QDialog>
 
 namespace Ui {
 class CLinkDialog;
 }
+
+class CWorldEditor;
 
 class CLinkDialog : public QDialog
 {
@@ -17,6 +18,7 @@ class CLinkDialog : public QDialog
     CMasterTemplate *mpMaster;
     CScriptObject *mpSender;
     CScriptObject *mpReceiver;
+    CLink *mpEditLink;
 
     CStateMessageModel mSenderStateModel;
     CStateMessageModel mReceiverMessageModel;
@@ -28,6 +30,9 @@ public:
     ~CLinkDialog();
     void resizeEvent(QResizeEvent *);
     void showEvent(QShowEvent *);
+
+    void NewLink(CScriptObject *pSender, CScriptObject *pReceiver);
+    void EditLink(CLink *pLink);
 
     void SetMaster(CMasterTemplate *pMaster);
     void SetSender(CScriptObject *pSender);
@@ -42,6 +47,7 @@ public:
     inline CScriptObject* Receiver() const { return mpReceiver; }
 
 public slots:
+    void accept();
     void OnSwapClicked();
     void OnPickFromViewportClicked();
     void OnPickModeClick(const SRayIntersection& rkHit, QMouseEvent *pEvent);

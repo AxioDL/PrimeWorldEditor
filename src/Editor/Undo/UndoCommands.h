@@ -15,6 +15,10 @@
 #include "CResizeScriptArrayCommand.h"
 #include "CChangeLayerCommand.h"
 
+#include "CAddLinkCommand.h"
+#include "CDeleteLinksCommand.h"
+#include "CEditLinkCommand.h"
+
 #include "EUndoCommand.h"
 
 #endif // UNDOCOMMANDS

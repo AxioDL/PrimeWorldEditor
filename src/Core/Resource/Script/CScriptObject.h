@@ -1,7 +1,6 @@
 #ifndef CSCRIPTOBJECT_H
 #define CSCRIPTOBJECT_H
 
-#include "SLink.h"
 #include "IProperty.h"
 #include "IPropertyTemplate.h"
 #include "CScriptTemplate.h"
@@ -10,6 +9,13 @@
 #include "Core/Resource/CGameArea.h"
 
 class CScriptLayer;
+class CLink;
+
+enum ELinkType
+{
+    eIncoming,
+    eOutgoing
+};
 
 class CScriptObject
 {
@@ -22,8 +28,8 @@ class CScriptObject
     u32 mVersion;
 
     u32 mInstanceID;
-    std::vector<SLink> mOutConnections;
-    std::vector<SLink> mInConnections;
+    std::vector<CLink*> mOutLinks;
+    std::vector<CLink*> mInLinks;
     CPropertyStruct *mpProperties;
 
     TStringProperty *mpInstanceName;
@@ -67,10 +73,11 @@ public:
     IProperty* PropertyByIDString(const TIDString& str) const;
     u32 ObjectTypeID() const;
     u32 InstanceID() const;
-    u32 NumInLinks() const;
-    u32 NumOutLinks() const;
-    const SLink& InLink(u32 index) const;
-    const SLink& OutLink(u32 index) const;
+
+    u32 NumLinks(ELinkType Type) const;
+    CLink* Link(ELinkType Type, u32 Index) const;
+    void AddLink(ELinkType Type, CLink *pLink, u32 Index = -1);
+    void RemoveLink(ELinkType Type, CLink *pLink);
 
     CVector3f Position() const;
     CVector3f Rotation() const;

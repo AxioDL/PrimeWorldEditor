@@ -15,7 +15,7 @@ void CLinkModel::SetObject(CScriptObject *pObj)
     emit layoutChanged();
 }
 
-void CLinkModel::SetConnectionType(EConnectionType type)
+void CLinkModel::SetConnectionType(ELinkType type)
 {
     mType = type;
     emit layoutChanged();
@@ -24,12 +24,7 @@ void CLinkModel::SetConnectionType(EConnectionType type)
 int CLinkModel::rowCount(const QModelIndex&) const
 {
     if (mpObject)
-    {
-        if (mType == eIncoming)
-            return mpObject->NumInLinks();
-        else
-            return mpObject->NumOutLinks();
-    }
+        return mpObject->NumLinks(mType);
 
     else return 0;
 }
@@ -45,21 +40,22 @@ QVariant CLinkModel::data(const QModelIndex &index, int role) const
 
     else if ((role == Qt::DisplayRole) || (role == Qt::ToolTipRole))
     {
-        SLink link = (mType == eIncoming ? mpObject->InLink(index.row()) : mpObject->OutLink(index.row()));
+        CLink *pLink = mpObject->Link(mType, index.row());
 
         switch (index.column())
         {
 
         case 0: // Column 0 - Target Object
         {
-            CScriptObject *pTargetObj = mpObject->Area()->GetInstanceByID(link.ObjectID);
+            u32 TargetID = (mType == eIncoming ? pLink->SenderID() : pLink->ReceiverID());
+            CScriptObject *pTarget = mpObject->Area()->GetInstanceByID(TargetID);
 
-            if (pTargetObj) {
-                QString ObjType = QString("[%1] ").arg(UICommon::ToQString(pTargetObj->Template()->Name()));
-                return ObjType + UICommon::ToQString(pTargetObj->InstanceName());
+            if (pTarget) {
+                QString ObjType = QString("[%1] ").arg(UICommon::ToQString(pTarget->Template()->Name()));
+                return ObjType + UICommon::ToQString(pTarget->InstanceName());
             }
             else {
-                QString strID = QString::number(link.ObjectID, 16);
+                QString strID = QString::number(TargetID, 16);
                 while (strID.length() < 8) strID = "0" + strID;
                 return QString("External: 0x") + strID;
             }
@@ -67,13 +63,13 @@ QVariant CLinkModel::data(const QModelIndex &index, int role) const
 
         case 1: // Column 1 - State
         {
-            TString StateName = mpObject->MasterTemplate()->StateByID(link.State).Name;
+            TString StateName = mpObject->MasterTemplate()->StateByID(pLink->State()).Name;
             return UICommon::ToQString(StateName);
         }
 
         case 2: // Column 2 - Message
         {
-            TString MessageName = mpObject->MasterTemplate()->MessageByID(link.Message).Name;
+            TString MessageName = mpObject->MasterTemplate()->MessageByID(pLink->Message()).Name;
             return UICommon::ToQString(MessageName);
         }
 

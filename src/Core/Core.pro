@@ -186,7 +186,7 @@ HEADERS += \
     Resource/Factory/CSectionMgrIn.h \
     Resource/Cooker/CScriptCooker.h \
     ScriptExtra/CSplinePathExtra.h \
-    Resource/Script/SLink.h
+    Resource/Script/CLink.h
 
 # Source Files
 SOURCES += \

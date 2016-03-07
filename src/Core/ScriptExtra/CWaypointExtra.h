@@ -26,7 +26,7 @@ public:
     void AddToSplinePath(CSplinePathExtra *pPath);
     void RemoveFromSplinePath(CSplinePathExtra *pPath);
     void BuildLinks();
-    bool IsPathLink(const SLink& rkLink);
+    bool IsPathLink(CLink *pLink);
     void GetLinkedWaypoints(std::list<CWaypointExtra*>& rOut);
 
     void LinksModified();

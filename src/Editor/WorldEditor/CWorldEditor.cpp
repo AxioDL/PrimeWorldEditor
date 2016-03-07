@@ -31,6 +31,7 @@ CWorldEditor::CWorldEditor(QWidget *parent) :
 
     mpArea = nullptr;
     mpWorld = nullptr;
+    mpLinkDialog = new CLinkDialog(this, this);
     mpPoiDialog = nullptr;
     mGizmoHovering = false;
     mGizmoTransforming = false;
@@ -108,6 +109,7 @@ void CWorldEditor::closeEvent(QCloseEvent *pEvent)
     if (ShouldClose)
     {
         mUndoStack.clear();
+        mpLinkDialog->close();
 
         if (mpPoiDialog)
             mpPoiDialog->close();
@@ -175,6 +177,9 @@ void CWorldEditor::SetArea(CWorld *pWorld, CGameArea *pArea, u32 AreaIndex)
     // Set up sidebar tabs
     CMasterTemplate *pMaster = CMasterTemplate::GetMasterForGame(mpArea->Version());
     ui->InstancesTabContents->SetMaster(pMaster);
+
+    // Set up dialogs
+    mpLinkDialog->SetMaster(pMaster);
 
     // Set window title
     CStringTable *pWorldNameTable = mpWorld->GetWorldName();
@@ -246,6 +251,17 @@ bool CWorldEditor::Save()
         QMessageBox::warning(this, "Error", "Unable to save error; couldn't open output file " + TO_QSTRING(Out));
         return false;
     }
+}
+
+void CWorldEditor::OnLinksModified(const QList<CScriptObject*>& rkInstances)
+{
+    foreach (CScriptObject *pInstance, rkInstances)
+    {
+        CScriptNode *pNode = mScene.NodeForObject(pInstance);
+        pNode->LinksModified();
+    }
+
+    emit InstanceLinksModified(rkInstances);
 }
 
 void CWorldEditor::OnPropertyModified(IProperty *pProp)

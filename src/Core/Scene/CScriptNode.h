@@ -45,6 +45,7 @@ public:
     CColor TintColor(const SViewInfo &ViewInfo) const;
     CColor WireframeColor() const;
 
+    void LinksModified();
     void PropertyModified(IProperty *pProp);
     void UpdatePreviewVolume();
     void GeneratePosition();
