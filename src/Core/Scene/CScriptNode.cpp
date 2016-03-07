@@ -495,6 +495,10 @@ void CScriptNode::PropertyModified(IProperty *pProp)
 
     // Update script extra
     if (mpExtra) mpExtra->PropertyModified(pProp);
+
+    // Update game mode visibility
+    if (pProp && pProp == mpInstance->ActiveProperty())
+        TestGameModeVisibility();
 }
 
 void CScriptNode::UpdatePreviewVolume()

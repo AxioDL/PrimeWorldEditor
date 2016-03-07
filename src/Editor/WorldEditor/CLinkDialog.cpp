@@ -37,16 +37,16 @@ CLinkDialog::~CLinkDialog()
 
 void CLinkDialog::resizeEvent(QResizeEvent *)
 {
-    SetSenderNameLabel();
-    SetReceiverNameLabel();
+    UpdateSenderNameLabel();
+    UpdateReceiverNameLabel();
 }
 
 void CLinkDialog::showEvent(QShowEvent *)
 {
     // This is needed to get the labels to elide correctly when the window is first shown. It shouldn't be
     // needed because showing the window generates a resize event, but for some reason it is, so whatever.
-    SetSenderNameLabel();
-    SetReceiverNameLabel();
+    UpdateSenderNameLabel();
+    UpdateReceiverNameLabel();
 }
 
 void CLinkDialog::closeEvent(QCloseEvent *)
@@ -93,7 +93,8 @@ void CLinkDialog::SetSender(CScriptObject *pSender)
     bool HadSender = mpSender != nullptr;
     mpSender = pSender;
     mSenderStateModel.SetScriptTemplate(pSender ? pSender->Template() : nullptr);
-    SetSenderNameLabel();
+    UpdateSenderNameLabel();
+    UpdateOkEnabled();
 
     if (pSender)
     {
@@ -112,7 +113,8 @@ void CLinkDialog::SetReceiver(CScriptObject *pReceiver)
     bool HadReceiver = mpReceiver != nullptr;
     mpReceiver = pReceiver;
     mReceiverMessageModel.SetScriptTemplate(pReceiver ? pReceiver->Template() : nullptr);
-    SetReceiverNameLabel();
+    UpdateReceiverNameLabel();
+    UpdateOkEnabled();
 
     if (pReceiver)
     {
@@ -136,7 +138,12 @@ u32 CLinkDialog::Message() const
     return mReceiverMessageModel.Message(ui->ReceiverMessageComboBox->currentIndex());
 }
 
-void CLinkDialog::SetSenderNameLabel()
+void CLinkDialog::UpdateOkEnabled()
+{
+    ui->ButtonBox->button(QDialogButtonBox::Ok)->setEnabled( Sender() && Receiver() );
+}
+
+void CLinkDialog::UpdateSenderNameLabel()
 {
     QString Text = (mpSender ? TO_QSTRING(mpSender->InstanceName()) : "<i>No sender</i>");
     ui->SenderNameLabel->setToolTip(Text);
@@ -148,7 +155,7 @@ void CLinkDialog::SetSenderNameLabel()
     ui->SenderGroupBox->setTitle(mpSender ? "Sender - " + TO_QSTRING(mpSender->Template()->Name()) : "Sender");
 }
 
-void CLinkDialog::SetReceiverNameLabel()
+void CLinkDialog::UpdateReceiverNameLabel()
 {
     QString Text = (mpReceiver ? TO_QSTRING(mpReceiver->InstanceName()) : "<i>No receiver</i>");
     ui->ReceiverNameLabel->setToolTip(Text);

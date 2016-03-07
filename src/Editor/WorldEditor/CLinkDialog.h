@@ -43,8 +43,9 @@ public:
     u32 State() const;
     u32 Message() const;
 
-    void SetSenderNameLabel();
-    void SetReceiverNameLabel();
+    void UpdateOkEnabled();
+    void UpdateSenderNameLabel();
+    void UpdateReceiverNameLabel();
 
     inline CScriptObject* Sender() const { return mpSender; }
     inline CScriptObject* Receiver() const { return mpReceiver; }
