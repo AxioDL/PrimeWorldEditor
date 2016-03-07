@@ -155,7 +155,16 @@
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout">
                 <item>
-                 <widget class="QPushButton" name="AddOutgoingConnectionButton">
+                 <widget class="QToolButton" name="AddOutgoingConnectionToolButton">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="focusPolicy">
+                   <enum>Qt::StrongFocus</enum>
+                  </property>
                   <property name="text">
                    <string/>
                   </property>
@@ -163,16 +172,11 @@
                    <iconset resource="../Icons.qrc">
                     <normaloff>:/icons/Plus.png</normaloff>:/icons/Plus.png</iconset>
                   </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="DeleteOutgoingConnectionButton">
-                  <property name="text">
-                   <string/>
+                  <property name="popupMode">
+                   <enum>QToolButton::InstantPopup</enum>
                   </property>
-                  <property name="icon">
-                   <iconset resource="../Icons.qrc">
-                    <normaloff>:/icons/Minus v2.png</normaloff>:/icons/Minus v2.png</iconset>
+                  <property name="arrowType">
+                   <enum>Qt::NoArrow</enum>
                   </property>
                  </widget>
                 </item>
@@ -210,6 +214,17 @@
                    </size>
                   </property>
                  </spacer>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="DeleteOutgoingConnectionButton">
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../Icons.qrc">
+                    <normaloff>:/icons/Minus v2.png</normaloff>:/icons/Minus v2.png</iconset>
+                  </property>
+                 </widget>
                 </item>
                </layout>
               </item>
@@ -253,7 +268,16 @@
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_2">
                 <item>
-                 <widget class="QPushButton" name="AddIncomingConnectionButton">
+                 <widget class="QToolButton" name="AddIncomingConnectionToolButton">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="focusPolicy">
+                   <enum>Qt::StrongFocus</enum>
+                  </property>
                   <property name="text">
                    <string/>
                   </property>
@@ -261,16 +285,8 @@
                    <iconset resource="../Icons.qrc">
                     <normaloff>:/icons/Plus.png</normaloff>:/icons/Plus.png</iconset>
                   </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="DeleteIncomingConnectionButton">
-                  <property name="text">
-                   <string/>
-                  </property>
-                  <property name="icon">
-                   <iconset resource="../Icons.qrc">
-                    <normaloff>:/icons/Minus v2.png</normaloff>:/icons/Minus v2.png</iconset>
+                  <property name="popupMode">
+                   <enum>QToolButton::InstantPopup</enum>
                   </property>
                  </widget>
                 </item>
@@ -302,6 +318,17 @@
                    </size>
                   </property>
                  </spacer>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="DeleteIncomingConnectionButton">
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../Icons.qrc">
+                    <normaloff>:/icons/Minus v2.png</normaloff>:/icons/Minus v2.png</iconset>
+                  </property>
+                 </widget>
                 </item>
                </layout>
               </item>
