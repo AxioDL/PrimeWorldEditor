@@ -2,7 +2,7 @@
 #define CMASTERTEMPLATE_H
 
 #include "CScriptTemplate.h"
-#include "SLink.h"
+#include "CLink.h"
 #include "Core/Resource/EGame.h"
 #include <Common/types.h>
 #include <map>

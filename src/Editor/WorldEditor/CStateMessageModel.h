@@ -91,7 +91,33 @@ public:
         endResetModel();
     }
 
-    void SetScriptTemplate(CScriptTemplate *pScript)
+    u32 StateIndex(u32 StateID) const
+    {
+        if (mType == eMessages) return -1;
+
+        for (int iState = 0; iState < mEntries.size(); iState++)
+        {
+            if (mEntries[iState].ID == StateID)
+                return iState;
+        }
+
+        return -1;
+    }
+
+    u32 MessageIndex(u32 MessageID) const
+    {
+        if (mType == eStates) return -1;
+
+        for (int iMsg = 0; iMsg < mEntries.size(); iMsg++)
+        {
+            if (mEntries[iMsg].ID == MessageID)
+                return iMsg;
+        }
+
+        return -1;
+    }
+
+    inline void SetScriptTemplate(CScriptTemplate *pScript)
     {
         mpScript = pScript;
     }

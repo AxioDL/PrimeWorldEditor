@@ -3,6 +3,7 @@
 
 #include "CLinkDialog.h"
 #include "CWorldEditor.h"
+#include "Editor/Undo/UndoCommands.h"
 #include <Core/Scene/CScriptNode.h>
 
 #include <QScrollArea>
@@ -20,10 +21,9 @@ WModifyTab::WModifyTab(QWidget *pParent)
     ui->PropertyView->header()->setSectionResizeMode(1, QHeaderView::Fixed);
 
     mpInLinkModel = new CLinkModel(this);
-    mpInLinkModel->SetConnectionType(CLinkModel::eIncoming);
+    mpInLinkModel->SetConnectionType(eIncoming);
     mpOutLinkModel = new CLinkModel(this);
-    mpOutLinkModel->SetConnectionType(CLinkModel::eOutgoing);
-    mpLinkDialog = nullptr;
+    mpOutLinkModel->SetConnectionType(eOutgoing);
 
     ui->InLinksTableView->setModel(mpInLinkModel);
     ui->OutLinksTableView->setModel(mpOutLinkModel);
@@ -31,10 +31,14 @@ WModifyTab::WModifyTab(QWidget *pParent)
     ui->OutLinksTableView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
     connect(ui->InLinksTableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnLinkTableDoubleClick(QModelIndex)));
     connect(ui->OutLinksTableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnLinkTableDoubleClick(QModelIndex)));
+    connect(ui->InLinksTableView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(OnIncomingLinksSelectionModified()));
+    connect(ui->OutLinksTableView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(OnOutgoingLinksSelectionModified()));
     connect(ui->AddOutgoingConnectionButton, SIGNAL(clicked()), this, SLOT(OnAddOutgoingLinkClicked()));
     connect(ui->AddIncomingConnectionButton, SIGNAL(clicked()), this, SLOT(OnAddIncomingLinkClicked()));
     connect(ui->DeleteOutgoingConnectionButton, SIGNAL(clicked()), this, SLOT(OnDeleteOutgoingLinkClicked()));
     connect(ui->DeleteIncomingConnectionButton, SIGNAL(clicked()), this, SLOT(OnDeleteIncomingLinkClicked()));
+    connect(ui->EditOutgoingConnectionButton, SIGNAL(clicked()), this, SLOT(OnEditOutgoingLinkClicked()));
+    connect(ui->EditIncomingConnectionButton, SIGNAL(clicked()), this, SLOT(OnEditIncomingLinkClicked()));
 
     ClearUI();
 }
@@ -48,8 +52,8 @@ void WModifyTab::SetEditor(CWorldEditor *pEditor)
 {
     mpWorldEditor = pEditor;
     ui->PropertyView->SetEditor(mpWorldEditor);
-    connect(mpWorldEditor, SIGNAL(Closed()), this, SLOT(OnWorldEditorClosed()));
     connect(mpWorldEditor, SIGNAL(SelectionTransformed()), this, SLOT(OnWorldSelectionTransformed()));
+    connect(mpWorldEditor, SIGNAL(InstanceLinksModified(const QList<CScriptObject*>&)), this, SLOT(OnInstanceLinksModified(const QList<CScriptObject*>&)));
 }
 
 void WModifyTab::GenerateUI(QList<CSceneNode*>& Selection)
@@ -69,9 +73,12 @@ void WModifyTab::GenerateUI(QList<CSceneNode*>& Selection)
 
                 // Set up UI
                 ui->PropertyView->SetInstance(pObj);
+                ui->LightGroupBox->hide();
+
+                ui->InLinksTableView->clearSelection();
+                ui->OutLinksTableView->clearSelection();
                 mpInLinkModel->SetObject(pObj);
                 mpOutLinkModel->SetObject(pObj);
-                ui->LightGroupBox->hide();
             }
         }
     }
@@ -88,36 +95,21 @@ void WModifyTab::ClearUI()
     mpSelectedNode = nullptr;
 }
 
-void WModifyTab::CreateLinkDialog()
-{
-    if (!mpLinkDialog)
-    {
-        mpLinkDialog = new CLinkDialog(mpWorldEditor, this);
-
-        if (mpSelectedNode && mpSelectedNode->NodeType() == eScriptNode)
-        {
-            CScriptNode *pScript = static_cast<CScriptNode*>(mpSelectedNode);
-            mpLinkDialog->SetMaster(pScript->Object()->MasterTemplate());
-        }
-
-        connect(mpLinkDialog, SIGNAL(accepted()), this, SLOT(OnLinkDialogAccept()));
-        connect(mpLinkDialog, SIGNAL(rejected()), this, SLOT(OnLinkDialogReject()));
-    }
-}
-
-void WModifyTab::DeleteLinkDialog()
-{
-    if (mpLinkDialog)
-    {
-        delete mpLinkDialog;
-        mpLinkDialog = nullptr;
-    }
-}
-
 // ************ PUBLIC SLOTS ************
-void WModifyTab::OnWorldEditorClosed()
+void WModifyTab::OnInstanceLinksModified(const QList<CScriptObject*>& rkInstances)
 {
-    DeleteLinkDialog();
+    if (mpSelectedNode && mpSelectedNode->NodeType() == eScriptNode)
+    {
+        CScriptObject *pInstance = static_cast<CScriptNode*>(mpSelectedNode)->Object();
+
+        if (pInstance && rkInstances.contains(pInstance))
+        {
+            mpInLinkModel->layoutChanged();
+            mpOutLinkModel->layoutChanged();
+            ui->InLinksTableView->clearSelection();
+            ui->OutLinksTableView->clearSelection();
+        }
+    }
 }
 
 void WModifyTab::OnWorldSelectionTransformed()
@@ -125,20 +117,26 @@ void WModifyTab::OnWorldSelectionTransformed()
     ui->PropertyView->UpdateEditorProperties(QModelIndex());
 }
 
+void WModifyTab::OnOutgoingLinksSelectionModified()
+{
+    u32 NumSelectedRows = ui->OutLinksTableView->selectionModel()->selectedRows().size();
+    ui->EditOutgoingConnectionButton->setEnabled(NumSelectedRows == 1);
+}
+
+void WModifyTab::OnIncomingLinksSelectionModified()
+{
+    u32 NumSelectedRows = ui->InLinksTableView->selectionModel()->selectedRows().size();
+    ui->EditIncomingConnectionButton->setEnabled(NumSelectedRows == 1);
+}
+
 void WModifyTab::OnAddOutgoingLinkClicked()
 {
     if (mpSelectedNode && mpSelectedNode->NodeType() == eScriptNode)
     {
         CScriptObject *pInst = static_cast<CScriptNode*>(mpSelectedNode)->Object();
-        CreateLinkDialog();
-
-        if (mpLinkDialog->Sender() != pInst)
-        {
-            mpLinkDialog->SetSender(pInst);
-            mpLinkDialog->SetReceiver(nullptr);
-        }
-
-        mpLinkDialog->show();
+        CLinkDialog *pDialog = mpWorldEditor->LinkDialog();
+        pDialog->NewLink(pInst, nullptr);
+        pDialog->show();
     }
 }
 
@@ -147,34 +145,82 @@ void WModifyTab::OnAddIncomingLinkClicked()
     if (mpSelectedNode && mpSelectedNode->NodeType() == eScriptNode)
     {
         CScriptObject *pInst = static_cast<CScriptNode*>(mpSelectedNode)->Object();
-        CreateLinkDialog();
-
-        if (mpLinkDialog->Receiver() != pInst)
-        {
-            mpLinkDialog->SetSender(nullptr);
-            mpLinkDialog->SetReceiver(pInst);
-        }
-
-        mpLinkDialog->show();
+        CLinkDialog *pDialog = mpWorldEditor->LinkDialog();
+        pDialog->NewLink(nullptr, pInst);
+        pDialog->show();
     }
 }
 
 void WModifyTab::OnDeleteOutgoingLinkClicked()
 {
+    if (mpSelectedNode && mpSelectedNode->NodeType() == eScriptNode)
+    {
+        QModelIndexList SelectedIndices = ui->OutLinksTableView->selectionModel()->selectedRows();
+
+        if (!SelectedIndices.isEmpty())
+        {
+            QVector<u32> Indices;
+
+            for (int iIdx = 0; iIdx < SelectedIndices.size(); iIdx++)
+                Indices << SelectedIndices[iIdx].row();
+
+            CScriptObject *pInst = static_cast<CScriptNode*>(mpSelectedNode)->Object();
+            CDeleteLinksCommand *pCmd = new CDeleteLinksCommand(mpWorldEditor, pInst, eOutgoing, Indices);
+            mpWorldEditor->UndoStack()->push(pCmd);
+        }
+    }
 }
 
 void WModifyTab::OnDeleteIncomingLinkClicked()
 {
+    if (mpSelectedNode && mpSelectedNode->NodeType() == eScriptNode)
+    {
+        QModelIndexList SelectedIndices = ui->InLinksTableView->selectionModel()->selectedRows();
+
+        if (!SelectedIndices.isEmpty())
+        {
+            QVector<u32> Indices;
+
+            for (int iIdx = 0; iIdx < SelectedIndices.size(); iIdx++)
+                Indices << SelectedIndices[iIdx].row();
+
+            CScriptObject *pInst = static_cast<CScriptNode*>(mpSelectedNode)->Object();
+            CDeleteLinksCommand *pCmd = new CDeleteLinksCommand(mpWorldEditor, pInst, eIncoming, Indices);
+            mpWorldEditor->UndoStack()->push(pCmd);
+        }
+    }
 }
 
-void WModifyTab::OnLinkDialogAccept()
+void WModifyTab::OnEditOutgoingLinkClicked()
 {
-    DeleteLinkDialog();
+    if (mpSelectedNode && mpSelectedNode->NodeType() == eScriptNode)
+    {
+        QModelIndexList SelectedIndices = ui->OutLinksTableView->selectionModel()->selectedRows();
+
+        if (SelectedIndices.size() == 1)
+        {
+            CScriptObject *pInst = static_cast<CScriptNode*>(mpSelectedNode)->Object();
+            CLinkDialog *pDialog = mpWorldEditor->LinkDialog();
+            pDialog->EditLink(pInst->Link(eOutgoing, SelectedIndices.front().row()));
+            pDialog->show();
+        }
+    }
 }
 
-void WModifyTab::OnLinkDialogReject()
+void WModifyTab::OnEditIncomingLinkClicked()
 {
-    DeleteLinkDialog();
+    if (mpSelectedNode && mpSelectedNode->NodeType() == eScriptNode)
+    {
+        QModelIndexList SelectedIndices = ui->InLinksTableView->selectionModel()->selectedRows();
+
+        if (SelectedIndices.size() == 1)
+        {
+            CScriptObject *pInst = static_cast<CScriptNode*>(mpSelectedNode)->Object();
+            CLinkDialog *pDialog = mpWorldEditor->LinkDialog();
+            pDialog->EditLink(pInst->Link(eIncoming, SelectedIndices.front().row()));
+            pDialog->show();
+        }
+    }
 }
 
 // ************ PRIVATE SLOTS ************
@@ -184,14 +230,14 @@ void WModifyTab::OnLinkTableDoubleClick(QModelIndex Index)
     {
         // The link table will only be visible if the selected node is a script node
         CScriptNode *pNode = static_cast<CScriptNode*>(mpSelectedNode);
-        SLink Link;
+        u32 InstanceID;
 
         if (sender() == ui->InLinksTableView)
-            Link = pNode->Object()->InLink(Index.row());
+            InstanceID = pNode->Object()->Link(eIncoming, Index.row())->SenderID();
         else if (sender() == ui->OutLinksTableView)
-            Link = pNode->Object()->OutLink(Index.row());
+            InstanceID = pNode->Object()->Link(eOutgoing, Index.row())->ReceiverID();
 
-        CScriptNode *pLinkedNode = pNode->Scene()->ScriptNodeByID(Link.ObjectID);
+        CScriptNode *pLinkedNode = pNode->Scene()->ScriptNodeByID(InstanceID);
 
         if (pLinkedNode)
         {

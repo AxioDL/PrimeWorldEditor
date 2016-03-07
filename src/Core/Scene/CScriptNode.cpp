@@ -255,18 +255,18 @@ void CScriptNode::DrawSelection()
         CGraphics::sMVPBlock.ModelMatrix = CMatrix4f::skIdentity;
         CGraphics::UpdateMVPBlock();
 
-        for (u32 iIn = 0; iIn < mpInstance->NumInLinks(); iIn++)
+        for (u32 iIn = 0; iIn < mpInstance->NumLinks(eIncoming); iIn++)
         {
             // Don't draw in links if the other object is selected.
-            const SLink& con = mpInstance->InLink(iIn);
-            CScriptNode *pLinkNode = mpScene->ScriptNodeByID(con.ObjectID);
+            CLink *pLink = mpInstance->Link(eIncoming, iIn);
+            CScriptNode *pLinkNode = mpScene->ScriptNodeByID(pLink->SenderID());
             if (pLinkNode && !pLinkNode->IsSelected()) CDrawUtil::DrawLine(CenterPoint(), pLinkNode->CenterPoint(), CColor::skTransparentRed);
         }
 
-        for (u32 iOut = 0; iOut < mpInstance->NumOutLinks(); iOut++)
+        for (u32 iOut = 0; iOut < mpInstance->NumLinks(eOutgoing); iOut++)
         {
-            const SLink& con = mpInstance->OutLink(iOut);
-            CScriptNode *pLinkNode = mpScene->ScriptNodeByID(con.ObjectID);
+            CLink *pLink = mpInstance->Link(eOutgoing, iOut);
+            CScriptNode *pLinkNode = mpScene->ScriptNodeByID(pLink->ReceiverID());
             if (pLinkNode) CDrawUtil::DrawLine(CenterPoint(), pLinkNode->CenterPoint(), CColor::skTransparentGreen);
         }
     }
@@ -429,6 +429,11 @@ CColor CScriptNode::TintColor(const SViewInfo &ViewInfo) const
     return BaseColor;
 }
 
+void CScriptNode::LinksModified()
+{
+    if (mpExtra) mpExtra->LinksModified();
+}
+
 void CScriptNode::PropertyModified(IProperty *pProp)
 {
     // Update volume
@@ -534,13 +539,13 @@ void CScriptNode::GeneratePosition()
 
         // Ideal way to generate the position is to find a spot close to where it's being used.
         // To do this I check the location of the objects that this one is linked to.
-        u32 NumLinks = mpInstance->NumInLinks() + mpInstance->NumOutLinks();
+        u32 NumLinks = mpInstance->NumLinks(eIncoming) + mpInstance->NumLinks(eOutgoing);
 
         // In the case of one link, apply an offset so the new position isn't the same place as the object it's linked to
         if (NumLinks == 1)
         {
-            const SLink& link = (mpInstance->NumInLinks() > 0 ? mpInstance->InLink(0) : mpInstance->OutLink(0));
-            CScriptNode *pNode = mpScene->ScriptNodeByID(link.ObjectID);
+            u32 LinkedID = (mpInstance->NumLinks(eIncoming) > 0 ? mpInstance->Link(eIncoming, 0)->SenderID() : mpInstance->Link(eOutgoing, 0)->ReceiverID());
+            CScriptNode *pNode = mpScene->ScriptNodeByID(LinkedID);
             pNode->GeneratePosition();
             mPosition = pNode->AbsolutePosition();
             mPosition.z += (pNode->AABox().Size().z / 2.f);
@@ -553,9 +558,9 @@ void CScriptNode::GeneratePosition()
         {
             CVector3f NewPos = CVector3f::skZero;
 
-            for (u32 iIn = 0; iIn < mpInstance->NumInLinks(); iIn++)
+            for (u32 iIn = 0; iIn < mpInstance->NumLinks(eIncoming); iIn++)
             {
-                CScriptNode *pNode = mpScene->ScriptNodeByID(mpInstance->InLink(iIn).ObjectID);
+                CScriptNode *pNode = mpScene->ScriptNodeByID(mpInstance->Link(eIncoming, iIn)->SenderID());
 
                 if (pNode)
                 {
@@ -564,9 +569,9 @@ void CScriptNode::GeneratePosition()
                 }
             }
 
-            for (u32 iOut = 0; iOut < mpInstance->NumOutLinks(); iOut++)
+            for (u32 iOut = 0; iOut < mpInstance->NumLinks(eOutgoing); iOut++)
             {
-                CScriptNode *pNode = mpScene->ScriptNodeByID(mpInstance->OutLink(iOut).ObjectID);
+                CScriptNode *pNode = mpScene->ScriptNodeByID(mpInstance->Link(eOutgoing, iOut)->ReceiverID());
 
                 if (pNode)
                 {

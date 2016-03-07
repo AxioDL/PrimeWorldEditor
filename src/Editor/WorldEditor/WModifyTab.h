@@ -28,28 +28,25 @@ class WModifyTab : public QWidget
     CLinkModel *mpInLinkModel;
     CLinkModel *mpOutLinkModel;
 
-    CLinkDialog *mpLinkDialog;
-
 public:
     explicit WModifyTab(QWidget *pParent = 0);
     ~WModifyTab();
     void SetEditor(CWorldEditor *pEditor);
     void GenerateUI(QList<CSceneNode*>& Selection);
     void ClearUI();
-    void CreateLinkDialog();
-    void DeleteLinkDialog();
 
 public slots:
-    void OnWorldEditorClosed();
+    void OnInstanceLinksModified(const QList<CScriptObject*>& rkInstances);
     void OnWorldSelectionTransformed();
 
+    void OnOutgoingLinksSelectionModified();
+    void OnIncomingLinksSelectionModified();
     void OnAddOutgoingLinkClicked();
     void OnAddIncomingLinkClicked();
     void OnDeleteOutgoingLinkClicked();
     void OnDeleteIncomingLinkClicked();
-    void OnLinkDialogAccept();
-    void OnLinkDialogReject();
-
+    void OnEditOutgoingLinkClicked();
+    void OnEditIncomingLinkClicked();
 private:
     Ui::WModifyTab *ui;
 

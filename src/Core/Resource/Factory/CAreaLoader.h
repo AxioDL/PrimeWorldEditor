@@ -2,7 +2,7 @@
 #define CAREALOADER_H
 
 #include "CSectionMgrIn.h"
-#include "Core/Resource/Script/SLink.h"
+#include "Core/Resource/Script/CLink.h"
 #include "Core/Resource/CGameArea.h"
 #include "Core/Resource/EGame.h"
 #include "Core/Resource/CResCache.h"
@@ -22,7 +22,7 @@ class CAreaLoader
     u32 mNumLayers;
 
     // Object connections
-    std::unordered_map<u32, std::vector<SLink>> mConnectionMap;
+    std::unordered_map<u32, std::vector<CLink*>> mConnectionMap;
 
     // Compression
     u8 *mDecmpBuffer;

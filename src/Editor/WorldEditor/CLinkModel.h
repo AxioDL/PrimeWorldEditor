@@ -8,19 +8,13 @@ class CLinkModel : public QAbstractTableModel
 {
     Q_OBJECT
 
-public:
-    enum EConnectionType {
-        eIncoming, eOutgoing
-    };
-
-private:
     CScriptObject *mpObject;
-    EConnectionType mType;
+    ELinkType mType;
 
 public:
     explicit CLinkModel(QObject *pParent = 0);
     void SetObject(CScriptObject *pObj);
-    void SetConnectionType(EConnectionType type);
+    void SetConnectionType(ELinkType type);
     int rowCount(const QModelIndex& parent = QModelIndex()) const;
     int columnCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;

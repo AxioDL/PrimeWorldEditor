@@ -21,6 +21,10 @@ CScriptObject::~CScriptObject()
 {
     if (mpProperties) delete mpProperties;
     mpTemplate->RemoveObject(this);
+
+    // Note: Incoming links will be deleted by the sender.
+    for (u32 iLink = 0; iLink < mOutLinks.size(); iLink++)
+        delete mOutLinks[iLink];
 }
 
 // ************ DATA MANIPULATION ************
@@ -94,17 +98,17 @@ bool CScriptObject::HasNearVisibleActivation() const
     if (mIsCheckingNearVisibleActivation) return false;
     mIsCheckingNearVisibleActivation = true;
 
-    for (u32 iLink = 0; iLink < mInConnections.size(); iLink++)
+    for (u32 iLink = 0; iLink < mInLinks.size(); iLink++)
     {
-        const SLink& rkLink = mInConnections[iLink];
+        CLink *pLink = mInLinks[iLink];
 
         // Check for trigger activation
-        if (rkLink.State == 0x49533034 || rkLink.State == 0x49533035 || rkLink.State == 0x49533036) // "IS04", "IS05", or "IS06"
+        if (pLink->State() == 0x49533034 || pLink->State() == 0x49533035 || pLink->State() == 0x49533036) // "IS04", "IS05", or "IS06"
         {
-            if ( (!IsRelay && rkLink.Message == 0x41435456) || // "ACTV"
-                 (IsRelay  && rkLink.Message == 0x4143544E) )  // "ACTN"
+            if ( (!IsRelay && pLink->Message() == 0x41435456) || // "ACTV"
+                 (IsRelay  && pLink->Message() == 0x4143544E) )  // "ACTN"
             {
-                CScriptObject *pObj = mpArea->GetInstanceByID(rkLink.ObjectID);
+                CScriptObject *pObj = pLink->Sender();
 
                 if (pObj->ObjectTypeID() == 0x54524752) // "TRGR"
                 {
@@ -115,12 +119,12 @@ bool CScriptObject::HasNearVisibleActivation() const
         }
 
         // Check for relay activation
-        else if (rkLink.State == 0x524C4159) // "RLAY"
+        else if (pLink->State() == 0x524C4159) // "RLAY"
         {
-            if ( (!IsRelay && rkLink.Message == 0x41435456) || // "ACTV"
-                 (IsRelay  && rkLink.Message == 0x4143544E) )  // "ACTN"
+            if ( (!IsRelay && pLink->Message() == 0x41435456) || // "ACTV"
+                 (IsRelay  && pLink->Message() == 0x4143544E) )  // "ACTN"
             {
-                CScriptObject *pObj = mpArea->GetInstanceByID(rkLink.ObjectID);
+                CScriptObject *pObj = pLink->Sender();
 
                 if (pObj->ObjectTypeID() == 0x53524C59) // "SRLY"
                     Relays.push_back(pObj);
@@ -198,24 +202,42 @@ u32 CScriptObject::InstanceID() const
     return mInstanceID;
 }
 
-u32 CScriptObject::NumInLinks() const
+u32 CScriptObject::NumLinks(ELinkType Type) const
 {
-    return mInConnections.size();
+    return (Type == eIncoming ? mInLinks.size() : mOutLinks.size());
 }
 
-u32 CScriptObject::NumOutLinks() const
+CLink* CScriptObject::Link(ELinkType Type, u32 Index) const
 {
-    return mOutConnections.size();
+    return (Type == eIncoming ? mInLinks[Index] : mOutLinks[Index]);
 }
 
-const SLink& CScriptObject::InLink(u32 index) const
+void CScriptObject::AddLink(ELinkType Type, CLink *pLink, u32 Index /*= -1*/)
 {
-    return mInConnections[index];
+    std::vector<CLink*> *pLinkVec = (Type == eIncoming ? &mInLinks : &mOutLinks);
+
+    if (Index == -1 || Index == pLinkVec->size())
+        pLinkVec->push_back(pLink);
+    else
+    {
+        auto it = pLinkVec->begin();
+        std::advance(it, Index);
+        pLinkVec->insert(it, pLink);
+    }
 }
 
-const SLink& CScriptObject::OutLink(u32 index) const
+void CScriptObject::RemoveLink(ELinkType Type, CLink *pLink)
 {
-    return mOutConnections[index];
+    std::vector<CLink*> *pLinkVec = (Type == eIncoming ? &mInLinks : &mOutLinks);
+
+    for (auto it = pLinkVec->begin(); it != pLinkVec->end(); it++)
+    {
+        if (*it == pLink)
+        {
+            pLinkVec->erase(it);
+            break;
+        }
+    }
 }
 
 TString CScriptObject::InstanceName() const

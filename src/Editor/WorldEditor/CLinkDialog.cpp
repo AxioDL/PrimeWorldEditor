@@ -2,6 +2,9 @@
 #include "ui_CLinkDialog.h"
 #include "CSelectInstanceDialog.h"
 #include "CStateMessageModel.h"
+#include "CWorldEditor.h"
+#include "Editor/Undo/CAddLinkCommand.h"
+#include "Editor/Undo/CEditLinkCommand.h"
 #include <Core/Resource/Script/CScriptObject.h>
 
 CLinkDialog::CLinkDialog(CWorldEditor *pEditor, QWidget *pParent /*= 0*/)
@@ -13,6 +16,7 @@ CLinkDialog::CLinkDialog(CWorldEditor *pEditor, QWidget *pParent /*= 0*/)
     , mpReceiver(nullptr)
     , mSenderStateModel(CStateMessageModel::eStates, this)
     , mReceiverMessageModel(CStateMessageModel::eMessages, this)
+    , mpEditLink(nullptr)
 {
     ui->setupUi(this);
     ui->SenderStateComboBox->setModel(&mSenderStateModel);
@@ -42,6 +46,29 @@ void CLinkDialog::showEvent(QShowEvent *)
     // needed because showing the window generates a resize event, but for some reason it is, so whatever.
     SetSenderNameLabel();
     SetReceiverNameLabel();
+}
+
+void CLinkDialog::NewLink(CScriptObject *pSender, CScriptObject *pReceiver)
+{
+    mpEditLink = nullptr;
+    SetSender(pSender);
+    SetReceiver(pReceiver);
+    if (pSender)   ui->SenderStateComboBox->setCurrentIndex(0);
+    if (pReceiver) ui->ReceiverMessageComboBox->setCurrentIndex(0);
+}
+
+void CLinkDialog::EditLink(CLink *pLink)
+{
+    mpEditLink = pLink;
+    CScriptObject *pSender = pLink->Sender();
+    CScriptObject *pReceiver = pLink->Receiver();
+    SetSender(pSender);
+    SetReceiver(pReceiver);
+
+    if (pSender)
+        ui->SenderStateComboBox->setCurrentIndex(mSenderStateModel.StateIndex(pLink->State()));
+    if (pReceiver)
+        ui->ReceiverMessageComboBox->setCurrentIndex(mReceiverMessageModel.MessageIndex(pLink->Message()));
 }
 
 void CLinkDialog::SetMaster(CMasterTemplate *pMaster)
@@ -99,7 +126,7 @@ u32 CLinkDialog::State() const
 
 u32 CLinkDialog::Message() const
 {
-    return mReceiverMessageModel.State(ui->ReceiverMessageComboBox->currentIndex());
+    return mReceiverMessageModel.Message(ui->ReceiverMessageComboBox->currentIndex());
 }
 
 void CLinkDialog::SetSenderNameLabel()
@@ -127,6 +154,25 @@ void CLinkDialog::SetReceiverNameLabel()
 }
 
 // ************ PUBLIC SLOTS ************
+void CLinkDialog::accept()
+{
+    CLink Link(mpEditor->ActiveArea(), State(), Message(), Sender()->InstanceID(), Receiver()->InstanceID());
+
+    if (!mpEditLink)
+    {
+        CAddLinkCommand *pCmd = new CAddLinkCommand(mpEditor, Link);
+        mpEditor->UndoStack()->push(pCmd);
+    }
+
+    else if (Link != *mpEditLink)
+    {
+        CEditLinkCommand *pCmd = new CEditLinkCommand(mpEditor, mpEditLink, Link);
+        mpEditor->UndoStack()->push(pCmd);
+    }
+
+    QDialog::accept();
+}
+
 void CLinkDialog::OnSwapClicked()
 {
     CScriptObject *pSender = mpReceiver;

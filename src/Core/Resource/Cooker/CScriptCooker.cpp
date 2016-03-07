@@ -1,4 +1,5 @@
 #include "CScriptCooker.h"
+#include "Core/Resource/Script/CLink.h"
 
 void CScriptCooker::WriteProperty(IProperty *pProp, bool InSingleStruct)
 {
@@ -211,14 +212,14 @@ void CScriptCooker::WriteInstanceMP1(CScriptObject *pInstance)
     u32 InstanceStart = mpSCLY->Tell();
 
     mpSCLY->WriteLong(pInstance->InstanceID());
-    mpSCLY->WriteLong(pInstance->NumOutLinks());
+    mpSCLY->WriteLong(pInstance->NumLinks(eOutgoing));
 
-    for (u32 iLink = 0; iLink < pInstance->NumOutLinks(); iLink++)
+    for (u32 iLink = 0; iLink < pInstance->NumLinks(eOutgoing); iLink++)
     {
-        const SLink& rkLink = pInstance->OutLink(iLink);
-        mpSCLY->WriteLong(rkLink.State);
-        mpSCLY->WriteLong(rkLink.Message);
-        mpSCLY->WriteLong(rkLink.ObjectID);
+        CLink *pLink = pInstance->Link(eOutgoing, iLink);
+        mpSCLY->WriteLong(pLink->State());
+        mpSCLY->WriteLong(pLink->Message());
+        mpSCLY->WriteLong(pLink->ReceiverID());
     }
 
     WriteProperty(pInstance->Properties(), false);
@@ -261,14 +262,14 @@ void CScriptCooker::WriteInstanceMP2(CScriptObject *pInstance)
     u32 InstanceStart = mpSCLY->Tell();
 
     mpSCLY->WriteLong(pInstance->InstanceID());
-    mpSCLY->WriteShort((u16) pInstance->NumOutLinks());
+    mpSCLY->WriteShort((u16) pInstance->NumLinks(eOutgoing));
 
-    for (u32 iLink = 0; iLink < pInstance->NumOutLinks(); iLink++)
+    for (u32 iLink = 0; iLink < pInstance->NumLinks(eOutgoing); iLink++)
     {
-        const SLink& rkLink = pInstance->OutLink(iLink);
-        mpSCLY->WriteLong(rkLink.State);
-        mpSCLY->WriteLong(rkLink.Message);
-        mpSCLY->WriteLong(rkLink.ObjectID);
+        CLink *pLink = pInstance->Link(eOutgoing, iLink);
+        mpSCLY->WriteLong(pLink->State());
+        mpSCLY->WriteLong(pLink->Message());
+        mpSCLY->WriteLong(pLink->ReceiverID());
     }
 
     WriteProperty(pInstance->Properties(), false);
