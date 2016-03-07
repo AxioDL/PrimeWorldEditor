@@ -6,11 +6,9 @@
 #include <Core/Scene/CSceneNode.h>
 #include <Core/Scene/CScriptNode.h>
 
+#include <QList>
+#include <QMenu>
 #include <QWidget>
-#include <QScrollArea>
-#include <QTabWidget>
-#include <QVBoxLayout>
-#include <QMap>
 
 class CWorldEditor;
 
@@ -28,6 +26,12 @@ class WModifyTab : public QWidget
     CLinkModel *mpInLinkModel;
     CLinkModel *mpOutLinkModel;
 
+    QMenu *mpAddLinkMenu;
+    QAction *mpAddFromViewportAction;
+    QAction *mpAddFromListAction;
+    ELinkType mAddLinkType;
+    bool mIsPicking;
+
 public:
     explicit WModifyTab(QWidget *pParent = 0);
     ~WModifyTab();
@@ -39,14 +43,13 @@ public slots:
     void OnInstanceLinksModified(const QList<CScriptObject*>& rkInstances);
     void OnWorldSelectionTransformed();
 
-    void OnOutgoingLinksSelectionModified();
-    void OnIncomingLinksSelectionModified();
-    void OnAddOutgoingLinkClicked();
-    void OnAddIncomingLinkClicked();
-    void OnDeleteOutgoingLinkClicked();
-    void OnDeleteIncomingLinkClicked();
-    void OnEditOutgoingLinkClicked();
-    void OnEditIncomingLinkClicked();
+    void OnLinksSelectionModified();
+    void OnAddLinkActionClicked(QAction *pAction);
+    void OnPickModeClick(const SRayIntersection& rkIntersect);
+    void OnPickModeExit();
+    void OnDeleteLinksClicked();
+    void OnEditLinkClicked();
+
 private:
     Ui::WModifyTab *ui;
 
