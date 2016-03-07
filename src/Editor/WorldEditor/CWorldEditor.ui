@@ -494,6 +494,9 @@
    </property>
   </action>
   <action name="ActionLink">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset resource="../Icons.qrc">
      <normaloff>:/icons/Link.png</normaloff>:/icons/Link.png</iconset>

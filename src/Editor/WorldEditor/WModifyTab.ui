@@ -79,7 +79,7 @@
      </widget>
      <widget class="QWidget" name="ConnectionsTab">
       <attribute name="title">
-       <string>Connections</string>
+       <string>Links</string>
       </attribute>
       <layout class="QVBoxLayout" name="ConnectionsLayout">
        <property name="leftMargin">
@@ -169,7 +169,7 @@
                    <string/>
                   </property>
                   <property name="icon">
-                   <iconset resource="../Icons.qrc">
+                   <iconset>
                     <normaloff>:/icons/Plus.png</normaloff>:/icons/Plus.png</iconset>
                   </property>
                   <property name="popupMode">
@@ -221,7 +221,7 @@
                    <string/>
                   </property>
                   <property name="icon">
-                   <iconset resource="../Icons.qrc">
+                   <iconset>
                     <normaloff>:/icons/Minus v2.png</normaloff>:/icons/Minus v2.png</iconset>
                   </property>
                  </widget>
@@ -282,7 +282,7 @@
                    <string/>
                   </property>
                   <property name="icon">
-                   <iconset resource="../Icons.qrc">
+                   <iconset>
                     <normaloff>:/icons/Plus.png</normaloff>:/icons/Plus.png</iconset>
                   </property>
                   <property name="popupMode">
@@ -325,7 +325,7 @@
                    <string/>
                   </property>
                   <property name="icon">
-                   <iconset resource="../Icons.qrc">
+                   <iconset>
                     <normaloff>:/icons/Minus v2.png</normaloff>:/icons/Minus v2.png</iconset>
                   </property>
                  </widget>
@@ -359,8 +359,6 @@
    <header>Editor/PropertyEdit/CPropertyView.h</header>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="../Icons.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

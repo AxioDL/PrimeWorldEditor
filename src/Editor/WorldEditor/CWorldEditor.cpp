@@ -1,5 +1,7 @@
 #include "CWorldEditor.h"
 #include "ui_CWorldEditor.h"
+
+#include "CConfirmUnlinkDialog.h"
 #include "CLayerEditor.h"
 #include "WModifyTab.h"
 #include "WInstancesTab.h"
@@ -22,19 +24,20 @@
 #include <QMessageBox>
 #include <QOpenGLContext>
 
-CWorldEditor::CWorldEditor(QWidget *parent) :
-    INodeEditor(parent),
-    ui(new Ui::CWorldEditor)
+CWorldEditor::CWorldEditor(QWidget *parent)
+    : INodeEditor(parent)
+    , ui(new Ui::CWorldEditor)
+    , mpArea(nullptr)
+    , mpWorld(nullptr)
+    , mpLinkDialog(new CLinkDialog(this, this))
+    , mpPoiDialog(nullptr)
+    , mIsMakingLink(false)
+    , mpNewLinkSender(nullptr)
+    , mpNewLinkReceiver(nullptr)
 {
     Log::Write("Creating World Editor");
     ui->setupUi(this);
 
-    mpArea = nullptr;
-    mpWorld = nullptr;
-    mpLinkDialog = new CLinkDialog(this, this);
-    mpPoiDialog = nullptr;
-    mGizmoHovering = false;
-    mGizmoTransforming = false;
     mSelectionNodeFlags = eScriptNode | eLightNode;
 
     // Start refresh timer
@@ -88,6 +91,8 @@ CWorldEditor::CWorldEditor(QWidget *parent) :
     connect(ui->TransformSpinBox, SIGNAL(ValueChanged(CVector3f)), this, SLOT(OnTransformSpinBoxModified(CVector3f)));
     connect(ui->TransformSpinBox, SIGNAL(EditingDone(CVector3f)), this, SLOT(OnTransformSpinBoxEdited(CVector3f)));
     connect(ui->CamSpeedSpinBox, SIGNAL(valueChanged(double)), this, SLOT(OnCameraSpeedChange(double)));
+    connect(ui->ActionLink, SIGNAL(toggled(bool)), this, SLOT(OnLinkButtonToggled(bool)));
+    connect(ui->ActionUnlink, SIGNAL(triggered()), this, SLOT(OnUnlinkClicked()));
     connect(&mUndoStack, SIGNAL(indexChanged(int)), this, SLOT(OnUndoStackIndexChanged()));
 
     connect(ui->ActionSave, SIGNAL(triggered()), this, SLOT(Save()));
@@ -488,6 +493,102 @@ void CWorldEditor::GizmoModeChanged(CGizmo::EGizmoMode mode)
 }
 
 // ************ PRIVATE SLOTS ************
+void CWorldEditor::OnLinkButtonToggled(bool Enabled)
+{
+    if (Enabled)
+    {
+        EnterPickMode(eScriptNode, true, false, false);
+        connect(this, SIGNAL(PickModeClick(SRayIntersection,QMouseEvent*)), this, SLOT(OnLinkClick(SRayIntersection)));
+        connect(this, SIGNAL(PickModeExited()), this, SLOT(OnLinkEnd()));
+        mIsMakingLink = true;
+        mpNewLinkSender = nullptr;
+        mpNewLinkReceiver = nullptr;
+    }
+
+    else
+    {
+        if (mIsMakingLink)
+            ExitPickMode();
+    }
+}
+
+void CWorldEditor::OnLinkClick(const SRayIntersection& rkIntersect)
+{
+    if (!mpNewLinkSender)
+    {
+        mpNewLinkSender = static_cast<CScriptNode*>(rkIntersect.pNode)->Object();
+    }
+
+    else
+    {
+        mpNewLinkReceiver = static_cast<CScriptNode*>(rkIntersect.pNode)->Object();
+        mpLinkDialog->NewLink(mpNewLinkSender, mpNewLinkReceiver);
+        mpLinkDialog->show();
+        ExitPickMode();
+    }
+}
+
+void CWorldEditor::OnLinkEnd()
+{
+    disconnect(this, SIGNAL(PickModeClick(SRayIntersection,QMouseEvent*)), this, SLOT(OnLinkClick(SRayIntersection)));
+    disconnect(this, SIGNAL(PickModeExited()), this, SLOT(OnLinkEnd()));
+    ui->ActionLink->setChecked(false);
+    mIsMakingLink = false;
+    mpNewLinkSender = nullptr;
+    mpNewLinkReceiver = nullptr;
+}
+
+void CWorldEditor::OnUnlinkClicked()
+{
+    QList<CScriptNode*> SelectedScriptNodes;
+
+    foreach (CSceneNode *pNode, mSelection)
+    {
+        if (pNode->NodeType() == eScriptNode)
+            SelectedScriptNodes << static_cast<CScriptNode*>(pNode);
+    }
+
+    if (!SelectedScriptNodes.isEmpty())
+    {
+        CConfirmUnlinkDialog Dialog(this);
+        Dialog.exec();
+
+        if (Dialog.UserChoice() != CConfirmUnlinkDialog::eCancel)
+        {
+            mUndoStack.beginMacro("Unlink");
+            bool UnlinkIncoming = (Dialog.UserChoice() != CConfirmUnlinkDialog::eOutgoingOnly);
+            bool UnlinkOutgoing = (Dialog.UserChoice() != CConfirmUnlinkDialog::eIncomingOnly);
+
+            foreach (CScriptNode *pNode, SelectedScriptNodes)
+            {
+                CScriptObject *pInst = pNode->Object();
+
+                if (UnlinkIncoming)
+                {
+                    QVector<u32> LinkIndices;
+                    for (u32 iLink = 0; iLink < pInst->NumLinks(eIncoming); iLink++)
+                        LinkIndices << iLink;
+
+                    CDeleteLinksCommand *pCmd = new CDeleteLinksCommand(this, pInst, eIncoming, LinkIndices);
+                    mUndoStack.push(pCmd);
+                }
+
+                if (UnlinkOutgoing)
+                {
+                    QVector<u32> LinkIndices;
+                    for (u32 iLink = 0; iLink < pInst->NumLinks(eOutgoing); iLink++)
+                        LinkIndices << iLink;
+
+                    CDeleteLinksCommand *pCmd = new CDeleteLinksCommand(this, pInst, eOutgoing, LinkIndices);
+                    mUndoStack.push(pCmd);
+                }
+            }
+
+            mUndoStack.endMacro();
+        }
+    }
+}
+
 void CWorldEditor::OnUndoStackIndexChanged()
 {
     // Check the commands that have been executed on the undo stack and find out whether any of them affect the clean state.

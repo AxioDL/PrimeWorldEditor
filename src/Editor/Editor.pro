@@ -148,7 +148,8 @@ HEADERS += \
     WorldEditor/CSelectInstanceDialog.h \
     Undo/CAddLinkCommand.h \
     Undo/CDeleteLinksCommand.h \
-    Undo/CEditLinkCommand.h
+    Undo/CEditLinkCommand.h \
+    WorldEditor/CConfirmUnlinkDialog.h
 
 # Source Files
 SOURCES += \
