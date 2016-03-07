@@ -40,5 +40,8 @@
         <file>icons/SelectMode_16px.png</file>
         <file>icons/Swap_16px.png</file>
         <file>icons/Swap_24px.png</file>
+        <file>icons/Edit_16px.png</file>
+        <file>icons/Edit_24px.png</file>
+        <file>icons/Edit_32px.png</file>
     </qresource>
 </RCC>
