@@ -39,6 +39,10 @@ class CWorldEditor : public INodeEditor
     CLinkDialog *mpLinkDialog;
     CPoiMapEditDialog *mpPoiDialog;
 
+    bool mIsMakingLink;
+    CScriptObject *mpNewLinkSender;
+    CScriptObject *mpNewLinkReceiver;
+
 public:
     explicit CWorldEditor(QWidget *parent = 0);
     ~CWorldEditor();
@@ -68,6 +72,11 @@ protected:
     void GizmoModeChanged(CGizmo::EGizmoMode mode);
 
 private slots:
+    void OnLinkButtonToggled(bool Enabled);
+    void OnLinkClick(const SRayIntersection& rkIntersect);
+    void OnLinkEnd();
+    void OnUnlinkClicked();
+
     void OnUndoStackIndexChanged();
     void OnPickModeEnter(QCursor Cursor);
     void OnPickModeExit();
