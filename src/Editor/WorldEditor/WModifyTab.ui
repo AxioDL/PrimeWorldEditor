@@ -157,7 +157,7 @@
                 <item>
                  <widget class="QToolButton" name="AddOutgoingConnectionToolButton">
                   <property name="sizePolicy">
-                   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
@@ -165,11 +165,14 @@
                   <property name="focusPolicy">
                    <enum>Qt::StrongFocus</enum>
                   </property>
+                  <property name="toolTip">
+                   <string>New Link</string>
+                  </property>
                   <property name="text">
                    <string/>
                   </property>
                   <property name="icon">
-                   <iconset>
+                   <iconset resource="../Icons.qrc">
                     <normaloff>:/icons/Plus.png</normaloff>:/icons/Plus.png</iconset>
                   </property>
                   <property name="popupMode">
@@ -181,24 +184,19 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="EditOutgoingConnectionButton">
-                  <property name="enabled">
-                   <bool>false</bool>
+                 <widget class="QToolButton" name="EditOutgoingConnectionButton">
+                  <property name="focusPolicy">
+                   <enum>Qt::StrongFocus</enum>
                   </property>
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>30</width>
-                    <height>16777215</height>
-                   </size>
+                  <property name="toolTip">
+                   <string>Edit Link</string>
                   </property>
                   <property name="text">
-                   <string>Edit</string>
+                   <string/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../Icons.qrc">
+                    <normaloff>:/icons/Edit_16px.png</normaloff>:/icons/Edit_16px.png</iconset>
                   </property>
                  </widget>
                 </item>
@@ -216,12 +214,18 @@
                  </spacer>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="DeleteOutgoingConnectionButton">
+                 <widget class="QToolButton" name="DeleteOutgoingConnectionButton">
+                  <property name="focusPolicy">
+                   <enum>Qt::StrongFocus</enum>
+                  </property>
+                  <property name="toolTip">
+                   <string>Delete Link</string>
+                  </property>
                   <property name="text">
                    <string/>
                   </property>
                   <property name="icon">
-                   <iconset>
+                   <iconset resource="../Icons.qrc">
                     <normaloff>:/icons/Minus v2.png</normaloff>:/icons/Minus v2.png</iconset>
                   </property>
                  </widget>
@@ -270,7 +274,7 @@
                 <item>
                  <widget class="QToolButton" name="AddIncomingConnectionToolButton">
                   <property name="sizePolicy">
-                   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
@@ -278,11 +282,14 @@
                   <property name="focusPolicy">
                    <enum>Qt::StrongFocus</enum>
                   </property>
+                  <property name="toolTip">
+                   <string>New Link</string>
+                  </property>
                   <property name="text">
                    <string/>
                   </property>
                   <property name="icon">
-                   <iconset>
+                   <iconset resource="../Icons.qrc">
                     <normaloff>:/icons/Plus.png</normaloff>:/icons/Plus.png</iconset>
                   </property>
                   <property name="popupMode">
@@ -291,18 +298,19 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="EditIncomingConnectionButton">
-                  <property name="enabled">
-                   <bool>false</bool>
+                 <widget class="QToolButton" name="EditIncomingConnectionButton">
+                  <property name="focusPolicy">
+                   <enum>Qt::StrongFocus</enum>
                   </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>39</width>
-                    <height>16777215</height>
-                   </size>
+                  <property name="toolTip">
+                   <string>Edit Link</string>
                   </property>
                   <property name="text">
-                   <string>Edit</string>
+                   <string/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../Icons.qrc">
+                    <normaloff>:/icons/Edit_16px.png</normaloff>:/icons/Edit_16px.png</iconset>
                   </property>
                  </widget>
                 </item>
@@ -320,12 +328,18 @@
                  </spacer>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="DeleteIncomingConnectionButton">
+                 <widget class="QToolButton" name="DeleteIncomingConnectionButton">
+                  <property name="focusPolicy">
+                   <enum>Qt::StrongFocus</enum>
+                  </property>
+                  <property name="toolTip">
+                   <string>Delete Link</string>
+                  </property>
                   <property name="text">
                    <string/>
                   </property>
                   <property name="icon">
-                   <iconset>
+                   <iconset resource="../Icons.qrc">
                     <normaloff>:/icons/Minus v2.png</normaloff>:/icons/Minus v2.png</iconset>
                   </property>
                  </widget>
@@ -359,6 +373,8 @@
    <header>Editor/PropertyEdit/CPropertyView.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../Icons.qrc"/>
+ </resources>
  <connections/>
 </ui>
