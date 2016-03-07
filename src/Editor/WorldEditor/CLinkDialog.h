@@ -23,6 +23,8 @@ class CLinkDialog : public QDialog
     CStateMessageModel mSenderStateModel;
     CStateMessageModel mReceiverMessageModel;
 
+    bool mIsPicking;
+
     Ui::CLinkDialog *ui;
 
 public:
@@ -30,6 +32,7 @@ public:
     ~CLinkDialog();
     void resizeEvent(QResizeEvent *);
     void showEvent(QShowEvent *);
+    void closeEvent(QCloseEvent *);
 
     void NewLink(CScriptObject *pSender, CScriptObject *pReceiver);
     void EditLink(CLink *pLink);

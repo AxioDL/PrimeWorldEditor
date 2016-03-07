@@ -16,6 +16,7 @@ CLinkDialog::CLinkDialog(CWorldEditor *pEditor, QWidget *pParent /*= 0*/)
     , mpReceiver(nullptr)
     , mSenderStateModel(CStateMessageModel::eStates, this)
     , mReceiverMessageModel(CStateMessageModel::eMessages, this)
+    , mIsPicking(false)
     , mpEditLink(nullptr)
 {
     ui->setupUi(this);
@@ -46,6 +47,12 @@ void CLinkDialog::showEvent(QShowEvent *)
     // needed because showing the window generates a resize event, but for some reason it is, so whatever.
     SetSenderNameLabel();
     SetReceiverNameLabel();
+}
+
+void CLinkDialog::closeEvent(QCloseEvent *)
+{
+    if (mIsPicking)
+        mpEditor->ExitPickMode();
 }
 
 void CLinkDialog::NewLink(CScriptObject *pSender, CScriptObject *pReceiver)
@@ -193,6 +200,8 @@ void CLinkDialog::OnPickFromViewportClicked()
 
         QPushButton *pOtherButton = (pButton == ui->SenderPickFromViewport ? ui->ReceiverPickFromViewport : ui->SenderPickFromViewport);
         pOtherButton->setChecked(false);
+
+        mIsPicking = true;
     }
 
     else
@@ -217,6 +226,7 @@ void CLinkDialog::OnPickModeExit()
     ui->ReceiverPickFromViewport->setChecked(false);
     disconnect(mpEditor, SIGNAL(PickModeClick(SRayIntersection,QMouseEvent*)), this, 0);
     disconnect(mpEditor, SIGNAL(PickModeExited()), this, 0);
+    mIsPicking = false;
 }
 
 void CLinkDialog::OnPickFromListClicked()
