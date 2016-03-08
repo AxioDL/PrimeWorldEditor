@@ -34,6 +34,10 @@ class CSceneViewport : public CBasicViewport
     QAction *mpUnhideAllAction;
     CSceneNode *mpMenuNode;
 
+    // Link Line
+    bool mLinkLineEnabled;
+    CVector3f mLinkLinePoints[2];
+
 public:
     CSceneViewport(QWidget *pParent = 0);
     ~CSceneViewport();
@@ -52,6 +56,14 @@ public:
 
     void keyPressEvent(QKeyEvent* pEvent);
     void keyReleaseEvent(QKeyEvent* pEvent);
+
+    inline void SetLinkLineEnabled(bool Enable) { mLinkLineEnabled = Enable; }
+
+    inline void SetLinkLine(const CVector3f& rkPointA, const CVector3f& rkPointB)
+    {
+        mLinkLinePoints[0] = rkPointA;
+        mLinkLinePoints[1] = rkPointB;
+    }
 
 protected:
     void CreateContextMenu();

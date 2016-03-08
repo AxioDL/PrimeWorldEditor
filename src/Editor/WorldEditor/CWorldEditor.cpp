@@ -485,6 +485,64 @@ void CWorldEditor::UpdateCursor()
     }
 }
 
+void CWorldEditor::UpdateNewLinkLine()
+{
+    // Check if there is a sender+receiver
+    if (mpLinkDialog->isVisible() && mpLinkDialog->Sender() && mpLinkDialog->Receiver() && !mpLinkDialog->IsPicking())
+    {
+        CVector3f Start = mScene.NodeForObject(mpLinkDialog->Sender())->CenterPoint();
+        CVector3f End = mScene.NodeForObject(mpLinkDialog->Receiver())->CenterPoint();
+        ui->MainViewport->SetLinkLineEnabled(true);
+        ui->MainViewport->SetLinkLine(Start, End);
+    }
+
+    // Otherwise check whether there's just a sender or just a receiver
+    else
+    {
+        CScriptObject *pSender = nullptr;
+        CScriptObject *pReceiver = nullptr;
+
+        if (mpLinkDialog->isVisible())
+        {
+            if (mpLinkDialog->Sender() && !mpLinkDialog->IsPickingSender())
+                pSender = mpLinkDialog->Sender();
+            if (mpLinkDialog->Receiver() && !mpLinkDialog->IsPickingReceiver())
+                pReceiver = mpLinkDialog->Receiver();
+        }
+        else if (mIsMakingLink && mpNewLinkSender)
+            pSender = mpNewLinkSender;
+
+        // No sender and no receiver = no line
+        if (!pSender && !pReceiver)
+            ui->MainViewport->SetLinkLineEnabled(false);
+
+        // Yes sender and yes receiver = yes line
+        else if (pSender && pReceiver)
+        {
+            ui->MainViewport->SetLinkLineEnabled(true);
+            ui->MainViewport->SetLinkLine( mScene.NodeForObject(pSender)->CenterPoint(), mScene.NodeForObject(pReceiver)->CenterPoint() );
+        }
+
+        // Compensate for missing sender or missing receiver
+        else
+        {
+            if (ui->MainViewport->underMouse() && !ui->MainViewport->IsMouseInputActive() && (mIsMakingLink || mpLinkDialog->IsPicking()))
+            {
+                CSceneNode *pHoverNode = ui->MainViewport->HoverNode();
+                CScriptObject *pInst = (pSender ? pSender : pReceiver);
+
+                CVector3f Start = mScene.NodeForObject(pInst)->CenterPoint();
+                CVector3f End = (pHoverNode && pHoverNode->NodeType() == eScriptNode ? pHoverNode->CenterPoint() : ui->MainViewport->HoverPoint());
+                ui->MainViewport->SetLinkLineEnabled(true);
+                ui->MainViewport->SetLinkLine(Start, End);
+            }
+
+            else
+                ui->MainViewport->SetLinkLineEnabled(false);
+        }
+    }
+}
+
 // ************ PROTECTED ************
 void CWorldEditor::GizmoModeChanged(CGizmo::EGizmoMode mode)
 {
@@ -653,6 +711,9 @@ void CWorldEditor::RefreshViewport()
 
     // Process input
     ui->MainViewport->ProcessInput();
+
+    // Update new link line
+    UpdateNewLinkLine();
 
     // Render
     ui->MainViewport->Render();

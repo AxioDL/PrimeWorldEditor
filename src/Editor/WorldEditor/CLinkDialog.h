@@ -2,11 +2,8 @@
 #define CLINKDIALOG_H
 
 #include "CStateMessageModel.h"
+#include "ui_CLinkDialog.h"
 #include <QDialog>
-
-namespace Ui {
-class CLinkDialog;
-}
 
 class CWorldEditor;
 
@@ -49,6 +46,9 @@ public:
 
     inline CScriptObject* Sender() const { return mpSender; }
     inline CScriptObject* Receiver() const { return mpReceiver; }
+    inline bool IsPicking() const { return mIsPicking; }
+    inline bool IsPickingSender() const { return mIsPicking && ui->SenderPickFromViewport->isChecked(); }
+    inline bool IsPickingReceiver() const { return mIsPicking && ui->ReceiverPickFromViewport->isChecked(); }
 
 public slots:
     void accept();
