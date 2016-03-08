@@ -1,6 +1,7 @@
 #include "CSceneViewport.h"
 #include "UICommon.h"
 #include "Editor/Undo/UndoCommands.h"
+#include <Core/Render/CDrawUtil.h>
 #include <Core/Render/SViewInfo.h>
 #include <Core/Resource/Script/CScriptLayer.h>
 #include <Core/Scene/CSceneIterator.h>
@@ -131,14 +132,16 @@ void CSceneViewport::SceneRayCast(const CRay& rkRay)
     }
 
     else
+    {
+        mHoverPoint = rkRay.PointOnRay(5.f);
         ResetHover();
+    }
 }
 
 void CSceneViewport::ResetHover()
 {
     if (mpHoverNode) mpHoverNode->SetMouseHovering(false);
     mpHoverNode = nullptr;
-    mHoverPoint = CVector3f::skZero;
 }
 
 bool CSceneViewport::IsHoveringGizmo()
@@ -259,6 +262,14 @@ void CSceneViewport::Paint()
 
     mCamera.LoadMatrices();
     mpScene->AddSceneToRenderer(mpRenderer, mViewInfo);
+
+    // Draw the line for the link the user is editing. This is a little hacky but I don't really have a better way to do this atm.
+    if (mLinkLineEnabled)
+    {
+        glDepthRange(0.f, 1.f);
+        CDrawUtil::DrawLine(mLinkLinePoints[0], mLinkLinePoints[1], CColor::skYellow);
+    }
+
     mpRenderer->RenderBuckets(mViewInfo);
     mpRenderer->RenderBloom();
 

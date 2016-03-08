@@ -1,5 +1,4 @@
 #include "CLinkDialog.h"
-#include "ui_CLinkDialog.h"
 #include "CSelectInstanceDialog.h"
 #include "CStateMessageModel.h"
 #include "CWorldEditor.h"

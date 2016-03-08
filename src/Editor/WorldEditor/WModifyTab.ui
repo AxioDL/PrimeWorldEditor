@@ -185,6 +185,9 @@
                 </item>
                 <item>
                  <widget class="QToolButton" name="EditOutgoingConnectionButton">
+                  <property name="enabled">
+                   <bool>false</bool>
+                  </property>
                   <property name="focusPolicy">
                    <enum>Qt::StrongFocus</enum>
                   </property>
@@ -299,6 +302,9 @@
                 </item>
                 <item>
                  <widget class="QToolButton" name="EditIncomingConnectionButton">
+                  <property name="enabled">
+                   <bool>false</bool>
+                  </property>
                   <property name="focusPolicy">
                    <enum>Qt::StrongFocus</enum>
                   </property>

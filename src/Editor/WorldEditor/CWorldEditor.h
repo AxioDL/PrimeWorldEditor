@@ -67,6 +67,7 @@ public slots:
     void UpdateGizmoUI();
     void UpdateSelectionUI();
     void UpdateCursor();
+    void UpdateNewLinkLine();
 
 protected:
     void GizmoModeChanged(CGizmo::EGizmoMode mode);
