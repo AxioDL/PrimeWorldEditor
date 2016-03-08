@@ -266,6 +266,8 @@ void CSceneViewport::Paint()
     // Draw the line for the link the user is editing. This is a little hacky but I don't really have a better way to do this atm.
     if (mLinkLineEnabled)
     {
+        CGraphics::sMVPBlock.ModelMatrix = CMatrix4f::skIdentity;
+        CGraphics::UpdateMVPBlock();
         glDepthRange(0.f, 1.f);
         CDrawUtil::DrawLine(mLinkLinePoints[0], mLinkLinePoints[1], CColor::skYellow);
     }
