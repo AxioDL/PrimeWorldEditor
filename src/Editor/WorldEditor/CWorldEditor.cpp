@@ -511,6 +511,8 @@ void CWorldEditor::UpdateNewLinkLine()
         }
         else if (mIsMakingLink && mpNewLinkSender)
             pSender = mpNewLinkSender;
+        else if (ui->ModifyTabContents->IsPicking() && ui->ModifyTabContents->EditNode()->NodeType() == eScriptNode)
+            pSender = static_cast<CScriptNode*>(ui->ModifyTabContents->EditNode())->Object();
 
         // No sender and no receiver = no line
         if (!pSender && !pReceiver)
@@ -526,7 +528,7 @@ void CWorldEditor::UpdateNewLinkLine()
         // Compensate for missing sender or missing receiver
         else
         {
-            if (ui->MainViewport->underMouse() && !ui->MainViewport->IsMouseInputActive() && (mIsMakingLink || mpLinkDialog->IsPicking()))
+            if (ui->MainViewport->underMouse() && !ui->MainViewport->IsMouseInputActive() && (mIsMakingLink || mpLinkDialog->IsPicking() || ui->ModifyTabContents->IsPicking()))
             {
                 CSceneNode *pHoverNode = ui->MainViewport->HoverNode();
                 CScriptObject *pInst = (pSender ? pSender : pReceiver);
