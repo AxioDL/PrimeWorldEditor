@@ -528,7 +528,9 @@ void CWorldEditor::UpdateNewLinkLine()
         // Compensate for missing sender or missing receiver
         else
         {
-            if (ui->MainViewport->underMouse() && !ui->MainViewport->IsMouseInputActive() && (mIsMakingLink || mpLinkDialog->IsPicking() || ui->ModifyTabContents->IsPicking()))
+            bool IsPicking = (mIsMakingLink || mpLinkDialog->IsPicking() || ui->ModifyTabContents->IsPicking());
+
+            if (ui->MainViewport->underMouse() && !ui->MainViewport->IsMouseInputActive() && IsPicking)
             {
                 CSceneNode *pHoverNode = ui->MainViewport->HoverNode();
                 CScriptObject *pInst = (pSender ? pSender : pReceiver);
