@@ -136,11 +136,13 @@ void WModifyTab::OnLinksSelectionModified()
     {
         u32 NumSelectedRows = ui->InLinksTableView->selectionModel()->selectedRows().size();
         ui->EditIncomingConnectionButton->setEnabled(NumSelectedRows == 1);
+        ui->DeleteIncomingConnectionButton->setEnabled(NumSelectedRows > 0);
     }
     else
     {
         u32 NumSelectedRows = ui->OutLinksTableView->selectionModel()->selectedRows().size();
         ui->EditOutgoingConnectionButton->setEnabled(NumSelectedRows == 1);
+        ui->DeleteOutgoingConnectionButton->setEnabled(NumSelectedRows > 0);
     }
 }
 

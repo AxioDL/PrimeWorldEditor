@@ -50,6 +50,9 @@ public slots:
     void OnDeleteLinksClicked();
     void OnEditLinkClicked();
 
+    inline bool IsPicking() const       { return mIsPicking; }
+    inline CSceneNode* EditNode() const { return mpSelectedNode; }
+
 private:
     Ui::WModifyTab *ui;
 
