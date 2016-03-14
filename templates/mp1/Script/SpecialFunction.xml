@@ -53,8 +53,8 @@
             </properties>
         </struct>
         <enum ID="0x09" name="Inventory Slot" template="Enums/InventorySlot.xml"/>
-        <property ID="0x0A" name="Unknown 5" type="bool"/>
-        <property ID="0x0B" name="Unknown 6" type="float"/>
+        <property ID="0x0A" name="Active" type="bool"/>
+        <property ID="0x0B" name="Unknown 5" type="float"/>
         <property ID="0x0C" name="Used by SpinnerController 1" type="long"/>
         <property ID="0x0D" name="Used by SpinnerController 2" type="long"/>
         <property ID="0x0E" name="Used by SpinnerController 3" type="long"/>
@@ -66,6 +66,7 @@
             <property name="InstanceName" ID="0x00"/>
             <property name="Position" ID="0x01"/>
             <property name="Rotation" ID="0x02"/>
+            <property name="Active" ID="0x0A"/>
         </properties>
         <assets>
             <billboard source="file">script/common/SpecialFunction.txtr</billboard>
