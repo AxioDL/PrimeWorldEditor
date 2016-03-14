@@ -3,6 +3,13 @@
     <properties>
         <property ID="0x00" name="Unknown 1" type="bool"/>
         <property ID="0x01" name="Unknown 2" type="bool"/>
-        <property ID="0x02" name="Unknown 3" type="long"/>
+        <bitfield ID="0x02" name="Visor Flags">
+            <flags>
+                <flag mask="0x00000001" name="Combat"/>
+                <flag mask="0x00000002" name="Scan"/>
+                <flag mask="0x00000004" name="Thermal"/>
+                <flag mask="0x00000008" name="X-Ray"/>
+            </flags>
+        </bitfield>
     </properties>
 </struct>

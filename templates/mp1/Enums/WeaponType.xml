@@ -10,11 +10,11 @@
         <enumerator ID="0x06" name="Missile"/>
         <enumerator ID="0x07" name="Boost Ball"/>
         <enumerator ID="0x08" name="Phazon"/>
-        <enumerator ID="0x09" name="Enemy Weapon 1"/>
-        <enumerator ID="0x0A" name="Enemy Weapon 2 (Poison)"/>
-        <enumerator ID="0x0B" name="Enemy Weapon 3 (Lava)"/>
-        <enumerator ID="0x0C" name="Enemy Weapon 4"/>
-        <enumerator ID="0x0D" name="Unknown Weapon 1"/>
-        <enumerator ID="0x0E" name="Unknown Weapon 2"/>
+        <enumerator ID="0x09" name="AI"/>
+        <enumerator ID="0x0A" name="Poison Water"/>
+        <enumerator ID="0x0B" name="Lava"/>
+        <enumerator ID="0x0C" name="Hot"/>
+        <enumerator ID="0x0D" name="Unused Weapon 1"/>
+        <enumerator ID="0x0E" name="Unused Weapon 2"/>
     </enumerators>
 </enum>

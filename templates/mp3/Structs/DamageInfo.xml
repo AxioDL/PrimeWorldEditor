@@ -4,17 +4,17 @@
         <enum ID="0x445E00C8">
             <default>0xBC709037</default>
             <enumerators>
-                <enumerator ID="0x8FB41846" name="Unknown 1"/>
-                <enumerator ID="0x42A6A2BC" name="Unknown 2"/>
-                <enumerator ID="0x7F366C5A" name="Unknown 3"/>
-                <enumerator ID="0x1A7E40E0" name="Unknown 4"/>
-                <enumerator ID="0x010EB21C" name="Unknown 5"/>
-                <enumerator ID="0x9B37D58B" name="Unknown 6"/>
-                <enumerator ID="0xBC709037" name="Unknown 7"/>
-                <enumerator ID="0xCD26D8F0" name="Unknown 8"/>
-                <enumerator ID="0x4A2039D3" name="Unknown 9"/>
-                <enumerator ID="0xF8009F03" name="Unknown 10"/>
-                <enumerator ID="0xE7194EEA" name="Unknown 11"/>
+                <enumerator ID="0x8FB41846" name="Power"/>
+                <enumerator ID="0x42A6A2BC" name="Plasma"/>
+                <enumerator ID="0x7F366C5A" name="Nova"/>
+                <enumerator ID="0x1A7E40E0" name="Phazon"/>
+                <enumerator ID="0x010EB21C" name="Missile"/>
+                <enumerator ID="0x9B37D58B" name="Screw Attack"/>
+                <enumerator ID="0xBC709037" name="AI"/>
+                <enumerator ID="0xCD26D8F0" name="Friendly"/>
+                <enumerator ID="0x4A2039D3" name="UnknownSource"/>
+                <enumerator ID="0xF8009F03" name="Electric"/>
+                <enumerator ID="0xE7194EEA" name="Poison Water"/>
             </enumerators>
         </enum>
         <property ID="0xF2D02613" type="float">
