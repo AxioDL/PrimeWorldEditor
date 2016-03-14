@@ -3,11 +3,12 @@
 #include "CMasterTemplate.h"
 #include "Core/Resource/CAnimSet.h"
 
-CScriptObject::CScriptObject(CGameArea *pArea, CScriptLayer *pLayer, CScriptTemplate *pTemplate)
+CScriptObject::CScriptObject(u32 InstanceID, CGameArea *pArea, CScriptLayer *pLayer, CScriptTemplate *pTemplate)
     : mpTemplate(pTemplate)
     , mpArea(pArea)
     , mpLayer(pLayer)
     , mVersion(0)
+    , mInstanceID(InstanceID)
     , mpDisplayModel(nullptr)
     , mpCollision(nullptr)
     , mHasInGameModel(false)
@@ -75,14 +76,25 @@ bool CScriptObject::IsEditorProperty(IProperty *pProp)
            );
 }
 
-void CScriptObject::SetLayer(CScriptLayer *pLayer)
+void CScriptObject::SetLayer(CScriptLayer *pLayer, u32 NewLayerIndex)
 {
     if (pLayer != mpLayer)
     {
         mpLayer->RemoveInstance(this);
         mpLayer = pLayer;
-        mpLayer->AddInstance(this);
+        mpLayer->AddInstance(this, NewLayerIndex);
     }
+}
+
+u32 CScriptObject::LayerIndex() const
+{
+    for (u32 iInst = 0; iInst < mpLayer->NumInstances(); iInst++)
+    {
+        if (mpLayer->InstanceByIndex(iInst) == this)
+            return iInst;
+    }
+
+    return -1;
 }
 
 bool CScriptObject::HasNearVisibleActivation() const
@@ -238,6 +250,26 @@ void CScriptObject::RemoveLink(ELinkType Type, CLink *pLink)
             break;
         }
     }
+}
+
+void CScriptObject::BreakAllLinks()
+{
+    for (auto it = mInLinks.begin(); it != mInLinks.end(); it++)
+    {
+        CLink *pLink = *it;
+        pLink->Sender()->RemoveLink(eOutgoing, pLink);
+        delete pLink;
+    }
+
+    for (auto it = mOutLinks.begin(); it != mOutLinks.end(); it++)
+    {
+        CLink *pLink = *it;
+        pLink->Receiver()->RemoveLink(eIncoming, pLink);
+        delete pLink;
+    }
+
+    mInLinks.clear();
+    mOutLinks.clear();
 }
 
 TString CScriptObject::InstanceName() const

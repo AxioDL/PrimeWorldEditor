@@ -39,6 +39,22 @@ public:
     {
         return mMaps[Index];
     }
+
+    inline const SPoiMap* MapByID(u32 InstanceID) const
+    {
+        auto it = mPoiLookupMap.find(InstanceID);
+
+        if (it != mPoiLookupMap.end())
+            return it->second;
+        else
+            return nullptr;
+    }
+
+    bool HasPoiMappings(u32 InstanceID) const
+    {
+        auto it = mPoiLookupMap.find(InstanceID);
+        return (it != mPoiLookupMap.end());
+    }
 };
 
 #endif // CPOITOWORLD_H

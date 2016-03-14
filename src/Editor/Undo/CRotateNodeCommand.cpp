@@ -79,7 +79,6 @@ void CRotateNodeCommand::undo()
         rotate.pNode->SetRotation(rotate.initialRot);
     }
 
-    mpEditor->RecalculateSelectionBounds();
     mpEditor->NotifySelectionTransformed();
     mpEditor->UpdateGizmoUI();
 }
@@ -94,7 +93,6 @@ void CRotateNodeCommand::redo()
         rotate.pNode->SetRotation(rotate.newRot);
     }
 
-    mpEditor->RecalculateSelectionBounds();
     mpEditor->NotifySelectionTransformed();
     mpEditor->UpdateGizmoUI();
 }

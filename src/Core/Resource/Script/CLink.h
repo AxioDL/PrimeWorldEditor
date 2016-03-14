@@ -52,8 +52,8 @@ public:
     void SetSender(u32 NewSenderID, u32 Index = -1)
     {
         u32 OldSenderID = mSenderID;
-        CScriptObject *pOldSender = mpArea->GetInstanceByID(OldSenderID);
-        CScriptObject *pNewSender = mpArea->GetInstanceByID(NewSenderID);
+        CScriptObject *pOldSender = mpArea->InstanceByID(OldSenderID);
+        CScriptObject *pNewSender = mpArea->InstanceByID(NewSenderID);
 
         mSenderID = NewSenderID;
         pOldSender->RemoveLink(eOutgoing, this);
@@ -63,8 +63,8 @@ public:
     void SetReceiver(u32 NewReceiverID, u32 Index = -1)
     {
         u32 OldReceiverID = mSenderID;
-        CScriptObject *pOldReceiver = mpArea->GetInstanceByID(OldReceiverID);
-        CScriptObject *pNewReceiver = mpArea->GetInstanceByID(NewReceiverID);
+        CScriptObject *pOldReceiver = mpArea->InstanceByID(OldReceiverID);
+        CScriptObject *pNewReceiver = mpArea->InstanceByID(NewReceiverID);
 
         mReceiverID = NewReceiverID;
         pOldReceiver->RemoveLink(eIncoming, this);
@@ -73,7 +73,7 @@ public:
 
     u32 SenderIndex() const
     {
-        CScriptObject *pSender = mpArea->GetInstanceByID(mSenderID);
+        CScriptObject *pSender = mpArea->InstanceByID(mSenderID);
 
         for (u32 iLink = 0; iLink < pSender->NumLinks(eOutgoing); iLink++)
         {
@@ -86,7 +86,7 @@ public:
 
     u32 ReceiverIndex() const
     {
-        CScriptObject *pReceiver = mpArea->GetInstanceByID(mReceiverID);
+        CScriptObject *pReceiver = mpArea->InstanceByID(mReceiverID);
 
         for (u32 iLink = 0; iLink < pReceiver->NumLinks(eIncoming); iLink++)
         {
@@ -117,8 +117,8 @@ public:
     u32 Message() const             { return mMessageID; }
     u32 SenderID() const            { return mSenderID; }
     u32 ReceiverID() const          { return mReceiverID; }
-    CScriptObject* Sender() const   { return mpArea->GetInstanceByID(mSenderID); }
-    CScriptObject* Receiver() const { return mpArea->GetInstanceByID(mReceiverID); }
+    CScriptObject* Sender() const   { return mpArea->InstanceByID(mSenderID); }
+    CScriptObject* Receiver() const { return mpArea->InstanceByID(mReceiverID); }
 
     void SetState(u32 StateID)      { mStateID = StateID; }
     void SetMessage(u32 MessageID)  { mMessageID = MessageID; }

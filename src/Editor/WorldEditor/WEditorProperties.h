@@ -39,7 +39,7 @@ public:
 
 public slots:
     void OnSelectionModified();
-    void OnPropertyModified(IProperty *pProp, bool IsEditorProperty);
+    void OnPropertyModified(CScriptObject *pInst, IProperty *pProp);
     void OnInstancesLayerChanged(const QList<CScriptNode*>& rkNodeList);
     void OnLayersModified();
     void UpdatePropertyValues();

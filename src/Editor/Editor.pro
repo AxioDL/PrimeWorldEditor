@@ -149,17 +149,19 @@ HEADERS += \
     Undo/CAddLinkCommand.h \
     Undo/CDeleteLinksCommand.h \
     Undo/CEditLinkCommand.h \
-    WorldEditor/CConfirmUnlinkDialog.h
+    WorldEditor/CConfirmUnlinkDialog.h \
+    Undo/CDeleteSelectionCommand.h \
+    Undo/CCreateInstanceCommand.h \
+    WorldEditor/CTemplateMimeData.h \
+    WorldEditor/CTemplateListView.h \
+    CSelectionIterator.h
 
 # Source Files
 SOURCES += \
     ModelEditor/CModelEditorViewport.cpp \
     ModelEditor/CModelEditorWindow.cpp \
-    Undo/CClearSelectionCommand.cpp \
-    Undo/CDeselectNodeCommand.cpp \
     Undo/CRotateNodeCommand.cpp \
     Undo/CScaleNodeCommand.cpp \
-    Undo/CSelectNodeCommand.cpp \
     Undo/CTranslateNodeCommand.cpp \
     Widgets/IPreviewPanel.cpp \
     Widgets/WAnimParamsEditor.cpp \
@@ -185,7 +187,6 @@ SOURCES += \
     CBasicViewport.cpp \
     CDarkStyle.cpp \
     CGizmo.cpp \
-    CNodeSelection.cpp \
     CSceneViewport.cpp \
     CStartWindow.cpp \
     INodeEditor.cpp \
@@ -193,8 +194,6 @@ SOURCES += \
     TestDialog.cpp \
     UICommon.cpp \
     CErrorLogDialog.cpp \
-    Undo/CSelectAllCommand.cpp \
-    Undo/CInvertSelectionCommand.cpp \
     WorldEditor/CPoiMapEditDialog.cpp \
     WorldEditor/CPoiMapModel.cpp \
     PropertyEdit/CPropertyModel.cpp \
@@ -211,7 +210,9 @@ SOURCES += \
     WorldEditor/CSelectInstanceDialog.cpp \
     Undo/CAddLinkCommand.cpp \
     Undo/CDeleteLinksCommand.cpp \
-    Undo/CEditLinkCommand.cpp
+    Undo/CEditLinkCommand.cpp \
+    Undo/CDeleteSelectionCommand.cpp \
+    Undo/CCreateInstanceCommand.cpp
 
 # UI Files
 FORMS += \

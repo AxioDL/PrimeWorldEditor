@@ -65,6 +65,18 @@ CScriptNode* CScene::CreateScriptNode(CScriptObject *pObj)
 
     CScriptNode *pNode = new CScriptNode(this, mpAreaRootNode, pObj);
     mNodes[eScriptNode].push_back(pNode);
+    mScriptNodeMap[pObj->InstanceID()] = pNode;
+    pNode->BuildLightList(mpArea);
+
+    // AreaAttributes check
+    switch (pObj->ObjectTypeID())
+    {
+    case 0x4E:       // MP1 AreaAttributes ID
+    case 0x52454141: // MP2/MP3/DKCR AreaAttributes ID ("REAA")
+        mAreaAttributesObjects.emplace_back( CAreaAttributes(pObj) );
+        break;
+    }
+
     mNumNodes++;
     return pNode;
 }
@@ -77,6 +89,48 @@ CLightNode* CScene::CreateLightNode(CLight *pLight)
     mNodes[eLightNode].push_back(pNode);
     mNumNodes++;
     return pNode;
+}
+
+void CScene::DeleteNode(CSceneNode *pNode)
+{
+    ENodeType Type = pNode->NodeType();
+
+    for (auto it = mNodes[Type].begin(); it != mNodes[Type].end(); it++)
+    {
+        if (*it == pNode)
+        {
+            mNodes[Type].erase(it);
+            break;
+        }
+    }
+
+    if (Type == eScriptNode)
+    {
+        CScriptNode *pScript = static_cast<CScriptNode*>(pNode);
+
+        auto ScriptMapIt = mScriptNodeMap.find(pScript->Object()->InstanceID());
+        if (ScriptMapIt != mScriptNodeMap.end())
+            mScriptNodeMap.erase(ScriptMapIt);
+
+        switch (pScript->Object()->ObjectTypeID())
+        {
+        case 0x4E:
+        case 0x52454141:
+            for (auto it = mAreaAttributesObjects.begin(); it != mAreaAttributesObjects.end(); it++)
+            {
+                if ((*it).Instance() == pScript->Object())
+                {
+                    mAreaAttributesObjects.erase(it);
+                    break;
+                }
+            }
+            break;
+        }
+    }
+
+    pNode->Unparent();
+    delete pNode;
+    mNumNodes--;
 }
 
 void CScene::SetActiveArea(CGameArea *pArea)
@@ -121,20 +175,7 @@ void CScene::SetActiveArea(CGameArea *pArea)
         for (u32 iObj = 0; iObj < NumObjects; iObj++)
         {
             CScriptObject *pObj = pLayer->InstanceByIndex(iObj);
-            CScriptNode *pNode = CreateScriptNode(pObj);
-            pNode->BuildLightList(mpArea);
-
-            // Add to map
-            mScriptNodeMap[pObj->InstanceID()] = pNode;
-
-            // AreaAttributes check
-            switch (pObj->ObjectTypeID())
-            {
-            case 0x4E:       // MP1 AreaAttributes ID
-            case 0x52454141: // MP2/MP3/DKCR AreaAttributes ID ("REAA")
-                mAreaAttributesObjects.emplace_back( CAreaAttributes(pObj) );
-                break;
-            }
+            CreateScriptNode(pObj);
         }
     }
 
@@ -144,10 +185,7 @@ void CScene::SetActiveArea(CGameArea *pArea)
         for (u32 iObj = 0; iObj < pGenLayer->NumInstances(); iObj++)
         {
             CScriptObject *pObj = pGenLayer->InstanceByIndex(iObj);
-            CScriptNode *pNode = CreateScriptNode(pObj);
-
-            // Add to map
-            mScriptNodeMap[pObj->InstanceID()] = pNode;
+            CreateScriptNode(pObj);
         }
     }
 
@@ -217,16 +255,10 @@ void CScene::AddSceneToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
     FShowFlags ShowFlags = (ViewInfo.GameMode ? gkGameModeShowFlags : ViewInfo.ShowFlags);
     FNodeFlags NodeFlags = NodeFlagsForShowFlags(ShowFlags);
 
-    for (auto it = mNodes.begin(); it != mNodes.end(); it++)
+    for (CSceneIterator It(this, NodeFlags, false); It; ++It)
     {
-        if (NodeFlags & it->first)
-        {
-            std::vector<CSceneNode*>& rNodeVec = it->second;
-
-            for (u32 iNode = 0; iNode < rNodeVec.size(); iNode++)
-                if (ViewInfo.GameMode || rNodeVec[iNode]->IsVisible())
-                    rNodeVec[iNode]->AddToRenderer(pRenderer, ViewInfo);
-        }
+        if (ViewInfo.GameMode || It->IsVisible())
+            It->AddToRenderer(pRenderer, ViewInfo);
     }
 }
 
@@ -236,16 +268,10 @@ SRayIntersection CScene::SceneRayCast(const CRay& Ray, const SViewInfo& ViewInfo
     FNodeFlags NodeFlags = NodeFlagsForShowFlags(ShowFlags);
     CRayCollisionTester Tester(Ray);
 
-    for (auto it = mNodes.begin(); it != mNodes.end(); it++)
+    for (CSceneIterator It(this, NodeFlags, false); It; ++It)
     {
-        if (NodeFlags & it->first)
-        {
-            std::vector<CSceneNode*>& rNodeVec = it->second;
-
-            for (u32 iNode = 0; iNode < rNodeVec.size(); iNode++)
-                if (rNodeVec[iNode]->IsVisible())
-                    rNodeVec[iNode]->RayAABoxIntersectTest(Tester, ViewInfo);
-        }
+        if (It->IsVisible())
+            It->RayAABoxIntersectTest(Tester, ViewInfo);
     }
 
     return Tester.TestNodes(ViewInfo);

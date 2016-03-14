@@ -11,11 +11,11 @@ public:
     CQuaternion();
     CQuaternion(float _w, float _x, float _y, float _z);
 
-    CVector3f XAxis();
-    CVector3f YAxis();
-    CVector3f ZAxis();
-    CQuaternion Inverse();
-    CVector3f ToEuler();
+    CVector3f XAxis() const;
+    CVector3f YAxis() const;
+    CVector3f ZAxis() const;
+    CQuaternion Inverse() const;
+    CVector3f ToEuler() const;
 
     // Operators
     CVector3f operator*(const CVector3f& vec) const;

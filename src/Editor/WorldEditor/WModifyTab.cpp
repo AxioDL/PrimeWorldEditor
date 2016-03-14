@@ -64,18 +64,28 @@ void WModifyTab::SetEditor(CWorldEditor *pEditor)
     ui->PropertyView->SetEditor(mpWorldEditor);
     connect(mpWorldEditor, SIGNAL(SelectionTransformed()), this, SLOT(OnWorldSelectionTransformed()));
     connect(mpWorldEditor, SIGNAL(InstanceLinksModified(const QList<CScriptObject*>&)), this, SLOT(OnInstanceLinksModified(const QList<CScriptObject*>&)));
+    connect(mpWorldEditor->Selection(), SIGNAL(Modified()), this, SLOT(GenerateUI()));
 }
 
-void WModifyTab::GenerateUI(QList<CSceneNode*>& Selection)
+void WModifyTab::ClearUI()
+{
+    ui->ObjectsTabWidget->hide();
+    ui->PropertyView->SetInstance(nullptr);
+    ui->LightGroupBox->hide();
+    mpSelectedNode = nullptr;
+}
+
+// ************ PUBLIC SLOTS ************
+void WModifyTab::GenerateUI()
 {
     if (mIsPicking)
         mpWorldEditor->ExitPickMode();
 
-    if (Selection.size() == 1)
+    if (mpWorldEditor->Selection()->Size() == 1)
     {
-        if (mpSelectedNode != Selection.front())
+        if (mpSelectedNode != mpWorldEditor->Selection()->Front())
         {
-            mpSelectedNode = Selection.front();
+            mpSelectedNode = mpWorldEditor->Selection()->Front();
 
             // todo: set up editing UI for Light Nodes
             if (mpSelectedNode->NodeType() == eScriptNode)
@@ -100,15 +110,6 @@ void WModifyTab::GenerateUI(QList<CSceneNode*>& Selection)
         ClearUI();
 }
 
-void WModifyTab::ClearUI()
-{
-    ui->ObjectsTabWidget->hide();
-    ui->PropertyView->SetInstance(nullptr);
-    ui->LightGroupBox->hide();
-    mpSelectedNode = nullptr;
-}
-
-// ************ PUBLIC SLOTS ************
 void WModifyTab::OnInstanceLinksModified(const QList<CScriptObject*>& rkInstances)
 {
     if (mpSelectedNode && mpSelectedNode->NodeType() == eScriptNode)

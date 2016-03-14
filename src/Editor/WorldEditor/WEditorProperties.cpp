@@ -65,7 +65,7 @@ void WEditorProperties::SyncToEditor(CWorldEditor *pEditor)
     connect(mpEditor, SIGNAL(SelectionModified()), this, SLOT(OnSelectionModified()));
     connect(mpEditor, SIGNAL(LayersModified()), this, SLOT(OnLayersModified()));
     connect(mpEditor, SIGNAL(InstancesLayerChanged(QList<CScriptNode*>)), this, SLOT(OnInstancesLayerChanged(QList<CScriptNode*>)));
-    connect(mpEditor, SIGNAL(PropertyModified(IProperty*,bool)), this, SLOT(OnPropertyModified(IProperty*,bool)));
+    connect(mpEditor, SIGNAL(PropertyModified(CScriptObject*,IProperty*)), this, SLOT(OnPropertyModified(CScriptObject*,IProperty*)));
 
     OnLayersModified();
 }
@@ -100,16 +100,16 @@ void WEditorProperties::SetLayerComboBox()
 // ************ PUBLIC SLOTS ************
 void WEditorProperties::OnSelectionModified()
 {
-    const QList<CSceneNode*>& rkSelection = mpEditor->GetSelection();
-    mpDisplayNode = (rkSelection.size() == 1 ? rkSelection.front() : nullptr);
+    CNodeSelection *pSelection = mpEditor->Selection();
+    mpDisplayNode = (pSelection->Size() == 1 ? pSelection->Front() : nullptr);
 
-    if (rkSelection.empty() || rkSelection.size() != 1 || mpDisplayNode->NodeType() != eScriptNode)
+    if (pSelection->IsEmpty() || pSelection->Size() != 1 || mpDisplayNode->NodeType() != eScriptNode)
     {
         mpActiveCheckBox->setChecked(false);
         mpActiveCheckBox->setEnabled(false);
         mpInstanceNameLineEdit->setEnabled(false);
 
-        if (rkSelection.empty())
+        if (pSelection->IsEmpty())
         {
             mpInstanceInfoLabel->setText("<i>[No selection]</i>");
             mpInstanceNameLineEdit->clear();
@@ -121,7 +121,7 @@ void WEditorProperties::OnSelectionModified()
         }
         else
         {
-            mpInstanceInfoLabel->setText(QString("<i>[%1 objects selected]</i>").arg(rkSelection.size()));
+            mpInstanceInfoLabel->setText(QString("<i>[%1 objects selected]</i>").arg(pSelection->Size()));
             mpInstanceNameLineEdit->clear();
         }
     }
@@ -139,11 +139,11 @@ void WEditorProperties::OnSelectionModified()
     SetLayerComboBox();
 }
 
-void WEditorProperties::OnPropertyModified(IProperty* /*pProp*/, bool IsEditorProperty)
+void WEditorProperties::OnPropertyModified(CScriptObject *pInstance, IProperty *pProp)
 {
     if (!mpInstanceNameLineEdit->hasFocus())
     {
-        if (mpDisplayNode->NodeType() == eScriptNode && IsEditorProperty)
+        if (mpDisplayNode->NodeType() == eScriptNode && pInstance->IsEditorProperty(pProp))
             UpdatePropertyValues();
     }
 }

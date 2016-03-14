@@ -1,17 +1,18 @@
 #include "CWorldEditor.h"
 #include "ui_CWorldEditor.h"
-
 #include "CConfirmUnlinkDialog.h"
 #include "CLayerEditor.h"
+#include "CTemplateMimeData.h"
 #include "WModifyTab.h"
 #include "WInstancesTab.h"
 
 #include "Editor/CBasicViewport.h"
+#include "Editor/CSelectionIterator.h"
+#include "Editor/UICommon.h"
 #include "Editor/PropertyEdit/CPropertyView.h"
 #include "Editor/Widgets/WDraggableSpinBox.h"
 #include "Editor/Widgets/WVectorEditor.h"
 #include "Editor/Undo/UndoCommands.h"
-#include "Editor/UICommon.h"
 
 #include <Core/Render/CDrawUtil.h>
 #include <Core/Resource/Cooker/CAreaCooker.h>
@@ -38,7 +39,7 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     Log::Write("Creating World Editor");
     ui->setupUi(this);
 
-    mSelectionNodeFlags = eScriptNode | eLightNode;
+    mpSelection->SetAllowedNodeTypes(eScriptNode | eLightNode);
 
     // Start refresh timer
     connect(&mRefreshTimer, SIGNAL(timeout()), this, SLOT(RefreshViewport()));
@@ -51,6 +52,7 @@ CWorldEditor::CWorldEditor(QWidget *parent)
 
     // Initialize UI stuff
     ui->MainViewport->SetScene(this, &mScene);
+    ui->CreateTabContents->SetEditor(this);
     ui->ModifyTabContents->SetEditor(this);
     ui->InstancesTabContents->SetEditor(this, &mScene);
     ui->TransformSpinBox->SetOrientation(Qt::Horizontal);
@@ -66,6 +68,7 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     // Initialize actions
     addAction(ui->ActionIncrementGizmo);
     addAction(ui->ActionDecrementGizmo);
+    addAction(ui->ActionDelete);
 
     QAction *pToolBarUndo = mUndoStack.createUndoAction(this);
     pToolBarUndo->setIcon(QIcon(":/icons/Undo.png"));
@@ -93,6 +96,7 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     connect(ui->CamSpeedSpinBox, SIGNAL(valueChanged(double)), this, SLOT(OnCameraSpeedChange(double)));
     connect(ui->ActionLink, SIGNAL(toggled(bool)), this, SLOT(OnLinkButtonToggled(bool)));
     connect(ui->ActionUnlink, SIGNAL(triggered()), this, SLOT(OnUnlinkClicked()));
+    connect(ui->ActionDelete, SIGNAL(triggered()), this, SLOT(DeleteSelection()));
     connect(&mUndoStack, SIGNAL(indexChanged(int)), this, SLOT(OnUndoStackIndexChanged()));
 
     connect(ui->ActionSave, SIGNAL(triggered()), this, SLOT(Save()));
@@ -100,6 +104,7 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     ui->CreateTabEditorProperties->SyncToEditor(this);
     ui->ModifyTabEditorProperties->SyncToEditor(this);
     ui->InstancesTabEditorProperties->SyncToEditor(this);
+    ui->MainViewport->setAcceptDrops(true);
 }
 
 CWorldEditor::~CWorldEditor()
@@ -127,12 +132,7 @@ void CWorldEditor::closeEvent(QCloseEvent *pEvent)
     }
 }
 
-bool CWorldEditor::eventFilter(QObject * /*pObj*/, QEvent * /*pEvent*/)
-{
-    return false;
-}
-
-void CWorldEditor::SetArea(CWorld *pWorld, CGameArea *pArea, u32 AreaIndex)
+void CWorldEditor::SetArea(CWorld *pWorld, CGameArea *pArea)
 {
     ExitPickMode();
     ui->MainViewport->ResetHover();
@@ -181,6 +181,7 @@ void CWorldEditor::SetArea(CWorld *pWorld, CGameArea *pArea, u32 AreaIndex)
 
     // Set up sidebar tabs
     CMasterTemplate *pMaster = CMasterTemplate::GetMasterForGame(mpArea->Version());
+    ui->CreateTabContents->SetMaster(pMaster);
     ui->InstancesTabContents->SetMaster(pMaster);
 
     // Set up dialogs
@@ -192,8 +193,8 @@ void CWorldEditor::SetArea(CWorld *pWorld, CGameArea *pArea, u32 AreaIndex)
 
     if (CurrentGame() < eReturns)
     {
-        CStringTable *pAreaNameTable = mpWorld->GetAreaName(AreaIndex);
-        TWideString AreaName = pAreaNameTable ? pAreaNameTable->GetString("ENGL", 0) : (TWideString("!") + mpWorld->GetAreaInternalName(AreaIndex).ToUTF16());
+        CStringTable *pAreaNameTable = mpWorld->GetAreaName(mpArea->WorldIndex());
+        TWideString AreaName = pAreaNameTable ? pAreaNameTable->GetString("ENGL", 0) : (TWideString("!") + mpWorld->GetAreaInternalName(mpArea->WorldIndex()).ToUTF16());
 
         if (AreaName.IsEmpty())
             AreaName = "[Untitled Area]";
@@ -206,7 +207,7 @@ void CWorldEditor::SetArea(CWorld *pWorld, CGameArea *pArea, u32 AreaIndex)
     {
         QString LevelName;
         if (pWorldNameTable) LevelName = TO_QSTRING(WorldName);
-        else LevelName = "!" + TO_QSTRING(mpWorld->GetAreaInternalName(AreaIndex));
+        else LevelName = "!" + TO_QSTRING(mpWorld->GetAreaInternalName(mpArea->WorldIndex()));
 
         setWindowTitle(QString("Prime World Editor - %1[*]").arg(LevelName));
         Log::Write("Loaded level: World " + mpWorld->Source() + " / Area " + mpArea->Source() + " (" + TO_TSTRING(LevelName) + ")");
@@ -238,7 +239,20 @@ bool CWorldEditor::CheckUnsavedChanges()
     return OkToClear;
 }
 
+CSceneViewport* CWorldEditor::Viewport() const
+{
+    return ui->MainViewport;
+}
+
 // ************ PUBLIC SLOTS ************
+void CWorldEditor::NotifyNodeAboutToBeDeleted(CSceneNode *pNode)
+{
+    INodeEditor::NotifyNodeAboutToBeDeleted(pNode);
+
+    if (ui->MainViewport->HoverNode() == pNode)
+        ui->MainViewport->ResetHover();
+}
+
 bool CWorldEditor::Save()
 {
     TString Out = mpArea->FullSource();
@@ -273,9 +287,9 @@ void CWorldEditor::OnPropertyModified(IProperty *pProp)
 {
     bool EditorProperty = false;
 
-    if (!mSelection.isEmpty() && mSelection.front()->NodeType() == eScriptNode)
+    if (!mpSelection->IsEmpty() && mpSelection->Front()->NodeType() == eScriptNode)
     {
-        CScriptNode *pScript = static_cast<CScriptNode*>(mSelection.front());
+        CScriptNode *pScript = static_cast<CScriptNode*>(mpSelection->Front());
         pScript->PropertyModified(pProp);
 
         // Check editor property
@@ -295,13 +309,13 @@ void CWorldEditor::OnPropertyModified(IProperty *pProp)
             CFileTemplate *pFile = static_cast<CFileTemplate*>(pProp->Template());
 
             if (pFile->AcceptsExtension("CMDL") || pFile->AcceptsExtension("ANCS") || pFile->AcceptsExtension("CHAR"))
-                NotifySelectionModified();
+                SelectionModified();
         }
         else if (pProp->Type() == eCharacterProperty)
-            NotifySelectionModified();
+            SelectionModified();
 
         // Emit signal so other widgets can react to the property change
-        emit PropertyModified(pProp, EditorProperty);
+        emit PropertyModified(pScript->Object(), pProp);
     }
 }
 
@@ -310,11 +324,11 @@ void CWorldEditor::SetSelectionActive(bool Active)
     // Gather list of selected objects that actually have Active properties
     QVector<CScriptObject*> Objects;
 
-    foreach (CSceneNode *pNode, mSelection)
+    for (CSelectionIterator It(mpSelection); It; ++It)
     {
-        if (pNode->NodeType() == eScriptNode)
+        if (It->NodeType() == eScriptNode)
         {
-            CScriptNode *pScript = static_cast<CScriptNode*>(pNode);
+            CScriptNode *pScript = static_cast<CScriptNode*>(*It);
             CScriptObject *pInst = pScript->Object();
             IProperty *pActive = pInst->ActiveProperty();
 
@@ -343,9 +357,9 @@ void CWorldEditor::SetSelectionInstanceNames(const QString& rkNewName, bool IsDo
 {
     // todo: this only supports one node at a time because a macro prevents us from merging undo commands
     // this is fine right now because this function is only ever called with a selection of one node, but probably want to fix in the future
-    if (mSelection.size() == 1 && mSelection.front()->NodeType() == eScriptNode)
+    if (mpSelection->Size() == 1 && mpSelection->Front()->NodeType() == eScriptNode)
     {
-        CScriptNode *pNode = static_cast<CScriptNode*>(mSelection.front());
+        CScriptNode *pNode = static_cast<CScriptNode*>(mpSelection->Front());
         CScriptObject *pInst = pNode->Object();
         IProperty *pName = pInst->InstanceNameProperty();
 
@@ -363,14 +377,21 @@ void CWorldEditor::SetSelectionLayer(CScriptLayer *pLayer)
 {
     QList<CScriptNode*> ScriptNodes;
 
-    foreach (CSceneNode *pNode, mSelection)
+    for (CSelectionIterator It(mpSelection); It; ++It)
     {
-        if (pNode->NodeType() == eScriptNode)
-            ScriptNodes << static_cast<CScriptNode*>(pNode);
+        if (It->NodeType() == eScriptNode)
+            ScriptNodes << static_cast<CScriptNode*>(*It);
     }
 
     if (!ScriptNodes.isEmpty())
         mUndoStack.push(new CChangeLayerCommand(this, ScriptNodes, pLayer));
+}
+
+void CWorldEditor::DeleteSelection()
+{
+    // note: make it only happen if there is a script node selected
+    CDeleteSelectionCommand *pCmd = new CDeleteSelectionCommand(this);
+    mUndoStack.push(pCmd);
 }
 
 void CWorldEditor::UpdateStatusBar()
@@ -384,7 +405,7 @@ void CWorldEditor::UpdateStatusBar()
         {
             CSceneNode *pHoverNode = ui->MainViewport->HoverNode();
 
-            if (pHoverNode && (pHoverNode->NodeType() & mSelectionNodeFlags))
+            if (pHoverNode && mpSelection->IsAllowedType(pHoverNode))
                 StatusText = TO_QSTRING(pHoverNode->Name());
         }
     }
@@ -409,26 +430,26 @@ void CWorldEditor::UpdateGizmoUI()
             case CGizmo::eTranslate:
                 if (mGizmoTransforming && mGizmo.HasTransformed())
                     spinBoxValue = mGizmo.TotalTranslation();
-                else if (!mSelection.empty())
-                    spinBoxValue = mSelection.front()->AbsolutePosition();
+                else if (!mpSelection->IsEmpty())
+                    spinBoxValue = mpSelection->Front()->AbsolutePosition();
                 break;
 
             case CGizmo::eRotate:
                 if (mGizmoTransforming && mGizmo.HasTransformed())
                     spinBoxValue = mGizmo.TotalRotation();
-                else if (!mSelection.empty())
-                    spinBoxValue = mSelection.front()->AbsoluteRotation().ToEuler();
+                else if (!mpSelection->IsEmpty())
+                    spinBoxValue = mpSelection->Front()->AbsoluteRotation().ToEuler();
                 break;
 
             case CGizmo::eScale:
                 if (mGizmoTransforming && mGizmo.HasTransformed())
                     spinBoxValue = mGizmo.TotalScale();
-                else if (!mSelection.empty())
-                    spinBoxValue = mSelection.front()->AbsoluteScale();
+                else if (!mpSelection->IsEmpty())
+                    spinBoxValue = mpSelection->Front()->AbsoluteScale();
                 break;
             }
         }
-        else if (!mSelection.empty()) spinBoxValue = mSelection.front()->AbsolutePosition();
+        else if (!mpSelection->IsEmpty()) spinBoxValue = mpSelection->Front()->AbsolutePosition();
 
         ui->TransformSpinBox->blockSignals(true);
         ui->TransformSpinBox->SetValue(spinBoxValue);
@@ -439,26 +460,23 @@ void CWorldEditor::UpdateGizmoUI()
     if (!mGizmoTransforming)
     {
         // Set gizmo transform
-        if (!mSelection.empty())
+        if (!mpSelection->IsEmpty())
         {
-            mGizmo.SetPosition(mSelection.front()->AbsolutePosition());
-            mGizmo.SetLocalRotation(mSelection.front()->AbsoluteRotation());
+            mGizmo.SetPosition(mpSelection->Front()->AbsolutePosition());
+            mGizmo.SetLocalRotation(mpSelection->Front()->AbsoluteRotation());
         }
     }
 }
 
 void CWorldEditor::UpdateSelectionUI()
 {
-    // Update sidebar
-    ui->ModifyTabContents->GenerateUI(mSelection);
-
     // Update selection info text
     QString SelectionText;
 
-    if (mSelection.size() == 1)
-        SelectionText = TO_QSTRING(mSelection.front()->Name());
-    else if (mSelection.size() > 1)
-        SelectionText = QString("%1 objects selected").arg(mSelection.size());
+    if (mpSelection->Size() == 1)
+        SelectionText = TO_QSTRING(mpSelection->Front()->Name());
+    else if (mpSelection->Size() > 1)
+        SelectionText = QString("%1 objects selected").arg(mpSelection->Size());
 
     QFontMetrics Metrics(ui->SelectionInfoLabel->font());
     SelectionText = Metrics.elidedText(SelectionText, Qt::ElideRight, ui->SelectionInfoFrame->width() - 10);
@@ -478,7 +496,7 @@ void CWorldEditor::UpdateCursor()
 
         if (ui->MainViewport->IsHoveringGizmo())
             ui->MainViewport->SetCursorState(Qt::SizeAllCursor);
-        else if ((pHoverNode) && (pHoverNode->NodeType() & mSelectionNodeFlags))
+        else if ((pHoverNode) && mpSelection->IsAllowedType(pHoverNode))
             ui->MainViewport->SetCursorState(Qt::PointingHandCursor);
         else
             ui->MainViewport->SetCursorState(Qt::ArrowCursor);
@@ -604,10 +622,10 @@ void CWorldEditor::OnUnlinkClicked()
 {
     QList<CScriptNode*> SelectedScriptNodes;
 
-    foreach (CSceneNode *pNode, mSelection)
+    for (CSelectionIterator It(mpSelection); It; ++It)
     {
-        if (pNode->NodeType() == eScriptNode)
-            SelectedScriptNodes << static_cast<CScriptNode*>(pNode);
+        if (It->NodeType() == eScriptNode)
+            SelectedScriptNodes << static_cast<CScriptNode*>(*It);
     }
 
     if (!SelectedScriptNodes.isEmpty())
@@ -727,8 +745,8 @@ void CWorldEditor::UpdateCameraOrbit()
 {
     CCamera *pCamera = &ui->MainViewport->Camera();
 
-    if (!mSelection.isEmpty())
-        pCamera->SetOrbit(mSelectionBounds);
+    if (!mpSelection->IsEmpty())
+        pCamera->SetOrbit(mpSelection->Bounds());
     else if (mpArea)
         pCamera->SetOrbit(mpArea->AABox(), 1.5f);
 }
@@ -745,34 +763,33 @@ void CWorldEditor::OnCameraSpeedChange(double speed)
 
 void CWorldEditor::OnTransformSpinBoxModified(CVector3f value)
 {
-    if (mSelection.empty()) return;
+    if (mpSelection->IsEmpty()) return;
 
     switch (mGizmo.Mode())
     {
         // Use absolute position/rotation, but relative scale. (This way spinbox doesn't show preview multiplier)
         case CGizmo::eTranslate:
         {
-            CVector3f delta = value - mSelection.front()->AbsolutePosition();
-            mUndoStack.push(new CTranslateNodeCommand(this, mSelection, delta, mTranslateSpace));
+            CVector3f delta = value - mpSelection->Front()->AbsolutePosition();
+            mUndoStack.push(new CTranslateNodeCommand(this, mpSelection->SelectedNodeList(), delta, mTranslateSpace));
             break;
         }
 
         case CGizmo::eRotate:
         {
-            CQuaternion delta = CQuaternion::FromEuler(value) * mSelection.front()->AbsoluteRotation().Inverse();
-            mUndoStack.push(new CRotateNodeCommand(this, mSelection, CVector3f::skZero, delta, mRotateSpace));
+            CQuaternion delta = CQuaternion::FromEuler(value) * mpSelection->Front()->AbsoluteRotation().Inverse();
+            mUndoStack.push(new CRotateNodeCommand(this, mpSelection->SelectedNodeList(), CVector3f::skZero, delta, mRotateSpace));
             break;
         }
 
         case CGizmo::eScale:
         {
-            CVector3f delta = value / mSelection.front()->AbsoluteScale();
-            mUndoStack.push(new CScaleNodeCommand(this, mSelection, CVector3f::skZero, delta));
+            CVector3f delta = value / mpSelection->Front()->AbsoluteScale();
+            mUndoStack.push(new CScaleNodeCommand(this, mpSelection->SelectedNodeList(), CVector3f::skZero, delta));
             break;
         }
     }
 
-    RecalculateSelectionBounds();
     UpdateGizmoUI();
 }
 
@@ -782,7 +799,7 @@ void CWorldEditor::OnTransformSpinBoxEdited(CVector3f)
     ui->TransformSpinBox->blockSignals(true);
     ui->MainViewport->setFocus();
     ui->TransformSpinBox->blockSignals(false);
-    if (mSelection.empty()) return;
+    if (mpSelection->IsEmpty()) return;
 
     if (mGizmo.Mode() == CGizmo::eTranslate)   mUndoStack.push(CTranslateNodeCommand::End());
     else if (mGizmo.Mode() == CGizmo::eRotate) mUndoStack.push(CRotateNodeCommand::End());

@@ -7,17 +7,27 @@
 
 class CInvertSelectionCommand : public IUndoCommand
 {
-    INodeEditor *mpEditor;
+    CNodeSelection *mpSelection;
     QList<CSceneNode*> mOldSelection;
     QList<CSceneNode*> mNewSelection;
-    QList<CSceneNode*> *mpSelection;
 
 public:
-    CInvertSelectionCommand(INodeEditor *pEditor, QList<CSceneNode*>& rSelection, CScene *pScene, FNodeFlags NodeFlags);
-    ~CInvertSelectionCommand();
-    void undo();
-    void redo();
-    virtual bool AffectsCleanState() const { return false; }
+    CInvertSelectionCommand(CNodeSelection *pSelection, CScene *pScene, FNodeFlags NodeFlags)
+        : IUndoCommand("Invert Selection")
+        , mpSelection(pSelection)
+    {
+        for (CSceneIterator It(pScene, NodeFlags); It; ++It)
+        {
+            if (It->IsSelected())
+                mOldSelection << *It;
+            else
+                mNewSelection << *It;
+        }
+    }
+
+    void undo() { mpSelection->SetSelectedNodes(mOldSelection); }
+    void redo() { mpSelection->SetSelectedNodes(mNewSelection); }
+    bool AffectsCleanState() const { return false; }
 };
 
 #endif // CINVERTSELECTIONCOMMAND_H

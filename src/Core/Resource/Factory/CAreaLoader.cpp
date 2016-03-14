@@ -595,7 +595,7 @@ void CAreaLoader::ReadCollision()
 {
     Log::FileWrite(mpMREA->GetSourceString(), "Reading collision (MP1/MP2/MP3)");
     mpSectionMgr->ToSection(mCollisionBlockNum);
-    mpArea->mCollision = CCollisionLoader::LoadAreaCollision(*mpMREA);
+    mpArea->mpCollision = CCollisionLoader::LoadAreaCollision(*mpMREA);
 }
 
 void CAreaLoader::ReadEGMC()
@@ -643,7 +643,7 @@ void CAreaLoader::SetUpObjects()
 
         if (iConMap != mConnectionMap.end())
         {
-            CScriptObject *pObj = mpArea->GetInstanceByID(InstanceID);
+            CScriptObject *pObj = mpArea->InstanceByID(InstanceID);
             pObj->mInLinks = iConMap->second;
         }
     }

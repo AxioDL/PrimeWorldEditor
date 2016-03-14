@@ -84,7 +84,7 @@ public:
     CWorld();
     ~CWorld();
 
-    void SetAreaLayerInfo(CGameArea *pArea, u32 AreaIndex);
+    void SetAreaLayerInfo(CGameArea *pArea);
 
     // Setters
     EGame Version();

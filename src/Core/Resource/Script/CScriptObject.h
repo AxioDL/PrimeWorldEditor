@@ -50,7 +50,7 @@ class CScriptObject
     mutable bool mIsCheckingNearVisibleActivation;
 
 public:
-    CScriptObject(CGameArea *pArea, CScriptLayer *pLayer, CScriptTemplate *pTemplate);
+    CScriptObject(u32 InstanceID, CGameArea *pArea, CScriptLayer *pLayer, CScriptTemplate *pTemplate);
     ~CScriptObject();
 
     void EvaluateProperties();
@@ -59,7 +59,8 @@ public:
     void EvaluateCollisionModel();
     void EvaluateVolume();
     bool IsEditorProperty(IProperty *pProp);
-    void SetLayer(CScriptLayer *pLayer);
+    void SetLayer(CScriptLayer *pLayer, u32 NewLayerIndex = -1);
+    u32 LayerIndex() const;
     bool HasNearVisibleActivation() const;
 
     CScriptTemplate* Template() const;
@@ -78,6 +79,7 @@ public:
     CLink* Link(ELinkType Type, u32 Index) const;
     void AddLink(ELinkType Type, CLink *pLink, u32 Index = -1);
     void RemoveLink(ELinkType Type, CLink *pLink);
+    void BreakAllLinks();
 
     CVector3f Position() const;
     CVector3f Rotation() const;

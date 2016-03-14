@@ -1,11 +1,12 @@
 #include "INodeEditor.h"
+#include "CSelectionIterator.h"
 #include "Editor/Undo/UndoCommands.h"
 #include <QMouseEvent>
 
 INodeEditor::INodeEditor(QWidget *pParent)
     : QMainWindow(pParent)
     , mPickMode(false)
-    , mSelectionNodeFlags(eAllNodeTypes)
+    , mpSelection(new CNodeSelection)
     , mSelectionLocked(false)
     , mShowGizmo(false)
     , mGizmoHovering(false)
@@ -53,10 +54,12 @@ INodeEditor::INodeEditor(QWidget *pParent)
     connect(mGizmoActions[2], SIGNAL(triggered()), this, SLOT(OnRotateTriggered()));
     connect(mGizmoActions[3], SIGNAL(triggered()), this, SLOT(OnScaleTriggered()));
     connect(mpTransformCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(OnTransformSpaceChanged(int)));
+    connect(mpSelection, SIGNAL(Modified()), this, SLOT(OnSelectionModified()));
 }
 
 INodeEditor::~INodeEditor()
 {
+    delete mpSelection;
 }
 
 QUndoStack* INodeEditor::UndoStack()
@@ -76,7 +79,7 @@ CGizmo* INodeEditor::Gizmo()
 
 bool INodeEditor::IsGizmoVisible()
 {
-    return (mShowGizmo && !mSelection.empty());
+    return (mShowGizmo && !mpSelection->IsEmpty());
 }
 
 void INodeEditor::BeginGizmoTransform()
@@ -113,33 +116,12 @@ ETransformSpace INodeEditor::CurrentTransformSpace()
     }
 }
 
-void INodeEditor::RecalculateSelectionBounds()
-{
-    mSelectionBounds = CAABox::skInfinite;
-
-    foreach (CSceneNode *pNode, mSelection)
-        ExpandSelectionBounds(pNode);
-}
-
-void INodeEditor::ExpandSelectionBounds(CSceneNode *pNode)
-{
-    mSelectionBounds.ExpandBounds(pNode->AABox());
-
-    if (pNode->NodeType() == eScriptNode)
-    {
-        CScriptNode *pScript = static_cast<CScriptNode*>(pNode);
-
-        if (pScript->HasPreviewVolume())
-            mSelectionBounds.ExpandBounds(pScript->PreviewVolumeAABox());
-    }
-}
-
 void INodeEditor::SelectNode(CSceneNode *pNode)
 {
     if (!mSelectionLocked)
     {
         if (!pNode->IsSelected())
-            mUndoStack.push(new CSelectNodeCommand(this, pNode, mSelection));
+            mUndoStack.push(new CSelectNodeCommand(mpSelection, pNode));
     }
 }
 
@@ -148,7 +130,7 @@ void INodeEditor::DeselectNode(CSceneNode *pNode)
     if (!mSelectionLocked)
     {
         if (pNode->IsSelected())
-            mUndoStack.push(new CDeselectNodeCommand(this, pNode, mSelection));
+            mUndoStack.push(new CDeselectNodeCommand(mpSelection, pNode));
     }
 }
 
@@ -156,8 +138,8 @@ void INodeEditor::ClearSelection()
 {
     if (!mSelectionLocked)
     {
-        if (!mSelection.empty())
-            mUndoStack.push(new CClearSelectionCommand(this, mSelection));
+        if (!mpSelection->IsEmpty())
+            mUndoStack.push(new CClearSelectionCommand(mpSelection));
     }
 }
 
@@ -165,17 +147,17 @@ void INodeEditor::ClearAndSelectNode(CSceneNode *pNode)
 {
     if (!mSelectionLocked)
     {
-        if (mSelection.empty())
-            mUndoStack.push(new CSelectNodeCommand(this, pNode, mSelection));
+        if (mpSelection->IsEmpty())
+            mUndoStack.push(new CSelectNodeCommand(mpSelection, pNode));
 
-        else if ((mSelection.size() == 1) && (mSelection.front() == pNode))
+        else if ((mpSelection->Size() == 1) && (mpSelection->Front() == pNode))
             return;
 
         else
         {
             mUndoStack.beginMacro("Select");
-            mUndoStack.push(new CClearSelectionCommand(this, mSelection));
-            mUndoStack.push(new CSelectNodeCommand(this, pNode, mSelection));
+            mUndoStack.push(new CClearSelectionCommand(mpSelection));
+            mUndoStack.push(new CSelectNodeCommand(mpSelection, pNode));
             mUndoStack.endMacro();
         }
     }
@@ -184,13 +166,13 @@ void INodeEditor::ClearAndSelectNode(CSceneNode *pNode)
 void INodeEditor::SelectAll(FNodeFlags NodeFlags)
 {
     if (!mSelectionLocked)
-        mUndoStack.push(new CSelectAllCommand(this, mSelection, &mScene, NodeFlags));
+        mUndoStack.push(new CSelectAllCommand(mpSelection, &mScene, NodeFlags));
 }
 
 void INodeEditor::InvertSelection(FNodeFlags NodeFlags)
 {
     if (!mSelectionLocked)
-        mUndoStack.push(new CInvertSelectionCommand(this, mSelection, &mScene, NodeFlags));
+        mUndoStack.push(new CInvertSelectionCommand(mpSelection, &mScene, NodeFlags));
 }
 
 void INodeEditor::SetSelectionLocked(bool Locked)
@@ -200,12 +182,12 @@ void INodeEditor::SetSelectionLocked(bool Locked)
 
 bool INodeEditor::HasSelection() const
 {
-    return (!mSelection.isEmpty());
+    return (!mpSelection->IsEmpty());
 }
 
-const QList<CSceneNode*>& INodeEditor::GetSelection() const
+CNodeSelection* INodeEditor::Selection() const
 {
-    return mSelection;
+    return mpSelection;
 }
 
 void INodeEditor::EnterPickMode(FNodeFlags AllowedNodes, bool ExitOnInvalidPick, bool EmitOnInvalidPick, bool EmitHoverOnButtonPress, QCursor Cursor /*= Qt::CrossCursor*/)
@@ -231,22 +213,42 @@ void INodeEditor::ExitPickMode()
     }
 }
 
-void INodeEditor::NotifySelectionModified()
+void INodeEditor::NotifySelectionTransformed()
 {
-    RecalculateSelectionBounds();
+    for (CSelectionIterator It(mpSelection); It; ++It)
+        It->OnTransformed();
+
+    mpSelection->UpdateBounds();
+    emit SelectionTransformed();
+}
+
+void INodeEditor::NotifyNodeAboutToBeSpawned()
+{
+    emit NodeAboutToBeSpawned();
+}
+
+void INodeEditor::NotifyNodeSpawned(CSceneNode *pNode)
+{
+    emit NodeSpawned(pNode);
+}
+
+void INodeEditor::NotifyNodeAboutToBeDeleted(CSceneNode *pNode)
+{
+    emit NodeAboutToBeDeleted(pNode);
+}
+
+void INodeEditor::NotifyNodeDeleted()
+{
+    emit NodeDeleted();
+}
+
+// ************ PUBLIC SLOTS ************
+void INodeEditor::OnSelectionModified()
+{
     UpdateSelectionUI();
     emit SelectionModified();
 }
 
-void INodeEditor::NotifySelectionTransformed()
-{
-    foreach (CSceneNode *pNode, mSelection)
-        pNode->OnTransformed();
-
-    emit SelectionTransformed();
-}
-
-// ************ PUBLIC SLOTS ************
 void INodeEditor::OnGizmoMoved()
 {
     switch (mGizmo.Mode())
@@ -254,26 +256,25 @@ void INodeEditor::OnGizmoMoved()
         case CGizmo::eTranslate:
         {
             CVector3f delta = mGizmo.DeltaTranslation();
-            mUndoStack.push(new CTranslateNodeCommand(this, mSelection, delta, mTranslateSpace));
+            mUndoStack.push(new CTranslateNodeCommand(this, mpSelection->SelectedNodeList(), delta, mTranslateSpace));
             break;
         }
 
         case CGizmo::eRotate:
         {
             CQuaternion delta = mGizmo.DeltaRotation();
-            mUndoStack.push(new CRotateNodeCommand(this, mSelection, CVector3f::skZero, delta, mRotateSpace));
+            mUndoStack.push(new CRotateNodeCommand(this, mpSelection->SelectedNodeList(), CVector3f::skZero, delta, mRotateSpace));
             break;
         }
 
         case CGizmo::eScale:
         {
             CVector3f delta = mGizmo.DeltaScale();
-            mUndoStack.push(new CScaleNodeCommand(this, mSelection, CVector3f::skZero, delta));
+            mUndoStack.push(new CScaleNodeCommand(this, mpSelection->SelectedNodeList(), CVector3f::skZero, delta));
             break;
         }
     }
 
-    RecalculateSelectionBounds();
     UpdateGizmoUI();
 }
 
@@ -285,7 +286,7 @@ void INodeEditor::OnViewportClick(const SRayIntersection& rkRayIntersect, QMouse
     // Not in pick mode: process node selection/deselection
     if (!mPickMode)
     {
-        bool ValidNode = (pNode && (pNode->NodeType() & mSelectionNodeFlags));
+        bool ValidNode = (pNode && mpSelection->IsAllowedType(pNode));
         bool AltPressed = ((pEvent->modifiers() & Qt::AltModifier) != 0);
         bool CtrlPressed = ((pEvent->modifiers() & Qt::ControlModifier) != 0);
 
@@ -364,11 +365,11 @@ void INodeEditor::UpdateTransformActionsEnabled()
     bool AllowTranslate = true, AllowRotate = true, AllowScale = true;
     bool SelectedModeWasEnabled = mpGizmoGroup->checkedAction()->isEnabled();
 
-    for (auto it = mSelection.begin(); it != mSelection.end(); it++)
+    for (CSelectionIterator It(mpSelection); It; ++It)
     {
-        if (!(*it)->AllowsTranslate()) AllowTranslate = false;
-        if (!(*it)->AllowsRotate()) AllowRotate = false;
-        if (!(*it)->AllowsScale()) AllowScale = false;
+        if (!It->AllowsTranslate()) AllowTranslate = false;
+        if (!It->AllowsRotate())    AllowRotate = false;
+        if (!It->AllowsScale())     AllowScale = false;
     }
 
     mGizmoActions[1]->setEnabled(AllowTranslate);

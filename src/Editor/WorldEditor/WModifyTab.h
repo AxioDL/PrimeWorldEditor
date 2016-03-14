@@ -3,6 +3,7 @@
 
 #include "CLinkDialog.h"
 #include "CLinkModel.h"
+#include "Editor/CNodeSelection.h"
 #include <Core/Scene/CSceneNode.h>
 #include <Core/Scene/CScriptNode.h>
 
@@ -36,10 +37,10 @@ public:
     explicit WModifyTab(QWidget *pParent = 0);
     ~WModifyTab();
     void SetEditor(CWorldEditor *pEditor);
-    void GenerateUI(QList<CSceneNode*>& Selection);
     void ClearUI();
 
 public slots:
+    void GenerateUI();
     void OnInstanceLinksModified(const QList<CScriptObject*>& rkInstances);
     void OnWorldSelectionTransformed();
 

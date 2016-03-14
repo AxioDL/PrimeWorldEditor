@@ -183,8 +183,9 @@ void CStartWindow::on_LaunchWorldEditorButton_clicked()
 
         else
         {
-            mpWorld->SetAreaLayerInfo(pArea, mSelectedAreaIndex);
-            mpWorldEditor->SetArea(mpWorld, pArea, mSelectedAreaIndex);
+            pArea->SetWorldIndex(mSelectedAreaIndex);
+            mpWorld->SetAreaLayerInfo(pArea);
+            mpWorldEditor->SetArea(mpWorld, pArea);
             gResCache.Clean();
 
             mpWorldEditor->setWindowModality(Qt::WindowModal);

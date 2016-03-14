@@ -37,6 +37,7 @@ private:
     QList<CScriptTemplate*> mTemplateList;
     QStringList mBaseItems;
     bool mShowColumnEnabled;
+    bool mAddingOrRemovingRows;
 
 public:
     explicit CInstancesModel(QObject *pParent = 0);
@@ -53,13 +54,17 @@ public:
     void SetArea(CGameArea *pArea);
     void SetModelType(EInstanceModelType type);
     void SetShowColumnEnabled(bool Enabled);
-    void NodeCreated(CSceneNode *pNode);
-    void NodeDeleted(CSceneNode *pNode);
     CScriptLayer* IndexLayer(const QModelIndex& index) const;
     CScriptTemplate* IndexTemplate(const QModelIndex& index) const;
     CScriptObject* IndexObject(const QModelIndex& index) const;
 
 public slots:
+    void NodeAboutToBeCreated();
+    void NodeCreated(CSceneNode *pNode);
+    void NodeAboutToBeDeleted(CSceneNode *pNode);
+    void NodeDeleted();
+
+    void PropertyModified(CScriptObject *pInst, IProperty *pProp);
     void InstancesLayerPreChange();
     void InstancesLayerPostChange(const QList<CScriptNode*>& rkInstanceList);
 

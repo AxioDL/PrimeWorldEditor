@@ -51,6 +51,7 @@ public:
     CCollisionNode* CreateCollisionNode(CCollisionMeshGroup *pMesh);
     CScriptNode* CreateScriptNode(CScriptObject *pObj);
     CLightNode* CreateLightNode(CLight *pLight);
+    void DeleteNode(CSceneNode *pNode);
     void SetActiveArea(CGameArea *pArea);
     void SetActiveWorld(CWorld *pWorld);
     void PostLoad();

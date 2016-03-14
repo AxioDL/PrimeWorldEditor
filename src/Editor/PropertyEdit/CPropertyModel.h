@@ -35,7 +35,7 @@ public:
     inline void SetBoldModifiedProperties(bool Enable) { mBoldModifiedProperties = Enable; }
 
 public slots:
-    void NotifyPropertyModified(IProperty *pProp);
+    void NotifyPropertyModified(class CScriptObject *pInst, IProperty *pProp);
     void NotifyPropertyModified(const QModelIndex& rkIndex);
 
 signals:

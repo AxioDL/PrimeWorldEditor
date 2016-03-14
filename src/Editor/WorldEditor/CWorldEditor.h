@@ -5,6 +5,7 @@
 #include "CPoiMapEditDialog.h"
 #include "Editor/INodeEditor.h"
 #include "Editor/CGizmo.h"
+#include "Editor/CSceneViewport.h"
 
 #include <Common/CTimer.h>
 #include <Common/EKeyInputs.h>
@@ -47,21 +48,24 @@ public:
     explicit CWorldEditor(QWidget *parent = 0);
     ~CWorldEditor();
     void closeEvent(QCloseEvent *pEvent);
-    bool eventFilter(QObject *pObj, QEvent *pEvent);
-    void SetArea(CWorld *pWorld, CGameArea *pArea, u32 AreaIndex);
+    void SetArea(CWorld *pWorld, CGameArea *pArea);
     bool CheckUnsavedChanges();
 
     inline CGameArea* ActiveArea() const { return mpArea; }
     inline EGame CurrentGame() const { return mpArea ? mpArea->Version() : eUnknownVersion; }
     inline CLinkDialog* LinkDialog() const { return mpLinkDialog; }
+    CSceneViewport* Viewport() const;
 
 public slots:
+    virtual void NotifyNodeAboutToBeDeleted(CSceneNode *pNode);
+
     bool Save();
     void OnLinksModified(const QList<CScriptObject*>& rkInstances);
     void OnPropertyModified(IProperty *pProp);
     void SetSelectionActive(bool Active);
     void SetSelectionInstanceNames(const QString& rkNewName, bool IsDone);
     void SetSelectionLayer(CScriptLayer *pLayer);
+    void DeleteSelection();
 
     void UpdateStatusBar();
     void UpdateGizmoUI();
@@ -116,7 +120,7 @@ signals:
     void InstancesLayerAboutToChange();
     void InstancesLayerChanged(const QList<CScriptNode*>& rkInstanceList);
     void InstanceLinksModified(const QList<CScriptObject*>& rkInstances);
-    void PropertyModified(IProperty *pProp, bool IsEditorProperty);
+    void PropertyModified(CScriptObject *pInst, IProperty *pProp);
 };
 
 #endif // CWORLDEDITOR_H

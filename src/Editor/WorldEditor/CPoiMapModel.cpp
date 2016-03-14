@@ -69,7 +69,7 @@ QVariant CPoiMapModel::data(const QModelIndex& rkIndex, int Role) const
     if (rkIndex.row() < rowCount(QModelIndex()))
     {
         const CPoiToWorld::SPoiMap *pkMap = mpPoiToWorld->MapByIndex(rkIndex.row());
-        CScriptObject *pPOI = mpArea->GetInstanceByID(pkMap->PoiID);
+        CScriptObject *pPOI = mpArea->InstanceByID(pkMap->PoiID);
 
         if (Role == Qt::DisplayRole)
         {

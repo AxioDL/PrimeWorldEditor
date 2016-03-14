@@ -15,6 +15,8 @@ public:
     bool IsLayerEnabled() const;
     bool IsSkyEnabled() const;
     CModel* SkyModel() const;
+
+    inline CScriptObject* Instance() const { return mpObj; }
 };
 
 #endif // CAREAATTRIBUTES_H
