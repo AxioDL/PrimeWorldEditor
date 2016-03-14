@@ -71,7 +71,6 @@ void CTranslateNodeCommand::undo()
     foreach (SNodeTranslate translate, mNodeList)
         translate.pNode->SetPosition(translate.initialPos);
 
-    mpEditor->RecalculateSelectionBounds();
     mpEditor->NotifySelectionTransformed();
     mpEditor->UpdateGizmoUI();
 }
@@ -83,7 +82,6 @@ void CTranslateNodeCommand::redo()
     foreach (SNodeTranslate translate, mNodeList)
         translate.pNode->SetPosition(translate.newPos);
 
-    mpEditor->RecalculateSelectionBounds();
     mpEditor->NotifySelectionTransformed();
     mpEditor->UpdateGizmoUI();
 }

@@ -48,7 +48,7 @@ QVariant CLinkModel::data(const QModelIndex &index, int role) const
         case 0: // Column 0 - Target Object
         {
             u32 TargetID = (mType == eIncoming ? pLink->SenderID() : pLink->ReceiverID());
-            CScriptObject *pTarget = mpObject->Area()->GetInstanceByID(TargetID);
+            CScriptObject *pTarget = mpObject->Area()->InstanceByID(TargetID);
 
             if (pTarget) {
                 QString ObjType = QString("[%1] ").arg(UICommon::ToQString(pTarget->Template()->Name()));

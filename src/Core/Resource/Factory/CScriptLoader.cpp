@@ -214,8 +214,8 @@ CScriptObject* CScriptLoader::LoadObjectMP1(IInputStream& SCLY)
         return nullptr;
     }
 
-    mpObj = new CScriptObject(mpArea, mpLayer, pTemp);
-    mpObj->mInstanceID = SCLY.ReadLong();
+    u32 InstanceID = SCLY.ReadLong();
+    mpObj = new CScriptObject(InstanceID, mpArea, mpLayer, pTemp);
 
     // Load connections
     u32 NumLinks = SCLY.ReadLong();
@@ -249,7 +249,7 @@ CScriptLayer* CScriptLoader::LoadLayerMP1(IInputStream &SCLY)
     SCLY.Seek(0x1, SEEK_CUR); // One unknown byte at the start of each layer
     u32 NumObjects = SCLY.ReadLong();
 
-    mpLayer = new CScriptLayer();
+    mpLayer = new CScriptLayer(mpArea);
     mpLayer->Reserve(NumObjects);
 
     for (u32 iObj = 0; iObj < NumObjects; iObj++)
@@ -327,8 +327,8 @@ CScriptObject* CScriptLoader::LoadObjectMP2(IInputStream& SCLY)
         return nullptr;
     }
 
-    mpObj = new CScriptObject(mpArea, mpLayer, pTemplate);
-    mpObj->mInstanceID = SCLY.ReadLong();
+    u32 InstanceID = SCLY.ReadLong();
+    mpObj = new CScriptObject(InstanceID, mpArea, mpLayer, pTemplate);
 
     // Load connections
     u32 NumConnections = SCLY.ReadShort();
@@ -359,7 +359,7 @@ CScriptLayer* CScriptLoader::LoadLayerMP2(IInputStream& SCLY)
     SCLY.Seek(0x1, SEEK_CUR); // Skipping version. todo: verify this?
     u32 NumObjects = SCLY.ReadLong();
 
-    mpLayer = new CScriptLayer();
+    mpLayer = new CScriptLayer(mpArea);
     mpLayer->Reserve(NumObjects);
 
     for (u32 iObj = 0; iObj < NumObjects; iObj++)
@@ -372,9 +372,10 @@ CScriptLayer* CScriptLoader::LoadLayerMP2(IInputStream& SCLY)
     return mpLayer;
 }
 
-CScriptLayer* CScriptLoader::LoadLayer(IInputStream &SCLY, CGameArea *pArea, EGame Version)
+// ************ STATIC ************
+CScriptLayer* CScriptLoader::LoadLayer(IInputStream& rSCLY, CGameArea *pArea, EGame Version)
 {
-    if (!SCLY.IsValid()) return nullptr;
+    if (!rSCLY.IsValid()) return nullptr;
 
     CScriptLoader Loader;
     Loader.mVersion = Version;
@@ -391,7 +392,7 @@ CScriptLayer* CScriptLoader::LoadLayer(IInputStream &SCLY, CGameArea *pArea, EGa
         CTemplateLoader::LoadGameTemplates(Version);
 
     if (Version <= ePrime)
-        return Loader.LoadLayerMP1(SCLY);
+        return Loader.LoadLayerMP1(rSCLY);
     else
-        return Loader.LoadLayerMP2(SCLY);
+        return Loader.LoadLayerMP2(rSCLY);
 }

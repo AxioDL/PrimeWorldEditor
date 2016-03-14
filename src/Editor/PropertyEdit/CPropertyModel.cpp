@@ -499,7 +499,7 @@ Qt::ItemFlags CPropertyModel::flags(const QModelIndex& rkIndex) const
     else return (Qt::ItemIsEnabled | Qt::ItemIsEditable);
 }
 
-void CPropertyModel::NotifyPropertyModified(IProperty *pProp)
+void CPropertyModel::NotifyPropertyModified(class CScriptObject*, IProperty *pProp)
 {
     NotifyPropertyModified(IndexForProperty(pProp));
 }

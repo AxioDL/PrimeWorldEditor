@@ -2,23 +2,25 @@
 #include "Core/Resource/Script/CScriptLayer.h"
 #include "Core/Render/CRenderer.h"
 
-CGameArea::CGameArea() : CResource()
+CGameArea::CGameArea()
+    : CResource()
+    , mWorldIndex(-1)
+    , mVertexCount(0)
+    , mTriangleCount(0)
+    , mTerrainMerged(false)
+    , mOriginalWorldMeshCount(0)
+    , mUsesCompression(false)
+    , mMaterialSet(nullptr)
+    , mpGeneratorLayer(nullptr)
+    , mpCollision(nullptr)
 {
-    mVertexCount = 0;
-    mTriangleCount = 0;
-    mTerrainMerged = false;
-    mOriginalWorldMeshCount = 0;
-    mUsesCompression = false;
-    mMaterialSet = nullptr;
-    mpGeneratorLayer = nullptr;
-    mCollision = nullptr;
 }
 
 CGameArea::~CGameArea()
 {
     ClearTerrain();
 
-    delete mCollision;
+    delete mpCollision;
     delete mpGeneratorLayer;
 
     for (u32 iSCLY = 0; iSCLY < mScriptLayers.size(); iSCLY++)
@@ -108,85 +110,109 @@ void CGameArea::ClearScriptLayers()
     mpGeneratorLayer = nullptr;
 }
 
-EGame CGameArea::Version()
+u32 CGameArea::TotalInstanceCount() const
 {
-    return mVersion;
+    u32 Num = 0;
+
+    for (u32 iLyr = 0; iLyr < mScriptLayers.size(); iLyr++)
+        Num += mScriptLayers[iLyr]->NumInstances();
+
+    return Num;
 }
 
-CTransform4f CGameArea::GetTransform()
-{
-    return mTransform;
-}
-
-u32 CGameArea::GetTerrainModelCount()
-{
-    return mTerrainModels.size();
-}
-
-u32 CGameArea::GetStaticModelCount()
-{
-    return mStaticTerrainModels.size();
-}
-
-CModel* CGameArea::GetTerrainModel(u32 mdl)
-{
-    return mTerrainModels[mdl];
-}
-
-CStaticModel* CGameArea::GetStaticModel(u32 mdl)
-{
-    return mStaticTerrainModels[mdl];
-}
-
-CCollisionMeshGroup* CGameArea::GetCollision()
-{
-    return mCollision;
-}
-
-u32 CGameArea::GetScriptLayerCount()
-{
-    return mScriptLayers.size();
-}
-
-CScriptLayer* CGameArea::GetScriptLayer(u32 index)
-{
-    return mScriptLayers[index];
-}
-
-CScriptLayer* CGameArea::GetGeneratorLayer()
-{
-    return mpGeneratorLayer;
-}
-
-CScriptObject* CGameArea::GetInstanceByID(u32 InstanceID)
+CScriptObject* CGameArea::InstanceByID(u32 InstanceID)
 {
     auto it = mObjectMap.find(InstanceID);
     if (it != mObjectMap.end()) return it->second;
     else return nullptr;
 }
 
-u32 CGameArea::GetLightLayerCount()
+
+CScriptObject* CGameArea::SpawnInstance(CScriptTemplate *pTemplate,
+                                        CScriptLayer *pLayer,
+                                        const CVector3f& rkPosition /*= CVector3f::skZero*/,
+                                        const CQuaternion& rkRotation /*= CQuaternion::skIdentity*/,
+                                        const CVector3f& rkScale /*= CVector3f::skOne*/,
+                                        u32 SuggestedID /*= -1*/,
+                                        u32 SuggestedLayerIndex /*= -1*/ )
 {
-    return mLightLayers.size();
+    // Verify we can fit another instance in this area.
+    u32 NumInstances = TotalInstanceCount();
+
+    if (NumInstances >= 0xFFFF)
+    {
+        Log::Error("Unable to spawn a new script instance; too many instances in area (" + TString::FromInt32(NumInstances, 0, 10) + ")");
+        return nullptr;
+    }
+
+    // Check whether the suggested instance ID is valid
+    u32 InstanceID = SuggestedID;
+
+    if (InstanceID != -1)
+    {
+        if (mObjectMap.find(InstanceID) == mObjectMap.end())
+            InstanceID = -1;
+    }
+
+    // If not valid (or if there's no suggested ID) then determine a new instance ID
+    if (InstanceID == -1)
+    {
+        // Determine layer index
+        u32 LayerIndex = -1;
+
+        for (u32 iLyr = 0; iLyr < mScriptLayers.size(); iLyr++)
+        {
+            if (mScriptLayers[iLyr] == pLayer)
+            {
+                LayerIndex = iLyr;
+                break;
+            }
+        }
+
+        if (LayerIndex == -1)
+        {
+            Log::Error("Unable to spawn a new script instance; invalid script layer passed in");
+            return nullptr;
+        }
+
+        // Look for a valid instance ID
+        InstanceID = (LayerIndex << 26) | (mWorldIndex << 16) | 1;
+
+        while (true)
+        {
+            auto it = mObjectMap.find(InstanceID);
+
+            if (it == mObjectMap.end())
+                break;
+            else
+                InstanceID++;
+        }
+    }
+
+    // Spawn instance
+    CScriptObject *pInstance = new CScriptObject(InstanceID, this, pLayer, pTemplate);
+    pInstance->EvaluateProperties();
+    pInstance->SetPosition(rkPosition);
+    pInstance->SetRotation(rkRotation.ToEuler());
+    pInstance->SetScale(rkScale);
+    pInstance->SetName(pTemplate->Name());
+    if (pTemplate->Game() < eEchoesDemo) pInstance->SetActive(true);
+    pLayer->AddInstance(pInstance, SuggestedLayerIndex);
+    mObjectMap[InstanceID] = pInstance;
+    return pInstance;
 }
 
-u32 CGameArea::GetLightCount(u32 layer)
+void CGameArea::DeleteInstance(CScriptObject *pInstance)
 {
-    if (mLightLayers.empty()) return 0;
-    return mLightLayers[layer].size();
-}
+    pInstance->Layer()->RemoveInstance(pInstance);
+    pInstance->Template()->RemoveObject(pInstance);
 
-CLight* CGameArea::GetLight(u32 layer, u32 light)
-{
-    return mLightLayers[layer][light];
-}
+    auto it = mObjectMap.find(pInstance->InstanceID());
+    if (it != mObjectMap.end()) mObjectMap.erase(it);
 
-CPoiToWorld* CGameArea::GetPoiToWorldMap()
-{
-    return mpPoiToWorldMap;
-}
+    if (mpPoiToWorldMap && mpPoiToWorldMap->HasPoiMappings(pInstance->InstanceID()))
+        mpPoiToWorldMap->RemovePoi(pInstance->InstanceID());
 
-CAABox CGameArea::AABox()
-{
-    return mAABox;
+    pInstance->BreakAllLinks();
+    delete pInstance;
 }

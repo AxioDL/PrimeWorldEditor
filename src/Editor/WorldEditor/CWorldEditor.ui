@@ -229,7 +229,7 @@
         <enum>QTabWidget::Rounded</enum>
        </property>
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
        <property name="iconSize">
         <size>
@@ -268,17 +268,14 @@
           <widget class="WEditorProperties" name="CreateTabEditorProperties" native="true"/>
          </item>
          <item>
-          <spacer name="verticalSpacer">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
+          <widget class="WCreateTab" name="CreateTabContents" native="true">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>1</verstretch>
+            </sizepolicy>
            </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
-           </property>
-          </spacer>
+          </widget>
          </item>
         </layout>
        </widget>
@@ -755,6 +752,14 @@
     <string>Edit POI to World Map</string>
    </property>
   </action>
+  <action name="ActionDelete">
+   <property name="text">
+    <string>Delete</string>
+   </property>
+   <property name="shortcut">
+    <string>Del</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -790,6 +795,12 @@
    <class>WEditorProperties</class>
    <extends>QWidget</extends>
    <header>Editor/WorldEditor/WEditorProperties.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>WCreateTab</class>
+   <extends>QWidget</extends>
+   <header>Editor/WorldEditor/WCreateTab.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

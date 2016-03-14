@@ -1,4 +1,5 @@
 #include "CSceneViewport.h"
+#include "CSelectionIterator.h"
 #include "UICommon.h"
 #include "Editor/Undo/UndoCommands.h"
 #include <Core/Render/CDrawUtil.h>
@@ -386,10 +387,8 @@ void CSceneViewport::OnToggleSelect()
 
 void CSceneViewport::OnHideSelection()
 {
-    const QList<CSceneNode*>& rkSelection = mpEditor->GetSelection();
-
-    foreach (CSceneNode *pNode, rkSelection)
-        pNode->SetVisible(false);
+    for (CSelectionIterator It(mpEditor->Selection()); It; ++It)
+        It->SetVisible(false);
 }
 
 void CSceneViewport::OnHideUnselected()

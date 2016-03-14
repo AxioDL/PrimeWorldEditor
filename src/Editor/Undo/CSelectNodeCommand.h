@@ -7,13 +7,18 @@
 
 class CSelectNodeCommand : public IUndoCommand
 {
-    INodeEditor *mpEditor;
     CSceneNode *mpNode;
-    QList<CSceneNode*> *mpSelection;
+    CNodeSelection *mpSelection;
+
 public:
-    CSelectNodeCommand(INodeEditor *pEditor, CSceneNode *pNode, QList<CSceneNode*>& selection);
-    void undo();
-    void redo();
+    CSelectNodeCommand(CNodeSelection *pSelection, CSceneNode *pNode)
+        : IUndoCommand("Select")
+        , mpNode(pNode)
+        , mpSelection(pSelection)
+    {}
+
+    void undo() { mpSelection->DeselectNode(mpNode); }
+    void redo() { mpSelection->SelectNode(mpNode); }
     bool AffectsCleanState() const { return false; }
 };
 

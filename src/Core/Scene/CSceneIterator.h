@@ -38,7 +38,7 @@ public:
 
     inline operator bool() const
     {
-        return DoneIterating();
+        return !DoneIterating();
     }
 
     inline CSceneNode* operator*() const

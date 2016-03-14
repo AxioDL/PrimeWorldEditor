@@ -8,13 +8,15 @@
 
 class CScriptLayer
 {
+    CGameArea *mpArea;
     TString mLayerName;
     bool mActive;
     bool mVisible;
     std::vector<CScriptObject*> mInstances;
 public:
-    CScriptLayer()
-        : mLayerName("New Layer")
+    CScriptLayer(CGameArea *pArea)
+        : mpArea(pArea)
+        , mLayerName("New Layer")
         , mActive(true)
         , mVisible(true)
     {
@@ -27,9 +29,17 @@ public:
     }
 
     // Data Manipulation
-    void AddInstance(CScriptObject *pObject)
+    void AddInstance(CScriptObject *pObject, u32 Index = -1)
     {
-        mInstances.push_back(pObject);
+        if (Index != -1 && Index < mInstances.size())
+        {
+            auto it = mInstances.begin();
+            std::advance(it, Index);
+            mInstances.insert(it, pObject);
+        }
+
+        else
+            mInstances.push_back(pObject);
     }
 
     void RemoveInstance(CScriptObject *pInstance)
@@ -67,6 +77,7 @@ public:
     }
 
     // Accessors
+    inline CGameArea* Area() const      { return mpArea; }
     inline TString Name() const         { return mLayerName; }
     inline bool IsActive() const        { return mActive; }
     inline bool IsVisible() const       { return mVisible; }
@@ -87,6 +98,17 @@ public:
     inline void SetName(const TString& rkName)  { mLayerName = rkName; }
     inline void SetActive(bool Active)          { mActive = Active; }
     inline void SetVisible(bool Visible)        { mVisible = Visible; }
+
+    inline u32 AreaIndex() const
+    {
+        for (u32 iLyr = 0; iLyr < mpArea->GetScriptLayerCount(); iLyr++)
+        {
+            if (mpArea->GetScriptLayer(iLyr) == this)
+                return iLyr;
+        }
+
+        return -1;
+    }
 
     // Operators
     CScriptObject* operator[](u32 Index) { return InstanceByIndex(Index); }

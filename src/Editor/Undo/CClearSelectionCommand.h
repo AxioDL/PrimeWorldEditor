@@ -7,14 +7,18 @@
 
 class CClearSelectionCommand : public IUndoCommand
 {
-    INodeEditor *mpEditor;
-    QList<CSceneNode*> mSelectionState;
-    QList<CSceneNode*> *mpSelection;
+    QList<CSceneNode*> mOldSelection;
+    CNodeSelection *mpSelection;
+
 public:
-    CClearSelectionCommand(INodeEditor *pEditor, QList<CSceneNode*>& selection);
-    ~CClearSelectionCommand();
-    void undo();
-    void redo();
+    CClearSelectionCommand(CNodeSelection *pSelection)
+        : IUndoCommand("Clear Selection"),
+          mOldSelection(pSelection->SelectedNodeList()),
+          mpSelection(pSelection)
+    {}
+
+    void undo() { mpSelection->SetSelectedNodes(mOldSelection); }
+    void redo() { mpSelection->Clear(); }
     bool AffectsCleanState() const { return false; }
 };
 

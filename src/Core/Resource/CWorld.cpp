@@ -16,12 +16,12 @@ CWorld::~CWorld()
 {
 }
 
-void CWorld::SetAreaLayerInfo(CGameArea *pArea, u32 AreaIndex)
+void CWorld::SetAreaLayerInfo(CGameArea *pArea)
 {
     // The AreaIndex parameter is a placeholder until an improved world loader is implemented.
     // For now it's the easiest/fastest way to do this because this function is called from
     // the start window and the start window already knows the area index.
-    SArea& AreaInfo = mAreas[AreaIndex];
+    SArea& AreaInfo = mAreas[pArea->WorldIndex()];
 
     for (u32 iLyr = 0; iLyr < pArea->GetScriptLayerCount(); iLyr++)
     {

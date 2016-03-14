@@ -79,7 +79,6 @@ void CScaleNodeCommand::undo()
         scale.pNode->SetScale(scale.initialScale);
     }
 
-    mpEditor->RecalculateSelectionBounds();
     mpEditor->NotifySelectionTransformed();
     mpEditor->UpdateGizmoUI();
 }
@@ -94,7 +93,6 @@ void CScaleNodeCommand::redo()
         scale.pNode->SetScale(scale.newScale);
     }
 
-    mpEditor->RecalculateSelectionBounds();
     mpEditor->NotifySelectionTransformed();
     mpEditor->UpdateGizmoUI();
 }

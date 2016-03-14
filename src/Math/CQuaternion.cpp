@@ -20,22 +20,22 @@ CQuaternion::CQuaternion(float _w, float _x, float _y, float _z)
     z = _z;
 }
 
-CVector3f CQuaternion::XAxis()
+CVector3f CQuaternion::XAxis() const
 {
     return (*this * CVector3f::skUnitX);
 }
 
-CVector3f CQuaternion::YAxis()
+CVector3f CQuaternion::YAxis() const
 {
     return (*this * CVector3f::skUnitY);
 }
 
-CVector3f CQuaternion::ZAxis()
+CVector3f CQuaternion::ZAxis() const
 {
     return (*this * CVector3f::skUnitZ);
 }
 
-CQuaternion CQuaternion::Inverse()
+CQuaternion CQuaternion::Inverse() const
 {
     float fNorm = (w * w) + (x * x) + (y * y) + (z * z);
 
@@ -48,7 +48,7 @@ CQuaternion CQuaternion::Inverse()
         return CQuaternion::skZero;
 }
 
-CVector3f CQuaternion::ToEuler()
+CVector3f CQuaternion::ToEuler() const
 {
     // There is more than one way to do this conversion, based on rotation order.
     // But since we only care about the rotation order used in Retro games, which is consistent,

@@ -58,6 +58,8 @@ void Write(const TString& rkMessage)
         fprintf(gpLogFile, "[%08.3f] %s\n", Time, *rkMessage);
         fflush(gpLogFile);
     }
+
+    std::cout << rkMessage << "\n";
 }
 
 void Error(const TString& rkMessage)
@@ -65,7 +67,6 @@ void Error(const TString& rkMessage)
     TString FullMessage = "ERROR: " + rkMessage;
     Write(FullMessage);
     gErrorLog.push_back(FullMessage);
-    std::cout << FullMessage << "\n";
 }
 
 void Warning(const TString& rkMessage)
@@ -73,7 +74,6 @@ void Warning(const TString& rkMessage)
     TString FullMessage = "Warning: " + rkMessage;
     Write(FullMessage);
     gErrorLog.push_back(FullMessage);
-    std::cout << FullMessage << "\n";
 }
 
 void FileWrite(const TString& rkFilename, const TString& rkMessage)

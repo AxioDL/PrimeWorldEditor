@@ -7,16 +7,22 @@
 
 class CSelectAllCommand : public IUndoCommand
 {
-    INodeEditor *mpEditor;
     QList<CSceneNode*> mOldSelection;
     QList<CSceneNode*> mNewSelection;
-    QList<CSceneNode*> *mpSelection;
+    CNodeSelection *mpSelection;
 
 public:
-    CSelectAllCommand(INodeEditor *pEditor, QList<CSceneNode*>& rSelection, CScene *pScene, FNodeFlags NodeFlags);
-    ~CSelectAllCommand();
-    void undo();
-    void redo();
+    CSelectAllCommand(CNodeSelection *pSelection, CScene *pScene, FNodeFlags NodeFlags)
+        : IUndoCommand("Select All")
+        , mOldSelection(pSelection->SelectedNodeList())
+        , mpSelection(pSelection)
+    {
+        for (CSceneIterator It(pScene, NodeFlags); It; ++It)
+            mNewSelection << *It;
+    }
+
+    void undo() { mpSelection->SetSelectedNodes(mOldSelection); }
+    void redo() { mpSelection->SetSelectedNodes(mNewSelection); }
     bool AffectsCleanState() const { return false; }
 };
 

@@ -2,6 +2,7 @@
 #define INODEEDITOR_H
 
 #include "CGizmo.h"
+#include "CNodeSelection.h"
 #include <Math/ETransformSpace.h>
 #include <Core/Scene/CScene.h>
 
@@ -23,9 +24,7 @@ protected:
 
     // Node management
     CScene mScene;
-    QList<CSceneNode*> mSelection;
-    FNodeFlags mSelectionNodeFlags;
-    CAABox mSelectionBounds;
+    CNodeSelection *mpSelection;
     bool mSelectionLocked;
 
     // Gizmo
@@ -62,8 +61,6 @@ public:
     void EndGizmoTransform();
     ETransformSpace CurrentTransformSpace();
 
-    void RecalculateSelectionBounds();
-    void ExpandSelectionBounds(CSceneNode *pNode);
     void SelectNode(CSceneNode *pNode);
     void DeselectNode(CSceneNode *pNode);
     void ClearSelection();
@@ -72,15 +69,22 @@ public:
     void InvertSelection(FNodeFlags NodeFlags);
     void SetSelectionLocked(bool Locked);
     bool HasSelection() const;
-    const QList<CSceneNode*>& GetSelection() const;
+    CNodeSelection* Selection() const;
 
     void EnterPickMode(FNodeFlags AllowedNodes, bool ExitOnInvalidPick, bool EmitOnInvalidPick, bool EmitHoverOnButtonPress, QCursor Cursor = Qt::CrossCursor);
     void ExitPickMode();
 
-    void NotifySelectionModified();
     void NotifySelectionTransformed();
+    virtual void NotifyNodeAboutToBeSpawned();
+    virtual void NotifyNodeSpawned(CSceneNode *pNode);
+    virtual void NotifyNodeAboutToBeDeleted(CSceneNode *pNode);
+    virtual void NotifyNodeDeleted();
 
 signals:
+    void NodeAboutToBeSpawned();
+    void NodeSpawned(CSceneNode *pNode);
+    void NodeAboutToBeDeleted(CSceneNode *pNode);
+    void NodeDeleted();
     void SelectionModified();
     void SelectionTransformed();
 
@@ -90,6 +94,7 @@ signals:
     void PickModeHoverChanged(const SRayIntersection& rkRayIntersect, QMouseEvent *pEvent);
 
 public slots:
+    void OnSelectionModified();
     void OnGizmoMoved();
     virtual void UpdateGizmoUI() = 0;
     virtual void UpdateSelectionUI() = 0;

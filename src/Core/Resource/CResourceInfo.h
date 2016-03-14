@@ -31,7 +31,7 @@ public:
 
     inline CUniqueID ID() const
     {
-        TString FileName = mPath.GetFileName();
+        TString FileName = mPath.GetFileName(false);
 
         if (!mIsPath)
             return CUniqueID::FromString(FileName);

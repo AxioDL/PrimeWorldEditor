@@ -26,11 +26,6 @@
 #define TYPES_NODE_TYPE_SHIFT 1
 #define TYPES_ITEM_TYPE_SHIFT 0
 
-bool SortTemplatesAlphabetical(CScriptTemplate *pA, CScriptTemplate *pB)
-{
-    return (pA->Name() < pB->Name());
-}
-
 CInstancesModel::CInstancesModel(QObject *pParent) : QAbstractItemModel(pParent)
 {
     mpEditor = nullptr;
@@ -40,6 +35,7 @@ CInstancesModel::CInstancesModel(QObject *pParent) : QAbstractItemModel(pParent)
     mModelType = eLayers;
     mShowColumnEnabled = true;
     mBaseItems << "Script";
+    mAddingOrRemovingRows = false;
 }
 
 CInstancesModel::~CInstancesModel()
@@ -319,6 +315,11 @@ void CInstancesModel::SetEditor(CWorldEditor *pEditor)
 
     mpEditor = pEditor;
     mpScene = (pEditor ? pEditor->Scene() : nullptr);
+    connect(mpEditor, SIGNAL(NodeAboutToBeSpawned()), this, SLOT(NodeAboutToBeCreated()));
+    connect(mpEditor, SIGNAL(NodeSpawned(CSceneNode*)), this, SLOT(NodeCreated(CSceneNode*)));
+    connect(mpEditor, SIGNAL(NodeAboutToBeDeleted(CSceneNode*)), this, SLOT(NodeAboutToBeDeleted(CSceneNode*)));
+    connect(mpEditor, SIGNAL(NodeDeleted()), this, SLOT(NodeDeleted()));
+    connect(mpEditor, SIGNAL(PropertyModified(CScriptObject*,IProperty*)), this, SLOT(PropertyModified(CScriptObject*,IProperty*)));
     connect(mpEditor, SIGNAL(InstancesLayerAboutToChange()), this, SLOT(InstancesLayerPreChange()));
     connect(mpEditor, SIGNAL(InstancesLayerChanged(QList<CScriptNode*>)), this, SLOT(InstancesLayerPostChange(QList<CScriptNode*>)));
 }
@@ -345,52 +346,6 @@ void CInstancesModel::SetShowColumnEnabled(bool Enabled)
 {
     mShowColumnEnabled = Enabled;
     emit layoutChanged();
-}
-
-void CInstancesModel::NodeCreated(CSceneNode *pNode)
-{
-    if (mModelType == eTypes)
-    {
-        if (pNode->NodeType() == eScriptNode)
-        {
-            CScriptNode *pScript = static_cast<CScriptNode*>(pNode);
-            CScriptObject *pObj = pScript->Object();
-            pObj->Template()->SortObjects();
-
-            if (pObj->Template()->NumObjects() == 1)
-            {
-                mTemplateList << pObj->Template();
-                qSort(mTemplateList.begin(), mTemplateList.end(), SortTemplatesAlphabetical);
-                emit layoutChanged();
-            }
-        }
-    }
-}
-
-void CInstancesModel::NodeDeleted(CSceneNode *pNode)
-{
-    if (mModelType = eTypes)
-    {
-        if (pNode->NodeType() == eScriptNode)
-        {
-            CScriptNode *pScript = static_cast<CScriptNode*>(pNode);
-            CScriptObject *pObj = pScript->Object();
-
-            if (pObj->Template()->NumObjects() == 0)
-            {
-                for (auto it = mTemplateList.begin(); it != mTemplateList.end(); it++)
-                {
-                    if (*it == pObj->Template())
-                    {
-                        mTemplateList.erase(it);
-                        break;
-                    }
-                }
-
-                emit layoutChanged();
-            }
-        }
-    }
 }
 
 CScriptLayer* CInstancesModel::IndexLayer(const QModelIndex& index) const
@@ -420,6 +375,107 @@ CScriptObject* CInstancesModel::IndexObject(const QModelIndex& index) const
 }
 
 // ************ PUBLIC SLOTS ************
+void CInstancesModel::NodeAboutToBeCreated()
+{
+    if (!mAddingOrRemovingRows)
+    {
+        emit layoutAboutToBeChanged();
+        mAddingOrRemovingRows = true;
+    }
+}
+
+void CInstancesModel::NodeCreated(CSceneNode *pNode)
+{
+    if (mModelType == eTypes)
+    {
+        if (pNode->NodeType() == eScriptNode)
+        {
+            CScriptNode *pScript = static_cast<CScriptNode*>(pNode);
+            CScriptObject *pObj = pScript->Object();
+            pObj->Template()->SortObjects();
+
+            if (pObj->Template()->NumObjects() == 1)
+            {
+                QModelIndex ScriptRootIdx = index(0, 0, QModelIndex());
+                int NewIndex = 0;
+
+                for (; NewIndex < mTemplateList.size(); NewIndex++)
+                {
+                    if (mTemplateList[NewIndex]->Name() > pObj->Template()->Name())
+                        break;
+                }
+
+                beginInsertRows(ScriptRootIdx, NewIndex, NewIndex);
+                mTemplateList.insert(NewIndex, pObj->Template());
+                endInsertRows();
+            }
+        }
+    }
+
+    emit layoutChanged();
+    mAddingOrRemovingRows = false;
+}
+
+void CInstancesModel::NodeAboutToBeDeleted(CSceneNode *pNode)
+{
+    if (!mAddingOrRemovingRows)
+    {
+        emit layoutAboutToBeChanged();
+        mAddingOrRemovingRows = true;
+    }
+
+    if (mModelType == eTypes)
+    {
+        if (pNode->NodeType() == eScriptNode)
+        {
+            CScriptNode *pScript = static_cast<CScriptNode*>(pNode);
+            CScriptObject *pObj = pScript->Object();
+
+            if (pObj->Template()->NumObjects() <= 1)
+            {
+                QModelIndex ScriptRootIdx = index(0, 0, QModelIndex());
+                int TempIdx = mTemplateList.indexOf(pObj->Template());
+                beginRemoveRows(ScriptRootIdx, TempIdx, TempIdx);
+                mTemplateList.removeOne(pObj->Template());
+                endRemoveRows();
+            }
+        }
+    }
+}
+
+void CInstancesModel::NodeDeleted()
+{
+    emit layoutChanged();
+    mAddingOrRemovingRows = false;
+}
+
+void CInstancesModel::PropertyModified(CScriptObject *pInst, IProperty *pProp)
+{
+    if (pInst->InstanceNameProperty() == pProp)
+    {
+        QModelIndex ScriptRoot = index(0, 0, QModelIndex());
+
+        if (mModelType == eLayers)
+        {
+            u32 Index = pInst->Layer()->AreaIndex();
+            QModelIndex LayerIndex = index(Index, 0, ScriptRoot);
+            QModelIndex InstIndex = index(pInst->LayerIndex(), 0, LayerIndex);
+            emit dataChanged(InstIndex, InstIndex);
+        }
+
+        else
+        {
+            u32 Index = mTemplateList.indexOf(pInst->Template());
+            QModelIndex TempIndex = index(Index, 0, ScriptRoot);
+
+            QList<CScriptObject*> InstList = QList<CScriptObject*>::fromStdList(pInst->Template()->ObjectList());
+            u32 InstIdx = InstList.indexOf(pInst);
+            QModelIndex InstIndex = index(InstIdx, 0, TempIndex);
+            emit dataChanged(InstIndex, InstIndex);
+        }
+    }
+}
+
 void CInstancesModel::InstancesLayerPreChange()
 {
     // This is only really needed on layers, which have rows moved.
@@ -501,7 +557,9 @@ void CInstancesModel::GenerateList()
                 mTemplateList << pTemp;
         }
 
-        qSort(mTemplateList.begin(), mTemplateList.end(), SortTemplatesAlphabetical);
+        qSort(mTemplateList.begin(), mTemplateList.end(), [](CScriptTemplate *pLeft, CScriptTemplate *pRight) -> bool {
+            return (pLeft->Name() < pRight->Name());
+        });
     }
 
     endResetModel();
