@@ -4,11 +4,14 @@
 #include "CWorldEditor.h"
 #include "Editor/Undo/UndoCommands.h"
 
-WCreateTab::WCreateTab(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::WCreateTab)
+WCreateTab::WCreateTab(QWidget *parent)
+    : QWidget(parent)
+    , ui(new Ui::WCreateTab)
+    , mpSpawnLayer(nullptr)
 {
     ui->setupUi(this);
+
+    connect(ui->SpawnLayerComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(OnSpawnLayerChanged(int)));
 }
 
 WCreateTab::~WCreateTab()
@@ -39,7 +42,7 @@ bool WCreateTab::eventFilter(QObject *pObj, QEvent *pEvent)
             if (pMimeData)
             {
                 CVector3f SpawnPoint = mpEditor->Viewport()->HoverPoint();
-                CCreateInstanceCommand *pCmd = new CCreateInstanceCommand(mpEditor, pMimeData->Template(), mpEditor->ActiveArea()->GetScriptLayer(0), SpawnPoint);
+                CCreateInstanceCommand *pCmd = new CCreateInstanceCommand(mpEditor, pMimeData->Template(), mpSpawnLayer, SpawnPoint);
                 mpEditor->UndoStack()->push(pCmd);
                 return true;
             }
@@ -53,9 +56,31 @@ void WCreateTab::SetEditor(CWorldEditor *pEditor)
 {
     mpEditor = pEditor;
     pEditor->Viewport()->installEventFilter(this);
+    connect(mpEditor, SIGNAL(LayersModified()), this, SLOT(OnLayersChanged()));
 }
 
 void WCreateTab::SetMaster(CMasterTemplate *pMaster)
 {
     ui->TemplateView->SetMaster(pMaster);
+}
+
+// ************ PUBLIC SLOTS ************
+void WCreateTab::OnLayersChanged()
+{
+    CGameArea *pArea = mpEditor->ActiveArea();
+
+    ui->SpawnLayerComboBox->blockSignals(true);
+    ui->SpawnLayerComboBox->clear();
+
+    for (u32 iLyr = 0; iLyr < pArea->GetScriptLayerCount(); iLyr++)
+        ui->SpawnLayerComboBox->addItem(TO_QSTRING(pArea->GetScriptLayer(iLyr)->Name()));
+
+    ui->SpawnLayerComboBox->blockSignals(false);
+    ui->SpawnLayerComboBox->setCurrentIndex(0);
+}
+
+void WCreateTab::OnSpawnLayerChanged(int LayerIndex)
+{
+    CGameArea *pArea = mpEditor->ActiveArea();
+    mpSpawnLayer = pArea->GetScriptLayer(LayerIndex);
 }

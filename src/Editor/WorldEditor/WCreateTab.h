@@ -13,6 +13,7 @@ class WCreateTab : public QWidget
 {
     Q_OBJECT
     CWorldEditor *mpEditor;
+    CScriptLayer *mpSpawnLayer;
 
 public:
     explicit WCreateTab(QWidget *parent = 0);
@@ -20,6 +21,11 @@ public:
     bool eventFilter(QObject *, QEvent *);
     void SetEditor(CWorldEditor *pEditor);
     void SetMaster(CMasterTemplate *pMaster);
+
+public slots:
+    void OnLayersChanged();
+    void OnSpawnLayerChanged(int LayerIndex);
+
 private:
     Ui::WCreateTab *ui;
 };
