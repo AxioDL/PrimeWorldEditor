@@ -677,6 +677,14 @@ void CWorldEditor::OnUndoStackIndexChanged()
     int CurrentIndex = mUndoStack.index();
     int CleanIndex = mUndoStack.cleanIndex();
 
+    if (CleanIndex == -1)
+    {
+        if (!isWindowModified())
+            mUndoStack.setClean();
+
+        return;
+    }
+
     if (CurrentIndex == CleanIndex)
         setWindowModified(false);
 
