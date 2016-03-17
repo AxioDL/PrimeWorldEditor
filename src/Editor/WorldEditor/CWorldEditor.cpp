@@ -683,8 +683,8 @@ void CWorldEditor::OnUndoStackIndexChanged()
     else
     {
         bool IsClean = true;
-        int LowIndex = (CurrentIndex > CleanIndex ? CleanIndex + 1 : CurrentIndex);
-        int HighIndex = (CurrentIndex > CleanIndex ? CurrentIndex - 1 : CleanIndex);
+        int LowIndex = (CurrentIndex > CleanIndex ? CleanIndex : CurrentIndex);
+        int HighIndex = (CurrentIndex > CleanIndex ? CurrentIndex - 1 : CleanIndex - 1);
 
         for (int iIdx = LowIndex; iIdx <= HighIndex; iIdx++)
         {
