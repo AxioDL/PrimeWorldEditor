@@ -48,7 +48,7 @@ void CDeleteLinksCommand::undo()
 
         SNewLink Link;
         Link.pDelLink = &mLinks[iLink];
-        Link.pLink = new CLink(mpEditor->ActiveArea(), rDelLink.State, rDelLink.Message, rDelLink.pSender->InstanceID(), rDelLink.pReceiver->InstanceID());
+        Link.pLink = new CLink(mpEditor->ActiveArea(), rDelLink.State, rDelLink.Message, rDelLink.pSender.InstanceID(), rDelLink.pReceiver.InstanceID());
         NewLinks << Link;
     }
 
@@ -71,7 +71,7 @@ void CDeleteLinksCommand::undo()
     }
 
     // Notify world editor
-    mpEditor->OnLinksModified(mAffectedInstances);
+    mpEditor->OnLinksModified(mAffectedInstances.DereferenceList());
 }
 
 void CDeleteLinksCommand::redo()
@@ -93,5 +93,5 @@ void CDeleteLinksCommand::redo()
     }
 
     // Notify world editor
-    mpEditor->OnLinksModified(mAffectedInstances);
+    mpEditor->OnLinksModified(mAffectedInstances.DereferenceList());
 }

@@ -30,7 +30,7 @@ class CScriptNode : public CSceneNode
     } mGameModeVisibility;
 
 public:
-    CScriptNode(CScene *pScene, CSceneNode *pParent = 0, CScriptObject *pObject = 0);
+    CScriptNode(CScene *pScene, u32 NodeID, CSceneNode *pParent = 0, CScriptObject *pObject = 0);
     ENodeType NodeType();
     void PostLoad();
     void OnTransformed();

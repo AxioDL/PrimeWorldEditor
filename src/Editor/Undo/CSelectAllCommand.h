@@ -2,27 +2,30 @@
 #define CSELECTALLCOMMAND_H
 
 #include "IUndoCommand.h"
+#include "ObjReferences.h"
+#include "Editor/CSelectionIterator.h"
 #include "Editor/INodeEditor.h"
 #include <Core/Scene/CSceneNode.h>
 
 class CSelectAllCommand : public IUndoCommand
 {
-    QList<CSceneNode*> mOldSelection;
-    QList<CSceneNode*> mNewSelection;
+    CNodePtrList mOldSelection;
+    CNodePtrList mNewSelection;
     CNodeSelection *mpSelection;
 
 public:
     CSelectAllCommand(CNodeSelection *pSelection, CScene *pScene, FNodeFlags NodeFlags)
         : IUndoCommand("Select All")
-        , mOldSelection(pSelection->SelectedNodeList())
         , mpSelection(pSelection)
     {
+        for (CSelectionIterator It(pSelection); It; ++It)
+            mOldSelection << *It;
         for (CSceneIterator It(pScene, NodeFlags); It; ++It)
             mNewSelection << *It;
     }
 
-    void undo() { mpSelection->SetSelectedNodes(mOldSelection); }
-    void redo() { mpSelection->SetSelectedNodes(mNewSelection); }
+    void undo() { mpSelection->SetSelectedNodes(mOldSelection.DereferenceList()); }
+    void redo() { mpSelection->SetSelectedNodes(mNewSelection.DereferenceList()); }
     bool AffectsCleanState() const { return false; }
 };
 

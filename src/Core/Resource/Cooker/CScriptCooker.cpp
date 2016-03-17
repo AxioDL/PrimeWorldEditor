@@ -292,3 +292,15 @@ void CScriptCooker::WriteLayer(EGame Game, CScriptLayer *pLayer, IOutputStream& 
     else
         Cooker.WriteLayerMP2(pLayer);
 }
+
+void CScriptCooker::CookInstance(EGame Game, CScriptObject *pInstance, IOutputStream& rOut)
+{
+    CScriptCooker Cooker;
+    Cooker.mpSCLY = &rOut;
+    Cooker.mVersion = Game;
+
+    if (Game <= ePrime)
+        Cooker.WriteInstanceMP1(pInstance);
+    else
+        Cooker.WriteInstanceMP2(pInstance);
+}

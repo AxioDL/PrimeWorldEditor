@@ -12,11 +12,12 @@
 u32 CSceneNode::smNumNodes = 0;
 CColor CSceneNode::skSelectionTint = CColor::Integral(39, 154, 167);
 
-CSceneNode::CSceneNode(CScene *pScene, CSceneNode *pParent)
+CSceneNode::CSceneNode(CScene *pScene, u32 NodeID, CSceneNode *pParent)
 {
     smNumNodes++;
     mpScene = pScene;
     mpParent = pParent;
+    _mID = NodeID;
 
     mPosition = CVector3f::skZero;
     mRotation = CQuaternion::skIdentity;
@@ -339,6 +340,11 @@ CSceneNode* CSceneNode::Parent() const
 CScene* CSceneNode::Scene() const
 {
     return mpScene;
+}
+
+u32 CSceneNode::ID() const
+{
+    return _mID;
 }
 
 CVector3f CSceneNode::LocalPosition() const

@@ -37,7 +37,7 @@ private:
     QList<CScriptTemplate*> mTemplateList;
     QStringList mBaseItems;
     bool mShowColumnEnabled;
-    bool mAddingOrRemovingRows;
+    bool mChangingLayout;
 
 public:
     explicit CInstancesModel(QObject *pParent = 0);

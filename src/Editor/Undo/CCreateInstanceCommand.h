@@ -18,9 +18,9 @@ class CCreateInstanceCommand : public IUndoCommand
     u32 mLayerIndex;
     CVector3f mSpawnPosition;
 
-    QList<CSceneNode*> mOldSelection;
-    CScriptObject *mpNewInstance;
-    CScriptNode *mpNewNode;
+    CNodePtrList mOldSelection;
+    CInstancePtr mpNewInstance;
+    CNodePtr mpNewNode;
 
 public:
     CCreateInstanceCommand(CWorldEditor *pEditor, CScriptTemplate *pTemplate, CScriptLayer *pLayer, const CVector3f& rkPosition);

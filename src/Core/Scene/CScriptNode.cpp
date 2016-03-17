@@ -10,8 +10,8 @@
 #include <Common/AnimUtil.h>
 #include <Math/MathUtil.h>
 
-CScriptNode::CScriptNode(CScene *pScene, CSceneNode *pParent, CScriptObject *pObject)
-    : CSceneNode(pScene, pParent)
+CScriptNode::CScriptNode(CScene *pScene, u32 NodeID, CSceneNode *pParent, CScriptObject *pObject)
+    : CSceneNode(pScene, NodeID, pParent)
     , mGameModeVisibility(eUntested)
 {
     mpVolumePreviewNode = nullptr;
@@ -21,7 +21,7 @@ CScriptNode::CScriptNode(CScene *pScene, CSceneNode *pParent, CScriptObject *pOb
     mpInstance = pObject;
     SetActiveModel(nullptr);
     mpBillboard = nullptr;
-    mpCollisionNode = new CCollisionNode(pScene, this);
+    mpCollisionNode = new CCollisionNode(pScene, -1, this);
     mpCollisionNode->SetInheritance(true, true, false);
 
     if (mpInstance)
@@ -43,7 +43,7 @@ CScriptNode::CScriptNode(CScene *pScene, CSceneNode *pParent, CScriptObject *pOb
         mpCollisionNode->SetCollision(mpInstance->GetCollision());
 
         // Create preview volume node
-        mpVolumePreviewNode = new CModelNode(pScene, this, nullptr);
+        mpVolumePreviewNode = new CModelNode(pScene, -1, this, nullptr);
 
         if (pTemp->ScaleType() == CScriptTemplate::eScaleVolume)
         {
@@ -259,14 +259,14 @@ void CScriptNode::DrawSelection()
         {
             // Don't draw in links if the other object is selected.
             CLink *pLink = mpInstance->Link(eIncoming, iIn);
-            CScriptNode *pLinkNode = mpScene->ScriptNodeByID(pLink->SenderID());
+            CScriptNode *pLinkNode = mpScene->NodeForInstanceID(pLink->SenderID());
             if (pLinkNode && !pLinkNode->IsSelected()) CDrawUtil::DrawLine(CenterPoint(), pLinkNode->CenterPoint(), CColor::skTransparentRed);
         }
 
         for (u32 iOut = 0; iOut < mpInstance->NumLinks(eOutgoing); iOut++)
         {
             CLink *pLink = mpInstance->Link(eOutgoing, iOut);
-            CScriptNode *pLinkNode = mpScene->ScriptNodeByID(pLink->ReceiverID());
+            CScriptNode *pLinkNode = mpScene->NodeForInstanceID(pLink->ReceiverID());
             if (pLinkNode) CDrawUtil::DrawLine(CenterPoint(), pLinkNode->CenterPoint(), CColor::skTransparentGreen);
         }
     }
@@ -549,7 +549,7 @@ void CScriptNode::GeneratePosition()
         if (NumLinks == 1)
         {
             u32 LinkedID = (mpInstance->NumLinks(eIncoming) > 0 ? mpInstance->Link(eIncoming, 0)->SenderID() : mpInstance->Link(eOutgoing, 0)->ReceiverID());
-            CScriptNode *pNode = mpScene->ScriptNodeByID(LinkedID);
+            CScriptNode *pNode = mpScene->NodeForInstanceID(LinkedID);
             pNode->GeneratePosition();
             mPosition = pNode->AbsolutePosition();
             mPosition.z += (pNode->AABox().Size().z / 2.f);
@@ -564,7 +564,7 @@ void CScriptNode::GeneratePosition()
 
             for (u32 iIn = 0; iIn < mpInstance->NumLinks(eIncoming); iIn++)
             {
-                CScriptNode *pNode = mpScene->ScriptNodeByID(mpInstance->Link(eIncoming, iIn)->SenderID());
+                CScriptNode *pNode = mpScene->NodeForInstanceID(mpInstance->Link(eIncoming, iIn)->SenderID());
 
                 if (pNode)
                 {
@@ -575,7 +575,7 @@ void CScriptNode::GeneratePosition()
 
             for (u32 iOut = 0; iOut < mpInstance->NumLinks(eOutgoing); iOut++)
             {
-                CScriptNode *pNode = mpScene->ScriptNodeByID(mpInstance->Link(eOutgoing, iOut)->ReceiverID());
+                CScriptNode *pNode = mpScene->NodeForInstanceID(mpInstance->Link(eOutgoing, iOut)->ReceiverID());
 
                 if (pNode)
                 {

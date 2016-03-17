@@ -13,6 +13,7 @@
 #include <Math/CVector3f.h>
 #include <list>
 
+class CScriptObject;
 class CScriptTemplate;
 class CStructTemplate;
 class IPropertyTemplate;
@@ -28,11 +29,13 @@ class IProperty
 
 protected:
     class CPropertyStruct *mpParent;
+    CScriptObject *mpInstance;
     IPropertyTemplate *mpTemplate;
 
 public:
-    IProperty(IPropertyTemplate *pTemp, CPropertyStruct *pParent)
+    IProperty(IPropertyTemplate *pTemp, CScriptObject *pInstance, CPropertyStruct *pParent)
         : mpParent(pParent)
+        , mpInstance(pInstance)
         , mpTemplate(pTemp)
     {
     }
@@ -42,12 +45,13 @@ public:
     virtual TString ToString() const { return ""; }
     virtual IPropertyValue* RawValue() { return nullptr; }
     virtual void Copy(const IProperty *pkProp) = 0;
-    virtual IProperty* Clone(CPropertyStruct *pParent = 0) const = 0;
+    virtual IProperty* Clone(CScriptObject *pInstance, CPropertyStruct *pParent = 0) const = 0;
     virtual bool Matches(const IProperty *pkProp) const = 0;
 
     virtual bool ShouldCook();      // Can't be const because it calls MatchesDefault()
     virtual bool MatchesDefault();  // Can't be const because RawValue() isn't const
 
+    inline CScriptObject* Instance() const { return mpInstance; }
     inline CPropertyStruct* Parent() const { return mpParent; }
     inline void SetParent(CPropertyStruct *pParent) { mpParent = pParent; }
 
@@ -59,6 +63,7 @@ public:
     TString Name() const;
     u32 ID() const;
     TIDString IDString(bool FullPath) const;
+    u32 ArrayIndex() const;
 };
 
 /*
@@ -70,11 +75,11 @@ class TTypedProperty : public IProperty
     friend class CScriptLoader;
     ValueClass mValue;
 public:
-    TTypedProperty(IPropertyTemplate *pTemp, CPropertyStruct *pParent)
-        : IProperty(pTemp, pParent) {}
+    TTypedProperty(IPropertyTemplate *pTemp, CScriptObject *pInstance, CPropertyStruct *pParent)
+        : IProperty(pTemp, pInstance, pParent) {}
 
-    TTypedProperty(IPropertyTemplate *pTemp, CPropertyStruct *pParent, ValueType v)
-        : IProperty(pTemp, pParent), mValue(v) {}
+    TTypedProperty(IPropertyTemplate *pTemp, CScriptObject *pInstance, CPropertyStruct *pParent, ValueType v)
+        : IProperty(pTemp, pInstance, pParent), mValue(v) {}
 
     ~TTypedProperty() {}
     virtual EPropertyType Type() const { return TypeEnum; }
@@ -89,11 +94,11 @@ public:
         mValue.Set(pkCast->mValue.Get());
     }
 
-    virtual TTypedProperty* Clone(CPropertyStruct *pParent) const
+    virtual TTypedProperty* Clone(class CScriptObject *pInstance, CPropertyStruct *pParent) const
     {
         if (!pParent) pParent = mpParent;
 
-        TTypedProperty *pOut = new TTypedProperty(mpTemplate, pParent);
+        TTypedProperty *pOut = new TTypedProperty(mpTemplate, pInstance, pParent);
         pOut->Copy(this);
         return pOut;
     }
@@ -123,11 +128,11 @@ typedef TTypedProperty<std::vector<u8>, eUnknownProperty, CUnknownValue>        
  * TStringProperty, TFileProperty, and TCharacterProperty get little subclasses in order to override some virtual functions.
  */
 #define IMPLEMENT_PROPERTY_CTORS(ClassName, ValueType) \
-    ClassName(IPropertyTemplate *pTemp, CPropertyStruct *pParent) \
-        : TTypedProperty(pTemp, pParent) {} \
+    ClassName(IPropertyTemplate *pTemp, CScriptObject *pInstance, CPropertyStruct *pParent) \
+        : TTypedProperty(pTemp, pInstance, pParent) {} \
     \
-    ClassName(IPropertyTemplate *pTemp, CPropertyStruct *pParent, ValueType v) \
-        : TTypedProperty(pTemp, pParent, v) {}
+    ClassName(IPropertyTemplate *pTemp, CScriptObject *pInstance, CPropertyStruct *pParent, ValueType v) \
+        : TTypedProperty(pTemp, pInstance, pParent, v) {}
 
 class TStringProperty : public TTypedProperty<TString, eStringProperty, CStringValue>
 {
@@ -169,8 +174,8 @@ class CPropertyStruct : public IProperty
 protected:
     std::vector<IProperty*> mProperties;
 public:
-    CPropertyStruct(IPropertyTemplate *pTemp, CPropertyStruct *pParent)
-        : IProperty(pTemp, pParent) {}
+    CPropertyStruct(IPropertyTemplate *pTemp, CScriptObject *pInstance, CPropertyStruct *pParent)
+        : IProperty(pTemp, pInstance, pParent) {}
 
     ~CPropertyStruct()
     {
@@ -183,10 +188,10 @@ public:
 
     virtual void Copy(const IProperty *pkProp);
 
-    virtual IProperty* Clone(CPropertyStruct *pParent) const
+    virtual IProperty* Clone(CScriptObject *pInstance, CPropertyStruct *pParent) const
     {
         if (!pParent) pParent = mpParent;
-        CPropertyStruct *pOut = new CPropertyStruct(mpTemplate, pParent);
+        CPropertyStruct *pOut = new CPropertyStruct(mpTemplate, pInstance, pParent);
         pOut->Copy(this);
         return pOut;
     }
@@ -245,16 +250,16 @@ class CArrayProperty : public CPropertyStruct
     friend class CScriptLoader;
 
 public:
-    CArrayProperty(IPropertyTemplate *pTemp, CPropertyStruct *pParent)
-        : CPropertyStruct(pTemp, pParent) {}
+    CArrayProperty(IPropertyTemplate *pTemp, CScriptObject *pInstance, CPropertyStruct *pParent)
+        : CPropertyStruct(pTemp, pInstance, pParent) {}
 
     EPropertyType Type() const { return eArrayProperty; }
     static inline EPropertyType StaticType() { return eArrayProperty; }
 
-    virtual IProperty* Clone(CPropertyStruct *pParent) const
+    virtual IProperty* Clone(CScriptObject *pInstance, CPropertyStruct *pParent) const
     {
         if (!pParent) pParent = mpParent;
-        CArrayProperty *pOut = new CArrayProperty(mpTemplate, pParent);
+        CArrayProperty *pOut = new CArrayProperty(mpTemplate, pInstance, pParent);
         pOut->Copy(this);
         return pOut;
     }

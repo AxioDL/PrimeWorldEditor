@@ -9,42 +9,49 @@ CEditLinkCommand::CEditLinkCommand(CWorldEditor *pEditor, CLink *pLink, CLink Ne
 {
     mOldSenderIndex = pLink->SenderIndex();
     mOldReceiverIndex = pLink->ReceiverIndex();
+
     mAffectedInstances << pLink->Sender();
-    if (pLink->Receiver() != pLink->Sender()) mAffectedInstances << pLink->Receiver();
-    if (NewLink.Sender() != pLink->Sender()) mAffectedInstances << NewLink.Sender();
-    if (NewLink.Receiver() != pLink->Receiver()) mAffectedInstances << NewLink.Receiver();
+    if (pLink->ReceiverID() != pLink->SenderID())       mAffectedInstances << pLink->Receiver();
+    if (NewLink.SenderID() != pLink->SenderID())        mAffectedInstances << NewLink.Sender();
+    if (NewLink.ReceiverID() != pLink->ReceiverID())    mAffectedInstances << NewLink.Receiver();
 }
 
 void CEditLinkCommand::undo()
 {
+    CLink *pLink = *mpEditLink;
+
     if (mOldLink.Sender() != mNewLink.Sender())
     {
-        mNewLink.Sender()->RemoveLink(eOutgoing, mpEditLink);
-        mOldLink.Sender()->AddLink(eOutgoing, mpEditLink, mOldSenderIndex);
+        mNewLink.Sender()->RemoveLink(eOutgoing, pLink);
+        mOldLink.Sender()->AddLink(eOutgoing, pLink, mOldSenderIndex);
     }
     if (mOldLink.Receiver() != mNewLink.Receiver())
     {
-        mNewLink.Receiver()->RemoveLink(eIncoming, mpEditLink);
-        mOldLink.Receiver()->AddLink(eIncoming, mpEditLink, mOldReceiverIndex);
+        mNewLink.Receiver()->RemoveLink(eIncoming, pLink);
+        mOldLink.Receiver()->AddLink(eIncoming, pLink, mOldReceiverIndex);
     }
 
-    *mpEditLink = mOldLink;
-    mpEditor->OnLinksModified(mAffectedInstances);
+    *pLink = mOldLink;
+    mpEditor->OnLinksModified(mAffectedInstances.DereferenceList());
+    mpEditLink.SetLink(pLink); // note: This is done to account for situations where the sender has changed
 }
 
 void CEditLinkCommand::redo()
 {
+    CLink *pLink = *mpEditLink;
+
     if (mOldLink.Sender() != mNewLink.Sender())
     {
-        mOldLink.Sender()->RemoveLink(eOutgoing, mpEditLink);
-        mNewLink.Sender()->AddLink(eOutgoing, mpEditLink);
+        mOldLink.Sender()->RemoveLink(eOutgoing, pLink);
+        mNewLink.Sender()->AddLink(eOutgoing, pLink);
     }
     if (mOldLink.Receiver() != mNewLink.Receiver())
     {
-        mOldLink.Receiver()->RemoveLink(eIncoming, mpEditLink);
-        mNewLink.Receiver()->AddLink(eIncoming, mpEditLink);
+        mOldLink.Receiver()->RemoveLink(eIncoming, pLink);
+        mNewLink.Receiver()->AddLink(eIncoming, pLink);
     }
 
-    *mpEditLink = mNewLink;
-    mpEditor->OnLinksModified(mAffectedInstances);
+    *pLink = mNewLink;
+    mpEditor->OnLinksModified(mAffectedInstances.DereferenceList());
+    mpEditLink.SetLink(pLink);
 }

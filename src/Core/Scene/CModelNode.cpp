@@ -4,7 +4,8 @@
 #include "Core/Render/CGraphics.h"
 #include <Math/MathUtil.h>
 
-CModelNode::CModelNode(CScene *pScene, CSceneNode *pParent, CModel *pModel) : CSceneNode(pScene, pParent)
+CModelNode::CModelNode(CScene *pScene, u32 NodeID, CSceneNode *pParent, CModel *pModel)
+    : CSceneNode(pScene, NodeID, pParent)
 {
     SetModel(pModel);
     mScale = CVector3f(1.f);

@@ -2,41 +2,46 @@
 
 CChangeLayerCommand::CChangeLayerCommand(CWorldEditor *pEditor, const QList<CScriptNode*>& rkNodeList, CScriptLayer *pNewLayer)
     : IUndoCommand("Change Layer")
-    , mNodeList(rkNodeList)
     , mpNewLayer(pNewLayer)
     , mpEditor(pEditor)
 {
-    foreach (CScriptNode *pNode, mNodeList)
+    foreach (CScriptNode *pNode, rkNodeList)
     {
         CScriptLayer *pLayer = pNode->Object()->Layer();
 
-        if (pLayer == pNewLayer)
+        if (pLayer != pNewLayer && !mNodes.contains(pNode))
         {
-            mNodeList.removeOne(pNode);
-            continue;
+            mNodes << pNode;
+            mOldLayers[pNode->ID()] = pLayer;
         }
-
-        mOldLayers[pNode] = pLayer;
     }
 }
 
 void CChangeLayerCommand::undo()
 {
     mpEditor->InstancesLayerAboutToChange();
+    QList<CSceneNode*> Nodes = mNodes.DereferenceList();
 
-    foreach (CScriptNode *pNode, mNodeList)
-        pNode->Object()->SetLayer(mOldLayers[pNode]);
+    QList<CScriptNode*> ScriptNodes;
+    foreach (CSceneNode *pNode, Nodes) ScriptNodes << static_cast<CScriptNode*>(pNode);
 
-    mpEditor->InstancesLayerChanged(mNodeList);
+    foreach (CScriptNode *pNode, ScriptNodes)
+        pNode->Object()->SetLayer(mOldLayers[pNode->ID()]);
+
+    mpEditor->InstancesLayerChanged(ScriptNodes);
 }
 
 void CChangeLayerCommand::redo()
 {
     mpEditor->InstancesLayerAboutToChange();
+    QList<CSceneNode*> Nodes = mNodes.DereferenceList();
 
-    foreach (CScriptNode *pNode, mNodeList)
+    QList<CScriptNode*> ScriptNodes;
+    foreach (CSceneNode *pNode, Nodes) ScriptNodes << static_cast<CScriptNode*>(pNode);
+
+    foreach (CScriptNode *pNode, ScriptNodes)
         pNode->Object()->SetLayer(mpNewLayer);
 
-    mpEditor->InstancesLayerChanged(mNodeList);
+    mpEditor->InstancesLayerChanged(ScriptNodes);
 }
 

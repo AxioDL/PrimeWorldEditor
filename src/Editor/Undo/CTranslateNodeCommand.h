@@ -2,6 +2,7 @@
 #define CTRANSLATENODECOMMAND_H
 
 #include "IUndoCommand.h"
+#include "ObjReferences.h"
 #include <Core/Scene/CSceneNode.h>
 #include "Editor/INodeEditor.h"
 #include <QList>
@@ -10,9 +11,9 @@ class CTranslateNodeCommand : public IUndoCommand
 {
     struct SNodeTranslate
     {
-        CSceneNode *pNode;
-        CVector3f initialPos;
-        CVector3f newPos;
+        CNodePtr pNode;
+        CVector3f InitialPos;
+        CVector3f NewPos;
     };
     QList<SNodeTranslate> mNodeList;
     INodeEditor *mpEditor;
@@ -20,10 +21,9 @@ class CTranslateNodeCommand : public IUndoCommand
 
 public:
     CTranslateNodeCommand();
-    CTranslateNodeCommand(INodeEditor *pEditor, const QList<CSceneNode*>& nodes, const CVector3f& delta, ETransformSpace transformSpace);
-    ~CTranslateNodeCommand();
+    CTranslateNodeCommand(INodeEditor *pEditor, const QList<CSceneNode*>& rkNodes, const CVector3f& rkDelta, ETransformSpace TransformSpace);
     int id() const;
-    bool mergeWith(const QUndoCommand *other);
+    bool mergeWith(const QUndoCommand *pkOther);
     void undo();
     void redo();
     bool AffectsCleanState() const { return true; }

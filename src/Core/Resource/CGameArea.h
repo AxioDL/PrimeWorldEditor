@@ -74,6 +74,7 @@ public:
                                  const CQuaternion& rkRotation = CQuaternion::skIdentity,
                                  const CVector3f& rkScale = CVector3f::skOne,
                                  u32 SuggestedID = -1, u32 SuggestedLayerIndex = -1);
+    void AddInstanceToArea(CScriptObject *pInstance);
     void DeleteInstance(CScriptObject *pInstance);
 
     // Inline Accessors

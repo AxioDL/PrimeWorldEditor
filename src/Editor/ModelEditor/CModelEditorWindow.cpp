@@ -31,7 +31,7 @@ CModelEditorWindow::CModelEditorWindow(QWidget *parent) :
     mpScene = new CScene();
     mpCurrentMat = nullptr;
     mpCurrentModel = nullptr;
-    mpCurrentModelNode = new CModelNode(mpScene);
+    mpCurrentModelNode = new CModelNode(mpScene, -1);
     mpCurrentPass = nullptr;
     mIgnoreSignals = false;
 

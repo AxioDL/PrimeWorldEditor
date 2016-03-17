@@ -20,7 +20,7 @@ protected:
 
 public:
     explicit CScriptExtra(CScriptObject *pInstance, CScene *pScene, CSceneNode *pParent = 0)
-        : CSceneNode(pScene, pParent),
+        : CSceneNode(pScene, -1, pParent),
           mpInstance(pInstance),
           mGame(pInstance->Template()->Game())
     {

@@ -17,7 +17,7 @@ CScene::CScene()
     : mSplitTerrain(true)
     , mRanPostLoad(false)
     , mNumNodes(0)
-    , mpSceneRootNode(new CRootNode(this, nullptr))
+    , mpSceneRootNode(new CRootNode(this, -1, nullptr))
     , mpArea(nullptr)
     , mpWorld(nullptr)
     , mpAreaRootNode(nullptr)
@@ -29,43 +29,76 @@ CScene::~CScene()
     ClearScene();
 }
 
-CModelNode* CScene::CreateModelNode(CModel *pModel)
+bool CScene::IsNodeIDUsed(u32 ID) const
+{
+    return (mNodeMap.find(ID) != mNodeMap.end());
+}
+
+u32 CScene::CreateNodeID(u32 SuggestedID /*= -1*/) const
+{
+    if (SuggestedID != -1)
+    {
+        if (IsNodeIDUsed(SuggestedID))
+            Log::Error("Suggested node ID is already being used! New ID will be created.");
+        else
+            return SuggestedID;
+    }
+
+    u32 ID = 0;
+
+    while (IsNodeIDUsed(ID))
+        ID++;
+
+    return ID;
+}
+
+CModelNode* CScene::CreateModelNode(CModel *pModel, u32 NodeID /*= -1*/)
 {
     if (pModel == nullptr) return nullptr;
 
-    CModelNode *pNode = new CModelNode(this, mpAreaRootNode, pModel);
+    u32 ID = CreateNodeID(NodeID);
+    CModelNode *pNode = new CModelNode(this, ID, mpAreaRootNode, pModel);
     mNodes[eModelNode].push_back(pNode);
+    mNodeMap[ID] = pNode;
     mNumNodes++;
     return pNode;
 }
 
-CStaticNode* CScene::CreateStaticNode(CStaticModel *pModel)
+CStaticNode* CScene::CreateStaticNode(CStaticModel *pModel, u32 NodeID /*= -1*/)
 {
     if (pModel == nullptr) return nullptr;
 
-    CStaticNode *pNode = new CStaticNode(this, mpAreaRootNode, pModel);
+    u32 ID = CreateNodeID(NodeID);
+    CStaticNode *pNode = new CStaticNode(this, ID, mpAreaRootNode, pModel);
     mNodes[eStaticNode].push_back(pNode);
+    mNodeMap[ID] = pNode;
     mNumNodes++;
     return pNode;
 }
 
-CCollisionNode* CScene::CreateCollisionNode(CCollisionMeshGroup *pMesh)
+CCollisionNode* CScene::CreateCollisionNode(CCollisionMeshGroup *pMesh, u32 NodeID /*= -1*/)
 {
     if (pMesh == nullptr) return nullptr;
 
-    CCollisionNode *pNode = new CCollisionNode(this, mpAreaRootNode, pMesh);
+    u32 ID = CreateNodeID(NodeID);
+    CCollisionNode *pNode = new CCollisionNode(this, ID, mpAreaRootNode, pMesh);
     mNodes[eCollisionNode].push_back(pNode);
+    mNodeMap[ID] = pNode;
     mNumNodes++;
     return pNode;
 }
 
-CScriptNode* CScene::CreateScriptNode(CScriptObject *pObj)
+CScriptNode* CScene::CreateScriptNode(CScriptObject *pObj, u32 NodeID /*= -1*/)
 {
     if (pObj == nullptr) return nullptr;
 
-    CScriptNode *pNode = new CScriptNode(this, mpAreaRootNode, pObj);
+    u32 ID = CreateNodeID(NodeID);
+    u32 InstanceID = pObj->InstanceID();
+
+    CScriptNode *pNode = new CScriptNode(this, ID, mpAreaRootNode, pObj);
     mNodes[eScriptNode].push_back(pNode);
-    mScriptNodeMap[pObj->InstanceID()] = pNode;
+    mNodeMap[ID] = pNode;
+    mScriptMap[InstanceID] = pNode;
     pNode->BuildLightList(mpArea);
 
     // AreaAttributes check
@@ -81,12 +114,14 @@ CScriptNode* CScene::CreateScriptNode(CScriptObject *pObj)
     return pNode;
 }
 
-CLightNode* CScene::CreateLightNode(CLight *pLight)
+CLightNode* CScene::CreateLightNode(CLight *pLight, u32 NodeID /*= -1*/)
 {
     if (pLight == nullptr) return nullptr;
 
-    CLightNode *pNode = new CLightNode(this, mpAreaRootNode, pLight);
+    u32 ID = CreateNodeID(NodeID);
+    CLightNode *pNode = new CLightNode(this, ID, mpAreaRootNode, pLight);
     mNodes[eLightNode].push_back(pNode);
+    mNodeMap[ID] = pNode;
     mNumNodes++;
     return pNode;
 }
@@ -104,13 +139,17 @@ void CScene::DeleteNode(CSceneNode *pNode)
         }
     }
 
+    auto MapIt = mNodeMap.find(pNode->ID());
+    if (MapIt != mNodeMap.end())
+        mNodeMap.erase(MapIt);
+
     if (Type == eScriptNode)
     {
         CScriptNode *pScript = static_cast<CScriptNode*>(pNode);
 
-        auto ScriptMapIt = mScriptNodeMap.find(pScript->Object()->InstanceID());
-        if (ScriptMapIt != mScriptNodeMap.end())
-            mScriptNodeMap.erase(ScriptMapIt);
+        auto it = mScriptMap.find(pScript->Object()->InstanceID());
+        if (it != mScriptMap.end())
+            mScriptMap.erase(it);
 
         switch (pScript->Object()->ObjectTypeID())
         {
@@ -140,7 +179,7 @@ void CScene::SetActiveArea(CGameArea *pArea)
 
     // Create nodes for new area
     mpArea = pArea;
-    mpAreaRootNode = new CRootNode(this, mpSceneRootNode);
+    mpAreaRootNode = new CRootNode(this, -1, mpSceneRootNode);
 
     // Create static nodes
     u32 Count = mpArea->GetStaticModelCount();
@@ -190,10 +229,11 @@ void CScene::SetActiveArea(CGameArea *pArea)
     }
 
     // Ensure script nodes have valid positions + build light lists
-    for (auto it = mScriptNodeMap.begin(); it != mScriptNodeMap.end(); it++)
+    for (CSceneIterator It(this, eScriptNode, true); It; ++It)
     {
-        it->second->GeneratePosition();
-        it->second->BuildLightList(mpArea);
+        CScriptNode *pScript = static_cast<CScriptNode*>(*It);
+        pScript->GeneratePosition();
+        pScript->BuildLightList(mpArea);
     }
 
     u32 NumLightLayers = mpArea->GetLightLayerCount();
@@ -239,7 +279,7 @@ void CScene::ClearScene()
 
     mNodes.clear();
     mAreaAttributesObjects.clear();
-    mScriptNodeMap.clear();
+    mNodeMap.clear();
     mNumNodes = 0;
 
     mpArea = nullptr;
@@ -277,17 +317,25 @@ SRayIntersection CScene::SceneRayCast(const CRay& Ray, const SViewInfo& ViewInfo
     return Tester.TestNodes(ViewInfo);
 }
 
-CScriptNode* CScene::ScriptNodeByID(u32 InstanceID)
+CSceneNode* CScene::NodeByID(u32 NodeID)
 {
-    auto it = mScriptNodeMap.find(InstanceID);
+    auto it = mNodeMap.find(NodeID);
 
-    if (it != mScriptNodeMap.end()) return it->second;
+    if (it != mNodeMap.end()) return it->second;
+    else return nullptr;
+}
+
+CScriptNode* CScene::NodeForInstanceID(u32 InstanceID)
+{
+    auto it = mScriptMap.find(InstanceID);
+
+    if (it != mScriptMap.end()) return it->second;
     else return nullptr;
 }
 
 CScriptNode* CScene::NodeForObject(CScriptObject *pObj)
 {
-    return ScriptNodeByID(pObj->InstanceID());
+    return NodeForInstanceID(pObj->InstanceID());
 }
 
 CLightNode* CScene::NodeForLight(CLight *pLight)

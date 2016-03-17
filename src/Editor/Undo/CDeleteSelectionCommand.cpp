@@ -1,35 +1,142 @@
 #include "CDeleteSelectionCommand.h"
 #include "Editor/CSelectionIterator.h"
+#include <FileIO/FileIO.h>
+#include <Core/Resource/Cooker/CScriptCooker.h>
+#include <Core/Resource/Factory/CScriptLoader.h>
 
 CDeleteSelectionCommand::CDeleteSelectionCommand(CWorldEditor *pEditor)
     : IUndoCommand("Delete")
     , mpEditor(pEditor)
 {
-    mOldSelection = pEditor->Selection()->SelectedNodeList();
+    QSet<CLink*> Links;
 
     for (CSelectionIterator It(pEditor->Selection()); It; ++It)
     {
+        mOldSelection << *It;
+
         if (It->NodeType() == eScriptNode)
-            mNodesToDelete << *It;
+        {
+            CScriptNode *pScript = static_cast<CScriptNode*>(*It);
+            CScriptObject *pInst = pScript->Object();
+
+            mDeletedNodes.push_back(SDeletedNode());
+            SDeletedNode& rNode = mDeletedNodes.back();
+
+            rNode.NodePtr = CNodePtr(pScript);
+            rNode.NodeID = pScript->ID();
+            rNode.Position = pScript->LocalPosition();
+            rNode.Rotation = pScript->LocalRotation();
+            rNode.Scale = pScript->LocalScale();
+
+            rNode.pArea = pInst->Area();
+            rNode.pLayer = pInst->Layer();
+            rNode.LayerIndex = pInst->LayerIndex();
+
+            for (u32 iType = 0; iType < 2; iType++)
+            {
+                ELinkType Type = (iType == 0 ? eOutgoing : eIncoming);
+
+                for (u32 iLink = 0; iLink < pInst->NumLinks(Type); iLink++)
+                {
+                    CLink *pLink = pInst->Link(Type, iLink);
+
+                    if (!Links.contains(pLink))
+                    {
+                        SDeletedLink Link;
+                        Link.State = pLink->State();
+                        Link.Message = pLink->Message();
+                        Link.SenderID = pLink->SenderID();
+                        Link.SenderIndex = pLink->SenderIndex();
+                        Link.ReceiverID = pLink->ReceiverID();
+                        Link.ReceiverIndex = pLink->ReceiverIndex();
+                        Link.pSender = pLink->Sender();
+                        Link.pReceiver = pLink->Receiver();
+                        mDeletedLinks << Link;
+                        Links << pLink;
+                    }
+                }
+            }
+
+            CVectorOutStream PropertyDataOut(&rNode.InstanceData, IOUtil::eBigEndian);
+            CScriptCooker::CookInstance(eReturns, pInst, PropertyDataOut);
+        }
+
         else
             mNewSelection << *It;
     }
+
+    qSort(mDeletedNodes.begin(), mDeletedNodes.end(), [](SDeletedNode& rLeft, SDeletedNode& rRight) -> bool {
+        return (rLeft.NodeID < rRight.NodeID);
+    });
 }
 
 void CDeleteSelectionCommand::undo()
 {
-    //foreach (CSceneNode *pNode, mNodesToDelete)
-    //    pNode->SetDeleted(false);
-    //mpEditor->Selection()->SetSelectedNodes(mOldSelection);
+    QList<u32> NewInstanceIDs;
+
+    // Spawn nodes
+    for (int iNode = 0; iNode < mDeletedNodes.size(); iNode++)
+    {
+        SDeletedNode& rNode = mDeletedNodes[iNode];
+        mpEditor->NotifyNodeAboutToBeSpawned();
+
+        CMemoryInStream Mem(rNode.InstanceData.data(), rNode.InstanceData.size(), IOUtil::eBigEndian);
+        CScriptObject *pInstance = CScriptLoader::LoadInstance(Mem, rNode.pArea, rNode.pLayer, rNode.pArea->Version(), true);
+        CScriptNode *pNode = mpEditor->Scene()->CreateScriptNode(pInstance, rNode.NodeID);
+        rNode.pArea->AddInstanceToArea(pInstance);
+        rNode.pLayer->AddInstance(pInstance, rNode.LayerIndex);
+
+        if (!pInstance->PositionProperty()) pNode->SetPosition(rNode.Position);
+        if (!pInstance->RotationProperty()) pNode->SetRotation(rNode.Rotation);
+        if (!pInstance->ScaleProperty())    pNode->SetScale(rNode.Scale);
+
+        NewInstanceIDs << pInstance->InstanceID();
+        mpEditor->NotifyNodeSpawned(*rNode.NodePtr);
+    }
+
+    // Sort links by sender index, add outgoing
+    qSort(mDeletedLinks.begin(), mDeletedLinks.end(), [](SDeletedLink& rLeft, SDeletedLink& rRight) -> bool {
+        return (rLeft.SenderIndex < rRight.SenderIndex);
+    });
+
+    for (int iLink = 0; iLink < mDeletedLinks.size(); iLink++)
+    {
+        SDeletedLink& rLink = mDeletedLinks[iLink];
+
+        // Adding to the sender is only needed if the sender is not one of the nodes we just spawned. If it is, it already has this link.
+        if (!NewInstanceIDs.contains(rLink.SenderID))
+        {
+            CLink *pLink = new CLink(rLink.pSender->Area(), rLink.State, rLink.Message, rLink.SenderID, rLink.ReceiverID);
+            rLink.pSender->AddLink(eOutgoing, pLink, rLink.SenderIndex);
+        }
+    }
+
+    // Sort links by receiver index, add incoming
+    qSort(mDeletedLinks.begin(), mDeletedLinks.end(), [](SDeletedLink& rLeft, SDeletedLink& rRight) -> bool {
+        return (rLeft.ReceiverIndex < rRight.ReceiverIndex);
+    });
+
+    for (int iLink = 0; iLink < mDeletedLinks.size(); iLink++)
+    {
+        SDeletedLink& rLink = mDeletedLinks[iLink];
+        CLink *pLink = rLink.pSender->Link(eOutgoing, rLink.SenderIndex);
+        rLink.pReceiver->AddLink(eIncoming, pLink, rLink.ReceiverIndex);
+    }
+
+    // Add selection and done
+    mpEditor->Selection()->SetSelectedNodes(mOldSelection.DereferenceList());
 }
 
 void CDeleteSelectionCommand::redo()
 {
-    mpEditor->Selection()->SetSelectedNodes(mNewSelection);
+    mpEditor->Selection()->SetSelectedNodes(mNewSelection.DereferenceList());
 
-    foreach (CSceneNode *pNode, mNodesToDelete)
+    for (int iNode = 0; iNode < mDeletedNodes.size(); iNode++)
     {
+        SDeletedNode& rNode = mDeletedNodes[iNode];
+        CSceneNode *pNode = *rNode.NodePtr;
         CScriptObject *pInst = static_cast<CScriptNode*>(pNode)->Object();
+
         mpEditor->NotifyNodeAboutToBeDeleted(pNode);
         mpEditor->Scene()->DeleteNode(pNode);
         mpEditor->ActiveArea()->DeleteInstance(pInst);

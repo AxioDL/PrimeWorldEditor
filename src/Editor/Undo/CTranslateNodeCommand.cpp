@@ -9,28 +9,24 @@ CTranslateNodeCommand::CTranslateNodeCommand()
 {
 }
 
-CTranslateNodeCommand::CTranslateNodeCommand(INodeEditor *pEditor, const QList<CSceneNode*>& nodes, const CVector3f& delta, ETransformSpace transformSpace)
+CTranslateNodeCommand::CTranslateNodeCommand(INodeEditor *pEditor, const QList<CSceneNode*>& rkNodes, const CVector3f& Delta, ETransformSpace TransformSpace)
     : IUndoCommand("Translate"),
       mpEditor(pEditor),
       mCommandEnded(false)
 {
-    mNodeList.reserve(nodes.size());
+    mNodeList.reserve(rkNodes.size());
 
-    foreach (CSceneNode *pNode, nodes)
+    foreach (CSceneNode *pNode, rkNodes)
     {
-        SNodeTranslate translate;
-        translate.pNode = pNode;
-        translate.initialPos = pNode->LocalPosition();
-        pNode->Translate(delta, transformSpace);
-        translate.newPos = pNode->LocalPosition();
-        mNodeList.push_back(translate);
+        SNodeTranslate Translate;
+        Translate.pNode = pNode;
+        Translate.InitialPos = pNode->LocalPosition();
+        pNode->Translate(Delta, TransformSpace);
+        Translate.NewPos = pNode->LocalPosition();
+        mNodeList.push_back(Translate);
     }
 
     mpEditor->NotifySelectionTransformed();
-}
-
-CTranslateNodeCommand::~CTranslateNodeCommand()
-{
 }
 
 int CTranslateNodeCommand::id() const
@@ -38,24 +34,24 @@ int CTranslateNodeCommand::id() const
     return eTranslateNodeCmd;
 }
 
-bool CTranslateNodeCommand::mergeWith(const QUndoCommand *other)
+bool CTranslateNodeCommand::mergeWith(const QUndoCommand *pkOther)
 {
     if (mCommandEnded) return false;
 
-    if (other->id() == eTranslateNodeCmd)
+    if (pkOther->id() == eTranslateNodeCmd)
     {
-        const CTranslateNodeCommand *pCmd = static_cast<const CTranslateNodeCommand*>(other);
+        const CTranslateNodeCommand *pkCmd = static_cast<const CTranslateNodeCommand*>(pkOther);
 
-        if (pCmd->mCommandEnded)
+        if (pkCmd->mCommandEnded)
         {
             mCommandEnded = true;
             return true;
         }
 
-        if ((mpEditor == pCmd->mpEditor) && (mNodeList.size() == pCmd->mNodeList.size()))
+        if ((mpEditor == pkCmd->mpEditor) && (mNodeList.size() == pkCmd->mNodeList.size()))
         {
             for (int iNode = 0; iNode < mNodeList.size(); iNode++)
-                mNodeList[iNode].newPos = pCmd->mNodeList[iNode].newPos;
+                mNodeList[iNode].NewPos = pkCmd->mNodeList[iNode].NewPos;
 
             return true;
         }
@@ -68,8 +64,8 @@ void CTranslateNodeCommand::undo()
 {
     if (!mpEditor) return;
 
-    foreach (SNodeTranslate translate, mNodeList)
-        translate.pNode->SetPosition(translate.initialPos);
+    foreach (SNodeTranslate Translate, mNodeList)
+        Translate.pNode->SetPosition(Translate.InitialPos);
 
     mpEditor->NotifySelectionTransformed();
     mpEditor->UpdateGizmoUI();
@@ -79,8 +75,8 @@ void CTranslateNodeCommand::redo()
 {
     if (!mpEditor) return;
 
-    foreach (SNodeTranslate translate, mNodeList)
-        translate.pNode->SetPosition(translate.newPos);
+    foreach (SNodeTranslate Translate, mNodeList)
+        Translate.pNode->SetPosition(Translate.NewPos);
 
     mpEditor->NotifySelectionTransformed();
     mpEditor->UpdateGizmoUI();

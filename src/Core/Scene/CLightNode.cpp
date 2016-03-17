@@ -4,8 +4,8 @@
 #include "Core/Render/CRenderer.h"
 #include <Math/MathUtil.h>
 
-CLightNode::CLightNode(CScene *pScene, CSceneNode *pParent, CLight *Light)
-    : CSceneNode(pScene, pParent)
+CLightNode::CLightNode(CScene *pScene, u32 NodeID, CSceneNode *pParent, CLight *Light)
+    : CSceneNode(pScene, NodeID, pParent)
 {
     mpLight = Light;
     mLocalAABox = CAABox::skOne;

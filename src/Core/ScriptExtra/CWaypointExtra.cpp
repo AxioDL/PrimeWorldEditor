@@ -85,7 +85,7 @@ void CWaypointExtra::BuildLinks()
 
         if (IsPathLink(pLink))
         {
-            CScriptNode *pNode = mpScene->ScriptNodeByID(pLink->ReceiverID());
+            CScriptNode *pNode = mpScene->NodeForInstanceID(pLink->ReceiverID());
 
             SWaypointLink Link;
             Link.pWaypoint = pNode;
@@ -117,7 +117,7 @@ bool CWaypointExtra::IsPathLink(CLink *pLink)
 
     if (Valid)
     {
-        CScriptNode *pNode = mpScene->ScriptNodeByID(pLink->ReceiverID());
+        CScriptNode *pNode = mpScene->NodeForInstanceID(pLink->ReceiverID());
 
         if (pNode)
             return pNode->Object()->ObjectTypeID() == mpInstance->ObjectTypeID();

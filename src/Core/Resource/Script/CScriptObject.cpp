@@ -15,7 +15,7 @@ CScriptObject::CScriptObject(u32 InstanceID, CGameArea *pArea, CScriptLayer *pLa
     , mIsCheckingNearVisibleActivation(false)
 {
     mpTemplate->AddObject(this);
-    mpProperties = (CPropertyStruct*) pTemplate->BaseStruct()->InstantiateProperty(nullptr);
+    mpProperties = (CPropertyStruct*) pTemplate->BaseStruct()->InstantiateProperty(this, nullptr);
 }
 
 CScriptObject::~CScriptObject()
@@ -80,14 +80,16 @@ void CScriptObject::SetLayer(CScriptLayer *pLayer, u32 NewLayerIndex)
 {
     if (pLayer != mpLayer)
     {
-        mpLayer->RemoveInstance(this);
+        if (mpLayer) mpLayer->RemoveInstance(this);
         mpLayer = pLayer;
-        mpLayer->AddInstance(this, NewLayerIndex);
+        if (mpLayer) mpLayer->AddInstance(this, NewLayerIndex);
     }
 }
 
 u32 CScriptObject::LayerIndex() const
 {
+    if (!mpLayer) return -1;
+
     for (u32 iInst = 0; iInst < mpLayer->NumInstances(); iInst++)
     {
         if (mpLayer->InstanceByIndex(iInst) == this)

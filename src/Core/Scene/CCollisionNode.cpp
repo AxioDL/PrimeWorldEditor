@@ -3,8 +3,8 @@
 #include "Core/Render/CGraphics.h"
 #include "Core/Render/CRenderer.h"
 
-CCollisionNode::CCollisionNode(CScene *pScene, CSceneNode *pParent, CCollisionMeshGroup *pCollision)
-    : CSceneNode(pScene, pParent)
+CCollisionNode::CCollisionNode(CScene *pScene, u32 NodeID, CSceneNode *pParent, CCollisionMeshGroup *pCollision)
+    : CSceneNode(pScene, NodeID, pParent)
 {
     SetCollision(pCollision);
     SetName("Collision");

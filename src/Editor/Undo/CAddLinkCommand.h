@@ -2,6 +2,7 @@
 #define CADDLINKCOMMAND_H
 
 #include "IUndoCommand.h"
+#include "ObjReferences.h"
 #include "Editor/WorldEditor/CWorldEditor.h"
 #include <Core/Resource/Script/CLink.h>
 
@@ -9,7 +10,7 @@ class CAddLinkCommand : public IUndoCommand
 {
     CWorldEditor *mpEditor;
     CLink mLink;
-    QList<CScriptObject*> mAffectedInstances;
+    CInstancePtrList mAffectedInstances;
 
 public:
     CAddLinkCommand(CWorldEditor *pEditor, CLink Link);

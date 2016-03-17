@@ -25,7 +25,7 @@ CPoiMapModel::CPoiMapModel(CWorldEditor *pEditor, QObject *pParent /*= 0*/)
         for (u32 iPoi = 0; iPoi < mpPoiToWorld->NumMappedPOIs(); iPoi++)
         {
             const CPoiToWorld::SPoiMap *pkMap = mpPoiToWorld->MapByIndex(iPoi);
-            CScriptNode *pPoiNode = mpEditor->Scene()->ScriptNodeByID(pkMap->PoiID);
+            CScriptNode *pPoiNode = mpEditor->Scene()->NodeForInstanceID(pkMap->PoiID);
 
             if (pPoiNode)
             {
@@ -183,7 +183,7 @@ CScriptNode* CPoiMapModel::PoiNodePointer(const QModelIndex& rkIndex) const
     if ((u32) rkIndex.row() < mpPoiToWorld->NumMappedPOIs())
     {
         const CPoiToWorld::SPoiMap *pkMap = mpPoiToWorld->MapByIndex(rkIndex.row());
-        return mpEditor->Scene()->ScriptNodeByID(pkMap->PoiID);
+        return mpEditor->Scene()->NodeForInstanceID(pkMap->PoiID);
     }
 
     return nullptr;

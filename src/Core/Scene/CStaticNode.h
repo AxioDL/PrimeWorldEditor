@@ -9,7 +9,7 @@ class CStaticNode : public CSceneNode
     CStaticModel *mpModel;
 
 public:
-    CStaticNode(CScene *pScene, CSceneNode *pParent = 0, CStaticModel *pModel = 0);
+    CStaticNode(CScene *pScene, u32 NodeID, CSceneNode *pParent = 0, CStaticModel *pModel = 0);
     ENodeType NodeType();
     void PostLoad();
     void AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo);

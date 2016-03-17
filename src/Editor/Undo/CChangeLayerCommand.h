@@ -2,13 +2,14 @@
 #define CCHANGELAYERCOMMAND_H
 
 #include "IUndoCommand.h"
+#include "ObjReferences.h"
 #include "Editor/WorldEditor/CWorldEditor.h"
 #include <Core/Scene/CScriptNode.h>
 
 class CChangeLayerCommand : public IUndoCommand
 {
-    QList<CScriptNode*> mNodeList;
-    QMap<CScriptNode*, CScriptLayer*> mOldLayers;
+    CNodePtrList mNodes;
+    QMap<u32, CScriptLayer*> mOldLayers;
     CScriptLayer *mpNewLayer;
     CWorldEditor *mpEditor;
 

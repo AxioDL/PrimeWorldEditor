@@ -16,18 +16,19 @@ class CScriptLoader
     CMasterTemplate *mpMaster;
 
     CScriptLoader();
-    void ReadProperty(IProperty *pProp, u32 Size, IInputStream& SCLY);
+    void ReadProperty(IProperty *pProp, u32 Size, IInputStream& rSCLY);
 
-    void LoadStructMP1(IInputStream& SCLY, CPropertyStruct *pStruct, CStructTemplate *pTemp);
-    CScriptObject* LoadObjectMP1(IInputStream& SCLY);
-    CScriptLayer* LoadLayerMP1(IInputStream& SCLY);
+    void LoadStructMP1(IInputStream& rSCLY, CPropertyStruct *pStruct, CStructTemplate *pTemp);
+    CScriptObject* LoadObjectMP1(IInputStream& rSCLY);
+    CScriptLayer* LoadLayerMP1(IInputStream& rSCLY);
 
-    void LoadStructMP2(IInputStream& SCLY, CPropertyStruct *pStruct, CStructTemplate *pTemp);
-    CScriptObject* LoadObjectMP2(IInputStream& SCLY);
-    CScriptLayer* LoadLayerMP2(IInputStream& SCLY);
+    void LoadStructMP2(IInputStream& rSCLY, CPropertyStruct *pStruct, CStructTemplate *pTemp);
+    CScriptObject* LoadObjectMP2(IInputStream& rSCLY);
+    CScriptLayer* LoadLayerMP2(IInputStream& rSCLY);
 
 public:
-    static CScriptLayer* LoadLayer(IInputStream& SCLY, CGameArea *pArea, EGame version);
+    static CScriptLayer* LoadLayer(IInputStream& rSCLY, CGameArea *pArea, EGame Version);
+    static CScriptObject* LoadInstance(IInputStream& rSCLY, CGameArea *pArea, CScriptLayer *pLayer,EGame Version, bool ForceReturnsFormat);
 };
 
 #endif // CSCRIPTLOADER_H
