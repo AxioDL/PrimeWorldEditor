@@ -9,23 +9,23 @@ CScaleNodeCommand::CScaleNodeCommand()
 {
 }
 
-CScaleNodeCommand::CScaleNodeCommand(INodeEditor *pEditor, const QList<CSceneNode*>& nodes, const CVector3f& /*pivot*/, const CVector3f& delta)
+CScaleNodeCommand::CScaleNodeCommand(INodeEditor *pEditor, const QList<CSceneNode*>& rkNodes, const CVector3f& /*rkPivot*/, const CVector3f& rkDelta)
     : IUndoCommand("Scale"),
       mpEditor(pEditor),
       mCommandEnded(false)
 {
-    mNodeList.reserve(nodes.size());
+    mNodeList.reserve(rkNodes.size());
 
-    foreach (CSceneNode *pNode, nodes)
+    foreach (CSceneNode *pNode, rkNodes)
     {
-        SNodeScale scale;
-        scale.pNode = pNode;
-        scale.initialPos = pNode->LocalPosition();
-        scale.initialScale = pNode->LocalScale();
-        pNode->Scale(delta);
-        scale.newPos = pNode->LocalPosition();
-        scale.newScale = pNode->LocalScale();
-        mNodeList.push_back(scale);
+        SNodeScale Scale;
+        Scale.pNode = pNode;
+        Scale.InitialPos = pNode->LocalPosition();
+        Scale.InitialScale = pNode->LocalScale();
+        pNode->Scale(rkDelta);
+        Scale.NewPos = pNode->LocalPosition();
+        Scale.NewScale = pNode->LocalScale();
+        mNodeList.push_back(Scale);
     }
 
     mpEditor->NotifySelectionTransformed();
@@ -40,26 +40,26 @@ int CScaleNodeCommand::id() const
     return eScaleNodeCmd;
 }
 
-bool CScaleNodeCommand::mergeWith(const QUndoCommand *other)
+bool CScaleNodeCommand::mergeWith(const QUndoCommand *pkOther)
 {
     if (mCommandEnded) return false;
 
-    if (other->id() == eScaleNodeCmd)
+    if (pkOther->id() == eScaleNodeCmd)
     {
-        const CScaleNodeCommand *pCmd = static_cast<const CScaleNodeCommand*>(other);
+        const CScaleNodeCommand *pkCmd = static_cast<const CScaleNodeCommand*>(pkOther);
 
-        if (pCmd->mCommandEnded)
+        if (pkCmd->mCommandEnded)
         {
             mCommandEnded = true;
             return true;
         }
 
-        if ((mpEditor == pCmd->mpEditor) && (mNodeList.size() == pCmd->mNodeList.size()))
+        if ((mpEditor == pkCmd->mpEditor) && (mNodeList.size() == pkCmd->mNodeList.size()))
         {
             for (int iNode = 0; iNode < mNodeList.size(); iNode++)
             {
-                mNodeList[iNode].newPos = pCmd->mNodeList[iNode].newPos;
-                mNodeList[iNode].newScale = pCmd->mNodeList[iNode].newScale;
+                mNodeList[iNode].NewPos = pkCmd->mNodeList[iNode].NewPos;
+                mNodeList[iNode].NewScale = pkCmd->mNodeList[iNode].NewScale;
             }
 
             return true;
@@ -73,10 +73,10 @@ void CScaleNodeCommand::undo()
 {
     if (!mpEditor) return;
 
-    foreach (SNodeScale scale, mNodeList)
+    foreach (SNodeScale Scale, mNodeList)
     {
-        scale.pNode->SetPosition(scale.initialPos);
-        scale.pNode->SetScale(scale.initialScale);
+        Scale.pNode->SetPosition(Scale.InitialPos);
+        Scale.pNode->SetScale(Scale.InitialScale);
     }
 
     mpEditor->NotifySelectionTransformed();
@@ -87,10 +87,10 @@ void CScaleNodeCommand::redo()
 {
     if (!mpEditor) return;
 
-    foreach (SNodeScale scale, mNodeList)
+    foreach (SNodeScale Scale, mNodeList)
     {
-        scale.pNode->SetPosition(scale.newPos);
-        scale.pNode->SetScale(scale.newScale);
+        Scale.pNode->SetPosition(Scale.NewPos);
+        Scale.pNode->SetScale(Scale.NewScale);
     }
 
     mpEditor->NotifySelectionTransformed();

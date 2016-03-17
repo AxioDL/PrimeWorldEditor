@@ -29,6 +29,8 @@ private:
     bool _mInheritsRotation;
     bool _mInheritsScale;
 
+    u32 _mID;
+
 protected:
     static u32 smNumNodes;
     TString mName;
@@ -51,7 +53,7 @@ protected:
     CColor mAmbientColor;
 
 public:
-    explicit CSceneNode(CScene *pScene, CSceneNode *pParent = 0);
+    explicit CSceneNode(CScene *pScene, u32 NodeID, CSceneNode *pParent = 0);
     virtual ~CSceneNode();
     virtual ENodeType NodeType() = 0;
     virtual void PostLoad() {}
@@ -94,6 +96,7 @@ public:
     TString Name() const;
     CSceneNode* Parent() const;
     CScene* Scene() const;
+    u32 ID() const;
     CVector3f LocalPosition() const;
     CVector3f AbsolutePosition() const;
     CQuaternion LocalRotation() const;

@@ -5,8 +5,8 @@
 #include <Common/AnimUtil.h>
 #include <Math/MathUtil.h>
 
-CStaticNode::CStaticNode(CScene *pScene, CSceneNode *pParent, CStaticModel *pModel)
-    : CSceneNode(pScene, pParent)
+CStaticNode::CStaticNode(CScene *pScene, u32 NodeID, CSceneNode *pParent, CStaticModel *pModel)
+    : CSceneNode(pScene, NodeID, pParent)
 {
     mpModel = pModel;
     mLocalAABox = mpModel->AABox();

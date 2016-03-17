@@ -8,7 +8,7 @@ CAddLinkCommand::CAddLinkCommand(CWorldEditor *pEditor, CLink Link)
 {
     mAffectedInstances << mLink.Sender();
 
-    if (mLink.Sender() != mLink.Receiver())
+    if (mLink.SenderID() != mLink.ReceiverID())
         mAffectedInstances << mLink.Receiver();
 }
 
@@ -22,7 +22,7 @@ void CAddLinkCommand::undo()
     pReceiver->RemoveLink(eIncoming, pLink);
     delete pLink;
 
-    mpEditor->InstanceLinksModified(mAffectedInstances);
+    mpEditor->InstanceLinksModified(mAffectedInstances.DereferenceList());
 }
 
 void CAddLinkCommand::redo()
@@ -31,5 +31,5 @@ void CAddLinkCommand::redo()
     pLink->Sender()->AddLink(eOutgoing, pLink, -1);
     pLink->Receiver()->AddLink(eIncoming, pLink, -1);
 
-    mpEditor->InstanceLinksModified(mAffectedInstances);
+    mpEditor->InstanceLinksModified(mAffectedInstances.DereferenceList());
 }

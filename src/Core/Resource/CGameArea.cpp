@@ -158,16 +158,7 @@ CScriptObject* CGameArea::SpawnInstance(CScriptTemplate *pTemplate,
     if (InstanceID == -1)
     {
         // Determine layer index
-        u32 LayerIndex = -1;
-
-        for (u32 iLyr = 0; iLyr < mScriptLayers.size(); iLyr++)
-        {
-            if (mScriptLayers[iLyr] == pLayer)
-            {
-                LayerIndex = iLyr;
-                break;
-            }
-        }
+        u32 LayerIndex = pLayer->AreaIndex();
 
         if (LayerIndex == -1)
         {
@@ -202,8 +193,16 @@ CScriptObject* CGameArea::SpawnInstance(CScriptTemplate *pTemplate,
     return pInstance;
 }
 
+void CGameArea::AddInstanceToArea(CScriptObject *pInstance)
+{
+    // Used for undo after deleting an instance.
+    // In the future the script loader should go through SpawnInstance to avoid the need for this function.
+    mObjectMap[pInstance->InstanceID()] = pInstance;
+}
+
 void CGameArea::DeleteInstance(CScriptObject *pInstance)
 {
+    pInstance->BreakAllLinks();
     pInstance->Layer()->RemoveInstance(pInstance);
     pInstance->Template()->RemoveObject(pInstance);
 
@@ -213,6 +212,5 @@ void CGameArea::DeleteInstance(CScriptObject *pInstance)
     if (mpPoiToWorldMap && mpPoiToWorldMap->HasPoiMappings(pInstance->InstanceID()))
         mpPoiToWorldMap->RemovePoi(pInstance->InstanceID());
 
-    pInstance->BreakAllLinks();
     delete pInstance;
 }

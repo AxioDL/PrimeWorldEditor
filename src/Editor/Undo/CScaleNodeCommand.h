@@ -2,6 +2,7 @@
 #define CSCALENODECOMMAND_H
 
 #include "IUndoCommand.h"
+#include "ObjReferences.h"
 #include "Editor/INodeEditor.h"
 #include <Core/Scene/CSceneNode.h>
 #include <QList>
@@ -10,11 +11,11 @@ class CScaleNodeCommand : public IUndoCommand
 {
     struct SNodeScale
     {
-        CSceneNode *pNode;
-        CVector3f initialPos;
-        CVector3f initialScale;
-        CVector3f newPos;
-        CVector3f newScale;
+        CNodePtr pNode;
+        CVector3f InitialPos;
+        CVector3f InitialScale;
+        CVector3f NewPos;
+        CVector3f NewScale;
     };
     QList<SNodeScale> mNodeList;
     INodeEditor *mpEditor;
@@ -22,10 +23,10 @@ class CScaleNodeCommand : public IUndoCommand
 
 public:
     CScaleNodeCommand();
-    CScaleNodeCommand(INodeEditor *pEditor, const QList<CSceneNode*>& nodes, const CVector3f& pivot, const CVector3f& delta);
+    CScaleNodeCommand(INodeEditor *pEditor, const QList<CSceneNode*>& rkNodes, const CVector3f& rkPivot, const CVector3f& rkDelta);
     ~CScaleNodeCommand();
     int id() const;
-    bool mergeWith(const QUndoCommand *other);
+    bool mergeWith(const QUndoCommand *pkOther);
     void undo();
     void redo();
     bool AffectsCleanState() const { return true; }

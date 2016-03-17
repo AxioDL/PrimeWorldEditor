@@ -9,23 +9,23 @@ CRotateNodeCommand::CRotateNodeCommand()
 {
 }
 
-CRotateNodeCommand::CRotateNodeCommand(INodeEditor *pEditor, const QList<CSceneNode*>& nodes, const CVector3f& /*pivot*/, const CQuaternion& delta, ETransformSpace transformSpace)
+CRotateNodeCommand::CRotateNodeCommand(INodeEditor *pEditor, const QList<CSceneNode*>& rkNodes, const CVector3f& /*rkPivot*/, const CQuaternion& rkDelta, ETransformSpace TransformSpace)
     : IUndoCommand("Rotate"),
       mpEditor(pEditor),
       mCommandEnded(false)
 {
-    mNodeList.reserve(nodes.size());
+    mNodeList.reserve(rkNodes.size());
 
-    foreach (CSceneNode *pNode, nodes)
+    foreach (CSceneNode *pNode, rkNodes)
     {
-        SNodeRotate rotate;
-        rotate.pNode = pNode;
-        rotate.initialPos = pNode->LocalPosition();
-        rotate.initialRot = pNode->LocalRotation();
-        pNode->Rotate(delta, transformSpace);
-        rotate.newPos = pNode->LocalPosition();
-        rotate.newRot = pNode->LocalRotation();
-        mNodeList.push_back(rotate);
+        SNodeRotate Rotate;
+        Rotate.pNode = pNode;
+        Rotate.InitialPos = pNode->LocalPosition();
+        Rotate.InitialRot = pNode->LocalRotation();
+        pNode->Rotate(rkDelta, TransformSpace);
+        Rotate.NewPos = pNode->LocalPosition();
+        Rotate.NewRot = pNode->LocalRotation();
+        mNodeList.push_back(Rotate);
     }
 
     mpEditor->NotifySelectionTransformed();
@@ -40,26 +40,26 @@ int CRotateNodeCommand::id() const
     return eRotateNodeCmd;
 }
 
-bool CRotateNodeCommand::mergeWith(const QUndoCommand *other)
+bool CRotateNodeCommand::mergeWith(const QUndoCommand *pkOther)
 {
     if (mCommandEnded) return false;
 
-    if (other->id() == eRotateNodeCmd)
+    if (pkOther->id() == eRotateNodeCmd)
     {
-        const CRotateNodeCommand *pCmd = static_cast<const CRotateNodeCommand*>(other);
+        const CRotateNodeCommand *pkCmd = static_cast<const CRotateNodeCommand*>(pkOther);
 
-        if (pCmd->mCommandEnded)
+        if (pkCmd->mCommandEnded)
         {
             mCommandEnded = true;
             return true;
         }
 
-        if ((mpEditor == pCmd->mpEditor) && (mNodeList.size() == pCmd->mNodeList.size()))
+        if ((mpEditor == pkCmd->mpEditor) && (mNodeList.size() == pkCmd->mNodeList.size()))
         {
             for (int iNode = 0; iNode < mNodeList.size(); iNode++)
             {
-                mNodeList[iNode].newPos = pCmd->mNodeList[iNode].newPos;
-                mNodeList[iNode].newRot = pCmd->mNodeList[iNode].newRot;
+                mNodeList[iNode].NewPos = pkCmd->mNodeList[iNode].NewPos;
+                mNodeList[iNode].NewRot = pkCmd->mNodeList[iNode].NewRot;
             }
 
             return true;
@@ -73,10 +73,10 @@ void CRotateNodeCommand::undo()
 {
     if (!mpEditor) return;
 
-    foreach (SNodeRotate rotate, mNodeList)
+    foreach (SNodeRotate Rotate, mNodeList)
     {
-        rotate.pNode->SetPosition(rotate.initialPos);
-        rotate.pNode->SetRotation(rotate.initialRot);
+        Rotate.pNode->SetPosition(Rotate.InitialPos);
+        Rotate.pNode->SetRotation(Rotate.InitialRot);
     }
 
     mpEditor->NotifySelectionTransformed();
@@ -87,10 +87,10 @@ void CRotateNodeCommand::redo()
 {
     if (!mpEditor) return;
 
-    foreach (SNodeRotate rotate, mNodeList)
+    foreach (SNodeRotate Rotate, mNodeList)
     {
-        rotate.pNode->SetPosition(rotate.newPos);
-        rotate.pNode->SetRotation(rotate.newRot);
+        Rotate.pNode->SetPosition(Rotate.NewPos);
+        Rotate.pNode->SetRotation(Rotate.NewRot);
     }
 
     mpEditor->NotifySelectionTransformed();

@@ -6,7 +6,8 @@
 
 class CVectorOutStream : public IOutputStream
 {
-    std::vector<char> mVector;
+    std::vector<char> *mpVector;
+    bool mOwnsVector;
     long mPos;
     long mUsed;
 
@@ -14,6 +15,7 @@ public:
     CVectorOutStream();
     CVectorOutStream(IOUtil::EEndianness DataEndianness);
     CVectorOutStream(unsigned long InitialSize, IOUtil::EEndianness DataEndianness);
+    CVectorOutStream(std::vector<char> *pVector, IOUtil::EEndianness DataEndianness);
     ~CVectorOutStream();
 
     void WriteBytes(void *pSrc, unsigned long Count);
@@ -23,10 +25,11 @@ public:
     bool IsValid() const;
     long Size() const;
     long SizeRemaining() const;
+    void SetVector(std::vector<char> *pVector);
     void *Data();
     void *DataAtPosition();
     void Expand(unsigned long Amount);
-    void Contract();
+    void Shrink();
     void Reset();
     void Clear();
 };

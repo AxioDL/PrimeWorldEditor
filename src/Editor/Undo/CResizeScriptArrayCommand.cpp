@@ -1,19 +1,22 @@
 #include "CResizeScriptArrayCommand.h"
 
 CResizeScriptArrayCommand::CResizeScriptArrayCommand(IProperty *pProp, CWorldEditor *pEditor, CPropertyModel *pModel, int NewSize)
-    : CBasicPropertyCommand(pProp, pEditor)
-    , mpArray(static_cast<CArrayProperty*>(mpProperty))
+    : IUndoCommand("Edit Property")
+    , mpEditor(pEditor)
+    , mpArray(pProp)
     , mpModel(pModel)
-    , mOldSize(mpArray->Count())
+    , mOldSize(static_cast<CArrayProperty*>(pProp)->Count())
     , mNewSize(NewSize)
 {
     mNewSizeLarger = mNewSize > mOldSize;
 
     if (!mNewSizeLarger)
     {
+        CArrayProperty *pArray = static_cast<CArrayProperty*>(pProp);
+
         for (int iSub = mNewSize; iSub < mOldSize; iSub++)
         {
-            mDeletedProperties << mpArray->PropertyByIndex(iSub)->Clone();
+            mDeletedProperties << pArray->PropertyByIndex(iSub)->Clone(nullptr);
         }
     }
 }
@@ -28,11 +31,16 @@ void CResizeScriptArrayCommand::undo()
 {
     if (mNewSize != mOldSize)
     {
-        if (mIsInArray) UpdateArraySubProperty();
+        // Update parents
+        CArrayProperty *pArray = static_cast<CArrayProperty*>(*mpArray);
 
-        QModelIndex Index = mpModel->IndexForProperty(mpProperty);
+        foreach (IProperty *pProp, mDeletedProperties)
+            pProp->SetParent(pArray);
+
+        // Resize array
+        QModelIndex Index = mpModel->IndexForProperty(pArray);
         mpModel->ArrayAboutToBeResized(Index, (u32) mOldSize);
-        mpArray->Resize(mOldSize);
+        pArray->Resize(mOldSize);
 
         if (!mNewSizeLarger)
         {
@@ -41,7 +49,7 @@ void CResizeScriptArrayCommand::undo()
             for (int iSub = 0; iSub < NumNewElements; iSub++)
             {
                 u32 Idx = iSub + mNewSize;
-                mpArray->PropertyByIndex(Idx)->Copy(mDeletedProperties[iSub]);
+                pArray->PropertyByIndex(Idx)->Copy(mDeletedProperties[iSub]);
             }
         }
 
@@ -54,24 +62,10 @@ void CResizeScriptArrayCommand::redo()
     // Whether we're increasing or decreasing in size, there's no need to restore deleted properties on redo.
     if (mNewSize != mOldSize)
     {
-        if (mIsInArray) UpdateArraySubProperty();
-
-        QModelIndex Index = mpModel->IndexForProperty(mpProperty);
+        CArrayProperty *pArray = static_cast<CArrayProperty*>(*mpArray);
+        QModelIndex Index = mpModel->IndexForProperty(pArray);
         mpModel->ArrayAboutToBeResized(Index, (u32) mNewSize);
-        mpArray->Resize(mNewSize);
+        pArray->Resize(mNewSize);
         mpModel->ArrayResized(Index, (u32) mOldSize);
-    }
-}
-
-void CResizeScriptArrayCommand::UpdateArraySubProperty()
-{
-    CArrayProperty *pOldArray = mpArray;
-    CBasicPropertyCommand::UpdateArraySubProperty();
-    mpArray = static_cast<CArrayProperty*>(mpProperty);
-
-    if (pOldArray != mpArray)
-    {
-        for (int iDel = 0; iDel < mDeletedProperties.size(); iDel++)
-            mDeletedProperties[iDel]->SetParent(mpArray);
     }
 }

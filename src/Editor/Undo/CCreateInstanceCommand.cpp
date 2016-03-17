@@ -16,13 +16,14 @@ CCreateInstanceCommand::CCreateInstanceCommand(CWorldEditor *pEditor, CScriptTem
 
 void CCreateInstanceCommand::undo()
 {
-    mpEditor->NotifyNodeAboutToBeDeleted(mpNewNode);
-    mpEditor->Selection()->SetSelectedNodes(mOldSelection);
-    mpScene->DeleteNode(mpNewNode);
-    mpArea->DeleteInstance(mpNewInstance);
+    mpEditor->NotifyNodeAboutToBeDeleted(*mpNewNode);
+    mpEditor->Selection()->SetSelectedNodes(mOldSelection.DereferenceList());
+    mpScene->DeleteNode(*mpNewNode);
+    mpArea->DeleteInstance(*mpNewInstance);
+    mpEditor->NotifyNodeDeleted();
+
     mpNewNode = nullptr;
     mpNewInstance = nullptr;
-    mpEditor->NotifyNodeDeleted();
 }
 
 void CCreateInstanceCommand::redo()
@@ -30,10 +31,12 @@ void CCreateInstanceCommand::redo()
     mpEditor->NotifyNodeAboutToBeSpawned();
 
     CScriptLayer *pLayer = (mLayerIndex == -1 ? mpArea->GetGeneratorLayer() : mpArea->GetScriptLayer(mLayerIndex));
-    mpNewInstance = mpArea->SpawnInstance(mpTemplate, pLayer, mSpawnPosition);
-    mpNewNode = mpScene->CreateScriptNode(mpNewInstance);
-    mpNewNode->SetPosition(mSpawnPosition);
+    CScriptObject *pNewInst = mpArea->SpawnInstance(mpTemplate, pLayer, mSpawnPosition);
+    CScriptNode *pNewNode = mpScene->CreateScriptNode(pNewInst);
+    pNewNode->SetPosition(mSpawnPosition);
+    mpEditor->NotifyNodeSpawned(pNewNode);
+    mpEditor->Selection()->ClearAndSelectNode(pNewNode);
 
-    mpEditor->NotifyNodeSpawned(mpNewNode);
-    mpEditor->Selection()->ClearAndSelectNode(mpNewNode);
+    mpNewInstance = pNewInst;
+    mpNewNode = pNewNode;
 }

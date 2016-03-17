@@ -2,6 +2,7 @@
 #define CROTATENODECOMMAND_H
 
 #include "IUndoCommand.h"
+#include "ObjReferences.h"
 #include "Editor/INodeEditor.h"
 #include <Core/Scene/CSceneNode.h>
 #include <QList>
@@ -10,11 +11,11 @@ class CRotateNodeCommand : public IUndoCommand
 {
     struct SNodeRotate
     {
-        CSceneNode *pNode;
-        CVector3f initialPos;
-        CQuaternion initialRot;
-        CVector3f newPos;
-        CQuaternion newRot;
+        CNodePtr pNode;
+        CVector3f InitialPos;
+        CQuaternion InitialRot;
+        CVector3f NewPos;
+        CQuaternion NewRot;
     };
     QList<SNodeRotate> mNodeList;
     INodeEditor *mpEditor;
@@ -22,10 +23,10 @@ class CRotateNodeCommand : public IUndoCommand
 
 public:
     CRotateNodeCommand();
-    CRotateNodeCommand(INodeEditor *pEditor, const QList<CSceneNode*>& nodes, const CVector3f& pivot, const CQuaternion& delta, ETransformSpace transformSpace);
+    CRotateNodeCommand(INodeEditor *pEditor, const QList<CSceneNode*>& rkNodes, const CVector3f& rkPivot, const CQuaternion& rkDelta, ETransformSpace TransformSpace);
     ~CRotateNodeCommand();
     int id() const;
-    bool mergeWith(const QUndoCommand *other);
+    bool mergeWith(const QUndoCommand *pkOther);
     void undo();
     void redo();
     bool AffectsCleanState() const { return true; }

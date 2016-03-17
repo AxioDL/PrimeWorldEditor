@@ -2,22 +2,26 @@
 #define CCLEARSELECTIONCOMMAND_H
 
 #include "IUndoCommand.h"
+#include "ObjReferences.h"
+#include "Editor/CSelectionIterator.h"
 #include "Editor/INodeEditor.h"
 #include <Core/Scene/CSceneNode.h>
 
 class CClearSelectionCommand : public IUndoCommand
 {
-    QList<CSceneNode*> mOldSelection;
     CNodeSelection *mpSelection;
+    CNodePtrList mOldSelection;
 
 public:
     CClearSelectionCommand(CNodeSelection *pSelection)
         : IUndoCommand("Clear Selection"),
-          mOldSelection(pSelection->SelectedNodeList()),
           mpSelection(pSelection)
-    {}
+    {
+        for (CSelectionIterator It(pSelection); It; ++It)
+            mOldSelection << *It;
+    }
 
-    void undo() { mpSelection->SetSelectedNodes(mOldSelection); }
+    void undo() { mpSelection->SetSelectedNodes(mOldSelection.DereferenceList()); }
     void redo() { mpSelection->Clear(); }
     bool AffectsCleanState() const { return false; }
 };

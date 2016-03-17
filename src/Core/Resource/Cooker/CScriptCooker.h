@@ -20,6 +20,7 @@ class CScriptCooker
 
 public:
     static void WriteLayer(EGame Game, CScriptLayer *pLayer, IOutputStream& rOut);
+    static void CookInstance(EGame Game, CScriptObject *pInstance, IOutputStream& rOut);
 };
 
 #endif // CSCRIPTCOOKER_H

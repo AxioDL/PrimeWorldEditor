@@ -2,11 +2,13 @@
 #include "EUndoCommand.h"
 
 CEditScriptPropertyCommand::CEditScriptPropertyCommand(IProperty *pProp, CWorldEditor *pEditor, IPropertyValue *pOldValue, bool IsDone, const QString& rkCommandName /*= "Edit Property"*/)
-    : CBasicPropertyCommand(pProp, pEditor, rkCommandName)
+    : IUndoCommand(rkCommandName)
+    , mpProp(pProp)
+    , mpEditor(pEditor)
     , mCommandEnded(IsDone)
 {
     mpOldValue = pOldValue;
-    mpNewValue = mpProperty->RawValue()->Clone();
+    mpNewValue = pProp->RawValue()->Clone();
 }
 
 CEditScriptPropertyCommand::~CEditScriptPropertyCommand()
@@ -26,7 +28,7 @@ bool CEditScriptPropertyCommand::mergeWith(const QUndoCommand *pkOther)
     {
         const CEditScriptPropertyCommand *pkCmd = static_cast<const CEditScriptPropertyCommand*>(pkOther);
 
-        if (pkCmd->mpProperty == mpProperty)
+        if (pkCmd->mpProp == mpProp)
         {
             mpNewValue->Copy(pkCmd->mpNewValue);
             mCommandEnded = pkCmd->mCommandEnded;
@@ -39,15 +41,15 @@ bool CEditScriptPropertyCommand::mergeWith(const QUndoCommand *pkOther)
 
 void CEditScriptPropertyCommand::undo()
 {
-    if (mIsInArray) UpdateArraySubProperty();
-    mpProperty->RawValue()->Copy(mpOldValue);
-    mpEditor->OnPropertyModified(mpProperty);
+    IProperty *pProp = *mpProp;
+    pProp->RawValue()->Copy(mpOldValue);
+    mpEditor->OnPropertyModified(pProp);
     mCommandEnded = true;
 }
 
 void CEditScriptPropertyCommand::redo()
 {
-    if (mIsInArray) UpdateArraySubProperty();
-    mpProperty->RawValue()->Copy(mpNewValue);
-    mpEditor->OnPropertyModified(mpProperty);
+    IProperty *pProp = *mpProp;
+    pProp->RawValue()->Copy(mpNewValue);
+    mpEditor->OnPropertyModified(pProp);
 }

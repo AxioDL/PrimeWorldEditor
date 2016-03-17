@@ -15,7 +15,7 @@ class CModelNode : public CSceneNode
     CColor mScanOverlayColor;
 
 public:
-    explicit CModelNode(CScene *pScene, CSceneNode *pParent = 0, CModel *pModel = 0);
+    explicit CModelNode(CScene *pScene, u32 NodeID, CSceneNode *pParent = 0, CModel *pModel = 0);
 
     virtual ENodeType NodeType();
     virtual void PostLoad();

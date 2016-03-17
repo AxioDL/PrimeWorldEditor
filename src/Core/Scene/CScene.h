@@ -38,19 +38,23 @@ class CScene
     // Environment
     std::vector<CAreaAttributes> mAreaAttributesObjects;
 
-    // Objects
-    std::unordered_map<u32, CScriptNode*> mScriptNodeMap;
+    // Node Management
+    std::unordered_map<u32, CSceneNode*> mNodeMap;
+    std::unordered_map<u32, CScriptNode*> mScriptMap;
 
 public:
     CScene();
     ~CScene();
 
     // Scene Management
-    CModelNode* CreateModelNode(CModel *pModel);
-    CStaticNode* CreateStaticNode(CStaticModel *pModel);
-    CCollisionNode* CreateCollisionNode(CCollisionMeshGroup *pMesh);
-    CScriptNode* CreateScriptNode(CScriptObject *pObj);
-    CLightNode* CreateLightNode(CLight *pLight);
+    bool IsNodeIDUsed(u32 ID) const;
+    u32 CreateNodeID(u32 SuggestedID = -1) const;
+
+    CModelNode* CreateModelNode(CModel *pModel, u32 NodeID = -1);
+    CStaticNode* CreateStaticNode(CStaticModel *pModel, u32 NodeID = -1);
+    CCollisionNode* CreateCollisionNode(CCollisionMeshGroup *pMesh, u32 NodeID = -1);
+    CScriptNode* CreateScriptNode(CScriptObject *pObj, u32 NodeID = -1);
+    CLightNode* CreateLightNode(CLight *pLight, u32 NodeID = -1);
     void DeleteNode(CSceneNode *pNode);
     void SetActiveArea(CGameArea *pArea);
     void SetActiveWorld(CWorld *pWorld);
@@ -58,7 +62,8 @@ public:
     void ClearScene();
     void AddSceneToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo);
     SRayIntersection SceneRayCast(const CRay& rkRay, const SViewInfo& rkViewInfo);
-    CScriptNode* ScriptNodeByID(u32 InstanceID);
+    CSceneNode* NodeByID(u32 NodeID);
+    CScriptNode* NodeForInstanceID(u32 InstanceID);
     CScriptNode* NodeForObject(CScriptObject *pObj);
     CLightNode* NodeForLight(CLight *pLight);
 

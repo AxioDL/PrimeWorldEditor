@@ -35,7 +35,7 @@ CInstancesModel::CInstancesModel(QObject *pParent) : QAbstractItemModel(pParent)
     mModelType = eLayers;
     mShowColumnEnabled = true;
     mBaseItems << "Script";
-    mAddingOrRemovingRows = false;
+    mChangingLayout = false;
 }
 
 CInstancesModel::~CInstancesModel()
@@ -377,15 +377,21 @@ CScriptObject* CInstancesModel::IndexObject(const QModelIndex& index) const
 // ************ PUBLIC SLOTS ************
 void CInstancesModel::NodeAboutToBeCreated()
 {
-    if (!mAddingOrRemovingRows)
+    if (!mChangingLayout)
     {
         emit layoutAboutToBeChanged();
-        mAddingOrRemovingRows = true;
+        mChangingLayout = true;
     }
 }
 
 void CInstancesModel::NodeCreated(CSceneNode *pNode)
 {
+    if (mChangingLayout)
+    {
+        emit layoutChanged();
+        mChangingLayout = false;
+    }
+
     if (mModelType == eTypes)
     {
         if (pNode->NodeType() == eScriptNode)
@@ -411,22 +417,13 @@ void CInstancesModel::NodeCreated(CSceneNode *pNode)
             }
         }
     }
-
-    emit layoutChanged();
-    mAddingOrRemovingRows = false;
 }
 
 void CInstancesModel::NodeAboutToBeDeleted(CSceneNode *pNode)
 {
-    if (!mAddingOrRemovingRows)
+    if (pNode->NodeType() == eScriptNode)
     {
-        emit layoutAboutToBeChanged();
-        mAddingOrRemovingRows = true;
-    }
-
-    if (mModelType == eTypes)
-    {
-        if (pNode->NodeType() == eScriptNode)
+        if (mModelType == eTypes)
         {
             CScriptNode *pScript = static_cast<CScriptNode*>(pNode);
             CScriptObject *pObj = pScript->Object();
@@ -439,14 +436,29 @@ void CInstancesModel::NodeAboutToBeDeleted(CSceneNode *pNode)
                 mTemplateList.removeOne(pObj->Template());
                 endRemoveRows();
             }
+
+            else if (!mChangingLayout)
+            {
+                emit layoutAboutToBeChanged();
+                mChangingLayout = true;
+            }
+        }
+
+        else if (!mChangingLayout)
+        {
+            emit layoutAboutToBeChanged();
+            mChangingLayout = true;
         }
     }
 }
 
 void CInstancesModel::NodeDeleted()
 {
-    emit layoutChanged();
-    mAddingOrRemovingRows = false;
+    if (mChangingLayout)
+    {
+        emit layoutChanged();
+        mChangingLayout = false;
+    }
 }
 
 void CInstancesModel::PropertyModified(CScriptObject *pInst, IProperty *pProp)

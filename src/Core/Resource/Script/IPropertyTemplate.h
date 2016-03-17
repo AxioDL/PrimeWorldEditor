@@ -64,7 +64,7 @@ public:
     virtual EPropertyType Type()  const = 0;
     virtual bool CanHaveDefault() const = 0;
     virtual bool IsNumerical()    const = 0;
-    virtual IProperty* InstantiateProperty(CPropertyStruct *pParent) = 0;
+    virtual IProperty* InstantiateProperty(CScriptObject *pInstance, CPropertyStruct *pParent) = 0;
     virtual IPropertyTemplate* Clone(CScriptTemplate *pScript, CStructTemplate *pParent = 0) const = 0;
 
     virtual void Copy(const IPropertyTemplate *pkTemp)
@@ -164,10 +164,10 @@ public:
     virtual bool CanHaveDefault() const { return CanHaveDefaultValue;   }
     virtual bool IsNumerical()    const { return false;                 }
 
-    virtual IProperty* InstantiateProperty(CPropertyStruct *pParent)
+    virtual IProperty* InstantiateProperty(CScriptObject *pInstance, CPropertyStruct *pParent)
     {
         typedef TTypedProperty<PropType, PropTypeEnum, ValueClass> TPropertyType;
-        TPropertyType *pOut = new TPropertyType(this, pParent, GetDefaultValue());
+        TPropertyType *pOut = new TPropertyType(this, pInstance, pParent, GetDefaultValue());
         return pOut;
     }
 
@@ -321,9 +321,9 @@ public:
     TCharacterTemplate(u32 ID, const TString& rkName, ECookPreference CookPreference, CScriptTemplate *pScript, CMasterTemplate *pMaster, CStructTemplate *pParent = 0)
         : TTypedPropertyTemplate(ID, rkName, CookPreference, pScript, pMaster, pParent) {}
 
-    IProperty* InstantiateProperty(CPropertyStruct *pParent)
+    IProperty* InstantiateProperty(CScriptObject *pInstance, CPropertyStruct *pParent)
     {
-        return new TCharacterProperty(this, pParent, CAnimationParameters(Game()));
+        return new TCharacterProperty(this, pInstance, pParent, CAnimationParameters(Game()));
     }
 };
 
@@ -339,9 +339,9 @@ public:
     TStringTemplate(u32 ID, const TString& rkName, ECookPreference CookPreference, CScriptTemplate *pScript, CMasterTemplate *pMaster, CStructTemplate *pParent = 0)
         : TTypedPropertyTemplate(ID, rkName, CookPreference, pScript, pMaster, pParent) {}
 
-    IProperty* InstantiateProperty(CPropertyStruct *pParent)
+    IProperty* InstantiateProperty(CScriptObject *pInstance, CPropertyStruct *pParent)
     {
-        return new TStringProperty(this, pParent);
+        return new TStringProperty(this, pInstance, pParent);
     }
 };
 
@@ -357,9 +357,9 @@ public:
     TMayaSplineTemplate(u32 ID, const TString& rkName, ECookPreference CookPreference, CScriptTemplate *pScript, CMasterTemplate *pMaster, CStructTemplate *pParent = 0)
         : TTypedPropertyTemplate(ID, rkName, CookPreference, pScript, pMaster, pParent) {}
 
-    IProperty* InstantiateProperty(CPropertyStruct *pParent)
+    IProperty* InstantiateProperty(CScriptObject *pInstance, CPropertyStruct *pParent)
     {
-        return new TMayaSplineProperty(this, pParent);
+        return new TMayaSplineProperty(this, pInstance, pParent);
     }
 };
 
@@ -382,9 +382,9 @@ public:
     virtual bool CanHaveDefault() const { return false; }
     virtual bool IsNumerical() const    { return false; }
 
-    IProperty* InstantiateProperty(CPropertyStruct *pParent)
+    IProperty* InstantiateProperty(CScriptObject *pInstance, CPropertyStruct *pParent)
     {
-        return new TFileProperty(this, pParent);
+        return new TFileProperty(this, pInstance, pParent);
     }
 
     IMPLEMENT_TEMPLATE_CLONE(CFileTemplate)
@@ -451,9 +451,9 @@ public:
     virtual bool CanHaveDefault() const { return true; }
     virtual bool IsNumerical()    const { return false; }
 
-    virtual IProperty* InstantiateProperty(CPropertyStruct *pParent)
+    virtual IProperty* InstantiateProperty(CScriptObject *pInstance, CPropertyStruct *pParent)
     {
-        TEnumProperty *pEnum = new TEnumProperty(this, pParent);
+        TEnumProperty *pEnum = new TEnumProperty(this, pInstance, pParent);
         pEnum->Set(GetDefaultValue());
         return pEnum;
     }
@@ -546,9 +546,9 @@ public:
     virtual bool CanHaveDefault() const { return true; }
     virtual bool IsNumerical()    const { return false; }
 
-    virtual IProperty* InstantiateProperty(CPropertyStruct *pParent)
+    virtual IProperty* InstantiateProperty(CScriptObject *pInstance, CPropertyStruct *pParent)
     {
-        TBitfieldProperty *pBitfield = new TBitfieldProperty(this, pParent);
+        TBitfieldProperty *pBitfield = new TBitfieldProperty(this, pInstance, pParent);
         pBitfield->Set(GetDefaultValue());
         return pBitfield;
     }
@@ -611,13 +611,13 @@ public:
     bool CanHaveDefault() const { return false; }
     bool IsNumerical()    const { return false; }
 
-    IProperty* InstantiateProperty(CPropertyStruct *pParent)
+    IProperty* InstantiateProperty(CScriptObject *pInstance, CPropertyStruct *pParent)
     {
-        CPropertyStruct *pStruct = new CPropertyStruct(this, pParent);
+        CPropertyStruct *pStruct = new CPropertyStruct(this, pInstance, pParent);
 
         for (u32 iSub = 0; iSub < mSubProperties.size(); iSub++)
         {
-            IProperty *pSubProp = mSubProperties[iSub]->InstantiateProperty(pStruct);
+            IProperty *pSubProp = mSubProperties[iSub]->InstantiateProperty(pInstance, pStruct);
             pStruct->AddSubProperty(pSubProp);
         }
 
@@ -708,9 +708,9 @@ public:
 
     EPropertyType Type() const { return eArrayProperty; }
 
-    IProperty* InstantiateProperty(CPropertyStruct *pParent)
+    IProperty* InstantiateProperty(CScriptObject *pInstance, CPropertyStruct *pParent)
     {
-        return new CArrayProperty(this, pParent);
+        return new CArrayProperty(this, pInstance, pParent);
     }
 
     IMPLEMENT_TEMPLATE_CLONE(CArrayTemplate)
@@ -740,9 +740,9 @@ public:
     TString ElementName() const                { return mElementName; }
     void SetElementName(const TString& rkName) { mElementName = rkName; }
 
-    CPropertyStruct* CreateSubStruct(CArrayProperty *pArray)
+    CPropertyStruct* CreateSubStruct(CScriptObject *pInstance, CArrayProperty *pArray)
     {
-        return (CPropertyStruct*) CStructTemplate::InstantiateProperty(pArray);
+        return (CPropertyStruct*) CStructTemplate::InstantiateProperty(pInstance, pArray);
     }
 };
 

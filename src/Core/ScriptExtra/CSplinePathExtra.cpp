@@ -53,7 +53,7 @@ void CSplinePathExtra::AddWaypoints()
         if ( (pLink->State() == 0x49533030 && pLink->Message() == 0x41544348) || // InternalState00/Attach
              (pLink->State() == 0x4D4F5450 && pLink->Message() == 0x41544348) )  // MotionPath/Attach
         {
-            CScriptNode *pNode = mpScene->ScriptNodeByID(pLink->ReceiverID());
+            CScriptNode *pNode = mpScene->NodeForInstanceID(pLink->ReceiverID());
 
             if (pNode && pNode->Object()->ObjectTypeID() == 0x57415950) // Waypoint
             {

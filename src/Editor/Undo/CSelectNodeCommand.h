@@ -2,12 +2,13 @@
 #define CSELECTNODECOMMAND_H
 
 #include "IUndoCommand.h"
+#include "ObjReferences.h"
 #include "Editor/INodeEditor.h"
 #include <Core/Scene/CSceneNode.h>
 
 class CSelectNodeCommand : public IUndoCommand
 {
-    CSceneNode *mpNode;
+    CNodePtr mpNode;
     CNodeSelection *mpSelection;
 
 public:
@@ -17,8 +18,8 @@ public:
         , mpSelection(pSelection)
     {}
 
-    void undo() { mpSelection->DeselectNode(mpNode); }
-    void redo() { mpSelection->SelectNode(mpNode); }
+    void undo() { mpSelection->DeselectNode(*mpNode); }
+    void redo() { mpSelection->SelectNode(*mpNode); }
     bool AffectsCleanState() const { return false; }
 };
 

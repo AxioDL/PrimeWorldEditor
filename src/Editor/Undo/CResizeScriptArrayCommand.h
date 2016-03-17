@@ -1,13 +1,17 @@
 #ifndef CRESIZESCRIPTARRAYCOMMAND_H
 #define CRESIZESCRIPTARRAYCOMMAND_H
 
-#include "CBasicPropertyCommand.h"
+#include "IUndoCommand.h"
+#include "ObjReferences.h"
 #include "Editor/PropertyEdit/CPropertyModel.h"
+#include "Editor/WorldEditor/CWorldEditor.h"
 #include <QUndoCommand>
 
-class CResizeScriptArrayCommand : public CBasicPropertyCommand
+// todo: make this more general... it shouldn't be relying on a CPropertyModel pointer
+class CResizeScriptArrayCommand : public IUndoCommand
 {
-    CArrayProperty *mpArray;
+    CWorldEditor *mpEditor;
+    CPropertyPtr mpArray;
     QVector<IProperty*> mDeletedProperties;
     CPropertyModel *mpModel;
 
@@ -20,7 +24,7 @@ public:
     ~CResizeScriptArrayCommand();
     void undo();
     void redo();
-    virtual void UpdateArraySubProperty();
+    bool AffectsCleanState() const { return true; }
 };
 
 #endif // CRESIZESCRIPTARRAYCOMMAND_H

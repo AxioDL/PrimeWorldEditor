@@ -32,13 +32,44 @@ TString IProperty::Name() const
 
 u32 IProperty::ID() const
 {
-    return mpTemplate->PropertyID();
+    if (mpParent && mpParent->Type() == eArrayProperty)
+        return ArrayIndex();
+    else
+        return mpTemplate->PropertyID();
 }
 
 TIDString IProperty::IDString(bool FullPath) const
 {
-    // todo: since this function just returns the template ID string, it doesn't correctly account for array properties;
-    return mpTemplate->IDString(FullPath);
+    TIDString Out;
+
+    if (ID() != 0xFFFFFFFF)
+    {
+        if (mpParent && FullPath)
+        {
+            Out = mpParent->IDString(true);
+            if (!Out.IsEmpty()) Out += ":";
+        }
+
+        Out += TString::HexString(ID(), true, true, 8);
+    }
+
+    return Out;
+}
+
+u32 IProperty::ArrayIndex() const
+{
+    CArrayProperty *pArray = TPropCast<CArrayProperty>(mpParent);
+
+    if (pArray)
+    {
+        for (u32 iSub = 0; iSub < pArray->Count(); iSub++)
+        {
+            if (pArray->PropertyByIndex(iSub) == this)
+                return iSub;
+        }
+    }
+
+    return -1;
 }
 
 bool IProperty::ShouldCook()
@@ -74,7 +105,7 @@ void CPropertyStruct::Copy(const IProperty *pkProp)
     mProperties.resize(pkSource->mProperties.size());
 
     for (u32 iSub = 0; iSub < mProperties.size(); iSub++)
-        mProperties[iSub] = pkSource->mProperties[iSub]->Clone(this);
+        mProperties[iSub] = pkSource->mProperties[iSub]->Clone(Instance(), this);
 }
 
 bool CPropertyStruct::ShouldCook()
@@ -138,7 +169,7 @@ CPropertyStruct* CPropertyStruct::StructByIndex(u32 index) const
 {
     IProperty *pProp = PropertyByIndex(index);
 
-    if (pProp->Type() == eStructProperty)
+    if (pProp->Type() == eStructProperty || pProp->Type() == eArrayProperty)
         return static_cast<CPropertyStruct*>(pProp);
     else
         return nullptr;
@@ -148,7 +179,7 @@ CPropertyStruct* CPropertyStruct::StructByID(u32 ID) const
 {
     IProperty *pProp = PropertyByID(ID);
 
-    if (pProp->Type() == eStructProperty)
+    if (pProp->Type() == eStructProperty || pProp->Type() == eArrayProperty)
         return static_cast<CPropertyStruct*>(pProp);
     else
         return nullptr;
@@ -158,7 +189,7 @@ CPropertyStruct* CPropertyStruct::StructByIDString(const TIDString& rkStr) const
 {
     IProperty *pProp = PropertyByIDString(rkStr);
 
-    if (pProp->Type() == eStructProperty)
+    if (pProp->Type() == eStructProperty || pProp->Type() == eArrayProperty)
         return static_cast<CPropertyStruct*>(pProp);
     else
         return nullptr;
@@ -186,7 +217,7 @@ void CArrayProperty::Resize(int Size)
     if (Size > OldSize)
     {
         for (int iProp = OldSize; iProp < Size; iProp++)
-            mProperties[iProp] = static_cast<CArrayTemplate*>(mpTemplate)->CreateSubStruct(this);
+            mProperties[iProp] = static_cast<CArrayTemplate*>(mpTemplate)->CreateSubStruct(Instance(), this);
     }
 }
 

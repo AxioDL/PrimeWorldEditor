@@ -2,14 +2,15 @@
 #define CINVERTSELECTIONCOMMAND_H
 
 #include "IUndoCommand.h"
+#include "ObjReferences.h"
 #include "Editor/INodeEditor.h"
 #include <Core/Scene/CSceneNode.h>
 
 class CInvertSelectionCommand : public IUndoCommand
 {
     CNodeSelection *mpSelection;
-    QList<CSceneNode*> mOldSelection;
-    QList<CSceneNode*> mNewSelection;
+    CNodePtrList mOldSelection;
+    CNodePtrList mNewSelection;
 
 public:
     CInvertSelectionCommand(CNodeSelection *pSelection, CScene *pScene, FNodeFlags NodeFlags)
@@ -25,8 +26,8 @@ public:
         }
     }
 
-    void undo() { mpSelection->SetSelectedNodes(mOldSelection); }
-    void redo() { mpSelection->SetSelectedNodes(mNewSelection); }
+    void undo() { mpSelection->SetSelectedNodes(mOldSelection.DereferenceList()); }
+    void redo() { mpSelection->SetSelectedNodes(mNewSelection.DereferenceList()); }
     bool AffectsCleanState() const { return false; }
 };
 

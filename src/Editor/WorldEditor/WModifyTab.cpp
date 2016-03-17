@@ -260,7 +260,7 @@ void WModifyTab::OnLinkTableDoubleClick(QModelIndex Index)
         else if (sender() == ui->OutLinksTableView)
             InstanceID = pNode->Object()->Link(eOutgoing, Index.row())->ReceiverID();
 
-        CScriptNode *pLinkedNode = pNode->Scene()->ScriptNodeByID(InstanceID);
+        CScriptNode *pLinkedNode = pNode->Scene()->NodeForInstanceID(InstanceID);
 
         if (pLinkedNode)
             mpWorldEditor->ClearAndSelectNode(pLinkedNode);
