@@ -9,6 +9,7 @@ CDeleteSelectionCommand::CDeleteSelectionCommand(CWorldEditor *pEditor)
     , mpEditor(pEditor)
 {
     QSet<CLink*> Links;
+    QList<CScriptObject*> LinkedInstances;
 
     for (CSelectionIterator It(pEditor->Selection()); It; ++It)
     {
@@ -53,6 +54,11 @@ CDeleteSelectionCommand::CDeleteSelectionCommand(CWorldEditor *pEditor)
                         Link.pReceiver = pLink->Receiver();
                         mDeletedLinks << Link;
                         Links << pLink;
+
+                        if (!LinkedInstances.contains(pLink->Sender()))
+                            LinkedInstances << pLink->Sender();
+                        if (!LinkedInstances.contains(pLink->Receiver()))
+                            LinkedInstances << pLink->Receiver();
                     }
                 }
             }
@@ -65,13 +71,19 @@ CDeleteSelectionCommand::CDeleteSelectionCommand(CWorldEditor *pEditor)
             mNewSelection << *It;
     }
 
-    qSort(mDeletedNodes.begin(), mDeletedNodes.end(), [](SDeletedNode& rLeft, SDeletedNode& rRight) -> bool {
-        return (rLeft.NodeID < rRight.NodeID);
-    });
+    // Remove selected objects from the linked instances list.
+    foreach (CScriptObject *pInst, LinkedInstances)
+    {
+        if (mpEditor->Scene()->NodeForObject(pInst)->IsSelected())
+            LinkedInstances.removeOne(pInst);
+    }
+
+    mLinkedInstances = LinkedInstances;
 }
 
 void CDeleteSelectionCommand::undo()
 {
+    QList<CSceneNode*> NewNodes;
     QList<u32> NewInstanceIDs;
 
     // Spawn nodes
@@ -90,6 +102,7 @@ void CDeleteSelectionCommand::undo()
         if (!pInstance->RotationProperty()) pNode->SetRotation(rNode.Rotation);
         if (!pInstance->ScaleProperty())    pNode->SetScale(rNode.Scale);
 
+        NewNodes << pNode;
         NewInstanceIDs << pInstance->InstanceID();
         mpEditor->NotifyNodeSpawned(*rNode.NodePtr);
     }
@@ -123,8 +136,13 @@ void CDeleteSelectionCommand::undo()
         rLink.pReceiver->AddLink(eIncoming, pLink, rLink.ReceiverIndex);
     }
 
+    // Run OnLoadFinished
+    foreach (CSceneNode *pNode, NewNodes)
+        pNode->OnLoadFinished();
+
     // Add selection and done
     mpEditor->Selection()->SetSelectedNodes(mOldSelection.DereferenceList());
+    mpEditor->OnLinksModified(mLinkedInstances.DereferenceList());
 }
 
 void CDeleteSelectionCommand::redo()
@@ -142,4 +160,6 @@ void CDeleteSelectionCommand::redo()
         mpEditor->ActiveArea()->DeleteInstance(pInst);
         mpEditor->NotifyNodeDeleted();
     }
+
+    mpEditor->OnLinksModified(mLinkedInstances.DereferenceList());
 }
