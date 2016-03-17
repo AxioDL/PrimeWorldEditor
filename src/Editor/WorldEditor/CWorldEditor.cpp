@@ -280,7 +280,8 @@ void CWorldEditor::OnLinksModified(const QList<CScriptObject*>& rkInstances)
         pNode->LinksModified();
     }
 
-    emit InstanceLinksModified(rkInstances);
+    if (!rkInstances.isEmpty())
+        emit InstanceLinksModified(rkInstances);
 }
 
 void CWorldEditor::OnPropertyModified(IProperty *pProp)

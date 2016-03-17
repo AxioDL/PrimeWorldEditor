@@ -14,6 +14,7 @@ class CDeleteSelectionCommand : public IUndoCommand
     CWorldEditor *mpEditor;
     CNodePtrList mOldSelection;
     CNodePtrList mNewSelection;
+    CInstancePtrList mLinkedInstances;
 
     struct SDeletedNode
     {

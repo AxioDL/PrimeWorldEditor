@@ -34,6 +34,8 @@ void CCreateInstanceCommand::redo()
     CScriptObject *pNewInst = mpArea->SpawnInstance(mpTemplate, pLayer, mSpawnPosition);
     CScriptNode *pNewNode = mpScene->CreateScriptNode(pNewInst);
     pNewNode->SetPosition(mSpawnPosition);
+    pNewNode->OnLoadFinished();
+
     mpEditor->NotifyNodeSpawned(pNewNode);
     mpEditor->Selection()->ClearAndSelectNode(pNewNode);
 
