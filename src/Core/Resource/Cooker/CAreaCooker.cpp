@@ -277,14 +277,14 @@ void CAreaCooker::FinishBlock()
     if (EnableCompression)
     {
         bool Success = CompressionUtil::CompressSegmentedData((u8*) mCompressedData.Data(), mCompressedData.Size(), CompressedBuf.data(), CompressedSize, UseZlib);
-        u32 PadBytes = (32 - (CompressedSize % 32)) & 0x3F;
+        u32 PadBytes = (32 - (CompressedSize % 32)) & 0x1F;
         WriteCompressedData = Success && (CompressedSize + PadBytes < (u32) mCompressedData.Size());
     }
 
     if (WriteCompressedData)
     {
         u32 PadBytes = 32 - (CompressedSize % 32);
-        PadBytes &= 0x3F;
+        PadBytes &= 0x1F;
 
         for (u32 iPad = 0; iPad < PadBytes; iPad++)
             mAreaData.WriteByte(0);
