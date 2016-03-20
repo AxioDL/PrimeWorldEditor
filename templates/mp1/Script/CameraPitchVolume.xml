@@ -6,7 +6,7 @@
         <property ID="0x01" name="Position" type="vector3f"/>
         <property ID="0x02" name="Rotation" type="vector3f"/>
         <property ID="0x03" name="Scale" type="vector3f"/>
-        <property ID="0x04" name="Unknown 1" type="bool"/>
+        <property ID="0x04" name="Active" type="bool"/>
         <property ID="0x05" name="Unknown 2" type="float"/>
         <property ID="0x06" name="Unknown 3" type="float"/>
         <property ID="0x07" name="Unknown 4" type="float"/>
@@ -19,6 +19,7 @@
             <property name="Position" ID="0x01"/>
             <property name="Rotation" ID="0x02"/>
             <property name="Scale" ID="0x03"/>
+            <property name="Active" ID="0x04"/>
         </properties>
         <assets/>
         <rotation_type>enabled</rotation_type>

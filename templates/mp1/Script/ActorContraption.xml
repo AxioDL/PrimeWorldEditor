@@ -16,7 +16,7 @@
         <struct ID="0x0B" name="ActorParameters" template="Structs/ActorParameters.xml"/>
         <property ID="0x0C" name="Particle" type="file" extensions="PART"/>
         <struct ID="0x0D" name="DamageInfo" template="Structs/DamageInfo.xml"/>
-        <property ID="0x0E" name="Unknown 4" type="bool"/>
+        <property ID="0x0E" name="Active" type="bool"/>
     </properties>
     <states/>
     <messages/>
@@ -26,6 +26,7 @@
             <property name="Position" ID="0x01"/>
             <property name="Rotation" ID="0x02"/>
             <property name="Scale" ID="0x03"/>
+            <property name="Active" ID="0x0E"/>
             <property name="LightParameters" ID="0x0B:0x00"/>
         </properties>
         <assets>

@@ -3,7 +3,7 @@
     <name>CameraBlurKeyframe</name>
     <properties>
         <property ID="0x00" name="Name" type="string"/>
-        <property ID="0x01" name="Unknown 1" type="bool"/>
+        <property ID="0x01" name="Active" type="bool"/>
         <property ID="0x02" name="Unknown 2" type="long"/>
         <property ID="0x03" name="Unknown 3" type="float"/>
         <property ID="0x04" name="Unknown 4" type="long"/>
@@ -15,6 +15,7 @@
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>
+            <property name="Active" ID="0x01"/>
         </properties>
         <assets>
             <billboard source="file">script/common/CameraBlurKeyframe.txtr</billboard>

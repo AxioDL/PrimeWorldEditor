@@ -10,11 +10,13 @@
         <struct ID="0x05" name="PatternedInfo" template="Structs/PatternedInfo.xml"/>
         <struct ID="0x06" name="ActorParameters" template="Structs/ActorParameters.xml"/>
         <struct ID="0x07" name="DamageInfo" template="Structs/DamageInfo.xml"/>
-        <property ID="0x08" name="Unknown 2" type="vector3f"/>
+        <property ID="0x08" name="Lock-On Offset" type="vector3f">
+            <description>This is clamped to the beetle's bounding box.</description>
+        </property>
         <property ID="0x09" name="Unknown 3" type="float"/>
         <struct ID="0x0A" name="Abdomen Vulnerability" template="Structs/DamageVulnerability.xml"/>
         <struct ID="0x0B" name="Armor Vulnerability" template="Structs/DamageVulnerability.xml"/>
-        <property ID="0x0C" name="Model" type="file" extensions="CMDL"/>
+        <property ID="0x0C" name="Abdomen Model" type="file" extensions="CMDL"/>
         <property ID="0x0D" name="Unknown 4" type="long"/>
         <property ID="0x0E" name="Unknown 5" type="float"/>
         <property ID="0x0F" name="Unknown 6" type="float"/>

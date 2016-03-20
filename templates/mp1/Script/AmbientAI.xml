@@ -17,7 +17,7 @@
         <property ID="0x0C" name="Unknown 4" type="float"/>
         <property ID="0x0D" name="Unknown 5" type="long"/>
         <property ID="0x0E" name="Unknown 6" type="long"/>
-        <property ID="0x0F" name="Unknown 7" type="bool"/>
+        <property ID="0x0F" name="Active" type="bool"/>
     </properties>
     <states/>
     <messages/>
@@ -27,6 +27,7 @@
             <property name="Position" ID="0x01"/>
             <property name="Rotation" ID="0x02"/>
             <property name="Scale" ID="0x03"/>
+            <property name="Active" ID="0x0F"/>
             <property name="LightParameters" ID="0x0A:0x00"/>
         </properties>
         <assets>

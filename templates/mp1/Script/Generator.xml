@@ -8,8 +8,8 @@
         <property ID="0x03" name="Unknown 3" type="bool"/>
         <property ID="0x04" name="Unknown 4" type="vector3f"/>
         <property ID="0x05" name="Unknown 5" type="bool"/>
-        <property ID="0x06" name="Unknown 6" type="float"/>
-        <property ID="0x07" name="Unknown 7" type="float"/>
+        <property ID="0x06" name="Min Scale Multiplier" type="float"/>
+        <property ID="0x07" name="Max Scale Multiplier" type="float"/>
     </properties>
     <states/>
     <messages/>

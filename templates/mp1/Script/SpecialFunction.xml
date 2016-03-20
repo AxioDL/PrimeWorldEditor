@@ -7,7 +7,7 @@
         <property ID="0x02" name="Rotation" type="vector3f"/>
         <enum ID="0x03" name="Function">
             <enumerators>
-                <enumerator ID="0x00" name="What"/>
+                <enumerator ID="0x00" name="Function 0"/>
                 <enumerator ID="0x01" name="Player Follow Locator"/>
                 <enumerator ID="0x02" name="Spinner Controller"/>
                 <enumerator ID="0x03" name="Object Follow Locator"/>
@@ -52,7 +52,7 @@
                 <property ID="0x01" name="Layer no" type="long"/>
             </properties>
         </struct>
-        <enum ID="0x09" name="Inventory Slot" template="Enums/InventorySlot.xml"/>
+        <enum ID="0x09" name="Item" template="Enums/Item.xml"/>
         <property ID="0x0A" name="Active" type="bool"/>
         <property ID="0x0B" name="Unknown 5" type="float"/>
         <property ID="0x0C" name="Used by SpinnerController 1" type="long"/>

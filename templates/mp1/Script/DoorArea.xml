@@ -8,13 +8,13 @@
         <property ID="0x03" name="Scale" type="vector3f"/>
         <property ID="0x04" name="AnimationParameters" type="character"/>
         <struct ID="0x05" name="ActorParameters" template="Structs/ActorParameters.xml"/>
-        <property ID="0x06" name="Unknown 1" type="vector3f"/>
-        <property ID="0x07" name="Unknown 2" type="vector3f"/>
-        <property ID="0x08" name="Unknown 3" type="vector3f"/>
-        <property ID="0x09" name="Unknown 4" type="bool"/>
-        <property ID="0x0A" name="Unknown 5" type="bool"/>
+        <property ID="0x06" name="Scan Offset" type="vector3f"/>
+        <property ID="0x07" name="Collision Size" type="vector3f"/>
+        <property ID="0x08" name="Collision Offset" type="vector3f"/>
+        <property ID="0x09" name="Active" type="bool"/>
+        <property ID="0x0A" name="Open" type="bool"/>
         <property ID="0x0B" name="Unknown 6" type="bool"/>
-        <property ID="0x0C" name="Unknown 7" type="float"/>
+        <property ID="0x0C" name="Open/Close Animation Length" type="float"/>
         <property ID="0x0D" name="Unknown 8" type="bool"/>
     </properties>
     <states/>

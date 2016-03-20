@@ -12,6 +12,6 @@
         <property ID="0x08" name="Unknown 9" type="float"/>
         <property ID="0x09" name="Unknown 10" type="float"/>
         <property ID="0x0A" name="Unknown 11" type="float"/>
-        <property ID="0x0B" name="Disable turning" type="bool"/>
+        <property ID="0x0B" name="Disable Turning" type="bool"/>
     </properties>
 </struct>

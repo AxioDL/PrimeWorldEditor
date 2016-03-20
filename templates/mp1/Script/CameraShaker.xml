@@ -10,13 +10,14 @@
         <property ID="0x05" name="Unknown 5" type="float"/>
         <property ID="0x06" name="Unknown 6" type="float"/>
         <property ID="0x07" name="Unknown 7" type="float"/>
-        <property ID="0x08" name="Unknown 8" type="bool"/>
+        <property ID="0x08" name="Active" type="bool"/>
     </properties>
     <states/>
     <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>
+            <property name="Active" ID="0x08"/>
         </properties>
         <assets/>
         <rotation_type>disabled</rotation_type>
