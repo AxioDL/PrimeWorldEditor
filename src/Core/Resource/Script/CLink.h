@@ -113,15 +113,16 @@ public:
     }
 
     // Accessors
-    u32 State() const               { return mStateID; }
-    u32 Message() const             { return mMessageID; }
-    u32 SenderID() const            { return mSenderID; }
-    u32 ReceiverID() const          { return mReceiverID; }
-    CScriptObject* Sender() const   { return mpArea->InstanceByID(mSenderID); }
-    CScriptObject* Receiver() const { return mpArea->InstanceByID(mReceiverID); }
+    inline CGameArea* Area() const          { return mpArea; }
+    inline u32 State() const                { return mStateID; }
+    inline u32 Message() const              { return mMessageID; }
+    inline u32 SenderID() const             { return mSenderID; }
+    inline u32 ReceiverID() const           { return mReceiverID; }
+    inline CScriptObject* Sender() const    { return mpArea->InstanceByID(mSenderID); }
+    inline CScriptObject* Receiver() const  { return mpArea->InstanceByID(mReceiverID); }
 
-    void SetState(u32 StateID)      { mStateID = StateID; }
-    void SetMessage(u32 MessageID)  { mMessageID = MessageID; }
+    inline void SetState(u32 StateID)       { mStateID = StateID; }
+    inline void SetMessage(u32 MessageID)   { mMessageID = MessageID; }
 };
 
 

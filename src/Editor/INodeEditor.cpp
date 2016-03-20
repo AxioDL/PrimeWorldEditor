@@ -13,6 +13,7 @@ INodeEditor::INodeEditor(QWidget *pParent)
     , mGizmoTransforming(false)
     , mTranslateSpace(eWorldTransform)
     , mRotateSpace(eWorldTransform)
+    , mCloneState(eNotCloning)
 {
     // Create undo actions
     QAction *pUndoAction = mUndoStack.createUndoAction(this);
@@ -85,6 +86,7 @@ bool INodeEditor::IsGizmoVisible()
 void INodeEditor::BeginGizmoTransform()
 {
     mGizmoTransforming = true;
+    if ((qApp->keyboardModifiers() & Qt::ShiftModifier) != 0) mCloneState = eReadyToClone;
 
     foreach (QAction *pAction, mGizmoActions)
         pAction->setEnabled(false);
@@ -97,12 +99,20 @@ void INodeEditor::EndGizmoTransform()
     foreach (QAction *pAction, mGizmoActions)
         pAction->setEnabled(true);
 
-    if (mGizmo.Mode() == CGizmo::eTranslate)
-        mUndoStack.push(CTranslateNodeCommand::End());
-    else if (mGizmo.Mode() == CGizmo::eRotate)
-        mUndoStack.push(CRotateNodeCommand::End());
-    else if (mGizmo.Mode() == CGizmo::eScale)
-        mUndoStack.push(CScaleNodeCommand::End());
+    if (mGizmo.HasTransformed())
+    {
+        if (mGizmo.Mode() == CGizmo::eTranslate)
+            mUndoStack.push(CTranslateNodeCommand::End());
+        else if (mGizmo.Mode() == CGizmo::eRotate)
+            mUndoStack.push(CRotateNodeCommand::End());
+        else if (mGizmo.Mode() == CGizmo::eScale)
+            mUndoStack.push(CScaleNodeCommand::End());
+    }
+
+    if (mCloneState == eCloning)
+        mUndoStack.endMacro();
+
+    mCloneState = eNotCloning;
 }
 
 ETransformSpace INodeEditor::CurrentTransformSpace()
@@ -251,6 +261,13 @@ void INodeEditor::OnSelectionModified()
 
 void INodeEditor::OnGizmoMoved()
 {
+    if (mCloneState == eReadyToClone)
+    {
+        mUndoStack.beginMacro("Clone");
+        mUndoStack.push(new CCloneSelectionCommand(this));
+        mCloneState = eCloning;
+    }
+
     switch (mGizmo.Mode())
     {
         case CGizmo::eTranslate:

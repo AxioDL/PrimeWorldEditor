@@ -2,6 +2,7 @@
 #define UNDOCOMMANDS
 
 #include "CCreateInstanceCommand.h"
+#include "CCloneSelectionCommand.h"
 
 #include "CTranslateNodeCommand.h"
 #include "CRotateNodeCommand.h"

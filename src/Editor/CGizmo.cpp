@@ -362,7 +362,7 @@ bool CGizmo::TransformFromInput(const CRay& ray, CCamera& camera)
                 if (!mHasTransformed && (mDeltaTranslation != CVector3f::skZero))
                     mHasTransformed = true;
 
-                return true;
+                return mHasTransformed;
             }
         }
 
@@ -415,7 +415,7 @@ bool CGizmo::TransformFromInput(const CRay& ray, CCamera& camera)
         if (!mHasTransformed && (rotAmount != 0.f))
             mHasTransformed = true;
 
-        return true;
+        return mHasTransformed;
     }
 
     // Scale
@@ -484,7 +484,7 @@ bool CGizmo::TransformFromInput(const CRay& ray, CCamera& camera)
         if (!mHasTransformed && (scaleAmount != 1.f))
             mHasTransformed = true;
 
-        return true;
+        return mHasTransformed;
     }
 
     return false;

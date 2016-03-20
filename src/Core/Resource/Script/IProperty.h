@@ -1,8 +1,6 @@
 #ifndef IPROPERTY
 #define IPROPERTY
 
-/* This header file declares some classes used to track script object properties
- * IProperty, TTypedProperty (and typedefs), CPropertyStruct, and CArrayProperty */
 #include "EPropertyType.h"
 #include "IPropertyValue.h"
 #include "Core/Resource/CResource.h"
@@ -21,7 +19,6 @@ typedef TString TIDString;
 
 /*
  * IProperty is the base class, containing just some virtual function definitions
- * Virtual destructor is mainly there to make cleanup easy; don't need to cast to delete
  */
 class IProperty
 {
@@ -69,6 +66,15 @@ public:
 /*
  * TTypedProperty is a template subclass for actual properties.
  */
+#define IMPLEMENT_PROPERTY_CLONE(ClassName) \
+    virtual IProperty* Clone(CScriptObject *pInstance, CPropertyStruct *pParent) const \
+    { \
+        if (!pParent) pParent = mpParent; \
+        ClassName *pOut = new ClassName(mpTemplate, pInstance, pParent); \
+        pOut->Copy(this); \
+        return pOut; \
+    }
+
 template <typename ValueType, EPropertyType TypeEnum, class ValueClass>
 class TTypedProperty : public IProperty
 {
@@ -94,14 +100,7 @@ public:
         mValue.Set(pkCast->mValue.Get());
     }
 
-    virtual TTypedProperty* Clone(class CScriptObject *pInstance, CPropertyStruct *pParent) const
-    {
-        if (!pParent) pParent = mpParent;
-
-        TTypedProperty *pOut = new TTypedProperty(mpTemplate, pInstance, pParent);
-        pOut->Copy(this);
-        return pOut;
-    }
+    IMPLEMENT_PROPERTY_CLONE(TTypedProperty)
 
     virtual bool Matches(const IProperty *pkProp) const
     {
@@ -138,6 +137,7 @@ class TStringProperty : public TTypedProperty<TString, eStringProperty, CStringV
 {
 public:
     IMPLEMENT_PROPERTY_CTORS(TStringProperty, TString)
+    IMPLEMENT_PROPERTY_CLONE(TStringProperty)
     virtual bool MatchesDefault()   { return Get().IsEmpty(); }
     virtual bool ShouldCook()       { return true; }
 };
@@ -146,6 +146,7 @@ class TFileProperty : public TTypedProperty<CResourceInfo, eFileProperty, CFileV
 {
 public:
     IMPLEMENT_PROPERTY_CTORS(TFileProperty, CResourceInfo)
+    IMPLEMENT_PROPERTY_CLONE(TFileProperty)
     virtual bool MatchesDefault()   { return !Get().IsValid(); }
     virtual bool ShouldCook()       { return true; }
 };
@@ -154,6 +155,7 @@ class TCharacterProperty : public TTypedProperty<CAnimationParameters, eCharacte
 {
 public:
     IMPLEMENT_PROPERTY_CTORS(TCharacterProperty, CAnimationParameters)
+    IMPLEMENT_PROPERTY_CLONE(TCharacterProperty)
     virtual bool MatchesDefault()   { return Get().AnimSet() == nullptr; }
     virtual bool ShouldCook()       { return true; }
 };
@@ -162,6 +164,7 @@ class TMayaSplineProperty : public TTypedProperty<std::vector<u8>, eMayaSplinePr
 {
 public:
     IMPLEMENT_PROPERTY_CTORS(TMayaSplineProperty, std::vector<u8>)
+    IMPLEMENT_PROPERTY_CLONE(TMayaSplineProperty)
     virtual bool MatchesDefault() { return Get().empty(); }
 };
 
@@ -255,6 +258,8 @@ public:
 
     EPropertyType Type() const { return eArrayProperty; }
     static inline EPropertyType StaticType() { return eArrayProperty; }
+
+    virtual void Copy(const IProperty *pkProp);
 
     virtual IProperty* Clone(CScriptObject *pInstance, CPropertyStruct *pParent) const
     {
