@@ -179,6 +179,9 @@ void CSceneViewport::CreateContextMenu()
     mpToggleSelectAction = new QAction("ToggleSelect", this);
     connect(mpToggleSelectAction, SIGNAL(triggered()), this, SLOT(OnToggleSelect()));
 
+    mpSelectConnectedAction = new QAction("Select connected", this);
+    connect(mpSelectConnectedAction, SIGNAL(triggered()), this, SLOT(OnSelectConnected()));
+
     mpHideSelectionSeparator = new QAction(this);
     mpHideSelectionSeparator->setSeparator(true);
 
@@ -207,7 +210,7 @@ void CSceneViewport::CreateContextMenu()
     connect(mpUnhideAllAction, SIGNAL(triggered()), this, SLOT(OnUnhideAll()));
 
     QList<QAction*> Actions;
-    Actions << mpToggleSelectAction
+    Actions << mpToggleSelectAction << mpSelectConnectedAction
             << mpHideSelectionSeparator << mpHideSelectionAction << mpHideUnselectedAction
             << mpHideHoverSeparator << mpHideHoverNodeAction << mpHideHoverTypeAction << mpHideHoverLayerAction
             << mpUnhideSeparator << mpUnhideAllAction;
@@ -218,6 +221,29 @@ void CSceneViewport::CreateContextMenu()
 QMouseEvent CSceneViewport::CreateMouseEvent()
 {
     return QMouseEvent(QEvent::MouseMove, mapFromGlobal(QCursor::pos()), Qt::NoButton, qApp->mouseButtons(), qApp->keyboardModifiers());
+}
+
+void CSceneViewport::FindConnectedObjects(u32 InstanceID, QList<u32>& rIDList)
+{
+    CScriptNode *pScript = mpScene->NodeForInstanceID(InstanceID);
+    CScriptObject *pInst = pScript->Object();
+    rIDList << InstanceID;
+
+    for (u32 iLink = 0; iLink < pInst->NumLinks(eOutgoing); iLink++)
+    {
+        CLink *pLink = pInst->Link(eOutgoing, iLink);
+
+        if (!rIDList.contains(pLink->ReceiverID()))
+            FindConnectedObjects(pLink->ReceiverID(), rIDList);
+    }
+
+    for (u32 iLink = 0; iLink < pInst->NumLinks(eIncoming); iLink++)
+    {
+        CLink *pLink = pInst->Link(eIncoming, iLink);
+
+        if (!rIDList.contains(pLink->SenderID()))
+            FindConnectedObjects(pLink->SenderID(), rIDList);
+    }
 }
 
 // ************ PROTECTED SLOTS ************
@@ -302,6 +328,7 @@ void CSceneViewport::ContextMenu(QContextMenuEvent* pEvent)
     bool IsScriptNode = (mpHoverNode && mpHoverNode->NodeType() == eScriptNode);
 
     mpToggleSelectAction->setVisible(HasHoverNode);
+    mpSelectConnectedAction->setVisible(IsScriptNode);
     mpHideSelectionSeparator->setVisible(HasHoverNode);
     mpHideSelectionAction->setVisible(HasSelection);
     mpHideUnselectedAction->setVisible(HasSelection);
@@ -383,6 +410,18 @@ void CSceneViewport::OnToggleSelect()
         mpEditor->DeselectNode(mpMenuNode);
     else
         mpEditor->SelectNode(mpMenuNode);
+}
+
+void CSceneViewport::OnSelectConnected()
+{
+    QList<u32> InstanceIDs;
+    FindConnectedObjects(static_cast<CScriptNode*>(mpMenuNode)->Object()->InstanceID(), InstanceIDs);
+
+    QList<CSceneNode*> Nodes;
+    foreach (u32 ID, InstanceIDs)
+        Nodes << mpScene->NodeForInstanceID(ID);
+
+    mpEditor->BatchSelectNodes(Nodes);
 }
 
 void CSceneViewport::OnHideSelection()

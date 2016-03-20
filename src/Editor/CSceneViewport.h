@@ -23,6 +23,7 @@ class CSceneViewport : public CBasicViewport
     // Context Menu
     QMenu *mpContextMenu;
     QAction *mpToggleSelectAction;
+    QAction *mpSelectConnectedAction;
     QAction *mpHideSelectionSeparator;
     QAction *mpHideSelectionAction;
     QAction *mpHideUnselectedAction;
@@ -68,6 +69,7 @@ public:
 protected:
     void CreateContextMenu();
     QMouseEvent CreateMouseEvent();
+    void FindConnectedObjects(u32 InstanceID, QList<u32>& rIDList);
 
 signals:
     void InputProcessed(const SRayIntersection& rkIntersect, QMouseEvent *pEvent);
@@ -85,6 +87,7 @@ protected slots:
 
     // Menu Actions
     void OnToggleSelect();
+    void OnSelectConnected();
     void OnHideSelection();
     void OnHideUnselected();
     void OnHideNode();

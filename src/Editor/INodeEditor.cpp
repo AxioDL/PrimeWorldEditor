@@ -135,12 +135,56 @@ void INodeEditor::SelectNode(CSceneNode *pNode)
     }
 }
 
+void INodeEditor::BatchSelectNodes(QList<CSceneNode*> Nodes)
+{
+    if (!mSelectionLocked)
+    {
+        foreach (CSceneNode *pNode, Nodes)
+        {
+            if (pNode->IsSelected())
+                Nodes.removeOne(pNode);
+        }
+
+        if (Nodes.size() > 0)
+        {
+            mUndoStack.beginMacro("Select");
+
+            foreach (CSceneNode *pNode, Nodes)
+                SelectNode(pNode);
+
+            mUndoStack.endMacro();
+        }
+    }
+}
+
 void INodeEditor::DeselectNode(CSceneNode *pNode)
 {
     if (!mSelectionLocked)
     {
         if (pNode->IsSelected())
             mUndoStack.push(new CDeselectNodeCommand(mpSelection, pNode));
+    }
+}
+
+void INodeEditor::BatchDeselectNodes(QList<CSceneNode*> Nodes)
+{
+    if (!mSelectionLocked)
+    {
+        foreach (CSceneNode *pNode, Nodes)
+        {
+            if (!pNode->IsSelected())
+                Nodes.removeOne(pNode);
+        }
+
+        if (Nodes.size() > 0)
+        {
+            mUndoStack.beginMacro("Deselect");
+
+            foreach (CSceneNode *pNode, Nodes)
+                DeselectNode(pNode);
+
+            mUndoStack.endMacro();
+        }
     }
 }
 
