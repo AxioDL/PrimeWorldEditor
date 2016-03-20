@@ -112,31 +112,33 @@ void CSceneViewport::CheckGizmoInput(const CRay& ray)
     else mGizmoHovering = false;
 }
 
-void CSceneViewport::SceneRayCast(const CRay& rkRay)
+SRayIntersection CSceneViewport::SceneRayCast(const CRay& rkRay)
 {
     if (mpEditor->Gizmo()->IsTransforming())
     {
         ResetHover();
-        return;
+        return SRayIntersection();
     }
 
-    mRayIntersection = mpScene->SceneRayCast(rkRay, mViewInfo);
+    SRayIntersection Intersect = mpScene->SceneRayCast(rkRay, mViewInfo);
 
-    if (mRayIntersection.Hit)
+    if (Intersect.Hit)
     {
         if (mpHoverNode)
             mpHoverNode->SetMouseHovering(false);
 
-        mpHoverNode = mRayIntersection.pNode;
+        mpHoverNode = Intersect.pNode;
         mpHoverNode->SetMouseHovering(true);
-        mHoverPoint = rkRay.PointOnRay(mRayIntersection.Distance);
+        mHoverPoint = rkRay.PointOnRay(Intersect.Distance);
     }
 
     else
     {
-        mHoverPoint = rkRay.PointOnRay(5.f);
+        mHoverPoint = rkRay.PointOnRay(10.f);
         ResetHover();
     }
+
+    return Intersect;
 }
 
 void CSceneViewport::ResetHover()
@@ -242,6 +244,8 @@ QMouseEvent CSceneViewport::CreateMouseEvent()
 void CSceneViewport::FindConnectedObjects(u32 InstanceID, bool SearchOutgoing, bool SearchIncoming, QList<u32>& rIDList)
 {
     CScriptNode *pScript = mpScene->NodeForInstanceID(InstanceID);
+    if (!pScript) return;
+
     CScriptObject *pInst = pScript->Object();
     rIDList << InstanceID;
 
@@ -287,7 +291,7 @@ void CSceneViewport::CheckUserInput()
             CheckGizmoInput(Ray);
 
         if (!mpEditor->Gizmo()->IsTransforming())
-            SceneRayCast(Ray);
+            mRayIntersection = SceneRayCast(Ray);
     }
 
     else
@@ -341,7 +345,7 @@ void CSceneViewport::Paint()
 void CSceneViewport::ContextMenu(QContextMenuEvent* pEvent)
 {
     // mpHoverNode is cleared during mouse input, so this call is necessary. todo: better way?
-    SceneRayCast(CastRay());
+    mRayIntersection = SceneRayCast(CastRay());
 
     // Set up actions
     TString NodeName;

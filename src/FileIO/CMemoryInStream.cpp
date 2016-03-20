@@ -6,7 +6,7 @@ CMemoryInStream::CMemoryInStream()
     mDataSize = 0;
     mPos = 0;
 }
-CMemoryInStream::CMemoryInStream(void *pData, unsigned long Size, IOUtil::EEndianness DataEndianness)
+CMemoryInStream::CMemoryInStream(const void *pData, unsigned long Size, IOUtil::EEndianness DataEndianness)
 {
     SetData(pData, Size, DataEndianness);
 }
@@ -15,9 +15,9 @@ CMemoryInStream::~CMemoryInStream()
 {
 }
 
-void CMemoryInStream::SetData(void *pData, unsigned long Size, IOUtil::EEndianness DataEndianness)
+void CMemoryInStream::SetData(const void *pData, unsigned long Size, IOUtil::EEndianness DataEndianness)
 {
-    mpDataStart = static_cast<char*>(pData);
+    mpDataStart = static_cast<const char*>(pData);
     mDataSize = Size;
     mPos = 0;
     mDataEndianness = DataEndianness;
@@ -91,12 +91,12 @@ void CMemoryInStream::SetSize(unsigned long Size)
         mPos = mDataSize;
 }
 
-void* CMemoryInStream::Data() const
+const void* CMemoryInStream::Data() const
 {
     return mpDataStart;
 }
 
-void* CMemoryInStream::DataAtPosition() const
+const void* CMemoryInStream::DataAtPosition() const
 {
     return mpDataStart + mPos;
 }

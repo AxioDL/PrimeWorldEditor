@@ -56,7 +56,7 @@ public:
         CScriptObject *pNewSender = mpArea->InstanceByID(NewSenderID);
 
         mSenderID = NewSenderID;
-        pOldSender->RemoveLink(eOutgoing, this);
+        if (pOldSender) pOldSender->RemoveLink(eOutgoing, this);
         pNewSender->AddLink(eOutgoing, this, Index);
     }
 
@@ -67,7 +67,7 @@ public:
         CScriptObject *pNewReceiver = mpArea->InstanceByID(NewReceiverID);
 
         mReceiverID = NewReceiverID;
-        pOldReceiver->RemoveLink(eIncoming, this);
+        if (pOldReceiver) pOldReceiver->RemoveLink(eIncoming, this);
         pNewReceiver->AddLink(eIncoming, this, Index);
     }
 

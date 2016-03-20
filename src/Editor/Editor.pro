@@ -155,7 +155,9 @@ HEADERS += \
     WorldEditor/CTemplateListView.h \
     CSelectionIterator.h \
     Undo/ObjReferences.h \
-    Undo/CCloneSelectionCommand.h
+    Undo/CCloneSelectionCommand.h \
+    CNodeCopyMimeData.h \
+    Undo/CPasteNodesCommand.h
 
 # Source Files
 SOURCES += \
@@ -213,7 +215,8 @@ SOURCES += \
     Undo/CEditLinkCommand.cpp \
     Undo/CDeleteSelectionCommand.cpp \
     Undo/CCreateInstanceCommand.cpp \
-    Undo/CCloneSelectionCommand.cpp
+    Undo/CCloneSelectionCommand.cpp \
+    Undo/CPasteNodesCommand.cpp
 
 # UI Files
 FORMS += \

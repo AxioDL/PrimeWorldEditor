@@ -64,5 +64,6 @@ SRayIntersection CRayCollisionTester::TestNodes(const SViewInfo& ViewInfo)
         }
     }
 
+    if (Result.Hit) Result.HitPoint = mRay.PointOnRay(Result.Distance);
     return Result;
 }

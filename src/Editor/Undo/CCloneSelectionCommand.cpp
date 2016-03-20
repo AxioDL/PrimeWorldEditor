@@ -40,6 +40,7 @@ void CCloneSelectionCommand::redo()
     QList<u32> ToCloneInstanceIDs;
     QList<u32> ClonedInstanceIDs;
 
+    // Clone nodes
     foreach (CSceneNode *pNode, ToClone)
     {
         mpEditor->NotifyNodeAboutToBeSpawned();
@@ -55,7 +56,6 @@ void CCloneSelectionCommand::redo()
         pCloneNode->SetPosition(pScript->LocalPosition());
         pCloneNode->SetRotation(pScript->LocalRotation());
         pCloneNode->SetScale(pScript->LocalScale());
-        pCloneNode->OnLoadFinished();
 
         ToCloneInstanceIDs << pInstance->InstanceID();
         ClonedInstanceIDs << pCloneInst->InstanceID();
@@ -91,6 +91,10 @@ void CCloneSelectionCommand::redo()
                 LinkedInstances << pCloneLink->Receiver();
         }
     }
+
+    // Call LoadFinished
+    foreach (CSceneNode *pNode, ClonedNodes)
+        pNode->OnLoadFinished();
 
     mpEditor->OnLinksModified(LinkedInstances);
     mpEditor->Selection()->SetSelectedNodes(mClonedNodes.DereferenceList());

@@ -6,15 +6,15 @@
 
 class CMemoryInStream : public IInputStream
 {
-    char *mpDataStart;
+    const char *mpDataStart;
     long mDataSize;
     long mPos;
 
 public:
     CMemoryInStream();
-    CMemoryInStream(void *pData, unsigned long Size, IOUtil::EEndianness dataEndianness);
+    CMemoryInStream(const void *pData, unsigned long Size, IOUtil::EEndianness dataEndianness);
     ~CMemoryInStream();
-    void SetData(void *pData, unsigned long Size, IOUtil::EEndianness dataEndianness);
+    void SetData(const void *pData, unsigned long Size, IOUtil::EEndianness dataEndianness);
 
     void ReadBytes(void *pDst, unsigned long Count);
     bool Seek(long offset, long Origin);
@@ -23,8 +23,8 @@ public:
     bool IsValid() const;
     long Size() const;
     void SetSize(unsigned long Size);
-    void* Data() const;
-    void* DataAtPosition() const;
+    const void* Data() const;
+    const void* DataAtPosition() const;
 };
 
 #endif // CMEMORYINSTREAM_H
