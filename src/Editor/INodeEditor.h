@@ -34,6 +34,7 @@ protected:
     bool mGizmoTransforming;
     ETransformSpace mTranslateSpace;
     ETransformSpace mRotateSpace;
+    enum { eNotCloning, eReadyToClone, eCloning } mCloneState;
 
     // Gizmo widgets
     QActionGroup *mpGizmoGroup;

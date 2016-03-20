@@ -99,13 +99,8 @@ void CPropertyStruct::Copy(const IProperty *pkProp)
 {
     const CPropertyStruct *pkSource = static_cast<const CPropertyStruct*>(pkProp);
 
-    for (auto it = mProperties.begin(); it != mProperties.end(); it++)
-        delete *it;
-
-    mProperties.resize(pkSource->mProperties.size());
-
     for (u32 iSub = 0; iSub < mProperties.size(); iSub++)
-        mProperties[iSub] = pkSource->mProperties[iSub]->Clone(Instance(), this);
+        mProperties[iSub]->Copy(pkSource->mProperties[iSub]);
 }
 
 bool CPropertyStruct::ShouldCook()
@@ -196,6 +191,15 @@ CPropertyStruct* CPropertyStruct::StructByIDString(const TIDString& rkStr) const
 }
 
 // ************ CArrayProperty ************
+void CArrayProperty::Copy(const IProperty *pkProp)
+{
+    const CArrayProperty *pkSource = static_cast<const CArrayProperty*>(pkProp);
+    Resize(pkSource->Count());
+
+    for (u32 iSub = 0; iSub < mProperties.size(); iSub++)
+        mProperties[iSub]->Copy(pkSource->mProperties[iSub]);
+}
+
 bool CArrayProperty::ShouldCook()
 {
     return (mpTemplate->CookPreference() == eNeverCook ? false : true);
