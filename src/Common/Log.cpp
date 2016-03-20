@@ -21,7 +21,24 @@ bool InitLog(const TString& rkFilename)
 {
     fopen_s(&gpLogFile, *rkFilename, "w");
     gLogFilename = rkFilename;
-    if (!gpLogFile) return false;
+
+    if (!gpLogFile)
+    {
+        TString FileName = rkFilename.GetFileName(false);
+        TString Extension = rkFilename.GetFileExtension();
+        int Num = 0;
+
+        while (!gpLogFile)
+        {
+            if (Num > 999) break;
+            TString NewFilename = FileName + "_" + TString::FromInt32(Num, 0, 10) + "." + Extension;
+            fopen_s(&gpLogFile, *NewFilename, "w");
+            Num++;
+        }
+
+        if (!gpLogFile)
+            return false;
+    }
 
     // Print initial message to log
     time_t RawTime;
