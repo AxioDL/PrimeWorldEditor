@@ -417,6 +417,11 @@
     <property name="title">
      <string>Edit</string>
     </property>
+    <addaction name="ActionCut"/>
+    <addaction name="ActionCopy"/>
+    <addaction name="ActionPaste"/>
+    <addaction name="ActionDelete"/>
+    <addaction name="separator"/>
     <addaction name="ActionSelectAll"/>
     <addaction name="ActionInvertSelection"/>
    </widget>
@@ -753,11 +758,38 @@
    </property>
   </action>
   <action name="ActionDelete">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Delete</string>
    </property>
    <property name="shortcut">
     <string>Del</string>
+   </property>
+  </action>
+  <action name="ActionCut">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Cut</string>
+   </property>
+  </action>
+  <action name="ActionCopy">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Copy</string>
+   </property>
+  </action>
+  <action name="ActionPaste">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Paste</string>
    </property>
   </action>
  </widget>

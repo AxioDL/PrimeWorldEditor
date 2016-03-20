@@ -47,7 +47,7 @@ class CDeleteSelectionCommand : public IUndoCommand
     QVector<SDeletedLink> mDeletedLinks;
 
 public:
-    CDeleteSelectionCommand(CWorldEditor *pEditor);
+    CDeleteSelectionCommand(CWorldEditor *pEditor, const QString& rkCommandName = "Delete");
     void undo();
     void redo();
     bool AffectsCleanState() const { return true; }

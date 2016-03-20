@@ -4,8 +4,8 @@
 #include <Core/Resource/Cooker/CScriptCooker.h>
 #include <Core/Resource/Factory/CScriptLoader.h>
 
-CDeleteSelectionCommand::CDeleteSelectionCommand(CWorldEditor *pEditor)
-    : IUndoCommand("Delete")
+CDeleteSelectionCommand::CDeleteSelectionCommand(CWorldEditor *pEditor, const QString& rkCommandName /*= "Delete"*/)
+    : IUndoCommand(rkCommandName)
     , mpEditor(pEditor)
 {
     QSet<CLink*> Links;

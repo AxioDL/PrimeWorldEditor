@@ -50,6 +50,7 @@ public:
     void closeEvent(QCloseEvent *pEvent);
     void SetArea(CWorld *pWorld, CGameArea *pArea);
     bool CheckUnsavedChanges();
+    bool HasAnyScriptNodesSelected() const;
 
     inline CGameArea* ActiveArea() const { return mpArea; }
     inline EGame CurrentGame() const { return mpArea ? mpArea->Version() : eUnknownVersion; }
@@ -59,6 +60,9 @@ public:
 public slots:
     virtual void NotifyNodeAboutToBeDeleted(CSceneNode *pNode);
 
+    void Cut();
+    void Copy();
+    void Paste();
     bool Save();
     void OnLinksModified(const QList<CScriptObject*>& rkInstances);
     void OnPropertyModified(IProperty *pProp);
@@ -77,6 +81,9 @@ protected:
     void GizmoModeChanged(CGizmo::EGizmoMode mode);
 
 private slots:
+    void OnClipboardDataModified();
+    void OnSelectionModified();
+
     void OnLinkButtonToggled(bool Enabled);
     void OnLinkClick(const SRayIntersection& rkIntersect);
     void OnLinkEnd();

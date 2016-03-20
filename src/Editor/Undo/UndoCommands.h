@@ -3,6 +3,7 @@
 
 #include "CCreateInstanceCommand.h"
 #include "CCloneSelectionCommand.h"
+#include "CPasteNodesCommand.h"
 
 #include "CTranslateNodeCommand.h"
 #include "CRotateNodeCommand.h"

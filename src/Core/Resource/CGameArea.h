@@ -69,6 +69,7 @@ public:
     void ClearScriptLayers();
     u32 TotalInstanceCount() const;
     CScriptObject* InstanceByID(u32 InstanceID);
+    u32 FindUnusedInstanceID(CScriptLayer *pLayer) const;
     CScriptObject* SpawnInstance(CScriptTemplate *pTemplate, CScriptLayer *pLayer,
                                  const CVector3f& rkPosition = CVector3f::skZero,
                                  const CQuaternion& rkRotation = CQuaternion::skIdentity,

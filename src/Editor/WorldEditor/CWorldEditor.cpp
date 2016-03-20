@@ -7,6 +7,7 @@
 #include "WInstancesTab.h"
 
 #include "Editor/CBasicViewport.h"
+#include "Editor/CNodeCopyMimeData.h"
 #include "Editor/CSelectionIterator.h"
 #include "Editor/UICommon.h"
 #include "Editor/PropertyEdit/CPropertyView.h"
@@ -20,6 +21,7 @@
 #include <Common/Log.h>
 
 #include <iostream>
+#include <QClipboard>
 #include <QComboBox>
 #include <QFontMetrics>
 #include <QMessageBox>
@@ -62,13 +64,12 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     mpTransformCombo->setMinimumWidth(75);
     ui->MainToolBar->addActions(mGizmoActions);
     ui->MainToolBar->addWidget(mpTransformCombo);
-    ui->menuEdit->insertActions(ui->ActionSelectAll, mUndoActions);
-    ui->menuEdit->insertSeparator(ui->ActionSelectAll);
+    ui->menuEdit->insertActions(ui->ActionCut, mUndoActions);
+    ui->menuEdit->insertSeparator(ui->ActionCut);
 
     // Initialize actions
     addAction(ui->ActionIncrementGizmo);
     addAction(ui->ActionDecrementGizmo);
-    addAction(ui->ActionDelete);
 
     QAction *pToolBarUndo = mUndoStack.createUndoAction(this);
     pToolBarUndo->setIcon(QIcon(":/icons/Undo.png"));
@@ -79,6 +80,15 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     ui->MainToolBar->insertAction(ui->ActionLink, pToolBarRedo);
     ui->MainToolBar->insertSeparator(ui->ActionLink);
 
+    ui->ActionCut->setAutoRepeat(false);
+    ui->ActionCut->setShortcut(QKeySequence::Cut);
+    ui->ActionCopy->setAutoRepeat(false);
+    ui->ActionCopy->setShortcut(QKeySequence::Copy);
+    ui->ActionPaste->setAutoRepeat(false);
+    ui->ActionPaste->setShortcut(QKeySequence::Paste);
+    ui->ActionDelete->setAutoRepeat(false);
+    ui->ActionDelete->setShortcut(QKeySequence::Delete);
+
     // Connect signals and slots
     connect(ui->MainViewport, SIGNAL(ViewportClick(SRayIntersection,QMouseEvent*)), this, SLOT(OnViewportClick(SRayIntersection,QMouseEvent*)));
     connect(ui->MainViewport, SIGNAL(InputProcessed(SRayIntersection,QMouseEvent*)), this, SLOT(OnViewportInputProcessed(SRayIntersection,QMouseEvent*)));
@@ -87,7 +97,7 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     connect(ui->MainViewport, SIGNAL(InputProcessed(SRayIntersection,QMouseEvent*)), this, SLOT(UpdateCursor()) );
     connect(ui->MainViewport, SIGNAL(GizmoMoved()), this, SLOT(OnGizmoMoved()));
     connect(ui->MainViewport, SIGNAL(CameraOrbit()), this, SLOT(UpdateCameraOrbit()));
-    connect(this, SIGNAL(SelectionModified()), this, SLOT(UpdateCameraOrbit()));
+    connect(this, SIGNAL(SelectionModified()), this, SLOT(OnSelectionModified()));
     connect(this, SIGNAL(SelectionTransformed()), this, SLOT(UpdateCameraOrbit()));
     connect(this, SIGNAL(PickModeEntered(QCursor)), this, SLOT(OnPickModeEnter(QCursor)));
     connect(this, SIGNAL(PickModeExited()), this, SLOT(OnPickModeExit()));
@@ -97,6 +107,10 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     connect(ui->ActionLink, SIGNAL(toggled(bool)), this, SLOT(OnLinkButtonToggled(bool)));
     connect(ui->ActionUnlink, SIGNAL(triggered()), this, SLOT(OnUnlinkClicked()));
     connect(ui->ActionDelete, SIGNAL(triggered()), this, SLOT(DeleteSelection()));
+    connect(ui->ActionCut, SIGNAL(triggered()), this, SLOT(Cut()));
+    connect(ui->ActionCopy, SIGNAL(triggered()), this, SLOT(Copy()));
+    connect(ui->ActionPaste, SIGNAL(triggered()), this, SLOT(Paste()));
+    connect(qApp->clipboard(), SIGNAL(dataChanged()), this, SLOT(OnClipboardDataModified()));
     connect(&mUndoStack, SIGNAL(indexChanged(int)), this, SLOT(OnUndoStackIndexChanged()));
 
     connect(ui->ActionSave, SIGNAL(triggered()), this, SLOT(Save()));
@@ -239,6 +253,17 @@ bool CWorldEditor::CheckUnsavedChanges()
     return OkToClear;
 }
 
+bool CWorldEditor::HasAnyScriptNodesSelected() const
+{
+    for (CSelectionIterator It(mpSelection); It; ++It)
+    {
+        if (It->NodeType() == eScriptNode)
+            return true;
+    }
+
+    return false;
+}
+
 CSceneViewport* CWorldEditor::Viewport() const
 {
     return ui->MainViewport;
@@ -251,6 +276,53 @@ void CWorldEditor::NotifyNodeAboutToBeDeleted(CSceneNode *pNode)
 
     if (ui->MainViewport->HoverNode() == pNode)
         ui->MainViewport->ResetHover();
+}
+
+void CWorldEditor::Cut()
+{
+    if (!mpSelection->IsEmpty())
+    {
+        Copy();
+        mUndoStack.push(new CDeleteSelectionCommand(this, "Cut"));
+    }
+}
+
+void CWorldEditor::Copy()
+{
+    if (!mpSelection->IsEmpty())
+    {
+        CNodeCopyMimeData *pMimeData = new CNodeCopyMimeData(this);
+        qApp->clipboard()->setMimeData(pMimeData);
+    }
+}
+
+void CWorldEditor::Paste()
+{
+    if (const CNodeCopyMimeData *pkMimeData =
+            qobject_cast<const CNodeCopyMimeData*>(qApp->clipboard()->mimeData()))
+    {
+        if (pkMimeData->Game() == CurrentGame())
+        {
+            CVector3f PastePoint;
+
+            if (ui->MainViewport->underMouse() && !ui->MainViewport->IsMouseInputActive())
+                PastePoint = ui->MainViewport->HoverPoint();
+
+            else
+            {
+                CRay Ray = ui->MainViewport->Camera().CastRay(CVector2f(0.f, 0.f));
+                SRayIntersection Intersect = ui->MainViewport->SceneRayCast(Ray);
+
+                if (Intersect.Hit)
+                    PastePoint = Intersect.HitPoint;
+                else
+                    PastePoint = Ray.PointOnRay(10.f);
+            }
+
+            CPasteNodesCommand *pCmd = new CPasteNodesCommand(this, ui->CreateTabContents->SpawnLayer(), PastePoint);
+            mUndoStack.push(pCmd);
+        }
+    }
 }
 
 bool CWorldEditor::Save()
@@ -390,9 +462,11 @@ void CWorldEditor::SetSelectionLayer(CScriptLayer *pLayer)
 
 void CWorldEditor::DeleteSelection()
 {
-    // note: make it only happen if there is a script node selected
-    CDeleteSelectionCommand *pCmd = new CDeleteSelectionCommand(this);
-    mUndoStack.push(pCmd);
+    if (HasAnyScriptNodesSelected())
+    {
+        CDeleteSelectionCommand *pCmd = new CDeleteSelectionCommand(this);
+        mUndoStack.push(pCmd);
+    }
 }
 
 void CWorldEditor::UpdateStatusBar()
@@ -574,6 +648,23 @@ void CWorldEditor::GizmoModeChanged(CGizmo::EGizmoMode mode)
 }
 
 // ************ PRIVATE SLOTS ************
+void CWorldEditor::OnClipboardDataModified()
+{
+    const QMimeData *pkMimeData = qApp->clipboard()->mimeData();
+    bool ValidMimeData = (qobject_cast<const CNodeCopyMimeData*>(pkMimeData) != nullptr);
+    ui->ActionPaste->setEnabled(ValidMimeData);
+}
+
+void CWorldEditor::OnSelectionModified()
+{
+    bool HasScriptNode = HasAnyScriptNodesSelected();
+    ui->ActionCut->setEnabled(HasScriptNode);
+    ui->ActionCopy->setEnabled(HasScriptNode);
+    ui->ActionDelete->setEnabled(HasScriptNode);
+
+    UpdateCameraOrbit();
+}
+
 void CWorldEditor::OnLinkButtonToggled(bool Enabled)
 {
     if (Enabled)

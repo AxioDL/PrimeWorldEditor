@@ -22,6 +22,9 @@ public:
     void SetEditor(CWorldEditor *pEditor);
     void SetMaster(CMasterTemplate *pMaster);
 
+    // Accessors
+    inline CScriptLayer* SpawnLayer() const { return mpSpawnLayer; }
+
 public slots:
     void OnLayersChanged();
     void OnSpawnLayerChanged(int LayerIndex);

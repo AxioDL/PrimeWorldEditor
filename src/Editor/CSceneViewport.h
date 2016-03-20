@@ -55,7 +55,7 @@ public:
     CSceneNode* HoverNode();
     CVector3f HoverPoint();
     void CheckGizmoInput(const CRay& ray);
-    void SceneRayCast(const CRay& ray);
+    SRayIntersection SceneRayCast(const CRay& ray);
     void ResetHover();
     bool IsHoveringGizmo();
 
