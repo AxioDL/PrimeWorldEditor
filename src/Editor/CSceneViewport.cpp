@@ -176,11 +176,9 @@ void CSceneViewport::CreateContextMenu()
 {
     mpContextMenu = new QMenu(this);
 
+    // Main context menu
     mpToggleSelectAction = new QAction("ToggleSelect", this);
     connect(mpToggleSelectAction, SIGNAL(triggered()), this, SLOT(OnToggleSelect()));
-
-    mpSelectConnectedAction = new QAction("Select connected", this);
-    connect(mpSelectConnectedAction, SIGNAL(triggered()), this, SLOT(OnSelectConnected()));
 
     mpHideSelectionSeparator = new QAction(this);
     mpHideSelectionSeparator->setSeparator(true);
@@ -210,12 +208,30 @@ void CSceneViewport::CreateContextMenu()
     connect(mpUnhideAllAction, SIGNAL(triggered()), this, SLOT(OnUnhideAll()));
 
     QList<QAction*> Actions;
-    Actions << mpToggleSelectAction << mpSelectConnectedAction
+    Actions << mpToggleSelectAction
             << mpHideSelectionSeparator << mpHideSelectionAction << mpHideUnselectedAction
             << mpHideHoverSeparator << mpHideHoverNodeAction << mpHideHoverTypeAction << mpHideHoverLayerAction
             << mpUnhideSeparator << mpUnhideAllAction;
 
     mpContextMenu->addActions(Actions);
+
+    // Select Connected menu
+    mpSelectConnectedMenu = new QMenu("Select connected...", this);
+
+    mpSelectConnectedOutgoingAction = new QAction("...via outgoing links", this);
+    connect(mpSelectConnectedOutgoingAction, SIGNAL(triggered()), this, SLOT(OnSelectConnected()));
+
+    mpSelectConnectedIncomingAction = new QAction("...via incoming links", this);
+    connect(mpSelectConnectedIncomingAction, SIGNAL(triggered()), this, SLOT(OnSelectConnected()));
+
+    mpSelectConnectedAllAction = new QAction("...via all links", this);
+    connect(mpSelectConnectedAllAction, SIGNAL(triggered()), this, SLOT(OnSelectConnected()));
+
+    QList<QAction*> SelectConnectedActions;
+    SelectConnectedActions << mpSelectConnectedOutgoingAction << mpSelectConnectedIncomingAction << mpSelectConnectedAllAction;
+    mpSelectConnectedMenu->addActions(SelectConnectedActions);
+
+    mpContextMenu->insertMenu(mpHideSelectionSeparator, mpSelectConnectedMenu);
 }
 
 QMouseEvent CSceneViewport::CreateMouseEvent()
@@ -223,26 +239,32 @@ QMouseEvent CSceneViewport::CreateMouseEvent()
     return QMouseEvent(QEvent::MouseMove, mapFromGlobal(QCursor::pos()), Qt::NoButton, qApp->mouseButtons(), qApp->keyboardModifiers());
 }
 
-void CSceneViewport::FindConnectedObjects(u32 InstanceID, QList<u32>& rIDList)
+void CSceneViewport::FindConnectedObjects(u32 InstanceID, bool SearchOutgoing, bool SearchIncoming, QList<u32>& rIDList)
 {
     CScriptNode *pScript = mpScene->NodeForInstanceID(InstanceID);
     CScriptObject *pInst = pScript->Object();
     rIDList << InstanceID;
 
-    for (u32 iLink = 0; iLink < pInst->NumLinks(eOutgoing); iLink++)
+    if (SearchOutgoing)
     {
-        CLink *pLink = pInst->Link(eOutgoing, iLink);
+        for (u32 iLink = 0; iLink < pInst->NumLinks(eOutgoing); iLink++)
+        {
+            CLink *pLink = pInst->Link(eOutgoing, iLink);
 
-        if (!rIDList.contains(pLink->ReceiverID()))
-            FindConnectedObjects(pLink->ReceiverID(), rIDList);
+            if (!rIDList.contains(pLink->ReceiverID()))
+                FindConnectedObjects(pLink->ReceiverID(), SearchOutgoing, SearchIncoming, rIDList);
+        }
     }
 
-    for (u32 iLink = 0; iLink < pInst->NumLinks(eIncoming); iLink++)
+    if (SearchIncoming)
     {
-        CLink *pLink = pInst->Link(eIncoming, iLink);
+        for (u32 iLink = 0; iLink < pInst->NumLinks(eIncoming); iLink++)
+        {
+            CLink *pLink = pInst->Link(eIncoming, iLink);
 
-        if (!rIDList.contains(pLink->SenderID()))
-            FindConnectedObjects(pLink->SenderID(), rIDList);
+            if (!rIDList.contains(pLink->SenderID()))
+                FindConnectedObjects(pLink->SenderID(), SearchOutgoing, SearchIncoming, rIDList);
+        }
     }
 }
 
@@ -328,7 +350,7 @@ void CSceneViewport::ContextMenu(QContextMenuEvent* pEvent)
     bool IsScriptNode = (mpHoverNode && mpHoverNode->NodeType() == eScriptNode);
 
     mpToggleSelectAction->setVisible(HasHoverNode);
-    mpSelectConnectedAction->setVisible(IsScriptNode);
+    mpSelectConnectedMenu->menuAction()->setVisible(IsScriptNode);
     mpHideSelectionSeparator->setVisible(HasHoverNode);
     mpHideSelectionAction->setVisible(HasSelection);
     mpHideUnselectedAction->setVisible(HasSelection);
@@ -415,13 +437,16 @@ void CSceneViewport::OnToggleSelect()
 void CSceneViewport::OnSelectConnected()
 {
     QList<u32> InstanceIDs;
-    FindConnectedObjects(static_cast<CScriptNode*>(mpMenuNode)->Object()->InstanceID(), InstanceIDs);
+    bool SearchOutgoing = (sender() == mpSelectConnectedOutgoingAction || sender() == mpSelectConnectedAllAction);
+    bool SearchIncoming = (sender() == mpSelectConnectedIncomingAction || sender() == mpSelectConnectedAllAction);
+    FindConnectedObjects(static_cast<CScriptNode*>(mpMenuNode)->Object()->InstanceID(), SearchOutgoing, SearchIncoming, InstanceIDs);
 
     QList<CSceneNode*> Nodes;
     foreach (u32 ID, InstanceIDs)
         Nodes << mpScene->NodeForInstanceID(ID);
 
-    mpEditor->BatchSelectNodes(Nodes);
+    bool ShouldClear = ((qApp->keyboardModifiers() & Qt::ControlModifier) == 0);
+    mpEditor->BatchSelectNodes(Nodes, ShouldClear, "Select Connected");
 }
 
 void CSceneViewport::OnHideSelection()

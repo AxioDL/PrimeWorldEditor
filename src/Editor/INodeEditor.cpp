@@ -135,19 +135,25 @@ void INodeEditor::SelectNode(CSceneNode *pNode)
     }
 }
 
-void INodeEditor::BatchSelectNodes(QList<CSceneNode*> Nodes)
+void INodeEditor::BatchSelectNodes(QList<CSceneNode*> Nodes, bool ClearExistingSelection, const QString& rkCommandName /*= "Select"*/)
 {
     if (!mSelectionLocked)
     {
-        foreach (CSceneNode *pNode, Nodes)
+        if (!ClearExistingSelection)
         {
-            if (pNode->IsSelected())
-                Nodes.removeOne(pNode);
+            foreach (CSceneNode *pNode, Nodes)
+            {
+                if (pNode->IsSelected())
+                    Nodes.removeOne(pNode);
+            }
         }
 
         if (Nodes.size() > 0)
         {
-            mUndoStack.beginMacro("Select");
+            mUndoStack.beginMacro(rkCommandName);
+
+            if (ClearExistingSelection)
+                ClearSelection();
 
             foreach (CSceneNode *pNode, Nodes)
                 SelectNode(pNode);
@@ -166,7 +172,7 @@ void INodeEditor::DeselectNode(CSceneNode *pNode)
     }
 }
 
-void INodeEditor::BatchDeselectNodes(QList<CSceneNode*> Nodes)
+void INodeEditor::BatchDeselectNodes(QList<CSceneNode*> Nodes, const QString& rkCommandName /*= "Deselect"*/)
 {
     if (!mSelectionLocked)
     {
@@ -178,7 +184,7 @@ void INodeEditor::BatchDeselectNodes(QList<CSceneNode*> Nodes)
 
         if (Nodes.size() > 0)
         {
-            mUndoStack.beginMacro("Deselect");
+            mUndoStack.beginMacro(rkCommandName);
 
             foreach (CSceneNode *pNode, Nodes)
                 DeselectNode(pNode);

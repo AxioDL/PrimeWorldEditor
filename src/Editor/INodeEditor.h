@@ -63,9 +63,9 @@ public:
     ETransformSpace CurrentTransformSpace();
 
     void SelectNode(CSceneNode *pNode);
-    void BatchSelectNodes(QList<CSceneNode*> Nodes);
+    void BatchSelectNodes(QList<CSceneNode*> Nodes, bool ClearExistingSelection, const QString& rkCommandName = "Select");
     void DeselectNode(CSceneNode *pNode);
-    void BatchDeselectNodes(QList<CSceneNode*> Nodes);
+    void BatchDeselectNodes(QList<CSceneNode*> Nodes, const QString& rkCommandName = "Deselect");
     void ClearSelection();
     void ClearAndSelectNode(CSceneNode *pNode);
     void SelectAll(FNodeFlags NodeFlags);
