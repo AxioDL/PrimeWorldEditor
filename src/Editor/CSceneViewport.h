@@ -23,7 +23,6 @@ class CSceneViewport : public CBasicViewport
     // Context Menu
     QMenu *mpContextMenu;
     QAction *mpToggleSelectAction;
-    QAction *mpSelectConnectedAction;
     QAction *mpHideSelectionSeparator;
     QAction *mpHideSelectionAction;
     QAction *mpHideUnselectedAction;
@@ -34,6 +33,11 @@ class CSceneViewport : public CBasicViewport
     QAction *mpUnhideSeparator;
     QAction *mpUnhideAllAction;
     CSceneNode *mpMenuNode;
+
+    QMenu *mpSelectConnectedMenu;
+    QAction *mpSelectConnectedOutgoingAction;
+    QAction *mpSelectConnectedIncomingAction;
+    QAction *mpSelectConnectedAllAction;
 
     // Link Line
     bool mLinkLineEnabled;
@@ -69,7 +73,7 @@ public:
 protected:
     void CreateContextMenu();
     QMouseEvent CreateMouseEvent();
-    void FindConnectedObjects(u32 InstanceID, QList<u32>& rIDList);
+    void FindConnectedObjects(u32 InstanceID, bool SearchOutgoing, bool SearchIncoming, QList<u32>& rIDList);
 
 signals:
     void InputProcessed(const SRayIntersection& rkIntersect, QMouseEvent *pEvent);
