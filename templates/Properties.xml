@@ -2572,7 +2572,7 @@
     <property ID="0x3A2D17E4" name="Knockback Resistance"/>
     <property ID="0x3A2D1AA4" name="WPSC"/>
     <property ID="0x3A32DFCB" name="Unknown"/>
-    <property ID="0x3A3E03BA" name="Unknown"/>
+    <property ID="0x3A3E03BA" name="Collision Scale"/>
     <property ID="0x3A43FB48" name="TrainTrackManagerStructA"/>
     <property ID="0x3A512115" name="STRG"/>
     <property ID="0x3A562EFF" name="Option 3"/>
@@ -3899,7 +3899,7 @@
     <property ID="0x56C0D040" name="Unknown"/>
     <property ID="0x56C192F3" name="ShockWaveInfo"/>
     <property ID="0x56C48141" name="BeastRiderData"/>
-    <property ID="0x56E3CEEF" name="Fade In Time"/>
+    <property ID="0x56E3CEEF" name="Fade Length"/>
     <property ID="0x56EB17BB" name="GenericCreatureStructE"/>
     <property ID="0x56F3C854" name="Unknown"/>
     <property ID="0x56F41CA8" name="Unknown"/>
@@ -8933,7 +8933,7 @@
     <property ID="0xC80BB6E4" name="Unknown"/>
     <property ID="0xC80BC7C5" name="Unknown"/>
     <property ID="0xC80E329B" name="Attack Time Variation"/>
-    <property ID="0xC80FC827" name="Multiplayer-related"/>
+    <property ID="0xC80FC827" name="Time"/>
     <property ID="0xC81690CB" name="Unknown"/>
     <property ID="0xC82395FA" name="CameraHintStructB"/>
     <property ID="0xC83E3228" name="Unknown"/>
@@ -10227,7 +10227,7 @@
     <property ID="0xE578EFC6" name="Unknown"/>
     <property ID="0xE57CA27C" name="Unknown"/>
     <property ID="0xE5839374" name="Unknown"/>
-    <property ID="0xE585F166" name="Unknown"/>
+    <property ID="0xE585F166" name="Spawn Delay"/>
     <property ID="0xE589A4F9" name="Unknown"/>
     <property ID="0xE58A4113" name="Unknown"/>
     <property ID="0xE58D6C84" name="Unknown"/>

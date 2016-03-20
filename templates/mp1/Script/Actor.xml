@@ -19,7 +19,7 @@
         <property ID="0x0E" name="Unknown 5" type="bool"/>
         <property ID="0x0F" name="Unknown 6" type="bool"/>
         <property ID="0x10" name="Unknown 7" type="bool"/>
-        <property ID="0x11" name="Unknown 8" type="bool"/>
+        <property ID="0x11" name="Active" type="bool"/>
         <property ID="0x12" name="Unknown 9" type="long"/>
         <property ID="0x13" name="Unknown 10" type="float"/>
         <property ID="0x14" name="Unknown 11" type="bool"/>

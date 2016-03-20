@@ -6,19 +6,19 @@
         <property ID="0x01" name="Position" type="vector3f"/>
         <property ID="0x02" name="Rotation" type="vector3f"/>
         <property ID="0x03" name="Scale" type="vector3f"/>
-        <property ID="0x04" name="Hitbox size" type="vector3f"/>
-        <property ID="0x05" name="Scan position" type="vector3f"/>
-        <enum ID="0x06" name="Pickup Type" template="Enums/InventorySlot.xml"/>
+        <property ID="0x04" name="Collision Scale" type="vector3f"/>
+        <property ID="0x05" name="Scan/Collision Offset" type="vector3f"/>
+        <enum ID="0x06" name="Item" template="Enums/Item.xml"/>
         <property ID="0x07" name="Capacity" type="long"/>
         <property ID="0x08" name="Amount" type="long"/>
-        <property ID="0x09" name="Drop rate" type="float"/>
-        <property ID="0x0A" name="Life time" type="float"/>
-        <property ID="0x0B" name="Spawn delay" type="float"/>
+        <property ID="0x09" name="Drop Rate" type="float"/>
+        <property ID="0x0A" name="Life Time" type="float"/>
+        <property ID="0x0B" name="Fade Length" type="float"/>
         <property ID="0x0C" name="Model" type="file" extensions="CMDL"/>
         <property ID="0x0D" name="AnimationParameters" type="character"/>
         <struct ID="0x0E" name="ActorParameters" template="Structs/ActorParameters.xml"/>
         <property ID="0x0F" name="Active" type="bool"/>
-        <property ID="0x10" name="Unknown 1" type="float"/>
+        <property ID="0x10" name="Spawn Delay" type="float"/>
         <property ID="0x11" name="Particle" type="file" extensions="PART"/>
     </properties>
     <states/>

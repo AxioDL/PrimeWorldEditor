@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<enum name="InventorySlot">
+<enum name="Item">
     <enumerators>
         <enumerator ID="0x00" name="Power Beam"/>
         <enumerator ID="0x01" name="Ice Beam"/>
