@@ -1,6 +1,7 @@
 #include "CStartWindow.h"
 #include "ui_CStartWindow.h"
 #include "CErrorLogDialog.h"
+#include "CPakToolDialog.h"
 #include "UICommon.h"
 
 #include "Editor/ModelEditor/CModelEditorWindow.h"
@@ -43,8 +44,15 @@ void CStartWindow::on_actionOpen_MLVL_triggered()
 
     if (mpWorldEditor->close())
     {
-        gResCache.SetFolder(TString(WorldFile.toStdString()).GetFileDirectory());
+        TString Dir = TO_TSTRING(WorldFile).GetFileDirectory();
+        gResCache.SetFolder(Dir);
         mpWorld = gResCache.GetResource(WorldFile.toStdString());
+
+        QString QStrDir = TO_QSTRING(Dir);
+        mpWorldEditor->SetWorldDir(QStrDir);
+        mpWorldEditor->SetPakFileList(CPakToolDialog::TargetListForFolder(QStrDir));
+        mpWorldEditor->SetPakTarget(CPakToolDialog::TargetPakForFolder(QStrDir));
+
         FillWorldUI();
     }
 }
@@ -212,44 +220,15 @@ void CStartWindow::on_actionExtract_PAK_triggered()
     QString Pak = QFileDialog::getOpenFileName(this, "Select pak", "", "Package (*.pak)");
 
     if (!Pak.isEmpty())
-        ExtractPackage(Pak, true);
-}
-
-void CStartWindow::ExtractPackage(const QString& rkPath, bool PopupOnComplete)
-{
-    // Not the ideal way to be handling this but it's the easiest and it'll be a good holdover until later
-    QProcess PakTool(this);
-
-    // Dump assets
-    QStringList PakToolArgs;
-    PakToolArgs << "-x" << rkPath;
-
-    QDialog Dialog;
-    QLayout *pLayout = new QVBoxLayout(&Dialog);
-    pLayout->addWidget(new QLabel("Extracting...", &Dialog));
-    Dialog.setWindowFlags(Qt::Window | Qt::WindowTitleHint);
-
-    connect(&PakTool, SIGNAL(finished(int)), &Dialog, SLOT(done(int)));
-    PakTool.start("PakTool.exe", PakToolArgs);
-    Dialog.exec();
-    int Result = PakTool.exitCode();
-
-    // Dump list
-    if (Result == 0)
     {
-        PakToolArgs.clear();
-        PakToolArgs << "-d" << rkPath;
-        PakTool.start("PakTool.exe", PakToolArgs);
-        PakTool.waitForFinished();
-        Result = PakTool.exitCode();
-    }
+        CPakToolDialog::EResult Result = CPakToolDialog::Extract(Pak);
 
-    // Results
-    if (PopupOnComplete)
-    {
-        if (Result == 0)
+        if (Result == CPakToolDialog::eSuccess)
+            Result = CPakToolDialog::DumpList(Pak);
+
+        if (Result == CPakToolDialog::eSuccess)
             QMessageBox::information(this, "Success", "Extracted pak successfully!");
-        else
-            QMessageBox::warning(this, "Error", "Couldn't extract pak");
+        else if (Result == CPakToolDialog::eError)
+            QMessageBox::warning(this, "Error", "Unable to extract pak.");
     }
 }

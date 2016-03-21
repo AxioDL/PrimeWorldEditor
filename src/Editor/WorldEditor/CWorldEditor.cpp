@@ -2,12 +2,14 @@
 #include "ui_CWorldEditor.h"
 #include "CConfirmUnlinkDialog.h"
 #include "CLayerEditor.h"
+#include "CRepackInfoDialog.h"
 #include "CTemplateMimeData.h"
 #include "WModifyTab.h"
 #include "WInstancesTab.h"
 
 #include "Editor/CBasicViewport.h"
 #include "Editor/CNodeCopyMimeData.h"
+#include "Editor/CPakToolDialog.h"
 #include "Editor/CSelectionIterator.h"
 #include "Editor/UICommon.h"
 #include "Editor/PropertyEdit/CPropertyView.h"
@@ -114,6 +116,7 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     connect(&mUndoStack, SIGNAL(indexChanged(int)), this, SLOT(OnUndoStackIndexChanged()));
 
     connect(ui->ActionSave, SIGNAL(triggered()), this, SLOT(Save()));
+    connect(ui->ActionSaveAndRepack, SIGNAL(triggered()), this, SLOT(SaveAndRepack()));
 
     ui->CreateTabEditorProperties->SyncToEditor(this);
     ui->ModifyTabEditorProperties->SyncToEditor(this);
@@ -345,6 +348,37 @@ bool CWorldEditor::Save()
         QMessageBox::warning(this, "Error", "Unable to save error; couldn't open output file " + TO_QSTRING(Out));
         return false;
     }
+}
+
+bool CWorldEditor::SaveAndRepack()
+{
+    if (!Save()) return false;
+
+    if (!CanRepack())
+    {
+        CRepackInfoDialog Dialog(mWorldDir, mPakFileList, mPakTarget, this);
+        Dialog.exec();
+
+        if (Dialog.result() == QDialog::Accepted)
+        {
+            SetWorldDir(Dialog.TargetFolder());
+            SetPakFileList(Dialog.ListFile());
+            SetPakTarget(Dialog.OutputPak());
+            if (!CanRepack()) return false;
+        }
+
+        else return false;
+    }
+
+    QString PakOut;
+    CPakToolDialog::EResult Result = CPakToolDialog::Repack(CurrentGame(), mPakTarget, mPakFileList, mWorldDir, &PakOut);
+
+    if (Result == CPakToolDialog::eError)
+        QMessageBox::warning(this, "Error", "Failed to repack!");
+    else if (Result == CPakToolDialog::eSuccess)
+        QMessageBox::information(this, "Success", "Successfully saved pak: " + PakOut);
+
+    return (Result == CPakToolDialog::eSuccess);
 }
 
 void CWorldEditor::OnLinksModified(const QList<CScriptObject*>& rkInstances)

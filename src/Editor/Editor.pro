@@ -157,7 +157,9 @@ HEADERS += \
     Undo/ObjReferences.h \
     Undo/CCloneSelectionCommand.h \
     CNodeCopyMimeData.h \
-    Undo/CPasteNodesCommand.h
+    Undo/CPasteNodesCommand.h \
+    CPakToolDialog.h \
+    WorldEditor/CRepackInfoDialog.h
 
 # Source Files
 SOURCES += \
@@ -216,7 +218,8 @@ SOURCES += \
     Undo/CDeleteSelectionCommand.cpp \
     Undo/CCreateInstanceCommand.cpp \
     Undo/CCloneSelectionCommand.cpp \
-    Undo/CPasteNodesCommand.cpp
+    Undo/CPasteNodesCommand.cpp \
+    WorldEditor/CRepackInfoDialog.cpp
 
 # UI Files
 FORMS += \
@@ -235,4 +238,5 @@ FORMS += \
     WorldEditor/CPoiMapEditDialog.ui \
     WorldEditor/CTemplateEditDialog.ui \
     WorldEditor/CLinkDialog.ui \
-    WorldEditor/CSelectInstanceDialog.ui
+    WorldEditor/CSelectInstanceDialog.ui \
+    WorldEditor/CRepackInfoDialog.ui
