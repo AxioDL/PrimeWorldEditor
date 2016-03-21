@@ -190,6 +190,8 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
     if (pOut)
     {
         pOut->setFocusPolicy(Qt::StrongFocus);
+        QSize Size = mpModel->data(rkIndex, Qt::SizeHintRole).toSize();
+        pOut->setFixedHeight(Size.height());
     }
 
     return pOut;
