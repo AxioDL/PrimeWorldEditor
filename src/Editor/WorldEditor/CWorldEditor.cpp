@@ -227,6 +227,9 @@ void CWorldEditor::SetArea(CWorld *pWorld, CGameArea *pArea)
         Log::Write("Loaded level: World " + mpWorld->Source() + " / Area " + mpArea->Source() + " (" + TO_TSTRING(LevelName) + ")");
     }
 
+    // Update paste action
+    OnClipboardDataModified();
+
     // Emit signals
     emit LayersModified();
 }
@@ -650,8 +653,9 @@ void CWorldEditor::GizmoModeChanged(CGizmo::EGizmoMode mode)
 // ************ PRIVATE SLOTS ************
 void CWorldEditor::OnClipboardDataModified()
 {
-    const QMimeData *pkMimeData = qApp->clipboard()->mimeData();
-    bool ValidMimeData = (qobject_cast<const CNodeCopyMimeData*>(pkMimeData) != nullptr);
+    const QMimeData *pkClipboardMimeData = qApp->clipboard()->mimeData();
+    const CNodeCopyMimeData *pkMimeData = qobject_cast<const CNodeCopyMimeData*>(pkClipboardMimeData);
+    bool ValidMimeData = (pkMimeData && pkMimeData->Game() == CurrentGame());
     ui->ActionPaste->setEnabled(ValidMimeData);
 }
 
