@@ -18,8 +18,6 @@ void QtLogRedirect(QtMsgType Type, const QMessageLogContext& /*rkContext*/, cons
     case QtCriticalMsg: Log::Write(TString("Qt Critical: ") + TO_TSTRING(rkMessage)); break;
     case QtFatalMsg:    Log::Write(TString("Qt Fatal: ") + TO_TSTRING(rkMessage)); break;
     }
-
-    std::cout << TO_TSTRING(rkMessage) << "\n";
 }
 
 int main(int argc, char *argv[])

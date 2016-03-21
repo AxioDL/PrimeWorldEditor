@@ -1,4 +1,5 @@
 #include "CPakFile.h"
+#include <Common/Log.h>
 #include <Common/types.h>
 #include <FileIO/CMemoryInStream.h>
 #include <FileIO/FileIO.h>
@@ -97,7 +98,6 @@ std::vector<u8>* CPakFile::getResource(SResInfo& info)
         bool dcmp = decompress(cmp_buf.data(), cmp_buf.size(), res_buf->data(), res_buf->size());
 
         if (!dcmp) {
-            std::cout << "Error: Unable to decompress " << info.resType.ToString() << " 0x" << std::hex << std::setw(8) << std::setfill('0') << info.resID << std::dec << "\n";
             delete res_buf;
             return nullptr;
         }
@@ -136,7 +136,7 @@ bool CPakFile::decompress(u8 *src, u32 src_len, u8 *dst, u32 dst_len)
         }
 
         if ((ret != Z_OK) && (ret != Z_STREAM_END)) {
-            std::cout << "zlib error: " << std::dec << ret << "\n";
+            Log::Error("zlib error: " + TString::FromInt32(ret, 0, 10));
             return false;
         }
 
@@ -164,7 +164,7 @@ bool CPakFile::decompress(u8 *src, u32 src_len, u8 *dst, u32 dst_len)
         }
 
         if (ret != LZO_E_OK) {
-            std::cout << "LZO error: " << std::dec << ret << "\n";
+            Log::Error("LZO error: " + TString::FromInt32(ret, 0, 10));
             return false;
         }
 

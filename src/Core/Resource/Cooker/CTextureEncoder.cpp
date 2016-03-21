@@ -1,5 +1,5 @@
 #include "CTextureEncoder.h"
-#include <iostream>
+#include <Common/Log.h>
 
 CTextureEncoder::CTextureEncoder()
 {
@@ -62,7 +62,7 @@ void CTextureEncoder::EncodeTXTR(IOutputStream& TXTR, CTexture *pTex)
 {
     if (pTex->mTexelFormat != eDXT1)
     {
-        std::cout << "\rError: Unsupported texel format for decoding\n";
+        Log::Error("Unsupported texel format for decoding");
         return;
     }
 
