@@ -43,5 +43,6 @@
         <file>icons/Edit_16px.png</file>
         <file>icons/Edit_24px.png</file>
         <file>icons/Edit_32px.png</file>
+        <file>icons/SaveAndRepack_32px.png</file>
     </qresource>
 </RCC>

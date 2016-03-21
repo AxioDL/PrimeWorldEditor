@@ -19,6 +19,8 @@
 #include <Core/SRayIntersection.h>
 
 #include <QComboBox>
+#include <QDir>
+#include <QFile>
 #include <QList>
 #include <QMainWindow>
 #include <QTimer>
@@ -44,6 +46,10 @@ class CWorldEditor : public INodeEditor
     CScriptObject *mpNewLinkSender;
     CScriptObject *mpNewLinkReceiver;
 
+    QString mWorldDir;
+    QString mPakFileList;
+    QString mPakTarget;
+
 public:
     explicit CWorldEditor(QWidget *parent = 0);
     ~CWorldEditor();
@@ -57,6 +63,12 @@ public:
     inline CLinkDialog* LinkDialog() const { return mpLinkDialog; }
     CSceneViewport* Viewport() const;
 
+    inline void SetWorldDir(QString WorldDir)       { mWorldDir = (QDir(WorldDir).exists() ? WorldDir : ""); }
+    inline void SetPakFileList(QString FileList)    { mPakFileList = (QFile::exists(FileList) ? FileList : ""); }
+    inline void SetPakTarget(QString PakTarget)     { mPakTarget = (QFile::exists(PakTarget) ? PakTarget : ""); }
+
+    inline bool CanRepack() const { return !mWorldDir.isEmpty() && !mPakFileList.isEmpty() && !mPakTarget.isEmpty(); }
+
 public slots:
     virtual void NotifyNodeAboutToBeDeleted(CSceneNode *pNode);
 
@@ -64,6 +76,7 @@ public slots:
     void Copy();
     void Paste();
     bool Save();
+    bool SaveAndRepack();
     void OnLinksModified(const QList<CScriptObject*>& rkInstances);
     void OnPropertyModified(IProperty *pProp);
     void SetSelectionActive(bool Active);

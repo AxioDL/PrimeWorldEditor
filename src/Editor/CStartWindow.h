@@ -44,7 +44,6 @@ private slots:
 private:
     void FillWorldUI();
     void FillAreaUI();
-    void ExtractPackage(const QString& rkPath, bool PopupOnComplete);
 };
 
 #endif // PWESTARTWINDOW_H
