@@ -55,6 +55,7 @@ void CPasteNodesCommand::redo()
             CMemoryInStream In(rkNode.InstanceData.data(), rkNode.InstanceData.size(), IOUtil::eBigEndian);
             CScriptObject *pInstance = CScriptLoader::LoadInstance(In, pArea, mpLayer, pArea->Version(), true);
             pArea->AddInstanceToArea(pInstance);
+            mpLayer->AddInstance(pInstance);
 
             pInstance->SetPosition(rkNode.Position + mPastePoint);
             pInstance->SetRotation(rkNode.Rotation.ToEuler());
@@ -107,7 +108,9 @@ void CPasteNodesCommand::redo()
                     CScriptObject *pReceiver = pLink->Receiver();
                     if (pSender) pSender->RemoveLink(eOutgoing, pLink);
                     if (pReceiver) pReceiver->RemoveLink(eIncoming, pLink);
+
                     delete pLink;
+                    iLink--;
                 }
             }
         }
