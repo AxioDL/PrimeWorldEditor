@@ -34,6 +34,8 @@ void CPasteNodesCommand::undo()
         mpEditor->NotifyNodeDeleted();
     }
 
+    mpEditor->OnLinksModified(mLinkedInstances.DereferenceList());
+    mLinkedInstances.clear();
     mPastedNodes.clear();
 }
 
@@ -112,6 +114,9 @@ void CPasteNodesCommand::redo()
                     delete pLink;
                     iLink--;
                 }
+
+                else
+                    mLinkedInstances << pLink->Receiver();
             }
         }
     }
@@ -123,5 +128,7 @@ void CPasteNodesCommand::redo()
         pNode->OnLoadFinished();
 
     mpEditor->Selection()->SetSelectedNodes(PastedNodes);
+
+    mpEditor->OnLinksModified(mLinkedInstances.DereferenceList());
     mPastedNodes = PastedNodes;
 }

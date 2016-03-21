@@ -247,6 +247,9 @@ void CScriptNode::DrawSelection()
         CGraphics::sMVPBlock.ModelMatrix = Transform.ToMatrix4f();
         CGraphics::UpdateMVPBlock();
 
+        CGraphics::sPixelBlock.TintColor = CColor::skWhite;
+        CGraphics::UpdatePixelBlock();
+
         DrawRotationArrow();
     }
 

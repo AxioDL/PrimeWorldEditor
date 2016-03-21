@@ -10,7 +10,21 @@ CCloneSelectionCommand::CCloneSelectionCommand(INodeEditor *pEditor)
     for (CSelectionIterator It(mpEditor->Selection()); It; ++It)
     {
         if (It->NodeType() == eScriptNode)
+        {
             mNodesToClone << *It;
+
+            // Fetch linked objects
+            CScriptNode *pScript = static_cast<CScriptNode*>(*It);
+            CScriptObject *pInst = pScript->Object();
+
+            for (u32 iLink = 0; iLink < pInst->NumLinks(eOutgoing); iLink++)
+            {
+                CScriptNode *pNode = mpEditor->Scene()->NodeForObject(pInst->Link(eOutgoing, iLink)->Receiver());
+
+                if (!pNode->IsSelected())
+                    mLinkedInstances << pNode->Object();
+            }
+        }
     }
 }
 
@@ -30,6 +44,7 @@ void CCloneSelectionCommand::undo()
     }
 
     mClonedNodes.clear();
+    mpEditor->OnLinksModified(mLinkedInstances.DereferenceList());
     mpEditor->Selection()->SetSelectedNodes(mOriginalSelection.DereferenceList());
 }
 
@@ -65,8 +80,6 @@ void CCloneSelectionCommand::redo()
     }
 
     // Clone outgoing links from source object; incoming ones are discarded
-    QList<CScriptObject*> LinkedInstances;
-
     for (int iNode = 0; iNode < ClonedNodes.size(); iNode++)
     {
         CScriptObject *pSrc = static_cast<CScriptNode*>(ToClone[iNode])->Object();
@@ -84,11 +97,6 @@ void CCloneSelectionCommand::redo()
             CLink *pCloneLink = new CLink(pSrcLink->Area(), pSrcLink->State(), pSrcLink->Message(), pClone->InstanceID(), ReceiverID);
             pCloneLink->Sender()->AddLink(eOutgoing, pCloneLink);
             pCloneLink->Receiver()->AddLink(eIncoming, pCloneLink);
-
-            if (!LinkedInstances.contains(pCloneLink->Sender()))
-                LinkedInstances << pCloneLink->Sender();
-            if (!LinkedInstances.contains(pCloneLink->Receiver()))
-                LinkedInstances << pCloneLink->Receiver();
         }
     }
 
@@ -96,6 +104,6 @@ void CCloneSelectionCommand::redo()
     foreach (CSceneNode *pNode, ClonedNodes)
         pNode->OnLoadFinished();
 
-    mpEditor->OnLinksModified(LinkedInstances);
+    mpEditor->OnLinksModified(mLinkedInstances.DereferenceList());
     mpEditor->Selection()->SetSelectedNodes(mClonedNodes.DereferenceList());
 }

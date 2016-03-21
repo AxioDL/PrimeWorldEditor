@@ -11,6 +11,7 @@ class CCloneSelectionCommand : public IUndoCommand
     CNodePtrList mOriginalSelection;
     CNodePtrList mNodesToClone;
     CNodePtrList mClonedNodes;
+    CInstancePtrList mLinkedInstances;
 
 public:
     CCloneSelectionCommand(INodeEditor *pEditor);
