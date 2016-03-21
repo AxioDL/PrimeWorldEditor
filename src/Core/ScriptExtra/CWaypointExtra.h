@@ -29,6 +29,7 @@ public:
     bool IsPathLink(CLink *pLink);
     void GetLinkedWaypoints(std::list<CWaypointExtra*>& rOut);
 
+    void OnTransformed();
     void LinksModified();
     void AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo);
     void Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& ViewInfo);

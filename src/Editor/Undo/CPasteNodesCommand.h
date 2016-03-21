@@ -15,6 +15,7 @@ class CPasteNodesCommand : public IUndoCommand
     CNodeCopyMimeData *mpMimeData;
     CNodePtrList mPastedNodes;
     CNodePtrList mOriginalSelection;
+    CInstancePtrList mLinkedInstances;
 
 public:
     CPasteNodesCommand(CWorldEditor *pEditor, CScriptLayer *pLayer, CVector3f PastePoint);

@@ -138,6 +138,17 @@ void CWaypointExtra::GetLinkedWaypoints(std::list<CWaypointExtra*>& rOut)
     }
 }
 
+void CWaypointExtra::OnTransformed()
+{
+    for (u32 iLink = 0; iLink < mLinks.size(); iLink++)
+    {
+        SWaypointLink& rLink = mLinks[iLink];
+        rLink.LineAABB = CAABox::skInfinite;
+        rLink.LineAABB.ExpandBounds(AbsolutePosition());
+        rLink.LineAABB.ExpandBounds(rLink.pWaypoint->AbsolutePosition());
+    }
+}
+
 void CWaypointExtra::LinksModified()
 {
     BuildLinks();
