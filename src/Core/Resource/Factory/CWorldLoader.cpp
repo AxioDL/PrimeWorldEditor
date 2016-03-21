@@ -138,7 +138,7 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& MLVL)
             }
 
             u32 NumCoordinates = MLVL.ReadLong();
-            if (NumCoordinates != 4) std::cout << "\rError: Dock coordinate count not 4\n";
+            if (NumCoordinates != 4) Log::Error("Dock coordinate count not 4");
 
             for (u32 iCoord = 0; iCoord < NumCoordinates; iCoord++)
                 pDock->DockCoordinates[iCoord] = CVector3f(MLVL);

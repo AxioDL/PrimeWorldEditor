@@ -1,5 +1,5 @@
 #include "CFramebuffer.h"
-#include <iostream>
+#include <Common/Log.h>
 
 CFramebuffer::CFramebuffer()
 {
@@ -58,7 +58,7 @@ void CFramebuffer::Init()
         mStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 
         if (mStatus != GL_FRAMEBUFFER_COMPLETE)
-            std::cout << "\rError: Framebuffer not complete\n";
+            Log::Error("Framebuffer not complete");
 
         mInitialized = true;
     }

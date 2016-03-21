@@ -277,6 +277,6 @@ void CStructTemplate::DebugPrintProperties(TString base)
             tmp2->DebugPrintProperties(base);
         }
         else
-            std::cout << base << tmp->Name() << "\n";
+            Log::Write(base + tmp->Name());
     }
 }
