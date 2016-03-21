@@ -21,7 +21,7 @@ public:
     void SetPropertyModel(CPropertyModel *pModel);
     void SetEditor(CWorldEditor *pEditor);
 
-    virtual QWidget* createEditor(QWidget *pParent, const QStyleOptionViewItem& rkOption, const QModelIndex &rkIndex) const;
+    virtual QWidget* createEditor(QWidget *pParent, const QStyleOptionViewItem& rkOption, const QModelIndex& rkIndex) const;
     virtual void setEditorData(QWidget *pEditor, const QModelIndex &rkIndex) const;
     virtual void setModelData(QWidget *pEditor, QAbstractItemModel *pModel, const QModelIndex &rkIndex) const;
     bool eventFilter(QObject *pObject, QEvent *pEvent);
