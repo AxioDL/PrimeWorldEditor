@@ -30,6 +30,7 @@ CPropertyDelegate::CPropertyDelegate(QObject *pParent /*= 0*/)
     , mInRelayWidgetEdit(false)
     , mEditInProgress(false)
     , mRelaysBlocked(false)
+    , mUpdatingModel(false)
 {
 }
 
@@ -196,6 +197,8 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
 
 void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkIndex) const
 {
+    if (mUpdatingModel) return;
+
     BlockRelays(true);
     mEditInProgress = false; // fixes case where user does undo mid-edit
 
@@ -351,6 +354,7 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
 {
     if (!mpModel) return;
     if (!pEditor) return;
+    mUpdatingModel = true;
 
     IProperty *pProp = mpModel->PropertyForIndex(rkIndex, false);
     IPropertyValue *pOldValue = nullptr;
@@ -531,6 +535,8 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
         else
             delete pOldValue;
     }
+
+    mUpdatingModel = false;
 }
 
 bool CPropertyDelegate::eventFilter(QObject *pObject, QEvent *pEvent)

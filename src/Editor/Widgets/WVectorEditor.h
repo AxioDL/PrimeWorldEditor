@@ -39,7 +39,8 @@ public:
     void SetDefaultValue(double value);
     void SetSingleStep(double step);
     void SetLabelsHidden(bool hidden);
-    bool IsBeingDragged();
+    bool IsBeingDragged() const;
+    bool IsBeingEdited() const;
 
 public slots:
     void SetX(double x);
