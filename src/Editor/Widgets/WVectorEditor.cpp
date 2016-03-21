@@ -7,6 +7,7 @@ WVectorEditor::WVectorEditor(QWidget *pParent) : QWidget(pParent)
     mpSpinBoxX->setValue(0.0);
     mpSpinBoxY->setValue(0.0);
     mpSpinBoxZ->setValue(0.0);
+    mEditing = false;
 }
 
 WVectorEditor::WVectorEditor(const CVector3f& value, QWidget *pParent) : QWidget(pParent)
@@ -16,6 +17,7 @@ WVectorEditor::WVectorEditor(const CVector3f& value, QWidget *pParent) : QWidget
     mpSpinBoxX->setValue((double) value.x);
     mpSpinBoxY->setValue((double) value.y);
     mpSpinBoxZ->setValue((double) value.z);
+    mEditing = false;
 }
 
 WVectorEditor::~WVectorEditor()
@@ -94,9 +96,14 @@ void WVectorEditor::SetLabelsHidden(bool hidden)
     }
 }
 
-bool WVectorEditor::IsBeingDragged()
+bool WVectorEditor::IsBeingDragged() const
 {
     return (mpSpinBoxX->IsBeingDragged() || mpSpinBoxY->IsBeingDragged() || mpSpinBoxZ->IsBeingDragged());
+}
+
+bool WVectorEditor::IsBeingEdited() const
+{
+    return IsBeingDragged() || mEditing;
 }
 
 // ************ PUBLIC SLOTS ************
@@ -104,9 +111,12 @@ void WVectorEditor::SetX(double x)
 {
     mValue.x = (float) x;
 
-    mpSpinBoxX->blockSignals(true);
-    mpSpinBoxX->setValue((double) x);
-    mpSpinBoxX->blockSignals(false);
+    if (sender() != mpSpinBoxX)
+    {
+        mpSpinBoxX->blockSignals(true);
+        mpSpinBoxX->setValue((double) x);
+        mpSpinBoxX->blockSignals(false);
+    }
 
     mEditing = true;
     emit ValueChanged(mValue);
@@ -116,9 +126,12 @@ void WVectorEditor::SetY(double y)
 {
     mValue.y = (float) y;
 
-    mpSpinBoxY->blockSignals(true);
-    mpSpinBoxY->setValue((double) y);
-    mpSpinBoxY->blockSignals(false);
+    if (sender() != mpSpinBoxY)
+    {
+        mpSpinBoxY->blockSignals(true);
+        mpSpinBoxY->setValue((double) y);
+        mpSpinBoxY->blockSignals(false);
+    }
 
     mEditing = true;
     emit ValueChanged(mValue);
@@ -128,9 +141,12 @@ void WVectorEditor::SetZ(double z)
 {
     mValue.z = (float) z;
 
-    mpSpinBoxZ->blockSignals(true);
-    mpSpinBoxZ->setValue((double) z);
-    mpSpinBoxZ->blockSignals(false);
+    if (sender() != mpSpinBoxZ)
+    {
+        mpSpinBoxZ->blockSignals(true);
+        mpSpinBoxZ->setValue((double) z);
+        mpSpinBoxZ->blockSignals(false);
+    }
 
     mEditing = true;
     emit ValueChanged(mValue);
@@ -175,6 +191,9 @@ void WVectorEditor::SetupUI()
     mpZLayout->addWidget(mpLabelZ, 0);
     mpZLayout->addWidget(mpSpinBoxZ, 1);
     mpZLayout->setSpacing(5);
+
+    setTabOrder(mpSpinBoxX, mpSpinBoxY);
+    setTabOrder(mpSpinBoxY, mpSpinBoxZ);
 
     // Create and initialize widget layout
     mpLayout = nullptr;

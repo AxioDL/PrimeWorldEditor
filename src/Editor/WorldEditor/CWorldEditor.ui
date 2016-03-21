@@ -119,6 +119,9 @@
            </item>
            <item>
             <widget class="WVectorEditor" name="TransformSpinBox" native="true">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
                <horstretch>0</horstretch>

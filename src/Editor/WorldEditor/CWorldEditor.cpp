@@ -529,7 +529,7 @@ void CWorldEditor::UpdateStatusBar()
 void CWorldEditor::UpdateGizmoUI()
 {
     // Update transform XYZ spin boxes
-    if (!ui->TransformSpinBox->IsBeingDragged())
+    if (!ui->TransformSpinBox->IsBeingEdited())
     {
         CVector3f spinBoxValue = CVector3f::skZero;
 
@@ -695,6 +695,8 @@ void CWorldEditor::OnClipboardDataModified()
 
 void CWorldEditor::OnSelectionModified()
 {
+    ui->TransformSpinBox->setEnabled(!mpSelection->IsEmpty());
+
     bool HasScriptNode = HasAnyScriptNodesSelected();
     ui->ActionCut->setEnabled(HasScriptNode);
     ui->ActionCopy->setEnabled(HasScriptNode);
@@ -933,10 +935,6 @@ void CWorldEditor::OnTransformSpinBoxModified(CVector3f value)
 
 void CWorldEditor::OnTransformSpinBoxEdited(CVector3f)
 {
-    // bit of a hack - the vector editor emits a second "editing done" signal when it loses focus
-    ui->TransformSpinBox->blockSignals(true);
-    ui->MainViewport->setFocus();
-    ui->TransformSpinBox->blockSignals(false);
     if (mpSelection->IsEmpty()) return;
 
     if (mGizmo.Mode() == CGizmo::eTranslate)   mUndoStack.push(CTranslateNodeCommand::End());
