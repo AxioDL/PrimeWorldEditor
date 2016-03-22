@@ -132,9 +132,9 @@ private slots:
                     mSetMax = true;
                 }
 
-                setValue(Cur);
                 setLabelText(QString("%1 file %2 of %3...").arg(mMode == eExtract ? "Extracting" : "Repacking").arg(Cur).arg(Count));
                 setWindowTitle(labelText());
+                setValue(Cur);
             }
 
             update();
@@ -145,6 +145,7 @@ private slots:
 
     void PakToolFinished(int ExitCode)
     {
+        while (mUpdating) {}
         done(ExitCode == 0 ? eSuccess : eError);
     }
 
