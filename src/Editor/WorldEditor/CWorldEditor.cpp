@@ -371,7 +371,7 @@ bool CWorldEditor::SaveAndRepack()
     }
 
     QString PakOut;
-    CPakToolDialog::EResult Result = CPakToolDialog::Repack(CurrentGame(), mPakTarget, mPakFileList, mWorldDir, &PakOut);
+    CPakToolDialog::EResult Result = CPakToolDialog::Repack(CurrentGame(), mPakTarget, mPakFileList, mWorldDir, &PakOut, this);
 
     if (Result == CPakToolDialog::eError)
         QMessageBox::warning(this, "Error", "Failed to repack!");
