@@ -1,5 +1,6 @@
 #include "CStartWindow.h"
 #include "ui_CStartWindow.h"
+#include "CAboutDialog.h"
 #include "CErrorLogDialog.h"
 #include "CPakToolDialog.h"
 #include "UICommon.h"
@@ -20,6 +21,8 @@ CStartWindow::CStartWindow(QWidget *parent) :
     mpWorld = nullptr;
     mpWorldEditor = new CWorldEditor(0);
     mpModelEditor = new CModelEditorWindow(this);
+
+    connect(ui->ActionAbout, SIGNAL(triggered()), this, SLOT(About()));
 }
 
 CStartWindow::~CStartWindow()
@@ -231,4 +234,10 @@ void CStartWindow::on_actionExtract_PAK_triggered()
         else if (Result == CPakToolDialog::eError)
             QMessageBox::warning(this, "Error", "Unable to extract pak.");
     }
+}
+
+void CStartWindow::About()
+{
+    CAboutDialog Dialog(this);
+    Dialog.exec();
 }

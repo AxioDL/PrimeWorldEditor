@@ -41,6 +41,8 @@ private slots:
 
     void on_actionExtract_PAK_triggered();
 
+    void About();
+
 private:
     void FillWorldUI();
     void FillAreaUI();
