@@ -11,6 +11,7 @@
 #include <QFileInfo>
 #include <QProcess>
 #include <QProgressDialog>
+#include <QTimer>
 
 class CPakToolDialog : public QProgressDialog
 {
@@ -29,8 +30,11 @@ private:
     EResult mResult;
 
     QString mPartialString;
-    bool mSetMax;
     bool mUpdating;
+
+    int mCur;
+    int mMax;
+    bool mSetMax;
 
     // Private Functions
     CPakToolDialog(QWidget *pParent = 0)
@@ -122,25 +126,28 @@ private slots:
 
             if (Result != -1)
             {
-                int Cur = rkRegExp.cap(1).toInt();
-                int Count = rkRegExp.cap(2).toInt();
+                mCur = rkRegExp.cap(1).toInt();
+                mMax = rkRegExp.cap(2).toInt();
 
                 if (!mSetMax)
                 {
                     setMinimum(0);
-                    setMaximum(Count);
+                    setMaximum(mMax);
                     mSetMax = true;
                 }
 
-                setLabelText(QString("%1 file %2 of %3...").arg(mMode == eExtract ? "Extracting" : "Repacking").arg(Cur).arg(Count));
-                setWindowTitle(labelText());
-                setValue(Cur);
+                QTimer::singleShot(0, this, SLOT(UpdateUI()));
             }
-
-            update();
         }
 
         mUpdating = false;
+    }
+
+    void UpdateUI()
+    {
+        setLabelText(QString("%1 file %2 of %3...").arg(mMode == eExtract ? "Extracting" : "Repacking").arg(mCur).arg(mMax));
+        setWindowTitle(labelText());
+        setValue(mCur);
     }
 
     void PakToolFinished(int ExitCode)
