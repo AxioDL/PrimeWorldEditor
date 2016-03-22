@@ -230,8 +230,15 @@
     </property>
     <addaction name="actionLaunch_model_viewer"/>
    </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="ActionAbout"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuTools"/>
+   <addaction name="menuHelp"/>
   </widget>
   <action name="actionOpen_pak">
    <property name="text">
@@ -251,6 +258,11 @@
   <action name="actionLaunch_model_viewer">
    <property name="text">
     <string>Launch model viewer</string>
+   </property>
+  </action>
+  <action name="ActionAbout">
+   <property name="text">
+    <string>About</string>
    </property>
   </action>
  </widget>

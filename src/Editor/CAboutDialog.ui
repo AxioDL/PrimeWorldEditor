@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CAboutDialog</class>
+ <widget class="QDialog" name="CAboutDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>429</width>
+    <height>306</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>About</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Prime World Editor v1.0.0&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Prime World Editor is developed by &lt;span style=&quot; font-weight:600;&quot;&gt;Parax&lt;/span&gt;.&lt;br/&gt;All the games it edits are developed by &lt;span style=&quot; font-weight:600;&quot;&gt;Retro Studios&lt;/span&gt; and published by &lt;span style=&quot; font-weight:600;&quot;&gt;Nintendo&lt;/span&gt;.&lt;/p&gt;&lt;p&gt;Special thanks to:&lt;/p&gt;&lt;p&gt;&lt;ul&gt;&lt;li&gt; The community at &lt;span style=&quot; font-weight:600;&quot;&gt;Metroid2002&lt;/span&gt; that contributed to reverse engineering the game and documenting its internals and file formats; in particular, &lt;span style=&quot; font-weight:600;&quot;&gt;Antidote&lt;/span&gt; and &lt;span style=&quot; font-weight:600;&quot;&gt;jackoalan&lt;/span&gt;, among others!&lt;/li&gt;&lt;li&gt; &lt;span style=&quot; font-weight:600;&quot;&gt;Miles: &lt;/span&gt;In addition to helping reverse engineer a few formats (in particular MLVL and MREA), also contributed greatly to putting together the script object templates and documenting object properties.&lt;/li&gt;&lt;li&gt; &lt;span style=&quot; font-weight:600;&quot;&gt;Bearborg:&lt;/span&gt; Lots of testing and feedback, plus the UI icons and some script object assets.&lt;/li&gt;&lt;li&gt; &lt;span style=&quot; font-weight:600;&quot;&gt;Omega: &lt;/span&gt;Script object assets.&lt;/li&gt;&lt;/ul&gt;Check the &lt;a href=&quot;http://www.metroid2002.com/retromodding/wiki/Retro_Modding_Wiki&quot;&gt;Retro Modding Wiki&lt;/a&gt; for file format documentation.&lt;/p&gt;&lt;p&gt;Prime World Editor uses &lt;span style=&quot; font-weight:600;&quot;&gt;Assimp&lt;/span&gt; (Open Asset Import Library).&lt;br/&gt;Copyright © 2006-2015 assimp team&lt;br/&gt;All rights reserved.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+     <property name="margin">
+      <number>0</number>
+     </property>
+     <property name="indent">
+      <number>-1</number>
+     </property>
+     <property name="openExternalLinks">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

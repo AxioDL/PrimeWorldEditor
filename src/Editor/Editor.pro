@@ -107,7 +107,6 @@ HEADERS += \
     Widgets/WTextureGLWidget.h \
     Widgets/WTexturePreviewPanel.h \
     Widgets/WVectorEditor.h \
-    WorldEditor/CAboutDialog.h \
     WorldEditor/CLayerEditor.h \
     WorldEditor/CLayerModel.h \
     WorldEditor/CLinkModel.h \
@@ -159,7 +158,8 @@ HEADERS += \
     CNodeCopyMimeData.h \
     Undo/CPasteNodesCommand.h \
     CPakToolDialog.h \
-    WorldEditor/CRepackInfoDialog.h
+    WorldEditor/CRepackInfoDialog.h \
+    CAboutDialog.h
 
 # Source Files
 SOURCES += \
@@ -181,7 +181,6 @@ SOURCES += \
     Widgets/WTextureGLWidget.cpp \
     Widgets/WTexturePreviewPanel.cpp \
     Widgets/WVectorEditor.cpp \
-    WorldEditor/CAboutDialog.cpp \
     WorldEditor/CLayerEditor.cpp \
     WorldEditor/CLayerModel.cpp \
     WorldEditor/CLinkModel.cpp \
@@ -219,7 +218,8 @@ SOURCES += \
     Undo/CCreateInstanceCommand.cpp \
     Undo/CCloneSelectionCommand.cpp \
     Undo/CPasteNodesCommand.cpp \
-    WorldEditor/CRepackInfoDialog.cpp
+    WorldEditor/CRepackInfoDialog.cpp \
+    CAboutDialog.cpp
 
 # UI Files
 FORMS += \
@@ -228,7 +228,6 @@ FORMS += \
     ModelEditor/CModelEditorWindow.ui \
     Widgets/WScanPreviewPanel.ui \
     Widgets/WTexturePreviewPanel.ui \
-    WorldEditor/CAboutDialog.ui \
     WorldEditor/CLayerEditor.ui \
     WorldEditor/CWorldEditor.ui \
     WorldEditor/WCreateTab.ui \
@@ -239,4 +238,5 @@ FORMS += \
     WorldEditor/CTemplateEditDialog.ui \
     WorldEditor/CLinkDialog.ui \
     WorldEditor/CSelectInstanceDialog.ui \
-    WorldEditor/CRepackInfoDialog.ui
+    WorldEditor/CRepackInfoDialog.ui \
+    CAboutDialog.ui
