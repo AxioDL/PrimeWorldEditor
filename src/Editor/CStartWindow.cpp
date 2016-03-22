@@ -224,10 +224,10 @@ void CStartWindow::on_actionExtract_PAK_triggered()
 
     if (!Pak.isEmpty())
     {
-        CPakToolDialog::EResult Result = CPakToolDialog::Extract(Pak);
+        CPakToolDialog::EResult Result = CPakToolDialog::Extract(Pak, 0, this);
 
         if (Result == CPakToolDialog::eSuccess)
-            Result = CPakToolDialog::DumpList(Pak);
+            Result = CPakToolDialog::DumpList(Pak, 0, this);
 
         if (Result == CPakToolDialog::eSuccess)
             QMessageBox::information(this, "Success", "Extracted pak successfully!");

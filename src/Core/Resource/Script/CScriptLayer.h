@@ -107,6 +107,9 @@ public:
                 return iLyr;
         }
 
+        if (mpArea->GetGeneratorLayer() == this)
+            return mpArea->GetScriptLayerCount();
+
         return -1;
     }
 
