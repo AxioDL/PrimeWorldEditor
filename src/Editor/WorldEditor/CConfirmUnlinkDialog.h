@@ -34,6 +34,7 @@ private:
 public:
     explicit CConfirmUnlinkDialog(QWidget *pParent = 0)
         : QDialog(pParent)
+        , mChoice(eCancel)
     {
         mpLabel = new QLabel("Which links should be removed from the selected instances?");
         mpAllButton = new QPushButton("All");

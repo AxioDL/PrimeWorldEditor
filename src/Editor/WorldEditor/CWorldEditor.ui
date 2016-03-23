@@ -515,7 +515,7 @@
     <string>Link</string>
    </property>
    <property name="shortcut">
-    <string>Alt+C</string>
+    <string>L</string>
    </property>
   </action>
   <action name="ActionUnlink">
@@ -530,7 +530,7 @@
     <string>Unlink</string>
    </property>
    <property name="shortcut">
-    <string>Alt+D</string>
+    <string>U</string>
    </property>
   </action>
   <action name="ActionDrawWorld">
