@@ -30,7 +30,6 @@ CPropertyDelegate::CPropertyDelegate(QObject *pParent /*= 0*/)
     , mInRelayWidgetEdit(false)
     , mEditInProgress(false)
     , mRelaysBlocked(false)
-    , mUpdatingModel(false)
 {
 }
 
@@ -199,8 +198,6 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
 
 void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkIndex) const
 {
-    if (mUpdatingModel) return;
-
     BlockRelays(true);
     mEditInProgress = false; // fixes case where user does undo mid-edit
 
@@ -227,24 +224,39 @@ void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkInd
                 case eShortProperty:
                 {
                     WIntegralSpinBox *pSpinBox = static_cast<WIntegralSpinBox*>(pEditor);
-                    TShortProperty *pShort = static_cast<TShortProperty*>(pProp);
-                    pSpinBox->setValue(pShort->Get());
+
+                    if (!pSpinBox->hasFocus())
+                    {
+                        TShortProperty *pShort = static_cast<TShortProperty*>(pProp);
+                        pSpinBox->setValue(pShort->Get());
+                    }
+
                     break;
                 }
 
                 case eLongProperty:
                 {
                     WIntegralSpinBox *pSpinBox = static_cast<WIntegralSpinBox*>(pEditor);
-                    TLongProperty *pLong = static_cast<TLongProperty*>(pProp);
-                    pSpinBox->setValue(pLong->Get());
+
+                    if (!pSpinBox->hasFocus())
+                    {
+                        TLongProperty *pLong = static_cast<TLongProperty*>(pProp);
+                        pSpinBox->setValue(pLong->Get());
+                    }
+
                     break;
                 }
 
                 case eFloatProperty:
                 {
                     WDraggableSpinBox *pSpinBox = static_cast<WDraggableSpinBox*>(pEditor);
-                    TFloatProperty *pFloat = static_cast<TFloatProperty*>(pProp);
-                    pSpinBox->setValue(pFloat->Get());
+
+                    if (!pSpinBox->hasFocus())
+                    {
+                        TFloatProperty *pFloat = static_cast<TFloatProperty*>(pProp);
+                        pSpinBox->setValue(pFloat->Get());
+                    }
+
                     break;
                 }
 
@@ -267,8 +279,13 @@ void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkInd
                 case eStringProperty:
                 {
                     QLineEdit *pLineEdit = static_cast<QLineEdit*>(pEditor);
-                    TStringProperty *pString = static_cast<TStringProperty*>(pProp);
-                    pLineEdit->setText(TO_QSTRING(pString->Get()));
+
+                    if (!pLineEdit->hasFocus())
+                    {
+                        TStringProperty *pString = static_cast<TStringProperty*>(pProp);
+                        pLineEdit->setText(TO_QSTRING(pString->Get()));
+                    }
+
                     break;
                 }
 
@@ -292,8 +309,13 @@ void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkInd
                 case eArrayProperty:
                 {
                     WIntegralSpinBox *pSpinBox = static_cast<WIntegralSpinBox*>(pEditor);
-                    CArrayProperty *pArray = static_cast<CArrayProperty*>(pProp);
-                    pSpinBox->setValue(pArray->Count());
+
+                    if (!pSpinBox->hasFocus())
+                    {
+                        CArrayProperty *pArray = static_cast<CArrayProperty*>(pProp);
+                        pSpinBox->setValue(pArray->Count());
+                    }
+
                     break;
                 }
 
@@ -323,28 +345,31 @@ void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkInd
                 WDraggableSpinBox *pSpinBox = static_cast<WDraggableSpinBox*>(pEditor);
                 float Value;
 
-                if (pProp->Type() == eVector3Property)
+                if (!pSpinBox->hasFocus())
                 {
-                    TVector3Property *pVector = static_cast<TVector3Property*>(pProp);
-                    CVector3f Vector = pVector->Get();
+                    if (pProp->Type() == eVector3Property)
+                    {
+                        TVector3Property *pVector = static_cast<TVector3Property*>(pProp);
+                        CVector3f Vector = pVector->Get();
 
-                    if (rkIndex.row() == 0) Value = Vector.x;
-                    if (rkIndex.row() == 1) Value = Vector.y;
-                    if (rkIndex.row() == 2) Value = Vector.z;
+                        if (rkIndex.row() == 0) Value = Vector.x;
+                        if (rkIndex.row() == 1) Value = Vector.y;
+                        if (rkIndex.row() == 2) Value = Vector.z;
+                    }
+
+                    else if (pProp->Type() == eColorProperty)
+                    {
+                        TColorProperty *pColor = static_cast<TColorProperty*>(pProp);
+                        CColor Color = pColor->Get();
+
+                        if (rkIndex.row() == 0) Value = Color.r;
+                        if (rkIndex.row() == 1) Value = Color.g;
+                        if (rkIndex.row() == 2) Value = Color.b;
+                        if (rkIndex.row() == 3) Value = Color.a;
+                    }
+
+                    pSpinBox->setValue((double) Value);
                 }
-
-                else if (pProp->Type() == eColorProperty)
-                {
-                    TColorProperty *pColor = static_cast<TColorProperty*>(pProp);
-                    CColor Color = pColor->Get();
-
-                    if (rkIndex.row() == 0) Value = Color.r;
-                    if (rkIndex.row() == 1) Value = Color.g;
-                    if (rkIndex.row() == 2) Value = Color.b;
-                    if (rkIndex.row() == 3) Value = Color.a;
-                }
-
-                pSpinBox->setValue((double) Value);
             }
         }
     }
@@ -356,7 +381,6 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
 {
     if (!mpModel) return;
     if (!pEditor) return;
-    mUpdatingModel = true;
 
     IProperty *pProp = mpModel->PropertyForIndex(rkIndex, false);
     IPropertyValue *pOldValue = nullptr;
@@ -537,8 +561,6 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
         else
             delete pOldValue;
     }
-
-    mUpdatingModel = false;
 }
 
 bool CPropertyDelegate::eventFilter(QObject *pObject, QEvent *pEvent)
@@ -624,7 +646,7 @@ void CPropertyDelegate::SetCharacterEditorData(QWidget *pEditor, const QModelInd
         static_cast<QComboBox*>(pEditor)->setCurrentIndex(Params.CharacterIndex());
     }
 
-    else if (Type == eLongProperty)
+    else if (Type == eLongProperty && !pEditor->hasFocus())
     {
         int UnkIndex = (Params.Version() <= eEchoes ? rkIndex.row() - 2 : rkIndex.row() - 1);
         u32 Value = Params.Unknown(UnkIndex);

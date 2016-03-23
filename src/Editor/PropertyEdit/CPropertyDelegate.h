@@ -14,7 +14,6 @@ class CPropertyDelegate : public QStyledItemDelegate
     bool mInRelayWidgetEdit;
     mutable bool mEditInProgress;
     mutable bool mRelaysBlocked;
-    mutable bool mUpdatingModel;
 
 public:
     CPropertyDelegate(QObject *pParent = 0);
