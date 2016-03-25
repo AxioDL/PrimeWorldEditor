@@ -2761,7 +2761,7 @@
     <property ID="0x3E370622" name="Unknown"/>
     <property ID="0x3E486DC0" name="Unknown"/>
     <property ID="0x3E505DDB" name="Unknown"/>
-    <property ID="0x3E5727AA" name="Unknown"/>
+    <property ID="0x3E5727AA" name="TXTR"/>
     <property ID="0x3E5BAB9D" name="Unknown"/>
     <property ID="0x3E5DD208" name="PTCNoseTurretData"/>
     <property ID="0x3E618127" name="Unknown"/>
@@ -3788,7 +3788,7 @@
     <property ID="0x547B28D5" name="Unknown"/>
     <property ID="0x547B9A9A" name="PART"/>
     <property ID="0x547F9400" name="Unknown"/>
-    <property ID="0x547FFFC3" name="Unknown"/>
+    <property ID="0x547FFFC3" name="TXTR"/>
     <property ID="0x548C65A9" name="TrainTrackManagerStructA"/>
     <property ID="0x5490E214" name="Unknown"/>
     <property ID="0x54910B90" name="Unknown"/>
@@ -9172,7 +9172,7 @@
     <property ID="0xCD9DE8CC" name="Unknown"/>
     <property ID="0xCDA8F0F3" name="Unknown"/>
     <property ID="0xCDAA2C74" name="Unknown"/>
-    <property ID="0xCDAABA00" name="Unknown"/>
+    <property ID="0xCDAABA00" name="TXTR"/>
     <property ID="0xCDBD44E1" name="CMDL"/>
     <property ID="0xCDBD73E1" name="Unknown"/>
     <property ID="0xCDC3A9CF" name="Unknown"/>

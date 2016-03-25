@@ -30,9 +30,9 @@
         <property ID="0x5EBC97FD" type="float">
             <default>8.0</default>
         </property>
-        <property ID="0x3E5727AA" type="file" extensions="UNKN"/>
-        <property ID="0x547FFFC3" type="file" extensions="UNKN"/>
-        <property ID="0xCDAABA00" type="file" extensions="UNKN"/>
+        <property ID="0x3E5727AA" type="file" extensions="TXTR"/>
+        <property ID="0x547FFFC3" type="file" extensions="TXTR"/>
+        <property ID="0xCDAABA00" type="file" extensions="TXTR"/>
         <property ID="0x7F62DA5B" type="color">
             <default>1.0, 1.0, 1.0, 1.0</default>
         </property>

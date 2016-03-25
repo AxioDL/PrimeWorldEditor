@@ -443,7 +443,7 @@
                         <property ID="0x426F2F60">
                             <cook_pref>never</cook_pref>
                         </property>
-                        <property ID="0x771A3176" extensions="UNKN">
+                        <property ID="0x771A3176" extensions="CAUD">
                             <cook_pref>never</cook_pref>
                         </property>
                         <property ID="0xEFD287D9">
