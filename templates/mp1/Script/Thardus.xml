@@ -27,19 +27,19 @@
         <property ID="0x16" name="Particle 1" type="file" extensions="PART"/>
         <property ID="0x17" name="Particle 2" type="file" extensions="PART"/>
         <property ID="0x18" name="Particle 3" type="file" extensions="PART"/>
-        <property ID="0x19" name="AFSM" type="file" extensions="AFSM"/>
+        <property ID="0x19" name="State Machine" type="file" extensions="AFSM"/>
         <property ID="0x1A" name="Particle 4" type="file" extensions="PART"/>
         <property ID="0x1B" name="Particle 5" type="file" extensions="PART"/>
         <property ID="0x1C" name="Particle 6" type="file" extensions="PART"/>
         <property ID="0x1D" name="Particle 7" type="file" extensions="PART"/>
         <property ID="0x1E" name="Particle 8" type="file" extensions="PART"/>
         <property ID="0x1F" name="Particle 9" type="file" extensions="PART"/>
-        <property ID="0x20" name="Unknown 3" type="float"/>
+        <property ID="0x20" name="Roll Speed" type="float"/>
         <property ID="0x21" name="Unknown 4" type="float"/>
         <property ID="0x22" name="Unknown 5" type="float"/>
-        <property ID="0x23" name="Unknown 6" type="float"/>
-        <property ID="0x24" name="Unknown 7" type="float"/>
-        <property ID="0x25" name="Unknown 8" type="float"/>
+        <property ID="0x23" name="Phazon Weak Point Health" type="float"/>
+        <property ID="0x24" name="Rock Weak Point Health" type="float"/>
+        <property ID="0x25" name="Ice Spikes Speed" type="float"/>
         <property ID="0x26" name="Texture" type="file" extensions="TXTR"/>
         <property ID="0x27" name="Unknown 9" type="long"/>
         <property ID="0x28" name="Particle 10" type="file" extensions="PART"/>
