@@ -31,8 +31,8 @@ public:
 
     void OnTransformed();
     void LinksModified();
-    void AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo);
-    void Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& ViewInfo);
+    void AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo);
+    void Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& rkViewInfo);
     CColor TevColor();
 };
 

@@ -12,7 +12,7 @@ class CErrorLogDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit CErrorLogDialog(QWidget *parent = 0);
+    explicit CErrorLogDialog(QWidget *pParent = 0);
     ~CErrorLogDialog();
     bool GatherErrors();
 

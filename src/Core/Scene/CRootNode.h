@@ -12,13 +12,15 @@ public:
         : CSceneNode(pScene, NodeID, pParent) {}
     ~CRootNode() {}
 
-    ENodeType NodeType() {
+    ENodeType NodeType()
+    {
         return eRootNode;
     }
 
     inline void RayAABoxIntersectTest(CRayCollisionTester&, const SViewInfo&) {}
 
-    inline SRayIntersection RayNodeIntersectTest(const CRay &, u32, const SViewInfo&) {
+    inline SRayIntersection RayNodeIntersectTest(const CRay &, u32, const SViewInfo&)
+    {
         return SRayIntersection();
     }
 

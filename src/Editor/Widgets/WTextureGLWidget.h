@@ -23,11 +23,11 @@ class WTextureGLWidget : public QOpenGLWidget
     bool mInitialized;
 
 public:
-    explicit WTextureGLWidget(QWidget *parent = 0, CTexture *pTex = 0);
+    explicit WTextureGLWidget(QWidget *pParent = 0, CTexture *pTex = 0);
     ~WTextureGLWidget();
     void initializeGL();
     void paintGL();
-    void resizeGL(int w, int h);
+    void resizeGL(int Width, int Height);
     void SetTexture(CTexture *pTex);
 
 private:

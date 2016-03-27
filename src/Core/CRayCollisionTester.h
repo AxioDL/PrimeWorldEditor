@@ -19,17 +19,13 @@ class CRayCollisionTester
     std::list<SRayIntersection> mBoxIntersectList;
 
 public:
-    CRayCollisionTester(const CRay& Ray);
+    CRayCollisionTester(const CRay& rkRay);
     ~CRayCollisionTester();
-    const CRay& Ray() const;
+    const CRay& Ray() const { return mRay; }
+
     void AddNode(CSceneNode *pNode, u32 AssetIndex, float Distance);
     void AddNodeModel(CSceneNode *pNode, CBasicModel *pModel);
-    SRayIntersection TestNodes(const SViewInfo& ViewInfo);
+    SRayIntersection TestNodes(const SViewInfo& rkViewInfo);
 };
-
-inline const CRay& CRayCollisionTester::Ray() const
-{
-    return mRay;
-}
 
 #endif // CRAYCOLLISIONHELPER_H

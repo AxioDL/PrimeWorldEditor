@@ -3,10 +3,11 @@
 #include <Core/Resource/CGameArea.h>
 #include <Core/Resource/Script/CMasterTemplate.h>
 
-CLinkModel::CLinkModel(QObject *pParent) : QAbstractTableModel(pParent)
+CLinkModel::CLinkModel(QObject *pParent)
+    : QAbstractTableModel(pParent)
+    , mpObject(nullptr)
+    , mType(eOutgoing)
 {
-    mpObject = nullptr;
-    mType = eOutgoing;
 }
 
 void CLinkModel::SetObject(CScriptObject *pObj)
@@ -15,9 +16,9 @@ void CLinkModel::SetObject(CScriptObject *pObj)
     emit layoutChanged();
 }
 
-void CLinkModel::SetConnectionType(ELinkType type)
+void CLinkModel::SetConnectionType(ELinkType Type)
 {
-    mType = type;
+    mType = Type;
     emit layoutChanged();
 }
 
@@ -29,20 +30,20 @@ int CLinkModel::rowCount(const QModelIndex&) const
     else return 0;
 }
 
-int CLinkModel::columnCount(const QModelIndex& /*parent*/) const
+int CLinkModel::columnCount(const QModelIndex& /*rkParent*/) const
 {
     return 3;
 }
 
-QVariant CLinkModel::data(const QModelIndex &index, int role) const
+QVariant CLinkModel::data(const QModelIndex& rkIndex, int Role) const
 {
     if (!mpObject) return QVariant::Invalid;
 
-    else if ((role == Qt::DisplayRole) || (role == Qt::ToolTipRole))
+    else if ((Role == Qt::DisplayRole) || (Role == Qt::ToolTipRole))
     {
-        CLink *pLink = mpObject->Link(mType, index.row());
+        CLink *pLink = mpObject->Link(mType, rkIndex.row());
 
-        switch (index.column())
+        switch (rkIndex.column())
         {
 
         case 0: // Column 0 - Target Object
@@ -50,11 +51,14 @@ QVariant CLinkModel::data(const QModelIndex &index, int role) const
             u32 TargetID = (mType == eIncoming ? pLink->SenderID() : pLink->ReceiverID());
             CScriptObject *pTarget = mpObject->Area()->InstanceByID(TargetID);
 
-            if (pTarget) {
+            if (pTarget)
+            {
                 QString ObjType = QString("[%1] ").arg(UICommon::ToQString(pTarget->Template()->Name()));
                 return ObjType + UICommon::ToQString(pTarget->InstanceName());
             }
-            else {
+
+            else
+            {
                 QString strID = QString::number(TargetID, 16);
                 while (strID.length() < 8) strID = "0" + strID;
                 return QString("External: 0x") + strID;
@@ -81,11 +85,11 @@ QVariant CLinkModel::data(const QModelIndex &index, int role) const
     else return QVariant::Invalid;
 }
 
-QVariant CLinkModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant CLinkModel::headerData(int Section, Qt::Orientation Orientation, int Role) const
 {
-    if ((orientation == Qt::Horizontal) && (role == Qt::DisplayRole))
+    if ((Orientation == Qt::Horizontal) && (Role == Qt::DisplayRole))
     {
-        switch (section)
+        switch (Section)
         {
         case 0: return (mType == eIncoming ? "Sender" : "Target");
         case 1: return "State";

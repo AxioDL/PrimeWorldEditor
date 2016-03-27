@@ -64,12 +64,10 @@ public:
     SRayIntersection SceneRayCast(const CRay& rkRay, const SViewInfo& rkViewInfo);
     CSceneNode* NodeByID(u32 NodeID);
     CScriptNode* NodeForInstanceID(u32 InstanceID);
-    CScriptNode* NodeForObject(CScriptObject *pObj);
+    CScriptNode* NodeForInstance(CScriptObject *pObj);
     CLightNode* NodeForLight(CLight *pLight);
-
-    // Setters/Getters
-    CModel* GetActiveSkybox();
-    CGameArea* GetActiveArea();
+    CModel* ActiveSkybox();
+    CGameArea* ActiveArea();
 
     // Static
     static FShowFlags ShowFlagsForNodeFlags(FNodeFlags NodeFlags);

@@ -50,8 +50,8 @@ void IOutputStream::WriteString(const std::string& rkVal)
 
 void IOutputStream::WriteString(const std::string& rkVal, unsigned long Count, bool Terminate)
 {
-    for (unsigned int i = 0; i < Count; i++)
-        WriteByte(rkVal[i]);
+    for (unsigned int iChr = 0; iChr < Count; iChr++)
+        WriteByte(rkVal[iChr]);
 
     if (Terminate && (rkVal[Count-1] != '\0'))
         WriteByte(0);
@@ -59,8 +59,8 @@ void IOutputStream::WriteString(const std::string& rkVal, unsigned long Count, b
 
 void IOutputStream::WriteWideString(const std::wstring& rkVal)
 {
-    for (unsigned int i = 0; i < rkVal.size(); i++)
-        WriteShort(rkVal[i]);
+    for (unsigned int iChr = 0; iChr < rkVal.size(); iChr++)
+        WriteShort(rkVal[iChr]);
 
     if ((!rkVal.empty()) && (rkVal.back() != '\0'))
         WriteShort(0);
@@ -68,8 +68,8 @@ void IOutputStream::WriteWideString(const std::wstring& rkVal)
 
 void IOutputStream::WriteWideString(const std::wstring& rkVal, unsigned long Count, bool Terminate)
 {
-    for (unsigned int i = 0; i < Count; i++)
-        WriteShort(rkVal[i]);
+    for (unsigned int iChr = 0; iChr < Count; iChr++)
+        WriteShort(rkVal[iChr]);
 
     if (Terminate && (rkVal[Count-1] != 0))
         WriteShort(0);
@@ -79,7 +79,7 @@ void IOutputStream::WriteToBoundary(unsigned long Boundary, char Fill)
 {
     long Num = Boundary - (Tell() % Boundary);
     if (Num == Boundary) return;
-    for (int i = 0; i < Num; i++)
+    for (int iByte = 0; iByte < Num; iByte++)
         WriteByte(Fill);
 }
 

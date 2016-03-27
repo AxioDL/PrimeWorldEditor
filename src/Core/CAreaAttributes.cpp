@@ -14,7 +14,7 @@ CAreaAttributes::~CAreaAttributes()
 void CAreaAttributes::SetObject(CScriptObject *pObj)
 {
     mpObj = pObj;
-    mGame = pObj->Template()->MasterTemplate()->GetGame();
+    mGame = pObj->Template()->MasterTemplate()->Game();
 }
 
 bool CAreaAttributes::IsLayerEnabled() const

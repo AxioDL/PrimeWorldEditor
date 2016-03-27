@@ -6,10 +6,10 @@
 class CQuaternion
 {
 public:
-    float w, x, y, z;
+    float W, X, Y, Z;
 
     CQuaternion();
-    CQuaternion(float _w, float _x, float _y, float _z);
+    CQuaternion(float _W, float _X, float _Y, float _Z);
 
     CVector3f XAxis() const;
     CVector3f YAxis() const;
@@ -18,15 +18,15 @@ public:
     CVector3f ToEuler() const;
 
     // Operators
-    CVector3f operator*(const CVector3f& vec) const;
-    CQuaternion operator*(const CQuaternion& other) const;
-    void operator *= (const CQuaternion& other);
+    CVector3f operator*(const CVector3f& rkVec) const;
+    CQuaternion operator*(const CQuaternion& rkOther) const;
+    void operator *= (const CQuaternion& rkOther);
 
     // Static
-    static CQuaternion FromEuler(CVector3f euler);
-    static CQuaternion FromAxisAngle(float angle, CVector3f axis);
-    static CQuaternion FromRotationMatrix(const CMatrix4f& RotMtx);
-    static CQuaternion FromAxes(const CVector3f& X, const CVector3f& Y, const CVector3f& Z);
+    static CQuaternion FromEuler(CVector3f Euler);
+    static CQuaternion FromAxisAngle(float Angle, CVector3f Axis);
+    static CQuaternion FromRotationMatrix(const CMatrix4f& rkRotMtx);
+    static CQuaternion FromAxes(const CVector3f& rkX, const CVector3f& rkY, const CVector3f& rkZ);
 
     static CQuaternion skIdentity;
     static CQuaternion skZero;

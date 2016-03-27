@@ -13,31 +13,44 @@ u64 CMaterial::sCurrentMaterial = 0;
 CColor CMaterial::sCurrentTint = CColor::skWhite;
 
 CMaterial::CMaterial()
+    : mpShader(nullptr)
+    , mShaderStatus(eNoShader)
+    , mRecalcHash(true)
+    , mEnableBloom(false)
+    , mVersion(eUnknownVersion)
+    , mOptions(eNoSettings)
+    , mVtxDesc(eNoAttributes)
+    , mBlendSrcFac(GL_ONE)
+    , mBlendDstFac(GL_ZERO)
+    , mLightingEnabled(true)
+    , mEchoesUnknownA(0)
+    , mEchoesUnknownB(0)
+    , mpIndirectTexture(nullptr)
 {
-    mpShader = nullptr;
-    mShaderStatus = eNoShader;
-    mRecalcHash = true;
-    mEnableBloom = false;
-    mVersion = eUnknownVersion;
-    mOptions = eNoSettings;
-    mVtxDesc = eNoAttributes;
-    mBlendSrcFac = GL_ONE;
-    mBlendDstFac = GL_ZERO;
-    mLightingEnabled = true;
-    mEchoesUnknownA = 0;
-    mEchoesUnknownB = 0;
-    mpIndirectTexture = nullptr;
 }
 
-CMaterial::CMaterial(EGame version, FVertexDescription vtxDesc)
+CMaterial::CMaterial(EGame Version, FVertexDescription VtxDesc)
+    : mpShader(nullptr)
+    , mShaderStatus(eNoShader)
+    , mRecalcHash(true)
+    , mEnableBloom(Version == eCorruption)
+    , mVersion(Version)
+    , mOptions(eDepthWrite)
+    , mVtxDesc(VtxDesc)
+    , mBlendSrcFac(GL_ONE)
+    , mBlendDstFac(GL_ZERO)
+    , mLightingEnabled(true)
+    , mEchoesUnknownA(0)
+    , mEchoesUnknownB(0)
+    , mpIndirectTexture(nullptr)
 {
     mpShader = nullptr;
     mShaderStatus = eNoShader;
     mRecalcHash = true;
-    mEnableBloom = (version == eCorruption);
-    mVersion = version;
+    mEnableBloom = (Version == eCorruption);
+    mVersion = Version;
     mOptions = eDepthWrite;
-    mVtxDesc = vtxDesc;
+    mVtxDesc = VtxDesc;
     mBlendSrcFac = GL_ONE;
     mBlendDstFac = GL_ZERO;
     mLightingEnabled = true;
@@ -218,114 +231,6 @@ void CMaterial::Update()
     mShaderStatus = eNoShader;
 }
 
-// ************ GETTERS ************
-TString CMaterial::Name() const
-{
-    return mName;
-}
-
-EGame CMaterial::Version() const
-{
-    return mVersion;
-}
-
-CMaterial::FMaterialOptions CMaterial::Options() const
-{
-    return mOptions;
-}
-
-FVertexDescription CMaterial::VtxDesc() const
-{
-    return mVtxDesc;
-}
-
-GLenum CMaterial::BlendSrcFac() const {
-    return mBlendSrcFac;
-}
-
-GLenum CMaterial::BlendDstFac() const {
-    return mBlendDstFac;
-}
-
-CColor CMaterial::Konst(u32 KIndex) const
-{
-    if (KIndex > 3) return CColor::skTransparentBlack;
-    else return mKonstColors[KIndex];
-}
-
-CTexture* CMaterial::IndTexture() const
-{
-    return mpIndirectTexture;
-}
-
-bool CMaterial::IsLightingEnabled() const
-{
-    return mLightingEnabled;
-}
-
-u32 CMaterial::EchoesUnknownA() const
-{
-    return mEchoesUnknownA;
-}
-
-u32 CMaterial::EchoesUnknownB() const
-{
-    return mEchoesUnknownB;
-}
-
-u32 CMaterial::PassCount() const
-{
-    return mPasses.size();
-}
-
-CMaterialPass* CMaterial::Pass(u32 PassIndex) const
-{
-    return mPasses[PassIndex];
-}
-
-
-// ************ SETTERS ************
-void CMaterial::SetName(const TString& name)
-{
-    mName = name;
-}
-
-void CMaterial::SetOptions(FMaterialOptions Options)
-{
-    mOptions = Options;
-    mRecalcHash = true;
-}
-
-void CMaterial::SetVertexDescription(FVertexDescription desc)
-{
-    mVtxDesc = desc;
-    mRecalcHash = true;
-}
-
-void CMaterial::SetBlendMode(GLenum SrcFac, GLenum DstFac)
-{
-    mBlendSrcFac = SrcFac;
-    mBlendDstFac = DstFac;
-    mRecalcHash = true;
-}
-
-void CMaterial::SetKonst(CColor& Konst, u32 KIndex)
-{
-    mKonstColors[KIndex] = Konst;
-    mRecalcHash = true;
-}
-
-void CMaterial::SetIndTexture(CTexture *pTex)
-{
-    mpIndirectTexture = pTex;
-}
-
-void CMaterial::SetLightingEnabled(bool Enabled)
-{
-    mLightingEnabled = Enabled;
-    mRecalcHash = true;
-}
-
 void CMaterial::SetNumPasses(u32 NumPasses)
 {
     if (NumPasses < mPasses.size())
@@ -344,10 +249,4 @@ void CMaterial::SetNumPasses(u32 NumPasses)
     }
 
     mRecalcHash = true;
-}
-
-// ************ STATIC ************
-void CMaterial::KillCachedMaterial()
-{
-    sCurrentMaterial = 0;
 }

@@ -6,9 +6,9 @@
 #include <iomanip>
 
 CMaterialLoader::CMaterialLoader()
+    : mCorruptionFlags(0)
+    , mHasOPAC(false)
 {
-    mCorruptionFlags = 0;
-    mHasOPAC = false;
 }
 
 CMaterialLoader::~CMaterialLoader()
@@ -18,29 +18,29 @@ CMaterialLoader::~CMaterialLoader()
 void CMaterialLoader::ReadPrimeMatSet()
 {
     // Textures
-    u32 numTextures = mpFile->ReadLong();
-    mTextures.resize(numTextures);
+    u32 NumTextures = mpFile->ReadLong();
+    mTextures.resize(NumTextures);
 
-    for (u32 iTex = 0; iTex < numTextures; iTex++)
+    for (u32 iTex = 0; iTex < NumTextures; iTex++)
     {
         u32 TextureID = mpFile->ReadLong();
         mTextures[iTex] = gResCache.GetResource(TextureID, "TXTR");
     }
 
     // Materials
-    u32 numMats = mpFile->ReadLong();
-    std::vector<u32> offsets(numMats);
-    for (u32 iMat = 0; iMat < numMats; iMat++)
-        offsets[iMat] = mpFile->ReadLong();
+    u32 NumMats = mpFile->ReadLong();
+    std::vector<u32> Offsets(NumMats);
+    for (u32 iMat = 0; iMat < NumMats; iMat++)
+        Offsets[iMat] = mpFile->ReadLong();
 
-    u32 matsStart = mpFile->Tell();
-    mpSet->mMaterials.resize(numMats);
-    for (u32 iMat = 0; iMat < numMats; iMat++)
+    u32 MatsStart = mpFile->Tell();
+    mpSet->mMaterials.resize(NumMats);
+    for (u32 iMat = 0; iMat < NumMats; iMat++)
     {
         mpSet->mMaterials[iMat] = ReadPrimeMaterial();
         mpSet->mMaterials[iMat]->mVersion = mVersion;
         mpSet->mMaterials[iMat]->mName = TString("Material #") + std::to_string(iMat + 1);
-        mpFile->Seek(matsStart + offsets[iMat], SEEK_SET);
+        mpFile->Seek(MatsStart + Offsets[iMat], SEEK_SET);
     }
 }
 
@@ -87,8 +87,8 @@ CMaterial* CMaterialLoader::ReadPrimeMaterial()
     }
 
     // Blend mode
-    pMat->mBlendDstFac = glBlendFactor[mpFile->ReadShort()];
-    pMat->mBlendSrcFac = glBlendFactor[mpFile->ReadShort()];
+    pMat->mBlendDstFac = gBlendFactor[mpFile->ReadShort()];
+    pMat->mBlendSrcFac = gBlendFactor[mpFile->ReadShort()];
 
     // Indirect texture
     if (pMat->mOptions & CMaterial::eIndStage)
@@ -308,7 +308,7 @@ CMaterial* CMaterialLoader::ReadCorruptionMaterial()
 
             if (ClrType == "DIFB")
             {
-                ClrVal.a = 0xFF;
+                ClrVal.A = 0xFF;
                 pMat->mKonstColors[1] = ClrVal;
             }
 
@@ -584,9 +584,9 @@ CMaterial* CMaterialLoader::LoadAssimpMaterial(const aiMaterial *pAiMat)
     // todo: generate new material using import values.
     CMaterial *pMat = new CMaterial(mVersion, eNoAttributes);
 
-    aiString name;
-    pAiMat->Get(AI_MATKEY_NAME, name);
-    pMat->SetName(name.C_Str());
+    aiString Name;
+    pAiMat->Get(AI_MATKEY_NAME, Name);
+    pMat->SetName(Name.C_Str());
 
     // Create generic custom pass that uses Konst color
     CMaterialPass *pPass = new CMaterialPass(pMat);
@@ -602,11 +602,11 @@ CMaterial* CMaterialLoader::LoadAssimpMaterial(const aiMaterial *pAiMat)
 }
 
 // ************ STATIC ************
-CMaterialSet* CMaterialLoader::LoadMaterialSet(IInputStream& Mat, EGame Version)
+CMaterialSet* CMaterialLoader::LoadMaterialSet(IInputStream& rMat, EGame Version)
 {
     CMaterialLoader Loader;
     Loader.mpSet = new CMaterialSet();
-    Loader.mpFile = &Mat;
+    Loader.mpFile = &rMat;
     Loader.mVersion = Version;
 
     if ((Version >= ePrimeDemo) && (Version <= eEchoes))
@@ -617,17 +617,17 @@ CMaterialSet* CMaterialLoader::LoadMaterialSet(IInputStream& Mat, EGame Version)
     return Loader.mpSet;
 }
 
-CMaterialSet* CMaterialLoader::ImportAssimpMaterials(const aiScene *pScene, EGame targetVersion)
+CMaterialSet* CMaterialLoader::ImportAssimpMaterials(const aiScene *pScene, EGame TargetVersion)
 {
-    CMaterialLoader loader;
-    loader.mVersion = targetVersion;
+    CMaterialLoader Loader;
+    Loader.mVersion = TargetVersion;
 
     CMaterialSet *pOut = new CMaterialSet();
     pOut->mMaterials.reserve(pScene->mNumMaterials);
 
     for (u32 iMat = 0; iMat < pScene->mNumMaterials; iMat++)
     {
-        CMaterial *pMat = loader.LoadAssimpMaterial(pScene->mMaterials[iMat]);
+        CMaterial *pMat = Loader.LoadAssimpMaterial(pScene->mMaterials[iMat]);
         pOut->mMaterials.push_back(pMat);
     }
 

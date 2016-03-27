@@ -14,13 +14,51 @@ class CMaterialSet
     std::vector<CMaterial*> mMaterials;
 
 public:
-    CMaterialSet();
-    ~CMaterialSet();
-    CMaterialSet* Clone();
-    u32 NumMaterials();
-    CMaterial* MaterialByIndex(u32 index);
-    CMaterial* MaterialByName(const TString& name);
-    u32 MaterialIndexByName(const TString& name);
+    CMaterialSet() {}
+
+    ~CMaterialSet()
+    {
+        for (u32 iMat = 0; iMat < mMaterials.size(); iMat++)
+            delete mMaterials[iMat];
+    }
+
+    CMaterialSet* Clone()
+    {
+        CMaterialSet *pOut = new CMaterialSet();
+
+        pOut->mMaterials.resize(mMaterials.size());
+        for (u32 iMat = 0; iMat < mMaterials.size(); iMat++)
+            pOut->mMaterials[iMat] = mMaterials[iMat]->Clone();
+
+        return pOut;
+    }
+
+    u32 NumMaterials()
+    {
+        return mMaterials.size();
+    }
+
+    CMaterial* MaterialByIndex(u32 Index)
+    {
+        if (Index >= NumMaterials()) return nullptr;
+        return mMaterials[Index];
+    }
+
+    CMaterial* MaterialByName(const TString& rkName)
+    {
+        for (auto it = mMaterials.begin(); it != mMaterials.end(); it++)
+            if ((*it)->Name() == rkName) return *it;
+
+        return nullptr;
+    }
+
+    u32 MaterialIndexByName(const TString& rkName)
+    {
+        for (u32 iMat = 0; iMat < mMaterials.size(); iMat++)
+            if (mMaterials[iMat]->Name() == rkName) return iMat;
+
+        return -1;
+    }
 };
 
 #endif // CMATERIALSET_H

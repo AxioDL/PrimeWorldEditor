@@ -2,11 +2,11 @@
 #include <Core/Render/CDrawUtil.h>
 
 CModelEditorViewport::CModelEditorViewport(QWidget *pParent)
-    : CBasicViewport(pParent),
-      mMode(eDrawMesh),
-      mpActiveMaterial(nullptr),
-      mpModelNode(nullptr),
-      mGridEnabled(true)
+    : CBasicViewport(pParent)
+    , mMode(eDrawMesh)
+    , mpActiveMaterial(nullptr)
+    , mpModelNode(nullptr)
+    , mGridEnabled(true)
 {
     mpRenderer = new CRenderer();
     mpRenderer->SetViewportSize(width(), height());
@@ -33,14 +33,14 @@ void CModelEditorViewport::SetActiveMaterial(CMaterial *pMat)
     mpActiveMaterial = pMat;
 }
 
-void CModelEditorViewport::SetDrawMode(EDrawMode mode)
+void CModelEditorViewport::SetDrawMode(EDrawMode Mode)
 {
-    mMode = mode;
+    mMode = Mode;
 }
 
-void CModelEditorViewport::SetClearColor(CColor color)
+void CModelEditorViewport::SetClearColor(CColor Color)
 {
-    mpRenderer->SetClearColor(color);
+    mpRenderer->SetClearColor(Color);
 }
 
 void CModelEditorViewport::SetGridEnabled(bool Enable)

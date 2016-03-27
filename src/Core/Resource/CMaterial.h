@@ -74,41 +74,41 @@ private:
 
 public:
     CMaterial();
-    CMaterial(EGame version, FVertexDescription vtxDesc);
+    CMaterial(EGame Version, FVertexDescription VtxDesc);
     ~CMaterial();
+
     CMaterial* Clone();
     void GenerateShader(bool AllowRegen = true);
     bool SetCurrent(FRenderOptions Options);
     u64 HashParameters();
     void Update();
-
-    // Getters
-    TString Name() const;
-    EGame Version() const;
-    FMaterialOptions Options() const;
-    FVertexDescription VtxDesc() const;
-    GLenum BlendSrcFac() const;
-    GLenum BlendDstFac() const;
-    CColor Konst(u32 KIndex) const;
-    CTexture* IndTexture() const;
-    bool IsLightingEnabled() const;
-    u32 EchoesUnknownA() const;
-    u32 EchoesUnknownB() const;
-    u32 PassCount() const;
-    CMaterialPass* Pass(u32 PassIndex) const;
-
-    // Setters
-    void SetName(const TString& name);
-    void SetOptions(FMaterialOptions Options);
-    void SetVertexDescription(FVertexDescription desc);
-    void SetBlendMode(GLenum SrcFac, GLenum DstFac);
-    void SetKonst(CColor& Konst, u32 KIndex);
-    void SetIndTexture(CTexture *pTex);
-    void SetLightingEnabled(bool Enabled);
     void SetNumPasses(u32 NumPasses);
 
+    // Accessors
+    inline TString Name() const                        { return mName; }
+    inline EGame Version() const                       { return mVersion; }
+    inline FMaterialOptions Options() const            { return mOptions; }
+    inline FVertexDescription VtxDesc() const          { return mVtxDesc; }
+    inline GLenum BlendSrcFac() const                  { return mBlendSrcFac; }
+    inline GLenum BlendDstFac() const                  { return mBlendDstFac; }
+    inline CColor Konst(u32 KIndex) const              { return mKonstColors[KIndex]; }
+    inline CTexture* IndTexture() const                { return mpIndirectTexture; }
+    inline bool IsLightingEnabled() const              { return mLightingEnabled; }
+    inline u32 EchoesUnknownA() const                  { return mEchoesUnknownA; }
+    inline u32 EchoesUnknownB() const                  { return mEchoesUnknownB; }
+    inline u32 PassCount() const                       { return mPasses.size(); }
+    inline CMaterialPass* Pass(u32 PassIndex) const    { return mPasses[PassIndex]; }
+
+    inline void SetName(const TString& rkName)                 { mName = rkName; }
+    inline void SetOptions(FMaterialOptions Options)           { mOptions = Options; mRecalcHash = true; }
+    inline void SetVertexDescription(FVertexDescription Desc)  { mVtxDesc = Desc; mRecalcHash = true; }
+    inline void SetBlendMode(GLenum SrcFac, GLenum DstFac)     { mBlendSrcFac = SrcFac; mBlendDstFac = DstFac; mRecalcHash = true; }
+    inline void SetKonst(CColor& Konst, u32 KIndex)            { mKonstColors[KIndex] = Konst; mRecalcHash = true; }
+    inline void SetIndTexture(CTexture *pTex)                  { mpIndirectTexture = pTex; }
+    inline void SetLightingEnabled(bool Enabled)               { mLightingEnabled = Enabled; mRecalcHash = true; }
+
     // Static
-    static void KillCachedMaterial();
+    inline static void KillCachedMaterial() { sCurrentMaterial = 0; }
 };
 
 #endif // MATERIAL_H

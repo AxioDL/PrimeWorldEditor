@@ -10,15 +10,15 @@
 #include <QMenu>
 
 CSceneViewport::CSceneViewport(QWidget *pParent)
-    : CBasicViewport(pParent),
-      mpEditor(nullptr),
-      mpScene(nullptr),
-      mRenderingMergedWorld(true),
-      mGizmoTransforming(false),
-      mpHoverNode(nullptr),
-      mHoverPoint(CVector3f::skZero),
-      mpContextMenu(nullptr),
-      mpMenuNode(nullptr)
+    : CBasicViewport(pParent)
+    , mpEditor(nullptr)
+    , mpScene(nullptr)
+    , mRenderingMergedWorld(true)
+    , mGizmoTransforming(false)
+    , mpHoverNode(nullptr)
+    , mHoverPoint(CVector3f::skZero)
+    , mpContextMenu(nullptr)
+    , mpMenuNode(nullptr)
 {
     mpRenderer = new CRenderer();
     mpRenderer->SetClearColor(CColor::skBlack);
@@ -58,14 +58,14 @@ void CSceneViewport::SetShowWorld(bool Visible)
         SetShowFlag(eShowSplitWorld, Visible);
 }
 
-void CSceneViewport::SetRenderMergedWorld(bool b)
+void CSceneViewport::SetRenderMergedWorld(bool RenderMerged)
 {
-    mRenderingMergedWorld = b;
+    mRenderingMergedWorld = RenderMerged;
 
     if (mViewInfo.ShowFlags & (eShowSplitWorld | eShowMergedWorld))
     {
-        SetShowFlag(eShowSplitWorld, !b);
-        SetShowFlag(eShowMergedWorld, b);
+        SetShowFlag(eShowSplitWorld, !RenderMerged);
+        SetShowFlag(eShowMergedWorld, RenderMerged);
     }
 }
 
@@ -89,7 +89,7 @@ CVector3f CSceneViewport::HoverPoint()
     return mHoverPoint;
 }
 
-void CSceneViewport::CheckGizmoInput(const CRay& ray)
+void CSceneViewport::CheckGizmoInput(const CRay& rkRay)
 {
     CGizmo *pGizmo = mpEditor->Gizmo();
 
@@ -97,7 +97,7 @@ void CSceneViewport::CheckGizmoInput(const CRay& ray)
     if (!pGizmo->IsTransforming())
     {
         if (mpEditor->IsGizmoVisible())
-            mGizmoHovering = pGizmo->CheckSelectedAxes(ray);
+            mGizmoHovering = pGizmo->CheckSelectedAxes(rkRay);
         else
             mGizmoHovering = false;
     }
@@ -105,7 +105,7 @@ void CSceneViewport::CheckGizmoInput(const CRay& ray)
     // Gizmo transforming: Run gizmo input with ray/mouse coords
     else if (mGizmoTransforming)
     {
-        bool transformed = pGizmo->TransformFromInput(ray, mCamera);
+        bool transformed = pGizmo->TransformFromInput(rkRay, mCamera);
         if (transformed) emit GizmoMoved();
     }
 
@@ -152,7 +152,7 @@ bool CSceneViewport::IsHoveringGizmo()
     return mGizmoHovering;
 }
 
-void CSceneViewport::keyPressEvent(QKeyEvent* pEvent)
+void CSceneViewport::keyPressEvent(QKeyEvent *pEvent)
 {
     CBasicViewport::keyPressEvent(pEvent);
 
@@ -246,7 +246,7 @@ void CSceneViewport::FindConnectedObjects(u32 InstanceID, bool SearchOutgoing, b
     CScriptNode *pScript = mpScene->NodeForInstanceID(InstanceID);
     if (!pScript) return;
 
-    CScriptObject *pInst = pScript->Object();
+    CScriptObject *pInst = pScript->Instance();
     rIDList << InstanceID;
 
     if (SearchOutgoing)
@@ -309,7 +309,7 @@ void CSceneViewport::Paint()
 
     if ((mViewInfo.ShowFlags & eShowSky) || mViewInfo.GameMode)
     {
-        CModel *pSky = mpScene->GetActiveSkybox();
+        CModel *pSky = mpScene->ActiveSkybox();
         if (pSky) mpRenderer->RenderSky(pSky, mViewInfo);
     }
 
@@ -342,7 +342,7 @@ void CSceneViewport::Paint()
     mpRenderer->EndFrame();
 }
 
-void CSceneViewport::ContextMenu(QContextMenuEvent* pEvent)
+void CSceneViewport::ContextMenu(QContextMenuEvent *pEvent)
 {
     // mpHoverNode is cleared during mouse input, so this call is necessary. todo: better way?
     mRayIntersection = SceneRayCast(CastRay());
@@ -366,7 +366,7 @@ void CSceneViewport::ContextMenu(QContextMenuEvent* pEvent)
 
     if (HasHoverNode)
     {
-        TString Name = IsScriptNode ? static_cast<CScriptNode*>(mpHoverNode)->Object()->InstanceName() : mpHoverNode->Name();
+        TString Name = IsScriptNode ? static_cast<CScriptNode*>(mpHoverNode)->Instance()->InstanceName() : mpHoverNode->Name();
 
         if (mpHoverNode->IsSelected())
             mpToggleSelectAction->setText(QString("Deselect %1").arg(TO_QSTRING(Name)));
@@ -377,9 +377,9 @@ void CSceneViewport::ContextMenu(QContextMenuEvent* pEvent)
     if (IsScriptNode)
     {
         CScriptNode *pScript = static_cast<CScriptNode*>(mpHoverNode);
-        NodeName = pScript->Object()->InstanceName();
+        NodeName = pScript->Instance()->InstanceName();
         mpHideHoverTypeAction->setText( QString("Hide all %1 objects").arg(TO_QSTRING(pScript->Template()->Name())) );
-        mpHideHoverLayerAction->setText( QString("Hide layer %1").arg(TO_QSTRING(pScript->Object()->Layer()->Name())) );
+        mpHideHoverLayerAction->setText( QString("Hide layer %1").arg(TO_QSTRING(pScript->Instance()->Layer()->Name())) );
     }
 
     else if (HasHoverNode)
@@ -399,10 +399,10 @@ void CSceneViewport::OnResize()
 
 void CSceneViewport::OnMouseClick(QMouseEvent *pEvent)
 {
-    bool altPressed = ((pEvent->modifiers() & Qt::AltModifier) != 0);
-    bool ctrlPressed = ((pEvent->modifiers() & Qt::ControlModifier) != 0);
+    bool AltPressed = ((pEvent->modifiers() & Qt::AltModifier) != 0);
+    bool CtrlPressed = ((pEvent->modifiers() & Qt::ControlModifier) != 0);
 
-    if (mGizmoHovering && !altPressed && !ctrlPressed)
+    if (mGizmoHovering && !AltPressed && !CtrlPressed)
     {
         mGizmoTransforming = true;
         mpEditor->Gizmo()->StartTransform();
@@ -443,7 +443,7 @@ void CSceneViewport::OnSelectConnected()
     QList<u32> InstanceIDs;
     bool SearchOutgoing = (sender() == mpSelectConnectedOutgoingAction || sender() == mpSelectConnectedAllAction);
     bool SearchIncoming = (sender() == mpSelectConnectedIncomingAction || sender() == mpSelectConnectedAllAction);
-    FindConnectedObjects(static_cast<CScriptNode*>(mpMenuNode)->Object()->InstanceID(), SearchOutgoing, SearchIncoming, InstanceIDs);
+    FindConnectedObjects(static_cast<CScriptNode*>(mpMenuNode)->Instance()->InstanceID(), SearchOutgoing, SearchIncoming, InstanceIDs);
 
     QList<CSceneNode*> Nodes;
     foreach (u32 ID, InstanceIDs)
@@ -478,7 +478,7 @@ void CSceneViewport::OnHideType()
 
 void CSceneViewport::OnHideLayer()
 {
-    static_cast<CScriptNode*>(mpMenuNode)->Object()->Layer()->SetVisible(false);
+    static_cast<CScriptNode*>(mpMenuNode)->Instance()->Layer()->SetVisible(false);
 }
 
 void CSceneViewport::OnUnhideAll()
@@ -502,7 +502,7 @@ void CSceneViewport::OnUnhideAll()
                 else
                 {
                     pScript->Template()->SetVisible(true);
-                    pScript->Object()->Layer()->SetVisible(true);
+                    pScript->Instance()->Layer()->SetVisible(true);
                 }
             }
         }

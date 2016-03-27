@@ -24,23 +24,17 @@ class CStartWindow : public QMainWindow
     CModelEditorWindow *mpModelEditor;
 
 public:
-    explicit CStartWindow(QWidget *parent = 0);
+    explicit CStartWindow(QWidget *pParent = 0);
     ~CStartWindow();
     void closeEvent(QCloseEvent *pEvent);
 
 private slots:
     void on_actionOpen_MLVL_triggered();
-
-    void on_AreaSelectComboBox_currentIndexChanged(int index);
-
-    void on_AttachedAreasList_doubleClicked(const QModelIndex &index);
-
+    void on_AreaSelectComboBox_currentIndexChanged(int Index);
+    void on_AttachedAreasList_doubleClicked(const QModelIndex& rkIndex);
     void on_LaunchWorldEditorButton_clicked();
-
     void on_actionLaunch_model_viewer_triggered();
-
     void on_actionExtract_PAK_triggered();
-
     void About();
 
 private:

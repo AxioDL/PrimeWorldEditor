@@ -30,12 +30,13 @@ struct SSurface
     };
     std::vector<SPrimitive> Primitives;
 
-    SSurface() {
+    SSurface()
+    {
         VertexCount = 0;
         TriangleCount = 0;
     }
 
-    std::pair<bool,float> IntersectsRay(const CRay& Ray, bool allowBackfaces = false, float LineThreshold = 0.02f);
+    std::pair<bool,float> IntersectsRay(const CRay& rkRay, bool AllowBackfaces = false, float LineThreshold = 0.02f);
 };
 
 #endif // SSURFACE_H

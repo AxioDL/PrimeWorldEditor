@@ -11,7 +11,7 @@
 CScriptExtra* CScriptExtra::CreateExtra(CScriptNode *pNode)
 {
     CScriptExtra *pExtra = nullptr;
-    CScriptObject *pObj = pNode->Object();
+    CScriptObject *pObj = pNode->Instance();
 
     if (pObj)
     {

@@ -1,12 +1,13 @@
 #include "CTimer.h"
+#include <cmath>
 #include <ctime>
 
 CTimer::CTimer()
+    : mStartTime(0)
+    , mStopTime(0)
+    , mStarted(false)
+    , mPaused(false)
 {
-    mStartTime = 0;
-    mStopTime = 0;
-    mStarted = false;
-    mPaused = false;
 }
 
 void CTimer::Start()
@@ -83,7 +84,13 @@ double CTimer::Time()
         return mStopTime;
 }
 
+// ************ STATIC ************
 double CTimer::GlobalTime()
 {
     return (double) clock() / CLOCKS_PER_SEC;
+}
+
+float CTimer::SecondsMod900()
+{
+    return fmodf((float) GlobalTime(), 900.f);
 }

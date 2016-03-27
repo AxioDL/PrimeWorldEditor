@@ -23,72 +23,22 @@ CScriptTemplate::~CScriptTemplate()
     delete mpBaseStruct;
 }
 
-CMasterTemplate* CScriptTemplate::MasterTemplate()
+EGame CScriptTemplate::Game() const
 {
-    return mpMaster;
-}
-
-EGame CScriptTemplate::Game()
-{
-    return mpMaster->GetGame();
-}
-
-TString CScriptTemplate::Name() const
-{
-    return mTemplateName;
-}
-
-CScriptTemplate::ERotationType CScriptTemplate::RotationType() const
-{
-    return mRotationType;
-}
-
-CScriptTemplate::EScaleType CScriptTemplate::ScaleType() const
-{
-    return mScaleType;
-}
-
-float CScriptTemplate::PreviewScale() const
-{
-    return mPreviewScale;
-}
-
-u32 CScriptTemplate::ObjectID() const
-{
-    return mObjectID;
-}
-
-void CScriptTemplate::SetVisible(bool visible)
-{
-    mVisible = visible;
-}
-
-bool CScriptTemplate::IsVisible() const
-{
-    return mVisible;
-}
-
-void CScriptTemplate::DebugPrintProperties()
-{
-    mpBaseStruct->DebugPrintProperties("");
+    return mpMaster->Game();
 }
 
 // ************ PROPERTY FETCHING ************
-template<typename t, EPropertyType propType>
-t TFetchProperty(CPropertyStruct *pProperties, const TIDString& ID)
+template<typename PropType, EPropertyType PropEnum>
+PropType TFetchProperty(CPropertyStruct *pProperties, const TIDString& rkID)
 {
-    if (ID.IsEmpty()) return nullptr;
-    IProperty *pProp = pProperties->PropertyByIDString(ID);
+    if (rkID.IsEmpty()) return nullptr;
+    IProperty *pProp = pProperties->PropertyByIDString(rkID);
 
-    if (pProp && (pProp->Type() == propType))
-        return static_cast<t>(pProp);
+    if (pProp && (pProp->Type() == PropEnum))
+        return static_cast<PropType>(pProp);
     else
         return nullptr;
-}
-
-CStructTemplate* CScriptTemplate::BaseStruct()
-{
-    return mpBaseStruct;
 }
 
 EVolumeShape CScriptTemplate::VolumeShape(CScriptObject *pObj)
@@ -101,9 +51,9 @@ EVolumeShape CScriptTemplate::VolumeShape(CScriptObject *pObj)
 
     if (mVolumeShape == eConditionalShape)
     {
-        s32 index = CheckVolumeConditions(pObj, true);
-        if (index == -1) return eInvalidShape;
-        else return mVolumeConditions[index].Shape;
+        s32 Index = CheckVolumeConditions(pObj, true);
+        if (Index == -1) return eInvalidShape;
+        else return mVolumeConditions[Index].Shape;
     }
     else return mVolumeShape;
 }
@@ -118,9 +68,9 @@ float CScriptTemplate::VolumeScale(CScriptObject *pObj)
 
     if (mVolumeShape == eConditionalShape)
     {
-        s32 index = CheckVolumeConditions(pObj, false);
-        if (index == -1) return mVolumeScale;
-        else return mVolumeConditions[index].Scale;
+        s32 Index = CheckVolumeConditions(pObj, false);
+        if (Index == -1) return mVolumeScale;
+        else return mVolumeConditions[Index].Scale;
     }
     else return mVolumeScale;
 }
@@ -133,40 +83,40 @@ s32 CScriptTemplate::CheckVolumeConditions(CScriptObject *pObj, bool LogErrors)
         IProperty *pProp = pObj->Properties()->PropertyByIDString(mVolumeConditionIDString);
 
         // Get value of the condition test property (only boolean, integral, and enum types supported)
-        int v;
+        int Val;
+
         switch (pProp->Type())
         {
         case eBoolProperty:
-            v = (static_cast<TBoolProperty*>(pProp)->Get() ? 1 : 0);
+            Val = (static_cast<TBoolProperty*>(pProp)->Get() ? 1 : 0);
             break;
 
         case eByteProperty:
-            v = (int) static_cast<TByteProperty*>(pProp)->Get();
+            Val = (int) static_cast<TByteProperty*>(pProp)->Get();
             break;
 
         case eShortProperty:
-            v = (int) static_cast<TShortProperty*>(pProp)->Get();
+            Val = (int) static_cast<TShortProperty*>(pProp)->Get();
             break;
 
         case eLongProperty:
-            v = (int) static_cast<TLongProperty*>(pProp)->Get();
+            Val = (int) static_cast<TLongProperty*>(pProp)->Get();
             break;
 
-        case eEnumProperty: {
-            v = (int) static_cast<TEnumProperty*>(pProp)->Get();
+        case eEnumProperty:
+            Val = (int) static_cast<TEnumProperty*>(pProp)->Get();
             break;
-        }
         }
 
         // Test and check whether any of the conditions are true
         for (u32 iCon = 0; iCon < mVolumeConditions.size(); iCon++)
         {
-            if (mVolumeConditions[iCon].Value == v)
+            if (mVolumeConditions[iCon].Value == Val)
                 return iCon;
         }
 
         if (LogErrors)
-            Log::Error(pObj->Template()->Name() + " instance " + TString::HexString(pObj->InstanceID(), true, true, 8) + " has unexpected volume shape value of " + TString::HexString((u32) v, true, true));
+            Log::Error(pObj->Template()->Name() + " instance " + TString::HexString(pObj->InstanceID()) + " has unexpected volume shape value of " + TString::HexString((u32) Val, 0));
     }
 
     return -1;
@@ -213,8 +163,8 @@ CModel* CScriptTemplate::FindDisplayModel(CPropertyStruct *pProperties)
         // File
         if (it->AssetSource == SEditorAsset::eFile)
         {
-            TString path = "../resources/" + it->AssetLocation;
-            pRes = gResCache.GetResource(path);
+            TString Path = "../resources/" + it->AssetLocation;
+            pRes = gResCache.GetResource(Path);
         }
 
         // Property

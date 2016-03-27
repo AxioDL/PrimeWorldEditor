@@ -31,25 +31,25 @@ class WVectorEditor : public QWidget
 
 public:
     explicit WVectorEditor(QWidget *pParent = 0);
-    WVectorEditor(const CVector3f& value, QWidget *pParent = 0);
+    WVectorEditor(const CVector3f& rkValue, QWidget *pParent = 0);
     ~WVectorEditor();
     CVector3f Value();
-    void SetOrientation(Qt::Orientation orientation);
-    void SetValue(const CVector3f& value);
-    void SetDefaultValue(double value);
-    void SetSingleStep(double step);
-    void SetLabelsHidden(bool hidden);
+    void SetOrientation(Qt::Orientation Orientation);
+    void SetValue(const CVector3f& rkValue);
+    void SetDefaultValue(double Value);
+    void SetSingleStep(double Step);
+    void SetLabelsHidden(bool Hidden);
     bool IsBeingDragged() const;
     bool IsBeingEdited() const;
 
 public slots:
-    void SetX(double x);
-    void SetY(double y);
-    void SetZ(double z);
+    void SetX(double X);
+    void SetY(double Y);
+    void SetZ(double Z);
 
 signals:
-    void ValueChanged(const CVector3f& value);
-    void EditingDone(const CVector3f& value);
+    void ValueChanged(const CVector3f& rkValue);
+    void EditingDone(const CVector3f& rkValue);
 
 private:
     void SetupUI();

@@ -11,7 +11,7 @@ struct SResSource
 {
     TString Path;
     enum {
-        Folder, PakFile
+        eFolder, ePakFile
     } Source;
 };
 
@@ -25,13 +25,13 @@ public:
     CResCache();
     ~CResCache();
     void Clean();
-    void SetFolder(TString path);
-    void SetPak(const TString& path);
-    void SetResSource(SResSource& ResSource);
+    void SetFolder(TString Path);
+    void SetPak(const TString& rkPath);
+    void SetResSource(SResSource& rResSource);
     SResSource GetResSource();
     TString GetSourcePath();
-    CResource* GetResource(CUniqueID ResID, CFourCC type);
-    CResource* GetResource(const TString& ResPath);
+    CResource* GetResource(CUniqueID ResID, CFourCC Type);
+    CResource* GetResource(const TString& rkResPath);
     CFourCC FindResourceType(CUniqueID ResID, const TStringList& rkPossibleTypes);
     void CacheResource(CResource *pRes);
     void DeleteResource(CUniqueID ResID);

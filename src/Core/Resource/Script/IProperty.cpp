@@ -50,7 +50,7 @@ TIDString IProperty::IDString(bool FullPath) const
             if (!Out.IsEmpty()) Out += ":";
         }
 
-        Out += TString::HexString(ID(), true, true, 8);
+        Out += TString::HexString(ID());
     }
 
     return Out;

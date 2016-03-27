@@ -56,33 +56,33 @@ void CDoorExtra::PropertyModified(IProperty *pProperty)
     }
 }
 
-void CDoorExtra::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
+void CDoorExtra::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo)
 {
     if (!mpShieldModel) return;
-    if (ViewInfo.GameMode && !mpInstance->IsActive()) return;
-    if (!ViewInfo.GameMode && ((ViewInfo.ShowFlags & eShowObjectGeometry) == 0)) return;
+    if (rkViewInfo.GameMode && !mpInstance->IsActive()) return;
+    if (!rkViewInfo.GameMode && ((rkViewInfo.ShowFlags & eShowObjectGeometry) == 0)) return;
 
-    if (mpParent->IsVisible() && ViewInfo.ViewFrustum.BoxInFrustum(AABox()))
+    if (mpParent->IsVisible() && rkViewInfo.ViewFrustum.BoxInFrustum(AABox()))
     {
         if (mpShieldModel->HasTransparency(0))
-            AddSurfacesToRenderer(pRenderer, mpShieldModel, 0, ViewInfo);
+            AddSurfacesToRenderer(pRenderer, mpShieldModel, 0, rkViewInfo);
         else
             pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawMesh);
 
-        if (mpParent->IsSelected() && !ViewInfo.GameMode)
+        if (mpParent->IsSelected() && !rkViewInfo.GameMode)
             pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawSelection);
     }
 }
 
-void CDoorExtra::Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& ViewInfo)
+void CDoorExtra::Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& rkViewInfo)
 {
     LoadModelMatrix();
-    mpParent->LoadLights(ViewInfo);
+    mpParent->LoadLights(rkViewInfo);
 
     CGraphics::SetupAmbientColor();
     CGraphics::UpdateVertexBlock();
 
-    CColor Tint = mpParent->TintColor(ViewInfo) * mShieldColor;
+    CColor Tint = mpParent->TintColor(rkViewInfo) * mShieldColor;
 
     CGraphics::sPixelBlock.TintColor = Tint;
     CGraphics::sPixelBlock.TevColor = CColor::skWhite;
@@ -101,27 +101,27 @@ void CDoorExtra::DrawSelection()
     mpShieldModel->DrawWireframe(eNoRenderOptions, mpParent->WireframeColor());
 }
 
-void CDoorExtra::RayAABoxIntersectTest(CRayCollisionTester& Tester, const SViewInfo& ViewInfo)
+void CDoorExtra::RayAABoxIntersectTest(CRayCollisionTester& rTester, const SViewInfo& rkViewInfo)
 {
     if (!mpShieldModel) return;
-    if (ViewInfo.GameMode && !mpInstance->IsActive()) return;
+    if (rkViewInfo.GameMode && !mpInstance->IsActive()) return;
 
-    const CRay& Ray = Tester.Ray();
+    const CRay& Ray = rTester.Ray();
     std::pair<bool,float> BoxResult = AABox().IntersectsRay(Ray);
 
     if (BoxResult.first)
-        Tester.AddNodeModel(this, mpShieldModel);
+        rTester.AddNodeModel(this, mpShieldModel);
 }
 
-SRayIntersection CDoorExtra::RayNodeIntersectTest(const CRay &Ray, u32 AssetID, const SViewInfo& ViewInfo)
+SRayIntersection CDoorExtra::RayNodeIntersectTest(const CRay& rkRay, u32 AssetID, const SViewInfo& rkViewInfo)
 {
-    FRenderOptions Options = ViewInfo.pRenderer->RenderOptions();
+    FRenderOptions Options = rkViewInfo.pRenderer->RenderOptions();
 
     SRayIntersection out;
     out.pNode = mpParent;
     out.ComponentIndex = AssetID;
 
-    CRay TransformedRay = Ray.Transformed(Transform().Inverse());
+    CRay TransformedRay = rkRay.Transformed(Transform().Inverse());
     std::pair<bool,float> Result = mpShieldModel->GetSurface(AssetID)->IntersectsRay(TransformedRay, ((Options & eEnableBackfaceCull) == 0));
 
     if (Result.first)
@@ -129,7 +129,7 @@ SRayIntersection CDoorExtra::RayNodeIntersectTest(const CRay &Ray, u32 AssetID, 
         out.Hit = true;
         CVector3f HitPoint = TransformedRay.PointOnRay(Result.second);
         CVector3f WorldHitPoint = Transform() * HitPoint;
-        out.Distance = Ray.Origin().Distance(WorldHitPoint);
+        out.Distance = rkRay.Origin().Distance(WorldHitPoint);
     }
 
     else out.Hit = false;

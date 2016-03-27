@@ -7,19 +7,19 @@ CMatrix4f::CMatrix4f()
 {
 }
 
-CMatrix4f::CMatrix4f(float v)
+CMatrix4f::CMatrix4f(float Diagonal)
 {
     *this = skZero;
-    m[0][0] = v;
-    m[1][1] = v;
-    m[2][2] = v;
-    m[3][3] = v;
+    m[0][0] = Diagonal;
+    m[1][1] = Diagonal;
+    m[2][2] = Diagonal;
+    m[3][3] = Diagonal;
 }
 
 CMatrix4f::CMatrix4f(float m00, float m01, float m02, float m03,
-          float m10, float m11, float m12, float m13,
-          float m20, float m21, float m22, float m23,
-          float m30, float m31, float m32, float m33)
+                     float m10, float m11, float m12, float m13,
+                     float m20, float m21, float m22, float m23,
+                     float m30, float m31, float m32, float m33)
 {
     m[0][0] = m00;
     m[0][1] = m01;
@@ -139,93 +139,93 @@ float CMatrix4f::Determinant() const
 
 glm::mat4 CMatrix4f::ToGlmMat4() const
 {
-    glm::mat4 out = glm::mat4(1);
-    memcpy(&out[0][0], &m[0][0], sizeof(glm::mat4));
-    return out;
+    glm::mat4 Out = glm::mat4(1);
+    memcpy(&Out[0][0], &m[0][0], sizeof(glm::mat4));
+    return Out;
 }
 
 // ************ STATIC ************
-CMatrix4f CMatrix4f::FromGlmMat4(glm::mat4 src)
+CMatrix4f CMatrix4f::FromGlmMat4(const glm::mat4& rkSrc)
 {
-    CMatrix4f out;
-    memcpy(&out[0][0], &src[0][0], sizeof(CMatrix4f));
-    return out;
+    CMatrix4f Out;
+    memcpy(&Out[0][0], &rkSrc[0][0], sizeof(CMatrix4f));
+    return Out;
 }
 
 // ************ OPERATORS ************
-inline float* CMatrix4f::operator[](long index)
+inline float* CMatrix4f::operator[](long Index)
 {
-    return m[index];
+    return m[Index];
 }
 
-inline const float* CMatrix4f::operator[](long index) const
+inline const float* CMatrix4f::operator[](long Index) const
 {
-    return m[index];
+    return m[Index];
 }
 
-CVector3f CMatrix4f::operator*(const CVector3f& vec) const
+CVector3f CMatrix4f::operator*(const CVector3f& rkVec) const
 {
     // For vec3 multiplication, the vector w component is considered to be 1.0
     CVector3f out;
-    float w = (m[3][0] * vec.x) + (m[3][1] * vec.y) + (m[3][2] * vec.z) + m[3][3];
-    out.x = ((m[0][0] * vec.x) + (m[0][1] * vec.y) + (m[0][2] * vec.z) + m[0][3]) / w;
-    out.y = ((m[1][0] * vec.x) + (m[1][1] * vec.y) + (m[1][2] * vec.z) + m[1][3]) / w;
-    out.z = ((m[2][0] * vec.x) + (m[2][1] * vec.y) + (m[2][2] * vec.z) + m[1][3]) / w;
+    float w = (m[3][0] * rkVec.X) + (m[3][1] * rkVec.Y) + (m[3][2] * rkVec.Z) + m[3][3];
+    out.X = ((m[0][0] * rkVec.X) + (m[0][1] * rkVec.Y) + (m[0][2] * rkVec.Z) + m[0][3]) / w;
+    out.Y = ((m[1][0] * rkVec.X) + (m[1][1] * rkVec.Y) + (m[1][2] * rkVec.Z) + m[1][3]) / w;
+    out.Z = ((m[2][0] * rkVec.X) + (m[2][1] * rkVec.Y) + (m[2][2] * rkVec.Z) + m[1][3]) / w;
     return out;
 }
 
-CVector4f CMatrix4f::operator*(const CVector4f& vec) const
+CVector4f CMatrix4f::operator*(const CVector4f& rkVec) const
 {
     CVector4f out;
-    out.x = (m[0][0] * vec.x) + (m[0][1] * vec.y) + (m[0][2] * vec.z) + (m[0][3] * vec.w);
-    out.y = (m[1][0] * vec.x) + (m[1][1] * vec.y) + (m[1][2] * vec.z) + (m[1][3] * vec.w);
-    out.z = (m[2][0] * vec.x) + (m[2][1] * vec.y) + (m[2][2] * vec.z) + (m[2][3] * vec.w);
-    out.w = (m[3][0] * vec.x) + (m[3][1] * vec.y) + (m[3][2] * vec.z) + (m[3][3] * vec.w);
+    out.X = (m[0][0] * rkVec.X) + (m[0][1] * rkVec.Y) + (m[0][2] * rkVec.Z) + (m[0][3] * rkVec.W);
+    out.Y = (m[1][0] * rkVec.X) + (m[1][1] * rkVec.Y) + (m[1][2] * rkVec.Z) + (m[1][3] * rkVec.W);
+    out.Z = (m[2][0] * rkVec.X) + (m[2][1] * rkVec.Y) + (m[2][2] * rkVec.Z) + (m[2][3] * rkVec.W);
+    out.W = (m[3][0] * rkVec.X) + (m[3][1] * rkVec.Y) + (m[3][2] * rkVec.Z) + (m[3][3] * rkVec.W);
     return out;
 }
 
-CMatrix4f CMatrix4f::operator*(const CTransform4f& mtx) const
+CMatrix4f CMatrix4f::operator*(const CTransform4f& rkMtx) const
 {
     // CTransform4f is a 3x4 matrix with an implicit fourth row of {0, 0, 0, 1}
     CMatrix4f out;
-    out[0][0] = (m[0][0] * mtx[0][0]) + (m[0][1] * mtx[1][0]) + (m[0][2] * mtx[2][0]);
-    out[0][1] = (m[0][0] * mtx[0][1]) + (m[0][1] * mtx[1][1]) + (m[0][2] * mtx[2][1]);
-    out[0][2] = (m[0][0] * mtx[0][2]) + (m[0][1] * mtx[1][2]) + (m[0][2] * mtx[2][2]);
-    out[0][3] = (m[0][0] * mtx[0][3]) + (m[0][1] * mtx[1][3]) + (m[0][2] * mtx[2][3]) + m[0][3];
-    out[1][0] = (m[1][0] * mtx[0][0]) + (m[1][1] * mtx[1][0]) + (m[1][2] * mtx[2][0]);
-    out[1][1] = (m[1][0] * mtx[0][1]) + (m[1][1] * mtx[1][1]) + (m[1][2] * mtx[2][1]);
-    out[1][2] = (m[1][0] * mtx[0][2]) + (m[1][1] * mtx[1][2]) + (m[1][2] * mtx[2][2]);
-    out[1][3] = (m[1][0] * mtx[0][3]) + (m[1][1] * mtx[1][3]) + (m[1][2] * mtx[2][3]) + m[1][3];
-    out[2][0] = (m[2][0] * mtx[0][0]) + (m[2][1] * mtx[1][0]) + (m[2][2] * mtx[2][0]);
-    out[2][1] = (m[2][0] * mtx[0][1]) + (m[2][1] * mtx[1][1]) + (m[2][2] * mtx[2][1]);
-    out[2][2] = (m[2][0] * mtx[0][2]) + (m[2][1] * mtx[1][2]) + (m[2][2] * mtx[2][2]);
-    out[2][3] = (m[2][0] * mtx[0][3]) + (m[2][1] * mtx[1][3]) + (m[2][2] * mtx[2][3]) + m[2][3];
-    out[3][0] = (m[3][0] * mtx[0][0]) + (m[3][1] * mtx[1][0]) + (m[3][2] * mtx[2][0]);
-    out[3][1] = (m[3][0] * mtx[0][1]) + (m[3][1] * mtx[1][1]) + (m[3][2] * mtx[2][1]);
-    out[3][2] = (m[3][0] * mtx[0][2]) + (m[3][1] * mtx[1][2]) + (m[3][2] * mtx[2][2]);
-    out[3][3] = (m[3][0] * mtx[0][3]) + (m[3][1] * mtx[1][3]) + (m[3][2] * mtx[2][3]) + m[3][3];
+    out[0][0] = (m[0][0] * rkMtx[0][0]) + (m[0][1] * rkMtx[1][0]) + (m[0][2] * rkMtx[2][0]);
+    out[0][1] = (m[0][0] * rkMtx[0][1]) + (m[0][1] * rkMtx[1][1]) + (m[0][2] * rkMtx[2][1]);
+    out[0][2] = (m[0][0] * rkMtx[0][2]) + (m[0][1] * rkMtx[1][2]) + (m[0][2] * rkMtx[2][2]);
+    out[0][3] = (m[0][0] * rkMtx[0][3]) + (m[0][1] * rkMtx[1][3]) + (m[0][2] * rkMtx[2][3]) + m[0][3];
+    out[1][0] = (m[1][0] * rkMtx[0][0]) + (m[1][1] * rkMtx[1][0]) + (m[1][2] * rkMtx[2][0]);
+    out[1][1] = (m[1][0] * rkMtx[0][1]) + (m[1][1] * rkMtx[1][1]) + (m[1][2] * rkMtx[2][1]);
+    out[1][2] = (m[1][0] * rkMtx[0][2]) + (m[1][1] * rkMtx[1][2]) + (m[1][2] * rkMtx[2][2]);
+    out[1][3] = (m[1][0] * rkMtx[0][3]) + (m[1][1] * rkMtx[1][3]) + (m[1][2] * rkMtx[2][3]) + m[1][3];
+    out[2][0] = (m[2][0] * rkMtx[0][0]) + (m[2][1] * rkMtx[1][0]) + (m[2][2] * rkMtx[2][0]);
+    out[2][1] = (m[2][0] * rkMtx[0][1]) + (m[2][1] * rkMtx[1][1]) + (m[2][2] * rkMtx[2][1]);
+    out[2][2] = (m[2][0] * rkMtx[0][2]) + (m[2][1] * rkMtx[1][2]) + (m[2][2] * rkMtx[2][2]);
+    out[2][3] = (m[2][0] * rkMtx[0][3]) + (m[2][1] * rkMtx[1][3]) + (m[2][2] * rkMtx[2][3]) + m[2][3];
+    out[3][0] = (m[3][0] * rkMtx[0][0]) + (m[3][1] * rkMtx[1][0]) + (m[3][2] * rkMtx[2][0]);
+    out[3][1] = (m[3][0] * rkMtx[0][1]) + (m[3][1] * rkMtx[1][1]) + (m[3][2] * rkMtx[2][1]);
+    out[3][2] = (m[3][0] * rkMtx[0][2]) + (m[3][1] * rkMtx[1][2]) + (m[3][2] * rkMtx[2][2]);
+    out[3][3] = (m[3][0] * rkMtx[0][3]) + (m[3][1] * rkMtx[1][3]) + (m[3][2] * rkMtx[2][3]) + m[3][3];
     return out;
 }
 
-CMatrix4f CMatrix4f::operator*(const CMatrix4f& mtx) const
+CMatrix4f CMatrix4f::operator*(const CMatrix4f& rkMtx) const
 {
     CMatrix4f out;
-    out[0][0] = (m[0][0] * mtx[0][0]) + (m[0][1] * mtx[1][0]) + (m[0][2] * mtx[2][0]) + (m[0][3] * mtx[3][0]);
-    out[0][1] = (m[0][0] * mtx[0][1]) + (m[0][1] * mtx[1][1]) + (m[0][2] * mtx[2][1]) + (m[0][3] * mtx[3][1]);
-    out[0][2] = (m[0][0] * mtx[0][2]) + (m[0][1] * mtx[1][2]) + (m[0][2] * mtx[2][2]) + (m[0][3] * mtx[3][2]);
-    out[0][3] = (m[0][0] * mtx[0][3]) + (m[0][1] * mtx[1][3]) + (m[0][2] * mtx[2][3]) + (m[0][3] * mtx[3][3]);
-    out[1][0] = (m[1][0] * mtx[0][0]) + (m[1][1] * mtx[1][0]) + (m[1][2] * mtx[2][0]) + (m[1][3] * mtx[3][0]);
-    out[1][1] = (m[1][0] * mtx[0][1]) + (m[1][1] * mtx[1][1]) + (m[1][2] * mtx[2][1]) + (m[1][3] * mtx[3][1]);
-    out[1][2] = (m[1][0] * mtx[0][2]) + (m[1][1] * mtx[1][2]) + (m[1][2] * mtx[2][2]) + (m[1][3] * mtx[3][2]);
-    out[1][3] = (m[1][0] * mtx[0][3]) + (m[1][1] * mtx[1][3]) + (m[1][2] * mtx[2][3]) + (m[1][3] * mtx[3][3]);
-    out[2][0] = (m[2][0] * mtx[0][0]) + (m[2][1] * mtx[1][0]) + (m[2][2] * mtx[2][0]) + (m[2][3] * mtx[3][0]);
-    out[2][1] = (m[2][0] * mtx[0][1]) + (m[2][1] * mtx[1][1]) + (m[2][2] * mtx[2][1]) + (m[2][3] * mtx[3][1]);
-    out[2][2] = (m[2][0] * mtx[0][2]) + (m[2][1] * mtx[1][2]) + (m[2][2] * mtx[2][2]) + (m[2][3] * mtx[3][2]);
-    out[2][3] = (m[2][0] * mtx[0][3]) + (m[2][1] * mtx[1][3]) + (m[2][2] * mtx[2][3]) + (m[2][3] * mtx[3][3]);
-    out[3][0] = (m[3][0] * mtx[0][0]) + (m[3][1] * mtx[1][0]) + (m[3][2] * mtx[2][0]) + (m[3][3] * mtx[3][0]);
-    out[3][1] = (m[3][0] * mtx[0][1]) + (m[3][1] * mtx[1][1]) + (m[3][2] * mtx[2][1]) + (m[3][3] * mtx[3][1]);
-    out[3][2] = (m[3][0] * mtx[0][2]) + (m[3][1] * mtx[1][2]) + (m[3][2] * mtx[2][2]) + (m[3][3] * mtx[3][2]);
-    out[3][3] = (m[3][0] * mtx[0][3]) + (m[3][1] * mtx[1][3]) + (m[3][2] * mtx[2][3]) + (m[3][3] * mtx[3][3]);
+    out[0][0] = (m[0][0] * rkMtx[0][0]) + (m[0][1] * rkMtx[1][0]) + (m[0][2] * rkMtx[2][0]) + (m[0][3] * rkMtx[3][0]);
+    out[0][1] = (m[0][0] * rkMtx[0][1]) + (m[0][1] * rkMtx[1][1]) + (m[0][2] * rkMtx[2][1]) + (m[0][3] * rkMtx[3][1]);
+    out[0][2] = (m[0][0] * rkMtx[0][2]) + (m[0][1] * rkMtx[1][2]) + (m[0][2] * rkMtx[2][2]) + (m[0][3] * rkMtx[3][2]);
+    out[0][3] = (m[0][0] * rkMtx[0][3]) + (m[0][1] * rkMtx[1][3]) + (m[0][2] * rkMtx[2][3]) + (m[0][3] * rkMtx[3][3]);
+    out[1][0] = (m[1][0] * rkMtx[0][0]) + (m[1][1] * rkMtx[1][0]) + (m[1][2] * rkMtx[2][0]) + (m[1][3] * rkMtx[3][0]);
+    out[1][1] = (m[1][0] * rkMtx[0][1]) + (m[1][1] * rkMtx[1][1]) + (m[1][2] * rkMtx[2][1]) + (m[1][3] * rkMtx[3][1]);
+    out[1][2] = (m[1][0] * rkMtx[0][2]) + (m[1][1] * rkMtx[1][2]) + (m[1][2] * rkMtx[2][2]) + (m[1][3] * rkMtx[3][2]);
+    out[1][3] = (m[1][0] * rkMtx[0][3]) + (m[1][1] * rkMtx[1][3]) + (m[1][2] * rkMtx[2][3]) + (m[1][3] * rkMtx[3][3]);
+    out[2][0] = (m[2][0] * rkMtx[0][0]) + (m[2][1] * rkMtx[1][0]) + (m[2][2] * rkMtx[2][0]) + (m[2][3] * rkMtx[3][0]);
+    out[2][1] = (m[2][0] * rkMtx[0][1]) + (m[2][1] * rkMtx[1][1]) + (m[2][2] * rkMtx[2][1]) + (m[2][3] * rkMtx[3][1]);
+    out[2][2] = (m[2][0] * rkMtx[0][2]) + (m[2][1] * rkMtx[1][2]) + (m[2][2] * rkMtx[2][2]) + (m[2][3] * rkMtx[3][2]);
+    out[2][3] = (m[2][0] * rkMtx[0][3]) + (m[2][1] * rkMtx[1][3]) + (m[2][2] * rkMtx[2][3]) + (m[2][3] * rkMtx[3][3]);
+    out[3][0] = (m[3][0] * rkMtx[0][0]) + (m[3][1] * rkMtx[1][0]) + (m[3][2] * rkMtx[2][0]) + (m[3][3] * rkMtx[3][0]);
+    out[3][1] = (m[3][0] * rkMtx[0][1]) + (m[3][1] * rkMtx[1][1]) + (m[3][2] * rkMtx[2][1]) + (m[3][3] * rkMtx[3][1]);
+    out[3][2] = (m[3][0] * rkMtx[0][2]) + (m[3][1] * rkMtx[1][2]) + (m[3][2] * rkMtx[2][2]) + (m[3][3] * rkMtx[3][2]);
+    out[3][3] = (m[3][0] * rkMtx[0][3]) + (m[3][1] * rkMtx[1][3]) + (m[3][2] * rkMtx[2][3]) + (m[3][3] * rkMtx[3][3]);
     return out;
 }
 

@@ -67,7 +67,7 @@ void CDrawUtil::DrawSquare()
 {
     // Overload with default tex coords
     CVector2f TexCoords[4] = { CVector2f(0.f, 1.f), CVector2f(1.f, 1.f), CVector2f(1.f, 0.f), CVector2f(0.f, 0.f) };
-    DrawSquare(&TexCoords[0].x);
+    DrawSquare(&TexCoords[0].X);
 }
 
 void CDrawUtil::DrawSquare(const CVector2f& TexUL, const CVector2f& TexUR, const CVector2f& TexBR, const CVector2f& TexBL)
@@ -75,7 +75,7 @@ void CDrawUtil::DrawSquare(const CVector2f& TexUL, const CVector2f& TexUR, const
     // Overload with tex coords specified via parameters
     // I don't think that parameters are guaranteed to be contiguous in memory, so:
     CVector2f TexCoords[4] = { TexUL, TexUR, TexBR, TexBL };
-    DrawSquare(&TexCoords[0].x);
+    DrawSquare(&TexCoords[0].X);
 }
 
 void CDrawUtil::DrawSquare(const float *pTexCoords)
@@ -103,7 +103,7 @@ void CDrawUtil::DrawLine(const CVector3f& PointA, const CVector3f& PointB)
 void CDrawUtil::DrawLine(const CVector2f& PointA, const CVector2f& PointB)
 {
     // Overload for 2D lines
-    DrawLine(CVector3f(PointA.x, PointA.y, 0.f), CVector3f(PointB.x, PointB.y, 0.f), CColor::skWhite);
+    DrawLine(CVector3f(PointA.X, PointA.Y, 0.f), CVector3f(PointB.X, PointB.Y, 0.f), CColor::skWhite);
 }
 
 void CDrawUtil::DrawLine(const CVector3f& PointA, const CVector3f& PointB, const CColor& LineColor)
@@ -124,7 +124,7 @@ void CDrawUtil::DrawLine(const CVector3f& PointA, const CVector3f& PointB, const
 void CDrawUtil::DrawLine(const CVector2f& PointA, const CVector2f& PointB, const CColor& LineColor)
 {
     // Overload for 2D lines
-    DrawLine(CVector3f(PointA.x, PointA.y, 0.f), CVector3f(PointB.x, PointB.y, 0.f), LineColor);
+    DrawLine(CVector3f(PointA.X, PointA.Y, 0.f), CVector3f(PointB.X, PointB.Y, 0.f), LineColor);
 }
 
 void CDrawUtil::DrawCube()
@@ -230,10 +230,10 @@ void CDrawUtil::DrawBillboard(CTexture* pTexture, const CVector3f& Position, con
     mpBillboardShader->SetCurrent();
 
     GLuint ScaleLoc = mpBillboardShader->GetUniformLocation("BillboardScale");
-    glUniform2f(ScaleLoc, Scale.x, Scale.y);
+    glUniform2f(ScaleLoc, Scale.X, Scale.Y);
 
     GLuint TintLoc = mpBillboardShader->GetUniformLocation("TintColor");
-    glUniform4f(TintLoc, Tint.r, Tint.g, Tint.b, Tint.a);
+    glUniform4f(TintLoc, Tint.R, Tint.G, Tint.B, Tint.A);
 
     pTexture->Bind(0);
 
@@ -259,13 +259,13 @@ void CDrawUtil::DrawLightBillboard(ELightType Type, const CColor& LightColor, co
     mpLightBillboardShader->SetCurrent();
 
     GLuint ScaleLoc = mpLightBillboardShader->GetUniformLocation("BillboardScale");
-    glUniform2f(ScaleLoc, Scale.x, Scale.y);
+    glUniform2f(ScaleLoc, Scale.X, Scale.Y);
 
     GLuint ColorLoc = mpLightBillboardShader->GetUniformLocation("LightColor");
-    glUniform4f(ColorLoc, LightColor.r, LightColor.g, LightColor.b, LightColor.a);
+    glUniform4f(ColorLoc, LightColor.R, LightColor.G, LightColor.B, LightColor.A);
 
     GLuint TintLoc = mpLightBillboardShader->GetUniformLocation("TintColor");
-    glUniform4f(TintLoc, Tint.r, Tint.g, Tint.b, Tint.a);
+    glUniform4f(TintLoc, Tint.R, Tint.G, Tint.B, Tint.A);
 
     CTexture *pTexA = GetLightTexture(Type);
     CTexture *pTexB = GetLightMask(Type);
@@ -294,7 +294,7 @@ void CDrawUtil::UseColorShader(const CColor& kColor)
     mpColorShader->SetCurrent();
 
     GLuint ColorLoc = mpColorShader->GetUniformLocation("ColorIn");
-    glUniform4f(ColorLoc, kColor.r, kColor.g, kColor.b, kColor.a);
+    glUniform4f(ColorLoc, kColor.R, kColor.G, kColor.B, kColor.A);
 
     CMaterial::KillCachedMaterial();
 }
@@ -308,7 +308,7 @@ void CDrawUtil::UseColorShaderLighting(const CColor& kColor)
     glUniform1i(NumLightsLoc, CGraphics::sNumLights);
 
     GLuint ColorLoc = mpColorShaderLighting->GetUniformLocation("ColorIn");
-    glUniform4f(ColorLoc, kColor.r, kColor.g, kColor.b, kColor.a);
+    glUniform4f(ColorLoc, kColor.R, kColor.G, kColor.B, kColor.A);
 
     CMaterial::KillCachedMaterial();
 }
@@ -324,7 +324,7 @@ void CDrawUtil::UseTextureShader(const CColor& TintColor)
     mpTextureShader->SetCurrent();
 
     GLuint TintColorLoc = mpTextureShader->GetUniformLocation("TintColor");
-    glUniform4f(TintColorLoc, TintColor.r, TintColor.g, TintColor.b, TintColor.a);
+    glUniform4f(TintColorLoc, TintColor.R, TintColor.G, TintColor.B, TintColor.A);
 
     CMaterial::KillCachedMaterial();
 }
@@ -336,7 +336,7 @@ void CDrawUtil::UseCollisionShader(const CColor& TintColor /*= CColor::skWhite*/
     LoadCheckerboardTexture(0);
 
     GLuint TintColorLoc = mpCollisionShader->GetUniformLocation("TintColor");
-    glUniform4f(TintColorLoc, TintColor.r, TintColor.g, TintColor.b, TintColor.a);
+    glUniform4f(TintColorLoc, TintColor.R, TintColor.G, TintColor.B, TintColor.A);
 
     CMaterial::KillCachedMaterial();
 }

@@ -3,8 +3,6 @@
 
 #include "Core/Resource/Model/EVertexAttribute.h"
 #include <Common/types.h>
-#include <Math/CVector2f.h>
-#include <Math/CVector3f.h>
 
 #include <vector>
 #include <GL/glew.h>
@@ -23,7 +21,7 @@ public:
     void Bind();
     void Unbind();
     void SetActiveAttribs(FVertexDescription AttribFlags);
-    void BufferAttrib(EVertexAttribute Attrib, const void *pData);
+    void BufferAttrib(EVertexAttribute Attrib, const void *pkData);
     void ClearBuffers();
     GLuint CreateVAO();
 private:

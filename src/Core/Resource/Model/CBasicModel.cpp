@@ -2,11 +2,14 @@
 #include <iostream>
 #include <list>
 
-CBasicModel::CBasicModel() : CResource()
+CBasicModel::CBasicModel()
+    : CResource()
+    , mVertexCount(0)
+    , mTriangleCount(0)
+    , mBuffered(false)
+    , mHasOwnMaterials(false)
+    , mHasOwnSurfaces(false)
 {
-    mVertexCount = 0;
-    mTriangleCount = 0;
-    mBuffered = false;
 }
 
 CBasicModel::~CBasicModel()

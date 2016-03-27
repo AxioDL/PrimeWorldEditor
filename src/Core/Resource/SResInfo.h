@@ -6,14 +6,14 @@
 
 struct SResInfo
 {
-    bool compressed;
-    CFourCC resType;
-    u64 resID;
-    u32 offset;
-    u32 size;
+    bool Compressed;
+    CFourCC Type;
+    u64 ID;
+    u32 Offset;
+    u32 Size;
 
     SResInfo()
-        : compressed(false), resType("NULL"), resID(0), offset(0), size(0) {}
+        : Compressed(false), Type("NULL"), ID(0), Offset(0), Size(0) {}
 };
 
 #endif // SRESINFO_H

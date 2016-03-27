@@ -30,7 +30,7 @@ void CCreateInstanceCommand::redo()
 {
     mpEditor->NotifyNodeAboutToBeSpawned();
 
-    CScriptLayer *pLayer = (mLayerIndex == -1 ? mpArea->GetGeneratorLayer() : mpArea->GetScriptLayer(mLayerIndex));
+    CScriptLayer *pLayer = (mLayerIndex == -1 ? mpArea->GeneratedObjectsLayer() : mpArea->ScriptLayer(mLayerIndex));
     CScriptObject *pNewInst = mpArea->SpawnInstance(mpTemplate, pLayer, mSpawnPosition);
     CScriptNode *pNewNode = mpScene->CreateScriptNode(pNewInst);
     pNewNode->SetPosition(mSpawnPosition);

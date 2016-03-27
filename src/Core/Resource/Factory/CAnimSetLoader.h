@@ -7,18 +7,18 @@
 
 class CAnimSetLoader
 {
-    TResPtr<CAnimSet> set;
+    TResPtr<CAnimSet> pSet;
     CResCache *mpResCache;
     EGame mVersion;
 
     CAnimSetLoader();
-    CAnimSet* LoadCorruptionCHAR(IInputStream& CHAR);
-    CAnimSet* LoadReturnsCHAR(IInputStream& CHAR);
-    void LoadPASDatabase(IInputStream& PAS4);
+    CAnimSet* LoadCorruptionCHAR(IInputStream& rCHAR);
+    CAnimSet* LoadReturnsCHAR(IInputStream& rCHAR);
+    void LoadPASDatabase(IInputStream& rPAS4);
 
 public:
-    static CAnimSet* LoadANCS(IInputStream& ANCS);
-    static CAnimSet* LoadCHAR(IInputStream& CHAR);
+    static CAnimSet* LoadANCS(IInputStream& rANCS);
+    static CAnimSet* LoadCHAR(IInputStream& rCHAR);
 };
 
 #endif // CCHARACTERLOADER_H

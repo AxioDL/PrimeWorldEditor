@@ -23,6 +23,7 @@ public:
 
     // Static
     static double GlobalTime();
+    static float SecondsMod900();
 };
 
 #endif // CTIMER_H

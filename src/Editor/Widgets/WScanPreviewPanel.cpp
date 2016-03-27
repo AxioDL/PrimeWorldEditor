@@ -3,9 +3,9 @@
 #include "WStringPreviewPanel.h"
 #include <Core/Resource/CScan.h>
 
-WScanPreviewPanel::WScanPreviewPanel(QWidget *parent) :
-    IPreviewPanel(parent),
-    ui(new Ui::WScanPreviewPanel)
+WScanPreviewPanel::WScanPreviewPanel(QWidget *pParent)
+    : IPreviewPanel(pParent)
+    , ui(new Ui::WScanPreviewPanel)
 {
     ui->setupUi(this);
 

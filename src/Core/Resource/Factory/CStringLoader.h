@@ -12,13 +12,13 @@ class CStringLoader
     EGame mVersion;
 
     CStringLoader();
-    void LoadPrimeDemoSTRG(IInputStream& STRG);
-    void LoadPrimeSTRG(IInputStream& STRG);
-    void LoadCorruptionSTRG(IInputStream& STRG);
-    void LoadNameTable(IInputStream& STRG);
+    void LoadPrimeDemoSTRG(IInputStream& rSTRG);
+    void LoadPrimeSTRG(IInputStream& rSTRG);
+    void LoadCorruptionSTRG(IInputStream& rSTRG);
+    void LoadNameTable(IInputStream& rSTRG);
 
 public:
-    static CStringTable* LoadSTRG(IInputStream& STRG);
+    static CStringTable* LoadSTRG(IInputStream& rSTRG);
     static EGame GetFormatVersion(u32 Version);
 };
 

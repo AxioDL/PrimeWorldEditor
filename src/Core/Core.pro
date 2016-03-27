@@ -159,7 +159,6 @@ HEADERS += \
     SRayIntersection.h \
     OpenGL/CDynamicVertexBuffer.h \
     OpenGL/CFramebuffer.h \
-    OpenGL/CGL.h \
     OpenGL/CIndexBuffer.h \
     OpenGL/CRenderbuffer.h \
     OpenGL/CShader.h \
@@ -193,11 +192,10 @@ SOURCES += \
     Render/CCamera.cpp \
     Render/CDrawUtil.cpp \
     Render/CGraphics.cpp \
-    Render/CRenderBucket.cpp \
     Render/CRenderer.cpp \
+    Render/CRenderBucket.cpp \
     Resource/Cooker/CMaterialCooker.cpp \
     Resource/Cooker/CModelCooker.cpp \
-    Resource/Cooker/CSectionMgrOut.cpp \
     Resource/Cooker/CTemplateWriter.cpp \
     Resource/Cooker/CTextureEncoder.cpp \
     Resource/Cooker/CWorldCooker.cpp \
@@ -221,20 +219,15 @@ SOURCES += \
     Resource/Script/CScriptObject.cpp \
     Resource/Script/CScriptTemplate.cpp \
     Resource/CAnimationParameters.cpp \
-    Resource/CAnimSet.cpp \
     Resource/CCollisionMesh.cpp \
-    Resource/CCollisionMeshGroup.cpp \
     Resource/CFont.cpp \
     Resource/CGameArea.cpp \
     Resource/CLight.cpp \
     Resource/CMaterial.cpp \
     Resource/CMaterialPass.cpp \
-    Resource/CMaterialSet.cpp \
     Resource/CPakFile.cpp \
     Resource/CResCache.cpp \
     Resource/CResource.cpp \
-    Resource/CScan.cpp \
-    Resource/CStringTable.cpp \
     Resource/CTexture.cpp \
     Resource/CWorld.cpp \
     Scene/CCollisionNode.cpp \
@@ -253,12 +246,9 @@ SOURCES += \
     CRayCollisionTester.cpp \
     OpenGL/CDynamicVertexBuffer.cpp \
     OpenGL/CFramebuffer.cpp \
-    OpenGL/CGL.cpp \
     OpenGL/CIndexBuffer.cpp \
-    OpenGL/CRenderbuffer.cpp \
     OpenGL/CShader.cpp \
     OpenGL/CShaderGenerator.cpp \
-    OpenGL/CUniformBuffer.cpp \
     OpenGL/CVertexArrayManager.cpp \
     OpenGL/CVertexBuffer.cpp \
     OpenGL/GLCommon.cpp \

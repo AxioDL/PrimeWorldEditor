@@ -7,39 +7,39 @@
 class CVector2f
 {
 public:
-    float x, y;
+    float X, Y;
     CVector2f();
-    CVector2f(float xy);
-    CVector2f(float _x, float _y);
-    CVector2f(IInputStream& Input);
-    void Write(IOutputStream& Output);
+    CVector2f(float XY);
+    CVector2f(float _X, float _Y);
+    CVector2f(IInputStream& rInput);
+    void Write(IOutputStream& rOutput);
 
     float Magnitude() const;
     float SquaredMagnitude() const;
     CVector2f Normalized() const;
-    float Dot(const CVector2f& other) const;
+    float Dot(const CVector2f& rkOther) const;
 
-    CVector2f operator+(const CVector2f& other) const;
-    CVector2f operator-(const CVector2f& other) const;
-    CVector2f operator*(const CVector2f& other) const;
-    CVector2f operator/(const CVector2f& other) const;
-    void operator+=(const CVector2f& other);
-    void operator-=(const CVector2f& other);
-    void operator*=(const CVector2f& other);
-    void operator/=(const CVector2f& other);
-    CVector2f operator+(const float other) const;
-    CVector2f operator-(const float other) const;
-    CVector2f operator*(const float other) const;
-    CVector2f operator/(const float other) const;
-    void operator+=(const float other);
-    void operator-=(const float other);
-    void operator*=(const float other);
-    void operator/=(const float other);
-    bool operator==(const CVector2f& other) const;
-    bool operator!=(const CVector2f& other) const;
+    CVector2f operator+(const CVector2f& rkOther) const;
+    CVector2f operator-(const CVector2f& rkOther) const;
+    CVector2f operator*(const CVector2f& rkOther) const;
+    CVector2f operator/(const CVector2f& rkOther) const;
+    void operator+=(const CVector2f& rkOther);
+    void operator-=(const CVector2f& rkOther);
+    void operator*=(const CVector2f& rkOther);
+    void operator/=(const CVector2f& rkOther);
+    CVector2f operator+(const float Other) const;
+    CVector2f operator-(const float Other) const;
+    CVector2f operator*(const float Other) const;
+    CVector2f operator/(const float Other) const;
+    void operator+=(const float Other);
+    void operator-=(const float Other);
+    void operator*=(const float Other);
+    void operator/=(const float Other);
+    bool operator==(const CVector2f& rkOther) const;
+    bool operator!=(const CVector2f& rkOther) const;
     CVector2f operator-() const;
-    float& operator[](long index);
-    const float& operator[](long index) const;
+    float& operator[](long Index);
+    const float& operator[](long Index) const;
 
     // Static Members
     static const CVector2f skZero;

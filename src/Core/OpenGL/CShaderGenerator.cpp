@@ -170,8 +170,8 @@ bool CShaderGenerator::CreateVertexShader(const CMaterial& Mat)
     // Output
     ShaderCode << "// Output\n";
     if (VtxDesc & eNormal)  ShaderCode << "out vec3 Normal;\n";
-    if (VtxDesc & eColor0) ShaderCode << "out vec4 Color0;\n";
-    if (VtxDesc & eColor1) ShaderCode << "out vec4 Color1;\n";
+    if (VtxDesc & eColor0)  ShaderCode << "out vec4 Color0;\n";
+    if (VtxDesc & eColor1)  ShaderCode << "out vec4 Color1;\n";
 
     for (u32 iPass = 0; iPass < Mat.PassCount(); iPass++)
         if (Mat.Pass(iPass)->TexCoordSource() != 0xFF)
@@ -299,7 +299,7 @@ bool CShaderGenerator::CreateVertexShader(const CMaterial& Mat)
 
 
     // Done!
-    return mShader->CompileVertexSource(ShaderCode.str().c_str());
+    return mpShader->CompileVertexSource(ShaderCode.str().c_str());
 }
 
 bool CShaderGenerator::CreatePixelShader(const CMaterial& Mat)
@@ -433,17 +433,17 @@ bool CShaderGenerator::CreatePixelShader(const CMaterial& Mat)
                << "}\n\n";
 
     // Done!
-    return mShader->CompilePixelSource(ShaderCode.str().c_str());
+    return mpShader->CompilePixelSource(ShaderCode.str().c_str());
 }
 
-CShader* CShaderGenerator::GenerateShader(const CMaterial& Mat)
+CShader* CShaderGenerator::GenerateShader(const CMaterial& rkMat)
 {
     CShaderGenerator Generator;
-    Generator.mShader = new CShader();
+    Generator.mpShader = new CShader();
 
-    bool Success = Generator.CreateVertexShader(Mat);
-    if (Success) Success = Generator.CreatePixelShader(Mat);
+    bool Success = Generator.CreateVertexShader(rkMat);
+    if (Success) Success = Generator.CreatePixelShader(rkMat);
 
-    Generator.mShader->LinkShaders();
-    return Generator.mShader;
+    Generator.mpShader->LinkShaders();
+    return Generator.mpShader;
 }

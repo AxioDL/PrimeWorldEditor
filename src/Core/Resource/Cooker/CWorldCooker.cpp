@@ -4,9 +4,9 @@ CWorldCooker::CWorldCooker()
 {
 }
 
-u32 CWorldCooker::GetMLVLVersion(EGame version)
+u32 CWorldCooker::GetMLVLVersion(EGame Version)
 {
-    switch (version)
+    switch (Version)
     {
     case ePrimeDemo:  return 0xD;
     case ePrime:      return 0x11;

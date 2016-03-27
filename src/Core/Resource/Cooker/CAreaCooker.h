@@ -64,7 +64,7 @@ class CAreaCooker
 
 public:
     static void WriteCookedArea(CGameArea *pArea, IOutputStream& rOut);
-    static u32 GetMREAVersion(EGame version);
+    static u32 GetMREAVersion(EGame Version);
 };
 
 #endif // CAREACOOKER_H

@@ -14,18 +14,18 @@ class WDraggableSpinBox : public QDoubleSpinBox
     bool mTrimTrailingZeroes;
 
 public:
-    explicit WDraggableSpinBox(QWidget *parent = 0);
+    explicit WDraggableSpinBox(QWidget *pParent = 0);
     ~WDraggableSpinBox();
     void mousePressEvent(QMouseEvent *pEvent);
     void mouseReleaseEvent(QMouseEvent *pEvent);
     void mouseMoveEvent(QMouseEvent *pEvent);
     void wheelEvent(QWheelEvent *pEvent);
     bool eventFilter(QObject *pObj, QEvent *pEvent);
-    QString textFromValue(double val) const;
+    QString textFromValue(double Val) const;
     bool IsBeingDragged();
-    void SetDefaultValue(double value);
-    void SetMinDecimals(int dec);
-    void TrimTrailingZeroes(bool trim);
+    void SetDefaultValue(double Value);
+    void SetMinDecimals(int Dec);
+    void TrimTrailingZeroes(bool Trim);
 };
 
 #endif // WDRAGGABLESPINBOX_H

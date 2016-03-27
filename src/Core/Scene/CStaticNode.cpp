@@ -2,15 +2,14 @@
 #include "Core/Render/CGraphics.h"
 #include "Core/Render/CDrawUtil.h"
 #include "Core/Render/CRenderer.h"
-#include <Common/AnimUtil.h>
 #include <Math/MathUtil.h>
 
 CStaticNode::CStaticNode(CScene *pScene, u32 NodeID, CSceneNode *pParent, CStaticModel *pModel)
     : CSceneNode(pScene, NodeID, pParent)
+    , mpModel(pModel)
 {
-    mpModel = pModel;
     mLocalAABox = mpModel->AABox();
-    mScale = CVector3f(1.f, 1.f, 1.f);
+    mScale = CVector3f::skOne;
     SetName("Static Node");
 }
 
@@ -28,11 +27,11 @@ void CStaticNode::PostLoad()
     }
 }
 
-void CStaticNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
+void CStaticNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo)
 {
     if (!mpModel) return;
     if (mpModel->IsOccluder()) return;
-    if (!ViewInfo.ViewFrustum.BoxInFrustum(AABox())) return;
+    if (!rkViewInfo.ViewFrustum.BoxInFrustum(AABox())) return;
 
     if (!mpModel->IsTransparent())
         pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawMesh);
@@ -44,20 +43,20 @@ void CStaticNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
         {
             CAABox TransformedBox = mpModel->GetSurfaceAABox(iSurf).Transformed(Transform());
 
-            if (ViewInfo.ViewFrustum.BoxInFrustum(TransformedBox))
+            if (rkViewInfo.ViewFrustum.BoxInFrustum(TransformedBox))
                 pRenderer->AddTransparentMesh(this, iSurf, TransformedBox, eDrawMesh);
         }
     }
 
-    if (mSelected && !ViewInfo.GameMode)
+    if (mSelected && !rkViewInfo.GameMode)
         pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawSelection);
 }
 
-void CStaticNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& ViewInfo)
+void CStaticNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& rkViewInfo)
 {
     if (!mpModel) return;
 
-    bool IsLightingEnabled = CGraphics::sLightMode == CGraphics::eWorldLighting || ViewInfo.GameMode;
+    bool IsLightingEnabled = CGraphics::sLightMode == CGraphics::eWorldLighting || rkViewInfo.GameMode;
     bool UseWhiteAmbient   = (mpModel->GetMaterial()->Options() & CMaterial::eDrawWhiteAmbientDKCR) != 0;
 
     if (IsLightingEnabled)
@@ -70,14 +69,14 @@ void CStaticNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewIn
 
     else
     {
-        LoadLights(ViewInfo);
+        LoadLights(rkViewInfo);
         if (CGraphics::sLightMode == CGraphics::eNoLighting || UseWhiteAmbient)
             CGraphics::sVertexBlock.COLOR0_Amb = CColor::skWhite;
     }
 
     float Mul = CGraphics::sWorldLightMultiplier;
     CGraphics::sPixelBlock.TevColor = CColor(Mul,Mul,Mul);
-    CGraphics::sPixelBlock.TintColor = TintColor(ViewInfo);
+    CGraphics::sPixelBlock.TintColor = TintColor(rkViewInfo);
     LoadModelMatrix();
 
     if (ComponentIndex < 0)
@@ -93,47 +92,47 @@ void CStaticNode::DrawSelection()
     mpModel->DrawWireframe(eNoRenderOptions, WireframeColor());
 }
 
-void CStaticNode::RayAABoxIntersectTest(CRayCollisionTester& Tester, const SViewInfo& /*ViewInfo*/)
+void CStaticNode::RayAABoxIntersectTest(CRayCollisionTester& rTester, const SViewInfo& /*rkViewInfo*/)
 {
     if ((!mpModel) || (mpModel->IsOccluder()))
         return;
 
-    const CRay& Ray = Tester.Ray();
-    std::pair<bool,float> BoxResult = AABox().IntersectsRay(Ray);
+    const CRay& rkRay = rTester.Ray();
+    std::pair<bool,float> BoxResult = AABox().IntersectsRay(rkRay);
 
     if (BoxResult.first)
     {
         for (u32 iSurf = 0; iSurf < mpModel->GetSurfaceCount(); iSurf++)
         {
-            std::pair<bool,float> SurfResult = mpModel->GetSurfaceAABox(iSurf).Transformed(Transform()).IntersectsRay(Ray);
+            std::pair<bool,float> SurfResult = mpModel->GetSurfaceAABox(iSurf).Transformed(Transform()).IntersectsRay(rkRay);
 
             if (SurfResult.first)
-                Tester.AddNode(this, iSurf, SurfResult.second);
+                rTester.AddNode(this, iSurf, SurfResult.second);
         }
     }
 }
 
-SRayIntersection CStaticNode::RayNodeIntersectTest(const CRay &Ray, u32 AssetID, const SViewInfo& ViewInfo)
+SRayIntersection CStaticNode::RayNodeIntersectTest(const CRay& rkRay, u32 AssetID, const SViewInfo& rkViewInfo)
 {
-    SRayIntersection out;
-    out.pNode = this;
-    out.ComponentIndex = AssetID;
+    SRayIntersection Out;
+    Out.pNode = this;
+    Out.ComponentIndex = AssetID;
 
-    CRay TransformedRay = Ray.Transformed(Transform().Inverse());
-    FRenderOptions options = ViewInfo.pRenderer->RenderOptions();
-    std::pair<bool,float> Result = mpModel->GetSurface(AssetID)->IntersectsRay(TransformedRay, ((options & eEnableBackfaceCull) == 0));
+    CRay TransformedRay = rkRay.Transformed(Transform().Inverse());
+    FRenderOptions Options = rkViewInfo.pRenderer->RenderOptions();
+    std::pair<bool,float> Result = mpModel->GetSurface(AssetID)->IntersectsRay(TransformedRay, ((Options & eEnableBackfaceCull) == 0));
 
     if (Result.first)
     {
-        out.Hit = true;
+        Out.Hit = true;
 
         CVector3f HitPoint = TransformedRay.PointOnRay(Result.second);
         CVector3f WorldHitPoint = Transform() * HitPoint;
-        out.Distance = Math::Distance(Ray.Origin(), WorldHitPoint);
+        Out.Distance = Math::Distance(rkRay.Origin(), WorldHitPoint);
     }
 
     else
-        out.Hit = false;
+        Out.Hit = false;
 
-    return out;
+    return Out;
 }

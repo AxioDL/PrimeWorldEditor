@@ -11,10 +11,10 @@ class CFontLoader
     EGame mVersion;
 
     CFontLoader();
-    CFont* LoadFont(IInputStream& FONT);
+    CFont* LoadFont(IInputStream& rFONT);
 
 public:
-    static CFont* LoadFONT(IInputStream& FONT);
+    static CFont* LoadFONT(IInputStream& rFONT);
     static EGame GetFormatVersion(u32 Version);
 };
 

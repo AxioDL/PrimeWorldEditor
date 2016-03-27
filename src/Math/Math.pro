@@ -80,9 +80,7 @@ SOURCES += \
     CAABox.cpp \
     CFrustumPlanes.cpp \
     CMatrix4f.cpp \
-    CPlane.cpp \
     CQuaternion.cpp \
-    CRay.cpp \
     CTransform4f.cpp \
     CVector2f.cpp \
     CVector2i.cpp \

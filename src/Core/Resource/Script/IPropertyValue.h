@@ -168,13 +168,13 @@ public:
 
     TString ToString() const
     {
-        return TString::HexString(mValue, true, true, mValue > 0xFF ? 8 : 2);
+        return TString::HexString(mValue, 8);
     }
 
     void FromString(const TString& rkString)
     {
-        u32 base = (rkString.StartsWith("0x") ? 16 : 10);
-        mValue = (s32) rkString.ToInt32(base);
+        u32 Base = (rkString.StartsWith("0x") ? 16 : 10);
+        mValue = (s32) rkString.ToInt32(Base);
     }
 
     IPropertyValue* Clone() const
@@ -237,10 +237,10 @@ public:
     TString ToString() const
     {
         TString out;
-        out += TString::FromFloat(mValue.r) + ", ";
-        out += TString::FromFloat(mValue.g) + ", ";
-        out += TString::FromFloat(mValue.b) + ", ";
-        out += TString::FromFloat(mValue.a);
+        out += TString::FromFloat(mValue.R) + ", ";
+        out += TString::FromFloat(mValue.G) + ", ";
+        out += TString::FromFloat(mValue.B) + ", ";
+        out += TString::FromFloat(mValue.A);
         return out;
     }
 
@@ -255,8 +255,8 @@ public:
             return;
         }
 
-        float *pPtr = &mValue.r;
-        mValue.a = 1.0f;
+        float *pPtr = &mValue.R;
+        mValue.A = 1.0f;
 
         for (auto it = Components.begin(); it != Components.end(); it++)
         {
@@ -280,9 +280,9 @@ public:
     TString ToString() const
     {
         TString out;
-        out += TString::FromFloat(mValue.x) + ", ";
-        out += TString::FromFloat(mValue.y) + ", ";
-        out += TString::FromFloat(mValue.z);
+        out += TString::FromFloat(mValue.X) + ", ";
+        out += TString::FromFloat(mValue.Y) + ", ";
+        out += TString::FromFloat(mValue.Z);
         return out;
     }
 
@@ -297,7 +297,7 @@ public:
             return;
         }
 
-        float *pPtr = &mValue.x;
+        float *pPtr = &mValue.X;
 
         for (auto it = Components.begin(); it != Components.end(); it++)
         {

@@ -87,10 +87,10 @@ void CDamageableTriggerExtra::UpdatePlaneTransform()
     {
         float Scalar = (mRenderSide == eNorth ? 1.f : -1.f);
 
-        mPosition = CVector3f(0.f, Extent.y * Scalar, 0.f);
+        mPosition = CVector3f(0.f, Extent.Y * Scalar, 0.f);
         mRotation = CQuaternion::FromEuler(CVector3f(90.f * Scalar, 0.f, 0.f));
-        mScale = CVector3f(Extent.x, Extent.z, 0.f);
-        mCoordScale = mPlaneSize.xz();
+        mScale = CVector3f(Extent.X, Extent.Z, 0.f);
+        mCoordScale = mPlaneSize.XZ();
         break;
     }
 
@@ -99,10 +99,10 @@ void CDamageableTriggerExtra::UpdatePlaneTransform()
     {
         float Scalar = (mRenderSide == eWest ? 1.f : -1.f);
 
-        mPosition = CVector3f(-Extent.x * Scalar, 0.f, 0.f);
+        mPosition = CVector3f(-Extent.X * Scalar, 0.f, 0.f);
         mRotation = CQuaternion::FromEuler(CVector3f(0.f, 90.f * Scalar, 0.f));
-        mScale = CVector3f(Extent.z, Extent.y, 0.f);
-        mCoordScale = -mPlaneSize.yz();
+        mScale = CVector3f(Extent.Z, Extent.Y, 0.f);
+        mCoordScale = -mPlaneSize.YZ();
         break;
     }
 
@@ -112,10 +112,10 @@ void CDamageableTriggerExtra::UpdatePlaneTransform()
         float Scalar = (mRenderSide == eUp ? 1.f : -1.f);
         float RotAngle = (mRenderSide == eUp ? 180.f : 0.f);
 
-        mPosition = CVector3f(0.f, 0.f, Extent.z * Scalar);
+        mPosition = CVector3f(0.f, 0.f, Extent.Z * Scalar);
         mRotation = CQuaternion::FromEuler(CVector3f(0.f, RotAngle, 0.f));
-        mScale = CVector3f(Extent.x, Extent.y, 0.f);
-        mCoordScale = -mPlaneSize.xy();
+        mScale = CVector3f(Extent.X, Extent.Y, 0.f);
+        mCoordScale = -mPlaneSize.XY();
         break;
     }
 
@@ -172,33 +172,33 @@ bool CDamageableTriggerExtra::ShouldDrawNormalAssets()
     return (mRenderSide == eNoRender);
 }
 
-void CDamageableTriggerExtra::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
+void CDamageableTriggerExtra::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo)
 {
-    if (ViewInfo.GameMode && !mpInstance->IsActive())
+    if (rkViewInfo.GameMode && !mpInstance->IsActive())
         return;
 
-    if (!ViewInfo.GameMode && ((ViewInfo.ShowFlags & eShowObjectGeometry) == 0))
+    if (!rkViewInfo.GameMode && ((rkViewInfo.ShowFlags & eShowObjectGeometry) == 0))
         return;
 
     if (mRenderSide != eNoRender)
     {
-        if (ViewInfo.ViewFrustum.BoxInFrustum(AABox()))
+        if (rkViewInfo.ViewFrustum.BoxInFrustum(AABox()))
             pRenderer->AddTransparentMesh(this, -1, AABox(), eDrawMesh);
-        if (mpParent->IsSelected() && !ViewInfo.GameMode)
+        if (mpParent->IsSelected() && !rkViewInfo.GameMode)
             pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawSelection);
     }
 }
 
-void CDamageableTriggerExtra::Draw(FRenderOptions Options, int /*ComponentIndex*/, const SViewInfo& ViewInfo)
+void CDamageableTriggerExtra::Draw(FRenderOptions Options, int /*ComponentIndex*/, const SViewInfo& rkViewInfo)
 {
     LoadModelMatrix();
-    CGraphics::sPixelBlock.TintColor = mpParent->TintColor(ViewInfo);
+    CGraphics::sPixelBlock.TintColor = mpParent->TintColor(rkViewInfo);
     mpMat->SetCurrent(Options);
 
     // Note: The plane the game renders this onto is 5x4.5, which is why we divide the tex coords by this value
-    CVector2f TexUL(0.f, mCoordScale.y / 4.5f);
-    CVector2f TexUR(mCoordScale.x / 5.f, mCoordScale.y / 4.5f);
-    CVector2f TexBR(mCoordScale.x / 5.f, 0.f);
+    CVector2f TexUL(0.f, mCoordScale.Y / 4.5f);
+    CVector2f TexUR(mCoordScale.X / 5.f, mCoordScale.Y / 4.5f);
+    CVector2f TexBR(mCoordScale.X / 5.f, 0.f);
     CVector2f TexBL(0.f, 0.f);
     CDrawUtil::DrawSquare(TexUL, TexUR, TexBR, TexBL);
 }
@@ -213,40 +213,40 @@ void CDamageableTriggerExtra::DrawSelection()
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
-void CDamageableTriggerExtra::RayAABoxIntersectTest(CRayCollisionTester& Tester, const SViewInfo& ViewInfo)
+void CDamageableTriggerExtra::RayAABoxIntersectTest(CRayCollisionTester& rTester, const SViewInfo& rkViewInfo)
 {
     if (mRenderSide == eNoRender) return;
-    if (ViewInfo.GameMode && !mpInstance->IsActive()) return;
+    if (rkViewInfo.GameMode && !mpInstance->IsActive()) return;
 
-    const CRay& Ray = Tester.Ray();
+    const CRay& rkRay = rTester.Ray();
 
-    if (ViewInfo.pRenderer->RenderOptions() & eEnableBackfaceCull)
+    if (rkViewInfo.pRenderer->RenderOptions() & eEnableBackfaceCull)
     {
         // We're guaranteed to be axis-aligned, so we can take advantage of that
         // to perform a very simple backface check.
         switch (mRenderSide)
         {
-        case eNorth: if (Ray.Origin().y > AbsolutePosition().y) return; break;
-        case eSouth: if (Ray.Origin().y < AbsolutePosition().y) return; break;
-        case eWest:  if (Ray.Origin().x < AbsolutePosition().x) return; break;
-        case eEast:  if (Ray.Origin().x > AbsolutePosition().x) return; break;
-        case eUp:    if (Ray.Origin().z > AbsolutePosition().z) return; break;
-        case eDown:  if (Ray.Origin().z < AbsolutePosition().z) return; break;
+        case eNorth: if (rkRay.Origin().Y > AbsolutePosition().Y) return; break;
+        case eSouth: if (rkRay.Origin().Y < AbsolutePosition().Y) return; break;
+        case eWest:  if (rkRay.Origin().X < AbsolutePosition().X) return; break;
+        case eEast:  if (rkRay.Origin().X > AbsolutePosition().X) return; break;
+        case eUp:    if (rkRay.Origin().Z > AbsolutePosition().Z) return; break;
+        case eDown:  if (rkRay.Origin().Z < AbsolutePosition().Z) return; break;
         }
     }
 
-    std::pair<bool,float> Result = AABox().IntersectsRay(Ray);
+    std::pair<bool,float> Result = AABox().IntersectsRay(rkRay);
 
     if (Result.first)
     {
-        Tester.AddNode(this, -1, Result.second);
+        rTester.AddNode(this, -1, Result.second);
         mCachedRayDistance = Result.second;
     }
 }
 
-SRayIntersection CDamageableTriggerExtra::RayNodeIntersectTest(const CRay& Ray, u32 /*ComponentIndex*/, const SViewInfo& /*ViewInfo*/)
+SRayIntersection CDamageableTriggerExtra::RayNodeIntersectTest(const CRay& rkRay, u32 /*ComponentIndex*/, const SViewInfo& /*rkViewInfo*/)
 {
     // The bounding box and all other tests already passed in RayAABoxIntersectTest, so we
     // already know that we have a positive.
-    return SRayIntersection(true, mCachedRayDistance, Ray.PointOnRay(mCachedRayDistance), mpParent, -1);
+    return SRayIntersection(true, mCachedRayDistance, rkRay.PointOnRay(mCachedRayDistance), mpParent, -1);
 }

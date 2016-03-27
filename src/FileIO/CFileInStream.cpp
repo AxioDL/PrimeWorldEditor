@@ -1,25 +1,25 @@
 #include "CFileInStream.h"
 
 CFileInStream::CFileInStream()
+    : mpFStream(nullptr)
 {
-    mpFStream = nullptr;
 }
 
 CFileInStream::CFileInStream(const std::string& rkFile)
+    : mpFStream(nullptr)
 {
-    mpFStream = nullptr;
     Open(rkFile, IOUtil::eBigEndian);
 }
 
 CFileInStream::CFileInStream(const std::string& rkFile, IOUtil::EEndianness FileEndianness)
+    : mpFStream(nullptr)
 {
-    mpFStream = nullptr;
     Open(rkFile, FileEndianness);
 }
 
 CFileInStream::CFileInStream(const CFileInStream& rkSrc)
+    : mpFStream(nullptr)
 {
-    mpFStream = nullptr;
     Open(rkSrc.mName, rkSrc.mDataEndianness);
 
     if (rkSrc.IsValid())

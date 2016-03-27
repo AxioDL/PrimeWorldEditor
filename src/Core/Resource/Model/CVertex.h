@@ -18,24 +18,24 @@ public:
 
     CVertex() {}
 
-    CVertex(CVector3f& Pos)
+    CVertex(CVector3f& rPos)
     {
-        Position = Pos;
+        Position = rPos;
     }
 
-    bool operator==(const CVertex& other) {
-        return ((Position == other.Position) &&
-                (Normal == other.Normal) &&
-                (Color[0] == other.Color[0]) &&
-                (Color[1] == other.Color[1]) &&
-                (Tex[0] == other.Tex[0]) &&
-                (Tex[1] == other.Tex[1]) &&
-                (Tex[2] == other.Tex[2]) &&
-                (Tex[3] == other.Tex[3]) &&
-                (Tex[4] == other.Tex[4]) &&
-                (Tex[5] == other.Tex[5]) &&
-                (Tex[6] == other.Tex[6]) &&
-                (Tex[7] == other.Tex[7]));
+    bool operator==(const CVertex& rkOther) {
+        return ((Position == rkOther.Position) &&
+                (Normal == rkOther.Normal) &&
+                (Color[0] == rkOther.Color[0]) &&
+                (Color[1] == rkOther.Color[1]) &&
+                (Tex[0] == rkOther.Tex[0]) &&
+                (Tex[1] == rkOther.Tex[1]) &&
+                (Tex[2] == rkOther.Tex[2]) &&
+                (Tex[3] == rkOther.Tex[3]) &&
+                (Tex[4] == rkOther.Tex[4]) &&
+                (Tex[5] == rkOther.Tex[5]) &&
+                (Tex[6] == rkOther.Tex[6]) &&
+                (Tex[7] == rkOther.Tex[7]));
     }
 };
 

@@ -6,189 +6,192 @@ CAnimSetLoader::CAnimSetLoader()
 {
 }
 
-CAnimSet* CAnimSetLoader::LoadCorruptionCHAR(IInputStream& CHAR)
+CAnimSet* CAnimSetLoader::LoadCorruptionCHAR(IInputStream& rCHAR)
 {
     // For now, we only read enough to fetch the model
-    CHAR.Seek(0x1, SEEK_CUR);
-    set->nodes.resize(1);
-    CAnimSet::SNode& node = set->nodes[0];
+    rCHAR.Seek(0x1, SEEK_CUR);
+    pSet->mNodes.resize(1);
+    CAnimSet::SNode& node = pSet->mNodes[0];
 
-    node.name = CHAR.ReadString();
-    node.model = gResCache.GetResource(CHAR.ReadLongLong(), "CMDL");
-    return set;
+    node.Name = rCHAR.ReadString();
+    node.pModel = gResCache.GetResource(rCHAR.ReadLongLong(), "CMDL");
+    return pSet;
 }
 
-CAnimSet* CAnimSetLoader::LoadReturnsCHAR(IInputStream& CHAR)
+CAnimSet* CAnimSetLoader::LoadReturnsCHAR(IInputStream& rCHAR)
 {
     // For now, we only read enough to fetch the model
-    CHAR.Seek(0x16, SEEK_CUR);
-    set->nodes.resize(1);
-    CAnimSet::SNode& node = set->nodes[0];
+    rCHAR.Seek(0x16, SEEK_CUR);
+    pSet->mNodes.resize(1);
+    CAnimSet::SNode& rNode = pSet->mNodes[0];
 
-    node.name = CHAR.ReadString();
-    CHAR.Seek(0x14, SEEK_CUR);
-    CHAR.ReadString();
-    node.model = gResCache.GetResource(CHAR.ReadLongLong(), "CMDL");
-    return set;
+    rNode.Name = rCHAR.ReadString();
+    rCHAR.Seek(0x14, SEEK_CUR);
+    rCHAR.ReadString();
+    rNode.pModel = gResCache.GetResource(rCHAR.ReadLongLong(), "CMDL");
+    return pSet;
 }
 
-void CAnimSetLoader::LoadPASDatabase(IInputStream& PAS4)
+void CAnimSetLoader::LoadPASDatabase(IInputStream& rPAS4)
 {
     // For now, just parse the data; don't store it
-    PAS4.Seek(0x4, SEEK_CUR); // Skipping PAS4 FourCC
-    u32 anim_state_count = PAS4.ReadLong();
-    PAS4.Seek(0x4, SEEK_CUR); // Skipping default anim state
+    rPAS4.Seek(0x4, SEEK_CUR); // Skipping PAS4 FourCC
+    u32 AnimStateCount = rPAS4.ReadLong();
+    rPAS4.Seek(0x4, SEEK_CUR); // Skipping default anim state
 
-    for (u32 s = 0; s < anim_state_count; s++)
+    for (u32 iState = 0; iState < AnimStateCount; iState++)
     {
-        PAS4.Seek(0x4, SEEK_CUR); // Skipping unknown value
-        u32 parm_info_count = PAS4.ReadLong();
-        u32 anim_info_count = PAS4.ReadLong();
+        rPAS4.Seek(0x4, SEEK_CUR); // Skipping unknown value
+        u32 ParmInfoCount = rPAS4.ReadLong();
+        u32 AnimInfoCount = rPAS4.ReadLong();
 
-        u32 skip = 0;
-        for (u32 p = 0; p < parm_info_count; p++)
+        u32 Skip = 0;
+        for (u32 iParm = 0; iParm < ParmInfoCount; iParm++)
         {
-            u32 type = PAS4.ReadLong();
-            PAS4.Seek(0x8, SEEK_CUR);
+            u32 Type = rPAS4.ReadLong();
+            rPAS4.Seek(0x8, SEEK_CUR);
 
-            switch (type) {
+            switch (Type) {
                 case 0: // Int32
                 case 1: // Uint32
                 case 2: // Real32
                 case 4: // Enum
-                    PAS4.Seek(0x8, SEEK_CUR);
-                    skip += 4;
+                    rPAS4.Seek(0x8, SEEK_CUR);
+                    Skip += 4;
                     break;
                 case 3: // Bool
-                    PAS4.Seek(0x2, SEEK_CUR);
-                    skip++;
+                    rPAS4.Seek(0x2, SEEK_CUR);
+                    Skip++;
                     break;
             }
         }
 
-        for (u32 a = 0; a < anim_info_count; a++)
-            PAS4.Seek(0x4 + skip, SEEK_CUR);
+        for (u32 iInfo = 0; iInfo < AnimInfoCount; iInfo++)
+            rPAS4.Seek(0x4 + Skip, SEEK_CUR);
     }
 }
 
 // ************ STATIC ************
-CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& ANCS)
+CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS)
 {
-    if (!ANCS.IsValid()) return nullptr;
+    if (!rANCS.IsValid()) return nullptr;
 
-    u32 magic = ANCS.ReadLong();
-    if (magic != 0x00010001)
+    u32 Magic = rANCS.ReadLong();
+    if (Magic != 0x00010001)
     {
-        Log::FileError(ANCS.GetSourceString(), "Invalid ANCS magic: " + TString::HexString(magic));
+        Log::FileError(rANCS.GetSourceString(), "Invalid ANCS magic: " + TString::HexString(Magic));
         return nullptr;
     }
 
-    CAnimSetLoader loader;
-    loader.set = new CAnimSet;
+    CAnimSetLoader Loader;
+    Loader.pSet = new CAnimSet;
 
-    u32 node_count = ANCS.ReadLong();
-    loader.set->nodes.resize(node_count);
+    u32 NodeCount = rANCS.ReadLong();
+    Loader.pSet->mNodes.resize(NodeCount);
 
-    for (u32 n = 0; n < node_count; n++)
+    for (u32 iNode = 0; iNode < NodeCount; iNode++)
     {
-        CAnimSet::SNode *node = &loader.set->nodes[n];
+        CAnimSet::SNode *pNode = &Loader.pSet->mNodes[iNode];
 
-        ANCS.Seek(0x4, SEEK_CUR); // Skipping node self-index
-        u16 unknown1 = ANCS.ReadShort();
-        if (n == 0) loader.mVersion = (unknown1 == 0xA) ? eEchoes : ePrime; // Best version indicator we know of unfortunately
-        node->name = ANCS.ReadString();
-        node->model = gResCache.GetResource(ANCS.ReadLong(), "CMDL");
-        node->skinID = ANCS.ReadLong();
-        node->skelID = ANCS.ReadLong();
+        rANCS.Seek(0x4, SEEK_CUR); // Skipping node self-index
+        u16 Unknown1 = rANCS.ReadShort();
+        if (iNode == 0) Loader.mVersion = (Unknown1 == 0xA) ? eEchoes : ePrime; // Best version indicator we know of unfortunately
+        pNode->Name = rANCS.ReadString();
+        pNode->pModel = gResCache.GetResource(rANCS.ReadLong(), "CMDL");
+        pNode->SkinID = rANCS.ReadLong();
+        pNode->SkelID = rANCS.ReadLong();
 
         // Unfortunately that's all that's actually supported at the moment. Hope to expand later.
         // Since there's no size value I have to actually read the rest of the node to reach the next one
-        u32 anim_count = ANCS.ReadLong();
-        for (u32 a = 0; a < anim_count; a++)
+        u32 AnimCount = rANCS.ReadLong();
+        for (u32 iAnim = 0; iAnim < AnimCount; iAnim++)
         {
-            ANCS.Seek(0x4, SEEK_CUR);
-            if (loader.mVersion == ePrime) ANCS.Seek(0x1, SEEK_CUR);
-            ANCS.ReadString();
+            rANCS.Seek(0x4, SEEK_CUR);
+            if (Loader.mVersion == ePrime) rANCS.Seek(0x1, SEEK_CUR);
+            rANCS.ReadString();
         }
 
         // PAS Database
-        loader.LoadPASDatabase(ANCS);
+        Loader.LoadPASDatabase(rANCS);
 
         // Particles
-        u32 particle_count = ANCS.ReadLong();
-        ANCS.Seek(particle_count * 4, SEEK_CUR);
-        u32 swoosh_count = ANCS.ReadLong();
-        ANCS.Seek(swoosh_count * 4, SEEK_CUR);
-        if (unknown1 != 5) ANCS.Seek(0x4, SEEK_CUR);
-        u32 electric_count = ANCS.ReadLong();
-        ANCS.Seek(electric_count * 4, SEEK_CUR);
-        if (loader.mVersion == eEchoes) {
-            u32 spsc_count = ANCS.ReadLong();
-            ANCS.Seek(spsc_count * 4, SEEK_CUR);
-        }
-        ANCS.Seek(0x4, SEEK_CUR);
-        if (loader.mVersion == eEchoes) ANCS.Seek(0x4, SEEK_CUR);
+        u32 ParticleCount = rANCS.ReadLong();
+        rANCS.Seek(ParticleCount * 4, SEEK_CUR);
+        u32 SwooshCount = rANCS.ReadLong();
+        rANCS.Seek(SwooshCount * 4, SEEK_CUR);
+        if (Unknown1 != 5) rANCS.Seek(0x4, SEEK_CUR);
+        u32 ElectricCount = rANCS.ReadLong();
+        rANCS.Seek(ElectricCount * 4, SEEK_CUR);
 
-        u32 anim_count2 = ANCS.ReadLong();
-        for (u32 a = 0; a < anim_count2; a++)
+        if (Loader.mVersion == eEchoes)
         {
-            ANCS.ReadString();
-            ANCS.Seek(0x18, SEEK_CUR);
+            u32 SPSCCount = rANCS.ReadLong();
+            rANCS.Seek(SPSCCount * 4, SEEK_CUR);
         }
 
-        u32 EffectGroupCount = ANCS.ReadLong();
-        for (u32 g = 0; g < EffectGroupCount; g++)
-        {
-            ANCS.ReadString();
-            u32 EffectCount = ANCS.ReadLong();
+        rANCS.Seek(0x4, SEEK_CUR);
+        if (Loader.mVersion == eEchoes) rANCS.Seek(0x4, SEEK_CUR);
 
-            for (u32 e = 0; e < EffectCount; e++)
+        u32 AnimCount2 = rANCS.ReadLong();
+        for (u32 iAnim = 0; iAnim < AnimCount2; iAnim++)
+        {
+            rANCS.ReadString();
+            rANCS.Seek(0x18, SEEK_CUR);
+        }
+
+        u32 EffectGroupCount = rANCS.ReadLong();
+        for (u32 iGrp = 0; iGrp < EffectGroupCount; iGrp++)
+        {
+            rANCS.ReadString();
+            u32 EffectCount = rANCS.ReadLong();
+
+            for (u32 iEffect = 0; iEffect < EffectCount; iEffect++)
             {
-                ANCS.ReadString();
-                ANCS.Seek(0x8, SEEK_CUR);
-                if (loader.mVersion == ePrime) ANCS.ReadString();
-                if (loader.mVersion == eEchoes) ANCS.Seek(0x4, SEEK_CUR);
-                ANCS.Seek(0xC, SEEK_CUR);
+                rANCS.ReadString();
+                rANCS.Seek(0x8, SEEK_CUR);
+                if (Loader.mVersion == ePrime) rANCS.ReadString();
+                if (Loader.mVersion == eEchoes) rANCS.Seek(0x4, SEEK_CUR);
+                rANCS.Seek(0xC, SEEK_CUR);
             }
         }
-        ANCS.Seek(0x8, SEEK_CUR);
+        rANCS.Seek(0x8, SEEK_CUR);
 
-        u32 unknown_count = ANCS.ReadLong();
-        ANCS.Seek(unknown_count * 4, SEEK_CUR);
+        u32 UnknownCount = rANCS.ReadLong();
+        rANCS.Seek(UnknownCount * 4, SEEK_CUR);
 
-        if (loader.mVersion == eEchoes)
+        if (Loader.mVersion == eEchoes)
         {
-            ANCS.Seek(0x5, SEEK_CUR);
-            u32 unknown_count2 = ANCS.ReadLong();
-            ANCS.Seek(unknown_count2 * 0x1C, SEEK_CUR);
+            rANCS.Seek(0x5, SEEK_CUR);
+            u32 UnknownCount2 = rANCS.ReadLong();
+            rANCS.Seek(UnknownCount2 * 0x1C, SEEK_CUR);
         }
         // Lots of work for data I'm not even using x.x
     }
 
-    return loader.set;
+    return Loader.pSet;
 }
 
-CAnimSet* CAnimSetLoader::LoadCHAR(IInputStream &CHAR)
+CAnimSet* CAnimSetLoader::LoadCHAR(IInputStream& rCHAR)
 {
-    if (!CHAR.IsValid()) return nullptr;
+    if (!rCHAR.IsValid()) return nullptr;
 
-    CAnimSetLoader loader;
-    u8 check = CHAR.ReadByte();
+    CAnimSetLoader Loader;
+    u8 Check = rCHAR.ReadByte();
 
-    if (check == 0x5 || check == 0x3)
+    if (Check == 0x5 || Check == 0x3)
     {
-        loader.mVersion = eCorruption;
-        loader.set = new CAnimSet();
-        return loader.LoadCorruptionCHAR(CHAR);
+        Loader.mVersion = eCorruption;
+        Loader.pSet = new CAnimSet();
+        return Loader.LoadCorruptionCHAR(rCHAR);
     }
 
-    if (check == 0x59)
+    if (Check == 0x59)
     {
-        loader.mVersion = eReturns;
-        loader.set = new CAnimSet();
-        return loader.LoadReturnsCHAR(CHAR);
+        Loader.mVersion = eReturns;
+        Loader.pSet = new CAnimSet();
+        return Loader.LoadReturnsCHAR(rCHAR);
     }
 
-    Log::FileError(CHAR.GetSourceString(), "CHAR has invalid first byte: " + TString::HexString(check));
+    Log::FileError(rCHAR.GetSourceString(), "CHAR has invalid first byte: " + TString::HexString(Check, 2));
     return nullptr;
 }

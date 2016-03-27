@@ -10,17 +10,16 @@ class WColorPicker : public QWidget
     QColor mColor;
 
 public:
-    explicit WColorPicker(QWidget *parent = 0);
-    ~WColorPicker();
+    explicit WColorPicker(QWidget *pParent = 0);
     void paintEvent(QPaintEvent *);
-    void keyPressEvent(QKeyEvent *Event);
+    void keyPressEvent(QKeyEvent *pEvent);
     void mousePressEvent(QMouseEvent *);
-    void mouseReleaseEvent(QMouseEvent *Event);
-    QColor getColor();
-    void setColor(QColor Color);
+    void mouseReleaseEvent(QMouseEvent *pEvent);
+    QColor Color();
+    void SetColor(QColor Color);
 
 signals:
-    void colorChanged(QColor NewColor);
+    void ColorChanged(QColor NewColor);
 
 public slots:
 };

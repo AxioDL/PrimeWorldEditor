@@ -21,14 +21,14 @@ CShader::CShader()
     mProgramExists = false;
 }
 
-CShader::CShader(const char *kpVertexSource, const char *kpPixelSource)
+CShader::CShader(const char *pkVertexSource, const char *pkPixelSource)
 {
     mVertexShaderExists = false;
     mPixelShaderExists = false;
     mProgramExists = false;
 
-    CompileVertexSource(kpVertexSource);
-    CompilePixelSource(kpPixelSource);
+    CompileVertexSource(pkVertexSource);
+    CompilePixelSource(pkPixelSource);
     LinkShaders();
 }
 
@@ -41,10 +41,10 @@ CShader::~CShader()
     if (spCurrentShader == this) spCurrentShader = 0;
 }
 
-bool CShader::CompileVertexSource(const char* kpSource)
+bool CShader::CompileVertexSource(const char* pkSource)
 {
     mVertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(mVertexShader, 1, (const GLchar**) &kpSource, NULL);
+    glShaderSource(mVertexShader, 1, (const GLchar**) &pkSource, NULL);
     glCompileShader(mVertexShader);
 
     // Shader should be compiled - check for errors
@@ -76,10 +76,10 @@ bool CShader::CompileVertexSource(const char* kpSource)
     return true;
 }
 
-bool CShader::CompilePixelSource(const char* kpSource)
+bool CShader::CompilePixelSource(const char* pkSource)
 {
     mPixelShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(mPixelShader, 1, (const GLchar**) &kpSource, NULL);
+    glShaderSource(mPixelShader, 1, (const GLchar**) &pkSource, NULL);
     glCompileShader(mPixelShader);
 
     // Shader should be compiled - check for errors
@@ -136,17 +136,17 @@ bool CShader::LinkShaders()
 
         GLint LogLen;
         glGetProgramiv(mProgram, GL_INFO_LOG_LENGTH, &LogLen);
-        GLchar *InfoLog = new GLchar[LogLen];
-        glGetProgramInfoLog(mProgram, LogLen, NULL, InfoLog);
+        GLchar *pInfoLog = new GLchar[LogLen];
+        glGetProgramInfoLog(mProgram, LogLen, NULL, pInfoLog);
 
         std::ofstream LinkOut;
         LinkOut.open(*Out);
 
         if (LogLen > 0)
-            LinkOut << InfoLog;
+            LinkOut << pInfoLog;
 
         LinkOut.close();
-        delete[] InfoLog;
+        delete[] pInfoLog;
 
         gFailedCompileCount++;
         glDeleteProgram(mProgram);
@@ -172,14 +172,14 @@ GLuint CShader::GetProgramID()
     return mProgram;
 }
 
-GLuint CShader::GetUniformLocation(const char* Uniform)
+GLuint CShader::GetUniformLocation(const char* pkUniform)
 {
-    return glGetUniformLocation(mProgram, Uniform);
+    return glGetUniformLocation(mProgram, pkUniform);
 }
 
-GLuint CShader::GetUniformBlockIndex(const char* UniformBlock)
+GLuint CShader::GetUniformBlockIndex(const char* pkUniformBlock)
 {
-    return glGetUniformBlockIndex(mProgram, UniformBlock);
+    return glGetUniformBlockIndex(mProgram, pkUniformBlock);
 }
 
 void CShader::SetCurrent()
@@ -197,17 +197,17 @@ void CShader::SetCurrent()
 }
 
 // ************ STATIC ************
-CShader* CShader::FromResourceFile(const TString& ShaderName)
+CShader* CShader::FromResourceFile(const TString& rkShaderName)
 {
-    TString VertexShaderFilename = "../resources/shaders/" + ShaderName + ".vs";
-    TString PixelShaderFilename = "../resources/shaders/" + ShaderName + ".ps";
+    TString VertexShaderFilename = "../resources/shaders/" + rkShaderName + ".vs";
+    TString PixelShaderFilename = "../resources/shaders/" + rkShaderName + ".ps";
     CTextInStream VertexShaderFile(VertexShaderFilename.ToStdString());
     CTextInStream PixelShaderFile(PixelShaderFilename.ToStdString());
 
     if (!VertexShaderFile.IsValid())
-        Log::Error("Couldn't load vertex shader file for " + ShaderName);
+        Log::Error("Couldn't load vertex shader file for " + rkShaderName);
     if (!PixelShaderFile.IsValid())
-        Log::Error("Error: Couldn't load pixel shader file for " + ShaderName);
+        Log::Error("Error: Couldn't load pixel shader file for " + rkShaderName);
     if ((!VertexShaderFile.IsValid()) || (!PixelShaderFile.IsValid())) return nullptr;
 
     std::stringstream VertexShader;
@@ -236,7 +236,7 @@ void CShader::KillCachedShader()
 }
 
 // ************ PRIVATE ************
-void CShader::DumpShaderSource(GLuint Shader, const TString& Out)
+void CShader::DumpShaderSource(GLuint Shader, const TString& rkOut)
 {
     GLint SourceLen;
     glGetShaderiv(Shader, GL_SHADER_SOURCE_LENGTH, &SourceLen);
@@ -245,19 +245,19 @@ void CShader::DumpShaderSource(GLuint Shader, const TString& Out)
 
     GLint LogLen;
     glGetShaderiv(Shader, GL_INFO_LOG_LENGTH, &LogLen);
-    GLchar *InfoLog = new GLchar[LogLen];
-    glGetShaderInfoLog(Shader, LogLen, NULL, InfoLog);
+    GLchar *pInfoLog = new GLchar[LogLen];
+    glGetShaderInfoLog(Shader, LogLen, NULL, pInfoLog);
 
     std::ofstream ShaderOut;
-    ShaderOut.open(*Out);
+    ShaderOut.open(*rkOut);
 
     if (SourceLen > 0)
         ShaderOut << Source;
     if (LogLen > 0)
-        ShaderOut << InfoLog;
+        ShaderOut << pInfoLog;
 
     ShaderOut.close();
 
     delete[] Source;
-    delete[] InfoLog;
+    delete[] pInfoLog;
 }

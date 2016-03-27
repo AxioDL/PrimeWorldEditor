@@ -15,11 +15,11 @@ ENodeType CCollisionNode::NodeType()
     return eCollisionNode;
 }
 
-void CCollisionNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
+void CCollisionNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo)
 {
     if (!mpCollision) return;
-    if (!ViewInfo.ViewFrustum.BoxInFrustum(AABox())) return;
-    if (ViewInfo.GameMode) return;
+    if (!rkViewInfo.ViewFrustum.BoxInFrustum(AABox())) return;
+    if (rkViewInfo.GameMode) return;
 
     pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawMesh);
 
@@ -27,7 +27,7 @@ void CCollisionNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewIn
         pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawSelection);
 }
 
-void CCollisionNode::Draw(FRenderOptions /*Options*/, int /*ComponentIndex*/, const SViewInfo& ViewInfo)
+void CCollisionNode::Draw(FRenderOptions /*Options*/, int /*ComponentIndex*/, const SViewInfo& rkViewInfo)
 {
     if (!mpCollision) return;
 
@@ -37,13 +37,13 @@ void CCollisionNode::Draw(FRenderOptions /*Options*/, int /*ComponentIndex*/, co
     glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
     glDepthMask(GL_TRUE);
 
-    CDrawUtil::UseCollisionShader(TintColor(ViewInfo));
+    CDrawUtil::UseCollisionShader(TintColor(rkViewInfo));
     mpCollision->Draw();
     CDrawUtil::UseColorShader(CColor::skTransparentBlack);
     mpCollision->DrawWireframe();
 }
 
-SRayIntersection CCollisionNode::RayNodeIntersectTest(const CRay& /*Ray*/, u32 /*AssetID*/, const SViewInfo& /*ViewInfo*/)
+SRayIntersection CCollisionNode::RayNodeIntersectTest(const CRay& /*rkRay*/, u32 /*AssetID*/, const SViewInfo& /*rkViewInfo*/)
 {
     // todo
     SRayIntersection Result;

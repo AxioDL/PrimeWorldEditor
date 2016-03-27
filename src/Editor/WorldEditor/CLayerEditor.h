@@ -21,9 +21,9 @@ public:
     void SetArea(CGameArea *pArea);
 
 public slots:
-    void SetCurrentIndex(int index);
-    void EditLayerName(const QString& name);
-    void EditLayerActive(bool active);
+    void SetCurrentIndex(int Index);
+    void EditLayerName(const QString& rkName);
+    void EditLayerActive(bool Active);
 
 private:
     Ui::CLayerEditor *ui;

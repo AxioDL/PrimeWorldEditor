@@ -34,7 +34,7 @@ public:
 
         for (auto it = rkObjList.begin(); it != rkObjList.end(); it++)
         {
-            CScriptNode *pNode = pScene->NodeForObject(*it);
+            CScriptNode *pNode = pScene->NodeForInstance(*it);
 
             if (!pMapModel->IsPoiTracked(pNode))
                 mObjList << pNode;
@@ -51,7 +51,7 @@ public:
         if (!rkIndex.isValid()) return QVariant::Invalid;
 
         if (Role == Qt::DisplayRole)
-            return TO_QSTRING(mObjList[rkIndex.row()]->Object()->InstanceName());
+            return TO_QSTRING(mObjList[rkIndex.row()]->Instance()->InstanceName());
 
         if (Role == Qt::DecorationRole)
         {

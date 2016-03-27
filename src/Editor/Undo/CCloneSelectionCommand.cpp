@@ -15,14 +15,14 @@ CCloneSelectionCommand::CCloneSelectionCommand(INodeEditor *pEditor)
 
             // Fetch linked objects
             CScriptNode *pScript = static_cast<CScriptNode*>(*It);
-            CScriptObject *pInst = pScript->Object();
+            CScriptObject *pInst = pScript->Instance();
 
             for (u32 iLink = 0; iLink < pInst->NumLinks(eOutgoing); iLink++)
             {
-                CScriptNode *pNode = mpEditor->Scene()->NodeForObject(pInst->Link(eOutgoing, iLink)->Receiver());
+                CScriptNode *pNode = mpEditor->Scene()->NodeForInstance(pInst->Link(eOutgoing, iLink)->Receiver());
 
                 if (!pNode->IsSelected())
-                    mLinkedInstances << pNode->Object();
+                    mLinkedInstances << pNode->Instance();
             }
         }
     }
@@ -35,7 +35,7 @@ void CCloneSelectionCommand::undo()
 
     foreach (CSceneNode *pNode, ClonedNodes)
     {
-        CScriptObject *pInst = static_cast<CScriptNode*>(pNode)->Object();
+        CScriptObject *pInst = static_cast<CScriptNode*>(pNode)->Instance();
 
         mpEditor->NotifyNodeAboutToBeDeleted(pNode);
         mpEditor->Scene()->DeleteNode(pNode);
@@ -60,7 +60,7 @@ void CCloneSelectionCommand::redo()
     {
         mpEditor->NotifyNodeAboutToBeSpawned();
         CScriptNode *pScript = static_cast<CScriptNode*>(pNode);
-        CScriptObject *pInstance = pScript->Object();
+        CScriptObject *pInstance = pScript->Instance();
 
         CScriptObject *pCloneInst = mpEditor->ActiveArea()->SpawnInstance(pInstance->Template(), pInstance->Layer());
         pCloneInst->Properties()->Copy(pInstance->Properties());
@@ -82,8 +82,8 @@ void CCloneSelectionCommand::redo()
     // Clone outgoing links from source object; incoming ones are discarded
     for (int iNode = 0; iNode < ClonedNodes.size(); iNode++)
     {
-        CScriptObject *pSrc = static_cast<CScriptNode*>(ToClone[iNode])->Object();
-        CScriptObject *pClone = static_cast<CScriptNode*>(ClonedNodes[iNode])->Object();
+        CScriptObject *pSrc = static_cast<CScriptNode*>(ToClone[iNode])->Instance();
+        CScriptObject *pClone = static_cast<CScriptNode*>(ClonedNodes[iNode])->Instance();
 
         for (u32 iLink = 0; iLink < pSrc->NumLinks(eOutgoing); iLink++)
         {

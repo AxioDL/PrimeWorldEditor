@@ -30,17 +30,17 @@ class WAnimParamsEditor : public QWidget
 
 public:
     WAnimParamsEditor(QWidget *pParent = 0);
-    WAnimParamsEditor(const CAnimationParameters& params, QWidget *pParent = 0);
+    WAnimParamsEditor(const CAnimationParameters& rkParams, QWidget *pParent = 0);
     ~WAnimParamsEditor();
-    void SetTitle(const QString& title);
-    void SetParameters(const CAnimationParameters& params);
+    void SetTitle(const QString& rkTitle);
+    void SetParameters(const CAnimationParameters& rkParams);
 
 signals:
-    void ParametersChanged(const CAnimationParameters& params);
+    void ParametersChanged(const CAnimationParameters& rkParams);
 
 private slots:
-    void OnResourceChanged(QString path);
-    void OnCharacterChanged(int index);
+    void OnResourceChanged(QString Path);
+    void OnCharacterChanged(int Index);
     void OnUnknownChanged();
 
 private:

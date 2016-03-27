@@ -7,7 +7,7 @@ CChangeLayerCommand::CChangeLayerCommand(CWorldEditor *pEditor, const QList<CScr
 {
     foreach (CScriptNode *pNode, rkNodeList)
     {
-        CScriptLayer *pLayer = pNode->Object()->Layer();
+        CScriptLayer *pLayer = pNode->Instance()->Layer();
 
         if (pLayer != pNewLayer && !mNodes.contains(pNode))
         {
@@ -26,7 +26,7 @@ void CChangeLayerCommand::undo()
     foreach (CSceneNode *pNode, Nodes) ScriptNodes << static_cast<CScriptNode*>(pNode);
 
     foreach (CScriptNode *pNode, ScriptNodes)
-        pNode->Object()->SetLayer(mOldLayers[pNode->ID()]);
+        pNode->Instance()->SetLayer(mOldLayers[pNode->ID()]);
 
     mpEditor->InstancesLayerChanged(ScriptNodes);
 }
@@ -40,7 +40,7 @@ void CChangeLayerCommand::redo()
     foreach (CSceneNode *pNode, Nodes) ScriptNodes << static_cast<CScriptNode*>(pNode);
 
     foreach (CScriptNode *pNode, ScriptNodes)
-        pNode->Object()->SetLayer(mpNewLayer);
+        pNode->Instance()->SetLayer(mpNewLayer);
 
     mpEditor->InstancesLayerChanged(ScriptNodes);
 }

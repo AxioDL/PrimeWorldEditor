@@ -86,20 +86,20 @@ public:
 
     void SetAreaLayerInfo(CGameArea *pArea);
 
-    // Setters
-    EGame Version();
-    CStringTable* GetWorldName();
-    CStringTable* GetDarkWorldName();
-    CResource* GetSaveWorld();
-    CModel* GetDefaultSkybox();
-    CResource* GetMapWorld();
+    // Accessors
+    inline EGame Version() const                { return mWorldVersion; }
+    inline CStringTable* WorldName() const      { return mpWorldName; }
+    inline CStringTable* DarkWorldName() const  { return mpDarkWorldName; }
+    inline CResource* SaveWorld() const         { return mpSaveWorld; }
+    inline CModel* DefaultSkybox() const        { return mpDefaultSkybox; }
+    inline CResource* MapWorld() const          { return mpMapWorld; }
 
-    u32 GetNumAreas();
-    u64 GetAreaResourceID(u32 AreaIndex);
-    u32 GetAreaAttachedCount(u32 AreaIndex);
-    u32 GetAreaAttachedID(u32 AreaIndex, u32 AttachedIndex);
-    TString GetAreaInternalName(u32 AreaIndex);
-    CStringTable* GetAreaName(u32 AreaIndex);
+    inline u32 NumAreas() const                                         { return mAreas.size(); }
+    inline u64 AreaResourceID(u32 AreaIndex) const                      { return mAreas[AreaIndex].FileID; }
+    inline u32 AreaAttachedCount(u32 AreaIndex) const                   { return mAreas[AreaIndex].AttachedAreaIDs.size(); }
+    inline u32 AreaAttachedID(u32 AreaIndex, u32 AttachedIndex) const   { return mAreas[AreaIndex].AttachedAreaIDs[AttachedIndex]; }
+    inline TString AreaInternalName(u32 AreaIndex) const                { return mAreas[AreaIndex].InternalName; }
+    inline CStringTable* AreaName(u32 AreaIndex) const                  { return mAreas[AreaIndex].pAreaName; }
 };
 
 #endif // CWORLD_H

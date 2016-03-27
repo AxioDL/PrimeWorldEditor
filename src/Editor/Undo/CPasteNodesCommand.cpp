@@ -27,7 +27,7 @@ void CPasteNodesCommand::undo()
 
     foreach (CSceneNode *pNode, PastedNodes)
     {
-        CScriptObject *pInst = (pNode->NodeType() == eScriptNode ? static_cast<CScriptNode*>(pNode)->Object() : nullptr);
+        CScriptObject *pInst = (pNode->NodeType() == eScriptNode ? static_cast<CScriptNode*>(pNode)->Instance() : nullptr);
         mpEditor->NotifyNodeAboutToBeDeleted(pNode);
         mpEditor->Scene()->DeleteNode(pNode);
         if (pInst) mpEditor->ActiveArea()->DeleteInstance(pInst);
@@ -91,7 +91,7 @@ void CPasteNodesCommand::redo()
     {
         if (pNode && pNode->NodeType() == eScriptNode)
         {
-            CScriptObject *pInstance = static_cast<CScriptNode*>(pNode)->Object();
+            CScriptObject *pInstance = static_cast<CScriptNode*>(pNode)->Instance();
 
             for (u32 iLink = 0; iLink < pInstance->NumLinks(eOutgoing); iLink++)
             {
@@ -100,7 +100,7 @@ void CPasteNodesCommand::redo()
 
                 if (Index != -1)
                 {
-                    CScriptObject *pNewTarget = static_cast<CScriptNode*>(PastedNodes[Index])->Object();
+                    CScriptObject *pNewTarget = static_cast<CScriptNode*>(PastedNodes[Index])->Instance();
                     pLink->SetReceiver(pNewTarget->InstanceID());
                 }
 

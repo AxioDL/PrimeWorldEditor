@@ -55,7 +55,7 @@ void CSplinePathExtra::AddWaypoints()
         {
             CScriptNode *pNode = mpScene->NodeForInstanceID(pLink->ReceiverID());
 
-            if (pNode && pNode->Object()->ObjectTypeID() == 0x57415950) // Waypoint
+            if (pNode && pNode->Instance()->ObjectTypeID() == 0x57415950) // Waypoint
             {
                 CWaypointExtra *pWaypoint = static_cast<CWaypointExtra*>(pNode->Extra());
                 FindAttachedWaypoints(CheckedWaypoints, pWaypoint);

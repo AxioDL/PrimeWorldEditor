@@ -10,22 +10,20 @@
 #include <QEvent>
 #include <QFileDialog>
 
-WResourceSelector::WResourceSelector(QWidget *parent) : QWidget(parent)
+WResourceSelector::WResourceSelector(QWidget *parent)
+    : QWidget(parent)
+    // Selector Members
+    , mShowEditButton(false)
+    , mShowExportButton(false)
+    // Preview Panel Members
+    , mpPreviewPanel(nullptr)
+    , mEnablePreviewPanel(true)
+    , mPreviewPanelValid(false)
+    , mShowingPreviewPanel(false)
+    , mAdjustPreviewToParent(false)
+    // Resource Members
+    , mResourceValid(false)
 {
-    // Initialize Selector Members
-    mShowEditButton = false;
-    mShowExportButton = false;
-
-    // Initialize Preview Panel Members
-    mpPreviewPanel = nullptr;
-    mEnablePreviewPanel = true;
-    mPreviewPanelValid = false;
-    mShowingPreviewPanel = false;
-    mAdjustPreviewToParent = false;
-
-    // Initialize Resource Members
-    mResourceValid = false;
-
     // Create Widgets
     mUI.LineEdit = new QLineEdit(this);
     mUI.BrowseButton = new QPushButton(this);
@@ -93,10 +91,10 @@ bool WResourceSelector::eventFilter(QObject* /*pObj*/, QEvent *pEvent)
     return false;
 }
 
-bool WResourceSelector::IsSupportedExtension(const QString& extension)
+bool WResourceSelector::IsSupportedExtension(const QString& rkExtension)
 {
     foreach(const QString& str, mSupportedExtensions)
-        if (str == extension) return true;
+        if (str == rkExtension) return true;
 
     return false;
 }
@@ -201,23 +199,23 @@ void WResourceSelector::SetResource(const CResourceInfo& rkRes)
     }
 }
 
-void WResourceSelector::SetAllowedExtensions(const QString& extension)
+void WResourceSelector::SetAllowedExtensions(const QString& rkExtension)
 {
-    TStringList list = TString(extension.toStdString()).Split(",");
+    TStringList list = TString(rkExtension.toStdString()).Split(",");
     SetAllowedExtensions(list);
 }
 
-void WResourceSelector::SetAllowedExtensions(const TStringList& extensions)
+void WResourceSelector::SetAllowedExtensions(const TStringList& rkExtensions)
 {
     mSupportedExtensions.clear();
-    for (auto it = extensions.begin(); it != extensions.end(); it++)
+    for (auto it = rkExtensions.begin(); it != rkExtensions.end(); it++)
         mSupportedExtensions << TO_QSTRING(*it);
 }
 
-void WResourceSelector::SetText(const QString& ResPath)
+void WResourceSelector::SetText(const QString& rkResPath)
 {
-    mUI.LineEdit->setText(ResPath);
-    SetResource(ResPath);
+    mUI.LineEdit->setText(rkResPath);
+    SetResource(rkResPath);
 }
 
 void WResourceSelector::SetEditButtonEnabled(bool Enabled)
@@ -240,9 +238,9 @@ void WResourceSelector::SetPreviewPanelEnabled(bool Enabled)
     if (!mPreviewPanelValid) CreatePreviewPanel();
 }
 
-void WResourceSelector::AdjustPreviewToParent(bool adjust)
+void WResourceSelector::AdjustPreviewToParent(bool Adjust)
 {
-    mAdjustPreviewToParent = adjust;
+    mAdjustPreviewToParent = Adjust;
 }
 
 // ************ SLOTS ************

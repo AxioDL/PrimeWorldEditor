@@ -11,9 +11,9 @@ class CCollisionNode : public CSceneNode
 public:
     CCollisionNode(CScene *pScene, u32 NodeID, CSceneNode *pParent = 0, CCollisionMeshGroup *pCollision = 0);
     ENodeType NodeType();
-    void AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo);
-    void Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& ViewInfo);
-    SRayIntersection RayNodeIntersectTest(const CRay &Ray, u32 AssetID, const SViewInfo& ViewInfo);
+    void AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo);
+    void Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& rkViewInfo);
+    SRayIntersection RayNodeIntersectTest(const CRay& rkRay, u32 AssetID, const SViewInfo& rkViewInfo);
     void SetCollision(CCollisionMeshGroup *pCollision);
 };
 

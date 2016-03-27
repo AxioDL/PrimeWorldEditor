@@ -32,8 +32,8 @@ void CAreaCooker::DetermineSectionNumbersPrime()
         break;
     }
 
-    for (u32 iMesh = 0; iMesh < mpArea->mTerrainModels.size(); iMesh++)
-        GeometrySections += mpArea->mTerrainModels[iMesh]->GetSurfaceCount();
+    for (u32 iMesh = 0; iMesh < mpArea->mWorldModels.size(); iMesh++)
+        GeometrySections += mpArea->mWorldModels[iMesh]->GetSurfaceCount();
 
     // Set section numbers
     u32 SecNum = GeometrySections;
@@ -349,9 +349,9 @@ void CAreaCooker::WriteCookedArea(CGameArea *pArea, IOutputStream& rOut)
     Cooker.WriteAreaData(rOut);
 }
 
-u32 CAreaCooker::GetMREAVersion(EGame version)
+u32 CAreaCooker::GetMREAVersion(EGame Version)
 {
-    switch (version)
+    switch (Version)
     {
     case ePrimeDemo:       return 0xC;
     case ePrime:           return 0xF;

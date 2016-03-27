@@ -50,11 +50,11 @@ public:
         mCurSec++;
     }
 
-    inline u32 NextOffset() { return mCurSecStart + mSectionSizes[mCurSec]; }
-    inline u32 CurrentSection() { return mCurSec; }
-    inline u32 CurrentSectionSize() { return mSectionSizes[mCurSec]; }
-    inline u32 NumSections() { return mSectionSizes.size(); }
-    inline void SetInputStream(IInputStream *pIn) { mpInputStream = pIn; }
+    inline u32 NextOffset()                         { return mCurSecStart + mSectionSizes[mCurSec]; }
+    inline u32 CurrentSection()                     { return mCurSec; }
+    inline u32 CurrentSectionSize()                 { return mSectionSizes[mCurSec]; }
+    inline u32 NumSections()                        { return mSectionSizes.size(); }
+    inline void SetInputStream(IInputStream *pIn)   { mpInputStream = pIn; }
 };
 
 #endif // CSECTIONMGRIN_H

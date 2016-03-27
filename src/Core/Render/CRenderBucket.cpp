@@ -4,65 +4,54 @@
 #include "CRenderer.h"
 #include <algorithm>
 
-CRenderBucket::CRenderBucket()
-{
-    mEstSize = 0;
-    mSize = 0;
-}
-
-void CRenderBucket::SetSortType(ESortType Type)
-{
-    mSortType = Type;
-}
-
-void CRenderBucket::Add(const SRenderablePtr& ptr)
+void CRenderBucket::Add(const SRenderablePtr& rkPtr)
 {
     if (mSize >= mEstSize)
-        mRenderables.push_back(ptr);
+        mRenderables.push_back(rkPtr);
     else
-        mRenderables[mSize] = ptr;
+        mRenderables[mSize] = rkPtr;
 
     mSize++;
 }
 
 void CRenderBucket::Sort(CCamera* pCamera)
 {
-    struct {
-        CCamera *pCamera;
-        bool operator()(SRenderablePtr left, SRenderablePtr right) {
-            CVector3f cPos = pCamera->Position();
-            CVector3f cDir = pCamera->Direction();
-
-            CVector3f distL = left.AABox.ClosestPointAlongVector(cDir) - cPos;
-            float dotL = distL.Dot(cDir);
-            CVector3f distR = right.AABox.ClosestPointAlongVector(cDir) - cPos;
-            float dotR = distR.Dot(cDir);
-            return (dotL > dotR);
-        }
-    } backToFront;
-    backToFront.pCamera = pCamera;
-
-    if (mSortType == BackToFront)
-        std::stable_sort(mRenderables.begin(), mRenderables.begin() + mSize, backToFront);
-
-    // Test: draw node bounding boxes + vertices used for sorting
-    /*for (u32 iNode = 0; iNode < mNodes.size(); iNode++)
+    if (mEnableDepthSort)
     {
-        SMeshPointer *pNode = &mNodes[iNode];
-        CVector3f Vert = pNode->AABox.ClosestPointAlongVector(Camera.GetDirection());
-        CDrawUtil::DrawWireCube(pNode->AABox, CColor::skWhite);
+        std::stable_sort(mRenderables.begin(), mRenderables.begin() + mSize,
+                         [&, pCamera](const SRenderablePtr& rkLeft, const SRenderablePtr& rkRight) -> bool
+        {
+            CVector3f CamPos = pCamera->Position();
+            CVector3f CamDir = pCamera->Direction();
 
-        CVector3f Dist = Vert - Camera.GetPosition();
-        float Dot = Dist.Dot(Camera.GetDirection());
-        if (Dot < 0.f) Dot = -Dot;
-        if (Dot > 50.f) Dot = 50.f;
-        float Intensity = 1.f - (Dot / 50.f);
-        CColor CubeColor(Intensity, Intensity, Intensity, 1.f);
+            CVector3f DistL = rkLeft.AABox.ClosestPointAlongVector(CamDir) - CamPos;
+            CVector3f DistR = rkRight.AABox.ClosestPointAlongVector(CamDir) - CamPos;
+            float DotL = DistL.Dot(CamDir);
+            float DotR = DistR.Dot(CamDir);
+            return (DotL > DotR);
+        });
 
-        CGraphics::sMVPBlock.ModelMatrix = CTransform4f::TranslationMatrix(Vert).ToMatrix4f();
-        CGraphics::UpdateMVPBlock();
-        CDrawUtil::DrawCube(CubeColor);
-    }*/
+        if (mEnableDepthSortDebugVisualization)
+        {
+            for (u32 iPtr = 0; iPtr < mSize; iPtr++)
+            {
+                SRenderablePtr *pPtr = &mRenderables[iPtr];
+                CVector3f Point = pPtr->AABox.ClosestPointAlongVector(pCamera->Direction());
+                CDrawUtil::DrawWireCube(pPtr->AABox, CColor::skWhite);
+
+                CVector3f Dist = Point - pCamera->Position();
+                float Dot = Dist.Dot(pCamera->Direction());
+                if (Dot < 0.f) Dot = -Dot;
+                if (Dot > 50.f) Dot = 50.f;
+                float Intensity = 1.f - (Dot / 50.f);
+                CColor CubeColor(Intensity, Intensity, Intensity, 1.f);
+
+                CGraphics::sMVPBlock.ModelMatrix = CTransform4f::TranslationMatrix(Point).ToMatrix4f();
+                CGraphics::UpdateMVPBlock();
+                CDrawUtil::DrawCube(CubeColor);
+            }
+        }
+    }
 }
 
 void CRenderBucket::Clear()
@@ -72,18 +61,16 @@ void CRenderBucket::Clear()
     mSize = 0;
 }
 
-void CRenderBucket::Draw(const SViewInfo& ViewInfo)
+void CRenderBucket::Draw(const SViewInfo& rkViewInfo)
 {
-    FRenderOptions Options = ViewInfo.pRenderer->RenderOptions();
+    FRenderOptions Options = rkViewInfo.pRenderer->RenderOptions();
 
-    for (u32 n = 0; n < mSize; n++)
+    for (u32 iPtr = 0; iPtr < mSize; iPtr++)
     {
-        if (mRenderables[n].Command == eDrawMesh)
-            mRenderables[n].pRenderable->Draw(Options, mRenderables[n].ComponentIndex, ViewInfo);
+        if (mRenderables[iPtr].Command == eDrawMesh)
+            mRenderables[iPtr].pRenderable->Draw(Options, mRenderables[iPtr].ComponentIndex, rkViewInfo);
 
-        else if (mRenderables[n].Command == eDrawSelection)
-            mRenderables[n].pRenderable->DrawSelection();
-
-        // todo: implementation for eDrawExtras
+        else if (mRenderables[iPtr].Command == eDrawSelection)
+            mRenderables[iPtr].pRenderable->DrawSelection();
     }
 }

@@ -32,7 +32,7 @@ public:
 
     // Default implementations for CSceneNode
     virtual ENodeType NodeType() { return eScriptExtraNode; }
-    virtual SRayIntersection RayNodeIntersectTest(const CRay& /*Ray*/, u32 /*AssetID*/, const SViewInfo& /*ViewInfo*/)
+    virtual SRayIntersection RayNodeIntersectTest(const CRay& /*rkRay*/, u32 /*AssetID*/, const SViewInfo& /*rkViewInfo*/)
     {
         SRayIntersection out;
         out.Hit = false;

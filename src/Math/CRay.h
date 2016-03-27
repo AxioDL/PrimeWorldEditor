@@ -1,6 +1,7 @@
 #ifndef CRAY_H
 #define CRAY_H
 
+#include "CTransform4f.h"
 #include "CVector3f.h"
 
 class CRay
@@ -9,27 +10,28 @@ class CRay
     CVector3f mDirection;
 
 public:
-    CRay();
-    CRay(const CVector3f& Origin, const CVector3f& Direction);
-    ~CRay();
-    const CVector3f& Origin() const;
-    const CVector3f& Direction() const;
-    void SetOrigin(const CVector3f& Origin);
-    void SetDirection(const CVector3f& Direction);
+    CRay() {}
 
-    CRay Transformed(const CTransform4f& Matrix) const;
-    CVector3f PointOnRay(float Distance) const;
+    CRay(const CVector3f& rkOrigin, const CVector3f& rkDirection)
+        : mOrigin(rkOrigin), mDirection(rkDirection) {}
+
+    const CVector3f& Origin() const                 { return mOrigin; }
+    const CVector3f& Direction() const              { return mDirection; }
+    void SetOrigin(const CVector3f& rkOrigin)       { mOrigin = rkOrigin; }
+    void SetDirection(const CVector3f& rkDirection) { mDirection = rkDirection; }
+
+    CRay Transformed(const CTransform4f& rkMatrix) const
+    {
+        CRay Out;
+        Out.mOrigin = rkMatrix * mOrigin;
+
+        CVector3f Point = rkMatrix * (mOrigin + mDirection);
+        Out.mDirection = (Point - Out.mOrigin).Normalized();
+
+        return Out;
+    }
+
+    CVector3f PointOnRay(float Distance) const { return mOrigin + (mDirection * Distance); }
 };
-
-// ************ INLINE FUNCTIONS ************
-inline const CVector3f& CRay::Origin() const
-{
-    return mOrigin;
-}
-
-inline const CVector3f& CRay::Direction() const
-{
-    return mDirection;
-}
 
 #endif // CRAY_H

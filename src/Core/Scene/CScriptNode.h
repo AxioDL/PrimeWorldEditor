@@ -34,15 +34,15 @@ public:
     ENodeType NodeType();
     void PostLoad();
     void OnTransformed();
-    void AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo);
-    void Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& ViewInfo);
+    void AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo);
+    void Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& rkViewInfo);
     void DrawSelection();
-    void RayAABoxIntersectTest(CRayCollisionTester& Tester, const SViewInfo& ViewInfo);
-    SRayIntersection RayNodeIntersectTest(const CRay &Ray, u32 AssetID, const SViewInfo& ViewInfo);
+    void RayAABoxIntersectTest(CRayCollisionTester& rTester, const SViewInfo& rkViewInfo);
+    SRayIntersection RayNodeIntersectTest(const CRay& rkRay, u32 AssetID, const SViewInfo& rkViewInfo);
     bool AllowsRotate() const;
     bool AllowsScale() const;
     bool IsVisible() const;
-    CColor TintColor(const SViewInfo &ViewInfo) const;
+    CColor TintColor(const SViewInfo& rkViewInfo) const;
     CColor WireframeColor() const;
 
     void LinksModified();
@@ -50,7 +50,7 @@ public:
     void UpdatePreviewVolume();
     void GeneratePosition();
     void TestGameModeVisibility();
-    CScriptObject* Object() const;
+    CScriptObject* Instance() const;
     CScriptTemplate* Template() const;
     CScriptExtra* Extra() const;
     CModel* ActiveModel() const;

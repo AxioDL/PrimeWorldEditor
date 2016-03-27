@@ -100,7 +100,7 @@ void FileWrite(const TString& rkFilename, const TString& rkMessage)
 
 void FileWrite(const TString& rkFilename, u32 Offset, const TString& rkMessage)
 {
-    Write(rkFilename + " : " + TString::HexString(Offset) + " - " + rkMessage);
+    Write(rkFilename + " : " + TString::HexString(Offset, 0) + " - " + rkMessage);
 }
 
 void FileError(const TString& rkFilename, const TString& rkMessage)
@@ -110,7 +110,7 @@ void FileError(const TString& rkFilename, const TString& rkMessage)
 
 void FileError(const TString& rkFilename, u32 Offset, const TString& rkMessage)
 {
-    Error(rkFilename + " : " + TString::HexString(Offset) + " - " + rkMessage);
+    Error(rkFilename + " : " + TString::HexString(Offset, 0) + " - " + rkMessage);
 }
 
 void FileWarning(const TString& rkFilename, const TString& rkMessage)
@@ -120,7 +120,7 @@ void FileWarning(const TString& rkFilename, const TString& rkMessage)
 
 void FileWarning(const TString& rkFilename, u32 Offset, const TString& rkMessage)
 {
-    Warning(rkFilename + " : " + TString::HexString(Offset) + " - " + rkMessage);
+    Warning(rkFilename + " : " + TString::HexString(Offset, 0) + " - " + rkMessage);
 }
 
 const TStringList& GetErrorLog()

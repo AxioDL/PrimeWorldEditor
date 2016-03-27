@@ -1,10 +1,10 @@
 #include "CMemoryInStream.h"
 
 CMemoryInStream::CMemoryInStream()
+    : mpDataStart(nullptr)
+    , mDataSize(0)
+    , mPos(0)
 {
-    mpDataStart = nullptr;
-    mDataSize = 0;
-    mPos = 0;
 }
 CMemoryInStream::CMemoryInStream(const void *pData, unsigned long Size, IOUtil::EEndianness DataEndianness)
 {
@@ -51,12 +51,14 @@ bool CMemoryInStream::Seek(long Offset, long Origin)
             return false;
     }
 
-    if (mPos < 0) {
+    if (mPos < 0)
+    {
         mPos = 0;
         return false;
     }
 
-    if (mPos > mDataSize) {
+    if (mPos > mDataSize)
+    {
         mPos = mDataSize;
         return false;
     }

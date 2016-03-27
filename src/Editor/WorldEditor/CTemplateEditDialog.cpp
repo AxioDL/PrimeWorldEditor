@@ -10,12 +10,11 @@ CTemplateEditDialog::CTemplateEditDialog(IPropertyTemplate *pTemplate, QWidget *
     : QDialog(pParent)
     , ui(new Ui::CTemplateEditDialog)
     , mpTemplate(pTemplate)
+    , mGame(pTemplate->Game())
+    , mOriginalName(pTemplate->Name())
+    , mOriginalDescription(pTemplate->Description())
 {
     ui->setupUi(this);
-
-    mGame = pTemplate->Game();
-    mOriginalName = pTemplate->Name();
-    mOriginalDescription = pTemplate->Description();
 
     ui->IDDisplayLabel->setText(TO_QSTRING(pTemplate->IDString(false)));
     ui->PathDisplayLabel->setText(TO_QSTRING(pTemplate->IDString(true)));
@@ -32,7 +31,7 @@ CTemplateEditDialog::CTemplateEditDialog(IPropertyTemplate *pTemplate, QWidget *
     else
     {
         CTemplateLoader::LoadAllGames();
-        std::vector<TString> TemplateList = CMasterTemplate::GetXMLsUsingID(pTemplate->PropertyID());
+        std::vector<TString> TemplateList = CMasterTemplate::XMLsUsingID(pTemplate->PropertyID());
 
         for (u32 iTemp = 0; iTemp < TemplateList.size(); iTemp++)
             ui->TemplatesListWidget->addItem(TO_QSTRING(TemplateList[iTemp]));
@@ -96,7 +95,7 @@ void CTemplateEditDialog::ApplyChanges()
             CMasterTemplate::RenameProperty(mpTemplate, NewName);
 
             // Add modified templates to pending resave list
-            const std::vector<IPropertyTemplate*> *pList = CMasterTemplate::GetTemplatesWithMatchingID(mpTemplate);
+            const std::vector<IPropertyTemplate*> *pList = CMasterTemplate::TemplatesWithMatchingID(mpTemplate);
 
             if (pList)
             {
@@ -136,7 +135,7 @@ void CTemplateEditDialog::AddTemplate(IPropertyTemplate *pTemp)
 
         if (!Source.IsEmpty())
         {
-            CStructTemplate *pStruct = pTemp->MasterTemplate()->GetStructAtSource(Source);
+            CStructTemplate *pStruct = pTemp->MasterTemplate()->StructAtSource(Source);
 
             if (!mStructTemplatesToResave.contains(pStruct))
                 mStructTemplatesToResave << pStruct;
@@ -170,7 +169,7 @@ void CTemplateEditDialog::UpdateDescription(const TString& rkNewDesc)
 
     if (!SourceFile.IsEmpty())
     {
-        const std::vector<IPropertyTemplate*> *pkTemplates = CMasterTemplate::GetTemplatesWithMatchingID(mpTemplate);
+        const std::vector<IPropertyTemplate*> *pkTemplates = CMasterTemplate::TemplatesWithMatchingID(mpTemplate);
 
         if (pkTemplates)
         {
@@ -219,7 +218,7 @@ void CTemplateEditDialog::FindEquivalentProperties(IPropertyTemplate *pTemp)
         }
     }
 
-    QList<CMasterTemplate*> MasterList = QList<CMasterTemplate*>::fromStdList(CMasterTemplate::GetMasterList());
+    QList<CMasterTemplate*> MasterList = QList<CMasterTemplate*>::fromStdList(CMasterTemplate::MasterList());
 
     if (Source.IsEmpty())
     {
@@ -227,7 +226,7 @@ void CTemplateEditDialog::FindEquivalentProperties(IPropertyTemplate *pTemp)
 
         foreach (CMasterTemplate *pMaster, MasterList)
         {
-            if (pMaster == pTemp->MasterTemplate() || pMaster->GetGame() <= ePrime) continue;
+            if (pMaster == pTemp->MasterTemplate() || pMaster->Game() <= ePrime) continue;
             CScriptTemplate *pNewScript = pMaster->TemplateByID(ObjectID);
 
             if (pNewScript)
@@ -244,8 +243,8 @@ void CTemplateEditDialog::FindEquivalentProperties(IPropertyTemplate *pTemp)
     {
         foreach (CMasterTemplate *pMaster, MasterList)
         {
-            if (pMaster == pTemp->MasterTemplate() || pMaster->GetGame() <= ePrime) continue;
-            CStructTemplate *pStruct = pMaster->GetStructAtSource(Source);
+            if (pMaster == pTemp->MasterTemplate() || pMaster->Game() <= ePrime) continue;
+            CStructTemplate *pStruct = pMaster->StructAtSource(Source);
 
             if (pStruct)
             {

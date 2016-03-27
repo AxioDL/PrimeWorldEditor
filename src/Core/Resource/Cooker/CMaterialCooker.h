@@ -14,14 +14,14 @@ class CMaterialCooker
     std::vector<u64> mMaterialHashes;
 
     CMaterialCooker();
-    void WriteMatSetPrime(IOutputStream& Out);
-    void WriteMatSetCorruption(IOutputStream& Out);
-    void WriteMaterialPrime(IOutputStream& Out);
-    void WriteMaterialCorruption(IOutputStream& Out);
+    void WriteMatSetPrime(IOutputStream& rOut);
+    void WriteMatSetCorruption(IOutputStream& rOut);
+    void WriteMaterialPrime(IOutputStream& rOut);
+    void WriteMaterialCorruption(IOutputStream& rOut);
 
 public:
-    static void WriteCookedMatSet(CMaterialSet *pSet, EGame Version, IOutputStream& Out);
-    static void WriteCookedMaterial(CMaterial *pMat, EGame Version, IOutputStream& Out);
+    static void WriteCookedMatSet(CMaterialSet *pSet, EGame Version, IOutputStream& rOut);
+    static void WriteCookedMaterial(CMaterial *pMat, EGame Version, IOutputStream& rOut);
 };
 
 #endif // CMATERIALCOOKER_H

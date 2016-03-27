@@ -53,23 +53,23 @@ public:
     ~CRenderer();
     void Init();
 
-    // Getters/Setters
+    // Accessors
     FRenderOptions RenderOptions() const;
-    void ToggleBackfaceCull(bool b);
-    void ToggleUVAnimation(bool b);
-    void ToggleGrid(bool b);
-    void ToggleOccluders(bool b);
-    void ToggleAlphaDisabled(bool b);
+    void ToggleBackfaceCull(bool Enable);
+    void ToggleUVAnimation(bool Enable);
+    void ToggleGrid(bool Enable);
+    void ToggleOccluders(bool Enable);
+    void ToggleAlphaDisabled(bool Enable);
     void SetBloom(EBloomMode BloomMode);
-    void SetClearColor(const CColor& Clear);
+    void SetClearColor(const CColor& rkClear);
     void SetViewportSize(u32 Width, u32 Height);
 
     // Render
-    void RenderBuckets(const SViewInfo& ViewInfo);
+    void RenderBuckets(const SViewInfo& rkViewInfo);
     void RenderBloom();
-    void RenderSky(CModel *pSkyboxModel, const SViewInfo& ViewInfo);
-    void AddOpaqueMesh(IRenderable *pRenderable, int AssetID, CAABox& AABox, ERenderCommand Command);
-    void AddTransparentMesh(IRenderable *pRenderable, int AssetID, CAABox& AABox, ERenderCommand Command);
+    void RenderSky(CModel *pSkyboxModel, const SViewInfo& rkViewInfo);
+    void AddOpaqueMesh(IRenderable *pRenderable, int AssetID, const CAABox& rkAABox, ERenderCommand Command);
+    void AddTransparentMesh(IRenderable *pRenderable, int AssetID, const CAABox& rkAABox, ERenderCommand Command);
     void BeginFrame();
     void EndFrame();
     void ClearDepthBuffer();

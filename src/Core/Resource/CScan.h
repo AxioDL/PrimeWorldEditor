@@ -31,13 +31,20 @@ private:
     ELogbookCategory mCategory;
 
 public:
-    CScan();
-    ~CScan();
-    EGame Version();
-    CStringTable* ScanText();
-    bool IsImportant();
-    bool IsSlow();
-    ELogbookCategory LogbookCategory();
+    CScan()
+        : CResource()
+        , mpFrame(nullptr)
+        , mpStringTable(nullptr)
+        , mIsSlow(false)
+        , mIsImportant(false)
+        , mCategory(eNone)
+    {}
+
+    EGame Version() const                       { return mVersion; }
+    CStringTable* ScanText() const              { return mpStringTable; }
+    bool IsImportant() const                    { return mIsImportant; }
+    bool IsSlow() const                         { return mIsSlow; }
+    ELogbookCategory LogbookCategory() const    { return mCategory; }
 };
 
 #endif // CSCAN_H

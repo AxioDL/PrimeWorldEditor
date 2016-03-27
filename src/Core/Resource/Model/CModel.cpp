@@ -3,20 +3,18 @@
 #include "Core/Render/CRenderer.h"
 #include "Core/OpenGL/GLCommon.h"
 
-CModel::CModel() : CBasicModel()
+CModel::CModel()
+    : CBasicModel()
 {
     mHasOwnMaterials = true;
     mHasOwnSurfaces = true;
-    mVertexCount = 0;
-    mTriangleCount = 0;
 }
 
-CModel::CModel(CMaterialSet *pSet, bool ownsMatSet)
+CModel::CModel(CMaterialSet *pSet, bool OwnsMatSet)
+    : CBasicModel()
 {
-    mHasOwnMaterials = ownsMatSet;
+    mHasOwnMaterials = OwnsMatSet;
     mHasOwnSurfaces = true;
-    mVertexCount = 0;
-    mTriangleCount = 0;
 
     mMaterialSets.resize(1);
     mMaterialSets[0] = pSet;
@@ -25,8 +23,8 @@ CModel::CModel(CMaterialSet *pSet, bool ownsMatSet)
 CModel::~CModel()
 {
     if (mHasOwnMaterials)
-        for (u32 m = 0; m < mMaterialSets.size(); m++)
-            delete mMaterialSets[m];
+        for (u32 iMat = 0; iMat < mMaterialSets.size(); iMat++)
+            delete mMaterialSets[iMat];
 }
 
 void CModel::BufferGL()
@@ -56,7 +54,8 @@ void CModel::BufferGL()
                     Indices[iVert] = mVBO.AddIfUnique(pPrim->Vertices[iVert], VBOStartOffset);
 
                 // then add the indices to the IBO. We convert some primitives to strips to minimize draw calls.
-                switch (pPrim->Type) {
+                switch (pPrim->Type)
+                {
                     case eGX_Triangles:
                         pIBO->TrianglesToStrips(Indices.data(), Indices.size());
                         break;
@@ -147,7 +146,7 @@ void CModel::DrawWireframe(FRenderOptions Options, CColor WireColor /*= CColor::
     if (!mBuffered) BufferGL();
 
     // Set up wireframe
-    WireColor.a = 0;
+    WireColor.A = 0;
     CDrawUtil::UseColorShader(WireColor);
     Options |= eNoMaterialSetup;
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);

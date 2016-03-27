@@ -26,17 +26,17 @@ CGameArea::~CGameArea()
     for (u32 iSCLY = 0; iSCLY < mScriptLayers.size(); iSCLY++)
         delete mScriptLayers[iSCLY];
 
-    for (u32 lyr = 0; lyr < mLightLayers.size(); lyr++)
-        for (u32 lit = 0; lit < mLightLayers[lyr].size(); lit++)
-            delete mLightLayers[lyr][lit];
+    for (u32 iLyr = 0; iLyr < mLightLayers.size(); iLyr++)
+        for (u32 iLight = 0; iLight < mLightLayers[iLyr].size(); iLight++)
+            delete mLightLayers[iLyr][iLight];
 }
 
-void CGameArea::AddWorldModel(CModel *mdl)
+void CGameArea::AddWorldModel(CModel *pModel)
 {
-    mTerrainModels.push_back(mdl);
-    mVertexCount += mdl->GetVertexCount();
-    mTriangleCount += mdl->GetTriangleCount();
-    mAABox.ExpandBounds(mdl->AABox());
+    mWorldModels.push_back(pModel);
+    mVertexCount += pModel->GetVertexCount();
+    mTriangleCount += pModel->GetTriangleCount();
+    mAABox.ExpandBounds(pModel->AABox());
 }
 
 void CGameArea::MergeTerrain()
@@ -44,9 +44,9 @@ void CGameArea::MergeTerrain()
     if (mTerrainMerged) return;
 
     // Nothing really complicated here - iterate through every terrain submesh, add each to a static model
-    for (u32 iMdl = 0; iMdl < mTerrainModels.size(); iMdl++)
+    for (u32 iMdl = 0; iMdl < mWorldModels.size(); iMdl++)
     {
-        CModel *pMdl = mTerrainModels[iMdl];
+        CModel *pMdl = mWorldModels[iMdl];
         u32 SubmeshCount = pMdl->GetSurfaceCount();
 
         for (u32 iSurf = 0; iSurf < SubmeshCount; iSurf++)
@@ -54,8 +54,8 @@ void CGameArea::MergeTerrain()
             SSurface *pSurf = pMdl->GetSurface(iSurf);
             CMaterial *pMat = mMaterialSet->MaterialByIndex(pSurf->MaterialID);
 
-            bool newMat = true;
-            for (std::vector<CStaticModel*>::iterator it = mStaticTerrainModels.begin(); it != mStaticTerrainModels.end(); it++)
+            bool NewMat = true;
+            for (std::vector<CStaticModel*>::iterator it = mStaticWorldModels.begin(); it != mStaticWorldModels.end(); it++)
             {
                 if ((*it)->GetMaterial() == pMat)
                 {
@@ -66,18 +66,18 @@ void CGameArea::MergeTerrain()
                     // This is maybe not the most efficient way to do this, but it works.
                     CStaticModel *pStatic = *it;
                     pStatic->AddSurface(pSurf);
-                    mStaticTerrainModels.erase(it);
-                    mStaticTerrainModels.push_back(pStatic);
-                    newMat = false;
+                    mStaticWorldModels.erase(it);
+                    mStaticWorldModels.push_back(pStatic);
+                    NewMat = false;
                     break;
                 }
             }
 
-            if (newMat)
+            if (NewMat)
             {
                 CStaticModel *pStatic = new CStaticModel(pMat);
                 pStatic->AddSurface(pSurf);
-                mStaticTerrainModels.push_back(pStatic);
+                mStaticWorldModels.push_back(pStatic);
             }
         }
     }
@@ -85,13 +85,13 @@ void CGameArea::MergeTerrain()
 
 void CGameArea::ClearTerrain()
 {
-    for (u32 t = 0; t < mTerrainModels.size(); t++)
-        delete mTerrainModels[t];
-    mTerrainModels.clear();
+    for (u32 iModel = 0; iModel < mWorldModels.size(); iModel++)
+        delete mWorldModels[iModel];
+    mWorldModels.clear();
 
-    for (u32 s = 0; s < mStaticTerrainModels.size(); s++)
-        delete mStaticTerrainModels[s];
-    mStaticTerrainModels.clear();
+    for (u32 iStatic = 0; iStatic < mStaticWorldModels.size(); iStatic++)
+        delete mStaticWorldModels[iStatic];
+    mStaticWorldModels.clear();
 
     if (mMaterialSet) delete mMaterialSet;
 

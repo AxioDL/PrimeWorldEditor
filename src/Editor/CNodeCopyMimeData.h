@@ -66,11 +66,11 @@ public:
 
             if (rNode.Type == eScriptNode)
             {
-                CScriptObject *pInst = static_cast<CScriptNode*>(*It)->Object();
+                CScriptObject *pInst = static_cast<CScriptNode*>(*It)->Instance();
                 rNode.OriginalInstanceID = pInst->InstanceID();
 
                 CVectorOutStream Out(&rNode.InstanceData, IOUtil::eBigEndian);
-                CScriptCooker::CookInstance(eReturns, static_cast<CScriptNode*>(*It)->Object(), Out);
+                CScriptCooker::CookInstance(eReturns, static_cast<CScriptNode*>(*It)->Instance(), Out);
 
                 // Replace instance ID with 0xFFFFFFFF to force it to generate a new one.
                 Out.Seek(0x6, SEEK_SET);
@@ -100,8 +100,8 @@ public:
         return -1;
     }
 
-    CUniqueID AreaID() const { return mAreaID; }
-    EGame Game() const { return mGame; }
+    CUniqueID AreaID() const                        { return mAreaID; }
+    EGame Game() const                              { return mGame; }
     const QVector<SCopiedNode>& CopiedNodes() const { return mCopiedNodes; }
 };
 

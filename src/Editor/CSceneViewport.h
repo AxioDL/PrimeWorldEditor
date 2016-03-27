@@ -49,13 +49,13 @@ public:
     void SetScene(INodeEditor *pEditor, CScene *pScene);
     void SetShowFlag(EShowFlag Flag, bool Visible);
     void SetShowWorld(bool Visible);
-    void SetRenderMergedWorld(bool b);
+    void SetRenderMergedWorld(bool RenderMerged);
     FShowFlags ShowFlags() const;
     CRenderer* Renderer();
     CSceneNode* HoverNode();
     CVector3f HoverPoint();
-    void CheckGizmoInput(const CRay& ray);
-    SRayIntersection SceneRayCast(const CRay& ray);
+    void CheckGizmoInput(const CRay& rkRay);
+    SRayIntersection SceneRayCast(const CRay& rkRay);
     void ResetHover();
     bool IsHoveringGizmo();
 

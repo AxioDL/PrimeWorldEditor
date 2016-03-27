@@ -10,9 +10,9 @@ class TFlags
 
 public:
     TFlags() : mValue(0) {}
-    TFlags(int v) : mValue(v) {}
-    TFlags(u32 v) : mValue(v) {}
-    TFlags(FlagEnum v) : mValue(v) {}
+    TFlags(int Val) : mValue(Val) {}
+    TFlags(u32 Val) : mValue(Val) {}
+    TFlags(FlagEnum Val) : mValue(Val) {}
 
     inline operator   int()   const { return mValue;  }
     inline bool operator!()   const { return !mValue; }

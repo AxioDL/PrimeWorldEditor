@@ -199,7 +199,7 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                     if (Role == Qt::DisplayRole)
                         return "";
                     else
-                        return TO_QSTRING(TString::HexString(pBitfield->FlagMask(rkIndex.row()), true, true, 8));
+                        return TO_QSTRING(TString::HexString(pBitfield->FlagMask(rkIndex.row())));
                 }
             }
 
@@ -377,9 +377,9 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                         CVector3f Value = pVec->Get();
                         CVector3f Default = pTemp->GetDefaultValue();
 
-                        if (rkIndex.row() == 0) Bold = (Value.x != Default.x);
-                        if (rkIndex.row() == 1) Bold = (Value.y != Default.y);
-                        if (rkIndex.row() == 2) Bold = (Value.z != Default.z);
+                        if (rkIndex.row() == 0) Bold = (Value.X != Default.X);
+                        if (rkIndex.row() == 1) Bold = (Value.Y != Default.Y);
+                        if (rkIndex.row() == 2) Bold = (Value.Z != Default.Z);
                     }
 
                     else if (pProp->Type() == eColorProperty)
@@ -390,10 +390,10 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                         CColor Value = pColor->Get();
                         CColor Default = pTemp->GetDefaultValue();
 
-                        if (rkIndex.row() == 0) Bold = (Value.r != Default.r);
-                        if (rkIndex.row() == 1) Bold = (Value.g != Default.g);
-                        if (rkIndex.row() == 2) Bold = (Value.b != Default.b);
-                        if (rkIndex.row() == 3) Bold = (Value.a != Default.a);
+                        if (rkIndex.row() == 0) Bold = (Value.R != Default.R);
+                        if (rkIndex.row() == 1) Bold = (Value.G != Default.G);
+                        if (rkIndex.row() == 2) Bold = (Value.B != Default.B);
+                        if (rkIndex.row() == 3) Bold = (Value.A != Default.A);
                     }
                 }
 

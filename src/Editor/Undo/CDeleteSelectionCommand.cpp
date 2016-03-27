@@ -18,7 +18,7 @@ CDeleteSelectionCommand::CDeleteSelectionCommand(CWorldEditor *pEditor, const QS
         if (It->NodeType() == eScriptNode)
         {
             CScriptNode *pScript = static_cast<CScriptNode*>(*It);
-            CScriptObject *pInst = pScript->Object();
+            CScriptObject *pInst = pScript->Instance();
 
             mDeletedNodes.push_back(SDeletedNode());
             SDeletedNode& rNode = mDeletedNodes.back();
@@ -74,7 +74,7 @@ CDeleteSelectionCommand::CDeleteSelectionCommand(CWorldEditor *pEditor, const QS
     // Remove selected objects from the linked instances list.
     foreach (CScriptObject *pInst, LinkedInstances)
     {
-        if (mpEditor->Scene()->NodeForObject(pInst)->IsSelected())
+        if (mpEditor->Scene()->NodeForInstance(pInst)->IsSelected())
             LinkedInstances.removeOne(pInst);
     }
 
@@ -153,7 +153,7 @@ void CDeleteSelectionCommand::redo()
     {
         SDeletedNode& rNode = mDeletedNodes[iNode];
         CSceneNode *pNode = *rNode.NodePtr;
-        CScriptObject *pInst = static_cast<CScriptNode*>(pNode)->Object();
+        CScriptObject *pInst = static_cast<CScriptNode*>(pNode)->Instance();
 
         mpEditor->NotifyNodeAboutToBeDeleted(pNode);
         mpEditor->Scene()->DeleteNode(pNode);

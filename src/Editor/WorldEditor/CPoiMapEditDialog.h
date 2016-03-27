@@ -45,7 +45,7 @@ class CPoiMapEditDialog : public QMainWindow
     static const CColor skHoverColor;
 
 public:
-    explicit CPoiMapEditDialog(CWorldEditor *pEditor, QWidget *parent = 0);
+    explicit CPoiMapEditDialog(CWorldEditor *pEditor, QWidget *pParent = 0);
     ~CPoiMapEditDialog();
     void closeEvent(QCloseEvent *pEvent);
     void HighlightPoiModels(const QModelIndex& rkIndex);

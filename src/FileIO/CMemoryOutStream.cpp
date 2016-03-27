@@ -1,11 +1,11 @@
 #include "CMemoryOutStream.h"
 
 CMemoryOutStream::CMemoryOutStream()
+    : mpDataStart(nullptr)
+    , mDataSize(0)
+    , mPos(0)
+    , mUsed(0)
 {
-    mpDataStart = nullptr;
-    mDataSize = 0;
-    mPos = 0;
-    mUsed = 0;
 }
 
 CMemoryOutStream::CMemoryOutStream(void *pData, unsigned long Size, IOUtil::EEndianness DataEndianness)
@@ -57,12 +57,14 @@ bool CMemoryOutStream::Seek(long Offset, long Origin)
             return false;
     }
 
-    if (mPos < 0) {
+    if (mPos < 0)
+    {
         mPos = 0;
         return false;
     }
 
-    if (mPos > mDataSize) {
+    if (mPos > mDataSize)
+    {
         mPos = mDataSize;
         return false;
     }

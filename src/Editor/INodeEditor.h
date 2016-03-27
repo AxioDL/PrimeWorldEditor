@@ -117,7 +117,7 @@ private slots:
     void OnTranslateTriggered();
     void OnRotateTriggered();
     void OnScaleTriggered();
-    void OnTransformSpaceChanged(int spaceIndex);
+    void OnTransformSpaceChanged(int SpaceIndex);
 };
 
 #endif // INODEEDITOR_H

@@ -1,22 +1,26 @@
 #include "WVectorEditor.h"
 
-WVectorEditor::WVectorEditor(QWidget *pParent) : QWidget(pParent)
+WVectorEditor::WVectorEditor(QWidget *pParent)
+    : QWidget(pParent)
+    , mValue(CVector3f::skZero)
+    , mEditing(false)
 {
     SetupUI();
-    mValue = CVector3f::skZero;
     mpSpinBoxX->setValue(0.0);
     mpSpinBoxY->setValue(0.0);
     mpSpinBoxZ->setValue(0.0);
-    mEditing = false;
 }
 
-WVectorEditor::WVectorEditor(const CVector3f& value, QWidget *pParent) : QWidget(pParent)
+WVectorEditor::WVectorEditor(const CVector3f& rkValue, QWidget *pParent)
+    : QWidget(pParent)
+    , mValue(rkValue)
+    , mEditing(false)
 {
     SetupUI();
-    mValue = value;
-    mpSpinBoxX->setValue((double) value.x);
-    mpSpinBoxY->setValue((double) value.y);
-    mpSpinBoxZ->setValue((double) value.z);
+    mValue = rkValue;
+    mpSpinBoxX->setValue((double) rkValue.X);
+    mpSpinBoxY->setValue((double) rkValue.Y);
+    mpSpinBoxZ->setValue((double) rkValue.Z);
     mEditing = false;
 }
 
@@ -30,24 +34,24 @@ CVector3f WVectorEditor::Value()
     return mValue;
 }
 
-void WVectorEditor::SetValue(const CVector3f& value)
+void WVectorEditor::SetValue(const CVector3f& rkValue)
 {
-    mValue = value;
+    mValue = rkValue;
 
     mpSpinBoxX->blockSignals(true);
     mpSpinBoxY->blockSignals(true);
     mpSpinBoxZ->blockSignals(true);
-    mpSpinBoxX->setValue((double) value.x);
-    mpSpinBoxY->setValue((double) value.y);
-    mpSpinBoxZ->setValue((double) value.z);
+    mpSpinBoxX->setValue((double) rkValue.X);
+    mpSpinBoxY->setValue((double) rkValue.Y);
+    mpSpinBoxZ->setValue((double) rkValue.Z);
     mpSpinBoxX->blockSignals(false);
     mpSpinBoxY->blockSignals(false);
     mpSpinBoxZ->blockSignals(false);
 }
 
-void WVectorEditor::SetOrientation(Qt::Orientation orientation)
+void WVectorEditor::SetOrientation(Qt::Orientation Orientation)
 {
-    mOrientation = orientation;
+    mOrientation = Orientation;
 
     if (mpLayout)
     {
@@ -57,7 +61,7 @@ void WVectorEditor::SetOrientation(Qt::Orientation orientation)
         delete mpLayout;
     }
 
-    mpLayout = (orientation == Qt::Horizontal ? (QLayout*) new QHBoxLayout : (QLayout*) new QVBoxLayout);
+    mpLayout = (Orientation == Qt::Horizontal ? (QLayout*) new QHBoxLayout : (QLayout*) new QVBoxLayout);
     mpLayout->addItem(mpXLayout);
     mpLayout->addItem(mpYLayout);
     mpLayout->addItem(mpZLayout);
@@ -65,23 +69,23 @@ void WVectorEditor::SetOrientation(Qt::Orientation orientation)
     setLayout(mpLayout);
 }
 
-void WVectorEditor::SetDefaultValue(double value)
+void WVectorEditor::SetDefaultValue(double Value)
 {
-    mpSpinBoxX->SetDefaultValue(value);
-    mpSpinBoxY->SetDefaultValue(value);
-    mpSpinBoxZ->SetDefaultValue(value);
+    mpSpinBoxX->SetDefaultValue(Value);
+    mpSpinBoxY->SetDefaultValue(Value);
+    mpSpinBoxZ->SetDefaultValue(Value);
 }
 
-void WVectorEditor::SetSingleStep(double step)
+void WVectorEditor::SetSingleStep(double Step)
 {
-    mpSpinBoxX->setSingleStep(step);
-    mpSpinBoxY->setSingleStep(step);
-    mpSpinBoxZ->setSingleStep(step);
+    mpSpinBoxX->setSingleStep(Step);
+    mpSpinBoxY->setSingleStep(Step);
+    mpSpinBoxZ->setSingleStep(Step);
 }
 
-void WVectorEditor::SetLabelsHidden(bool hidden)
+void WVectorEditor::SetLabelsHidden(bool Hidden)
 {
-    if (hidden)
+    if (Hidden)
     {
         mpLabelX->hide();
         mpLabelY->hide();
@@ -107,14 +111,14 @@ bool WVectorEditor::IsBeingEdited() const
 }
 
 // ************ PUBLIC SLOTS ************
-void WVectorEditor::SetX(double x)
+void WVectorEditor::SetX(double X)
 {
-    mValue.x = (float) x;
+    mValue.X = (float) X;
 
     if (sender() != mpSpinBoxX)
     {
         mpSpinBoxX->blockSignals(true);
-        mpSpinBoxX->setValue((double) x);
+        mpSpinBoxX->setValue((double) X);
         mpSpinBoxX->blockSignals(false);
     }
 
@@ -122,14 +126,14 @@ void WVectorEditor::SetX(double x)
     emit ValueChanged(mValue);
 }
 
-void WVectorEditor::SetY(double y)
+void WVectorEditor::SetY(double Y)
 {
-    mValue.y = (float) y;
+    mValue.Y = (float) Y;
 
     if (sender() != mpSpinBoxY)
     {
         mpSpinBoxY->blockSignals(true);
-        mpSpinBoxY->setValue((double) y);
+        mpSpinBoxY->setValue((double) Y);
         mpSpinBoxY->blockSignals(false);
     }
 
@@ -137,14 +141,14 @@ void WVectorEditor::SetY(double y)
     emit ValueChanged(mValue);
 }
 
-void WVectorEditor::SetZ(double z)
+void WVectorEditor::SetZ(double Z)
 {
-    mValue.z = (float) z;
+    mValue.Z = (float) Z;
 
     if (sender() != mpSpinBoxZ)
     {
         mpSpinBoxZ->blockSignals(true);
-        mpSpinBoxZ->setValue((double) z);
+        mpSpinBoxZ->setValue((double) Z);
         mpSpinBoxZ->blockSignals(false);
     }
 

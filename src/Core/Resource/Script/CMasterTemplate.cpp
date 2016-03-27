@@ -3,9 +3,9 @@
 #include <Common/Log.h>
 
 CMasterTemplate::CMasterTemplate()
+    : mVersion(0)
+    , mFullyLoaded(false)
 {
-    mVersion = 0;
-    mFullyLoaded = false;
 }
 
 CMasterTemplate::~CMasterTemplate()
@@ -14,18 +14,7 @@ CMasterTemplate::~CMasterTemplate()
         delete it->second;
 }
 
-EGame CMasterTemplate::GetGame()
-{
-    return mGame;
-}
-
-u32 CMasterTemplate::NumGameVersions()
-{
-    if (mGameVersions.empty()) return 1;
-    else return mGameVersions.size();
-}
-
-u32 CMasterTemplate::GetGameVersion(TString VersionName)
+u32 CMasterTemplate::GameVersion(TString VersionName)
 {
     VersionName = VersionName.ToLower();
 
@@ -99,12 +88,7 @@ SMessage CMasterTemplate::MessageByIndex(u32 Index)
     return (std::next(it, Index))->second;
 }
 
-TString CMasterTemplate::GetDirectory() const
-{
-    return mSourceFile.GetFileDirectory();
-}
-
-CStructTemplate* CMasterTemplate::GetStructAtSource(const TString& rkSource)
+CStructTemplate* CMasterTemplate::StructAtSource(const TString& rkSource)
 {
     auto InfoIt = mStructTemplates.find(rkSource);
 
@@ -114,13 +98,8 @@ CStructTemplate* CMasterTemplate::GetStructAtSource(const TString& rkSource)
     else return nullptr;
 }
 
-bool CMasterTemplate::IsLoadedSuccessfully()
-{
-    return mFullyLoaded;
-}
-
 // ************ STATIC ************
-CMasterTemplate* CMasterTemplate::GetMasterForGame(EGame Game)
+CMasterTemplate* CMasterTemplate::MasterForGame(EGame Game)
 {
     auto it = smMasterMap.find(Game);
 
@@ -130,7 +109,7 @@ CMasterTemplate* CMasterTemplate::GetMasterForGame(EGame Game)
         return nullptr;
 }
 
-std::list<CMasterTemplate*> CMasterTemplate::GetMasterList()
+std::list<CMasterTemplate*> CMasterTemplate::MasterList()
 {
     std::list<CMasterTemplate*> list;
 
@@ -140,7 +119,7 @@ std::list<CMasterTemplate*> CMasterTemplate::GetMasterList()
     return list;
 }
 
-TString CMasterTemplate::GetPropertyName(u32 PropertyID)
+TString CMasterTemplate::PropertyName(u32 PropertyID)
 {
     auto it = smPropertyNames.find(PropertyID);
 
@@ -250,7 +229,7 @@ void CMasterTemplate::RenameProperty(IPropertyTemplate *pTemp, const TString& rk
     }
 }
 
-std::vector<TString> CMasterTemplate::GetXMLsUsingID(u32 ID)
+std::vector<TString> CMasterTemplate::XMLsUsingID(u32 ID)
 {
     auto InfoIt = smIDMap.find(ID);
 
@@ -263,7 +242,7 @@ std::vector<TString> CMasterTemplate::GetXMLsUsingID(u32 ID)
         return std::vector<TString>();
 }
 
-const std::vector<IPropertyTemplate*>* CMasterTemplate::GetTemplatesWithMatchingID(IPropertyTemplate *pTemp)
+const std::vector<IPropertyTemplate*>* CMasterTemplate::TemplatesWithMatchingID(IPropertyTemplate *pTemp)
 {
     u32 ID = pTemp->PropertyID();
     if (ID <= 0xFF) ID = CreatePropertyID(pTemp);

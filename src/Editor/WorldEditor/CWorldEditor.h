@@ -58,9 +58,9 @@ public:
     bool CheckUnsavedChanges();
     bool HasAnyScriptNodesSelected() const;
 
-    inline CGameArea* ActiveArea() const { return mpArea; }
-    inline EGame CurrentGame() const { return mpArea ? mpArea->Version() : eUnknownVersion; }
-    inline CLinkDialog* LinkDialog() const { return mpLinkDialog; }
+    inline CGameArea* ActiveArea() const    { return mpArea; }
+    inline EGame CurrentGame() const        { return mpArea ? mpArea->Version() : eUnknownVersion; }
+    inline CLinkDialog* LinkDialog() const  { return mpLinkDialog; }
     CSceneViewport* Viewport() const;
 
     inline void SetWorldDir(QString WorldDir)       { mWorldDir = (QDir(WorldDir).exists() ? WorldDir : ""); }
@@ -91,7 +91,7 @@ public slots:
     void UpdateNewLinkLine();
 
 protected:
-    void GizmoModeChanged(CGizmo::EGizmoMode mode);
+    void GizmoModeChanged(CGizmo::EGizmoMode Mode);
 
 private slots:
     void OnClipboardDataModified();
@@ -107,9 +107,9 @@ private slots:
     void OnPickModeExit();
     void RefreshViewport();
     void UpdateCameraOrbit();
-    void OnCameraSpeedChange(double speed);
-    void OnTransformSpinBoxModified(CVector3f value);
-    void OnTransformSpinBoxEdited(CVector3f value);
+    void OnCameraSpeedChange(double Speed);
+    void OnTransformSpinBoxModified(CVector3f Value);
+    void OnTransformSpinBoxEdited(CVector3f Value);
     void OnClosePoiEditDialog();
     void on_ActionDrawWorld_triggered();
     void on_ActionDrawCollision_triggered();

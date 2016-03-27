@@ -14,11 +14,11 @@ class CIndexBuffer
 
 public:
     CIndexBuffer();
-    CIndexBuffer(GLenum type);
+    CIndexBuffer(GLenum Type);
     ~CIndexBuffer();
-    void AddIndex(u16 idx);
-    void AddIndices(u16 *indicesPtr, u32 count);
-    void Reserve(u32 size);
+    void AddIndex(u16 Index);
+    void AddIndices(u16 *pIndices, u32 Count);
+    void Reserve(u32 Size);
     void Clear();
     void Buffer();
     void Bind();
@@ -29,11 +29,11 @@ public:
 
     u32 GetSize();
     GLenum GetPrimitiveType();
-    void SetPrimitiveType(GLenum type);
+    void SetPrimitiveType(GLenum Type);
 
-    void TrianglesToStrips(u16 *indicesPtr, u32 count);
-    void FansToStrips(u16 *indicesPtr, u32 count);
-    void QuadsToStrips(u16 *indicesPtr, u32 count);
+    void TrianglesToStrips(u16 *pIndices, u32 Count);
+    void FansToStrips(u16 *pIndices, u32 Count);
+    void QuadsToStrips(u16 *pIndices, u32 Count);
 };
 
 #endif // CINDEXBUFFER_H

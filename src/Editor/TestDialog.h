@@ -14,7 +14,7 @@ class TestDialog : public QDialog
     CPropertyModel *mpModel;
 
 public:
-    explicit TestDialog(QWidget *parent = 0);
+    explicit TestDialog(QWidget *pParent = 0);
     ~TestDialog();
 
 private:

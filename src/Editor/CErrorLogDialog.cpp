@@ -3,9 +3,9 @@
 #include "UICommon.h"
 #include <Common/Log.h>
 
-CErrorLogDialog::CErrorLogDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::CErrorLogDialog)
+CErrorLogDialog::CErrorLogDialog(QWidget *pParent)
+    : QDialog(pParent)
+    , ui(new Ui::CErrorLogDialog)
 {
     ui->setupUi(this);
     connect(ui->CloseButton, SIGNAL(clicked()), this, SLOT(close()));

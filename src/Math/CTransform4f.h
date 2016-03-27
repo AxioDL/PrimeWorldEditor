@@ -20,8 +20,8 @@ class CTransform4f
 
 public:
     CTransform4f();
-    CTransform4f(IInputStream& input);
-    CTransform4f(float v);
+    CTransform4f(IInputStream& rInput);
+    CTransform4f(float Diagonal);
     CTransform4f(float m00, float m01, float m02, float m03,
                  float m10, float m11, float m12, float m13,
                  float m20, float m21, float m22, float m23);
@@ -37,7 +37,7 @@ public:
     void Rotate(float XRot, float YRot, float ZRot);
     void Scale(CVector3f Scale);
     void Scale(float XScale, float YScale, float ZScale);
-    CTransform4f MultiplyIgnoreTranslation(const CTransform4f& mtx) const;
+    CTransform4f MultiplyIgnoreTranslation(const CTransform4f& rkMtx) const;
     CTransform4f Inverse() const;
     CTransform4f QuickInverse() const;
     CTransform4f NoTranslation() const;
@@ -50,18 +50,18 @@ public:
     static CTransform4f TranslationMatrix(CVector3f Translation);
     static CTransform4f RotationMatrix(CQuaternion Rotation);
     static CTransform4f ScaleMatrix(CVector3f Scale);
-    static CTransform4f FromMatrix4f(const CMatrix4f& mtx);
-    static CTransform4f FromGlmMat4(const glm::mat4& mtx);
+    static CTransform4f FromMatrix4f(const CMatrix4f& rkMtx);
+    static CTransform4f FromGlmMat4(const glm::mat4& rkMtx);
 
     // Operators
-    float* operator[](long index);
-    const float* operator[](long index) const;
-    CVector3f operator*(const CVector3f& vec) const;
-    CVector4f operator*(const CVector4f& vec) const;
-    CTransform4f operator*(const CTransform4f& mtx) const;
-    void operator*=(const CTransform4f& mtx);
-    bool operator==(const CTransform4f& mtx) const;
-    bool operator!=(const CTransform4f& mtx) const;
+    float* operator[](long Index);
+    const float* operator[](long Index) const;
+    CVector3f operator*(const CVector3f& rkVec) const;
+    CVector4f operator*(const CVector4f& rkVec) const;
+    CTransform4f operator*(const CTransform4f& rkMtx) const;
+    void operator*=(const CTransform4f& rkMtx);
+    bool operator==(const CTransform4f& rkMtx) const;
+    bool operator!=(const CTransform4f& rkMtx) const;
 
     // Constant
     static const CTransform4f skIdentity;

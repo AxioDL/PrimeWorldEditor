@@ -15,8 +15,8 @@ const CColor CPoiMapEditDialog::skNormalColor(0.137255f, 0.184314f, 0.776471f, 0
 const CColor CPoiMapEditDialog::skImportantColor(0.721569f, 0.066667f, 0.066667f, 0.5f);
 const CColor CPoiMapEditDialog::skHoverColor(0.047059f, 0.2f, 0.003922f, 0.5f);
 
-CPoiMapEditDialog::CPoiMapEditDialog(CWorldEditor *pEditor, QWidget *parent)
-    : QMainWindow(parent)
+CPoiMapEditDialog::CPoiMapEditDialog(CWorldEditor *pEditor, QWidget *pParent)
+    : QMainWindow(pParent)
     , ui(new Ui::CPoiMapEditDialog)
     , mpEditor(pEditor)
     , mSourceModel(pEditor, this)
@@ -183,7 +183,7 @@ QModelIndex CPoiMapEditDialog::GetSelectedRow() const
 
 void CPoiMapEditDialog::Save()
 {
-    CPoiToWorld *pPoiToWorld = mpEditor->ActiveArea()->GetPoiToWorldMap();
+    CPoiToWorld *pPoiToWorld = mpEditor->ActiveArea()->PoiToWorldMap();
 
     TString FileName = pPoiToWorld->FullSource();
     CFileOutStream Out(FileName.ToStdString(), IOUtil::eBigEndian);
@@ -344,7 +344,7 @@ void CPoiMapEditDialog::StopPicking()
 void CPoiMapEditDialog::OnInstanceListButtonClicked()
 {
     EGame Game = mpEditor->ActiveArea()->Version();
-    CScriptTemplate *pPoiTemplate = CMasterTemplate::GetMasterForGame(Game)->TemplateByID("POIN");
+    CScriptTemplate *pPoiTemplate = CMasterTemplate::MasterForGame(Game)->TemplateByID("POIN");
 
     CPoiListDialog Dialog(pPoiTemplate, &mSourceModel, mpEditor->Scene(), this);
     Dialog.exec();
@@ -374,7 +374,7 @@ void CPoiMapEditDialog::OnRemovePoiButtonClicked()
 void CPoiMapEditDialog::OnPoiPicked(const SRayIntersection& rkIntersect, QMouseEvent *pEvent)
 {
     CScriptNode *pPOI = static_cast<CScriptNode*>(rkIntersect.pNode);
-    if (pPOI->Object()->ObjectTypeID() != CFourCC("POIN").ToLong()) return;
+    if (pPOI->Instance()->ObjectTypeID() != CFourCC("POIN").ToLong()) return;
 
     mSourceModel.AddPOI(pPOI);
     mModel.sort(0);

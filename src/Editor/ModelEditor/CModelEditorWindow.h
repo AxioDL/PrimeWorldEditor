@@ -31,7 +31,7 @@ class CModelEditorWindow : public QMainWindow
     QTimer mRefreshTimer;
 
 public:
-    explicit CModelEditorWindow(QWidget *parent = 0);
+    explicit CModelEditorWindow(QWidget *pParent = 0);
     ~CModelEditorWindow();
     void SetActiveModel(CModel *pModel);
     void closeEvent(QCloseEvent *pEvent);
@@ -45,7 +45,7 @@ public slots:
     void UpdateMaterial(int ValueA, int ValueB);
     void UpdateMaterial(double Value);
     void UpdateMaterial(bool Value);
-    void UpdateMaterial(QColor eColorProperty);
+    void UpdateMaterial(QColor Value);
     void UpdateMaterial(QString Value);
     void UpdateUI(int Value);
     void UpdateAnimParamUI(int Mode);

@@ -15,39 +15,39 @@ class CAABox
 
 public:
     CAABox();
-    CAABox(const CVector3f& Min, const CVector3f& Max);
-    CAABox(IInputStream& input);
-    void Write(IOutputStream& Output);
+    CAABox(const CVector3f& rkMin, const CVector3f& rkMax);
+    CAABox(IInputStream& rInput);
+    void Write(IOutputStream& rOutput);
     CVector3f Center() const;
     CVector3f Size() const;
     CVector3f Min() const;
     CVector3f Max() const;
-    void SetMin(const CVector3f& min);
-    void SetMax(const CVector3f& max);
+    void SetMin(const CVector3f& rkMin);
+    void SetMax(const CVector3f& rkMax);
     bool IsNull() const;
     bool IsInfinite() const;
 
-    void ExpandBounds(const CVector3f& vtx);
-    void ExpandBounds(const CAABox& AABox);
-    void ExpandBy(const CVector3f& amount);
-    CAABox Transformed(const CTransform4f& transform) const;
+    void ExpandBounds(const CVector3f& rkVtx);
+    void ExpandBounds(const CAABox& rkAABox);
+    void ExpandBy(const CVector3f& rkAmount);
+    CAABox Transformed(const CTransform4f& rkTransform) const;
 
-    bool IsPointInBox(const CVector3f& Point) const;
-    CVector3f ClosestPointAlongVector(const CVector3f& dir) const;
-    CVector3f FurthestPointAlongVector(const CVector3f& dir) const;
+    bool IsPointInBox(const CVector3f& rkPoint) const;
+    CVector3f ClosestPointAlongVector(const CVector3f& rkDir) const;
+    CVector3f FurthestPointAlongVector(const CVector3f& rkDir) const;
 
     // Intersection Tests
-    bool IntersectsAABox(const CAABox& AABox);
-    bool IntersectsSphere(const CVector3f& SphereCenter, const float SphereRadius);
-    std::pair<bool,float> IntersectsRay(const CRay& Ray) const;
+    bool IntersectsAABox(const CAABox& rkAABox);
+    bool IntersectsSphere(const CVector3f& rkSphereCenter, float SphereRadius);
+    std::pair<bool,float> IntersectsRay(const CRay& rkRay) const;
 
     // Operators
-    CAABox operator+(const CVector3f& translate) const;
-    void operator+=(const CVector3f& translate);
-    CAABox operator*(float scalar) const;
-    void operator*=(float scalar);
-    bool operator==(const CAABox& Other) const;
-    bool operator!=(const CAABox& Other) const;
+    CAABox operator+(const CVector3f& rkTranslate) const;
+    void operator+=(const CVector3f& rkTranslate);
+    CAABox operator*(float Scalar) const;
+    void operator*=(float Scalar);
+    bool operator==(const CAABox& rkOther) const;
+    bool operator!=(const CAABox& rkOther) const;
 
     // Constants
     static const CAABox skInfinite;

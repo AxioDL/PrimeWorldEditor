@@ -147,17 +147,17 @@ void CScene::DeleteNode(CSceneNode *pNode)
     {
         CScriptNode *pScript = static_cast<CScriptNode*>(pNode);
 
-        auto it = mScriptMap.find(pScript->Object()->InstanceID());
+        auto it = mScriptMap.find(pScript->Instance()->InstanceID());
         if (it != mScriptMap.end())
             mScriptMap.erase(it);
 
-        switch (pScript->Object()->ObjectTypeID())
+        switch (pScript->Instance()->ObjectTypeID())
         {
         case 0x4E:
         case 0x52454141:
             for (auto it = mAreaAttributesObjects.begin(); it != mAreaAttributesObjects.end(); it++)
             {
-                if ((*it).Instance() == pScript->Object())
+                if ((*it).Instance() == pScript->Instance())
                 {
                     mAreaAttributesObjects.erase(it);
                     break;
@@ -182,32 +182,32 @@ void CScene::SetActiveArea(CGameArea *pArea)
     mpAreaRootNode = new CRootNode(this, -1, mpSceneRootNode);
 
     // Create static nodes
-    u32 Count = mpArea->GetStaticModelCount();
+    u32 Count = mpArea->NumStaticModels();
 
     for (u32 iMdl = 0; iMdl < Count; iMdl++)
     {
-        CStaticNode *pNode = CreateStaticNode(mpArea->GetStaticModel(iMdl));
+        CStaticNode *pNode = CreateStaticNode(mpArea->StaticModel(iMdl));
         pNode->SetName("Static World Model " + TString::FromInt32(iMdl, 0, 10));
     }
 
     // Create model nodes
-    Count = mpArea->GetTerrainModelCount();
+    Count = mpArea->NumWorldModels();
 
     for (u32 iMdl = 0; iMdl < Count; iMdl++)
     {
-        CModel *pModel = mpArea->GetTerrainModel(iMdl);
+        CModel *pModel = mpArea->TerrainModel(iMdl);
         CModelNode *pNode = CreateModelNode(pModel);
         pNode->SetName("World Model " + TString::FromInt32(iMdl, 0, 10));
         pNode->SetWorldModel(true);
     }
 
-    CreateCollisionNode(mpArea->GetCollision());
+    CreateCollisionNode(mpArea->Collision());
 
-    u32 NumLayers = mpArea->GetScriptLayerCount();
+    u32 NumLayers = mpArea->NumScriptLayers();
 
     for (u32 iLyr = 0; iLyr < NumLayers; iLyr++)
     {
-        CScriptLayer *pLayer = mpArea->GetScriptLayer(iLyr);
+        CScriptLayer *pLayer = mpArea->ScriptLayer(iLyr);
         u32 NumObjects = pLayer->NumInstances();
         mNodes[eScriptNode].reserve(mNodes[eScriptNode].size() + NumObjects);
 
@@ -218,7 +218,7 @@ void CScene::SetActiveArea(CGameArea *pArea)
         }
     }
 
-    CScriptLayer *pGenLayer = mpArea->GetGeneratorLayer();
+    CScriptLayer *pGenLayer = mpArea->GeneratedObjectsLayer();
     if (pGenLayer)
     {
         for (u32 iObj = 0; iObj < pGenLayer->NumInstances(); iObj++)
@@ -236,19 +236,19 @@ void CScene::SetActiveArea(CGameArea *pArea)
         pScript->BuildLightList(mpArea);
     }
 
-    u32 NumLightLayers = mpArea->GetLightLayerCount();
+    u32 NumLightLayers = mpArea->NumLightLayers();
     CGraphics::sAreaAmbientColor = CColor::skBlack;
 
     for (u32 iLyr = 0; iLyr < NumLightLayers; iLyr++)
     {
-        u32 NumLights = mpArea->GetLightCount(iLyr);
+        u32 NumLights = mpArea->NumLights(iLyr);
 
         for (u32 iLit = 0; iLit < NumLights; iLit++)
         {
-            CLight *pLight = mpArea->GetLight(iLyr, iLit);
+            CLight *pLight = mpArea->Light(iLyr, iLit);
 
-            if (pLight->GetType() == eLocalAmbient)
-                CGraphics::sAreaAmbientColor += pLight->GetColor();
+            if (pLight->Type() == eLocalAmbient)
+                CGraphics::sAreaAmbientColor += pLight->Color();
 
             CreateLightNode(pLight);
         }
@@ -285,36 +285,36 @@ void CScene::ClearScene()
     mpArea = nullptr;
 }
 
-void CScene::AddSceneToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
+void CScene::AddSceneToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo)
 {
     // Call PostLoad the first time the scene is rendered to ensure the OpenGL context has been created before it runs.
     if (!mRanPostLoad)
         PostLoad();
 
     // Override show flags in game mode
-    FShowFlags ShowFlags = (ViewInfo.GameMode ? gkGameModeShowFlags : ViewInfo.ShowFlags);
+    FShowFlags ShowFlags = (rkViewInfo.GameMode ? gkGameModeShowFlags : rkViewInfo.ShowFlags);
     FNodeFlags NodeFlags = NodeFlagsForShowFlags(ShowFlags);
 
     for (CSceneIterator It(this, NodeFlags, false); It; ++It)
     {
-        if (ViewInfo.GameMode || It->IsVisible())
-            It->AddToRenderer(pRenderer, ViewInfo);
+        if (rkViewInfo.GameMode || It->IsVisible())
+            It->AddToRenderer(pRenderer, rkViewInfo);
     }
 }
 
-SRayIntersection CScene::SceneRayCast(const CRay& Ray, const SViewInfo& ViewInfo)
+SRayIntersection CScene::SceneRayCast(const CRay& rkRay, const SViewInfo& rkViewInfo)
 {
-    FShowFlags ShowFlags = (ViewInfo.GameMode ? gkGameModeShowFlags : ViewInfo.ShowFlags);
+    FShowFlags ShowFlags = (rkViewInfo.GameMode ? gkGameModeShowFlags : rkViewInfo.ShowFlags);
     FNodeFlags NodeFlags = NodeFlagsForShowFlags(ShowFlags);
-    CRayCollisionTester Tester(Ray);
+    CRayCollisionTester Tester(rkRay);
 
     for (CSceneIterator It(this, NodeFlags, false); It; ++It)
     {
         if (It->IsVisible())
-            It->RayAABoxIntersectTest(Tester, ViewInfo);
+            It->RayAABoxIntersectTest(Tester, rkViewInfo);
     }
 
-    return Tester.TestNodes(ViewInfo);
+    return Tester.TestNodes(rkViewInfo);
 }
 
 CSceneNode* CScene::NodeByID(u32 NodeID)
@@ -333,7 +333,7 @@ CScriptNode* CScene::NodeForInstanceID(u32 InstanceID)
     else return nullptr;
 }
 
-CScriptNode* CScene::NodeForObject(CScriptObject *pObj)
+CScriptNode* CScene::NodeForInstance(CScriptObject *pObj)
 {
     return NodeForInstanceID(pObj->InstanceID());
 }
@@ -352,7 +352,7 @@ CLightNode* CScene::NodeForLight(CLight *pLight)
     return nullptr;
 }
 
-CModel* CScene::GetActiveSkybox()
+CModel* CScene::ActiveSkybox()
 {
     bool SkyEnabled = false;
 
@@ -372,11 +372,11 @@ CModel* CScene::GetActiveSkybox()
         }
     }
 
-    if (SkyEnabled) return mpWorld->GetDefaultSkybox();
+    if (SkyEnabled) return mpWorld->DefaultSkybox();
     else return nullptr;
 }
 
-CGameArea* CScene::GetActiveArea()
+CGameArea* CScene::ActiveArea()
 {
     return mpArea;
 }

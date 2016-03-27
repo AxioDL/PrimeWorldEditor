@@ -46,21 +46,21 @@ private:
 
     CModelLoader();
     ~CModelLoader();
-    void LoadWorldMeshHeader(IInputStream& Model);
-    void LoadAttribArrays(IInputStream& Model);
-    void LoadAttribArraysDKCR(IInputStream& Model);
-    void LoadSurfaceOffsets(IInputStream& Model);
-    SSurface* LoadSurface(IInputStream& Model);
-    void LoadSurfaceHeaderPrime(IInputStream& Model, SSurface *pSurf);
-    void LoadSurfaceHeaderDKCR(IInputStream& Model, SSurface *pSurf);
-    SSurface* LoadAssimpMesh(const aiMesh *pMesh, CMaterialSet *pSet);
+    void LoadWorldMeshHeader(IInputStream& rModel);
+    void LoadAttribArrays(IInputStream& rModel);
+    void LoadAttribArraysDKCR(IInputStream& rModel);
+    void LoadSurfaceOffsets(IInputStream& rModel);
+    SSurface* LoadSurface(IInputStream& rModel);
+    void LoadSurfaceHeaderPrime(IInputStream& rModel, SSurface *pSurf);
+    void LoadSurfaceHeaderDKCR(IInputStream& rModel, SSurface *pSurf);
+    SSurface* LoadAssimpMesh(const aiMesh *pkMesh, CMaterialSet *pSet);
 
 public:
-    static CModel* LoadCMDL(IInputStream& CMDL);
-    static CModel* LoadWorldModel(IInputStream& MREA, CSectionMgrIn& BlockMgr, CMaterialSet& MatSet, EGame Version);
-    static CModel* LoadCorruptionWorldModel(IInputStream& MREA, CSectionMgrIn& BlockMgr, CMaterialSet& MatSet, u32 HeaderSecNum, u32 GPUSecNum, EGame Version);
+    static CModel* LoadCMDL(IInputStream& rCMDL);
+    static CModel* LoadWorldModel(IInputStream& rMREA, CSectionMgrIn& rBlockMgr, CMaterialSet& rMatSet, EGame Version);
+    static CModel* LoadCorruptionWorldModel(IInputStream& rMREA, CSectionMgrIn& rBlockMgr, CMaterialSet& rMatSet, u32 HeaderSecNum, u32 GPUSecNum, EGame Version);
     static void BuildWorldMeshes(const std::vector<CModel*>& rkIn, std::vector<CModel*>& rOut, bool DeleteInputModels);
-    static CModel* ImportAssimpNode(const aiNode *pNode, const aiScene *pScene, CMaterialSet& matSet);
+    static CModel* ImportAssimpNode(const aiNode *pkNode, const aiScene *pkScene, CMaterialSet& rMatSet);
     static EGame GetFormatVersion(u32 Version);
 };
 

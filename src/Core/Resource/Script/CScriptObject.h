@@ -63,41 +63,42 @@ public:
     u32 LayerIndex() const;
     bool HasNearVisibleActivation() const;
 
-    CScriptTemplate* Template() const;
-    CMasterTemplate* MasterTemplate() const;
-    CGameArea* Area() const;
-    CScriptLayer* Layer() const;
-    u32 Version() const;
-    CPropertyStruct* Properties() const;
-    u32 NumProperties() const;
-    IProperty* PropertyByIndex(u32 index) const;
-    IProperty* PropertyByIDString(const TIDString& str) const;
-    u32 ObjectTypeID() const;
-    u32 InstanceID() const;
-
-    u32 NumLinks(ELinkType Type) const;
-    CLink* Link(ELinkType Type, u32 Index) const;
     void AddLink(ELinkType Type, CLink *pLink, u32 Index = -1);
     void RemoveLink(ELinkType Type, CLink *pLink);
     void BreakAllLinks();
 
-    CVector3f Position() const;
-    CVector3f Rotation() const;
-    CVector3f Scale() const;
-    TString InstanceName() const;
-    bool IsActive() const;
-    bool HasInGameModel() const;
-    void SetPosition(const CVector3f& newPos);
-    void SetRotation(const CVector3f& newRot);
-    void SetScale(const CVector3f& newScale);
-    void SetName(const TString& newName);
-    void SetActive(bool isActive);
-    CPropertyStruct* LightParameters() const;
-    CModel* GetDisplayModel() const;
-    CTexture* GetBillboard() const;
-    CCollisionMeshGroup* GetCollision() const;
-    EVolumeShape VolumeShape() const;
-    float VolumeScale() const;
+    // Accessors
+    CScriptTemplate* Template() const                               { return mpTemplate; }
+    CMasterTemplate* MasterTemplate() const                         { return mpTemplate->MasterTemplate(); }
+    CGameArea* Area() const                                         { return mpArea; }
+    CScriptLayer* Layer() const                                     { return mpLayer; }
+    u32 Version() const                                             { return mVersion; }
+    CPropertyStruct* Properties() const                             { return mpProperties; }
+    u32 NumProperties() const                                       { return mpProperties->Count(); }
+    IProperty* PropertyByIndex(u32 Index) const                     { return mpProperties->PropertyByIndex(Index); }
+    IProperty* PropertyByIDString(const TIDString& rkStr) const     { return mpProperties->PropertyByIDString(rkStr); }
+    u32 ObjectTypeID() const                                        { return mpTemplate->ObjectID(); }
+    u32 InstanceID() const                                          { return mInstanceID; }
+    u32 NumLinks(ELinkType Type) const                              { return (Type == eIncoming ? mInLinks.size() : mOutLinks.size()); }
+    CLink* Link(ELinkType Type, u32 Index) const                    { return (Type == eIncoming ? mInLinks[Index] : mOutLinks[Index]); }
+
+    CVector3f Position() const                  { return mpPosition ? mpPosition->Get() : CVector3f::skZero; }
+    CVector3f Rotation() const                  { return mpRotation ? mpRotation->Get() : CVector3f::skZero; }
+    CVector3f Scale() const                     { return mpScale ? mpScale->Get() : CVector3f::skZero; }
+    TString InstanceName() const                { return mpInstanceName ? mpInstanceName->Get() : ""; }
+    bool IsActive() const                       { return mpActive ? mpActive->Get() : false; }
+    bool HasInGameModel() const                 { return mHasInGameModel; }
+    void SetPosition(const CVector3f& rkNewPos) { if (mpPosition) mpPosition->Set(rkNewPos); }
+    void SetRotation(const CVector3f& rkNewRot) { if (mpRotation) mpRotation->Set(rkNewRot); }
+    void SetScale(const CVector3f& rkNewScale)  { if (mpScale) mpScale->Set(rkNewScale); }
+    void SetName(const TString& rkNewName)      { if (mpInstanceName) mpInstanceName->Set(rkNewName); }
+    void SetActive(bool Active)                 { if (mpActive) mpActive->Set(Active); }
+    CPropertyStruct* LightParameters() const    { return mpLightParameters; }
+    CModel* GetDisplayModel() const             { return mpDisplayModel; }
+    CTexture* GetBillboard() const              { return mpBillboard; }
+    CCollisionMeshGroup* GetCollision() const   { return mpCollision; }
+    EVolumeShape VolumeShape() const            { return mVolumeShape; }
+    float VolumeScale() const                   { return mVolumeScale; }
 
     TStringProperty*    InstanceNameProperty() const    { return mpInstanceName; }
     TVector3Property*   PositionProperty() const        { return mpPosition; }

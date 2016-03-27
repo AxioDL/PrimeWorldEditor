@@ -23,17 +23,24 @@ class CStringTable : public CResource
     std::vector<SLangTable> mLangTables;
 
 public:
-    CStringTable();
-    ~CStringTable();
-    CResource* MakeCopy(CResCache *pCopyCache);
+    CStringTable() {}
 
-    // Getters
-    u32 GetStringCount();
-    u32 GetLangCount();
-    CFourCC GetLangTag(u32 Index);
-    TWideString GetString(CFourCC Lang, u32 StringIndex);
-    TWideString GetString(u32 LangIndex, u32 StringIndex);
-    TString GetStringName(u32 StringIndex);
+    inline u32 NumStrings() const               { return mLangTables.size(); }
+    inline u32 NumLanguages() const             { return mLangTables.size(); }
+    inline CFourCC LanguageTag(u32 Index) const { return mLangTables[Index].Language; }
+    inline TWideString String(u32 LangIndex, u32 StringIndex) const    { return mLangTables[LangIndex].Strings[StringIndex]; }
+    inline TString StringName(u32 StringIndex) const                   { return mStringNames[StringIndex]; }
+
+    TWideString String(CFourCC Lang, u32 StringIndex) const
+    {
+        for (u32 iLang = 0; iLang < NumLanguages(); iLang++)
+        {
+            if (LanguageTag(iLang) == Lang)
+                return String(iLang, StringIndex);
+        }
+
+        return TWideString();
+    }
 };
 
 #endif // CSTRINGTABLE_H

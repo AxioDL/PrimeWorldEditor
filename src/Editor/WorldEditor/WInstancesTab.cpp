@@ -108,7 +108,7 @@ void WInstancesTab::OnTreeClick(QModelIndex Index)
 
             if (pObj)
             {
-                CScriptNode *pNode = mpScene->NodeForObject(pObj);
+                CScriptNode *pNode = mpScene->NodeForInstance(pObj);
 
                 if (pNode)
                     pNode->SetVisible(!pNode->IsVisible());
@@ -147,7 +147,7 @@ void WInstancesTab::OnTreeDoubleClick(QModelIndex Index)
 
         if (NodeType == CInstancesModel::eScriptType)
         {
-            CSceneNode *pSelectedNode = mpScene->NodeForObject( static_cast<CScriptObject*>(SourceIndex.internalPointer()) );
+            CSceneNode *pSelectedNode = mpScene->NodeForInstance( static_cast<CScriptObject*>(SourceIndex.internalPointer()) );
             mpEditor->ClearAndSelectNode(pSelectedNode);
         }
     }
@@ -182,7 +182,7 @@ void WInstancesTab::OnTreeContextMenu(QPoint Pos)
     else if (mMenuIndexType == CInstancesModel::eInstanceIndex)
     {
         pObject = ( IsLayers ? mpLayersModel->IndexObject(mMenuIndex) : mpTypesModel->IndexObject(mMenuIndex) );
-        mpMenuObject = mpScene->NodeForObject(pObject);
+        mpMenuObject = mpScene->NodeForInstance(pObject);
 
         if (IsLayers)
             mpMenuLayer = pObject->Layer();
@@ -302,9 +302,9 @@ void WInstancesTab::OnHideAllExceptTypeAction()
     {
         CGameArea *pArea = mpEditor->ActiveArea();
 
-        for (u32 iLyr = 0; iLyr < pArea->GetScriptLayerCount(); iLyr++)
+        for (u32 iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
         {
-            CScriptLayer *pLayer = pArea->GetScriptLayer(iLyr);
+            CScriptLayer *pLayer = pArea->ScriptLayer(iLyr);
             pLayer->SetVisible( pLayer == mpMenuLayer ? true : false );
         }
 
@@ -314,7 +314,7 @@ void WInstancesTab::OnHideAllExceptTypeAction()
     else
     {
         EGame Game = mpEditor->ActiveArea()->Version();
-        CMasterTemplate *pMaster = CMasterTemplate::GetMasterForGame(Game);
+        CMasterTemplate *pMaster = CMasterTemplate::MasterForGame(Game);
 
         for (u32 iTemp = 0; iTemp < pMaster->NumScriptTemplates(); iTemp++)
         {
@@ -336,8 +336,8 @@ void WInstancesTab::OnUnhideAllTypes()
     {
         CGameArea *pArea = mpEditor->ActiveArea();
 
-        for (u32 iLyr = 0; iLyr < pArea->GetScriptLayerCount(); iLyr++)
-            pArea->GetScriptLayer(iLyr)->SetVisible(true);
+        for (u32 iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
+            pArea->ScriptLayer(iLyr)->SetVisible(true);
 
         mpLayersModel->dataChanged( mpLayersModel->index(0, 2, TypeParent), mpLayersModel->index(mpLayersModel->rowCount(TypeParent) - 1, 2, TypeParent) );
     }
@@ -345,7 +345,7 @@ void WInstancesTab::OnUnhideAllTypes()
     else
     {
         EGame Game = mpEditor->ActiveArea()->Version();
-        CMasterTemplate *pMaster = CMasterTemplate::GetMasterForGame(Game);
+        CMasterTemplate *pMaster = CMasterTemplate::MasterForGame(Game);
 
         for (u32 iTemp = 0; iTemp < pMaster->NumScriptTemplates(); iTemp++)
             pMaster->TemplateByIndex(iTemp)->SetVisible(true);
@@ -367,8 +367,8 @@ void WInstancesTab::OnUnhideAll()
     {
         CGameArea *pArea = mpEditor->ActiveArea();
 
-        for (u32 iLyr = 0; iLyr < pArea->GetScriptLayerCount(); iLyr++)
-            pArea->GetScriptLayer(iLyr)->SetVisible(true);
+        for (u32 iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
+            pArea->ScriptLayer(iLyr)->SetVisible(true);
 
         mpLayersModel->dataChanged( mpLayersModel->index(0, 2, LayersRoot), mpLayersModel->index(mpLayersModel->rowCount(LayersRoot) - 1, 2, LayersRoot) );
     }
@@ -379,7 +379,7 @@ void WInstancesTab::OnUnhideAll()
     if (TypesRoot.isValid())
     {
         EGame Game = mpEditor->ActiveArea()->Version();
-        CMasterTemplate *pMaster = CMasterTemplate::GetMasterForGame(Game);
+        CMasterTemplate *pMaster = CMasterTemplate::MasterForGame(Game);
 
         for (u32 iTemp = 0; iTemp < pMaster->NumScriptTemplates(); iTemp++)
             pMaster->TemplateByIndex(iTemp)->SetVisible(true);

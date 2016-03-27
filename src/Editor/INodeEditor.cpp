@@ -322,22 +322,22 @@ void INodeEditor::OnGizmoMoved()
     {
         case CGizmo::eTranslate:
         {
-            CVector3f delta = mGizmo.DeltaTranslation();
-            mUndoStack.push(new CTranslateNodeCommand(this, mpSelection->SelectedNodeList(), delta, mTranslateSpace));
+            CVector3f Delta = mGizmo.DeltaTranslation();
+            mUndoStack.push(new CTranslateNodeCommand(this, mpSelection->SelectedNodeList(), Delta, mTranslateSpace));
             break;
         }
 
         case CGizmo::eRotate:
         {
-            CQuaternion delta = mGizmo.DeltaRotation();
-            mUndoStack.push(new CRotateNodeCommand(this, mpSelection->SelectedNodeList(), CVector3f::skZero, delta, mRotateSpace));
+            CQuaternion Delta = mGizmo.DeltaRotation();
+            mUndoStack.push(new CRotateNodeCommand(this, mpSelection->SelectedNodeList(), CVector3f::skZero, Delta, mRotateSpace));
             break;
         }
 
         case CGizmo::eScale:
         {
-            CVector3f delta = mGizmo.DeltaScale();
-            mUndoStack.push(new CScaleNodeCommand(this, mpSelection->SelectedNodeList(), CVector3f::skZero, delta));
+            CVector3f Delta = mGizmo.DeltaScale();
+            mUndoStack.push(new CScaleNodeCommand(this, mpSelection->SelectedNodeList(), CVector3f::skZero, Delta));
             break;
         }
     }
@@ -512,16 +512,16 @@ void INodeEditor::OnScaleTriggered()
     UpdateGizmoUI();
 }
 
-void INodeEditor::OnTransformSpaceChanged(int spaceIndex)
+void INodeEditor::OnTransformSpaceChanged(int SpaceIndex)
 {
     if ((mGizmo.Mode() == CGizmo::eScale) || (mGizmo.Mode() == CGizmo::eOff)) return;
 
-    ETransformSpace space = (spaceIndex == 0 ? eWorldTransform : eLocalTransform);
+    ETransformSpace Space = (SpaceIndex == 0 ? eWorldTransform : eLocalTransform);
 
     if (mGizmo.Mode() == CGizmo::eTranslate)
-        mTranslateSpace = space;
+        mTranslateSpace = Space;
     else
-        mRotateSpace = space;
+        mRotateSpace = Space;
 
-    mGizmo.SetTransformSpace(space);
+    mGizmo.SetTransformSpace(Space);
 }

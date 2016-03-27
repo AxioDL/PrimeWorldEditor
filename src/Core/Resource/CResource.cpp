@@ -1,45 +1,4 @@
 #include "CResource.h"
-#include "CResCache.h"
-#include <iostream>
-
-CResource::CResource()
-{
-    mRefCount = 0;
-}
-
-CResource::~CResource()
-{
-}
-
-TString CResource::Source()
-{
-    return mResSource.GetFileName();
-}
-
-TString CResource::FullSource()
-{
-    return mResSource;
-}
-
-CUniqueID CResource::ResID()
-{
-    return mID;
-}
-
-void CResource::Lock()
-{
-    mRefCount++;
-}
-
-void CResource::Release()
-{
-    mRefCount--;
-}
-
-bool CResource::IsValidResource()
-{
-    return (Type() != eResource);
-}
 
 // ************ STATIC ************
 EResType CResource::ResTypeForExtension(CFourCC Extension)

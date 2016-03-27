@@ -9,15 +9,31 @@ class CPlane
     float mDist;
 
 public:
-    CPlane();
-    CPlane(const CVector3f& normal, float dist);
-    CPlane(const CVector3f& normal, const CVector3f& origin);
+    CPlane()
+        : mNormal(CVector3f::skUp)
+        , mDist(0.f)
+    {}
 
-    void Redefine(const CVector3f& normal, const CVector3f& origin);
-    CVector3f Normal() const;
-    float Dist() const;
-    void SetNormal(const CVector3f& normal);
-    void SetDist(float dist);
+    CPlane(const CVector3f& rkNormal, float Dist)
+        : mNormal(rkNormal)
+        , mDist(Dist)
+    {}
+
+    CPlane(const CVector3f& rkNormal, const CVector3f& rkOrigin)
+    {
+        Redefine(rkNormal, rkOrigin);
+    }
+
+    void Redefine(const CVector3f& rkNormal, const CVector3f& rkOrigin)
+    {
+        mNormal = rkNormal;
+        mDist = -rkNormal.Dot(rkOrigin);
+    }
+
+    CVector3f Normal() const                    { return mNormal; }
+    float Dist() const                          { return mDist; }
+    void SetNormal(const CVector3f& rkNormal)   { mNormal = rkNormal; }
+    void SetDist(float Dist)                    { mDist = Dist; }
 };
 
 #endif // CPLANE_H

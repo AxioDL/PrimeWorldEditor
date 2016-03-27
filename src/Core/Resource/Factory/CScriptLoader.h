@@ -28,7 +28,7 @@ class CScriptLoader
 
 public:
     static CScriptLayer* LoadLayer(IInputStream& rSCLY, CGameArea *pArea, EGame Version);
-    static CScriptObject* LoadInstance(IInputStream& rSCLY, CGameArea *pArea, CScriptLayer *pLayer,EGame Version, bool ForceReturnsFormat);
+    static CScriptObject* LoadInstance(IInputStream& rSCLY, CGameArea *pArea, CScriptLayer *pLayer, EGame Version, bool ForceReturnsFormat);
 };
 
 #endif // CSCRIPTLOADER_H

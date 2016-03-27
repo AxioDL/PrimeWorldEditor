@@ -14,12 +14,12 @@ public:
     CTextOutStream(const std::string& rkFile);
     CTextOutStream(const CTextOutStream& rkSrc);
     ~CTextOutStream();
-    void Open(const std::string& file);
+    void Open(const std::string& rkFile);
     void Close();
 
     void Print(const char *pkFormat, ... );
-    void WriteChar(char c);
-    void WriteString(const std::string& Str);
+    void WriteChar(char Chr);
+    void WriteString(const std::string& rkStr);
 
     bool Seek(long Offset, long Origin);
     long Tell() const;

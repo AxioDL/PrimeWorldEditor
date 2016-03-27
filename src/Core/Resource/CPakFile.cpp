@@ -10,161 +10,166 @@
 #include <iomanip>
 
 CPakFile::CPakFile()
+    : mpPak(nullptr)
 {
-    pak = nullptr;
 }
 
-CPakFile::CPakFile(IInputStream* pakfile)
+CPakFile::CPakFile(IInputStream* pPakFile)
 {
-    pak = pakfile;
-    if (!pak->IsValid()) return;
+    mpPak = pPakFile;
+    if (!mpPak->IsValid()) return;
 
-    version = pak->ReadLong();
-    pak->Seek(0x4, SEEK_CUR);
+    mVersion = mpPak->ReadLong();
+    mpPak->Seek(0x4, SEEK_CUR);
 
-    u32 namedResCount = pak->ReadLong();
-    NamedResTable.resize(namedResCount);
+    u32 NamedResCount = mpPak->ReadLong();
+    mNamedResTable.resize(NamedResCount);
 
-    for (u32 n = 0; n < namedResCount; n++)
+    for (u32 iName = 0; iName < NamedResCount; iName++)
     {
-        SNamedResource *res = &NamedResTable[n];
-        res->resType = CFourCC(*pak);
-        res->resID = (u64) pak->ReadLong();
-        u32 resNameLength = pak->ReadLong();
-        res->resName = pak->ReadString(resNameLength);
+        SNamedResource *pRes = &mNamedResTable[iName];
+        pRes->Type = CFourCC(*mpPak);
+        pRes->ID = (u64) mpPak->ReadLong();
+        u32 resNameLength = mpPak->ReadLong();
+        pRes->Name = mpPak->ReadString(resNameLength);
     }
 
-    u32 resCount = pak->ReadLong();
-    ResInfoTable.resize(resCount);
+    u32 ResCount = mpPak->ReadLong();
+    mResInfoTable.resize(ResCount);
 
-    for (u32 r = 0; r < resCount; r++)
+    for (u32 iRes = 0; iRes < ResCount; iRes++)
     {
-        SResInfo *res = &ResInfoTable[r];
-        res->compressed = (pak->ReadLong() != 0);
-        res->resType = CFourCC(*pak);
-        res->resID = (u64) pak->ReadLong();
-        res->size = pak->ReadLong();
-        res->offset = pak->ReadLong();
+        SResInfo *pRes = &mResInfoTable[iRes];
+        pRes->Compressed = (mpPak->ReadLong() != 0);
+        pRes->Type = CFourCC(*mpPak);
+        pRes->ID = (u64) mpPak->ReadLong();
+        pRes->Size = mpPak->ReadLong();
+        pRes->Offset = mpPak->ReadLong();
     }
 }
 
 CPakFile::~CPakFile()
 {
-    if (pak) delete pak;
+    if (mpPak) delete mpPak;
 }
 
-std::vector<SNamedResource> CPakFile::getNamedResources()
+std::vector<SNamedResource> CPakFile::NamedResources()
 {
-    return NamedResTable;
+    return mNamedResTable;
 }
 
-SResInfo CPakFile::getResourceInfo(u64 assetID, CFourCC assetType)
+SResInfo CPakFile::ResourceInfo(u64 AssetID, CFourCC AssetType)
 {
     // TODO: figure out how the game finds assets in paks, implement similar system to speed things up
-    if (ResInfoTable.empty())
+    if (mResInfoTable.empty())
         return SResInfo();
 
-    for (u32 r = 0; r < ResInfoTable.size(); r++)
+    for (u32 iRes = 0; iRes < mResInfoTable.size(); iRes++)
     {
-        if (((u64) (ResInfoTable[r].resID & 0xFFFFFFFF) == (u64) (assetID & 0xFFFFFFFF)) && (ResInfoTable[r].resType == assetType))
-            return ResInfoTable[r];
+        if (((u64) (mResInfoTable[iRes].ID & 0xFFFFFFFF) == (u64) (AssetID & 0xFFFFFFFF)) && (mResInfoTable[iRes].Type == AssetType))
+            return mResInfoTable[iRes];
     }
 
     return SResInfo();
 }
 
-std::vector<u8>* CPakFile::getResource(u64 assetID, CFourCC assetType)
+std::vector<u8>* CPakFile::Resource(u64 AssetID, CFourCC AssetType)
 {
-    SResInfo info = getResourceInfo(assetID, assetType);
+    SResInfo Info = ResourceInfo(AssetID, AssetType);
 
     // make sure SResInfo is valid
-    if ((u64) (info.resID & 0xFFFFFFFF) != (u64) (assetID & 0xFFFFFFFF)) return nullptr;
-    else return getResource(info);
+    if ((u64) (Info.ID & 0xFFFFFFFF) != (u64) (AssetID & 0xFFFFFFFF)) return nullptr;
+    else return Resource(Info);
 }
 
-std::vector<u8>* CPakFile::getResource(SResInfo& info)
+std::vector<u8>* CPakFile::Resource(SResInfo& rInfo)
 {
-    pak->Seek(info.offset, SEEK_SET);
-    std::vector<u8> *res_buf = new std::vector<u8>;
+    mpPak->Seek(rInfo.Offset, SEEK_SET);
+    std::vector<u8> *pResBuf = new std::vector<u8>;
 
-    if (info.compressed)
+    if (rInfo.Compressed)
     {
-        u32 decmp_size = pak->ReadLong();
-        res_buf->resize(decmp_size);
+        u32 DecmpSize = mpPak->ReadLong();
+        pResBuf->resize(DecmpSize);
 
-        std::vector<u8> cmp_buf(info.size - 4);
-        pak->ReadBytes(&cmp_buf[0], info.size - 4);
+        std::vector<u8> CmpBuf(rInfo.Size - 4);
+        mpPak->ReadBytes(&CmpBuf[0], rInfo.Size - 4);
 
-        bool dcmp = decompress(cmp_buf.data(), cmp_buf.size(), res_buf->data(), res_buf->size());
+        bool Success = Decompress(CmpBuf.data(), CmpBuf.size(), pResBuf->data(), pResBuf->size());
 
-        if (!dcmp) {
-            delete res_buf;
+        if (!Success)
+        {
+            delete pResBuf;
             return nullptr;
         }
     }
 
-    else {
-        res_buf->resize(info.size);
-        pak->ReadBytes(res_buf->data(), info.size);
+    else
+    {
+        pResBuf->resize(rInfo.Size);
+        mpPak->ReadBytes(pResBuf->data(), rInfo.Size);
     }
 
-    return res_buf;
+    return pResBuf;
 }
 
-bool CPakFile::decompress(u8 *src, u32 src_len, u8 *dst, u32 dst_len)
+bool CPakFile::Decompress(u8 *pSrc, u32 SrcLen, u8 *pDst, u32 DstLen)
 {
-    if ((src[0] == 0x78) && (src[1] == 0xda))
+    if ((pSrc[0] == 0x78) && (pSrc[1] == 0xda))
     {
         // zlib
         z_stream z;
         z.zalloc = Z_NULL;
         z.zfree = Z_NULL;
         z.opaque = Z_NULL;
-        z.avail_in = src_len;
-        z.next_in = src;
-        z.avail_out = dst_len;
-        z.next_out = dst;
+        z.avail_in = SrcLen;
+        z.next_in = pSrc;
+        z.avail_out = DstLen;
+        z.next_out = pDst;
 
-        s32 ret = inflateInit(&z);
+        s32 Ret = inflateInit(&z);
 
-        if (ret == Z_OK)
+        if (Ret == Z_OK)
         {
-            ret = inflate(&z, Z_NO_FLUSH);
+            Ret = inflate(&z, Z_NO_FLUSH);
 
-            if ((ret == Z_OK) || (ret == Z_STREAM_END))
-                ret = inflateEnd(&z);
+            if ((Ret == Z_OK) || (Ret == Z_STREAM_END))
+                Ret = inflateEnd(&z);
         }
 
-        if ((ret != Z_OK) && (ret != Z_STREAM_END)) {
-            Log::Error("zlib error: " + TString::FromInt32(ret, 0, 10));
+        if ((Ret != Z_OK) && (Ret != Z_STREAM_END)) {
+            Log::Error("zlib error: " + TString::FromInt32(Ret, 0, 10));
             return false;
         }
 
         else return true;
     }
 
-    else {
+    else
+    {
         // LZO
-        lzo_uint decmp;
-        s32 ret;
-        u8 *src_end = src + src_len;
-        u8 *dst_end = dst + dst_len;
+        lzo_uint Decmp;
+        s32 Ret;
+        u8 *pSrcEnd = pSrc + SrcLen;
+        u8 *pDstEnd = pDst + DstLen;
         lzo_init();
 
-        while ((src < src_end) && (dst < dst_end)) {
-            short block_size;
-            memcpy(&block_size, src, 2);
-            if (IOUtil::kSystemEndianness == IOUtil::eLittleEndian) IOUtil::SwapBytes(block_size);
-            src += 2;
+        while ((pSrc < pSrcEnd) && (pDst < pDstEnd))
+        {
+            short BlockSize;
+            memcpy(&BlockSize, pSrc, 2);
+            if (IOUtil::kSystemEndianness == IOUtil::eLittleEndian) IOUtil::SwapBytes(BlockSize);
+            pSrc += 2;
 
-            ret = lzo1x_decompress(src, block_size, dst, &decmp, LZO1X_MEM_DECOMPRESS);
-            if (ret != LZO_E_OK) break;
-            src += block_size;
-            dst += decmp;
+            Ret = lzo1x_decompress(pSrc, BlockSize, pDst, &Decmp, LZO1X_MEM_DECOMPRESS);
+            if (Ret != LZO_E_OK) break;
+            pSrc += BlockSize;
+            pDst += Decmp;
         }
 
-        if (ret != LZO_E_OK) {
-            Log::Error("LZO error: " + TString::FromInt32(ret, 0, 10));
+        if (Ret != LZO_E_OK)
+        {
+            Log::Error("LZO error: " + TString::FromInt32(Ret, 0, 10));
             return false;
         }
 

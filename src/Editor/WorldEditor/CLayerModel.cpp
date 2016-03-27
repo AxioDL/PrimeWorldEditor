@@ -15,8 +15,8 @@ CLayerModel::~CLayerModel()
 int CLayerModel::rowCount(const QModelIndex& /*parent*/) const
 {
     if (!mpArea) return 0;
-    if (mHasGenerateLayer) return mpArea->GetScriptLayerCount() + 1;
-    else return mpArea->GetScriptLayerCount();
+    if (mHasGenerateLayer) return mpArea->NumScriptLayers() + 1;
+    else return mpArea->NumScriptLayers();
 }
 
 QVariant CLayerModel::data(const QModelIndex &index, int role) const
@@ -30,19 +30,19 @@ QVariant CLayerModel::data(const QModelIndex &index, int role) const
 void CLayerModel::SetArea(CGameArea *pArea)
 {
     mpArea = pArea;
-    mHasGenerateLayer = (pArea->GetGeneratorLayer() != nullptr);
+    mHasGenerateLayer = (pArea->GeneratedObjectsLayer() != nullptr);
     emit layoutChanged();
 }
 
 CScriptLayer* CLayerModel::Layer(const QModelIndex& index) const
 {
     if (!mpArea) return nullptr;
-    u32 NumLayers = mpArea->GetScriptLayerCount();
+    u32 NumLayers = mpArea->NumScriptLayers();
 
     if (index.row() < (int) NumLayers)
-        return mpArea->GetScriptLayer(index.row());
+        return mpArea->ScriptLayer(index.row());
     if (mHasGenerateLayer && (index.row() == NumLayers))
-        return mpArea->GetGeneratorLayer();
+        return mpArea->GeneratedObjectsLayer();
 
     return nullptr;
 }

@@ -38,11 +38,11 @@ public:
     void OnTransformed();
     void PropertyModified(IProperty *pProperty);
     bool ShouldDrawNormalAssets();
-    void AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo);
-    void Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& ViewInfo);
+    void AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo);
+    void Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& rkViewInfo);
     void DrawSelection();
-    void RayAABoxIntersectTest(CRayCollisionTester& Tester, const SViewInfo& ViewInfo);
-    SRayIntersection RayNodeIntersectTest(const CRay& Ray, u32 ComponentIndex, const SViewInfo& ViewInfo);
+    void RayAABoxIntersectTest(CRayCollisionTester& rTester, const SViewInfo& rkViewInfo);
+    SRayIntersection RayNodeIntersectTest(const CRay& rkRay, u32 ComponentIndex, const SViewInfo& rkViewInfo);
 };
 
 #endif // CDAMAGEABLETRIGGEREXTRA_H

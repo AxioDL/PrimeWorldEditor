@@ -6,47 +6,46 @@
 #include <iostream>
 
 CAnimationParameters::CAnimationParameters()
+    : mGame(ePrime)
+    , mNodeIndex(0)
+    , mUnknown1(0)
+    , mUnknown2(0)
+    , mUnknown3(0)
 {
-    mGame = ePrime;
-    mNodeIndex = 0;
-    mUnknown1 = 0;
-    mUnknown2 = 0;
-    mUnknown3 = 0;
 }
 
 CAnimationParameters::CAnimationParameters(EGame Game)
+    : mGame(Game)
+    , mNodeIndex(0)
+    , mUnknown1(0)
+    , mUnknown2(0)
+    , mUnknown3(0)
 {
-    mGame = Game;
-    mNodeIndex = 0;
-    mUnknown1 = 0;
-    mUnknown2 = 0;
-    mUnknown3 = 0;
 }
 
-CAnimationParameters::CAnimationParameters(IInputStream& SCLY, EGame Game)
+CAnimationParameters::CAnimationParameters(IInputStream& rSCLY, EGame Game)
+    : mGame(Game)
+    , mNodeIndex(0)
+    , mUnknown1(0)
+    , mUnknown2(0)
+    , mUnknown3(0)
 {
-    mGame = Game;
-    mNodeIndex = 0;
-    mUnknown1 = 0;
-    mUnknown2 = 0;
-    mUnknown3 = 0;
-
     if (Game <= eEchoes)
     {
-        mCharacter = CResourceInfo(SCLY.ReadLong(), "ANCS");
-        mNodeIndex = SCLY.ReadLong();
-        mUnknown1 = SCLY.ReadLong();
+        mCharacter = CResourceInfo(rSCLY.ReadLong(), "ANCS");
+        mNodeIndex = rSCLY.ReadLong();
+        mUnknown1 = rSCLY.ReadLong();
     }
 
     else if (Game <= eCorruption)
     {
-        mCharacter = CResourceInfo(SCLY.ReadLongLong(), "CHAR");
-        mUnknown1 = SCLY.ReadLong();
+        mCharacter = CResourceInfo(rSCLY.ReadLongLong(), "CHAR");
+        mUnknown1 = rSCLY.ReadLong();
     }
 
     else if (Game == eReturns)
     {
-        u8 Flags = SCLY.ReadByte();
+        u8 Flags = rSCLY.ReadByte();
 
         // 0x80 - CharacterAnimationSet is empty.
         if (Flags & 0x80)
@@ -57,19 +56,19 @@ CAnimationParameters::CAnimationParameters(IInputStream& SCLY, EGame Game)
             return;
         }
 
-        mCharacter = CResourceInfo(SCLY.ReadLongLong(), "CHAR");
+        mCharacter = CResourceInfo(rSCLY.ReadLongLong(), "CHAR");
 
         // 0x20 - Default Anim is present
         if (Flags & 0x20)
-            mUnknown1 = SCLY.ReadLong();
+            mUnknown1 = rSCLY.ReadLong();
         else
             mUnknown1 = -1;
 
         // 0x40 - Two-value struct is present
         if (Flags & 0x40)
         {
-            mUnknown2 = SCLY.ReadLong();
-            mUnknown3 = SCLY.ReadLong();
+            mUnknown2 = rSCLY.ReadLong();
+            mUnknown3 = rSCLY.ReadLong();
         }
         else
         {
@@ -147,8 +146,8 @@ CModel* CAnimationParameters::GetCurrentModel(s32 NodeIndex /*= -1*/)
     if (pSet->Type() != eAnimSet) return nullptr;
     if (NodeIndex == -1) NodeIndex = mNodeIndex;
 
-    if (pSet->getNodeCount() <= (u32) NodeIndex) return nullptr;
-    return pSet->getNodeModel(NodeIndex);
+    if (pSet->NumNodes() <= (u32) NodeIndex) return nullptr;
+    return pSet->NodeModel(NodeIndex);
 }
 
 TString CAnimationParameters::GetCurrentCharacterName(s32 NodeIndex /*= -1*/)
@@ -160,26 +159,11 @@ TString CAnimationParameters::GetCurrentCharacterName(s32 NodeIndex /*= -1*/)
     if (pSet->Type() != eAnimSet) return "";
     if (NodeIndex == -1) NodeIndex = mNodeIndex;
 
-    if (pSet->getNodeCount() <= (u32) NodeIndex) return "";
-    return pSet->getNodeName((u32) NodeIndex);
+    if (pSet->NumNodes() <= (u32) NodeIndex) return "";
+    return pSet->NodeName((u32) NodeIndex);
 }
 
-// ************ GETTERS ************
-EGame CAnimationParameters::Version()
-{
-    return mGame;
-}
-
-CAnimSet* CAnimationParameters::AnimSet()
-{
-    return (CAnimSet*) mCharacter.Load();
-}
-
-u32 CAnimationParameters::CharacterIndex()
-{
-    return mNodeIndex;
-}
-
+// ************ ACCESSORS ************
 u32 CAnimationParameters::Unknown(u32 Index)
 {
     switch (Index)
@@ -191,7 +175,6 @@ u32 CAnimationParameters::Unknown(u32 Index)
     }
 }
 
-// ************ SETTERS ************
 void CAnimationParameters::SetResource(CResourceInfo Res)
 {
     if (Res.Type() == "ANCS" || Res.Type() == "CHAR")
@@ -201,11 +184,6 @@ void CAnimationParameters::SetResource(CResourceInfo Res)
     }
     else
         Log::Error("Resource with invalid type passed to CAnimationParameters: " + Res.ToString());
-}
-
-void CAnimationParameters::SetNodeIndex(u32 Index)
-{
-    mNodeIndex = Index;
 }
 
 void CAnimationParameters::SetUnknown(u32 Index, u32 Value)

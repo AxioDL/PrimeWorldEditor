@@ -2,20 +2,20 @@
 #include <stdarg.h>
 
 CTextOutStream::CTextOutStream()
+    : mpFStream(nullptr)
+    , mSize(0)
 {
-    mpFStream = nullptr;
-    mSize = 0;
 }
 
 CTextOutStream::CTextOutStream(const std::string& rkFile)
+    : mpFStream(nullptr)
 {
-    mpFStream = nullptr;
     Open(rkFile.c_str());
 }
 
 CTextOutStream::CTextOutStream(const CTextOutStream& rkSrc)
+    : mpFStream(nullptr)
 {
-    mpFStream = nullptr;
     Open(rkSrc.mFileName);
 
     if (rkSrc.IsValid())
@@ -52,10 +52,10 @@ void CTextOutStream::Print(const char *pkFormat, ... )
     vfprintf(mpFStream, pkFormat, Args);
 }
 
-void CTextOutStream::WriteChar(char c)
+void CTextOutStream::WriteChar(char Chr)
 {
     if (!IsValid()) return;
-    fputc(c, mpFStream);
+    fputc(Chr, mpFStream);
     if ((unsigned long) Tell() > mSize) mSize = Tell();
 }
 

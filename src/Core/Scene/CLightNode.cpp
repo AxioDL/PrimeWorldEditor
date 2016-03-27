@@ -4,14 +4,14 @@
 #include "Core/Render/CRenderer.h"
 #include <Math/MathUtil.h>
 
-CLightNode::CLightNode(CScene *pScene, u32 NodeID, CSceneNode *pParent, CLight *Light)
+CLightNode::CLightNode(CScene *pScene, u32 NodeID, CSceneNode *pParent, CLight *pLight)
     : CSceneNode(pScene, NodeID, pParent)
+    , mpLight(pLight)
 {
-    mpLight = Light;
     mLocalAABox = CAABox::skOne;
-    mPosition = Light->GetPosition();
+    mPosition = pLight->Position();
 
-    switch (Light->GetType())
+    switch (pLight->Type())
     {
     case eLocalAmbient: SetName("Ambient Light");     break;
     case eDirectional:  SetName("Directional Light"); break;
@@ -25,104 +25,104 @@ ENodeType CLightNode::NodeType()
     return eLightNode;
 }
 
-void CLightNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
+void CLightNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo)
 {
-    if (ViewInfo.GameMode) return;
+    if (rkViewInfo.GameMode) return;
 
-    if (ViewInfo.ViewFrustum.BoxInFrustum(AABox()))
+    if (rkViewInfo.ViewFrustum.BoxInFrustum(AABox()))
         pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawMesh);
 
-    if (IsSelected() && mpLight->GetType() == eCustom)
+    if (IsSelected() && mpLight->Type() == eCustom)
     {
         CAABox RadiusBox = (CAABox::skOne * 2.f * mpLight->GetRadius()) + mPosition;
 
-        if (ViewInfo.ViewFrustum.BoxInFrustum(RadiusBox))
+        if (rkViewInfo.ViewFrustum.BoxInFrustum(RadiusBox))
             pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawSelection);
     }
 }
 
-void CLightNode::Draw(FRenderOptions /*Options*/, int /*ComponentIndex*/, const SViewInfo& ViewInfo)
+void CLightNode::Draw(FRenderOptions /*Options*/, int /*ComponentIndex*/, const SViewInfo& rkViewInfo)
 {
-    CDrawUtil::DrawLightBillboard(mpLight->GetType(), mpLight->GetColor(), mPosition, BillboardScale(), TintColor(ViewInfo));
+    CDrawUtil::DrawLightBillboard(mpLight->Type(), mpLight->Color(), mPosition, BillboardScale(), TintColor(rkViewInfo));
 }
 
 void CLightNode::DrawSelection()
 {
-    CDrawUtil::DrawWireSphere(mPosition, mpLight->GetRadius(), mpLight->GetColor());
+    CDrawUtil::DrawWireSphere(mPosition, mpLight->GetRadius(), mpLight->Color());
 }
 
-void CLightNode::RayAABoxIntersectTest(CRayCollisionTester& Tester, const SViewInfo& /*ViewInfo*/)
+void CLightNode::RayAABoxIntersectTest(CRayCollisionTester& rTester, const SViewInfo& /*ViewInfo*/)
 {
     CVector2f BillScale = BillboardScale();
-    float ScaleXY = (BillScale.x > BillScale.y ? BillScale.x : BillScale.y);
+    float ScaleXY = (BillScale.X > BillScale.Y ? BillScale.X : BillScale.Y);
 
-    CAABox BillBox = CAABox(mPosition + CVector3f(-ScaleXY, -ScaleXY, -BillScale.y),
-                            mPosition + CVector3f( ScaleXY,  ScaleXY,  BillScale.y));
+    CAABox BillBox = CAABox(mPosition + CVector3f(-ScaleXY, -ScaleXY, -BillScale.Y),
+                            mPosition + CVector3f( ScaleXY,  ScaleXY,  BillScale.Y));
 
-    std::pair<bool,float> BoxResult = BillBox.IntersectsRay(Tester.Ray());
-    if (BoxResult.first) Tester.AddNode(this, 0, BoxResult.second);
+    std::pair<bool,float> BoxResult = BillBox.IntersectsRay(rTester.Ray());
+    if (BoxResult.first) rTester.AddNode(this, 0, BoxResult.second);
 }
 
-SRayIntersection CLightNode::RayNodeIntersectTest(const CRay& Ray, u32 AssetID, const SViewInfo& ViewInfo)
+SRayIntersection CLightNode::RayNodeIntersectTest(const CRay& rkRay, u32 AssetID, const SViewInfo& rkViewInfo)
 {
     // todo: come up with a better way to share this code between CScriptNode and CLightNode
-    SRayIntersection out;
-    out.pNode = this;
-    out.ComponentIndex = AssetID;
+    SRayIntersection Out;
+    Out.pNode = this;
+    Out.ComponentIndex = AssetID;
 
-    CTexture *pBillboard = CDrawUtil::GetLightTexture(mpLight->GetType());
+    CTexture *pBillboard = CDrawUtil::GetLightTexture(mpLight->Type());
 
     if (!pBillboard)
     {
-        out.Hit = false;
-        return out;
+        Out.Hit = false;
+        return Out;
     }
 
     // Step 1: check whether the ray intersects with the plane the billboard is on
-    CPlane BillboardPlane(-ViewInfo.pCamera->Direction(), mPosition);
-    std::pair<bool,float> PlaneTest = Math::RayPlaneIntersecton(Ray, BillboardPlane);
+    CPlane BillboardPlane(-rkViewInfo.pCamera->Direction(), mPosition);
+    std::pair<bool,float> PlaneTest = Math::RayPlaneIntersecton(rkRay, BillboardPlane);
 
     if (PlaneTest.first)
     {
         // Step 2: transform the hit point into the plane's local space
-        CVector3f PlaneHitPoint = Ray.PointOnRay(PlaneTest.second);
+        CVector3f PlaneHitPoint = rkRay.PointOnRay(PlaneTest.second);
         CVector3f RelHitPoint = PlaneHitPoint - mPosition;
 
-        CVector3f PlaneForward = -ViewInfo.pCamera->Direction();
-        CVector3f PlaneRight = -ViewInfo.pCamera->RightVector();
-        CVector3f PlaneUp = ViewInfo.pCamera->UpVector();
+        CVector3f PlaneForward = -rkViewInfo.pCamera->Direction();
+        CVector3f PlaneRight = -rkViewInfo.pCamera->RightVector();
+        CVector3f PlaneUp = rkViewInfo.pCamera->UpVector();
         CQuaternion PlaneRot = CQuaternion::FromAxes(PlaneRight, PlaneForward, PlaneUp);
 
         CVector3f RotatedHitPoint = PlaneRot.Inverse() * RelHitPoint;
-        CVector2f LocalHitPoint = RotatedHitPoint.xz() / BillboardScale();
+        CVector2f LocalHitPoint = RotatedHitPoint.XZ() / BillboardScale();
 
         // Step 3: check whether the transformed hit point is in the -1 to 1 range
-        if ((LocalHitPoint.x >= -1.f) && (LocalHitPoint.x <= 1.f) && (LocalHitPoint.y >= -1.f) && (LocalHitPoint.y <= 1.f))
+        if ((LocalHitPoint.X >= -1.f) && (LocalHitPoint.X <= 1.f) && (LocalHitPoint.Y >= -1.f) && (LocalHitPoint.Y <= 1.f))
         {
             // Step 4: look up the hit texel and check whether it's transparent or opaque
             CVector2f TexCoord = (LocalHitPoint + CVector2f(1.f)) * 0.5f;
-            TexCoord.x = -TexCoord.x + 1.f;
+            TexCoord.X = -TexCoord.X + 1.f;
             float TexelAlpha = pBillboard->ReadTexelAlpha(TexCoord);
 
             if (TexelAlpha < 0.25f)
-                out.Hit = false;
+                Out.Hit = false;
 
             else
             {
                 // It's opaque... we have a hit!
-                out.Hit = true;
-                out.Distance = PlaneTest.second;
+                Out.Hit = true;
+                Out.Distance = PlaneTest.second;
             }
         }
 
         else
-            out.Hit = false;
+            Out.Hit = false;
     }
 
     else
-        out.Hit = false;
+        Out.Hit = false;
 
-    return out;
+    return Out;
 }
 
 CLight* CLightNode::Light()
@@ -132,7 +132,7 @@ CLight* CLightNode::Light()
 
 CVector2f CLightNode::BillboardScale()
 {
-    return AbsoluteScale().xz() * 0.75f;
+    return AbsoluteScale().XZ() * 0.75f;
 }
 
 void CLightNode::CalculateTransform(CTransform4f& rOut) const

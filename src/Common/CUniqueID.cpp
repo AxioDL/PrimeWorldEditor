@@ -11,9 +11,9 @@ using IOUtil::eLittleEndian;
 using IOUtil::eBigEndian;
 
 CUniqueID::CUniqueID()
+    : mLength(eInvalidUIDLength)
 {
     memset(mID, 0xFF, 16);
-    mLength = eInvalidUIDLength;
 }
 
 CUniqueID::CUniqueID(u64 ID)
@@ -72,15 +72,15 @@ CUniqueID::CUniqueID(u64 Part1, u64 Part2)
     mLength = e128Bit;
 }
 
-CUniqueID::CUniqueID(const char* ID)
+CUniqueID::CUniqueID(const char* pkID)
 {
-    *this = CUniqueID::FromString(ID);
+    *this = CUniqueID::FromString(pkID);
 }
 
-CUniqueID::CUniqueID(IInputStream& Input, EUIDLength Length)
+CUniqueID::CUniqueID(IInputStream& rInput, EUIDLength Length)
 {
     memset(mID, 0, 16);
-    Input.ReadBytes(&mID[16 - Length], Length);
+    rInput.ReadBytes(&mID[16 - Length], Length);
 
     if (Length != e128Bit)
         if (kSystemEndianness == eLittleEndian)
@@ -120,8 +120,8 @@ TString CUniqueID::ToString() const
         std::stringstream Ret;
         Ret << std::hex << std::setfill('0');
 
-        for (u32 i = 0; i < 16; i++)
-            Ret << std::setw(2) << (u32) mID[i];
+        for (u32 iByte = 0; iByte < 16; iByte++)
+            Ret << std::setw(2) << (u32) mID[iByte];
 
         return Ret.str();
     }
@@ -159,44 +159,44 @@ bool CUniqueID::IsValid() const
 }
 
 // ************ OPERATORS ************
-void CUniqueID::operator=(const u64& Input)
+void CUniqueID::operator=(const u64& rkInput)
 {
-    *this = CUniqueID(Input);
+    *this = CUniqueID(rkInput);
 }
 
-void CUniqueID::operator=(const char* Input)
+void CUniqueID::operator=(const char* pkInput)
 {
-    *this = CUniqueID(Input);
+    *this = CUniqueID(pkInput);
 }
 
-bool CUniqueID::operator==(const CUniqueID& Other) const
+bool CUniqueID::operator==(const CUniqueID& rkOther) const
 {
-    return ((mLength == Other.mLength) &&
-            (memcmp(mID, Other.mID, 16) == 0));
+    return ((mLength == rkOther.mLength) &&
+            (memcmp(mID, rkOther.mID, 16) == 0));
 }
 
-bool CUniqueID::operator!=(const CUniqueID& Other) const
+bool CUniqueID::operator!=(const CUniqueID& rkOther) const
 {
-    return (!(*this == Other));
+    return (!(*this == rkOther));
 }
 
-bool CUniqueID::operator>(const CUniqueID& Other) const
+bool CUniqueID::operator>(const CUniqueID& rkOther) const
 {
-    if (mLength != Other.mLength)
-        return mLength > Other.mLength;
+    if (mLength != rkOther.mLength)
+        return mLength > rkOther.mLength;
 
     switch (mLength)
     {
     case e32Bit:
-        return (ToLong() > Other.ToLong());
+        return (ToLong() > rkOther.ToLong());
 
     case e64Bit:
-        return (ToLongLong() > Other.ToLongLong());
+        return (ToLongLong() > rkOther.ToLongLong());
 
     case e128Bit:
-        for (u32 i = 0; i < 16; i++)
-            if (mID[i] != Other.mID[i])
-                return (mID[i] > Other.mID[i]);
+        for (u32 iByte = 0; iByte < 16; iByte++)
+            if (mID[iByte] != rkOther.mID[iByte])
+                return (mID[iByte] > rkOther.mID[iByte]);
         return false;
 
     default:
@@ -204,28 +204,28 @@ bool CUniqueID::operator>(const CUniqueID& Other) const
     }
 }
 
-bool CUniqueID::operator>=(const CUniqueID& Other) const
+bool CUniqueID::operator>=(const CUniqueID& rkOther) const
 {
-    return ((*this == Other) || (*this > Other));
+    return ((*this == rkOther) || (*this > rkOther));
 }
 
-bool CUniqueID::operator<(const CUniqueID& Other) const
+bool CUniqueID::operator<(const CUniqueID& rkOther) const
 {
-    if (mLength != Other.mLength)
-        return mLength < Other.mLength;
+    if (mLength != rkOther.mLength)
+        return mLength < rkOther.mLength;
 
     switch (mLength)
     {
     case e32Bit:
-        return (ToLong() < Other.ToLong());
+        return (ToLong() < rkOther.ToLong());
 
     case e64Bit:
-        return (ToLongLong() < Other.ToLongLong());
+        return (ToLongLong() < rkOther.ToLongLong());
 
     case e128Bit:
-        for (u32 i = 0; i < 16; i++)
-            if (mID[i] != Other.mID[i])
-                return (mID[i] < Other.mID[i]);
+        for (u32 iByte = 0; iByte < 16; iByte++)
+            if (mID[iByte] != rkOther.mID[iByte])
+                return (mID[iByte] < rkOther.mID[iByte]);
         return false;
 
     default:
@@ -233,9 +233,9 @@ bool CUniqueID::operator<(const CUniqueID& Other) const
     }
 }
 
-bool CUniqueID::operator<=(const CUniqueID& Other) const
+bool CUniqueID::operator<=(const CUniqueID& rkOther) const
 {
-    return ((*this == Other) || (*this < Other));
+    return ((*this == rkOther) || (*this < rkOther));
 }
 
 bool CUniqueID::operator==(u64 Other) const
@@ -249,10 +249,10 @@ bool CUniqueID::operator!=(u64 Other) const
 }
 
 // ************ STATIC ************
-CUniqueID CUniqueID::FromString(const TString& String)
+CUniqueID CUniqueID::FromString(const TString& rkString)
 {
     // If the input is a hex ID in string form, then preserve it... otherwise, generate an ID by hashing the string
-    TString Name = String.GetFileName(false);
+    TString Name = rkString.GetFileName(false);
     u32 NameLength = Name.Length();
 
     if (Name.IsHexString())
@@ -296,7 +296,7 @@ CUniqueID CUniqueID::FromString(const TString& String)
         }
     }
 
-    return CUniqueID(String.Hash64());
+    return CUniqueID(rkString.Hash64());
 }
 
 CUniqueID CUniqueID::FromData(void *pData, EUIDLength Length)
@@ -312,8 +312,8 @@ CUniqueID CUniqueID::RandomID()
     CUniqueID ID;
     ID.mLength = e128Bit;
 
-    for (u32 i = 0; i < 16; i++)
-        ID.mID[i] = rand() & 0xFF;
+    for (u32 iByte = 0; iByte < 16; iByte++)
+        ID.mID[iByte] = rand() & 0xFF;
 
     return ID;
 }

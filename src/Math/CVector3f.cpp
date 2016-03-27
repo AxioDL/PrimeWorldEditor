@@ -7,49 +7,49 @@
 
 CVector3f::CVector3f()
 {
-    x = y = z = 0.f;
+    X = Y = Z = 0.f;
 }
 
-CVector3f::CVector3f(float xyz)
+CVector3f::CVector3f(float XYZ)
 {
-    x = y = z = xyz;
+    X = Y = Z = XYZ;
 }
 
-CVector3f::CVector3f(float _x, float _y, float _z)
+CVector3f::CVector3f(float _X, float _Y, float _Z)
 {
-    x = _x;
-    y = _y;
-    z = _z;
+    X = _X;
+    Y = _Y;
+    Z = _Z;
 }
 
-CVector3f::CVector3f(IInputStream& Input)
+CVector3f::CVector3f(IInputStream& rInput)
 {
-    x = Input.ReadFloat();
-    y = Input.ReadFloat();
-    z = Input.ReadFloat();
+    X = rInput.ReadFloat();
+    Y = rInput.ReadFloat();
+    Z = rInput.ReadFloat();
 }
 
-void CVector3f::Write(IOutputStream &Output)
+void CVector3f::Write(IOutputStream& rOutput)
 {
-    Output.WriteFloat(x);
-    Output.WriteFloat(y);
-    Output.WriteFloat(z);
+    rOutput.WriteFloat(X);
+    rOutput.WriteFloat(Y);
+    rOutput.WriteFloat(Z);
 }
 
 // ************ SWIZZLE ************
-CVector2f CVector3f::xy()
+CVector2f CVector3f::XY()
 {
-    return CVector2f(x, y);
+    return CVector2f(X, Y);
 }
 
-CVector2f CVector3f::xz()
+CVector2f CVector3f::XZ()
 {
-    return CVector2f(x, z);
+    return CVector2f(X, Z);
 }
 
-CVector2f CVector3f::yz()
+CVector2f CVector3f::YZ()
 {
-    return CVector2f(y, z);
+    return CVector2f(Y, Z);
 }
 
 // ************ MATH ************
@@ -68,211 +68,211 @@ CVector3f CVector3f::Normalized() const
     return *this / Magnitude();
 }
 
-float CVector3f::Dot(const CVector3f& other) const
+float CVector3f::Dot(const CVector3f& rkOther) const
 {
-    return (x * other.x) + (y * other.y) + (z * other.z);
+    return (X * rkOther.X) + (Y * rkOther.Y) + (Z * rkOther.Z);
 }
 
-CVector3f CVector3f::Cross(const CVector3f& other) const
+CVector3f CVector3f::Cross(const CVector3f& rkOther) const
 {
-    return CVector3f((y * other.z) - (z * other.y), (z * other.x) - (x * other.z), (x * other.y) - (y * other.x));
+    return CVector3f((Y * rkOther.Z) - (Z * rkOther.Y), (Z * rkOther.X) - (X * rkOther.Z), (X * rkOther.Y) - (Y * rkOther.X));
 }
 
-float CVector3f::Distance(const CVector3f& point) const
+float CVector3f::Distance(const CVector3f& rkPoint) const
 {
-    return (*this - point).Magnitude();
+    return (*this - rkPoint).Magnitude();
 }
 
-float CVector3f::SquaredDistance(const CVector3f& point) const
+float CVector3f::SquaredDistance(const CVector3f& rkPoint) const
 {
-    return (*this - point).SquaredMagnitude();
+    return (*this - rkPoint).SquaredMagnitude();
 }
 
 // ************ OPERATORS ************
 // VECTOR/VECTOR
-CVector3f CVector3f::operator+(const CVector3f& src) const
+CVector3f CVector3f::operator+(const CVector3f& rkSrc) const
 {
-    CVector3f out;
-    out.x = this->x + src.x;
-    out.y = this->y + src.y;
-    out.z = this->z + src.z;
-    return out;
+    CVector3f Out;
+    Out.X = this->X + rkSrc.X;
+    Out.Y = this->Y + rkSrc.Y;
+    Out.Z = this->Z + rkSrc.Z;
+    return Out;
 }
 
-CVector3f CVector3f::operator-(const CVector3f& src) const
+CVector3f CVector3f::operator-(const CVector3f& rkSrc) const
 {
-    CVector3f out;
-    out.x = this->x - src.x;
-    out.y = this->y - src.y;
-    out.z = this->z - src.z;
-    return out;
+    CVector3f Out;
+    Out.X = this->X - rkSrc.X;
+    Out.Y = this->Y - rkSrc.Y;
+    Out.Z = this->Z - rkSrc.Z;
+    return Out;
 }
 
-CVector3f CVector3f::operator*(const CVector3f& src) const
+CVector3f CVector3f::operator*(const CVector3f& rkSrc) const
 {
-    CVector3f out;
-    out.x = this->x * src.x;
-    out.y = this->y * src.y;
-    out.z = this->z * src.z;
-    return out;
+    CVector3f Out;
+    Out.X = this->X * rkSrc.X;
+    Out.Y = this->Y * rkSrc.Y;
+    Out.Z = this->Z * rkSrc.Z;
+    return Out;
 }
 
-CVector3f CVector3f::operator/(const CVector3f& src) const
+CVector3f CVector3f::operator/(const CVector3f& rkSrc) const
 {
-    CVector3f out;
-    out.x = this->x / src.x;
-    out.y = this->y / src.y;
-    out.z = this->z / src.z;
-    return out;
+    CVector3f Out;
+    Out.X = this->X / rkSrc.X;
+    Out.Y = this->Y / rkSrc.Y;
+    Out.Z = this->Z / rkSrc.Z;
+    return Out;
 }
 
-void CVector3f::operator+=(const CVector3f& other)
+void CVector3f::operator+=(const CVector3f& rkOther)
 {
-    *this = *this + other;
+    *this = *this + rkOther;
 }
 
-void CVector3f::operator-=(const CVector3f& other)
+void CVector3f::operator-=(const CVector3f& rkOther)
 {
-    *this = *this - other;
+    *this = *this - rkOther;
 }
 
-void CVector3f::operator*=(const CVector3f& other)
+void CVector3f::operator*=(const CVector3f& rkOther)
 {
-    *this = *this * other;
+    *this = *this * rkOther;
 }
 
-void CVector3f::operator/=(const CVector3f& other)
+void CVector3f::operator/=(const CVector3f& rkOther)
 {
-    *this = *this / other;
+    *this = *this / rkOther;
 }
 
-bool CVector3f::operator> (const CVector3f& other) const
+bool CVector3f::operator> (const CVector3f& rkOther) const
 {
-    return ((x > other.x) && (y > other.y) && (z > other.z));
+    return ((X > rkOther.X) && (Y > rkOther.Y) && (Z > rkOther.Z));
 }
 
-bool CVector3f::operator>=(const CVector3f& other) const
+bool CVector3f::operator>=(const CVector3f& rkOther) const
 {
-    return ((x >= other.x) && (y >= other.y) && (z >= other.z));
+    return ((X >= rkOther.X) && (Y >= rkOther.Y) && (Z >= rkOther.Z));
 }
 
-bool CVector3f::operator< (const CVector3f& other) const
+bool CVector3f::operator< (const CVector3f& rkOther) const
 {
-    return ((x < other.x) && (y < other.y) && (z < other.z));
+    return ((X < rkOther.X) && (Y < rkOther.Y) && (Z < rkOther.Z));
 }
 
-bool CVector3f::operator<=(const CVector3f& other) const
+bool CVector3f::operator<=(const CVector3f& rkOther) const
 {
-    return ((x <= other.x) && (y <= other.y) && (z <= other.z));
+    return ((X <= rkOther.X) && (Y <= rkOther.Y) && (Z <= rkOther.Z));
 }
 
-bool CVector3f::operator==(const CVector3f& other) const
+bool CVector3f::operator==(const CVector3f& rkOther) const
 {
-    return ((x == other.x) && (y == other.y) && (z == other.z));
+    return ((X == rkOther.X) && (Y == rkOther.Y) && (Z == rkOther.Z));
 }
 
-bool CVector3f::operator!=(const CVector3f& other) const
+bool CVector3f::operator!=(const CVector3f& rkOther) const
 {
-    return (!(*this == other));
+    return (!(*this == rkOther));
 }
 
 // VECTOR/FLOAT
-CVector3f CVector3f::operator+(const float src) const
+CVector3f CVector3f::operator+(const float Src) const
 {
-    CVector3f out;
-    out.x = this->x + src;
-    out.y = this->y + src;
-    out.z = this->z + src;
-    return out;
+    CVector3f Out;
+    Out.X = this->X + Src;
+    Out.Y = this->Y + Src;
+    Out.Z = this->Z + Src;
+    return Out;
 }
 
-CVector3f CVector3f::operator-(const float src) const
+CVector3f CVector3f::operator-(const float Src) const
 {
-    CVector3f out;
-    out.x = this->x - src;
-    out.y = this->y - src;
-    out.z = this->z - src;
-    return out;
+    CVector3f Out;
+    Out.X = this->X - Src;
+    Out.Y = this->Y - Src;
+    Out.Z = this->Z - Src;
+    return Out;
 }
 
-CVector3f CVector3f::operator*(const float src) const
+CVector3f CVector3f::operator*(const float Src) const
 {
-    CVector3f out;
-    out.x = this->x * src;
-    out.y = this->y * src;
-    out.z = this->z * src;
-    return out;
+    CVector3f Out;
+    Out.X = this->X * Src;
+    Out.Y = this->Y * Src;
+    Out.Z = this->Z * Src;
+    return Out;
 }
 
-CVector3f CVector3f::operator/(const float src) const
+CVector3f CVector3f::operator/(const float Src) const
 {
-    CVector3f out;
-    out.x = this->x / src;
-    out.y = this->y / src;
-    out.z = this->z / src;
-    return out;
+    CVector3f Out;
+    Out.X = this->X / Src;
+    Out.Y = this->Y / Src;
+    Out.Z = this->Z / Src;
+    return Out;
 }
 
-void CVector3f::operator+=(const float other)
+void CVector3f::operator+=(const float Other)
 {
-    *this = *this + other;
+    *this = *this + Other;
 }
 
-void CVector3f::operator-=(const float other)
+void CVector3f::operator-=(const float Other)
 {
-    *this = *this - other;
+    *this = *this - Other;
 }
 
-void CVector3f::operator*=(const float other)
+void CVector3f::operator*=(const float Other)
 {
-    *this = *this * other;
+    *this = *this * Other;
 }
 
-void CVector3f::operator/=(const float other)
+void CVector3f::operator/=(const float Other)
 {
-    *this = *this / other;
+    *this = *this / Other;
 }
 
 // VECTOR/MATRIX
-CVector3f CVector3f::operator*(const CTransform4f& mtx) const
+CVector3f CVector3f::operator*(const CTransform4f& rkMtx) const
 {
-    CVector3f out;
-    out.x = (x * mtx[0][0]) + (y * mtx[1][0]) + (z * mtx[2][0]);
-    out.y = (x * mtx[0][1]) + (y * mtx[1][1]) + (z * mtx[2][1]);
-    out.z = (x * mtx[0][2]) + (y * mtx[1][2]) + (z * mtx[2][2]);
-    return out;
+    CVector3f Out;
+    Out.X = (X * rkMtx[0][0]) + (Y * rkMtx[1][0]) + (Z * rkMtx[2][0]);
+    Out.Y = (X * rkMtx[0][1]) + (Y * rkMtx[1][1]) + (Z * rkMtx[2][1]);
+    Out.Z = (X * rkMtx[0][2]) + (Y * rkMtx[1][2]) + (Z * rkMtx[2][2]);
+    return Out;
 }
 
-void CVector3f::operator*=(const CTransform4f& mtx)
+void CVector3f::operator*=(const CTransform4f& rkMtx)
 {
-    *this = *this * mtx;
+    *this = *this * rkMtx;
 }
 
-CVector3f CVector3f::operator*(const CMatrix4f& mtx) const
+CVector3f CVector3f::operator*(const CMatrix4f& rkMtx) const
 {
     // To multiply by a Matrix4f, we consider the vector w component to be 1
-    CVector3f out;
-    float w = (x * mtx[0][3]) + (y * mtx[1][3]) + (z * mtx[2][3]) + mtx[3][3];
-    out.x = ((x * mtx[0][0]) + (y * mtx[1][0]) + (z * mtx[2][0]) + mtx[3][0]) / w;
-    out.y = ((x * mtx[0][1]) + (y * mtx[1][1]) + (z * mtx[2][1]) + mtx[3][1]) / w;
-    out.z = ((x * mtx[0][2]) + (y * mtx[1][2]) + (z * mtx[2][2]) + mtx[3][2]) / w;
-    return out;
+    CVector3f Out;
+    float W = (X * rkMtx[0][3]) + (Y * rkMtx[1][3]) + (Z * rkMtx[2][3]) + rkMtx[3][3];
+    Out.X = ((X * rkMtx[0][0]) + (Y * rkMtx[1][0]) + (Z * rkMtx[2][0]) + rkMtx[3][0]) / W;
+    Out.Y = ((X * rkMtx[0][1]) + (Y * rkMtx[1][1]) + (Z * rkMtx[2][1]) + rkMtx[3][1]) / W;
+    Out.Z = ((X * rkMtx[0][2]) + (Y * rkMtx[1][2]) + (Z * rkMtx[2][2]) + rkMtx[3][2]) / W;
+    return Out;
 }
 
 // UNARY
 CVector3f CVector3f::operator-() const
 {
-    return CVector3f(-x, -y, -z);
+    return CVector3f(-X, -Y, -Z);
 }
 
-float& CVector3f::operator[](long index)
+float& CVector3f::operator[](long Index)
 {
-    return (&x)[index];
+    return (&X)[Index];
 }
 
-const float& CVector3f::operator[](long index) const
+const float& CVector3f::operator[](long Index) const
 {
-    return (&x)[index];
+    return (&X)[Index];
 }
 
 // ************ CONSTANTS ************
@@ -290,20 +290,20 @@ const CVector3f CVector3f::skUp       = CVector3f::skUnitZ;
 const CVector3f CVector3f::skDown     = -CVector3f::skUnitZ;
 
 // ************ OTHER ************
-std::ostream& operator<<(std::ostream& o, const CVector3f& Vector)
+std::ostream& operator<<(std::ostream& rOut, const CVector3f& rkVector)
 {
-    o << std::setprecision(6)
+    rOut << std::setprecision(6)
       << std::fixed
       << "["
-      << ((Vector.x >= 0) ? " " : "")
-      << Vector.x
+      << ((rkVector.X >= 0) ? " " : "")
+      << rkVector.X
       << ", "
-      << ((Vector.y >= 0) ? " " : "")
-      << Vector.y
+      << ((rkVector.Y >= 0) ? " " : "")
+      << rkVector.Y
       << ", "
-      << ((Vector.z >= 0) ? " " : "")
-      << Vector.z
+      << ((rkVector.Z >= 0) ? " " : "")
+      << rkVector.Z
       << "]";
 
-    return o;
+    return rOut;
 }

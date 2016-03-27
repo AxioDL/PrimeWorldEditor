@@ -3,9 +3,9 @@
 #include "WTextureGLWidget.h"
 #include "Editor/UICommon.h"
 
-WTexturePreviewPanel::WTexturePreviewPanel(QWidget *parent, CTexture *pTexture) :
-    IPreviewPanel(parent),
-    ui(new Ui::WTexturePreviewPanel)
+WTexturePreviewPanel::WTexturePreviewPanel(QWidget *parent, CTexture *pTexture)
+    : IPreviewPanel(parent)
+    , ui(new Ui::WTexturePreviewPanel)
 {
     ui->setupUi(this);
     SetResource(pTexture);
