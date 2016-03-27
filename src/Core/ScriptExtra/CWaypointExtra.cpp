@@ -46,7 +46,7 @@ void CWaypointExtra::CheckColor()
         mColor = CColor::skCyan;
     }
 
-    mColor.a = 0;
+    mColor.A = 0;
 }
 
 void CWaypointExtra::AddToSplinePath(CSplinePathExtra *pPath)
@@ -120,7 +120,7 @@ bool CWaypointExtra::IsPathLink(CLink *pLink)
         CScriptNode *pNode = mpScene->NodeForInstanceID(pLink->ReceiverID());
 
         if (pNode)
-            return pNode->Object()->ObjectTypeID() == mpInstance->ObjectTypeID();
+            return pNode->Instance()->ObjectTypeID() == mpInstance->ObjectTypeID();
     }
 
     return false;
@@ -154,25 +154,25 @@ void CWaypointExtra::LinksModified()
     BuildLinks();
 }
 
-void CWaypointExtra::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
+void CWaypointExtra::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo)
 {
     // This call is necessary because if we try to build links in the constructor, it
     // won't work properly because we haven't finished loading the scene yet.
     if (!mLinksBuilt) BuildLinks();
 
-    if (!ViewInfo.GameMode && (ViewInfo.ShowFlags & eShowObjectGeometry) && mpParent->IsVisible() && !mpParent->IsSelected())
+    if (!rkViewInfo.GameMode && (rkViewInfo.ShowFlags & eShowObjectGeometry) && mpParent->IsVisible() && !mpParent->IsSelected())
     {
         for (u32 iLink = 0; iLink < mLinks.size(); iLink++)
         {
             CScriptNode *pNode = mLinks[iLink].pWaypoint;
 
-            if (pNode->IsVisible() && !pNode->IsSelected() && ViewInfo.ViewFrustum.BoxInFrustum(mLinks[iLink].LineAABB))
+            if (pNode->IsVisible() && !pNode->IsSelected() && rkViewInfo.ViewFrustum.BoxInFrustum(mLinks[iLink].LineAABB))
                 pRenderer->AddOpaqueMesh(this, iLink, mLinks[iLink].LineAABB, eDrawMesh);
         }
     }
 }
 
-void CWaypointExtra::Draw(FRenderOptions /*Options*/, int ComponentIndex, const SViewInfo& /*ViewInfo*/)
+void CWaypointExtra::Draw(FRenderOptions /*Options*/, int ComponentIndex, const SViewInfo& /*rkViewInfo*/)
 {
     glBlendFunc(GL_ONE, GL_ZERO);
     glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);

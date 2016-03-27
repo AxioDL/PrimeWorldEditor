@@ -2,11 +2,11 @@
 #include <algorithm>
 
 CMaterialCooker::CMaterialCooker()
+    : mpMat(nullptr)
 {
-    mpMat = nullptr;
 }
 
-void CMaterialCooker::WriteMatSetPrime(IOutputStream& Out)
+void CMaterialCooker::WriteMatSetPrime(IOutputStream& rOut)
 {
     // Gather texture list from the materials before starting
     mTextureIDs.clear();
@@ -30,47 +30,46 @@ void CMaterialCooker::WriteMatSetPrime(IOutputStream& Out)
     mTextureIDs.erase(std::unique(mTextureIDs.begin(), mTextureIDs.end()), mTextureIDs.end());
 
     // Write texture IDs
-    Out.WriteLong(mTextureIDs.size());
+    rOut.WriteLong(mTextureIDs.size());
 
     for (u32 iTex = 0; iTex < mTextureIDs.size(); iTex++)
-        Out.WriteLong(mTextureIDs[iTex]);
+        rOut.WriteLong(mTextureIDs[iTex]);
 
     // Write material offset filler
-    Out.WriteLong(NumMats);
-    u32 MatOffsetsStart = Out.Tell();
+    rOut.WriteLong(NumMats);
+    u32 MatOffsetsStart = rOut.Tell();
 
     for (u32 iMat = 0; iMat < NumMats; iMat++)
-        Out.WriteLong(0);
+        rOut.WriteLong(0);
 
     // Write materials
-    u32 MatsStart = Out.Tell();
+    u32 MatsStart = rOut.Tell();
     std::vector<u32> MatEndOffsets(NumMats);
 
     for (u32 iMat = 0; iMat < NumMats; iMat++)
     {
         mpMat = mpSet->mMaterials[iMat];
-        WriteMaterialPrime(Out);
-        MatEndOffsets[iMat] = Out.Tell() - MatsStart;
+        WriteMaterialPrime(rOut);
+        MatEndOffsets[iMat] = rOut.Tell() - MatsStart;
     }
 
     // Write material offsets
-    u32 MatsEnd = Out.Tell();
-    Out.Seek(MatOffsetsStart, SEEK_SET);
+    u32 MatsEnd = rOut.Tell();
+    rOut.Seek(MatOffsetsStart, SEEK_SET);
 
     for (u32 iMat = 0; iMat < NumMats; iMat++)
-        Out.WriteLong(MatEndOffsets[iMat]);
+        rOut.WriteLong(MatEndOffsets[iMat]);
 
     // Done!
-    Out.Seek(MatsEnd, SEEK_SET);
+    rOut.Seek(MatsEnd, SEEK_SET);
 }
 
-void CMaterialCooker::WriteMatSetCorruption(IOutputStream&)
+void CMaterialCooker::WriteMatSetCorruption(IOutputStream& /*rOut*/)
 {
-    // Not using parameter 1 (IOutputStream& - Out)
     // todo
 }
 
-void CMaterialCooker::WriteMaterialPrime(IOutputStream& Out)
+void CMaterialCooker::WriteMaterialPrime(IOutputStream& rOut)
 {
     // Gather data from the passes before we start writing
     u32 TexFlags = 0;
@@ -143,12 +142,12 @@ void CMaterialCooker::WriteMaterialPrime(IOutputStream& Out)
 
     Flags |= (HasKonst ? 0x8 : 0x0) | (mpMat->Options() & ~0x8) | (TexFlags << 16);
 
-    Out.WriteLong(Flags);
+    rOut.WriteLong(Flags);
 
     // Texture indices
-    Out.WriteLong(TexIndices.size());
+    rOut.WriteLong(TexIndices.size());
     for (u32 iTex = 0; iTex < TexIndices.size(); iTex++)
-        Out.WriteLong(TexIndices[iTex]);
+        rOut.WriteLong(TexIndices[iTex]);
 
     // Vertex description
     FVertexDescription Desc = mpMat->VtxDesc();
@@ -156,24 +155,24 @@ void CMaterialCooker::WriteMaterialPrime(IOutputStream& Out)
     if (mVersion < eEchoes)
         Desc &= 0x00FFFFFF;
 
-    Out.WriteLong(Desc);
+    rOut.WriteLong(Desc);
 
     // Echoes unknowns
     if (mVersion == eEchoes)
     {
-        Out.WriteLong(mpMat->EchoesUnknownA());
-        Out.WriteLong(mpMat->EchoesUnknownB());
+        rOut.WriteLong(mpMat->EchoesUnknownA());
+        rOut.WriteLong(mpMat->EchoesUnknownB());
     }
 
     // Group index
-    Out.WriteLong(GroupIndex);
+    rOut.WriteLong(GroupIndex);
 
     // Konst
     if (HasKonst)
     {
-        Out.WriteLong(NumKonst);
+        rOut.WriteLong(NumKonst);
         for (u32 iKonst = 0; iKonst < NumKonst; iKonst++)
-            Out.WriteLong( mpMat->Konst(iKonst).ToLongRGBA() );
+            rOut.WriteLong( mpMat->Konst(iKonst).ToLongRGBA() );
     }
 
     // Blend Mode
@@ -182,16 +181,16 @@ void CMaterialCooker::WriteMaterialPrime(IOutputStream& Out)
     u16 BlendDstFac = (u16) mpMat->BlendDstFac();
     if (BlendSrcFac >= 0x300) BlendSrcFac -= 0x2FE;
     if (BlendDstFac >= 0x300) BlendDstFac -= 0x2FE;
-    Out.WriteShort(BlendDstFac);
-    Out.WriteShort(BlendSrcFac);
+    rOut.WriteShort(BlendDstFac);
+    rOut.WriteShort(BlendSrcFac);
 
     // Color Channels
-    Out.WriteLong(1);
-    Out.WriteLong(0x3000 | (mpMat->IsLightingEnabled() ? 1 : 0));
+    rOut.WriteLong(1);
+    rOut.WriteLong(0x3000 | (mpMat->IsLightingEnabled() ? 1 : 0));
 
     // TEV
     u32 NumPasses = mpMat->PassCount();
-    Out.WriteLong(NumPasses);
+    rOut.WriteLong(NumPasses);
 
     for (u32 iPass = 0; iPass < NumPasses; iPass++)
     {
@@ -209,14 +208,14 @@ void CMaterialCooker::WriteMaterialPrime(IOutputStream& Out)
         u32 ColorOpFlags = 0x100 | (pPass->ColorOutput() << 9);
         u32 AlphaOpFlags = 0x100 | (pPass->AlphaOutput() << 9);
 
-        Out.WriteLong(ColorInputFlags);
-        Out.WriteLong(AlphaInputFlags);
-        Out.WriteLong(ColorOpFlags);
-        Out.WriteLong(AlphaOpFlags);
-        Out.WriteByte(0); // Padding
-        Out.WriteByte(pPass->KAlphaSel());
-        Out.WriteByte(pPass->KColorSel());
-        Out.WriteByte(pPass->RasSel());
+        rOut.WriteLong(ColorInputFlags);
+        rOut.WriteLong(AlphaInputFlags);
+        rOut.WriteLong(ColorOpFlags);
+        rOut.WriteLong(AlphaOpFlags);
+        rOut.WriteByte(0); // Padding
+        rOut.WriteByte(pPass->KAlphaSel());
+        rOut.WriteByte(pPass->KColorSel());
+        rOut.WriteByte(pPass->RasSel());
     }
 
     // TEV Tex/UV input selection
@@ -224,22 +223,22 @@ void CMaterialCooker::WriteMaterialPrime(IOutputStream& Out)
 
     for (u32 iPass = 0; iPass < NumPasses; iPass++)
     {
-        Out.WriteShort(0); // Padding
+        rOut.WriteShort(0); // Padding
 
         if (mpMat->Pass(iPass)->Texture())
         {
-            Out.WriteByte((u8) CurTexIdx);
-            Out.WriteByte((u8) CurTexIdx);
+            rOut.WriteByte((u8) CurTexIdx);
+            rOut.WriteByte((u8) CurTexIdx);
             CurTexIdx++;
         }
 
         else
-            Out.WriteShort((u16) 0xFFFF);
+            rOut.WriteShort((u16) 0xFFFF);
     }
 
     // TexGen
     u32 NumTexCoords = CurTexIdx; // TexIdx is currently equal to the tex coord count
-    Out.WriteLong(NumTexCoords);
+    rOut.WriteLong(NumTexCoords);
     u32 CurTexMtx = 0;
 
     for (u32 iPass = 0; iPass < NumPasses; iPass++)
@@ -280,15 +279,15 @@ void CMaterialCooker::WriteMaterialPrime(IOutputStream& Out)
         }
 
         u32 TexGenFlags = (CoordSource << 4) | (TexMtxIdx << 9) | (Normalize << 14) | (PostMtxIdx << 15);
-        Out.WriteLong(TexGenFlags);
+        rOut.WriteLong(TexGenFlags);
     }
 
     // Animations
-    u32 AnimSizeOffset = Out.Tell();
+    u32 AnimSizeOffset = rOut.Tell();
     u32 NumAnims = CurTexMtx; // CurTexMtx is currently equal to the anim count
-    Out.WriteLong(0);         // Anim size filler
-    u32 AnimsStart = Out.Tell();
-    Out.WriteLong(NumAnims);
+    rOut.WriteLong(0);         // Anim size filler
+    u32 AnimsStart = rOut.Tell();
+    rOut.WriteLong(NumAnims);
 
     for (u32 iPass = 0; iPass < NumPasses; iPass++)
     {
@@ -296,38 +295,37 @@ void CMaterialCooker::WriteMaterialPrime(IOutputStream& Out)
         u32 AnimMode = pPass->AnimMode();
         if (AnimMode == eNoUVAnim) continue;
 
-        Out.WriteLong(AnimMode);
+        rOut.WriteLong(AnimMode);
 
         if ((AnimMode > 1) && (AnimMode != 6))
         {
-            Out.WriteFloat(pPass->AnimParam(0));
-            Out.WriteFloat(pPass->AnimParam(1));
+            rOut.WriteFloat(pPass->AnimParam(0));
+            rOut.WriteFloat(pPass->AnimParam(1));
 
             if ((AnimMode == 2) || (AnimMode == 4) || (AnimMode == 5))
             {
-                Out.WriteFloat(pPass->AnimParam(2));
-                Out.WriteFloat(pPass->AnimParam(3));
+                rOut.WriteFloat(pPass->AnimParam(2));
+                rOut.WriteFloat(pPass->AnimParam(3));
             }
         }
     }
 
-    u32 AnimsEnd = Out.Tell();
+    u32 AnimsEnd = rOut.Tell();
     u32 AnimsSize = AnimsEnd - AnimsStart;
-    Out.Seek(AnimSizeOffset, SEEK_SET);
-    Out.WriteLong(AnimsSize);
-    Out.Seek(AnimsEnd, SEEK_SET);
+    rOut.Seek(AnimSizeOffset, SEEK_SET);
+    rOut.WriteLong(AnimsSize);
+    rOut.Seek(AnimsEnd, SEEK_SET);
 
     // Done!
 }
 
-void CMaterialCooker::WriteMaterialCorruption(IOutputStream&)
+void CMaterialCooker::WriteMaterialCorruption(IOutputStream& /*rOut*/)
 {
-    // Not using parameter 1 (IOutputStream& - Out)
     // todo
 }
 
 // ************ STATIC ************
-void CMaterialCooker::WriteCookedMatSet(CMaterialSet *pSet, EGame Version, IOutputStream &Out)
+void CMaterialCooker::WriteCookedMatSet(CMaterialSet *pSet, EGame Version, IOutputStream& rOut)
 {
     CMaterialCooker Cooker;
     Cooker.mpSet = pSet;
@@ -339,12 +337,12 @@ void CMaterialCooker::WriteCookedMatSet(CMaterialSet *pSet, EGame Version, IOutp
     case ePrime:
     case eEchoesDemo:
     case eEchoes:
-        Cooker.WriteMatSetPrime(Out);
+        Cooker.WriteMatSetPrime(rOut);
         break;
     }
 }
 
-void CMaterialCooker::WriteCookedMaterial(CMaterial *pMat, EGame Version, IOutputStream &Out)
+void CMaterialCooker::WriteCookedMaterial(CMaterial *pMat, EGame Version, IOutputStream& rOut)
 {
     CMaterialCooker Cooker;
     Cooker.mpMat = pMat;
@@ -356,7 +354,7 @@ void CMaterialCooker::WriteCookedMaterial(CMaterial *pMat, EGame Version, IOutpu
     case ePrime:
     case eEchoesDemo:
     case eEchoes:
-        Cooker.WriteMaterialPrime(Out);
+        Cooker.WriteMaterialPrime(rOut);
         break;
     // TODO: Corruption/Uncooked
     }

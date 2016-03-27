@@ -30,10 +30,10 @@ IPropertyTemplate* CTemplateLoader::LoadProperty(XMLElement *pElem, CScriptTempl
     if (!NameAttr.IsEmpty())
         Name = NameAttr;
     else if (mGame >= eEchoesDemo)
-        Name = CMasterTemplate::GetPropertyName(ID);
+        Name = CMasterTemplate::PropertyName(ID);
     else
     {
-        Log::Error(rkTemplateName + ": Property " + TString::HexString(ID, true, true, 8) + " doesn't have a name either in the template itself nor in the master list");
+        Log::Error(rkTemplateName + ": Property " + TString::HexString(ID) + " doesn't have a name either in the template itself nor in the master list");
         return nullptr;
     }
 
@@ -53,9 +53,9 @@ IPropertyTemplate* CTemplateLoader::LoadProperty(XMLElement *pElem, CScriptTempl
         if (Type == eInvalidProperty)
         {
             if (TypeStr.IsEmpty())
-                Log::Error(rkTemplateName + ": Property " + TString::HexString(ID, true, true, 8) + " doesn't have a type set");
+                Log::Error(rkTemplateName + ": Property " + TString::HexString(ID) + " doesn't have a type set");
             else
-                Log::Error(rkTemplateName + ": Property " + TString::HexString(ID, true, true, 8) + " has an invalid type set: " + TypeStr);
+                Log::Error(rkTemplateName + ": Property " + TString::HexString(ID) + " has an invalid type set: " + TypeStr);
 
             return nullptr;
         }
@@ -64,7 +64,7 @@ IPropertyTemplate* CTemplateLoader::LoadProperty(XMLElement *pElem, CScriptTempl
 
         if (!pProp)
         {
-            Log::Error(rkTemplateName + ": Property " + TString::HexString(ID, true, true, 8) + " seems to be using a valid but unsupported property type? (" + TypeStr + ")");
+            Log::Error(rkTemplateName + ": Property " + TString::HexString(ID) + " seems to be using a valid but unsupported property type? (" + TypeStr + ")");
             return nullptr;
         }
     }
@@ -87,10 +87,10 @@ IPropertyTemplate* CTemplateLoader::LoadProperty(XMLElement *pElem, CScriptTempl
             while (pVersion)
             {
                 TString VerName = pVersion->GetText();
-                u32 VerIdx = mpMaster->GetGameVersion(VerName);
+                u32 VerIdx = mpMaster->GameVersion(VerName);
 
                 if (VerIdx == -1)
-                    Log::Error(rkTemplateName + ": Property " + TString::HexString(ID, true, true, 8) + " has invalid version \"" + VerName + "\"");
+                    Log::Error(rkTemplateName + ": Property " + TString::HexString(ID) + " has invalid version \"" + VerName + "\"");
                 else
                     pProp->mAllowedVersions.push_back(VerIdx);
 
@@ -886,13 +886,13 @@ void CTemplateLoader::LoadGameList()
 
 void CTemplateLoader::LoadGameTemplates(EGame Game)
 {
-    std::list<CMasterTemplate*> MasterList = CMasterTemplate::GetMasterList();
+    std::list<CMasterTemplate*> MasterList = CMasterTemplate::MasterList();
 
     for (auto it = MasterList.begin(); it != MasterList.end(); it++)
     {
         CMasterTemplate *pMaster = *it;
 
-        if (pMaster->GetGame() == Game && !pMaster->IsLoadedSuccessfully())
+        if (pMaster->Game() == Game && !pMaster->IsLoadedSuccessfully())
         {
             XMLDocument MasterXML;
             OpenXML(mskTemplatesDir + pMaster->mSourceFile, MasterXML);
@@ -911,7 +911,7 @@ void CTemplateLoader::LoadGameTemplates(EGame Game)
 
 void CTemplateLoader::LoadAllGames()
 {
-    std::list<CMasterTemplate*> MasterList = CMasterTemplate::GetMasterList();
+    std::list<CMasterTemplate*> MasterList = CMasterTemplate::MasterList();
 
     for (auto it = MasterList.begin(); it != MasterList.end(); it++)
     {
@@ -925,7 +925,7 @@ void CTemplateLoader::LoadAllGames()
             if (!MasterXML.Error())
             {
                 CTemplateLoader Loader(mskTemplatesDir);
-                Loader.mGame = pMaster->GetGame();
+                Loader.mGame = pMaster->Game();
                 Loader.LoadMasterTemplate(&MasterXML, pMaster);
             }
         }

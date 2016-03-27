@@ -5,19 +5,19 @@
 #include <math.h>
 
 CQuaternion::CQuaternion()
+    : W(0.f)
+    , X(0.f)
+    , Y(0.f)
+    , Z(0.f)
 {
-    w = 0.f;
-    x = 0.f;
-    y = 0.f;
-    z = 0.f;
 }
 
-CQuaternion::CQuaternion(float _w, float _x, float _y, float _z)
+CQuaternion::CQuaternion(float _W, float _X, float _Y, float _Z)
+    : W(_W)
+    , X(_X)
+    , Y(_Y)
+    , Z(_Z)
 {
-    w = _w;
-    x = _x;
-    y = _y;
-    z = _z;
 }
 
 CVector3f CQuaternion::XAxis() const
@@ -37,12 +37,12 @@ CVector3f CQuaternion::ZAxis() const
 
 CQuaternion CQuaternion::Inverse() const
 {
-    float fNorm = (w * w) + (x * x) + (y * y) + (z * z);
+    float Norm = (W * W) + (X * X) + (Y * Y) + (Z * Z);
 
-    if (fNorm > 0.f)
+    if (Norm > 0.f)
     {
-        float fInvNorm = 1.f / fNorm;
-        return CQuaternion( w * fInvNorm, -x * fInvNorm, -y * fInvNorm, -z * fInvNorm);
+        float InvNorm = 1.f / Norm;
+        return CQuaternion( W * InvNorm, -X * InvNorm, -Y * InvNorm, -Z * InvNorm);
     }
     else
         return CQuaternion::skZero;
@@ -55,42 +55,42 @@ CVector3f CQuaternion::ToEuler() const
     // we can just have a single conversion function. Handy!
     // https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
 
-    float ex = atan2f(2 * (w*x + y*z), 1 - (2 * (Math::Pow(x,2) + Math::Pow(y,2))));
-    float ey = asinf(2 * (w*y - z*x));
-    float ez = atan2f(2 * (w*z + x*y), 1 - (2 * (Math::Pow(y,2) + Math::Pow(z,2))));
-    return CVector3f(Math::RadiansToDegrees(ex), Math::RadiansToDegrees(ey), Math::RadiansToDegrees(ez));
+    float EulerX = atan2f(2 * (W*X + Y*Z), 1 - (2 * (Math::Pow(X,2) + Math::Pow(Y,2))));
+    float EulerY = asinf(2 * (W*Y - Z*X));
+    float EulerZ = atan2f(2 * (W*Z + X*Y), 1 - (2 * (Math::Pow(Y,2) + Math::Pow(Z,2))));
+    return CVector3f(Math::RadiansToDegrees(EulerX), Math::RadiansToDegrees(EulerY), Math::RadiansToDegrees(EulerZ));
 }
 
 // ************ OPERATORS ************
-CVector3f CQuaternion::operator*(const CVector3f& vec) const
+CVector3f CQuaternion::operator*(const CVector3f& rkVec) const
 {
     CVector3f uv, uuv;
-    CVector3f qvec(x, y, z);
-    uv = qvec.Cross(vec);
+    CVector3f qvec(X, Y, Z);
+    uv = qvec.Cross(rkVec);
     uuv = qvec.Cross(uv);
-    uv *= (2.0f * w);
+    uv *= (2.0f * W);
     uuv *= 2.0f;
 
-    return vec + uv + uuv;
+    return rkVec + uv + uuv;
 }
 
-CQuaternion CQuaternion::operator*(const CQuaternion& other) const
+CQuaternion CQuaternion::operator*(const CQuaternion& rkOther) const
 {
     CQuaternion out;
-    out.w = (-x * other.x) - (y * other.y) - (z * other.z) + (w * other.w);
-    out.x = ( x * other.w) + (y * other.z) - (z * other.y) + (w * other.x);
-    out.y = (-x * other.z) + (y * other.w) + (z * other.x) + (w * other.y);
-    out.z = ( x * other.y) - (y * other.x) + (z * other.w) + (w * other.z);
+    out.W = (-X * rkOther.X) - (Y * rkOther.Y) - (Z * rkOther.Z) + (W * rkOther.W);
+    out.X = ( X * rkOther.W) + (Y * rkOther.Z) - (Z * rkOther.Y) + (W * rkOther.X);
+    out.Y = (-X * rkOther.Z) + (Y * rkOther.W) + (Z * rkOther.X) + (W * rkOther.Y);
+    out.Z = ( X * rkOther.Y) - (Y * rkOther.X) + (Z * rkOther.W) + (W * rkOther.Z);
     return out;
 }
 
-void CQuaternion::operator *= (const CQuaternion& other)
+void CQuaternion::operator *= (const CQuaternion& rkOther)
 {
-    *this = *this * other;
+    *this = *this * rkOther;
 }
 
 // ************ STATIC ************
-CQuaternion CQuaternion::FromEuler(CVector3f euler)
+CQuaternion CQuaternion::FromEuler(CVector3f Euler)
 {
     /**
      * The commented-out code below might be faster but the conversion isn't completely correct
@@ -116,76 +116,76 @@ CQuaternion CQuaternion::FromEuler(CVector3f euler)
     quat.y =  ((c1 * s2 * c3) - (s1 * c2 * s3));
     quat.z =  ((s1 * s2 * c3) + (c1 * c2 * s3));*/
 
-    CQuaternion x = CQuaternion::FromAxisAngle(Math::DegreesToRadians(euler.x), CVector3f(1,0,0));
-    CQuaternion y = CQuaternion::FromAxisAngle(Math::DegreesToRadians(euler.y), CVector3f(0,1,0));
-    CQuaternion z = CQuaternion::FromAxisAngle(Math::DegreesToRadians(euler.z), CVector3f(0,0,1));
-    CQuaternion quat = z * y * x;
+    CQuaternion X = CQuaternion::FromAxisAngle(Math::DegreesToRadians(Euler.X), CVector3f(1,0,0));
+    CQuaternion Y = CQuaternion::FromAxisAngle(Math::DegreesToRadians(Euler.Y), CVector3f(0,1,0));
+    CQuaternion Z = CQuaternion::FromAxisAngle(Math::DegreesToRadians(Euler.Z), CVector3f(0,0,1));
+    CQuaternion Quat = Z * Y * X;
 
-    return quat;
+    return Quat;
 }
 
-CQuaternion CQuaternion::FromAxisAngle(float angle, CVector3f axis)
+CQuaternion CQuaternion::FromAxisAngle(float Angle, CVector3f Axis)
 {
-    CQuaternion quat;
-    axis = axis.Normalized();
+    CQuaternion Quat;
+    Axis = Axis.Normalized();
 
-    float sa = sinf(angle / 2);
-    quat.w = cosf(angle / 2);
-    quat.x = axis.x * sa;
-    quat.y = axis.y * sa;
-    quat.z = axis.z * sa;
-    return quat;
+    float sa = sinf(Angle / 2);
+    Quat.W = cosf(Angle / 2);
+    Quat.X = Axis.X * sa;
+    Quat.Y = Axis.Y * sa;
+    Quat.Z = Axis.Z * sa;
+    return Quat;
 
 }
 
-CQuaternion CQuaternion::FromRotationMatrix(const CMatrix4f& RotMtx)
+CQuaternion CQuaternion::FromRotationMatrix(const CMatrix4f& rkRotMtx)
 {
     // http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/
-    CQuaternion out;
-    float trace = RotMtx[0][0] + RotMtx[1][1] + RotMtx[2][2];
+    CQuaternion Out;
+    float Trace = rkRotMtx[0][0] + rkRotMtx[1][1] + rkRotMtx[2][2];
 
-    if (trace > 0.f)
+    if (Trace > 0.f)
     {
-      float s = Math::Sqrt(trace + 1.f) * 2; // s = 4*w
-      out.w = 0.25f * s;
-      out.x = (RotMtx[2][1] - RotMtx[1][2]) / s;
-      out.y = (RotMtx[0][2] - RotMtx[2][0]) / s;
-      out.z = (RotMtx[1][0] - RotMtx[0][1]) / s;
+      float s = Math::Sqrt(Trace + 1.f) * 2; // s = 4*w
+      Out.W = 0.25f * s;
+      Out.X = (rkRotMtx[2][1] - rkRotMtx[1][2]) / s;
+      Out.Y = (rkRotMtx[0][2] - rkRotMtx[2][0]) / s;
+      Out.Z = (rkRotMtx[1][0] - rkRotMtx[0][1]) / s;
     }
 
-    else if ((RotMtx[0][0] > RotMtx[1][1]) && (RotMtx[0][0] > RotMtx[2][2]))
+    else if ((rkRotMtx[0][0] > rkRotMtx[1][1]) && (rkRotMtx[0][0] > rkRotMtx[2][2]))
     {
-      float s = Math::Sqrt(1.f + RotMtx[0][0] - RotMtx[1][1] - RotMtx[2][2]) * 2; // s = 4*x
-      out.w = (RotMtx[2][1] - RotMtx[1][2]) / s;
-      out.x = 0.25f * s;
-      out.y = (RotMtx[0][1] + RotMtx[1][0]) / s;
-      out.z = (RotMtx[0][2] + RotMtx[2][0]) / s;
+      float s = Math::Sqrt(1.f + rkRotMtx[0][0] - rkRotMtx[1][1] - rkRotMtx[2][2]) * 2; // s = 4*x
+      Out.W = (rkRotMtx[2][1] - rkRotMtx[1][2]) / s;
+      Out.X = 0.25f * s;
+      Out.Y = (rkRotMtx[0][1] + rkRotMtx[1][0]) / s;
+      Out.Z = (rkRotMtx[0][2] + rkRotMtx[2][0]) / s;
     }
 
-    else if (RotMtx[1][1] > RotMtx[2][2]) {
-      float s = Math::Sqrt(1.f + RotMtx[1][1] - RotMtx[0][0] - RotMtx[2][2]) * 2; // s = 4*y
-      out.w = (RotMtx[0][2] - RotMtx[2][0]) / s;
-      out.x = (RotMtx[0][1] + RotMtx[1][0]) / s;
-      out.y = 0.25f * s;
-      out.z = (RotMtx[1][2] + RotMtx[2][1]) / s;
+    else if (rkRotMtx[1][1] > rkRotMtx[2][2]) {
+      float s = Math::Sqrt(1.f + rkRotMtx[1][1] - rkRotMtx[0][0] - rkRotMtx[2][2]) * 2; // s = 4*y
+      Out.W = (rkRotMtx[0][2] - rkRotMtx[2][0]) / s;
+      Out.X = (rkRotMtx[0][1] + rkRotMtx[1][0]) / s;
+      Out.Y = 0.25f * s;
+      Out.Z = (rkRotMtx[1][2] + rkRotMtx[2][1]) / s;
     }
 
     else {
-      float s = Math::Sqrt(1.f + RotMtx[2][2] - RotMtx[0][0] - RotMtx[1][1]) * 2; // S=4*qz
-      out.w = (RotMtx[1][0] - RotMtx[0][1]) / s;
-      out.x = (RotMtx[0][2] + RotMtx[2][0]) / s;
-      out.y = (RotMtx[1][2] + RotMtx[2][1]) / s;
-      out.z = 0.25f * s;
+      float s = Math::Sqrt(1.f + rkRotMtx[2][2] - rkRotMtx[0][0] - rkRotMtx[1][1]) * 2; // S=4*qz
+      Out.W = (rkRotMtx[1][0] - rkRotMtx[0][1]) / s;
+      Out.X = (rkRotMtx[0][2] + rkRotMtx[2][0]) / s;
+      Out.Y = (rkRotMtx[1][2] + rkRotMtx[2][1]) / s;
+      Out.Z = 0.25f * s;
     }
 
-    return out;
+    return Out;
 }
 
-CQuaternion CQuaternion::FromAxes(const CVector3f& X, const CVector3f& Y, const CVector3f& Z)
+CQuaternion CQuaternion::FromAxes(const CVector3f& rkX, const CVector3f& rkY, const CVector3f& rkZ)
 {
-    CMatrix4f RotMtx(X.x, Y.x, Z.x, 0.f,
-                     X.y, Y.y, Z.y, 0.f,
-                     X.z, Y.z, Z.z, 0.f,
+    CMatrix4f RotMtx(rkX.X, rkY.X, rkZ.X, 0.f,
+                     rkX.Y, rkY.Y, rkZ.Y, 0.f,
+                     rkX.Z, rkY.Z, rkZ.Z, 0.f,
                      0.f, 0.f, 0.f, 1.f);
 
     return CQuaternion::FromRotationMatrix(RotMtx);

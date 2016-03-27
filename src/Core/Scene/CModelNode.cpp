@@ -6,13 +6,13 @@
 
 CModelNode::CModelNode(CScene *pScene, u32 NodeID, CSceneNode *pParent, CModel *pModel)
     : CSceneNode(pScene, NodeID, pParent)
+    , mWorldModel(false)
+    , mForceAlphaOn(false)
+    , mEnableScanOverlay(false)
+    , mTintColor(CColor::skWhite)
 {
+    mScale = CVector3f::skOne;
     SetModel(pModel);
-    mScale = CVector3f(1.f);
-    mWorldModel = false;
-    mForceAlphaOn = false;
-    mEnableScanOverlay = false;
-    mTintColor = CColor::skWhite;
 }
 
 ENodeType CModelNode::NodeType()
@@ -29,22 +29,22 @@ void CModelNode::PostLoad()
     }
 }
 
-void CModelNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
+void CModelNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo)
 {
     if (!mpModel) return;
-    if (!ViewInfo.ViewFrustum.BoxInFrustum(AABox())) return;
-    if (ViewInfo.GameMode) return;
+    if (!rkViewInfo.ViewFrustum.BoxInFrustum(AABox())) return;
+    if (rkViewInfo.GameMode) return;
 
     if (!mpModel->HasTransparency(mActiveMatSet))
         pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawMesh);
     else
-        AddSurfacesToRenderer(pRenderer, mpModel, mActiveMatSet, ViewInfo);
+        AddSurfacesToRenderer(pRenderer, mpModel, mActiveMatSet, rkViewInfo);
 
     if (mSelected)
         pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawSelection);
 }
 
-void CModelNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& ViewInfo)
+void CModelNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& rkViewInfo)
 {
     if (!mpModel) return;
     if (mForceAlphaOn) Options = (FRenderOptions) (Options & ~eNoAlpha);
@@ -59,7 +59,7 @@ void CModelNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewInf
     }
     else
     {
-        bool IsLightingEnabled = CGraphics::sLightMode == CGraphics::eWorldLighting || ViewInfo.GameMode;
+        bool IsLightingEnabled = CGraphics::sLightMode == CGraphics::eWorldLighting || rkViewInfo.GameMode;
 
         if (IsLightingEnabled)
         {
@@ -71,7 +71,7 @@ void CModelNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewInf
 
         else
         {
-            LoadLights(ViewInfo);
+            LoadLights(rkViewInfo);
             if (CGraphics::sLightMode == CGraphics::eNoLighting)
                 CGraphics::sVertexBlock.COLOR0_Amb = CColor::skWhite;
         }
@@ -80,7 +80,7 @@ void CModelNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewInf
         CGraphics::sPixelBlock.TevColor = CColor(Mul,Mul,Mul);
     }
 
-    CGraphics::sPixelBlock.TintColor = TintColor(ViewInfo);
+    CGraphics::sPixelBlock.TintColor = TintColor(rkViewInfo);
     LoadModelMatrix();
 
     if (ComponentIndex < 0)
@@ -108,40 +108,40 @@ void CModelNode::DrawSelection()
     mpModel->DrawWireframe(eNoRenderOptions, WireframeColor());
 }
 
-void CModelNode::RayAABoxIntersectTest(CRayCollisionTester& Tester, const SViewInfo& /*ViewInfo*/)
+void CModelNode::RayAABoxIntersectTest(CRayCollisionTester& rTester, const SViewInfo& /*rkViewInfo*/)
 {
     if (!mpModel) return;
 
-    const CRay& Ray = Tester.Ray();
-    std::pair<bool,float> BoxResult = AABox().IntersectsRay(Ray);
+    const CRay& rkRay = rTester.Ray();
+    std::pair<bool,float> BoxResult = AABox().IntersectsRay(rkRay);
 
     if (BoxResult.first)
-        Tester.AddNodeModel(this, mpModel);
+        rTester.AddNodeModel(this, mpModel);
 }
 
-SRayIntersection CModelNode::RayNodeIntersectTest(const CRay &Ray, u32 AssetID, const SViewInfo& ViewInfo)
+SRayIntersection CModelNode::RayNodeIntersectTest(const CRay& rkRay, u32 AssetID, const SViewInfo& rkViewInfo)
 {
-    SRayIntersection out;
-    out.pNode = this;
-    out.ComponentIndex = AssetID;
+    SRayIntersection Out;
+    Out.pNode = this;
+    Out.ComponentIndex = AssetID;
 
-    CRay TransformedRay = Ray.Transformed(Transform().Inverse());
-    FRenderOptions options = ViewInfo.pRenderer->RenderOptions();
-    std::pair<bool,float> Result = mpModel->GetSurface(AssetID)->IntersectsRay(TransformedRay, ((options & eEnableBackfaceCull) == 0));
+    CRay TransformedRay = rkRay.Transformed(Transform().Inverse());
+    FRenderOptions Options = rkViewInfo.pRenderer->RenderOptions();
+    std::pair<bool,float> Result = mpModel->GetSurface(AssetID)->IntersectsRay(TransformedRay, ((Options & eEnableBackfaceCull) == 0));
 
     if (Result.first)
     {
-        out.Hit = true;
+        Out.Hit = true;
 
         CVector3f HitPoint = TransformedRay.PointOnRay(Result.second);
         CVector3f WorldHitPoint = Transform() * HitPoint;
-        out.Distance = Math::Distance(Ray.Origin(), WorldHitPoint);
+        Out.Distance = Math::Distance(rkRay.Origin(), WorldHitPoint);
     }
 
     else
-        out.Hit = false;
+        Out.Hit = false;
 
-    return out;
+    return Out;
 }
 
 CColor CModelNode::TintColor(const SViewInfo& /*rkViewInfo*/) const

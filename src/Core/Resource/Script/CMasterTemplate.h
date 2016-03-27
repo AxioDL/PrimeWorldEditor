@@ -1,8 +1,8 @@
 #ifndef CMASTERTEMPLATE_H
 #define CMASTERTEMPLATE_H
 
-#include "CScriptTemplate.h"
 #include "CLink.h"
+#include "CScriptTemplate.h"
 #include "Core/Resource/EGame.h"
 #include <Common/types.h>
 #include <map>
@@ -38,12 +38,7 @@ class CMasterTemplate
 public:
     CMasterTemplate();
     ~CMasterTemplate();
-    EGame GetGame();
-    u32 NumGameVersions();
-    u32 GetGameVersion(TString VersionName);
-    u32 NumScriptTemplates();
-    u32 NumStates();
-    u32 NumMessages();
+    u32 GameVersion(TString VersionName);
     CScriptTemplate* TemplateByID(u32 ObjectID);
     CScriptTemplate* TemplateByID(const CFourCC& ObjectID);
     CScriptTemplate* TemplateByIndex(u32 Index);
@@ -53,31 +48,26 @@ public:
     SMessage MessageByID(u32 MessageID);
     SMessage MessageByID(const CFourCC& MessageID);
     SMessage MessageByIndex(u32 Index);
-    TString GetDirectory() const;
-    CStructTemplate* GetStructAtSource(const TString& rkSource);
-    bool IsLoadedSuccessfully();
+    CStructTemplate* StructAtSource(const TString& rkSource);
 
-    static CMasterTemplate* GetMasterForGame(EGame Game);
-    static std::list<CMasterTemplate*> GetMasterList();
-    static TString GetPropertyName(u32 PropertyID);
+    // Inline Accessors
+    EGame Game() const              { return mGame; }
+    u32 NumGameVersions() const     { return mGameVersions.empty() ? 1 : mGameVersions.size(); }
+    u32 NumScriptTemplates() const  { return mTemplates.size(); }
+    u32 NumStates() const           { return mStates.size(); }
+    u32 NumMessages() const         { return mMessages.size(); }
+    bool IsLoadedSuccessfully()     { return mFullyLoaded; }
+    TString GetDirectory() const    { return mSourceFile.GetFileDirectory(); }
+
+    // Static
+    static CMasterTemplate* MasterForGame(EGame Game);
+    static std::list<CMasterTemplate*> MasterList();
+    static TString PropertyName(u32 PropertyID);
     static u32 CreatePropertyID(IPropertyTemplate *pTemp);
     static void AddProperty(IPropertyTemplate *pTemp, const TString& rkTemplateName = "");
     static void RenameProperty(IPropertyTemplate *pTemp, const TString& rkNewName);
-    static std::vector<TString> GetXMLsUsingID(u32 ID);
-    static const std::vector<IPropertyTemplate*>* GetTemplatesWithMatchingID(IPropertyTemplate *pTemp);
+    static std::vector<TString> XMLsUsingID(u32 ID);
+    static const std::vector<IPropertyTemplate*>* TemplatesWithMatchingID(IPropertyTemplate *pTemp);
 };
-
-// ************ INLINE ************
-inline u32 CMasterTemplate::NumScriptTemplates() {
-    return mTemplates.size();
-}
-
-inline u32 CMasterTemplate::NumStates() {
-    return mStates.size();
-}
-
-inline u32 CMasterTemplate::NumMessages() {
-    return mMessages.size();
-}
 
 #endif // CMASTERTEMPLATE_H

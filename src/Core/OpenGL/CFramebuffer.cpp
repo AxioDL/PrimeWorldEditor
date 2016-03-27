@@ -2,21 +2,21 @@
 #include <Common/Log.h>
 
 CFramebuffer::CFramebuffer()
+    : mInitialized(false)
+    , mWidth(0)
+    , mHeight(0)
+    , mpRenderbuffer(nullptr)
+    , mpTexture(nullptr)
 {
-    mInitialized = false;
-    mWidth = 0;
-    mHeight = 0;
-    mpRenderbuffer = nullptr;
-    mpTexture = nullptr;
 }
 
 CFramebuffer::CFramebuffer(u32 Width, u32 Height)
+    : mInitialized(false)
+    , mWidth(0)
+    , mHeight(0)
+    , mpRenderbuffer(nullptr)
+    , mpTexture(nullptr)
 {
-    mInitialized = false;
-    mWidth = 0;
-    mHeight = 0;
-    mpRenderbuffer = nullptr;
-    mpTexture = nullptr;
     Resize(Width, Height);
 }
 

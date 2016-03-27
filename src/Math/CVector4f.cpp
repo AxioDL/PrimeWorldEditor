@@ -5,269 +5,269 @@
 
 CVector4f::CVector4f()
 {
-    x = y = z = w = 0.f;
+    X = Y = Z = W = 0.f;
 }
 
-CVector4f::CVector4f(float xyzw)
+CVector4f::CVector4f(float XYZW)
 {
-    x = y = z = w = xyzw;
+    X = Y = Z = W = XYZW;
 }
 
-CVector4f::CVector4f(float _x, float _y, float _z, float _w)
+CVector4f::CVector4f(float _X, float _Y, float _Z, float _W)
 {
-    x = _x;
-    y = _y;
-    z = _z;
-    w = _w;
+    X = _X;
+    Y = _Y;
+    Z = _Z;
+    W = _W;
 }
 
-CVector4f::CVector4f(const CVector2f& xy, float _z, float _w)
+CVector4f::CVector4f(const CVector2f& rkXY, float _Z, float _W)
 {
-    x = xy.x;
-    y = xy.y;
-    z = _z;
-    w = _w;
+    X = rkXY.X;
+    Y = rkXY.Y;
+    Z = _Z;
+    W = _W;
 }
 
-CVector4f::CVector4f(const CVector3f& xyz)
+CVector4f::CVector4f(const CVector3f& rkXYZ)
 {
-    x = xyz.x;
-    y = xyz.y;
-    z = xyz.z;
-    w = 1.f;
+    X = rkXYZ.X;
+    Y = rkXYZ.Y;
+    Z = rkXYZ.Z;
+    W = 1.f;
 }
 
-CVector4f::CVector4f(const CVector3f& xyz, float _w)
+CVector4f::CVector4f(const CVector3f& rkXYZ, float _W)
 {
-    x = xyz.x;
-    y = xyz.y;
-    z = xyz.z;
-    w = _w;
+    X = rkXYZ.X;
+    Y = rkXYZ.Y;
+    Z = rkXYZ.Z;
+    W = _W;
 }
 
-CVector4f::CVector4f(IInputStream& Input)
+CVector4f::CVector4f(IInputStream& rInput)
 {
-    x = Input.ReadFloat();
-    y = Input.ReadFloat();
-    z = Input.ReadFloat();
-    w = Input.ReadFloat();
+    X = rInput.ReadFloat();
+    Y = rInput.ReadFloat();
+    Z = rInput.ReadFloat();
+    W = rInput.ReadFloat();
 }
 
-void CVector4f::Write(IOutputStream &Output)
+void CVector4f::Write(IOutputStream& rOutput)
 {
-    Output.WriteFloat(x);
-    Output.WriteFloat(y);
-    Output.WriteFloat(z);
-    Output.WriteFloat(w);
+    rOutput.WriteFloat(X);
+    rOutput.WriteFloat(Y);
+    rOutput.WriteFloat(Z);
+    rOutput.WriteFloat(W);
 }
 
 // ************ SWIZZLE ************
-CVector3f CVector4f::xyz()
+CVector3f CVector4f::XYZ() const
 {
-    return CVector3f(x, y, z);
+    return CVector3f(X, Y, Z);
 }
 
-CVector3f CVector4f::xzw()
+CVector3f CVector4f::XZW() const
 {
-    return CVector3f(x, z, w);
+    return CVector3f(X, Z, W);
 }
 
-CVector3f CVector4f::yzw()
+CVector3f CVector4f::YZW() const
 {
-    return CVector3f(y, z, w);
+    return CVector3f(Y, Z, W);
 }
 
-CVector2f CVector4f::xy()
+CVector2f CVector4f::XY() const
 {
-    return CVector2f(x, y);
+    return CVector2f(X, Y);
 }
 
-CVector2f CVector4f::xz()
+CVector2f CVector4f::XZ() const
 {
-    return CVector2f(x, z);
+    return CVector2f(X, Z);
 }
 
-CVector2f CVector4f::xw()
+CVector2f CVector4f::XW() const
 {
-    return CVector2f(x, w);
+    return CVector2f(X, W);
 }
 
-CVector2f CVector4f::yz()
+CVector2f CVector4f::YZ() const
 {
-    return CVector2f(y, z);
+    return CVector2f(Y, Z);
 }
 
-CVector2f CVector4f::yw()
+CVector2f CVector4f::YW() const
 {
-    return CVector2f(y, w);
+    return CVector2f(Y, W);
 }
 
-CVector2f CVector4f::zw()
+CVector2f CVector4f::ZW() const
 {
-    return CVector2f(z, w);
+    return CVector2f(Z, W);
 }
 
 // ************ MATH ************
 // ************ VECTOR/VECTOR ************
-CVector4f CVector4f::operator+(const CVector4f& src) const
+CVector4f CVector4f::operator+(const CVector4f& rkSrc) const
 {
-    CVector4f out;
-    out.x = this->x + src.x;
-    out.y = this->y + src.y;
-    out.z = this->z + src.z;
-    out.w = this->w + src.w;
-    return out;
+    CVector4f Out;
+    Out.X = this->X + rkSrc.X;
+    Out.Y = this->Y + rkSrc.Y;
+    Out.Z = this->Z + rkSrc.Z;
+    Out.W = this->W + rkSrc.W;
+    return Out;
 }
 
-CVector4f CVector4f::operator-(const CVector4f& src) const
+CVector4f CVector4f::operator-(const CVector4f& rkSrc) const
 {
-    CVector4f out;
-    out.x = this->x - src.x;
-    out.y = this->y - src.y;
-    out.z = this->z - src.z;
-    out.w = this->w - src.w;
-    return out;
+    CVector4f Out;
+    Out.X = this->X - rkSrc.X;
+    Out.Y = this->Y - rkSrc.Y;
+    Out.Z = this->Z - rkSrc.Z;
+    Out.W = this->W - rkSrc.W;
+    return Out;
 }
 
-CVector4f CVector4f::operator*(const CVector4f& src) const
+CVector4f CVector4f::operator*(const CVector4f& rkSrc) const
 {
-    CVector4f out;
-    out.x = this->x * src.x;
-    out.y = this->y * src.y;
-    out.z = this->z * src.z;
-    out.w = this->w * src.w;
-    return out;
+    CVector4f Out;
+    Out.X = this->X * rkSrc.X;
+    Out.Y = this->Y * rkSrc.Y;
+    Out.Z = this->Z * rkSrc.Z;
+    Out.W = this->W * rkSrc.W;
+    return Out;
 }
 
-CVector4f CVector4f::operator/(const CVector4f& src) const
+CVector4f CVector4f::operator/(const CVector4f& rkSrc) const
 {
-    CVector4f out;
-    out.x = this->x / src.x;
-    out.y = this->y / src.y;
-    out.z = this->z / src.z;
-    out.w = this->w / src.w;
-    return out;
+    CVector4f Out;
+    Out.X = this->X / rkSrc.X;
+    Out.Y = this->Y / rkSrc.Y;
+    Out.Z = this->Z / rkSrc.Z;
+    Out.W = this->W / rkSrc.W;
+    return Out;
 }
 
-void CVector4f::operator+=(const CVector4f& other)
+void CVector4f::operator+=(const CVector4f& rkOther)
 {
-    *this = *this + other;
+    *this = *this + rkOther;
 }
 
-void CVector4f::operator-=(const CVector4f& other)
+void CVector4f::operator-=(const CVector4f& rkOther)
 {
-    *this = *this - other;
+    *this = *this - rkOther;
 }
 
-void CVector4f::operator*=(const CVector4f& other)
+void CVector4f::operator*=(const CVector4f& rkOther)
 {
-    *this = *this * other;
+    *this = *this * rkOther;
 }
 
-void CVector4f::operator/=(const CVector4f& other)
+void CVector4f::operator/=(const CVector4f& rkOther)
 {
-    *this = *this / other;
+    *this = *this / rkOther;
 }
 
-bool CVector4f::operator==(const CVector4f& other) const
+bool CVector4f::operator==(const CVector4f& rkOther) const
 {
-    return ((x == other.x) && (y == other.y) && (z == other.z) && (w == other.w));
+    return ((X == rkOther.X) && (Y == rkOther.Y) && (Z == rkOther.Z) && (W == rkOther.W));
 }
 
 // ************ VECTOR/FLOAT ************
-CVector4f CVector4f::operator+(const float src) const
+CVector4f CVector4f::operator+(const float Src) const
 {
-    CVector4f out;
-    out.x = this->x + src;
-    out.y = this->y + src;
-    out.z = this->z + src;
-    out.w = this->w + src;
-    return out;
+    CVector4f Out;
+    Out.X = this->X + Src;
+    Out.Y = this->Y + Src;
+    Out.Z = this->Z + Src;
+    Out.W = this->W + Src;
+    return Out;
 }
 
-CVector4f CVector4f::operator-(const float src) const
+CVector4f CVector4f::operator-(const float Src) const
 {
-    CVector4f out;
-    out.x = this->x - src;
-    out.y = this->y - src;
-    out.z = this->z - src;
-    out.w = this->w - src;
-    return out;
+    CVector4f Out;
+    Out.X = this->X - Src;
+    Out.Y = this->Y - Src;
+    Out.Z = this->Z - Src;
+    Out.W = this->W - Src;
+    return Out;
 }
 
-CVector4f CVector4f::operator*(const float src) const
+CVector4f CVector4f::operator*(const float Src) const
 {
-    CVector4f out;
-    out.x = this->x * src;
-    out.y = this->y * src;
-    out.z = this->z * src;
-    out.w = this->w * src;
-    return out;
+    CVector4f Out;
+    Out.X = this->X * Src;
+    Out.Y = this->Y * Src;
+    Out.Z = this->Z * Src;
+    Out.W = this->W * Src;
+    return Out;
 }
 
-CVector4f CVector4f::operator/(const float src) const
+CVector4f CVector4f::operator/(const float Src) const
 {
-    CVector4f out;
-    out.x = this->x / src;
-    out.y = this->y / src;
-    out.z = this->z / src;
-    out.w = this->w / src;
-    return out;
+    CVector4f Out;
+    Out.X = this->X / Src;
+    Out.Y = this->Y / Src;
+    Out.Z = this->Z / Src;
+    Out.W = this->W / Src;
+    return Out;
 }
 
-void CVector4f::operator+=(const float other)
+void CVector4f::operator+=(const float Other)
 {
-    *this = *this + other;
+    *this = *this + Other;
 }
 
-void CVector4f::operator-=(const float other)
+void CVector4f::operator-=(const float Other)
 {
-    *this = *this - other;
+    *this = *this - Other;
 }
 
-void CVector4f::operator*=(const float other)
+void CVector4f::operator*=(const float Other)
 {
-    *this = *this * other;
+    *this = *this * Other;
 }
 
-void CVector4f::operator/=(const float other)
+void CVector4f::operator/=(const float Other)
 {
-    *this = *this / other;
+    *this = *this / Other;
 }
 
 // ************ VECTOR/MATRIX ************
-CVector4f CVector4f::operator*(const CTransform4f& mtx) const
+CVector4f CVector4f::operator*(const CTransform4f& rkMtx) const
 {
-    CVector4f out;
-    out.x = (x * mtx[0][0]) + (y * mtx[1][0]) + (z * mtx[2][0]);
-    out.y = (x * mtx[0][1]) + (y * mtx[1][1]) + (z * mtx[2][1]);
-    out.z = (x * mtx[0][2]) + (y * mtx[1][2]) + (z * mtx[2][2]);
-    out.w = (x * mtx[0][3]) + (y * mtx[1][3]) + (z * mtx[2][3]) + w;
-    return out;
+    CVector4f Out;
+    Out.X = (X * rkMtx[0][0]) + (Y * rkMtx[1][0]) + (Z * rkMtx[2][0]);
+    Out.Y = (X * rkMtx[0][1]) + (Y * rkMtx[1][1]) + (Z * rkMtx[2][1]);
+    Out.Z = (X * rkMtx[0][2]) + (Y * rkMtx[1][2]) + (Z * rkMtx[2][2]);
+    Out.W = (X * rkMtx[0][3]) + (Y * rkMtx[1][3]) + (Z * rkMtx[2][3]) + W;
+    return Out;
 }
 
-void CVector4f::operator*=(const CTransform4f& mtx)
+void CVector4f::operator*=(const CTransform4f& rkMtx)
 {
-    *this = *this * mtx;
+    *this = *this * rkMtx;
 }
 
-CVector4f CVector4f::operator*(const CMatrix4f& mtx) const
+CVector4f CVector4f::operator*(const CMatrix4f& rkMtx) const
 {
-    CVector4f out;
-    out.x = (x * mtx[0][0]) + (y * mtx[1][0]) + (z * mtx[2][0]) + (w * mtx[3][0]);
-    out.y = (x * mtx[0][1]) + (y * mtx[1][1]) + (z * mtx[2][1]) + (w * mtx[3][1]);
-    out.z = (x * mtx[0][2]) + (y * mtx[1][2]) + (z * mtx[2][2]) + (w * mtx[3][2]);
-    out.w = (x * mtx[0][3]) + (y * mtx[1][3]) + (z * mtx[2][3]) + (w * mtx[3][3]);
-    return out;
+    CVector4f Out;
+    Out.X = (X * rkMtx[0][0]) + (Y * rkMtx[1][0]) + (Z * rkMtx[2][0]) + (W * rkMtx[3][0]);
+    Out.Y = (X * rkMtx[0][1]) + (Y * rkMtx[1][1]) + (Z * rkMtx[2][1]) + (W * rkMtx[3][1]);
+    Out.Z = (X * rkMtx[0][2]) + (Y * rkMtx[1][2]) + (Z * rkMtx[2][2]) + (W * rkMtx[3][2]);
+    Out.W = (X * rkMtx[0][3]) + (Y * rkMtx[1][3]) + (Z * rkMtx[2][3]) + (W * rkMtx[3][3]);
+    return Out;
 }
 
-void CVector4f::operator*=(const CMatrix4f& mtx)
+void CVector4f::operator*=(const CMatrix4f& rkMtx)
 {
-    *this = *this * mtx;
+    *this = *this * rkMtx;
 }
 
 // ************ UNARY ************
-float& CVector4f::operator[](long index)
+float& CVector4f::operator[](long Index)
 {
-    return (&x)[index];
+    return (&X)[Index];
 }

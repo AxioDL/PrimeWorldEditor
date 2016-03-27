@@ -12,13 +12,13 @@ void CPoiToWorldCooker::WriteEGMC(CPoiToWorld *pPoiToWorld, IOutputStream& rOut)
 
     for (u32 iPoi = 0; iPoi < pPoiToWorld->NumMappedPOIs(); iPoi++)
     {
-        const CPoiToWorld::SPoiMap *kpMap = pPoiToWorld->MapByIndex(iPoi);
+        const CPoiToWorld::SPoiMap *pkMap = pPoiToWorld->MapByIndex(iPoi);
 
-        for (auto it = kpMap->ModelIDs.begin(); it != kpMap->ModelIDs.end(); it++)
+        for (auto it = pkMap->ModelIDs.begin(); it != pkMap->ModelIDs.end(); it++)
         {
             SPoiMapping Mapping;
             Mapping.MeshID = *it;
-            Mapping.PoiID = kpMap->PoiID;
+            Mapping.PoiID = pkMap->PoiID;
             Mappings.push_back(Mapping);
         }
     }

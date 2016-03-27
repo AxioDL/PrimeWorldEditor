@@ -22,24 +22,24 @@ class CShader
 
 public:
     CShader();
-    CShader(const char* kpVertexSource, const char* kpPixelSource);
+    CShader(const char* pkVertexSource, const char* pkPixelSource);
     ~CShader();
-    bool CompileVertexSource(const char* kpSource);
-    bool CompilePixelSource(const char* kpSource);
+    bool CompileVertexSource(const char* pkSource);
+    bool CompilePixelSource(const char* pkSource);
     bool LinkShaders();
     bool IsValidProgram();
     GLuint GetProgramID();
-    GLuint GetUniformLocation(const char* kpUniform);
-    GLuint GetUniformBlockIndex(const char* kpUniformBlock);
+    GLuint GetUniformLocation(const char* pkUniform);
+    GLuint GetUniformBlockIndex(const char* pkUniformBlock);
     void SetCurrent();
 
     // Static
-    static CShader* FromResourceFile(const TString& ShaderName);
+    static CShader* FromResourceFile(const TString& rkShaderName);
     static CShader* CurrentShader();
     static void KillCachedShader();
 
 private:
-    void DumpShaderSource(GLuint Shader, const TString& Out);
+    void DumpShaderSource(GLuint Shader, const TString& rkOut);
 };
 
 #endif // CSHADER_H

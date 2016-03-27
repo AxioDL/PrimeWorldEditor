@@ -17,7 +17,7 @@ public:
     void SetData(const void *pData, unsigned long Size, IOUtil::EEndianness dataEndianness);
 
     void ReadBytes(void *pDst, unsigned long Count);
-    bool Seek(long offset, long Origin);
+    bool Seek(long Offset, long Origin);
     long Tell() const;
     bool EoF() const;
     bool IsValid() const;

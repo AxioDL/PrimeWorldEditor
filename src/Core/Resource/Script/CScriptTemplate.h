@@ -12,7 +12,6 @@
 #include <list>
 #include <vector>
 
-class CMasterTemplate;
 class CScriptObject;
 
 typedef TString TIDString;
@@ -89,21 +88,9 @@ private:
 public:
     CScriptTemplate(CMasterTemplate *pMaster);
     ~CScriptTemplate();
-
-    CMasterTemplate* MasterTemplate();
-    EGame Game();
-    TString Name() const;
-    u32 NumPropertySets() const;
-    ERotationType RotationType() const;
-    EScaleType ScaleType() const;
-    float PreviewScale() const;
-    u32 ObjectID() const;
-    void SetVisible(bool visible);
-    bool IsVisible() const;
-    void DebugPrintProperties();
+    EGame Game() const;
 
     // Property Fetching
-    CStructTemplate* BaseStruct();
     EVolumeShape VolumeShape(CScriptObject *pObj);
     float VolumeScale(CScriptObject *pObj);
     TStringProperty* FindInstanceName(CPropertyStruct *pProperties);
@@ -117,12 +104,26 @@ public:
     CCollisionMeshGroup* FindCollision(CPropertyStruct *pProperties);
     bool HasInGameModel(CPropertyStruct *pProperties);
 
-    inline TString SourceFile() const   { return mSourceFile; }
-    inline bool HasName() const         { return !mNameIDString.IsEmpty(); }
-    inline bool HasPosition() const     { return !mPositionIDString.IsEmpty(); }
-    inline bool HasRotation() const     { return !mRotationIDString.IsEmpty(); }
-    inline bool HasScale() const        { return !mScaleIDString.IsEmpty(); }
-    inline bool HasActive() const       { return !mActiveIDString.IsEmpty(); }
+    // Accessors
+    inline CMasterTemplate* MasterTemplate() const  { return mpMaster; }
+    inline TString Name() const                     { return mTemplateName; }
+    inline ERotationType RotationType() const       { return mRotationType; }
+    inline EScaleType ScaleType() const             { return mScaleType; }
+    inline float PreviewScale() const               { return mPreviewScale; }
+    inline u32 ObjectID() const                     { return mObjectID; }
+    inline bool IsVisible() const                   { return mVisible; }
+    inline TString SourceFile() const               { return mSourceFile; }
+    inline CStructTemplate* BaseStruct() const      { return mpBaseStruct; }
+
+    inline bool HasName() const                     { return !mNameIDString.IsEmpty(); }
+    inline bool HasPosition() const                 { return !mPositionIDString.IsEmpty(); }
+    inline bool HasRotation() const                 { return !mRotationIDString.IsEmpty(); }
+    inline bool HasScale() const                    { return !mScaleIDString.IsEmpty(); }
+    inline bool HasActive() const                   { return !mActiveIDString.IsEmpty(); }
+
+    inline void SetVisible(bool Visible)            { mVisible = Visible; }
+
+    inline void DebugPrintProperties()              { mpBaseStruct->DebugPrintProperties(""); }
 
     // Object Tracking
     u32 NumObjects() const;

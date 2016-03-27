@@ -12,7 +12,7 @@ class WScanPreviewPanel : public IPreviewPanel
     Q_OBJECT
 
 public:
-    explicit WScanPreviewPanel(QWidget *parent = 0);
+    explicit WScanPreviewPanel(QWidget *pParent = 0);
     ~WScanPreviewPanel();
     QSize sizeHint() const;
     EResType ResType();

@@ -12,14 +12,29 @@ class CCollisionMeshGroup : public CResource
     std::vector<CCollisionMesh*> mMeshes;
 
 public:
-    CCollisionMeshGroup();
-    ~CCollisionMeshGroup();
+    CCollisionMeshGroup() {}
 
-    u32 NumMeshes();
-    CCollisionMesh* MeshByIndex(u32 index);
-    void AddMesh(CCollisionMesh *pMesh);
-    void Draw();
-    void DrawWireframe();
+    ~CCollisionMeshGroup()
+    {
+        for (auto it = mMeshes.begin(); it != mMeshes.end(); it++)
+            delete *it;
+    }
+
+    inline u32 NumMeshes() const                        { return mMeshes.size(); }
+    inline CCollisionMesh* MeshByIndex(u32 Index) const { return mMeshes[Index]; }
+    inline void AddMesh(CCollisionMesh *pMesh)          { mMeshes.push_back(pMesh); }
+
+    inline void Draw()
+    {
+        for (auto it = mMeshes.begin(); it != mMeshes.end(); it++)
+            (*it)->Draw();
+    }
+
+    inline void DrawWireframe()
+    {
+        for (auto it = mMeshes.begin(); it != mMeshes.end(); it++)
+            (*it)->DrawWireframe();
+    }
 };
 
 #endif // CCOLLISIONMESHGROUP_H

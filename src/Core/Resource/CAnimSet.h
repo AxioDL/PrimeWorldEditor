@@ -16,22 +16,21 @@ class CAnimSet : public CResource
 
     struct SNode
     {
-        TString name;
-        TResPtr<CModel> model;
-        u32 skinID;
-        u32 skelID;
+        TString Name;
+        TResPtr<CModel> pModel;
+        u32 SkinID;
+        u32 SkelID;
 
-        SNode() { model = nullptr; }
+        SNode() { pModel = nullptr; }
     };
-    std::vector<SNode> nodes;
+    std::vector<SNode> mNodes;
 
 public:
-    CAnimSet();
-    ~CAnimSet();
+    CAnimSet() : CResource() {}
 
-    u32 getNodeCount();
-    TString getNodeName(u32 node);
-    CModel* getNodeModel(u32 node);
+    u32 NumNodes() const            { return mNodes.size(); }
+    TString NodeName(u32 Index)     { if (Index >= mNodes.size()) Index = 0; return mNodes[Index].Name; }
+    CModel* NodeModel(u32 Index)    { if (Index >= mNodes.size()) Index = 0; return mNodes[Index].pModel; }
 };
 
 #endif // CCHARACTERSET_H

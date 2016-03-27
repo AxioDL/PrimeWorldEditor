@@ -19,7 +19,7 @@ CSelectInstanceDialog::CSelectInstanceDialog(CWorldEditor *pEditor, QWidget *pPa
     mTypesModel.SetModelType(CInstancesModel::eTypes);
     mTypesModel.SetEditor(pEditor);
     mTypesModel.SetArea(pEditor->ActiveArea());
-    mTypesModel.SetMaster(CMasterTemplate::GetMasterForGame(pEditor->CurrentGame()));
+    mTypesModel.SetMaster(CMasterTemplate::MasterForGame(pEditor->CurrentGame()));
     mTypesModel.SetShowColumnEnabled(false);
 
     int Col0Width = ui->LayersTreeView->width() * 0.9;

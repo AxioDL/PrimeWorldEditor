@@ -7,32 +7,32 @@
 
 #define TO_QSTRING(str) UICommon::ToQString(str)
 #define TO_TSTRING(str) UICommon::ToTString(str)
-#define TO_TWIDESTRING(str) UICommon::ToTWideSTring(str)
+#define TO_TWIDESTRING(str) UICommon::ToTWideString(str)
 
 namespace UICommon
 {
 extern QMap<QString,QString> FilterMap;
-QString ExtensionFilterString(const QString& extension);
+QString ExtensionFilterString(const QString& rkExtension);
 
 // TString/TWideString <-> QString
-inline QString ToQString(const TString& str)
+inline QString ToQString(const TString& rkStr)
 {
-    return QString::fromStdString(str.ToStdString());
+    return QString::fromStdString(rkStr.ToStdString());
 }
 
-inline QString ToQString(const TWideString& str)
+inline QString ToQString(const TWideString& rkStr)
 {
-    return QString::fromStdWString(str.ToStdString());
+    return QString::fromStdWString(rkStr.ToStdString());
 }
 
-inline TString ToTString(const QString& str)
+inline TString ToTString(const QString& rkStr)
 {
-    return TString(str.toStdString());
+    return TString(rkStr.toStdString());
 }
 
-inline TWideString ToTWideString(const QString& str)
+inline TWideString ToTWideString(const QString& rkStr)
 {
-    return TWideString(str.toStdWString());
+    return TWideString(rkStr.toStdWString());
 }
 }
 

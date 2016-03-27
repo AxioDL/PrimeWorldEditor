@@ -5,7 +5,6 @@
 #include "Core/Resource/CResCache.h"
 #include "Core/Resource/Factory/CTextureDecoder.h"
 #include <Math/CTransform4f.h>
-#include <Common/AnimUtil.h>
 
 #include <algorithm>
 #include <iostream>
@@ -19,14 +18,13 @@ u32 CRenderer::sNumRenderers = 0;
 
 // ************ INITIALIZATION ************
 CRenderer::CRenderer()
+    : mOptions(eEnableUVScroll | eEnableBackfaceCull)
+    , mBloomMode(eNoBloom)
+    , mDrawGrid(true)
+    , mInitialized(false)
+    , mContextIndex(-1)
 {
-    mOptions = eEnableUVScroll | eEnableBackfaceCull;
-    mBloomMode = eNoBloom;
-    mDrawGrid = true;
-    mInitialized = false;
-    mContextIndex = -1;
-    mOpaqueBucket.SetSortType(CRenderBucket::FrontToBack);
-    mTransparentBucket.SetSortType(CRenderBucket::BackToFront);
+    mTransparentBucket.SetDepthSortingEnabled(true);
     sNumRenderers++;
 }
 
@@ -45,45 +43,45 @@ void CRenderer::Init()
 {
     if (!mInitialized)
     {
-        glClearColor(mClearColor.r, mClearColor.g, mClearColor.b, mClearColor.a);
+        glClearColor(mClearColor.R, mClearColor.G, mClearColor.B, mClearColor.A);
         mContextIndex = CGraphics::GetContextIndex();
         mInitialized = true;
     }
 }
 
-// ************ GETTERS/SETTERS ************
+// ************ ACCESSORS ************
 FRenderOptions CRenderer::RenderOptions() const
 {
     return mOptions;
 }
 
-void CRenderer::ToggleBackfaceCull(bool b)
+void CRenderer::ToggleBackfaceCull(bool Enable)
 {
-    if (b) mOptions |= eEnableBackfaceCull;
-    else   mOptions &= ~eEnableBackfaceCull;
+    if (Enable) mOptions |= eEnableBackfaceCull;
+    else        mOptions &= ~eEnableBackfaceCull;
 }
 
-void CRenderer::ToggleUVAnimation(bool b)
+void CRenderer::ToggleUVAnimation(bool Enable)
 {
-    if (b) mOptions |= eEnableUVScroll;
-    else   mOptions &= ~eEnableUVScroll;
+    if (Enable) mOptions |= eEnableUVScroll;
+    else        mOptions &= ~eEnableUVScroll;
 }
 
-void CRenderer::ToggleGrid(bool b)
+void CRenderer::ToggleGrid(bool Enable)
 {
-    mDrawGrid = b;
+    mDrawGrid = Enable;
 }
 
-void CRenderer::ToggleOccluders(bool b)
+void CRenderer::ToggleOccluders(bool Enable)
 {
-    if (b) mOptions |= eEnableOccluders;
-    else   mOptions &= ~eEnableOccluders;
+    if (Enable) mOptions |= eEnableOccluders;
+    else        mOptions &= ~eEnableOccluders;
 }
 
-void CRenderer::ToggleAlphaDisabled(bool b)
+void CRenderer::ToggleAlphaDisabled(bool Enable)
 {
-    if (b) mOptions |= eNoAlpha;
-    else   mOptions &= ~eNoAlpha;
+    if (Enable) mOptions |= eNoAlpha;
+    else        mOptions &= ~eNoAlpha;
 }
 
 void CRenderer::SetBloom(EBloomMode BloomMode)
@@ -96,11 +94,11 @@ void CRenderer::SetBloom(EBloomMode BloomMode)
         mOptions &= ~eEnableBloom;
 }
 
-void CRenderer::SetClearColor(const CColor& Clear)
+void CRenderer::SetClearColor(const CColor& rkClear)
 {
-    mClearColor = Clear;
-    mClearColor.a = 0.f;
-    glClearColor(mClearColor.r, mClearColor.g, mClearColor.b, mClearColor.a);
+    mClearColor = rkClear;
+    mClearColor.A = 0.f;
+    glClearColor(mClearColor.R, mClearColor.G, mClearColor.B, mClearColor.A);
 }
 
 void CRenderer::SetViewportSize(u32 Width, u32 Height)
@@ -116,7 +114,7 @@ void CRenderer::SetViewportSize(u32 Width, u32 Height)
 }
 
 // ************ RENDER ************
-void CRenderer::RenderBuckets(const SViewInfo& ViewInfo)
+void CRenderer::RenderBuckets(const SViewInfo& rkViewInfo)
 {
     if (!mInitialized) Init();
     mSceneFramebuffer.Bind();
@@ -129,10 +127,10 @@ void CRenderer::RenderBuckets(const SViewInfo& ViewInfo)
     glDepthRange(0.f, 1.f);
     glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 
-    mOpaqueBucket.Draw(ViewInfo);
+    mOpaqueBucket.Draw(rkViewInfo);
     mOpaqueBucket.Clear();
-    mTransparentBucket.Sort(ViewInfo.pCamera);
-    mTransparentBucket.Draw(ViewInfo);
+    mTransparentBucket.Sort(rkViewInfo.pCamera);
+    mTransparentBucket.Draw(rkViewInfo);
     mTransparentBucket.Clear();
 }
 
@@ -244,7 +242,7 @@ void CRenderer::RenderBloom()
     glEnable(GL_DEPTH_TEST);
 }
 
-void CRenderer::RenderSky(CModel *pSkyboxModel, const SViewInfo& ViewInfo)
+void CRenderer::RenderSky(CModel *pSkyboxModel, const SViewInfo& rkViewInfo)
 {
     if (!mInitialized) Init();
     if (!pSkyboxModel) return;
@@ -261,31 +259,31 @@ void CRenderer::RenderSky(CModel *pSkyboxModel, const SViewInfo& ViewInfo)
     CGraphics::UpdateLightBlock();
 
     // Load rotation-only view matrix
-    CGraphics::sMVPBlock.ViewMatrix = ViewInfo.RotationOnlyViewMatrix;
+    CGraphics::sMVPBlock.ViewMatrix = rkViewInfo.RotationOnlyViewMatrix;
     CGraphics::UpdateMVPBlock();
 
     glDepthRange(1.f, 1.f);
     pSkyboxModel->Draw(mOptions, 0);
 }
 
-void CRenderer::AddOpaqueMesh(IRenderable *pRenderable, int AssetID, CAABox& AABox, ERenderCommand Command)
+void CRenderer::AddOpaqueMesh(IRenderable *pRenderable, int AssetID, const CAABox& rkAABox, ERenderCommand Command)
 {
-    SRenderablePtr ptr;
-    ptr.pRenderable = pRenderable;
-    ptr.ComponentIndex = AssetID;
-    ptr.AABox = AABox;
-    ptr.Command = Command;
-    mOpaqueBucket.Add(ptr);
+    SRenderablePtr Ptr;
+    Ptr.pRenderable = pRenderable;
+    Ptr.ComponentIndex = AssetID;
+    Ptr.AABox = rkAABox;
+    Ptr.Command = Command;
+    mOpaqueBucket.Add(Ptr);
 }
 
-void CRenderer::AddTransparentMesh(IRenderable *pRenderable, int AssetID, CAABox& AABox, ERenderCommand Command)
+void CRenderer::AddTransparentMesh(IRenderable *pRenderable, int AssetID, const CAABox& rkAABox, ERenderCommand Command)
 {
-    SRenderablePtr ptr;
-    ptr.pRenderable = pRenderable;
-    ptr.ComponentIndex = AssetID;
-    ptr.AABox = AABox;
-    ptr.Command = Command;
-    mTransparentBucket.Add(ptr);
+    SRenderablePtr Ptr;
+    Ptr.pRenderable = pRenderable;
+    Ptr.ComponentIndex = AssetID;
+    Ptr.AABox = rkAABox;
+    Ptr.Command = Command;
+    mTransparentBucket.Add(Ptr);
 }
 
 void CRenderer::BeginFrame()
@@ -334,7 +332,7 @@ void CRenderer::ClearDepthBuffer()
 // ************ PRIVATE ************
 void CRenderer::InitFramebuffer()
 {
-    glClearColor(mClearColor.r, mClearColor.g, mClearColor.b, mClearColor.a);
+    glClearColor(mClearColor.R, mClearColor.G, mClearColor.B, mClearColor.A);
     glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
     glDepthMask(GL_TRUE);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

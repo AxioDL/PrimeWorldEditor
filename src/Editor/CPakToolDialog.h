@@ -136,6 +136,7 @@ private slots:
                     mSetMax = true;
                 }
 
+                // Deferring UI updates is necessary because trying to do them on this thread causes crashes for a lot of people
                 QTimer::singleShot(0, this, SLOT(UpdateUI()));
             }
         }

@@ -20,9 +20,9 @@ public:
     CVertexBuffer();
     CVertexBuffer(FVertexDescription Desc);
     ~CVertexBuffer();
-    u16 AddVertex(const CVertex& vtx);
-    u16 AddIfUnique(const CVertex& vtx, u16 start);
-    void Reserve(u16 size);
+    u16 AddVertex(const CVertex& rkVtx);
+    u16 AddIfUnique(const CVertex& rkVtx, u16 Start);
+    void Reserve(u16 Size);
     void Clear();
     void Buffer();
     void Bind();

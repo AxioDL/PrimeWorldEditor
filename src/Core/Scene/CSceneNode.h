@@ -58,15 +58,15 @@ public:
     virtual ENodeType NodeType() = 0;
     virtual void PostLoad() {}
     virtual void OnTransformed() {}
-    virtual void AddToRenderer(CRenderer* /*pRenderer*/, const SViewInfo& /*ViewInfo*/) {}
+    virtual void AddToRenderer(CRenderer* /*pRenderer*/, const SViewInfo& /*rkViewInfo*/) {}
     virtual void DrawSelection();
-    virtual void RayAABoxIntersectTest(CRayCollisionTester& Tester, const SViewInfo& ViewInfo);
-    virtual SRayIntersection RayNodeIntersectTest(const CRay& Ray, u32 AssetID, const SViewInfo& ViewInfo) = 0;
+    virtual void RayAABoxIntersectTest(CRayCollisionTester& rTester, const SViewInfo& rkViewInfo);
+    virtual SRayIntersection RayNodeIntersectTest(const CRay& rkRay, u32 AssetID, const SViewInfo& rkViewInfo) = 0;
     virtual bool AllowsTranslate() const { return true; }
     virtual bool AllowsRotate() const { return true; }
     virtual bool AllowsScale() const { return true; }
     virtual bool IsVisible() const;
-    virtual CColor TintColor(const SViewInfo& ViewInfo) const;
+    virtual CColor TintColor(const SViewInfo& rkViewInfo) const;
     virtual CColor WireframeColor() const;
 
     void OnLoadFinished();
@@ -76,15 +76,15 @@ public:
     void SetInheritance(bool InheritPos, bool InheritRot, bool InheritScale);
     void LoadModelMatrix();
     void BuildLightList(CGameArea *pArea);
-    void LoadLights(const SViewInfo& ViewInfo);
+    void LoadLights(const SViewInfo& rkViewInfo);
     void DrawBoundingBox() const;
     void DrawRotationArrow() const;
-    void AddSurfacesToRenderer(CRenderer *pRenderer, CModel *pModel, u32 MatSet, const SViewInfo& ViewInfo);
+    void AddSurfacesToRenderer(CRenderer *pRenderer, CModel *pModel, u32 MatSet, const SViewInfo& rkViewInfo);
 
     // Transform
-    void Translate(const CVector3f& translation, ETransformSpace transformSpace);
-    void Rotate(const CQuaternion& rotation, ETransformSpace transformSpace);
-    void Scale(const CVector3f& scale);
+    void Translate(const CVector3f& rkTranslation, ETransformSpace TransformSpace);
+    void Rotate(const CQuaternion& rkRotation, ETransformSpace TransformSpace);
+    void Scale(const CVector3f& rkScale);
     const CTransform4f& Transform() const;
 protected:
     void MarkTransformChanged() const;
@@ -92,37 +92,38 @@ protected:
     virtual void CalculateTransform(CTransform4f& rOut) const;
 
 public:
-    // Getters
-    TString Name() const;
-    CSceneNode* Parent() const;
-    CScene* Scene() const;
-    u32 ID() const;
-    CVector3f LocalPosition() const;
     CVector3f AbsolutePosition() const;
-    CQuaternion LocalRotation() const;
     CQuaternion AbsoluteRotation() const;
-    CVector3f LocalScale() const;
     CVector3f AbsoluteScale() const;
     CAABox AABox() const;
-    CVector3f CenterPoint() const;
-    u32 LightLayerIndex() const;
-    bool MarkedVisible() const;
-    bool IsMouseHovering() const;
-    bool IsSelected() const;
-    bool InheritsPosition() const;
-    bool InheritsRotation() const;
-    bool InheritsScale() const;
+
+    // Inline Accessors
+    TString Name() const                    { return mName; }
+    CSceneNode* Parent() const              { return mpParent; }
+    CScene* Scene() const                   { return mpScene; }
+    u32 ID() const                          { return _mID; }
+    CVector3f LocalPosition() const         { return mPosition; }
+    CQuaternion LocalRotation() const       { return mRotation; }
+    CVector3f LocalScale() const            { return mScale; }
+    CVector3f CenterPoint() const           { return AABox().Center(); }
+    u32 LightLayerIndex() const             { return mLightLayerIndex; }
+    bool MarkedVisible() const              { return mVisible; }
+    bool IsMouseHovering() const            { return mMouseHovering; }
+    bool IsSelected() const                 { return mSelected; }
+    bool InheritsPosition() const           { return _mInheritsPosition; }
+    bool InheritsRotation() const           { return _mInheritsRotation; }
+    bool InheritsScale() const              { return _mInheritsScale; }
 
     // Setters
-    void SetName(const TString& Name);
-    void SetPosition(const CVector3f& position);
-    void SetRotation(const CQuaternion& rotation);
-    void SetRotation(const CVector3f& rotEuler);
-    void SetScale(const CVector3f& scale);
-    void SetLightLayerIndex(u32 index);
-    void SetMouseHovering(bool Hovering);
-    void SetSelected(bool Selected);
-    void SetVisible(bool Visible);
+    void SetName(const TString& rkName)             { mName = rkName; }
+    void SetPosition(const CVector3f& rkPosition)   { mPosition = rkPosition; MarkTransformChanged(); }
+    void SetRotation(const CQuaternion& rkRotation) { mRotation = rkRotation; MarkTransformChanged(); }
+    void SetRotation(const CVector3f& rkRotEuler)   { mRotation = CQuaternion::FromEuler(rkRotEuler); MarkTransformChanged(); }
+    void SetScale(const CVector3f& rkScale)         { mScale = rkScale; MarkTransformChanged(); }
+    void SetLightLayerIndex(u32 Index)              { mLightLayerIndex = Index; }
+    void SetMouseHovering(bool Hovering)            { mMouseHovering = Hovering; }
+    void SetSelected(bool Selected)                 { mSelected = Selected; }
+    void SetVisible(bool Visible)                   { mVisible = Visible; }
 
     // Static
     inline static int NumNodes() { return smNumNodes; }

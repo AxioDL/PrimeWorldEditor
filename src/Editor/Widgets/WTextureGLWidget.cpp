@@ -1,5 +1,4 @@
 #include "WTextureGLWidget.h"
-#include <Common/AnimUtil.h>
 #include <Math/CTransform4f.h>
 #include <Core/Render/CDrawUtil.h>
 #include <Core/Render/CGraphics.h>
@@ -7,7 +6,8 @@
 #include <iostream>
 #include <iomanip>
 
-WTextureGLWidget::WTextureGLWidget(QWidget *parent, CTexture *pTex) : QOpenGLWidget(parent)
+WTextureGLWidget::WTextureGLWidget(QWidget *pParent, CTexture *pTex)
+    : QOpenGLWidget(pParent)
 {
     SetTexture(pTex);
     mInitialized = false;
@@ -44,7 +44,7 @@ void WTextureGLWidget::paintGL()
     CDrawUtil::UseTextureShader();
     glDepthMask(GL_FALSE);
     CDrawUtil::LoadCheckerboardTexture(0);
-    CDrawUtil::DrawSquare(&mCheckerCoords[0].x);
+    CDrawUtil::DrawSquare(&mCheckerCoords[0].X);
 
     // Make it darker
     CDrawUtil::UseColorShader(CColor::Integral(0.0f, 0.0f, 0.0f, 0.5f));
@@ -64,10 +64,10 @@ void WTextureGLWidget::paintGL()
     glEnable(GL_DEPTH_TEST);
 }
 
-void WTextureGLWidget::resizeGL(int w, int h)
+void WTextureGLWidget::resizeGL(int Width, int Height)
 {
-    mAspectRatio = (float) w / (float) h;
-    glViewport(0, 0, w, h);
+    mAspectRatio = (float) Width / (float) Height;
+    glViewport(0, 0, Width, Height);
 
     CalcTexTransform();
     CalcCheckerCoords();

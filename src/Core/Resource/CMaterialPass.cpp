@@ -1,24 +1,22 @@
 #include "CMaterialPass.h"
 #include "CMaterial.h"
 #include "Core/Render/CGraphics.h"
-#include <Common/AnimUtil.h>
+#include <Common/CTimer.h>
 
 CMaterialPass::CMaterialPass(CMaterial *pParent)
+    : mPassType("CUST")
+    , mSettings(eNoPassSettings)
+    , mpTexture(nullptr)
+    , mEnabled(true)
+    , mpParentMat(pParent)
+    , mColorOutput(ePrevReg)
+    , mAlphaOutput(ePrevReg)
+    , mKColorSel(eKonstOne)
+    , mKAlphaSel(eKonstOne)
+    , mRasSel(eRasColorNull)
+    , mTexCoordSource(0xFF)
+    , mAnimMode(eNoUVAnim)
 {
-    mPassType = "CUST";
-    mSettings = eNoPassSettings;
-    mpTexture = nullptr;
-    mEnabled = true;
-    mpParentMat = pParent;
-
-    mColorOutput = ePrevReg;
-    mAlphaOutput = ePrevReg;
-    mKColorSel = eKonstOne;
-    mKAlphaSel = eKonstOne;
-    mRasSel = eRasColorNull;
-    mTexCoordSource = 0xFF;
-    mAnimMode = eNoUVAnim;
-
     for (u32 iParam = 0; iParam < 4; iParam++)
     {
         mColorInputs[iParam] = eZeroRGB;
@@ -36,10 +34,13 @@ CMaterialPass* CMaterialPass::Clone(CMaterial *pParent)
     CMaterialPass *pOut = new CMaterialPass(pParent);
     pOut->mPassType = mPassType;
     pOut->mSettings = mSettings;
-    for (u32 iIn = 0; iIn < 4; iIn++) {
+
+    for (u32 iIn = 0; iIn < 4; iIn++)
+    {
         pOut->mColorInputs[iIn] = mColorInputs[iIn];
         pOut->mAlphaInputs[iIn] = mAlphaInputs[iIn];
     }
+
     pOut->mColorOutput = mColorOutput;
     pOut->mAlphaOutput = mAlphaOutput;
     pOut->mKColorSel = mKColorSel;
@@ -48,30 +49,32 @@ CMaterialPass* CMaterialPass::Clone(CMaterial *pParent)
     pOut->mTexCoordSource = mTexCoordSource;
     pOut->mpTexture = mpTexture;
     pOut->mAnimMode = mAnimMode;
+
     for (u32 iParam = 0; iParam < 4; iParam++)
         pOut->mAnimParams[iParam] = mAnimParams[iParam];
+
     pOut->mEnabled = mEnabled;
 
     return pOut;
 }
 
-void CMaterialPass::HashParameters(CHashFNV1A &Hash)
+void CMaterialPass::HashParameters(CHashFNV1A& rHash)
 {
     if (mEnabled)
     {
-        Hash.HashLong(mPassType.ToLong());
-        Hash.HashLong(mSettings);
-        Hash.HashData(&mColorInputs[0], sizeof(ETevColorInput) * 4);
-        Hash.HashData(&mAlphaInputs[0], sizeof(ETevAlphaInput) * 4);
-        Hash.HashLong(mColorOutput);
-        Hash.HashLong(mAlphaOutput);
-        Hash.HashLong(mKColorSel);
-        Hash.HashLong(mKAlphaSel);
-        Hash.HashLong(mRasSel);
-        Hash.HashLong(mTexCoordSource);
-        Hash.HashLong(mAnimMode);
-        Hash.HashData(mAnimParams, sizeof(float) * 4);
-        Hash.HashByte(mEnabled);
+        rHash.HashLong(mPassType.ToLong());
+        rHash.HashLong(mSettings);
+        rHash.HashData(&mColorInputs[0], sizeof(ETevColorInput) * 4);
+        rHash.HashData(&mAlphaInputs[0], sizeof(ETevAlphaInput) * 4);
+        rHash.HashLong(mColorOutput);
+        rHash.HashLong(mAlphaOutput);
+        rHash.HashLong(mKColorSel);
+        rHash.HashLong(mKAlphaSel);
+        rHash.HashLong(mRasSel);
+        rHash.HashLong(mTexCoordSource);
+        rHash.HashLong(mAnimMode);
+        rHash.HashData(mAnimParams, sizeof(float) * 4);
+        rHash.HashByte(mEnabled);
     }
 }
 
@@ -85,7 +88,7 @@ void CMaterialPass::SetAnimCurrent(FRenderOptions Options, u32 PassIndex)
 {
     if (mAnimMode == eNoUVAnim) return;
 
-    float s = AnimUtil::SecondsMod900();
+    float Seconds = CTimer::SecondsMod900();
     const CMatrix4f& ModelMtx = CGraphics::sMVPBlock.ModelMatrix;
     const CMatrix4f& ViewMtx = CGraphics::sMVPBlock.ViewMatrix;
 
@@ -98,9 +101,9 @@ void CMaterialPass::SetAnimCurrent(FRenderOptions Options, u32 PassIndex)
     case eInverseMV: // Mode 0
     case eSimpleMode: // Mode 10 - maybe not correct?
     {
-        glm::mat4 mtx = glm::inverse(glm::transpose(ViewMtx.ToGlmMat4()) * glm::transpose(ModelMtx.ToGlmMat4()));
-        mtx[0][3] = mtx[1][3] = mtx[2][3] = 0.f;
-        TexMtx  = CMatrix4f::FromGlmMat4(mtx);
+        glm::mat4 InvMV = glm::inverse(glm::transpose(ViewMtx.ToGlmMat4()) * glm::transpose(ModelMtx.ToGlmMat4()));
+        InvMV[0][3] = InvMV[1][3] = InvMV[2][3] = 0.f;
+        TexMtx  = CMatrix4f::FromGlmMat4(InvMV);
         PostMtx = CMatrix4f(0.5f, 0.0f, 0.0f, 0.5f,
                             0.0f, 0.5f, 0.0f, 0.5f,
                             0.0f, 0.0f, 0.0f, 1.0f,
@@ -110,8 +113,8 @@ void CMaterialPass::SetAnimCurrent(FRenderOptions Options, u32 PassIndex)
 
     case eInverseMVTranslated: // Mode 1
     {
-        glm::mat4 mtx = glm::inverse(glm::transpose(ViewMtx.ToGlmMat4()) * glm::transpose(ModelMtx.ToGlmMat4()));
-        TexMtx  = CMatrix4f::FromGlmMat4(mtx);
+        glm::mat4 InvMV = glm::inverse(glm::transpose(ViewMtx.ToGlmMat4()) * glm::transpose(ModelMtx.ToGlmMat4()));
+        TexMtx  = CMatrix4f::FromGlmMat4(InvMV);
         PostMtx = CMatrix4f(0.5f, 0.0f, 0.0f, 0.5f,
                             0.0f, 0.5f, 0.0f, 0.5f,
                             0.0f, 0.0f, 0.0f, 1.0f,
@@ -122,8 +125,8 @@ void CMaterialPass::SetAnimCurrent(FRenderOptions Options, u32 PassIndex)
     {
         if (Options & eEnableUVScroll)
         {
-            TexMtx[0][3] = (s * mAnimParams[2]) + mAnimParams[0];
-            TexMtx[1][3] = (s * mAnimParams[3]) + mAnimParams[1];
+            TexMtx[0][3] = (Seconds * mAnimParams[2]) + mAnimParams[0];
+            TexMtx[1][3] = (Seconds * mAnimParams[3]) + mAnimParams[1];
         }
         break;
     }
@@ -132,7 +135,7 @@ void CMaterialPass::SetAnimCurrent(FRenderOptions Options, u32 PassIndex)
     {
         if (Options & eEnableUVScroll)
         {
-            float Angle = (s * mAnimParams[1]) + mAnimParams[0];
+            float Angle = (Seconds * mAnimParams[1]) + mAnimParams[0];
 
             float ACos = cos(Angle);
             float ASin = sin(Angle);
@@ -152,7 +155,7 @@ void CMaterialPass::SetAnimCurrent(FRenderOptions Options, u32 PassIndex)
     {
         if (Options & eEnableUVScroll)
         {
-            float Offset = mAnimParams[2] * mAnimParams[0] * (mAnimParams[3] + s);
+            float Offset = mAnimParams[2] * mAnimParams[0] * (mAnimParams[3] + Seconds);
             Offset = (float)(short)(float)(mAnimParams[1] * fmod(Offset, 1.0f)) * mAnimParams[2];
             if (mAnimMode == eHFilmstrip) TexMtx[0][3] = Offset;
             if (mAnimMode == eVFilmstrip) TexMtx[1][3] = Offset;
@@ -175,23 +178,22 @@ void CMaterialPass::SetAnimCurrent(FRenderOptions Options, u32 PassIndex)
 
     case eConvolutedModeA: // Mode 7
     {
-        CMatrix4f view = CGraphics::sMVPBlock.ViewMatrix;
+        CMatrix4f View = CGraphics::sMVPBlock.ViewMatrix;
 
-        // Oh god I seriously need a CMatrix4f inverse function.
-        glm::mat4 mtx = glm::inverse(glm::transpose(ViewMtx.ToGlmMat4()) * glm::transpose(ModelMtx.ToGlmMat4()));
-        mtx[0][3] = mtx[1][3] = mtx[2][3] = 0.f;
-        TexMtx  = CMatrix4f::FromGlmMat4(mtx);
+        glm::mat4 Mtx = glm::inverse(glm::transpose(ViewMtx.ToGlmMat4()) * glm::transpose(ModelMtx.ToGlmMat4()));
+        Mtx[0][3] = Mtx[1][3] = Mtx[2][3] = 0.f;
+        TexMtx  = CMatrix4f::FromGlmMat4(Mtx);
 
-        float xy = (view[3][0] + view[3][1]) * 0.025f * mAnimParams[1];
-        xy = (xy - (int) xy);
+        float XY = (View[3][0] + View[3][1]) * 0.025f * mAnimParams[1];
+        XY = (XY - (int) XY);
 
-        float z = view[3][2] * 0.05f * mAnimParams[1];
-        z = (z - (int) z);
+        float Z = View[3][2] * 0.05f * mAnimParams[1];
+        Z = (Z - (int) Z);
 
-        float halfA = mAnimParams[0] * 0.5f;
+        float HalfA = mAnimParams[0] * 0.5f;
 
-        PostMtx = CMatrix4f(halfA, 0.0f,  0.0f,   xy,
-                             0.0f, 0.0f, halfA,    z,
+        PostMtx = CMatrix4f(HalfA, 0.0f,  0.0f,   XY,
+                             0.0f, 0.0f, HalfA,    Z,
                              0.0f, 0.0f,  0.0f, 1.0f,
                              0.0f, 0.0f,  0.0f, 1.0f);
         break;

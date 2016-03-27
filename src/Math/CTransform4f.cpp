@@ -10,18 +10,18 @@ CTransform4f::CTransform4f()
     *this = skIdentity;
 }
 
-CTransform4f::CTransform4f(IInputStream& input)
+CTransform4f::CTransform4f(IInputStream& rInput)
 {
-    for (int v = 0; v < 12; v++)
-        _m[v] = input.ReadFloat();
+    for (int iVal = 0; iVal < 12; iVal++)
+        _m[iVal] = rInput.ReadFloat();
 }
 
-CTransform4f::CTransform4f(float v)
+CTransform4f::CTransform4f(float Diagonal)
 {
     *this = skZero;
-    m[0][0] = v;
-    m[1][1] = v;
-    m[2][2] = v;
+    m[0][0] = Diagonal;
+    m[1][1] = Diagonal;
+    m[2][2] = Diagonal;
 }
 
 CTransform4f::CTransform4f(float m00, float m01, float m02, float m03,
@@ -100,22 +100,22 @@ void CTransform4f::Scale(float XScale, float YScale, float ZScale)
     Scale(CVector3f(XScale, YScale, ZScale));
 }
 
-CTransform4f CTransform4f::MultiplyIgnoreTranslation(const CTransform4f& mtx) const
+CTransform4f CTransform4f::MultiplyIgnoreTranslation(const CTransform4f& rkMtx) const
 {
-    CTransform4f out;
-    out[0][0] = (m[0][0] * mtx[0][0]) + (m[0][1] * mtx[1][0]) + (m[0][2] * mtx[2][0]);
-    out[0][1] = (m[0][0] * mtx[0][1]) + (m[0][1] * mtx[1][1]) + (m[0][2] * mtx[2][1]);
-    out[0][2] = (m[0][0] * mtx[0][2]) + (m[0][1] * mtx[1][2]) + (m[0][2] * mtx[2][2]);
-    out[1][0] = (m[1][0] * mtx[0][0]) + (m[1][1] * mtx[1][0]) + (m[1][2] * mtx[2][0]);
-    out[1][1] = (m[1][0] * mtx[0][1]) + (m[1][1] * mtx[1][1]) + (m[1][2] * mtx[2][1]);
-    out[1][2] = (m[1][0] * mtx[0][2]) + (m[1][1] * mtx[1][2]) + (m[1][2] * mtx[2][2]);
-    out[2][0] = (m[2][0] * mtx[0][0]) + (m[2][1] * mtx[1][0]) + (m[2][2] * mtx[2][0]);
-    out[2][1] = (m[2][0] * mtx[0][1]) + (m[2][1] * mtx[1][1]) + (m[2][2] * mtx[2][1]);
-    out[2][2] = (m[2][0] * mtx[0][2]) + (m[2][1] * mtx[1][2]) + (m[2][2] * mtx[2][2]);
-    out[0][3] = 0.f;
-    out[1][3] = 0.f;
-    out[2][3] = 0.f;
-    return out;
+    CTransform4f Out;
+    Out[0][0] = (m[0][0] * rkMtx[0][0]) + (m[0][1] * rkMtx[1][0]) + (m[0][2] * rkMtx[2][0]);
+    Out[0][1] = (m[0][0] * rkMtx[0][1]) + (m[0][1] * rkMtx[1][1]) + (m[0][2] * rkMtx[2][1]);
+    Out[0][2] = (m[0][0] * rkMtx[0][2]) + (m[0][1] * rkMtx[1][2]) + (m[0][2] * rkMtx[2][2]);
+    Out[1][0] = (m[1][0] * rkMtx[0][0]) + (m[1][1] * rkMtx[1][0]) + (m[1][2] * rkMtx[2][0]);
+    Out[1][1] = (m[1][0] * rkMtx[0][1]) + (m[1][1] * rkMtx[1][1]) + (m[1][2] * rkMtx[2][1]);
+    Out[1][2] = (m[1][0] * rkMtx[0][2]) + (m[1][1] * rkMtx[1][2]) + (m[1][2] * rkMtx[2][2]);
+    Out[2][0] = (m[2][0] * rkMtx[0][0]) + (m[2][1] * rkMtx[1][0]) + (m[2][2] * rkMtx[2][0]);
+    Out[2][1] = (m[2][0] * rkMtx[0][1]) + (m[2][1] * rkMtx[1][1]) + (m[2][2] * rkMtx[2][1]);
+    Out[2][2] = (m[2][0] * rkMtx[0][2]) + (m[2][1] * rkMtx[1][2]) + (m[2][2] * rkMtx[2][2]);
+    Out[0][3] = 0.f;
+    Out[1][3] = 0.f;
+    Out[2][3] = 0.f;
+    return Out;
 }
 
 CTransform4f CTransform4f::Inverse() const
@@ -159,77 +159,77 @@ CTransform4f CTransform4f::RotationOnly() const
 }
 
 // ************ OPERATORS ************
-float* CTransform4f::operator[](long index)
+float* CTransform4f::operator[](long Index)
 {
-    return m[index];
+    return m[Index];
 }
 
-const float* CTransform4f::operator[](long index) const
+const float* CTransform4f::operator[](long Index) const
 {
-    return m[index];
+    return m[Index];
 }
 
-CVector3f CTransform4f::operator*(const CVector3f& vec) const
+CVector3f CTransform4f::operator*(const CVector3f& rkVec) const
 {
     CVector3f out;
-    out.x = (m[0][0] * vec.x) + (m[0][1] * vec.y) + (m[0][2] * vec.z) + (m[0][3]);
-    out.y = (m[1][0] * vec.x) + (m[1][1] * vec.y) + (m[1][2] * vec.z) + (m[1][3]);
-    out.z = (m[2][0] * vec.x) + (m[2][1] * vec.y) + (m[2][2] * vec.z) + (m[2][3]);
+    out.X = (m[0][0] * rkVec.X) + (m[0][1] * rkVec.Y) + (m[0][2] * rkVec.Z) + (m[0][3]);
+    out.Y = (m[1][0] * rkVec.X) + (m[1][1] * rkVec.Y) + (m[1][2] * rkVec.Z) + (m[1][3]);
+    out.Z = (m[2][0] * rkVec.X) + (m[2][1] * rkVec.Y) + (m[2][2] * rkVec.Z) + (m[2][3]);
     return out;
 }
 
-CVector4f CTransform4f::operator*(const CVector4f& vec) const
+CVector4f CTransform4f::operator*(const CVector4f& rkVec) const
 {
     CVector4f out;
-    out.x = (m[0][0] * vec.x) + (m[0][1] * vec.y) + (m[0][2] * vec.z) + (m[0][3] * vec.w);
-    out.y = (m[1][0] * vec.x) + (m[1][1] * vec.y) + (m[1][2] * vec.z) + (m[1][3] * vec.w);
-    out.z = (m[2][0] * vec.x) + (m[2][1] * vec.y) + (m[2][2] * vec.z) + (m[2][3] * vec.w);
-    out.w = vec.w;
+    out.X = (m[0][0] * rkVec.X) + (m[0][1] * rkVec.Y) + (m[0][2] * rkVec.Z) + (m[0][3] * rkVec.W);
+    out.Y = (m[1][0] * rkVec.X) + (m[1][1] * rkVec.Y) + (m[1][2] * rkVec.Z) + (m[1][3] * rkVec.W);
+    out.Z = (m[2][0] * rkVec.X) + (m[2][1] * rkVec.Y) + (m[2][2] * rkVec.Z) + (m[2][3] * rkVec.W);
+    out.W = rkVec.W;
     return out;
 }
 
-CTransform4f CTransform4f::operator*(const CTransform4f& mtx) const
+CTransform4f CTransform4f::operator*(const CTransform4f& rkMtx) const
 {
     CTransform4f out;
-    out[0][0] = (m[0][0] * mtx[0][0]) + (m[0][1] * mtx[1][0]) + (m[0][2] * mtx[2][0]);
-    out[0][1] = (m[0][0] * mtx[0][1]) + (m[0][1] * mtx[1][1]) + (m[0][2] * mtx[2][1]);
-    out[0][2] = (m[0][0] * mtx[0][2]) + (m[0][1] * mtx[1][2]) + (m[0][2] * mtx[2][2]);
-    out[0][3] = (m[0][0] * mtx[0][3]) + (m[0][1] * mtx[1][3]) + (m[0][2] * mtx[2][3]) + m[0][3];
-    out[1][0] = (m[1][0] * mtx[0][0]) + (m[1][1] * mtx[1][0]) + (m[1][2] * mtx[2][0]);
-    out[1][1] = (m[1][0] * mtx[0][1]) + (m[1][1] * mtx[1][1]) + (m[1][2] * mtx[2][1]);
-    out[1][2] = (m[1][0] * mtx[0][2]) + (m[1][1] * mtx[1][2]) + (m[1][2] * mtx[2][2]);
-    out[1][3] = (m[1][0] * mtx[0][3]) + (m[1][1] * mtx[1][3]) + (m[1][2] * mtx[2][3]) + m[1][3];
-    out[2][0] = (m[2][0] * mtx[0][0]) + (m[2][1] * mtx[1][0]) + (m[2][2] * mtx[2][0]);
-    out[2][1] = (m[2][0] * mtx[0][1]) + (m[2][1] * mtx[1][1]) + (m[2][2] * mtx[2][1]);
-    out[2][2] = (m[2][0] * mtx[0][2]) + (m[2][1] * mtx[1][2]) + (m[2][2] * mtx[2][2]);
-    out[2][3] = (m[2][0] * mtx[0][3]) + (m[2][1] * mtx[1][3]) + (m[2][2] * mtx[2][3]) + m[2][3];
+    out[0][0] = (m[0][0] * rkMtx[0][0]) + (m[0][1] * rkMtx[1][0]) + (m[0][2] * rkMtx[2][0]);
+    out[0][1] = (m[0][0] * rkMtx[0][1]) + (m[0][1] * rkMtx[1][1]) + (m[0][2] * rkMtx[2][1]);
+    out[0][2] = (m[0][0] * rkMtx[0][2]) + (m[0][1] * rkMtx[1][2]) + (m[0][2] * rkMtx[2][2]);
+    out[0][3] = (m[0][0] * rkMtx[0][3]) + (m[0][1] * rkMtx[1][3]) + (m[0][2] * rkMtx[2][3]) + m[0][3];
+    out[1][0] = (m[1][0] * rkMtx[0][0]) + (m[1][1] * rkMtx[1][0]) + (m[1][2] * rkMtx[2][0]);
+    out[1][1] = (m[1][0] * rkMtx[0][1]) + (m[1][1] * rkMtx[1][1]) + (m[1][2] * rkMtx[2][1]);
+    out[1][2] = (m[1][0] * rkMtx[0][2]) + (m[1][1] * rkMtx[1][2]) + (m[1][2] * rkMtx[2][2]);
+    out[1][3] = (m[1][0] * rkMtx[0][3]) + (m[1][1] * rkMtx[1][3]) + (m[1][2] * rkMtx[2][3]) + m[1][3];
+    out[2][0] = (m[2][0] * rkMtx[0][0]) + (m[2][1] * rkMtx[1][0]) + (m[2][2] * rkMtx[2][0]);
+    out[2][1] = (m[2][0] * rkMtx[0][1]) + (m[2][1] * rkMtx[1][1]) + (m[2][2] * rkMtx[2][1]);
+    out[2][2] = (m[2][0] * rkMtx[0][2]) + (m[2][1] * rkMtx[1][2]) + (m[2][2] * rkMtx[2][2]);
+    out[2][3] = (m[2][0] * rkMtx[0][3]) + (m[2][1] * rkMtx[1][3]) + (m[2][2] * rkMtx[2][3]) + m[2][3];
     return out;
 }
 
-void CTransform4f::operator*=(const CTransform4f& mtx)
+void CTransform4f::operator*=(const CTransform4f& rkMtx)
 {
-    *this = *this * mtx;
+    *this = *this * rkMtx;
 }
 
-bool CTransform4f::operator==(const CTransform4f& mtx) const
+bool CTransform4f::operator==(const CTransform4f& rkMtx) const
 {
-    return ((m[0][0] == mtx[0][0]) &&
-            (m[0][1] == mtx[0][1]) &&
-            (m[0][2] == mtx[0][2]) &&
-            (m[0][3] == mtx[0][3]) &&
-            (m[1][0] == mtx[1][0]) &&
-            (m[1][1] == mtx[1][1]) &&
-            (m[1][2] == mtx[1][2]) &&
-            (m[1][3] == mtx[1][3]) &&
-            (m[2][0] == mtx[2][0]) &&
-            (m[2][1] == mtx[2][1]) &&
-            (m[2][2] == mtx[2][2]) &&
-            (m[2][3] == mtx[2][3]));
+    return ((m[0][0] == rkMtx[0][0]) &&
+            (m[0][1] == rkMtx[0][1]) &&
+            (m[0][2] == rkMtx[0][2]) &&
+            (m[0][3] == rkMtx[0][3]) &&
+            (m[1][0] == rkMtx[1][0]) &&
+            (m[1][1] == rkMtx[1][1]) &&
+            (m[1][2] == rkMtx[1][2]) &&
+            (m[1][3] == rkMtx[1][3]) &&
+            (m[2][0] == rkMtx[2][0]) &&
+            (m[2][1] == rkMtx[2][1]) &&
+            (m[2][2] == rkMtx[2][2]) &&
+            (m[2][3] == rkMtx[2][3]));
 }
 
-bool CTransform4f::operator!=(const CTransform4f& mtx) const
+bool CTransform4f::operator!=(const CTransform4f& rkMtx) const
 {
-    return (!(*this == mtx));
+    return (!(*this == rkMtx));
 }
 
 // ************ CONVERSION ************
@@ -245,19 +245,19 @@ CMatrix4f CTransform4f::ToMatrix4f() const
 CTransform4f CTransform4f::TranslationMatrix(CVector3f Translation)
 {
     CTransform4f out = skIdentity;
-    out[0][3] = Translation.x;
-    out[1][3] = Translation.y;
-    out[2][3] = Translation.z;
+    out[0][3] = Translation.X;
+    out[1][3] = Translation.Y;
+    out[2][3] = Translation.Z;
     return out;
 }
 
 CTransform4f CTransform4f::RotationMatrix(CQuaternion Rotation)
 {
     CTransform4f out = skIdentity;
-    float x = Rotation.x;
-    float y = Rotation.y;
-    float z = Rotation.z;
-    float w = Rotation.w;
+    float x = Rotation.X;
+    float y = Rotation.Y;
+    float z = Rotation.Z;
+    float w = Rotation.W;
     float x2 = x * x;
     float y2 = y * y;
     float z2 = z * z;
@@ -277,28 +277,28 @@ CTransform4f CTransform4f::RotationMatrix(CQuaternion Rotation)
     CTransform4f CTransform4f::ScaleMatrix(CVector3f Scale)
     {
         CTransform4f out = skIdentity;
-        out[0][0] = Scale.x;
-        out[1][1] = Scale.y;
-        out[2][2] = Scale.z;
+        out[0][0] = Scale.X;
+        out[1][1] = Scale.Y;
+        out[2][2] = Scale.Z;
         return out;
     }
 
-CTransform4f CTransform4f::FromMatrix4f(const CMatrix4f& mtx)
+CTransform4f CTransform4f::FromMatrix4f(const CMatrix4f& rkMtx)
 {
-    CTransform4f out;
-    for (int r = 0; r < 3; r++)
-        for (int c = 0; c < 4; c++)
-            out[r][c] = mtx[r][c];
-    return out;
+    CTransform4f Out;
+    for (int iRow = 0; iRow < 3; iRow++)
+        for (int iCol = 0; iCol < 4; iCol++)
+            Out[iRow][iCol] = rkMtx[iRow][iCol];
+    return Out;
 }
 
-CTransform4f CTransform4f::FromGlmMat4(const glm::mat4& mtx)
+CTransform4f CTransform4f::FromGlmMat4(const glm::mat4& rkMtx)
 {
-    CTransform4f out;
-    for (int r = 0; r < 3; r++)
-        for (int c = 0; c < 4; c++)
-            out[r][c] = mtx[r][c];
-    return out;
+    CTransform4f Out;
+    for (int iRow = 0; iRow < 3; iRow++)
+        for (int iCol = 0; iCol < 4; iCol++)
+            Out[iRow][iCol] = rkMtx[iRow][iCol];
+    return Out;
 }
 
 static CTransform4f FromGlmMat4(const glm::mat4&)

@@ -2,34 +2,34 @@
 #include <Common/Log.h>
 
 CTextureEncoder::CTextureEncoder()
+    : mpTexture(nullptr)
 {
-    mpTexture = nullptr;
 }
 
-void CTextureEncoder::WriteTXTR(IOutputStream& TXTR)
+void CTextureEncoder::WriteTXTR(IOutputStream& rTXTR)
 {
     // Only DXT1->CMPR supported at the moment
-    TXTR.WriteLong(mOutputFormat);
-    TXTR.WriteShort(mpTexture->mWidth);
-    TXTR.WriteShort(mpTexture->mHeight);
-    TXTR.WriteLong(mpTexture->mNumMipMaps);
+    rTXTR.WriteLong(mOutputFormat);
+    rTXTR.WriteShort(mpTexture->mWidth);
+    rTXTR.WriteShort(mpTexture->mHeight);
+    rTXTR.WriteLong(mpTexture->mNumMipMaps);
 
     u32 MipW = mpTexture->Width() / 4;
     u32 MipH = mpTexture->Height() / 4;
-    CMemoryInStream Image(mpTexture->mImgDataBuffer, mpTexture->mImgDataSize, IOUtil::eLittleEndian);
+    CMemoryInStream Image(mpTexture->mpImgDataBuffer, mpTexture->mImgDataSize, IOUtil::eLittleEndian);
     u32 MipOffset = Image.Tell();
 
     for (u32 iMip = 0; iMip < mpTexture->mNumMipMaps; iMip++)
     {
-        for (u32 BlockY = 0; BlockY < MipH; BlockY += 2)
-            for (u32 BlockX = 0; BlockX < MipW; BlockX += 2)
-                for (u32 ImgY = BlockY; ImgY < BlockY + 2; ImgY++)
-                    for (u32 ImgX = BlockX; ImgX < BlockX + 2; ImgX++)
+        for (u32 iBlockY = 0; iBlockY < MipH; iBlockY += 2)
+            for (u32 iBlockX = 0; iBlockX < MipW; iBlockX += 2)
+                for (u32 iImgY = iBlockY; iImgY < iBlockY + 2; iImgY++)
+                    for (u32 iImgX = iBlockX; iImgX < iBlockX + 2; iImgX++)
                     {
-                        u32 SrcPos = ((ImgY * MipW) + ImgX) * 8;
+                        u32 SrcPos = ((iImgY * MipW) + iImgX) * 8;
                         Image.Seek(MipOffset + SrcPos, SEEK_SET);
 
-                        ReadSubBlockCMPR(Image, TXTR);
+                        ReadSubBlockCMPR(Image, rTXTR);
                     }
 
         MipOffset += MipW * MipH * 8;
@@ -45,20 +45,21 @@ void CTextureEncoder::DetermineBestOutputFormat()
     // todo
 }
 
-void CTextureEncoder::ReadSubBlockCMPR(IInputStream& Source, IOutputStream& Dest)
+void CTextureEncoder::ReadSubBlockCMPR(IInputStream& rSource, IOutputStream& rDest)
 {
-    Dest.WriteShort(Source.ReadShort());
-    Dest.WriteShort(Source.ReadShort());
+    rDest.WriteShort(rSource.ReadShort());
+    rDest.WriteShort(rSource.ReadShort());
 
-    for (u32 byte = 0; byte < 4; byte++) {
-        u8 b = Source.ReadByte();
-        b = ((b & 0x3) << 6) | ((b & 0xC) << 2) | ((b & 0x30) >> 2) | ((b & 0xC0) >> 6);
-        Dest.WriteByte(b);
+    for (u32 iByte = 0; iByte < 4; iByte++)
+    {
+        u8 Byte = rSource.ReadByte();
+        Byte = ((Byte & 0x3) << 6) | ((Byte & 0xC) << 2) | ((Byte & 0x30) >> 2) | ((Byte & 0xC0) >> 6);
+        rDest.WriteByte(Byte);
     }
 }
 
 // ************ STATIC ************
-void CTextureEncoder::EncodeTXTR(IOutputStream& TXTR, CTexture *pTex)
+void CTextureEncoder::EncodeTXTR(IOutputStream& rTXTR, CTexture *pTex)
 {
     if (pTex->mTexelFormat != eDXT1)
     {
@@ -70,13 +71,13 @@ void CTextureEncoder::EncodeTXTR(IOutputStream& TXTR, CTexture *pTex)
     Encoder.mpTexture = pTex;
     Encoder.mSourceFormat = eDXT1;
     Encoder.mOutputFormat = eGX_CMPR;
-    Encoder.WriteTXTR(TXTR);
+    Encoder.WriteTXTR(rTXTR);
 }
 
-void CTextureEncoder::EncodeTXTR(IOutputStream& TXTR, CTexture *pTex, ETexelFormat /*OutputFormat*/)
+void CTextureEncoder::EncodeTXTR(IOutputStream& rTXTR, CTexture *pTex, ETexelFormat /*OutputFormat*/)
 {
     // todo: support for encoding a specific format
-    EncodeTXTR(TXTR, pTex);
+    EncodeTXTR(rTXTR, pTex);
 }
 
 ETexelFormat CTextureEncoder::GetGXFormat(ETexelFormat Format)

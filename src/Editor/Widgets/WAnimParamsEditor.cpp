@@ -5,11 +5,11 @@
 #include <Core/Resource/CResourceInfo.h>
 
 WAnimParamsEditor::WAnimParamsEditor(QWidget *pParent)
-    : QWidget(pParent),
-      mpGroupBox(new QGroupBox("Animation Parameters", this)),
-      mpGroupLayout(nullptr),
-      mpSelector(nullptr),
-      mpCharComboBox(nullptr)
+    : QWidget(pParent)
+    , mpGroupBox(new QGroupBox("Animation Parameters", this))
+    , mpGroupLayout(nullptr)
+    , mpSelector(nullptr)
+    , mpCharComboBox(nullptr)
 {
     for (u32 iBox = 0; iBox < 4; iBox++)
         mpSpinBoxes[iBox] = nullptr;
@@ -25,12 +25,12 @@ WAnimParamsEditor::WAnimParamsEditor(QWidget *pParent)
     setLayout(pLayout);
 }
 
-WAnimParamsEditor::WAnimParamsEditor(const CAnimationParameters& params, QWidget *pParent)
-    : QWidget(pParent),
-      mpGroupBox(new QGroupBox("Animation Parameters", this)),
-      mpGroupLayout(nullptr),
-      mpSelector(nullptr),
-      mpCharComboBox(nullptr)
+WAnimParamsEditor::WAnimParamsEditor(const CAnimationParameters& rkParams, QWidget *pParent)
+    : QWidget(pParent)
+    , mpGroupBox(new QGroupBox("Animation Parameters", this))
+    , mpGroupLayout(nullptr)
+    , mpSelector(nullptr)
+    , mpCharComboBox(nullptr)
 {
     for (u32 iBox = 0; iBox < 4; iBox++)
         mpSpinBoxes[iBox] = nullptr;
@@ -45,7 +45,7 @@ WAnimParamsEditor::WAnimParamsEditor(const CAnimationParameters& params, QWidget
     pLayout->setContentsMargins(0,0,0,0);
     setLayout(pLayout);
 
-    mParams = params;
+    mParams = rkParams;
     SetupUI();
 }
 
@@ -53,30 +53,30 @@ WAnimParamsEditor::~WAnimParamsEditor()
 {
 }
 
-void WAnimParamsEditor::SetTitle(const QString& title)
+void WAnimParamsEditor::SetTitle(const QString& rkTitle)
 {
-    mpGroupBox->setTitle(title);
+    mpGroupBox->setTitle(rkTitle);
 }
 
-void WAnimParamsEditor::SetParameters(const CAnimationParameters& params)
+void WAnimParamsEditor::SetParameters(const CAnimationParameters& rkParams)
 {
-    mParams = params;
+    mParams = rkParams;
     SetupUI();
 }
 
 // ************ PRIVATE SLOTS ************
-void WAnimParamsEditor::OnResourceChanged(QString path)
+void WAnimParamsEditor::OnResourceChanged(QString Path)
 {
-    CResourceInfo ResInfo(path.toStdString());
+    CResourceInfo ResInfo(Path.toStdString());
     if (ResInfo.Type() != "ANCS" && ResInfo.Type() != "CHAR") ResInfo = CResourceInfo();
 
     mParams.SetResource(ResInfo);
     emit ParametersChanged(mParams);
 }
 
-void WAnimParamsEditor::OnCharacterChanged(int index)
+void WAnimParamsEditor::OnCharacterChanged(int Index)
 {
-    mParams.SetNodeIndex(index);
+    mParams.SetNodeIndex(Index);
     emit ParametersChanged(mParams);
 }
 
@@ -140,8 +140,8 @@ void WAnimParamsEditor::SetupUI()
         CAnimSet *pSet = static_cast<CAnimSet*>(mParams.AnimSet());
 
         if (pSet)
-            for (u32 iChar = 0; iChar < pSet->getNodeCount(); iChar++)
-                mpCharComboBox->addItem(TO_QSTRING(pSet->getNodeName(iChar)));
+            for (u32 iChar = 0; iChar < pSet->NumNodes(); iChar++)
+                mpCharComboBox->addItem(TO_QSTRING(pSet->NodeName(iChar)));
 
         mpCharComboBox->setCurrentIndex(mParams.CharacterIndex());
         mpLabels[1] = new QLabel("Character", this);

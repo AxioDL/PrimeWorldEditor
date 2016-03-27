@@ -6,9 +6,9 @@
 
 struct SNamedResource
 {
-    CFourCC resType;
-    TString resName;
-    u64 resID;
+    CFourCC Type;
+    TString Name;
+    u64 ID;
 };
 
 #endif // SNAMEDRESOURCE_H

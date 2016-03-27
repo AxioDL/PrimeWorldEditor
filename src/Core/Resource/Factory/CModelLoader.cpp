@@ -4,24 +4,24 @@
 #include <map>
 
 CModelLoader::CModelLoader()
+    : mFlags(eNoFlags)
+    , mNumVertices(0)
 {
-    mFlags = eNoFlags;
-    mNumVertices = 0;
 }
 
 CModelLoader::~CModelLoader()
 {
 }
 
-void CModelLoader::LoadWorldMeshHeader(IInputStream &Model)
+void CModelLoader::LoadWorldMeshHeader(IInputStream& rModel)
 {
     // I don't really have any need for most of this data, so
-    Model.Seek(0x34, SEEK_CUR);
-    mAABox = CAABox(Model);
+    rModel.Seek(0x34, SEEK_CUR);
+    mAABox = CAABox(rModel);
     mpSectionMgr->ToNextSection();
 }
 
-void CModelLoader::LoadAttribArrays(IInputStream& Model)
+void CModelLoader::LoadAttribArrays(IInputStream& rModel)
 {
     // Positions
     if (mFlags & eShortPositions) // Shorts (DKCR only)
@@ -31,10 +31,10 @@ void CModelLoader::LoadAttribArrays(IInputStream& Model)
 
         for (u32 iVtx = 0; iVtx < mPositions.size(); iVtx++)
         {
-            float x = Model.ReadShort() / Divisor;
-            float y = Model.ReadShort() / Divisor;
-            float z = Model.ReadShort() / Divisor;
-            mPositions[iVtx] = CVector3f(x, y, z);
+            float X = rModel.ReadShort() / Divisor;
+            float Y = rModel.ReadShort() / Divisor;
+            float Z = rModel.ReadShort() / Divisor;
+            mPositions[iVtx] = CVector3f(X, Y, Z);
         }
     }
 
@@ -43,7 +43,7 @@ void CModelLoader::LoadAttribArrays(IInputStream& Model)
         mPositions.resize(mpSectionMgr->CurrentSectionSize() / 0xC);
 
         for (u32 iVtx = 0; iVtx < mPositions.size(); iVtx++)
-            mPositions[iVtx] = CVector3f(Model);
+            mPositions[iVtx] = CVector3f(rModel);
     }
 
     mpSectionMgr->ToNextSection();
@@ -56,10 +56,10 @@ void CModelLoader::LoadAttribArrays(IInputStream& Model)
 
         for (u32 iVtx = 0; iVtx < mNormals.size(); iVtx++)
         {
-            float x = Model.ReadShort() / Divisor;
-            float y = Model.ReadShort() / Divisor;
-            float z = Model.ReadShort() / Divisor;
-            mNormals[iVtx] = CVector3f(x, y, z);
+            float X = rModel.ReadShort() / Divisor;
+            float Y = rModel.ReadShort() / Divisor;
+            float Z = rModel.ReadShort() / Divisor;
+            mNormals[iVtx] = CVector3f(X, Y, Z);
         }
     }
     else // Floats
@@ -67,7 +67,7 @@ void CModelLoader::LoadAttribArrays(IInputStream& Model)
         mNormals.resize(mpSectionMgr->CurrentSectionSize() / 0xC);
 
         for (u32 iVtx = 0; iVtx < mNormals.size(); iVtx++)
-            mNormals[iVtx] = CVector3f(Model);
+            mNormals[iVtx] = CVector3f(rModel);
     }
 
     mpSectionMgr->ToNextSection();
@@ -76,7 +76,7 @@ void CModelLoader::LoadAttribArrays(IInputStream& Model)
     mColors.resize(mpSectionMgr->CurrentSectionSize() / 4);
 
     for (u32 iVtx = 0; iVtx < mColors.size(); iVtx++)
-        mColors[iVtx] = CColor(Model);
+        mColors[iVtx] = CColor(rModel);
 
     mpSectionMgr->ToNextSection();
 
@@ -85,7 +85,7 @@ void CModelLoader::LoadAttribArrays(IInputStream& Model)
     mTex0.resize(mpSectionMgr->CurrentSectionSize() / 0x8);
 
     for (u32 iVtx = 0; iVtx < mTex0.size(); iVtx++)
-        mTex0[iVtx] = CVector2f(Model);
+        mTex0[iVtx] = CVector2f(rModel);
 
     mpSectionMgr->ToNextSection();
 
@@ -97,48 +97,48 @@ void CModelLoader::LoadAttribArrays(IInputStream& Model)
 
         for (u32 iVtx = 0; iVtx < mTex1.size(); iVtx++)
         {
-            float x = Model.ReadShort() / Divisor;
-            float y = Model.ReadShort() / Divisor;
-            mTex1[iVtx] = CVector2f(x, y);
+            float X = rModel.ReadShort() / Divisor;
+            float Y = rModel.ReadShort() / Divisor;
+            mTex1[iVtx] = CVector2f(X, Y);
         }
 
         mpSectionMgr->ToNextSection();
     }
 }
 
-void CModelLoader::LoadSurfaceOffsets(IInputStream& Model)
+void CModelLoader::LoadSurfaceOffsets(IInputStream& rModel)
 {
-    mSurfaceCount = Model.ReadLong();
+    mSurfaceCount = rModel.ReadLong();
     mSurfaceOffsets.resize(mSurfaceCount);
 
     for (u32 iSurf = 0; iSurf < mSurfaceCount; iSurf++)
-        mSurfaceOffsets[iSurf] = Model.ReadLong();
+        mSurfaceOffsets[iSurf] = rModel.ReadLong();
 
     mpSectionMgr->ToNextSection();
 }
 
-SSurface* CModelLoader::LoadSurface(IInputStream& Model)
+SSurface* CModelLoader::LoadSurface(IInputStream& rModel)
 {
     SSurface *pSurf = new SSurface;
 
     // Surface header
     if (mVersion  < eReturns)
-        LoadSurfaceHeaderPrime(Model, pSurf);
+        LoadSurfaceHeaderPrime(rModel, pSurf);
     else
-        LoadSurfaceHeaderDKCR(Model, pSurf);
+        LoadSurfaceHeaderDKCR(rModel, pSurf);
 
     bool HasAABB = (pSurf->AABox != CAABox::skInfinite);
     CMaterial *pMat = mMaterials[0]->MaterialByIndex(pSurf->MaterialID);
 
     // Primitive table
-    u8 Flag = Model.ReadByte();
+    u8 Flag = rModel.ReadByte();
     u32 NextSurface = mpSectionMgr->NextOffset();
 
-    while ((Flag != 0) && ((u32) Model.Tell() < NextSurface))
+    while ((Flag != 0) && ((u32) rModel.Tell() < NextSurface))
     {
         SSurface::SPrimitive Prim;
         Prim.Type = EGXPrimitiveType(Flag & 0xF8);
-        u16 VertexCount = Model.ReadShort();
+        u16 VertexCount = rModel.ReadShort();
 
         for (u16 iVtx = 0; iVtx < VertexCount; iVtx++)
         {
@@ -146,7 +146,7 @@ SSurface* CModelLoader::LoadSurface(IInputStream& Model)
             FVertexDescription VtxDesc = pMat->VtxDesc();
 
             for (u32 iMtxAttr = 0; iMtxAttr < 8; iMtxAttr++)
-                if (VtxDesc & (ePosMtx << iMtxAttr)) Model.Seek(0x1, SEEK_CUR);
+                if (VtxDesc & (ePosMtx << iMtxAttr)) rModel.Seek(0x1, SEEK_CUR);
 
             // Only thing to do here is check whether each attribute is present, and if so, read it.
             // A couple attributes have special considerations; normals can be floats or shorts, as can tex0, depending on vtxfmt.
@@ -155,7 +155,7 @@ SSurface* CModelLoader::LoadSurface(IInputStream& Model)
             // Position
             if (VtxDesc & ePosition)
             {
-                u16 PosIndex = Model.ReadShort() & 0xFFFF;
+                u16 PosIndex = rModel.ReadShort() & 0xFFFF;
                 Vtx.Position = mPositions[PosIndex];
                 Vtx.ArrayPosition = PosIndex;
 
@@ -164,12 +164,12 @@ SSurface* CModelLoader::LoadSurface(IInputStream& Model)
 
             // Normal
             if (VtxDesc & eNormal)
-                Vtx.Normal = mNormals[Model.ReadShort() & 0xFFFF];
+                Vtx.Normal = mNormals[rModel.ReadShort() & 0xFFFF];
 
             // Color
-            for (u32 c = 0; c < 2; c++)
-                if (VtxDesc & (eColor0 << (c * 2)))
-                    Vtx.Color[c] = mColors[Model.ReadShort() & 0xFFFF];
+            for (u32 iClr = 0; iClr < 2; iClr++)
+                if (VtxDesc & (eColor0 << (iClr * 2)))
+                    Vtx.Color[iClr] = mColors[rModel.ReadShort() & 0xFFFF];
 
             // Tex Coords - these are done a bit differently in DKCR than in the Prime series
             if (mVersion < eReturns)
@@ -178,15 +178,15 @@ SSurface* CModelLoader::LoadSurface(IInputStream& Model)
                 if (VtxDesc & eTex0)
                 {
                     if ((mFlags & eHasTex1) && (pMat->Options() & CMaterial::eShortTexCoord))
-                        Vtx.Tex[0] = mTex1[Model.ReadShort() & 0xFFFF];
+                        Vtx.Tex[0] = mTex1[rModel.ReadShort() & 0xFFFF];
                     else
-                        Vtx.Tex[0] = mTex0[Model.ReadShort() & 0xFFFF];
+                        Vtx.Tex[0] = mTex0[rModel.ReadShort() & 0xFFFF];
                 }
 
                 // Tex1-7
                 for (u32 iTex = 1; iTex < 7; iTex++)
                     if (VtxDesc & (eTex0 << (iTex * 2)))
-                        Vtx.Tex[iTex] = mTex0[Model.ReadShort() & 0xFFFF];
+                        Vtx.Tex[iTex] = mTex0[rModel.ReadShort() & 0xFFFF];
             }
 
             else
@@ -197,9 +197,9 @@ SSurface* CModelLoader::LoadSurface(IInputStream& Model)
                     if (VtxDesc & (eTex0 << iTex * 2))
                     {
                         if (!mSurfaceUsingTex1)
-                            Vtx.Tex[iTex] = mTex0[Model.ReadShort() & 0xFFFF];
+                            Vtx.Tex[iTex] = mTex0[rModel.ReadShort() & 0xFFFF];
                         else
-                            Vtx.Tex[iTex] = mTex1[Model.ReadShort() & 0xFFFF];
+                            Vtx.Tex[iTex] = mTex1[rModel.ReadShort() & 0xFFFF];
                     }
                 }
             }
@@ -222,24 +222,24 @@ SSurface* CModelLoader::LoadSurface(IInputStream& Model)
         }
 
         pSurf->Primitives.push_back(Prim);
-        Flag = Model.ReadByte();
+        Flag = rModel.ReadByte();
     } // Primitive table end
 
     mpSectionMgr->ToNextSection();
     return pSurf;
 }
 
-void CModelLoader::LoadSurfaceHeaderPrime(IInputStream& Model, SSurface *pSurf)
+void CModelLoader::LoadSurfaceHeaderPrime(IInputStream& rModel, SSurface *pSurf)
 {
-    pSurf->CenterPoint = CVector3f(Model);
-    pSurf->MaterialID = Model.ReadLong();
+    pSurf->CenterPoint = CVector3f(rModel);
+    pSurf->MaterialID = rModel.ReadLong();
 
-    Model.Seek(0xC, SEEK_CUR);
-    u32 ExtraSize = Model.ReadLong();
-    pSurf->ReflectionDirection = CVector3f(Model);
+    rModel.Seek(0xC, SEEK_CUR);
+    u32 ExtraSize = rModel.ReadLong();
+    pSurf->ReflectionDirection = CVector3f(rModel);
 
     if (mVersion >= eEchoesDemo)
-        Model.Seek(0x4, SEEK_CUR); // Skipping unknown values
+        rModel.Seek(0x4, SEEK_CUR); // Skipping unknown values
 
     bool HasAABox = (ExtraSize >= 0x18); // MREAs have a set of bounding box coordinates here.
 
@@ -247,54 +247,54 @@ void CModelLoader::LoadSurfaceHeaderPrime(IInputStream& Model, SSurface *pSurf)
     if (HasAABox)
     {
         ExtraSize -= 0x18;
-        pSurf->AABox = CAABox(Model);
+        pSurf->AABox = CAABox(rModel);
     }
     else
         pSurf->AABox = CAABox::skInfinite;
 
-    Model.Seek(ExtraSize, SEEK_CUR);
-    Model.SeekToBoundary(32);
+    rModel.Seek(ExtraSize, SEEK_CUR);
+    rModel.SeekToBoundary(32);
 }
 
-void CModelLoader::LoadSurfaceHeaderDKCR(IInputStream& Model, SSurface *pSurf)
+void CModelLoader::LoadSurfaceHeaderDKCR(IInputStream& rModel, SSurface *pSurf)
 {
-    pSurf->CenterPoint = CVector3f(Model);
-    Model.Seek(0xE, SEEK_CUR);
-    pSurf->MaterialID = (u32) Model.ReadShort();
-    Model.Seek(0x2, SEEK_CUR);
-    mSurfaceUsingTex1 = (Model.ReadByte() == 1);
-    u32 ExtraSize = Model.ReadByte();
+    pSurf->CenterPoint = CVector3f(rModel);
+    rModel.Seek(0xE, SEEK_CUR);
+    pSurf->MaterialID = (u32) rModel.ReadShort();
+    rModel.Seek(0x2, SEEK_CUR);
+    mSurfaceUsingTex1 = (rModel.ReadByte() == 1);
+    u32 ExtraSize = rModel.ReadByte();
 
     if (ExtraSize > 0)
     {
         ExtraSize -= 0x18;
-        pSurf->AABox = CAABox(Model);
+        pSurf->AABox = CAABox(rModel);
     }
     else
         pSurf->AABox = CAABox::skInfinite;
 
-    Model.Seek(ExtraSize, SEEK_CUR);
-    Model.SeekToBoundary(32);
+    rModel.Seek(ExtraSize, SEEK_CUR);
+    rModel.SeekToBoundary(32);
 }
 
-SSurface* CModelLoader::LoadAssimpMesh(const aiMesh *pMesh, CMaterialSet *pSet)
+SSurface* CModelLoader::LoadAssimpMesh(const aiMesh *pkMesh, CMaterialSet *pSet)
 {
     // Create vertex description and assign it to material
-    CMaterial *pMat = pSet->MaterialByIndex(pMesh->mMaterialIndex);
-    FVertexDescription desc = pMat->VtxDesc();
+    CMaterial *pMat = pSet->MaterialByIndex(pkMesh->mMaterialIndex);
+    FVertexDescription Desc = pMat->VtxDesc();
 
-    if (desc == eNoAttributes)
+    if (Desc == eNoAttributes)
     {
-        if (pMesh->HasPositions()) desc |= ePosition;
-        if (pMesh->HasNormals())   desc |= eNormal;
+        if (pkMesh->HasPositions()) Desc |= ePosition;
+        if (pkMesh->HasNormals())   Desc |= eNormal;
 
-        for (u32 iUV = 0; iUV < pMesh->GetNumUVChannels(); iUV++)
-            desc |= (eTex0 << (iUV * 2));
+        for (u32 iUV = 0; iUV < pkMesh->GetNumUVChannels(); iUV++)
+            Desc |= (eTex0 << (iUV * 2));
 
-        pMat->SetVertexDescription(desc);
+        pMat->SetVertexDescription(Desc);
 
         // TEMP - disable dynamic lighting on geometry with no normals
-        if (!pMesh->HasNormals())
+        if (!pkMesh->HasNormals())
         {
             pMat->SetLightingEnabled(false);
             pMat->Pass(0)->SetColorInputs(eZeroRGB, eOneRGB, eKonstRGB, eZeroRGB);
@@ -304,87 +304,90 @@ SSurface* CModelLoader::LoadAssimpMesh(const aiMesh *pMesh, CMaterialSet *pSet)
 
     // Create surface
     SSurface *pSurf = new SSurface();
-    pSurf->MaterialID = pMesh->mMaterialIndex;
+    pSurf->MaterialID = pkMesh->mMaterialIndex;
 
-    if (pMesh->mNumFaces > 0)
+    if (pkMesh->mNumFaces > 0)
     {
         pSurf->Primitives.resize(1);
-        SSurface::SPrimitive& prim = pSurf->Primitives[0];
+        SSurface::SPrimitive& rPrim = pSurf->Primitives[0];
 
         // Check primitive type on first face
-        u32 numIndices = pMesh->mFaces[0].mNumIndices;
-        if (numIndices == 1) prim.Type = eGX_Points;
-        else if (numIndices == 2) prim.Type = eGX_Lines;
-        else if (numIndices == 3) prim.Type = eGX_Triangles;
+        u32 NumIndices = pkMesh->mFaces[0].mNumIndices;
+        if (NumIndices == 1) rPrim.Type = eGX_Points;
+        else if (NumIndices == 2) rPrim.Type = eGX_Lines;
+        else if (NumIndices == 3) rPrim.Type = eGX_Triangles;
 
         // Generate bounding box, center point, and reflection projection
         pSurf->CenterPoint = CVector3f::skZero;
         pSurf->ReflectionDirection = CVector3f::skZero;
 
-        for (u32 iVtx = 0; iVtx < pMesh->mNumVertices; iVtx++)
+        for (u32 iVtx = 0; iVtx < pkMesh->mNumVertices; iVtx++)
         {
-            aiVector3D aiPos = pMesh->mVertices[iVtx];
-            pSurf->AABox.ExpandBounds(CVector3f(aiPos.x, aiPos.y, aiPos.z));
+            aiVector3D AiPos = pkMesh->mVertices[iVtx];
+            pSurf->AABox.ExpandBounds(CVector3f(AiPos.x, AiPos.y, AiPos.z));
 
-            if (pMesh->HasNormals()) {
-                aiVector3D aiNrm = pMesh->mNormals[iVtx];
+            if (pkMesh->HasNormals()) {
+                aiVector3D aiNrm = pkMesh->mNormals[iVtx];
                 pSurf->ReflectionDirection += CVector3f(aiNrm.x, aiNrm.y, aiNrm.z);
             }
         }
         pSurf->CenterPoint = pSurf->AABox.Center();
 
-        if (pMesh->HasNormals())
-            pSurf->ReflectionDirection /= (float) pMesh->mNumVertices;
+        if (pkMesh->HasNormals())
+            pSurf->ReflectionDirection /= (float) pkMesh->mNumVertices;
         else
             pSurf->ReflectionDirection = CVector3f(1.f, 0.f, 0.f);
 
         // Set vertex/triangle count
-        pSurf->VertexCount = pMesh->mNumVertices;
-        pSurf->TriangleCount = (prim.Type == eGX_Triangles ? pMesh->mNumFaces : 0);
+        pSurf->VertexCount = pkMesh->mNumVertices;
+        pSurf->TriangleCount = (rPrim.Type == eGX_Triangles ? pkMesh->mNumFaces : 0);
 
         // Create primitive
-        for (u32 iFace = 0; iFace < pMesh->mNumFaces; iFace++)
+        for (u32 iFace = 0; iFace < pkMesh->mNumFaces; iFace++)
         {
-            for (u32 iIndex = 0; iIndex < numIndices; iIndex++)
+            for (u32 iIndex = 0; iIndex < NumIndices; iIndex++)
             {
-                u32 index = pMesh->mFaces[iFace].mIndices[iIndex];
+                u32 Index = pkMesh->mFaces[iFace].mIndices[iIndex];
 
                 // Create vertex and add it to the primitive
-                CVertex vert;
-                vert.ArrayPosition = index + mNumVertices;
+                CVertex Vert;
+                Vert.ArrayPosition = Index + mNumVertices;
 
-                if (pMesh->HasPositions()) {
-                    aiVector3D aiPos = pMesh->mVertices[index];
-                    vert.Position = CVector3f(aiPos.x, aiPos.y, aiPos.z);
+                if (pkMesh->HasPositions())
+                {
+                    aiVector3D AiPos = pkMesh->mVertices[Index];
+                    Vert.Position = CVector3f(AiPos.x, AiPos.y, AiPos.z);
                 }
 
-                if (pMesh->HasNormals()) {
-                    aiVector3D aiNrm = pMesh->mNormals[index];
-                    vert.Normal = CVector3f(aiNrm.x, aiNrm.y, aiNrm.z);
+                if (pkMesh->HasNormals())
+                {
+                    aiVector3D AiNrm = pkMesh->mNormals[Index];
+                    Vert.Normal = CVector3f(AiNrm.x, AiNrm.y, AiNrm.z);
                 }
 
-                for (u32 iTex = 0; iTex < pMesh->GetNumUVChannels(); iTex++) {
-                    aiVector3D aiTex = pMesh->mTextureCoords[iTex][index];
-                    vert.Tex[iTex] = CVector2f(aiTex.x, aiTex.y);
+                for (u32 iTex = 0; iTex < pkMesh->GetNumUVChannels(); iTex++)
+                {
+                    aiVector3D AiTex = pkMesh->mTextureCoords[iTex][Index];
+                    Vert.Tex[iTex] = CVector2f(AiTex.x, AiTex.y);
                 }
 
-                prim.Vertices.push_back(vert);
+                rPrim.Vertices.push_back(Vert);
             }
         }
 
-        mNumVertices += pMesh->mNumVertices;
+        mNumVertices += pkMesh->mNumVertices;
     }
 
     return pSurf;
 }
 
 // ************ STATIC ************
-CModel* CModelLoader::LoadCMDL(IInputStream& CMDL)
+CModel* CModelLoader::LoadCMDL(IInputStream& rCMDL)
 {
     CModelLoader Loader;
 
     // CMDL header - same across the three Primes, but different structure in DKCR
-    u32 Magic = CMDL.ReadLong();
+    u32 Magic = rCMDL.ReadLong();
 
     u32 Version, BlockCount, MatSetCount;
     CAABox AABox;
@@ -392,11 +395,11 @@ CModel* CModelLoader::LoadCMDL(IInputStream& CMDL)
     // 0xDEADBABE - Metroid Prime seres
     if (Magic == 0xDEADBABE)
     {
-        Version = CMDL.ReadLong();
-        u32 Flags = CMDL.ReadLong();
-        AABox = CAABox(CMDL);
-        BlockCount = CMDL.ReadLong();
-        MatSetCount = CMDL.ReadLong();
+        Version = rCMDL.ReadLong();
+        u32 Flags = rCMDL.ReadLong();
+        AABox = CAABox(rCMDL);
+        BlockCount = rCMDL.ReadLong();
+        MatSetCount = rCMDL.ReadLong();
 
         if (Flags & 0x2) Loader.mFlags |= eShortNormals;
         if (Flags & 0x4) Loader.mFlags |= eHasTex1;
@@ -406,10 +409,10 @@ CModel* CModelLoader::LoadCMDL(IInputStream& CMDL)
     else if (Magic == 0x9381000A)
     {
         Version = Magic & 0xFFFF;
-        u32 Flags = CMDL.ReadLong();
-        AABox = CAABox(CMDL);
-        BlockCount = CMDL.ReadLong();
-        MatSetCount = CMDL.ReadLong();
+        u32 Flags = rCMDL.ReadLong();
+        AABox = CAABox(rCMDL);
+        BlockCount = rCMDL.ReadLong();
+        MatSetCount = rCMDL.ReadLong();
 
         // todo: unknown flags
         Loader.mFlags = eShortNormals | eHasTex1;
@@ -420,22 +423,22 @@ CModel* CModelLoader::LoadCMDL(IInputStream& CMDL)
         // Skipping for now - should read in eventually
         if (Flags & 0x10)
         {
-            CMDL.Seek(0x4, SEEK_CUR);
-            u32 VisGroupCount = CMDL.ReadLong();
+            rCMDL.Seek(0x4, SEEK_CUR);
+            u32 VisGroupCount = rCMDL.ReadLong();
 
             for (u32 iVis = 0; iVis < VisGroupCount; iVis++)
             {
-                u32 NameLength = CMDL.ReadLong();
-                CMDL.Seek(NameLength, SEEK_CUR);
+                u32 NameLength = rCMDL.ReadLong();
+                rCMDL.Seek(NameLength, SEEK_CUR);
             }
 
-            CMDL.Seek(0x14, SEEK_CUR); // no clue what any of this is!
+            rCMDL.Seek(0x14, SEEK_CUR); // no clue what any of this is!
         }
     }
 
     else
     {
-        Log::FileError(CMDL.GetSourceString(), "Invalid CMDL magic: " + TString::HexString(Magic));
+        Log::FileError(rCMDL.GetSourceString(), "Invalid CMDL magic: " + TString::HexString(Magic));
         return nullptr;
     }
 
@@ -444,21 +447,21 @@ CModel* CModelLoader::LoadCMDL(IInputStream& CMDL)
 
     if (Loader.mVersion == eUnknownVersion)
     {
-        Log::FileError(CMDL.GetSourceString(), "Unsupported CMDL version: " + TString::HexString(Magic));
+        Log::FileError(rCMDL.GetSourceString(), "Unsupported CMDL version: " + TString::HexString(Magic, 0));
         return nullptr;
     }
 
     CModel *pModel = new CModel();
     Loader.mpModel = pModel;
-    Loader.mpSectionMgr = new CSectionMgrIn(BlockCount, &CMDL);
-    CMDL.SeekToBoundary(32);
+    Loader.mpSectionMgr = new CSectionMgrIn(BlockCount, &rCMDL);
+    rCMDL.SeekToBoundary(32);
     Loader.mpSectionMgr->Init();
 
     // Materials
     Loader.mMaterials.resize(MatSetCount);
     for (u32 iMat = 0; iMat < MatSetCount; iMat++)
     {
-        Loader.mMaterials[iMat] = CMaterialLoader::LoadMaterialSet(CMDL, Loader.mVersion);
+        Loader.mMaterials[iMat] = CMaterialLoader::LoadMaterialSet(rCMDL, Loader.mVersion);
 
         if (Loader.mVersion < eCorruptionProto)
             Loader.mpSectionMgr->ToNextSection();
@@ -469,13 +472,13 @@ CModel* CModelLoader::LoadCMDL(IInputStream& CMDL)
     if (Loader.mVersion >= eCorruptionProto) Loader.mpSectionMgr->ToNextSection();
 
     // Mesh
-    Loader.LoadAttribArrays(CMDL);
-    Loader.LoadSurfaceOffsets(CMDL);
+    Loader.LoadAttribArrays(rCMDL);
+    Loader.LoadSurfaceOffsets(rCMDL);
     pModel->mSurfaces.reserve(Loader.mSurfaceCount);
 
     for (u32 iSurf = 0; iSurf < Loader.mSurfaceCount; iSurf++)
     {
-        SSurface *pSurf = Loader.LoadSurface(CMDL);
+        SSurface *pSurf = Loader.LoadSurface(rCMDL);
         pModel->mSurfaces.push_back(pSurf);
         pModel->mVertexCount += pSurf->VertexCount;
         pModel->mTriangleCount += pSurf->TriangleCount;
@@ -489,30 +492,30 @@ CModel* CModelLoader::LoadCMDL(IInputStream& CMDL)
     return pModel;
 }
 
-CModel* CModelLoader::LoadWorldModel(IInputStream& MREA, CSectionMgrIn& BlockMgr, CMaterialSet& MatSet, EGame Version)
+CModel* CModelLoader::LoadWorldModel(IInputStream& rMREA, CSectionMgrIn& rBlockMgr, CMaterialSet& rMatSet, EGame Version)
 {
     CModelLoader Loader;
-    Loader.mpSectionMgr = &BlockMgr;
+    Loader.mpSectionMgr = &rBlockMgr;
     Loader.mVersion = Version;
     Loader.mFlags = eShortNormals;
     if (Version != eCorruptionProto) Loader.mFlags |= eHasTex1;
     Loader.mMaterials.resize(1);
-    Loader.mMaterials[0] = &MatSet;
+    Loader.mMaterials[0] = &rMatSet;
 
-    Loader.LoadWorldMeshHeader(MREA);
-    Loader.LoadAttribArrays(MREA);
-    Loader.LoadSurfaceOffsets(MREA);
+    Loader.LoadWorldMeshHeader(rMREA);
+    Loader.LoadAttribArrays(rMREA);
+    Loader.LoadSurfaceOffsets(rMREA);
 
     CModel *pModel = new CModel();
     pModel->mMaterialSets.resize(1);
-    pModel->mMaterialSets[0] = &MatSet;
+    pModel->mMaterialSets[0] = &rMatSet;
     pModel->mHasOwnMaterials = false;
     pModel->mSurfaces.reserve(Loader.mSurfaceCount);
     pModel->mHasOwnSurfaces = true;
 
     for (u32 iSurf = 0; iSurf < Loader.mSurfaceCount; iSurf++)
     {
-        SSurface *pSurf = Loader.LoadSurface(MREA);
+        SSurface *pSurf = Loader.LoadSurface(rMREA);
         pModel->mSurfaces.push_back(pSurf);
         pModel->mVertexCount += pSurf->VertexCount;
         pModel->mTriangleCount += pSurf->TriangleCount;
@@ -522,33 +525,33 @@ CModel* CModelLoader::LoadWorldModel(IInputStream& MREA, CSectionMgrIn& BlockMgr
     return pModel;
 }
 
-CModel* CModelLoader::LoadCorruptionWorldModel(IInputStream &MREA, CSectionMgrIn &BlockMgr, CMaterialSet &MatSet, u32 HeaderSecNum, u32 GPUSecNum, EGame Version)
+CModel* CModelLoader::LoadCorruptionWorldModel(IInputStream& rMREA, CSectionMgrIn& rBlockMgr, CMaterialSet& rMatSet, u32 HeaderSecNum, u32 GPUSecNum, EGame Version)
 {
     CModelLoader Loader;
-    Loader.mpSectionMgr = &BlockMgr;
+    Loader.mpSectionMgr = &rBlockMgr;
     Loader.mVersion = Version;
     Loader.mFlags = eShortNormals;
     Loader.mMaterials.resize(1);
-    Loader.mMaterials[0] = &MatSet;
+    Loader.mMaterials[0] = &rMatSet;
     if (Version == eReturns) Loader.mFlags |= eHasTex1;
 
     // Corruption/DKCR MREAs split the mesh header and surface offsets away from the actual geometry data so I need two section numbers to read it
-    BlockMgr.ToSection(HeaderSecNum);
-    Loader.LoadWorldMeshHeader(MREA);
-    Loader.LoadSurfaceOffsets(MREA);
-    BlockMgr.ToSection(GPUSecNum);
-    Loader.LoadAttribArrays(MREA);
+    rBlockMgr.ToSection(HeaderSecNum);
+    Loader.LoadWorldMeshHeader(rMREA);
+    Loader.LoadSurfaceOffsets(rMREA);
+    rBlockMgr.ToSection(GPUSecNum);
+    Loader.LoadAttribArrays(rMREA);
 
     CModel *pModel = new CModel();
     pModel->mMaterialSets.resize(1);
-    pModel->mMaterialSets[0] = &MatSet;
+    pModel->mMaterialSets[0] = &rMatSet;
     pModel->mHasOwnMaterials = false;
     pModel->mSurfaces.reserve(Loader.mSurfaceCount);
     pModel->mHasOwnSurfaces = true;
 
     for (u32 iSurf = 0; iSurf < Loader.mSurfaceCount; iSurf++)
     {
-        SSurface *pSurf = Loader.LoadSurface(MREA);
+        SSurface *pSurf = Loader.LoadSurface(rMREA);
         pModel->mSurfaces.push_back(pSurf);
         pModel->mVertexCount += pSurf->VertexCount;
         pModel->mTriangleCount += pSurf->TriangleCount;
@@ -609,25 +612,25 @@ void CModelLoader::BuildWorldMeshes(const std::vector<CModel*>& rkIn, std::vecto
     }
 }
 
-CModel* CModelLoader::ImportAssimpNode(const aiNode *pNode, const aiScene *pScene, CMaterialSet& matSet)
+CModel* CModelLoader::ImportAssimpNode(const aiNode *pkNode, const aiScene *pkScene, CMaterialSet& rMatSet)
 {
-    CModelLoader loader;
-    loader.mpModel = new CModel(&matSet, true);
-    loader.mpModel->mSurfaces.reserve(pNode->mNumMeshes);
+    CModelLoader Loader;
+    Loader.mpModel = new CModel(&rMatSet, true);
+    Loader.mpModel->mSurfaces.reserve(pkNode->mNumMeshes);
 
-    for (u32 iMesh = 0; iMesh < pNode->mNumMeshes; iMesh++)
+    for (u32 iMesh = 0; iMesh < pkNode->mNumMeshes; iMesh++)
     {
-        u32 meshIndex = pNode->mMeshes[iMesh];
-        const aiMesh *pMesh = pScene->mMeshes[meshIndex];
-        SSurface *pSurf = loader.LoadAssimpMesh(pMesh, &matSet);
+        u32 MeshIndex = pkNode->mMeshes[iMesh];
+        const aiMesh *pkMesh = pkScene->mMeshes[MeshIndex];
+        SSurface *pSurf = Loader.LoadAssimpMesh(pkMesh, &rMatSet);
 
-        loader.mpModel->mSurfaces.push_back(pSurf);
-        loader.mpModel->mAABox.ExpandBounds(pSurf->AABox);
-        loader.mpModel->mVertexCount += pSurf->VertexCount;
-        loader.mpModel->mTriangleCount += pSurf->TriangleCount;
+        Loader.mpModel->mSurfaces.push_back(pSurf);
+        Loader.mpModel->mAABox.ExpandBounds(pSurf->AABox);
+        Loader.mpModel->mVertexCount += pSurf->VertexCount;
+        Loader.mpModel->mTriangleCount += pSurf->TriangleCount;
     }
 
-    return loader.mpModel;
+    return Loader.mpModel;
 }
 
 EGame CModelLoader::GetFormatVersion(u32 Version)

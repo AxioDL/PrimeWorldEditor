@@ -42,7 +42,7 @@ public:
     ~CBasicViewport();
     void initializeGL();
     void paintGL();
-    void resizeGL(int w, int h);
+    void resizeGL(int Width, int Height);
     void mousePressEvent(QMouseEvent *pEvent);
     void mouseReleaseEvent(QMouseEvent *pEvent);
     void mouseMoveEvent(QMouseEvent *pEvent);
@@ -53,8 +53,8 @@ public:
     void contextMenuEvent(QContextMenuEvent *pEvent);
 
     void SetGameMode(bool Enabled);
-    void SetCursorState(const QCursor& Cursor);
-    void SetCursorVisible(bool visible);
+    void SetCursorState(const QCursor& rkCursor);
+    void SetCursorVisible(bool Visible);
     bool IsCursorVisible();
     bool IsMouseInputActive();
     bool IsKeyboardInputActive();

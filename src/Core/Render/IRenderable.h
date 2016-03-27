@@ -12,8 +12,8 @@ class IRenderable
 public:
     IRenderable() {}
     virtual ~IRenderable() {}
-    virtual void AddToRenderer(CRenderer* pRenderer, const SViewInfo& ViewInfo) = 0;
-    virtual void Draw(FRenderOptions /*Options*/, int /*ComponentIndex*/, const SViewInfo& /*ViewInfo*/) {}
+    virtual void AddToRenderer(CRenderer* pRenderer, const SViewInfo& rkViewInfo) = 0;
+    virtual void Draw(FRenderOptions /*Options*/, int /*ComponentIndex*/, const SViewInfo& /*rkViewInfo*/) {}
     virtual void DrawSelection() {}
 };
 

@@ -1,51 +1,32 @@
 #include "CTexture.h"
 
-CTexture::CTexture() : CResource()
+CTexture::CTexture()
+    : CResource()
+    , mTexelFormat(eRGBA8)
+    , mSourceTexelFormat(eRGBA8)
+    , mWidth(0)
+    , mHeight(0)
+    , mNumMipMaps(0)
+    , mLinearSize(0)
+    , mBufferExists(false)
+    , mpImgDataBuffer(nullptr)
+    , mImgDataSize(0)
+    , mGLBufferExists(false)
 {
-    mTexelFormat = eRGBA8;
-    mSourceTexelFormat = eRGBA8;
-    mWidth = 0;
-    mHeight = 0;
-    mNumMipMaps = 0;
-    mLinearSize = 0;
-
-    mBufferExists = false;
-    mImgDataBuffer = nullptr;
-    mImgDataSize = 0;
-
-    mGLBufferExists = false;
-}
-
-CTexture::CTexture(const CTexture& Source)
-{
-    mTexelFormat = Source.mTexelFormat;
-    mSourceTexelFormat = Source.mSourceTexelFormat;
-    mWidth = Source.mWidth;
-    mHeight = Source.mHeight;
-    mLinearSize = Source.mLinearSize;
-
-    mBufferExists = Source.mBufferExists;
-    mImgDataSize = Source.mImgDataSize;
-    mImgDataBuffer = new u8[mImgDataSize];
-    memcpy(mImgDataBuffer, Source.mImgDataBuffer, mImgDataSize);
-
-    mGLBufferExists = false;
 }
 
 CTexture::CTexture(u32 Width, u32 Height)
+    : mTexelFormat(eRGBA8)
+    , mSourceTexelFormat(eRGBA8)
+    , mWidth((u16) Width)
+    , mHeight((u16) Height)
+    , mNumMipMaps(1)
+    , mLinearSize(Width * Height * 4)
+    , mBufferExists(false)
+    , mpImgDataBuffer(nullptr)
+    , mImgDataSize(0)
+    , mGLBufferExists(false)
 {
-    mTexelFormat = eRGBA8;
-    mSourceTexelFormat = eRGBA8;
-    mWidth = (u16) Width;
-    mHeight = (u16) Height;
-    mNumMipMaps = 1;
-    mLinearSize = Width * Height * 4;
-
-    mBufferExists = false;
-    mImgDataBuffer = nullptr;
-    mImgDataSize = 0;
-
-    mGLBufferExists = false;
 }
 
 CTexture::~CTexture()
@@ -61,8 +42,8 @@ bool CTexture::BufferGL()
     GLenum GLFormat, GLType;
     bool IsCompressed = false;
 
-    switch (mTexelFormat) {
-
+    switch (mTexelFormat)
+    {
         case eLuminance:
             GLFormat = GL_LUMINANCE;
             GLType = GL_UNSIGNED_BYTE;
@@ -97,7 +78,7 @@ bool CTexture::BufferGL()
 
     for (u32 iMip = 0; iMip < mNumMipMaps; iMip++)
     {
-        GLvoid *pData = (mBufferExists) ? (mImgDataBuffer + MipOffset) : NULL;
+        GLvoid *pData = (mBufferExists) ? (mpImgDataBuffer + MipOffset) : NULL;
 
         if (!IsCompressed)
             glTexImage2D(GL_TEXTURE_2D, iMip, GLFormat, MipW, MipH, 0, GLFormat, GLType, pData);
@@ -147,16 +128,16 @@ void CTexture::Resize(u32 Width, u32 Height)
     }
 }
 
-float CTexture::ReadTexelAlpha(const CVector2f& TexCoord)
+float CTexture::ReadTexelAlpha(const CVector2f& rkTexCoord)
 {
     // todo: support texel formats other than DXT1
     // DXT1 is definitely the most complicated one anyway; try reusing CTextureDecoder functions for other formats
-    u32 TexelX = (u32) ((mWidth - 1) * TexCoord.x);
-    u32 TexelY = (u32) ((mHeight - 1) * (1.f - fmodf(TexCoord.y, 1.f)));
+    u32 TexelX = (u32) ((mWidth - 1) * rkTexCoord.X);
+    u32 TexelY = (u32) ((mHeight - 1) * (1.f - fmodf(rkTexCoord.Y, 1.f)));
 
     if (mTexelFormat == eDXT1 && mBufferExists)
     {
-        CMemoryInStream Buffer(mImgDataBuffer, mImgDataSize, IOUtil::kSystemEndianness);
+        CMemoryInStream Buffer(mpImgDataBuffer, mImgDataSize, IOUtil::kSystemEndianness);
 
         // 8 bytes per 4x4 16-pixel block, left-to-right top-to-bottom
         u32 BlockIdxX = TexelX / 4;
@@ -190,83 +171,84 @@ float CTexture::ReadTexelAlpha(const CVector2f& TexCoord)
     return 1.f;
 }
 
-bool CTexture::WriteDDS(IOutputStream& out)
+bool CTexture::WriteDDS(IOutputStream& rOut)
 {
-    if (!out.IsValid()) return false;
+    if (!rOut.IsValid()) return false;
 
     CopyGLBuffer();
 
-    out.WriteString("DDS ", 4);     // "DDS " fourCC
-    out.WriteLong(0x7C);            // dwSize
-    out.WriteLong(0x21007);         // dwFlags
-    out.WriteLong(mHeight);         // dwHeight
-    out.WriteLong(mWidth);          // dwWidth
-    out.WriteLong(mLinearSize);     // dwPitchOrLinearSize
-    out.WriteLong(0);               // dwDepth
-    out.WriteLong(mNumMipMaps - 1); // dwMipMapCount
+    rOut.WriteString("DDS ", 4);     // "DDS " fourCC
+    rOut.WriteLong(0x7C);            // dwSize
+    rOut.WriteLong(0x21007);         // dwFlags
+    rOut.WriteLong(mHeight);         // dwHeight
+    rOut.WriteLong(mWidth);          // dwWidth
+    rOut.WriteLong(mLinearSize);     // dwPitchOrLinearSize
+    rOut.WriteLong(0);               // dwDepth
+    rOut.WriteLong(mNumMipMaps - 1); // dwMipMapCount
 
-    for (u32 i = 0; i < 11; i++)
-        out.WriteLong(0);           // dwReserved1[11]
+    for (u32 iRes = 0; iRes < 11; iRes++)
+        rOut.WriteLong(0);           // dwReserved1[11]
 
     // DDS_PIXELFORMAT
-    out.WriteLong(32); // DDS_PIXELFORMAT.dwSize
+    rOut.WriteLong(32); // DDS_PIXELFORMAT.dwSize
+    u32 PFFlags = 0, PFBpp = 0, PFRBitMask = 0, PFGBitMask = 0, PFBBitMask = 0, PFABitMask = 0;
 
-    u32 pfFlags = 0, pfBpp = 0, pfRBitMask = 0, pfGBitMask = 0, pfBBitMask = 0, pfABitMask = 0;
-    switch (mTexelFormat) {
+    switch (mTexelFormat)
+    {
         case eLuminance:
-            pfFlags = 0x20000;
-            pfBpp = 0x8;
-            pfRBitMask = 0xFF;
+            PFFlags = 0x20000;
+            PFBpp = 0x8;
+            PFRBitMask = 0xFF;
             break;
         case eLuminanceAlpha:
-            pfFlags = 0x20001;
-            pfBpp = 0x10;
-            pfRBitMask = 0x00FF;
-            pfABitMask = 0xFF00;
+            PFFlags = 0x20001;
+            PFBpp = 0x10;
+            PFRBitMask = 0x00FF;
+            PFABitMask = 0xFF00;
             break;
         case eRGBA4:
-            pfFlags = 0x41;
-            pfBpp = 0x10;
-            pfRBitMask = 0x0F00;
-            pfGBitMask = 0x00F0;
-            pfBBitMask = 0x000F;
-            pfABitMask = 0xF000;
+            PFFlags = 0x41;
+            PFBpp = 0x10;
+            PFRBitMask = 0x0F00;
+            PFGBitMask = 0x00F0;
+            PFBBitMask = 0x000F;
+            PFABitMask = 0xF000;
             break;
         case eRGB565:
-            pfFlags = 0x40;
-            pfBpp = 0x10;
-            pfRBitMask = 0xF800;
-            pfGBitMask = 0x7E0;
-            pfBBitMask = 0x1F;
+            PFFlags = 0x40;
+            PFBpp = 0x10;
+            PFRBitMask = 0xF800;
+            PFGBitMask = 0x7E0;
+            PFBBitMask = 0x1F;
             break;
         case eRGBA8:
-            pfFlags = 0x41;
-            pfBpp = 0x20;
-            pfRBitMask = 0x00FF0000;
-            pfGBitMask = 0x0000FF00;
-            pfBBitMask = 0x000000FF;
-            pfABitMask = 0xFF000000;
+            PFFlags = 0x41;
+            PFBpp = 0x20;
+            PFRBitMask = 0x00FF0000;
+            PFGBitMask = 0x0000FF00;
+            PFBBitMask = 0x000000FF;
+            PFABitMask = 0xFF000000;
             break;
         case eDXT1:
-            pfFlags = 0x4;
+            PFFlags = 0x4;
             break;
     }
 
-    out.WriteLong(pfFlags);    // DDS_PIXELFORMAT.dwFlags
-    (mTexelFormat == eDXT1) ? out.WriteString("DXT1", 4) : out.WriteLong(0); // DDS_PIXELFORMAT.dwFourCC
-    out.WriteLong(pfBpp);      // DDS_PIXELFORMAT.dwRGBBitCount
-    out.WriteLong(pfRBitMask); // DDS_PIXELFORMAT.dwRBitMask
-    out.WriteLong(pfGBitMask); // DDS_PIXELFORMAT.dwGBitMask
-    out.WriteLong(pfBBitMask); // DDS_PIXELFORMAT.dwBBitMask
-    out.WriteLong(pfABitMask); // DDS_PIXELFORMAT.dwABitMask
+    rOut.WriteLong(PFFlags);    // DDS_PIXELFORMAT.dwFlags
+    (mTexelFormat == eDXT1) ? rOut.WriteString("DXT1", 4) : rOut.WriteLong(0); // DDS_PIXELFORMAT.dwFourCC
+    rOut.WriteLong(PFBpp);      // DDS_PIXELFORMAT.dwRGBBitCount
+    rOut.WriteLong(PFRBitMask); // DDS_PIXELFORMAT.dwRBitMask
+    rOut.WriteLong(PFGBitMask); // DDS_PIXELFORMAT.dwGBitMask
+    rOut.WriteLong(PFBBitMask); // DDS_PIXELFORMAT.dwBBitMask
+    rOut.WriteLong(PFABitMask); // DDS_PIXELFORMAT.dwABitMask
 
-    out.WriteLong(0x401000); // dwCaps
-    out.WriteLong(0);        // dwCaps2
-    out.WriteLong(0);        // dwCaps3
-    out.WriteLong(0);        // dwCaps4
-    out.WriteLong(0);        // dwReserved2
+    rOut.WriteLong(0x401000); // dwCaps
+    rOut.WriteLong(0);        // dwCaps2
+    rOut.WriteLong(0);        // dwCaps3
+    rOut.WriteLong(0);        // dwCaps4
+    rOut.WriteLong(0);        // dwReserved2
 
-    out.WriteBytes(mImgDataBuffer, mImgDataSize); // Image data
+    rOut.WriteBytes(mpImgDataBuffer, mImgDataSize); // Image data
     return true;
 }
 
@@ -325,15 +307,15 @@ void CTexture::CopyGLBuffer()
     // Clear existing buffer
     if (mBufferExists)
     {
-        delete[] mImgDataBuffer;
+        delete[] mpImgDataBuffer;
         mBufferExists = false;
-        mImgDataBuffer = nullptr;
+        mpImgDataBuffer = nullptr;
         mImgDataSize = 0;
     }
 
     // Calculate buffer size
     mImgDataSize = CalcTotalSize();
-    mImgDataBuffer = new u8[mImgDataSize];
+    mpImgDataBuffer = new u8[mImgDataSize];
     mBufferExists = true;
 
     // Get texture
@@ -344,7 +326,7 @@ void CTexture::CopyGLBuffer()
 
     for (u32 iMip = 0; iMip < mNumMipMaps; iMip++)
     {
-        void *pData = mImgDataBuffer + MipOffset;
+        void *pData = mpImgDataBuffer + MipOffset;
 
         glGetTexImage(GL_TEXTURE_2D, iMip, GL_RGBA, GL_UNSIGNED_BYTE, pData);
 
@@ -361,9 +343,9 @@ void CTexture::DeleteBuffers()
 {
     if (mBufferExists)
     {
-        delete[] mImgDataBuffer;
+        delete[] mpImgDataBuffer;
         mBufferExists = false;
-        mImgDataBuffer = nullptr;
+        mpImgDataBuffer = nullptr;
         mImgDataSize = 0;
     }
 

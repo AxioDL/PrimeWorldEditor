@@ -14,17 +14,20 @@ class CInstancesModel : public QAbstractItemModel
     Q_OBJECT
 
 public:
-    enum EIndexType {
+    enum EIndexType
+    {
         eRootIndex, eNodeTypeIndex, eObjectTypeIndex, eInstanceIndex
     };
 
-    enum ENodeType {
+    enum ENodeType
+    {
         eScriptType = 0x0,
         eLightType = 0x1,
         eInvalidType = 0xFF
     };
 
-    enum EInstanceModelType {
+    enum EInstanceModelType
+    {
         eLayers, eTypes
     };
 
@@ -42,21 +45,21 @@ private:
 public:
     explicit CInstancesModel(QObject *pParent = 0);
     ~CInstancesModel();
-    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
-    QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
-    QModelIndex parent(const QModelIndex &child) const;
-    int rowCount(const QModelIndex &parent) const;
-    int columnCount(const QModelIndex &parent) const;
-    QVariant data(const QModelIndex &index, int role) const;
+    QVariant headerData(int Section, Qt::Orientation Orientation, int Role) const;
+    QModelIndex index(int Row, int Column, const QModelIndex& rkParent = QModelIndex()) const;
+    QModelIndex parent(const QModelIndex& rkChild) const;
+    int rowCount(const QModelIndex& rkParent) const;
+    int columnCount(const QModelIndex& rkParent) const;
+    QVariant data(const QModelIndex& rkIndex, int Role) const;
 
     void SetEditor(CWorldEditor *pEditor);
     void SetMaster(CMasterTemplate *pMaster);
     void SetArea(CGameArea *pArea);
-    void SetModelType(EInstanceModelType type);
+    void SetModelType(EInstanceModelType Type);
     void SetShowColumnEnabled(bool Enabled);
-    CScriptLayer* IndexLayer(const QModelIndex& index) const;
-    CScriptTemplate* IndexTemplate(const QModelIndex& index) const;
-    CScriptObject* IndexObject(const QModelIndex& index) const;
+    CScriptLayer* IndexLayer(const QModelIndex& rkIndex) const;
+    CScriptTemplate* IndexTemplate(const QModelIndex& rkIndex) const;
+    CScriptObject* IndexObject(const QModelIndex& rkIndex) const;
 
 public slots:
     void NodeAboutToBeCreated();
@@ -69,12 +72,11 @@ public slots:
     void InstancesLayerPostChange(const QList<CScriptNode*>& rkInstanceList);
 
     // Static
-    static EIndexType IndexType(const QModelIndex& index);
-    static ENodeType IndexNodeType(const QModelIndex& index);
+    static EIndexType IndexType(const QModelIndex& rkIndex);
+    static ENodeType IndexNodeType(const QModelIndex& rkIndex);
 
 private:
     void GenerateList();
-
 };
 
 #endif // CTYPESINSTANCEMODEL_H

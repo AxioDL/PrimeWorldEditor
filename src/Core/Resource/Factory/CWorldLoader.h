@@ -13,11 +13,11 @@ class CWorldLoader
     EGame mVersion;
 
     CWorldLoader();
-    void LoadPrimeMLVL(IInputStream& MLVL);
-    void LoadReturnsMLVL(IInputStream& MLVL);
+    void LoadPrimeMLVL(IInputStream& rMLVL);
+    void LoadReturnsMLVL(IInputStream& rMLVL);
 
 public:
-    static CWorld* LoadMLVL(IInputStream& MLVL);
+    static CWorld* LoadMLVL(IInputStream& rMLVL);
     static EGame GetFormatVersion(u32 Version);
 };
 

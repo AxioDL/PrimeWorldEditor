@@ -8,7 +8,7 @@ CPoiMapModel::CPoiMapModel(CWorldEditor *pEditor, QObject *pParent /*= 0*/)
     : QAbstractListModel(pParent)
     , mpEditor(pEditor)
     , mpArea(pEditor->ActiveArea())
-    , mpPoiToWorld(mpArea->GetPoiToWorldMap())
+    , mpPoiToWorld(mpArea->PoiToWorldMap())
 {
     if (mpPoiToWorld)
     {
@@ -81,7 +81,7 @@ QVariant CPoiMapModel::data(const QModelIndex& rkIndex, int Role) const
 
         else if (Role == Qt::DecorationRole)
         {
-            CScriptNode *pNode = mpEditor->Scene()->NodeForObject(pPOI);
+            CScriptNode *pNode = mpEditor->Scene()->NodeForInstance(pPOI);
             bool IsImportant = false;
 
             if (pNode)
@@ -112,7 +112,7 @@ void CPoiMapModel::AddPOI(CScriptNode *pPOI)
 
         QList<CModelNode*> *pList = new QList<CModelNode*>;
         mModelMap[pPOI] = pList;
-        mpPoiToWorld->AddPoi(pPOI->Object()->InstanceID());
+        mpPoiToWorld->AddPoi(pPOI->Instance()->InstanceID());
 
         endInsertRows();
     }
@@ -127,7 +127,7 @@ void CPoiMapModel::AddMapping(const QModelIndex& rkIndex, CModelNode *pNode)
     if (!pList->contains(pNode))
         pList->append(pNode);
 
-    mpPoiToWorld->AddPoiMeshMap(pPOI->Object()->InstanceID(), pNode->FindMeshID());
+    mpPoiToWorld->AddPoiMeshMap(pPOI->Instance()->InstanceID(), pNode->FindMeshID());
 }
 
 void CPoiMapModel::RemovePOI(const QModelIndex& rkIndex)
@@ -141,7 +141,7 @@ void CPoiMapModel::RemovePOI(const QModelIndex& rkIndex)
         mModelMap.remove(pPOI);
     }
 
-    mpPoiToWorld->RemovePoi(pPOI->Object()->InstanceID());
+    mpPoiToWorld->RemovePoi(pPOI->Instance()->InstanceID());
     endRemoveRows();
 }
 
@@ -153,10 +153,10 @@ void CPoiMapModel::RemoveMapping(const QModelIndex& rkIndex, CModelNode *pNode)
     {
         QList<CModelNode*> *pList = mModelMap[pPOI];
         pList->removeOne(pNode);
-        mpPoiToWorld->RemovePoiMeshMap(pPOI->Object()->InstanceID(), pNode->FindMeshID());
+        mpPoiToWorld->RemovePoiMeshMap(pPOI->Instance()->InstanceID(), pNode->FindMeshID());
     }
     else
-        mpPoiToWorld->RemovePoiMeshMap(pPOI->Object()->InstanceID(), pNode->FindMeshID());
+        mpPoiToWorld->RemovePoiMeshMap(pPOI->Instance()->InstanceID(), pNode->FindMeshID());
 }
 
 bool CPoiMapModel::IsPoiTracked(CScriptNode *pPOI) const

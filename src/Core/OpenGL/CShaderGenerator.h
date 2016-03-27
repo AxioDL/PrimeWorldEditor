@@ -7,15 +7,15 @@
 
 class CShaderGenerator
 {
-    CShader *mShader;
+    CShader *mpShader;
 
     CShaderGenerator();
     ~CShaderGenerator();
-    bool CreateVertexShader(const CMaterial& Mat);
-    bool CreatePixelShader(const CMaterial& Mat);
+    bool CreateVertexShader(const CMaterial& rkMat);
+    bool CreatePixelShader(const CMaterial& rkMat);
 
 public:
-    static CShader* GenerateShader(const CMaterial& Mat);
+    static CShader* GenerateShader(const CMaterial& rkMat);
 };
 
 #endif // SHADERGEN_H

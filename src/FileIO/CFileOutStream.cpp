@@ -1,26 +1,26 @@
 #include "CFileOutStream.h"
 
 CFileOutStream::CFileOutStream()
+    : mpFStream(nullptr)
+    , mSize(0)
 {
-    mpFStream = nullptr;
-    mSize = 0;
 }
 
 CFileOutStream::CFileOutStream(const std::string& rkFile)
+    : mpFStream(nullptr)
 {
-    mpFStream = nullptr;
     Open(rkFile, IOUtil::eBigEndian);
 }
 
 CFileOutStream::CFileOutStream(const std::string& rkFile, IOUtil::EEndianness FileEndianness)
+    : mpFStream(nullptr)
 {
-    mpFStream = nullptr;
     Open(rkFile, FileEndianness);
 }
 
 CFileOutStream::CFileOutStream(const CFileOutStream& rkSrc)
+    : mpFStream(nullptr)
 {
-    mpFStream = nullptr;
     Open(rkSrc.mName, rkSrc.mDataEndianness);
 
     if (rkSrc.IsValid())

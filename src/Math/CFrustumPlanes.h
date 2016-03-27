@@ -20,11 +20,10 @@ private:
 
 public:
     CFrustumPlanes();
-    ~CFrustumPlanes();
-    const CPlane& GetPlane(EFrustumSide side) const;
-    void SetPlanes(const CVector3f& position, const CVector3f& direction, float fieldOfView, float aspectRatio, float near, float far);
-    bool PointInFrustum(const CVector3f& point) const;
-    bool BoxInFrustum(const CAABox& box) const;
+    const CPlane& GetPlane(EFrustumSide Side) const;
+    void SetPlanes(const CVector3f& rkPosition, const CVector3f& rkDirection, float FieldOfView, float AspectRatio, float Near, float Far);
+    bool PointInFrustum(const CVector3f& rkPoint) const;
+    bool BoxInFrustum(const CAABox& rkBox) const;
 };
 
 #endif // CFRUSTUMPLANES_H

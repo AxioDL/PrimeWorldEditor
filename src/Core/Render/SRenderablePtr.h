@@ -2,8 +2,7 @@
 #define SRENDERABLEPTR_H
 
 #include "ERenderCommand.h"
-#include "Core/Resource/CMaterial.h"
-#include "Core/Scene/CSceneNode.h"
+#include "IRenderable.h"
 #include <Common/types.h>
 #include <Math/CAABox.h>
 

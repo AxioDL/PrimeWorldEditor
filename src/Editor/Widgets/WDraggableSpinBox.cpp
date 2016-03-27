@@ -4,12 +4,13 @@
 #include <QLineEdit>
 #include <QMouseEvent>
 
-WDraggableSpinBox::WDraggableSpinBox(QWidget *parent) : QDoubleSpinBox(parent)
+WDraggableSpinBox::WDraggableSpinBox(QWidget *parent)
+    : QDoubleSpinBox(parent)
+    , mBeingDragged(false)
+    , mDefaultValue(0)
+    , mMinDecimals(1)
+    , mTrimTrailingZeroes(true)
 {
-    mBeingDragged = false;
-    mDefaultValue = 0;
-    mMinDecimals = 1;
-    mTrimTrailingZeroes = true;
     setMinimum(-1000000.0);
     setMaximum(1000000.0);
     setDecimals(6);
@@ -30,23 +31,23 @@ void WDraggableSpinBox::mousePressEvent(QMouseEvent *pEvent)
     }
 }
 
-void WDraggableSpinBox::mouseReleaseEvent(QMouseEvent *Event)
+void WDraggableSpinBox::mouseReleaseEvent(QMouseEvent *pEvent)
 {
     mBeingDragged = false;
     setCursor(Qt::ArrowCursor);
 
-    if (Event->button() == Qt::LeftButton)
+    if (pEvent->button() == Qt::LeftButton)
     {
         if (!mBeenDragged)
         {
-            if (Event->y() <= height() / 2)
+            if (pEvent->y() <= height() / 2)
                 stepUp();
             else
                 stepDown();
         }
     }
 
-    else if (Event->button() == Qt::RightButton)
+    else if (pEvent->button() == Qt::RightButton)
     {
         setValue(mDefaultValue);
     }
@@ -58,19 +59,19 @@ void WDraggableSpinBox::mouseMoveEvent(QMouseEvent*)
 {
     if (mBeingDragged)
     {
-        QPoint cursorPos = QCursor::pos();
+        QPoint CursorPos = QCursor::pos();
 
         // Update value
-        double DragAmount = (singleStep() / 10.0) * (mLastY - cursorPos.y());
+        double DragAmount = (singleStep() / 10.0) * (mLastY - CursorPos.y());
         setValue(value() + DragAmount);
 
         // Wrap cursor
-        int screenHeight = QApplication::desktop()->screenGeometry().height();
+        int ScreenHeight = QApplication::desktop()->screenGeometry().height();
 
-        if (cursorPos.y() == screenHeight - 1)
-            QCursor::setPos(cursorPos.x(), 1);
-        if (cursorPos.y() == 0)
-            QCursor::setPos(cursorPos.x(), screenHeight - 2);
+        if (CursorPos.y() == ScreenHeight - 1)
+            QCursor::setPos(CursorPos.x(), 1);
+        if (CursorPos.y() == 0)
+            QCursor::setPos(CursorPos.x(), ScreenHeight - 2);
 
         // Set cursor shape
         if (DragAmount != 0)
@@ -98,39 +99,41 @@ bool WDraggableSpinBox::eventFilter(QObject *, QEvent *pEvent)
     return false;
 }
 
-QString WDraggableSpinBox::textFromValue(double val) const
+QString WDraggableSpinBox::textFromValue(double Val) const
 {
-    QString str = QString::number(val, 'f', decimals());
-    int decIndex = str.indexOf('.');
-    int numDecs;
+    QString Str = QString::number(Val, 'f', decimals());
+    int DecIndex = Str.indexOf('.');
+    int NumDecs;
 
-    if (decIndex == -1)
-        numDecs = 0;
+    if (DecIndex == -1)
+        NumDecs = 0;
     else
-        numDecs = str.size() - decIndex - 1;
+        NumDecs = Str.size() - DecIndex - 1;
 
-    if (numDecs < mMinDecimals)
+    if (NumDecs < mMinDecimals)
     {
-        int size = str.size() + mMinDecimals + 1;
-        str.reserve(size);
+        int Size = Str.size() + mMinDecimals + 1;
+        Str.reserve(Size);
 
-        str += '.';
+        Str += '.';
 
         for (int iDec = 0; iDec < mMinDecimals; iDec++)
-            str += '0';
+            Str += '0';
     }
 
-    else if ((numDecs > mMinDecimals) && mTrimTrailingZeroes)
+    else if ((NumDecs > mMinDecimals) && mTrimTrailingZeroes)
     {
-        while (numDecs > mMinDecimals)
+        while (NumDecs > mMinDecimals)
         {
-            if (str.endsWith('0')) {
-                str.chop(1);
-                numDecs--;
+            if (Str.endsWith('0'))
+            {
+                Str.chop(1);
+                NumDecs--;
             }
 
-            else if (str.endsWith('.')) {
-                str.chop(1);
+            else if (Str.endsWith('.'))
+            {
+                Str.chop(1);
                 break;
             }
 
@@ -138,7 +141,7 @@ QString WDraggableSpinBox::textFromValue(double val) const
         }
     }
 
-    return str;
+    return Str;
 }
 
 bool WDraggableSpinBox::IsBeingDragged()
@@ -146,17 +149,17 @@ bool WDraggableSpinBox::IsBeingDragged()
     return mBeingDragged;
 }
 
-void WDraggableSpinBox::SetDefaultValue(double value)
+void WDraggableSpinBox::SetDefaultValue(double Value)
 {
-    mDefaultValue = value;
+    mDefaultValue = Value;
 }
 
-void WDraggableSpinBox::SetMinDecimals(int dec)
+void WDraggableSpinBox::SetMinDecimals(int Dec)
 {
-    mMinDecimals = dec;
+    mMinDecimals = Dec;
 }
 
-void WDraggableSpinBox::TrimTrailingZeroes(bool trim)
+void WDraggableSpinBox::TrimTrailingZeroes(bool Trim)
 {
-    mTrimTrailingZeroes = trim;
+    mTrimTrailingZeroes = Trim;
 }

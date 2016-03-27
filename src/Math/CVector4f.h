@@ -12,57 +12,57 @@ class CVector3f;
 class CVector4f
 {
 public:
-    float x, y, z, w;
+    float X, Y, Z, W;
 
     CVector4f();
-    CVector4f(float xyzw);
-    CVector4f(float _x, float _y, float _z, float _w);
-    CVector4f(const CVector2f& xy, float _z, float _w);
-    CVector4f(const CVector3f& xyz);
-    CVector4f(const CVector3f& xyz, float _w);
-    CVector4f(IInputStream& Input);
-    void Write(IOutputStream& Output);
+    CVector4f(float XYZW);
+    CVector4f(float _X, float _Y, float _Z, float _W);
+    CVector4f(const CVector2f& rkXY, float _Z, float _W);
+    CVector4f(const CVector3f& rkXYZ);
+    CVector4f(const CVector3f& rkXYZ, float _W);
+    CVector4f(IInputStream& rInput);
+    void Write(IOutputStream& rOutput);
 
     // Swizzle
-    CVector3f xyz();
-    CVector3f xzw();
-    CVector3f yzw();
-    CVector2f xy();
-    CVector2f xz();
-    CVector2f xw();
-    CVector2f yz();
-    CVector2f yw();
-    CVector2f zw();
+    CVector3f XYZ() const;
+    CVector3f XZW() const;
+    CVector3f YZW() const;
+    CVector2f XY() const;
+    CVector2f XZ() const;
+    CVector2f XW() const;
+    CVector2f YZ() const;
+    CVector2f YW() const;
+    CVector2f ZW() const;
 
     // Vector/Vector
-    CVector4f operator+(const CVector4f& other) const;
-    CVector4f operator-(const CVector4f& other) const;
-    CVector4f operator*(const CVector4f& other) const;
-    CVector4f operator/(const CVector4f& other) const;
-    void operator+=(const CVector4f& other);
-    void operator-=(const CVector4f& other);
-    void operator*=(const CVector4f& other);
-    void operator/=(const CVector4f& other);
-    bool operator==(const CVector4f& other) const;
+    CVector4f operator+(const CVector4f& rkOther) const;
+    CVector4f operator-(const CVector4f& rkOther) const;
+    CVector4f operator*(const CVector4f& rkOther) const;
+    CVector4f operator/(const CVector4f& rkOther) const;
+    void operator+=(const CVector4f& rkOther);
+    void operator-=(const CVector4f& rkOther);
+    void operator*=(const CVector4f& rkOther);
+    void operator/=(const CVector4f& rkOther);
+    bool operator==(const CVector4f& rkOther) const;
 
     // Vector/Float
-    CVector4f operator+(const float other) const;
-    CVector4f operator-(const float other) const;
-    CVector4f operator*(const float other) const;
-    CVector4f operator/(const float other) const;
-    void operator+=(const float other);
-    void operator-=(const float other);
-    void operator*=(const float other);
-    void operator/=(const float other);
+    CVector4f operator+(const float Other) const;
+    CVector4f operator-(const float Other) const;
+    CVector4f operator*(const float Other) const;
+    CVector4f operator/(const float Other) const;
+    void operator+=(const float Other);
+    void operator-=(const float Other);
+    void operator*=(const float Other);
+    void operator/=(const float Other);
 
     // Vector/Matrix
-    CVector4f operator*(const CTransform4f& mtx) const;
-    void operator*=(const CTransform4f& mtx);
-    CVector4f operator*(const CMatrix4f& mtx) const;
-    void operator*=(const CMatrix4f& mtx);
+    CVector4f operator*(const CTransform4f& rkMtx) const;
+    void operator*=(const CTransform4f& rkMtx);
+    CVector4f operator*(const CMatrix4f& rkMtx) const;
+    void operator*=(const CMatrix4f& rkMtx);
 
     // Unary
-    float& operator[](long index);
+    float& operator[](long Index);
 };
 
 #endif // CVECTOR4F

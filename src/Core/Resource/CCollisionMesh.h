@@ -27,7 +27,7 @@ class CCollisionMesh
             SOctreeNode *pChildren[8];
         };
 
-        SOctreeNode* Root;
+        SOctreeNode* mpRoot;
     };
 
     struct SCollisionProperties
@@ -65,16 +65,16 @@ class CCollisionMesh
     bool mBuffered;
 
     CAABox mAABox;
-    CCollisionOctree *mOctree;
+    CCollisionOctree *mpOctree;
     std::vector<u32> mFlags;
     std::vector<CCollisionVertex> mCollisionVertices;
     std::vector<CCollisionLine> mCollisionLines;
     std::vector<CCollisionFace> mCollisionFaces;
     bool mOctreeLoaded;
 
-    CCollisionVertex *GetVertex(u16 index);
-    CCollisionLine *GetLine(u16 index);
-    CCollisionFace *GetFace(u16 index);
+    CCollisionVertex *GetVertex(u16 Index);
+    CCollisionLine *GetLine(u16 Index);
+    CCollisionFace *GetFace(u16 Index);
 
 public:
     CCollisionMesh();

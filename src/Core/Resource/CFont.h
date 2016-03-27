@@ -61,7 +61,7 @@ public:
     CFont();
     ~CFont();
     CResource* MakeCopy(CResCache *pCopyCache);
-    CVector2f RenderString(const TString& String, CRenderer *pRenderer, float AspectRatio,
+    CVector2f RenderString(const TString& rkString, CRenderer *pRenderer, float AspectRatio,
                            CVector2f Position = CVector2f(0,0),
                            CColor FillColor = CColor::skWhite, CColor StrokeColor = CColor::skBlack,
                            u32 FontSize = CFONT_DEFAULT_SIZE);

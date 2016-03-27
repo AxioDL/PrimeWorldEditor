@@ -11,21 +11,61 @@ class CRenderbuffer
     bool mInitialized;
 
 public:
-    CRenderbuffer();
-    CRenderbuffer(u32 Width, u32 Height);
-    ~CRenderbuffer();
-    void Init();
-    void Resize(u32 Width, u32 Height);
-    void Bind();
-    void Unbind();
+    CRenderbuffer::CRenderbuffer()
+        : mInitialized(false)
+        , mWidth(0)
+        , mHeight(0)
+    {
+    }
 
-    // Getters
-    GLuint BufferID();
+    CRenderbuffer::CRenderbuffer(u32 Width, u32 Height)
+        : mInitialized(false)
+        , mWidth(Width)
+        , mHeight(Height)
+    {
+    }
+
+    CRenderbuffer::~CRenderbuffer()
+    {
+        if (mInitialized)
+            glDeleteRenderbuffers(1, &mRenderbuffer);
+    }
+
+    void CRenderbuffer::Init()
+    {
+        glGenRenderbuffers(1, &mRenderbuffer);
+        glBindRenderbuffer(GL_RENDERBUFFER, mRenderbuffer);
+        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, mWidth, mHeight);
+        mInitialized = true;
+    }
+
+    inline void CRenderbuffer::Resize(u32 Width, u32 Height)
+    {
+        mWidth = Width;
+        mHeight = Height;
+
+        if (mInitialized)
+        {
+            Bind();
+            glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, mWidth, mHeight);
+        }
+    }
+
+    inline void CRenderbuffer::Bind()
+    {
+        if (!mInitialized) Init();
+        glBindRenderbuffer(GL_RENDERBUFFER, mRenderbuffer);
+    }
+
+    inline void CRenderbuffer::Unbind()
+    {
+        glBindRenderbuffer(GL_RENDERBUFFER, 0);
+    }
+
+    inline GLuint BufferID()
+    {
+        return mRenderbuffer;
+    }
 };
-
-inline GLuint CRenderbuffer::BufferID()
-{
-    return mRenderbuffer;
-}
 
 #endif // CRENDERBUFFER_H

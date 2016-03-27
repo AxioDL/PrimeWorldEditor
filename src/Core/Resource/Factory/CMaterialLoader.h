@@ -38,8 +38,8 @@ class CMaterialLoader
 
     // Static
 public:
-    static CMaterialSet* LoadMaterialSet(IInputStream& Mat, EGame Version);
-    static CMaterialSet* ImportAssimpMaterials(const aiScene *pScene, EGame targetVersion);
+    static CMaterialSet* LoadMaterialSet(IInputStream& rMat, EGame Version);
+    static CMaterialSet* ImportAssimpMaterials(const aiScene *pScene, EGame TargetVersion);
 };
 
 #endif // CMATERIALLOADER_H

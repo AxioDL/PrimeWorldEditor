@@ -56,7 +56,6 @@ INCLUDEPATH += $$PWD/.. \
 
 # Header Files
 HEADERS += \
-    AnimUtil.h \
     CColor.h \
     CFourCC.h \
     CHashFNV1A.h \
@@ -73,10 +72,7 @@ HEADERS += \
 
 # Source Files
 SOURCES += \
-    AnimUtil.cpp \
     CColor.cpp \
-    CFourCC.cpp \
-    CHashFNV1A.cpp \
     CompressionUtil.cpp \
     CTimer.cpp \
     CUniqueID.cpp \

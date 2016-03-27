@@ -19,11 +19,11 @@ public:
 
     virtual ENodeType NodeType();
     virtual void PostLoad();
-    virtual void AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo);
-    virtual void Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& ViewInfo);
+    virtual void AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo);
+    virtual void Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& rkViewInfo);
     virtual void DrawSelection();
-    virtual void RayAABoxIntersectTest(CRayCollisionTester& Tester, const SViewInfo& ViewInfo);
-    virtual SRayIntersection RayNodeIntersectTest(const CRay &Ray, u32 AssetID, const SViewInfo& ViewInfo);
+    virtual void RayAABoxIntersectTest(CRayCollisionTester& Tester, const SViewInfo& rkViewInfo);
+    virtual SRayIntersection RayNodeIntersectTest(const CRay &Ray, u32 AssetID, const SViewInfo& rkViewInfo);
     virtual CColor TintColor(const SViewInfo& rkViewInfo) const;
 
     // Setters

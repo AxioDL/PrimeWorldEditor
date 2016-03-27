@@ -7,20 +7,19 @@
 #include "Core/Resource/Script/CMasterTemplate.h"
 #include "Core/Resource/Script/CScriptLayer.h"
 #include "Core/ScriptExtra/CScriptExtra.h"
-#include <Common/AnimUtil.h>
 #include <Math/MathUtil.h>
 
-CScriptNode::CScriptNode(CScene *pScene, u32 NodeID, CSceneNode *pParent, CScriptObject *pObject)
+CScriptNode::CScriptNode(CScene *pScene, u32 NodeID, CSceneNode *pParent, CScriptObject *pInstance)
     : CSceneNode(pScene, NodeID, pParent)
     , mGameModeVisibility(eUntested)
+    , mpVolumePreviewNode(nullptr)
+    , mHasVolumePreview(false)
+    , mpInstance(pInstance)
+    , mpBillboard(nullptr)
 {
-    mpVolumePreviewNode = nullptr;
-    mHasVolumePreview = false;
 
     // Evaluate instance
-    mpInstance = pObject;
     SetActiveModel(nullptr);
-    mpBillboard = nullptr;
     mpCollisionNode = new CCollisionNode(pScene, -1, this);
     mpCollisionNode->SetInheritance(true, true, false);
 
@@ -57,7 +56,7 @@ CScriptNode::CScriptNode(CScene *pScene, u32 NodeID, CSceneNode *pParent, CScrip
         }
 
         // Fetch LightParameters
-        mpLightParameters = new CLightParameters(mpInstance->LightParameters(), mpInstance->MasterTemplate()->GetGame());
+        mpLightParameters = new CLightParameters(mpInstance->LightParameters(), mpInstance->MasterTemplate()->Game());
         SetLightLayerIndex(mpLightParameters->LightLayerIndex());
     }
 
@@ -104,15 +103,15 @@ void CScriptNode::OnTransformed()
         mpExtra->OnTransformed();
 }
 
-void CScriptNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
+void CScriptNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo)
 {
     if (!mpInstance) return;
 
     // Add script extra to renderer first
-    if (mpExtra) mpExtra->AddToRenderer(pRenderer, ViewInfo);
+    if (mpExtra) mpExtra->AddToRenderer(pRenderer, rkViewInfo);
 
     // If we're in game mode, then override other visibility settings.
-    if (ViewInfo.GameMode)
+    if (rkViewInfo.GameMode)
     {
         if (mGameModeVisibility == eUntested)
             TestGameModeVisibility();
@@ -127,12 +126,12 @@ void CScriptNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
     if (ShouldDraw)
     {
         // Otherwise, we proceed as normal
-        if ((ViewInfo.ShowFlags & eShowObjectCollision) && (!ViewInfo.GameMode))
-            mpCollisionNode->AddToRenderer(pRenderer, ViewInfo);
+        if ((rkViewInfo.ShowFlags & eShowObjectCollision) && (!rkViewInfo.GameMode))
+            mpCollisionNode->AddToRenderer(pRenderer, rkViewInfo);
 
-        if (ViewInfo.ShowFlags & eShowObjectGeometry || ViewInfo.GameMode)
+        if (rkViewInfo.ShowFlags & eShowObjectGeometry || rkViewInfo.GameMode)
         {
-            if (ViewInfo.ViewFrustum.BoxInFrustum(AABox()))
+            if (rkViewInfo.ViewFrustum.BoxInFrustum(AABox()))
             {
                 if (!mpActiveModel)
                     pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawMesh);
@@ -142,13 +141,13 @@ void CScriptNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
                     if (!mpActiveModel->HasTransparency(0))
                         pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawMesh);
                     else
-                        AddSurfacesToRenderer(pRenderer, mpActiveModel, 0, ViewInfo);
+                        AddSurfacesToRenderer(pRenderer, mpActiveModel, 0, rkViewInfo);
                 }
             }
         }
     }
 
-    if (IsSelected() && !ViewInfo.GameMode)
+    if (IsSelected() && !rkViewInfo.GameMode)
     {
         // Script nodes always draw their selections regardless of frustum planes
         // in order to ensure that script connection lines don't get improperly culled.
@@ -156,11 +155,11 @@ void CScriptNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& ViewInfo)
            pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawSelection);
 
         if (mHasVolumePreview && (!mpExtra || mpExtra->ShouldDrawVolume()))
-            mpVolumePreviewNode->AddToRenderer(pRenderer, ViewInfo);
+            mpVolumePreviewNode->AddToRenderer(pRenderer, rkViewInfo);
     }
 }
 
-void CScriptNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& ViewInfo)
+void CScriptNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& rkViewInfo)
 {
     if (!mpInstance) return;
 
@@ -187,7 +186,7 @@ void CScriptNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewIn
             }
 
             else
-                LoadLights(ViewInfo);
+                LoadLights(rkViewInfo);
         }
 
         LoadModelMatrix();
@@ -198,7 +197,7 @@ void CScriptNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewIn
             if (mpExtra) CGraphics::sPixelBlock.TevColor = mpExtra->TevColor();
             else CGraphics::sPixelBlock.TevColor = CColor::skWhite;
 
-            CGraphics::sPixelBlock.TintColor = TintColor(ViewInfo);
+            CGraphics::sPixelBlock.TintColor = TintColor(rkViewInfo);
             CGraphics::UpdatePixelBlock();
 
             if (ComponentIndex < 0)
@@ -214,14 +213,14 @@ void CScriptNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewIn
             glDepthMask(GL_TRUE);
             CGraphics::UpdateVertexBlock();
             CGraphics::UpdatePixelBlock();
-            CDrawUtil::DrawShadedCube(CColor::skTransparentPurple * TintColor(ViewInfo));
+            CDrawUtil::DrawShadedCube(CColor::skTransparentPurple * TintColor(rkViewInfo));
         }
     }
 
     // Draw billboard
     else if (mpBillboard)
     {
-        CDrawUtil::DrawBillboard(mpBillboard, mPosition, BillboardScale(), TintColor(ViewInfo));
+        CDrawUtil::DrawBillboard(mpBillboard, mPosition, BillboardScale(), TintColor(rkViewInfo));
     }
 }
 
@@ -275,7 +274,7 @@ void CScriptNode::DrawSelection()
     }
 }
 
-void CScriptNode::RayAABoxIntersectTest(CRayCollisionTester& Tester, const SViewInfo& ViewInfo)
+void CScriptNode::RayAABoxIntersectTest(CRayCollisionTester& rTester, const SViewInfo& rkViewInfo)
 {
     if (!mpInstance)
         return;
@@ -283,7 +282,7 @@ void CScriptNode::RayAABoxIntersectTest(CRayCollisionTester& Tester, const SView
     // Let script extra do ray check first
     if (mpExtra)
     {
-        mpExtra->RayAABoxIntersectTest(Tester, ViewInfo);
+        mpExtra->RayAABoxIntersectTest(rTester, rkViewInfo);
 
         // If the extra doesn't want us rendering, then don't do the ray test either
         if (!mpExtra->ShouldDrawNormalAssets())
@@ -291,7 +290,7 @@ void CScriptNode::RayAABoxIntersectTest(CRayCollisionTester& Tester, const SView
     }
 
     // If we're in game mode, then check whether we're visible before proceeding with the ray test.
-    if (ViewInfo.GameMode)
+    if (rkViewInfo.GameMode)
     {
         if (mGameModeVisibility == eUntested)
             TestGameModeVisibility();
@@ -301,16 +300,16 @@ void CScriptNode::RayAABoxIntersectTest(CRayCollisionTester& Tester, const SView
     }
 
     // Otherwise, proceed with the ray test as normal...
-    const CRay& Ray = Tester.Ray();
+    const CRay& rkRay = rTester.Ray();
 
     if (UsesModel())
     {
-        std::pair<bool,float> BoxResult = AABox().IntersectsRay(Ray);
+        std::pair<bool,float> BoxResult = AABox().IntersectsRay(rkRay);
 
         if (BoxResult.first)
         {
-            if (mpActiveModel) Tester.AddNodeModel(this, mpActiveModel);
-            else Tester.AddNode(this, 0, BoxResult.second);
+            if (mpActiveModel) rTester.AddNodeModel(this, mpActiveModel);
+            else rTester.AddNode(this, 0, BoxResult.second);
         }
     }
 
@@ -318,43 +317,43 @@ void CScriptNode::RayAABoxIntersectTest(CRayCollisionTester& Tester, const SView
     {
         // Because the billboard rotates a lot, expand the AABox on the X/Y axes to cover any possible orientation
         CVector2f BillScale = BillboardScale();
-        float ScaleXY = (BillScale.x > BillScale.y ? BillScale.x : BillScale.y);
+        float ScaleXY = (BillScale.X > BillScale.Y ? BillScale.X : BillScale.Y);
 
-        CAABox BillBox = CAABox(mPosition + CVector3f(-ScaleXY, -ScaleXY, -BillScale.y),
-                                mPosition + CVector3f( ScaleXY,  ScaleXY,  BillScale.y));
+        CAABox BillBox = CAABox(mPosition + CVector3f(-ScaleXY, -ScaleXY, -BillScale.Y),
+                                mPosition + CVector3f( ScaleXY,  ScaleXY,  BillScale.Y));
 
-        std::pair<bool,float> BoxResult = BillBox.IntersectsRay(Ray);
-        if (BoxResult.first) Tester.AddNode(this, 0, BoxResult.second);
+        std::pair<bool,float> BoxResult = BillBox.IntersectsRay(rkRay);
+        if (BoxResult.first) rTester.AddNode(this, 0, BoxResult.second);
     }
 }
 
-SRayIntersection CScriptNode::RayNodeIntersectTest(const CRay& Ray, u32 AssetID, const SViewInfo& ViewInfo)
+SRayIntersection CScriptNode::RayNodeIntersectTest(const CRay& rkRay, u32 AssetID, const SViewInfo& rkViewInfo)
 {
-    FRenderOptions Options = ViewInfo.pRenderer->RenderOptions();
+    FRenderOptions Options = rkViewInfo.pRenderer->RenderOptions();
 
-    SRayIntersection out;
-    out.pNode = this;
-    out.ComponentIndex = AssetID;
+    SRayIntersection Out;
+    Out.pNode = this;
+    Out.ComponentIndex = AssetID;
 
     // Model test
     if (UsesModel())
     {
         CModel *pModel = (mpActiveModel ? mpActiveModel : CDrawUtil::GetCubeModel());
 
-        CRay TransformedRay = Ray.Transformed(Transform().Inverse());
+        CRay TransformedRay = rkRay.Transformed(Transform().Inverse());
         std::pair<bool,float> Result = pModel->GetSurface(AssetID)->IntersectsRay(TransformedRay, ((Options & eEnableBackfaceCull) == 0));
 
         if (Result.first)
         {
-            out.Hit = true;
+            Out.Hit = true;
 
             CVector3f HitPoint = TransformedRay.PointOnRay(Result.second);
             CVector3f WorldHitPoint = Transform() * HitPoint;
-            out.Distance = Math::Distance(Ray.Origin(), WorldHitPoint);
+            Out.Distance = Math::Distance(rkRay.Origin(), WorldHitPoint);
         }
 
         else
-            out.Hit = false;
+            Out.Hit = false;
     }
 
     // Billboard test
@@ -362,51 +361,51 @@ SRayIntersection CScriptNode::RayNodeIntersectTest(const CRay& Ray, u32 AssetID,
     else
     {
         // Step 1: check whether the ray intersects with the plane the billboard is on
-        CPlane BillboardPlane(-ViewInfo.pCamera->Direction(), mPosition);
-        std::pair<bool,float> PlaneTest = Math::RayPlaneIntersecton(Ray, BillboardPlane);
+        CPlane BillboardPlane(-rkViewInfo.pCamera->Direction(), mPosition);
+        std::pair<bool,float> PlaneTest = Math::RayPlaneIntersecton(rkRay, BillboardPlane);
 
         if (PlaneTest.first)
         {
             // Step 2: transform the hit point into the plane's local space
-            CVector3f PlaneHitPoint = Ray.PointOnRay(PlaneTest.second);
+            CVector3f PlaneHitPoint = rkRay.PointOnRay(PlaneTest.second);
             CVector3f RelHitPoint = PlaneHitPoint - mPosition;
 
-            CVector3f PlaneForward = -ViewInfo.pCamera->Direction();
-            CVector3f PlaneRight = -ViewInfo.pCamera->RightVector();
-            CVector3f PlaneUp = ViewInfo.pCamera->UpVector();
+            CVector3f PlaneForward = -rkViewInfo.pCamera->Direction();
+            CVector3f PlaneRight = -rkViewInfo.pCamera->RightVector();
+            CVector3f PlaneUp = rkViewInfo.pCamera->UpVector();
             CQuaternion PlaneRot = CQuaternion::FromAxes(PlaneRight, PlaneForward, PlaneUp);
 
             CVector3f RotatedHitPoint = PlaneRot.Inverse() * RelHitPoint;
-            CVector2f LocalHitPoint = RotatedHitPoint.xz() / BillboardScale();
+            CVector2f LocalHitPoint = RotatedHitPoint.XZ() / BillboardScale();
 
             // Step 3: check whether the transformed hit point is in the -1 to 1 range
-            if ((LocalHitPoint.x >= -1.f) && (LocalHitPoint.x <= 1.f) && (LocalHitPoint.y >= -1.f) && (LocalHitPoint.y <= 1.f))
+            if ((LocalHitPoint.X >= -1.f) && (LocalHitPoint.X <= 1.f) && (LocalHitPoint.Y >= -1.f) && (LocalHitPoint.Y <= 1.f))
             {
                 // Step 4: look up the hit texel and check whether it's transparent or opaque
                 CVector2f TexCoord = (LocalHitPoint + CVector2f(1.f)) * 0.5f;
-                TexCoord.x = -TexCoord.x + 1.f;
+                TexCoord.X = -TexCoord.X + 1.f;
                 float TexelAlpha = mpBillboard->ReadTexelAlpha(TexCoord);
 
                 if (TexelAlpha < 0.25f)
-                    out.Hit = false;
+                    Out.Hit = false;
 
                 else
                 {
                     // It's opaque... we have a hit!
-                    out.Hit = true;
-                    out.Distance = PlaneTest.second;
+                    Out.Hit = true;
+                    Out.Distance = PlaneTest.second;
                 }
             }
 
             else
-                out.Hit = false;
+                Out.Hit = false;
         }
 
         else
-            out.Hit = false;
+            Out.Hit = false;
     }
 
-    return out;
+    return Out;
 }
 
 bool CScriptNode::AllowsRotate() const
@@ -539,7 +538,7 @@ void CScriptNode::GeneratePosition()
     if (!mHasValidPosition)
     {
         // Default to center of the active area; this is to preven recursion issues
-        CTransform4f& AreaTransform = mpScene->GetActiveArea()->GetTransform();
+        CTransform4f& AreaTransform = mpScene->ActiveArea()->Transform();
         mPosition = CVector3f(AreaTransform[0][3], AreaTransform[1][3], AreaTransform[2][3]);
         mHasValidPosition = true;
         MarkTransformChanged();
@@ -555,9 +554,9 @@ void CScriptNode::GeneratePosition()
             CScriptNode *pNode = mpScene->NodeForInstanceID(LinkedID);
             pNode->GeneratePosition();
             mPosition = pNode->AbsolutePosition();
-            mPosition.z += (pNode->AABox().Size().z / 2.f);
-            mPosition.z += (AABox().Size().z / 2.f);
-            mPosition.z += 2.f;
+            mPosition.Z += (pNode->AABox().Size().Z / 2.f);
+            mPosition.Z += (AABox().Size().Z / 2.f);
+            mPosition.Z += 2.f;
         }
 
         // For two or more links, average out the position of the connected objects.
@@ -588,7 +587,7 @@ void CScriptNode::GeneratePosition()
             }
 
             mPosition = NewPos / (float) NumLinks;
-            mPosition.x += 2.f;
+            mPosition.X += 2.f;
         }
 
         MarkTransformChanged();
@@ -611,7 +610,7 @@ CColor CScriptNode::WireframeColor() const
     return CColor::Integral(12, 135, 194);
 }
 
-CScriptObject* CScriptNode::Object() const
+CScriptObject* CScriptNode::Instance() const
 {
     return mpInstance;
 }
@@ -651,8 +650,8 @@ CAABox CScriptNode::PreviewVolumeAABox() const
 
 CVector2f CScriptNode::BillboardScale() const
 {
-    CVector2f out = (Template()->ScaleType() == CScriptTemplate::eScaleEnabled ? AbsoluteScale().xz() : CVector2f(1.f));
-    return out * 0.5f * Template()->PreviewScale();
+    CVector2f Out = (Template()->ScaleType() == CScriptTemplate::eScaleEnabled ? AbsoluteScale().XZ() : CVector2f(1.f));
+    return Out * 0.5f * Template()->PreviewScale();
 }
 
 // ************ PROTECTED ************

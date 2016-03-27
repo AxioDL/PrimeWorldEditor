@@ -1,16 +1,12 @@
 #include "WColorPicker.h"
-#include <iostream>
 #include <QPainter>
 #include <QRectF>
 #include <QMouseEvent>
 #include <QColorDialog>
 
-WColorPicker::WColorPicker(QWidget *parent) : QWidget(parent)
-{
-    mColor = Qt::transparent;
-}
-
-WColorPicker::~WColorPicker()
+WColorPicker::WColorPicker(QWidget *parent)
+    : QWidget(parent)
+    , mColor(Qt::transparent)
 {
 }
 
@@ -40,9 +36,9 @@ void WColorPicker::paintEvent(QPaintEvent *)
     }
 }
 
-void WColorPicker::keyPressEvent(QKeyEvent *Event)
+void WColorPicker::keyPressEvent(QKeyEvent *pEvent)
 {
-    if (Event->key() == Qt::Key_Return)
+    if (pEvent->key() == Qt::Key_Return)
     {
         QColorDialog ColorPick;
         ColorPick.setOptions(QColorDialog::ShowAlphaChannel);
@@ -52,7 +48,7 @@ void WColorPicker::keyPressEvent(QKeyEvent *Event)
         if (result)
         {
             mColor = ColorPick.currentColor();
-            emit colorChanged(mColor);
+            emit ColorChanged(mColor);
         }
     }
 }
@@ -62,34 +58,34 @@ void WColorPicker::mousePressEvent(QMouseEvent *)
     setFocus();
 }
 
-void WColorPicker::mouseReleaseEvent(QMouseEvent *Event)
+void WColorPicker::mouseReleaseEvent(QMouseEvent *pEvent)
 {
-    if ((Event->x() < width()) && (Event->y() < height()))
+    if ((pEvent->x() < width()) && (pEvent->y() < height()))
     {
         QColorDialog ColorPick;
         ColorPick.setOptions(QColorDialog::ShowAlphaChannel);
         ColorPick.setCurrentColor(mColor);
-        int result = ColorPick.exec();
+        int Result = ColorPick.exec();
 
-        if (result)
+        if (Result)
         {
             mColor = ColorPick.currentColor();
-            emit colorChanged(mColor);
+            emit ColorChanged(mColor);
         }
     }
 }
 
-QColor WColorPicker::getColor()
+QColor WColorPicker::Color()
 {
     return mColor;
 }
 
-void WColorPicker::setColor(QColor Color)
+void WColorPicker::SetColor(QColor Color)
 {
     if (mColor != Color)
     {
         mColor = Color;
-        emit colorChanged(mColor);
+        emit ColorChanged(mColor);
         update();
     }
 }

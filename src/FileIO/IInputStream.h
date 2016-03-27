@@ -19,9 +19,9 @@ public:
     float ReadFloat();
     double ReadDouble();
     std::string ReadString();
-    std::string ReadString(unsigned long count);
+    std::string ReadString(unsigned long Count);
     std::wstring ReadWString();
-    std::wstring ReadWString(unsigned long count);
+    std::wstring ReadWString(unsigned long Count);
 
     char PeekByte();
     short PeekShort();
@@ -30,16 +30,16 @@ public:
     float PeekFloat();
     double PeekDouble();
 
-    void SeekToBoundary(unsigned long boundary);
-    void SetEndianness(IOUtil::EEndianness endianness);
+    void SeekToBoundary(unsigned long Boundary);
+    void SetEndianness(IOUtil::EEndianness Endianness);
     void SetSourceString(const std::string& rkSource);
     IOUtil::EEndianness GetEndianness() const;
     std::string GetSourceString() const;
 
     virtual ~IInputStream();
-    virtual void ReadBytes(void *pDst, unsigned long count) = 0;
-    virtual bool Seek(long offset, long origin) = 0;
-    virtual bool Seek64(long long offset, long origin);
+    virtual void ReadBytes(void *pDst, unsigned long Count) = 0;
+    virtual bool Seek(long Offset, long Origin) = 0;
+    virtual bool Seek64(long long Offset, long Origin);
     virtual long Tell() const = 0;
     virtual long long Tell64() const;
     virtual bool EoF() const = 0;

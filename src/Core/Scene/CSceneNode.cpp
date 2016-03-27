@@ -4,7 +4,6 @@
 #include "Core/Render/CDrawUtil.h"
 #include "Core/Resource/CGameArea.h"
 #include "Core/Resource/CResCache.h"
-#include <Common/AnimUtil.h>
 #include <Math/CTransform4f.h>
 
 #include <algorithm>
@@ -13,27 +12,23 @@ u32 CSceneNode::smNumNodes = 0;
 CColor CSceneNode::skSelectionTint = CColor::Integral(39, 154, 167);
 
 CSceneNode::CSceneNode(CScene *pScene, u32 NodeID, CSceneNode *pParent)
+    : mpScene(pScene)
+    , mpParent(pParent)
+    , _mID(NodeID)
+    , mPosition(CVector3f::skZero)
+    , mRotation(CQuaternion::skIdentity)
+    , mScale(CVector3f::skOne)
+    , _mTransformDirty(true)
+    , _mInheritsPosition(true)
+    , _mInheritsRotation(true)
+    , _mInheritsScale(true)
+    , mLightLayerIndex(0)
+    , mLightCount(0)
+    , mMouseHovering(false)
+    , mSelected(false)
+    , mVisible(true)
 {
     smNumNodes++;
-    mpScene = pScene;
-    mpParent = pParent;
-    _mID = NodeID;
-
-    mPosition = CVector3f::skZero;
-    mRotation = CQuaternion::skIdentity;
-    mScale = CVector3f::skOne;
-    _mTransformDirty = true;
-
-    _mInheritsPosition = true;
-    _mInheritsRotation = true;
-    _mInheritsScale = true;
-
-    mLightLayerIndex = 0;
-    mLightCount = 0;
-
-    mMouseHovering = false;
-    mSelected = false;
-    mVisible = true;
 
     if (mpParent)
         mpParent->mChildren.push_back(this);
@@ -53,13 +48,13 @@ void CSceneNode::DrawSelection()
     CDrawUtil::DrawWireCube(AABox(), CColor::skWhite);
 }
 
-void CSceneNode::RayAABoxIntersectTest(CRayCollisionTester& Tester, const SViewInfo& /*ViewInfo*/)
+void CSceneNode::RayAABoxIntersectTest(CRayCollisionTester& rTester, const SViewInfo& /*rkViewInfo*/)
 {
     // Default implementation for virtual function
-    std::pair<bool,float> result = AABox().IntersectsRay(Tester.Ray());
+    std::pair<bool,float> Result = AABox().IntersectsRay(rTester.Ray());
 
-    if (result.first)
-        Tester.AddNode(this, -1, result.second);
+    if (Result.first)
+        rTester.AddNode(this, -1, Result.second);
 }
 
 bool CSceneNode::IsVisible() const
@@ -68,10 +63,10 @@ bool CSceneNode::IsVisible() const
     return mVisible;
 }
 
-CColor CSceneNode::TintColor(const SViewInfo& ViewInfo) const
+CColor CSceneNode::TintColor(const SViewInfo& rkViewInfo) const
 {
     // Default implementation for virtual function
-    return (IsSelected() && !ViewInfo.GameMode ? skSelectionTint : CColor::skWhite);
+    return (IsSelected() && !rkViewInfo.GameMode ? skSelectionTint : CColor::skWhite);
 }
 
 CColor CSceneNode::WireframeColor() const
@@ -138,8 +133,8 @@ void CSceneNode::BuildLightList(CGameArea *pArea)
     mLightCount = 0;
     mAmbientColor = CColor::skBlack;
 
-    u32 index = mLightLayerIndex;
-    if ((pArea->GetLightLayerCount() <= index) || (pArea->GetLightCount(index) == 0)) index = 0;
+    u32 Index = mLightLayerIndex;
+    if ((pArea->NumLightLayers() <= Index) || (pArea->NumLights(Index) == 0)) Index = 0;
 
     struct SLightEntry {
         CLight *pLight;
@@ -148,32 +143,32 @@ void CSceneNode::BuildLightList(CGameArea *pArea)
         SLightEntry(CLight *_pLight, float _Distance)
             : pLight(_pLight), Distance(_Distance) {}
 
-        bool operator<(const SLightEntry& other) {
-            return (Distance < other.Distance);
+        bool operator<(const SLightEntry& rkOther) {
+            return (Distance < rkOther.Distance);
         }
     };
     std::vector<SLightEntry> LightEntries;
 
     // Default ambient color to white if there are no lights on the selected layer
-    u32 numLights = pArea->GetLightCount(index);
-    if (numLights == 0) mAmbientColor = CColor::skWhite;
+    u32 NumLights = pArea->NumLights(Index);
+    if (NumLights == 0) mAmbientColor = CColor::skWhite;
 
-    for (u32 iLight = 0; iLight < numLights; iLight++)
+    for (u32 iLight = 0; iLight < NumLights; iLight++)
     {
-        CLight* pLight = pArea->GetLight(index, iLight);
+        CLight* pLight = pArea->Light(Index, iLight);
 
         // Ambient lights should only be present one per layer; need to check how the game deals with multiple ambients
-        if (pLight->GetType() == eLocalAmbient)
-            mAmbientColor = pLight->GetColor();
+        if (pLight->Type() == eLocalAmbient)
+            mAmbientColor = pLight->Color();
 
         // Other lights will be used depending which are closest to the node
         else
         {
-            bool IsInRange = AABox().IntersectsSphere(pLight->GetPosition(), pLight->GetRadius());
+            bool IsInRange = AABox().IntersectsSphere(pLight->Position(), pLight->GetRadius());
 
             if (IsInRange)
             {
-                float Dist = mPosition.Distance(pLight->GetPosition());
+                float Dist = mPosition.Distance(pLight->Position());
                 LightEntries.push_back(SLightEntry(pLight, Dist));
             }
         }
@@ -183,14 +178,14 @@ void CSceneNode::BuildLightList(CGameArea *pArea)
     std::sort(LightEntries.begin(), LightEntries.end());
     mLightCount = (LightEntries.size() > 8) ? 8 : LightEntries.size();
 
-    for (u32 i = 0; i < mLightCount; i++)
-        mLights[i] = LightEntries[i].pLight;
+    for (u32 iLight = 0; iLight < mLightCount; iLight++)
+        mLights[iLight] = LightEntries[iLight].pLight;
 }
 
-void CSceneNode::LoadLights(const SViewInfo& ViewInfo)
+void CSceneNode::LoadLights(const SViewInfo& rkViewInfo)
 {
     CGraphics::sNumLights = 0;
-    CGraphics::ELightingMode Mode = (ViewInfo.GameMode ? CGraphics::eWorldLighting : CGraphics::sLightMode);
+    CGraphics::ELightingMode Mode = (rkViewInfo.GameMode ? CGraphics::eWorldLighting : CGraphics::sLightMode);
 
     switch (Mode)
     {
@@ -248,38 +243,38 @@ void CSceneNode::AddSurfacesToRenderer(CRenderer *pRenderer, CModel *pModel, u32
 }
 
 // ************ TRANSFORM ************
-void CSceneNode::Translate(const CVector3f& translation, ETransformSpace transformSpace)
+void CSceneNode::Translate(const CVector3f& rkTranslation, ETransformSpace TransformSpace)
 {
-    switch (transformSpace)
+    switch (TransformSpace)
     {
     case eWorldTransform:
-        mPosition += translation;
+        mPosition += rkTranslation;
         break;
     case eLocalTransform:
-        mPosition += mRotation * translation;
+        mPosition += mRotation * rkTranslation;
         break;
     }
     MarkTransformChanged();
 }
 
-void CSceneNode::Rotate(const CQuaternion& rotation, ETransformSpace transformSpace)
+void CSceneNode::Rotate(const CQuaternion& rkRotation, ETransformSpace TransformSpace)
 {
-    switch (transformSpace)
+    switch (TransformSpace)
     {
     case eWorldTransform:
-        mRotation = rotation * mRotation;
+        mRotation = rkRotation * mRotation;
         break;
     case eLocalTransform:
-        mRotation *= rotation;
+        mRotation *= rkRotation;
         break;
     }
     MarkTransformChanged();
 }
 
-void CSceneNode::Scale(const CVector3f& scale)
+void CSceneNode::Scale(const CVector3f& rkScale)
 {
     // No support for stretch/skew world-space scaling; local only
-    mScale *= scale;
+    mScale *= rkScale;
     MarkTransformChanged();
 }
 
@@ -327,31 +322,6 @@ void CSceneNode::CalculateTransform(CTransform4f& rOut) const
 }
 
 // ************ GETTERS ************
-TString CSceneNode::Name() const
-{
-    return mName;
-}
-
-CSceneNode* CSceneNode::Parent() const
-{
-    return mpParent;
-}
-
-CScene* CSceneNode::Scene() const
-{
-    return mpScene;
-}
-
-u32 CSceneNode::ID() const
-{
-    return _mID;
-}
-
-CVector3f CSceneNode::LocalPosition() const
-{
-    return mPosition;
-}
-
 CVector3f CSceneNode::AbsolutePosition() const
 {
     CVector3f ret = mPosition;
@@ -362,11 +332,6 @@ CVector3f CSceneNode::AbsolutePosition() const
     return ret;
 }
 
-CQuaternion CSceneNode::LocalRotation() const
-{
-    return mRotation;
-}
-
 CQuaternion CSceneNode::AbsoluteRotation() const
 {
     CQuaternion ret = mRotation;
@@ -375,11 +340,6 @@ CQuaternion CSceneNode::AbsoluteRotation() const
         ret *= mpParent->AbsoluteRotation();
 
     return ret;
-}
-
-CVector3f CSceneNode::LocalScale() const
-{
-    return mScale;
 }
 
 CVector3f CSceneNode::AbsoluteScale() const
@@ -398,97 +358,4 @@ CAABox CSceneNode::AABox() const
         ForceRecalculateTransform();
 
     return _mCachedAABox;
-}
-
-CVector3f CSceneNode::CenterPoint() const
-{
-    return AABox().Center();
-}
-
-u32 CSceneNode::LightLayerIndex() const
-{
-    return mLightLayerIndex;
-}
-
-bool CSceneNode::MarkedVisible() const
-{
-    // The reason I have this function is because the instance view needs to know whether a node is marked
-    // visible independently from other factors that may affect node visibility (as returned by IsVisible()).
-    // It's a little confusing, so maybe there's a better way to set this up.
-    return mVisible;
-}
-
-bool CSceneNode::IsMouseHovering() const
-{
-    return mMouseHovering;
-}
-
-bool CSceneNode::IsSelected() const
-{
-    return mSelected;
-}
-
-bool CSceneNode::InheritsPosition() const
-{
-    return _mInheritsPosition;
-}
-
-bool CSceneNode::InheritsRotation() const
-{
-    return _mInheritsRotation;
-}
-
-bool CSceneNode::InheritsScale() const
-{
-    return _mInheritsScale;
-}
-
-// ************ SETTERS ************
-void CSceneNode::SetName(const TString& Name)
-{
-    mName = Name;
-}
-
-void CSceneNode::SetPosition(const CVector3f& position)
-{
-    mPosition = position;
-    MarkTransformChanged();
-}
-
-void CSceneNode::SetRotation(const CQuaternion& rotation)
-{
-    mRotation = rotation;
-    MarkTransformChanged();
-}
-
-void CSceneNode::SetRotation(const CVector3f& rotEuler)
-{
-    mRotation = CQuaternion::FromEuler(rotEuler);
-    MarkTransformChanged();
-}
-
-void CSceneNode::SetScale(const CVector3f& scale)
-{
-    mScale = scale;
-    MarkTransformChanged();
-}
-
-void CSceneNode::SetLightLayerIndex(u32 index)
-{
-    mLightLayerIndex = index;
-}
-
-void CSceneNode::SetMouseHovering(bool Hovering)
-{
-    mMouseHovering = Hovering;
-}
-
-void CSceneNode::SetSelected(bool Selected)
-{
-    mSelected = Selected;
-}
-
-void CSceneNode::SetVisible(bool Visible)
-{
-    mVisible = Visible;
 }

@@ -5,27 +5,27 @@
 #include <float.h>
 
 CAABox::CAABox()
+    : mMin(CVector3f::skInfinite)
+    , mMax(-CVector3f::skInfinite)
 {
-    mMin = CVector3f::skInfinite;
-    mMax = -CVector3f::skInfinite;
 }
 
-CAABox::CAABox(const CVector3f& Min, const CVector3f& Max)
+CAABox::CAABox(const CVector3f& rkMin, const CVector3f& rkMax)
+    : mMin(rkMin)
+    , mMax(rkMax)
 {
-    mMin = Min;
-    mMax = Max;
 }
 
-CAABox::CAABox(IInputStream& input)
+CAABox::CAABox(IInputStream& rInput)
+    : mMin(rInput)
+    , mMax(rInput)
 {
-    mMin = CVector3f(input);
-    mMax = CVector3f(input);
 }
 
-void CAABox::Write(IOutputStream& Output)
+void CAABox::Write(IOutputStream& rOutput)
 {
-    mMin.Write(Output);
-    mMax.Write(Output);
+    mMin.Write(rOutput);
+    mMax.Write(rOutput);
 }
 
 CVector3f CAABox::Center() const
@@ -48,14 +48,14 @@ CVector3f CAABox::Max() const
     return mMax;
 }
 
-void CAABox::SetMin(const CVector3f& min)
+void CAABox::SetMin(const CVector3f& rkMin)
 {
-    mMin = min;
+    mMin = rkMin;
 }
 
-void CAABox::SetMax(const CVector3f& max)
+void CAABox::SetMax(const CVector3f& rkMax)
 {
-    mMax = max;
+    mMax = rkMax;
 }
 
 bool CAABox::IsNull() const
@@ -68,119 +68,119 @@ bool CAABox::IsInfinite() const
     return (Size() == CVector3f::skInfinite);
 }
 
-void CAABox::ExpandBounds(const CVector3f& vtx)
+void CAABox::ExpandBounds(const CVector3f& rkVtx)
 {
     // take an input vertex coordinate and expand the bounding box to fit it, if necessary
-    if (vtx.x < mMin.x) mMin.x = vtx.x;
-    if (vtx.x > mMax.x) mMax.x = vtx.x;
-    if (vtx.y < mMin.y) mMin.y = vtx.y;
-    if (vtx.y > mMax.y) mMax.y = vtx.y;
-    if (vtx.z < mMin.z) mMin.z = vtx.z;
-    if (vtx.z > mMax.z) mMax.z = vtx.z;
+    if (rkVtx.X < mMin.X) mMin.X = rkVtx.X;
+    if (rkVtx.X > mMax.X) mMax.X = rkVtx.X;
+    if (rkVtx.Y < mMin.Y) mMin.Y = rkVtx.Y;
+    if (rkVtx.Y > mMax.Y) mMax.Y = rkVtx.Y;
+    if (rkVtx.Z < mMin.Z) mMin.Z = rkVtx.Z;
+    if (rkVtx.Z > mMax.Z) mMax.Z = rkVtx.Z;
 }
 
-void CAABox::ExpandBounds(const CAABox& AABox)
+void CAABox::ExpandBounds(const CAABox& rkAABox)
 {
-    ExpandBounds(AABox.mMin);
-    ExpandBounds(AABox.mMax);
+    ExpandBounds(rkAABox.mMin);
+    ExpandBounds(rkAABox.mMax);
 }
 
-void CAABox::ExpandBy(const CVector3f& amount)
+void CAABox::ExpandBy(const CVector3f& rkAmount)
 {
-    CVector3f halfAmount = amount / 2.f;
+    CVector3f halfAmount = rkAmount / 2.f;
     mMin -= halfAmount;
     mMax += halfAmount;
 }
 
-CAABox CAABox::Transformed(const CTransform4f& transform) const
+CAABox CAABox::Transformed(const CTransform4f& rkTransform) const
 {
     CAABox AABox;
 
-    AABox.ExpandBounds(transform * CVector3f(mMin.x, mMin.y, mMin.z));
-    AABox.ExpandBounds(transform * CVector3f(mMin.x, mMin.y, mMax.z));
-    AABox.ExpandBounds(transform * CVector3f(mMin.x, mMax.y, mMax.z));
-    AABox.ExpandBounds(transform * CVector3f(mMin.x, mMax.y, mMin.z));
-    AABox.ExpandBounds(transform * CVector3f(mMax.x, mMin.y, mMin.z));
-    AABox.ExpandBounds(transform * CVector3f(mMax.x, mMin.y, mMax.z));
-    AABox.ExpandBounds(transform * CVector3f(mMax.x, mMax.y, mMax.z));
-    AABox.ExpandBounds(transform * CVector3f(mMax.x, mMax.y, mMin.z));
+    AABox.ExpandBounds(rkTransform * CVector3f(mMin.X, mMin.Y, mMin.Z));
+    AABox.ExpandBounds(rkTransform * CVector3f(mMin.X, mMin.Y, mMax.Z));
+    AABox.ExpandBounds(rkTransform * CVector3f(mMin.X, mMax.Y, mMax.Z));
+    AABox.ExpandBounds(rkTransform * CVector3f(mMin.X, mMax.Y, mMin.Z));
+    AABox.ExpandBounds(rkTransform * CVector3f(mMax.X, mMin.Y, mMin.Z));
+    AABox.ExpandBounds(rkTransform * CVector3f(mMax.X, mMin.Y, mMax.Z));
+    AABox.ExpandBounds(rkTransform * CVector3f(mMax.X, mMax.Y, mMax.Z));
+    AABox.ExpandBounds(rkTransform * CVector3f(mMax.X, mMax.Y, mMin.Z));
 
     return AABox;
 }
 
-bool CAABox::IsPointInBox(const CVector3f& Point) const
+bool CAABox::IsPointInBox(const CVector3f& rkPoint) const
 {
-    return ( ((Point.x >= mMin.x) && (Point.x <= mMax.x)) &&
-             ((Point.y >= mMin.y) && (Point.y <= mMax.y)) &&
-             ((Point.z >= mMin.z) && (Point.z <= mMax.z)) );
+    return ( ((rkPoint.X >= mMin.X) && (rkPoint.X <= mMax.X)) &&
+             ((rkPoint.Y >= mMin.Y) && (rkPoint.Y <= mMax.Y)) &&
+             ((rkPoint.Z >= mMin.Z) && (rkPoint.Z <= mMax.Z)) );
 }
 
-CVector3f CAABox::ClosestPointAlongVector(const CVector3f& dir) const
+CVector3f CAABox::ClosestPointAlongVector(const CVector3f& rkDir) const
 {
     CVector3f out;
-    out.x = (dir.x >= 0.f) ? mMin.x : mMax.x;
-    out.y = (dir.y >= 0.f) ? mMin.y : mMax.y;
-    out.z = (dir.z >= 0.f) ? mMin.z : mMax.z;
+    out.X = (rkDir.X >= 0.f) ? mMin.X : mMax.X;
+    out.Y = (rkDir.Y >= 0.f) ? mMin.Y : mMax.Y;
+    out.Z = (rkDir.Z >= 0.f) ? mMin.Z : mMax.Z;
     return out;
 }
 
-CVector3f CAABox::FurthestPointAlongVector(const CVector3f& dir) const
+CVector3f CAABox::FurthestPointAlongVector(const CVector3f& rkDir) const
 {
     CVector3f out;
-    out.x = (dir.x >= 0.f) ? mMax.x : mMin.x;
-    out.y = (dir.y >= 0.f) ? mMax.y : mMin.y;
-    out.z = (dir.z >= 0.f) ? mMax.z : mMin.z;
+    out.X = (rkDir.X >= 0.f) ? mMax.X : mMin.X;
+    out.Y = (rkDir.Y >= 0.f) ? mMax.Y : mMin.Y;
+    out.Z = (rkDir.Z >= 0.f) ? mMax.Z : mMin.Z;
     return out;
 }
 
 // ************ INTERSECTION TESTS ************
 // These tests are kinda bad and probably inaccurate, they need rewrites
-bool CAABox::IntersectsAABox(const CAABox& AABox)
+bool CAABox::IntersectsAABox(const CAABox& rkAABox)
 {
-    return ((mMax > AABox.mMin) && (mMin < AABox.mMax));
+    return ((mMax > rkAABox.mMin) && (mMin < rkAABox.mMax));
 }
 
-bool CAABox::IntersectsSphere(const CVector3f& SphereCenter, const float SphereRadius)
+bool CAABox::IntersectsSphere(const CVector3f& rkSphereCenter, float SphereRadius)
 {
     // Placeholder for proper sphere intersection test
     // Generate an AABox for the sphere and do an AABox/AABox intersection test instead
-    return IntersectsAABox(CAABox(SphereCenter - SphereRadius, SphereCenter + SphereRadius));
+    return IntersectsAABox(CAABox(rkSphereCenter - SphereRadius, rkSphereCenter + SphereRadius));
 }
 
-std::pair<bool,float> CAABox::IntersectsRay(const CRay &Ray) const
+std::pair<bool,float> CAABox::IntersectsRay(const CRay& rkRay) const
 {
-    return Math::RayBoxIntersection(Ray, *this);
+    return Math::RayBoxIntersection(rkRay, *this);
 }
 
 // ************ OPERATORS ************
-CAABox CAABox::operator+(const CVector3f& translate) const
+CAABox CAABox::operator+(const CVector3f& rkTranslate) const
 {
-    return CAABox(mMin + translate, mMax + translate);
+    return CAABox(mMin + rkTranslate, mMax + rkTranslate);
 }
 
-void CAABox::operator+=(const CVector3f& translate)
+void CAABox::operator+=(const CVector3f& rkTranslate)
 {
-    *this = *this + translate;
+    *this = *this + rkTranslate;
 }
 
-CAABox CAABox::operator*(float scalar) const
+CAABox CAABox::operator*(float Scalar) const
 {
-    return CAABox(mMin * scalar, mMax * scalar);
+    return CAABox(mMin * Scalar, mMax * Scalar);
 }
 
-void CAABox::operator*=(float scalar)
+void CAABox::operator*=(float Scalar)
 {
-    *this = *this * scalar;
+    *this = *this * Scalar;
 }
 
-bool CAABox::operator==(const CAABox& Other) const
+bool CAABox::operator==(const CAABox& rkOther) const
 {
-    return ((mMin == Other.mMin) && (mMax == Other.mMax));
+    return ((mMin == rkOther.mMin) && (mMax == rkOther.mMax));
 }
 
-bool CAABox::operator!=(const CAABox& Other) const
+bool CAABox::operator!=(const CAABox& rkOther) const
 {
-    return (!(*this == Other));
+    return (!(*this == rkOther));
 }
 
 // ************ CONSTANTS ************

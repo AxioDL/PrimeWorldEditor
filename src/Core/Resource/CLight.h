@@ -41,22 +41,23 @@ private:
     CVector3f CalculateSpotAngleAtten();
 
 public:
-    // Getters
-    ELightType GetType() const;
-    u32 GetLayerIndex() const;
-    CVector3f GetPosition() const;
-    CVector3f GetDirection() const;
-    CColor GetColor() const;
-    CVector3f GetDistAttenuation() const;
-    CVector3f GetAngleAttenuation() const;
+    // Accessors
+    inline ELightType Type() const              { return mType; }
+    inline u32 LayerIndex() const               { return mLayerIndex; }
+    inline CVector3f Position() const           { return mPosition; }
+    inline CVector3f Direction() const          { return mDirection; }
+    inline CColor Color() const                 { return mColor; }
+    inline CVector3f DistAttenuation() const    { return mDistAttenCoefficients; }
+    inline CVector3f AngleAttenuation() const   { return mAngleAttenCoefficients; }
+
+    inline void SetLayer(u32 Index)                         { mLayerIndex = Index; }
+    inline void SetPosition(const CVector3f& rkPosition)    { mPosition = rkPosition; }
+    inline void SetDirection(const CVector3f& rkDirection)  { mDirection = rkDirection; }
+
     float GetRadius() const;
     float GetIntensity() const;
 
-    // Setters
-    void SetLayer(u32 index);
-    void SetPosition(const CVector3f& Position);
-    void SetDirection(const CVector3f& Direction);
-    void SetColor(const CColor& Color);
+    void SetColor(const CColor& rkColor);
     void SetSpotCutoff(float Cutoff);
     void SetDistAtten(float DistCoefA, float DistCoefB, float DistCoefC);
     void SetAngleAtten(float AngleCoefA, float AngleCoefB, float AngleCoefC);
@@ -65,10 +66,10 @@ public:
     void Load() const;
 
     // Static
-    static CLight* BuildLocalAmbient(const CVector3f& Position, const CColor& Color);
-    static CLight* BuildDirectional(const CVector3f& Position, const CVector3f& Direction, const CColor& Color);
-    static CLight* BuildSpot(const CVector3f& Position, const CVector3f& Direction, const CColor& Color, float Cutoff);
-    static CLight* BuildCustom(const CVector3f& Position, const CVector3f& Direction, const CColor& Color,
+    static CLight* BuildLocalAmbient(const CVector3f& rkPosition, const CColor& rkColor);
+    static CLight* BuildDirectional(const CVector3f& rkPosition, const CVector3f& rkDirection, const CColor& rkColor);
+    static CLight* BuildSpot(const CVector3f& rkPosition, const CVector3f& rkDirection, const CColor& rkColor, float Cutoff);
+    static CLight* BuildCustom(const CVector3f& rkPosition, const CVector3f& rkDirection, const CColor& rkColor,
                               float DistAttenA, float DistAttenB, float DistAttenC,
                               float AngleAttenA, float AngleAttenB, float AngleAttenC);
 

@@ -5,33 +5,31 @@
 #include <gtc/matrix_transform.hpp>
 
 CCamera::CCamera()
+    : mMode(eFreeCamera)
+    , mPosition(0)
+    , mAspectRatio(1.7777777f)
+    , mYaw(-Math::skHalfPi)
+    , mPitch(0.f)
+    , mMoveSpeed(1.f)
+    , mLookSpeed(1.f)
+    , mTransformDirty(true)
+    , mViewDirty(true)
+    , mProjectionDirty(true)
+    , mFrustumPlanesDirty(true)
 {
-    mMode = eFreeCamera;
-    mPosition = CVector3f(0);
-    mAspectRatio = 1.7777777f;
-
-    mYaw = -Math::skHalfPi;
-    mPitch = 0.0f;
     SetOrbit(CVector3f(0), 5.f);
-
-    mMoveSpeed = 1.f;
-    mLookSpeed = 1.f;
-    mTransformDirty = true;
-    mViewDirty = true;
-    mProjectionDirty = true;
-    mFrustumPlanesDirty = true;
 }
 
+// todo: make it actually look at the target!
+// don't actually use this constructor, it's unfinished and won't work properly
 CCamera::CCamera(CVector3f Position, CVector3f /*Target*/)
+    : mMode(eFreeCamera)
+    , mMoveSpeed(1.f)
+    , mLookSpeed(1.f)
+    , mPosition(Position)
+    , mYaw(-Math::skHalfPi)
+    , mPitch(0.f)
 {
-    // todo: make it actually look at the target!
-    // don't actually use this constructor, it's unfinished and won't work properly
-    mMode = eFreeCamera;
-    mMoveSpeed = 1.f;
-    mLookSpeed = 1.f;
-    mPosition = Position;
-    mYaw = -Math::skHalfPi;
-    mPitch = 0.0f;
 }
 
 void CCamera::Pan(float XAmount, float YAmount)
@@ -123,8 +121,8 @@ CRay CCamera::CastRay(CVector2f DeviceCoords) const
 {
     CMatrix4f InverseVP = (ViewMatrix().Transpose() * ProjectionMatrix().Transpose()).Inverse();
 
-    CVector3f RayOrigin = CVector3f(DeviceCoords.x, DeviceCoords.y, -1.f) * InverseVP;
-    CVector3f RayTarget = CVector3f(DeviceCoords.x, DeviceCoords.y,  0.f) * InverseVP;
+    CVector3f RayOrigin = CVector3f(DeviceCoords.X, DeviceCoords.Y, -1.f) * InverseVP;
+    CVector3f RayTarget = CVector3f(DeviceCoords.X, DeviceCoords.Y,  0.f) * InverseVP;
     CVector3f RayDir = (RayTarget - RayOrigin).Normalized();
 
     CRay Ray;
@@ -167,9 +165,9 @@ void CCamera::SetOrbit(const CAABox& OrbitTarget, float DistScale /*= 4.f*/)
     CVector3f Extent = (Max - Min) / 2.f;
     float Dist = 0.f;
 
-    if (Extent.x >= Extent.y && Extent.x >= Extent.z) Dist = Extent.x;
-    else if (Extent.y >= Extent.x && Extent.y >= Extent.z) Dist = Extent.y;
-    else Dist = Extent.z;
+    if (Extent.X >= Extent.Y && Extent.X >= Extent.Z) Dist = Extent.X;
+    else if (Extent.Y >= Extent.X && Extent.Y >= Extent.Z) Dist = Extent.Y;
+    else Dist = Extent.Z;
 
     mOrbitDistance = Dist * DistScale;
 
@@ -198,100 +196,6 @@ void CCamera::LoadMatrices() const
     CGraphics::sMVPBlock.ViewMatrix = ViewMatrix();
     CGraphics::sMVPBlock.ProjectionMatrix = ProjectionMatrix();
     CGraphics::UpdateMVPBlock();
-}
-
-// ************ GETTERS ************
-CVector3f CCamera::Position() const
-{
-    UpdateTransform();
-    return mPosition;
-}
-
-CVector3f CCamera::Direction() const
-{
-    UpdateTransform();
-    return mDirection;
-}
-
-CVector3f CCamera::UpVector() const
-{
-    UpdateTransform();
-    return mUpVector;
-}
-
-CVector3f CCamera::RightVector() const
-{
-    UpdateTransform();
-    return mRightVector;
-}
-
-float CCamera::Yaw() const
-{
-    return mYaw;
-}
-
-float CCamera::Pitch() const
-{
-    return mPitch;
-}
-
-float CCamera::FieldOfView() const
-{
-    return 55.f;
-}
-
-ECameraMoveMode CCamera::MoveMode() const
-{
-    return mMode;
-}
-
-const CMatrix4f& CCamera::ViewMatrix() const
-{
-    UpdateView();
-    return mViewMatrix;
-}
-
-const CMatrix4f& CCamera::ProjectionMatrix() const
-{
-    UpdateProjection();
-    return mProjectionMatrix;
-}
-
-const CFrustumPlanes& CCamera::FrustumPlanes() const
-{
-    UpdateFrustum();
-    return mFrustumPlanes;
-}
-
-// ************ SETTERS ************
-void CCamera::SetYaw(float Yaw)
-{
-    mYaw = Yaw;
-    mTransformDirty = true;
-}
-
-void CCamera::SetPitch(float Pitch)
-{
-    mPitch = Pitch;
-    ValidatePitch();
-    mTransformDirty = true;
-}
-
-void CCamera::SetMoveSpeed(float MoveSpeed)
-{
-    mMoveSpeed = MoveSpeed;
-}
-
-void CCamera::SetLookSpeed(float LookSpeed)
-{
-    mLookSpeed = LookSpeed;
-}
-
-void CCamera::SetAspectRatio(float AspectRatio)
-{
-    mAspectRatio = AspectRatio;
-    mProjectionDirty = true;
-    mFrustumPlanesDirty = true;
 }
 
 // ************ PRIVATE ************
@@ -341,9 +245,9 @@ void CCamera::UpdateView() const
 
     if (mViewDirty)
     {
-        glm::vec3 glmpos(mPosition.x, mPosition.y, mPosition.z);
-        glm::vec3 glmdir(mDirection.x, mDirection.y, mDirection.z);
-        glm::vec3 glmup(mUpVector.x, mUpVector.y, mUpVector.z);
+        glm::vec3 glmpos(mPosition.X, mPosition.Y, mPosition.Z);
+        glm::vec3 glmdir(mDirection.X, mDirection.Y, mDirection.Z);
+        glm::vec3 glmup(mUpVector.X, mUpVector.Y, mUpVector.Z);
         mViewMatrix = CMatrix4f::FromGlmMat4(glm::lookAt(glmpos, glmpos + glmdir, glmup)).Transpose();
         mViewDirty = false;
     }

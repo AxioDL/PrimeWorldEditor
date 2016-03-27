@@ -38,55 +38,55 @@ class CTextureDecoder
     CTexture* CreateTexture();
 
     // Read
-    void ReadTXTR(IInputStream& TXTR);
-    void ReadDDS(IInputStream& DDS);
+    void ReadTXTR(IInputStream& rTXTR);
+    void ReadDDS(IInputStream& rDDS);
 
     // Decode
-    void PartialDecodeGXTexture(IInputStream& TXTR);
-    void FullDecodeGXTexture(IInputStream& TXTR);
-    void DecodeDDS(IInputStream& DDS);
+    void PartialDecodeGXTexture(IInputStream& rTXTR);
+    void FullDecodeGXTexture(IInputStream& rTXTR);
+    void DecodeDDS(IInputStream& rDDS);
 
     // Decode Pixels (preserve compression)
-    void ReadPixelsI4(IInputStream& src, IOutputStream& dst);
-    void ReadPixelI8(IInputStream& src, IOutputStream& dst);
-    void ReadPixelIA4(IInputStream& src, IOutputStream& dst);
-    void ReadPixelIA8(IInputStream& src, IOutputStream& dst);
-    void ReadPixelsC4(IInputStream& src, IOutputStream& dst);
-    void ReadPixelC8(IInputStream& src, IOutputStream& dst);
-    void ReadPixelRGB565(IInputStream& src, IOutputStream& dst);
-    void ReadPixelRGB5A3(IInputStream& src, IOutputStream& dst);
-    void ReadPixelRGBA8(IInputStream& src, IOutputStream& dst);
-    void ReadSubBlockCMPR(IInputStream& src, IOutputStream& dst);
+    void ReadPixelsI4(IInputStream& rSrc, IOutputStream& rDst);
+    void ReadPixelI8(IInputStream& rSrc, IOutputStream& rDst);
+    void ReadPixelIA4(IInputStream& rSrc, IOutputStream& rDst);
+    void ReadPixelIA8(IInputStream& rSrc, IOutputStream& rDst);
+    void ReadPixelsC4(IInputStream& rSrc, IOutputStream& rDst);
+    void ReadPixelC8(IInputStream& rSrc, IOutputStream& rDst);
+    void ReadPixelRGB565(IInputStream& rSrc, IOutputStream& rDst);
+    void ReadPixelRGB5A3(IInputStream& rSrc, IOutputStream& rDst);
+    void ReadPixelRGBA8(IInputStream& rSrc, IOutputStream& rDst);
+    void ReadSubBlockCMPR(IInputStream& rSrc, IOutputStream& rDst);
 
     // Decode Pixels (convert to RGBA8)
     CColor DecodePixelI4(u8 Byte, u8 WhichPixel);
     CColor DecodePixelI8(u8 Byte);
     CColor DecodePixelIA4(u8 Byte);
     CColor DecodePixelIA8(u16 Short);
-    CColor DecodePixelC4(u8 Byte, u8 WhichPixel, IInputStream& PaletteStream);
-    CColor DecodePixelC8(u8 Byte, IInputStream& PaletteStream);
+    CColor DecodePixelC4(u8 Byte, u8 WhichPixel, IInputStream& rPaletteStream);
+    CColor DecodePixelC8(u8 Byte, IInputStream& rPaletteStream);
     CColor DecodePixelRGB565(u16 Short);
     CColor DecodePixelRGB5A3(u16 Short);
-    CColor DecodePixelRGBA8(IInputStream& src, IOutputStream& dst);
-    void DecodeSubBlockCMPR(IInputStream& src, IOutputStream& dst, u16 Width);
+    CColor DecodePixelRGBA8(IInputStream& rSrc, IOutputStream& rDst);
+    void DecodeSubBlockCMPR(IInputStream& rSrc, IOutputStream& rDst, u16 Width);
 
-    void DecodeBlockBC1(IInputStream& src, IOutputStream& dst, u32 Width);
-    void DecodeBlockBC2(IInputStream& src, IOutputStream& dst, u32 Width);
-    void DecodeBlockBC3(IInputStream& src, IOutputStream& dst, u32 Width);
-    CColor DecodeDDSPixel(IInputStream& DDS);
+    void DecodeBlockBC1(IInputStream& rSrc, IOutputStream& rDst, u32 Width);
+    void DecodeBlockBC2(IInputStream& rSrc, IOutputStream& rDst, u32 Width);
+    void DecodeBlockBC3(IInputStream& rSrc, IOutputStream& rDst, u32 Width);
+    CColor DecodeDDSPixel(IInputStream& rDDS);
 
     // Static
 public:
-    static CTexture* LoadTXTR(IInputStream& TXTR);
-    static CTexture* LoadDDS(IInputStream& DDS);
-    static CTexture* DoFullDecode(IInputStream& TXTR);
+    static CTexture* LoadTXTR(IInputStream& rTXTR);
+    static CTexture* LoadDDS(IInputStream& rDDS);
+    static CTexture* DoFullDecode(IInputStream& rTXTR);
     static CTexture* DoFullDecode(CTexture *pTexture);
 
     // Utility
-    static u8 Extend3to8(u8 in);
-    static u8 Extend4to8(u8 in);
-    static u8 Extend5to8(u8 in);
-    static u8 Extend6to8(u8 in);
+    static u8 Extend3to8(u8 In);
+    static u8 Extend4to8(u8 In);
+    static u8 Extend5to8(u8 In);
+    static u8 Extend6to8(u8 In);
     static u32 CalculateShiftForMask(u32 BitMask);
     static u32 CalculateMaskBitCount(u32 BitMask);
 };

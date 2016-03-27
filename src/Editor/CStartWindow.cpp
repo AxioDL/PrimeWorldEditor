@@ -13,9 +13,9 @@
 #include <QMessageBox>
 #include <QProcess>
 
-CStartWindow::CStartWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::CStartWindow)
+CStartWindow::CStartWindow(QWidget *parent)
+    : QMainWindow(parent)
+    , ui(new Ui::CStartWindow)
 {
     ui->setupUi(this);
     mpWorld = nullptr;
@@ -62,10 +62,10 @@ void CStartWindow::on_actionOpen_MLVL_triggered()
 
 void CStartWindow::FillWorldUI()
 {
-    CStringTable *pWorldName = mpWorld->GetWorldName();
+    CStringTable *pWorldName = mpWorld->WorldName();
     if (pWorldName)
     {
-        TWideString WorldName = pWorldName->GetString("ENGL", 0);
+        TWideString WorldName = pWorldName->String("ENGL", 0);
         ui->WorldNameLabel->setText( QString("<font size=5><b>") + TO_QSTRING(WorldName) + QString("</b></font>") );
         ui->WorldNameSTRGLineEdit->setText(TO_QSTRING(pWorldName->Source()));
 
@@ -80,39 +80,40 @@ void CStartWindow::FillWorldUI()
         Log::Write("Loaded " + mpWorld->Source() + " (unnamed world)");
     }
 
-    CStringTable *pDarkWorldName = mpWorld->GetDarkWorldName();
+    CStringTable *pDarkWorldName = mpWorld->DarkWorldName();
     if (pDarkWorldName)
         ui->DarkWorldNameSTRGLineEdit->setText(TO_QSTRING(pDarkWorldName->Source()));
     else
         ui->DarkWorldNameSTRGLineEdit->clear();
 
-    CModel *pDefaultSkybox = mpWorld->GetDefaultSkybox();
+    CModel *pDefaultSkybox = mpWorld->DefaultSkybox();
     if (pDefaultSkybox)
         ui->DefaultSkyboxCMDLLineEdit->setText(TO_QSTRING(pDefaultSkybox->Source()));
     else
         ui->DefaultSkyboxCMDLLineEdit->clear();
 
-    CResource *pSaveWorld = mpWorld->GetSaveWorld();
+    CResource *pSaveWorld = mpWorld->SaveWorld();
     if (pSaveWorld)
         ui->WorldSAVWLineEdit->setText(TO_QSTRING(pSaveWorld->Source()));
     else
         ui->WorldSAVWLineEdit->clear();
 
-    CResource *pMapWorld = mpWorld->GetMapWorld();
+    CResource *pMapWorld = mpWorld->MapWorld();
     if (pMapWorld)
         ui->WorldMAPWLineEdit->setText(TO_QSTRING(pMapWorld->Source()));
     else
         ui->WorldMAPWLineEdit->clear();
 
-    u32 NumAreas = mpWorld->GetNumAreas();
+    u32 NumAreas = mpWorld->NumAreas();
     ui->AreaSelectComboBox->blockSignals(true);
     ui->AreaSelectComboBox->clear();
     ui->AreaSelectComboBox->blockSignals(false);
     ui->AreaSelectComboBox->setDisabled(false);
+
     for (u32 iArea = 0; iArea < NumAreas; iArea++)
     {
-        CStringTable *pAreaName = mpWorld->GetAreaName(iArea);
-        QString AreaName = (pAreaName != nullptr) ? TO_QSTRING(pAreaName->GetString("ENGL", 0)) : QString("!!") + TO_QSTRING(mpWorld->GetAreaInternalName(iArea));
+        CStringTable *pAreaName = mpWorld->AreaName(iArea);
+        QString AreaName = (pAreaName != nullptr) ? TO_QSTRING(pAreaName->String("ENGL", 0)) : QString("!!") + TO_QSTRING(mpWorld->AreaInternalName(iArea));
         ui->AreaSelectComboBox->addItem(AreaName);
     }
 }
@@ -128,15 +129,15 @@ void CStartWindow::FillAreaUI()
     ui->AreaSelectComboBox->setCurrentIndex(mSelectedAreaIndex);
     ui->AreaSelectComboBox->blockSignals(false);
 
-    ui->AreaNameLineEdit->setText(TO_QSTRING(mpWorld->GetAreaInternalName(mSelectedAreaIndex)));
+    ui->AreaNameLineEdit->setText(TO_QSTRING(mpWorld->AreaInternalName(mSelectedAreaIndex)));
 
-    CStringTable *pAreaName = mpWorld->GetAreaName(mSelectedAreaIndex);
+    CStringTable *pAreaName = mpWorld->AreaName(mSelectedAreaIndex);
     if (pAreaName)
         ui->AreaNameSTRGLineEdit->setText(TO_QSTRING(pAreaName->Source()));
     else
         ui->AreaNameSTRGLineEdit->clear();
 
-    u64 MREA = mpWorld->GetAreaResourceID(mSelectedAreaIndex);
+    u64 MREA = mpWorld->AreaResourceID(mSelectedAreaIndex);
     TString MREAStr;
     if (MREA & 0xFFFFFFFF00000000)
         MREAStr = TString::FromInt64(MREA, 16);
@@ -145,20 +146,20 @@ void CStartWindow::FillAreaUI()
 
     ui->AreaMREALineEdit->setText(TO_QSTRING(MREAStr) + QString(".MREA"));
 
-    u32 NumAttachedAreas = mpWorld->GetAreaAttachedCount(mSelectedAreaIndex);
+    u32 NumAttachedAreas = mpWorld->AreaAttachedCount(mSelectedAreaIndex);
     ui->AttachedAreasList->clear();
 
     for (u32 iArea = 0; iArea < NumAttachedAreas; iArea++)
     {
-        u32 AttachedAreaIndex = mpWorld->GetAreaAttachedID(mSelectedAreaIndex, iArea);
+        u32 AttachedAreaIndex = mpWorld->AreaAttachedID(mSelectedAreaIndex, iArea);
 
-        CStringTable *AttachedAreaSTRG = mpWorld->GetAreaName(AttachedAreaIndex);
+        CStringTable *AttachedAreaSTRG = mpWorld->AreaName(AttachedAreaIndex);
         QString AttachedStr;
 
         if (AttachedAreaSTRG)
-            AttachedStr = TO_QSTRING(AttachedAreaSTRG->GetString("ENGL", 0));
+            AttachedStr = TO_QSTRING(AttachedAreaSTRG->String("ENGL", 0));
         else
-            AttachedStr = QString("!") + TO_QSTRING(mpWorld->GetAreaInternalName(AttachedAreaIndex));
+            AttachedStr = QString("!") + TO_QSTRING(mpWorld->AreaInternalName(AttachedAreaIndex));
 
         ui->AttachedAreasList->addItem(AttachedStr);
     }
@@ -166,15 +167,15 @@ void CStartWindow::FillAreaUI()
     ui->LaunchWorldEditorButton->setDisabled(false);
 }
 
-void CStartWindow::on_AreaSelectComboBox_currentIndexChanged(int index)
+void CStartWindow::on_AreaSelectComboBox_currentIndexChanged(int Index)
 {
-    mSelectedAreaIndex = index;
+    mSelectedAreaIndex = Index;
     FillAreaUI();
 }
 
-void CStartWindow::on_AttachedAreasList_doubleClicked(const QModelIndex &index)
+void CStartWindow::on_AttachedAreasList_doubleClicked(const QModelIndex& rkIndex)
 {
-    mSelectedAreaIndex = mpWorld->GetAreaAttachedID(mSelectedAreaIndex, index.row());
+    mSelectedAreaIndex = mpWorld->AreaAttachedID(mSelectedAreaIndex, rkIndex.row());
     FillAreaUI();
 }
 
@@ -184,7 +185,7 @@ void CStartWindow::on_LaunchWorldEditorButton_clicked()
     {
         Log::ClearErrorLog();
 
-        u64 AreaID = mpWorld->GetAreaResourceID(mSelectedAreaIndex);
+        u64 AreaID = mpWorld->AreaResourceID(mSelectedAreaIndex);
         TResPtr<CGameArea> pArea = gResCache.GetResource(AreaID, "MREA");
 
         if (!pArea)

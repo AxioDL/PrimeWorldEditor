@@ -2,7 +2,6 @@
 #include "CResCache.h"
 #include "Core/Render/CDrawUtil.h"
 #include "Core/Render/CRenderer.h"
-#include <Common/AnimUtil.h>
 
 CDynamicVertexBuffer CFont::smGlyphVertices;
         CIndexBuffer CFont::smGlyphIndices;
@@ -16,14 +15,14 @@ CFont::~CFont()
 {
 }
 
-inline float PtsToFloat(s32 pt)
+inline float PtsToFloat(s32 Pt)
 {
     // This is a bit of an arbitrary number but it works
     // 1 / (1280 / 1.333333f / 2)
-    return 0.00208333f * pt;
+    return 0.00208333f * Pt;
 }
 
-CVector2f CFont::RenderString(const TString& String, CRenderer* /*pRenderer*/, float /*AspectRatio*/,
+CVector2f CFont::RenderString(const TString& rkString, CRenderer* /*pRenderer*/, float /*AspectRatio*/,
                               CVector2f /*Position*/, CColor FillColor, CColor StrokeColor, u32 FontSize)
 {
     // WIP
@@ -49,16 +48,16 @@ CVector2f CFont::RenderString(const TString& String, CRenderer* /*pRenderer*/, f
     if (FontSize == CFONT_DEFAULT_SIZE) Scale = 1.f;
     else Scale = (float) FontSize / (mDefaultSize != 0 ? mDefaultSize : 18);
 
-    for (u32 iChar = 0; iChar < String.Length(); iChar++)
+    for (u32 iChar = 0; iChar < rkString.Length(); iChar++)
     {
         // Get character, check for newline
-        char Char = String[iChar];
+        char Char = rkString[iChar];
 
         if (Char == '\n')
         {
             pPrevGlyph = nullptr;
-            PrintHead.x = -1;
-            PrintHead.y -= (PtsToFloat(mLineHeight) + PtsToFloat(mLineMargin) + PtsToFloat(mUnknown)) * Scale;
+            PrintHead.X = -1;
+            PrintHead.Y -= (PtsToFloat(mLineHeight) + PtsToFloat(mLineMargin) + PtsToFloat(mUnknown)) * Scale;
             continue;
         }
 
@@ -68,7 +67,7 @@ CVector2f CFont::RenderString(const TString& String, CRenderer* /*pRenderer*/, f
         SGlyph *pGlyph = &iGlyph->second;
 
         // Apply left padding and kerning
-        PrintHead.x += PtsToFloat(pGlyph->LeftPadding) * Scale;
+        PrintHead.X += PtsToFloat(pGlyph->LeftPadding) * Scale;
 
         if (pPrevGlyph)
         {
@@ -77,9 +76,9 @@ CVector2f CFont::RenderString(const TString& String, CRenderer* /*pRenderer*/, f
                 for (u32 iKern = pPrevGlyph->KerningIndex; iKern < mKerningTable.size(); iKern++)
                 {
                     if (mKerningTable[iKern].CharacterA != pPrevGlyph->Character) break;
-                    if (mKerningTable[iKern].CharacterB == String[iChar])
+                    if (mKerningTable[iKern].CharacterB == rkString[iChar])
                     {
-                        PrintHead.x += PtsToFloat(mKerningTable[iKern].Adjust) * Scale;
+                        PrintHead.X += PtsToFloat(mKerningTable[iKern].Adjust) * Scale;
                         break;
                     }
                 }
@@ -87,16 +86,16 @@ CVector2f CFont::RenderString(const TString& String, CRenderer* /*pRenderer*/, f
         }
 
         // Add a newline if this character goes over the right edge of the screen
-        if (PrintHead.x + ((PtsToFloat(pGlyph->PrintAdvance) + PtsToFloat(pGlyph->RightPadding)) * Scale) > 1)
+        if (PrintHead.X + ((PtsToFloat(pGlyph->PrintAdvance) + PtsToFloat(pGlyph->RightPadding)) * Scale) > 1)
         {
-            PrintHead.x = -1;
-            PrintHead.y -= (PtsToFloat(mLineHeight) + PtsToFloat(mLineMargin) + PtsToFloat(mUnknown)) * Scale;
+            PrintHead.X = -1;
+            PrintHead.Y -= (PtsToFloat(mLineHeight) + PtsToFloat(mLineMargin) + PtsToFloat(mUnknown)) * Scale;
 
             if (Char == ' ') continue;
         }
 
-        float XTrans = PrintHead.x;
-        float YTrans = PrintHead.y + ((PtsToFloat(pGlyph->BaseOffset * 2) - PtsToFloat(mVerticalOffset * 2)) * Scale);
+        float XTrans = PrintHead.X;
+        float YTrans = PrintHead.Y + ((PtsToFloat(pGlyph->BaseOffset * 2) - PtsToFloat(mVerticalOffset * 2)) * Scale);
 
         CTransform4f GlyphTransform = PtScale;
         GlyphTransform.Scale(CVector3f((float) pGlyph->Width / 2, (float) pGlyph->Height, 1.f));
@@ -115,7 +114,7 @@ CVector2f CFont::RenderString(const TString& String, CRenderer* /*pRenderer*/, f
 
         // Draw fill
         glUniform1i(LayerLoc, GlyphLayer);
-        glUniform4fv(ColorLoc, 1, &FillColor.r);
+        glUniform4fv(ColorLoc, 1, &FillColor.R);
         smGlyphIndices.DrawElements();
 
         // Draw stroke
@@ -127,13 +126,13 @@ CVector2f CFont::RenderString(const TString& String, CRenderer* /*pRenderer*/, f
             else if (mTextureFormat == 8) StrokeLayer = GlyphLayer - 2;
 
             glUniform1i(LayerLoc, StrokeLayer);
-            glUniform4fv(ColorLoc, 1, &StrokeColor.r);
+            glUniform4fv(ColorLoc, 1, &StrokeColor.R);
             smGlyphIndices.DrawElements();
         }
 
         // Update print head
-        PrintHead.x += PtsToFloat(pGlyph->PrintAdvance) * Scale;
-        PrintHead.x += PtsToFloat(pGlyph->RightPadding) * Scale;
+        PrintHead.X += PtsToFloat(pGlyph->PrintAdvance) * Scale;
+        PrintHead.X += PtsToFloat(pGlyph->RightPadding) * Scale;
         pPrevGlyph = pGlyph;
     }
 

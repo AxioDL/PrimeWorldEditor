@@ -92,7 +92,7 @@ void WModifyTab::GenerateUI()
             {
                 ui->ObjectsTabWidget->show();
                 CScriptNode *pScriptNode = static_cast<CScriptNode*>(mpSelectedNode);
-                CScriptObject *pObj = pScriptNode->Object();
+                CScriptObject *pObj = pScriptNode->Instance();
 
                 // Set up UI
                 ui->PropertyView->SetInstance(pObj);
@@ -114,7 +114,7 @@ void WModifyTab::OnInstanceLinksModified(const QList<CScriptObject*>& rkInstance
 {
     if (mpSelectedNode && mpSelectedNode->NodeType() == eScriptNode)
     {
-        CScriptObject *pInstance = static_cast<CScriptNode*>(mpSelectedNode)->Object();
+        CScriptObject *pInstance = static_cast<CScriptNode*>(mpSelectedNode)->Instance();
 
         if (pInstance && rkInstances.contains(pInstance))
         {
@@ -173,7 +173,7 @@ void WModifyTab::OnAddLinkActionClicked(QAction *pAction)
             if (pTarget)
             {
                 CLinkDialog *pLinkDialog = mpWorldEditor->LinkDialog();
-                CScriptObject *pSelected = static_cast<CScriptNode*>(mpSelectedNode)->Object();
+                CScriptObject *pSelected = static_cast<CScriptNode*>(mpSelectedNode)->Instance();
 
                 CScriptObject *pSender      = (mAddLinkType == eOutgoing ? pSelected : pTarget);
                 CScriptObject *pReceiver    = (mAddLinkType == eOutgoing ? pTarget : pSelected);
@@ -187,12 +187,12 @@ void WModifyTab::OnAddLinkActionClicked(QAction *pAction)
 void WModifyTab::OnPickModeClick(const SRayIntersection& rkIntersect)
 {
     mpWorldEditor->ExitPickMode();
-    CScriptObject *pTarget = static_cast<CScriptNode*>(rkIntersect.pNode)->Object();
+    CScriptObject *pTarget = static_cast<CScriptNode*>(rkIntersect.pNode)->Instance();
 
     if (pTarget)
     {
         CLinkDialog *pDialog = mpWorldEditor->LinkDialog();
-        CScriptObject *pSelected = static_cast<CScriptNode*>(mpSelectedNode)->Object();
+        CScriptObject *pSelected = static_cast<CScriptNode*>(mpSelectedNode)->Instance();
 
         CScriptObject *pSender      = (mAddLinkType == eOutgoing ? pSelected : pTarget);
         CScriptObject *pReceiver    = (mAddLinkType == eOutgoing ? pTarget : pSelected);
@@ -222,7 +222,7 @@ void WModifyTab::OnDeleteLinksClicked()
             for (int iIdx = 0; iIdx < SelectedIndices.size(); iIdx++)
                 Indices << SelectedIndices[iIdx].row();
 
-            CScriptObject *pInst = static_cast<CScriptNode*>(mpSelectedNode)->Object();
+            CScriptObject *pInst = static_cast<CScriptNode*>(mpSelectedNode)->Instance();
             CDeleteLinksCommand *pCmd = new CDeleteLinksCommand(mpWorldEditor, pInst, Type, Indices);
             mpWorldEditor->UndoStack()->push(pCmd);
         }
@@ -238,7 +238,7 @@ void WModifyTab::OnEditLinkClicked()
 
         if (SelectedIndices.size() == 1)
         {
-            CScriptObject *pInst = static_cast<CScriptNode*>(mpSelectedNode)->Object();
+            CScriptObject *pInst = static_cast<CScriptNode*>(mpSelectedNode)->Instance();
             CLinkDialog *pDialog = mpWorldEditor->LinkDialog();
             pDialog->EditLink(pInst->Link(Type, SelectedIndices.front().row()));
             pDialog->show();
@@ -256,9 +256,9 @@ void WModifyTab::OnLinkTableDoubleClick(QModelIndex Index)
         u32 InstanceID;
 
         if (sender() == ui->InLinksTableView)
-            InstanceID = pNode->Object()->Link(eIncoming, Index.row())->SenderID();
+            InstanceID = pNode->Instance()->Link(eIncoming, Index.row())->SenderID();
         else if (sender() == ui->OutLinksTableView)
-            InstanceID = pNode->Object()->Link(eOutgoing, Index.row())->ReceiverID();
+            InstanceID = pNode->Instance()->Link(eOutgoing, Index.row())->ReceiverID();
 
         CScriptNode *pLinkedNode = pNode->Scene()->NodeForInstanceID(InstanceID);
 

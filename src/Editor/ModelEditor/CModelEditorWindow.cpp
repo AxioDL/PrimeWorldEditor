@@ -22,27 +22,26 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-CModelEditorWindow::CModelEditorWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::CModelEditorWindow)
+CModelEditorWindow::CModelEditorWindow(QWidget *pParent)
+    : QMainWindow(pParent)
+    , ui(new Ui::CModelEditorWindow)
+    , mpScene(new CScene())
+    , mpCurrentMat(nullptr)
+    , mpCurrentModel(nullptr)
+    , mpCurrentModelNode(new CModelNode(mpScene, -1))
+    , mpCurrentPass(nullptr)
+    , mIgnoreSignals(false)
 {
     ui->setupUi(this);
-
-    mpScene = new CScene();
-    mpCurrentMat = nullptr;
-    mpCurrentModel = nullptr;
-    mpCurrentModelNode = new CModelNode(mpScene, -1);
-    mpCurrentPass = nullptr;
-    mIgnoreSignals = false;
 
     ui->Viewport->SetNode(mpCurrentModelNode);
     ui->Viewport->SetClearColor(CColor(0.3f, 0.3f, 0.3f, 1.f));
 
-    CCamera& camera = ui->Viewport->Camera();
-    camera.Snap(CVector3f(0, 3, 1));
-    camera.SetMoveMode(eOrbitCamera);
-    camera.SetOrbit(CVector3f(0, 0, 1), 3.f);
-    camera.SetMoveSpeed(0.5f);
+    CCamera& rCamera = ui->Viewport->Camera();
+    rCamera.Snap(CVector3f(0, 3, 1));
+    rCamera.SetMoveMode(eOrbitCamera);
+    rCamera.SetOrbit(CVector3f(0, 0, 1), 3.f);
+    rCamera.SetMoveSpeed(0.5f);
 
     // UI initialization
     UpdateAnimParamUI(-1);
@@ -52,7 +51,7 @@ CModelEditorWindow::CModelEditorWindow(QWidget *parent) :
     ui->PassTextureResSelector->SetPreviewPanelEnabled(true);
     ui->PassTable->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
     ui->PassTable->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
-    ui->ClearColorPicker->setColor(QColor(76, 76, 76, 255));
+    ui->ClearColorPicker->SetColor(QColor(76, 76, 76, 255));
 
     // Viewport Signal/Slot setup
     connect(&mRefreshTimer, SIGNAL(timeout()), this, SLOT(RefreshViewport()));
@@ -156,18 +155,18 @@ void CModelEditorWindow::SetActiveModel(CModel *pModel)
     mpCurrentModel = pModel;
     ui->Viewport->Camera().SetOrbit(pModel->AABox());
 
-    u32 numVertices = (pModel ? pModel->GetVertexCount() : 0);
-    u32 numTriangles = (pModel ? pModel->GetTriangleCount() : 0);
-    u32 numMats = (pModel ? pModel->GetMatCount() : 0);
-    u32 numMatSets = (pModel ? pModel->GetMatSetCount() : 0);
-    ui->MeshInfoLabel->setText(QString::number(numVertices) + " vertices, " + QString::number(numTriangles) + " triangles");
-    ui->MatInfoLabel->setText(QString::number(numMats) + " materials, " + QString::number(numMatSets) + " set" + (numMatSets == 1 ? "" : "s"));
+    u32 NumVertices = (pModel ? pModel->GetVertexCount() : 0);
+    u32 NumTriangles = (pModel ? pModel->GetTriangleCount() : 0);
+    u32 NumMats = (pModel ? pModel->GetMatCount() : 0);
+    u32 NumMatSets = (pModel ? pModel->GetMatSetCount() : 0);
+    ui->MeshInfoLabel->setText(QString::number(NumVertices) + " vertices, " + QString::number(NumTriangles) + " triangles");
+    ui->MatInfoLabel->setText(QString::number(NumMats) + " materials, " + QString::number(NumMatSets) + " set" + (NumMatSets == 1 ? "" : "s"));
 
     // Set items in matset combo box
     ui->SetSelectionComboBox->blockSignals(true);
     ui->SetSelectionComboBox->clear();
 
-    for (u32 iSet = 0; iSet < numMatSets; iSet++)
+    for (u32 iSet = 0; iSet < NumMatSets; iSet++)
         ui->SetSelectionComboBox->addItem("Set #" + QString::number(iSet + 1));
 
     ui->SetSelectionComboBox->setCurrentIndex(0);
@@ -177,22 +176,22 @@ void CModelEditorWindow::SetActiveModel(CModel *pModel)
     ui->MatSelectionComboBox->blockSignals(true);
     ui->MatSelectionComboBox->clear();
 
-    for (u32 iMat = 0; iMat < numMats; iMat++)
+    for (u32 iMat = 0; iMat < NumMats; iMat++)
     {
-        TString matName = pModel->GetMaterialByIndex(0, iMat)->Name();
-        ui->MatSelectionComboBox->addItem(TO_QSTRING(matName));
+        TString MatName = pModel->GetMaterialByIndex(0, iMat)->Name();
+        ui->MatSelectionComboBox->addItem(TO_QSTRING(MatName));
     }
 
     ui->MatSelectionComboBox->setCurrentIndex(0);
-    ui->MatSelectionComboBox->setEnabled( numMats > 1 );
+    ui->MatSelectionComboBox->setEnabled( NumMats > 1 );
     ui->MatSelectionComboBox->blockSignals(false);
 
     // Emit signals to set up UI
     ui->SetSelectionComboBox->currentIndexChanged(0);
 
     // Gray out set selection for models with one set
-    ui->SetSelectionComboBox->setEnabled( numMatSets > 1 );
-    ui->MatSelectionComboBox->setEnabled( numMats > 1 );
+    ui->SetSelectionComboBox->setEnabled( NumMatSets > 1 );
+    ui->MatSelectionComboBox->setEnabled( NumMats > 1 );
 }
 
 void CModelEditorWindow::SetActiveMaterial(int MatIndex)
@@ -203,7 +202,6 @@ void CModelEditorWindow::SetActiveMaterial(int MatIndex)
     mpCurrentMat = mpCurrentModel->GetMaterialByIndex(SetIndex, MatIndex);
     ui->Viewport->SetActiveMaterial(mpCurrentMat);
     if (!mpCurrentMat) return;
-    //mpCurrentMat->SetTint(CColor(1.f, 0.5f, 0.5f, 1.f));
 
     // Set up UI
     CMaterial::FMaterialOptions Settings = mpCurrentMat->Options();
@@ -234,15 +232,15 @@ void CModelEditorWindow::SetActiveMaterial(int MatIndex)
     {
         QColor Color;
         CColor KColor = mpCurrentMat->Konst(iKonst);
-        Color.setRed(KColor.r * 255);
-        Color.setGreen(KColor.g * 255);
-        Color.setBlue(KColor.b * 255);
-        Color.setAlpha(KColor.a * 255);
+        Color.setRed(KColor.R * 255);
+        Color.setGreen(KColor.G * 255);
+        Color.setBlue(KColor.B * 255);
+        Color.setAlpha(KColor.A * 255);
 
-        if (iKonst == 0) ui->KonstColorPickerA->setColor(Color);
-        else if (iKonst == 1) ui->KonstColorPickerB->setColor(Color);
-        else if (iKonst == 2) ui->KonstColorPickerC->setColor(Color);
-        else if (iKonst == 3) ui->KonstColorPickerD->setColor(Color);
+        if (iKonst == 0) ui->KonstColorPickerA->SetColor(Color);
+        else if (iKonst == 1) ui->KonstColorPickerB->SetColor(Color);
+        else if (iKonst == 2) ui->KonstColorPickerC->SetColor(Color);
+        else if (iKonst == 3) ui->KonstColorPickerD->SetColor(Color);
     }
 
     u32 PassCount = mpCurrentMat->PassCount();
@@ -827,13 +825,13 @@ void CModelEditorWindow::on_actionImport_triggered()
 
 void CModelEditorWindow::on_actionSave_as_triggered()
 {
-    QString filename = QFileDialog::getSaveFileName(this, "Save model", "", "Retro Model (*.CMDL)");
-    if (filename.isEmpty()) return;
+    QString FileName = QFileDialog::getSaveFileName(this, "Save model", "", "Retro Model (*.CMDL)");
+    if (FileName.isEmpty()) return;
 
-    mOutputFilename = filename;
+    mOutputFilename = FileName;
     on_actionSave_triggered();
 
-    TString name = TString(filename.toStdString());
+    TString name = TString(FileName.toStdString());
     setWindowTitle("Prime World Editor - Model Editor: " + TO_QSTRING(name));
 }
 
@@ -866,10 +864,10 @@ void CModelEditorWindow::on_actionConvert_DDS_to_TXTR_triggered()
     if (Input.isEmpty()) return;
 
     TString TexFilename = TO_TSTRING(Input);
-    CTexture *Tex = CTextureDecoder::LoadDDS(CFileInStream(TexFilename.ToStdString(), IOUtil::eLittleEndian));
+    CTexture *pTex = CTextureDecoder::LoadDDS(CFileInStream(TexFilename.ToStdString(), IOUtil::eLittleEndian));
     TString OutName = TexFilename.GetFilePathWithoutExtension() + ".txtr";
 
-    if ((Tex->TexelFormat() != eDXT1) || (Tex->NumMipMaps() > 1))
+    if ((pTex->TexelFormat() != eDXT1) || (pTex->NumMipMaps() > 1))
         QMessageBox::warning(this, "Error", "Can't convert DDS to TXTR! Save your texture as a DXT1 DDS with no mipmaps, then try again.");
 
     else
@@ -879,13 +877,13 @@ void CModelEditorWindow::on_actionConvert_DDS_to_TXTR_triggered()
 
         else
         {
-            CTextureEncoder::EncodeTXTR(Out, Tex, eGX_CMPR);
+            CTextureEncoder::EncodeTXTR(Out, pTex, eGX_CMPR);
             QMessageBox::information(this, "Success", "Successfully converted to TXTR!");
         }
     }
 }
 
-void CModelEditorWindow::on_ToggleGridButton_toggled(bool checked)
+void CModelEditorWindow::on_ToggleGridButton_toggled(bool Checked)
 {
-    ui->Viewport->SetGridEnabled(checked);
+    ui->Viewport->SetGridEnabled(Checked);
 }

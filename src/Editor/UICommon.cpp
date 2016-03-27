@@ -48,14 +48,14 @@ QMap<QString,QString> FilterMap = {
     { "WPSC", "Projectile (*.WPSC)" }
 };
 
-QString ExtensionFilterString(const QString& extension)
+QString ExtensionFilterString(const QString& rkExtension)
 {
-    QMap<QString,QString>::const_iterator it = FilterMap.find(extension.toUpper());
+    QMap<QString,QString>::const_iterator it = FilterMap.find(rkExtension.toUpper());
 
     if (it != FilterMap.end())
         return it.value();
     else
-        return "Unknown Extension (*." + extension + ")";
+        return "Unknown Extension (*." + rkExtension + ")";
 }
 
 }

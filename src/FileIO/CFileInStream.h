@@ -20,9 +20,9 @@ public:
     void Open(const std::string& rkFile, IOUtil::EEndianness FileEndianness);
     void Close();
 
-    void ReadBytes(void *pDst, unsigned long count);
-    bool Seek(long offset, long origin);
-    bool Seek64(long long offset, long origin);
+    void ReadBytes(void *pDst, unsigned long Count);
+    bool Seek(long Offset, long Origin);
+    bool Seek64(long long Offset, long Origin);
     long Tell() const;
     long long Tell64() const;
     bool EoF() const;

@@ -267,12 +267,12 @@ void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkInd
 
                     CColor SrcColor = pColor->Get();
                     QColor Color;
-                    Color.setRed(SrcColor.r * 255);
-                    Color.setGreen(SrcColor.g * 255);
-                    Color.setBlue(SrcColor.b * 255);
-                    Color.setAlpha(SrcColor.a * 255);
+                    Color.setRed(SrcColor.R * 255);
+                    Color.setGreen(SrcColor.G * 255);
+                    Color.setBlue(SrcColor.B * 255);
+                    Color.setAlpha(SrcColor.A * 255);
 
-                    pColorPicker->setColor(Color);
+                    pColorPicker->SetColor(Color);
                     break;
                 }
 
@@ -352,9 +352,9 @@ void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkInd
                         TVector3Property *pVector = static_cast<TVector3Property*>(pProp);
                         CVector3f Vector = pVector->Get();
 
-                        if (rkIndex.row() == 0) Value = Vector.x;
-                        if (rkIndex.row() == 1) Value = Vector.y;
-                        if (rkIndex.row() == 2) Value = Vector.z;
+                        if (rkIndex.row() == 0) Value = Vector.X;
+                        if (rkIndex.row() == 1) Value = Vector.Y;
+                        if (rkIndex.row() == 2) Value = Vector.Z;
                     }
 
                     else if (pProp->Type() == eColorProperty)
@@ -362,10 +362,10 @@ void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkInd
                         TColorProperty *pColor = static_cast<TColorProperty*>(pProp);
                         CColor Color = pColor->Get();
 
-                        if (rkIndex.row() == 0) Value = Color.r;
-                        if (rkIndex.row() == 1) Value = Color.g;
-                        if (rkIndex.row() == 2) Value = Color.b;
-                        if (rkIndex.row() == 3) Value = Color.a;
+                        if (rkIndex.row() == 0) Value = Color.R;
+                        if (rkIndex.row() == 1) Value = Color.G;
+                        if (rkIndex.row() == 2) Value = Color.B;
+                        if (rkIndex.row() == 3) Value = Color.A;
                     }
 
                     pSpinBox->setValue((double) Value);
@@ -430,12 +430,12 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
             WColorPicker *pColorPicker = static_cast<WColorPicker*>(pEditor);
             TColorProperty *pColor = static_cast<TColorProperty*>(pProp);
 
-            QColor SrcColor = pColorPicker->getColor();
+            QColor SrcColor = pColorPicker->Color();
             CColor Color;
-            Color.r = SrcColor.red() / 255.f;
-            Color.g = SrcColor.green() / 255.f;
-            Color.b = SrcColor.blue() / 255.f;
-            Color.a = SrcColor.alpha() / 255.f;
+            Color.R = SrcColor.red() / 255.f;
+            Color.G = SrcColor.green() / 255.f;
+            Color.B = SrcColor.blue() / 255.f;
+            Color.A = SrcColor.alpha() / 255.f;
             pColor->Set(Color);
             break;
         }
@@ -514,9 +514,9 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
                 TVector3Property *pVector = static_cast<TVector3Property*>(pProp);
                 CVector3f Value = pVector->Get();
 
-                if (rkIndex.row() == 0) Value.x = (float) pSpinBox->value();
-                if (rkIndex.row() == 1) Value.y = (float) pSpinBox->value();
-                if (rkIndex.row() == 2) Value.z = (float) pSpinBox->value();
+                if (rkIndex.row() == 0) Value.X = (float) pSpinBox->value();
+                if (rkIndex.row() == 1) Value.Y = (float) pSpinBox->value();
+                if (rkIndex.row() == 2) Value.Z = (float) pSpinBox->value();
 
                 pVector->Set(Value);
             }
@@ -526,10 +526,10 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
                 TColorProperty *pColor = static_cast<TColorProperty*>(pProp);
                 CColor Value = pColor->Get();
 
-                if (rkIndex.row() == 0) Value.r = (float) pSpinBox->value();
-                if (rkIndex.row() == 1) Value.g = (float) pSpinBox->value();
-                if (rkIndex.row() == 2) Value.b = (float) pSpinBox->value();
-                if (rkIndex.row() == 3) Value.a = (float) pSpinBox->value();
+                if (rkIndex.row() == 0) Value.R = (float) pSpinBox->value();
+                if (rkIndex.row() == 1) Value.G = (float) pSpinBox->value();
+                if (rkIndex.row() == 2) Value.B = (float) pSpinBox->value();
+                if (rkIndex.row() == 3) Value.A = (float) pSpinBox->value();
 
                 pColor->Set(Value);
             }
@@ -612,8 +612,8 @@ QWidget* CPropertyDelegate::CreateCharacterEditor(QWidget *pParent, const QModel
 
         if (pAnimSet)
         {
-            for (u32 iChr = 0; iChr < pAnimSet->getNodeCount(); iChr++)
-                pComboBox->addItem(TO_QSTRING(pAnimSet->getNodeName(iChr)));
+            for (u32 iChr = 0; iChr < pAnimSet->NumNodes(); iChr++)
+                pComboBox->addItem(TO_QSTRING(pAnimSet->NodeName(iChr)));
         }
 
         CONNECT_RELAY(pComboBox, rkIndex, currentIndexChanged(int));

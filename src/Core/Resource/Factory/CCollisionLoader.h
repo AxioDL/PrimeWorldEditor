@@ -13,17 +13,17 @@ class CCollisionLoader
     std::vector<CCollisionMesh::SCollisionProperties> mProperties;
 
     CCollisionLoader();
-    CCollisionMesh::CCollisionOctree* ParseOctree(IInputStream& src);
-    CCollisionMesh::CCollisionOctree::SBranch* ParseOctreeBranch(IInputStream& src);
-    CCollisionMesh::CCollisionOctree::SLeaf* ParseOctreeLeaf(IInputStream& src);
-    void ParseOBBNode(IInputStream& DCLN);
-    void ReadPropertyFlags(IInputStream& src);
-    void LoadCollisionIndices(IInputStream& file, bool buildAABox);
+    CCollisionMesh::CCollisionOctree* ParseOctree(IInputStream& rSrc);
+    CCollisionMesh::CCollisionOctree::SBranch* ParseOctreeBranch(IInputStream& rSrc);
+    CCollisionMesh::CCollisionOctree::SLeaf* ParseOctreeLeaf(IInputStream& rSrc);
+    void ParseOBBNode(IInputStream& rDCLN);
+    void ReadPropertyFlags(IInputStream& rSrc);
+    void LoadCollisionIndices(IInputStream& rFile, bool BuildAABox);
 
 public:
-    static CCollisionMeshGroup* LoadAreaCollision(IInputStream& MREA);
-    static CCollisionMeshGroup* LoadDCLN(IInputStream& DCLN);
-    static EGame GetFormatVersion(u32 version);
+    static CCollisionMeshGroup* LoadAreaCollision(IInputStream& rMREA);
+    static CCollisionMeshGroup* LoadDCLN(IInputStream& rDCLN);
+    static EGame GetFormatVersion(u32 Version);
 };
 
 #endif // CCOLLISIONLOADER_H

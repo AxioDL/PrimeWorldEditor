@@ -9,14 +9,6 @@ CModelCooker::CModelCooker()
 {
 }
 
-bool SortVertsByArrayPos(const CVertex& A, const CVertex& B) {
-    return (A.ArrayPosition < B.ArrayPosition);
-}
-
-bool CheckDuplicateVertsByArrayPos(const CVertex& A, const CVertex& B) {
-    return (A.ArrayPosition == B.ArrayPosition);
-}
-
 void CModelCooker::GenerateSurfaceData()
 {
     // Need to gather metadata from the model before we can start
@@ -60,65 +52,65 @@ void CModelCooker::GenerateSurfaceData()
     mNumVertices = mVertices.size();
 }
 
-void CModelCooker::WriteEditorModel(IOutputStream& /*Out*/)
+void CModelCooker::WriteEditorModel(IOutputStream& /*rOut*/)
 {
 }
 
-void CModelCooker::WriteModelPrime(IOutputStream& Out)
+void CModelCooker::WriteModelPrime(IOutputStream& rOut)
 {
     GenerateSurfaceData();
 
     // Header
-    Out.WriteLong(0xDEADBABE);
-    Out.WriteLong(GetCMDLVersion(mVersion));
-    Out.WriteLong(5);
-    mpModel->mAABox.Write(Out);
+    rOut.WriteLong(0xDEADBABE);
+    rOut.WriteLong(GetCMDLVersion(mVersion));
+    rOut.WriteLong(5);
+    mpModel->mAABox.Write(rOut);
 
     u32 NumSections = mNumMatSets + mNumSurfaces + 6;
-    Out.WriteLong(NumSections);
-    Out.WriteLong(mNumMatSets);
+    rOut.WriteLong(NumSections);
+    rOut.WriteLong(mNumMatSets);
 
-    u32 SectionSizesOffset = Out.Tell();
+    u32 SectionSizesOffset = rOut.Tell();
     for (u32 iSec = 0; iSec < NumSections; iSec++)
-        Out.WriteLong(0);
+        rOut.WriteLong(0);
 
-    Out.WriteToBoundary(32, 0);
+    rOut.WriteToBoundary(32, 0);
 
     std::vector<u32> SectionSizes;
     SectionSizes.reserve(NumSections);
 
     CSectionMgrOut SectionMgr;
     SectionMgr.SetSectionCount(NumSections);
-    SectionMgr.Init(Out);
+    SectionMgr.Init(rOut);
 
     // Materials
     for (u32 iSet = 0; iSet < mNumMatSets; iSet++)
     {
-        CMaterialCooker::WriteCookedMatSet(mpModel->mMaterialSets[iSet], mVersion, Out);
-        Out.WriteToBoundary(32, 0);
-        SectionMgr.AddSize(Out);
+        CMaterialCooker::WriteCookedMatSet(mpModel->mMaterialSets[iSet], mVersion, rOut);
+        rOut.WriteToBoundary(32, 0);
+        SectionMgr.AddSize(rOut);
     }
 
     // Vertices
     for (u32 iPos = 0; iPos < mNumVertices; iPos++)
-        mVertices[iPos].Position.Write(Out);
+        mVertices[iPos].Position.Write(rOut);
 
-    Out.WriteToBoundary(32, 0);
-    SectionMgr.AddSize(Out);
+    rOut.WriteToBoundary(32, 0);
+    SectionMgr.AddSize(rOut);
 
     // Normals
     for (u32 iNrm = 0; iNrm < mNumVertices; iNrm++)
-        mVertices[iNrm].Normal.Write(Out);
+        mVertices[iNrm].Normal.Write(rOut);
 
-    Out.WriteToBoundary(32, 0);
-    SectionMgr.AddSize(Out);
+    rOut.WriteToBoundary(32, 0);
+    SectionMgr.AddSize(rOut);
 
     // Colors
     for (u32 iColor = 0; iColor < mNumVertices; iColor++)
-        mVertices[iColor].Color[0].Write(Out);
+        mVertices[iColor].Color[0].Write(rOut);
 
-    Out.WriteToBoundary(32, 0);
-    SectionMgr.AddSize(Out);
+    rOut.WriteToBoundary(32, 0);
+    SectionMgr.AddSize(rOut);
 
     // Float UV coordinates
     for (u32 iTexSlot = 0; iTexSlot < 8; iTexSlot++)
@@ -127,50 +119,50 @@ void CModelCooker::WriteModelPrime(IOutputStream& Out)
         if (HasTexSlot)
         {
             for (u32 iTex = 0; iTex < mNumVertices; iTex++)
-                mVertices[iTex].Tex[iTexSlot].Write(Out);
+                mVertices[iTex].Tex[iTexSlot].Write(rOut);
         }
     }
 
-    Out.WriteToBoundary(32, 0);
-    SectionMgr.AddSize(Out);
-    SectionMgr.AddSize(Out); // Skipping short UV coordinates
+    rOut.WriteToBoundary(32, 0);
+    SectionMgr.AddSize(rOut);
+    SectionMgr.AddSize(rOut); // Skipping short UV coordinates
 
     // Surface offsets
-    Out.WriteLong(mNumSurfaces);
-    u32 SurfaceOffsetsStart = Out.Tell();
+    rOut.WriteLong(mNumSurfaces);
+    u32 SurfaceOffsetsStart = rOut.Tell();
 
     for (u32 iSurf = 0; iSurf < mNumSurfaces; iSurf++)
-        Out.WriteLong(0);
+        rOut.WriteLong(0);
 
-    Out.WriteToBoundary(32, 0);
-    SectionMgr.AddSize(Out);
+    rOut.WriteToBoundary(32, 0);
+    SectionMgr.AddSize(rOut);
 
     // Surfaces
-    u32 SurfacesStart = Out.Tell();
+    u32 SurfacesStart = rOut.Tell();
     std::vector<u32> SurfaceEndOffsets(mNumSurfaces);
 
     for (u32 iSurf = 0; iSurf < mNumSurfaces; iSurf++)
     {
         SSurface *pSurface = mpModel->GetSurface(iSurf);
 
-        pSurface->CenterPoint.Write(Out);
-        Out.WriteLong(pSurface->MaterialID);
-        Out.WriteShort((u16) 0x8000);
-        u32 PrimTableSizeOffset = Out.Tell();
-        Out.WriteShort(0);
-        Out.WriteLongLong(0);
-        Out.WriteLong(0);
-        pSurface->ReflectionDirection.Write(Out);
-        Out.WriteToBoundary(32, 0);
+        pSurface->CenterPoint.Write(rOut);
+        rOut.WriteLong(pSurface->MaterialID);
+        rOut.WriteShort((u16) 0x8000);
+        u32 PrimTableSizeOffset = rOut.Tell();
+        rOut.WriteShort(0);
+        rOut.WriteLongLong(0);
+        rOut.WriteLong(0);
+        pSurface->ReflectionDirection.Write(rOut);
+        rOut.WriteToBoundary(32, 0);
 
-        u32 PrimTableStart = Out.Tell();
+        u32 PrimTableStart = rOut.Tell();
         FVertexDescription MatAttribs = mpModel->GetMaterialBySurface(0, iSurf)->VtxDesc();
 
         for (u32 iPrim = 0; iPrim < pSurface->Primitives.size(); iPrim++)
         {
             SSurface::SPrimitive *pPrimitive = &pSurface->Primitives[iPrim];
-            Out.WriteByte((u8) pPrimitive->Type);
-            Out.WriteShort((u16) pPrimitive->Vertices.size());
+            rOut.WriteByte((u8) pPrimitive->Type);
+            rOut.WriteShort((u16) pPrimitive->Vertices.size());
 
             for (u32 iVert = 0; iVert < pPrimitive->Vertices.size(); iVert++)
             {
@@ -180,59 +172,59 @@ void CModelCooker::WriteModelPrime(IOutputStream& Out)
                 {
                     for (u32 iMtxAttribs = 0; iMtxAttribs < 8; iMtxAttribs++)
                         if (MatAttribs & (ePosMtx << iMtxAttribs))
-                            Out.WriteByte(pVert->MatrixIndices[iMtxAttribs]);
+                            rOut.WriteByte(pVert->MatrixIndices[iMtxAttribs]);
                 }
 
                 u16 VertexIndex = (u16) pVert->ArrayPosition;
 
                 if (MatAttribs & ePosition)
-                    Out.WriteShort(VertexIndex);
+                    rOut.WriteShort(VertexIndex);
 
                 if (MatAttribs & eNormal)
-                    Out.WriteShort(VertexIndex);
+                    rOut.WriteShort(VertexIndex);
 
                 if (MatAttribs & eColor0)
-                    Out.WriteShort(VertexIndex);
+                    rOut.WriteShort(VertexIndex);
 
                 if (MatAttribs & eColor1)
-                    Out.WriteShort(VertexIndex);
+                    rOut.WriteShort(VertexIndex);
 
                 u16 TexOffset = 0;
                 for (u32 iTex = 0; iTex < 8; iTex++)
                 {
                     if (MatAttribs & (eTex0 << (iTex * 2)))
                     {
-                        Out.WriteShort(VertexIndex + TexOffset);
+                        rOut.WriteShort(VertexIndex + TexOffset);
                         TexOffset += (u16) mNumVertices;
                     }
                 }
             }
         }
 
-        Out.WriteToBoundary(32, 0);
-        u32 PrimTableEnd = Out.Tell();
+        rOut.WriteToBoundary(32, 0);
+        u32 PrimTableEnd = rOut.Tell();
         u32 PrimTableSize = PrimTableEnd - PrimTableStart;
-        Out.Seek(PrimTableSizeOffset, SEEK_SET);
-        Out.WriteShort((u16) PrimTableSize);
-        Out.Seek(PrimTableEnd, SEEK_SET);
+        rOut.Seek(PrimTableSizeOffset, SEEK_SET);
+        rOut.WriteShort((u16) PrimTableSize);
+        rOut.Seek(PrimTableEnd, SEEK_SET);
 
-        SectionMgr.AddSize(Out);
-        SurfaceEndOffsets[iSurf] = Out.Tell() - SurfacesStart;
+        SectionMgr.AddSize(rOut);
+        SurfaceEndOffsets[iSurf] = rOut.Tell() - SurfacesStart;
     }
 
     // Done writing the file - now we go back to fill in surface offsets + section sizes
-    Out.Seek(SurfaceOffsetsStart, SEEK_SET);
+    rOut.Seek(SurfaceOffsetsStart, SEEK_SET);
 
     for (u32 iSurf = 0; iSurf < mNumSurfaces; iSurf++)
-        Out.WriteLong(SurfaceEndOffsets[iSurf]);
+        rOut.WriteLong(SurfaceEndOffsets[iSurf]);
 
-    Out.Seek(SectionSizesOffset, SEEK_SET);
-    SectionMgr.WriteSizes(Out);
+    rOut.Seek(SectionSizesOffset, SEEK_SET);
+    SectionMgr.WriteSizes(rOut);
 
     // Done!
 }
 
-void CModelCooker::WriteCookedModel(CModel *pModel, EGame Version, IOutputStream& CMDL)
+void CModelCooker::WriteCookedModel(CModel *pModel, EGame Version, IOutputStream& rOut)
 {
     CModelCooker Cooker;
     Cooker.mpModel = pModel;
@@ -244,12 +236,12 @@ void CModelCooker::WriteCookedModel(CModel *pModel, EGame Version, IOutputStream
     case ePrime:
     case eEchoesDemo:
     case eEchoes:
-        Cooker.WriteModelPrime(CMDL);
+        Cooker.WriteModelPrime(rOut);
         break;
     }
 }
 
-void CModelCooker::WriteUncookedModel(CModel* /*pModel*/, IOutputStream& /*EMDL*/)
+void CModelCooker::WriteUncookedModel(CModel* /*pModel*/, IOutputStream& /*rOut*/)
 {
 }
 

@@ -41,7 +41,7 @@ void CTemplateWriter::SavePropertyTemplate(IPropertyTemplate *pTemp)
 void CTemplateWriter::SaveAllTemplates()
 {
     // Create directory
-    std::list<CMasterTemplate*> MasterList = CMasterTemplate::GetMasterList();
+    std::list<CMasterTemplate*> MasterList = CMasterTemplate::MasterList();
     boost::filesystem::create_directory(smTemplatesDir.ToStdString());
 
     // Resave property list
@@ -77,8 +77,8 @@ void CTemplateWriter::SaveAllTemplates()
         pGame->LinkEndChild(pGameName);
 
         XMLElement *pAreaVersion = GameList.NewElement("mrea");
-        u32 VersionNumber = CAreaCooker::GetMREAVersion(pMaster->GetGame());
-        pAreaVersion->SetText(*TString::HexString(VersionNumber, true, true, 2));
+        u32 VersionNumber = CAreaCooker::GetMREAVersion(pMaster->Game());
+        pAreaVersion->SetText(*TString::HexString(VersionNumber, 2));
         pGame->LinkEndChild(pAreaVersion);
 
         XMLElement *pTempPath = GameList.NewElement("master");
@@ -139,7 +139,7 @@ void CTemplateWriter::SaveGameTemplates(CMasterTemplate *pMaster)
 
         TString StrID;
         if (ObjID <= 0xFF)
-            StrID = TString::HexString(ObjID, true, true, 2);
+            StrID = TString::HexString(ObjID, 2);
         else
             StrID = CFourCC(ObjID).ToString();
 
@@ -177,7 +177,7 @@ void CTemplateWriter::SaveGameTemplates(CMasterTemplate *pMaster)
             }
 
             TString StrID;
-            if (ID <= 0xFF) StrID = TString::HexString(ID, true, true, 2);
+            if (ID <= 0xFF) StrID = TString::HexString(ID, 2);
             else StrID = CFourCC(ID).ToString();
 
             XMLElement *pSubElem = Master.NewElement(*Type);
@@ -210,7 +210,7 @@ void CTemplateWriter::SavePropertyList()
         TString Name = it->second;
 
         XMLElement *pElem = List.NewElement("property");
-        pElem->SetAttribute("ID", *TString::HexString(ID, true, true, 8));
+        pElem->SetAttribute("ID", *TString::HexString(ID));
         pElem->SetAttribute("name", *Name);
         pBase->LinkEndChild(pElem);
     }
@@ -262,7 +262,7 @@ void CTemplateWriter::SaveScriptTemplate(CScriptTemplate *pTemp)
     XMLElement *pEditorProperties = ScriptXML.NewElement("properties");
     pEditor->LinkEndChild(pEditorProperties);
 
-    TString propNames[6] = {
+    TString PropNames[6] = {
         "InstanceName", "Position", "Rotation",
         "Scale", "Active", "LightParameters"
     };
@@ -277,7 +277,7 @@ void CTemplateWriter::SaveScriptTemplate(CScriptTemplate *pTemp)
         if (!pPropStrings[iProp]->IsEmpty())
         {
             XMLElement *pProperty = ScriptXML.NewElement("property");
-            pProperty->SetAttribute("name", *propNames[iProp]);
+            pProperty->SetAttribute("name", *PropNames[iProp]);
             pProperty->SetAttribute("ID", **pPropStrings[iProp]);
             pEditorProperties->LinkEndChild(pProperty);
         }
@@ -373,7 +373,7 @@ void CTemplateWriter::SaveScriptTemplate(CScriptTemplate *pTemp)
                 if (pProp->Type() == eBoolProperty)
                     StrVal = (it->Value == 1 ? "true" : "false");
                 else
-                    StrVal = TString::HexString((u32) it->Value, true, true, (it->Value > 0xFF ? 8 : 2));
+                    StrVal = TString::HexString((u32) it->Value, (it->Value > 0xFF ? 8 : 2));
 
                 XMLElement *pCondition = ScriptXML.NewElement("condition");
                 pCondition->SetAttribute("value", *StrVal);
@@ -469,7 +469,7 @@ void CTemplateWriter::SaveProperties(XMLDocument *pDoc, XMLElement *pParent, CSt
         // Get ID
         IPropertyTemplate *pProp = pTemp->PropertyByIndex(iProp);
         u32 ID = pProp->PropertyID();
-        TString StrID = TString::HexString(ID, true, true, (ID > 0xFF ? 8 : 2));
+        TString StrID = TString::HexString(ID, (ID > 0xFF ? 8 : 2));
 
         // Create element
         XMLElement *pElem;
@@ -495,7 +495,7 @@ void CTemplateWriter::SaveProperties(XMLDocument *pDoc, XMLElement *pParent, CSt
 
         if (pProp->Game() >= eEchoesDemo && ID > 0xFF)
         {
-            TString MasterName = CMasterTemplate::GetPropertyName(ID);
+            TString MasterName = CMasterTemplate::PropertyName(ID);
 
             if (Name != MasterName)
                 pElem->SetAttribute("name", *Name);
@@ -652,7 +652,7 @@ void CTemplateWriter::SaveProperties(XMLDocument *pDoc, XMLElement *pParent, CSt
 
             else
             {
-                CStructTemplate *pOriginal = pMaster->GetStructAtSource(pStruct->mSourceFile);
+                CStructTemplate *pOriginal = pMaster->StructAtSource(pStruct->mSourceFile);
 
                 if (pOriginal)
                     SavePropertyOverrides(pDoc, pElem, pStruct, pOriginal);
@@ -696,7 +696,7 @@ void CTemplateWriter::SavePropertyOverrides(XMLDocument *pDoc, XMLElement *pPare
 
                 // ID
                 u32 ID = pProp->PropertyID();
-                pElem->SetAttribute("ID", *TString::HexString(pProp->PropertyID(), true, true, (ID > 0xFF ? 8 : 2)));
+                pElem->SetAttribute("ID", *TString::HexString(pProp->PropertyID(), (ID > 0xFF ? 8 : 2)));
 
                 // Name
                 if (pProp->Name() != pSource->Name())
@@ -793,7 +793,7 @@ void CTemplateWriter::SaveEnumerators(XMLDocument *pDoc, XMLElement *pParent, CE
     {
         XMLElement *pElem = pDoc->NewElement("enumerator");
         u32 EnumerID = pTemp->EnumeratorID(iEnum);
-        pElem->SetAttribute("ID", *TString::HexString(EnumerID, true, true, (EnumerID > 0xFF ? 8 : 2)));
+        pElem->SetAttribute("ID", *TString::HexString(EnumerID, (EnumerID > 0xFF ? 8 : 2)));
         pElem->SetAttribute("name", *pTemp->EnumeratorName(iEnum));
         pEnumerators->LinkEndChild(pElem);
     }
@@ -807,7 +807,7 @@ void CTemplateWriter::SaveBitFlags(XMLDocument *pDoc, XMLElement *pParent, CBitf
     for (u32 iFlag = 0; iFlag < pTemp->NumFlags(); iFlag++)
     {
         XMLElement *pElem = pDoc->NewElement("flag");
-        pElem->SetAttribute("mask", *TString::HexString(pTemp->FlagMask(iFlag), true, true, 8));
+        pElem->SetAttribute("mask", *TString::HexString(pTemp->FlagMask(iFlag)));
         pElem->SetAttribute("name", *pTemp->FlagName(iFlag));
         pFlags->LinkEndChild(pElem);
     }

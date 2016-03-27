@@ -17,7 +17,7 @@ class CMatrix4f
 
 public:
     CMatrix4f();
-    CMatrix4f(float v);
+    CMatrix4f(float Diagonal);
     CMatrix4f(float m00, float m01, float m02, float m03,
               float m10, float m11, float m12, float m13,
               float m20, float m21, float m22, float m23,
@@ -32,15 +32,15 @@ public:
     glm::mat4 ToGlmMat4() const;
 
     // Static
-    static CMatrix4f FromGlmMat4(glm::mat4 src);
+    static CMatrix4f FromGlmMat4(const glm::mat4& rkSrc);
 
     // Operators
-    inline float* operator[](long index);
-    inline const float* operator[](long index) const;
-    CVector3f operator*(const CVector3f& vec) const;
-    CVector4f operator*(const CVector4f& vec) const;
-    CMatrix4f operator*(const CTransform4f& mtx) const;
-    CMatrix4f operator*(const CMatrix4f& mtx) const;
+    inline float* operator[](long Index);
+    inline const float* operator[](long Index) const;
+    CVector3f operator*(const CVector3f& rkVec) const;
+    CVector4f operator*(const CVector4f& rkVec) const;
+    CMatrix4f operator*(const CTransform4f& rkMtx) const;
+    CMatrix4f operator*(const CMatrix4f& rkMtx) const;
 
     // Constants
     static const CMatrix4f skZero;

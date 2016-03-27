@@ -7,14 +7,14 @@
 #define CLIGHT_NO_INTENSITY 0x80
 
 CLight::CLight()
+    : mPosition(skDefaultLightPos)
+    , mDirection(skDefaultLightDir)
+    , mDistAttenCoefficients(0.f, 1.f, 0.f)
+    , mAngleAttenCoefficients(0.f, 1.f, 0.f)
+    , mCachedRadius(0.f)
+    , mCachedIntensity(0.f)
+    , mDirtyFlags(CLIGHT_NO_RADIUS | CLIGHT_NO_INTENSITY)
 {
-    mPosition = skDefaultLightPos;
-    mDirection = skDefaultLightDir;
-    mDistAttenCoefficients = CVector3f(0.f, 1.f, 0.f);
-    mAngleAttenCoefficients = CVector3f(0.f, 1.f, 0.f);
-    mCachedRadius = 0.f;
-    mCachedIntensity = 0.f;
-    mDirtyFlags = CLIGHT_NO_RADIUS | CLIGHT_NO_INTENSITY;
 }
 
 // ************ DATA MANIPULATION ************
@@ -22,30 +22,30 @@ CLight::CLight()
 // This function is reverse engineered from the kiosk demo's code
 float CLight::CalculateRadius() const
 {
-    if ((mDistAttenCoefficients.y >= FLT_EPSILON) ||
-        (mDistAttenCoefficients.z >= FLT_EPSILON))
+    if ((mDistAttenCoefficients.Y >= FLT_EPSILON) ||
+        (mDistAttenCoefficients.Z >= FLT_EPSILON))
     {
         float Intensity = GetIntensity();
 
-        if (mDistAttenCoefficients.z > FLT_EPSILON)
+        if (mDistAttenCoefficients.Z > FLT_EPSILON)
         {
             if (Intensity <= FLT_EPSILON)
                 return 0.f;
 
-            float IntensityMod = (Intensity * 5.f / 255.f * mDistAttenCoefficients.z);
-            return sqrt(Intensity / IntensityMod);
+            float IntensityMod = (Intensity * 5.f / 255.f * mDistAttenCoefficients.Z);
+            return sqrtf(Intensity / IntensityMod);
         }
 
         else
         {
-            if (mDistAttenCoefficients.y <= FLT_EPSILON)
+            if (mDistAttenCoefficients.Y <= FLT_EPSILON)
                 return 0.f;
 
             float IntensityMod = (Intensity * 5.f) / 255.f;
             if (IntensityMod < 0.2f)
                 IntensityMod = 0.2f;
 
-            return Intensity / (IntensityMod * mDistAttenCoefficients.y);
+            return Intensity / (IntensityMod * mDistAttenCoefficients.Y);
         }
     }
 
@@ -56,10 +56,10 @@ float CLight::CalculateRadius() const
 float CLight::CalculateIntensity() const
 {
     // Get the color component with the greatest numeric value
-    float Greatest = (mColor.g >= mColor.b) ? mColor.g : mColor.b;
-    Greatest = (mColor.r >= Greatest) ? mColor.r : Greatest;
+    float Greatest = (mColor.G >= mColor.B) ? mColor.G : mColor.B;
+    Greatest = (mColor.R >= Greatest) ? mColor.R : Greatest;
 
-    float Multiplier = (mType == eCustom) ? mAngleAttenCoefficients.x : 1.0f;
+    float Multiplier = (mType == eCustom) ? mAngleAttenCoefficients.X : 1.0f;
     return Greatest * Multiplier;
 }
 
@@ -78,42 +78,7 @@ CVector3f CLight::CalculateSpotAngleAtten()
     return CVector3f(0.f, -RadianCosine / InvCosine, 1.f / InvCosine);
 }
 
-// ************ GETTERS ************
-ELightType CLight::GetType() const
-{
-    return mType;
-}
-
-u32 CLight::GetLayerIndex() const
-{
-    return mLayerIndex;
-}
-
-CVector3f CLight::GetPosition() const
-{
-    return mPosition;
-}
-
-CVector3f CLight::GetDirection() const
-{
-    return mDirection;
-}
-
-CColor CLight::GetColor() const
-{
-    return mColor;
-}
-
-CVector3f CLight::GetDistAttenuation() const
-{
-    return mDistAttenCoefficients;
-}
-
-CVector3f CLight::GetAngleAttenuation() const
-{
-    return mAngleAttenCoefficients;
-}
-
+// ************ ACCESSORS ************
 float CLight::GetRadius() const
 {
     if (mDirtyFlags & CLIGHT_NO_RADIUS)
@@ -136,25 +101,9 @@ float CLight::GetIntensity() const
     return mCachedIntensity;
 }
 
-// ************ SETTERS ************
-void CLight::SetLayer(u32 index)
+void CLight::SetColor(const CColor& rkColor)
 {
-    mLayerIndex = index;
-}
-
-void CLight::SetPosition(const CVector3f& Position)
-{
-    mPosition = Position;
-}
-
-void CLight::SetDirection(const CVector3f& Direction)
-{
-    mDirection = Direction;
-}
-
-void CLight::SetColor(const CColor& Color)
-{
-    mColor = Color;
+    mColor = rkColor;
     mDirtyFlags = CLIGHT_NO_RADIUS | CLIGHT_NO_INTENSITY;
 }
 
@@ -166,16 +115,16 @@ void CLight::SetSpotCutoff(float Cutoff)
 
 void CLight::SetDistAtten(float DistCoefA, float DistCoefB, float DistCoefC)
 {
-    mDistAttenCoefficients.x = DistCoefA;
-    mDistAttenCoefficients.y = DistCoefB;
-    mDistAttenCoefficients.z = DistCoefC;
+    mDistAttenCoefficients.X = DistCoefA;
+    mDistAttenCoefficients.Y = DistCoefB;
+    mDistAttenCoefficients.Z = DistCoefC;
 }
 
 void CLight::SetAngleAtten(float AngleCoefA, float AngleCoefB, float AngleCoefC)
 {
-    mAngleAttenCoefficients.x = AngleCoefA;
-    mAngleAttenCoefficients.y = AngleCoefB;
-    mAngleAttenCoefficients.z = AngleCoefC;
+    mAngleAttenCoefficients.X = AngleCoefA;
+    mAngleAttenCoefficients.Y = AngleCoefB;
+    mAngleAttenCoefficients.Z = AngleCoefC;
 }
 
 // ************ OTHER ************
@@ -184,9 +133,7 @@ void CLight::Load() const
     u8 Index = (u8) CGraphics::sNumLights;
     if (Index >= 8) return;
 
-    CGraphics::SLightBlock::SGXLight *Light = &CGraphics::sLightBlock.Lights[Index];
-    CVector3f PosView = CGraphics::sMVPBlock.ViewMatrix * mPosition;
-    CVector3f DirView = CGraphics::sMVPBlock.ViewMatrix * mDirection;
+    CGraphics::SLightBlock::SGXLight *pLight = &CGraphics::sLightBlock.Lights[Index];
 
     switch (mType)
     {
@@ -194,25 +141,25 @@ void CLight::Load() const
         // LocalAmbient is already accounted for in CGraphics::sAreaAmbientColor
         return;
     case eDirectional:
-        Light->Position = CVector4f(-mDirection * 1048576.f, 1.f);
-        Light->Direction = CVector4f(mDirection, 0.f);
-        Light->Color = mColor * CGraphics::sWorldLightMultiplier;
-        Light->DistAtten = CVector4f(1.f, 0.f, 0.f, 0.f);
-        Light->AngleAtten = CVector4f(1.f, 0.f, 0.f, 0.f);
+        pLight->Position = CVector4f(-mDirection * 1048576.f, 1.f);
+        pLight->Direction = CVector4f(mDirection, 0.f);
+        pLight->Color = mColor * CGraphics::sWorldLightMultiplier;
+        pLight->DistAtten = CVector4f(1.f, 0.f, 0.f, 0.f);
+        pLight->AngleAtten = CVector4f(1.f, 0.f, 0.f, 0.f);
         break;
     case eSpot:
-        Light->Position = CVector4f(mPosition,  1.f);
-        Light->Direction = CVector4f(mDirection, 0.f);
-        Light->Color = mColor * CGraphics::sWorldLightMultiplier;
-        Light->DistAtten = mDistAttenCoefficients;
-        Light->AngleAtten = mAngleAttenCoefficients;
+        pLight->Position = CVector4f(mPosition,  1.f);
+        pLight->Direction = CVector4f(mDirection, 0.f);
+        pLight->Color = mColor * CGraphics::sWorldLightMultiplier;
+        pLight->DistAtten = mDistAttenCoefficients;
+        pLight->AngleAtten = mAngleAttenCoefficients;
         break;
     case eCustom:
-        Light->Position = CVector4f(mPosition,  1.f);
-        Light->Direction = CVector4f(mDirection, 0.f);
-        Light->Color = mColor * CGraphics::sWorldLightMultiplier;
-        Light->DistAtten = mDistAttenCoefficients;
-        Light->AngleAtten = mAngleAttenCoefficients;
+        pLight->Position = CVector4f(mPosition,  1.f);
+        pLight->Direction = CVector4f(mDirection, 0.f);
+        pLight->Color = mColor * CGraphics::sWorldLightMultiplier;
+        pLight->DistAtten = mDistAttenCoefficients;
+        pLight->AngleAtten = mAngleAttenCoefficients;
         break;
     default:
         return;
@@ -221,57 +168,57 @@ void CLight::Load() const
 }
 
 // ************ STATIC ************
-CLight* CLight::BuildLocalAmbient(const CVector3f& Position, const CColor& Color)
+CLight* CLight::BuildLocalAmbient(const CVector3f& rkPosition, const CColor& rkColor)
 {
-    CLight *Light = new CLight;
-    Light->mType = eLocalAmbient;
-    Light->mPosition = Position;
-    Light->mDirection = skDefaultLightDir;
-    Light->mColor = Color;
-    Light->mSpotCutoff = 0.f;
-    return Light;
+    CLight *pLight = new CLight;
+    pLight->mType = eLocalAmbient;
+    pLight->mPosition = rkPosition;
+    pLight->mDirection = skDefaultLightDir;
+    pLight->mColor = rkColor;
+    pLight->mSpotCutoff = 0.f;
+    return pLight;
 }
 
-CLight* CLight::BuildDirectional(const CVector3f& Position, const CVector3f& Direction, const CColor& Color)
+CLight* CLight::BuildDirectional(const CVector3f& rkPosition, const CVector3f& rkDirection, const CColor& rkColor)
 {
-    CLight *Light = new CLight;
-    Light->mType = eDirectional;
-    Light->mPosition = Position;
-    Light->mDirection = Direction;
-    Light->mColor = Color;
-    Light->mSpotCutoff = 0.f;
-    return Light;
+    CLight *pLight = new CLight;
+    pLight->mType = eDirectional;
+    pLight->mPosition = rkPosition;
+    pLight->mDirection = rkDirection;
+    pLight->mColor = rkColor;
+    pLight->mSpotCutoff = 0.f;
+    return pLight;
 }
 
-CLight* CLight::BuildSpot(const CVector3f& Position, const CVector3f& Direction, const CColor& Color, float Cutoff)
+CLight* CLight::BuildSpot(const CVector3f& rkPosition, const CVector3f& rkDirection, const CColor& rkColor, float Cutoff)
 {
-    CLight *Light = new CLight;
-    Light->mType = eSpot;
-    Light->mPosition = Position;
-    Light->mDirection = -Direction.Normalized();
-    Light->mColor = Color;
-    Light->mSpotCutoff = Cutoff * 0.5f;
-    Light->mAngleAttenCoefficients = Light->CalculateSpotAngleAtten();
-    return Light;
+    CLight *pLight = new CLight;
+    pLight->mType = eSpot;
+    pLight->mPosition = rkPosition;
+    pLight->mDirection = -rkDirection.Normalized();
+    pLight->mColor = rkColor;
+    pLight->mSpotCutoff = Cutoff * 0.5f;
+    pLight->mAngleAttenCoefficients = pLight->CalculateSpotAngleAtten();
+    return pLight;
 }
 
-CLight* CLight::BuildCustom(const CVector3f& Position, const CVector3f& Direction, const CColor& Color,
+CLight* CLight::BuildCustom(const CVector3f& rkPosition, const CVector3f& rkDirection, const CColor& rkColor,
                                   float DistAttenA, float DistAttenB, float DistAttenC,
                                   float AngleAttenA, float AngleAttenB, float AngleAttenC)
 {
-    CLight *Light = new CLight;
-    Light->mType = eCustom;
-    Light->mPosition = Position;
-    Light->mDirection = Direction;
-    Light->mColor = Color;
-    Light->mSpotCutoff = 0.f;
-    Light->mDistAttenCoefficients.x = DistAttenA;
-    Light->mDistAttenCoefficients.y = DistAttenB;
-    Light->mDistAttenCoefficients.z = DistAttenC;
-    Light->mAngleAttenCoefficients.x = AngleAttenA;
-    Light->mAngleAttenCoefficients.y = AngleAttenB;
-    Light->mAngleAttenCoefficients.z = AngleAttenC * AngleAttenC;
-    return Light;
+    CLight *pLight = new CLight;
+    pLight->mType = eCustom;
+    pLight->mPosition = rkPosition;
+    pLight->mDirection = rkDirection;
+    pLight->mColor = rkColor;
+    pLight->mSpotCutoff = 0.f;
+    pLight->mDistAttenCoefficients.X = DistAttenA;
+    pLight->mDistAttenCoefficients.Y = DistAttenB;
+    pLight->mDistAttenCoefficients.Z = DistAttenC;
+    pLight->mAngleAttenCoefficients.X = AngleAttenA;
+    pLight->mAngleAttenCoefficients.Y = AngleAttenB;
+    pLight->mAngleAttenCoefficients.Z = AngleAttenC * AngleAttenC;
+    return pLight;
 }
 
 // ************ CONSTANTS ************

@@ -1,8 +1,8 @@
 #ifndef CUNIQUEID_H
 #define CUNIQUEID_H
 
-#include "types.h"
 #include "TString.h"
+#include "types.h"
 #include <FileIO/FileIO.h>
 
 enum EUIDLength
@@ -23,7 +23,7 @@ public:
     CUniqueID(u64 ID);
     CUniqueID(u64 ID, EUIDLength Length);
     CUniqueID(u64 Part1, u64 Part2);
-    CUniqueID(const char* ID);
+    CUniqueID(const char* pkID);
     CUniqueID(IInputStream& Input, EUIDLength Length);
     u32 ToLong() const;
     u64 ToLongLong() const;
@@ -34,20 +34,20 @@ public:
     bool IsValid() const;
 
     // Operators
-    void operator=(const u64& Input);
-    void operator=(const char *Input);
-    bool operator==(const CUniqueID& Other) const;
-    bool operator!=(const CUniqueID& Other) const;
-    bool operator>(const CUniqueID& Other) const;
-    bool operator>=(const CUniqueID& Other) const;
-    bool operator<(const CUniqueID& Other) const;
-    bool operator<=(const CUniqueID& Other) const;
+    void operator=(const u64& rkInput);
+    void operator=(const char *pkInput);
+    bool operator==(const CUniqueID& rkOther) const;
+    bool operator!=(const CUniqueID& rkOther) const;
+    bool operator>(const CUniqueID& rkOther) const;
+    bool operator>=(const CUniqueID& rkOther) const;
+    bool operator<(const CUniqueID& rkOther) const;
+    bool operator<=(const CUniqueID& rkOther) const;
     bool operator==(u64 Other) const;
     bool operator!=(u64 Other) const;
 
     // Static
-    static CUniqueID FromString(const TString& String);
-    static CUniqueID FromData(void *pData, EUIDLength Length);
+    static CUniqueID FromString(const TString& rkString);
+    static CUniqueID FromData(void *pkData, EUIDLength Length);
     static CUniqueID RandomID();
 
     static CUniqueID skInvalidID32;

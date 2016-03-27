@@ -20,21 +20,20 @@ class CAnimationParameters
 public:
     CAnimationParameters();
     CAnimationParameters(EGame Game);
-    CAnimationParameters(IInputStream& SCLY, EGame Game);
+    CAnimationParameters(IInputStream& rSCLY, EGame Game);
     void Write(IOutputStream& rSCLY);
 
     CModel* GetCurrentModel(s32 NodeIndex = -1);
     TString GetCurrentCharacterName(s32 NodeIndex = -1);
 
-    // Getters
-    EGame Version();
-    CAnimSet* AnimSet();
-    u32 CharacterIndex();
-    u32 Unknown(u32 index);
+    // Accessors
+    inline EGame Version() const        { return mGame; }
+    inline CAnimSet* AnimSet() const    { return (CAnimSet*) mCharacter.Load(); }
+    inline u32 CharacterIndex()         { return mNodeIndex; }
+    inline void SetNodeIndex(u32 Index) { mNodeIndex = Index; }
 
-    // Setters
+    u32 Unknown(u32 Index);
     void SetResource(CResourceInfo Res);
-    void SetNodeIndex(u32 Index);
     void SetUnknown(u32 Index, u32 Value);
 
     // Operators

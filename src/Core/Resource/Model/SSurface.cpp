@@ -3,7 +3,7 @@
 #include "Core/CRayCollisionTester.h"
 #include <Math/MathUtil.h>
 
-std::pair<bool,float> SSurface::IntersectsRay(const CRay& Ray, bool allowBackfaces, float LineThreshold)
+std::pair<bool,float> SSurface::IntersectsRay(const CRay& rkRay, bool AllowBackfaces, float LineThreshold)
 {
     bool Hit = false;
     float HitDist;
@@ -25,43 +25,43 @@ std::pair<bool,float> SSurface::IntersectsRay(const CRay& Ray, bool allowBackfac
 
             for (u32 iTri = 0; iTri < NumTris; iTri++)
             {
-                CVector3f vtxA, vtxB, vtxC;
+                CVector3f VtxA, VtxB, VtxC;
 
                 // Get the three vertices that make up the current tri
                 if (pPrim->Type == eGX_Triangles)
                 {
                     u32 VertIndex = iTri * 3;
-                    vtxA = pPrim->Vertices[VertIndex].Position;
-                    vtxB = pPrim->Vertices[VertIndex+1].Position;
-                    vtxC = pPrim->Vertices[VertIndex+2].Position;
+                    VtxA = pPrim->Vertices[VertIndex].Position;
+                    VtxB = pPrim->Vertices[VertIndex+1].Position;
+                    VtxC = pPrim->Vertices[VertIndex+2].Position;
                 }
 
                 else if (pPrim->Type == eGX_TriangleFan)
                 {
-                    vtxA = pPrim->Vertices[0].Position;
-                    vtxB = pPrim->Vertices[iTri+1].Position;
-                    vtxC = pPrim->Vertices[iTri+2].Position;
+                    VtxA = pPrim->Vertices[0].Position;
+                    VtxB = pPrim->Vertices[iTri+1].Position;
+                    VtxC = pPrim->Vertices[iTri+2].Position;
                 }
 
                 else if (pPrim->Type = eGX_TriangleStrip)
                 {
                     if (iTri & 0x1)
                     {
-                        vtxA = pPrim->Vertices[iTri+2].Position;
-                        vtxB = pPrim->Vertices[iTri+1].Position;
-                        vtxC = pPrim->Vertices[iTri].Position;
+                        VtxA = pPrim->Vertices[iTri+2].Position;
+                        VtxB = pPrim->Vertices[iTri+1].Position;
+                        VtxC = pPrim->Vertices[iTri].Position;
                     }
 
                     else
                     {
-                        vtxA = pPrim->Vertices[iTri].Position;
-                        vtxB = pPrim->Vertices[iTri+1].Position;
-                        vtxC = pPrim->Vertices[iTri+2].Position;
+                        VtxA = pPrim->Vertices[iTri].Position;
+                        VtxB = pPrim->Vertices[iTri+1].Position;
+                        VtxC = pPrim->Vertices[iTri+2].Position;
                     }
                 }
 
                 // Intersection test
-                std::pair<bool,float> TriResult = Math::RayTriangleIntersection(Ray, vtxA, vtxB, vtxC, allowBackfaces);
+                std::pair<bool,float> TriResult = Math::RayTriangleIntersection(rkRay, VtxA, VtxB, VtxC, AllowBackfaces);
 
                 if (TriResult.first)
                 {
@@ -86,22 +86,22 @@ std::pair<bool,float> SSurface::IntersectsRay(const CRay& Ray, bool allowBackfac
 
             for (u32 iLine = 0; iLine < NumLines; iLine++)
             {
-                CVector3f vtxA, vtxB;
+                CVector3f VtxA, VtxB;
 
                 // Get the two vertices that make up the current line
-                u32 index = (pPrim->Type == eGX_Lines ? iLine * 2 : iLine);
-                vtxA = pPrim->Vertices[index].Position;
-                vtxB = pPrim->Vertices[index+1].Position;
+                u32 Index = (pPrim->Type == eGX_Lines ? iLine * 2 : iLine);
+                VtxA = pPrim->Vertices[Index].Position;
+                VtxB = pPrim->Vertices[Index+1].Position;
 
                 // Intersection test
-                std::pair<bool,float> result = Math::RayLineIntersection(Ray, vtxA, vtxB, LineThreshold);
+                std::pair<bool,float> Result = Math::RayLineIntersection(rkRay, VtxA, VtxB, LineThreshold);
 
-                if (result.first)
+                if (Result.first)
                 {
-                    if ((!Hit) || (result.second < HitDist))
+                    if ((!Hit) || (Result.second < HitDist))
                     {
                         Hit = true;
-                        HitDist = result.second;
+                        HitDist = Result.second;
                     }
                 }
             }

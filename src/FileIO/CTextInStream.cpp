@@ -3,19 +3,19 @@
 #include <stdio.h>
 
 CTextInStream::CTextInStream()
+    : mpFStream(nullptr)
 {
-	mpFStream = nullptr;
 }
 
 CTextInStream::CTextInStream(const std::string& rkFile)
+    : mpFStream(nullptr)
 {
-    mpFStream = nullptr;
     Open(rkFile);
 }
 
 CTextInStream::CTextInStream(const CTextInStream& rkSrc)
+    : mpFStream(nullptr)
 {
-    mpFStream = nullptr;
     Open(rkSrc.mFileName);
 
     if (rkSrc.IsValid())

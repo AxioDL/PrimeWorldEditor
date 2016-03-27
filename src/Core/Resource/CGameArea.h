@@ -46,8 +46,8 @@ class CGameArea : public CResource
 
     // Geometry
     CMaterialSet *mMaterialSet;
-    std::vector<CModel*> mTerrainModels; // TerrainModels is the original version of each model; this is currently mainly used in the POI map editor
-    std::vector<CStaticModel*> mStaticTerrainModels; // StaticTerrainModels is the merged terrain for faster rendering in the world editor
+    std::vector<CModel*> mWorldModels; // TerrainModels is the original version of each model; this is currently mainly used in the POI map editor
+    std::vector<CStaticModel*> mStaticWorldModels; // StaticTerrainModels is the merged terrain for faster rendering in the world editor
     // Script
     std::vector<CScriptLayer*> mScriptLayers;
     CScriptLayer *mpGeneratorLayer;
@@ -63,7 +63,7 @@ public:
     CGameArea();
     ~CGameArea();
 
-    void AddWorldModel(CModel *mdl);
+    void AddWorldModel(CModel *pModel);
     void MergeTerrain();
     void ClearTerrain();
     void ClearScriptLayers();
@@ -79,24 +79,24 @@ public:
     void DeleteInstance(CScriptObject *pInstance);
 
     // Inline Accessors
-    inline EGame Version() const                                    { return mVersion; }
-    inline u32 WorldIndex() const                                   { return mWorldIndex; }
-    inline CTransform4f GetTransform() const                        { return mTransform; }
-    inline u32 GetTerrainModelCount() const                         { return mTerrainModels.size(); }
-    inline u32 GetStaticModelCount() const                          { return mStaticTerrainModels.size(); }
-    inline CModel* GetTerrainModel(u32 iMdl) const                  { return mTerrainModels[iMdl]; }
-    inline CStaticModel* GetStaticModel(u32 iMdl) const             { return mStaticTerrainModels[iMdl]; }
-    inline CCollisionMeshGroup* GetCollision() const                { return mpCollision; }
-    inline u32 GetScriptLayerCount() const                          { return mScriptLayers.size(); }
-    inline CScriptLayer* GetScriptLayer(u32 Index) const            { return mScriptLayers[Index]; }
-    inline CScriptLayer* GetGeneratorLayer() const                  { return mpGeneratorLayer; }
-    inline u32 GetLightLayerCount() const                           { return mLightLayers.size(); }
-    inline u32 GetLightCount(u32 LayerIndex) const                  { return (LayerIndex < mLightLayers.size() ? mLightLayers[LayerIndex].size() : 0); }
-    inline CLight* GetLight(u32 LayerIndex, u32 LightIndex) const   { return mLightLayers[LayerIndex][LightIndex]; }
-    inline CPoiToWorld* GetPoiToWorldMap() const                    { return mpPoiToWorldMap; }
-    inline CAABox AABox() const                                     { return mAABox; }
+    inline EGame Version() const                                { return mVersion; }
+    inline u32 WorldIndex() const                               { return mWorldIndex; }
+    inline CTransform4f Transform() const                       { return mTransform; }
+    inline u32 NumWorldModels() const                           { return mWorldModels.size(); }
+    inline u32 NumStaticModels() const                          { return mStaticWorldModels.size(); }
+    inline CModel* TerrainModel(u32 iMdl) const                 { return mWorldModels[iMdl]; }
+    inline CStaticModel* StaticModel(u32 iMdl) const            { return mStaticWorldModels[iMdl]; }
+    inline CCollisionMeshGroup* Collision() const               { return mpCollision; }
+    inline u32 NumScriptLayers() const                          { return mScriptLayers.size(); }
+    inline CScriptLayer* ScriptLayer(u32 Index) const           { return mScriptLayers[Index]; }
+    inline CScriptLayer* GeneratedObjectsLayer() const          { return mpGeneratorLayer; }
+    inline u32 NumLightLayers() const                           { return mLightLayers.size(); }
+    inline u32 NumLights(u32 LayerIndex) const                  { return (LayerIndex < mLightLayers.size() ? mLightLayers[LayerIndex].size() : 0); }
+    inline CLight* Light(u32 LayerIndex, u32 LightIndex) const  { return mLightLayers[LayerIndex][LightIndex]; }
+    inline CPoiToWorld* PoiToWorldMap() const                   { return mpPoiToWorldMap; }
+    inline CAABox AABox() const                                 { return mAABox; }
 
-    inline void SetWorldIndex(u32 NewWorldIndex)                    { mWorldIndex = NewWorldIndex; }
+    inline void SetWorldIndex(u32 NewWorldIndex)                { mWorldIndex = NewWorldIndex; }
 };
 
 #endif // CGAMEAREA_H

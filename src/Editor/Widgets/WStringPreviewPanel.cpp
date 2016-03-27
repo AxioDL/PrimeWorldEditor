@@ -5,7 +5,8 @@
 #include <QFontMetrics>
 #include <QTextLayout>
 
-WStringPreviewPanel::WStringPreviewPanel(QWidget *pParent) : IPreviewPanel(pParent)
+WStringPreviewPanel::WStringPreviewPanel(QWidget *pParent)
+    : IPreviewPanel(pParent)
 {
     mpLayout = new QVBoxLayout(this);
     mpLayout->setAlignment(Qt::AlignTop);
@@ -36,11 +37,11 @@ void WStringPreviewPanel::SetResource(CResource *pRes)
     if (pRes && (pRes->Type() == eStringTable))
     {
         CStringTable *pString = static_cast<CStringTable*>(pRes);
-        mLabels.reserve(pString->GetStringCount());
+        mLabels.reserve(pString->NumStrings());
 
-        for (u32 iStr = 0; iStr < pString->GetStringCount(); iStr++)
+        for (u32 iStr = 0; iStr < pString->NumStrings(); iStr++)
         {
-            QString text = TO_QSTRING(pString->GetString("ENGL", iStr));
+            QString text = TO_QSTRING(pString->String("ENGL", iStr));
             QLabel *pLabel = new QLabel(text, this);
             pLabel->setWordWrap(true);
             pLabel->setFrameStyle(QFrame::Plain | QFrame::Box);

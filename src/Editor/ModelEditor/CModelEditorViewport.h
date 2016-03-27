@@ -23,8 +23,8 @@ public:
     ~CModelEditorViewport();
     void SetNode(CModelNode *pNode);
     void SetActiveMaterial(CMaterial *pMat);
-    void SetDrawMode(EDrawMode mode);
-    void SetClearColor(CColor color);
+    void SetDrawMode(EDrawMode Mode);
+    void SetClearColor(CColor Color);
     void SetGridEnabled(bool Enable);
     void Paint();
     void OnResize();

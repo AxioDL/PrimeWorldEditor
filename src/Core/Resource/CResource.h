@@ -35,14 +35,16 @@ class CResource
     int mRefCount;
 
 public:
-    CResource();
-    virtual ~CResource();
-    TString Source();
-    TString FullSource();
-    CUniqueID ResID();
-    void Lock();
-    void Release();
-    bool IsValidResource();
+    CResource() : mRefCount(0) {}
+    virtual ~CResource() {}
+
+    inline TString Source() const       { return mResSource.GetFileName(); }
+    inline TString FullSource() const   { return mResSource; }
+    inline CUniqueID ResID() const      { return mID; }
+    inline void Lock()                  { mRefCount++; }
+    inline void Release()               { mRefCount--; }
+    inline bool IsValidResource()       { return (Type() != eResource); }
+
     static EResType ResTypeForExtension(CFourCC Extension);
 };
 

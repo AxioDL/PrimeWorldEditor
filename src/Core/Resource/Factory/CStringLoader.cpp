@@ -5,39 +5,39 @@ CStringLoader::CStringLoader()
 {
 }
 
-void CStringLoader::LoadPrimeDemoSTRG(IInputStream& STRG)
+void CStringLoader::LoadPrimeDemoSTRG(IInputStream& rSTRG)
 {
     // This function starts at 0x4 in the file - right after the size
     // This STRG version only supports one language per file
     mpStringTable->mLangTables.resize(1);
     CStringTable::SLangTable* Lang = &mpStringTable->mLangTables[1];
     Lang->Language = "ENGL";
-    u32 TableStart = STRG.Tell();
+    u32 TableStart = rSTRG.Tell();
 
     // Header
-    u32 NumStrings = STRG.ReadLong();
+    u32 NumStrings = rSTRG.ReadLong();
     Lang->Strings.resize(NumStrings);
     mpStringTable->mNumStrings = NumStrings;
 
     // String offsets (yeah, that wasn't much of a header)
     std::vector<u32> StringOffsets(NumStrings);
     for (u32 iOff = 0; iOff < StringOffsets.size(); iOff++)
-        StringOffsets[iOff] = STRG.ReadLong();
+        StringOffsets[iOff] = rSTRG.ReadLong();
 
     // Strings
     for (u32 iStr = 0; iStr < NumStrings; iStr++)
     {
-        STRG.Seek(TableStart + StringOffsets[iStr], SEEK_SET);
-        Lang->Strings[iStr] = STRG.ReadWString();
+        rSTRG.Seek(TableStart + StringOffsets[iStr], SEEK_SET);
+        Lang->Strings[iStr] = rSTRG.ReadWString();
     }
 }
 
-void CStringLoader::LoadPrimeSTRG(IInputStream& STRG)
+void CStringLoader::LoadPrimeSTRG(IInputStream& rSTRG)
 {
     // This function starts at 0x8 in the file, after magic/version
     // Header
-    u32 NumLanguages = STRG.ReadLong();
-    u32 NumStrings = STRG.ReadLong();
+    u32 NumLanguages = rSTRG.ReadLong();
+    u32 NumStrings = rSTRG.ReadLong();
     mpStringTable->mNumStrings = NumStrings;
 
     // Language definitions
@@ -46,70 +46,70 @@ void CStringLoader::LoadPrimeSTRG(IInputStream& STRG)
 
     for (u32 iLang = 0; iLang < NumLanguages; iLang++)
     {
-        mpStringTable->mLangTables[iLang].Language = CFourCC(STRG);
-        LangOffsets[iLang] = STRG.ReadLong();
-        if (mVersion == eEchoes) STRG.Seek(0x4, SEEK_CUR); // Skipping strings size
+        mpStringTable->mLangTables[iLang].Language = CFourCC(rSTRG);
+        LangOffsets[iLang] = rSTRG.ReadLong();
+        if (mVersion == eEchoes) rSTRG.Seek(0x4, SEEK_CUR); // Skipping strings size
     }
 
     // String names
     if (mVersion == eEchoes)
-        LoadNameTable(STRG);
+        LoadNameTable(rSTRG);
 
     // Strings
-    u32 StringsStart = STRG.Tell();
+    u32 StringsStart = rSTRG.Tell();
     for (u32 iLang = 0; iLang < NumLanguages; iLang++)
     {
-        STRG.Seek(StringsStart + LangOffsets[iLang], SEEK_SET);
-        if (mVersion == ePrime) STRG.Seek(0x4, SEEK_CUR); // Skipping strings size
+        rSTRG.Seek(StringsStart + LangOffsets[iLang], SEEK_SET);
+        if (mVersion == ePrime) rSTRG.Seek(0x4, SEEK_CUR); // Skipping strings size
 
-        u32 LangStart = STRG.Tell();
+        u32 LangStart = rSTRG.Tell();
         CStringTable::SLangTable* pLang = &mpStringTable->mLangTables[iLang];
         pLang->Strings.resize(NumStrings);
 
         // Offsets
         std::vector<u32> StringOffsets(NumStrings);
         for (u32 iOff = 0; iOff < NumStrings; iOff++)
-            StringOffsets[iOff] = STRG.ReadLong();
+            StringOffsets[iOff] = rSTRG.ReadLong();
 
         // The actual strings
         for (u32 iStr = 0; iStr < NumStrings; iStr++)
         {
-            STRG.Seek(LangStart + StringOffsets[iStr], SEEK_SET);
-            pLang->Strings[iStr] = STRG.ReadWString();
+            rSTRG.Seek(LangStart + StringOffsets[iStr], SEEK_SET);
+            pLang->Strings[iStr] = rSTRG.ReadWString();
         }
     }
 }
 
-void CStringLoader::LoadCorruptionSTRG(IInputStream& STRG)
+void CStringLoader::LoadCorruptionSTRG(IInputStream& rSTRG)
 {
     // This function starts at 0x8 in the file, after magic/version
     // Header
-    u32 NumLanguages = STRG.ReadLong();
-    u32 NumStrings = STRG.ReadLong();
+    u32 NumLanguages = rSTRG.ReadLong();
+    u32 NumStrings = rSTRG.ReadLong();
     mpStringTable->mNumStrings = NumStrings;
 
     // String names
-    LoadNameTable(STRG);
+    LoadNameTable(rSTRG);
 
     // Language definitions
     mpStringTable->mLangTables.resize(NumLanguages);
     std::vector<std::vector<u32>> LangOffsets(NumLanguages);
 
     for (u32 iLang = 0; iLang < NumLanguages; iLang++)
-        mpStringTable->mLangTables[iLang].Language = CFourCC(STRG);
+        mpStringTable->mLangTables[iLang].Language = CFourCC(rSTRG);
 
     for (u32 iLang = 0; iLang < NumLanguages; iLang++)
     {
         LangOffsets[iLang].resize(NumStrings);
 
-        STRG.Seek(0x4, SEEK_CUR); // Skipping total string size
+        rSTRG.Seek(0x4, SEEK_CUR); // Skipping total string size
 
         for (u32 iStr = 0; iStr < NumStrings; iStr++)
-            LangOffsets[iLang][iStr] = STRG.ReadLong();
+            LangOffsets[iLang][iStr] = rSTRG.ReadLong();
     }
 
     // Strings
-    u32 StringsStart = STRG.Tell();
+    u32 StringsStart = rSTRG.Tell();
 
     for (u32 iLang = 0; iLang < NumLanguages; iLang++)
     {
@@ -118,20 +118,20 @@ void CStringLoader::LoadCorruptionSTRG(IInputStream& STRG)
 
         for (u32 iStr = 0; iStr < NumStrings; iStr++)
         {
-            STRG.Seek(StringsStart + LangOffsets[iLang][iStr], SEEK_SET);
-            STRG.Seek(0x4, SEEK_CUR); // Skipping string size
+            rSTRG.Seek(StringsStart + LangOffsets[iLang][iStr], SEEK_SET);
+            rSTRG.Seek(0x4, SEEK_CUR); // Skipping string size
 
-            pLang->Strings[iStr] = STRG.ReadString();
+            pLang->Strings[iStr] = rSTRG.ReadString();
         }
     }
 }
 
-void CStringLoader::LoadNameTable(IInputStream& STRG)
+void CStringLoader::LoadNameTable(IInputStream& rSTRG)
 {
     // Name table header
-    u32 NameCount = STRG.ReadLong();
-    u32 NameTableSize = STRG.ReadLong();
-    u32 NameTableStart = STRG.Tell();
+    u32 NameCount = rSTRG.ReadLong();
+    u32 NameTableSize = rSTRG.ReadLong();
+    u32 NameTableStart = rSTRG.Tell();
     u32 NameTableEnd = NameTableStart + NameTableSize;
 
     // Name definitions
@@ -142,8 +142,8 @@ void CStringLoader::LoadNameTable(IInputStream& STRG)
 
     for (u32 iName = 0; iName < NameCount; iName++)
     {
-        NameDefs[iName].NameOffset = STRG.ReadLong() + NameTableStart;
-        NameDefs[iName].StringIndex = STRG.ReadLong();
+        NameDefs[iName].NameOffset = rSTRG.ReadLong() + NameTableStart;
+        NameDefs[iName].StringIndex = rSTRG.ReadLong();
     }
 
     // Name strings
@@ -151,47 +151,47 @@ void CStringLoader::LoadNameTable(IInputStream& STRG)
     for (u32 iName = 0; iName < NameCount; iName++)
     {
         SNameDef *pDef = &NameDefs[iName];
-        STRG.Seek(pDef->NameOffset, SEEK_SET);
-        mpStringTable->mStringNames[pDef->StringIndex] = STRG.ReadString();
+        rSTRG.Seek(pDef->NameOffset, SEEK_SET);
+        mpStringTable->mStringNames[pDef->StringIndex] = rSTRG.ReadString();
     }
-    STRG.Seek(NameTableEnd, SEEK_SET);
+    rSTRG.Seek(NameTableEnd, SEEK_SET);
 }
 
 // ************ STATIC ************
-CStringTable* CStringLoader::LoadSTRG(IInputStream& STRG)
+CStringTable* CStringLoader::LoadSTRG(IInputStream& rSTRG)
 {
     // Verify that this is a valid STRG
-    if (!STRG.IsValid()) return nullptr;
+    if (!rSTRG.IsValid()) return nullptr;
 
-    u32 Magic = STRG.ReadLong();
+    u32 Magic = rSTRG.ReadLong();
     EGame Version = eUnknownVersion;
 
     if (Magic != 0x87654321)
     {
         // Check for MP1 Demo STRG format - no magic/version; the first value is actually the filesize
         // so the best I can do is verify the first value actually points to the end of the file
-        if (Magic <= (u32) STRG.Size())
+        if (Magic <= (u32) rSTRG.Size())
         {
-            STRG.Seek(Magic, SEEK_SET);
-            if ((STRG.EoF()) || (STRG.ReadShort() == 0xFFFF))
+            rSTRG.Seek(Magic, SEEK_SET);
+            if ((rSTRG.EoF()) || (rSTRG.ReadShort() == 0xFFFF))
                 Version = ePrimeDemo;
         }
 
         if (Version != ePrimeDemo)
         {
-            Log::FileError(STRG.GetSourceString(), "Invalid STRG magic: " + TString::HexString(Magic));
+            Log::FileError(rSTRG.GetSourceString(), "Invalid STRG magic: " + TString::HexString(Magic));
             return nullptr;
         }
     }
 
     else
     {
-        u32 FileVersion = STRG.ReadLong();
+        u32 FileVersion = rSTRG.ReadLong();
         Version = GetFormatVersion(FileVersion);
 
         if (FileVersion == eUnknownVersion)
         {
-            Log::FileError(STRG.GetSourceString(), "Unsupported STRG version: " + TString::HexString(FileVersion));
+            Log::FileError(rSTRG.GetSourceString(), "Unsupported STRG version: " + TString::HexString(FileVersion, 0));
             return nullptr;
         }
     }
@@ -201,9 +201,9 @@ CStringTable* CStringLoader::LoadSTRG(IInputStream& STRG)
     Loader.mpStringTable = new CStringTable();
     Loader.mVersion = Version;
 
-    if (Version == ePrimeDemo) Loader.LoadPrimeDemoSTRG(STRG);
-    else if (Version < eCorruption) Loader.LoadPrimeSTRG(STRG);
-    else Loader.LoadCorruptionSTRG(STRG);
+    if (Version == ePrimeDemo) Loader.LoadPrimeDemoSTRG(rSTRG);
+    else if (Version < eCorruption) Loader.LoadPrimeSTRG(rSTRG);
+    else Loader.LoadCorruptionSTRG(rSTRG);
 
     return Loader.mpStringTable;
 }

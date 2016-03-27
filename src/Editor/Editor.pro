@@ -96,12 +96,10 @@ HEADERS += \
     Undo/UndoCommands.h \
     Widgets/IPreviewPanel.h \
     Widgets/WAnimParamsEditor.h \
-    Widgets/WCollapsibleGroupBox.h \
     Widgets/WColorPicker.h \
     Widgets/WDraggableSpinBox.h \
     Widgets/WIntegralSpinBox.h \
     Widgets/WResourceSelector.h \
-    Widgets/WRollout.h \
     Widgets/WScanPreviewPanel.h \
     Widgets/WStringPreviewPanel.h \
     Widgets/WTextureGLWidget.h \
@@ -115,7 +113,6 @@ HEADERS += \
     WorldEditor/WInstancesTab.h \
     WorldEditor/WModifyTab.h \
     CBasicViewport.h \
-    CDarkStyle.h \
     CGizmo.h \
     CNodeSelection.h \
     CSceneViewport.h \
@@ -170,12 +167,10 @@ SOURCES += \
     Undo/CTranslateNodeCommand.cpp \
     Widgets/IPreviewPanel.cpp \
     Widgets/WAnimParamsEditor.cpp \
-    Widgets/WCollapsibleGroupBox.cpp \
     Widgets/WColorPicker.cpp \
     Widgets/WDraggableSpinBox.cpp \
     Widgets/WIntegralSpinBox.cpp \
     Widgets/WResourceSelector.cpp \
-    Widgets/WRollout.cpp \
     Widgets/WScanPreviewPanel.cpp \
     Widgets/WStringPreviewPanel.cpp \
     Widgets/WTextureGLWidget.cpp \
@@ -189,7 +184,6 @@ SOURCES += \
     WorldEditor/WInstancesTab.cpp \
     WorldEditor/WModifyTab.cpp \
     CBasicViewport.cpp \
-    CDarkStyle.cpp \
     CGizmo.cpp \
     CSceneViewport.cpp \
     CStartWindow.cpp \

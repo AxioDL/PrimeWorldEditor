@@ -45,7 +45,7 @@ public:
     CMaterialPass(CMaterial *pParent);
     ~CMaterialPass();
     CMaterialPass* Clone(CMaterial *pParent);
-    void HashParameters(CHashFNV1A& Hash);
+    void HashParameters(CHashFNV1A& rHash);
     void LoadTexture(u32 PassIndex);
     void SetAnimCurrent(FRenderOptions Options, u32 PassIndex);
 
@@ -65,61 +65,20 @@ public:
     void SetEnabled(bool Enabled);
 
     // Getters
-    inline CFourCC Type() const {
-        return mPassType;
-    }
-
-    inline TString NamedType() const {
-        return PassTypeName(mPassType);
-    }
-
-    inline ETevColorInput ColorInput(u32 Input) const {
-        return mColorInputs[Input];
-    }
-
-    inline ETevAlphaInput AlphaInput(u32 Input) const {
-        return mAlphaInputs[Input];
-    }
-
-    inline ETevOutput ColorOutput() const {
-        return mColorOutput;
-    }
-
-    inline ETevOutput AlphaOutput() const {
-        return mAlphaOutput;
-    }
-
-    inline ETevKSel KColorSel() const {
-        return mKColorSel;
-    }
-
-    inline ETevKSel KAlphaSel() const {
-        return mKAlphaSel;
-    }
-
-    inline ETevRasSel RasSel() const {
-        return mRasSel;
-    }
-
-    inline u32 TexCoordSource() const {
-        return mTexCoordSource;
-    }
-
-    inline CTexture* Texture() const {
-        return mpTexture;
-    }
-
-    inline EUVAnimMode AnimMode() const {
-        return mAnimMode;
-    }
-
-    inline float AnimParam(u32 ParamIndex) const {
-        return mAnimParams[ParamIndex];
-    }
-
-    inline bool IsEnabled() const {
-        return mEnabled;
-    }
+    inline CFourCC Type() const                         { return mPassType; }
+    inline TString NamedType() const                    { return PassTypeName(mPassType); }
+    inline ETevColorInput ColorInput(u32 Input) const   { return mColorInputs[Input]; }
+    inline ETevAlphaInput AlphaInput(u32 Input) const   { return mAlphaInputs[Input]; }
+    inline ETevOutput ColorOutput() const               { return mColorOutput; }
+    inline ETevOutput AlphaOutput() const               { return mAlphaOutput; }
+    inline ETevKSel KColorSel() const                   { return mKColorSel; }
+    inline ETevKSel KAlphaSel() const                   { return mKAlphaSel; }
+    inline ETevRasSel RasSel() const                    { return mRasSel; }
+    inline u32 TexCoordSource() const                   { return mTexCoordSource; }
+    inline CTexture* Texture() const                    { return mpTexture; }
+    inline EUVAnimMode AnimMode() const                 { return mAnimMode; }
+    inline float AnimParam(u32 ParamIndex) const        { return mAnimParams[ParamIndex]; }
+    inline bool IsEnabled() const                       { return mEnabled; }
 
     // Static
     static TString PassTypeName(CFourCC Type);

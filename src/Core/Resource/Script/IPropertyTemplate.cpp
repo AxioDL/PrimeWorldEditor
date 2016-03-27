@@ -5,7 +5,7 @@
 // ************ IPropertyTemplate ************
 EGame IPropertyTemplate::Game() const
 {
-    return (mpMasterTemplate ? mpMasterTemplate->GetGame() : eUnknownVersion);
+    return (mpMasterTemplate ? mpMasterTemplate->Game() : eUnknownVersion);
 }
 
 bool IPropertyTemplate::IsInVersion(u32 Version) const
@@ -32,7 +32,7 @@ TIDString IPropertyTemplate::IDString(bool FullPath) const
             if (!out.IsEmpty()) out += ":";
         }
 
-        out += TIDString::HexString(mID, true, true, 8);
+        out += TIDString::HexString(mID);
         return out;
     }
     else return "";

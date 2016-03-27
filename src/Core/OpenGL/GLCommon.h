@@ -27,8 +27,8 @@ enum EGXPrimitiveType
     eGX_Points = 0xB8
 };
 
-extern GLenum glBlendFactor[];
-extern GLenum glZMode[];
-GLenum GXPrimToGLPrim(EGXPrimitiveType t);
+extern GLenum gBlendFactor[];
+extern GLenum gZMode[];
+GLenum GXPrimToGLPrim(EGXPrimitiveType Type);
 
 #endif // GLCOMMON_H

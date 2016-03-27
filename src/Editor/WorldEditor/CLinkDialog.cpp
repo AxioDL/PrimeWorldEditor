@@ -219,9 +219,9 @@ void CLinkDialog::OnPickModeClick(const SRayIntersection& rkHit, QMouseEvent* /*
     CScriptNode *pScript = static_cast<CScriptNode*>(rkHit.pNode);
 
     if (ui->SenderPickFromViewport->isChecked())
-        SetSender(pScript->Object());
+        SetSender(pScript->Instance());
     else
-        SetReceiver(pScript->Object());
+        SetReceiver(pScript->Instance());
 
     mpEditor->ExitPickMode();
 }

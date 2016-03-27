@@ -77,10 +77,10 @@ void WEditorProperties::SetLayerComboBox()
     if (mpDisplayNode && mpDisplayNode->NodeType() == eScriptNode)
     {
         CScriptNode *pScript = static_cast<CScriptNode*>(mpDisplayNode);
-        CScriptLayer *pLayer = pScript->Object()->Layer();
-        for (u32 iLyr = 0; iLyr < mpEditor->ActiveArea()->GetScriptLayerCount(); iLyr++)
+        CScriptLayer *pLayer = pScript->Instance()->Layer();
+        for (u32 iLyr = 0; iLyr < mpEditor->ActiveArea()->NumScriptLayers(); iLyr++)
         {
-            if (mpEditor->ActiveArea()->GetScriptLayer(iLyr) == pLayer)
+            if (mpEditor->ActiveArea()->ScriptLayer(iLyr) == pLayer)
             {
                 mpLayersComboBox->setCurrentIndex(iLyr);
                 break;
@@ -129,7 +129,7 @@ void WEditorProperties::OnSelectionModified()
     else
     {
         CScriptNode *pScript = static_cast<CScriptNode*>(mpDisplayNode);
-        TString InstanceID = TString::HexString(pScript->Object()->InstanceID(), false, true, 8);
+        TString InstanceID = TString::HexString(pScript->Instance()->InstanceID(), 8, false);
         TString ObjectType = pScript->Template()->Name();
         mpInstanceInfoLabel->setText(QString("[%1] [%2]").arg( TO_QSTRING(ObjectType) ).arg( TO_QSTRING(InstanceID) ));
 
@@ -161,8 +161,8 @@ void WEditorProperties::OnLayersModified()
 
      if (pArea)
      {
-         for (u32 iLyr = 0; iLyr < pArea->GetScriptLayerCount(); iLyr++)
-             mpLayersComboBox->addItem(TO_QSTRING(pArea->GetScriptLayer(iLyr)->Name()));
+         for (u32 iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
+             mpLayersComboBox->addItem(TO_QSTRING(pArea->ScriptLayer(iLyr)->Name()));
      }
 
      SetLayerComboBox();
@@ -171,7 +171,7 @@ void WEditorProperties::OnLayersModified()
 void WEditorProperties::UpdatePropertyValues()
 {
     CScriptNode *pScript = static_cast<CScriptNode*>(mpDisplayNode);
-    CScriptObject *pInst = pScript->Object();
+    CScriptObject *pInst = pScript->Instance();
 
     mpActiveCheckBox->setChecked(pInst->IsActive());
     mpActiveCheckBox->setEnabled(pInst->ActiveProperty() != nullptr);
@@ -210,7 +210,7 @@ void WEditorProperties::OnLayerChanged()
 
     if (Index >= 0)
     {
-        CScriptLayer *pLayer = mpEditor->ActiveArea()->GetScriptLayer(Index);
+        CScriptLayer *pLayer = mpEditor->ActiveArea()->ScriptLayer(Index);
         mpEditor->SetSelectionLayer(pLayer);
     }
 }

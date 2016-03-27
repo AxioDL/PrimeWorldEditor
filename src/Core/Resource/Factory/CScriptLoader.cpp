@@ -7,8 +7,8 @@
 #include <sstream>
 
 CScriptLoader::CScriptLoader()
+    : mpObj(nullptr)
 {
-    mpObj = nullptr;
 }
 
 void CScriptLoader::ReadProperty(IProperty *pProp, u32 Size, IInputStream& rSCLY)
@@ -18,85 +18,96 @@ void CScriptLoader::ReadProperty(IProperty *pProp, u32 Size, IInputStream& rSCLY
     switch (pTemp->Type())
     {
 
-    case eBoolProperty: {
+    case eBoolProperty:
+    {
         TBoolProperty *pBoolCast = static_cast<TBoolProperty*>(pProp);
         pBoolCast->Set( (rSCLY.ReadByte() != 0) );
         break;
     }
 
-    case eByteProperty: {
+    case eByteProperty:
+    {
         TByteProperty *pByteCast = static_cast<TByteProperty*>(pProp);
         pByteCast->Set(rSCLY.ReadByte());
         break;
     }
 
-    case eShortProperty: {
+    case eShortProperty:
+    {
         TShortProperty *pShortCast = static_cast<TShortProperty*>(pProp);
         pShortCast->Set(rSCLY.ReadShort());
         break;
     }
 
-    case eLongProperty: {
+    case eLongProperty:
+    {
         TLongProperty *pLongCast = static_cast<TLongProperty*>(pProp);
         pLongCast->Set(rSCLY.ReadLong());
         break;
     }
 
-    case eBitfieldProperty: {
+    case eBitfieldProperty:
+    {
         TBitfieldProperty *pBitfieldCast = static_cast<TBitfieldProperty*>(pProp);
         pBitfieldCast->Set(rSCLY.ReadLong());
 
         // Validate
-        u32 mask = 0;
+        u32 Mask = 0;
         CBitfieldTemplate *pBitfieldTemp = static_cast<CBitfieldTemplate*>(pTemp);
         for (u32 iMask = 0; iMask < pBitfieldTemp->NumFlags(); iMask++)
-            mask |= pBitfieldTemp->FlagMask(iMask);
+            Mask |= pBitfieldTemp->FlagMask(iMask);
 
-        u32 check = pBitfieldCast->Get() & ~mask;
-        if (check != 0)
-            Log::FileWarning(rSCLY.GetSourceString(), rSCLY.Tell() - 4, "Bitfield property \"" + pBitfieldTemp->Name() + "\" in struct \"" + pTemp->Name() + "\" has flags set that aren't in the template: " + TString::HexString(check, true, true, 8));
+        u32 Check = pBitfieldCast->Get() & ~Mask;
+        if (Check != 0)
+            Log::FileWarning(rSCLY.GetSourceString(), rSCLY.Tell() - 4, "Bitfield property \"" + pBitfieldTemp->Name() + "\" in struct \"" + pTemp->Name() + "\" has flags set that aren't in the template: " + TString::HexString(Check));
 
         break;
     }
 
-    case eEnumProperty: {
+    case eEnumProperty:
+    {
         TEnumProperty *pEnumCast = static_cast<TEnumProperty*>(pProp);
         CEnumTemplate *pEnumTemp = static_cast<CEnumTemplate*>(pTemp);
         u32 ID = rSCLY.ReadLong();
 
         // Validate
         u32 Index = pEnumTemp->EnumeratorIndex(ID);
-        if (Index == -1) Log::FileError(rSCLY.GetSourceString(), rSCLY.Tell() - 4, "Enum property \"" + pEnumTemp->Name() + "\" in struct \"" + pTemp->Name() + "\" has invalid enumerator value: " + TString::HexString(ID, true, true, 8));
+        if (Index == -1) Log::FileError(rSCLY.GetSourceString(), rSCLY.Tell() - 4, "Enum property \"" + pEnumTemp->Name() + "\" in struct \"" + pTemp->Name() + "\" has invalid enumerator value: " + TString::HexString(ID));
 
         pEnumCast->Set(ID);
         break;
     }
 
-    case eFloatProperty: {
+    case eFloatProperty:
+    {
         TFloatProperty *pFloatCast = static_cast<TFloatProperty*>(pProp);
         pFloatCast->Set(rSCLY.ReadFloat());
         break;
     }
 
-    case eStringProperty: {
+    case eStringProperty:
+    {
         TStringProperty *pStringCast = static_cast<TStringProperty*>(pProp);
         pStringCast->Set(rSCLY.ReadString());
         break;
     }
 
-    case eVector3Property: {
+    case eVector3Property:
+    {
         TVector3Property *pVector3Cast = static_cast<TVector3Property*>(pProp);
         pVector3Cast->Set(CVector3f(rSCLY));
         break;
     }
 
-    case eColorProperty: {
+    case eColorProperty:
+    {
         TColorProperty *pColorCast = static_cast<TColorProperty*>(pProp);
         pColorCast->Set(CColor(rSCLY));
         break;
     }
 
-    case eFileProperty: {
+    case eFileProperty:
+    {
         TFileProperty *pFileCast = static_cast<TFileProperty*>(pProp);
 
         CUniqueID ResID = (mVersion < eCorruptionProto ? rSCLY.ReadLong() : rSCLY.ReadLongLong());
@@ -114,7 +125,8 @@ void CScriptLoader::ReadProperty(IProperty *pProp, u32 Size, IInputStream& rSCLY
         break;
     }
 
-    case eStructProperty: {
+    case eStructProperty:
+    {
         CPropertyStruct *pStructCast = static_cast<CPropertyStruct*>(pProp);
 
         if (mVersion < eEchoesDemo)
@@ -124,7 +136,8 @@ void CScriptLoader::ReadProperty(IProperty *pProp, u32 Size, IInputStream& rSCLY
         break;
     }
 
-    case eArrayProperty: {
+    case eArrayProperty:
+    {
         CArrayProperty *pArrayCast = static_cast<CArrayProperty*>(pProp);
         int Count = rSCLY.ReadLong();
 
@@ -140,13 +153,15 @@ void CScriptLoader::ReadProperty(IProperty *pProp, u32 Size, IInputStream& rSCLY
         break;
     }
 
-    case eCharacterProperty: {
+    case eCharacterProperty:
+    {
         TCharacterProperty *pAnimCast = static_cast<TCharacterProperty*>(pProp);
-        pAnimCast->Set(CAnimationParameters(rSCLY, mpMaster->GetGame()));
+        pAnimCast->Set(CAnimationParameters(rSCLY, mpMaster->Game()));
         break;
     }
 
-    case eMayaSplineProperty: {
+    case eMayaSplineProperty:
+    {
         TMayaSplineProperty *pSplineCast = static_cast<TMayaSplineProperty*>(pProp);
         std::vector<u8> Buffer(Size);
         rSCLY.ReadBytes(Buffer.data(), Buffer.size());
@@ -154,7 +169,8 @@ void CScriptLoader::ReadProperty(IProperty *pProp, u32 Size, IInputStream& rSCLY
         break;
     }
 
-    case eUnknownProperty: {
+    case eUnknownProperty:
+    {
         TUnknownProperty *pUnknownCast = static_cast<TUnknownProperty*>(pProp);
         std::vector<u8> Buffer(Size);
         rSCLY.ReadBytes(Buffer.data(), Buffer.size());
@@ -182,7 +198,7 @@ void CScriptLoader::LoadStructMP1(IInputStream& rSCLY, CPropertyStruct *pStruct,
             TIDString IDString = pTemp->IDString(true);
             if (!IDString.IsEmpty()) IDString = " (" + IDString + ")";
 
-            Log::FileWarning(rSCLY.GetSourceString(), StructStart, "Struct \"" + pTemp->Name() + "\"" + IDString + " template prop count doesn't match file; template is " + TString::HexString(PropCount, true, true, 2) + ", file is " + TString::HexString(FilePropCount, true, true, 2));
+            Log::FileWarning(rSCLY.GetSourceString(), StructStart, "Struct \"" + pTemp->Name() + "\"" + IDString + " template prop count doesn't match file; template is " + TString::HexString(PropCount, 2) + ", file is " + TString::HexString(FilePropCount, 2));
             Version = 0;
         }
     }
@@ -209,7 +225,7 @@ CScriptObject* CScriptLoader::LoadObjectMP1(IInputStream& rSCLY)
     if (!pTemp)
     {
         // No valid template for this object; can't load
-        Log::FileError(rSCLY.GetSourceString(), ObjStart, "Unknown object ID encountered: " + TString::HexString(Type));
+        Log::FileError(rSCLY.GetSourceString(), ObjStart, "Unknown object ID encountered: " + TString::HexString(Type, 2));
         rSCLY.Seek(End, SEEK_SET);
         return nullptr;
     }
@@ -381,7 +397,7 @@ CScriptLayer* CScriptLoader::LoadLayer(IInputStream& rSCLY, CGameArea *pArea, EG
 
     CScriptLoader Loader;
     Loader.mVersion = Version;
-    Loader.mpMaster = CMasterTemplate::GetMasterForGame(Version);
+    Loader.mpMaster = CMasterTemplate::MasterForGame(Version);
     Loader.mpArea = pArea;
 
     if (!Loader.mpMaster)
@@ -405,7 +421,7 @@ CScriptObject* CScriptLoader::LoadInstance(IInputStream& rSCLY, CGameArea *pArea
 
     CScriptLoader Loader;
     Loader.mVersion = (ForceReturnsFormat ? eReturns : Version);
-    Loader.mpMaster = CMasterTemplate::GetMasterForGame(Version);
+    Loader.mpMaster = CMasterTemplate::MasterForGame(Version);
     Loader.mpArea = pArea;
     Loader.mpLayer = pLayer;
 

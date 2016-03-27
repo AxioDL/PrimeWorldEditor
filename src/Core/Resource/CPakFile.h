@@ -10,22 +10,22 @@
 class CPakFile
 {
 private:
-    u32 version;
-    std::vector<SNamedResource> NamedResTable;
-    std::vector<SResInfo> ResInfoTable;
-    IInputStream* pak;
+    u32 mVersion;
+    std::vector<SNamedResource> mNamedResTable;
+    std::vector<SResInfo> mResInfoTable;
+    IInputStream* mpPak;
 
-    bool decompress(u8 *src, u32 src_len, u8 *dst, u32 dst_len);
+    bool Decompress(u8 *pSrc, u32 SrcLen, u8 *pDst, u32 DstLen);
 
 public:
     CPakFile();
-    CPakFile(IInputStream* pakfile);
+    CPakFile(IInputStream* pPakFile);
     ~CPakFile();
 
-    std::vector<SNamedResource> getNamedResources();
-    SResInfo getResourceInfo(u64 assetID, CFourCC assetType);
-    std::vector<u8>* getResource(u64 assetID, CFourCC assetType);
-    std::vector<u8>* getResource(SResInfo& info);
+    std::vector<SNamedResource> NamedResources();
+    SResInfo ResourceInfo(u64 AssetID, CFourCC AssetType);
+    std::vector<u8>* Resource(u64 AssetID, CFourCC AssetType);
+    std::vector<u8>* Resource(SResInfo& rInfo);
 };
 
 #endif // CPAKFILE_H

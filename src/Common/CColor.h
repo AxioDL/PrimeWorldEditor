@@ -8,14 +8,14 @@
 class CColor
 {
 public:
-    float r, g, b, a;
+    float R, G, B, A;
 
     CColor();
-    CColor(IInputStream& rSrc, bool Integral = false);
-    CColor(float rgba);
-    CColor(float _r, float _g, float _b, float _a = 1.f);
-    void SetIntegral(u8 rgba);
-    void SetIntegral(u8 _r, u8 _g, u8 _b, u8 _a = 255);
+    CColor(IInputStream& rInput, bool Integral = false);
+    CColor(float RGBA);
+    CColor(float _R, float _G, float _B, float A = 1.f);
+    void SetIntegral(u8 RGBA);
+    void SetIntegral(u8 _R, u8 _G, u8 _B, u8 _A = 255);
     void Write(IOutputStream& rOutput, bool Integral = false);
 
     long ToLongRGBA() const;
@@ -28,17 +28,17 @@ public:
     void operator-=(const CColor& rkOther);
     CColor operator*(const CColor& rkOther) const;
     void operator*=(const CColor& rkOther);
-    CColor operator*(float other) const;
-    void operator*=(float other);
+    CColor operator*(float Other) const;
+    void operator*=(float Other);
     CColor operator/(const CColor& rkOther) const;
     void operator/=(const CColor& rkOther);
 
     // Static
-    static CColor Integral(u8 rgba);
-    static CColor Integral(u8 _r, u8 _g, u8 _b, u8 _a = 255);
-    static CColor RandomColor(bool transparent);
-    static CColor RandomLightColor(bool transparent);
-    static CColor RandomDarkColor(bool transparent);
+    static CColor Integral(u8 RGBA);
+    static CColor Integral(u8 _R, u8 _G, u8 _B, u8 _A = 255);
+    static CColor RandomColor(bool Transparent);
+    static CColor RandomLightColor(bool Transparent);
+    static CColor RandomDarkColor(bool Transparent);
 
     // some predefined colors below for ease of use
     static const CColor skRed;

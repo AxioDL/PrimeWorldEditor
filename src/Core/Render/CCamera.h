@@ -63,29 +63,28 @@ public:
     void LoadMatrices() const;
 
     void SetMoveMode(ECameraMoveMode Mode);
-    void SetOrbit(const CVector3f& OrbitTarget, float Distance);
-    void SetOrbit(const CAABox& OrbitTarget, float DistScale = 4.f);
+    void SetOrbit(const CVector3f& rkOrbitTarget, float Distance);
+    void SetOrbit(const CAABox& rkOrbitTarget, float DistScale = 4.f);
     void SetOrbitDistance(float Distance);
 
-    // Getters
-    CVector3f Position() const;
-    CVector3f Direction() const;
-    CVector3f UpVector() const;
-    CVector3f RightVector() const;
-    float Yaw() const;
-    float Pitch() const;
-    float FieldOfView() const;
-    ECameraMoveMode MoveMode() const;
-    const CMatrix4f& ViewMatrix() const;
-    const CMatrix4f& ProjectionMatrix() const;
-    const CFrustumPlanes& FrustumPlanes() const;
+    // Inline Accessors
+    inline CVector3f Position() const                       { UpdateTransform(); return mPosition; }
+    inline CVector3f Direction() const                      { UpdateTransform(); return mDirection; }
+    inline CVector3f UpVector() const                       { UpdateTransform(); return mUpVector; }
+    inline CVector3f RightVector() const                    { UpdateTransform(); return mRightVector; }
+    inline float Yaw() const                                { return mYaw; }
+    inline float Pitch() const                              { return mPitch; }
+    inline float FieldOfView() const                        { return 55.f; }
+    inline ECameraMoveMode MoveMode() const                 { return mMode; }
+    inline const CMatrix4f& ViewMatrix() const              { UpdateView(); return mViewMatrix; }
+    inline const CMatrix4f& ProjectionMatrix() const        { UpdateProjection(); return mProjectionMatrix; }
+    inline const CFrustumPlanes& FrustumPlanes() const      { UpdateFrustum(); return mFrustumPlanes; }
 
-    // Setters
-    void SetYaw(float Yaw);
-    void SetPitch(float Pitch);
-    void SetMoveSpeed(float MoveSpeed);
-    void SetLookSpeed(float LookSpeed);
-    void SetAspectRatio(float AspectRatio);
+    inline void SetYaw(float Yaw)                   { mYaw = Yaw; mTransformDirty = true; }
+    inline void SetPitch(float Pitch)               { mPitch = Pitch; ValidatePitch(); mTransformDirty = true; }
+    inline void SetMoveSpeed(float MoveSpeed)       { mMoveSpeed = MoveSpeed; }
+    inline void SetLookSpeed(float LookSpeed)       { mLookSpeed = LookSpeed; }
+    inline void SetAspectRatio(float AspectRatio)   { mAspectRatio = AspectRatio; mProjectionDirty = true; mFrustumPlanesDirty = true; }
 
     // Private
 private:

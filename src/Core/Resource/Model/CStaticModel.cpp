@@ -3,20 +3,18 @@
 #include "Core/Render/CRenderer.h"
 #include "Core/OpenGL/GLCommon.h"
 
-CStaticModel::CStaticModel() : CBasicModel()
+CStaticModel::CStaticModel()
+    : CBasicModel()
+    , mpMaterial(nullptr)
+    , mTransparent(false)
 {
-    mpMaterial = nullptr;
-    mTransparent = false;
-    mHasOwnSurfaces = false;
-    mHasOwnMaterials = false;
 }
 
-CStaticModel::CStaticModel(CMaterial *pMat) : CBasicModel()
+CStaticModel::CStaticModel(CMaterial *pMat)
+    : CBasicModel()
+    , mpMaterial(pMat)
+    , mTransparent((pMat->Options() & CMaterial::eTransparent) != 0)
 {
-    mpMaterial = pMat;
-    mTransparent = ((pMat->Options() & CMaterial::eTransparent) != 0);
-    mHasOwnSurfaces = false;
-    mHasOwnMaterials = false;
 }
 
 CStaticModel::~CStaticModel()
@@ -58,7 +56,8 @@ void CStaticModel::BufferGL()
                     Indices[iVert] = mVBO.AddIfUnique(pPrim->Vertices[iVert], VBOStartOffset);
 
                 // then add the indices to the IBO. We convert some primitives to strips to minimize draw calls.
-                switch (pPrim->Type) {
+                switch (pPrim->Type)
+                {
                     case eGX_Triangles:
                         pIBO->TrianglesToStrips(Indices.data(), Indices.size());
                         break;
@@ -158,7 +157,7 @@ void CStaticModel::DrawWireframe(FRenderOptions Options, CColor WireColor /*= CC
     if (!mBuffered) BufferGL();
 
     // Set up wireframe
-    WireColor.a = 0;
+    WireColor.A = 0;
     CDrawUtil::UseColorShader(WireColor);
     Options |= eNoMaterialSetup;
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);

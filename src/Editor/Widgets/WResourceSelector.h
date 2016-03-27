@@ -43,16 +43,16 @@ class WResourceSelector : public QWidget
 
     // Functions
 signals:
-    void ResourceChanged(const QString& NewResPath);
+    void ResourceChanged(const QString& rkNewResPath);
     void EditResource(const CResourceInfo& rkRes);
     void ExportResource(const CResourceInfo& rkRes);
 
 public:
-    explicit WResourceSelector(QWidget *parent = 0);
+    explicit WResourceSelector(QWidget *pParent = 0);
     ~WResourceSelector();
     bool event(QEvent *);
     bool eventFilter(QObject *, QEvent *);
-    bool IsSupportedExtension(const QString& extension);
+    bool IsSupportedExtension(const QString& rkExtension);
     bool HasSupportedExtension(const CResourceInfo& rkRes);
     void UpdateFrameColor();
 
@@ -68,14 +68,14 @@ public:
     void SetResource(CResource *pRes);
     void SetResource(const QString& rkRes);
     void SetResource(const CResourceInfo& rkRes);
-    void SetAllowedExtensions(const QString& extension);
-    void SetAllowedExtensions(const QStringList& extensions);
-    void SetAllowedExtensions(const TStringList& extensions);
-    void SetText(const QString& ResPath);
+    void SetAllowedExtensions(const QString& rkExtension);
+    void SetAllowedExtensions(const QStringList& rkExtensions);
+    void SetAllowedExtensions(const TStringList& rkExtensions);
+    void SetText(const QString& rkResPath);
     void SetEditButtonEnabled(bool Enabled);
     void SetExportButtonEnabled(bool Enabled);
     void SetPreviewPanelEnabled(bool Enabled);
-    void AdjustPreviewToParent(bool adjust);
+    void AdjustPreviewToParent(bool Adjust);
 
     // Slots
 public slots:

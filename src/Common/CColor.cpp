@@ -1,7 +1,7 @@
 #include "CColor.h"
 
 CColor::CColor()
-    : r(0.f), g(0.f), b(0.f), a(0.f)
+    : R(0.f), G(0.f), B(0.f), A(0.f)
 {
 }
 
@@ -9,42 +9,42 @@ CColor::CColor(IInputStream& rInput, bool Integral /*= false*/)
 {
     if (Integral)
     {
-        r = (u8) rInput.ReadByte() / 255.f;
-        g = (u8) rInput.ReadByte() / 255.f;
-        b = (u8) rInput.ReadByte() / 255.f;
-        a = (u8) rInput.ReadByte() / 255.f;
+        R = (u8) rInput.ReadByte() / 255.f;
+        G = (u8) rInput.ReadByte() / 255.f;
+        B = (u8) rInput.ReadByte() / 255.f;
+        A = (u8) rInput.ReadByte() / 255.f;
     }
     else
     {
-        r = rInput.ReadFloat();
-        g = rInput.ReadFloat();
-        b = rInput.ReadFloat();
-        a = rInput.ReadFloat();
+        R = rInput.ReadFloat();
+        G = rInput.ReadFloat();
+        B = rInput.ReadFloat();
+        A = rInput.ReadFloat();
     }
 }
 
-CColor::CColor(float rgba)
-    : r(rgba), g(rgba), b(rgba), a(rgba)
+CColor::CColor(float RGBA)
+    : R(RGBA), G(RGBA), B(RGBA), A(RGBA)
 {
 }
 
-CColor::CColor(float _r, float _g, float _b, float _a /*= 1.f*/)
-    : r(_r), g(_g), b(_b), a(_a)
+CColor::CColor(float _R, float _G, float _B, float _A /*= 1.f*/)
+    : R(_R), G(_G), B(_B), A(_A)
 {
 }
 
-void CColor::SetIntegral(u8 rgba)
+void CColor::SetIntegral(u8 RGBA)
 {
-    float f = rgba / 255.f;
-    r = g = b = a = f;
+    float f = RGBA / 255.f;
+    R = G = B = A = f;
 }
 
-void CColor::SetIntegral(u8 _r, u8 _g, u8 _b, u8 _a /*= 255*/)
+void CColor::SetIntegral(u8 _R, u8 _G, u8 _B, u8 _A /*= 255*/)
 {
-    r = _r / 255.f;
-    g = _g / 255.f;
-    b = _b / 255.f;
-    a = _a / 255.f;
+    R = _R / 255.f;
+    G = _G / 255.f;
+    B = _B / 255.f;
+    A = _A / 255.f;
 }
 
 void CColor::Write(IOutputStream &rOutput, bool Integral /*= false*/)
@@ -56,37 +56,37 @@ void CColor::Write(IOutputStream &rOutput, bool Integral /*= false*/)
 
     else
     {
-        rOutput.WriteFloat(r);
-        rOutput.WriteFloat(g);
-        rOutput.WriteFloat(b);
-        rOutput.WriteFloat(a);
+        rOutput.WriteFloat(R);
+        rOutput.WriteFloat(G);
+        rOutput.WriteFloat(B);
+        rOutput.WriteFloat(A);
     }
 }
 
 long CColor::ToLongRGBA() const
 {
-    u8 _r = (u8) (r * 255);
-    u8 _g = (u8) (g * 255);
-    u8 _b = (u8) (b * 255);
-    u8 _a = (u8) (a * 255);
-    return (_r << 24) | (_g << 16) | (_b << 8) | _a;
+    u8 _R = (u8) (R * 255);
+    u8 _G = (u8) (G * 255);
+    u8 _B = (u8) (B * 255);
+    u8 _A = (u8) (A * 255);
+    return (_R << 24) | (_G << 16) | (_B << 8) | _A;
 }
 
 long CColor::ToLongARGB() const
 {
-    u8 _r = (u8) (r * 255);
-    u8 _g = (u8) (g * 255);
-    u8 _b = (u8) (b * 255);
-    u8 _a = (u8) (a * 255);
-    return (_a << 24) | (_r << 16) | (_g << 8) | _b;
+    u8 _R = (u8) (R * 255);
+    u8 _G = (u8) (G * 255);
+    u8 _B = (u8) (B * 255);
+    u8 _A = (u8) (A * 255);
+    return (_A << 24) | (_R << 16) | (_G << 8) | _B;
 }
 
 bool CColor::operator==(const CColor& rkOther) const
 {
-    return ((r == rkOther.r) &&
-            (g == rkOther.g) &&
-            (b == rkOther.b) &&
-            (a == rkOther.a));
+    return ((R == rkOther.R) &&
+            (G == rkOther.G) &&
+            (B == rkOther.B) &&
+            (A == rkOther.A));
 }
 
 bool CColor::operator!=(const CColor& rkOther) const
@@ -96,10 +96,10 @@ bool CColor::operator!=(const CColor& rkOther) const
 
 CColor CColor::operator+(const CColor& rkOther) const
 {
-    float NewR = fmin(r + rkOther.r, 1.f);
-    float NewG = fmin(g + rkOther.g, 1.f);
-    float NewB = fmin(b + rkOther.b, 1.f);
-    float NewA = fmin(a + rkOther.a, 1.f);
+    float NewR = fmin(R + rkOther.R, 1.f);
+    float NewG = fmin(G + rkOther.G, 1.f);
+    float NewB = fmin(B + rkOther.B, 1.f);
+    float NewA = fmin(A + rkOther.A, 1.f);
     return CColor(NewR, NewG, NewB, NewA);
 }
 
@@ -110,10 +110,10 @@ void CColor::operator+=(const CColor& rkOther)
 
 CColor CColor::operator-(const CColor& rkOther) const
 {
-    float NewR = fmax(r - rkOther.r, 0.f);
-    float NewG = fmax(g - rkOther.g, 0.f);
-    float NewB = fmax(b - rkOther.b, 0.f);
-    float NewA = fmax(a - rkOther.a, 0.f);
+    float NewR = fmax(R - rkOther.R, 0.f);
+    float NewG = fmax(G - rkOther.G, 0.f);
+    float NewB = fmax(B - rkOther.B, 0.f);
+    float NewA = fmax(A - rkOther.A, 0.f);
     return CColor(NewR, NewG, NewB, NewA);
 }
 
@@ -124,10 +124,10 @@ void CColor::operator-=(const CColor& other)
 
 CColor CColor::operator*(const CColor& rkOther) const
 {
-    float NewR = r * rkOther.r;
-    float NewG = g * rkOther.g;
-    float NewB = b * rkOther.b;
-    float NewA = a * rkOther.a;
+    float NewR = R * rkOther.R;
+    float NewG = G * rkOther.G;
+    float NewB = B * rkOther.B;
+    float NewA = A * rkOther.A;
     return CColor(NewR, NewG, NewB, NewA);
 }
 
@@ -136,26 +136,26 @@ void CColor::operator*=(const CColor& rkOther)
     *this = (*this * rkOther);
 }
 
-CColor CColor::operator*(float other) const
+CColor CColor::operator*(float Other) const
 {
-    float NewR = fmin( fmax(r * other, 0.f), 1.f);
-    float NewG = fmin( fmax(g * other, 0.f), 1.f);
-    float NewB = fmin( fmax(b * other, 0.f), 1.f);
-    float NewA = fmin( fmax(a * other, 0.f), 1.f);
+    float NewR = fmin( fmax(R * Other, 0.f), 1.f);
+    float NewG = fmin( fmax(G * Other, 0.f), 1.f);
+    float NewB = fmin( fmax(B * Other, 0.f), 1.f);
+    float NewA = fmin( fmax(A * Other, 0.f), 1.f);
     return CColor(NewR, NewG, NewB, NewA);
 }
 
-void CColor::operator*=(float other)
+void CColor::operator*=(float Other)
 {
-    *this = (*this * other);
+    *this = (*this * Other);
 }
 
 CColor CColor::operator/(const CColor& rkOther) const
 {
-    float NewR = (rkOther.r == 0.f) ? 0.f : r / rkOther.r;
-    float NewG = (rkOther.g == 0.f) ? 0.f : g / rkOther.g;
-    float NewB = (rkOther.b == 0.f) ? 0.f : b / rkOther.b;
-    float NewA = (rkOther.a == 0.f) ? 0.f : a / rkOther.a;
+    float NewR = (rkOther.R == 0.f) ? 0.f : R / rkOther.R;
+    float NewG = (rkOther.G == 0.f) ? 0.f : G / rkOther.G;
+    float NewB = (rkOther.B == 0.f) ? 0.f : B / rkOther.B;
+    float NewA = (rkOther.A == 0.f) ? 0.f : A / rkOther.A;
     return CColor(NewR, NewG, NewB, NewA);
 }
 
@@ -165,45 +165,45 @@ void CColor::operator/=(const CColor& rkOther)
 }
 
 // ************ STATIC ************
-CColor CColor::Integral(u8 rgba)
+CColor CColor::Integral(u8 RGBA)
 {
-    CColor out;
-    out.SetIntegral(rgba);
-    return out;
+    CColor Out;
+    Out.SetIntegral(RGBA);
+    return Out;
 }
 
-CColor CColor::Integral(u8 _r, u8 _g, u8 _b, u8 _a /*= 255*/)
+CColor CColor::Integral(u8 _R, u8 _G, u8 _B, u8 _A /*= 255*/)
 {
-    CColor out;
-    out.SetIntegral(_r, _g, _b, _a);
-    return out;
+    CColor Out;
+    Out.SetIntegral(_R, _G, _B, _A);
+    return Out;
 }
 
-CColor CColor::RandomColor(bool transparent)
+CColor CColor::RandomColor(bool Transparent)
 {
-    float _r = (rand() % 255) / 255.f;
-    float _g = (rand() % 255) / 255.f;
-    float _b = (rand() % 255) / 255.f;
-    float _a = (transparent ? (rand() % 255) / 255.f : 0);
-    return CColor(_r, _g, _b, _a);
+    float _R = (rand() % 255) / 255.f;
+    float _G = (rand() % 255) / 255.f;
+    float _B = (rand() % 255) / 255.f;
+    float _A = (Transparent ? (rand() % 255) / 255.f : 0);
+    return CColor(_R, _G, _B, _A);
 }
 
-CColor CColor::RandomLightColor(bool transparent)
+CColor CColor::RandomLightColor(bool Transparent)
 {
-    float _r = 0.5f + (rand() % 128) / 255.f;
-    float _g = 0.5f + (rand() % 128) / 255.f;
-    float _b = 0.5f + (rand() % 128) / 255.f;
-    float _a = (transparent ? 0.5f + ((rand() % 128) / 255.f) : 0);
-    return CColor(_r, _g, _b, _a);
+    float _R = 0.5f + (rand() % 128) / 255.f;
+    float _G = 0.5f + (rand() % 128) / 255.f;
+    float _B = 0.5f + (rand() % 128) / 255.f;
+    float _A = (Transparent ? 0.5f + ((rand() % 128) / 255.f) : 0);
+    return CColor(_R, _G, _B, _A);
 }
 
-CColor CColor::RandomDarkColor(bool transparent)
+CColor CColor::RandomDarkColor(bool Transparent)
 {
-    float _r = (rand() % 128) / 255.f;
-    float _g = (rand() % 128) / 255.f;
-    float _b = (rand() % 128) / 255.f;
-    float _a = (transparent ? (rand() % 128) / 255.f : 0);
-    return CColor(_r, _g, _b, _a);
+    float _R = (rand() % 128) / 255.f;
+    float _G = (rand() % 128) / 255.f;
+    float _B = (rand() % 128) / 255.f;
+    float _A = (Transparent ? (rand() % 128) / 255.f : 0);
+    return CColor(_R, _G, _B, _A);
 }
 
 // defining predefined colors

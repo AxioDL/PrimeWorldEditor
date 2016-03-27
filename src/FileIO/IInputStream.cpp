@@ -54,12 +54,12 @@ double IInputStream::ReadDouble()
 std::string IInputStream::ReadString()
 {
     std::string Str;
-    char c = 1;
+    char Chr = 1;
 
-    while ((c != 0) && (!EoF()))
+    while ((Chr != 0) && (!EoF()))
     {
-        c = ReadByte();
-        if (c != 0) Str.push_back(c);
+        Chr = ReadByte();
+        if (Chr != 0) Str.push_back(Chr);
     }
 
     return Str;
@@ -69,8 +69,8 @@ std::string IInputStream::ReadString(unsigned long Count)
 {
     std::string Str(Count, 0);
 
-    for (unsigned long c = 0; c < Count; c++)
-        Str[c] = ReadByte();
+    for (unsigned long iChr = 0; iChr < Count; iChr++)
+        Str[iChr] = ReadByte();
 
     return Str;
 }
@@ -78,12 +78,12 @@ std::string IInputStream::ReadString(unsigned long Count)
 std::wstring IInputStream::ReadWString()
 {
     std::wstring WStr;
-    short c = 1;
+    short Chr = 1;
 
-    while (c != 0)
+    while (Chr != 0)
     {
-        c = ReadShort();
-        if (c != 0) WStr.push_back(c);
+        Chr = ReadShort();
+        if (Chr != 0) WStr.push_back(Chr);
     }
 
     return WStr;

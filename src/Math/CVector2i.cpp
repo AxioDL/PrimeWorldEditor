@@ -2,137 +2,137 @@
 
 CVector2i::CVector2i()
 {
-    x = y = 0;
+    X = Y = 0;
 }
 
-CVector2i::CVector2i(int xy)
+CVector2i::CVector2i(int XY)
 {
-    x = y = xy;
+    X = Y = XY;
 }
 
-CVector2i::CVector2i(int _x, int _y)
+CVector2i::CVector2i(int _X, int _Y)
 {
-    x = _x;
-    y = _y;
+    X = _X;
+    Y = _Y;
 }
 
-CVector2i CVector2i::operator+(const CVector2i& other) const
+CVector2i CVector2i::operator+(const CVector2i& rkOther) const
 {
-    CVector2i out;
-    out.x = this->x + other.x;
-    out.y = this->y + other.y;
-    return out;
+    CVector2i Out;
+    Out.X = this->X + rkOther.X;
+    Out.Y = this->Y + rkOther.Y;
+    return Out;
 }
 
-CVector2i CVector2i::operator-(const CVector2i& other) const
+CVector2i CVector2i::operator-(const CVector2i& rkOther) const
 {
-    CVector2i out;
-    out.x = this->x - other.x;
-    out.y = this->y - other.y;
-    return out;
+    CVector2i Out;
+    Out.X = this->X - rkOther.X;
+    Out.Y = this->Y - rkOther.Y;
+    return Out;
 }
 
-CVector2i CVector2i::operator*(const CVector2i& other) const
+CVector2i CVector2i::operator*(const CVector2i& rkOther) const
 {
-    CVector2i out;
-    out.x = this->x * other.x;
-    out.y = this->y * other.y;
-    return out;
+    CVector2i Out;
+    Out.X = this->X * rkOther.X;
+    Out.Y = this->Y * rkOther.Y;
+    return Out;
 }
 
-CVector2i CVector2i::operator/(const CVector2i& other) const
+CVector2i CVector2i::operator/(const CVector2i& rkOther) const
 {
-    CVector2i out;
-    out.x = this->x / other.x;
-    out.y = this->y / other.y;
-    return out;
+    CVector2i Out;
+    Out.X = this->X / rkOther.X;
+    Out.Y = this->Y / rkOther.Y;
+    return Out;
 }
 
-void CVector2i::operator+=(const CVector2i& other)
+void CVector2i::operator+=(const CVector2i& rkOther)
 {
-    *this = *this + other;
+    *this = *this + rkOther;
 }
 
-void CVector2i::operator-=(const CVector2i& other)
+void CVector2i::operator-=(const CVector2i& rkOther)
 {
-    *this = *this - other;
+    *this = *this - rkOther;
 }
 
-void CVector2i::operator*=(const CVector2i& other)
+void CVector2i::operator*=(const CVector2i& rkOther)
 {
-    *this = *this * other;
+    *this = *this * rkOther;
 }
 
-void CVector2i::operator/=(const CVector2i& other)
+void CVector2i::operator/=(const CVector2i& rkOther)
 {
-    *this = *this / other;
+    *this = *this / rkOther;
 }
 
-CVector2i CVector2i::operator+(const int other) const
+CVector2i CVector2i::operator+(const int Other) const
 {
-    CVector2i out;
-    out.x = this->x + other;
-    out.y = this->y + other;
-    return out;
+    CVector2i Out;
+    Out.X = this->X + Other;
+    Out.Y = this->Y + Other;
+    return Out;
 }
 
-CVector2i CVector2i::operator-(const int other) const
+CVector2i CVector2i::operator-(const int Other) const
 {
-    CVector2i out;
-    out.x = this->x - other;
-    out.y = this->y - other;
-    return out;
+    CVector2i Out;
+    Out.X = this->X - Other;
+    Out.Y = this->Y - Other;
+    return Out;
 }
 
-CVector2i CVector2i::operator*(const int other) const
+CVector2i CVector2i::operator*(const int Other) const
 {
-    CVector2i out;
-    out.x = this->x * other;
-    out.y = this->y * other;
-    return out;
+    CVector2i Out;
+    Out.X = this->X * Other;
+    Out.Y = this->Y * Other;
+    return Out;
 }
 
-CVector2i CVector2i::operator/(const int other) const
+CVector2i CVector2i::operator/(const int Other) const
 {
-    CVector2i out;
-    out.x = this->x / other;
-    out.y = this->y / other;
-    return out;
+    CVector2i Out;
+    Out.X = this->X / Other;
+    Out.Y = this->Y / Other;
+    return Out;
 }
 
-void CVector2i::operator+=(const int other)
+void CVector2i::operator+=(const int Other)
 {
-    *this = *this + other;
+    *this = *this + Other;
 }
 
-void CVector2i::operator-=(const int other)
+void CVector2i::operator-=(const int Other)
 {
-    *this = *this - other;
+    *this = *this - Other;
 }
 
-void CVector2i::operator*=(const int other)
+void CVector2i::operator*=(const int Other)
 {
-    *this = *this * other;
+    *this = *this * Other;
 }
 
-void CVector2i::operator/=(const int other)
+void CVector2i::operator/=(const int Other)
 {
-    *this = *this / other;
+    *this = *this / Other;
 }
 
-bool CVector2i::operator==(const CVector2i& other) const
+bool CVector2i::operator==(const CVector2i& rkOther) const
 {
-    return ((this->x == other.x) && (this->y == other.y));
+    return ((this->X == rkOther.X) && (this->Y == rkOther.Y));
 }
 
-bool CVector2i::operator!=(const CVector2i& other) const
+bool CVector2i::operator!=(const CVector2i& rkOther) const
 {
-    return (!(*this == other));
+    return (!(*this == rkOther));
 }
 
-int& CVector2i::operator[](int index)
+int& CVector2i::operator[](int Index)
 {
-    return (&x)[index];
+    return (&X)[Index];
 }
 
 // ************ STATIC MEMBER INTIALIZATION ************

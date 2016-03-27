@@ -7,13 +7,13 @@
 
 #include <GL/glew.h>
 
-CBasicViewport::CBasicViewport(QWidget *pParent) :
-    QOpenGLWidget(pParent),
-    mLastDrawTime(CTimer::GlobalTime()),
-    mKeysPressed(0),
-    mButtonsPressed(0),
-    mCursorState(Qt::ArrowCursor),
-    mCursorVisible(true)
+CBasicViewport::CBasicViewport(QWidget *pParent)
+    : QOpenGLWidget(pParent)
+    , mLastDrawTime(CTimer::GlobalTime())
+    , mKeysPressed(0)
+    , mButtonsPressed(0)
+    , mCursorState(Qt::ArrowCursor)
+    , mCursorVisible(true)
 {
     setMouseTracking(true);
     mCamera.SetAspectRatio((float) width() / height());
@@ -65,10 +65,10 @@ void CBasicViewport::paintGL()
         DrawAxes();
 }
 
-void CBasicViewport::resizeGL(int w, int h)
+void CBasicViewport::resizeGL(int Width, int Height)
 {
-    mCamera.SetAspectRatio((float) w / h);
-    glViewport(0, 0, w, h);
+    mCamera.SetAspectRatio((float) Width / Height);
+    glViewport(0, 0, Width, Height);
     OnResize();
 }
 
@@ -183,19 +183,19 @@ void CBasicViewport::SetGameMode(bool Enabled)
     mViewInfo.GameMode = Enabled;
 }
 
-void CBasicViewport::SetCursorState(const QCursor &Cursor)
+void CBasicViewport::SetCursorState(const QCursor& rkCursor)
 {
-    mCursorState = Cursor;
+    mCursorState = rkCursor;
 
     if (IsCursorVisible())
-        setCursor(Cursor);
+        setCursor(rkCursor);
 }
 
-void CBasicViewport::SetCursorVisible(bool visible)
+void CBasicViewport::SetCursorVisible(bool Visible)
 {
-    mCursorVisible = visible;
+    mCursorVisible = Visible;
 
-    if (visible)
+    if (Visible)
         setCursor(mCursorState);
     else
         setCursor(Qt::BlankCursor);
@@ -272,11 +272,11 @@ void CBasicViewport::ProcessInput()
             mCamera.ProcessKeyInput((FKeyInputs) mKeysPressed, DeltaTime);
 
     // Update view info
-    const CMatrix4f& View = mCamera.ViewMatrix();
-    mViewInfo.RotationOnlyViewMatrix = CMatrix4f(View[0][0], View[0][1], View[0][2], 0.f,
-                                                 View[1][0], View[1][1], View[1][2], 0.f,
-                                                 View[2][0], View[2][1], View[2][2], 0.f,
-                                                 View[3][0], View[3][1], View[3][2], 1.f);
+    const CMatrix4f& rkView = mCamera.ViewMatrix();
+    mViewInfo.RotationOnlyViewMatrix = CMatrix4f(rkView[0][0], rkView[0][1], rkView[0][2], 0.f,
+                                                 rkView[1][0], rkView[1][1], rkView[1][2], 0.f,
+                                                 rkView[2][0], rkView[2][1], rkView[2][2], 0.f,
+                                                 rkView[3][0], rkView[3][1], rkView[3][2], 1.f);
 
     mViewInfo.ViewFrustum = mCamera.FrustumPlanes();
 

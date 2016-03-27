@@ -14,11 +14,36 @@ class CSectionMgrOut
     std::vector<u32> mSectionSizes;
 
 public:
-    CSectionMgrOut();
-    void SetSectionCount(u32 Count);
-    void Init(const IOutputStream& OutputStream);
-    void AddSize(IOutputStream& OutputStream);
-    void WriteSizes(IOutputStream& OutputStream);
+    CSectionMgrOut()
+        : mSectionCount(0)
+        , mCurSectionStart(0)
+        , mCurSectionIndex(0)
+    {}
+
+    void SetSectionCount(u32 Count)
+    {
+        mSectionCount = Count;
+        mSectionSizes.resize(Count);
+    }
+
+    void Init(const IOutputStream& rOut)
+    {
+        mCurSectionStart = rOut.Tell();
+        mCurSectionIndex = 0;
+    }
+
+    void AddSize(IOutputStream& rOut)
+    {
+        mSectionSizes[mCurSectionIndex] = rOut.Tell() - mCurSectionStart;
+        mCurSectionIndex++;
+        mCurSectionStart = rOut.Tell();
+    }
+
+    void WriteSizes(IOutputStream& rOut)
+    {
+        for (u32 iSec = 0; iSec < mSectionCount; iSec++)
+            rOut.WriteLong(mSectionSizes[iSec]);
+    }
 };
 
 #endif // CBLOCKMGROUT_H

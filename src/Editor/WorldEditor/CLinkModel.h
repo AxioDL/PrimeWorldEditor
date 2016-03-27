@@ -14,11 +14,11 @@ class CLinkModel : public QAbstractTableModel
 public:
     explicit CLinkModel(QObject *pParent = 0);
     void SetObject(CScriptObject *pObj);
-    void SetConnectionType(ELinkType type);
-    int rowCount(const QModelIndex& parent = QModelIndex()) const;
-    int columnCount(const QModelIndex &parent) const;
-    QVariant data(const QModelIndex &index, int role) const;
-    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+    void SetConnectionType(ELinkType Type);
+    int rowCount(const QModelIndex& rkParent = QModelIndex()) const;
+    int columnCount(const QModelIndex& rkParent) const;
+    QVariant data(const QModelIndex& rkIndex, int Role) const;
+    QVariant headerData(int Section, Qt::Orientation Orientation, int Role) const;
 };
 
 #endif // CCONNECTIONMODEL_H

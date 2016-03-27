@@ -6,10 +6,10 @@ static const u32 gskAttribSize[] = {
 };
 
 CDynamicVertexBuffer::CDynamicVertexBuffer()
+    : mAttribFlags(eNoAttributes)
+    , mBufferedFlags(eNoAttributes)
+    , mNumVertices(0)
 {
-    mAttribFlags = eNoAttributes;
-    mBufferedFlags = eNoAttributes;
-    mNumVertices = 0;
 }
 
 CDynamicVertexBuffer::~CDynamicVertexBuffer()
@@ -42,7 +42,7 @@ void CDynamicVertexBuffer::SetActiveAttribs(FVertexDescription AttribFlags)
     InitBuffers();
 }
 
-void CDynamicVertexBuffer::BufferAttrib(EVertexAttribute Attrib, const void *pData)
+void CDynamicVertexBuffer::BufferAttrib(EVertexAttribute Attrib, const void *pkData)
 {
     u32 Index;
 
@@ -64,16 +64,16 @@ void CDynamicVertexBuffer::BufferAttrib(EVertexAttribute Attrib, const void *pDa
     }
 
     glBindBuffer(GL_ARRAY_BUFFER, mAttribBuffers[Index]);
-    glBufferSubData(GL_ARRAY_BUFFER, 0, gskAttribSize[Index] * mNumVertices, pData);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, gskAttribSize[Index] * mNumVertices, pkData);
 }
 
 void CDynamicVertexBuffer::ClearBuffers()
 {
     for (u32 iAttrib = 0; iAttrib < 12; iAttrib++)
     {
-        int bit = 1 << iAttrib;
+        int Bit = 1 << iAttrib;
 
-        if (mBufferedFlags & bit)
+        if (mBufferedFlags & Bit)
             glDeleteBuffers(1, &mAttribBuffers[iAttrib]);
     }
 

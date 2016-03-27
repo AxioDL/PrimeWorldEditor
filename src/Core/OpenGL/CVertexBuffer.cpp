@@ -21,25 +21,25 @@ CVertexBuffer::~CVertexBuffer()
         glDeleteBuffers(12, mAttribBuffers);
 }
 
-u16 CVertexBuffer::AddVertex(const CVertex& Vert)
+u16 CVertexBuffer::AddVertex(const CVertex& rkVtx)
 {
     if (mPositions.size() == 0xFFFF) throw std::overflow_error("VBO contains too many vertices");
 
-    if (mVtxDesc & ePosition) mPositions.push_back(Vert.Position);
-    if (mVtxDesc & eNormal)   mNormals.push_back(Vert.Normal);
-    if (mVtxDesc & eColor0)   mColors[0].push_back(Vert.Color[0]);
-    if (mVtxDesc & eColor1)   mColors[1].push_back(Vert.Color[1]);
+    if (mVtxDesc & ePosition) mPositions.push_back(rkVtx.Position);
+    if (mVtxDesc & eNormal)   mNormals.push_back(rkVtx.Normal);
+    if (mVtxDesc & eColor0)   mColors[0].push_back(rkVtx.Color[0]);
+    if (mVtxDesc & eColor1)   mColors[1].push_back(rkVtx.Color[1]);
 
     for (u32 iTex = 0; iTex < 8; iTex++)
-        if (mVtxDesc & (eTex0 << (iTex * 2))) mTexCoords[iTex].push_back(Vert.Tex[iTex]);
+        if (mVtxDesc & (eTex0 << (iTex * 2))) mTexCoords[iTex].push_back(rkVtx.Tex[iTex]);
 
     for (u32 iMtx = 0; iMtx < 8; iMtx++)
-        if (mVtxDesc & (ePosMtx << iMtx)) mTexCoords[iMtx].push_back(Vert.MatrixIndices[iMtx]);
+        if (mVtxDesc & (ePosMtx << iMtx)) mTexCoords[iMtx].push_back(rkVtx.MatrixIndices[iMtx]);
 
     return (mPositions.size() - 1);
 }
 
-u16 CVertexBuffer::AddIfUnique(const CVertex& Vert, u16 Start)
+u16 CVertexBuffer::AddIfUnique(const CVertex& rkVtx, u16 Start)
 {
     if (Start < mPositions.size())
     {
@@ -49,21 +49,21 @@ u16 CVertexBuffer::AddIfUnique(const CVertex& Vert, u16 Start)
             bool Unique = false;
 
             if (mVtxDesc & ePosition)
-                if (Vert.Position != mPositions[iVert]) Unique = true;
+                if (rkVtx.Position != mPositions[iVert]) Unique = true;
 
             if ((!Unique) && (mVtxDesc & eNormal))
-                if (Vert.Normal != mNormals[iVert]) Unique = true;
+                if (rkVtx.Normal != mNormals[iVert]) Unique = true;
 
             if ((!Unique) && (mVtxDesc & eColor0))
-                if (Vert.Color[0] != mColors[0][iVert]) Unique = true;
+                if (rkVtx.Color[0] != mColors[0][iVert]) Unique = true;
 
             if ((!Unique) && (mVtxDesc & eColor1))
-                if (Vert.Color[1] != mColors[1][iVert]) Unique = true;
+                if (rkVtx.Color[1] != mColors[1][iVert]) Unique = true;
 
             if (!Unique)
                 for (u32 iTex = 0; iTex < 8; iTex++)
                     if ((mVtxDesc & (eTex0 << (iTex * 2))))
-                        if (Vert.Tex[iTex] != mTexCoords[iTex][iVert])
+                        if (rkVtx.Tex[iTex] != mTexCoords[iTex][iVert])
                         {
                             Unique = true;
                             break;
@@ -73,12 +73,12 @@ u16 CVertexBuffer::AddIfUnique(const CVertex& Vert, u16 Start)
         }
     }
 
-    return AddVertex(Vert);
+    return AddVertex(rkVtx);
 }
 
-void CVertexBuffer::Reserve(u16 size)
+void CVertexBuffer::Reserve(u16 Size)
 {
-    u32 ReserveSize = mPositions.size() + size;
+    u32 ReserveSize = mPositions.size() + Size;
 
     if (mVtxDesc & ePosition)
         mPositions.reserve(ReserveSize);
@@ -140,18 +140,18 @@ void CVertexBuffer::Buffer()
 
         else if (iAttrib < 4)
         {
-            u8 idx = (u8) (iAttrib - 2);
+            u8 Index = (u8) (iAttrib - 2);
 
             glBindBuffer(GL_ARRAY_BUFFER, mAttribBuffers[iAttrib]);
-            glBufferData(GL_ARRAY_BUFFER, mColors[idx].size() * sizeof(CColor), mColors[idx].data(), GL_STATIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, mColors[Index].size() * sizeof(CColor), mColors[Index].data(), GL_STATIC_DRAW);
         }
 
         else
         {
-            u8 idx = (u8) (iAttrib - 4);
+            u8 Index = (u8) (iAttrib - 4);
 
             glBindBuffer(GL_ARRAY_BUFFER, mAttribBuffers[iAttrib]);
-            glBufferData(GL_ARRAY_BUFFER, mTexCoords[idx].size() * sizeof(CVector2f), mTexCoords[idx].data(), GL_STATIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, mTexCoords[Index].size() * sizeof(CVector2f), mTexCoords[Index].data(), GL_STATIC_DRAW);
         }
     }
 

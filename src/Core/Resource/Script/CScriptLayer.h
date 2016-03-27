@@ -101,14 +101,14 @@ public:
 
     inline u32 AreaIndex() const
     {
-        for (u32 iLyr = 0; iLyr < mpArea->GetScriptLayerCount(); iLyr++)
+        for (u32 iLyr = 0; iLyr < mpArea->NumScriptLayers(); iLyr++)
         {
-            if (mpArea->GetScriptLayer(iLyr) == this)
+            if (mpArea->ScriptLayer(iLyr) == this)
                 return iLyr;
         }
 
-        if (mpArea->GetGeneratorLayer() == this)
-            return mpArea->GetScriptLayerCount();
+        if (mpArea->GeneratedObjectsLayer() == this)
+            return mpArea->NumScriptLayers();
 
         return -1;
     }

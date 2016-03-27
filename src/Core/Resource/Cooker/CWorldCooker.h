@@ -8,7 +8,7 @@ class CWorldCooker
 {
     CWorldCooker();
 public:
-    static u32 GetMLVLVersion(EGame version);
+    static u32 GetMLVLVersion(EGame Version);
 };
 
 #endif // CWORLDCOOKER_H

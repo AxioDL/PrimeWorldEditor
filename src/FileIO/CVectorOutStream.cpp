@@ -1,39 +1,39 @@
 #include "CVectorOutStream.h"
 
 CVectorOutStream::CVectorOutStream()
+    : mpVector(new std::vector<char>)
+    , mOwnsVector(true)
+    , mPos(0)
+    , mUsed(0)
 {
     mDataEndianness = IOUtil::eBigEndian;
-    mpVector = new std::vector<char>;
-    mOwnsVector = true;
-    mPos = 0;
-    mUsed = 0;
 }
 
 CVectorOutStream::CVectorOutStream(IOUtil::EEndianness DataEndianness)
+    : mpVector(new std::vector<char>)
+    , mOwnsVector(true)
+    , mPos(0)
+    , mUsed(0)
 {
     mDataEndianness = DataEndianness;
-    mpVector = new std::vector<char>;
-    mOwnsVector = true;
-    mPos = 0;
-    mUsed = 0;
 }
 
 CVectorOutStream::CVectorOutStream(unsigned long InitialSize, IOUtil::EEndianness DataEndianness)
+    : mpVector(new std::vector<char>(InitialSize))
+    , mOwnsVector(true)
+    , mPos(0)
+    , mUsed(0)
 {
     mDataEndianness = DataEndianness;
-    mpVector = new std::vector<char>(InitialSize);
-    mOwnsVector = true;
-    mPos = 0;
-    mUsed = 0;
 }
 
 CVectorOutStream::CVectorOutStream(std::vector<char> *pVector, IOUtil::EEndianness DataEndianness)
+    : mpVector(pVector)
+    , mOwnsVector(false)
+    , mPos(0)
+    , mUsed(0)
 {
     mDataEndianness = DataEndianness;
-    mpVector = pVector;
-    mOwnsVector = false;
-    mPos = 0;
-    mUsed = 0;
 }
 
 CVectorOutStream::~CVectorOutStream()
@@ -75,7 +75,8 @@ bool CVectorOutStream::Seek(long Offset, long Origin)
             return false;
     }
 
-    if (mPos < 0) {
+    if (mPos < 0)
+    {
         mPos = 0;
         return false;
     }

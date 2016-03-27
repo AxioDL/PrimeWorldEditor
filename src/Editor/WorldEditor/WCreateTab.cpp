@@ -72,8 +72,8 @@ void WCreateTab::OnLayersChanged()
     ui->SpawnLayerComboBox->blockSignals(true);
     ui->SpawnLayerComboBox->clear();
 
-    for (u32 iLyr = 0; iLyr < pArea->GetScriptLayerCount(); iLyr++)
-        ui->SpawnLayerComboBox->addItem(TO_QSTRING(pArea->GetScriptLayer(iLyr)->Name()));
+    for (u32 iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
+        ui->SpawnLayerComboBox->addItem(TO_QSTRING(pArea->ScriptLayer(iLyr)->Name()));
 
     ui->SpawnLayerComboBox->setCurrentIndex(0);
     ui->SpawnLayerComboBox->blockSignals(false);
@@ -84,5 +84,5 @@ void WCreateTab::OnLayersChanged()
 void WCreateTab::OnSpawnLayerChanged(int LayerIndex)
 {
     CGameArea *pArea = mpEditor->ActiveArea();
-    mpSpawnLayer = pArea->GetScriptLayer(LayerIndex);
+    mpSpawnLayer = pArea->ScriptLayer(LayerIndex);
 }

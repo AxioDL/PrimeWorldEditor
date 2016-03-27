@@ -25,7 +25,7 @@ class CAreaLoader
     std::unordered_map<u32, std::vector<CLink*>> mConnectionMap;
 
     // Compression
-    u8 *mDecmpBuffer;
+    u8 *mpDecmpBuffer;
     bool mHasDecompressedBuffer;
     std::vector<SCompressedCluster> mClusters;
     u32 mTotalDecmpSize;
@@ -80,8 +80,8 @@ class CAreaLoader
     void SetUpObjects();
 
 public:
-    static CGameArea* LoadMREA(IInputStream& MREA);
-    static EGame GetFormatVersion(u32 version);
+    static CGameArea* LoadMREA(IInputStream& rMREA);
+    static EGame GetFormatVersion(u32 Version);
 };
 
 #endif // CAREALOADER_H
