@@ -62,15 +62,19 @@ void WColorPicker::mouseReleaseEvent(QMouseEvent *pEvent)
 {
     if ((pEvent->x() < width()) && (pEvent->y() < height()))
     {
-        QColorDialog ColorPick;
+        mOldColor = mColor;
+
+        QColorDialog ColorPick(this);
         ColorPick.setOptions(QColorDialog::ShowAlphaChannel);
         ColorPick.setCurrentColor(mColor);
+        connect(&ColorPick, SIGNAL(currentColorChanged(QColor)), this, SLOT(DialogColorChanged(QColor)));
+        connect(&ColorPick, SIGNAL(rejected()), this, SLOT(DialogRejected()));
         int Result = ColorPick.exec();
 
         if (Result)
         {
             mColor = ColorPick.currentColor();
-            emit ColorChanged(mColor);
+            emit ColorEditComplete(mColor);
         }
     }
 }
@@ -85,7 +89,19 @@ void WColorPicker::SetColor(QColor Color)
     if (mColor != Color)
     {
         mColor = Color;
-        emit ColorChanged(mColor);
+        emit ColorEditComplete(mColor);
         update();
     }
+}
+
+void WColorPicker::DialogColorChanged(QColor NewColor)
+{
+    mColor = NewColor;
+    emit ColorChanged(mColor);
+    update();
+}
+
+void WColorPicker::DialogRejected()
+{
+    SetColor(mOldColor);
 }

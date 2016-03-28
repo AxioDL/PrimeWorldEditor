@@ -280,6 +280,7 @@ void CScene::ClearScene()
     mNodes.clear();
     mAreaAttributesObjects.clear();
     mNodeMap.clear();
+    mScriptMap.clear();
     mNumNodes = 0;
 
     mpArea = nullptr;
@@ -335,7 +336,7 @@ CScriptNode* CScene::NodeForInstanceID(u32 InstanceID)
 
 CScriptNode* CScene::NodeForInstance(CScriptObject *pObj)
 {
-    return NodeForInstanceID(pObj->InstanceID());
+    return (pObj ? NodeForInstanceID(pObj->InstanceID()) : nullptr);
 }
 
 CLightNode* CScene::NodeForLight(CLight *pLight)

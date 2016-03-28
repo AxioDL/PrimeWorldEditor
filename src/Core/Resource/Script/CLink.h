@@ -75,10 +75,13 @@ public:
     {
         CScriptObject *pSender = mpArea->InstanceByID(mSenderID);
 
-        for (u32 iLink = 0; iLink < pSender->NumLinks(eOutgoing); iLink++)
+        if (pSender)
         {
-            if (pSender->Link(eOutgoing, iLink) == this)
-                return iLink;
+            for (u32 iLink = 0; iLink < pSender->NumLinks(eOutgoing); iLink++)
+            {
+                if (pSender->Link(eOutgoing, iLink) == this)
+                    return iLink;
+            }
         }
 
         return -1;
@@ -88,10 +91,13 @@ public:
     {
         CScriptObject *pReceiver = mpArea->InstanceByID(mReceiverID);
 
-        for (u32 iLink = 0; iLink < pReceiver->NumLinks(eIncoming); iLink++)
+        if (pReceiver)
         {
-            if (pReceiver->Link(eIncoming, iLink) == this)
-                return iLink;
+            for (u32 iLink = 0; iLink < pReceiver->NumLinks(eIncoming); iLink++)
+            {
+                if (pReceiver->Link(eIncoming, iLink) == this)
+                    return iLink;
+            }
         }
 
         return -1;
