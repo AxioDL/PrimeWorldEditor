@@ -84,26 +84,26 @@ public:
 
     CVector3f Position() const                  { return mpPosition ? mpPosition->Get() : CVector3f::skZero; }
     CVector3f Rotation() const                  { return mpRotation ? mpRotation->Get() : CVector3f::skZero; }
-    CVector3f Scale() const                     { return mpScale ? mpScale->Get() : CVector3f::skZero; }
+    CVector3f Scale() const                     { return mpScale ? mpScale->Get() : CVector3f::skOne; }
     TString InstanceName() const                { return mpInstanceName ? mpInstanceName->Get() : ""; }
     bool IsActive() const                       { return mpActive ? mpActive->Get() : false; }
     bool HasInGameModel() const                 { return mHasInGameModel; }
+    CPropertyStruct* LightParameters() const    { return mpLightParameters; }
+    CModel* DisplayModel() const                { return mpDisplayModel; }
+    CTexture* Billboard() const                 { return mpBillboard; }
+    CCollisionMeshGroup* Collision() const      { return mpCollision; }
+    EVolumeShape VolumeShape() const            { return mVolumeShape; }
+    float VolumeScale() const                   { return mVolumeScale; }
     void SetPosition(const CVector3f& rkNewPos) { if (mpPosition) mpPosition->Set(rkNewPos); }
     void SetRotation(const CVector3f& rkNewRot) { if (mpRotation) mpRotation->Set(rkNewRot); }
     void SetScale(const CVector3f& rkNewScale)  { if (mpScale) mpScale->Set(rkNewScale); }
     void SetName(const TString& rkNewName)      { if (mpInstanceName) mpInstanceName->Set(rkNewName); }
     void SetActive(bool Active)                 { if (mpActive) mpActive->Set(Active); }
-    CPropertyStruct* LightParameters() const    { return mpLightParameters; }
-    CModel* GetDisplayModel() const             { return mpDisplayModel; }
-    CTexture* GetBillboard() const              { return mpBillboard; }
-    CCollisionMeshGroup* GetCollision() const   { return mpCollision; }
-    EVolumeShape VolumeShape() const            { return mVolumeShape; }
-    float VolumeScale() const                   { return mVolumeScale; }
 
-    TStringProperty*    InstanceNameProperty() const    { return mpInstanceName; }
     TVector3Property*   PositionProperty() const        { return mpPosition; }
     TVector3Property*   RotationProperty() const        { return mpRotation; }
     TVector3Property*   ScaleProperty() const           { return mpScale; }
+    TStringProperty*    InstanceNameProperty() const    { return mpInstanceName; }
     TBoolProperty*      ActiveProperty() const          { return mpActive; }
 };
 
