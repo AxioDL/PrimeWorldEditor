@@ -2396,8 +2396,8 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionOpen"/>
-   <addaction name="actionSave"/>
+   <addaction name="ActionOpen"/>
+   <addaction name="ActionSave"/>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -2412,29 +2412,29 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionOpen"/>
-    <addaction name="actionSave"/>
-    <addaction name="actionSave_as"/>
-    <addaction name="actionImport"/>
+    <addaction name="ActionOpen"/>
+    <addaction name="ActionSave"/>
+    <addaction name="ActionSaveAs"/>
+    <addaction name="ActionImport"/>
     <addaction name="separator"/>
-    <addaction name="actionExit"/>
+    <addaction name="ActionExit"/>
    </widget>
    <widget class="QMenu" name="menuTextures">
     <property name="title">
      <string>Textures</string>
     </property>
-    <addaction name="actionConvert_to_DDS"/>
-    <addaction name="actionConvert_DDS_to_TXTR"/>
+    <addaction name="ActionConvertToDDS"/>
+    <addaction name="ActionConvertToTXTR"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuTextures"/>
   </widget>
-  <action name="actionOpen">
+  <action name="ActionOpen">
    <property name="text">
     <string>Open</string>
    </property>
   </action>
-  <action name="actionExit">
+  <action name="ActionExit">
    <property name="text">
     <string>Exit</string>
    </property>
@@ -2442,32 +2442,32 @@
     <string>Esc</string>
    </property>
   </action>
-  <action name="actionSave">
+  <action name="ActionSave">
    <property name="text">
     <string>Save</string>
    </property>
   </action>
-  <action name="actionConvert_to_DDS">
+  <action name="ActionConvertToDDS">
    <property name="text">
     <string>Export to DDS</string>
    </property>
   </action>
-  <action name="actionExport_curent_model_s_textures">
+  <action name="ActionExportCurrentModelTextures">
    <property name="text">
     <string>Export curent model's textures</string>
    </property>
   </action>
-  <action name="actionImport">
+  <action name="ActionImport">
    <property name="text">
     <string>Import</string>
    </property>
   </action>
-  <action name="actionSave_as">
+  <action name="ActionSaveAs">
    <property name="text">
     <string>Save as...</string>
    </property>
   </action>
-  <action name="actionConvert_DDS_to_TXTR">
+  <action name="ActionConvertToTXTR">
    <property name="text">
     <string>Convert DDS to TXTR</string>
    </property>
@@ -2485,7 +2485,7 @@
    <header>Editor/Widgets/WColorPicker.h</header>
    <container>1</container>
    <slots>
-    <signal>colorChanged(QColor)</signal>
+    <signal>ColorChanged(QColor)</signal>
    </slots>
   </customwidget>
   <customwidget>

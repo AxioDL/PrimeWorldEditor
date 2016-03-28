@@ -97,7 +97,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
         case eColorProperty:
         {
             WColorPicker *pColorPicker = new WColorPicker(pParent);
-            CONNECT_RELAY(pColorPicker, rkIndex, colorChanged(QColor));
+            CONNECT_RELAY(pColorPicker, rkIndex, ColorChanged(QColor));
             pOut = pColorPicker;
             break;
         }
@@ -265,14 +265,8 @@ void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkInd
                     WColorPicker *pColorPicker = static_cast<WColorPicker*>(pEditor);
                     TColorProperty *pColor = static_cast<TColorProperty*>(pProp);
 
-                    CColor SrcColor = pColor->Get();
-                    QColor Color;
-                    Color.setRed(SrcColor.R * 255);
-                    Color.setGreen(SrcColor.G * 255);
-                    Color.setBlue(SrcColor.B * 255);
-                    Color.setAlpha(SrcColor.A * 255);
-
-                    pColorPicker->SetColor(Color);
+                    CColor Color = pColor->Get();
+                    pColorPicker->SetColor(TO_QCOLOR(Color));
                     break;
                 }
 
@@ -430,13 +424,8 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
             WColorPicker *pColorPicker = static_cast<WColorPicker*>(pEditor);
             TColorProperty *pColor = static_cast<TColorProperty*>(pProp);
 
-            QColor SrcColor = pColorPicker->Color();
-            CColor Color;
-            Color.R = SrcColor.red() / 255.f;
-            Color.G = SrcColor.green() / 255.f;
-            Color.B = SrcColor.blue() / 255.f;
-            Color.A = SrcColor.alpha() / 255.f;
-            pColor->Set(Color);
+            QColor Color = pColorPicker->Color();
+            pColor->Set(TO_CCOLOR(Color));
             break;
         }
 

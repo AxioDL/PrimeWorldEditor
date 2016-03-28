@@ -5,9 +5,11 @@
 #include <QMap>
 #include <QString>
 
-#define TO_QSTRING(str) UICommon::ToQString(str)
-#define TO_TSTRING(str) UICommon::ToTString(str)
-#define TO_TWIDESTRING(str) UICommon::ToTWideString(str)
+#define TO_QSTRING(Str) UICommon::ToQString(Str)
+#define TO_TSTRING(Str) UICommon::ToTString(Str)
+#define TO_TWIDESTRING(Str) UICommon::ToTWideString(Str)
+#define TO_CCOLOR(Clr) CColor::Integral(Clr.red(), Clr.green(), Clr.blue(), Clr.alpha())
+#define TO_QCOLOR(Clr) QColor(Clr.R * 255, Clr.G * 255, Clr.B * 255, Clr.A * 255)
 
 namespace UICommon
 {

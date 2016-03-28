@@ -98,28 +98,18 @@ private:
     };
 
 private slots:
-    void on_actionConvert_to_DDS_triggered();
-
-    void on_actionOpen_triggered();
-    void on_actionSave_triggered();
-
-    void on_MeshPreviewButton_clicked();
-
-    void on_SpherePreviewButton_clicked();
-
-    void on_FlatPreviewButton_clicked();
-
-    void on_ClearColorPicker_colorChanged(const QColor &);
-
-    void on_actionImport_triggered();
-
-    void on_actionSave_as_triggered();
-
-    void on_CameraModeButton_clicked();
-
-    void on_actionConvert_DDS_to_TXTR_triggered();
-
-    void on_ToggleGridButton_toggled(bool checked);
+    void Open();
+    void Import();
+    void Save();
+    void SaveAs();
+    void ConvertToDDS();
+    void ConvertToTXTR();
+    void SetMeshPreview();
+    void SetSpherePreview();
+    void SetFlatPreview();
+    void ClearColorChanged(const QColor& rkNewColor);
+    void ToggleCameraMode();
+    void ToggleGrid(bool Enabled);
 
 signals:
     void Closed();
