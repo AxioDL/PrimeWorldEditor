@@ -25,7 +25,7 @@ class CStringTable : public CResource
 public:
     CStringTable() {}
 
-    inline u32 NumStrings() const               { return mLangTables.size(); }
+    inline u32 NumStrings() const               { return mNumStrings; }
     inline u32 NumLanguages() const             { return mLangTables.size(); }
     inline CFourCC LanguageTag(u32 Index) const { return mLangTables[Index].Language; }
     inline TWideString String(u32 LangIndex, u32 StringIndex) const    { return mLangTables[LangIndex].Strings[StringIndex]; }

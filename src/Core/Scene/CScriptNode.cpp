@@ -17,7 +17,6 @@ CScriptNode::CScriptNode(CScene *pScene, u32 NodeID, CSceneNode *pParent, CScrip
     , mpInstance(pInstance)
     , mpBillboard(nullptr)
 {
-
     // Evaluate instance
     SetActiveModel(nullptr);
     mpCollisionNode = new CCollisionNode(pScene, -1, this);
@@ -37,9 +36,9 @@ CScriptNode::CScriptNode(CScene *pScene, u32 NodeID, CSceneNode *pParent, CScrip
         SetName("[" + pTemp->Name() + "] " + mpInstance->InstanceName());
 
         // Determine display assets
-        SetActiveModel(mpInstance->GetDisplayModel());
-        mpBillboard = mpInstance->GetBillboard();
-        mpCollisionNode->SetCollision(mpInstance->GetCollision());
+        SetActiveModel(mpInstance->DisplayModel());
+        mpBillboard = mpInstance->Billboard();
+        mpCollisionNode->SetCollision(mpInstance->Collision());
 
         // Create preview volume node
         mpVolumePreviewNode = new CModelNode(pScene, -1, this, nullptr);
@@ -450,7 +449,7 @@ void CScriptNode::PropertyModified(IProperty *pProp)
     if (pProp->Type() == eCharacterProperty)
     {
         mpInstance->EvaluateDisplayModel();
-        SetActiveModel(mpInstance->GetDisplayModel());
+        SetActiveModel(mpInstance->DisplayModel());
     }
     else if (pProp->Type() == eFileProperty)
     {
@@ -459,17 +458,17 @@ void CScriptNode::PropertyModified(IProperty *pProp)
         if (pFile->AcceptsExtension("CMDL") || pFile->AcceptsExtension("ANCS") || pFile->AcceptsExtension("CHAR"))
         {
             mpInstance->EvaluateDisplayModel();
-            SetActiveModel(mpInstance->GetDisplayModel());
+            SetActiveModel(mpInstance->DisplayModel());
         }
         else if (pFile->AcceptsExtension("TXTR"))
         {
             mpInstance->EvaluateBillboard();
-            mpBillboard = mpInstance->GetBillboard();
+            mpBillboard = mpInstance->Billboard();
         }
         else if (pFile->AcceptsExtension("DCLN"))
         {
             mpInstance->EvaluateCollisionModel();
-            mpCollisionNode->SetCollision(mpInstance->GetCollision());
+            mpCollisionNode->SetCollision(mpInstance->Collision());
         }
     }
 
