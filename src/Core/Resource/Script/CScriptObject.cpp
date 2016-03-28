@@ -193,14 +193,16 @@ void CScriptObject::BreakAllLinks()
     for (auto it = mInLinks.begin(); it != mInLinks.end(); it++)
     {
         CLink *pLink = *it;
-        pLink->Sender()->RemoveLink(eOutgoing, pLink);
+        CScriptObject *pSender = pLink->Sender();
+        if (pSender) pSender->RemoveLink(eOutgoing, pLink);
         delete pLink;
     }
 
     for (auto it = mOutLinks.begin(); it != mOutLinks.end(); it++)
     {
         CLink *pLink = *it;
-        pLink->Receiver()->RemoveLink(eIncoming, pLink);
+        CScriptObject *pReceiver = pLink->Receiver();
+        if (pReceiver) pReceiver->RemoveLink(eIncoming, pLink);
         delete pLink;
     }
 

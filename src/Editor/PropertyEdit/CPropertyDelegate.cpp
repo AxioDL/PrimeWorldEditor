@@ -19,9 +19,11 @@
 
 // This macro should be used on every widget where changes should be reflected in realtime and not just when the edit is finished.
 #define CONNECT_RELAY(Widget, Index, Signal) \
+    { \
     CPropertyRelay *pRelay = new CPropertyRelay(Widget, Index); \
     connect(Widget, SIGNAL(Signal), pRelay, SLOT(OnWidgetEdited())); \
-    connect(pRelay, SIGNAL(WidgetEdited(QWidget*, const QModelIndex&)), this, SLOT(WidgetEdited(QWidget*, const QModelIndex&)))
+    connect(pRelay, SIGNAL(WidgetEdited(QWidget*, const QModelIndex&)), this, SLOT(WidgetEdited(QWidget*, const QModelIndex&))); \
+    }
 
 CPropertyDelegate::CPropertyDelegate(QObject *pParent /*= 0*/)
     : QStyledItemDelegate(pParent)
@@ -57,7 +59,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
         case eBoolProperty:
         {
             QCheckBox *pCheckBox = new QCheckBox(pParent);
-            CONNECT_RELAY(pCheckBox, rkIndex, toggled(bool));
+            CONNECT_RELAY(pCheckBox, rkIndex, toggled(bool))
             pOut = pCheckBox;
             break;
         }
@@ -68,7 +70,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
             pSpinBox->setMinimum(INT16_MIN);
             pSpinBox->setMaximum(INT16_MAX);
             pSpinBox->setSuffix(TO_QSTRING(pProp->Template()->Suffix()));
-            CONNECT_RELAY(pSpinBox, rkIndex, valueChanged(int));
+            CONNECT_RELAY(pSpinBox, rkIndex, valueChanged(int))
             pOut = pSpinBox;
             break;
         }
@@ -79,7 +81,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
             pSpinBox->setMinimum(INT32_MIN);
             pSpinBox->setMaximum(INT32_MAX);
             pSpinBox->setSuffix(TO_QSTRING(pProp->Template()->Suffix()));
-            CONNECT_RELAY(pSpinBox, rkIndex, valueChanged(int));
+            CONNECT_RELAY(pSpinBox, rkIndex, valueChanged(int))
             pOut = pSpinBox;
             break;
         }
@@ -89,7 +91,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
             WDraggableSpinBox *pSpinBox = new WDraggableSpinBox(pParent);
             pSpinBox->setSingleStep(0.1);
             pSpinBox->setSuffix(TO_QSTRING(pProp->Template()->Suffix()));
-            CONNECT_RELAY(pSpinBox, rkIndex, valueChanged(double));
+            CONNECT_RELAY(pSpinBox, rkIndex, valueChanged(double))
             pOut = pSpinBox;
             break;
         }
@@ -97,7 +99,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
         case eColorProperty:
         {
             WColorPicker *pColorPicker = new WColorPicker(pParent);
-            CONNECT_RELAY(pColorPicker, rkIndex, ColorChanged(QColor));
+            CONNECT_RELAY(pColorPicker, rkIndex, ColorChanged(QColor))
             pOut = pColorPicker;
             break;
         }
@@ -105,7 +107,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
         case eStringProperty:
         {
             QLineEdit *pLineEdit = new QLineEdit(pParent);
-            CONNECT_RELAY(pLineEdit, rkIndex, textEdited(QString));
+            CONNECT_RELAY(pLineEdit, rkIndex, textEdited(QString))
             pOut = pLineEdit;
             break;
         }
@@ -119,7 +121,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
             for (u32 iEnum = 0; iEnum < pTemp->NumEnumerators(); iEnum++)
                 pComboBox->addItem(TO_QSTRING(pTemp->EnumeratorName(iEnum)));
 
-            CONNECT_RELAY(pComboBox, rkIndex, currentIndexChanged(int));
+            CONNECT_RELAY(pComboBox, rkIndex, currentIndexChanged(int))
             pOut = pComboBox;
             break;
         }
@@ -131,7 +133,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
             pSelector->SetAllowedExtensions(pTemp->Extensions());
             pSelector->setFont(qobject_cast<QWidget*>(parent())->font()); // bit of a hack to stop the resource selector font from changing
 
-            CONNECT_RELAY(pSelector, rkIndex, ResourceChanged(QString));
+            CONNECT_RELAY(pSelector, rkIndex, ResourceChanged(QString))
             pOut = pSelector;
             break;
         }
@@ -162,7 +164,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
         else if (pProp->Type() == eBitfieldProperty)
         {
             QCheckBox *pCheckBox = new QCheckBox(pParent);
-            CONNECT_RELAY(pCheckBox, rkIndex, toggled(bool));
+            CONNECT_RELAY(pCheckBox, rkIndex, toggled(bool))
             pOut = pCheckBox;
         }
 
@@ -181,7 +183,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
                 pSpinBox->setMaximum(1.0);
             }
 
-            CONNECT_RELAY(pSpinBox, rkIndex, valueChanged(double));
+            CONNECT_RELAY(pSpinBox, rkIndex, valueChanged(double))
             pOut = pSpinBox;
         }
     }
@@ -530,13 +532,13 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
         // Check for edit in progress
         bool Matches = pOldValue->Matches(pProp->RawValue());
 
-        if (!Matches && mInRelayWidgetEdit && pEditor->hasFocus())
+        if (!Matches && mInRelayWidgetEdit && (pEditor->hasFocus() || pProp->Type() == eColorProperty))
             mEditInProgress = true;
 
         bool EditInProgress = mEditInProgress;
 
         // Check for edit finished
-        if (!mInRelayWidgetEdit || !pEditor->hasFocus())
+        if (!mInRelayWidgetEdit || (!pEditor->hasFocus() && pProp->Type() != eColorProperty))
             mEditInProgress = false;
 
         // Create undo command

@@ -8,6 +8,7 @@ class WColorPicker : public QWidget
 {
     Q_OBJECT
     QColor mColor;
+    QColor mOldColor;
 
 public:
     explicit WColorPicker(QWidget *pParent = 0);
@@ -20,8 +21,11 @@ public:
 
 signals:
     void ColorChanged(QColor NewColor);
+    void ColorEditComplete(QColor NewColor);
 
-public slots:
+private slots:
+    void DialogColorChanged(QColor NewColor);
+    void DialogRejected();
 };
 
 #endif // WCOLORPICKER_H

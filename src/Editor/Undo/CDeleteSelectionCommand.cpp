@@ -72,6 +72,8 @@ CDeleteSelectionCommand::CDeleteSelectionCommand(CWorldEditor *pEditor, const QS
     }
 
     // Remove selected objects from the linked instances list.
+    LinkedInstances.removeAll(nullptr);
+
     foreach (CScriptObject *pInst, LinkedInstances)
     {
         if (mpEditor->Scene()->NodeForInstance(pInst)->IsSelected())
@@ -117,7 +119,7 @@ void CDeleteSelectionCommand::undo()
         SDeletedLink& rLink = mDeletedLinks[iLink];
 
         // Adding to the sender is only needed if the sender is not one of the nodes we just spawned. If it is, it already has this link.
-        if (!NewInstanceIDs.contains(rLink.SenderID))
+        if (!NewInstanceIDs.contains(rLink.SenderID) && *rLink.pSender)
         {
             CLink *pLink = new CLink(rLink.pSender->Area(), rLink.State, rLink.Message, rLink.SenderID, rLink.ReceiverID);
             rLink.pSender->AddLink(eOutgoing, pLink, rLink.SenderIndex);
@@ -132,8 +134,12 @@ void CDeleteSelectionCommand::undo()
     for (int iLink = 0; iLink < mDeletedLinks.size(); iLink++)
     {
         SDeletedLink& rLink = mDeletedLinks[iLink];
-        CLink *pLink = rLink.pSender->Link(eOutgoing, rLink.SenderIndex);
-        rLink.pReceiver->AddLink(eIncoming, pLink, rLink.ReceiverIndex);
+
+        if (*rLink.pReceiver)
+        {
+            CLink *pLink = (*rLink.pSender ? rLink.pSender->Link(eOutgoing, rLink.SenderIndex) : new CLink(rLink.pReceiver->Area(), rLink.State, rLink.Message, rLink.SenderID, rLink.ReceiverID));
+            rLink.pReceiver->AddLink(eIncoming, pLink, rLink.ReceiverIndex);
+        }
     }
 
     // Run OnLoadFinished
