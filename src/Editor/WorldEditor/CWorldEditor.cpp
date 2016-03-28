@@ -106,17 +106,39 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     connect(ui->TransformSpinBox, SIGNAL(ValueChanged(CVector3f)), this, SLOT(OnTransformSpinBoxModified(CVector3f)));
     connect(ui->TransformSpinBox, SIGNAL(EditingDone(CVector3f)), this, SLOT(OnTransformSpinBoxEdited(CVector3f)));
     connect(ui->CamSpeedSpinBox, SIGNAL(valueChanged(double)), this, SLOT(OnCameraSpeedChange(double)));
-    connect(ui->ActionLink, SIGNAL(toggled(bool)), this, SLOT(OnLinkButtonToggled(bool)));
-    connect(ui->ActionUnlink, SIGNAL(triggered()), this, SLOT(OnUnlinkClicked()));
-    connect(ui->ActionDelete, SIGNAL(triggered()), this, SLOT(DeleteSelection()));
-    connect(ui->ActionCut, SIGNAL(triggered()), this, SLOT(Cut()));
-    connect(ui->ActionCopy, SIGNAL(triggered()), this, SLOT(Copy()));
-    connect(ui->ActionPaste, SIGNAL(triggered()), this, SLOT(Paste()));
     connect(qApp->clipboard(), SIGNAL(dataChanged()), this, SLOT(OnClipboardDataModified()));
     connect(&mUndoStack, SIGNAL(indexChanged(int)), this, SLOT(OnUndoStackIndexChanged()));
 
     connect(ui->ActionSave, SIGNAL(triggered()), this, SLOT(Save()));
     connect(ui->ActionSaveAndRepack, SIGNAL(triggered()), this, SLOT(SaveAndRepack()));
+    connect(ui->ActionCut, SIGNAL(triggered()), this, SLOT(Cut()));
+    connect(ui->ActionCopy, SIGNAL(triggered()), this, SLOT(Copy()));
+    connect(ui->ActionPaste, SIGNAL(triggered()), this, SLOT(Paste()));
+    connect(ui->ActionDelete, SIGNAL(triggered()), this, SLOT(DeleteSelection()));
+    connect(ui->ActionSelectAll, SIGNAL(triggered()), this, SLOT(SelectAllTriggered()));
+    connect(ui->ActionInvertSelection, SIGNAL(triggered()), this, SLOT(InvertSelectionTriggered()));
+    connect(ui->ActionLink, SIGNAL(toggled(bool)), this, SLOT(OnLinkButtonToggled(bool)));
+    connect(ui->ActionUnlink, SIGNAL(triggered()), this, SLOT(OnUnlinkClicked()));
+
+    connect(ui->ActionDrawWorld, SIGNAL(triggered()), this, SLOT(ToggleDrawWorld()));
+    connect(ui->ActionDrawObjects, SIGNAL(triggered()), this, SLOT(ToggleDrawObjects()));
+    connect(ui->ActionDrawCollision, SIGNAL(triggered()), this, SLOT(ToggleDrawCollision()));
+    connect(ui->ActionDrawObjectCollision, SIGNAL(triggered()), this, SLOT(ToggleDrawObjectCollision()));
+    connect(ui->ActionDrawLights, SIGNAL(triggered()), this, SLOT(ToggleDrawLights()));
+    connect(ui->ActionGameMode, SIGNAL(triggered()), this, SLOT(ToggleGameMode()));
+    connect(ui->ActionDisableBackfaceCull, SIGNAL(triggered()), this, SLOT(ToggleBackfaceCull()));
+    connect(ui->ActionDisableAlpha, SIGNAL(triggered()), this, SLOT(ToggleDisableAlpha()));
+    connect(ui->ActionNoLighting, SIGNAL(triggered()), this, SLOT(SetNoLighting()));
+    connect(ui->ActionBasicLighting, SIGNAL(triggered()), this, SLOT(SetBasicLighting()));
+    connect(ui->ActionWorldLighting, SIGNAL(triggered()), this, SLOT(SetWorldLighting()));
+    connect(ui->ActionNoBloom, SIGNAL(triggered()), this, SLOT(SetNoBloom()));
+    connect(ui->ActionBloomMaps, SIGNAL(triggered()), this, SLOT(SetBloomMaps()));
+    connect(ui->ActionFakeBloom, SIGNAL(triggered()), this, SLOT(SetFakeBloom()));
+    connect(ui->ActionBloom, SIGNAL(triggered()), this, SLOT(SetBloom()));
+    connect(ui->ActionIncrementGizmo, SIGNAL(triggered()), this, SLOT(IncrementGizmo()));
+    connect(ui->ActionDecrementGizmo, SIGNAL(triggered()), this, SLOT(DecrementGizmo()));
+    connect(ui->ActionEditLayers, SIGNAL(triggered()), this, SLOT(EditLayers()));
+    connect(ui->ActionEditPoiToWorldMap, SIGNAL(triggered()), this, SLOT(EditPoiToWorldMap()));
 
     ui->CreateTabEditorProperties->SyncToEditor(this);
     ui->ModifyTabEditorProperties->SyncToEditor(this);
@@ -189,7 +211,7 @@ void CWorldEditor::SetArea(CWorld *pWorld, CGameArea *pArea)
 
     // Default bloom to Fake Bloom for Metroid Prime 3; disable for other games
     bool AllowBloom = (mpWorld->Version() == eCorruptionProto || mpWorld->Version() == eCorruption);
-    AllowBloom ? on_ActionFakeBloom_triggered() : on_ActionNoBloom_triggered();
+    AllowBloom ? SetFakeBloom() : SetNoBloom();
     ui->menuBloom->setEnabled(AllowBloom);
 
     // Disable EGMC editing for Prime 1 and DKCR
@@ -951,33 +973,66 @@ void CWorldEditor::OnClosePoiEditDialog()
     ui->MainViewport->SetRenderMergedWorld(true);
 }
 
-// These functions are from "Go to slot" in the designer
-void CWorldEditor::on_ActionDrawWorld_triggered()
+void CWorldEditor::SelectAllTriggered()
+{
+    FNodeFlags NodeFlags = CScene::NodeFlagsForShowFlags(ui->MainViewport->ShowFlags());
+    NodeFlags &= ~(eModelNode | eStaticNode | eCollisionNode);
+    SelectAll(NodeFlags);
+}
+
+void CWorldEditor::InvertSelectionTriggered()
+{
+    FNodeFlags NodeFlags = CScene::NodeFlagsForShowFlags(ui->MainViewport->ShowFlags());
+    NodeFlags &= ~(eModelNode | eStaticNode | eCollisionNode);
+    InvertSelection(NodeFlags);
+}
+
+void CWorldEditor::ToggleDrawWorld()
 {
     ui->MainViewport->SetShowWorld(ui->ActionDrawWorld->isChecked());
 }
 
-void CWorldEditor::on_ActionDrawCollision_triggered()
-{
-    ui->MainViewport->SetShowFlag(eShowWorldCollision, ui->ActionDrawCollision->isChecked());
-}
-
-void CWorldEditor::on_ActionDrawObjects_triggered()
+void CWorldEditor::ToggleDrawObjects()
 {
     ui->MainViewport->SetShowFlag(eShowObjectGeometry, ui->ActionDrawObjects->isChecked());
 }
 
-void CWorldEditor::on_ActionDrawLights_triggered()
+void CWorldEditor::ToggleDrawCollision()
+{
+    ui->MainViewport->SetShowFlag(eShowWorldCollision, ui->ActionDrawCollision->isChecked());
+}
+
+void CWorldEditor::ToggleDrawObjectCollision()
+{
+    ui->MainViewport->SetShowFlag(eShowObjectCollision, ui->ActionDrawObjectCollision->isChecked());
+}
+
+void CWorldEditor::ToggleDrawLights()
 {
     ui->MainViewport->SetShowFlag(eShowLights, ui->ActionDrawLights->isChecked());
 }
 
-void CWorldEditor::on_ActionDrawSky_triggered()
+void CWorldEditor::ToggleDrawSky()
 {
     ui->MainViewport->SetShowFlag(eShowSky, ui->ActionDrawSky->isChecked());
 }
 
-void CWorldEditor::on_ActionNoLighting_triggered()
+void CWorldEditor::ToggleGameMode()
+{
+    ui->MainViewport->SetGameMode(ui->ActionGameMode->isChecked());
+}
+
+void CWorldEditor::ToggleBackfaceCull()
+{
+    ui->MainViewport->Renderer()->ToggleBackfaceCull(!ui->ActionDisableBackfaceCull->isChecked());
+}
+
+void CWorldEditor::ToggleDisableAlpha()
+{
+    ui->MainViewport->Renderer()->ToggleAlphaDisabled(ui->ActionDisableAlpha->isChecked());
+}
+
+void CWorldEditor::SetNoLighting()
 {
     CGraphics::sLightMode = CGraphics::eNoLighting;
     ui->ActionNoLighting->setChecked(true);
@@ -985,7 +1040,7 @@ void CWorldEditor::on_ActionNoLighting_triggered()
     ui->ActionWorldLighting->setChecked(false);
 }
 
-void CWorldEditor::on_ActionBasicLighting_triggered()
+void CWorldEditor::SetBasicLighting()
 {
     CGraphics::sLightMode = CGraphics::eBasicLighting;
     ui->ActionNoLighting->setChecked(false);
@@ -993,7 +1048,7 @@ void CWorldEditor::on_ActionBasicLighting_triggered()
     ui->ActionWorldLighting->setChecked(false);
 }
 
-void CWorldEditor::on_ActionWorldLighting_triggered()
+void CWorldEditor::SetWorldLighting()
 {
     CGraphics::sLightMode = CGraphics::eWorldLighting;
     ui->ActionNoLighting->setChecked(false);
@@ -1001,7 +1056,7 @@ void CWorldEditor::on_ActionWorldLighting_triggered()
     ui->ActionWorldLighting->setChecked(true);
 }
 
-void CWorldEditor::on_ActionNoBloom_triggered()
+void CWorldEditor::SetNoBloom()
 {
     ui->MainViewport->Renderer()->SetBloom(CRenderer::eNoBloom);
     ui->ActionNoBloom->setChecked(true);
@@ -1010,7 +1065,7 @@ void CWorldEditor::on_ActionNoBloom_triggered()
     ui->ActionBloom->setChecked(false);
 }
 
-void CWorldEditor::on_ActionBloomMaps_triggered()
+void CWorldEditor::SetBloomMaps()
 {
     ui->MainViewport->Renderer()->SetBloom(CRenderer::eBloomMaps);
     ui->ActionNoBloom->setChecked(false);
@@ -1019,7 +1074,7 @@ void CWorldEditor::on_ActionBloomMaps_triggered()
     ui->ActionBloom->setChecked(false);
 }
 
-void CWorldEditor::on_ActionFakeBloom_triggered()
+void CWorldEditor::SetFakeBloom()
 {
     ui->MainViewport->Renderer()->SetBloom(CRenderer::eFakeBloom);
     ui->ActionNoBloom->setChecked(false);
@@ -1028,7 +1083,7 @@ void CWorldEditor::on_ActionFakeBloom_triggered()
     ui->ActionBloom->setChecked(false);
 }
 
-void CWorldEditor::on_ActionBloom_triggered()
+void CWorldEditor::SetBloom()
 {
     ui->MainViewport->Renderer()->SetBloom(CRenderer::eBloom);
     ui->ActionNoBloom->setChecked(false);
@@ -1037,17 +1092,17 @@ void CWorldEditor::on_ActionBloom_triggered()
     ui->ActionBloom->setChecked(true);
 }
 
-void CWorldEditor::on_ActionDisableBackfaceCull_triggered()
+void CWorldEditor::IncrementGizmo()
 {
-    ui->MainViewport->Renderer()->ToggleBackfaceCull(!ui->ActionDisableBackfaceCull->isChecked());
+    mGizmo.IncrementSize();
 }
 
-void CWorldEditor::on_ActionDisableAlpha_triggered()
+void CWorldEditor::DecrementGizmo()
 {
-    ui->MainViewport->Renderer()->ToggleAlphaDisabled(ui->ActionDisableAlpha->isChecked());
+    mGizmo.DecrementSize();
 }
 
-void CWorldEditor::on_ActionEditLayers_triggered()
+void CWorldEditor::EditLayers()
 {
     // Launch layer editor
     CLayerEditor Editor(this);
@@ -1055,41 +1110,7 @@ void CWorldEditor::on_ActionEditLayers_triggered()
     Editor.exec();
 }
 
-void CWorldEditor::on_ActionIncrementGizmo_triggered()
-{
-    mGizmo.IncrementSize();
-}
-
-void CWorldEditor::on_ActionDecrementGizmo_triggered()
-{
-    mGizmo.DecrementSize();
-}
-
-void CWorldEditor::on_ActionDrawObjectCollision_triggered()
-{
-    ui->MainViewport->SetShowFlag(eShowObjectCollision, ui->ActionDrawObjectCollision->isChecked());
-}
-
-void CWorldEditor::on_ActionGameMode_triggered()
-{
-    ui->MainViewport->SetGameMode(ui->ActionGameMode->isChecked());
-}
-
-void CWorldEditor::on_ActionSelectAll_triggered()
-{
-    FNodeFlags NodeFlags = CScene::NodeFlagsForShowFlags(ui->MainViewport->ShowFlags());
-    NodeFlags &= ~(eModelNode | eStaticNode | eCollisionNode);
-    SelectAll(NodeFlags);
-}
-
-void CWorldEditor::on_ActionInvertSelection_triggered()
-{
-    FNodeFlags NodeFlags = CScene::NodeFlagsForShowFlags(ui->MainViewport->ShowFlags());
-    NodeFlags &= ~(eModelNode | eStaticNode | eCollisionNode);
-    InvertSelection(NodeFlags);
-}
-
-void CWorldEditor::on_ActionEditPoiToWorldMap_triggered()
+void CWorldEditor::EditPoiToWorldMap()
 {
     if (!mpPoiDialog)
     {

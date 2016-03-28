@@ -97,6 +97,19 @@ CModelEditorWindow::CModelEditorWindow(QWidget *pParent)
     ui->AnimParamCSpinBox->setProperty             ("ModelEditorWidgetType", eAnimParamCSpinBox);
     ui->AnimParamDSpinBox->setProperty             ("ModelEditorWidgetType", eAnimParamDSpinBox);
 
+    connect(ui->ActionOpen, SIGNAL(triggered()), this, SLOT(Open()));
+    connect(ui->ActionImport, SIGNAL(triggered()), this, SLOT(Import()));
+    connect(ui->ActionSave, SIGNAL(triggered()), this, SLOT(Save()));
+    connect(ui->ActionSaveAs, SIGNAL(triggered()), this, SLOT(SaveAs()));
+    connect(ui->ActionConvertToDDS, SIGNAL(triggered()), this, SLOT(ConvertToDDS()));
+    connect(ui->ActionConvertToTXTR, SIGNAL(triggered()), this, SLOT(ConvertToTXTR()));
+    connect(ui->MeshPreviewButton, SIGNAL(clicked()), this, SLOT(SetMeshPreview()));
+    connect(ui->SpherePreviewButton, SIGNAL(clicked()), this, SLOT(SetSpherePreview()));
+    connect(ui->FlatPreviewButton, SIGNAL(clicked()), this, SLOT(SetFlatPreview()));
+    connect(ui->ClearColorPicker, SIGNAL(ColorChanged(QColor)), this, SLOT(ClearColorChanged(QColor)));
+    connect(ui->CameraModeButton, SIGNAL(clicked()), this, SLOT(ToggleCameraMode()));
+    connect(ui->ToggleGridButton, SIGNAL(toggled(bool)), this, SLOT(ToggleGrid(bool)));
+
     connect(ui->SetSelectionComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateUI(int)));
     connect(ui->MatSelectionComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateUI(int)));
     connect(ui->EnableTransparencyCheck,      SIGNAL(toggled(bool)), this, SLOT(UpdateMaterial(bool)));
@@ -109,10 +122,10 @@ CModelEditorWindow::CModelEditorWindow(QWidget *pParent)
     connect(ui->EnableDynamicLightingCheck,   SIGNAL(toggled(bool)), this, SLOT(UpdateMaterial(bool)));
     connect(ui->SourceBlendComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
     connect(ui->DestBlendComboBox,   SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
-    connect(ui->KonstColorPickerA, SIGNAL(colorChanged(QColor)), this, SLOT(UpdateMaterial(QColor)));
-    connect(ui->KonstColorPickerB, SIGNAL(colorChanged(QColor)), this, SLOT(UpdateMaterial(QColor)));
-    connect(ui->KonstColorPickerC, SIGNAL(colorChanged(QColor)), this, SLOT(UpdateMaterial(QColor)));
-    connect(ui->KonstColorPickerD, SIGNAL(colorChanged(QColor)), this, SLOT(UpdateMaterial(QColor)));
+    connect(ui->KonstColorPickerA, SIGNAL(ColorChanged(QColor)), this, SLOT(UpdateMaterial(QColor)));
+    connect(ui->KonstColorPickerB, SIGNAL(ColorChanged(QColor)), this, SLOT(UpdateMaterial(QColor)));
+    connect(ui->KonstColorPickerC, SIGNAL(ColorChanged(QColor)), this, SLOT(UpdateMaterial(QColor)));
+    connect(ui->KonstColorPickerD, SIGNAL(ColorChanged(QColor)), this, SLOT(UpdateMaterial(QColor)));
     connect(ui->PassTable, SIGNAL(cellClicked(int,int)), this, SLOT(UpdateMaterial(int, int)));
     connect(ui->TevKColorSelComboBox,   SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
     connect(ui->TevKAlphaSelComboBox,   SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
@@ -703,27 +716,7 @@ void CModelEditorWindow::UpdateAnimParamUI(int Mode)
     }
 }
 
-void CModelEditorWindow::on_actionConvert_to_DDS_triggered()
-{
-    QString Input = QFileDialog::getOpenFileName(this, "Retro Texture (*.TXTR)", "", "*.TXTR");
-    if (Input.isEmpty()) return;
-
-    TString TexFilename = Input.toStdString();
-    TResPtr<CTexture> pTex = (CTexture*) gResCache.GetResource(TexFilename);
-    TString OutName = TexFilename.GetFilePathWithoutExtension() + ".dds";
-
-    CFileOutStream Out(OutName.ToStdString(), IOUtil::eLittleEndian);
-    if (!Out.IsValid()) QMessageBox::warning(this, "Error", "Couldn't open output DDS!");
-
-    else
-    {
-        bool success = pTex->WriteDDS(Out);
-        if (!success) QMessageBox::warning(this, "Error", "Couldn't write output DDS!");
-        else QMessageBox::information(this, "Success", "Successfully converted to DDS!");
-    }
-}
-
-void CModelEditorWindow::on_actionOpen_triggered()
+void CModelEditorWindow::Open()
 {
     QString ModelFilename = QFileDialog::getOpenFileName(this, "Save model", "", "Retro Model (*.CMDL)");
     if (ModelFilename.isEmpty()) return;
@@ -739,61 +732,20 @@ void CModelEditorWindow::on_actionOpen_triggered()
     gResCache.Clean();
 }
 
-void CModelEditorWindow::on_actionSave_triggered()
+void CModelEditorWindow::Import()
 {
-    if (!mpCurrentModel) return;
+    QString FileName = QFileDialog::getOpenFileName(this, "Model", "", "*.obj;*.fbx;*.dae;*.3ds;*.blend");
+    if (FileName.isEmpty()) return;
 
-    if (mOutputFilename.isEmpty())
-    {
-        on_actionSave_as_triggered();
-        return;
-    }
-
-    CFileOutStream CMDLOut(mOutputFilename.toStdString(), IOUtil::eBigEndian);
-    CModelCooker::WriteCookedModel(mpCurrentModel, ePrime, CMDLOut);
-    QMessageBox::information(this, "Saved", "Model saved!");
-}
-
-void CModelEditorWindow::closeEvent(QCloseEvent*)
-{
-    emit Closed();
-}
-
-void CModelEditorWindow::on_MeshPreviewButton_clicked()
-{
-    ui->Viewport->SetDrawMode(CModelEditorViewport::eDrawMesh);
-}
-
-void CModelEditorWindow::on_SpherePreviewButton_clicked()
-{
-    ui->Viewport->SetDrawMode(CModelEditorViewport::eDrawSphere);
-}
-
-void CModelEditorWindow::on_FlatPreviewButton_clicked()
-{
-    ui->Viewport->SetDrawMode(CModelEditorViewport::eDrawSquare);
-}
-
-void CModelEditorWindow::on_ClearColorPicker_colorChanged(const QColor &Color)
-{
-    CColor NewColor = CColor::Integral(Color.red(), Color.green(), Color.blue(), Color.alpha());
-    ui->Viewport->SetClearColor(NewColor);
-}
-
-void CModelEditorWindow::on_actionImport_triggered()
-{
-    QString filename = QFileDialog::getOpenFileName(this, "Model", "", "*.obj;*.fbx;*.dae;*.3ds;*.blend");
-    if (filename.isEmpty()) return;
-
-    Assimp::Importer importer;
-    importer.SetPropertyInteger(AI_CONFIG_PP_FD_REMOVE, 1);
-    importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS,
+    Assimp::Importer Importer;
+    Importer.SetPropertyInteger(AI_CONFIG_PP_FD_REMOVE, 1);
+    Importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS,
                                 aiComponent_TANGENTS_AND_BITANGENTS |
                                 aiComponent_ANIMATIONS |
                                 aiComponent_LIGHTS |
                                 aiComponent_CAMERAS);
 
-    const aiScene *pScene = importer.ReadFile(filename.toStdString(),
+    const aiScene *pScene = Importer.ReadFile(FileName.toStdString(),
                                               aiProcess_JoinIdenticalVertices |
                                               aiProcess_Triangulate |
                                               aiProcess_RemoveComponent |
@@ -823,42 +775,54 @@ void CModelEditorWindow::on_actionImport_triggered()
     gResCache.Clean();
 }
 
-void CModelEditorWindow::on_actionSave_as_triggered()
+void CModelEditorWindow::Save()
+{
+    if (!mpCurrentModel) return;
+
+    if (mOutputFilename.isEmpty())
+    {
+        SaveAs();
+        return;
+    }
+
+    CFileOutStream CMDLOut(mOutputFilename.toStdString(), IOUtil::eBigEndian);
+    CModelCooker::WriteCookedModel(mpCurrentModel, ePrime, CMDLOut);
+    QMessageBox::information(this, "Saved", "Model saved!");
+}
+
+void CModelEditorWindow::SaveAs()
 {
     QString FileName = QFileDialog::getSaveFileName(this, "Save model", "", "Retro Model (*.CMDL)");
     if (FileName.isEmpty()) return;
 
     mOutputFilename = FileName;
-    on_actionSave_triggered();
+    Save();
 
-    TString name = TString(FileName.toStdString());
-    setWindowTitle("Prime World Editor - Model Editor: " + TO_QSTRING(name));
+    TString Name = TString(FileName.toStdString());
+    setWindowTitle("Prime World Editor - Model Editor: " + TO_QSTRING(Name));
 }
 
-void CModelEditorWindow::on_CameraModeButton_clicked()
+void CModelEditorWindow::ConvertToDDS()
 {
-    CCamera *pCam = &ui->Viewport->Camera();
+    QString Input = QFileDialog::getOpenFileName(this, "Retro Texture (*.TXTR)", "", "*.TXTR");
+    if (Input.isEmpty()) return;
 
-    if (pCam->MoveMode() == eOrbitCamera)
+    TString TexFilename = Input.toStdString();
+    TResPtr<CTexture> pTex = gResCache.GetResource(TexFilename);
+    TString OutName = TexFilename.GetFilePathWithoutExtension() + ".dds";
+
+    CFileOutStream Out(OutName.ToStdString(), IOUtil::eLittleEndian);
+    if (!Out.IsValid()) QMessageBox::warning(this, "Error", "Couldn't open output DDS!");
+
+    else
     {
-        pCam->SetMoveMode(eFreeCamera);
-        ui->CameraModeButton->setIcon(QIcon(":/icons/Show.png"));
-        ui->CameraModeButton->setToolTip(QString("Free Camera"));
-    }
-
-    else if (pCam->MoveMode() == eFreeCamera)
-    {
-        pCam->SetMoveMode(eOrbitCamera);
-        ui->CameraModeButton->setIcon(QIcon(":/icons/Orbit Camera.png"));
-        ui->CameraModeButton->setToolTip(QString("Orbit Camera"));
-
-        CVector3f Pos = pCam->Position();
-        CVector3f Target = mpCurrentModelNode->AABox().Center();
-        pCam->SetOrbitDistance(Pos.Distance(Target));
+        bool Success = pTex->WriteDDS(Out);
+        if (!Success) QMessageBox::warning(this, "Error", "Couldn't write output DDS!");
+        else QMessageBox::information(this, "Success", "Successfully converted to DDS!");
     }
 }
 
-void CModelEditorWindow::on_actionConvert_DDS_to_TXTR_triggered()
+void CModelEditorWindow::ConvertToTXTR()
 {
     QString Input = QFileDialog::getOpenFileName(this, "DirectDraw Surface (*.dds)", "", "*.dds");
     if (Input.isEmpty()) return;
@@ -883,7 +847,56 @@ void CModelEditorWindow::on_actionConvert_DDS_to_TXTR_triggered()
     }
 }
 
-void CModelEditorWindow::on_ToggleGridButton_toggled(bool Checked)
+void CModelEditorWindow::SetMeshPreview()
 {
-    ui->Viewport->SetGridEnabled(Checked);
+    ui->Viewport->SetDrawMode(CModelEditorViewport::eDrawMesh);
+}
+
+void CModelEditorWindow::SetSpherePreview()
+{
+    ui->Viewport->SetDrawMode(CModelEditorViewport::eDrawSphere);
+}
+
+void CModelEditorWindow::SetFlatPreview()
+{
+    ui->Viewport->SetDrawMode(CModelEditorViewport::eDrawSquare);
+}
+
+void CModelEditorWindow::ClearColorChanged(const QColor& rkNewColor)
+{
+    CColor Color = TO_CCOLOR(rkNewColor);
+    ui->Viewport->SetClearColor(Color);
+}
+
+void CModelEditorWindow::ToggleCameraMode()
+{
+    CCamera *pCam = &ui->Viewport->Camera();
+
+    if (pCam->MoveMode() == eOrbitCamera)
+    {
+        pCam->SetMoveMode(eFreeCamera);
+        ui->CameraModeButton->setIcon(QIcon(":/icons/Show.png"));
+        ui->CameraModeButton->setToolTip(QString("Free Camera"));
+    }
+
+    else if (pCam->MoveMode() == eFreeCamera)
+    {
+        pCam->SetMoveMode(eOrbitCamera);
+        ui->CameraModeButton->setIcon(QIcon(":/icons/Orbit Camera.png"));
+        ui->CameraModeButton->setToolTip(QString("Orbit Camera"));
+
+        CVector3f Pos = pCam->Position();
+        CVector3f Target = mpCurrentModelNode->AABox().Center();
+        pCam->SetOrbitDistance(Pos.Distance(Target));
+    }
+}
+
+void CModelEditorWindow::ToggleGrid(bool Enabled)
+{
+    ui->Viewport->SetGridEnabled(Enabled);
+}
+
+void CModelEditorWindow::closeEvent(QCloseEvent*)
+{
+    emit Closed();
 }
