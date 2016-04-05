@@ -21,8 +21,10 @@ CStartWindow::CStartWindow(QWidget *parent)
     mpWorld = nullptr;
     mpWorldEditor = new CWorldEditor(0);
     mpModelEditor = new CModelEditorWindow(this);
+    mpCharEditor = new CCharacterEditor(this);
 
     connect(ui->ActionAbout, SIGNAL(triggered()), this, SLOT(About()));
+    connect(ui->ActionCharacterEditor, SIGNAL(triggered()), this, SLOT(LaunchCharacterEditor()));
 }
 
 CStartWindow::~CStartWindow()
@@ -30,6 +32,7 @@ CStartWindow::~CStartWindow()
     delete ui;
     delete mpWorldEditor;
     delete mpModelEditor;
+    delete mpCharEditor;
 }
 
 void CStartWindow::closeEvent(QCloseEvent *pEvent)
@@ -235,6 +238,11 @@ void CStartWindow::on_actionExtract_PAK_triggered()
         else if (Result == CPakToolDialog::eError)
             QMessageBox::warning(this, "Error", "Unable to extract pak.");
     }
+}
+
+void CStartWindow::LaunchCharacterEditor()
+{
+    mpCharEditor->show();
 }
 
 void CStartWindow::About()

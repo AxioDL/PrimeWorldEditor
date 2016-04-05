@@ -3,6 +3,7 @@
 
 #include "TResPtr.h"
 #include "CResource.h"
+#include "CSkeleton.h"
 #include "Core/Resource/Model/CModel.h"
 #include <Common/types.h>
 
@@ -19,7 +20,7 @@ class CAnimSet : public CResource
         TString Name;
         TResPtr<CModel> pModel;
         u32 SkinID;
-        u32 SkelID;
+        TResPtr<CSkeleton> pSkeleton;
 
         SNode() { pModel = nullptr; }
     };
@@ -28,9 +29,10 @@ class CAnimSet : public CResource
 public:
     CAnimSet() : CResource() {}
 
-    u32 NumNodes() const            { return mNodes.size(); }
-    TString NodeName(u32 Index)     { if (Index >= mNodes.size()) Index = 0; return mNodes[Index].Name; }
-    CModel* NodeModel(u32 Index)    { if (Index >= mNodes.size()) Index = 0; return mNodes[Index].pModel; }
+    u32 NumNodes() const                { return mNodes.size(); }
+    TString NodeName(u32 Index)         { if (Index >= mNodes.size()) Index = 0; return mNodes[Index].Name; }
+    CModel* NodeModel(u32 Index)        { if (Index >= mNodes.size()) Index = 0; return mNodes[Index].pModel; }
+    CSkeleton* NodeSkeleton(u32 Index)  { if (Index >= mNodes.size()) Index = 0; return mNodes[Index].pSkeleton; }
 };
 
 #endif // CCHARACTERSET_H

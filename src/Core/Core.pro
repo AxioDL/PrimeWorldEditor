@@ -185,7 +185,10 @@ HEADERS += \
     Resource/Factory/CSectionMgrIn.h \
     Resource/Cooker/CScriptCooker.h \
     ScriptExtra/CSplinePathExtra.h \
-    Resource/Script/CLink.h
+    Resource/Script/CLink.h \
+    Resource/CSkeleton.h \
+    Resource/Factory/CSkeletonLoader.h \
+    Scene/CCharacterNode.h
 
 # Source Files
 SOURCES += \
@@ -263,4 +266,7 @@ SOURCES += \
     Resource/Factory/CPoiToWorldLoader.cpp \
     Resource/Cooker/CPoiToWorldCooker.cpp \
     Resource/Cooker/CScriptCooker.cpp \
-    ScriptExtra/CSplinePathExtra.cpp
+    ScriptExtra/CSplinePathExtra.cpp \
+    Resource/CSkeleton.cpp \
+    Resource/Factory/CSkeletonLoader.cpp \
+    Scene/CCharacterNode.cpp

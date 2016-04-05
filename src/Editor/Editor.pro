@@ -156,7 +156,9 @@ HEADERS += \
     Undo/CPasteNodesCommand.h \
     CPakToolDialog.h \
     WorldEditor/CRepackInfoDialog.h \
-    CAboutDialog.h
+    CAboutDialog.h \
+    CharacterEditor/CCharacterEditor.h \
+    CharacterEditor/CCharacterEditorViewport.h
 
 # Source Files
 SOURCES += \
@@ -213,7 +215,9 @@ SOURCES += \
     Undo/CCloneSelectionCommand.cpp \
     Undo/CPasteNodesCommand.cpp \
     WorldEditor/CRepackInfoDialog.cpp \
-    CAboutDialog.cpp
+    CAboutDialog.cpp \
+    CharacterEditor/CCharacterEditor.cpp \
+    CharacterEditor/CCharacterEditorViewport.cpp
 
 # UI Files
 FORMS += \
@@ -233,4 +237,5 @@ FORMS += \
     WorldEditor/CLinkDialog.ui \
     WorldEditor/CSelectInstanceDialog.ui \
     WorldEditor/CRepackInfoDialog.ui \
-    CAboutDialog.ui
+    CAboutDialog.ui \
+    CharacterEditor/CCharacterEditor.ui
