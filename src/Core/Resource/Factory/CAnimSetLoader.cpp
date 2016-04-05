@@ -99,7 +99,7 @@ CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS)
         pNode->Name = rANCS.ReadString();
         pNode->pModel = gResCache.GetResource(rANCS.ReadLong(), "CMDL");
         pNode->SkinID = rANCS.ReadLong();
-        pNode->SkelID = rANCS.ReadLong();
+        pNode->pSkeleton = gResCache.GetResource(rANCS.ReadLong(), "CINF");
 
         // Unfortunately that's all that's actually supported at the moment. Hope to expand later.
         // Since there's no size value I have to actually read the rest of the node to reach the next one

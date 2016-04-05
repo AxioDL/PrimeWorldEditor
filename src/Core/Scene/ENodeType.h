@@ -7,12 +7,13 @@ enum ENodeType
 {
     eRootNode           = 0x0,
     eModelNode          = 0x1,
-    eStaticNode         = 0x2,
-    eCollisionNode      = 0x4,
-    eScriptNode         = 0x8,
-    eScriptExtraNode    = 0x10,
-    eLightNode          = 0x20,
-    eAllNodeTypes       = 0x3F
+    eCharacterNode      = 0x2,
+    eStaticNode         = 0x4,
+    eCollisionNode      = 0x8,
+    eScriptNode         = 0x10,
+    eScriptExtraNode    = 0x20,
+    eLightNode          = 0x40,
+    eAllNodeTypes       = 0x7F
 };
 
 DECLARE_FLAGS(ENodeType, FNodeFlags)

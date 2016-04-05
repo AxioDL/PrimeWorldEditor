@@ -3,6 +3,7 @@
 
 #include "WorldEditor/CWorldEditor.h"
 #include "ModelEditor/CModelEditorWindow.h"
+#include "CharacterEditor/CCharacterEditor.h"
 #include <Core/Resource/CWorld.h>
 #include <Core/Resource/CResCache.h>
 
@@ -22,6 +23,7 @@ class CStartWindow : public QMainWindow
 
     CWorldEditor *mpWorldEditor;
     CModelEditorWindow *mpModelEditor;
+    CCharacterEditor *mpCharEditor;
 
 public:
     explicit CStartWindow(QWidget *pParent = 0);
@@ -35,6 +37,8 @@ private slots:
     void on_LaunchWorldEditorButton_clicked();
     void on_actionLaunch_model_viewer_triggered();
     void on_actionExtract_PAK_triggered();
+
+    void LaunchCharacterEditor();
     void About();
 
 private:

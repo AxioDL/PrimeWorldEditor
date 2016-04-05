@@ -229,6 +229,7 @@
      <string>Tools</string>
     </property>
     <addaction name="actionLaunch_model_viewer"/>
+    <addaction name="ActionCharacterEditor"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -257,12 +258,17 @@
   </action>
   <action name="actionLaunch_model_viewer">
    <property name="text">
-    <string>Launch model viewer</string>
+    <string>Launch model editor</string>
    </property>
   </action>
   <action name="ActionAbout">
    <property name="text">
     <string>About</string>
+   </property>
+  </action>
+  <action name="ActionCharacterEditor">
+   <property name="text">
+    <string>Launch character editor</string>
    </property>
   </action>
  </widget>
