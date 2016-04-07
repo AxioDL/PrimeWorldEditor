@@ -41,7 +41,8 @@ HEADERS += \
     FileIO.h \
     IOUtil.h \
     IInputStream.h \
-    IOutputStream.h
+    IOutputStream.h \
+    CBitStreamInWrapper.h
 
 # Source Files
 SOURCES += \
@@ -54,4 +55,5 @@ SOURCES += \
     CVectorOutStream.cpp \
     IOUtil.cpp \
     IInputStream.cpp \
-    IOutputStream.cpp
+    IOutputStream.cpp \
+    CBitStreamInWrapper.cpp

@@ -10,11 +10,13 @@ public:
 
     CQuaternion();
     CQuaternion(float _W, float _X, float _Y, float _Z);
+    CQuaternion(IInputStream& rInput);
 
     CVector3f XAxis() const;
     CVector3f YAxis() const;
     CVector3f ZAxis() const;
     CQuaternion Inverse() const;
+    CQuaternion Slerp(const CQuaternion& rkRight, float t) const;
     CVector3f ToEuler() const;
 
     // Operators

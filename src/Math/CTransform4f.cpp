@@ -100,6 +100,13 @@ void CTransform4f::Scale(float XScale, float YScale, float ZScale)
     Scale(CVector3f(XScale, YScale, ZScale));
 }
 
+void CTransform4f::ZeroTranslation()
+{
+    m[0][3] = 0.f;
+    m[1][3] = 0.f;
+    m[2][3] = 0.f;
+}
+
 CTransform4f CTransform4f::MultiplyIgnoreTranslation(const CTransform4f& rkMtx) const
 {
     CTransform4f Out;
@@ -151,6 +158,13 @@ CTransform4f CTransform4f::NoTranslation() const
     return CTransform4f(m[0][0], m[0][1], m[0][2], 0.f,
                         m[1][0], m[1][1], m[1][2], 0.f,
                         m[2][0], m[2][1], m[2][2], 0.f);
+}
+
+CTransform4f CTransform4f::TranslationOnly() const
+{
+    return CTransform4f(1.f, 0.f, 0.f, m[0][3],
+                        0.f, 1.f, 0.f, m[1][3],
+                        0.f, 0.f, 1.f, m[2][3]);
 }
 
 CTransform4f CTransform4f::RotationOnly() const

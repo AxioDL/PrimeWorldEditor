@@ -37,10 +37,12 @@ public:
     void Rotate(float XRot, float YRot, float ZRot);
     void Scale(CVector3f Scale);
     void Scale(float XScale, float YScale, float ZScale);
+    void ZeroTranslation();
     CTransform4f MultiplyIgnoreTranslation(const CTransform4f& rkMtx) const;
     CTransform4f Inverse() const;
     CTransform4f QuickInverse() const;
     CTransform4f NoTranslation() const;
+    CTransform4f TranslationOnly() const;
     CTransform4f RotationOnly() const;
 
     // Conversion

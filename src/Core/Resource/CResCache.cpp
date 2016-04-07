@@ -1,5 +1,6 @@
 #include "CResCache.h"
 #include "Core/Resource/Factory/CAreaLoader.h"
+#include "Core/Resource/Factory/CAnimationLoader.h"
 #include "Core/Resource/Factory/CAnimSetLoader.h"
 #include "Core/Resource/Factory/CCollisionLoader.h"
 #include "Core/Resource/Factory/CFontLoader.h"
@@ -151,6 +152,7 @@ CResource* CResCache::GetResource(CUniqueID ResID, CFourCC Type)
     else if (Type == "DCLN") pRes = CCollisionLoader::LoadDCLN(Mem);
     else if (Type == "EGMC") pRes = CPoiToWorldLoader::LoadEGMC(Mem);
     else if (Type == "CINF") pRes = CSkeletonLoader::LoadCINF(Mem);
+    else if (Type == "ANIM") pRes = CAnimationLoader::LoadANIM(Mem);
     else SupportedFormat = false;
 
     // Log errors
@@ -206,6 +208,7 @@ CResource* CResCache::GetResource(const TString& rkResPath)
     else if (Type == "DCLN") pRes = CCollisionLoader::LoadDCLN(File);
     else if (Type == "EGMC") pRes = CPoiToWorldLoader::LoadEGMC(File);
     else if (Type == "CINF") pRes = CSkeletonLoader::LoadCINF(File);
+    else if (Type == "ANIM") pRes = CAnimationLoader::LoadANIM(File);
     else SupportedFormat = false;
 
     if (!pRes) pRes = new CResource(); // Default for unsupported formats

@@ -22,6 +22,13 @@ float DegreesToRadians(float Deg);
 
 float RadiansToDegrees(float Rad);
 
+template<typename Type>
+Type Lerp(const Type& rkA, const Type& rkB, float t)
+{
+    Type Diff = rkB - rkA;
+    return rkA + (Diff * t);
+}
+
 std::pair<bool,float> RayPlaneIntersecton(const CRay& rkRay, const CPlane& rkPlane);
 
 std::pair<bool,float> RayBoxIntersection(const CRay& rkRay, const CAABox& rkBox);
