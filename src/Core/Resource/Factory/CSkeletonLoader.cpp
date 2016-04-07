@@ -3,13 +3,19 @@
 
 #include <vector>
 
-CSkeletonLoader::CSkeletonLoader()
+void CSkeletonLoader::SetLocalBoneCoords(CBone *pBone)
 {
+    for (u32 iChild = 0; iChild < pBone->NumChildren(); iChild++)
+        SetLocalBoneCoords(pBone->ChildByIndex(iChild));
+
+    if (pBone->mpParent)
+        pBone->mPosition -= pBone->mpParent->mPosition;
 }
 
 // ************ STATIC ************
 CSkeleton* CSkeletonLoader::LoadCINF(IInputStream& rCINF)
 {
+    CSkeletonLoader Loader;
     CSkeleton *pSkel = new CSkeleton();
 
     u32 NumBones = rCINF.ReadLong();
@@ -70,6 +76,8 @@ CSkeleton* CSkeletonLoader::LoadCINF(IInputStream& rCINF)
                 Log::FileError(rCINF.GetSourceString(), "Multiple root bones?");
         }
     }
+
+    Loader.SetLocalBoneCoords(pSkel->mpRootBone);
 
     // Skip bone ID array
     u32 NumBoneIDs = rCINF.ReadLong();

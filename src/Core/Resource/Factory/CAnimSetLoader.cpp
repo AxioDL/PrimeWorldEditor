@@ -104,11 +104,15 @@ CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS)
         // Unfortunately that's all that's actually supported at the moment. Hope to expand later.
         // Since there's no size value I have to actually read the rest of the node to reach the next one
         u32 AnimCount = rANCS.ReadLong();
+        bool ReadAnimNames = Loader.pSet->mAnims.empty();
+        if (ReadAnimNames) Loader.pSet->mAnims.resize(AnimCount);
+
         for (u32 iAnim = 0; iAnim < AnimCount; iAnim++)
         {
             rANCS.Seek(0x4, SEEK_CUR);
             if (Loader.mVersion == ePrime) rANCS.Seek(0x1, SEEK_CUR);
-            rANCS.ReadString();
+            TString AnimName = rANCS.ReadString();
+            if (ReadAnimNames) Loader.pSet->mAnims[iAnim].Name = AnimName;
         }
 
         // PAS Database
@@ -165,7 +169,6 @@ CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS)
             u32 UnknownCount2 = rANCS.ReadLong();
             rANCS.Seek(UnknownCount2 * 0x1C, SEEK_CUR);
         }
-        // Lots of work for data I'm not even using x.x
     }
 
     return Loader.pSet;

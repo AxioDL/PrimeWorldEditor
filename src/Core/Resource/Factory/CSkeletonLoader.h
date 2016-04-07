@@ -10,7 +10,8 @@ class CSkeletonLoader
     TResPtr<CSkeleton> mpSkeleton;
     EGame mVersion;
 
-    CSkeletonLoader();
+    CSkeletonLoader() {}
+    void SetLocalBoneCoords(CBone *pBone);
 
 public:
     static CSkeleton* LoadCINF(IInputStream& rCINF);

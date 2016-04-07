@@ -19,15 +19,21 @@ CCharacterEditor::CCharacterEditor(QWidget *parent)
     rCamera.SetMoveSpeed(0.5f);
 
     // Init UI
+    ui->ToolBar->addSeparator();
+
     mpCharComboBox = new QComboBox(this);
     mpCharComboBox->setMinimumWidth(175);
-    ui->ToolBar->addSeparator();
     ui->ToolBar->addWidget(mpCharComboBox);
+
+    mpAnimComboBox = new QComboBox(this);
+    mpAnimComboBox->setMinimumWidth(175);
+    ui->ToolBar->addWidget(mpAnimComboBox);
 
     connect(&mRefreshTimer, SIGNAL(timeout()), this, SLOT(RefreshViewport()));
     mRefreshTimer.start(0);
 
     connect(mpCharComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(SetActiveCharacterIndex(int)));
+    connect(mpAnimComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(SetActiveAnimation(int)));
     connect(ui->ActionOpen, SIGNAL(triggered()), this, SLOT(Open()));
 }
 
@@ -58,6 +64,16 @@ void CCharacterEditor::Open()
 
         SetActiveCharacterIndex(0);
         mpCharComboBox->blockSignals(false);
+
+        // Set up anim combo box
+        mpAnimComboBox->blockSignals(true);
+        mpAnimComboBox->clear();
+
+        for (u32 iAnim = 0; iAnim < pSet->NumAnims(); iAnim++)
+            mpAnimComboBox->addItem( TO_QSTRING(pSet->AnimName(iAnim)) );
+
+        SetActiveAnimation(0);
+        mpAnimComboBox->blockSignals(false);
     }
 
     gResCache.Clean();
@@ -72,4 +88,9 @@ void CCharacterEditor::RefreshViewport()
 void CCharacterEditor::SetActiveCharacterIndex(int CharIndex)
 {
     mpCharNode->SetActiveCharSet((u32) CharIndex);
+}
+
+void CCharacterEditor::SetActiveAnimation(int AnimIndex)
+{
+    mpCharNode->SetActiveAnim((u32) AnimIndex);
 }

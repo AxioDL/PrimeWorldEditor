@@ -188,7 +188,9 @@ HEADERS += \
     Resource/Script/CLink.h \
     Resource/CSkeleton.h \
     Resource/Factory/CSkeletonLoader.h \
-    Scene/CCharacterNode.h
+    Scene/CCharacterNode.h \
+    Resource/CAnimation.h \
+    Resource/Factory/CAnimationLoader.h
 
 # Source Files
 SOURCES += \
@@ -269,4 +271,6 @@ SOURCES += \
     ScriptExtra/CSplinePathExtra.cpp \
     Resource/CSkeleton.cpp \
     Resource/Factory/CSkeletonLoader.cpp \
-    Scene/CCharacterNode.cpp
+    Scene/CCharacterNode.cpp \
+    Resource/CAnimation.cpp \
+    Resource/Factory/CAnimationLoader.cpp

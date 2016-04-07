@@ -1,5 +1,6 @@
 #include "CCharacterNode.h"
-#include <Core/Render/CRenderer.h>
+#include "Core/Render/CRenderer.h"
+#include <Common/CTimer.h>
 
 CCharacterNode::CCharacterNode(CScene *pScene, u32 NodeID, CAnimSet *pChar /*= 0*/, CSceneNode *pParent /*= 0*/)
     : CSceneNode(pScene, NodeID, pParent)
@@ -34,6 +35,8 @@ void CCharacterNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& /*rkVi
 void CCharacterNode::Draw(FRenderOptions Options, int /*ComponentIndex*/, const SViewInfo& /*rkViewInfo*/)
 {
     CSkeleton *pSkel = mpCharacter->NodeSkeleton(mActiveCharSet);
+    CAnimation *pAnim = mpCharacter->Animation(mActiveAnim);
+    pSkel->UpdateTransform(pAnim, (float) CTimer::GlobalTime(), false);
     pSkel->Draw(Options);
 }
 
@@ -61,4 +64,9 @@ void CCharacterNode::SetActiveCharSet(u32 CharIndex)
         mLocalAABox = mpCharacter->NodeModel(CharIndex)->AABox();
         MarkTransformChanged();
     }
+}
+
+void CCharacterNode::SetActiveAnim(u32 AnimIndex)
+{
+    mActiveAnim = AnimIndex;
 }

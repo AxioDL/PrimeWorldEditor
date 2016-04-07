@@ -2,6 +2,7 @@
 #define CANIMSET_H
 
 #include "TResPtr.h"
+#include "CAnimation.h"
 #include "CResource.h"
 #include "CSkeleton.h"
 #include "Core/Resource/Model/CModel.h"
@@ -26,6 +27,13 @@ class CAnimSet : public CResource
     };
     std::vector<SNode> mNodes;
 
+    struct SAnimation
+    {
+        TString Name;
+        TResPtr<CAnimation> pAnim;
+    };
+    std::vector<SAnimation> mAnims;
+
 public:
     CAnimSet() : CResource() {}
 
@@ -33,6 +41,10 @@ public:
     TString NodeName(u32 Index)         { if (Index >= mNodes.size()) Index = 0; return mNodes[Index].Name; }
     CModel* NodeModel(u32 Index)        { if (Index >= mNodes.size()) Index = 0; return mNodes[Index].pModel; }
     CSkeleton* NodeSkeleton(u32 Index)  { if (Index >= mNodes.size()) Index = 0; return mNodes[Index].pSkeleton; }
+
+    u32 NumAnims() const                { return mAnims.size(); }
+    CAnimation* Animation(u32 Index)    { if (Index >= mAnims.size()) Index = 0; return mAnims[Index].pAnim; }
+    TString AnimName(u32 Index)         { if (Index >= mAnims.size()) Index = 0; return mAnims[Index].Name; }
 };
 
 #endif // CCHARACTERSET_H

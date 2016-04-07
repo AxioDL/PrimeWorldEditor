@@ -20,6 +20,14 @@ CQuaternion::CQuaternion(float _W, float _X, float _Y, float _Z)
 {
 }
 
+CQuaternion::CQuaternion(IInputStream& rInput)
+    : W(rInput.ReadFloat())
+    , X(rInput.ReadFloat())
+    , Y(rInput.ReadFloat())
+    , Z(rInput.ReadFloat())
+{
+}
+
 CVector3f CQuaternion::XAxis() const
 {
     return (*this * CVector3f::skUnitX);
@@ -46,6 +54,36 @@ CQuaternion CQuaternion::Inverse() const
     }
     else
         return CQuaternion::skZero;
+}
+
+CQuaternion CQuaternion::Slerp(const CQuaternion& rkRight, float t) const
+{
+    // http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/slerp/
+    float CosHalfTheta = (W * rkRight.W) + (X * rkRight.X) + (Y * rkRight.Y) + (Z * rkRight.Z);
+
+    if (Math::Abs(CosHalfTheta) >= 1.f)
+        return *this;
+
+    float ScalarA, ScalarB;
+    float SinHalfTheta = Math::Sqrt(1.f - (CosHalfTheta * CosHalfTheta));
+
+    if (Math::Abs(SinHalfTheta) < 0.001f)
+    {
+        ScalarA = 0.5f;
+        ScalarB = 0.5f;
+    }
+
+    else
+    {
+        float HalfTheta = acosf(CosHalfTheta);
+        ScalarA = sinf((1.f - t) * HalfTheta) / SinHalfTheta;
+        ScalarB = sinf(t * HalfTheta) / SinHalfTheta;
+    }
+
+    return CQuaternion( (W * ScalarA) + (rkRight.W * ScalarB),
+                        (X * ScalarA) + (rkRight.X * ScalarB),
+                        (Y * ScalarA) + (rkRight.Y * ScalarB),
+                        (Z * ScalarA) + (rkRight.Z * ScalarB) );
 }
 
 CVector3f CQuaternion::ToEuler() const

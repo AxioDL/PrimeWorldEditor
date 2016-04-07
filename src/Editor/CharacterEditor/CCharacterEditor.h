@@ -22,6 +22,7 @@ class CCharacterEditor : public QMainWindow
     CCharacterNode *mpCharNode;
 
     QComboBox *mpCharComboBox;
+    QComboBox *mpAnimComboBox;
     QTimer mRefreshTimer;
 
 public:
@@ -32,6 +33,7 @@ public slots:
     void Open();
     void RefreshViewport();
     void SetActiveCharacterIndex(int CharIndex);
+    void SetActiveAnimation(int AnimIndex);
 };
 
 #endif // CCHARACTEREDITORWINDOW_H
