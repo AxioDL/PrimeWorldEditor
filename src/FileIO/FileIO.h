@@ -14,4 +14,6 @@
 #include "CVectorOutStream.h"
 #include "CTextOutStream.h"
 
+#include "CBitStreamInWrapper.h"
+
 #endif // FILEIO
