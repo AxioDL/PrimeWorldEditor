@@ -1,5 +1,6 @@
 #include "CAnimationLoader.h"
 #include <Common/Log.h>
+#include <Math/MathUtil.h>
 
 void CAnimationLoader::ReadUncompressedANIM()
 {
@@ -38,8 +39,6 @@ void CAnimationLoader::ReadUncompressedANIM()
     }
 
     // Set up bone channel info
-    mpAnim->mBoneInfo.resize(NumRotIndices);
-
     for (u32 iRot = 0, iTrans = 0; iRot < NumRotIndices; iRot++)
     {
         u8 RotIdx = RotIndices[iRot];
@@ -80,6 +79,203 @@ void CAnimationLoader::ReadUncompressedANIM()
     // Skip EVNT file
 }
 
+void CAnimationLoader::ReadCompressedANIM()
+{
+    // Header
+    mpInput->Seek(0xC, SEEK_CUR); // Skip alloc size, EVNT ID, unknown value
+    mpAnim->mDuration = mpInput->ReadFloat();
+    mpAnim->mTickInterval = mpInput->ReadFloat();
+    mpInput->Seek(0x8, SEEK_CUR); // Skip two unknown values
+
+    mRotationDivisor = mpInput->ReadLong();
+    mTranslationMultiplier = mpInput->ReadFloat();
+    u32 NumBoneChannels = mpInput->ReadLong();
+    mpInput->Seek(0x4, SEEK_CUR); // Skip unknown value
+
+    // Read key flags
+    u32 NumKeys = mpInput->ReadLong();
+    mpAnim->mNumKeys = NumKeys - 1;
+    mKeyFlags.resize(NumKeys);
+    {
+        CBitStreamInWrapper BitStream(mpInput);
+
+        for (u32 iBit = 0; iBit < NumKeys; iBit++)
+            mKeyFlags[iBit] = BitStream.ReadBit();
+    }
+    mpInput->Seek(0x8, SEEK_CUR);
+
+    // Read bone channel descriptors
+    mCompressedChannels.resize(NumBoneChannels);
+    mpAnim->mRotationChannels.resize(NumBoneChannels);
+    mpAnim->mTranslationChannels.resize(NumBoneChannels);
+
+    for (u32 iChan = 0; iChan < NumBoneChannels; iChan++)
+    {
+        SCompressedChannel& rChan = mCompressedChannels[iChan];
+        rChan.BoneID = mpInput->ReadLong();
+
+        // Read rotation parameters
+        rChan.NumRotationKeys = mpInput->ReadShort();
+
+        if (rChan.NumRotationKeys > 0)
+        {
+            for (u32 iComp = 0; iComp < 3; iComp++)
+            {
+                rChan.Rotation[iComp] = mpInput->ReadShort();
+                rChan.RotationBits[iComp] = mpInput->ReadByte();
+            }
+
+            mpAnim->mBoneInfo[rChan.BoneID].RotationChannelIdx = (u8) iChan;
+        }
+        else mpAnim->mBoneInfo[rChan.BoneID].RotationChannelIdx = 0xFF;
+
+        // Read translation parameters
+        rChan.NumTranslationKeys = mpInput->ReadShort();
+
+        if (rChan.NumTranslationKeys > 0)
+        {
+            for (u32 iComp = 0; iComp < 3; iComp++)
+            {
+                rChan.Translation[iComp] = mpInput->ReadShort();
+                rChan.TranslationBits[iComp] = mpInput->ReadByte();
+            }
+
+            mpAnim->mBoneInfo[rChan.BoneID].TranslationChannelIdx = (u8) iChan;
+        }
+        else
+            mpAnim->mBoneInfo[rChan.BoneID].TranslationChannelIdx = 0xFF;
+    }
+
+    // Read animation data
+    ReadCompressedAnimationData();
+}
+
+void CAnimationLoader::ReadCompressedAnimationData()
+{
+    CBitStreamInWrapper BitStream(mpInput);
+
+    // Initialize
+    for (u32 iChan = 0; iChan < mCompressedChannels.size(); iChan++)
+    {
+        SCompressedChannel& rChan = mCompressedChannels[iChan];
+
+        // Reserve memory for all keys
+
+        // Set initial rotation/translation
+        if (rChan.NumRotationKeys > 0)
+        {
+            mpAnim->mRotationChannels[iChan].reserve(rChan.NumRotationKeys + 1);
+            CQuaternion Rotation = DequantizeRotation(false, rChan.Rotation[0], rChan.Rotation[1], rChan.Rotation[2]);
+            mpAnim->mRotationChannels[iChan].push_back(Rotation);
+        }
+
+        if (rChan.NumTranslationKeys > 0)
+        {
+            mpAnim->mTranslationChannels[iChan].reserve(rChan.NumTranslationKeys + 1);
+            CVector3f Translate = CVector3f(rChan.Translation[0], rChan.Translation[1], rChan.Translation[2]) * mTranslationMultiplier;
+            mpAnim->mTranslationChannels[iChan].push_back(Translate);
+        }
+    }
+
+    // Read keys
+    for (u32 iKey = 0; iKey < mpAnim->mNumKeys; iKey++)
+    {
+        bool KeyPresent = mKeyFlags[iKey];
+
+        for (u32 iChan = 0; iChan < mCompressedChannels.size(); iChan++)
+        {
+            SCompressedChannel& rChan = mCompressedChannels[iChan];
+
+            // Read rotation
+            if (rChan.NumRotationKeys > 0)
+            {
+                bool WSign = (KeyPresent ? BitStream.ReadBit() : false);
+
+                if (KeyPresent)
+                {
+                    rChan.Rotation[0] += (s16) BitStream.ReadBits(rChan.RotationBits[0]);
+                    rChan.Rotation[1] += (s16) BitStream.ReadBits(rChan.RotationBits[1]);
+                    rChan.Rotation[2] += (s16) BitStream.ReadBits(rChan.RotationBits[2]);
+                }
+
+                CQuaternion Rotation = DequantizeRotation(WSign, rChan.Rotation[0], rChan.Rotation[1], rChan.Rotation[2]);
+                mpAnim->mRotationChannels[iChan].push_back(Rotation);
+            }
+
+            // Read translation
+            if (rChan.NumTranslationKeys > 0)
+            {
+                if (KeyPresent)
+                {
+                    rChan.Translation[0] += (s16) BitStream.ReadBits(rChan.TranslationBits[0]);
+                    rChan.Translation[1] += (s16) BitStream.ReadBits(rChan.TranslationBits[1]);
+                    rChan.Translation[2] += (s16) BitStream.ReadBits(rChan.TranslationBits[2]);
+                }
+
+                CVector3f Translate = CVector3f(rChan.Translation[0], rChan.Translation[1], rChan.Translation[2]) * mTranslationMultiplier;
+                mpAnim->mTranslationChannels[iChan].push_back(Translate);
+            }
+        }
+    }
+
+    // Fill in missing keys
+    u32 NumMissedKeys = 0;
+
+    for (u32 iKey = 0; iKey < mpAnim->mNumKeys; iKey++)
+    {
+        if (!mKeyFlags[iKey])
+            NumMissedKeys++;
+
+        else if (NumMissedKeys > 0)
+        {
+            u32 FirstIndex = iKey - NumMissedKeys - 1;
+            u32 LastIndex = iKey;
+            u32 RelLastIndex = LastIndex - FirstIndex;
+
+            for (u32 iMissed = 0; iMissed < NumMissedKeys; iMissed++)
+            {
+                u32 KeyIndex = FirstIndex + iMissed + 1;
+                u32 RelKeyIndex = (KeyIndex - FirstIndex);
+
+                for (u32 iChan = 0; iChan < mCompressedChannels.size(); iChan++)
+                {
+                    bool HasTranslationKeys = mCompressedChannels[iChan].NumTranslationKeys > 0;
+                    bool HasRotationKeys = mCompressedChannels[iChan].NumRotationKeys > 0;
+                    float Interp = (float) RelKeyIndex / (float) RelLastIndex;
+
+                    if (HasRotationKeys)
+                    {
+                        CQuaternion Left = mpAnim->mRotationChannels[iChan][FirstIndex];
+                        CQuaternion Right = mpAnim->mRotationChannels[iChan][LastIndex];
+                        mpAnim->mRotationChannels[iChan][KeyIndex] = Left.Slerp(Right, Interp);
+                    }
+
+                    if (HasTranslationKeys)
+                    {
+                        CVector3f Left = mpAnim->mTranslationChannels[iChan][FirstIndex];
+                        CVector3f Right = mpAnim->mTranslationChannels[iChan][LastIndex];
+                        mpAnim->mTranslationChannels[iChan][KeyIndex] = Math::Lerp<CVector3f>(Left, Right, Interp);
+                    }
+                }
+            }
+
+            NumMissedKeys = 0;
+        }
+    }
+}
+
+CQuaternion CAnimationLoader::DequantizeRotation(bool Sign, s16 X, s16 Y, s16 Z)
+{
+    CQuaternion Out;
+    float Multiplier = Math::skHalfPi / (float) mRotationDivisor;
+    Out.X = sinf(X * Multiplier);
+    Out.Y = sinf(Y * Multiplier);
+    Out.Z = sinf(Z * Multiplier);
+    Out.W = Math::Sqrt( fmax(1.f - ((Out.X * Out.X) + (Out.Y * Out.Y) + (Out.Z * Out.Z)), 0.f) );
+    if (Sign) Out.W = -Out.W;
+    return Out;
+}
+
 // ************ STATIC ************
 CAnimation* CAnimationLoader::LoadANIM(IInputStream& rANIM)
 {
@@ -91,15 +287,14 @@ CAnimation* CAnimationLoader::LoadANIM(IInputStream& rANIM)
         return nullptr;
     }
 
-    if (CompressionType == 2)
-    {
-        Log::FileError(rANIM.GetSourceString(), "Compressed ANIMs not supported yet");
-        return nullptr;
-    }
-
     CAnimationLoader Loader;
     Loader.mpAnim = new CAnimation();
     Loader.mpInput = &rANIM;
-    Loader.ReadUncompressedANIM();
+
+    if (CompressionType == 0)
+        Loader.ReadUncompressedANIM();
+    else
+        Loader.ReadCompressedANIM();
+
     return Loader.mpAnim;
 }

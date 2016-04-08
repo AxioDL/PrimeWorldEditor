@@ -26,7 +26,7 @@ class CAnimation : public CResource
         u8 RotationChannelIdx;
         u8 TranslationChannelIdx;
     };
-    std::vector<SBoneChannelInfo> mBoneInfo;
+    SBoneChannelInfo mBoneInfo[100];
 
 public:
     CAnimation();
