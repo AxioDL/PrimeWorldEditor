@@ -46,7 +46,7 @@ void CRenderBucket::Sort(CCamera* pCamera)
                 float Intensity = 1.f - (Dot / 50.f);
                 CColor CubeColor(Intensity, Intensity, Intensity, 1.f);
 
-                CGraphics::sMVPBlock.ModelMatrix = CTransform4f::TranslationMatrix(Point).ToMatrix4f();
+                CGraphics::sMVPBlock.ModelMatrix = CTransform4f::TranslationMatrix(Point);
                 CGraphics::UpdateMVPBlock();
                 CDrawUtil::DrawCube(CubeColor);
             }

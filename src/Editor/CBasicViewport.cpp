@@ -300,7 +300,7 @@ void CBasicViewport::DrawAxes()
     glClear(GL_DEPTH_BUFFER_BIT);
     glDepthRange(0.f, 1.f);
 
-    CGraphics::sMVPBlock.ModelMatrix = CTransform4f::TranslationMatrix(mCamera.Direction() * 5).ToMatrix4f();
+    CGraphics::sMVPBlock.ModelMatrix = CTransform4f::TranslationMatrix(mCamera.Direction() * 5);
     CGraphics::sMVPBlock.ViewMatrix = mViewInfo.RotationOnlyViewMatrix;
     CGraphics::sMVPBlock.ProjectionMatrix = Math::OrthographicMatrix(-1.f, 1.f, -1.f, 1.f, 0.1f, 100.f);
     CGraphics::UpdateMVPBlock();

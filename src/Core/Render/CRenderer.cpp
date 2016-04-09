@@ -190,7 +190,7 @@ void CRenderer::RenderBloom()
     {
         CDrawUtil::UseTextureShader(skTintColors[iPass]);
         CVector3f Translate(skHOffset[iPass] * BloomHScale, 0.f, 0.f);
-        CGraphics::sMVPBlock.ModelMatrix = CTransform4f::TranslationMatrix(Translate).ToMatrix4f();
+        CGraphics::sMVPBlock.ModelMatrix = CTransform4f::TranslationMatrix(Translate);
         CGraphics::UpdateMVPBlock();
         glBlendFunc(GL_ONE, GL_ONE);
         CDrawUtil::DrawSquare();
@@ -210,7 +210,7 @@ void CRenderer::RenderBloom()
     {
         CDrawUtil::UseTextureShader(skTintColors[iPass]);
         CVector3f Translate(0.f, skVOffset[iPass] * BloomVScale, 0.f);
-        CGraphics::sMVPBlock.ModelMatrix = CTransform4f::TranslationMatrix(Translate).ToMatrix4f();
+        CGraphics::sMVPBlock.ModelMatrix = CTransform4f::TranslationMatrix(Translate);
         CGraphics::UpdateMVPBlock();
         glBlendFunc(GL_ONE, GL_ONE);
         CDrawUtil::DrawSquare();
