@@ -31,6 +31,7 @@ class CAnimation : public CResource
 public:
     CAnimation();
     void EvaluateTransform(float Time, u32 BoneID, CTransform4f& rOut) const;
+    bool HasTranslation(u32 BoneID) const;
 };
 
 #endif // CANIMATION_H

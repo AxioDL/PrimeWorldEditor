@@ -159,8 +159,6 @@ void CAnimationLoader::ReadCompressedAnimationData()
     {
         SCompressedChannel& rChan = mCompressedChannels[iChan];
 
-        // Reserve memory for all keys
-
         // Set initial rotation/translation
         if (rChan.NumRotationKeys > 0)
         {

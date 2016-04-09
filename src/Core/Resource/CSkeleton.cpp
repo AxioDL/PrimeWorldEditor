@@ -15,7 +15,8 @@ void CBone::UpdateTransform(CAnimation *pAnim, float Time, bool AnchorRoot)
     if (pAnim)
         pAnim->EvaluateTransform(Time, mID, mAnimTransform);
 
-    mAnimTransform.Translate(mPosition);
+    if (!pAnim || !pAnim->HasTranslation(mID))
+        mAnimTransform.Translate(mPosition);
 
     if (mpParent)
         mAnimTransform = mpParent->AnimTransform() * mAnimTransform;
