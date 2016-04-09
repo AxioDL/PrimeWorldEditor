@@ -7,6 +7,11 @@ CAnimation::CAnimation()
     , mTickInterval(0.0333333f)
     , mNumKeys(0)
 {
+    for (u32 iBone = 0; iBone < 100; iBone++)
+    {
+        mBoneInfo[iBone].RotationChannelIdx = 0xFF;
+        mBoneInfo[iBone].TranslationChannelIdx = 0xFF;
+    }
 }
 
 void CAnimation::EvaluateTransform(float Time, u32 BoneID, CTransform4f& rOut) const
@@ -34,4 +39,9 @@ void CAnimation::EvaluateTransform(float Time, u32 BoneID, CTransform4f& rOut) c
         const CVector3f& rkHigh = mTranslationChannels[TransChannel][LowKey + 1];
         rOut.Translate( Math::Lerp<CVector3f>(rkLow, rkHigh, t) );
     }
+}
+
+bool CAnimation::HasTranslation(u32 BoneID) const
+{
+    return (mBoneInfo[BoneID].TranslationChannelIdx != 0xFF);
 }

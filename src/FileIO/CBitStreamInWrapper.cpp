@@ -19,9 +19,9 @@ long CBitStreamInWrapper::ReadBits(long NumBits, bool ExtendSignBit /*= true*/)
     long Out = 0;
     long Shift = 0;
 
-     while (BitsRemaining > 0)
+    while (BitsRemaining > 0)
     {
-        if (mBitsRemaining <= BitsRemaining)
+        if (mBitsRemaining < BitsRemaining)
         {
             BitsRemaining -= mBitsRemaining;
             Out |= (mBitPool << Shift);
