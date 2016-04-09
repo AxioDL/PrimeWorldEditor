@@ -8,18 +8,12 @@
 class CVector3f;
 class CVector4f;
 class CQuaternion;
-class CMatrix4f;
 
-class CTransform4f
+class CTransform4f : public CMatrix4f
 {
-    union
-    {
-        float m[3][4];
-        float _m[12];
-    };
-
 public:
     CTransform4f();
+    CTransform4f(const CMatrix4f& rkMtx);
     CTransform4f(IInputStream& rInput);
     CTransform4f(float Diagonal);
     CTransform4f(float m00, float m01, float m02, float m03,
@@ -37,22 +31,18 @@ public:
     void Rotate(float XRot, float YRot, float ZRot);
     void Scale(CVector3f Scale);
     void Scale(float XScale, float YScale, float ZScale);
+    void SetIdentity();
     void ZeroTranslation();
     CTransform4f MultiplyIgnoreTranslation(const CTransform4f& rkMtx) const;
-    CTransform4f Inverse() const;
     CTransform4f QuickInverse() const;
     CTransform4f NoTranslation() const;
     CTransform4f TranslationOnly() const;
     CTransform4f RotationOnly() const;
 
-    // Conversion
-    CMatrix4f ToMatrix4f() const;
-
     // Static
     static CTransform4f TranslationMatrix(CVector3f Translation);
     static CTransform4f RotationMatrix(CQuaternion Rotation);
     static CTransform4f ScaleMatrix(CVector3f Scale);
-    static CTransform4f FromMatrix4f(const CMatrix4f& rkMtx);
     static CTransform4f FromGlmMat4(const glm::mat4& rkMtx);
 
     // Operators
@@ -68,6 +58,16 @@ public:
     // Constant
     static const CTransform4f skIdentity;
     static const CTransform4f skZero;
+
+    // Protected Utility
+protected:
+    inline void SetupRow4()
+    {
+        m[3][0] = 0.f;
+        m[3][1] = 0.f;
+        m[3][2] = 0.f;
+        m[3][3] = 1.f;
+    }
 };
 
 #endif // CTRANSFORM4F_H

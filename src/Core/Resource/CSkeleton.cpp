@@ -84,7 +84,7 @@ void CSkeleton::Draw(FRenderOptions /*Options*/)
         CTransform4f Transform;
         Transform.Scale(0.025f);
         Transform.Translate(pBone->AbsolutePosition());
-        CGraphics::sMVPBlock.ModelMatrix = Transform.ToMatrix4f();
+        CGraphics::sMVPBlock.ModelMatrix = Transform;
         CGraphics::UpdateMVPBlock();
         CDrawUtil::DrawSphere(CColor::skWhite);
 

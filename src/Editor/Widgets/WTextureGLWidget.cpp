@@ -57,7 +57,7 @@ void WTextureGLWidget::paintGL()
     // Draw texture
     CDrawUtil::UseTextureShader();
     mpTexture->Bind(0);
-    CGraphics::sMVPBlock.ModelMatrix = mTexTransform.ToMatrix4f();
+    CGraphics::sMVPBlock.ModelMatrix = mTexTransform;
     CGraphics::UpdateMVPBlock();
     CDrawUtil::DrawSquare();
 

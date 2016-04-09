@@ -142,7 +142,7 @@ void CDrawUtil::DrawCube(const CColor& Color)
 
 void CDrawUtil::DrawCube(const CVector3f& Position, const CColor& Color)
 {
-    CGraphics::sMVPBlock.ModelMatrix = CTransform4f::TranslationMatrix(Position).ToMatrix4f();
+    CGraphics::sMVPBlock.ModelMatrix = CTransform4f::TranslationMatrix(Position);
     CGraphics::UpdateMVPBlock();
     UseColorShader(Color);
     DrawCube();
@@ -172,7 +172,7 @@ void CDrawUtil::DrawWireCube(const CAABox& kAABox, const CColor& kColor)
     CTransform4f Transform;
     Transform.Scale(kAABox.Size());
     Transform.Translate(kAABox.Center());
-    CGraphics::sMVPBlock.ModelMatrix = Transform.ToMatrix4f();
+    CGraphics::sMVPBlock.ModelMatrix = Transform;
     CGraphics::UpdateMVPBlock();
 
     UseColorShader(kColor);
@@ -204,7 +204,7 @@ void CDrawUtil::DrawWireSphere(const CVector3f& Position, float Radius, const CC
     CTransform4f Transform;
     Transform.Scale(Radius);
     Transform.Translate(Position);
-    CGraphics::sMVPBlock.ModelMatrix = Transform.ToMatrix4f();
+    CGraphics::sMVPBlock.ModelMatrix = Transform;
     CGraphics::UpdateMVPBlock();
 
     // Set other render params
@@ -223,7 +223,7 @@ void CDrawUtil::DrawBillboard(CTexture* pTexture, const CVector3f& Position, con
     Init();
 
     // Create translation-only model matrix
-    CGraphics::sMVPBlock.ModelMatrix = CTransform4f::TranslationMatrix(Position).ToMatrix4f();
+    CGraphics::sMVPBlock.ModelMatrix = CTransform4f::TranslationMatrix(Position);
     CGraphics::UpdateMVPBlock();
 
     // Set uniforms
@@ -252,7 +252,7 @@ void CDrawUtil::DrawLightBillboard(ELightType Type, const CColor& LightColor, co
     Init();
 
     // Create translation-only model matrix
-    CGraphics::sMVPBlock.ModelMatrix = CTransform4f::TranslationMatrix(Position).ToMatrix4f();
+    CGraphics::sMVPBlock.ModelMatrix = CTransform4f::TranslationMatrix(Position);
     CGraphics::UpdateMVPBlock();
 
     // Set uniforms

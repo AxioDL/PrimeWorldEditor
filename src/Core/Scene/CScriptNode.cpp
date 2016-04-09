@@ -242,7 +242,7 @@ void CScriptNode::DrawSelection()
         CTransform4f Transform;
         Transform.Rotate(AbsoluteRotation());
         Transform.Translate(AbsolutePosition());
-        CGraphics::sMVPBlock.ModelMatrix = Transform.ToMatrix4f();
+        CGraphics::sMVPBlock.ModelMatrix = Transform;
         CGraphics::UpdateMVPBlock();
 
         CGraphics::sPixelBlock.TintColor = CColor::skWhite;

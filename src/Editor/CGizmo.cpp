@@ -74,11 +74,11 @@ void CGizmo::Draw(FRenderOptions /*Options*/, int ComponentIndex, const SViewInf
 
     // Set model matrix
     if (pPart[ComponentIndex].IsBillboard)
-        CGraphics::sMVPBlock.ModelMatrix = mBillboardTransform.ToMatrix4f();
+        CGraphics::sMVPBlock.ModelMatrix = mBillboardTransform;
     else if ((mMode == eScale) && ((mSelectedAxes & pPart[ComponentIndex].ModelAxes) != 0))
-        CGraphics::sMVPBlock.ModelMatrix = mScaledTransform.ToMatrix4f();
+        CGraphics::sMVPBlock.ModelMatrix = mScaledTransform;
     else
-        CGraphics::sMVPBlock.ModelMatrix = mTransform.ToMatrix4f();
+        CGraphics::sMVPBlock.ModelMatrix = mTransform;
 
     CGraphics::UpdateMVPBlock();
 

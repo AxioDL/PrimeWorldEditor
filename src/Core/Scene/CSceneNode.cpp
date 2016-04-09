@@ -124,7 +124,7 @@ void CSceneNode::SetInheritance(bool InheritPos, bool InheritRot, bool InheritSc
 
 void CSceneNode::LoadModelMatrix()
 {
-    CGraphics::sMVPBlock.ModelMatrix = Transform().ToMatrix4f();
+    CGraphics::sMVPBlock.ModelMatrix = Transform();
     CGraphics::UpdateMVPBlock();
 }
 

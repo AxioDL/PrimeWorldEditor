@@ -9,6 +9,7 @@ class CTransform4f;
 
 class CMatrix4f
 {
+protected:
     union
     {
         float m[4][4];

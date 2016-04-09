@@ -101,7 +101,6 @@ CVector2f CFont::RenderString(const TString& rkString, CRenderer* /*pRenderer*/,
         GlyphTransform.Scale(CVector3f((float) pGlyph->Width / 2, (float) pGlyph->Height, 1.f));
         GlyphTransform.Scale(Scale);
         GlyphTransform.Translate(CVector3f(XTrans, YTrans, 0.f));
-        CMatrix4f Glyph4f = GlyphTransform.ToMatrix4f();
 
         // Get glyph layer
         u8 GlyphLayer = pGlyph->RGBAChannel;
@@ -109,7 +108,7 @@ CVector2f CFont::RenderString(const TString& rkString, CRenderer* /*pRenderer*/,
         else if (mTextureFormat == 8) GlyphLayer = 3;
 
         // Load shader uniforms, buffer texture
-        glUniformMatrix4fv(ModelMtxLoc, 1, GL_FALSE, (GLfloat*) &Glyph4f);
+        glUniformMatrix4fv(ModelMtxLoc, 1, GL_FALSE, (GLfloat*) &GlyphTransform);
         smGlyphVertices.BufferAttrib(eTex0, &pGlyph->TexCoords);
 
         // Draw fill
