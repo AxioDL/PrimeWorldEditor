@@ -18,16 +18,18 @@ public:
     inline bool operator!()   const { return !mValue; }
     inline TFlags operator~() const { return TFlags(FlagEnum(~mValue)); }
 
-    inline void operator&=(int Mask) { mValue &= Mask; }
-    inline void operator&=(u32 Mask) { mValue &= Mask; }
-    inline void operator|=(TFlags Flags) { mValue |= Flags.mValue; }
-    inline void operator|=(FlagEnum Flag) { mValue |= Flag; }
+    inline void operator&=(int Mask)        { mValue &= Mask; }
+    inline void operator&=(u32 Mask)        { mValue &= Mask; }
+    inline void operator|=(TFlags Flags)    { mValue |= Flags.mValue; }
+    inline void operator|=(FlagEnum Flag)   { mValue |= Flag; }
 
-    inline TFlags operator|(TFlags Flags) const { return TFlags(FlagEnum(mValue | Flags.mValue)); }
-    inline TFlags operator|(FlagEnum Flag) const { return TFlags(FlagEnum(mValue | Flag)); }
-    inline TFlags operator&(int Mask) const { return TFlags(FlagEnum(mValue & Mask)); }
-    inline TFlags operator&(u32 Mask) const { return TFlags(FlagEnum(mValue & Mask)); }
-    inline TFlags operator&(FlagEnum Flag) const { return TFlags(FlagEnum(mValue & Flag)); }
+    inline TFlags operator|(TFlags Flags) const     { return TFlags(FlagEnum(mValue | Flags.mValue)); }
+    inline TFlags operator|(FlagEnum Flag) const    { return TFlags(FlagEnum(mValue | Flag)); }
+    inline TFlags operator&(int Mask) const         { return TFlags(FlagEnum(mValue & Mask)); }
+    inline TFlags operator&(u32 Mask) const         { return TFlags(FlagEnum(mValue & Mask)); }
+    inline TFlags operator&(FlagEnum Flag) const    { return TFlags(FlagEnum(mValue & Flag)); }
+
+    inline bool HasAnyFlags(TFlags Flags) const { return ((mValue & Flags) != 0); }
 };
 #define DECLARE_FLAGS(Enum, FlagTypeName) typedef TFlags<Enum> FlagTypeName;
 

@@ -18,10 +18,11 @@ void CAnimation::EvaluateTransform(float Time, u32 BoneID, CTransform4f& rOut) c
 {
     if (mDuration == 0.f) return;
 
-    Time = fmodf(Time, mDuration);
+    if (Time >= mDuration) Time = mDuration;
     if (Time >= FLT_EPSILON) Time -= FLT_EPSILON;
     float t = fmodf(Time, mTickInterval) / mTickInterval;
     u32 LowKey = (u32) (Time / mTickInterval);
+    if (LowKey == (mNumKeys - 1)) LowKey = mNumKeys - 2;
 
     u8 RotChannel = mBoneInfo[BoneID].RotationChannelIdx;
     u8 TransChannel = mBoneInfo[BoneID].TranslationChannelIdx;

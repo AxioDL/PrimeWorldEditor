@@ -317,7 +317,7 @@ bool CGizmo::TransformFromInput(const CRay& rkRay, CCamera& rCamera)
         mTranslatePlane.Redefine(PlaneNormal, mPosition);
 
         // Do translate
-        std::pair<bool,float> Result = Math::RayPlaneIntersecton(rkRay, mTranslatePlane);
+        std::pair<bool,float> Result = Math::RayPlaneIntersection(rkRay, mTranslatePlane);
 
         if (Result.first)
         {

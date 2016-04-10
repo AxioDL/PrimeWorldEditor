@@ -231,9 +231,7 @@ CRay CBasicViewport::CastRay()
 
 CVector2f CBasicViewport::MouseDeviceCoordinates()
 {
-    QPoint MousePos = QCursor::pos();
-    QPoint ThisPos = this->mapToGlobal(pos());
-    MousePos -= ThisPos;
+    QPoint MousePos = mapFromGlobal(QCursor::pos());
 
     CVector2f Device(
         (((2.f * MousePos.x()) / width()) - 1.f),

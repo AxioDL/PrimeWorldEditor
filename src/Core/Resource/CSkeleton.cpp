@@ -1,6 +1,8 @@
 #include "CSkeleton.h"
+#include "Core/Render/CBoneTransformData.h"
 #include "Core/Render/CDrawUtil.h"
 #include "Core/Render/CGraphics.h"
+#include <Math/MathUtil.h>
 
 // ************ CBone ************
 CBone::CBone(CSkeleton *pSkel)
@@ -8,26 +10,25 @@ CBone::CBone(CSkeleton *pSkel)
 {
 }
 
-void CBone::UpdateTransform(CAnimation *pAnim, float Time, bool AnchorRoot)
+void CBone::UpdateTransform(CBoneTransformData& rData, CAnimation *pAnim, float Time, bool AnchorRoot)
 {
-    mAnimTransform = CTransform4f::skIdentity;
+    CTransform4f& rTransform = rData[mID];
+    rTransform.SetIdentity();
 
     if (pAnim)
-        pAnim->EvaluateTransform(Time, mID, mAnimTransform);
+        pAnim->EvaluateTransform(Time, mID, rTransform);
 
     if (!pAnim || !pAnim->HasTranslation(mID))
-        mAnimTransform.Translate(mPosition);
+        rTransform.Translate(mPosition);
 
     if (mpParent)
-        mAnimTransform = mpParent->AnimTransform() * mAnimTransform;
+        rTransform = rData[mpParent->ID()] * rTransform;
 
     if (AnchorRoot && IsRoot())
-        mAnimTransform.ZeroTranslation();
-
-    mAbsPosDirty = true;
+        rTransform.ZeroTranslation();
 
     for (u32 iChild = 0; iChild < mChildren.size(); iChild++)
-        mChildren[iChild]->UpdateTransform(pAnim, Time, AnchorRoot);
+        mChildren[iChild]->UpdateTransform(rData, pAnim, Time, AnchorRoot);
 }
 
 bool CBone::IsRoot() const
@@ -35,18 +36,9 @@ bool CBone::IsRoot() const
     return (mpParent == nullptr);
 }
 
-CVector3f CBone::AbsolutePosition() const
-{
-    if (mAbsPosDirty)
-    {
-        mAbsolutePosition = (mAnimTransform * CVector3f::skZero);
-        mAbsPosDirty = false;
-    }
-
-    return mAbsolutePosition;
-}
-
 // ************ CSkeleton ************
+const float CSkeleton::skSphereRadius = 0.025f;
+
 CSkeleton::CSkeleton()
     : mpRootBone(nullptr)
 {
@@ -69,21 +61,35 @@ CBone* CSkeleton::BoneByID(u32 BoneID) const
     return nullptr;
 }
 
-void CSkeleton::UpdateTransform(CAnimation *pAnim, float Time, bool AnchorRoot)
+u32 CSkeleton::MaxBoneID() const
 {
-    mpRootBone->UpdateTransform(pAnim, Time, AnchorRoot);
+    u32 ID = 0;
+
+    for (u32 iBone = 0; iBone < mBones.size(); iBone++)
+    {
+        if (mBones[iBone]->ID() > ID)
+            ID = mBones[iBone]->ID();
+    }
+
+    return ID;
 }
 
-void CSkeleton::Draw(FRenderOptions /*Options*/)
+void CSkeleton::UpdateTransform(CBoneTransformData& rData, CAnimation *pAnim, float Time, bool AnchorRoot)
+{
+    mpRootBone->UpdateTransform(rData, pAnim, Time, AnchorRoot);
+}
+
+void CSkeleton::Draw(FRenderOptions /*Options*/, const CBoneTransformData& rkData)
 {
     for (u32 iBone = 0; iBone < mBones.size(); iBone++)
     {
         CBone *pBone = mBones[iBone];
+        const CTransform4f& rkBoneTransform = rkData[pBone->ID()];
 
         // Draw bone
         CTransform4f Transform;
-        Transform.Scale(0.025f);
-        Transform.Translate(pBone->AbsolutePosition());
+        Transform.Scale(skSphereRadius);
+        Transform.Translate(rkBoneTransform.ExtractTranslation());
         CGraphics::sMVPBlock.ModelMatrix = Transform;
         CGraphics::UpdateMVPBlock();
         CDrawUtil::DrawSphere(CColor::skWhite);
@@ -93,6 +99,29 @@ void CSkeleton::Draw(FRenderOptions /*Options*/)
         CGraphics::UpdateMVPBlock();
 
         for (u32 iChild = 0; iChild < pBone->NumChildren(); iChild++)
-            CDrawUtil::DrawLine(pBone->AbsolutePosition(), pBone->ChildByIndex(iChild)->AbsolutePosition());
+        {
+            const CTransform4f& rkChildTransform = rkData[pBone->ChildByIndex(iChild)->ID()];
+            CDrawUtil::DrawLine(rkBoneTransform.ExtractTranslation(), rkChildTransform.ExtractTranslation());
+        }
     }
+}
+
+std::pair<s32,float> CSkeleton::RayIntersect(const CRay& rkRay, const CBoneTransformData& rkData)
+{
+    std::pair<s32,float> Out(-1, FLT_MAX);
+
+    for (u32 iBone = 0; iBone < mBones.size(); iBone++)
+    {
+        CBone *pBone = mBones[iBone];
+        CVector3f BonePos = rkData[pBone->ID()].ExtractTranslation();
+        std::pair<bool,float> Intersect = Math::RaySphereIntersection(rkRay, BonePos, skSphereRadius);
+
+        if (Intersect.first && Intersect.second < Out.second)
+        {
+            Out.first = pBone->ID();
+            Out.second = Intersect.second;
+        }
+    }
+
+    return Out;
 }

@@ -39,6 +39,8 @@ public:
     CTransform4f TranslationOnly() const;
     CTransform4f RotationOnly() const;
 
+    CVector3f ExtractTranslation() const;
+
     // Static
     static CTransform4f TranslationMatrix(CVector3f Translation);
     static CTransform4f RotationMatrix(CQuaternion Rotation);

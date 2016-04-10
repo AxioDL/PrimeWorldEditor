@@ -94,7 +94,7 @@ void CAnimationLoader::ReadCompressedANIM()
 
     // Read key flags
     u32 NumKeys = mpInput->ReadLong();
-    mpAnim->mNumKeys = NumKeys - 1;
+    mpAnim->mNumKeys = NumKeys;
     mKeyFlags.resize(NumKeys);
     {
         CBitStreamInWrapper BitStream(mpInput);
@@ -176,9 +176,9 @@ void CAnimationLoader::ReadCompressedAnimationData()
     }
 
     // Read keys
-    for (u32 iKey = 0; iKey < mpAnim->mNumKeys; iKey++)
+    for (u32 iKey = 0; iKey < mpAnim->mNumKeys - 1; iKey++)
     {
-        bool KeyPresent = mKeyFlags[iKey];
+        bool KeyPresent = mKeyFlags[iKey+1];
 
         for (u32 iChan = 0; iChan < mCompressedChannels.size(); iChan++)
         {
@@ -187,6 +187,8 @@ void CAnimationLoader::ReadCompressedAnimationData()
             // Read rotation
             if (rChan.NumRotationKeys > 0)
             {
+                // Note if KeyPresent is false, this isn't the correct value of WSign.
+                // However, we're going to recreate this key later via interpolation, so it doesn't matter what value we use here.
                 bool WSign = (KeyPresent ? BitStream.ReadBit() : false);
 
                 if (KeyPresent)
@@ -234,12 +236,12 @@ void CAnimationLoader::ReadCompressedAnimationData()
             {
                 u32 KeyIndex = FirstIndex + iMissed + 1;
                 u32 RelKeyIndex = (KeyIndex - FirstIndex);
+                float Interp = (float) RelKeyIndex / (float) RelLastIndex;
 
                 for (u32 iChan = 0; iChan < mCompressedChannels.size(); iChan++)
                 {
                     bool HasTranslationKeys = mCompressedChannels[iChan].NumTranslationKeys > 0;
                     bool HasRotationKeys = mCompressedChannels[iChan].NumRotationKeys > 0;
-                    float Interp = (float) RelKeyIndex / (float) RelLastIndex;
 
                     if (HasRotationKeys)
                     {

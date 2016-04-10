@@ -23,18 +23,33 @@ float DegreesToRadians(float Deg);
 float RadiansToDegrees(float Rad);
 
 template<typename Type>
+Type Max(const Type& rkA, const Type& rkB)
+{
+    return (rkA > rkB ? rkA : rkB);
+}
+
+template<typename Type>
+Type Min(const Type& rkA, const Type& rkB)
+{
+    return (rkA < rkB ? rkA : rkB);
+}
+
+template<typename Type>
 Type Lerp(const Type& rkA, const Type& rkB, float t)
 {
     Type Diff = rkB - rkA;
     return rkA + (Diff * t);
 }
 
-std::pair<bool,float> RayPlaneIntersecton(const CRay& rkRay, const CPlane& rkPlane);
+std::pair<bool,float> RayPlaneIntersection(const CRay& rkRay, const CPlane& rkPlane);
 
 std::pair<bool,float> RayBoxIntersection(const CRay& rkRay, const CAABox& rkBox);
 
 std::pair<bool,float> RayLineIntersection(const CRay& rkRay, const CVector3f& rkPointA,
                                           const CVector3f& rkPointB, float Threshold = 0.02f);
+
+std::pair<bool,float> RaySphereIntersection(const CRay& rkRay, const CVector3f& rkSpherePos,
+                                            float SphereRadius, bool AllowBackfaces = false);
 
 std::pair<bool,float> RayTriangleIntersection(const CRay& rkRay, const CVector3f& rkPointA,
                                               const CVector3f& rkPointB, const CVector3f& rkPointC,
