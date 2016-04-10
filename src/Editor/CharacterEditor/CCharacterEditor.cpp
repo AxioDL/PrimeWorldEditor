@@ -9,6 +9,7 @@ CCharacterEditor::CCharacterEditor(QWidget *parent)
     , ui(new Ui::CCharacterEditor)
     , mpScene(new CScene())
     , mpCharNode(new CCharacterNode(mpScene, -1))
+    , mAnimTime(0.f)
     , mPlayAnim(true)
     , mLoopAnim(true)
     , mPlaybackSpeed(1.f)
@@ -42,8 +43,8 @@ CCharacterEditor::CCharacterEditor(QWidget *parent)
     connect(mpAnimComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(SetActiveAnimation(int)));
 
     connect(ui->AnimSlider, SIGNAL(valueChanged(int)), this, SLOT(SetAnimTime(int)));
-    connect(ui->PlayPauseButton, SIGNAL(pressed()), this, SLOT(PlayPauseButtonPressed()));
-    connect(ui->LoopButton, SIGNAL(toggled(bool)), this, SLOT(LoopButtonToggled(bool)));
+    connect(ui->PlayPauseButton, SIGNAL(pressed()), this, SLOT(TogglePlay()));
+    connect(ui->LoopButton, SIGNAL(toggled(bool)), this, SLOT(ToggleLoop(bool)));
     connect(ui->AnimSpeedSpinBox, SIGNAL(valueChanged(double)), this, SLOT(AnimSpeedSpinBoxChanged(double)));
 }
 
@@ -58,7 +59,9 @@ void CCharacterEditor::UpdateAnimTime()
     double DeltaTime = Time - mLastAnimUpdate;
     mLastAnimUpdate = Time;
 
-    if (mPlayAnim && !ui->AnimSlider->isSliderDown())
+    CAnimation *pAnim = CurrentAnimation();
+
+    if (pAnim && mPlayAnim && !ui->AnimSlider->isSliderDown())
     {
         mAnimTime += DeltaTime * mPlaybackSpeed;
 
@@ -68,17 +71,27 @@ void CCharacterEditor::UpdateAnimTime()
         if (mAnimTime > AnimLength)
         {
             if (mLoopAnim)
+            {
                 mAnimTime = fmodf(mAnimTime, AnimLength);
+            }
             else
+            {
                 mAnimTime = AnimLength;
+                TogglePlay();
+            }
         }
 
         if (mAnimTime < 0.f)
         {
             if (mLoopAnim)
+            {
                 mAnimTime = AnimLength + fmodf(mAnimTime, AnimLength);
+            }
             else
+            {
                 mAnimTime = 0.f;
+                TogglePlay();
+            }
         }
 
         SetAnimTime(mAnimTime);
@@ -191,19 +204,32 @@ void CCharacterEditor::SetAnimTime(float Time)
         CurKey = Math::Min<u32>((u32) (Time / pAnim->TickInterval()) + 1, NumKeys - 1);
     }
 
-    ui->FrameLabel->setText(QString("Frame %1 / %2").arg(CurKey).arg(NumKeys - 1));
+    ui->FrameLabel->setText(QString("Frame %1 / %2 (%3s/%4s)").arg(CurKey).arg(NumKeys - 1).arg(mAnimTime, 0, 'f', 3).arg(pAnim ? pAnim->Duration() : 0.f, 0, 'f', 3));
 }
 
-void CCharacterEditor::PlayPauseButtonPressed()
+void CCharacterEditor::TogglePlay()
 {
     mPlayAnim = !mPlayAnim;
     QString NewText = (mPlayAnim ? "Pause" : "Play");
     ui->PlayPauseButton->setText(NewText);
+
+    CAnimation *pAnim = CurrentAnimation();
+
+    if (pAnim && mPlayAnim)
+    {
+        if (mPlaybackSpeed < 0.f && mAnimTime == 0.f)
+            SetAnimTime(pAnim->Duration());
+        if (mPlaybackSpeed >= 0.f && mAnimTime == pAnim->Duration())
+            SetAnimTime(0.f);
+    }
 }
 
-void CCharacterEditor::LoopButtonToggled(bool Checked)
+void CCharacterEditor::ToggleLoop(bool Loop)
 {
-    mLoopAnim = Checked;
+    mLoopAnim = Loop;
+
+    if (sender() != ui->LoopButton)
+        ui->LoopButton->setChecked(Loop);
 }
 
 void CCharacterEditor::AnimSpeedSpinBoxChanged(double NewVal)
