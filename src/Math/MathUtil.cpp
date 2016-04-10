@@ -37,7 +37,7 @@ float RadiansToDegrees(float Rad)
     return Rad * 180.f / skPi;
 }
 
-std::pair<bool,float> RayPlaneIntersecton(const CRay& rkRay, const CPlane& plane)
+std::pair<bool,float> RayPlaneIntersection(const CRay& rkRay, const CPlane& plane)
 {
     // Code based on ray/plane intersect code from Ogre
     // https://bitbucket.org/sinbad/ogre/src/197116fd2ac62c57cdeed1666f9866c3dddd4289/OgreMain/src/OgreMath.cpp?at=default#OgreMath.cpp-350
@@ -244,6 +244,33 @@ std::pair<bool,float> RayLineIntersection(const CRay& rkRay, const CVector3f& rk
     CVector3f dP = w + (u * sc) - (v * tc);
     bool hit = (dP.Magnitude() <= Threshold);
     return std::pair<bool,float>(hit, sc);
+}
+
+std::pair<bool,float> RaySphereIntersection(const CRay& rkRay, const CVector3f& rkSpherePos, float SphereRadius, bool AllowBackfaces /*= false*/)
+{
+    std::pair<bool,float> Out(false, 0.f);
+    float SquaredRadius = (SphereRadius * SphereRadius);
+
+    // Test for ray origin inside sphere
+    if (!AllowBackfaces && rkRay.Origin().SquaredDistance(rkSpherePos) <= SquaredRadius)
+        return Out;
+
+    CVector3f RayToSphere = rkSpherePos - rkRay.Origin();
+    float CenterDist = RayToSphere.Dot(rkRay.Direction());
+
+    if (CenterDist >= 0.f)
+    {
+        float RayToSphereDistSquared = RayToSphere.SquaredMagnitude();
+        float DSquared = RayToSphereDistSquared - (CenterDist * CenterDist);
+
+        if (DSquared >= 0.f && DSquared <= SquaredRadius)
+        {
+            Out.first = true;
+            Out.second = CenterDist - Sqrt(SquaredRadius - DSquared);
+        }
+    }
+
+    return Out;
 }
 
 std::pair<bool,float> RayTriangleIntersection(const CRay& rkRay,

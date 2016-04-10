@@ -6,9 +6,10 @@
 #include "Core/Render/FRenderOptions.h"
 #include <Common/TString.h>
 #include <Common/types.h>
-#include <Math/CTransform4f.h>
+#include <Math/CRay.h>
 #include <Math/CVector3f.h>
 
+class CBoneTransformData;
 class CSkeleton;
 
 class CBone
@@ -22,24 +23,19 @@ class CBone
     CVector3f mPosition;
     TString mName;
 
-    CTransform4f mAnimTransform;
-    mutable bool mAbsPosDirty;
-    mutable CVector3f mAbsolutePosition;
-
 public:
     CBone(CSkeleton *pSkel);
-    void UpdateTransform(CAnimation *pAnim, float Time, bool AnchorRoot);
+    void UpdateTransform(CBoneTransformData& rData, CAnimation *pAnim, float Time, bool AnchorRoot);
     bool IsRoot() const;
 
     // Accessors
-    inline u32 ID() const                               { return mID; }
-    inline CVector3f Position() const                   { return mPosition; }
-    inline CBone* Parent() const                        { return mpParent; }
-    inline u32 NumChildren() const                      { return mChildren.size(); }
-    inline CBone* ChildByIndex(u32 Index) const         { return mChildren[Index]; }
-    inline const CTransform4f& AnimTransform() const    { return mAnimTransform; }
-
-    CVector3f AbsolutePosition() const;
+    inline CSkeleton* Skeleton() const          { return mpSkeleton; }
+    inline CBone* Parent() const                { return mpParent; }
+    inline u32 NumChildren() const              { return mChildren.size(); }
+    inline CBone* ChildByIndex(u32 Index) const { return mChildren[Index]; }
+    inline u32 ID() const                       { return mID; }
+    inline CVector3f Position() const           { return mPosition; }
+    inline TString Name() const                 { return mName; }
 };
 
 class CSkeleton : public CResource
@@ -50,12 +46,19 @@ class CSkeleton : public CResource
     CBone *mpRootBone;
     std::vector<CBone*> mBones;
 
+    static const float skSphereRadius;
+
 public:
     CSkeleton();
     ~CSkeleton();
-    void UpdateTransform(CAnimation *pAnim, float Time, bool AnchorRoot);
+    void UpdateTransform(CBoneTransformData& rData, CAnimation *pAnim, float Time, bool AnchorRoot);
     CBone* BoneByID(u32 BoneID) const;
-    void Draw(FRenderOptions Options);
+    u32 MaxBoneID() const;
+
+    void Draw(FRenderOptions Options, const CBoneTransformData& rkData);
+    std::pair<s32,float> RayIntersect(const CRay& rkRay, const CBoneTransformData& rkData);
+
+    inline u32 NumBones() const { return mBones.size(); }
 };
 
 #endif // CSKELETON_H

@@ -24,6 +24,26 @@ void CCharacterEditorViewport::SetNode(CCharacterNode *pNode)
     mpCharNode = pNode;
 }
 
+void CCharacterEditorViewport::CheckUserInput()
+{
+    u32 HoverBoneID = -1;
+
+    if (underMouse() && !IsMouseInputActive())
+    {
+        CRay Ray = CastRay();
+        SRayIntersection Intersect = mpCharNode->RayNodeIntersectTest(Ray, 0, mViewInfo);
+
+        if (Intersect.Hit)
+            HoverBoneID = Intersect.ComponentIndex;
+    }
+
+    if (HoverBoneID != mHoverBone)
+    {
+        mHoverBone = HoverBoneID;
+        emit HoverBoneChanged(mHoverBone);
+    }
+}
+
 void CCharacterEditorViewport::Paint()
 {
     mpRenderer->BeginFrame();

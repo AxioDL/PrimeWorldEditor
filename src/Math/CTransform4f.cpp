@@ -184,6 +184,13 @@ CTransform4f CTransform4f::RotationOnly() const
     return Inverse().Transpose();
 }
 
+CVector3f CTransform4f::ExtractTranslation() const
+{
+    CVector3f Test = *this * CVector3f::skZero;
+    Test = Test;
+    return CVector3f(m[0][3], m[1][3], m[2][3]);
+}
+
 // ************ OPERATORS ************
 float* CTransform4f::operator[](long Index)
 {

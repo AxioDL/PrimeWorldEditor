@@ -190,7 +190,8 @@ HEADERS += \
     Resource/Factory/CSkeletonLoader.h \
     Scene/CCharacterNode.h \
     Resource/CAnimation.h \
-    Resource/Factory/CAnimationLoader.h
+    Resource/Factory/CAnimationLoader.h \
+    Render/CBoneTransformData.h
 
 # Source Files
 SOURCES += \

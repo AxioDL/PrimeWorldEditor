@@ -32,6 +32,10 @@ public:
     CAnimation();
     void EvaluateTransform(float Time, u32 BoneID, CTransform4f& rOut) const;
     bool HasTranslation(u32 BoneID) const;
+
+    inline float Duration() const       { return mDuration; }
+    inline u32 NumKeys() const          { return mNumKeys; }
+    inline float TickInterval() const   { return mTickInterval; }
 };
 
 #endif // CANIMATION_H

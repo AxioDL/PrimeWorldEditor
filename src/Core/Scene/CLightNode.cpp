@@ -80,7 +80,7 @@ SRayIntersection CLightNode::RayNodeIntersectTest(const CRay& rkRay, u32 AssetID
 
     // Step 1: check whether the ray intersects with the plane the billboard is on
     CPlane BillboardPlane(-rkViewInfo.pCamera->Direction(), mPosition);
-    std::pair<bool,float> PlaneTest = Math::RayPlaneIntersecton(rkRay, BillboardPlane);
+    std::pair<bool,float> PlaneTest = Math::RayPlaneIntersection(rkRay, BillboardPlane);
 
     if (PlaneTest.first)
     {
