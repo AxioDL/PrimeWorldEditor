@@ -51,8 +51,8 @@ public slots:
     void SetAnimTime(int Time);
     void SetAnimTime(float Time);
 
-    void PlayPauseButtonPressed();
-    void LoopButtonToggled(bool Checked);
+    void TogglePlay();
+    void ToggleLoop(bool Loop);
     void AnimSpeedSpinBoxChanged(double NewVal);
 };
 

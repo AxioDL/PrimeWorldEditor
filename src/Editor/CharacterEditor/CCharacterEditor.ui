@@ -113,7 +113,7 @@
        </size>
       </property>
       <property name="text">
-       <string>Frame 0 / 0</string>
+       <string>Frame 0 / 0 (0.000s/0.000s)</string>
       </property>
       <property name="textFormat">
        <enum>Qt::PlainText</enum>
