@@ -1,6 +1,7 @@
 #ifndef ASSERT_H
 #define ASSERT_H
 
+#include "Log.h"
 #include "TString.h"
 #include <cstdlib>
 #include <string.h>

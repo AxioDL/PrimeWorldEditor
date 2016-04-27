@@ -168,7 +168,7 @@ SSurface* CModelLoader::LoadSurface(IInputStream& rModel)
 
             // Color
             for (u32 iClr = 0; iClr < 2; iClr++)
-                if (VtxDesc & (eColor0 << (iClr * 2)))
+                if (VtxDesc & (eColor0 << iClr))
                     Vtx.Color[iClr] = mColors[rModel.ReadShort() & 0xFFFF];
 
             // Tex Coords - these are done a bit differently in DKCR than in the Prime series
@@ -185,7 +185,7 @@ SSurface* CModelLoader::LoadSurface(IInputStream& rModel)
 
                 // Tex1-7
                 for (u32 iTex = 1; iTex < 7; iTex++)
-                    if (VtxDesc & (eTex0 << (iTex * 2)))
+                    if (VtxDesc & (eTex0 << iTex))
                         Vtx.Tex[iTex] = mTex0[rModel.ReadShort() & 0xFFFF];
             }
 
@@ -194,7 +194,7 @@ SSurface* CModelLoader::LoadSurface(IInputStream& rModel)
                 // Tex0-7
                 for (u32 iTex = 0; iTex < 7; iTex++)
                 {
-                    if (VtxDesc & (eTex0 << iTex * 2))
+                    if (VtxDesc & (eTex0 << iTex))
                     {
                         if (!mSurfaceUsingTex1)
                             Vtx.Tex[iTex] = mTex0[rModel.ReadShort() & 0xFFFF];
@@ -289,7 +289,7 @@ SSurface* CModelLoader::LoadAssimpMesh(const aiMesh *pkMesh, CMaterialSet *pSet)
         if (pkMesh->HasNormals())   Desc |= eNormal;
 
         for (u32 iUV = 0; iUV < pkMesh->GetNumUVChannels(); iUV++)
-            Desc |= (eTex0 << (iUV * 2));
+            Desc |= (eTex0 << iUV);
 
         pMat->SetVertexDescription(Desc);
 
@@ -401,6 +401,7 @@ CModel* CModelLoader::LoadCMDL(IInputStream& rCMDL)
         BlockCount = rCMDL.ReadLong();
         MatSetCount = rCMDL.ReadLong();
 
+        if (Flags & 0x1) Loader.mFlags |= eSkinnedModel;
         if (Flags & 0x2) Loader.mFlags |= eShortNormals;
         if (Flags & 0x4) Loader.mFlags |= eHasTex1;
     }
@@ -459,9 +460,21 @@ CModel* CModelLoader::LoadCMDL(IInputStream& rCMDL)
 
     // Materials
     Loader.mMaterials.resize(MatSetCount);
-    for (u32 iMat = 0; iMat < MatSetCount; iMat++)
+    for (u32 iSet = 0; iSet < MatSetCount; iSet++)
     {
-        Loader.mMaterials[iMat] = CMaterialLoader::LoadMaterialSet(rCMDL, Loader.mVersion);
+        Loader.mMaterials[iSet] = CMaterialLoader::LoadMaterialSet(rCMDL, Loader.mVersion);
+
+        // Toggle skinning on materials
+        if (Loader.mFlags.HasAnyFlags(eSkinnedModel))
+        {
+            for (u32 iMat = 0; iMat < Loader.mMaterials[iSet]->NumMaterials(); iMat++)
+            {
+                CMaterial *pMat = Loader.mMaterials[iSet]->MaterialByIndex(iMat);
+                CMaterial::FMaterialOptions Options = pMat->Options();
+                pMat->SetOptions(Options | CMaterial::eSkinningEnabled);
+                pMat->SetVertexDescription(pMat->VtxDesc() | FVertexDescription(eBoneIndices | eBoneWeights));
+            }
+        }
 
         if (Loader.mVersion < eCorruptionProto)
             Loader.mpSectionMgr->ToNextSection();

@@ -47,7 +47,7 @@ void CColor::SetIntegral(u8 _R, u8 _G, u8 _B, u8 _A /*= 255*/)
     A = _A / 255.f;
 }
 
-void CColor::Write(IOutputStream &rOutput, bool Integral /*= false*/)
+void CColor::Write(IOutputStream &rOutput, bool Integral /*= false*/) const
 {
     if (Integral)
     {

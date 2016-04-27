@@ -93,6 +93,13 @@ void Warning(const TString& rkMessage)
     gErrorLog.push_back(FullMessage);
 }
 
+void Fatal(const TString& rkMessage)
+{
+    TString FullMessage = "FATAL ERROR: " + rkMessage;
+    Write(FullMessage);
+    abort();
+}
+
 void FileWrite(const TString& rkFilename, const TString& rkMessage)
 {
     Write(rkFilename + " : " + rkMessage);

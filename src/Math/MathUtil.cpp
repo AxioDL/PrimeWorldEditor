@@ -37,20 +37,20 @@ float RadiansToDegrees(float Rad)
     return Rad * 180.f / skPi;
 }
 
-std::pair<bool,float> RayPlaneIntersection(const CRay& rkRay, const CPlane& plane)
+std::pair<bool,float> RayPlaneIntersection(const CRay& rkRay, const CPlane& rkPlane)
 {
     // Code based on ray/plane intersect code from Ogre
     // https://bitbucket.org/sinbad/ogre/src/197116fd2ac62c57cdeed1666f9866c3dddd4289/OgreMain/src/OgreMath.cpp?at=default#OgreMath.cpp-350
 
     // Are ray and plane parallel?
-    float Denom = plane.Normal().Dot(rkRay.Direction());
+    float Denom = rkPlane.Normal().Dot(rkRay.Direction());
 
     if (Abs(Denom) < FLT_EPSILON)
         return std::pair<bool,float>(false, 0.f);
 
     // Not parallel
-    float nom = plane.Normal().Dot(rkRay.Origin()) + plane.Dist();
-    float t = -(nom / Denom);
+    float Nom = rkPlane.Normal().Dot(rkRay.Origin()) + rkPlane.Dist();
+    float t = -(Nom / Denom);
     return std::pair<bool,float>(t >= 0.f, t);
 }
 

@@ -23,22 +23,64 @@ void CCharacterNode::PostLoad()
     }
 }
 
-void CCharacterNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& /*rkViewInfo*/)
+void CCharacterNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo)
 {
     if (!mpCharacter) return;
+    // todo: frustum check. Currently don't have a means of pulling the AABox for the
+    // current animation so this isn't in yet.
 
-    if (mpCharacter->NodeSkeleton(mActiveCharSet))
+    CModel *pModel = mpCharacter->NodeModel(mActiveCharSet);
+    CSkeleton *pSkel = mpCharacter->NodeSkeleton(mActiveCharSet);
+
+    if (pModel)
     {
-        pRenderer->AddOpaqueMesh(this, 0, AABox(), eDrawMesh);
+        if (!pModel->HasTransparency(0))
+            pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawMesh);
+        else
+            AddSurfacesToRenderer(pRenderer, pModel, 0, rkViewInfo, false);
+    }
+
+    if (pSkel)
+    {
+        CAnimation *pAnim = mpCharacter->Animation(mActiveAnim);
+        pSkel->UpdateTransform(mTransformData, pAnim, mAnimTime, false);
+
+        if (rkViewInfo.ShowFlags.HasFlag(eShowSkeletons))
+            pRenderer->AddOpaqueMesh(this, -2, AABox(), eDrawMesh);
     }
 }
 
-void CCharacterNode::Draw(FRenderOptions Options, int /*ComponentIndex*/, const SViewInfo& /*rkViewInfo*/)
+void CCharacterNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& rkViewInfo)
 {
     CSkeleton *pSkel = mpCharacter->NodeSkeleton(mActiveCharSet);
-    CAnimation *pAnim = mpCharacter->Animation(mActiveAnim);
-    pSkel->UpdateTransform(mTransformData, pAnim, mAnimTime, false);
-    pSkel->Draw(Options, mTransformData);
+
+    // Draw skeleton
+    if (ComponentIndex == -2)
+    {
+        pSkel->Draw(Options, mTransformData);
+    }
+
+    // Draw mesh
+    else
+    {
+        // Set lighting
+        CGraphics::SetDefaultLighting();
+        CGraphics::UpdateLightBlock();
+        CGraphics::sVertexBlock.COLOR0_Amb = CGraphics::skDefaultAmbientColor;
+        CGraphics::sPixelBlock.LightmapMultiplier = 1.f;
+        CGraphics::sPixelBlock.TevColor = CColor::skWhite;
+        CGraphics::sPixelBlock.TintColor = TintColor(rkViewInfo);
+
+        // Draw surface OR draw entire model
+        CGraphics::LoadBoneTransforms(mTransformData);
+        CGraphics::LoadBoneInverseBindTransforms(pSkel);
+        CModel *pModel = mpCharacter->NodeModel(mActiveCharSet);
+
+        if (ComponentIndex < 0)
+            pModel->Draw(Options, 0);
+        else
+            pModel->DrawSurface(Options, ComponentIndex, 0);
+    }
 }
 
 SRayIntersection CCharacterNode::RayNodeIntersectTest(const CRay& rkRay, u32 /*AssetID*/, const SViewInfo& /*rkViewInfo*/)

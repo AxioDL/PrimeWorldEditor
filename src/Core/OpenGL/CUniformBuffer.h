@@ -45,10 +45,17 @@ public:
         Unbind();
     }
 
-    void Buffer(void *pData)
+    void Buffer(const void *pkData)
     {
         Bind();
-        glBufferSubData(GL_UNIFORM_BUFFER, 0, mBufferSize, pData);
+        glBufferSubData(GL_UNIFORM_BUFFER, 0, mBufferSize, pkData);
+        Unbind();
+    }
+
+    void BufferRange(const void *pkData, u32 Offset, u32 Size)
+    {
+        Bind();
+        glBufferSubData(GL_UNIFORM_BUFFER, Offset, Size, pkData);
         Unbind();
     }
 

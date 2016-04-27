@@ -79,7 +79,7 @@ public:
     void LoadLights(const SViewInfo& rkViewInfo);
     void DrawBoundingBox() const;
     void DrawRotationArrow() const;
-    void AddSurfacesToRenderer(CRenderer *pRenderer, CModel *pModel, u32 MatSet, const SViewInfo& rkViewInfo);
+    void AddSurfacesToRenderer(CRenderer *pRenderer, CModel *pModel, u32 MatSet, const SViewInfo& rkViewInfo, bool DoFrustumTest = true);
 
     // Transform
     void Translate(const CVector3f& rkTranslation, ETransformSpace TransformSpace);

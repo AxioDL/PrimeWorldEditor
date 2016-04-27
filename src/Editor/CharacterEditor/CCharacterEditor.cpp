@@ -39,6 +39,7 @@ CCharacterEditor::CCharacterEditor(QWidget *parent)
 
     connect(ui->Viewport, SIGNAL(HoverBoneChanged(u32)), this, SLOT(HoverBoneChanged(u32)));
     connect(ui->ActionOpen, SIGNAL(triggered()), this, SLOT(Open()));
+    connect(ui->ActionShowSkeleton, SIGNAL(toggled(bool)), this, SLOT(ToggleSkeletonVisible(bool)));
     connect(mpCharComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(SetActiveCharacterIndex(int)));
     connect(mpAnimComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(SetActiveAnimation(int)));
 
@@ -143,6 +144,11 @@ void CCharacterEditor::Open()
     gResCache.Clean();
 }
 
+void CCharacterEditor::ToggleSkeletonVisible(bool Visible)
+{
+    ui->Viewport->SetShowFlag(eShowSkeletons, Visible);
+}
+
 void CCharacterEditor::RefreshViewport()
 {
     UpdateAnimTime();
@@ -171,7 +177,7 @@ void CCharacterEditor::SetActiveAnimation(int AnimIndex)
     mLastAnimUpdate = CTimer::GlobalTime();
 
     ui->AnimSlider->blockSignals(true);
-    ui->AnimSlider->setMaximum((int) (mpSet->Animation(AnimIndex)->Duration() * 1000));
+    ui->AnimSlider->setMaximum((int) (CurrentAnimation() ? CurrentAnimation()->Duration() * 1000 : 0));
     ui->AnimSlider->blockSignals(false);
 
     SetAnimTime(0.f);

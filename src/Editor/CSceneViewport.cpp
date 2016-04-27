@@ -42,14 +42,6 @@ void CSceneViewport::SetScene(INodeEditor *pEditor, CScene *pScene)
     mpScene = pScene;
 }
 
-void CSceneViewport::SetShowFlag(EShowFlag Flag, bool Visible)
-{
-    if (Visible)
-        mViewInfo.ShowFlags |= Flag;
-    else
-        mViewInfo.ShowFlags &= ~Flag;
-}
-
 void CSceneViewport::SetShowWorld(bool Visible)
 {
     if (mRenderingMergedWorld)

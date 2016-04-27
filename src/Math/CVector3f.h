@@ -19,7 +19,7 @@ public:
     CVector3f(float XYZ);
     CVector3f(float _X, float _Y, float _Z);
     CVector3f(IInputStream& rInput);
-    void Write(IOutputStream& rOutput);
+    void Write(IOutputStream& rOutput) const;
 
     // Swizzle
     CVector2f XY();

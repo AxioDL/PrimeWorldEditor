@@ -157,6 +157,7 @@ bool CShader::LinkShaders()
     mVertexBlockIndex = GetUniformBlockIndex("VertexBlock");
     mPixelBlockIndex = GetUniformBlockIndex("PixelBlock");
     mLightBlockIndex = GetUniformBlockIndex("LightBlock");
+    mBoneTransformBlockIndex = GetUniformBlockIndex("BoneTransformBlock");
 
     mProgramExists = true;
     return true;
@@ -193,6 +194,7 @@ void CShader::SetCurrent()
         glUniformBlockBinding(mProgram, mVertexBlockIndex, CGraphics::VertexBlockBindingPoint());
         glUniformBlockBinding(mProgram, mPixelBlockIndex, CGraphics::PixelBlockBindingPoint());
         glUniformBlockBinding(mProgram, mLightBlockIndex, CGraphics::LightBlockBindingPoint());
+        glUniformBlockBinding(mProgram, mBoneTransformBlockIndex, CGraphics::BoneTransformBlockBindingPoint());
     }
 }
 

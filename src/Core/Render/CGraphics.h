@@ -1,6 +1,7 @@
 #ifndef CGRAPHICS_H
 #define CGRAPHICS_H
 
+#include "CBoneTransformData.h"
 #include "Core/OpenGL/CUniformBuffer.h"
 #include "Core/OpenGL/CVertexArrayManager.h"
 #include "Core/Resource/CLight.h"
@@ -23,10 +24,14 @@ class CGraphics
     static CUniformBuffer *mpVertexBlockBuffer;
     static CUniformBuffer *mpPixelBlockBuffer;
     static CUniformBuffer *mpLightBlockBuffer;
+    static CUniformBuffer *mpBoneTransformBuffer;
     static u32 mContextIndices;
     static u32 mActiveContext;
     static bool mInitialized;
     static std::vector<CVertexArrayManager*> mVAMs;
+
+    static bool mIdentityBoneTransforms;
+    static const CSkeleton *mpkCurrentSkeleton;
 
 public:
     // SMVPBlock
@@ -95,6 +100,7 @@ public:
     static GLuint VertexBlockBindingPoint();
     static GLuint PixelBlockBindingPoint();
     static GLuint LightBlockBindingPoint();
+    static GLuint BoneTransformBlockBindingPoint();
     static u32 GetContextIndex();
     static u32 GetActiveContext();
     static void ReleaseContext(u32 Index);
@@ -102,6 +108,9 @@ public:
     static void SetDefaultLighting();
     static void SetupAmbientColor();
     static void SetIdentityMVP();
+    static void LoadBoneTransforms(const CBoneTransformData& rkData);
+    static void LoadBoneInverseBindTransforms(CSkeleton *pSkel);
+    static void LoadIdentityBoneTransforms();
 };
 
 #endif // CGRAPHICS_H

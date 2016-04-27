@@ -9,6 +9,7 @@ CCharacterEditorViewport::CCharacterEditorViewport(QWidget *pParent /*= 0*/)
     mpRenderer->SetClearColor(CColor(0.3f, 0.3f, 0.3f));
     mpRenderer->ToggleGrid(true);
 
+    mViewInfo.ShowFlags = eShowNone; // The mesh doesn't check any show flags so this just disables the skeleton.
     mViewInfo.pRenderer = mpRenderer;
     mViewInfo.pScene = nullptr;
     mViewInfo.GameMode = false;

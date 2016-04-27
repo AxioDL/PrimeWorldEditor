@@ -47,7 +47,6 @@ public:
     CSceneViewport(QWidget *pParent = 0);
     ~CSceneViewport();
     void SetScene(INodeEditor *pEditor, CScene *pScene);
-    void SetShowFlag(EShowFlag Flag, bool Visible);
     void SetShowWorld(bool Visible);
     void SetRenderMergedWorld(bool RenderMerged);
     FShowFlags ShowFlags() const;

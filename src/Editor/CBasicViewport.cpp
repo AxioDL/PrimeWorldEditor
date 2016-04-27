@@ -178,6 +178,14 @@ void CBasicViewport::contextMenuEvent(QContextMenuEvent *pEvent)
     pEvent->ignore();
 }
 
+void CBasicViewport::SetShowFlag(EShowFlag Flag, bool Visible)
+{
+    if (Visible)
+        mViewInfo.ShowFlags |= Flag;
+    else
+        mViewInfo.ShowFlags &= ~Flag;
+}
+
 void CBasicViewport::SetGameMode(bool Enabled)
 {
     mViewInfo.GameMode = Enabled;

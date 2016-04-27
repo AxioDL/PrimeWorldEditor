@@ -63,7 +63,7 @@ void CModelCooker::WriteModelPrime(IOutputStream& rOut)
     // Header
     rOut.WriteLong(0xDEADBABE);
     rOut.WriteLong(GetCMDLVersion(mVersion));
-    rOut.WriteLong(5);
+    rOut.WriteLong(mpModel->IsSkinned() ? 6 : 5);
     mpModel->mAABox.Write(rOut);
 
     u32 NumSections = mNumMatSets + mNumSurfaces + 6;
@@ -115,7 +115,7 @@ void CModelCooker::WriteModelPrime(IOutputStream& rOut)
     // Float UV coordinates
     for (u32 iTexSlot = 0; iTexSlot < 8; iTexSlot++)
     {
-        bool HasTexSlot = (mVtxAttribs & (eTex0 << (iTexSlot * 2))) != 0;
+        bool HasTexSlot = (mVtxAttribs & (eTex0 << iTexSlot)) != 0;
         if (HasTexSlot)
         {
             for (u32 iTex = 0; iTex < mNumVertices; iTex++)
@@ -156,7 +156,7 @@ void CModelCooker::WriteModelPrime(IOutputStream& rOut)
         rOut.WriteToBoundary(32, 0);
 
         u32 PrimTableStart = rOut.Tell();
-        FVertexDescription MatAttribs = mpModel->GetMaterialBySurface(0, iSurf)->VtxDesc();
+        FVertexDescription VtxAttribs = mpModel->GetMaterialBySurface(0, iSurf)->VtxDesc();
 
         for (u32 iPrim = 0; iPrim < pSurface->Primitives.size(); iPrim++)
         {
@@ -171,28 +171,28 @@ void CModelCooker::WriteModelPrime(IOutputStream& rOut)
                 if (mVersion == eEchoes)
                 {
                     for (u32 iMtxAttribs = 0; iMtxAttribs < 8; iMtxAttribs++)
-                        if (MatAttribs & (ePosMtx << iMtxAttribs))
+                        if (VtxAttribs & (ePosMtx << iMtxAttribs))
                             rOut.WriteByte(pVert->MatrixIndices[iMtxAttribs]);
                 }
 
                 u16 VertexIndex = (u16) pVert->ArrayPosition;
 
-                if (MatAttribs & ePosition)
+                if (VtxAttribs & ePosition)
                     rOut.WriteShort(VertexIndex);
 
-                if (MatAttribs & eNormal)
+                if (VtxAttribs & eNormal)
                     rOut.WriteShort(VertexIndex);
 
-                if (MatAttribs & eColor0)
+                if (VtxAttribs & eColor0)
                     rOut.WriteShort(VertexIndex);
 
-                if (MatAttribs & eColor1)
+                if (VtxAttribs & eColor1)
                     rOut.WriteShort(VertexIndex);
 
                 u16 TexOffset = 0;
                 for (u32 iTex = 0; iTex < 8; iTex++)
                 {
-                    if (MatAttribs & (eTex0 << (iTex * 2)))
+                    if (VtxAttribs & (eTex0 << iTex))
                     {
                         rOut.WriteShort(VertexIndex + TexOffset);
                         TexOffset += (u16) mNumVertices;

@@ -12,6 +12,7 @@ class CSkeletonLoader
 
     CSkeletonLoader() {}
     void SetLocalBoneCoords(CBone *pBone);
+    void CalculateBoneInverseBindMatrices();
 
 public:
     static CSkeleton* LoadCINF(IInputStream& rCINF);

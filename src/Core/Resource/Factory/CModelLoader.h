@@ -20,7 +20,8 @@ public:
         eShortPositions = 0x1,
         eShortNormals   = 0x2,
         eHasTex1        = 0x4,
-        eHasVisGroups   = 0x8
+        eHasVisGroups   = 0x8,
+        eSkinnedModel   = 0x10
     };
     DECLARE_FLAGS(EModelFlag, FModelFlags)
 

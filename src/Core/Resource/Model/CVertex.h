@@ -4,6 +4,10 @@
 #include <Common/CColor.h>
 #include <Math/CVector2f.h>
 #include <Math/CVector3f.h>
+#include <array>
+
+typedef std::array<u32, 4>      TBoneIndices;
+typedef std::array<float, 4>    TBoneWeights;
 
 class CVertex
 {
@@ -14,6 +18,8 @@ public:
     CVector3f Normal;
     CColor Color[2];
     CVector2f Tex[8];
+    TBoneIndices BoneIndices;
+    TBoneWeights BoneWeights;
     u8 MatrixIndices[8];
 
     CVertex() {}
@@ -35,7 +41,9 @@ public:
                 (Tex[4] == rkOther.Tex[4]) &&
                 (Tex[5] == rkOther.Tex[5]) &&
                 (Tex[6] == rkOther.Tex[6]) &&
-                (Tex[7] == rkOther.Tex[7]));
+                (Tex[7] == rkOther.Tex[7]) &&
+                (BoneIndices == rkOther.BoneIndices) &&
+                (BoneWeights == rkOther.BoneWeights));
     }
 };
 

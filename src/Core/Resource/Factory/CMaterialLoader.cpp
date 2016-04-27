@@ -15,6 +15,32 @@ CMaterialLoader::~CMaterialLoader()
 {
 }
 
+FVertexDescription CMaterialLoader::ConvertToVertexDescription(u32 VertexFlags)
+{
+    FVertexDescription Desc;
+    if (VertexFlags & 0x00000003) Desc |= ePosition;
+    if (VertexFlags & 0x0000000C) Desc |= eNormal;
+    if (VertexFlags & 0x00000030) Desc |= eColor0;
+    if (VertexFlags & 0x000000C0) Desc |= eColor1;
+    if (VertexFlags & 0x00000300) Desc |= eTex0;
+    if (VertexFlags & 0x00000C00) Desc |= eTex1;
+    if (VertexFlags & 0x00003000) Desc |= eTex2;
+    if (VertexFlags & 0x0000C000) Desc |= eTex3;
+    if (VertexFlags & 0x00030000) Desc |= eTex4;
+    if (VertexFlags & 0x000C0000) Desc |= eTex5;
+    if (VertexFlags & 0x00300000) Desc |= eTex6;
+    if (VertexFlags & 0x00C00000) Desc |= eTex7;
+    if (VertexFlags & 0x01000000) Desc |= ePosMtx;
+    if (VertexFlags & 0x02000000) Desc |= eTex0Mtx;
+    if (VertexFlags & 0x04000000) Desc |= eTex1Mtx;
+    if (VertexFlags & 0x08000000) Desc |= eTex2Mtx;
+    if (VertexFlags & 0x10000000) Desc |= eTex3Mtx;
+    if (VertexFlags & 0x20000000) Desc |= eTex4Mtx;
+    if (VertexFlags & 0x40000000) Desc |= eTex5Mtx;
+    if (VertexFlags & 0x80000000) Desc |= eTex6Mtx;
+    return Desc;
+}
+
 void CMaterialLoader::ReadPrimeMatSet()
 {
     // Textures
@@ -63,7 +89,7 @@ CMaterial* CMaterialLoader::ReadPrimeMaterial()
     }
 
     // Vertex description
-    pMat->mVtxDesc = (FVertexDescription) mpFile->ReadLong();
+    pMat->mVtxDesc = ConvertToVertexDescription( mpFile->ReadLong() );
 
     // Unknowns
     if (mVersion >= eEchoesDemo)
@@ -267,7 +293,7 @@ CMaterial* CMaterialLoader::ReadCorruptionMaterial()
     mHas0x400 = ((Flags & 0x400) != 0);
 
     mpFile->Seek(0x8, SEEK_CUR); // Don't know what any of this is
-    pMat->mVtxDesc = (FVertexDescription) mpFile->ReadLong();
+    pMat->mVtxDesc = ConvertToVertexDescription( mpFile->ReadLong() );
     mpFile->Seek(0xC, SEEK_CUR);
 
     // Initialize all KColors to white

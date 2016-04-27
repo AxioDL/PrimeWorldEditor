@@ -12,11 +12,23 @@ void CSkeletonLoader::SetLocalBoneCoords(CBone *pBone)
         pBone->mPosition -= pBone->mpParent->mPosition;
 }
 
+void CSkeletonLoader::CalculateBoneInverseBindMatrices()
+{
+    mpSkeleton->mInvBindMatrices.resize(mpSkeleton->MaxBoneID() + 1);
+
+    for (u32 iBone = 0; iBone < mpSkeleton->mBones.size(); iBone++)
+    {
+        CBone *pBone = mpSkeleton->mBones[iBone];
+        mpSkeleton->mInvBindMatrices[pBone->ID()] = CTransform4f::TranslationMatrix(-pBone->AbsolutePosition());
+    }
+}
+
 // ************ STATIC ************
 CSkeleton* CSkeletonLoader::LoadCINF(IInputStream& rCINF)
 {
     CSkeletonLoader Loader;
     CSkeleton *pSkel = new CSkeleton();
+    Loader.mpSkeleton = pSkel;
 
     u32 NumBones = rCINF.ReadLong();
     pSkel->mBones.reserve(NumBones);
@@ -78,6 +90,7 @@ CSkeleton* CSkeletonLoader::LoadCINF(IInputStream& rCINF)
     }
 
     Loader.SetLocalBoneCoords(pSkel->mpRootBone);
+    Loader.CalculateBoneInverseBindMatrices();
 
     // Skip bone ID array
     u32 NumBoneIDs = rCINF.ReadLong();

@@ -5,6 +5,7 @@
 #include "CAnimation.h"
 #include "CResource.h"
 #include "CSkeleton.h"
+#include "CSkin.h"
 #include "Core/Resource/Model/CModel.h"
 #include <Common/types.h>
 
@@ -20,7 +21,7 @@ class CAnimSet : public CResource
     {
         TString Name;
         TResPtr<CModel> pModel;
-        u32 SkinID;
+        TResPtr<CSkin> pSkin;
         TResPtr<CSkeleton> pSkeleton;
 
         SNode() { pModel = nullptr; }
@@ -40,6 +41,7 @@ public:
     u32 NumNodes() const                { return mNodes.size(); }
     TString NodeName(u32 Index)         { if (Index >= mNodes.size()) Index = 0; return mNodes[Index].Name; }
     CModel* NodeModel(u32 Index)        { if (Index >= mNodes.size()) Index = 0; return mNodes[Index].pModel; }
+    CSkin* NodeSkin(u32 Index)          { if (Index >= mNodes.size()) Index = 0; return mNodes[Index].pSkin; }
     CSkeleton* NodeSkeleton(u32 Index)  { if (Index >= mNodes.size()) Index = 0; return mNodes[Index].pSkeleton; }
 
     u32 NumAnims() const                { return mAnims.size(); }

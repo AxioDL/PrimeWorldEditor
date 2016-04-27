@@ -10,6 +10,7 @@ bool InitLog(const TString& rkFilename);
 void Write(const TString& rkMessage);
 void Error(const TString& rkMessage);
 void Warning(const TString& rkMessage);
+void Fatal(const TString& rkMessage);
 void FileWrite(const TString& rkFilename, const TString& rkMessage);
 void FileWrite(const TString& rkFilename, unsigned long Offset, const TString& rkMessage);
 void FileError(const TString& rkFilename, const TString& rkMessage);
