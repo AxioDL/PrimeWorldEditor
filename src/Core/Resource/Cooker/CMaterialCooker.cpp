@@ -6,6 +6,32 @@ CMaterialCooker::CMaterialCooker()
 {
 }
 
+u32 CMaterialCooker::ConvertFromVertexDescription(FVertexDescription VtxDesc)
+{
+    u32 Flags = 0;
+    if (VtxDesc & ePosition)    Flags |= 0x00000003;
+    if (VtxDesc & eNormal)      Flags |= 0x0000000C;
+    if (VtxDesc & eColor0)      Flags |= 0x00000030;
+    if (VtxDesc & eColor1)      Flags |= 0x000000C0;
+    if (VtxDesc & eTex0)        Flags |= 0x00000300;
+    if (VtxDesc & eTex1)        Flags |= 0x00000C00;
+    if (VtxDesc & eTex2)        Flags |= 0x00003000;
+    if (VtxDesc & eTex3)        Flags |= 0x0000C000;
+    if (VtxDesc & eTex4)        Flags |= 0x00030000;
+    if (VtxDesc & eTex5)        Flags |= 0x000C0000;
+    if (VtxDesc & eTex6)        Flags |= 0x00300000;
+    if (VtxDesc & eTex7)        Flags |= 0x00C00000;
+    if (VtxDesc & ePosMtx)      Flags |= 0x01000000;
+    if (VtxDesc & eTex0Mtx)     Flags |= 0x02000000;
+    if (VtxDesc & eTex1Mtx)     Flags |= 0x04000000;
+    if (VtxDesc & eTex2Mtx)     Flags |= 0x08000000;
+    if (VtxDesc & eTex3Mtx)     Flags |= 0x10000000;
+    if (VtxDesc & eTex4Mtx)     Flags |= 0x20000000;
+    if (VtxDesc & eTex5Mtx)     Flags |= 0x40000000;
+    if (VtxDesc & eTex6Mtx)     Flags |= 0x80000000;
+    return Flags;
+}
+
 void CMaterialCooker::WriteMatSetPrime(IOutputStream& rOut)
 {
     // Gather texture list from the materials before starting
@@ -150,12 +176,12 @@ void CMaterialCooker::WriteMaterialPrime(IOutputStream& rOut)
         rOut.WriteLong(TexIndices[iTex]);
 
     // Vertex description
-    FVertexDescription Desc = mpMat->VtxDesc();
+    u32 VtxFlags = ConvertFromVertexDescription( mpMat->VtxDesc() );
 
     if (mVersion < eEchoes)
-        Desc &= 0x00FFFFFF;
+        VtxFlags &= 0x00FFFFFF;
 
-    rOut.WriteLong(Desc);
+    rOut.WriteLong(VtxFlags);
 
     // Echoes unknowns
     if (mVersion == eEchoes)

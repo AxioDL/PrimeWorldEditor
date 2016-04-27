@@ -29,7 +29,9 @@ public:
     inline TFlags operator&(u32 Mask) const         { return TFlags(FlagEnum(mValue & Mask)); }
     inline TFlags operator&(FlagEnum Flag) const    { return TFlags(FlagEnum(mValue & Flag)); }
 
+    inline bool HasFlag(FlagEnum Flag) const    { return ((mValue & Flag) != 0); }
     inline bool HasAnyFlags(TFlags Flags) const { return ((mValue & Flags) != 0); }
+    inline bool HasAllFlags(TFlags Flags) const { return ((mValue & Flags) == Flags); }
 };
 #define DECLARE_FLAGS(Enum, FlagTypeName) typedef TFlags<Enum> FlagTypeName;
 

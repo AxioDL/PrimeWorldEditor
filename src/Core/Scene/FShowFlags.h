@@ -14,7 +14,8 @@ enum EShowFlag
     eShowObjects            = 0x18,
     eShowLights             = 0x20,
     eShowSky                = 0x40,
-    eShowAll                = 0x7F
+    eShowSkeletons          = 0x80,
+    eShowAll                = 0xFFFFFFFF
 };
 DECLARE_FLAGS(EShowFlag, FShowFlags)
 

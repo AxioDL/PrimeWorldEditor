@@ -28,6 +28,7 @@ class CCharacterEditor : public QMainWindow
     TResPtr<CAnimSet> mpSet;
     u32 mCurrentChar;
     u32 mCurrentAnim;
+    bool mShowSkeleton;
 
     // Playback Controls
     double mLastAnimUpdate;
@@ -44,6 +45,7 @@ public:
 
 public slots:
     void Open();
+    void ToggleSkeletonVisible(bool Visible);
     void RefreshViewport();
     void HoverBoneChanged(u32 BoneID);
     void SetActiveCharacterIndex(int CharIndex);

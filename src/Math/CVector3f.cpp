@@ -29,7 +29,7 @@ CVector3f::CVector3f(IInputStream& rInput)
     Z = rInput.ReadFloat();
 }
 
-void CVector3f::Write(IOutputStream& rOutput)
+void CVector3f::Write(IOutputStream& rOutput) const
 {
     rOutput.WriteFloat(X);
     rOutput.WriteFloat(Y);

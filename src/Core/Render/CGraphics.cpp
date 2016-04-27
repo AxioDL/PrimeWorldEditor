@@ -8,10 +8,13 @@ CUniformBuffer* CGraphics::mpMVPBlockBuffer;
 CUniformBuffer* CGraphics::mpVertexBlockBuffer;
 CUniformBuffer* CGraphics::mpPixelBlockBuffer;
 CUniformBuffer* CGraphics::mpLightBlockBuffer;
+CUniformBuffer* CGraphics::mpBoneTransformBuffer;
 u32 CGraphics::mContextIndices = 0;
 u32 CGraphics::mActiveContext = -1;
 bool CGraphics::mInitialized = false;
 std::vector<CVertexArrayManager*> CGraphics::mVAMs;
+bool CGraphics::mIdentityBoneTransforms = false;
+const CSkeleton *CGraphics::mpkCurrentSkeleton = nullptr;
 
 CGraphics::SMVPBlock    CGraphics::sMVPBlock;
 CGraphics::SVertexBlock CGraphics::sVertexBlock;
@@ -44,6 +47,7 @@ void CGraphics::Initialize()
         mpVertexBlockBuffer = new CUniformBuffer(sizeof(sVertexBlock));
         mpPixelBlockBuffer = new CUniformBuffer(sizeof(sPixelBlock));
         mpLightBlockBuffer = new CUniformBuffer(sizeof(sLightBlock));
+        mpBoneTransformBuffer = new CUniformBuffer(sizeof(CTransform4f) * 200);
 
         sLightMode = eWorldLighting;
         sNumLights = 0;
@@ -55,6 +59,8 @@ void CGraphics::Initialize()
     mpVertexBlockBuffer->BindBase(1);
     mpPixelBlockBuffer->BindBase(2);
     mpLightBlockBuffer->BindBase(3);
+    mpBoneTransformBuffer->BindBase(4);
+    LoadIdentityBoneTransforms();
 }
 
 void CGraphics::Shutdown()
@@ -66,6 +72,7 @@ void CGraphics::Shutdown()
         delete mpVertexBlockBuffer;
         delete mpPixelBlockBuffer;
         delete mpLightBlockBuffer;
+        delete mpBoneTransformBuffer;
         mInitialized = false;
     }
 }
@@ -108,6 +115,11 @@ GLuint CGraphics::PixelBlockBindingPoint()
 GLuint CGraphics::LightBlockBindingPoint()
 {
     return 3;
+}
+
+GLuint CGraphics::BoneTransformBlockBindingPoint()
+{
+    return 4;
 }
 
 u32 CGraphics::GetContextIndex()
@@ -177,4 +189,32 @@ void CGraphics::SetIdentityMVP()
     sMVPBlock.ModelMatrix = CMatrix4f::skIdentity;
     sMVPBlock.ViewMatrix = CMatrix4f::skIdentity;
     sMVPBlock.ProjectionMatrix = CMatrix4f::skIdentity;
+}
+
+void CGraphics::LoadBoneTransforms(const CBoneTransformData& rkData)
+{
+    mpBoneTransformBuffer->BufferRange(rkData.Data(), 0, rkData.DataSize());
+    mIdentityBoneTransforms = false;
+}
+
+void CGraphics::LoadBoneInverseBindTransforms(CSkeleton *pSkel)
+{
+    if (mpkCurrentSkeleton != pSkel)
+    {
+        mpBoneTransformBuffer->BufferRange(pSkel->InverseBindMatricesData(), sizeof(CTransform4f) * 100, pSkel->InverseBindMatricesSize());
+        mpkCurrentSkeleton = pSkel;
+        mIdentityBoneTransforms = false;
+    }
+}
+
+void CGraphics::LoadIdentityBoneTransforms()
+{
+    static CTransform4f IdentityTransforms[200];
+
+    if (!mIdentityBoneTransforms)
+    {
+        mpBoneTransformBuffer->Buffer(&IdentityTransforms);
+        mpkCurrentSkeleton = nullptr;
+        mIdentityBoneTransforms = true;
+    }
 }

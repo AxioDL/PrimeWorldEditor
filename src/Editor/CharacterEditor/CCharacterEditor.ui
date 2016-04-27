@@ -154,6 +154,8 @@
     <bool>false</bool>
    </attribute>
    <addaction name="ActionOpen"/>
+   <addaction name="separator"/>
+   <addaction name="ActionShowSkeleton"/>
   </widget>
   <action name="ActionOpen">
    <property name="icon">
@@ -168,6 +170,17 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="ActionShowSkeleton">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show Skeleton</string>
+   </property>
+   <property name="toolTip">
+    <string>Show Skeleton</string>
    </property>
   </action>
  </widget>

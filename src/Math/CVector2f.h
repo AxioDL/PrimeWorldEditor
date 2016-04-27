@@ -12,7 +12,7 @@ public:
     CVector2f(float XY);
     CVector2f(float _X, float _Y);
     CVector2f(IInputStream& rInput);
-    void Write(IOutputStream& rOutput);
+    void Write(IOutputStream& rOutput) const;
 
     float Magnitude() const;
     float SquaredMagnitude() const;

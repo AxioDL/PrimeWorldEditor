@@ -191,7 +191,9 @@ HEADERS += \
     Scene/CCharacterNode.h \
     Resource/CAnimation.h \
     Resource/Factory/CAnimationLoader.h \
-    Render/CBoneTransformData.h
+    Render/CBoneTransformData.h \
+    Resource/CSkin.h \
+    Resource/Factory/CSkinLoader.h
 
 # Source Files
 SOURCES += \
@@ -274,4 +276,6 @@ SOURCES += \
     Resource/Factory/CSkeletonLoader.cpp \
     Scene/CCharacterNode.cpp \
     Resource/CAnimation.cpp \
-    Resource/Factory/CAnimationLoader.cpp
+    Resource/Factory/CAnimationLoader.cpp \
+    Resource/Factory/CSkinLoader.cpp \
+    Resource/Model/EVertexAttribute.cpp

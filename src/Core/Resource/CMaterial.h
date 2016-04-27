@@ -37,7 +37,8 @@ public:
         eLightmap               = 0x800,
         eShortTexCoord          = 0x2000,
         eAllMP1Settings         = 0x2FF8,
-        eDrawWhiteAmbientDKCR   = 0x80000
+        eDrawWhiteAmbientDKCR   = 0x80000,
+        eSkinningEnabled        = 0x80000000
     };
     DECLARE_FLAGS(EMaterialOption, FMaterialOptions)
 
@@ -100,12 +101,12 @@ public:
     inline CMaterialPass* Pass(u32 PassIndex) const    { return mPasses[PassIndex]; }
 
     inline void SetName(const TString& rkName)                 { mName = rkName; }
-    inline void SetOptions(FMaterialOptions Options)           { mOptions = Options; mRecalcHash = true; }
-    inline void SetVertexDescription(FVertexDescription Desc)  { mVtxDesc = Desc; mRecalcHash = true; }
+    inline void SetOptions(FMaterialOptions Options)           { mOptions = Options; Update(); }
+    inline void SetVertexDescription(FVertexDescription Desc)  { mVtxDesc = Desc; Update(); }
     inline void SetBlendMode(GLenum SrcFac, GLenum DstFac)     { mBlendSrcFac = SrcFac; mBlendDstFac = DstFac; mRecalcHash = true; }
-    inline void SetKonst(CColor& Konst, u32 KIndex)            { mKonstColors[KIndex] = Konst; mRecalcHash = true; }
+    inline void SetKonst(CColor& Konst, u32 KIndex)            { mKonstColors[KIndex] = Konst; Update(); }
     inline void SetIndTexture(CTexture *pTex)                  { mpIndirectTexture = pTex; }
-    inline void SetLightingEnabled(bool Enabled)               { mLightingEnabled = Enabled; mRecalcHash = true; }
+    inline void SetLightingEnabled(bool Enabled)               { mLightingEnabled = Enabled; Update(); }
 
     // Static
     inline static void KillCachedMaterial() { sCurrentMaterial = 0; }

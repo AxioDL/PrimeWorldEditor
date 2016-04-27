@@ -8,6 +8,7 @@
 #include "Core/Resource/Factory/CPoiToWorldLoader.h"
 #include "Core/Resource/Factory/CScanLoader.h"
 #include "Core/Resource/Factory/CSkeletonLoader.h"
+#include "Core/Resource/Factory/CSkinLoader.h"
 #include "Core/Resource/Factory/CStringLoader.h"
 #include "Core/Resource/Factory/CTextureDecoder.h"
 #include "Core/Resource/Factory/CWorldLoader.h"
@@ -153,6 +154,7 @@ CResource* CResCache::GetResource(CUniqueID ResID, CFourCC Type)
     else if (Type == "EGMC") pRes = CPoiToWorldLoader::LoadEGMC(Mem);
     else if (Type == "CINF") pRes = CSkeletonLoader::LoadCINF(Mem);
     else if (Type == "ANIM") pRes = CAnimationLoader::LoadANIM(Mem);
+    else if (Type == "CSKR") pRes = CSkinLoader::LoadCSKR(Mem);
     else SupportedFormat = false;
 
     // Log errors
@@ -209,6 +211,7 @@ CResource* CResCache::GetResource(const TString& rkResPath)
     else if (Type == "EGMC") pRes = CPoiToWorldLoader::LoadEGMC(File);
     else if (Type == "CINF") pRes = CSkeletonLoader::LoadCINF(File);
     else if (Type == "ANIM") pRes = CAnimationLoader::LoadANIM(File);
+    else if (Type == "CSKR") pRes = CSkinLoader::LoadCSKR(File);
     else SupportedFormat = false;
 
     if (!pRes) pRes = new CResource(); // Default for unsupported formats

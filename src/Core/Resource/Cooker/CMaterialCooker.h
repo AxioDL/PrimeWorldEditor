@@ -14,6 +14,7 @@ class CMaterialCooker
     std::vector<u64> mMaterialHashes;
 
     CMaterialCooker();
+    u32 ConvertFromVertexDescription(FVertexDescription VtxDesc);
     void WriteMatSetPrime(IOutputStream& rOut);
     void WriteMatSetCorruption(IOutputStream& rOut);
     void WriteMaterialPrime(IOutputStream& rOut);

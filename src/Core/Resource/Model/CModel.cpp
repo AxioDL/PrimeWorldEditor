@@ -160,6 +160,46 @@ void CModel::DrawWireframe(FRenderOptions Options, CColor WireColor /*= CColor::
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
+void CModel::SetSkin(CSkin *pSkin)
+{
+    if (mpSkin != pSkin)
+    {
+        const FVertexDescription kBoneFlags = (eBoneIndices | eBoneWeights);
+
+        mpSkin = pSkin;
+        mVBO.SetSkin(pSkin);
+        ClearGLBuffer();
+
+        if (pSkin && !mVBO.VertexDesc().HasAllFlags(kBoneFlags))
+            mVBO.SetVertexDesc(mVBO.VertexDesc() | kBoneFlags);
+        else if (!pSkin && mVBO.VertexDesc().HasAnyFlags(kBoneFlags))
+            mVBO.SetVertexDesc(mVBO.VertexDesc() & ~kBoneFlags);
+
+        for (u32 iSet = 0; iSet < mMaterialSets.size(); iSet++)
+        {
+            CMaterialSet *pSet = mMaterialSets[iSet];
+
+            for (u32 iMat = 0; iMat < pSet->NumMaterials(); iMat++)
+            {
+                CMaterial *pMat = pSet->MaterialByIndex(iMat);
+                FVertexDescription VtxDesc = pMat->VtxDesc();
+
+                if (pSkin && !VtxDesc.HasAllFlags(kBoneFlags))
+                {
+                    VtxDesc |= kBoneFlags;
+                    pMat->SetVertexDescription(VtxDesc);
+                }
+
+                else if (!pSkin && VtxDesc.HasAnyFlags(kBoneFlags))
+                {
+                    VtxDesc &= ~kBoneFlags;
+                    pMat->SetVertexDescription(VtxDesc);
+                }
+            }
+        }
+    }
+}
+
 u32 CModel::GetMatSetCount()
 {
     return mMaterialSets.size();

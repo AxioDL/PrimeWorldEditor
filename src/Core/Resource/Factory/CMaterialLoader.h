@@ -25,6 +25,7 @@ class CMaterialLoader
 
     CMaterialLoader();
     ~CMaterialLoader();
+    FVertexDescription ConvertToVertexDescription(u32 VertexFlags);
 
     // Load Functions
     void ReadPrimeMatSet();

@@ -16,7 +16,7 @@ public:
     CColor(float _R, float _G, float _B, float A = 1.f);
     void SetIntegral(u8 RGBA);
     void SetIntegral(u8 _R, u8 _G, u8 _B, u8 _A = 255);
-    void Write(IOutputStream& rOutput, bool Integral = false);
+    void Write(IOutputStream& rOutput, bool Integral = false) const;
 
     long ToLongRGBA() const;
     long ToLongARGB() const;

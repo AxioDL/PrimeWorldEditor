@@ -52,6 +52,7 @@ public:
     void focusOutEvent(QFocusEvent *pEvent);
     void contextMenuEvent(QContextMenuEvent *pEvent);
 
+    void SetShowFlag(EShowFlag Flag, bool Visible);
     void SetGameMode(bool Enabled);
     void SetCursorState(const QCursor& rkCursor);
     void SetCursorVisible(bool Visible);

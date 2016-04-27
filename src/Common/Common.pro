@@ -68,7 +68,8 @@ HEADERS += \
     Flags.h \
     TString.h \
     types.h \
-    Log.h
+    Log.h \
+    Assert.h
 
 # Source Files
 SOURCES += \

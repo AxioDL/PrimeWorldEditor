@@ -83,6 +83,9 @@ void CModelNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewInf
     CGraphics::sPixelBlock.TintColor = TintColor(rkViewInfo);
     LoadModelMatrix();
 
+    if (mpModel->IsSkinned())
+        CGraphics::LoadIdentityBoneTransforms();
+
     if (ComponentIndex < 0)
         mpModel->Draw(Options, mActiveMatSet);
     else

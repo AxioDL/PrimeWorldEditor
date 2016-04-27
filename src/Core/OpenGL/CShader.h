@@ -17,6 +17,7 @@ class CShader
     GLuint mVertexBlockIndex;
     GLuint mPixelBlockIndex;
     GLuint mLightBlockIndex;
+    GLuint mBoneTransformBlockIndex;
 
     static CShader* spCurrentShader;
 

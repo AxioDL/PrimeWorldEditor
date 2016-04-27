@@ -220,12 +220,16 @@ CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS)
         if (iNode == 0) Loader.mVersion = (Unknown1 == 0xA) ? eEchoes : ePrime; // Best version indicator we know of unfortunately
         pNode->Name = rANCS.ReadString();
         pNode->pModel = gResCache.GetResource(rANCS.ReadLong(), "CMDL");
-        pNode->SkinID = rANCS.ReadLong();
 
-        if (Loader.mVersion == ePrime)
+        if (Loader.mVersion <= ePrime)
+        {
+            pNode->pSkin = gResCache.GetResource(rANCS.ReadLong(), "CSKR");
             pNode->pSkeleton = gResCache.GetResource(rANCS.ReadLong(), "CINF");
+
+            pNode->pModel->SetSkin(pNode->pSkin);
+        }
         else
-            rANCS.Seek(0x4, SEEK_CUR);
+            rANCS.Seek(0x8, SEEK_CUR);
 
         // Unfortunately that's all that's actually supported at the moment. Hope to expand later.
         // Since there's no size value I have to actually read the rest of the node to reach the next one
