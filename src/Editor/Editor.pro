@@ -158,7 +158,8 @@ HEADERS += \
     WorldEditor/CRepackInfoDialog.h \
     CAboutDialog.h \
     CharacterEditor/CCharacterEditor.h \
-    CharacterEditor/CCharacterEditorViewport.h
+    CharacterEditor/CCharacterEditorViewport.h \
+    CGridRenderable.h
 
 # Source Files
 SOURCES += \

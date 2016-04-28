@@ -298,47 +298,50 @@ CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS)
         }
     }
 
-    // Load Animation Set
-    u32 SetStart = rANCS.Tell();
-    SetStart = SetStart;
-    u16 InfoCount = rANCS.ReadShort();
-    u32 NumAnims = rANCS.ReadLong();
-
-    for (u32 iAnim = 0; iAnim < NumAnims; iAnim++)
-        Loader.LoadAnimation(rANCS);
-
-    u32 NumTransitions = rANCS.ReadLong();
-
-    for (u32 iTrans = 0; iTrans < NumTransitions; iTrans++)
-        Loader.LoadTransition(rANCS);
-    Loader.LoadMetaTransition(rANCS);
-
-    u32 NumAdditiveAnims = rANCS.ReadLong();
-
-    for (u32 iAnim = 0; iAnim < NumAdditiveAnims; iAnim++)
-        Loader.LoadAdditiveAnimation(rANCS);
-
-    rANCS.Seek(0x8, SEEK_CUR);
-
-    if (InfoCount > 2)
+    if (Loader.mVersion <= ePrime)
     {
-        u32 NumHalfTransitions = rANCS.ReadLong();
+        // Load Animation Set
+        u32 SetStart = rANCS.Tell();
+        SetStart = SetStart;
+        u16 InfoCount = rANCS.ReadShort();
+        u32 NumAnims = rANCS.ReadLong();
 
-        for (u32 iHalf = 0; iHalf < NumHalfTransitions; iHalf++)
-            Loader.LoadHalfTransition(rANCS);
-    }
+        for (u32 iAnim = 0; iAnim < NumAnims; iAnim++)
+            Loader.LoadAnimation(rANCS);
 
-    // Add anims to set
-    for (u32 iPrim = 0; iPrim < Loader.mAnimPrimitives.size(); iPrim++)
-    {
-        SPrimitive& rPrim = Loader.mAnimPrimitives[iPrim];
+        u32 NumTransitions = rANCS.ReadLong();
 
-        if (rPrim.Loaded)
+        for (u32 iTrans = 0; iTrans < NumTransitions; iTrans++)
+            Loader.LoadTransition(rANCS);
+        Loader.LoadMetaTransition(rANCS);
+
+        u32 NumAdditiveAnims = rANCS.ReadLong();
+
+        for (u32 iAnim = 0; iAnim < NumAdditiveAnims; iAnim++)
+            Loader.LoadAdditiveAnimation(rANCS);
+
+        rANCS.Seek(0x8, SEEK_CUR);
+
+        if (InfoCount > 2)
         {
-            CAnimSet::SAnimation Anim;
-            Anim.Name = rPrim.Name;
-            Anim.pAnim = gResCache.GetResource(rPrim.AnimID, "ANIM");
-            Loader.pSet->mAnims.push_back(Anim);
+            u32 NumHalfTransitions = rANCS.ReadLong();
+
+            for (u32 iHalf = 0; iHalf < NumHalfTransitions; iHalf++)
+                Loader.LoadHalfTransition(rANCS);
+        }
+
+        // Add anims to set
+        for (u32 iPrim = 0; iPrim < Loader.mAnimPrimitives.size(); iPrim++)
+        {
+            SPrimitive& rPrim = Loader.mAnimPrimitives[iPrim];
+
+            if (rPrim.Loaded)
+            {
+                CAnimSet::SAnimation Anim;
+                Anim.Name = rPrim.Name;
+                Anim.pAnim = gResCache.GetResource(rPrim.AnimID, "ANIM");
+                Loader.pSet->mAnims.push_back(Anim);
+            }
         }
     }
 

@@ -464,16 +464,6 @@ CModel* CModelLoader::LoadCMDL(IInputStream& rCMDL)
     {
         Loader.mMaterials[iSet] = CMaterialLoader::LoadMaterialSet(rCMDL, Loader.mVersion);
 
-        // Toggle skinning on materials
-        if (Loader.mFlags.HasAnyFlags(eSkinnedModel))
-        {
-            for (u32 iMat = 0; iMat < Loader.mMaterials[iSet]->NumMaterials(); iMat++)
-            {
-                CMaterial *pMat = Loader.mMaterials[iSet]->MaterialByIndex(iMat);
-                pMat->SetVertexDescription(pMat->VtxDesc() | FVertexDescription(eBoneIndices | eBoneWeights));
-            }
-        }
-
         if (Loader.mVersion < eCorruptionProto)
             Loader.mpSectionMgr->ToNextSection();
     }

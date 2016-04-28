@@ -2,6 +2,7 @@
 #define CMODELEDITORVIEWPORT_H
 
 #include "Editor/CBasicViewport.h"
+#include "Editor/CGridRenderable.h"
 #include <Core/Scene/CModelNode.h>
 
 class CModelEditorViewport : public CBasicViewport
@@ -13,6 +14,7 @@ public:
 
 private:
     EDrawMode mMode;
+    CGridRenderable mGrid;
     CModelNode *mpModelNode;
     CMaterial *mpActiveMaterial;
     CRenderer *mpRenderer;

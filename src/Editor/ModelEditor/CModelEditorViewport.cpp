@@ -56,13 +56,15 @@ void CModelEditorViewport::Paint()
     if (!mpModelNode->Model())
     {
         if (mGridEnabled)
-            CDrawUtil::DrawGrid();
+            mGrid.AddToRenderer(mpRenderer, mViewInfo);
+
+        mpRenderer->RenderBuckets(mViewInfo);
     }
 
     else if (mMode == eDrawMesh)
     {
         if (mGridEnabled)
-            CDrawUtil::DrawGrid();
+            mGrid.AddToRenderer(mpRenderer, mViewInfo);
 
         mpModelNode->AddToRenderer(mpRenderer, mViewInfo);
         mpRenderer->RenderBuckets(mViewInfo);
