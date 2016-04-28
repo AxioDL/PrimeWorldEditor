@@ -275,7 +275,7 @@ GLuint CVertexBuffer::CreateVAO()
         else if (iAttrib == 12)
         {
             glBindBuffer(GL_ARRAY_BUFFER, mAttribBuffers[iAttrib]);
-            glVertexAttribIPointer(iAttrib, 4, GL_UNSIGNED_INT, sizeof(TBoneIndices), (void*) 0);
+            glVertexAttribIPointer(iAttrib, 1, GL_UNSIGNED_INT, sizeof(TBoneIndices), (void*) 0);
             glEnableVertexAttribArray(iAttrib);
         }
 

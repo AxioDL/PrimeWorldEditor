@@ -6,7 +6,7 @@
 #include <Math/CVector3f.h>
 #include <array>
 
-typedef std::array<u32, 4>      TBoneIndices;
+typedef std::array<u8, 4>       TBoneIndices;
 typedef std::array<float, 4>    TBoneWeights;
 
 class CVertex

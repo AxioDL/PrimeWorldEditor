@@ -37,8 +37,7 @@ public:
         eLightmap               = 0x800,
         eShortTexCoord          = 0x2000,
         eAllMP1Settings         = 0x2FF8,
-        eDrawWhiteAmbientDKCR   = 0x80000,
-        eSkinningEnabled        = 0x80000000
+        eDrawWhiteAmbientDKCR   = 0x80000
     };
     DECLARE_FLAGS(EMaterialOption, FMaterialOptions)
 

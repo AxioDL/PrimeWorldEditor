@@ -169,7 +169,7 @@ bool CShaderGenerator::CreateVertexShader(const CMaterial& rkMat)
     if (VtxDesc & eTex5)        ShaderCode  << "layout(location = 9) in vec2 RawTex5;\n";
     if (VtxDesc & eTex6)        ShaderCode  << "layout(location = 10) in vec2 RawTex6;\n";
     if (VtxDesc & eTex7)        ShaderCode  << "layout(location = 11) in vec2 RawTex7;\n";
-    if (VtxDesc & eBoneIndices) ShaderCode  << "layout(location = 12) in ivec4 BoneIndices;\n";
+    if (VtxDesc & eBoneIndices) ShaderCode  << "layout(location = 12) in int BoneIndices;\n";
     if (VtxDesc & eBoneWeights) ShaderCode  << "layout(location = 13) in vec4 BoneWeights;\n";
     ShaderCode << "\n";
 
@@ -222,7 +222,9 @@ bool CShaderGenerator::CreateVertexShader(const CMaterial& rkMat)
                 << "uniform int NumLights;\n"
                 << "\n";
 
-    if (rkMat.Options() & CMaterial::eSkinningEnabled)
+    bool HasSkinning = (rkMat.VtxDesc().HasAnyFlags(eBoneIndices | eBoneWeights));
+
+    if (HasSkinning)
     {
         ShaderCode  << "layout(std140) uniform BoneTransformBlock\n"
                     << "{\n"
@@ -243,7 +245,7 @@ bool CShaderGenerator::CreateVertexShader(const CMaterial& rkMat)
     ShaderCode << "\n";
 
     // Skinning
-    if (rkMat.Options() & CMaterial::eSkinningEnabled)
+    if (HasSkinning)
     {
         ShaderCode  << "    // Skinning\n"
                     << "    vec3 ModelSpacePos = vec3(0,0,0);\n";
@@ -254,7 +256,8 @@ bool CShaderGenerator::CreateVertexShader(const CMaterial& rkMat)
         ShaderCode  << "    \n"
                     << "    for (int iBone = 0; iBone < 4; iBone++)\n"
                     << "    {\n"
-                    << "        int BoneIdx = BoneIndices[iBone];\n"
+                    << "        int Shift = (8 * iBone);\n"
+                    << "        int BoneIdx = (BoneIndices >> Shift) & 0xFF;\n"
                     << "        float Weight = BoneWeights[iBone];\n"
                     << "        \n"
                     << "        if (BoneIdx > 0)\n"
