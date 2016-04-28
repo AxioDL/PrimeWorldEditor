@@ -133,12 +133,12 @@ void CScriptNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInf
             if (rkViewInfo.ViewFrustum.BoxInFrustum(AABox()))
             {
                 if (!mpActiveModel)
-                    pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawMesh);
+                    pRenderer->AddMesh(this, -1, AABox(), false, eDrawMesh);
 
                 else
                 {
                     if (!mpActiveModel->HasTransparency(0))
-                        pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawMesh);
+                        pRenderer->AddMesh(this, -1, AABox(), false, eDrawMesh);
                     else
                         AddSurfacesToRenderer(pRenderer, mpActiveModel, 0, rkViewInfo);
                 }
@@ -151,7 +151,7 @@ void CScriptNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInf
         // Script nodes always draw their selections regardless of frustum planes
         // in order to ensure that script connection lines don't get improperly culled.
        if (ShouldDraw)
-           pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawSelection);
+           pRenderer->AddMesh(this, -1, AABox(), false, eDrawSelection);
 
         if (mHasVolumePreview && (!mpExtra || mpExtra->ShouldDrawVolume()))
             mpVolumePreviewNode->AddToRenderer(pRenderer, rkViewInfo);
@@ -193,6 +193,8 @@ void CScriptNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewIn
         // Draw model if possible!
         if (mpActiveModel)
         {
+            if (mpActiveModel->IsSkinned()) CGraphics::LoadIdentityBoneTransforms();
+
             if (mpExtra) CGraphics::sPixelBlock.TevColor = mpExtra->TevColor();
             else CGraphics::sPixelBlock.TevColor = CColor::skWhite;
 

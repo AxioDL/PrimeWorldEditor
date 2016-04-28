@@ -12,27 +12,35 @@
 
 class CRenderBucket
 {
-    bool mEnableDepthSort;
     bool mEnableDepthSortDebugVisualization;
-    std::vector<SRenderablePtr> mRenderables;
-    u32 mEstSize;
-    u32 mSize;
+
+    class CSubBucket
+    {
+        std::vector<SRenderablePtr> mRenderables;
+        u32 mEstSize;
+        u32 mSize;
+
+    public:
+        CSubBucket()
+            : mEstSize(0)
+            , mSize(0)
+        {}
+
+        void Add(const SRenderablePtr &rkPtr);
+        void Sort(const CCamera *pkCamera, bool DebugVisualization);
+        void Clear();
+        void Draw(const SViewInfo& rkViewInfo);
+    };
+
+    CSubBucket mOpaqueSubBucket;
+    CSubBucket mTransparentSubBucket;
 
 public:
     CRenderBucket()
-        : mEnableDepthSort(false)
-        , mEnableDepthSortDebugVisualization(false)
-        , mEstSize(0)
-        , mSize(0)
+        : mEnableDepthSortDebugVisualization(false)
     {}
 
-    inline void SetDepthSortingEnabled(bool Enabled)
-    {
-        mEnableDepthSort = Enabled;
-    }
-
-    void Add(const SRenderablePtr& rkPtr);
-    void Sort(CCamera* pCamera);
+    void Add(const SRenderablePtr& rkPtr, bool Transparent);
     void Clear();
     void Draw(const SViewInfo& rkViewInfo);
 };

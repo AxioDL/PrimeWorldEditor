@@ -30,14 +30,14 @@ void CLightNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo
     if (rkViewInfo.GameMode) return;
 
     if (rkViewInfo.ViewFrustum.BoxInFrustum(AABox()))
-        pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawMesh);
+        pRenderer->AddMesh(this, -1, AABox(), false, eDrawMesh);
 
     if (IsSelected() && mpLight->Type() == eCustom)
     {
         CAABox RadiusBox = (CAABox::skOne * 2.f * mpLight->GetRadius()) + mPosition;
 
         if (rkViewInfo.ViewFrustum.BoxInFrustum(RadiusBox))
-            pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawSelection);
+            pRenderer->AddMesh(this, -1, AABox(), false, eDrawSelection);
     }
 }
 

@@ -193,7 +193,8 @@ HEADERS += \
     Resource/Factory/CAnimationLoader.h \
     Render/CBoneTransformData.h \
     Resource/CSkin.h \
-    Resource/Factory/CSkinLoader.h
+    Resource/Factory/CSkinLoader.h \
+    Render/EDepthGroup.h
 
 # Source Files
 SOURCES += \
