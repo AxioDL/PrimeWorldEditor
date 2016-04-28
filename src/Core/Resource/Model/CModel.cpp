@@ -122,7 +122,7 @@ void CModel::DrawSurface(FRenderOptions Options, u32 Surface, u32 MatSet)
         SSurface *pSurf = mSurfaces[Surface];
         CMaterial *pMat = mMaterialSets[MatSet]->MaterialByIndex(pSurf->MaterialID);
 
-        if ((!(Options & eEnableOccluders)) && (pMat->Options() & CMaterial::eOccluder))
+        if (!Options.HasFlag(eEnableOccluders) && pMat->Options().HasFlag(CMaterial::eOccluder))
             return;
 
         pMat->SetCurrent(Options);

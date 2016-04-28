@@ -49,14 +49,14 @@ void CCharacterEditorViewport::Paint()
 {
     mpRenderer->BeginFrame();
     mCamera.LoadMatrices();
-    CDrawUtil::DrawGrid();
+    mGrid.AddToRenderer(mpRenderer, mViewInfo);
 
     if (mpCharNode)
     {
         mpCharNode->AddToRenderer(mpRenderer, mViewInfo);
-        mpRenderer->RenderBuckets(mViewInfo);
     }
 
+    mpRenderer->RenderBuckets(mViewInfo);
     mpRenderer->EndFrame();
 }
 

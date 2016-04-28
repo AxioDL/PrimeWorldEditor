@@ -2,6 +2,7 @@
 #define CCHARACTEREDITORVIEWPORT_H
 
 #include "Editor/CBasicViewport.h"
+#include "Editor/CGridRenderable.h"
 #include <Core/Scene/CCharacterNode.h>
 
 class CCharacterEditorViewport : public CBasicViewport
@@ -9,6 +10,7 @@ class CCharacterEditorViewport : public CBasicViewport
     Q_OBJECT
 
     CCharacterNode *mpCharNode;
+    CGridRenderable mGrid;
     CRenderer *mpRenderer;
     u32 mHoverBone;
 
