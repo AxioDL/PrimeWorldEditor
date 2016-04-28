@@ -29,9 +29,7 @@ class CGraphics
     static u32 mActiveContext;
     static bool mInitialized;
     static std::vector<CVertexArrayManager*> mVAMs;
-
     static bool mIdentityBoneTransforms;
-    static const CSkeleton *mpkCurrentSkeleton;
 
 public:
     // SMVPBlock
@@ -109,7 +107,6 @@ public:
     static void SetupAmbientColor();
     static void SetIdentityMVP();
     static void LoadBoneTransforms(const CBoneTransformData& rkData);
-    static void LoadBoneInverseBindTransforms(CSkeleton *pSkel);
     static void LoadIdentityBoneTransforms();
 };
 

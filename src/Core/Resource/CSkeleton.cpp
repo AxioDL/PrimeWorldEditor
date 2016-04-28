@@ -29,6 +29,13 @@ void CBone::UpdateTransform(CBoneTransformData& rData, CAnimation *pAnim, float 
 
     for (u32 iChild = 0; iChild < mChildren.size(); iChild++)
         mChildren[iChild]->UpdateTransform(rData, pAnim, Time, AnchorRoot);
+
+     rTransform *= mInvBind;
+}
+
+CVector3f CBone::TransformedPosition(const CBoneTransformData& rkData) const
+{
+    return rkData[mID] * AbsolutePosition();
 }
 
 bool CBone::IsRoot() const
@@ -84,12 +91,12 @@ void CSkeleton::Draw(FRenderOptions /*Options*/, const CBoneTransformData& rkDat
     for (u32 iBone = 0; iBone < mBones.size(); iBone++)
     {
         CBone *pBone = mBones[iBone];
-        const CTransform4f& rkBoneTransform = rkData[pBone->ID()];
+        CVector3f BonePos = pBone->TransformedPosition(rkData);
 
         // Draw bone
         CTransform4f Transform;
         Transform.Scale(skSphereRadius);
-        Transform.Translate(rkBoneTransform.ExtractTranslation());
+        Transform.Translate(BonePos);
         CGraphics::sMVPBlock.ModelMatrix = Transform;
         CGraphics::UpdateMVPBlock();
         CDrawUtil::DrawSphere(CColor::skWhite);
@@ -100,8 +107,8 @@ void CSkeleton::Draw(FRenderOptions /*Options*/, const CBoneTransformData& rkDat
 
         for (u32 iChild = 0; iChild < pBone->NumChildren(); iChild++)
         {
-            const CTransform4f& rkChildTransform = rkData[pBone->ChildByIndex(iChild)->ID()];
-            CDrawUtil::DrawLine(rkBoneTransform.ExtractTranslation(), rkChildTransform.ExtractTranslation());
+            CVector3f ChildPos = pBone->ChildByIndex(iChild)->TransformedPosition(rkData);
+            CDrawUtil::DrawLine(BonePos, ChildPos);
         }
     }
 }

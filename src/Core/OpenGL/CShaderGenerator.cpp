@@ -227,7 +227,6 @@ bool CShaderGenerator::CreateVertexShader(const CMaterial& rkMat)
         ShaderCode  << "layout(std140) uniform BoneTransformBlock\n"
                     << "{\n"
                     << "    mat4 BoneTransforms[100];\n"
-                    << "    mat4 InverseBindTransforms[100];\n"
                     << "};\n"
                     << "\n";
     }
@@ -260,11 +259,10 @@ bool CShaderGenerator::CreateVertexShader(const CMaterial& rkMat)
                     << "        \n"
                     << "        if (BoneIdx > 0)\n"
                     << "        {\n"
-                    << "            mat4 BoneSpaceTransform = InverseBindTransforms[BoneIdx] * BoneTransforms[BoneIdx];\n"
-                    << "            ModelSpacePos += vec3(vec4(RawPosition, 1) * BoneSpaceTransform * Weight);\n";
+                    << "            ModelSpacePos += vec3(vec4(RawPosition, 1) * BoneTransforms[BoneIdx] * Weight);\n";
 
         if (VtxDesc & eNormal)
-            ShaderCode  << "            ModelSpaceNormal += RawNormal.xyz * inverse(transpose(mat3(BoneSpaceTransform))) * Weight;\n";
+            ShaderCode  << "            ModelSpaceNormal += RawNormal.xyz * inverse(transpose(mat3(BoneTransforms[BoneIdx]))) * Weight;\n";
 
         ShaderCode  << "        }\n"
                     << "    }\n"

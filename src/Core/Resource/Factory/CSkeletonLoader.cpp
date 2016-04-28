@@ -14,12 +14,10 @@ void CSkeletonLoader::SetLocalBoneCoords(CBone *pBone)
 
 void CSkeletonLoader::CalculateBoneInverseBindMatrices()
 {
-    mpSkeleton->mInvBindMatrices.resize(mpSkeleton->MaxBoneID() + 1);
-
     for (u32 iBone = 0; iBone < mpSkeleton->mBones.size(); iBone++)
     {
         CBone *pBone = mpSkeleton->mBones[iBone];
-        mpSkeleton->mInvBindMatrices[pBone->ID()] = CTransform4f::TranslationMatrix(-pBone->AbsolutePosition());
+        pBone->mInvBind = CTransform4f::TranslationMatrix(-pBone->AbsolutePosition());
     }
 }
 
