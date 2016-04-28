@@ -73,7 +73,6 @@ void CCharacterNode::Draw(FRenderOptions Options, int ComponentIndex, const SVie
 
         // Draw surface OR draw entire model
         CGraphics::LoadBoneTransforms(mTransformData);
-        CGraphics::LoadBoneInverseBindTransforms(pSkel);
         CModel *pModel = mpCharacter->NodeModel(mActiveCharSet);
 
         if (ComponentIndex < 0)
