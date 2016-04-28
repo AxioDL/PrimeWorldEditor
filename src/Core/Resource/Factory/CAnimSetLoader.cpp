@@ -328,22 +328,18 @@ CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS)
             Loader.LoadHalfTransition(rANCS);
     }
 
-    // Remove empty anims
-    for (auto it = Loader.mAnimPrimitives.begin(); it != Loader.mAnimPrimitives.end(); it++)
-    {
-        if (!it->Loaded)
-            it = Loader.mAnimPrimitives.erase(it);
-    }
-
     // Add anims to set
     for (u32 iPrim = 0; iPrim < Loader.mAnimPrimitives.size(); iPrim++)
     {
         SPrimitive& rPrim = Loader.mAnimPrimitives[iPrim];
 
-        CAnimSet::SAnimation Anim;
-        Anim.Name = rPrim.Name;
-        Anim.pAnim = gResCache.GetResource(rPrim.AnimID, "ANIM");
-        Loader.pSet->mAnims.push_back(Anim);
+        if (rPrim.Loaded)
+        {
+            CAnimSet::SAnimation Anim;
+            Anim.Name = rPrim.Name;
+            Anim.pAnim = gResCache.GetResource(rPrim.AnimID, "ANIM");
+            Loader.pSet->mAnims.push_back(Anim);
+        }
     }
 
     return Loader.pSet;
