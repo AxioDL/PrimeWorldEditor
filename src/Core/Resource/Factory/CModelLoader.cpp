@@ -470,8 +470,6 @@ CModel* CModelLoader::LoadCMDL(IInputStream& rCMDL)
             for (u32 iMat = 0; iMat < Loader.mMaterials[iSet]->NumMaterials(); iMat++)
             {
                 CMaterial *pMat = Loader.mMaterials[iSet]->MaterialByIndex(iMat);
-                CMaterial::FMaterialOptions Options = pMat->Options();
-                pMat->SetOptions(Options | CMaterial::eSkinningEnabled);
                 pMat->SetVertexDescription(pMat->VtxDesc() | FVertexDescription(eBoneIndices | eBoneWeights));
             }
         }
