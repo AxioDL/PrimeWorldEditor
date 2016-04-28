@@ -67,10 +67,10 @@ void CDoorExtra::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo
         if (mpShieldModel->HasTransparency(0))
             AddSurfacesToRenderer(pRenderer, mpShieldModel, 0, rkViewInfo);
         else
-            pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawMesh);
+            pRenderer->AddMesh(this, -1, AABox(), false, eDrawMesh);
 
         if (mpParent->IsSelected() && !rkViewInfo.GameMode)
-            pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawSelection);
+            pRenderer->AddMesh(this, -1, AABox(), false, eDrawSelection);
     }
 }
 

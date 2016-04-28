@@ -4,8 +4,9 @@
 #include "CCamera.h"
 #include "CGraphics.h"
 #include "CRenderBucket.h"
-#include "FRenderOptions.h"
+#include "EDepthGroup.h"
 #include "ERenderCommand.h"
+#include "FRenderOptions.h"
 #include "SRenderablePtr.h"
 #include "SViewInfo.h"
 #include "Core/OpenGL/CFramebuffer.h"
@@ -33,8 +34,6 @@ private:
     bool mDrawGrid;
     CColor mClearColor;
     u32 mContextIndex;
-    CRenderBucket mOpaqueBucket;
-    CRenderBucket mTransparentBucket;
     bool mInitialized;
     u32 mViewportWidth, mViewportHeight;
     u32 mBloomWidth, mBloomHeight;
@@ -43,6 +42,11 @@ private:
     CFramebuffer mSceneFramebuffer;
     CFramebuffer mBloomFramebuffers[3];
     GLint mDefaultFramebuffer;
+
+    CRenderBucket mBackgroundBucket;
+    CRenderBucket mMidgroundBucket;
+    CRenderBucket mForegroundBucket;
+    CRenderBucket mUIBucket;
 
     // Static Members
     static u32 sNumRenderers;
@@ -68,8 +72,7 @@ public:
     void RenderBuckets(const SViewInfo& rkViewInfo);
     void RenderBloom();
     void RenderSky(CModel *pSkyboxModel, const SViewInfo& rkViewInfo);
-    void AddOpaqueMesh(IRenderable *pRenderable, int AssetID, const CAABox& rkAABox, ERenderCommand Command);
-    void AddTransparentMesh(IRenderable *pRenderable, int AssetID, const CAABox& rkAABox, ERenderCommand Command);
+    void AddMesh(IRenderable *pRenderable, int AssetID, const CAABox& rkAABox, bool Transparent, ERenderCommand Command, EDepthGroup DepthGroup = eMidground);
     void BeginFrame();
     void EndFrame();
     void ClearDepthBuffer();

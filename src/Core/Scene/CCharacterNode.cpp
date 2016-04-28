@@ -35,9 +35,9 @@ void CCharacterNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkView
     if (pModel)
     {
         if (!pModel->HasTransparency(0))
-            pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawMesh);
+            pRenderer->AddMesh(this, -1, AABox(), false, eDrawMesh);
         else
-            AddSurfacesToRenderer(pRenderer, pModel, 0, rkViewInfo, false);
+            AddSurfacesToRenderer(pRenderer, pModel, 0, rkViewInfo, eMidground, false);
     }
 
     if (pSkel)
@@ -46,7 +46,7 @@ void CCharacterNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkView
         pSkel->UpdateTransform(mTransformData, pAnim, mAnimTime, false);
 
         if (rkViewInfo.ShowFlags.HasFlag(eShowSkeletons))
-            pRenderer->AddOpaqueMesh(this, -2, AABox(), eDrawMesh);
+            pRenderer->AddMesh(this, -2, AABox(), false, eDrawMesh, eForeground);
     }
 }
 

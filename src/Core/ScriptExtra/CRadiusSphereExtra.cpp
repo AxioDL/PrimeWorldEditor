@@ -32,7 +32,7 @@ void CRadiusSphereExtra::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rk
         CAABox BoundingBox = Bounds();
 
         if (rkViewInfo.ViewFrustum.BoxInFrustum(BoundingBox))
-            pRenderer->AddOpaqueMesh(this, -1, BoundingBox, eDrawMesh);
+            pRenderer->AddMesh(this, -1, BoundingBox, false, eDrawMesh);
     }
 }
 

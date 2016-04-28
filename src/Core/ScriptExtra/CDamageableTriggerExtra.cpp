@@ -183,9 +183,9 @@ void CDamageableTriggerExtra::AddToRenderer(CRenderer *pRenderer, const SViewInf
     if (mRenderSide != eNoRender)
     {
         if (rkViewInfo.ViewFrustum.BoxInFrustum(AABox()))
-            pRenderer->AddTransparentMesh(this, -1, AABox(), eDrawMesh);
+            pRenderer->AddMesh(this, -1, AABox(), true, eDrawMesh);
         if (mpParent->IsSelected() && !rkViewInfo.GameMode)
-            pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawSelection);
+            pRenderer->AddMesh(this, -1, AABox(), false, eDrawSelection);
     }
 }
 

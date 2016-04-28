@@ -167,7 +167,7 @@ void CWaypointExtra::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkView
             CScriptNode *pNode = mLinks[iLink].pWaypoint;
 
             if (pNode->IsVisible() && !pNode->IsSelected() && rkViewInfo.ViewFrustum.BoxInFrustum(mLinks[iLink].LineAABB))
-                pRenderer->AddOpaqueMesh(this, iLink, mLinks[iLink].LineAABB, eDrawMesh);
+                pRenderer->AddMesh(this, iLink, mLinks[iLink].LineAABB, false, eDrawMesh);
         }
     }
 }

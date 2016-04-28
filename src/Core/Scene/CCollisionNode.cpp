@@ -21,10 +21,10 @@ void CCollisionNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkView
     if (!rkViewInfo.ViewFrustum.BoxInFrustum(AABox())) return;
     if (rkViewInfo.GameMode) return;
 
-    pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawMesh);
+    pRenderer->AddMesh(this, -1, AABox(), false, eDrawMesh);
 
     if (mSelected)
-        pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawSelection);
+        pRenderer->AddMesh(this, -1, AABox(), false, eDrawSelection);
 }
 
 void CCollisionNode::Draw(FRenderOptions /*Options*/, int /*ComponentIndex*/, const SViewInfo& rkViewInfo)

@@ -24,7 +24,6 @@ CRenderer::CRenderer()
     , mInitialized(false)
     , mContextIndex(-1)
 {
-    mTransparentBucket.SetDepthSortingEnabled(true);
     sNumRenderers++;
 }
 
@@ -127,11 +126,21 @@ void CRenderer::RenderBuckets(const SViewInfo& rkViewInfo)
     glDepthRange(0.f, 1.f);
     glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 
-    mOpaqueBucket.Draw(rkViewInfo);
-    mOpaqueBucket.Clear();
-    mTransparentBucket.Sort(rkViewInfo.pCamera);
-    mTransparentBucket.Draw(rkViewInfo);
-    mTransparentBucket.Clear();
+    mBackgroundBucket.Draw(rkViewInfo);
+    mBackgroundBucket.Clear();
+    ClearDepthBuffer();
+    mMidgroundBucket.Draw(rkViewInfo);
+    mMidgroundBucket.Clear();
+    ClearDepthBuffer();
+    RenderBloom();
+    ClearDepthBuffer();
+    rkViewInfo.pCamera->LoadMatrices();
+    mForegroundBucket.Draw(rkViewInfo);
+    mForegroundBucket.Clear();
+    ClearDepthBuffer();
+    mUIBucket.Draw(rkViewInfo);
+    mUIBucket.Clear();
+    ClearDepthBuffer();
 }
 
 void CRenderer::RenderBloom()
@@ -266,24 +275,32 @@ void CRenderer::RenderSky(CModel *pSkyboxModel, const SViewInfo& rkViewInfo)
     pSkyboxModel->Draw(mOptions, 0);
 }
 
-void CRenderer::AddOpaqueMesh(IRenderable *pRenderable, int AssetID, const CAABox& rkAABox, ERenderCommand Command)
+void CRenderer::AddMesh(IRenderable *pRenderable, int ComponentIndex, const CAABox& rkAABox, bool Transparent, ERenderCommand Command, EDepthGroup DepthGroup /*= eMidground*/)
 {
     SRenderablePtr Ptr;
     Ptr.pRenderable = pRenderable;
-    Ptr.ComponentIndex = AssetID;
+    Ptr.ComponentIndex = ComponentIndex;
     Ptr.AABox = rkAABox;
     Ptr.Command = Command;
-    mOpaqueBucket.Add(Ptr);
-}
 
-void CRenderer::AddTransparentMesh(IRenderable *pRenderable, int AssetID, const CAABox& rkAABox, ERenderCommand Command)
-{
-    SRenderablePtr Ptr;
-    Ptr.pRenderable = pRenderable;
-    Ptr.ComponentIndex = AssetID;
-    Ptr.AABox = rkAABox;
-    Ptr.Command = Command;
-    mTransparentBucket.Add(Ptr);
+    switch (DepthGroup)
+    {
+    case eBackground:
+        mBackgroundBucket.Add(Ptr, Transparent);
+        break;
+
+    case eMidground:
+        mMidgroundBucket.Add(Ptr, Transparent);
+        break;
+
+    case eForeground:
+        mForegroundBucket.Add(Ptr, Transparent);
+        break;
+
+    case eUI:
+        mUIBucket.Add(Ptr, Transparent);
+        break;
+    }
 }
 
 void CRenderer::BeginFrame()

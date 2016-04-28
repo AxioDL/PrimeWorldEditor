@@ -36,12 +36,12 @@ void CModelNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo
     if (rkViewInfo.GameMode) return;
 
     if (!mpModel->HasTransparency(mActiveMatSet))
-        pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawMesh);
+        pRenderer->AddMesh(this, -1, AABox(), false, eDrawMesh);
     else
         AddSurfacesToRenderer(pRenderer, mpModel, mActiveMatSet, rkViewInfo);
 
     if (mSelected)
-        pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawSelection);
+        pRenderer->AddMesh(this, -1, AABox(), false, eDrawSelection);
 }
 
 void CModelNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& rkViewInfo)

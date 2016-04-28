@@ -57,11 +57,7 @@ void CGizmo::AddToRenderer(CRenderer *pRenderer, const SViewInfo&)
         u32 SetID = (IsHighlighted ? 1 : 0);
 
         // Add to renderer...
-        if (pModel->HasTransparency(SetID))
-            pRenderer->AddTransparentMesh(this, iPart, pModel->AABox().Transformed(mTransform), eDrawMesh);
-        else
-            pRenderer->AddOpaqueMesh(this, iPart, pModel->AABox().Transformed(mTransform), eDrawMesh);
-
+        pRenderer->AddMesh(this, iPart, pModel->AABox().Transformed(mTransform), pModel->HasTransparency(SetID), eDrawMesh, eForeground);
         pPart++;
     }
 }

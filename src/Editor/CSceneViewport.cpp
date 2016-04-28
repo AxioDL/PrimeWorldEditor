@@ -299,6 +299,7 @@ void CSceneViewport::Paint()
 
     mpRenderer->BeginFrame();
 
+    // todo: The sky should really just be a regular node in the background depth group instead of having special rendering code here
     if ((mViewInfo.ShowFlags & eShowSky) || mViewInfo.GameMode)
     {
         CModel *pSky = mpScene->ActiveSkybox();
@@ -307,6 +308,14 @@ void CSceneViewport::Paint()
 
     mCamera.LoadMatrices();
     mpScene->AddSceneToRenderer(mpRenderer, mViewInfo);
+
+    // Add gizmo to renderer
+    if (mpEditor->IsGizmoVisible() && !mViewInfo.GameMode)
+    {
+        CGizmo *pGizmo = mpEditor->Gizmo();
+        pGizmo->UpdateForCamera(mCamera);
+        pGizmo->AddToRenderer(mpRenderer, mViewInfo);
+    }
 
     // Draw the line for the link the user is editing. This is a little hacky but I don't really have a better way to do this atm.
     if (mLinkLineEnabled)
@@ -318,19 +327,6 @@ void CSceneViewport::Paint()
     }
 
     mpRenderer->RenderBuckets(mViewInfo);
-    mpRenderer->RenderBloom();
-
-    if (mpEditor->IsGizmoVisible() && !mViewInfo.GameMode)
-    {
-        CGizmo *pGizmo = mpEditor->Gizmo();
-        mCamera.LoadMatrices();
-
-        mpRenderer->ClearDepthBuffer();
-        pGizmo->UpdateForCamera(mCamera);
-        pGizmo->AddToRenderer(mpRenderer, mViewInfo);
-        mpRenderer->RenderBuckets(mViewInfo);
-    }
-
     mpRenderer->EndFrame();
 }
 

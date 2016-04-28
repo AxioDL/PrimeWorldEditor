@@ -40,7 +40,10 @@ CVector3f CBone::TransformedPosition(const CBoneTransformData& rkData) const
 
 bool CBone::IsRoot() const
 {
-    return (mpParent == nullptr);
+    // In Retro's engine most skeletons have another bone named Skeleton_Root parented directly under the
+    // actual root bone... that bone sometimes acts as the actual root (transforming the entire skeleton),
+    // so we need to account for both
+    return (mpParent == nullptr || mpParent->Parent() == nullptr);
 }
 
 // ************ CSkeleton ************

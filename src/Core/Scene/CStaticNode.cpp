@@ -34,7 +34,7 @@ void CStaticNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInf
     if (!rkViewInfo.ViewFrustum.BoxInFrustum(AABox())) return;
 
     if (!mpModel->IsTransparent())
-        pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawMesh);
+        pRenderer->AddMesh(this, -1, AABox(), false, eDrawMesh);
 
     else
     {
@@ -44,12 +44,12 @@ void CStaticNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInf
             CAABox TransformedBox = mpModel->GetSurfaceAABox(iSurf).Transformed(Transform());
 
             if (rkViewInfo.ViewFrustum.BoxInFrustum(TransformedBox))
-                pRenderer->AddTransparentMesh(this, iSurf, TransformedBox, eDrawMesh);
+                pRenderer->AddMesh(this, iSurf, TransformedBox, true, eDrawMesh);
         }
     }
 
     if (mSelected && !rkViewInfo.GameMode)
-        pRenderer->AddOpaqueMesh(this, -1, AABox(), eDrawSelection);
+        pRenderer->AddMesh(this, -1, AABox(), false, eDrawSelection);
 }
 
 void CStaticNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& rkViewInfo)

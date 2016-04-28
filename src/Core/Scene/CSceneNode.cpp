@@ -224,7 +224,7 @@ void CSceneNode::DrawRotationArrow() const
     spArrowModel->Draw(eNoRenderOptions, 0);
 }
 
-void CSceneNode::AddSurfacesToRenderer(CRenderer *pRenderer, CModel *pModel, u32 MatSet, const SViewInfo& rkViewInfo, bool DoFrustumTest /*= true*/)
+void CSceneNode::AddSurfacesToRenderer(CRenderer *pRenderer, CModel *pModel, u32 MatSet, const SViewInfo& rkViewInfo, EDepthGroup DepthGroup /*= eMidground*/, bool DoFrustumTest /*= true*/)
 {
     u32 SurfaceCount = pModel->GetSurfaceCount();
 
@@ -234,10 +234,7 @@ void CSceneNode::AddSurfacesToRenderer(CRenderer *pRenderer, CModel *pModel, u32
 
         if (!DoFrustumTest || rkViewInfo.ViewFrustum.BoxInFrustum(TransformedBox))
         {
-            if (!pModel->IsSurfaceTransparent(iSurf, MatSet))
-                pRenderer->AddOpaqueMesh(this, (int) iSurf, TransformedBox, eDrawMesh);
-            else
-                pRenderer->AddTransparentMesh(this, (int) iSurf, TransformedBox, eDrawMesh);
+            pRenderer->AddMesh(this, (int) iSurf, TransformedBox, pModel->IsSurfaceTransparent(iSurf, MatSet), eDrawMesh, DepthGroup);
         }
     }
 }
