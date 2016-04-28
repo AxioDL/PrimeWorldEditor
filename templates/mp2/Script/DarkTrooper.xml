@@ -47,9 +47,7 @@
             <default>18.0</default>
         </property>
         <struct ID="0x98F9A308" template="Structs/DamageInfo.xml"/>
-        <property ID="0xB8432896" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xB8432896" type="file" extensions="WPSC"/>
         <property ID="0x49727753" type="long">
             <default>-1</default>
         </property>
@@ -58,9 +56,7 @@
         </property>
         <property ID="0x70E97166" type="file" extensions="WPSC"/>
         <struct ID="0x258CFB4D" template="Structs/DamageInfo.xml"/>
-        <property ID="0x8B6F9B43" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x8B6F9B43" type="file" extensions="SCAN"/>
     </properties>
     <states/>
     <messages/>

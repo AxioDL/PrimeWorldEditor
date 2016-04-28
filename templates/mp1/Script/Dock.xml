@@ -6,9 +6,9 @@
         <property ID="0x01" name="Active" type="bool"/>
         <property ID="0x02" name="Position" type="vector3f"/>
         <property ID="0x03" name="Scale" type="vector3f"/>
-        <property ID="0x04" name="Dock Number" type="long"/>
-        <property ID="0x05" name="Room Number" type="long"/>
-        <property ID="0x06" name="Load Automatically?" type="bool"/>
+        <property ID="0x04" name="Dock Index" type="long"/>
+        <property ID="0x05" name="Area Index" type="long"/>
+        <property ID="0x06" name="Auto Load" type="bool"/>
     </properties>
     <states/>
     <messages/>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <struct name="DamageInfo" type="multi">
     <properties>
-        <property ID="0x119FBD31" type="long">
+        <enum ID="0x119FBD31" template="Enums/WeaponType.xml">
             <default>0</default>
-        </property>
+        </enum>
         <property ID="0xF2D02613" type="float">
             <default>0.0</default>
         </property>

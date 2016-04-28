@@ -65,9 +65,7 @@
         </property>
         <property ID="0xC27FFA8F" type="file" extensions="CMDL"/>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <property ID="0x41DD4D40" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x41DD4D40" type="file" extensions="PART"/>
         <property ID="0x0BB3CCAE" type="long">
             <default>-1</default>
         </property>

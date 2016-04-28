@@ -1,18 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <struct name="ConditionalTest" type="multi">
     <properties>
-        <property ID="0xDE3E40A3" type="long">
+        <enum ID="0xDE3E40A3">
             <default>1</default>
-        </property>
+            <enumerators>
+                <enumerator ID="0x00" name="Unknown"/>
+                <enumerator ID="0x01" name="And"/>
+                <enumerator ID="0x02" name="Or"/>
+            </enumerators>
+        </enum>
         <enum ID="0xD3AF8D72" template="Enums/Item.xml">
             <default>0x00</default>
         </enum>
-        <property ID="0x03BDEA98" type="long">
+        <enum ID="0x03BDEA98">
             <default>0</default>
-        </property>
-        <property ID="0x70729364" type="long">
+            <enumerators>
+                <enumerator ID="0x00" name="Amount"/>
+                <enumerator ID="0x01" name="Capacity"/>
+            </enumerators>
+        </enum>
+        <enum ID="0x70729364">
             <default>0</default>
-        </property>
+            <enumerators>
+                <enumerator ID="0x00" name="Equals"/>
+                <enumerator ID="0x01" name="Does Not Equal"/>
+                <enumerator ID="0x02" name="Is Greater Than"/>
+                <enumerator ID="0x03" name="Is Less Than"/>
+                <enumerator ID="0x04" name="Is Greater Than Or Equals"/>
+                <enumerator ID="0x05" name="Is Less Than Or Equals"/>
+            </enumerators>
+        </enum>
         <property ID="0x8DB9398A" type="long">
             <default>0</default>
         </property>

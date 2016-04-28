@@ -4,8 +4,14 @@
         <property ID="0xFE9DC266" type="bool">
             <default>false</default>
         </property>
-        <property ID="0xCA19E8C6" type="long">
-            <default>15</default>
-        </property>
+        <bitfield ID="0xCA19E8C6">
+            <default>0x0F</default>
+            <flags>
+                <flag mask="0x00000001" name="Combat"/>
+                <flag mask="0x00000002" name="Scan"/>
+                <flag mask="0x00000004" name="Dark"/>
+                <flag mask="0x00000008" name="Echo"/>
+            </flags>
+        </bitfield>
     </properties>
 </struct>
