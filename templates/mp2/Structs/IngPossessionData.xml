@@ -7,15 +7,9 @@
         <property ID="0xB68C0AA3" type="bool">
             <default>true</default>
         </property>
-        <property ID="0xAD54DA11" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xF5C66384" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x35A9792E" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xAD54DA11" type="file" extensions="CMDL"/>
+        <property ID="0xF5C66384" type="file" extensions="CSKR"/>
+        <property ID="0x35A9792E" type="file" extensions="SCAN"/>
         <struct ID="0x1D852D4B" template="Structs/HealthInfo.xml">
             <properties>
                 <property ID="0xF0668919">

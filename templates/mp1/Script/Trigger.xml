@@ -9,23 +9,23 @@
         <property ID="0x04" name="Force" type="vector3f"/>
         <bitfield ID="0x05" name="Trigger Flags">
             <flags>
-                <flag mask="0x00000001" name="Affects Player"/>
-                <flag mask="0x00000002" name="Affects AI"/>
-                <flag mask="0x00000004" name="Unknown 3"/>
-                <flag mask="0x00000008" name="Unknown 4"/>
-                <flag mask="0x00000010" name="Unknown 5"/>
-                <flag mask="0x00000020" name="Unknown 6"/>
-                <flag mask="0x00000040" name="Unknown 7"/>
-                <flag mask="0x00000080" name="Unknown 8"/>
-                <flag mask="0x00000100" name="Unknown 9"/>
-                <flag mask="0x00000200" name="Unknown 10"/>
-                <flag mask="0x00000400" name="Unknown 11"/>
-                <flag mask="0x00000800" name="Kill On Enter"/>
-                <flag mask="0x00001000" name="Unknown 13"/>
-                <flag mask="0x00002000" name="Unknown 14"/>
-                <flag mask="0x00004000" name="Unknown 15"/>
-                <flag mask="0x00008000" name="Unknown 16"/>
-                <flag mask="0x00010000" name="Unknown 17"/>
+                <flag mask="0x00000001" name="Detect Player"/>
+                <flag mask="0x00000002" name="Detect AI"/>
+                <flag mask="0x00000004" name="Detect Projectiles"/>
+                <flag mask="0x00000008" name="Detect Projectiles"/>
+                <flag mask="0x00000010" name="Detect Projectiles"/>
+                <flag mask="0x00000020" name="Detect Projectiles"/>
+                <flag mask="0x00000040" name="Detect Bombs"/>
+                <flag mask="0x00000080" name="Unknown 1"/>
+                <flag mask="0x00000100" name="Detect Projectiles"/>
+                <flag mask="0x00000200" name="Detect Projectiles"/>
+                <flag mask="0x00000400" name="Detect Projectiles"/>
+                <flag mask="0x00000800" name="Kill On Entered"/>
+                <flag mask="0x00001000" name="Detect Morphed Player"/>
+                <flag mask="0x00002000" name="Apply Force"/>
+                <flag mask="0x00004000" name="Detect Player If Completely Inside"/>
+                <flag mask="0x00008000" name="Unknown 2"/>
+                <flag mask="0x00010000" name="Detect Unmorphed Player"/>
                 <flag mask="0x00020000" name="Block Environmental Effects"/>
             </flags>
         </bitfield>

@@ -21,28 +21,16 @@
         <property ID="0x10" name="Unknown 7" type="float"/>
         <property ID="0x11" name="Unknown 8" type="float"/>
         <property ID="0x12" name="Active" type="bool"/>
-        <property ID="0x13" name="Unknown 10" type="long"/>
+        <property ID="0x13" name="Fluid Type" type="long"/>
         <property ID="0x14" name="Unknown 11" type="bool"/>
         <property ID="0x15" name="Unknown 12" type="float"/>
         <struct ID="0x16" name="FluidUVMotion" type="single">
             <properties>
-                <property ID="0x00" name="Unknown 13" type="long"/>
-                <property ID="0x01" name="Unknown 14" type="float"/>
-                <property ID="0x02" name="Unknown 15" type="float"/>
-                <property ID="0x03" name="Unknown 16" type="float"/>
-                <property ID="0x04" name="Unknown 17" type="float"/>
-                <property ID="0x05" name="Unknown 18" type="long"/>
-                <property ID="0x06" name="Unknown 19" type="float"/>
-                <property ID="0x07" name="Unknown 20" type="float"/>
-                <property ID="0x08" name="Unknown 21" type="float"/>
-                <property ID="0x09" name="Unknown 22" type="float"/>
-                <property ID="0x0A" name="Unknown 23" type="long"/>
-                <property ID="0x0B" name="Unknown 24" type="float"/>
-                <property ID="0x0C" name="Unknown 25" type="float"/>
-                <property ID="0x0D" name="Unknown 26" type="float"/>
-                <property ID="0x0E" name="Unknown 27" type="float"/>
-                <property ID="0x0F" name="Unknown 28" type="float"/>
-                <property ID="0x10" name="Unknown 29" type="float"/>
+                <struct ID="0x00" name="Fluid Layer Motion 1" template="Structs/FluidLayerMotion.xml"/>
+                <struct ID="0x01" name="Fluid Layer Motion 2" template="Structs/FluidLayerMotion.xml"/>
+                <struct ID="0x02" name="Fluid Layer Motion 3" template="Structs/FluidLayerMotion.xml"/>
+                <property ID="0x03" name="Unknown 1" type="float"/>
+                <property ID="0x04" name="Unknown 2" type="float"/>
             </properties>
         </struct>
         <property ID="0x17" name="Unknown 30" type="float"/>

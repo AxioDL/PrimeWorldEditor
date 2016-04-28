@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<enum name="WeaponType">
+    <enumerators>
+        <enumerator ID="0x00" name="Power"/>
+        <enumerator ID="0x01" name="Dark"/>
+        <enumerator ID="0x02" name="Light"/>
+        <enumerator ID="0x03" name="Annihilator"/>
+        <enumerator ID="0x04" name="Bomb"/>
+        <enumerator ID="0x05" name="Power Bomb"/>
+        <enumerator ID="0x06" name="Missile"/>
+        <enumerator ID="0x07" name="Boost Ball"/>
+        <enumerator ID="0x08" name="Cannon Ball"/>
+        <enumerator ID="0x09" name="Screw Attack"/>
+        <enumerator ID="0x0A" name="Phazon"/>
+        <enumerator ID="0x0B" name="AI"/>
+        <enumerator ID="0x0C" name="Poison Water 1"/>
+        <enumerator ID="0x0D" name="Poison Water 2"/>
+        <enumerator ID="0x0E" name="Lava"/>
+        <enumerator ID="0x0F" name="Hot"/>
+        <enumerator ID="0x10" name="Cold"/>
+        <enumerator ID="0x11" name="Area Dark"/>
+        <enumerator ID="0x12" name="Area Light"/>
+        <enumerator ID="0x13" name="Unknown Source"/>
+        <enumerator ID="0x14" name="Safe Zone"/>
+    </enumerators>
+</enum>

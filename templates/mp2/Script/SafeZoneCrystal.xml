@@ -4,51 +4,25 @@
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <struct ID="0xD29C031D" template="Structs/ActorParameters.xml"/>
-        <property ID="0x9B8B3323" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xE36E20A7" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xAC794DA8" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xC21F264F" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x9B8B3323" type="file" extensions="SCAN"/>
+        <property ID="0xE36E20A7" type="file" extensions="SCAN"/>
+        <property ID="0xAC794DA8" type="file" extensions="SCAN"/>
+        <property ID="0xC21F264F" type="file" extensions="SCAN"/>
         <property ID="0x1115FB68" type="long">
             <default>0</default>
         </property>
         <property ID="0xA0D9E87F" type="bool">
             <default>false</default>
         </property>
-        <property ID="0x42A046C2" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x5B91FF38" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x5B8275BC" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xADACEC90" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x0D2E4AD3" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x71EFFFC4" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xC3DD9B75" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xF1F3D90F" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x1E864B83" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x42A046C2" type="file" extensions="PART"/>
+        <property ID="0x5B91FF38" type="file" extensions="PART"/>
+        <property ID="0x5B8275BC" type="file" extensions="PART"/>
+        <property ID="0xADACEC90" type="file" extensions="PART"/>
+        <property ID="0x0D2E4AD3" type="file" extensions="PART"/>
+        <property ID="0x71EFFFC4" type="file" extensions="CMDL"/>
+        <property ID="0xC3DD9B75" type="file" extensions="CMDL"/>
+        <property ID="0xF1F3D90F" type="file" extensions="CMDL"/>
+        <property ID="0x1E864B83" type="file" extensions="CMDL"/>
         <property ID="0xBD30F7A3" type="float">
             <default>5.0</default>
         </property>
@@ -70,9 +44,7 @@
         <property ID="0x545540E5" type="float">
             <default>5.0</default>
         </property>
-        <property ID="0x5490E214" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x5490E214" type="file" extensions="PART"/>
         <property ID="0x887E8A8B" type="vector3f">
             <default>1.0, 1.0, 1.0</default>
         </property>
