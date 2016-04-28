@@ -1,4 +1,5 @@
 #include "CSkeletonLoader.h"
+#include <Common/Assert.h>
 #include <Common/Log.h>
 
 #include <vector>
@@ -27,6 +28,7 @@ CSkeleton* CSkeletonLoader::LoadCINF(IInputStream& rCINF)
     CSkeletonLoader Loader;
     CSkeleton *pSkel = new CSkeleton();
     Loader.mpSkeleton = pSkel;
+    EGame Game = eUnknownVersion;
 
     u32 NumBones = rCINF.ReadLong();
     pSkel->mBones.reserve(NumBones);
@@ -48,7 +50,19 @@ CSkeleton* CSkeletonLoader::LoadCINF(IInputStream& rCINF)
         BoneInfo[iBone].ParentID = rCINF.ReadLong();
         pBone->mPosition = CVector3f(rCINF);
 
+        // Version test. No version number. The next value is the linked bone count in MP1 and the first
+        // skin metric value in MP2. The max bone count is 100 so the linked bone count will not be higher
+        // than that. Additionally, every bone links to its parent at least and every skeleton (as far as I
+        // know) has at least two bones so the linked bone count will never be 0.
+        if (Game == eUnknownVersion)
+        {
+            u32 Check = rCINF.PeekLong();
+            Game = ((Check > 100 || Check == 0) ? eEchoes : ePrime);
+        }
+        if (Game == eEchoes) rCINF.Seek(0x20, SEEK_CUR); // Skip skin metrics
+
         u32 NumLinkedBones = rCINF.ReadLong();
+        ASSERT(NumLinkedBones != 0);
 
         for (u32 iLink = 0; iLink < NumLinkedBones; iLink++)
         {

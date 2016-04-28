@@ -220,16 +220,9 @@ CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS)
         if (iNode == 0) Loader.mVersion = (Unknown1 == 0xA) ? eEchoes : ePrime; // Best version indicator we know of unfortunately
         pNode->Name = rANCS.ReadString();
         pNode->pModel = gResCache.GetResource(rANCS.ReadLong(), "CMDL");
-
-        if (Loader.mVersion <= ePrime)
-        {
-            pNode->pSkin = gResCache.GetResource(rANCS.ReadLong(), "CSKR");
-            pNode->pSkeleton = gResCache.GetResource(rANCS.ReadLong(), "CINF");
-
-            pNode->pModel->SetSkin(pNode->pSkin);
-        }
-        else
-            rANCS.Seek(0x8, SEEK_CUR);
+        pNode->pSkin = gResCache.GetResource(rANCS.ReadLong(), "CSKR");
+        pNode->pSkeleton = gResCache.GetResource(rANCS.ReadLong(), "CINF");
+        if (pNode->pModel) pNode->pModel->SetSkin(pNode->pSkin);
 
         // Unfortunately that's all that's actually supported at the moment. Hope to expand later.
         // Since there's no size value I have to actually read the rest of the node to reach the next one
@@ -298,50 +291,47 @@ CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS)
         }
     }
 
-    if (Loader.mVersion <= ePrime)
+    // Load Animation Set
+    u32 SetStart = rANCS.Tell();
+    SetStart = SetStart;
+    u16 InfoCount = rANCS.ReadShort();
+    u32 NumAnims = rANCS.ReadLong();
+
+    for (u32 iAnim = 0; iAnim < NumAnims; iAnim++)
+        Loader.LoadAnimation(rANCS);
+
+    u32 NumTransitions = rANCS.ReadLong();
+
+    for (u32 iTrans = 0; iTrans < NumTransitions; iTrans++)
+        Loader.LoadTransition(rANCS);
+    Loader.LoadMetaTransition(rANCS);
+
+    u32 NumAdditiveAnims = rANCS.ReadLong();
+
+    for (u32 iAnim = 0; iAnim < NumAdditiveAnims; iAnim++)
+        Loader.LoadAdditiveAnimation(rANCS);
+
+    rANCS.Seek(0x8, SEEK_CUR);
+
+    if (InfoCount > 2)
     {
-        // Load Animation Set
-        u32 SetStart = rANCS.Tell();
-        SetStart = SetStart;
-        u16 InfoCount = rANCS.ReadShort();
-        u32 NumAnims = rANCS.ReadLong();
+        u32 NumHalfTransitions = rANCS.ReadLong();
 
-        for (u32 iAnim = 0; iAnim < NumAnims; iAnim++)
-            Loader.LoadAnimation(rANCS);
+        for (u32 iHalf = 0; iHalf < NumHalfTransitions; iHalf++)
+            Loader.LoadHalfTransition(rANCS);
+    }
 
-        u32 NumTransitions = rANCS.ReadLong();
+    // Add anims to set
+    for (u32 iPrim = 0; iPrim < Loader.mAnimPrimitives.size(); iPrim++)
+    {
+        SPrimitive& rPrim = Loader.mAnimPrimitives[iPrim];
 
-        for (u32 iTrans = 0; iTrans < NumTransitions; iTrans++)
-            Loader.LoadTransition(rANCS);
-        Loader.LoadMetaTransition(rANCS);
-
-        u32 NumAdditiveAnims = rANCS.ReadLong();
-
-        for (u32 iAnim = 0; iAnim < NumAdditiveAnims; iAnim++)
-            Loader.LoadAdditiveAnimation(rANCS);
-
-        rANCS.Seek(0x8, SEEK_CUR);
-
-        if (InfoCount > 2)
+        if (rPrim.Loaded)
         {
-            u32 NumHalfTransitions = rANCS.ReadLong();
-
-            for (u32 iHalf = 0; iHalf < NumHalfTransitions; iHalf++)
-                Loader.LoadHalfTransition(rANCS);
-        }
-
-        // Add anims to set
-        for (u32 iPrim = 0; iPrim < Loader.mAnimPrimitives.size(); iPrim++)
-        {
-            SPrimitive& rPrim = Loader.mAnimPrimitives[iPrim];
-
-            if (rPrim.Loaded)
-            {
-                CAnimSet::SAnimation Anim;
-                Anim.Name = rPrim.Name;
-                Anim.pAnim = gResCache.GetResource(rPrim.AnimID, "ANIM");
-                Loader.pSet->mAnims.push_back(Anim);
-            }
+            CAnimSet::SAnimation Anim;
+            Anim.Name = rPrim.Name;
+            Anim.pAnim = gResCache.GetResource(rPrim.AnimID, "ANIM");
+            Loader.pSet->mAnims.push_back(Anim);
         }
     }
 
