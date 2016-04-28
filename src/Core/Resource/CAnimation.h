@@ -11,6 +11,7 @@ class CAnimation : public CResource
     DECLARE_RESOURCE_TYPE(eAnimation)
     friend class CAnimationLoader;
 
+    typedef std::vector<CVector3f> TScaleChannel;
     typedef std::vector<CQuaternion> TRotationChannel;
     typedef std::vector<CVector3f> TTranslationChannel;
 
@@ -18,11 +19,13 @@ class CAnimation : public CResource
     float mTickInterval;
     u32 mNumKeys;
 
+    std::vector<TScaleChannel> mScaleChannels;
     std::vector<TRotationChannel> mRotationChannels;
     std::vector<TTranslationChannel> mTranslationChannels;
 
     struct SBoneChannelInfo
     {
+        u8 ScaleChannelIdx;
         u8 RotationChannelIdx;
         u8 TranslationChannelIdx;
     };

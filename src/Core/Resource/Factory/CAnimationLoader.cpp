@@ -2,31 +2,103 @@
 #include <Common/Log.h>
 #include <Math/MathUtil.h>
 
+bool CAnimationLoader::UncompressedCheckEchoes()
+{
+    // The best way we have to tell this is an Echoes ANIM is to try to parse it as an
+    // Echoes ANIM and see whether we read the file correctly. The formatting has to be
+    // a little weird because we have to make sure we don't try to seek or read anything
+    // past the end of the file. The +4 being added to each size we test is to account
+    // for the next size value of the next array.
+    u32 End = mpInput->Size();
+
+    u32 NumRotIndices = mpInput->ReadLong();
+    if (mpInput->Tell() + NumRotIndices + 4 >= End) return false;
+    mpInput->Seek(NumRotIndices, SEEK_CUR);
+
+    u32 NumTransIndices = mpInput->ReadLong();
+    if (mpInput->Tell() + NumTransIndices + 4 >= End) return false;
+    mpInput->Seek(NumTransIndices, SEEK_CUR);
+
+    u32 NumScaleIndices = mpInput->ReadLong();
+    if (mpInput->Tell() + NumScaleIndices + 4 >= End) return false;
+    mpInput->Seek(NumScaleIndices, SEEK_CUR);
+
+    u32 ScaleKeysSize = mpInput->ReadLong() * 0xC;
+    if (mpInput->Tell() + ScaleKeysSize + 4 >= End) return false;
+    mpInput->Seek(ScaleKeysSize, SEEK_CUR);
+
+    u32 RotKeysSize = mpInput->ReadLong() * 0x10;
+    if (mpInput->Tell() + RotKeysSize + 4 >= End) return false;
+    mpInput->Seek(RotKeysSize, SEEK_CUR);
+
+    u32 TransKeysSize = mpInput->ReadLong() * 0xC;
+    return (mpInput->Tell() + TransKeysSize == End);
+}
+
+EGame CAnimationLoader::UncompressedCheckVersion()
+{
+    // Call this function after the bone channel index array
+    // No version number, so this is how we have to determine the version...
+    u32 Start = mpInput->Tell();
+    bool Echoes = UncompressedCheckEchoes();
+    mpInput->Seek(Start, SEEK_SET);
+    return (Echoes ? eEchoes : ePrime);
+}
+
 void CAnimationLoader::ReadUncompressedANIM()
 {
     mpAnim->mDuration = mpInput->ReadFloat();
-    mpInput->Seek(0x4, SEEK_CUR); // Skip unknown
+    mpInput->Seek(0x4, SEEK_CUR); // Skip differential state
     mpAnim->mTickInterval = mpInput->ReadFloat();
-    mpInput->Seek(0x4, SEEK_CUR); // Skip unknown
+    mpInput->Seek(0x4, SEEK_CUR); // Skip differential state
 
     mpAnim->mNumKeys = mpInput->ReadLong();
-    mpInput->Seek(0x4, SEEK_CUR); // Skip unknown
+    mpInput->Seek(0x4, SEEK_CUR); // Skip root bone ID
 
     // Read bone channel info
+    u32 NumBoneChannels = 0;
+    u32 NumScaleChannels = 0;
     u32 NumRotationChannels = 0;
     u32 NumTranslationChannels = 0;
 
-    u32 NumRotIndices = mpInput->ReadLong();
-    std::vector<u8> RotIndices(NumRotIndices);
+    // Bone channel list
+    u32 NumBoneIndices = mpInput->ReadLong();
+    std::vector<u8> BoneIndices(NumBoneIndices);
 
-    for (u32 iRot = 0; iRot < NumRotIndices; iRot++)
+    for (u32 iChan = 0; iChan < NumBoneIndices; iChan++)
     {
-        RotIndices[iRot] = mpInput->ReadByte();
+        BoneIndices[iChan] = mpInput->ReadByte();
 
-        if (RotIndices[iRot] != 0xFF)
-            NumRotationChannels++;
+        if (BoneIndices[iChan] != 0xFF)
+            NumBoneChannels++;
     }
 
+    mGame = UncompressedCheckVersion();
+
+    // Echoes only - rotation channel indices
+    std::vector<u8> RotationIndices;
+
+    if (mGame == eEchoes)
+    {
+        u32 NumRotationIndices = mpInput->ReadLong();
+        RotationIndices.resize(NumRotationIndices);
+
+        for (u32 iRot = 0; iRot < NumRotationIndices; iRot++)
+        {
+            RotationIndices[iRot] = mpInput->ReadByte();
+
+            if (RotationIndices[iRot] != 0xFF)
+                NumRotationChannels++;
+        }
+    }
+
+    else
+    {
+        NumRotationChannels = NumBoneChannels;
+        RotationIndices = BoneIndices;
+    }
+
+    // Translation channel indices
     u32 NumTransIndices = mpInput->ReadLong();
     std::vector<u8> TransIndices(NumTransIndices);
 
@@ -38,23 +110,60 @@ void CAnimationLoader::ReadUncompressedANIM()
             NumTranslationChannels++;
     }
 
-    // Set up bone channel info
-    for (u32 iRot = 0, iTrans = 0; iRot < NumRotIndices; iRot++)
-    {
-        u8 RotIdx = RotIndices[iRot];
-        mpAnim->mBoneInfo[iRot].RotationChannelIdx = RotIdx;
+    // Echoes only - scale channel indices
+    std::vector<u8> ScaleIndices;
 
-        if (RotIdx != 0xFF)
+    if (mGame == eEchoes)
+    {
+        u32 NumScaleIndices = mpInput->ReadLong();
+        ScaleIndices.resize(NumScaleIndices);
+
+        for (u32 iScale = 0; iScale < NumScaleIndices; iScale++)
         {
-            mpAnim->mBoneInfo[iRot].TranslationChannelIdx = TransIndices[iTrans];
-            iTrans++;
+            ScaleIndices[iScale] = mpInput->ReadByte();
+
+            if (ScaleIndices[iScale] != 0xFF)
+                NumScaleIndices++;
         }
+    }
+
+    // Set up bone channel info
+    for (u32 iBone = 0, iChan = 0; iBone < NumBoneIndices; iBone++)
+    {
+        u8 BoneIdx = BoneIndices[iBone];
+
+        if (BoneIdx != 0xFF)
+        {
+            mpAnim->mBoneInfo[iBone].TranslationChannelIdx = (TransIndices.empty() ? 0xFF : TransIndices[iChan]);
+            mpAnim->mBoneInfo[iBone].RotationChannelIdx = (RotationIndices.empty() ? 0xFF : RotationIndices[iChan]);
+            mpAnim->mBoneInfo[iBone].ScaleChannelIdx = (ScaleIndices.empty() ? 0xFF : ScaleIndices[iChan]);
+            iChan++;
+        }
+
         else
-            mpAnim->mBoneInfo[iRot].TranslationChannelIdx = 0xFF;
+        {
+            mpAnim->mBoneInfo[iBone].TranslationChannelIdx = 0xFF;
+            mpAnim->mBoneInfo[iBone].RotationChannelIdx = 0xFF;
+            mpAnim->mBoneInfo[iBone].ScaleChannelIdx = 0xFF;
+        }
     }
 
     // Read bone transforms
-    mpInput->Seek(0x4, SEEK_CUR); // Skipping quaternion count
+    if (mGame == eEchoes)
+    {
+        mpInput->Seek(0x4, SEEK_CUR); // Skipping scale key count
+        mpAnim->mScaleChannels.resize(NumScaleChannels);
+
+        for (u32 iScale = 0; iScale < NumScaleChannels; iScale++)
+        {
+            mpAnim->mScaleChannels[iScale].resize(mpAnim->mNumKeys);
+
+            for (u32 iKey = 0; iKey < mpAnim->mNumKeys; iKey++)
+                mpAnim->mScaleChannels[iScale][iKey] = CVector3f(*mpInput);
+        }
+    }
+
+    mpInput->Seek(0x4, SEEK_CUR); // Skipping rotation key count
     mpAnim->mRotationChannels.resize(NumRotationChannels);
 
     for (u32 iRot = 0; iRot < NumRotationChannels; iRot++)
@@ -65,7 +174,7 @@ void CAnimationLoader::ReadUncompressedANIM()
             mpAnim->mRotationChannels[iRot][iKey] = CQuaternion(*mpInput);
     }
 
-    mpInput->Seek(0x4, SEEK_CUR); // Skipping vector3f count
+    mpInput->Seek(0x4, SEEK_CUR); // Skipping translation key count
     mpAnim->mTranslationChannels.resize(NumTranslationChannels);
 
     for (u32 iTrans = 0; iTrans < NumTranslationChannels; iTrans++)
@@ -76,19 +185,25 @@ void CAnimationLoader::ReadUncompressedANIM()
             mpAnim->mTranslationChannels[iTrans][iKey] = CVector3f(*mpInput);
     }
 
-    // Skip EVNT file
+    if (mGame == ePrime)
+    {
+        // Skip EVNT file
+    }
 }
 
 void CAnimationLoader::ReadCompressedANIM()
 {
     // Header
-    mpInput->Seek(0xC, SEEK_CUR); // Skip alloc size, EVNT ID, unknown value
+    mpInput->Seek(0x4, SEEK_CUR); // Skip alloc size
+    mGame = (mpInput->PeekShort() == 0x0101 ? eEchoes : ePrime); // Version check
+    mpInput->Seek(mGame == ePrime ? 0x8 : 0x2, SEEK_CUR); // Skip EVNT (MP1) and unknowns
     mpAnim->mDuration = mpInput->ReadFloat();
     mpAnim->mTickInterval = mpInput->ReadFloat();
     mpInput->Seek(0x8, SEEK_CUR); // Skip two unknown values
 
     mRotationDivisor = mpInput->ReadLong();
     mTranslationMultiplier = mpInput->ReadFloat();
+    if (mGame == eEchoes) mpInput->Seek(0x4, SEEK_CUR);
     u32 NumBoneChannels = mpInput->ReadLong();
     mpInput->Seek(0x4, SEEK_CUR); // Skip unknown value
 
@@ -102,17 +217,18 @@ void CAnimationLoader::ReadCompressedANIM()
         for (u32 iBit = 0; iBit < NumKeys; iBit++)
             mKeyFlags[iBit] = BitStream.ReadBit();
     }
-    mpInput->Seek(0x8, SEEK_CUR);
+    mpInput->Seek(mGame == ePrime ? 0x8 : 0x4, SEEK_CUR);
 
     // Read bone channel descriptors
     mCompressedChannels.resize(NumBoneChannels);
+    mpAnim->mScaleChannels.resize(NumBoneChannels);
     mpAnim->mRotationChannels.resize(NumBoneChannels);
     mpAnim->mTranslationChannels.resize(NumBoneChannels);
 
     for (u32 iChan = 0; iChan < NumBoneChannels; iChan++)
     {
         SCompressedChannel& rChan = mCompressedChannels[iChan];
-        rChan.BoneID = mpInput->ReadLong();
+        rChan.BoneID = (mGame == ePrime ? mpInput->ReadLong() : mpInput->ReadByte());
 
         // Read rotation parameters
         rChan.NumRotationKeys = mpInput->ReadShort();
@@ -142,8 +258,27 @@ void CAnimationLoader::ReadCompressedANIM()
 
             mpAnim->mBoneInfo[rChan.BoneID].TranslationChannelIdx = (u8) iChan;
         }
-        else
-            mpAnim->mBoneInfo[rChan.BoneID].TranslationChannelIdx = 0xFF;
+        else mpAnim->mBoneInfo[rChan.BoneID].TranslationChannelIdx = 0xFF;
+
+        // Read scale parameters
+        u8 ScaleIdx = 0xFF;
+
+        if (mGame == eEchoes)
+        {
+            rChan.NumScaleKeys = mpInput->ReadShort();
+
+            if (rChan.NumScaleKeys > 0)
+            {
+                for (u32 iComp = 0; iComp < 3; iComp++)
+                {
+                    rChan.Scale[iComp] = mpInput->ReadShort();
+                    rChan.ScaleBits[iComp] = mpInput->ReadByte();
+                }
+
+                ScaleIdx = (u8) iChan;
+            }
+        }
+        mpAnim->mBoneInfo[rChan.BoneID].ScaleChannelIdx = ScaleIdx;
     }
 
     // Read animation data
@@ -159,7 +294,7 @@ void CAnimationLoader::ReadCompressedAnimationData()
     {
         SCompressedChannel& rChan = mCompressedChannels[iChan];
 
-        // Set initial rotation/translation
+        // Set initial rotation/translation/scale
         if (rChan.NumRotationKeys > 0)
         {
             mpAnim->mRotationChannels[iChan].reserve(rChan.NumRotationKeys + 1);
@@ -172,6 +307,13 @@ void CAnimationLoader::ReadCompressedAnimationData()
             mpAnim->mTranslationChannels[iChan].reserve(rChan.NumTranslationKeys + 1);
             CVector3f Translate = CVector3f(rChan.Translation[0], rChan.Translation[1], rChan.Translation[2]) * mTranslationMultiplier;
             mpAnim->mTranslationChannels[iChan].push_back(Translate);
+        }
+
+        if (rChan.NumScaleKeys > 0)
+        {
+            mpAnim->mScaleChannels[iChan].reserve(rChan.NumScaleKeys + 1);
+            CVector3f Scale = CVector3f(rChan.Scale[0], rChan.Scale[1], rChan.Scale[2]) / (float) mRotationDivisor;
+            mpAnim->mScaleChannels[iChan].push_back(Scale);
         }
     }
 
@@ -215,6 +357,20 @@ void CAnimationLoader::ReadCompressedAnimationData()
                 CVector3f Translate = CVector3f(rChan.Translation[0], rChan.Translation[1], rChan.Translation[2]) * mTranslationMultiplier;
                 mpAnim->mTranslationChannels[iChan].push_back(Translate);
             }
+
+            // Read scale
+            if (rChan.NumScaleKeys > 0)
+            {
+                if (KeyPresent)
+                {
+                    rChan.Scale[0] += (s16) BitStream.ReadBits(rChan.ScaleBits[0]);
+                    rChan.Scale[1] += (s16) BitStream.ReadBits(rChan.ScaleBits[1]);
+                    rChan.Scale[2] += (s16) BitStream.ReadBits(rChan.ScaleBits[2]);
+                }
+
+                CVector3f Scale = CVector3f(rChan.Scale[0], rChan.Scale[1], rChan.Scale[2]) / (float) mRotationDivisor;
+                mpAnim->mScaleChannels[iChan].push_back(Scale);
+            }
         }
     }
 
@@ -242,6 +398,7 @@ void CAnimationLoader::ReadCompressedAnimationData()
                 {
                     bool HasTranslationKeys = mCompressedChannels[iChan].NumTranslationKeys > 0;
                     bool HasRotationKeys = mCompressedChannels[iChan].NumRotationKeys > 0;
+                    bool HasScaleKeys = mCompressedChannels[iChan].NumScaleKeys > 0;
 
                     if (HasRotationKeys)
                     {
@@ -255,6 +412,13 @@ void CAnimationLoader::ReadCompressedAnimationData()
                         CVector3f Left = mpAnim->mTranslationChannels[iChan][FirstIndex];
                         CVector3f Right = mpAnim->mTranslationChannels[iChan][LastIndex];
                         mpAnim->mTranslationChannels[iChan][KeyIndex] = Math::Lerp<CVector3f>(Left, Right, Interp);
+                    }
+
+                    if (HasScaleKeys)
+                    {
+                        CVector3f Left = mpAnim->mScaleChannels[iChan][FirstIndex];
+                        CVector3f Right = mpAnim->mScaleChannels[iChan][LastIndex];
+                        mpAnim->mScaleChannels[iChan][KeyIndex] = Math::Lerp<CVector3f>(Left, Right, Interp);
                     }
                 }
             }

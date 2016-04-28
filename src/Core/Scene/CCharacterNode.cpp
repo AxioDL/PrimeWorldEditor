@@ -124,8 +124,9 @@ void CCharacterNode::SetActiveChar(u32 CharIndex)
 
     if (mpCharacter)
     {
+        CModel *pModel = mpCharacter->NodeModel(CharIndex);
         mTransformData.ResizeToSkeleton(mpCharacter->NodeSkeleton(CharIndex));
-        mLocalAABox = mpCharacter->NodeModel(CharIndex)->AABox();
+        mLocalAABox = pModel ? pModel->AABox() : CAABox::skZero;
         MarkTransformChanged();
     }
 }

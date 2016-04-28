@@ -2,6 +2,7 @@
 #include "Core/Render/CDrawUtil.h"
 #include "Core/Render/CRenderer.h"
 #include "Core/OpenGL/GLCommon.h"
+#include <Common/Assert.h>
 
 CModel::CModel()
     : CBasicModel()
@@ -162,6 +163,8 @@ void CModel::DrawWireframe(FRenderOptions Options, CColor WireColor /*= CColor::
 
 void CModel::SetSkin(CSkin *pSkin)
 {
+    ASSERT(!mpSkin || !pSkin || mpSkin == pSkin); // This is to verify no model has more than one unique skin applied
+
     if (mpSkin != pSkin)
     {
         const FVertexDescription kBoneFlags = (eBoneIndices | eBoneWeights);

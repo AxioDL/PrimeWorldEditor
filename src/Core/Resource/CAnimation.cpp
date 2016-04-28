@@ -9,8 +9,9 @@ CAnimation::CAnimation()
 {
     for (u32 iBone = 0; iBone < 100; iBone++)
     {
-        mBoneInfo[iBone].RotationChannelIdx = 0xFF;
         mBoneInfo[iBone].TranslationChannelIdx = 0xFF;
+        mBoneInfo[iBone].RotationChannelIdx = 0xFF;
+        mBoneInfo[iBone].ScaleChannelIdx = 0xFF;
     }
 }
 
@@ -24,8 +25,16 @@ void CAnimation::EvaluateTransform(float Time, u32 BoneID, CTransform4f& rOut) c
     u32 LowKey = (u32) (Time / mTickInterval);
     if (LowKey == (mNumKeys - 1)) LowKey = mNumKeys - 2;
 
+    u8 ScaleChannel = mBoneInfo[BoneID].ScaleChannelIdx;
     u8 RotChannel = mBoneInfo[BoneID].RotationChannelIdx;
     u8 TransChannel = mBoneInfo[BoneID].TranslationChannelIdx;
+
+    if (ScaleChannel != 0xFF)
+    {
+        const CVector3f& rkLow = mScaleChannels[ScaleChannel][LowKey];
+        const CVector3f& rkHigh = mScaleChannels[ScaleChannel][LowKey + 1];
+        rOut.Scale( Math::Lerp<CVector3f>(rkLow, rkHigh, t) );
+    }
 
     if (RotChannel != 0xFF)
     {
