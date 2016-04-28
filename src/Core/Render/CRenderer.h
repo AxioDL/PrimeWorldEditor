@@ -72,7 +72,7 @@ public:
     void RenderBuckets(const SViewInfo& rkViewInfo);
     void RenderBloom();
     void RenderSky(CModel *pSkyboxModel, const SViewInfo& rkViewInfo);
-    void AddMesh(IRenderable *pRenderable, int AssetID, const CAABox& rkAABox, bool Transparent, ERenderCommand Command, EDepthGroup DepthGroup = eMidground);
+    void AddMesh(IRenderable *pRenderable, int ComponentIndex, const CAABox& rkAABox, bool Transparent, ERenderCommand Command, EDepthGroup DepthGroup = eMidground);
     void BeginFrame();
     void EndFrame();
     void ClearDepthBuffer();

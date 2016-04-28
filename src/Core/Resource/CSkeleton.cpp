@@ -123,7 +123,7 @@ std::pair<s32,float> CSkeleton::RayIntersect(const CRay& rkRay, const CBoneTrans
     for (u32 iBone = 0; iBone < mBones.size(); iBone++)
     {
         CBone *pBone = mBones[iBone];
-        CVector3f BonePos = rkData[pBone->ID()].ExtractTranslation();
+        CVector3f BonePos = pBone->TransformedPosition(rkData);
         std::pair<bool,float> Intersect = Math::RaySphereIntersection(rkRay, BonePos, skSphereRadius);
 
         if (Intersect.first && Intersect.second < Out.second)
