@@ -94,8 +94,17 @@ void CAnimationLoader::ReadUncompressedANIM()
 
     else
     {
-        NumRotationChannels = NumBoneChannels;
-        RotationIndices = BoneIndices;
+        // In MP1 every bone channel has a rotation, so just copy the valid channels from the bone channel list.
+        RotationIndices.resize(NumBoneChannels);
+
+        for (u32 iBone = 0; iBone < BoneIndices.size(); iBone++)
+        {
+            if (BoneIndices[iBone] != 0xFF)
+            {
+                RotationIndices[NumRotationChannels] = BoneIndices[iBone];
+                NumRotationChannels++;
+            }
+        }
     }
 
     // Translation channel indices

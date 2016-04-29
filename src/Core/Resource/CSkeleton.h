@@ -12,6 +12,16 @@
 class CBoneTransformData;
 class CBone;
 
+struct SBoneTransformInfo
+{
+    CVector3f Position;
+    CQuaternion Rotation;
+    CVector3f Scale;
+
+    SBoneTransformInfo()
+        : Position(CVector3f::skZero), Rotation(CQuaternion::skIdentity), Scale(CVector3f::skOne) {}
+};
+
 class CSkeleton : public CResource
 {
     DECLARE_RESOURCE_TYPE(eSkeleton)
@@ -32,7 +42,8 @@ public:
     void Draw(FRenderOptions Options, const CBoneTransformData& rkData);
     std::pair<s32,float> RayIntersect(const CRay& rkRay, const CBoneTransformData& rkData);
 
-    inline u32 NumBones() const                                         { return mBones.size(); }
+    inline u32 NumBones() const     { return mBones.size(); }
+    inline CBone* RootBone() const  { return mpRootBone; }
 };
 
 class CBone
@@ -49,7 +60,7 @@ class CBone
 
 public:
     CBone(CSkeleton *pSkel);
-    void UpdateTransform(CBoneTransformData& rData, CAnimation *pAnim, float Time, bool AnchorRoot);
+    void UpdateTransform(CBoneTransformData& rData, const SBoneTransformInfo& rkParentTransform, CAnimation *pAnim, float Time, bool AnchorRoot);
     CVector3f TransformedPosition(const CBoneTransformData& rkData) const;
     bool IsRoot() const;
 

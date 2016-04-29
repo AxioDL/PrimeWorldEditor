@@ -33,7 +33,7 @@ class CAnimation : public CResource
 
 public:
     CAnimation();
-    void EvaluateTransform(float Time, u32 BoneID, CTransform4f& rOut) const;
+    void EvaluateTransform(float Time, u32 BoneID, CVector3f *pOutTranslation, CQuaternion *pOutRotation, CVector3f *pOutScale) const;
     bool HasTranslation(u32 BoneID) const;
 
     inline float Duration() const       { return mDuration; }

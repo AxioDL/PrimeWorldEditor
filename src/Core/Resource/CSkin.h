@@ -22,16 +22,15 @@ class CSkin : public CResource
     };
     std::vector<SVertGroup> mVertGroups;
 
-    u32 mSkinnedVertexCount;
-
 public:
     CSkin() {}
 
     const SVertexWeights& WeightsForVertex(u32 VertIdx)
     {
+        // Null weights bind everything to the root bone in case there is no matching vertex group
         static const SVertexWeights skNullWeights = {
-            { 0, 0, 0, 0 },
-            { 0.f, 0.f, 0.f, 0.f }
+            { 3, 0, 0, 0 },
+            { 1.f, 0.f, 0.f, 0.f }
         };
 
         u32 Index = 0;

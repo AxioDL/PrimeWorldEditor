@@ -15,8 +15,10 @@ CAnimation::CAnimation()
     }
 }
 
-void CAnimation::EvaluateTransform(float Time, u32 BoneID, CTransform4f& rOut) const
+void CAnimation::EvaluateTransform(float Time, u32 BoneID, CVector3f *pOutTranslation, CQuaternion *pOutRotation, CVector3f *pOutScale) const
 {
+    const bool kInterpolate = true;
+    if (!pOutTranslation && !pOutRotation && !pOutScale) return;
     if (mDuration == 0.f) return;
 
     if (Time >= mDuration) Time = mDuration;
@@ -29,25 +31,25 @@ void CAnimation::EvaluateTransform(float Time, u32 BoneID, CTransform4f& rOut) c
     u8 RotChannel = mBoneInfo[BoneID].RotationChannelIdx;
     u8 TransChannel = mBoneInfo[BoneID].TranslationChannelIdx;
 
-    if (ScaleChannel != 0xFF)
+    if (ScaleChannel != 0xFF && pOutScale)
     {
         const CVector3f& rkLow = mScaleChannels[ScaleChannel][LowKey];
         const CVector3f& rkHigh = mScaleChannels[ScaleChannel][LowKey + 1];
-        rOut.Scale( Math::Lerp<CVector3f>(rkLow, rkHigh, t) );
+        *pOutScale = (kInterpolate ? Math::Lerp<CVector3f>(rkLow, rkHigh, t) : rkLow);
     }
 
-    if (RotChannel != 0xFF)
+    if (RotChannel != 0xFF && pOutRotation)
     {
         const CQuaternion& rkLow = mRotationChannels[RotChannel][LowKey];
         const CQuaternion& rkHigh = mRotationChannels[RotChannel][LowKey + 1];
-        rOut.Rotate( rkLow.Slerp(rkHigh, t) );
+        *pOutRotation = (kInterpolate ? rkLow.Slerp(rkHigh, t) : rkLow);
     }
 
-    if (TransChannel != 0xFF)
+    if (TransChannel != 0xFF && pOutTranslation)
     {
         const CVector3f& rkLow = mTranslationChannels[TransChannel][LowKey];
         const CVector3f& rkHigh = mTranslationChannels[TransChannel][LowKey + 1];
-        rOut.Translate( Math::Lerp<CVector3f>(rkLow, rkHigh, t) );
+        *pOutTranslation = (kInterpolate ? Math::Lerp<CVector3f>(rkLow, rkHigh, t) : rkLow);
     }
 }
 

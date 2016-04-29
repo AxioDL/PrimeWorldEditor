@@ -10,27 +10,33 @@ CBone::CBone(CSkeleton *pSkel)
 {
 }
 
-void CBone::UpdateTransform(CBoneTransformData& rData, CAnimation *pAnim, float Time, bool AnchorRoot)
+void CBone::UpdateTransform(CBoneTransformData& rData, const SBoneTransformInfo& rkParentTransform, CAnimation *pAnim, float Time, bool AnchorRoot)
 {
-    CTransform4f& rTransform = rData[mID];
-    rTransform.SetIdentity();
+    // Get transform data
+    SBoneTransformInfo TransformInfo;
+    TransformInfo.Position = mPosition;
 
     if (pAnim)
-        pAnim->EvaluateTransform(Time, mID, rTransform);
-
-    if (!pAnim || !pAnim->HasTranslation(mID))
-        rTransform.Translate(mPosition);
-
-    if (mpParent)
-        rTransform = rData[mpParent->ID()] * rTransform;
+        pAnim->EvaluateTransform(Time, mID, &TransformInfo.Position, &TransformInfo.Rotation, &TransformInfo.Scale);
 
     if (AnchorRoot && IsRoot())
-        rTransform.ZeroTranslation();
+        TransformInfo.Position = CVector3f::skZero;
 
+    // Apply parent transform
+    TransformInfo.Position = rkParentTransform.Position + (rkParentTransform.Rotation * TransformInfo.Position);
+    TransformInfo.Rotation = rkParentTransform.Rotation * TransformInfo.Rotation;
+
+    // Calculate transform
+    CTransform4f& rTransform = rData[mID];
+    rTransform.SetIdentity();
+    rTransform.Scale(TransformInfo.Scale);
+    rTransform.Rotate(TransformInfo.Rotation);
+    rTransform.Translate(TransformInfo.Position);
+    rTransform *= mInvBind;
+
+    // Calculate children
     for (u32 iChild = 0; iChild < mChildren.size(); iChild++)
-        mChildren[iChild]->UpdateTransform(rData, pAnim, Time, AnchorRoot);
-
-     rTransform *= mInvBind;
+        mChildren[iChild]->UpdateTransform(rData, TransformInfo, pAnim, Time, AnchorRoot);
 }
 
 CVector3f CBone::TransformedPosition(const CBoneTransformData& rkData) const
@@ -86,7 +92,7 @@ u32 CSkeleton::MaxBoneID() const
 
 void CSkeleton::UpdateTransform(CBoneTransformData& rData, CAnimation *pAnim, float Time, bool AnchorRoot)
 {
-    mpRootBone->UpdateTransform(rData, pAnim, Time, AnchorRoot);
+    mpRootBone->UpdateTransform(rData, SBoneTransformInfo(), pAnim, Time, AnchorRoot);
 }
 
 void CSkeleton::Draw(FRenderOptions /*Options*/, const CBoneTransformData& rkData)
