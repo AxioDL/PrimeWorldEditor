@@ -159,6 +159,7 @@ bool CShader::LinkShaders()
     mLightBlockIndex = GetUniformBlockIndex("LightBlock");
     mBoneTransformBlockIndex = GetUniformBlockIndex("BoneTransformBlock");
 
+    CacheCommonUniforms();
     mProgramExists = true;
     return true;
 }
@@ -181,6 +182,17 @@ GLuint CShader::GetUniformLocation(const char* pkUniform)
 GLuint CShader::GetUniformBlockIndex(const char* pkUniformBlock)
 {
     return glGetUniformBlockIndex(mProgram, pkUniformBlock);
+}
+
+void CShader::SetTextureUniforms(u32 NumTextures)
+{
+    for (u32 iTex = 0; iTex < NumTextures; iTex++)
+        glUniform1i(mTextureUniforms[iTex], iTex);
+}
+
+void CShader::SetNumLights(u32 NumLights)
+{
+    glUniform1i(mNumLightsUniform, NumLights);
 }
 
 void CShader::SetCurrent()
@@ -238,6 +250,17 @@ void CShader::KillCachedShader()
 }
 
 // ************ PRIVATE ************
+void CShader::CacheCommonUniforms()
+{
+    for (u32 iTex = 0; iTex < 8; iTex++)
+    {
+        TString TexUniform = "Texture" + TString::FromInt32(iTex);
+        mTextureUniforms[iTex] = glGetUniformLocation(mProgram, *TexUniform);
+    }
+
+    mNumLightsUniform = glGetUniformLocation(mProgram, "NumLights");
+}
+
 void CShader::DumpShaderSource(GLuint Shader, const TString& rkOut)
 {
     GLint SourceLen;

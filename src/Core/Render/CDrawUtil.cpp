@@ -229,10 +229,10 @@ void CDrawUtil::DrawBillboard(CTexture* pTexture, const CVector3f& Position, con
     // Set uniforms
     mpBillboardShader->SetCurrent();
 
-    GLuint ScaleLoc = mpBillboardShader->GetUniformLocation("BillboardScale");
+    static GLuint ScaleLoc = mpBillboardShader->GetUniformLocation("BillboardScale");
     glUniform2f(ScaleLoc, Scale.X, Scale.Y);
 
-    GLuint TintLoc = mpBillboardShader->GetUniformLocation("TintColor");
+    static GLuint TintLoc = mpBillboardShader->GetUniformLocation("TintColor");
     glUniform4f(TintLoc, Tint.R, Tint.G, Tint.B, Tint.A);
 
     pTexture->Bind(0);
@@ -258,13 +258,13 @@ void CDrawUtil::DrawLightBillboard(ELightType Type, const CColor& LightColor, co
     // Set uniforms
     mpLightBillboardShader->SetCurrent();
 
-    GLuint ScaleLoc = mpLightBillboardShader->GetUniformLocation("BillboardScale");
+    static GLuint ScaleLoc = mpLightBillboardShader->GetUniformLocation("BillboardScale");
     glUniform2f(ScaleLoc, Scale.X, Scale.Y);
 
-    GLuint ColorLoc = mpLightBillboardShader->GetUniformLocation("LightColor");
+    static GLuint ColorLoc = mpLightBillboardShader->GetUniformLocation("LightColor");
     glUniform4f(ColorLoc, LightColor.R, LightColor.G, LightColor.B, LightColor.A);
 
-    GLuint TintLoc = mpLightBillboardShader->GetUniformLocation("TintColor");
+    static GLuint TintLoc = mpLightBillboardShader->GetUniformLocation("TintColor");
     glUniform4f(TintLoc, Tint.R, Tint.G, Tint.B, Tint.A);
 
     CTexture *pTexA = GetLightTexture(Type);
@@ -272,8 +272,8 @@ void CDrawUtil::DrawLightBillboard(ELightType Type, const CColor& LightColor, co
     pTexA->Bind(0);
     pTexB->Bind(1);
 
-    GLuint TextureLoc = mpLightBillboardShader->GetUniformLocation("Texture");
-    GLuint MaskLoc    = mpLightBillboardShader->GetUniformLocation("LightMask");
+    static GLuint TextureLoc = mpLightBillboardShader->GetUniformLocation("Texture");
+    static GLuint MaskLoc    = mpLightBillboardShader->GetUniformLocation("LightMask");
     glUniform1i(TextureLoc, 0);
     glUniform1i(MaskLoc, 1);
 
@@ -293,7 +293,7 @@ void CDrawUtil::UseColorShader(const CColor& kColor)
     Init();
     mpColorShader->SetCurrent();
 
-    GLuint ColorLoc = mpColorShader->GetUniformLocation("ColorIn");
+    static GLuint ColorLoc = mpColorShader->GetUniformLocation("ColorIn");
     glUniform4f(ColorLoc, kColor.R, kColor.G, kColor.B, kColor.A);
 
     CMaterial::KillCachedMaterial();
@@ -304,10 +304,10 @@ void CDrawUtil::UseColorShaderLighting(const CColor& kColor)
     Init();
     mpColorShaderLighting->SetCurrent();
 
-    GLuint NumLightsLoc = mpColorShaderLighting->GetUniformLocation("NumLights");
+    static GLuint NumLightsLoc = mpColorShaderLighting->GetUniformLocation("NumLights");
     glUniform1i(NumLightsLoc, CGraphics::sNumLights);
 
-    GLuint ColorLoc = mpColorShaderLighting->GetUniformLocation("ColorIn");
+    static GLuint ColorLoc = mpColorShaderLighting->GetUniformLocation("ColorIn");
     glUniform4f(ColorLoc, kColor.R, kColor.G, kColor.B, kColor.A);
 
     CMaterial::KillCachedMaterial();
@@ -323,7 +323,7 @@ void CDrawUtil::UseTextureShader(const CColor& TintColor)
     Init();
     mpTextureShader->SetCurrent();
 
-    GLuint TintColorLoc = mpTextureShader->GetUniformLocation("TintColor");
+    static GLuint TintColorLoc = mpTextureShader->GetUniformLocation("TintColor");
     glUniform4f(TintColorLoc, TintColor.R, TintColor.G, TintColor.B, TintColor.A);
 
     CMaterial::KillCachedMaterial();
@@ -335,7 +335,7 @@ void CDrawUtil::UseCollisionShader(const CColor& TintColor /*= CColor::skWhite*/
     mpCollisionShader->SetCurrent();
     LoadCheckerboardTexture(0);
 
-    GLuint TintColorLoc = mpCollisionShader->GetUniformLocation("TintColor");
+    static GLuint TintColorLoc = mpCollisionShader->GetUniformLocation("TintColor");
     glUniform4f(TintColorLoc, TintColor.R, TintColor.G, TintColor.B, TintColor.A);
 
     CMaterial::KillCachedMaterial();
