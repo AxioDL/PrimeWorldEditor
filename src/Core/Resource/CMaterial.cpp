@@ -105,12 +105,6 @@ void CMaterial::GenerateShader(bool AllowRegen /*= true*/)
 
 bool CMaterial::SetCurrent(FRenderOptions Options)
 {
-    // Bind textures
-    const char *skpSamplers[8] = {
-        "Texture0", "Texture1", "Texture2", "Texture3",
-        "Texture4", "Texture5", "Texture6", "Texture7"
-    };
-
     // Skip material setup if the currently bound material is identical
     if (sCurrentMaterial != HashParameters())
     {
@@ -177,19 +171,13 @@ bool CMaterial::SetCurrent(FRenderOptions Options)
         }
     }
 
-    // Bind textures
-    CShader *pShader = CShader::CurrentShader();
-
+    // Set up shader uniforms
     for (u32 iPass = 0; iPass < mPasses.size(); iPass++)
-    {
         mPasses[iPass]->LoadTexture(iPass);
-        GLint sampler = pShader->GetUniformLocation(skpSamplers[iPass]);
-        glUniform1i(sampler, iPass);
-    }
 
-    // Bind num lights
-    GLuint NumLightsLoc = pShader->GetUniformLocation("NumLights");
-    glUniform1i(NumLightsLoc, CGraphics::sNumLights);
+    CShader *pShader = CShader::CurrentShader();
+    pShader->SetTextureUniforms(mPasses.size());
+    pShader->SetNumLights(CGraphics::sNumLights);
 
     // Update shader blocks
     CGraphics::UpdateVertexBlock();

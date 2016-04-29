@@ -19,6 +19,10 @@ class CShader
     GLuint mLightBlockIndex;
     GLuint mBoneTransformBlockIndex;
 
+    // Cached uniform locations
+    GLint mTextureUniforms[8];
+    GLint mNumLightsUniform;
+
     static CShader* spCurrentShader;
 
 public:
@@ -32,6 +36,8 @@ public:
     GLuint GetProgramID();
     GLuint GetUniformLocation(const char* pkUniform);
     GLuint GetUniformBlockIndex(const char* pkUniformBlock);
+    void SetTextureUniforms(u32 NumTextures);
+    void SetNumLights(u32 NumLights);
     void SetCurrent();
 
     // Static
@@ -40,6 +46,7 @@ public:
     static void KillCachedShader();
 
 private:
+    void CacheCommonUniforms();
     void DumpShaderSource(GLuint Shader, const TString& rkOut);
 };
 
