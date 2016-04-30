@@ -59,7 +59,11 @@ CSkeleton* CSkeletonLoader::LoadCINF(IInputStream& rCINF)
             u32 Check = rCINF.PeekLong();
             Game = ((Check > 100 || Check == 0) ? eEchoes : ePrime);
         }
-        if (Game == eEchoes) rCINF.Seek(0x20, SEEK_CUR); // Skip skin metrics
+        if (Game == eEchoes)
+        {
+            pBone->mRotation = CQuaternion(rCINF);
+            rCINF.Seek(0x10, SEEK_CUR); // Think this is another quaternion, not sure what for.
+        }
 
         u32 NumLinkedBones = rCINF.ReadLong();
         ASSERT(NumLinkedBones != 0);
