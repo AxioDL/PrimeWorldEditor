@@ -1,4 +1,5 @@
 #include "CAnimationLoader.h"
+#include <Common/Assert.h>
 #include <Common/Log.h>
 #include <Math/MathUtil.h>
 
@@ -63,6 +64,7 @@ void CAnimationLoader::ReadUncompressedANIM()
 
     // Bone channel list
     u32 NumBoneIndices = mpInput->ReadLong();
+    ASSERT(NumBoneIndices == 100);
     std::vector<u8> BoneIndices(NumBoneIndices);
 
     for (u32 iChan = 0; iChan < NumBoneIndices; iChan++)
@@ -132,7 +134,7 @@ void CAnimationLoader::ReadUncompressedANIM()
             ScaleIndices[iScale] = mpInput->ReadByte();
 
             if (ScaleIndices[iScale] != 0xFF)
-                NumScaleIndices++;
+                NumScaleChannels++;
         }
     }
 
