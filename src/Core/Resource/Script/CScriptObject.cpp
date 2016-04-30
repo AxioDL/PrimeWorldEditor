@@ -9,8 +9,6 @@ CScriptObject::CScriptObject(u32 InstanceID, CGameArea *pArea, CScriptLayer *pLa
     , mpLayer(pLayer)
     , mVersion(0)
     , mInstanceID(InstanceID)
-    , mpDisplayModel(nullptr)
-    , mpCollision(nullptr)
     , mHasInGameModel(false)
     , mIsCheckingNearVisibleActivation(false)
 {
@@ -37,21 +35,14 @@ CScriptObject::~CScriptObject()
     mpScale = mpTemplate->FindScale(mpProperties);
     mpActive = mpTemplate->FindActive(mpProperties);
     mpLightParameters = mpTemplate->FindLightParameters(mpProperties);
-    mHasInGameModel = mpTemplate->HasInGameModel(mpProperties);
-    EvaluateDisplayModel();
-    EvaluateBillboard();
+    EvaluateDisplayAsset();
     EvaluateCollisionModel();
     EvaluateVolume();
 }
 
-void CScriptObject::EvaluateDisplayModel()
+void CScriptObject::EvaluateDisplayAsset()
 {
-    mpDisplayModel = mpTemplate->FindDisplayModel(mpProperties);
-}
-
-void CScriptObject::EvaluateBillboard()
-{
-    mpBillboard = mpTemplate->FindBillboardTexture(mpProperties);
+    mpDisplayAsset = mpTemplate->FindDisplayAsset(mpProperties, mActiveCharIndex, mActiveAnimIndex, mHasInGameModel);
 }
 
 void CScriptObject::EvaluateCollisionModel()

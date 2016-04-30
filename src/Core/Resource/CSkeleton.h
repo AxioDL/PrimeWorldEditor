@@ -37,6 +37,7 @@ public:
     ~CSkeleton();
     void UpdateTransform(CBoneTransformData& rData, CAnimation *pAnim, float Time, bool AnchorRoot);
     CBone* BoneByID(u32 BoneID) const;
+    CBone* BoneByName(const TString& rkBoneName) const;
     u32 MaxBoneID() const;
 
     void Draw(FRenderOptions Options, const CBoneTransformData& rkData);
@@ -55,7 +56,9 @@ class CBone
     std::vector<CBone*> mChildren;
     u32 mID;
     CVector3f mPosition;
+    CVector3f mLocalPosition;
     CQuaternion mRotation;
+    CQuaternion mLocalRotation;
     TString mName;
     CTransform4f mInvBind;
 
@@ -72,8 +75,9 @@ public:
     inline CBone* ChildByIndex(u32 Index) const         { return mChildren[Index]; }
     inline u32 ID() const                               { return mID; }
     inline CVector3f Position() const                   { return mPosition; }
-    inline CVector3f AbsolutePosition() const           { return mPosition + (mpParent ? mpParent->AbsolutePosition() : CVector3f::skZero); }
+    inline CVector3f LocalPosition() const              { return mLocalPosition; }
     inline CQuaternion Rotation() const                 { return mRotation; }
+    inline CQuaternion LocalRotation() const            { return mLocalRotation; }
     inline TString Name() const                         { return mName; }
 };
 

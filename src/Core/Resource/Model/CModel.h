@@ -4,6 +4,7 @@
 #include "CBasicModel.h"
 #include "SSurface.h"
 #include "Core/Resource/CMaterialSet.h"
+#include "Core/Resource/CSkeleton.h"
 #include "Core/Resource/CSkin.h"
 #include "Core/OpenGL/CIndexBuffer.h"
 #include "Core/OpenGL/GLCommon.h"
@@ -40,7 +41,7 @@ public:
     bool HasTransparency(u32 MatSet);
     bool IsSurfaceTransparent(u32 Surface, u32 MatSet);
 
-    bool IsSkinned() const  { return (mpSkin != nullptr); }
+    inline bool IsSkinned() const       { return (mpSkin != nullptr); }
 
 private:
     CIndexBuffer* InternalGetIBO(u32 Surface, EGXPrimitiveType Primitive);

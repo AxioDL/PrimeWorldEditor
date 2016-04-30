@@ -194,7 +194,8 @@ HEADERS += \
     Render/CBoneTransformData.h \
     Resource/CSkin.h \
     Resource/Factory/CSkinLoader.h \
-    Render/EDepthGroup.h
+    Render/EDepthGroup.h \
+    Scene/CScriptAttachNode.h
 
 # Source Files
 SOURCES += \
@@ -279,4 +280,5 @@ SOURCES += \
     Resource/CAnimation.cpp \
     Resource/Factory/CAnimationLoader.cpp \
     Resource/Factory/CSkinLoader.cpp \
-    Resource/Model/EVertexAttribute.cpp
+    Resource/Model/EVertexAttribute.cpp \
+    Scene/CScriptAttachNode.cpp

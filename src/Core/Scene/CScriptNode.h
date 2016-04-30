@@ -2,6 +2,7 @@
 #define CSCRIPTNODE_H
 
 #include "CSceneNode.h"
+#include "CScriptAttachNode.h"
 #include "CModelNode.h"
 #include "CCollisionNode.h"
 #include "Core/Resource/Script/CScriptObject.h"
@@ -14,9 +15,11 @@ class CScriptNode : public CSceneNode
     CScriptObject *mpInstance;
     CScriptExtra *mpExtra;
 
-    TResPtr<CModel> mpActiveModel;
-    TResPtr<CTexture> mpBillboard;
+    TResPtr<CResource> mpDisplayAsset;
+    u32 mCharIndex;
+    u32 mAnimIndex;
     CCollisionNode *mpCollisionNode;
+    std::vector<CScriptAttachNode*> mAttachments;
 
     bool mHasValidPosition;
     bool mHasVolumePreview;
@@ -53,14 +56,21 @@ public:
     CScriptObject* Instance() const;
     CScriptTemplate* Template() const;
     CScriptExtra* Extra() const;
-    CModel* ActiveModel() const;
-    bool UsesModel() const;
     bool HasPreviewVolume() const;
     CAABox PreviewVolumeAABox() const;
     CVector2f BillboardScale() const;
+    CTransform4f BoneTransform(u32 BoneID, bool Absolute) const;
+
+    CModel* ActiveModel() const;
+    CAnimSet* ActiveAnimSet() const;
+    CSkeleton* ActiveSkeleton() const;
+    CTexture* ActiveBillboard() const;
+    bool UsesModel() const;
+
+    inline CResource* DisplayAsset() const { return mpDisplayAsset; }
 
 protected:
-    void SetActiveModel(CModel *pModel);
+    void SetDisplayAsset(CResource *pRes);
     void CalculateTransform(CTransform4f& rOut) const;
 };
 

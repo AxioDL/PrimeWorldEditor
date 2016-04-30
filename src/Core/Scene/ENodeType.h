@@ -12,8 +12,9 @@ enum ENodeType
     eCollisionNode      = 0x8,
     eScriptNode         = 0x10,
     eScriptExtraNode    = 0x20,
-    eLightNode          = 0x40,
-    eAllNodeTypes       = 0x7F
+    eScriptAttachNode   = 0x40,
+    eLightNode          = 0x80,
+    eAllNodeTypes       = 0xFFFFFFFF
 };
 
 DECLARE_FLAGS(ENodeType, FNodeFlags)

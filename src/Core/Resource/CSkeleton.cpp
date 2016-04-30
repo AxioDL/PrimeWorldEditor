@@ -14,7 +14,7 @@ void CBone::UpdateTransform(CBoneTransformData& rData, const SBoneTransformInfo&
 {
     // Get transform data
     SBoneTransformInfo TransformInfo;
-    TransformInfo.Position = mPosition;
+    TransformInfo.Position = mLocalPosition;
 
     if (pAnim)
         pAnim->EvaluateTransform(Time, mID, &TransformInfo.Position, &TransformInfo.Rotation, &TransformInfo.Scale);
@@ -41,7 +41,7 @@ void CBone::UpdateTransform(CBoneTransformData& rData, const SBoneTransformInfo&
 
 CVector3f CBone::TransformedPosition(const CBoneTransformData& rkData) const
 {
-    return rkData[mID] * AbsolutePosition();
+    return rkData[mID] * Position();
 }
 
 bool CBone::IsRoot() const
@@ -71,6 +71,17 @@ CBone* CSkeleton::BoneByID(u32 BoneID) const
     for (u32 iBone = 0; iBone < mBones.size(); iBone++)
     {
         if (mBones[iBone]->ID() == BoneID)
+            return mBones[iBone];
+    }
+
+    return nullptr;
+}
+
+CBone* CSkeleton::BoneByName(const TString& rkBoneName) const
+{
+    for (u32 iBone = 0; iBone < mBones.size(); iBone++)
+    {
+        if (mBones[iBone]->Name() == rkBoneName)
             return mBones[iBone];
     }
 

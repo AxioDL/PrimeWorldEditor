@@ -38,6 +38,9 @@
             <model source="property">0x06:0x04</model>
             <model source="property">0x0C</model>
         </assets>
+        <attachments>
+            <attachment propertyID="0x0C" locator="Hive_LCTR"/>
+        </attachments>
         <rotation_type>enabled</rotation_type>
         <scale_type>enabled</scale_type>
     </editor>

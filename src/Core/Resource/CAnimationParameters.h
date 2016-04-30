@@ -12,8 +12,8 @@ class CAnimationParameters
     EGame mGame;
     CResourceInfo mCharacter;
 
-    u32 mNodeIndex;
-    u32 mUnknown1;
+    u32 mCharIndex;
+    u32 mAnimIndex;
     u32 mUnknown2;
     u32 mUnknown3;
 
@@ -29,8 +29,10 @@ public:
     // Accessors
     inline EGame Version() const        { return mGame; }
     inline CAnimSet* AnimSet() const    { return (CAnimSet*) mCharacter.Load(); }
-    inline u32 CharacterIndex()         { return mNodeIndex; }
-    inline void SetNodeIndex(u32 Index) { mNodeIndex = Index; }
+    inline u32 CharacterIndex() const   { return mCharIndex; }
+    inline u32 AnimIndex() const        { return mAnimIndex; }
+    inline void SetCharIndex(u32 Index) { mCharIndex = Index; }
+    inline void SetAnimIndex(u32 Index) { mAnimIndex = Index; }
 
     u32 Unknown(u32 Index);
     void SetResource(CResourceInfo Res);
@@ -41,8 +43,8 @@ public:
     {
         return ( (mGame == rkOther.mGame) &&
                  (mCharacter == rkOther.mCharacter) &&
-                 (mNodeIndex == rkOther.mNodeIndex) &&
-                 (mUnknown1 == rkOther.mUnknown1) &&
+                 (mCharIndex == rkOther.mCharIndex) &&
+                 (mAnimIndex == rkOther.mAnimIndex) &&
                  (mUnknown2 == rkOther.mUnknown2) &&
                  (mUnknown3 == rkOther.mUnknown3) );
     }

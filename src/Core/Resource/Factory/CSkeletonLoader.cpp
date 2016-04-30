@@ -10,7 +10,9 @@ void CSkeletonLoader::SetLocalBoneCoords(CBone *pBone)
         SetLocalBoneCoords(pBone->ChildByIndex(iChild));
 
     if (pBone->mpParent)
-        pBone->mPosition -= pBone->mpParent->mPosition;
+        pBone->mLocalPosition = pBone->mPosition - pBone->mpParent->mPosition;
+    else
+        pBone->mLocalPosition = pBone->mPosition;
 }
 
 void CSkeletonLoader::CalculateBoneInverseBindMatrices()
@@ -18,7 +20,7 @@ void CSkeletonLoader::CalculateBoneInverseBindMatrices()
     for (u32 iBone = 0; iBone < mpSkeleton->mBones.size(); iBone++)
     {
         CBone *pBone = mpSkeleton->mBones[iBone];
-        pBone->mInvBind = CTransform4f::TranslationMatrix(-pBone->AbsolutePosition());
+        pBone->mInvBind = CTransform4f::TranslationMatrix(-pBone->Position());
     }
 }
 
@@ -50,8 +52,8 @@ CSkeleton* CSkeletonLoader::LoadCINF(IInputStream& rCINF)
         BoneInfo[iBone].ParentID = rCINF.ReadLong();
         pBone->mPosition = CVector3f(rCINF);
 
-        // Version test. No version number. The next value is the linked bone count in MP1 and the first
-        // skin metric value in MP2. The max bone count is 100 so the linked bone count will not be higher
+        // Version test. No version number. The next value is the linked bone count in MP1 and the
+        // rotation value in MP2. The max bone count is 100 so the linked bone count will not be higher
         // than that. Additionally, every bone links to its parent at least and every skeleton (as far as I
         // know) has at least two bones so the linked bone count will never be 0.
         if (Game == eUnknownVersion)
@@ -62,7 +64,7 @@ CSkeleton* CSkeletonLoader::LoadCINF(IInputStream& rCINF)
         if (Game == eEchoes)
         {
             pBone->mRotation = CQuaternion(rCINF);
-            rCINF.Seek(0x10, SEEK_CUR); // Think this is another quaternion, not sure what for.
+            pBone->mLocalRotation = CQuaternion(rCINF);
         }
 
         u32 NumLinkedBones = rCINF.ReadLong();

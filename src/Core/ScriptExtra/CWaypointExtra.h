@@ -20,7 +20,7 @@ class CWaypointExtra : public CScriptExtra
     std::vector<SWaypointLink> mLinks;
 
 public:
-    explicit CWaypointExtra(CScriptObject *pInstance, CScene *pScene, CSceneNode *pParent = 0);
+    explicit CWaypointExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent = 0);
     ~CWaypointExtra();
     void CheckColor();
     void AddToSplinePath(CSplinePathExtra *pPath);

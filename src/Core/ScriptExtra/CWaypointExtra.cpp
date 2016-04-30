@@ -4,7 +4,7 @@
 #include "Core/Render/CRenderer.h"
 #include "Core/Scene/CScene.h"
 
-CWaypointExtra::CWaypointExtra(CScriptObject *pInstance, CScene *pScene, CSceneNode *pParent)
+CWaypointExtra::CWaypointExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent)
     : CScriptExtra(pInstance, pScene, pParent)
     , mColor(CColor::skBlack)
     , mLinksBuilt(false)

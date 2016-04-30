@@ -655,14 +655,14 @@ void CPropertyDelegate::SetCharacterModelData(QWidget *pEditor, const QModelInde
     {
         Params.SetResource( static_cast<WResourceSelector*>(pEditor)->GetResourceInfo() );
         // Reset all other parameters to 0
-        Params.SetNodeIndex(0);
+        Params.SetCharIndex(0);
         for (u32 iUnk = 0; iUnk < 3; iUnk++)
             Params.SetUnknown(iUnk, 0);
     }
 
     else if (Type == eEnumProperty)
     {
-        Params.SetNodeIndex( static_cast<QComboBox*>(pEditor)->currentIndex() );
+        Params.SetCharIndex( static_cast<QComboBox*>(pEditor)->currentIndex() );
     }
 
     else if (Type == eLongProperty)

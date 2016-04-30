@@ -152,12 +152,14 @@ CPropertyStruct* CScriptTemplate::FindLightParameters(CPropertyStruct *pProperti
     return TFetchProperty<CPropertyStruct*, eStructProperty>(pProperties, mLightParametersIDString);
 }
 
-// todo: merge these four functions, they have near-identical code
-CModel* CScriptTemplate::FindDisplayModel(CPropertyStruct *pProperties)
+CResource* CScriptTemplate::FindDisplayAsset(CPropertyStruct *pProperties, u32& rOutCharIndex, u32& rOutAnimIndex, bool& rOutIsInGame)
 {
+    rOutCharIndex = -1;
+    rOutAnimIndex = -1;
+    rOutIsInGame = false;
+
     for (auto it = mAssets.begin(); it != mAssets.end(); it++)
     {
-        if ((it->AssetType != SEditorAsset::eModel) && (it->AssetType != SEditorAsset::eAnimParams)) continue;
         CResource *pRes = nullptr;
 
         // File
@@ -172,58 +174,34 @@ CModel* CScriptTemplate::FindDisplayModel(CPropertyStruct *pProperties)
         {
             IProperty *pProp = pProperties->PropertyByIDString(it->AssetLocation);
 
-            if (pProp->Type() == eFileProperty)
+            if (it->AssetType == SEditorAsset::eAnimParams && pProp->Type() == eCharacterProperty)
             {
-                TFileProperty *pFile = static_cast<TFileProperty*>(pProp);
-                pRes = pFile->Get().Load();
+                TCharacterProperty *pChar = static_cast<TCharacterProperty*>(pProp);
+                pRes = pChar->Get().AnimSet();
+
+                if (pRes)
+                {
+                    rOutCharIndex = (it->ForceNodeIndex >= 0 ? it->ForceNodeIndex : pChar->Get().CharacterIndex());
+                    rOutAnimIndex = pChar->Get().AnimIndex();
+                }
             }
 
-            else if (pProp->Type() == eCharacterProperty)
-            {
-                TCharacterProperty *pParams = static_cast<TCharacterProperty*>(pProp);
-                pRes = pParams->Get().GetCurrentModel(it->ForceNodeIndex);
-            }
-        }
-
-        // Verify resource exists + is correct type
-        if (pRes && (pRes->Type() == eModel))
-            return static_cast<CModel*>(pRes);
-    }
-
-    return nullptr;
-}
-
-CTexture* CScriptTemplate::FindBillboardTexture(CPropertyStruct *pProperties)
-{
-    for (auto it = mAssets.begin(); it != mAssets.end(); it++)
-    {
-        if (it->AssetType != SEditorAsset::eBillboard) continue;
-        CResource *pRes = nullptr;
-
-        // File
-        if (it->AssetSource == SEditorAsset::eFile)
-        {
-            TString path = "../resources/" + it->AssetLocation;
-            pRes = gResCache.GetResource(path);
-        }
-
-        // Property
-        else
-        {
-            IProperty *pProp = pProperties->PropertyByIDString(it->AssetLocation);
-
-            if (pProp->Type() == eFileProperty)
+            else
             {
                 TFileProperty *pFile = static_cast<TFileProperty*>(pProp);
                 pRes = pFile->Get().Load();
             }
         }
 
-        // Verify resource exists + is correct type
-        if (pRes && (pRes->Type() == eTexture))
-            return static_cast<CTexture*>(pRes);
+        // If we have a valid resource, return
+        if (pRes)
+        {
+            rOutIsInGame = (pRes->Type() != eTexture && it->AssetSource == SEditorAsset::eProperty);
+            return pRes;
+        }
     }
 
+    // None are valid - no display asset
     return nullptr;
 }
 
@@ -261,35 +239,6 @@ CCollisionMeshGroup* CScriptTemplate::FindCollision(CPropertyStruct *pProperties
     return nullptr;
 }
 
-bool CScriptTemplate::HasInGameModel(CPropertyStruct *pProperties)
-{
-    for (auto it = mAssets.begin(); it != mAssets.end(); it++)
-    {
-        if ((it->AssetType != SEditorAsset::eModel) && (it->AssetType != SEditorAsset::eAnimParams)) continue;
-        if (it->AssetSource == SEditorAsset::eFile) continue;
-        CResource *pRes = nullptr;
-
-        IProperty *pProp = pProperties->PropertyByIDString(it->AssetLocation);
-
-        if (pProp->Type() == eFileProperty)
-        {
-            TFileProperty *pFile = static_cast<TFileProperty*>(pProp);
-            pRes = pFile->Get().Load();
-        }
-
-        else if (pProp->Type() == eCharacterProperty)
-        {
-            TCharacterProperty *pParams = static_cast<TCharacterProperty*>(pProp);
-            pRes = pParams->Get().GetCurrentModel(it->ForceNodeIndex);
-        }
-
-        // Verify resource exists + is correct type
-        if (pRes && (pRes->Type() == eModel))
-            return true;
-    }
-
-    return false;
-}
 
 // ************ OBJECT TRACKING ************
 u32 CScriptTemplate::NumObjects() const

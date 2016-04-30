@@ -243,6 +243,15 @@
             <model source="property">0x91E88D81:0x0CF8C54C:0x37E99C23</model>
             <model source="property">0x91E88D81:0xBBD84681</model>
         </assets>
+        <attachments>
+            <attachment propertyID="0x91E88D81:0x8B452A19:0x07D8CC4F" locator="Head_1"/>
+            <attachment propertyID="0x91E88D81:0x8B452A19:0xAE30AE06" locator="Spine_6"/>
+            <attachment propertyID="0x91E88D81:0x8B452A19:0x656C7DA3" locator="Spine_5"/>
+            <attachment propertyID="0x91E88D81:0x8B452A19:0x78694D1B" locator="Spine_4"/>
+            <attachment propertyID="0x91E88D81:0x8B452A19:0xB3359EBE" locator="Spine_3"/>
+            <attachment propertyID="0x91E88D81:0x8B452A19:0x35A1EC10" locator="Spine_2"/>
+            <attachment propertyID="0x91E88D81:0x8B452A19:0xFEFD3FB5" locator="Spine_1"/>
+        </attachments>
         <rotation_type>enabled</rotation_type>
         <scale_type>enabled</scale_type>
     </editor>

@@ -7,6 +7,7 @@
 #include "Core/Resource/Script/CMasterTemplate.h"
 #include "Core/Resource/Script/CScriptLayer.h"
 #include "Core/ScriptExtra/CScriptExtra.h"
+#include <Common/Assert.h>
 #include <Math/MathUtil.h>
 
 CScriptNode::CScriptNode(CScene *pScene, u32 NodeID, CSceneNode *pParent, CScriptObject *pInstance)
@@ -15,10 +16,12 @@ CScriptNode::CScriptNode(CScene *pScene, u32 NodeID, CSceneNode *pParent, CScrip
     , mpVolumePreviewNode(nullptr)
     , mHasVolumePreview(false)
     , mpInstance(pInstance)
-    , mpBillboard(nullptr)
+    , mpExtra(nullptr)
 {
+    ASSERT(pInstance);
+
     // Evaluate instance
-    SetActiveModel(nullptr);
+    SetDisplayAsset(nullptr);
     mpCollisionNode = new CCollisionNode(pScene, -1, this);
     mpCollisionNode->SetInheritance(true, true, false);
 
@@ -36,8 +39,9 @@ CScriptNode::CScriptNode(CScene *pScene, u32 NodeID, CSceneNode *pParent, CScrip
         SetName("[" + pTemp->Name() + "] " + mpInstance->InstanceName());
 
         // Determine display assets
-        SetActiveModel(mpInstance->DisplayModel());
-        mpBillboard = mpInstance->Billboard();
+        SetDisplayAsset(mpInstance->DisplayAsset());
+        mCharIndex = mpInstance->ActiveCharIndex();
+        mAnimIndex = mpInstance->ActiveAnimIndex();
         mpCollisionNode->SetCollision(mpInstance->Collision());
 
         // Create preview volume node
@@ -52,6 +56,14 @@ CScriptNode::CScriptNode(CScene *pScene, u32 NodeID, CSceneNode *pParent, CScrip
                 mpVolumePreviewNode->SetInheritance(true, (mpInstance->VolumeShape() != eAxisAlignedBoxShape), true);
                 mpVolumePreviewNode->ForceAlphaEnabled(true);
             }
+        }
+
+        // Create attachment nodes
+        for (u32 iAttach = 0; iAttach < pTemp->NumAttachments(); iAttach++)
+        {
+            const SAttachment& rkAttach = pTemp->Attachment(iAttach);
+            CScriptAttachNode *pAttach = new CScriptAttachNode(pScene, rkAttach.AttachProperty, rkAttach.LocatorName, this);
+            mAttachments.push_back(pAttach);
         }
 
         // Fetch LightParameters
@@ -75,10 +87,12 @@ ENodeType CScriptNode::NodeType()
 
 void CScriptNode::PostLoad()
 {
-    if (mpActiveModel)
+    CModel *pModel = ActiveModel();
+
+    if (pModel)
     {
-        mpActiveModel->BufferGL();
-        mpActiveModel->GenerateMaterialShaders();
+        pModel->BufferGL();
+        pModel->GenerateMaterialShaders();
     }
 }
 
@@ -130,17 +144,22 @@ void CScriptNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInf
 
         if (rkViewInfo.ShowFlags & eShowObjectGeometry || rkViewInfo.GameMode)
         {
+            for (u32 iAttach = 0; iAttach < mAttachments.size(); iAttach++)
+                mAttachments[iAttach]->AddToRenderer(pRenderer, rkViewInfo);
+
             if (rkViewInfo.ViewFrustum.BoxInFrustum(AABox()))
             {
-                if (!mpActiveModel)
+                CModel *pModel = ActiveModel();
+
+                if (!pModel)
                     pRenderer->AddMesh(this, -1, AABox(), false, eDrawMesh);
 
                 else
                 {
-                    if (!mpActiveModel->HasTransparency(0))
+                    if (!pModel->HasTransparency(0))
                         pRenderer->AddMesh(this, -1, AABox(), false, eDrawMesh);
                     else
-                        AddSurfacesToRenderer(pRenderer, mpActiveModel, 0, rkViewInfo);
+                        AddSurfacesToRenderer(pRenderer, pModel, 0, rkViewInfo);
                 }
             }
         }
@@ -160,7 +179,7 @@ void CScriptNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInf
 
 void CScriptNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& rkViewInfo)
 {
-    if (!mpInstance) return;
+    if (!mpInstance || !mpDisplayAsset) return;
 
     // Draw model
     if (UsesModel())
@@ -191,9 +210,11 @@ void CScriptNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewIn
         LoadModelMatrix();
 
         // Draw model if possible!
-        if (mpActiveModel)
+        CModel *pModel = ActiveModel();
+
+        if (pModel)
         {
-            if (mpActiveModel->IsSkinned()) CGraphics::LoadIdentityBoneTransforms();
+            if (pModel->IsSkinned()) CGraphics::LoadIdentityBoneTransforms();
 
             if (mpExtra) CGraphics::sPixelBlock.TevColor = mpExtra->TevColor();
             else CGraphics::sPixelBlock.TevColor = CColor::skWhite;
@@ -202,9 +223,9 @@ void CScriptNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewIn
             CGraphics::UpdatePixelBlock();
 
             if (ComponentIndex < 0)
-                mpActiveModel->Draw(Options, 0);
+                pModel->Draw(Options, 0);
             else
-                mpActiveModel->DrawSurface(Options, ComponentIndex, 0);
+                pModel->DrawSurface(Options, ComponentIndex, 0);
         }
 
         // If no model or billboard, default to drawing a purple box
@@ -219,9 +240,9 @@ void CScriptNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewIn
     }
 
     // Draw billboard
-    else if (mpBillboard)
+    else if (mpDisplayAsset->Type() == eTexture)
     {
-        CDrawUtil::DrawBillboard(mpBillboard, mPosition, BillboardScale(), TintColor(rkViewInfo));
+        CDrawUtil::DrawBillboard(ActiveBillboard(), mPosition, BillboardScale(), TintColor(rkViewInfo));
     }
 }
 
@@ -233,7 +254,8 @@ void CScriptNode::DrawSelection()
     // Draw wireframe for models
     if (UsesModel())
     {
-        CModel *pModel = (mpActiveModel ? mpActiveModel : CDrawUtil::GetCubeModel());
+        CModel *pModel = ActiveModel();
+        if (!pModel) pModel = CDrawUtil::GetCubeModel();
         pModel->DrawWireframe(eNoRenderOptions, WireframeColor());
     }
 
@@ -309,7 +331,8 @@ void CScriptNode::RayAABoxIntersectTest(CRayCollisionTester& rTester, const SVie
 
         if (BoxResult.first)
         {
-            if (mpActiveModel) rTester.AddNodeModel(this, mpActiveModel);
+            CModel *pModel = ActiveModel();
+            if (pModel) rTester.AddNodeModel(this, pModel);
             else rTester.AddNode(this, 0, BoxResult.second);
         }
     }
@@ -326,6 +349,12 @@ void CScriptNode::RayAABoxIntersectTest(CRayCollisionTester& rTester, const SVie
         std::pair<bool,float> BoxResult = BillBox.IntersectsRay(rkRay);
         if (BoxResult.first) rTester.AddNode(this, 0, BoxResult.second);
     }
+
+    // Run ray check on child nodes as well
+    mpCollisionNode->RayAABoxIntersectTest(rTester, rkViewInfo);
+
+    for (u32 iAttach = 0; iAttach < mAttachments.size(); iAttach++)
+        mAttachments[iAttach]->RayAABoxIntersectTest(rTester, rkViewInfo);
 }
 
 SRayIntersection CScriptNode::RayNodeIntersectTest(const CRay& rkRay, u32 AssetID, const SViewInfo& rkViewInfo)
@@ -339,7 +368,8 @@ SRayIntersection CScriptNode::RayNodeIntersectTest(const CRay& rkRay, u32 AssetI
     // Model test
     if (UsesModel())
     {
-        CModel *pModel = (mpActiveModel ? mpActiveModel : CDrawUtil::GetCubeModel());
+        CModel *pModel = ActiveModel();
+        if (!pModel) pModel = CDrawUtil::GetCubeModel();
 
         CRay TransformedRay = rkRay.Transformed(Transform().Inverse());
         std::pair<bool,float> Result = pModel->GetSurface(AssetID)->IntersectsRay(TransformedRay, ((Options & eEnableBackfaceCull) == 0));
@@ -385,7 +415,7 @@ SRayIntersection CScriptNode::RayNodeIntersectTest(const CRay& rkRay, u32 AssetI
                 // Step 4: look up the hit texel and check whether it's transparent or opaque
                 CVector2f TexCoord = (LocalHitPoint + CVector2f(1.f)) * 0.5f;
                 TexCoord.X = -TexCoord.X + 1.f;
-                float TexelAlpha = mpBillboard->ReadTexelAlpha(TexCoord);
+                float TexelAlpha = ActiveBillboard()->ReadTexelAlpha(TexCoord);
 
                 if (TexelAlpha < 0.25f)
                     Out.Hit = false;
@@ -450,24 +480,24 @@ void CScriptNode::PropertyModified(IProperty *pProp)
     // Update resources
     if (pProp->Type() == eCharacterProperty)
     {
-        mpInstance->EvaluateDisplayModel();
-        SetActiveModel(mpInstance->DisplayModel());
+        mpInstance->EvaluateDisplayAsset();
+        mCharIndex = mpInstance->ActiveCharIndex();
+        mAnimIndex = mpInstance->ActiveAnimIndex();
+        SetDisplayAsset(mpInstance->DisplayAsset());
     }
+
     else if (pProp->Type() == eFileProperty)
     {
-        CFileTemplate *pFile = static_cast<CFileTemplate*>(pProp->Template());
+        CFileTemplate *pFileTemp = static_cast<CFileTemplate*>(pProp->Template());
 
-        if (pFile->AcceptsExtension("CMDL") || pFile->AcceptsExtension("ANCS") || pFile->AcceptsExtension("CHAR"))
+        if (pFileTemp->AcceptsExtension("CMDL") || pFileTemp->AcceptsExtension("TXTR") || pFileTemp->AcceptsExtension("ANCS") || pFileTemp->AcceptsExtension("CHAR"))
         {
-            mpInstance->EvaluateDisplayModel();
-            SetActiveModel(mpInstance->DisplayModel());
+            mpInstance->EvaluateDisplayAsset();
+            mCharIndex = mpInstance->ActiveCharIndex();
+            mAnimIndex = mpInstance->ActiveAnimIndex();
+            SetDisplayAsset(mpInstance->DisplayAsset());
         }
-        else if (pFile->AcceptsExtension("TXTR"))
-        {
-            mpInstance->EvaluateBillboard();
-            mpBillboard = mpInstance->Billboard();
-        }
-        else if (pFile->AcceptsExtension("DCLN"))
+        else if (pFileTemp->AcceptsExtension("DCLN"))
         {
             mpInstance->EvaluateCollisionModel();
             mpCollisionNode->SetCollision(mpInstance->Collision());
@@ -492,11 +522,19 @@ void CScriptNode::PropertyModified(IProperty *pProp)
             mScale = mpInstance->Scale();
 
         MarkTransformChanged();
-
         SetLightLayerIndex(mpLightParameters->LightLayerIndex());
     }
 
-    // Update script extra
+    // Notify attachments
+    for (u32 iAttach = 0; iAttach < mAttachments.size(); iAttach++)
+    {
+        CScriptAttachNode *pAttach = mAttachments[iAttach];
+
+        if (pAttach->AttachProperty() == pProp)
+            pAttach->AttachPropertyModified();
+    }
+
+    // Notify script extra
     if (mpExtra) mpExtra->PropertyModified(pProp);
 
     // Update game mode visibility
@@ -628,12 +666,43 @@ CScriptExtra* CScriptNode::Extra() const
 
 CModel* CScriptNode::ActiveModel() const
 {
-    return mpActiveModel;
+    if (mpDisplayAsset)
+    {
+        if (mpDisplayAsset->Type() == eModel)
+            return static_cast<CModel*>(mpDisplayAsset.RawPointer());
+        else if (mpDisplayAsset->Type() == eAnimSet)
+            return static_cast<CAnimSet*>(mpDisplayAsset.RawPointer())->NodeModel(mCharIndex);
+    }
+
+    return nullptr;
+}
+
+CAnimSet* CScriptNode::ActiveAnimSet() const
+{
+    if (mpDisplayAsset && mpDisplayAsset->Type() == eAnimSet)
+        return static_cast<CAnimSet*>(mpDisplayAsset.RawPointer());
+    else
+        return nullptr;
+}
+
+CSkeleton* CScriptNode::ActiveSkeleton() const
+{
+    CAnimSet *pSet = ActiveAnimSet();
+    if (pSet) return pSet->NodeSkeleton(mCharIndex);
+    else return nullptr;
+}
+
+CTexture* CScriptNode::ActiveBillboard() const
+{
+    if (mpDisplayAsset && mpDisplayAsset->Type() == eTexture)
+        return static_cast<CTexture*>(mpDisplayAsset.RawPointer());
+    else
+        return nullptr;
 }
 
 bool CScriptNode::UsesModel() const
 {
-    return ((mpActiveModel != nullptr) || (mpBillboard == nullptr));
+    return (mpDisplayAsset == nullptr || ActiveModel() != nullptr);
 }
 
 bool CScriptNode::HasPreviewVolume() const
@@ -655,12 +724,38 @@ CVector2f CScriptNode::BillboardScale() const
     return Out * 0.5f * Template()->PreviewScale();
 }
 
-// ************ PROTECTED ************
-void CScriptNode::SetActiveModel(CModel *pModel)
+CTransform4f CScriptNode::BoneTransform(u32 BoneID, bool Absolute) const
 {
-    mpActiveModel = pModel;
-    mLocalAABox = (pModel ? pModel->AABox() : CAABox::skOne);
-    MarkTransformChanged();
+    CTransform4f Out;
+    CSkeleton *pSkel = ActiveSkeleton();
+
+    if (pSkel)
+    {
+        CBone *pBone = pSkel->BoneByID(BoneID);
+        Out.Translate(pBone->Position());
+    }
+
+    if (Absolute) Out = Transform() * Out;
+
+    return Out;
+}
+
+// ************ PROTECTED ************
+void CScriptNode::SetDisplayAsset(CResource *pRes)
+{
+    if (mpDisplayAsset != pRes)
+    {
+        mpDisplayAsset = pRes;
+        CModel *pModel = ActiveModel();
+        mLocalAABox = (pModel ? pModel->AABox() : CAABox::skOne);
+        MarkTransformChanged();
+
+        for (u32 iAttach = 0; iAttach < mAttachments.size(); iAttach++)
+            mAttachments[iAttach]->ParentDisplayAssetChanged(pRes);
+
+        if (mpExtra)
+            mpExtra->DisplayAssetChanged(pRes);
+    }
 }
 
 void CScriptNode::CalculateTransform(CTransform4f& rOut) const
