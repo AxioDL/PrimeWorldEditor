@@ -76,7 +76,7 @@ void WAnimParamsEditor::OnResourceChanged(QString Path)
 
 void WAnimParamsEditor::OnCharacterChanged(int Index)
 {
-    mParams.SetNodeIndex(Index);
+    mParams.SetCharIndex(Index);
     emit ParametersChanged(mParams);
 }
 

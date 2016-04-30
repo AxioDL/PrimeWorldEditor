@@ -3,6 +3,7 @@
 
 #include "Core/Scene/CSceneNode.h"
 #include "Core/Scene/CScriptNode.h"
+#include <Common/Assert.h>
 
 /* CScriptExtra is a class that allows for additional coded behavior on any given
  * script object type. Subclass IScriptExtra, add the new class to CScriptExtra.cpp,
@@ -15,18 +16,20 @@
 class CScriptExtra : public CSceneNode
 {
 protected:
+    CScriptNode *mpScriptNode;
     CScriptObject *mpInstance;
     EGame mGame;
 
 public:
-    explicit CScriptExtra(CScriptObject *pInstance, CScene *pScene, CSceneNode *pParent = 0)
-        : CSceneNode(pScene, -1, pParent),
-          mpInstance(pInstance),
-          mGame(pInstance->Template()->Game())
+    explicit CScriptExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent = 0)
+        : CSceneNode(pScene, -1, pParent)
+        , mpScriptNode(pParent)
+        , mpInstance(pInstance)
+        , mGame(pInstance->Template()->Game())
     {
     }
 
-    virtual ~CScriptExtra() {}
+    virtual ~CScriptExtra()                 {}
     inline CScriptObject* Instance() const  { return mpInstance; }
     inline EGame Game() const               { return mGame; }
 
@@ -43,6 +46,7 @@ public:
     // Virtual CScriptExtra functions
     virtual void InstanceTransformed() {}
     virtual void PropertyModified(IProperty* /*pProperty*/) {}
+    virtual void DisplayAssetChanged(CResource* /*pNewDisplayAsset*/) {}
     virtual void LinksModified() {}
     virtual bool ShouldDrawNormalAssets() { return true; }
     virtual bool ShouldDrawVolume() { return true; }

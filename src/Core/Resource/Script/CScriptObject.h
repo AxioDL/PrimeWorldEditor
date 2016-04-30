@@ -38,9 +38,10 @@ class CScriptObject
     TVector3Property *mpScale;
     TBoolProperty *mpActive;
     CPropertyStruct *mpLightParameters;
-    TResPtr<CModel> mpDisplayModel;
-    TResPtr<CTexture> mpBillboard;
+    TResPtr<CResource> mpDisplayAsset;
     TResPtr<CCollisionMeshGroup> mpCollision;
+    u32 mActiveCharIndex;
+    u32 mActiveAnimIndex;
     bool mHasInGameModel;
 
     EVolumeShape mVolumeShape;
@@ -54,8 +55,7 @@ public:
     ~CScriptObject();
 
     void EvaluateProperties();
-    void EvaluateDisplayModel();
-    void EvaluateBillboard();
+    void EvaluateDisplayAsset();
     void EvaluateCollisionModel();
     void EvaluateVolume();
     bool IsEditorProperty(IProperty *pProp);
@@ -89,8 +89,9 @@ public:
     bool IsActive() const                       { return mpActive ? mpActive->Get() : false; }
     bool HasInGameModel() const                 { return mHasInGameModel; }
     CPropertyStruct* LightParameters() const    { return mpLightParameters; }
-    CModel* DisplayModel() const                { return mpDisplayModel; }
-    CTexture* Billboard() const                 { return mpBillboard; }
+    CResource* DisplayAsset() const             { return mpDisplayAsset; }
+    u32 ActiveCharIndex() const                 { return mActiveCharIndex; }
+    u32 ActiveAnimIndex() const                 { return mActiveAnimIndex; }
     CCollisionMeshGroup* Collision() const      { return mpCollision; }
     EVolumeShape VolumeShape() const            { return mVolumeShape; }
     float VolumeScale() const                   { return mVolumeScale; }

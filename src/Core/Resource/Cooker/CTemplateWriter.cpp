@@ -311,6 +311,21 @@ void CTemplateWriter::SaveScriptTemplate(CScriptTemplate *pTemp)
         pAssets->LinkEndChild(pAsset);
     }
 
+    // Attachments
+    if (!pTemp->mAttachments.empty())
+    {
+        XMLElement *pAttachments = ScriptXML.NewElement("attachments");
+        pEditor->LinkEndChild(pAttachments);
+
+        for (auto it = pTemp->mAttachments.begin(); it != pTemp->mAttachments.end(); it++)
+        {
+            XMLElement *pAttachment = ScriptXML.NewElement("attachment");
+            pAttachment->SetAttribute("propertyID", *it->AttachProperty);
+            pAttachment->SetAttribute("locator", *it->LocatorName);
+            pAttachments->LinkEndChild(pAttachment);
+        }
+    }
+
     // Preview Scale
     if (pTemp->mPreviewScale != 1.f)
     {

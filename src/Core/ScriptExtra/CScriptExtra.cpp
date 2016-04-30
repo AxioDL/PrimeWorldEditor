@@ -52,9 +52,9 @@ CScriptExtra* CScriptExtra::CreateExtra(CScriptNode *pNode)
             pExtra = new CRadiusSphereExtra(pObj, pNode->Scene(), pNode);
             break;
 
-        case 0x53505041: // SplinePath (DKCR)
-        case 0x5043544C: // PathControl (DKCR)
-        case 0x434C5043: // ClingPathControl (DKCR)
+        case 0x53505041: // "SPPA" SplinePath (DKCR)
+        case 0x5043544C: // "PCTL" PathControl (DKCR)
+        case 0x434C5043: // "CLPC" ClingPathControl (DKCR)
             pExtra = new CSplinePathExtra(pObj, pNode->Scene(), pNode);
             break;
         }

@@ -61,6 +61,9 @@
             <animparams source="property">0x11</animparams>
             <model source="property">0x14</model>
         </assets>
+        <attachments>
+            <attachment propertyID="0x11" locator="grenadeLauncher_LCTR"/>
+        </attachments>
         <rotation_type>enabled</rotation_type>
         <scale_type>enabled</scale_type>
     </editor>

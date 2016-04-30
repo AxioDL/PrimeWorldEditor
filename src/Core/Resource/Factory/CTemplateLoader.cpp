@@ -548,6 +548,34 @@ CScriptTemplate* CTemplateLoader::LoadScriptTemplate(XMLDocument *pDoc, const TS
             }
         }
 
+        // Attachments
+        XMLElement *pAttachments = pEditor->FirstChildElement("attachments");
+
+        if (pAttachments)
+        {
+            XMLElement *pAttachment = pAttachments->FirstChildElement("attachment");
+            u32 AttachIdx = 0;
+
+            while (pAttachment)
+            {
+                SAttachment Attachment;
+                Attachment.AttachProperty = pAttachment->Attribute("propertyID");
+                Attachment.LocatorName = pAttachment->Attribute("locator");
+
+                // Validate property
+                IPropertyTemplate *pProp = pScript->mpBaseStruct->PropertyByIDString(Attachment.AttachProperty);
+
+                if (!pProp)
+                    Log::Error(rkTemplateName + ": Invalid property for attachment " + TString::FromInt32(AttachIdx) + ": " + Attachment.AttachProperty);
+                else if (pProp->Type() != eCharacterProperty && (pProp->Type() != eFileProperty || !static_cast<CFileTemplate*>(pProp)->AcceptsExtension("CMDL")))
+                    Log::Error(rkTemplateName + ": Property referred to by attachment " + TString::FromInt32(AttachIdx) + " is not an attachable asset! Must be a file property that accepts CMDLs, or a character property.");
+                else
+                    pScript->mAttachments.push_back(Attachment);
+
+                pAttachment = pAttachment->NextSiblingElement("attachment");
+            }
+        }
+
         // Preview Scale
         XMLElement *pPreviewScale = pEditor->FirstChildElement("preview_scale");
 

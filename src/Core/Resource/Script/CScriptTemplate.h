@@ -16,6 +16,12 @@ class CScriptObject;
 
 typedef TString TIDString;
 
+struct SAttachment
+{
+    TIDString AttachProperty; // Must point to a CMDL!
+    TString LocatorName;
+};
+
 /*
  * CScriptTemplate is a class that encases the data contained in one of the XML templates.
  * It essentially sets the layout of any given script object.
@@ -68,6 +74,7 @@ private:
     TIDString mActiveIDString;
     TIDString mLightParametersIDString;
     std::vector<SEditorAsset> mAssets;
+    std::vector<SAttachment> mAttachments;
 
     ERotationType mRotationType;
     EScaleType mScaleType;
@@ -99,10 +106,8 @@ public:
     TVector3Property* FindScale(CPropertyStruct *pProperties);
     TBoolProperty* FindActive(CPropertyStruct *pProperties);
     CPropertyStruct* FindLightParameters(CPropertyStruct *pProperties);
-    CModel* FindDisplayModel(CPropertyStruct *pProperties);
-    CTexture* FindBillboardTexture(CPropertyStruct *pProperties);
+    CResource* FindDisplayAsset(CPropertyStruct *pProperties, u32& rOutCharIndex, u32& rOutAnimIndex, bool& rOutIsInGame);
     CCollisionMeshGroup* FindCollision(CPropertyStruct *pProperties);
-    bool HasInGameModel(CPropertyStruct *pProperties);
 
     // Accessors
     inline CMasterTemplate* MasterTemplate() const  { return mpMaster; }
@@ -114,6 +119,8 @@ public:
     inline bool IsVisible() const                   { return mVisible; }
     inline TString SourceFile() const               { return mSourceFile; }
     inline CStructTemplate* BaseStruct() const      { return mpBaseStruct; }
+    inline u32 NumAttachments() const               { return mAttachments.size(); }
+    const SAttachment& Attachment(u32 Index) const  { return mAttachments[Index]; }
 
     inline bool HasName() const                     { return !mNameIDString.IsEmpty(); }
     inline bool HasPosition() const                 { return !mPositionIDString.IsEmpty(); }

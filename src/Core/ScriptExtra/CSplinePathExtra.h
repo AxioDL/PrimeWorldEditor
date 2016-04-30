@@ -15,7 +15,7 @@ class CSplinePathExtra : public CScriptExtra
     std::list<CWaypointExtra*> mWaypoints;
 
 public:
-    explicit CSplinePathExtra(CScriptObject *pInstance, CScene *pScene, CSceneNode *pParent = 0);
+    explicit CSplinePathExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent = 0);
     ~CSplinePathExtra()             { ClearWaypoints(); }
     inline CColor PathColor() const { return (mpPathColor ? mpPathColor->Get() : CColor::skBlack); }
 

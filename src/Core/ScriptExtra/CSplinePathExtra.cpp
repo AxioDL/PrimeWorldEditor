@@ -3,7 +3,7 @@
 #include "Core/Resource/Script/CLink.h"
 #include "Core/Scene/CScene.h"
 
-CSplinePathExtra::CSplinePathExtra(CScriptObject *pInstance, CScene *pScene, CSceneNode *pParent)
+CSplinePathExtra::CSplinePathExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent)
     : CScriptExtra(pInstance, pScene, pParent)
 {
     mpPathColor = TPropCast<TColorProperty>(pInstance->Properties()->PropertyByID(0x00DD86E2));

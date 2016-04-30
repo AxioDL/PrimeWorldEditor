@@ -65,6 +65,10 @@
             <model source="property">0x14</model>
             <model source="property">0x2A</model>
         </assets>
+        <attachments>
+            <attachment propertyID="0x11" locator="grenadeLauncher_LCTR"/>
+            <attachment propertyID="0x11" locator="grenadeLauncher2_LCTR"/>
+        </attachments>
         <rotation_type>enabled</rotation_type>
         <scale_type>enabled</scale_type>
     </editor>

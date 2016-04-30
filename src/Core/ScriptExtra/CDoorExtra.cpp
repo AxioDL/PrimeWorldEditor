@@ -1,7 +1,7 @@
 #include "CDoorExtra.h"
 #include "Core/Render/CRenderer.h"
 
-CDoorExtra::CDoorExtra(CScriptObject *pInstance, CScene *pScene, CSceneNode *pParent)
+CDoorExtra::CDoorExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent)
     : CScriptExtra(pInstance, pScene, pParent)
     , mpShieldModelProp(nullptr)
     , mpShieldColorProp(nullptr)
@@ -117,22 +117,22 @@ SRayIntersection CDoorExtra::RayNodeIntersectTest(const CRay& rkRay, u32 AssetID
 {
     FRenderOptions Options = rkViewInfo.pRenderer->RenderOptions();
 
-    SRayIntersection out;
-    out.pNode = mpParent;
-    out.ComponentIndex = AssetID;
+    SRayIntersection Out;
+    Out.pNode = mpParent;
+    Out.ComponentIndex = AssetID;
 
     CRay TransformedRay = rkRay.Transformed(Transform().Inverse());
     std::pair<bool,float> Result = mpShieldModel->GetSurface(AssetID)->IntersectsRay(TransformedRay, ((Options & eEnableBackfaceCull) == 0));
 
     if (Result.first)
     {
-        out.Hit = true;
+        Out.Hit = true;
         CVector3f HitPoint = TransformedRay.PointOnRay(Result.second);
         CVector3f WorldHitPoint = Transform() * HitPoint;
-        out.Distance = rkRay.Origin().Distance(WorldHitPoint);
+        Out.Distance = rkRay.Origin().Distance(WorldHitPoint);
     }
 
-    else out.Hit = false;
+    else Out.Hit = false;
 
-    return out;
+    return Out;
 }

@@ -31,7 +31,7 @@ class CDamageableTriggerExtra : public CScriptExtra
     float mCachedRayDistance;
 
 public:
-    explicit CDamageableTriggerExtra(CScriptObject *pInstance, CScene *pScene, CSceneNode *pParent = 0);
+    explicit CDamageableTriggerExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent = 0);
     ~CDamageableTriggerExtra();
     void CreateMaterial();
     void UpdatePlaneTransform();
