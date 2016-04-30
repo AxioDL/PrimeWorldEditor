@@ -15,6 +15,7 @@ class CAnimationLoader
     std::vector<bool> mKeyFlags;
     float mTranslationMultiplier;
     u32 mRotationDivisor;
+    float mScaleMultiplier;
 
     struct SCompressedChannel
     {

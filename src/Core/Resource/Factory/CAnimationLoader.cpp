@@ -212,7 +212,7 @@ void CAnimationLoader::ReadCompressedANIM()
 
     mRotationDivisor = mpInput->ReadLong();
     mTranslationMultiplier = mpInput->ReadFloat();
-    if (mGame == eEchoes) mpInput->Seek(0x4, SEEK_CUR);
+    if (mGame == eEchoes) mScaleMultiplier = mpInput->ReadFloat();
     u32 NumBoneChannels = mpInput->ReadLong();
     mpInput->Seek(0x4, SEEK_CUR); // Skip unknown value
 
@@ -321,7 +321,7 @@ void CAnimationLoader::ReadCompressedAnimationData()
         if (rChan.NumScaleKeys > 0)
         {
             mpAnim->mScaleChannels[iChan].reserve(rChan.NumScaleKeys + 1);
-            CVector3f Scale = CVector3f(rChan.Scale[0], rChan.Scale[1], rChan.Scale[2]) / (float) mRotationDivisor;
+            CVector3f Scale = CVector3f(rChan.Scale[0], rChan.Scale[1], rChan.Scale[2]) * mScaleMultiplier;
             mpAnim->mScaleChannels[iChan].push_back(Scale);
         }
     }
@@ -377,7 +377,7 @@ void CAnimationLoader::ReadCompressedAnimationData()
                     rChan.Scale[2] += (s16) BitStream.ReadBits(rChan.ScaleBits[2]);
                 }
 
-                CVector3f Scale = CVector3f(rChan.Scale[0], rChan.Scale[1], rChan.Scale[2]) / (float) mRotationDivisor;
+                CVector3f Scale = CVector3f(rChan.Scale[0], rChan.Scale[1], rChan.Scale[2]) * mScaleMultiplier;
                 mpAnim->mScaleChannels[iChan].push_back(Scale);
             }
         }
