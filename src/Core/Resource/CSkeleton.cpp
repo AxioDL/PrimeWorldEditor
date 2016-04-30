@@ -23,7 +23,7 @@ void CBone::UpdateTransform(CBoneTransformData& rData, const SBoneTransformInfo&
         TransformInfo.Position = CVector3f::skZero;
 
     // Apply parent transform
-    TransformInfo.Position = rkParentTransform.Position + (rkParentTransform.Rotation * TransformInfo.Position);
+    TransformInfo.Position = rkParentTransform.Position + (rkParentTransform.Rotation * (rkParentTransform.Scale * TransformInfo.Position));
     TransformInfo.Rotation = rkParentTransform.Rotation * TransformInfo.Rotation;
 
     // Calculate transform
