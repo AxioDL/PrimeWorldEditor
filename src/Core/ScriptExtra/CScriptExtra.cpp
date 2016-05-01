@@ -7,6 +7,7 @@
 #include "CDoorExtra.h"
 #include "CRadiusSphereExtra.h"
 #include "CSplinePathExtra.h"
+#include "CSandwormExtra.h"
 
 CScriptExtra* CScriptExtra::CreateExtra(CScriptNode *pNode)
 {
@@ -56,6 +57,10 @@ CScriptExtra* CScriptExtra::CreateExtra(CScriptNode *pNode)
         case 0x5043544C: // "PCTL" PathControl (DKCR)
         case 0x434C5043: // "CLPC" ClingPathControl (DKCR)
             pExtra = new CSplinePathExtra(pObj, pNode->Scene(), pNode);
+            break;
+
+        case 0x574F524D: // "WORM" Sandworm (MP2)
+            pExtra = new CSandwormExtra(pObj, pNode->Scene(), pNode);
             break;
         }
     }

@@ -3,6 +3,7 @@
 
 #include "CSceneNode.h"
 #include "Core/Resource/Script/IProperty.h"
+#include "Core/Resource/Script/CScriptTemplate.h"
 
 class CScriptNode;
 
@@ -12,11 +13,12 @@ class CScriptAttachNode : public CSceneNode
     TResPtr<CResource> mpAttachAsset;
     IProperty *mpAttachAssetProp;
 
+    EAttachType mAttachType;
     TString mLocatorName;
     CBone *mpLocator;
 
 public:
-    explicit CScriptAttachNode(CScene *pScene, const TIDString& rkAttachProperty, const TString& rkLocator, CScriptNode *pParent);
+    explicit CScriptAttachNode(CScene *pScene, const SAttachment& rkAttachment, CScriptNode *pParent);
     void AttachPropertyModified();
     void ParentDisplayAssetChanged(CResource *pNewDisplayAsset);
     CModel* Model() const;
@@ -29,6 +31,7 @@ public:
     SRayIntersection RayNodeIntersectTest(const CRay& rkRay, u32 AssetID, const SViewInfo& rkViewInfo);
 
     inline IProperty* AttachProperty() const    { return mpAttachAssetProp; }
+    inline TString LocatorName() const          { return mLocatorName; }
 
 protected:
     void CalculateTransform(CTransform4f& rOut) const;

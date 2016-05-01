@@ -26,9 +26,7 @@
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
         <struct ID="0xC55918CC" type="multi">
             <properties>
-                <property ID="0x2AA63FC4" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0x2AA63FC4" type="file" extensions="SCAN"/>
                 <property ID="0x0FAF6A8E" type="float">
                     <default>10.0</default>
                 </property>
@@ -40,9 +38,9 @@
                 </property>
                 <struct ID="0xEFACFA50" template="Structs/DamageInfo.xml">
                     <properties>
-                        <property ID="0x119FBD31">
-                            <default>11</default>
-                        </property>
+                        <enum ID="0x119FBD31">
+                            <default>0x0000000B</default>
+                        </enum>
                         <property ID="0xF2D02613">
                             <default>50.0</default>
                         </property>
@@ -54,12 +52,8 @@
                 <property ID="0xB4561F28" type="float">
                     <default>75.0</default>
                 </property>
-                <property ID="0xBB06DD83" type="long">
-                    <default>-1</default>
-                </property>
-                <property ID="0x783635A6" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0xBB06DD83" type="file" extensions="CMDL"/>
+                <property ID="0x783635A6" type="file" extensions="PART"/>
                 <struct ID="0x13845A66" template="Structs/AudioPlaybackParms.xml"/>
                 <struct ID="0xA305DCBA" template="Structs/AudioPlaybackParms.xml"/>
                 <struct ID="0xC6EC1630" template="Structs/AudioPlaybackParms.xml"/>
@@ -83,9 +77,9 @@
                 </property>
                 <struct ID="0x5CA612AA" template="Structs/DamageInfo.xml">
                     <properties>
-                        <property ID="0x119FBD31">
-                            <default>11</default>
-                        </property>
+                        <enum ID="0x119FBD31">
+                            <default>0x0000000B</default>
+                        </enum>
                         <property ID="0xF2D02613">
                             <default>50.0</default>
                         </property>
@@ -104,20 +98,14 @@
                     <default>100.0</default>
                 </property>
                 <struct ID="0x7BFAB420" template="Structs/AudioPlaybackParms.xml"/>
-                <property ID="0xC0A86488" type="long">
-                    <default>-1</default>
-                </property>
-                <property ID="0x8DDD85CA" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0xC0A86488" type="file" extensions="CMDL"/>
+                <property ID="0x8DDD85CA" type="file" extensions="CMDL"/>
                 <property ID="0xE3DD61E6" type="float">
                     <default>100.0</default>
                 </property>
                 <struct ID="0x91D2A042" template="Structs/AudioPlaybackParms.xml"/>
                 <struct ID="0x9386D22B" template="Structs/AudioPlaybackParms.xml"/>
-                <property ID="0x5EF8B288" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0x5EF8B288" type="file" extensions="CMDL"/>
                 <struct ID="0x7B5B7312" template="Structs/EchoParameters.xml"/>
                 <property ID="0xA324E26C" type="float">
                     <default>2.0</default>
@@ -140,12 +128,8 @@
                 <property ID="0x3254A16B" type="float">
                     <default>1.0</default>
                 </property>
-                <property ID="0x5796A143" type="long">
-                    <default>-1</default>
-                </property>
-                <property ID="0x3FA7DF1C" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0x5796A143" type="file" extensions="CMDL"/>
+                <property ID="0x3FA7DF1C" type="file" extensions="PART"/>
                 <struct ID="0x021B6F9D" template="Structs/EchoParameters.xml"/>
                 <struct ID="0x55A8011C" template="Structs/AudioPlaybackParms.xml"/>
                 <struct ID="0x7AE73FB3" template="Structs/AudioPlaybackParms.xml"/>
@@ -153,12 +137,8 @@
                 <property ID="0x4F6D27D3" type="float">
                     <default>500.0</default>
                 </property>
-                <property ID="0x71F0C674" type="long">
-                    <default>-1</default>
-                </property>
-                <property ID="0xC8EC315B" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0x71F0C674" type="file" extensions="PART"/>
+                <property ID="0xC8EC315B" type="file" extensions="PART"/>
                 <struct ID="0xEED5B990" template="Structs/AudioPlaybackParms.xml"/>
                 <struct ID="0x535F6FEC" template="Structs/AudioPlaybackParms.xml"/>
                 <struct ID="0x6DBAD233" template="Structs/DamageVulnerability.xml"/>
@@ -188,6 +168,24 @@
             <model source="property">0xC55918CC:0x5EF8B288</model>
             <model source="property">0xC55918CC:0x5796A143</model>
         </assets>
+        <attachments>
+            <attachment propertyID="0xC55918CC:0xBB06DD83" locator="L_front_ankle"/>
+            <attachment propertyID="0xC55918CC:0xBB06DD83" locator="R_front_ankle"/>
+            <attachment propertyID="0xC55918CC:0xBB06DD83" locator="L_back_ankle"/>
+            <attachment propertyID="0xC55918CC:0xBB06DD83" locator="R_back_ankle"/>
+            <attachment propertyID="0xC55918CC:0xC0A86488" locator="L_front_knee_2"/>
+            <attachment propertyID="0xC55918CC:0xC0A86488" locator="R_front_knee_2"/>
+            <attachment propertyID="0xC55918CC:0xC0A86488" locator="L_back_knee_2"/>
+            <attachment propertyID="0xC55918CC:0xC0A86488" locator="R_back_knee_2"/>
+            <attachment propertyID="0xC55918CC:0x8DDD85CA" locator="L_front_knee_2"/>
+            <attachment propertyID="0xC55918CC:0x8DDD85CA" locator="R_front_knee_2"/>
+            <attachment propertyID="0xC55918CC:0x8DDD85CA" locator="L_back_knee_2"/>
+            <attachment propertyID="0xC55918CC:0x8DDD85CA" locator="R_back_knee_2"/>
+            <attachment propertyID="0xC55918CC:0x5EF8B288" locator="L_front_knee_2"/>
+            <attachment propertyID="0xC55918CC:0x5EF8B288" locator="R_front_knee_2"/>
+            <attachment propertyID="0xC55918CC:0x5EF8B288" locator="L_back_knee_2"/>
+            <attachment propertyID="0xC55918CC:0x5EF8B288" locator="R_back_knee_2"/>
+        </attachments>
         <rotation_type>enabled</rotation_type>
         <scale_type>enabled</scale_type>
     </editor>

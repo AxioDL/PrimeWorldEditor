@@ -18,6 +18,7 @@ public:
     inline const CTransform4f& BoneMatrix(u32 BoneID) const     { return mBoneMatrices[BoneID]; }
     inline const void* Data() const                             { return mBoneMatrices.data(); }
     inline u32 DataSize() const                                 { return mBoneMatrices.size() * sizeof(CTransform4f); }
+    inline u32 NumTrackedBones() const                          { return mBoneMatrices.size(); }
     inline CTransform4f& operator[](u32 BoneIndex)              { return BoneMatrix(BoneIndex); }
     inline const CTransform4f& operator[](u32 BoneIndex) const  { return BoneMatrix(BoneIndex); }
 };

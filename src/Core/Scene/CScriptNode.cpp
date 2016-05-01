@@ -40,8 +40,6 @@ CScriptNode::CScriptNode(CScene *pScene, u32 NodeID, CSceneNode *pParent, CScrip
 
         // Determine display assets
         SetDisplayAsset(mpInstance->DisplayAsset());
-        mCharIndex = mpInstance->ActiveCharIndex();
-        mAnimIndex = mpInstance->ActiveAnimIndex();
         mpCollisionNode->SetCollision(mpInstance->Collision());
 
         // Create preview volume node
@@ -62,7 +60,7 @@ CScriptNode::CScriptNode(CScene *pScene, u32 NodeID, CSceneNode *pParent, CScrip
         for (u32 iAttach = 0; iAttach < pTemp->NumAttachments(); iAttach++)
         {
             const SAttachment& rkAttach = pTemp->Attachment(iAttach);
-            CScriptAttachNode *pAttach = new CScriptAttachNode(pScene, rkAttach.AttachProperty, rkAttach.LocatorName, this);
+            CScriptAttachNode *pAttach = new CScriptAttachNode(pScene, rkAttach, this);
             mAttachments.push_back(pAttach);
         }
 
@@ -481,8 +479,6 @@ void CScriptNode::PropertyModified(IProperty *pProp)
     if (pProp->Type() == eCharacterProperty)
     {
         mpInstance->EvaluateDisplayAsset();
-        mCharIndex = mpInstance->ActiveCharIndex();
-        mAnimIndex = mpInstance->ActiveAnimIndex();
         SetDisplayAsset(mpInstance->DisplayAsset());
     }
 
@@ -493,8 +489,6 @@ void CScriptNode::PropertyModified(IProperty *pProp)
         if (pFileTemp->AcceptsExtension("CMDL") || pFileTemp->AcceptsExtension("TXTR") || pFileTemp->AcceptsExtension("ANCS") || pFileTemp->AcceptsExtension("CHAR"))
         {
             mpInstance->EvaluateDisplayAsset();
-            mCharIndex = mpInstance->ActiveCharIndex();
-            mAnimIndex = mpInstance->ActiveAnimIndex();
             SetDisplayAsset(mpInstance->DisplayAsset());
         }
         else if (pFileTemp->AcceptsExtension("DCLN"))
@@ -692,6 +686,13 @@ CSkeleton* CScriptNode::ActiveSkeleton() const
     else return nullptr;
 }
 
+CAnimation* CScriptNode::ActiveAnimation() const
+{
+    CAnimSet *pSet = ActiveAnimSet();
+    if (pSet) return pSet->Animation(mAnimIndex);
+    else return nullptr;
+}
+
 CTexture* CScriptNode::ActiveBillboard() const
 {
     if (mpDisplayAsset && mpDisplayAsset->Type() == eTexture)
@@ -724,7 +725,7 @@ CVector2f CScriptNode::BillboardScale() const
     return Out * 0.5f * Template()->PreviewScale();
 }
 
-CTransform4f CScriptNode::BoneTransform(u32 BoneID, bool Absolute) const
+CTransform4f CScriptNode::BoneTransform(u32 BoneID, EAttachType AttachType, bool Absolute) const
 {
     CTransform4f Out;
     CSkeleton *pSkel = ActiveSkeleton();
@@ -732,6 +733,9 @@ CTransform4f CScriptNode::BoneTransform(u32 BoneID, bool Absolute) const
     if (pSkel)
     {
         CBone *pBone = pSkel->BoneByID(BoneID);
+        ASSERT(pBone);
+
+        if (AttachType == eAttach) Out.Rotate(pBone->Rotation());
         Out.Translate(pBone->Position());
     }
 
@@ -743,19 +747,21 @@ CTransform4f CScriptNode::BoneTransform(u32 BoneID, bool Absolute) const
 // ************ PROTECTED ************
 void CScriptNode::SetDisplayAsset(CResource *pRes)
 {
-    if (mpDisplayAsset != pRes)
-    {
-        mpDisplayAsset = pRes;
-        CModel *pModel = ActiveModel();
-        mLocalAABox = (pModel ? pModel->AABox() : CAABox::skOne);
-        MarkTransformChanged();
+    mpDisplayAsset = pRes;
 
-        for (u32 iAttach = 0; iAttach < mAttachments.size(); iAttach++)
-            mAttachments[iAttach]->ParentDisplayAssetChanged(pRes);
+    bool IsAnimSet = (pRes && pRes->Type() == eAnimSet);
+    mCharIndex = (IsAnimSet ? mpInstance->ActiveCharIndex() : -1);
+    mAnimIndex = (IsAnimSet ? mpInstance->ActiveAnimIndex() : -1);
 
-        if (mpExtra)
-            mpExtra->DisplayAssetChanged(pRes);
-    }
+    CModel *pModel = ActiveModel();
+    mLocalAABox = (pModel ? pModel->AABox() : CAABox::skOne);
+    MarkTransformChanged();
+
+    for (u32 iAttach = 0; iAttach < mAttachments.size(); iAttach++)
+        mAttachments[iAttach]->ParentDisplayAssetChanged(pRes);
+
+    if (mpExtra)
+        mpExtra->DisplayAssetChanged(pRes);
 }
 
 void CScriptNode::CalculateTransform(CTransform4f& rOut) const

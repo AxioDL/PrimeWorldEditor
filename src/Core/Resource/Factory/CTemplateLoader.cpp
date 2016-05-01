@@ -561,6 +561,7 @@ CScriptTemplate* CTemplateLoader::LoadScriptTemplate(XMLDocument *pDoc, const TS
                 SAttachment Attachment;
                 Attachment.AttachProperty = pAttachment->Attribute("propertyID");
                 Attachment.LocatorName = pAttachment->Attribute("locator");
+                Attachment.AttachType = eAttach;
 
                 // Validate property
                 IPropertyTemplate *pProp = pScript->mpBaseStruct->PropertyByIDString(Attachment.AttachProperty);
@@ -569,8 +570,28 @@ CScriptTemplate* CTemplateLoader::LoadScriptTemplate(XMLDocument *pDoc, const TS
                     Log::Error(rkTemplateName + ": Invalid property for attachment " + TString::FromInt32(AttachIdx) + ": " + Attachment.AttachProperty);
                 else if (pProp->Type() != eCharacterProperty && (pProp->Type() != eFileProperty || !static_cast<CFileTemplate*>(pProp)->AcceptsExtension("CMDL")))
                     Log::Error(rkTemplateName + ": Property referred to by attachment " + TString::FromInt32(AttachIdx) + " is not an attachable asset! Must be a file property that accepts CMDLs, or a character property.");
+
                 else
+                {
+                    // Check sub-elements
+                    XMLElement *pParams = pAttachment->FirstChildElement();
+
+                    while (pParams)
+                    {
+                        TString ParamName = pParams->Name();
+
+                        if (ParamName == "attach_type")
+                        {
+                            TString Type = TString(pParams->GetText()).ToLower();
+                            if (Type == "follow") Attachment.AttachType = eFollow;
+                            else if (Type != "attach") Log::Error(rkTemplateName + ": Attachment " + TString::FromInt32(AttachIdx) + " has invalid attach type specified: " + Type);
+                        }
+
+                        pParams = pParams->NextSiblingElement();
+                    }
+
                     pScript->mAttachments.push_back(Attachment);
+                }
 
                 pAttachment = pAttachment->NextSiblingElement("attachment");
             }

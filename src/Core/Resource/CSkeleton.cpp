@@ -2,6 +2,7 @@
 #include "Core/Render/CBoneTransformData.h"
 #include "Core/Render/CDrawUtil.h"
 #include "Core/Render/CGraphics.h"
+#include <Common/Assert.h>
 #include <Math/MathUtil.h>
 
 // ************ CBone ************
@@ -42,6 +43,11 @@ void CBone::UpdateTransform(CBoneTransformData& rData, const SBoneTransformInfo&
 CVector3f CBone::TransformedPosition(const CBoneTransformData& rkData) const
 {
     return rkData[mID] * Position();
+}
+
+CQuaternion CBone::TransformedRotation(const CBoneTransformData &rkData) const
+{
+    return rkData[mID] * Rotation();
 }
 
 bool CBone::IsRoot() const
@@ -103,33 +109,41 @@ u32 CSkeleton::MaxBoneID() const
 
 void CSkeleton::UpdateTransform(CBoneTransformData& rData, CAnimation *pAnim, float Time, bool AnchorRoot)
 {
+    ASSERT(rData.NumTrackedBones() >= MaxBoneID());
     mpRootBone->UpdateTransform(rData, SBoneTransformInfo(), pAnim, Time, AnchorRoot);
 }
 
-void CSkeleton::Draw(FRenderOptions /*Options*/, const CBoneTransformData& rkData)
+void CSkeleton::Draw(FRenderOptions /*Options*/, const CBoneTransformData *pkData)
 {
+    // Draw all child links first to minimize model matrix swaps.
     for (u32 iBone = 0; iBone < mBones.size(); iBone++)
     {
         CBone *pBone = mBones[iBone];
-        CVector3f BonePos = pBone->TransformedPosition(rkData);
+        CVector3f BonePos = pkData ? pBone->TransformedPosition(*pkData) : pBone->Position();
 
-        // Draw bone
+        // Draw child links
+        for (u32 iChild = 0; iChild < pBone->NumChildren(); iChild++)
+        {
+            CBone *pChild = pBone->ChildByIndex(iChild);
+            CVector3f ChildPos = pkData ? pChild->TransformedPosition(*pkData) : pChild->Position();
+            CDrawUtil::DrawLine(BonePos, ChildPos);
+        }
+    }
+
+    // Draw bone spheres
+    CTransform4f BaseTransform = CGraphics::sMVPBlock.ModelMatrix;
+
+    for (u32 iBone = 0; iBone < mBones.size(); iBone++)
+    {
+        CBone *pBone = mBones[iBone];
+        CVector3f BonePos = pkData ? pBone->TransformedPosition(*pkData) : pBone->Position();
+
         CTransform4f Transform;
         Transform.Scale(skSphereRadius);
         Transform.Translate(BonePos);
-        CGraphics::sMVPBlock.ModelMatrix = Transform;
+        CGraphics::sMVPBlock.ModelMatrix = Transform * BaseTransform;
         CGraphics::UpdateMVPBlock();
         CDrawUtil::DrawSphere(CColor::skWhite);
-
-        // Draw child links
-        CGraphics::sMVPBlock.ModelMatrix = CMatrix4f::skIdentity;
-        CGraphics::UpdateMVPBlock();
-
-        for (u32 iChild = 0; iChild < pBone->NumChildren(); iChild++)
-        {
-            CVector3f ChildPos = pBone->ChildByIndex(iChild)->TransformedPosition(rkData);
-            CDrawUtil::DrawLine(BonePos, ChildPos);
-        }
     }
 }
 

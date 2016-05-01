@@ -13,13 +13,19 @@
 #include <vector>
 
 class CScriptObject;
-
 typedef TString TIDString;
+
+enum EAttachType
+{
+    eAttach,
+    eFollow
+};
 
 struct SAttachment
 {
     TIDString AttachProperty; // Must point to a CMDL!
     TString LocatorName;
+    EAttachType AttachType;
 };
 
 /*

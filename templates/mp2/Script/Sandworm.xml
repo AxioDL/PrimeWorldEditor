@@ -50,21 +50,15 @@
         <property ID="0x8128CE4A" type="long">
             <default>-1</default>
         </property>
-        <property ID="0x66E34A08" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x5F3F29E3" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x66E34A08" type="file" extensions="CMDL"/>
+        <property ID="0x5F3F29E3" type="file" extensions="CMDL"/>
         <property ID="0x63DCBBB6" type="float">
             <default>9.0</default>
         </property>
         <property ID="0x2393C3C0" type="float">
             <default>25.0</default>
         </property>
-        <property ID="0xF9469E49" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xF9469E49" type="file" extensions="PART"/>
         <property ID="0x61F75902" type="float">
             <default>60.0</default>
         </property>
@@ -77,9 +71,9 @@
         <property ID="0xEF485DB9" type="file" extensions="WPSC"/>
         <struct ID="0x553B1339" template="Structs/DamageInfo.xml">
             <properties>
-                <property ID="0x119FBD31">
-                    <default>11</default>
-                </property>
+                <enum ID="0x119FBD31">
+                    <default>0x0000000B</default>
+                </enum>
                 <property ID="0xF2D02613">
                     <default>5.0</default>
                 </property>
@@ -105,9 +99,9 @@
         </property>
         <struct ID="0xF8FD6885" template="Structs/DamageInfo.xml">
             <properties>
-                <property ID="0x119FBD31">
-                    <default>11</default>
-                </property>
+                <enum ID="0x119FBD31">
+                    <default>0x0000000B</default>
+                </enum>
                 <property ID="0xF2D02613">
                     <default>5.0</default>
                 </property>
@@ -115,9 +109,9 @@
         </struct>
         <struct ID="0x449233BC" template="Structs/DamageInfo.xml">
             <properties>
-                <property ID="0x119FBD31">
-                    <default>11</default>
-                </property>
+                <enum ID="0x119FBD31">
+                    <default>0x0000000B</default>
+                </enum>
                 <property ID="0xF2D02613">
                     <default>5.0</default>
                 </property>
@@ -158,9 +152,9 @@
         </property>
         <struct ID="0x4461A8AD" template="Structs/DamageInfo.xml">
             <properties>
-                <property ID="0x119FBD31">
-                    <default>11</default>
-                </property>
+                <enum ID="0x119FBD31">
+                    <default>0x0000000B</default>
+                </enum>
                 <property ID="0xF2D02613">
                     <default>5.0</default>
                 </property>
@@ -207,6 +201,20 @@
             <model source="property">0x5F3F29E3</model>
             <model source="property">0xE61748ED:0xAD54DA11</model>
         </assets>
+        <attachments>
+            <attachment propertyID="0x66E34A08" locator="L_front_claw">
+                <attach_type>follow</attach_type>
+            </attachment>
+            <attachment propertyID="0x5F3F29E3" locator="R_front_claw">
+                <attach_type>follow</attach_type>
+            </attachment>
+            <attachment propertyID="0x5F3F29E3" locator="L_back_claw">
+                <attach_type>follow</attach_type>
+            </attachment>
+            <attachment propertyID="0x66E34A08" locator="R_back_claw">
+                <attach_type>follow</attach_type>
+            </attachment>
+        </attachments>
         <rotation_type>enabled</rotation_type>
         <scale_type>enabled</scale_type>
     </editor>

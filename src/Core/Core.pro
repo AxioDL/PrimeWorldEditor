@@ -195,7 +195,8 @@ HEADERS += \
     Resource/CSkin.h \
     Resource/Factory/CSkinLoader.h \
     Render/EDepthGroup.h \
-    Scene/CScriptAttachNode.h
+    Scene/CScriptAttachNode.h \
+    ScriptExtra/CSandwormExtra.h
 
 # Source Files
 SOURCES += \
@@ -281,4 +282,5 @@ SOURCES += \
     Resource/Factory/CAnimationLoader.cpp \
     Resource/Factory/CSkinLoader.cpp \
     Resource/Model/EVertexAttribute.cpp \
-    Scene/CScriptAttachNode.cpp
+    Scene/CScriptAttachNode.cpp \
+    ScriptExtra/CSandwormExtra.cpp

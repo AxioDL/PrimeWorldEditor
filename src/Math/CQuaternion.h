@@ -25,6 +25,8 @@ public:
     CVector3f operator*(const CVector3f& rkVec) const;
     CQuaternion operator*(const CQuaternion& rkOther) const;
     void operator *= (const CQuaternion& rkOther);
+    CQuaternion operator*(const CMatrix4f& rkMtx) const;
+    void operator *= (const CMatrix4f& rkMtx);
 
     // Static
     static CQuaternion FromEuler(CVector3f Euler);

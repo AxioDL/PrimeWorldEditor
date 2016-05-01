@@ -3,6 +3,7 @@
 
 #include <glm.hpp>
 
+class CQuaternion;
 class CVector3f;
 class CVector4f;
 class CTransform4f;
@@ -40,6 +41,7 @@ public:
     inline const float* operator[](long Index) const;
     CVector3f operator*(const CVector3f& rkVec) const;
     CVector4f operator*(const CVector4f& rkVec) const;
+    CQuaternion operator*(const CQuaternion& rkQuat) const;
     CMatrix4f operator*(const CTransform4f& rkMtx) const;
     CMatrix4f operator*(const CMatrix4f& rkMtx) const;
 

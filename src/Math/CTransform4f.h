@@ -52,6 +52,7 @@ public:
     const float* operator[](long Index) const;
     CVector3f operator*(const CVector3f& rkVec) const;
     CVector4f operator*(const CVector4f& rkVec) const;
+    CQuaternion operator*(const CQuaternion& rkQuat) const;
     CTransform4f operator*(const CTransform4f& rkMtx) const;
     void operator*=(const CTransform4f& rkMtx);
     bool operator==(const CTransform4f& rkMtx) const;

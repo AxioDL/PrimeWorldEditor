@@ -40,7 +40,7 @@ public:
     CBone* BoneByName(const TString& rkBoneName) const;
     u32 MaxBoneID() const;
 
-    void Draw(FRenderOptions Options, const CBoneTransformData& rkData);
+    void Draw(FRenderOptions Options, const CBoneTransformData *pkData);
     std::pair<s32,float> RayIntersect(const CRay& rkRay, const CBoneTransformData& rkData);
 
     inline u32 NumBones() const     { return mBones.size(); }
@@ -66,6 +66,7 @@ public:
     CBone(CSkeleton *pSkel);
     void UpdateTransform(CBoneTransformData& rData, const SBoneTransformInfo& rkParentTransform, CAnimation *pAnim, float Time, bool AnchorRoot);
     CVector3f TransformedPosition(const CBoneTransformData& rkData) const;
+    CQuaternion TransformedRotation(const CBoneTransformData& rkData) const;
     bool IsRoot() const;
 
     // Accessors
