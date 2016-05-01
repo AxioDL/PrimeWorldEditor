@@ -43,6 +43,12 @@ CVector3f CQuaternion::ZAxis() const
     return (*this * CVector3f::skUnitZ);
 }
 
+CQuaternion CQuaternion::Normalized() const
+{
+    float Norm = Math::Sqrt( (W * W) + (X * X) + (Y * Y) + (Z * Z) );
+    return CQuaternion(W/Norm, X/Norm, Y/Norm, Z/Norm);
+}
+
 CQuaternion CQuaternion::Inverse() const
 {
     float Norm = (W * W) + (X * X) + (Y * Y) + (Z * Z);
@@ -56,13 +62,24 @@ CQuaternion CQuaternion::Inverse() const
         return CQuaternion::skZero;
 }
 
+CQuaternion CQuaternion::Lerp(const CQuaternion& rkRight, float t) const
+{
+    CQuaternion Out( Math::Lerp<float>(W, rkRight.W, t), Math::Lerp<float>(X, rkRight.X, t),
+                     Math::Lerp<float>(Y, rkRight.Y, t), Math::Lerp<float>(Z, rkRight.Z, t) );
+
+    return Out.Normalized();
+}
+
 CQuaternion CQuaternion::Slerp(const CQuaternion& rkRight, float t) const
 {
     // http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/slerp/
     float CosHalfTheta = (W * rkRight.W) + (X * rkRight.X) + (Y * rkRight.Y) + (Z * rkRight.Z);
 
     if (Math::Abs(CosHalfTheta) >= 1.f)
-        return *this;
+    {
+        // Fall back on lerp in this situation.
+        return Lerp(rkRight, t);
+    }
 
     float ScalarA, ScalarB;
     float SinHalfTheta = Math::Sqrt(1.f - (CosHalfTheta * CosHalfTheta));

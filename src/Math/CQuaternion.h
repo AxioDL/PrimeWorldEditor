@@ -15,7 +15,9 @@ public:
     CVector3f XAxis() const;
     CVector3f YAxis() const;
     CVector3f ZAxis() const;
+    CQuaternion Normalized() const;
     CQuaternion Inverse() const;
+    CQuaternion Lerp(const CQuaternion& rkRight, float t) const;
     CQuaternion Slerp(const CQuaternion& rkRight, float t) const;
     CVector3f ToEuler() const;
 
