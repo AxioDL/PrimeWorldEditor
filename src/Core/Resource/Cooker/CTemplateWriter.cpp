@@ -323,6 +323,14 @@ void CTemplateWriter::SaveScriptTemplate(CScriptTemplate *pTemp)
             pAttachment->SetAttribute("propertyID", *it->AttachProperty);
             pAttachment->SetAttribute("locator", *it->LocatorName);
             pAttachments->LinkEndChild(pAttachment);
+
+            // Sub-properties
+            if (it->AttachType != eAttach)
+            {
+                XMLElement *pAttachType = ScriptXML.NewElement("attach_type");
+                pAttachType->SetText("follow");
+                pAttachment->LinkEndChild(pAttachType);
+            }
         }
     }
 

@@ -144,6 +144,17 @@ void CQuaternion::operator *= (const CQuaternion& rkOther)
     *this = *this * rkOther;
 }
 
+CQuaternion CQuaternion::operator*(const CMatrix4f& rkMtx) const
+{
+    // todo: there's probably a faster way to do this. (mirrored in CMatrix4f and CTransform4f)
+    return *this * CQuaternion::FromRotationMatrix(rkMtx.Inverse().Transpose());
+}
+
+void CQuaternion::operator *= (const CMatrix4f& rkMtx)
+{
+    *this = *this * rkMtx;
+}
+
 // ************ STATIC ************
 CQuaternion CQuaternion::FromEuler(CVector3f Euler)
 {

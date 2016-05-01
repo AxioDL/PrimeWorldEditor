@@ -332,7 +332,7 @@
     <property ID="0x07BB06A6" name="Unknown"/>
     <property ID="0x07C1DE29" name="Unknown"/>
     <property ID="0x07D194AF" name="OffsetPosition"/>
-    <property ID="0x07D8CC4F" name="Unknown"/>
+    <property ID="0x07D8CC4F" name="Head Armor Model"/>
     <property ID="0x07D939A1" name="Unknown"/>
     <property ID="0x07DCD404" name="Unknown"/>
     <property ID="0x07E9D446" name="Unknown"/>
@@ -1866,7 +1866,7 @@
     <property ID="0x2A90F9A9" name="Unknown"/>
     <property ID="0x2A9A1751" name="Unknown"/>
     <property ID="0x2AA48723" name="Unknown"/>
-    <property ID="0x2AA63FC4" name="Unknown"/>
+    <property ID="0x2AA63FC4" name="SCAN"/>
     <property ID="0x2AAB8DDA" name="Unknown"/>
     <property ID="0x2AACEC2F" name="Unknown"/>
     <property ID="0x2AAE6322" name="Unknown"/>
@@ -2364,7 +2364,7 @@
     <property ID="0x3595D977" name="Unknown"/>
     <property ID="0x359B8513" name="Unknown"/>
     <property ID="0x359C7AAF" name="ControllerActionStruct"/>
-    <property ID="0x35A1EC10" name="Unknown"/>
+    <property ID="0x35A1EC10" name="Spine Armor Model 5"/>
     <property ID="0x35A88FA1" name="Unknown"/>
     <property ID="0x35A93DD5" name="TXTR"/>
     <property ID="0x35A9792E" name="Possessed Scan"/>
@@ -2460,7 +2460,7 @@
     <property ID="0x37DFFBFD" name="Unknown"/>
     <property ID="0x37E381C2" name="Unknown"/>
     <property ID="0x37E62F14" name="Unknown"/>
-    <property ID="0x37E99C23" name="Unknown"/>
+    <property ID="0x37E99C23" name="Tail Armor Model"/>
     <property ID="0x37E9D29B" name="Unknown"/>
     <property ID="0x37ED6EBB" name="DamageInfo"/>
     <property ID="0x37F04700" name="Unknown"/>
@@ -2734,7 +2734,7 @@
     <property ID="0x3DAF5302" name="Unknown"/>
     <property ID="0x3DB05763" name="Unknown"/>
     <property ID="0x3DB45F6A" name="Unknown"/>
-    <property ID="0x3DB583AE" name="Unknown"/>
+    <property ID="0x3DB583AE" name="Pincers Scale"/>
     <property ID="0x3DBA2F5C" name="CAUD"/>
     <property ID="0x3DC0F2BE" name="Unknown"/>
     <property ID="0x3DC3F16F" name="Unknown"/>
@@ -2812,7 +2812,7 @@
     <property ID="0x3FA164BC" name="Item"/>
     <property ID="0x3FA5C15B" name="SwarmBotData"/>
     <property ID="0x3FA67145" name="Unknown"/>
-    <property ID="0x3FA7DF1C" name="Unknown"/>
+    <property ID="0x3FA7DF1C" name="PART"/>
     <property ID="0x3FA80592" name="Unknown"/>
     <property ID="0x3FA8C740" name="Unknown"/>
     <property ID="0x3FAE47EB" name="Leash Radius"/>
@@ -3923,7 +3923,7 @@
     <property ID="0x576D9946" name="UnknownStruct25"/>
     <property ID="0x577D0617" name="Unknown"/>
     <property ID="0x5783E404" name="Unknown"/>
-    <property ID="0x5796A143" name="Unknown"/>
+    <property ID="0x5796A143" name="Antenna Model"/>
     <property ID="0x579ED88F" name="Unknown"/>
     <property ID="0x57A46C09" name="Unknown"/>
     <property ID="0x57A4DFF2" name="Ice Missile"/>
@@ -4243,7 +4243,7 @@
     <property ID="0x5EE2DB4B" name="STRG"/>
     <property ID="0x5EE57BCC" name="Unknown"/>
     <property ID="0x5EEB7F9D" name="STRG"/>
-    <property ID="0x5EF8B288" name="Unknown"/>
+    <property ID="0x5EF8B288" name="Knee Armor Model"/>
     <property ID="0x5F0471F3" name="Unknown"/>
     <property ID="0x5F058F67" name="Unknown"/>
     <property ID="0x5F11893B" name="DamageInfo"/>
@@ -4254,7 +4254,7 @@
     <property ID="0x5F362A14" name="Unknown"/>
     <property ID="0x5F3C27C6" name="DamageInfo"/>
     <property ID="0x5F3F294C" name="Unknown"/>
-    <property ID="0x5F3F29E3" name="Unknown"/>
+    <property ID="0x5F3F29E3" name="Right Pincer Model"/>
     <property ID="0x5F3FFFD6" name="Unknown"/>
     <property ID="0x5F55CCCA" name="Unknown"/>
     <property ID="0x5F63868C" name="Unknown"/>
@@ -4508,7 +4508,7 @@
     <property ID="0x6549E3F9" name="UnknownStruct28"/>
     <property ID="0x6551FC4A" name="Unknown"/>
     <property ID="0x6552BCC0" name="Unknown"/>
-    <property ID="0x656C7DA3" name="Unknown"/>
+    <property ID="0x656C7DA3" name="Spine Armor Model 2"/>
     <property ID="0x65700CCC" name="Unknown"/>
     <property ID="0x657327CD" name="Unknown"/>
     <property ID="0x6575A3D5" name="Unknown"/>
@@ -4575,7 +4575,7 @@
     <property ID="0x66CDC6E8" name="Unknown"/>
     <property ID="0x66D466B5" name="PART"/>
     <property ID="0x66DCAACB" name="DamageInfo"/>
-    <property ID="0x66E34A08" name="Unknown"/>
+    <property ID="0x66E34A08" name="Left Pincer Model"/>
     <property ID="0x66E48B1E" name="Unknown"/>
     <property ID="0x66E64EBA" name="Unknown"/>
     <property ID="0x66F4C4E4" name="OceanBridgeStructA"/>
@@ -5081,7 +5081,7 @@
     <property ID="0x71EAB030" name="Unknown"/>
     <property ID="0x71ED4B23" name="Unknown"/>
     <property ID="0x71EFFFC4" name="Unknown"/>
-    <property ID="0x71F0C674" name="Unknown"/>
+    <property ID="0x71F0C674" name="PART"/>
     <property ID="0x71F8B8F4" name="Unknown"/>
     <property ID="0x72124842" name="Unknown"/>
     <property ID="0x72173369" name="Unknown"/>
@@ -5340,7 +5340,7 @@
     <property ID="0x781CC1E9" name="Unknown"/>
     <property ID="0x782A0310" name="Unknown"/>
     <property ID="0x78306501" name="Unknown"/>
-    <property ID="0x783635A6" name="Unknown"/>
+    <property ID="0x783635A6" name="PART"/>
     <property ID="0x783B382F" name="Unknown"/>
     <property ID="0x783E852F" name="TrainTrackManagerStructB"/>
     <property ID="0x784625BD" name="Hyper Ball"/>
@@ -5356,7 +5356,7 @@
     <property ID="0x78656D1E" name="Unknown"/>
     <property ID="0x78673AB6" name="Unknown"/>
     <property ID="0x78685EB2" name="PART"/>
-    <property ID="0x78694D1B" name="Unknown"/>
+    <property ID="0x78694D1B" name="Spine Armor Model 3"/>
     <property ID="0x7869A2B0" name="Unknown"/>
     <property ID="0x7873EFD9" name="Unknown"/>
     <property ID="0x78755DA3" name="Unknown"/>
@@ -6317,7 +6317,7 @@
     <property ID="0x8DCF0226" name="Unknown"/>
     <property ID="0x8DD2C329" name="Unknown"/>
     <property ID="0x8DD4E38A" name="Unknown"/>
-    <property ID="0x8DDD85CA" name="Unknown"/>
+    <property ID="0x8DDD85CA" name="Shin Armor Model"/>
     <property ID="0x8DE5D7B2" name="Unknown"/>
     <property ID="0x8DF64D50" name="Unknown"/>
     <property ID="0x8DFB1669" name="Unknown"/>
@@ -7750,7 +7750,7 @@
     <property ID="0xAE22E0DC" name="DamageVulnerability"/>
     <property ID="0xAE27B368" name="HyperModeData"/>
     <property ID="0xAE27F052" name="Unknown"/>
-    <property ID="0xAE30AE06" name="Unknown"/>
+    <property ID="0xAE30AE06" name="Spine Armor Model 1"/>
     <property ID="0xAE342F0F" name="DamageEffectData"/>
     <property ID="0xAE41EED1" name="Unknown"/>
     <property ID="0xAE46D80E" name="Unknown"/>
@@ -7978,7 +7978,7 @@
     <property ID="0xB327E803" name="FlyingPirateData"/>
     <property ID="0xB32D1B19" name="PuddleControlData"/>
     <property ID="0xB3343F83" name="CMDL"/>
-    <property ID="0xB3359EBE" name="Unknown"/>
+    <property ID="0xB3359EBE" name="Spine Armor Model 4"/>
     <property ID="0xB335DB07" name="Unknown"/>
     <property ID="0xB33A0CBC" name="Unknown"/>
     <property ID="0xB33EB533" name="HealthInfo"/>
@@ -8320,7 +8320,7 @@
     <property ID="0xBAE5EABB" name="Unknown"/>
     <property ID="0xBAE63352" name="Unknown"/>
     <property ID="0xBAF37BAA" name="SeedBoss1Action"/>
-    <property ID="0xBB06DD83" name="Unknown"/>
+    <property ID="0xBB06DD83" name="Foot Weak Point Model"/>
     <property ID="0xBB0897EA" name="Unknown"/>
     <property ID="0xBB0E924C" name="Unknown"/>
     <property ID="0xBB0EE668" name="Unknown"/>
@@ -8581,7 +8581,7 @@
     <property ID="0xC07FA9BE" name="Unknown"/>
     <property ID="0xC08D1B93" name="Unknown"/>
     <property ID="0xC08E06AC" name="Unknown"/>
-    <property ID="0xC0A86488" name="Unknown"/>
+    <property ID="0xC0A86488" name="Leg Model"/>
     <property ID="0xC0AC271E" name="Unknown"/>
     <property ID="0xC0BA9E18" name="Dark Visor Model"/>
     <property ID="0xC0BD8A5E" name="Unknown"/>
@@ -8795,7 +8795,7 @@
     <property ID="0xC5528A8D" name="DamageInfo"/>
     <property ID="0xC55566DB" name="Unknown"/>
     <property ID="0xC558BC0D" name="FlyerMovementMode"/>
-    <property ID="0xC55918CC" name="Unknown"/>
+    <property ID="0xC55918CC" name="DigitalGuardianData"/>
     <property ID="0xC571A8C6" name="Unknown"/>
     <property ID="0xC578CA0D" name="Unknown"/>
     <property ID="0xC5868061" name="Unknown"/>
@@ -8964,7 +8964,7 @@
     <property ID="0xC8E441FA" name="TextProperties"/>
     <property ID="0xC8E8344A" name="Unknown"/>
     <property ID="0xC8E90B50" name="KorakkData"/>
-    <property ID="0xC8EC315B" name="Unknown"/>
+    <property ID="0xC8EC315B" name="PART"/>
     <property ID="0xC8ED17F6" name="Unknown"/>
     <property ID="0xC8FC49D0" name="Unknown"/>
     <property ID="0xC8FD4813" name="Unknown"/>
@@ -11170,7 +11170,7 @@
     <property ID="0xF9125D7E" name="Unknown"/>
     <property ID="0xF9328817" name="CAUD"/>
     <property ID="0xF9338CC7" name="Unknown"/>
-    <property ID="0xF9469E49" name="Unknown"/>
+    <property ID="0xF9469E49" name="PART"/>
     <property ID="0xF9529B46" name="Unknown"/>
     <property ID="0xF95D2033" name="CAUD"/>
     <property ID="0xF9656C39" name="Unknown"/>
@@ -11449,7 +11449,7 @@
     <property ID="0xFEF3D2DA" name="Unknown"/>
     <property ID="0xFEF5668B" name="Unknown"/>
     <property ID="0xFEF7F81D" name="Unknown"/>
-    <property ID="0xFEFD3FB5" name="Unknown"/>
+    <property ID="0xFEFD3FB5" name="Spine Armor Model 6"/>
     <property ID="0xFEFD7F33" name="Unknown"/>
     <property ID="0xFEFE4C34" name="Unknown"/>
     <property ID="0xFEFF7D43" name="Unknown"/>

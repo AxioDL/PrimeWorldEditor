@@ -59,15 +59,18 @@ public:
     bool HasPreviewVolume() const;
     CAABox PreviewVolumeAABox() const;
     CVector2f BillboardScale() const;
-    CTransform4f BoneTransform(u32 BoneID, bool Absolute) const;
+    CTransform4f BoneTransform(u32 BoneID, EAttachType AttachType, bool Absolute) const;
 
     CModel* ActiveModel() const;
     CAnimSet* ActiveAnimSet() const;
     CSkeleton* ActiveSkeleton() const;
+    CAnimation* ActiveAnimation() const;
     CTexture* ActiveBillboard() const;
     bool UsesModel() const;
 
-    inline CResource* DisplayAsset() const { return mpDisplayAsset; }
+    inline u32 NumAttachments() const                       { return mAttachments.size(); }
+    inline CScriptAttachNode* Attachment(u32 Index) const   { return mAttachments[Index]; }
+    inline CResource* DisplayAsset() const                  { return mpDisplayAsset; }
 
 protected:
     void SetDisplayAsset(CResource *pRes);

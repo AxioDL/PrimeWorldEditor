@@ -1,4 +1,5 @@
 #include "CMatrix4f.h"
+#include "CQuaternion.h"
 #include "CVector3f.h"
 #include "CVector4f.h"
 #include "CTransform4f.h"
@@ -182,6 +183,12 @@ CVector4f CMatrix4f::operator*(const CVector4f& rkVec) const
     out.Z = (m[2][0] * rkVec.X) + (m[2][1] * rkVec.Y) + (m[2][2] * rkVec.Z) + (m[2][3] * rkVec.W);
     out.W = (m[3][0] * rkVec.X) + (m[3][1] * rkVec.Y) + (m[3][2] * rkVec.Z) + (m[3][3] * rkVec.W);
     return out;
+}
+
+CQuaternion CMatrix4f::operator*(const CQuaternion& rkQuat) const
+{
+    // todo: there's probably a faster way to do this. (mirrored in CTransform4f and CQuaternion)
+    return CQuaternion::FromRotationMatrix(Inverse().Transpose()) * rkQuat;
 }
 
 CMatrix4f CMatrix4f::operator*(const CTransform4f& rkMtx) const

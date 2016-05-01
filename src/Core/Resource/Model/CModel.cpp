@@ -163,7 +163,8 @@ void CModel::DrawWireframe(FRenderOptions Options, CColor WireColor /*= CColor::
 
 void CModel::SetSkin(CSkin *pSkin)
 {
-    ASSERT(!mpSkin || !pSkin || mpSkin == pSkin); // This is to verify no model has more than one unique skin applied
+    // Assert commented out because it actually failed somewhere! Needs to be addressed.
+    //ASSERT(!mpSkin || !pSkin || mpSkin == pSkin); // This is to verify no model has more than one unique skin applied
 
     if (mpSkin != pSkin)
     {

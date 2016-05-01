@@ -4,13 +4,14 @@
 #include "Core/Resource/Script/IProperty.h"
 #include <Common/Assert.h>
 
-CScriptAttachNode::CScriptAttachNode(CScene *pScene, const TIDString& rkAttachProperty, const TString& rkLocator, CScriptNode *pParent)
+CScriptAttachNode::CScriptAttachNode(CScene *pScene, const SAttachment& rkAttachment, CScriptNode *pParent)
     : CSceneNode(pScene, -1, pParent)
     , mpScriptNode(pParent)
-    , mLocatorName(rkLocator)
+    , mAttachType(rkAttachment.AttachType)
+    , mLocatorName(rkAttachment.LocatorName)
 {
     CPropertyStruct *pBaseStruct = pParent->Instance()->Properties();
-    mpAttachAssetProp = pBaseStruct->PropertyByIDString(rkAttachProperty);
+    mpAttachAssetProp = pBaseStruct->PropertyByIDString(rkAttachment.AttachProperty);
     if (mpAttachAssetProp) AttachPropertyModified();
 
     ParentDisplayAssetChanged(mpScriptNode->DisplayAsset());
@@ -150,8 +151,16 @@ SRayIntersection CScriptAttachNode::RayNodeIntersectTest(const CRay& rkRay, u32 
 // ************ PROTECTED ************
 void CScriptAttachNode::CalculateTransform(CTransform4f& rOut) const
 {
-    if (mpLocator)
-        rOut = mpScriptNode->BoneTransform(mpLocator->ID(), false);
+    // Apply our local transform
+    rOut.Scale(LocalScale());
+    rOut.Rotate(LocalRotation());
+    rOut.Translate(LocalPosition());
 
-    CSceneNode::CalculateTransform(rOut);
+    // Apply bone transform
+    if (mpLocator)
+        rOut = mpScriptNode->BoneTransform(mpLocator->ID(), mAttachType, false) * rOut;
+
+    // Apply parent transform
+    if (mpParent)
+        rOut = mpParent->Transform() * rOut;
 }

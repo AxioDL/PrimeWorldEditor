@@ -22,7 +22,7 @@
         <property ID="0x11" name="AnimationParameters" type="character"/>
         <property ID="0x12" name="Particle 2" type="file" extensions="PART"/>
         <property ID="0x13" name="Sound ID 2" type="long"/>
-        <property ID="0x14" name="Model 1" type="file" extensions="CMDL"/>
+        <property ID="0x14" name="Grenade Model" type="file" extensions="CMDL"/>
         <struct ID="0x15" name="DamageInfo 1" template="Structs/DamageInfo.xml"/>
         <property ID="0x16" name="Unknown 9" type="float"/>
         <property ID="0x17" name="Particle 3" type="file" extensions="PART"/>
@@ -44,9 +44,9 @@
         <property ID="0x27" name="Sound ID 5" type="long"/>
         <property ID="0x28" name="Unknown 17" type="bool"/>
         <property ID="0x29" name="Unknown 18" type="bool"/>
-        <property ID="0x2A" name="Model 2" type="file" extensions="CMDL"/>
-        <property ID="0x2B" name="CSKR" type="file" extensions="CSKR"/>
-        <property ID="0x2C" name="CINF" type="file" extensions="CINF"/>
+        <property ID="0x2A" name="X-Ray Model" type="file" extensions="CMDL"/>
+        <property ID="0x2B" name="X-Ray CSKR" type="file" extensions="CSKR"/>
+        <property ID="0x2C" name="X-Ray CINF" type="file" extensions="CINF"/>
     </properties>
     <states/>
     <messages/>

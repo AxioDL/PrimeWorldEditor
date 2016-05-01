@@ -57,7 +57,7 @@ void CCharacterNode::Draw(FRenderOptions Options, int ComponentIndex, const SVie
     // Draw skeleton
     if (ComponentIndex == -2)
     {
-        pSkel->Draw(Options, mTransformData);
+        pSkel->Draw(Options, &mTransformData);
     }
 
     // Draw mesh
