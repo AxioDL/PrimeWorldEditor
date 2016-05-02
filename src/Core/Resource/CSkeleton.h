@@ -61,6 +61,7 @@ class CBone
     CQuaternion mLocalRotation;
     TString mName;
     CTransform4f mInvBind;
+    bool mSelected;
 
 public:
     CBone(CSkeleton *pSkel);
@@ -80,6 +81,9 @@ public:
     inline CQuaternion Rotation() const                 { return mRotation; }
     inline CQuaternion LocalRotation() const            { return mLocalRotation; }
     inline TString Name() const                         { return mName; }
+    inline bool IsSelected() const                      { return mSelected; }
+
+    inline void SetSelected(bool Selected)              { mSelected = Selected; }
 };
 
 #endif // CSKELETON_H

@@ -76,6 +76,27 @@ QVariant CSkeletonHierarchyModel::data(const QModelIndex& rkIndex, int Role) con
     return QVariant::Invalid;
 }
 
+CBone* CSkeletonHierarchyModel::BoneForIndex(const QModelIndex& rkIndex) const
+{
+    return (CBone*) (rkIndex.internalPointer());
+}
+
+QModelIndex CSkeletonHierarchyModel::IndexForBone(CBone *pBone) const
+{
+    CBone *pParent = pBone->Parent();
+    if (!pParent) return index(0, 0, QModelIndex());
+
+    QModelIndex ParentIndex = IndexForBone(pParent);
+
+    for (u32 iChild = 0; iChild < pParent->NumChildren(); iChild++)
+    {
+       if (pParent->ChildByIndex(iChild) == pBone)
+           return index(iChild, 0, ParentIndex);
+    }
+
+    return QModelIndex();
+}
+
 void CSkeletonHierarchyModel::SetSkeleton(CSkeleton *pSkel)
 {
     if (mpSkeleton != pSkel)

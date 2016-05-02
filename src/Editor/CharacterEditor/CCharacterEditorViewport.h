@@ -21,9 +21,13 @@ public:
     void CheckUserInput();
     void Paint();
     void OnResize();
+    void OnMouseClick(QMouseEvent *pEvent);
+
+    inline u32 HoverBoneID() const  { return mHoverBone; }
 
 signals:
     void HoverBoneChanged(u32 BoneID);
+    void ViewportClick(QMouseEvent *pEvent);
 };
 
 #endif // CCHARACTEREDITORVIEWPORT_H

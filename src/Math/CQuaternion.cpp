@@ -5,7 +5,7 @@
 #include <math.h>
 
 CQuaternion::CQuaternion()
-    : W(0.f)
+    : W(1.f)
     , X(0.f)
     , Y(0.f)
     , Z(0.f)

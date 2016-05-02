@@ -1,6 +1,7 @@
 #include "CCharacterEditor.h"
 #include "ui_CCharacterEditor.h"
 #include "Editor/UICommon.h"
+#include <Common/Assert.h>
 #include <Math/MathUtil.h>
 #include <QFileDialog>
 #include <QTreeView>
@@ -10,6 +11,7 @@ CCharacterEditor::CCharacterEditor(QWidget *parent)
     , ui(new Ui::CCharacterEditor)
     , mpScene(new CScene())
     , mpCharNode(new CCharacterNode(mpScene, -1))
+    , mpSelectedBone(nullptr)
     , mAnimTime(0.f)
     , mPlayAnim(true)
     , mLoopAnim(true)
@@ -38,7 +40,8 @@ CCharacterEditor::CCharacterEditor(QWidget *parent)
     connect(&mRefreshTimer, SIGNAL(timeout()), this, SLOT(RefreshViewport()));
     mRefreshTimer.start(0);
 
-    connect(ui->Viewport, SIGNAL(HoverBoneChanged(u32)), this, SLOT(HoverBoneChanged(u32)));
+    connect(ui->Viewport, SIGNAL(HoverBoneChanged(u32)), this, SLOT(OnViewportHoverBoneChanged(u32)));
+    connect(ui->Viewport, SIGNAL(ViewportClick(QMouseEvent*)), this, SLOT(OnViewportClick()));
     connect(ui->ActionOpen, SIGNAL(triggered()), this, SLOT(Open()));
     connect(ui->ActionShowSkeleton, SIGNAL(toggled(bool)), this, SLOT(ToggleSkeletonVisible(bool)));
     connect(mpCharComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(SetActiveCharacterIndex(int)));
@@ -54,6 +57,8 @@ CCharacterEditor::CCharacterEditor(QWidget *parent)
     QList<int> SplitterSizes;
     SplitterSizes << width() * 0.2 << width() * 0.8;
     ui->splitter->setSizes(SplitterSizes);
+
+    connect(ui->SkeletonHierarchyTreeView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(OnSkeletonTreeSelectionChanged(QModelIndex)));
 }
 
 CCharacterEditor::~CCharacterEditor()
@@ -114,6 +119,16 @@ CAnimation* CCharacterEditor::CurrentAnimation() const
         return nullptr;
 }
 
+void CCharacterEditor::SetSelectedBone(CBone *pBone)
+{
+    if (pBone != mpSelectedBone)
+    {
+        if (mpSelectedBone) mpSelectedBone->SetSelected(false);
+        mpSelectedBone = pBone;
+        if (mpSelectedBone) mpSelectedBone->SetSelected(true);
+    }
+}
+
 // ************ PUBLIC SLOTS ************
 void CCharacterEditor::Open()
 {
@@ -126,6 +141,10 @@ void CCharacterEditor::Open()
     {
         mpCharNode->SetCharSet(mpSet);
         setWindowTitle("Prime World Editor - Character Editor: " + TO_QSTRING(mpSet->Source()));
+
+        // Clear selected bone
+        ui->SkeletonHierarchyTreeView->selectionModel()->clear();
+        SetSelectedBone(nullptr);
 
         // Set up character combo box
         mpCharComboBox->blockSignals(true);
@@ -169,12 +188,38 @@ void CCharacterEditor::RefreshViewport()
     ui->Viewport->Render();
 }
 
-void CCharacterEditor::HoverBoneChanged(u32 BoneID)
+void CCharacterEditor::OnViewportHoverBoneChanged(u32 BoneID)
 {
     if (BoneID == 0xFFFFFFFF)
         ui->StatusBar->clearMessage();
     else
         ui->StatusBar->showMessage(QString("Bone %1: %2").arg(BoneID).arg( TO_QSTRING(mpSet->NodeSkeleton(mCurrentChar)->BoneByID(BoneID)->Name()) ));
+}
+
+void CCharacterEditor::OnViewportClick()
+{
+    u32 HoverBoneID = ui->Viewport->HoverBoneID();
+    CSkeleton *pSkel = (mpSet ? mpSet->NodeSkeleton(mCurrentChar) : nullptr);
+    CBone *pBone = (pSkel ? pSkel->BoneByID(HoverBoneID) : nullptr);
+
+    if (!pBone || !pBone->IsSelected())
+    {
+        if (pBone)
+        {
+            QModelIndex NewBoneIndex = mSkeletonModel.IndexForBone(pBone);
+            ui->SkeletonHierarchyTreeView->selectionModel()->setCurrentIndex(NewBoneIndex, QItemSelectionModel::ClearAndSelect);
+        }
+        else
+            ui->SkeletonHierarchyTreeView->selectionModel()->clear();
+
+        SetSelectedBone(pBone);
+    }
+}
+
+void CCharacterEditor::OnSkeletonTreeSelectionChanged(const QModelIndex& rkIndex)
+{
+    CBone *pBone = mSkeletonModel.BoneForIndex(rkIndex);
+    SetSelectedBone(pBone);
 }
 
 void CCharacterEditor::SetActiveCharacterIndex(int CharIndex)

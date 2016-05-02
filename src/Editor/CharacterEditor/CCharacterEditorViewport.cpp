@@ -64,3 +64,11 @@ void CCharacterEditorViewport::OnResize()
 {
     mpRenderer->SetViewportSize(width(), height());
 }
+
+void CCharacterEditorViewport::OnMouseClick(QMouseEvent *pEvent)
+{
+    if (pEvent->button() == Qt::LeftButton)
+    {
+        emit ViewportClick(pEvent);
+    }
+}
