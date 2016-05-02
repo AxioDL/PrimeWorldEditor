@@ -117,6 +117,7 @@ void CSkeleton::UpdateTransform(CBoneTransformData& rData, CAnimation *pAnim, fl
 void CSkeleton::Draw(FRenderOptions /*Options*/, const CBoneTransformData *pkData)
 {
     glBlendFunc(GL_ONE, GL_ZERO);
+    glLineWidth(1.f);
 
     // Draw all child links first to minimize model matrix swaps.
     for (u32 iBone = 0; iBone < mBones.size(); iBone++)

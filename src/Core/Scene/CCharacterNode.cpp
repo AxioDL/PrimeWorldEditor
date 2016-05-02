@@ -4,6 +4,7 @@
 
 CCharacterNode::CCharacterNode(CScene *pScene, u32 NodeID, CAnimSet *pChar /*= 0*/, CSceneNode *pParent /*= 0*/)
     : CSceneNode(pScene, NodeID, pParent)
+    , mAnimated(true)
     , mAnimTime(0.f)
 {
     SetCharSet(pChar);
@@ -25,14 +26,15 @@ void CCharacterNode::PostLoad()
 
 void CCharacterNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo)
 {
-    if (!mpCharacter) return;
     // todo: frustum check. Currently don't have a means of pulling the AABox for the
     // current animation so this isn't in yet.
+    if (!mpCharacter) return;
+    UpdateTransformData();
 
     CModel *pModel = mpCharacter->NodeModel(mActiveCharSet);
     CSkeleton *pSkel = mpCharacter->NodeSkeleton(mActiveCharSet);
 
-    if (pModel)
+    if (pModel && rkViewInfo.ShowFlags.HasFlag(eShowObjectGeometry))
     {
         if (!pModel->HasTransparency(0))
             pRenderer->AddMesh(this, -1, AABox(), false, eDrawMesh);
@@ -42,9 +44,6 @@ void CCharacterNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkView
 
     if (pSkel)
     {
-        CAnimation *pAnim = mpCharacter->Animation(mActiveAnim);
-        pSkel->UpdateTransform(mTransformData, pAnim, mAnimTime, false);
-
         if (rkViewInfo.ShowFlags.HasFlag(eShowSkeletons))
             pRenderer->AddMesh(this, -2, AABox(), false, eDrawMesh, eForeground);
     }
@@ -57,6 +56,7 @@ void CCharacterNode::Draw(FRenderOptions Options, int ComponentIndex, const SVie
     // Draw skeleton
     if (ComponentIndex == -2)
     {
+        LoadModelMatrix();
         pSkel->Draw(Options, &mTransformData);
     }
 
@@ -70,9 +70,14 @@ void CCharacterNode::Draw(FRenderOptions Options, int ComponentIndex, const SVie
         CGraphics::sPixelBlock.LightmapMultiplier = 1.f;
         CGraphics::sPixelBlock.TevColor = CColor::skWhite;
         CGraphics::sPixelBlock.TintColor = TintColor(rkViewInfo);
+        LoadModelMatrix();
 
         // Draw surface OR draw entire model
-        CGraphics::LoadBoneTransforms(mTransformData);
+        if (mAnimated)
+            CGraphics::LoadBoneTransforms(mTransformData);
+        else
+            CGraphics::LoadIdentityBoneTransforms();
+
         CModel *pModel = mpCharacter->NodeModel(mActiveCharSet);
 
         if (ComponentIndex < 0)
@@ -91,6 +96,7 @@ SRayIntersection CCharacterNode::RayNodeIntersectTest(const CRay& rkRay, u32 /*A
 
         if (pSkel)
         {
+            UpdateTransformData();
             std::pair<s32,float> Hit = pSkel->RayIntersect(rkRay, mTransformData);
 
             if (Hit.first != -1)
@@ -109,10 +115,22 @@ SRayIntersection CCharacterNode::RayNodeIntersectTest(const CRay& rkRay, u32 /*A
     return SRayIntersection();
 }
 
+CVector3f CCharacterNode::BonePosition(u32 BoneID)
+{
+    UpdateTransformData();
+    CSkeleton *pSkel = (mpCharacter ? mpCharacter->NodeSkeleton(mActiveCharSet) : nullptr);
+    CBone *pBone = (pSkel ? pSkel->BoneByID(BoneID) : nullptr);
+
+    CVector3f Out = AbsolutePosition();
+    if (pBone) Out += pBone->TransformedPosition(mTransformData);
+    return Out;
+}
+
 void CCharacterNode::SetCharSet(CAnimSet *pChar)
 {
     mpCharacter = pChar;
     SetActiveChar(0);
+    ConditionalSetDirty();
 
     if (!mpCharacter)
         mLocalAABox = CAABox::skOne;
@@ -121,6 +139,7 @@ void CCharacterNode::SetCharSet(CAnimSet *pChar)
 void CCharacterNode::SetActiveChar(u32 CharIndex)
 {
     mActiveCharSet = CharIndex;
+    ConditionalSetDirty();
 
     if (mpCharacter)
     {
@@ -134,9 +153,16 @@ void CCharacterNode::SetActiveChar(u32 CharIndex)
 void CCharacterNode::SetActiveAnim(u32 AnimIndex)
 {
     mActiveAnim = AnimIndex;
+    ConditionalSetDirty();
 }
 
-void CCharacterNode::SetAnimTime(float Time)
+// ************ PROTECTED ************
+void CCharacterNode::UpdateTransformData()
 {
-    mAnimTime = Time;
+    if (mTransformDataDirty)
+    {
+        CSkeleton *pSkel = mpCharacter->NodeSkeleton(mActiveCharSet);
+        if (pSkel) pSkel->UpdateTransform(mTransformData, CurrentAnim(), mAnimTime, false);
+        mTransformDataDirty = false;
+    }
 }
