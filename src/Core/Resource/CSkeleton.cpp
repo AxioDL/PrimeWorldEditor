@@ -8,6 +8,7 @@
 // ************ CBone ************
 CBone::CBone(CSkeleton *pSkel)
     : mpSkeleton(pSkel)
+    , mSelected(false)
 {
 }
 
@@ -115,11 +116,22 @@ void CSkeleton::UpdateTransform(CBoneTransformData& rData, CAnimation *pAnim, fl
 
 void CSkeleton::Draw(FRenderOptions /*Options*/, const CBoneTransformData *pkData)
 {
+    glBlendFunc(GL_ONE, GL_ZERO);
+
     // Draw all child links first to minimize model matrix swaps.
     for (u32 iBone = 0; iBone < mBones.size(); iBone++)
     {
         CBone *pBone = mBones[iBone];
         CVector3f BonePos = pkData ? pBone->TransformedPosition(*pkData) : pBone->Position();
+
+        // Draw the bone's local XYZ axes for selected bones
+        if (pBone->IsSelected())
+        {
+            CQuaternion BoneRot = pkData ? pBone->TransformedRotation(*pkData) : pBone->Rotation();
+            CDrawUtil::DrawLine(BonePos, BonePos + BoneRot.XAxis(), CColor::skRed);
+            CDrawUtil::DrawLine(BonePos, BonePos + BoneRot.YAxis(), CColor::skGreen);
+            CDrawUtil::DrawLine(BonePos, BonePos + BoneRot.ZAxis(), CColor::skBlue);
+        }
 
         // Draw child links
         for (u32 iChild = 0; iChild < pBone->NumChildren(); iChild++)
@@ -143,7 +155,7 @@ void CSkeleton::Draw(FRenderOptions /*Options*/, const CBoneTransformData *pkDat
         Transform.Translate(BonePos);
         CGraphics::sMVPBlock.ModelMatrix = Transform * BaseTransform;
         CGraphics::UpdateMVPBlock();
-        CDrawUtil::DrawSphere(CColor::skWhite);
+        CDrawUtil::DrawSphere(pBone->IsSelected() ? CColor::skRed : CColor::skWhite);
     }
 }
 

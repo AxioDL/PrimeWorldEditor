@@ -21,6 +21,7 @@ class CCharacterEditor : public QMainWindow
     Ui::CCharacterEditor *ui;
     CScene *mpScene;
     CCharacterNode *mpCharNode;
+    CBone *mpSelectedBone;
 
     CSkeletonHierarchyModel mSkeletonModel;
     QComboBox *mpCharComboBox;
@@ -44,17 +45,20 @@ public:
     ~CCharacterEditor();
     void UpdateAnimTime();
     CAnimation* CurrentAnimation() const;
+    void SetSelectedBone(CBone *pBone);
 
 public slots:
     void Open();
     void ToggleSkeletonVisible(bool Visible);
     void RefreshViewport();
-    void HoverBoneChanged(u32 BoneID);
+    void OnViewportHoverBoneChanged(u32 BoneID);
+    void OnViewportClick();
+    void OnSkeletonTreeSelectionChanged(const QModelIndex& rkIndex);
     void SetActiveCharacterIndex(int CharIndex);
     void SetActiveAnimation(int AnimIndex);
+
     void SetAnimTime(int Time);
     void SetAnimTime(float Time);
-
     void TogglePlay();
     void ToggleLoop(bool Loop);
     void AnimSpeedSpinBoxChanged(double NewVal);

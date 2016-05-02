@@ -15,6 +15,9 @@ public:
     int rowCount(const QModelIndex& rkParent) const;
     int columnCount(const QModelIndex& rkParent) const;
     QVariant data(const QModelIndex& rkIndex, int Role) const;
+
+    CBone* BoneForIndex(const QModelIndex& rkIndex) const;
+    QModelIndex IndexForBone(CBone *pBone) const;
     void SetSkeleton(CSkeleton *pSkel);
 };
 
