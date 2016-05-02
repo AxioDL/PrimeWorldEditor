@@ -58,7 +58,24 @@ CCharacterEditor::CCharacterEditor(QWidget *parent)
     SplitterSizes << width() * 0.2 << width() * 0.8;
     ui->splitter->setSizes(SplitterSizes);
 
-    connect(ui->SkeletonHierarchyTreeView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(OnSkeletonTreeSelectionChanged(QModelIndex)));
+    connect(ui->SkeletonHierarchyTreeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(OnSkeletonTreeSelectionChanged(QModelIndex)));
+
+    // Set up keyboard shortcuts
+    QAction *pTogglePlayAction = new QAction(this);
+    pTogglePlayAction->setShortcut(QKeySequence("Space"));
+    connect(pTogglePlayAction, SIGNAL(triggered()), this, SLOT(TogglePlay()));
+
+    QAction *pPrevAnimAction = new QAction(this);
+    pPrevAnimAction->setShortcut(QKeySequence("R"));
+    connect(pPrevAnimAction, SIGNAL(triggered()), this, SLOT(PrevAnim()));
+
+    QAction *pNextAnimAction = new QAction(this);
+    pNextAnimAction->setShortcut(QKeySequence("F"));
+    connect(pNextAnimAction, SIGNAL(triggered()), this, SLOT(NextAnim()));
+
+    QList<QAction*> ShortcutActions;
+    ShortcutActions << pTogglePlayAction << pPrevAnimAction << pNextAnimAction;
+    addActions(ShortcutActions);
 }
 
 CCharacterEditor::~CCharacterEditor()
@@ -171,6 +188,9 @@ void CCharacterEditor::Open()
         mSkeletonModel.SetSkeleton(pSkel);
         ui->SkeletonHierarchyTreeView->expandAll();
         ui->SkeletonHierarchyTreeView->resizeColumnToContents(0);
+
+        // Would rather it just clear the selection on load, but it keeps selecting root by itself, so this is my workaround. :/
+        ui->SkeletonHierarchyTreeView->selectionModel()->setCurrentIndex( mSkeletonModel.index(0, 0, QModelIndex()), QItemSelectionModel::ClearAndSelect );
     }
 
     gResCache.Clean();
@@ -238,7 +258,22 @@ void CCharacterEditor::SetActiveAnimation(int AnimIndex)
     ui->AnimSlider->setMaximum((int) (CurrentAnimation() ? CurrentAnimation()->Duration() * 1000 : 0));
     ui->AnimSlider->blockSignals(false);
 
+    mpAnimComboBox->blockSignals(true);
+    mpAnimComboBox->setCurrentIndex(AnimIndex);
+    mpAnimComboBox->blockSignals(false);
+
     SetAnimTime(0.f);
+}
+
+void CCharacterEditor::PrevAnim()
+{
+    if (mCurrentAnim > 0) SetActiveAnimation(mCurrentAnim - 1);
+}
+
+void CCharacterEditor::NextAnim()
+{
+    u32 MaxAnim = (mpSet ? mpSet->NumAnims() - 1 : 0);
+    if (mCurrentAnim < MaxAnim) SetActiveAnimation(mCurrentAnim + 1);
 }
 
 void CCharacterEditor::SetAnimTime(int Time)

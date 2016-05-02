@@ -56,6 +56,8 @@ public slots:
     void OnSkeletonTreeSelectionChanged(const QModelIndex& rkIndex);
     void SetActiveCharacterIndex(int CharIndex);
     void SetActiveAnimation(int AnimIndex);
+    void PrevAnim();
+    void NextAnim();
 
     void SetAnimTime(int Time);
     void SetAnimTime(float Time);
