@@ -82,10 +82,10 @@ void CCharacterNode::Draw(FRenderOptions Options, int ComponentIndex, const SVie
     }
 }
 
-SRayIntersection CCharacterNode::RayNodeIntersectTest(const CRay& rkRay, u32 /*AssetID*/, const SViewInfo& /*rkViewInfo*/)
+SRayIntersection CCharacterNode::RayNodeIntersectTest(const CRay& rkRay, u32 /*AssetID*/, const SViewInfo& rkViewInfo)
 {
     // Check for bone under ray. Doesn't check for model intersections atm
-    if (mpCharacter)
+    if (mpCharacter && rkViewInfo.ShowFlags.HasFlag(eShowSkeletons))
     {
         CSkeleton *pSkel = mpCharacter->NodeSkeleton(mActiveCharSet);
 

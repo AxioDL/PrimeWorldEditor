@@ -2,6 +2,7 @@
 #define CCHARACTEREDITOR_H
 
 #include "CCharacterEditorViewport.h"
+#include "CSkeletonHierarchyModel.h"
 #include <Core/Scene/CScene.h>
 #include <Core/Scene/CCharacterNode.h>
 
@@ -21,6 +22,7 @@ class CCharacterEditor : public QMainWindow
     CScene *mpScene;
     CCharacterNode *mpCharNode;
 
+    CSkeletonHierarchyModel mSkeletonModel;
     QComboBox *mpCharComboBox;
     QComboBox *mpAnimComboBox;
     QTimer mRefreshTimer;

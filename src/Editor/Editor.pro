@@ -159,7 +159,8 @@ HEADERS += \
     CAboutDialog.h \
     CharacterEditor/CCharacterEditor.h \
     CharacterEditor/CCharacterEditorViewport.h \
-    CGridRenderable.h
+    CGridRenderable.h \
+    CharacterEditor/CSkeletonHierarchyModel.h
 
 # Source Files
 SOURCES += \
@@ -218,7 +219,8 @@ SOURCES += \
     WorldEditor/CRepackInfoDialog.cpp \
     CAboutDialog.cpp \
     CharacterEditor/CCharacterEditor.cpp \
-    CharacterEditor/CCharacterEditorViewport.cpp
+    CharacterEditor/CCharacterEditorViewport.cpp \
+    CharacterEditor/CSkeletonHierarchyModel.cpp
 
 # UI Files
 FORMS += \
