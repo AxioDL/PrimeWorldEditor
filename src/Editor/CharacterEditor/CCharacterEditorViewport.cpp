@@ -3,13 +3,14 @@
 CCharacterEditorViewport::CCharacterEditorViewport(QWidget *pParent /*= 0*/)
     : CBasicViewport(pParent)
     , mpCharNode(nullptr)
+    , mGridEnabled(true)
 {
     mpRenderer = new CRenderer();
     mpRenderer->SetViewportSize(width(), height());
     mpRenderer->SetClearColor(CColor(0.3f, 0.3f, 0.3f));
     mpRenderer->ToggleGrid(true);
 
-    mViewInfo.ShowFlags = eShowNone; // The mesh doesn't check any show flags so this just disables the skeleton.
+    mViewInfo.ShowFlags = eShowObjectGeometry; // This enables the mesh and not the skeleton by default
     mViewInfo.pRenderer = mpRenderer;
     mViewInfo.pScene = nullptr;
     mViewInfo.GameMode = false;
@@ -49,7 +50,7 @@ void CCharacterEditorViewport::Paint()
 {
     mpRenderer->BeginFrame();
     mCamera.LoadMatrices();
-    mGrid.AddToRenderer(mpRenderer, mViewInfo);
+    if (mGridEnabled) mGrid.AddToRenderer(mpRenderer, mViewInfo);
 
     if (mpCharNode)
     {

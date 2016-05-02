@@ -31,7 +31,7 @@ class CCharacterEditor : public QMainWindow
     TResPtr<CAnimSet> mpSet;
     u32 mCurrentChar;
     u32 mCurrentAnim;
-    bool mShowSkeleton;
+    bool mBindPose;
 
     // Playback Controls
     double mLastAnimUpdate;
@@ -40,16 +40,26 @@ class CCharacterEditor : public QMainWindow
     bool mLoopAnim;
     float mPlaybackSpeed;
 
+    // Constants
+    static const CVector3f skDefaultOrbitTarget;
+    static const float skDefaultOrbitDistance;
+
 public:
     explicit CCharacterEditor(QWidget *parent = 0);
     ~CCharacterEditor();
     void UpdateAnimTime();
+    void UpdateCameraOrbit();
+    CSkeleton* CurrentSkeleton() const;
     CAnimation* CurrentAnimation() const;
     void SetSelectedBone(CBone *pBone);
 
 public slots:
     void Open();
+    void ToggleGrid(bool Enable);
+    void ToggleMeshVisible(bool Visible);
     void ToggleSkeletonVisible(bool Visible);
+    void ToggleBindPose(bool Enable);
+    void ToggleOrbit(bool Enable);
     void RefreshViewport();
     void OnViewportHoverBoneChanged(u32 BoneID);
     void OnViewportClick();
@@ -63,6 +73,8 @@ public slots:
     void SetAnimTime(float Time);
     void TogglePlay();
     void ToggleLoop(bool Loop);
+    void Rewind();
+    void FastForward();
     void AnimSpeedSpinBoxChanged(double NewVal);
 };
 

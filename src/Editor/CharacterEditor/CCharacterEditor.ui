@@ -84,9 +84,23 @@
            </widget>
           </item>
           <item>
+           <widget class="QPushButton" name="RewindButton">
+            <property name="text">
+             <string>Rewind</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QPushButton" name="PlayPauseButton">
             <property name="text">
              <string>Pause</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="FastForwardButton">
+            <property name="text">
+             <string>Fast Forward</string>
             </property>
            </widget>
           </item>
@@ -180,7 +194,25 @@
     </property>
     <addaction name="ActionOpen"/>
    </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>Animation</string>
+    </property>
+    <addaction name="ActionShowGrid"/>
+    <addaction name="ActionShowMesh"/>
+    <addaction name="ActionShowSkeleton"/>
+    <addaction name="ActionBindPose"/>
+    <addaction name="ActionOrbit"/>
+    <addaction name="separator"/>
+    <addaction name="ActionPlay"/>
+    <addaction name="ActionRewind"/>
+    <addaction name="ActionFastForward"/>
+    <addaction name="separator"/>
+    <addaction name="ActionPrevAnim"/>
+    <addaction name="ActionNextAnim"/>
+   </widget>
    <addaction name="MenuFile"/>
+   <addaction name="menuView"/>
   </widget>
   <widget class="QStatusBar" name="StatusBar"/>
   <widget class="QToolBar" name="ToolBar">
@@ -195,7 +227,11 @@
    </attribute>
    <addaction name="ActionOpen"/>
    <addaction name="separator"/>
+   <addaction name="ActionShowGrid"/>
+   <addaction name="ActionShowMesh"/>
    <addaction name="ActionShowSkeleton"/>
+   <addaction name="ActionBindPose"/>
+   <addaction name="ActionOrbit"/>
   </widget>
   <action name="ActionOpen">
    <property name="icon">
@@ -221,6 +257,121 @@
    </property>
    <property name="toolTip">
     <string>Show Skeleton</string>
+   </property>
+   <property name="shortcut">
+    <string>2</string>
+   </property>
+  </action>
+  <action name="ActionShowMesh">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show Mesh</string>
+   </property>
+   <property name="toolTip">
+    <string>Show Mesh</string>
+   </property>
+   <property name="shortcut">
+    <string>1</string>
+   </property>
+  </action>
+  <action name="ActionBindPose">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Bind Pose</string>
+   </property>
+   <property name="toolTip">
+    <string>Bind Pose</string>
+   </property>
+   <property name="shortcut">
+    <string>B</string>
+   </property>
+  </action>
+  <action name="ActionOrbit">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Orbit</string>
+   </property>
+   <property name="toolTip">
+    <string>Orbit</string>
+   </property>
+   <property name="shortcut">
+    <string>Z</string>
+   </property>
+  </action>
+  <action name="ActionShowGrid">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Icons.qrc">
+     <normaloff>:/icons/GridLight.png</normaloff>:/icons/GridLight.png</iconset>
+   </property>
+   <property name="text">
+    <string>Show Grid</string>
+   </property>
+   <property name="shortcut">
+    <string>G</string>
+   </property>
+  </action>
+  <action name="ActionPrevAnim">
+   <property name="text">
+    <string>Previous Anim</string>
+   </property>
+   <property name="shortcut">
+    <string>R</string>
+   </property>
+  </action>
+  <action name="ActionNextAnim">
+   <property name="text">
+    <string>Next Anim</string>
+   </property>
+   <property name="shortcut">
+    <string>F</string>
+   </property>
+  </action>
+  <action name="ActionPlay">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Play</string>
+   </property>
+   <property name="shortcut">
+    <string>Space</string>
+   </property>
+  </action>
+  <action name="ActionRewind">
+   <property name="text">
+    <string>Rewind</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
+   </property>
+  </action>
+  <action name="ActionFastForward">
+   <property name="text">
+    <string>Fast Forward</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F</string>
    </property>
   </action>
  </widget>

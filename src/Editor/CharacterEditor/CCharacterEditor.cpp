@@ -4,7 +4,11 @@
 #include <Common/Assert.h>
 #include <Math/MathUtil.h>
 #include <QFileDialog>
+#include <QMessageBox>
 #include <QTreeView>
+
+const CVector3f CCharacterEditor::skDefaultOrbitTarget = CVector3f(0,0,1);
+const float CCharacterEditor::skDefaultOrbitDistance = 4.f;
 
 CCharacterEditor::CCharacterEditor(QWidget *parent)
     : QMainWindow(parent)
@@ -12,6 +16,7 @@ CCharacterEditor::CCharacterEditor(QWidget *parent)
     , mpScene(new CScene())
     , mpCharNode(new CCharacterNode(mpScene, -1))
     , mpSelectedBone(nullptr)
+    , mBindPose(false)
     , mAnimTime(0.f)
     , mPlayAnim(true)
     , mLoopAnim(true)
@@ -22,9 +27,9 @@ CCharacterEditor::CCharacterEditor(QWidget *parent)
     ui->Viewport->SetNode(mpCharNode);
 
     CCamera& rCamera = ui->Viewport->Camera();
-    rCamera.Snap(CVector3f(0, 3, 1));
-    rCamera.SetOrbit(CVector3f(0, 0, 1), 3.f);
     rCamera.SetMoveSpeed(0.5f);
+    rCamera.SetPitch(-0.3f);
+    rCamera.SetMoveMode(eOrbitCamera);
 
     // Init UI
     ui->ToolBar->addSeparator();
@@ -43,13 +48,24 @@ CCharacterEditor::CCharacterEditor(QWidget *parent)
     connect(ui->Viewport, SIGNAL(HoverBoneChanged(u32)), this, SLOT(OnViewportHoverBoneChanged(u32)));
     connect(ui->Viewport, SIGNAL(ViewportClick(QMouseEvent*)), this, SLOT(OnViewportClick()));
     connect(ui->ActionOpen, SIGNAL(triggered()), this, SLOT(Open()));
+    connect(ui->ActionShowGrid, SIGNAL(toggled(bool)), this, SLOT(ToggleGrid(bool)));
+    connect(ui->ActionShowMesh, SIGNAL(toggled(bool)), this, SLOT(ToggleMeshVisible(bool)));
     connect(ui->ActionShowSkeleton, SIGNAL(toggled(bool)), this, SLOT(ToggleSkeletonVisible(bool)));
+    connect(ui->ActionBindPose, SIGNAL(toggled(bool)), this, SLOT(ToggleBindPose(bool)));
+    connect(ui->ActionOrbit, SIGNAL(toggled(bool)), this, SLOT(ToggleOrbit(bool)));
+    connect(ui->ActionPlay, SIGNAL(triggered()), this, SLOT(TogglePlay()));
+    connect(ui->ActionRewind, SIGNAL(triggered()), this, SLOT(Rewind()));
+    connect(ui->ActionFastForward, SIGNAL(triggered()), this, SLOT(FastForward()));
+    connect(ui->ActionPrevAnim, SIGNAL(triggered()), this, SLOT(PrevAnim()));
+    connect(ui->ActionNextAnim, SIGNAL(triggered()), this, SLOT(NextAnim()));
     connect(mpCharComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(SetActiveCharacterIndex(int)));
     connect(mpAnimComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(SetActiveAnimation(int)));
 
     connect(ui->AnimSlider, SIGNAL(valueChanged(int)), this, SLOT(SetAnimTime(int)));
     connect(ui->PlayPauseButton, SIGNAL(pressed()), this, SLOT(TogglePlay()));
     connect(ui->LoopButton, SIGNAL(toggled(bool)), this, SLOT(ToggleLoop(bool)));
+    connect(ui->RewindButton, SIGNAL(pressed()), this, SLOT(Rewind()));
+    connect(ui->FastForwardButton, SIGNAL(pressed()), this, SLOT(FastForward()));
     connect(ui->AnimSpeedSpinBox, SIGNAL(valueChanged(double)), this, SLOT(AnimSpeedSpinBoxChanged(double)));
 
     // Init skeleton tree view
@@ -59,23 +75,6 @@ CCharacterEditor::CCharacterEditor(QWidget *parent)
     ui->splitter->setSizes(SplitterSizes);
 
     connect(ui->SkeletonHierarchyTreeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(OnSkeletonTreeSelectionChanged(QModelIndex)));
-
-    // Set up keyboard shortcuts
-    QAction *pTogglePlayAction = new QAction(this);
-    pTogglePlayAction->setShortcut(QKeySequence("Space"));
-    connect(pTogglePlayAction, SIGNAL(triggered()), this, SLOT(TogglePlay()));
-
-    QAction *pPrevAnimAction = new QAction(this);
-    pPrevAnimAction->setShortcut(QKeySequence("R"));
-    connect(pPrevAnimAction, SIGNAL(triggered()), this, SLOT(PrevAnim()));
-
-    QAction *pNextAnimAction = new QAction(this);
-    pNextAnimAction->setShortcut(QKeySequence("F"));
-    connect(pNextAnimAction, SIGNAL(triggered()), this, SLOT(NextAnim()));
-
-    QList<QAction*> ShortcutActions;
-    ShortcutActions << pTogglePlayAction << pPrevAnimAction << pNextAnimAction;
-    addActions(ShortcutActions);
 }
 
 CCharacterEditor::~CCharacterEditor()
@@ -91,7 +90,7 @@ void CCharacterEditor::UpdateAnimTime()
 
     CAnimation *pAnim = CurrentAnimation();
 
-    if (pAnim && mPlayAnim && !ui->AnimSlider->isSliderDown())
+    if (pAnim && mPlayAnim && !mBindPose && !ui->AnimSlider->isSliderDown())
     {
         mAnimTime += DeltaTime * mPlaybackSpeed;
 
@@ -128,6 +127,44 @@ void CCharacterEditor::UpdateAnimTime()
     }
 }
 
+void CCharacterEditor::UpdateCameraOrbit()
+{
+    CSkeleton *pSkel = CurrentSkeleton();
+
+    if (!pSkel)
+    {
+        // Center around character if we have one, otherwise fall back to default orbit.
+        if (mpSet)
+            ui->Viewport->Camera().SetOrbitTarget(mpCharNode->CenterPoint());
+        else
+            ui->Viewport->Camera().SetOrbit(skDefaultOrbitTarget, skDefaultOrbitDistance);
+    }
+
+    else
+    {
+        // If we have a selected bone, orbit around that.
+        if (mpSelectedBone)
+            ui->Viewport->Camera().SetOrbitTarget(mpCharNode->BonePosition(mpSelectedBone->ID()));
+
+        // Otherwise, try to find Skeleton_Root. Barring that, we can orbit the root bone.
+        else
+        {
+            CBone *pRoot = pSkel->RootBone();
+            CBone *pSkelRoot = (pRoot ? pRoot->ChildByIndex(0) : pRoot);
+            CVector3f OrbitTarget = (pSkelRoot ? mpCharNode->BonePosition(pSkelRoot->ID()) : mpCharNode->CenterPoint());
+            ui->Viewport->Camera().SetOrbitTarget(OrbitTarget);
+        }
+    }
+}
+
+CSkeleton* CCharacterEditor::CurrentSkeleton() const
+{
+    if (mpSet)
+        return mpSet->NodeSkeleton(mCurrentChar);
+    else
+        return nullptr;
+}
+
 CAnimation* CCharacterEditor::CurrentAnimation() const
 {
     if (mpSet)
@@ -152,10 +189,11 @@ void CCharacterEditor::Open()
     QString CharFilename = QFileDialog::getOpenFileName(this, "Open Character", "", "Animation Character Set (*.ANCS)");
     if (CharFilename.isEmpty()) return;
 
-    mpSet = gResCache.GetResource(CharFilename.toStdString());
+    CAnimSet *pSet = (CAnimSet*) gResCache.GetResource(CharFilename.toStdString());
 
-    if (mpSet)
+    if (pSet)
     {
+        mpSet = pSet;
         mpCharNode->SetCharSet(mpSet);
         setWindowTitle("Prime World Editor - Character Editor: " + TO_QSTRING(mpSet->Source()));
 
@@ -189,11 +227,31 @@ void CCharacterEditor::Open()
         ui->SkeletonHierarchyTreeView->expandAll();
         ui->SkeletonHierarchyTreeView->resizeColumnToContents(0);
 
-        // Would rather it just clear the selection on load, but it keeps selecting root by itself, so this is my workaround. :/
-        ui->SkeletonHierarchyTreeView->selectionModel()->setCurrentIndex( mSkeletonModel.index(0, 0, QModelIndex()), QItemSelectionModel::ClearAndSelect );
+        // Select first child bone of root (which should be Skeleton_Root) to line up the camera for orbiting.
+        QModelIndex RootIndex = mSkeletonModel.index(0, 0, QModelIndex());
+        ui->SkeletonHierarchyTreeView->selectionModel()->setCurrentIndex( mSkeletonModel.index(0, 0, RootIndex), QItemSelectionModel::ClearAndSelect );
+
+        // Run CCamera::SetOrbit to reset orbit distance.
+        ui->Viewport->Camera().SetOrbit(mpCharNode->AABox(), 4.f);
+    }
+
+    else
+    {
+        QMessageBox::warning(this, "Error", "Couldn't load file: " + CharFilename);
     }
 
     gResCache.Clean();
+}
+
+void CCharacterEditor::ToggleGrid(bool Enable)
+{
+    ui->Viewport->SetGridEnabled(Enable);
+}
+
+void CCharacterEditor::ToggleMeshVisible(bool Visible)
+{
+    // eShowObjectGeometry isn't the best fit, but close enough...?
+    ui->Viewport->SetShowFlag(eShowObjectGeometry, Visible);
 }
 
 void CCharacterEditor::ToggleSkeletonVisible(bool Visible)
@@ -201,9 +259,35 @@ void CCharacterEditor::ToggleSkeletonVisible(bool Visible)
     ui->Viewport->SetShowFlag(eShowSkeletons, Visible);
 }
 
+void CCharacterEditor::ToggleBindPose(bool Enable)
+{
+    mpCharNode->SetAnimated(!Enable);
+
+    if (sender() != ui->ActionBindPose)
+    {
+        ui->ActionBindPose->blockSignals(true);
+        ui->ActionBindPose->setChecked(Enable);
+        ui->ActionBindPose->blockSignals(false);
+    }
+
+    if (Enable && mPlayAnim)
+    {
+        SetAnimTime(0.f);
+    }
+
+    ui->AnimSlider->setEnabled(!Enable);
+    mBindPose = Enable;
+}
+
+void CCharacterEditor::ToggleOrbit(bool Enable)
+{
+    ui->Viewport->Camera().SetMoveMode(Enable ? eOrbitCamera : eFreeCamera);
+}
+
 void CCharacterEditor::RefreshViewport()
 {
     UpdateAnimTime();
+    UpdateCameraOrbit();
     ui->Viewport->ProcessInput();
     ui->Viewport->Render();
 }
@@ -284,9 +368,10 @@ void CCharacterEditor::SetAnimTime(int Time)
 
 void CCharacterEditor::SetAnimTime(float Time)
 {
+    if (mBindPose) Time = 0.f;
     mAnimTime = Time;
 
-    if (ui->AnimSlider != sender())
+    if (ui->AnimSlider != sender() || mBindPose)
     {
         int IntTime = (int) (Time * 1000);
         ui->AnimSlider->setValue(IntTime);
@@ -308,9 +393,18 @@ void CCharacterEditor::SetAnimTime(float Time)
 
 void CCharacterEditor::TogglePlay()
 {
+    if (mBindPose) ToggleBindPose(false);
+
     mPlayAnim = !mPlayAnim;
     QString NewText = (mPlayAnim ? "Pause" : "Play");
     ui->PlayPauseButton->setText(NewText);
+
+    if (ui->ActionPlay != sender())
+    {
+        ui->ActionPlay->blockSignals(true);
+        ui->ActionPlay->setChecked(mPlayAnim);
+        ui->ActionPlay->blockSignals(false);
+    }
 
     CAnimation *pAnim = CurrentAnimation();
 
@@ -329,6 +423,17 @@ void CCharacterEditor::ToggleLoop(bool Loop)
 
     if (sender() != ui->LoopButton)
         ui->LoopButton->setChecked(Loop);
+}
+
+void CCharacterEditor::Rewind()
+{
+    SetAnimTime(0.f);
+}
+
+void CCharacterEditor::FastForward()
+{
+    CAnimation *pAnim = CurrentAnimation();
+    if (pAnim && !mBindPose) SetAnimTime(pAnim->Duration());
 }
 
 void CCharacterEditor::AnimSpeedSpinBoxChanged(double NewVal)

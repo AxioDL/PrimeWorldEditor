@@ -179,6 +179,18 @@ void CCamera::SetOrbit(const CAABox& OrbitTarget, float DistScale /*= 4.f*/)
     }
 }
 
+void CCamera::SetOrbitTarget(const CVector3f& rkOrbitTarget)
+{
+    mOrbitTarget = rkOrbitTarget;
+
+    if (mMode == eOrbitCamera)
+    {
+        mTransformDirty = true;
+        mViewDirty = true;
+        mFrustumPlanesDirty = true;
+    }
+}
+
 void CCamera::SetOrbitDistance(float Distance)
 {
     mOrbitDistance = Distance;
