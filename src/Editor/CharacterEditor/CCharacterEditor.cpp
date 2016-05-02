@@ -3,6 +3,7 @@
 #include "Editor/UICommon.h"
 #include <Math/MathUtil.h>
 #include <QFileDialog>
+#include <QTreeView>
 
 CCharacterEditor::CCharacterEditor(QWidget *parent)
     : QMainWindow(parent)
@@ -47,6 +48,12 @@ CCharacterEditor::CCharacterEditor(QWidget *parent)
     connect(ui->PlayPauseButton, SIGNAL(pressed()), this, SLOT(TogglePlay()));
     connect(ui->LoopButton, SIGNAL(toggled(bool)), this, SLOT(ToggleLoop(bool)));
     connect(ui->AnimSpeedSpinBox, SIGNAL(valueChanged(double)), this, SLOT(AnimSpeedSpinBoxChanged(double)));
+
+    // Init skeleton tree view
+    ui->SkeletonHierarchyTreeView->setModel(&mSkeletonModel);
+    QList<int> SplitterSizes;
+    SplitterSizes << width() * 0.2 << width() * 0.8;
+    ui->splitter->setSizes(SplitterSizes);
 }
 
 CCharacterEditor::~CCharacterEditor()
@@ -139,6 +146,12 @@ void CCharacterEditor::Open()
 
         SetActiveAnimation(0);
         mpAnimComboBox->blockSignals(false);
+
+        // Set up skeleton tree view
+        CSkeleton *pSkel = mpSet->NodeSkeleton(mCurrentChar);
+        mSkeletonModel.SetSkeleton(pSkel);
+        ui->SkeletonHierarchyTreeView->expandAll();
+        ui->SkeletonHierarchyTreeView->resizeColumnToContents(0);
     }
 
     gResCache.Clean();
