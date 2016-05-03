@@ -126,6 +126,7 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     connect(ui->ActionDrawCollision, SIGNAL(triggered()), this, SLOT(ToggleDrawCollision()));
     connect(ui->ActionDrawObjectCollision, SIGNAL(triggered()), this, SLOT(ToggleDrawObjectCollision()));
     connect(ui->ActionDrawLights, SIGNAL(triggered()), this, SLOT(ToggleDrawLights()));
+    connect(ui->ActionDrawSky, SIGNAL(triggered()), this, SLOT(ToggleDrawSky()));
     connect(ui->ActionGameMode, SIGNAL(triggered()), this, SLOT(ToggleGameMode()));
     connect(ui->ActionDisableBackfaceCull, SIGNAL(triggered()), this, SLOT(ToggleBackfaceCull()));
     connect(ui->ActionDisableAlpha, SIGNAL(triggered()), this, SLOT(ToggleDisableAlpha()));

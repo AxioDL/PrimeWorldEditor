@@ -272,9 +272,7 @@ void CCharacterEditor::ToggleBindPose(bool Enable)
     }
 
     if (Enable && mPlayAnim)
-    {
-        SetAnimTime(0.f);
-    }
+        TogglePlay();
 
     ui->AnimSlider->setEnabled(!Enable);
     mBindPose = Enable;
