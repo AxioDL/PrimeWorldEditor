@@ -1,6 +1,8 @@
 #include "CDamageableTriggerExtra.h"
 #include "Core/Render/CDrawUtil.h"
 #include "Core/Render/CRenderer.h"
+#include <Common/Assert.h>
+#include <Math/MathUtil.h>
 
 CDamageableTriggerExtra::CDamageableTriggerExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent)
     : CScriptExtra(pInstance, pScene, pParent)
@@ -38,7 +40,7 @@ CDamageableTriggerExtra::~CDamageableTriggerExtra()
 
 void CDamageableTriggerExtra::CreateMaterial()
 {
-    if (mpMat) delete mpMat;
+    ASSERT(!mpMat);
     mpMat = new CMaterial(mGame, ePosition | eNormal | eTex0);
 
     // Most values/TEV setup were found from the executable + from graphics debuggers
@@ -129,6 +131,49 @@ void CDamageableTriggerExtra::UpdatePlaneTransform()
     MarkTransformChanged();
 }
 
+CDamageableTriggerExtra::ERenderSide CDamageableTriggerExtra::RenderSideForDirection(const CVector3f& rkDir)
+{
+    // Get the index of the largest XYZ component
+    CVector3f AbsDir(Math::Abs(rkDir.X), Math::Abs(rkDir.Y), Math::Abs(rkDir.Z));
+    u32 Max = (AbsDir.X > AbsDir.Y ? 0 : 1);
+    Max = (AbsDir[Max] > AbsDir.Z ? Max : 2);
+
+    // Check whether the direction is positive or negative. If the absolute value of the component matches the input one, then it's positive.
+    bool Positive = (rkDir[Max] == AbsDir[Max]);
+
+    // Return corresponding side for direction
+    if (Max == 0)       return (Positive ? eEast : eWest);
+    else if (Max == 1)  return (Positive ? eNorth : eSouth);
+    else if (Max == 2)  return (Positive ? eUp : eDown);
+
+    return eNoRender;
+}
+
+CDamageableTriggerExtra::ERenderSide CDamageableTriggerExtra::TransformRenderSide(ERenderSide Side)
+{
+    // DamageableTrigger has a convenience feature implemented that changes the
+    // render side when the area's been rotated, so we need to replicate it here.
+    CQuaternion AreaRotation = mpScriptNode->Instance()->Area()->Transform().ExtractRotation();
+
+    switch (Side)
+    {
+    case eNorth:
+        return RenderSideForDirection(AreaRotation.YAxis());
+    case eSouth:
+        return RenderSideForDirection(-AreaRotation.YAxis());
+    case eWest:
+        return RenderSideForDirection(-AreaRotation.XAxis());
+    case eEast:
+        return RenderSideForDirection(AreaRotation.XAxis());
+    case eUp:
+        return RenderSideForDirection(AreaRotation.ZAxis());
+    case eDown:
+        return RenderSideForDirection(-AreaRotation.ZAxis());
+    default:
+        return eNoRender;
+    }
+}
+
 void CDamageableTriggerExtra::OnTransformed()
 {
     mPlaneSize = mpSizeProp->Get();
@@ -139,7 +184,7 @@ void CDamageableTriggerExtra::PropertyModified(IProperty *pProperty)
 {
     if (pProperty == mpRenderSideProp)
     {
-        mRenderSide = (ERenderSide) mpRenderSideProp->Get();
+        mRenderSide = TransformRenderSide( (ERenderSide) mpRenderSideProp->Get() );
         UpdatePlaneTransform();
     }
 

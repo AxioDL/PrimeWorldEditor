@@ -186,9 +186,13 @@ CTransform4f CTransform4f::RotationOnly() const
 
 CVector3f CTransform4f::ExtractTranslation() const
 {
-    CVector3f Test = *this * CVector3f::skZero;
-    Test = Test;
     return CVector3f(m[0][3], m[1][3], m[2][3]);
+}
+
+CQuaternion CTransform4f::ExtractRotation() const
+{
+    // todo: there's probably a faster way to do this...
+    return CQuaternion::FromRotationMatrix(Inverse().Transpose());
 }
 
 // ************ OPERATORS ************
@@ -223,8 +227,7 @@ CVector4f CTransform4f::operator*(const CVector4f& rkVec) const
 
 CQuaternion CTransform4f::operator*(const CQuaternion& rkQuat) const
 {
-    // todo: there's probably a faster way to do this. (mirrored in CMatrix4f and CQuaternion)
-    return CQuaternion::FromRotationMatrix(Inverse().Transpose()) * rkQuat;
+    return ExtractRotation() * rkQuat;
 }
 
 CTransform4f CTransform4f::operator*(const CTransform4f& rkMtx) const

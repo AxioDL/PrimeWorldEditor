@@ -144,13 +144,12 @@ void CQuaternion::operator *= (const CQuaternion& rkOther)
     *this = *this * rkOther;
 }
 
-CQuaternion CQuaternion::operator*(const CMatrix4f& rkMtx) const
+CQuaternion CQuaternion::operator*(const CTransform4f& rkMtx) const
 {
-    // todo: there's probably a faster way to do this. (mirrored in CMatrix4f and CTransform4f)
-    return *this * CQuaternion::FromRotationMatrix(rkMtx.Inverse().Transpose());
+    return *this * rkMtx.ExtractRotation();
 }
 
-void CQuaternion::operator *= (const CMatrix4f& rkMtx)
+void CQuaternion::operator *= (const CTransform4f& rkMtx)
 {
     *this = *this * rkMtx;
 }
