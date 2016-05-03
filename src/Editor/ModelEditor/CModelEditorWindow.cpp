@@ -33,6 +33,7 @@ CModelEditorWindow::CModelEditorWindow(QWidget *pParent)
     , mIgnoreSignals(false)
 {
     ui->setupUi(this);
+    REPLACE_WINDOWTITLE_APPVARS;
 
     ui->Viewport->SetNode(mpCurrentModelNode);
     ui->Viewport->SetClearColor(CColor(0.3f, 0.3f, 0.3f, 1.f));
@@ -725,7 +726,7 @@ void CModelEditorWindow::Open()
     if (pModel)
     {
         SetActiveModel(pModel);
-        setWindowTitle("Prime World Editor - Model Editor: " + TO_QSTRING(pModel->Source()));
+        SET_WINDOWTITLE_APPVARS("%APP_FULL_NAME% - Model Editor: " + TO_QSTRING(pModel->Source()));
         mOutputFilename = TO_QSTRING(pModel->FullSource());
     }
 
@@ -770,7 +771,7 @@ void CModelEditorWindow::Import()
     pModel = CModelLoader::ImportAssimpNode(pScene->mRootNode, pScene, *pSet);
 
     SetActiveModel(pModel);
-    setWindowTitle("Prime World Editor - Model Editor: Untitled");
+    SET_WINDOWTITLE_APPVARS("%APP_FULL_NAME% - Model Editor: Untitled");
     mOutputFilename = "";
     gResCache.Clean();
 }
@@ -799,7 +800,7 @@ void CModelEditorWindow::SaveAs()
     Save();
 
     TString Name = TString(FileName.toStdString());
-    setWindowTitle("Prime World Editor - Model Editor: " + TO_QSTRING(Name));
+    SET_WINDOWTITLE_APPVARS("%APP_FULL_NAME% - Model Editor: " + TO_QSTRING(Name));
 }
 
 void CModelEditorWindow::ConvertToDDS()

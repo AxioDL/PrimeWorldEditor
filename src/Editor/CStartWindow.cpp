@@ -18,6 +18,8 @@ CStartWindow::CStartWindow(QWidget *parent)
     , ui(new Ui::CStartWindow)
 {
     ui->setupUi(this);
+    REPLACE_WINDOWTITLE_APPVARS;
+
     mpWorld = nullptr;
     mpWorldEditor = new CWorldEditor(0);
     mpModelEditor = new CModelEditorWindow(this);
