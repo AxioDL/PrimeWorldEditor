@@ -55,6 +55,7 @@ CCharacterEditor::CCharacterEditor(QWidget *parent)
     connect(ui->ActionBindPose, SIGNAL(toggled(bool)), this, SLOT(ToggleBindPose(bool)));
     connect(ui->ActionOrbit, SIGNAL(toggled(bool)), this, SLOT(ToggleOrbit(bool)));
     connect(ui->ActionPlay, SIGNAL(triggered()), this, SLOT(TogglePlay()));
+    connect(ui->ActionLoop, SIGNAL(toggled(bool)), this, SLOT(ToggleLoop(bool)));
     connect(ui->ActionRewind, SIGNAL(triggered()), this, SLOT(Rewind()));
     connect(ui->ActionFastForward, SIGNAL(triggered()), this, SLOT(FastForward()));
     connect(ui->ActionPrevAnim, SIGNAL(triggered()), this, SLOT(PrevAnim()));
@@ -396,7 +397,11 @@ void CCharacterEditor::TogglePlay()
 
     mPlayAnim = !mPlayAnim;
     QString NewText = (mPlayAnim ? "Pause" : "Play");
-    ui->PlayPauseButton->setText(NewText);
+    ui->PlayPauseButton->setToolTip(NewText);
+    ui->ActionPlay->setText(NewText);
+
+    QIcon PlayPauseIcon = QIcon(mPlayAnim ? ":/icons/Pause_24px.png" : ":/icons/Play_24px.png");
+    ui->PlayPauseButton->setIcon(PlayPauseIcon);
 
     if (ui->ActionPlay != sender())
     {
@@ -420,8 +425,26 @@ void CCharacterEditor::ToggleLoop(bool Loop)
 {
     mLoopAnim = Loop;
 
+    QString NewText = (Loop ? "Disable Loop" : "Loop");
+    ui->LoopButton->setToolTip(NewText);
+    ui->ActionLoop->setText(NewText);
+
+    QIcon ActionIcon = QIcon(Loop ? ":/icons/DontLoop_24px" : ":/icons/Loop_24px.png");
+    ui->ActionLoop->setIcon(ActionIcon);
+
     if (sender() != ui->LoopButton)
+    {
+        ui->LoopButton->blockSignals(true);
         ui->LoopButton->setChecked(Loop);
+        ui->LoopButton->blockSignals(false);
+    }
+
+    if (sender() != ui->ActionLoop)
+    {
+        ui->LoopButton->blockSignals(true);
+        ui->ActionLoop->setChecked(Loop);
+        ui->LoopButton->blockSignals(false);
+    }
 }
 
 void CCharacterEditor::Rewind()

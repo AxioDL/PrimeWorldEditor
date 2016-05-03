@@ -5,8 +5,6 @@
         <file>icons/Material Highlight.png</file>
         <file>icons/Minus v2.png</file>
         <file>icons/Minus.png</file>
-        <file>icons/Orbit Camera v2.png</file>
-        <file>icons/Orbit Camera.png</file>
         <file>icons/Plus.png</file>
         <file>icons/Rotate.png</file>
         <file>icons/Samus Silhouette Gradient.png</file>
@@ -19,7 +17,6 @@
         <file>icons/Highlight.png</file>
         <file>icons/Model Preview.png</file>
         <file>icons/Show.png</file>
-        <file>icons/GridLight.png</file>
         <file>icons/Create.png</file>
         <file>icons/Display.png</file>
         <file>icons/Instances.png</file>
@@ -44,5 +41,28 @@
         <file>icons/Edit_24px.png</file>
         <file>icons/Edit_32px.png</file>
         <file>icons/SaveAndRepack_32px.png</file>
+        <file>icons/Play_32px.png</file>
+        <file>icons/Pause_32px.png</file>
+        <file>icons/End_32px.png</file>
+        <file>icons/Beginning_32px.png</file>
+        <file>icons/AnchorRoot_32px.png</file>
+        <file>icons/ShowSkeleton_32px.png</file>
+        <file>icons/BindPose_32px.png</file>
+        <file>icons/DontLoop_32px.png</file>
+        <file>icons/Loop_32px.png</file>
+        <file>icons/ShowSkeleton_24px.png</file>
+        <file>icons/BindPose_24px.png</file>
+        <file>icons/DontLoop_24px.png</file>
+        <file>icons/Loop_24px.png</file>
+        <file>icons/Beginning_24px.png</file>
+        <file>icons/End_24px.png</file>
+        <file>icons/Pause_24px.png</file>
+        <file>icons/Play_24px.png</file>
+        <file>icons/Open_24px.png</file>
+        <file>icons/ShowMesh_24px.png</file>
+        <file>icons/OrbitCamera_24px.png</file>
+        <file>icons/Grid_24px.png</file>
+        <file>icons/Grid_32px.png</file>
+        <file>icons/OrbitCamera_32px.png</file>
     </qresource>
 </RCC>

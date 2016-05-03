@@ -874,17 +874,11 @@ void CModelEditorWindow::ToggleCameraMode()
     CCamera *pCam = &ui->Viewport->Camera();
 
     if (pCam->MoveMode() == eOrbitCamera)
-    {
         pCam->SetMoveMode(eFreeCamera);
-        ui->CameraModeButton->setIcon(QIcon(":/icons/Show.png"));
-        ui->CameraModeButton->setToolTip(QString("Free Camera"));
-    }
 
     else if (pCam->MoveMode() == eFreeCamera)
     {
         pCam->SetMoveMode(eOrbitCamera);
-        ui->CameraModeButton->setIcon(QIcon(":/icons/Orbit Camera.png"));
-        ui->CameraModeButton->setToolTip(QString("Orbit Camera"));
 
         CVector3f Pos = pCam->Position();
         CVector3f Target = mpCurrentModelNode->AABox().Center();
