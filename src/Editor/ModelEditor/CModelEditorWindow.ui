@@ -2176,7 +2176,7 @@
             </property>
             <property name="icon">
              <iconset resource="../Icons.qrc">
-              <normaloff>:/icons/GridLight.png</normaloff>:/icons/GridLight.png</iconset>
+              <normaloff>:/icons/Grid_32px.png</normaloff>:/icons/Grid_32px.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -2205,7 +2205,7 @@
             </property>
             <property name="icon">
              <iconset resource="../Icons.qrc">
-              <normaloff>:/icons/Orbit Camera.png</normaloff>:/icons/Orbit Camera.png</iconset>
+              <normaloff>:/icons/OrbitCamera_32px.png</normaloff>:/icons/OrbitCamera_32px.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -2214,7 +2214,10 @@
              </size>
             </property>
             <property name="checkable">
-             <bool>false</bool>
+             <bool>true</bool>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
             </property>
             <property name="flat">
              <bool>true</bool>

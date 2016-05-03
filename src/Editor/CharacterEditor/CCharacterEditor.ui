@@ -49,8 +49,8 @@
         <bool>false</bool>
        </attribute>
       </widget>
-      <widget class="QWidget" name="layoutWidget">
-       <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0">
+      <widget class="QWidget" name="">
+       <layout class="QVBoxLayout" name="verticalLayout">
         <item>
          <widget class="CCharacterEditorViewport" name="Viewport" native="true">
           <property name="sizePolicy">
@@ -69,82 +69,201 @@
          </widget>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout">
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
           <item>
-           <widget class="QPushButton" name="LoopButton">
-            <property name="text">
-             <string>Loop</string>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <widget class="QPushButton" name="LoopButton">
+              <property name="minimumSize">
+               <size>
+                <width>32</width>
+                <height>32</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Disable Loop</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="../Icons.qrc">
+                <normaloff>:/icons/Loop_24px.png</normaloff>
+                <normalon>:/icons/DontLoop_24px.png</normalon>:/icons/Loop_24px.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>24</width>
+                <height>24</height>
+               </size>
+              </property>
+              <property name="checkable">
+               <bool>true</bool>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Expanding</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
           </item>
           <item>
-           <widget class="QPushButton" name="RewindButton">
-            <property name="text">
-             <string>Rewind</string>
-            </property>
-           </widget>
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <item>
+             <widget class="QPushButton" name="RewindButton">
+              <property name="minimumSize">
+               <size>
+                <width>32</width>
+                <height>32</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Jump to Beginning</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="../Icons.qrc">
+                <normaloff>:/icons/Beginning_24px.png</normaloff>:/icons/Beginning_24px.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>24</width>
+                <height>24</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="PlayPauseButton">
+              <property name="minimumSize">
+               <size>
+                <width>32</width>
+                <height>32</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Pause</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="../Icons.qrc">
+                <normaloff>:/icons/Pause_24px.png</normaloff>:/icons/Pause_24px.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>24</width>
+                <height>24</height>
+               </size>
+              </property>
+              <property name="checkable">
+               <bool>false</bool>
+              </property>
+              <property name="checked">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="FastForwardButton">
+              <property name="minimumSize">
+               <size>
+                <width>32</width>
+                <height>32</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Jump to End</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="../Icons.qrc">
+                <normaloff>:/icons/End_24px.png</normaloff>:/icons/End_24px.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>24</width>
+                <height>24</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
           <item>
-           <widget class="QPushButton" name="PlayPauseButton">
-            <property name="text">
-             <string>Pause</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="FastForwardButton">
-            <property name="text">
-             <string>Fast Forward</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QLabel" name="AnimSpeedLabel">
-            <property name="text">
-             <string>Speed:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="WDraggableSpinBox" name="AnimSpeedSpinBox">
-            <property name="suffix">
-             <string>x</string>
-            </property>
-            <property name="decimals">
-             <number>1</number>
-            </property>
-            <property name="minimum">
-             <double>-10.000000000000000</double>
-            </property>
-            <property name="maximum">
-             <double>10.000000000000000</double>
-            </property>
-            <property name="singleStep">
-             <double>0.100000000000000</double>
-            </property>
-            <property name="value">
-             <double>1.000000000000000</double>
-            </property>
-           </widget>
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <spacer name="horizontalSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Expanding</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QLabel" name="AnimSpeedLabel">
+              <property name="font">
+               <font>
+                <pointsize>10</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Speed:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="WDraggableSpinBox" name="AnimSpeedSpinBox">
+              <property name="suffix">
+               <string>x</string>
+              </property>
+              <property name="decimals">
+               <number>1</number>
+              </property>
+              <property name="minimum">
+               <double>-10.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>10.000000000000000</double>
+              </property>
+              <property name="singleStep">
+               <double>0.100000000000000</double>
+              </property>
+              <property name="value">
+               <double>1.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </item>
@@ -161,6 +280,11 @@
             <width>16777215</width>
             <height>21</height>
            </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
           </property>
           <property name="text">
            <string>Frame 0 / 0 (0.000s/0.000s)</string>
@@ -205,6 +329,7 @@
     <addaction name="ActionOrbit"/>
     <addaction name="separator"/>
     <addaction name="ActionPlay"/>
+    <addaction name="ActionLoop"/>
     <addaction name="ActionRewind"/>
     <addaction name="ActionFastForward"/>
     <addaction name="separator"/>
@@ -236,7 +361,7 @@
   <action name="ActionOpen">
    <property name="icon">
     <iconset resource="../Icons.qrc">
-     <normaloff>:/icons/Open.png</normaloff>:/icons/Open.png</iconset>
+     <normaloff>:/icons/Open_24px.png</normaloff>:/icons/Open_24px.png</iconset>
    </property>
    <property name="text">
     <string>Open</string>
@@ -251,6 +376,10 @@
   <action name="ActionShowSkeleton">
    <property name="checkable">
     <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Icons.qrc">
+     <normaloff>:/icons/ShowSkeleton_24px.png</normaloff>:/icons/ShowSkeleton_24px.png</iconset>
    </property>
    <property name="text">
     <string>Show Skeleton</string>
@@ -269,6 +398,10 @@
    <property name="checked">
     <bool>true</bool>
    </property>
+   <property name="icon">
+    <iconset resource="../Icons.qrc">
+     <normaloff>:/icons/ShowMesh_24px.png</normaloff>:/icons/ShowMesh_24px.png</iconset>
+   </property>
    <property name="text">
     <string>Show Mesh</string>
    </property>
@@ -282,6 +415,10 @@
   <action name="ActionBindPose">
    <property name="checkable">
     <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Icons.qrc">
+     <normaloff>:/icons/BindPose_24px.png</normaloff>:/icons/BindPose_24px.png</iconset>
    </property>
    <property name="text">
     <string>Bind Pose</string>
@@ -299,6 +436,10 @@
    </property>
    <property name="checked">
     <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Icons.qrc">
+     <normaloff>:/icons/OrbitCamera_24px.png</normaloff>:/icons/OrbitCamera_24px.png</iconset>
    </property>
    <property name="text">
     <string>Orbit</string>
@@ -319,7 +460,7 @@
    </property>
    <property name="icon">
     <iconset resource="../Icons.qrc">
-     <normaloff>:/icons/GridLight.png</normaloff>:/icons/GridLight.png</iconset>
+     <normaloff>:/icons/Grid_24px.png</normaloff>:/icons/Grid_24px.png</iconset>
    </property>
    <property name="text">
     <string>Show Grid</string>
@@ -351,27 +492,55 @@
    <property name="checked">
     <bool>true</bool>
    </property>
+   <property name="icon">
+    <iconset resource="../Icons.qrc">
+     <normaloff>:/icons/Play_24px.png</normaloff>
+     <normalon>:/icons/Pause_24px.png</normalon>:/icons/Play_24px.png</iconset>
+   </property>
    <property name="text">
-    <string>Play</string>
+    <string>Pause</string>
    </property>
    <property name="shortcut">
     <string>Space</string>
    </property>
   </action>
   <action name="ActionRewind">
+   <property name="icon">
+    <iconset resource="../Icons.qrc">
+     <normaloff>:/icons/Beginning_24px.png</normaloff>:/icons/Beginning_24px.png</iconset>
+   </property>
    <property name="text">
-    <string>Rewind</string>
+    <string>Jump to Beginning</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+R</string>
    </property>
   </action>
   <action name="ActionFastForward">
+   <property name="icon">
+    <iconset resource="../Icons.qrc">
+     <normaloff>:/icons/End_24px.png</normaloff>:/icons/End_24px.png</iconset>
+   </property>
    <property name="text">
-    <string>Fast Forward</string>
+    <string>Jump to End</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+F</string>
+   </property>
+  </action>
+  <action name="ActionLoop">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Icons.qrc">
+     <normaloff>:/icons/Loop_24px.png</normaloff>:/icons/Loop_24px.png</iconset>
+   </property>
+   <property name="text">
+    <string>Loop</string>
    </property>
   </action>
  </widget>
