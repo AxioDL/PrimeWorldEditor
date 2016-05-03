@@ -35,6 +35,8 @@ public:
     ~CDamageableTriggerExtra();
     void CreateMaterial();
     void UpdatePlaneTransform();
+    ERenderSide RenderSideForDirection(const CVector3f& rkDir);
+    ERenderSide TransformRenderSide(ERenderSide Side);
     void OnTransformed();
     void PropertyModified(IProperty *pProperty);
     bool ShouldDrawNormalAssets();

@@ -185,12 +185,6 @@ CVector4f CMatrix4f::operator*(const CVector4f& rkVec) const
     return out;
 }
 
-CQuaternion CMatrix4f::operator*(const CQuaternion& rkQuat) const
-{
-    // todo: there's probably a faster way to do this. (mirrored in CTransform4f and CQuaternion)
-    return CQuaternion::FromRotationMatrix(Inverse().Transpose()) * rkQuat;
-}
-
 CMatrix4f CMatrix4f::operator*(const CTransform4f& rkMtx) const
 {
     // CTransform4f is a 3x4 matrix with an implicit fourth row of {0, 0, 0, 1}
