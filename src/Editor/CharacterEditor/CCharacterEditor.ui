@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Prime World Editor - Character Editor</string>
+   <string>%APP_FULL_NAME% - Character Editor</string>
   </property>
   <widget class="QWidget" name="CentralWidget">
    <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -49,7 +49,7 @@
         <bool>false</bool>
        </attribute>
       </widget>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0">
         <item>
          <widget class="CCharacterEditorViewport" name="Viewport" native="true">

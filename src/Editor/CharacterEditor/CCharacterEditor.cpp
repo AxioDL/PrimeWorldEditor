@@ -23,6 +23,7 @@ CCharacterEditor::CCharacterEditor(QWidget *parent)
     , mPlaybackSpeed(1.f)
 {
     ui->setupUi(this);
+    REPLACE_WINDOWTITLE_APPVARS;
 
     ui->Viewport->SetNode(mpCharNode);
 
@@ -195,7 +196,7 @@ void CCharacterEditor::Open()
     {
         mpSet = pSet;
         mpCharNode->SetCharSet(mpSet);
-        setWindowTitle("Prime World Editor - Character Editor: " + TO_QSTRING(mpSet->Source()));
+        SET_WINDOWTITLE_APPVARS("%APP_FULL_NAME% - Character Editor: " + TO_QSTRING(mpSet->Source()));
 
         // Clear selected bone
         ui->SkeletonHierarchyTreeView->selectionModel()->clear();

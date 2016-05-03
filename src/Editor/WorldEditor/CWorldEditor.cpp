@@ -42,6 +42,7 @@ CWorldEditor::CWorldEditor(QWidget *parent)
 {
     Log::Write("Creating World Editor");
     ui->setupUi(this);
+    REPLACE_WINDOWTITLE_APPVARS;
 
     mpSelection->SetAllowedNodeTypes(eScriptNode | eLightNode);
 
@@ -238,7 +239,7 @@ void CWorldEditor::SetArea(CWorld *pWorld, CGameArea *pArea)
         if (AreaName.IsEmpty())
             AreaName = "[Untitled Area]";
 
-        setWindowTitle(QString("Prime World Editor - %1 - %2[*]").arg(TO_QSTRING(WorldName)).arg(TO_QSTRING(AreaName)));
+        SET_WINDOWTITLE_APPVARS( QString("%APP_FULL_NAME% - %1 - %2[*]").arg(TO_QSTRING(WorldName)).arg(TO_QSTRING(AreaName)) );
         Log::Write("Loaded area: " + mpArea->Source() + " (" + TO_TSTRING(TO_QSTRING(AreaName)) + ")");
     }
 
@@ -248,7 +249,7 @@ void CWorldEditor::SetArea(CWorld *pWorld, CGameArea *pArea)
         if (pWorldNameTable) LevelName = TO_QSTRING(WorldName);
         else LevelName = "!" + TO_QSTRING(mpWorld->AreaInternalName(mpArea->WorldIndex()));
 
-        setWindowTitle(QString("Prime World Editor - %1[*]").arg(LevelName));
+        SET_WINDOWTITLE_APPVARS( QString("%APP_FULL_NAME% - %1[*]").arg(LevelName) );
         Log::Write("Loaded level: World " + mpWorld->Source() + " / Area " + mpArea->Source() + " (" + TO_TSTRING(LevelName) + ")");
     }
 

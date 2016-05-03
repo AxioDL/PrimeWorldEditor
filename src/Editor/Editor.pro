@@ -11,11 +11,14 @@ RESOURCES += Icons.qrc
 
 win32: RC_ICONS += icons/AppIcon.ico
 
-CONFIG += console
 TEMPLATE = app
 DESTDIR = $$PWD/../../bin
 UI_DIR = $$PWD/../../build/Editor
 DEFINES += GLEW_STATIC
+
+!PUBLIC_RELEASE {
+    CONFIG += console
+}
 
 CONFIG(debug, debug|release) {
     # Debug Config
