@@ -234,7 +234,7 @@ void CDamageableTriggerExtra::AddToRenderer(CRenderer *pRenderer, const SViewInf
     }
 }
 
-void CDamageableTriggerExtra::Draw(FRenderOptions Options, int /*ComponentIndex*/, const SViewInfo& rkViewInfo)
+void CDamageableTriggerExtra::Draw(FRenderOptions Options, int /*ComponentIndex*/, ERenderCommand /*Command*/, const SViewInfo& rkViewInfo)
 {
     LoadModelMatrix();
     CGraphics::sPixelBlock.TintColor = mpParent->TintColor(rkViewInfo);

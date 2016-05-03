@@ -35,26 +35,21 @@ void CCharacterNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkView
     CSkeleton *pSkel = mpCharacter->NodeSkeleton(mActiveCharSet);
 
     if (pModel && rkViewInfo.ShowFlags.HasFlag(eShowObjectGeometry))
-    {
-        if (!pModel->HasTransparency(0))
-            pRenderer->AddMesh(this, -1, AABox(), false, eDrawMesh);
-        else
-            AddSurfacesToRenderer(pRenderer, pModel, 0, rkViewInfo, eMidground, false);
-    }
+        AddModelToRenderer(pRenderer, pModel, 0);
 
     if (pSkel)
     {
         if (rkViewInfo.ShowFlags.HasFlag(eShowSkeletons))
-            pRenderer->AddMesh(this, -2, AABox(), false, eDrawMesh, eForeground);
+            pRenderer->AddMesh(this, 0, AABox(), false, eDrawMesh, eForeground);
     }
 }
 
-void CCharacterNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& rkViewInfo)
+void CCharacterNode::Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand Command, const SViewInfo& rkViewInfo)
 {
     CSkeleton *pSkel = mpCharacter->NodeSkeleton(mActiveCharSet);
 
     // Draw skeleton
-    if (ComponentIndex == -2)
+    if (ComponentIndex == 0)
     {
         LoadModelMatrix();
         pSkel->Draw(Options, &mTransformData);
@@ -79,11 +74,7 @@ void CCharacterNode::Draw(FRenderOptions Options, int ComponentIndex, const SVie
             CGraphics::LoadIdentityBoneTransforms();
 
         CModel *pModel = mpCharacter->NodeModel(mActiveCharSet);
-
-        if (ComponentIndex < 0)
-            pModel->Draw(Options, 0);
-        else
-            pModel->DrawSurface(Options, ComponentIndex, 0);
+        DrawModelParts(pModel, Options, 0, Command);
     }
 }
 

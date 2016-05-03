@@ -151,14 +151,8 @@ void CScriptNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInf
 
                 if (!pModel)
                     pRenderer->AddMesh(this, -1, AABox(), false, eDrawMesh);
-
                 else
-                {
-                    if (!pModel->HasTransparency(0))
-                        pRenderer->AddMesh(this, -1, AABox(), false, eDrawMesh);
-                    else
-                        AddSurfacesToRenderer(pRenderer, pModel, 0, rkViewInfo);
-                }
+                    AddModelToRenderer(pRenderer, pModel, 0);
             }
         }
     }
@@ -175,9 +169,9 @@ void CScriptNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInf
     }
 }
 
-void CScriptNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& rkViewInfo)
+void CScriptNode::Draw(FRenderOptions Options, int /*ComponentIndex*/, ERenderCommand Command, const SViewInfo& rkViewInfo)
 {
-    if (!mpInstance || !mpDisplayAsset) return;
+    if (!mpInstance) return;
 
     // Draw model
     if (UsesModel())
@@ -219,11 +213,7 @@ void CScriptNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewIn
 
             CGraphics::sPixelBlock.TintColor = TintColor(rkViewInfo);
             CGraphics::UpdatePixelBlock();
-
-            if (ComponentIndex < 0)
-                pModel->Draw(Options, 0);
-            else
-                pModel->DrawSurface(Options, ComponentIndex, 0);
+            DrawModelParts(pModel, Options, 0, Command);
         }
 
         // If no model or billboard, default to drawing a purple box

@@ -4,6 +4,7 @@
 #include "Core/Render/CDrawUtil.h"
 #include "Core/Resource/CGameArea.h"
 #include "Core/Resource/CResCache.h"
+#include <Common/Assert.h>
 #include <Math/CTransform4f.h>
 
 #include <algorithm>
@@ -213,6 +214,43 @@ void CSceneNode::LoadLights(const SViewInfo& rkViewInfo)
     CGraphics::UpdateLightBlock();
 }
 
+void CSceneNode::AddModelToRenderer(CRenderer *pRenderer, CModel *pModel, u32 MatSet)
+{
+    ASSERT(pModel);
+
+    if (!pModel->HasTransparency(MatSet))
+        pRenderer->AddMesh(this, -1, AABox(), false, eDrawMesh);
+
+    else
+    {
+        pRenderer->AddMesh(this, -1, AABox(), false, eDrawOpaqueParts);
+        pRenderer->AddMesh(this, -1, AABox(), true, eDrawTransparentParts);
+    }
+}
+
+void CSceneNode::DrawModelParts(CModel *pModel, FRenderOptions Options, u32 MatSet, ERenderCommand RenderCommand)
+{
+    // Common rendering functionality
+    if (RenderCommand == eDrawMesh)
+        pModel->Draw(Options, MatSet);
+
+    else
+    {
+        bool DrawOpaque = (RenderCommand == eDrawMesh || RenderCommand == eDrawOpaqueParts);
+        bool DrawTransparent = (RenderCommand == eDrawMesh || RenderCommand == eDrawTransparentParts);
+
+        for (u32 iSurf = 0; iSurf < pModel->GetSurfaceCount(); iSurf++)
+        {
+            bool ShouldRender = ( (DrawOpaque && DrawTransparent) ||
+                                  (DrawOpaque && !pModel->IsSurfaceTransparent(iSurf, MatSet)) ||
+                                  (DrawTransparent && pModel->IsSurfaceTransparent(iSurf, MatSet)) );
+
+            if (ShouldRender)
+                pModel->DrawSurface(Options, iSurf, MatSet);
+        }
+    }
+}
+
 void CSceneNode::DrawBoundingBox() const
 {
     CDrawUtil::DrawWireCube(AABox(), CColor::skWhite);
@@ -222,21 +260,6 @@ void CSceneNode::DrawRotationArrow() const
 {
     static TResPtr<CModel> spArrowModel = gResCache.GetResource("../resources/RotationArrow.cmdl");
     spArrowModel->Draw(eNoRenderOptions, 0);
-}
-
-void CSceneNode::AddSurfacesToRenderer(CRenderer *pRenderer, CModel *pModel, u32 MatSet, const SViewInfo& rkViewInfo, EDepthGroup DepthGroup /*= eMidground*/, bool DoFrustumTest /*= true*/)
-{
-    u32 SurfaceCount = pModel->GetSurfaceCount();
-
-    for (u32 iSurf = 0; iSurf < SurfaceCount; iSurf++)
-    {
-        CAABox TransformedBox = pModel->GetSurfaceAABox(iSurf).Transformed(Transform());
-
-        if (!DoFrustumTest || rkViewInfo.ViewFrustum.BoxInFrustum(TransformedBox))
-        {
-            pRenderer->AddMesh(this, (int) iSurf, TransformedBox, pModel->IsSurfaceTransparent(iSurf, MatSet), eDrawMesh, DepthGroup);
-        }
-    }
 }
 
 // ************ TRANSFORM ************

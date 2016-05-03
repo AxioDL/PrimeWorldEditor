@@ -12,7 +12,7 @@ public:
     CCollisionNode(CScene *pScene, u32 NodeID, CSceneNode *pParent = 0, CCollisionMeshGroup *pCollision = 0);
     ENodeType NodeType();
     void AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo);
-    void Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& rkViewInfo);
+    void Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand Command, const SViewInfo& rkViewInfo);
     SRayIntersection RayNodeIntersectTest(const CRay& rkRay, u32 AssetID, const SViewInfo& rkViewInfo);
     void SetCollision(CCollisionMeshGroup *pCollision);
 };

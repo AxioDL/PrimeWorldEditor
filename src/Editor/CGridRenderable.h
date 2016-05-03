@@ -13,7 +13,7 @@ public:
         pRenderer->AddMesh(this, 0, CAABox::skOne, false, eDrawMesh);
     }
 
-    void Draw(FRenderOptions, int, const SViewInfo&)
+    void Draw(FRenderOptions, int, ERenderCommand, const SViewInfo&)
     {
         CDrawUtil::DrawGrid();
     }

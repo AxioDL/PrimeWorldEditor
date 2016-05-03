@@ -32,7 +32,7 @@ public:
     void OnTransformed();
     void LinksModified();
     void AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo);
-    void Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& rkViewInfo);
+    void Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand Command, const SViewInfo& rkViewInfo);
     CColor TevColor();
 };
 
