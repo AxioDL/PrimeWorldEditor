@@ -22,7 +22,7 @@ public:
     virtual ENodeType NodeType();
     virtual void PostLoad();
     virtual void AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo);
-    virtual void Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& rkViewInfo);
+    virtual void Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand Command, const SViewInfo& rkViewInfo);
     virtual SRayIntersection RayNodeIntersectTest(const CRay& rkRay, u32 AssetID, const SViewInfo& rkViewInfo);
 
     CVector3f BonePosition(u32 BoneID);

@@ -78,9 +78,10 @@ public:
     void LoadModelMatrix();
     void BuildLightList(CGameArea *pArea);
     void LoadLights(const SViewInfo& rkViewInfo);
+    void AddModelToRenderer(CRenderer *pRenderer, CModel *pModel, u32 MatSet);
+    void DrawModelParts(CModel *pModel, FRenderOptions Options, u32 MatSet, ERenderCommand RenderCommand);
     void DrawBoundingBox() const;
     void DrawRotationArrow() const;
-    void AddSurfacesToRenderer(CRenderer *pRenderer, CModel *pModel, u32 MatSet, const SViewInfo& rkViewInfo, EDepthGroup DepthGroup = eMidground, bool DoFrustumTest = true);
 
     // Transform
     void Translate(const CVector3f& rkTranslation, ETransformSpace TransformSpace);

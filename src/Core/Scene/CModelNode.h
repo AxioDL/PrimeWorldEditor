@@ -20,7 +20,7 @@ public:
     virtual ENodeType NodeType();
     virtual void PostLoad();
     virtual void AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo);
-    virtual void Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& rkViewInfo);
+    virtual void Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand Command, const SViewInfo& rkViewInfo);
     virtual void DrawSelection();
     virtual void RayAABoxIntersectTest(CRayCollisionTester& Tester, const SViewInfo& rkViewInfo);
     virtual SRayIntersection RayNodeIntersectTest(const CRay &Ray, u32 AssetID, const SViewInfo& rkViewInfo);

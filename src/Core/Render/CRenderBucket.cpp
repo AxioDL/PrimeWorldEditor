@@ -67,11 +67,11 @@ void CRenderBucket::CSubBucket::Draw(const SViewInfo& rkViewInfo)
     {
         const SRenderablePtr& rkPtr = mRenderables[iPtr];
 
-        if (rkPtr.Command == eDrawMesh)
-            rkPtr.pRenderable->Draw(Options, rkPtr.ComponentIndex, rkViewInfo);
-
-        else if (rkPtr.Command == eDrawSelection)
+        // todo: DrawSelection probably shouldn't be a separate function anymore.
+        if (rkPtr.Command == eDrawSelection)
             rkPtr.pRenderable->DrawSelection();
+        else
+            rkPtr.pRenderable->Draw(Options, rkPtr.ComponentIndex, rkPtr.Command, rkViewInfo);
     }
 }
 

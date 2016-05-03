@@ -128,7 +128,7 @@ public:
     ~CGizmo();
 
     void AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo);
-    void Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& rkViewInfo);
+    void Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand Command, const SViewInfo& rkViewInfo);
 
     void IncrementSize();
     void DecrementSize();

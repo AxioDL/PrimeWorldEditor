@@ -64,17 +64,14 @@ void CDoorExtra::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo
 
     if (mpParent->IsVisible() && rkViewInfo.ViewFrustum.BoxInFrustum(AABox()))
     {
-        if (mpShieldModel->HasTransparency(0))
-            AddSurfacesToRenderer(pRenderer, mpShieldModel, 0, rkViewInfo);
-        else
-            pRenderer->AddMesh(this, -1, AABox(), false, eDrawMesh);
+        AddModelToRenderer(pRenderer, mpShieldModel, 0);
 
         if (mpParent->IsSelected() && !rkViewInfo.GameMode)
             pRenderer->AddMesh(this, -1, AABox(), false, eDrawSelection);
     }
 }
 
-void CDoorExtra::Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& rkViewInfo)
+void CDoorExtra::Draw(FRenderOptions Options, int /*ComponentIndex*/, ERenderCommand Command, const SViewInfo& rkViewInfo)
 {
     LoadModelMatrix();
     mpParent->LoadLights(rkViewInfo);
@@ -87,11 +84,7 @@ void CDoorExtra::Draw(FRenderOptions Options, int ComponentIndex, const SViewInf
     CGraphics::sPixelBlock.TintColor = Tint;
     CGraphics::sPixelBlock.TevColor = CColor::skWhite;
     CGraphics::UpdatePixelBlock();
-
-    if (ComponentIndex < 0)
-        mpShieldModel->Draw(Options, 0);
-    else
-        mpShieldModel->DrawSurface(Options, ComponentIndex, 0);
+    DrawModelParts(mpShieldModel, Options, 0, Command);
 }
 
 void CDoorExtra::DrawSelection()

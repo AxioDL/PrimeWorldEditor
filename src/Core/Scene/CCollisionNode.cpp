@@ -27,7 +27,7 @@ void CCollisionNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkView
         pRenderer->AddMesh(this, -1, AABox(), false, eDrawSelection);
 }
 
-void CCollisionNode::Draw(FRenderOptions /*Options*/, int /*ComponentIndex*/, const SViewInfo& rkViewInfo)
+void CCollisionNode::Draw(FRenderOptions /*Options*/, int /*ComponentIndex*/, ERenderCommand /*Command*/, const SViewInfo& rkViewInfo)
 {
     if (!mpCollision) return;
 

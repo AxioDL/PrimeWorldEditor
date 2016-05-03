@@ -1,6 +1,7 @@
 #ifndef IRENDERABLE_H
 #define IRENDERABLE_H
 
+#include "ERenderCommand.h"
 #include "FRenderOptions.h"
 #include "SViewInfo.h"
 #include <Common/types.h>
@@ -13,7 +14,7 @@ public:
     IRenderable() {}
     virtual ~IRenderable() {}
     virtual void AddToRenderer(CRenderer* pRenderer, const SViewInfo& rkViewInfo) = 0;
-    virtual void Draw(FRenderOptions /*Options*/, int /*ComponentIndex*/, const SViewInfo& /*rkViewInfo*/) {}
+    virtual void Draw(FRenderOptions /*Options*/, int /*ComponentIndex*/, ERenderCommand /*Command*/, const SViewInfo& /*rkViewInfo*/) {}
     virtual void DrawSelection() {}
 };
 

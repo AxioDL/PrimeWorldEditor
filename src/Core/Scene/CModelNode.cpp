@@ -35,16 +35,27 @@ void CModelNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo
     if (!rkViewInfo.ViewFrustum.BoxInFrustum(AABox())) return;
     if (rkViewInfo.GameMode) return;
 
-    if (!mpModel->HasTransparency(mActiveMatSet))
-        pRenderer->AddMesh(this, -1, AABox(), false, eDrawMesh);
+    // Transparent world models should have each surface processed separately
+    if (mWorldModel && mpModel->HasTransparency(mActiveMatSet))
+    {
+        pRenderer->AddMesh(this, -1, AABox(), false, eDrawOpaqueParts);
+
+        for (u32 iSurf = 0; iSurf < mpModel->GetSurfaceCount(); iSurf++)
+        {
+            if (mpModel->IsSurfaceTransparent(iSurf, mActiveMatSet))
+                pRenderer->AddMesh(this, iSurf, mpModel->GetSurfaceAABox(iSurf).Transformed(Transform()), true, eDrawTransparentParts);
+        }
+    }
+
+    // Other models should just draw all transparent surfaces sequentially
     else
-        AddSurfacesToRenderer(pRenderer, mpModel, mActiveMatSet, rkViewInfo);
+        AddModelToRenderer(pRenderer, mpModel, mActiveMatSet);
 
     if (mSelected)
         pRenderer->AddMesh(this, -1, AABox(), false, eDrawSelection);
 }
 
-void CModelNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& rkViewInfo)
+void CModelNode::Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand Command, const SViewInfo& rkViewInfo)
 {
     if (!mpModel) return;
     if (mForceAlphaOn) Options = (FRenderOptions) (Options & ~eNoAlpha);
@@ -86,8 +97,8 @@ void CModelNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewInf
     if (mpModel->IsSkinned())
         CGraphics::LoadIdentityBoneTransforms();
 
-    if (ComponentIndex < 0)
-        mpModel->Draw(Options, mActiveMatSet);
+    if (ComponentIndex == -1)
+        DrawModelParts(mpModel, Options, mActiveMatSet, Command);
     else
         mpModel->DrawSurface(Options, ComponentIndex, mActiveMatSet);
 
@@ -96,11 +107,7 @@ void CModelNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewInf
         CDrawUtil::UseColorShader(mScanOverlayColor);
         glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ZERO, GL_ZERO);
         Options |= eNoMaterialSetup;
-
-        if (ComponentIndex < 0)
-            mpModel->Draw(Options, 0);
-        else
-            mpModel->DrawSurface(Options, ComponentIndex, mActiveMatSet);
+        DrawModelParts(mpModel, Options, 0, Command);
     }
 }
 

@@ -4,6 +4,8 @@
 enum ERenderCommand
 {
     eDrawMesh,
+    eDrawOpaqueParts,
+    eDrawTransparentParts,
     eDrawSelection
 };
 

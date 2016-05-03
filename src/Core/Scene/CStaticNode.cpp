@@ -52,7 +52,7 @@ void CStaticNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInf
         pRenderer->AddMesh(this, -1, AABox(), false, eDrawSelection);
 }
 
-void CStaticNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& rkViewInfo)
+void CStaticNode::Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand /*Command*/, const SViewInfo& rkViewInfo)
 {
     if (!mpModel) return;
 

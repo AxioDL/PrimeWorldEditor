@@ -62,7 +62,7 @@ void CGizmo::AddToRenderer(CRenderer *pRenderer, const SViewInfo&)
     }
 }
 
-void CGizmo::Draw(FRenderOptions /*Options*/, int ComponentIndex, const SViewInfo& /*rkViewInfo*/)
+void CGizmo::Draw(FRenderOptions /*Options*/, int ComponentIndex, ERenderCommand /*Command*/, const SViewInfo& /*rkViewInfo*/)
 {
     // Determine which SModelPart array to use
     if (ComponentIndex >= (int) mNumCurrentParts) return;

@@ -77,17 +77,14 @@ void CScriptAttachNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkV
 
     if (rkViewInfo.ViewFrustum.BoxInFrustum(AABox()))
     {
-        if (pModel->HasTransparency(0))
-            AddSurfacesToRenderer(pRenderer, pModel, 0, rkViewInfo);
-        else
-            pRenderer->AddMesh(this, -1, AABox(), false, eDrawMesh);
+        AddModelToRenderer(pRenderer, pModel, 0);
 
         if (mpParent->IsSelected() && !rkViewInfo.GameMode)
             pRenderer->AddMesh(this, -1, AABox(), false, eDrawSelection);
     }
 }
 
-void CScriptAttachNode::Draw(FRenderOptions Options, int ComponentIndex, const SViewInfo& rkViewInfo)
+void CScriptAttachNode::Draw(FRenderOptions Options, int /*ComponentIndex*/, ERenderCommand Command, const SViewInfo& rkViewInfo)
 {
     LoadModelMatrix();
     mpParent->LoadLights(rkViewInfo);
@@ -98,11 +95,7 @@ void CScriptAttachNode::Draw(FRenderOptions Options, int ComponentIndex, const S
     CGraphics::sPixelBlock.TintColor = mpParent->TintColor(rkViewInfo);
     CGraphics::sPixelBlock.TevColor = CColor::skWhite;
     CGraphics::UpdatePixelBlock();
-
-    if (ComponentIndex < 0)
-        Model()->Draw(Options, 0);
-    else
-        Model()->DrawSurface(Options, ComponentIndex, 0);
+    DrawModelParts(Model(), Options, 0, Command);
 }
 
 void CScriptAttachNode::DrawSelection()

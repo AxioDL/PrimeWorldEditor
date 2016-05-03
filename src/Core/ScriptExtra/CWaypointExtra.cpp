@@ -172,7 +172,7 @@ void CWaypointExtra::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkView
     }
 }
 
-void CWaypointExtra::Draw(FRenderOptions /*Options*/, int ComponentIndex, const SViewInfo& /*rkViewInfo*/)
+void CWaypointExtra::Draw(FRenderOptions /*Options*/, int ComponentIndex, ERenderCommand /*Command*/, const SViewInfo& /*rkViewInfo*/)
 {
     glBlendFunc(GL_ONE, GL_ZERO);
     glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
