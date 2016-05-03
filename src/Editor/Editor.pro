@@ -163,7 +163,8 @@ HEADERS += \
     CharacterEditor/CCharacterEditor.h \
     CharacterEditor/CCharacterEditorViewport.h \
     CGridRenderable.h \
-    CharacterEditor/CSkeletonHierarchyModel.h
+    CharacterEditor/CSkeletonHierarchyModel.h \
+    CLineRenderable.h
 
 # Source Files
 SOURCES += \

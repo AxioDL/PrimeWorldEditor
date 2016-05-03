@@ -20,6 +20,8 @@ CSceneViewport::CSceneViewport(QWidget *pParent)
     , mpContextMenu(nullptr)
     , mpMenuNode(nullptr)
 {
+    mLinkLine.SetColor(CColor::skYellow);
+
     mpRenderer = new CRenderer();
     mpRenderer->SetClearColor(CColor::skBlack);
     mpRenderer->SetViewportSize(width(), height());
@@ -317,14 +319,8 @@ void CSceneViewport::Paint()
         pGizmo->AddToRenderer(mpRenderer, mViewInfo);
     }
 
-    // Draw the line for the link the user is editing. This is a little hacky but I don't really have a better way to do this atm.
-    if (mLinkLineEnabled)
-    {
-        CGraphics::sMVPBlock.ModelMatrix = CMatrix4f::skIdentity;
-        CGraphics::UpdateMVPBlock();
-        glDepthRange(0.f, 1.f);
-        CDrawUtil::DrawLine(mLinkLinePoints[0], mLinkLinePoints[1], CColor::skYellow);
-    }
+    // Draw the line for the link the user is editing.
+    if (mLinkLineEnabled) mLinkLine.AddToRenderer(mpRenderer, mViewInfo);
 
     mpRenderer->RenderBuckets(mViewInfo);
     mpRenderer->EndFrame();

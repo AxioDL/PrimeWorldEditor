@@ -2,6 +2,7 @@
 #define CSCENEVIEWPORT_H
 
 #include "CBasicViewport.h"
+#include "CLineRenderable.h"
 #include "INodeEditor.h"
 
 class CSceneViewport : public CBasicViewport
@@ -41,7 +42,7 @@ class CSceneViewport : public CBasicViewport
 
     // Link Line
     bool mLinkLineEnabled;
-    CVector3f mLinkLinePoints[2];
+    CLineRenderable mLinkLine;
 
 public:
     CSceneViewport(QWidget *pParent = 0);
@@ -61,13 +62,8 @@ public:
     void keyPressEvent(QKeyEvent* pEvent);
     void keyReleaseEvent(QKeyEvent* pEvent);
 
-    inline void SetLinkLineEnabled(bool Enable) { mLinkLineEnabled = Enable; }
-
-    inline void SetLinkLine(const CVector3f& rkPointA, const CVector3f& rkPointB)
-    {
-        mLinkLinePoints[0] = rkPointA;
-        mLinkLinePoints[1] = rkPointB;
-    }
+    inline void SetLinkLineEnabled(bool Enable)                                     { mLinkLineEnabled = Enable; }
+    inline void SetLinkLine(const CVector3f& rkPointA, const CVector3f& rkPointB)   { mLinkLine.SetPoints(rkPointA, rkPointB); }
 
 protected:
     void CreateContextMenu();
