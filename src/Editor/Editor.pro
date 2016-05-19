@@ -13,7 +13,7 @@ win32: RC_ICONS += icons/AppIcon.ico
 
 TEMPLATE = app
 DESTDIR = $$PWD/../../bin
-UI_DIR = $$PWD/../../build/Editor
+UI_DIR = $$BUILD_DIR/Editor
 DEFINES += GLEW_STATIC
 
 !PUBLIC_RELEASE {
@@ -22,68 +22,67 @@ DEFINES += GLEW_STATIC
 
 CONFIG(debug, debug|release) {
     # Debug Config
-    OBJECTS_DIR = $$PWD/../../build/Editor/debug
-    MOC_DIR = $$PWD/../../build/Editor/debug
-    RCC_DIR = $$PWD/../../build/Editor/debug
+    OBJECTS_DIR = $$BUILD_DIR/Editor/debug
+    MOC_DIR = $$BUILD_DIR/Editor/debug
+    RCC_DIR = $$BUILD_DIR/Editor/debug
     TARGET = PrimeWorldEditor-debug
 
     # Debug Libs
-    LIBS += -L$$PWD/../../build/FileIO/ -lFileIOd \
-            -L$$PWD/../../build/Common/ -lCommond \
-            -L$$PWD/../../build/Math/ -lMathd \
-            -L$$PWD/../../build/Core/ -lCored \
-            -L$$PWD/../../externals/assimp/lib/ -lassimp-vc120-mtd \
-            -L$$PWD/../../externals/boost_1_56_0/lib32-msvc-12.0 -llibboost_filesystem-vc120-mt-gd-1_56 \
-            -L$$PWD/../../externals/tinyxml2/lib/ -ltinyxml2d
+    LIBS += -L$$BUILD_DIR/FileIO/ -lFileIOd \
+            -L$$BUILD_DIR/Common/ -lCommond \
+            -L$$BUILD_DIR/Math/ -lMathd \
+            -L$$BUILD_DIR/Core/ -lCored \
+            -L$$EXTERNALS_DIR/assimp/lib/ -lassimp-vc120-mtd \
+            -L$$EXTERNALS_DIR/boost_1_56_0/lib32-msvc-12.0 -llibboost_filesystem-vc120-mt-gd-1_56 \
+            -L$$EXTERNALS_DIR/tinyxml2/lib/ -ltinyxml2d
 
     # Debug Target Dependencies
     win32 {
-        PRE_TARGETDEPS += $$PWD/../../build/FileIO/FileIOd.lib \
-                          $$PWD/../../build/Common/Commond.lib \
-                          $$PWD/../../build/Math/Mathd.lib \
-                          $$PWD/../../build/Core/Cored.lib
+        PRE_TARGETDEPS += $$BUILD_DIR/FileIO/FileIOd.lib \
+                          $$BUILD_DIR/Common/Commond.lib \
+                          $$BUILD_DIR/Math/Mathd.lib \
+                          $$BUILD_DIR/Core/Cored.lib
     }
 }
 
 CONFIG(release, debug|release) {
     # Release Config
-    OBJECTS_DIR = $$PWD/../../build/Editor/release
-    MOC_DIR = $$PWD/../../build/Editor/release
-    RCC_DIR = $$PWD/../../build/Editor/release
+    OBJECTS_DIR = $$BUILD_DIR/Editor/release
+    MOC_DIR = $$BUILD_DIR/Editor/release
+    RCC_DIR = $$BUILD_DIR/Editor/release
     TARGET = PrimeWorldEditor
 
     # Release Libs
-    LIBS += -L$$PWD/../../build/FileIO/ -lFileIO \
-            -L$$PWD/../../build/Common/ -lCommon \
-            -L$$PWD/../../build/Math/ -lMath \
-            -L$$PWD/../../build/Core/ -lCore \
-            -L$$PWD/../../externals/assimp/lib/ -lassimp-vc120-mt \
-            -L$$PWD/../../externals/boost_1_56_0/lib32-msvc-12.0 -llibboost_filesystem-vc120-mt-1_56 \
-            -L$$PWD/../../externals/tinyxml2/lib/ -ltinyxml2
+    LIBS += -L$$BUILD_DIR/FileIO/ -lFileIO \
+            -L$$BUILD_DIR/Common/ -lCommon \
+            -L$$BUILD_DIR/Math/ -lMath \
+            -L$$BUILD_DIR/Core/ -lCore \
+            -L$$EXTERNALS_DIR/assimp/lib/ -lassimp-vc120-mt \
+            -L$$EXTERNALS_DIR/boost_1_56_0/lib32-msvc-12.0 -llibboost_filesystem-vc120-mt-1_56 \
+            -L$$EXTERNALS_DIR/tinyxml2/lib/ -ltinyxml2
 
     # Release Target Dependencies
     win32 {
-        PRE_TARGETDEPS += $$PWD/../../build/FileIO/FileIO.lib \
-                          $$PWD/../../build/Common/Common.lib \
-                          $$PWD/../../build/Math/Math.lib \
-                          $$PWD/../../build/Core/Core.lib
+        PRE_TARGETDEPS += $$BUILD_DIR/FileIO/FileIO.lib \
+                          $$BUILD_DIR/Common/Common.lib \
+                          $$BUILD_DIR/Math/Math.lib \
+                          $$BUILD_DIR/Core/Core.lib
     }
 }
 
 # Debug/Release Libs
-LIBS += -L$$PWD/../../externals/glew-1.9.0/lib/ -lglew32s \
-        -L$$PWD/../../externals/lzo-2.08/lib -llzo-2.08 \
-        -L$$PWD/../../externals/zlib/lib -lzdll
+LIBS += -L$$EXTERNALS_DIR/glew-1.9.0/lib/ -lglew32s \
+        -L$$EXTERNALS_DIR/lzo-2.08/lib -llzo-2.08 \
+        -L$$EXTERNALS_DIR/zlib/lib -lzdll
 
 # Include Paths
-INCLUDEPATH += $$PWD/../ \
-               $$PWD/../../externals/assimp/include \
-               $$PWD/../../externals/boost_1_56_0 \
-               $$PWD/../../externals/glew-1.9.0/include \
-               $$PWD/../../externals/glm/glm \
-               $$PWD/../../externals/lzo-2.08/include \
-               $$PWD/../../externals/tinyxml2/include \
-               $$PWD/../../externals/zlib/include
+INCLUDEPATH += $$PWE_MAIN_INCLUDE \
+               $$EXTERNALS_DIR/assimp/include \
+               $$EXTERNALS_DIR/glew-1.9.0/include \
+               $$EXTERNALS_DIR/glm/glm \
+               $$EXTERNALS_DIR/lzo-2.08/include \
+               $$EXTERNALS_DIR/tinyxml2/include \
+               $$EXTERNALS_DIR/zlib/include
 
 # Header Files
 HEADERS += \
@@ -164,7 +163,8 @@ HEADERS += \
     CharacterEditor/CCharacterEditorViewport.h \
     CGridRenderable.h \
     CharacterEditor/CSkeletonHierarchyModel.h \
-    CLineRenderable.h
+    CLineRenderable.h \
+    CGameExporter.h
 
 # Source Files
 SOURCES += \
@@ -224,7 +224,8 @@ SOURCES += \
     CAboutDialog.cpp \
     CharacterEditor/CCharacterEditor.cpp \
     CharacterEditor/CCharacterEditorViewport.cpp \
-    CharacterEditor/CSkeletonHierarchyModel.cpp
+    CharacterEditor/CSkeletonHierarchyModel.cpp \
+    CGameExporter.cpp
 
 # UI Files
 FORMS += \

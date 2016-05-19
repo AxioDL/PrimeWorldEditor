@@ -2,7 +2,7 @@
 #include "Core/Render/CBoneTransformData.h"
 #include "Core/Render/CDrawUtil.h"
 #include "Core/Render/CGraphics.h"
-#include <Common/Assert.h>
+#include <Common/AssertMacro.h>
 #include <Math/MathUtil.h>
 
 // ************ CBone ************

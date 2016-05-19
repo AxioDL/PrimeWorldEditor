@@ -6,6 +6,18 @@
 #include <cstdlib>
 #include <string.h>
 
+/* This header declares a macro, ASSERT(Expression). ASSERT evaluates the input expression and verifies that
+ * it is true. If the expression is false, an error message will be printed to the log with info on what went
+ * wrong and (in debug builds) trigger a debug break. Application execution is not aborted, but if an assert
+ * fails then there is usually a decent chance of the application crashing regardless.
+ *
+ * Note that in public release builds, asserts are compiled out entirely, so neither log messages nor debug breaks
+ * will occur.
+ *
+ * There are two other macros defined which can be useful for debugging, but shouldn't be used as permanent error
+ * checks: BREAK_ONLY_ASSERT, which doesn't write the error to the log, and LOG_ONLY_ASSERT, which doesn't trigger
+ * a debug break.
+ */
 #define __FILE_SHORT__ strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__
 
 #if _DEBUG

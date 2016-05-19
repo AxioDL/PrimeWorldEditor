@@ -4,7 +4,7 @@
 #include "Core/Render/CDrawUtil.h"
 #include "Core/Resource/CGameArea.h"
 #include "Core/Resource/CResCache.h"
-#include <Common/Assert.h>
+#include <Common/AssertMacro.h>
 #include <Math/CTransform4f.h>
 
 #include <algorithm>

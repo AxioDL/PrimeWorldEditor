@@ -1,5 +1,5 @@
 #include "CSkeletonLoader.h"
-#include <Common/Assert.h>
+#include <Common/AssertMacro.h>
 #include <Common/Log.h>
 
 #include <vector>

@@ -3,7 +3,7 @@
 
 #include "Core/Scene/CSceneNode.h"
 #include "Core/Scene/CScriptNode.h"
-#include <Common/Assert.h>
+#include <Common/AssertMacro.h>
 
 /* CScriptExtra is a class that allows for additional coded behavior on any given
  * script object type. Subclass IScriptExtra, add the new class to CScriptExtra.cpp,

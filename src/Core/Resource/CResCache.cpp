@@ -12,15 +12,14 @@
 #include "Core/Resource/Factory/CStringLoader.h"
 #include "Core/Resource/Factory/CTextureDecoder.h"
 #include "Core/Resource/Factory/CWorldLoader.h"
-#include <Common/Log.h>
 
-#include <Common/TString.h>
 #include <FileIO/FileIO.h>
+#include <Common/FileUtil.h>
+#include <Common/Log.h>
+#include <Common/TString.h>
 #include <iostream>
-#include <boost/filesystem.hpp>
 
 CResCache::CResCache()
-    : mpPak(nullptr)
 {
 }
 
@@ -60,127 +59,33 @@ void CResCache::Clean()
 void CResCache::SetFolder(TString Path)
 {
     Path.EnsureEndsWith("/");
-    mResSource.Path = Path;
-    mResSource.Source = SResSource::eFolder;
+    mResDir = Path;
     Log::Write("Set resource folder: " + Path);
-}
-
-void CResCache::SetPak(const TString& rkPath)
-{
-    CFileInStream *pPakFile = new CFileInStream(rkPath.ToStdString(), IOUtil::eBigEndian);
-
-    if (!pPakFile->IsValid())
-    {
-        Log::Error("Couldn't load pak file: " + rkPath);
-        delete pPakFile;
-        return;
-    }
-
-    if (mpPak) delete mpPak;
-    mpPak = new CPakFile(pPakFile);
-    mResSource.Path = rkPath;
-    mResSource.Source = SResSource::ePakFile;
-    Log::Write("Loaded pak file: " + rkPath);
-}
-
-void CResCache::SetResSource(SResSource& rResSource)
-{
-    mResSource = rResSource;
-}
-
-SResSource CResCache::GetResSource()
-{
-    return mResSource;
 }
 
 TString CResCache::GetSourcePath()
 {
-    return mResSource.Path;
+    return mResDir;
 }
 
 CResource* CResCache::GetResource(CUniqueID ResID, CFourCC Type)
 {
     if (!ResID.IsValid()) return nullptr;
-
-    auto got = mResourceCache.find(ResID.ToLongLong());
-
-    if (got != mResourceCache.end())
-        return got->second;
-
-    std::vector<u8> *pBuffer = nullptr;
-    TString Source;
-
-    // Load from pak
-    if (mResSource.Source == SResSource::ePakFile)
-    {
-        pBuffer = mpPak->Resource(ResID.ToLongLong(), Type);
-        Source = ResID.ToString() + "." + Type.ToString();
-    }
-
-    // Load from folder
-    else
-    {
-        Source = mResSource.Path + ResID.ToString() + "." + Type.ToString();
-        CFileInStream File(Source.ToStdString(), IOUtil::eBigEndian);
-
-        if (!File.IsValid())
-        {
-            Log::Error("Couldn't open resource: " + ResID.ToString() + "." + Type.ToString());
-            return nullptr;
-        }
-
-        pBuffer = new std::vector<u8>;
-        pBuffer->resize(File.Size());
-        File.ReadBytes(pBuffer->data(), pBuffer->size());
-    }
-    if (!pBuffer) return nullptr;
-
-    // Load resource
-    CMemoryInStream Mem(pBuffer->data(), pBuffer->size(), IOUtil::eBigEndian);
-    Mem.SetSourceString(*Source.GetFileName());
-    CResource *pRes = nullptr;
-    bool SupportedFormat = true;
-
-    if      (Type == "CMDL") pRes = CModelLoader::LoadCMDL(Mem);
-    else if (Type == "TXTR") pRes = CTextureDecoder::LoadTXTR(Mem);
-    else if (Type == "ANCS") pRes = CAnimSetLoader::LoadANCS(Mem);
-    else if (Type == "CHAR") pRes = CAnimSetLoader::LoadCHAR(Mem);
-    else if (Type == "MREA") pRes = CAreaLoader::LoadMREA(Mem);
-    else if (Type == "MLVL") pRes = CWorldLoader::LoadMLVL(Mem);
-    else if (Type == "STRG") pRes = CStringLoader::LoadSTRG(Mem);
-    else if (Type == "FONT") pRes = CFontLoader::LoadFONT(Mem);
-    else if (Type == "SCAN") pRes = CScanLoader::LoadSCAN(Mem);
-    else if (Type == "DCLN") pRes = CCollisionLoader::LoadDCLN(Mem);
-    else if (Type == "EGMC") pRes = CPoiToWorldLoader::LoadEGMC(Mem);
-    else if (Type == "CINF") pRes = CSkeletonLoader::LoadCINF(Mem);
-    else if (Type == "ANIM") pRes = CAnimationLoader::LoadANIM(Mem);
-    else if (Type == "CSKR") pRes = CSkinLoader::LoadCSKR(Mem);
-    else SupportedFormat = false;
-
-    // Log errors
-    if (!SupportedFormat)
-        Log::Write("Unsupported format; unable to load " + Type.ToString() + " " + ResID.ToString());
-
-    if (!pRes) pRes = new CResource(); // Default for invalid resource or unsupported format
-
-    // Add to cache and cleanup
-    pRes->mID = ResID;
-    pRes->mResSource = Source;
-    mResourceCache[ResID.ToLongLong()] = pRes;
-    delete pBuffer;
-    return pRes;
+    TString Source = mResDir + ResID.ToString() + "." + Type.ToString();
+    return GetResource(Source);
 }
 
 CResource* CResCache::GetResource(const TString& rkResPath)
 {
-    // Since this function takes a string argument it always loads directly from a file - no pak
     CUniqueID ResID = rkResPath.Hash64();
 
+    // Check if resource already exists
     auto Got = mResourceCache.find(ResID.ToLongLong());
 
     if (Got != mResourceCache.end())
         return Got->second;
 
+    // Open file
     CFileInStream File(rkResPath.ToStdString(), IOUtil::eBigEndian);
     if (!File.IsValid())
     {
@@ -188,10 +93,9 @@ CResource* CResCache::GetResource(const TString& rkResPath)
         return nullptr;
     }
 
-    // Save old ResSource to restore later
-    const SResSource OldSource = mResSource;
-    mResSource.Source = SResSource::eFolder;
-    mResSource.Path = rkResPath.GetFileDirectory();
+    // Save old ResDir to restore later
+    TString OldResDir = mResDir;
+    mResDir = rkResPath.GetFileDirectory();
 
     // Load resource
     CResource *pRes = nullptr;
@@ -220,7 +124,7 @@ CResource* CResCache::GetResource(const TString& rkResPath)
     pRes->mID = *rkResPath;
     pRes->mResSource = rkResPath;
     mResourceCache[ResID.ToLongLong()] = pRes;
-    mResSource = OldSource;
+    mResDir = OldResDir;
     return pRes;
 }
 
@@ -230,30 +134,15 @@ CFourCC CResCache::FindResourceType(CUniqueID ResID, const TStringList& rkPossib
     if (rkPossibleTypes.size() == 1)
         return CFourCC(rkPossibleTypes.front());
 
-    // Determine extension from pak
-    if (mResSource.Source == SResSource::ePakFile)
-    {
-        for (auto it = rkPossibleTypes.begin(); it != rkPossibleTypes.end(); it++)
-        {
-            SResInfo ResInfo = mpPak->ResourceInfo(ResID.ToLongLong(), CFourCC(*it));
-
-            if (ResInfo.Type != "NULL")
-                return CFourCC(*it);
-        }
-    }
-
     // Determine extension from filesystem - try every extension until we find one that works
-    else
+    TString PathBase = mResDir + ResID.ToString() + ".";
+
+    for (auto it = rkPossibleTypes.begin(); it != rkPossibleTypes.end(); it++)
     {
-        TString PathBase = mResSource.Path + ResID.ToString() + ".";
+        TString NewPath = PathBase + *it;
 
-        for (auto it = rkPossibleTypes.begin(); it != rkPossibleTypes.end(); it++)
-        {
-            TString NewPath = PathBase + *it;
-
-            if (boost::filesystem::exists(NewPath.ToStdString()))
-                return CFourCC(*it);
-        }
+        if (FileUtil::Exists(NewPath))
+            return CFourCC(*it);
     }
 
     return "UNKN";

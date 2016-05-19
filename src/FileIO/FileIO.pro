@@ -10,7 +10,7 @@ DEFINES += PWE_FILEIO
 
 CONFIG += staticlib
 TEMPLATE = lib
-DESTDIR = $$PWD/../../build/FileIO
+DESTDIR = $$BUILD_DIR/FileIO
 
 unix {
     target.path = /usr/lib
@@ -19,13 +19,13 @@ unix {
 
 CONFIG (debug, debug|release) {
     # Debug Config
-    OBJECTS_DIR = $$PWD/../../build/FileIO/debug
+    OBJECTS_DIR = $$BUILD_DIR/FileIO/debug
     TARGET = FileIOd
 }
 
 CONFIG (release, debug|release) {
     # Release Config
-    OBJECTS_DIR = $$PWD/../../build/FileIO/release
+    OBJECTS_DIR = $$BUILD_DIR/FileIO/release
     TARGET = FileIO
 }
 

@@ -7,7 +7,7 @@
 #include "Core/Resource/Script/CMasterTemplate.h"
 #include "Core/Resource/Script/CScriptLayer.h"
 #include "Core/ScriptExtra/CScriptExtra.h"
-#include <Common/Assert.h>
+#include <Common/AssertMacro.h>
 #include <Math/MathUtil.h>
 
 CScriptNode::CScriptNode(CScene *pScene, u32 NodeID, CSceneNode *pParent, CScriptObject *pInstance)

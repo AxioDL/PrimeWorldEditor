@@ -5,7 +5,7 @@
 #include "CResCache.h"
 #include <Common/CUniqueID.h>
 #include <Common/CFourCC.h>
-#include <boost/filesystem.hpp>
+#include <Common/FileUtil.h>
 
 class CResourceInfo
 {
@@ -20,7 +20,7 @@ public:
     CResourceInfo(const TString& rkPath)
         : mPath(rkPath), mIsPath(true)
     {
-        mIsValidPath = boost::filesystem::exists(rkPath.ToStdString());
+        mIsValidPath = FileUtil::Exists(rkPath);
     }
 
     CResourceInfo(const CUniqueID& rkID, CFourCC Type)

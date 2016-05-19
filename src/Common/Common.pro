@@ -10,7 +10,7 @@ DEFINES += PWE_COMMON
 
 CONFIG += staticlib
 TEMPLATE = lib
-DESTDIR = $$PWD/../../build/Common
+DESTDIR = $$BUILD_DIR/Common
 
 unix {
     target.path = /usr/lib
@@ -19,40 +19,43 @@ unix {
 
 CONFIG (debug, debug|release) {
     # Debug Config
-    OBJECTS_DIR = $$PWD/../../build/Common/debug
+    OBJECTS_DIR = $$BUILD_DIR/Common/debug
     TARGET = Commond
 
     # Debug Libs
-    LIBS += -L$$PWD/../../build/FileIO/ -lFileIOd
+    LIBS += -L$$BUILD_DIR/FileIO/ -lFileIOd \
+            -L$$EXTERNALS_DIR/boost_1_56_0/lib32-msvc-12.0 -llibboost_filesystem-vc120-mt-gd-1_56
 
     # Debug Target Dependencies
     win32 {
-        PRE_TARGETDEPS += $$PWD/../../build/FileIO/FileIOd.lib
+        PRE_TARGETDEPS += $$BUILD_DIR/FileIO/FileIOd.lib
     }
 }
 
 CONFIG (release, debug|release) {
     # Release Config
-    OBJECTS_DIR = $$PWD/../../build/Common/release
+    OBJECTS_DIR = $$BUILD_DIR/build/Common/release
     TARGET = Common
 
     # Release Libs
-    LIBS += -L$$PWD/../../build/FileIO/ -lFileIO
+    LIBS += -L$$BUILD_DIR/FileIO/ -lFileIO \
+            -L$$EXTERNALS_DIR/boost_1_56_0/lib32-msvc-12.0 -llibboost_filesystem-vc120-mt-1_56
 
     # Release Target Dependencies
     win32 {
-        PRE_TARGETDEPS += $$PWD/../../build/FileIO/FileIO.lib
+        PRE_TARGETDEPS += $$BUILD_DIR/FileIO/FileIO.lib
     }
 }
 
 # Debug/Release Libs
-LIBS += -L$$PWD/../../externals/lzo-2.08/lib -llzo-2.08 \
-        -L$$PWD/../../externals/zlib/lib -lzdll
+LIBS += -L$$EXTERNALS_DIR/lzo-2.08/lib -llzo-2.08 \
+        -L$$EXTERNALS_DIR/zlib/lib -lzdll
 
 # Include Paths
-INCLUDEPATH += $$PWD/.. \
-               $$PWD/../../externals/lzo-2.08/include \
-               $$PWD/../../externals/zlib/include
+INCLUDEPATH += $$PWE_MAIN_INCLUDE \
+               $$EXTERNALS_DIR/boost_1_56_0 \
+               $$EXTERNALS_DIR/lzo-2.08/include \
+               $$EXTERNALS_DIR/zlib/include
 
 # Header Files
 HEADERS += \
@@ -69,7 +72,8 @@ HEADERS += \
     TString.h \
     types.h \
     Log.h \
-    Assert.h
+    FileUtil.h \
+    AssertMacro.h
 
 # Source Files
 SOURCES += \
@@ -78,4 +82,5 @@ SOURCES += \
     CTimer.cpp \
     CUniqueID.cpp \
     TString.cpp \
-    Log.cpp
+    Log.cpp \
+    FileUtil.cpp

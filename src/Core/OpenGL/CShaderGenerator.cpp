@@ -1,5 +1,5 @@
 #include "CShaderGenerator.h"
-#include <Common/Assert.h>
+#include <Common/AssertMacro.h>
 #include <iostream>
 #include <fstream>
 #include <sstream>

@@ -1,5 +1,5 @@
 #include "CSkinLoader.h"
-#include <Common/Assert.h>
+#include <Common/AssertMacro.h>
 
 // ************ STATIC ************
 CSkin* CSkinLoader::LoadCSKR(IInputStream& rCSKR)
