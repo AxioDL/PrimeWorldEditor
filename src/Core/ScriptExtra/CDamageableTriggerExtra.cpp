@@ -1,7 +1,7 @@
 #include "CDamageableTriggerExtra.h"
 #include "Core/Render/CDrawUtil.h"
 #include "Core/Render/CRenderer.h"
-#include <Common/Assert.h>
+#include <Common/AssertMacro.h>
 #include <Math/MathUtil.h>
 
 CDamageableTriggerExtra::CDamageableTriggerExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent)

@@ -1,8 +1,8 @@
 #include "CTemplateLoader.h"
 #include "CAreaLoader.h"
 #include "Core/Resource/Script/IPropertyTemplate.h"
+#include <Common/FileUtil.h>
 #include <Common/Log.h>
-#include <boost/filesystem.hpp>
 
 const TString CTemplateLoader::mskTemplatesDir = "../templates/";
 const TString CTemplateLoader::mskGameListPath = CTemplateLoader::mskTemplatesDir + "GameList.xml";
@@ -533,7 +533,7 @@ CScriptTemplate* CTemplateLoader::LoadScriptTemplate(XMLDocument *pDoc, const TS
                     else
                     {
                         TString Path = "../resources/" + ID;
-                        if (!boost::filesystem::exists(*Path))
+                        if (!FileUtil::Exists(Path))
                         {
                             Log::Error(rkTemplateName + ": Invalid file for " + Type + " asset: " + ID);
                             pAsset = pAsset->NextSiblingElement();

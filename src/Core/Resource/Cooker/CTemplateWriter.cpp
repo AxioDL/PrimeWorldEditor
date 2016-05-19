@@ -1,7 +1,7 @@
 #include "CTemplateWriter.h"
 #include "CAreaCooker.h"
+#include <Common/FileUtil.h>
 
-#include <boost/filesystem.hpp>
 #include <tinyxml2.h>
 
 using namespace tinyxml2;
@@ -42,7 +42,7 @@ void CTemplateWriter::SaveAllTemplates()
 {
     // Create directory
     std::list<CMasterTemplate*> MasterList = CMasterTemplate::MasterList();
-    boost::filesystem::create_directory(smTemplatesDir.ToStdString());
+    FileUtil::CreateDirectory(smTemplatesDir);
 
     // Resave property list
     SavePropertyList();
@@ -95,7 +95,7 @@ void CTemplateWriter::SaveGameTemplates(CMasterTemplate *pMaster)
     // Create directory
     TString OutFile = smTemplatesDir + pMaster->mSourceFile;
     TString OutDir = OutFile.GetFileDirectory();
-    boost::filesystem::create_directory(OutDir.ToStdString());
+    FileUtil::CreateDirectory(OutDir);
 
     // Resave script templates
     for (auto it = pMaster->mTemplates.begin(); it != pMaster->mTemplates.end(); it++)
@@ -226,7 +226,7 @@ void CTemplateWriter::SaveScriptTemplate(CScriptTemplate *pTemp)
     // Create directory
     TString OutFile = smTemplatesDir + pMaster->GetDirectory() + pTemp->mSourceFile;
     TString OutDir = OutFile.GetFileDirectory();
-    boost::filesystem::create_directory(*OutDir);
+    FileUtil::CreateDirectory(*OutDir);
 
     // Create new document
     XMLDocument ScriptXML;
@@ -418,7 +418,7 @@ void CTemplateWriter::SaveStructTemplate(CStructTemplate *pTemp)
     TString OutFile = smTemplatesDir + pMaster->GetDirectory() + pTemp->mSourceFile;
     TString OutDir = OutFile.GetFileDirectory();
     TString Name = OutFile.GetFileName(false);
-    boost::filesystem::create_directory(OutDir.ToStdString());
+    FileUtil::CreateDirectory(OutDir);
 
     // Create new document and write struct properties to it
     XMLDocument StructXML;
@@ -442,7 +442,7 @@ void CTemplateWriter::SaveEnumTemplate(CEnumTemplate *pTemp)
     TString OutFile = smTemplatesDir + pMaster->GetDirectory() + pTemp->mSourceFile;
     TString OutDir = OutFile.GetFileDirectory();
     TString Name = OutFile.GetFileName(false);
-    boost::filesystem::create_directory(*OutDir);
+    FileUtil::CreateDirectory(OutDir);
 
     // Create new document and write enumerators to it
     XMLDocument EnumXML;
@@ -465,7 +465,7 @@ void CTemplateWriter::SaveBitfieldTemplate(CBitfieldTemplate *pTemp)
     TString OutFile = smTemplatesDir + pMaster->GetDirectory() + pTemp->mSourceFile;
     TString OutDir = OutFile.GetFileDirectory();
     TString Name = pTemp->mSourceFile.GetFileName(false);
-    boost::filesystem::create_directory(*OutDir);
+    FileUtil::CreateDirectory(OutDir);
 
     // Create new document and write enumerators to it
     XMLDocument BitfieldXML;

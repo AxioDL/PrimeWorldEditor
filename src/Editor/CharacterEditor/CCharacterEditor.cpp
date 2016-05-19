@@ -1,7 +1,7 @@
 #include "CCharacterEditor.h"
 #include "ui_CCharacterEditor.h"
 #include "Editor/UICommon.h"
-#include <Common/Assert.h>
+#include <Common/AssertMacro.h>
 #include <Math/MathUtil.h>
 #include <QFileDialog>
 #include <QMessageBox>

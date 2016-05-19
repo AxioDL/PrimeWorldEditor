@@ -2,7 +2,7 @@
 #include "CScriptNode.h"
 #include "Core/Render/CRenderer.h"
 #include "Core/Resource/Script/IProperty.h"
-#include <Common/Assert.h>
+#include <Common/AssertMacro.h>
 
 CScriptAttachNode::CScriptAttachNode(CScene *pScene, const SAttachment& rkAttachment, CScriptNode *pParent)
     : CSceneNode(pScene, -1, pParent)

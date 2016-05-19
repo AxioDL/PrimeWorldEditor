@@ -2,7 +2,7 @@
 #include "Core/Render/CDrawUtil.h"
 #include "Core/Render/CRenderer.h"
 #include "Core/OpenGL/GLCommon.h"
-#include <Common/Assert.h>
+#include <Common/AssertMacro.h>
 
 CModel::CModel()
     : CBasicModel()

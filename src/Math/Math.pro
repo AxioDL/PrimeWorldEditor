@@ -10,7 +10,7 @@ DEFINES += PWE_MATH
 
 CONFIG += staticlib
 TEMPLATE = lib
-DESTDIR = $$PWD/../../build/Math
+DESTDIR = $$BUILD_DIR/Math
 
 unix {
     target.path = /usr/lib
@@ -19,45 +19,45 @@ unix {
 
 CONFIG (debug, debug|release) {
     # Debug Config
-    OBJECTS_DIR = $$PWD/../../build/Math/debug
+    OBJECTS_DIR = $$BUILD_DIR/Math/debug
     TARGET = Mathd
 
     # Debug Libs
-    LIBS += -L$$PWD/../../build/FileIO/ -lFileIOd \
-            -L$$PWD/../../build/Common/ -lCommond
+    LIBS += -L$$BUILD_DIR/FileIO/ -lFileIOd \
+            -L$$BUILD_DIR/Common/ -lCommond
 
     # Debug Target Dependencies
     win32 {
-        PRE_TARGETDEPS += $$PWD/../../build/FileIO/FileIOd.lib \
-                          $$PWD/../../build/Common/Commond.lib
+        PRE_TARGETDEPS += $$BUILD_DIR/FileIO/FileIOd.lib \
+                          $$BUILD_DIR/Common/Commond.lib
     }
 }
 
 CONFIG (release, debug|release) {
     # Release Config
-    OBJECTS_DIR = $$PWD/../../build/Math/release
+    OBJECTS_DIR = $$BUILD_DIR/Math/release
     TARGET = Math
 
     # Release Libs
-    LIBS += -L$$PWD/../../build/FileIO/ -lFileIO \
-            -L$$PWD/../../build/Common/ -lCommon
+    LIBS += -L$$BUILD_DIR/FileIO/ -lFileIO \
+            -L$$BUILD_DIR/Common/ -lCommon
 
     # Release Target Dependencies
     win32 {
-        PRE_TARGETDEPS += $$PWD/../../build/FileIO/FileIO.lib \
-                          $$PWD/../../build/Common/Common.lib
+        PRE_TARGETDEPS += $$BUILD_DIR/FileIO/FileIO.lib \
+                          $$BUILD_DIR/Common/Common.lib
     }
 }
 
 # Debug/Release Libs
-LIBS += -L$$PWD/../../externals/lzo-2.08/lib -llzo-2.08 \
-        -L$$PWD/../../externals/zlib/lib -lzdll
+LIBS += -L$$EXTERNALS_DIR/lzo-2.08/lib -llzo-2.08 \
+        -L$$EXTERNALS_DIR/zlib/lib -lzdll
 
 # Include Paths
-INCLUDEPATH += $$PWD/../ \
-               $$PWD/../../externals/glm/glm \
-               $$PWD/../../externals/lzo-2.08/include \
-               $$PWD/../../externals/zlib/include
+INCLUDEPATH += $$PWE_MAIN_INCLUDE \
+               $$EXTERNALS_DIR/glm/glm \
+               $$EXTERNALS_DIR/lzo-2.08/include \
+               $$EXTERNALS_DIR/zlib/include
 
 # Header Files
 HEADERS += \

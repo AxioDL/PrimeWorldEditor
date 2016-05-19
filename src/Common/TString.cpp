@@ -1,5 +1,7 @@
 #include "TString.h"
 #include <FileIO/IOUtil.h>
+#include <codecvt>
+#include <locale>
 
 // ************ TString ************
 TString::TString(const wchar_t* pkText)
@@ -19,7 +21,7 @@ TString::TString(const TWideString& rkText)
 
 TWideString TString::ToUTF16() const
 {
-    TWideString out;
+    TWideString Out;
     const char *pkCStr = CString();
 
     while (pkCStr[0])
@@ -87,10 +89,10 @@ TWideString TString::ToUTF16() const
         // Step 2: Append to output string
         if ( ((CodePoint >= 0)      && (CodePoint <= 0xD7FF)) ||
              ((CodePoint >= 0xE000) && (CodePoint <= 0xFFFF)) )
-            out.Append((wchar_t) (CodePoint & 0xFFFF));
+            Out.Append((wchar_t) (CodePoint & 0xFFFF));
     }
 
-    return out;
+    return Out;
 }
 
 // ************ TWideString ************
@@ -111,5 +113,6 @@ TWideString::TWideString(const TString& rkText)
 
 TString TWideString::ToUTF8() const
 {
-    return "UTF16 to UTF8 currently unsupported";
+    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> Convert;
+    return TString( Convert.to_bytes(ToStdString()) );
 }

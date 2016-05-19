@@ -1,5 +1,5 @@
 #include "CAnimationLoader.h"
-#include <Common/Assert.h>
+#include <Common/AssertMacro.h>
 #include <Common/Log.h>
 #include <Math/MathUtil.h>
 
