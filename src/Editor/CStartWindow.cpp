@@ -7,6 +7,7 @@
 
 #include "Editor/ModelEditor/CModelEditorWindow.h"
 #include "Editor/WorldEditor/CWorldEditor.h"
+#include <Core/GameProject/CGameExporter.h>
 #include <Core/Resource/CResCache.h>
 
 #include <QFileDialog>
@@ -27,6 +28,7 @@ CStartWindow::CStartWindow(QWidget *parent)
 
     connect(ui->ActionAbout, SIGNAL(triggered()), this, SLOT(About()));
     connect(ui->ActionCharacterEditor, SIGNAL(triggered()), this, SLOT(LaunchCharacterEditor()));
+    connect(ui->ActionExportGame, SIGNAL(triggered()), this, SLOT(ExportGame()));
 }
 
 CStartWindow::~CStartWindow()
@@ -251,4 +253,24 @@ void CStartWindow::About()
 {
     CAboutDialog Dialog(this);
     Dialog.exec();
+}
+
+void CStartWindow::ExportGame()
+{
+    // TEMP - hardcoded names for convenience. will remove later!
+#define USE_HARDCODED_NAMES 1
+
+#if USE_HARDCODED_NAMES
+    QString GameRoot = "E:/Unpacked/DKCR Dolphin";
+    QString ExportDir = "E:/Unpacked/ExportTest";
+#else
+    QString GameRoot = QFileDialog::getExistingDirectory(this, "Select game root directory");
+    if (GameRoot.isEmpty()) return;
+
+    QString ExportDir = QFileDialog::getExistingDirectory(this, "Select output export directory");
+    if (ExportDir.isEmpty()) return;
+#endif
+
+    CGameExporter Exporter(TO_TSTRING(GameRoot), TO_TSTRING(ExportDir));
+    Exporter.Export();
 }

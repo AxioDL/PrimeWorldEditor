@@ -122,7 +122,6 @@ HEADERS += \
     Resource/CMaterial.h \
     Resource/CMaterialPass.h \
     Resource/CMaterialSet.h \
-    Resource/CPakFile.h \
     Resource/CResCache.h \
     Resource/CResource.h \
     Resource/CScan.h \
@@ -133,8 +132,6 @@ HEADERS += \
     Resource/ETevEnums.h \
     Resource/ETexelFormat.h \
     Resource/SDependency.h \
-    Resource/SNamedResource.h \
-    Resource/SResInfo.h \
     Resource/TResPtr.h \
     Scene/CCollisionNode.h \
     Scene/CLightNode.h \
@@ -193,7 +190,11 @@ HEADERS += \
     Resource/Factory/CSkinLoader.h \
     Render/EDepthGroup.h \
     Scene/CScriptAttachNode.h \
-    ScriptExtra/CSandwormExtra.h
+    ScriptExtra/CSandwormExtra.h \
+    GameProject/CGameProject.h \
+    GameProject/CResourceDatabase.h \
+    GameProject/CPackage.h \
+    GameProject/CGameExporter.h
 
 # Source Files
 SOURCES += \
@@ -233,7 +234,6 @@ SOURCES += \
     Resource/CLight.cpp \
     Resource/CMaterial.cpp \
     Resource/CMaterialPass.cpp \
-    Resource/CPakFile.cpp \
     Resource/CResCache.cpp \
     Resource/CResource.cpp \
     Resource/CTexture.cpp \
@@ -280,4 +280,7 @@ SOURCES += \
     Resource/Factory/CSkinLoader.cpp \
     Resource/Model/EVertexAttribute.cpp \
     Scene/CScriptAttachNode.cpp \
-    ScriptExtra/CSandwormExtra.cpp
+    ScriptExtra/CSandwormExtra.cpp \
+    GameProject/CGameProject.cpp \
+    GameProject/CResourceDatabase.cpp \
+    GameProject/CGameExporter.cpp

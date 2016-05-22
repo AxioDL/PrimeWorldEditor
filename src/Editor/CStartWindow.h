@@ -40,6 +40,7 @@ private slots:
 
     void LaunchCharacterEditor();
     void About();
+    void ExportGame();
 
 private:
     void FillWorldUI();
