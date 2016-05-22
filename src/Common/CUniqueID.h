@@ -24,7 +24,7 @@ public:
     CUniqueID(u64 ID, EUIDLength Length);
     CUniqueID(u64 Part1, u64 Part2);
     CUniqueID(const char* pkID);
-    CUniqueID(IInputStream& Input, EUIDLength Length);
+    CUniqueID(IInputStream& rInput, EUIDLength Length);
     u32 ToLong() const;
     u64 ToLongLong() const;
     TString ToString() const;

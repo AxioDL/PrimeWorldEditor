@@ -163,8 +163,7 @@ HEADERS += \
     CharacterEditor/CCharacterEditorViewport.h \
     CGridRenderable.h \
     CharacterEditor/CSkeletonHierarchyModel.h \
-    CLineRenderable.h \
-    CGameExporter.h
+    CLineRenderable.h
 
 # Source Files
 SOURCES += \
@@ -224,8 +223,7 @@ SOURCES += \
     CAboutDialog.cpp \
     CharacterEditor/CCharacterEditor.cpp \
     CharacterEditor/CCharacterEditorViewport.cpp \
-    CharacterEditor/CSkeletonHierarchyModel.cpp \
-    CGameExporter.cpp
+    CharacterEditor/CSkeletonHierarchyModel.cpp
 
 # UI Files
 FORMS += \

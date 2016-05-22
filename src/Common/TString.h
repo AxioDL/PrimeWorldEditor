@@ -29,6 +29,9 @@
  * be encoded in UTF-16.
  */
 
+// Helper macro for creating string literals of the correct char type. Internal use only! Invalid outside of this header!
+#define LITERAL(Text) (typeid(CharType) == typeid(char)) ? (const CharType*) ##Text : (const CharType*) L##Text
+
 // ************ TBasicString ************
 template<class CharType>
 class TBasicString
@@ -86,7 +89,7 @@ public:
 
     inline CharType At(u32 Pos) const
     {
-#if _DEBUG
+#ifdef _DEBUG
         if (Size() <= Pos)
             throw std::out_of_range("Invalid position passed to TBasicString::At()");
 #endif
@@ -113,14 +116,19 @@ public:
         return Size();
     }
 
-    inline u32 IndexOf(const CharType* pkCharacters) const
+    inline u32 IndexOf(const CharType* pkCharacters, u32 Offset) const
     {
-        size_t Pos = mInternalString.find_first_of(pkCharacters);
+        size_t Pos = mInternalString.find_first_of(pkCharacters, Offset);
 
         if (Pos == _TStdString::npos)
             return -1;
         else
             return (u32) Pos;
+    }
+
+    inline u32 IndexOf(const CharType* pkCharacters) const
+    {
+        return IndexOf(pkCharacters, 0);
     }
 
     inline u32 LastIndexOf(const CharType* pkCharacters) const
@@ -133,6 +141,60 @@ public:
             return (u32) Pos;
     }
 
+    u32 IndexOfPhrase(_TString Str, u32 Offset, bool CaseSensitive = true) const
+    {
+        if (Size() < Str.Size()) return -1;
+
+        // Apply case sensitivity
+        _TString CheckStr(CaseSensitive ? *this : ToUpper());
+        if (!CaseSensitive) Str = Str.ToUpper();
+
+        // Now loop from the offset provided by the user.
+        u32 Pos = Offset;
+        u32 LatestPossibleStart = Size() - Str.Size();
+        u32 MatchStart = -1;
+        u32 Matched = 0;
+
+        while (Pos < Size())
+        {
+            // If this character matches, increment Matched!
+            if (CheckStr[Pos] == Str[Matched])
+            {
+                Matched++;
+
+                if (MatchStart == -1)
+                    MatchStart = Pos;
+
+                // If we matched the entire string, we can return.
+                if (Matched == Str.Size())
+                    return MatchStart;
+            }
+
+            else
+            {
+                // If we didn't match, clear our existing match check.
+                if (Matched > 0)
+                {
+                    Pos = MatchStart;
+                    Matched = 0;
+                    MatchStart = -1;
+                }
+
+                // Check if we're too far in to find another match.
+                if (Pos > LatestPossibleStart) break;
+            }
+
+            Pos++;
+        }
+
+        return -1;
+    }
+
+    inline u32 IndexOfPhrase(_TString Str, bool CaseSensitive = true) const
+    {
+        return IndexOfPhrase(Str, 0, CaseSensitive);
+    }
+
     // Modify String
     inline _TString SubString(int StartPos, int Length) const
     {
@@ -142,8 +204,8 @@ public:
     inline void Insert(u32 Pos, CharType Chr)
     {
 #ifdef _DEBUG
-        if (Size() < Pos)
-            throw std::out_of_range("Invalid pos passed to TBasicString::Insert(CharType)");
+        if (Size() <= Pos)
+            throw std::out_of_range("Invalid position passed to TBasicString::Insert()");
 #endif
         mInternalString.insert(Pos, 1, Chr);
     }
@@ -151,8 +213,8 @@ public:
     inline void Insert(u32 Pos, const CharType* pkStr)
     {
 #ifdef _DEBUG
-        if (Size() < Pos)
-            throw std::out_of_range("Invalid pos passed to TBasicString::Insert(const CharType*)");
+        if (Size() <= Pos)
+            throw std::out_of_range("Invalid position passed to TBasicString::Insert()");
 #endif
         mInternalString.insert(Pos, pkStr);
     }
@@ -160,6 +222,34 @@ public:
     inline void Insert(u32 Pos, const _TString& rkStr)
     {
         Insert(Pos, rkStr.CString());
+    }
+
+    inline void Remove(u32 Pos, u32 Len)
+    {
+#ifdef _DEBUG
+        if (Size() <= Pos)
+            throw std::out_of_range("Invalid position passed to TBasicString::Remove()");
+#endif
+        mInternalString.erase(Pos, Len);
+    }
+
+    inline void Replace(const CharType* pkStr, const CharType *pkReplacement, bool CaseSensitive = false)
+    {
+        u32 Offset = 0;
+        u32 InStrLen = CStringLength(pkStr);
+        u32 ReplaceStrLen = CStringLength(pkReplacement);
+
+        for (u32 Idx = IndexOfPhrase(pkStr, CaseSensitive); Idx != -1; Idx = IndexOfPhrase(pkStr, Offset, CaseSensitive))
+        {
+            Remove(Idx, InStrLen);
+            Insert(Idx, pkReplacement);
+            Offset = Idx + ReplaceStrLen;
+        }
+    }
+
+    inline void Replace(const _TString& rkStr, const _TString& rkReplacement, bool CaseSensitive)
+    {
+        Replace(rkStr.CString(), rkReplacement.CString(), CaseSensitive);
     }
 
     inline void Append(CharType Chr)
@@ -242,7 +332,7 @@ public:
         }
 
         // If start is still -1 then there are no non-whitespace characters in this string. Return early.
-        if (Start == -1) return "";
+        if (Start == -1) return _TString();
 
         for (int iChar = Size() - 1; iChar >= 0; iChar--)
         {
@@ -263,13 +353,13 @@ public:
 
     inline _TString ChopFront(u32 Amount) const
     {
-        if (Size() <= Amount) return "";
+        if (Size() <= Amount) return _TString();
         return SubString(Amount, Size() - Amount);
     }
 
     inline _TString ChopBack(u32 Amount) const
     {
-        if (Size() <= Amount) return "";
+        if (Size() <= Amount) return _TString();
         return SubString(0, Size() - Amount);
     }
 
@@ -385,63 +475,37 @@ public:
         return (Size() == 0);
     }
 
-    bool StartsWith(const _TString& rkStr) const
+    bool StartsWith(_TString Str, bool CaseSensitive = true) const
     {
-        if (Size() < rkStr.Size())
+        if (Size() < Str.Size())
             return false;
 
-        return (SubString(0, rkStr.Size()) == rkStr);
+        _TString CompStr = (CaseSensitive ? *this : ToUpper());
+        if (!CaseSensitive) Str = Str.ToUpper();
+
+        return (CompStr.SubString(0, Str.Size()) == Str);
     }
 
-    bool EndsWith(const _TString& rkStr) const
+    bool EndsWith(_TString Str, bool CaseSensitive = true) const
     {
-        if (Size() < rkStr.Size())
+        if (Size() < Str.Size())
             return false;
 
-        return (SubString(Size() - rkStr.Size(), rkStr.Size()) == rkStr);
+        _TString CompStr = (CaseSensitive ? *this : ToUpper());
+        if (!CaseSensitive) Str = Str.ToUpper();
+
+        return (CompStr.SubString(CompStr.Size() - Str.Size(), Str.Size()) == Str);
     }
 
     bool Contains(_TString Str, bool CaseSensitive = true) const
     {
-        if (Size() < Str.Size()) return false;
-
-        _TString CheckStr(CaseSensitive ? *this : ToUpper());
-        if (CaseSensitive) Str = Str.ToUpper();
-
-        u32 LatestPossibleStart = Size() - Str.Size();
-        u32 Match = 0;
-
-        for (u32 iChr = 0; iChr < Size() && iChr < Str.Size(); iChr++)
-        {
-            // If the current character matches, increment match
-            if (CheckStr.At(iChr) == Str.At(Match))
-                Match++;
-
-            // Otherwise...
-            else
-            {
-                // We need to also compare this character to the first
-                // character of the string (unless we just did that)
-                if (Match > 0)
-                    iChr--;
-
-                Match = 0;
-
-                if (iChr > LatestPossibleStart)
-                    break;
-            }
-
-            // If we've matched the entire string, then we can return true
-            if (Match == Str.Size()) return true;
-        }
-
-        return false;
+        return (IndexOfPhrase(Str, CaseSensitive) != -1);
     }
 
     bool IsHexString(bool RequirePrefix = false, u32 Width = -1) const
     {
         _TString Str(*this);
-        bool HasPrefix = Str.StartsWith("0x");
+        bool HasPrefix = Str.StartsWith(LITERAL("0x"));
 
         // If we're required to match the prefix and prefix is missing, return false
         if (RequirePrefix && !HasPrefix)
@@ -485,13 +549,13 @@ public:
     // Get Filename Components
     _TString GetFileDirectory() const
     {
-        size_t EndPath = mInternalString.find_last_of("\\/");
+        size_t EndPath = mInternalString.find_last_of(LITERAL("\\/"));
         return SubString(0, EndPath + 1);
     }
 
     _TString GetFileName(bool WithExtension = true) const
     {
-        size_t EndPath = mInternalString.find_last_of("\\/") + 1;
+        size_t EndPath = mInternalString.find_last_of(LITERAL("\\/")) + 1;
 
         if (WithExtension)
         {
@@ -500,20 +564,20 @@ public:
 
         else
         {
-            size_t EndName = mInternalString.find_last_of(".");
+            size_t EndName = mInternalString.find_last_of(LITERAL("."));
             return SubString(EndPath, EndName - EndPath);
         }
     }
 
     _TString GetFileExtension() const
     {
-        size_t EndName = mInternalString.find_last_of(".");
+        size_t EndName = mInternalString.find_last_of(LITERAL("."));
         return SubString(EndName + 1, Size() - EndName);
     }
 
     _TString GetFilePathWithoutExtension() const
     {
-        size_t EndName = mInternalString.find_last_of(".");
+        size_t EndName = mInternalString.find_last_of(LITERAL("."));
         return SubString(0, EndName);
     }
 
@@ -805,6 +869,8 @@ public:
                  (c == ' ') );
     }
 };
+
+#undef LITERAL
 
 // ************ TString ************
 class TString : public TBasicString<char>

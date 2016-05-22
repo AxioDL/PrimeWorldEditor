@@ -484,15 +484,33 @@ CScriptTemplate* CTemplateLoader::LoadScriptTemplate(XMLDocument *pDoc, const TS
                 if (!Source.IsEmpty() && !ID.IsEmpty())
                 {
                     CScriptTemplate::SEditorAsset Asset;
+                    TStringList AcceptedExtensions;
 
                     if (Type == "animparams")
+                    {
                         Asset.AssetType = CScriptTemplate::SEditorAsset::eAnimParams;
+                        AcceptedExtensions.push_back("ANCS");
+                        AcceptedExtensions.push_back("CHAR");
+                    }
+
                     else if (Type == "model")
+                    {
                         Asset.AssetType = CScriptTemplate::SEditorAsset::eModel;
+                        AcceptedExtensions.push_back("CMDL");
+                    }
+
                     else if (Type == "billboard")
+                    {
                         Asset.AssetType = CScriptTemplate::SEditorAsset::eBillboard;
+                        AcceptedExtensions.push_back("TXTR");
+                    }
+
                     else if (Type == "collision")
+                    {
                         Asset.AssetType = CScriptTemplate::SEditorAsset::eCollision;
+                        AcceptedExtensions.push_back("DCLN");
+                    }
+
                     else
                     {
                         pAsset = pAsset->NextSiblingElement();
