@@ -2,6 +2,7 @@
 #include <FileIO/FileIO.h>
 #include <Common/AssertMacro.h>
 #include <Common/CompressionUtil.h>
+#include <Common/CScopedTimer.h>
 #include <Common/FileUtil.h>
 
 #define COPY_DISC_DATA 1
@@ -9,20 +10,24 @@
 #define EXPORT_COOKED 1
 
 CGameExporter::CGameExporter(const TString& rkInputDir, const TString& rkOutputDir)
-    : mGameDir( FileUtil::MakeAbsolute(rkInputDir) )
-    , mExportDir( FileUtil::MakeAbsolute(rkOutputDir) )
-    , mDiscDir(mExportDir + L"Disc\\")
-    , mCookedResDir(mExportDir + L"Cooked\\Resources\\")
-    , mCookedWorldsDir(mExportDir + L"Cooked\\Worlds\\")
-    , mRawResDir(mExportDir + L"Raw\\Resources\\")
-    , mRawWorldsDir(mExportDir + L"Raw\\Worlds\\")
-    , mpProject(new CGameProject)
 {
+    mGameDir = FileUtil::MakeAbsolute(rkInputDir);
+    mExportDir = FileUtil::MakeAbsolute(rkOutputDir);
+
+    mpProject = new CGameProject(mExportDir);
+    mDiscDir = mpProject->DiscDir();
+    mResDir = mpProject->ResourcesDir();
+    mWorldsDir = mpProject->WorldsDir();
+    mCookedDir = mpProject->CookedDir();
+    mCookedResDir = mpProject->CookedResourcesDir();
+    mCookedWorldsDir = mpProject->CookedWorldsDir();
 }
 
 bool CGameExporter::Export()
 {
+    SCOPED_TIMER(ExportGame);
     FileUtil::CreateDirectory(mExportDir);
+    FileUtil::ClearDirectory(mExportDir);
     CopyDiscData();
     LoadPaks();
     ExportCookedResources();
@@ -33,6 +38,8 @@ bool CGameExporter::Export()
 void CGameExporter::CopyDiscData()
 {
 #if COPY_DISC_DATA
+    SCOPED_TIMER(CopyDiscData);
+
     // Create Disc output folder
     FileUtil::CreateDirectory(mDiscDir);
 #endif
@@ -64,7 +71,7 @@ void CGameExporter::CopyDiscData()
         }
 
         // Detect paks
-        if (FullPath.GetFileExtension() == L"pak")
+        if (FullPath.GetFileExtension().ToLower() == L"pak")
         {
             if (FullPath.GetFileName(false).StartsWith(L"Metroid", false) || RelPath.Contains(L"Worlds", false))
                 mWorldPaks.push_back(FullPath);
@@ -90,6 +97,8 @@ void CGameExporter::CopyDiscData()
 void CGameExporter::LoadPaks()
 {
 #if LOAD_PAKS
+    SCOPED_TIMER(LoadPaks);
+
     for (u32 iList = 0; iList < 2; iList++)
     {
         const TWideStringList& rkList = (iList == 0 ? mWorldPaks : mResourcePaks);
@@ -117,31 +126,35 @@ void CGameExporter::LoadPaks()
                 Pak.Seek(0x4, SEEK_CUR);
                 ASSERT(PakVersion == 0x00030005);
 
-                u32 NumNamedResources = Pak.ReadLong();
-                ASSERT(NumNamedResources > 0);
-
-                for (u32 iName = 0; iName < NumNamedResources; iName++)
+                // Echoes demo disc has a pak that ends right here.
+                if (!Pak.EoF())
                 {
-                    Pak.Seek(0x4, SEEK_CUR); // Skip resource type
-                    CUniqueID ResID(Pak, IDLength);
-                    u32 NameLen = Pak.ReadLong();
-                    TString Name = Pak.ReadString(NameLen);
-                    pPackage->AddNamedResource(Name, ResID);
-                }
+                    u32 NumNamedResources = Pak.ReadLong();
+                    ASSERT(NumNamedResources > 0);
 
-                u32 NumResources = Pak.ReadLong();
+                    for (u32 iName = 0; iName < NumNamedResources; iName++)
+                    {
+                        Pak.Seek(0x4, SEEK_CUR); // Skip resource type
+                        CUniqueID ResID(Pak, IDLength);
+                        u32 NameLen = Pak.ReadLong();
+                        TString Name = Pak.ReadString(NameLen);
+                        pPackage->AddNamedResource(Name, ResID);
+                    }
 
-                for (u32 iRes = 0; iRes < NumResources; iRes++)
-                {
-                    bool Compressed = (Pak.ReadLong() == 1);
-                    CFourCC ResType = Pak.ReadLong();
-                    CUniqueID ResID(Pak, IDLength);
-                    u32 ResSize = Pak.ReadLong();
-                    u32 ResOffset = Pak.ReadLong();
+                    u32 NumResources = Pak.ReadLong();
 
-                    u64 IntegralID = ResID.ToLongLong();
-                    if (mResourceMap.find(IntegralID) == mResourceMap.end())
-                        mResourceMap[IntegralID] = SResourceInstance { PakPath, ResID, ResType, ResOffset, ResSize, Compressed };
+                    for (u32 iRes = 0; iRes < NumResources; iRes++)
+                    {
+                        bool Compressed = (Pak.ReadLong() == 1);
+                        CFourCC ResType = Pak.ReadLong();
+                        CUniqueID ResID(Pak, IDLength);
+                        u32 ResSize = Pak.ReadLong();
+                        u32 ResOffset = Pak.ReadLong();
+
+                        u64 IntegralID = ResID.ToLongLong();
+                        if (mResourceMap.find(IntegralID) == mResourceMap.end())
+                            mResourceMap[IntegralID] = SResourceInstance { PakPath, ResID, ResType, ResOffset, ResSize, Compressed };
+                    }
                 }
             }
 
@@ -317,20 +330,32 @@ void CGameExporter::LoadPakResource(const SResourceInstance& rkResource, std::ve
 void CGameExporter::ExportCookedResources()
 {
 #if EXPORT_COOKED
-    FileUtil::CreateDirectory(mCookedResDir);
-
-    for (auto It = mResourceMap.begin(); It != mResourceMap.end(); It++)
+    CResourceDatabase *pResDB = mpProject->ResourceDatabase();
     {
-        const SResourceInstance& rkRes = It->second;
-        std::vector<u8> ResourceData;
-        LoadPakResource(rkRes, ResourceData);
+        SCOPED_TIMER(ExportCookedResources);
+        FileUtil::CreateDirectory(mCookedResDir);
 
-        TString OutName = rkRes.ResourceID.ToString() + "." + rkRes.ResourceType.ToString();
-        TString OutPath = mCookedResDir.ToUTF8() + "/" + OutName;
-        CFileOutStream Out(OutPath.ToStdString(), IOUtil::eBigEndian);
+        for (auto It = mResourceMap.begin(); It != mResourceMap.end(); It++)
+        {
+            const SResourceInstance& rkRes = It->second;
+            std::vector<u8> ResourceData;
+            LoadPakResource(rkRes, ResourceData);
 
-        if (Out.IsValid())
-            Out.WriteBytes(ResourceData.data(), ResourceData.size());
+            TString OutName = rkRes.ResourceID.ToString() + "." + rkRes.ResourceType.ToString();
+            TString OutDir = mCookedResDir.ToUTF8() + "\\";
+            TString OutPath = OutDir + OutName;
+            CFileOutStream Out(OutPath.ToStdString(), IOUtil::eBigEndian);
+
+            if (Out.IsValid())
+                Out.WriteBytes(ResourceData.data(), ResourceData.size());
+
+            // Add to resource DB
+            pResDB->RegisterResource(rkRes.ResourceID, FileUtil::MakeRelative(OutDir, mCookedDir), OutName, CResource::ResTypeForExtension(rkRes.ResourceType));
+        }
+    }
+    {
+        SCOPED_TIMER(SaveResourceDatabase);
+        pResDB->Save(this->mExportDir.ToUTF8() + "ResourceDatabase.rdb");
     }
 #endif
 }

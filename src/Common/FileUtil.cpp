@@ -75,6 +75,7 @@ bool DeleteFile(const TWideString& rkFilePath)
 
 bool DeleteDirectory(const TWideString& rkDirPath)
 {
+    // This is an extremely destructive function, be careful using it!
     if (!IsDirectory(rkDirPath)) return false;
 
     // Sanity check - don't delete root
@@ -94,6 +95,7 @@ bool DeleteDirectory(const TWideString& rkDirPath)
 
 bool ClearDirectory(const TWideString& rkDirPath)
 {
+    // This is an extremely destructive function, be careful using it!
     if (!IsDirectory(rkDirPath)) return false;
 
     // Sanity check - don't clear root
@@ -126,9 +128,14 @@ bool ClearDirectory(const TWideString& rkDirPath)
     return true;
 }
 
-int FileSize(const TWideString &rkFilePath)
+u64 FileSize(const TWideString &rkFilePath)
 {
-    return (int) (Exists(*rkFilePath) ? file_size(*rkFilePath) : -1);
+    return (u64) (Exists(*rkFilePath) ? file_size(*rkFilePath) : -1);
+}
+
+u64 LastModifiedTime(const TWideString& rkFilePath)
+{
+    return (u64) last_write_time(*rkFilePath);
 }
 
 TWideString WorkingDirectory()

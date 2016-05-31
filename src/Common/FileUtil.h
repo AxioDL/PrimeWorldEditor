@@ -17,9 +17,10 @@ bool CopyDirectory(const TWideString& rkOrigPath, const TWideString& rkNewPath);
 bool MoveFile(const TWideString& rkOldPath, const TWideString& rkNewPath);
 bool MoveDirectory(const TWideString& rkOldPath, const TWideString& rkNewPath);
 bool DeleteFile(const TWideString& rkFilePath);
-bool DeleteDirectory(const TWideString& rkDirPath);
-bool ClearDirectory(const TWideString& rkDirPath);
-int FileSize(const TWideString& rkFilePath);
+bool DeleteDirectory(const TWideString& rkDirPath); // This is an extremely destructive function, be careful using it!
+bool ClearDirectory(const TWideString& rkDirPath);  // This is an extremely destructive function, be careful using it!
+u64 FileSize(const TWideString& rkFilePath);
+u64 LastModifiedTime(const TWideString& rkFilePath);
 TWideString WorkingDirectory();
 TWideString MakeAbsolute(TWideString Path);
 TWideString MakeRelative(const TWideString& rkPath, const TWideString& rkRelativeTo = WorkingDirectory());

@@ -8,7 +8,7 @@
 
 class CCollisionMeshGroup : public CResource
 {
-    DECLARE_RESOURCE_TYPE(eCollisionMeshGroup)
+    DECLARE_RESOURCE_TYPE(eDynamicCollision)
     std::vector<CCollisionMesh*> mMeshes;
 
 public:
