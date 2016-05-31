@@ -258,15 +258,19 @@ void CStartWindow::About()
 void CStartWindow::ExportGame()
 {
     // TEMP - hardcoded names for convenience. will remove later!
-#define USE_HARDCODED_NAMES 1
+#define USE_HARDCODED_GAME_ROOT 0
+#define USE_HARDCODED_EXPORT_DIR 1
 
-#if USE_HARDCODED_NAMES
-    QString GameRoot = "E:/Unpacked/DKCR Dolphin";
-    QString ExportDir = "E:/Unpacked/ExportTest";
+#if USE_HARDCODED_GAME_ROOT
+    QString GameRoot = "E:/Unpacked/Metroid Prime 2";
 #else
     QString GameRoot = QFileDialog::getExistingDirectory(this, "Select game root directory");
     if (GameRoot.isEmpty()) return;
+#endif
 
+#if USE_HARDCODED_EXPORT_DIR
+    QString ExportDir = "E:/Unpacked/ExportTest";
+#else
     QString ExportDir = QFileDialog::getExistingDirectory(this, "Select output export directory");
     if (ExportDir.isEmpty()) return;
 #endif

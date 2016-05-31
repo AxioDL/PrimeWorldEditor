@@ -8,7 +8,7 @@
 
 class CPoiToWorld : public CResource
 {
-    DECLARE_RESOURCE_TYPE(ePoiToWorld)
+    DECLARE_RESOURCE_TYPE(eStaticGeometryMap)
 
 public:
     struct SPoiMap

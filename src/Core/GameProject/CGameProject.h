@@ -12,20 +12,31 @@ class CGameProject
 {
     EGame mGame;
     TString mProjectName;
-    TString mProjectRoot;
+    TWideString mProjectRoot;
     CResourceDatabase *mpResourceDatabase;
     std::vector<CPackage*> mWorldPaks;
     std::vector<CPackage*> mResourcePaks;
 
 public:
-    CGameProject()
+    CGameProject(const TWideString& rkProjRootDir)
         : mGame(eUnknownVersion)
         , mProjectName("UnnamedProject")
-        , mpResourceDatabase(new CResourceDatabase)
+        , mProjectRoot(rkProjRootDir)
+        , mpResourceDatabase(new CResourceDatabase(this))
     {}
 
     void AddPackage(CPackage *pPackage, bool WorldPak);
 
+    // Directory Handling
+    inline TWideString ProjectRoot() const          { return mProjectRoot; }
+    inline TWideString DiscDir() const              { return mProjectRoot + L"Disc\\"; }
+    inline TWideString ResourcesDir() const         { return mProjectRoot + L"Resources\\"; }
+    inline TWideString WorldsDir() const            { return mProjectRoot + L"Worlds\\"; }
+    inline TWideString CookedDir() const            { return mProjectRoot + L"Cooked\\"; }
+    inline TWideString CookedResourcesDir() const   { return CookedDir() + L"Resources\\"; }
+    inline TWideString CookedWorldsDir() const      { return CookedDir() + L"Worlds\\"; }
+
+    // Accessors
     inline void SetGame(EGame Game)                     { mGame = Game; }
     inline void SetProjectName(const TString& rkName)   { mProjectName = rkName; }
 

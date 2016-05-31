@@ -232,7 +232,7 @@ CCollisionMeshGroup* CScriptTemplate::FindCollision(CPropertyStruct *pProperties
         }
 
         // Verify resource exists + is correct type
-        if (pRes && (pRes->Type() == eCollisionMeshGroup))
+        if (pRes && (pRes->Type() == eDynamicCollision))
             return static_cast<CCollisionMeshGroup*>(pRes);
     }
 

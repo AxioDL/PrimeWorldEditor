@@ -17,10 +17,11 @@ class CGameExporter
     TWideString mGameDir;
     TWideString mExportDir;
     TWideString mDiscDir;
+    TWideString mResDir;
+    TWideString mWorldsDir;
+    TWideString mCookedDir;
     TWideString mCookedResDir;
     TWideString mCookedWorldsDir;
-    TWideString mRawResDir;
-    TWideString mRawWorldsDir;
 
     // Resources
     TWideStringList mWorldPaks;

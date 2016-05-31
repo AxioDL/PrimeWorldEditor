@@ -73,7 +73,8 @@ HEADERS += \
     types.h \
     Log.h \
     FileUtil.h \
-    AssertMacro.h
+    AssertMacro.h \
+    CScopedTimer.h
 
 # Source Files
 SOURCES += \
