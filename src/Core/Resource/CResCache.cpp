@@ -14,12 +14,14 @@
 #include "Core/Resource/Factory/CWorldLoader.h"
 
 #include <FileIO/FileIO.h>
+#include <Common/AssertMacro.h>
 #include <Common/FileUtil.h>
 #include <Common/Log.h>
 #include <Common/TString.h>
 #include <iostream>
 
 CResCache::CResCache()
+    : mpGameExporter(nullptr)
 {
 }
 
@@ -71,8 +73,33 @@ TString CResCache::GetSourcePath()
 CResource* CResCache::GetResource(CUniqueID ResID, CFourCC Type)
 {
     if (!ResID.IsValid()) return nullptr;
-    TString Source = mResDir + ResID.ToString() + "." + Type.ToString();
-    return GetResource(Source);
+    TString StringName = ResID.ToString() + "." + Type.ToString();
+
+    // With Game Exporter - get data buffer from exporter
+    if (mpGameExporter)
+    {
+        // Check if we already have resource loaded
+        auto Got = mResourceCache.find(ResID.ToLongLong());
+        if (Got != mResourceCache.end())
+            return Got->second;
+
+        // Otherwise load resource
+        std::vector<u8> DataBuffer;
+        mpGameExporter->LoadResource(ResID, DataBuffer);
+        if (DataBuffer.empty()) return nullptr;
+
+        CMemoryInStream MemStream(DataBuffer.data(), DataBuffer.size(), IOUtil::eBigEndian);
+        CResource *pRes = InternalLoadResource(MemStream, ResID, Type);
+        pRes->mResSource = StringName;
+        return pRes;
+    }
+
+    // Without Game Exporter - load from file
+    else
+    {
+        TString Source = mResDir + StringName;
+        return GetResource(Source);
+    }
 }
 
 CResource* CResCache::GetResource(const TString& rkResPath)
@@ -98,32 +125,11 @@ CResource* CResCache::GetResource(const TString& rkResPath)
     mResDir = rkResPath.GetFileDirectory();
 
     // Load resource
-    CResource *pRes = nullptr;
     CFourCC Type = rkResPath.GetFileExtension().ToUpper();
-    bool SupportedFormat = true;
-
-    if      (Type == "CMDL") pRes = CModelLoader::LoadCMDL(File);
-    else if (Type == "TXTR") pRes = CTextureDecoder::LoadTXTR(File);
-    else if (Type == "ANCS") pRes = CAnimSetLoader::LoadANCS(File);
-    else if (Type == "CHAR") pRes = CAnimSetLoader::LoadCHAR(File);
-    else if (Type == "MREA") pRes = CAreaLoader::LoadMREA(File);
-    else if (Type == "MLVL") pRes = CWorldLoader::LoadMLVL(File);
-    else if (Type == "STRG") pRes = CStringLoader::LoadSTRG(File);
-    else if (Type == "FONT") pRes = CFontLoader::LoadFONT(File);
-    else if (Type == "SCAN") pRes = CScanLoader::LoadSCAN(File);
-    else if (Type == "DCLN") pRes = CCollisionLoader::LoadDCLN(File);
-    else if (Type == "EGMC") pRes = CPoiToWorldLoader::LoadEGMC(File);
-    else if (Type == "CINF") pRes = CSkeletonLoader::LoadCINF(File);
-    else if (Type == "ANIM") pRes = CAnimationLoader::LoadANIM(File);
-    else if (Type == "CSKR") pRes = CSkinLoader::LoadCSKR(File);
-    else SupportedFormat = false;
-
-    if (!pRes) pRes = new CResource(); // Default for unsupported formats
+    CResource *pRes = InternalLoadResource(File, ResID, Type);
+    pRes->mResSource = rkResPath;
 
     // Add to cache and cleanup
-    pRes->mID = *rkResPath;
-    pRes->mResSource = rkResPath;
-    mResourceCache[ResID.ToLongLong()] = pRes;
     mResDir = OldResDir;
     return pRes;
 }
@@ -166,6 +172,38 @@ void CResCache::DeleteResource(CUniqueID ResID)
         delete Got->second;
         mResourceCache.erase(Got, Got);
     }
+}
+
+// ************ PROTECTED ************
+CResource* CResCache::InternalLoadResource(IInputStream& rInput, const CUniqueID& rkID, CFourCC Type)
+{
+    // todo - need some sort of auto-registration of loaders to avoid this if-else mess
+    ASSERT(mResourceCache.find(rkID.ToLongLong()) == mResourceCache.end()); // this test should be done before calling this func!
+    CResource *pRes = nullptr;
+
+    // Load resource
+    if      (Type == "CMDL") pRes = CModelLoader::LoadCMDL(rInput);
+    else if (Type == "TXTR") pRes = CTextureDecoder::LoadTXTR(rInput);
+    else if (Type == "ANCS") pRes = CAnimSetLoader::LoadANCS(rInput);
+    else if (Type == "CHAR") pRes = CAnimSetLoader::LoadCHAR(rInput);
+    else if (Type == "MREA") pRes = CAreaLoader::LoadMREA(rInput);
+    else if (Type == "MLVL") pRes = CWorldLoader::LoadMLVL(rInput);
+    else if (Type == "STRG") pRes = CStringLoader::LoadSTRG(rInput);
+    else if (Type == "FONT") pRes = CFontLoader::LoadFONT(rInput);
+    else if (Type == "SCAN") pRes = CScanLoader::LoadSCAN(rInput);
+    else if (Type == "DCLN") pRes = CCollisionLoader::LoadDCLN(rInput);
+    else if (Type == "EGMC") pRes = CPoiToWorldLoader::LoadEGMC(rInput);
+    else if (Type == "CINF") pRes = CSkeletonLoader::LoadCINF(rInput);
+    else if (Type == "ANIM") pRes = CAnimationLoader::LoadANIM(rInput);
+    else if (Type == "CSKR") pRes = CSkinLoader::LoadCSKR(rInput);
+    if (!pRes) pRes = new CResource(); // Default for unsupported formats
+
+    ASSERT(pRes->mRefCount == 0);
+
+    // Cache and return
+    pRes->mID = rkID;
+    mResourceCache[rkID.ToLongLong()] = pRes;
+    return pRes;
 }
 
 CResCache gResCache;

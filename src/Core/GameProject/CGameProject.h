@@ -28,17 +28,20 @@ public:
     void AddPackage(CPackage *pPackage, bool WorldPak);
 
     // Directory Handling
-    inline TWideString ProjectRoot() const          { return mProjectRoot; }
-    inline TWideString DiscDir() const              { return mProjectRoot + L"Disc\\"; }
-    inline TWideString ResourcesDir() const         { return mProjectRoot + L"Resources\\"; }
-    inline TWideString WorldsDir() const            { return mProjectRoot + L"Worlds\\"; }
-    inline TWideString CookedDir() const            { return mProjectRoot + L"Cooked\\"; }
-    inline TWideString CookedResourcesDir() const   { return CookedDir() + L"Resources\\"; }
-    inline TWideString CookedWorldsDir() const      { return CookedDir() + L"Worlds\\"; }
+    inline TWideString ProjectRoot() const                      { return mProjectRoot; }
+    inline TWideString DiscDir(bool Relative) const             { return Relative ? L"Disc\\" : mProjectRoot + L"Disc\\"; }
+    inline TWideString ResourcesDir(bool Relative) const        { return Relative ? L"Resources\\" : mProjectRoot + L"Resources\\"; }
+    inline TWideString WorldsDir(bool Relative) const           { return Relative ? L"Worlds\\" : mProjectRoot + L"Worlds\\"; }
+    inline TWideString CookedDir(bool Relative) const           { return Relative ? L"Cooked\\" : mProjectRoot + L"Cooked\\"; }
+    inline TWideString CookedResourcesDir(bool Relative) const  { return CookedDir(Relative) + L"Resources\\"; }
+    inline TWideString CookedWorldsDir(bool Relative) const     { return CookedDir(Relative) + L"Worlds\\"; }
 
     // Accessors
     inline void SetGame(EGame Game)                     { mGame = Game; }
     inline void SetProjectName(const TString& rkName)   { mProjectName = rkName; }
+
+    inline u32 NumWorldPaks() const                     { return mWorldPaks.size(); }
+    inline CPackage* WorldPakByIndex(u32 Index) const   { return mWorldPaks[Index]; }
 
     inline EGame Game() const                           { return mGame; }
     inline CResourceDatabase* ResourceDatabase() const  { return mpResourceDatabase; }

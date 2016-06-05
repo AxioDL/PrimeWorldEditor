@@ -1,12 +1,16 @@
 #include "CGameExporter.h"
+#include "Core/Resource/CResCache.h"
+#include "Core/Resource/CWorld.h"
 #include <FileIO/FileIO.h>
 #include <Common/AssertMacro.h>
 #include <Common/CompressionUtil.h>
 #include <Common/CScopedTimer.h>
 #include <Common/FileUtil.h>
+#include <tinyxml2.h>
 
-#define COPY_DISC_DATA 1
+#define COPY_DISC_DATA 0
 #define LOAD_PAKS 1
+#define EXPORT_WORLDS 1
 #define EXPORT_COOKED 1
 
 CGameExporter::CGameExporter(const TString& rkInputDir, const TString& rkOutputDir)
@@ -15,23 +19,35 @@ CGameExporter::CGameExporter(const TString& rkInputDir, const TString& rkOutputD
     mExportDir = FileUtil::MakeAbsolute(rkOutputDir);
 
     mpProject = new CGameProject(mExportDir);
-    mDiscDir = mpProject->DiscDir();
-    mResDir = mpProject->ResourcesDir();
-    mWorldsDir = mpProject->WorldsDir();
-    mCookedDir = mpProject->CookedDir();
-    mCookedResDir = mpProject->CookedResourcesDir();
-    mCookedWorldsDir = mpProject->CookedWorldsDir();
+    mDiscDir = mpProject->DiscDir(true);
+    mResDir = mpProject->ResourcesDir(true);
+    mWorldsDir = mpProject->WorldsDir(true);
+    mCookedDir = mpProject->CookedDir(false);
+    mCookedResDir = mpProject->CookedResourcesDir(true);
+    mCookedWorldsDir = mpProject->CookedWorldsDir(true);
 }
 
 bool CGameExporter::Export()
 {
     SCOPED_TIMER(ExportGame);
+    gResCache.SetGameExporter(this);
     FileUtil::CreateDirectory(mExportDir);
     FileUtil::ClearDirectory(mExportDir);
+
     CopyDiscData();
+    LoadAssetList();
     LoadPaks();
+    ExportWorlds();
     ExportCookedResources();
+
+    gResCache.SetGameExporter(nullptr);
     return true;
+}
+
+void CGameExporter::LoadResource(const CUniqueID& rkID, std::vector<u8>& rBuffer)
+{
+    SResourceInstance *pInst = FindResourceInstance(rkID);
+    if (pInst) LoadResource(*pInst, rBuffer);
 }
 
 // ************ PROTECTED ************
@@ -93,6 +109,57 @@ void CGameExporter::CopyDiscData()
     ASSERT(Game() != eUnknownVersion);
 }
 
+void CGameExporter::LoadAssetList()
+{
+    SCOPED_TIMER(LoadAssetList);
+
+    // Determine the asset list to use
+    TString ListFile = "../resources/list/AssetList";
+
+    switch (Game())
+    {
+    case ePrimeDemo:        ListFile += "MP1Demo"; break;
+    case ePrime:            ListFile += "MP1"; break;
+    case eEchoesDemo:       ListFile += "MP2Demo"; break;
+    case eEchoes:           ListFile += "MP2"; break;
+    case eCorruptionProto:  ListFile += "MP3Proto"; break;
+    case eCorruption:       ListFile += "MP3"; break;
+    case eReturns:          ListFile += "DKCR"; break;
+    default: ASSERT(false);
+    }
+
+    ListFile += ".xml";
+
+    // Load list
+    tinyxml2::XMLDocument List;
+    List.LoadFile(*ListFile);
+
+    if (List.Error())
+    {
+        Log::Error("Couldn't open asset list: " + ListFile);
+        return;
+    }
+
+    tinyxml2::XMLElement *pRoot = List.FirstChildElement("AssetList");
+    tinyxml2::XMLElement *pAsset = pRoot->FirstChildElement("Asset");
+
+    while (pAsset)
+    {
+        u64 ResourceID = TString(pAsset->Attribute("ID")).ToInt64(16);
+
+        tinyxml2::XMLElement *pDir = pAsset->FirstChildElement("Dir");
+        TString Dir = pDir ? pDir->GetText() : "";
+
+        tinyxml2::XMLElement *pName = pAsset->FirstChildElement("Name");
+        TString Name = pName ? pName->GetText() : "";
+
+        if (!Dir.EndsWith("/") && !Dir.EndsWith("\\")) Dir.Append("\\");
+        SetResourcePath(ResourceID, mResDir + Dir.ToUTF16(), Name.ToUTF16());
+
+        pAsset = pAsset->NextSiblingElement("Asset");
+    }
+}
+
 // ************ RESOURCE LOADING ************
 void CGameExporter::LoadPaks()
 {
@@ -117,7 +184,7 @@ void CGameExporter::LoadPaks()
                 continue;
             }
 
-            CPackage *pPackage = new CPackage(CharPak.GetFileName(false));
+            CPackage *pPackage = new CPackage(CharPak.GetFileName(false), FileUtil::MakeRelative(PakPath.GetFileDirectory(), mExportDir));
 
             // MP1-MP3Proto
             if (Game() < eCorruption)
@@ -134,11 +201,11 @@ void CGameExporter::LoadPaks()
 
                     for (u32 iName = 0; iName < NumNamedResources; iName++)
                     {
-                        Pak.Seek(0x4, SEEK_CUR); // Skip resource type
+                        CFourCC ResType = Pak.ReadLong();
                         CUniqueID ResID(Pak, IDLength);
                         u32 NameLen = Pak.ReadLong();
                         TString Name = Pak.ReadString(NameLen);
-                        pPackage->AddNamedResource(Name, ResID);
+                        pPackage->AddNamedResource(Name, ResID, ResType);
                     }
 
                     u32 NumResources = Pak.ReadLong();
@@ -153,7 +220,7 @@ void CGameExporter::LoadPaks()
 
                         u64 IntegralID = ResID.ToLongLong();
                         if (mResourceMap.find(IntegralID) == mResourceMap.end())
-                            mResourceMap[IntegralID] = SResourceInstance { PakPath, ResID, ResType, ResOffset, ResSize, Compressed };
+                            mResourceMap[IntegralID] = SResourceInstance { PakPath, ResID, ResType, ResOffset, ResSize, Compressed, false };
                     }
                 }
             }
@@ -194,9 +261,9 @@ void CGameExporter::LoadPaks()
                         for (u32 iName = 0; iName < NumNamedResources; iName++)
                         {
                             TString Name = Pak.ReadString();
-                            Pak.Seek(0x4, SEEK_CUR); // Skip type
+                            CFourCC ResType = Pak.ReadLong();
                             CUniqueID ResID(Pak, IDLength);
-                            pPackage->AddNamedResource(Name, ResID);
+                            pPackage->AddNamedResource(Name, ResID, ResType);
                         }
                     }
 
@@ -216,7 +283,7 @@ void CGameExporter::LoadPaks()
 
                             u64 IntegralID = ResID.ToLongLong();
                             if (mResourceMap.find(IntegralID) == mResourceMap.end())
-                                mResourceMap[IntegralID] = SResourceInstance { PakPath, ResID, Type, Offset, Size, Compressed };
+                                mResourceMap[IntegralID] = SResourceInstance { PakPath, ResID, Type, Offset, Size, Compressed, false };
                         }
                     }
 
@@ -231,7 +298,7 @@ void CGameExporter::LoadPaks()
 #endif
 }
 
-void CGameExporter::LoadPakResource(const SResourceInstance& rkResource, std::vector<u8>& rBuffer)
+void CGameExporter::LoadResource(const SResourceInstance& rkResource, std::vector<u8>& rBuffer)
 {
     CFileInStream Pak(rkResource.PakFile.ToUTF8().ToStdString(), IOUtil::eBigEndian);
 
@@ -327,30 +394,106 @@ void CGameExporter::LoadPakResource(const SResourceInstance& rkResource, std::ve
     }
 }
 
+void CGameExporter::ExportWorlds()
+{
+#if EXPORT_WORLDS
+    SCOPED_TIMER(ExportWorlds);
+    //CResourceDatabase *pResDB = mpProject->ResourceDatabase();
+
+    for (u32 iPak = 0; iPak < mpProject->NumWorldPaks(); iPak++)
+    {
+        CPackage *pPak = mpProject->WorldPakByIndex(iPak);
+
+        // Get output path. DKCR paks are stored in a Worlds folder so we should get the path relative to that so we don't have Worlds\Worlds\.
+        // Other games have all paks in the game root dir so we're fine just taking the original root dir-relative directory.
+        TWideString PakPath = pPak->PakPath();
+        TWideString WorldsDir = PakPath.GetParentDirectoryPath(L"Worlds", false);
+
+        if (!WorldsDir.IsEmpty())
+            PakPath = FileUtil::MakeRelative(PakPath, WorldsDir);
+
+        for (u32 iRes = 0; iRes < pPak->NumNamedResources(); iRes++)
+        {
+            const SNamedResource& rkRes = pPak->NamedResourceByIndex(iRes);
+
+            if (rkRes.Type == "MLVL" && !rkRes.Name.EndsWith("NODEPEND"))
+            {
+                TResPtr<CWorld> pWorld = (CWorld*) gResCache.GetResource(rkRes.ID, rkRes.Type);
+
+                if (!pWorld)
+                {
+                    Log::Error("Couldn't load world " + rkRes.Name + " from package " + pPak->PakName() + "; unable to export");
+                    continue;
+                }
+
+                // Export world
+                TWideString Name = rkRes.Name.ToUTF16();
+                TWideString WorldDir = mWorldsDir + PakPath + FileUtil::SanitizeName(Name, true) + L"\\";
+                FileUtil::CreateDirectory(mCookedDir + WorldDir);
+
+                SResourceInstance *pInst = FindResourceInstance(rkRes.ID);
+                ASSERT(pInst != nullptr);
+
+                SetResourcePath(rkRes.ID, WorldDir, Name);
+                ExportResource(*pInst);
+
+                // Export areas
+                for (u32 iArea = 0; iArea < pWorld->NumAreas(); iArea++)
+                {
+                    // Determine area names
+                    TWideString InternalAreaName = pWorld->AreaInternalName(iArea).ToUTF16();
+                    if (InternalAreaName.IsEmpty()) InternalAreaName = TWideString::FromInt32(iArea, 2, 10);
+
+                    TWideString GameAreaName;
+                    CStringTable *pTable = pWorld->AreaName(iArea);
+                    if (pTable) GameAreaName = pTable->String("ENGL", 0);
+                    if (GameAreaName.IsEmpty()) GameAreaName = InternalAreaName;
+
+                    // Load area
+                    CUniqueID AreaID = pWorld->AreaResourceID(iArea);
+                    CGameArea *pArea = (CGameArea*) gResCache.GetResource(AreaID, "MREA");
+
+                    if (!pArea)
+                    {
+                        Log::Error("Unable to export area " + GameAreaName.ToUTF8() + " from world " + rkRes.Name + "; couldn't load area");
+                        continue;
+                    }
+
+                    // Export area
+                    TWideString AreaDir = WorldDir + TWideString::FromInt32(iArea, 2, 10) + L"_" + FileUtil::SanitizeName(GameAreaName, true) + L"\\";
+                    FileUtil::CreateDirectory(mCookedDir + AreaDir);
+
+                    SResourceInstance *pInst = FindResourceInstance(AreaID);
+                    ASSERT(pInst != nullptr);
+
+                    SetResourcePath(AreaID, AreaDir, InternalAreaName);
+                    ExportResource(*pInst);
+                }
+
+                gResCache.Clean();
+            }
+
+            else
+            {
+                Log::Error("Unexpected named resource type in world pak: " + rkRes.Type.ToString());
+            }
+        }
+    }
+#endif
+}
+
 void CGameExporter::ExportCookedResources()
 {
 #if EXPORT_COOKED
     CResourceDatabase *pResDB = mpProject->ResourceDatabase();
     {
         SCOPED_TIMER(ExportCookedResources);
-        FileUtil::CreateDirectory(mCookedResDir);
+        FileUtil::CreateDirectory(mCookedDir + mResDir);
 
         for (auto It = mResourceMap.begin(); It != mResourceMap.end(); It++)
         {
-            const SResourceInstance& rkRes = It->second;
-            std::vector<u8> ResourceData;
-            LoadPakResource(rkRes, ResourceData);
-
-            TString OutName = rkRes.ResourceID.ToString() + "." + rkRes.ResourceType.ToString();
-            TString OutDir = mCookedResDir.ToUTF8() + "\\";
-            TString OutPath = OutDir + OutName;
-            CFileOutStream Out(OutPath.ToStdString(), IOUtil::eBigEndian);
-
-            if (Out.IsValid())
-                Out.WriteBytes(ResourceData.data(), ResourceData.size());
-
-            // Add to resource DB
-            pResDB->RegisterResource(rkRes.ResourceID, FileUtil::MakeRelative(OutDir, mCookedDir), OutName, CResource::ResTypeForExtension(rkRes.ResourceType));
+            SResourceInstance& rRes = It->second;
+            ExportResource(rRes);
         }
     }
     {
@@ -358,4 +501,38 @@ void CGameExporter::ExportCookedResources()
         pResDB->Save(this->mExportDir.ToUTF8() + "ResourceDatabase.rdb");
     }
 #endif
+}
+
+void CGameExporter::ExportResource(SResourceInstance& rRes)
+{
+    if (!rRes.Exported)
+    {
+        std::vector<u8> ResourceData;
+        LoadResource(rRes, ResourceData);
+
+        // Determine output path
+        SResourcePath *pPath = FindResourcePath(rRes.ResourceID);
+        TString OutName, OutDir;
+
+        if (pPath)
+        {
+            OutName = pPath->Name.ToUTF8();
+            OutDir = pPath->Dir.ToUTF8();
+        }
+
+        if (OutName.IsEmpty())  OutName = rRes.ResourceID.ToString();
+        if (OutDir.IsEmpty())   OutDir = mResDir;
+
+        // Write to file
+        FileUtil::CreateDirectory(mCookedDir + OutDir.ToUTF16());
+        TString OutPath = mCookedDir.ToUTF8() + OutDir + OutName + "." + rRes.ResourceType.ToString();
+        CFileOutStream Out(OutPath.ToStdString(), IOUtil::eBigEndian);
+
+        if (Out.IsValid())
+            Out.WriteBytes(ResourceData.data(), ResourceData.size());
+
+        // Add to resource DB
+        mpProject->ResourceDatabase()->RegisterResource(rRes.ResourceID, OutDir, OutName, CResource::ResTypeForExtension(rRes.ResourceType));
+        rRes.Exported = true;
+    }
 }

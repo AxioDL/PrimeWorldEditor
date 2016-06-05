@@ -14,7 +14,6 @@ enum EResType
     eAudioMacro,
     eAudioGroupSet,
     eAudioSample,
-    eStreamedAudio,
     eAudioLookupTable,
     eBinaryData,
     eBurstFireData,
@@ -25,14 +24,12 @@ enum EResType
     eGuiFrame,
     eGuiKeyFrame,
     eHintSystem,
-    eInvalidResType,
     eMapArea,
     eMapWorld,
     eMapUniverse,
     eMidi,
     eModel,
     eMusicTrack,
-    eNavMesh,
     ePackage,
     eParticle,
     eParticleCollisionResponse,
@@ -43,6 +40,7 @@ enum EResType
     eParticleSwoosh,
     eParticleTransform,
     eParticleWeapon,
+    ePathfinding,
     ePortalArea,
     eResource,
     eRuleSet,
@@ -56,6 +54,7 @@ enum EResType
     eStateMachine,
     eStateMachine2, // For distinguishing AFSM/FSM2
     eStaticGeometryMap,
+    eStreamedAudio,
     eStringList,
     eStringTable,
     eTexture,
@@ -63,7 +62,9 @@ enum EResType
     eUnknown_CAAD,
     eUserEvaluatorData,
     eVideo,
-    eWorld
+    eWorld,
+
+    eInvalidResType = -1
 };
 
 // defined in CResource.cpp

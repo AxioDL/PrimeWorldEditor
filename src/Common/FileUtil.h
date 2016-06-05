@@ -24,6 +24,10 @@ u64 LastModifiedTime(const TWideString& rkFilePath);
 TWideString WorkingDirectory();
 TWideString MakeAbsolute(TWideString Path);
 TWideString MakeRelative(const TWideString& rkPath, const TWideString& rkRelativeTo = WorkingDirectory());
+TWideString SanitizeName(TWideString Name, bool Directory, bool RootDir = false);
+TWideString SanitizePath(TWideString Path, bool Directory);
+bool IsValidName(const TWideString& rkName, bool Directory, bool RootDir = false);
+bool IsValidPath(const TWideString& rkPath, bool Directory);
 void GetDirectoryContents(TWideString DirPath, TWideStringList& rOut, bool Recursive = true, bool IncludeFiles = true, bool IncludeDirs = true);
 
 }

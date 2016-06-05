@@ -13,13 +13,13 @@ using IOUtil::eBigEndian;
 CUniqueID::CUniqueID()
     : mLength(eInvalidUIDLength)
 {
-    memset(mID, 0xFF, 16);
+    memset(mID, 0, 16);
 }
 
 CUniqueID::CUniqueID(u64 ID)
 {
     // This constructor is intended to be used with both 32-bit and 64-bit input values
-    memset(mID, 0xFF, 16);
+    memset(mID, 0, 16);
 
     // 64-bit - check for valid content in upper 32 bits (at least one bit set + one bit unset)
     if ((ID & 0xFFFFFFFF00000000) && (~ID & 0xFFFFFFFF00000000))
@@ -43,7 +43,7 @@ CUniqueID::CUniqueID(u64 ID)
 CUniqueID::CUniqueID(u64 ID, EUIDLength Length)
 {
     // This constructor shouldn't be used for 128-bit
-    memset(mID, 0xFF, 16);
+    memset(mID, 0, 16);
 
     // 64-bit
     if (Length == e64Bit || Length == e128Bit)
