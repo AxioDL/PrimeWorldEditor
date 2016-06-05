@@ -201,6 +201,10 @@ void CTextureDecoder::ReadDDS(IInputStream& rDDS)
 // ************ DECODE ************
 void CTextureDecoder::PartialDecodeGXTexture(IInputStream& TXTR)
 {
+    // TODO: This function doesn't handle very small mipmaps correctly.
+    // The format applies padding when the size of a mipmap is less than the block size for that format.
+    // The decode needs to be adjusted to account for the padding and skip over it (since we don't have padding in OpenGL).
+
     // Get image data size, create output buffer
     u32 ImageStart = TXTR.Tell();
     TXTR.Seek(0x0, SEEK_END);
@@ -233,11 +237,22 @@ void CTextureDecoder::PartialDecodeGXTexture(IInputStream& TXTR)
         MipH /= 4;
     }
 
+    // This value set to true if we hit the end of the file earlier than expected.
+    // This is necessary due to a mistake Retro made in their cooker for I8 textures where very small mipmaps are cut off early, resulting in an out-of-bounds memory access.
+    // This affects one texture that I know of - Echoes 3bb2c034.TXTR
+    bool BreakEarly = false;
+
     for (u32 iMip = 0; iMip < mNumMipMaps; iMip++)
     {
+        if (MipW < BWidth) MipW = BWidth;
+        if (MipH < BHeight) MipH = BHeight;
+
         for (u32 iBlockY = 0; iBlockY < MipH; iBlockY += BHeight)
-            for (u32 iBlockX = 0; iBlockX < MipW; iBlockX += BWidth) {
-                for (u32 iImgY = iBlockY; iImgY < iBlockY + BHeight; iImgY++) {
+        {
+            for (u32 iBlockX = 0; iBlockX < MipW; iBlockX += BWidth)
+            {
+                for (u32 iImgY = iBlockY; iImgY < iBlockY + BHeight; iImgY++)
+                {
                     for (u32 iImgX = iBlockX; iImgX < iBlockX + BWidth; iImgX++)
                     {
                         u32 DstPos = ((iImgY * MipW) + iImgX) * PixelStride;
@@ -256,10 +271,17 @@ void CTextureDecoder::PartialDecodeGXTexture(IInputStream& TXTR)
 
                         // I4 and C4 have 4bpp images, so I'm forced to read two pixels at a time.
                         if ((mTexelFormat == eGX_I4) || (mTexelFormat == eGX_C4)) iImgX++;
+
+                        // Check if we're at the end of the file.
+                        if (TXTR.EoF()) BreakEarly = true;
                     }
+                    if (BreakEarly) break;
                 }
                 if (mTexelFormat == eGX_RGBA8) TXTR.Seek(0x20, SEEK_CUR);
+                if (BreakEarly) break;
             }
+            if (BreakEarly) break;
+        }
 
         u32 MipSize = (u32) (MipW * MipH * gskPixelsToBytes[mTexelFormat]);
         if (mTexelFormat == eGX_CMPR) MipSize *= 16; // Since we're pretending the image is 1/4 its actual size, we have to multiply the size by 16 to get the correct offset
@@ -267,8 +289,8 @@ void CTextureDecoder::PartialDecodeGXTexture(IInputStream& TXTR)
         MipOffset += MipSize;
         MipW /= 2;
         MipH /= 2;
-        if (MipW < BWidth) MipW = BWidth;
-        if (MipH < BHeight) MipH = BHeight;
+
+        if (BreakEarly) break;
     }
 }
 

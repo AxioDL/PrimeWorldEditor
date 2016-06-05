@@ -16,7 +16,7 @@ bool Exists(const TWideString &rkFilePath)
 
 bool IsRoot(const TWideString& rkPath)
 {
-    // todo: verify that this is actually a good way of checking for root
+    // todo: is this actually a good way of checking for root?
     TWideString AbsPath = MakeAbsolute(rkPath);
     TWideStringList Split = AbsPath.Split(L"\\/");
     return (Split.size() <= 1);
@@ -34,11 +34,23 @@ bool IsDirectory(const TWideString& rkDirPath)
 
 bool CreateDirectory(const TWideString& rkNewDir)
 {
+    if (!IsValidPath(rkNewDir, true))
+    {
+        Log::Error("Unable to create directory because name contains illegal characters: " + rkNewDir.ToUTF8());
+        return false;
+    }
+
     return create_directories(*rkNewDir);
 }
 
 bool CopyFile(const TWideString& rkOrigPath, const TWideString& rkNewPath)
 {
+    if (!IsValidPath(rkNewPath, false))
+    {
+        Log::Error("Unable to copy file because destination name contains illegal characters: " + rkNewPath.ToUTF8());
+        return false;
+    }
+
     boost::system::error_code Error;
     copy(*rkOrigPath, *rkNewPath, Error);
     return (Error == boost::system::errc::success);
@@ -46,6 +58,12 @@ bool CopyFile(const TWideString& rkOrigPath, const TWideString& rkNewPath)
 
 bool CopyDirectory(const TWideString& rkOrigPath, const TWideString& rkNewPath)
 {
+    if (!IsValidPath(rkNewPath, true))
+    {
+        Log::Error("Unable to copy directory because destination name contains illegal characters: " + rkNewPath.ToUTF8());
+        return false;
+    }
+
     boost::system::error_code Error;
     copy_directory(*rkOrigPath, *rkNewPath, Error);
     return (Error == boost::system::errc::success);
@@ -53,6 +71,12 @@ bool CopyDirectory(const TWideString& rkOrigPath, const TWideString& rkNewPath)
 
 bool MoveFile(const TWideString& rkOldPath, const TWideString& rkNewPath)
 {
+    if (!IsValidPath(rkNewPath, false))
+    {
+        Log::Error("Unable to move file because destination name contains illegal characters: " + rkNewPath.ToUTF8());
+        return false;
+    }
+
     if (CopyFile(rkOldPath, rkNewPath))
         return DeleteFile(rkOldPath);
     else
@@ -61,6 +85,12 @@ bool MoveFile(const TWideString& rkOldPath, const TWideString& rkNewPath)
 
 bool MoveDirectory(const TWideString& rkOldPath, const TWideString& rkNewPath)
 {
+    if (!IsValidPath(rkNewPath, true))
+    {
+        Log::Error("Unable to move directory because destination name contains illegal characters: " + rkNewPath.ToUTF8());
+        return false;
+    }
+
     if (CopyDirectory(rkOldPath, rkNewPath))
         return DeleteDirectory(rkOldPath);
     else
@@ -199,6 +229,147 @@ TWideString MakeRelative(const TWideString& rkPath, const TWideString& rkRelativ
         Out += *PathIter + L"\\";
 
     return Out;
+}
+
+static const wchar_t gskIllegalNameChars[] = {
+    L'<', L'>', L'\"', L'/', L'\\', L'|', L'?', L'*'
+};
+
+TWideString SanitizeName(TWideString Name, bool Directory, bool RootDir /*= false*/)
+{
+    // Windows only atm
+    if (Directory && (Name == L"." || Name == L".."))
+        return Name;
+
+    // Remove illegal characters from path
+    u32 NumIllegalChars = sizeof(gskIllegalNameChars) / sizeof(wchar_t);
+
+    for (u32 iChr = 0; iChr < Name.Size(); iChr++)
+    {
+        wchar_t Chr = Name[iChr];
+        bool Remove = false;
+
+        if (Chr >= 0 && Chr <= 31)
+            Remove = true;
+
+        // For root, allow colon only as the last character of the name
+        else if (Chr == L':' && (!RootDir || iChr != Name.Size() - 1))
+            Remove = true;
+
+        else
+        {
+            for (u32 iBan = 0; iBan < NumIllegalChars; iBan++)
+            {
+                if (Chr == gskIllegalNameChars[iBan])
+                {
+                    Remove = true;
+                    break;
+                }
+            }
+        }
+
+        if (Remove)
+        {
+            Name.Remove(iChr, 1);
+            iChr--;
+        }
+    }
+
+    // For directories, space and dot are not allowed at the end of the path
+    if (Directory)
+    {
+        u32 ChopNum = 0;
+
+        for (int iChr = (int) Name.Size() - 1; iChr >= 0; iChr--)
+        {
+            wchar_t Chr = Name[iChr];
+
+            if (Chr == L' ' || Chr == L'.')
+                ChopNum++;
+            else
+                break;
+        }
+
+        if (ChopNum > 0) Name = Name.ChopBack(ChopNum);
+    }
+
+    return Name;
+}
+
+TWideString SanitizePath(TWideString Path, bool Directory)
+{
+    TWideStringList Components = Path.Split(L"\\/");
+    u32 CompIdx = 0;
+    Path = L"";
+
+    for (auto It = Components.begin(); It != Components.end(); It++)
+    {
+        TWideString Comp = *It;
+        bool IsDir = Directory || CompIdx < Components.size() - 1;
+        bool IsRoot = CompIdx == 0;
+        SanitizeName(Comp, IsDir, IsRoot);
+
+        Path += Comp;
+        if (IsDir) Path += L'\\';
+        CompIdx++;
+    }
+
+    return Path;
+}
+
+bool IsValidName(const TWideString& rkName, bool Directory, bool RootDir /*= false*/)
+{
+    // Windows only atm
+    u32 NumIllegalChars = sizeof(gskIllegalNameChars) / sizeof(wchar_t);
+
+    if (Directory && (rkName == L"." || rkName == L".."))
+        return true;
+
+    // Check for banned characters
+    for (u32 iChr = 0; iChr < rkName.Size(); iChr++)
+    {
+        wchar_t Chr = rkName[iChr];
+
+        if (Chr >= 0 && Chr <= 31)
+            return false;
+
+        // Allow colon only on last character of root
+        if (Chr == L':' && (!RootDir || iChr != rkName.Size() - 1))
+            return false;
+
+        for (u32 iBan = 0; iBan < NumIllegalChars; iBan++)
+        {
+            if (Chr == gskIllegalNameChars[iBan])
+                return false;
+        }
+    }
+
+    if (Directory && (rkName.Back() == L' ' || rkName.Back() == L'.'))
+        return false;
+
+    return true;
+}
+
+bool IsValidPath(const TWideString& rkPath, bool Directory)
+{
+    // Windows only atm
+    TWideStringList Components = rkPath.Split(L"\\/");
+
+    // Validate other components
+    u32 CompIdx = 0;
+
+    for (auto It = Components.begin(); It != Components.end(); It++)
+    {
+        bool IsRoot = CompIdx == 0;
+        bool IsDir = Directory || CompIdx < (Components.size() - 1);
+
+        if (!IsValidName(*It, IsDir, IsRoot))
+            return false;
+
+        CompIdx++;
+    }
+
+    return true;
 }
 
 void GetDirectoryContents(TWideString DirPath, TWideStringList& rOut, bool Recursive /*= true*/, bool IncludeFiles /*= true*/, bool IncludeDirs /*= true*/)

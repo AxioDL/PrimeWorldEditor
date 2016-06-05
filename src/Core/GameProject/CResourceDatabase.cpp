@@ -28,7 +28,7 @@ TString CResourceEntry::RawAssetPath() const
 TString CResourceEntry::CookedAssetPath() const
 {
     TWideString Ext = GetCookedExtension(mResourceType, mpDatabase->GameProject()->Game()).ToUTF16();
-    return mpDatabase->GameProject()->CookedDir() + mFileDir + mFileName + L"." + Ext;
+    return mpDatabase->GameProject()->CookedDir(false) + mFileDir + mFileName + L"." + Ext;
 }
 
 bool CResourceEntry::NeedsRecook() const

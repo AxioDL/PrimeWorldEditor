@@ -29,8 +29,9 @@
  * be encoded in UTF-16.
  */
 
-// Helper macro for creating string literals of the correct char type. Internal use only! Invalid outside of this header!
+// Helper macros for creating string literals of the correct char type. Internal use only! Invalid outside of this header!
 #define LITERAL(Text) (typeid(CharType) == typeid(char)) ? (const CharType*) ##Text : (const CharType*) L##Text
+#define CHAR_LITERAL(Text) (CharType) Text
 
 // ************ TBasicString ************
 template<class CharType>
@@ -116,14 +117,21 @@ public:
         return Size();
     }
 
+    inline u32 IndexOf(CharType Character, u32 Offset) const
+    {
+        size_t Pos = mInternalString.find_first_of(Character, Offset);
+        return (Pos == _TStdString::npos ? -1 : (u32) Pos);
+    }
+
+    inline u32 IndexOf(CharType Character) const
+    {
+        return IndexOf(Character, 0);
+    }
+
     inline u32 IndexOf(const CharType* pkCharacters, u32 Offset) const
     {
         size_t Pos = mInternalString.find_first_of(pkCharacters, Offset);
-
-        if (Pos == _TStdString::npos)
-            return -1;
-        else
-            return (u32) Pos;
+        return (Pos == _TStdString::npos ? -1 : (u32) Pos);
     }
 
     inline u32 IndexOf(const CharType* pkCharacters) const
@@ -231,6 +239,20 @@ public:
             throw std::out_of_range("Invalid position passed to TBasicString::Remove()");
 #endif
         mInternalString.erase(Pos, Len);
+    }
+
+    inline void Remove(const CharType* pkStr, bool CaseSensitive = false)
+    {
+        u32 InStrLen = CStringLength(pkStr);
+
+        for (u32 Idx = IndexOfPhrase(pkStr, CaseSensitive); Idx != -1; Idx = IndexOfPhrase(pkStr, Idx, CaseSensitive))
+            Remove(Idx, InStrLen);
+    }
+
+    inline void Remove(CharType Chr)
+    {
+        for (u32 Idx = IndexOf(Chr); Idx != -1; Idx = IndexOf(Chr, Idx))
+            Remove(Idx, 1);
     }
 
     inline void Replace(const CharType* pkStr, const CharType *pkReplacement, bool CaseSensitive = false)
@@ -581,6 +603,29 @@ public:
         return SubString(0, EndName);
     }
 
+    _TString GetParentDirectoryPath(_TString ParentDirName, bool CaseSensitive = true)
+    {
+        if (!CaseSensitive) ParentDirName = ParentDirName.ToUpper();
+
+        int IdxA = 0;
+        int IdxB = IndexOf(LITERAL("\\/"));
+        if (IdxB == -1) return _TString();
+
+        while (IdxB != -1)
+        {
+            _TString DirName = SubString(IdxA, IdxB - IdxA);
+            if (!CaseSensitive) DirName = DirName.ToUpper();
+
+            if (DirName == ParentDirName)
+                return Truncate(IdxB + 1);
+
+            IdxA = IdxB + 1;
+            IdxB = IndexOf(LITERAL("\\/"), IdxA);
+        }
+
+        return _TString();
+    }
+
     // Operators
     inline _TString& operator=(const CharType* pkText)
     {
@@ -788,23 +833,23 @@ public:
     static TBasicString<CharType> FromInt32(s32 Value, int Width = 0, int Base = 16)
     {
         std::basic_stringstream<CharType> sstream;
-        sstream << std::setbase(Base) << std::setw(Width) << std::setfill('0') << Value;
+        sstream << std::setbase(Base) << std::setw(Width) << std::setfill(CHAR_LITERAL('0')) << Value;
         return sstream.str();
     }
 
     static TBasicString<CharType> FromInt64(s64 Value, int Width = 0, int Base = 16)
     {
         std::basic_stringstream<CharType> sstream;
-        sstream << std::setbase(Base) << std::setw(Width) << std::setfill('0') << Value;
+        sstream << std::setbase(Base) << std::setw(Width) << std::setfill(CHAR_LITERAL('0')) << Value;
         return sstream.str();
     }
 
     static TBasicString<CharType> FromFloat(float Value, int MinDecimals = 1)
     {
         TString Out = std::to_string(Value);
-        int NumZeroes = Out.Size() - (Out.IndexOf(".") + 1);
+        int NumZeroes = Out.Size() - (Out.IndexOf(LITERAL(".")) + 1);
 
-        while (Out.Back() == '0' && NumZeroes > MinDecimals)
+        while (Out.Back() == CHAR_LITERAL('0') && NumZeroes > MinDecimals)
         {
             Out = Out.ChopBack(1);
             NumZeroes--;
@@ -830,7 +875,7 @@ public:
 
         _TString str = sstream.str();
         if (Uppercase) str = str.ToUpper();
-        if (AddPrefix) str.Prepend("0x");
+        if (AddPrefix) str.Prepend(LITERAL("0x"));
         return str;
     }
 
@@ -861,16 +906,17 @@ public:
 
     static bool IsWhitespace(CharType c)
     {
-        return ( (c == '\t') ||
-                 (c == '\n') ||
-                 (c == '\v') ||
-                 (c == '\f') ||
-                 (c == '\r') ||
-                 (c == ' ') );
+        return ( (c == CHAR_LITERAL('\t')) ||
+                 (c == CHAR_LITERAL('\n')) ||
+                 (c == CHAR_LITERAL('\v')) ||
+                 (c == CHAR_LITERAL('\f')) ||
+                 (c == CHAR_LITERAL('\r')) ||
+                 (c == CHAR_LITERAL(' '))  );
     }
 };
 
 #undef LITERAL
+#undef CHAR_LITERAL
 
 // ************ TString ************
 class TString : public TBasicString<char>

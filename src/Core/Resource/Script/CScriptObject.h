@@ -23,7 +23,7 @@ class CScriptObject
     friend class CAreaLoader;
 
     CScriptTemplate *mpTemplate;
-    TResPtr<CGameArea> mpArea;
+    CGameArea *mpArea;
     CScriptLayer *mpLayer;
     u32 mVersion;
 
