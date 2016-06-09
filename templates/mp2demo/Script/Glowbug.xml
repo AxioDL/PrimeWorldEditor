@@ -5,16 +5,10 @@
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <struct ID="0xB3774750" template="Structs/PatternedInfo.xml"/>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <property ID="0xD75426F9" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x8985B339" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xD75426F9" type="file" extensions="PART"/>
+        <property ID="0x8985B339" type="file" extensions="PART"/>
         <property ID="0xB258D3E8" type="file" extensions="PART"/>
-        <property ID="0xB06815B3" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xB06815B3" type="file" extensions="PART"/>
         <property ID="0x16342C18" type="float">
             <default>1.0</default>
         </property>

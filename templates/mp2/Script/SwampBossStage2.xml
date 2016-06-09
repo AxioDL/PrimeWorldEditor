@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+sand<?xml version="1.0" encoding="UTF-8"?>
 <ScriptTemplate version="4">
     <name>SwampBossStage2</name>
     <properties>
@@ -235,10 +235,18 @@
             <model source="property">0xB31B771D:0xBDD2D64E</model>
         </assets>
 		<attachments>
-            <attachment propertyID="0xB31B771D:0x11A273CB" locator="L_frontWing_1"/>
-            <attachment propertyID="0xB31B771D:0x8A3331DD" locator="L_backWing_1"/>
-            <attachment propertyID="0xB31B771D:0x26439458" locator="R_frontWing_1"/>
-            <attachment propertyID="0xB31B771D:0xBDD2D64E" locator="R_backWing_1"/>
+            <attachment propertyID="0xB31B771D:0x11A273CB" locator="L_frontWing_1">
+                <attach_type>follow</attach_type>
+            </attachment>
+            <attachment propertyID="0xB31B771D:0x8A3331DD" locator="L_backWing_1">
+                <attach_type>follow</attach_type>
+            </attachment>
+            <attachment propertyID="0xB31B771D:0x26439458" locator="R_frontWing_1">
+                <attach_type>follow</attach_type>
+            </attachment>
+            <attachment propertyID="0xB31B771D:0xBDD2D64E" locator="R_backWing_1">
+                <attach_type>follow</attach_type>
+            </attachment>
         </attachments>
         <rotation_type>enabled</rotation_type>
         <scale_type>enabled</scale_type>

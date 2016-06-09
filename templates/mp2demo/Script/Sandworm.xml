@@ -120,18 +120,10 @@
         <property ID="0xB47DD18F" type="bool">
             <default>false</default>
         </property>
-        <property ID="0x0CA82D3C" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x3221407E" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x526C6956" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xD24A1751" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x0CA82D3C" type="file" extensions="PART"/>
+        <property ID="0x3221407E" type="file" extensions="PART"/>
+        <property ID="0x526C6956" type="file" extensions="PART"/>
+        <property ID="0xD24A1751" type="file" extensions="PART"/>
         <struct ID="0x4461A8AD" template="Structs/DamageInfo.xml">
             <properties>
                 <property ID="0x119FBD31">

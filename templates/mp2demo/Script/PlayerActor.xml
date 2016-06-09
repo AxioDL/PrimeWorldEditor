@@ -17,9 +17,7 @@
         </property>
         <struct ID="0xCF90D15E" template="Structs/HealthInfo.xml"/>
         <struct ID="0x7B71AE90" template="Structs/DamageVulnerability.xml"/>
-        <property ID="0x405E5286" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x405E5286" type="file" extensions="UNKN"/>
         <property ID="0xE25FB08C" type="character"/>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
         <property ID="0xC08D1B93" type="bool">

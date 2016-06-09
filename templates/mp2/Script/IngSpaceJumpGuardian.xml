@@ -26,9 +26,7 @@
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
         <struct ID="0xF9837AB3" type="multi">
             <properties>
-                <property ID="0xCC5A4918" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0xCC5A4918" type="file" extensions="PART"/>
                 <property ID="0x46E902E8" type="long">
                     <default>-1</default>
                 </property>
@@ -42,17 +40,15 @@
                 <property ID="0xD24B888F" type="float">
                     <default>5.0</default>
                 </property>
-                <property ID="0xA926F8A8" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0xA926F8A8" type="file" extensions="PART"/>
                 <property ID="0x4051FD1A" type="long">
                     <default>-1</default>
                 </property>
                 <struct ID="0x424A6D37" template="Structs/DamageInfo.xml">
                     <properties>
-                        <property ID="0x119FBD31">
-                            <default>11</default>
-                        </property>
+                        <enum ID="0x119FBD31">
+                            <default>0x0000000B</default>
+                        </enum>
                         <property ID="0xF2D02613">
                             <default>20.0</default>
                         </property>

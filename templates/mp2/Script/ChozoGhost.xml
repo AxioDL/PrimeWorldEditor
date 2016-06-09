@@ -22,9 +22,9 @@
                 </property>
                 <struct ID="0xD756416E">
                     <properties>
-                        <property ID="0x119FBD31">
-                            <default>9</default>
-                        </property>
+                        <enum ID="0x119FBD31">
+                            <default>0x00000009</default>
+                        </enum>
                         <property ID="0xF2D02613">
                             <default>5.0</default>
                         </property>

@@ -34,9 +34,9 @@
                 </property>
                 <struct ID="0xD756416E">
                     <properties>
-                        <property ID="0x119FBD31">
-                            <default>9</default>
-                        </property>
+                        <enum ID="0x119FBD31">
+                            <default>0x00000009</default>
+                        </enum>
                         <property ID="0xF2D02613">
                             <default>10.0</default>
                         </property>
@@ -96,9 +96,7 @@
         <property ID="0x4FB8747E" type="float">
             <default>0.0</default>
         </property>
-        <property ID="0x1B58C5F1" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x1B58C5F1" type="file" extensions="ELSC"/>
         <property ID="0x9B9C46FC" type="float">
             <default>0.0</default>
         </property>
@@ -140,9 +138,9 @@
         </property>
         <struct ID="0xDEFF74EA" template="Structs/DamageInfo.xml">
             <properties>
-                <property ID="0x119FBD31">
-                    <default>9</default>
-                </property>
+                <enum ID="0x119FBD31">
+                    <default>0x00000009</default>
+                </enum>
                 <property ID="0xF2D02613">
                     <default>5.0</default>
                 </property>

@@ -36,9 +36,7 @@
         <property ID="0xBDCDB9C0" type="float">
             <default>1440.0</default>
         </property>
-        <property ID="0x2301294A" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x2301294A" type="file" extensions="PART"/>
         <property ID="0xAC2A467A" type="color">
             <default>1.0, 1.0, 1.0, 1.0</default>
         </property>
@@ -84,9 +82,7 @@
         <property ID="0xC712847C" type="long">
             <default>127</default>
         </property>
-        <property ID="0x757A1C34" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x757A1C34" type="file" extensions="CMDL"/>
         <property ID="0xC5BC5ED0" type="bool">
             <default>false</default>
         </property>
@@ -106,9 +102,9 @@
             <animparams source="property">0xE25FB08C</animparams>
             <model source="property">0x7E397FED:0xC0BA9E18</model>
             <model source="property">0x7E397FED:0x6B1FBC3A</model>
-            <model source="property">0x757A1C34</model>
         </assets>
         <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
+        <scale_type>volume</scale_type>
+        <preview_volume shape="Box"/>
     </editor>
 </ScriptTemplate>

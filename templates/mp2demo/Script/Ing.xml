@@ -27,9 +27,7 @@
         <property ID="0x092FBAD0" type="long">
             <default>0</default>
         </property>
-        <property ID="0xBDCCE71B" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xBDCCE71B" type="file" extensions="CMDL"/>
         <property ID="0xED69488F" type="float">
             <default>50.0</default>
         </property>
@@ -48,18 +46,10 @@
         <property ID="0xEAA3C3F8" type="float">
             <default>360.0</default>
         </property>
-        <property ID="0xCC5A4918" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x8851DC01" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x5D01100F" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x9A56892E" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xCC5A4918" type="file" extensions="PART"/>
+        <property ID="0x8851DC01" type="file" extensions="PART"/>
+        <property ID="0x5D01100F" type="file" extensions="PART"/>
+        <property ID="0x9A56892E" type="file" extensions="PART"/>
         <property ID="0x4CAB30A9" type="long">
             <default>-1</default>
         </property>
@@ -75,18 +65,12 @@
         <property ID="0x4489935E" type="long">
             <default>-1</default>
         </property>
-        <property ID="0xD576F379" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x3DA219C7" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xD576F379" type="file" extensions="SRSC"/>
+        <property ID="0x3DA219C7" type="file" extensions="PART"/>
         <property ID="0x23271976" type="float">
             <default>0.35</default>
         </property>
-        <property ID="0x081E9E6C" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x081E9E6C" type="file" extensions="PART"/>
         <property ID="0xCB39ECCB" type="float">
             <default>15.0</default>
         </property>
@@ -149,9 +133,7 @@
         <property ID="0xDFEA60A2" type="float">
             <default>5.0</default>
         </property>
-        <property ID="0x601CC5B4" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x601CC5B4" type="file" extensions="PART"/>
         <property ID="0xCE980820" type="float">
             <default>25.0</default>
         </property>
@@ -176,9 +158,7 @@
         <property ID="0xA9C8C651" type="float">
             <default>100.0</default>
         </property>
-        <property ID="0xA926F8A8" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xA926F8A8" type="file" extensions="PART"/>
         <property ID="0x4051FD1A" type="long">
             <default>-1</default>
         </property>

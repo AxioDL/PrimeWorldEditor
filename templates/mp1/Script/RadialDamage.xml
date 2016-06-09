@@ -16,7 +16,9 @@
             <property name="Position" ID="0x01"/>
             <property name="Active" ID="0x02"/>
         </properties>
-        <assets/>
+        <assets>
+            <billboard source="file">script/common/RadialDamage.txtr</billboard>
+        </assets>
         <rotation_type>disabled</rotation_type>
         <scale_type>disabled</scale_type>
     </editor>

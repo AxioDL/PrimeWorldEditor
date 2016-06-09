@@ -4,15 +4,11 @@
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <property ID="0x55744160" type="file" extensions="AFSM"/>
-        <property ID="0x83CF6509" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x83CF6509" type="file" extensions="SRSC"/>
         <property ID="0x7CAE2ED5" type="float">
             <default>0.5</default>
         </property>
-        <property ID="0x35A88FA1" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x35A88FA1" type="file" extensions="PART"/>
         <property ID="0xF65E7EC5" type="float">
             <default>0.35</default>
         </property>
@@ -46,9 +42,7 @@
         <property ID="0xFCD8057B" type="float">
             <default>5.0</default>
         </property>
-        <property ID="0x2D2AFC26" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x2D2AFC26" type="file" extensions="PART"/>
         <struct ID="0xB16D553E" template="Structs/DamageInfo.xml">
             <properties>
                 <property ID="0x119FBD31">

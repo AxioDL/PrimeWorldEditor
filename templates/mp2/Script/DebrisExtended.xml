@@ -90,9 +90,7 @@
         <property ID="0x334A34BB" type="long">
             <default>0</default>
         </property>
-        <property ID="0xC7493FEE" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xC7493FEE" type="file" extensions="PART"/>
         <property ID="0x6E3825EF" type="vector3f">
             <default>1.0, 1.0, 1.0</default>
         </property>
@@ -105,9 +103,7 @@
         <property ID="0xD9CCE9D9" type="long">
             <default>0</default>
         </property>
-        <property ID="0x979042C8" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x979042C8" type="file" extensions="PART"/>
         <property ID="0xE9214CD8" type="vector3f">
             <default>1.0, 1.0, 1.0</default>
         </property>

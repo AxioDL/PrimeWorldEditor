@@ -33,9 +33,7 @@
                 <struct ID="0x4738C321" template="Structs/DamageInfo.xml"/>
                 <struct ID="0x98E311C1" template="Structs/EmperorIngStage3StructA.xml"/>
                 <struct ID="0x93DAE216" template="Structs/EmperorIngStage3StructA.xml"/>
-                <property ID="0x4F82B9E5" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0x4F82B9E5" type="file" extensions="PART"/>
                 <struct ID="0x043E9C2E" template="Structs/BasicSwarmProperties.xml"/>
                 <struct ID="0x91001508" template="Structs/AudioPlaybackParms.xml"/>
                 <struct ID="0x03552953" template="Structs/AudioPlaybackParms.xml"/>
@@ -47,9 +45,9 @@
                         </property>
                         <struct ID="0x553B1339" template="Structs/DamageInfo.xml">
                             <properties>
-                                <property ID="0x119FBD31">
-                                    <default>11</default>
-                                </property>
+                                <enum ID="0x119FBD31">
+                                    <default>0x0000000B</default>
+                                </enum>
                                 <property ID="0xF2D02613">
                                     <default>20.0</default>
                                 </property>

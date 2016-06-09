@@ -18,15 +18,9 @@
                     <default>20.0</default>
                 </property>
                 <property ID="0x2367F689" type="file" extensions="PART"/>
-                <property ID="0xE8A6E174" type="long">
-                    <default>-1</default>
-                </property>
-                <property ID="0x1AB2B090" type="long">
-                    <default>-1</default>
-                </property>
-                <property ID="0x1CCFA4BA" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0xE8A6E174" type="file" extensions="PART"/>
+                <property ID="0x1AB2B090" type="file" extensions="PART"/>
+                <property ID="0x1CCFA4BA" type="file" extensions="PART"/>
                 <property ID="0x4CAB30A9" type="long">
                     <default>-1</default>
                 </property>

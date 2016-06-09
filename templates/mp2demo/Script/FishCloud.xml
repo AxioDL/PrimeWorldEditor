@@ -72,9 +72,7 @@
         <property ID="0xA8232FB1" type="long">
             <default>0</default>
         </property>
-        <property ID="0x90F4B1E0" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x90F4B1E0" type="file" extensions="PART"/>
         <property ID="0xBF583BF2" type="long">
             <default>0</default>
         </property>

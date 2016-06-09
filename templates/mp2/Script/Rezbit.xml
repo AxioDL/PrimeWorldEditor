@@ -35,12 +35,8 @@
                 <property ID="0x30D11671" type="float">
                     <default>10.0</default>
                 </property>
-                <property ID="0xC80BB6E4" type="long">
-                    <default>-1</default>
-                </property>
-                <property ID="0x05486319" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0xC80BB6E4" type="file" extensions="CMDL"/>
+                <property ID="0x05486319" type="file" extensions="CSKR"/>
                 <property ID="0x8980A469" type="float">
                     <default>3.0</default>
                 </property>
@@ -53,9 +49,7 @@
                 <property ID="0x0D1D1648" type="float">
                     <default>1.0</default>
                 </property>
-                <property ID="0xA41F75EF" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0xA41F75EF" type="file" extensions="PART"/>
                 <struct ID="0xA34E2D84" template="Structs/AudioPlaybackParms.xml"/>
                 <struct ID="0x8C598E41" template="Structs/AudioPlaybackParms.xml"/>
                 <struct ID="0xF4491ED5" template="Structs/AudioPlaybackParms.xml"/>
@@ -96,9 +90,9 @@
                 </property>
                 <struct ID="0x600C5F40" template="Structs/DamageInfo.xml">
                     <properties>
-                        <property ID="0x119FBD31">
-                            <default>11</default>
-                        </property>
+                        <enum ID="0x119FBD31">
+                            <default>0x0000000B</default>
+                        </enum>
                         <property ID="0xF2D02613">
                             <default>20.0</default>
                         </property>
@@ -107,9 +101,7 @@
                         </property>
                     </properties>
                 </struct>
-                <property ID="0x2F11094B" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0x2F11094B" type="file" extensions="WPSC"/>
                 <property ID="0xA1F350F5" type="float">
                     <default>4.0</default>
                 </property>
@@ -131,9 +123,9 @@
                 </property>
                 <struct ID="0x16869B57" template="Structs/DamageInfo.xml">
                     <properties>
-                        <property ID="0x119FBD31">
-                            <default>11</default>
-                        </property>
+                        <enum ID="0x119FBD31">
+                            <default>0x0000000B</default>
+                        </enum>
                         <property ID="0xF2D02613">
                             <default>20.0</default>
                         </property>
@@ -159,9 +151,9 @@
                 </property>
                 <struct ID="0xBB58C088" template="Structs/DamageInfo.xml">
                     <properties>
-                        <property ID="0x119FBD31">
-                            <default>11</default>
-                        </property>
+                        <enum ID="0x119FBD31">
+                            <default>0x0000000B</default>
+                        </enum>
                         <property ID="0xF2D02613">
                             <default>20.0</default>
                         </property>

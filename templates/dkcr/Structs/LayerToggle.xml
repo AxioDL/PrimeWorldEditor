@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="LayerSwitch" type="single">
+<struct name="LayerToggle" type="single">
     <properties>
         <property ID="0x00" name="Area ID" type="file" extensions="UNKN"/>
-        <struct ID="0x01" name="Layer ID" template="Structs/LayerID.xml"/>
+        <struct ID="0x01" name="Layer ID" template="Structs/SavedStateID.xml"/>
     </properties>
 </struct>

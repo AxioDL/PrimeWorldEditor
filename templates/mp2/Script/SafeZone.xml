@@ -22,9 +22,7 @@
         <property ID="0xDE169DB0" type="float">
             <default>0.0</default>
         </property>
-        <property ID="0x9BE4BBD8" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x9BE4BBD8" type="file" extensions="PART"/>
         <property ID="0x822118B4" type="bool">
             <default>true</default>
         </property>
@@ -87,16 +85,16 @@
         </struct>
         <struct ID="0xEEE2B188" template="Structs/DamageInfo.xml">
             <properties>
-                <property ID="0x119FBD31">
-                    <default>20</default>
-                </property>
+                <enum ID="0x119FBD31">
+                    <default>0x00000014</default>
+                </enum>
             </properties>
         </struct>
         <struct ID="0x78A13CA0" template="Structs/DamageInfo.xml">
             <properties>
-                <property ID="0x119FBD31">
-                    <default>18</default>
-                </property>
+                <enum ID="0x119FBD31">
+                    <default>0x00000012</default>
+                </enum>
             </properties>
         </struct>
         <property ID="0x08CCFFD0" type="float">

@@ -46,12 +46,8 @@
                 </property>
             </properties>
         </struct>
-        <property ID="0xC43360A7" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xA99D3DBE" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xC43360A7" type="file" extensions="WPSC"/>
+        <property ID="0xA99D3DBE" type="file" extensions="WPSC"/>
     </properties>
     <states/>
     <messages/>

@@ -6,9 +6,22 @@
         <property ID="0x7975DB5B" type="long">
             <default>0</default>
         </property>
-        <property ID="0x6A3E9A3D" type="long">
+        <enum ID="0x6A3E9A3D">
             <default>0</default>
-        </property>
+            <enumerators>
+                <enumerator ID="0x00" name="FullScreen"/>
+                <enumerator ID="0x01" name="FullScreenHalvesLeftRight"/>
+                <enumerator ID="0x02" name="FullScreenHalvesTopBottom"/>
+                <enumerator ID="0x03" name="FullScreenQuarters"/>
+                <enumerator ID="0x04" name="CinemaBars"/>
+                <enumerator ID="0x05" name="ScanLinesEven"/>
+                <enumerator ID="0x06" name="ScanLinesOdd"/>
+                <enumerator ID="0x07" name="RandomStatic"/>
+                <enumerator ID="0x08" name="DialogBox"/>
+                <enumerator ID="0x09" name="CinematicPlaceholderLabel"/>
+                <enumerator ID="0x0A" name="CookieCutterDepthRandomStatic"/>
+            </enumerators>
+        </enum>
         <property ID="0x58BDBD7B" type="long">
             <default>0</default>
         </property>

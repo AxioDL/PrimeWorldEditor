@@ -13,13 +13,13 @@
         <property ID="0x08" name="Particle 2" type="file" extensions="PART"/>
         <property ID="0x09" name="Unknown 2" type="long"/>
         <struct ID="0x0A" name="DamageInfo" template="Structs/DamageInfo.xml"/>
-        <property ID="0x0B" name="Unknown 3" type="vector3f"/>
-        <property ID="0x0C" name="Unknown 4" type="long"/>
-        <property ID="0x0D" name="Unknown 5" type="float"/>
-        <property ID="0x0E" name="Unknown 6" type="float"/>
-        <property ID="0x0F" name="Unknown 7" type="float"/>
-        <property ID="0x10" name="Unknown 8" type="bool"/>
-        <property ID="0x11" name="Unknown 9" type="float"/>
+        <property ID="0x0B" name="Force" type="vector3f"/>
+        <property ID="0x0C" name="Trigger Flags" type="long"/>
+        <property ID="0x0D" name="Pool Starting Value" type="float"/>
+        <property ID="0x0E" name="Phazon Beam Drain Per Second" type="float"/>
+        <property ID="0x0F" name="Time Until Regeneration" type="float"/>
+        <property ID="0x10" name="Automatic Drain/Don&apos;t Regenerate" type="bool"/>
+        <property ID="0x11" name="Time Until Automatic Drain" type="float"/>
     </properties>
     <states/>
     <messages/>

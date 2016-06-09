@@ -9,11 +9,11 @@
         <property ID="0xE56BA365" type="vector3f">
             <default>1.0, 1.0, 1.0</default>
         </property>
-        <property ID="0x9703F961" type="file" extensions="UNKN"/>
+        <property ID="0x9703F961" type="file" extensions="CMDL"/>
         <property ID="0xCA1D9615" type="vector3f">
             <default>1.0, 1.0, 1.0</default>
         </property>
-        <property ID="0x09F4B212" type="file" extensions="UNKN"/>
+        <property ID="0x09F4B212" type="file" extensions="CMDL"/>
         <property ID="0x84B43BC6" type="vector3f">
             <default>1.0, 1.0, 1.0</default>
         </property>

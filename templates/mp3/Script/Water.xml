@@ -64,7 +64,7 @@
                 <property ID="0x5AA79C9F" type="file" extensions="TXTR"/>
                 <property ID="0x2F0645CF" type="file" extensions="TXTR"/>
                 <property ID="0x2421A2BF" type="file" extensions="TXTR"/>
-                <property ID="0x7A4B4685" type="file" extensions="UNKN"/>
+                <property ID="0x7A4B4685" type="file" extensions="TXTR"/>
                 <property ID="0xDD2F6DBD" type="float">
                     <default>0.25</default>
                 </property>

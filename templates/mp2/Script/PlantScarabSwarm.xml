@@ -40,15 +40,9 @@
         <property ID="0x6C7CA121" type="float">
             <default>0.5</default>
         </property>
-        <property ID="0xEA500E8B" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x40992D51" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x1140D11D" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xEA500E8B" type="file" extensions="PART"/>
+        <property ID="0x40992D51" type="file" extensions="PART"/>
+        <property ID="0x1140D11D" type="file" extensions="PART"/>
         <property ID="0xD207FF0F" type="file" extensions="PART"/>
         <property ID="0x2C1DFA22" type="long">
             <default>-1</default>
@@ -86,6 +80,7 @@
             <model source="property">0x7E397FED:0x6B1FBC3A</model>
         </assets>
         <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
+        <scale_type>volume</scale_type>
+        <preview_volume shape="Box"/>
     </editor>
 </ScriptTemplate>

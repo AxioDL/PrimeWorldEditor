@@ -3,7 +3,12 @@
     <name>ScriptLayerController</name>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0x8249F6C7" template="Structs/LayerSwitch.xml"/>
+        <struct ID="0x8249F6C7" type="single">
+            <properties>
+                <property ID="0x00" name="Area ID" type="file" extensions="UNKN"/>
+                <struct ID="0x01" name="State ID" template="Structs/SavedStateID.xml"/>
+            </properties>
+        </struct>
         <property ID="0x12A7D8B2" type="bool">
             <default>false</default>
         </property>

@@ -43,9 +43,7 @@
                 </property>
             </properties>
         </struct>
-        <property ID="0x0F676BD9" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x0F676BD9" type="file" extensions="PART"/>
         <struct ID="0x553B1339" template="Structs/DamageInfo.xml">
             <properties>
                 <property ID="0x119FBD31">
@@ -76,9 +74,7 @@
                 </property>
             </properties>
         </struct>
-        <property ID="0x6238B4B5" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x6238B4B5" type="file" extensions="PART"/>
         <property ID="0x9B6A4437" type="float">
             <default>1.0</default>
         </property>

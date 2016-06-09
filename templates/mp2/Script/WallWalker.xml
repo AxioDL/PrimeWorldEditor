@@ -51,9 +51,7 @@
         </property>
         <property ID="0xEF485DB9" type="file" extensions="WPSC"/>
         <struct ID="0x553B1339" template="Structs/DamageInfo.xml"/>
-        <property ID="0x68DC4D11" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x68DC4D11" type="file" extensions="PART"/>
         <struct ID="0x22BBDD0A" template="Structs/CameraShakerData.xml"/>
     </properties>
     <states/>
