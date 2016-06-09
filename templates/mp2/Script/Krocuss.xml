@@ -34,9 +34,9 @@
                 </property>
                 <struct ID="0xD756416E">
                     <properties>
-                        <property ID="0x119FBD31">
-                            <default>9</default>
-                        </property>
+                        <enum ID="0x119FBD31">
+                            <default>0x00000009</default>
+                        </enum>
                         <property ID="0xF2D02613">
                             <default>10.0</default>
                         </property>
@@ -109,9 +109,7 @@
         <property ID="0x4D20624B" type="color">
             <default>1.0, 0.0, 0.0, 1.0</default>
         </property>
-        <property ID="0xC3566114" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xC3566114" type="file" extensions="DPSC"/>
         <property ID="0x6A11338F" type="long">
             <default>-1</default>
         </property>

@@ -95,9 +95,7 @@
             <default>0.0, 0.0, 0.0</default>
         </property>
         <property ID="0x684F00C9" type="file" extensions="PART"/>
-        <property ID="0xF35F5164" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xF35F5164" type="file" extensions="UNKN"/>
         <property ID="0x130539A0" type="vector3f">
             <default>0.0, 0.0, 0.0</default>
         </property>

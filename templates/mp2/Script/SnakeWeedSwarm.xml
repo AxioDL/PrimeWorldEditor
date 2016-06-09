@@ -49,9 +49,9 @@
         </property>
         <struct ID="0xD756416E" template="Structs/DamageInfo.xml">
             <properties>
-                <property ID="0x119FBD31">
-                    <default>9</default>
-                </property>
+                <enum ID="0x119FBD31">
+                    <default>0x00000009</default>
+                </enum>
             </properties>
         </struct>
         <property ID="0xE0CDC7E3" type="float">
@@ -84,6 +84,7 @@
             <model source="property">0x7E397FED:0x6B1FBC3A</model>
         </assets>
         <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
+        <scale_type>volume</scale_type>
+        <preview_volume shape="Box"/>
     </editor>
 </ScriptTemplate>

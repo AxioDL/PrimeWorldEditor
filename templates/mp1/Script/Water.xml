@@ -14,7 +14,7 @@
         <property ID="0x09" name="Texture 2" type="file" extensions="TXTR"/>
         <property ID="0x0A" name="Texture 3" type="file" extensions="TXTR"/>
         <property ID="0x0B" name="Texture 4" type="file" extensions="TXTR"/>
-        <property ID="0x0C" name="Texture 5" type="file" extensions="TXTR"/>
+        <property ID="0x0C" name="Reflection Map" type="file" extensions="TXTR"/>
         <property ID="0x0D" name="Texture 6" type="file" extensions="TXTR"/>
         <property ID="0x0E" name="Unknown 5" type="vector3f"/>
         <property ID="0x0F" name="Unknown 6" type="float"/>

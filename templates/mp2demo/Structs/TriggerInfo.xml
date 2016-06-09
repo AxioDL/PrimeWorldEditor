@@ -5,8 +5,39 @@
         <property ID="0x20927E9B" type="vector3f">
             <default>0.0, 0.0, 0.0</default>
         </property>
-        <property ID="0x82859F46" type="long">
-            <default>30726</default>
-        </property>
+        <bitfield ID="0x82859F46">
+            <default>0x00007806</default>
+            <flags>
+                <flag mask="0x00000001" name="Detect Player"/>
+                <flag mask="0x00000002" name="Detect Morphed Player"/>
+                <flag mask="0x00000004" name="Detect Unmorphed Player"/>
+                <flag mask="0x00000008" name="Unknown 1"/>
+                <flag mask="0x00000010" name="Unknown 2"/>
+                <flag mask="0x00000020" name="Unknown 3"/>
+                <flag mask="0x00000040" name="Unknown 4"/>
+                <flag mask="0x00000080" name="Unknown 5"/>
+                <flag mask="0x00000100" name="Unknown 6"/>
+                <flag mask="0x00000200" name="Unknown 7"/>
+                <flag mask="0x00000400" name="Unknown 8"/>
+                <flag mask="0x00000800" name="Detect Player 1 (Broken)"/>
+                <flag mask="0x00001000" name="Detect Player 2 (Broken)"/>
+                <flag mask="0x00002000" name="Detect Player 3 (Broken)"/>
+                <flag mask="0x00004000" name="Detect Player 4 (Broken)"/>
+                <flag mask="0x00008000" name="Detect AI"/>
+                <flag mask="0x00010000" name="Kill On Entered"/>
+                <flag mask="0x00020000" name="Apply Force"/>
+                <flag mask="0x00040000" name="Unknown 9"/>
+                <flag mask="0x00080000" name="Detect Player If Completely Inside"/>
+                <flag mask="0x00100000" name="Block Environmental Effects"/>
+                <flag mask="0x00200000" name="Detect Projectiles"/>
+                <flag mask="0x00400000" name="Detect Bombs"/>
+                <flag mask="0x00800000" name="Unknown 10"/>
+                <flag mask="0x01000000" name="Detect Boost Ball"/>
+                <flag mask="0x02000000" name="Sunlight (Makes Lumites Appear)"/>
+                <flag mask="0x04000000" name="Delete Objects"/>
+                <flag mask="0x08000000" name="Detect Spider Ball"/>
+                <flag mask="0x10000000" name="Detect Screw Attack"/>
+            </flags>
+        </bitfield>
     </properties>
 </struct>

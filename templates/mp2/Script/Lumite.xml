@@ -29,14 +29,12 @@
         <property ID="0x6DD1C509" type="float">
             <default>30.0</default>
         </property>
-        <property ID="0x48157453" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x48157453" type="file" extensions="WPSC"/>
         <struct ID="0x7307C36B" template="Structs/DamageInfo.xml">
             <properties>
-                <property ID="0x119FBD31">
-                    <default>11</default>
-                </property>
+                <enum ID="0x119FBD31">
+                    <default>0x0000000B</default>
+                </enum>
                 <property ID="0xF2D02613">
                     <default>5.0</default>
                 </property>
@@ -48,23 +46,19 @@
         <property ID="0x2D1C2ECD" type="float">
             <default>30.0</default>
         </property>
-        <property ID="0xD05B1D24" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xD05B1D24" type="file" extensions="WPSC"/>
         <struct ID="0xBDFE699D" template="Structs/DamageInfo.xml">
             <properties>
-                <property ID="0x119FBD31">
-                    <default>11</default>
-                </property>
+                <enum ID="0x119FBD31">
+                    <default>0x0000000B</default>
+                </enum>
                 <property ID="0xF2D02613">
                     <default>5.0</default>
                 </property>
             </properties>
         </struct>
         <property ID="0x36EEE791" type="file" extensions="PART"/>
-        <property ID="0xD2879EBB" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xD2879EBB" type="file" extensions="PART"/>
         <property ID="0xE05D93EF" type="float">
             <default>5.0</default>
         </property>

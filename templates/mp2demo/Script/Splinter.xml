@@ -3,9 +3,7 @@
     <name>Splinter</name>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0xBDCCE71B" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xBDCCE71B" type="file" extensions="CMDL"/>
         <property ID="0xB8ED9FFA" type="float">
             <default>5.0</default>
         </property>
@@ -39,9 +37,7 @@
         </property>
         <property ID="0x6D752EFC" type="character"/>
         <property ID="0x0D6AB7B5" type="character"/>
-        <property ID="0x630D93A1" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x630D93A1" type="file" extensions="PART"/>
         <struct ID="0x4436A388" template="Structs/DamageInfo.xml"/>
         <struct ID="0xB3774750" template="Structs/PatternedInfo.xml">
             <properties>

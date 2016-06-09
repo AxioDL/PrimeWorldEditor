@@ -116,9 +116,7 @@
         <property ID="0x4F4087ED" type="float">
             <default>10.0</default>
         </property>
-        <property ID="0xDA1122EB" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xDA1122EB" type="file" extensions="WPSC"/>
         <struct ID="0x44143921" template="Structs/DamageInfo.xml">
             <properties>
                 <property ID="0x119FBD31">
@@ -179,9 +177,7 @@
                 <property ID="0x647670AC" type="long">
                     <default>0</default>
                 </property>
-                <property ID="0xA79BB82E" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0xA79BB82E" type="file" extensions="CMDL"/>
                 <property ID="0xA95A025B" type="long">
                     <default>3</default>
                 </property>

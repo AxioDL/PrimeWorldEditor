@@ -51,15 +51,11 @@
                     <default>2.0</default>
                 </property>
                 <struct ID="0x8E5F7E96" template="Structs/DamageInfo.xml"/>
-                <property ID="0xC43360A7" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0xC43360A7" type="file" extensions="WPSC"/>
                 <struct ID="0xCF90D15E" template="Structs/HealthInfo.xml"/>
                 <struct ID="0x7B71AE90" template="Structs/DamageVulnerability.xml"/>
                 <property ID="0x55744160" type="file" extensions="AFSM"/>
-                <property ID="0x8F68AC21" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0x8F68AC21" type="file" extensions="PART"/>
             </properties>
         </struct>
         <property ID="0x260792CF" type="MayaSpline"/>

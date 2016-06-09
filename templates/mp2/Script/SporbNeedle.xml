@@ -13,9 +13,9 @@
         </property>
         <struct ID="0x66DCAACB" template="Structs/DamageInfo.xml">
             <properties>
-                <property ID="0x119FBD31">
-                    <default>9</default>
-                </property>
+                <enum ID="0x119FBD31">
+                    <default>0x00000009</default>
+                </enum>
                 <property ID="0xF2D02613">
                     <default>5.0</default>
                 </property>
@@ -28,9 +28,7 @@
             <default>1.5</default>
         </property>
         <property ID="0x36EEE791" type="file" extensions="PART"/>
-        <property ID="0xF8B7BA26" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xF8B7BA26" type="file" extensions="PART"/>
         <property ID="0x0DD66F77" type="long">
             <default>-1</default>
         </property>

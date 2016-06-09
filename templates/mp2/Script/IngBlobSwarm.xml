@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ScriptTemplate version="4">
-    <name>IngBlogSwarm</name>
+    <name>IngBlobSwarm</name>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>

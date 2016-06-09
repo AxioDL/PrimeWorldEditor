@@ -28,9 +28,9 @@
                 </property>
                 <struct ID="0xD756416E">
                     <properties>
-                        <property ID="0x119FBD31">
-                            <default>11</default>
-                        </property>
+                        <enum ID="0x119FBD31">
+                            <default>0x0000000B</default>
+                        </enum>
                         <property ID="0xF2D02613">
                             <default>10.0</default>
                         </property>
@@ -54,16 +54,10 @@
             </properties>
         </struct>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <property ID="0x05439A08" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x2CBF989B" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x05439A08" type="file" extensions="WPSC"/>
+        <property ID="0x2CBF989B" type="file" extensions="WPSC"/>
         <struct ID="0x13E30E4D" template="Structs/DamageInfo.xml"/>
-        <property ID="0xC271EAF5" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xC271EAF5" type="file" extensions="PART"/>
         <property ID="0x18093FA8" type="float">
             <default>1.0</default>
         </property>

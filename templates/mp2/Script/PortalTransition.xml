@@ -13,12 +13,8 @@
         <property ID="0xD6088BC5" type="long">
             <default>64</default>
         </property>
-        <property ID="0xE08E2172" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xB3E6C4E3" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xE08E2172" type="file" extensions="AGSC"/>
+        <property ID="0xB3E6C4E3" type="file" extensions="AGSC"/>
         <property ID="0x508520E1" type="long">
             <default>-1</default>
         </property>

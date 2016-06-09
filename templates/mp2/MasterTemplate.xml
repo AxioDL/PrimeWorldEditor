@@ -89,7 +89,7 @@
         <object ID="HHNT" template="Script/HUDHint.xml"/>
         <object ID="HINT" template="Script/PlayerHint.xml"/>
         <object ID="IBBG" template="Script/IngBoostBallGuardian.xml"/>
-        <object ID="IBSM" template="Script/IngBlogSwarm.xml"/>
+        <object ID="IBSM" template="Script/IngBlobSwarm.xml"/>
         <object ID="INGS" template="Script/Ing.xml"/>
         <object ID="IPUD" template="Script/IngPuddle.xml"/>
         <object ID="ISBG" template="Script/IngSpiderballGuardian.xml"/>
@@ -210,20 +210,20 @@
         <state ID="CTGT" name="CameraTarget"/>
         <state ID="CTIM" name="CameraTime"/>
         <state ID="DAMG" name="Damage"/>
-        <state ID="DANN" name="DANN"/>
+        <state ID="DANN" name="DamageAnnihilator"/>
         <state ID="DBAI" name="DBAI"/>
         <state ID="DBAL" name="DBAL"/>
         <state ID="DBMB" name="DBMB"/>
         <state ID="DCAN" name="DCAN"/>
-        <state ID="DDRK" name="DDRK"/>
+        <state ID="DDRK" name="DamageDark"/>
         <state ID="DEAD" name="Dead"/>
         <state ID="DFST" name="DFST"/>
         <state ID="DGNR" name="DeGenerate"/>
-        <state ID="DLGT" name="DLGT"/>
+        <state ID="DLGT" name="DamageLight"/>
         <state ID="DMIS" name="DMIS"/>
         <state ID="DPBM" name="DPBM"/>
         <state ID="DPHZ" name="DPHZ"/>
-        <state ID="DPWR" name="DPWR"/>
+        <state ID="DPWR" name="DamagePower"/>
         <state ID="DRKX" name="DarkXDamage"/>
         <state ID="DSCW" name="DSCW"/>
         <state ID="ENTR" name="Entered"/>

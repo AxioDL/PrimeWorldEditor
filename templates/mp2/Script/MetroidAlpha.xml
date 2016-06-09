@@ -67,9 +67,7 @@
         <property ID="0x1C783744" type="float">
             <default>0.5</default>
         </property>
-        <property ID="0x71A21B50" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x71A21B50" type="file" extensions="PART"/>
         <property ID="0x2FE164C4" type="float">
             <default>1.75</default>
         </property>

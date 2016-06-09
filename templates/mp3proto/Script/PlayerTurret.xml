@@ -31,8 +31,8 @@
             <default>1.0</default>
         </property>
         <struct ID="0x8E5F7E96" template="Structs/DamageInfo.xml"/>
-        <property ID="0xC43360A7" type="file" extensions="UNKN"/>
-        <property ID="0xA99D3DBE" type="file" extensions="UNKN"/>
+        <property ID="0xC43360A7" type="file" extensions="WPSC"/>
+        <property ID="0xA99D3DBE" type="file" extensions="WPSC"/>
         <property ID="0x1D02D6AA" type="file" extensions="UNKN"/>
         <property ID="0xC40EE323" type="file" extensions="UNKN"/>
         <property ID="0x868A4829" type="file" extensions="UNKN"/>

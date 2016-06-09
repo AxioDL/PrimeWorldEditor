@@ -42,6 +42,7 @@
             <model source="property">0x7E397FED:0x6B1FBC3A</model>
         </assets>
         <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
+        <scale_type>volume</scale_type>
+        <preview_volume shape="Box"/>
     </editor>
 </ScriptTemplate>

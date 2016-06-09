@@ -26,18 +26,10 @@
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
         <struct ID="0x0F4D73B7" type="multi">
             <properties>
-                <property ID="0x4EAF47D7" type="long">
-                    <default>-1</default>
-                </property>
-                <property ID="0x390F3677" type="long">
-                    <default>-1</default>
-                </property>
-                <property ID="0xB6EEA4CE" type="long">
-                    <default>-1</default>
-                </property>
-                <property ID="0x07D8CC4F" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0x4EAF47D7" type="file" extensions="SCAN"/>
+                <property ID="0x390F3677" type="file" extensions="SCAN"/>
+                <property ID="0xB6EEA4CE" type="file" extensions="SCAN"/>
+                <property ID="0x07D8CC4F" type="file" extensions="CMDL"/>
                 <property ID="0x0B5C3C1A" type="float">
                     <default>60.0</default>
                 </property>
@@ -63,27 +55,17 @@
                 <property ID="0x1CC6D870" type="float">
                     <default>5.0</default>
                 </property>
-                <property ID="0x5FF0B26C" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0x5FF0B26C" type="file" extensions="PART"/>
                 <struct ID="0x50BAEE63" template="Structs/AudioPlaybackParms.xml"/>
                 <struct ID="0xA5E1EC03" template="Structs/AudioPlaybackParms.xml"/>
                 <struct ID="0x8D6053CB" template="Structs/AudioPlaybackParms.xml"/>
-                <property ID="0xC91EF399" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0xC91EF399" type="file" extensions="PART"/>
                 <property ID="0x7D3D44AF" type="float">
                     <default>100.0</default>
                 </property>
-                <property ID="0x2FA93722" type="long">
-                    <default>-1</default>
-                </property>
-                <property ID="0x342AE844" type="long">
-                    <default>-1</default>
-                </property>
-                <property ID="0xCF98F423" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0x2FA93722" type="file" extensions="CMDL"/>
+                <property ID="0x342AE844" type="file" extensions="PART"/>
+                <property ID="0xCF98F423" type="file" extensions="PART"/>
                 <struct ID="0x76EEDD2A" template="Structs/AudioPlaybackParms.xml"/>
                 <struct ID="0xA5ECBE17" template="Structs/AudioPlaybackParms.xml"/>
                 <struct ID="0xB1FC705F" template="Structs/AudioPlaybackParms.xml"/>
@@ -93,15 +75,11 @@
                 <property ID="0x8317610F" type="float">
                     <default>30.0</default>
                 </property>
-                <property ID="0x321C97A9" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0x321C97A9" type="file" extensions="PART"/>
                 <struct ID="0xD5CC7E71" template="Structs/AudioPlaybackParms.xml"/>
                 <struct ID="0xA62C0EA7" template="Structs/AudioPlaybackParms.xml"/>
                 <struct ID="0xFD9F5486" template="Structs/AudioPlaybackParms.xml"/>
-                <property ID="0x27464886" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0x27464886" type="file" extensions="WPSC"/>
                 <struct ID="0x4EAF615F" template="Structs/DamageInfo.xml">
                     <properties>
                         <enum ID="0x119FBD31">
@@ -115,9 +93,7 @@
                         </property>
                     </properties>
                 </struct>
-                <property ID="0xD669F12C" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0xD669F12C" type="file" extensions="WPSC"/>
                 <struct ID="0x41177AC6" template="Structs/DamageInfo.xml">
                     <properties>
                         <enum ID="0x119FBD31">
@@ -137,9 +113,7 @@
                 <property ID="0x12EBB390" type="long">
                     <default>1500</default>
                 </property>
-                <property ID="0xAD151546" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0xAD151546" type="file" extensions="FRME"/>
                 <struct ID="0xC7CF5DB1" template="Structs/PlasmaBeamInfo.xml">
                     <properties>
                         <property ID="0xC26C291C">
@@ -168,9 +142,7 @@
                         </property>
                     </properties>
                 </struct>
-                <property ID="0xD187F05C" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0xD187F05C" type="file" extensions="WPSC"/>
                 <struct ID="0xA8C6106B" template="Structs/DamageInfo.xml">
                     <properties>
                         <enum ID="0x119FBD31">
@@ -184,9 +156,7 @@
                         </property>
                     </properties>
                 </struct>
-                <property ID="0x0B5498D6" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0x0B5498D6" type="file" extensions="WPSC"/>
                 <struct ID="0x45EF2EDC" template="Structs/DamageInfo.xml">
                     <properties>
                         <enum ID="0x119FBD31">
@@ -242,6 +212,9 @@
             <model source="property">0x0F4D73B7:0x07D8CC4F</model>
             <model source="property">0x0F4D73B7:0x2FA93722</model>
         </assets>
+		<attachments>
+            <attachment propertyID="0x0F4D73B7:0x07D8CC4F" locator="Skeleton_Root"/>
+        </attachments>
         <rotation_type>enabled</rotation_type>
         <scale_type>enabled</scale_type>
     </editor>

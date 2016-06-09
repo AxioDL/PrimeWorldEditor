@@ -4,7 +4,7 @@
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <property ID="0x6D1CE525" type="file" extensions="PART"/>
-        <property ID="0x71DBE2F2" type="file" extensions="UNKN"/>
+        <property ID="0x71DBE2F2" type="file" extensions="ELSC"/>
         <property ID="0x9744971E" type="float">
             <default>1.0</default>
         </property>

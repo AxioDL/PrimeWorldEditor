@@ -3,9 +3,7 @@
     <name>HUDHint</name>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0xD80447E0" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xD80447E0" type="file" extensions="TXTR"/>
         <property ID="0x6078A651" type="float">
             <default>15.0</default>
         </property>

@@ -45,30 +45,18 @@
         <property ID="0x01EAAB17" type="float">
             <default>50.0</default>
         </property>
-        <property ID="0x00AE9C61" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xACDAE408" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xAA482D8D" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x00AE9C61" type="file" extensions="CMDL"/>
+        <property ID="0xACDAE408" type="file" extensions="CSKR"/>
+        <property ID="0xAA482D8D" type="file" extensions="PART"/>
         <property ID="0xEEAF03C4" type="long">
             <default>-1</default>
         </property>
-        <property ID="0xAF4FAE74" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x64A1F558" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xAF4FAE74" type="file" extensions="PART"/>
+        <property ID="0x64A1F558" type="file" extensions="PART"/>
         <property ID="0xBF107374" type="long">
             <default>-1</default>
         </property>
-        <property ID="0xB43A4CAA" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xB43A4CAA" type="file" extensions="PART"/>
         <property ID="0x61C4C0EA" type="float">
             <default>8.0</default>
         </property>
@@ -89,14 +77,12 @@
         <property ID="0xACD4D06D" type="float">
             <default>2.0</default>
         </property>
-        <property ID="0xF199F553" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xF199F553" type="file" extensions="WPSC"/>
         <struct ID="0x4063D45C" template="Structs/DamageInfo.xml">
             <properties>
-                <property ID="0x119FBD31">
-                    <default>11</default>
-                </property>
+                <enum ID="0x119FBD31">
+                    <default>0x0000000B</default>
+                </enum>
                 <property ID="0xF2D02613">
                     <default>10.0</default>
                 </property>

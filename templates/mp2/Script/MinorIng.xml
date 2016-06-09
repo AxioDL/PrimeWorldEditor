@@ -22,9 +22,9 @@
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
         <struct ID="0x553B1339" template="Structs/DamageInfo.xml">
             <properties>
-                <property ID="0x119FBD31">
-                    <default>11</default>
-                </property>
+                <enum ID="0x119FBD31">
+                    <default>0x0000000B</default>
+                </enum>
                 <property ID="0xF2D02613">
                     <default>5.0</default>
                 </property>
@@ -77,9 +77,9 @@
             <properties>
                 <struct ID="0x337F9524" template="Structs/DamageInfo.xml">
                     <properties>
-                        <property ID="0x119FBD31">
-                            <default>11</default>
-                        </property>
+                        <enum ID="0x119FBD31">
+                            <default>0x0000000B</default>
+                        </enum>
                         <property ID="0xF2D02613">
                             <default>10.0</default>
                         </property>
@@ -145,9 +145,9 @@
                 <struct ID="0xCF90D15E" template="Structs/HealthInfo.xml"/>
                 <struct ID="0x337F9524" template="Structs/DamageInfo.xml">
                     <properties>
-                        <property ID="0x119FBD31">
-                            <default>9</default>
-                        </property>
+                        <enum ID="0x119FBD31">
+                            <default>0x00000009</default>
+                        </enum>
                         <property ID="0xF2D02613">
                             <default>5.0</default>
                         </property>
@@ -158,9 +158,7 @@
                 </struct>
                 <property ID="0xD8C6D15C" type="file" extensions="PART"/>
                 <property ID="0xB68C6D96" type="file" extensions="PART"/>
-                <property ID="0xCB0B919B" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0xCB0B919B" type="file" extensions="PART"/>
                 <property ID="0x75DBB375" type="float">
                     <default>4.0</default>
                 </property>

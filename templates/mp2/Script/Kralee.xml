@@ -34,9 +34,9 @@
                 </property>
                 <struct ID="0xD756416E">
                     <properties>
-                        <property ID="0x119FBD31">
-                            <default>9</default>
-                        </property>
+                        <enum ID="0x119FBD31">
+                            <default>0x00000009</default>
+                        </enum>
                         <property ID="0xF2D02613">
                             <default>10.0</default>
                         </property>
@@ -117,12 +117,8 @@
         <property ID="0x214E48A0" type="float">
             <default>50.0</default>
         </property>
-        <property ID="0x351DBC73" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x2D72BA7B" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x351DBC73" type="file" extensions="PART"/>
+        <property ID="0x2D72BA7B" type="file" extensions="PART"/>
         <property ID="0x80B58324" type="long">
             <default>-1</default>
         </property>

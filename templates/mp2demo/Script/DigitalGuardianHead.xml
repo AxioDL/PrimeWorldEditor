@@ -26,9 +26,7 @@
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
         <struct ID="0x0F4D73B7" type="multi">
             <properties>
-                <property ID="0x07D8CC4F" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0x07D8CC4F" type="file" extensions="CMDL"/>
                 <property ID="0x0B5C3C1A" type="float">
                     <default>60.0</default>
                 </property>
@@ -59,9 +57,7 @@
                 <property ID="0x8317610F" type="float">
                     <default>30.0</default>
                 </property>
-                <property ID="0x27464886" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0x27464886" type="file" extensions="WPSC"/>
                 <struct ID="0x4EAF615F" template="Structs/DamageInfo.xml">
                     <properties>
                         <property ID="0x119FBD31">
@@ -78,9 +74,7 @@
                 <property ID="0x00F76D8F" type="long">
                     <default>-1</default>
                 </property>
-                <property ID="0xD669F12C" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0xD669F12C" type="file" extensions="WPSC"/>
                 <struct ID="0x41177AC6" template="Structs/DamageInfo.xml">
                     <properties>
                         <property ID="0x119FBD31">
@@ -97,9 +91,7 @@
                 <property ID="0xDD411A0A" type="long">
                     <default>-1</default>
                 </property>
-                <property ID="0xD187F05C" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0xD187F05C" type="file" extensions="WPSC"/>
                 <struct ID="0xA8C6106B" template="Structs/DamageInfo.xml">
                     <properties>
                         <property ID="0x119FBD31">

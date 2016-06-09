@@ -96,9 +96,7 @@
         <property ID="0x4FB8747E" type="float">
             <default>0.0</default>
         </property>
-        <property ID="0x1B58C5F1" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x1B58C5F1" type="file" extensions="ELSC"/>
         <property ID="0x9B9C46FC" type="float">
             <default>0.0</default>
         </property>

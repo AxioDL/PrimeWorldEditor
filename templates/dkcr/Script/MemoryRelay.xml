@@ -3,7 +3,7 @@
     <name>MemoryRelay</name>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0x16D9A75D" template="Structs/LayerID.xml"/>
+        <struct ID="0x16D9A75D" template="Structs/SavedStateID.xml"/>
         <property ID="0xEAD7B7BB" type="bool">
             <default>false</default>
         </property>

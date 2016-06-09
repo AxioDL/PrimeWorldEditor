@@ -32,12 +32,8 @@
                 <property ID="0x30D11671" type="float">
                     <default>10.0</default>
                 </property>
-                <property ID="0xC80BB6E4" type="long">
-                    <default>-1</default>
-                </property>
-                <property ID="0x05486319" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0xC80BB6E4" type="file" extensions="CMDL"/>
+                <property ID="0x05486319" type="file" extensions="CSKR"/>
                 <property ID="0x64C7990D" type="float">
                     <default>20.0</default>
                 </property>
@@ -85,9 +81,7 @@
                         </property>
                     </properties>
                 </struct>
-                <property ID="0x2F11094B" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0x2F11094B" type="file" extensions="WPSC"/>
                 <property ID="0xA1F350F5" type="float">
                     <default>4.0</default>
                 </property>

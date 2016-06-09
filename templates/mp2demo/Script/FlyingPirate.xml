@@ -81,9 +81,7 @@
         <property ID="0xEAC27605" type="long">
             <default>-1</default>
         </property>
-        <property ID="0xCA294811" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xCA294811" type="file" extensions="WPSC"/>
         <struct ID="0x258CFB4D" template="Structs/DamageInfo.xml">
             <properties>
                 <property ID="0x119FBD31">
@@ -97,18 +95,14 @@
                 </property>
             </properties>
         </struct>
-        <property ID="0x1D510C6C" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x1D510C6C" type="file" extensions="WPSC"/>
         <property ID="0x96FEB75D" type="float">
             <default>0.8</default>
         </property>
         <property ID="0xC75998AA" type="float">
             <default>4.0</default>
         </property>
-        <property ID="0x6475FC6F" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x6475FC6F" type="file" extensions="PART"/>
         <struct ID="0x2564EE27" template="Structs/DamageInfo.xml">
             <properties>
                 <property ID="0x119FBD31">
@@ -152,15 +146,9 @@
         <property ID="0x7903312E" type="float">
             <default>0.05</default>
         </property>
-        <property ID="0x317212AB" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xBC113D7B" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x738BBBAA" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x317212AB" type="file" extensions="PART"/>
+        <property ID="0xBC113D7B" type="file" extensions="PART"/>
+        <property ID="0x738BBBAA" type="file" extensions="PART"/>
         <property ID="0x3BB37A8F" type="long">
             <default>-1</default>
         </property>

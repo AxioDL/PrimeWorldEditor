@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="LayerID" type="single">
+<struct name="SavedStateID" type="single">
     <properties>
-        <property ID="0x00" name="Layer ID 1" type="long">
+        <property ID="0x00" name="State ID 1" type="long">
             <default>0</default>
         </property>
-        <property ID="0x01" name="Layer ID 2" type="long">
+        <property ID="0x01" name="State ID 2" type="long">
             <default>0</default>
         </property>
-        <property ID="0x02" name="Layer ID 3" type="long">
+        <property ID="0x02" name="State ID 3" type="long">
             <default>0</default>
         </property>
-        <property ID="0x03" name="Layer ID 4" type="long">
+        <property ID="0x03" name="State ID 4" type="long">
             <default>0</default>
         </property>
     </properties>
