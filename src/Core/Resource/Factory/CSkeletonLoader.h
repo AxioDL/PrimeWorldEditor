@@ -15,7 +15,7 @@ class CSkeletonLoader
     void CalculateBoneInverseBindMatrices();
 
 public:
-    static CSkeleton* LoadCINF(IInputStream& rCINF);
+    static CSkeleton* LoadCINF(IInputStream& rCINF, CResourceEntry *pEntry);
 };
 
 #endif // CSKELETONLOADER_H

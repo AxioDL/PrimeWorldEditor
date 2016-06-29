@@ -1,9 +1,9 @@
 #ifndef CMATERIALLOADER_H
 #define CMATERIALLOADER_H
 
+#include "Core/GameProject/CResourceStore.h"
 #include "Core/Resource/CMaterialSet.h"
 #include "Core/Resource/EGame.h"
-#include "Core/Resource/CResCache.h"
 
 #include <FileIO/FileIO.h>
 #include <assimp/scene.h>

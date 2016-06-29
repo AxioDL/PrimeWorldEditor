@@ -33,7 +33,7 @@ class CSkeleton : public CResource
     static const float skSphereRadius;
 
 public:
-    CSkeleton();
+    CSkeleton(CResourceEntry *pEntry = 0);
     ~CSkeleton();
     void UpdateTransform(CBoneTransformData& rData, CAnimation *pAnim, float Time, bool AnchorRoot);
     CBone* BoneByID(u32 BoneID) const;

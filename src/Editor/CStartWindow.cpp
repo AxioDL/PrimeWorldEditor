@@ -8,7 +8,7 @@
 #include "Editor/ModelEditor/CModelEditorWindow.h"
 #include "Editor/WorldEditor/CWorldEditor.h"
 #include <Core/GameProject/CGameExporter.h>
-#include <Core/Resource/CResCache.h>
+#include <Core/GameProject/CResourceStore.h>
 
 #include <QFileDialog>
 #include <QMessageBox>
@@ -55,8 +55,8 @@ void CStartWindow::on_actionOpen_MLVL_triggered()
     if (mpWorldEditor->close())
     {
         TString Dir = TO_TSTRING(WorldFile).GetFileDirectory();
-        gResCache.SetFolder(Dir);
-        mpWorld = gResCache.GetResource(WorldFile.toStdString());
+        gResourceStore.SetTransientLoadDir(Dir);
+        mpWorld = gResourceStore.LoadResource(WorldFile.toStdString());
 
         QString QStrDir = TO_QSTRING(Dir);
         mpWorldEditor->SetWorldDir(QStrDir);
@@ -192,31 +192,30 @@ void CStartWindow::on_LaunchWorldEditorButton_clicked()
     {
         Log::ClearErrorLog();
 
-        u64 AreaID = mpWorld->AreaResourceID(mSelectedAreaIndex);
-        TResPtr<CGameArea> pArea = gResCache.GetResource(AreaID, "MREA");
+        CUniqueID AreaID = mpWorld->AreaResourceID(mSelectedAreaIndex);
+        TString AreaPath = mpWorld->Entry()->CookedAssetPath().GetFileDirectory() + AreaID.ToString() + ".MREA";
+        TResPtr<CGameArea> pArea = gResourceStore.LoadResource(AreaPath);
 
         if (!pArea)
         {
             QMessageBox::warning(this, "Error", "Couldn't load area!");
+            return;
         }
 
-        else
-        {
-            pArea->SetWorldIndex(mSelectedAreaIndex);
-            mpWorld->SetAreaLayerInfo(pArea);
-            mpWorldEditor->SetArea(mpWorld, pArea);
-            gResCache.Clean();
+        pArea->SetWorldIndex(mSelectedAreaIndex);
+        mpWorld->SetAreaLayerInfo(pArea);
+        mpWorldEditor->SetArea(mpWorld, pArea);
+        gResourceStore.DestroyUnreferencedResources();
 
-            mpWorldEditor->setWindowModality(Qt::WindowModal);
-            mpWorldEditor->showMaximized();
+        mpWorldEditor->setWindowModality(Qt::WindowModal);
+        mpWorldEditor->showMaximized();
 
-            // Display errors
-            CErrorLogDialog ErrorDialog(mpWorldEditor);
-            bool HasErrors = ErrorDialog.GatherErrors();
+        // Display errors
+        CErrorLogDialog ErrorDialog(mpWorldEditor);
+        bool HasErrors = ErrorDialog.GatherErrors();
 
-            if (HasErrors)
-                ErrorDialog.exec();
-        }
+        if (HasErrors)
+            ErrorDialog.exec();
     }
 }
 

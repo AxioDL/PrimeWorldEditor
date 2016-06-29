@@ -4,7 +4,7 @@
 #include "Core/OpenGL/GLCommon.h"
 
 CStaticModel::CStaticModel()
-    : CBasicModel()
+    : CBasicModel(nullptr)
     , mpMaterial(nullptr)
     , mTransparent(false)
 {
@@ -75,11 +75,11 @@ void CStaticModel::BufferGL()
             }
 
             // Make sure the number of submesh offset vectors matches the number of IBOs, then add the offsets
-            while (mIBOs.size() > mSubmeshEndOffsets.size())
-                mSubmeshEndOffsets.emplace_back(std::vector<u32>(mSurfaces.size()));
+            while (mIBOs.size() > mSurfaceEndOffsets.size())
+                mSurfaceEndOffsets.emplace_back(std::vector<u32>(mSurfaces.size()));
 
             for (u32 iIBO = 0; iIBO < mIBOs.size(); iIBO++)
-                mSubmeshEndOffsets[iIBO][iSurf] = mIBOs[iIBO].GetSize();
+                mSurfaceEndOffsets[iIBO][iSurf] = mIBOs[iIBO].GetSize();
         }
 
         mVBO.Buffer();
@@ -101,7 +101,7 @@ void CStaticModel::ClearGLBuffer()
 {
     mVBO.Clear();
     mIBOs.clear();
-    mSubmeshEndOffsets.clear();
+    mSurfaceEndOffsets.clear();
     mBuffered = false;
 }
 
@@ -139,8 +139,8 @@ void CStaticModel::DrawSurface(FRenderOptions Options, u32 Surface)
     {
         // Since there is a shared IBO for every mesh, we need two things to draw a single one: an offset and a size
         u32 Offset = 0;
-        if (Surface > 0) Offset = mSubmeshEndOffsets[iIBO][Surface - 1];
-        u32 Size = mSubmeshEndOffsets[iIBO][Surface] - Offset;
+        if (Surface > 0) Offset = mSurfaceEndOffsets[iIBO][Surface - 1];
+        u32 Size = mSurfaceEndOffsets[iIBO][Surface] - Offset;
 
         if (!Size) continue; // The chosen submesh doesn't use this IBO
 
@@ -179,7 +179,7 @@ CMaterial* CStaticModel::GetMaterial()
 void CStaticModel::SetMaterial(CMaterial *pMat)
 {
     mpMaterial = pMat;
-    mTransparent = ((pMat->Options() & CMaterial::eTransparent) != 0);
+    mTransparent = pMat->Options().HasFlag(CMaterial::eTransparent);
 }
 
 bool CStaticModel::IsTransparent()
@@ -189,7 +189,7 @@ bool CStaticModel::IsTransparent()
 
 bool CStaticModel::IsOccluder()
 {
-    return ((mpMaterial->Options() & CMaterial::eOccluder) != 0);
+    return mpMaterial->Options().HasFlag(CMaterial::eOccluder);
 }
 
 CIndexBuffer* CStaticModel::InternalGetIBO(EGXPrimitiveType Primitive)

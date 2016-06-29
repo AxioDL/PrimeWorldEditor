@@ -2,9 +2,9 @@
 #define CMODELEDITORWINDOW_H
 
 #include "CModelEditorViewport.h"
+#include <Core/GameProject/CResourceStore.h>
 #include <Core/Render/CRenderer.h>
 #include <Core/Resource/CFont.h>
-#include <Core/Resource/CResCache.h>
 #include <Core/Resource/Model/CModel.h>
 #include <Core/Scene/CScene.h>
 #include <Core/Scene/CModelNode.h>

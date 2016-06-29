@@ -2,12 +2,12 @@
 #include <Common/AssertMacro.h>
 
 // ************ STATIC ************
-CSkin* CSkinLoader::LoadCSKR(IInputStream& rCSKR)
+CSkin* CSkinLoader::LoadCSKR(IInputStream& rCSKR, CResourceEntry *pEntry)
 {
     if (!rCSKR.IsValid()) return nullptr;
 
     u32 NumVertexGroups = rCSKR.ReadLong();
-    CSkin *pSkin = new CSkin();
+    CSkin *pSkin = new CSkin(pEntry);
     pSkin->mVertGroups.resize(NumVertexGroups);
 
     for (u32 iGrp = 0; iGrp < NumVertexGroups; iGrp++)

@@ -1,7 +1,7 @@
 #include "WResourceSelector.h"
 #include "WTexturePreviewPanel.h"
 #include "Editor/UICommon.h"
-#include <Core/Resource/CResCache.h>
+#include <Core/GameProject/CResourceStore.h>
 
 #include <QApplication>
 #include <QCompleter>

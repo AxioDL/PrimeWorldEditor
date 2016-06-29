@@ -1,7 +1,7 @@
 #ifndef CLIGHTPARAMETERS_H
 #define CLIGHTPARAMETERS_H
 
-#include "Core/Resource/CGameArea.h"
+#include "Core/Resource/Area/CGameArea.h"
 #include "Core/Resource/Script/IProperty.h"
 
 enum EWorldLightingOptions

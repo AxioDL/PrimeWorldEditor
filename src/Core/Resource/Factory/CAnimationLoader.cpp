@@ -75,7 +75,11 @@ void CAnimationLoader::ReadUncompressedANIM()
             NumBoneChannels++;
     }
 
-    mGame = UncompressedCheckVersion();
+    if (mGame == eUnknownVersion)
+    {
+        mGame = UncompressedCheckVersion();
+        mpAnim->SetGame(mGame);
+    }
 
     // Echoes only - rotation channel indices
     std::vector<u8> RotationIndices;
@@ -206,7 +210,13 @@ void CAnimationLoader::ReadCompressedANIM()
 {
     // Header
     mpInput->Seek(0x4, SEEK_CUR); // Skip alloc size
-    mGame = (mpInput->PeekShort() == 0x0101 ? eEchoes : ePrime); // Version check
+
+    if (mGame == eUnknownVersion)
+    {
+        mGame = (mpInput->PeekShort() == 0x0101 ? eEchoes : ePrime);
+        mpAnim->SetGame(mGame);
+    }
+
     mpInput->Seek(mGame == ePrime ? 0x8 : 0x2, SEEK_CUR); // Skip EVNT (MP1) and unknowns
     mpAnim->mDuration = mpInput->ReadFloat();
     mpAnim->mTickInterval = mpInput->ReadFloat();
@@ -452,7 +462,7 @@ CQuaternion CAnimationLoader::DequantizeRotation(bool Sign, s16 X, s16 Y, s16 Z)
 }
 
 // ************ STATIC ************
-CAnimation* CAnimationLoader::LoadANIM(IInputStream& rANIM)
+CAnimation* CAnimationLoader::LoadANIM(IInputStream& rANIM, CResourceEntry *pEntry)
 {
     u32 CompressionType = rANIM.ReadLong();
 
@@ -463,7 +473,8 @@ CAnimation* CAnimationLoader::LoadANIM(IInputStream& rANIM)
     }
 
     CAnimationLoader Loader;
-    Loader.mpAnim = new CAnimation();
+    Loader.mpAnim = new CAnimation(pEntry);
+    Loader.mGame = pEntry->Game();
     Loader.mpInput = &rANIM;
 
     if (CompressionType == 0)

@@ -1,8 +1,8 @@
 #include "CGizmo.h"
 #include <Math/MathUtil.h>
+#include <Core/GameProject/CResourceStore.h>
 #include <Core/Render/CDrawUtil.h>
 #include <Core/Render/CRenderer.h>
-#include <Core/Resource/CResCache.h>
 #include <Common/Log.h>
 
 #include <iostream>
@@ -543,32 +543,32 @@ void CGizmo::LoadModels()
     {
         Log::Write("Loading transform gizmo models");
 
-        smTranslateModels[CGIZMO_TRANSLATE_X]        = SModelPart(eX,  true,  false, gResCache.GetResource("../resources/editor/TranslateX.CMDL"));
-        smTranslateModels[CGIZMO_TRANSLATE_Y]        = SModelPart(eY,  true,  false, gResCache.GetResource("../resources/editor/TranslateY.CMDL"));
-        smTranslateModels[CGIZMO_TRANSLATE_Z]        = SModelPart(eZ,  true,  false, gResCache.GetResource("../resources/editor/TranslateZ.CMDL"));
-        smTranslateModels[CGIZMO_TRANSLATE_LINES_XY] = SModelPart(eXY, true,  false, gResCache.GetResource("../resources/editor/TranslateLinesXY.CMDL"));
-        smTranslateModels[CGIZMO_TRANSLATE_LINES_XZ] = SModelPart(eXZ, true,  false, gResCache.GetResource("../resources/editor/TranslateLinesXZ.CMDL"));
-        smTranslateModels[CGIZMO_TRANSLATE_LINES_YZ] = SModelPart(eYZ, true,  false, gResCache.GetResource("../resources/editor/TranslateLinesYZ.CMDL"));
-        smTranslateModels[CGIZMO_TRANSLATE_POLY_XY]  = SModelPart(eXY, false, false, gResCache.GetResource("../resources/editor/TranslatePolyXY.CMDL"));
-        smTranslateModels[CGIZMO_TRANSLATE_POLY_XZ]  = SModelPart(eXZ, false, false, gResCache.GetResource("../resources/editor/TranslatePolyXZ.CMDL"));
-        smTranslateModels[CGIZMO_TRANSLATE_POLY_YZ]  = SModelPart(eYZ, false, false, gResCache.GetResource("../resources/editor/TranslatePolyYZ.CMDL"));
+        smTranslateModels[CGIZMO_TRANSLATE_X]        = SModelPart(eX,  true,  false, gResourceStore.LoadResource("../resources/editor/TranslateX.CMDL"));
+        smTranslateModels[CGIZMO_TRANSLATE_Y]        = SModelPart(eY,  true,  false, gResourceStore.LoadResource("../resources/editor/TranslateY.CMDL"));
+        smTranslateModels[CGIZMO_TRANSLATE_Z]        = SModelPart(eZ,  true,  false, gResourceStore.LoadResource("../resources/editor/TranslateZ.CMDL"));
+        smTranslateModels[CGIZMO_TRANSLATE_LINES_XY] = SModelPart(eXY, true,  false, gResourceStore.LoadResource("../resources/editor/TranslateLinesXY.CMDL"));
+        smTranslateModels[CGIZMO_TRANSLATE_LINES_XZ] = SModelPart(eXZ, true,  false, gResourceStore.LoadResource("../resources/editor/TranslateLinesXZ.CMDL"));
+        smTranslateModels[CGIZMO_TRANSLATE_LINES_YZ] = SModelPart(eYZ, true,  false, gResourceStore.LoadResource("../resources/editor/TranslateLinesYZ.CMDL"));
+        smTranslateModels[CGIZMO_TRANSLATE_POLY_XY]  = SModelPart(eXY, false, false, gResourceStore.LoadResource("../resources/editor/TranslatePolyXY.CMDL"));
+        smTranslateModels[CGIZMO_TRANSLATE_POLY_XZ]  = SModelPart(eXZ, false, false, gResourceStore.LoadResource("../resources/editor/TranslatePolyXZ.CMDL"));
+        smTranslateModels[CGIZMO_TRANSLATE_POLY_YZ]  = SModelPart(eYZ, false, false, gResourceStore.LoadResource("../resources/editor/TranslatePolyYZ.CMDL"));
 
-        smRotateModels[CGIZMO_ROTATE_OUTLINE] = SModelPart(eNone, true,  true,  gResCache.GetResource("../resources/editor/RotateClipOutline.CMDL"));
-        smRotateModels[CGIZMO_ROTATE_X]       = SModelPart(eX,    true,  false, gResCache.GetResource("../resources/editor/RotateX.CMDL"));
-        smRotateModels[CGIZMO_ROTATE_Y]       = SModelPart(eY,    true,  false, gResCache.GetResource("../resources/editor/RotateY.CMDL"));
-        smRotateModels[CGIZMO_ROTATE_Z]       = SModelPart(eZ,    true,  false, gResCache.GetResource("../resources/editor/RotateZ.CMDL"));
-        smRotateModels[CGIZMO_ROTATE_XYZ]     = SModelPart(eXYZ,  false, false, gResCache.GetResource("../resources/editor/RotateXYZ.CMDL"));
+        smRotateModels[CGIZMO_ROTATE_OUTLINE] = SModelPart(eNone, true,  true,  gResourceStore.LoadResource("../resources/editor/RotateClipOutline.CMDL"));
+        smRotateModels[CGIZMO_ROTATE_X]       = SModelPart(eX,    true,  false, gResourceStore.LoadResource("../resources/editor/RotateX.CMDL"));
+        smRotateModels[CGIZMO_ROTATE_Y]       = SModelPart(eY,    true,  false, gResourceStore.LoadResource("../resources/editor/RotateY.CMDL"));
+        smRotateModels[CGIZMO_ROTATE_Z]       = SModelPart(eZ,    true,  false, gResourceStore.LoadResource("../resources/editor/RotateZ.CMDL"));
+        smRotateModels[CGIZMO_ROTATE_XYZ]     = SModelPart(eXYZ,  false, false, gResourceStore.LoadResource("../resources/editor/RotateXYZ.CMDL"));
 
-        smScaleModels[CGIZMO_SCALE_X]         = SModelPart(eX,   true,  false, gResCache.GetResource("../resources/editor/ScaleX.CMDL"));
-        smScaleModels[CGIZMO_SCALE_Y]         = SModelPart(eY,   true,  false, gResCache.GetResource("../resources/editor/ScaleY.CMDL"));
-        smScaleModels[CGIZMO_SCALE_Z]         = SModelPart(eZ,   true,  false, gResCache.GetResource("../resources/editor/ScaleZ.CMDL"));
-        smScaleModels[CGIZMO_SCALE_LINES_XY]  = SModelPart(eXY,  true,  false, gResCache.GetResource("../resources/editor/ScaleLinesXY.CMDL"));
-        smScaleModels[CGIZMO_SCALE_LINES_XZ]  = SModelPart(eXZ,  true,  false, gResCache.GetResource("../resources/editor/ScaleLinesXZ.CMDL"));
-        smScaleModels[CGIZMO_SCALE_LINES_YZ]  = SModelPart(eYZ,  true,  false, gResCache.GetResource("../resources/editor/ScaleLinesYZ.CMDL"));
-        smScaleModels[CGIZMO_SCALE_POLY_XY]   = SModelPart(eXY,  true,  false, gResCache.GetResource("../resources/editor/ScalePolyXY.CMDL"));
-        smScaleModels[CGIZMO_SCALE_POLY_XZ]   = SModelPart(eXZ,  true,  false, gResCache.GetResource("../resources/editor/ScalePolyXZ.CMDL"));
-        smScaleModels[CGIZMO_SCALE_POLY_YZ]   = SModelPart(eYZ,  true,  false, gResCache.GetResource("../resources/editor/ScalePolyYZ.CMDL"));
-        smScaleModels[CGIZMO_SCALE_XYZ]       = SModelPart(eXYZ, true,  false, gResCache.GetResource("../resources/editor/ScaleXYZ.CMDL"));
+        smScaleModels[CGIZMO_SCALE_X]         = SModelPart(eX,   true,  false, gResourceStore.LoadResource("../resources/editor/ScaleX.CMDL"));
+        smScaleModels[CGIZMO_SCALE_Y]         = SModelPart(eY,   true,  false, gResourceStore.LoadResource("../resources/editor/ScaleY.CMDL"));
+        smScaleModels[CGIZMO_SCALE_Z]         = SModelPart(eZ,   true,  false, gResourceStore.LoadResource("../resources/editor/ScaleZ.CMDL"));
+        smScaleModels[CGIZMO_SCALE_LINES_XY]  = SModelPart(eXY,  true,  false, gResourceStore.LoadResource("../resources/editor/ScaleLinesXY.CMDL"));
+        smScaleModels[CGIZMO_SCALE_LINES_XZ]  = SModelPart(eXZ,  true,  false, gResourceStore.LoadResource("../resources/editor/ScaleLinesXZ.CMDL"));
+        smScaleModels[CGIZMO_SCALE_LINES_YZ]  = SModelPart(eYZ,  true,  false, gResourceStore.LoadResource("../resources/editor/ScaleLinesYZ.CMDL"));
+        smScaleModels[CGIZMO_SCALE_POLY_XY]   = SModelPart(eXY,  true,  false, gResourceStore.LoadResource("../resources/editor/ScalePolyXY.CMDL"));
+        smScaleModels[CGIZMO_SCALE_POLY_XZ]   = SModelPart(eXZ,  true,  false, gResourceStore.LoadResource("../resources/editor/ScalePolyXZ.CMDL"));
+        smScaleModels[CGIZMO_SCALE_POLY_YZ]   = SModelPart(eYZ,  true,  false, gResourceStore.LoadResource("../resources/editor/ScalePolyYZ.CMDL"));
+        smScaleModels[CGIZMO_SCALE_XYZ]       = SModelPart(eXYZ, true,  false, gResourceStore.LoadResource("../resources/editor/ScaleXYZ.CMDL"));
 
         smModelsLoaded = true;
     }

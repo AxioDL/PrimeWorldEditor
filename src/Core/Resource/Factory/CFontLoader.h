@@ -1,9 +1,9 @@
 #ifndef CFONTLOADER_H
 #define CFONTLOADER_H
 
+#include "Core/GameProject/CResourceStore.h"
 #include "Core/Resource/CFont.h"
 #include "Core/Resource/EGame.h"
-#include "Core/Resource/CResCache.h"
 
 class CFontLoader
 {
@@ -14,7 +14,7 @@ class CFontLoader
     CFont* LoadFont(IInputStream& rFONT);
 
 public:
-    static CFont* LoadFONT(IInputStream& rFONT);
+    static CFont* LoadFONT(IInputStream& rFONT, CResourceEntry *pEntry);
     static EGame GetFormatVersion(u32 Version);
 };
 

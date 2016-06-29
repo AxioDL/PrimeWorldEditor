@@ -1,5 +1,5 @@
 #include "CFont.h"
-#include "CResCache.h"
+#include "Core/GameProject/CResourceStore.h"
 #include "Core/Render/CDrawUtil.h"
 #include "Core/Render/CRenderer.h"
 
@@ -7,7 +7,7 @@ CDynamicVertexBuffer CFont::smGlyphVertices;
         CIndexBuffer CFont::smGlyphIndices;
                 bool CFont::smBuffersInitialized = false;
 
-CFont::CFont() : CResource()
+CFont::CFont(CResourceEntry *pEntry /*= 0*/) : CResource(pEntry)
 {
 }
 

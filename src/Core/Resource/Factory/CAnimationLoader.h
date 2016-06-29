@@ -41,7 +41,7 @@ class CAnimationLoader
     CQuaternion DequantizeRotation(bool Sign, s16 X, s16 Y, s16 Z);
 
 public:
-    static CAnimation* LoadANIM(IInputStream& rANIM);
+    static CAnimation* LoadANIM(IInputStream& rANIM, CResourceEntry *pEntry);
 };
 
 #endif // CANIMATIONLOADER_H

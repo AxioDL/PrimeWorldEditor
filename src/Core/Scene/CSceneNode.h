@@ -5,8 +5,8 @@
 #include "Core/Render/EDepthGroup.h"
 #include "Core/Render/FRenderOptions.h"
 #include "Core/Render/IRenderable.h"
+#include "Core/Resource/Area/CGameArea.h"
 #include "Core/Resource/CLight.h"
-#include "Core/Resource/CGameArea.h"
 #include "Core/CRayCollisionTester.h"
 #include <Common/types.h>
 #include <Math/CAABox.h>

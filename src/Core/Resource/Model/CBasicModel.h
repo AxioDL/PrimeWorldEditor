@@ -21,7 +21,7 @@ protected:
     std::vector<SSurface*> mSurfaces;
 
 public:
-    CBasicModel();
+    CBasicModel(CResourceEntry *pEntry = 0);
     ~CBasicModel();
 
     u32 GetVertexCount();

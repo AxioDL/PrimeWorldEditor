@@ -12,7 +12,7 @@ class CCollisionMeshGroup : public CResource
     std::vector<CCollisionMesh*> mMeshes;
 
 public:
-    CCollisionMeshGroup() {}
+    CCollisionMeshGroup(CResourceEntry *pEntry = 0) : CResource(pEntry) {}
 
     ~CCollisionMeshGroup()
     {

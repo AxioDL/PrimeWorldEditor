@@ -2,7 +2,7 @@
 #define CLINK_H
 
 #include "CScriptObject.h"
-#include "Core/Resource/CGameArea.h"
+#include "Core/Resource/Area/CGameArea.h"
 #include <Common/TString.h>
 #include <Common/types.h>
 

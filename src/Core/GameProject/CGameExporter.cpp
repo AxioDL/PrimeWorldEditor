@@ -1,5 +1,5 @@
 #include "CGameExporter.h"
-#include "Core/Resource/CResCache.h"
+#include "Core/GameProject/CResourceStore.h"
 #include "Core/Resource/CWorld.h"
 #include <FileIO/FileIO.h>
 #include <Common/AssertMacro.h>
@@ -30,7 +30,7 @@ CGameExporter::CGameExporter(const TString& rkInputDir, const TString& rkOutputD
 bool CGameExporter::Export()
 {
     SCOPED_TIMER(ExportGame);
-    gResCache.SetGameExporter(this);
+    gResourceStore.SetGameExporter(this);
     FileUtil::CreateDirectory(mExportDir);
     FileUtil::ClearDirectory(mExportDir);
 
@@ -40,7 +40,7 @@ bool CGameExporter::Export()
     ExportWorlds();
     ExportCookedResources();
 
-    gResCache.SetGameExporter(nullptr);
+    gResourceStore.SetGameExporter(nullptr);
     return true;
 }
 
@@ -57,7 +57,7 @@ void CGameExporter::CopyDiscData()
     SCOPED_TIMER(CopyDiscData);
 
     // Create Disc output folder
-    FileUtil::CreateDirectory(mDiscDir);
+    FileUtil::CreateDirectory(mExportDir + mDiscDir);
 #endif
 
     // Copy data
@@ -97,7 +97,7 @@ void CGameExporter::CopyDiscData()
 
 #if COPY_DISC_DATA
         // Create directory
-        TWideString OutFile = mDiscDir + RelPath;
+        TWideString OutFile = mExportDir + mDiscDir + RelPath;
         FileUtil::CreateDirectory(OutFile.GetFileDirectory());
 
         // Copy file
@@ -184,7 +184,7 @@ void CGameExporter::LoadPaks()
                 continue;
             }
 
-            CPackage *pPackage = new CPackage(CharPak.GetFileName(false), FileUtil::MakeRelative(PakPath.GetFileDirectory(), mExportDir));
+            CPackage *pPackage = new CPackage(CharPak.GetFileName(false), FileUtil::MakeRelative(PakPath.GetFileDirectory(), mGameDir));
 
             // MP1-MP3Proto
             if (Game() < eCorruption)
@@ -407,10 +407,10 @@ void CGameExporter::ExportWorlds()
         // Get output path. DKCR paks are stored in a Worlds folder so we should get the path relative to that so we don't have Worlds\Worlds\.
         // Other games have all paks in the game root dir so we're fine just taking the original root dir-relative directory.
         TWideString PakPath = pPak->PakPath();
-        TWideString WorldsDir = PakPath.GetParentDirectoryPath(L"Worlds", false);
+        TWideString GameWorldsDir = PakPath.GetParentDirectoryPath(L"Worlds", false);
 
-        if (!WorldsDir.IsEmpty())
-            PakPath = FileUtil::MakeRelative(PakPath, WorldsDir);
+        if (!GameWorldsDir.IsEmpty())
+            PakPath = FileUtil::MakeRelative(PakPath, GameWorldsDir);
 
         for (u32 iRes = 0; iRes < pPak->NumNamedResources(); iRes++)
         {
@@ -418,7 +418,7 @@ void CGameExporter::ExportWorlds()
 
             if (rkRes.Type == "MLVL" && !rkRes.Name.EndsWith("NODEPEND"))
             {
-                TResPtr<CWorld> pWorld = (CWorld*) gResCache.GetResource(rkRes.ID, rkRes.Type);
+                TResPtr<CWorld> pWorld = (CWorld*) gResourceStore.LoadResource(rkRes.ID, rkRes.Type);
 
                 if (!pWorld)
                 {
@@ -451,7 +451,7 @@ void CGameExporter::ExportWorlds()
 
                     // Load area
                     CUniqueID AreaID = pWorld->AreaResourceID(iArea);
-                    CGameArea *pArea = (CGameArea*) gResCache.GetResource(AreaID, "MREA");
+                    CGameArea *pArea = (CGameArea*) gResourceStore.LoadResource(AreaID, "MREA");
 
                     if (!pArea)
                     {
@@ -470,7 +470,7 @@ void CGameExporter::ExportWorlds()
                     ExportResource(*pInst);
                 }
 
-                gResCache.Clean();
+                gResourceStore.DestroyUnreferencedResources();
             }
 
             else
@@ -485,7 +485,7 @@ void CGameExporter::ExportWorlds()
 void CGameExporter::ExportCookedResources()
 {
 #if EXPORT_COOKED
-    CResourceDatabase *pResDB = mpProject->ResourceDatabase();
+    gResourceStore.CloseActiveProject();
     {
         SCOPED_TIMER(ExportCookedResources);
         FileUtil::CreateDirectory(mCookedDir + mResDir);
@@ -498,7 +498,7 @@ void CGameExporter::ExportCookedResources()
     }
     {
         SCOPED_TIMER(SaveResourceDatabase);
-        pResDB->Save(this->mExportDir.ToUTF8() + "ResourceDatabase.rdb");
+        gResourceStore.SaveResourceDatabase(this->mExportDir.ToUTF8() + "ResourceDatabase.rdb");
     }
 #endif
 }
@@ -532,7 +532,7 @@ void CGameExporter::ExportResource(SResourceInstance& rRes)
             Out.WriteBytes(ResourceData.data(), ResourceData.size());
 
         // Add to resource DB
-        mpProject->ResourceDatabase()->RegisterResource(rRes.ResourceID, OutDir, OutName, CResource::ResTypeForExtension(rRes.ResourceType));
+        gResourceStore.RegisterResource(rRes.ResourceID, CResource::ResTypeForExtension(rRes.ResourceType), OutDir, OutName);
         rRes.Exported = true;
     }
 }

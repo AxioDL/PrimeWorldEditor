@@ -11,7 +11,7 @@
 #include "FShowFlags.h"
 #include "Core/Render/CRenderer.h"
 #include "Core/Render/SViewInfo.h"
-#include "Core/Resource/CGameArea.h"
+#include "Core/Resource/Area/CGameArea.h"
 #include "Core/Resource/CWorld.h"
 #include "Core/CAreaAttributes.h"
 #include "Core/SRayIntersection.h"

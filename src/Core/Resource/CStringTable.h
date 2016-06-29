@@ -23,7 +23,7 @@ class CStringTable : public CResource
     std::vector<SLangTable> mLangTables;
 
 public:
-    CStringTable() {}
+    CStringTable(CResourceEntry *pEntry = 0) : CResource(pEntry) {}
 
     inline u32 NumStrings() const               { return mNumStrings; }
     inline u32 NumLanguages() const             { return mLangTables.size(); }

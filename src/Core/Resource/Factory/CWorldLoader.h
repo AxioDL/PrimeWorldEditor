@@ -1,8 +1,8 @@
 #ifndef CWORLDLOADER_H
 #define CWORLDLOADER_H
 
+#include "Core/GameProject/CResourceStore.h"
 #include "Core/Resource/CWorld.h"
-#include "Core/Resource/CResCache.h"
 #include "Core/Resource/EGame.h"
 
 #include <FileIO/FileIO.h>
@@ -17,7 +17,7 @@ class CWorldLoader
     void LoadReturnsMLVL(IInputStream& rMLVL);
 
 public:
-    static CWorld* LoadMLVL(IInputStream& rMLVL);
+    static CWorld* LoadMLVL(IInputStream& rMLVL, CResourceEntry *pEntry);
     static EGame GetFormatVersion(u32 Version);
 };
 

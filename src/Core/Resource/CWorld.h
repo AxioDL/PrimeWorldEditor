@@ -2,9 +2,9 @@
 #define CWORLD_H
 
 #include "CResource.h"
-#include "CGameArea.h"
 #include "CStringTable.h"
 #include "SDependency.h"
+#include "Core/Resource/Area/CGameArea.h"
 #include "Core/Resource/Model/CModel.h"
 #include <Math/CTransform4f.h>
 
@@ -81,7 +81,7 @@ class CWorld : public CResource
 
 
 public:
-    CWorld();
+    CWorld(CResourceEntry *pEntry = 0);
     ~CWorld();
 
     void SetAreaLayerInfo(CGameArea *pArea);

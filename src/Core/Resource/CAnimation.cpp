@@ -2,8 +2,9 @@
 #include <Math/CTransform4f.h>
 #include <Math/MathUtil.h>
 
-CAnimation::CAnimation()
-    : mDuration(0.f)
+CAnimation::CAnimation(CResourceEntry *pEntry /*= 0*/)
+    : CResource(pEntry)
+    , mDuration(0.f)
     , mTickInterval(0.0333333f)
     , mNumKeys(0)
 {

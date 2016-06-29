@@ -22,7 +22,7 @@ private:
     std::map<u32,SPoiMap*> mPoiLookupMap;
 
 public:
-    CPoiToWorld();
+    CPoiToWorld(CResourceEntry *pEntry = 0);
     ~CPoiToWorld();
 
     void AddPoi(u32 PoiID);

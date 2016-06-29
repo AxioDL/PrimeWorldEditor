@@ -1,7 +1,7 @@
 #include "CAnimationParameters.h"
 #include "CAnimSet.h"
-#include "CResCache.h"
 #include "CResourceInfo.h"
+#include "Core/GameProject/CResourceStore.h"
 #include <Common/Log.h>
 #include <iostream>
 

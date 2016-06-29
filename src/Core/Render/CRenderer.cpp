@@ -2,7 +2,7 @@
 
 #include "CDrawUtil.h"
 #include "CGraphics.h"
-#include "Core/Resource/CResCache.h"
+#include "Core/GameProject/CResourceStore.h"
 #include "Core/Resource/Factory/CTextureDecoder.h"
 #include <Math/CTransform4f.h>
 

@@ -1,5 +1,5 @@
 #include "CWorldLoader.h"
-#include "Core/Resource/CResCache.h"
+#include "Core/GameProject/CResourceStore.h"
 #include <Common/Log.h>
 
 CWorldLoader::CWorldLoader()
@@ -15,19 +15,19 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
     // Header
     if (mVersion < eCorruptionProto)
     {
-        mpWorld->mpWorldName = gResCache.GetResource(rMLVL.ReadLong(), "STRG");
-        if (mVersion == eEchoes) mpWorld->mpDarkWorldName = gResCache.GetResource(rMLVL.ReadLong(), "STRG");
+        mpWorld->mpWorldName = gResourceStore.LoadResource(rMLVL.ReadLong(), "STRG");
+        if (mVersion == eEchoes) mpWorld->mpDarkWorldName = gResourceStore.LoadResource(rMLVL.ReadLong(), "STRG");
         if (mVersion >= eEchoes) mpWorld->mUnknown1 = rMLVL.ReadLong();
-        if (mVersion >= ePrime) mpWorld->mpSaveWorld = gResCache.GetResource(rMLVL.ReadLong(), "SAVW");
-        mpWorld->mpDefaultSkybox = gResCache.GetResource(rMLVL.ReadLong(), "CMDL");
+        if (mVersion >= ePrime) mpWorld->mpSaveWorld = gResourceStore.LoadResource(rMLVL.ReadLong(), "SAVW");
+        mpWorld->mpDefaultSkybox = gResourceStore.LoadResource(rMLVL.ReadLong(), "CMDL");
     }
 
     else
     {
-        mpWorld->mpWorldName = gResCache.GetResource(rMLVL.ReadLongLong(), "STRG");
+        mpWorld->mpWorldName = gResourceStore.LoadResource(rMLVL.ReadLongLong(), "STRG");
         rMLVL.Seek(0x4, SEEK_CUR); // Skipping unknown value
-        mpWorld->mpSaveWorld = gResCache.GetResource(rMLVL.ReadLongLong(), "SAVW");
-        mpWorld->mpDefaultSkybox = gResCache.GetResource(rMLVL.ReadLongLong(), "CMDL");
+        mpWorld->mpSaveWorld = gResourceStore.LoadResource(rMLVL.ReadLongLong(), "SAVW");
+        mpWorld->mpDefaultSkybox = gResourceStore.LoadResource(rMLVL.ReadLongLong(), "CMDL");
     }
 
     // Memory relays - only in MP1
@@ -58,9 +58,9 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
         CWorld::SArea *pArea = &mpWorld->mAreas[iArea];
 
         if (mVersion < eCorruptionProto)
-            pArea->pAreaName = gResCache.GetResource(rMLVL.ReadLong(), "STRG");
+            pArea->pAreaName = gResourceStore.LoadResource(rMLVL.ReadLong(), "STRG");
         else
-            pArea->pAreaName = gResCache.GetResource(rMLVL.ReadLongLong(), "STRG");
+            pArea->pAreaName = gResourceStore.LoadResource(rMLVL.ReadLongLong(), "STRG");
 
         pArea->Transform = CTransform4f(rMLVL);
         pArea->AetherBox = CAABox(rMLVL);
@@ -169,9 +169,9 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
 
     // MapWorld
     if (mVersion < eCorruptionProto)
-        mpWorld->mpMapWorld = gResCache.GetResource(rMLVL.ReadLong(), "MAPW");
+        mpWorld->mpMapWorld = gResourceStore.LoadResource(rMLVL.ReadLong(), "MAPW");
     else
-        mpWorld->mpMapWorld = gResCache.GetResource(rMLVL.ReadLongLong(), "MAPW");
+        mpWorld->mpMapWorld = gResourceStore.LoadResource(rMLVL.ReadLongLong(), "MAPW");
     rMLVL.Seek(0x5, SEEK_CUR); // Unknown values which are always 0
 
     // AudioGrps
@@ -221,7 +221,7 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
 
 void CWorldLoader::LoadReturnsMLVL(IInputStream& rMLVL)
 {
-    mpWorld->mpWorldName = gResCache.GetResource(rMLVL.ReadLongLong(), "STRG");
+    mpWorld->mpWorldName = gResourceStore.LoadResource(rMLVL.ReadLongLong(), "STRG");
 
     bool Check = (rMLVL.ReadByte() != 0);
     if (Check)
@@ -230,8 +230,8 @@ void CWorldLoader::LoadReturnsMLVL(IInputStream& rMLVL)
         rMLVL.Seek(0x10, SEEK_CUR);
     }
 
-    mpWorld->mpSaveWorld = gResCache.GetResource(rMLVL.ReadLongLong(), "SAVW");
-    mpWorld->mpDefaultSkybox = gResCache.GetResource(rMLVL.ReadLongLong(), "CMDL");
+    mpWorld->mpSaveWorld = gResourceStore.LoadResource(rMLVL.ReadLongLong(), "SAVW");
+    mpWorld->mpDefaultSkybox = gResourceStore.LoadResource(rMLVL.ReadLongLong(), "CMDL");
 
     // Areas
     u32 NumAreas = rMLVL.ReadLong();
@@ -242,7 +242,7 @@ void CWorldLoader::LoadReturnsMLVL(IInputStream& rMLVL)
         // Area header
         CWorld::SArea *pArea = &mpWorld->mAreas[iArea];
 
-        pArea->pAreaName = gResCache.GetResource(rMLVL.ReadLongLong(), "STRG");
+        pArea->pAreaName = gResourceStore.LoadResource(rMLVL.ReadLongLong(), "STRG");
         pArea->Transform = CTransform4f(rMLVL);
         pArea->AetherBox = CAABox(rMLVL);
         pArea->FileID = rMLVL.ReadLongLong();
@@ -281,7 +281,7 @@ void CWorldLoader::LoadReturnsMLVL(IInputStream& rMLVL)
     // todo: Layer ID support
 }
 
-CWorld* CWorldLoader::LoadMLVL(IInputStream& rMLVL)
+CWorld* CWorldLoader::LoadMLVL(IInputStream& rMLVL, CResourceEntry *pEntry)
 {
     if (!rMLVL.IsValid()) return nullptr;
 
@@ -302,7 +302,8 @@ CWorld* CWorldLoader::LoadMLVL(IInputStream& rMLVL)
 
     // Filestream is valid, magic+version are valid; everything seems good!
     CWorldLoader Loader;
-    Loader.mpWorld = new CWorld();
+    Loader.mpWorld = new CWorld(pEntry);
+    Loader.mpWorld->SetGame(Version);
     Loader.mpWorld->mWorldVersion = Version;
     Loader.mVersion = Version;
 

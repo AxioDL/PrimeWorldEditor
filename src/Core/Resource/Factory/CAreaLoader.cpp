@@ -603,7 +603,7 @@ void CAreaLoader::ReadEGMC()
     Log::FileWrite(mpMREA->GetSourceString(), "Reading EGMC");
     mpSectionMgr->ToSection(mEGMCBlockNum);
     CUniqueID EGMC(*mpMREA, (mVersion <= eEchoes ? e32Bit : e64Bit));
-    mpArea->mpPoiToWorldMap = gResCache.GetResource(EGMC, "EGMC");
+    mpArea->mpPoiToWorldMap = gResourceStore.LoadResource(EGMC, "EGMC");
 }
 
 void CAreaLoader::SetUpObjects()
@@ -650,7 +650,7 @@ void CAreaLoader::SetUpObjects()
 }
 
 // ************ STATIC ************
-CGameArea* CAreaLoader::LoadMREA(IInputStream& MREA)
+CGameArea* CAreaLoader::LoadMREA(IInputStream& MREA, CResourceEntry *pEntry)
 {
     CAreaLoader Loader;
 
@@ -665,9 +665,10 @@ CGameArea* CAreaLoader::LoadMREA(IInputStream& MREA)
     }
 
     // Header
-    Loader.mpArea = new CGameArea;
+    Loader.mpArea = new CGameArea(pEntry);
     u32 Version = MREA.ReadLong();
     Loader.mVersion = GetFormatVersion(Version);
+    Loader.mpArea->SetGame(Loader.mVersion);
     Loader.mpArea->mVersion = Loader.mVersion;
     Loader.mpMREA = &MREA;
 

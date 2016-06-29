@@ -22,7 +22,7 @@ class CCollisionLoader
 
 public:
     static CCollisionMeshGroup* LoadAreaCollision(IInputStream& rMREA);
-    static CCollisionMeshGroup* LoadDCLN(IInputStream& rDCLN);
+    static CCollisionMeshGroup* LoadDCLN(IInputStream& rDCLN, CResourceEntry *pEntry);
     static EGame GetFormatVersion(u32 Version);
 };
 

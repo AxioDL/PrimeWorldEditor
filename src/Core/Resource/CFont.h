@@ -58,7 +58,7 @@ class CFont : public CResource
 
 
 public:
-    CFont();
+    CFont(CResourceEntry *pEntry = 0);
     ~CFont();
     CResource* MakeCopy(CResCache *pCopyCache);
     CVector2f RenderString(const TString& rkString, CRenderer *pRenderer, float AspectRatio,

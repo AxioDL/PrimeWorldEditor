@@ -1,9 +1,9 @@
 #include "CScriptNode.h"
 #include "CScene.h"
+#include "Core/GameProject/CResourceStore.h"
 #include "Core/Render/CDrawUtil.h"
 #include "Core/Render/CGraphics.h"
 #include "Core/Render/CRenderer.h"
-#include "Core/Resource/CResCache.h"
 #include "Core/Resource/Script/CMasterTemplate.h"
 #include "Core/Resource/Script/CScriptLayer.h"
 #include "Core/ScriptExtra/CScriptExtra.h"
@@ -535,15 +535,15 @@ void CScriptNode::UpdatePreviewVolume()
     {
     case eAxisAlignedBoxShape:
     case eBoxShape:
-        pVolumeModel = gResCache.GetResource("../resources/VolumeBox.cmdl");
+        pVolumeModel = gResourceStore.LoadResource("../resources/VolumeBox.cmdl");
         break;
 
     case eEllipsoidShape:
-        pVolumeModel = gResCache.GetResource("../resources/VolumeSphere.cmdl");
+        pVolumeModel = gResourceStore.LoadResource("../resources/VolumeSphere.cmdl");
         break;
 
     case eCylinderShape:
-        pVolumeModel = gResCache.GetResource("../resources/VolumeCylinder.cmdl");
+        pVolumeModel = gResourceStore.LoadResource("../resources/VolumeCylinder.cmdl");
         break;
     }
 

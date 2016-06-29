@@ -2,10 +2,10 @@
 #define CAREALOADER_H
 
 #include "CSectionMgrIn.h"
+#include "Core/GameProject/CResourceStore.h"
+#include "Core/Resource/Area/CGameArea.h"
 #include "Core/Resource/Script/CLink.h"
-#include "Core/Resource/CGameArea.h"
 #include "Core/Resource/EGame.h"
-#include "Core/Resource/CResCache.h"
 
 #include <FileIO/FileIO.h>
 
@@ -80,7 +80,7 @@ class CAreaLoader
     void SetUpObjects();
 
 public:
-    static CGameArea* LoadMREA(IInputStream& rMREA);
+    static CGameArea* LoadMREA(IInputStream& rMREA, CResourceEntry *pEntry);
     static EGame GetFormatVersion(u32 Version);
 };
 

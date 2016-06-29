@@ -4,8 +4,8 @@
 #include "WorldEditor/CWorldEditor.h"
 #include "ModelEditor/CModelEditorWindow.h"
 #include "CharacterEditor/CCharacterEditor.h"
+#include <Core/GameProject/CResourceStore.h>
 #include <Core/Resource/CWorld.h>
-#include <Core/Resource/CResCache.h>
 
 #include <QMainWindow>
 

@@ -2,7 +2,7 @@
 #define CAREACOOKER_H
 
 #include "CSectionMgrOut.h"
-#include "Core/Resource/CGameArea.h"
+#include "Core/Resource/Area/CGameArea.h"
 #include "Core/Resource/EGame.h"
 #include <FileIO/FileIO.h>
 

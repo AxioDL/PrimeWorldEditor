@@ -1,10 +1,6 @@
 #include "CStringLoader.h"
 #include <Common/Log.h>
 
-CStringLoader::CStringLoader()
-{
-}
-
 void CStringLoader::LoadPrimeDemoSTRG(IInputStream& rSTRG)
 {
     // This function starts at 0x4 in the file - right after the size
@@ -158,7 +154,7 @@ void CStringLoader::LoadNameTable(IInputStream& rSTRG)
 }
 
 // ************ STATIC ************
-CStringTable* CStringLoader::LoadSTRG(IInputStream& rSTRG)
+CStringTable* CStringLoader::LoadSTRG(IInputStream& rSTRG, CResourceEntry *pEntry)
 {
     // Verify that this is a valid STRG
     if (!rSTRG.IsValid()) return nullptr;
@@ -198,7 +194,8 @@ CStringTable* CStringLoader::LoadSTRG(IInputStream& rSTRG)
 
     // Valid; now we create the loader and call the function that reads the rest of the file
     CStringLoader Loader;
-    Loader.mpStringTable = new CStringTable();
+    Loader.mpStringTable = new CStringTable(pEntry);
+    Loader.mpStringTable->SetGame(Version);
     Loader.mVersion = Version;
 
     if (Version == ePrimeDemo) Loader.LoadPrimeDemoSTRG(rSTRG);

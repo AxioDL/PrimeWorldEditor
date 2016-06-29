@@ -8,7 +8,7 @@ class CSkinLoader
 {
     CSkinLoader() {}
 public:
-    static CSkin* LoadCSKR(IInputStream& rCSKR);
+    static CSkin* LoadCSKR(IInputStream& rCSKR, CResourceEntry *pEntry);
 };
 
 #endif // CSKINLOADER_H
