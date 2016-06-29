@@ -2,8 +2,8 @@
 #include "Core/Resource/Script/CScriptLayer.h"
 #include "Core/Render/CRenderer.h"
 
-CGameArea::CGameArea()
-    : CResource()
+CGameArea::CGameArea(CResourceEntry *pEntry /*= 0*/)
+    : CResource(pEntry)
     , mWorldIndex(-1)
     , mVertexCount(0)
     , mTriangleCount(0)

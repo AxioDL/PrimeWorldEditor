@@ -1,5 +1,5 @@
 #include "CAnimSetLoader.h"
-#include "Core/Resource/CResCache.h"
+#include "Core/GameProject/CResourceStore.h"
 #include <Common/Log.h>
 
 CAnimSetLoader::CAnimSetLoader()
@@ -14,7 +14,7 @@ CAnimSet* CAnimSetLoader::LoadCorruptionCHAR(IInputStream& rCHAR)
     CAnimSet::SNode& node = pSet->mNodes[0];
 
     node.Name = rCHAR.ReadString();
-    node.pModel = gResCache.GetResource(rCHAR.ReadLongLong(), "CMDL");
+    node.pModel = gResourceStore.LoadResource(rCHAR.ReadLongLong(), "CMDL");
     return pSet;
 }
 
@@ -28,7 +28,7 @@ CAnimSet* CAnimSetLoader::LoadReturnsCHAR(IInputStream& rCHAR)
     rNode.Name = rCHAR.ReadString();
     rCHAR.Seek(0x14, SEEK_CUR);
     rCHAR.ReadString();
-    rNode.pModel = gResCache.GetResource(rCHAR.ReadLongLong(), "CMDL");
+    rNode.pModel = gResourceStore.LoadResource(rCHAR.ReadLongLong(), "CMDL");
     return pSet;
 }
 
@@ -194,7 +194,7 @@ void CAnimSetLoader::LoadHalfTransition(IInputStream& rANCS)
 }
 
 // ************ STATIC ************
-CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS)
+CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS, CResourceEntry *pEntry)
 {
     if (!rANCS.IsValid()) return nullptr;
 
@@ -206,7 +206,8 @@ CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS)
     }
 
     CAnimSetLoader Loader;
-    Loader.pSet = new CAnimSet;
+    Loader.pSet = new CAnimSet(pEntry);
+    Loader.mVersion = pEntry->Game();
 
     u32 NodeCount = rANCS.ReadLong();
     Loader.pSet->mNodes.resize(NodeCount);
@@ -217,11 +218,15 @@ CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS)
 
         rANCS.Seek(0x4, SEEK_CUR); // Skipping node self-index
         u16 Unknown1 = rANCS.ReadShort();
-        if (iNode == 0) Loader.mVersion = (Unknown1 == 0xA) ? eEchoes : ePrime; // Best version indicator we know of unfortunately
+        if (iNode == 0 && Loader.mVersion == eUnknownVersion)
+        {
+            Loader.mVersion = (Unknown1 == 0xA) ? eEchoes : ePrime; // Best version indicator we know of unfortunately
+            Loader.pSet->SetGame(Loader.mVersion);
+        }
         pNode->Name = rANCS.ReadString();
-        pNode->pModel = gResCache.GetResource(rANCS.ReadLong(), "CMDL");
-        pNode->pSkin = gResCache.GetResource(rANCS.ReadLong(), "CSKR");
-        pNode->pSkeleton = gResCache.GetResource(rANCS.ReadLong(), "CINF");
+        pNode->pModel = gResourceStore.LoadResource(rANCS.ReadLong(), "CMDL");
+        pNode->pSkin = gResourceStore.LoadResource(rANCS.ReadLong(), "CSKR");
+        pNode->pSkeleton = gResourceStore.LoadResource(rANCS.ReadLong(), "CINF");
         if (pNode->pModel) pNode->pModel->SetSkin(pNode->pSkin);
 
         // Unfortunately that's all that's actually supported at the moment. Hope to expand later.
@@ -330,7 +335,7 @@ CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS)
         {
             CAnimSet::SAnimation Anim;
             Anim.Name = rPrim.Name;
-            Anim.pAnim = gResCache.GetResource(rPrim.AnimID, "ANIM");
+            Anim.pAnim = gResourceStore.LoadResource(rPrim.AnimID, "ANIM");
             Loader.pSet->mAnims.push_back(Anim);
         }
     }
@@ -338,7 +343,7 @@ CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS)
     return Loader.pSet;
 }
 
-CAnimSet* CAnimSetLoader::LoadCHAR(IInputStream& rCHAR)
+CAnimSet* CAnimSetLoader::LoadCHAR(IInputStream& rCHAR, CResourceEntry *pEntry)
 {
     if (!rCHAR.IsValid()) return nullptr;
 
@@ -348,14 +353,16 @@ CAnimSet* CAnimSetLoader::LoadCHAR(IInputStream& rCHAR)
     if (Check == 0x5 || Check == 0x3)
     {
         Loader.mVersion = eCorruption;
-        Loader.pSet = new CAnimSet();
+        Loader.pSet = new CAnimSet(pEntry);
+        Loader.pSet->SetGame(eCorruption);
         return Loader.LoadCorruptionCHAR(rCHAR);
     }
 
     if (Check == 0x59)
     {
         Loader.mVersion = eReturns;
-        Loader.pSet = new CAnimSet();
+        Loader.pSet = new CAnimSet(pEntry);
+        Loader.pSet->SetGame(eReturns);
         return Loader.LoadReturnsCHAR(rCHAR);
     }
 

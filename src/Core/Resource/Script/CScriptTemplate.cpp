@@ -1,7 +1,7 @@
 #include "CScriptTemplate.h"
 #include "CScriptObject.h"
 #include "CMasterTemplate.h"
-#include "Core/Resource/CResCache.h"
+#include "Core/GameProject/CResourceStore.h"
 #include "Core/Resource/CAnimSet.h"
 #include <Common/Log.h>
 
@@ -166,7 +166,7 @@ CResource* CScriptTemplate::FindDisplayAsset(CPropertyStruct *pProperties, u32& 
         if (it->AssetSource == SEditorAsset::eFile)
         {
             TString Path = "../resources/" + it->AssetLocation;
-            pRes = gResCache.GetResource(Path);
+            pRes = gResourceStore.LoadResource(Path);
         }
 
         // Property
@@ -216,7 +216,7 @@ CCollisionMeshGroup* CScriptTemplate::FindCollision(CPropertyStruct *pProperties
         if (it->AssetSource == SEditorAsset::eFile)
         {
             TString path = "../resources/" + it->AssetLocation;
-            pRes = gResCache.GetResource(path);
+            pRes = gResourceStore.LoadResource(path);
         }
 
         // Property

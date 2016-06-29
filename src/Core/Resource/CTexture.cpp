@@ -1,7 +1,7 @@
 #include "CTexture.h"
 
-CTexture::CTexture()
-    : CResource()
+CTexture::CTexture(CResourceEntry *pEntry /*= 0*/)
+    : CResource(pEntry)
     , mTexelFormat(eRGBA8)
     , mSourceTexelFormat(eRGBA8)
     , mWidth(0)
@@ -125,6 +125,7 @@ void CTexture::Resize(u32 Width, u32 Height)
         mWidth = (u16) Width;
         mHeight = (u16) Height;
         mNumMipMaps = 1;
+        CalcLinearSize();
     }
 }
 

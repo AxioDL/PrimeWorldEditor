@@ -5,14 +5,14 @@
 #include "Core/Render/FRenderOptions.h"
 #include "Core/OpenGL/CIndexBuffer.h"
 
-/* A CStaticModel is meant for meshes that don't move. It's built specifically with terrain in mind.
- * It only links to one material, and what it does best is combining submeshes from different models
- * into shared VBOs and IBOs. This allows for a significantly reduced number of draw calls. */
+/* A CStaticModel is meant for meshes that don't move. It only links to one material,
+ * and is used to combine surfaces from different world models into shared VBOs and
+ * IBOs. This allows for a significantly reduced number of draw calls. */
 class CStaticModel : public CBasicModel
 {
     CMaterial *mpMaterial;
     std::vector<CIndexBuffer> mIBOs;
-    std::vector<std::vector<u32>> mSubmeshEndOffsets;
+    std::vector<std::vector<u32>> mSurfaceEndOffsets;
     bool mTransparent;
 
 public:

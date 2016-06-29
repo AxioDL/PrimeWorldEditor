@@ -36,7 +36,7 @@ class CAnimSet : public CResource
     std::vector<SAnimation> mAnims;
 
 public:
-    CAnimSet() : CResource() {}
+    CAnimSet(CResourceEntry *pEntry = 0) : CResource(pEntry) {}
 
     u32 NumNodes() const                { return mNodes.size(); }
     TString NodeName(u32 Index)         { if (Index >= mNodes.size()) Index = 0; return mNodes[Index].Name; }

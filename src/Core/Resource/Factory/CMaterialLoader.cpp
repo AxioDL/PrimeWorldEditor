@@ -1,5 +1,5 @@
 #include "CMaterialLoader.h"
-#include "Core/Resource/CResCache.h"
+#include "Core/GameProject/CResourceStore.h"
 #include "Core/OpenGL/GLCommon.h"
 #include <Common/Log.h>
 #include <iostream>
@@ -50,7 +50,7 @@ void CMaterialLoader::ReadPrimeMatSet()
     for (u32 iTex = 0; iTex < NumTextures; iTex++)
     {
         u32 TextureID = mpFile->ReadLong();
-        mTextures[iTex] = gResCache.GetResource(TextureID, "TXTR");
+        mTextures[iTex] = gResourceStore.LoadResource(TextureID, "TXTR");
     }
 
     // Materials
@@ -366,7 +366,7 @@ CMaterial* CMaterialLoader::ReadCorruptionMaterial()
                 continue;
             }
 
-            pPass->mpTexture = gResCache.GetResource(TextureID, "TXTR");
+            pPass->mpTexture = gResourceStore.LoadResource(TextureID, "TXTR");
 
             pPass->mTexCoordSource = 4 + (u8) mpFile->ReadLong();
             u32 AnimSize = mpFile->ReadLong();

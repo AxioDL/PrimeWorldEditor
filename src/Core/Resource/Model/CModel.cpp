@@ -1,11 +1,12 @@
 #include "CModel.h"
 #include "Core/Render/CDrawUtil.h"
 #include "Core/Render/CRenderer.h"
+#include "Core/Resource/Area/CGameArea.h"
 #include "Core/OpenGL/GLCommon.h"
 #include <Common/AssertMacro.h>
 
-CModel::CModel()
-    : CBasicModel()
+CModel::CModel(CResourceEntry *pEntry /*= 0*/)
+    : CBasicModel(pEntry)
 {
     mHasOwnMaterials = true;
     mHasOwnSurfaces = true;

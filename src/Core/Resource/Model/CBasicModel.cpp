@@ -2,8 +2,8 @@
 #include <iostream>
 #include <list>
 
-CBasicModel::CBasicModel()
-    : CResource()
+CBasicModel::CBasicModel(CResourceEntry *pEntry /*= 0*/)
+    : CResource(pEntry)
     , mVertexCount(0)
     , mTriangleCount(0)
     , mBuffered(false)

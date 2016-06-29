@@ -1,4 +1,5 @@
 #include "CResource.h"
+#include "Core/GameProject/CResourceStore.h"
 #include <Common/AssertMacro.h>
 #include <map>
 
@@ -24,14 +25,89 @@ EResType CResource::ResTypeForExtension(CFourCC Extension)
     return Find->second;
 }
 
-// Implementation of functions declared in EResType.h
-TString GetRawExtension(EResType /*Type*/, EGame /*Game*/)
+// ************ GLOBAL ************
+TString GetResourceTypeName(EResType Type)
+{
+    switch (Type)
+    {
+    case eAnimation:                    return "Animation";
+    case eAnimCollisionPrimData:        return "Animation Collision Primitive Data";
+    case eAnimEventData:                return "Animation Event Data";
+    case eAnimSet:                      return "Animation Character Set";
+    case eArea:                         return "Area";
+    case eAreaCollision:                return "Area Collision";
+    case eAreaGeometry:                 return "Area Geometry";
+    case eAreaLights:                   return "Area Lights";
+    case eAreaMaterials:                return "Area Materials";
+    case eAreaSurfaceBounds:            return "Area Surface Bounds";
+    case eAreaOctree:                   return "Area Octree";
+    case eAreaVisibilityTree:           return "Area Visibility Tree";
+    case eAudioGroupSet:                return "Audio Group Set";
+    case eAudioMacro:                   return "Audio Macro";
+    case eAudioSample:                  return "Audio Sample";
+    case eAudioLookupTable:             return "Audio Lookup Table";
+    case eBinaryData:                   return "Binary Data";
+    case eBurstFireData:                return "Burst Fire Data";
+    case eCharacter:                    return "Character";
+    case eDependencyGroup:              return "Dependency Group";
+    case eDynamicCollision:             return "Dynamic Collision";
+    case eFont:                         return "Font";
+    case eGuiFrame:                     return "GUI Frame";
+    case eGuiKeyFrame:                  return "GUI Keyframe";
+    case eHintSystem:                   return "Hint System";
+    case eMapArea:                      return "Area Map";
+    case eMapWorld:                     return "World Map";
+    case eMapUniverse:                  return "Universe Map";
+    case eMidi:                         return "MIDI";
+    case eModel:                        return "Model";
+    case eMusicTrack:                   return "Music";
+    case ePackage:                      return "Package";
+    case eParticle:                     return "Particle System";
+    case eParticleCollisionResponse:    return "Collision Response Particle System";
+    case eParticleDecal:                return "Decal Particle System";
+    case eParticleElectric:             return "Electric Particle System";
+    case eParticleSorted:               return "Sorted Particle System";
+    case eParticleSpawn:                return "Spawn Particle System";
+    case eParticleSwoosh:               return "Swoosh Particle System";
+    case eParticleTransform:            return "Transform Particle System";
+    case eParticleWeapon:               return "Weapon Particle System";
+    case ePathfinding:                  return "Pathfinding Mesh";
+    case ePortalArea:                   return "Portal Area";
+    case eResource:                     return "Resource";
+    case eRuleSet:                      return "Rule Set";
+    case eSaveArea:                     return "Area Save Info";
+    case eSaveWorld:                    return "World Save Info";
+    case eScan:                         return "Scan";
+    case eSkeleton:                     return "Skeleton";
+    case eSkin:                         return "Skin";
+    case eSourceAnimData:               return "Source Animation Data";
+    case eSpatialPrimitive:             return "Spatial Primitive";
+    case eStateMachine:                 return "State Machine";
+    case eStateMachine2:                return "State Machine";
+    case eStaticGeometryMap:            return "Static Geometry Map";
+    case eStreamedAudio:                return "Streamed Audio";
+    case eStringList:                   return "String List";
+    case eStringTable:                  return "String Table";
+    case eTexture:                      return "Texture";
+    case eTweak:                        return "Tweak Data";
+    case eUnknown_CAAD:                 return "Unknown (CAAD)";
+    case eUserEvaluatorData:            return "User Evaluator Data";
+    case eVideo:                        return "Video";
+    case eWorld:                        return "World";
+    default:                            return "INVALID";
+    }
+}
+
+TString GetResourceRawExtension(EResType /*Type*/, EGame /*Game*/)
 {
     return "";
 }
 
-TString GetCookedExtension(EResType Type, EGame Game)
+TString GetResourceCookedExtension(EResType Type, EGame Game)
 {
+    if (Game == eUnknownVersion)
+        Game = ePrime;
+
     u32 GameTypeID = GetGameTypeID(Game, Type);
     auto Find = gTypeExtensionMap.find(GameTypeID);
     if (Find != gTypeExtensionMap.end()) return Find->second;
@@ -138,3 +214,11 @@ REGISTER_RESOURCE_TYPE(TXTR, eTexture, ePrimeDemo, eReturns)
 REGISTER_RESOURCE_TYPE(USRC, eUserEvaluatorData, eCorruptionProto, eCorruption)
 REGISTER_RESOURCE_TYPE(XFSC, eParticleTransform, eReturns, eReturns)
 REGISTER_RESOURCE_TYPE(WPSC, eParticleWeapon, ePrimeDemo, eCorruption)
+// Split Area Data
+REGISTER_RESOURCE_TYPE(AMAT, eAreaMaterials, ePrimeDemo, eReturns)
+REGISTER_RESOURCE_TYPE(AGEO, eAreaGeometry, ePrimeDemo, eReturns)
+REGISTER_RESOURCE_TYPE(AOCT, eAreaOctree, ePrimeDemo, eReturns)
+REGISTER_RESOURCE_TYPE(ABOX, eAreaSurfaceBounds, eEchoesDemo, eReturns)
+REGISTER_RESOURCE_TYPE(ACLN, eAreaCollision, ePrimeDemo, eReturns)
+REGISTER_RESOURCE_TYPE(ALIT, eAreaLights, ePrimeDemo, eReturns)
+REGISTER_RESOURCE_TYPE(AVIS, eAreaVisibilityTree, ePrimeDemo, eReturns)

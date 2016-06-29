@@ -1,6 +1,6 @@
 #include "CDrawUtil.h"
 #include "CGraphics.h"
-#include "Core/Resource/CResCache.h"
+#include "Core/GameProject/CResourceStore.h"
 #include <Common/Log.h>
 #include <Math/CTransform4f.h>
 #include <iostream>
@@ -480,7 +480,7 @@ void CDrawUtil::InitLine()
 void CDrawUtil::InitCube()
 {
     Log::Write("Creating cube");
-    mpCubeModel = gResCache.GetResource("../resources/Cube.cmdl");
+    mpCubeModel = gResourceStore.LoadResource("../resources/Cube.cmdl");
 }
 
 void CDrawUtil::InitWireCube()
@@ -518,14 +518,14 @@ void CDrawUtil::InitWireCube()
 void CDrawUtil::InitSphere()
 {
     Log::Write("Creating sphere");
-    mpSphereModel = gResCache.GetResource("../resources/Sphere.cmdl");
-    mpDoubleSidedSphereModel = gResCache.GetResource("../resources/SphereDoubleSided.cmdl");
+    mpSphereModel = gResourceStore.LoadResource("../resources/Sphere.cmdl");
+    mpDoubleSidedSphereModel = gResourceStore.LoadResource("../resources/SphereDoubleSided.cmdl");
 }
 
 void CDrawUtil::InitWireSphere()
 {
     Log::Write("Creating wire sphere");
-    mpWireSphereModel = gResCache.GetResource("../resources/WireSphere.cmdl");
+    mpWireSphereModel = gResourceStore.LoadResource("../resources/WireSphere.cmdl");
 }
 
 void CDrawUtil::InitShaders()
@@ -543,17 +543,17 @@ void CDrawUtil::InitShaders()
 void CDrawUtil::InitTextures()
 {
     Log::Write("Loading textures");
-    mpCheckerTexture = gResCache.GetResource("../resources/Checkerboard.txtr");
+    mpCheckerTexture = gResourceStore.LoadResource("../resources/Checkerboard.txtr");
 
-    mpLightTextures[0] = gResCache.GetResource("../resources/LightAmbient.txtr");
-    mpLightTextures[1] = gResCache.GetResource("../resources/LightDirectional.txtr");
-    mpLightTextures[2] = gResCache.GetResource("../resources/LightCustom.txtr");
-    mpLightTextures[3] = gResCache.GetResource("../resources/LightSpot.txtr");
+    mpLightTextures[0] = gResourceStore.LoadResource("../resources/LightAmbient.txtr");
+    mpLightTextures[1] = gResourceStore.LoadResource("../resources/LightDirectional.txtr");
+    mpLightTextures[2] = gResourceStore.LoadResource("../resources/LightCustom.txtr");
+    mpLightTextures[3] = gResourceStore.LoadResource("../resources/LightSpot.txtr");
 
-    mpLightMasks[0] = gResCache.GetResource("../resources/LightAmbientMask.txtr");
-    mpLightMasks[1] = gResCache.GetResource("../resources/LightDirectionalMask.txtr");
-    mpLightMasks[2] = gResCache.GetResource("../resources/LightCustomMask.txtr");
-    mpLightMasks[3] = gResCache.GetResource("../resources/LightSpotMask.txtr");
+    mpLightMasks[0] = gResourceStore.LoadResource("../resources/LightAmbientMask.txtr");
+    mpLightMasks[1] = gResourceStore.LoadResource("../resources/LightDirectionalMask.txtr");
+    mpLightMasks[2] = gResourceStore.LoadResource("../resources/LightCustomMask.txtr");
+    mpLightMasks[3] = gResourceStore.LoadResource("../resources/LightSpotMask.txtr");
 }
 
 void CDrawUtil::Shutdown()

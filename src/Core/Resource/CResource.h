@@ -2,6 +2,8 @@
 #define CRESOURCE_H
 
 #include "EResType.h"
+#include "Core/GameProject/CResourceEntry.h"
+#include "Core/GameProject/CResourceStore.h"
 #include <Common/CFourCC.h>
 #include <Common/CUniqueID.h>
 #include <Common/types.h>
@@ -28,24 +30,35 @@ private: \
 class CResource
 {
     DECLARE_RESOURCE_TYPE(eResource)
-    friend class CResCache;
 
-    TString mResSource;
-    CUniqueID mID;
+    CResourceEntry *mpEntry;
     int mRefCount;
 
 public:
-    CResource() : mRefCount(0) {}
+    CResource(CResourceEntry *pEntry = 0)
+        : mpEntry(pEntry), mRefCount(0)
+    {
+        if (!mpEntry) mpEntry = gResourceStore.CreateTransientEntry(Type());
+    }
+
     virtual ~CResource() {}
 
-    inline TString Source() const       { return mResSource.GetFileName(); }
-    inline TString FullSource() const   { return mResSource; }
-    inline CUniqueID ResID() const      { return mID; }
-    inline void Lock()                  { mRefCount++; }
-    inline void Release()               { mRefCount--; }
-    inline bool IsValidResource()       { return (Type() != eResource); }
+    inline CResourceEntry* Entry() const    { return mpEntry; }
+    inline TString Source() const           { return mpEntry->CookedAssetPath(true).GetFileName(); }
+    inline TString FullSource() const       { return mpEntry->CookedAssetPath(true); }
+    inline CUniqueID ResID() const          { return mpEntry->ID(); }
+    inline EGame Game() const               { return mpEntry->Game(); }
+    inline bool IsReferenced() const        { return mRefCount > 0; }
+    inline void SetGame(EGame Game)         { mpEntry->SetGame(Game); }
+    inline void Lock()                      { mRefCount++; }
+    inline void Release()                   { mRefCount--; }
 
     static EResType ResTypeForExtension(CFourCC Extension);
 };
+
+// Global Functions
+TString GetResourceTypeName(EResType Type);
+TString GetResourceRawExtension(EResType Type, EGame Game);
+TString GetResourceCookedExtension(EResType Type, EGame Game);
 
 #endif // CRESOURCE_H

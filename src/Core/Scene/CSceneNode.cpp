@@ -1,9 +1,9 @@
 #include "CSceneNode.h"
+#include "Core/GameProject/CResourceStore.h"
 #include "Core/Render/CRenderer.h"
 #include "Core/Render/CGraphics.h"
 #include "Core/Render/CDrawUtil.h"
-#include "Core/Resource/CGameArea.h"
-#include "Core/Resource/CResCache.h"
+#include "Core/Resource/Area/CGameArea.h"
 #include <Common/AssertMacro.h>
 #include <Math/CTransform4f.h>
 
@@ -258,7 +258,7 @@ void CSceneNode::DrawBoundingBox() const
 
 void CSceneNode::DrawRotationArrow() const
 {
-    static TResPtr<CModel> spArrowModel = gResCache.GetResource("../resources/RotationArrow.cmdl");
+    static TResPtr<CModel> spArrowModel = gResourceStore.LoadResource("../resources/RotationArrow.cmdl");
     spArrowModel->Draw(eNoRenderOptions, 0);
 }
 

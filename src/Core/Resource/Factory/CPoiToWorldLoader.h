@@ -11,7 +11,7 @@ class CPoiToWorldLoader
     CPoiToWorldLoader() {}
 
 public:
-    static CPoiToWorld* LoadEGMC(IInputStream& rEGMC);
+    static CPoiToWorld* LoadEGMC(IInputStream& rEGMC, CResourceEntry *pEntry);
 };
 
 #endif // CPOITOWORLDLOADER_H

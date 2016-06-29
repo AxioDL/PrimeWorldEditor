@@ -1,8 +1,8 @@
 #include "WTextureGLWidget.h"
 #include <Math/CTransform4f.h>
+#include <Core/GameProject/CResourceStore.h>
 #include <Core/Render/CDrawUtil.h>
 #include <Core/Render/CGraphics.h>
-#include <Core/Resource/CResCache.h>
 #include <iostream>
 #include <iomanip>
 

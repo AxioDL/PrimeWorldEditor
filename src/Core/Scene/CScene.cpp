@@ -1,7 +1,6 @@
 #include "CScene.h"
 #include "CSceneIterator.h"
 #include "Core/Render/CGraphics.h"
-#include "Core/Resource/CResCache.h"
 #include "Core/Resource/CPoiToWorld.h"
 #include "Core/Resource/Script/CScriptLayer.h"
 #include "Core/CRayCollisionTester.h"

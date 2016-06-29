@@ -382,7 +382,7 @@ SSurface* CModelLoader::LoadAssimpMesh(const aiMesh *pkMesh, CMaterialSet *pSet)
 }
 
 // ************ STATIC ************
-CModel* CModelLoader::LoadCMDL(IInputStream& rCMDL)
+CModel* CModelLoader::LoadCMDL(IInputStream& rCMDL, CResourceEntry *pEntry)
 {
     CModelLoader Loader;
 
@@ -452,7 +452,8 @@ CModel* CModelLoader::LoadCMDL(IInputStream& rCMDL)
         return nullptr;
     }
 
-    CModel *pModel = new CModel();
+    CModel *pModel = new CModel(pEntry);
+    pModel->SetGame(Loader.mVersion);
     Loader.mpModel = pModel;
     Loader.mpSectionMgr = new CSectionMgrIn(BlockCount, &rCMDL);
     rCMDL.SeekToBoundary(32);

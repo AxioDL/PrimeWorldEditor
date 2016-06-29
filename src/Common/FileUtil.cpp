@@ -16,7 +16,7 @@ bool Exists(const TWideString &rkFilePath)
 
 bool IsRoot(const TWideString& rkPath)
 {
-    // todo: is this actually a good way of checking for root?
+    // todo: is this actually a good/multiplatform way of checking for root?
     TWideString AbsPath = MakeAbsolute(rkPath);
     TWideStringList Split = AbsPath.Split(L"\\/");
     return (Split.size() <= 1);
@@ -30,6 +30,16 @@ bool IsFile(const TWideString& rkFilePath)
 bool IsDirectory(const TWideString& rkDirPath)
 {
     return is_directory(*rkDirPath);
+}
+
+bool IsAbsolute(const TWideString& rkDirPath)
+{
+    return boost::filesystem::path(*rkDirPath).is_absolute();
+}
+
+bool IsRelative(const TWideString& rkDirPath)
+{
+    return !boost::filesystem::path(*rkDirPath).is_relative();
 }
 
 bool CreateDirectory(const TWideString& rkNewDir)
@@ -410,6 +420,17 @@ void GetDirectoryContents(TWideString DirPath, TWideStringList& rOut, bool Recur
             }
         }
     }
+}
+
+TWideString FindFileExtension(const TWideString& rkDir, const TWideString& rkName)
+{
+    for (directory_iterator It(*rkDir); It != directory_iterator(); ++It)
+    {
+        TWideString Name = It->path().filename().native();
+        if (Name.GetFileName(false) == rkName) return Name.GetFileExtension();
+    }
+
+    return L"";
 }
 
 }

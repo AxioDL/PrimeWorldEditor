@@ -1,6 +1,6 @@
 #include "CLinkModel.h"
 #include "Editor/UICommon.h"
-#include <Core/Resource/CGameArea.h>
+#include <Core/Resource/Area/CGameArea.h>
 #include <Core/Resource/Script/CMasterTemplate.h>
 
 CLinkModel::CLinkModel(QObject *pParent)

@@ -1,11 +1,11 @@
 #ifndef CSCRIPTLOADER_H
 #define CSCRIPTLOADER_H
 
+#include "Core/GameProject/CResourceStore.h"
+#include "Core/Resource/Area/CGameArea.h"
 #include "Core/Resource/Script/CScriptObject.h"
 #include "Core/Resource/Script/CScriptLayer.h"
 #include "Core/Resource/Script/CMasterTemplate.h"
-#include "Core/Resource/CGameArea.h"
-#include "Core/Resource/CResCache.h"
 
 class CScriptLoader
 {

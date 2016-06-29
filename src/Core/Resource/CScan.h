@@ -31,8 +31,8 @@ private:
     ELogbookCategory mCategory;
 
 public:
-    CScan()
-        : CResource()
+    CScan(CResourceEntry *pEntry = 0)
+        : CResource(pEntry)
         , mpFrame(nullptr)
         , mpStringTable(nullptr)
         , mIsSlow(false)

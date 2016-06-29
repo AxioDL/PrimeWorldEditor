@@ -159,12 +159,12 @@ CCollisionMeshGroup* CCollisionLoader::LoadAreaCollision(IInputStream& rMREA)
     return loader.mpGroup;
 }
 
-CCollisionMeshGroup* CCollisionLoader::LoadDCLN(IInputStream& rDCLN)
+CCollisionMeshGroup* CCollisionLoader::LoadDCLN(IInputStream& rDCLN, CResourceEntry *pEntry)
 {
     if (!rDCLN.IsValid()) return nullptr;
 
     CCollisionLoader Loader;
-    Loader.mpGroup = new CCollisionMeshGroup;
+    Loader.mpGroup = new CCollisionMeshGroup(pEntry);
 
     u32 NumMeshes = rDCLN.ReadLong();
 
@@ -183,6 +183,7 @@ CCollisionMeshGroup* CCollisionLoader::LoadDCLN(IInputStream& rDCLN)
 
         Loader.mpMesh = new CCollisionMesh;
         Loader.mpMesh->mOctreeLoaded = false;
+        Loader.mpGroup->SetGame(Loader.mVersion);
 
         if (Loader.mVersion == eReturns)
             Loader.mpMesh->mAABox = CAABox(rDCLN);

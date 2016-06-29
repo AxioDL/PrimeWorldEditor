@@ -1,5 +1,5 @@
 #include "CMaterial.h"
-#include "CResCache.h"
+#include "Core/GameProject/CResourceStore.h"
 #include "Core/Render/CDrawUtil.h"
 #include "Core/Render/CRenderer.h"
 #include "Core/OpenGL/GLCommon.h"

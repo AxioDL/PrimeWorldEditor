@@ -12,7 +12,7 @@
 #include <Math/CRay.h>
 #include <Math/ETransformSpace.h>
 #include <Core/Render/CRenderer.h>
-#include <Core/Resource/CGameArea.h>
+#include <Core/Resource/Area/CGameArea.h>
 #include <Core/Resource/CWorld.h>
 #include <Core/Resource/TResPtr.h>
 #include <Core/Scene/CScene.h>

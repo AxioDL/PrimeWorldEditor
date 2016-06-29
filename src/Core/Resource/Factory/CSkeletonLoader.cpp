@@ -25,12 +25,12 @@ void CSkeletonLoader::CalculateBoneInverseBindMatrices()
 }
 
 // ************ STATIC ************
-CSkeleton* CSkeletonLoader::LoadCINF(IInputStream& rCINF)
+CSkeleton* CSkeletonLoader::LoadCINF(IInputStream& rCINF, CResourceEntry *pEntry)
 {
     CSkeletonLoader Loader;
-    CSkeleton *pSkel = new CSkeleton();
+    CSkeleton *pSkel = new CSkeleton(pEntry);
     Loader.mpSkeleton = pSkel;
-    EGame Game = eUnknownVersion;
+    EGame Game = pEntry->Game();
 
     u32 NumBones = rCINF.ReadLong();
     pSkel->mBones.reserve(NumBones);
@@ -60,6 +60,7 @@ CSkeleton* CSkeletonLoader::LoadCINF(IInputStream& rCINF)
         {
             u32 Check = rCINF.PeekLong();
             Game = ((Check > 100 || Check == 0) ? eEchoes : ePrime);
+            Loader.mpSkeleton->SetGame(Game);
         }
         if (Game == eEchoes)
         {

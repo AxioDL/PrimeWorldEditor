@@ -5,7 +5,7 @@
 #include "CClearSelectionCommand.h"
 #include "CSelectNodeCommand.h"
 #include "Editor/WorldEditor/CWorldEditor.h"
-#include <Core/Resource/CGameArea.h>
+#include <Core/Resource/Area/CGameArea.h>
 #include <Core/Resource/Script/CScriptLayer.h>
 #include <Core/Resource/Script/CScriptObject.h>
 

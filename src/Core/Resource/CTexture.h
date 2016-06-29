@@ -29,7 +29,7 @@ class CTexture : public CResource
     GLuint mTextureID;    // ID for texture GL buffer
 
 public:
-    CTexture();
+    CTexture(CResourceEntry *pEntry = 0);
     CTexture(u32 Width, u32 Height);
     ~CTexture();
 

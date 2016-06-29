@@ -1,11 +1,11 @@
 #ifndef CGAMEAREA_H
 #define CGAMEAREA_H
 
-#include "CResource.h"
-#include "CCollisionMeshGroup.h"
-#include "CLight.h"
-#include "CMaterialSet.h"
-#include "CPoiToWorld.h"
+#include "Core/Resource/CResource.h"
+#include "Core/Resource/CCollisionMeshGroup.h"
+#include "Core/Resource/CLight.h"
+#include "Core/Resource/CMaterialSet.h"
+#include "Core/Resource/CPoiToWorld.h"
 #include "Core/Resource/Model/CModel.h"
 #include "Core/Resource/Model/CStaticModel.h"
 #include <Common/types.h>
@@ -60,7 +60,7 @@ class CGameArea : public CResource
     TResPtr<CPoiToWorld> mpPoiToWorldMap;
 
 public:
-    CGameArea();
+    CGameArea(CResourceEntry *pEntry = 0);
     ~CGameArea();
 
     void AddWorldModel(CModel *pModel);

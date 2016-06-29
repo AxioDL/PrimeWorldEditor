@@ -11,8 +11,15 @@ enum EResType
     eAnimEventData,
     eAnimSet,
     eArea,
-    eAudioMacro,
+    eAreaCollision,
+    eAreaGeometry,
+    eAreaLights,
+    eAreaMaterials,
+    eAreaSurfaceBounds,
+    eAreaOctree,
+    eAreaVisibilityTree,
     eAudioGroupSet,
+    eAudioMacro,
     eAudioSample,
     eAudioLookupTable,
     eBinaryData,
@@ -66,11 +73,6 @@ enum EResType
 
     eInvalidResType = -1
 };
-
-// defined in CResource.cpp
-TString GetTypeName(EResType Type);
-TString GetRawExtension(EResType Type, EGame Game);
-TString GetCookedExtension(EResType Type, EGame Game);
 
 #endif // ERESTYPE
 

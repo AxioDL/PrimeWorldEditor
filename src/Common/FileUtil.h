@@ -11,6 +11,8 @@ bool Exists(const TWideString& rkFilePath);
 bool IsRoot(const TWideString& rkPath);
 bool IsFile(const TWideString& rkFilePath);
 bool IsDirectory(const TWideString& rkDirPath);
+bool IsAbsolute(const TWideString& rkDirPath);
+bool IsRelative(const TWideString& rkDirPath);
 bool CreateDirectory(const TWideString& rkNewDir);
 bool CopyFile(const TWideString& rkOrigPath, const TWideString& rkNewPath);
 bool CopyDirectory(const TWideString& rkOrigPath, const TWideString& rkNewPath);
@@ -29,6 +31,7 @@ TWideString SanitizePath(TWideString Path, bool Directory);
 bool IsValidName(const TWideString& rkName, bool Directory, bool RootDir = false);
 bool IsValidPath(const TWideString& rkPath, bool Directory);
 void GetDirectoryContents(TWideString DirPath, TWideStringList& rOut, bool Recursive = true, bool IncludeFiles = true, bool IncludeDirs = true);
+TWideString FindFileExtension(const TWideString& rkDir, const TWideString& rkName);
 
 }
 

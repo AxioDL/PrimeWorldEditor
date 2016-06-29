@@ -4,9 +4,9 @@
 #include "IProperty.h"
 #include "IPropertyTemplate.h"
 #include "CScriptTemplate.h"
+#include "Core/Resource/Area/CGameArea.h"
 #include "Core/Resource/Model/CModel.h"
 #include "Core/Resource/CCollisionMeshGroup.h"
-#include "Core/Resource/CGameArea.h"
 
 class CScriptLayer;
 class CLink;

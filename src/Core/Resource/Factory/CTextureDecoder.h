@@ -10,6 +10,7 @@
 
 class CTextureDecoder
 {
+    CResourceEntry *mpEntry;
     ETexelFormat mTexelFormat;
     u16 mWidth, mHeight;
     u32 mNumMipMaps;
@@ -77,9 +78,9 @@ class CTextureDecoder
 
     // Static
 public:
-    static CTexture* LoadTXTR(IInputStream& rTXTR);
-    static CTexture* LoadDDS(IInputStream& rDDS);
-    static CTexture* DoFullDecode(IInputStream& rTXTR);
+    static CTexture* LoadTXTR(IInputStream& rTXTR, CResourceEntry *pEntry);
+    static CTexture* LoadDDS(IInputStream& rDDS, CResourceEntry *pEntry);
+    static CTexture* DoFullDecode(IInputStream& rTXTR, CResourceEntry *pEntry);
     static CTexture* DoFullDecode(CTexture *pTexture);
 
     // Utility

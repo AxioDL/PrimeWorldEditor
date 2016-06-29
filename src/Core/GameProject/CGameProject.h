@@ -2,7 +2,7 @@
 #define CGAMEPROJECT_H
 
 #include "CPackage.h"
-#include "CResourceDatabase.h"
+#include "CResourceStore.h"
 #include "Core/Resource/EGame.h"
 #include <Common/CUniqueID.h>
 #include <Common/TString.h>
@@ -13,7 +13,7 @@ class CGameProject
     EGame mGame;
     TString mProjectName;
     TWideString mProjectRoot;
-    CResourceDatabase *mpResourceDatabase;
+    TWideString mResourceDBPath;
     std::vector<CPackage*> mWorldPaks;
     std::vector<CPackage*> mResourcePaks;
 
@@ -22,13 +22,14 @@ public:
         : mGame(eUnknownVersion)
         , mProjectName("UnnamedProject")
         , mProjectRoot(rkProjRootDir)
-        , mpResourceDatabase(new CResourceDatabase(this))
+        , mResourceDBPath(L"ResourceDB.rdb")
     {}
 
     void AddPackage(CPackage *pPackage, bool WorldPak);
 
     // Directory Handling
     inline TWideString ProjectRoot() const                      { return mProjectRoot; }
+    inline TWideString ResourceDBPath(bool Relative) const      { return Relative ? mResourceDBPath : mProjectRoot + mResourceDBPath; }
     inline TWideString DiscDir(bool Relative) const             { return Relative ? L"Disc\\" : mProjectRoot + L"Disc\\"; }
     inline TWideString ResourcesDir(bool Relative) const        { return Relative ? L"Resources\\" : mProjectRoot + L"Resources\\"; }
     inline TWideString WorldsDir(bool Relative) const           { return Relative ? L"Worlds\\" : mProjectRoot + L"Worlds\\"; }
@@ -44,7 +45,6 @@ public:
     inline CPackage* WorldPakByIndex(u32 Index) const   { return mWorldPaks[Index]; }
 
     inline EGame Game() const                           { return mGame; }
-    inline CResourceDatabase* ResourceDatabase() const  { return mpResourceDatabase; }
 };
 
 extern CGameProject *gpProject;

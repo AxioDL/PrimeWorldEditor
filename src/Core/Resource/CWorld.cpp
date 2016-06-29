@@ -1,9 +1,9 @@
 #include "CWorld.h"
-#include "CResCache.h"
+#include "Core/GameProject/CResourceStore.h"
 #include "Core/Resource/Script/CScriptLayer.h"
 
-CWorld::CWorld()
-    : CResource()
+CWorld::CWorld(CResourceEntry *pEntry /*= 0*/)
+    : CResource(pEntry)
     , mWorldVersion(eUnknownVersion)
     , mpWorldName(nullptr)
     , mpDarkWorldName(nullptr)

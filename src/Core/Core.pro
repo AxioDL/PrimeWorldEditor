@@ -83,6 +83,7 @@ HEADERS += \
     Render/IRenderable.h \
     Render/SRenderablePtr.h \
     Render/SViewInfo.h \
+    Resource/Area/CGameArea.h \
     Resource/Cooker/CMaterialCooker.h \
     Resource/Cooker/CModelCooker.h \
     Resource/Cooker/CSectionMgrOut.h \
@@ -117,12 +118,10 @@ HEADERS += \
     Resource/CCollisionMesh.h \
     Resource/CCollisionMeshGroup.h \
     Resource/CFont.h \
-    Resource/CGameArea.h \
     Resource/CLight.h \
     Resource/CMaterial.h \
     Resource/CMaterialPass.h \
     Resource/CMaterialSet.h \
-    Resource/CResCache.h \
     Resource/CResource.h \
     Resource/CScan.h \
     Resource/CStringTable.h \
@@ -192,9 +191,11 @@ HEADERS += \
     Scene/CScriptAttachNode.h \
     ScriptExtra/CSandwormExtra.h \
     GameProject/CGameProject.h \
-    GameProject/CResourceDatabase.h \
     GameProject/CPackage.h \
-    GameProject/CGameExporter.h
+    GameProject/CGameExporter.h \
+    GameProject/CResourceStore.h \
+    GameProject/CVirtualDirectory.h \
+    GameProject/CResourceEntry.h
 
 # Source Files
 SOURCES += \
@@ -203,6 +204,7 @@ SOURCES += \
     Render/CGraphics.cpp \
     Render/CRenderer.cpp \
     Render/CRenderBucket.cpp \
+    Resource/Area/CGameArea.cpp \
     Resource/Cooker/CMaterialCooker.cpp \
     Resource/Cooker/CModelCooker.cpp \
     Resource/Cooker/CTemplateWriter.cpp \
@@ -230,11 +232,9 @@ SOURCES += \
     Resource/CAnimationParameters.cpp \
     Resource/CCollisionMesh.cpp \
     Resource/CFont.cpp \
-    Resource/CGameArea.cpp \
     Resource/CLight.cpp \
     Resource/CMaterial.cpp \
     Resource/CMaterialPass.cpp \
-    Resource/CResCache.cpp \
     Resource/CResource.cpp \
     Resource/CTexture.cpp \
     Resource/CWorld.cpp \
@@ -282,5 +282,7 @@ SOURCES += \
     Scene/CScriptAttachNode.cpp \
     ScriptExtra/CSandwormExtra.cpp \
     GameProject/CGameProject.cpp \
-    GameProject/CResourceDatabase.cpp \
-    GameProject/CGameExporter.cpp
+    GameProject/CGameExporter.cpp \
+    GameProject/CResourceStore.cpp \
+    GameProject/CVirtualDirectory.cpp \
+    GameProject/CResourceEntry.cpp

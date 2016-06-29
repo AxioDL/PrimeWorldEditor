@@ -7,6 +7,7 @@
 class CScanLoader
 {
     TResPtr<CScan> mpScan;
+    CResourceEntry *mpEntry;
     EGame mVersion;
 
     CScanLoader();
@@ -16,7 +17,7 @@ class CScanLoader
     void LoadParamsMP3(IInputStream& rSCAN);
 
 public:
-    static CScan* LoadSCAN(IInputStream& rSCAN);
+    static CScan* LoadSCAN(IInputStream& rSCAN, CResourceEntry *pEntry);
 };
 
 #endif // CSCANLOADER_H

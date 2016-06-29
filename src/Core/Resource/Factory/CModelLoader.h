@@ -2,9 +2,9 @@
 #define CMODELLOADER_H
 
 #include "CSectionMgrIn.h"
+#include "Core/GameProject/CResourceStore.h"
 #include "Core/Resource/Model/CBasicModel.h"
 #include "Core/Resource/Model/CModel.h"
-#include "Core/Resource/CResCache.h"
 #include "Core/Resource/EGame.h"
 #include <Common/Flags.h>
 
@@ -57,7 +57,7 @@ private:
     SSurface* LoadAssimpMesh(const aiMesh *pkMesh, CMaterialSet *pSet);
 
 public:
-    static CModel* LoadCMDL(IInputStream& rCMDL);
+    static CModel* LoadCMDL(IInputStream& rCMDL, CResourceEntry *pEntry);
     static CModel* LoadWorldModel(IInputStream& rMREA, CSectionMgrIn& rBlockMgr, CMaterialSet& rMatSet, EGame Version);
     static CModel* LoadCorruptionWorldModel(IInputStream& rMREA, CSectionMgrIn& rBlockMgr, CMaterialSet& rMatSet, u32 HeaderSecNum, u32 GPUSecNum, EGame Version);
     static void BuildWorldMeshes(const std::vector<CModel*>& rkIn, std::vector<CModel*>& rOut, bool DeleteInputModels);

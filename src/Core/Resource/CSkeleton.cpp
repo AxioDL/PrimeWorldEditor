@@ -62,8 +62,9 @@ bool CBone::IsRoot() const
 // ************ CSkeleton ************
 const float CSkeleton::skSphereRadius = 0.025f;
 
-CSkeleton::CSkeleton()
-    : mpRootBone(nullptr)
+CSkeleton::CSkeleton(CResourceEntry *pEntry /*= 0*/)
+    : CResource(pEntry)
+    , mpRootBone(nullptr)
 {
 }
 

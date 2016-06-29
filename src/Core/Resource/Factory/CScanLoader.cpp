@@ -1,5 +1,5 @@
 #include "CScanLoader.h"
-#include "Core/Resource/CResCache.h"
+#include "Core/GameProject/CResourceStore.h"
 #include <Common/Log.h>
 
 CScanLoader::CScanLoader()
@@ -10,7 +10,7 @@ CScan* CScanLoader::LoadScanMP1(IInputStream& rSCAN)
 {
     // Basic support at the moment - don't read animation/scan image data
     rSCAN.Seek(0x4, SEEK_CUR); // Skip FRME ID
-    mpScan->mpStringTable = gResCache.GetResource(rSCAN.ReadLong(), "STRG");
+    mpScan->mpStringTable = gResourceStore.LoadResource(rSCAN.ReadLong(), "STRG");
     mpScan->mIsSlow = (rSCAN.ReadLong() != 0);
     mpScan->mCategory = (CScan::ELogbookCategory) rSCAN.ReadLong();
     mpScan->mIsImportant = (rSCAN.ReadByte() == 1);
@@ -58,12 +58,14 @@ CScan* CScanLoader::LoadScanMP2(IInputStream& rSCAN)
     {
     case 0x14:
     case 0xB:
-        mpScan = new CScan();
+        mpScan = new CScan(mpEntry);
+        mpScan->SetGame(eEchoes);
         LoadParamsMP2(rSCAN);
         break;
     case 0x12:
     case 0x16:
-        mpScan = new CScan();
+        mpScan = new CScan(mpEntry);
+        mpScan->SetGame(eCorruption);
         LoadParamsMP3(rSCAN);
         break;
     default:
@@ -86,7 +88,7 @@ void CScanLoader::LoadParamsMP2(IInputStream& rSCAN)
         switch (PropertyID)
         {
         case 0x2F5B6423:
-            mpScan->mpStringTable = gResCache.GetResource(rSCAN.ReadLong(), "STRG");
+            mpScan->mpStringTable = gResourceStore.LoadResource(rSCAN.ReadLong(), "STRG");
             break;
 
         case 0xC308A322:
@@ -119,7 +121,7 @@ void CScanLoader::LoadParamsMP3(IInputStream& rSCAN)
         switch (PropertyID)
         {
         case 0x2F5B6423:
-            mpScan->mpStringTable = gResCache.GetResource(rSCAN.ReadLongLong(), "STRG");
+            mpScan->mpStringTable = gResourceStore.LoadResource(rSCAN.ReadLongLong(), "STRG");
             break;
 
         case 0xC308A322:
@@ -139,7 +141,7 @@ void CScanLoader::LoadParamsMP3(IInputStream& rSCAN)
 }
 
 // ************ STATIC/PUBLIC ************
-CScan* CScanLoader::LoadSCAN(IInputStream& rSCAN)
+CScan* CScanLoader::LoadSCAN(IInputStream& rSCAN, CResourceEntry *pEntry)
 {
     if (!rSCAN.IsValid()) return nullptr;
 
@@ -157,6 +159,7 @@ CScan* CScanLoader::LoadSCAN(IInputStream& rSCAN)
         // The MP2 load function will check for MP3
         CScanLoader Loader;
         Loader.mVersion = eEchoes;
+        Loader.mpEntry = pEntry;
         if (Magic == 0x01000000) rSCAN.Seek(-4, SEEK_CUR); // The version number isn't present in the Echoes demo
         return Loader.LoadScanMP2(rSCAN);
     }
@@ -176,6 +179,8 @@ CScan* CScanLoader::LoadSCAN(IInputStream& rSCAN)
     // MP1 SCAN - read the file!
     CScanLoader Loader;
     Loader.mVersion = ePrime;
-    Loader.mpScan = new CScan();
+    Loader.mpScan = new CScan(pEntry);
+    Loader.mpScan->SetGame(ePrime);
+    Loader.mpEntry = pEntry;
     return Loader.LoadScanMP1(rSCAN);
 }

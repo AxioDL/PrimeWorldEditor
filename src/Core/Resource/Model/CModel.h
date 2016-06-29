@@ -21,7 +21,7 @@ class CModel : public CBasicModel
     bool mHasOwnMaterials;
     
 public:
-    CModel();
+    CModel(CResourceEntry *pEntry = 0);
     CModel(CMaterialSet *pSet, bool OwnsMatSet);
     ~CModel();
 

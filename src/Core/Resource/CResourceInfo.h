@@ -2,7 +2,7 @@
 #define CRESOURCEINFO
 
 #include "CResource.h"
-#include "CResCache.h"
+#include "Core/GameProject/CResourceStore.h"
 #include <Common/CUniqueID.h>
 #include <Common/CFourCC.h>
 #include <Common/FileUtil.h>
@@ -60,9 +60,9 @@ public:
         if (!IsValid())
             return nullptr;
         if (mIsPath)
-            return gResCache.GetResource(mPath);
+            return gResourceStore.LoadResource(mPath);
         else
-            return gResCache.GetResource(ID(), Type());
+            return gResourceStore.LoadResource(ID(), Type());
     }
 
     inline bool IsValid() const

@@ -1,7 +1,7 @@
 #include "CScriptLoader.h"
 #include "CTemplateLoader.h"
+#include "Core/GameProject/CResourceStore.h"
 #include "Core/Resource/Script/CMasterTemplate.h"
-#include "Core/Resource/CResCache.h"
 #include <Common/Log.h>
 #include <iostream>
 #include <sstream>
@@ -117,7 +117,7 @@ void CScriptLoader::ReadProperty(IProperty *pProp, u32 Size, IInputStream& rSCLY
 
         if (ResID.IsValid())
         {
-            CFourCC Type = gResCache.FindResourceType(ResID, rkExtensions);
+            CFourCC Type = gResourceStore.ResourceTypeByID(ResID, rkExtensions);
             Info = CResourceInfo(ResID, Type);
         }
 

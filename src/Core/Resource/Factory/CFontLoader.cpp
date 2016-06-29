@@ -18,8 +18,8 @@ CFont* CFontLoader::LoadFont(IInputStream& rFONT)
     mpFont->mDefaultSize = rFONT.ReadLong();
     mpFont->mFontName = rFONT.ReadString();
 
-    if (mVersion <= eEchoes) mpFont->mpFontTexture = gResCache.GetResource(rFONT.ReadLong(), "TXTR");
-    else                     mpFont->mpFontTexture = gResCache.GetResource(rFONT.ReadLongLong(), "TXTR");
+    if (mVersion <= eEchoes) mpFont->mpFontTexture = gResourceStore.LoadResource(rFONT.ReadLong(), "TXTR");
+    else                     mpFont->mpFontTexture = gResourceStore.LoadResource(rFONT.ReadLongLong(), "TXTR");
 
     mpFont->mTextureFormat = rFONT.ReadLong();
     u32 NumGlyphs = rFONT.ReadLong();
@@ -79,7 +79,7 @@ CFont* CFontLoader::LoadFont(IInputStream& rFONT)
     return mpFont;
 }
 
-CFont* CFontLoader::LoadFONT(IInputStream& rFONT)
+CFont* CFontLoader::LoadFONT(IInputStream& rFONT, CResourceEntry *pEntry)
 {
     if (!rFONT.IsValid()) return nullptr;
 
@@ -99,7 +99,8 @@ CFont* CFontLoader::LoadFONT(IInputStream& rFONT)
     }
 
     CFontLoader Loader;
-    Loader.mpFont = new CFont();
+    Loader.mpFont = new CFont(pEntry);
+    Loader.mpFont->SetGame(Version);
     Loader.mVersion = Version;
     return Loader.LoadFont(rFONT);
 }

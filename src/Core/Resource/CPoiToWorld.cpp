@@ -1,6 +1,7 @@
 #include "CPoiToWorld.h"
 
-CPoiToWorld::CPoiToWorld()
+CPoiToWorld::CPoiToWorld(CResourceEntry *pEntry /*= 0*/)
+    : CResource(pEntry)
 {
 }
 
