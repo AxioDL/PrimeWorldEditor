@@ -43,6 +43,11 @@ void CCollisionNode::Draw(FRenderOptions /*Options*/, int /*ComponentIndex*/, ER
     mpCollision->DrawWireframe();
 }
 
+void CCollisionNode::RayAABoxIntersectTest(CRayCollisionTester& /*rTester*/, const SViewInfo& /*rkViewInfo*/)
+{
+    // todo
+}
+
 SRayIntersection CCollisionNode::RayNodeIntersectTest(const CRay& /*rkRay*/, u32 /*AssetID*/, const SViewInfo& /*rkViewInfo*/)
 {
     // todo

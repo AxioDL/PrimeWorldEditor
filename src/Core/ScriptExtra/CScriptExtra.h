@@ -35,6 +35,7 @@ public:
 
     // Default implementations for CSceneNode
     virtual ENodeType NodeType() { return eScriptExtraNode; }
+    virtual void RayAABoxIntersectTest(CRayCollisionTester& /*rTester*/, const SViewInfo& /*rkViewInfo*/) {}
     virtual SRayIntersection RayNodeIntersectTest(const CRay& /*rkRay*/, u32 /*AssetID*/, const SViewInfo& /*rkViewInfo*/)
     {
         SRayIntersection out;
