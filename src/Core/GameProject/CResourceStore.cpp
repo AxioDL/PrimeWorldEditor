@@ -232,14 +232,14 @@ bool CResourceStore::RegisterResource(const CUniqueID& rkID, EResType Type, cons
     }
 }
 
-CResourceEntry* CResourceStore::CreateTransientEntry(EResType Type, const TWideString& rkDir /*= L""*/, const TWideString& rkFileName /*= L""*/)
+CResourceEntry* CResourceStore::RegisterTransientResource(EResType Type, const TWideString& rkDir /*= L""*/, const TWideString& rkFileName /*= L""*/)
 {
     CResourceEntry *pEntry = new CResourceEntry(this, CUniqueID::RandomID(), rkDir, rkFileName, Type, true);
     mResourceEntries[pEntry->ID()] = pEntry;
     return pEntry;
 }
 
-CResourceEntry* CResourceStore::CreateTransientEntry(EResType Type, const CUniqueID& rkID, const TWideString& rkDir /*=L ""*/, const TWideString& rkFileName /*= L""*/)
+CResourceEntry* CResourceStore::RegisterTransientResource(EResType Type, const CUniqueID& rkID, const TWideString& rkDir /*=L ""*/, const TWideString& rkFileName /*= L""*/)
 {
     CResourceEntry *pEntry = new CResourceEntry(this, rkID, rkDir, rkFileName, Type, true);
     mResourceEntries[rkID] = pEntry;
@@ -264,7 +264,7 @@ CResource* CResourceStore::LoadResource(const CUniqueID& rkID, const CFourCC& rk
 
         CMemoryInStream MemStream(DataBuffer.data(), DataBuffer.size(), IOUtil::eBigEndian);
         EResType Type = CResource::ResTypeForExtension(rkType);
-        CResourceEntry *pEntry = CreateTransientEntry(Type, rkID);
+        CResourceEntry *pEntry = RegisterTransientResource(Type, rkID);
         CResource *pRes = pEntry->Load(MemStream);
         if (pRes) mLoadedResources[rkID] = pEntry;
         return pRes;
@@ -282,9 +282,15 @@ CResource* CResourceStore::LoadResource(const CUniqueID& rkID, const CFourCC& rk
 
         if (Type != eInvalidResType)
         {
-            TWideString Name = rkID.ToString().ToUTF16();
-            CResourceEntry *pEntry = CreateTransientEntry(Type, mTransientLoadDir, Name);
-            CResource *pRes = pEntry->Load();
+            // Note the entry may not be able to find the resource on its own (due to not knowing what game
+            // it is) so we will attempt to open the file stream ourselves and pass it to the entry instead.
+            TString Name = rkID.ToString();
+            CResourceEntry *pEntry = RegisterTransientResource(Type, mTransientLoadDir, Name.ToUTF16());
+
+            TString Path = mTransientLoadDir.ToUTF8() + Name + "." + rkType.ToString();
+            CFileInStream File(Path.ToStdString(), IOUtil::eBigEndian);
+            CResource *pRes = pEntry->Load(File);
+
             if (pRes) mLoadedResources[rkID] = pEntry;
             return pRes;
         }
@@ -318,10 +324,22 @@ CResource* CResourceStore::LoadResource(const TString& rkPath)
         return nullptr;
     }
 
+    // Open file
+    CFileInStream File(rkPath.ToStdString(), IOUtil::eBigEndian);
+
+    if (!File.IsValid())
+    {
+        Log::Error("Unable to load resource; couldn't open file: " + rkPath);
+        return nullptr;
+    }
+
+    // Load resource
     TString OldTransientDir = mTransientLoadDir;
     mTransientLoadDir = Dir;
-    CResourceEntry *pEntry = CreateTransientEntry(Type, ID, Dir, Name);
-    CResource *pRes = pEntry->Load();
+
+    CResourceEntry *pEntry = RegisterTransientResource(Type, ID, Dir, Name);
+    CResource *pRes = pEntry->Load(File);
+
     if (pRes) mLoadedResources[ID] = pEntry;
     mTransientLoadDir = OldTransientDir;
 
@@ -375,6 +393,7 @@ void CResourceStore::DestroyUnreferencedResources()
                 {
                     It = mLoadedResources.erase(It);
                     NumDeleted++;
+                    if (It == mLoadedResources.end()) break;
                 }
             }
         }

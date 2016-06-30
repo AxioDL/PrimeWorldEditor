@@ -42,6 +42,7 @@ class CAnimSetLoader
     void LoadHalfTransition(IInputStream& rANCS);
 
 public:
+    static CAnimSet* LoadANCSOrCHAR(IInputStream& rFile, CResourceEntry *pEntry);
     static CAnimSet* LoadANCS(IInputStream& rANCS, CResourceEntry *pEntry);
     static CAnimSet* LoadCHAR(IInputStream& rCHAR, CResourceEntry *pEntry);
 };

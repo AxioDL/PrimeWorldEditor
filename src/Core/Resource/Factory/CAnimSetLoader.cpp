@@ -194,6 +194,20 @@ void CAnimSetLoader::LoadHalfTransition(IInputStream& rANCS)
 }
 
 // ************ STATIC ************
+CAnimSet* CAnimSetLoader::LoadANCSOrCHAR(IInputStream& rFile, CResourceEntry *pEntry)
+{
+    if (!rFile.IsValid()) return nullptr;
+    u8 Test = rFile.PeekByte();
+
+    if (Test == 0x3 || Test == 0x5 || Test == 0x59)
+        return LoadCHAR(rFile, pEntry);
+    else if (Test == 0x0)
+        return LoadANCS(rFile, pEntry);
+
+    Log::Error("Failed to determine animset format for " + rFile.GetSourceString() + "; first byte is " + TString::HexString(Test, 2));
+    return nullptr;
+}
+
 CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS, CResourceEntry *pEntry)
 {
     if (!rANCS.IsValid()) return nullptr;
