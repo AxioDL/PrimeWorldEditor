@@ -96,7 +96,12 @@ CResource* CResourceEntry::Load()
 {
     // todo: load raw
     if (mpResource) return mpResource;
-    if (!HasCookedVersion()) return nullptr;
+
+    if (!HasCookedVersion())
+    {
+        Log::Error("Couldn't locate resource: " + CookedAssetPath(true));
+        return nullptr;
+    }
 
     CFileInStream File(CookedAssetPath().ToStdString(), IOUtil::eBigEndian);
     if (!File.IsValid())
@@ -116,27 +121,20 @@ CResource* CResourceEntry::Load(IInputStream& rInput)
 
     switch (mType)
     {
-    case eAnimation:            mpResource = CAnimationLoader::LoadANIM(rInput, this);  break;
-    case eArea:                 mpResource = CAreaLoader::LoadMREA(rInput, this);       break;
-    case eDynamicCollision:     mpResource = CCollisionLoader::LoadDCLN(rInput, this);  break;
-    case eFont:                 mpResource = CFontLoader::LoadFONT(rInput, this);       break;
-    case eModel:                mpResource = CModelLoader::LoadCMDL(rInput, this);      break;
-    case eScan:                 mpResource = CScanLoader::LoadSCAN(rInput, this);       break;
-    case eSkeleton:             mpResource = CSkeletonLoader::LoadCINF(rInput, this);   break;
-    case eSkin:                 mpResource = CSkinLoader::LoadCSKR(rInput, this);       break;
-    case eStaticGeometryMap:    mpResource = CPoiToWorldLoader::LoadEGMC(rInput, this); break;
-    case eStringTable:          mpResource = CStringLoader::LoadSTRG(rInput, this);     break;
-    case eTexture:              mpResource = CTextureDecoder::LoadTXTR(rInput, this);   break;
-    case eWorld:                mpResource = CWorldLoader::LoadMLVL(rInput, this);      break;
-
-    case eAnimSet:
-        if (mGame <= eEchoes)
-            mpResource = CAnimSetLoader::LoadANCS(rInput, this);
-        else
-            mpResource = CAnimSetLoader::LoadCHAR(rInput, this);
-        break;
-
-    default: mpResource = new CResource(this); break;
+    case eAnimation:            mpResource = CAnimationLoader::LoadANIM(rInput, this);      break;
+    case eAnimSet:              mpResource = CAnimSetLoader::LoadANCSOrCHAR(rInput, this);  break;
+    case eArea:                 mpResource = CAreaLoader::LoadMREA(rInput, this);           break;
+    case eDynamicCollision:     mpResource = CCollisionLoader::LoadDCLN(rInput, this);      break;
+    case eFont:                 mpResource = CFontLoader::LoadFONT(rInput, this);           break;
+    case eModel:                mpResource = CModelLoader::LoadCMDL(rInput, this);          break;
+    case eScan:                 mpResource = CScanLoader::LoadSCAN(rInput, this);           break;
+    case eSkeleton:             mpResource = CSkeletonLoader::LoadCINF(rInput, this);       break;
+    case eSkin:                 mpResource = CSkinLoader::LoadCSKR(rInput, this);           break;
+    case eStaticGeometryMap:    mpResource = CPoiToWorldLoader::LoadEGMC(rInput, this);     break;
+    case eStringTable:          mpResource = CStringLoader::LoadSTRG(rInput, this);         break;
+    case eTexture:              mpResource = CTextureDecoder::LoadTXTR(rInput, this);       break;
+    case eWorld:                mpResource = CWorldLoader::LoadMLVL(rInput, this);          break;
+    default:                    mpResource = new CResource(this);                           break;
     }
 
     return mpResource;

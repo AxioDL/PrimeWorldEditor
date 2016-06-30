@@ -38,7 +38,7 @@ public:
     CResource(CResourceEntry *pEntry = 0)
         : mpEntry(pEntry), mRefCount(0)
     {
-        if (!mpEntry) mpEntry = gResourceStore.CreateTransientEntry(Type());
+        if (!mpEntry) mpEntry = gResourceStore.RegisterTransientResource(Type());
     }
 
     virtual ~CResource() {}

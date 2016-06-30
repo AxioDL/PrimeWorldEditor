@@ -47,8 +47,8 @@ public:
 
     bool RegisterResource(const CUniqueID& rkID, EResType Type, const TWideString& rkDir, const TWideString& rkFileName);
     CResourceEntry* FindEntry(const CUniqueID& rkID) const;
-    CResourceEntry* CreateTransientEntry(EResType Type, const TWideString& rkDir = L"", const TWideString& rkFileName = L"");
-    CResourceEntry* CreateTransientEntry(EResType Type, const CUniqueID& rkID, const TWideString& rkDir = L"", const TWideString& rkFileName = L"");
+    CResourceEntry* RegisterTransientResource(EResType Type, const TWideString& rkDir = L"", const TWideString& rkFileName = L"");
+    CResourceEntry* RegisterTransientResource(EResType Type, const CUniqueID& rkID, const TWideString& rkDir = L"", const TWideString& rkFileName = L"");
 
     CResource* LoadResource(const CUniqueID& rkID, const CFourCC& rkType);
     CResource* LoadResource(const TString& rkPath);
