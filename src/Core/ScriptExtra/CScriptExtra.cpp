@@ -56,7 +56,8 @@ CScriptExtra* CScriptExtra::CreateExtra(CScriptNode *pNode)
         case 0x53505041: // "SPPA" SplinePath (DKCR)
         case 0x5043544C: // "PCTL" PathControl (DKCR)
         case 0x434C5043: // "CLPC" ClingPathControl (DKCR)
-            pExtra = new CSplinePathExtra(pObj, pNode->Scene(), pNode);
+            if (pNode->Instance()->Area()->Game() == eReturns)
+                pExtra = new CSplinePathExtra(pObj, pNode->Scene(), pNode);
             break;
 
         case 0x574F524D: // "WORM" Sandworm (MP2)
