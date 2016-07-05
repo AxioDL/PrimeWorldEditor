@@ -5,6 +5,8 @@
 #include <Common/CUniqueID.h>
 #include <Common/TString.h>
 
+class CGameProject;
+
 struct SNamedResource
 {
     TString Name;
@@ -12,29 +14,66 @@ struct SNamedResource
     CFourCC Type;
 };
 
+class CResourceCollection
+{
+    TString mName;
+    std::vector<SNamedResource> mNamedResources;
+
+public:
+    CResourceCollection() : mName("UNNAMED") {}
+    CResourceCollection(const TString& rkName) : mName(rkName) {}
+
+    inline TString Name() const                                 { return mName; }
+    inline u32 NumResources() const                             { return mNamedResources.size(); }
+    inline const SNamedResource& ResourceByIndex(u32 Idx) const { return mNamedResources[Idx]; }
+
+    inline void AddResource(const TString& rkName, const CUniqueID& rkID, const CFourCC& rkType)
+    {
+        mNamedResources.push_back( SNamedResource { rkName, rkID, rkType } );
+    }
+};
+
 class CPackage
 {
+    CGameProject *mpProject;
     TString mPakName;
     TWideString mPakPath;
-    std::vector<SNamedResource> mNamedResources;
-    std::vector<CUniqueID> mPakResources;
+    std::vector<CResourceCollection*> mCollections;
+
+    enum EPackageDefinitionVersion
+    {
+        eVer_Initial,
+
+        eVer_Max,
+        eVer_Current = eVer_Max - 1
+    };
 
 public:
     CPackage() {}
 
-    CPackage(const TString& rkName, const TWideString& rkPath)
-        : mPakName(rkName)
+    CPackage(CGameProject *pProj, const TString& rkName, const TWideString& rkPath)
+        : mpProject(pProj)
+        , mPakName(rkName)
         , mPakPath(rkPath)
     {}
 
-    inline TString PakName() const                                      { return mPakName; }
-    inline TWideString PakPath() const                                  { return mPakPath; }
-    inline u32 NumNamedResources() const                                { return mNamedResources.size(); }
-    inline const SNamedResource& NamedResourceByIndex(u32 Index) const  { return mNamedResources[Index]; }
+    void Load();
+    void Save();
 
-    inline void SetPakName(TString NewName)                                                     { mPakName = NewName; }
-    inline void AddNamedResource(TString Name, const CUniqueID& rkID, const CFourCC& rkType)    { mNamedResources.push_back( SNamedResource { Name, rkID, rkType } ); }
-    inline void AddPakResource(const CUniqueID& rkID)                                           { mPakResources.push_back(rkID); }
+    TWideString DefinitionPath(bool Relative) const;
+    TWideString CookedPackagePath(bool Relative) const;
+
+    CResourceCollection* AddCollection(const TString& rkName);
+    void RemoveCollection(CResourceCollection *pCollection);
+    void RemoveCollection(u32 Index);
+
+    // Accessors
+    inline TString Name() const                                     { return mPakName; }
+    inline TWideString Path() const                                 { return mPakPath; }
+    inline u32 NumCollections() const                               { return mCollections.size(); }
+    inline CResourceCollection* CollectionByIndex(u32 Idx) const    { return mCollections[Idx]; }
+
+    inline void SetPakName(TString NewName) { mPakName = NewName; }
 };
 
 #endif // CPACKAGE
