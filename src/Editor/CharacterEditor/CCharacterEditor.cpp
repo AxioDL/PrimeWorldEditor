@@ -191,7 +191,7 @@ void CCharacterEditor::Open()
     QString CharFilename = QFileDialog::getOpenFileName(this, "Open Character", "", "Animation Character Set (*.ANCS)");
     if (CharFilename.isEmpty()) return;
 
-    CAnimSet *pSet = (CAnimSet*) gResourceStore.LoadResource(CharFilename.toStdString());
+    CAnimSet *pSet = (CAnimSet*) gpResourceStore->LoadResource(CharFilename.toStdString());
 
     if (pSet)
     {
@@ -242,7 +242,7 @@ void CCharacterEditor::Open()
         QMessageBox::warning(this, "Error", "Couldn't load file: " + CharFilename);
     }
 
-    gResourceStore.DestroyUnreferencedResources();
+    gpResourceStore->DestroyUnreferencedResources();
 }
 
 void CCharacterEditor::ToggleGrid(bool Enable)

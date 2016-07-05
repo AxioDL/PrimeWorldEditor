@@ -9,8 +9,6 @@
 #include <Common/types.h>
 #include <Common/TString.h>
 
-class CResCache;
-
 // This macro creates functions that allow us to easily identify this resource type.
 // Must be included on every CResource subclass.
 #define DECLARE_RESOURCE_TYPE(ResTypeEnum) \
@@ -38,18 +36,17 @@ public:
     CResource(CResourceEntry *pEntry = 0)
         : mpEntry(pEntry), mRefCount(0)
     {
-        if (!mpEntry) mpEntry = gResourceStore.RegisterTransientResource(Type());
     }
 
     virtual ~CResource() {}
 
     inline CResourceEntry* Entry() const    { return mpEntry; }
-    inline TString Source() const           { return mpEntry->CookedAssetPath(true).GetFileName(); }
-    inline TString FullSource() const       { return mpEntry->CookedAssetPath(true); }
-    inline CUniqueID ResID() const          { return mpEntry->ID(); }
-    inline EGame Game() const               { return mpEntry->Game(); }
+    inline TString Source() const           { return mpEntry ? mpEntry->CookedAssetPath(true).GetFileName() : ""; }
+    inline TString FullSource() const       { return mpEntry ? mpEntry->CookedAssetPath(true) : ""; }
+    inline CUniqueID ResID() const          { return mpEntry ? mpEntry->ID() : CUniqueID::skInvalidID64; }
+    inline EGame Game() const               { return mpEntry ? mpEntry->Game() : eUnknownVersion; }
     inline bool IsReferenced() const        { return mRefCount > 0; }
-    inline void SetGame(EGame Game)         { mpEntry->SetGame(Game); }
+    inline void SetGame(EGame Game)         { if (mpEntry) mpEntry->SetGame(Game); }
     inline void Lock()                      { mRefCount++; }
     inline void Release()                   { mRefCount--; }
 

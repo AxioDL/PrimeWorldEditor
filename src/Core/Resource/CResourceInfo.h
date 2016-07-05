@@ -60,9 +60,9 @@ public:
         if (!IsValid())
             return nullptr;
         if (mIsPath)
-            return gResourceStore.LoadResource(mPath);
+            return gpResourceStore->LoadResource(mPath);
         else
-            return gResourceStore.LoadResource(ID(), Type());
+            return gpResourceStore->LoadResource(ID(), Type());
     }
 
     inline bool IsValid() const

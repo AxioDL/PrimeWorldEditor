@@ -17,7 +17,7 @@ class CResourceEntry
     EResType mType;
     EGame mGame;
     CVirtualDirectory *mpDirectory;
-    TWideString mFileName;
+    TWideString mName;
     bool mNeedsRecook;
     bool mTransient;
 
@@ -35,6 +35,9 @@ public:
     CResource* Load();
     CResource* Load(IInputStream& rInput);
     bool Unload();
+    void Move(const TWideString& rkDir, const TWideString& rkName);
+    void AddToProject(const TWideString& rkDir, const TWideString& rkName);
+    void RemoveFromProject();
 
     // Accessors
     void SetDirty()                             { mNeedsRecook = true; }
@@ -44,7 +47,7 @@ public:
     inline CUniqueID ID() const                 { return mID; }
     inline EGame Game() const                   { return mGame; }
     inline CVirtualDirectory* Directory() const { return mpDirectory; }
-    inline TString FileName() const             { return mFileName; }
+    inline TWideString Name() const             { return mName; }
     inline EResType ResourceType() const        { return mType; }
     inline bool IsTransient() const             { return mTransient; }
 

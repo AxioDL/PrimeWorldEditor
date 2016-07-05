@@ -54,8 +54,16 @@ CVirtualDirectory* CVirtualDirectory::FindChildDirectory(const TWideString& rkNa
         {
             if (SlashIdx == -1)
                 return pChild;
+
             else
-                return pChild->FindChildDirectory( rkName.SubString(SlashIdx + 1, rkName.Size() - SlashIdx), AllowCreate );
+            {
+                TWideString Remaining = rkName.SubString(SlashIdx + 1, rkName.Size() - SlashIdx);
+
+                if (Remaining.IsEmpty())
+                    return pChild;
+                else
+                    return pChild->FindChildDirectory(Remaining, AllowCreate);
+            }
         }
     }
 
@@ -65,6 +73,17 @@ CVirtualDirectory* CVirtualDirectory::FindChildDirectory(const TWideString& rkNa
         CVirtualDirectory *pOut = FindChildDirectory(rkName, false);
         ASSERT(pOut != nullptr);
         return pOut;
+    }
+
+    return nullptr;
+}
+
+CResourceEntry* CVirtualDirectory::FindChildResource(const TWideString& rkName) const
+{
+    for (u32 iRes = 0; iRes < mResources.size(); iRes++)
+    {
+        if (mResources[iRes]->Name() == rkName)
+            return mResources[iRes];
     }
 
     return nullptr;

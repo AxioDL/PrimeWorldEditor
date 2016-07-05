@@ -603,7 +603,7 @@ void CAreaLoader::ReadEGMC()
     Log::FileWrite(mpMREA->GetSourceString(), "Reading EGMC");
     mpSectionMgr->ToSection(mEGMCBlockNum);
     CUniqueID EGMC(*mpMREA, (mVersion <= eEchoes ? e32Bit : e64Bit));
-    mpArea->mpPoiToWorldMap = gResourceStore.LoadResource(EGMC, "EGMC");
+    mpArea->mpPoiToWorldMap = gpResourceStore->LoadResource(EGMC, "EGMC");
 }
 
 void CAreaLoader::SetUpObjects()

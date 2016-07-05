@@ -31,11 +31,8 @@ public:
     inline TWideString ProjectRoot() const                      { return mProjectRoot; }
     inline TWideString ResourceDBPath(bool Relative) const      { return Relative ? mResourceDBPath : mProjectRoot + mResourceDBPath; }
     inline TWideString DiscDir(bool Relative) const             { return Relative ? L"Disc\\" : mProjectRoot + L"Disc\\"; }
-    inline TWideString ResourcesDir(bool Relative) const        { return Relative ? L"Resources\\" : mProjectRoot + L"Resources\\"; }
-    inline TWideString WorldsDir(bool Relative) const           { return Relative ? L"Worlds\\" : mProjectRoot + L"Worlds\\"; }
+    inline TWideString ContentDir(bool Relative) const          { return Relative ? L"Content\\" : mProjectRoot + L"Content\\"; }
     inline TWideString CookedDir(bool Relative) const           { return Relative ? L"Cooked\\" : mProjectRoot + L"Cooked\\"; }
-    inline TWideString CookedResourcesDir(bool Relative) const  { return CookedDir(Relative) + L"Resources\\"; }
-    inline TWideString CookedWorldsDir(bool Relative) const     { return CookedDir(Relative) + L"Worlds\\"; }
 
     // Accessors
     inline void SetGame(EGame Game)                     { mGame = Game; }

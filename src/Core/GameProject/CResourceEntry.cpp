@@ -29,7 +29,7 @@ CResourceEntry::CResourceEntry(CResourceStore *pStore, const CUniqueID& rkID,
     : mpStore(pStore)
     , mpResource(nullptr)
     , mID(rkID)
-    , mFileName(rkFilename)
+    , mName(rkFilename)
     , mType(Type)
     , mNeedsRecook(false)
     , mTransient(Transient)
@@ -58,16 +58,16 @@ TString CResourceEntry::RawAssetPath(bool Relative) const
 {
     TWideString Ext = GetResourceRawExtension(mType, mGame).ToUTF16();
     TWideString Path = mpDirectory ? mpDirectory->FullPath() : L"";
-    TWideString Name = mFileName + L"." + Ext;
-    return ((mTransient || Relative) ? Path + Name : mpStore->ActiveProject()->ResourcesDir(false) + Path + Name);
+    TWideString Name = mName + L"." + Ext;
+    return ((mTransient || Relative) ? Path + Name : mpStore->ActiveProject()->ContentDir(false) + Path + Name);
 }
 
 TString CResourceEntry::CookedAssetPath(bool Relative) const
 {
     TWideString Ext = GetResourceCookedExtension(mType, mGame).ToUTF16();
     TWideString Path = mpDirectory ? mpDirectory->FullPath() : L"";
-    TWideString Name = mFileName + L"." + Ext;
-    return ((mTransient || Relative) ? Path + Name : mpStore->ActiveProject()->CookedResourcesDir(false) + Path + Name);
+    TWideString Name = mName + L"." + Ext;
+    return ((mTransient || Relative) ? Path + Name : mpStore->ActiveProject()->CookedDir(false) + Path + Name);
 }
 
 bool CResourceEntry::NeedsRecook() const
@@ -146,4 +146,69 @@ bool CResourceEntry::Unload()
     delete mpResource;
     mpResource = nullptr;
     return true;
+}
+
+void CResourceEntry::Move(const TWideString& rkDir, const TWideString& rkName)
+{
+    // Store old paths
+    TString OldCookedPath = CookedAssetPath();
+    TString OldRawPath = RawAssetPath();
+
+    // Set new directory and name
+    bool HasDirectory = mpDirectory != nullptr;
+    CVirtualDirectory *pNewDir = mpStore->GetVirtualDirectory(rkDir, mTransient, true);
+
+    if (pNewDir != mpDirectory)
+    {
+        if (mpDirectory)
+            mpDirectory->RemoveChildResource(this);
+        mpDirectory = pNewDir;
+    }
+
+    if (mName != rkName)
+        ASSERT(mpDirectory->FindChildResource(rkName) == nullptr);
+
+    mName = rkName;
+
+    // Move files
+    if (HasDirectory)
+    {
+        TString CookedPath = CookedAssetPath();
+        TString RawPath = RawAssetPath();
+
+        if (FileUtil::Exists(OldCookedPath) && CookedPath != OldCookedPath)
+            FileUtil::MoveFile(OldCookedPath, CookedPath);
+
+        if (FileUtil::Exists(OldRawPath) && RawPath != OldRawPath)
+            FileUtil::MoveFile(OldRawPath, RawPath);
+    }
+}
+
+void CResourceEntry::AddToProject(const TWideString& rkDir, const TWideString& rkName)
+{
+    if (mTransient)
+    {
+        mTransient = false;
+        Move(rkDir, rkName);
+    }
+
+    else
+    {
+        Log::Error("AddToProject called on non-transient resource entry: " + CookedAssetPath(true));
+    }
+}
+
+void CResourceEntry::RemoveFromProject()
+{
+    if (!mTransient)
+    {
+        TString Dir = CookedAssetPath().GetFileDirectory();
+        mTransient = true;
+        Move(Dir, mName);
+    }
+
+    else
+    {
+        Log::Error("RemoveFromProject called on transient resource entry: " + CookedAssetPath(true));
+    }
 }
