@@ -285,4 +285,5 @@ SOURCES += \
     GameProject/CGameExporter.cpp \
     GameProject/CResourceStore.cpp \
     GameProject/CVirtualDirectory.cpp \
-    GameProject/CResourceEntry.cpp
+    GameProject/CResourceEntry.cpp \
+    GameProject/CPackage.cpp

@@ -33,6 +33,7 @@ public:
     inline TWideString DiscDir(bool Relative) const             { return Relative ? L"Disc\\" : mProjectRoot + L"Disc\\"; }
     inline TWideString ContentDir(bool Relative) const          { return Relative ? L"Content\\" : mProjectRoot + L"Content\\"; }
     inline TWideString CookedDir(bool Relative) const           { return Relative ? L"Cooked\\" : mProjectRoot + L"Cooked\\"; }
+    inline TWideString PackagesDir(bool Relative) const         { return Relative ? L"Packages\\" : mProjectRoot + L"Packages\\"; }
 
     // Accessors
     inline void SetGame(EGame Game)                     { mGame = Game; }

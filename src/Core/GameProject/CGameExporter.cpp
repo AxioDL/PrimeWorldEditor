@@ -10,8 +10,9 @@
 
 #define COPY_DISC_DATA 0
 #define LOAD_PAKS 1
-#define EXPORT_WORLDS 1
-#define EXPORT_COOKED 1
+#define SAVE_PACKAGE_DEFINITIONS 1
+#define EXPORT_WORLDS 0
+#define EXPORT_COOKED 0
 
 CGameExporter::CGameExporter(const TString& rkInputDir, const TString& rkOutputDir)
     : mStore(this)
@@ -186,7 +187,8 @@ void CGameExporter::LoadPaks()
                 continue;
             }
 
-            CPackage *pPackage = new CPackage(CharPak.GetFileName(false), FileUtil::MakeRelative(PakPath.GetFileDirectory(), mGameDir));
+            CPackage *pPackage = new CPackage(mpProject, CharPak.GetFileName(false), FileUtil::MakeRelative(PakPath.GetFileDirectory(), mGameDir));
+            CResourceCollection *pCollection = pPackage->AddCollection("Default");
 
             // MP1-MP3Proto
             if (Game() < eCorruption)
@@ -207,7 +209,7 @@ void CGameExporter::LoadPaks()
                         CUniqueID ResID(Pak, IDLength);
                         u32 NameLen = Pak.ReadLong();
                         TString Name = Pak.ReadString(NameLen);
-                        pPackage->AddNamedResource(Name, ResID, ResType);
+                        pCollection->AddResource(Name, ResID, ResType);
                     }
 
                     u32 NumResources = Pak.ReadLong();
@@ -265,7 +267,7 @@ void CGameExporter::LoadPaks()
                             TString Name = Pak.ReadString();
                             CFourCC ResType = Pak.ReadLong();
                             CUniqueID ResID(Pak, IDLength);
-                            pPackage->AddNamedResource(Name, ResID, ResType);
+                            pCollection->AddResource(Name, ResID, ResType);
                         }
                     }
 
@@ -293,8 +295,11 @@ void CGameExporter::LoadPaks()
                 }
             }
 
-            // Add package to project
+            // Add package to project and save
             mpProject->AddPackage(pPackage, IsWorldPak);
+#if SAVE_PACKAGE_DEFINITIONS
+            pPackage->Save();
+#endif
         }
     }
 #endif
@@ -407,15 +412,18 @@ void CGameExporter::ExportWorlds()
 
         // Get output path. DKCR paks are stored in a Worlds folder so we should get the path relative to that so we don't have Worlds\Worlds\.
         // Other games have all paks in the game root dir so we're fine just taking the original root dir-relative directory.
-        TWideString PakPath = pPak->PakPath();
+        TWideString PakPath = pPak->Path();
         TWideString GameWorldsDir = PakPath.GetParentDirectoryPath(L"Worlds", false);
 
         if (!GameWorldsDir.IsEmpty())
             PakPath = FileUtil::MakeRelative(PakPath, GameWorldsDir);
 
-        for (u32 iRes = 0; iRes < pPak->NumNamedResources(); iRes++)
+        // Note since there's no collections in the cooked data we're guaranteed that every pak will have exactly one collection.
+        CResourceCollection *pCollection = pPak->CollectionByIndex(0);
+
+        for (u32 iRes = 0; iRes < pCollection->NumResources(); iRes++)
         {
-            const SNamedResource& rkRes = pPak->NamedResourceByIndex(iRes);
+            const SNamedResource& rkRes = pCollection->ResourceByIndex(iRes);
 
             if (rkRes.Type == "MLVL" && !rkRes.Name.EndsWith("NODEPEND"))
             {
@@ -424,7 +432,7 @@ void CGameExporter::ExportWorlds()
 
                 if (!pWorld)
                 {
-                    Log::Error("Couldn't load world " + rkRes.Name + " from package " + pPak->PakName() + "; unable to export");
+                    Log::Error("Couldn't load world " + rkRes.Name + " from package " + pPak->Name() + "; unable to export");
                     continue;
                 }
 
