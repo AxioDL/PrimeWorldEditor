@@ -580,7 +580,7 @@ void CModelEditorWindow::UpdateMaterial(QString Value)
     if (mIgnoreSignals) return;
 
     EModelEditorWidget Widget = (EModelEditorWidget) sender()->property("ModelEditorWidgetType").toInt();
-    TResPtr<CTexture> pTex = gResourceStore.LoadResource(TO_TSTRING(Value));
+    TResPtr<CTexture> pTex = gpResourceStore->LoadResource(TO_TSTRING(Value));
     if (pTex->Type() != eTexture) pTex = nullptr;
 
     switch (Widget)
@@ -722,7 +722,7 @@ void CModelEditorWindow::Open()
     QString ModelFilename = QFileDialog::getOpenFileName(this, "Save model", "", "Retro Model (*.CMDL)");
     if (ModelFilename.isEmpty()) return;
 
-    TResPtr<CModel> pModel = gResourceStore.LoadResource(ModelFilename.toStdString());
+    TResPtr<CModel> pModel = gpResourceStore->LoadResource(ModelFilename.toStdString());
     if (pModel)
     {
         SetActiveModel(pModel);
@@ -730,7 +730,7 @@ void CModelEditorWindow::Open()
         mOutputFilename = TO_QSTRING(pModel->FullSource());
     }
 
-    gResourceStore.DestroyUnreferencedResources();
+    gpResourceStore->DestroyUnreferencedResources();
 }
 
 void CModelEditorWindow::Import()
@@ -773,7 +773,7 @@ void CModelEditorWindow::Import()
     SetActiveModel(pModel);
     SET_WINDOWTITLE_APPVARS("%APP_FULL_NAME% - Model Editor: Untitled");
     mOutputFilename = "";
-    gResourceStore.DestroyUnreferencedResources();
+    gpResourceStore->DestroyUnreferencedResources();
 }
 
 void CModelEditorWindow::Save()
@@ -809,7 +809,7 @@ void CModelEditorWindow::ConvertToDDS()
     if (Input.isEmpty()) return;
 
     TString TexFilename = Input.toStdString();
-    TResPtr<CTexture> pTex = gResourceStore.LoadResource(TexFilename);
+    TResPtr<CTexture> pTex = gpResourceStore->LoadResource(TexFilename);
     TString OutName = TexFilename.GetFilePathWithoutExtension() + ".dds";
 
     CFileOutStream Out(OutName.ToStdString(), IOUtil::eLittleEndian);

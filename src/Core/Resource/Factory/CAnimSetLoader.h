@@ -7,7 +7,6 @@
 class CAnimSetLoader
 {
     TResPtr<CAnimSet> pSet;
-    CResCache *mpResCache;
     EGame mVersion;
 
     CAnimSetLoader();

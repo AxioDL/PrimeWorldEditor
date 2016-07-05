@@ -38,6 +38,7 @@ class CResourceStore
 
 public:
     CResourceStore();
+    CResourceStore(CGameExporter *pExporter);
     ~CResourceStore();
     void LoadResourceDatabase(const TString& rkPath);
     void SaveResourceDatabase(const TString& rkPath) const;
@@ -45,7 +46,8 @@ public:
     void CloseActiveProject();
     CVirtualDirectory* GetVirtualDirectory(const TWideString& rkPath, bool Transient, bool AllowCreate);
 
-    bool RegisterResource(const CUniqueID& rkID, EResType Type, const TWideString& rkDir, const TWideString& rkFileName);
+    bool IsResourceRegistered(const CUniqueID& rkID) const;
+    CResourceEntry* RegisterResource(const CUniqueID& rkID, EResType Type, const TWideString& rkDir, const TWideString& rkFileName);
     CResourceEntry* FindEntry(const CUniqueID& rkID) const;
     CResourceEntry* RegisterTransientResource(EResType Type, const TWideString& rkDir = L"", const TWideString& rkFileName = L"");
     CResourceEntry* RegisterTransientResource(EResType Type, const CUniqueID& rkID, const TWideString& rkDir = L"", const TWideString& rkFileName = L"");
@@ -54,12 +56,13 @@ public:
     CResource* LoadResource(const TString& rkPath);
     CFourCC ResourceTypeByID(const CUniqueID& rkID, const TStringList& rkPossibleTypes) const;
     void DestroyUnreferencedResources();
+    bool DeleteResourceEntry(CResourceEntry *pEntry);
     void SetTransientLoadDir(const TString& rkDir);
 
-    inline CGameProject* ActiveProject() const              { return mpProj; }
-    inline void SetGameExporter(CGameExporter *pExporter)   { mpExporter = pExporter; }
+    // Accessors
+    inline CGameProject* ActiveProject() const  { return mpProj; }
 };
 
-extern CResourceStore gResourceStore;
+extern CResourceStore *gpResourceStore;
 
 #endif // CRESOURCEDATABASE_H

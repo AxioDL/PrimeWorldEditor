@@ -15,19 +15,19 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
     // Header
     if (mVersion < eCorruptionProto)
     {
-        mpWorld->mpWorldName = gResourceStore.LoadResource(rMLVL.ReadLong(), "STRG");
-        if (mVersion == eEchoes) mpWorld->mpDarkWorldName = gResourceStore.LoadResource(rMLVL.ReadLong(), "STRG");
+        mpWorld->mpWorldName = gpResourceStore->LoadResource(rMLVL.ReadLong(), "STRG");
+        if (mVersion == eEchoes) mpWorld->mpDarkWorldName = gpResourceStore->LoadResource(rMLVL.ReadLong(), "STRG");
         if (mVersion >= eEchoes) mpWorld->mUnknown1 = rMLVL.ReadLong();
-        if (mVersion >= ePrime) mpWorld->mpSaveWorld = gResourceStore.LoadResource(rMLVL.ReadLong(), "SAVW");
-        mpWorld->mpDefaultSkybox = gResourceStore.LoadResource(rMLVL.ReadLong(), "CMDL");
+        if (mVersion >= ePrime) mpWorld->mpSaveWorld = gpResourceStore->LoadResource(rMLVL.ReadLong(), "SAVW");
+        mpWorld->mpDefaultSkybox = gpResourceStore->LoadResource(rMLVL.ReadLong(), "CMDL");
     }
 
     else
     {
-        mpWorld->mpWorldName = gResourceStore.LoadResource(rMLVL.ReadLongLong(), "STRG");
+        mpWorld->mpWorldName = gpResourceStore->LoadResource(rMLVL.ReadLongLong(), "STRG");
         rMLVL.Seek(0x4, SEEK_CUR); // Skipping unknown value
-        mpWorld->mpSaveWorld = gResourceStore.LoadResource(rMLVL.ReadLongLong(), "SAVW");
-        mpWorld->mpDefaultSkybox = gResourceStore.LoadResource(rMLVL.ReadLongLong(), "CMDL");
+        mpWorld->mpSaveWorld = gpResourceStore->LoadResource(rMLVL.ReadLongLong(), "SAVW");
+        mpWorld->mpDefaultSkybox = gpResourceStore->LoadResource(rMLVL.ReadLongLong(), "CMDL");
     }
 
     // Memory relays - only in MP1
@@ -58,9 +58,9 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
         CWorld::SArea *pArea = &mpWorld->mAreas[iArea];
 
         if (mVersion < eCorruptionProto)
-            pArea->pAreaName = gResourceStore.LoadResource(rMLVL.ReadLong(), "STRG");
+            pArea->pAreaName = gpResourceStore->LoadResource(rMLVL.ReadLong(), "STRG");
         else
-            pArea->pAreaName = gResourceStore.LoadResource(rMLVL.ReadLongLong(), "STRG");
+            pArea->pAreaName = gpResourceStore->LoadResource(rMLVL.ReadLongLong(), "STRG");
 
         pArea->Transform = CTransform4f(rMLVL);
         pArea->AetherBox = CAABox(rMLVL);
@@ -169,9 +169,9 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
 
     // MapWorld
     if (mVersion < eCorruptionProto)
-        mpWorld->mpMapWorld = gResourceStore.LoadResource(rMLVL.ReadLong(), "MAPW");
+        mpWorld->mpMapWorld = gpResourceStore->LoadResource(rMLVL.ReadLong(), "MAPW");
     else
-        mpWorld->mpMapWorld = gResourceStore.LoadResource(rMLVL.ReadLongLong(), "MAPW");
+        mpWorld->mpMapWorld = gpResourceStore->LoadResource(rMLVL.ReadLongLong(), "MAPW");
     rMLVL.Seek(0x5, SEEK_CUR); // Unknown values which are always 0
 
     // AudioGrps
@@ -221,7 +221,7 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
 
 void CWorldLoader::LoadReturnsMLVL(IInputStream& rMLVL)
 {
-    mpWorld->mpWorldName = gResourceStore.LoadResource(rMLVL.ReadLongLong(), "STRG");
+    mpWorld->mpWorldName = gpResourceStore->LoadResource(rMLVL.ReadLongLong(), "STRG");
 
     bool Check = (rMLVL.ReadByte() != 0);
     if (Check)
@@ -230,8 +230,8 @@ void CWorldLoader::LoadReturnsMLVL(IInputStream& rMLVL)
         rMLVL.Seek(0x10, SEEK_CUR);
     }
 
-    mpWorld->mpSaveWorld = gResourceStore.LoadResource(rMLVL.ReadLongLong(), "SAVW");
-    mpWorld->mpDefaultSkybox = gResourceStore.LoadResource(rMLVL.ReadLongLong(), "CMDL");
+    mpWorld->mpSaveWorld = gpResourceStore->LoadResource(rMLVL.ReadLongLong(), "SAVW");
+    mpWorld->mpDefaultSkybox = gpResourceStore->LoadResource(rMLVL.ReadLongLong(), "CMDL");
 
     // Areas
     u32 NumAreas = rMLVL.ReadLong();
@@ -242,7 +242,7 @@ void CWorldLoader::LoadReturnsMLVL(IInputStream& rMLVL)
         // Area header
         CWorld::SArea *pArea = &mpWorld->mAreas[iArea];
 
-        pArea->pAreaName = gResourceStore.LoadResource(rMLVL.ReadLongLong(), "STRG");
+        pArea->pAreaName = gpResourceStore->LoadResource(rMLVL.ReadLongLong(), "STRG");
         pArea->Transform = CTransform4f(rMLVL);
         pArea->AetherBox = CAABox(rMLVL);
         pArea->FileID = rMLVL.ReadLongLong();

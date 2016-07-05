@@ -2,6 +2,7 @@
 #define CGAMEEXPORTER_H
 
 #include "CGameProject.h"
+#include "CResourceStore.h"
 #include <Common/CUniqueID.h>
 #include <Common/Flags.h>
 #include <Common/TString.h>
@@ -12,16 +13,16 @@ class CGameExporter
 {
     // Project
     CGameProject *mpProject;
+    CResourceStore mStore;
 
     // Directories
     TWideString mGameDir;
     TWideString mExportDir;
     TWideString mDiscDir;
-    TWideString mResDir;
-    TWideString mWorldsDir;
+    TWideString mContentDir;
     TWideString mCookedDir;
-    TWideString mCookedResDir;
-    TWideString mCookedWorldsDir;
+
+    TWideString mWorldsDirName;
 
     // Resources
     TWideStringList mWorldPaks;

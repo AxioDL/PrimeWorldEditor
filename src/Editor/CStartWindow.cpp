@@ -55,8 +55,8 @@ void CStartWindow::on_actionOpen_MLVL_triggered()
     if (mpWorldEditor->close())
     {
         TString Dir = TO_TSTRING(WorldFile).GetFileDirectory();
-        gResourceStore.SetTransientLoadDir(Dir);
-        mpWorld = gResourceStore.LoadResource(WorldFile.toStdString());
+        gpResourceStore->SetTransientLoadDir(Dir);
+        mpWorld = gpResourceStore->LoadResource(WorldFile.toStdString());
 
         QString QStrDir = TO_QSTRING(Dir);
         mpWorldEditor->SetWorldDir(QStrDir);
@@ -194,7 +194,7 @@ void CStartWindow::on_LaunchWorldEditorButton_clicked()
 
         CUniqueID AreaID = mpWorld->AreaResourceID(mSelectedAreaIndex);
         TString AreaPath = mpWorld->Entry()->CookedAssetPath().GetFileDirectory() + AreaID.ToString() + ".MREA";
-        TResPtr<CGameArea> pArea = gResourceStore.LoadResource(AreaPath);
+        TResPtr<CGameArea> pArea = gpResourceStore->LoadResource(AreaPath);
 
         if (!pArea)
         {
@@ -205,7 +205,7 @@ void CStartWindow::on_LaunchWorldEditorButton_clicked()
         pArea->SetWorldIndex(mSelectedAreaIndex);
         mpWorld->SetAreaLayerInfo(pArea);
         mpWorldEditor->SetArea(mpWorld, pArea);
-        gResourceStore.DestroyUnreferencedResources();
+        gpResourceStore->DestroyUnreferencedResources();
 
         mpWorldEditor->setWindowModality(Qt::WindowModal);
         mpWorldEditor->showMaximized();

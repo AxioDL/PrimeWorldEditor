@@ -14,7 +14,7 @@ CAnimSet* CAnimSetLoader::LoadCorruptionCHAR(IInputStream& rCHAR)
     CAnimSet::SNode& node = pSet->mNodes[0];
 
     node.Name = rCHAR.ReadString();
-    node.pModel = gResourceStore.LoadResource(rCHAR.ReadLongLong(), "CMDL");
+    node.pModel = gpResourceStore->LoadResource(rCHAR.ReadLongLong(), "CMDL");
     return pSet;
 }
 
@@ -28,7 +28,7 @@ CAnimSet* CAnimSetLoader::LoadReturnsCHAR(IInputStream& rCHAR)
     rNode.Name = rCHAR.ReadString();
     rCHAR.Seek(0x14, SEEK_CUR);
     rCHAR.ReadString();
-    rNode.pModel = gResourceStore.LoadResource(rCHAR.ReadLongLong(), "CMDL");
+    rNode.pModel = gpResourceStore->LoadResource(rCHAR.ReadLongLong(), "CMDL");
     return pSet;
 }
 
@@ -238,9 +238,9 @@ CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS, CResourceEntry *pEntry)
             Loader.pSet->SetGame(Loader.mVersion);
         }
         pNode->Name = rANCS.ReadString();
-        pNode->pModel = gResourceStore.LoadResource(rANCS.ReadLong(), "CMDL");
-        pNode->pSkin = gResourceStore.LoadResource(rANCS.ReadLong(), "CSKR");
-        pNode->pSkeleton = gResourceStore.LoadResource(rANCS.ReadLong(), "CINF");
+        pNode->pModel = gpResourceStore->LoadResource(rANCS.ReadLong(), "CMDL");
+        pNode->pSkin = gpResourceStore->LoadResource(rANCS.ReadLong(), "CSKR");
+        pNode->pSkeleton = gpResourceStore->LoadResource(rANCS.ReadLong(), "CINF");
         if (pNode->pModel) pNode->pModel->SetSkin(pNode->pSkin);
 
         // Unfortunately that's all that's actually supported at the moment. Hope to expand later.
@@ -349,7 +349,7 @@ CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS, CResourceEntry *pEntry)
         {
             CAnimSet::SAnimation Anim;
             Anim.Name = rPrim.Name;
-            Anim.pAnim = gResourceStore.LoadResource(rPrim.AnimID, "ANIM");
+            Anim.pAnim = gpResourceStore->LoadResource(rPrim.AnimID, "ANIM");
             Loader.pSet->mAnims.push_back(Anim);
         }
     }

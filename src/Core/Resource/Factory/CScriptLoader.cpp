@@ -117,7 +117,7 @@ void CScriptLoader::ReadProperty(IProperty *pProp, u32 Size, IInputStream& rSCLY
 
         if (ResID.IsValid())
         {
-            CFourCC Type = gResourceStore.ResourceTypeByID(ResID, rkExtensions);
+            CFourCC Type = gpResourceStore->ResourceTypeByID(ResID, rkExtensions);
             Info = CResourceInfo(ResID, Type);
         }
 

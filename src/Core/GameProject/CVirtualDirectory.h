@@ -25,6 +25,7 @@ public:
     TWideString FullPath() const;
     CVirtualDirectory* GetRoot();
     CVirtualDirectory* FindChildDirectory(const TWideString& rkName, bool AllowCreate);
+    CResourceEntry* FindChildResource(const TWideString& rkName) const;
     void AddChild(const TWideString& rkPath, CResourceEntry *pEntry);
     bool RemoveChildDirectory(CVirtualDirectory *pSubdir);
     bool RemoveChildResource(CResourceEntry *pEntry);

@@ -50,7 +50,7 @@ void CMaterialLoader::ReadPrimeMatSet()
     for (u32 iTex = 0; iTex < NumTextures; iTex++)
     {
         u32 TextureID = mpFile->ReadLong();
-        mTextures[iTex] = gResourceStore.LoadResource(TextureID, "TXTR");
+        mTextures[iTex] = gpResourceStore->LoadResource(TextureID, "TXTR");
     }
 
     // Materials
@@ -366,7 +366,7 @@ CMaterial* CMaterialLoader::ReadCorruptionMaterial()
                 continue;
             }
 
-            pPass->mpTexture = gResourceStore.LoadResource(TextureID, "TXTR");
+            pPass->mpTexture = gpResourceStore->LoadResource(TextureID, "TXTR");
 
             pPass->mTexCoordSource = 4 + (u8) mpFile->ReadLong();
             u32 AnimSize = mpFile->ReadLong();

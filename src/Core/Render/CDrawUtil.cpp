@@ -480,7 +480,7 @@ void CDrawUtil::InitLine()
 void CDrawUtil::InitCube()
 {
     Log::Write("Creating cube");
-    mpCubeModel = gResourceStore.LoadResource("../resources/Cube.cmdl");
+    mpCubeModel = gpResourceStore->LoadResource("../resources/Cube.cmdl");
 }
 
 void CDrawUtil::InitWireCube()
@@ -518,14 +518,14 @@ void CDrawUtil::InitWireCube()
 void CDrawUtil::InitSphere()
 {
     Log::Write("Creating sphere");
-    mpSphereModel = gResourceStore.LoadResource("../resources/Sphere.cmdl");
-    mpDoubleSidedSphereModel = gResourceStore.LoadResource("../resources/SphereDoubleSided.cmdl");
+    mpSphereModel = gpResourceStore->LoadResource("../resources/Sphere.cmdl");
+    mpDoubleSidedSphereModel = gpResourceStore->LoadResource("../resources/SphereDoubleSided.cmdl");
 }
 
 void CDrawUtil::InitWireSphere()
 {
     Log::Write("Creating wire sphere");
-    mpWireSphereModel = gResourceStore.LoadResource("../resources/WireSphere.cmdl");
+    mpWireSphereModel = gpResourceStore->LoadResource("../resources/WireSphere.cmdl");
 }
 
 void CDrawUtil::InitShaders()
@@ -543,17 +543,17 @@ void CDrawUtil::InitShaders()
 void CDrawUtil::InitTextures()
 {
     Log::Write("Loading textures");
-    mpCheckerTexture = gResourceStore.LoadResource("../resources/Checkerboard.txtr");
+    mpCheckerTexture = gpResourceStore->LoadResource("../resources/Checkerboard.txtr");
 
-    mpLightTextures[0] = gResourceStore.LoadResource("../resources/LightAmbient.txtr");
-    mpLightTextures[1] = gResourceStore.LoadResource("../resources/LightDirectional.txtr");
-    mpLightTextures[2] = gResourceStore.LoadResource("../resources/LightCustom.txtr");
-    mpLightTextures[3] = gResourceStore.LoadResource("../resources/LightSpot.txtr");
+    mpLightTextures[0] = gpResourceStore->LoadResource("../resources/LightAmbient.txtr");
+    mpLightTextures[1] = gpResourceStore->LoadResource("../resources/LightDirectional.txtr");
+    mpLightTextures[2] = gpResourceStore->LoadResource("../resources/LightCustom.txtr");
+    mpLightTextures[3] = gpResourceStore->LoadResource("../resources/LightSpot.txtr");
 
-    mpLightMasks[0] = gResourceStore.LoadResource("../resources/LightAmbientMask.txtr");
-    mpLightMasks[1] = gResourceStore.LoadResource("../resources/LightDirectionalMask.txtr");
-    mpLightMasks[2] = gResourceStore.LoadResource("../resources/LightCustomMask.txtr");
-    mpLightMasks[3] = gResourceStore.LoadResource("../resources/LightSpotMask.txtr");
+    mpLightMasks[0] = gpResourceStore->LoadResource("../resources/LightAmbientMask.txtr");
+    mpLightMasks[1] = gpResourceStore->LoadResource("../resources/LightDirectionalMask.txtr");
+    mpLightMasks[2] = gpResourceStore->LoadResource("../resources/LightCustomMask.txtr");
+    mpLightMasks[3] = gpResourceStore->LoadResource("../resources/LightSpotMask.txtr");
 }
 
 void CDrawUtil::Shutdown()

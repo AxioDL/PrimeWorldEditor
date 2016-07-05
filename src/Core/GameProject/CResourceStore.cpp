@@ -8,7 +8,7 @@
 #include <tinyxml2.h>
 
 using namespace tinyxml2;
-CResourceStore gResourceStore;
+CResourceStore *gpResourceStore = new CResourceStore;
 
 CResourceStore::CResourceStore()
     : mpProj(nullptr)
@@ -16,8 +16,21 @@ CResourceStore::CResourceStore()
     , mpExporter(nullptr)
 {}
 
+CResourceStore::CResourceStore(CGameExporter *pExporter)
+    : mpProj(nullptr)
+    , mpProjectRoot(nullptr)
+    , mpExporter(pExporter)
+{}
+
 CResourceStore::~CResourceStore()
 {
+    CloseActiveProject();
+
+    for (auto It = mResourceEntries.begin(); It != mResourceEntries.end(); It++)
+        delete It->second;
+
+    for (auto It = mTransientRoots.begin(); It != mTransientRoots.end(); It++)
+        delete *It;
 }
 
 void CResourceStore::LoadResourceDatabase(const TString& rkPath)
@@ -122,7 +135,7 @@ void CResourceStore::SaveResourceDatabase(const TString& rkPath) const
         pRes->LinkEndChild(pDir);
 
         XMLElement *pName = Doc.NewElement("FileName");
-        pName->SetText(*pEntry->FileName());
+        pName->SetText(*pEntry->Name().ToUTF8());
         pRes->LinkEndChild(pName);
 
         XMLElement *pRecook = Doc.NewElement("NeedsRecook");
@@ -143,7 +156,9 @@ void CResourceStore::SetActiveProject(CGameProject *pProj)
     if (pProj)
     {
         mpProjectRoot = new CVirtualDirectory();
-        LoadResourceDatabase(pProj->ResourceDBPath(false));
+
+        if (!mpExporter)
+            LoadResourceDatabase(pProj->ResourceDBPath(false));
     }
 }
 
@@ -157,6 +172,7 @@ void CResourceStore::CloseActiveProject()
         {
             delete pEntry;
             It = mResourceEntries.erase(It);
+            if (It == mResourceEntries.end()) break;
         }
     }
 
@@ -203,33 +219,34 @@ CResourceEntry* CResourceStore::FindEntry(const CUniqueID& rkID) const
     else return Found->second;
 }
 
-bool CResourceStore::RegisterResource(const CUniqueID& rkID, EResType Type, const TWideString& rkDir, const TWideString& rkFileName)
+bool CResourceStore::IsResourceRegistered(const CUniqueID& rkID) const
+{
+    return FindEntry(rkID) == nullptr;
+}
+
+CResourceEntry* CResourceStore::RegisterResource(const CUniqueID& rkID, EResType Type, const TWideString& rkDir, const TWideString& rkFileName)
 {
     CResourceEntry *pEntry = FindEntry(rkID);
 
     if (pEntry)
     {
-        Log::Error("Attempted to register resource that's already tracked in the database: " + rkID.ToString() + " / " + rkDir.ToUTF8() + " / " + rkFileName.ToUTF8());
-        return false;
+        if (pEntry->IsTransient())
+        {
+            ASSERT(pEntry->ResourceType() == Type);
+            pEntry->AddToProject(rkDir, rkFileName);
+        }
+
+        else
+            Log::Error("Attempted to register resource that's already tracked in the database: " + rkID.ToString() + " / " + rkDir.ToUTF8() + " / " + rkFileName.ToUTF8());
     }
 
     else
     {
         pEntry = new CResourceEntry(this, rkID, rkDir, rkFileName.GetFileName(false), Type);
-
-        if (!pEntry->HasCookedVersion() && !pEntry->HasRawVersion())
-        {
-            Log::Error("Attempted to register a resource that doesn't exist: " + rkID.ToString() + " | " + rkDir.ToUTF8() + " | " + rkFileName.ToUTF8());
-            delete pEntry;
-            return false;
-        }
-
-        else
-        {
-            mResourceEntries[rkID] = pEntry;
-            return true;
-        }
+        mResourceEntries[rkID] = pEntry;
     }
+
+    return pEntry;
 }
 
 CResourceEntry* CResourceStore::RegisterTransientResource(EResType Type, const TWideString& rkDir /*= L""*/, const TWideString& rkFileName /*= L""*/)
@@ -241,8 +258,17 @@ CResourceEntry* CResourceStore::RegisterTransientResource(EResType Type, const T
 
 CResourceEntry* CResourceStore::RegisterTransientResource(EResType Type, const CUniqueID& rkID, const TWideString& rkDir /*=L ""*/, const TWideString& rkFileName /*= L""*/)
 {
-    CResourceEntry *pEntry = new CResourceEntry(this, rkID, rkDir, rkFileName, Type, true);
-    mResourceEntries[rkID] = pEntry;
+    CResourceEntry *pEntry = FindEntry(rkID);
+
+    if (pEntry)
+        Log::Error("Attempted to register transient resource that already exists: " + rkID.ToString() + " / Dir: " + rkDir.ToUTF8() + " / Name: " + rkFileName.ToUTF8());
+
+    else
+    {
+        pEntry = new CResourceEntry(this, rkID, rkDir, rkFileName, Type, true);
+        mResourceEntries[rkID] = pEntry;
+    }
+
     return pEntry;
 }
 
@@ -266,7 +292,12 @@ CResource* CResourceStore::LoadResource(const CUniqueID& rkID, const CFourCC& rk
         EResType Type = CResource::ResTypeForExtension(rkType);
         CResourceEntry *pEntry = RegisterTransientResource(Type, rkID);
         CResource *pRes = pEntry->Load(MemStream);
-        if (pRes) mLoadedResources[rkID] = pEntry;
+
+        if (pRes)
+        {
+            mLoadedResources[rkID] = pEntry;
+        }
+
         return pRes;
     }
 
@@ -292,6 +323,7 @@ CResource* CResourceStore::LoadResource(const CUniqueID& rkID, const CFourCC& rk
             CResource *pRes = pEntry->Load(File);
 
             if (pRes) mLoadedResources[rkID] = pEntry;
+            else DeleteResourceEntry(pEntry);
             return pRes;
         }
 
@@ -341,6 +373,8 @@ CResource* CResourceStore::LoadResource(const TString& rkPath)
     CResource *pRes = pEntry->Load(File);
 
     if (pRes) mLoadedResources[ID] = pEntry;
+    else DeleteResourceEntry(pEntry);
+
     mTransientLoadDir = OldTransientDir;
 
     return pRes;
@@ -385,16 +419,16 @@ void CResourceStore::DestroyUnreferencedResources()
         {
             CResourceEntry *pEntry = It->second;
 
-            if (!pEntry->Resource()->IsReferenced())
+            if (!pEntry->Resource()->IsReferenced() && pEntry->Unload())
             {
-                bool Unloaded = pEntry->Unload();
+                It = mLoadedResources.erase(It);
+                NumDeleted++;
 
-                if (Unloaded)
-                {
-                    It = mLoadedResources.erase(It);
-                    NumDeleted++;
-                    if (It == mLoadedResources.end()) break;
-                }
+                // Transient resources should have their entries cleared out when the resource is unloaded
+                if (pEntry->IsTransient())
+                    DeleteResourceEntry(pEntry);
+
+                if (It == mLoadedResources.end()) break;
             }
         }
     } while (NumDeleted > 0);
@@ -412,6 +446,28 @@ void CResourceStore::DestroyUnreferencedResources()
     }
 
     Log::Write(TString::FromInt32(mLoadedResources.size(), 0, 10) + " resources loaded");
+}
+
+bool CResourceStore::DeleteResourceEntry(CResourceEntry *pEntry)
+{
+    CUniqueID ID = pEntry->ID();
+
+    if (pEntry->IsLoaded())
+    {
+        if (!pEntry->Unload())
+            return false;
+
+        auto It = mLoadedResources.find(ID);
+        ASSERT(It != mLoadedResources.end());
+        mLoadedResources.erase(It);
+    }
+
+    auto It = mResourceEntries.find(ID);
+    ASSERT(It != mResourceEntries.end());
+    mResourceEntries.erase(It);
+
+    delete pEntry;
+    return true;
 }
 
 void CResourceStore::SetTransientLoadDir(const TString& rkDir)

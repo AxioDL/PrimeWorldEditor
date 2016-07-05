@@ -14,23 +14,25 @@
 #define EXPORT_COOKED 1
 
 CGameExporter::CGameExporter(const TString& rkInputDir, const TString& rkOutputDir)
+    : mStore(this)
 {
     mGameDir = FileUtil::MakeAbsolute(rkInputDir);
     mExportDir = FileUtil::MakeAbsolute(rkOutputDir);
 
     mpProject = new CGameProject(mExportDir);
     mDiscDir = mpProject->DiscDir(true);
-    mResDir = mpProject->ResourcesDir(true);
-    mWorldsDir = mpProject->WorldsDir(true);
+    mContentDir = mpProject->ContentDir(false);
     mCookedDir = mpProject->CookedDir(false);
-    mCookedResDir = mpProject->CookedResourcesDir(true);
-    mCookedWorldsDir = mpProject->CookedWorldsDir(true);
+    mWorldsDirName = L"Worlds\\";
+    mStore.SetActiveProject(mpProject);
 }
 
 bool CGameExporter::Export()
 {
     SCOPED_TIMER(ExportGame);
-    gResourceStore.SetGameExporter(this);
+
+    CResourceStore *pOldStore = gpResourceStore;
+    gpResourceStore = &mStore;
     FileUtil::CreateDirectory(mExportDir);
     FileUtil::ClearDirectory(mExportDir);
 
@@ -40,7 +42,7 @@ bool CGameExporter::Export()
     ExportWorlds();
     ExportCookedResources();
 
-    gResourceStore.SetGameExporter(nullptr);
+    gpResourceStore = pOldStore;
     return true;
 }
 
@@ -154,7 +156,7 @@ void CGameExporter::LoadAssetList()
         TString Name = pName ? pName->GetText() : "";
 
         if (!Dir.EndsWith("/") && !Dir.EndsWith("\\")) Dir.Append("\\");
-        SetResourcePath(ResourceID, mResDir + Dir.ToUTF16(), Name.ToUTF16());
+        SetResourcePath(ResourceID, Dir.ToUTF16(), Name.ToUTF16());
 
         pAsset = pAsset->NextSiblingElement("Asset");
     }
@@ -398,7 +400,6 @@ void CGameExporter::ExportWorlds()
 {
 #if EXPORT_WORLDS
     SCOPED_TIMER(ExportWorlds);
-    //CResourceDatabase *pResDB = mpProject->ResourceDatabase();
 
     for (u32 iPak = 0; iPak < mpProject->NumWorldPaks(); iPak++)
     {
@@ -418,7 +419,8 @@ void CGameExporter::ExportWorlds()
 
             if (rkRes.Type == "MLVL" && !rkRes.Name.EndsWith("NODEPEND"))
             {
-                TResPtr<CWorld> pWorld = (CWorld*) gResourceStore.LoadResource(rkRes.ID, rkRes.Type);
+                // Load world
+                CWorld *pWorld = (CWorld*) mStore.LoadResource(rkRes.ID, rkRes.Type);
 
                 if (!pWorld)
                 {
@@ -428,7 +430,7 @@ void CGameExporter::ExportWorlds()
 
                 // Export world
                 TWideString Name = rkRes.Name.ToUTF16();
-                TWideString WorldDir = mWorldsDir + PakPath + FileUtil::SanitizeName(Name, true) + L"\\";
+                TWideString WorldDir = mWorldsDirName + PakPath + FileUtil::SanitizeName(Name, true) + L"\\";
                 FileUtil::CreateDirectory(mCookedDir + WorldDir);
 
                 SResourceInstance *pInst = FindResourceInstance(rkRes.ID);
@@ -442,7 +444,8 @@ void CGameExporter::ExportWorlds()
                 {
                     // Determine area names
                     TWideString InternalAreaName = pWorld->AreaInternalName(iArea).ToUTF16();
-                    if (InternalAreaName.IsEmpty()) InternalAreaName = TWideString::FromInt32(iArea, 2, 10);
+                    bool HasInternalName = !InternalAreaName.IsEmpty();
+                    if (!HasInternalName) InternalAreaName = TWideString::FromInt32(iArea, 2, 10);
 
                     TWideString GameAreaName;
                     CStringTable *pTable = pWorld->AreaName(iArea);
@@ -451,7 +454,7 @@ void CGameExporter::ExportWorlds()
 
                     // Load area
                     CUniqueID AreaID = pWorld->AreaResourceID(iArea);
-                    CGameArea *pArea = (CGameArea*) gResourceStore.LoadResource(AreaID, "MREA");
+                    CGameArea *pArea = (CGameArea*) mStore.LoadResource(AreaID, "MREA");
 
                     if (!pArea)
                     {
@@ -466,11 +469,11 @@ void CGameExporter::ExportWorlds()
                     SResourceInstance *pInst = FindResourceInstance(AreaID);
                     ASSERT(pInst != nullptr);
 
-                    SetResourcePath(AreaID, AreaDir, InternalAreaName);
+                    SetResourcePath(AreaID, AreaDir, HasInternalName ? InternalAreaName : GameAreaName);
                     ExportResource(*pInst);
                 }
 
-                gResourceStore.DestroyUnreferencedResources();
+                mStore.DestroyUnreferencedResources();
             }
 
             else
@@ -485,10 +488,9 @@ void CGameExporter::ExportWorlds()
 void CGameExporter::ExportCookedResources()
 {
 #if EXPORT_COOKED
-    gResourceStore.CloseActiveProject();
     {
         SCOPED_TIMER(ExportCookedResources);
-        FileUtil::CreateDirectory(mCookedDir + mResDir);
+        FileUtil::CreateDirectory(mCookedDir);
 
         for (auto It = mResourceMap.begin(); It != mResourceMap.end(); It++)
         {
@@ -498,7 +500,7 @@ void CGameExporter::ExportCookedResources()
     }
     {
         SCOPED_TIMER(SaveResourceDatabase);
-        gResourceStore.SaveResourceDatabase(this->mExportDir.ToUTF8() + "ResourceDatabase.rdb");
+        mStore.SaveResourceDatabase(this->mExportDir.ToUTF8() + "ResourceDatabase.rdb");
     }
 #endif
 }
@@ -512,27 +514,29 @@ void CGameExporter::ExportResource(SResourceInstance& rRes)
 
         // Determine output path
         SResourcePath *pPath = FindResourcePath(rRes.ResourceID);
-        TString OutName, OutDir;
+        TWideString OutName, OutDir;
 
         if (pPath)
         {
-            OutName = pPath->Name.ToUTF8();
-            OutDir = pPath->Dir.ToUTF8();
+            OutName = pPath->Name;
+            OutDir = pPath->Dir;
         }
 
-        if (OutName.IsEmpty())  OutName = rRes.ResourceID.ToString();
-        if (OutDir.IsEmpty())   OutDir = mResDir;
+        if (OutName.IsEmpty())  OutName = rRes.ResourceID.ToString().ToUTF16();
+        if (OutDir.IsEmpty())   OutDir = L"Uncategorized\\";
 
-        // Write to file
-        FileUtil::CreateDirectory(mCookedDir + OutDir.ToUTF16());
-        TString OutPath = mCookedDir.ToUTF8() + OutDir + OutName + "." + rRes.ResourceType.ToString();
-        CFileOutStream Out(OutPath.ToStdString(), IOUtil::eBigEndian);
+        // Register resource and write to file
+        CResourceEntry *pEntry = mStore.RegisterResource(rRes.ResourceID, CResource::ResTypeForExtension(rRes.ResourceType), OutDir, OutName);
+
+        // Cooked (todo: save raw)
+        TWideString OutPath = pEntry->CookedAssetPath();
+        FileUtil::CreateDirectory(OutPath.GetFileDirectory());
+        CFileOutStream Out(OutPath.ToUTF8().ToStdString(), IOUtil::eBigEndian);
 
         if (Out.IsValid())
             Out.WriteBytes(ResourceData.data(), ResourceData.size());
 
-        // Add to resource DB
-        gResourceStore.RegisterResource(rRes.ResourceID, CResource::ResTypeForExtension(rRes.ResourceType), OutDir, OutName);
         rRes.Exported = true;
+        ASSERT(pEntry->HasCookedVersion());
     }
 }
