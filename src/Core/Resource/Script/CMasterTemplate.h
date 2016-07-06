@@ -51,17 +51,20 @@ public:
     CStructTemplate* StructAtSource(const TString& rkSource);
 
     // Inline Accessors
-    EGame Game() const              { return mGame; }
-    u32 NumGameVersions() const     { return mGameVersions.empty() ? 1 : mGameVersions.size(); }
-    u32 NumScriptTemplates() const  { return mTemplates.size(); }
-    u32 NumStates() const           { return mStates.size(); }
-    u32 NumMessages() const         { return mMessages.size(); }
-    bool IsLoadedSuccessfully()     { return mFullyLoaded; }
-    TString GetDirectory() const    { return mSourceFile.GetFileDirectory(); }
+    inline EGame Game() const               { return mGame; }
+    inline TString GameName() const         { return mGameName; }
+    inline u32 NumGameVersions() const      { return mGameVersions.empty() ? 1 : mGameVersions.size(); }
+    inline u32 NumScriptTemplates() const   { return mTemplates.size(); }
+    inline u32 NumStates() const            { return mStates.size(); }
+    inline u32 NumMessages() const          { return mMessages.size(); }
+    inline bool IsLoadedSuccessfully()      { return mFullyLoaded; }
+    inline TString GetDirectory() const     { return mSourceFile.GetFileDirectory(); }
 
     // Static
     static CMasterTemplate* MasterForGame(EGame Game);
     static std::list<CMasterTemplate*> MasterList();
+    static TString FindGameName(EGame Game);
+    static EGame FindGameForName(const TString& rkName);
     static TString PropertyName(u32 PropertyID);
     static u32 CreatePropertyID(IPropertyTemplate *pTemp);
     static void AddProperty(IPropertyTemplate *pTemp, const TString& rkTemplateName = "");

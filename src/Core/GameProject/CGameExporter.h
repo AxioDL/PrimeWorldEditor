@@ -25,8 +25,7 @@ class CGameExporter
     TWideString mWorldsDirName;
 
     // Resources
-    TWideStringList mWorldPaks;
-    TWideStringList mResourcePaks;
+    TWideStringList mPaks;
 
     struct SResourceInstance
     {
