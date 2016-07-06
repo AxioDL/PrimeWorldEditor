@@ -274,6 +274,14 @@ void CStartWindow::ExportGame()
     if (ExportDir.isEmpty()) return;
 #endif
 
+    // Verify valid game root by checking if opening.bnr exists
+    TString OpeningBNR = TO_TSTRING(GameRoot) + "/opening.bnr";
+    if (!FileUtil::Exists(OpeningBNR.ToUTF16()))
+    {
+        QMessageBox::warning(this, "Error", "Error; this is not a valid game root directory!");
+        return;
+    }
+
     CGameExporter Exporter(TO_TSTRING(GameRoot), TO_TSTRING(ExportDir));
     Exporter.Export();
 }

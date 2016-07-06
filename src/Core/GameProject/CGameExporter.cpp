@@ -1,6 +1,7 @@
 #include "CGameExporter.h"
 #include "Core/GameProject/CResourceStore.h"
 #include "Core/Resource/CWorld.h"
+#include "Core/Resource/Script/CMasterTemplate.h"
 #include <FileIO/FileIO.h>
 #include <Common/AssertMacro.h>
 #include <Common/CompressionUtil.h>
@@ -8,11 +9,11 @@
 #include <Common/FileUtil.h>
 #include <tinyxml2.h>
 
-#define COPY_DISC_DATA 0
+#define COPY_DISC_DATA 1
 #define LOAD_PAKS 1
 #define SAVE_PACKAGE_DEFINITIONS 1
-#define EXPORT_WORLDS 0
-#define EXPORT_COOKED 0
+#define EXPORT_WORLDS 1
+#define EXPORT_COOKED 1
 
 CGameExporter::CGameExporter(const TString& rkInputDir, const TString& rkOutputDir)
     : mStore(this)
@@ -91,12 +92,7 @@ void CGameExporter::CopyDiscData()
 
         // Detect paks
         if (FullPath.GetFileExtension().ToLower() == L"pak")
-        {
-            if (FullPath.GetFileName(false).StartsWith(L"Metroid", false) || RelPath.Contains(L"Worlds", false))
-                mWorldPaks.push_back(FullPath);
-            else
-                mResourcePaks.push_back(FullPath);
-        }
+            mPaks.push_back(FullPath);
 
 #if COPY_DISC_DATA
         // Create directory
@@ -110,6 +106,8 @@ void CGameExporter::CopyDiscData()
     }
 
     ASSERT(Game() != eUnknownVersion);
+    mpProject->SetGame(Game());
+    mpProject->SetProjectName(CMasterTemplate::FindGameName(Game()));
 }
 
 void CGameExporter::LoadAssetList()
@@ -168,139 +166,133 @@ void CGameExporter::LoadPaks()
 {
 #if LOAD_PAKS
     SCOPED_TIMER(LoadPaks);
+    EUIDLength IDLength = (Game() < eCorruptionProto ? e32Bit : e64Bit);
 
-    for (u32 iList = 0; iList < 2; iList++)
+    for (auto It = mPaks.begin(); It != mPaks.end(); It++)
     {
-        const TWideStringList& rkList = (iList == 0 ? mWorldPaks : mResourcePaks);
-        bool IsWorldPak = (iList == 0);
-        EUIDLength IDLength = (Game() < eCorruptionProto ? e32Bit : e64Bit);
+        TWideString PakPath = *It;
+        TString CharPak = PakPath.ToUTF8();
+        CFileInStream Pak(CharPak.ToStdString(), IOUtil::eBigEndian);
 
-        for (auto It = rkList.begin(); It != rkList.end(); It++)
+        if (!Pak.IsValid())
         {
-            TWideString PakPath = *It;
-            TString CharPak = PakPath.ToUTF8();
-            CFileInStream Pak(CharPak.ToStdString(), IOUtil::eBigEndian);
+            Log::Error("Couldn't open pak: " + CharPak);
+            continue;
+        }
 
-            if (!Pak.IsValid())
+        CPackage *pPackage = new CPackage(mpProject, CharPak.GetFileName(false), FileUtil::MakeRelative(PakPath.GetFileDirectory(), mGameDir));
+        CResourceCollection *pCollection = pPackage->AddCollection("Default");
+
+        // MP1-MP3Proto
+        if (Game() < eCorruption)
+        {
+            u32 PakVersion = Pak.ReadLong();
+            Pak.Seek(0x4, SEEK_CUR);
+            ASSERT(PakVersion == 0x00030005);
+
+            // Echoes demo disc has a pak that ends right here.
+            if (!Pak.EoF())
             {
-                Log::Error("Couldn't open pak: " + CharPak);
-                continue;
+                u32 NumNamedResources = Pak.ReadLong();
+                ASSERT(NumNamedResources > 0);
+
+                for (u32 iName = 0; iName < NumNamedResources; iName++)
+                {
+                    CFourCC ResType = Pak.ReadLong();
+                    CUniqueID ResID(Pak, IDLength);
+                    u32 NameLen = Pak.ReadLong();
+                    TString Name = Pak.ReadString(NameLen);
+                    pCollection->AddResource(Name, ResID, ResType);
+                }
+
+                u32 NumResources = Pak.ReadLong();
+
+                for (u32 iRes = 0; iRes < NumResources; iRes++)
+                {
+                    bool Compressed = (Pak.ReadLong() == 1);
+                    CFourCC ResType = Pak.ReadLong();
+                    CUniqueID ResID(Pak, IDLength);
+                    u32 ResSize = Pak.ReadLong();
+                    u32 ResOffset = Pak.ReadLong();
+
+                    u64 IntegralID = ResID.ToLongLong();
+                    if (mResourceMap.find(IntegralID) == mResourceMap.end())
+                        mResourceMap[IntegralID] = SResourceInstance { PakPath, ResID, ResType, ResOffset, ResSize, Compressed, false };
+                }
             }
+        }
 
-            CPackage *pPackage = new CPackage(mpProject, CharPak.GetFileName(false), FileUtil::MakeRelative(PakPath.GetFileDirectory(), mGameDir));
-            CResourceCollection *pCollection = pPackage->AddCollection("Default");
+        // MP3 + DKCR
+        else
+        {
+            u32 PakVersion = Pak.ReadLong();
+            u32 PakHeaderLen = Pak.ReadLong();
+            Pak.Seek(PakHeaderLen - 0x8, SEEK_CUR);
+            ASSERT(PakVersion == 2);
 
-            // MP1-MP3Proto
-            if (Game() < eCorruption)
+            struct SPakSection {
+                CFourCC Type; u32 Size;
+            };
+            std::vector<SPakSection> PakSections;
+
+            u32 NumPakSections = Pak.ReadLong();
+            ASSERT(NumPakSections == 3);
+
+            for (u32 iSec = 0; iSec < NumPakSections; iSec++)
             {
-                u32 PakVersion = Pak.ReadLong();
-                Pak.Seek(0x4, SEEK_CUR);
-                ASSERT(PakVersion == 0x00030005);
+                CFourCC Type = Pak.ReadLong();
+                u32 Size = Pak.ReadLong();
+                PakSections.push_back(SPakSection { Type, Size });
+            }
+            Pak.SeekToBoundary(64);
 
-                // Echoes demo disc has a pak that ends right here.
-                if (!Pak.EoF())
+            for (u32 iSec = 0; iSec < NumPakSections; iSec++)
+            {
+                u32 Next = Pak.Tell() + PakSections[iSec].Size;
+
+                // Named Resources
+                if (PakSections[iSec].Type == "STRG")
                 {
                     u32 NumNamedResources = Pak.ReadLong();
-                    ASSERT(NumNamedResources > 0);
 
                     for (u32 iName = 0; iName < NumNamedResources; iName++)
                     {
+                        TString Name = Pak.ReadString();
                         CFourCC ResType = Pak.ReadLong();
                         CUniqueID ResID(Pak, IDLength);
-                        u32 NameLen = Pak.ReadLong();
-                        TString Name = Pak.ReadString(NameLen);
                         pCollection->AddResource(Name, ResID, ResType);
                     }
+                }
 
+                else if (PakSections[iSec].Type == "RSHD")
+                {
+                    ASSERT(PakSections[iSec + 1].Type == "DATA");
+                    u32 DataStart = Next;
                     u32 NumResources = Pak.ReadLong();
 
                     for (u32 iRes = 0; iRes < NumResources; iRes++)
                     {
                         bool Compressed = (Pak.ReadLong() == 1);
-                        CFourCC ResType = Pak.ReadLong();
+                        CFourCC Type = Pak.ReadLong();
                         CUniqueID ResID(Pak, IDLength);
-                        u32 ResSize = Pak.ReadLong();
-                        u32 ResOffset = Pak.ReadLong();
+                        u32 Size = Pak.ReadLong();
+                        u32 Offset = DataStart + Pak.ReadLong();
 
                         u64 IntegralID = ResID.ToLongLong();
                         if (mResourceMap.find(IntegralID) == mResourceMap.end())
-                            mResourceMap[IntegralID] = SResourceInstance { PakPath, ResID, ResType, ResOffset, ResSize, Compressed, false };
+                            mResourceMap[IntegralID] = SResourceInstance { PakPath, ResID, Type, Offset, Size, Compressed, false };
                     }
                 }
+
+                Pak.Seek(Next, SEEK_SET);
             }
-
-            // MP3 + DKCR
-            else
-            {
-                u32 PakVersion = Pak.ReadLong();
-                u32 PakHeaderLen = Pak.ReadLong();
-                Pak.Seek(PakHeaderLen - 0x8, SEEK_CUR);
-                ASSERT(PakVersion == 2);
-
-                struct SPakSection {
-                    CFourCC Type; u32 Size;
-                };
-                std::vector<SPakSection> PakSections;
-
-                u32 NumPakSections = Pak.ReadLong();
-                ASSERT(NumPakSections == 3);
-
-                for (u32 iSec = 0; iSec < NumPakSections; iSec++)
-                {
-                    CFourCC Type = Pak.ReadLong();
-                    u32 Size = Pak.ReadLong();
-                    PakSections.push_back(SPakSection { Type, Size });
-                }
-                Pak.SeekToBoundary(64);
-
-                for (u32 iSec = 0; iSec < NumPakSections; iSec++)
-                {
-                    u32 Next = Pak.Tell() + PakSections[iSec].Size;
-
-                    // Named Resources
-                    if (PakSections[iSec].Type == "STRG")
-                    {
-                        u32 NumNamedResources = Pak.ReadLong();
-
-                        for (u32 iName = 0; iName < NumNamedResources; iName++)
-                        {
-                            TString Name = Pak.ReadString();
-                            CFourCC ResType = Pak.ReadLong();
-                            CUniqueID ResID(Pak, IDLength);
-                            pCollection->AddResource(Name, ResID, ResType);
-                        }
-                    }
-
-                    else if (PakSections[iSec].Type == "RSHD")
-                    {
-                        ASSERT(PakSections[iSec + 1].Type == "DATA");
-                        u32 DataStart = Next;
-                        u32 NumResources = Pak.ReadLong();
-
-                        for (u32 iRes = 0; iRes < NumResources; iRes++)
-                        {
-                            bool Compressed = (Pak.ReadLong() == 1);
-                            CFourCC Type = Pak.ReadLong();
-                            CUniqueID ResID(Pak, IDLength);
-                            u32 Size = Pak.ReadLong();
-                            u32 Offset = DataStart + Pak.ReadLong();
-
-                            u64 IntegralID = ResID.ToLongLong();
-                            if (mResourceMap.find(IntegralID) == mResourceMap.end())
-                                mResourceMap[IntegralID] = SResourceInstance { PakPath, ResID, Type, Offset, Size, Compressed, false };
-                        }
-                    }
-
-                    Pak.Seek(Next, SEEK_SET);
-                }
-            }
-
-            // Add package to project and save
-            mpProject->AddPackage(pPackage, IsWorldPak);
-#if SAVE_PACKAGE_DEFINITIONS
-            pPackage->Save();
-#endif
         }
+
+        // Add package to project and save
+        mpProject->AddPackage(pPackage);
+#if SAVE_PACKAGE_DEFINITIONS
+        pPackage->Save();
+#endif
     }
 #endif
 }
@@ -406,9 +398,9 @@ void CGameExporter::ExportWorlds()
 #if EXPORT_WORLDS
     SCOPED_TIMER(ExportWorlds);
 
-    for (u32 iPak = 0; iPak < mpProject->NumWorldPaks(); iPak++)
+    for (u32 iPak = 0; iPak < mpProject->NumPackages(); iPak++)
     {
-        CPackage *pPak = mpProject->WorldPakByIndex(iPak);
+        CPackage *pPak = mpProject->PackageByIndex(iPak);
 
         // Get output path. DKCR paks are stored in a Worlds folder so we should get the path relative to that so we don't have Worlds\Worlds\.
         // Other games have all paks in the game root dir so we're fine just taking the original root dir-relative directory.
@@ -460,20 +452,11 @@ void CGameExporter::ExportWorlds()
                     if (pTable) GameAreaName = pTable->String("ENGL", 0);
                     if (GameAreaName.IsEmpty()) GameAreaName = InternalAreaName;
 
-                    // Load area
-                    CUniqueID AreaID = pWorld->AreaResourceID(iArea);
-                    CGameArea *pArea = (CGameArea*) mStore.LoadResource(AreaID, "MREA");
-
-                    if (!pArea)
-                    {
-                        Log::Error("Unable to export area " + GameAreaName.ToUTF8() + " from world " + rkRes.Name + "; couldn't load area");
-                        continue;
-                    }
-
                     // Export area
                     TWideString AreaDir = WorldDir + TWideString::FromInt32(iArea, 2, 10) + L"_" + FileUtil::SanitizeName(GameAreaName, true) + L"\\";
                     FileUtil::CreateDirectory(mCookedDir + AreaDir);
 
+                    CUniqueID AreaID = pWorld->AreaResourceID(iArea);
                     SResourceInstance *pInst = FindResourceInstance(AreaID);
                     ASSERT(pInst != nullptr);
 
@@ -482,11 +465,6 @@ void CGameExporter::ExportWorlds()
                 }
 
                 mStore.DestroyUnreferencedResources();
-            }
-
-            else
-            {
-                Log::Error("Unexpected named resource type in world pak: " + rkRes.Type.ToString());
             }
         }
     }
@@ -506,11 +484,14 @@ void CGameExporter::ExportCookedResources()
             ExportResource(rRes);
         }
     }
+#endif
     {
         SCOPED_TIMER(SaveResourceDatabase);
+#if EXPORT_COOKED
         mStore.SaveResourceDatabase(this->mExportDir.ToUTF8() + "ResourceDatabase.rdb");
-    }
 #endif
+        mpProject->Save();
+    }
 }
 
 void CGameExporter::ExportResource(SResourceInstance& rRes)

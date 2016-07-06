@@ -4,6 +4,7 @@
 #include "CPackage.h"
 #include "CResourceStore.h"
 #include "Core/Resource/EGame.h"
+#include <Common/FileUtil.h>
 #include <Common/CUniqueID.h>
 #include <Common/TString.h>
 #include <Common/types.h>
@@ -14,18 +15,25 @@ class CGameProject
     TString mProjectName;
     TWideString mProjectRoot;
     TWideString mResourceDBPath;
-    std::vector<CPackage*> mWorldPaks;
-    std::vector<CPackage*> mResourcePaks;
+    std::vector<CPackage*> mPackages;
 
+    enum EProjectVersion
+    {
+        eVer_Initial,
+
+        eVer_Max,
+        eVer_Current = eVer_Max - 1
+    };
 public:
     CGameProject(const TWideString& rkProjRootDir)
         : mGame(eUnknownVersion)
-        , mProjectName("UnnamedProject")
+        , mProjectName("Unnamed Project")
         , mProjectRoot(rkProjRootDir)
         , mResourceDBPath(L"ResourceDB.rdb")
     {}
 
-    void AddPackage(CPackage *pPackage, bool WorldPak);
+    void Load();
+    void Save();
 
     // Directory Handling
     inline TWideString ProjectRoot() const                      { return mProjectRoot; }
@@ -34,13 +42,15 @@ public:
     inline TWideString ContentDir(bool Relative) const          { return Relative ? L"Content\\" : mProjectRoot + L"Content\\"; }
     inline TWideString CookedDir(bool Relative) const           { return Relative ? L"Cooked\\" : mProjectRoot + L"Cooked\\"; }
     inline TWideString PackagesDir(bool Relative) const         { return Relative ? L"Packages\\" : mProjectRoot + L"Packages\\"; }
+    inline TWideString ProjectPath() const                      { return mProjectRoot + FileUtil::SanitizeName(mProjectName.ToUTF16(), false) + L".prj"; }
 
     // Accessors
     inline void SetGame(EGame Game)                     { mGame = Game; }
     inline void SetProjectName(const TString& rkName)   { mProjectName = rkName; }
 
-    inline u32 NumWorldPaks() const                     { return mWorldPaks.size(); }
-    inline CPackage* WorldPakByIndex(u32 Index) const   { return mWorldPaks[Index]; }
+    inline u32 NumPackages() const                      { return mPackages.size(); }
+    inline CPackage* PackageByIndex(u32 Index) const    { return mPackages[Index]; }
+    inline void AddPackage(CPackage *pPackage)          { mPackages.push_back(pPackage); }
 
     inline EGame Game() const                           { return mGame; }
 };

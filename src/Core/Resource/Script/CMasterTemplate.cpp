@@ -119,6 +119,26 @@ std::list<CMasterTemplate*> CMasterTemplate::MasterList()
     return list;
 }
 
+TString CMasterTemplate::FindGameName(EGame Game)
+{
+    CMasterTemplate *pMaster = MasterForGame(Game);
+    return pMaster ? pMaster->GameName() : "Unknown Game";
+}
+
+EGame CMasterTemplate::FindGameForName(const TString& rkName)
+{
+    std::list<CMasterTemplate*> Masters = MasterList();
+
+    for (auto It = Masters.begin(); It != Masters.end(); It++)
+    {
+        CMasterTemplate *pMaster = *It;
+        if (pMaster->GameName() == rkName)
+            return pMaster->Game();
+    }
+
+    return eUnknownVersion;
+}
+
 TString CMasterTemplate::PropertyName(u32 PropertyID)
 {
     auto it = smPropertyNames.find(PropertyID);
