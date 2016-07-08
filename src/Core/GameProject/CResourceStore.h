@@ -54,6 +54,7 @@ public:
 
     CResource* LoadResource(const CUniqueID& rkID, const CFourCC& rkType);
     CResource* LoadResource(const TString& rkPath);
+    void TrackLoadedResource(CResourceEntry *pEntry);
     CFourCC ResourceTypeByID(const CUniqueID& rkID, const TStringList& rkPossibleTypes) const;
     void DestroyUnreferencedResources();
     bool DeleteResourceEntry(CResourceEntry *pEntry);

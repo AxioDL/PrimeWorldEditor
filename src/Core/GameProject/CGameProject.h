@@ -24,7 +24,15 @@ class CGameProject
         eVer_Max,
         eVer_Current = eVer_Max - 1
     };
+
+    static CGameProject *mspActiveProject;
+
 public:
+    CGameProject()
+        : mGame(eUnknownVersion)
+        , mProjectName("Unnamed Project")
+    {}
+
     CGameProject(const TWideString& rkProjRootDir)
         : mGame(eUnknownVersion)
         , mProjectName("Unnamed Project")
@@ -32,8 +40,12 @@ public:
         , mResourceDBPath(L"ResourceDB.rdb")
     {}
 
-    void Load();
+    ~CGameProject();
+
+    bool Load(const TWideString& rkPath);
     void Save();
+    void SetActive();
+    void GetWorldList(std::list<CUniqueID>& rOut) const;
 
     // Directory Handling
     inline TWideString ProjectRoot() const                      { return mProjectRoot; }
@@ -53,6 +65,9 @@ public:
     inline void AddPackage(CPackage *pPackage)          { mPackages.push_back(pPackage); }
 
     inline EGame Game() const                           { return mGame; }
+    inline bool IsActive() const                        { return mspActiveProject == this; }
+
+    static inline CGameProject* ActiveProject() { return mspActiveProject; }
 };
 
 extern CGameProject *gpProject;
