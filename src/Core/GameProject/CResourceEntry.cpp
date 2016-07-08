@@ -137,6 +137,7 @@ CResource* CResourceEntry::Load(IInputStream& rInput)
     default:                    mpResource = new CResource(this);                           break;
     }
 
+    mpStore->TrackLoadedResource(this);
     return mpResource;
 }
 

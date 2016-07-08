@@ -3,17 +3,27 @@
 #include <tinyxml2.h>
 
 using namespace tinyxml2;
+CGameProject *CGameProject::mspActiveProject = nullptr;
 
-void CGameProject::Load()
+CGameProject::~CGameProject()
 {
-    TString ProjPath = ProjectPath().ToUTF8();
+    if (IsActive())
+    {
+        mspActiveProject = nullptr;
+        gpResourceStore->SetActiveProject(nullptr);
+    }
+}
+
+bool CGameProject::Load(const TWideString& rkPath)
+{
+    TString ProjPath = rkPath.ToUTF8();
     XMLDocument Doc;
     Doc.LoadFile(*ProjPath);
 
     if (Doc.Error())
     {
         Log::Error("Unable to open game project at " + ProjPath);
-        return;
+        return false;
     }
 
     XMLElement *pRoot = Doc.FirstChildElement("GameProject");
@@ -29,7 +39,7 @@ void CGameProject::Load()
     {
         TString MissingElem = pProjName ? (pGame ? (pResDB ? "Packages" : "ResourceDB") : "Game") : "Name";
         Log::Error("Unable to load game project at " + ProjPath + "; " + MissingElem + " element is missing");
-        return;
+        return false;
     }
 
     mProjectName = pProjName->GetText();
@@ -41,7 +51,6 @@ void CGameProject::Load()
 
     while (pPkgElem)
     {
-        pPkgElem = pPkgElem->NextSiblingElement("Package");
         TString Path = pPkgElem->Attribute("Path");
 
         if (Path.IsEmpty())
@@ -53,7 +62,13 @@ void CGameProject::Load()
             pPackage->Load();
             mPackages.push_back(pPackage);
         }
+
+        pPkgElem = pPkgElem->NextSiblingElement("Package");
     }
+
+    // All loaded!
+    mProjectRoot = rkPath.GetFileDirectory();
+    return true;
 }
 
 void CGameProject::Save()
@@ -100,4 +115,34 @@ void CGameProject::Save()
 
     if (Result != XML_SUCCESS)
         Log::Error("Failed to save game project at: " + ProjPath);
+}
+
+void CGameProject::SetActive()
+{
+    if (mspActiveProject != this)
+    {
+        mspActiveProject = this;
+        gpResourceStore->SetActiveProject(this);
+    }
+}
+
+void CGameProject::GetWorldList(std::list<CUniqueID>& rOut) const
+{
+    for (u32 iPkg = 0; iPkg < mPackages.size(); iPkg++)
+    {
+        CPackage *pPkg = mPackages[iPkg];
+
+        for (u32 iCol = 0; iCol < pPkg->NumCollections(); iCol++)
+        {
+            CResourceCollection *pCol = pPkg->CollectionByIndex(iCol);
+
+            for (u32 iRes = 0; iRes < pCol->NumResources(); iRes++)
+            {
+                const SNamedResource& rkRes = pCol->ResourceByIndex(iRes);
+
+                if (rkRes.Type == "MLVL" && !rkRes.Name.EndsWith("NODEPEND"))
+                    rOut.push_back(rkRes.ID);
+            }
+        }
+    }
 }

@@ -49,50 +49,21 @@ void CResourceStore::LoadResourceDatabase(const TString& rkPath)
 
         while (pRes)
         {
-            XMLElement *pChild = pRes->FirstChildElement();
+            XMLElement *pID = pRes->FirstChildElement("ID");
+            XMLElement *pType = pRes->FirstChildElement("Type");
+            XMLElement *pDir = pRes->FirstChildElement("FileDir");
+            XMLElement *pName = pRes->FirstChildElement("FileName");
 
-            bool HasID = false, HasType = false, HasDir = false, HasName = false;
-            CUniqueID ID;
-            EResType Type;
-            TWideString FileDir;
-            TWideString FileName;
-
-            while (pChild)
+            if (pID && pType && pDir && pName)
             {
-                TString NodeName = pChild->Name();
-
-                if (NodeName == "ID")
-                {
-                    ID = CUniqueID::FromString(pChild->GetText());
-                    HasID = true;
-                }
-
-                else if (NodeName == "Type")
-                {
-                    Type = CResource::ResTypeForExtension(pChild->GetText());
-                    HasType = true;
-                    ASSERT(Type != eInvalidResType);
-                }
-
-                else if (NodeName == "FileDir")
-                {
-                    FileDir = pChild->GetText();
-                    HasDir = true;
-                }
-
-                else if (NodeName == "FileName")
-                {
-                    FileName = pChild->GetText();
-                    HasName = true;
-                }
-
-                pChild = pChild->NextSiblingElement();
-            }
-
-            if (HasID && HasType && HasDir && HasName)
+                CUniqueID ID = CUniqueID::FromString(pID->GetText());
+                EResType Type = CResource::ResTypeForExtension(pType->GetText());
+                TWideString FileDir = pDir->GetText();
+                TWideString FileName = pName->GetText();
                 RegisterResource(ID, Type, FileDir, FileName);
+            }
             else
-                Log::Error("Error reading " + rkPath + ": Resource entry " + TString::FromInt32(ResIndex, 0, 10) + " is missing one or more components");
+                Log::Error("Error reading " + rkPath + ": Resource entry " + TString::FromInt32(ResIndex, 0, 10) + " is missing one or more required components");
 
             ResIndex++;
             pRes = pRes->NextSiblingElement("Resource");
@@ -292,12 +263,6 @@ CResource* CResourceStore::LoadResource(const CUniqueID& rkID, const CFourCC& rk
         EResType Type = CResource::ResTypeForExtension(rkType);
         CResourceEntry *pEntry = RegisterTransientResource(Type, rkID);
         CResource *pRes = pEntry->Load(MemStream);
-
-        if (pRes)
-        {
-            mLoadedResources[rkID] = pEntry;
-        }
-
         return pRes;
     }
 
@@ -322,8 +287,7 @@ CResource* CResourceStore::LoadResource(const CUniqueID& rkID, const CFourCC& rk
             CFileInStream File(Path.ToStdString(), IOUtil::eBigEndian);
             CResource *pRes = pEntry->Load(File);
 
-            if (pRes) mLoadedResources[rkID] = pEntry;
-            else DeleteResourceEntry(pEntry);
+            if (!pRes) DeleteResourceEntry(pEntry);
             return pRes;
         }
 
@@ -371,13 +335,18 @@ CResource* CResourceStore::LoadResource(const TString& rkPath)
 
     CResourceEntry *pEntry = RegisterTransientResource(Type, ID, Dir, Name);
     CResource *pRes = pEntry->Load(File);
-
-    if (pRes) mLoadedResources[ID] = pEntry;
-    else DeleteResourceEntry(pEntry);
+    if (!pRes) DeleteResourceEntry(pEntry);
 
     mTransientLoadDir = OldTransientDir;
 
     return pRes;
+}
+
+void CResourceStore::TrackLoadedResource(CResourceEntry *pEntry)
+{
+    ASSERT(pEntry->IsLoaded());
+    ASSERT(mLoadedResources.find(pEntry->ID()) == mLoadedResources.end());
+    mLoadedResources[pEntry->ID()] = pEntry;
 }
 
 CFourCC CResourceStore::ResourceTypeByID(const CUniqueID& rkID, const TStringList& rkPossibleTypes) const

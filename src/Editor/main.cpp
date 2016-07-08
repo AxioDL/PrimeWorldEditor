@@ -1,4 +1,5 @@
 #include "CStartWindow.h"
+#include "CProjectOverviewDialog.h"
 #include <Common/Log.h>
 #include <Core/Resource/Factory/CTemplateLoader.h>
 
@@ -53,8 +54,8 @@ int main(int argc, char *argv[])
     qApp->setPalette(DarkPalette);
 
     // Execute application
-    CStartWindow StartWindow;
-    StartWindow.show();
+    CProjectOverviewDialog Dialog;
+    Dialog.show();
 
     return App.exec();
 }

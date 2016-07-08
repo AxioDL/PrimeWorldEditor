@@ -460,7 +460,7 @@ void CGameExporter::ExportWorlds()
                     SResourceInstance *pInst = FindResourceInstance(AreaID);
                     ASSERT(pInst != nullptr);
 
-                    SetResourcePath(AreaID, AreaDir, HasInternalName ? InternalAreaName : GameAreaName);
+                    SetResourcePath(AreaID, AreaDir, GameAreaName);
                     ExportResource(*pInst);
                 }
 
@@ -488,7 +488,7 @@ void CGameExporter::ExportCookedResources()
     {
         SCOPED_TIMER(SaveResourceDatabase);
 #if EXPORT_COOKED
-        mStore.SaveResourceDatabase(this->mExportDir.ToUTF8() + "ResourceDatabase.rdb");
+        mStore.SaveResourceDatabase(mpProject->ResourceDBPath(false).ToUTF8());
 #endif
         mpProject->Save();
     }

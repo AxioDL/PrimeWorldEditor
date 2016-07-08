@@ -94,14 +94,7 @@ void CVirtualDirectory::AddChild(const TWideString &rkPath, CResourceEntry *pEnt
     if (rkPath.IsEmpty())
     {
         if (pEntry)
-        {
-#if !PUBLIC_RELEASE
-            for (u32 iRes = 0; iRes < mResources.size(); iRes++)
-                ASSERT(mResources[iRes] != pEntry);
-#endif
-
             mResources.push_back(pEntry);
-        }
     }
 
     else
