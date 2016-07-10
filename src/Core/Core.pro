@@ -195,7 +195,8 @@ HEADERS += \
     GameProject/CGameExporter.h \
     GameProject/CResourceStore.h \
     GameProject/CVirtualDirectory.h \
-    GameProject/CResourceEntry.h
+    GameProject/CResourceEntry.h \
+    GameProject/CResourceIterator.h
 
 # Source Files
 SOURCES += \

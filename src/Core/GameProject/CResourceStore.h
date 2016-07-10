@@ -16,6 +16,8 @@ class CResource;
 
 class CResourceStore
 {
+    friend class CResourceIterator;
+
     CGameProject *mpProj;
     CVirtualDirectory *mpProjectRoot;
     std::vector<CVirtualDirectory*> mTransientRoots;
@@ -61,7 +63,8 @@ public:
     void SetTransientLoadDir(const TString& rkDir);
 
     // Accessors
-    inline CGameProject* ActiveProject() const  { return mpProj; }
+    inline CGameProject* ActiveProject() const      { return mpProj; }
+    inline CVirtualDirectory* RootDirectory() const { return mpProjectRoot; }
 };
 
 extern CResourceStore *gpResourceStore;

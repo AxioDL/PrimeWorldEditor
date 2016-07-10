@@ -1,6 +1,7 @@
 #include "CProjectOverviewDialog.h"
 #include "ui_CProjectOverviewDialog.h"
 #include "UICommon.h"
+#include "Editor/ResourceBrowser/CResourceBrowser.h"
 #include <Common/AssertMacro.h>
 #include <Core/GameProject/CGameExporter.h>
 #include <QFileDialog>
@@ -18,6 +19,7 @@ CProjectOverviewDialog::CProjectOverviewDialog(QWidget *pParent)
     connect(mpUI->ExportGameButton, SIGNAL(clicked()), this, SLOT(ExportGame()));
     connect(mpUI->LoadWorldButton, SIGNAL(clicked()), this, SLOT(LoadWorld()));
     connect(mpUI->LaunchEditorButton, SIGNAL(clicked()), this, SLOT(LaunchEditor()));
+    connect(mpUI->ViewResourcesButton, SIGNAL(clicked()), this, SLOT(LaunchResourceBrowser()));
 }
 
 CProjectOverviewDialog::~CProjectOverviewDialog()
@@ -163,4 +165,10 @@ void CProjectOverviewDialog::LaunchEditor()
         Log::Error("Failed to load area");
 
     gpResourceStore->DestroyUnreferencedResources();
+}
+
+void CProjectOverviewDialog::LaunchResourceBrowser()
+{
+    CResourceBrowser Browser(this);
+    Browser.exec();
 }

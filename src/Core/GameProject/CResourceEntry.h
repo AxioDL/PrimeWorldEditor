@@ -21,6 +21,9 @@ class CResourceEntry
     bool mNeedsRecook;
     bool mTransient;
 
+    mutable u64 mCachedSize;
+    mutable TWideString mCachedUppercaseName; // This is used to speed up case-insensitive sorting.
+
 public:
     CResourceEntry(CResourceStore *pStore, const CUniqueID& rkID,
                    const TWideString& rkDir, const TWideString& rkFilename,
@@ -30,6 +33,8 @@ public:
     bool HasCookedVersion() const;
     TString RawAssetPath(bool Relative = false) const;
     TString CookedAssetPath(bool Relative = false) const;
+    bool IsInDirectory(CVirtualDirectory *pDir) const;
+    u64 Size() const;
     bool NeedsRecook() const;
     void SetGame(EGame NewGame);
     CResource* Load();
@@ -48,6 +53,7 @@ public:
     inline EGame Game() const                   { return mGame; }
     inline CVirtualDirectory* Directory() const { return mpDirectory; }
     inline TWideString Name() const             { return mName; }
+    inline TWideString UppercaseName() const    { return mCachedUppercaseName; }
     inline EResType ResourceType() const        { return mType; }
     inline bool IsTransient() const             { return mTransient; }
 

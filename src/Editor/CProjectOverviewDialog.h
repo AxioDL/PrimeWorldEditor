@@ -30,6 +30,7 @@ public slots:
     void ExportGame();
     void LoadWorld();
     void LaunchEditor();
+    void LaunchResourceBrowser();
 
     void SetupWorldsList();
 };

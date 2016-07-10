@@ -33,6 +33,8 @@ CResourceEntry::CResourceEntry(CResourceStore *pStore, const CUniqueID& rkID,
     , mType(Type)
     , mNeedsRecook(false)
     , mTransient(Transient)
+    , mCachedSize(-1)
+    , mCachedUppercaseName(rkFilename.ToUpper())
 {
     mpDirectory = mpStore->GetVirtualDirectory(rkDir, Transient, true);
     if (mpDirectory) mpDirectory->AddChild(L"", this);
@@ -68,6 +70,32 @@ TString CResourceEntry::CookedAssetPath(bool Relative) const
     TWideString Path = mpDirectory ? mpDirectory->FullPath() : L"";
     TWideString Name = mName + L"." + Ext;
     return ((mTransient || Relative) ? Path + Name : mpStore->ActiveProject()->CookedDir(false) + Path + Name);
+}
+
+bool CResourceEntry::IsInDirectory(CVirtualDirectory *pDir) const
+{
+    CVirtualDirectory *pParentDir = mpDirectory;
+
+    while (pParentDir)
+    {
+        if (pParentDir == pDir) return true;
+        pParentDir = pParentDir->Parent();
+    }
+
+    return false;
+}
+
+u64 CResourceEntry::Size() const
+{
+    if (mCachedSize == -1)
+    {
+        if (HasCookedVersion())
+            mCachedSize = FileUtil::FileSize(CookedAssetPath());
+        else
+            return 0;
+    }
+
+    return mCachedSize;
 }
 
 bool CResourceEntry::NeedsRecook() const
@@ -170,6 +198,7 @@ void CResourceEntry::Move(const TWideString& rkDir, const TWideString& rkName)
         ASSERT(mpDirectory->FindChildResource(rkName) == nullptr);
 
     mName = rkName;
+    mCachedUppercaseName = rkName.ToUpper();
 
     // Move files
     if (HasDirectory)
