@@ -30,7 +30,7 @@
  */
 
 // Helper macros for creating string literals of the correct char type. Internal use only! Invalid outside of this header!
-#define LITERAL(Text) (typeid(CharType) == typeid(char)) ? (const CharType*) ##Text : (const CharType*) L##Text
+#define LITERAL(Text) (typeid(CharType) == typeid(char) ? (const CharType*) ##Text : (const CharType*) L##Text)
 #define CHAR_LITERAL(Text) (CharType) Text
 
 // ************ TBasicString ************
@@ -846,7 +846,7 @@ public:
 
     static TBasicString<CharType> FromFloat(float Value, int MinDecimals = 1)
     {
-        TString Out = std::to_string(Value);
+        _TString Out = std::to_string(Value);
         int NumZeroes = Out.Size() - (Out.IndexOf(LITERAL(".")) + 1);
 
         while (Out.Back() == CHAR_LITERAL('0') && NumZeroes > MinDecimals)
@@ -856,6 +856,39 @@ public:
         }
 
         return Out;
+    }
+
+    static TBasicString<CharType> FileSizeString(u64 Size, u32 NumDecimals = 2)
+    {
+        _TString Out;
+        _TString Type;
+
+        if (Size < 100)
+        {
+            return FromInt64(Size, 0, 10) + LITERAL(" bytes");
+        }
+
+        else if (Size < 1000000)
+        {
+            Out = FromFloat(Size / 1000.f, NumDecimals);
+            Type = LITERAL("KB");
+        }
+
+        else if (Size < 1000000000)
+        {
+            Out = FromFloat(Size / 1000000.f, NumDecimals);
+            Type = LITERAL("MB");
+        }
+
+        else
+        {
+            Out = FromFloat(Size / 1000000000.f, NumDecimals);
+            Type = LITERAL("GB");
+        }
+
+        u32 DecCount = Out.Size() - (Out.IndexOf(CHAR_LITERAL('.')) + 1);
+        if (DecCount > NumDecimals) Out = Out.ChopBack(DecCount - NumDecimals);
+        return Out + Type;
     }
 
     static TBasicString<CharType> HexString(unsigned char Num, int Width = 8, bool AddPrefix = true, bool Uppercase = true)

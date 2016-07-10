@@ -33,6 +33,13 @@
     </layout>
    </item>
    <item>
+    <widget class="QPushButton" name="ViewResourcesButton">
+     <property name="text">
+      <string>View Resources</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QGroupBox" name="WorldsGroupBox">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">

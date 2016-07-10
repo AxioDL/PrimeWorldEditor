@@ -164,7 +164,11 @@ HEADERS += \
     CGridRenderable.h \
     CharacterEditor/CSkeletonHierarchyModel.h \
     CLineRenderable.h \
-    CProjectOverviewDialog.h
+    CProjectOverviewDialog.h \
+    ResourceBrowser/CResourceBrowser.h \
+    ResourceBrowser/CResourceTableModel.h \
+    ResourceBrowser/CResourceProxyModel.h \
+    ResourceBrowser/CVirtualDirectoryModel.h
 
 # Source Files
 SOURCES += \
@@ -225,7 +229,8 @@ SOURCES += \
     CharacterEditor/CCharacterEditor.cpp \
     CharacterEditor/CCharacterEditorViewport.cpp \
     CharacterEditor/CSkeletonHierarchyModel.cpp \
-    CProjectOverviewDialog.cpp
+    CProjectOverviewDialog.cpp \
+    ResourceBrowser/CResourceBrowser.cpp
 
 # UI Files
 FORMS += \
@@ -247,4 +252,5 @@ FORMS += \
     WorldEditor/CRepackInfoDialog.ui \
     CAboutDialog.ui \
     CharacterEditor/CCharacterEditor.ui \
-    CProjectOverviewDialog.ui
+    CProjectOverviewDialog.ui \
+    ResourceBrowser/CResourceBrowser.ui

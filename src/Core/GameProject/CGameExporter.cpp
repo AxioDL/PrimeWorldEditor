@@ -171,6 +171,7 @@ void CGameExporter::LoadPaks()
     for (auto It = mPaks.begin(); It != mPaks.end(); It++)
     {
         TWideString PakPath = *It;
+        TWideString PakName = PakPath.GetFileName(false);
         TString CharPak = PakPath.ToUTF8();
         CFileInStream Pak(CharPak.ToStdString(), IOUtil::eBigEndian);
 
@@ -203,6 +204,7 @@ void CGameExporter::LoadPaks()
                     u32 NameLen = Pak.ReadLong();
                     TString Name = Pak.ReadString(NameLen);
                     pCollection->AddResource(Name, ResID, ResType);
+                    SetResourcePath(ResID.ToLongLong(), PakName + L"\\", Name.ToUTF16());
                 }
 
                 u32 NumResources = Pak.ReadLong();
@@ -261,6 +263,7 @@ void CGameExporter::LoadPaks()
                         CFourCC ResType = Pak.ReadLong();
                         CUniqueID ResID(Pak, IDLength);
                         pCollection->AddResource(Name, ResID, ResType);
+                        SetResourcePath(ResID.ToLongLong(), PakName + L"\\", Name.ToUTF16());
                     }
                 }
 
