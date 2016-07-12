@@ -49,7 +49,7 @@ void CResourceBrowser::OnSortModeChanged(int Index)
 
 void CResourceBrowser::OnSearchStringChanged()
 {
-    mpProxyModel->SetSearchString( mpUI->SearchBar->text() );
+    mpProxyModel->SetSearchString( TO_TWIDESTRING(mpUI->SearchBar->text()) );
 }
 
 void CResourceBrowser::OnDirectorySelectionChanged(const QModelIndex& rkNewIndex, const QModelIndex& /*rkPrevIndex*/)

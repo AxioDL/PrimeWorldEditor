@@ -17,7 +17,7 @@ public:
 private:
     CResourceTableModel *mpModel;
     CVirtualDirectory *mpDirectory;
-    QString mSearchString;
+    TWideString mSearchString;
     ESortMode mSortMode;
 
 public:
@@ -56,7 +56,7 @@ public:
         if (mpDirectory && !pEntry->IsInDirectory(mpDirectory))
             return false;
 
-        if (!mSearchString.isEmpty() && !pEntry->Name().Contains(TO_TWIDESTRING(mSearchString), false))
+        if (!mSearchString.IsEmpty() && !pEntry->UppercaseName().Contains(mSearchString))
             return false;
 
         return true;
@@ -74,14 +74,14 @@ public:
     inline void SetDirectory(CVirtualDirectory *pDir)
     {
         mpDirectory = pDir;
-        invalidateFilter();
+        invalidate();
     }
 
 public slots:
-    void SetSearchString(const QString& rkString)
+    void SetSearchString(const TWideString& rkString)
     {
-        mSearchString = rkString;
-        invalidateFilter();
+        mSearchString = rkString.ToUpper();
+        invalidate();
     }
 };
 

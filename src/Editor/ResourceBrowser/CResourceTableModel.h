@@ -49,6 +49,9 @@ public:
         else if (Role == Qt::ToolTipRole)
             return TO_QSTRING(pEntry->Directory()->FullPath() + pEntry->Name());
 
+        else if (Role == Qt::TextAlignmentRole && rkIndex.column() == 2)
+            return Qt::AlignRight;
+
         return QVariant::Invalid;
     }
 
