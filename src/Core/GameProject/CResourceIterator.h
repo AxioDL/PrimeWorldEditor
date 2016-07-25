@@ -11,7 +11,7 @@ class CResourceIterator
     CResourceEntry *mpCurEntry;
 
 public:
-    CResourceIterator(CResourceStore *pStore)
+    CResourceIterator(CResourceStore *pStore = gpResourceStore)
         : mpStore(pStore)
         , mpCurEntry(nullptr)
     {

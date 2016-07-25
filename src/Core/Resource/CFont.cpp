@@ -22,6 +22,13 @@ inline float PtsToFloat(s32 Pt)
     return 0.00208333f * Pt;
 }
 
+CDependencyTree* CFont::BuildDependencyTree() const
+{
+    CDependencyTree *pOut = new CDependencyTree(ResID());
+    pOut->AddDependency(mpFontTexture);
+    return pOut;
+}
+
 CVector2f CFont::RenderString(const TString& rkString, CRenderer* /*pRenderer*/, float /*AspectRatio*/,
                               CVector2f /*Position*/, CColor FillColor, CColor StrokeColor, u32 FontSize)
 {

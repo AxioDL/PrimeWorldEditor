@@ -69,6 +69,14 @@ void CResourceStore::LoadResourceDatabase(const TString& rkPath)
             pRes = pRes->NextSiblingElement("Resource");
         }
     }
+
+    // All resources registered - load cache data
+    for (auto It = mResourceEntries.begin(); It != mResourceEntries.end(); It++)
+    {
+        CResourceEntry *pEntry = It->second;
+        if (!pEntry->IsTransient())
+            pEntry->LoadCacheData();
+    }
 }
 
 void CResourceStore::SaveResourceDatabase(const TString& rkPath) const
@@ -108,10 +116,6 @@ void CResourceStore::SaveResourceDatabase(const TString& rkPath) const
         XMLElement *pName = Doc.NewElement("FileName");
         pName->SetText(*pEntry->Name().ToUTF8());
         pRes->LinkEndChild(pName);
-
-        XMLElement *pRecook = Doc.NewElement("NeedsRecook");
-        pRecook->SetText(pEntry->NeedsRecook() ? "true" : "false");
-        pRes->LinkEndChild(pRecook);
     }
 
     Doc.SaveFile(*rkPath);
@@ -231,10 +235,7 @@ CResourceEntry* CResourceStore::RegisterTransientResource(EResType Type, const C
 {
     CResourceEntry *pEntry = FindEntry(rkID);
 
-    if (pEntry)
-        Log::Error("Attempted to register transient resource that already exists: " + rkID.ToString() + " / Dir: " + rkDir.ToUTF8() + " / Name: " + rkFileName.ToUTF8());
-
-    else
+    if (!pEntry)
     {
         pEntry = new CResourceEntry(this, rkID, rkDir, rkFileName, Type, true);
         mResourceEntries[rkID] = pEntry;

@@ -38,7 +38,9 @@ public:
         , mProjectName("Unnamed Project")
         , mProjectRoot(rkProjRootDir)
         , mResourceDBPath(L"ResourceDB.rdb")
-    {}
+    {
+        mProjectRoot.Replace(L"/", L"\\");
+    }
 
     ~CGameProject();
 
@@ -51,6 +53,7 @@ public:
     inline TWideString ProjectRoot() const                      { return mProjectRoot; }
     inline TWideString ResourceDBPath(bool Relative) const      { return Relative ? mResourceDBPath : mProjectRoot + mResourceDBPath; }
     inline TWideString DiscDir(bool Relative) const             { return Relative ? L"Disc\\" : mProjectRoot + L"Disc\\"; }
+    inline TWideString CacheDir(bool Relative) const            { return Relative ? L"Cache\\" : mProjectRoot + L"Cache\\"; }
     inline TWideString ContentDir(bool Relative) const          { return Relative ? L"Content\\" : mProjectRoot + L"Content\\"; }
     inline TWideString CookedDir(bool Relative) const           { return Relative ? L"Cooked\\" : mProjectRoot + L"Cooked\\"; }
     inline TWideString PackagesDir(bool Relative) const         { return Relative ? L"Packages\\" : mProjectRoot + L"Packages\\"; }

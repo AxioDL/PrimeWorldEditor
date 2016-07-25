@@ -65,6 +65,8 @@ public:
     // Accessors
     inline CGameProject* ActiveProject() const      { return mpProj; }
     inline CVirtualDirectory* RootDirectory() const { return mpProjectRoot; }
+    inline u32 NumTotalResources() const            { return mResourceEntries.size(); }
+    inline u32 NumLoadedResources() const           { return mLoadedResources.size(); }
 };
 
 extern CResourceStore *gpResourceStore;

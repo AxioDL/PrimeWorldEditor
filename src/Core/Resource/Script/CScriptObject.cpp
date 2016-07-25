@@ -63,6 +63,7 @@ bool CScriptObject::IsEditorProperty(IProperty *pProp)
              (pProp == mpRotation) ||
              (pProp == mpScale) ||
              (pProp == mpActive) ||
+             (pProp == mpLightParameters) ||
              (pProp->Parent() == mpLightParameters)
            );
 }

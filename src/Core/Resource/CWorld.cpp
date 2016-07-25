@@ -17,6 +17,28 @@ CWorld::~CWorld()
 {
 }
 
+CDependencyTree* CWorld::BuildDependencyTree() const
+{
+    CDependencyTree *pTree = new CDependencyTree(ResID());
+
+    for (u32 iArea = 0; iArea < mAreas.size(); iArea++)
+    {
+        pTree->AddDependency(mAreas[iArea].FileID);
+        pTree->AddDependency(mAreas[iArea].pAreaName);
+    }
+    
+    pTree->AddDependency(mpWorldName);
+    pTree->AddDependency(mpDarkWorldName);
+    pTree->AddDependency(mpSaveWorld);
+    pTree->AddDependency(mpDefaultSkybox);
+    pTree->AddDependency(mpMapWorld);
+
+    if (Game() <= ePrime)
+        Log::Warning("CWorld::BuildDependencyTree not handling audio groups");
+
+    return pTree;
+}
+
 void CWorld::SetAreaLayerInfo(CGameArea *pArea)
 {
     // The AreaIndex parameter is a placeholder until an improved world loader is implemented.

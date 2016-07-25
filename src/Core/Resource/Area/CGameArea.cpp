@@ -10,7 +10,7 @@ CGameArea::CGameArea(CResourceEntry *pEntry /*= 0*/)
     , mTerrainMerged(false)
     , mOriginalWorldMeshCount(0)
     , mUsesCompression(false)
-    , mMaterialSet(nullptr)
+    , mpMaterialSet(nullptr)
     , mpGeneratorLayer(nullptr)
     , mpCollision(nullptr)
 {
@@ -29,6 +29,32 @@ CGameArea::~CGameArea()
     for (u32 iLyr = 0; iLyr < mLightLayers.size(); iLyr++)
         for (u32 iLight = 0; iLight < mLightLayers[iLyr].size(); iLight++)
             delete mLightLayers[iLyr][iLight];
+}
+
+CDependencyTree* CGameArea::BuildDependencyTree() const
+{
+    // Base dependencies
+    CAreaDependencyTree *pTree = new CAreaDependencyTree(ResID());
+
+    for (u32 iMat = 0; iMat < mpMaterialSet->NumMaterials(); iMat++)
+    {
+        CMaterial *pMat = mpMaterialSet->MaterialByIndex(iMat);
+        pTree->AddDependency(pMat->IndTexture());
+
+        for (u32 iPass = 0; iPass < pMat->PassCount(); iPass++)
+            pTree->AddDependency(pMat->Pass(iPass)->Texture());
+    }
+
+    pTree->AddDependency(mpPoiToWorldMap);
+    Log::Warning("CGameArea::FindDependencies not handling PATH/PTLA");
+    
+    // Layer dependencies
+    for (u32 iLayer = 0; iLayer < mScriptLayers.size(); iLayer++)
+        pTree->AddScriptLayer(mScriptLayers[iLayer]);
+
+    pTree->AddScriptLayer(mpGeneratorLayer);
+
+    return pTree;
 }
 
 void CGameArea::AddWorldModel(CModel *pModel)
@@ -52,7 +78,7 @@ void CGameArea::MergeTerrain()
         for (u32 iSurf = 0; iSurf < SubmeshCount; iSurf++)
         {
             SSurface *pSurf = pMdl->GetSurface(iSurf);
-            CMaterial *pMat = mMaterialSet->MaterialByIndex(pSurf->MaterialID);
+            CMaterial *pMat = mpMaterialSet->MaterialByIndex(pSurf->MaterialID);
 
             bool NewMat = true;
             for (std::vector<CStaticModel*>::iterator it = mStaticWorldModels.begin(); it != mStaticWorldModels.end(); it++)
@@ -93,7 +119,7 @@ void CGameArea::ClearTerrain()
         delete mStaticWorldModels[iStatic];
     mStaticWorldModels.clear();
 
-    if (mMaterialSet) delete mMaterialSet;
+    if (mpMaterialSet) delete mpMaterialSet;
 
     mVertexCount = 0;
     mTriangleCount = 0;

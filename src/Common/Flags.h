@@ -32,6 +32,10 @@ public:
     inline bool HasFlag(FlagEnum Flag) const    { return ((mValue & Flag) != 0); }
     inline bool HasAnyFlags(TFlags Flags) const { return ((mValue & Flags) != 0); }
     inline bool HasAllFlags(TFlags Flags) const { return ((mValue & Flags) == Flags); }
+    inline void SetFlag(FlagEnum Flag)          { mValue |= Flag; }
+    inline void SetFlag(TFlags Flags)           { mValue |= Flags; }
+    inline void ClearFlag(FlagEnum Flag)        { mValue &= ~Flag; }
+    inline void ClearFlag(TFlags Flags)         { mValue &= ~Flags; }
 };
 #define DECLARE_FLAGS(Enum, FlagTypeName) typedef TFlags<Enum> FlagTypeName;
 

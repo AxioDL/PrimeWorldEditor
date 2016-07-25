@@ -45,7 +45,7 @@ class CGameArea : public CResource
     std::vector<SSectionNumber> mSectionNumbers;
 
     // Geometry
-    CMaterialSet *mMaterialSet;
+    CMaterialSet *mpMaterialSet;
     std::vector<CModel*> mWorldModels; // TerrainModels is the original version of each model; this is currently mainly used in the POI map editor
     std::vector<CStaticModel*> mStaticWorldModels; // StaticTerrainModels is the merged terrain for faster rendering in the world editor
     // Script
@@ -62,6 +62,7 @@ class CGameArea : public CResource
 public:
     CGameArea(CResourceEntry *pEntry = 0);
     ~CGameArea();
+    CDependencyTree* BuildDependencyTree() const;
 
     void AddWorldModel(CModel *pModel);
     void MergeTerrain();

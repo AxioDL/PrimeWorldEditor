@@ -212,7 +212,7 @@ public:
     inline void Insert(u32 Pos, CharType Chr)
     {
 #ifdef _DEBUG
-        if (Size() <= Pos)
+        if (Size() < Pos)
             throw std::out_of_range("Invalid position passed to TBasicString::Insert()");
 #endif
         mInternalString.insert(Pos, 1, Chr);
@@ -221,7 +221,7 @@ public:
     inline void Insert(u32 Pos, const CharType* pkStr)
     {
 #ifdef _DEBUG
-        if (Size() <= Pos)
+        if (Size() < Pos)
             throw std::out_of_range("Invalid position passed to TBasicString::Insert()");
 #endif
         mInternalString.insert(Pos, pkStr);
@@ -846,7 +846,10 @@ public:
 
     static TBasicString<CharType> FromFloat(float Value, int MinDecimals = 1)
     {
-        _TString Out = std::to_string(Value);
+        std::basic_stringstream<CharType> sstream;
+        sstream << Value;
+        _TString Out = sstream.str();
+
         int NumZeroes = Out.Size() - (Out.IndexOf(LITERAL(".")) + 1);
 
         while (Out.Back() == CHAR_LITERAL('0') && NumZeroes > MinDecimals)
