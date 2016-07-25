@@ -34,7 +34,7 @@ CGameArea::~CGameArea()
 CDependencyTree* CGameArea::BuildDependencyTree() const
 {
     // Base dependencies
-    CAreaDependencyTree *pTree = new CAreaDependencyTree(ResID());
+    CAreaDependencyTree *pTree = new CAreaDependencyTree(ID());
 
     for (u32 iMat = 0; iMat < mpMaterialSet->NumMaterials(); iMat++)
     {

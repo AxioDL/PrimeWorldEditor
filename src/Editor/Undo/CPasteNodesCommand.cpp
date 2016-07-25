@@ -104,7 +104,7 @@ void CPasteNodesCommand::redo()
                     pLink->SetReceiver(pNewTarget->InstanceID());
                 }
 
-                else if (mpMimeData->AreaID() != pArea->ResID() || pArea->InstanceByID(pLink->ReceiverID()) == nullptr)
+                else if (mpMimeData->AreaID() != pArea->ID() || pArea->InstanceByID(pLink->ReceiverID()) == nullptr)
                 {
                     CScriptObject *pSender = pLink->Sender();
                     CScriptObject *pReceiver = pLink->Receiver();

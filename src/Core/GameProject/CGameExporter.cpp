@@ -50,7 +50,7 @@ bool CGameExporter::Export()
     return true;
 }
 
-void CGameExporter::LoadResource(const CUniqueID& rkID, std::vector<u8>& rBuffer)
+void CGameExporter::LoadResource(const CAssetID& rkID, std::vector<u8>& rBuffer)
 {
     SResourceInstance *pInst = FindResourceInstance(rkID);
     if (pInst) LoadResource(*pInst, rBuffer);
@@ -168,7 +168,7 @@ void CGameExporter::LoadPaks()
 {
 #if LOAD_PAKS
     SCOPED_TIMER(LoadPaks);
-    EUIDLength IDLength = (Game() < eCorruptionProto ? e32Bit : e64Bit);
+    EIDLength IDLength = (Game() < eCorruptionProto ? e32Bit : e64Bit);
 
     for (auto It = mPaks.begin(); It != mPaks.end(); It++)
     {
@@ -202,7 +202,7 @@ void CGameExporter::LoadPaks()
                 for (u32 iName = 0; iName < NumNamedResources; iName++)
                 {
                     CFourCC ResType = Pak.ReadLong();
-                    CUniqueID ResID(Pak, IDLength);
+                    CAssetID ResID(Pak, IDLength);
                     u32 NameLen = Pak.ReadLong();
                     TString Name = Pak.ReadString(NameLen);
                     pCollection->AddResource(Name, ResID, ResType);
@@ -215,7 +215,7 @@ void CGameExporter::LoadPaks()
                 {
                     bool Compressed = (Pak.ReadLong() == 1);
                     CFourCC ResType = Pak.ReadLong();
-                    CUniqueID ResID(Pak, IDLength);
+                    CAssetID ResID(Pak, IDLength);
                     u32 ResSize = Pak.ReadLong();
                     u32 ResOffset = Pak.ReadLong();
 
@@ -263,7 +263,7 @@ void CGameExporter::LoadPaks()
                     {
                         TString Name = Pak.ReadString();
                         CFourCC ResType = Pak.ReadLong();
-                        CUniqueID ResID(Pak, IDLength);
+                        CAssetID ResID(Pak, IDLength);
                         pCollection->AddResource(Name, ResID, ResType);
                         SetResourcePath(ResID.ToLongLong(), PakName + L"\\", Name.ToUTF16());
                     }
@@ -279,7 +279,7 @@ void CGameExporter::LoadPaks()
                     {
                         bool Compressed = (Pak.ReadLong() == 1);
                         CFourCC Type = Pak.ReadLong();
-                        CUniqueID ResID(Pak, IDLength);
+                        CAssetID ResID(Pak, IDLength);
                         u32 Size = Pak.ReadLong();
                         u32 Offset = DataStart + Pak.ReadLong();
 
@@ -461,7 +461,7 @@ void CGameExporter::ExportWorlds()
                     TWideString AreaDir = WorldDir + TWideString::FromInt32(iArea, 2, 10) + L"_" + FileUtil::SanitizeName(GameAreaName, true) + L"\\";
                     FileUtil::CreateDirectory(mCookedDir + AreaDir);
 
-                    CUniqueID AreaID = pWorld->AreaResourceID(iArea);
+                    CAssetID AreaID = pWorld->AreaResourceID(iArea);
                     SResourceInstance *pInst = FindResourceInstance(AreaID);
                     ASSERT(pInst != nullptr);
 

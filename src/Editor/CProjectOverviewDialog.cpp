@@ -89,14 +89,14 @@ void CProjectOverviewDialog::SetupWorldsList()
 {
     ASSERT(mpProject != nullptr && mpProject->IsActive());
 
-    std::list<CUniqueID> WorldIDs;
+    std::list<CAssetID> WorldIDs;
     mpProject->GetWorldList(WorldIDs);
     mWorldEntries.clear();
     mpUI->WorldsList->clear();
 
     for (auto It = WorldIDs.begin(); It != WorldIDs.end(); It++)
     {
-        CUniqueID ID = *It;
+        CAssetID ID = *It;
         CResourceEntry *pEntry = gpResourceStore->FindEntry(ID);
 
         if (!pEntry)

@@ -25,7 +25,7 @@
 #include "Core/Resource/Factory/CTextureDecoder.h"
 #include "Core/Resource/Factory/CWorldLoader.h"
 
-CResourceEntry::CResourceEntry(CResourceStore *pStore, const CUniqueID& rkID,
+CResourceEntry::CResourceEntry(CResourceStore *pStore, const CAssetID& rkID,
                const TWideString& rkDir, const TWideString& rkFilename,
                EResType Type, bool Transient /*= false*/)
     : mpResource(nullptr)

@@ -43,7 +43,7 @@ void CPackage::Load()
 
             else
             {
-                CUniqueID ID = CUniqueID::FromString(pIDElem->GetText());
+                CAssetID ID = CAssetID::FromString(pIDElem->GetText());
                 TString Name = pNameElem->GetText();
                 CFourCC Type = CFourCC(pTypeElem->GetText());
                 pCollection->AddResource(Name, ID, Type);

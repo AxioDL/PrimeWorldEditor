@@ -3,8 +3,8 @@
 
 #include "CVirtualDirectory.h"
 #include "Core/Resource/EResType.h"
+#include <Common/CAssetID.h>
 #include <Common/CFourCC.h>
-#include <Common/CUniqueID.h>
 #include <Common/TString.h>
 #include <Common/types.h>
 #include <map>
@@ -21,8 +21,8 @@ class CResourceStore
     CGameProject *mpProj;
     CVirtualDirectory *mpProjectRoot;
     std::vector<CVirtualDirectory*> mTransientRoots;
-    std::map<CUniqueID, CResourceEntry*> mResourceEntries;
-    std::map<CUniqueID, CResourceEntry*> mLoadedResources;
+    std::map<CAssetID, CResourceEntry*> mResourceEntries;
+    std::map<CAssetID, CResourceEntry*> mLoadedResources;
 
     // Directory to look for transient resources in
     TWideString mTransientLoadDir;
@@ -48,16 +48,16 @@ public:
     void CloseActiveProject();
     CVirtualDirectory* GetVirtualDirectory(const TWideString& rkPath, bool Transient, bool AllowCreate);
 
-    bool IsResourceRegistered(const CUniqueID& rkID) const;
-    CResourceEntry* RegisterResource(const CUniqueID& rkID, EResType Type, const TWideString& rkDir, const TWideString& rkFileName);
-    CResourceEntry* FindEntry(const CUniqueID& rkID) const;
+    bool IsResourceRegistered(const CAssetID& rkID) const;
+    CResourceEntry* RegisterResource(const CAssetID& rkID, EResType Type, const TWideString& rkDir, const TWideString& rkFileName);
+    CResourceEntry* FindEntry(const CAssetID& rkID) const;
     CResourceEntry* RegisterTransientResource(EResType Type, const TWideString& rkDir = L"", const TWideString& rkFileName = L"");
-    CResourceEntry* RegisterTransientResource(EResType Type, const CUniqueID& rkID, const TWideString& rkDir = L"", const TWideString& rkFileName = L"");
+    CResourceEntry* RegisterTransientResource(EResType Type, const CAssetID& rkID, const TWideString& rkDir = L"", const TWideString& rkFileName = L"");
 
-    CResource* LoadResource(const CUniqueID& rkID, const CFourCC& rkType);
+    CResource* LoadResource(const CAssetID& rkID, const CFourCC& rkType);
     CResource* LoadResource(const TString& rkPath);
     void TrackLoadedResource(CResourceEntry *pEntry);
-    CFourCC ResourceTypeByID(const CUniqueID& rkID, const TStringList& rkPossibleTypes) const;
+    CFourCC ResourceTypeByID(const CAssetID& rkID, const TStringList& rkPossibleTypes) const;
     void DestroyUnreferencedResources();
     bool DeleteResourceEntry(CResourceEntry *pEntry);
     void SetTransientLoadDir(const TString& rkDir);

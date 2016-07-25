@@ -32,7 +32,7 @@ CModel::~CModel()
 
 CDependencyTree* CModel::BuildDependencyTree() const
 {
-    CDependencyTree *pTree = new CDependencyTree(ResID());
+    CDependencyTree *pTree = new CDependencyTree(ID());
 
     for (u32 iSet = 0; iSet < mMaterialSets.size(); iSet++)
     {

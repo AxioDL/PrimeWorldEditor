@@ -3,7 +3,7 @@
 
 #include "CGameProject.h"
 #include "CResourceStore.h"
-#include <Common/CUniqueID.h>
+#include <Common/CAssetID.h>
 #include <Common/Flags.h>
 #include <Common/TString.h>
 #include <Common/types.h>
@@ -30,7 +30,7 @@ class CGameExporter
     struct SResourceInstance
     {
         TWideString PakFile;
-        CUniqueID ResourceID;
+        CAssetID ResourceID;
         CFourCC ResourceType;
         u32 PakOffset;
         u32 PakSize;
@@ -49,7 +49,7 @@ class CGameExporter
 public:
     CGameExporter(const TString& rkInputDir, const TString& rkOutputDir);
     bool Export();
-    void LoadResource(const CUniqueID& rkID, std::vector<u8>& rBuffer);
+    void LoadResource(const CAssetID& rkID, std::vector<u8>& rBuffer);
 
 protected:
     void CopyDiscData();
@@ -61,21 +61,21 @@ protected:
     void ExportResource(SResourceInstance& rRes);
 
     // Convenience Functions
-    inline SResourceInstance* FindResourceInstance(const CUniqueID& rkID)
+    inline SResourceInstance* FindResourceInstance(const CAssetID& rkID)
     {
         u64 IntegralID = rkID.ToLongLong();
         auto Found = mResourceMap.find(IntegralID);
         return (Found == mResourceMap.end() ? nullptr : &Found->second);
     }
 
-    inline SResourcePath* FindResourcePath(const CUniqueID& rkID)
+    inline SResourcePath* FindResourcePath(const CAssetID& rkID)
     {
         u64 IntegralID = rkID.ToLongLong();
         auto Found = mResourcePaths.find(IntegralID);
         return (Found == mResourcePaths.end() ? nullptr : &Found->second);
     }
 
-    inline void SetResourcePath(const CUniqueID& rkID, const TWideString& rkDir, const TWideString& rkName)
+    inline void SetResourcePath(const CAssetID& rkID, const TWideString& rkDir, const TWideString& rkName)
     {
         SetResourcePath(rkID.ToLongLong(), rkDir, rkName);
     }

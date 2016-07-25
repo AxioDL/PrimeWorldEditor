@@ -127,7 +127,7 @@ void CGameProject::SetActive()
     }
 }
 
-void CGameProject::GetWorldList(std::list<CUniqueID>& rOut) const
+void CGameProject::GetWorldList(std::list<CAssetID>& rOut) const
 {
     for (u32 iPkg = 0; iPkg < mPackages.size(); iPkg++)
     {

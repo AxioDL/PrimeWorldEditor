@@ -8,12 +8,12 @@ EDependencyNodeType CResourceDependency::Type() const
     return eDNT_ResourceDependency;
 }
 
-void CResourceDependency::Read(IInputStream& rFile, EUIDLength IDLength)
+void CResourceDependency::Read(IInputStream& rFile, EIDLength IDLength)
 {
-    mID = CUniqueID(rFile, IDLength);
+    mID = CAssetID(rFile, IDLength);
 }
 
-void CResourceDependency::Write(IOutputStream& rFile, EUIDLength IDLength) const
+void CResourceDependency::Write(IOutputStream& rFile, EIDLength IDLength) const
 {
     if (IDLength == e32Bit)
         rFile.WriteLong(mID.ToLong());
@@ -27,13 +27,13 @@ EDependencyNodeType CAnimSetDependency::Type() const
     return eDNT_AnimSet;
 }
 
-void CAnimSetDependency::Read(IInputStream& rFile, EUIDLength IDLength)
+void CAnimSetDependency::Read(IInputStream& rFile, EIDLength IDLength)
 {
     CResourceDependency::Read(rFile, IDLength);
     mUsedChar = rFile.ReadLong();
 }
 
-void CAnimSetDependency::Write(IOutputStream& rFile, EUIDLength IDLength) const
+void CAnimSetDependency::Write(IOutputStream& rFile, EIDLength IDLength) const
 {
     CResourceDependency::Write(rFile, IDLength);
     rFile.WriteLong(mUsedChar);
@@ -65,9 +65,9 @@ EDependencyNodeType CDependencyTree::Type() const
     return eDNT_Root;
 }
 
-void CDependencyTree::Read(IInputStream& rFile, EUIDLength IDLength)
+void CDependencyTree::Read(IInputStream& rFile, EIDLength IDLength)
 {
-    mID = CUniqueID(rFile, IDLength);
+    mID = CAssetID(rFile, IDLength);
 
     u32 NumDepends = rFile.ReadLong();
     mReferencedResources.reserve(NumDepends);
@@ -80,7 +80,7 @@ void CDependencyTree::Read(IInputStream& rFile, EUIDLength IDLength)
     }
 }
 
-void CDependencyTree::Write(IOutputStream& rFile, EUIDLength IDLength) const
+void CDependencyTree::Write(IOutputStream& rFile, EIDLength IDLength) const
 {
     if (IDLength == e32Bit)
         rFile.WriteLong(mID.ToLong());
@@ -98,7 +98,7 @@ u32 CDependencyTree::NumDependencies() const
     return mReferencedResources.size();
 }
 
-bool CDependencyTree::HasDependency(const CUniqueID& rkID)
+bool CDependencyTree::HasDependency(const CAssetID& rkID)
 {
     for (u32 iDep = 0; iDep < mReferencedResources.size(); iDep++)
     {
@@ -109,7 +109,7 @@ bool CDependencyTree::HasDependency(const CUniqueID& rkID)
     return false;
 }
 
-CUniqueID CDependencyTree::DependencyByIndex(u32 Index) const
+CAssetID CDependencyTree::DependencyByIndex(u32 Index) const
 {
     ASSERT(Index >= 0 && Index < mReferencedResources.size());
     return mReferencedResources[Index]->ID();
@@ -117,12 +117,12 @@ CUniqueID CDependencyTree::DependencyByIndex(u32 Index) const
 
 void CDependencyTree::AddDependency(CResource *pRes)
 {
-    if (!pRes || HasDependency(pRes->ResID())) return;
-    CResourceDependency *pDepend = new CResourceDependency(pRes->ResID());
+    if (!pRes || HasDependency(pRes->ID())) return;
+    CResourceDependency *pDepend = new CResourceDependency(pRes->ID());
     mReferencedResources.push_back(pDepend);
 }
 
-void CDependencyTree::AddDependency(const CUniqueID& rkID)
+void CDependencyTree::AddDependency(const CAssetID& rkID)
 {
     if (!rkID.IsValid() || HasDependency(rkID)) return;
     CResourceDependency *pDepend = new CResourceDependency(rkID);
@@ -135,7 +135,7 @@ EDependencyNodeType CAnimSetDependencyTree::Type() const
     return eDNT_AnimSet;
 }
 
-void CAnimSetDependencyTree::Read(IInputStream& rFile, EUIDLength IDLength)
+void CAnimSetDependencyTree::Read(IInputStream& rFile, EIDLength IDLength)
 {
     CDependencyTree::Read(rFile, IDLength);
     u32 NumChars = rFile.ReadLong();
@@ -145,7 +145,7 @@ void CAnimSetDependencyTree::Read(IInputStream& rFile, EUIDLength IDLength)
         mCharacterOffsets.push_back( rFile.ReadLong() );
 }
 
-void CAnimSetDependencyTree::Write(IOutputStream& rFile, EUIDLength IDLength) const
+void CAnimSetDependencyTree::Write(IOutputStream& rFile, EIDLength IDLength) const
 {
     CDependencyTree::Write(rFile, IDLength);
     rFile.WriteLong(mCharacterOffsets.size());
@@ -166,7 +166,7 @@ EDependencyNodeType CScriptInstanceDependencyTree::Type() const
     return eDNT_ScriptInstance;
 }
 
-void CScriptInstanceDependencyTree::Read(IInputStream& rFile, EUIDLength IDLength)
+void CScriptInstanceDependencyTree::Read(IInputStream& rFile, EIDLength IDLength)
 {
     mObjectType = rFile.ReadLong();
     u32 NumDepends = rFile.ReadLong();
@@ -174,7 +174,7 @@ void CScriptInstanceDependencyTree::Read(IInputStream& rFile, EUIDLength IDLengt
 
     for (u32 iDep = 0; iDep < NumDepends; iDep++)
     {
-        CUniqueID ID(rFile, IDLength);
+        CAssetID ID(rFile, IDLength);
         CResourceEntry *pEntry = gpResourceStore->FindEntry(ID);
 
         if (pEntry && pEntry->ResourceType() == eAnimSet && pEntry->Game() <= eEchoes)
@@ -193,7 +193,7 @@ void CScriptInstanceDependencyTree::Read(IInputStream& rFile, EUIDLength IDLengt
     }
 }
 
-void CScriptInstanceDependencyTree::Write(IOutputStream& rFile, EUIDLength IDLength) const
+void CScriptInstanceDependencyTree::Write(IOutputStream& rFile, EIDLength IDLength) const
 {
     rFile.WriteLong(mObjectType);
     rFile.WriteLong(mDependencies.size());
@@ -202,7 +202,7 @@ void CScriptInstanceDependencyTree::Write(IOutputStream& rFile, EUIDLength IDLen
         mDependencies[iDep]->Write(rFile, IDLength);
 }
 
-bool CScriptInstanceDependencyTree::HasDependency(const CUniqueID& rkID)
+bool CScriptInstanceDependencyTree::HasDependency(const CAssetID& rkID)
 {
     if (!rkID.IsValid()) return false;
 
@@ -235,7 +235,7 @@ void CScriptInstanceDependencyTree::ParseStructDependencies(CScriptInstanceDepen
 
         else if (pProp->Type() == eFileProperty)
         {
-            CUniqueID ID = static_cast<TFileProperty*>(pProp)->Get().ID();
+            CAssetID ID = static_cast<TFileProperty*>(pProp)->Get().ID();
 
             if (ID.IsValid() && !pTree->HasDependency(ID))
             {
@@ -247,7 +247,7 @@ void CScriptInstanceDependencyTree::ParseStructDependencies(CScriptInstanceDepen
         else if (pProp->Type() == eCharacterProperty)
         {
             TCharacterProperty *pChar = static_cast<TCharacterProperty*>(pProp);
-            CUniqueID ID = pChar->Get().ID();
+            CAssetID ID = pChar->Get().ID();
 
             if (ID.IsValid() && !pTree->HasDependency(ID))
                 pTree->mDependencies.push_back( CAnimSetDependency::BuildDependency(pChar) );
@@ -267,7 +267,7 @@ EDependencyNodeType CAreaDependencyTree::Type() const
     return eDNT_Area;
 }
 
-void CAreaDependencyTree::Read(IInputStream& rFile, EUIDLength IDLength)
+void CAreaDependencyTree::Read(IInputStream& rFile, EIDLength IDLength)
 {
     // Base dependency list contains non-script dependencies (world geometry textures + PATH/PTLA/EGMC)
     CDependencyTree::Read(rFile, IDLength);
@@ -288,7 +288,7 @@ void CAreaDependencyTree::Read(IInputStream& rFile, EUIDLength IDLength)
         mLayerOffsets.push_back( rFile.ReadLong() );
 }
 
-void CAreaDependencyTree::Write(IOutputStream& rFile, EUIDLength IDLength) const
+void CAreaDependencyTree::Write(IOutputStream& rFile, EIDLength IDLength) const
 {
     CDependencyTree::Write(rFile, IDLength);
     rFile.WriteLong(mScriptInstances.size());
