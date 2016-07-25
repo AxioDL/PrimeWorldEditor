@@ -30,7 +30,7 @@ public:
 
 private:
     CWorldEditor *mpEditor;
-    CUniqueID mAreaID;
+    CAssetID mAreaID;
     QVector<SCopiedNode> mCopiedNodes;
     EGame mGame;
 
@@ -45,7 +45,7 @@ public:
 
     CNodeCopyMimeData(CWorldEditor *pEditor)
         : mpEditor(pEditor)
-        , mAreaID(pEditor->ActiveArea()->ResID())
+        , mAreaID(pEditor->ActiveArea()->ID())
         , mGame(pEditor->CurrentGame())
     {
         CNodeSelection *pSelection = pEditor->Selection();
@@ -100,7 +100,7 @@ public:
         return -1;
     }
 
-    CUniqueID AreaID() const                        { return mAreaID; }
+    CAssetID AreaID() const                         { return mAreaID; }
     EGame Game() const                              { return mGame; }
     const QVector<SCopiedNode>& CopiedNodes() const { return mCopiedNodes; }
 };

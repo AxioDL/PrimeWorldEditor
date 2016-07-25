@@ -32,7 +32,7 @@ CDependencyGroup* CDependencyGroupLoader::LoadDGRP(IInputStream& rDGRP, CResourc
 
     u32 NumDependencies = rDGRP.ReadLong();
     EGame Game = VersionTest(rDGRP, NumDependencies);
-    EUIDLength IDLength = (Game < eCorruptionProto ? e32Bit : e64Bit);
+    EIDLength IDLength = (Game < eCorruptionProto ? e32Bit : e64Bit);
 
     CDependencyGroup *pGroup = new CDependencyGroup(pEntry);
     pGroup->SetGame(Game);
@@ -40,7 +40,7 @@ CDependencyGroup* CDependencyGroupLoader::LoadDGRP(IInputStream& rDGRP, CResourc
     for (u32 iDep = 0; iDep < NumDependencies; iDep++)
     {
         rDGRP.Seek(0x4, SEEK_CUR); // Skip dependency type
-        CUniqueID AssetID(rDGRP, IDLength);
+        CAssetID AssetID(rDGRP, IDLength);
         pGroup->AddDependency(AssetID);
     }
 

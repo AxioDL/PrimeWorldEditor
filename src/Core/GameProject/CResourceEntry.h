@@ -3,7 +3,7 @@
 
 #include "CVirtualDirectory.h"
 #include "Core/Resource/EResType.h"
-#include <Common/CUniqueID.h>
+#include <Common/CAssetID.h>
 #include <Common/Flags.h>
 #include <Common/types.h>
 
@@ -26,7 +26,7 @@ class CResourceEntry
     CResource *mpResource;
     CResourceStore *mpStore;
     CDependencyTree *mpDependencies;
-    CUniqueID mID;
+    CAssetID mID;
     EResType mType;
     EGame mGame;
     CVirtualDirectory *mpDirectory;
@@ -37,7 +37,7 @@ class CResourceEntry
     mutable TWideString mCachedUppercaseName; // This is used to speed up case-insensitive sorting and filtering.
 
 public:
-    CResourceEntry(CResourceStore *pStore, const CUniqueID& rkID,
+    CResourceEntry(CResourceStore *pStore, const CAssetID& rkID,
                    const TWideString& rkDir, const TWideString& rkFilename,
                    EResType Type, bool Transient = false);
     ~CResourceEntry();
@@ -68,7 +68,7 @@ public:
     inline bool IsLoaded() const                        { return mpResource != nullptr; }
     inline CResource* Resource() const                  { return mpResource; }
     inline CDependencyTree* Dependencies() const        { return mpDependencies; }
-    inline CUniqueID ID() const                         { return mID; }
+    inline CAssetID ID() const                          { return mID; }
     inline EGame Game() const                           { return mGame; }
     inline CVirtualDirectory* Directory() const         { return mpDirectory; }
     inline TWideString Name() const                     { return mName; }

@@ -7,7 +7,7 @@
 class CResourceIterator
 {
     CResourceStore *mpStore;
-    std::map<CUniqueID, CResourceEntry*>::iterator mIter;
+    std::map<CAssetID, CResourceEntry*>::iterator mIter;
     CResourceEntry *mpCurEntry;
 
 public:

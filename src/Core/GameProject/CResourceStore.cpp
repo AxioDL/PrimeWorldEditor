@@ -56,7 +56,7 @@ void CResourceStore::LoadResourceDatabase(const TString& rkPath)
 
             if (pID && pType && pDir && pName)
             {
-                CUniqueID ID = CUniqueID::FromString(pID->GetText());
+                CAssetID ID = CAssetID::FromString(pID->GetText());
                 EResType Type = CResource::ResTypeForExtension(pType->GetText());
                 TWideString FileDir = pDir->GetText();
                 TWideString FileName = pName->GetText();
@@ -186,7 +186,7 @@ CVirtualDirectory* CResourceStore::GetVirtualDirectory(const TWideString& rkPath
     else return nullptr;
 }
 
-CResourceEntry* CResourceStore::FindEntry(const CUniqueID& rkID) const
+CResourceEntry* CResourceStore::FindEntry(const CAssetID& rkID) const
 {
     if (!rkID.IsValid()) return nullptr;
     auto Found = mResourceEntries.find(rkID);
@@ -194,12 +194,12 @@ CResourceEntry* CResourceStore::FindEntry(const CUniqueID& rkID) const
     else return Found->second;
 }
 
-bool CResourceStore::IsResourceRegistered(const CUniqueID& rkID) const
+bool CResourceStore::IsResourceRegistered(const CAssetID& rkID) const
 {
     return FindEntry(rkID) == nullptr;
 }
 
-CResourceEntry* CResourceStore::RegisterResource(const CUniqueID& rkID, EResType Type, const TWideString& rkDir, const TWideString& rkFileName)
+CResourceEntry* CResourceStore::RegisterResource(const CAssetID& rkID, EResType Type, const TWideString& rkDir, const TWideString& rkFileName)
 {
     CResourceEntry *pEntry = FindEntry(rkID);
 
@@ -226,12 +226,12 @@ CResourceEntry* CResourceStore::RegisterResource(const CUniqueID& rkID, EResType
 
 CResourceEntry* CResourceStore::RegisterTransientResource(EResType Type, const TWideString& rkDir /*= L""*/, const TWideString& rkFileName /*= L""*/)
 {
-    CResourceEntry *pEntry = new CResourceEntry(this, CUniqueID::RandomID(), rkDir, rkFileName, Type, true);
+    CResourceEntry *pEntry = new CResourceEntry(this, CAssetID::RandomID(), rkDir, rkFileName, Type, true);
     mResourceEntries[pEntry->ID()] = pEntry;
     return pEntry;
 }
 
-CResourceEntry* CResourceStore::RegisterTransientResource(EResType Type, const CUniqueID& rkID, const TWideString& rkDir /*=L ""*/, const TWideString& rkFileName /*= L""*/)
+CResourceEntry* CResourceStore::RegisterTransientResource(EResType Type, const CAssetID& rkID, const TWideString& rkDir /*=L ""*/, const TWideString& rkFileName /*= L""*/)
 {
     CResourceEntry *pEntry = FindEntry(rkID);
 
@@ -244,7 +244,7 @@ CResourceEntry* CResourceStore::RegisterTransientResource(EResType Type, const C
     return pEntry;
 }
 
-CResource* CResourceStore::LoadResource(const CUniqueID& rkID, const CFourCC& rkType)
+CResource* CResourceStore::LoadResource(const CAssetID& rkID, const CFourCC& rkType)
 {
     if (!rkID.IsValid()) return nullptr;
 
@@ -305,7 +305,7 @@ CResource* CResourceStore::LoadResource(const TString& rkPath)
     // Construct ID from string, check if resource is loaded already
     TWideString Dir = FileUtil::MakeAbsolute(TWideString(rkPath.GetFileDirectory()));
     TString Name = rkPath.GetFileName(false);
-    CUniqueID ID = (Name.IsHexString() ? Name.ToInt64() : rkPath.Hash64());
+    CAssetID ID = (Name.IsHexString() ? Name.ToInt64() : rkPath.Hash64());
     auto Find = mLoadedResources.find(ID);
 
     if (Find != mLoadedResources.end())
@@ -350,7 +350,7 @@ void CResourceStore::TrackLoadedResource(CResourceEntry *pEntry)
     mLoadedResources[pEntry->ID()] = pEntry;
 }
 
-CFourCC CResourceStore::ResourceTypeByID(const CUniqueID& rkID, const TStringList& rkPossibleTypes) const
+CFourCC CResourceStore::ResourceTypeByID(const CAssetID& rkID, const TStringList& rkPossibleTypes) const
 {
     if (!rkID.IsValid()) return eInvalidResType;
     if (rkPossibleTypes.size() == 1) return CFourCC(rkPossibleTypes.front());
@@ -420,7 +420,7 @@ void CResourceStore::DestroyUnreferencedResources()
 
 bool CResourceStore::DeleteResourceEntry(CResourceEntry *pEntry)
 {
-    CUniqueID ID = pEntry->ID();
+    CAssetID ID = pEntry->ID();
 
     if (pEntry->IsLoaded())
     {

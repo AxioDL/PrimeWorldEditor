@@ -1,8 +1,8 @@
 #ifndef CPACKAGE
 #define CPACKAGE
 
+#include <Common/CAssetID.h>
 #include <Common/CFourCC.h>
-#include <Common/CUniqueID.h>
 #include <Common/TString.h>
 
 class CGameProject;
@@ -10,7 +10,7 @@ class CGameProject;
 struct SNamedResource
 {
     TString Name;
-    CUniqueID ID;
+    CAssetID ID;
     CFourCC Type;
 };
 
@@ -27,7 +27,7 @@ public:
     inline u32 NumResources() const                             { return mNamedResources.size(); }
     inline const SNamedResource& ResourceByIndex(u32 Idx) const { return mNamedResources[Idx]; }
 
-    inline void AddResource(const TString& rkName, const CUniqueID& rkID, const CFourCC& rkType)
+    inline void AddResource(const TString& rkName, const CAssetID& rkID, const CFourCC& rkType)
     {
         mNamedResources.push_back( SNamedResource { rkName, rkID, rkType } );
     }

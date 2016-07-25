@@ -5,8 +5,8 @@
 #include "Core/GameProject/CDependencyTree.h"
 #include "Core/GameProject/CResourceEntry.h"
 #include "Core/GameProject/CResourceStore.h"
+#include <Common/CAssetID.h>
 #include <Common/CFourCC.h>
-#include <Common/CUniqueID.h>
 #include <Common/types.h>
 #include <Common/TString.h>
 
@@ -40,12 +40,12 @@ public:
     }
 
     virtual ~CResource() {}
-    virtual CDependencyTree* BuildDependencyTree() const { return new CDependencyTree(ResID()); }
+    virtual CDependencyTree* BuildDependencyTree() const { return new CDependencyTree(ID()); }
     
     inline CResourceEntry* Entry() const    { return mpEntry; }
     inline TString Source() const           { return mpEntry ? mpEntry->CookedAssetPath(true).GetFileName() : ""; }
     inline TString FullSource() const       { return mpEntry ? mpEntry->CookedAssetPath(true) : ""; }
-    inline CUniqueID ResID() const          { return mpEntry ? mpEntry->ID() : CUniqueID::skInvalidID64; }
+    inline CAssetID ID() const              { return mpEntry ? mpEntry->ID() : CAssetID::skInvalidID64; }
     inline EGame Game() const               { return mpEntry ? mpEntry->Game() : eUnknownVersion; }
     inline bool IsReferenced() const        { return mRefCount > 0; }
     inline void SetGame(EGame Game)         { if (mpEntry) mpEntry->SetGame(Game); }

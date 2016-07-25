@@ -24,7 +24,7 @@ inline float PtsToFloat(s32 Pt)
 
 CDependencyTree* CFont::BuildDependencyTree() const
 {
-    CDependencyTree *pOut = new CDependencyTree(ResID());
+    CDependencyTree *pOut = new CDependencyTree(ID());
     pOut->AddDependency(mpFontTexture);
     return pOut;
 }

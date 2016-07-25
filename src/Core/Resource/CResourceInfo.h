@@ -3,7 +3,7 @@
 
 #include "CResource.h"
 #include "Core/GameProject/CResourceStore.h"
-#include <Common/CUniqueID.h>
+#include <Common/CAssetID.h>
 #include <Common/CFourCC.h>
 #include <Common/FileUtil.h>
 
@@ -23,25 +23,25 @@ public:
         mIsValidPath = FileUtil::Exists(rkPath);
     }
 
-    CResourceInfo(const CUniqueID& rkID, CFourCC Type)
+    CResourceInfo(const CAssetID& rkID, CFourCC Type)
         : mIsPath(false), mIsValidPath(false)
     {
         mPath = rkID.ToString() + "." + Type.ToString();
     }
 
-    inline CUniqueID ID() const
+    inline CAssetID ID() const
     {
         TString FileName = mPath.GetFileName(false);
 
         if (!mIsPath)
-            return CUniqueID::FromString(FileName);
+            return CAssetID::FromString(FileName);
 
         else
         {
             if (FileName.IsHexString() && (FileName.Size() == 8 || FileName.Size() == 16))
-                return CUniqueID::FromString(FileName);
+                return CAssetID::FromString(FileName);
             else
-                return CUniqueID::skInvalidID64;
+                return CAssetID::skInvalidID64;
         }
     }
 

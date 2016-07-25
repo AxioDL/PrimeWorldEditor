@@ -64,7 +64,6 @@ HEADERS += \
     CHashFNV1A.h \
     CompressionUtil.h \
     CTimer.h \
-    CUniqueID.h \
     EKeyInputs.h \
     EMouseInputs.h \
     ETransformSpace.h \
@@ -74,14 +73,15 @@ HEADERS += \
     Log.h \
     FileUtil.h \
     AssertMacro.h \
-    CScopedTimer.h
+    CScopedTimer.h \
+    CAssetID.h
 
 # Source Files
 SOURCES += \
     CColor.cpp \
     CompressionUtil.cpp \
     CTimer.cpp \
-    CUniqueID.cpp \
     TString.cpp \
     Log.cpp \
-    FileUtil.cpp
+    FileUtil.cpp \
+    CAssetID.cpp

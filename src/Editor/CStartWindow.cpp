@@ -192,7 +192,7 @@ void CStartWindow::on_LaunchWorldEditorButton_clicked()
     {
         Log::ClearErrorLog();
 
-        CUniqueID AreaID = mpWorld->AreaResourceID(mSelectedAreaIndex);
+        CAssetID AreaID = mpWorld->AreaResourceID(mSelectedAreaIndex);
         TString AreaPath = mpWorld->Entry()->CookedAssetPath().GetFileDirectory() + AreaID.ToString() + ".MREA";
         TResPtr<CGameArea> pArea = gpResourceStore->LoadResource(AreaPath);
 

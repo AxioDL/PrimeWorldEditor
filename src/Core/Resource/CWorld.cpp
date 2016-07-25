@@ -19,7 +19,7 @@ CWorld::~CWorld()
 
 CDependencyTree* CWorld::BuildDependencyTree() const
 {
-    CDependencyTree *pTree = new CDependencyTree(ResID());
+    CDependencyTree *pTree = new CDependencyTree(ID());
 
     for (u32 iArea = 0; iArea < mAreas.size(); iArea++)
     {

@@ -5,7 +5,7 @@
 #include "CResourceStore.h"
 #include "Core/Resource/EGame.h"
 #include <Common/FileUtil.h>
-#include <Common/CUniqueID.h>
+#include <Common/CAssetID.h>
 #include <Common/TString.h>
 #include <Common/types.h>
 
@@ -47,7 +47,7 @@ public:
     bool Load(const TWideString& rkPath);
     void Save();
     void SetActive();
-    void GetWorldList(std::list<CUniqueID>& rOut) const;
+    void GetWorldList(std::list<CAssetID>& rOut) const;
 
     // Directory Handling
     inline TWideString ProjectRoot() const                      { return mProjectRoot; }

@@ -4,7 +4,7 @@
 #include "CResourceEntry.h"
 #include <FileIO/FileIO.h>
 #include <Common/AssertMacro.h>
-#include <Common/CUniqueID.h>
+#include <Common/CAssetID.h>
 
 class CScriptLayer;
 class CScriptObject;
@@ -28,26 +28,26 @@ class IDependencyNode
 public:
     virtual ~IDependencyNode() {}
     virtual EDependencyNodeType Type() const = 0;
-    virtual void Read(IInputStream& rFile, EUIDLength IDLength) = 0;
-    virtual void Write(IOutputStream& rFile, EUIDLength IDLength) const = 0;
+    virtual void Read(IInputStream& rFile, EIDLength IDLength) = 0;
+    virtual void Write(IOutputStream& rFile, EIDLength IDLength) const = 0;
 };
 
 // Node representing a single resource dependency.
 class CResourceDependency : public IDependencyNode
 {
-    CUniqueID mID;
+    CAssetID mID;
 
 public:
     CResourceDependency() {}
-    CResourceDependency(const CUniqueID& rkID) : mID(rkID) {}
+    CResourceDependency(const CAssetID& rkID) : mID(rkID) {}
 
     virtual EDependencyNodeType Type() const;
-    virtual void Read(IInputStream& rFile, EUIDLength IDLength);
-    virtual void Write(IOutputStream& rFile, EUIDLength IDLength) const;
+    virtual void Read(IInputStream& rFile, EIDLength IDLength);
+    virtual void Write(IOutputStream& rFile, EIDLength IDLength) const;
 
     // Accessors
-    inline CUniqueID ID() const                 { return mID; }
-    inline void SetID(const CUniqueID& rkID)    { mID = rkID; }
+    inline CAssetID ID() const              { return mID; }
+    inline void SetID(const CAssetID& rkID) { mID = rkID; }
 };
 
 // Node representing a single animset dependency contained in a script object. Indicates which character is being used.
@@ -60,8 +60,8 @@ public:
     CAnimSetDependency() : CResourceDependency(), mUsedChar(-1) {}
 
     virtual EDependencyNodeType Type() const;
-    virtual void Read(IInputStream& rFile, EUIDLength IDLength);
-    virtual void Write(IOutputStream& rFile, EUIDLength IDLength) const;
+    virtual void Read(IInputStream& rFile, EIDLength IDLength);
+    virtual void Write(IOutputStream& rFile, EIDLength IDLength) const;
 
     // Accessors
     inline u32 UsedChar() const                 { return mUsedChar; }
@@ -75,26 +75,26 @@ public:
 class CDependencyTree : public IDependencyNode
 {
 protected:
-    CUniqueID mID;
+    CAssetID mID;
     std::vector<CResourceDependency*> mReferencedResources;
 
 public:
-    CDependencyTree(const CUniqueID& rkID) : mID(rkID) {}
+    CDependencyTree(const CAssetID& rkID) : mID(rkID) {}
     ~CDependencyTree();
 
     virtual EDependencyNodeType Type() const;
-    virtual void Read(IInputStream& rFile, EUIDLength IDLength);
-    virtual void Write(IOutputStream& rFile, EUIDLength IDLength) const;
+    virtual void Read(IInputStream& rFile, EIDLength IDLength);
+    virtual void Write(IOutputStream& rFile, EIDLength IDLength) const;
 
     u32 NumDependencies() const;
-    bool HasDependency(const CUniqueID& rkID);
-    CUniqueID DependencyByIndex(u32 Index) const;
-    void AddDependency(const CUniqueID& rkID);
+    bool HasDependency(const CAssetID& rkID);
+    CAssetID DependencyByIndex(u32 Index) const;
+    void AddDependency(const CAssetID& rkID);
     void AddDependency(CResource *pRes);
 
     // Accessors
-    inline void SetID(const CUniqueID& rkID)    { mID = rkID; }
-    inline CUniqueID ID() const                 { return mID; }
+    inline void SetID(const CAssetID& rkID) { mID = rkID; }
+    inline CAssetID ID() const              { return mID; }
 
 };
 
@@ -105,10 +105,10 @@ protected:
     std::vector<u32> mCharacterOffsets;
 
 public:
-    CAnimSetDependencyTree(const CUniqueID& rkID) : CDependencyTree(rkID) {}
+    CAnimSetDependencyTree(const CAssetID& rkID) : CDependencyTree(rkID) {}
     virtual EDependencyNodeType Type() const;
-    virtual void Read(IInputStream& rFile, EUIDLength IDLength);
-    virtual void Write(IOutputStream& rFile, EUIDLength IDLength) const;
+    virtual void Read(IInputStream& rFile, EIDLength IDLength);
+    virtual void Write(IOutputStream& rFile, EIDLength IDLength) const;
 };
 
 // Node representing a script object. Indicates the type of object.
@@ -122,9 +122,9 @@ public:
     ~CScriptInstanceDependencyTree();
 
     virtual EDependencyNodeType Type() const;
-    virtual void Read(IInputStream& rFile, EUIDLength IDLength);
-    virtual void Write(IOutputStream& rFile, EUIDLength IDLength) const;
-    bool HasDependency(const CUniqueID& rkID);
+    virtual void Read(IInputStream& rFile, EIDLength IDLength);
+    virtual void Write(IOutputStream& rFile, EIDLength IDLength) const;
+    bool HasDependency(const CAssetID& rkID);
 
     // Accessors
     u32 NumDependencies() const { return mDependencies.size(); }
@@ -142,12 +142,12 @@ protected:
     std::vector<u32> mLayerOffsets;
 
 public:
-    CAreaDependencyTree(const CUniqueID& rkID) : CDependencyTree(rkID) {}
+    CAreaDependencyTree(const CAssetID& rkID) : CDependencyTree(rkID) {}
     ~CAreaDependencyTree();
 
     virtual EDependencyNodeType Type() const;
-    virtual void Read(IInputStream& rFile, EUIDLength IDLength);
-    virtual void Write(IOutputStream& rFile, EUIDLength IDLength) const;
+    virtual void Read(IInputStream& rFile, EIDLength IDLength);
+    virtual void Write(IOutputStream& rFile, EIDLength IDLength) const;
 
     void AddScriptLayer(CScriptLayer *pLayer);
 };

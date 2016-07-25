@@ -45,7 +45,7 @@ public:
         if (Game() >= eEchoesDemo)
             Log::Warning("CScan::BuildDependencyTree not handling Echoes/Corruption dependencies");
 
-        CDependencyTree *pTree = new CDependencyTree(ResID());
+        CDependencyTree *pTree = new CDependencyTree(ID());
         pTree->AddDependency(mpFrame);
         pTree->AddDependency(mpStringTable);
         return pTree;

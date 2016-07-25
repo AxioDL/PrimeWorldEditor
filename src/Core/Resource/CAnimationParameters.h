@@ -28,7 +28,7 @@ public:
 
     // Accessors
     inline EGame Version() const        { return mGame; }
-    inline CUniqueID ID() const         { return mCharacter.ID(); }
+    inline CAssetID ID() const          { return mCharacter.ID(); }
     inline CAnimSet* AnimSet() const    { return (CAnimSet*) mCharacter.Load(); }
     inline u32 CharacterIndex() const   { return mCharIndex; }
     inline u32 AnimIndex() const        { return mAnimIndex; }
