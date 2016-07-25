@@ -2,6 +2,7 @@
 #define CRESOURCE_H
 
 #include "EResType.h"
+#include "Core/GameProject/CDependencyTree.h"
 #include "Core/GameProject/CResourceEntry.h"
 #include "Core/GameProject/CResourceStore.h"
 #include <Common/CFourCC.h>
@@ -39,7 +40,8 @@ public:
     }
 
     virtual ~CResource() {}
-
+    virtual CDependencyTree* BuildDependencyTree() const { return new CDependencyTree(ResID()); }
+    
     inline CResourceEntry* Entry() const    { return mpEntry; }
     inline TString Source() const           { return mpEntry ? mpEntry->CookedAssetPath(true).GetFileName() : ""; }
     inline TString FullSource() const       { return mpEntry ? mpEntry->CookedAssetPath(true) : ""; }

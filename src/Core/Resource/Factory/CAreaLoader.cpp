@@ -73,7 +73,7 @@ void CAreaLoader::ReadGeometryPrime()
     mpSectionMgr->ToSection(mGeometryBlockNum);
 
     // Materials
-    mpArea->mMaterialSet = CMaterialLoader::LoadMaterialSet(*mpMREA, mVersion);
+    mpArea->mpMaterialSet = CMaterialLoader::LoadMaterialSet(*mpMREA, mVersion);
     mpSectionMgr->ToNextSection();
 
     // Geometry
@@ -81,7 +81,7 @@ void CAreaLoader::ReadGeometryPrime()
 
     for (u32 iMesh = 0; iMesh < mNumMeshes; iMesh++)
     {
-        CModel *pModel = CModelLoader::LoadWorldModel(*mpMREA, *mpSectionMgr, *mpArea->mMaterialSet, mVersion);
+        CModel *pModel = CModelLoader::LoadWorldModel(*mpMREA, *mpSectionMgr, *mpArea->mpMaterialSet, mVersion);
         FileModels.push_back(pModel);
 
         if (mVersion <= ePrime)
@@ -394,7 +394,7 @@ void CAreaLoader::ReadGeometryCorruption()
     mpSectionMgr->ToSection(mGeometryBlockNum);
 
     // Materials
-    mpArea->mMaterialSet = CMaterialLoader::LoadMaterialSet(*mpMREA, mVersion);
+    mpArea->mpMaterialSet = CMaterialLoader::LoadMaterialSet(*mpMREA, mVersion);
     mpSectionMgr->ToNextSection();
 
     // Geometry
@@ -404,7 +404,7 @@ void CAreaLoader::ReadGeometryCorruption()
 
     for (u32 iMesh = 0; iMesh < mNumMeshes; iMesh++)
     {
-        CModel *pWorldModel = CModelLoader::LoadCorruptionWorldModel(*mpMREA, *mpSectionMgr, *mpArea->mMaterialSet, CurWOBJSection, CurGPUSection, mVersion);
+        CModel *pWorldModel = CModelLoader::LoadCorruptionWorldModel(*mpMREA, *mpSectionMgr, *mpArea->mpMaterialSet, CurWOBJSection, CurGPUSection, mVersion);
         FileModels.push_back(pWorldModel);
 
         CurWOBJSection += 4;

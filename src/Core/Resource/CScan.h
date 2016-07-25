@@ -40,6 +40,17 @@ public:
         , mCategory(eNone)
     {}
 
+    CDependencyTree* BuildDependencyTree() const
+    {
+        if (Game() >= eEchoesDemo)
+            Log::Warning("CScan::BuildDependencyTree not handling Echoes/Corruption dependencies");
+
+        CDependencyTree *pTree = new CDependencyTree(ResID());
+        pTree->AddDependency(mpFrame);
+        pTree->AddDependency(mpStringTable);
+        return pTree;
+    }
+
     EGame Version() const                       { return mVersion; }
     CStringTable* ScanText() const              { return mpStringTable; }
     bool IsImportant() const                    { return mIsImportant; }

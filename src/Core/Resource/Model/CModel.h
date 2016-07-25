@@ -25,6 +25,7 @@ public:
     CModel(CMaterialSet *pSet, bool OwnsMatSet);
     ~CModel();
 
+    CDependencyTree* BuildDependencyTree() const;
     void BufferGL();
     void GenerateMaterialShaders();
     void ClearGLBuffer();

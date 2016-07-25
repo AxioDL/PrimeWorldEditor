@@ -65,7 +65,7 @@ void CMaterialLoader::ReadPrimeMatSet()
     {
         mpSet->mMaterials[iMat] = ReadPrimeMaterial();
         mpSet->mMaterials[iMat]->mVersion = mVersion;
-        mpSet->mMaterials[iMat]->mName = TString("Material #") + std::to_string(iMat + 1);
+        mpSet->mMaterials[iMat]->mName = TString("Material #") + TString::FromInt32(iMat + 1, 0, 10);
         mpFile->Seek(MatsStart + Offsets[iMat], SEEK_SET);
     }
 }
@@ -261,7 +261,7 @@ void CMaterialLoader::ReadCorruptionMatSet()
         u32 Next = mpFile->Tell() + Size;
         mpSet->mMaterials[iMat] = ReadCorruptionMaterial();
         mpSet->mMaterials[iMat]->mVersion = mVersion;
-        mpSet->mMaterials[iMat]->mName = TString("Material #") + std::to_string(iMat + 1);
+        mpSet->mMaterials[iMat]->mName = TString("Material #") + TString::FromInt32(iMat + 1, 0, 10);
         mpFile->Seek(Next, SEEK_SET);
     }
 }

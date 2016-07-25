@@ -84,6 +84,7 @@ public:
     CWorld(CResourceEntry *pEntry = 0);
     ~CWorld();
 
+    CDependencyTree* BuildDependencyTree() const;
     void SetAreaLayerInfo(CGameArea *pArea);
 
     // Accessors

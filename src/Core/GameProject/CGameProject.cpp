@@ -68,6 +68,7 @@ bool CGameProject::Load(const TWideString& rkPath)
 
     // All loaded!
     mProjectRoot = rkPath.GetFileDirectory();
+    mProjectRoot.Replace(L"/", L"\\");
     return true;
 }
 

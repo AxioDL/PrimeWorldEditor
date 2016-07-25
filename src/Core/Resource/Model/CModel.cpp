@@ -29,6 +29,31 @@ CModel::~CModel()
             delete mMaterialSets[iMat];
 }
 
+
+CDependencyTree* CModel::BuildDependencyTree() const
+{
+    CDependencyTree *pTree = new CDependencyTree(ResID());
+
+    for (u32 iSet = 0; iSet < mMaterialSets.size(); iSet++)
+    {
+        CMaterialSet *pSet = mMaterialSets[iSet];
+        
+        for (u32 iMat = 0; iMat < pSet->NumMaterials(); iMat++)
+        {
+            CMaterial *pMat = pSet->MaterialByIndex(iMat);
+            pTree->AddDependency(pMat->IndTexture());
+
+            for (u32 iPass = 0; iPass < pMat->PassCount(); iPass++)
+            {
+                CMaterialPass *pPass = pMat->Pass(iPass);
+                pTree->AddDependency(pPass->Texture());
+            }
+        }
+    }
+
+    return pTree;
+}
+
 void CModel::BufferGL()
 {
     if (!mBuffered)

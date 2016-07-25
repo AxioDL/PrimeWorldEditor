@@ -196,7 +196,10 @@ HEADERS += \
     GameProject/CResourceStore.h \
     GameProject/CVirtualDirectory.h \
     GameProject/CResourceEntry.h \
-    GameProject/CResourceIterator.h
+    GameProject/CResourceIterator.h \
+    Resource/CDependencyGroup.h \
+    Resource/Factory/CDependencyGroupLoader.h \
+    GameProject/CDependencyTree.h
 
 # Source Files
 SOURCES += \
@@ -287,4 +290,6 @@ SOURCES += \
     GameProject/CResourceStore.cpp \
     GameProject/CVirtualDirectory.cpp \
     GameProject/CResourceEntry.cpp \
-    GameProject/CPackage.cpp
+    GameProject/CPackage.cpp \
+    Resource/Factory/CDependencyGroupLoader.cpp \
+    GameProject/CDependencyTree.cpp

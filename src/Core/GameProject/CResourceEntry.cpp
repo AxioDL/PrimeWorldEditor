@@ -2,6 +2,7 @@
 #include "CGameProject.h"
 #include "CResourceStore.h"
 #include "Core/Resource/CResource.h"
+#include <FileIO/FileIO.h>
 #include <Common/FileUtil.h>
 #include <Common/TString.h>
 
@@ -11,6 +12,7 @@
 #include "Core/Resource/Factory/CAnimSetLoader.h"
 #include "Core/Resource/Factory/CAreaLoader.h"
 #include "Core/Resource/Factory/CCollisionLoader.h"
+#include "Core/Resource/Factory/CDependencyGroupLoader.h"
 #include "Core/Resource/Factory/CFontLoader.h"
 #include "Core/Resource/Factory/CMaterialLoader.h"
 #include "Core/Resource/Factory/CModelLoader.h"
@@ -26,24 +28,123 @@
 CResourceEntry::CResourceEntry(CResourceStore *pStore, const CUniqueID& rkID,
                const TWideString& rkDir, const TWideString& rkFilename,
                EResType Type, bool Transient /*= false*/)
-    : mpStore(pStore)
-    , mpResource(nullptr)
+    : mpResource(nullptr)
+    , mpStore(pStore)
+    , mpDependencies(nullptr)
     , mID(rkID)
     , mName(rkFilename)
     , mType(Type)
-    , mNeedsRecook(false)
-    , mTransient(Transient)
     , mCachedSize(-1)
     , mCachedUppercaseName(rkFilename.ToUpper())
 {
+    if (Transient) mFlags |= eREF_Transient;
+
     mpDirectory = mpStore->GetVirtualDirectory(rkDir, Transient, true);
     if (mpDirectory) mpDirectory->AddChild(L"", this);
-    mGame = ((mTransient || !mpStore->ActiveProject()) ? eUnknownVersion : mpStore->ActiveProject()->Game());
+    mGame = ((Transient || !mpStore->ActiveProject()) ? eUnknownVersion : mpStore->ActiveProject()->Game());
 }
 
 CResourceEntry::~CResourceEntry()
 {
     if (mpResource) delete mpResource;
+}
+
+bool CResourceEntry::LoadCacheData()
+{
+    ASSERT(!IsTransient());
+
+    TWideString Path = CacheDataPath(false);
+    CFileInStream File(Path.ToUTF8().ToStdString(), IOUtil::eLittleEndian);
+
+    if (!File.IsValid())
+    {
+        Log::Error("Unable to load cache data " + Path.ToUTF8() + "; couldn't open file");
+        return false;
+    }
+
+    // Header
+    TString Magic = File.ReadString(4);
+    ASSERT(Magic == "CACH");
+    File.Seek(0x4, SEEK_CUR); // Skip Version
+    mFlags = File.ReadLong() & eREF_SavedFlags;
+
+    // Dependency Tree
+    u32 DepsTreeSize = File.ReadLong();
+
+    if (mpDependencies)
+    {
+        delete mpDependencies;
+        mpDependencies = nullptr;
+    }
+
+    if (DepsTreeSize > 0)
+    {
+        mpDependencies = new CDependencyTree(mID);
+        mpDependencies->Read(File, Game() <= eEchoes ? e32Bit : e64Bit);
+    }
+
+    return true;
+}
+
+bool CResourceEntry::SaveCacheData()
+{
+    ASSERT(!IsTransient());
+
+    TWideString Path = CacheDataPath(false);
+    TWideString Dir = Path.GetFileDirectory();
+    FileUtil::CreateDirectory(Dir);
+    CFileOutStream File(Path.ToUTF8().ToStdString(), IOUtil::eLittleEndian);
+
+    if (!File.IsValid())
+    {
+        Log::Error("Unable to save cache data " + TString(Path.GetFileName()) + "; couldn't open file");
+        return false;
+    }
+
+    // Header
+    File.WriteString("CACH", 4);
+    File.WriteLong(0); // Reserved Space (Version)
+    File.WriteLong(mFlags & eREF_SavedFlags);
+
+    // Dependency Tree
+    if (!mpDependencies) UpdateDependencies();
+
+    u32 DepsSizeOffset = File.Tell();
+    File.WriteLong(0);
+
+    u32 DepsStart = File.Tell();
+    if (mpDependencies) mpDependencies->Write(File, Game() <= eEchoes ? e32Bit : e64Bit);
+    u32 DepsSize = File.Tell() - DepsStart;
+    File.Seek(DepsSizeOffset, SEEK_SET);
+    File.WriteLong(DepsSize);
+
+    return true;
+}
+
+void CResourceEntry::UpdateDependencies()
+{
+    if (mpDependencies)
+    {
+        delete mpDependencies;
+        mpDependencies = nullptr;
+    }
+
+    if (!mpResource)
+        Load();
+
+    if (!mpResource)
+    {
+        Log::Error("Unable to update cached dependencies; failed to load resource");
+        return;
+    }
+
+    mpDependencies = mpResource->BuildDependencyTree();
+    gpResourceStore->DestroyUnreferencedResources();
+}
+
+TWideString CResourceEntry::CacheDataPath(bool Relative) const
+{
+    return mpStore->ActiveProject()->CacheDir(Relative) + mID.ToString().ToUTF16() + L".rcd";
 }
 
 bool CResourceEntry::HasRawVersion() const
@@ -61,7 +162,7 @@ TString CResourceEntry::RawAssetPath(bool Relative) const
     TWideString Ext = GetResourceRawExtension(mType, mGame).ToUTF16();
     TWideString Path = mpDirectory ? mpDirectory->FullPath() : L"";
     TWideString Name = mName + L"." + Ext;
-    return ((mTransient || Relative) ? Path + Name : mpStore->ActiveProject()->ContentDir(false) + Path + Name);
+    return ((IsTransient() || Relative) ? Path + Name : mpStore->ActiveProject()->ContentDir(false) + Path + Name);
 }
 
 TString CResourceEntry::CookedAssetPath(bool Relative) const
@@ -69,7 +170,7 @@ TString CResourceEntry::CookedAssetPath(bool Relative) const
     TWideString Ext = GetResourceCookedExtension(mType, mGame).ToUTF16();
     TWideString Path = mpDirectory ? mpDirectory->FullPath() : L"";
     TWideString Name = mName + L"." + Ext;
-    return ((mTransient || Relative) ? Path + Name : mpStore->ActiveProject()->CookedDir(false) + Path + Name);
+    return ((IsTransient() || Relative) ? Path + Name : mpStore->ActiveProject()->CookedDir(false) + Path + Name);
 }
 
 bool CResourceEntry::IsInDirectory(CVirtualDirectory *pDir) const
@@ -101,11 +202,11 @@ u64 CResourceEntry::Size() const
 bool CResourceEntry::NeedsRecook() const
 {
     // Assets that do not have a raw version can't be recooked since they will always just be saved cooked to begin with.
-    // We will recook any asset where the raw version has been updated but not recooked yet. mNeedsRecook can also be
+    // We will recook any asset where the raw version has been updated but not recooked yet. eREF_NeedsRecook can also be
     // toggled to arbitrarily flag any asset for recook.
     if (!HasRawVersion()) return false;
     if (!HasCookedVersion()) return true;
-    if (mNeedsRecook) return true;
+    if (mFlags.HasFlag(eREF_NeedsRecook)) return true;
     return (FileUtil::LastModifiedTime(CookedAssetPath()) < FileUtil::LastModifiedTime(RawAssetPath()));
 }
 
@@ -152,6 +253,7 @@ CResource* CResourceEntry::Load(IInputStream& rInput)
     case eAnimation:            mpResource = CAnimationLoader::LoadANIM(rInput, this);      break;
     case eAnimSet:              mpResource = CAnimSetLoader::LoadANCSOrCHAR(rInput, this);  break;
     case eArea:                 mpResource = CAreaLoader::LoadMREA(rInput, this);           break;
+    case eDependencyGroup:      mpResource = CDependencyGroupLoader::LoadDGRP(rInput, this);break;
     case eDynamicCollision:     mpResource = CCollisionLoader::LoadDCLN(rInput, this);      break;
     case eFont:                 mpResource = CFontLoader::LoadFONT(rInput, this);           break;
     case eModel:                mpResource = CModelLoader::LoadCMDL(rInput, this);          break;
@@ -185,7 +287,7 @@ void CResourceEntry::Move(const TWideString& rkDir, const TWideString& rkName)
 
     // Set new directory and name
     bool HasDirectory = mpDirectory != nullptr;
-    CVirtualDirectory *pNewDir = mpStore->GetVirtualDirectory(rkDir, mTransient, true);
+    CVirtualDirectory *pNewDir = mpStore->GetVirtualDirectory(rkDir, IsTransient(), true);
 
     if (pNewDir != mpDirectory)
     {
@@ -216,9 +318,9 @@ void CResourceEntry::Move(const TWideString& rkDir, const TWideString& rkName)
 
 void CResourceEntry::AddToProject(const TWideString& rkDir, const TWideString& rkName)
 {
-    if (mTransient)
+    if (mFlags.HasFlag(eREF_Transient))
     {
-        mTransient = false;
+        mFlags.ClearFlag(eREF_Transient);
         Move(rkDir, rkName);
     }
 
@@ -230,10 +332,10 @@ void CResourceEntry::AddToProject(const TWideString& rkDir, const TWideString& r
 
 void CResourceEntry::RemoveFromProject()
 {
-    if (!mTransient)
+    if (!mFlags.HasFlag(eREF_Transient))
     {
         TString Dir = CookedAssetPath().GetFileDirectory();
-        mTransient = true;
+        mFlags.SetFlag(eREF_Transient);
         Move(Dir, mName);
     }
 
