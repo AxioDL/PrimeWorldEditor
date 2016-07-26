@@ -13,9 +13,10 @@ class CDependencyTree;
 
 enum EResEntryFlag
 {
-    eREF_NeedsRecook     = 0x1,
-    eREF_Transient       = 0x2,
-    eREF_HasThumbnail    = 0x4,
+    eREF_NeedsRecook     = 0x1, // Resource has been updated but not recooked
+    eREF_Transient       = 0x2, // Resource is transient (not part of a game project resource DB)
+    eREF_HasThumbnail    = 0x4, // Resource has a unique thumbnail
+    eREF_ThumbnailLoaded = 0x8, // Resource thumbnail is currently in memory
     // Flags that save to the cache file
     eREF_SavedFlags      = eREF_NeedsRecook | eREF_HasThumbnail
 };

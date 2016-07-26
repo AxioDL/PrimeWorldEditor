@@ -1,36 +1,56 @@
 #ifndef CFOURCC_H
 #define CFOURCC_H
 
+#include "AssertMacro.h"
 #include "types.h"
 #include "TString.h"
 #include <FileIO/IInputStream.h>
 #include <FileIO/IOutputStream.h>
 
+#define FOURCC(Text) (Text[0] << 24 | Text[1] << 16 | Text[2] << 8 | Text[3])
+#define FOURCC_CONSTEXPR(A, B, C, D) (A << 24 | B << 16 | C << 8 | D)
+
 class CFourCC
 {
-    char mFourCC[4];
+    u32 mFourCC;
+
 public:
     // Constructors
-    CFourCC()                       { memset(mFourCC, 0, 4); }
-    CFourCC(const char *pkSrc)      { *this = pkSrc; }
-    CFourCC(const TString& rkSrc)   { *this = rkSrc; }
-    CFourCC(u32 Src)                { *this = Src; }
-    CFourCC(IInputStream& rSrc)     { rSrc.ReadBytes(&mFourCC[0], 4); }
+    inline CFourCC()                        { mFourCC = 0; }
+    inline CFourCC(const char *pkSrc)       { mFourCC = FOURCC(pkSrc); }
+    inline CFourCC(const TString& rkSrc)    { ASSERT(rkSrc.Length() == 4); mFourCC = FOURCC(rkSrc); }
+    inline CFourCC(u32 Src)                 { mFourCC = Src; }
+    inline CFourCC(IInputStream& rSrc)      { Read(rSrc); }
 
     // Functionality
+    inline void Read(IInputStream& rInput)
+    {
+        mFourCC = rInput.ReadLong();
+        if (rInput.GetEndianness() == IOUtil::eLittleEndian) Reverse();
+    }
+
     inline void Write(IOutputStream& rOutput)
     {
-        rOutput.WriteBytes(&mFourCC[0], 4);
+        u32 Val = mFourCC;
+        if (rOutput.GetEndianness() == IOUtil::eLittleEndian) IOUtil::SwapBytes(Val);
+        rOutput.WriteLong(Val);
     }
 
     inline u32 ToLong() const
     {
-        return mFourCC[0] << 24 | mFourCC[1] << 16 | mFourCC[2] << 8 | mFourCC[3];
+        return mFourCC;
     }
 
     inline TString ToString() const
     {
-        return TString(mFourCC, 4);
+        char CharArray[4] = {
+            ( (mFourCC >> 24) & 0xFF),
+            ( (mFourCC >> 16) & 0xFF),
+            ( (mFourCC >>  8) & 0xFF),
+            ( (mFourCC >>  0) & 0xFF)
+        };
+
+        return TString(CharArray, 4);
     }
 
     inline CFourCC ToUpper() const
@@ -39,45 +59,50 @@ public:
 
         for (int iChr = 0; iChr < 4; iChr++)
         {
-            if ((mFourCC[iChr] >= 0x61) && (mFourCC[iChr] <= 0x7A))
-                Out.mFourCC[iChr] = mFourCC[iChr] - 0x20;
-            else
-                Out.mFourCC[iChr] = mFourCC[iChr];
+            char Chr = (*this)[iChr];
+
+            if ((Chr >= 0x61) && (Chr <= 0x7A))
+                Chr -= 0x20;
+
+            Out.mFourCC |= (Chr << (8 * (3 - iChr)));
         }
 
-        return Out;
+        return CFourCC(Out);
+    }
+
+    inline void Reverse() const
+    {
+        IOUtil::SwapBytes((u32) mFourCC);
     }
 
     // Operators
-    inline CFourCC& operator=(const char *pkSrc)
+    inline char& operator[](int Index)
     {
-        memcpy(&mFourCC[0], pkSrc, 4);
-        return *this;
+        ASSERT(Index >= 0 && Index < 4);
+        if (IOUtil::kSystemEndianness == IOUtil::eLittleEndian)
+            Index = 3 - Index;
+
+        return ((char*)(&mFourCC))[Index];
     }
 
-    inline CFourCC& operator=(const TString& rkSrc)
+    inline const char& operator[](int Index) const
     {
-        memcpy(&mFourCC[0], rkSrc.CString(), 4);
-        return *this;
+        ASSERT(Index >= 0 && Index < 4);
+        if (IOUtil::kSystemEndianness == IOUtil::eLittleEndian)
+            Index = 3 - Index;
+
+        return ((char*)(&mFourCC))[Index];
     }
 
-    inline CFourCC& operator=(u32 Src)
-    {
-        mFourCC[0] = (Src >> 24) & 0xFF;
-        mFourCC[1] = (Src >> 16) & 0xFF;
-        mFourCC[2] = (Src >>  8) & 0xFF;
-        mFourCC[3] = (Src >>  0) & 0xFF;
-        return *this;
-    }
-
-    inline bool operator==(const CFourCC& rkOther) const    { return ((mFourCC[0] == rkOther.mFourCC[0]) && (mFourCC[1] == rkOther.mFourCC[1]) && (mFourCC[2] == rkOther.mFourCC[2]) && (mFourCC[3] == rkOther.mFourCC[3])); }
-    inline bool operator!=(const CFourCC& rkOther) const    { return (!(*this == rkOther)); }
-    inline bool operator>(const CFourCC& rkOther) const     { return (ToLong() > rkOther.ToLong()); }
-    inline bool operator>=(const CFourCC& rkOther) const    { return (ToLong() >= rkOther.ToLong()); }
-    inline bool operator<(const CFourCC& rkOther) const     { return (ToLong() < rkOther.ToLong()); }
-    inline bool operator<=(const CFourCC& rkOther) const    { return (ToLong() <= rkOther.ToLong()); }
-    inline char operator[](int Index)                       { return mFourCC[Index]; }
-    inline const char operator[](int Index) const           { return mFourCC[Index]; }
+    inline CFourCC& operator=(const char *pkSrc)            { mFourCC = FOURCC(pkSrc);  return *this;   }
+    inline CFourCC& operator=(const TString& rkSrc)         { mFourCC = FOURCC(rkSrc);  return *this;   }
+    inline CFourCC& operator=(u32 Src)                      { mFourCC = Src;            return *this;   }
+    inline bool operator==(const CFourCC& rkOther) const    { return mFourCC == rkOther.mFourCC;        }
+    inline bool operator!=(const CFourCC& rkOther) const    { return mFourCC != rkOther.mFourCC;        }
+    inline bool operator> (const CFourCC& rkOther) const    { return mFourCC >  rkOther.mFourCC;        }
+    inline bool operator>=(const CFourCC& rkOther) const    { return mFourCC >= rkOther.mFourCC;        }
+    inline bool operator< (const CFourCC& rkOther) const    { return mFourCC <  rkOther.mFourCC;        }
+    inline bool operator<=(const CFourCC& rkOther) const    { return mFourCC <= rkOther.mFourCC;        }
 };
 
 #endif // CFOURCC_H

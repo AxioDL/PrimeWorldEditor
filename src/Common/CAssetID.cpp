@@ -41,7 +41,7 @@ CAssetID::CAssetID(const char* pkID)
 CAssetID::CAssetID(IInputStream& rInput, EIDLength Length)
     : mLength(Length)
 {
-    if (Length == e32Bit)   mID = (u64) rInput.ReadLong();
+    if (Length == e32Bit)   mID = ((u64) rInput.ReadLong()) & 0xFFFFFFFF;
     else                    mID = rInput.ReadLongLong();
 }
 

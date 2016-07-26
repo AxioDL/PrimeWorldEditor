@@ -199,7 +199,10 @@ HEADERS += \
     GameProject/CResourceIterator.h \
     Resource/CDependencyGroup.h \
     Resource/Factory/CDependencyGroupLoader.h \
-    GameProject/CDependencyTree.h
+    GameProject/CDependencyTree.h \
+    Resource/Factory/CUnsupportedFormatLoader.h \
+    Resource/ParticleParameters.h \
+    Resource/Factory/CUnsupportedParticleLoader.h
 
 # Source Files
 SOURCES += \
@@ -292,4 +295,6 @@ SOURCES += \
     GameProject/CResourceEntry.cpp \
     GameProject/CPackage.cpp \
     Resource/Factory/CDependencyGroupLoader.cpp \
-    GameProject/CDependencyTree.cpp
+    GameProject/CDependencyTree.cpp \
+    Resource/Factory/CUnsupportedFormatLoader.cpp \
+    Resource/Factory/CUnsupportedParticleLoader.cpp
