@@ -23,6 +23,8 @@
 #include "Core/Resource/Factory/CSkinLoader.h"
 #include "Core/Resource/Factory/CStringLoader.h"
 #include "Core/Resource/Factory/CTextureDecoder.h"
+#include "Core/Resource/Factory/CUnsupportedFormatLoader.h"
+#include "Core/Resource/Factory/CUnsupportedParticleLoader.h"
 #include "Core/Resource/Factory/CWorldLoader.h"
 
 CResourceEntry::CResourceEntry(CResourceStore *pStore, const CAssetID& rkID,
@@ -117,6 +119,9 @@ bool CResourceEntry::SaveCacheData()
     u32 DepsSize = File.Tell() - DepsStart;
     File.Seek(DepsSizeOffset, SEEK_SET);
     File.WriteLong(DepsSize);
+
+    // Thumbnail
+    File.WriteLong(0); // Reserved Space (Thumbnail Size)
 
     return true;
 }
@@ -250,21 +255,32 @@ CResource* CResourceEntry::Load(IInputStream& rInput)
 
     switch (mType)
     {
-    case eAnimation:            mpResource = CAnimationLoader::LoadANIM(rInput, this);      break;
-    case eAnimSet:              mpResource = CAnimSetLoader::LoadANCSOrCHAR(rInput, this);  break;
-    case eArea:                 mpResource = CAreaLoader::LoadMREA(rInput, this);           break;
-    case eDependencyGroup:      mpResource = CDependencyGroupLoader::LoadDGRP(rInput, this);break;
-    case eDynamicCollision:     mpResource = CCollisionLoader::LoadDCLN(rInput, this);      break;
-    case eFont:                 mpResource = CFontLoader::LoadFONT(rInput, this);           break;
-    case eModel:                mpResource = CModelLoader::LoadCMDL(rInput, this);          break;
-    case eScan:                 mpResource = CScanLoader::LoadSCAN(rInput, this);           break;
-    case eSkeleton:             mpResource = CSkeletonLoader::LoadCINF(rInput, this);       break;
-    case eSkin:                 mpResource = CSkinLoader::LoadCSKR(rInput, this);           break;
-    case eStaticGeometryMap:    mpResource = CPoiToWorldLoader::LoadEGMC(rInput, this);     break;
-    case eStringTable:          mpResource = CStringLoader::LoadSTRG(rInput, this);         break;
-    case eTexture:              mpResource = CTextureDecoder::LoadTXTR(rInput, this);       break;
-    case eWorld:                mpResource = CWorldLoader::LoadMLVL(rInput, this);          break;
-    default:                    mpResource = new CResource(this);                           break;
+    case eAnimation:            mpResource = CAnimationLoader::LoadANIM(rInput, this);              break;
+    case eAnimSet:              mpResource = CAnimSetLoader::LoadANCSOrCHAR(rInput, this);          break;
+    case eArea:                 mpResource = CAreaLoader::LoadMREA(rInput, this);                   break;
+    case eDependencyGroup:      mpResource = CDependencyGroupLoader::LoadDGRP(rInput, this);        break;
+    case eDynamicCollision:     mpResource = CCollisionLoader::LoadDCLN(rInput, this);              break;
+    case eFont:                 mpResource = CFontLoader::LoadFONT(rInput, this);                   break;
+    case eModel:                mpResource = CModelLoader::LoadCMDL(rInput, this);                  break;
+    case eRuleSet:              mpResource = CUnsupportedFormatLoader::LoadRULE(rInput, this);      break;
+    case eScan:                 mpResource = CScanLoader::LoadSCAN(rInput, this);                   break;
+    case eSkeleton:             mpResource = CSkeletonLoader::LoadCINF(rInput, this);               break;
+    case eSkin:                 mpResource = CSkinLoader::LoadCSKR(rInput, this);                   break;
+    case eStaticGeometryMap:    mpResource = CPoiToWorldLoader::LoadEGMC(rInput, this);             break;
+    case eStringTable:          mpResource = CStringLoader::LoadSTRG(rInput, this);                 break;
+    case eTexture:              mpResource = CTextureDecoder::LoadTXTR(rInput, this);               break;
+    case eWorld:                mpResource = CWorldLoader::LoadMLVL(rInput, this);                  break;
+
+    case eParticle:
+    case eParticleElectric:
+    case eParticleSwoosh:
+    case eParticleDecal:
+    case eParticleWeapon:
+    case eParticleCollisionResponse:
+        mpResource = CUnsupportedParticleLoader::LoadParticle(rInput, this);
+        break;
+
+    default:                    mpResource = new CResource(this);                                   break;
     }
 
     mpStore->TrackLoadedResource(this);
