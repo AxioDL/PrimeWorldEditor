@@ -261,6 +261,10 @@ CResource* CResourceEntry::Load(IInputStream& rInput)
     case eDependencyGroup:      mpResource = CDependencyGroupLoader::LoadDGRP(rInput, this);        break;
     case eDynamicCollision:     mpResource = CCollisionLoader::LoadDCLN(rInput, this);              break;
     case eFont:                 mpResource = CFontLoader::LoadFONT(rInput, this);                   break;
+    case eHintSystem:           mpResource = CUnsupportedFormatLoader::LoadHINT(rInput, this);      break;
+    case eMapWorld:             mpResource = CUnsupportedFormatLoader::LoadMAPW(rInput, this);      break;
+    case eMapUniverse:          mpResource = CUnsupportedFormatLoader::LoadMAPU(rInput, this);      break;
+    case eMidi:                 mpResource = CUnsupportedFormatLoader::LoadCSNG(rInput, this);      break;
     case eModel:                mpResource = CModelLoader::LoadCMDL(rInput, this);                  break;
     case eRuleSet:              mpResource = CUnsupportedFormatLoader::LoadRULE(rInput, this);      break;
     case eScan:                 mpResource = CScanLoader::LoadSCAN(rInput, this);                   break;

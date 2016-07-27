@@ -16,6 +16,13 @@ CAnimation::CAnimation(CResourceEntry *pEntry /*= 0*/)
     }
 }
 
+CDependencyTree* CAnimation::BuildDependencyTree() const
+{
+    CDependencyTree *pTree = new CDependencyTree(ID());
+    pTree->AddDependency(mEventData);
+    return pTree;
+}
+
 void CAnimation::EvaluateTransform(float Time, u32 BoneID, CVector3f *pOutTranslation, CQuaternion *pOutRotation, CVector3f *pOutScale) const
 {
     const bool kInterpolate = true;
