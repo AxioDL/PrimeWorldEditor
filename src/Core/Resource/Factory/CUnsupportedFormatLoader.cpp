@@ -12,6 +12,50 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadCSNG(IInputStream& rCSNG, CResou
     return pGroup;
 }
 
+CDependencyGroup* CUnsupportedFormatLoader::LoadEVNT(IInputStream& rEVNT, CResourceEntry *pEntry)
+{
+    u32 Version = rEVNT.ReadLong();
+    ASSERT(Version == 1 || Version == 2);
+
+    CDependencyGroup *pGroup = new CDependencyGroup(pEntry);
+
+    // Loop Events
+    u32 NumLoopEvents = rEVNT.ReadLong();
+
+    for (u32 iLoop = 0; iLoop < NumLoopEvents; iLoop++)
+    {
+        rEVNT.Seek(0x2, SEEK_CUR);
+        rEVNT.ReadString();
+        rEVNT.Seek(0x1C, SEEK_CUR);
+    }
+
+    // User Events
+    u32 NumUserEvents = rEVNT.ReadLong();
+
+    for (u32 iUser = 0; iUser < NumUserEvents; iUser++)
+    {
+        rEVNT.Seek(0x2, SEEK_CUR);
+        rEVNT.ReadString();
+        rEVNT.Seek(0x1F, SEEK_CUR);
+        rEVNT.ReadString();
+    }
+
+    // Effect Events
+    u32 NumEffectEvents = rEVNT.ReadLong();
+
+    for (u32 iFX = 0; iFX < NumEffectEvents; iFX++)
+    {
+        rEVNT.Seek(0x2, SEEK_CUR);
+        rEVNT.ReadString();
+        rEVNT.Seek(0x23, SEEK_CUR);
+        pGroup->AddDependency(rEVNT.ReadLong());
+        rEVNT.ReadString();
+        rEVNT.Seek(0x8, SEEK_CUR);
+    }
+
+    return pGroup;
+}
+
 CDependencyGroup* CUnsupportedFormatLoader::LoadHINT(IInputStream& rHINT, CResourceEntry *pEntry)
 {
     u32 Magic = rHINT.ReadLong();

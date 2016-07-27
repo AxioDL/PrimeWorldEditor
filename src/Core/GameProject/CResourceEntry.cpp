@@ -256,6 +256,7 @@ CResource* CResourceEntry::Load(IInputStream& rInput)
     switch (mType)
     {
     case eAnimation:            mpResource = CAnimationLoader::LoadANIM(rInput, this);              break;
+    case eAnimEventData:        mpResource = CUnsupportedFormatLoader::LoadEVNT(rInput, this);      break;
     case eAnimSet:              mpResource = CAnimSetLoader::LoadANCSOrCHAR(rInput, this);          break;
     case eArea:                 mpResource = CAreaLoader::LoadMREA(rInput, this);                   break;
     case eDependencyGroup:      mpResource = CDependencyGroupLoader::LoadDGRP(rInput, this);        break;
