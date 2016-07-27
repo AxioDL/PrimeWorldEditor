@@ -31,8 +31,11 @@ class CAnimation : public CResource
     };
     SBoneChannelInfo mBoneInfo[100];
 
+    CAssetID mEventData;
+
 public:
     CAnimation(CResourceEntry *pEntry = 0);
+    CDependencyTree* BuildDependencyTree() const;
     void EvaluateTransform(float Time, u32 BoneID, CVector3f *pOutTranslation, CQuaternion *pOutRotation, CVector3f *pOutScale) const;
     bool HasTranslation(u32 BoneID) const;
 

@@ -202,7 +202,7 @@ void CAnimationLoader::ReadUncompressedANIM()
 
     if (mGame == ePrime)
     {
-        // Skip EVNT file
+        mpAnim->mEventData = mpInput->ReadLong();
     }
 }
 
@@ -217,7 +217,13 @@ void CAnimationLoader::ReadCompressedANIM()
         mpAnim->SetGame(mGame);
     }
 
-    mpInput->Seek(mGame == ePrime ? 0x8 : 0x2, SEEK_CUR); // Skip EVNT (MP1) and unknowns
+    if (mGame == ePrime)
+    {
+        mpAnim->mEventData = mpInput->ReadLong();
+        mpInput->Seek(0x4, SEEK_CUR); // Skip unknown
+    }
+    else mpInput->Seek(0x2, SEEK_CUR); // Skip unknowns
+
     mpAnim->mDuration = mpInput->ReadFloat();
     mpAnim->mTickInterval = mpInput->ReadFloat();
     mpInput->Seek(0x8, SEEK_CUR); // Skip two unknown values
