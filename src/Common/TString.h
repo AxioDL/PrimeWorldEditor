@@ -313,7 +313,7 @@ public:
         {
             CharType Chr = At(iChar);
 
-            if (Chr >= 'a' && Chr <= 'z')
+            if (Chr >= CHAR_LITERAL('a') && Chr <= CHAR_LITERAL('z'))
                 Out[iChar] = Chr - 0x20;
             else
                 Out[iChar] = Chr;
@@ -553,10 +553,10 @@ public:
         // Now we can finally check the actual string and make sure all the characters are valid hex characters.
         for (u32 iChr = 0; iChr < Width; iChr++)
         {
-            char Chr = Str[iChr];
-            if (!((Chr >= '0') && (Chr <= '9')) &&
-                !((Chr >= 'a') && (Chr <= 'f')) &&
-                !((Chr >= 'A') && (Chr <= 'F')))
+            CharType Chr = Str[iChr];
+            if (!((Chr >= CHAR_LITERAL('0')) && (Chr <= CHAR_LITERAL('9'))) &&
+                !((Chr >= CHAR_LITERAL('a')) && (Chr <= CHAR_LITERAL('f'))) &&
+                !((Chr >= CHAR_LITERAL('A')) && (Chr <= CHAR_LITERAL('F'))))
                 return false;
         }
 
@@ -832,23 +832,23 @@ public:
     // Static
     static TBasicString<CharType> FromInt32(s32 Value, int Width = 0, int Base = 16)
     {
-        std::basic_stringstream<CharType> sstream;
-        sstream << std::setbase(Base) << std::setw(Width) << std::setfill(CHAR_LITERAL('0')) << Value;
-        return sstream.str();
+        std::basic_stringstream<CharType> SStream;
+        SStream << std::setbase(Base) << std::setw(Width) << std::setfill(CHAR_LITERAL('0')) << Value;
+        return SStream.str();
     }
 
     static TBasicString<CharType> FromInt64(s64 Value, int Width = 0, int Base = 16)
     {
-        std::basic_stringstream<CharType> sstream;
-        sstream << std::setbase(Base) << std::setw(Width) << std::setfill(CHAR_LITERAL('0')) << Value;
-        return sstream.str();
+        std::basic_stringstream<CharType> SStream;
+        SStream << std::setbase(Base) << std::setw(Width) << std::setfill(CHAR_LITERAL('0')) << Value;
+        return SStream.str();
     }
 
     static TBasicString<CharType> FromFloat(float Value, int MinDecimals = 1)
     {
-        std::basic_stringstream<CharType> sstream;
-        sstream << Value;
-        _TString Out = sstream.str();
+        std::basic_stringstream<CharType> SStream;
+        SStream << Value;
+        _TString Out = SStream.str();
 
         int NumZeroes = Out.Size() - (Out.IndexOf(LITERAL(".")) + 1);
 
@@ -906,13 +906,13 @@ public:
 
     static TBasicString<CharType> HexString(unsigned long Num, int Width = 8, bool AddPrefix = true, bool Uppercase = true)
     {
-        std::basic_stringstream<CharType> sstream;
-        sstream << std::hex << std::setw(Width) << std::setfill('0') << Num;
+        std::basic_stringstream<CharType> SStream;
+        SStream << std::hex << std::setw(Width) << std::setfill('0') << Num;
 
-        _TString str = sstream.str();
-        if (Uppercase) str = str.ToUpper();
-        if (AddPrefix) str.Prepend(LITERAL("0x"));
-        return str;
+        _TString Str = SStream.str();
+        if (Uppercase) Str = Str.ToUpper();
+        if (AddPrefix) Str.Prepend(LITERAL("0x"));
+        return Str;
     }
 
     static bool CompareCStrings(const CharType* pkA, const CharType* pkB)
@@ -930,24 +930,24 @@ public:
     static u32 CStringLength(const CharType* pkStr)
     {
         // Replacement for strlen so we can measure any CharType
-        u32 out = 0;
+        u32 Out = 0;
 
         while (true)
         {
-            if (*pkStr == 0) return out;
-            out++;
+            if (*pkStr == 0) return Out;
+            Out++;
             pkStr++;
         }
     }
 
-    static bool IsWhitespace(CharType c)
+    static bool IsWhitespace(CharType Chr)
     {
-        return ( (c == CHAR_LITERAL('\t')) ||
-                 (c == CHAR_LITERAL('\n')) ||
-                 (c == CHAR_LITERAL('\v')) ||
-                 (c == CHAR_LITERAL('\f')) ||
-                 (c == CHAR_LITERAL('\r')) ||
-                 (c == CHAR_LITERAL(' '))  );
+        return ( (Chr == CHAR_LITERAL('\t')) ||
+                 (Chr == CHAR_LITERAL('\n')) ||
+                 (Chr == CHAR_LITERAL('\v')) ||
+                 (Chr == CHAR_LITERAL('\f')) ||
+                 (Chr == CHAR_LITERAL('\r')) ||
+                 (Chr == CHAR_LITERAL(' '))  );
     }
 };
 

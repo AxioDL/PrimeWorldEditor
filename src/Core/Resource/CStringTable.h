@@ -41,6 +41,33 @@ public:
 
         return TWideString();
     }
+
+    CDependencyTree* BuildDependencyTree() const
+    {
+        // The only dependencies STRGs have is they can reference FONTs with the &font=; formatting tag
+        CDependencyTree *pTree = new CDependencyTree(ID());
+        EIDLength IDLength = (Game() <= eEchoes ? e32Bit : e64Bit);
+
+        for (u32 iLang = 0; iLang < mLangTables.size(); iLang++)
+        {
+            const SLangTable& rkTable = mLangTables[iLang];
+
+            for (u32 iStr = 0; iStr < rkTable.Strings.size(); iStr++)
+            {
+                static const TWideString skTag = L"&font=";
+                const TWideString& rkStr = rkTable.Strings[iStr];
+
+                for (u32 FontIdx = rkStr.IndexOfPhrase(*skTag); FontIdx != -1; FontIdx = rkStr.IndexOfPhrase(*skTag, FontIdx + 1))
+                {
+                    u32 IDStart = FontIdx + skTag.Size();
+                    TWideString StrFontID = rkStr.SubString(IDStart, IDLength * 2);
+                    pTree->AddDependency( CAssetID::FromString(StrFontID) );
+                }
+            }
+        }
+
+        return pTree;
+    }
 };
 
 #endif // CSTRINGTABLE_H
