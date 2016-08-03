@@ -12,21 +12,28 @@
 #include <vector>
 
 // will expand later! this is where animation support will come in
+struct SSetCharacter
+{
+    TString Name;
+    TResPtr<CModel> pModel;
+    TResPtr<CSkin> pSkin;
+    TResPtr<CSkeleton> pSkeleton;
+
+    std::vector<CAssetID> GenericParticles;
+    std::vector<CAssetID> ElectricParticles;
+    std::vector<CAssetID> SwooshParticles;
+    std::vector<CAssetID> SpawnParticles;
+    std::vector<CAssetID> EffectParticles;
+    CAssetID IceModel;
+    CAssetID IceSkin;
+};
+
 class CAnimSet : public CResource
 {
     DECLARE_RESOURCE_TYPE(eAnimSet)
     friend class CAnimSetLoader;
 
-    struct SNode
-    {
-        TString Name;
-        TResPtr<CModel> pModel;
-        TResPtr<CSkin> pSkin;
-        TResPtr<CSkeleton> pSkeleton;
-
-        SNode() { pModel = nullptr; }
-    };
-    std::vector<SNode> mNodes;
+    std::vector<SSetCharacter> mCharacters;
 
     struct SAnimation
     {
@@ -38,15 +45,28 @@ class CAnimSet : public CResource
 public:
     CAnimSet(CResourceEntry *pEntry = 0) : CResource(pEntry) {}
 
-    u32 NumNodes() const                { return mNodes.size(); }
-    TString NodeName(u32 Index)         { if (Index >= mNodes.size()) Index = 0; return mNodes[Index].Name; }
-    CModel* NodeModel(u32 Index)        { if (Index >= mNodes.size()) Index = 0; return mNodes[Index].pModel; }
-    CSkin* NodeSkin(u32 Index)          { if (Index >= mNodes.size()) Index = 0; return mNodes[Index].pSkin; }
-    CSkeleton* NodeSkeleton(u32 Index)  { if (Index >= mNodes.size()) Index = 0; return mNodes[Index].pSkeleton; }
+    u32 NumNodes() const                { return mCharacters.size(); }
+    TString NodeName(u32 Index)         { if (Index >= mCharacters.size()) Index = 0; return mCharacters[Index].Name; }
+    CModel* NodeModel(u32 Index)        { if (Index >= mCharacters.size()) Index = 0; return mCharacters[Index].pModel; }
+    CSkin* NodeSkin(u32 Index)          { if (Index >= mCharacters.size()) Index = 0; return mCharacters[Index].pSkin; }
+    CSkeleton* NodeSkeleton(u32 Index)  { if (Index >= mCharacters.size()) Index = 0; return mCharacters[Index].pSkeleton; }
 
     u32 NumAnims() const                { return mAnims.size(); }
     CAnimation* Animation(u32 Index)    { if (Index >= mAnims.size()) Index = 0; return mAnims[Index].pAnim; }
     TString AnimName(u32 Index)         { if (Index >= mAnims.size()) Index = 0; return mAnims[Index].Name; }
+
+    CDependencyTree* BuildDependencyTree() const
+    {
+        CAnimSetDependencyTree *pTree = new CAnimSetDependencyTree(ID());
+
+        for (u32 iAnim = 0; iAnim < mAnims.size(); iAnim++)
+            pTree->AddDependency(mAnims[iAnim].pAnim);
+
+        for (u32 iNode = 0; iNode < mCharacters.size(); iNode++)
+            pTree->AddCharacter(&mCharacters[iNode]);
+
+        return pTree;
+    }
 };
 
 #endif // CCHARACTERSET_H

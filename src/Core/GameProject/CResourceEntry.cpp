@@ -116,9 +116,12 @@ bool CResourceEntry::SaveCacheData()
 
     u32 DepsStart = File.Tell();
     if (mpDependencies) mpDependencies->Write(File, Game() <= eEchoes ? e32Bit : e64Bit);
-    u32 DepsSize = File.Tell() - DepsStart;
+    u32 DepsEnd = File.Tell();
+    u32 DepsSize = DepsEnd- DepsStart;
+
     File.Seek(DepsSizeOffset, SEEK_SET);
     File.WriteLong(DepsSize);
+    File.Seek(DepsEnd, SEEK_SET);
 
     // Thumbnail
     File.WriteLong(0); // Reserved Space (Thumbnail Size)
@@ -262,6 +265,7 @@ CResource* CResourceEntry::Load(IInputStream& rInput)
     case eDependencyGroup:      mpResource = CDependencyGroupLoader::LoadDGRP(rInput, this);        break;
     case eDynamicCollision:     mpResource = CCollisionLoader::LoadDCLN(rInput, this);              break;
     case eFont:                 mpResource = CFontLoader::LoadFONT(rInput, this);                   break;
+    case eGuiFrame:             mpResource = CUnsupportedFormatLoader::LoadFRME(rInput, this);      break;
     case eHintSystem:           mpResource = CUnsupportedFormatLoader::LoadHINT(rInput, this);      break;
     case eMapWorld:             mpResource = CUnsupportedFormatLoader::LoadMAPW(rInput, this);      break;
     case eMapUniverse:          mpResource = CUnsupportedFormatLoader::LoadMAPU(rInput, this);      break;

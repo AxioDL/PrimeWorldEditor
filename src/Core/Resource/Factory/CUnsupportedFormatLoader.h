@@ -13,6 +13,7 @@ class CUnsupportedFormatLoader
 public:
     static CDependencyGroup* LoadCSNG(IInputStream& rCSNG, CResourceEntry *pEntry);
     static CDependencyGroup* LoadEVNT(IInputStream& rEVNT, CResourceEntry *pEntry);
+    static CDependencyGroup* LoadFRME(IInputStream& rFRME, CResourceEntry *pEntry);
     static CDependencyGroup* LoadHINT(IInputStream& rHINT, CResourceEntry *pEntry);
     static CDependencyGroup* LoadMAPW(IInputStream& rMAPW, CResourceEntry *pEntry);
     static CDependencyGroup* LoadMAPU(IInputStream& rMAPU, CResourceEntry *pEntry);

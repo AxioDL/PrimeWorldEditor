@@ -56,6 +56,122 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadEVNT(IInputStream& rEVNT, CResou
     return pGroup;
 }
 
+CDependencyGroup* CUnsupportedFormatLoader::LoadFRME(IInputStream& rFRME, CResourceEntry *pEntry)
+{
+    if (pEntry->Game() >= eEchoesDemo) return nullptr;
+
+    u32 Version = rFRME.ReadLong();
+    ASSERT(Version == 0 || Version == 1);
+
+    CDependencyGroup *pGroup = new CDependencyGroup(pEntry);
+    rFRME.Seek(0xC, SEEK_CUR);
+    u32 NumWidgets = rFRME.ReadLong();
+
+    for (u32 iWgt = 0; iWgt < NumWidgets; iWgt++)
+    {
+        // Widget Header
+        CFourCC WidgetType = rFRME.ReadLong();
+        rFRME.ReadString();
+        rFRME.ReadString();
+        rFRME.Seek(0x18, SEEK_CUR);
+
+        // Head Widget / Base Widget
+        if (WidgetType == "HWIG" || WidgetType == "BWIG")
+        {}
+
+        // Camera
+        else if (WidgetType == "CAMR")
+        {
+            u32 ProjectionType = rFRME.ReadLong();
+
+            if (ProjectionType == 0)
+                rFRME.Seek(0x10, SEEK_CUR);
+            else
+                rFRME.Seek(0x18, SEEK_CUR);
+        }
+
+        // Light
+        else if (WidgetType == "LITE")
+        {
+            u32 LightType = rFRME.ReadLong();
+            rFRME.Seek(0x1C, SEEK_CUR);
+            if (LightType == 0) rFRME.Seek(0x4, SEEK_CUR);
+        }
+
+        // Meter
+        else if (WidgetType == "METR")
+            rFRME.Seek(0xA, SEEK_CUR);
+
+        // Group
+        else if (WidgetType == "GRUP")
+            rFRME.Seek(0x3, SEEK_CUR);
+
+        // Table Group
+        else if (WidgetType == "TBGP")
+            rFRME.Seek(0x23, SEEK_CUR);
+
+        // Model
+        else if (WidgetType == "MODL")
+        {
+            pGroup->AddDependency( CAssetID(rFRME, e32Bit) ); // CMDL
+            rFRME.Seek(0x8, SEEK_CUR);
+        }
+
+        // Text Pane
+        else if (WidgetType == "TXPN")
+        {
+            rFRME.Seek(0x14, SEEK_CUR);
+            pGroup->AddDependency( CAssetID(rFRME, e32Bit) ); // FONT
+            rFRME.Seek(0x32, SEEK_CUR);
+
+            if (Version == 1)
+            {
+                pGroup->AddDependency( CAssetID(rFRME, e32Bit) ); // FONT
+                rFRME.Seek(0x8, SEEK_CUR);
+            }
+        }
+
+        // Image Pane
+        else if (WidgetType == "IMGP")
+        {
+            pGroup->AddDependency( CAssetID(rFRME, e32Bit) ); // TXTR
+            if (rFRME.ReadLong() != 0xFFFFFFFF) DEBUG_BREAK;
+            rFRME.Seek(0x4, SEEK_CUR);
+
+            u32 NumQuadCoords = rFRME.ReadLong();
+            rFRME.Seek(NumQuadCoords * 0xC, SEEK_CUR);
+            u32 NumUVCoords = rFRME.ReadLong();
+            rFRME.Seek(NumUVCoords * 8, SEEK_CUR);
+        }
+
+        // Energy Bar
+        else if (WidgetType == "ENRG")
+        {
+            pGroup->AddDependency( CAssetID(rFRME, e32Bit) ); // TXTR
+        }
+
+        // Slider Group
+        else if (WidgetType == "SLGP")
+        {
+            rFRME.Seek(0x10, SEEK_CUR);
+        }
+
+        else
+        {
+            Log::Error("Unrecognized FRME widget type: " + WidgetType.ToString());
+            DEBUG_BREAK;
+        }
+
+        // Widget Footer
+        if (rFRME.ReadByte() != 0)
+            rFRME.Seek(0x2, SEEK_CUR);
+
+        rFRME.Seek(0x42, SEEK_CUR);
+    }
+
+    return pGroup;
+}
+
 CDependencyGroup* CUnsupportedFormatLoader::LoadHINT(IInputStream& rHINT, CResourceEntry *pEntry)
 {
     u32 Magic = rHINT.ReadLong();
