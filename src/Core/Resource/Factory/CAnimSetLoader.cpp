@@ -10,11 +10,11 @@ CAnimSet* CAnimSetLoader::LoadCorruptionCHAR(IInputStream& rCHAR)
 {
     // For now, we only read enough to fetch the model
     rCHAR.Seek(0x1, SEEK_CUR);
-    pSet->mNodes.resize(1);
-    CAnimSet::SNode& node = pSet->mNodes[0];
+    pSet->mCharacters.resize(1);
+    SSetCharacter& rNode = pSet->mCharacters[0];
 
-    node.Name = rCHAR.ReadString();
-    node.pModel = gpResourceStore->LoadResource(rCHAR.ReadLongLong(), "CMDL");
+    rNode.Name = rCHAR.ReadString();
+    rNode.pModel = gpResourceStore->LoadResource(rCHAR.ReadLongLong(), "CMDL");
     return pSet;
 }
 
@@ -22,8 +22,8 @@ CAnimSet* CAnimSetLoader::LoadReturnsCHAR(IInputStream& rCHAR)
 {
     // For now, we only read enough to fetch the model
     rCHAR.Seek(0x16, SEEK_CUR);
-    pSet->mNodes.resize(1);
-    CAnimSet::SNode& rNode = pSet->mNodes[0];
+    pSet->mCharacters.resize(1);
+    SSetCharacter& rNode = pSet->mCharacters[0];
 
     rNode.Name = rCHAR.ReadString();
     rCHAR.Seek(0x14, SEEK_CUR);
@@ -224,11 +224,11 @@ CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS, CResourceEntry *pEntry)
     Loader.mVersion = pEntry->Game();
 
     u32 NodeCount = rANCS.ReadLong();
-    Loader.pSet->mNodes.resize(NodeCount);
+    Loader.pSet->mCharacters.resize(NodeCount);
 
     for (u32 iNode = 0; iNode < NodeCount; iNode++)
     {
-        CAnimSet::SNode *pNode = &Loader.pSet->mNodes[iNode];
+        SSetCharacter *pChar = &Loader.pSet->mCharacters[iNode];
 
         rANCS.Seek(0x4, SEEK_CUR); // Skipping node self-index
         u16 Unknown1 = rANCS.ReadShort();
@@ -237,11 +237,11 @@ CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS, CResourceEntry *pEntry)
             Loader.mVersion = (Unknown1 == 0xA) ? eEchoes : ePrime; // Best version indicator we know of unfortunately
             Loader.pSet->SetGame(Loader.mVersion);
         }
-        pNode->Name = rANCS.ReadString();
-        pNode->pModel = gpResourceStore->LoadResource(rANCS.ReadLong(), "CMDL");
-        pNode->pSkin = gpResourceStore->LoadResource(rANCS.ReadLong(), "CSKR");
-        pNode->pSkeleton = gpResourceStore->LoadResource(rANCS.ReadLong(), "CINF");
-        if (pNode->pModel) pNode->pModel->SetSkin(pNode->pSkin);
+        pChar->Name = rANCS.ReadString();
+        pChar->pModel = gpResourceStore->LoadResource(rANCS.ReadLong(), "CMDL");
+        pChar->pSkin = gpResourceStore->LoadResource(rANCS.ReadLong(), "CSKR");
+        pChar->pSkeleton = gpResourceStore->LoadResource(rANCS.ReadLong(), "CINF");
+        if (pChar->pModel) pChar->pModel->SetSkin(pChar->pSkin);
 
         // Unfortunately that's all that's actually supported at the moment. Hope to expand later.
         // Since there's no size value I have to actually read the rest of the node to reach the next one
@@ -259,17 +259,32 @@ CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS, CResourceEntry *pEntry)
 
         // Particles
         u32 ParticleCount = rANCS.ReadLong();
-        rANCS.Seek(ParticleCount * 4, SEEK_CUR);
+        pChar->GenericParticles.reserve(ParticleCount);
+
+        for (u32 iPart = 0; iPart < ParticleCount; iPart++)
+            pChar->GenericParticles.push_back( CAssetID(rANCS, e32Bit) );
+
         u32 SwooshCount = rANCS.ReadLong();
-        rANCS.Seek(SwooshCount * 4, SEEK_CUR);
+        pChar->SwooshParticles.reserve(SwooshCount);
+
+        for (u32 iSwoosh = 0; iSwoosh < SwooshCount; iSwoosh++)
+            pChar->SwooshParticles.push_back( CAssetID(rANCS, e32Bit) );
+
         if (Unknown1 != 5) rANCS.Seek(0x4, SEEK_CUR);
+
         u32 ElectricCount = rANCS.ReadLong();
-        rANCS.Seek(ElectricCount * 4, SEEK_CUR);
+        pChar->ElectricParticles.reserve(ElectricCount);
+
+        for (u32 iElec = 0; iElec < ElectricCount; iElec++)
+            pChar->ElectricParticles.push_back( CAssetID(rANCS, e32Bit) );
 
         if (Loader.mVersion == eEchoes)
         {
-            u32 SPSCCount = rANCS.ReadLong();
-            rANCS.Seek(SPSCCount * 4, SEEK_CUR);
+            u32 SpawnCount = rANCS.ReadLong();
+            pChar->SpawnParticles.reserve(SpawnCount);
+
+            for (u32 iSpawn = 0; iSpawn < SpawnCount; iSpawn++)
+                pChar->SpawnParticles.push_back( CAssetID(rANCS, e32Bit) );
         }
 
         rANCS.Seek(0x4, SEEK_CUR);
@@ -291,13 +306,17 @@ CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS, CResourceEntry *pEntry)
             for (u32 iEffect = 0; iEffect < EffectCount; iEffect++)
             {
                 rANCS.ReadString();
-                rANCS.Seek(0x8, SEEK_CUR);
+                rANCS.Seek(0x4, SEEK_CUR);
+                CAssetID ParticleID(rANCS, e32Bit);
+                if (ParticleID.IsValid()) pChar->EffectParticles.push_back(ParticleID);
+
                 if (Loader.mVersion == ePrime) rANCS.ReadString();
                 if (Loader.mVersion == eEchoes) rANCS.Seek(0x4, SEEK_CUR);
                 rANCS.Seek(0xC, SEEK_CUR);
             }
         }
-        rANCS.Seek(0x8, SEEK_CUR);
+        pChar->IceModel = CAssetID(rANCS, e32Bit);
+        pChar->IceSkin = CAssetID(rANCS, e32Bit);
 
         u32 UnknownCount = rANCS.ReadLong();
         rANCS.Seek(UnknownCount * 4, SEEK_CUR);

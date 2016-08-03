@@ -6,18 +6,50 @@
 class CDependencyGroup : public CResource
 {
     DECLARE_RESOURCE_TYPE(eDependencyGroup)
-    std::set<CAssetID> mDependencies;
+    std::vector<CAssetID> mDependencies;
 
 public:
     CDependencyGroup(CResourceEntry *pEntry = 0) : CResource(pEntry) {}
-    inline void AddDependency(const CAssetID& rkID)         { mDependencies.insert(rkID); }
-    inline void AddDependency(CResource *pRes)              { if (pRes) mDependencies.insert(pRes->ID()); }
-    inline void RemoveDependency(const CAssetID& rkID)      { mDependencies.erase(rkID); }
+
     inline void Clear()                                     { mDependencies.clear(); }
-    inline bool HasDependency(const CAssetID& rkID) const   { return mDependencies.find(rkID) != mDependencies.end(); }
     inline u32 NumDependencies() const                      { return mDependencies.size(); }
-    inline CAssetID DependencyByIndex(u32 Index) const      { return *std::next(mDependencies.begin(), Index); }
+    inline CAssetID DependencyByIndex(u32 Index) const      { return mDependencies[Index]; }
+
+    inline void AddDependency(const CAssetID& rkID)
+    {
+        if (!HasDependency(rkID))
+            mDependencies.push_back(rkID);
+    }
+
+    inline void AddDependency(CResource *pRes)
+    {
+        if ( pRes && !HasDependency(pRes->ID()) )
+            mDependencies.push_back(pRes->ID());
+    }
+
+    void RemoveDependency(const CAssetID& rkID)
+    {
+        for (auto Iter = mDependencies.begin(); Iter != mDependencies.end(); Iter++)
+        {
+            if (*Iter == rkID)
+            {
+                mDependencies.erase(Iter);
+                return;
+            }
+        }
+    }
     
+    bool HasDependency(const CAssetID &rkID) const
+    {
+        for (u32 iDep = 0; iDep < mDependencies.size(); iDep++)
+        {
+            if (mDependencies[iDep] == rkID)
+                return true;
+        }
+
+        return false;
+    }
+
     CDependencyTree* BuildDependencyTree() const
     {
         CDependencyTree *pTree = new CDependencyTree(ID());

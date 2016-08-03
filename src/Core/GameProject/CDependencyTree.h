@@ -10,6 +10,7 @@ class CScriptLayer;
 class CScriptObject;
 class CPropertyStruct;
 class TCharacterProperty;
+struct SSetCharacter;
 
 // Group of node classes forming a tree of cached resource dependencies.
 enum EDependencyNodeType
@@ -109,6 +110,8 @@ public:
     virtual EDependencyNodeType Type() const;
     virtual void Read(IInputStream& rFile, EIDLength IDLength);
     virtual void Write(IOutputStream& rFile, EIDLength IDLength) const;
+
+    void AddCharacter(const SSetCharacter *pkChar);
 };
 
 // Node representing a script object. Indicates the type of object.

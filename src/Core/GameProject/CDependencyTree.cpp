@@ -154,6 +154,31 @@ void CAnimSetDependencyTree::Write(IOutputStream& rFile, EIDLength IDLength) con
         rFile.WriteLong( mCharacterOffsets[iChar] );
 }
 
+void CAnimSetDependencyTree::AddCharacter(const SSetCharacter *pkChar)
+{
+    mCharacterOffsets.push_back( NumDependencies() );
+    if (!pkChar) return;
+
+    AddDependency(pkChar->pModel);
+    AddDependency(pkChar->pSkeleton);
+    AddDependency(pkChar->pSkin);
+
+    const std::vector<CAssetID> *pkParticleVectors[5] = {
+        &pkChar->GenericParticles, &pkChar->ElectricParticles,
+        &pkChar->SwooshParticles, &pkChar->SpawnParticles,
+        &pkChar->EffectParticles
+    };
+
+    for (u32 iVec = 0; iVec < 5; iVec++)
+    {
+        for (u32 iPart = 0; iPart < pkParticleVectors[iVec]->size(); iPart++)
+            AddDependency(pkParticleVectors[iVec]->at(iPart));
+    }
+
+    AddDependency(pkChar->IceModel);
+    AddDependency(pkChar->IceSkin);
+}
+
 // ************ CScriptInstanceDependencyTree ************
 CScriptInstanceDependencyTree::~CScriptInstanceDependencyTree()
 {
