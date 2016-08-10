@@ -25,7 +25,7 @@ public:
     CAssetID(IInputStream& rInput, EIDLength Length);
     TString ToString() const;
     bool IsValid() const;
-\
+
     // Operators
     inline void operator=(const u64& rkInput)               { *this = CAssetID(rkInput); }
     inline void operator=(const char *pkInput)              { *this = CAssetID(pkInput); }

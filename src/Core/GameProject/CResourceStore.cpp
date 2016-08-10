@@ -263,7 +263,7 @@ CResource* CResourceStore::LoadResource(const CAssetID& rkID, const CFourCC& rkT
         CMemoryInStream MemStream(DataBuffer.data(), DataBuffer.size(), IOUtil::eBigEndian);
         EResType Type = CResource::ResTypeForExtension(rkType);
         CResourceEntry *pEntry = RegisterTransientResource(Type, rkID);
-        CResource *pRes = pEntry->Load(MemStream);
+        CResource *pRes = pEntry->LoadCooked(MemStream);
         return pRes;
     }
 
@@ -274,7 +274,7 @@ CResource* CResourceStore::LoadResource(const CAssetID& rkID, const CFourCC& rkT
         CResourceEntry *pEntry = FindEntry(rkID);
         if (pEntry) return pEntry->Load();
 
-        // Check in transient load directory
+        // Check in transient load directory - this only works for cooked
         EResType Type = CResource::ResTypeForExtension(rkType);
 
         if (Type != eInvalidResType)
@@ -286,7 +286,7 @@ CResource* CResourceStore::LoadResource(const CAssetID& rkID, const CFourCC& rkT
 
             TString Path = mTransientLoadDir.ToUTF8() + Name + "." + rkType.ToString();
             CFileInStream File(Path.ToStdString(), IOUtil::eBigEndian);
-            CResource *pRes = pEntry->Load(File);
+            CResource *pRes = pEntry->LoadCooked(File);
 
             if (!pRes) DeleteResourceEntry(pEntry);
             return pRes;
@@ -302,6 +302,7 @@ CResource* CResourceStore::LoadResource(const CAssetID& rkID, const CFourCC& rkT
 
 CResource* CResourceStore::LoadResource(const TString& rkPath)
 {
+    // todo - support loading raw resources from arbitrary directory
     // Construct ID from string, check if resource is loaded already
     TWideString Dir = FileUtil::MakeAbsolute(TWideString(rkPath.GetFileDirectory()));
     TString Name = rkPath.GetFileName(false);
@@ -335,7 +336,7 @@ CResource* CResourceStore::LoadResource(const TString& rkPath)
     mTransientLoadDir = Dir;
 
     CResourceEntry *pEntry = RegisterTransientResource(Type, ID, Dir, Name);
-    CResource *pRes = pEntry->Load(File);
+    CResource *pRes = pEntry->LoadCooked(File);
     if (!pRes) DeleteResourceEntry(pEntry);
 
     mTransientLoadDir = OldTransientDir;
@@ -414,8 +415,6 @@ void CResourceStore::DestroyUnreferencedResources()
             DirIt = mTransientRoots.erase(DirIt);
         }
     }
-
-    Log::Write(TString::FromInt32(mLoadedResources.size(), 0, 10) + " resources loaded");
 }
 
 bool CResourceStore::DeleteResourceEntry(CResourceEntry *pEntry)

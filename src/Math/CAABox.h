@@ -2,6 +2,7 @@
 #define CAABOX_H
 
 #include "CVector3f.h"
+#include <Common/Serialization/IArchive.h>
 #include <FileIO/IInputStream.h>
 #include <FileIO/IOutputStream.h>
 #include <utility>
@@ -17,6 +18,7 @@ public:
     CAABox();
     CAABox(const CVector3f& rkMin, const CVector3f& rkMax);
     CAABox(IInputStream& rInput);
+    void Serialize(IArchive& rArc);
     void Write(IOutputStream& rOutput);
     CVector3f Center() const;
     CVector3f Size() const;

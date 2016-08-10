@@ -1,9 +1,11 @@
 #ifndef CCOLOR_H
 #define CCOLOR_H
 
+#include "Common/Serialization/IArchive.h"
+#include "types.h"
+
 #include <FileIO/IInputStream.h>
 #include <FileIO/IOutputStream.h>
-#include "types.h"
 
 class CColor
 {
@@ -17,6 +19,7 @@ public:
     void SetIntegral(u8 RGBA);
     void SetIntegral(u8 _R, u8 _G, u8 _B, u8 _A = 255);
     void Write(IOutputStream& rOutput, bool Integral = false) const;
+    void Serialize(IArchive& rArc);
 
     long ToLongRGBA() const;
     long ToLongARGB() const;

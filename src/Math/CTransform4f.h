@@ -2,6 +2,7 @@
 #define CTRANSFORM4F_H
 
 #include <FileIO/FileIO.h>
+#include <Common/Serialization/IArchive.h>
 #include "CMatrix4f.h"
 #include <glm.hpp>
 
@@ -21,6 +22,7 @@ public:
                  float m20, float m21, float m22, float m23);
     CTransform4f(CVector3f Position, CQuaternion Rotation, CVector3f Scale);
     CTransform4f(CVector3f Position, CVector3f Rotation, CVector3f Scale);
+    void Serialize(IArchive& rOut);
     void Write(IOutputStream& rOut);
 
     // Math

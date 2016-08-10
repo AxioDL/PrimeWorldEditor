@@ -9,6 +9,7 @@
 #include <Common/CFourCC.h>
 #include <Common/types.h>
 #include <Common/TString.h>
+#include <Common/Serialization/IArchive.h>
 
 // This macro creates functions that allow us to easily identify this resource type.
 // Must be included on every CResource subclass.
@@ -40,7 +41,8 @@ public:
     }
 
     virtual ~CResource() {}
-    virtual CDependencyTree* BuildDependencyTree() const { return new CDependencyTree(ID()); }
+    virtual CDependencyTree* BuildDependencyTree() const    { return new CDependencyTree(ID()); }
+    virtual void Serialize(IArchive& /*rArc*/)              {}
     
     inline CResourceEntry* Entry() const    { return mpEntry; }
     inline TString Source() const           { return mpEntry ? mpEntry->CookedAssetPath(true).GetFileName() : ""; }
@@ -56,7 +58,9 @@ public:
 };
 
 // Global Functions
+bool ResourceSupportsSerialization(EResType Type);
 TString GetResourceTypeName(EResType Type);
+TString GetResourceSerialName(EResType Type);
 TString GetResourceRawExtension(EResType Type, EGame Game);
 TString GetResourceCookedExtension(EResType Type, EGame Game);
 

@@ -83,7 +83,7 @@ namespace CompressionUtil
         else return true;
     }
 
-    bool DecompressLZO(u8 *pSrc, u32 SrcLen, u8 *pDst, u32& rTotalOut)
+    bool DecompressLZO(u8 *pSrc, u32 SrcLen, u8 *pDst, lzo_uint& rTotalOut)
     {
         lzo_init();
         s32 Error = lzo1x_decompress(pSrc, SrcLen, pDst, &rTotalOut, LZO1X_MEM_DECOMPRESS);

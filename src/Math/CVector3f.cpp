@@ -36,6 +36,11 @@ void CVector3f::Write(IOutputStream& rOutput) const
     rOutput.WriteFloat(Z);
 }
 
+void CVector3f::Serialize(IArchive& rArc)
+{
+    rArc << SERIAL_AUTO(X) << SERIAL_AUTO(Y) << SERIAL_AUTO(Z);
+}
+
 // ************ SWIZZLE ************
 CVector2f CVector3f::XY()
 {

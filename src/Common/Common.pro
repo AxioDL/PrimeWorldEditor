@@ -24,7 +24,8 @@ CONFIG (debug, debug|release) {
 
     # Debug Libs
     LIBS += -L$$BUILD_DIR/FileIO/ -lFileIOd \
-            -L$$EXTERNALS_DIR/boost_1_56_0/lib32-msvc-12.0 -llibboost_filesystem-vc120-mt-gd-1_56
+            -L$$EXTERNALS_DIR/boost_1_56_0/lib32-msvc-12.0 -llibboost_filesystem-vc120-mt-gd-1_56 \
+            -L$$EXTERNALS_DIR/tinyxml2/lib/ -ltinyxml2d
 
     # Debug Target Dependencies
     win32 {
@@ -39,7 +40,8 @@ CONFIG (release, debug|release) {
 
     # Release Libs
     LIBS += -L$$BUILD_DIR/FileIO/ -lFileIO \
-            -L$$EXTERNALS_DIR/boost_1_56_0/lib32-msvc-12.0 -llibboost_filesystem-vc120-mt-1_56
+            -L$$EXTERNALS_DIR/boost_1_56_0/lib32-msvc-12.0 -llibboost_filesystem-vc120-mt-1_56 \
+            -L$$EXTERNALS_DIR/tinyxml2/lib/ -ltinyxml2
 
     # Release Target Dependencies
     win32 {
@@ -55,6 +57,7 @@ LIBS += -L$$EXTERNALS_DIR/lzo-2.08/lib -llzo-2.08 \
 INCLUDEPATH += $$PWE_MAIN_INCLUDE \
                $$EXTERNALS_DIR/boost_1_56_0 \
                $$EXTERNALS_DIR/lzo-2.08/include \
+               $$EXTERNALS_DIR/tinyxml2/include \
                $$EXTERNALS_DIR/zlib/include
 
 # Header Files
@@ -74,7 +77,10 @@ HEADERS += \
     FileUtil.h \
     AssertMacro.h \
     CScopedTimer.h \
-    CAssetID.h
+    CAssetID.h \
+    Serialization/IArchive.h \
+    Serialization/CXMLWriter.h \
+    Serialization/CXMLReader.h
 
 # Source Files
 SOURCES += \

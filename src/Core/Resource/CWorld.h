@@ -3,7 +3,6 @@
 
 #include "CResource.h"
 #include "CStringTable.h"
-#include "SDependency.h"
 #include "Core/Resource/Area/CGameArea.h"
 #include "Core/Resource/Model/CModel.h"
 #include <Math/CTransform4f.h>
@@ -27,7 +26,7 @@ class CWorld : public CResource
     u32 mUnknownAGSC;
     struct SAudioGrp
     {
-        u32 ResID;
+        CAssetID ResID;
         u32 Unknown;
     };
     std::vector<SAudioGrp> mAudioGrps;
@@ -47,11 +46,11 @@ class CWorld : public CResource
         TResPtr<CStringTable> pAreaName;
         CTransform4f Transform;
         CAABox AetherBox;
-        u64 FileID; // Loading every single area as a CResource would be a very bad idea
+        CAssetID AreaResID; // Loading every single area as a CResource would be a very bad idea
         u64 AreaID;
 
         std::vector<u16> AttachedAreaIDs;
-        std::vector<SDependency> Dependencies;
+        std::vector<CAssetID> Dependencies;
         std::vector<TString> RelFilenames;
         std::vector<u32> RelOffsets;
         u32 CommonDependenciesStart;
@@ -64,7 +63,7 @@ class CWorld : public CResource
                 u32 DockIndex;
             };
             std::vector<SConnectingDock> ConnectingDocks;
-            CVector3f DockCoordinates[4];
+            std::vector<CVector3f> DockCoordinates;
         };
         std::vector<SDock> Docks;
 
@@ -79,13 +78,21 @@ class CWorld : public CResource
     };
     std::vector<SArea> mAreas;
 
-
 public:
     CWorld(CResourceEntry *pEntry = 0);
     ~CWorld();
 
     CDependencyTree* BuildDependencyTree() const;
     void SetAreaLayerInfo(CGameArea *pArea);
+
+    // Serialization
+    virtual void Serialize(IArchive& rArc);
+    friend void Serialize(IArchive& rArc, SMemoryRelay& rMemRelay);
+    friend void Serialize(IArchive& rArc, SArea& rArea);
+    friend void Serialize(IArchive& rArc, SArea::SDock& rDock);
+    friend void Serialize(IArchive& rArc, SArea::SDock::SConnectingDock& rDock);
+    friend void Serialize(IArchive& rArc, SArea::SLayer& rLayer);
+    friend void Serialize(IArchive& rArc, SAudioGrp& rAudioGrp);
 
     // Accessors
     inline EGame Version() const                { return mWorldVersion; }
@@ -96,7 +103,7 @@ public:
     inline CResource* MapWorld() const          { return mpMapWorld; }
 
     inline u32 NumAreas() const                                         { return mAreas.size(); }
-    inline u64 AreaResourceID(u32 AreaIndex) const                      { return mAreas[AreaIndex].FileID; }
+    inline u64 AreaResourceID(u32 AreaIndex) const                      { return mAreas[AreaIndex].AreaResID.ToLongLong(); }
     inline u32 AreaAttachedCount(u32 AreaIndex) const                   { return mAreas[AreaIndex].AttachedAreaIDs.size(); }
     inline u32 AreaAttachedID(u32 AreaIndex, u32 AttachedIndex) const   { return mAreas[AreaIndex].AttachedAreaIDs[AttachedIndex]; }
     inline TString AreaInternalName(u32 AreaIndex) const                { return mAreas[AreaIndex].InternalName; }

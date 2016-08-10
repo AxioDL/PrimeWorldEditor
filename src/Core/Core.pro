@@ -130,7 +130,6 @@ HEADERS += \
     Resource/EResType.h \
     Resource/ETevEnums.h \
     Resource/ETexelFormat.h \
-    Resource/SDependency.h \
     Resource/TResPtr.h \
     Scene/CCollisionNode.h \
     Scene/CLightNode.h \
@@ -202,7 +201,9 @@ HEADERS += \
     GameProject/CDependencyTree.h \
     Resource/Factory/CUnsupportedFormatLoader.h \
     Resource/ParticleParameters.h \
-    Resource/Factory/CUnsupportedParticleLoader.h
+    Resource/Factory/CUnsupportedParticleLoader.h \
+    Resource/Resources.h \
+    Resource/Factory/CResourceFactory.h
 
 # Source Files
 SOURCES += \
