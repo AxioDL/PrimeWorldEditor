@@ -71,6 +71,13 @@ CTransform4f::CTransform4f(CVector3f Position, CVector3f Rotation, CVector3f Sca
     Translate(Position);
 }
 
+void CTransform4f::Serialize(IArchive& rOut)
+{
+    rOut << SERIAL("Row0Col0", m[0][0]) << SERIAL("Row0Col1", m[0][1]) << SERIAL("Row0Col2", m[0][2]) << SERIAL("Row0Col3", m[0][3])
+         << SERIAL("Row1Col0", m[1][0]) << SERIAL("Row1Col1", m[1][1]) << SERIAL("Row1Col2", m[1][2]) << SERIAL("Row1Col3", m[1][3])
+         << SERIAL("Row2Col0", m[2][0]) << SERIAL("Row2Col1", m[2][1]) << SERIAL("Row2Col2", m[2][2]) << SERIAL("Row2Col3", m[2][3]);
+}
+
 void CTransform4f::Write(IOutputStream& rOut)
 {
     for (int iFlt = 0; iFlt < 12; iFlt++)

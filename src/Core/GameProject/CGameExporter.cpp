@@ -8,6 +8,7 @@
 #include <Common/CompressionUtil.h>
 #include <Common/CScopedTimer.h>
 #include <Common/FileUtil.h>
+#include <Common/Serialization/CXMLWriter.h>
 #include <tinyxml2.h>
 
 #define COPY_DISC_DATA 1
@@ -15,7 +16,6 @@
 #define SAVE_PACKAGE_DEFINITIONS 1
 #define EXPORT_WORLDS 1
 #define EXPORT_COOKED 1
-#define EXPORT_CACHE 1
 
 CGameExporter::CGameExporter(const TString& rkInputDir, const TString& rkOutputDir)
     : mStore(this)
@@ -76,7 +76,7 @@ void CGameExporter::CopyDiscData()
         TWideString RelPath = FullPath.ChopFront(mGameDir.Size());
 
         // Exclude PakTool files and folders
-        if (FullPath.GetFileName(false) == L"PakTool" || FullPath.GetFileName() == L"zlib1" || RelPath.Contains(L"-pak"))
+        if (FullPath.GetFileName(false) == L"PakTool" || FullPath.GetFileName(false) == L"zlib1" || RelPath.Contains(L"-pak"))
             continue;
 
         // Hack to determine game
@@ -495,20 +495,19 @@ void CGameExporter::ExportCookedResources()
 #endif
         mpProject->Save();
     }
-#if EXPORT_CACHE
     {
-        SCOPED_TIMER(SaveCacheData);
+        // Save raw versions of resources + resource cache data files
+        // Note this has to be done after all cooked resources are exported
+        // because we have to load the resource to build its dependency tree and
+        // some resources will fail to load if their dependencies don't exist
+        SCOPED_TIMER(SaveRawResources);
 
         for (CResourceIterator It(&mStore); It; ++It)
         {
             if (!It->IsTransient())
-            {
-                It->UpdateDependencies();
-                It->SaveCacheData();
-            }
+                It->Save();
         }
     }
-#endif
 }
 
 void CGameExporter::ExportResource(SResourceInstance& rRes)
@@ -535,18 +534,17 @@ void CGameExporter::ExportResource(SResourceInstance& rRes)
         CResourceEntry *pEntry = mStore.RegisterResource(rRes.ResourceID, CResource::ResTypeForExtension(rRes.ResourceType), OutDir, OutName);
 
 #if EXPORT_COOKED
-        // Cooked (todo: save raw)
-        TWideString OutPath = pEntry->CookedAssetPath();
-        FileUtil::CreateDirectory(OutPath.GetFileDirectory());
-        CFileOutStream Out(OutPath.ToUTF8().ToStdString(), IOUtil::eBigEndian);
+        // Save cooked asset
+        TWideString OutCookedPath = pEntry->CookedAssetPath();
+        FileUtil::CreateDirectory(OutCookedPath.GetFileDirectory());
+        CFileOutStream Out(OutCookedPath.ToUTF8().ToStdString(), IOUtil::eBigEndian);
 
         if (Out.IsValid())
             Out.WriteBytes(ResourceData.data(), ResourceData.size());
 
-        rRes.Exported = true;
         ASSERT(pEntry->HasCookedVersion());
-#else
-        (void) pEntry; // Prevent "unused local variable" compiler warning
 #endif
+
+        rRes.Exported = true;
     }
 }

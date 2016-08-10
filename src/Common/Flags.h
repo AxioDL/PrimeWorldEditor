@@ -1,7 +1,8 @@
 #ifndef FLAGS_H
 #define FLAGS_H
 
-#include <Common/types.h>
+#include "types.h"
+#include "Common/Serialization/IArchive.h"
 
 template<typename FlagEnum>
 class TFlags
@@ -36,6 +37,8 @@ public:
     inline void SetFlag(TFlags Flags)           { mValue |= Flags; }
     inline void ClearFlag(FlagEnum Flag)        { mValue &= ~Flag; }
     inline void ClearFlag(TFlags Flags)         { mValue &= ~Flags; }
+
+    inline void Serialize(IArchive& rArc)       { rArc.SerializeHexPrimitive(mValue); }
 };
 #define DECLARE_FLAGS(Enum, FlagTypeName) typedef TFlags<Enum> FlagTypeName;
 

@@ -48,9 +48,9 @@ CAssetID::CAssetID(IInputStream& rInput, EIDLength Length)
 TString CAssetID::ToString() const
 {
     if (mLength == e32Bit)
-        return TString::FromInt32(ToLong(), 8, 16);
+        return TString::HexString(ToLong(), 8, false, true);
     else
-        return TString::FromInt64(ToLongLong(), 8, 16);
+        return TString::FromInt64(ToLongLong(), 8, 16).ToUpper();
 }
 
 bool CAssetID::IsValid() const

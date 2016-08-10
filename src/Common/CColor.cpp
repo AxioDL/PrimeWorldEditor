@@ -63,6 +63,11 @@ void CColor::Write(IOutputStream &rOutput, bool Integral /*= false*/) const
     }
 }
 
+void CColor::Serialize(IArchive& rArc)
+{
+    rArc << SERIAL_AUTO(R) << SERIAL_AUTO(G) << SERIAL_AUTO(B) << SERIAL_AUTO(A);
+}
+
 long CColor::ToLongRGBA() const
 {
     u8 _R = (u8) (R * 255);

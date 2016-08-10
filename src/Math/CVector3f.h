@@ -3,6 +3,7 @@
 
 #include <FileIO/IInputStream.h>
 #include <FileIO/IOutputStream.h>
+#include <Common/Serialization/IArchive.h>
 #include <ostream>
 
 class CMatrix4f;
@@ -20,6 +21,7 @@ public:
     CVector3f(float _X, float _Y, float _Z);
     CVector3f(IInputStream& rInput);
     void Write(IOutputStream& rOutput) const;
+    void Serialize(IArchive& rArc);
 
     // Swizzle
     CVector2f XY();

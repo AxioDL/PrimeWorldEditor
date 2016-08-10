@@ -67,13 +67,13 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
 
         if (mVersion < eCorruptionProto)
         {
-            pArea->FileID = rMLVL.ReadLong() & 0xFFFFFFFF; // This is the MREA ID; not actually loading it for obvious reasons
+            pArea->AreaResID = rMLVL.ReadLong() & 0xFFFFFFFF;
             pArea->AreaID = rMLVL.ReadLong() & 0xFFFFFFFF;
         }
 
         else
         {
-            pArea->FileID = rMLVL.ReadLongLong();
+            pArea->AreaResID = rMLVL.ReadLongLong();
             pArea->AreaID = rMLVL.ReadLongLong();
         }
 
@@ -86,7 +86,7 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
         if (mVersion < eCorruptionProto)
             rMLVL.Seek(0x4, SEEK_CUR); // Skipping unknown value (always 0)
 
-        // Depedencies
+        // Dependencies
         if (mVersion < eCorruptionProto)
         {
             u32 NumDependencies = rMLVL.ReadLong();
@@ -94,10 +94,8 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
 
             for (u32 iDep = 0; iDep < NumDependencies; iDep++)
             {
-                SDependency Dependency;
-                Dependency.ResID = rMLVL.ReadLong() & 0xFFFFFFFF;
-                Dependency.ResType = rMLVL.ReadLong();
-                pArea->Dependencies.push_back(Dependency);
+                pArea->Dependencies.push_back( CAssetID(rMLVL, e32Bit) );
+                rMLVL.Seek(0x4, SEEK_CUR);
             }
 
             /**
@@ -137,7 +135,8 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
             }
 
             u32 NumCoordinates = rMLVL.ReadLong();
-            if (NumCoordinates != 4) Log::Error("Dock coordinate count not 4");
+            ASSERT(NumCoordinates == 4);
+            pDock->DockCoordinates.resize(NumCoordinates);
 
             for (u32 iCoord = 0; iCoord < NumCoordinates; iCoord++)
                 pDock->DockCoordinates[iCoord] = CVector3f(rMLVL);
@@ -245,7 +244,7 @@ void CWorldLoader::LoadReturnsMLVL(IInputStream& rMLVL)
         pArea->pAreaName = gpResourceStore->LoadResource(rMLVL.ReadLongLong(), "STRG");
         pArea->Transform = CTransform4f(rMLVL);
         pArea->AetherBox = CAABox(rMLVL);
-        pArea->FileID = rMLVL.ReadLongLong();
+        pArea->AreaResID = rMLVL.ReadLongLong();
         pArea->AreaID = rMLVL.ReadLongLong();
 
         rMLVL.Seek(0x4, SEEK_CUR);

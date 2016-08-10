@@ -4,6 +4,7 @@
 #include "AssertMacro.h"
 #include "types.h"
 #include "TString.h"
+#include "Common/Serialization/IArchive.h"
 #include <FileIO/IInputStream.h>
 #include <FileIO/IOutputStream.h>
 
@@ -12,7 +13,12 @@
 
 class CFourCC
 {
-    u32 mFourCC;
+    // Note: mFourCC_Chars isn't really used due to endian issues. It's mostly here for easier readability in the debugger.
+    union
+    {
+        u32 mFourCC;
+        char mFourCC_Chars[4];
+    };
 
 public:
     // Constructors
@@ -34,6 +40,13 @@ public:
         u32 Val = mFourCC;
         if (rOutput.GetEndianness() == IOUtil::eLittleEndian) IOUtil::SwapBytes(Val);
         rOutput.WriteLong(Val);
+    }
+
+    inline void Serialize(IArchive& rArc)
+    {
+        TString Str = ToString();
+        rArc.SerializePrimitive(Str);
+        if (rArc.IsReader()) *this = CFourCC(Str);
     }
 
     inline u32 ToLong() const

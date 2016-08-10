@@ -2,30 +2,12 @@
 #include "CGameProject.h"
 #include "CResourceStore.h"
 #include "Core/Resource/CResource.h"
+#include "Core/Resource/Factory/CResourceFactory.h"
 #include <FileIO/FileIO.h>
 #include <Common/FileUtil.h>
 #include <Common/TString.h>
-
-// Resource Loaders
-// todo: come up with a factory setup that doesn't suck
-#include "Core/Resource/Factory/CAnimationLoader.h"
-#include "Core/Resource/Factory/CAnimSetLoader.h"
-#include "Core/Resource/Factory/CAreaLoader.h"
-#include "Core/Resource/Factory/CCollisionLoader.h"
-#include "Core/Resource/Factory/CDependencyGroupLoader.h"
-#include "Core/Resource/Factory/CFontLoader.h"
-#include "Core/Resource/Factory/CMaterialLoader.h"
-#include "Core/Resource/Factory/CModelLoader.h"
-#include "Core/Resource/Factory/CPoiToWorldLoader.h"
-#include "Core/Resource/Factory/CScanLoader.h"
-#include "Core/Resource/Factory/CScriptLoader.h"
-#include "Core/Resource/Factory/CSkeletonLoader.h"
-#include "Core/Resource/Factory/CSkinLoader.h"
-#include "Core/Resource/Factory/CStringLoader.h"
-#include "Core/Resource/Factory/CTextureDecoder.h"
-#include "Core/Resource/Factory/CUnsupportedFormatLoader.h"
-#include "Core/Resource/Factory/CUnsupportedParticleLoader.h"
-#include "Core/Resource/Factory/CWorldLoader.h"
+#include <Common/Serialization/CXMLReader.h>
+#include <Common/Serialization/CXMLWriter.h>
 
 CResourceEntry::CResourceEntry(CResourceStore *pStore, const CAssetID& rkID,
                const TWideString& rkDir, const TWideString& rkFilename,
@@ -137,6 +119,8 @@ void CResourceEntry::UpdateDependencies()
         mpDependencies = nullptr;
     }
 
+    bool WasLoaded = IsLoaded();
+
     if (!mpResource)
         Load();
 
@@ -147,7 +131,8 @@ void CResourceEntry::UpdateDependencies()
     }
 
     mpDependencies = mpResource->BuildDependencyTree();
-    gpResourceStore->DestroyUnreferencedResources();
+    if (!WasLoaded)
+        gpResourceStore->DestroyUnreferencedResources();
 }
 
 TWideString CResourceEntry::CacheDataPath(bool Relative) const
@@ -229,69 +214,87 @@ void CResourceEntry::SetGame(EGame NewGame)
     }
 }
 
+bool CResourceEntry::Save()
+{
+    // For now, always save the resource when this function is called even if there's been no changes made to it in memory.
+    // In the future this might not be desired behavior 100% of the time.
+    // We also might want this function to trigger a cook for certain resource types eventually.
+    bool ShouldCollectGarbage = false;
+
+    // Save raw resource
+    if (ResourceSupportsSerialization(ResourceType()))
+    {
+        ShouldCollectGarbage = !IsLoaded();
+
+        Load();
+        if (!mpResource) return false;
+
+        // Note: We call Serialize directly for resources to avoid having a redundant resource root node in the output file.
+        TString Path = RawAssetPath();
+        TString Dir = Path.GetFileDirectory();
+        FileUtil::CreateDirectory(Dir.ToUTF16());
+
+        CXMLWriter Writer(GetResourceSerialName(ResourceType()), Path);
+        mpResource->Serialize(Writer);
+    }
+
+    // Resource has been saved, now update cache file
+    UpdateDependencies();
+    SaveCacheData();
+
+    if (ShouldCollectGarbage)
+        gpResourceStore->DestroyUnreferencedResources();
+
+    return true;
+}
+
 CResource* CResourceEntry::Load()
 {
-    // todo: load raw
+    // Always try to load raw version as the raw version contains extra editor-only data.
+    // If there is no raw version (which will be the case for resource types that don't
+    // support serialization yet) then load the cooked version as a backup.
     if (mpResource) return mpResource;
 
-    if (!HasCookedVersion())
+    if (HasRawVersion())
+    {
+        mpResource = CResourceFactory::SpawnResource(this);
+
+        if (mpResource)
+        {
+            CXMLReader Reader(RawAssetPath());
+            mpResource->Serialize(Reader);
+        }
+
+        return mpResource;
+    }
+
+    else if (HasCookedVersion())
+    {
+        CFileInStream File(CookedAssetPath().ToStdString(), IOUtil::eBigEndian);
+
+        if (!File.IsValid())
+        {
+            Log::Error("Failed to open cooked resource: " + CookedAssetPath(true));
+            return nullptr;
+        }
+
+        return LoadCooked(File);
+    }
+
+    else
     {
         Log::Error("Couldn't locate resource: " + CookedAssetPath(true));
         return nullptr;
     }
-
-    CFileInStream File(CookedAssetPath().ToStdString(), IOUtil::eBigEndian);
-    if (!File.IsValid())
-    {
-        Log::Error("Failed to open cooked resource: " + CookedAssetPath(true));
-        return nullptr;
-    }
-
-    return Load(File);
 }
 
-CResource* CResourceEntry::Load(IInputStream& rInput)
+CResource* CResourceEntry::LoadCooked(IInputStream& rInput)
 {
     // Overload to allow for load from an arbitrary input stream.
     if (mpResource) return mpResource;
     if (!rInput.IsValid()) return nullptr;
 
-    switch (mType)
-    {
-    case eAnimation:            mpResource = CAnimationLoader::LoadANIM(rInput, this);              break;
-    case eAnimEventData:        mpResource = CUnsupportedFormatLoader::LoadEVNT(rInput, this);      break;
-    case eAnimSet:              mpResource = CAnimSetLoader::LoadANCSOrCHAR(rInput, this);          break;
-    case eArea:                 mpResource = CAreaLoader::LoadMREA(rInput, this);                   break;
-    case eDependencyGroup:      mpResource = CDependencyGroupLoader::LoadDGRP(rInput, this);        break;
-    case eDynamicCollision:     mpResource = CCollisionLoader::LoadDCLN(rInput, this);              break;
-    case eFont:                 mpResource = CFontLoader::LoadFONT(rInput, this);                   break;
-    case eGuiFrame:             mpResource = CUnsupportedFormatLoader::LoadFRME(rInput, this);      break;
-    case eHintSystem:           mpResource = CUnsupportedFormatLoader::LoadHINT(rInput, this);      break;
-    case eMapWorld:             mpResource = CUnsupportedFormatLoader::LoadMAPW(rInput, this);      break;
-    case eMapUniverse:          mpResource = CUnsupportedFormatLoader::LoadMAPU(rInput, this);      break;
-    case eMidi:                 mpResource = CUnsupportedFormatLoader::LoadCSNG(rInput, this);      break;
-    case eModel:                mpResource = CModelLoader::LoadCMDL(rInput, this);                  break;
-    case eRuleSet:              mpResource = CUnsupportedFormatLoader::LoadRULE(rInput, this);      break;
-    case eScan:                 mpResource = CScanLoader::LoadSCAN(rInput, this);                   break;
-    case eSkeleton:             mpResource = CSkeletonLoader::LoadCINF(rInput, this);               break;
-    case eSkin:                 mpResource = CSkinLoader::LoadCSKR(rInput, this);                   break;
-    case eStaticGeometryMap:    mpResource = CPoiToWorldLoader::LoadEGMC(rInput, this);             break;
-    case eStringTable:          mpResource = CStringLoader::LoadSTRG(rInput, this);                 break;
-    case eTexture:              mpResource = CTextureDecoder::LoadTXTR(rInput, this);               break;
-    case eWorld:                mpResource = CWorldLoader::LoadMLVL(rInput, this);                  break;
-
-    case eParticle:
-    case eParticleElectric:
-    case eParticleSwoosh:
-    case eParticleDecal:
-    case eParticleWeapon:
-    case eParticleCollisionResponse:
-        mpResource = CUnsupportedParticleLoader::LoadParticle(rInput, this);
-        break;
-
-    default:                    mpResource = new CResource(this);                                   break;
-    }
-
+    mpResource = CResourceFactory::LoadCookedResource(this, rInput);
     mpStore->TrackLoadedResource(this);
     return mpResource;
 }

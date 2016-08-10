@@ -26,6 +26,17 @@ EResType CResource::ResTypeForExtension(CFourCC Extension)
 }
 
 // ************ GLOBAL ************
+bool ResourceSupportsSerialization(EResType Type)
+{
+    switch (Type)
+    {
+    case eWorld:
+        return true;
+    default:
+        return false;
+    }
+}
+
 TString GetResourceTypeName(EResType Type)
 {
     switch (Type)
@@ -52,8 +63,8 @@ TString GetResourceTypeName(EResType Type)
     case eDependencyGroup:              return "Dependency Group";
     case eDynamicCollision:             return "Dynamic Collision";
     case eFont:                         return "Font";
-    case eGuiFrame:                     return "GUI Frame";
-    case eGuiKeyFrame:                  return "GUI Keyframe";
+    case eGuiFrame:                     return "Gui Frame";
+    case eGuiKeyFrame:                  return "Gui Keyframe";
     case eHintSystem:                   return "Hint System";
     case eMapArea:                      return "Area Map";
     case eMapWorld:                     return "World Map";
@@ -90,7 +101,7 @@ TString GetResourceTypeName(EResType Type)
     case eStringTable:                  return "String Table";
     case eTexture:                      return "Texture";
     case eTweak:                        return "Tweak Data";
-    case eUnknown_CAAD:                 return "Unknown (CAAD)";
+    case eUnknown_CAAD:                 return "CAAD";
     case eUserEvaluatorData:            return "User Evaluator Data";
     case eVideo:                        return "Video";
     case eWorld:                        return "World";
@@ -98,8 +109,16 @@ TString GetResourceTypeName(EResType Type)
     }
 }
 
-TString GetResourceRawExtension(EResType /*Type*/, EGame /*Game*/)
+TString GetResourceSerialName(EResType Type)
 {
+    TString Name = GetResourceTypeName(Type);
+    Name.RemoveWhitespace();
+    return Name;
+}
+
+TString GetResourceRawExtension(EResType Type, EGame /*Game*/)
+{
+    if (Type == eWorld) return "mwld";
     return "";
 }
 

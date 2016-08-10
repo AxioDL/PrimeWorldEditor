@@ -24,7 +24,8 @@ CONFIG (debug, debug|release) {
 
     # Debug Libs
     LIBS += -L$$BUILD_DIR/FileIO/ -lFileIOd \
-            -L$$BUILD_DIR/Common/ -lCommond
+            -L$$BUILD_DIR/Common/ -lCommond \
+            -L$$EXTERNALS_DIR/tinyxml2/lib/ -ltinyxml2d
 
     # Debug Target Dependencies
     win32 {
@@ -40,7 +41,8 @@ CONFIG (release, debug|release) {
 
     # Release Libs
     LIBS += -L$$BUILD_DIR/FileIO/ -lFileIO \
-            -L$$BUILD_DIR/Common/ -lCommon
+            -L$$BUILD_DIR/Common/ -lCommon \
+            -L$$EXTERNALS_DIR/tinyxml2/lib/ -ltinyxml2
 
     # Release Target Dependencies
     win32 {
@@ -57,6 +59,7 @@ LIBS += -L$$EXTERNALS_DIR/lzo-2.08/lib -llzo-2.08 \
 INCLUDEPATH += $$PWE_MAIN_INCLUDE \
                $$EXTERNALS_DIR/glm/glm \
                $$EXTERNALS_DIR/lzo-2.08/include \
+               $$EXTERNALS_DIR/tinyxml2/include \
                $$EXTERNALS_DIR/zlib/include
 
 # Header Files

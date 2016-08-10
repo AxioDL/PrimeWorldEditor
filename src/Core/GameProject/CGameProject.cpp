@@ -46,6 +46,9 @@ bool CGameProject::Load(const TWideString& rkPath)
     mGame = CMasterTemplate::FindGameForName( pGame->GetText() );
     mResourceDBPath = pResDB->GetText();
 
+    mProjectRoot = rkPath.GetFileDirectory();
+    mProjectRoot.Replace(L"/", L"\\");
+
     // Load packages
     XMLElement *pPkgElem = pPackages->FirstChildElement("Package");
 
@@ -67,8 +70,6 @@ bool CGameProject::Load(const TWideString& rkPath)
     }
 
     // All loaded!
-    mProjectRoot = rkPath.GetFileDirectory();
-    mProjectRoot.Replace(L"/", L"\\");
     return true;
 }
 

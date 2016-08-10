@@ -2,6 +2,7 @@
 #define TRESPTR_H
 
 #include "CResource.h"
+#include "Core/GameProject/CGameProject.h"
 
 template <typename ResType>
 class TResPtr
@@ -28,6 +29,21 @@ public:
     {
         if (mpRes)
             mpRes->Release();
+    }
+
+    inline void Serialize(IArchive& rArc)
+    {
+        bool IsReader = rArc.IsReader();
+        EGame ActiveGame = gpResourceStore->ActiveProject()->Game();
+
+        CAssetID ID = (mpRes && !IsReader ? mpRes->ID() : (ActiveGame <= eEchoes ? CAssetID::skInvalidID32 : CAssetID::skInvalidID64));
+        rArc.SerializePrimitive(ID);
+
+        if (IsReader)
+        {
+            CResourceEntry *pEntry = gpResourceStore->FindEntry(ID);
+            *this = (pEntry ? pEntry->Load() : nullptr);
+        }
     }
 
     inline void Delete()

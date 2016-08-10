@@ -255,6 +255,18 @@ public:
             Remove(Idx, 1);
     }
 
+    inline void RemoveWhitespace()
+    {
+        for (u32 Idx = 0; Idx < Size(); Idx++)
+        {
+            if (IsWhitespace(At(Idx)))
+            {
+                Remove(Idx, 1);
+                Idx--;
+            }
+        }
+    }
+
     inline void Replace(const CharType* pkStr, const CharType *pkReplacement, bool CaseSensitive = false)
     {
         u32 Offset = 0;
@@ -846,16 +858,43 @@ public:
 
     static TBasicString<CharType> FromFloat(float Value, int MinDecimals = 1)
     {
+        // Initial float -> string conversion
         std::basic_stringstream<CharType> SStream;
+        if (MinDecimals > 0) SStream.setf(std::ios_base::showpoint);
+        SStream.setf(std::ios_base::fixed, std::ios_base::floatfield);
         SStream << Value;
         _TString Out = SStream.str();
 
-        int NumZeroes = Out.Size() - (Out.IndexOf(LITERAL(".")) + 1);
+        // Make sure we have the right number of decimals
+        int DecIdx = Out.IndexOf(CHAR_LITERAL('.'));
 
-        while (Out.Back() == CHAR_LITERAL('0') && NumZeroes > MinDecimals)
+        if (DecIdx == -1 && MinDecimals > 0)
         {
-            Out = Out.ChopBack(1);
-            NumZeroes--;
+            DecIdx = Out.Size();
+            Out.Append(CHAR_LITERAL('.'));
+        }
+
+        int NumZeroes = (DecIdx == -1 ? 0 : Out.Size() - (DecIdx + 1));
+
+        // Add extra zeroes to meet the minimum decimal count
+        if (NumZeroes < MinDecimals)
+        {
+            for (int iDec = 0; iDec < (MinDecimals - NumZeroes); iDec++)
+                Out.Append(CHAR_LITERAL('.'));
+        }
+
+        // Remove unnecessary trailing zeroes from the end of the string
+        else if (NumZeroes > MinDecimals)
+        {
+            while (Out.Back() == CHAR_LITERAL('0') && NumZeroes > MinDecimals && NumZeroes > 0)
+            {
+                Out = Out.ChopBack(1);
+                NumZeroes--;
+            }
+
+            // Remove decimal point
+            if (NumZeroes == 0)
+                Out = Out.ChopBack(1);
         }
 
         return Out;

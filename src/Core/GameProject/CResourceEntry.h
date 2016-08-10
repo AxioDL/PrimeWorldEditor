@@ -56,8 +56,9 @@ public:
     u64 Size() const;
     bool NeedsRecook() const;
     void SetGame(EGame NewGame);
+    bool Save();
     CResource* Load();
-    CResource* Load(IInputStream& rInput);
+    CResource* LoadCooked(IInputStream& rInput);
     bool Unload();
     void Move(const TWideString& rkDir, const TWideString& rkName);
     void AddToProject(const TWideString& rkDir, const TWideString& rkName);
