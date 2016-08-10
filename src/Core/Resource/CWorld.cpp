@@ -34,7 +34,10 @@ CDependencyTree* CWorld::BuildDependencyTree() const
     pTree->AddDependency(mpMapWorld);
 
     if (Game() <= ePrime)
-        Log::Warning("CWorld::BuildDependencyTree not handling audio groups");
+    {
+        for (u32 iGrp = 0; iGrp < mAudioGrps.size(); iGrp++)
+            pTree->AddDependency(mAudioGrps[iGrp].ResID);
+    }
 
     return pTree;
 }

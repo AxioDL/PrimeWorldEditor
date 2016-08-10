@@ -45,8 +45,9 @@ CDependencyTree* CGameArea::BuildDependencyTree() const
             pTree->AddDependency(pMat->Pass(iPass)->Texture());
     }
 
+    pTree->AddDependency(mPathID);
+    pTree->AddDependency(mPortalAreaID);
     pTree->AddDependency(mpPoiToWorldMap);
-    Log::Warning("CGameArea::FindDependencies not handling PATH/PTLA");
     
     // Layer dependencies
     for (u32 iLayer = 0; iLayer < mScriptLayers.size(); iLayer++)
