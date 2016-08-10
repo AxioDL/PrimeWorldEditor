@@ -36,17 +36,16 @@ class CAreaLoader
     u32 mCollisionBlockNum;
     u32 mUnknownBlockNum;
     u32 mLightsBlockNum;
-    u32 mEmptyBlockNum;
+    u32 mVisiBlockNum;
     u32 mPathBlockNum;
     u32 mOctreeBlockNum;
     u32 mScriptGeneratorBlockNum;
     u32 mFFFFBlockNum;
-    u32 mUnknown2BlockNum;
+    u32 mPTLABlockNum;
     u32 mEGMCBlockNum;
     u32 mBoundingBoxesBlockNum;
     u32 mDependenciesBlockNum;
     u32 mGPUBlockNum;
-    u32 mPVSBlockNum;
     u32 mRSOBlockNum;
 
     struct SCompressedCluster {
@@ -76,6 +75,8 @@ class CAreaLoader
     void Decompress();
     void LoadSectionDataBuffers();
     void ReadCollision();
+    void ReadPATH();
+    void ReadPTLA();
     void ReadEGMC();
     void SetUpObjects();
 

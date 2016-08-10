@@ -56,6 +56,10 @@ class CGameArea : public CResource
     CCollisionMeshGroup *mpCollision;
     // Lights
     std::vector<std::vector<CLight*>> mLightLayers;
+    // Path Mesh
+    CAssetID mPathID;
+    // Portal Area
+    CAssetID mPortalAreaID;
     // Object to Static Geometry Map
     TResPtr<CPoiToWorld> mpPoiToWorldMap;
 

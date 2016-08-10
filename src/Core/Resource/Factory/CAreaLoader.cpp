@@ -18,17 +18,16 @@ CAreaLoader::CAreaLoader()
     , mCollisionBlockNum(-1)
     , mUnknownBlockNum(-1)
     , mLightsBlockNum(-1)
-    , mEmptyBlockNum(-1)
+    , mVisiBlockNum(-1)
     , mPathBlockNum(-1)
     , mOctreeBlockNum(-1)
     , mScriptGeneratorBlockNum(-1)
     , mFFFFBlockNum(-1)
-    , mUnknown2BlockNum(-1)
+    , mPTLABlockNum(-1)
     , mEGMCBlockNum(-1)
     , mBoundingBoxesBlockNum(-1)
     , mDependenciesBlockNum(-1)
     , mGPUBlockNum(-1)
-    , mPVSBlockNum(-1)
     , mRSOBlockNum(-1)
 {
 }
@@ -45,7 +44,6 @@ CAreaLoader::~CAreaLoader()
 // ************ PRIME ************
 void CAreaLoader::ReadHeaderPrime()
 {
-    Log::FileWrite(mpMREA->GetSourceString(), "Reading MREA header (MP1)");
     mpArea->mTransform = CTransform4f(*mpMREA);
     mNumMeshes = mpMREA->ReadLong();
     u32 mNumBlocks = mpMREA->ReadLong();
@@ -55,7 +53,7 @@ void CAreaLoader::ReadHeaderPrime()
     mCollisionBlockNum = mpMREA->ReadLong();
     mUnknownBlockNum = mpMREA->ReadLong();
     mLightsBlockNum = mpMREA->ReadLong();
-    mEmptyBlockNum = mpMREA->ReadLong();
+    mVisiBlockNum = mpMREA->ReadLong();
     mPathBlockNum = mpMREA->ReadLong();
     mOctreeBlockNum = mpMREA->ReadLong();
 
@@ -69,7 +67,6 @@ void CAreaLoader::ReadHeaderPrime()
 
 void CAreaLoader::ReadGeometryPrime()
 {
-    Log::FileWrite(mpMREA->GetSourceString(), "Reading MREA world geometry (MP1/MP2)");
     mpSectionMgr->ToSection(mGeometryBlockNum);
 
     // Materials
@@ -119,7 +116,6 @@ void CAreaLoader::ReadGeometryPrime()
 void CAreaLoader::ReadSCLYPrime()
 {
     // Prime, Echoes Demo
-    Log::FileWrite(mpMREA->GetSourceString(), "Reading MREA script layers (MP1)");
     mpSectionMgr->ToSection(mScriptLayerBlockNum);
 
     CFourCC SCLY(*mpMREA);
@@ -174,7 +170,6 @@ void CAreaLoader::ReadSCLYPrime()
 
 void CAreaLoader::ReadLightsPrime()
 {
-    Log::FileWrite(mpMREA->GetSourceString(), "Reading MREA dynamic lights (MP1/MP2)");
     mpSectionMgr->ToSection(mLightsBlockNum);
 
     u32 BabeDead = mpMREA->ReadLong();
@@ -259,7 +254,6 @@ void CAreaLoader::ReadLightsPrime()
 void CAreaLoader::ReadHeaderEchoes()
 {
     // This function reads the header for Echoes and the Echoes demo disc
-    Log::FileWrite(mpMREA->GetSourceString(), "Reading MREA header (MP2)");
     mpArea->mTransform = CTransform4f(*mpMREA);
     mNumMeshes = mpMREA->ReadLong();
     if (mVersion == eEchoes) mNumLayers = mpMREA->ReadLong();
@@ -271,10 +265,10 @@ void CAreaLoader::ReadHeaderEchoes()
     mCollisionBlockNum = mpMREA->ReadLong();
     mUnknownBlockNum = mpMREA->ReadLong();
     mLightsBlockNum = mpMREA->ReadLong();
-    mEmptyBlockNum = mpMREA->ReadLong();
+    mVisiBlockNum = mpMREA->ReadLong();
     mPathBlockNum = mpMREA->ReadLong();
     mFFFFBlockNum = mpMREA->ReadLong();
-    mUnknown2BlockNum = mpMREA->ReadLong();
+    mPTLABlockNum = mpMREA->ReadLong();
     mEGMCBlockNum = mpMREA->ReadLong();
     if (mVersion == eEchoes) mClusters.resize(mpMREA->ReadLong());
     mpMREA->SeekToBoundary(32);
@@ -297,7 +291,6 @@ void CAreaLoader::ReadHeaderEchoes()
 void CAreaLoader::ReadSCLYEchoes()
 {
     // MP2, MP3 Proto, MP3, DKCR
-    Log::FileWrite(mpMREA->GetSourceString(), "Reading MREA script layers (MP2/MP3/DKCR)");
     mpSectionMgr->ToSection(mScriptLayerBlockNum);
     mpArea->mScriptLayers.resize(mNumLayers);
 
@@ -341,7 +334,6 @@ void CAreaLoader::ReadSCLYEchoes()
 void CAreaLoader::ReadHeaderCorruption()
 {
     // This function reads the header for MP3, the MP3 prototype, and DKCR
-    Log::FileWrite(mpMREA->GetSourceString(), "Reading MREA header (MP3/DKCR)");
     mpArea->mTransform = CTransform4f(*mpMREA);
     mNumMeshes = mpMREA->ReadLong();
     mNumLayers = mpMREA->ReadLong();
@@ -361,13 +353,14 @@ void CAreaLoader::ReadHeaderCorruption()
         u32 Num = mpMREA->ReadLong();
 
         if      (Type == "AABB") mBoundingBoxesBlockNum = Num;
+        else if (Type == "APTL") mPTLABlockNum = Num;
         else if (Type == "COLI") mCollisionBlockNum = Num;
         else if (Type == "DEPS") mDependenciesBlockNum = Num;
         else if (Type == "EGMC") mEGMCBlockNum = Num;
         else if (Type == "GPUD") mGPUBlockNum = Num;
         else if (Type == "LITE") mLightsBlockNum = Num;
         else if (Type == "PFL2") mPathBlockNum = Num;
-        else if (Type == "PVS!") mPVSBlockNum = Num;
+        else if (Type == "PVS!") mVisiBlockNum = Num;
         else if (Type == "ROCT") mOctreeBlockNum = Num;
         else if (Type == "RSOS") mRSOBlockNum = Num;
         else if (Type == "SOBJ") mScriptLayerBlockNum = Num;
@@ -390,7 +383,6 @@ void CAreaLoader::ReadHeaderCorruption()
 
 void CAreaLoader::ReadGeometryCorruption()
 {
-    Log::FileWrite(mpMREA->GetSourceString(), "Reading MREA world geometry (MP3)");
     mpSectionMgr->ToSection(mGeometryBlockNum);
 
     // Materials
@@ -432,7 +424,6 @@ void CAreaLoader::ReadGeometryCorruption()
 
 void CAreaLoader::ReadLightsCorruption()
 {
-    Log::FileWrite(mpMREA->GetSourceString(), "Reading MREA dynamic lights (MP3)");
     mpSectionMgr->ToSection(mLightsBlockNum);
 
     u32 BabeDead = mpMREA->ReadLong();
@@ -535,7 +526,6 @@ void CAreaLoader::Decompress()
 {
     // This function decompresses compressed clusters into a buffer.
     // It should be called at the beginning of the first compressed cluster.
-    Log::FileWrite(mpMREA->GetSourceString(), "Decompressing MREA data");
     if (mVersion < eEchoes) return;
 
     // Decompress clusters
@@ -593,14 +583,24 @@ void CAreaLoader::LoadSectionDataBuffers()
 
 void CAreaLoader::ReadCollision()
 {
-    Log::FileWrite(mpMREA->GetSourceString(), "Reading collision (MP1/MP2/MP3)");
     mpSectionMgr->ToSection(mCollisionBlockNum);
     mpArea->mpCollision = CCollisionLoader::LoadAreaCollision(*mpMREA);
 }
 
+void CAreaLoader::ReadPATH()
+{
+    mpSectionMgr->ToSection(mPathBlockNum);
+    mpArea->mPathID = CAssetID(*mpMREA, (mVersion <= eEchoes ? e32Bit : e64Bit));
+}
+
+void CAreaLoader::ReadPTLA()
+{
+    mpSectionMgr->ToSection(this->mPTLABlockNum);
+    mpArea->mPortalAreaID = CAssetID(*mpMREA, (mVersion <= eEchoes ? e32Bit : e64Bit));
+}
+
 void CAreaLoader::ReadEGMC()
 {
-    Log::FileWrite(mpMREA->GetSourceString(), "Reading EGMC");
     mpSectionMgr->ToSection(mEGMCBlockNum);
     CAssetID EGMC(*mpMREA, (mVersion <= eEchoes ? e32Bit : e64Bit));
     mpArea->mpPoiToWorldMap = gpResourceStore->LoadResource(EGMC, "EGMC");
