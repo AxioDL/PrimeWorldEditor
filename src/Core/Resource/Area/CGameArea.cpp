@@ -36,14 +36,11 @@ CDependencyTree* CGameArea::BuildDependencyTree() const
     // Base dependencies
     CAreaDependencyTree *pTree = new CAreaDependencyTree(ID());
 
-    for (u32 iMat = 0; iMat < mpMaterialSet->NumMaterials(); iMat++)
-    {
-        CMaterial *pMat = mpMaterialSet->MaterialByIndex(iMat);
-        pTree->AddDependency(pMat->IndTexture());
+    std::set<CAssetID> MatTextures;
+    mpMaterialSet->GetUsedTextureIDs(MatTextures);
 
-        for (u32 iPass = 0; iPass < pMat->PassCount(); iPass++)
-            pTree->AddDependency(pMat->Pass(iPass)->Texture());
-    }
+    for (auto Iter = MatTextures.begin(); Iter != MatTextures.end(); Iter++)
+        pTree->AddDependency(*Iter);
 
     pTree->AddDependency(mPathID);
     pTree->AddDependency(mPortalAreaID);

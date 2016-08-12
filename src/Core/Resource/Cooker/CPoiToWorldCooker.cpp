@@ -31,6 +31,4 @@ void CPoiToWorldCooker::WriteEGMC(CPoiToWorld *pPoiToWorld, IOutputStream& rOut)
         rOut.WriteLong(Mappings[iMap].MeshID);
         rOut.WriteLong(Mappings[iMap].PoiID);
     }
-
-    rOut.WriteToBoundary(32, -1);
 }

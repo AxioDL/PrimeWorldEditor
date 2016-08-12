@@ -115,16 +115,15 @@ CAssetID CDependencyTree::DependencyByIndex(u32 Index) const
     return mReferencedResources[Index]->ID();
 }
 
-void CDependencyTree::AddDependency(CResource *pRes)
+void CDependencyTree::AddDependency(CResource *pRes, bool AvoidDuplicates /*= true*/)
 {
-    if (!pRes || HasDependency(pRes->ID())) return;
-    CResourceDependency *pDepend = new CResourceDependency(pRes->ID());
-    mReferencedResources.push_back(pDepend);
+    if (!pRes) return;
+    AddDependency(pRes->ID(), AvoidDuplicates);
 }
 
-void CDependencyTree::AddDependency(const CAssetID& rkID)
+void CDependencyTree::AddDependency(const CAssetID& rkID, bool AvoidDuplicates /*= true*/)
 {
-    if (!rkID.IsValid() || HasDependency(rkID)) return;
+    if (!rkID.IsValid() || (AvoidDuplicates && HasDependency(rkID))) return;
     CResourceDependency *pDepend = new CResourceDependency(rkID);
     mReferencedResources.push_back(pDepend);
 }
@@ -154,14 +153,15 @@ void CAnimSetDependencyTree::Write(IOutputStream& rFile, EIDLength IDLength) con
         rFile.WriteLong( mCharacterOffsets[iChar] );
 }
 
-void CAnimSetDependencyTree::AddCharacter(const SSetCharacter *pkChar)
+void CAnimSetDependencyTree::AddCharacter(const SSetCharacter *pkChar, const std::set<CAssetID>& rkBaseUsedSet)
 {
     mCharacterOffsets.push_back( NumDependencies() );
     if (!pkChar) return;
 
-    AddDependency(pkChar->pModel);
-    AddDependency(pkChar->pSkeleton);
-    AddDependency(pkChar->pSkin);
+    std::set<CAssetID> UsedSet = rkBaseUsedSet;
+    AddCharDependency(pkChar->pModel, UsedSet);
+    AddCharDependency(pkChar->pSkeleton, UsedSet);
+    AddCharDependency(pkChar->pSkin, UsedSet);
 
     const std::vector<CAssetID> *pkParticleVectors[5] = {
         &pkChar->GenericParticles, &pkChar->ElectricParticles,
@@ -172,11 +172,26 @@ void CAnimSetDependencyTree::AddCharacter(const SSetCharacter *pkChar)
     for (u32 iVec = 0; iVec < 5; iVec++)
     {
         for (u32 iPart = 0; iPart < pkParticleVectors[iVec]->size(); iPart++)
-            AddDependency(pkParticleVectors[iVec]->at(iPart));
+            AddCharDependency(pkParticleVectors[iVec]->at(iPart), UsedSet);
     }
 
-    AddDependency(pkChar->IceModel);
-    AddDependency(pkChar->IceSkin);
+    AddCharDependency(pkChar->IceModel, UsedSet);
+    AddCharDependency(pkChar->IceSkin, UsedSet);
+}
+
+void CAnimSetDependencyTree::AddCharDependency(const CAssetID& rkID, std::set<CAssetID>& rUsedSet)
+{
+    if (rkID.IsValid() && rUsedSet.find(rkID) == rUsedSet.end())
+    {
+        rUsedSet.insert(rkID);
+        AddDependency(rkID, false);
+    }
+}
+
+void CAnimSetDependencyTree::AddCharDependency(CResource *pRes, std::set<CAssetID>& rUsedSet)
+{
+    if (!pRes) return;
+    AddCharDependency(pRes->ID(), rUsedSet);
 }
 
 // ************ CScriptInstanceDependencyTree ************
@@ -238,6 +253,12 @@ bool CScriptInstanceDependencyTree::HasDependency(const CAssetID& rkID)
     }
 
     return false;
+}
+
+CAssetID CScriptInstanceDependencyTree::DependencyByIndex(u32 Index) const
+{
+    ASSERT(Index >= 0 && Index < mDependencies.size());
+    return mDependencies[Index]->ID();
 }
 
 // Static
@@ -342,4 +363,10 @@ void CAreaDependencyTree::AddScriptLayer(CScriptLayer *pLayer)
         else
             delete pTree;
     }
+}
+
+CScriptInstanceDependencyTree* CAreaDependencyTree::ScriptInstanceByIndex(u32 Index) const
+{
+    ASSERT(Index >= 0 && Index < mScriptInstances.size());
+    return mScriptInstances[Index];
 }

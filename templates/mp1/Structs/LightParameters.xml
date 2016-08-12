@@ -14,6 +14,8 @@
                 <enumerator ID="0x01" name="Normal World Lighting"/>
                 <enumerator ID="0x02" name="Unknown 2"/>
                 <enumerator ID="0x03" name="Disable World Lighting"/>
+                <enumerator ID="0x04" name="Unknown 3"/>
+                <enumerator ID="0x05" name="Unknown 4"/>
             </enumerators>
         </enum>
         <property ID="0x08" name="Light Recalculation Options" type="long"/>

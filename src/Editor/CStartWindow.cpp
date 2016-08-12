@@ -144,14 +144,8 @@ void CStartWindow::FillAreaUI()
     else
         ui->AreaNameSTRGLineEdit->clear();
 
-    u64 MREA = mpWorld->AreaResourceID(mSelectedAreaIndex);
-    TString MREAStr;
-    if (MREA & 0xFFFFFFFF00000000)
-        MREAStr = TString::FromInt64(MREA, 16);
-    else
-        MREAStr = TString::FromInt32(MREA, 8);
-
-    ui->AreaMREALineEdit->setText(TO_QSTRING(MREAStr) + QString(".MREA"));
+    CAssetID MREA = mpWorld->AreaResourceID(mSelectedAreaIndex);
+    ui->AreaMREALineEdit->setText(TO_QSTRING(MREA.ToString()) + QString(".MREA"));
 
     u32 NumAttachedAreas = mpWorld->AreaAttachedCount(mSelectedAreaIndex);
     ui->AttachedAreasList->clear();

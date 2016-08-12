@@ -11,6 +11,7 @@
                 <enumerator ID="0x00" name="None"/>
                 <enumerator ID="0x01" name="Snow"/>
                 <enumerator ID="0x02" name="Rain"/>
+                <enumerator ID="0x03" name="Bubbles"/>
             </enumerators>
         </enum>
         <property ID="0x03" name="Initial Environmental Effect Density" type="float"/>

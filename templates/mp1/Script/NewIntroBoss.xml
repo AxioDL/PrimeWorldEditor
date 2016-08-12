@@ -8,8 +8,8 @@
         <property ID="0x03" name="Scale" type="vector3f"/>
         <struct ID="0x04" name="PatternedInfo" template="Structs/PatternedInfo.xml"/>
         <struct ID="0x05" name="ActorParameters" template="Structs/ActorParameters.xml"/>
-        <property ID="0x06" name="Unknown 1" type="float"/>
-        <property ID="0x07" name="Unknown 2" type="float"/>
+        <property ID="0x06" name="Unknown" type="float"/>
+        <property ID="0x07" name="WPSC 1" type="file" extensions="WPSC"/>
         <struct ID="0x08" name="DamageInfo" template="Structs/DamageInfo.xml"/>
         <property ID="0x09" name="Particle 1" type="file" extensions="PART"/>
         <property ID="0x0A" name="Particle 2" type="file" extensions="PART"/>

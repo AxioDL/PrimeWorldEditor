@@ -4,6 +4,7 @@
 #include "CVirtualDirectory.h"
 #include "Core/Resource/EResType.h"
 #include <Common/CAssetID.h>
+#include <Common/CFourCC.h>
 #include <Common/Flags.h>
 #include <Common/types.h>
 
@@ -52,6 +53,7 @@ public:
     bool HasCookedVersion() const;
     TString RawAssetPath(bool Relative = false) const;
     TString CookedAssetPath(bool Relative = false) const;
+    CFourCC CookedExtension() const;
     bool IsInDirectory(CVirtualDirectory *pDir) const;
     u64 Size() const;
     bool NeedsRecook() const;

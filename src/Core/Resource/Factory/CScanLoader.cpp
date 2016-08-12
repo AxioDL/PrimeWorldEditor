@@ -9,11 +9,18 @@ CScanLoader::CScanLoader()
 CScan* CScanLoader::LoadScanMP1(IInputStream& rSCAN)
 {
     // Basic support at the moment - don't read animation/scan image data
-    rSCAN.Seek(0x4, SEEK_CUR); // Skip FRME ID
+    mpScan->mFrameID = CAssetID(rSCAN, e32Bit);
     mpScan->mpStringTable = gpResourceStore->LoadResource(rSCAN.ReadLong(), "STRG");
     mpScan->mIsSlow = (rSCAN.ReadLong() != 0);
     mpScan->mCategory = (CScan::ELogbookCategory) rSCAN.ReadLong();
     mpScan->mIsImportant = (rSCAN.ReadByte() == 1);
+
+    for (u32 iImg = 0; iImg < 4; iImg++)
+    {
+        mpScan->mScanImageTextures[iImg] = CAssetID(rSCAN, e32Bit);
+        rSCAN.Seek(0x18, SEEK_CUR);
+    }
+
     mpScan->mVersion = ePrime;
     return mpScan;
 }

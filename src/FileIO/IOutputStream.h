@@ -22,7 +22,7 @@ public:
     void WriteWideString(const std::wstring& rkVal);
     void WriteWideString(const std::wstring& rkVal, unsigned long Count, bool Terminate = false);
 
-    void WriteToBoundary(unsigned long Boundary, char Fill);
+    void WriteToBoundary(unsigned long Boundary, unsigned char Fill);
     void SetEndianness(IOUtil::EEndianness Endianness);
     void SetDestString(const std::string& rkDest);
     IOUtil::EEndianness GetEndianness() const;

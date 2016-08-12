@@ -681,6 +681,7 @@ CGameArea* CAreaLoader::LoadMREA(IInputStream& MREA, CResourceEntry *pEntry)
             Loader.ReadSCLYPrime();
             Loader.ReadCollision();
             Loader.ReadLightsPrime();
+            Loader.ReadPATH();
             break;
         case eEchoesDemo:
             Loader.ReadHeaderEchoes();
@@ -688,6 +689,8 @@ CGameArea* CAreaLoader::LoadMREA(IInputStream& MREA, CResourceEntry *pEntry)
             Loader.ReadSCLYPrime();
             Loader.ReadCollision();
             Loader.ReadLightsPrime();
+            Loader.ReadPATH();
+            Loader.ReadPTLA();
             Loader.ReadEGMC();
             break;
         case eEchoes:
@@ -696,6 +699,8 @@ CGameArea* CAreaLoader::LoadMREA(IInputStream& MREA, CResourceEntry *pEntry)
             Loader.ReadSCLYEchoes();
             Loader.ReadCollision();
             Loader.ReadLightsPrime();
+            Loader.ReadPATH();
+            Loader.ReadPTLA();
             Loader.ReadEGMC();
             break;
         case eCorruptionProto:
@@ -704,6 +709,8 @@ CGameArea* CAreaLoader::LoadMREA(IInputStream& MREA, CResourceEntry *pEntry)
             Loader.ReadSCLYEchoes();
             Loader.ReadCollision();
             Loader.ReadLightsCorruption();
+            Loader.ReadPATH();
+            Loader.ReadPTLA();
             Loader.ReadEGMC();
             break;
         case eCorruption:
@@ -715,6 +722,8 @@ CGameArea* CAreaLoader::LoadMREA(IInputStream& MREA, CResourceEntry *pEntry)
             if (Loader.mVersion == eCorruption)
             {
                 Loader.ReadLightsCorruption();
+                Loader.ReadPATH();
+                Loader.ReadPTLA();
                 Loader.ReadEGMC();
             }
             break;

@@ -58,12 +58,23 @@ public:
     CDependencyTree* BuildDependencyTree() const
     {
         CAnimSetDependencyTree *pTree = new CAnimSetDependencyTree(ID());
+        std::set<CAssetID> BaseUsedSet;
 
+        // Base dependencies
         for (u32 iAnim = 0; iAnim < mAnims.size(); iAnim++)
-            pTree->AddDependency(mAnims[iAnim].pAnim);
+        {
+            CAnimation *pAnim = mAnims[iAnim].pAnim;
 
+            if (pAnim)
+            {
+                pTree->AddDependency(mAnims[iAnim].pAnim);
+                BaseUsedSet.insert(pAnim->ID());
+            }
+        }
+
+        // Character dependencies
         for (u32 iNode = 0; iNode < mCharacters.size(); iNode++)
-            pTree->AddCharacter(&mCharacters[iNode]);
+            pTree->AddCharacter(&mCharacters[iNode], BaseUsedSet);
 
         return pTree;
     }

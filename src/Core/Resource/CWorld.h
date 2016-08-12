@@ -11,6 +11,7 @@ class CWorld : public CResource
 {
     DECLARE_RESOURCE_TYPE(eWorld)
     friend class CWorldLoader;
+    friend class CWorldCooker;
 
     // Instances of CResource pointers are placeholders for unimplemented resource types (eg CMapWorld)
     EGame mWorldVersion;
@@ -48,6 +49,7 @@ class CWorld : public CResource
         CAABox AetherBox;
         CAssetID AreaResID; // Loading every single area as a CResource would be a very bad idea
         u64 AreaID;
+        bool AllowPakDuplicates;
 
         std::vector<u16> AttachedAreaIDs;
         std::vector<CAssetID> Dependencies;
@@ -103,11 +105,14 @@ public:
     inline CResource* MapWorld() const          { return mpMapWorld; }
 
     inline u32 NumAreas() const                                         { return mAreas.size(); }
-    inline u64 AreaResourceID(u32 AreaIndex) const                      { return mAreas[AreaIndex].AreaResID.ToLongLong(); }
+    inline CAssetID AreaResourceID(u32 AreaIndex) const                 { return mAreas[AreaIndex].AreaResID; }
     inline u32 AreaAttachedCount(u32 AreaIndex) const                   { return mAreas[AreaIndex].AttachedAreaIDs.size(); }
     inline u32 AreaAttachedID(u32 AreaIndex, u32 AttachedIndex) const   { return mAreas[AreaIndex].AttachedAreaIDs[AttachedIndex]; }
     inline TString AreaInternalName(u32 AreaIndex) const                { return mAreas[AreaIndex].InternalName; }
     inline CStringTable* AreaName(u32 AreaIndex) const                  { return mAreas[AreaIndex].pAreaName; }
+    inline bool DoesAreaAllowPakDuplicates(u32 AreaIndex) const         { return mAreas[AreaIndex].AllowPakDuplicates; }
+
+    inline void SetAreaAllowsPakDuplicates(u32 AreaIndex, bool Allow)   { mAreas[AreaIndex].AllowPakDuplicates = Allow; }
 };
 
 #endif // CWORLD_H

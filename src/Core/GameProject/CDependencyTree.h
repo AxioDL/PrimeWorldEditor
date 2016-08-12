@@ -90,8 +90,8 @@ public:
     u32 NumDependencies() const;
     bool HasDependency(const CAssetID& rkID);
     CAssetID DependencyByIndex(u32 Index) const;
-    void AddDependency(const CAssetID& rkID);
-    void AddDependency(CResource *pRes);
+    void AddDependency(const CAssetID& rkID, bool AvoidDuplicates = true);
+    void AddDependency(CResource *pRes, bool AvoidDuplicates = true);
 
     // Accessors
     inline void SetID(const CAssetID& rkID) { mID = rkID; }
@@ -111,7 +111,13 @@ public:
     virtual void Read(IInputStream& rFile, EIDLength IDLength);
     virtual void Write(IOutputStream& rFile, EIDLength IDLength) const;
 
-    void AddCharacter(const SSetCharacter *pkChar);
+    void AddCharacter(const SSetCharacter *pkChar, const std::set<CAssetID>& rkBaseUsedSet);
+    void AddCharDependency(const CAssetID& rkID, std::set<CAssetID>& rUsedSet);
+    void AddCharDependency(CResource *pRes, std::set<CAssetID>& rUsedSet);
+
+    // Accessors
+    inline u32 NumCharacters() const                { return mCharacterOffsets.size(); }
+    inline u32 CharacterOffset(u32 CharIdx) const   { return mCharacterOffsets[CharIdx]; }
 };
 
 // Node representing a script object. Indicates the type of object.
@@ -128,9 +134,11 @@ public:
     virtual void Read(IInputStream& rFile, EIDLength IDLength);
     virtual void Write(IOutputStream& rFile, EIDLength IDLength) const;
     bool HasDependency(const CAssetID& rkID);
+    CAssetID DependencyByIndex(u32 Index) const;
 
     // Accessors
-    u32 NumDependencies() const { return mDependencies.size(); }
+    inline u32 NumDependencies() const  { return mDependencies.size(); }
+    inline u32 ObjectType() const       { return mObjectType; }
 
     // Static
     static CScriptInstanceDependencyTree* BuildTree(CScriptObject *pInstance);
@@ -153,6 +161,12 @@ public:
     virtual void Write(IOutputStream& rFile, EIDLength IDLength) const;
 
     void AddScriptLayer(CScriptLayer *pLayer);
+    CScriptInstanceDependencyTree* ScriptInstanceByIndex(u32 Index) const;
+
+    // Accessors
+    inline u32 NumScriptLayers() const                  { return mLayerOffsets.size(); }
+    inline u32 NumScriptInstances() const               { return mScriptInstances.size(); }
+    inline u32 ScriptLayerOffset(u32 LayerIdx) const    { return mLayerOffsets[LayerIdx]; }
 };
 
 #endif // CDEPENDENCYTREE

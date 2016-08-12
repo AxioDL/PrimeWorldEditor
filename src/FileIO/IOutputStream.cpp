@@ -75,7 +75,7 @@ void IOutputStream::WriteWideString(const std::wstring& rkVal, unsigned long Cou
         WriteShort(0);
 }
 
-void IOutputStream::WriteToBoundary(unsigned long Boundary, char Fill)
+void IOutputStream::WriteToBoundary(unsigned long Boundary, unsigned char Fill)
 {
     long Num = Boundary - (Tell() % Boundary);
     if (Num == Boundary) return;

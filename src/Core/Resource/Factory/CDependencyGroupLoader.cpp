@@ -5,8 +5,8 @@ EGame CDependencyGroupLoader::VersionTest(IInputStream& rDGRP, u32 DepCount)
 {
     // Only difference between versions is asset ID length. Just check for EOF with 32-bit ID length.
     u32 Start = rDGRP.Tell();
-    rDGRP.Seek(DepCount * 4, SEEK_CUR);
-    u32 Remaining = rDGRP.Size() - Start;
+    rDGRP.Seek(DepCount * 8, SEEK_CUR);
+    u32 Remaining = rDGRP.Size() - rDGRP.Tell();
 
     EGame Game = ePrimeDemo;
 
@@ -14,7 +14,9 @@ EGame CDependencyGroupLoader::VersionTest(IInputStream& rDGRP, u32 DepCount)
     {
         for (u32 iRem = 0; iRem < Remaining; iRem++)
         {
-            if (rDGRP.ReadByte() != 0xFF)
+            u8 Byte = rDGRP.ReadByte();
+
+            if (Byte != 0xFF)
             {
                 Game = eCorruptionProto;
                 break;
