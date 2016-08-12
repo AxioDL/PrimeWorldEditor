@@ -44,7 +44,7 @@ public:
 
     CDependencyTree* BuildDependencyTree() const
     {
-        // The only dependencies STRGs have is they can reference FONTs with the &font=; formatting tag
+        // STRGs can reference FONTs with the &font=; formatting tag and TXTRs with the &image=; tag
         CDependencyTree *pTree = new CDependencyTree(ID());
         EIDLength IDLength = (Game() <= eEchoes ? e32Bit : e64Bit);
 
@@ -54,14 +54,69 @@ public:
 
             for (u32 iStr = 0; iStr < rkTable.Strings.size(); iStr++)
             {
-                static const TWideString skTag = L"&font=";
                 const TWideString& rkStr = rkTable.Strings[iStr];
 
-                for (u32 FontIdx = rkStr.IndexOfPhrase(*skTag); FontIdx != -1; FontIdx = rkStr.IndexOfPhrase(*skTag, FontIdx + 1))
+                for (u32 TagIdx = rkStr.IndexOf(L'&'); TagIdx != -1; TagIdx = rkStr.IndexOf(L'&', TagIdx + 1))
                 {
-                    u32 IDStart = FontIdx + skTag.Size();
-                    TWideString StrFontID = rkStr.SubString(IDStart, IDLength * 2);
-                    pTree->AddDependency( CAssetID::FromString(StrFontID) );
+                    // Check for double ampersand (escape character in DKCR, not sure about other games)
+                    if (rkStr.At(TagIdx + 1) == L'&')
+                    {
+                        TagIdx++;
+                        continue;
+                    }
+
+                    // Get tag name and parameters
+                    u32 NameEnd = rkStr.IndexOf(L'=', TagIdx);
+                    u32 TagEnd = rkStr.IndexOf(L';', TagIdx);
+                    if (NameEnd == -1 || TagEnd == -1) continue;
+
+                    TWideString TagName = rkStr.SubString(TagIdx + 1, NameEnd - TagIdx - 1);
+                    TWideString ParamString = rkStr.SubString(NameEnd + 1, TagEnd - NameEnd - 1);
+
+                    // Font
+                    if (TagName == L"font")
+                    {
+                        ASSERT(ParamString.Size() == IDLength * 2);
+                        pTree->AddDependency( CAssetID::FromString(ParamString) );
+                    }
+
+                    // Image
+                    else if (TagName == L"image")
+                    {
+                        // Determine which params are textures based on image type
+                        TWideStringList Params = ParamString.Split(L",");
+                        TWideString ImageType = Params.front();
+                        u32 TexturesStart = -1;
+
+                        if (ImageType == L"A")
+                            TexturesStart = 2;
+
+                        else if (ImageType == L"SI")
+                            TexturesStart = 3;
+
+                        else if (ImageType == L"SA")
+                            TexturesStart = 4;
+
+                        else
+                        {
+                            Log::Error("Unrecognized image type: " + ImageType.ToUTF8());
+                            DEBUG_BREAK;
+                            continue;
+                        }
+
+                        // Load texture IDs
+                        TWideStringList::iterator Iter = Params.begin();
+
+                        for (u32 iParam = 0; iParam < Params.size(); iParam++, Iter++)
+                        {
+                            if (iParam >= TexturesStart)
+                            {
+                                TWideString Param = *Iter;
+                                ASSERT(Param.Size() == IDLength * 2);
+                                pTree->AddDependency( CAssetID::FromString(Param) );
+                            }
+                        }
+                    }
                 }
             }
         }

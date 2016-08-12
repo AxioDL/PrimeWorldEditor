@@ -26,6 +26,7 @@ class CGameExporter
 
     // Resources
     TWideStringList mPaks;
+    std::map<CAssetID, bool> mAreaDuplicateMap;
 
     struct SResourceInstance
     {
@@ -37,14 +38,14 @@ class CGameExporter
         bool Compressed;
         bool Exported;
     };
-    std::map<u64, SResourceInstance> mResourceMap;
+    std::map<CAssetID, SResourceInstance> mResourceMap;
 
     struct SResourcePath
     {
         TWideString Dir;
         TWideString Name;
     };
-    std::map<u64, SResourcePath> mResourcePaths;
+    std::map<CAssetID, SResourcePath> mResourcePaths;
 
 public:
     CGameExporter(const TString& rkInputDir, const TString& rkOutputDir);
@@ -77,12 +78,7 @@ protected:
 
     inline void SetResourcePath(const CAssetID& rkID, const TWideString& rkDir, const TWideString& rkName)
     {
-        SetResourcePath(rkID.ToLongLong(), rkDir, rkName);
-    }
-
-    inline void SetResourcePath(u64 ID, const TWideString& rkDir, const TWideString& rkName)
-    {
-        mResourcePaths[ID] = SResourcePath { rkDir, rkName };
+        mResourcePaths[rkID] = SResourcePath { rkDir, rkName };
     }
 
     inline EGame Game() const       { return mpProject->Game(); }

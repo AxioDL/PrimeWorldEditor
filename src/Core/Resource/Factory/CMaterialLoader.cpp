@@ -120,7 +120,7 @@ CMaterial* CMaterialLoader::ReadPrimeMaterial()
     if (pMat->mOptions & CMaterial::eIndStage)
     {
         u32 IndTexIndex = mpFile->ReadLong();
-        pMat->mpIndirectTexture = mTextures[IndTexIndex];
+        pMat->mpIndirectTexture = mTextures[TextureIndices[IndTexIndex]];
     }
 
     // Color channels
@@ -162,7 +162,7 @@ CMaterial* CMaterialLoader::ReadPrimeMaterial()
 
         u8 TexSel = mpFile->ReadByte();
 
-        if ((TexSel == 0xFF) || (TexSel >= mTextures.size()))
+        if ((TexSel == 0xFF) || (TexSel >= TextureIndices.size()))
             pPass->mpTexture = nullptr;
         else
             pPass->mpTexture = mTextures[TextureIndices[TexSel]];

@@ -31,8 +31,10 @@ public slots:
     void LoadWorld();
     void LaunchEditor();
     void LaunchResourceBrowser();
+    void CookPackage();
 
     void SetupWorldsList();
+    void SetupPackagesList();
 };
 
 #endif // CPROJECTOVERVIEWDIALOG_H

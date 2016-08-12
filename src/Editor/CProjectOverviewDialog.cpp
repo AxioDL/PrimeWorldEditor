@@ -20,6 +20,7 @@ CProjectOverviewDialog::CProjectOverviewDialog(QWidget *pParent)
     connect(mpUI->LoadWorldButton, SIGNAL(clicked()), this, SLOT(LoadWorld()));
     connect(mpUI->LaunchEditorButton, SIGNAL(clicked()), this, SLOT(LaunchEditor()));
     connect(mpUI->ViewResourcesButton, SIGNAL(clicked()), this, SLOT(LaunchResourceBrowser()));
+    connect(mpUI->CookPackageButton, SIGNAL(clicked()), this, SLOT(CookPackage()));
 }
 
 CProjectOverviewDialog::~CProjectOverviewDialog()
@@ -44,6 +45,7 @@ void CProjectOverviewDialog::OpenProject()
         mpProject = pNewProj;
         mpProject->SetActive();
         SetupWorldsList();
+        SetupPackagesList();
     }
 
     else
@@ -113,6 +115,19 @@ void CProjectOverviewDialog::SetupWorldsList()
     mpUI->LoadWorldButton->setEnabled(!mWorldEntries.isEmpty());
 }
 
+void CProjectOverviewDialog::SetupPackagesList()
+{
+    ASSERT(mpProject != nullptr && mpProject->IsActive());
+    mpUI->PackagesList->clear();
+
+    for (u32 iPkg = 0; iPkg < mpProject->NumPackages(); iPkg++)
+    {
+        CPackage *pPackage = mpProject->PackageByIndex(iPkg);
+        ASSERT(pPackage != nullptr);
+        mpUI->PackagesList->addItem(TO_QSTRING(pPackage->Name()));
+    }
+}
+
 void CProjectOverviewDialog::LoadWorld()
 {
     // Find world
@@ -145,9 +160,6 @@ void CProjectOverviewDialog::LoadWorld()
 
 void CProjectOverviewDialog::LaunchEditor()
 {
-    CGameArea *pOldArea = mpWorldEditor->ActiveArea();
-    (void) pOldArea;
-
     // Load area
     u32 AreaIdx = mpUI->AreaComboBox->currentIndex();
     CResourceEntry *pAreaEntry = mAreaEntries[AreaIdx];
@@ -171,4 +183,11 @@ void CProjectOverviewDialog::LaunchResourceBrowser()
 {
     CResourceBrowser Browser(this);
     Browser.exec();
+}
+
+void CProjectOverviewDialog::CookPackage()
+{
+    u32 PackageIdx = mpUI->PackagesList->currentRow();
+    CPackage *pPackage = mpProject->PackageByIndex(PackageIdx);
+    pPackage->Cook();
 }

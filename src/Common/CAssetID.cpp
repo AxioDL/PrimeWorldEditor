@@ -38,6 +38,14 @@ CAssetID::CAssetID(const char* pkID)
     *this = CAssetID::FromString(pkID);
 }
 
+void CAssetID::Write(IOutputStream& rOutput) const
+{
+    if (mLength == e32Bit)
+        rOutput.WriteLong(ToLong());
+    else
+        rOutput.WriteLongLong(ToLongLong());
+}
+
 CAssetID::CAssetID(IInputStream& rInput, EIDLength Length)
     : mLength(Length)
 {

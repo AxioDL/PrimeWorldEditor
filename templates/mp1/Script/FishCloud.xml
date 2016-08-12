@@ -27,7 +27,7 @@
         <property ID="0x16" name="Unknown 17" type="color"/>
         <property ID="0x17" name="Unknown 18" type="bool"/>
         <property ID="0x18" name="Unknown 19" type="float"/>
-        <property ID="0x19" name="Unknown 20" type="long"/>
+        <property ID="0x19" name="Particle" type="file" extensions="PART"/>
         <property ID="0x1A" name="Unknown 21" type="long"/>
         <property ID="0x1B" name="Unknown 22" type="long"/>
         <property ID="0x1C" name="Unknown 23" type="long"/>

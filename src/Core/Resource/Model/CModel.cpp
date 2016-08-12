@@ -33,23 +33,16 @@ CModel::~CModel()
 CDependencyTree* CModel::BuildDependencyTree() const
 {
     CDependencyTree *pTree = new CDependencyTree(ID());
+    std::set<CAssetID> TextureIDs;
 
     for (u32 iSet = 0; iSet < mMaterialSets.size(); iSet++)
     {
         CMaterialSet *pSet = mMaterialSets[iSet];
-        
-        for (u32 iMat = 0; iMat < pSet->NumMaterials(); iMat++)
-        {
-            CMaterial *pMat = pSet->MaterialByIndex(iMat);
-            pTree->AddDependency(pMat->IndTexture());
-
-            for (u32 iPass = 0; iPass < pMat->PassCount(); iPass++)
-            {
-                CMaterialPass *pPass = pMat->Pass(iPass);
-                pTree->AddDependency(pPass->Texture());
-            }
-        }
+        pSet->GetUsedTextureIDs(TextureIDs);
     }
+
+    for (auto Iter = TextureIDs.begin(); Iter != TextureIDs.end(); Iter++)
+        pTree->AddDependency(*Iter);
 
     return pTree;
 }

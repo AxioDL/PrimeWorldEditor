@@ -54,6 +54,7 @@ bool CResourceEntry::LoadCacheData()
 
     // Dependency Tree
     u32 DepsTreeSize = File.ReadLong();
+    u32 DepsTreeStart = File.Tell();
 
     if (mpDependencies)
     {
@@ -63,8 +64,12 @@ bool CResourceEntry::LoadCacheData()
 
     if (DepsTreeSize > 0)
     {
-        mpDependencies = new CDependencyTree(mID);
+        if (mType == eArea)         mpDependencies = new CAreaDependencyTree(mID);
+        else if (mType == eAnimSet) mpDependencies = new CAnimSetDependencyTree(mID);
+        else                        mpDependencies = new CDependencyTree(mID);
+
         mpDependencies->Read(File, Game() <= eEchoes ? e32Bit : e64Bit);
+        ASSERT(File.Tell() - DepsTreeStart == DepsTreeSize);
     }
 
     return true;
@@ -164,6 +169,11 @@ TString CResourceEntry::CookedAssetPath(bool Relative) const
     TWideString Path = mpDirectory ? mpDirectory->FullPath() : L"";
     TWideString Name = mName + L"." + Ext;
     return ((IsTransient() || Relative) ? Path + Name : mpStore->ActiveProject()->CookedDir(false) + Path + Name);
+}
+
+CFourCC CResourceEntry::CookedExtension() const
+{
+    return CFourCC( GetResourceCookedExtension(mType, mGame) );
 }
 
 bool CResourceEntry::IsInDirectory(CVirtualDirectory *pDir) const

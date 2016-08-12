@@ -59,6 +59,21 @@ public:
 
         return -1;
     }
+
+    void GetUsedTextureIDs(std::set<CAssetID>& rOut)
+    {
+        for (u32 iMat = 0; iMat < mMaterials.size(); iMat++)
+        {
+            CMaterial *pMat = mMaterials[iMat];
+            if (pMat->IndTexture()) rOut.insert(pMat->IndTexture()->ID());
+
+            for (u32 iPass = 0; iPass < pMat->PassCount(); iPass++)
+            {
+                CTexture *pTex = pMat->Pass(iPass)->Texture();
+                if (pTex) rOut.insert(pTex->ID());
+            }
+        }
+    }
 };
 
 #endif // CMATERIALSET_H

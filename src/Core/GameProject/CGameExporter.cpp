@@ -148,7 +148,7 @@ void CGameExporter::LoadAssetList()
 
     while (pAsset)
     {
-        u64 ResourceID = TString(pAsset->Attribute("ID")).ToInt64(16);
+        CAssetID ResourceID = TString(pAsset->Attribute("ID")).ToInt64(16);
 
         tinyxml2::XMLElement *pDir = pAsset->FirstChildElement("Dir");
         TString Dir = pDir ? pDir->GetText() : "";
@@ -206,10 +206,14 @@ void CGameExporter::LoadPaks()
                     u32 NameLen = Pak.ReadLong();
                     TString Name = Pak.ReadString(NameLen);
                     pCollection->AddResource(Name, ResID, ResType);
-                    SetResourcePath(ResID.ToLongLong(), PakName + L"\\", Name.ToUTF16());
+                    SetResourcePath(ResID, PakName + L"\\", Name.ToUTF16());
                 }
 
                 u32 NumResources = Pak.ReadLong();
+
+                // Keep track of which areas have duplicate resources
+                std::set<CAssetID> PakResourceSet;
+                bool AreaHasDuplicates = true; // Default to true so that first area is always considered as having duplicates
 
                 for (u32 iRes = 0; iRes < NumResources; iRes++)
                 {
@@ -219,9 +223,21 @@ void CGameExporter::LoadPaks()
                     u32 ResSize = Pak.ReadLong();
                     u32 ResOffset = Pak.ReadLong();
 
-                    u64 IntegralID = ResID.ToLongLong();
-                    if (mResourceMap.find(IntegralID) == mResourceMap.end())
-                        mResourceMap[IntegralID] = SResourceInstance { PakPath, ResID, ResType, ResOffset, ResSize, Compressed, false };
+                    if (mResourceMap.find(ResID) == mResourceMap.end())
+                        mResourceMap[ResID] = SResourceInstance { PakPath, ResID, ResType, ResOffset, ResSize, Compressed, false };
+
+                    // Check for duplicate resources
+                    if (ResType == "MREA")
+                    {
+                        mAreaDuplicateMap[ResID] = AreaHasDuplicates;
+                        AreaHasDuplicates = false;
+                    }
+
+                    else if (!AreaHasDuplicates && PakResourceSet.find(ResID) != PakResourceSet.end())
+                        AreaHasDuplicates = true;
+
+                    else
+                        PakResourceSet.insert(ResID);
                 }
             }
         }
@@ -265,7 +281,7 @@ void CGameExporter::LoadPaks()
                         CFourCC ResType = Pak.ReadLong();
                         CAssetID ResID(Pak, IDLength);
                         pCollection->AddResource(Name, ResID, ResType);
-                        SetResourcePath(ResID.ToLongLong(), PakName + L"\\", Name.ToUTF16());
+                        SetResourcePath(ResID, PakName + L"\\", Name.ToUTF16());
                     }
                 }
 
@@ -275,6 +291,10 @@ void CGameExporter::LoadPaks()
                     u32 DataStart = Next;
                     u32 NumResources = Pak.ReadLong();
 
+                    // Keep track of which areas have duplicate resources
+                    std::set<CAssetID> PakResourceSet;
+                    bool AreaHasDuplicates = true; // Default to true so that first area is always considered as having duplicates
+
                     for (u32 iRes = 0; iRes < NumResources; iRes++)
                     {
                         bool Compressed = (Pak.ReadLong() == 1);
@@ -283,9 +303,24 @@ void CGameExporter::LoadPaks()
                         u32 Size = Pak.ReadLong();
                         u32 Offset = DataStart + Pak.ReadLong();
 
-                        u64 IntegralID = ResID.ToLongLong();
-                        if (mResourceMap.find(IntegralID) == mResourceMap.end())
-                            mResourceMap[IntegralID] = SResourceInstance { PakPath, ResID, Type, Offset, Size, Compressed, false };
+                        if (mResourceMap.find(ResID) == mResourceMap.end())
+                            mResourceMap[ResID] = SResourceInstance { PakPath, ResID, Type, Offset, Size, Compressed, false };
+
+                        // Check for duplicate resources (unnecessary for DKCR)
+                        if (Game() != eReturns)
+                        {
+                            if (Type == "MREA")
+                            {
+                                mAreaDuplicateMap[ResID] = AreaHasDuplicates;
+                                AreaHasDuplicates = false;
+                            }
+
+                            else if (!AreaHasDuplicates && PakResourceSet.find(ResID) != PakResourceSet.end())
+                                AreaHasDuplicates = true;
+
+                            else
+                                PakResourceSet.insert(ResID);
+                        }
                     }
                 }
 
@@ -505,7 +540,25 @@ void CGameExporter::ExportCookedResources()
         for (CResourceIterator It(&mStore); It; ++It)
         {
             if (!It->IsTransient())
+            {
+                // Worlds need to know which areas can have duplicates. We only have this info at export time.
+                if (It->ResourceType() == eWorld)
+                {
+                    CWorld *pWorld = (CWorld*) It->Load();
+
+                    for (u32 iArea = 0; iArea < pWorld->NumAreas(); iArea++)
+                    {
+                        CAssetID AreaID = pWorld->AreaResourceID(iArea);
+                        auto Find = mAreaDuplicateMap.find(AreaID);
+
+                        if (Find != mAreaDuplicateMap.end())
+                            pWorld->SetAreaAllowsPakDuplicates(iArea, Find->second);
+                    }
+                }
+
+                // Save raw resource + cache data
                 It->Save();
+            }
         }
     }
 }

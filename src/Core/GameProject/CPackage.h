@@ -60,6 +60,9 @@ public:
     void Load();
     void Save();
 
+    void Cook();
+    void CompareOriginalAssetList(const std::list<CAssetID>& rkNewList);
+
     TWideString DefinitionPath(bool Relative) const;
     TWideString CookedPackagePath(bool Relative) const;
 
@@ -70,6 +73,7 @@ public:
     // Accessors
     inline TString Name() const                                     { return mPakName; }
     inline TWideString Path() const                                 { return mPakPath; }
+    inline CGameProject* Project() const                            { return mpProject; }
     inline u32 NumCollections() const                               { return mCollections.size(); }
     inline CResourceCollection* CollectionByIndex(u32 Idx) const    { return mCollections[Idx]; }
 

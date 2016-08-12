@@ -23,6 +23,7 @@ public:
     CAssetID(u64 ID, EIDLength Length);
     CAssetID(const char* pkID);
     CAssetID(IInputStream& rInput, EIDLength Length);
+    void Write(IOutputStream& rOutput) const;
     TString ToString() const;
     bool IsValid() const;
 

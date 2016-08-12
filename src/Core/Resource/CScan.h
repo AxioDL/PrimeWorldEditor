@@ -24,16 +24,16 @@ public:
 
 private:
     EGame mVersion;
-    TResPtr<CResource> mpFrame;
+    CAssetID mFrameID;
     TResPtr<CStringTable> mpStringTable;
     bool mIsSlow;
     bool mIsImportant;
     ELogbookCategory mCategory;
+    CAssetID mScanImageTextures[4];
 
 public:
     CScan(CResourceEntry *pEntry = 0)
         : CResource(pEntry)
-        , mpFrame(nullptr)
         , mpStringTable(nullptr)
         , mIsSlow(false)
         , mIsImportant(false)
@@ -46,8 +46,12 @@ public:
             Log::Warning("CScan::BuildDependencyTree not handling Echoes/Corruption dependencies");
 
         CDependencyTree *pTree = new CDependencyTree(ID());
-        pTree->AddDependency(mpFrame);
+        pTree->AddDependency(mFrameID);
         pTree->AddDependency(mpStringTable);
+
+        for (u32 iImg = 0; iImg < 4; iImg++)
+            pTree->AddDependency(mScanImageTextures[iImg]);
+
         return pTree;
     }
 

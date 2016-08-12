@@ -35,7 +35,7 @@ public:
         if (rInput.GetEndianness() == IOUtil::eLittleEndian) Reverse();
     }
 
-    inline void Write(IOutputStream& rOutput)
+    inline void Write(IOutputStream& rOutput) const
     {
         u32 Val = mFourCC;
         if (rOutput.GetEndianness() == IOUtil::eLittleEndian) IOUtil::SwapBytes(Val);

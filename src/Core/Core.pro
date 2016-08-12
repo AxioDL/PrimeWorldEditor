@@ -203,7 +203,8 @@ HEADERS += \
     Resource/ParticleParameters.h \
     Resource/Factory/CUnsupportedParticleLoader.h \
     Resource/Resources.h \
-    Resource/Factory/CResourceFactory.h
+    Resource/Factory/CResourceFactory.h \
+    GameProject/DependencyListBuilders.h
 
 # Source Files
 SOURCES += \
