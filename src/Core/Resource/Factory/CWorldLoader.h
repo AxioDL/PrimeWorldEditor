@@ -3,7 +3,7 @@
 
 #include "Core/GameProject/CResourceStore.h"
 #include "Core/Resource/CWorld.h"
-#include "Core/Resource/EGame.h"
+#include <Common/EGame.h>
 
 #include <FileIO/FileIO.h>
 

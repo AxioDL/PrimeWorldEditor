@@ -2,8 +2,8 @@
 #define CSKELETONLOADER_H
 
 #include "Core/Resource/CSkeleton.h"
-#include "Core/Resource/EGame.h"
 #include "Core/Resource/TResPtr.h"
+#include <Common/EGame.h>
 
 class CSkeletonLoader
 {

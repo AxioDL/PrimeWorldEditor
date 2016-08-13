@@ -3,8 +3,8 @@
 
 #include "Core/GameProject/CResourceStore.h"
 #include "Core/Resource/CStringTable.h"
-#include "Core/Resource/EGame.h"
 #include "Core/Resource/TResPtr.h"
+#include <Common/EGame.h>
 
 class CStringLoader
 {

@@ -80,7 +80,8 @@ HEADERS += \
     CAssetID.h \
     Serialization/IArchive.h \
     Serialization/CXMLWriter.h \
-    Serialization/CXMLReader.h
+    Serialization/CXMLReader.h \
+    EGame.h
 
 # Source Files
 SOURCES += \

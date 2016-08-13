@@ -59,7 +59,7 @@ public:
     bool HasAnyScriptNodesSelected() const;
 
     inline CGameArea* ActiveArea() const    { return mpArea; }
-    inline EGame CurrentGame() const        { return mpArea ? mpArea->Version() : eUnknownVersion; }
+    inline EGame CurrentGame() const        { return mpArea ? mpArea->Version() : eUnknownGame; }
     inline CLinkDialog* LinkDialog() const  { return mpLinkDialog; }
     CSceneViewport* Viewport() const;
 

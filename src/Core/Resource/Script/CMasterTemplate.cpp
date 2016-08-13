@@ -136,7 +136,7 @@ EGame CMasterTemplate::FindGameForName(const TString& rkName)
             return pMaster->Game();
     }
 
-    return eUnknownVersion;
+    return eUnknownGame;
 }
 
 TString CMasterTemplate::PropertyName(u32 PropertyID)

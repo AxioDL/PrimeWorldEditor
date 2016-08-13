@@ -92,7 +92,7 @@ CFont* CFontLoader::LoadFONT(IInputStream& rFONT, CResourceEntry *pEntry)
 
     u32 FileVersion = rFONT.ReadLong();
     EGame Version = GetFormatVersion(FileVersion);
-    if (Version == eUnknownVersion)
+    if (Version == eUnknownGame)
     {
         Log::FileError(rFONT.GetSourceString(), "Unsupported FONT version: " + TString::HexString(FileVersion, 0));
         return nullptr;
@@ -113,6 +113,6 @@ EGame CFontLoader::GetFormatVersion(u32 Version)
     case 2: return ePrime;
     case 4: return eEchoes;
     case 5: return eCorruption;
-    default: return eUnknownVersion;
+    default: return eUnknownGame;
     }
 }

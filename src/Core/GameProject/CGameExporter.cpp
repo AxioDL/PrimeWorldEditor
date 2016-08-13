@@ -80,7 +80,7 @@ void CGameExporter::CopyDiscData()
             continue;
 
         // Hack to determine game
-        if (Game() == eUnknownVersion)
+        if (Game() == eUnknownGame)
         {
             TWideString Name = FullPath.GetFileName(false);
             if      (Name == L"MetroidCWP")  SetGame(ePrimeDemo);
@@ -107,7 +107,7 @@ void CGameExporter::CopyDiscData()
 #endif
     }
 
-    ASSERT(Game() != eUnknownVersion);
+    ASSERT(Game() != eUnknownGame);
     mpProject->SetGame(Game());
     mpProject->SetProjectName(CMasterTemplate::FindGameName(Game()));
 }

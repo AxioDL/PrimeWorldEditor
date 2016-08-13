@@ -1,10 +1,10 @@
 #ifndef CSCRIPTCOOKER_H
 #define CSCRIPTCOOKER_H
 
-#include "Core/Resource/EGame.h"
 #include "Core/Resource/Script/CScriptLayer.h"
 #include "Core/Resource/Script/CScriptObject.h"
 #include <FileIO/FileIO.h>
+#include <Common/EGame.h>
 
 class CScriptCooker
 {

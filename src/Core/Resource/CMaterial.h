@@ -3,13 +3,13 @@
 
 #include "CMaterialPass.h"
 #include "CTexture.h"
-#include "EGame.h"
 #include "TResPtr.h"
 #include "Core/Resource/Model/EVertexAttribute.h"
 #include "Core/Render/FRenderOptions.h"
 #include "Core/OpenGL/CShader.h"
 
 #include <Common/CColor.h>
+#include <Common/EGame.h>
 #include <Common/Flags.h>
 #include <Common/types.h>
 #include <FileIO/IInputStream.h>

@@ -446,7 +446,7 @@ CModel* CModelLoader::LoadCMDL(IInputStream& rCMDL, CResourceEntry *pEntry)
     // The rest is common to all CMDL versions
     Loader.mVersion = GetFormatVersion(Version);
 
-    if (Loader.mVersion == eUnknownVersion)
+    if (Loader.mVersion == eUnknownGame)
     {
         Log::FileError(rCMDL.GetSourceString(), "Unsupported CMDL version: " + TString::HexString(Magic, 0));
         return nullptr;
@@ -644,6 +644,6 @@ EGame CModelLoader::GetFormatVersion(u32 Version)
         case 0x4: return eEchoes;
         case 0x5: return eCorruption;
         case 0xA: return eReturns;
-        default: return eUnknownVersion;
+        default: return eUnknownGame;
     }
 }

@@ -3,9 +3,9 @@
 
 #include "CAnimSet.h"
 #include "CResourceInfo.h"
-#include "EGame.h"
 #include "TResPtr.h"
 #include "Core/Resource/Model/CModel.h"
+#include <Common/EGame.h>
 
 class CAnimationParameters
 {

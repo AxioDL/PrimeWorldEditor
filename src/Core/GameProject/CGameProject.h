@@ -3,9 +3,9 @@
 
 #include "CPackage.h"
 #include "CResourceStore.h"
-#include "Core/Resource/EGame.h"
-#include <Common/FileUtil.h>
 #include <Common/CAssetID.h>
+#include <Common/EGame.h>
+#include <Common/FileUtil.h>
 #include <Common/TString.h>
 #include <Common/types.h>
 
@@ -29,12 +29,12 @@ class CGameProject
 
 public:
     CGameProject()
-        : mGame(eUnknownVersion)
+        : mGame(eUnknownGame)
         , mProjectName("Unnamed Project")
     {}
 
     CGameProject(const TWideString& rkProjRootDir)
-        : mGame(eUnknownVersion)
+        : mGame(eUnknownGame)
         , mProjectName("Unnamed Project")
         , mProjectRoot(rkProjRootDir)
         , mResourceDBPath(L"ResourceDB.rdb")

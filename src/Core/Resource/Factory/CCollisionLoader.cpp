@@ -207,6 +207,6 @@ EGame CCollisionLoader::GetFormatVersion(u32 Version)
     case 0x3: return ePrime;
     case 0x4: return eEchoes;
     case 0x5: return eReturns;
-    default: return eUnknownVersion;
+    default: return eUnknownGame;
     }
 }

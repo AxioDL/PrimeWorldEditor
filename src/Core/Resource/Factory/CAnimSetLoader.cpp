@@ -232,7 +232,7 @@ CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS, CResourceEntry *pEntry)
 
         rANCS.Seek(0x4, SEEK_CUR); // Skipping node self-index
         u16 Unknown1 = rANCS.ReadShort();
-        if (iNode == 0 && Loader.mVersion == eUnknownVersion)
+        if (iNode == 0 && Loader.mVersion == eUnknownGame)
         {
             Loader.mVersion = (Unknown1 == 0xA) ? eEchoes : ePrime; // Best version indicator we know of unfortunately
             Loader.pSet->SetGame(Loader.mVersion);
