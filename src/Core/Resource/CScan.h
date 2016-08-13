@@ -3,8 +3,8 @@
 
 #include "CResource.h"
 #include "CStringTable.h"
-#include "EGame.h"
 #include "TResPtr.h"
+#include <Common/EGame.h>
 
 class CScan : public CResource
 {

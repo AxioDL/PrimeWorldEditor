@@ -5,7 +5,7 @@
 // ************ IPropertyTemplate ************
 EGame IPropertyTemplate::Game() const
 {
-    return (mpMasterTemplate ? mpMasterTemplate->Game() : eUnknownVersion);
+    return (mpMasterTemplate ? mpMasterTemplate->Game() : eUnknownGame);
 }
 
 bool IPropertyTemplate::IsInVersion(u32 Version) const

@@ -293,7 +293,7 @@ CWorld* CWorldLoader::LoadMLVL(IInputStream& rMLVL, CResourceEntry *pEntry)
 
     u32 FileVersion = rMLVL.ReadLong();
     EGame Version = GetFormatVersion(FileVersion);
-    if (Version == eUnknownVersion)
+    if (Version == eUnknownGame)
     {
         Log::FileError(rMLVL.GetSourceString(), "Unsupported MLVL version: " + TString::HexString(FileVersion, 2));
         return nullptr;
@@ -324,6 +324,6 @@ EGame CWorldLoader::GetFormatVersion(u32 Version)
         case 0x17: return eEchoes;
         case 0x19: return eCorruption;
         case 0x1B: return eReturns;
-        default: return eUnknownVersion;
+        default: return eUnknownGame;
     }
 }

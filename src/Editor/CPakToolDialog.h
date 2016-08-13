@@ -1,9 +1,9 @@
 #ifndef CPAKTOOLDIALOG
 #define CPAKTOOLDIALOG
 
+#include <Common/EGame.h>
 #include <Common/Log.h>
 #include <Common/types.h>
-#include <Core/Resource/EGame.h>
 #include "Editor/UICommon.h"
 
 #include <QDir>

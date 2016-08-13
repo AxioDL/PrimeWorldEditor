@@ -3,7 +3,7 @@
 
 #include "Core/Resource/TResPtr.h"
 #include "Core/Resource/CAnimation.h"
-#include "Core/Resource/EGame.h"
+#include <Common/EGame.h>
 
 class CAnimationLoader
 {

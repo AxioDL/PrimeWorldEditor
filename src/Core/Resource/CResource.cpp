@@ -124,7 +124,7 @@ TString GetResourceRawExtension(EResType Type, EGame /*Game*/)
 
 TString GetResourceCookedExtension(EResType Type, EGame Game)
 {
-    if (Game == eUnknownVersion)
+    if (Game == eUnknownGame)
         Game = ePrime;
 
     u32 GameTypeID = GetGameTypeID(Game, Type);
@@ -151,7 +151,7 @@ TString GetResourceCookedExtension(EResType Type, EGame Game)
     public: \
         CResourceTypeRegistrant__##CookedExtension() \
         { \
-            ASSERT(FirstGame != eUnknownVersion); \
+            ASSERT(FirstGame != eUnknownGame); \
             \
             /* Register extension with resource type (should be consistent across all games) */ \
             u32 IntExt = CFourCC(#CookedExtension).ToLong(); \

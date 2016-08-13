@@ -4,7 +4,7 @@
 
 CWorld::CWorld(CResourceEntry *pEntry /*= 0*/)
     : CResource(pEntry)
-    , mWorldVersion(eUnknownVersion)
+    , mWorldVersion(eUnknownGame)
     , mpWorldName(nullptr)
     , mpDarkWorldName(nullptr)
     , mpSaveWorld(nullptr)

@@ -56,7 +56,7 @@ CSkeleton* CSkeletonLoader::LoadCINF(IInputStream& rCINF, CResourceEntry *pEntry
         // rotation value in MP2. The max bone count is 100 so the linked bone count will not be higher
         // than that. Additionally, every bone links to its parent at least and every skeleton (as far as I
         // know) has at least two bones so the linked bone count will never be 0.
-        if (Game == eUnknownVersion)
+        if (Game == eUnknownGame)
         {
             u32 Check = rCINF.PeekLong();
             Game = ((Check > 100 || Check == 0) ? eEchoes : ePrime);

@@ -749,6 +749,6 @@ EGame CAreaLoader::GetFormatVersion(u32 Version)
         case 0x1D: return eCorruptionProto;
         case 0x1E: return eCorruption;
         case 0x20: return eReturns;
-        default: return eUnknownVersion;
+        default: return eUnknownGame;
     }
 }

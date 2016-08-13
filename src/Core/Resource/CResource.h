@@ -48,7 +48,7 @@ public:
     inline TString Source() const           { return mpEntry ? mpEntry->CookedAssetPath(true).GetFileName() : ""; }
     inline TString FullSource() const       { return mpEntry ? mpEntry->CookedAssetPath(true) : ""; }
     inline CAssetID ID() const              { return mpEntry ? mpEntry->ID() : CAssetID::skInvalidID64; }
-    inline EGame Game() const               { return mpEntry ? mpEntry->Game() : eUnknownVersion; }
+    inline EGame Game() const               { return mpEntry ? mpEntry->Game() : eUnknownGame; }
     inline bool IsReferenced() const        { return mRefCount > 0; }
     inline void SetGame(EGame Game)         { if (mpEntry) mpEntry->SetGame(Game); }
     inline void Lock()                      { mRefCount++; }

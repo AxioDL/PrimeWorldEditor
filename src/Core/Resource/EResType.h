@@ -1,7 +1,7 @@
 #ifndef ERESTYPE
 #define ERESTYPE
 
-#include "EGame.h"
+#include <Common/EGame.h>
 #include <Common/TString.h>
 
 enum EResType

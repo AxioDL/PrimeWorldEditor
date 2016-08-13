@@ -75,7 +75,7 @@ void CAnimationLoader::ReadUncompressedANIM()
             NumBoneChannels++;
     }
 
-    if (mGame == eUnknownVersion)
+    if (mGame == eUnknownGame)
     {
         mGame = UncompressedCheckVersion();
         mpAnim->SetGame(mGame);
@@ -211,7 +211,7 @@ void CAnimationLoader::ReadCompressedANIM()
     // Header
     mpInput->Seek(0x4, SEEK_CUR); // Skip alloc size
 
-    if (mGame == eUnknownVersion)
+    if (mGame == eUnknownGame)
     {
         mGame = (mpInput->PeekShort() == 0x0101 ? eEchoes : ePrime);
         mpAnim->SetGame(mGame);

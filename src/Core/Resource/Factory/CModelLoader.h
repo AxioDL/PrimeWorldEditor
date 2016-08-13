@@ -5,7 +5,7 @@
 #include "Core/GameProject/CResourceStore.h"
 #include "Core/Resource/Model/CBasicModel.h"
 #include "Core/Resource/Model/CModel.h"
-#include "Core/Resource/EGame.h"
+#include <Common/EGame.h>
 #include <Common/Flags.h>
 
 #include <FileIO/FileIO.h>

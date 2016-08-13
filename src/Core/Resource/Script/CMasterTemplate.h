@@ -3,7 +3,7 @@
 
 #include "CLink.h"
 #include "CScriptTemplate.h"
-#include "Core/Resource/EGame.h"
+#include <Common/EGame.h>
 #include <Common/types.h>
 #include <map>
 

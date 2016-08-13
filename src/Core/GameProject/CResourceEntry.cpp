@@ -25,7 +25,7 @@ CResourceEntry::CResourceEntry(CResourceStore *pStore, const CAssetID& rkID,
 
     mpDirectory = mpStore->GetVirtualDirectory(rkDir, Transient, true);
     if (mpDirectory) mpDirectory->AddChild(L"", this);
-    mGame = ((Transient || !mpStore->ActiveProject()) ? eUnknownVersion : mpStore->ActiveProject()->Game());
+    mGame = ((Transient || !mpStore->ActiveProject()) ? eUnknownGame : mpStore->ActiveProject()->Game());
 }
 
 CResourceEntry::~CResourceEntry()

@@ -2,7 +2,7 @@
 #define CWORLDCOOKER_H
 
 #include "Core/Resource/CWorld.h"
-#include "Core/Resource/EGame.h"
+#include <Common/EGame.h>
 #include <Common/types.h>
 
 class CWorldCooker

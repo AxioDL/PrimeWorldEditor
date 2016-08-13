@@ -2,7 +2,7 @@
 #define CDEPENDENCYGROUPLOADER_H
 
 #include "Core/Resource/CDependencyGroup.h"
-#include "Core/Resource/EGame.h"
+#include <Common/EGame.h>
 
 class CDependencyGroupLoader
 {

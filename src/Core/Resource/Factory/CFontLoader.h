@@ -3,7 +3,7 @@
 
 #include "Core/GameProject/CResourceStore.h"
 #include "Core/Resource/CFont.h"
-#include "Core/Resource/EGame.h"
+#include <Common/EGame.h>
 
 class CFontLoader
 {
