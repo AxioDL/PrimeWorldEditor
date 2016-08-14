@@ -190,7 +190,7 @@
         <object ID="SUBT" template="Script/Subtitles.xml"/>
         <object ID="SWBT" template="Script/SwarmBot.xml"/>
         <object ID="SWJT" template="Script/ScrewAttackWallJumpTarget.xml"/>
-        <object ID="SWRM" template="Script/Swarm.xml"/>
+        <object ID="SWRM" template="Script/WallCrawlerSwarm.xml"/>
         <object ID="SWTC" template="Script/Switch.xml"/>
         <object ID="TEL1" template="Script/WorldTeleporter.xml"/>
         <object ID="TGPT" template="Script/TargetingPoint.xml"/>

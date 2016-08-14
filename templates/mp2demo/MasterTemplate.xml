@@ -83,7 +83,7 @@
         <object ID="PARA" template="Script/Parasite.xml"/>
         <object ID="PCAM" template="Script/PathCamera.xml"/>
         <object ID="PCKP" template="Script/Pickup.xml"/>
-        <object ID="PILB" template="Script/Pillbug.xml"/>
+        <object ID="PILB" template="Script/PillBug.xml"/>
         <object ID="PIRT" template="Script/SpacePirate.xml"/>
         <object ID="PKGN" template="Script/PickupGenerator.xml"/>
         <object ID="PLAC" template="Script/PlayerActor.xml"/>
@@ -131,7 +131,7 @@
         <object ID="STOD" template="Script/StoneToad.xml"/>
         <object ID="SUBT" template="Script/Subtitle.xml"/>
         <object ID="SURC" template="Script/SurfaceCamera.xml"/>
-        <object ID="SWRM" template="Script/Swarm.xml"/>
+        <object ID="SWRM" template="Script/WallCrawlerSwarm.xml"/>
         <object ID="SWTC" template="Script/Switch.xml"/>
         <object ID="TEL1" template="Script/WorldTeleporter.xml"/>
         <object ID="TGPT" template="Script/TargetingPoint.xml"/>

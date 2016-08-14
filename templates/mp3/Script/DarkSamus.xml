@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ScriptTemplate version="4">
     <name>DarkSamus</name>
+    <modules>
+        <module>RSO_DarkSamus.rso</module>
+    </modules>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <struct ID="0x0214A7EB" type="multi">

@@ -5,7 +5,7 @@
             <default>1.0, 1.0, 1.0, 1.0</default>
         </property>
         <enum ID="0x6B5E7509">
-            <default>0x01</default>
+            <default>0x00000001</default>
             <enumerators>
                 <enumerator ID="0x00" name="Unknown 1"/>
                 <enumerator ID="0x01" name="Normal World Lighting"/>

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ScriptTemplate version="4">
     <name>TeamAI</name>
+    <modules>
+        <module>RSO_ScriptTeamAiMgr.rso</module>
+    </modules>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <property ID="0xBF37E518" type="long">

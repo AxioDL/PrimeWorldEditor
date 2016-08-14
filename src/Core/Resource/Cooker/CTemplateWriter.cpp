@@ -244,6 +244,20 @@ void CTemplateWriter::SaveScriptTemplate(CScriptTemplate *pTemp)
     pName->SetText(*pTemp->Name());
     pRoot->LinkEndChild(pName);
 
+    // Write modules
+    if (!pTemp->mModules.empty())
+    {
+        XMLElement *pModules = ScriptXML.NewElement("modules");
+        pRoot->LinkEndChild(pModules);
+
+        for (u32 iMod = 0; iMod < pTemp->mModules.size(); iMod++)
+        {
+            XMLElement *pModule = ScriptXML.NewElement("module");
+            pModule->SetText(*pTemp->mModules[iMod]);
+            pModules->LinkEndChild(pModule);
+        }
+    }
+
     // Write properties
     SaveProperties(&ScriptXML, pRoot, pTemp->mpBaseStruct);
 

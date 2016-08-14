@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ScriptTemplate version="4">
     <name>SplitterMainChassis</name>
+    <modules>
+        <module>Splitter.rel</module>
+    </modules>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <struct ID="0xB3774750" template="Structs/PatternedInfo.xml">
@@ -43,9 +46,9 @@
                 </property>
                 <struct ID="0xEFACFA50" template="Structs/DamageInfo.xml">
                     <properties>
-                        <property ID="0x119FBD31">
-                            <default>11</default>
-                        </property>
+                        <enum ID="0x119FBD31">
+                            <default>0x0000000B</default>
+                        </enum>
                         <property ID="0xF2D02613">
                             <default>20.0</default>
                         </property>
@@ -110,9 +113,9 @@
                 </property>
                 <struct ID="0xCFACFF53" template="Structs/DamageInfo.xml">
                     <properties>
-                        <property ID="0x119FBD31">
-                            <default>11</default>
-                        </property>
+                        <enum ID="0x119FBD31">
+                            <default>0x0000000B</default>
+                        </enum>
                         <property ID="0xF2D02613">
                             <default>20.0</default>
                         </property>

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ScriptTemplate version="4">
     <name>Blogg</name>
+    <modules>
+        <module>Blogg.rel</module>
+    </modules>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <struct ID="0xB3774750" template="Structs/PatternedInfo.xml">

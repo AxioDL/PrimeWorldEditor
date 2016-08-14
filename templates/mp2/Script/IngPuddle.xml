@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ScriptTemplate version="4">
     <name>IngPuddle</name>
+    <modules>
+        <module>GeomBlobV2.rel</module>
+        <module>Ing.rel</module>
+        <module>IngPuddle.rel</module>
+    </modules>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>

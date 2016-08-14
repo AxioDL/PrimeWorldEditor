@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ScriptTemplate version="4">
     <name>PlayerActor</name>
+    <modules>
+        <module>ScriptPlayerActor.rel</module>
+    </modules>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <property ID="0xF344C0B0" type="vector3f">

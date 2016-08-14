@@ -56,9 +56,9 @@
         <property ID="0xEF485DB9" type="file" extensions="WPSC"/>
         <struct ID="0x553B1339" template="Structs/DamageInfo.xml">
             <properties>
-                <property ID="0x119FBD31">
-                    <default>11</default>
-                </property>
+                <enum ID="0x119FBD31">
+                    <default>0x0000000B</default>
+                </enum>
             </properties>
         </struct>
     </properties>

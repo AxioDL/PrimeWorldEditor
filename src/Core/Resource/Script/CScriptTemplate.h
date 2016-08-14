@@ -68,6 +68,7 @@ private:
     CStructTemplate *mpBaseStruct;
     std::list<CScriptObject*> mObjectList;
     TString mTemplateName;
+    std::vector<TString> mModules;
     TString mSourceFile;
     u32 mObjectID;
     bool mVisible;
@@ -116,27 +117,28 @@ public:
     CCollisionMeshGroup* FindCollision(CPropertyStruct *pProperties);
 
     // Accessors
-    inline CMasterTemplate* MasterTemplate() const  { return mpMaster; }
-    inline TString Name() const                     { return mTemplateName; }
-    inline ERotationType RotationType() const       { return mRotationType; }
-    inline EScaleType ScaleType() const             { return mScaleType; }
-    inline float PreviewScale() const               { return mPreviewScale; }
-    inline u32 ObjectID() const                     { return mObjectID; }
-    inline bool IsVisible() const                   { return mVisible; }
-    inline TString SourceFile() const               { return mSourceFile; }
-    inline CStructTemplate* BaseStruct() const      { return mpBaseStruct; }
-    inline u32 NumAttachments() const               { return mAttachments.size(); }
-    const SAttachment& Attachment(u32 Index) const  { return mAttachments[Index]; }
+    inline CMasterTemplate* MasterTemplate() const          { return mpMaster; }
+    inline TString Name() const                             { return mTemplateName; }
+    inline ERotationType RotationType() const               { return mRotationType; }
+    inline EScaleType ScaleType() const                     { return mScaleType; }
+    inline float PreviewScale() const                       { return mPreviewScale; }
+    inline u32 ObjectID() const                             { return mObjectID; }
+    inline bool IsVisible() const                           { return mVisible; }
+    inline TString SourceFile() const                       { return mSourceFile; }
+    inline CStructTemplate* BaseStruct() const              { return mpBaseStruct; }
+    inline u32 NumAttachments() const                       { return mAttachments.size(); }
+    const SAttachment& Attachment(u32 Index) const          { return mAttachments[Index]; }
+    const std::vector<TString>& RequiredModules() const     { return mModules; }
 
-    inline bool HasName() const                     { return !mNameIDString.IsEmpty(); }
-    inline bool HasPosition() const                 { return !mPositionIDString.IsEmpty(); }
-    inline bool HasRotation() const                 { return !mRotationIDString.IsEmpty(); }
-    inline bool HasScale() const                    { return !mScaleIDString.IsEmpty(); }
-    inline bool HasActive() const                   { return !mActiveIDString.IsEmpty(); }
+    inline bool HasName() const             { return !mNameIDString.IsEmpty(); }
+    inline bool HasPosition() const         { return !mPositionIDString.IsEmpty(); }
+    inline bool HasRotation() const         { return !mRotationIDString.IsEmpty(); }
+    inline bool HasScale() const            { return !mScaleIDString.IsEmpty(); }
+    inline bool HasActive() const           { return !mActiveIDString.IsEmpty(); }
 
-    inline void SetVisible(bool Visible)            { mVisible = Visible; }
+    inline void SetVisible(bool Visible)    { mVisible = Visible; }
 
-    inline void DebugPrintProperties()              { mpBaseStruct->DebugPrintProperties(""); }
+    inline void DebugPrintProperties()      { mpBaseStruct->DebugPrintProperties(""); }
 
     // Object Tracking
     u32 NumObjects() const;
