@@ -234,6 +234,8 @@ public:
         // For PlayerActor animsets we want to include only the empty suit (char 5) in the dependency list. This is to
         // accomodate the dynamic loading the game does for PlayerActors to avoid having assets for suits the player
         // doesn't have in memory. We want common assets (animations, etc) in the list but not per-character assets.
+        // The reason to include empty suit is to make sure resources that are stored as per-character data but are
+        // actually common to every character, such as particle effects, are still included in the list.
         ASSERT(pEntry->ResourceType() == eAnimSet);
         CAnimSetDependencyTree *pTree = static_cast<CAnimSetDependencyTree*>(pEntry->Dependencies());
         mLayerUsedAssets.insert(pTree->ID());

@@ -997,7 +997,7 @@ void CUnsupportedParticleLoader::ParseAssetFunction(IInputStream& rFile)
         break;
 
     case kAssetCNST:
-        mpGroup->AddDependency( CAssetID(rFile, mpGroup->Game() <= eEchoes ? e32Bit : e64Bit) );
+        mpGroup->AddDependency( CAssetID(rFile, mpGroup->Game()) );
         break;
 
     default:
@@ -1015,7 +1015,6 @@ void CUnsupportedParticleLoader::ParseSpawnSystemKeyframeData(IInputStream& rFil
 
     rFile.Seek(0x10, SEEK_CUR); // Skip unneeded values
     u32 Count = rFile.ReadLong();
-    EIDLength IDLength = (mpGroup->Game() <= eEchoes ? e32Bit : e64Bit);
 
     for (u32 iKey = 0; iKey < Count; iKey++)
     {
@@ -1024,7 +1023,7 @@ void CUnsupportedParticleLoader::ParseSpawnSystemKeyframeData(IInputStream& rFil
 
         for (u32 iInfo = 0; iInfo < InfoCount; iInfo++)
         {
-            mpGroup->AddDependency( CAssetID(rFile, IDLength) );
+            mpGroup->AddDependency( CAssetID(rFile, mpGroup->Game()) );
             rFile.Seek(0xC, SEEK_CUR); // Skip unknown/unneeded values
         }
     }

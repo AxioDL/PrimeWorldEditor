@@ -110,7 +110,7 @@ void CScriptLoader::ReadProperty(IProperty *pProp, u32 Size, IInputStream& rSCLY
     {
         TFileProperty *pFileCast = static_cast<TFileProperty*>(pProp);
 
-        CAssetID ResID = (mVersion < eCorruptionProto ? rSCLY.ReadLong() : rSCLY.ReadLongLong());
+        CAssetID ResID(rSCLY, mVersion);
         const TStringList& rkExtensions = static_cast<CFileTemplate*>(pTemp)->Extensions();
 
         CResourceInfo Info(ResID, CFourCC(!rkExtensions.empty() ? rkExtensions.front() : "UNKN"));

@@ -95,7 +95,7 @@ void CDeleteSelectionCommand::undo()
         mpEditor->NotifyNodeAboutToBeSpawned();
 
         CMemoryInStream Mem(rNode.InstanceData.data(), rNode.InstanceData.size(), IOUtil::eBigEndian);
-        CScriptObject *pInstance = CScriptLoader::LoadInstance(Mem, rNode.pArea, rNode.pLayer, rNode.pArea->Version(), true);
+        CScriptObject *pInstance = CScriptLoader::LoadInstance(Mem, rNode.pArea, rNode.pLayer, rNode.pArea->Game(), true);
         CScriptNode *pNode = mpEditor->Scene()->CreateScriptNode(pInstance, rNode.NodeID);
         rNode.pArea->AddInstanceToArea(pInstance);
         rNode.pLayer->AddInstance(pInstance, rNode.LayerIndex);

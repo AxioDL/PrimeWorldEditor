@@ -2,6 +2,7 @@
 #define CXMLWRITER
 
 #include "IArchive.h"
+#include "Common/CFourCC.h"
 #include <iostream>
 #include <tinyxml2.h>
 
@@ -12,16 +13,24 @@ class CXMLWriter : public IArchive
     tinyxml2::XMLElement *mpCurElem;
 
 public:
-    CXMLWriter(const TString& rkRootName, const TString& rkFileName)
+    CXMLWriter(const TString& rkFileName, const TString& rkRootName, u32 FileVersion, EGame Game = eUnknownGame)
         : IArchive()
         , mOutFilename(rkFileName)
     {
+        mFileVersion = FileVersion;
+        mGame = Game;
+
         // Create declaration and root node
         tinyxml2::XMLDeclaration *pDecl = mDoc.NewDeclaration();
         mDoc.LinkEndChild(pDecl);
 
         mpCurElem = mDoc.NewElement(*rkRootName);
         mDoc.LinkEndChild(mpCurElem);
+
+        // Write version data
+        mpCurElem->SetAttribute("FileVer", (int) FileVersion);
+        mpCurElem->SetAttribute("ArchiveVer", (int) skCurrentArchiveVersion);
+        if (Game != eUnknownGame) mpCurElem->SetAttribute("Game", *GetGameID(Game).ToString());
     }
 
     ~CXMLWriter()

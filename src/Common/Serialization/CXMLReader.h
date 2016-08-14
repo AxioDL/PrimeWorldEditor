@@ -15,9 +15,15 @@ public:
         : IArchive()
         , mJustEndedParam(false)
     {
-        // Load XML and set current element to the root element
+        // Load XML and set current element to the root element; read version
         mDoc.LoadFile(*rkFileName);
         mpCurElem = mDoc.FirstChildElement();
+        ASSERT(mpCurElem != nullptr);
+
+        mFileVersion = TString( mpCurElem->Attribute("FileVer") ).ToInt32(10);
+        mArchiveVersion = TString( mpCurElem->Attribute("ArchiveVer") ).ToInt32(10);
+        const char *pkGameAttr = mpCurElem->Attribute("Game");
+        mGame = pkGameAttr ? eUnknownGame : GetGameForID( CFourCC(pkGameAttr) );
     }
 
 protected:

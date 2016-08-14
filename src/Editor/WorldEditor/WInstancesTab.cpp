@@ -313,7 +313,7 @@ void WInstancesTab::OnHideAllExceptTypeAction()
 
     else
     {
-        EGame Game = mpEditor->ActiveArea()->Version();
+        EGame Game = mpEditor->CurrentGame();
         CMasterTemplate *pMaster = CMasterTemplate::MasterForGame(Game);
 
         for (u32 iTemp = 0; iTemp < pMaster->NumScriptTemplates(); iTemp++)
@@ -344,7 +344,7 @@ void WInstancesTab::OnUnhideAllTypes()
 
     else
     {
-        EGame Game = mpEditor->ActiveArea()->Version();
+        EGame Game = mpEditor->CurrentGame();
         CMasterTemplate *pMaster = CMasterTemplate::MasterForGame(Game);
 
         for (u32 iTemp = 0; iTemp < pMaster->NumScriptTemplates(); iTemp++)
@@ -378,7 +378,7 @@ void WInstancesTab::OnUnhideAll()
 
     if (TypesRoot.isValid())
     {
-        EGame Game = mpEditor->ActiveArea()->Version();
+        EGame Game = mpEditor->CurrentGame();
         CMasterTemplate *pMaster = CMasterTemplate::MasterForGame(Game);
 
         for (u32 iTemp = 0; iTemp < pMaster->NumScriptTemplates(); iTemp++)

@@ -24,7 +24,6 @@ class CGameArea : public CResource
     friend class CAreaLoader;
     friend class CAreaCooker;
 
-    EGame mVersion;
     u32 mWorldIndex;
     u32 mVertexCount;
     u32 mTriangleCount;
@@ -84,7 +83,6 @@ public:
     void DeleteInstance(CScriptObject *pInstance);
 
     // Inline Accessors
-    inline EGame Version() const                                { return mVersion; }
     inline u32 WorldIndex() const                               { return mWorldIndex; }
     inline CTransform4f Transform() const                       { return mTransform; }
     inline u32 NumWorldModels() const                           { return mWorldModels.size(); }
