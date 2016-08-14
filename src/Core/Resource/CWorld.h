@@ -14,21 +14,17 @@ class CWorld : public CResource
     friend class CWorldCooker;
 
     // Instances of CResource pointers are placeholders for unimplemented resource types (eg CMapWorld)
-    EGame mWorldVersion;
     TResPtr<CStringTable> mpWorldName;
     TResPtr<CStringTable> mpDarkWorldName;
     TResPtr<CResource>    mpSaveWorld;
     TResPtr<CModel>       mpDefaultSkybox;
     TResPtr<CResource>    mpMapWorld;
+    u32 mTempleKeyWorldIndex;
 
-    u32 mUnknown1;
-    u32 mUnknownAreas;
-
-    u32 mUnknownAGSC;
     struct SAudioGrp
     {
         CAssetID ResID;
-        u32 Unknown;
+        u32 GroupID;
     };
     std::vector<SAudioGrp> mAudioGrps;
 
@@ -37,7 +33,7 @@ class CWorld : public CResource
         u32 InstanceID;
         u32 TargetID;
         u16 Message;
-        u8 Unknown;
+        bool Active;
     };
     std::vector<SMemoryRelay> mMemoryRelays;
 
@@ -47,15 +43,14 @@ class CWorld : public CResource
         TResPtr<CStringTable> pAreaName;
         CTransform4f Transform;
         CAABox AetherBox;
-        CAssetID AreaResID; // Loading every single area as a CResource would be a very bad idea
-        u64 AreaID;
+        CAssetID AreaResID; // Area resource ID
+        CAssetID AreaID; // Internal area ID (same length as an asset ID)
         bool AllowPakDuplicates;
 
+        std::vector<SMemoryRelay> MemoryRelays; // Only needed for MP1
         std::vector<u16> AttachedAreaIDs;
-        std::vector<CAssetID> Dependencies;
-        std::vector<TString> RelFilenames;
+        std::vector<TString> RelFilenames; // Needs to be removed & generated at cook; temporarily leaving for debugging
         std::vector<u32> RelOffsets;
-        u32 CommonDependenciesStart;
 
         struct SDock
         {
@@ -72,9 +67,8 @@ class CWorld : public CResource
         struct SLayer
         {
             TString LayerName;
-            bool EnabledByDefault;
+            bool Active;
             u8 LayerID[16];
-            u32 LayerDependenciesStart; // Offset into Dependencies vector
         };
         std::vector<SLayer> Layers;
     };
@@ -97,7 +91,6 @@ public:
     friend void Serialize(IArchive& rArc, SAudioGrp& rAudioGrp);
 
     // Accessors
-    inline EGame Version() const                { return mWorldVersion; }
     inline CStringTable* WorldName() const      { return mpWorldName; }
     inline CStringTable* DarkWorldName() const  { return mpDarkWorldName; }
     inline CResource* SaveWorld() const         { return mpSaveWorld; }

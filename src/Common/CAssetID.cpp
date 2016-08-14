@@ -53,6 +53,11 @@ CAssetID::CAssetID(IInputStream& rInput, EIDLength Length)
     else                    mID = rInput.ReadLongLong();
 }
 
+CAssetID::CAssetID(IInputStream& rInput, EGame Game)
+{
+    *this = CAssetID(rInput, (Game <= eEchoes ? e32Bit : e64Bit));
+}
+
 TString CAssetID::ToString() const
 {
     if (mLength == e32Bit)

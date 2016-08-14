@@ -17,7 +17,7 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
     {
         mpWorld->mpWorldName = gpResourceStore->LoadResource(rMLVL.ReadLong(), "STRG");
         if (mVersion == eEchoes) mpWorld->mpDarkWorldName = gpResourceStore->LoadResource(rMLVL.ReadLong(), "STRG");
-        if (mVersion >= eEchoes) mpWorld->mUnknown1 = rMLVL.ReadLong();
+        if (mVersion >= eEchoes) mpWorld->mTempleKeyWorldIndex = rMLVL.ReadLong();
         if (mVersion >= ePrime) mpWorld->mpSaveWorld = gpResourceStore->LoadResource(rMLVL.ReadLong(), "SAVW");
         mpWorld->mpDefaultSkybox = gpResourceStore->LoadResource(rMLVL.ReadLong(), "CMDL");
     }
@@ -42,40 +42,25 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
             MemRelay.InstanceID = rMLVL.ReadLong();
             MemRelay.TargetID = rMLVL.ReadLong();
             MemRelay.Message = rMLVL.ReadShort();
-            MemRelay.Unknown = rMLVL.ReadByte();
+            MemRelay.Active = rMLVL.ReadBool();
             mpWorld->mMemoryRelays.push_back(MemRelay);
         }
     }
 
     // Areas - here's the real meat of the file
     u32 NumAreas = rMLVL.ReadLong();
-    if (mVersion == ePrime) mpWorld->mUnknownAreas = rMLVL.ReadLong();
+    if (mVersion == ePrime) rMLVL.Seek(0x4, SEEK_CUR);
     mpWorld->mAreas.resize(NumAreas);
 
     for (u32 iArea = 0; iArea < NumAreas; iArea++)
     {
         // Area header
         CWorld::SArea *pArea = &mpWorld->mAreas[iArea];
-
-        if (mVersion < eCorruptionProto)
-            pArea->pAreaName = gpResourceStore->LoadResource(rMLVL.ReadLong(), "STRG");
-        else
-            pArea->pAreaName = gpResourceStore->LoadResource(rMLVL.ReadLongLong(), "STRG");
-
+        pArea->pAreaName = gpResourceStore->LoadResource( CAssetID(rMLVL, mVersion), "STRG" );
         pArea->Transform = CTransform4f(rMLVL);
         pArea->AetherBox = CAABox(rMLVL);
-
-        if (mVersion < eCorruptionProto)
-        {
-            pArea->AreaResID = rMLVL.ReadLong() & 0xFFFFFFFF;
-            pArea->AreaID = rMLVL.ReadLong() & 0xFFFFFFFF;
-        }
-
-        else
-        {
-            pArea->AreaResID = rMLVL.ReadLongLong();
-            pArea->AreaID = rMLVL.ReadLongLong();
-        }
+        pArea->AreaResID = CAssetID(rMLVL, mVersion);
+        pArea->AreaID = CAssetID(rMLVL, mVersion);
 
         // Attached areas
         u32 NumAttachedAreas = rMLVL.ReadLong();
@@ -83,36 +68,15 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
         for (u32 iAttached = 0; iAttached < NumAttachedAreas; iAttached++)
             pArea->AttachedAreaIDs.push_back( rMLVL.ReadShort() );
 
-        if (mVersion < eCorruptionProto)
-            rMLVL.Seek(0x4, SEEK_CUR); // Skipping unknown value (always 0)
-
-        // Dependencies
+        // Skip dependency list - this is very fast to regenerate so there's no use in caching it
         if (mVersion < eCorruptionProto)
         {
+            rMLVL.Seek(0x4, SEEK_CUR);
             u32 NumDependencies = rMLVL.ReadLong();
-            pArea->Dependencies.reserve(NumDependencies);
+            rMLVL.Seek(NumDependencies * 8, SEEK_CUR);
 
-            for (u32 iDep = 0; iDep < NumDependencies; iDep++)
-            {
-                pArea->Dependencies.push_back( CAssetID(rMLVL, e32Bit) );
-                rMLVL.Seek(0x4, SEEK_CUR);
-            }
-
-            /**
-             * Dependency offsets - indicates an offset into the dependency list where each layer's dependencies start
-             * The count is the layer count + 1 because the last offset is for common dependencies, like terrain textures
-             */
             u32 NumDependencyOffsets = rMLVL.ReadLong();
-            pArea->Layers.resize(NumDependencyOffsets - 1);
-
-            for (u32 iOff = 0; iOff < NumDependencyOffsets; iOff++)
-            {
-                u32 *pTarget;
-                if (iOff == NumDependencyOffsets - 1) pTarget = &pArea->CommonDependenciesStart;
-                else pTarget = &pArea->Layers[iOff].LayerDependenciesStart;
-
-                *pTarget = rMLVL.ReadLong();
-            }
+            rMLVL.Seek(NumDependencyOffsets * 4, SEEK_CUR);
         }
 
         // Docks
@@ -161,16 +125,15 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
             }
         }
 
-        // Footer
+        // Internal name - MP1 doesn't have this so reuse the area's real name
         if (mVersion >= eEchoesDemo)
             pArea->InternalName = rMLVL.ReadString();
+        else
+            pArea->InternalName = (pArea->pAreaName ? pArea->pAreaName->String("ENGL", 0).ToUTF8() : "");
     }
 
     // MapWorld
-    if (mVersion < eCorruptionProto)
-        mpWorld->mpMapWorld = gpResourceStore->LoadResource(rMLVL.ReadLong(), "MAPW");
-    else
-        mpWorld->mpMapWorld = gpResourceStore->LoadResource(rMLVL.ReadLongLong(), "MAPW");
+    mpWorld->mpMapWorld = gpResourceStore->LoadResource( CAssetID(rMLVL, mVersion), "MAPW" );
     rMLVL.Seek(0x5, SEEK_CUR); // Unknown values which are always 0
 
     // AudioGrps
@@ -182,7 +145,7 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
         for (u32 iGrp = 0; iGrp < NumAudioGrps; iGrp++)
         {
             CWorld::SAudioGrp AudioGrp;
-            AudioGrp.Unknown = rMLVL.ReadLong();
+            AudioGrp.GroupID = rMLVL.ReadLong();
             AudioGrp.ResID = rMLVL.ReadLong() & 0xFFFFFFFF;
             mpWorld->mAudioGrps.push_back(AudioGrp);
         }
@@ -200,7 +163,7 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
 
         u64 LayerFlags = rMLVL.ReadLongLong();
         for (u32 iLayer = 0; iLayer < NumLayers; iLayer++)
-            pArea->Layers[iLayer].EnabledByDefault = (((LayerFlags >> iLayer) & 0x1) == 1);
+            pArea->Layers[iLayer].Active = (((LayerFlags >> iLayer) & 0x1) == 1);
     }
 
     // Layer names
@@ -262,7 +225,7 @@ void CWorldLoader::LoadReturnsMLVL(IInputStream& rMLVL)
 
         u64 LayerFlags = rMLVL.ReadLongLong();
         for (u32 iLayer = 0; iLayer < NumLayers; iLayer++)
-            pArea->Layers[iLayer].EnabledByDefault = (((LayerFlags >> iLayer) & 0x1) == 1);
+            pArea->Layers[iLayer].Active = (((LayerFlags >> iLayer) & 0x1) == 1);
     }
 
     // Layer names
@@ -303,7 +266,6 @@ CWorld* CWorldLoader::LoadMLVL(IInputStream& rMLVL, CResourceEntry *pEntry)
     CWorldLoader Loader;
     Loader.mpWorld = new CWorld(pEntry);
     Loader.mpWorld->SetGame(Version);
-    Loader.mpWorld->mWorldVersion = Version;
     Loader.mVersion = Version;
 
     if (Version != eReturns)

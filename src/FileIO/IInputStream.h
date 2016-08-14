@@ -12,6 +12,7 @@ protected:
     std::string mDataSource;
     
 public:
+    bool ReadBool();
     char ReadByte();
     short ReadShort();
     long ReadLong();

@@ -212,16 +212,16 @@ void CWorldEditor::SetArea(CWorld *pWorld, CGameArea *pArea)
     UpdateCameraOrbit();
 
     // Default bloom to Fake Bloom for Metroid Prime 3; disable for other games
-    bool AllowBloom = (mpWorld->Version() == eCorruptionProto || mpWorld->Version() == eCorruption);
+    bool AllowBloom = (mpWorld->Game() == eCorruptionProto || mpWorld->Game() == eCorruption);
     AllowBloom ? SetFakeBloom() : SetNoBloom();
     ui->menuBloom->setEnabled(AllowBloom);
 
     // Disable EGMC editing for Prime 1 and DKCR
-    bool AllowEGMC = ( (mpWorld->Version() >= eEchoesDemo) && (mpWorld->Version() <= eCorruption) );
+    bool AllowEGMC = ( (mpWorld->Game() >= eEchoesDemo) && (mpWorld->Game() <= eCorruption) );
     ui->ActionEditPoiToWorldMap->setEnabled(AllowEGMC);
 
     // Set up sidebar tabs
-    CMasterTemplate *pMaster = CMasterTemplate::MasterForGame(mpArea->Version());
+    CMasterTemplate *pMaster = CMasterTemplate::MasterForGame(mpArea->Game());
     ui->CreateTabContents->SetMaster(pMaster);
     ui->InstancesTabContents->SetMaster(pMaster);
 

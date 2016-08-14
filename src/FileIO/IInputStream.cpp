@@ -1,7 +1,16 @@
 #include "IInputStream.h"
+#include <assert.h>
 
 IInputStream::~IInputStream()
 {
+}
+
+bool IInputStream::ReadBool()
+{
+    char Val;
+    ReadBytes(&Val, 1);
+    assert(Val == 0 || Val == 1);
+    return (Val != 0 ? true : false);
 }
 
 char IInputStream::ReadByte()

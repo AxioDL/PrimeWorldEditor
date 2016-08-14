@@ -91,4 +91,5 @@ SOURCES += \
     TString.cpp \
     Log.cpp \
     FileUtil.cpp \
-    CAssetID.cpp
+    CAssetID.cpp \
+    EGame.cpp

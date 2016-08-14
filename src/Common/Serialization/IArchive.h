@@ -3,6 +3,7 @@
 
 #include "Common/AssertMacro.h"
 #include "Common/CAssetID.h"
+#include "Common/EGame.h"
 #include "Common/TString.h"
 #include "Common/types.h"
 
@@ -164,8 +165,15 @@ public:
 // Actual archive class
 class IArchive
 {
+protected:
+    s32 mFileVersion;
+    s32 mArchiveVersion;
+    EGame mGame;
+
 public:
-    IArchive() {}
+    static const u32 skCurrentArchiveVersion = 0;
+
+    IArchive() : mFileVersion(0), mArchiveVersion(skCurrentArchiveVersion), mGame(eUnknownGame) {}
     virtual ~IArchive() {}
 
     #define ENABLE_FOR_SERIAL_TYPE(SType) typename std::enable_if<SerialType<ValType, IArchive>::Type == SerialType<ValType, IArchive>::##SType, int>::type = 0
@@ -381,6 +389,11 @@ public:
     virtual void SerializeHexPrimitive(u32& rValue) = 0;
     virtual void SerializeHexPrimitive(s64& rValue) = 0;
     virtual void SerializeHexPrimitive(u64& rValue) = 0;
+
+    // Accessors
+    inline u32 FileVersion() const      { return mFileVersion; }
+    inline u32 ArchiveVersion() const   { return mArchiveVersion; }
+    inline EGame Game() const           { return mGame; }
 };
 
 // Container serialize methods

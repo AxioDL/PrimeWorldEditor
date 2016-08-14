@@ -11,6 +11,7 @@ protected:
     std::string mDataDest;
 
 public:
+    void WriteBool(bool Val);
     void WriteByte(char Val);
     void WriteShort(short Val);
     void WriteLong(long Val);

@@ -244,7 +244,7 @@ bool CResourceEntry::Save()
         TString Dir = Path.GetFileDirectory();
         FileUtil::CreateDirectory(Dir.ToUTF16());
 
-        CXMLWriter Writer(GetResourceSerialName(ResourceType()), Path);
+        CXMLWriter Writer(Path, GetResourceSerialName(ResourceType()), 0, mGame);
         mpResource->Serialize(Writer);
     }
 

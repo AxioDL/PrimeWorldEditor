@@ -343,7 +343,7 @@ void CPoiMapEditDialog::StopPicking()
 
 void CPoiMapEditDialog::OnInstanceListButtonClicked()
 {
-    EGame Game = mpEditor->ActiveArea()->Version();
+    EGame Game = mpEditor->CurrentGame();
     CScriptTemplate *pPoiTemplate = CMasterTemplate::MasterForGame(Game)->TemplateByID("POIN");
 
     CPoiListDialog Dialog(pPoiTemplate, &mSourceModel, mpEditor->Scene(), this);

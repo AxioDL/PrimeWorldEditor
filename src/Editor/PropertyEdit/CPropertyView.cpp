@@ -95,7 +95,7 @@ void CPropertyView::SetInstance(CScriptObject *pObj)
 void CPropertyView::UpdateEditorProperties(const QModelIndex& rkParent)
 {
     // Check what game this is
-    EGame Game = mpEditor->ActiveArea()->Version();
+    EGame Game = mpEditor->CurrentGame();
 
     // Iterate over all properties and update if they're an editor property.
     for (int iRow = 0; iRow < mpModel->rowCount(rkParent); iRow++)

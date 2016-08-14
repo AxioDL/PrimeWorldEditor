@@ -590,19 +590,19 @@ void CAreaLoader::ReadCollision()
 void CAreaLoader::ReadPATH()
 {
     mpSectionMgr->ToSection(mPathBlockNum);
-    mpArea->mPathID = CAssetID(*mpMREA, (mVersion <= eEchoes ? e32Bit : e64Bit));
+    mpArea->mPathID = CAssetID(*mpMREA, mVersion);
 }
 
 void CAreaLoader::ReadPTLA()
 {
     mpSectionMgr->ToSection(this->mPTLABlockNum);
-    mpArea->mPortalAreaID = CAssetID(*mpMREA, (mVersion <= eEchoes ? e32Bit : e64Bit));
+    mpArea->mPortalAreaID = CAssetID(*mpMREA, mVersion);
 }
 
 void CAreaLoader::ReadEGMC()
 {
     mpSectionMgr->ToSection(mEGMCBlockNum);
-    CAssetID EGMC(*mpMREA, (mVersion <= eEchoes ? e32Bit : e64Bit));
+    CAssetID EGMC(*mpMREA, mVersion);
     mpArea->mpPoiToWorldMap = gpResourceStore->LoadResource(EGMC, "EGMC");
 }
 
@@ -669,7 +669,6 @@ CGameArea* CAreaLoader::LoadMREA(IInputStream& MREA, CResourceEntry *pEntry)
     u32 Version = MREA.ReadLong();
     Loader.mVersion = GetFormatVersion(Version);
     Loader.mpArea->SetGame(Loader.mVersion);
-    Loader.mpArea->mVersion = Loader.mVersion;
     Loader.mpMREA = &MREA;
 
     switch (Loader.mVersion)

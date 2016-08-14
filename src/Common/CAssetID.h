@@ -1,6 +1,7 @@
 #ifndef CASSETID_H
 #define CASSETID_H
 
+#include "EGame.h"
 #include "TString.h"
 #include "types.h"
 #include <FileIO/FileIO.h>
@@ -23,6 +24,7 @@ public:
     CAssetID(u64 ID, EIDLength Length);
     CAssetID(const char* pkID);
     CAssetID(IInputStream& rInput, EIDLength Length);
+    CAssetID(IInputStream& rInput, EGame Game);
     void Write(IOutputStream& rOutput) const;
     TString ToString() const;
     bool IsValid() const;
@@ -48,6 +50,9 @@ public:
     // Static
     static CAssetID FromString(const TString& rkString);
     static CAssetID RandomID();
+
+    inline static CAssetID InvalidID(EIDLength IDLength)    { return (IDLength == e32Bit ? skInvalidID32 : skInvalidID64); }
+    inline static CAssetID InvalidID(EGame Game)            { return InvalidID(Game <= eEchoes ? e32Bit : e64Bit); }
 
     static CAssetID skInvalidID32;
     static CAssetID skInvalidID64;

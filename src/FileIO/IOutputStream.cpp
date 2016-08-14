@@ -4,6 +4,12 @@ IOutputStream::~IOutputStream()
 {
 }
 
+void IOutputStream::WriteBool(bool Val)
+{
+    char ChrVal = (Val ? 1 : 0);
+    WriteBytes(&ChrVal, 1);
+}
+
 void IOutputStream::WriteByte(char Val)
 {
     WriteBytes(&Val, 1);

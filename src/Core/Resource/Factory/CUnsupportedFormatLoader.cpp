@@ -190,8 +190,6 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadHINT(IInputStream& rHINT, CResou
         return nullptr;
     }
 
-    EIDLength IDLength = (Game <= eEchoes ? e32Bit : e64Bit);
-
     // Read main file
     CDependencyGroup *pGroup = new CDependencyGroup(pEntry);
     u32 NumHints = rHINT.ReadLong();
@@ -200,15 +198,15 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadHINT(IInputStream& rHINT, CResou
     {
         rHINT.ReadString(); // Skip hint name
         rHINT.Seek(0x8, SEEK_CUR); // Skip unknown + appear time
-        pGroup->AddDependency( CAssetID(rHINT, IDLength) ); // Pop-up STRG
+        pGroup->AddDependency( CAssetID(rHINT, Game) ); // Pop-up STRG
         rHINT.Seek(0x8, SEEK_CUR); // Skip unknowns
 
         if (Game <= eEchoes)
         {
-            pGroup->AddDependency( CAssetID(rHINT, IDLength) ); // Target MLVL
-            pGroup->AddDependency( CAssetID(rHINT, IDLength) ); // Target MREA
+            pGroup->AddDependency( CAssetID(rHINT, Game) ); // Target MLVL
+            pGroup->AddDependency( CAssetID(rHINT, Game) ); // Target MREA
             rHINT.Seek(0x4, SEEK_CUR); // Skip target room index
-            pGroup->AddDependency( CAssetID(rHINT, IDLength) ); // Map STRG
+            pGroup->AddDependency( CAssetID(rHINT, Game) ); // Map STRG
         }
     }
 

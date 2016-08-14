@@ -310,7 +310,7 @@ void CAreaCooker::WriteCookedArea(CGameArea *pArea, IOutputStream& rOut)
 {
     CAreaCooker Cooker;
     Cooker.mpArea = pArea;
-    Cooker.mVersion = pArea->Version();
+    Cooker.mVersion = pArea->Game();
 
     if (Cooker.mVersion <= eEchoes)
         Cooker.DetermineSectionNumbersPrime();
