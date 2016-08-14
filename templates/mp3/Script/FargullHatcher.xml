@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ScriptTemplate version="4">
     <name>FargullHatcher</name>
+    <modules>
+        <module>RSO_FargullHatcher.rso</module>
+    </modules>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <struct ID="0xF55B70E6" type="multi">

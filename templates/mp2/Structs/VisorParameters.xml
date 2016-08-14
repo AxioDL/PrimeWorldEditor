@@ -5,7 +5,7 @@
             <default>false</default>
         </property>
         <bitfield ID="0xCA19E8C6">
-            <default>0x0F</default>
+            <default>0x0000000F</default>
             <flags>
                 <flag mask="0x00000001" name="Combat"/>
                 <flag mask="0x00000002" name="Scan"/>

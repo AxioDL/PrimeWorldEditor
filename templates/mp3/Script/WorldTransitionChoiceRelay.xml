@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ScriptTemplate version="4">
     <name>WorldTransitionChoiceRelay</name>
+    <modules>
+        <module>RSO_ScriptWorldTeleporter.rso</module>
+    </modules>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <property ID="0x58B2A49B" type="long">

@@ -12,23 +12,23 @@
         <struct ID="0xCEC16932" template="Structs/ConditionalTest.xml"/>
         <struct ID="0xE709DDC0" template="Structs/ConditionalTest.xml">
             <properties>
-                <property ID="0xDE3E40A3">
-                    <default>0</default>
-                </property>
+                <enum ID="0xDE3E40A3">
+                    <default>0x00000000</default>
+                </enum>
             </properties>
         </struct>
         <struct ID="0x49614C51" template="Structs/ConditionalTest.xml">
             <properties>
-                <property ID="0xDE3E40A3">
-                    <default>0</default>
-                </property>
+                <enum ID="0xDE3E40A3">
+                    <default>0x00000000</default>
+                </enum>
             </properties>
         </struct>
         <struct ID="0xB498B424" template="Structs/ConditionalTest.xml">
             <properties>
-                <property ID="0xDE3E40A3">
-                    <default>0</default>
-                </property>
+                <enum ID="0xDE3E40A3">
+                    <default>0x00000000</default>
+                </enum>
             </properties>
         </struct>
     </properties>

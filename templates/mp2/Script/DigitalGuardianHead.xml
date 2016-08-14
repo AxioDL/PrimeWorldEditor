@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ScriptTemplate version="4">
     <name>DigitalGuardianHead</name>
+    <modules>
+        <module>DigitalGuardian.rel</module>
+    </modules>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <struct ID="0xB3774750" template="Structs/PatternedInfo.xml">
@@ -212,7 +215,7 @@
             <model source="property">0x0F4D73B7:0x07D8CC4F</model>
             <model source="property">0x0F4D73B7:0x2FA93722</model>
         </assets>
-		<attachments>
+        <attachments>
             <attachment propertyID="0x0F4D73B7:0x07D8CC4F" locator="Skeleton_Root"/>
         </attachments>
         <rotation_type>enabled</rotation_type>

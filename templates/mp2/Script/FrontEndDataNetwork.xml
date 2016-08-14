@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ScriptTemplate version="4">
     <name>FrontEndDataNetwork</name>
+    <modules>
+        <module>ScriptFrontEndDataNetwork.rel</module>
+    </modules>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <property ID="0x5C3C9E4A" type="bool">

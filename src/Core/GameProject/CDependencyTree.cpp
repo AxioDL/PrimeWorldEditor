@@ -1,4 +1,5 @@
 #include "CDependencyTree.h"
+#include "Core/Resource/Script/CMasterTemplate.h"
 #include "Core/Resource/Script/CScriptLayer.h"
 #include "Core/Resource/Script/CScriptObject.h"
 
@@ -369,4 +370,58 @@ CScriptInstanceDependencyTree* CAreaDependencyTree::ScriptInstanceByIndex(u32 In
 {
     ASSERT(Index >= 0 && Index < mScriptInstances.size());
     return mScriptInstances[Index];
+}
+
+void CAreaDependencyTree::GetModuleDependencies(EGame Game, std::vector<TString>& rModuleDepsOut, std::vector<u32>& rModuleLayerOffsetsOut) const
+{
+    CMasterTemplate *pMaster = CMasterTemplate::MasterForGame(Game);
+
+    // Output module list will be split per-script layer
+    // The output offset list contains two offsets per layer - start index and end index
+    for (u32 iLayer = 0; iLayer < mLayerOffsets.size(); iLayer++)
+    {
+        u32 StartIdx = mLayerOffsets[iLayer];
+        u32 EndIdx = (iLayer == mLayerOffsets.size() - 1 ? mScriptInstances.size() : mLayerOffsets[iLayer + 1]);
+
+        u32 ModuleStartIdx = rModuleDepsOut.size();
+        rModuleLayerOffsetsOut.push_back(ModuleStartIdx);
+
+        // Keep track of which types we've already checked on this layer to speed things up a little...
+        std::set<u32> UsedObjectTypes;
+
+        for (u32 iInst = StartIdx; iInst < EndIdx; iInst++)
+        {
+            CScriptInstanceDependencyTree *pInst = mScriptInstances[iInst];
+            u32 ObjType = pInst->ObjectType();
+
+            if (UsedObjectTypes.find(ObjType) == UsedObjectTypes.end())
+            {
+                // Get the module list for this object type and check whether any of them are new before adding them to the output list
+                CScriptTemplate *pTemplate = pMaster->TemplateByID(ObjType);
+                const std::vector<TString>& rkModules = pTemplate->RequiredModules();
+
+                for (u32 iMod = 0; iMod < rkModules.size(); iMod++)
+                {
+                    TString ModuleName = rkModules[iMod];
+                    bool NewModule = true;
+
+                    for (u32 iUsed = ModuleStartIdx; iUsed < rModuleDepsOut.size(); iUsed++)
+                    {
+                        if (rModuleDepsOut[iUsed] == ModuleName)
+                        {
+                            NewModule = false;
+                            break;
+                        }
+                    }
+
+                    if (NewModule)
+                        rModuleDepsOut.push_back(ModuleName);
+                }
+
+                UsedObjectTypes.insert(ObjType);
+            }
+        }
+
+        rModuleLayerOffsetsOut.push_back(rModuleDepsOut.size());
+    }
 }

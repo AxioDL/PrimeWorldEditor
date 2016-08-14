@@ -18,7 +18,7 @@
             <description>Enable Dark World damage and switch to the Dark World map.</description>
         </property>
         <enum ID="0x9D0006AB">
-            <default>0x00</default>
+            <default>0x00000000</default>
             <enumerators>
                 <enumerator ID="0x00" name="None"/>
                 <enumerator ID="0x01" name="Snow"/>

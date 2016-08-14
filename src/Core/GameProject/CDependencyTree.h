@@ -162,6 +162,7 @@ public:
 
     void AddScriptLayer(CScriptLayer *pLayer);
     CScriptInstanceDependencyTree* ScriptInstanceByIndex(u32 Index) const;
+    void GetModuleDependencies(EGame Game, std::vector<TString>& rModuleDepsOut, std::vector<u32>& rModuleLayerOffsetsOut) const;
 
     // Accessors
     inline u32 NumScriptLayers() const                  { return mLayerOffsets.size(); }

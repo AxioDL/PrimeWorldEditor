@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ScriptTemplate version="4">
     <name>VenomWeed</name>
+    <modules>
+        <module>RSO_VenomWeed.rso</module>
+    </modules>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <struct ID="0x7B71AE90" template="Structs/DamageVulnerability.xml"/>

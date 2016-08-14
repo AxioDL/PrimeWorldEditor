@@ -427,6 +427,20 @@ CScriptTemplate* CTemplateLoader::LoadScriptTemplate(XMLDocument *pDoc, const TS
         pScript->mpBaseStruct->SetName(pScript->mTemplateName);
     }
 
+    // Modules
+    XMLElement *pModulesElem = pRoot->FirstChildElement("modules");
+
+    if (pModulesElem)
+    {
+        XMLElement *pModuleElem = pModulesElem->FirstChildElement("module");
+
+        while (pModuleElem)
+        {
+            pScript->mModules.push_back(pModuleElem->GetText());
+            pModuleElem = pModuleElem->NextSiblingElement("module");
+        }
+    }
+
     // Properties
     XMLElement *pPropsElem = pRoot->FirstChildElement("properties");
 

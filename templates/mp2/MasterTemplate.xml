@@ -112,7 +112,7 @@
         <object ID="PARA" template="Script/Parasite.xml"/>
         <object ID="PCAM" template="Script/PathCamera.xml"/>
         <object ID="PCKP" template="Script/Pickup.xml"/>
-        <object ID="PILB" template="Script/Pillbug.xml"/>
+        <object ID="PILB" template="Script/PillBug.xml"/>
         <object ID="PIRT" template="Script/SpacePirate.xml"/>
         <object ID="PKGN" template="Script/PickupGenerator.xml"/>
         <object ID="PLAC" template="Script/PlayerActor.xml"/>
