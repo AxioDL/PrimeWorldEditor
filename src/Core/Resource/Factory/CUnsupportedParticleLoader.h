@@ -14,6 +14,8 @@ class CUnsupportedParticleLoader
     // Format-Specific Parameter Loading
     bool ParseParticleParameter(IInputStream& rPART);
     bool ParseElectricParameter(IInputStream& rELSC);
+    bool ParseSortedParameter(IInputStream& rSRSC);
+    bool ParseSpawnParameter(IInputStream& rSPSC);
     bool ParseSwooshParameter(IInputStream& rSWHC);
     bool ParseDecalParameter(IInputStream& rDPSC);
     bool ParseWeaponParameter(IInputStream& rWPSC);
@@ -21,6 +23,7 @@ class CUnsupportedParticleLoader
 
     // Function Loading
     void ParseBoolFunction(IInputStream& rFile);
+    void ParseBitfieldFunction(IInputStream& rFile);
     void ParseIntFunction(IInputStream& rFile);
     void ParseFloatFunction(IInputStream& rFile);
     void ParseVectorFunction(IInputStream& rFile);
@@ -30,7 +33,7 @@ class CUnsupportedParticleLoader
     void ParseEmitterFunction(IInputStream& rFile);
     void ParseAssetFunction(IInputStream& rFile);
     void ParseSpawnSystemKeyframeData(IInputStream& rFile);
-    void ParseKeyframeEmitterData(IInputStream& rFile, u32 ElemSize);
+    void ParseKeyframeEmitterData(IInputStream& rFile, const CFourCC& rkFunc, u32 ElemSize);
 
 public:
     static CDependencyGroup* LoadParticle(IInputStream& rPART, CResourceEntry *pEntry);

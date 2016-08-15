@@ -14,6 +14,7 @@ bool CUnsupportedParticleLoader::ParseParticleParameter(IInputStream& rPART)
     case kGenAAPH:
     case kGenCIND:
     case kGenFXLL:
+    case kGenINDM:
     case kGenLINE:
     case kGenLIT_:
     case kGenMBLR:
@@ -22,14 +23,21 @@ bool CUnsupportedParticleLoader::ParseParticleParameter(IInputStream& rPART)
     case kGenPMAB:
     case kGenPMOO:
     case kGenPMUS:
+    case kGenRDOP:
     case kGenRSOP:
     case kGenSORT:
     case kGenVMD1:
     case kGenVMD2:
     case kGenVMD3:
     case kGenVMD4:
+    case kGenVMPC:
     case kGenZBUF:
         ParseBoolFunction(rPART);
+        break;
+
+    // Bitfield
+    case kGenDFLG:
+        ParseBitfieldFunction(rPART);
         break;
 
     // Int
@@ -49,6 +57,7 @@ bool CUnsupportedParticleLoader::ParseParticleParameter(IInputStream& rPART)
     case kGenSESD:
     case kGenSISY:
     case kGenSSSD:
+    case kGenXTAD:
         ParseIntFunction(rPART);
         break;
 
@@ -61,6 +70,8 @@ bool CUnsupportedParticleLoader::ParseParticleParameter(IInputStream& rPART)
     case kGenADV6:
     case kGenADV7:
     case kGenADV8:
+    case kGenADV9:
+    case kGenFXBR:
     case kGenGRTE:
     case kGenLENG:
     case kGenLFOR:
@@ -74,17 +85,22 @@ bool CUnsupportedParticleLoader::ParseParticleParameter(IInputStream& rPART)
         break;
 
     // Vector
+    case kGenFXBO:
     case kGenILOC:
     case kGenIVEC:
     case kGenLDIR:
     case kGenLOFF:
     case kGenPMOP:
+    case kGenPMOV:
     case kGenPMRT:
     case kGenPMSC:
     case kGenPOFS:
     case kGenPSOV:
     case kGenSEPO:
     case kGenSSPO:
+    case kGenVAV1:
+    case kGenVAV2:
+    case kGenVAV3:
         ParseVectorFunction(rPART);
         break;
 
@@ -151,6 +167,10 @@ bool CUnsupportedParticleLoader::ParseElectricParameter(IInputStream& rELSC)
         ParseBoolFunction(rELSC);
         break;
 
+    case kElecDFLG:
+        ParseBitfieldFunction(rELSC);
+        break;
+
     case kElecLIFE:
     case kElecSCNT:
     case kElecSLIF:
@@ -174,6 +194,10 @@ bool CUnsupportedParticleLoader::ParseElectricParameter(IInputStream& rELSC)
         ParseColorFunction(rELSC);
         break;
 
+    case kElecTEXR:
+        ParseUVFunction(rELSC);
+        break;
+
     case kElecFEMT:
     case kElecIEMT:
         ParseEmitterFunction(rELSC);
@@ -194,6 +218,84 @@ bool CUnsupportedParticleLoader::ParseElectricParameter(IInputStream& rELSC)
     return true;
 }
 
+bool CUnsupportedParticleLoader::ParseSortedParameter(IInputStream& rSRSC)
+{
+    u32 ParamOffset = rSRSC.Tell();
+    CFourCC Param = rSRSC.ReadLong();
+    if (Param == kParamEND) return false;
+
+    if (Param == "SPWN")
+        ParseSpawnSystemKeyframeData(rSRSC);
+
+    else
+    {
+        Log::FileError(rSRSC.GetSourceString(), ParamOffset, "Unknown SRSC parameter: " + Param.ToString());
+        DEBUG_BREAK;
+        return false;
+    }
+
+    return true;
+}
+
+bool CUnsupportedParticleLoader::ParseSpawnParameter(IInputStream& rSPSC)
+{
+    u32 ParamOffset = rSPSC.Tell();
+    CFourCC Param = rSPSC.ReadLong();
+    if (Param == kParamEND) return false;
+
+    switch (Param.ToLong())
+    {
+    case kSpawnDEOL:
+    case kSpawnFRCO:
+    case kSpawnIGGT:
+    case kSpawnIGLT:
+    case kSpawnVMD1:
+    case kSpawnVMD2:
+        ParseBoolFunction(rSPSC);
+        break;
+
+    case kSpawnGIVL:
+    case kSpawnPSLT:
+        ParseIntFunction(rSPSC);
+        break;
+
+    case kSpawnVBLN:
+        ParseFloatFunction(rSPSC);
+        break;
+
+    case kSpawnFROV:
+    case kSpawnGORN:
+    case kSpawnGTRN:
+    case kSpawnIVEC:
+    case kSpawnLSCL:
+    case kSpawnORNT:
+    case kSpawnSCLE:
+    case kSpawnTRNL:
+        ParseVectorFunction(rSPSC);
+        break;
+
+    case kSpawnVLM1:
+    case kSpawnVLM2:
+        ParseModVectorFunction(rSPSC);
+        break;
+
+    case kSpawnPCOL:
+        ParseColorFunction(rSPSC);
+        break;
+
+    case kSpawnSPWN:
+        ParseSpawnSystemKeyframeData(rSPSC);
+        break;
+
+    default:
+        Log::FileError(rSPSC.GetSourceString(), ParamOffset, "Unknown SPSC parameter: " + Param.ToString());
+        DEBUG_BREAK;
+        return false;
+    }
+
+    return true;
+}
+
 bool CUnsupportedParticleLoader::ParseSwooshParameter(IInputStream& rSWHC)
 {
     u32 ParamOffset = rSWHC.Tell();
@@ -203,6 +305,7 @@ bool CUnsupportedParticleLoader::ParseSwooshParameter(IInputStream& rSWHC)
     switch (Param.ToLong())
     {
     case kSwooshAALP:
+    case kSwooshCLTX:
     case kSwooshCRND:
     case kSwooshCROS:
     case kSwooshLLRD:
@@ -214,6 +317,10 @@ bool CUnsupportedParticleLoader::ParseSwooshParameter(IInputStream& rSWHC)
     case kSwooshWIRE:
     case kSwooshZBUF:
         ParseBoolFunction(rSWHC);
+        break;
+
+    case kSwooshDFLG:
+        ParseBitfieldFunction(rSWHC);
         break;
 
     case kSwooshLENG:
@@ -270,15 +377,8 @@ bool CUnsupportedParticleLoader::ParseDecalParameter(IInputStream& rDPSC)
     {
     case kDecal1ADD:
     case kDecal2ADD:
-    case kDecal1OFF:
-    case kDecal2OFF:
     case kDecalDMAB:
-    case kDecalDMCL:
-    case kDecalDMDL:
     case kDecalDMOO:
-    case kDecalDMOP:
-    case kDecalDMRT:
-    case kDecalDMSC:
         ParseBoolFunction(rDPSC);
         break;
 
@@ -295,14 +395,26 @@ bool CUnsupportedParticleLoader::ParseDecalParameter(IInputStream& rDPSC)
         ParseFloatFunction(rDPSC);
         break;
 
+    case kDecal1OFF:
+    case kDecal2OFF:
+    case kDecalDMOP:
+    case kDecalDMRT:
+    case kDecalDMSC:
+        ParseVectorFunction(rDPSC);
+        break;
+
     case kDecal1CLR:
     case kDecal2CLR:
+    case kDecalDMCL:
         ParseColorFunction(rDPSC);
         break;
 
     case kDecal1TEX:
     case kDecal2TEX:
-        if (rDPSC.ReadLong() == kFuncNONE) break;
+        ParseUVFunction(rDPSC);
+        break;
+
+    case kDecalDMDL:
         ParseAssetFunction(rDPSC);
         break;
 
@@ -329,12 +441,23 @@ bool CUnsupportedParticleLoader::ParseWeaponParameter(IInputStream& rWPSC)
     case kWeaponAS11:
     case kWeaponAS12:
     case kWeaponAS13:
+    case kWeaponBHBT:
+    case kWeaponDP1C:
+    case kWeaponDP2C:
+    case kWeaponEELT:
     case kWeaponEWTR:
+    case kWeaponF60H:
     case kWeaponFC60:
     case kWeaponHOMG:
     case kWeaponLWTR:
+    case kWeaponNDTT:
+    case kWeaponRB1A:
+    case kWeaponRB2A:
+    case kWeaponRTLA:
+    case kWeaponRWPE:
     case kWeaponSPS1:
     case kWeaponSPS2:
+    case kWeaponSVBD:
     case kWeaponSWTR:
     case kWeaponVMD2:
         ParseBoolFunction(rWPSC);
@@ -345,17 +468,27 @@ bool CUnsupportedParticleLoader::ParseWeaponParameter(IInputStream& rWPSC)
         ParseIntFunction(rWPSC);
         break;
 
+    case kWeaponB1RT:
+    case kWeaponB1SE:
+    case kWeaponB2RT:
+    case kWeaponB2SE:
+    case kWeaponFOFF:
     case kWeaponRNGE:
+    case kWeaponTLEN:
     case kWeaponTRAT:
+    case kWeaponTSZE:
         ParseFloatFunction(rWPSC);
         break;
 
+    case kWeaponB1PO:
+    case kWeaponB2PO:
     case kWeaponIORN:
     case kWeaponIVEC:
     case kWeaponOFST:
     case kWeaponPOFS:
     case kWeaponPSCL:
     case kWeaponPSOV:
+    case kWeaponTLPO:
         ParseVectorFunction(rWPSC);
         break;
 
@@ -363,8 +496,18 @@ bool CUnsupportedParticleLoader::ParseWeaponParameter(IInputStream& rWPSC)
         ParseModVectorFunction(rWPSC);
         break;
 
+    case kWeaponB1CL:
+    case kWeaponB2CL:
     case kWeaponPCOL:
+    case kWeaponTECL:
+    case kWeaponTSCL:
         ParseColorFunction(rWPSC);
+        break;
+
+    case kWeaponB1TX:
+    case kWeaponB2TX:
+    case kWeaponTTEX:
+        ParseUVFunction(rWPSC);
         break;
 
     case kWeaponAPSM:
@@ -424,6 +567,7 @@ bool CUnsupportedParticleLoader::ParseCollisionResponseParameter(IInputStream& r
     case kColi4DRN:
     case kColi5DRN:
     case kColi6DRN:
+    case kColi6GRN:
     case kColi2MUD:
     case kColi2SAN:
     case kColiBHFX:
@@ -434,11 +578,8 @@ bool CUnsupportedParticleLoader::ParseCollisionResponseParameter(IInputStream& r
     case kColiDSFX:
     case kColiDSHX:
     case kColiGOFX:
-    case kColiGOOO:
-    case kColiGRAS:
     case kColiGRFX:
     case kColiHBFX:
-    case kColiICEE:
     case kColiICFX:
     case kColiMSFX:
     case kColiPBHX:
@@ -457,8 +598,15 @@ bool CUnsupportedParticleLoader::ParseCollisionResponseParameter(IInputStream& r
         ParseFloatFunction(rCRSC);
         break;
 
+    case kColi1LAV:
+    case kColi3LAV:
+    case kColi1MUD:
+    case kColi3MUD:
+    case kColi1SAN:
+    case kColi3SAN:
     case kColiCHDL:
     case kColiCODL:
+    case kColiCRTS:
     case kColiDCHR:
     case kColiDDCL:
     case kColiDEFS:
@@ -466,11 +614,17 @@ bool CUnsupportedParticleLoader::ParseCollisionResponseParameter(IInputStream& r
     case kColiDESH:
     case kColiENDL:
     case kColiGODL:
+    case kColiGOOO:
+    case kColiGRAS:
     case kColiGRDL:
     case kColiICDL:
+    case kColiICEE:
     case kColiMEDL:
+    case kColiMTLS:
     case kColiTALP:
+    case kColiWATR:
     case kColiWODL:
+    case kColiWODS:
     case kColiWTDL:
         ParseAssetFunction(rCRSC);
         break;
@@ -506,6 +660,12 @@ void CUnsupportedParticleLoader::ParseBoolFunction(IInputStream& rFile)
     }
 }
 
+void CUnsupportedParticleLoader::ParseBitfieldFunction(IInputStream& rFile)
+{
+    // todo: probably not the correct way to do this...
+    rFile.Seek(0x10, SEEK_CUR);
+}
+
 void CUnsupportedParticleLoader::ParseIntFunction(IInputStream& rFile)
 {
     u32 FuncOffset = rFile.Tell();
@@ -517,16 +677,21 @@ void CUnsupportedParticleLoader::ParseIntFunction(IInputStream& rFile)
     case kIntGAPC:
     case kIntGEMT:
     case kIntGTCP:
+    case kIntPCRT:
+    case kIntPDET:
         break;
 
     case kIntILPT:
     case kIntIMPL:
+    case kIntKPIN:
         ParseIntFunction(rFile);
         break;
 
     case kIntADD_:
     case kIntDETH:
+    case kIntDIVD:
     case kIntIRND:
+    case kIntISWT:
     case kIntMODU:
     case kIntMULT:
     case kIntRAND:
@@ -558,11 +723,17 @@ void CUnsupportedParticleLoader::ParseIntFunction(IInputStream& rFile)
     }
 
     case kIntKEYE:
+    case kIntKEYF:
     case kIntKEYP:
-        ParseKeyframeEmitterData(rFile, 0x4);
+        ParseKeyframeEmitterData(rFile, Func, 0x4);
         break;
 
     case kIntTSCL:
+        ParseFloatFunction(rFile);
+        break;
+
+    case kIntRTOI:
+        ParseFloatFunction(rFile);
         ParseFloatFunction(rFile);
         break;
 
@@ -581,6 +752,7 @@ void CUnsupportedParticleLoader::ParseFloatFunction(IInputStream& rFile)
     switch (Func.ToLong())
     {
     case kFuncNONE:
+    case kFloatGTCP:
     case kFloatPAP1:
     case kFloatPAP2:
     case kFloatPAP3:
@@ -589,10 +761,13 @@ void CUnsupportedParticleLoader::ParseFloatFunction(IInputStream& rFile)
     case kFloatPAP6:
     case kFloatPAP7:
     case kFloatPAP8:
+    case kFloatPAP9:
     case kFloatPRLW:
     case kFloatPSLL:
         break;
 
+    case kFloatKPIN:
+    case kFloatPRN1:
     case kFloatRLPT:
     case kFloatSCAL:
         ParseFloatFunction(rFile);
@@ -603,6 +778,7 @@ void CUnsupportedParticleLoader::ParseFloatFunction(IInputStream& rFile)
     case kFloatISWT:
     case kFloatLFTW:
     case kFloatMULT:
+    case kFloatPRN2:
     case kFloatRAND:
     case kFloatSUB_:
         ParseFloatFunction(rFile);
@@ -618,6 +794,7 @@ void CUnsupportedParticleLoader::ParseFloatFunction(IInputStream& rFile)
         break;
 
     case kFloatCEXT:
+    case kFloatOCSP:
         ParseIntFunction(rFile);
         break;
 
@@ -664,8 +841,9 @@ void CUnsupportedParticleLoader::ParseFloatFunction(IInputStream& rFile)
         break;
 
     case kFloatKEYE:
+    case kFloatKEYF:
     case kFloatKEYP:
-        ParseKeyframeEmitterData(rFile, 0x4);
+        ParseKeyframeEmitterData(rFile, Func, 0x4);
         break;
 
     case kFloatPULS:
@@ -675,11 +853,54 @@ void CUnsupportedParticleLoader::ParseFloatFunction(IInputStream& rFile)
         ParseFloatFunction(rFile);
         break;
 
+    case kFloatPRN3:
     case kFloatVMAG:
     case kFloatVXTR:
     case kFloatVYTR:
     case kFloatVZTR:
         ParseVectorFunction(rFile);
+        break;
+
+    case kFloatPNO1:
+        ParseFloatFunction(rFile);
+        ParseFloatFunction(rFile);
+        ParseFloatFunction(rFile);
+        ParseIntFunction(rFile);
+        break;
+
+    case kFloatPNO2:
+        ParseFloatFunction(rFile);
+        ParseFloatFunction(rFile);
+        ParseFloatFunction(rFile);
+        ParseFloatFunction(rFile);
+        ParseIntFunction(rFile);
+        break;
+
+    case kFloatPNO3:
+        ParseVectorFunction(rFile);
+        ParseFloatFunction(rFile);
+        ParseFloatFunction(rFile);
+        ParseIntFunction(rFile);
+        break;
+
+    case kFloatPNO4:
+        ParseVectorFunction(rFile);
+        ParseFloatFunction(rFile);
+        ParseFloatFunction(rFile);
+        ParseFloatFunction(rFile);
+        ParseIntFunction(rFile);
+        break;
+
+    case kFloatPRN4:
+        ParseVectorFunction(rFile);
+        ParseFloatFunction(rFile);
+        break;
+
+    case kFloatTOCS:
+        ParseBoolFunction(rFile);
+        ParseIntFunction(rFile);
+        ParseIntFunction(rFile);
+        ParseIntFunction(rFile);
         break;
 
     default:
@@ -697,6 +918,7 @@ void CUnsupportedParticleLoader::ParseVectorFunction(IInputStream& rFile)
     switch (Func.ToLong())
     {
     case kVectorADD_:
+    case kVectorISWT:
     case kVectorMULT:
     case kVectorSUB_:
         ParseVectorFunction(rFile);
@@ -748,13 +970,29 @@ void CUnsupportedParticleLoader::ParseVectorFunction(IInputStream& rFile)
         break;
 
     case kVectorKEYE:
+    case kVectorKEYF:
     case kVectorKEYP:
-        ParseKeyframeEmitterData(rFile, 0xC);
+        ParseKeyframeEmitterData(rFile, Func, 0xC);
+        break;
+
+    case kVectorKPIN:
+    case kVectorNORM:
+        ParseVectorFunction(rFile);
         break;
 
     case kFuncNONE:
+    case kVectorPAP1:
+    case kVectorPAP2:
+    case kVectorPAP3:
+    case kVectorPENV:
+    case kVectorPETR:
+    case kVectorPEVL:
+    case kVectorPINV:
+    case kVectorPITR:
+    case kVectorPIVL:
     case kVectorPLCO:
     case kVectorPLOC:
+    case kVectorPNCV:
     case kVectorPSOF:
     case kVectorPSOU:
     case kVectorPSOR:
@@ -769,6 +1007,7 @@ void CUnsupportedParticleLoader::ParseVectorFunction(IInputStream& rFile)
         ParseVectorFunction(rFile);
         break;
 
+    case kVectorRNDV:
     case kVectorRTOV:
         ParseFloatFunction(rFile);
         break;
@@ -796,6 +1035,12 @@ void CUnsupportedParticleLoader::ParseModVectorFunction(IInputStream& rFile)
         ParseFloatFunction(rFile);
         ParseFloatFunction(rFile);
         ParseBoolFunction(rFile);
+        break;
+
+    case kModVectorBOXV:
+        ParseVectorFunction(rFile);
+        ParseVectorFunction(rFile);
+        ParseModVectorFunction(rFile);
         break;
 
     case kModVectorCHAN:
@@ -835,6 +1080,12 @@ void CUnsupportedParticleLoader::ParseModVectorFunction(IInputStream& rFile)
         ParseIntFunction(rFile);
         ParseFloatFunction(rFile);
         ParseFloatFunction(rFile);
+        break;
+
+    case kModVectorSPHV:
+        ParseVectorFunction(rFile);
+        ParseFloatFunction(rFile);
+        ParseModVectorFunction(rFile);
         break;
 
     case kModVectorSWRL:
@@ -889,9 +1140,25 @@ void CUnsupportedParticleLoader::ParseColorFunction(IInputStream& rFile)
         ParseFloatFunction(rFile);
         break;
 
+    case kColorISWT:
+    case kColorMULT:
+        ParseColorFunction(rFile);
+        ParseColorFunction(rFile);
+        break;
+
     case kColorKEYE:
+    case kColorKEYF:
     case kColorKEYP:
-        ParseKeyframeEmitterData(rFile, 0x10);
+        ParseKeyframeEmitterData(rFile, Func, 0x10);
+        break;
+
+    case kColorKPIN:
+        ParseColorFunction(rFile);
+        break;
+
+    case kColorMDAO:
+        ParseColorFunction(rFile);
+        ParseFloatFunction(rFile);
         break;
 
     case kFuncNONE:
@@ -903,6 +1170,11 @@ void CUnsupportedParticleLoader::ParseColorFunction(IInputStream& rFile)
         ParseIntFunction(rFile);
         ParseColorFunction(rFile);
         ParseColorFunction(rFile);
+        break;
+
+    case kColorVRTC:
+        ParseVectorFunction(rFile);
+        ParseFloatFunction(rFile);
         break;
 
     default:
@@ -953,9 +1225,31 @@ void CUnsupportedParticleLoader::ParseEmitterFunction(IInputStream& rFile)
     case kFuncNONE:
         break;
 
-    case kEmitterSETR:
-        ParseParticleParameter(rFile);
-        ParseParticleParameter(rFile);
+    case kEmitterASPH:
+        ParseVectorFunction(rFile);
+        ParseFloatFunction(rFile);
+        ParseFloatFunction(rFile);
+        ParseFloatFunction(rFile);
+        ParseFloatFunction(rFile);
+        ParseFloatFunction(rFile);
+        ParseFloatFunction(rFile);
+        break;
+
+    case kEmitterELPS:
+        ParseVectorFunction(rFile);
+        ParseVectorFunction(rFile);
+        ParseVectorFunction(rFile);
+        ParseFloatFunction(rFile);
+        ParseBoolFunction(rFile);
+        break;
+
+    case kEmitterPLNE:
+        ParseVectorFunction(rFile);
+        ParseVectorFunction(rFile);
+        ParseVectorFunction(rFile);
+        ParseFloatFunction(rFile);
+        ParseFloatFunction(rFile);
+        ParseFloatFunction(rFile);
         break;
 
     case kEmitterSEMR:
@@ -963,18 +1257,13 @@ void CUnsupportedParticleLoader::ParseEmitterFunction(IInputStream& rFile)
         ParseVectorFunction(rFile);
         break;
 
-    case kEmitterSPHE:
-        ParseVectorFunction(rFile);
-        ParseFloatFunction(rFile);
-        ParseFloatFunction(rFile);
+    case kEmitterSETR:
+        ParseParticleParameter(rFile);
+        ParseParticleParameter(rFile);
         break;
 
-    case kEmitterASPH:
+    case kEmitterSPHE:
         ParseVectorFunction(rFile);
-        ParseFloatFunction(rFile);
-        ParseFloatFunction(rFile);
-        ParseFloatFunction(rFile);
-        ParseFloatFunction(rFile);
         ParseFloatFunction(rFile);
         ParseFloatFunction(rFile);
         break;
@@ -1029,17 +1318,27 @@ void CUnsupportedParticleLoader::ParseSpawnSystemKeyframeData(IInputStream& rFil
     }
 }
 
-void CUnsupportedParticleLoader::ParseKeyframeEmitterData(IInputStream& rFile, u32 ElemSize)
+void CUnsupportedParticleLoader::ParseKeyframeEmitterData(IInputStream& rFile, const CFourCC& rkFunc, u32 ElemSize)
 {
-    rFile.Seek(0x12, SEEK_CUR); // Skip unneeded values
+    // Skip unneeded values
+    if (rkFunc == "KEYE" || rkFunc == "KEYP")
+        rFile.Seek(0x12, SEEK_CUR);
+    else if (rkFunc == "KEYF")
+        rFile.Seek(0x1A, SEEK_CUR);
+
     u32 KeyCount = rFile.ReadLong();
     rFile.Seek(KeyCount * ElemSize, SEEK_CUR);
+
+    if (rkFunc == "KEYF")
+        ParseFloatFunction(rFile);
 }
 
 // ************ STATIC ************
 enum {
     kGPSM = FOURCC_CONSTEXPR('G', 'P', 'S', 'M'),
     kELSM = FOURCC_CONSTEXPR('E', 'L', 'S', 'M'),
+    kSRSM = FOURCC_CONSTEXPR('S', 'R', 'S', 'M'),
+    kSPSM = FOURCC_CONSTEXPR('S', 'P', 'S', 'M'),
     kSWSH = FOURCC_CONSTEXPR('S', 'W', 'S', 'H'),
     kDPSM = FOURCC_CONSTEXPR('D', 'P', 'S', 'M'),
     kWPSM = FOURCC_CONSTEXPR('W', 'P', 'S', 'M'),
@@ -1062,6 +1361,8 @@ CDependencyGroup* CUnsupportedParticleLoader::LoadParticle(IInputStream& rFile, 
         {
         case kGPSM: ShouldContinue = Loader.ParseParticleParameter(rFile);          break;
         case kELSM: ShouldContinue = Loader.ParseElectricParameter(rFile);          break;
+        case kSRSM: ShouldContinue = Loader.ParseSortedParameter(rFile);            break;
+        case kSPSM: ShouldContinue = Loader.ParseSpawnParameter(rFile);             break;
         case kSWSH: ShouldContinue = Loader.ParseSwooshParameter(rFile);            break;
         case kDPSM: ShouldContinue = Loader.ParseDecalParameter(rFile);             break;
         case kWPSM: ShouldContinue = Loader.ParseWeaponParameter(rFile);            break;
