@@ -1,4 +1,5 @@
 #include "CAnimSetLoader.h"
+#include "CUnsupportedFormatLoader.h"
 #include "Core/GameProject/CResourceStore.h"
 #include <Common/Log.h>
 
@@ -370,6 +371,18 @@ CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS, CResourceEntry *pEntry)
             Anim.Name = rPrim.Name;
             Anim.pAnim = gpResourceStore->LoadResource(rPrim.AnimID, "ANIM");
             Loader.pSet->mAnims.push_back(Anim);
+        }
+    }
+
+    // Parse anim event data
+    if (Loader.pSet->Game() >= eEchoesDemo)
+    {
+        u32 EventDataCount = rANCS.ReadLong();
+
+        for (u32 iEvnt = 0; iEvnt < EventDataCount; iEvnt++)
+        {
+            CDependencyGroup *pGrp = CUnsupportedFormatLoader::LoadEVNT(rANCS, nullptr);
+            Loader.pSet->mEventDependencies.push_back(pGrp);
         }
     }
 

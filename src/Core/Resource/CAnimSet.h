@@ -3,6 +3,7 @@
 
 #include "TResPtr.h"
 #include "CAnimation.h"
+#include "CDependencyGroup.h"
 #include "CResource.h"
 #include "CSkeleton.h"
 #include "CSkin.h"
@@ -41,9 +42,19 @@ class CAnimSet : public CResource
         TResPtr<CAnimation> pAnim;
     };
     std::vector<SAnimation> mAnims;
+    std::vector<CDependencyGroup*> mEventDependencies;
 
 public:
     CAnimSet(CResourceEntry *pEntry = 0) : CResource(pEntry) {}
+
+    ~CAnimSet()
+    {
+        for (u32 iEvnt = 0; iEvnt < mEventDependencies.size(); iEvnt++)
+        {
+            ASSERT(!mEventDependencies[iEvnt]->Entry());
+            delete mEventDependencies[iEvnt];
+        }
+    }
 
     u32 NumNodes() const                { return mCharacters.size(); }
     TString NodeName(u32 Index)         { if (Index >= mCharacters.size()) Index = 0; return mCharacters[Index].Name; }
@@ -69,6 +80,18 @@ public:
             {
                 pTree->AddDependency(mAnims[iAnim].pAnim);
                 BaseUsedSet.insert(pAnim->ID());
+            }
+        }
+
+        for (u32 iEvnt = 0; iEvnt < mEventDependencies.size(); iEvnt++)
+        {
+            CDependencyGroup *pGroup = mEventDependencies[iEvnt];
+
+            for (u32 iDep = 0; iDep < pGroup->NumDependencies(); iDep++)
+            {
+                CAssetID ID = pGroup->DependencyByIndex(iDep);
+                pTree->AddDependency(iDep);
+                BaseUsedSet.insert(ID);
             }
         }
 

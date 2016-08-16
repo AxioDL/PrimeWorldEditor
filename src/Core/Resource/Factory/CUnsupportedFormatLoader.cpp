@@ -17,6 +17,8 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadEVNT(IInputStream& rEVNT, CResou
     u32 Version = rEVNT.ReadLong();
     ASSERT(Version == 1 || Version == 2);
 
+    // kinda hack - check if we're reading an Echoes ANCS
+    bool IsEchoes = (TString(rEVNT.GetSourceString()).GetFileExtension() == "ANCS");
     CDependencyGroup *pGroup = new CDependencyGroup(pEntry);
 
     // Loop Events
@@ -49,8 +51,24 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadEVNT(IInputStream& rEVNT, CResou
         rEVNT.ReadString();
         rEVNT.Seek(0x23, SEEK_CUR);
         pGroup->AddDependency(rEVNT.ReadLong());
-        rEVNT.ReadString();
+
+        if (IsEchoes)
+            rEVNT.Seek(0x4, SEEK_CUR);
+        else
+            rEVNT.ReadString();
+
         rEVNT.Seek(0x8, SEEK_CUR);
+    }
+
+    // Sound Events
+    u32 NumSoundEvents = rEVNT.ReadLong();
+
+    for (u32 iSound = 0; iSound < NumSoundEvents; iSound++)
+    {
+        rEVNT.Seek(0x2, SEEK_CUR);
+        rEVNT.ReadString();
+        rEVNT.Seek(0x27, SEEK_CUR);
+        if (IsEchoes) rEVNT.Seek(0xC, SEEK_CUR);
     }
 
     return pGroup;
@@ -61,112 +79,140 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadFRME(IInputStream& rFRME, CResou
     if (pEntry->Game() >= eEchoesDemo) return nullptr;
 
     u32 Version = rFRME.ReadLong();
-    ASSERT(Version == 0 || Version == 1);
-
     CDependencyGroup *pGroup = new CDependencyGroup(pEntry);
-    rFRME.Seek(0xC, SEEK_CUR);
-    u32 NumWidgets = rFRME.ReadLong();
 
-    for (u32 iWgt = 0; iWgt < NumWidgets; iWgt++)
+    // Prime 1
+    if (Version == 0 || Version == 1)
     {
-        // Widget Header
-        CFourCC WidgetType = rFRME.ReadLong();
-        rFRME.ReadString();
-        rFRME.ReadString();
-        rFRME.Seek(0x18, SEEK_CUR);
+        CDependencyGroup *pGroup = new CDependencyGroup(pEntry);
+        rFRME.Seek(0xC, SEEK_CUR);
+        u32 NumWidgets = rFRME.ReadLong();
 
-        // Head Widget / Base Widget
-        if (WidgetType == "HWIG" || WidgetType == "BWIG")
-        {}
-
-        // Camera
-        else if (WidgetType == "CAMR")
+        for (u32 iWgt = 0; iWgt < NumWidgets; iWgt++)
         {
-            u32 ProjectionType = rFRME.ReadLong();
+            // Widget Header
+            CFourCC WidgetType = rFRME.ReadLong();
+            rFRME.ReadString();
+            rFRME.ReadString();
+            rFRME.Seek(0x18, SEEK_CUR);
 
-            if (ProjectionType == 0)
-                rFRME.Seek(0x10, SEEK_CUR);
-            else
-                rFRME.Seek(0x18, SEEK_CUR);
-        }
+            // Head Widget / Base Widget
+            if (WidgetType == "HWIG" || WidgetType == "BWIG")
+            {}
 
-        // Light
-        else if (WidgetType == "LITE")
-        {
-            u32 LightType = rFRME.ReadLong();
-            rFRME.Seek(0x1C, SEEK_CUR);
-            if (LightType == 0) rFRME.Seek(0x4, SEEK_CUR);
-        }
-
-        // Meter
-        else if (WidgetType == "METR")
-            rFRME.Seek(0xA, SEEK_CUR);
-
-        // Group
-        else if (WidgetType == "GRUP")
-            rFRME.Seek(0x3, SEEK_CUR);
-
-        // Table Group
-        else if (WidgetType == "TBGP")
-            rFRME.Seek(0x23, SEEK_CUR);
-
-        // Model
-        else if (WidgetType == "MODL")
-        {
-            pGroup->AddDependency( CAssetID(rFRME, e32Bit) ); // CMDL
-            rFRME.Seek(0x8, SEEK_CUR);
-        }
-
-        // Text Pane
-        else if (WidgetType == "TXPN")
-        {
-            rFRME.Seek(0x14, SEEK_CUR);
-            pGroup->AddDependency( CAssetID(rFRME, e32Bit) ); // FONT
-            rFRME.Seek(0x32, SEEK_CUR);
-
-            if (Version == 1)
+            // Camera
+            else if (WidgetType == "CAMR")
             {
-                pGroup->AddDependency( CAssetID(rFRME, e32Bit) ); // FONT
+                u32 ProjectionType = rFRME.ReadLong();
+
+                if (ProjectionType == 0)
+                    rFRME.Seek(0x10, SEEK_CUR);
+                else
+                    rFRME.Seek(0x18, SEEK_CUR);
+            }
+
+            // Light
+            else if (WidgetType == "LITE")
+            {
+                u32 LightType = rFRME.ReadLong();
+                rFRME.Seek(0x1C, SEEK_CUR);
+                if (LightType == 0) rFRME.Seek(0x4, SEEK_CUR);
+            }
+
+            // Meter
+            else if (WidgetType == "METR")
+                rFRME.Seek(0xA, SEEK_CUR);
+
+            // Group
+            else if (WidgetType == "GRUP")
+                rFRME.Seek(0x3, SEEK_CUR);
+
+            // Table Group
+            else if (WidgetType == "TBGP")
+                rFRME.Seek(0x23, SEEK_CUR);
+
+            // Model
+            else if (WidgetType == "MODL")
+            {
+                pGroup->AddDependency( CAssetID(rFRME, e32Bit) ); // CMDL
                 rFRME.Seek(0x8, SEEK_CUR);
             }
-        }
 
-        // Image Pane
-        else if (WidgetType == "IMGP")
+            // Text Pane
+            else if (WidgetType == "TXPN")
+            {
+                rFRME.Seek(0x14, SEEK_CUR);
+                pGroup->AddDependency( CAssetID(rFRME, e32Bit) ); // FONT
+                rFRME.Seek(0x32, SEEK_CUR);
+
+                if (Version == 1)
+                {
+                    pGroup->AddDependency( CAssetID(rFRME, e32Bit) ); // FONT
+                    rFRME.Seek(0x8, SEEK_CUR);
+                }
+            }
+
+            // Image Pane
+            else if (WidgetType == "IMGP")
+            {
+                pGroup->AddDependency( CAssetID(rFRME, e32Bit) ); // TXTR
+                if (rFRME.ReadLong() != 0xFFFFFFFF) DEBUG_BREAK;
+                rFRME.Seek(0x4, SEEK_CUR);
+
+                u32 NumQuadCoords = rFRME.ReadLong();
+                rFRME.Seek(NumQuadCoords * 0xC, SEEK_CUR);
+                u32 NumUVCoords = rFRME.ReadLong();
+                rFRME.Seek(NumUVCoords * 8, SEEK_CUR);
+            }
+
+            // Energy Bar
+            else if (WidgetType == "ENRG")
+            {
+                pGroup->AddDependency( CAssetID(rFRME, e32Bit) ); // TXTR
+            }
+
+            // Slider Group
+            else if (WidgetType == "SLGP")
+            {
+                rFRME.Seek(0x10, SEEK_CUR);
+            }
+
+            else
+            {
+                Log::Error("Unrecognized FRME widget type: " + WidgetType.ToString());
+                DEBUG_BREAK;
+            }
+
+            // Widget Footer
+            if (rFRME.ReadByte() != 0)
+                rFRME.Seek(0x2, SEEK_CUR);
+
+            rFRME.Seek(0x42, SEEK_CUR);
+        }
+    }
+
+    // MP2/MP3/DKCR are much easier... dependency list right at the beginning of the file
+    else if (Version == 4 || Version == 5 || Version == 0xD || Version == 0xE || Version == 0x10)
+    {
+        EGame Game;
+        if (Version == 4)           Game = eEchoes;
+        else if (Version == 0x10)   Game = eReturns;
+        else                        Game = eCorruption;
+
+        u32 NumDependencies = rFRME.ReadLong();
+
+        for (u32 iDep = 0; iDep < NumDependencies; iDep++)
         {
-            pGroup->AddDependency( CAssetID(rFRME, e32Bit) ); // TXTR
-            if (rFRME.ReadLong() != 0xFFFFFFFF) DEBUG_BREAK;
             rFRME.Seek(0x4, SEEK_CUR);
-
-            u32 NumQuadCoords = rFRME.ReadLong();
-            rFRME.Seek(NumQuadCoords * 0xC, SEEK_CUR);
-            u32 NumUVCoords = rFRME.ReadLong();
-            rFRME.Seek(NumUVCoords * 8, SEEK_CUR);
+            pGroup->AddDependency( CAssetID(rFRME, Game) );
         }
+    }
 
-        // Energy Bar
-        else if (WidgetType == "ENRG")
-        {
-            pGroup->AddDependency( CAssetID(rFRME, e32Bit) ); // TXTR
-        }
-
-        // Slider Group
-        else if (WidgetType == "SLGP")
-        {
-            rFRME.Seek(0x10, SEEK_CUR);
-        }
-
-        else
-        {
-            Log::Error("Unrecognized FRME widget type: " + WidgetType.ToString());
-            DEBUG_BREAK;
-        }
-
-        // Widget Footer
-        if (rFRME.ReadByte() != 0)
-            rFRME.Seek(0x2, SEEK_CUR);
-
-        rFRME.Seek(0x42, SEEK_CUR);
+    else
+    {
+        Log::Error("Unrecognized FRME version: " + TString::HexString(Version, 2));
+        delete pGroup;
+        return nullptr;
     }
 
     return pGroup;
