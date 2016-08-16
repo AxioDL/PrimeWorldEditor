@@ -30,6 +30,7 @@ private:
     bool mIsImportant;
     ELogbookCategory mCategory;
     CAssetID mScanImageTextures[4];
+    std::vector<CAssetID> mLogbookAssets;
 
 public:
     CScan(CResourceEntry *pEntry = 0)
@@ -51,6 +52,9 @@ public:
 
         for (u32 iImg = 0; iImg < 4; iImg++)
             pTree->AddDependency(mScanImageTextures[iImg]);
+
+        for (u32 iLog = 0; iLog < mLogbookAssets.size(); iLog++)
+            pTree->AddDependency(mLogbookAssets[iLog]);
 
         return pTree;
     }

@@ -105,6 +105,38 @@ void CScanLoader::LoadParamsMP2(IInputStream& rSCAN)
         case 0x7B714814:
             mpScan->mIsImportant = (rSCAN.ReadByte() != 0);
             break;
+
+        // Override texture and logbook model/animsets
+        case 0x53336141:
+        case 0xB7ADC418:
+        case 0x15694EE1:
+        case 0x58F9FE99:
+            mpScan->mLogbookAssets.push_back( CAssetID(rSCAN, eEchoes) );
+            break;
+
+        // ScanInfoSecondaryModels
+        case 0x1C5B4A3A:
+        case 0x8728A0EE:
+        case 0xF1CD99D3:
+        case 0x6ABE7307:
+        case 0x1C07EBA9:
+        case 0x8774017D:
+        case 0xF1913840:
+        case 0x6AE2D294:
+        case 0x1CE2091C:
+            u16 NumSubProps = rSCAN.ReadShort();
+
+            for (u32 iSub = 0; iSub < NumSubProps; iSub++)
+            {
+                u32 SubPropertyID = rSCAN.ReadLong();
+                u32 Next = rSCAN.Tell() + rSCAN.ReadShort();
+
+                if (SubPropertyID == 0x1F7921BC || SubPropertyID == 0xCDD202D1)
+                    mpScan->mLogbookAssets.push_back( CAssetID(rSCAN, eEchoes) );
+
+                rSCAN.Seek(Next, SEEK_SET);
+            }
+            break;
         }
 
         rSCAN.Seek(Next, SEEK_SET);
