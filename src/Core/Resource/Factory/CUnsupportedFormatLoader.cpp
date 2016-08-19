@@ -12,13 +12,11 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadCSNG(IInputStream& rCSNG, CResou
     return pGroup;
 }
 
-CDependencyGroup* CUnsupportedFormatLoader::LoadEVNT(IInputStream& rEVNT, CResourceEntry *pEntry)
+CDependencyGroup* CUnsupportedFormatLoader::LoadEVNT(IInputStream& rEVNT, CResourceEntry *pEntry, bool IsEchoes /*= false*/)
 {
     u32 Version = rEVNT.ReadLong();
     ASSERT(Version == 1 || Version == 2);
 
-    // kinda hack - check if we're reading an Echoes ANCS
-    bool IsEchoes = (TString(rEVNT.GetSourceString()).GetFileExtension() == "ANCS");
     CDependencyGroup *pGroup = new CDependencyGroup(pEntry);
 
     // Loop Events
@@ -61,14 +59,17 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadEVNT(IInputStream& rEVNT, CResou
     }
 
     // Sound Events
-    u32 NumSoundEvents = rEVNT.ReadLong();
-
-    for (u32 iSound = 0; iSound < NumSoundEvents; iSound++)
+    if (Version == 2)
     {
-        rEVNT.Seek(0x2, SEEK_CUR);
-        rEVNT.ReadString();
-        rEVNT.Seek(0x27, SEEK_CUR);
-        if (IsEchoes) rEVNT.Seek(0xC, SEEK_CUR);
+        u32 NumSoundEvents = rEVNT.ReadLong();
+
+        for (u32 iSound = 0; iSound < NumSoundEvents; iSound++)
+        {
+            rEVNT.Seek(0x2, SEEK_CUR);
+            rEVNT.ReadString();
+            rEVNT.Seek(0x27, SEEK_CUR);
+            if (IsEchoes) rEVNT.Seek(0xC, SEEK_CUR);
+        }
     }
 
     return pGroup;
@@ -76,15 +77,12 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadEVNT(IInputStream& rEVNT, CResou
 
 CDependencyGroup* CUnsupportedFormatLoader::LoadFRME(IInputStream& rFRME, CResourceEntry *pEntry)
 {
-    if (pEntry->Game() >= eEchoesDemo) return nullptr;
-
     u32 Version = rFRME.ReadLong();
     CDependencyGroup *pGroup = new CDependencyGroup(pEntry);
 
     // Prime 1
     if (Version == 0 || Version == 1)
     {
-        CDependencyGroup *pGroup = new CDependencyGroup(pEntry);
         rFRME.Seek(0xC, SEEK_CUR);
         u32 NumWidgets = rFRME.ReadLong();
 
@@ -218,6 +216,75 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadFRME(IInputStream& rFRME, CResou
     return pGroup;
 }
 
+CDependencyGroup* CUnsupportedFormatLoader::LoadFSM2(IInputStream& rFSM2, CResourceEntry *pEntry)
+{
+    u32 Magic = rFSM2.ReadLong();
+    ASSERT(Magic == FOURCC("FSM2"));
+
+    CDependencyGroup *pOut = new CDependencyGroup(pEntry);
+    u32 Version = rFSM2.ReadLong();
+    u32 NumStates = rFSM2.ReadLong();
+    u32 NumUnkA = rFSM2.ReadLong();
+    u32 NumUnkB = rFSM2.ReadLong();
+    u32 NumUnkC = rFSM2.ReadLong();
+    ASSERT(Version == 1);
+
+    for (u32 iState = 0; iState < NumStates; iState++)
+    {
+        rFSM2.ReadString();
+        u32 UnkCount = rFSM2.ReadLong();
+
+        for (u32 iUnk = 0; iUnk < UnkCount; iUnk++)
+        {
+            rFSM2.ReadString();
+            rFSM2.Seek(0x4, SEEK_CUR);
+        }
+    }
+
+    for (u32 iUnkA = 0; iUnkA < NumUnkA; iUnkA++)
+    {
+        rFSM2.ReadString();
+        rFSM2.Seek(0x4, SEEK_CUR);
+        u32 UnkCount = rFSM2.ReadLong();
+
+        for (u32 iUnkA2 = 0; iUnkA2 < UnkCount; iUnkA2++)
+        {
+            rFSM2.ReadString();
+            rFSM2.Seek(0x4, SEEK_CUR);
+        }
+
+        rFSM2.Seek(0x1, SEEK_CUR);
+    }
+
+    for (u32 iUnkB = 0; iUnkB < NumUnkB; iUnkB++)
+    {
+        rFSM2.ReadString();
+        u32 UnkCount = rFSM2.ReadLong();
+
+        for (u32 iUnkB2 = 0; iUnkB2 < UnkCount; iUnkB2++)
+        {
+            rFSM2.ReadString();
+            rFSM2.Seek(0x4, SEEK_CUR);
+        }
+    }
+
+    for (u32 iUnkC = 0; iUnkC < NumUnkC; iUnkC++)
+    {
+        rFSM2.ReadString();
+        u32 UnkCount = rFSM2.ReadLong();
+
+        for (u32 iUnkC2 = 0; iUnkC2 < UnkCount; iUnkC2++)
+        {
+            rFSM2.ReadString();
+            rFSM2.Seek(0x4, SEEK_CUR);
+        }
+
+        pOut->AddDependency( CAssetID(rFSM2, eEchoes) );
+    }
+
+    return pOut;
+}
+
 CDependencyGroup* CUnsupportedFormatLoader::LoadHINT(IInputStream& rHINT, CResourceEntry *pEntry)
 {
     u32 Magic = rHINT.ReadLong();
@@ -323,7 +390,7 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadRULE(IInputStream& rRULE, CResou
     // Version test
     u32 IDOffset = rRULE.Tell();
     rRULE.Seek(0x4, SEEK_CUR);
-    u32 RuleSetCount = rRULE.ReadLong();
+    u32 RuleSetCount = rRULE.ReadShort();
     EIDLength IDLength = (RuleSetCount > 0xFF ? e64Bit : e32Bit);
     rRULE.Seek(IDOffset, SEEK_SET);
 

@@ -97,6 +97,9 @@ public:
                         else if (ImageType == L"SA")
                             TexturesStart = 4;
 
+                        else if (ImageType.IsHexString(false, IDLength * 2))
+                            TexturesStart = 0;
+
                         else
                         {
                             Log::Error("Unrecognized image type: " + ImageType.ToUTF8());

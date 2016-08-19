@@ -9,33 +9,63 @@
 class CScriptLayer;
 class CScriptObject;
 class CPropertyStruct;
-class TCharacterProperty;
 struct SSetCharacter;
 
 // Group of node classes forming a tree of cached resource dependencies.
 enum EDependencyNodeType
 {
-    eDNT_Root,
-    eDNT_AnimSet,
-    eDNT_ScriptInstance,
-    eDNT_Area,
+    eDNT_DependencyTree,
     eDNT_ResourceDependency,
-    eDNT_AnimSetDependency
+    eDNT_ScriptInstance,
+    eDNT_ScriptProperty,
+    eDNT_CharacterProperty,
+    eDNT_AnimSet,
+    eDNT_Area,
 };
 
-// Base class providing an interface for reading/writing to cache file and determining type.
+// Base class providing an interface for a basic dependency node.
 class IDependencyNode
 {
+protected:
+    std::vector<IDependencyNode*> mChildren;
+
 public:
-    virtual ~IDependencyNode() {}
+    virtual ~IDependencyNode();
     virtual EDependencyNodeType Type() const = 0;
     virtual void Read(IInputStream& rFile, EIDLength IDLength) = 0;
-    virtual void Write(IOutputStream& rFile, EIDLength IDLength) const = 0;
+    virtual void Write(IOutputStream& rFile) const = 0;
+    virtual bool HasDependency(const CAssetID& rkID) const;
+
+    // Accessors
+    u32 NumChildren() const                         { return mChildren.size(); }
+    IDependencyNode* ChildByIndex(u32 Index) const  { return mChildren[Index]; }
+};
+
+// Basic dependency tree; this class is sufficient for most resource types.
+class CDependencyTree : public IDependencyNode
+{
+protected:
+    CAssetID mRootID;
+
+public:
+    CDependencyTree(const CAssetID& rkID) : mRootID(rkID) {}
+
+    virtual EDependencyNodeType Type() const;
+    virtual void Read(IInputStream& rFile, EIDLength IDLength);
+    virtual void Write(IOutputStream& rFile) const;
+
+    void AddDependency(const CAssetID& rkID, bool AvoidDuplicates = true);
+    void AddDependency(CResource *pRes, bool AvoidDuplicates = true);
+
+    // Accessors
+    inline void SetID(const CAssetID& rkID) { mRootID = rkID; }
+    inline CAssetID ID() const              { return mRootID; }
 };
 
 // Node representing a single resource dependency.
 class CResourceDependency : public IDependencyNode
 {
+protected:
     CAssetID mID;
 
 public:
@@ -44,59 +74,80 @@ public:
 
     virtual EDependencyNodeType Type() const;
     virtual void Read(IInputStream& rFile, EIDLength IDLength);
-    virtual void Write(IOutputStream& rFile, EIDLength IDLength) const;
+    virtual void Write(IOutputStream& rFile) const;
+    virtual bool HasDependency(const CAssetID& rkID) const;
 
     // Accessors
     inline CAssetID ID() const              { return mID; }
     inline void SetID(const CAssetID& rkID) { mID = rkID; }
 };
 
-// Node representing a single animset dependency contained in a script object. Indicates which character is being used.
-class CAnimSetDependency : public CResourceDependency
+// Node representing a single resource dependency referenced by a script property.
+class CPropertyDependency : public CResourceDependency
+{
+    TString mIDString;
+
+public:
+    CPropertyDependency()
+        : CResourceDependency()
+    {}
+
+    CPropertyDependency(const TString& rkPropID, const CAssetID& rkAssetID)
+        : CResourceDependency(rkAssetID)
+        , mIDString(rkPropID)
+    {}
+
+    virtual EDependencyNodeType Type() const;
+    virtual void Read(IInputStream& rFile, EIDLength IDLength);
+    virtual void Write(IOutputStream& rFile) const;
+
+    // Accessors
+    inline TString PropertyID() const   { return mIDString; }
+};
+
+// Node representing a single animset dependency referenced by a script property. Indicates which character is being used.
+class CCharPropertyDependency : public CPropertyDependency
 {
 protected:
     u32 mUsedChar;
 
 public:
-    CAnimSetDependency() : CResourceDependency(), mUsedChar(-1) {}
+    CCharPropertyDependency()
+        : CPropertyDependency()
+        , mUsedChar(-1)
+    {}
+
+    CCharPropertyDependency(const TString& rkPropID, const CAssetID& rkAssetID, u32 UsedChar)
+        : CPropertyDependency(rkPropID, rkAssetID)
+        , mUsedChar(UsedChar)
+    {}
 
     virtual EDependencyNodeType Type() const;
     virtual void Read(IInputStream& rFile, EIDLength IDLength);
-    virtual void Write(IOutputStream& rFile, EIDLength IDLength) const;
+    virtual void Write(IOutputStream& rFile) const;
 
     // Accessors
     inline u32 UsedChar() const                 { return mUsedChar; }
-    inline void SetUsedChar(u32 CharIdx)        { mUsedChar = CharIdx; }
-
-    // Static
-    static CAnimSetDependency* BuildDependency(TCharacterProperty *pProp);
 };
 
-// Tree root node, representing a resource.
-class CDependencyTree : public IDependencyNode
+// Node representing a script object. Indicates the type of object.
+class CScriptInstanceDependency : public IDependencyNode
 {
 protected:
-    CAssetID mID;
-    std::vector<CResourceDependency*> mReferencedResources;
+    u32 mObjectType;
 
 public:
-    CDependencyTree(const CAssetID& rkID) : mID(rkID) {}
-    ~CDependencyTree();
-
     virtual EDependencyNodeType Type() const;
     virtual void Read(IInputStream& rFile, EIDLength IDLength);
-    virtual void Write(IOutputStream& rFile, EIDLength IDLength) const;
-
-    u32 NumDependencies() const;
-    bool HasDependency(const CAssetID& rkID);
-    CAssetID DependencyByIndex(u32 Index) const;
-    void AddDependency(const CAssetID& rkID, bool AvoidDuplicates = true);
-    void AddDependency(CResource *pRes, bool AvoidDuplicates = true);
+    virtual void Write(IOutputStream& rFile) const;
 
     // Accessors
-    inline void SetID(const CAssetID& rkID) { mID = rkID; }
-    inline CAssetID ID() const              { return mID; }
+    inline u32 ObjectType() const       { return mObjectType; }
 
+    // Static
+    static CScriptInstanceDependency* BuildTree(CScriptObject *pInstance);
+protected:
+    static void ParseStructDependencies(CScriptInstanceDependency *pTree, CPropertyStruct *pStruct);
 };
 
 // Node representing an animset resource; allows for lookup of dependencies of a particular character in the set.
@@ -109,7 +160,7 @@ public:
     CAnimSetDependencyTree(const CAssetID& rkID) : CDependencyTree(rkID) {}
     virtual EDependencyNodeType Type() const;
     virtual void Read(IInputStream& rFile, EIDLength IDLength);
-    virtual void Write(IOutputStream& rFile, EIDLength IDLength) const;
+    virtual void Write(IOutputStream& rFile) const;
 
     void AddCharacter(const SSetCharacter *pkChar, const std::set<CAssetID>& rkBaseUsedSet);
     void AddCharDependency(const CAssetID& rkID, std::set<CAssetID>& rUsedSet);
@@ -120,53 +171,24 @@ public:
     inline u32 CharacterOffset(u32 CharIdx) const   { return mCharacterOffsets[CharIdx]; }
 };
 
-// Node representing a script object. Indicates the type of object.
-class CScriptInstanceDependencyTree : public IDependencyNode
-{
-protected:
-    u32 mObjectType;
-    std::vector<CResourceDependency*> mDependencies;
-
-public:
-    ~CScriptInstanceDependencyTree();
-
-    virtual EDependencyNodeType Type() const;
-    virtual void Read(IInputStream& rFile, EIDLength IDLength);
-    virtual void Write(IOutputStream& rFile, EIDLength IDLength) const;
-    bool HasDependency(const CAssetID& rkID);
-    CAssetID DependencyByIndex(u32 Index) const;
-
-    // Accessors
-    inline u32 NumDependencies() const  { return mDependencies.size(); }
-    inline u32 ObjectType() const       { return mObjectType; }
-
-    // Static
-    static CScriptInstanceDependencyTree* BuildTree(CScriptObject *pInstance);
-    static void ParseStructDependencies(CScriptInstanceDependencyTree *pTree, CPropertyStruct *pStruct);
-};
-
 // Node representing an area. Tracks dependencies on a per-instance basis and can separate dependencies of different script layers.
 class CAreaDependencyTree : public CDependencyTree
 {
 protected:
-    std::vector<CScriptInstanceDependencyTree*> mScriptInstances;
     std::vector<u32> mLayerOffsets;
 
 public:
     CAreaDependencyTree(const CAssetID& rkID) : CDependencyTree(rkID) {}
-    ~CAreaDependencyTree();
 
     virtual EDependencyNodeType Type() const;
     virtual void Read(IInputStream& rFile, EIDLength IDLength);
-    virtual void Write(IOutputStream& rFile, EIDLength IDLength) const;
+    virtual void Write(IOutputStream& rFile) const;
 
     void AddScriptLayer(CScriptLayer *pLayer);
-    CScriptInstanceDependencyTree* ScriptInstanceByIndex(u32 Index) const;
     void GetModuleDependencies(EGame Game, std::vector<TString>& rModuleDepsOut, std::vector<u32>& rModuleLayerOffsetsOut) const;
 
     // Accessors
     inline u32 NumScriptLayers() const                  { return mLayerOffsets.size(); }
-    inline u32 NumScriptInstances() const               { return mScriptInstances.size(); }
     inline u32 ScriptLayerOffset(u32 LayerIdx) const    { return mLayerOffsets[LayerIdx]; }
 };
 

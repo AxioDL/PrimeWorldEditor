@@ -233,7 +233,12 @@ void CPackage::Cook()
         {
             u32 CompressedSize;
             std::vector<u8> CompressedData(ResourceData.size() * 2);
-            bool Success = CompressionUtil::CompressZlib(ResourceData.data(), ResourceData.size(), CompressedData.data(), CompressedData.size(), CompressedSize);
+            bool Success = false;
+
+            if (mpProject->Game() <= eEchoesDemo)
+                Success = CompressionUtil::CompressZlib(ResourceData.data(), ResourceData.size(), CompressedData.data(), CompressedData.size(), CompressedSize);
+            else
+                Success = CompressionUtil::CompressLZOSegmented(ResourceData.data(), ResourceData.size(), CompressedData.data(), CompressedSize);
 
             // Make sure that the compressed data is actually smaller, accounting for padding + uncompressed size value
             if (Success)

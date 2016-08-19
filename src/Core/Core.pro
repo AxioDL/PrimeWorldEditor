@@ -299,4 +299,5 @@ SOURCES += \
     Resource/Factory/CDependencyGroupLoader.cpp \
     GameProject/CDependencyTree.cpp \
     Resource/Factory/CUnsupportedFormatLoader.cpp \
-    Resource/Factory/CUnsupportedParticleLoader.cpp
+    Resource/Factory/CUnsupportedParticleLoader.cpp \
+    GameProject/DependencyListBuilders.cpp

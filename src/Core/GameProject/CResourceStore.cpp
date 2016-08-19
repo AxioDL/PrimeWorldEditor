@@ -25,6 +25,7 @@ CResourceStore::CResourceStore(CGameExporter *pExporter)
 CResourceStore::~CResourceStore()
 {
     CloseActiveProject();
+    DestroyUnreferencedResources();
 
     for (auto It = mResourceEntries.begin(); It != mResourceEntries.end(); It++)
         delete It->second;
@@ -139,15 +140,31 @@ void CResourceStore::SetActiveProject(CGameProject *pProj)
 
 void CResourceStore::CloseActiveProject()
 {
+    // Destroy unreferenced resources first. (This is necessary to avoid invalid memory accesses when
+    // various TResPtrs are destroyed. There might be a cleaner solution than this.)
+    DestroyUnreferencedResources();
+
     // Delete all entries from old project
     for (auto It = mResourceEntries.begin(); It != mResourceEntries.end(); It++)
     {
         CResourceEntry *pEntry = It->second;
+
         if (!pEntry->IsTransient())
         {
-            delete pEntry;
+            if (pEntry->IsLoaded())
+            {
+                bool UnloadSuccess = pEntry->Unload();
+                ASSERT(UnloadSuccess);
+
+                auto LoadIt = mLoadedResources.find(pEntry->ID());
+                ASSERT(LoadIt != mLoadedResources.end());
+                mLoadedResources.erase(LoadIt);
+            }
+
             It = mResourceEntries.erase(It);
             if (It == mResourceEntries.end()) break;
+
+            delete pEntry;
         }
     }
 

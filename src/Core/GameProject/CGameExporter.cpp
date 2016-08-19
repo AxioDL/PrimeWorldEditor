@@ -503,10 +503,10 @@ void CGameExporter::ExportWorlds()
                     SetResourcePath(AreaID, AreaDir, GameAreaName);
                     ExportResource(*pInst);
                 }
-
-                mStore.DestroyUnreferencedResources();
             }
         }
+
+        mStore.DestroyUnreferencedResources();
     }
 #endif
 }

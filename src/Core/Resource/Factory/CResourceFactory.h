@@ -76,6 +76,7 @@ public:
         case eScan:                 pRes = CScanLoader::LoadSCAN(rInput, pEntry);               break;
         case eSkeleton:             pRes = CSkeletonLoader::LoadCINF(rInput, pEntry);           break;
         case eSkin:                 pRes = CSkinLoader::LoadCSKR(rInput, pEntry);               break;
+        case eStateMachine2:        pRes = CUnsupportedFormatLoader::LoadFSM2(rInput, pEntry);  break;
         case eStaticGeometryMap:    pRes = CPoiToWorldLoader::LoadEGMC(rInput, pEntry);         break;
         case eStringTable:          pRes = CStringLoader::LoadSTRG(rInput, pEntry);             break;
         case eTexture:              pRes = CTextureDecoder::LoadTXTR(rInput, pEntry);           break;
@@ -83,6 +84,8 @@ public:
 
         case eParticle:
         case eParticleElectric:
+        case eParticleSorted:
+        case eParticleSpawn:
         case eParticleSwoosh:
         case eParticleDecal:
         case eParticleWeapon:

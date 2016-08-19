@@ -31,6 +31,7 @@ CResourceEntry::CResourceEntry(CResourceStore *pStore, const CAssetID& rkID,
 CResourceEntry::~CResourceEntry()
 {
     if (mpResource) delete mpResource;
+    if (mpDependencies) delete mpDependencies;
 }
 
 bool CResourceEntry::LoadCacheData()
@@ -102,7 +103,7 @@ bool CResourceEntry::SaveCacheData()
     File.WriteLong(0);
 
     u32 DepsStart = File.Tell();
-    if (mpDependencies) mpDependencies->Write(File, Game() <= eEchoes ? e32Bit : e64Bit);
+    if (mpDependencies) mpDependencies->Write(File);
     u32 DepsEnd = File.Tell();
     u32 DepsSize = DepsEnd- DepsStart;
 
@@ -137,7 +138,7 @@ void CResourceEntry::UpdateDependencies()
 
     mpDependencies = mpResource->BuildDependencyTree();
     if (!WasLoaded)
-        gpResourceStore->DestroyUnreferencedResources();
+        mpStore->DestroyUnreferencedResources();
 }
 
 TWideString CResourceEntry::CacheDataPath(bool Relative) const
@@ -253,7 +254,7 @@ bool CResourceEntry::Save()
     SaveCacheData();
 
     if (ShouldCollectGarbage)
-        gpResourceStore->DestroyUnreferencedResources();
+        mpStore->DestroyUnreferencedResources();
 
     return true;
 }

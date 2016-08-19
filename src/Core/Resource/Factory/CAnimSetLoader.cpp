@@ -381,7 +381,7 @@ CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS, CResourceEntry *pEntry)
 
         for (u32 iEvnt = 0; iEvnt < EventDataCount; iEvnt++)
         {
-            CDependencyGroup *pGrp = CUnsupportedFormatLoader::LoadEVNT(rANCS, nullptr);
+            CDependencyGroup *pGrp = CUnsupportedFormatLoader::LoadEVNT(rANCS, nullptr, true);
             Loader.pSet->mEventDependencies.push_back(pGrp);
         }
     }

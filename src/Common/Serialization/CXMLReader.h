@@ -23,7 +23,7 @@ public:
         mFileVersion = TString( mpCurElem->Attribute("FileVer") ).ToInt32(10);
         mArchiveVersion = TString( mpCurElem->Attribute("ArchiveVer") ).ToInt32(10);
         const char *pkGameAttr = mpCurElem->Attribute("Game");
-        mGame = pkGameAttr ? eUnknownGame : GetGameForID( CFourCC(pkGameAttr) );
+        mGame = pkGameAttr ? GetGameForID( CFourCC(pkGameAttr) ) : eUnknownGame;
     }
 
 protected:
