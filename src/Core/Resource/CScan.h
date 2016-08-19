@@ -43,8 +43,8 @@ public:
 
     CDependencyTree* BuildDependencyTree() const
     {
-        if (Game() >= eEchoesDemo)
-            Log::Warning("CScan::BuildDependencyTree not handling Echoes/Corruption dependencies");
+        if (Game() >= eCorruptionProto)
+            Log::Warning("CScan::BuildDependencyTree not handling Corruption dependencies");
 
         CDependencyTree *pTree = new CDependencyTree(ID());
         pTree->AddDependency(mFrameID);

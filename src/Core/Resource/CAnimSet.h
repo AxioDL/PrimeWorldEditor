@@ -90,7 +90,7 @@ public:
             for (u32 iDep = 0; iDep < pGroup->NumDependencies(); iDep++)
             {
                 CAssetID ID = pGroup->DependencyByIndex(iDep);
-                pTree->AddDependency(iDep);
+                pTree->AddDependency(ID);
                 BaseUsedSet.insert(ID);
             }
         }

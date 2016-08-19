@@ -6,7 +6,7 @@ CFourCC GetGameID(EGame Game)
     switch (Game)
     {
     case ePrimeDemo:        return "MP1D";
-    case ePrime:            return "MP1 ";
+    case ePrime:            return "MPRM";
     case eEchoesDemo:       return "MP2D";
     case eEchoes:           return "MP2E";
     case eCorruptionProto:  return "MP3P";
@@ -19,7 +19,7 @@ CFourCC GetGameID(EGame Game)
 EGame GetGameForID(const CFourCC& rkID)
 {
     if (rkID == "MP1D") return ePrimeDemo;
-    if (rkID == "MP1 ") return ePrime;
+    if (rkID == "MPRM") return ePrime;
     if (rkID == "MP2D") return eEchoesDemo;
     if (rkID == "MP2E") return eEchoes;
     if (rkID == "MP3P") return eCorruptionProto;
