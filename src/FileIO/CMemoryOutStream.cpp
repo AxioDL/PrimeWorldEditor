@@ -26,11 +26,11 @@ void CMemoryOutStream::SetData(void *pData, unsigned long Size, IOUtil::EEndiann
     mDataEndianness = DataEndianness;
 }
 
-void CMemoryOutStream::WriteBytes(void *pSrc, unsigned long Count)
+void CMemoryOutStream::WriteBytes(const void *pkSrc, unsigned long Count)
 {
     if (!IsValid()) return;
 
-    memcpy(mpDataStart + mPos, pSrc, Count);
+    memcpy(mpDataStart + mPos, pkSrc, Count);
     mPos += Count;
     if (mPos > mUsed) mUsed = mPos;
 }

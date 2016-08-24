@@ -18,7 +18,7 @@ public:
     CVectorOutStream(std::vector<char> *pVector, IOUtil::EEndianness DataEndianness);
     ~CVectorOutStream();
 
-    void WriteBytes(void *pSrc, unsigned long Count);
+    void WriteBytes(const void *pkSrc, unsigned long Count);
     bool Seek(long Offset, long Origin);
     long Tell() const;
     bool EoF() const;

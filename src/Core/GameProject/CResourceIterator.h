@@ -6,6 +6,7 @@
 
 class CResourceIterator
 {
+protected:
     CResourceStore *mpStore;
     std::map<CAssetID, CResourceEntry*>::iterator mIter;
     CResourceEntry *mpCurEntry;
@@ -19,7 +20,7 @@ public:
         Next();
     }
 
-    inline CResourceEntry* Next()
+    virtual CResourceEntry* Next()
     {
         if (mIter != mpStore->mResourceEntries.end())
         {
@@ -62,6 +63,23 @@ public:
         CResourceIterator Copy = *this;
         Next();
         return Copy;
+    }
+};
+
+template<class ResType>
+class TResourceIterator : public CResourceIterator
+{
+public:
+    TResourceIterator(CResourceStore *pStore = gpResourceStore)
+        : CResourceIterator(pStore) {}
+
+    virtual CResourceEntry* Next()
+    {
+        do {
+            CResourceIterator::Next();
+        } while (mpCurEntry && mpCurEntry->ResourceType() != ResType::StaticType());
+
+        return mpCurEntry;
     }
 };
 

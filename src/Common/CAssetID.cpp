@@ -68,13 +68,7 @@ TString CAssetID::ToString() const
 
 bool CAssetID::IsValid() const
 {
-    if (mLength == e32Bit)
-        return (*this != skInvalidID32);
-
-    else if (mLength == e64Bit)
-        return (*this != skInvalidID64);
-
-    else return false;
+    return *this != InvalidID(mLength);
 }
 
 // ************ STATIC ************

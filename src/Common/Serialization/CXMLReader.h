@@ -12,7 +12,7 @@ class CXMLReader : public IArchive
 
 public:
     CXMLReader(const TString& rkFileName)
-        : IArchive()
+        : IArchive(true, false)
         , mJustEndedParam(false)
     {
         // Load XML and set current element to the root element; read version
@@ -26,12 +26,7 @@ public:
         mGame = pkGameAttr ? GetGameForID( CFourCC(pkGameAttr) ) : eUnknownGame;
     }
 
-protected:
-    // Interface Implementation
-    bool IsReader() const   { return true; }
-    bool IsWriter() const   { return false; }
-
-protected:
+    // Interface
     virtual bool ParamBegin(const char *pkName)
     {
         // Push new parent if needed
@@ -82,6 +77,7 @@ protected:
         mJustEndedParam = true;
     }
 
+protected:
     TString ReadParam()
     {
         return TString(mpCurElem->GetText());

@@ -81,7 +81,11 @@ HEADERS += \
     Serialization/IArchive.h \
     Serialization/CXMLWriter.h \
     Serialization/CXMLReader.h \
-    EGame.h
+    EGame.h \
+    Serialization/CBasicBinaryWriter.h \
+    Serialization/CBasicBinaryReader.h \
+    Serialization/CBinaryWriter.h \
+    Serialization/CBinaryReader.h
 
 # Source Files
 SOURCES += \

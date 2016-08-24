@@ -20,8 +20,10 @@ public:
     void WriteDouble(double Val);
     void WriteString(const std::string& rkVal);
     void WriteString(const std::string& rkVal, unsigned long Count, bool Terminate = false);
+    void WriteSizedString(const std::string& rkVal);
     void WriteWideString(const std::wstring& rkVal);
     void WriteWideString(const std::wstring& rkVal, unsigned long Count, bool Terminate = false);
+    void WriteSizedWideString(const std::wstring& rkVal);
 
     void WriteToBoundary(unsigned long Boundary, unsigned char Fill);
     void SetEndianness(IOUtil::EEndianness Endianness);
@@ -30,7 +32,7 @@ public:
     std::string GetDestString() const;
 
     virtual ~IOutputStream();
-    virtual void WriteBytes(void *pSrc, unsigned long Count) = 0;
+    virtual void WriteBytes(const void *pkSrc, unsigned long Count) = 0;
     virtual bool Seek(long Offset, long Origin) = 0;
     virtual bool Seek64(long long Offset, long Origin);
     virtual long Tell() const = 0;

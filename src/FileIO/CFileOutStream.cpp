@@ -65,10 +65,10 @@ void CFileOutStream::Close()
     mSize = 0;
 }
 
-void CFileOutStream::WriteBytes(void *pSrc, unsigned long Count)
+void CFileOutStream::WriteBytes(const void *pkSrc, unsigned long Count)
 {
     if (!IsValid()) return;
-    fwrite(pSrc, 1, Count, mpFStream);
+    fwrite(pkSrc, 1, Count, mpFStream);
     if ((unsigned long) Tell() > mSize) mSize = Tell();
 }
 

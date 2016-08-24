@@ -21,7 +21,7 @@ public:
     void Update(const std::string& rkFile, IOUtil::EEndianness FileEndianness);
     void Close();
 
-    void WriteBytes(void *pSrc, unsigned long Count);
+    void WriteBytes(const void *pkSrc, unsigned long Count);
     bool Seek(long Offset, long Origin);
     bool Seek64(long long Offset, long Origin);
     long Tell() const;

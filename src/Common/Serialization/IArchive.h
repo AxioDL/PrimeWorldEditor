@@ -169,11 +169,20 @@ protected:
     s32 mFileVersion;
     s32 mArchiveVersion;
     EGame mGame;
+    bool mIsReader;
+    bool mIsWriter;
 
 public:
     static const u32 skCurrentArchiveVersion = 0;
 
-    IArchive() : mFileVersion(0), mArchiveVersion(skCurrentArchiveVersion), mGame(eUnknownGame) {}
+    IArchive(bool IsReader, bool IsWriter)
+        : mFileVersion(0)
+        , mArchiveVersion(skCurrentArchiveVersion)
+        , mGame(eUnknownGame)
+        , mIsReader(IsReader)
+        , mIsWriter(IsWriter)
+    {}
+
     virtual ~IArchive() {}
 
     #define ENABLE_FOR_SERIAL_TYPE(SType) typename std::enable_if<SerialType<ValType, IArchive>::Type == SerialType<ValType, IArchive>::##SType, int>::type = 0
@@ -355,14 +364,9 @@ public:
     }
 
     // Interface
-    virtual bool IsReader() const = 0;
-    virtual bool IsWriter() const = 0;
-
-protected:
     virtual bool ParamBegin(const char *pkName) = 0;
     virtual void ParamEnd() = 0;
 
-public:
     virtual void SerializeContainerSize(u32& rSize) = 0;
     virtual void SerializeAbstractObjectType(u32& rType) = 0;
 
@@ -394,6 +398,8 @@ public:
     inline u32 FileVersion() const      { return mFileVersion; }
     inline u32 ArchiveVersion() const   { return mArchiveVersion; }
     inline EGame Game() const           { return mGame; }
+    inline bool IsReader() const        { return mIsReader; }
+    inline bool IsWriter() const        { return mIsWriter; }
 };
 
 // Container serialize methods

@@ -14,7 +14,7 @@ class CXMLWriter : public IArchive
 
 public:
     CXMLWriter(const TString& rkFileName, const TString& rkRootName, u32 FileVersion, EGame Game = eUnknownGame)
-        : IArchive()
+        : IArchive(false, true)
         , mOutFilename(rkFileName)
     {
         mFileVersion = FileVersion;
@@ -38,11 +38,7 @@ public:
         mDoc.SaveFile(*mOutFilename);
     }
 
-    // Interface Implementation
-    bool IsReader() const   { return false; }
-    bool IsWriter() const   { return true; }
-
-protected:
+    // Interface
     virtual bool ParamBegin(const char *pkName)
     {
         tinyxml2::XMLElement *pElem = mDoc.NewElement(pkName);
@@ -56,6 +52,7 @@ protected:
         mpCurElem = mpCurElem->Parent()->ToElement();
     }
 
+protected:
     void WriteParam(const char *pkValue)
     {
         mpCurElem->SetText(pkValue);

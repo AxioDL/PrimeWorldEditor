@@ -41,14 +41,14 @@ CVectorOutStream::~CVectorOutStream()
     if (mOwnsVector) delete mpVector;
 }
 
-void CVectorOutStream::WriteBytes(void *pSrc, unsigned long Count)
+void CVectorOutStream::WriteBytes(const void *pkSrc, unsigned long Count)
 {
     if (!IsValid()) return;
 
     if ((mPos + Count) > mpVector->size())
         mpVector->resize(mPos + Count);
 
-    memcpy(mpVector->data() + mPos, pSrc, Count);
+    memcpy(mpVector->data() + mPos, pkSrc, Count);
     mPos += Count;
     if (mPos > mUsed) mUsed = mPos;
 }
