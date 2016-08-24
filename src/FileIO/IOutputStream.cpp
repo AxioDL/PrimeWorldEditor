@@ -63,6 +63,12 @@ void IOutputStream::WriteString(const std::string& rkVal, unsigned long Count, b
         WriteByte(0);
 }
 
+void IOutputStream::WriteSizedString(const std::string& rkVal)
+{
+    WriteLong(rkVal.size());
+    WriteBytes(rkVal.data(), rkVal.size());
+}
+
 void IOutputStream::WriteWideString(const std::wstring& rkVal)
 {
     for (unsigned int iChr = 0; iChr < rkVal.size(); iChr++)
@@ -79,6 +85,12 @@ void IOutputStream::WriteWideString(const std::wstring& rkVal, unsigned long Cou
 
     if (Terminate && (rkVal[Count-1] != 0))
         WriteShort(0);
+}
+
+void IOutputStream::WriteSizedWideString(const std::wstring& rkVal)
+{
+    WriteLong(rkVal.size());
+    WriteBytes(rkVal.data(), rkVal.size() * 2);
 }
 
 void IOutputStream::WriteToBoundary(unsigned long Boundary, unsigned char Fill)

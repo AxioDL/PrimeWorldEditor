@@ -33,13 +33,10 @@ public:
 
     inline void Serialize(IArchive& rArc)
     {
-        bool IsReader = rArc.IsReader();
-        EGame ActiveGame = gpResourceStore->ActiveProject()->Game();
-
-        CAssetID ID = (mpRes && !IsReader ? mpRes->ID() : (ActiveGame <= eEchoes ? CAssetID::skInvalidID32 : CAssetID::skInvalidID64));
+        CAssetID ID = (mpRes && !rArc.IsReader() ? mpRes->ID() : CAssetID::InvalidID(rArc.Game()));
         rArc.SerializePrimitive(ID);
 
-        if (IsReader)
+        if (rArc.IsReader())
         {
             CResourceEntry *pEntry = gpResourceStore->FindEntry(ID);
             *this = (pEntry ? pEntry->Load() : nullptr);

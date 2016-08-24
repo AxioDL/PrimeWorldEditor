@@ -16,7 +16,7 @@ public:
     ~CMemoryOutStream();
     void SetData(void *pData, unsigned long Size, IOUtil::EEndianness mDataEndianness);
 
-    void WriteBytes(void *pSrc, unsigned long Count);
+    void WriteBytes(const void *pkSrc, unsigned long Count);
     bool Seek(long Offset, long Origin);
     long Tell() const;
     bool EoF() const;

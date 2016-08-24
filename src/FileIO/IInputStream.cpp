@@ -84,6 +84,14 @@ std::string IInputStream::ReadString(unsigned long Count)
     return Str;
 }
 
+std::string IInputStream::ReadSizedString()
+{
+    unsigned int StringSize = ReadLong();
+    std::string Str(StringSize, 0);
+    ReadBytes(&Str[0], Str.size());
+    return Str;
+}
+
 std::wstring IInputStream::ReadWString()
 {
     std::wstring WStr;
@@ -108,6 +116,13 @@ std::wstring IInputStream::ReadWString(unsigned long Count)
     return WStr;
 }
 
+std::wstring IInputStream::ReadSizedWString()
+{
+    unsigned int StringSize = ReadLong();
+    std::wstring WStr(StringSize, 0);
+    ReadBytes(&WStr[0], WStr.size() * 2);
+    return WStr;
+}
 
 char IInputStream::PeekByte()
 {

@@ -21,8 +21,10 @@ public:
     double ReadDouble();
     std::string ReadString();
     std::string ReadString(unsigned long Count);
+    std::string ReadSizedString();
     std::wstring ReadWString();
     std::wstring ReadWString(unsigned long Count);
+    std::wstring ReadSizedWString();
 
     char PeekByte();
     short PeekShort();
