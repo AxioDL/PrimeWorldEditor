@@ -1,10 +1,13 @@
 #include "CResourceStore.h"
 #include "CGameExporter.h"
 #include "CGameProject.h"
+#include "CResourceIterator.h"
 #include "Core/Resource/CResource.h"
 #include <Common/AssertMacro.h>
 #include <Common/FileUtil.h>
 #include <Common/Log.h>
+#include <Common/Serialization/Binary.h>
+#include <Common/Serialization/XML.h>
 #include <tinyxml2.h>
 
 using namespace tinyxml2;
@@ -34,92 +37,151 @@ CResourceStore::~CResourceStore()
         delete *It;
 }
 
-void CResourceStore::LoadResourceDatabase(const TString& rkPath)
+void CResourceStore::SerializeResourceDatabase(IArchive& rArc)
 {
-    XMLDocument Doc;
-    Doc.LoadFile(*rkPath);
-
-    if (!Doc.Error())
+    struct SDatabaseResource
     {
-        XMLElement *pRoot = Doc.FirstChildElement("ResourceDatabase");
-        //EDatabaseVersion Version = (EDatabaseVersion) TString(pRoot->Attribute("Version")).ToInt32(10); // Version currently unused
+        CAssetID ID;
+        CFourCC Type;
+        TWideString Directory;
+        TWideString Name;
 
-        XMLElement *pResources = pRoot->FirstChildElement("Resources");
-        XMLElement *pRes = pResources->FirstChildElement("Resource");
-        u32 ResIndex = 0;
-
-        while (pRes)
+        void Serialize(IArchive& rArc)
         {
-            XMLElement *pID = pRes->FirstChildElement("ID");
-            XMLElement *pType = pRes->FirstChildElement("Type");
-            XMLElement *pDir = pRes->FirstChildElement("FileDir");
-            XMLElement *pName = pRes->FirstChildElement("FileName");
+            rArc << SERIAL_AUTO(ID) << SERIAL_AUTO(Type) << SERIAL_AUTO(Directory) << SERIAL_AUTO(Name);
+        }
+    };
+    std::vector<SDatabaseResource> Resources;
 
-            if (pID && pType && pDir && pName)
-            {
-                CAssetID ID = CAssetID::FromString(pID->GetText());
-                EResType Type = CResource::ResTypeForExtension(pType->GetText());
-                TWideString FileDir = pDir->GetText();
-                TWideString FileName = pName->GetText();
-                RegisterResource(ID, Type, FileDir, FileName);
-            }
-            else
-                Log::Error("Error reading " + rkPath + ": Resource entry " + TString::FromInt32(ResIndex, 0, 10) + " is missing one or more required components");
+    // Populate resource list
+    if (!rArc.IsReader())
+    {
+        Resources.reserve(mResourceEntries.size());
 
-            ResIndex++;
-            pRes = pRes->NextSiblingElement("Resource");
+        for (CResourceIterator It(this); It; ++It)
+        {
+            if (!It->IsTransient())
+                Resources.push_back( SDatabaseResource { It->ID(), It->CookedExtension(), It->Directory()->FullPath(), It->Name() } );
         }
     }
 
-    // All resources registered - load cache data
-    for (auto It = mResourceEntries.begin(); It != mResourceEntries.end(); It++)
+    // Serialize
+    rArc << SERIAL_CONTAINER_AUTO(Resources, "Resource");
+
+    // Register resources
+    if (rArc.IsReader())
     {
-        CResourceEntry *pEntry = It->second;
-        if (!pEntry->IsTransient())
-            pEntry->LoadCacheData();
+        for (auto Iter = Resources.begin(); Iter != Resources.end(); Iter++)
+        {
+            SDatabaseResource& rRes = *Iter;
+            RegisterResource(rRes.ID, CResource::ResTypeForExtension(rRes.Type), rRes.Directory, rRes.Name);
+        }
     }
 }
 
-void CResourceStore::SaveResourceDatabase(const TString& rkPath) const
+void CResourceStore::LoadResourceDatabase()
 {
-    XMLDocument Doc;
+    ASSERT(mpProj);
+    TString Path = mpProj->ResourceDBPath(false).ToUTF8();
 
-    XMLDeclaration *pDecl = Doc.NewDeclaration();
-    Doc.LinkEndChild(pDecl);
+    CXMLReader Reader(Path);
+    SerializeResourceDatabase(Reader);
+    LoadCacheFile();
+}
 
-    XMLElement *pRoot = Doc.NewElement("ResourceDatabase");
-    pRoot->SetAttribute("Version", eVer_Current);
-    Doc.LinkEndChild(pRoot);
+void CResourceStore::SaveResourceDatabase()
+{
+    ASSERT(mpProj);
+    TString Path = mpProj->ResourceDBPath(false).ToUTF8();
 
-    XMLElement *pResources = Doc.NewElement("Resources");
-    pRoot->LinkEndChild(pResources);
+    CXMLWriter Writer(Path, "ResourceDB", 0, mpProj ? mpProj->Game() : eUnknownGame);
+    SerializeResourceDatabase(Writer);
+}
 
-    for (auto It = mResourceEntries.begin(); It != mResourceEntries.end(); It++)
+void CResourceStore::LoadCacheFile()
+{
+    TString CacheDataPath = mpProj->ResourceCachePath(false).ToUTF8();
+    CFileInStream CacheFile(CacheDataPath.ToStdString(), IOUtil::eBigEndian);
+    ASSERT(CacheFile.IsValid());
+
+    // Cache header
+    CFourCC Magic(CacheFile);
+
+    if (Magic != "CACH")
     {
-        CResourceEntry *pEntry = It->second;
-        if (pEntry->IsTransient()) continue;
-
-        XMLElement *pRes = Doc.NewElement("Resource");
-        pResources->LinkEndChild(pRes);
-
-        XMLElement *pID = Doc.NewElement("ID");
-        pID->SetText(*pEntry->ID().ToString());
-        pRes->LinkEndChild(pID);
-
-        XMLElement *pType = Doc.NewElement("Type");
-        pType->SetText(*GetResourceCookedExtension(pEntry->ResourceType(), pEntry->Game()));
-        pRes->LinkEndChild(pType);
-
-        XMLElement *pDir = Doc.NewElement("FileDir");
-        pDir->SetText(*pEntry->Directory()->FullPath().ToUTF8());
-        pRes->LinkEndChild(pDir);
-
-        XMLElement *pName = Doc.NewElement("FileName");
-        pName->SetText(*pEntry->Name().ToUTF8());
-        pRes->LinkEndChild(pName);
+        Log::Error("Invalid resource cache data magic: " + Magic.ToString());
+        return;
     }
 
-    Doc.SaveFile(*rkPath);
+    CSerialVersion Version(CacheFile);
+    u32 NumResources = CacheFile.ReadLong();
+
+    for (u32 iRes = 0; iRes < NumResources; iRes++)
+    {
+        CAssetID ID(CacheFile, Version.Game());
+        u32 EntryCacheSize = CacheFile.ReadLong();
+        u32 EntryCacheEnd = CacheFile.Tell() + EntryCacheSize;
+
+        CResourceEntry *pEntry = FindEntry(ID);
+
+        if (pEntry && !pEntry->IsTransient())
+        {
+            CBasicBinaryReader Reader(&CacheFile, Version);
+
+            if (Reader.ParamBegin("EntryCache"))
+            {
+                pEntry->SerializeCacheData(Reader);
+                Reader.ParamEnd();
+            }
+        }
+
+        CacheFile.Seek(EntryCacheEnd, SEEK_SET);
+    }
+}
+
+void CResourceStore::SaveCacheFile()
+{
+    TString CacheDataPath = mpProj->ResourceCachePath(false).ToUTF8();
+    CFileOutStream CacheFile(CacheDataPath.ToStdString(), IOUtil::eBigEndian);
+    ASSERT(CacheFile.IsValid());
+
+    // Cache header
+    CFourCC("CACH").Write(CacheFile);
+    CSerialVersion Version(0, 0, mpProj->Game());
+    Version.Write(CacheFile);
+
+    u32 ResCountOffset = CacheFile.Tell();
+    u32 ResCount = 0;
+    CacheFile.WriteLong(0); // Resource count dummy - fill in when we know the real count
+
+    // Save entry cache data
+    // Structure: Entry Asset ID -> Entry Cache Size -> Serialized Entry Cache Data
+    for (CResourceIterator It(this); It; ++It)
+    {
+        if (!It->IsTransient())
+        {
+            ResCount++;
+            It->ID().Write(CacheFile);
+            u32 SizeOffset = CacheFile.Tell();
+            CacheFile.WriteLong(0);
+
+            CBasicBinaryWriter Writer(&CacheFile, Version.FileVersion(), Version.Game());
+
+            if (Writer.ParamBegin("EntryCache"))
+            {
+                It->SerializeCacheData(Writer);
+                Writer.ParamEnd();
+            }
+
+            u32 EntryCacheEnd = CacheFile.Tell();
+            CacheFile.Seek(SizeOffset, SEEK_SET);
+            CacheFile.WriteLong(EntryCacheEnd - SizeOffset - 4);
+            CacheFile.Seek(EntryCacheEnd, SEEK_SET);
+        }
+    }
+
+    CacheFile.Seek(ResCountOffset, SEEK_SET);
+    CacheFile.WriteLong(ResCount);
 }
 
 void CResourceStore::SetActiveProject(CGameProject *pProj)
@@ -134,7 +196,7 @@ void CResourceStore::SetActiveProject(CGameProject *pProj)
         mpProjectRoot = new CVirtualDirectory();
 
         if (!mpExporter)
-            LoadResourceDatabase(pProj->ResourceDBPath(false));
+            LoadResourceDatabase();
     }
 }
 
@@ -145,7 +207,9 @@ void CResourceStore::CloseActiveProject()
     DestroyUnreferencedResources();
 
     // Delete all entries from old project
-    for (auto It = mResourceEntries.begin(); It != mResourceEntries.end(); It++)
+    auto It = mResourceEntries.begin();
+
+    while (It != mResourceEntries.end())
     {
         CResourceEntry *pEntry = It->second;
 
@@ -161,11 +225,12 @@ void CResourceStore::CloseActiveProject()
                 mLoadedResources.erase(LoadIt);
             }
 
-            It = mResourceEntries.erase(It);
-            if (It == mResourceEntries.end()) break;
-
             delete pEntry;
+            It = mResourceEntries.erase(It);
         }
+
+        else
+            It++;
     }
 
     delete mpProjectRoot;
@@ -402,8 +467,9 @@ void CResourceStore::DestroyUnreferencedResources()
     do
     {
         NumDeleted = 0;
+        auto It = mLoadedResources.begin();
 
-        for (auto It = mLoadedResources.begin(); It != mLoadedResources.end(); It++)
+        while (It != mLoadedResources.end())
         {
             CResourceEntry *pEntry = It->second;
 
@@ -415,9 +481,9 @@ void CResourceStore::DestroyUnreferencedResources()
                 // Transient resources should have their entries cleared out when the resource is unloaded
                 if (pEntry->IsTransient())
                     DeleteResourceEntry(pEntry);
-
-                if (It == mLoadedResources.end()) break;
             }
+
+            else It++;
         }
     } while (NumDeleted > 0);
 

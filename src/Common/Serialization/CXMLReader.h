@@ -20,8 +20,8 @@ public:
         mpCurElem = mDoc.FirstChildElement();
         ASSERT(mpCurElem != nullptr);
 
-        mFileVersion = TString( mpCurElem->Attribute("FileVer") ).ToInt32(10);
-        mArchiveVersion = TString( mpCurElem->Attribute("ArchiveVer") ).ToInt32(10);
+        mArchiveVersion = (u16) TString( mpCurElem->Attribute("ArchiveVer") ).ToInt32(10);
+        mFileVersion = (u16) TString( mpCurElem->Attribute("FileVer") ).ToInt32(10);
         const char *pkGameAttr = mpCurElem->Attribute("Game");
         mGame = pkGameAttr ? GetGameForID( CFourCC(pkGameAttr) ) : eUnknownGame;
     }
@@ -107,15 +107,13 @@ public:
     virtual void SerializePrimitive(float& rValue)       { rValue = ReadParam().ToFloat(); }
     virtual void SerializePrimitive(double& rValue)      { rValue = (double) ReadParam().ToFloat(); }
     virtual void SerializePrimitive(TString& rValue)     { rValue = ReadParam(); }
+    virtual void SerializePrimitive(TWideString& rValue) { rValue = ReadParam().ToUTF16(); }
+    virtual void SerializePrimitive(CFourCC& rValue)     { rValue = CFourCC( ReadParam() ); }
     virtual void SerializePrimitive(CAssetID& rValue)    { rValue = CAssetID::FromString( ReadParam() ); }
 
-    virtual void SerializeHexPrimitive(s8& rValue)       { rValue = (s8) ReadParam().ToInt32(16); }
     virtual void SerializeHexPrimitive(u8& rValue)       { rValue = (u8) ReadParam().ToInt32(16); }
-    virtual void SerializeHexPrimitive(s16& rValue)      { rValue = (s16) ReadParam().ToInt32(16); }
     virtual void SerializeHexPrimitive(u16& rValue)      { rValue = (u16) ReadParam().ToInt32(16); }
-    virtual void SerializeHexPrimitive(s32& rValue)      { rValue = (s32) ReadParam().ToInt32(16); }
     virtual void SerializeHexPrimitive(u32& rValue)      { rValue = (u32) ReadParam().ToInt32(16); }
-    virtual void SerializeHexPrimitive(s64& rValue)      { rValue = (s64) ReadParam().ToInt32(16); }
     virtual void SerializeHexPrimitive(u64& rValue)      { rValue = (u64) ReadParam().ToInt32(16); }
 };
 

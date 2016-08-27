@@ -526,7 +526,7 @@ void CGameExporter::ExportCookedResources()
     {
         SCOPED_TIMER(SaveResourceDatabase);
 #if EXPORT_COOKED
-        mStore.SaveResourceDatabase(mpProject->ResourceDBPath(false).ToUTF8());
+        mStore.SaveResourceDatabase();
 #endif
         mpProject->Save();
     }
@@ -537,6 +537,9 @@ void CGameExporter::ExportCookedResources()
         // some resources will fail to load if their dependencies don't exist
         SCOPED_TIMER(SaveRawResources);
 
+        // todo: we're wasting a ton of time loading the same resources over and over because most resources automatically
+        // load all their dependencies and then we just clear it out from memory even though we'll need it again later. we
+        // should really be doing this by dependency order instead of by ID order.
         for (CResourceIterator It(&mStore); It; ++It)
         {
             if (!It->IsTransient())
@@ -556,10 +559,15 @@ void CGameExporter::ExportCookedResources()
                     }
                 }
 
-                // Save raw resource + cache data
-                It->Save();
+                // Save raw resource + generate dependencies
+                It->Save(true);
             }
         }
+    }
+    {
+        // All resources should have dependencies generated, so save the cache file
+        SCOPED_TIMER(SaveResourceCacheData);
+        mStore.SaveCacheFile();
     }
 }
 

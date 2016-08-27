@@ -5,6 +5,7 @@
 #include "types.h"
 
 class CFourCC;
+class IArchive;
 
 enum EGame
 {
@@ -20,5 +21,6 @@ enum EGame
 
 CFourCC GetGameID(EGame Game);
 EGame GetGameForID(const CFourCC& rkID);
+void Serialize(IArchive& rArc, EGame& rGame);
 
 #endif // EGAME_H

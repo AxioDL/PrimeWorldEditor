@@ -43,8 +43,12 @@ CDependencyTree* CGameArea::BuildDependencyTree() const
         pTree->AddDependency(*Iter);
 
     pTree->AddDependency(mPathID);
-    pTree->AddDependency(mPortalAreaID);
-    pTree->AddDependency(mpPoiToWorldMap);
+
+    if (Game() >= eEchoesDemo)
+    {
+        pTree->AddDependency(mPortalAreaID);
+        pTree->AddDependency(mpPoiToWorldMap);
+    }
     
     // Layer dependencies
     for (u32 iLayer = 0; iLayer < mScriptLayers.size(); iLayer++)

@@ -1,5 +1,6 @@
 #include "EGame.h"
 #include "CFourCC.h"
+#include "Common/Serialization/IArchive.h"
 
 CFourCC GetGameID(EGame Game)
 {
@@ -26,4 +27,11 @@ EGame GetGameForID(const CFourCC& rkID)
     if (rkID == "MP3C") return eCorruption;
     if (rkID == "DKCR") return eReturns;
     return eUnknownGame;
+}
+
+void Serialize(IArchive& rArc, EGame& rGame)
+{
+    CFourCC GameID = GetGameID(rGame);
+    rArc.SerializePrimitive(GameID);
+    if (rArc.IsReader()) rGame = GetGameForID(GameID);
 }

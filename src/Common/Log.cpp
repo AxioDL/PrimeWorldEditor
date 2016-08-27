@@ -69,17 +69,19 @@ bool InitLog(const TString& rkFilename)
 
 void Write(const TString& rkMessage)
 {
+    double Time = CTimer::GlobalTime() - gAppStartTime;
+
     if (!gInitialized)
         gPreInitLogs.push_back(rkMessage);
 
     else if (gpLogFile)
     {
-        double Time = CTimer::GlobalTime() - gAppStartTime;
         fprintf(gpLogFile, "[%08.3f] %s\n", Time, *rkMessage);
         fflush(gpLogFile);
     }
 
-    std::cout << rkMessage << "\n";
+    std::cout << std::fixed << std::setprecision(3)
+              << "["  << Time << "] " << rkMessage << "\n";
 }
 
 void Error(const TString& rkMessage)

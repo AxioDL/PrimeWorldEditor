@@ -46,6 +46,7 @@ public:
 
     bool Load(const TWideString& rkPath);
     void Save();
+    void Serialize(IArchive& rArc);
     void SetActive();
     void GetWorldList(std::list<CAssetID>& rOut) const;
 
@@ -58,6 +59,7 @@ public:
     inline TWideString CookedDir(bool Relative) const           { return Relative ? L"Cooked\\" : mProjectRoot + L"Cooked\\"; }
     inline TWideString PackagesDir(bool Relative) const         { return Relative ? L"Packages\\" : mProjectRoot + L"Packages\\"; }
     inline TWideString ProjectPath() const                      { return mProjectRoot + FileUtil::SanitizeName(mProjectName.ToUTF16(), false) + L".prj"; }
+    inline TWideString ResourceCachePath(bool Relative) const   { return ResourceDBPath(Relative).GetFileDirectory() + L"ResourceCacheData.rcd"; }
 
     // Accessors
     inline void SetGame(EGame Game)                     { mGame = Game; }

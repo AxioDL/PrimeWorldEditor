@@ -1,15 +1,19 @@
 #ifndef IARCHIVE
 #define IARCHIVE
 
+#include "CSerialVersion.h"
 #include "Common/AssertMacro.h"
 #include "Common/CAssetID.h"
+#include "Common/CFourCC.h"
 #include "Common/EGame.h"
 #include "Common/TString.h"
 #include "Common/types.h"
 
-/* This is a custom serialization implementation intended for saving editor-friendly game assets
- * out to XML. Support for other output formats can be added by implementing new subclasses of
- * IArchive.
+/* This is a custom serialization implementation intended for saving game assets out to editor-
+ * friendly formats, such as XML. The main goals of the serialization system is to simplify the
+ * code for reading and writing editor files and to be able to easily update those files without
+ * breaking compatibility with older versions. Support for new output formats can be added by
+ * implementing new subclasses of IArchive.
  *
  * To use a class with the serialization system, it must have a Serialize function implemented.
  * There are two ways this function can be defined:
@@ -22,9 +26,10 @@
  * ensure that files are easily backwards-compatible if parameters are moved or added/removed.
  *
  * Polymorphism is supported. There are two requirements for a polymorphic class to work with the
- * serialization system. First, the base class must contain a virtual Type() parameter that returns
- * an integral value (an enum or an integer). Second, there must be a factory class with a SpawnObject
- * method that takes the same Type value and returns an object of the specified class.
+ * serialization system. First, the base class must contain a virtual Type() function that returns
+ * an integral value (an enum or an integer), as well as a virtual Serialize(IArchive&) function.
+ * Second, there must be a factory object with a SpawnObject(u32) method that takes the same Type value
+ * and returns an object of the correct class.
  *
  * Containers are also supported. Containers require a different macro that allows you to specify the
  * name of the elements in the container. The currently-supported containers are std::vector, std::list,
@@ -166,8 +171,8 @@ public:
 class IArchive
 {
 protected:
-    s32 mFileVersion;
-    s32 mArchiveVersion;
+    u16 mArchiveVersion;
+    u16 mFileVersion;
     EGame mGame;
     bool mIsReader;
     bool mIsWriter;
@@ -383,23 +388,40 @@ public:
     virtual void SerializePrimitive(float& rValue) = 0;
     virtual void SerializePrimitive(double& rValue) = 0;
     virtual void SerializePrimitive(TString& rValue) = 0;
+    virtual void SerializePrimitive(TWideString& rValue) = 0;
+    virtual void SerializePrimitive(CFourCC& rValue) = 0;
     virtual void SerializePrimitive(CAssetID& rValue) = 0;
 
-    virtual void SerializeHexPrimitive(s8& rValue) = 0;
     virtual void SerializeHexPrimitive(u8& rValue) = 0;
-    virtual void SerializeHexPrimitive(s16& rValue) = 0;
     virtual void SerializeHexPrimitive(u16& rValue) = 0;
-    virtual void SerializeHexPrimitive(s32& rValue) = 0;
     virtual void SerializeHexPrimitive(u32& rValue) = 0;
-    virtual void SerializeHexPrimitive(s64& rValue) = 0;
     virtual void SerializeHexPrimitive(u64& rValue) = 0;
 
     // Accessors
-    inline u32 FileVersion() const      { return mFileVersion; }
-    inline u32 ArchiveVersion() const   { return mArchiveVersion; }
+    inline u16 ArchiveVersion() const   { return mArchiveVersion; }
+    inline u16 FileVersion() const      { return mFileVersion; }
     inline EGame Game() const           { return mGame; }
     inline bool IsReader() const        { return mIsReader; }
     inline bool IsWriter() const        { return mIsWriter; }
+
+    inline void SetVersion(u16 ArchiveVersion, u16 FileVersion, EGame Game)
+    {
+        mArchiveVersion = ArchiveVersion;
+        mFileVersion = FileVersion;
+        mGame = Game;
+    }
+
+    inline void SetVersion(const CSerialVersion& rkVersion)
+    {
+        mArchiveVersion = rkVersion.ArchiveVersion();
+        mFileVersion = rkVersion.FileVersion();
+        mGame = rkVersion.Game();
+    }
+
+    inline CSerialVersion GetVersionInfo() const
+    {
+        return CSerialVersion(mArchiveVersion, mFileVersion, mGame);
+    }
 };
 
 // Container serialize methods

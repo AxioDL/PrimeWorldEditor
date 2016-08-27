@@ -62,14 +62,14 @@ void CWorld::SetAreaLayerInfo(CGameArea *pArea)
 // ************ SERIALIZATION ************
 void CWorld::Serialize(IArchive& rArc)
 {
-    rArc << SERIAL("WorldNameSTRG", mpWorldName);
+    rArc << SERIAL("WorldNameString", mpWorldName);
 
     if (rArc.Game() == eEchoesDemo || rArc.Game() == eEchoes)
-        rArc << SERIAL("DarkWorldNameSTRG", mpDarkWorldName);
+        rArc << SERIAL("DarkWorldNameString", mpDarkWorldName);
 
     rArc << SERIAL("WorldSaveInfo", mpSaveWorld)
          << SERIAL("WorldMap", mpMapWorld)
-         << SERIAL("DefaultSkyCMDL", mpDefaultSkybox);
+         << SERIAL("DefaultSkyModel", mpDefaultSkybox);
 
     if (rArc.Game() >= eEchoesDemo && rArc.Game() <= eCorruption)
         rArc << SERIAL("TempleKeyWorldIndex", mTempleKeyWorldIndex);
@@ -94,11 +94,11 @@ void Serialize(IArchive& rArc, CWorld::SMemoryRelay& rMemRelay)
 void Serialize(IArchive& rArc, CWorld::SArea& rArea)
 {
     rArc << SERIAL("Name", rArea.InternalName)
-         << SERIAL("NameSTRG", rArea.pAreaName)
+         << SERIAL("NameString", rArea.pAreaName)
+         << SERIAL("MREA", rArea.AreaResID)
+         << SERIAL("ID", rArea.AreaID)
          << SERIAL("Transform", rArea.Transform)
          << SERIAL("BoundingBox", rArea.AetherBox)
-         << SERIAL("AreaMREA", rArea.AreaResID)
-         << SERIAL("AreaID", rArea.AreaID)
          << SERIAL("AllowPakDuplicates", rArea.AllowPakDuplicates)
          << SERIAL_CONTAINER("AttachedAreas", rArea.AttachedAreaIDs, "AreaIndex")
          << SERIAL_CONTAINER("RelModules", rArea.RelFilenames, "Module")
