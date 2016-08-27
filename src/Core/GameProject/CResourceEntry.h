@@ -44,8 +44,7 @@ public:
                    EResType Type, bool Transient = false);
     ~CResourceEntry();
 
-    bool LoadCacheData();
-    bool SaveCacheData();
+    void SerializeCacheData(IArchive& rArc);
     void UpdateDependencies();
     TWideString CacheDataPath(bool Relative = false) const;
 
@@ -58,7 +57,7 @@ public:
     u64 Size() const;
     bool NeedsRecook() const;
     void SetGame(EGame NewGame);
-    bool Save();
+    bool Save(bool SkipCacheSave = false);
     CResource* Load();
     CResource* LoadCooked(IInputStream& rInput);
     bool Unload();

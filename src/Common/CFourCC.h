@@ -4,7 +4,6 @@
 #include "AssertMacro.h"
 #include "types.h"
 #include "TString.h"
-#include "Common/Serialization/IArchive.h"
 #include <FileIO/IInputStream.h>
 #include <FileIO/IOutputStream.h>
 
@@ -40,13 +39,6 @@ public:
         u32 Val = mFourCC;
         if (rOutput.GetEndianness() == IOUtil::eLittleEndian) IOUtil::SwapBytes(Val);
         rOutput.WriteLong(Val);
-    }
-
-    inline void Serialize(IArchive& rArc)
-    {
-        TString Str = ToString();
-        rArc.SerializePrimitive(Str);
-        if (rArc.IsReader()) *this = CFourCC(Str);
     }
 
     inline u32 ToLong() const

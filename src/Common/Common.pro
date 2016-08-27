@@ -85,7 +85,10 @@ HEADERS += \
     Serialization/CBasicBinaryWriter.h \
     Serialization/CBasicBinaryReader.h \
     Serialization/CBinaryWriter.h \
-    Serialization/CBinaryReader.h
+    Serialization/CBinaryReader.h \
+    Serialization/CSerialVersion.h \
+    Serialization/XML.h \
+    Serialization/Binary.h
 
 # Source Files
 SOURCES += \
@@ -96,4 +99,5 @@ SOURCES += \
     Log.cpp \
     FileUtil.cpp \
     CAssetID.cpp \
-    EGame.cpp
+    EGame.cpp \
+    Serialization/CSerialVersion.cpp

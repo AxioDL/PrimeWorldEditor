@@ -42,8 +42,11 @@ public:
     CResourceStore();
     CResourceStore(CGameExporter *pExporter);
     ~CResourceStore();
-    void LoadResourceDatabase(const TString& rkPath);
-    void SaveResourceDatabase(const TString& rkPath) const;
+    void SerializeResourceDatabase(IArchive& rArc);
+    void LoadResourceDatabase();
+    void SaveResourceDatabase();
+    void LoadCacheFile();
+    void SaveCacheFile();
     void SetActiveProject(CGameProject *pProj);
     void CloseActiveProject();
     CVirtualDirectory* GetVirtualDirectory(const TWideString& rkPath, bool Transient, bool AllowCreate);

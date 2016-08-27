@@ -2,6 +2,7 @@
 #define CBASICBINARYREADER
 
 #include "IArchive.h"
+#include "CSerialVersion.h"
 #include "Common/CFourCC.h"
 #include <FileIO/IInputStream.h>
 
@@ -21,21 +22,17 @@ public:
         mpStream = new CFileInStream(rkFilename.ToStdString(), IOUtil::eBigEndian);
         ASSERT(mpStream->IsValid());
 
-        mFileVersion = mpStream->ReadShort();
-        mArchiveVersion = mpStream->ReadShort();
-        mGame = GetGameForID( CFourCC(*mpStream) );
+        CSerialVersion Version(*mpStream);
+        SetVersion(Version);
     }
 
-    CBasicBinaryReader(IInputStream *pStream)
+    CBasicBinaryReader(IInputStream *pStream, const CSerialVersion& rkVersion)
         : IArchive(true, false)
         , mOwnsStream(false)
     {
         ASSERT(pStream->IsValid());
         mpStream = pStream;
-
-        mFileVersion = mpStream->ReadShort();
-        mArchiveVersion = mpStream->ReadShort();
-        mGame = GetGameForID( CFourCC(*mpStream) );
+        SetVersion(rkVersion);
     }
 
     ~CBasicBinaryReader()
@@ -62,15 +59,13 @@ public:
     virtual void SerializePrimitive(float& rValue)          { rValue = mpStream->ReadFloat(); }
     virtual void SerializePrimitive(double& rValue)         { rValue = mpStream->ReadDouble(); }
     virtual void SerializePrimitive(TString& rValue)        { rValue = mpStream->ReadSizedString(); }
+    virtual void SerializePrimitive(TWideString& rValue)    { rValue = mpStream->ReadSizedWString(); }
+    virtual void SerializePrimitive(CFourCC& rValue)        { rValue = CFourCC(*mpStream); }
     virtual void SerializePrimitive(CAssetID& rValue)       { rValue = CAssetID(*mpStream, mGame); }
 
-    virtual void SerializeHexPrimitive(s8& rValue)          { rValue = mpStream->ReadByte(); }
     virtual void SerializeHexPrimitive(u8& rValue)          { rValue = mpStream->ReadByte(); }
-    virtual void SerializeHexPrimitive(s16& rValue)         { rValue = mpStream->ReadShort(); }
     virtual void SerializeHexPrimitive(u16& rValue)         { rValue = mpStream->ReadShort(); }
-    virtual void SerializeHexPrimitive(s32& rValue)         { rValue = mpStream->ReadLong(); }
     virtual void SerializeHexPrimitive(u32& rValue)         { rValue = mpStream->ReadLong(); }
-    virtual void SerializeHexPrimitive(s64& rValue)         { rValue = mpStream->ReadLongLong(); }
     virtual void SerializeHexPrimitive(u64& rValue)         { rValue = mpStream->ReadLongLong(); }
 };
 

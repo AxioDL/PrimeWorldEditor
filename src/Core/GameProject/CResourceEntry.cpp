@@ -34,87 +34,18 @@ CResourceEntry::~CResourceEntry()
     if (mpDependencies) delete mpDependencies;
 }
 
-bool CResourceEntry::LoadCacheData()
+void CResourceEntry::SerializeCacheData(IArchive& rArc)
 {
     ASSERT(!IsTransient());
 
-    TWideString Path = CacheDataPath(false);
-    CFileInStream File(Path.ToUTF8().ToStdString(), IOUtil::eLittleEndian);
+    u32 Flags = mFlags & eREF_SavedFlags;
+    rArc << SERIAL_AUTO(Flags);
+    if (rArc.IsReader()) mFlags = Flags & eREF_SavedFlags;
 
-    if (!File.IsValid())
-    {
-        Log::Error("Unable to load cache data " + Path.ToUTF8() + "; couldn't open file");
-        return false;
-    }
-
-    // Header
-    TString Magic = File.ReadString(4);
-    ASSERT(Magic == "CACH");
-    File.Seek(0x4, SEEK_CUR); // Skip Version
-    mFlags = File.ReadLong() & eREF_SavedFlags;
-
-    // Dependency Tree
-    u32 DepsTreeSize = File.ReadLong();
-    u32 DepsTreeStart = File.Tell();
-
-    if (mpDependencies)
-    {
-        delete mpDependencies;
-        mpDependencies = nullptr;
-    }
-
-    if (DepsTreeSize > 0)
-    {
-        if (mType == eArea)         mpDependencies = new CAreaDependencyTree(mID);
-        else if (mType == eAnimSet) mpDependencies = new CAnimSetDependencyTree(mID);
-        else                        mpDependencies = new CDependencyTree(mID);
-
-        mpDependencies->Read(File, Game() <= eEchoes ? e32Bit : e64Bit);
-        ASSERT(File.Tell() - DepsTreeStart == DepsTreeSize);
-    }
-
-    return true;
-}
-
-bool CResourceEntry::SaveCacheData()
-{
-    ASSERT(!IsTransient());
-
-    TWideString Path = CacheDataPath(false);
-    TWideString Dir = Path.GetFileDirectory();
-    FileUtil::CreateDirectory(Dir);
-    CFileOutStream File(Path.ToUTF8().ToStdString(), IOUtil::eLittleEndian);
-
-    if (!File.IsValid())
-    {
-        Log::Error("Unable to save cache data " + TString(Path.GetFileName()) + "; couldn't open file");
-        return false;
-    }
-
-    // Header
-    File.WriteString("CACH", 4);
-    File.WriteLong(0); // Reserved Space (Version)
-    File.WriteLong(mFlags & eREF_SavedFlags);
-
-    // Dependency Tree
-    if (!mpDependencies) UpdateDependencies();
-
-    u32 DepsSizeOffset = File.Tell();
-    File.WriteLong(0);
-
-    u32 DepsStart = File.Tell();
-    if (mpDependencies) mpDependencies->Write(File);
-    u32 DepsEnd = File.Tell();
-    u32 DepsSize = DepsEnd- DepsStart;
-
-    File.Seek(DepsSizeOffset, SEEK_SET);
-    File.WriteLong(DepsSize);
-    File.Seek(DepsEnd, SEEK_SET);
-
-    // Thumbnail
-    File.WriteLong(0); // Reserved Space (Thumbnail Size)
-
-    return true;
+    // Note: If the dependency tree format is changed this should be adjusted so that
+    // we regenerate the dependencies from scratch instead of reading the tree if the
+    // file version number is too low
+    rArc << SERIAL_ABSTRACT("Dependencies", mpDependencies, &gDependencyNodeFactory);
 }
 
 void CResourceEntry::UpdateDependencies()
@@ -123,6 +54,14 @@ void CResourceEntry::UpdateDependencies()
     {
         delete mpDependencies;
         mpDependencies = nullptr;
+    }
+
+    // todo: more robust method of skipping dependency updates. For now just skip the most
+    // time-consuming type that can't have dependencies (textures).
+    if (ResourceType() == eTexture)
+    {
+        mpDependencies = new CDependencyTree(ID());
+        return;
     }
 
     bool WasLoaded = IsLoaded();
@@ -225,8 +164,13 @@ void CResourceEntry::SetGame(EGame NewGame)
     }
 }
 
-bool CResourceEntry::Save()
+bool CResourceEntry::Save(bool SkipCacheSave /*= false*/)
 {
+    // SkipCacheSave argument tells us not to save the resource cache file. This is generally not advised because we don't
+    // want the actual resource data to desync from the cache data. However, there are occasions where we save multiple
+    // resources at a time and in that case it's preferable to only save the cache once. If you do set SkipCacheSave to true,
+    // then make sure you manually update the cache file afterwards.
+    //
     // For now, always save the resource when this function is called even if there's been no changes made to it in memory.
     // In the future this might not be desired behavior 100% of the time.
     // We also might want this function to trigger a cook for certain resource types eventually.
@@ -249,9 +193,11 @@ bool CResourceEntry::Save()
         mpResource->Serialize(Writer);
     }
 
-    // Resource has been saved, now update cache file
+    // Resource has been saved, now update dependencies + cache file
     UpdateDependencies();
-    SaveCacheData();
+
+    if (!SkipCacheSave)
+        mpStore->SaveCacheFile();
 
     if (ShouldCollectGarbage)
         mpStore->DestroyUnreferencedResources();

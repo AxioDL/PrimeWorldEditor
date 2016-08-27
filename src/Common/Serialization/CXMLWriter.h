@@ -13,12 +13,11 @@ class CXMLWriter : public IArchive
     tinyxml2::XMLElement *mpCurElem;
 
 public:
-    CXMLWriter(const TString& rkFileName, const TString& rkRootName, u32 FileVersion, EGame Game = eUnknownGame)
+    CXMLWriter(const TString& rkFileName, const TString& rkRootName, u16 FileVersion, EGame Game = eUnknownGame)
         : IArchive(false, true)
         , mOutFilename(rkFileName)
     {
-        mFileVersion = FileVersion;
-        mGame = Game;
+        SetVersion(skCurrentArchiveVersion, FileVersion, Game);
 
         // Create declaration and root node
         tinyxml2::XMLDeclaration *pDecl = mDoc.NewDeclaration();
@@ -28,8 +27,8 @@ public:
         mDoc.LinkEndChild(mpCurElem);
 
         // Write version data
-        mpCurElem->SetAttribute("FileVer", (int) FileVersion);
         mpCurElem->SetAttribute("ArchiveVer", (int) skCurrentArchiveVersion);
+        mpCurElem->SetAttribute("FileVer", (int) FileVersion);
         if (Game != eUnknownGame) mpCurElem->SetAttribute("Game", *GetGameID(Game).ToString());
     }
 
@@ -82,15 +81,13 @@ public:
     virtual void SerializePrimitive(float& rValue)       { WriteParam(*TString::FromFloat(rValue)); }
     virtual void SerializePrimitive(double& rValue)      { WriteParam(*TString::FromFloat((float) rValue)); }
     virtual void SerializePrimitive(TString& rValue)     { WriteParam(*rValue); }
+    virtual void SerializePrimitive(TWideString& rValue) { WriteParam(*rValue.ToUTF8()); }
+    virtual void SerializePrimitive(CFourCC& rValue)     { WriteParam(*rValue.ToString()); }
     virtual void SerializePrimitive(CAssetID& rValue)    { WriteParam(*rValue.ToString()); }
 
-    virtual void SerializeHexPrimitive(s8& rValue)       { WriteParam(*TString::HexString((u8) rValue, 2)); }
     virtual void SerializeHexPrimitive(u8& rValue)       { WriteParam(*TString::HexString(rValue, 2)); }
-    virtual void SerializeHexPrimitive(s16& rValue)      { WriteParam(*TString::HexString((u16) rValue, 4)); }
     virtual void SerializeHexPrimitive(u16& rValue)      { WriteParam(*TString::HexString(rValue, 4)); }
-    virtual void SerializeHexPrimitive(s32& rValue)      { WriteParam(*TString::HexString((u32) rValue, 8)); }
     virtual void SerializeHexPrimitive(u32& rValue)      { WriteParam(*TString::HexString(rValue, 8)); }
-    virtual void SerializeHexPrimitive(s64& rValue)      { WriteParam(*TString::HexString((u32) rValue, 16)); }
     virtual void SerializeHexPrimitive(u64& rValue)      { WriteParam(*TString::HexString((u32) rValue, 16)); }
 };
 

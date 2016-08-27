@@ -14,34 +14,32 @@ class CBasicBinaryWriter : public IArchive
     bool mOwnsStream;
 
 public:
-    CBasicBinaryWriter(const TString& rkFilename, u32 FileVersion, EGame Game = eUnknownGame, IOUtil::EEndianness = IOUtil::eLittleEndian)
+    CBasicBinaryWriter(const TString& rkFilename, u16 FileVersion, EGame Game = eUnknownGame, IOUtil::EEndianness = IOUtil::eLittleEndian)
         : IArchive(false, true)
         , mOwnsStream(true)
     {
         mpStream = new CFileOutStream(rkFilename.ToStdString(), IOUtil::eBigEndian);
         ASSERT(mpStream->IsValid());
-
-        mFileVersion = FileVersion;
-        mGame = Game;
-
-        mpStream->WriteShort((u16) FileVersion);
-        mpStream->WriteShort((u16) skCurrentArchiveVersion);
-        GetGameID(Game).Write(*mpStream);
+        SetVersion(skCurrentArchiveVersion, FileVersion, Game);
+        GetVersionInfo().Write(*mpStream);
     }
 
-    CBasicBinaryWriter(IOutputStream *pStream, u32 FileVersion, EGame Game = eUnknownGame)
+    CBasicBinaryWriter(IOutputStream *pStream, u16 FileVersion, EGame Game = eUnknownGame)
         : IArchive(false, true)
         , mOwnsStream(false)
     {
         ASSERT(pStream->IsValid());
         mpStream = pStream;
+        SetVersion(skCurrentArchiveVersion, FileVersion, Game);
+    }
 
-        mFileVersion = FileVersion;
-        mGame = Game;
-
-        mpStream->WriteShort((u16) FileVersion);
-        mpStream->WriteShort((u16) skCurrentArchiveVersion);
-        GetGameID(Game).Write(*mpStream);
+    CBasicBinaryWriter(IOutputStream *pStream, const CSerialVersion& rkVersion)
+        : IArchive(false, true)
+        , mOwnsStream(false)
+    {
+        ASSERT(pStream->IsValid());
+        mpStream = pStream;
+        SetVersion(rkVersion);
     }
 
     ~CBasicBinaryWriter()
@@ -53,8 +51,8 @@ public:
     virtual bool ParamBegin(const char*)    { return true; }
     virtual void ParamEnd()                 { }
 
-    virtual void SerializeContainerSize(u32& rSize)         { SerializePrimitive(rSize); }
-    virtual void SerializeAbstractObjectType(u32& rType)    { SerializePrimitive(rType); }
+    virtual void SerializeContainerSize(u32& rSize)         { mpStream->WriteLong(rSize); }
+    virtual void SerializeAbstractObjectType(u32& rType)    { mpStream->WriteLong(rType); }
     virtual void SerializePrimitive(bool& rValue)           { mpStream->WriteBool(rValue); }
     virtual void SerializePrimitive(char& rValue)           { mpStream->WriteByte(rValue); }
     virtual void SerializePrimitive(s8& rValue)             { mpStream->WriteByte(rValue); }
@@ -68,15 +66,13 @@ public:
     virtual void SerializePrimitive(float& rValue)          { mpStream->WriteFloat(rValue); }
     virtual void SerializePrimitive(double& rValue)         { mpStream->WriteDouble(rValue); }
     virtual void SerializePrimitive(TString& rValue)        { mpStream->WriteSizedString(rValue.ToStdString()); }
+    virtual void SerializePrimitive(TWideString& rValue)    { mpStream->WriteSizedWideString(rValue.ToStdString()); }
+    virtual void SerializePrimitive(CFourCC& rValue)        { rValue.Write(*mpStream); }
     virtual void SerializePrimitive(CAssetID& rValue)       { rValue.Write(*mpStream); }
 
-    virtual void SerializeHexPrimitive(s8& rValue)          { mpStream->WriteByte(rValue); }
     virtual void SerializeHexPrimitive(u8& rValue)          { mpStream->WriteByte(rValue); }
-    virtual void SerializeHexPrimitive(s16& rValue)         { mpStream->WriteShort(rValue); }
     virtual void SerializeHexPrimitive(u16& rValue)         { mpStream->WriteShort(rValue); }
-    virtual void SerializeHexPrimitive(s32& rValue)         { mpStream->WriteLong(rValue); }
     virtual void SerializeHexPrimitive(u32& rValue)         { mpStream->WriteLong(rValue); }
-    virtual void SerializeHexPrimitive(s64& rValue)         { mpStream->WriteLongLong(rValue); }
     virtual void SerializeHexPrimitive(u64& rValue)         { mpStream->WriteLongLong(rValue); }
 };
 

@@ -68,7 +68,7 @@ TString CAssetID::ToString() const
 
 bool CAssetID::IsValid() const
 {
-    return *this != InvalidID(mLength);
+    return (mID != 0 && mLength != eInvalidIDLength && mID != InvalidID(mLength).mID);
 }
 
 // ************ STATIC ************

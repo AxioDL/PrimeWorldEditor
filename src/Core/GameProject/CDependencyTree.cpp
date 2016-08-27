@@ -3,6 +3,8 @@
 #include "Core/Resource/Script/CScriptLayer.h"
 #include "Core/Resource/Script/CScriptObject.h"
 
+CDependencyNodeFactory gDependencyNodeFactory;
+
 // ************ IDependencyNode ************
 IDependencyNode::~IDependencyNode()
 {
@@ -27,28 +29,10 @@ EDependencyNodeType CDependencyTree::Type() const
     return eDNT_DependencyTree;
 }
 
-void CDependencyTree::Read(IInputStream& rFile, EIDLength IDLength)
+void CDependencyTree::Serialize(IArchive& rArc)
 {
-    mRootID = CAssetID(rFile, IDLength);
-
-    u32 NumDepends = rFile.ReadLong();
-    mChildren.reserve(NumDepends);
-
-    for (u32 iDep = 0; iDep < NumDepends; iDep++)
-    {
-        CResourceDependency *pDepend = new CResourceDependency;
-        pDepend->Read(rFile, IDLength);
-        mChildren.push_back(pDepend);
-    }
-}
-
-void CDependencyTree::Write(IOutputStream& rFile) const
-{
-    mRootID.Write(rFile);
-    rFile.WriteLong( mChildren.size() );
-
-    for (u32 iDep = 0; iDep < mChildren.size(); iDep++)
-        mChildren[iDep]->Write(rFile);
+    rArc << SERIAL("RootID", mRootID)
+         << SERIAL_ABSTRACT_CONTAINER("Children", mChildren, "Child", &gDependencyNodeFactory);
 }
 
 void CDependencyTree::AddDependency(CResource *pRes, bool AvoidDuplicates /*= true*/)
@@ -70,14 +54,9 @@ EDependencyNodeType CResourceDependency::Type() const
     return eDNT_ResourceDependency;
 }
 
-void CResourceDependency::Read(IInputStream& rFile, EIDLength IDLength)
+void CResourceDependency::Serialize(IArchive& rArc)
 {
-    mID = CAssetID(rFile, IDLength);
-}
-
-void CResourceDependency::Write(IOutputStream& rFile) const
-{
-    mID.Write(rFile);
+    rArc << SERIAL("ID", mID);
 }
 
 bool CResourceDependency::HasDependency(const CAssetID& rkID) const
@@ -91,16 +70,10 @@ EDependencyNodeType CPropertyDependency::Type() const
     return eDNT_ScriptProperty;
 }
 
-void CPropertyDependency::Read(IInputStream& rFile, EIDLength IDLength)
+void CPropertyDependency::Serialize(IArchive& rArc)
 {
-    mIDString = rFile.ReadString();
-    CResourceDependency::Read(rFile, IDLength);
-}
-
-void CPropertyDependency::Write(IOutputStream& rFile) const
-{
-    rFile.WriteString(mIDString.ToStdString());
-    CResourceDependency::Write(rFile);
+    rArc << SERIAL("PropertyID", mIDString);
+    CResourceDependency::Serialize(rArc);
 }
 
 // ************ CCharacterPropertyDependency ************
@@ -109,16 +82,10 @@ EDependencyNodeType CCharPropertyDependency::Type() const
     return eDNT_CharacterProperty;
 }
 
-void CCharPropertyDependency::Read(IInputStream& rFile, EIDLength IDLength)
+void CCharPropertyDependency::Serialize(IArchive& rArc)
 {
-    CPropertyDependency::Read(rFile, IDLength);
-    mUsedChar = rFile.ReadLong();
-}
-
-void CCharPropertyDependency::Write(IOutputStream& rFile) const
-{
-    CPropertyDependency::Write(rFile);
-    rFile.WriteLong(mUsedChar);
+    CPropertyDependency::Serialize(rArc);
+    rArc << SERIAL("CharIndex", mUsedChar);
 }
 
 // ************ CScriptInstanceDependency ************
@@ -127,32 +94,10 @@ EDependencyNodeType CScriptInstanceDependency::Type() const
     return eDNT_ScriptInstance;
 }
 
-void CScriptInstanceDependency::Read(IInputStream& rFile, EIDLength IDLength)
+void CScriptInstanceDependency::Serialize(IArchive& rArc)
 {
-    mObjectType = rFile.ReadLong();
-    u32 NumProperties = rFile.ReadLong();
-    mChildren.reserve(NumProperties);
-
-    for (u32 iProp = 0; iProp < NumProperties; iProp++)
-    {
-        bool IsCharacter = rFile.ReadBool();
-        CPropertyDependency *pProp = (IsCharacter ? new CCharPropertyDependency() : new CPropertyDependency());
-        pProp->Read(rFile, IDLength);
-        mChildren.push_back(pProp);
-    }
-}
-
-void CScriptInstanceDependency::Write(IOutputStream& rFile) const
-{
-    rFile.WriteLong(mObjectType);
-    rFile.WriteLong(mChildren.size());
-
-    for (u32 iProp = 0; iProp < mChildren.size(); iProp++)
-    {
-        CPropertyDependency *pProp = static_cast<CPropertyDependency*>(mChildren[iProp]);
-        rFile.WriteBool( pProp->Type() == eDNT_CharacterProperty );
-        pProp->Write(rFile);
-    }
+    rArc << SERIAL("ObjectType", mObjectType)
+         << SERIAL_ABSTRACT_CONTAINER("Properties", mChildren, "Property", &gDependencyNodeFactory);
 }
 
 // Static
@@ -216,23 +161,10 @@ EDependencyNodeType CAnimSetDependencyTree::Type() const
     return eDNT_AnimSet;
 }
 
-void CAnimSetDependencyTree::Read(IInputStream& rFile, EIDLength IDLength)
+void CAnimSetDependencyTree::Serialize(IArchive& rArc)
 {
-    CDependencyTree::Read(rFile, IDLength);
-    u32 NumChars = rFile.ReadLong();
-    mCharacterOffsets.reserve(NumChars);
-
-    for (u32 iChar = 0; iChar < NumChars; iChar++)
-        mCharacterOffsets.push_back( rFile.ReadLong() );
-}
-
-void CAnimSetDependencyTree::Write(IOutputStream& rFile) const
-{
-    CDependencyTree::Write(rFile);
-    rFile.WriteLong(mCharacterOffsets.size());
-
-    for (u32 iChar = 0; iChar < mCharacterOffsets.size(); iChar++)
-        rFile.WriteLong( mCharacterOffsets[iChar] );
+    CDependencyTree::Serialize(rArc);
+    rArc << SERIAL_CONTAINER("CharacterOffsets", mCharacterOffsets, "Offset");
 }
 
 void CAnimSetDependencyTree::AddCharacter(const SSetCharacter *pkChar, const std::set<CAssetID>& rkBaseUsedSet)
@@ -282,57 +214,10 @@ EDependencyNodeType CAreaDependencyTree::Type() const
     return eDNT_Area;
 }
 
-void CAreaDependencyTree::Read(IInputStream& rFile, EIDLength IDLength)
+void CAreaDependencyTree::Serialize(IArchive& rArc)
 {
-    mRootID = CAssetID(rFile, IDLength);
-
-    // Base dependency list contains non-script dependencies (world geometry textures + PATH/PTLA/EGMC)
-    u32 NumBaseDependencies = rFile.ReadLong();
-    mChildren.reserve(NumBaseDependencies);
-
-    for (u32 iDep = 0; iDep < NumBaseDependencies; iDep++)
-    {
-        CResourceDependency *pDep = new CResourceDependency;
-        pDep->Read(rFile, IDLength);
-        mChildren.push_back(pDep);
-    }
-
-    u32 NumScriptInstances = rFile.ReadLong();
-    mChildren.reserve(mChildren.size() + NumScriptInstances);
-
-    for (u32 iInst = 0; iInst < NumScriptInstances; iInst++)
-    {
-        CScriptInstanceDependency *pInst = new CScriptInstanceDependency;
-        pInst->Read(rFile, IDLength);
-        mChildren.push_back(pInst);
-    }
-
-    u32 NumLayers = rFile.ReadLong();
-    mLayerOffsets.reserve(NumLayers);
-
-    for (u32 iLyr = 0; iLyr < NumLayers; iLyr++)
-        mLayerOffsets.push_back( rFile.ReadLong() );
-}
-
-void CAreaDependencyTree::Write(IOutputStream& rFile) const
-{
-    mRootID.Write(rFile);
-
-    u32 NumBaseDependencies = (mLayerOffsets.empty() ? mChildren.size() : mLayerOffsets.front());
-    rFile.WriteLong(NumBaseDependencies);
-
-    for (u32 iDep = 0; iDep < NumBaseDependencies; iDep++)
-        mChildren[iDep]->Write(rFile);
-
-    rFile.WriteLong(mChildren.size() - NumBaseDependencies);
-
-    for (u32 iDep = NumBaseDependencies; iDep < mChildren.size(); iDep++)
-        mChildren[iDep]->Write(rFile);
-
-    rFile.WriteLong(mLayerOffsets.size());
-
-    for (u32 iLyr = 0; iLyr < mLayerOffsets.size(); iLyr++)
-        rFile.WriteLong(mLayerOffsets[iLyr]);
+    CDependencyTree::Serialize(rArc);
+    rArc << SERIAL_CONTAINER("LayerOffsets", mLayerOffsets, "Offset");
 }
 
 void CAreaDependencyTree::AddScriptLayer(CScriptLayer *pLayer)

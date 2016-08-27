@@ -4,6 +4,7 @@
 #include <Common/CAssetID.h>
 #include <Common/CFourCC.h>
 #include <Common/TString.h>
+#include <Common/Serialization/IArchive.h>
 
 class CGameProject;
 
@@ -12,6 +13,11 @@ struct SNamedResource
     TString Name;
     CAssetID ID;
     CFourCC Type;
+
+    void Serialize(IArchive& rArc)
+    {
+        rArc << SERIAL_AUTO(Name) << SERIAL_AUTO(ID) << SERIAL_AUTO(Type);
+    }
 };
 
 class CResourceCollection
@@ -22,6 +28,11 @@ class CResourceCollection
 public:
     CResourceCollection() : mName("UNNAMED") {}
     CResourceCollection(const TString& rkName) : mName(rkName) {}
+
+    void Serialize(IArchive& rArc)
+    {
+        rArc << SERIAL("Name", mName) << SERIAL_CONTAINER("Resources", mNamedResources, "Resource");
+    }
 
     inline TString Name() const                                 { return mName; }
     inline u32 NumResources() const                             { return mNamedResources.size(); }
@@ -59,6 +70,7 @@ public:
 
     void Load();
     void Save();
+    void Serialize(IArchive& rArc);
 
     void Cook();
     void CompareOriginalAssetList(const std::list<CAssetID>& rkNewList);

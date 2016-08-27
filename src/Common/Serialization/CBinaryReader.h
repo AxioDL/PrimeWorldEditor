@@ -2,6 +2,7 @@
 #define CBINARYREADER
 
 #include "IArchive.h"
+#include "CSerialVersion.h"
 #include "Common/CFourCC.h"
 
 class CBinaryReader : public IArchive
@@ -11,6 +12,7 @@ class CBinaryReader : public IArchive
         u32 Offset;
         u16 Size;
         bool HasChildren;
+        bool Abstract;
     };
     std::vector<SParameter> mParamStack;
 
@@ -25,23 +27,19 @@ public:
         mpStream = new CFileInStream(rkFilename.ToStdString(), IOUtil::eBigEndian);
         ASSERT(mpStream->IsValid());
 
-        mFileVersion = mpStream->ReadShort();
-        mArchiveVersion = mpStream->ReadShort();
-        mGame = GetGameForID( CFourCC(*mpStream) );
+        CSerialVersion Version(*mpStream);
+        SetVersion(Version);
 
         mParamStack.reserve(20);
     }
 
-    CBinaryReader(IInputStream *pStream)
+    CBinaryReader(IInputStream *pStream, const CSerialVersion& rkVersion)
         : IArchive(true, false)
         , mOwnsStream(false)
     {
         ASSERT(pStream->IsValid());
         mpStream = pStream;
-
-        mFileVersion = mpStream->ReadShort();
-        mArchiveVersion = mpStream->ReadShort();
-        mGame = GetGameForID( CFourCC(*mpStream) );
+        SetVersion(rkVersion);
 
         mParamStack.reserve(20);
     }
@@ -70,16 +68,16 @@ public:
         // Does the next parameter ID match the current one?
         if (NextID == ParamID)
         {
-            mParamStack.push_back( SParameter { Offset, NextSize, false } );
+            mParamStack.push_back( SParameter { Offset, NextSize, false, false } );
             return true;
         }
 
         // It's not a match - return to the parent parameter's first child and check all children to find a match
         if (!mParamStack.empty())
         {
+            bool ParentAbstract = mParamStack.back().Abstract;
             u32 ParentOffset = mParamStack.back().Offset;
-            mpStream->Seek(ParentOffset, SEEK_SET);
-            mpStream->Seek(0x6, SEEK_CUR);
+            mpStream->Seek(ParentOffset + (ParentAbstract ? 0xA : 0x6), SEEK_SET);
             u16 NumChildren = mpStream->ReadShort();
 
             for (u32 iChild = 0; iChild < NumChildren; iChild++)
@@ -91,7 +89,7 @@ public:
                     mpStream->Seek(ChildSize, SEEK_CUR);
                 else
                 {
-                    mParamStack.push_back( SParameter { mpStream->Tell() - 6, NextSize, false } );
+                    mParamStack.push_back( SParameter { mpStream->Tell() - 6, NextSize, false, false } );
                     return true;
                 }
             }
@@ -111,37 +109,40 @@ public:
         mParamStack.pop_back();
     }
 
-    void SerializeContainerSize(u32& rSize)
+    virtual void SerializeContainerSize(u32& rSize)
     {
         // Mostly handled by ParamBegin, we just need to return the size correctly so the container can be resized
         rSize = (u32) mpStream->PeekShort();
     }
 
-    void SerializeAbstractObjectType(u32& rType)    { rType = mpStream->ReadLong(); }
+    virtual void SerializeAbstractObjectType(u32& rType)
+    {
+        // Mark current parameter as abstract so we can account for the object type in the filestream
+        rType = mpStream->ReadLong();
+        mParamStack.back().Abstract = true;
+    }
 
-    void SerializePrimitive(bool& rValue)           { rValue = mpStream->ReadBool(); }
-    void SerializePrimitive(char& rValue)           { rValue = mpStream->ReadByte(); }
-    void SerializePrimitive(s8& rValue)             { rValue = mpStream->ReadByte(); }
-    void SerializePrimitive(u8& rValue)             { rValue = mpStream->ReadByte(); }
-    void SerializePrimitive(s16& rValue)            { rValue = mpStream->ReadShort(); }
-    void SerializePrimitive(u16& rValue)            { rValue = mpStream->ReadShort(); }
-    void SerializePrimitive(s32& rValue)            { rValue = mpStream->ReadLong(); }
-    void SerializePrimitive(u32& rValue)            { rValue = mpStream->ReadLong(); }
-    void SerializePrimitive(s64& rValue)            { rValue = mpStream->ReadLongLong(); }
-    void SerializePrimitive(u64& rValue)            { rValue = mpStream->ReadLongLong(); }
-    void SerializePrimitive(float& rValue)          { rValue = mpStream->ReadFloat(); }
-    void SerializePrimitive(double& rValue)         { rValue = mpStream->ReadDouble(); }
-    void SerializePrimitive(TString& rValue)        { rValue = mpStream->ReadSizedString(); }
-    void SerializePrimitive(CAssetID& rValue)       { rValue = CAssetID(*mpStream, Game()); }
+    virtual void SerializePrimitive(bool& rValue)           { rValue = mpStream->ReadBool(); }
+    virtual void SerializePrimitive(char& rValue)           { rValue = mpStream->ReadByte(); }
+    virtual void SerializePrimitive(s8& rValue)             { rValue = mpStream->ReadByte(); }
+    virtual void SerializePrimitive(u8& rValue)             { rValue = mpStream->ReadByte(); }
+    virtual void SerializePrimitive(s16& rValue)            { rValue = mpStream->ReadShort(); }
+    virtual void SerializePrimitive(u16& rValue)            { rValue = mpStream->ReadShort(); }
+    virtual void SerializePrimitive(s32& rValue)            { rValue = mpStream->ReadLong(); }
+    virtual void SerializePrimitive(u32& rValue)            { rValue = mpStream->ReadLong(); }
+    virtual void SerializePrimitive(s64& rValue)            { rValue = mpStream->ReadLongLong(); }
+    virtual void SerializePrimitive(u64& rValue)            { rValue = mpStream->ReadLongLong(); }
+    virtual void SerializePrimitive(float& rValue)          { rValue = mpStream->ReadFloat(); }
+    virtual void SerializePrimitive(double& rValue)         { rValue = mpStream->ReadDouble(); }
+    virtual void SerializePrimitive(TString& rValue)        { rValue = mpStream->ReadSizedString(); }
+    virtual void SerializePrimitive(TWideString& rValue)    { rValue = mpStream->ReadSizedWString(); }
+    virtual void SerializePrimitive(CFourCC& rValue)        { rValue = CFourCC(*mpStream); }
+    virtual void SerializePrimitive(CAssetID& rValue)       { rValue = CAssetID(*mpStream, Game()); }
 
-    void SerializeHexPrimitive(s8& rValue)          { rValue = mpStream->ReadByte(); }
-    void SerializeHexPrimitive(u8& rValue)          { rValue = mpStream->ReadByte(); }
-    void SerializeHexPrimitive(s16& rValue)         { rValue = mpStream->ReadShort(); }
-    void SerializeHexPrimitive(u16& rValue)         { rValue = mpStream->ReadShort(); }
-    void SerializeHexPrimitive(s32& rValue)         { rValue = mpStream->ReadLong(); }
-    void SerializeHexPrimitive(u32& rValue)         { rValue = mpStream->ReadLong(); }
-    void SerializeHexPrimitive(s64& rValue)         { rValue = mpStream->ReadLongLong(); }
-    void SerializeHexPrimitive(u64& rValue)         { rValue = mpStream->ReadLongLong(); }
+    virtual void SerializeHexPrimitive(u8& rValue)          { rValue = mpStream->ReadByte(); }
+    virtual void SerializeHexPrimitive(u16& rValue)         { rValue = mpStream->ReadShort(); }
+    virtual void SerializeHexPrimitive(u32& rValue)         { rValue = mpStream->ReadLong(); }
+    virtual void SerializeHexPrimitive(u64& rValue)         { rValue = mpStream->ReadLongLong(); }
 };
 
 #endif // CBINARYREADER
