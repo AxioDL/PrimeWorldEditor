@@ -51,6 +51,7 @@ public:
     void UpdateCameraOrbit();
     CSkeleton* CurrentSkeleton() const;
     CAnimation* CurrentAnimation() const;
+    void SetActiveAnimSet(CAnimSet *pSet);
     void SetSelectedBone(CBone *pBone);
 
 public slots:

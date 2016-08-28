@@ -31,6 +31,10 @@ CGameExporter::CGameExporter(const TString& rkInputDir, const TString& rkOutputD
     mStore.SetActiveProject(mpProject);
 }
 
+#if PUBLIC_RELEASE
+#error Fix export directory being cleared!
+#endif
+
 bool CGameExporter::Export()
 {
     SCOPED_TIMER(ExportGame);
