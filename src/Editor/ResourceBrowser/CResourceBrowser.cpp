@@ -1,11 +1,15 @@
 #include "CResourceBrowser.h"
 #include "ui_CResourceBrowser.h"
+#include "Editor/ModelEditor/CModelEditorWindow.h"
+#include "Editor/CharacterEditor/CCharacterEditor.h"
+#include <QMessageBox>
 
 CResourceBrowser::CResourceBrowser(QWidget *pParent)
     : QDialog(pParent)
     , mpUI(new Ui::CResourceBrowser)
 {
     mpUI->setupUi(this);
+    setWindowFlags(windowFlags() | Qt::WindowMinimizeButtonHint);
 
     // Set up table models
     mpModel = new CResourceTableModel(this);
@@ -29,6 +33,7 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
     connect(mpUI->SearchBar, SIGNAL(textChanged(QString)), this, SLOT(OnSearchStringChanged()));
     connect(mpUI->SortComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(OnSortModeChanged(int)));
     connect(mpUI->DirectoryTreeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(OnDirectorySelectionChanged(QModelIndex,QModelIndex)));
+    connect(mpUI->ResourceTableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnDoubleClickResource(QModelIndex)));
 }
 
 CResourceBrowser::~CResourceBrowser()
@@ -60,4 +65,41 @@ void CResourceBrowser::OnDirectorySelectionChanged(const QModelIndex& rkNewIndex
         pDir = mpDirectoryModel->IndexDirectory(rkNewIndex);
 
     mpProxyModel->SetDirectory(pDir);
+}
+
+void CResourceBrowser::OnDoubleClickResource(QModelIndex Index)
+{
+    QModelIndex SourceIndex = mpProxyModel->mapToSource(Index);
+    CResourceEntry *pEntry = mpModel->IndexEntry(SourceIndex);
+
+    if (pEntry->ResourceType() == eModel)
+    {
+        CModel *pModel = (CModel*) pEntry->Load();
+
+        if (pModel)
+        {
+            CModelEditorWindow *pModelEd = new CModelEditorWindow(parentWidget());
+            pModelEd->SetActiveModel(pModel);
+            pModelEd->show();
+        }
+        else
+            QMessageBox::warning(this, "Error", "Failed to load resource");
+    }
+
+    else if (pEntry->ResourceType() == eAnimSet)
+    {
+        CAnimSet *pSet = (CAnimSet*) pEntry->Load();
+
+        if (pSet)
+        {
+            CCharacterEditor *pCharEd = new CCharacterEditor(parentWidget());
+            pCharEd->SetActiveAnimSet(pSet);
+            pCharEd->show();
+        }
+        else
+            QMessageBox::warning(this, "Error", "Failed to load resource");
+    }
+
+    else
+        QMessageBox::information(this, "Unsupported Resource", "The selected resource type is currently unsupported for editing.");
 }

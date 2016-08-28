@@ -3,7 +3,7 @@
     <objects>
         <object ID="0x00" template="Script/Actor.xml"/>
         <object ID="0x02" template="Script/Waypoint.xml"/>
-        <object ID="0x03" template="Script/DoorArea.xml"/>
+        <object ID="0x03" template="Script/Door.xml"/>
         <object ID="0x04" template="Script/Trigger.xml"/>
         <object ID="0x05" template="Script/Timer.xml"/>
         <object ID="0x06" template="Script/Counter.xml"/>

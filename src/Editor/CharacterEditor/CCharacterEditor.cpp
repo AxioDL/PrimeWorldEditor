@@ -175,6 +175,50 @@ CAnimation* CCharacterEditor::CurrentAnimation() const
         return nullptr;
 }
 
+void CCharacterEditor::SetActiveAnimSet(CAnimSet *pSet)
+{
+    mpSet = pSet;
+    mpCharNode->SetCharSet(mpSet);
+    SET_WINDOWTITLE_APPVARS("%APP_FULL_NAME% - Character Editor: " + TO_QSTRING(mpSet->Source()));
+
+    // Clear selected bone
+    ui->SkeletonHierarchyTreeView->selectionModel()->clear();
+    SetSelectedBone(nullptr);
+
+    // Set up character combo box
+    mpCharComboBox->blockSignals(true);
+    mpCharComboBox->clear();
+
+    for (u32 iChar = 0; iChar < mpSet->NumNodes(); iChar++)
+        mpCharComboBox->addItem( TO_QSTRING(mpSet->NodeName(iChar)) );
+
+    SetActiveCharacterIndex(0);
+    mpCharComboBox->blockSignals(false);
+
+    // Set up anim combo box
+    mpAnimComboBox->blockSignals(true);
+    mpAnimComboBox->clear();
+
+    for (u32 iAnim = 0; iAnim < mpSet->NumAnims(); iAnim++)
+        mpAnimComboBox->addItem( TO_QSTRING(mpSet->AnimName(iAnim)) );
+
+    SetActiveAnimation(0);
+    mpAnimComboBox->blockSignals(false);
+
+    // Set up skeleton tree view
+    CSkeleton *pSkel = mpSet->NodeSkeleton(mCurrentChar);
+    mSkeletonModel.SetSkeleton(pSkel);
+    ui->SkeletonHierarchyTreeView->expandAll();
+    ui->SkeletonHierarchyTreeView->resizeColumnToContents(0);
+
+    // Select first child bone of root (which should be Skeleton_Root) to line up the camera for orbiting.
+    QModelIndex RootIndex = mSkeletonModel.index(0, 0, QModelIndex());
+    ui->SkeletonHierarchyTreeView->selectionModel()->setCurrentIndex( mSkeletonModel.index(0, 0, RootIndex), QItemSelectionModel::ClearAndSelect );
+
+    // Run CCamera::SetOrbit to reset orbit distance.
+    ui->Viewport->Camera().SetOrbit(mpCharNode->AABox(), 4.f);
+}
+
 void CCharacterEditor::SetSelectedBone(CBone *pBone)
 {
     if (pBone != mpSelectedBone)
@@ -195,46 +239,7 @@ void CCharacterEditor::Open()
 
     if (pSet)
     {
-        mpSet = pSet;
-        mpCharNode->SetCharSet(mpSet);
-        SET_WINDOWTITLE_APPVARS("%APP_FULL_NAME% - Character Editor: " + TO_QSTRING(mpSet->Source()));
-
-        // Clear selected bone
-        ui->SkeletonHierarchyTreeView->selectionModel()->clear();
-        SetSelectedBone(nullptr);
-
-        // Set up character combo box
-        mpCharComboBox->blockSignals(true);
-        mpCharComboBox->clear();
-
-        for (u32 iChar = 0; iChar < mpSet->NumNodes(); iChar++)
-            mpCharComboBox->addItem( TO_QSTRING(mpSet->NodeName(iChar)) );
-
-        SetActiveCharacterIndex(0);
-        mpCharComboBox->blockSignals(false);
-
-        // Set up anim combo box
-        mpAnimComboBox->blockSignals(true);
-        mpAnimComboBox->clear();
-
-        for (u32 iAnim = 0; iAnim < mpSet->NumAnims(); iAnim++)
-            mpAnimComboBox->addItem( TO_QSTRING(mpSet->AnimName(iAnim)) );
-
-        SetActiveAnimation(0);
-        mpAnimComboBox->blockSignals(false);
-
-        // Set up skeleton tree view
-        CSkeleton *pSkel = mpSet->NodeSkeleton(mCurrentChar);
-        mSkeletonModel.SetSkeleton(pSkel);
-        ui->SkeletonHierarchyTreeView->expandAll();
-        ui->SkeletonHierarchyTreeView->resizeColumnToContents(0);
-
-        // Select first child bone of root (which should be Skeleton_Root) to line up the camera for orbiting.
-        QModelIndex RootIndex = mSkeletonModel.index(0, 0, QModelIndex());
-        ui->SkeletonHierarchyTreeView->selectionModel()->setCurrentIndex( mSkeletonModel.index(0, 0, RootIndex), QItemSelectionModel::ClearAndSelect );
-
-        // Run CCamera::SetOrbit to reset orbit distance.
-        ui->Viewport->Camera().SetOrbit(mpCharNode->AABox(), 4.f);
+        SetActiveAnimSet(pSet);
     }
 
     else
