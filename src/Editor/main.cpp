@@ -1,4 +1,4 @@
-#include "CStartWindow.h"
+#include "CEditorApplication.h"
 #include "CProjectOverviewDialog.h"
 #include <Common/Log.h>
 #include <Core/Resource/Factory/CTemplateLoader.h>
@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
 {
     // Create application
     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
-    QApplication App(argc, argv);
+    CEditorApplication App(argc, argv);
     App.setWindowIcon(QIcon(":/icons/AppIcon.ico"));
 
     // Init log

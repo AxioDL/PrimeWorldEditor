@@ -37,7 +37,6 @@ class CWorldEditor : public INodeEditor
 
     TResPtr<CWorld> mpWorld;
     TResPtr<CGameArea> mpArea;
-    QTimer mRefreshTimer;
 
     CLinkDialog *mpLinkDialog;
     CPoiMapEditDialog *mpPoiDialog;

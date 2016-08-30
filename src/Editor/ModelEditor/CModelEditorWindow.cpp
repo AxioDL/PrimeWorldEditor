@@ -23,7 +23,7 @@
 #include <assimp/postprocess.h>
 
 CModelEditorWindow::CModelEditorWindow(QWidget *pParent)
-    : QMainWindow(pParent)
+    : IEditor(pParent)
     , ui(new Ui::CModelEditorWindow)
     , mpScene(new CScene())
     , mpCurrentMat(nullptr)
@@ -53,10 +53,6 @@ CModelEditorWindow::CModelEditorWindow(QWidget *pParent)
     ui->PassTable->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
     ui->PassTable->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
     ui->ClearColorPicker->SetColor(QColor(76, 76, 76, 255));
-
-    // Viewport Signal/Slot setup
-    connect(&mRefreshTimer, SIGNAL(timeout()), this, SLOT(RefreshViewport()));
-    mRefreshTimer.start(0);
 
     // Editor UI Signal/Slot setup
     ui->SetSelectionComboBox->setProperty          ("ModelEditorWidgetType", eSetSelectComboBox);
@@ -894,4 +890,9 @@ void CModelEditorWindow::ToggleGrid(bool Enabled)
 void CModelEditorWindow::closeEvent(QCloseEvent*)
 {
     emit Closed();
+}
+
+CModelEditorViewport* CModelEditorWindow::Viewport() const
+{
+    return ui->Viewport;
 }

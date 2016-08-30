@@ -181,8 +181,8 @@ void CProjectOverviewDialog::LaunchEditor()
 
 void CProjectOverviewDialog::LaunchResourceBrowser()
 {
-    CResourceBrowser Browser(this);
-    Browser.exec();
+    CResourceBrowser *pBrowser = new CResourceBrowser(mpWorldEditor);
+    pBrowser->show();
 }
 
 void CProjectOverviewDialog::CookPackage()

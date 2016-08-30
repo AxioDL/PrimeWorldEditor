@@ -4,7 +4,7 @@
 #include <QMouseEvent>
 
 INodeEditor::INodeEditor(QWidget *pParent)
-    : QMainWindow(pParent)
+    : IEditor(pParent)
     , mPickMode(false)
     , mpSelection(new CNodeSelection)
     , mSelectionLocked(false)

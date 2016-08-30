@@ -1,6 +1,7 @@
 #ifndef CCHARACTEREDITOR_H
 #define CCHARACTEREDITOR_H
 
+#include "IEditor.h"
 #include "CCharacterEditorViewport.h"
 #include "CSkeletonHierarchyModel.h"
 #include <Core/Scene/CScene.h>
@@ -14,7 +15,7 @@ namespace Ui {
 class CCharacterEditor;
 }
 
-class CCharacterEditor : public QMainWindow
+class CCharacterEditor : public IEditor
 {
     Q_OBJECT
 
@@ -26,7 +27,6 @@ class CCharacterEditor : public QMainWindow
     CSkeletonHierarchyModel mSkeletonModel;
     QComboBox *mpCharComboBox;
     QComboBox *mpAnimComboBox;
-    QTimer mRefreshTimer;
 
     TResPtr<CAnimSet> mpSet;
     u32 mCurrentChar;
@@ -34,10 +34,9 @@ class CCharacterEditor : public QMainWindow
     bool mBindPose;
 
     // Playback Controls
-    double mLastAnimUpdate;
-    float mAnimTime;
     bool mPlayAnim;
     bool mLoopAnim;
+    float mAnimTime;
     float mPlaybackSpeed;
 
     // Constants
@@ -47,12 +46,14 @@ class CCharacterEditor : public QMainWindow
 public:
     explicit CCharacterEditor(QWidget *parent = 0);
     ~CCharacterEditor();
-    void UpdateAnimTime();
+    void EditorTick(float DeltaTime);
+    void UpdateAnimTime(float DeltaTime);
     void UpdateCameraOrbit();
     CSkeleton* CurrentSkeleton() const;
     CAnimation* CurrentAnimation() const;
     void SetActiveAnimSet(CAnimSet *pSet);
     void SetSelectedBone(CBone *pBone);
+    CCharacterEditorViewport* Viewport() const;
 
 public slots:
     void Open();

@@ -1,6 +1,7 @@
 #ifndef CMODELEDITORWINDOW_H
 #define CMODELEDITORWINDOW_H
 
+#include "IEditor.h"
 #include "CModelEditorViewport.h"
 #include <Core/GameProject/CResourceStore.h>
 #include <Core/Render/CRenderer.h>
@@ -16,7 +17,7 @@ namespace Ui {
 class CModelEditorWindow;
 }
 
-class CModelEditorWindow : public QMainWindow
+class CModelEditorWindow : public IEditor
 {
     Q_OBJECT
 
@@ -28,13 +29,13 @@ class CModelEditorWindow : public QMainWindow
     CMaterial *mpCurrentMat;
     CMaterialPass *mpCurrentPass;
     bool mIgnoreSignals;
-    QTimer mRefreshTimer;
 
 public:
     explicit CModelEditorWindow(QWidget *pParent = 0);
     ~CModelEditorWindow();
     void SetActiveModel(CModel *pModel);
     void closeEvent(QCloseEvent *pEvent);
+    CModelEditorViewport* Viewport() const;
 
 public slots:
     void RefreshViewport();
