@@ -1,5 +1,4 @@
 #include "CEditorApplication.h"
-#include "CEditorUpdateEvent.h"
 #include "IEditor.h"
 #include "CBasicViewport.h"
 #include <Common/CTimer.h>
@@ -27,7 +26,7 @@ void CEditorApplication::TickEditors()
 
             CBasicViewport *pViewport = pEditor->Viewport();
 
-            if (pViewport && pViewport->isVisible())
+            if (pViewport && pViewport->isVisible() && !pEditor->isMinimized())
             {
                 pViewport->ProcessInput();
                 pViewport->Render();
