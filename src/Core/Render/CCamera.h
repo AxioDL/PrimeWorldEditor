@@ -64,7 +64,7 @@ public:
 
     void SetMoveMode(ECameraMoveMode Mode);
     void SetOrbit(const CVector3f& rkOrbitTarget, float Distance);
-    void SetOrbit(const CAABox& rkOrbitTarget, float DistScale = 4.f);
+    void SetOrbit(const CAABox& rkOrbitTarget, float DistScale = 1.75f);
     void SetOrbitTarget(const CVector3f& rkOrbitTarget);
     void SetOrbitDistance(float Distance);
 

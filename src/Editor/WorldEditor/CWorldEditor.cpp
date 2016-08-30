@@ -46,10 +46,6 @@ CWorldEditor::CWorldEditor(QWidget *parent)
 
     mpSelection->SetAllowedNodeTypes(eScriptNode | eLightNode);
 
-    // Start refresh timer
-    connect(&mRefreshTimer, SIGNAL(timeout()), this, SLOT(RefreshViewport()));
-    mRefreshTimer.start(0);
-
     // Initialize splitter
     QList<int> SplitterSizes;
     SplitterSizes << width() * 0.775 << width() * 0.225;
@@ -912,7 +908,7 @@ void CWorldEditor::UpdateCameraOrbit()
     if (!mpSelection->IsEmpty())
         pCamera->SetOrbit(mpSelection->Bounds());
     else if (mpArea)
-        pCamera->SetOrbit(mpArea->AABox(), 1.5f);
+        pCamera->SetOrbit(mpArea->AABox(), 1.2f);
 }
 
 void CWorldEditor::OnCameraSpeedChange(double Speed)

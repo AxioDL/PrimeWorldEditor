@@ -168,7 +168,9 @@ HEADERS += \
     ResourceBrowser/CResourceBrowser.h \
     ResourceBrowser/CResourceTableModel.h \
     ResourceBrowser/CResourceProxyModel.h \
-    ResourceBrowser/CVirtualDirectoryModel.h
+    ResourceBrowser/CVirtualDirectoryModel.h \
+    CEditorApplication.h \
+    IEditor.h
 
 # Source Files
 SOURCES += \
@@ -230,7 +232,8 @@ SOURCES += \
     CharacterEditor/CCharacterEditorViewport.cpp \
     CharacterEditor/CSkeletonHierarchyModel.cpp \
     CProjectOverviewDialog.cpp \
-    ResourceBrowser/CResourceBrowser.cpp
+    ResourceBrowser/CResourceBrowser.cpp \
+    CEditorApplication.cpp
 
 # UI Files
 FORMS += \

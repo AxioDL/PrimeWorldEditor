@@ -154,21 +154,12 @@ void CCamera::SetOrbit(const CVector3f& OrbitTarget, float Distance)
     }
 }
 
-void CCamera::SetOrbit(const CAABox& OrbitTarget, float DistScale /*= 4.f*/)
+void CCamera::SetOrbit(const CAABox& OrbitTarget, float DistScale /*= 1.75f*/)
 {
-    CVector3f Min = OrbitTarget.Min();
-    CVector3f Max = OrbitTarget.Max();
-
     mOrbitTarget = OrbitTarget.Center();
 
-    // Find largest extent
-    CVector3f Extent = (Max - Min) / 2.f;
-    float Dist = 0.f;
-
-    if (Extent.X >= Extent.Y && Extent.X >= Extent.Z) Dist = Extent.X;
-    else if (Extent.Y >= Extent.X && Extent.Y >= Extent.Z) Dist = Extent.Y;
-    else Dist = Extent.Z;
-
+    // Determine orbit radius, which should be enough to cover the entire box with some buffer room
+    float Dist = OrbitTarget.Center().Distance(OrbitTarget.Max());
     mOrbitDistance = Dist * DistScale;
 
     if (mMode == eOrbitCamera)

@@ -11,15 +11,15 @@ const CVector3f CCharacterEditor::skDefaultOrbitTarget = CVector3f(0,0,1);
 const float CCharacterEditor::skDefaultOrbitDistance = 4.f;
 
 CCharacterEditor::CCharacterEditor(QWidget *parent)
-    : QMainWindow(parent)
+    : IEditor(parent)
     , ui(new Ui::CCharacterEditor)
     , mpScene(new CScene())
     , mpCharNode(new CCharacterNode(mpScene, -1))
     , mpSelectedBone(nullptr)
     , mBindPose(false)
-    , mAnimTime(0.f)
     , mPlayAnim(true)
     , mLoopAnim(true)
+    , mAnimTime(0.f)
     , mPlaybackSpeed(1.f)
 {
     ui->setupUi(this);
@@ -42,9 +42,6 @@ CCharacterEditor::CCharacterEditor(QWidget *parent)
     mpAnimComboBox = new QComboBox(this);
     mpAnimComboBox->setMinimumWidth(175);
     ui->ToolBar->addWidget(mpAnimComboBox);
-
-    connect(&mRefreshTimer, SIGNAL(timeout()), this, SLOT(RefreshViewport()));
-    mRefreshTimer.start(0);
 
     connect(ui->Viewport, SIGNAL(HoverBoneChanged(u32)), this, SLOT(OnViewportHoverBoneChanged(u32)));
     connect(ui->Viewport, SIGNAL(ViewportClick(QMouseEvent*)), this, SLOT(OnViewportClick()));
@@ -84,12 +81,14 @@ CCharacterEditor::~CCharacterEditor()
     delete ui;
 }
 
-void CCharacterEditor::UpdateAnimTime()
+void CCharacterEditor::EditorTick(float DeltaTime)
 {
-    double Time = CTimer::GlobalTime();
-    double DeltaTime = Time - mLastAnimUpdate;
-    mLastAnimUpdate = Time;
+    UpdateAnimTime(DeltaTime);
+    UpdateCameraOrbit();
+}
 
+void CCharacterEditor::UpdateAnimTime(float DeltaTime)
+{
     CAnimation *pAnim = CurrentAnimation();
 
     if (pAnim && mPlayAnim && !mBindPose && !ui->AnimSlider->isSliderDown())
@@ -216,7 +215,7 @@ void CCharacterEditor::SetActiveAnimSet(CAnimSet *pSet)
     ui->SkeletonHierarchyTreeView->selectionModel()->setCurrentIndex( mSkeletonModel.index(0, 0, RootIndex), QItemSelectionModel::ClearAndSelect );
 
     // Run CCamera::SetOrbit to reset orbit distance.
-    ui->Viewport->Camera().SetOrbit(mpCharNode->AABox(), 4.f);
+    ui->Viewport->Camera().SetOrbit(mpCharNode->AABox());
 }
 
 void CCharacterEditor::SetSelectedBone(CBone *pBone)
@@ -227,6 +226,11 @@ void CCharacterEditor::SetSelectedBone(CBone *pBone)
         mpSelectedBone = pBone;
         if (mpSelectedBone) mpSelectedBone->SetSelected(true);
     }
+}
+
+CCharacterEditorViewport* CCharacterEditor::Viewport() const
+{
+    return ui->Viewport;
 }
 
 // ************ PUBLIC SLOTS ************
@@ -291,8 +295,6 @@ void CCharacterEditor::ToggleOrbit(bool Enable)
 
 void CCharacterEditor::RefreshViewport()
 {
-    UpdateAnimTime();
-    UpdateCameraOrbit();
     ui->Viewport->ProcessInput();
     ui->Viewport->Render();
 }
@@ -341,7 +343,6 @@ void CCharacterEditor::SetActiveAnimation(int AnimIndex)
 {
     mCurrentAnim = AnimIndex;
     mpCharNode->SetActiveAnim((u32) AnimIndex);
-    mLastAnimUpdate = CTimer::GlobalTime();
 
     ui->AnimSlider->blockSignals(true);
     ui->AnimSlider->setMaximum((int) (CurrentAnimation() ? CurrentAnimation()->Duration() * 1000 : 0));

@@ -1,6 +1,7 @@
 #ifndef INODEEDITOR_H
 #define INODEEDITOR_H
 
+#include "IEditor.h"
 #include "CGizmo.h"
 #include "CNodeSelection.h"
 #include <Math/ETransformSpace.h>
@@ -13,7 +14,7 @@
 #include <QList>
 #include <QUndoStack>
 
-class INodeEditor : public QMainWindow
+class INodeEditor : public IEditor
 {
     Q_OBJECT
 
