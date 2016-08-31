@@ -32,6 +32,10 @@ int main(int argc, char *argv[])
     if (!Initialized) QMessageBox::warning(0, "Error", "Couldn't open log file. Logging will not work for this session.");
     qInstallMessageHandler(QtLogRedirect);
 
+    // Create editor resource store
+    gpEditorStore = new CResourceStore(L"../resources/EditorResourceDB.rdb");
+    gpEditorStore->LoadResourceDatabase();
+
     // Load templates
     CTemplateLoader::LoadGameList();
 

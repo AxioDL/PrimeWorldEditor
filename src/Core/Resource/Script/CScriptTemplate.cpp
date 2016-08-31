@@ -164,10 +164,7 @@ CResource* CScriptTemplate::FindDisplayAsset(CPropertyStruct *pProperties, u32& 
 
         // File
         if (it->AssetSource == SEditorAsset::eFile)
-        {
-            TString Path = "../resources/" + it->AssetLocation;
-            pRes = gpResourceStore->LoadResource(Path);
-        }
+            pRes = gpEditorStore->LoadResource(it->AssetLocation);
 
         // Property
         else
@@ -214,10 +211,7 @@ CCollisionMeshGroup* CScriptTemplate::FindCollision(CPropertyStruct *pProperties
 
         // File
         if (it->AssetSource == SEditorAsset::eFile)
-        {
-            TString path = "../resources/" + it->AssetLocation;
-            pRes = gpResourceStore->LoadResource(path);
-        }
+            pRes = gpResourceStore->LoadResource(it->AssetLocation);
 
         // Property
         else

@@ -65,32 +65,35 @@ public:
         beginResetModel();
         mEntries.clear();
 
-        for (CResourceIterator It(pStore); It; ++It)
+        if (pStore)
         {
-            if (It->IsTransient()) continue;
-            EResType Type = It->ResourceType();
-
-            switch (Type)
+            for (CResourceIterator It(pStore); It; ++It)
             {
-            case eArea:
-            case eAreaCollision:
-            case eAreaLights:
-            case eAreaMaterials:
-            case eAreaSurfaceBounds:
-            case eAreaOctree:
-            case eAreaVisibilityTree:
-            case eMapArea:
-            case eMapWorld:
-            case ePathfinding:
-            case ePortalArea:
-            case eSaveArea:
-            case eSaveWorld:
-            case eStaticGeometryMap:
-            case eTweak:
-            case eWorld:
-                continue;
-            default:
-                mEntries << *It;
+                if (It->IsTransient()) continue;
+                EResType Type = It->ResourceType();
+
+                switch (Type)
+                {
+                case eArea:
+                case eAreaCollision:
+                case eAreaLights:
+                case eAreaMaterials:
+                case eAreaSurfaceBounds:
+                case eAreaOctree:
+                case eAreaVisibilityTree:
+                case eMapArea:
+                case eMapWorld:
+                case ePathfinding:
+                case ePortalArea:
+                case eSaveArea:
+                case eSaveWorld:
+                case eStaticGeometryMap:
+                case eTweak:
+                case eWorld:
+                    continue;
+                default:
+                    mEntries << *It;
+                }
             }
         }
 

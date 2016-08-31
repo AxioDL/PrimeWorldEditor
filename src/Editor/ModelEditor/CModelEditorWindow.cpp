@@ -887,11 +887,6 @@ void CModelEditorWindow::ToggleGrid(bool Enabled)
     ui->Viewport->SetGridEnabled(Enabled);
 }
 
-void CModelEditorWindow::closeEvent(QCloseEvent*)
-{
-    emit Closed();
-}
-
 CModelEditorViewport* CModelEditorWindow::Viewport() const
 {
     return ui->Viewport;

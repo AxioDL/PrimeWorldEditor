@@ -46,11 +46,11 @@ public:
 
     void SerializeCacheData(IArchive& rArc);
     void UpdateDependencies();
-    TWideString CacheDataPath(bool Relative = false) const;
 
     bool HasRawVersion() const;
     bool HasCookedVersion() const;
     TString RawAssetPath(bool Relative = false) const;
+    TString RawExtension() const;
     TString CookedAssetPath(bool Relative = false) const;
     CFourCC CookedExtension() const;
     bool IsInDirectory(CVirtualDirectory *pDir) const;
@@ -70,6 +70,7 @@ public:
 
     inline bool IsLoaded() const                        { return mpResource != nullptr; }
     inline CResource* Resource() const                  { return mpResource; }
+    inline CResourceStore* ResourceStore() const        { return mpStore; }
     inline CDependencyTree* Dependencies() const        { return mpDependencies; }
     inline CAssetID ID() const                          { return mID; }
     inline EGame Game() const                           { return mGame; }

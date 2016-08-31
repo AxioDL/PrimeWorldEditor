@@ -135,7 +135,6 @@ private slots:
     void EditPoiToWorldMap();
 
 signals:
-    void Closed();
     void LayersModified();
     void InstancesLayerAboutToChange();
     void InstancesLayerChanged(const QList<CScriptNode*>& rkInstanceList);
