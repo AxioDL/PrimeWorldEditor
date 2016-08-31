@@ -20,12 +20,9 @@ public:
     CEditorApplication(int& rArgc, char **ppArgv);
 
 public slots:
+    void AddEditor(IEditor *pEditor);
     void TickEditors();
-
-    // Accessors
-public:
-    inline void AddEditor(IEditor *pEditor)     { mEditorWindows << pEditor; }
-    inline void RemoveEditor(IEditor *pEditor)  { mEditorWindows.removeOne(pEditor); }
+    void OnEditorClose();
 };
 
 #define gpEdApp static_cast<CEditorApplication*>(qApp)

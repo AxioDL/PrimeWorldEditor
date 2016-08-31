@@ -25,7 +25,7 @@ CResourceEntry::CResourceEntry(CResourceStore *pStore, const CAssetID& rkID,
 
     mpDirectory = mpStore->GetVirtualDirectory(rkDir, Transient, true);
     if (mpDirectory) mpDirectory->AddChild(L"", this);
-    mGame = ((Transient || !mpStore->ActiveProject()) ? eUnknownGame : mpStore->ActiveProject()->Game());
+    mGame = ((Transient || !mpStore) ? eUnknownGame : mpStore->Game());
 }
 
 CResourceEntry::~CResourceEntry()
@@ -80,11 +80,6 @@ void CResourceEntry::UpdateDependencies()
         mpStore->DestroyUnreferencedResources();
 }
 
-TWideString CResourceEntry::CacheDataPath(bool Relative) const
-{
-    return mpStore->ActiveProject()->CacheDir(Relative) + mID.ToString().ToUTF16() + L".rcd";
-}
-
 bool CResourceEntry::HasRawVersion() const
 {
     return FileUtil::Exists(RawAssetPath());
@@ -100,7 +95,12 @@ TString CResourceEntry::RawAssetPath(bool Relative) const
     TWideString Ext = GetResourceRawExtension(mType, mGame).ToUTF16();
     TWideString Path = mpDirectory ? mpDirectory->FullPath() : L"";
     TWideString Name = mName + L"." + Ext;
-    return ((IsTransient() || Relative) ? Path + Name : mpStore->ActiveProject()->ContentDir(false) + Path + Name);
+    return ((IsTransient() || Relative) ? Path + Name : mpStore->RawDir(false) + Path + Name);
+}
+
+TString CResourceEntry::RawExtension() const
+{
+    return GetResourceRawExtension(mType, mGame);
 }
 
 TString CResourceEntry::CookedAssetPath(bool Relative) const
@@ -108,7 +108,7 @@ TString CResourceEntry::CookedAssetPath(bool Relative) const
     TWideString Ext = GetResourceCookedExtension(mType, mGame).ToUTF16();
     TWideString Path = mpDirectory ? mpDirectory->FullPath() : L"";
     TWideString Name = mName + L"." + Ext;
-    return ((IsTransient() || Relative) ? Path + Name : mpStore->ActiveProject()->CookedDir(false) + Path + Name);
+    return ((IsTransient() || Relative) ? Path + Name : mpStore->CookedDir(false) + Path + Name);
 }
 
 CFourCC CResourceEntry::CookedExtension() const
@@ -218,8 +218,14 @@ CResource* CResourceEntry::Load()
 
         if (mpResource)
         {
+            // Set gpResourceStore to ensure the correct resource store is accessed by loader functions
+            CResourceStore *pOldStore = gpResourceStore;
+            gpResourceStore = mpStore;
+
             CXMLReader Reader(RawAssetPath());
             mpResource->Serialize(Reader);
+
+            gpResourceStore = pOldStore;
         }
 
         return mpResource;
@@ -251,8 +257,14 @@ CResource* CResourceEntry::LoadCooked(IInputStream& rInput)
     if (mpResource) return mpResource;
     if (!rInput.IsValid()) return nullptr;
 
+    // Set gpResourceStore to ensure the correct resource store is accessed by loader functions
+    CResourceStore *pOldStore = gpResourceStore;
+    gpResourceStore = mpStore;
+
     mpResource = CResourceFactory::LoadCookedResource(this, rInput);
     mpStore->TrackLoadedResource(this);
+
+    gpResourceStore = pOldStore;
     return mpResource;
 }
 

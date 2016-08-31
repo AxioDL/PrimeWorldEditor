@@ -7,6 +7,7 @@
 CResourceBrowser::CResourceBrowser(QWidget *pParent)
     : QDialog(pParent)
     , mpUI(new Ui::CResourceBrowser)
+    , mpStore(gpResourceStore)
 {
     mpUI->setupUi(this);
     setWindowFlags(windowFlags() | Qt::WindowMinimizeButtonHint);
@@ -25,11 +26,12 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
 
     // Set up directory tree model
     mpDirectoryModel = new CVirtualDirectoryModel(this);
-    mpDirectoryModel->SetRoot(gpResourceStore->RootDirectory());
+    mpDirectoryModel->SetRoot(gpResourceStore ? gpResourceStore->RootDirectory() : nullptr);
     mpUI->DirectoryTreeView->setModel(mpDirectoryModel);
     mpUI->DirectoryTreeView->expand(mpDirectoryModel->index(0, 0, QModelIndex()));
 
     // Set up connections
+    connect(mpUI->StoreComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(OnStoreChanged(int)));
     connect(mpUI->SearchBar, SIGNAL(textChanged(QString)), this, SLOT(OnSearchStringChanged()));
     connect(mpUI->SortComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(OnSortModeChanged(int)));
     connect(mpUI->DirectoryTreeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(OnDirectorySelectionChanged(QModelIndex,QModelIndex)));
@@ -43,7 +45,19 @@ CResourceBrowser::~CResourceBrowser()
 
 void CResourceBrowser::RefreshResources()
 {
-    mpModel->FillEntryList(gpResourceStore);
+    mpModel->FillEntryList(mpStore);
+}
+
+void CResourceBrowser::OnStoreChanged(int Index)
+{
+    mpStore = (Index == 0 ? gpResourceStore : gpEditorStore);
+    RefreshResources();
+
+    mpDirectoryModel->SetRoot(mpStore ? mpStore->RootDirectory() : nullptr);
+    QModelIndex RootIndex = mpDirectoryModel->index(0, 0, QModelIndex());
+    mpUI->DirectoryTreeView->expand(RootIndex);
+    mpUI->DirectoryTreeView->clearSelection();
+    OnDirectorySelectionChanged(QModelIndex(), QModelIndex());
 }
 
 void CResourceBrowser::OnSortModeChanged(int Index)

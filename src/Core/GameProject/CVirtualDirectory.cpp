@@ -78,12 +78,24 @@ CVirtualDirectory* CVirtualDirectory::FindChildDirectory(const TWideString& rkNa
     return nullptr;
 }
 
-CResourceEntry* CVirtualDirectory::FindChildResource(const TWideString& rkName) const
+CResourceEntry* CVirtualDirectory::FindChildResource(const TWideString& rkPath)
 {
-    for (u32 iRes = 0; iRes < mResources.size(); iRes++)
+    TWideString Dir = rkPath.GetFileDirectory();
+    TWideString Name = rkPath.GetFileName(false);
+
+    if (!Dir.IsEmpty())
     {
-        if (mResources[iRes]->Name() == rkName)
-            return mResources[iRes];
+        CVirtualDirectory *pDir = FindChildDirectory(Dir, false);
+        if (pDir) return pDir->FindChildResource(Name);
+    }
+
+    else
+    {
+        for (u32 iRes = 0; iRes < mResources.size(); iRes++)
+        {
+            if (mResources[iRes]->Name() == Name)
+                return mResources[iRes];
+        }
     }
 
     return nullptr;

@@ -34,7 +34,6 @@ public:
     explicit CModelEditorWindow(QWidget *pParent = 0);
     ~CModelEditorWindow();
     void SetActiveModel(CModel *pModel);
-    void closeEvent(QCloseEvent *pEvent);
     CModelEditorViewport* Viewport() const;
 
 public slots:

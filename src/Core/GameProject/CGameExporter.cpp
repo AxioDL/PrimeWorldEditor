@@ -18,17 +18,13 @@
 #define EXPORT_COOKED 1
 
 CGameExporter::CGameExporter(const TString& rkInputDir, const TString& rkOutputDir)
-    : mStore(this)
 {
     mGameDir = FileUtil::MakeAbsolute(rkInputDir);
     mExportDir = FileUtil::MakeAbsolute(rkOutputDir);
 
     mpProject = new CGameProject(mExportDir);
     mDiscDir = mpProject->DiscDir(true);
-    mContentDir = mpProject->ContentDir(false);
-    mCookedDir = mpProject->CookedDir(false);
     mWorldsDirName = L"Worlds\\";
-    mStore.SetActiveProject(mpProject);
 }
 
 #if PUBLIC_RELEASE
@@ -39,18 +35,27 @@ bool CGameExporter::Export()
 {
     SCOPED_TIMER(ExportGame);
 
-    CResourceStore *pOldStore = gpResourceStore;
-    gpResourceStore = &mStore;
     FileUtil::CreateDirectory(mExportDir);
     FileUtil::ClearDirectory(mExportDir);
 
     CopyDiscData();
+    mpStore = new CResourceStore(this, L"Content\\", L"Cooked\\", mpProject->Game());
+    mpStore->SetProject(mpProject);
+    mContentDir = mpStore->RawDir(false);
+    mCookedDir = mpStore->CookedDir(false);
+
+    CResourceStore *pOldStore = gpResourceStore;
+    gpResourceStore = mpStore;
+
     LoadAssetList();
     LoadPaks();
     ExportWorlds();
     ExportCookedResources();
 
     gpResourceStore = pOldStore;
+    delete mpStore;
+    mpStore = nullptr;
+
     return true;
 }
 
@@ -464,7 +469,7 @@ void CGameExporter::ExportWorlds()
             if (rkRes.Type == "MLVL" && !rkRes.Name.EndsWith("NODEPEND"))
             {
                 // Load world
-                CWorld *pWorld = (CWorld*) mStore.LoadResource(rkRes.ID, rkRes.Type);
+                CWorld *pWorld = (CWorld*) mpStore->LoadResource(rkRes.ID, rkRes.Type);
 
                 if (!pWorld)
                 {
@@ -510,7 +515,7 @@ void CGameExporter::ExportWorlds()
             }
         }
 
-        mStore.DestroyUnreferencedResources();
+        mpStore->DestroyUnreferencedResources();
     }
 #endif
 }
@@ -530,7 +535,7 @@ void CGameExporter::ExportCookedResources()
     {
         SCOPED_TIMER(SaveResourceDatabase);
 #if EXPORT_COOKED
-        mStore.SaveResourceDatabase();
+        mpStore->SaveResourceDatabase();
 #endif
         mpProject->Save();
     }
@@ -544,7 +549,7 @@ void CGameExporter::ExportCookedResources()
         // todo: we're wasting a ton of time loading the same resources over and over because most resources automatically
         // load all their dependencies and then we just clear it out from memory even though we'll need it again later. we
         // should really be doing this by dependency order instead of by ID order.
-        for (CResourceIterator It(&mStore); It; ++It)
+        for (CResourceIterator It(mpStore); It; ++It)
         {
             if (!It->IsTransient())
             {
@@ -571,7 +576,7 @@ void CGameExporter::ExportCookedResources()
     {
         // All resources should have dependencies generated, so save the cache file
         SCOPED_TIMER(SaveResourceCacheData);
-        mStore.SaveCacheFile();
+        mpStore->SaveCacheFile();
     }
 }
 
@@ -596,7 +601,7 @@ void CGameExporter::ExportResource(SResourceInstance& rRes)
         if (OutDir.IsEmpty())   OutDir = L"Uncategorized\\";
 
         // Register resource and write to file
-        CResourceEntry *pEntry = mStore.RegisterResource(rRes.ResourceID, CResource::ResTypeForExtension(rRes.ResourceType), OutDir, OutName);
+        CResourceEntry *pEntry = mpStore->RegisterResource(rRes.ResourceID, CResource::ResTypeForExtension(rRes.ResourceType), OutDir, OutName);
 
 #if EXPORT_COOKED
         // Save cooked asset

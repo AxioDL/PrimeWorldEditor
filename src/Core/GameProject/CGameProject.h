@@ -16,6 +16,7 @@ class CGameProject
     TWideString mProjectRoot;
     TWideString mResourceDBPath;
     std::vector<CPackage*> mPackages;
+    CResourceStore *mpResourceStore;
 
     enum EProjectVersion
     {
@@ -31,7 +32,9 @@ public:
     CGameProject()
         : mGame(eUnknownGame)
         , mProjectName("Unnamed Project")
-    {}
+    {
+        mpResourceStore = new CResourceStore(this);
+    }
 
     CGameProject(const TWideString& rkProjRootDir)
         : mGame(eUnknownGame)
@@ -39,6 +42,7 @@ public:
         , mProjectRoot(rkProjRootDir)
         , mResourceDBPath(L"ResourceDB.rdb")
     {
+        mpResourceStore = new CResourceStore(this);
         mProjectRoot.Replace(L"/", L"\\");
     }
 
@@ -55,8 +59,6 @@ public:
     inline TWideString ResourceDBPath(bool Relative) const      { return Relative ? mResourceDBPath : mProjectRoot + mResourceDBPath; }
     inline TWideString DiscDir(bool Relative) const             { return Relative ? L"Disc\\" : mProjectRoot + L"Disc\\"; }
     inline TWideString CacheDir(bool Relative) const            { return Relative ? L"Cache\\" : mProjectRoot + L"Cache\\"; }
-    inline TWideString ContentDir(bool Relative) const          { return Relative ? L"Content\\" : mProjectRoot + L"Content\\"; }
-    inline TWideString CookedDir(bool Relative) const           { return Relative ? L"Cooked\\" : mProjectRoot + L"Cooked\\"; }
     inline TWideString PackagesDir(bool Relative) const         { return Relative ? L"Packages\\" : mProjectRoot + L"Packages\\"; }
     inline TWideString ProjectPath() const                      { return mProjectRoot + FileUtil::SanitizeName(mProjectName.ToUTF16(), false) + L".prj"; }
     inline TWideString ResourceCachePath(bool Relative) const   { return ResourceDBPath(Relative).GetFileDirectory() + L"ResourceCacheData.rcd"; }
@@ -68,7 +70,7 @@ public:
     inline u32 NumPackages() const                      { return mPackages.size(); }
     inline CPackage* PackageByIndex(u32 Index) const    { return mPackages[Index]; }
     inline void AddPackage(CPackage *pPackage)          { mPackages.push_back(pPackage); }
-
+    inline CResourceStore* ResourceStore() const        { return mpResourceStore; }
     inline EGame Game() const                           { return mGame; }
     inline bool IsActive() const                        { return mspActiveProject == this; }
 

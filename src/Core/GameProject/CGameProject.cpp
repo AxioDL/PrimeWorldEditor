@@ -7,10 +7,7 @@ CGameProject *CGameProject::mspActiveProject = nullptr;
 CGameProject::~CGameProject()
 {
     if (IsActive())
-    {
         mspActiveProject = nullptr;
-        gpResourceStore->SetActiveProject(nullptr);
-    }
 }
 
 bool CGameProject::Load(const TWideString& rkPath)
@@ -21,6 +18,8 @@ bool CGameProject::Load(const TWideString& rkPath)
     TString ProjPath = rkPath.ToUTF8();
     CXMLReader Reader(ProjPath);
     Serialize(Reader);
+
+    mpResourceStore->LoadResourceDatabase();
     return true;
 }
 
@@ -72,7 +71,7 @@ void CGameProject::SetActive()
     if (mspActiveProject != this)
     {
         mspActiveProject = this;
-        gpResourceStore->SetActiveProject(this);
+        gpResourceStore = mpResourceStore;
     }
 }
 

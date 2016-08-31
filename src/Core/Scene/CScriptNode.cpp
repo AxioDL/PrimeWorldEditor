@@ -535,15 +535,15 @@ void CScriptNode::UpdatePreviewVolume()
     {
     case eAxisAlignedBoxShape:
     case eBoxShape:
-        pVolumeModel = gpResourceStore->LoadResource("../resources/VolumeBox.cmdl");
+        pVolumeModel = gpEditorStore->LoadResource("VolumeBox.cmdl");
         break;
 
     case eEllipsoidShape:
-        pVolumeModel = gpResourceStore->LoadResource("../resources/VolumeSphere.cmdl");
+        pVolumeModel = gpEditorStore->LoadResource("VolumeSphere.cmdl");
         break;
 
     case eCylinderShape:
-        pVolumeModel = gpResourceStore->LoadResource("../resources/VolumeCylinder.cmdl");
+        pVolumeModel = gpEditorStore->LoadResource("VolumeCylinder.cmdl");
         break;
     }
 

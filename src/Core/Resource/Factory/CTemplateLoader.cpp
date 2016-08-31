@@ -564,8 +564,9 @@ CScriptTemplate* CTemplateLoader::LoadScriptTemplate(XMLDocument *pDoc, const TS
                     // Validate file asset
                     else
                     {
-                        TString Path = "../resources/" + ID;
-                        if (!FileUtil::Exists(Path))
+                        CResourceEntry *pEntry = gpEditorStore->FindEntry(ID);
+
+                        if (!pEntry)
                         {
                             Log::Error(rkTemplateName + ": Invalid file for " + Type + " asset: " + ID);
                             pAsset = pAsset->NextSiblingElement();

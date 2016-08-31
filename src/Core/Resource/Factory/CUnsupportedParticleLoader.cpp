@@ -718,7 +718,7 @@ void CUnsupportedParticleLoader::ParseIntFunction(IInputStream& rFile)
     case kIntCNST:
     {
         u32 Value = rFile.ReadLong();
-        ASSERT(gpResourceStore->FindEntry(Value) == nullptr);
+        ASSERT(gpResourceStore->FindEntry(CAssetID(Value)) == nullptr);
         break;
     }
 

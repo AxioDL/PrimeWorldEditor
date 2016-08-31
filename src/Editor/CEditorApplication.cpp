@@ -1,6 +1,7 @@
 #include "CEditorApplication.h"
 #include "IEditor.h"
 #include "CBasicViewport.h"
+#include <Common/AssertMacro.h>
 #include <Common/CTimer.h>
 
 CEditorApplication::CEditorApplication(int& rArgc, char **ppArgv)
@@ -10,6 +11,12 @@ CEditorApplication::CEditorApplication(int& rArgc, char **ppArgv)
 
     connect(&mRefreshTimer, SIGNAL(timeout()), this, SLOT(TickEditors()));
     mRefreshTimer.start(8);
+}
+
+void CEditorApplication::AddEditor(IEditor *pEditor)
+{
+    mEditorWindows << pEditor;
+    connect(pEditor, SIGNAL(Closed()), this, SLOT(OnEditorClose()));
 }
 
 void CEditorApplication::TickEditors()
@@ -33,4 +40,13 @@ void CEditorApplication::TickEditors()
             }
         }
     }
+}
+
+void CEditorApplication::OnEditorClose()
+{
+    IEditor *pEditor = qobject_cast<IEditor*>(sender());
+    ASSERT(pEditor);
+
+    mEditorWindows.removeOne(pEditor);
+    delete pEditor;
 }

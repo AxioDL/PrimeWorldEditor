@@ -13,7 +13,7 @@ class CGameExporter
 {
     // Project
     CGameProject *mpProject;
-    CResourceStore mStore;
+    CResourceStore *mpStore;
 
     // Directories
     TWideString mGameDir;
