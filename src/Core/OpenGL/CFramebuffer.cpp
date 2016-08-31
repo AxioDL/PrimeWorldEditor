@@ -2,20 +2,22 @@
 #include <Common/Log.h>
 
 CFramebuffer::CFramebuffer()
-    : mInitialized(false)
+    : mpRenderbuffer(nullptr)
+    , mpTexture(nullptr)
     , mWidth(0)
     , mHeight(0)
-    , mpRenderbuffer(nullptr)
-    , mpTexture(nullptr)
+    , mEnableMultisampling(false)
+    , mInitialized(false)
 {
 }
 
 CFramebuffer::CFramebuffer(u32 Width, u32 Height)
-    : mInitialized(false)
+    : mpRenderbuffer(nullptr)
+    , mpTexture(nullptr)
     , mWidth(0)
     , mHeight(0)
-    , mpRenderbuffer(nullptr)
-    , mpTexture(nullptr)
+    , mEnableMultisampling(false)
+    , mInitialized(false)
 {
     Resize(Width, Height);
 }
@@ -44,30 +46,18 @@ void CFramebuffer::Init()
         glBindFramebuffer(GL_FRAMEBUFFER, mFramebuffer);
 
         mpRenderbuffer = new CRenderbuffer(mWidth, mHeight);
-        mpRenderbuffer->Bind();
-        glFramebufferRenderbuffer(
-            GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, mpRenderbuffer->BufferID()
-        );
-
         mpTexture = new CTexture(mWidth, mHeight);
-        mpTexture->Bind(0);
-        glFramebufferTexture2D(
-            GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, mpTexture->TextureID(), 0
-        );
-
-        mStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-
-        if (mStatus != GL_FRAMEBUFFER_COMPLETE)
-            Log::Error("Framebuffer not complete");
-
+        mpRenderbuffer->SetMultisamplingEnabled(mEnableMultisampling);
+        mpTexture->SetMultisamplingEnabled(mEnableMultisampling);
+        InitBuffers();
         mInitialized = true;
     }
 }
 
-void CFramebuffer::Bind()
+void CFramebuffer::Bind(GLenum Target /*= GL_FRAMEBUFFER*/)
 {
     if (!mInitialized) Init();
-    glBindFramebuffer(GL_FRAMEBUFFER, mFramebuffer);
+    glBindFramebuffer(Target, mFramebuffer);
 }
 
 void CFramebuffer::Resize(u32 Width, u32 Height)
@@ -81,30 +71,51 @@ void CFramebuffer::Resize(u32 Width, u32 Height)
         {
             mpRenderbuffer->Resize(Width, Height);
             mpTexture->Resize(Width, Height);
-
-            glBindFramebuffer(GL_FRAMEBUFFER, mFramebuffer);
-            mpRenderbuffer->Bind();
-            glFramebufferRenderbuffer(
-                GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, mpRenderbuffer->BufferID()
-            );
-
-            mpTexture->Bind(0);
-            glFramebufferTexture2D(
-                GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, mpTexture->TextureID(), 0
-            );
+            InitBuffers();
         }
     }
 }
 
-CTexture* CFramebuffer::Texture()
+void CFramebuffer::SetMultisamplingEnabled(bool Enable)
 {
-    return mpTexture;
+    if (mEnableMultisampling != Enable)
+    {
+        mEnableMultisampling = Enable;
+
+        if (mInitialized)
+        {
+            mpRenderbuffer->SetMultisamplingEnabled(Enable);
+            mpTexture->SetMultisamplingEnabled(Enable);
+            InitBuffers();
+        }
+    }
+}
+
+// ************ PROTECTED ************
+void CFramebuffer::InitBuffers()
+{
+    glBindFramebuffer(GL_FRAMEBUFFER, mFramebuffer);
+
+    mpRenderbuffer->Bind();
+    glFramebufferRenderbuffer(
+        GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, mpRenderbuffer->BufferID()
+    );
+
+    mpTexture->Bind(0);
+    glFramebufferTexture2D(
+        GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, (mEnableMultisampling ? GL_TEXTURE_2D_MULTISAMPLE : GL_TEXTURE_2D), mpTexture->TextureID(), 0
+    );
+
+    mStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+
+    if (mStatus != GL_FRAMEBUFFER_COMPLETE)
+        Log::Error("Framebuffer not complete; error " + TString::HexString((u32) mStatus, 0));
 }
 
 // ************ STATIC ************
-void CFramebuffer::BindDefaultFramebuffer()
+void CFramebuffer::BindDefaultFramebuffer(GLenum Target /*= GL_FRAMEBUFFER*/)
 {
-    glBindFramebuffer(GL_FRAMEBUFFER, smDefaultFramebuffer);
+    glBindFramebuffer(Target, smDefaultFramebuffer);
 }
 
 GLint CFramebuffer::smDefaultFramebuffer;

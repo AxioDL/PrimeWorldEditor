@@ -8,20 +8,23 @@ class CRenderbuffer
 {
     GLuint mRenderbuffer;
     u32 mWidth, mHeight;
+    bool mEnableMultisampling;
     bool mInitialized;
 
 public:
     CRenderbuffer::CRenderbuffer()
-        : mInitialized(false)
-        , mWidth(0)
+        : mWidth(0)
         , mHeight(0)
+        , mEnableMultisampling(false)
+        , mInitialized(false)
     {
     }
 
     CRenderbuffer::CRenderbuffer(u32 Width, u32 Height)
-        : mInitialized(false)
-        , mWidth(Width)
+        : mWidth(Width)
         , mHeight(Height)
+        , mEnableMultisampling(false)
+        , mInitialized(false)
     {
     }
 
@@ -33,10 +36,9 @@ public:
 
     void CRenderbuffer::Init()
     {
-        glGenRenderbuffers(1, &mRenderbuffer);
-        glBindRenderbuffer(GL_RENDERBUFFER, mRenderbuffer);
-        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, mWidth, mHeight);
         mInitialized = true;
+        glGenRenderbuffers(1, &mRenderbuffer);
+        InitStorage();
     }
 
     inline void CRenderbuffer::Resize(u32 Width, u32 Height)
@@ -45,10 +47,7 @@ public:
         mHeight = Height;
 
         if (mInitialized)
-        {
-            Bind();
-            glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, mWidth, mHeight);
-        }
+            InitStorage();
     }
 
     inline void CRenderbuffer::Bind()
@@ -65,6 +64,26 @@ public:
     inline GLuint BufferID()
     {
         return mRenderbuffer;
+    }
+
+    inline void SetMultisamplingEnabled(bool Enable)
+    {
+        if (mEnableMultisampling != Enable)
+        {
+            mEnableMultisampling = Enable;
+            InitStorage();
+        }
+    }
+
+private:
+    void InitStorage()
+    {
+        Bind();
+
+        if (mEnableMultisampling)
+            glRenderbufferStorageMultisample(GL_RENDERBUFFER, 4, GL_DEPTH_COMPONENT24, mWidth, mHeight);
+        else
+            glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, mWidth, mHeight);
     }
 };
 
