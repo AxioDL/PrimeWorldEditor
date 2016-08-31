@@ -176,6 +176,11 @@ void CRenderer::RenderBloom()
     CGraphics::SetIdentityMVP();
     CGraphics::UpdateMVPBlock();
 
+    mPostProcessFramebuffer.Resize(mViewportWidth, mViewportHeight);
+    mSceneFramebuffer.Bind(GL_READ_FRAMEBUFFER);
+    mPostProcessFramebuffer.Bind(GL_DRAW_FRAMEBUFFER);
+    glBlitFramebuffer(0, 0, mViewportWidth, mViewportHeight, 0, 0, mViewportWidth, mViewportHeight, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+
     // Pass 1: Alpha-blend the scene texture on a black background
     mBloomFramebuffers[0].Resize(BloomWidth, BloomHeight);
     mBloomFramebuffers[0].Bind();
@@ -183,7 +188,7 @@ void CRenderer::RenderBloom()
 
     CDrawUtil::UseTextureShader();
     glBlendFunc(GL_SRC_ALPHA, GL_ZERO);
-    mSceneFramebuffer.Texture()->Bind(0);
+    mPostProcessFramebuffer.Texture()->Bind(0);
     CDrawUtil::DrawSquare();
 
     // Pass 2: Horizontal blur
@@ -226,7 +231,7 @@ void CRenderer::RenderBloom()
     }
 
     // Render result onto main scene framebuffer
-    mSceneFramebuffer.Bind();
+    mPostProcessFramebuffer.Bind();
     glViewport(0, 0, mViewportWidth, mViewportHeight);
     glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_FALSE);
 
@@ -246,6 +251,11 @@ void CRenderer::RenderBloom()
         glBlendFunc(GL_DST_ALPHA, GL_ZERO);
         CDrawUtil::DrawSquare();
     }
+
+    // Copy framebuffer back into the scene framebuffer for more rendering
+    mPostProcessFramebuffer.Bind(GL_READ_FRAMEBUFFER);
+    mSceneFramebuffer.Bind(GL_DRAW_FRAMEBUFFER);
+    glBlitFramebuffer(0, 0, mViewportWidth, mViewportHeight, 0, 0, mViewportWidth, mViewportHeight, GL_COLOR_BUFFER_BIT, GL_NEAREST);
 
     // Clean up
     glEnable(GL_DEPTH_TEST);
@@ -310,6 +320,7 @@ void CRenderer::BeginFrame()
     CGraphics::SetActiveContext(mContextIndex);
     glGetIntegerv(GL_FRAMEBUFFER_BINDING, &mDefaultFramebuffer);
 
+    mSceneFramebuffer.SetMultisamplingEnabled(true);
     mSceneFramebuffer.Resize(mViewportWidth, mViewportHeight);
     mSceneFramebuffer.Bind();
 
@@ -320,23 +331,11 @@ void CRenderer::BeginFrame()
 
 void CRenderer::EndFrame()
 {
-    // Render result to screen
-    glBindFramebuffer(GL_FRAMEBUFFER, mDefaultFramebuffer);
-    InitFramebuffer();
+    // Copy result to the backbuffer
+    mSceneFramebuffer.Bind(GL_READ_FRAMEBUFFER);
+    CFramebuffer::BindDefaultFramebuffer(GL_DRAW_FRAMEBUFFER);
     glViewport(0, 0, mViewportWidth, mViewportHeight);
-
-    CGraphics::SetIdentityMVP();
-    CGraphics::UpdateMVPBlock();
-
-    glDisable(GL_DEPTH_TEST);
-
-    CDrawUtil::UseTextureShader();
-    glBlendFunc(GL_ONE, GL_ZERO);
-    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-    mSceneFramebuffer.Texture()->Bind(0);
-    CDrawUtil::DrawSquare();
-
-    glEnable(GL_DEPTH_TEST);
+    glBlitFramebuffer(0, 0, mViewportWidth, mViewportHeight, 0, 0, mViewportWidth, mViewportHeight, GL_COLOR_BUFFER_BIT, GL_NEAREST);
     gDrawCount = 0;
 }
 

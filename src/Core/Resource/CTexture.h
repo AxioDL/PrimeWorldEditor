@@ -21,9 +21,10 @@ class CTexture : public CResource
     u32 mNumMipMaps;                   // The number of mipmaps this texture has
     u32 mLinearSize;                   // The size of the top level mipmap, in bytes
 
-    bool mBufferExists;  // Indicates whether image data buffer has valid data
-    u8 *mpImgDataBuffer; // Pointer to image data buffer
-    u32 mImgDataSize;    // Size of image data buffer
+    bool mEnableMultisampling;  // Whether multisample should be enabled (if this texture is a render target).
+    bool mBufferExists;         // Indicates whether image data buffer has valid data
+    u8 *mpImgDataBuffer;        // Pointer to image data buffer
+    u32 mImgDataSize;           // Size of image data buffer
 
     bool mGLBufferExists; // Indicates whether GL buffer has valid data
     GLuint mTextureID;    // ID for texture GL buffer
@@ -39,13 +40,21 @@ public:
     float ReadTexelAlpha(const CVector2f& rkTexCoord);
     bool WriteDDS(IOutputStream& rOut);
 
-    // Getters
+    // Accessors
     ETexelFormat TexelFormat() const        { return mTexelFormat; }
     ETexelFormat SourceTexelFormat() const  { return mSourceTexelFormat; }
     u32 Width() const           { return (u32) mWidth; }
     u32 Height() const          { return (u32) mHeight; }
     u32 NumMipMaps() const      { return mNumMipMaps; }
     GLuint TextureID() const    { return mTextureID; }
+
+    inline void SetMultisamplingEnabled(bool Enable)
+    {
+        if (mEnableMultisampling != Enable)
+            DeleteBuffers();
+
+        mEnableMultisampling = Enable;
+    }
 
     // Static
     static u32 FormatBPP(ETexelFormat Format);

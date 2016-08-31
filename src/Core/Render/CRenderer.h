@@ -40,6 +40,7 @@ private:
     float mBloomHScale, mBloomVScale;
 
     CFramebuffer mSceneFramebuffer;
+    CFramebuffer mPostProcessFramebuffer;
     CFramebuffer mBloomFramebuffers[3];
     GLint mDefaultFramebuffer;
 

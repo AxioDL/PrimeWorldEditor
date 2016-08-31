@@ -32,12 +32,13 @@ void CBasicViewport::initializeGL()
     CGraphics::Initialize();
 
     // Setting various GL flags
-    glEnable(GL_PRIMITIVE_RESTART);
-    glPrimitiveRestartIndex(0xFFFF);
-    glDepthFunc(GL_LEQUAL);
     glEnable(GL_BLEND);
     glEnable(GL_POLYGON_OFFSET_FILL);
+    glEnable(GL_MULTISAMPLE);
+    glEnable(GL_PRIMITIVE_RESTART);
+    glPrimitiveRestartIndex(0xFFFF);
     glPolygonOffset(1.f, 5.f);
+    glDepthFunc(GL_LEQUAL);
 
     // Clear cached material
     CMaterial::KillCachedMaterial();

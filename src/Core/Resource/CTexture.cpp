@@ -8,6 +8,7 @@ CTexture::CTexture(CResourceEntry *pEntry /*= 0*/)
     , mHeight(0)
     , mNumMipMaps(0)
     , mLinearSize(0)
+    , mEnableMultisampling(false)
     , mBufferExists(false)
     , mpImgDataBuffer(nullptr)
     , mImgDataSize(0)
@@ -22,6 +23,7 @@ CTexture::CTexture(u32 Width, u32 Height)
     , mHeight((u16) Height)
     , mNumMipMaps(1)
     , mLinearSize(Width * Height * 4)
+    , mEnableMultisampling(false)
     , mBufferExists(false)
     , mpImgDataBuffer(nullptr)
     , mImgDataSize(0)
@@ -36,8 +38,9 @@ CTexture::~CTexture()
 
 bool CTexture::BufferGL()
 {
+    GLenum BindTarget = (mEnableMultisampling ? GL_TEXTURE_2D_MULTISAMPLE : GL_TEXTURE_2D);
     glGenTextures(1, &mTextureID);
-    glBindTexture(GL_TEXTURE_2D, mTextureID);
+    glBindTexture(BindTarget, mTextureID);
 
     GLenum GLFormat, GLType;
     bool IsCompressed = false;
@@ -81,9 +84,14 @@ bool CTexture::BufferGL()
         GLvoid *pData = (mBufferExists) ? (mpImgDataBuffer + MipOffset) : NULL;
 
         if (!IsCompressed)
-            glTexImage2D(GL_TEXTURE_2D, iMip, GLFormat, MipW, MipH, 0, GLFormat, GLType, pData);
+        {
+            if (mEnableMultisampling)
+                glTexImage2DMultisample(BindTarget, 4, GLFormat, MipW, MipH, true);
+            else
+                glTexImage2D(BindTarget, iMip, GLFormat, MipW, MipH, 0, GLFormat, GLType, pData);
+        }
         else
-            glCompressedTexImage2D(GL_TEXTURE_2D, iMip, GLFormat, MipW, MipH, 0, MipSize, pData);
+            glCompressedTexImage2D(BindTarget, iMip, GLFormat, MipW, MipH, 0, MipSize, pData);
 
         MipW /= 2;
         MipH /= 2;
@@ -91,17 +99,17 @@ bool CTexture::BufferGL()
         MipSize /= 4;
     }
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, mNumMipMaps - 1);
+    glTexParameteri(BindTarget, GL_TEXTURE_BASE_LEVEL, 0);
+    glTexParameteri(BindTarget, GL_TEXTURE_MAX_LEVEL, mNumMipMaps - 1);
 
     // Linear filtering on mipmaps:
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(BindTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(BindTarget, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 
     // Anisotropic filtering:
     float MaxAnisotropy;
     glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &MaxAnisotropy);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, MaxAnisotropy);
+    glTexParameterf(BindTarget, GL_TEXTURE_MAX_ANISOTROPY_EXT, MaxAnisotropy);
 
     mGLBufferExists = true;
     return true;
@@ -114,7 +122,8 @@ void CTexture::Bind(u32 GLTextureUnit)
     if (!mGLBufferExists)
         BufferGL();
 
-    glBindTexture(GL_TEXTURE_2D, mTextureID);
+    GLenum BindTarget = (mEnableMultisampling ? GL_TEXTURE_2D_MULTISAMPLE : GL_TEXTURE_2D);
+    glBindTexture(BindTarget, mTextureID);
 }
 
 void CTexture::Resize(u32 Width, u32 Height)
@@ -323,13 +332,14 @@ void CTexture::CopyGLBuffer()
     u32 MipW = mWidth, MipH = mHeight, MipOffset = 0;
     float BytesPerPixel = FormatBPP(mTexelFormat) / 8.f;
 
-    glBindTexture(GL_TEXTURE_2D, mTextureID);
+    GLenum BindTarget = (mEnableMultisampling ? GL_TEXTURE_2D_MULTISAMPLE : GL_TEXTURE_2D);
+    glBindTexture(BindTarget, mTextureID);
 
     for (u32 iMip = 0; iMip < mNumMipMaps; iMip++)
     {
         void *pData = mpImgDataBuffer + MipOffset;
 
-        glGetTexImage(GL_TEXTURE_2D, iMip, GL_RGBA, GL_UNSIGNED_BYTE, pData);
+        glGetTexImage(BindTarget, iMip, GL_RGBA, GL_UNSIGNED_BYTE, pData);
 
         MipOffset += (u32) (MipW * MipH * BytesPerPixel);
         MipW /= 2;
