@@ -1,6 +1,7 @@
 #include "CEditorApplication.h"
 #include "IEditor.h"
 #include "CBasicViewport.h"
+#include "Editor/WorldEditor/CWorldEditor.h"
 #include <Common/AssertMacro.h>
 #include <Common/CTimer.h>
 
@@ -47,6 +48,9 @@ void CEditorApplication::OnEditorClose()
     IEditor *pEditor = qobject_cast<IEditor*>(sender());
     ASSERT(pEditor);
 
-    mEditorWindows.removeOne(pEditor);
-    delete pEditor;
+    if (qobject_cast<CWorldEditor*>(pEditor) == nullptr)
+    {
+        mEditorWindows.removeOne(pEditor);
+        delete pEditor;
+    }
 }
