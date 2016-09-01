@@ -8,8 +8,8 @@
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <struct ID="0xB3774750" template="Structs/PatternedInfo.xml"/>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <property ID="0x677D4FC2" type="file" extensions="PART"/>
-        <property ID="0xAAFF1884" type="file" extensions="PART"/>
+        <property ID="0x677D4FC2" type="asset" extensions="PART"/>
+        <property ID="0xAAFF1884" type="asset" extensions="PART"/>
     </properties>
     <states/>
     <messages/>

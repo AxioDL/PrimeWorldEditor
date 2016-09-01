@@ -40,8 +40,8 @@
                 <property ID="0x9B1A9FB8" type="long">
                     <default>0</default>
                 </property>
-                <property ID="0x95C8719D" type="file" extensions="CMDL"/>
-                <property ID="0xA0705491" type="file" extensions="CMDL"/>
+                <property ID="0x95C8719D" type="asset" extensions="CMDL"/>
+                <property ID="0xA0705491" type="asset" extensions="CMDL"/>
                 <property ID="0x4FA0EA5C" type="float">
                     <default>15.0</default>
                 </property>
@@ -80,9 +80,9 @@
                 </property>
                 <struct ID="0x672B454D" type="multi">
                     <properties>
-                        <property ID="0xEF485DB9" type="file" extensions="WPSC"/>
+                        <property ID="0xEF485DB9" type="asset" extensions="WPSC"/>
                         <struct ID="0x337F9524" template="Structs/DamageInfo.xml"/>
-                        <property ID="0xA55DACF6" type="file" extensions="CAUD"/>
+                        <property ID="0xA55DACF6" type="asset" extensions="CAUD"/>
                         <property ID="0xFF77C96F" type="float">
                             <default>50.0</default>
                         </property>
@@ -99,8 +99,8 @@
                 </struct>
                 <struct ID="0x92B304AD" type="multi">
                     <properties>
-                        <property ID="0xF0D25256" type="file" extensions="WPSC"/>
-                        <property ID="0x645E8CC5" type="file" extensions="WPSC"/>
+                        <property ID="0xF0D25256" type="asset" extensions="WPSC"/>
+                        <property ID="0x645E8CC5" type="asset" extensions="WPSC"/>
                         <struct ID="0x337F9524" template="Structs/DamageInfo.xml"/>
                         <property ID="0x053AE4A7" type="float">
                             <default>10.0</default>
@@ -136,15 +136,15 @@
                             </properties>
                         </struct>
                         <struct ID="0x896D5BD9" template="Structs/DamageVulnerability.xml"/>
-                        <property ID="0x68002BD7" type="file" extensions="CMDL"/>
-                        <property ID="0xAD315C7C" type="file" extensions="CMDL"/>
-                        <property ID="0x042A25ED" type="file" extensions="CMDL"/>
-                        <property ID="0xE39B8B1E" type="file" extensions="CMDL"/>
-                        <property ID="0x356C166A" type="file" extensions="CMDL"/>
-                        <property ID="0x1CA4A298" type="file" extensions="CMDL"/>
-                        <property ID="0xDF44507E" type="file" extensions="CMDL"/>
-                        <property ID="0xD2C9A656" type="file" extensions="CMDL"/>
-                        <property ID="0xD4E26A8E" type="file" extensions="CMDL"/>
+                        <property ID="0x68002BD7" type="asset" extensions="CMDL"/>
+                        <property ID="0xAD315C7C" type="asset" extensions="CMDL"/>
+                        <property ID="0x042A25ED" type="asset" extensions="CMDL"/>
+                        <property ID="0xE39B8B1E" type="asset" extensions="CMDL"/>
+                        <property ID="0x356C166A" type="asset" extensions="CMDL"/>
+                        <property ID="0x1CA4A298" type="asset" extensions="CMDL"/>
+                        <property ID="0xDF44507E" type="asset" extensions="CMDL"/>
+                        <property ID="0xD2C9A656" type="asset" extensions="CMDL"/>
+                        <property ID="0xD4E26A8E" type="asset" extensions="CMDL"/>
                     </properties>
                 </struct>
                 <struct ID="0xFBAA9F01" type="multi">
@@ -155,9 +155,9 @@
                         <property ID="0x9E9D2BD6" type="float">
                             <default>5.0</default>
                         </property>
-                        <property ID="0x2C79052C" type="file" extensions="PART"/>
-                        <property ID="0x016B65A9" type="file" extensions="PART"/>
-                        <property ID="0xD8A92AAA" type="file" extensions="PART"/>
+                        <property ID="0x2C79052C" type="asset" extensions="PART"/>
+                        <property ID="0x016B65A9" type="asset" extensions="PART"/>
+                        <property ID="0xD8A92AAA" type="asset" extensions="PART"/>
                         <struct ID="0x5BF6F8E4" template="Structs/DamageInfo.xml"/>
                         <struct ID="0x85543E4E" template="Structs/GrappleBlock.xml"/>
                         <struct ID="0xD97F687B" template="Structs/GrappleBlock.xml"/>

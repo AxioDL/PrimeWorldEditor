@@ -81,9 +81,9 @@
                                 </property>
                             </properties>
                         </struct>
-                        <property ID="0x1319E077" type="file" extensions="PART"/>
-                        <property ID="0xD207FF0F" type="file" extensions="PART"/>
-                        <property ID="0x2B31C882" type="file" extensions="PART"/>
+                        <property ID="0x1319E077" type="asset" extensions="PART"/>
+                        <property ID="0xD207FF0F" type="asset" extensions="PART"/>
+                        <property ID="0x2B31C882" type="asset" extensions="PART"/>
                         <property ID="0x9A6BB47F" type="float">
                             <default>25.0</default>
                         </property>
@@ -134,8 +134,8 @@
                                 </property>
                             </properties>
                         </struct>
-                        <property ID="0xEF485DB9" type="file" extensions="WPSC"/>
-                        <property ID="0x5979D9E1" type="file" extensions="PART"/>
+                        <property ID="0xEF485DB9" type="asset" extensions="WPSC"/>
+                        <property ID="0x5979D9E1" type="asset" extensions="PART"/>
                         <struct ID="0x80742E2E" template="Structs/DamageInfo.xml">
                             <properties>
                                 <enum ID="0x119FBD31">
@@ -163,7 +163,7 @@
                         <property ID="0x5D02F384" type="float">
                             <default>20.0</default>
                         </property>
-                        <property ID="0x2DC80B4B" type="file" extensions="PART"/>
+                        <property ID="0x2DC80B4B" type="asset" extensions="PART"/>
                         <struct ID="0x03392283" template="Structs/AudioPlaybackParms.xml"/>
                         <struct ID="0x9DEDCFF1" template="Structs/AudioPlaybackParms.xml"/>
                         <struct ID="0xF740E01D" template="Structs/AudioPlaybackParms.xml"/>

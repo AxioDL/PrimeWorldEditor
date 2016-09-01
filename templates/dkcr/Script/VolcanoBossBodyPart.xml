@@ -105,14 +105,14 @@
                         <property ID="0x96ECF959" type="float">
                             <default>0.5</default>
                         </property>
-                        <property ID="0xD3C1390E" type="file" extensions="PART"/>
+                        <property ID="0xD3C1390E" type="asset" extensions="PART"/>
                         <struct ID="0xAE342F0F" template="Structs/DamageEffectData.xml"/>
                         <struct ID="0x46D65682" template="Structs/DamageEffectData.xml"/>
                     </properties>
                 </struct>
                 <struct ID="0x2B531C2F" type="multi">
                     <properties>
-                        <property ID="0xC5CE83AF" type="file" extensions="CMDL"/>
+                        <property ID="0xC5CE83AF" type="asset" extensions="CMDL"/>
                         <property ID="0xA826BD98" type="string"/>
                         <property ID="0x46CC2FD0" type="float">
                             <default>1.5</default>
@@ -126,8 +126,8 @@
                         <property ID="0x68D787B4" type="float">
                             <default>0.2</default>
                         </property>
-                        <property ID="0x68137EA7" type="file" extensions="PART"/>
-                        <property ID="0xEBF3B81D" type="file" extensions="unknown"/>
+                        <property ID="0x68137EA7" type="asset" extensions="PART"/>
+                        <property ID="0xEBF3B81D" type="asset" extensions="unknown"/>
                     </properties>
                 </struct>
                 <struct ID="0x9127FBC8" type="multi">

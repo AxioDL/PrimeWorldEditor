@@ -6,7 +6,7 @@
 class CDoorExtra : public CScriptExtra
 {
     // Render colored door shield in MP2/3
-    TFileProperty *mpShieldModelProp;
+    TAssetProperty *mpShieldModelProp;
     TColorProperty *mpShieldColorProp;
     TBoolProperty *mpDisabledProp;
     TResPtr<CModel> mpShieldModel;

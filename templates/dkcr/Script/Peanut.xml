@@ -33,10 +33,10 @@
                 <property ID="0x2F2AE3E5" type="float">
                     <default>25.0</default>
                 </property>
-                <property ID="0xC27FFA8F" type="file" extensions="CMDL"/>
-                <property ID="0x93F8E0B0" type="file" extensions="CAUD"/>
-                <property ID="0xF1925576" type="file" extensions="CAUD"/>
-                <property ID="0x478D0AA3" type="file" extensions="PART"/>
+                <property ID="0xC27FFA8F" type="asset" extensions="CMDL"/>
+                <property ID="0x93F8E0B0" type="asset" extensions="CAUD"/>
+                <property ID="0xF1925576" type="asset" extensions="CAUD"/>
+                <property ID="0x478D0AA3" type="asset" extensions="PART"/>
                 <property ID="0x19A6F71F" type="vector3f">
                     <default>1.0, 1.0, 1.0</default>
                 </property>
@@ -50,15 +50,15 @@
                     <default>true</default>
                 </property>
                 <struct ID="0xF5DD4690" template="Structs/DebrisPropertiesOrientationEnum.xml"/>
-                <property ID="0x217C37C2" type="file" extensions="PART"/>
+                <property ID="0x217C37C2" type="asset" extensions="PART"/>
                 <property ID="0x60D6BF8E" type="vector3f">
                     <default>1.0, 1.0, 1.0</default>
                 </property>
                 <struct ID="0xCE59EBFF" template="Structs/UnknownStruct17.xml"/>
-                <property ID="0xE93B1A2F" type="file" extensions="PART"/>
-                <property ID="0x71D494F4" type="file" extensions="PART"/>
-                <property ID="0xBD1A42AF" type="file" extensions="PART"/>
-                <property ID="0x08000EC9" type="file" extensions="CAUD"/>
+                <property ID="0xE93B1A2F" type="asset" extensions="PART"/>
+                <property ID="0x71D494F4" type="asset" extensions="PART"/>
+                <property ID="0xBD1A42AF" type="asset" extensions="PART"/>
+                <property ID="0x08000EC9" type="asset" extensions="CAUD"/>
                 <property ID="0x9BD94326" type="float">
                     <default>1.0</default>
                 </property>

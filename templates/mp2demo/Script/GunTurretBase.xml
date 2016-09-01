@@ -94,8 +94,8 @@
         <property ID="0x701D65CD" type="bool">
             <default>false</default>
         </property>
-        <property ID="0xA33D1C6D" type="file" extensions="CRSC"/>
-        <property ID="0x2D1C5515" type="file" extensions="WPSC"/>
+        <property ID="0xA33D1C6D" type="asset" extensions="CRSC"/>
+        <property ID="0x2D1C5515" type="asset" extensions="WPSC"/>
         <property ID="0x45B71390" type="long">
             <default>-1</default>
         </property>

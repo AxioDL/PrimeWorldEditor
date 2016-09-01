@@ -15,6 +15,6 @@
                 <enumerator ID="0x5EB68811" name="Unknown 9"/>
             </enumerators>
         </enum>
-        <property ID="0x2F11C14F" type="file" extensions="TXTR"/>
+        <property ID="0x2F11C14F" type="asset" extensions="TXTR"/>
     </properties>
 </struct>

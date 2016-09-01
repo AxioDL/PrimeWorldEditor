@@ -7,7 +7,7 @@
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <property ID="0xC27FFA8F" type="file" extensions="CMDL"/>
+        <property ID="0xC27FFA8F" type="asset" extensions="CMDL"/>
         <property ID="0xCB14D97C" type="float">
             <default>60.0</default>
         </property>
@@ -30,8 +30,8 @@
         <property ID="0x5CC14B87" type="float">
             <default>1.5</default>
         </property>
-        <property ID="0x36EEE791" type="file" extensions="PART"/>
-        <property ID="0xF8B7BA26" type="file" extensions="PART"/>
+        <property ID="0x36EEE791" type="asset" extensions="PART"/>
+        <property ID="0xF8B7BA26" type="asset" extensions="PART"/>
         <property ID="0x0DD66F77" type="long">
             <default>-1</default>
         </property>

@@ -58,15 +58,15 @@
             <default>0.0</default>
         </property>
         <struct ID="0xD756416E" template="Structs/DamageInfo.xml"/>
-        <property ID="0x08BC9A8C" type="file" extensions="UNKN"/>
-        <property ID="0x6D0DB963" type="file" extensions="UNKN"/>
-        <property ID="0xFF90B1E5" type="file" extensions="UNKN"/>
-        <property ID="0x4473FEC0" type="file" extensions="UNKN"/>
-        <property ID="0x81D5AE6B" type="file" extensions="UNKN"/>
+        <property ID="0x08BC9A8C" type="asset" extensions="UNKN"/>
+        <property ID="0x6D0DB963" type="asset" extensions="UNKN"/>
+        <property ID="0xFF90B1E5" type="asset" extensions="UNKN"/>
+        <property ID="0x4473FEC0" type="asset" extensions="UNKN"/>
+        <property ID="0x81D5AE6B" type="asset" extensions="UNKN"/>
         <property ID="0x534C2BBF" type="long">
             <default>0</default>
         </property>
-        <property ID="0x8E30F547" type="file" extensions="UNKN"/>
+        <property ID="0x8E30F547" type="asset" extensions="UNKN"/>
         <property ID="0x12289828" type="float">
             <default>0.0</default>
         </property>

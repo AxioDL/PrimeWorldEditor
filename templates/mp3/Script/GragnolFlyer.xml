@@ -70,8 +70,8 @@
                         </property>
                     </properties>
                 </struct>
-                <property ID="0x8F1DED1B" type="file" extensions="UNKN"/>
-                <property ID="0x0B339FAC" type="file" extensions="UNKN"/>
+                <property ID="0x8F1DED1B" type="asset" extensions="UNKN"/>
+                <property ID="0x0B339FAC" type="asset" extensions="UNKN"/>
                 <property ID="0xF10EE8E2" type="float">
                     <default>-1.0</default>
                 </property>

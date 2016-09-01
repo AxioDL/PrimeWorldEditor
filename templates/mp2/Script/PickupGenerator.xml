@@ -9,7 +9,7 @@
         <property ID="0x72BBE7A6" type="bool">
             <default>false</default>
         </property>
-        <property ID="0x0C5143FE" type="file" extensions="RULE"/>
+        <property ID="0x0C5143FE" type="asset" extensions="RULE"/>
     </properties>
     <states/>
     <messages/>

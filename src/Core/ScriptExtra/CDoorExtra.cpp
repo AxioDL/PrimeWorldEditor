@@ -9,7 +9,7 @@ CDoorExtra::CDoorExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pP
 {
     CPropertyStruct *pBaseStruct = pInstance->Properties();
 
-    mpShieldModelProp = TPropCast<TFileProperty>(pBaseStruct->PropertyByID(0xB20CC271));
+    mpShieldModelProp = TPropCast<TAssetProperty>(pBaseStruct->PropertyByID(0xB20CC271));
     if (mpShieldModelProp) PropertyModified(mpShieldModelProp);
 
     if (mGame >= eEchoes)
@@ -29,7 +29,7 @@ void CDoorExtra::PropertyModified(IProperty *pProperty)
 {
     if (pProperty == mpShieldModelProp)
     {
-        mpShieldModel = mpShieldModelProp->Get().Load();
+        mpShieldModel = gpResourceStore->LoadResource( mpShieldModelProp->Get(), "CMDL" );
 
         if (mpShieldModel)
             mLocalAABox = mpShieldModel->AABox();

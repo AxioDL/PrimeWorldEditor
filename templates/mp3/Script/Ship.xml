@@ -23,7 +23,7 @@
                 <property ID="0x742E0922" type="bool">
                     <default>false</default>
                 </property>
-                <property ID="0x51253BA3" type="file" extensions="WPSC"/>
+                <property ID="0x51253BA3" type="asset" extensions="WPSC"/>
                 <struct ID="0xCEA30138" template="Structs/DamageInfo.xml">
                     <properties>
                         <enum ID="0x445E00C8">
@@ -40,7 +40,7 @@
                         </property>
                     </properties>
                 </struct>
-                <property ID="0xC23A1955" type="file" extensions="CAUD"/>
+                <property ID="0xC23A1955" type="asset" extensions="CAUD"/>
                 <property ID="0xD5039D33" type="float">
                     <default>0.5</default>
                 </property>
@@ -60,13 +60,13 @@
                         </property>
                     </properties>
                 </struct>
-                <property ID="0x6A43639F" type="file" extensions="PART"/>
-                <property ID="0x7EBD51DE" type="file" extensions="PART"/>
-                <property ID="0x25BD3372" type="file" extensions="SWHC"/>
-                <property ID="0xA32941DC" type="file" extensions="SWHC"/>
-                <property ID="0x2F335270" type="file" extensions="PART"/>
-                <property ID="0xB685FEEE" type="file" extensions="PART"/>
-                <property ID="0xD3023E6C" type="file" extensions="UNKN"/>
+                <property ID="0x6A43639F" type="asset" extensions="PART"/>
+                <property ID="0x7EBD51DE" type="asset" extensions="PART"/>
+                <property ID="0x25BD3372" type="asset" extensions="SWHC"/>
+                <property ID="0xA32941DC" type="asset" extensions="SWHC"/>
+                <property ID="0x2F335270" type="asset" extensions="PART"/>
+                <property ID="0xB685FEEE" type="asset" extensions="PART"/>
+                <property ID="0xD3023E6C" type="asset" extensions="UNKN"/>
                 <property ID="0x497C0D5E" type="bool">
                     <default>true</default>
                 </property>

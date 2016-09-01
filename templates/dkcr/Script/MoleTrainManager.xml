@@ -16,7 +16,7 @@
                 </struct>
             </properties>
         </struct>
-        <property ID="0x1749405B" type="file" extensions="FSMC"/>
+        <property ID="0x1749405B" type="asset" extensions="FSMC"/>
         <struct ID="0xEACC7ED2" type="multi">
             <properties>
                 <property ID="0x391F50EB" type="float">

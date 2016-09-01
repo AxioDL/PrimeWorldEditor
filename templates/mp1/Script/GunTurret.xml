@@ -28,22 +28,22 @@
         <property ID="0x17" name="Unknown 15" type="float"/>
         <property ID="0x18" name="Unknown 16" type="float"/>
         <property ID="0x19" name="Unknown 17" type="bool"/>
-        <property ID="0x1A" name="Unknown 18" type="file" extensions="WPSC"/>
+        <property ID="0x1A" name="Unknown 18" type="asset" extensions="WPSC"/>
         <struct ID="0x1B" name="DamageInfo" template="Structs/DamageInfo.xml"/>
-        <property ID="0x1C" name="Particle 1" type="file" extensions="PART"/>
-        <property ID="0x1D" name="Particle 2" type="file" extensions="PART"/>
-        <property ID="0x1E" name="Particle 3" type="file" extensions="PART"/>
-        <property ID="0x1F" name="Particle 4" type="file" extensions="PART"/>
-        <property ID="0x20" name="Particle 5" type="file" extensions="PART"/>
-        <property ID="0x21" name="Particle 6" type="file" extensions="PART"/>
-        <property ID="0x22" name="Particle 7" type="file" extensions="PART"/>
+        <property ID="0x1C" name="Particle 1" type="asset" extensions="PART"/>
+        <property ID="0x1D" name="Particle 2" type="asset" extensions="PART"/>
+        <property ID="0x1E" name="Particle 3" type="asset" extensions="PART"/>
+        <property ID="0x1F" name="Particle 4" type="asset" extensions="PART"/>
+        <property ID="0x20" name="Particle 5" type="asset" extensions="PART"/>
+        <property ID="0x21" name="Particle 6" type="asset" extensions="PART"/>
+        <property ID="0x22" name="Particle 7" type="asset" extensions="PART"/>
         <property ID="0x23" name="Unknown 19" type="long"/>
         <property ID="0x24" name="Unknown 20" type="long"/>
         <property ID="0x25" name="Unknown 21" type="long"/>
         <property ID="0x26" name="Unknown 22" type="long"/>
         <property ID="0x27" name="Unknown 23" type="long"/>
         <property ID="0x28" name="Unknown 24" type="long"/>
-        <property ID="0x29" name="Model" type="file" extensions="CMDL"/>
+        <property ID="0x29" name="Model" type="asset" extensions="CMDL"/>
         <property ID="0x2A" name="Unknown 25" type="float"/>
         <property ID="0x2B" name="Unknown 26" type="long"/>
         <property ID="0x2C" name="Unknown 27" type="long"/>

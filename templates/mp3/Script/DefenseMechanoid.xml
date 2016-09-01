@@ -8,22 +8,22 @@
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <struct ID="0xF0CE5372" type="multi">
             <properties>
-                <property ID="0x7FAB452A" type="file" extensions="SCAN"/>
-                <property ID="0xC47A5224" type="file" extensions="CMDL"/>
-                <property ID="0x38FABDE9" type="file" extensions="CMDL"/>
-                <property ID="0x4BA2833E" type="file" extensions="CMDL"/>
-                <property ID="0xC60FB911" type="file" extensions="CMDL"/>
-                <property ID="0x537F8382" type="file" extensions="PART"/>
-                <property ID="0x98D5883D" type="file" extensions="PART"/>
-                <property ID="0xAD17A036" type="file" extensions="PART"/>
-                <property ID="0x3FEF37BD" type="file" extensions="PART"/>
-                <property ID="0xBD321538" type="file" extensions="ELSC"/>
-                <property ID="0x70E97166" type="file" extensions="WPSC"/>
-                <property ID="0x9EEF71C2" type="file" extensions="WPSC"/>
-                <property ID="0xF98FDCC9" type="file" extensions="PART"/>
-                <property ID="0xDBF176DD" type="file" extensions="PART"/>
-                <property ID="0x7AF488B1" type="file" extensions="PART"/>
-                <property ID="0xDD6BE17F" type="file" extensions="PART"/>
+                <property ID="0x7FAB452A" type="asset" extensions="SCAN"/>
+                <property ID="0xC47A5224" type="asset" extensions="CMDL"/>
+                <property ID="0x38FABDE9" type="asset" extensions="CMDL"/>
+                <property ID="0x4BA2833E" type="asset" extensions="CMDL"/>
+                <property ID="0xC60FB911" type="asset" extensions="CMDL"/>
+                <property ID="0x537F8382" type="asset" extensions="PART"/>
+                <property ID="0x98D5883D" type="asset" extensions="PART"/>
+                <property ID="0xAD17A036" type="asset" extensions="PART"/>
+                <property ID="0x3FEF37BD" type="asset" extensions="PART"/>
+                <property ID="0xBD321538" type="asset" extensions="ELSC"/>
+                <property ID="0x70E97166" type="asset" extensions="WPSC"/>
+                <property ID="0x9EEF71C2" type="asset" extensions="WPSC"/>
+                <property ID="0xF98FDCC9" type="asset" extensions="PART"/>
+                <property ID="0xDBF176DD" type="asset" extensions="PART"/>
+                <property ID="0x7AF488B1" type="asset" extensions="PART"/>
+                <property ID="0xDD6BE17F" type="asset" extensions="PART"/>
                 <property ID="0x1CC93984" type="float">
                     <default>40.0</default>
                 </property>
@@ -58,14 +58,14 @@
                         </property>
                     </properties>
                 </struct>
-                <property ID="0x2C558C5D" type="file" extensions="CAUD"/>
-                <property ID="0xB3220B78" type="file" extensions="CAUD"/>
-                <property ID="0xB4A84D85" type="file" extensions="CAUD"/>
-                <property ID="0xFEF01104" type="file" extensions="CAUD"/>
-                <property ID="0xEB8805BD" type="file" extensions="CAUD"/>
-                <property ID="0x657327CD" type="file" extensions="UNKN"/>
-                <property ID="0xA99CCB84" type="file" extensions="UNKN"/>
-                <property ID="0xB60DF150" type="file" extensions="UNKN"/>
+                <property ID="0x2C558C5D" type="asset" extensions="CAUD"/>
+                <property ID="0xB3220B78" type="asset" extensions="CAUD"/>
+                <property ID="0xB4A84D85" type="asset" extensions="CAUD"/>
+                <property ID="0xFEF01104" type="asset" extensions="CAUD"/>
+                <property ID="0xEB8805BD" type="asset" extensions="CAUD"/>
+                <property ID="0x657327CD" type="asset" extensions="UNKN"/>
+                <property ID="0xA99CCB84" type="asset" extensions="UNKN"/>
+                <property ID="0xB60DF150" type="asset" extensions="UNKN"/>
             </properties>
         </struct>
         <struct ID="0x5231ED05" template="Structs/DefenseMechanoidData.xml"/>

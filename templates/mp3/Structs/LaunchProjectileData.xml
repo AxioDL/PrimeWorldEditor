@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <struct name="LaunchProjectileData" type="multi">
     <properties>
-        <property ID="0xEF485DB9" type="file" extensions="WPSC"/>
+        <property ID="0xEF485DB9" type="asset" extensions="WPSC"/>
         <struct ID="0x337F9524" template="Structs/DamageInfo.xml"/>
         <property ID="0xF726E5DA" type="vector3f">
             <default>1.0, 1.0, 1.0</default>
@@ -12,8 +12,8 @@
         <property ID="0x7DA8EA23" type="float">
             <default>0.0</default>
         </property>
-        <property ID="0xE9C8E2BD" type="file" extensions="PART"/>
-        <property ID="0xA3E8EC4E" type="file" extensions="CAUD"/>
+        <property ID="0xE9C8E2BD" type="asset" extensions="PART"/>
+        <property ID="0xA3E8EC4E" type="asset" extensions="CAUD"/>
         <property ID="0x053AE4A7" type="float">
             <default>20.0</default>
         </property>

@@ -6,8 +6,8 @@
         <struct ID="0x3F003133" type="multi">
             <properties>
                 <struct ID="0x337F9524" template="Structs/DamageInfo.xml"/>
-                <property ID="0x9EF6B290" type="file" extensions="WPSC"/>
-                <property ID="0x4E83F4A7" type="file" extensions="CAUD"/>
+                <property ID="0x9EF6B290" type="asset" extensions="WPSC"/>
+                <property ID="0x4E83F4A7" type="asset" extensions="CAUD"/>
                 <enum ID="0xBADA8DEA">
                     <default>0x9EFB69B1</default>
                     <enumerators>

@@ -76,7 +76,7 @@
             </properties>
         </struct>
         <struct ID="0x382E406E" template="Structs/DamageVulnerability.xml"/>
-        <property ID="0x7D462930" type="file" extensions="PART"/>
+        <property ID="0x7D462930" type="asset" extensions="PART"/>
         <property ID="0x84F81F55" type="long">
             <default>5</default>
         </property>
@@ -98,8 +98,8 @@
         <property ID="0xBC01A28E" type="bool">
             <default>false</default>
         </property>
-        <property ID="0x6D269658" type="file" extensions="UNKN"/>
-        <property ID="0x5064AA8F" type="file" extensions="UNKN"/>
+        <property ID="0x6D269658" type="asset" extensions="UNKN"/>
+        <property ID="0x5064AA8F" type="asset" extensions="UNKN"/>
         <property ID="0xD2986C43" type="float">
             <default>0.0</default>
         </property>

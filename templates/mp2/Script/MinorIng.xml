@@ -37,7 +37,7 @@
                 </property>
             </properties>
         </struct>
-        <property ID="0xEF485DB9" type="file" extensions="WPSC"/>
+        <property ID="0xEF485DB9" type="asset" extensions="WPSC"/>
         <property ID="0xA03E450C" type="float">
             <default>20.0</default>
         </property>
@@ -116,10 +116,10 @@
                 <property ID="0x020C78BB" type="float">
                     <default>360.0</default>
                 </property>
-                <property ID="0x2367F689" type="file" extensions="PART"/>
-                <property ID="0xD473158D" type="file" extensions="PART"/>
-                <property ID="0xCCA298B4" type="file" extensions="PART"/>
-                <property ID="0xB99C80D3" type="file" extensions="PART"/>
+                <property ID="0x2367F689" type="asset" extensions="PART"/>
+                <property ID="0xD473158D" type="asset" extensions="PART"/>
+                <property ID="0xCCA298B4" type="asset" extensions="PART"/>
+                <property ID="0xB99C80D3" type="asset" extensions="PART"/>
                 <property ID="0xAF38968E" type="long">
                     <default>-1</default>
                 </property>
@@ -160,9 +160,9 @@
                         </property>
                     </properties>
                 </struct>
-                <property ID="0xD8C6D15C" type="file" extensions="PART"/>
-                <property ID="0xB68C6D96" type="file" extensions="PART"/>
-                <property ID="0xCB0B919B" type="file" extensions="PART"/>
+                <property ID="0xD8C6D15C" type="asset" extensions="PART"/>
+                <property ID="0xB68C6D96" type="asset" extensions="PART"/>
+                <property ID="0xCB0B919B" type="asset" extensions="PART"/>
                 <property ID="0x75DBB375" type="float">
                     <default>4.0</default>
                 </property>

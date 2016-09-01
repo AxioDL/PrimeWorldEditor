@@ -18,10 +18,10 @@
         <property ID="0x61CC15CC" type="bool">
             <default>true</default>
         </property>
-        <property ID="0xD702EBD7" type="file" extensions="CAUD"/>
-        <property ID="0xC68AFC16" type="file" extensions="CAUD"/>
-        <property ID="0x69DBAA2E" type="file" extensions="CAUD"/>
-        <property ID="0x0ED5BC96" type="file" extensions="CAUD"/>
+        <property ID="0xD702EBD7" type="asset" extensions="CAUD"/>
+        <property ID="0xC68AFC16" type="asset" extensions="CAUD"/>
+        <property ID="0x69DBAA2E" type="asset" extensions="CAUD"/>
+        <property ID="0x0ED5BC96" type="asset" extensions="CAUD"/>
         <struct ID="0x657D1325" template="Structs/ContextActionCombinationLockStruct.xml"/>
         <struct ID="0x5090A576" template="Structs/ContextActionCombinationLockStruct.xml"/>
         <struct ID="0xF51B3578" template="Structs/ContextActionCombinationLockStruct.xml"/>

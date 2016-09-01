@@ -35,7 +35,7 @@
                 </struct>
                 <struct ID="0xA1CDA0B6" type="multi">
                     <properties>
-                        <property ID="0xEF485DB9" type="file" extensions="WPSC"/>
+                        <property ID="0xEF485DB9" type="asset" extensions="WPSC"/>
                         <struct ID="0x553B1339" template="Structs/DamageInfo.xml"/>
                     </properties>
                 </struct>

@@ -22,8 +22,8 @@
         <property ID="0xDB922374" type="bool">
             <default>false</default>
         </property>
-        <property ID="0x51253BA3" type="file" extensions="WPSC"/>
-        <property ID="0x10E3EFDD" type="file" extensions="CAUD"/>
+        <property ID="0x51253BA3" type="asset" extensions="WPSC"/>
+        <property ID="0x10E3EFDD" type="asset" extensions="CAUD"/>
         <struct ID="0xCEA30138" template="Structs/DamageInfo.xml"/>
         <property ID="0x71587B45" type="float">
             <default>0.2</default>

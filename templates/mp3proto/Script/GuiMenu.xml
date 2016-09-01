@@ -16,7 +16,7 @@
         <property ID="0x84F708C8" type="bool">
             <default>true</default>
         </property>
-        <property ID="0x4471BF46" type="file" extensions="UNKN"/>
+        <property ID="0x4471BF46" type="asset" extensions="UNKN"/>
     </properties>
     <states/>
     <messages/>

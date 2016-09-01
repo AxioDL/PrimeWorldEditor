@@ -23,7 +23,7 @@
             <default>0.1</default>
         </property>
         <property ID="0xA244C9D8" type="character"/>
-        <property ID="0xC1C7E255" type="file" extensions="FSM2"/>
+        <property ID="0xC1C7E255" type="asset" extensions="FSM2"/>
         <property ID="0x98169634" type="long">
             <default>0</default>
         </property>
@@ -33,12 +33,12 @@
         <property ID="0x47DE2455" type="bool">
             <default>false</default>
         </property>
-        <property ID="0x87011652" type="file" extensions="RULE"/>
+        <property ID="0x87011652" type="asset" extensions="RULE"/>
         <property ID="0x4BC4C4D9" type="long">
             <default>0</default>
         </property>
-        <property ID="0x64C22667" type="file" extensions="CAUD"/>
-        <property ID="0x0FC813A7" type="file" extensions="SCAN"/>
+        <property ID="0x64C22667" type="asset" extensions="CAUD"/>
+        <property ID="0x0FC813A7" type="asset" extensions="SCAN"/>
         <property ID="0x6392404E" type="float">
             <default>1.0</default>
         </property>
@@ -87,7 +87,7 @@
         <property ID="0xEF3BD8CF" type="float">
             <default>2.0</default>
         </property>
-        <property ID="0x37F86DC4" type="file" extensions="CAUD"/>
+        <property ID="0x37F86DC4" type="asset" extensions="CAUD"/>
         <property ID="0x638D262F" type="float">
             <default>60.0</default>
         </property>
@@ -97,26 +97,26 @@
         <property ID="0x061CBE62" type="float">
             <default>0.0</default>
         </property>
-        <property ID="0xE3D9DA58" type="file" extensions="CAUD"/>
+        <property ID="0xE3D9DA58" type="asset" extensions="CAUD"/>
         <property ID="0x487EF257" type="vector3f">
             <default>0.0, 0.0, 0.0</default>
         </property>
-        <property ID="0x684F00C9" type="file" extensions="PART"/>
-        <property ID="0xF35F5164" type="file" extensions="UNKN"/>
+        <property ID="0x684F00C9" type="asset" extensions="PART"/>
+        <property ID="0xF35F5164" type="asset" extensions="UNKN"/>
         <struct ID="0x411938AA" template="Structs/DamageVulnerability.xml"/>
         <property ID="0x66CDC6E8" type="float">
             <default>1000.0</default>
         </property>
-        <property ID="0x89654F15" type="file" extensions="CAUD"/>
-        <property ID="0xAC0D6AFB" type="file" extensions="UNKN"/>
+        <property ID="0x89654F15" type="asset" extensions="CAUD"/>
+        <property ID="0xAC0D6AFB" type="asset" extensions="UNKN"/>
         <property ID="0x130539A0" type="vector3f">
             <default>0.0, 0.0, 0.0</default>
         </property>
-        <property ID="0xA8DA9239" type="file" extensions="PART"/>
+        <property ID="0xA8DA9239" type="asset" extensions="PART"/>
         <property ID="0x037280C6" type="color">
             <default>0.078431, 0.235294, 0.313726, 1.0</default>
         </property>
-        <property ID="0x76B6F48C" type="file" extensions="CAUD"/>
+        <property ID="0x76B6F48C" type="asset" extensions="CAUD"/>
         <property ID="0x40AB00FA" type="vector3f">
             <default>0.0, 1.0, 0.0</default>
         </property>

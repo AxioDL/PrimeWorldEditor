@@ -3,8 +3,8 @@
     <name>LUAScript</name>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0x2BF9AE74" type="file" extensions="UNKN"/>
-        <property ID="0x567A48F4" type="file" extensions="UNKN"/>
+        <property ID="0x2BF9AE74" type="asset" extensions="UNKN"/>
+        <property ID="0x567A48F4" type="asset" extensions="UNKN"/>
         <property ID="0xED4A2787" type="string"/>
         <property ID="0x9FACEA01" type="string"/>
         <property ID="0xEA46B664" type="string"/>

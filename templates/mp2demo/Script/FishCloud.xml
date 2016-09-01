@@ -9,7 +9,7 @@
         <property ID="0xC6BB2F45" type="bool">
             <default>true</default>
         </property>
-        <property ID="0x7990A3B6" type="file" extensions="CMDL"/>
+        <property ID="0x7990A3B6" type="asset" extensions="CMDL"/>
         <property ID="0xE25FB08C" type="character"/>
         <property ID="0xF1C07275" type="float">
             <default>20.0</default>
@@ -71,11 +71,11 @@
         <property ID="0x8A6AB139" type="float">
             <default>0.0</default>
         </property>
-        <property ID="0x5BA86245" type="file" extensions="PART"/>
+        <property ID="0x5BA86245" type="asset" extensions="PART"/>
         <property ID="0xA8232FB1" type="long">
             <default>0</default>
         </property>
-        <property ID="0x90F4B1E0" type="file" extensions="PART"/>
+        <property ID="0x90F4B1E0" type="asset" extensions="PART"/>
         <property ID="0xBF583BF2" type="long">
             <default>0</default>
         </property>

@@ -11,7 +11,7 @@
                 <enumerator ID="0x01" name="Message Box"/>
             </enumerators>
         </enum>
-        <property ID="0x04" name="STRG" type="file" extensions="STRG"/>
+        <property ID="0x04" name="STRG" type="asset" extensions="STRG"/>
         <property ID="0x05" name="Active" type="bool"/>
     </properties>
     <states/>

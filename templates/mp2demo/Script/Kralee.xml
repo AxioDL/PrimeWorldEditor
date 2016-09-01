@@ -121,8 +121,8 @@
         <property ID="0x214E48A0" type="float">
             <default>50.0</default>
         </property>
-        <property ID="0x351DBC73" type="file" extensions="PART"/>
-        <property ID="0x2D72BA7B" type="file" extensions="PART"/>
+        <property ID="0x351DBC73" type="asset" extensions="PART"/>
+        <property ID="0x2D72BA7B" type="asset" extensions="PART"/>
         <property ID="0x80B58324" type="long">
             <default>-1</default>
         </property>

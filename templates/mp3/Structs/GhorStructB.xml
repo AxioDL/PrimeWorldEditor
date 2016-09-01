@@ -87,11 +87,11 @@
                 <property ID="0x5324CBFB" type="float">
                     <default>20.0</default>
                 </property>
-                <property ID="0x4F387C49" type="file" extensions="PART"/>
-                <property ID="0xFFE83B77" type="file" extensions="SWHC"/>
-                <property ID="0x3D313DA6" type="file" extensions="CMDL"/>
-                <property ID="0x5C5BCE53" type="file" extensions="CAUD"/>
-                <property ID="0xB97C1467" type="file" extensions="CAUD"/>
+                <property ID="0x4F387C49" type="asset" extensions="PART"/>
+                <property ID="0xFFE83B77" type="asset" extensions="SWHC"/>
+                <property ID="0x3D313DA6" type="asset" extensions="CMDL"/>
+                <property ID="0x5C5BCE53" type="asset" extensions="CAUD"/>
+                <property ID="0xB97C1467" type="asset" extensions="CAUD"/>
             </properties>
         </struct>
         <struct ID="0xC9416034" template="Structs/DamageInfo.xml"/>

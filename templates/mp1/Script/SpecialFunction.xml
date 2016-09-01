@@ -48,7 +48,7 @@
         <property ID="0x07" name="Unknown 4" type="float"/>
         <struct ID="0x08" name="LayerSwitch" type="single">
             <properties>
-                <property ID="0x00" name="Room ID" type="file" extensions="MREA"/>
+                <property ID="0x00" name="Room ID" type="asset" extensions="MREA"/>
                 <property ID="0x01" name="Layer no" type="long"/>
             </properties>
         </struct>

@@ -110,7 +110,7 @@
                 <property ID="0xCB065EA2" type="bool">
                     <default>false</default>
                 </property>
-                <property ID="0x3A9808CF" type="file" extensions="FSMC"/>
+                <property ID="0x3A9808CF" type="asset" extensions="FSMC"/>
                 <property ID="0x06435AFF" type="long">
                     <default>-1</default>
                 </property>

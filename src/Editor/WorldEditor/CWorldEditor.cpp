@@ -434,11 +434,11 @@ void CWorldEditor::OnPropertyModified(IProperty *pProp)
         }
 
         // If this is a model/character, then we'll treat this as a modified selection. This is to make sure the selection bounds updates.
-        if (pProp->Type() == eFileProperty)
+        if (pProp->Type() == eAssetProperty)
         {
-            CFileTemplate *pFile = static_cast<CFileTemplate*>(pProp->Template());
+            CAssetTemplate *pAsset = static_cast<CAssetTemplate*>(pProp->Template());
 
-            if (pFile->AcceptsExtension("CMDL") || pFile->AcceptsExtension("ANCS") || pFile->AcceptsExtension("CHAR"))
+            if (pAsset->AcceptsExtension("CMDL") || pAsset->AcceptsExtension("ANCS") || pAsset->AcceptsExtension("CHAR"))
                 SelectionModified();
         }
         else if (pProp->Type() == eCharacterProperty)

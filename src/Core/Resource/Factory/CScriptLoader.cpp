@@ -106,22 +106,37 @@ void CScriptLoader::ReadProperty(IProperty *pProp, u32 Size, IInputStream& rSCLY
         break;
     }
 
-    case eFileProperty:
+    case eAssetProperty:
     {
-        TFileProperty *pFileCast = static_cast<TFileProperty*>(pProp);
+        TAssetProperty *pAssetCast = static_cast<TAssetProperty*>(pProp);
+        CAssetID ID(rSCLY, mVersion);
+        pAssetCast->Set(ID);
 
-        CAssetID ResID(rSCLY, mVersion);
-        const TStringList& rkExtensions = static_cast<CFileTemplate*>(pTemp)->Extensions();
-
-        CResourceInfo Info(ResID, CFourCC(!rkExtensions.empty() ? rkExtensions.front() : "UNKN"));
-
-        if (ResID.IsValid())
+        // Verify this is a valid resource type for this property
+        if (ID.IsValid())
         {
-            CFourCC Type = gpResourceStore->ResourceTypeByID(ResID, rkExtensions);
-            Info = CResourceInfo(ResID, Type);
+            CResourceEntry *pEntry = gpResourceStore->FindEntry(ID);
+
+            if (pEntry)
+            {
+                TString CookedExt = pEntry->CookedExtension().ToString();
+                const TStringList& rkExtensions = static_cast<CAssetTemplate*>(pTemp)->AllowedExtensions();
+                bool Valid = false;
+
+                for (auto It = rkExtensions.begin(); It != rkExtensions.end(); It++)
+                {
+                    if (*It == CookedExt)
+                    {
+                        Valid = true;
+                        break;
+                    }
+                }
+
+                if (!Valid)
+                    Log::FileWarning(rSCLY.GetSourceString(), rSCLY.Tell() - ID.Length(), "Asset property " + pTemp->IDString(true) + " in object " + pTemp->ScriptTemplate()->Name() + " has a reference to an illegal asset type: " + CookedExt);
+            }
         }
 
-        pFileCast->Set(Info);
         break;
     }
 

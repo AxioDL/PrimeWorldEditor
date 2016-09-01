@@ -124,7 +124,7 @@ typedef TTypedProperty<CColor, eColorProperty, CColorValue>                     
 typedef TTypedProperty<std::vector<u8>, eUnknownProperty, CUnknownValue>            TUnknownProperty;
 
 /*
- * TStringProperty, TFileProperty, and TCharacterProperty get little subclasses in order to override some virtual functions.
+ * TStringProperty, TAssetProperty, and TCharacterProperty get little subclasses in order to override some virtual functions.
  */
 #define IMPLEMENT_PROPERTY_CTORS(ClassName, ValueType) \
     ClassName(IPropertyTemplate *pTemp, CScriptObject *pInstance, CPropertyStruct *pParent) \
@@ -142,11 +142,11 @@ public:
     virtual bool ShouldCook()       { return true; }
 };
 
-class TFileProperty : public TTypedProperty<CResourceInfo, eFileProperty, CFileValue>
+class TAssetProperty : public TTypedProperty<CAssetID, eAssetProperty, CAssetValue>
 {
 public:
-    IMPLEMENT_PROPERTY_CTORS(TFileProperty, CResourceInfo)
-    IMPLEMENT_PROPERTY_CLONE(TFileProperty)
+    IMPLEMENT_PROPERTY_CTORS(TAssetProperty, CAssetID)
+    IMPLEMENT_PROPERTY_CLONE(TAssetProperty)
     virtual bool MatchesDefault()   { return !Get().IsValid(); }
     virtual bool ShouldCook()       { return true; }
 };

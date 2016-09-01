@@ -7,10 +7,10 @@
         <property ID="0x80C9B957" type="float">
             <default>5.25</default>
         </property>
-        <property ID="0x5D849EF9" type="file" extensions="CAUD"/>
-        <property ID="0xD80F96C2" type="file" extensions="CAUD"/>
-        <property ID="0x95408246" type="file" extensions="CAUD"/>
-        <property ID="0xA3C2FC44" type="file" extensions="CAUD"/>
-        <property ID="0xB9A2AF7D" type="file" extensions="CAUD"/>
+        <property ID="0x5D849EF9" type="asset" extensions="CAUD"/>
+        <property ID="0xD80F96C2" type="asset" extensions="CAUD"/>
+        <property ID="0x95408246" type="asset" extensions="CAUD"/>
+        <property ID="0xA3C2FC44" type="asset" extensions="CAUD"/>
+        <property ID="0xB9A2AF7D" type="asset" extensions="CAUD"/>
     </properties>
 </struct>

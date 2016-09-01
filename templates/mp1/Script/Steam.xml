@@ -9,7 +9,7 @@
         <property ID="0x04" name="Unknown 1" type="vector3f"/>
         <property ID="0x05" name="Unknown 2" type="long"/>
         <property ID="0x06" name="Unknown 3" type="bool"/>
-        <property ID="0x07" name="Texture" type="file" extensions="TXTR"/>
+        <property ID="0x07" name="Texture" type="asset" extensions="TXTR"/>
         <struct ID="0x08" name="GuessStruct 1" type="single">
             <properties>
                 <property ID="0x00" name="Unknown 4" type="float"/>

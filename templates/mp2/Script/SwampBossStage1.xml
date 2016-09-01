@@ -34,20 +34,20 @@
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
         <struct ID="0xB01A28D5" type="multi">
             <properties>
-                <property ID="0x6CEDF364" type="file" extensions="PART"/>
+                <property ID="0x6CEDF364" type="asset" extensions="PART"/>
                 <property ID="0x27A06F6A" type="float">
                     <default>3.0</default>
                 </property>
                 <property ID="0x233A5E40" type="float">
                     <default>6.0</default>
                 </property>
-                <property ID="0xEF7C65AC" type="file" extensions="PART"/>
+                <property ID="0xEF7C65AC" type="asset" extensions="PART"/>
                 <struct ID="0x6C0F7AA3" template="Structs/ShockWaveInfo.xml"/>
-                <property ID="0x762CD5B7" type="file" extensions="PART"/>
-                <property ID="0xD8AB76F0" type="file" extensions="CMDL"/>
-                <property ID="0x145DEBEA" type="file" extensions="CMDL"/>
+                <property ID="0x762CD5B7" type="asset" extensions="PART"/>
+                <property ID="0xD8AB76F0" type="asset" extensions="CMDL"/>
+                <property ID="0x145DEBEA" type="asset" extensions="CMDL"/>
                 <struct ID="0xD0B0F21F" template="Structs/DamageInfo.xml"/>
-                <property ID="0x0A078586" type="file" extensions="PART"/>
+                <property ID="0x0A078586" type="asset" extensions="PART"/>
                 <property ID="0x78755DA3" type="float">
                     <default>50.0</default>
                 </property>
@@ -67,7 +67,7 @@
                 <property ID="0xBA694941" type="float">
                     <default>2.0</default>
                 </property>
-                <property ID="0xCFE37EBF" type="file" extensions="WPSC"/>
+                <property ID="0xCFE37EBF" type="asset" extensions="WPSC"/>
                 <struct ID="0xDA3C9B32" template="Structs/DamageInfo.xml">
                     <properties>
                         <enum ID="0x119FBD31">
@@ -78,7 +78,7 @@
                         </property>
                     </properties>
                 </struct>
-                <property ID="0x008BECAB" type="file" extensions="PART"/>
+                <property ID="0x008BECAB" type="asset" extensions="PART"/>
                 <property ID="0xF3AF8417" type="long">
                     <default>-1</default>
                 </property>

@@ -192,8 +192,8 @@
                 <property ID="0xC4043234" type="float">
                     <default>6.0</default>
                 </property>
-                <property ID="0x06B3EF54" type="file" extensions="CAUD"/>
-                <property ID="0xC4DBEA19" type="file" extensions="CAUD"/>
+                <property ID="0x06B3EF54" type="asset" extensions="CAUD"/>
+                <property ID="0xC4DBEA19" type="asset" extensions="CAUD"/>
             </properties>
         </struct>
     </properties>

@@ -34,7 +34,7 @@
         <property ID="0x03E7B2B4" type="float">
             <default>5.0</default>
         </property>
-        <property ID="0xE190F77D" type="file" extensions="CAUD"/>
+        <property ID="0xE190F77D" type="asset" extensions="CAUD"/>
         <property ID="0xCE5D16C3" type="bool">
             <default>false</default>
         </property>

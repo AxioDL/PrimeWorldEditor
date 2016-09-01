@@ -8,11 +8,11 @@
         <property ID="0x03" name="Scale" type="vector3f"/>
         <struct ID="0x04" name="PatternedInfo" template="Structs/PatternedInfo.xml"/>
         <struct ID="0x05" name="ActorParameters" template="Structs/ActorParameters.xml"/>
-        <property ID="0x06" name="Particle 1" type="file" extensions="PART"/>
+        <property ID="0x06" name="Particle 1" type="asset" extensions="PART"/>
         <struct ID="0x07" name="DamageInfo" template="Structs/DamageInfo.xml"/>
-        <property ID="0x08" name="ELSC" type="file" extensions="ELSC"/>
+        <property ID="0x08" name="ELSC" type="asset" extensions="ELSC"/>
         <property ID="0x09" name="Unknown 1" type="long"/>
-        <property ID="0x0A" name="Particle 2" type="file" extensions="PART"/>
+        <property ID="0x0A" name="Particle 2" type="asset" extensions="PART"/>
     </properties>
     <states/>
     <messages/>

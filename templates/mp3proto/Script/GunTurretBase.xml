@@ -26,7 +26,7 @@
                 <property ID="0x25474550" type="float">
                     <default>10.0</default>
                 </property>
-                <property ID="0xB09ED686" type="file" extensions="PART"/>
+                <property ID="0xB09ED686" type="asset" extensions="PART"/>
             </properties>
         </struct>
         <struct ID="0xB3774750" template="Structs/PatternedAITypedef.xml">

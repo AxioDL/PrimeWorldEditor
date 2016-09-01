@@ -40,7 +40,7 @@
                 <property ID="0xD06D58A7" type="float">
                     <default>1.0</default>
                 </property>
-                <property ID="0xD3C1390E" type="file" extensions="PART"/>
+                <property ID="0xD3C1390E" type="asset" extensions="PART"/>
                 <struct ID="0xAE342F0F" template="Structs/DamageEffectData.xml"/>
             </properties>
         </struct>

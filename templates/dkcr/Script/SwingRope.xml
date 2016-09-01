@@ -17,9 +17,9 @@
                         <enumerator ID="0x334AD762" name="Unknown 3"/>
                     </enumerators>
                 </enum>
-                <property ID="0xD9DF339A" type="file" extensions="TXTR"/>
-                <property ID="0xD1F65872" type="file" extensions="TXTR"/>
-                <property ID="0x3C5E2D90" type="file" extensions="TXTR"/>
+                <property ID="0xD9DF339A" type="asset" extensions="TXTR"/>
+                <property ID="0xD1F65872" type="asset" extensions="TXTR"/>
+                <property ID="0x3C5E2D90" type="asset" extensions="TXTR"/>
                 <property ID="0xD9635583" type="float">
                     <default>45.0</default>
                 </property>

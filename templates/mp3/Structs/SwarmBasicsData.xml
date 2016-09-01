@@ -82,11 +82,11 @@
             </properties>
         </struct>
         <struct ID="0x382E406E" template="Structs/DamageVulnerability.xml"/>
-        <property ID="0x7D462930" type="file" extensions="PART"/>
+        <property ID="0x7D462930" type="asset" extensions="PART"/>
         <property ID="0x84F81F55" type="long">
             <default>5</default>
         </property>
-        <property ID="0x16E6E8BD" type="file" extensions="PART"/>
+        <property ID="0x16E6E8BD" type="asset" extensions="PART"/>
         <property ID="0x90610F1A" type="long">
             <default>5</default>
         </property>
@@ -111,7 +111,7 @@
         <struct ID="0x373BEBE3" template="Structs/SwarmSoundData.xml"/>
         <struct ID="0x9C417339" template="Structs/SwarmSoundData.xml"/>
         <struct ID="0x8D3C1940" template="Structs/SwarmSoundData.xml"/>
-        <property ID="0xC7C3F610" type="file" extensions="CAUD"/>
+        <property ID="0xC7C3F610" type="asset" extensions="CAUD"/>
         <property ID="0x56C0D040" type="long">
             <default>0</default>
         </property>

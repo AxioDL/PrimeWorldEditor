@@ -15,7 +15,7 @@ enum EPropertyType
     eStringProperty,
     eVector3Property,
     eColorProperty,
-    eFileProperty,
+    eAssetProperty,
     eStructProperty,
     eArrayProperty,
     eCharacterProperty,

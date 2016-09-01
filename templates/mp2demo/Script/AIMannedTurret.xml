@@ -69,11 +69,11 @@
                         </property>
                     </properties>
                 </struct>
-                <property ID="0xC43360A7" type="file" extensions="WPSC"/>
+                <property ID="0xC43360A7" type="asset" extensions="WPSC"/>
                 <struct ID="0xCF90D15E" template="Structs/HealthInfo.xml"/>
                 <struct ID="0x7B71AE90" template="Structs/DamageVulnerability.xml"/>
-                <property ID="0x55744160" type="file" extensions="AFSM"/>
-                <property ID="0x8F68AC21" type="file" extensions="PART"/>
+                <property ID="0x55744160" type="asset" extensions="AFSM"/>
+                <property ID="0x8F68AC21" type="asset" extensions="PART"/>
             </properties>
         </struct>
         <property ID="0x260792CF" type="MayaSpline"/>

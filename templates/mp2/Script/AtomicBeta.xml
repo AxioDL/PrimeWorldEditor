@@ -57,10 +57,10 @@
             </properties>
         </struct>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <property ID="0x05439A08" type="file" extensions="WPSC"/>
-        <property ID="0x2CBF989B" type="file" extensions="WPSC"/>
+        <property ID="0x05439A08" type="asset" extensions="WPSC"/>
+        <property ID="0x2CBF989B" type="asset" extensions="WPSC"/>
         <struct ID="0x13E30E4D" template="Structs/DamageInfo.xml"/>
-        <property ID="0xC271EAF5" type="file" extensions="PART"/>
+        <property ID="0xC271EAF5" type="asset" extensions="PART"/>
         <property ID="0x18093FA8" type="float">
             <default>1.0</default>
         </property>

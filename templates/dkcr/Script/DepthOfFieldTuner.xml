@@ -12,7 +12,7 @@
                     <default>false</default>
                 </property>
                 <property ID="0x6057938A" type="MayaSpline"/>
-                <property ID="0x5E96989A" type="file" extensions="TXTR"/>
+                <property ID="0x5E96989A" type="asset" extensions="TXTR"/>
                 <property ID="0xB883AC66" type="float">
                     <default>0.0</default>
                 </property>

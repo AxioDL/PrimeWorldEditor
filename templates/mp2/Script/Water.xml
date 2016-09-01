@@ -19,15 +19,15 @@
         <property ID="0x7D606B78" type="long">
             <default>0</default>
         </property>
-        <property ID="0x2421A2BF" type="file" extensions="TXTR"/>
-        <property ID="0x5E8B37DD" type="file" extensions="TXTR"/>
-        <property ID="0x031D987E" type="file" extensions="TXTR"/>
-        <property ID="0x5AA79C9F" type="file" extensions="TXTR"/>
-        <property ID="0x2F0645CF" type="file" extensions="TXTR"/>
+        <property ID="0x2421A2BF" type="asset" extensions="TXTR"/>
+        <property ID="0x5E8B37DD" type="asset" extensions="TXTR"/>
+        <property ID="0x031D987E" type="asset" extensions="TXTR"/>
+        <property ID="0x5AA79C9F" type="asset" extensions="TXTR"/>
+        <property ID="0x2F0645CF" type="asset" extensions="TXTR"/>
         <property ID="0xDE054447" type="float">
             <default>1.0</default>
         </property>
-        <property ID="0x7A4B4685" type="file" extensions="TXTR"/>
+        <property ID="0x7A4B4685" type="asset" extensions="TXTR"/>
         <property ID="0x5BA7702E" type="long">
             <default>-1</default>
         </property>
@@ -144,11 +144,11 @@
         <property ID="0x13B56C22" type="color">
             <default>1.0, 1.0, 1.0, 1.0</default>
         </property>
-        <property ID="0x3027043C" type="file" extensions="PART"/>
-        <property ID="0x41C12BE2" type="file" extensions="PART"/>
-        <property ID="0xD6E82200" type="file" extensions="PART"/>
-        <property ID="0x94A23BF9" type="file" extensions="PART"/>
-        <property ID="0x43A704FB" type="file" extensions="PART"/>
+        <property ID="0x3027043C" type="asset" extensions="PART"/>
+        <property ID="0x41C12BE2" type="asset" extensions="PART"/>
+        <property ID="0xD6E82200" type="asset" extensions="PART"/>
+        <property ID="0x94A23BF9" type="asset" extensions="PART"/>
+        <property ID="0x43A704FB" type="asset" extensions="PART"/>
         <property ID="0xBA717F19" type="long">
             <default>-1</default>
         </property>

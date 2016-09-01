@@ -21,17 +21,17 @@
                 </property>
                 <property ID="0x4C64D3A6" type="character"/>
                 <struct ID="0x00DD06CC" template="Structs/DamageVulnerability.xml"/>
-                <property ID="0xB64ED093" type="file" extensions="PART"/>
+                <property ID="0xB64ED093" type="asset" extensions="PART"/>
                 <property ID="0x8FE03C41" type="float">
                     <default>0.1</default>
                 </property>
-                <property ID="0xC90CDA8C" type="file" extensions="PART"/>
-                <property ID="0x4D9ED8E1" type="file" extensions="PART"/>
-                <property ID="0x21DC4C35" type="file" extensions="WPSC"/>
+                <property ID="0xC90CDA8C" type="asset" extensions="PART"/>
+                <property ID="0x4D9ED8E1" type="asset" extensions="PART"/>
+                <property ID="0x21DC4C35" type="asset" extensions="WPSC"/>
                 <struct ID="0x18F91880" template="Structs/DamageInfo.xml"/>
                 <struct ID="0xFCB5A8C3" template="Structs/DamageInfo.xml"/>
-                <property ID="0xE9C8E2BD" type="file" extensions="PART"/>
-                <property ID="0x86FFB3F6" type="file" extensions="CAUD"/>
+                <property ID="0xE9C8E2BD" type="asset" extensions="PART"/>
+                <property ID="0x86FFB3F6" type="asset" extensions="CAUD"/>
             </properties>
         </struct>
     </properties>

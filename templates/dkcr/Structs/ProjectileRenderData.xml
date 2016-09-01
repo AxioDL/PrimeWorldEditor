@@ -11,7 +11,7 @@
         </enum>
         <struct ID="0x28E076FD" type="multi">
             <properties>
-                <property ID="0xC27FFA8F" type="file" extensions="CMDL"/>
+                <property ID="0xC27FFA8F" type="asset" extensions="CMDL"/>
             </properties>
         </struct>
         <struct ID="0x8CDE5BD9" type="multi">

@@ -185,7 +185,7 @@
                 </property>
             </properties>
         </struct>
-        <property ID="0x859C432C" type="file" extensions="CAUD"/>
+        <property ID="0x859C432C" type="asset" extensions="CAUD"/>
         <struct ID="0x1A25A969" template="Structs/LaunchProjectileData.xml">
             <properties>
                 <struct ID="0x337F9524">
@@ -225,7 +225,7 @@
                 </property>
             </properties>
         </struct>
-        <property ID="0xB87C2C9B" type="file" extensions="PART"/>
+        <property ID="0xB87C2C9B" type="asset" extensions="PART"/>
         <struct ID="0xBE7EA088" template="Structs/DamageInfo.xml">
             <properties>
                 <property ID="0xF2D02613">
@@ -239,7 +239,7 @@
         <property ID="0x4AD191DB" type="vector3f">
             <default>1.5, 1.5, 1.5</default>
         </property>
-        <property ID="0x47D79EFF" type="file" extensions="CAUD"/>
+        <property ID="0x47D79EFF" type="asset" extensions="CAUD"/>
         <property ID="0x980C9FDC" type="float">
             <default>500.0</default>
         </property>
@@ -531,7 +531,7 @@
                         </property>
                     </properties>
                 </struct>
-                <property ID="0x476D50F2" type="file" extensions="CMDL"/>
+                <property ID="0x476D50F2" type="asset" extensions="CMDL"/>
                 <property ID="0x55DA2EA4" type="string"/>
                 <property ID="0x20DC1C96" type="float">
                     <default>0.0</default>
@@ -606,10 +606,10 @@
                 </property>
                 <struct ID="0xCCCCA97E" type="multi">
                     <properties>
-                        <property ID="0x4C28CD13" type="file" extensions="PART"/>
-                        <property ID="0x32A13DFD" type="file" extensions="PART"/>
-                        <property ID="0x57F7EFF9" type="file" extensions="ELSC"/>
-                        <property ID="0xFD132F70" type="file" extensions="ELSC"/>
+                        <property ID="0x4C28CD13" type="asset" extensions="PART"/>
+                        <property ID="0x32A13DFD" type="asset" extensions="PART"/>
+                        <property ID="0x57F7EFF9" type="asset" extensions="ELSC"/>
+                        <property ID="0xFD132F70" type="asset" extensions="ELSC"/>
                         <property ID="0x01299E29" type="long">
                             <default>6</default>
                         </property>
@@ -681,16 +681,16 @@
                     <default>0.3</default>
                 </property>
                 <property ID="0xD9C4AA53" type="string"/>
-                <property ID="0x8E13F1F6" type="file" extensions="CMDL"/>
+                <property ID="0x8E13F1F6" type="asset" extensions="CMDL"/>
                 <property ID="0x71C8E644" type="string"/>
                 <property ID="0x8CB60FC9" type="string"/>
-                <property ID="0x69A25F05" type="file" extensions="CMDL"/>
+                <property ID="0x69A25F05" type="asset" extensions="CMDL"/>
                 <property ID="0x967948B7" type="string"/>
-                <property ID="0x0A366C12" type="file" extensions="CMDL"/>
+                <property ID="0x0A366C12" type="asset" extensions="CMDL"/>
                 <property ID="0xF5ED7BA0" type="string"/>
-                <property ID="0x03B5981C" type="file" extensions="CMDL"/>
+                <property ID="0x03B5981C" type="asset" extensions="CMDL"/>
                 <property ID="0xFC6E8FAE" type="string"/>
-                <property ID="0xBB5658B3" type="file" extensions="CMDL"/>
+                <property ID="0xBB5658B3" type="asset" extensions="CMDL"/>
                 <property ID="0x448D4F01" type="string"/>
             </properties>
         </struct>
@@ -877,9 +877,9 @@
                 </property>
             </properties>
         </struct>
-        <property ID="0x6C3A6799" type="file" extensions="SCAN"/>
-        <property ID="0xE37A0D97" type="file" extensions="SCAN"/>
-        <property ID="0xD1C7504D" type="file" extensions="SCAN"/>
-        <property ID="0x1A9B83E8" type="file" extensions="SCAN"/>
+        <property ID="0x6C3A6799" type="asset" extensions="SCAN"/>
+        <property ID="0xE37A0D97" type="asset" extensions="SCAN"/>
+        <property ID="0xD1C7504D" type="asset" extensions="SCAN"/>
+        <property ID="0x1A9B83E8" type="asset" extensions="SCAN"/>
     </properties>
 </struct>

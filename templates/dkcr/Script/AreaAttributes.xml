@@ -13,7 +13,7 @@
         <property ID="0xBA5F801E" type="float">
             <default>1.0</default>
         </property>
-        <property ID="0xD208C9FA" type="file" extensions="CMDL"/>
+        <property ID="0xD208C9FA" type="asset" extensions="CMDL"/>
         <property ID="0x29445302" type="bool">
             <default>true</default>
         </property>

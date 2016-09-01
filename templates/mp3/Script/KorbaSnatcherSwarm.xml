@@ -38,7 +38,7 @@
                 <property ID="0x04D6C440" type="float">
                     <default>30.0</default>
                 </property>
-                <property ID="0x973BF0CA" type="file" extensions="PART"/>
+                <property ID="0x973BF0CA" type="asset" extensions="PART"/>
             </properties>
         </struct>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>

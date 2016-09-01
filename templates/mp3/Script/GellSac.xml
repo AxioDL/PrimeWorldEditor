@@ -56,10 +56,10 @@
                 <property ID="0x01169CCB" type="float">
                     <default>20.0</default>
                 </property>
-                <property ID="0x1A9C4C4C" type="file" extensions="PART"/>
-                <property ID="0x098536DD" type="file" extensions="UNKN"/>
+                <property ID="0x1A9C4C4C" type="asset" extensions="PART"/>
+                <property ID="0x098536DD" type="asset" extensions="UNKN"/>
                 <struct ID="0xF6206A12" template="Structs/DamageInfo.xml"/>
-                <property ID="0xA233ACCD" type="file" extensions="PART"/>
+                <property ID="0xA233ACCD" type="asset" extensions="PART"/>
             </properties>
         </struct>
     </properties>

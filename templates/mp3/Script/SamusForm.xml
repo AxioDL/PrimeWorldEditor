@@ -16,7 +16,7 @@
         </struct>
         <struct ID="0x7EFC051A" type="multi">
             <properties>
-                <property ID="0x216ED1AD" type="file" extensions="CMDL"/>
+                <property ID="0x216ED1AD" type="asset" extensions="CMDL"/>
                 <property ID="0xB8BAA8C0" type="float">
                     <default>4.0</default>
                 </property>
@@ -60,11 +60,11 @@
                             <default>10.0</default>
                         </property>
                         <struct ID="0xC97013D0" template="Structs/DamageInfo.xml"/>
-                        <property ID="0x36EEE791" type="file" extensions="PART"/>
-                        <property ID="0x845BD2EE" type="file" extensions="PART"/>
-                        <property ID="0x4FABA78A" type="file" extensions="CAUD"/>
-                        <property ID="0xE90069BD" type="file" extensions="CAUD"/>
-                        <property ID="0x6AB7C2F5" type="file" extensions="CAUD"/>
+                        <property ID="0x36EEE791" type="asset" extensions="PART"/>
+                        <property ID="0x845BD2EE" type="asset" extensions="PART"/>
+                        <property ID="0x4FABA78A" type="asset" extensions="CAUD"/>
+                        <property ID="0xE90069BD" type="asset" extensions="CAUD"/>
+                        <property ID="0x6AB7C2F5" type="asset" extensions="CAUD"/>
                     </properties>
                 </struct>
                 <struct ID="0x889672F5" template="Structs/PlasmaBeamInfo.xml"/>
@@ -88,7 +88,7 @@
                     <default>30.0</default>
                 </property>
                 <struct ID="0x5F11893B" template="Structs/DamageInfo.xml"/>
-                <property ID="0xF3FA9B62" type="file" extensions="ELSC"/>
+                <property ID="0xF3FA9B62" type="asset" extensions="ELSC"/>
                 <property ID="0xE0C37DFA" type="float">
                     <default>14.0</default>
                 </property>

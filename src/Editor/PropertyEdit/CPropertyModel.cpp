@@ -316,7 +316,7 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
 
                 // No display text on properties with persistent editors
                 case eBoolProperty:
-                case eFileProperty:
+                case eAssetProperty:
                 case eColorProperty:
                     if (Role == Qt::DisplayRole)
                         return "";

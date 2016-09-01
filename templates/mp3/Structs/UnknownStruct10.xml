@@ -51,7 +51,7 @@
         </property>
         <struct ID="0x6A5BD5E5" template="Structs/DamageInfo.xml"/>
         <struct ID="0xF6206A12" template="Structs/DamageInfo.xml"/>
-        <property ID="0xA55DACF6" type="file" extensions="CAUD"/>
+        <property ID="0xA55DACF6" type="asset" extensions="CAUD"/>
         <property ID="0x6575BF29" type="bool">
             <default>false</default>
         </property>

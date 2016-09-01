@@ -10,7 +10,7 @@
             <cook_pref>never</cook_pref>
         </property>
         <struct ID="0x4CFC46FE" template="Structs/SwarmBasicsData.xml"/>
-        <property ID="0x6832496F" type="file" extensions="PART"/>
+        <property ID="0x6832496F" type="asset" extensions="PART"/>
     </properties>
     <states/>
     <messages/>

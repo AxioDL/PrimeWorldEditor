@@ -3,24 +3,24 @@
     <name>WorldTeleporter</name>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0x31EC14BC" type="file" extensions="MLVL"/>
-        <property ID="0xE0C17804" type="file" extensions="MREA"/>
+        <property ID="0x31EC14BC" type="asset" extensions="MLVL"/>
+        <property ID="0xE0C17804" type="asset" extensions="MREA"/>
         <property ID="0x4044D9E5" type="character"/>
         <property ID="0xE56BA365" type="vector3f">
             <default>1.0, 1.0, 1.0</default>
         </property>
-        <property ID="0x9703F961" type="file" extensions="CMDL"/>
+        <property ID="0x9703F961" type="asset" extensions="CMDL"/>
         <property ID="0xCA1D9615" type="vector3f">
             <default>1.0, 1.0, 1.0</default>
         </property>
-        <property ID="0x09F4B212" type="file" extensions="CMDL"/>
+        <property ID="0x09F4B212" type="asset" extensions="CMDL"/>
         <property ID="0x84B43BC6" type="vector3f">
             <default>1.0, 1.0, 1.0</default>
         </property>
         <property ID="0x2E997E0B" type="bool">
             <default>true</default>
         </property>
-        <property ID="0x3B3E42E3" type="file" extensions="UNKN"/>
+        <property ID="0x3B3E42E3" type="asset" extensions="UNKN"/>
         <property ID="0xC7A7F189" type="float">
             <default>1.0</default>
         </property>
@@ -30,8 +30,8 @@
         <property ID="0xEA974B08" type="bool">
             <default>false</default>
         </property>
-        <property ID="0x6C176DD6" type="file" extensions="FONT"/>
-        <property ID="0x9182250C" type="file" extensions="STRG"/>
+        <property ID="0x6C176DD6" type="asset" extensions="FONT"/>
+        <property ID="0x9182250C" type="asset" extensions="STRG"/>
         <property ID="0xC54082E8" type="bool">
             <default>false</default>
         </property>

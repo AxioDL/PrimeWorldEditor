@@ -18,7 +18,15 @@
                 <enumerator ID="0x05" name="Unknown 4"/>
             </enumerators>
         </enum>
-        <property ID="0x08" name="Light Recalculation Options" type="long"/>
+        <enum ID="0x08" name="Light Recalculation Options">
+            <description>Interval between light recalculation updates.</description>
+            <enumerators>
+                <enumerator ID="0x00" name="Never"/>
+                <enumerator ID="0x01" name="8 Frames"/>
+                <enumerator ID="0x02" name="4 Frames"/>
+                <enumerator ID="0x03" name="Every Frame"/>
+            </enumerators>
+        </enum>
         <property ID="0x09" name="Unknown 7" type="vector3f"/>
         <property ID="0x0A" name="Unknown 8" type="long"/>
         <property ID="0x0B" name="Unknown 9" type="long"/>

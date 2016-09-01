@@ -17,8 +17,8 @@
         </property>
         <struct ID="0xCF90D15E" template="Structs/HealthInfo.xml"/>
         <struct ID="0x7B71AE90" template="Structs/DamageVulnerability.xml"/>
-        <property ID="0xC27FFA8F" type="file" extensions="CMDL"/>
-        <property ID="0x0FC966DC" type="file" extensions="DCLN"/>
+        <property ID="0xC27FFA8F" type="asset" extensions="CMDL"/>
+        <property ID="0x0FC966DC" type="asset" extensions="DCLN"/>
         <property ID="0xE25FB08C" type="character"/>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
         <struct ID="0x192B0E70" template="Structs/EchoParameters.xml"/>
@@ -53,7 +53,7 @@
         <property ID="0xBF69C03E" type="float">
             <default>0.0</default>
         </property>
-        <property ID="0xEF485DB9" type="file" extensions="WPSC"/>
+        <property ID="0xEF485DB9" type="asset" extensions="WPSC"/>
         <struct ID="0x553B1339" template="Structs/DamageInfo.xml">
             <properties>
                 <enum ID="0x119FBD31">

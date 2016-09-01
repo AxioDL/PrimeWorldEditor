@@ -9,43 +9,43 @@
         <property ID="0x00B17E5F" type="long">
             <default>1</default>
         </property>
-        <property ID="0x03BEE47E" type="file" extensions="UNKN"/>
+        <property ID="0x03BEE47E" type="asset" extensions="UNKN"/>
         <property ID="0xA1018EF9" type="float">
             <default>0.0</default>
         </property>
-        <property ID="0x852A96D0" type="file" extensions="UNKN"/>
+        <property ID="0x852A96D0" type="asset" extensions="UNKN"/>
         <property ID="0x2795FC57" type="float">
             <default>0.0</default>
         </property>
-        <property ID="0x4E764575" type="file" extensions="UNKN"/>
+        <property ID="0x4E764575" type="asset" extensions="UNKN"/>
         <property ID="0xECC92FF2" type="float">
             <default>0.0</default>
         </property>
-        <property ID="0x537375CD" type="file" extensions="UNKN"/>
+        <property ID="0x537375CD" type="asset" extensions="UNKN"/>
         <property ID="0xF1CC1F4A" type="float">
             <default>0.0</default>
         </property>
-        <property ID="0x982FA668" type="file" extensions="UNKN"/>
+        <property ID="0x982FA668" type="asset" extensions="UNKN"/>
         <property ID="0x3A90CCEF" type="float">
             <default>0.0</default>
         </property>
-        <property ID="0x1EBBD4C6" type="file" extensions="UNKN"/>
+        <property ID="0x1EBBD4C6" type="asset" extensions="UNKN"/>
         <property ID="0xBC04BE41" type="float">
             <default>0.0</default>
         </property>
-        <property ID="0xD5E70763" type="file" extensions="UNKN"/>
+        <property ID="0xD5E70763" type="asset" extensions="UNKN"/>
         <property ID="0x77586DE4" type="float">
             <default>0.0</default>
         </property>
-        <property ID="0x24B1B5B6" type="file" extensions="UNKN"/>
+        <property ID="0x24B1B5B6" type="asset" extensions="UNKN"/>
         <property ID="0x860EDF31" type="float">
             <default>0.0</default>
         </property>
-        <property ID="0xEFED6613" type="file" extensions="UNKN"/>
+        <property ID="0xEFED6613" type="asset" extensions="UNKN"/>
         <property ID="0x4D520C94" type="float">
             <default>0.0</default>
         </property>
-        <property ID="0x6E953C6F" type="file" extensions="UNKN"/>
+        <property ID="0x6E953C6F" type="asset" extensions="UNKN"/>
         <property ID="0xCC2A56E8" type="float">
             <default>0.0</default>
         </property>

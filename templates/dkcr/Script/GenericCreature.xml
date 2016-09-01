@@ -57,7 +57,7 @@
                         <enumerator ID="0xEEF648F8" name="Unknown 4"/>
                     </enumerators>
                 </enum>
-                <property ID="0x019FF362" type="file" extensions="RULE"/>
+                <property ID="0x019FF362" type="asset" extensions="RULE"/>
                 <property ID="0x52AB1F08" type="float">
                     <default>0.1</default>
                 </property>
@@ -177,7 +177,7 @@
                 <property ID="0xC336A4EF" type="float">
                     <default>0.5</default>
                 </property>
-                <property ID="0x89CF2281" type="file" extensions="PART"/>
+                <property ID="0x89CF2281" type="asset" extensions="PART"/>
                 <property ID="0xEE727579" type="bool">
                     <default>true</default>
                 </property>
@@ -201,11 +201,11 @@
                         <property ID="0xEFA6FC75" type="long">
                             <default>0</default>
                         </property>
-                        <property ID="0x7992D8A1" type="file" extensions="RULE"/>
-                        <property ID="0xFF06AA0F" type="file" extensions="RULE"/>
-                        <property ID="0x345A79AA" type="file" extensions="RULE"/>
-                        <property ID="0x295F4912" type="file" extensions="RULE"/>
-                        <property ID="0xE2039AB7" type="file" extensions="UNKN"/>
+                        <property ID="0x7992D8A1" type="asset" extensions="RULE"/>
+                        <property ID="0xFF06AA0F" type="asset" extensions="RULE"/>
+                        <property ID="0x345A79AA" type="asset" extensions="RULE"/>
+                        <property ID="0x295F4912" type="asset" extensions="RULE"/>
+                        <property ID="0xE2039AB7" type="asset" extensions="UNKN"/>
                     </properties>
                 </struct>
                 <struct ID="0xB6AF2D99" type="multi">
@@ -378,7 +378,7 @@
                 </struct>
                 <struct ID="0xE22FBDC4" type="multi">
                     <properties>
-                        <property ID="0x9249D6B3" type="file" extensions="CAUD"/>
+                        <property ID="0x9249D6B3" type="asset" extensions="CAUD"/>
                         <property ID="0xB26283CE" type="string"/>
                         <property ID="0x24A80F03" type="string"/>
                         <property ID="0x945FB4EE" type="string"/>
@@ -492,8 +492,8 @@
                                 <property ID="0x0C5C6CD8" type="long">
                                     <default>-1</default>
                                 </property>
-                                <property ID="0xE845AC92" type="file" extensions="CAUD"/>
-                                <property ID="0x16AD0423" type="file" extensions="CAUD"/>
+                                <property ID="0xE845AC92" type="asset" extensions="CAUD"/>
+                                <property ID="0x16AD0423" type="asset" extensions="CAUD"/>
                                 <property ID="0xF8E94961" type="float">
                                     <default>0.0</default>
                                 </property>
@@ -526,9 +526,9 @@
                         <property ID="0x67A08F89" type="float">
                             <default>5.0</default>
                         </property>
-                        <property ID="0x0CD01C0E" type="file" extensions="CAUD"/>
-                        <property ID="0xC6F229C6" type="file" extensions="TXTR"/>
-                        <property ID="0x1B248C33" type="file" extensions="TXTR"/>
+                        <property ID="0x0CD01C0E" type="asset" extensions="CAUD"/>
+                        <property ID="0xC6F229C6" type="asset" extensions="TXTR"/>
+                        <property ID="0x1B248C33" type="asset" extensions="TXTR"/>
                         <struct ID="0x337F9524" template="Structs/DamageInfo.xml"/>
                         <property ID="0xAA7AE2ED" type="float">
                             <default>1.0</default>

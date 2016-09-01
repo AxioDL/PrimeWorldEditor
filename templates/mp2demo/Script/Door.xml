@@ -12,8 +12,8 @@
         <struct ID="0xCF90D15E" template="Structs/HealthInfo.xml"/>
         <struct ID="0x7B71AE90" template="Structs/DamageVulnerability.xml"/>
         <property ID="0xE25FB08C" type="character"/>
-        <property ID="0xB20CC271" type="file" extensions="CMDL"/>
-        <property ID="0x2589C3F0" type="file" extensions="TXTR"/>
+        <property ID="0xB20CC271" type="asset" extensions="CMDL"/>
+        <property ID="0x2589C3F0" type="asset" extensions="TXTR"/>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
         <property ID="0x850115E4" type="vector3f">
             <default>0.0, 0.0, 0.0</default>

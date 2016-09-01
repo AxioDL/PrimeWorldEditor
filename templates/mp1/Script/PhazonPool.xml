@@ -7,10 +7,10 @@
         <property ID="0x02" name="Rotation" type="vector3f"/>
         <property ID="0x03" name="Scale" type="vector3f"/>
         <property ID="0x04" name="Unknown 1" type="bool"/>
-        <property ID="0x05" name="Model 1" type="file" extensions="CMDL"/>
-        <property ID="0x06" name="Model 2" type="file" extensions="CMDL"/>
-        <property ID="0x07" name="Particle 1" type="file" extensions="PART"/>
-        <property ID="0x08" name="Particle 2" type="file" extensions="PART"/>
+        <property ID="0x05" name="Model 1" type="asset" extensions="CMDL"/>
+        <property ID="0x06" name="Model 2" type="asset" extensions="CMDL"/>
+        <property ID="0x07" name="Particle 1" type="asset" extensions="PART"/>
+        <property ID="0x08" name="Particle 2" type="asset" extensions="PART"/>
         <property ID="0x09" name="Unknown 2" type="long"/>
         <struct ID="0x0A" name="DamageInfo" template="Structs/DamageInfo.xml"/>
         <property ID="0x0B" name="Force" type="vector3f"/>

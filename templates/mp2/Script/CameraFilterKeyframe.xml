@@ -37,7 +37,7 @@
         <property ID="0x3EAF78FE" type="float">
             <default>0.0</default>
         </property>
-        <property ID="0xD1F65872" type="file" extensions="TXTR"/>
+        <property ID="0xD1F65872" type="asset" extensions="TXTR"/>
     </properties>
     <states/>
     <messages/>

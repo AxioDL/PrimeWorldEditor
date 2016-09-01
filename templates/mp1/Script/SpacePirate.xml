@@ -16,12 +16,12 @@
         <property ID="0x0B" name="Unknown 6" type="float"/>
         <property ID="0x0C" name="Unknown 7" type="long"/>
         <property ID="0x0D" name="Unknown 8" type="bool"/>
-        <property ID="0x0E" name="WPSC 1" type="file" extensions="WPSC"/>
+        <property ID="0x0E" name="WPSC 1" type="asset" extensions="WPSC"/>
         <struct ID="0x0F" name="DamageInfo 1" template="Structs/DamageInfo.xml"/>
         <property ID="0x10" name="Sound ID 1" type="long"/>
         <struct ID="0x11" name="DamageInfo 2" template="Structs/DamageInfo.xml"/>
         <property ID="0x12" name="Unknown 9" type="float"/>
-        <property ID="0x13" name="WPSC 2" type="file" extensions="WPSC"/>
+        <property ID="0x13" name="WPSC 2" type="asset" extensions="WPSC"/>
         <struct ID="0x14" name="DamageInfo 3" template="Structs/DamageInfo.xml"/>
         <property ID="0x15" name="Unknown 10" type="float"/>
         <property ID="0x16" name="Sound ID 2" type="long"/>

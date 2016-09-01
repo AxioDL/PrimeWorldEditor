@@ -14,12 +14,12 @@
         <property ID="0xC00CF821" type="float">
             <default>3.0</default>
         </property>
-        <property ID="0xEF485DB9" type="file" extensions="WPSC"/>
+        <property ID="0xEF485DB9" type="asset" extensions="WPSC"/>
         <struct ID="0x22A9F2D2" template="Structs/DamageInfo.xml"/>
-        <property ID="0xBC19549C" type="file" extensions="PART"/>
-        <property ID="0x28CD86FA" type="file" extensions="PART"/>
-        <property ID="0xD7A1121D" type="file" extensions="TXTR"/>
-        <property ID="0xB7AA958E" type="file" extensions="TXTR"/>
+        <property ID="0xBC19549C" type="asset" extensions="PART"/>
+        <property ID="0x28CD86FA" type="asset" extensions="PART"/>
+        <property ID="0xD7A1121D" type="asset" extensions="TXTR"/>
+        <property ID="0xB7AA958E" type="asset" extensions="TXTR"/>
         <property ID="0x643E5052" type="color">
             <default>1.0, 1.0, 1.0, 1.0</default>
         </property>

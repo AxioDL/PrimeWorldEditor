@@ -56,7 +56,7 @@
         <struct ID="0xC108CFA0" template="Structs/UnknownStruct7.xml"/>
         <struct ID="0x91502686" type="multi">
             <properties>
-                <property ID="0xEF485DB9" type="file" extensions="WPSC"/>
+                <property ID="0xEF485DB9" type="asset" extensions="WPSC"/>
                 <struct ID="0x337F9524" template="Structs/DamageInfo.xml"/>
                 <property ID="0x0B5C3C1A" type="float">
                     <default>45.0</default>
@@ -66,7 +66,7 @@
         </struct>
         <struct ID="0xAD62C993" type="multi">
             <properties>
-                <property ID="0xEF485DB9" type="file" extensions="WPSC"/>
+                <property ID="0xEF485DB9" type="asset" extensions="WPSC"/>
                 <struct ID="0x337F9524" template="Structs/DamageInfo.xml"/>
                 <struct ID="0x85DCA565" template="Structs/ShockWaveInfo.xml"/>
                 <property ID="0xC2F2B95C" type="long">
@@ -97,11 +97,11 @@
                     <default>1.5</default>
                 </property>
                 <struct ID="0x6A98EEF6" template="Structs/DamageVulnerability.xml"/>
-                <property ID="0x19AAF8F3" type="file" extensions="CMDL"/>
-                <property ID="0x5FCA665E" type="file" extensions="CMDL"/>
-                <property ID="0xC628005F" type="file" extensions="CMDL"/>
-                <property ID="0x07A6DF9F" type="file" extensions="CMDL"/>
-                <property ID="0x2E9DCA1C" type="file" extensions="CMDL"/>
+                <property ID="0x19AAF8F3" type="asset" extensions="CMDL"/>
+                <property ID="0x5FCA665E" type="asset" extensions="CMDL"/>
+                <property ID="0xC628005F" type="asset" extensions="CMDL"/>
+                <property ID="0x07A6DF9F" type="asset" extensions="CMDL"/>
+                <property ID="0x2E9DCA1C" type="asset" extensions="CMDL"/>
                 <property ID="0xA90E610C" type="float">
                     <default>50.0</default>
                 </property>

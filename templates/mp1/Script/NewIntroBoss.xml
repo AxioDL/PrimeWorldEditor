@@ -9,12 +9,12 @@
         <struct ID="0x04" name="PatternedInfo" template="Structs/PatternedInfo.xml"/>
         <struct ID="0x05" name="ActorParameters" template="Structs/ActorParameters.xml"/>
         <property ID="0x06" name="Unknown" type="float"/>
-        <property ID="0x07" name="WPSC 1" type="file" extensions="WPSC"/>
+        <property ID="0x07" name="WPSC 1" type="asset" extensions="WPSC"/>
         <struct ID="0x08" name="DamageInfo" template="Structs/DamageInfo.xml"/>
-        <property ID="0x09" name="Particle 1" type="file" extensions="PART"/>
-        <property ID="0x0A" name="Particle 2" type="file" extensions="PART"/>
-        <property ID="0x0B" name="Texture 1" type="file" extensions="TXTR"/>
-        <property ID="0x0C" name="Texture 2" type="file" extensions="TXTR"/>
+        <property ID="0x09" name="Particle 1" type="asset" extensions="PART"/>
+        <property ID="0x0A" name="Particle 2" type="asset" extensions="PART"/>
+        <property ID="0x0B" name="Texture 1" type="asset" extensions="TXTR"/>
+        <property ID="0x0C" name="Texture 2" type="asset" extensions="TXTR"/>
     </properties>
     <states/>
     <messages/>

@@ -27,7 +27,7 @@
         <property ID="0xDEF21BF5" type="vector3f">
             <default>0.0, 0.0, 0.0</default>
         </property>
-        <property ID="0xE7AC3927" type="file" extensions="STRG"/>
+        <property ID="0xE7AC3927" type="asset" extensions="STRG"/>
         <property ID="0xD501C87E" type="string"/>
         <property ID="0x94F0365C" type="long">
             <default>1</default>

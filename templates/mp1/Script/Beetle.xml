@@ -16,7 +16,7 @@
         <property ID="0x09" name="Unknown 3" type="float"/>
         <struct ID="0x0A" name="Abdomen Vulnerability" template="Structs/DamageVulnerability.xml"/>
         <struct ID="0x0B" name="Armor Vulnerability" template="Structs/DamageVulnerability.xml"/>
-        <property ID="0x0C" name="Abdomen Model" type="file" extensions="CMDL"/>
+        <property ID="0x0C" name="Abdomen Model" type="asset" extensions="CMDL"/>
         <property ID="0x0D" name="Unknown 4" type="long"/>
         <property ID="0x0E" name="Unknown 5" type="float"/>
         <property ID="0x0F" name="Unknown 6" type="float"/>

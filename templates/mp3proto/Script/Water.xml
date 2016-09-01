@@ -38,13 +38,13 @@
                 <property ID="0x5A96218C" type="color">
                     <default>0.0, 0.498039, 1.0, 1.0</default>
                 </property>
-                <property ID="0x5E8B37DD" type="file" extensions="TXTR"/>
-                <property ID="0x031D987E" type="file" extensions="TXTR"/>
-                <property ID="0x5AA79C9F" type="file" extensions="TXTR"/>
-                <property ID="0x2F0645CF" type="file" extensions="TXTR"/>
-                <property ID="0x2421A2BF" type="file" extensions="TXTR"/>
-                <property ID="0x7C1E9B68" type="file" extensions="UNKN"/>
-                <property ID="0x7A4B4685" type="file" extensions="UNKN"/>
+                <property ID="0x5E8B37DD" type="asset" extensions="TXTR"/>
+                <property ID="0x031D987E" type="asset" extensions="TXTR"/>
+                <property ID="0x5AA79C9F" type="asset" extensions="TXTR"/>
+                <property ID="0x2F0645CF" type="asset" extensions="TXTR"/>
+                <property ID="0x2421A2BF" type="asset" extensions="TXTR"/>
+                <property ID="0x7C1E9B68" type="asset" extensions="UNKN"/>
+                <property ID="0x7A4B4685" type="asset" extensions="UNKN"/>
                 <property ID="0xDD2F6DBD" type="float">
                     <default>0.25</default>
                 </property>
@@ -65,16 +65,16 @@
                 <property ID="0x13B56C22" type="color">
                     <default>1.0, 1.0, 1.0, 1.0</default>
                 </property>
-                <property ID="0x856941FE" type="file" extensions="PART"/>
-                <property ID="0x341EC63B" type="file" extensions="PART"/>
-                <property ID="0x388E3C07" type="file" extensions="PART"/>
-                <property ID="0x9C7950A4" type="file" extensions="CAUD"/>
-                <property ID="0xBFB96EC0" type="file" extensions="CAUD"/>
-                <property ID="0xC34A1DC9" type="file" extensions="CAUD"/>
-                <property ID="0x66D466B5" type="file" extensions="UNKN"/>
-                <property ID="0xB97CCEDE" type="file" extensions="UNKN"/>
-                <property ID="0x9D407813" type="file" extensions="UNKN"/>
-                <property ID="0x5507D0BF" type="file" extensions="UNKN"/>
+                <property ID="0x856941FE" type="asset" extensions="PART"/>
+                <property ID="0x341EC63B" type="asset" extensions="PART"/>
+                <property ID="0x388E3C07" type="asset" extensions="PART"/>
+                <property ID="0x9C7950A4" type="asset" extensions="CAUD"/>
+                <property ID="0xBFB96EC0" type="asset" extensions="CAUD"/>
+                <property ID="0xC34A1DC9" type="asset" extensions="CAUD"/>
+                <property ID="0x66D466B5" type="asset" extensions="UNKN"/>
+                <property ID="0xB97CCEDE" type="asset" extensions="UNKN"/>
+                <property ID="0x9D407813" type="asset" extensions="UNKN"/>
+                <property ID="0x5507D0BF" type="asset" extensions="UNKN"/>
                 <property ID="0xE578C0DD" type="color">
                     <default>1.0, 1.0, 1.0, 1.0</default>
                 </property>
@@ -120,7 +120,7 @@
                 <property ID="0xEF3BD8CF" type="float">
                     <default>1.0</default>
                 </property>
-                <property ID="0xFFCD72D7" type="file" extensions="UNKN"/>
+                <property ID="0xFFCD72D7" type="asset" extensions="UNKN"/>
                 <property ID="0x822118B4" type="bool">
                     <default>false</default>
                 </property>

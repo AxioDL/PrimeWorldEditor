@@ -47,12 +47,12 @@
                 <property ID="0x708DFE03" type="float">
                     <default>50.0</default>
                 </property>
-                <property ID="0x3399D65B" type="file" extensions="UNKN"/>
+                <property ID="0x3399D65B" type="asset" extensions="UNKN"/>
                 <struct ID="0x8476C57C" template="Structs/LayerInfo.xml"/>
                 <property ID="0x5DEB4D57" type="bool">
                     <default>true</default>
                 </property>
-                <property ID="0x35355A0B" type="file" extensions="CAUD"/>
+                <property ID="0x35355A0B" type="asset" extensions="CAUD"/>
                 <property ID="0x1A59B781" type="MayaSpline"/>
             </properties>
         </struct>
@@ -68,7 +68,7 @@
         <property ID="0x6DADE808" type="float">
             <default>42.0</default>
         </property>
-        <property ID="0xD208C9FA" type="file" extensions="CMDL"/>
+        <property ID="0xD208C9FA" type="asset" extensions="CMDL"/>
         <property ID="0x29445302" type="bool">
             <default>true</default>
         </property>

@@ -34,8 +34,8 @@
             <default>1.0</default>
         </property>
         <struct ID="0x8E5F7E96" template="Structs/DamageInfo.xml"/>
-        <property ID="0xC43360A7" type="file" extensions="WPSC"/>
-        <property ID="0xA99D3DBE" type="file" extensions="WPSC"/>
+        <property ID="0xC43360A7" type="asset" extensions="WPSC"/>
+        <property ID="0xA99D3DBE" type="asset" extensions="WPSC"/>
         <property ID="0xE7234F72" type="long">
             <default>-1</default>
         </property>

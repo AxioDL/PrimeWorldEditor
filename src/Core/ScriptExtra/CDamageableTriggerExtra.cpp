@@ -28,7 +28,7 @@ CDamageableTriggerExtra::CDamageableTriggerExtra(CScriptObject *pInstance, CScen
     // Fetch textures
     for (u32 iTex = 0; iTex < 3; iTex++)
     {
-        mpTextureProps[iTex] = TPropCast<TFileProperty>(pBaseStruct->PropertyByIndex(0x6 + iTex));
+        mpTextureProps[iTex] = TPropCast<TAssetProperty>(pBaseStruct->PropertyByIndex(0x6 + iTex));
         if (mpTextureProps[iTex]) PropertyModified(mpTextureProps[iTex]);
     }
 }
@@ -200,7 +200,7 @@ void CDamageableTriggerExtra::PropertyModified(IProperty *pProperty)
         {
             if (pProperty == mpTextureProps[iTex])
             {
-                mpTextures[iTex] = mpTextureProps[iTex]->Get().Load();
+                mpTextures[iTex] = gpResourceStore->LoadResource( mpTextureProps[iTex]->Get(), "TXTR" );
 
                 if (mpTextures[iTex] && mpTextures[iTex]->Type() != eTexture)
                     mpTextures[iTex] = nullptr;

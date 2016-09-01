@@ -3,7 +3,7 @@
     <name>ScanIncoming</name>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0x607BC79E" type="file" extensions="SCAN"/>
+        <property ID="0x607BC79E" type="asset" extensions="SCAN"/>
     </properties>
     <states/>
     <messages/>

@@ -54,8 +54,8 @@
                 <property ID="0xC3E002AC" type="long">
                     <default>5</default>
                 </property>
-                <property ID="0x16E7D74A" type="file" extensions="CRSC"/>
-                <property ID="0x00E9C72C" type="file" extensions="WPSC"/>
+                <property ID="0x16E7D74A" type="asset" extensions="CRSC"/>
+                <property ID="0x00E9C72C" type="asset" extensions="WPSC"/>
                 <struct ID="0xBE7FB5CC" template="Structs/DamageInfo.xml"/>
                 <property ID="0x4173EC53" type="float">
                     <default>10.0</default>

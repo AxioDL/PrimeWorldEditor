@@ -5,14 +5,14 @@
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <struct ID="0x3A80D135" type="multi">
             <properties>
-                <property ID="0xCCF0CC68" type="file" extensions="PART"/>
-                <property ID="0x9CF6186B" type="file" extensions="PART"/>
-                <property ID="0xAFA0D295" type="file" extensions="PART"/>
-                <property ID="0xB93E46E5" type="file" extensions="WPSC"/>
+                <property ID="0xCCF0CC68" type="asset" extensions="PART"/>
+                <property ID="0x9CF6186B" type="asset" extensions="PART"/>
+                <property ID="0xAFA0D295" type="asset" extensions="PART"/>
+                <property ID="0xB93E46E5" type="asset" extensions="WPSC"/>
                 <struct ID="0xE82166DB" template="Structs/DamageInfo.xml"/>
                 <struct ID="0x1AAE3DB5" template="Structs/PlasmaBeamInfo.xml"/>
                 <struct ID="0x36307B98" template="Structs/DamageInfo.xml"/>
-                <property ID="0xBF4F8D8C" type="file" extensions="TXTR"/>
+                <property ID="0xBF4F8D8C" type="asset" extensions="TXTR"/>
                 <property ID="0xAB46A8C3" type="float">
                     <default>100.0</default>
                 </property>
@@ -40,17 +40,17 @@
                     <default>15.0</default>
                 </property>
                 <struct ID="0x77EDD892" template="Structs/DamageInfo.xml"/>
-                <property ID="0x0BD56E50" type="file" extensions="WPSC"/>
-                <property ID="0x67DD641E" type="file" extensions="WPSC"/>
+                <property ID="0x0BD56E50" type="asset" extensions="WPSC"/>
+                <property ID="0x67DD641E" type="asset" extensions="WPSC"/>
                 <struct ID="0xB6C739D2" template="Structs/DamageInfo.xml"/>
-                <property ID="0x51FB4542" type="file" extensions="WPSC"/>
+                <property ID="0x51FB4542" type="asset" extensions="WPSC"/>
                 <struct ID="0x79350AC0" template="Structs/DamageInfo.xml"/>
-                <property ID="0xCA7F8A50" type="file" extensions="PART"/>
+                <property ID="0xCA7F8A50" type="asset" extensions="PART"/>
                 <property ID="0x4FA2BCE1" type="float">
                     <default>8.0</default>
                 </property>
-                <property ID="0xC34287E4" type="file" extensions="PART"/>
-                <property ID="0x6F888688" type="file" extensions="TXTR"/>
+                <property ID="0xC34287E4" type="asset" extensions="PART"/>
+                <property ID="0x6F888688" type="asset" extensions="TXTR"/>
             </properties>
         </struct>
         <struct ID="0xB3774750" template="Structs/PatternedAITypedef.xml"/>

@@ -3,7 +3,7 @@
     <name>AVMC</name>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0x31EC14BC" type="file" extensions="MLVL"/>
+        <property ID="0x31EC14BC" type="asset" extensions="MLVL"/>
         <property ID="0xFF5D997E" type="long">
             <default>2</default>
         </property>

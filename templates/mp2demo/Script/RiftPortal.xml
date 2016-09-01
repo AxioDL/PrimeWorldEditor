@@ -6,13 +6,13 @@
     </modules>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0xC27FFA8F" type="file" extensions="CMDL"/>
+        <property ID="0xC27FFA8F" type="asset" extensions="CMDL"/>
         <property ID="0xE25FB08C" type="character"/>
-        <property ID="0x90C42387" type="file" extensions="CMDL"/>
+        <property ID="0x90C42387" type="asset" extensions="CMDL"/>
         <property ID="0x80C6A38D" type="character"/>
-        <property ID="0xA71696B0" type="file" extensions="CMDL"/>
+        <property ID="0xA71696B0" type="asset" extensions="CMDL"/>
         <property ID="0x5CB18EB4" type="character"/>
-        <property ID="0xF284D838" type="file" extensions="CMDL"/>
+        <property ID="0xF284D838" type="asset" extensions="CMDL"/>
         <property ID="0xE845FA67" type="character"/>
         <property ID="0xF5B73AF8" type="bool">
             <default>false</default>

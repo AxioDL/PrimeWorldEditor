@@ -30,7 +30,7 @@
         <property ID="0xCE54E50E" type="float">
             <default>0.8</default>
         </property>
-        <property ID="0xD8C6D15C" type="file" extensions="PART"/>
+        <property ID="0xD8C6D15C" type="asset" extensions="PART"/>
     </properties>
     <states/>
     <messages/>

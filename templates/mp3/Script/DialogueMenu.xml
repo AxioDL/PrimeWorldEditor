@@ -17,7 +17,7 @@
         <property ID="0x69FDB265" type="color">
             <default>0.0, 0.0, 0.0, 0.0</default>
         </property>
-        <property ID="0xD1B74151" type="file" extensions="CMDL"/>
+        <property ID="0xD1B74151" type="asset" extensions="CMDL"/>
         <property ID="0x3C5E109A" type="long">
             <default>110</default>
         </property>
@@ -29,8 +29,8 @@
                 <enumerator ID="0xA3156F16" name="Unknown 3"/>
             </enumerators>
         </enum>
-        <property ID="0xE8FE6E9D" type="file" extensions="CAUD"/>
-        <property ID="0x9E87E0EB" type="file" extensions="CAUD"/>
+        <property ID="0xE8FE6E9D" type="asset" extensions="CAUD"/>
+        <property ID="0x9E87E0EB" type="asset" extensions="CAUD"/>
     </properties>
     <states/>
     <messages/>

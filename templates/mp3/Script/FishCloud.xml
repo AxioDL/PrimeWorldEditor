@@ -3,7 +3,7 @@
     <name>FishCloud</name>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0x7990A3B6" type="file" extensions="CMDL"/>
+        <property ID="0x7990A3B6" type="asset" extensions="CMDL"/>
         <property ID="0xA244C9D8" type="character"/>
         <property ID="0x2264062E" type="long">
             <default>20</default>
@@ -85,36 +85,36 @@
         <property ID="0x942D6F2A" type="float">
             <default>0.0</default>
         </property>
-        <property ID="0x5BA86245" type="file" extensions="PART"/>
+        <property ID="0x5BA86245" type="asset" extensions="PART"/>
         <property ID="0xA8232FB1" type="long">
             <default>0</default>
         </property>
         <property ID="0x23D57BB1" type="float">
             <default>1.0</default>
         </property>
-        <property ID="0x90F4B1E0" type="file" extensions="PART"/>
+        <property ID="0x90F4B1E0" type="asset" extensions="PART"/>
         <property ID="0xBF583BF2" type="long">
             <default>0</default>
         </property>
         <property ID="0xE25BA471" type="float">
             <default>1.0</default>
         </property>
-        <property ID="0x1660C34E" type="file" extensions="UNKN"/>
+        <property ID="0x1660C34E" type="asset" extensions="UNKN"/>
         <property ID="0x86D50737" type="long">
             <default>0</default>
         </property>
         <property ID="0x7BB9C270" type="float">
             <default>1.0</default>
         </property>
-        <property ID="0xDD3C10EB" type="file" extensions="UNKN"/>
+        <property ID="0xDD3C10EB" type="asset" extensions="UNKN"/>
         <property ID="0x91AE1374" type="long">
             <default>0</default>
         </property>
         <property ID="0xBA371DB0" type="float">
             <default>1.0</default>
         </property>
-        <property ID="0xC7C3F610" type="file" extensions="CAUD"/>
-        <property ID="0x05C79560" type="file" extensions="CAUD"/>
+        <property ID="0xC7C3F610" type="asset" extensions="CAUD"/>
+        <property ID="0x05C79560" type="asset" extensions="CAUD"/>
         <property ID="0xD7BCE5DA" type="float">
             <default>20.0</default>
         </property>
@@ -141,7 +141,7 @@
                 <property ID="0x4E815E64" type="float">
                     <default>2.0</default>
                 </property>
-                <property ID="0xB258D3E8" type="file" extensions="PART"/>
+                <property ID="0xB258D3E8" type="asset" extensions="PART"/>
                 <property ID="0x39E08C8E" type="long">
                     <default>0</default>
                 </property>

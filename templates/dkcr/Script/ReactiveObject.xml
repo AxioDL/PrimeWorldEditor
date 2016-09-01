@@ -9,7 +9,7 @@
         <property ID="0x3DAF5302" type="vector3f">
             <default>0.0, 0.0, 0.0</default>
         </property>
-        <property ID="0xC27FFA8F" type="file" extensions="CMDL"/>
+        <property ID="0xC27FFA8F" type="asset" extensions="CMDL"/>
         <property ID="0x7BC2F6CF" type="character"/>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
         <property ID="0x2F7C59DC" type="bool">

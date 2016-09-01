@@ -14,8 +14,8 @@
         <struct ID="0x09" name="DamageInfo 2" template="Structs/DamageInfo.xml"/>
         <struct ID="0x0A" name="DamageVulnerability 1" template="Structs/DamageVulnerability.xml"/>
         <struct ID="0x0B" name="DamageVulnerability 2" template="Structs/DamageVulnerability.xml"/>
-        <property ID="0x0C" name="Model" type="file" extensions="CMDL"/>
-        <property ID="0x0D" name="CSKR" type="file" extensions="CSKR"/>
+        <property ID="0x0C" name="Model" type="asset" extensions="CMDL"/>
+        <property ID="0x0D" name="CSKR" type="asset" extensions="CSKR"/>
         <property ID="0x0E" name="Unknown 3" type="float"/>
         <property ID="0x0F" name="Unknown 4" type="float"/>
         <property ID="0x10" name="Unknown 5" type="float"/>
@@ -23,7 +23,7 @@
         <struct ID="0x12" name="MagdoliteStruct" type="multi">
             <properties>
                 <property ID="0x00" name="Unknown 7" type="long"/>
-                <property ID="0x01" name="Particle" type="file" extensions="PART"/>
+                <property ID="0x01" name="Particle" type="asset" extensions="PART"/>
                 <property ID="0x02" name="Unknown 8" type="long"/>
                 <property ID="0x03" name="Unknown 9" type="float"/>
                 <property ID="0x04" name="Unknown 10" type="float"/>

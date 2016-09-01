@@ -10,39 +10,39 @@
         <struct ID="0x05" name="ActorParameters" template="Structs/ActorParameters.xml"/>
         <property ID="0x06" name="Unknown 1" type="bool"/>
         <property ID="0x07" name="Unknown 2" type="bool"/>
-        <property ID="0x08" name="Rock Weak Point 1 Model" type="file" extensions="CMDL"/>
-        <property ID="0x09" name="Rock Weak Point 2 Model" type="file" extensions="CMDL"/>
-        <property ID="0x0A" name="Rock Weak Point 3 Model" type="file" extensions="CMDL"/>
-        <property ID="0x0B" name="Rock Weak Point 4 Model" type="file" extensions="CMDL"/>
-        <property ID="0x0C" name="Rock Weak Point 5 Model" type="file" extensions="CMDL"/>
-        <property ID="0x0D" name="Rock Weak Point 6 Model" type="file" extensions="CMDL"/>
-        <property ID="0x0E" name="Rock Weak Point 7 Model" type="file" extensions="CMDL"/>
-        <property ID="0x0F" name="Phazon Weak Point 1 Model" type="file" extensions="CMDL"/>
-        <property ID="0x10" name="Phazon Weak Point 2 Model" type="file" extensions="CMDL"/>
-        <property ID="0x11" name="Phazon Weak Point 3 Model" type="file" extensions="CMDL"/>
-        <property ID="0x12" name="Phazon Weak Point 4 Model" type="file" extensions="CMDL"/>
-        <property ID="0x13" name="Phazon Weak Point 5 Model" type="file" extensions="CMDL"/>
-        <property ID="0x14" name="Phazon Weak Point 6 Model" type="file" extensions="CMDL"/>
-        <property ID="0x15" name="Phazon Weak Point 7 Mdoel" type="file" extensions="CMDL"/>
-        <property ID="0x16" name="Particle 1" type="file" extensions="PART"/>
-        <property ID="0x17" name="Particle 2" type="file" extensions="PART"/>
-        <property ID="0x18" name="Particle 3" type="file" extensions="PART"/>
-        <property ID="0x19" name="State Machine" type="file" extensions="AFSM"/>
-        <property ID="0x1A" name="Particle 4" type="file" extensions="PART"/>
-        <property ID="0x1B" name="Particle 5" type="file" extensions="PART"/>
-        <property ID="0x1C" name="Particle 6" type="file" extensions="PART"/>
-        <property ID="0x1D" name="Particle 7" type="file" extensions="PART"/>
-        <property ID="0x1E" name="Particle 8" type="file" extensions="PART"/>
-        <property ID="0x1F" name="Particle 9" type="file" extensions="PART"/>
+        <property ID="0x08" name="Rock Weak Point 1 Model" type="asset" extensions="CMDL"/>
+        <property ID="0x09" name="Rock Weak Point 2 Model" type="asset" extensions="CMDL"/>
+        <property ID="0x0A" name="Rock Weak Point 3 Model" type="asset" extensions="CMDL"/>
+        <property ID="0x0B" name="Rock Weak Point 4 Model" type="asset" extensions="CMDL"/>
+        <property ID="0x0C" name="Rock Weak Point 5 Model" type="asset" extensions="CMDL"/>
+        <property ID="0x0D" name="Rock Weak Point 6 Model" type="asset" extensions="CMDL"/>
+        <property ID="0x0E" name="Rock Weak Point 7 Model" type="asset" extensions="CMDL"/>
+        <property ID="0x0F" name="Phazon Weak Point 1 Model" type="asset" extensions="CMDL"/>
+        <property ID="0x10" name="Phazon Weak Point 2 Model" type="asset" extensions="CMDL"/>
+        <property ID="0x11" name="Phazon Weak Point 3 Model" type="asset" extensions="CMDL"/>
+        <property ID="0x12" name="Phazon Weak Point 4 Model" type="asset" extensions="CMDL"/>
+        <property ID="0x13" name="Phazon Weak Point 5 Model" type="asset" extensions="CMDL"/>
+        <property ID="0x14" name="Phazon Weak Point 6 Model" type="asset" extensions="CMDL"/>
+        <property ID="0x15" name="Phazon Weak Point 7 Mdoel" type="asset" extensions="CMDL"/>
+        <property ID="0x16" name="Particle 1" type="asset" extensions="PART"/>
+        <property ID="0x17" name="Particle 2" type="asset" extensions="PART"/>
+        <property ID="0x18" name="Particle 3" type="asset" extensions="PART"/>
+        <property ID="0x19" name="State Machine" type="asset" extensions="AFSM"/>
+        <property ID="0x1A" name="Particle 4" type="asset" extensions="PART"/>
+        <property ID="0x1B" name="Particle 5" type="asset" extensions="PART"/>
+        <property ID="0x1C" name="Particle 6" type="asset" extensions="PART"/>
+        <property ID="0x1D" name="Particle 7" type="asset" extensions="PART"/>
+        <property ID="0x1E" name="Particle 8" type="asset" extensions="PART"/>
+        <property ID="0x1F" name="Particle 9" type="asset" extensions="PART"/>
         <property ID="0x20" name="Roll Speed" type="float"/>
         <property ID="0x21" name="Unknown 4" type="float"/>
         <property ID="0x22" name="Unknown 5" type="float"/>
         <property ID="0x23" name="Phazon Weak Point Health" type="float"/>
         <property ID="0x24" name="Rock Weak Point Health" type="float"/>
         <property ID="0x25" name="Ice Spikes Speed" type="float"/>
-        <property ID="0x26" name="Texture" type="file" extensions="TXTR"/>
+        <property ID="0x26" name="Texture" type="asset" extensions="TXTR"/>
         <property ID="0x27" name="Unknown 9" type="long"/>
-        <property ID="0x28" name="Particle 10" type="file" extensions="PART"/>
+        <property ID="0x28" name="Particle 10" type="asset" extensions="PART"/>
         <property ID="0x29" name="Unknown 10" type="long"/>
         <property ID="0x2A" name="Unknown 11" type="long"/>
         <property ID="0x2B" name="Unknown 12" type="long"/>

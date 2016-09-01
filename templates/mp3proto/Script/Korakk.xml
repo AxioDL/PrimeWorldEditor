@@ -10,26 +10,26 @@
                 </property>
                 <struct ID="0xDA5E9630" template="Structs/DamageInfo.xml"/>
                 <struct ID="0x508F7177" template="Structs/DamageInfo.xml"/>
-                <property ID="0x861CD2A0" type="file" extensions="UNKN"/>
+                <property ID="0x861CD2A0" type="asset" extensions="UNKN"/>
                 <struct ID="0x77941011" template="Structs/DamageInfo.xml"/>
                 <struct ID="0x4D07F7B1" template="Structs/DamageInfo.xml"/>
                 <struct ID="0x21A2121D" template="Structs/DamageInfo.xml"/>
                 <struct ID="0x8333B35F" template="Structs/DamageInfo.xml"/>
                 <struct ID="0x946016A9" template="Structs/DamageInfo.xml"/>
-                <property ID="0xA8C2AC76" type="file" extensions="CMDL"/>
-                <property ID="0x2E56DED8" type="file" extensions="CMDL"/>
-                <property ID="0xF47476CE" type="file" extensions="CMDL"/>
-                <property ID="0x470306BE" type="file" extensions="CMDL"/>
-                <property ID="0x87952FC5" type="file" extensions="CMDL"/>
+                <property ID="0xA8C2AC76" type="asset" extensions="CMDL"/>
+                <property ID="0x2E56DED8" type="asset" extensions="CMDL"/>
+                <property ID="0xF47476CE" type="asset" extensions="CMDL"/>
+                <property ID="0x470306BE" type="asset" extensions="CMDL"/>
+                <property ID="0x87952FC5" type="asset" extensions="CMDL"/>
                 <property ID="0x1CC93984" type="float">
                     <default>25.0</default>
                 </property>
                 <struct ID="0xF609C637" template="Structs/GrappleData.xml"/>
-                <property ID="0xD887792B" type="file" extensions="CAUD"/>
-                <property ID="0xF9826473" type="file" extensions="CAUD"/>
-                <property ID="0x9D6E1A47" type="file" extensions="CAUD"/>
-                <property ID="0x87E6E958" type="file" extensions="CAUD"/>
-                <property ID="0xA6597839" type="file" extensions="CAUD"/>
+                <property ID="0xD887792B" type="asset" extensions="CAUD"/>
+                <property ID="0xF9826473" type="asset" extensions="CAUD"/>
+                <property ID="0x9D6E1A47" type="asset" extensions="CAUD"/>
+                <property ID="0x87E6E958" type="asset" extensions="CAUD"/>
+                <property ID="0xA6597839" type="asset" extensions="CAUD"/>
             </properties>
         </struct>
         <struct ID="0xB3774750" template="Structs/PatternedAITypedef.xml">

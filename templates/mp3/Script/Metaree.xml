@@ -35,7 +35,7 @@
                 <property ID="0x2E686C2A" type="vector3f">
                     <default>0.0, 0.0, 0.0</default>
                 </property>
-                <property ID="0xC4C39403" type="file" extensions="CAUD"/>
+                <property ID="0xC4C39403" type="asset" extensions="CAUD"/>
                 <property ID="0x9A9A39B3" type="float">
                     <default>1.0</default>
                 </property>

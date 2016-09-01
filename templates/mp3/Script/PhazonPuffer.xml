@@ -71,18 +71,18 @@
                         </property>
                     </properties>
                 </struct>
-                <property ID="0x7518CD46" type="file" extensions="PART"/>
+                <property ID="0x7518CD46" type="asset" extensions="PART"/>
                 <struct ID="0x979D0CFA" type="multi">
                     <properties>
-                        <property ID="0x49FAE143" type="file" extensions="ELSC"/>
+                        <property ID="0x49FAE143" type="asset" extensions="ELSC"/>
                         <struct ID="0xF808C9EE" template="Structs/DamageInfo.xml"/>
                     </properties>
                 </struct>
                 <struct ID="0x62AC6915" template="Structs/DamageInfo.xml"/>
-                <property ID="0x934E82B5" type="file" extensions="PART"/>
-                <property ID="0x221A902D" type="file" extensions="PART"/>
-                <property ID="0xF13FACAF" type="file" extensions="PART"/>
-                <property ID="0xC4C39403" type="file" extensions="CAUD"/>
+                <property ID="0x934E82B5" type="asset" extensions="PART"/>
+                <property ID="0x221A902D" type="asset" extensions="PART"/>
+                <property ID="0xF13FACAF" type="asset" extensions="PART"/>
+                <property ID="0xC4C39403" type="asset" extensions="CAUD"/>
             </properties>
         </struct>
     </properties>

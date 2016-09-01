@@ -11,8 +11,8 @@
         <property ID="0x06" name="Unknown 1" type="bool"/>
         <property ID="0x07" name="Unknown 2" type="bool"/>
         <property ID="0x08" name="Unknown 3" type="float"/>
-        <property ID="0x09" name="Model" type="file" extensions="CMDL"/>
-        <property ID="0x0A" name="AFSM" type="file" extensions="AFSM"/>
+        <property ID="0x09" name="Model" type="asset" extensions="CMDL"/>
+        <property ID="0x0A" name="AFSM" type="asset" extensions="AFSM"/>
     </properties>
     <states/>
     <messages/>

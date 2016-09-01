@@ -38,13 +38,13 @@
         <property ID="0x6689925B" type="bool">
             <default>false</default>
         </property>
-        <property ID="0x3863160B" type="file" extensions="TXTR"/>
+        <property ID="0x3863160B" type="asset" extensions="TXTR"/>
         <property ID="0x2C6A3344" type="float">
             <default>100.0</default>
         </property>
         <struct ID="0x4D790EE9" template="Structs/DamageInfo.xml"/>
-        <property ID="0x6D40AA56" type="file" extensions="PART"/>
-        <property ID="0x9603A544" type="file" extensions="PART"/>
+        <property ID="0x6D40AA56" type="asset" extensions="PART"/>
+        <property ID="0x9603A544" type="asset" extensions="PART"/>
         <struct ID="0x8688F535" template="Structs/DamageInfo.xml"/>
         <property ID="0x4AA5DD62" type="float">
             <default>40.0</default>
@@ -52,9 +52,9 @@
         <property ID="0x1AD7DC21" type="float">
             <default>500.0</default>
         </property>
-        <property ID="0xED30B0EF" type="file" extensions="PART"/>
-        <property ID="0x855F0749" type="file" extensions="WPSC"/>
-        <property ID="0x83A5517F" type="file" extensions="WPSC"/>
+        <property ID="0xED30B0EF" type="asset" extensions="PART"/>
+        <property ID="0x855F0749" type="asset" extensions="WPSC"/>
+        <property ID="0x83A5517F" type="asset" extensions="WPSC"/>
         <struct ID="0x8EA87062" template="Structs/DamageInfo.xml"/>
         <property ID="0x378285B9" type="float">
             <default>0.0</default>
@@ -62,7 +62,7 @@
         <property ID="0xD242E25F" type="float">
             <default>300.0</default>
         </property>
-        <property ID="0xE00DB62D" type="file" extensions="WPSC"/>
+        <property ID="0xE00DB62D" type="asset" extensions="WPSC"/>
         <struct ID="0xC4128792" template="Structs/DamageInfo.xml"/>
         <property ID="0x1F1EF7A9" type="long">
             <default>1</default>
@@ -70,54 +70,54 @@
         <property ID="0xC4A1A44E" type="long">
             <default>3</default>
         </property>
-        <property ID="0x29DB4EE4" type="file" extensions="WPSC"/>
+        <property ID="0x29DB4EE4" type="asset" extensions="WPSC"/>
         <struct ID="0x26632B7E" template="Structs/DamageInfo.xml"/>
-        <property ID="0xF9104A69" type="file" extensions="WPSC"/>
+        <property ID="0xF9104A69" type="asset" extensions="WPSC"/>
         <struct ID="0xB5BA1FE7" template="Structs/DamageInfo.xml"/>
-        <property ID="0x7FFEB33D" type="file" extensions="TXTR"/>
+        <property ID="0x7FFEB33D" type="asset" extensions="TXTR"/>
         <property ID="0x8F70D3F2" type="float">
             <default>10.0</default>
         </property>
         <property ID="0xF317F4D5" type="float">
             <default>4.0</default>
         </property>
-        <property ID="0xD2122711" type="file" extensions="PART"/>
+        <property ID="0xD2122711" type="asset" extensions="PART"/>
         <struct ID="0x08C2BFE0" template="Structs/DamageInfo.xml"/>
-        <property ID="0x68B658F2" type="file" extensions="CRSC"/>
+        <property ID="0x68B658F2" type="asset" extensions="CRSC"/>
         <property ID="0xEA17CB66" type="long">
             <default>-1</default>
         </property>
         <property ID="0x0EF8DC15" type="long">
             <default>-1</default>
         </property>
-        <property ID="0x072DF331" type="file" extensions="CMDL"/>
-        <property ID="0xAA96399C" type="file" extensions="CSKR"/>
+        <property ID="0x072DF331" type="asset" extensions="CMDL"/>
+        <property ID="0xAA96399C" type="asset" extensions="CSKR"/>
         <property ID="0xF148F728" type="character"/>
         <struct ID="0xE18DC6FC" template="Structs/DamageInfo.xml"/>
-        <property ID="0xAC43BA34" type="file" extensions="PART"/>
-        <property ID="0x449AA4AA" type="file" extensions="SWHC"/>
-        <property ID="0x0345FA17" type="file" extensions="SWHC"/>
+        <property ID="0xAC43BA34" type="asset" extensions="PART"/>
+        <property ID="0x449AA4AA" type="asset" extensions="SWHC"/>
+        <property ID="0x0345FA17" type="asset" extensions="SWHC"/>
         <property ID="0x2C72576B" type="long">
             <default>-1</default>
         </property>
         <property ID="0x9E02691C" type="long">
             <default>-1</default>
         </property>
-        <property ID="0x3433BC8B" type="file" extensions="PART"/>
+        <property ID="0x3433BC8B" type="asset" extensions="PART"/>
         <struct ID="0x4841182B" template="Structs/AudioPlaybackParms.xml"/>
-        <property ID="0xA6C42023" type="file" extensions="PART"/>
+        <property ID="0xA6C42023" type="asset" extensions="PART"/>
         <property ID="0xD3593630" type="long">
             <default>-1</default>
         </property>
-        <property ID="0x908B06E9" type="file" extensions="PART"/>
-        <property ID="0x494DE4A4" type="file" extensions="PART"/>
+        <property ID="0x908B06E9" type="asset" extensions="PART"/>
+        <property ID="0x494DE4A4" type="asset" extensions="PART"/>
         <property ID="0xA861649F" type="long">
             <default>-1</default>
         </property>
         <struct ID="0x18402AA9" template="Structs/DamageInfo.xml"/>
-        <property ID="0xE701DAEA" type="file" extensions="PART"/>
-        <property ID="0xBF62B633" type="file" extensions="WPSC"/>
-        <property ID="0x8D123FE9" type="file" extensions="WPSC"/>
+        <property ID="0xE701DAEA" type="asset" extensions="PART"/>
+        <property ID="0xBF62B633" type="asset" extensions="WPSC"/>
+        <property ID="0x8D123FE9" type="asset" extensions="WPSC"/>
         <struct ID="0x58769EB2" template="Structs/DamageInfo.xml"/>
         <struct ID="0x4D8E735F" template="Structs/DamageInfo.xml">
             <properties>
@@ -132,9 +132,9 @@
                 </property>
             </properties>
         </struct>
-        <property ID="0x83106405" type="file" extensions="PART"/>
+        <property ID="0x83106405" type="asset" extensions="PART"/>
         <struct ID="0x8F3AF226" template="Structs/DamageInfo.xml"/>
-        <property ID="0xF60AC5CC" type="file" extensions="SCAN"/>
+        <property ID="0xF60AC5CC" type="asset" extensions="SCAN"/>
     </properties>
     <states/>
     <messages/>

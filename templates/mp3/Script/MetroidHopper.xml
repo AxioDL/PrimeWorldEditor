@@ -79,12 +79,12 @@
                 <struct ID="0xD5A8E2DA" template="Structs/MetroidHopperStruct.xml"/>
                 <struct ID="0x184991DA" template="Structs/MetroidHopperStruct.xml"/>
                 <struct ID="0x7B07ACA3" template="Structs/MetroidHopperStruct.xml"/>
-                <property ID="0x5DDE5B25" type="file" extensions="ELSC"/>
-                <property ID="0xF95D2033" type="file" extensions="CAUD"/>
+                <property ID="0x5DDE5B25" type="asset" extensions="ELSC"/>
+                <property ID="0xF95D2033" type="asset" extensions="CAUD"/>
                 <property ID="0x1DA1B117" type="float">
                     <default>5.0</default>
                 </property>
-                <property ID="0xE0700022" type="file" extensions="PART"/>
+                <property ID="0xE0700022" type="asset" extensions="PART"/>
                 <struct ID="0xD1F6C520" template="Structs/DamageInfo.xml"/>
                 <struct ID="0xFB648831" type="multi">
                     <properties>

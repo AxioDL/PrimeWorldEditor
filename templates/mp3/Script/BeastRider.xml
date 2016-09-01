@@ -8,11 +8,11 @@
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <struct ID="0x56C48141" type="multi">
             <properties>
-                <property ID="0xB3A26A80" type="file" extensions="CMDL"/>
+                <property ID="0xB3A26A80" type="asset" extensions="CMDL"/>
                 <struct ID="0xA6001CE0" template="Structs/PlasmaBeamInfo.xml"/>
-                <property ID="0xB3343F83" type="file" extensions="CMDL"/>
+                <property ID="0xB3343F83" type="asset" extensions="CMDL"/>
                 <struct ID="0xA149701E" template="Structs/RagDollData.xml"/>
-                <property ID="0xC7C3F610" type="file" extensions="CAUD"/>
+                <property ID="0xC7C3F610" type="asset" extensions="CAUD"/>
             </properties>
         </struct>
         <struct ID="0xB3774750" template="Structs/PatternedAI.xml"/>

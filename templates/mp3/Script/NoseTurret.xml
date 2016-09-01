@@ -47,7 +47,7 @@
                 <property ID="0x8DC3FF15" type="float">
                     <default>-45.0</default>
                 </property>
-                <property ID="0xEF485DB9" type="file" extensions="WPSC"/>
+                <property ID="0xEF485DB9" type="asset" extensions="WPSC"/>
                 <struct ID="0x337F9524" template="Structs/DamageInfo.xml"/>
                 <property ID="0xEB903473" type="float">
                     <default>1.0</default>
@@ -61,7 +61,7 @@
                 <property ID="0xAF28DC00" type="long">
                     <default>2</default>
                 </property>
-                <property ID="0xC23A1955" type="file" extensions="CAUD"/>
+                <property ID="0xC23A1955" type="asset" extensions="CAUD"/>
                 <property ID="0x55D9ABEF" type="bool">
                     <default>false</default>
                 </property>

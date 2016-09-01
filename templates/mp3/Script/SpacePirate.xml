@@ -112,8 +112,8 @@
                 <property ID="0x662D5CC9" type="bool">
                     <default>false</default>
                 </property>
-                <property ID="0x51253BA3" type="file" extensions="WPSC"/>
-                <property ID="0x10E3EFDD" type="file" extensions="CAUD"/>
+                <property ID="0x51253BA3" type="asset" extensions="WPSC"/>
+                <property ID="0x10E3EFDD" type="asset" extensions="CAUD"/>
                 <struct ID="0xCEA30138" template="Structs/DamageInfo.xml">
                     <properties>
                         <property ID="0xF2D02613">
@@ -123,8 +123,8 @@
                 </struct>
                 <struct ID="0x785C41F5" template="Structs/StaticGeometryTest.xml"/>
                 <struct ID="0xFC5A0A21" template="Structs/StaticGeometryTest.xml"/>
-                <property ID="0xFC34473F" type="file" extensions="BFRC"/>
-                <property ID="0x50340852" type="file" extensions="CMDL"/>
+                <property ID="0xFC34473F" type="asset" extensions="BFRC"/>
+                <property ID="0x50340852" type="asset" extensions="CMDL"/>
                 <property ID="0x2EA013A6" type="bool">
                     <default>true</default>
                 </property>
@@ -337,9 +337,9 @@
                 <property ID="0x17DB0CF2" type="float">
                     <default>3.0</default>
                 </property>
-                <property ID="0xC245A874" type="file" extensions="CAUD"/>
-                <property ID="0xC192E357" type="file" extensions="CAUD"/>
-                <property ID="0x1B412C4B" type="file" extensions="CAUD"/>
+                <property ID="0xC245A874" type="asset" extensions="CAUD"/>
+                <property ID="0xC192E357" type="asset" extensions="CAUD"/>
+                <property ID="0x1B412C4B" type="asset" extensions="CAUD"/>
                 <property ID="0x8A36B5D5" type="long">
                     <default>10000</default>
                 </property>
@@ -466,7 +466,7 @@
                         </property>
                     </properties>
                 </struct>
-                <property ID="0x71E83F06" type="file" extensions="SCAN"/>
+                <property ID="0x71E83F06" type="asset" extensions="SCAN"/>
                 <property ID="0xFDE9C4DF" type="bool">
                     <default>false</default>
                 </property>
@@ -482,17 +482,17 @@
                 </struct>
                 <struct ID="0x896D5BD9" template="Structs/DamageVulnerability.xml"/>
                 <struct ID="0xC13A3E1F" template="Structs/DamageVulnerability.xml"/>
-                <property ID="0x7579CC86" type="file" extensions="CMDL"/>
-                <property ID="0x65D86552" type="file" extensions="CSKR"/>
-                <property ID="0x68002BD7" type="file" extensions="CMDL"/>
-                <property ID="0xAD315C7C" type="file" extensions="CMDL"/>
-                <property ID="0x042A25ED" type="file" extensions="CMDL"/>
-                <property ID="0xE39B8B1E" type="file" extensions="CMDL"/>
-                <property ID="0x356C166A" type="file" extensions="CMDL"/>
-                <property ID="0x1CA4A298" type="file" extensions="CMDL"/>
-                <property ID="0xDF44507E" type="file" extensions="CMDL"/>
-                <property ID="0xD2C9A656" type="file" extensions="CMDL"/>
-                <property ID="0xD4E26A8E" type="file" extensions="CMDL"/>
+                <property ID="0x7579CC86" type="asset" extensions="CMDL"/>
+                <property ID="0x65D86552" type="asset" extensions="CSKR"/>
+                <property ID="0x68002BD7" type="asset" extensions="CMDL"/>
+                <property ID="0xAD315C7C" type="asset" extensions="CMDL"/>
+                <property ID="0x042A25ED" type="asset" extensions="CMDL"/>
+                <property ID="0xE39B8B1E" type="asset" extensions="CMDL"/>
+                <property ID="0x356C166A" type="asset" extensions="CMDL"/>
+                <property ID="0x1CA4A298" type="asset" extensions="CMDL"/>
+                <property ID="0xDF44507E" type="asset" extensions="CMDL"/>
+                <property ID="0xD2C9A656" type="asset" extensions="CMDL"/>
+                <property ID="0xD4E26A8E" type="asset" extensions="CMDL"/>
                 <property ID="0x531A8C85" type="bool">
                     <default>false</default>
                 </property>

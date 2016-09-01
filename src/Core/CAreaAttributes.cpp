@@ -47,13 +47,13 @@ CModel* CAreaAttributes::SkyModel() const
     switch (mGame)
     {
     case ePrime:
-        return (CModel*) static_cast<TFileProperty*>(pBaseStruct->PropertyByIndex(7))->Get().Load();
+        return (CModel*) gpResourceStore->LoadResource( static_cast<TAssetProperty*>(pBaseStruct->PropertyByIndex(7))->Get(), "CMDL" );
     case eEchoesDemo:
     case eEchoes:
     case eCorruptionProto:
     case eCorruption:
     case eReturns:
-        return (CModel*) static_cast<TFileProperty*>(pBaseStruct->PropertyByID(0xD208C9FA))->Get().Load();
+        return (CModel*) gpResourceStore->LoadResource( static_cast<TAssetProperty*>(pBaseStruct->PropertyByID(0xD208C9FA))->Get(), "CMDL" );
     default:
         return nullptr;
     }

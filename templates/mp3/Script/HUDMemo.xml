@@ -30,7 +30,7 @@
         <property ID="0x42087650" type="long">
             <default>1</default>
         </property>
-        <property ID="0x9182250C" type="file" extensions="STRG"/>
+        <property ID="0x9182250C" type="asset" extensions="STRG"/>
         <property ID="0x64124219" type="long">
             <default>0</default>
         </property>
@@ -50,13 +50,13 @@
             <default>false</default>
         </property>
         <property ID="0xA3D63F44" type="character"/>
-        <property ID="0xC27FFA8F" type="file" extensions="CMDL"/>
-        <property ID="0x95A100AB" type="file" extensions="CAAD"/>
-        <property ID="0xD1F65872" type="file" extensions="TXTR"/>
+        <property ID="0xC27FFA8F" type="asset" extensions="CMDL"/>
+        <property ID="0x95A100AB" type="asset" extensions="CAAD"/>
+        <property ID="0xD1F65872" type="asset" extensions="TXTR"/>
         <property ID="0x46DCA528" type="float">
             <default>0.0</default>
         </property>
-        <property ID="0xE5DEB9C4" type="file" extensions="STRM"/>
+        <property ID="0xE5DEB9C4" type="asset" extensions="STRM"/>
     </properties>
     <states/>
     <messages/>

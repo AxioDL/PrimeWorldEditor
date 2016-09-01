@@ -27,9 +27,9 @@
         <property ID="0xE8F0A1CE" type="bool">
             <default>true</default>
         </property>
-        <property ID="0x7147757A" type="file" extensions="CAUD"/>
-        <property ID="0xA8CC48B3" type="file" extensions="CAUD"/>
-        <property ID="0x12AFE499" type="file" extensions="CAUD"/>
+        <property ID="0x7147757A" type="asset" extensions="CAUD"/>
+        <property ID="0xA8CC48B3" type="asset" extensions="CAUD"/>
+        <property ID="0x12AFE499" type="asset" extensions="CAUD"/>
     </properties>
     <states/>
     <messages/>

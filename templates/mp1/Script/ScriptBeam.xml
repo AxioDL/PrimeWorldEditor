@@ -6,14 +6,14 @@
         <property ID="0x01" name="Position" type="vector3f"/>
         <property ID="0x02" name="Rotation" type="vector3f"/>
         <property ID="0x03" name="Unknown 1" type="bool"/>
-        <property ID="0x04" name="WPSC" type="file" extensions="WPSC"/>
+        <property ID="0x04" name="WPSC" type="asset" extensions="WPSC"/>
         <struct ID="0x05" name="ScriptBeamStruct" type="multi">
             <properties>
                 <property ID="0x00" name="Unknown 2" type="long"/>
-                <property ID="0x01" name="Particle 1" type="file" extensions="PART"/>
-                <property ID="0x02" name="Particle 2" type="file" extensions="PART"/>
-                <property ID="0x03" name="Texture 1" type="file" extensions="TXTR"/>
-                <property ID="0x04" name="Texture 2" type="file" extensions="TXTR"/>
+                <property ID="0x01" name="Particle 1" type="asset" extensions="PART"/>
+                <property ID="0x02" name="Particle 2" type="asset" extensions="PART"/>
+                <property ID="0x03" name="Texture 1" type="asset" extensions="TXTR"/>
+                <property ID="0x04" name="Texture 2" type="asset" extensions="TXTR"/>
                 <property ID="0x05" name="Unknown 3" type="float"/>
                 <property ID="0x06" name="Unknown 4" type="float"/>
                 <property ID="0x07" name="Unknown 5" type="float"/>

@@ -2,7 +2,7 @@
 <struct name="GenericCreatureStructC" type="multi">
     <properties>
         <property ID="0x6C805F56" type="string"/>
-        <property ID="0xD29AAAE6" type="file" extensions="RULE"/>
+        <property ID="0xD29AAAE6" type="asset" extensions="RULE"/>
         <property ID="0x4BABA4A6" type="bool">
             <default>false</default>
         </property>

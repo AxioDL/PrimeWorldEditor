@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <struct name="UnknownStruct7" type="multi">
     <properties>
-        <property ID="0x5405F708" type="file" extensions="CMDL"/>
+        <property ID="0x5405F708" type="asset" extensions="CMDL"/>
         <property ID="0x6B62E419" type="string"/>
     </properties>
 </struct>

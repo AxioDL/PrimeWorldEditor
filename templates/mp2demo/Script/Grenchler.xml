@@ -81,7 +81,7 @@
         <property ID="0xD0D118E3" type="float">
             <default>3.0</default>
         </property>
-        <property ID="0x49FAE143" type="file" extensions="ELSC"/>
+        <property ID="0x49FAE143" type="asset" extensions="ELSC"/>
         <struct ID="0x13E30E4D" template="Structs/DamageInfo.xml">
             <properties>
                 <property ID="0x119FBD31">

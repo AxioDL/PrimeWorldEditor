@@ -3,7 +3,7 @@
     <name>StreamedAudio</name>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0x9D1A67A8" type="file" extensions="STRM"/>
+        <property ID="0x9D1A67A8" type="asset" extensions="STRM"/>
         <property ID="0x34B152C4" type="bool">
             <default>false</default>
         </property>

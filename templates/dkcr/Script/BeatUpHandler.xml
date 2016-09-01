@@ -46,7 +46,7 @@
                 <struct ID="0x4289B15B" template="Structs/BeatUpHandlerStruct.xml"/>
                 <struct ID="0x351763AB" template="Structs/BeatUpHandlerStruct.xml"/>
                 <struct ID="0xAEB22FC4" template="Structs/BeatUpHandlerStruct.xml"/>
-                <property ID="0x552DB72C" type="file" extensions="CAUD"/>
+                <property ID="0x552DB72C" type="asset" extensions="CAUD"/>
             </properties>
         </struct>
     </properties>

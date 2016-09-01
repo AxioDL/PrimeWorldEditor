@@ -33,9 +33,9 @@
         <property ID="0xDD17B34F" type="bool">
             <default>true</default>
         </property>
-        <property ID="0xC27FFA8F" type="file" extensions="CMDL"/>
+        <property ID="0xC27FFA8F" type="asset" extensions="CMDL"/>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <property ID="0x6D1CE525" type="file" extensions="PART"/>
+        <property ID="0x6D1CE525" type="asset" extensions="PART"/>
         <property ID="0x18BC419E" type="vector3f">
             <default>1.0, 1.0, 1.0</default>
         </property>

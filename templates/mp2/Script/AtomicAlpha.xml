@@ -60,8 +60,8 @@
             </properties>
         </struct>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <property ID="0x1720B91F" type="file" extensions="WPSC"/>
-        <property ID="0xC75F9516" type="file" extensions="CMDL"/>
+        <property ID="0x1720B91F" type="asset" extensions="WPSC"/>
+        <property ID="0xC75F9516" type="asset" extensions="CMDL"/>
         <struct ID="0xB48D5FE6" template="Structs/DamageInfo.xml"/>
         <property ID="0x66BA009C" type="float">
             <default>3.0</default>

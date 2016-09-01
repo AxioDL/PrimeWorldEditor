@@ -106,12 +106,16 @@ IPropertyTemplate* CTemplateLoader::LoadProperty(XMLElement *pElem, CScriptTempl
     }
 
     // File-specific parameters
-    if (Type == eFileProperty)
+    if (Type == eAssetProperty)
     {
-        CFileTemplate *pFile = static_cast<CFileTemplate*>(pProp);
         TString ExtensionsAttr = pElem->Attribute("extensions");
-        TStringList ExtensionsList = ExtensionsAttr.Split(", ");
-        pFile->SetAllowedExtensions(ExtensionsList);
+
+        if (!ExtensionsAttr.IsEmpty())
+        {
+            TStringList ExtensionsList = ExtensionsAttr.Split(", ");
+            CAssetTemplate *pAsset = static_cast<CAssetTemplate*>(pProp);
+            pAsset->SetAllowedExtensions(ExtensionsList);
+        }
     }
 
     // Enum-specific parameters
@@ -186,7 +190,7 @@ IPropertyTemplate* CTemplateLoader::CreateProperty(u32 ID, EPropertyType Type, c
     case eStringProperty:       pOut = CREATE_PROP_TEMP(TStringTemplate);       break;
     case eVector3Property:      pOut = CREATE_PROP_TEMP(TVector3Template);      break;
     case eColorProperty:        pOut = CREATE_PROP_TEMP(TColorTemplate);        break;
-    case eFileProperty:         pOut = CREATE_PROP_TEMP(CFileTemplate);         break;
+    case eAssetProperty:        pOut = CREATE_PROP_TEMP(CAssetTemplate);        break;
     case eCharacterProperty:    pOut = CREATE_PROP_TEMP(TCharacterTemplate);    break;
     case eMayaSplineProperty:   pOut = CREATE_PROP_TEMP(TMayaSplineTemplate);   break;
     case eEnumProperty:         pOut = CREATE_PROP_TEMP(CEnumTemplate);         break;
@@ -601,7 +605,7 @@ CScriptTemplate* CTemplateLoader::LoadScriptTemplate(XMLDocument *pDoc, const TS
 
                 if (!pProp)
                     Log::Error(rkTemplateName + ": Invalid property for attachment " + TString::FromInt32(AttachIdx) + ": " + Attachment.AttachProperty);
-                else if (pProp->Type() != eCharacterProperty && (pProp->Type() != eFileProperty || !static_cast<CFileTemplate*>(pProp)->AcceptsExtension("CMDL")))
+                else if (pProp->Type() != eCharacterProperty && (pProp->Type() != eAssetProperty || !static_cast<CAssetTemplate*>(pProp)->AcceptsExtension("CMDL")))
                     Log::Error(rkTemplateName + ": Property referred to by attachment " + TString::FromInt32(AttachIdx) + " is not an attachable asset! Must be a file property that accepts CMDLs, or a character property.");
 
                 else

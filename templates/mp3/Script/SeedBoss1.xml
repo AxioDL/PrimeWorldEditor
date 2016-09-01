@@ -15,29 +15,29 @@
                 </property>
                 <struct ID="0xB33EB533" template="Structs/HealthInfo.xml"/>
                 <struct ID="0x26FA460B" template="Structs/DamageVulnerability.xml"/>
-                <property ID="0xAD0DE5AC" type="file" extensions="CMDL"/>
-                <property ID="0xFC128C15" type="file" extensions="CMDL"/>
-                <property ID="0x299B8D33" type="file" extensions="CMDL"/>
-                <property ID="0xA5BB98A6" type="file" extensions="CMDL"/>
-                <property ID="0xF4A4F11F" type="file" extensions="CMDL"/>
-                <property ID="0xC946D250" type="file" extensions="CMDL"/>
-                <property ID="0x50EDAE7F" type="file" extensions="CMDL"/>
-                <property ID="0x30969CFE" type="file" extensions="CMDL"/>
-                <property ID="0xB25E271D" type="file" extensions="CMDL"/>
-                <property ID="0x5D71B85C" type="file" extensions="CMDL"/>
-                <property ID="0x3D0A8ADD" type="file" extensions="CMDL"/>
-                <property ID="0x43223A97" type="file" extensions="CMDL"/>
-                <property ID="0x9B76AD84" type="file" extensions="CMDL"/>
-                <property ID="0xFB0D9F05" type="file" extensions="CMDL"/>
-                <property ID="0x48EE50AD" type="file" extensions="CMDL"/>
-                <property ID="0x85635B3B" type="file" extensions="CMDL"/>
-                <property ID="0xE51869BA" type="file" extensions="CMDL"/>
-                <property ID="0x5CEA873F" type="file" extensions="CMDL"/>
-                <property ID="0xC288AE69" type="file" extensions="CMDL"/>
-                <property ID="0xCDBD44E1" type="file" extensions="CMDL"/>
-                <property ID="0x6AD6CBBA" type="file" extensions="CMDL"/>
-                <property ID="0x3AB79847" type="file" extensions="CMDL"/>
-                <property ID="0x27B30D35" type="file" extensions="CMDL"/>
+                <property ID="0xAD0DE5AC" type="asset" extensions="CMDL"/>
+                <property ID="0xFC128C15" type="asset" extensions="CMDL"/>
+                <property ID="0x299B8D33" type="asset" extensions="CMDL"/>
+                <property ID="0xA5BB98A6" type="asset" extensions="CMDL"/>
+                <property ID="0xF4A4F11F" type="asset" extensions="CMDL"/>
+                <property ID="0xC946D250" type="asset" extensions="CMDL"/>
+                <property ID="0x50EDAE7F" type="asset" extensions="CMDL"/>
+                <property ID="0x30969CFE" type="asset" extensions="CMDL"/>
+                <property ID="0xB25E271D" type="asset" extensions="CMDL"/>
+                <property ID="0x5D71B85C" type="asset" extensions="CMDL"/>
+                <property ID="0x3D0A8ADD" type="asset" extensions="CMDL"/>
+                <property ID="0x43223A97" type="asset" extensions="CMDL"/>
+                <property ID="0x9B76AD84" type="asset" extensions="CMDL"/>
+                <property ID="0xFB0D9F05" type="asset" extensions="CMDL"/>
+                <property ID="0x48EE50AD" type="asset" extensions="CMDL"/>
+                <property ID="0x85635B3B" type="asset" extensions="CMDL"/>
+                <property ID="0xE51869BA" type="asset" extensions="CMDL"/>
+                <property ID="0x5CEA873F" type="asset" extensions="CMDL"/>
+                <property ID="0xC288AE69" type="asset" extensions="CMDL"/>
+                <property ID="0xCDBD44E1" type="asset" extensions="CMDL"/>
+                <property ID="0x6AD6CBBA" type="asset" extensions="CMDL"/>
+                <property ID="0x3AB79847" type="asset" extensions="CMDL"/>
+                <property ID="0x27B30D35" type="asset" extensions="CMDL"/>
                 <struct ID="0xEC37E2FA" template="Structs/DamageVulnerability.xml"/>
                 <property ID="0xCCCA3249" type="float">
                     <default>0.0</default>
@@ -48,20 +48,20 @@
                         <property ID="0x2C51A676" type="float">
                             <default>1.0</default>
                         </property>
-                        <property ID="0xB68C6D96" type="file" extensions="PART"/>
+                        <property ID="0xB68C6D96" type="asset" extensions="PART"/>
                         <struct ID="0x337F9524" template="Structs/DamageInfo.xml"/>
                         <property ID="0x3A3E03BA" type="vector3f">
                             <default>0.0, 0.0, 0.0</default>
                         </property>
-                        <property ID="0xA55DACF6" type="file" extensions="CAUD"/>
+                        <property ID="0xA55DACF6" type="asset" extensions="CAUD"/>
                     </properties>
                 </struct>
                 <struct ID="0x1598012A" template="Structs/PlasmaBeamInfo.xml"/>
                 <struct ID="0x98821996" template="Structs/DamageInfo.xml"/>
                 <struct ID="0xDD34C3C0" template="Structs/DamageVulnerability.xml"/>
-                <property ID="0x547B9A9A" type="file" extensions="PART"/>
-                <property ID="0xEAF93057" type="file" extensions="CAUD"/>
-                <property ID="0x36C067C2" type="file" extensions="WPSC"/>
+                <property ID="0x547B9A9A" type="asset" extensions="PART"/>
+                <property ID="0xEAF93057" type="asset" extensions="CAUD"/>
+                <property ID="0x36C067C2" type="asset" extensions="WPSC"/>
                 <struct ID="0x261EEFE7" template="Structs/DamageInfo.xml"/>
                 <struct ID="0x818F810B" template="Structs/ShockWaveInfo.xml"/>
                 <struct ID="0x7C9C3B51" template="Structs/LaunchProjectileData.xml">
@@ -134,8 +134,8 @@
                 <property ID="0x473B730B" type="float">
                     <default>0.0</default>
                 </property>
-                <property ID="0xAEA60F24" type="file" extensions="PART"/>
-                <property ID="0x38786921" type="file" extensions="UNKN"/>
+                <property ID="0xAEA60F24" type="asset" extensions="PART"/>
+                <property ID="0x38786921" type="asset" extensions="UNKN"/>
                 <struct ID="0x9E63065F" template="Structs/DamageInfo.xml"/>
                 <struct ID="0x50AE6E55" template="Structs/LaunchProjectileData.xml">
                     <properties>
@@ -167,10 +167,10 @@
                         <struct ID="0xCF90D15E" template="Structs/HealthInfo.xml"/>
                         <struct ID="0x7B71AE90" template="Structs/DamageVulnerability.xml"/>
                         <property ID="0x71A5A198" type="character"/>
-                        <property ID="0x55744160" type="file" extensions="AFSM"/>
+                        <property ID="0x55744160" type="asset" extensions="AFSM"/>
                         <struct ID="0xA30EE999" template="Structs/ActorParameters.xml"/>
-                        <property ID="0xD8C6D15C" type="file" extensions="PART"/>
-                        <property ID="0x9A094814" type="file" extensions="CAUD"/>
+                        <property ID="0xD8C6D15C" type="asset" extensions="PART"/>
+                        <property ID="0x9A094814" type="asset" extensions="CAUD"/>
                         <struct ID="0x337F9524" template="Structs/DamageInfo.xml"/>
                         <property ID="0x053AE4A7" type="float">
                             <default>20.0</default>
@@ -207,21 +207,21 @@
                 <struct ID="0xDE4606F7" template="Structs/SeedBoss1Stage.xml"/>
                 <struct ID="0x2883F972" type="multi">
                     <properties>
-                        <property ID="0xDCE1A940" type="file" extensions="CMDL"/>
-                        <property ID="0xF4C318B3" type="file" extensions="CMDL"/>
-                        <property ID="0xB3673269" type="file" extensions="CMDL"/>
-                        <property ID="0xB9196D9E" type="file" extensions="CMDL"/>
-                        <property ID="0x8C0BEE98" type="file" extensions="CMDL"/>
-                        <property ID="0x4D7984E6" type="file" extensions="CMDL"/>
-                        <property ID="0x8FBE621D" type="file" extensions="CMDL"/>
-                        <property ID="0x11EA2651" type="file" extensions="CMDL"/>
-                        <property ID="0x564E0C8B" type="file" extensions="CMDL"/>
-                        <property ID="0x807EDCC5" type="file" extensions="CMDL"/>
-                        <property ID="0x708B0155" type="file" extensions="CMDL"/>
-                        <property ID="0xE46803DC" type="file" extensions="CMDL"/>
-                        <property ID="0x6A975CFF" type="file" extensions="CMDL"/>
-                        <property ID="0x97E2B6C7" type="file" extensions="CMDL"/>
-                        <property ID="0x1176C469" type="file" extensions="CMDL"/>
+                        <property ID="0xDCE1A940" type="asset" extensions="CMDL"/>
+                        <property ID="0xF4C318B3" type="asset" extensions="CMDL"/>
+                        <property ID="0xB3673269" type="asset" extensions="CMDL"/>
+                        <property ID="0xB9196D9E" type="asset" extensions="CMDL"/>
+                        <property ID="0x8C0BEE98" type="asset" extensions="CMDL"/>
+                        <property ID="0x4D7984E6" type="asset" extensions="CMDL"/>
+                        <property ID="0x8FBE621D" type="asset" extensions="CMDL"/>
+                        <property ID="0x11EA2651" type="asset" extensions="CMDL"/>
+                        <property ID="0x564E0C8B" type="asset" extensions="CMDL"/>
+                        <property ID="0x807EDCC5" type="asset" extensions="CMDL"/>
+                        <property ID="0x708B0155" type="asset" extensions="CMDL"/>
+                        <property ID="0xE46803DC" type="asset" extensions="CMDL"/>
+                        <property ID="0x6A975CFF" type="asset" extensions="CMDL"/>
+                        <property ID="0x97E2B6C7" type="asset" extensions="CMDL"/>
+                        <property ID="0x1176C469" type="asset" extensions="CMDL"/>
                     </properties>
                 </struct>
                 <struct ID="0x40AC1FD4" template="Structs/DamageInfo.xml"/>

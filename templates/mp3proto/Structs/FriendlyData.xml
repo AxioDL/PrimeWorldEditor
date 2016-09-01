@@ -36,8 +36,8 @@
         <property ID="0x50A9BD0D" type="float">
             <default>10.0</default>
         </property>
-        <property ID="0x51253BA3" type="file" extensions="WPSC"/>
-        <property ID="0x10E3EFDD" type="file" extensions="CAUD"/>
+        <property ID="0x51253BA3" type="asset" extensions="WPSC"/>
+        <property ID="0x10E3EFDD" type="asset" extensions="CAUD"/>
         <struct ID="0xCEA30138" template="Structs/DamageInfo.xml">
             <properties>
                 <property ID="0xF2D02613">
@@ -47,8 +47,8 @@
         </struct>
         <struct ID="0x785C41F5" template="Structs/StaticGeometryTest.xml"/>
         <struct ID="0xFC5A0A21" template="Structs/StaticGeometryTest.xml"/>
-        <property ID="0xFC34473F" type="file" extensions="BFRC"/>
-        <property ID="0x50340852" type="file" extensions="CMDL"/>
+        <property ID="0xFC34473F" type="asset" extensions="BFRC"/>
+        <property ID="0x50340852" type="asset" extensions="CMDL"/>
         <property ID="0x330619CA" type="float">
             <default>10.0</default>
         </property>

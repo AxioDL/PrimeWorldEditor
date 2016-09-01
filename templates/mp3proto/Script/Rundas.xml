@@ -14,27 +14,27 @@
                 <property ID="0x8F7F0613" type="float">
                     <default>4.0</default>
                 </property>
-                <property ID="0x1A662787" type="file" extensions="CMDL"/>
-                <property ID="0x6DCB001F" type="file" extensions="CMDL"/>
-                <property ID="0xAC0B1EA5" type="file" extensions="CMDL"/>
-                <property ID="0x508BF168" type="file" extensions="CMDL"/>
-                <property ID="0x02E83A7C" type="file" extensions="CMDL"/>
-                <property ID="0xE7C1049E" type="file" extensions="CMDL"/>
-                <property ID="0x2C41E9A5" type="file" extensions="CMDL"/>
-                <property ID="0x152658FE" type="file" extensions="CMDL"/>
-                <property ID="0xE22A6DDA" type="file" extensions="CMDL"/>
-                <property ID="0x1EAA8217" type="file" extensions="CMDL"/>
+                <property ID="0x1A662787" type="asset" extensions="CMDL"/>
+                <property ID="0x6DCB001F" type="asset" extensions="CMDL"/>
+                <property ID="0xAC0B1EA5" type="asset" extensions="CMDL"/>
+                <property ID="0x508BF168" type="asset" extensions="CMDL"/>
+                <property ID="0x02E83A7C" type="asset" extensions="CMDL"/>
+                <property ID="0xE7C1049E" type="asset" extensions="CMDL"/>
+                <property ID="0x2C41E9A5" type="asset" extensions="CMDL"/>
+                <property ID="0x152658FE" type="asset" extensions="CMDL"/>
+                <property ID="0xE22A6DDA" type="asset" extensions="CMDL"/>
+                <property ID="0x1EAA8217" type="asset" extensions="CMDL"/>
                 <struct ID="0x896D5BD9" template="Structs/DamageVulnerability.xml"/>
                 <struct ID="0x8D4A2668" template="Structs/DamageInfo.xml"/>
-                <property ID="0x199A4CA5" type="file" extensions="PART"/>
-                <property ID="0x9F0E3E0B" type="file" extensions="PART"/>
-                <property ID="0x5452EDAE" type="file" extensions="PART"/>
-                <property ID="0x4957DD16" type="file" extensions="PART"/>
-                <property ID="0xA13303F4" type="file" extensions="PART"/>
-                <property ID="0x3A2D1AA4" type="file" extensions="WPSC"/>
-                <property ID="0xBCB9680A" type="file" extensions="WPSC"/>
-                <property ID="0x77E5BBAF" type="file" extensions="WPSC"/>
-                <property ID="0x6AE08B17" type="file" extensions="WPSC"/>
+                <property ID="0x199A4CA5" type="asset" extensions="PART"/>
+                <property ID="0x9F0E3E0B" type="asset" extensions="PART"/>
+                <property ID="0x5452EDAE" type="asset" extensions="PART"/>
+                <property ID="0x4957DD16" type="asset" extensions="PART"/>
+                <property ID="0xA13303F4" type="asset" extensions="PART"/>
+                <property ID="0x3A2D1AA4" type="asset" extensions="WPSC"/>
+                <property ID="0xBCB9680A" type="asset" extensions="WPSC"/>
+                <property ID="0x77E5BBAF" type="asset" extensions="WPSC"/>
+                <property ID="0x6AE08B17" type="asset" extensions="WPSC"/>
                 <property ID="0xF41394F6" type="float">
                     <default>6.0</default>
                 </property>
@@ -52,12 +52,12 @@
                 <property ID="0xE36C178F" type="float">
                     <default>13.0</default>
                 </property>
-                <property ID="0x4584843B" type="file" extensions="WPSC"/>
+                <property ID="0x4584843B" type="asset" extensions="WPSC"/>
                 <struct ID="0x3063BBF1" template="Structs/DamageInfo.xml"/>
-                <property ID="0x03304D0B" type="file" extensions="TXTR"/>
-                <property ID="0x17789D1C" type="file" extensions="CMDL"/>
+                <property ID="0x03304D0B" type="asset" extensions="TXTR"/>
+                <property ID="0x17789D1C" type="asset" extensions="CMDL"/>
                 <struct ID="0x5997EBE1" template="Structs/DamageInfo.xml"/>
-                <property ID="0x8843CE6D" type="file" extensions="PART"/>
+                <property ID="0x8843CE6D" type="asset" extensions="PART"/>
                 <property ID="0xC922F0E0" type="float">
                     <default>35.0</default>
                 </property>
@@ -70,13 +70,13 @@
                 <property ID="0x3F196C78" type="float">
                     <default>25.0</default>
                 </property>
-                <property ID="0xE039C4BD" type="file" extensions="CMDL"/>
-                <property ID="0x09C8DB87" type="file" extensions="PART"/>
-                <property ID="0xCBB55845" type="file" extensions="PART"/>
-                <property ID="0xEDCCF9F6" type="file" extensions="PART"/>
-                <property ID="0x9873172A" type="file" extensions="PART"/>
-                <property ID="0x84C33DA6" type="file" extensions="PART"/>
-                <property ID="0x757060D4" type="file" extensions="WPSC"/>
+                <property ID="0xE039C4BD" type="asset" extensions="CMDL"/>
+                <property ID="0x09C8DB87" type="asset" extensions="PART"/>
+                <property ID="0xCBB55845" type="asset" extensions="PART"/>
+                <property ID="0xEDCCF9F6" type="asset" extensions="PART"/>
+                <property ID="0x9873172A" type="asset" extensions="PART"/>
+                <property ID="0x84C33DA6" type="asset" extensions="PART"/>
+                <property ID="0x757060D4" type="asset" extensions="WPSC"/>
                 <struct ID="0x78DF0B7D" template="Structs/DamageInfo.xml"/>
                 <property ID="0xE4CD7924" type="float">
                     <default>25.0</default>

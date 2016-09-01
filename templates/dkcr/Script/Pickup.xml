@@ -10,9 +10,9 @@
         <property ID="0x2E686C2A" type="vector3f">
             <default>0.0, 0.0, 0.0</default>
         </property>
-        <property ID="0xC27FFA8F" type="file" extensions="CMDL"/>
+        <property ID="0xC27FFA8F" type="asset" extensions="CMDL"/>
         <property ID="0xA244C9D8" type="character"/>
-        <property ID="0x2CF40978" type="file" extensions="unknown"/>
+        <property ID="0x2CF40978" type="asset" extensions="unknown"/>
         <property ID="0x3128976F" type="character"/>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
         <struct ID="0xD545F36B" type="multi">
@@ -56,19 +56,19 @@
                 <property ID="0x2F5456A7" type="vector3f">
                     <default>1.0, 1.0, 1.0</default>
                 </property>
-                <property ID="0xED398EFB" type="file" extensions="CMDL"/>
-                <property ID="0xE1CB9EC7" type="file" extensions="PART"/>
-                <property ID="0xA9FE872A" type="file" extensions="PART"/>
-                <property ID="0x371CD734" type="file" extensions="CAUD"/>
-                <property ID="0xAA125F90" type="file" extensions="CAUD"/>
-                <property ID="0xDB5B110D" type="file" extensions="CAUD"/>
-                <property ID="0x5DCF63A3" type="file" extensions="CAUD"/>
-                <property ID="0x9693B006" type="file" extensions="CAUD"/>
-                <property ID="0x1E093B02" type="file" extensions="CAUD"/>
-                <property ID="0x2CF86398" type="file" extensions="CAUD"/>
-                <property ID="0x93D41865" type="file" extensions="CAUD"/>
-                <property ID="0x15406ACB" type="file" extensions="CAUD"/>
-                <property ID="0xDE1CB96E" type="file" extensions="CAUD"/>
+                <property ID="0xED398EFB" type="asset" extensions="CMDL"/>
+                <property ID="0xE1CB9EC7" type="asset" extensions="PART"/>
+                <property ID="0xA9FE872A" type="asset" extensions="PART"/>
+                <property ID="0x371CD734" type="asset" extensions="CAUD"/>
+                <property ID="0xAA125F90" type="asset" extensions="CAUD"/>
+                <property ID="0xDB5B110D" type="asset" extensions="CAUD"/>
+                <property ID="0x5DCF63A3" type="asset" extensions="CAUD"/>
+                <property ID="0x9693B006" type="asset" extensions="CAUD"/>
+                <property ID="0x1E093B02" type="asset" extensions="CAUD"/>
+                <property ID="0x2CF86398" type="asset" extensions="CAUD"/>
+                <property ID="0x93D41865" type="asset" extensions="CAUD"/>
+                <property ID="0x15406ACB" type="asset" extensions="CAUD"/>
+                <property ID="0xDE1CB96E" type="asset" extensions="CAUD"/>
                 <property ID="0x6B40ACEF" type="long">
                     <default>0</default>
                 </property>

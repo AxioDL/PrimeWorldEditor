@@ -13,9 +13,9 @@
         <struct ID="0x08" name="DamageInfo 1" template="Structs/DamageInfo.xml"/>
         <property ID="0x09" name="Unknown 3" type="long"/>
         <struct ID="0x0A" name="DamageInfo 2" template="Structs/DamageInfo.xml"/>
-        <property ID="0x0B" name="Particle 1" type="file" extensions="PART"/>
-        <property ID="0x0C" name="Particle 2" type="file" extensions="PART"/>
-        <property ID="0x0D" name="Model 1" type="file" extensions="CMDL"/>
+        <property ID="0x0B" name="Particle 1" type="asset" extensions="PART"/>
+        <property ID="0x0C" name="Particle 2" type="asset" extensions="PART"/>
+        <property ID="0x0D" name="Model 1" type="asset" extensions="CMDL"/>
         <struct ID="0x0E" name="FlareDef 1" template="Structs/FlareDef.xml"/>
         <struct ID="0x0F" name="FlareDef 2" template="Structs/FlareDef.xml"/>
         <struct ID="0x10" name="FlareDef 3" template="Structs/FlareDef.xml"/>
@@ -40,7 +40,7 @@
         <property ID="0x23" name="Unknown 23" type="float"/>
         <property ID="0x24" name="Unknown 24" type="float"/>
         <property ID="0x25" name="Unknown 25" type="float"/>
-        <property ID="0x26" name="CRSC" type="file" extensions="CRSC"/>
+        <property ID="0x26" name="CRSC" type="asset" extensions="CRSC"/>
         <property ID="0x27" name="Unknown 26" type="float"/>
         <property ID="0x28" name="Unknown 27" type="float"/>
         <property ID="0x29" name="Unknown 28" type="float"/>

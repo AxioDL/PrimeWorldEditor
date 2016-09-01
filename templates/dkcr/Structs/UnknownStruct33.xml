@@ -53,9 +53,9 @@
             <default>0.0</default>
         </property>
         <property ID="0x59299E65" type="MayaSpline"/>
-        <property ID="0xD54A5BD8" type="file" extensions="CAUD"/>
-        <property ID="0x4B4818EE" type="file" extensions="CAUD"/>
-        <property ID="0x4A9B4299" type="file" extensions="CAUD"/>
+        <property ID="0xD54A5BD8" type="asset" extensions="CAUD"/>
+        <property ID="0x4B4818EE" type="asset" extensions="CAUD"/>
+        <property ID="0x4A9B4299" type="asset" extensions="CAUD"/>
         <property ID="0x2E2C202D" type="float">
             <default>0.5</default>
         </property>

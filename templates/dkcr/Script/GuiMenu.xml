@@ -3,7 +3,7 @@
     <name>GuiMenu</name>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0x25FA292E" type="file" extensions="UNKN"/>
+        <property ID="0x25FA292E" type="asset" extensions="UNKN"/>
         <property ID="0x940BFB9E" type="bool">
             <default>true</default>
         </property>

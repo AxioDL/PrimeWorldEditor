@@ -185,8 +185,9 @@ CResource* CScriptTemplate::FindDisplayAsset(CPropertyStruct *pProperties, u32& 
 
             else
             {
-                TFileProperty *pFile = static_cast<TFileProperty*>(pProp);
-                pRes = pFile->Get().Load();
+                TAssetProperty *pAsset = static_cast<TAssetProperty*>(pProp);
+                CResourceEntry *pEntry = gpResourceStore->FindEntry(pAsset->Get());
+                if (pEntry) pRes = pEntry->Load();
             }
         }
 
@@ -218,10 +219,10 @@ CCollisionMeshGroup* CScriptTemplate::FindCollision(CPropertyStruct *pProperties
         {
             IProperty *pProp = pProperties->PropertyByIDString(it->AssetLocation);
 
-            if (pProp->Type() == eFileProperty)
+            if (pProp->Type() == eAssetProperty)
             {
-                TFileProperty *pFile = static_cast<TFileProperty*>(pProp);
-                pRes = pFile->Get().Load();
+                TAssetProperty *pAsset = static_cast<TAssetProperty*>(pProp);
+                pRes = gpResourceStore->LoadResource( pAsset->Get(), "DCLN" );
             }
         }
 

@@ -38,7 +38,7 @@
         <property ID="0x7B363100" type="bool">
             <default>false</default>
         </property>
-        <property ID="0x2E50DCEC" type="file" extensions="CAUD"/>
-        <property ID="0x4B65999C" type="file" extensions="PART"/>
+        <property ID="0x2E50DCEC" type="asset" extensions="CAUD"/>
+        <property ID="0x4B65999C" type="asset" extensions="PART"/>
     </properties>
 </struct>

@@ -13,18 +13,18 @@
         <property ID="0x08" name="Unknown 3" type="float"/>
         <property ID="0x09" name="Unknown 4" type="float"/>
         <struct ID="0x0A" name="DamageVulnerability" template="Structs/DamageVulnerability.xml"/>
-        <property ID="0x0B" name="WPSC 1" type="file" extensions="WPSC"/>
+        <property ID="0x0B" name="WPSC 1" type="asset" extensions="WPSC"/>
         <struct ID="0x0C" name="DamageInfo 1" template="Structs/DamageInfo.xml"/>
-        <property ID="0x0D" name="WPSC 2" type="file" extensions="WPSC"/>
+        <property ID="0x0D" name="WPSC 2" type="asset" extensions="WPSC"/>
         <struct ID="0x0E" name="DamageInfo 2" template="Structs/DamageInfo.xml"/>
-        <property ID="0x0F" name="Particle" type="file" extensions="PART"/>
+        <property ID="0x0F" name="Particle" type="asset" extensions="PART"/>
         <struct ID="0x10" name="DamageInfo 3" template="Structs/DamageInfo.xml"/>
         <struct ID="0x11" name="ActorParameters 2" template="Structs/ActorParameters.xml"/>
         <property ID="0x12" name="Unknown 5" type="float"/>
         <property ID="0x13" name="Unknown 6" type="float"/>
         <property ID="0x14" name="Unknown 7" type="float"/>
         <property ID="0x15" name="AnimationParameters" type="character"/>
-        <property ID="0x16" name="DGRP" type="file" extensions="DGRP"/>
+        <property ID="0x16" name="DGRP" type="asset" extensions="DGRP"/>
     </properties>
     <states/>
     <messages/>

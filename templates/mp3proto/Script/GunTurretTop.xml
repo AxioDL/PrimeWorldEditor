@@ -32,8 +32,8 @@
                 <property ID="0xC3E002AC" type="long">
                     <default>5</default>
                 </property>
-                <property ID="0x16E7D74A" type="file" extensions="CRSC"/>
-                <property ID="0x00E9C72C" type="file" extensions="WPSC"/>
+                <property ID="0x16E7D74A" type="asset" extensions="CRSC"/>
+                <property ID="0x00E9C72C" type="asset" extensions="WPSC"/>
                 <struct ID="0xBE7FB5CC" template="Structs/DamageInfo.xml"/>
                 <property ID="0x4173EC53" type="float">
                     <default>10.0</default>
@@ -45,7 +45,7 @@
                 <property ID="0xF5915FF7" type="float">
                     <default>1.0</default>
                 </property>
-                <property ID="0x83A413D9" type="file" extensions="UNKN"/>
+                <property ID="0x83A413D9" type="asset" extensions="UNKN"/>
                 <struct ID="0xF609C637" template="Structs/GrappleData.xml"/>
             </properties>
         </struct>

@@ -2,10 +2,10 @@
 #define IPROPERTYVALUE_H
 
 #include "EPropertyType.h"
+#include <Common/CAssetID.h>
 #include <Common/Log.h>
 #include "Core/Resource/CAnimationParameters.h"
 #include "Core/Resource/CResource.h"
-#include "Core/Resource/CResourceInfo.h"
 #include "Core/Resource/TResPtr.h"
 
 #include <Common/CColor.h>
@@ -342,18 +342,18 @@ public:
     }
 };
 
-class CFileValue : public TTypedPropertyValue<CResourceInfo>
+class CAssetValue : public TTypedPropertyValue<CAssetID>
 {
 public:
-    CFileValue() {}
-    CFileValue(const CResourceInfo& rkInfo) { mValue = rkInfo; }
+    CAssetValue() {}
+    CAssetValue(const CAssetID& rkID) { mValue = rkID; }
 
     TString ToString() const { return ""; }
     void FromString(const TString&) {}
 
     IPropertyValue* Clone() const
     {
-        return new CFileValue(mValue);
+        return new CAssetValue(mValue);
     }
 };
 

@@ -33,7 +33,7 @@
         <property ID="0x1A8A45FE" type="float">
             <default>0.075</default>
         </property>
-        <property ID="0xD702EBD7" type="file" extensions="CAUD"/>
+        <property ID="0xD702EBD7" type="asset" extensions="CAUD"/>
         <property ID="0xAACDB11C" type="long">
             <default>-1</default>
         </property>

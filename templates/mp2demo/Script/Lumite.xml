@@ -32,7 +32,7 @@
         <property ID="0x6DD1C509" type="float">
             <default>30.0</default>
         </property>
-        <property ID="0x48157453" type="file" extensions="WPSC"/>
+        <property ID="0x48157453" type="asset" extensions="WPSC"/>
         <struct ID="0x7307C36B" template="Structs/DamageInfo.xml">
             <properties>
                 <property ID="0x119FBD31">
@@ -49,7 +49,7 @@
         <property ID="0x2D1C2ECD" type="float">
             <default>30.0</default>
         </property>
-        <property ID="0xD05B1D24" type="file" extensions="WPSC"/>
+        <property ID="0xD05B1D24" type="asset" extensions="WPSC"/>
         <struct ID="0xBDFE699D" template="Structs/DamageInfo.xml">
             <properties>
                 <property ID="0x119FBD31">
@@ -60,8 +60,8 @@
                 </property>
             </properties>
         </struct>
-        <property ID="0x36EEE791" type="file" extensions="PART"/>
-        <property ID="0xD2879EBB" type="file" extensions="PART"/>
+        <property ID="0x36EEE791" type="asset" extensions="PART"/>
+        <property ID="0xD2879EBB" type="asset" extensions="PART"/>
     </properties>
     <states/>
     <messages/>
