@@ -71,7 +71,11 @@ class TResourceIterator : public CResourceIterator
 {
 public:
     TResourceIterator(CResourceStore *pStore = gpResourceStore)
-        : CResourceIterator(pStore) {}
+        : CResourceIterator(pStore)
+    {
+        if (mpCurEntry->ResourceType() != ResType::StaticType())
+            Next();
+    }
 
     virtual CResourceEntry* Next()
     {

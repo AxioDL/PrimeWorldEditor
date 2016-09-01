@@ -20,6 +20,7 @@ bool CGameProject::Load(const TWideString& rkPath)
     Serialize(Reader);
 
     mpResourceStore->LoadResourceDatabase();
+    mAudioManager.LoadAssets();
     return true;
 }
 
@@ -94,4 +95,27 @@ void CGameProject::GetWorldList(std::list<CAssetID>& rOut) const
             }
         }
     }
+}
+
+CAssetID CGameProject::FindNamedResource(const TString& rkName) const
+{
+    for (u32 iPkg = 0; iPkg < mPackages.size(); iPkg++)
+    {
+        CPackage *pPkg = mPackages[iPkg];
+
+        for (u32 iCol = 0; iCol < pPkg->NumCollections(); iCol++)
+        {
+            CResourceCollection *pCol = pPkg->CollectionByIndex(iCol);
+
+            for (u32 iRes = 0; iRes < pCol->NumResources(); iRes++)
+            {
+                const SNamedResource& rkRes = pCol->ResourceByIndex(iRes);
+
+                if (rkRes.Name == rkName)
+                    return rkRes.ID;
+            }
+        }
+    }
+
+    return CAssetID::InvalidID(mGame);
 }

@@ -4,6 +4,7 @@
 #include "CAnimationLoader.h"
 #include "CAnimSetLoader.h"
 #include "CAreaLoader.h"
+#include "CAudioGroupLoader.h"
 #include "CCollisionLoader.h"
 #include "CDependencyGroupLoader.h"
 #include "CFontLoader.h"
@@ -35,6 +36,8 @@ public:
         case eAnimation:            return new CAnimation(pEntry);
         case eAnimSet:              return new CAnimSet(pEntry);
         case eArea:                 return new CGameArea(pEntry);
+        case eAudioGroup:           return new CAudioGroup(pEntry);
+        case eAudioLookupTable:     return new CAudioLookupTable(pEntry);
         case eDynamicCollision:     return new CCollisionMeshGroup(pEntry);
         case eDependencyGroup:      return new CDependencyGroup(pEntry);
         case eFont:                 return new CFont(pEntry);
@@ -43,6 +46,7 @@ public:
         case eSkeleton:             return new CSkeleton(pEntry);
         case eSkin:                 return new CSkin(pEntry);
         case eStaticGeometryMap:    return new CPoiToWorld(pEntry);
+        case eStringList:           return new CStringList(pEntry);
         case eStringTable:          return new CStringTable(pEntry);
         case eTexture:              return new CTexture(pEntry);
         case eWorld:                return new CWorld(pEntry);
@@ -54,7 +58,6 @@ public:
     {
         // Warning: It is the caller's responsibility to check if the required resource is already in memory before calling this function.
         if (!rInput.IsValid()) return nullptr;
-
         CResource *pRes = nullptr;
 
         switch (pEntry->ResourceType())
@@ -63,6 +66,8 @@ public:
         case eAnimEventData:        pRes = CUnsupportedFormatLoader::LoadEVNT(rInput, pEntry);  break;
         case eAnimSet:              pRes = CAnimSetLoader::LoadANCSOrCHAR(rInput, pEntry);      break;
         case eArea:                 pRes = CAreaLoader::LoadMREA(rInput, pEntry);               break;
+        case eAudioGroup:           pRes = CAudioGroupLoader::LoadAGSC(rInput, pEntry);         break;
+        case eAudioLookupTable:     pRes = CAudioGroupLoader::LoadATBL(rInput, pEntry);         break;
         case eDependencyGroup:      pRes = CDependencyGroupLoader::LoadDGRP(rInput, pEntry);    break;
         case eDynamicCollision:     pRes = CCollisionLoader::LoadDCLN(rInput, pEntry);          break;
         case eFont:                 pRes = CFontLoader::LoadFONT(rInput, pEntry);               break;
@@ -78,6 +83,7 @@ public:
         case eSkin:                 pRes = CSkinLoader::LoadCSKR(rInput, pEntry);               break;
         case eStateMachine2:        pRes = CUnsupportedFormatLoader::LoadFSM2(rInput, pEntry);  break;
         case eStaticGeometryMap:    pRes = CPoiToWorldLoader::LoadEGMC(rInput, pEntry);         break;
+        case eStringList:           pRes = CAudioGroupLoader::LoadSTLC(rInput, pEntry);         break;
         case eStringTable:          pRes = CStringLoader::LoadSTRG(rInput, pEntry);             break;
         case eTexture:              pRes = CTextureDecoder::LoadTXTR(rInput, pEntry);           break;
         case eWorld:                pRes = CWorldLoader::LoadMLVL(rInput, pEntry);              break;

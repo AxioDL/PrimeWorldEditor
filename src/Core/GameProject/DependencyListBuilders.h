@@ -2,6 +2,7 @@
 #define DEPENDENCYLISTBUILDERS
 
 #include "CDependencyTree.h"
+#include "CGameProject.h"
 #include "CPackage.h"
 #include "CResourceEntry.h"
 #include "Core/Resource/CDependencyGroup.h"

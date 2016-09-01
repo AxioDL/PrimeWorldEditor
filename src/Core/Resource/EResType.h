@@ -18,7 +18,7 @@ enum EResType
     eAreaSurfaceBounds,
     eAreaOctree,
     eAreaVisibilityTree,
-    eAudioGroupSet,
+    eAudioGroup,
     eAudioMacro,
     eAudioSample,
     eAudioLookupTable,

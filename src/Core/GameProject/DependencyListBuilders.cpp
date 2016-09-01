@@ -177,7 +177,7 @@ void CPackageDependencyListBuilder::AddDependency(CResourceEntry *pCurEntry, con
 
     // Is this entry valid?
     bool IsValid =  ResType != eMidi &&
-                   (ResType != eAudioGroupSet || mGame >= eEchoesDemo) &&
+                   (ResType != eAudioGroup || mGame >= eEchoesDemo) &&
                    (ResType != eWorld || !pCurEntry) &&
                    (ResType != eArea || !pCurEntry || pCurEntry->ResourceType() == eWorld);
 
@@ -359,7 +359,7 @@ void CAreaDependencyListBuilder::AddDependency(const CAssetID& rkID, std::list<C
     bool IsValid =  ResType != eMidi &&
                     ResType != eWorld &&
                     ResType != eArea &&
-                   (ResType != eAudioGroupSet || mGame >= eEchoesDemo);
+                   (ResType != eAudioGroup || mGame >= eEchoesDemo);
 
     if (!IsValid) return;
 
