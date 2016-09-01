@@ -3,6 +3,7 @@
 
 #include "CPackage.h"
 #include "CResourceStore.h"
+#include "Core/CAudioManager.h"
 #include <Common/CAssetID.h>
 #include <Common/EGame.h>
 #include <Common/FileUtil.h>
@@ -17,6 +18,7 @@ class CGameProject
     TWideString mResourceDBPath;
     std::vector<CPackage*> mPackages;
     CResourceStore *mpResourceStore;
+    CAudioManager mAudioManager;
 
     enum EProjectVersion
     {
@@ -32,6 +34,7 @@ public:
     CGameProject()
         : mGame(eUnknownGame)
         , mProjectName("Unnamed Project")
+        , mAudioManager(this)
     {
         mpResourceStore = new CResourceStore(this);
     }
@@ -41,6 +44,7 @@ public:
         , mProjectName("Unnamed Project")
         , mProjectRoot(rkProjRootDir)
         , mResourceDBPath(L"ResourceDB.rdb")
+        , mAudioManager(this)
     {
         mpResourceStore = new CResourceStore(this);
         mProjectRoot.Replace(L"/", L"\\");
@@ -53,6 +57,7 @@ public:
     void Serialize(IArchive& rArc);
     void SetActive();
     void GetWorldList(std::list<CAssetID>& rOut) const;
+    CAssetID FindNamedResource(const TString& rkName) const;
 
     // Directory Handling
     inline TWideString ProjectRoot() const                      { return mProjectRoot; }
@@ -71,6 +76,7 @@ public:
     inline CPackage* PackageByIndex(u32 Index) const    { return mPackages[Index]; }
     inline void AddPackage(CPackage *pPackage)          { mPackages.push_back(pPackage); }
     inline CResourceStore* ResourceStore() const        { return mpResourceStore; }
+    inline CAudioManager* AudioManager()                { return &mAudioManager; }
     inline EGame Game() const                           { return mGame; }
     inline bool IsActive() const                        { return mspActiveProject == this; }
 

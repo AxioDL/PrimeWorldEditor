@@ -204,7 +204,12 @@ HEADERS += \
     Resource/Factory/CUnsupportedParticleLoader.h \
     Resource/Resources.h \
     Resource/Factory/CResourceFactory.h \
-    GameProject/DependencyListBuilders.h
+    GameProject/DependencyListBuilders.h \
+    Resource/CAudioGroup.h \
+    Resource/Factory/CAudioGroupLoader.h \
+    Resource/CAudioLookupTable.h \
+    Resource/CStringList.h \
+    CAudioManager.h
 
 # Source Files
 SOURCES += \
@@ -300,4 +305,6 @@ SOURCES += \
     GameProject/CDependencyTree.cpp \
     Resource/Factory/CUnsupportedFormatLoader.cpp \
     Resource/Factory/CUnsupportedParticleLoader.cpp \
-    GameProject/DependencyListBuilders.cpp
+    GameProject/DependencyListBuilders.cpp \
+    Resource/Factory/CAudioGroupLoader.cpp \
+    CAudioManager.cpp

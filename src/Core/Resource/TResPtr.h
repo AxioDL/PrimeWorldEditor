@@ -2,7 +2,6 @@
 #define TRESPTR_H
 
 #include "CResource.h"
-#include "Core/GameProject/CGameProject.h"
 
 template <typename ResType>
 class TResPtr

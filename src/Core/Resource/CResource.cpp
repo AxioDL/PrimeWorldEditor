@@ -53,7 +53,7 @@ TString GetResourceTypeName(EResType Type)
     case eAreaSurfaceBounds:            return "Area Surface Bounds";
     case eAreaOctree:                   return "Area Octree";
     case eAreaVisibilityTree:           return "Area Visibility Tree";
-    case eAudioGroupSet:                return "Audio Group Set";
+    case eAudioGroup:                   return "Audio Group Set";
     case eAudioMacro:                   return "Audio Macro";
     case eAudioSample:                  return "Audio Sample";
     case eAudioLookupTable:             return "Audio Lookup Table";
@@ -177,7 +177,7 @@ TString GetResourceCookedExtension(EResType Type, EGame Game)
     CResourceTypeRegistrant__##CookedExtension gResourceTypeRegistrant__##CookedExtension;
 
 REGISTER_RESOURCE_TYPE(AFSM, eStateMachine, ePrimeDemo, eEchoes)
-REGISTER_RESOURCE_TYPE(AGSC, eAudioGroupSet, ePrimeDemo, eCorruptionProto)
+REGISTER_RESOURCE_TYPE(AGSC, eAudioGroup, ePrimeDemo, eCorruptionProto)
 REGISTER_RESOURCE_TYPE(ANCS, eAnimSet, ePrimeDemo, eEchoes)
 REGISTER_RESOURCE_TYPE(ANIM, eAnimation, ePrimeDemo, eReturns)
 REGISTER_RESOURCE_TYPE(ATBL, eAudioLookupTable, ePrimeDemo, eCorruption)
