@@ -18,9 +18,9 @@
                 <enumerator ID="0x20" name="Bottom"/>
             </enumerators>
         </enum>
-        <property ID="0x06" name="Texture 1" type="file" extensions="TXTR"/>
-        <property ID="0x07" name="Texture 2" type="file" extensions="TXTR"/>
-        <property ID="0x08" name="Texture 3" type="file" extensions="TXTR"/>
+        <property ID="0x06" name="Texture 1" type="asset" extensions="TXTR"/>
+        <property ID="0x07" name="Texture 2" type="asset" extensions="TXTR"/>
+        <property ID="0x08" name="Texture 3" type="asset" extensions="TXTR"/>
         <property ID="0x09" name="Enable Lock-On" type="bool"/>
         <property ID="0x0A" name="Active" type="bool"/>
         <struct ID="0x0B" name="VisorParameters" template="Structs/VisorParameters.xml"/>

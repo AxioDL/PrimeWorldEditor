@@ -38,7 +38,7 @@
                 <property ID="0x73570173" type="float">
                     <default>0.7</default>
                 </property>
-                <property ID="0xB09ED686" type="file" extensions="PART"/>
+                <property ID="0xB09ED686" type="asset" extensions="PART"/>
             </properties>
         </struct>
         <struct ID="0xB3774750" template="Structs/PatternedAI.xml">

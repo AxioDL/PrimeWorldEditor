@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <struct name="ElectricBeamInfo" type="multi">
     <properties>
-        <property ID="0x2D39450E" type="file" extensions="ELSC"/>
-        <property ID="0x1C5687CC" type="file" extensions="UNKN">
+        <property ID="0x2D39450E" type="asset" extensions="ELSC"/>
+        <property ID="0x1C5687CC" type="asset" extensions="UNKN">
             <cook_pref>never</cook_pref>
         </property>
-        <property ID="0xC95479D4" type="file" extensions="ELSC"/>
-        <property ID="0x174455BA" type="file" extensions="CAUD"/>
+        <property ID="0xC95479D4" type="asset" extensions="ELSC"/>
+        <property ID="0x174455BA" type="asset" extensions="CAUD"/>
         <property ID="0x104284E6" type="float">
             <default>1.0</default>
         </property>
@@ -22,7 +22,7 @@
             <default>150.0</default>
             <cook_pref>never</cook_pref>
         </property>
-        <property ID="0x4F387C49" type="file" extensions="PART">
+        <property ID="0x4F387C49" type="asset" extensions="PART">
             <cook_pref>never</cook_pref>
         </property>
         <property ID="0xD4124C4C" type="float">

@@ -11,9 +11,9 @@
         <struct ID="0x06" name="ActorParameters" template="Structs/ActorParameters.xml"/>
         <property ID="0x07" name="Collider" type="bool"/>
         <struct ID="0x08" name="DamageInfo 1" template="Structs/DamageInfo.xml"/>
-        <property ID="0x09" name="WPSC" type="file" extensions="WPSC"/>
+        <property ID="0x09" name="WPSC" type="asset" extensions="WPSC"/>
         <struct ID="0x0A" name="DamageInfo 2" template="Structs/DamageInfo.xml"/>
-        <property ID="0x0B" name="Particle" type="file" extensions="PART"/>
+        <property ID="0x0B" name="Particle" type="asset" extensions="PART"/>
         <property ID="0x0C" name="Unknown 3" type="long"/>
     </properties>
     <states/>

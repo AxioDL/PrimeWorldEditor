@@ -1,6 +1,5 @@
 #include "CAnimationParameters.h"
 #include "CAnimSet.h"
-#include "CResourceInfo.h"
 #include "Core/GameProject/CResourceStore.h"
 #include <Common/Log.h>
 #include <iostream>
@@ -32,14 +31,14 @@ CAnimationParameters::CAnimationParameters(IInputStream& rSCLY, EGame Game)
 {
     if (Game <= eEchoes)
     {
-        mCharacter = CResourceInfo(rSCLY.ReadLong(), "ANCS");
+        mCharacterID = CAssetID(rSCLY, Game);
         mCharIndex = rSCLY.ReadLong();
         mAnimIndex = rSCLY.ReadLong();
     }
 
     else if (Game <= eCorruption)
     {
-        mCharacter = CResourceInfo(rSCLY.ReadLongLong(), "CHAR");
+        mCharacterID = CAssetID(rSCLY, Game);
         mAnimIndex = rSCLY.ReadLong();
     }
 
@@ -56,7 +55,7 @@ CAnimationParameters::CAnimationParameters(IInputStream& rSCLY, EGame Game)
             return;
         }
 
-        mCharacter = CResourceInfo(rSCLY.ReadLongLong(), "CHAR");
+        mCharacterID = CAssetID(rSCLY, Game);
 
         // 0x20 - Default Anim is present
         if (Flags & 0x20)
@@ -82,9 +81,9 @@ void CAnimationParameters::Write(IOutputStream& rSCLY)
 {
     if (mGame <= eEchoes)
     {
-        if (mCharacter.IsValid())
+        if (mCharacterID.IsValid())
         {
-            rSCLY.WriteLong(mCharacter.ID().ToLong());
+            mCharacterID.Write(rSCLY);
             rSCLY.WriteLong(mCharIndex);
             rSCLY.WriteLong(mAnimIndex);
         }
@@ -98,9 +97,9 @@ void CAnimationParameters::Write(IOutputStream& rSCLY)
 
     else if (mGame <= eCorruption)
     {
-        if (mCharacter.IsValid())
+        if (mCharacterID.IsValid())
         {
-            rSCLY.WriteLongLong(mCharacter.ID().ToLongLong());
+            mCharacterID.Write(rSCLY);
             rSCLY.WriteLong(mAnimIndex);
         }
 
@@ -113,7 +112,7 @@ void CAnimationParameters::Write(IOutputStream& rSCLY)
 
     else
     {
-        if (!mCharacter.IsValid())
+        if (!mCharacterID.IsValid())
             rSCLY.WriteByte((u8) 0x80);
 
         else
@@ -123,7 +122,7 @@ void CAnimationParameters::Write(IOutputStream& rSCLY)
             if (mUnknown2 != 0 || mUnknown3 != 0) Flag |= 0x40;
 
             rSCLY.WriteByte(Flag);
-            rSCLY.WriteLongLong(mCharacter.ID().ToLongLong());
+            mCharacterID.Write(rSCLY);
 
             if (Flag & 0x20)
                 rSCLY.WriteLong(mAnimIndex);
@@ -139,9 +138,9 @@ void CAnimationParameters::Write(IOutputStream& rSCLY)
 
 CModel* CAnimationParameters::GetCurrentModel(s32 NodeIndex /*= -1*/)
 {
-    if (!mCharacter.IsValid()) return nullptr;
+    if (!mCharacterID.IsValid()) return nullptr;
 
-    CAnimSet *pSet = (CAnimSet*) mCharacter.Load();
+    CAnimSet *pSet = AnimSet();
     if (!pSet) return nullptr;
     if (pSet->Type() != eAnimSet) return nullptr;
     if (NodeIndex == -1) NodeIndex = mCharIndex;
@@ -152,9 +151,9 @@ CModel* CAnimationParameters::GetCurrentModel(s32 NodeIndex /*= -1*/)
 
 TString CAnimationParameters::GetCurrentCharacterName(s32 NodeIndex /*= -1*/)
 {
-    if (!mCharacter.IsValid()) return "";
+    if (!mCharacterID.IsValid()) return "";
 
-    CAnimSet *pSet = (CAnimSet*) mCharacter.Load();
+    CAnimSet *pSet = AnimSet();
     if (!pSet) return "";
     if (pSet->Type() != eAnimSet) return "";
     if (NodeIndex == -1) NodeIndex = mCharIndex;
@@ -177,15 +176,22 @@ u32 CAnimationParameters::Unknown(u32 Index)
     }
 }
 
-void CAnimationParameters::SetResource(CResourceInfo Res)
+void CAnimationParameters::SetResource(const CAssetID& rkID)
 {
-    if (Res.Type() == "ANCS" || Res.Type() == "CHAR")
+    mCharacterID = rkID;
+    mCharIndex = 0;
+    mAnimIndex = 0;
+
+    // Validate ID
+    if (mCharacterID.IsValid())
     {
-        mCharacter = Res;
-        mCharIndex = 0;
+        CResourceEntry *pEntry = gpResourceStore->FindEntry(rkID);
+
+        if (!pEntry)
+            Log::Error("Invalid resource ID passed to CAnimationParameters: " + rkID.ToString());
+        else if (pEntry->ResourceType() != eAnimSet)
+            Log::Error("Resource with invalid type passed to CAnimationParameters: " + pEntry->CookedAssetPath().GetFileName());
     }
-    else
-        Log::Error("Resource with invalid type passed to CAnimationParameters: " + Res.ToString());
 }
 
 void CAnimationParameters::SetUnknown(u32 Index, u32 Value)

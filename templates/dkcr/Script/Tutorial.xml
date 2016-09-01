@@ -26,8 +26,8 @@
         <property ID="0xE585F166" type="float">
             <default>2.0</default>
         </property>
-        <property ID="0x446307A9" type="file" extensions="CAUD"/>
-        <property ID="0x11F84560" type="file" extensions="CAUD"/>
+        <property ID="0x446307A9" type="asset" extensions="CAUD"/>
+        <property ID="0x11F84560" type="asset" extensions="CAUD"/>
         <property ID="0x14CEFF80" type="bool">
             <default>false</default>
         </property>

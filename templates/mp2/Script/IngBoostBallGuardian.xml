@@ -52,10 +52,10 @@
                 <property ID="0xEAA3C3F8" type="float">
                     <default>360.0</default>
                 </property>
-                <property ID="0xCC5A4918" type="file" extensions="PART"/>
-                <property ID="0x8851DC01" type="file" extensions="PART"/>
-                <property ID="0x5D01100F" type="file" extensions="PART"/>
-                <property ID="0x9A56892E" type="file" extensions="PART"/>
+                <property ID="0xCC5A4918" type="asset" extensions="PART"/>
+                <property ID="0x8851DC01" type="asset" extensions="PART"/>
+                <property ID="0x5D01100F" type="asset" extensions="PART"/>
+                <property ID="0x9A56892E" type="asset" extensions="PART"/>
                 <property ID="0x4CAB30A9" type="long">
                     <default>-1</default>
                 </property>
@@ -71,13 +71,13 @@
                 <property ID="0x4489935E" type="long">
                     <default>-1</default>
                 </property>
-                <property ID="0x3C2D681E" type="file" extensions="PART"/>
-                <property ID="0xD576F379" type="file" extensions="SRSC"/>
-                <property ID="0x3DA219C7" type="file" extensions="PART"/>
+                <property ID="0x3C2D681E" type="asset" extensions="PART"/>
+                <property ID="0xD576F379" type="asset" extensions="SRSC"/>
+                <property ID="0x3DA219C7" type="asset" extensions="PART"/>
                 <property ID="0x23271976" type="float">
                     <default>0.35</default>
                 </property>
-                <property ID="0x081E9E6C" type="file" extensions="PART"/>
+                <property ID="0x081E9E6C" type="asset" extensions="PART"/>
                 <property ID="0xCB39ECCB" type="float">
                     <default>15.0</default>
                 </property>
@@ -149,7 +149,7 @@
                 <property ID="0xDFEA60A2" type="float">
                     <default>5.0</default>
                 </property>
-                <property ID="0x601CC5B4" type="file" extensions="PART"/>
+                <property ID="0x601CC5B4" type="asset" extensions="PART"/>
                 <property ID="0xCE980820" type="float">
                     <default>25.0</default>
                 </property>
@@ -177,7 +177,7 @@
                 <property ID="0xA9C8C651" type="float">
                     <default>100.0</default>
                 </property>
-                <property ID="0xA926F8A8" type="file" extensions="PART"/>
+                <property ID="0xA926F8A8" type="asset" extensions="PART"/>
                 <property ID="0x4051FD1A" type="long">
                     <default>-1</default>
                 </property>
@@ -281,10 +281,10 @@
                 <property ID="0x7B21E31A" type="float">
                     <default>3.0</default>
                 </property>
-                <property ID="0x18381479" type="file" extensions="CMDL"/>
-                <property ID="0x15534429" type="file" extensions="PART"/>
-                <property ID="0x4CCEB7AD" type="file" extensions="PART"/>
-                <property ID="0xE41CB449" type="file" extensions="SPSC"/>
+                <property ID="0x18381479" type="asset" extensions="CMDL"/>
+                <property ID="0x15534429" type="asset" extensions="PART"/>
+                <property ID="0x4CCEB7AD" type="asset" extensions="PART"/>
+                <property ID="0xE41CB449" type="asset" extensions="SPSC"/>
                 <property ID="0x6758BF01" type="long">
                     <default>-1</default>
                 </property>
@@ -342,9 +342,9 @@
                         </property>
                     </properties>
                 </struct>
-                <property ID="0xD771EC43" type="file" extensions="PART"/>
-                <property ID="0x2009A977" type="file" extensions="PART"/>
-                <property ID="0x62AB33A2" type="file" extensions="PART"/>
+                <property ID="0xD771EC43" type="asset" extensions="PART"/>
+                <property ID="0x2009A977" type="asset" extensions="PART"/>
+                <property ID="0x62AB33A2" type="asset" extensions="PART"/>
                 <struct ID="0xBAB98497" template="Structs/IngBoostBallGuardianStruct.xml">
                     <properties>
                         <property ID="0x25D02BC5">

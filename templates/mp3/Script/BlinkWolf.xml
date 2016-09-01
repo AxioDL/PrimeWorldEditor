@@ -141,8 +141,8 @@
                         </property>
                     </properties>
                 </struct>
-                <property ID="0x95EAAACB" type="file" extensions="CAUD"/>
-                <property ID="0xD4C88DD1" type="file" extensions="CAUD"/>
+                <property ID="0x95EAAACB" type="asset" extensions="CAUD"/>
+                <property ID="0xD4C88DD1" type="asset" extensions="CAUD"/>
                 <property ID="0xE68CEBB0" type="float">
                     <default>70.0</default>
                 </property>
@@ -183,8 +183,8 @@
                 <property ID="0xD7AA5BA0" type="float">
                     <default>4.0</default>
                 </property>
-                <property ID="0x2050F248" type="file" extensions="PART"/>
-                <property ID="0x9CB2109A" type="file" extensions="PART"/>
+                <property ID="0x2050F248" type="asset" extensions="PART"/>
+                <property ID="0x9CB2109A" type="asset" extensions="PART"/>
                 <property ID="0x4CE0D7E5" type="float">
                     <default>0.0</default>
                 </property>

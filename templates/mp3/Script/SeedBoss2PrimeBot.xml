@@ -13,46 +13,46 @@
                 </property>
                 <property ID="0x4C64D3A6" type="character"/>
                 <struct ID="0x00DD06CC" template="Structs/DamageVulnerability.xml"/>
-                <property ID="0xB64ED093" type="file" extensions="PART"/>
-                <property ID="0xC7DC6D3E" type="file" extensions="UNKN"/>
-                <property ID="0x41481F90" type="file" extensions="UNKN"/>
-                <property ID="0xC5012A38" type="file" extensions="ELSC"/>
-                <property ID="0x3B5B99A8" type="file" extensions="PART"/>
-                <property ID="0x6AE0CAE6" type="file" extensions="PART"/>
-                <property ID="0x2975BE8D" type="file" extensions="PART"/>
-                <property ID="0x3DCF98A5" type="file" extensions="PART"/>
-                <property ID="0xDC17FB84" type="file" extensions="PART"/>
-                <property ID="0xC35DB9CE" type="file" extensions="PART"/>
-                <property ID="0xA70E1BBB" type="file" extensions="PART"/>
-                <property ID="0x7CC1B298" type="file" extensions="PART"/>
-                <property ID="0x7BE868CE" type="file" extensions="PART"/>
-                <property ID="0xC90CDA8C" type="file" extensions="PART"/>
-                <property ID="0x4D9ED8E1" type="file" extensions="PART"/>
-                <property ID="0x21DC4C35" type="file" extensions="WPSC"/>
-                <property ID="0xCB673DA3" type="file" extensions="PART"/>
-                <property ID="0xC1BBBED8" type="file" extensions="PART"/>
-                <property ID="0xF4386C42" type="file" extensions="PART"/>
-                <property ID="0xE3C3DE5E" type="file" extensions="PART"/>
-                <property ID="0x1899C839" type="file" extensions="ELSC"/>
-                <property ID="0x6B6606B8" type="file" extensions="ELSC"/>
-                <property ID="0x3B6CDADB" type="file" extensions="PART"/>
-                <property ID="0xA6E942ED" type="file" extensions="PART"/>
+                <property ID="0xB64ED093" type="asset" extensions="PART"/>
+                <property ID="0xC7DC6D3E" type="asset" extensions="UNKN"/>
+                <property ID="0x41481F90" type="asset" extensions="UNKN"/>
+                <property ID="0xC5012A38" type="asset" extensions="ELSC"/>
+                <property ID="0x3B5B99A8" type="asset" extensions="PART"/>
+                <property ID="0x6AE0CAE6" type="asset" extensions="PART"/>
+                <property ID="0x2975BE8D" type="asset" extensions="PART"/>
+                <property ID="0x3DCF98A5" type="asset" extensions="PART"/>
+                <property ID="0xDC17FB84" type="asset" extensions="PART"/>
+                <property ID="0xC35DB9CE" type="asset" extensions="PART"/>
+                <property ID="0xA70E1BBB" type="asset" extensions="PART"/>
+                <property ID="0x7CC1B298" type="asset" extensions="PART"/>
+                <property ID="0x7BE868CE" type="asset" extensions="PART"/>
+                <property ID="0xC90CDA8C" type="asset" extensions="PART"/>
+                <property ID="0x4D9ED8E1" type="asset" extensions="PART"/>
+                <property ID="0x21DC4C35" type="asset" extensions="WPSC"/>
+                <property ID="0xCB673DA3" type="asset" extensions="PART"/>
+                <property ID="0xC1BBBED8" type="asset" extensions="PART"/>
+                <property ID="0xF4386C42" type="asset" extensions="PART"/>
+                <property ID="0xE3C3DE5E" type="asset" extensions="PART"/>
+                <property ID="0x1899C839" type="asset" extensions="ELSC"/>
+                <property ID="0x6B6606B8" type="asset" extensions="ELSC"/>
+                <property ID="0x3B6CDADB" type="asset" extensions="PART"/>
+                <property ID="0xA6E942ED" type="asset" extensions="PART"/>
                 <struct ID="0x21EC3D21" template="Structs/PlasmaBeamInfo.xml"/>
-                <property ID="0x82EE63C8" type="file" extensions="PART"/>
-                <property ID="0xAB0A66DA" type="file" extensions="PART"/>
-                <property ID="0x5B67A4E7" type="file" extensions="TXTR"/>
+                <property ID="0x82EE63C8" type="asset" extensions="PART"/>
+                <property ID="0xAB0A66DA" type="asset" extensions="PART"/>
+                <property ID="0x5B67A4E7" type="asset" extensions="TXTR"/>
                 <property ID="0x4F6E81A8" type="float">
                     <default>100.0</default>
                 </property>
-                <property ID="0xAD6ECC7F" type="file" extensions="PART"/>
-                <property ID="0x91D5F317" type="file" extensions="SCAN"/>
-                <property ID="0x1DDFD45A" type="file" extensions="SCAN"/>
-                <property ID="0x01FBA748" type="file" extensions="SCAN"/>
-                <property ID="0xCD2F3D00" type="file" extensions="SCAN"/>
-                <property ID="0xAE813F86" type="file" extensions="SCAN"/>
-                <property ID="0xD27E8786" type="file" extensions="SCAN"/>
-                <property ID="0x9A469187" type="file" extensions="CAUD"/>
-                <property ID="0xA959B017" type="file" extensions="CAUD"/>
+                <property ID="0xAD6ECC7F" type="asset" extensions="PART"/>
+                <property ID="0x91D5F317" type="asset" extensions="SCAN"/>
+                <property ID="0x1DDFD45A" type="asset" extensions="SCAN"/>
+                <property ID="0x01FBA748" type="asset" extensions="SCAN"/>
+                <property ID="0xCD2F3D00" type="asset" extensions="SCAN"/>
+                <property ID="0xAE813F86" type="asset" extensions="SCAN"/>
+                <property ID="0xD27E8786" type="asset" extensions="SCAN"/>
+                <property ID="0x9A469187" type="asset" extensions="CAUD"/>
+                <property ID="0xA959B017" type="asset" extensions="CAUD"/>
             </properties>
         </struct>
         <struct ID="0xB1461BC0" template="Structs/SeedBoss2PrimeBotData.xml"/>

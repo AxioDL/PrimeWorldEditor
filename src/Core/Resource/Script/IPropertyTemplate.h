@@ -363,44 +363,44 @@ public:
     }
 };
 
-// CFileTemplate - Property template for files. Tracks a list of file types that
+// CAssetTemplate - Property template for assets. Tracks a list of resource types that
 // the property is allowed to accept.
-class CFileTemplate : public IPropertyTemplate
+class CAssetTemplate : public IPropertyTemplate
 {
     friend class CTemplateLoader;
     friend class CTemplateWriter;
 
     TStringList mAcceptedExtensions;
 public:
-    CFileTemplate(u32 ID, CScriptTemplate *pScript, CMasterTemplate *pMaster, CStructTemplate *pParent = 0)
+    CAssetTemplate(u32 ID, CScriptTemplate *pScript, CMasterTemplate *pMaster, CStructTemplate *pParent = 0)
         : IPropertyTemplate(ID, pScript, pMaster, pParent) {}
 
-    CFileTemplate(u32 ID, const TString& rkName, ECookPreference CookPreference, CScriptTemplate *pScript, CMasterTemplate *pMaster, CStructTemplate *pParent = 0)
+    CAssetTemplate(u32 ID, const TString& rkName, ECookPreference CookPreference, CScriptTemplate *pScript, CMasterTemplate *pMaster, CStructTemplate *pParent = 0)
         : IPropertyTemplate(ID, rkName, CookPreference, pScript, pMaster, pParent) {}
 
-    virtual EPropertyType Type() const  { return eFileProperty; }
+    virtual EPropertyType Type() const  { return eAssetProperty; }
     virtual bool CanHaveDefault() const { return false; }
     virtual bool IsNumerical() const    { return false; }
 
     IProperty* InstantiateProperty(CScriptObject *pInstance, CPropertyStruct *pParent)
     {
-        return new TFileProperty(this, pInstance, pParent);
+        return new TAssetProperty(this, pInstance, pParent);
     }
 
-    IMPLEMENT_TEMPLATE_CLONE(CFileTemplate)
+    IMPLEMENT_TEMPLATE_CLONE(CAssetTemplate)
 
     virtual void Copy(const IPropertyTemplate *pkTemp)
     {
         IPropertyTemplate::Copy(pkTemp);
-        mAcceptedExtensions = static_cast<const CFileTemplate*>(pkTemp)->mAcceptedExtensions;
+        mAcceptedExtensions = static_cast<const CAssetTemplate*>(pkTemp)->mAcceptedExtensions;
     }
 
     virtual bool Matches(const IPropertyTemplate *pkTemp) const
     {
-        const CFileTemplate *pkFile = static_cast<const CFileTemplate*>(pkTemp);
+        const CAssetTemplate *pkAsset = static_cast<const CAssetTemplate*>(pkTemp);
 
         return ( (IPropertyTemplate::Matches(pkTemp)) &&
-                 (mAcceptedExtensions == pkFile->mAcceptedExtensions) );
+                 (mAcceptedExtensions == pkAsset->mAcceptedExtensions) );
     }
 
     bool AcceptsExtension(const TString& rkExtension)
@@ -411,7 +411,7 @@ public:
     }
 
     void SetAllowedExtensions(const TStringList& rkExtensions)  { mAcceptedExtensions = rkExtensions; }
-    const TStringList& Extensions() const                       { return mAcceptedExtensions; }
+    const TStringList& AllowedExtensions() const                { return mAcceptedExtensions; }
 };
 
 // CEnumTemplate - Property template for enums. Tracks a list of possible values (enumerators).

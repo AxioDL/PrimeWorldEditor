@@ -29,9 +29,9 @@
             <default>40.0</default>
         </property>
         <struct ID="0xF6206A12" template="Structs/DamageInfo.xml"/>
-        <property ID="0x1319E077" type="file" extensions="PART"/>
-        <property ID="0xD207FF0F" type="file" extensions="PART"/>
-        <property ID="0x2B31C882" type="file" extensions="PART"/>
+        <property ID="0x1319E077" type="asset" extensions="PART"/>
+        <property ID="0xD207FF0F" type="asset" extensions="PART"/>
+        <property ID="0x2B31C882" type="asset" extensions="PART"/>
         <property ID="0x9A6BB47F" type="float">
             <default>4.0</default>
         </property>
@@ -53,9 +53,9 @@
         <property ID="0x723542BB" type="float">
             <default>5.0</default>
         </property>
-        <property ID="0xEF485DB9" type="file" extensions="WPSC"/>
+        <property ID="0xEF485DB9" type="asset" extensions="WPSC"/>
         <struct ID="0x553B1339" template="Structs/DamageInfo.xml"/>
-        <property ID="0x68DC4D11" type="file" extensions="PART"/>
+        <property ID="0x68DC4D11" type="asset" extensions="PART"/>
         <struct ID="0x22BBDD0A" template="Structs/CameraShakerData.xml"/>
     </properties>
     <states/>

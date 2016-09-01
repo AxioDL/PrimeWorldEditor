@@ -6,9 +6,9 @@
         <property ID="0x55477700" type="float">
             <default>2.5</default>
         </property>
-        <property ID="0xCE6A78C8" type="file" extensions="CAUD"/>
-        <property ID="0x515460AC" type="file" extensions="CAUD"/>
-        <property ID="0x10289804" type="file" extensions="CAUD"/>
+        <property ID="0xCE6A78C8" type="asset" extensions="CAUD"/>
+        <property ID="0x515460AC" type="asset" extensions="CAUD"/>
+        <property ID="0x10289804" type="asset" extensions="CAUD"/>
     </properties>
     <states/>
     <messages/>

@@ -62,13 +62,13 @@
         </property>
         <property ID="0x6D752EFC" type="character"/>
         <property ID="0x0D6AB7B5" type="character"/>
-        <property ID="0x630D93A1" type="file" extensions="PART"/>
+        <property ID="0x630D93A1" type="asset" extensions="PART"/>
         <struct ID="0x4436A388" template="Structs/DamageInfo.xml"/>
         <struct ID="0xE61748ED" template="Structs/IngPossessionData.xml"/>
         <property ID="0x7DC82F46" type="bool">
             <default>false</default>
         </property>
-        <property ID="0x42518359" type="file" extensions="WPSC"/>
+        <property ID="0x42518359" type="asset" extensions="WPSC"/>
         <struct ID="0x02FD0913" template="Structs/DamageInfo.xml">
             <properties>
                 <enum ID="0x119FBD31">
@@ -79,7 +79,7 @@
                 </property>
             </properties>
         </struct>
-        <property ID="0x496F191B" type="file" extensions="PART"/>
+        <property ID="0x496F191B" type="asset" extensions="PART"/>
         <property ID="0x51BE00D3" type="float">
             <default>2.5</default>
         </property>

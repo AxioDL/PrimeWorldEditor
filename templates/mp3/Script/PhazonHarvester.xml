@@ -89,11 +89,11 @@
                         </property>
                     </properties>
                 </struct>
-                <property ID="0x7A154E49" type="file" extensions="CMDL"/>
-                <property ID="0xC7426B90" type="file" extensions="CMDL"/>
-                <property ID="0xE2EFEE98" type="file" extensions="CMDL"/>
-                <property ID="0x155BF24B" type="file" extensions="CMDL"/>
-                <property ID="0xD757CB94" type="file" extensions="CMDL"/>
+                <property ID="0x7A154E49" type="asset" extensions="CMDL"/>
+                <property ID="0xC7426B90" type="asset" extensions="CMDL"/>
+                <property ID="0xE2EFEE98" type="asset" extensions="CMDL"/>
+                <property ID="0x155BF24B" type="asset" extensions="CMDL"/>
+                <property ID="0xD757CB94" type="asset" extensions="CMDL"/>
             </properties>
         </struct>
     </properties>

@@ -8,13 +8,13 @@
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <struct ID="0x85BB6891" type="multi">
             <properties>
-                <property ID="0x861CD2A0" type="file" extensions="WPSC"/>
-                <property ID="0xA8C2AC76" type="file" extensions="CMDL"/>
-                <property ID="0x2E56DED8" type="file" extensions="CMDL"/>
-                <property ID="0xF47476CE" type="file" extensions="CMDL"/>
-                <property ID="0x470306BE" type="file" extensions="CMDL"/>
-                <property ID="0x87952FC5" type="file" extensions="CMDL"/>
-                <property ID="0x01D82EEB" type="file" extensions="PART"/>
+                <property ID="0x861CD2A0" type="asset" extensions="WPSC"/>
+                <property ID="0xA8C2AC76" type="asset" extensions="CMDL"/>
+                <property ID="0x2E56DED8" type="asset" extensions="CMDL"/>
+                <property ID="0xF47476CE" type="asset" extensions="CMDL"/>
+                <property ID="0x470306BE" type="asset" extensions="CMDL"/>
+                <property ID="0x87952FC5" type="asset" extensions="CMDL"/>
+                <property ID="0x01D82EEB" type="asset" extensions="PART"/>
                 <property ID="0x1CC93984" type="float">
                     <default>25.0</default>
                 </property>
@@ -119,11 +119,11 @@
                         </property>
                     </properties>
                 </struct>
-                <property ID="0xD887792B" type="file" extensions="CAUD"/>
-                <property ID="0xF9826473" type="file" extensions="CAUD"/>
-                <property ID="0x9D6E1A47" type="file" extensions="CAUD"/>
-                <property ID="0x87E6E958" type="file" extensions="CAUD"/>
-                <property ID="0xA6597839" type="file" extensions="CAUD"/>
+                <property ID="0xD887792B" type="asset" extensions="CAUD"/>
+                <property ID="0xF9826473" type="asset" extensions="CAUD"/>
+                <property ID="0x9D6E1A47" type="asset" extensions="CAUD"/>
+                <property ID="0x87E6E958" type="asset" extensions="CAUD"/>
+                <property ID="0xA6597839" type="asset" extensions="CAUD"/>
             </properties>
         </struct>
         <struct ID="0xADB462E2" template="Structs/KorakkData.xml"/>

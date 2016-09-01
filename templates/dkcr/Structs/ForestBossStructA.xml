@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <struct name="ForestBossStructA" type="multi">
     <properties>
-        <property ID="0xA55DACF6" type="file" extensions="CAUD"/>
+        <property ID="0xA55DACF6" type="asset" extensions="CAUD"/>
         <property ID="0x8A939379" type="MayaSpline"/>
         <property ID="0x0E727FC4" type="MayaSpline"/>
         <property ID="0xF3FBE484" type="MayaSpline"/>

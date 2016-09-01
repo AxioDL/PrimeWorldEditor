@@ -10,30 +10,30 @@
         <struct ID="0x2F74DC89" type="multi">
             <properties>
                 <property ID="0x6ADE8B91" type="character"/>
-                <property ID="0xFBF9569B" type="file" extensions="PART"/>
-                <property ID="0x8E14567B" type="file" extensions="PART"/>
-                <property ID="0xEA2C7744" type="file" extensions="PART"/>
-                <property ID="0x5A3ED5A0" type="file" extensions="PART"/>
-                <property ID="0x70BED427" type="file" extensions="PART"/>
-                <property ID="0xACD369C1" type="file" extensions="PART"/>
-                <property ID="0x1DAD13A3" type="file" extensions="PART"/>
-                <property ID="0x5B468021" type="file" extensions="PART"/>
-                <property ID="0xCECAD2C3" type="file" extensions="CMDL"/>
-                <property ID="0x7E542EAA" type="file" extensions="PART"/>
+                <property ID="0xFBF9569B" type="asset" extensions="PART"/>
+                <property ID="0x8E14567B" type="asset" extensions="PART"/>
+                <property ID="0xEA2C7744" type="asset" extensions="PART"/>
+                <property ID="0x5A3ED5A0" type="asset" extensions="PART"/>
+                <property ID="0x70BED427" type="asset" extensions="PART"/>
+                <property ID="0xACD369C1" type="asset" extensions="PART"/>
+                <property ID="0x1DAD13A3" type="asset" extensions="PART"/>
+                <property ID="0x5B468021" type="asset" extensions="PART"/>
+                <property ID="0xCECAD2C3" type="asset" extensions="CMDL"/>
+                <property ID="0x7E542EAA" type="asset" extensions="PART"/>
                 <property ID="0xBFACE762" type="color">
                     <default>1.0, 0.0, 0.0, 1.0</default>
                 </property>
                 <property ID="0x3761C8E8" type="color">
                     <default>1.0, 1.0, 1.0, 1.0</default>
                 </property>
-                <property ID="0x31C8BCAA" type="file" extensions="CAUD"/>
-                <property ID="0x1E1A49D5" type="file" extensions="CAUD"/>
-                <property ID="0x4A8CF2F7" type="file" extensions="CAUD"/>
-                <property ID="0xFBF28895" type="file" extensions="CAUD"/>
-                <property ID="0x1961D4A5" type="file" extensions="UNKN"/>
-                <property ID="0x1FE966F1" type="file" extensions="UNKN"/>
-                <property ID="0x7DEC1AEF" type="file" extensions="CAUD"/>
-                <property ID="0xB3B5C8CB" type="file" extensions="CAUD"/>
+                <property ID="0x31C8BCAA" type="asset" extensions="CAUD"/>
+                <property ID="0x1E1A49D5" type="asset" extensions="CAUD"/>
+                <property ID="0x4A8CF2F7" type="asset" extensions="CAUD"/>
+                <property ID="0xFBF28895" type="asset" extensions="CAUD"/>
+                <property ID="0x1961D4A5" type="asset" extensions="UNKN"/>
+                <property ID="0x1FE966F1" type="asset" extensions="UNKN"/>
+                <property ID="0x7DEC1AEF" type="asset" extensions="CAUD"/>
+                <property ID="0xB3B5C8CB" type="asset" extensions="CAUD"/>
                 <property ID="0x902D66F9" type="float">
                     <default>0.25</default>
                 </property>

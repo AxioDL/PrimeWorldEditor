@@ -12,6 +12,6 @@
         <struct ID="0x5D4158A7" template="Structs/PuddleControlPhaseData.xml"/>
         <struct ID="0xDA4488BF" template="Structs/PuddleControlPhaseData.xml"/>
         <struct ID="0x57B054DE" template="Structs/PuddleControlPhaseData.xml"/>
-        <property ID="0xA8CC48B3" type="file" extensions="CAUD"/>
+        <property ID="0xA8CC48B3" type="asset" extensions="CAUD"/>
     </properties>
 </struct>

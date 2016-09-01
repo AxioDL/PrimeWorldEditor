@@ -3,10 +3,10 @@
     <properties>
         <struct ID="0xB028DB0E" template="Structs/LightParameters.xml"/>
         <struct ID="0x375BFD7C" template="Structs/ScannableParameters.xml"/>
-        <property ID="0xC0BA9E18" type="file" extensions="UNKN"/>
-        <property ID="0x9F027D91" type="file" extensions="UNKN"/>
-        <property ID="0x6B1FBC3A" type="file" extensions="UNKN"/>
-        <property ID="0xEB1D06BE" type="file" extensions="UNKN"/>
+        <property ID="0xC0BA9E18" type="asset" extensions="UNKN"/>
+        <property ID="0x9F027D91" type="asset" extensions="UNKN"/>
+        <property ID="0x6B1FBC3A" type="asset" extensions="UNKN"/>
+        <property ID="0xEB1D06BE" type="asset" extensions="UNKN"/>
         <property ID="0x1499803C" type="bool">
             <default>true</default>
         </property>

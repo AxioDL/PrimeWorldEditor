@@ -9,7 +9,7 @@
         <property ID="0xD3B7E6D8" type="long">
             <default>0</default>
         </property>
-        <property ID="0xFD95ED2A" type="file" extensions="STRG"/>
+        <property ID="0xFD95ED2A" type="asset" extensions="STRG"/>
     </properties>
     <states/>
     <messages/>

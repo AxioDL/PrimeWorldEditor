@@ -56,7 +56,7 @@
                 <property ID="0xE75BAE9E" type="long">
                     <default>3</default>
                 </property>
-                <property ID="0x4D77B7AA" type="file" extensions="WPSC"/>
+                <property ID="0x4D77B7AA" type="asset" extensions="WPSC"/>
                 <struct ID="0xB763EB10" template="Structs/DamageInfo.xml">
                     <properties>
                         <property ID="0x119FBD31">

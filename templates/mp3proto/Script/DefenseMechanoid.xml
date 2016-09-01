@@ -23,8 +23,8 @@
                 <property ID="0xB53C7993" type="bool">
                     <default>true</default>
                 </property>
-                <property ID="0xF067D53C" type="file" extensions="UNKN"/>
-                <property ID="0x4BA2833E" type="file" extensions="CMDL"/>
+                <property ID="0xF067D53C" type="asset" extensions="UNKN"/>
+                <property ID="0x4BA2833E" type="asset" extensions="CMDL"/>
                 <property ID="0x05E140B1" type="float">
                     <default>100.0</default>
                 </property>
@@ -35,14 +35,14 @@
                 <property ID="0x69E51CD3" type="float">
                     <default>5.0</default>
                 </property>
-                <property ID="0xC60FB911" type="file" extensions="CMDL"/>
+                <property ID="0xC60FB911" type="asset" extensions="CMDL"/>
                 <property ID="0x5CECA2A6" type="float">
                     <default>100.0</default>
                 </property>
                 <struct ID="0xFF8C4056" template="Structs/DamageVulnerability.xml"/>
-                <property ID="0x537F8382" type="file" extensions="PART"/>
-                <property ID="0x98D5883D" type="file" extensions="PART"/>
-                <property ID="0xAD17A036" type="file" extensions="PART"/>
+                <property ID="0x537F8382" type="asset" extensions="PART"/>
+                <property ID="0x98D5883D" type="asset" extensions="PART"/>
+                <property ID="0xAD17A036" type="asset" extensions="PART"/>
                 <struct ID="0x99BBC2DE" template="Structs/DamageVulnerability.xml"/>
                 <property ID="0xDF6A1706" type="float">
                     <default>30.0</default>
@@ -92,10 +92,10 @@
                 <property ID="0x29EA27DB" type="float">
                     <default>10.0</default>
                 </property>
-                <property ID="0x70E97166" type="file" extensions="WPSC"/>
+                <property ID="0x70E97166" type="asset" extensions="WPSC"/>
                 <struct ID="0x258CFB4D" template="Structs/DamageInfo.xml"/>
                 <struct ID="0xE17C3B6E" template="Structs/ShockWaveInfo.xml"/>
-                <property ID="0x7AF488B1" type="file" extensions="PART"/>
+                <property ID="0x7AF488B1" type="asset" extensions="PART"/>
                 <property ID="0x1CC93984" type="float">
                     <default>25.0</default>
                 </property>

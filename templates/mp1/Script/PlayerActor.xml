@@ -12,7 +12,7 @@
         <property ID="0x07" name="Unknown 3" type="float"/>
         <struct ID="0x08" name="HealthInfo" template="Structs/HealthInfo.xml"/>
         <struct ID="0x09" name="DamageVulnerability" template="Structs/DamageVulnerability.xml"/>
-        <property ID="0x0A" name="Model" type="file" extensions="CMDL"/>
+        <property ID="0x0A" name="Model" type="asset" extensions="CMDL"/>
         <property ID="0x0B" name="AnimationParameters" type="character"/>
         <struct ID="0x0C" name="ActorParameters" template="Structs/ActorParameters.xml"/>
         <property ID="0x0D" name="Loop Animation" type="bool"/>

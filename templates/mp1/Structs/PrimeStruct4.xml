@@ -3,10 +3,10 @@
     <properties>
         <property ID="0x00" name="Unknown 1" type="long"/>
         <property ID="0x01" name="Unknown 2" type="long"/>
-        <property ID="0x02" name="Particle 1" type="file" extensions="PART"/>
-        <property ID="0x03" name="Particle 2" type="file" extensions="PART"/>
-        <property ID="0x04" name="Texture 1" type="file" extensions="TXTR"/>
-        <property ID="0x05" name="Texture 2" type="file" extensions="TXTR"/>
+        <property ID="0x02" name="Particle 1" type="asset" extensions="PART"/>
+        <property ID="0x03" name="Particle 2" type="asset" extensions="PART"/>
+        <property ID="0x04" name="Texture 1" type="asset" extensions="TXTR"/>
+        <property ID="0x05" name="Texture 2" type="asset" extensions="TXTR"/>
         <property ID="0x06" name="Unknown 3" type="float"/>
         <property ID="0x07" name="Unknown 4" type="float"/>
         <property ID="0x08" name="Unknown 5" type="float"/>
@@ -18,14 +18,14 @@
         <property ID="0x0E" name="Unknown 11" type="float"/>
         <property ID="0x0F" name="Unknown 12" type="color"/>
         <property ID="0x10" name="Unknown 13" type="color"/>
-        <property ID="0x11" name="WPSC" type="file" extensions="WPSC"/>
+        <property ID="0x11" name="WPSC" type="asset" extensions="WPSC"/>
         <struct ID="0x12" name="DamageInfo 1" template="Structs/DamageInfo.xml"/>
         <struct ID="0x13" name="PrimeStruct5" type="multi">
             <properties>
-                <property ID="0x00" name="Unknown 14" type="file" extensions="Unkn"/>
+                <property ID="0x00" name="Unknown 14" type="asset" extensions="Unkn"/>
                 <property ID="0x01" name="Unknown 15" type="long"/>
-                <property ID="0x02" name="Unknown 16" type="file" extensions="ELSC"/>
-                <property ID="0x03" name="Unknown 17" type="file" extensions="PART"/>
+                <property ID="0x02" name="Unknown 16" type="asset" extensions="ELSC"/>
+                <property ID="0x03" name="Unknown 17" type="asset" extensions="PART"/>
                 <property ID="0x04" name="Unknown 18" type="long"/>
                 <property ID="0x05" name="Unknown 19" type="long"/>
                 <property ID="0x06" name="Unknown 20" type="long"/>

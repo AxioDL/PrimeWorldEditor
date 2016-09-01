@@ -3,7 +3,6 @@
 
 #include "IPreviewPanel.h"
 #include <Common/CFourCC.h>
-#include <Core/Resource/CResourceInfo.h>
 #include <Core/Resource/EResType.h>
 
 #include <QLabel>
@@ -18,8 +17,6 @@ class WResourceSelector : public QWidget
 
     // Selector
     QStringList mSupportedExtensions;
-    bool mShowEditButton;
-    bool mShowExportButton;
 
     // Preview Panel
     IPreviewPanel *mpPreviewPanel;
@@ -29,23 +26,19 @@ class WResourceSelector : public QWidget
     bool mAdjustPreviewToParent;
 
     // Resource
-    CResourceInfo mResource;
+    CResourceEntry *mpResource;
     bool mResourceValid;
 
     // UI
     struct {
         QLineEdit *LineEdit;
         QPushButton *BrowseButton;
-        QPushButton *ExportButton;
-        QPushButton *EditButton;
         QHBoxLayout *Layout;
     } mUI;
 
     // Functions
 signals:
-    void ResourceChanged(const QString& rkNewResPath);
-    void EditResource(const CResourceInfo& rkRes);
-    void ExportResource(const CResourceInfo& rkRes);
+    void ResourceChanged(CResourceEntry *pNewRes);
 
 public:
     explicit WResourceSelector(QWidget *pParent = 0);
@@ -53,27 +46,24 @@ public:
     bool event(QEvent *);
     bool eventFilter(QObject *, QEvent *);
     bool IsSupportedExtension(const QString& rkExtension);
-    bool HasSupportedExtension(const CResourceInfo& rkRes);
+    bool HasSupportedExtension(CResourceEntry *pEntry);
     void UpdateFrameColor();
 
     // Getters
-    CResourceInfo GetResourceInfo();
+    CResourceEntry* GetResourceEntry();
     CResource* GetResource();
     QString GetText();
-    bool IsEditButtonEnabled();
-    bool IsExportButtonEnabled();
     bool IsPreviewPanelEnabled();
 
     // Setters
     void SetResource(CResource *pRes);
-    void SetResource(const QString& rkRes);
-    void SetResource(const CResourceInfo& rkRes);
+    void SetResource(CResourceEntry *pEntry);
+    void SetResource(const CAssetID& rkID);
+    void SetResource(const QString& rkResPath);
     void SetAllowedExtensions(const QString& rkExtension);
     void SetAllowedExtensions(const QStringList& rkExtensions);
     void SetAllowedExtensions(const TStringList& rkExtensions);
     void SetText(const QString& rkResPath);
-    void SetEditButtonEnabled(bool Enabled);
-    void SetExportButtonEnabled(bool Enabled);
     void SetPreviewPanelEnabled(bool Enabled);
     void AdjustPreviewToParent(bool Adjust);
 
@@ -81,16 +71,11 @@ public:
 public slots:
     void OnLineEditTextEdited();
     void OnBrowseButtonClicked();
-    void OnEditButtonClicked();
-    void OnExportButtonClicked();
 
 private:
-    void Edit();
-    void Export();
     void CreatePreviewPanel();
     void ShowPreviewPanel();
     void HidePreviewPanel();
-    void SetButtonsBasedOnResType();
 };
 
 #endif // WRESOURCESELECTOR_H

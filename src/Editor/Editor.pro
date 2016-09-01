@@ -97,7 +97,6 @@ HEADERS += \
     Undo/EUndoCommand.h \
     Undo/UndoCommands.h \
     Widgets/IPreviewPanel.h \
-    Widgets/WAnimParamsEditor.h \
     Widgets/WColorPicker.h \
     Widgets/WDraggableSpinBox.h \
     Widgets/WIntegralSpinBox.h \
@@ -180,7 +179,6 @@ SOURCES += \
     Undo/CScaleNodeCommand.cpp \
     Undo/CTranslateNodeCommand.cpp \
     Widgets/IPreviewPanel.cpp \
-    Widgets/WAnimParamsEditor.cpp \
     Widgets/WColorPicker.cpp \
     Widgets/WDraggableSpinBox.cpp \
     Widgets/WIntegralSpinBox.cpp \

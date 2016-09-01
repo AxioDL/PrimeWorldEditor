@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <struct name="ShockWaveInfo" type="multi">
     <properties>
-        <property ID="0x369F7D09" type="file" extensions="PART"/>
+        <property ID="0x369F7D09" type="asset" extensions="PART"/>
         <struct ID="0x337F9524" template="Structs/DamageInfo.xml"/>
         <property ID="0x8B51E23F" type="float">
             <default>2.0</default>
@@ -27,8 +27,8 @@
         <property ID="0x0A57B09B" type="float">
             <default>0.0</default>
         </property>
-        <property ID="0xBD321538" type="file" extensions="ELSC"/>
-        <property ID="0xA2850B37" type="file" extensions="CAUD"/>
-        <property ID="0x56936C97" type="file" extensions="CAUD"/>
+        <property ID="0xBD321538" type="asset" extensions="ELSC"/>
+        <property ID="0xA2850B37" type="asset" extensions="CAUD"/>
+        <property ID="0x56936C97" type="asset" extensions="CAUD"/>
     </properties>
 </struct>

@@ -48,18 +48,18 @@
         <property ID="0x01EAAB17" type="float">
             <default>50.0</default>
         </property>
-        <property ID="0x00AE9C61" type="file" extensions="CMDL"/>
-        <property ID="0xACDAE408" type="file" extensions="CSKR"/>
-        <property ID="0xAA482D8D" type="file" extensions="PART"/>
+        <property ID="0x00AE9C61" type="asset" extensions="CMDL"/>
+        <property ID="0xACDAE408" type="asset" extensions="CSKR"/>
+        <property ID="0xAA482D8D" type="asset" extensions="PART"/>
         <property ID="0xEEAF03C4" type="long">
             <default>-1</default>
         </property>
-        <property ID="0xAF4FAE74" type="file" extensions="PART"/>
-        <property ID="0x64A1F558" type="file" extensions="PART"/>
+        <property ID="0xAF4FAE74" type="asset" extensions="PART"/>
+        <property ID="0x64A1F558" type="asset" extensions="PART"/>
         <property ID="0xBF107374" type="long">
             <default>-1</default>
         </property>
-        <property ID="0xB43A4CAA" type="file" extensions="PART"/>
+        <property ID="0xB43A4CAA" type="asset" extensions="PART"/>
         <property ID="0x61C4C0EA" type="float">
             <default>8.0</default>
         </property>
@@ -80,7 +80,7 @@
         <property ID="0xACD4D06D" type="float">
             <default>2.0</default>
         </property>
-        <property ID="0xF199F553" type="file" extensions="WPSC"/>
+        <property ID="0xF199F553" type="asset" extensions="WPSC"/>
         <struct ID="0x4063D45C" template="Structs/DamageInfo.xml">
             <properties>
                 <enum ID="0x119FBD31">
@@ -121,7 +121,7 @@
         <struct ID="0x62C744CD" template="Structs/ActorParameters.xml"/>
         <property ID="0xB92B481D" type="character"/>
         <property ID="0x7E6E0D38" type="character"/>
-        <property ID="0xBD321538" type="file" extensions="ELSC"/>
+        <property ID="0xBD321538" type="asset" extensions="ELSC"/>
         <property ID="0x58A492EF" type="long">
             <default>-1</default>
         </property>

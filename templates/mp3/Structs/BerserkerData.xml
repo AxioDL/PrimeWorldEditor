@@ -122,15 +122,15 @@
         <property ID="0x83439084" type="float">
             <default>500.0</default>
         </property>
-        <property ID="0x04547D34" type="file" extensions="CMDL"/>
-        <property ID="0x82C00F9A" type="file" extensions="CMDL"/>
-        <property ID="0x499CDC3F" type="file" extensions="CMDL"/>
-        <property ID="0x5499EC87" type="file" extensions="CMDL"/>
-        <property ID="0x9FC53F22" type="file" extensions="CMDL"/>
+        <property ID="0x04547D34" type="asset" extensions="CMDL"/>
+        <property ID="0x82C00F9A" type="asset" extensions="CMDL"/>
+        <property ID="0x499CDC3F" type="asset" extensions="CMDL"/>
+        <property ID="0x5499EC87" type="asset" extensions="CMDL"/>
+        <property ID="0x9FC53F22" type="asset" extensions="CMDL"/>
         <property ID="0x09E8C7FD" type="float">
             <default>1.4</default>
         </property>
-        <property ID="0x4AE57FEB" type="file" extensions="CMDL"/>
+        <property ID="0x4AE57FEB" type="asset" extensions="CMDL"/>
         <struct ID="0x4E1D71A1" template="Structs/DamageVulnerability.xml"/>
         <property ID="0x69D66EC4" type="float">
             <default>10.0</default>
@@ -282,8 +282,8 @@
         <property ID="0x268E5CB2" type="float">
             <default>0.1</default>
         </property>
-        <property ID="0x650BA238" type="file" extensions="CMDL"/>
-        <property ID="0x68865410" type="file" extensions="CMDL"/>
+        <property ID="0x650BA238" type="asset" extensions="CMDL"/>
+        <property ID="0x68865410" type="asset" extensions="CMDL"/>
         <struct ID="0x342DAE7A" template="Structs/DamageVulnerability.xml"/>
         <struct ID="0x200545BD" template="Structs/DamageVulnerability.xml"/>
         <struct ID="0xF3EA94DC" template="Structs/DamageVulnerability.xml"/>

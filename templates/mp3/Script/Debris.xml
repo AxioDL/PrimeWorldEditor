@@ -87,11 +87,11 @@
                 <property ID="0x295F05B7" type="float">
                     <default>1.0</default>
                 </property>
-                <property ID="0xC27FFA8F" type="file" extensions="CMDL"/>
+                <property ID="0xC27FFA8F" type="asset" extensions="CMDL"/>
                 <property ID="0xEEDBB07E" type="vector3f">
                     <default>0.0, 0.0, 0.0</default>
                 </property>
-                <property ID="0xF1925576" type="file" extensions="CAUD"/>
+                <property ID="0xF1925576" type="asset" extensions="CAUD"/>
                 <property ID="0x991202C3" type="long">
                     <default>1</default>
                 </property>
@@ -116,7 +116,7 @@
                 <property ID="0x855EE21B" type="float">
                     <default>0.1</default>
                 </property>
-                <property ID="0x478D0AA3" type="file" extensions="PART"/>
+                <property ID="0x478D0AA3" type="asset" extensions="PART"/>
                 <property ID="0x19A6F71F" type="vector3f">
                     <default>1.0, 1.0, 1.0</default>
                 </property>
@@ -130,7 +130,7 @@
                     <default>true</default>
                 </property>
                 <struct ID="0xF5DD4690" template="Structs/DebrisPropertiesOrientationEnum.xml"/>
-                <property ID="0xC119780D" type="file" extensions="PART"/>
+                <property ID="0xC119780D" type="asset" extensions="PART"/>
                 <property ID="0x6E3825EF" type="vector3f">
                     <default>1.0, 1.0, 1.0</default>
                 </property>

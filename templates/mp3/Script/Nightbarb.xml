@@ -15,7 +15,7 @@
                 <property ID="0xF11F7384" type="float">
                     <default>45.0</default>
                 </property>
-                <property ID="0x1AE85BC0" type="file" extensions="UNKN"/>
+                <property ID="0x1AE85BC0" type="asset" extensions="UNKN"/>
                 <property ID="0x77856668" type="float">
                     <default>2.0</default>
                 </property>

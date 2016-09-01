@@ -5,7 +5,7 @@
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <struct ID="0x3C18666C" type="multi">
             <properties>
-                <property ID="0x9D1A67A8" type="file" extensions="STRM"/>
+                <property ID="0x9D1A67A8" type="asset" extensions="STRM"/>
                 <property ID="0xB417064A" type="string"/>
                 <property ID="0xEB250A0B" type="bool">
                     <default>false</default>

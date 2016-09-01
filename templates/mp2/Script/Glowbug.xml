@@ -8,11 +8,11 @@
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <struct ID="0xB3774750" template="Structs/PatternedInfo.xml"/>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <property ID="0xD75426F9" type="file" extensions="PART"/>
-        <property ID="0x8985B339" type="file" extensions="PART"/>
-        <property ID="0xB258D3E8" type="file" extensions="PART"/>
-        <property ID="0xB06815B3" type="file" extensions="PART"/>
-        <property ID="0xAB378A64" type="file" extensions="PART"/>
+        <property ID="0xD75426F9" type="asset" extensions="PART"/>
+        <property ID="0x8985B339" type="asset" extensions="PART"/>
+        <property ID="0xB258D3E8" type="asset" extensions="PART"/>
+        <property ID="0xB06815B3" type="asset" extensions="PART"/>
+        <property ID="0xAB378A64" type="asset" extensions="PART"/>
         <property ID="0x16342C18" type="float">
             <default>1.0</default>
         </property>
@@ -28,7 +28,7 @@
         <property ID="0x50E45EA8" type="long">
             <default>-1</default>
         </property>
-        <property ID="0xA9482EB1" type="file" extensions="CMDL"/>
+        <property ID="0xA9482EB1" type="asset" extensions="CMDL"/>
         <property ID="0x1917A180" type="bool">
             <default>false</default>
         </property>

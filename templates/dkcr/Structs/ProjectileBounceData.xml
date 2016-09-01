@@ -4,11 +4,11 @@
         <property ID="0x96B863C5" type="long">
             <default>1</default>
         </property>
-        <property ID="0xF1925576" type="file" extensions="CAUD"/>
+        <property ID="0xF1925576" type="asset" extensions="CAUD"/>
         <property ID="0x76C79503" type="float">
             <default>1.0</default>
         </property>
-        <property ID="0x217C37C2" type="file" extensions="PART"/>
+        <property ID="0x217C37C2" type="asset" extensions="PART"/>
         <property ID="0x8EC68A96" type="bool">
             <default>false</default>
         </property>

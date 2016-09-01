@@ -570,10 +570,10 @@
         <property ID="0x5BDD1E4C" type="float">
             <default>30.0</default>
         </property>
-        <property ID="0x6DA4A3B0" type="file" extensions="ELSC"/>
-        <property ID="0x3FCD8B66" type="file" extensions="UNKN"/>
-        <property ID="0xCC0AF287" type="file" extensions="ELSC"/>
-        <property ID="0xA3E8EC4E" type="file" extensions="CAUD"/>
-        <property ID="0xF40A9C9D" type="file" extensions="PART"/>
+        <property ID="0x6DA4A3B0" type="asset" extensions="ELSC"/>
+        <property ID="0x3FCD8B66" type="asset" extensions="UNKN"/>
+        <property ID="0xCC0AF287" type="asset" extensions="ELSC"/>
+        <property ID="0xA3E8EC4E" type="asset" extensions="CAUD"/>
+        <property ID="0xF40A9C9D" type="asset" extensions="PART"/>
     </properties>
 </struct>

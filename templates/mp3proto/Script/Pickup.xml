@@ -33,13 +33,13 @@
         <property ID="0x56E3CEEF" type="float">
             <default>0.0</default>
         </property>
-        <property ID="0xC27FFA8F" type="file" extensions="CMDL"/>
+        <property ID="0xC27FFA8F" type="asset" extensions="CMDL"/>
         <property ID="0xA244C9D8" type="character"/>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
         <property ID="0xE585F166" type="float">
             <default>0.0</default>
         </property>
-        <property ID="0xA9FE872A" type="file" extensions="PART"/>
+        <property ID="0xA9FE872A" type="asset" extensions="PART"/>
         <property ID="0xE10BCB96" type="bool">
             <default>false</default>
         </property>

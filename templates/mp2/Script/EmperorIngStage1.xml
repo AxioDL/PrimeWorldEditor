@@ -38,14 +38,14 @@
                 </struct>
                 <struct ID="0xA1CDA0B6" type="multi">
                     <properties>
-                        <property ID="0xEF485DB9" type="file" extensions="WPSC"/>
+                        <property ID="0xEF485DB9" type="asset" extensions="WPSC"/>
                         <struct ID="0x553B1339" template="Structs/DamageInfo.xml"/>
-                        <property ID="0x8F8C64A0" type="file" extensions="PART"/>
+                        <property ID="0x8F8C64A0" type="asset" extensions="PART"/>
                     </properties>
                 </struct>
                 <struct ID="0x85F36473" type="multi">
                     <properties>
-                        <property ID="0x4A7C4EC2" type="file" extensions="PART"/>
+                        <property ID="0x4A7C4EC2" type="asset" extensions="PART"/>
                         <property ID="0xF10B6EF6" type="character"/>
                         <struct ID="0x946016A9" template="Structs/DamageInfo.xml"/>
                         <property ID="0xECFAB026" type="long">

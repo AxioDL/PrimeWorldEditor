@@ -16,7 +16,7 @@
         <property ID="0x5908EF39" type="color">
             <default>1.0, 1.0, 1.0, 1.0</default>
         </property>
-        <property ID="0x0DB9F8B6" type="file" extensions="FONT"/>
+        <property ID="0x0DB9F8B6" type="asset" extensions="FONT"/>
         <property ID="0x18DD95CD" type="long">
             <default>0</default>
         </property>

@@ -16,7 +16,7 @@
         <property ID="0xE71DE331" type="long">
             <default>0</default>
         </property>
-        <property ID="0xC27FFA8F" type="file" extensions="UNKN"/>
+        <property ID="0xC27FFA8F" type="asset" extensions="UNKN"/>
         <property ID="0xA244C9D8" type="character"/>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
         <property ID="0xCA56A18A" type="long">

@@ -118,7 +118,7 @@
         <property ID="0x9B8903EB" type="bool">
             <default>true</default>
         </property>
-        <property ID="0xD6A0CFF1" type="file" extensions="STRG"/>
+        <property ID="0xD6A0CFF1" type="asset" extensions="STRG"/>
     </properties>
     <states/>
     <messages/>

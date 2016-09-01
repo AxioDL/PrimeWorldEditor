@@ -7,8 +7,8 @@
         <property ID="0x24426AEF" type="string"/>
         <property ID="0x0D920DE2" type="string"/>
         <property ID="0xF15B9FB8" type="string"/>
-        <property ID="0x1B5DFADF" type="file" extensions="TXTR"/>
-        <property ID="0x271E2E58" type="file" extensions="TXTR"/>
+        <property ID="0x1B5DFADF" type="asset" extensions="TXTR"/>
+        <property ID="0x271E2E58" type="asset" extensions="TXTR"/>
         <property ID="0x749B5D80" type="string"/>
         <property ID="0xAA719632" type="float">
             <default>1.5</default>

@@ -106,7 +106,7 @@
                 </property>
             </properties>
         </struct>
-        <property ID="0xEF485DB9" type="file" extensions="WPSC"/>
+        <property ID="0xEF485DB9" type="asset" extensions="WPSC"/>
         <struct ID="0x553B1339" template="Structs/DamageInfo.xml">
             <properties>
                 <enum ID="0x119FBD31">
@@ -156,9 +156,9 @@
                         </property>
                     </properties>
                 </struct>
-                <property ID="0x1319E077" type="file" extensions="PART"/>
-                <property ID="0xD207FF0F" type="file" extensions="PART"/>
-                <property ID="0x2B31C882" type="file" extensions="PART"/>
+                <property ID="0x1319E077" type="asset" extensions="PART"/>
+                <property ID="0xD207FF0F" type="asset" extensions="PART"/>
+                <property ID="0x2B31C882" type="asset" extensions="PART"/>
                 <property ID="0x9A6BB47F" type="float">
                     <default>25.0</default>
                 </property>
@@ -210,7 +210,7 @@
                 <property ID="0x717824B4" type="float">
                     <default>40.0</default>
                 </property>
-                <property ID="0xA41F75EF" type="file" extensions="PART"/>
+                <property ID="0xA41F75EF" type="asset" extensions="PART"/>
                 <property ID="0xE6E92E73" type="long">
                     <default>-1</default>
                 </property>
@@ -229,9 +229,9 @@
                 <property ID="0xE1B0EFA0" type="float">
                     <default>1.0</default>
                 </property>
-                <property ID="0x5CA206CA" type="file" extensions="PART"/>
-                <property ID="0xEBF69CF0" type="file" extensions="PART"/>
-                <property ID="0x4AAB4E04" type="file" extensions="PART"/>
+                <property ID="0x5CA206CA" type="asset" extensions="PART"/>
+                <property ID="0xEBF69CF0" type="asset" extensions="PART"/>
+                <property ID="0x4AAB4E04" type="asset" extensions="PART"/>
                 <property ID="0xBF3C59B6" type="long">
                     <default>-1</default>
                 </property>

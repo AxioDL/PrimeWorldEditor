@@ -17,7 +17,7 @@
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
         <struct ID="0x44080565" type="multi">
             <properties>
-                <property ID="0x51253BA3" type="file" extensions="WPSC"/>
+                <property ID="0x51253BA3" type="asset" extensions="WPSC"/>
                 <struct ID="0xCEA30138" template="Structs/DamageInfo.xml">
                     <properties>
                         <enum ID="0x445E00C8">

@@ -19,8 +19,8 @@
         <property ID="0x384BAF36" type="vector3f">
             <default>1.0, 1.0, 1.0</default>
         </property>
-        <property ID="0x87B52F4C" type="file" extensions="CMDL"/>
-        <property ID="0xAB5B8CAF" type="file" extensions="PART"/>
-        <property ID="0xB4A43449" type="file" extensions="PART"/>
+        <property ID="0x87B52F4C" type="asset" extensions="CMDL"/>
+        <property ID="0xAB5B8CAF" type="asset" extensions="PART"/>
+        <property ID="0xB4A43449" type="asset" extensions="PART"/>
     </properties>
 </struct>

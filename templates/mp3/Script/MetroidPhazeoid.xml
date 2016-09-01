@@ -192,9 +192,9 @@
                 <property ID="0xB15B41FA" type="float">
                     <default>1.0</default>
                 </property>
-                <property ID="0x5562C40D" type="file" extensions="ELSC"/>
-                <property ID="0x11F74E71" type="file" extensions="PART"/>
-                <property ID="0x3509CDD9" type="file" extensions="CAUD"/>
+                <property ID="0x5562C40D" type="asset" extensions="ELSC"/>
+                <property ID="0x11F74E71" type="asset" extensions="PART"/>
+                <property ID="0x3509CDD9" type="asset" extensions="CAUD"/>
                 <property ID="0x953BC1D2" type="long">
                     <default>5</default>
                 </property>

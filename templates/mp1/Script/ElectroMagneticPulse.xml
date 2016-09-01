@@ -13,7 +13,7 @@
         <property ID="0x08" name="Unknown 6" type="float"/>
         <property ID="0x09" name="Unknown 7" type="float"/>
         <property ID="0x0A" name="Unknown 8" type="float"/>
-        <property ID="0x0B" name="Particle" type="file" extensions="PART"/>
+        <property ID="0x0B" name="Particle" type="asset" extensions="PART"/>
     </properties>
     <states/>
     <messages/>

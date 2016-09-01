@@ -44,7 +44,7 @@
                     <default>7.0</default>
                 </property>
                 <struct ID="0x12B8E543" template="Structs/ShockWaveInfo.xml"/>
-                <property ID="0xE8CD9627" type="file" extensions="WPSC"/>
+                <property ID="0xE8CD9627" type="asset" extensions="WPSC"/>
                 <struct ID="0x1DC69E38" template="Structs/DamageInfo.xml"/>
             </properties>
         </struct>

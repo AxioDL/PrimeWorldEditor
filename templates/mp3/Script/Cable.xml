@@ -9,7 +9,7 @@
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
         <struct ID="0x93B93DB9" type="multi">
             <properties>
-                <property ID="0xFFE83B77" type="file" extensions="SWHC"/>
+                <property ID="0xFFE83B77" type="asset" extensions="SWHC"/>
                 <enum ID="0xD4B4B3D2">
                     <default>0x436F402A</default>
                     <enumerators>

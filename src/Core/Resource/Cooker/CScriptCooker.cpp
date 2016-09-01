@@ -86,13 +86,10 @@ void CScriptCooker::WriteProperty(IProperty *pProp, bool InSingleStruct)
         break;
     }
 
-    case eFileProperty:
+    case eAssetProperty:
     {
-        TFileProperty *pFileCast = static_cast<TFileProperty*>(pProp);
-        if (mVersion <= eEchoes)
-            mpSCLY->WriteLong(pFileCast->Get().ID().ToLong());
-        else
-            mpSCLY->WriteLongLong(pFileCast->Get().ID().ToLongLong());
+        TAssetProperty *pAssetCast = static_cast<TAssetProperty*>(pProp);
+        pAssetCast->Get().Write(*mpSCLY);
         break;
     }
 

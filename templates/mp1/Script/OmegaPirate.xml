@@ -16,19 +16,19 @@
         <property ID="0x0B" name="Unknown 6" type="float"/>
         <property ID="0x0C" name="Unknown 7" type="float"/>
         <property ID="0x0D" name="Unknown 8" type="float"/>
-        <property ID="0x0E" name="Particle 1" type="file" extensions="PART"/>
+        <property ID="0x0E" name="Particle 1" type="asset" extensions="PART"/>
         <property ID="0x0F" name="Sound ID 1" type="long"/>
         <struct ID="0x10" name="ActorParameters 2" template="Structs/ActorParameters.xml"/>
         <property ID="0x11" name="AnimationParameters" type="character"/>
-        <property ID="0x12" name="Particle 2" type="file" extensions="PART"/>
+        <property ID="0x12" name="Particle 2" type="asset" extensions="PART"/>
         <property ID="0x13" name="Sound ID 2" type="long"/>
-        <property ID="0x14" name="Grenade Model" type="file" extensions="CMDL"/>
+        <property ID="0x14" name="Grenade Model" type="asset" extensions="CMDL"/>
         <struct ID="0x15" name="DamageInfo 1" template="Structs/DamageInfo.xml"/>
         <property ID="0x16" name="Unknown 9" type="float"/>
-        <property ID="0x17" name="Particle 3" type="file" extensions="PART"/>
-        <property ID="0x18" name="Particle 4" type="file" extensions="PART"/>
-        <property ID="0x19" name="Particle 5" type="file" extensions="PART"/>
-        <property ID="0x1A" name="Particle 6" type="file" extensions="PART"/>
+        <property ID="0x17" name="Particle 3" type="asset" extensions="PART"/>
+        <property ID="0x18" name="Particle 4" type="asset" extensions="PART"/>
+        <property ID="0x19" name="Particle 5" type="asset" extensions="PART"/>
+        <property ID="0x1A" name="Particle 6" type="asset" extensions="PART"/>
         <property ID="0x1B" name="Unknown 10" type="float"/>
         <property ID="0x1C" name="Unknown 11" type="float"/>
         <property ID="0x1D" name="Unknown 12" type="float"/>
@@ -38,15 +38,15 @@
         <property ID="0x21" name="Unknown 16" type="long"/>
         <property ID="0x22" name="Sound ID 3" type="long"/>
         <property ID="0x23" name="Sound ID 4" type="long"/>
-        <property ID="0x24" name="Particle 7" type="file" extensions="PART"/>
+        <property ID="0x24" name="Particle 7" type="asset" extensions="PART"/>
         <struct ID="0x25" name="DamageInfo 2" template="Structs/DamageInfo.xml"/>
-        <property ID="0x26" name="ELSC" type="file" extensions="ELSC"/>
+        <property ID="0x26" name="ELSC" type="asset" extensions="ELSC"/>
         <property ID="0x27" name="Sound ID 5" type="long"/>
         <property ID="0x28" name="Unknown 17" type="bool"/>
         <property ID="0x29" name="Unknown 18" type="bool"/>
-        <property ID="0x2A" name="X-Ray Model" type="file" extensions="CMDL"/>
-        <property ID="0x2B" name="X-Ray CSKR" type="file" extensions="CSKR"/>
-        <property ID="0x2C" name="X-Ray CINF" type="file" extensions="CINF"/>
+        <property ID="0x2A" name="X-Ray Model" type="asset" extensions="CMDL"/>
+        <property ID="0x2B" name="X-Ray CSKR" type="asset" extensions="CSKR"/>
+        <property ID="0x2C" name="X-Ray CINF" type="asset" extensions="CINF"/>
     </properties>
     <states/>
     <messages/>

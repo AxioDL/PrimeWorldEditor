@@ -18,25 +18,25 @@
         <property ID="0xB29E159E" type="vector3f">
             <default>1.5, 0.2, 1.0</default>
         </property>
-        <property ID="0x014A0C36" type="file" extensions="UNKN"/>
-        <property ID="0x90F55C5D" type="file" extensions="UNKN"/>
-        <property ID="0xE1975355" type="file" extensions="UNKN"/>
-        <property ID="0x396660B4" type="file" extensions="UNKN"/>
-        <property ID="0x48E25884" type="file" extensions="UNKN"/>
-        <property ID="0xF1ABB2C7" type="file" extensions="UNKN"/>
-        <property ID="0x1EB90D06" type="file" extensions="UNKN"/>
+        <property ID="0x014A0C36" type="asset" extensions="UNKN"/>
+        <property ID="0x90F55C5D" type="asset" extensions="UNKN"/>
+        <property ID="0xE1975355" type="asset" extensions="UNKN"/>
+        <property ID="0x396660B4" type="asset" extensions="UNKN"/>
+        <property ID="0x48E25884" type="asset" extensions="UNKN"/>
+        <property ID="0xF1ABB2C7" type="asset" extensions="UNKN"/>
+        <property ID="0x1EB90D06" type="asset" extensions="UNKN"/>
         <property ID="0x9D852DFE" type="long">
             <default>4</default>
         </property>
-        <property ID="0x982D7FA8" type="file" extensions="UNKN"/>
+        <property ID="0x982D7FA8" type="asset" extensions="UNKN"/>
         <property ID="0x2E11003D" type="long">
             <default>4</default>
         </property>
-        <property ID="0x5371AC0D" type="file" extensions="UNKN"/>
+        <property ID="0x5371AC0D" type="asset" extensions="UNKN"/>
         <property ID="0x409D1B7C" type="long">
             <default>1</default>
         </property>
-        <property ID="0x4E749CB5" type="file" extensions="UNKN"/>
+        <property ID="0x4E749CB5" type="asset" extensions="UNKN"/>
         <property ID="0x92485DFA" type="long">
             <default>1</default>
         </property>

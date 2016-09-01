@@ -3,7 +3,7 @@
     <name>OceanWave</name>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0xC27FFA8F" type="file" extensions="CMDL"/>
+        <property ID="0xC27FFA8F" type="asset" extensions="CMDL"/>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
         <struct ID="0x7CF4790F" type="multi">
             <properties>

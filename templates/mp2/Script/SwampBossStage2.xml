@@ -66,10 +66,10 @@
                 <property ID="0x845EF489" type="float">
                     <default>10.0</default>
                 </property>
-                <property ID="0x11A273CB" type="file" extensions="CMDL"/>
-                <property ID="0x8A3331DD" type="file" extensions="CMDL"/>
-                <property ID="0x26439458" type="file" extensions="CMDL"/>
-                <property ID="0xBDD2D64E" type="file" extensions="CMDL"/>
+                <property ID="0x11A273CB" type="asset" extensions="CMDL"/>
+                <property ID="0x8A3331DD" type="asset" extensions="CMDL"/>
+                <property ID="0x26439458" type="asset" extensions="CMDL"/>
+                <property ID="0xBDD2D64E" type="asset" extensions="CMDL"/>
                 <property ID="0xCABE6B96" type="float">
                     <default>1.0</default>
                 </property>
@@ -83,7 +83,7 @@
                 <property ID="0x96CE7897" type="long">
                     <default>2</default>
                 </property>
-                <property ID="0xCFE37EBF" type="file" extensions="WPSC"/>
+                <property ID="0xCFE37EBF" type="asset" extensions="WPSC"/>
                 <struct ID="0xDA3C9B32" template="Structs/DamageInfo.xml">
                     <properties>
                         <enum ID="0x119FBD31">
@@ -94,7 +94,7 @@
                         </property>
                     </properties>
                 </struct>
-                <property ID="0x008BECAB" type="file" extensions="PART"/>
+                <property ID="0x008BECAB" type="asset" extensions="PART"/>
                 <property ID="0xF3AF8417" type="long">
                     <default>-1</default>
                 </property>
@@ -117,7 +117,7 @@
                 <property ID="0x7B61A42B" type="float">
                     <default>0.2</default>
                 </property>
-                <property ID="0xD8D148FB" type="file" extensions="PART"/>
+                <property ID="0xD8D148FB" type="asset" extensions="PART"/>
                 <property ID="0x7FC50AC2" type="float">
                     <default>100.0</default>
                 </property>
@@ -152,10 +152,10 @@
                 <property ID="0xE57CA27C" type="float">
                     <default>0.4</default>
                 </property>
-                <property ID="0xA3E1608C" type="file" extensions="SCAN"/>
-                <property ID="0xA21792BF" type="file" extensions="SCAN"/>
-                <property ID="0x515268E5" type="file" extensions="PART"/>
-                <property ID="0xB1B55340" type="file" extensions="PART"/>
+                <property ID="0xA3E1608C" type="asset" extensions="SCAN"/>
+                <property ID="0xA21792BF" type="asset" extensions="SCAN"/>
+                <property ID="0x515268E5" type="asset" extensions="PART"/>
+                <property ID="0xB1B55340" type="asset" extensions="PART"/>
                 <struct ID="0x9347820E" type="multi">
                     <properties>
                         <property ID="0x3642A398" type="float">
@@ -175,7 +175,7 @@
                         </property>
                     </properties>
                 </struct>
-                <property ID="0xB7DC6C65" type="file" extensions="PART"/>
+                <property ID="0xB7DC6C65" type="asset" extensions="PART"/>
                 <struct ID="0xF1F0C73D" template="Structs/DamageInfo.xml">
                     <properties>
                         <enum ID="0x119FBD31">

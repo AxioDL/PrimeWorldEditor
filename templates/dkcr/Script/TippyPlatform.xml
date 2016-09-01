@@ -10,8 +10,8 @@
             <default>0.0, 0.0, 0.0</default>
         </property>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <property ID="0xC27FFA8F" type="file" extensions="CMDL"/>
-        <property ID="0x0FC966DC" type="file" extensions="DCLN"/>
+        <property ID="0xC27FFA8F" type="asset" extensions="CMDL"/>
+        <property ID="0x0FC966DC" type="asset" extensions="DCLN"/>
         <property ID="0xA3D63F44" type="character"/>
         <struct ID="0xF2D2C8E8" template="Structs/UnknownStruct33.xml"/>
         <struct ID="0x174B5DC1" template="Structs/UnknownStruct32.xml"/>

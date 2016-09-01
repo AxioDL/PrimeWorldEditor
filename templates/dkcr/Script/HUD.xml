@@ -5,7 +5,7 @@
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <struct ID="0x5D9C85DA" type="multi">
             <properties>
-                <property ID="0xF2299ED6" type="file" extensions="FRME"/>
+                <property ID="0xF2299ED6" type="asset" extensions="FRME"/>
                 <property ID="0x172ADDB3" type="float">
                     <default>0.25</default>
                 </property>
@@ -22,17 +22,17 @@
                 <property ID="0x5D84ACE2" type="float">
                     <default>0.3</default>
                 </property>
-                <property ID="0x5B928A5D" type="file" extensions="CAUD"/>
-                <property ID="0xD840598D" type="file" extensions="CAUD"/>
+                <property ID="0x5B928A5D" type="asset" extensions="CAUD"/>
+                <property ID="0xD840598D" type="asset" extensions="CAUD"/>
                 <property ID="0xEEB39069" type="float">
                     <default>0.0625</default>
                 </property>
-                <property ID="0x569BD8A7" type="file" extensions="STRG"/>
-                <property ID="0x7AFFC159" type="file" extensions="STRG"/>
+                <property ID="0x569BD8A7" type="asset" extensions="STRG"/>
+                <property ID="0x7AFFC159" type="asset" extensions="STRG"/>
                 <property ID="0xF7D838F6" type="float">
                     <default>0.3</default>
                 </property>
-                <property ID="0x09F666E5" type="file" extensions="STRG"/>
+                <property ID="0x09F666E5" type="asset" extensions="STRG"/>
                 <property ID="0xF9E0D0FB" type="color">
                     <default>0.0, 0.0, 0.0, 1.0</default>
                 </property>
@@ -54,24 +54,24 @@
             <properties>
                 <struct ID="0xEB03168D" type="multi">
                     <properties>
-                        <property ID="0x404B98B2" type="file" extensions="FRME"/>
+                        <property ID="0x404B98B2" type="asset" extensions="FRME"/>
                         <struct ID="0x73E2819B" template="Structs/UnknownStruct27.xml"/>
-                        <property ID="0xF7CB52F1" type="file" extensions="STRG"/>
-                        <property ID="0xA1714102" type="file" extensions="STRG"/>
-                        <property ID="0x2C74E139" type="file" extensions="STRG"/>
-                        <property ID="0x7525F943" type="file" extensions="STRG"/>
-                        <property ID="0x24356817" type="file" extensions="STRG"/>
+                        <property ID="0xF7CB52F1" type="asset" extensions="STRG"/>
+                        <property ID="0xA1714102" type="asset" extensions="STRG"/>
+                        <property ID="0x2C74E139" type="asset" extensions="STRG"/>
+                        <property ID="0x7525F943" type="asset" extensions="STRG"/>
+                        <property ID="0x24356817" type="asset" extensions="STRG"/>
                         <struct ID="0xD85524DB" template="Structs/UnknownStruct35.xml"/>
-                        <property ID="0xFDB3AAC2" type="file" extensions="STRG"/>
-                        <property ID="0x2B4B7EF6" type="file" extensions="STRG"/>
+                        <property ID="0xFDB3AAC2" type="asset" extensions="STRG"/>
+                        <property ID="0x2B4B7EF6" type="asset" extensions="STRG"/>
                         <struct ID="0x985BFCD9" type="multi">
                             <properties>
                                 <struct ID="0x305B3232" template="Structs/UnknownStruct29.xml"/>
-                                <property ID="0xA4F20C17" type="file" extensions="STRG"/>
-                                <property ID="0xA099CA34" type="file" extensions="STRG"/>
-                                <property ID="0xEF59EA4F" type="file" extensions="STRG"/>
-                                <property ID="0xE9336455" type="file" extensions="STRG"/>
-                                <property ID="0x770BCD3B" type="file" extensions="STRG"/>
+                                <property ID="0xA4F20C17" type="asset" extensions="STRG"/>
+                                <property ID="0xA099CA34" type="asset" extensions="STRG"/>
+                                <property ID="0xEF59EA4F" type="asset" extensions="STRG"/>
+                                <property ID="0xE9336455" type="asset" extensions="STRG"/>
+                                <property ID="0x770BCD3B" type="asset" extensions="STRG"/>
                                 <struct ID="0x07BAA11B" template="Structs/UnknownStruct31.xml"/>
                                 <struct ID="0xCB2FF702" template="Structs/UnknownStruct30.xml"/>
                             </properties>
@@ -80,20 +80,20 @@
                 </struct>
                 <struct ID="0xCCD85456" type="multi">
                     <properties>
-                        <property ID="0xF2299ED6" type="file" extensions="FRME"/>
-                        <property ID="0xAC2E85FE" type="file" extensions="FRME"/>
-                        <property ID="0xE6F6E270" type="file" extensions="STRG"/>
-                        <property ID="0x1AE15275" type="file" extensions="STRG"/>
-                        <property ID="0x4FABAC09" type="file" extensions="STRG"/>
-                        <property ID="0xCB6AF89B" type="file" extensions="STRG"/>
+                        <property ID="0xF2299ED6" type="asset" extensions="FRME"/>
+                        <property ID="0xAC2E85FE" type="asset" extensions="FRME"/>
+                        <property ID="0xE6F6E270" type="asset" extensions="STRG"/>
+                        <property ID="0x1AE15275" type="asset" extensions="STRG"/>
+                        <property ID="0x4FABAC09" type="asset" extensions="STRG"/>
+                        <property ID="0xCB6AF89B" type="asset" extensions="STRG"/>
                     </properties>
                 </struct>
                 <struct ID="0xB48315CC" type="multi">
                     <properties>
-                        <property ID="0xF2299ED6" type="file" extensions="FRME"/>
-                        <property ID="0xE6F6E270" type="file" extensions="STRG"/>
-                        <property ID="0x4FABAC09" type="file" extensions="STRG"/>
-                        <property ID="0xCB6AF89B" type="file" extensions="STRG"/>
+                        <property ID="0xF2299ED6" type="asset" extensions="FRME"/>
+                        <property ID="0xE6F6E270" type="asset" extensions="STRG"/>
+                        <property ID="0x4FABAC09" type="asset" extensions="STRG"/>
+                        <property ID="0xCB6AF89B" type="asset" extensions="STRG"/>
                     </properties>
                 </struct>
                 <struct ID="0xB54DD084" template="Structs/UnknownStruct34.xml"/>
@@ -101,43 +101,43 @@
         </struct>
         <struct ID="0xAE41EED1" type="multi">
             <properties>
-                <property ID="0x8B4C102C" type="file" extensions="FRME"/>
+                <property ID="0x8B4C102C" type="asset" extensions="FRME"/>
             </properties>
         </struct>
         <struct ID="0xB914BD82" type="multi">
             <properties>
-                <property ID="0x806052CB" type="file" extensions="FRME"/>
-                <property ID="0xEFC5A137" type="file" extensions="STRG"/>
-                <property ID="0x79589BF4" type="file" extensions="STRG"/>
-                <property ID="0x0AF707DF" type="file" extensions="STRG"/>
-                <property ID="0x5CE2A9A9" type="file" extensions="STRG"/>
-                <property ID="0x1F5B271D" type="file" extensions="STRG"/>
-                <property ID="0x449F5275" type="file" extensions="STRG"/>
-                <property ID="0x4CAFDDD1" type="file" extensions="STRG"/>
-                <property ID="0x361CCF90" type="file" extensions="STRG"/>
-                <property ID="0x4A5CB6EF" type="file" extensions="STRG"/>
-                <property ID="0x8AE3361B" type="file" extensions="STRG"/>
-                <property ID="0x8416A311" type="file" extensions="STRG"/>
+                <property ID="0x806052CB" type="asset" extensions="FRME"/>
+                <property ID="0xEFC5A137" type="asset" extensions="STRG"/>
+                <property ID="0x79589BF4" type="asset" extensions="STRG"/>
+                <property ID="0x0AF707DF" type="asset" extensions="STRG"/>
+                <property ID="0x5CE2A9A9" type="asset" extensions="STRG"/>
+                <property ID="0x1F5B271D" type="asset" extensions="STRG"/>
+                <property ID="0x449F5275" type="asset" extensions="STRG"/>
+                <property ID="0x4CAFDDD1" type="asset" extensions="STRG"/>
+                <property ID="0x361CCF90" type="asset" extensions="STRG"/>
+                <property ID="0x4A5CB6EF" type="asset" extensions="STRG"/>
+                <property ID="0x8AE3361B" type="asset" extensions="STRG"/>
+                <property ID="0x8416A311" type="asset" extensions="STRG"/>
                 <struct ID="0xF0A3978E" type="multi">
                     <properties>
-                        <property ID="0xE0C67593" type="file" extensions="CAUD"/>
-                        <property ID="0xD9BED8D3" type="file" extensions="CAUD"/>
-                        <property ID="0x8EAC5AE7" type="file" extensions="CAUD"/>
-                        <property ID="0xF9328817" type="file" extensions="CAUD"/>
-                        <property ID="0x6297C478" type="file" extensions="CAUD"/>
-                        <property ID="0x160F2DF7" type="file" extensions="CAUD"/>
-                        <property ID="0xD7CF8BF3" type="file" extensions="CAUD"/>
-                        <property ID="0xA0515903" type="file" extensions="CAUD"/>
-                        <property ID="0x3BF4156C" type="file" extensions="CAUD"/>
-                        <property ID="0x4F6CFCE3" type="file" extensions="CAUD"/>
-                        <property ID="0xD4C9B08C" type="file" extensions="CAUD"/>
-                        <property ID="0xA357627C" type="file" extensions="CAUD"/>
-                        <property ID="0x38F22E13" type="file" extensions="CAUD"/>
-                        <property ID="0x4A66B162" type="file" extensions="CAUD"/>
-                        <property ID="0xD1C3FD0D" type="file" extensions="CAUD"/>
-                        <property ID="0xECC8C95F" type="file" extensions="CAUD"/>
-                        <property ID="0x436EA086" type="file" extensions="unknown"/>
-                        <property ID="0xDBAFBA23" type="file" extensions="unknown"/>
+                        <property ID="0xE0C67593" type="asset" extensions="CAUD"/>
+                        <property ID="0xD9BED8D3" type="asset" extensions="CAUD"/>
+                        <property ID="0x8EAC5AE7" type="asset" extensions="CAUD"/>
+                        <property ID="0xF9328817" type="asset" extensions="CAUD"/>
+                        <property ID="0x6297C478" type="asset" extensions="CAUD"/>
+                        <property ID="0x160F2DF7" type="asset" extensions="CAUD"/>
+                        <property ID="0xD7CF8BF3" type="asset" extensions="CAUD"/>
+                        <property ID="0xA0515903" type="asset" extensions="CAUD"/>
+                        <property ID="0x3BF4156C" type="asset" extensions="CAUD"/>
+                        <property ID="0x4F6CFCE3" type="asset" extensions="CAUD"/>
+                        <property ID="0xD4C9B08C" type="asset" extensions="CAUD"/>
+                        <property ID="0xA357627C" type="asset" extensions="CAUD"/>
+                        <property ID="0x38F22E13" type="asset" extensions="CAUD"/>
+                        <property ID="0x4A66B162" type="asset" extensions="CAUD"/>
+                        <property ID="0xD1C3FD0D" type="asset" extensions="CAUD"/>
+                        <property ID="0xECC8C95F" type="asset" extensions="CAUD"/>
+                        <property ID="0x436EA086" type="asset" extensions="unknown"/>
+                        <property ID="0xDBAFBA23" type="asset" extensions="unknown"/>
                     </properties>
                 </struct>
                 <struct ID="0x0BDE5216" type="multi">
@@ -200,8 +200,8 @@
         </struct>
         <struct ID="0x0B594741" type="multi">
             <properties>
-                <property ID="0x806052CB" type="file" extensions="FRME"/>
-                <property ID="0x1A9FCC68" type="file" extensions="STRG"/>
+                <property ID="0x806052CB" type="asset" extensions="FRME"/>
+                <property ID="0x1A9FCC68" type="asset" extensions="STRG"/>
                 <struct ID="0x4ED7E487" template="Structs/UnknownStruct26.xml"/>
                 <struct ID="0x35521A04" template="Structs/UnknownStruct26.xml"/>
                 <struct ID="0x6A598A9B" template="Structs/UnknownStruct26.xml"/>
@@ -210,41 +210,41 @@
         </struct>
         <struct ID="0x51841C6D" type="multi">
             <properties>
-                <property ID="0x806052CB" type="file" extensions="FRME"/>
+                <property ID="0x806052CB" type="asset" extensions="FRME"/>
                 <struct ID="0xF0F0840B" template="Structs/UnknownStruct26.xml"/>
                 <struct ID="0x3397F5E0" template="Structs/UnknownStruct26.xml"/>
                 <struct ID="0x95833E87" template="Structs/UnknownStruct26.xml"/>
-                <property ID="0x518DD3DA" type="file" extensions="STRG"/>
-                <property ID="0xD374144C" type="file" extensions="STRG"/>
-                <property ID="0x6A89715B" type="file" extensions="STRG"/>
+                <property ID="0x518DD3DA" type="asset" extensions="STRG"/>
+                <property ID="0xD374144C" type="asset" extensions="STRG"/>
+                <property ID="0x6A89715B" type="asset" extensions="STRG"/>
                 <struct ID="0x52363FB6" type="multi">
                     <properties>
-                        <property ID="0x31BD7C5D" type="file" extensions="CAUD"/>
-                        <property ID="0x2A3FC965" type="file" extensions="CAUD"/>
+                        <property ID="0x31BD7C5D" type="asset" extensions="CAUD"/>
+                        <property ID="0x2A3FC965" type="asset" extensions="CAUD"/>
                     </properties>
                 </struct>
             </properties>
         </struct>
         <struct ID="0x106B3089" type="multi">
             <properties>
-                <property ID="0x806052CB" type="file" extensions="FRME"/>
-                <property ID="0xEFC5A137" type="file" extensions="STRG"/>
-                <property ID="0x1F5B271D" type="file" extensions="STRG"/>
-                <property ID="0x449F5275" type="file" extensions="STRG"/>
-                <property ID="0x4CAFDDD1" type="file" extensions="STRG"/>
-                <property ID="0x361CCF90" type="file" extensions="STRG"/>
-                <property ID="0x4A5CB6EF" type="file" extensions="STRG"/>
-                <property ID="0xF4DAFA61" type="file" extensions="STRG"/>
-                <property ID="0x42BA06CD" type="file" extensions="STRG"/>
-                <property ID="0xCFF13915" type="file" extensions="STRG"/>
-                <property ID="0x8F791468" type="file" extensions="STRG"/>
-                <property ID="0x5E56E087" type="file" extensions="STRG"/>
-                <property ID="0xE38B44AF" type="file" extensions="STRG"/>
-                <property ID="0x4A2BEDE4" type="file" extensions="STRG"/>
+                <property ID="0x806052CB" type="asset" extensions="FRME"/>
+                <property ID="0xEFC5A137" type="asset" extensions="STRG"/>
+                <property ID="0x1F5B271D" type="asset" extensions="STRG"/>
+                <property ID="0x449F5275" type="asset" extensions="STRG"/>
+                <property ID="0x4CAFDDD1" type="asset" extensions="STRG"/>
+                <property ID="0x361CCF90" type="asset" extensions="STRG"/>
+                <property ID="0x4A5CB6EF" type="asset" extensions="STRG"/>
+                <property ID="0xF4DAFA61" type="asset" extensions="STRG"/>
+                <property ID="0x42BA06CD" type="asset" extensions="STRG"/>
+                <property ID="0xCFF13915" type="asset" extensions="STRG"/>
+                <property ID="0x8F791468" type="asset" extensions="STRG"/>
+                <property ID="0x5E56E087" type="asset" extensions="STRG"/>
+                <property ID="0xE38B44AF" type="asset" extensions="STRG"/>
+                <property ID="0x4A2BEDE4" type="asset" extensions="STRG"/>
                 <struct ID="0xACF22673" type="multi">
                     <properties>
-                        <property ID="0xE0C67593" type="file" extensions="CAUD"/>
-                        <property ID="0xD9BED8D3" type="file" extensions="CAUD"/>
+                        <property ID="0xE0C67593" type="asset" extensions="CAUD"/>
+                        <property ID="0xD9BED8D3" type="asset" extensions="CAUD"/>
                     </properties>
                 </struct>
                 <struct ID="0x5BA82F66" type="multi">
@@ -301,17 +301,17 @@
         </struct>
         <struct ID="0x3C280E64" type="multi">
             <properties>
-                <property ID="0x806052CB" type="file" extensions="FRME"/>
-                <property ID="0xEFC5A137" type="file" extensions="STRG"/>
-                <property ID="0x1F5B271D" type="file" extensions="STRG"/>
-                <property ID="0x449F5275" type="file" extensions="STRG"/>
-                <property ID="0x7049EE4D" type="file" extensions="STRG"/>
-                <property ID="0xA90107C6" type="file" extensions="STRG"/>
-                <property ID="0xFDB3AAC2" type="file" extensions="STRG"/>
+                <property ID="0x806052CB" type="asset" extensions="FRME"/>
+                <property ID="0xEFC5A137" type="asset" extensions="STRG"/>
+                <property ID="0x1F5B271D" type="asset" extensions="STRG"/>
+                <property ID="0x449F5275" type="asset" extensions="STRG"/>
+                <property ID="0x7049EE4D" type="asset" extensions="STRG"/>
+                <property ID="0xA90107C6" type="asset" extensions="STRG"/>
+                <property ID="0xFDB3AAC2" type="asset" extensions="STRG"/>
                 <struct ID="0x2A83FBBB" type="multi">
                     <properties>
-                        <property ID="0xE0C67593" type="file" extensions="CAUD"/>
-                        <property ID="0xD9BED8D3" type="file" extensions="CAUD"/>
+                        <property ID="0xE0C67593" type="asset" extensions="CAUD"/>
+                        <property ID="0xD9BED8D3" type="asset" extensions="CAUD"/>
                     </properties>
                 </struct>
                 <struct ID="0x78673AB6" type="multi">

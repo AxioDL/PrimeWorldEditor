@@ -79,7 +79,7 @@
             </properties>
         </struct>
         <struct ID="0x382E406E" template="Structs/DamageVulnerability.xml"/>
-        <property ID="0x7D462930" type="file" extensions="PART"/>
+        <property ID="0x7D462930" type="asset" extensions="PART"/>
         <property ID="0x84F81F55" type="long">
             <default>5</default>
         </property>

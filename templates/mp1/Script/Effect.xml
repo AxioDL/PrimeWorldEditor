@@ -6,8 +6,8 @@
         <property ID="0x01" name="Position" type="vector3f"/>
         <property ID="0x02" name="Rotation" type="vector3f"/>
         <property ID="0x03" name="Scale" type="vector3f"/>
-        <property ID="0x04" name="Particle" type="file" extensions="PART"/>
-        <property ID="0x05" name="ELSC" type="file" extensions="ELSC"/>
+        <property ID="0x04" name="Particle" type="asset" extensions="PART"/>
+        <property ID="0x05" name="ELSC" type="asset" extensions="ELSC"/>
         <property ID="0x06" name="Unknown 1" type="bool"/>
         <property ID="0x07" name="Unknown 2" type="bool"/>
         <property ID="0x08" name="Unknown 3" type="bool"/>

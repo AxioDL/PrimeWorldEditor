@@ -6,8 +6,8 @@
     </modules>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0x31EC14BC" type="file" extensions="MLVL"/>
-        <property ID="0xE0C17804" type="file" extensions="MREA"/>
+        <property ID="0x31EC14BC" type="asset" extensions="MLVL"/>
+        <property ID="0xE0C17804" type="asset" extensions="MREA"/>
         <enum ID="0x474BCCE3">
             <default>0xF9C885FF</default>
             <enumerators>
@@ -20,13 +20,13 @@
         </enum>
         <property ID="0xA9496551" type="character"/>
         <property ID="0xBBEF4D0D" type="character"/>
-        <property ID="0xCCEFC618" type="file" extensions="CMDL"/>
+        <property ID="0xCCEFC618" type="asset" extensions="CMDL"/>
         <property ID="0x05014C61" type="character"/>
         <property ID="0xF9EF55D4" type="MayaSpline"/>
         <property ID="0x3C79E121" type="character"/>
         <property ID="0x8E718724" type="MayaSpline"/>
-        <property ID="0x6C176DD6" type="file" extensions="FONT"/>
-        <property ID="0x9182250C" type="file" extensions="STRG"/>
+        <property ID="0x6C176DD6" type="asset" extensions="FONT"/>
+        <property ID="0x9182250C" type="asset" extensions="STRG"/>
         <property ID="0xC54082E8" type="bool">
             <default>false</default>
         </property>
@@ -58,15 +58,15 @@
         <property ID="0x61930573" type="string"/>
         <property ID="0x5D7E79A1" type="character"/>
         <property ID="0xBB5204C8" type="character"/>
-        <property ID="0xB7DCD0CA" type="file" extensions="CMDL"/>
-        <property ID="0x04D03E41" type="file" extensions="CAUD"/>
+        <property ID="0xB7DCD0CA" type="asset" extensions="CMDL"/>
+        <property ID="0x04D03E41" type="asset" extensions="CAUD"/>
         <property ID="0xC7A7F189" type="float">
             <default>1.0</default>
         </property>
         <property ID="0xDF4353A3" type="float">
             <default>0.0</default>
         </property>
-        <property ID="0x8DFF5674" type="file" extensions="CAUD"/>
+        <property ID="0x8DFF5674" type="asset" extensions="CAUD"/>
         <property ID="0x31FA1FE0" type="float">
             <default>1.0</default>
         </property>

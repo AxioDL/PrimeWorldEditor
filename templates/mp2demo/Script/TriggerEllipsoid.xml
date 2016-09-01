@@ -10,7 +10,7 @@
         <property ID="0x1C453986" type="bool">
             <default>false</default>
         </property>
-        <property ID="0x9BE4BBD8" type="file" extensions="PART"/>
+        <property ID="0x9BE4BBD8" type="asset" extensions="PART"/>
     </properties>
     <states/>
     <messages/>

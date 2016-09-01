@@ -11,15 +11,15 @@ CPointOfInterestExtra::CPointOfInterestExtra(CScriptObject *pInstance, CScene *p
     // Fetch scan data property
     CPropertyStruct *pBaseProp = pInstance->Properties();
 
-    if (mGame <= ePrime)    mpScanProperty = TPropCast<TFileProperty>(pBaseProp->PropertyByIDString("0x04:0x00"));
-    else                    mpScanProperty = (TFileProperty*) pBaseProp->PropertyByIDString("0xBDBEC295:0xB94E9BE7");
+    if (mGame <= ePrime)    mpScanProperty = TPropCast<TAssetProperty>(pBaseProp->PropertyByIDString("0x04:0x00"));
+    else                    mpScanProperty = (TAssetProperty*) pBaseProp->PropertyByIDString("0xBDBEC295:0xB94E9BE7");
     if (mpScanProperty) PropertyModified(mpScanProperty);
 }
 
 void CPointOfInterestExtra::PropertyModified(IProperty* pProperty)
 {
     if (mpScanProperty == pProperty)
-        mpScanData = mpScanProperty->Get().Load();
+        mpScanData = gpResourceStore->LoadResource( mpScanProperty->Get(), "SCAN" );
 }
 
 void CPointOfInterestExtra::ModifyTintColor(CColor& Color)

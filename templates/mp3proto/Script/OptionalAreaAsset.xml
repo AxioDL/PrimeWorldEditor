@@ -10,7 +10,7 @@
                 </property>
             </properties>
         </struct>
-        <property ID="0x0B4C13A0" type="file" extensions="UNKN"/>
+        <property ID="0x0B4C13A0" type="asset" extensions="UNKN"/>
     </properties>
     <states/>
     <messages/>

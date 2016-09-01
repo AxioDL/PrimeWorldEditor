@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <struct name="JungleBossStructA" type="multi">
     <properties>
-        <property ID="0xD1F65872" type="file" extensions="TXTR"/>
+        <property ID="0xD1F65872" type="asset" extensions="TXTR"/>
         <property ID="0xF0668919" type="float">
             <default>15.0</default>
         </property>

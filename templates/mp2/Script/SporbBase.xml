@@ -32,7 +32,7 @@
         <property ID="0x540C1F87" type="vector3f">
             <default>0.0, 0.0, 0.0</default>
         </property>
-        <property ID="0x33868C8F" type="file" extensions="PART"/>
+        <property ID="0x33868C8F" type="asset" extensions="PART"/>
         <property ID="0x35557A83" type="float">
             <default>0.1</default>
         </property>
@@ -78,7 +78,7 @@
         <property ID="0xB628855A" type="bool">
             <default>false</default>
         </property>
-        <property ID="0x990745DD" type="file" extensions="WPSC"/>
+        <property ID="0x990745DD" type="asset" extensions="WPSC"/>
         <struct ID="0x5F3C27C6" template="Structs/DamageInfo.xml">
             <properties>
                 <enum ID="0x119FBD31">

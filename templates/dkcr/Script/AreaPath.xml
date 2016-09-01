@@ -3,9 +3,9 @@
     <name>AreaPath</name>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0xC27FFA8F" type="file" extensions="CMDL"/>
+        <property ID="0xC27FFA8F" type="asset" extensions="CMDL"/>
         <property ID="0xA244C9D8" type="character"/>
-        <property ID="0xDE5709D9" type="file" extensions="CMDL"/>
+        <property ID="0xDE5709D9" type="asset" extensions="CMDL"/>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
         <enum ID="0x474BCCE3">
             <default>0x1F46814C</default>
@@ -31,8 +31,8 @@
         </property>
         <property ID="0xFA0EED84" type="MayaSpline"/>
         <struct ID="0x91FA7B19" template="Structs/AreaPathStructA.xml"/>
-        <property ID="0x1B32DC50" type="file" extensions="PART"/>
-        <property ID="0x7C642C9C" type="file" extensions="CAUD"/>
+        <property ID="0x1B32DC50" type="asset" extensions="PART"/>
+        <property ID="0x7C642C9C" type="asset" extensions="CAUD"/>
     </properties>
     <states/>
     <messages/>

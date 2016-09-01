@@ -53,14 +53,14 @@
         <property ID="0xD5417338" type="bool">
             <default>false</default>
         </property>
-        <property ID="0x6D1CE525" type="file" extensions="PART"/>
+        <property ID="0x6D1CE525" type="asset" extensions="PART"/>
         <property ID="0x3EDF746B" type="float">
             <default>1.0</default>
         </property>
         <property ID="0xEA6D6548" type="vector3f">
             <default>1.0, 1.0, 1.0</default>
         </property>
-        <property ID="0xA55DACF6" type="file" extensions="CAUD"/>
+        <property ID="0xA55DACF6" type="asset" extensions="CAUD"/>
         <property ID="0x78A661EF" type="bool">
             <default>false</default>
         </property>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <struct name="DarkSamusEchoData" type="multi">
     <properties>
-        <property ID="0x0687C33E" type="file" extensions="PART"/>
-        <property ID="0xED08FC4B" type="file" extensions="CAUD"/>
-        <property ID="0x8F0400E2" type="file" extensions="PART"/>
-        <property ID="0xCCC7A920" type="file" extensions="CAUD"/>
+        <property ID="0x0687C33E" type="asset" extensions="PART"/>
+        <property ID="0xED08FC4B" type="asset" extensions="CAUD"/>
+        <property ID="0x8F0400E2" type="asset" extensions="PART"/>
+        <property ID="0xCCC7A920" type="asset" extensions="CAUD"/>
         <property ID="0x446EFCAD" type="float">
             <default>3.0</default>
         </property>

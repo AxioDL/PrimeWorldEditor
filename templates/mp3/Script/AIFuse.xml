@@ -34,8 +34,8 @@
                 <property ID="0xE18486ED" type="float">
                     <default>30.0</default>
                 </property>
-                <property ID="0x1A092829" type="file" extensions="CAUD"/>
-                <property ID="0x0105A02F" type="file" extensions="CAUD"/>
+                <property ID="0x1A092829" type="asset" extensions="CAUD"/>
+                <property ID="0x0105A02F" type="asset" extensions="CAUD"/>
             </properties>
         </struct>
     </properties>

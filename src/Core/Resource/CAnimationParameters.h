@@ -2,7 +2,6 @@
 #define CANIMATIONPARAMETERS_H
 
 #include "CAnimSet.h"
-#include "CResourceInfo.h"
 #include "TResPtr.h"
 #include "Core/Resource/Model/CModel.h"
 #include <Common/EGame.h>
@@ -10,7 +9,7 @@
 class CAnimationParameters
 {
     EGame mGame;
-    CResourceInfo mCharacter;
+    CAssetID mCharacterID;
 
     u32 mCharIndex;
     u32 mAnimIndex;
@@ -28,22 +27,22 @@ public:
 
     // Accessors
     inline EGame Version() const        { return mGame; }
-    inline CAssetID ID() const          { return mCharacter.ID(); }
-    inline CAnimSet* AnimSet() const    { return (CAnimSet*) mCharacter.Load(); }
+    inline CAssetID ID() const          { return mCharacterID; }
+    inline CAnimSet* AnimSet() const    { return (CAnimSet*) gpResourceStore->LoadResource(mCharacterID, (mGame < eCorruptionProto ? "ANCS" : "CHAR")); }
     inline u32 CharacterIndex() const   { return mCharIndex; }
     inline u32 AnimIndex() const        { return mAnimIndex; }
     inline void SetCharIndex(u32 Index) { mCharIndex = Index; }
     inline void SetAnimIndex(u32 Index) { mAnimIndex = Index; }
 
     u32 Unknown(u32 Index);
-    void SetResource(CResourceInfo Res);
+    void SetResource(const CAssetID& rkID);
     void SetUnknown(u32 Index, u32 Value);
 
     // Operators
     inline bool operator==(const CAnimationParameters& rkOther) const
     {
         return ( (mGame == rkOther.mGame) &&
-                 (mCharacter == rkOther.mCharacter) &&
+                 (mCharacterID == rkOther.mCharacterID) &&
                  (mCharIndex == rkOther.mCharIndex) &&
                  (mAnimIndex == rkOther.mAnimIndex) &&
                  (mUnknown2 == rkOther.mUnknown2) &&

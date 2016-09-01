@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <struct name="PlayerActorStruct" type="multi">
     <properties>
-        <property ID="0xF7FFBD07" type="file" extensions="CMDL"/>
-        <property ID="0x0B616BAA" type="file" extensions="CSKR"/>
-        <property ID="0x50340852" type="file" extensions="CMDL"/>
+        <property ID="0xF7FFBD07" type="asset" extensions="CMDL"/>
+        <property ID="0x0B616BAA" type="asset" extensions="CSKR"/>
+        <property ID="0x50340852" type="asset" extensions="CMDL"/>
         <property ID="0x90AA341F" type="float">
             <default>1.0</default>
         </property>

@@ -12,9 +12,6 @@
 
 WResourceSelector::WResourceSelector(QWidget *parent)
     : QWidget(parent)
-    // Selector Members
-    , mShowEditButton(false)
-    , mShowExportButton(false)
     // Preview Panel Members
     , mpPreviewPanel(nullptr)
     , mEnablePreviewPanel(true)
@@ -22,21 +19,18 @@ WResourceSelector::WResourceSelector(QWidget *parent)
     , mShowingPreviewPanel(false)
     , mAdjustPreviewToParent(false)
     // Resource Members
+    , mpResource(nullptr)
     , mResourceValid(false)
 {
     // Create Widgets
     mUI.LineEdit = new QLineEdit(this);
     mUI.BrowseButton = new QPushButton(this);
-    mUI.EditButton = new QPushButton("Edit", this);
-    mUI.ExportButton = new QPushButton("Export", this);
 
     // Create Layout
     mUI.Layout = new QHBoxLayout(this);
     setLayout(mUI.Layout);
     mUI.Layout->addWidget(mUI.LineEdit);
     mUI.Layout->addWidget(mUI.BrowseButton);
-    mUI.Layout->addWidget(mUI.EditButton);
-    mUI.Layout->addWidget(mUI.ExportButton);
     mUI.Layout->setContentsMargins(0,0,0,0);
     mUI.Layout->setSpacing(1);
 
@@ -50,20 +44,6 @@ WResourceSelector::WResourceSelector(QWidget *parent)
     mUI.BrowseButton->setText("...");
     mUI.BrowseButton->setMaximumSize(25, 23);
     mUI.BrowseButton->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    mUI.EditButton->installEventFilter(this);
-    mUI.EditButton->setMouseTracking(true);
-    mUI.EditButton->setMaximumSize(50, 23);
-    mUI.EditButton->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    mUI.EditButton->hide();
-    mUI.ExportButton->installEventFilter(this);
-    mUI.ExportButton->setMouseTracking(true);
-    mUI.ExportButton->setMaximumSize(50, 23);
-    mUI.ExportButton->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    mUI.ExportButton->hide();
-
-    QCompleter *pCompleter = new QCompleter(this);
-    pCompleter->setModel(new QDirModel(pCompleter));
-    mUI.LineEdit->setCompleter(pCompleter);
 
     connect(mUI.LineEdit, SIGNAL(editingFinished()), this, SLOT(OnLineEditTextEdited()));
     connect(mUI.BrowseButton, SIGNAL(clicked()), this, SLOT(OnBrowseButtonClicked()));
@@ -93,45 +73,34 @@ bool WResourceSelector::eventFilter(QObject* /*pObj*/, QEvent *pEvent)
 
 bool WResourceSelector::IsSupportedExtension(const QString& rkExtension)
 {
-    foreach(const QString& str, mSupportedExtensions)
-        if (str == rkExtension) return true;
+    foreach(const QString& rkStr, mSupportedExtensions)
+        if (rkStr == rkExtension) return true;
 
     return false;
 }
 
-bool WResourceSelector::HasSupportedExtension(const CResourceInfo& rkRes)
+bool WResourceSelector::HasSupportedExtension(CResourceEntry *pEntry)
 {
-    return IsSupportedExtension(TO_QSTRING(rkRes.Type().ToString()));
+    return IsSupportedExtension(TO_QSTRING(pEntry->CookedExtension().ToString()));
 }
 
 void WResourceSelector::UpdateFrameColor()
 {
-    bool RedFrame = false;
-
-    // Red frame should only display if an incorrect resource path is entered. It shouldn't display on Invalid Asset ID.
-    if (!mResourceValid)
-    {
-        TString Name = mResource.ToString().GetFileName(false);
-
-        if (!Name.IsEmpty())
-        {
-            if (!Name.IsHexString() || (Name.Size() != 8 && Name.Size() != 16) || mResource.ID().IsValid())
-                RedFrame = true;
-        }
-    }
+    // Red frame should only display if the current path is either invalid or points to an entry of an invalid type.
+    bool RedFrame = (!GetText().isEmpty() && !mpResource) || (mpResource && !mResourceValid);
     mUI.LineEdit->setStyleSheet(RedFrame ? "border: 1px solid red" : "");
     mUI.LineEdit->setFont(font());
 }
 
 // ************ GETTERS ************
-CResourceInfo WResourceSelector::GetResourceInfo()
+CResourceEntry* WResourceSelector::GetResourceEntry()
 {
-    return mResource;
+    return mpResource;
 }
 
 CResource* WResourceSelector::GetResource()
 {
-    return mResource.Load();
+    return mpResource->Load();
 }
 
 QString WResourceSelector::GetText()
@@ -139,64 +108,50 @@ QString WResourceSelector::GetText()
     return mUI.LineEdit->text();
 }
 
-bool WResourceSelector::IsEditButtonEnabled()
-{
-    return mShowEditButton;
-}
-
-bool WResourceSelector::IsExportButtonEnabled()
-{
-    return mShowExportButton;
-}
-
 bool WResourceSelector::IsPreviewPanelEnabled()
 {
     return mEnablePreviewPanel;
 }
 
-
 // ************ SETTERS ************
 void WResourceSelector::SetResource(CResource *pRes)
 {
-    if (pRes)
-        SetResource(CResourceInfo(pRes->FullSource()));
-    else
-        SetResource(CResourceInfo());
+    SetResource(pRes ? pRes->Entry() : nullptr);
+}
+
+void WResourceSelector::SetResource(CResourceEntry *pRes)
+{
+    if (mpResource != pRes)
+    {
+        mpResource = pRes;
+
+        // We might prefer to have the line edit be cleared if pRes is null. However atm this function triggers
+        // when the user types in a resource path so I'd prefer for the text not to be cleared out in that case
+        if (mpResource)
+        {
+            TWideString Path = mpResource->HasRawVersion() ? mpResource->RawAssetPath(true) : mpResource->CookedAssetPath(true);
+            mUI.LineEdit->setText(TO_QSTRING(Path));
+            mResourceValid = HasSupportedExtension(mpResource);
+        }
+        else
+            mResourceValid = false;
+
+        UpdateFrameColor();
+        CreatePreviewPanel();
+        emit ResourceChanged(mpResource);
+    }
+}
+
+void WResourceSelector::SetResource(const CAssetID& rkID)
+{
+    CResourceEntry *pEntry = gpResourceStore->FindEntry(rkID);
+    SetResource(pEntry);
 }
 
 void WResourceSelector::SetResource(const QString& rkRes)
 {
-    TString Res = TO_TSTRING(rkRes);
-    TString Name = Res.GetFileName(false);
-    TString Dir = Res.GetFileDirectory();
-    TString Ext = Res.GetFileExtension();
-
-    if (Dir.IsEmpty() && Name.IsHexString() && (Name.Size() == 8 || Name.Size() == 16) && Ext.Size() == 4)
-        SetResource(CResourceInfo(Name.Size() == 8 ? Name.ToInt32() : Name.ToInt64(), Ext));
-    else
-        SetResource(CResourceInfo(Res));
-}
-
-void WResourceSelector::SetResource(const CResourceInfo& rkRes)
-{
-    if (mResource != rkRes)
-    {
-        mResource = rkRes;
-
-        if (mResource.IsValid())
-            mResourceValid = HasSupportedExtension(rkRes);
-        else
-            mResourceValid = false;
-
-        TString ResStr = mResource.ToString();
-        if (ResStr.Contains("FFFFFFFF", false)) mUI.LineEdit->clear();
-        else mUI.LineEdit->setText(TO_QSTRING(ResStr));
-
-        UpdateFrameColor();
-        CreatePreviewPanel();
-        SetButtonsBasedOnResType();
-        emit ResourceChanged(TO_QSTRING(mResource.ToString()));
-    }
+    CResourceEntry *pEntry = gpResourceStore->FindEntry(TO_TWIDESTRING(rkRes));
+    SetResource(pEntry);
 }
 
 void WResourceSelector::SetAllowedExtensions(const QString& rkExtension)
@@ -215,21 +170,8 @@ void WResourceSelector::SetAllowedExtensions(const TStringList& rkExtensions)
 void WResourceSelector::SetText(const QString& rkResPath)
 {
     mUI.LineEdit->setText(rkResPath);
-    SetResource(rkResPath);
-}
-
-void WResourceSelector::SetEditButtonEnabled(bool Enabled)
-{
-    mShowEditButton = Enabled;
-    if (Enabled) mUI.EditButton->show();
-    else mUI.EditButton->hide();
-}
-
-void WResourceSelector::SetExportButtonEnabled(bool Enabled)
-{
-    mShowExportButton = Enabled;
-    if (Enabled) mUI.ExportButton->show();
-    else mUI.ExportButton->hide();
+    CResourceEntry *pEntry = gpResourceStore->FindEntry(TO_TWIDESTRING(rkResPath));
+    SetResource(pEntry);
 }
 
 void WResourceSelector::SetPreviewPanelEnabled(bool Enabled)
@@ -252,28 +194,28 @@ void WResourceSelector::OnLineEditTextEdited()
 void WResourceSelector::OnBrowseButtonClicked()
 {
     // Construct filter string
-    QString filter;
+    QString Filter;
 
     if (mSupportedExtensions.size() > 1)
     {
-        QString all = "All allowed extensions (";
+        QString All = "All allowed extensions (";
 
         for (int iExt = 0; iExt < mSupportedExtensions.size(); iExt++)
         {
-            if (iExt > 0) all += " ";
-            all += "*." + mSupportedExtensions[iExt];
+            if (iExt > 0) All += " ";
+            All += "*." + mSupportedExtensions[iExt];
         }
-        all += ")";
-        filter += all + ";;";
+        All += ")";
+        Filter += All + ";;";
     }
 
     for (int iExt = 0; iExt < mSupportedExtensions.size(); iExt++)
     {
-        if (iExt > 0) filter += ";;";
-        filter += UICommon::ExtensionFilterString(mSupportedExtensions[iExt]);
+        if (iExt > 0) Filter += ";;";
+        Filter += UICommon::ExtensionFilterString(mSupportedExtensions[iExt]);
     }
 
-    QString NewRes = QFileDialog::getOpenFileName(this, "Select resource", "", filter);
+    QString NewRes = QFileDialog::getOpenFileName(this, "Select resource", "", Filter);
 
     if (!NewRes.isEmpty())
     {
@@ -282,36 +224,14 @@ void WResourceSelector::OnBrowseButtonClicked()
     }
 }
 
-void WResourceSelector::OnEditButtonClicked()
-{
-    Edit();
-}
-
-void WResourceSelector::OnExportButtonClicked()
-{
-    Export();
-}
-
 // ************ PRIVATE ************
-// Should the resource selector handle edit/export itself
-// or delegate it entirely to the signals?
-void WResourceSelector::Edit()
-{
-    emit EditResource(mResource);
-}
-
-void WResourceSelector::Export()
-{
-    emit ExportResource(mResource);
-}
-
 void WResourceSelector::CreatePreviewPanel()
 {
     delete mpPreviewPanel;
     mpPreviewPanel = nullptr;
 
     if (mResourceValid)
-        mpPreviewPanel = IPreviewPanel::CreatePanel(CResource::ResTypeForExtension(mResource.Type()), this);
+        mpPreviewPanel = IPreviewPanel::CreatePanel(mpResource->ResourceType(), this);
 
     if (!mpPreviewPanel) mPreviewPanelValid = false;
 
@@ -319,7 +239,7 @@ void WResourceSelector::CreatePreviewPanel()
     {
         mPreviewPanelValid = true;
         mpPreviewPanel->setWindowFlags(Qt::ToolTip);
-        if (mResourceValid) mpPreviewPanel->SetResource(mResource.Load());
+        if (mResourceValid) mpPreviewPanel->SetResource(mpResource->Load());
     }
 }
 
@@ -362,30 +282,5 @@ void WResourceSelector::HidePreviewPanel()
     {
         mpPreviewPanel->hide();
         mShowingPreviewPanel = false;
-    }
-}
-
-void WResourceSelector::SetButtonsBasedOnResType()
-{
-    // Basically this function sets whether the "Export" and "Edit"
-    // buttons are present based on the resource type.
-    if (!mResource.IsValid())
-    {
-        SetEditButtonEnabled(false);
-        SetExportButtonEnabled(false);
-    }
-
-    else switch (CResource::ResTypeForExtension(mResource.Type()))
-    {
-    // Export button should be enabled here because CTexture already has a DDS export function
-    // However, need to figure out what sort of interface to create to do it. Disabling until then.
-    case eTexture:
-        SetEditButtonEnabled(false);
-        SetExportButtonEnabled(false);
-        break;
-    default:
-        SetEditButtonEnabled(false);
-        SetExportButtonEnabled(false);
-        break;
     }
 }

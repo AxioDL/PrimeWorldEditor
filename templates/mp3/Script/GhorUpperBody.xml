@@ -37,8 +37,8 @@
                         <property ID="0x60BDAA38" type="string"/>
                         <property ID="0xC60B41B4" type="string"/>
                         <property ID="0x67808780" type="string"/>
-                        <property ID="0x62771F66" type="file" extensions="CAUD"/>
-                        <property ID="0xB75B8442" type="file" extensions="CAUD"/>
+                        <property ID="0x62771F66" type="asset" extensions="CAUD"/>
+                        <property ID="0xB75B8442" type="asset" extensions="CAUD"/>
                     </properties>
                 </struct>
                 <struct ID="0x81CC0D22" type="multi">
@@ -59,9 +59,9 @@
                 <struct ID="0xBA4AD147" template="Structs/DamageVulnerability.xml"/>
                 <struct ID="0x305CDAD2" type="multi">
                     <properties>
-                        <property ID="0xC2376579" type="file" extensions="CMDL"/>
-                        <property ID="0x05032ED4" type="file" extensions="CMDL"/>
-                        <property ID="0x671DBFB5" type="file" extensions="CMDL"/>
+                        <property ID="0xC2376579" type="asset" extensions="CMDL"/>
+                        <property ID="0x05032ED4" type="asset" extensions="CMDL"/>
+                        <property ID="0x671DBFB5" type="asset" extensions="CMDL"/>
                         <property ID="0x828932C1" type="string"/>
                         <property ID="0xBFF185FA" type="MayaSpline"/>
                         <property ID="0x1C846646" type="MayaSpline"/>
@@ -86,8 +86,8 @@
                         <property ID="0x8105ECFD" type="float">
                             <default>4.0</default>
                         </property>
-                        <property ID="0x375F1663" type="file" extensions="CAUD"/>
-                        <property ID="0x68A51ABB" type="file" extensions="CAUD"/>
+                        <property ID="0x375F1663" type="asset" extensions="CAUD"/>
+                        <property ID="0x68A51ABB" type="asset" extensions="CAUD"/>
                     </properties>
                 </struct>
                 <struct ID="0x810EC49A" template="Structs/GhorStructC.xml"/>
@@ -108,8 +108,8 @@
                         <property ID="0x353ABF40" type="float">
                             <default>8.0</default>
                         </property>
-                        <property ID="0x2822A8FA" type="file" extensions="CAUD"/>
-                        <property ID="0x95D26130" type="file" extensions="CAUD"/>
+                        <property ID="0x2822A8FA" type="asset" extensions="CAUD"/>
+                        <property ID="0x95D26130" type="asset" extensions="CAUD"/>
                         <property ID="0xBFB8336B" type="MayaSpline"/>
                         <property ID="0xF79ADCA8" type="MayaSpline"/>
                         <property ID="0x68454CB4" type="float">
@@ -156,7 +156,7 @@
                         <property ID="0x3E618127" type="float">
                             <default>12.0</default>
                         </property>
-                        <property ID="0x095080D9" type="file" extensions="CAUD"/>
+                        <property ID="0x095080D9" type="asset" extensions="CAUD"/>
                         <struct ID="0x0CFD3139" template="Structs/DamageInfo.xml"/>
                         <property ID="0x8062D2F8" type="string"/>
                         <property ID="0xBF26FCFB" type="float">
@@ -172,7 +172,7 @@
                 </struct>
                 <struct ID="0x0E07B299" template="Structs/GhorStructB.xml"/>
                 <struct ID="0x73E98B8F" template="Structs/GhorStructB.xml"/>
-                <property ID="0x15E3F283" type="file" extensions="CAUD"/>
+                <property ID="0x15E3F283" type="asset" extensions="CAUD"/>
                 <property ID="0x79BFD886" type="string"/>
                 <property ID="0x337C4056" type="string"/>
                 <struct ID="0x3D43820C" template="Structs/HealthInfo.xml"/>

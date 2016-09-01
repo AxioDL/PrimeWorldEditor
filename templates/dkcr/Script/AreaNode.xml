@@ -26,8 +26,8 @@
             </enumerators>
         </enum>
         <property ID="0x6A02F05F" type="string"/>
-        <property ID="0x737631AD" type="file" extensions="STRG"/>
-        <property ID="0x3B83DD31" type="file" extensions="STRG"/>
+        <property ID="0x737631AD" type="asset" extensions="STRG"/>
+        <property ID="0x3B83DD31" type="asset" extensions="STRG"/>
         <property ID="0x30CBDB68" type="long">
             <default>0</default>
         </property>
@@ -37,17 +37,17 @@
         <property ID="0x2E686C2A" type="vector3f">
             <default>0.0, 0.0, 0.0</default>
         </property>
-        <property ID="0x0FC966DC" type="file" extensions="DCLN"/>
-        <property ID="0x33CF5665" type="file" extensions="unknown"/>
+        <property ID="0x0FC966DC" type="asset" extensions="DCLN"/>
+        <property ID="0x33CF5665" type="asset" extensions="unknown"/>
         <property ID="0xA244C9D8" type="character"/>
         <property ID="0xB7CD213C" type="character"/>
         <property ID="0x9F93BC3F" type="character"/>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <property ID="0x6A789BE3" type="file" extensions="MLVL"/>
+        <property ID="0x6A789BE3" type="asset" extensions="MLVL"/>
         <struct ID="0xA9D29E32" type="multi">
             <properties>
-                <property ID="0xA28B199D" type="file" extensions="CAUD"/>
-                <property ID="0x003E7991" type="file" extensions="CAUD"/>
+                <property ID="0xA28B199D" type="asset" extensions="CAUD"/>
+                <property ID="0x003E7991" type="asset" extensions="CAUD"/>
             </properties>
         </struct>
         <struct ID="0x86963E8A" type="multi">

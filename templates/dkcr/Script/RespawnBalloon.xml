@@ -28,10 +28,10 @@
                 <property ID="0x806178B3" type="float">
                     <default>1.0</default>
                 </property>
-                <property ID="0xF532B5D3" type="file" extensions="PART"/>
-                <property ID="0xCAA9B3F5" type="file" extensions="PART"/>
-                <property ID="0x726C839E" type="file" extensions="CAUD"/>
-                <property ID="0x5C6C7838" type="file" extensions="CAUD"/>
+                <property ID="0xF532B5D3" type="asset" extensions="PART"/>
+                <property ID="0xCAA9B3F5" type="asset" extensions="PART"/>
+                <property ID="0x726C839E" type="asset" extensions="CAUD"/>
+                <property ID="0x5C6C7838" type="asset" extensions="CAUD"/>
                 <property ID="0x8069FBA6" type="float">
                     <default>1.0</default>
                 </property>

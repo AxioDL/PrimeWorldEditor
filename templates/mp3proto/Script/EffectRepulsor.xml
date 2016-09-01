@@ -6,7 +6,7 @@
         <enum ID="0xA169D424" template="Enums/Item.xml">
             <default>0xFB73F2B8</default>
         </enum>
-        <property ID="0xB68C6D96" type="file" extensions="PART"/>
+        <property ID="0xB68C6D96" type="asset" extensions="PART"/>
         <property ID="0x68B0F633" type="float">
             <default>0.1</default>
         </property>

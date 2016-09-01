@@ -9,7 +9,7 @@
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
         <struct ID="0x6F3BB625" type="multi">
             <properties>
-                <property ID="0x55744160" type="file" extensions="AFSM"/>
+                <property ID="0x55744160" type="asset" extensions="AFSM"/>
                 <struct ID="0xCF90D15E" template="Structs/HealthInfo.xml">
                     <properties>
                         <property ID="0xF0668919">
@@ -82,26 +82,26 @@
                 <struct ID="0xB32D1B19" template="Structs/PuddleControlData.xml"/>
                 <struct ID="0xFD6D2B52" template="Structs/PuddleControlData.xml"/>
                 <struct ID="0x17B1C55E" template="Structs/PuddleControlData.xml"/>
-                <property ID="0x2367F689" type="file" extensions="PART"/>
-                <property ID="0xD473158D" type="file" extensions="PART"/>
-                <property ID="0xCCA298B4" type="file" extensions="PART"/>
-                <property ID="0xB99C80D3" type="file" extensions="PART"/>
-                <property ID="0x96EA9F4B" type="file" extensions="PART"/>
-                <property ID="0x21655924" type="file" extensions="PART"/>
-                <property ID="0x68261C78" type="file" extensions="UNKN"/>
-                <property ID="0xE482BCA4" type="file" extensions="PART"/>
-                <property ID="0x812E9CC8" type="file" extensions="PART"/>
-                <property ID="0xAEADE325" type="file" extensions="PART"/>
-                <property ID="0x10CFFAD6" type="file" extensions="PART"/>
-                <property ID="0x78685EB2" type="file" extensions="PART"/>
-                <property ID="0x7027EE36" type="file" extensions="CAUD"/>
-                <property ID="0x8A53608D" type="file" extensions="CAUD"/>
-                <property ID="0xF349BAAC" type="file" extensions="CAUD"/>
-                <property ID="0x10A4E795" type="file" extensions="UNKN"/>
-                <property ID="0xDFD54864" type="file" extensions="CAUD"/>
-                <property ID="0x49B30DE2" type="file" extensions="CAUD"/>
-                <property ID="0xDECD5831" type="file" extensions="CAUD"/>
-                <property ID="0x1B412C4B" type="file" extensions="CAUD"/>
+                <property ID="0x2367F689" type="asset" extensions="PART"/>
+                <property ID="0xD473158D" type="asset" extensions="PART"/>
+                <property ID="0xCCA298B4" type="asset" extensions="PART"/>
+                <property ID="0xB99C80D3" type="asset" extensions="PART"/>
+                <property ID="0x96EA9F4B" type="asset" extensions="PART"/>
+                <property ID="0x21655924" type="asset" extensions="PART"/>
+                <property ID="0x68261C78" type="asset" extensions="UNKN"/>
+                <property ID="0xE482BCA4" type="asset" extensions="PART"/>
+                <property ID="0x812E9CC8" type="asset" extensions="PART"/>
+                <property ID="0xAEADE325" type="asset" extensions="PART"/>
+                <property ID="0x10CFFAD6" type="asset" extensions="PART"/>
+                <property ID="0x78685EB2" type="asset" extensions="PART"/>
+                <property ID="0x7027EE36" type="asset" extensions="CAUD"/>
+                <property ID="0x8A53608D" type="asset" extensions="CAUD"/>
+                <property ID="0xF349BAAC" type="asset" extensions="CAUD"/>
+                <property ID="0x10A4E795" type="asset" extensions="UNKN"/>
+                <property ID="0xDFD54864" type="asset" extensions="CAUD"/>
+                <property ID="0x49B30DE2" type="asset" extensions="CAUD"/>
+                <property ID="0xDECD5831" type="asset" extensions="CAUD"/>
+                <property ID="0x1B412C4B" type="asset" extensions="CAUD"/>
                 <struct ID="0x7B71AE90" template="Structs/DamageVulnerability.xml"/>
             </properties>
         </struct>

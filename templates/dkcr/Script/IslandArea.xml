@@ -9,11 +9,11 @@
         <property ID="0x2E686C2A" type="vector3f">
             <default>0.0, 0.0, 0.0</default>
         </property>
-        <property ID="0xC27FFA8F" type="file" extensions="CMDL"/>
-        <property ID="0x0FC966DC" type="file" extensions="DCLN"/>
+        <property ID="0xC27FFA8F" type="asset" extensions="CMDL"/>
+        <property ID="0x0FC966DC" type="asset" extensions="DCLN"/>
         <property ID="0xA244C9D8" type="character"/>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <property ID="0x3B83DD31" type="file" extensions="STRG"/>
+        <property ID="0x3B83DD31" type="asset" extensions="STRG"/>
         <property ID="0x6A02F05F" type="string"/>
         <enum ID="0x28E29F9B">
             <default>0x9DCDF5E0</default>
@@ -31,12 +31,12 @@
         </enum>
         <struct ID="0xDF692967" type="multi">
             <properties>
-                <property ID="0xA4F20C17" type="file" extensions="STRG"/>
-                <property ID="0x8067FE4E" type="file" extensions="STRG"/>
-                <property ID="0xB9B18EF6" type="file" extensions="STRG"/>
-                <property ID="0x241839D4" type="file" extensions="STRG"/>
-                <property ID="0xF9529B46" type="file" extensions="STRG"/>
-                <property ID="0x1359360D" type="file" extensions="STRG"/>
+                <property ID="0xA4F20C17" type="asset" extensions="STRG"/>
+                <property ID="0x8067FE4E" type="asset" extensions="STRG"/>
+                <property ID="0xB9B18EF6" type="asset" extensions="STRG"/>
+                <property ID="0x241839D4" type="asset" extensions="STRG"/>
+                <property ID="0xF9529B46" type="asset" extensions="STRG"/>
+                <property ID="0x1359360D" type="asset" extensions="STRG"/>
                 <struct ID="0x57CB6052" template="Structs/IslandAreaStruct.xml">
                     <properties>
                         <property ID="0x5FED5C9D">
@@ -90,13 +90,13 @@
         </struct>
         <struct ID="0x0F722357" type="multi">
             <properties>
-                <property ID="0xA28B199D" type="file" extensions="CAUD"/>
-                <property ID="0x003E7991" type="file" extensions="CAUD"/>
-                <property ID="0x87501D31" type="file" extensions="CAUD"/>
-                <property ID="0x72679165" type="file" extensions="CAUD"/>
-                <property ID="0xCC70E91C" type="file" extensions="unknown"/>
-                <property ID="0xB2B02A99" type="file" extensions="unknown"/>
-                <property ID="0x4392D0C4" type="file" extensions="CAUD"/>
+                <property ID="0xA28B199D" type="asset" extensions="CAUD"/>
+                <property ID="0x003E7991" type="asset" extensions="CAUD"/>
+                <property ID="0x87501D31" type="asset" extensions="CAUD"/>
+                <property ID="0x72679165" type="asset" extensions="CAUD"/>
+                <property ID="0xCC70E91C" type="asset" extensions="unknown"/>
+                <property ID="0xB2B02A99" type="asset" extensions="unknown"/>
+                <property ID="0x4392D0C4" type="asset" extensions="CAUD"/>
             </properties>
         </struct>
     </properties>

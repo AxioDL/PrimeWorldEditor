@@ -18,7 +18,7 @@
         <property ID="0x04" name="Initial Thermal Heat Level" type="float"/>
         <property ID="0x05" name="X-Ray Fog Distance" type="float"/>
         <property ID="0x06" name="Initial World Lighting Level" type="float"/>
-        <property ID="0x07" name="Skybox Model" type="file" extensions="CMDL"/>
+        <property ID="0x07" name="Skybox Model" type="asset" extensions="CMDL"/>
         <enum ID="0x08" name="Phazon Type">
             <enumerators>
                 <enumerator ID="0x00" name="None"/>

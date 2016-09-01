@@ -49,8 +49,8 @@
                 <property ID="0x4319C840" type="float">
                     <default>0.25</default>
                 </property>
-                <property ID="0x052BF617" type="file" extensions="CAUD"/>
-                <property ID="0xFE842879" type="file" extensions="CAUD"/>
+                <property ID="0x052BF617" type="asset" extensions="CAUD"/>
+                <property ID="0xFE842879" type="asset" extensions="CAUD"/>
                 <property ID="0x221C7EC1" type="float">
                     <default>2.0</default>
                 </property>
@@ -97,14 +97,14 @@
                         <property ID="0x2ED25F50" type="float">
                             <default>5.0</default>
                         </property>
-                        <property ID="0xE9C8E2BD" type="file" extensions="PART"/>
+                        <property ID="0xE9C8E2BD" type="asset" extensions="PART"/>
                         <property ID="0x7E192395" type="float">
                             <default>1.0</default>
                         </property>
                         <property ID="0x5D1652E2" type="float">
                             <default>25.0</default>
                         </property>
-                        <property ID="0xE33A996D" type="file" extensions="CAUD"/>
+                        <property ID="0xE33A996D" type="asset" extensions="CAUD"/>
                     </properties>
                 </struct>
                 <struct ID="0xD7548E97" type="multi">
@@ -118,8 +118,8 @@
                         <property ID="0x2ED25F50" type="float">
                             <default>15.0</default>
                         </property>
-                        <property ID="0xB154F3FD" type="file" extensions="PART"/>
-                        <property ID="0xE33A996D" type="file" extensions="CAUD"/>
+                        <property ID="0xB154F3FD" type="asset" extensions="PART"/>
+                        <property ID="0xE33A996D" type="asset" extensions="CAUD"/>
                         <property ID="0xDE12B1D5" type="bool">
                             <default>false</default>
                         </property>
@@ -127,13 +127,13 @@
                 </struct>
                 <struct ID="0x19A58C31" type="multi">
                     <properties>
-                        <property ID="0x66AB57A4" type="file" extensions="CMDL"/>
-                        <property ID="0x14143470" type="file" extensions="PART"/>
-                        <property ID="0x36EEE791" type="file" extensions="PART"/>
-                        <property ID="0x52F89BF7" type="file" extensions="PART"/>
-                        <property ID="0x1A092829" type="file" extensions="CAUD"/>
-                        <property ID="0xE33A996D" type="file" extensions="CAUD"/>
-                        <property ID="0xDF64C67A" type="file" extensions="CAUD"/>
+                        <property ID="0x66AB57A4" type="asset" extensions="CMDL"/>
+                        <property ID="0x14143470" type="asset" extensions="PART"/>
+                        <property ID="0x36EEE791" type="asset" extensions="PART"/>
+                        <property ID="0x52F89BF7" type="asset" extensions="PART"/>
+                        <property ID="0x1A092829" type="asset" extensions="CAUD"/>
+                        <property ID="0xE33A996D" type="asset" extensions="CAUD"/>
+                        <property ID="0xDF64C67A" type="asset" extensions="CAUD"/>
                         <struct ID="0x337F9524" template="Structs/DamageInfo.xml"/>
                         <struct ID="0xB3DABF84" template="Structs/DamageInfo.xml"/>
                         <property ID="0x6392404E" type="float">
@@ -148,7 +148,7 @@
                         <property ID="0x7C269EBC" type="float">
                             <default>0.5</default>
                         </property>
-                        <property ID="0xE9C8E2BD" type="file" extensions="PART"/>
+                        <property ID="0xE9C8E2BD" type="asset" extensions="PART"/>
                         <property ID="0x7E192395" type="float">
                             <default>1.0</default>
                         </property>

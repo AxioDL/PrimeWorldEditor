@@ -91,9 +91,9 @@
         <enum ID="0x3FA164BC" template="Enums/Item.xml">
             <default>0xFB73F2B8</default>
         </enum>
-        <property ID="0x5ECF8F67" type="file" extensions="UNKN"/>
-        <property ID="0xD85BFDC9" type="file" extensions="UNKN"/>
-        <property ID="0x13072E6C" type="file" extensions="UNKN"/>
+        <property ID="0x5ECF8F67" type="asset" extensions="UNKN"/>
+        <property ID="0xD85BFDC9" type="asset" extensions="UNKN"/>
+        <property ID="0x13072E6C" type="asset" extensions="UNKN"/>
         <enum ID="0x825E1E14">
             <default>0xCC1DFCF5</default>
             <enumerators>

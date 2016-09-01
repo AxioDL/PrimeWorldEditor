@@ -9,11 +9,11 @@
         <property ID="0x2E686C2A" type="vector3f">
             <default>0.0, 0.0, 0.0</default>
         </property>
-        <property ID="0xC27FFA8F" type="file" extensions="CMDL"/>
+        <property ID="0xC27FFA8F" type="asset" extensions="CMDL"/>
         <property ID="0xA3D63F44" type="character"/>
-        <property ID="0x1B21EEB2" type="file" extensions="FSMC"/>
+        <property ID="0x1B21EEB2" type="asset" extensions="FSMC"/>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <property ID="0x0FC966DC" type="file" extensions="DCLN"/>
+        <property ID="0x0FC966DC" type="asset" extensions="DCLN"/>
         <struct ID="0xCF90D15E" template="Structs/HealthInfo.xml"/>
         <property ID="0xDCD56FE8" type="long">
             <default>200</default>

@@ -19,7 +19,7 @@ class CDamageableTriggerExtra : public CScriptExtra
 
     TVector3Property *mpSizeProp;
     TEnumProperty *mpRenderSideProp;
-    TFileProperty *mpTextureProps[3];
+    TAssetProperty *mpTextureProps[3];
 
     CVector3f mPlaneSize;
     ERenderSide mRenderSide;

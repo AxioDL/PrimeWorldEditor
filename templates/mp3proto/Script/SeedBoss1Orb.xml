@@ -16,7 +16,7 @@
                 <property ID="0x5319E29B" type="bool">
                     <default>true</default>
                 </property>
-                <property ID="0xA0285357" type="file" extensions="PART"/>
+                <property ID="0xA0285357" type="asset" extensions="PART"/>
                 <property ID="0x88474244" type="float">
                     <default>0.0</default>
                 </property>

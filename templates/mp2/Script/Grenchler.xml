@@ -63,12 +63,12 @@
         <struct ID="0x0A7326A3" template="Structs/DamageVulnerability.xml"/>
         <property ID="0xA18F626B" type="character"/>
         <property ID="0x0ABEF809" type="character"/>
-        <property ID="0x4F3A4566" type="file" extensions="CMDL"/>
-        <property ID="0x401BC111" type="file" extensions="CSKR"/>
+        <property ID="0x4F3A4566" type="asset" extensions="CMDL"/>
+        <property ID="0x401BC111" type="asset" extensions="CSKR"/>
         <property ID="0x9B193AE8" type="character"/>
         <property ID="0xC24CF580" type="character"/>
-        <property ID="0x72258FE7" type="file" extensions="CMDL"/>
-        <property ID="0xE5FBA24C" type="file" extensions="CSKR"/>
+        <property ID="0x72258FE7" type="asset" extensions="CMDL"/>
+        <property ID="0xE5FBA24C" type="asset" extensions="CSKR"/>
         <property ID="0x55C51213" type="long">
             <default>-1</default>
         </property>
@@ -124,7 +124,7 @@
         <property ID="0xD0D118E3" type="float">
             <default>1.5</default>
         </property>
-        <property ID="0x49FAE143" type="file" extensions="ELSC"/>
+        <property ID="0x49FAE143" type="asset" extensions="ELSC"/>
         <struct ID="0x13E30E4D" template="Structs/DamageInfo.xml">
             <properties>
                 <enum ID="0x119FBD31">
@@ -154,7 +154,7 @@
         <property ID="0xB00775E6" type="float">
             <default>20.0</default>
         </property>
-        <property ID="0x7EF9AA67" type="file" extensions="PART"/>
+        <property ID="0x7EF9AA67" type="asset" extensions="PART"/>
         <struct ID="0x5285DB00" template="Structs/DamageInfo.xml">
             <properties>
                 <enum ID="0x119FBD31">
@@ -165,16 +165,16 @@
                 </property>
             </properties>
         </struct>
-        <property ID="0x30B81A7E" type="file" extensions="PART"/>
-        <property ID="0xBF4DAAE6" type="file" extensions="PART"/>
-        <property ID="0x70247A6E" type="file" extensions="PART"/>
-        <property ID="0xFFCEE1A9" type="file" extensions="PART"/>
-        <property ID="0xAE1F2A26" type="file" extensions="PART"/>
-        <property ID="0x0DABF0AF" type="file" extensions="PART"/>
-        <property ID="0xE51746D1" type="file" extensions="PART"/>
+        <property ID="0x30B81A7E" type="asset" extensions="PART"/>
+        <property ID="0xBF4DAAE6" type="asset" extensions="PART"/>
+        <property ID="0x70247A6E" type="asset" extensions="PART"/>
+        <property ID="0xFFCEE1A9" type="asset" extensions="PART"/>
+        <property ID="0xAE1F2A26" type="asset" extensions="PART"/>
+        <property ID="0x0DABF0AF" type="asset" extensions="PART"/>
+        <property ID="0xE51746D1" type="asset" extensions="PART"/>
         <struct ID="0x2CE7520F" template="Structs/DamageInfo.xml"/>
         <struct ID="0xB6B9074B" template="Structs/AudioPlaybackParms.xml"/>
-        <property ID="0x05439A08" type="file" extensions="WPSC"/>
+        <property ID="0x05439A08" type="asset" extensions="WPSC"/>
         <property ID="0xD4753FF4" type="long">
             <default>4</default>
         </property>
@@ -187,7 +187,7 @@
         <property ID="0xFC6F199D" type="float">
             <default>10.0</default>
         </property>
-        <property ID="0xF6502596" type="file" extensions="PART"/>
+        <property ID="0xF6502596" type="asset" extensions="PART"/>
         <struct ID="0x6EC26414" template="Structs/DamageInfo.xml">
             <properties>
                 <enum ID="0x119FBD31">
@@ -198,10 +198,10 @@
                 </property>
             </properties>
         </struct>
-        <property ID="0x54B6BFA1" type="file" extensions="PART"/>
+        <property ID="0x54B6BFA1" type="asset" extensions="PART"/>
         <struct ID="0x5CF705F2" template="Structs/AudioPlaybackParms.xml"/>
-        <property ID="0xB9F9F4F2" type="file" extensions="PART"/>
-        <property ID="0xF60AC5CC" type="file" extensions="SCAN"/>
+        <property ID="0xB9F9F4F2" type="asset" extensions="PART"/>
+        <property ID="0xF60AC5CC" type="asset" extensions="SCAN"/>
         <struct ID="0xE61748ED" template="Structs/IngPossessionData.xml"/>
     </properties>
     <states/>

@@ -23,10 +23,10 @@
             <default>0.0, 0.0, 0.0</default>
         </property>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <property ID="0xC27FFA8F" type="file" extensions="CMDL"/>
-        <property ID="0x0FC966DC" type="file" extensions="DCLN"/>
+        <property ID="0xC27FFA8F" type="asset" extensions="CMDL"/>
+        <property ID="0x0FC966DC" type="asset" extensions="DCLN"/>
         <property ID="0xA3D63F44" type="character"/>
-        <property ID="0x1B21EEB2" type="file" extensions="FSMC"/>
+        <property ID="0x1B21EEB2" type="asset" extensions="FSMC"/>
         <enum ID="0xD0E83E61">
             <default>0xAF8B265E</default>
             <enumerators>

@@ -19,7 +19,7 @@
         <property ID="0xC7F4966C" type="bool">
             <default>true</default>
         </property>
-        <property ID="0x2245A396" type="file" extensions="CMDL"/>
+        <property ID="0x2245A396" type="asset" extensions="CMDL"/>
         <property ID="0x25F822C4" type="float">
             <default>15.0</default>
         </property>
@@ -27,9 +27,9 @@
             <default>50.0</default>
         </property>
         <struct ID="0x14D1A3A8" template="Structs/DamageInfo.xml"/>
-        <property ID="0x1319E077" type="file" extensions="PART"/>
-        <property ID="0xD207FF0F" type="file" extensions="PART"/>
-        <property ID="0x2B31C882" type="file" extensions="PART"/>
+        <property ID="0x1319E077" type="asset" extensions="PART"/>
+        <property ID="0xD207FF0F" type="asset" extensions="PART"/>
+        <property ID="0x2B31C882" type="asset" extensions="PART"/>
         <property ID="0x9A6BB47F" type="float">
             <default>25.0</default>
         </property>
@@ -54,8 +54,8 @@
         <property ID="0x454F16B1" type="long">
             <default>2</default>
         </property>
-        <property ID="0xDFADA7C3" type="file" extensions="CAUD"/>
-        <property ID="0x554B3450" type="file" extensions="CAUD"/>
+        <property ID="0xDFADA7C3" type="asset" extensions="CAUD"/>
+        <property ID="0x554B3450" type="asset" extensions="CAUD"/>
         <property ID="0x36D1B707" type="float">
             <default>8.0</default>
         </property>
@@ -68,16 +68,16 @@
         <property ID="0x9E69BCFB" type="float">
             <default>0.0</default>
         </property>
-        <property ID="0x6C14CD39" type="file" extensions="CAUD"/>
-        <property ID="0x92802BB3" type="file" extensions="CAUD"/>
+        <property ID="0x6C14CD39" type="asset" extensions="CAUD"/>
+        <property ID="0x92802BB3" type="asset" extensions="CAUD"/>
         <property ID="0xBF95A130" type="color">
             <default>0.0, 0.0, 1.0, 1.0</default>
         </property>
         <property ID="0x8B4A07D2" type="color">
             <default>1.0, 0.0, 0.0, 1.0</default>
         </property>
-        <property ID="0xF769F604" type="file" extensions="PART"/>
-        <property ID="0x491BF41D" type="file" extensions="UNKN"/>
+        <property ID="0xF769F604" type="asset" extensions="PART"/>
+        <property ID="0x491BF41D" type="asset" extensions="UNKN"/>
         <property ID="0x1FB988F2" type="float">
             <default>0.0</default>
         </property>

@@ -3,8 +3,8 @@
     <name>AVIS</name>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0xB2556C66" type="file" extensions="CAAD"/>
-        <property ID="0x42097686" type="file" extensions="TXTR"/>
+        <property ID="0xB2556C66" type="asset" extensions="CAAD"/>
+        <property ID="0x42097686" type="asset" extensions="TXTR"/>
     </properties>
     <states/>
     <messages/>

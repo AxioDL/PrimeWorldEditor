@@ -42,7 +42,7 @@
                     <default>0.75</default>
                 </property>
                 <property ID="0x2BD2AE32" type="string"/>
-                <property ID="0x7C519662" type="file" extensions="CAUD"/>
+                <property ID="0x7C519662" type="asset" extensions="CAUD"/>
             </properties>
         </struct>
         <struct ID="0xCC528ED6" type="multi">

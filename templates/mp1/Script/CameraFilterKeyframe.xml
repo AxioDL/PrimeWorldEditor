@@ -11,7 +11,7 @@
         <property ID="0x06" name="Filter Color" type="color"/>
         <property ID="0x07" name="Fade-In Duration" type="float"/>
         <property ID="0x08" name="Fade-Out Duration" type="float"/>
-        <property ID="0x09" name="Overlay Texture" type="file" extensions="TXTR"/>
+        <property ID="0x09" name="Overlay Texture" type="asset" extensions="TXTR"/>
     </properties>
     <states/>
     <messages/>

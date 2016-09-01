@@ -168,9 +168,9 @@
                 <property ID="0x80C6880F" type="float">
                     <default>2.0</default>
                 </property>
-                <property ID="0xC245A874" type="file" extensions="CAUD"/>
-                <property ID="0xC192E357" type="file" extensions="CAUD"/>
-                <property ID="0x1B412C4B" type="file" extensions="CAUD"/>
+                <property ID="0xC245A874" type="asset" extensions="CAUD"/>
+                <property ID="0xC192E357" type="asset" extensions="CAUD"/>
+                <property ID="0x1B412C4B" type="asset" extensions="CAUD"/>
                 <property ID="0x8A36B5D5" type="long">
                     <default>10000</default>
                 </property>
@@ -208,15 +208,15 @@
                 <property ID="0x36950BCB" type="bool">
                     <default>false</default>
                 </property>
-                <property ID="0x68002BD7" type="file" extensions="CMDL"/>
-                <property ID="0xAD315C7C" type="file" extensions="CMDL"/>
-                <property ID="0x042A25ED" type="file" extensions="CMDL"/>
-                <property ID="0xE39B8B1E" type="file" extensions="CMDL"/>
-                <property ID="0x356C166A" type="file" extensions="CMDL"/>
-                <property ID="0x1CA4A298" type="file" extensions="CMDL"/>
-                <property ID="0xDF44507E" type="file" extensions="CMDL"/>
-                <property ID="0xD2C9A656" type="file" extensions="CMDL"/>
-                <property ID="0xD4E26A8E" type="file" extensions="CMDL"/>
+                <property ID="0x68002BD7" type="asset" extensions="CMDL"/>
+                <property ID="0xAD315C7C" type="asset" extensions="CMDL"/>
+                <property ID="0x042A25ED" type="asset" extensions="CMDL"/>
+                <property ID="0xE39B8B1E" type="asset" extensions="CMDL"/>
+                <property ID="0x356C166A" type="asset" extensions="CMDL"/>
+                <property ID="0x1CA4A298" type="asset" extensions="CMDL"/>
+                <property ID="0xDF44507E" type="asset" extensions="CMDL"/>
+                <property ID="0xD2C9A656" type="asset" extensions="CMDL"/>
+                <property ID="0xD4E26A8E" type="asset" extensions="CMDL"/>
             </properties>
         </struct>
     </properties>

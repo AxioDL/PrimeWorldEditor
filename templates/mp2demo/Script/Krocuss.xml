@@ -116,7 +116,7 @@
         <property ID="0x4D20624B" type="color">
             <default>1.0, 0.0, 0.0, 1.0</default>
         </property>
-        <property ID="0xC3566114" type="file" extensions="DPSC"/>
+        <property ID="0xC3566114" type="asset" extensions="DPSC"/>
     </properties>
     <states/>
     <messages/>

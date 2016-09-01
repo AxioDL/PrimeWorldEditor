@@ -22,11 +22,11 @@
                 <property ID="0x2E95D9AD" type="float">
                     <default>-1.0</default>
                 </property>
-                <property ID="0xF5056D9D" type="file" extensions="WPSC"/>
-                <property ID="0x58DBCC52" type="file" extensions="WPSC"/>
+                <property ID="0xF5056D9D" type="asset" extensions="WPSC"/>
+                <property ID="0x58DBCC52" type="asset" extensions="WPSC"/>
                 <struct ID="0x414046A8" template="Structs/DamageInfo.xml"/>
-                <property ID="0x635B60AA" type="file" extensions="UNKN"/>
-                <property ID="0x6760BD02" type="file" extensions="UNKN"/>
+                <property ID="0x635B60AA" type="asset" extensions="UNKN"/>
+                <property ID="0x6760BD02" type="asset" extensions="UNKN"/>
             </properties>
         </struct>
     </properties>

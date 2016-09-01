@@ -9,7 +9,7 @@
         <struct ID="0x04" name="PatternedInfo" template="Structs/PatternedInfo.xml"/>
         <struct ID="0x05" name="ActorParameters" template="Structs/ActorParameters.xml"/>
         <property ID="0x06" name="Unused" type="bool"/>
-        <property ID="0x07" name="ELSC" type="file" extensions="ELSC"/>
+        <property ID="0x07" name="ELSC" type="asset" extensions="ELSC"/>
         <property ID="0x08" name="Target Locator" type="string"/>
     </properties>
     <states/>

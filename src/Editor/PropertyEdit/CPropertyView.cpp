@@ -166,7 +166,7 @@ void CPropertyView::SetPersistentEditors(const QModelIndex& rkParent)
         case eBoolProperty:
         case eEnumProperty:
         case eColorProperty:
-        case eFileProperty:
+        case eAssetProperty:
             openPersistentEditor(ChildIndex);
             break;
         case eStructProperty:

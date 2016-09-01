@@ -17,15 +17,15 @@
         <property ID="0xF0993BFE" type="bool">
             <default>false</default>
         </property>
-        <property ID="0xA4692E9C" type="file" extensions="PART"/>
-        <property ID="0xA06EDAF9" type="file" extensions="PART"/>
-        <property ID="0xDE1565A9" type="file" extensions="PART"/>
+        <property ID="0xA4692E9C" type="asset" extensions="PART"/>
+        <property ID="0xA06EDAF9" type="asset" extensions="PART"/>
+        <property ID="0xDE1565A9" type="asset" extensions="PART"/>
         <property ID="0x05C67D0B" type="bool">
             <default>false</default>
         </property>
-        <property ID="0xF7F7F6AF" type="file" extensions="CAUD"/>
-        <property ID="0x2B258629" type="file" extensions="CAUD"/>
-        <property ID="0xE1E66B24" type="file" extensions="CAUD"/>
+        <property ID="0xF7F7F6AF" type="asset" extensions="CAUD"/>
+        <property ID="0x2B258629" type="asset" extensions="CAUD"/>
+        <property ID="0xE1E66B24" type="asset" extensions="CAUD"/>
         <enum ID="0xF4BF6637">
             <default>0x482099A8</default>
             <enumerators>

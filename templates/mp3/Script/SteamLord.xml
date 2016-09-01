@@ -49,10 +49,10 @@
                 <property ID="0xEBA0C5F7" type="float">
                     <default>50.0</default>
                 </property>
-                <property ID="0x9F4E6A36" type="file" extensions="ELSC"/>
-                <property ID="0x0DE136F7" type="file" extensions="PART"/>
-                <property ID="0xBE36E228" type="file" extensions="ELSC"/>
-                <property ID="0x24A4FC9E" type="file" extensions="ELSC"/>
+                <property ID="0x9F4E6A36" type="asset" extensions="ELSC"/>
+                <property ID="0x0DE136F7" type="asset" extensions="PART"/>
+                <property ID="0xBE36E228" type="asset" extensions="ELSC"/>
+                <property ID="0x24A4FC9E" type="asset" extensions="ELSC"/>
                 <property ID="0xE1F030D5" type="float">
                     <default>15.0</default>
                 </property>

@@ -170,7 +170,6 @@ HEADERS += \
     Scene/FShowFlags.h \
     Scene/CScene.h \
     Scene/CSceneIterator.h \
-    Resource/CResourceInfo.h \
     Resource/CPoiToWorld.h \
     Resource/Factory/CPoiToWorldLoader.h \
     Resource/Cooker/CPoiToWorldCooker.h \

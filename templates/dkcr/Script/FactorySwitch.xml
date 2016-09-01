@@ -3,8 +3,8 @@
     <name>FactorySwitch</name>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0x6CA453B1" type="file" extensions="CMDL"/>
-        <property ID="0xB6D34CBE" type="file" extensions="CMDL"/>
+        <property ID="0x6CA453B1" type="asset" extensions="CMDL"/>
+        <property ID="0xB6D34CBE" type="asset" extensions="CMDL"/>
         <property ID="0x66E64EBA" type="bool">
             <default>false</default>
         </property>
@@ -13,8 +13,8 @@
         </property>
         <struct ID="0xEFE4EA57" template="Structs/RotationSplines.xml"/>
         <struct ID="0x692267EA" template="Structs/TranslationSplines.xml"/>
-        <property ID="0x36F96F54" type="file" extensions="unknown"/>
-        <property ID="0x465159A3" type="file" extensions="unknown"/>
+        <property ID="0x36F96F54" type="asset" extensions="unknown"/>
+        <property ID="0x465159A3" type="asset" extensions="unknown"/>
         <property ID="0x25C9C68F" type="bool">
             <default>false</default>
         </property>

@@ -27,8 +27,8 @@
         <property ID="0x5E6A54B8" type="float">
             <default>0.2</default>
         </property>
-        <property ID="0x07F947F4" type="file" extensions="CMDL"/>
-        <property ID="0x0B7325EA" type="file" extensions="CSKR"/>
+        <property ID="0x07F947F4" type="asset" extensions="CMDL"/>
+        <property ID="0x0B7325EA" type="asset" extensions="CSKR"/>
         <struct ID="0xF573E11C" template="Structs/DamageVulnerability.xml"/>
         <property ID="0xAA13253A" type="float">
             <default>2.0</default>

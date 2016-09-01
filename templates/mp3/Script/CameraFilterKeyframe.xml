@@ -24,8 +24,8 @@
         <property ID="0x3EAF78FE" type="float">
             <default>0.0</default>
         </property>
-        <property ID="0xD1F65872" type="file" extensions="TXTR"/>
-        <property ID="0xC27FFA8F" type="file" extensions="CMDL"/>
+        <property ID="0xD1F65872" type="asset" extensions="TXTR"/>
+        <property ID="0xC27FFA8F" type="asset" extensions="CMDL"/>
     </properties>
     <states/>
     <messages/>

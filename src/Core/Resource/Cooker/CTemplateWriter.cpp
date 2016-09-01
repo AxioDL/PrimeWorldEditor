@@ -620,11 +620,11 @@ void CTemplateWriter::SaveProperties(XMLDocument *pDoc, XMLElement *pParent, CSt
             pElem->LinkEndChild(pCookPref);
         }
 
-        // File-specific parameters
-        if (pProp->Type() == eFileProperty)
+        // Asset-specific parameters
+        if (pProp->Type() == eAssetProperty)
         {
-            CFileTemplate *pFile = static_cast<CFileTemplate*>(pProp);
-            const TStringList& rkExtensions = pFile->Extensions();
+            CAssetTemplate *pAsset = static_cast<CAssetTemplate*>(pProp);
+            const TStringList& rkExtensions = pAsset->AllowedExtensions();
             TString ExtensionsString;
 
             for (auto it = rkExtensions.begin(); it != rkExtensions.end(); it++)
@@ -790,17 +790,17 @@ void CTemplateWriter::SavePropertyOverrides(XMLDocument *pDoc, XMLElement *pPare
                     pElem->LinkEndChild(pCookPref);
                 }
 
-                // File-specific parameters
-                if (pProp->Type() == eFileProperty)
+                // Asset-specific parameters
+                if (pProp->Type() == eAssetProperty)
                 {
-                    CFileTemplate *pFile = static_cast<CFileTemplate*>(pProp);
-                    CFileTemplate *pSourceFile = static_cast<CFileTemplate*>(pSource);
+                    CAssetTemplate *pAsset = static_cast<CAssetTemplate*>(pProp);
+                    CAssetTemplate *pSourceAsset = static_cast<CAssetTemplate*>(pSource);
 
-                    if (pFile->Extensions() != pSourceFile->Extensions())
+                    if (pAsset->AllowedExtensions() != pSourceAsset->AllowedExtensions())
                     {
                         TString ExtensionsString;
 
-                        for (auto it = pFile->Extensions().begin(); it != pFile->Extensions().end(); it++)
+                        for (auto it = pAsset->AllowedExtensions().begin(); it != pAsset->AllowedExtensions().end(); it++)
                             ExtensionsString += *it + ",";
 
                         ExtensionsString = ExtensionsString.ChopBack(1);

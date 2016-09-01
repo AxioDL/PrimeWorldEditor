@@ -44,10 +44,10 @@
         <property ID="0x6C7CA121" type="float">
             <default>0.5</default>
         </property>
-        <property ID="0xEA500E8B" type="file" extensions="PART"/>
-        <property ID="0x40992D51" type="file" extensions="PART"/>
-        <property ID="0x1140D11D" type="file" extensions="PART"/>
-        <property ID="0xD207FF0F" type="file" extensions="PART"/>
+        <property ID="0xEA500E8B" type="asset" extensions="PART"/>
+        <property ID="0x40992D51" type="asset" extensions="PART"/>
+        <property ID="0x1140D11D" type="asset" extensions="PART"/>
+        <property ID="0xD207FF0F" type="asset" extensions="PART"/>
         <property ID="0x2C1DFA22" type="long">
             <default>-1</default>
         </property>

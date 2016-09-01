@@ -25,10 +25,10 @@
                 <property ID="0xB3FBFFC8" type="float">
                     <default>10.0</default>
                 </property>
-                <property ID="0xB07A5895" type="file" extensions="PART"/>
-                <property ID="0xA3B64D8C" type="file" extensions="PART"/>
-                <property ID="0xA5B4ED57" type="file" extensions="PART"/>
-                <property ID="0x10CBC9FD" type="file" extensions="PART"/>
+                <property ID="0xB07A5895" type="asset" extensions="PART"/>
+                <property ID="0xA3B64D8C" type="asset" extensions="PART"/>
+                <property ID="0xA5B4ED57" type="asset" extensions="PART"/>
+                <property ID="0x10CBC9FD" type="asset" extensions="PART"/>
                 <property ID="0x056B2DE2" type="bool">
                     <default>true</default>
                 </property>
@@ -52,40 +52,40 @@
                 </property>
                 <struct ID="0x1E054E04" template="Structs/DamageInfo.xml"/>
                 <struct ID="0xBC7B9832" template="Structs/DamageInfo.xml"/>
-                <property ID="0x2B309650" type="file" extensions="WPSC"/>
+                <property ID="0x2B309650" type="asset" extensions="WPSC"/>
                 <struct ID="0x3C8B534D" template="Structs/DamageInfo.xml"/>
                 <struct ID="0x4D19C32E" template="Structs/DamageInfo.xml"/>
                 <struct ID="0x840BA904" template="Structs/DamageInfo.xml"/>
-                <property ID="0xAF7FFE63" type="file" extensions="PART"/>
-                <property ID="0x49FAE143" type="file" extensions="ELSC"/>
-                <property ID="0x570AA8F2" type="file" extensions="ELSC"/>
-                <property ID="0xF2DC8618" type="file" extensions="PART"/>
-                <property ID="0xD53F059B" type="file" extensions="PART"/>
-                <property ID="0x0687C33E" type="file" extensions="PART"/>
+                <property ID="0xAF7FFE63" type="asset" extensions="PART"/>
+                <property ID="0x49FAE143" type="asset" extensions="ELSC"/>
+                <property ID="0x570AA8F2" type="asset" extensions="ELSC"/>
+                <property ID="0xF2DC8618" type="asset" extensions="PART"/>
+                <property ID="0xD53F059B" type="asset" extensions="PART"/>
+                <property ID="0x0687C33E" type="asset" extensions="PART"/>
                 <struct ID="0x13F55169" template="Structs/SwarmSoundData.xml"/>
                 <struct ID="0x9C04DF2F" template="Structs/SwarmSoundData.xml"/>
                 <struct ID="0x8D79B556" template="Structs/SwarmSoundData.xml"/>
-                <property ID="0xEB9A9949" type="file" extensions="CAUD"/>
-                <property ID="0xC3DE457E" type="file" extensions="CAUD"/>
-                <property ID="0xAB633EF1" type="file" extensions="CAUD"/>
-                <property ID="0x2A430EB0" type="file" extensions="CAUD"/>
-                <property ID="0xAF1768C4" type="file" extensions="CAUD"/>
-                <property ID="0x435A0B62" type="file" extensions="CAUD"/>
-                <property ID="0x13EC5401" type="file" extensions="CAUD"/>
-                <property ID="0xE5A34FB3" type="file" extensions="CAUD"/>
-                <property ID="0x7B38D80D" type="file" extensions="CAUD"/>
-                <property ID="0x84360D80" type="file" extensions="CAUD"/>
-                <property ID="0xD2BE3AF7" type="file" extensions="CAUD"/>
-                <property ID="0x9ECC3D08" type="file" extensions="CAUD"/>
-                <property ID="0xCF4F5348" type="file" extensions="CAUD"/>
-                <property ID="0x05117E35" type="file" extensions="CAUD"/>
-                <property ID="0xA53694C2" type="file" extensions="CAUD"/>
+                <property ID="0xEB9A9949" type="asset" extensions="CAUD"/>
+                <property ID="0xC3DE457E" type="asset" extensions="CAUD"/>
+                <property ID="0xAB633EF1" type="asset" extensions="CAUD"/>
+                <property ID="0x2A430EB0" type="asset" extensions="CAUD"/>
+                <property ID="0xAF1768C4" type="asset" extensions="CAUD"/>
+                <property ID="0x435A0B62" type="asset" extensions="CAUD"/>
+                <property ID="0x13EC5401" type="asset" extensions="CAUD"/>
+                <property ID="0xE5A34FB3" type="asset" extensions="CAUD"/>
+                <property ID="0x7B38D80D" type="asset" extensions="CAUD"/>
+                <property ID="0x84360D80" type="asset" extensions="CAUD"/>
+                <property ID="0xD2BE3AF7" type="asset" extensions="CAUD"/>
+                <property ID="0x9ECC3D08" type="asset" extensions="CAUD"/>
+                <property ID="0xCF4F5348" type="asset" extensions="CAUD"/>
+                <property ID="0x05117E35" type="asset" extensions="CAUD"/>
+                <property ID="0xA53694C2" type="asset" extensions="CAUD"/>
                 <property ID="0xDC478968" type="float">
                     <default>0.5</default>
                 </property>
-                <property ID="0x091CB316" type="file" extensions="CAUD"/>
-                <property ID="0x358177CC" type="file" extensions="CAUD"/>
-                <property ID="0xAB3E98B8" type="file" extensions="CAUD"/>
+                <property ID="0x091CB316" type="asset" extensions="CAUD"/>
+                <property ID="0x358177CC" type="asset" extensions="CAUD"/>
+                <property ID="0xAB3E98B8" type="asset" extensions="CAUD"/>
             </properties>
         </struct>
     </properties>

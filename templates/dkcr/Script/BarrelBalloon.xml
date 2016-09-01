@@ -67,10 +67,10 @@
                 <property ID="0x6B40ACEF" type="long">
                     <default>0</default>
                 </property>
-                <property ID="0x2672E0BF" type="file" extensions="PART"/>
-                <property ID="0xE4CD14F9" type="file" extensions="CAUD"/>
-                <property ID="0x1A422994" type="file" extensions="CAUD"/>
-                <property ID="0x59CD8DEE" type="file" extensions="CAUD"/>
+                <property ID="0x2672E0BF" type="asset" extensions="PART"/>
+                <property ID="0xE4CD14F9" type="asset" extensions="CAUD"/>
+                <property ID="0x1A422994" type="asset" extensions="CAUD"/>
+                <property ID="0x59CD8DEE" type="asset" extensions="CAUD"/>
             </properties>
         </struct>
     </properties>

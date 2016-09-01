@@ -3,8 +3,8 @@
     <properties>
         <struct ID="0xB028DB0E" template="Structs/LightParameters.xml"/>
         <struct ID="0x375BFD7C" template="Structs/ScannableParameters.xml"/>
-        <property ID="0xBB52F0BE" type="file" extensions="CMDL"/>
-        <property ID="0xC647755B" type="file" extensions="UNKN"/>
+        <property ID="0xBB52F0BE" type="asset" extensions="CMDL"/>
+        <property ID="0xC647755B" type="asset" extensions="UNKN"/>
         <property ID="0x1499803C" type="bool">
             <default>true</default>
         </property>

@@ -8,98 +8,98 @@
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <struct ID="0xCF05A0D1" type="multi">
             <properties>
-                <property ID="0x31EC14BC" type="file" extensions="MLVL"/>
+                <property ID="0x31EC14BC" type="asset" extensions="MLVL"/>
                 <property ID="0xA909F8D3" type="string"/>
             </properties>
         </struct>
         <struct ID="0xFAE81682" type="multi">
             <properties>
-                <property ID="0x31EC14BC" type="file" extensions="MLVL"/>
+                <property ID="0x31EC14BC" type="asset" extensions="MLVL"/>
                 <property ID="0xA909F8D3" type="string"/>
             </properties>
         </struct>
         <struct ID="0x5F63868C" type="multi">
             <properties>
-                <property ID="0x31EC14BC" type="file" extensions="MLVL"/>
+                <property ID="0x31EC14BC" type="asset" extensions="MLVL"/>
                 <property ID="0xA909F8D3" type="string"/>
             </properties>
         </struct>
         <struct ID="0x91337A24" type="multi">
             <properties>
-                <property ID="0x31EC14BC" type="file" extensions="MLVL"/>
+                <property ID="0x31EC14BC" type="asset" extensions="MLVL"/>
                 <property ID="0xA909F8D3" type="string"/>
             </properties>
         </struct>
         <struct ID="0x34B8EA2A" type="multi">
             <properties>
-                <property ID="0x31EC14BC" type="file" extensions="MLVL"/>
+                <property ID="0x31EC14BC" type="asset" extensions="MLVL"/>
                 <property ID="0xA909F8D3" type="string"/>
             </properties>
         </struct>
         <struct ID="0x01555C79" type="multi">
             <properties>
-                <property ID="0x31EC14BC" type="file" extensions="MLVL"/>
+                <property ID="0x31EC14BC" type="asset" extensions="MLVL"/>
                 <property ID="0xA909F8D3" type="string"/>
             </properties>
         </struct>
         <struct ID="0xA4DECC77" type="multi">
             <properties>
-                <property ID="0x31EC14BC" type="file" extensions="MLVL"/>
+                <property ID="0x31EC14BC" type="asset" extensions="MLVL"/>
                 <property ID="0xA909F8D3" type="string"/>
             </properties>
         </struct>
         <struct ID="0x4685A368" type="multi">
             <properties>
-                <property ID="0x31EC14BC" type="file" extensions="MLVL"/>
+                <property ID="0x31EC14BC" type="asset" extensions="MLVL"/>
                 <property ID="0xA909F8D3" type="string"/>
             </properties>
         </struct>
         <struct ID="0xE30E3366" type="multi">
             <properties>
-                <property ID="0x31EC14BC" type="file" extensions="MLVL"/>
+                <property ID="0x31EC14BC" type="asset" extensions="MLVL"/>
                 <property ID="0xA909F8D3" type="string"/>
             </properties>
         </struct>
         <struct ID="0xEE37CD3C" type="multi">
             <properties>
-                <property ID="0x31EC14BC" type="file" extensions="MLVL"/>
+                <property ID="0x31EC14BC" type="asset" extensions="MLVL"/>
                 <property ID="0xA909F8D3" type="string"/>
             </properties>
         </struct>
         <struct ID="0x4BBC5D32" type="multi">
             <properties>
-                <property ID="0x31EC14BC" type="file" extensions="MLVL"/>
+                <property ID="0x31EC14BC" type="asset" extensions="MLVL"/>
                 <property ID="0xA909F8D3" type="string"/>
             </properties>
         </struct>
         <struct ID="0x7E51EB61" type="multi">
             <properties>
-                <property ID="0x31EC14BC" type="file" extensions="MLVL"/>
+                <property ID="0x31EC14BC" type="asset" extensions="MLVL"/>
                 <property ID="0xA909F8D3" type="string"/>
             </properties>
         </struct>
         <struct ID="0xDBDA7B6F" type="multi">
             <properties>
-                <property ID="0x31EC14BC" type="file" extensions="MLVL"/>
+                <property ID="0x31EC14BC" type="asset" extensions="MLVL"/>
                 <property ID="0xA909F8D3" type="string"/>
             </properties>
         </struct>
         <struct ID="0x158A87C7" type="multi">
             <properties>
-                <property ID="0x31EC14BC" type="file" extensions="MLVL"/>
+                <property ID="0x31EC14BC" type="asset" extensions="MLVL"/>
                 <property ID="0xA909F8D3" type="string"/>
             </properties>
         </struct>
         <struct ID="0xB00117C9" type="multi">
             <properties>
-                <property ID="0x31EC14BC" type="file" extensions="MLVL"/>
+                <property ID="0x31EC14BC" type="asset" extensions="MLVL"/>
                 <property ID="0xA909F8D3" type="string"/>
             </properties>
         </struct>
         <struct ID="0x85ECA19A" type="multi">
             <cook_pref>never</cook_pref>
             <properties>
-                <property ID="0x31EC14BC" type="file" extensions="MLVL">
+                <property ID="0x31EC14BC" type="asset" extensions="MLVL">
                     <cook_pref>never</cook_pref>
                 </property>
                 <property ID="0xA909F8D3" type="string">
@@ -110,7 +110,7 @@
         <struct ID="0x20673194" type="multi">
             <cook_pref>never</cook_pref>
             <properties>
-                <property ID="0x31EC14BC" type="file" extensions="MLVL">
+                <property ID="0x31EC14BC" type="asset" extensions="MLVL">
                     <cook_pref>never</cook_pref>
                 </property>
                 <property ID="0xA909F8D3" type="string">
@@ -121,7 +121,7 @@
         <struct ID="0xC23C5E8B" type="multi">
             <cook_pref>never</cook_pref>
             <properties>
-                <property ID="0x31EC14BC" type="file" extensions="MLVL">
+                <property ID="0x31EC14BC" type="asset" extensions="MLVL">
                     <cook_pref>never</cook_pref>
                 </property>
                 <property ID="0xA909F8D3" type="string">
@@ -132,7 +132,7 @@
         <struct ID="0x67B7CE85" type="multi">
             <cook_pref>never</cook_pref>
             <properties>
-                <property ID="0x31EC14BC" type="file" extensions="MLVL">
+                <property ID="0x31EC14BC" type="asset" extensions="MLVL">
                     <cook_pref>never</cook_pref>
                 </property>
                 <property ID="0xA909F8D3" type="string">
@@ -143,7 +143,7 @@
         <struct ID="0x1C6020C4" type="multi">
             <cook_pref>never</cook_pref>
             <properties>
-                <property ID="0x31EC14BC" type="file" extensions="MLVL">
+                <property ID="0x31EC14BC" type="asset" extensions="MLVL">
                     <cook_pref>never</cook_pref>
                 </property>
                 <property ID="0xA909F8D3" type="string">

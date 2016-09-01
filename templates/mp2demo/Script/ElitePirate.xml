@@ -81,7 +81,7 @@
         <property ID="0xACD4D06D" type="float">
             <default>2.0</default>
         </property>
-        <property ID="0xF199F553" type="file" extensions="WPSC"/>
+        <property ID="0xF199F553" type="asset" extensions="WPSC"/>
         <struct ID="0x4063D45C" template="Structs/DamageInfo.xml">
             <properties>
                 <property ID="0x119FBD31">
@@ -121,7 +121,7 @@
         </property>
         <struct ID="0x62C744CD" template="Structs/ActorParameters.xml"/>
         <property ID="0xB92B481D" type="character"/>
-        <property ID="0xBD321538" type="file" extensions="ELSC"/>
+        <property ID="0xBD321538" type="asset" extensions="ELSC"/>
         <property ID="0x58A492EF" type="long">
             <default>-1</default>
         </property>

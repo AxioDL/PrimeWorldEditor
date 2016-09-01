@@ -23,7 +23,7 @@
                 <property ID="0x2E95D9AD" type="float">
                     <default>-1.0</default>
                 </property>
-                <property ID="0x21E4D323" type="file" extensions="SCAN"/>
+                <property ID="0x21E4D323" type="asset" extensions="SCAN"/>
                 <property ID="0x00D1AA67" type="long">
                     <default>0</default>
                 </property>
@@ -63,33 +63,33 @@
                 <property ID="0x9CFDDBA8" type="long">
                     <default>0</default>
                 </property>
-                <property ID="0xF5056D9D" type="file" extensions="WPSC"/>
-                <property ID="0x58DBCC52" type="file" extensions="WPSC"/>
-                <property ID="0x3A6D3A64" type="file" extensions="PART"/>
-                <property ID="0xF3D84488" type="file" extensions="UNKN"/>
-                <property ID="0x49BE8A11" type="file" extensions="PART"/>
-                <property ID="0xE8706E6E" type="file" extensions="PART"/>
+                <property ID="0xF5056D9D" type="asset" extensions="WPSC"/>
+                <property ID="0x58DBCC52" type="asset" extensions="WPSC"/>
+                <property ID="0x3A6D3A64" type="asset" extensions="PART"/>
+                <property ID="0xF3D84488" type="asset" extensions="UNKN"/>
+                <property ID="0x49BE8A11" type="asset" extensions="PART"/>
+                <property ID="0xE8706E6E" type="asset" extensions="PART"/>
                 <struct ID="0x6CC7412A" template="Structs/PlasmaBeamInfo.xml"/>
-                <property ID="0xACFD8EA8" type="file" extensions="WPSC"/>
+                <property ID="0xACFD8EA8" type="asset" extensions="WPSC"/>
                 <struct ID="0xE8FC7798" template="Structs/HoverThenHomeProjectile.xml"/>
                 <property ID="0x5377D4B5" type="character"/>
-                <property ID="0x4C8AEE6D" type="file" extensions="PART"/>
-                <property ID="0x0B17536C" type="file" extensions="SCAN"/>
-                <property ID="0x76C64459" type="file" extensions="WPSC"/>
+                <property ID="0x4C8AEE6D" type="asset" extensions="PART"/>
+                <property ID="0x0B17536C" type="asset" extensions="SCAN"/>
+                <property ID="0x76C64459" type="asset" extensions="WPSC"/>
                 <struct ID="0xEC493F59" template="Structs/PlasmaBeamInfo.xml"/>
-                <property ID="0xD1D51E35" type="file" extensions="WPSC"/>
-                <property ID="0x8E96E5E4" type="file" extensions="PART"/>
-                <property ID="0x5B67A4E7" type="file" extensions="TXTR"/>
+                <property ID="0xD1D51E35" type="asset" extensions="WPSC"/>
+                <property ID="0x8E96E5E4" type="asset" extensions="PART"/>
+                <property ID="0x5B67A4E7" type="asset" extensions="TXTR"/>
                 <property ID="0x4F6E81A8" type="float">
                     <default>100.0</default>
                 </property>
-                <property ID="0xE8F323F9" type="file" extensions="UNKN"/>
-                <property ID="0x9049A2FB" type="file" extensions="CAUD"/>
-                <property ID="0x8B8B33D9" type="file" extensions="UNKN"/>
-                <property ID="0x09133ECD" type="file" extensions="UNKN"/>
-                <property ID="0x3C67B14E" type="file" extensions="UNKN"/>
-                <property ID="0xAF6889B0" type="file" extensions="UNKN"/>
-                <property ID="0xA47E51D3" type="file" extensions="UNKN"/>
+                <property ID="0xE8F323F9" type="asset" extensions="UNKN"/>
+                <property ID="0x9049A2FB" type="asset" extensions="CAUD"/>
+                <property ID="0x8B8B33D9" type="asset" extensions="UNKN"/>
+                <property ID="0x09133ECD" type="asset" extensions="UNKN"/>
+                <property ID="0x3C67B14E" type="asset" extensions="UNKN"/>
+                <property ID="0xAF6889B0" type="asset" extensions="UNKN"/>
+                <property ID="0xA47E51D3" type="asset" extensions="UNKN"/>
             </properties>
         </struct>
         <struct ID="0x02C43C41" template="Structs/DarkSamusData.xml"/>

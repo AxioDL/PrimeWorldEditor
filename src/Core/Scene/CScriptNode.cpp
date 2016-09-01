@@ -472,16 +472,16 @@ void CScriptNode::PropertyModified(IProperty *pProp)
         SetDisplayAsset(mpInstance->DisplayAsset());
     }
 
-    else if (pProp->Type() == eFileProperty)
+    else if (pProp->Type() == eAssetProperty)
     {
-        CFileTemplate *pFileTemp = static_cast<CFileTemplate*>(pProp->Template());
+        CAssetTemplate *pAssetTemp = static_cast<CAssetTemplate*>(pProp->Template());
 
-        if (pFileTemp->AcceptsExtension("CMDL") || pFileTemp->AcceptsExtension("TXTR") || pFileTemp->AcceptsExtension("ANCS") || pFileTemp->AcceptsExtension("CHAR"))
+        if (pAssetTemp->AcceptsExtension("CMDL") || pAssetTemp->AcceptsExtension("TXTR") || pAssetTemp->AcceptsExtension("ANCS") || pAssetTemp->AcceptsExtension("CHAR"))
         {
             mpInstance->EvaluateDisplayAsset();
             SetDisplayAsset(mpInstance->DisplayAsset());
         }
-        else if (pFileTemp->AcceptsExtension("DCLN"))
+        else if (pAssetTemp->AcceptsExtension("DCLN"))
         {
             mpInstance->EvaluateCollisionModel();
             mpCollisionNode->SetCollision(mpInstance->Collision());

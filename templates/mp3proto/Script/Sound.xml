@@ -3,7 +3,7 @@
     <name>Sound</name>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0x771A3176" type="file" extensions="CAUD"/>
+        <property ID="0x771A3176" type="asset" extensions="CAUD"/>
         <property ID="0x25D4798A" type="float">
             <default>2.0</default>
         </property>

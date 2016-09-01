@@ -3,7 +3,7 @@
     <name>CannonBall</name>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0xB68C6D96" type="file" extensions="PART"/>
+        <property ID="0xB68C6D96" type="asset" extensions="PART"/>
     </properties>
     <states/>
     <messages/>

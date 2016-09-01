@@ -71,7 +71,7 @@
         </struct>
         <struct ID="0xC243DF95" type="multi">
             <properties>
-                <property ID="0xD8738FC8" type="file" extensions="CAUD"/>
+                <property ID="0xD8738FC8" type="asset" extensions="CAUD"/>
                 <enum ID="0x6A06FAEE">
                     <default>0x2FD7B2AA</default>
                     <enumerators>

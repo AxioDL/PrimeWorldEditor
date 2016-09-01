@@ -22,12 +22,12 @@
             <default>true</default>
         </property>
         <property ID="0x4044D9E5" type="character"/>
-        <property ID="0xB20CC271" type="file" extensions="CMDL"/>
-        <property ID="0xAE5B2114" type="file" extensions="CMDL"/>
+        <property ID="0xB20CC271" type="asset" extensions="CMDL"/>
+        <property ID="0xAE5B2114" type="asset" extensions="CMDL"/>
         <property ID="0x47B4E863" type="color">
             <default>0.0, 1.0, 1.0, 1.0</default>
         </property>
-        <property ID="0x2589C3F0" type="file" extensions="TXTR"/>
+        <property ID="0x2589C3F0" type="asset" extensions="TXTR"/>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
         <property ID="0x850115E4" type="vector3f">
             <default>0.0, 0.0, 0.0</default>

@@ -4,9 +4,9 @@
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <property ID="0x0FC966DC" type="file" extensions="DCLN"/>
+        <property ID="0x0FC966DC" type="asset" extensions="DCLN"/>
         <property ID="0xA3D63F44" type="character"/>
-        <property ID="0x1B21EEB2" type="file" extensions="FSMC"/>
+        <property ID="0x1B21EEB2" type="asset" extensions="FSMC"/>
         <struct ID="0xE5999965" type="multi">
             <properties>
                 <property ID="0x0E4C8A24" type="bool">

@@ -77,8 +77,8 @@
             <default>-1</default>
         </property>
         <property ID="0xE25FB08C" type="character"/>
-        <property ID="0x55744160" type="file" extensions="AFSM"/>
-        <property ID="0xC1C7E255" type="file" extensions="FSM2"/>
+        <property ID="0x55744160" type="asset" extensions="AFSM"/>
+        <property ID="0xC1C7E255" type="asset" extensions="FSM2"/>
         <property ID="0x87D22D43" type="float">
             <default>0.1</default>
         </property>
@@ -94,12 +94,12 @@
         <property ID="0x487EF257" type="vector3f">
             <default>0.0, 0.0, 0.0</default>
         </property>
-        <property ID="0x684F00C9" type="file" extensions="PART"/>
-        <property ID="0xF35F5164" type="file" extensions="UNKN"/>
+        <property ID="0x684F00C9" type="asset" extensions="PART"/>
+        <property ID="0xF35F5164" type="asset" extensions="UNKN"/>
         <property ID="0x130539A0" type="vector3f">
             <default>0.0, 0.0, 0.0</default>
         </property>
-        <property ID="0xA8DA9239" type="file" extensions="PART"/>
+        <property ID="0xA8DA9239" type="asset" extensions="PART"/>
         <property ID="0x7344D6CD" type="long">
             <default>-1</default>
         </property>
@@ -109,7 +109,7 @@
         <property ID="0xCDD9F41C" type="long">
             <default>-1</default>
         </property>
-        <property ID="0x87011652" type="file" extensions="RULE"/>
+        <property ID="0x87011652" type="asset" extensions="RULE"/>
         <property ID="0x4BC4C4D9" type="long">
             <default>0</default>
         </property>

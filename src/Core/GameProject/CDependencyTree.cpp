@@ -120,9 +120,9 @@ void CScriptInstanceDependency::ParseStructDependencies(CScriptInstanceDependenc
         if (Type == eStructProperty || Type == eArrayProperty)
             ParseStructDependencies(pInst, static_cast<CPropertyStruct*>(pProp));
 
-        else if (Type == eFileProperty)
+        else if (Type == eAssetProperty)
         {
-            CAssetID ID = static_cast<TFileProperty*>(pProp)->Get().ID();
+            CAssetID ID = static_cast<TAssetProperty*>(pProp)->Get();
 
             if (ID.IsValid())
             {

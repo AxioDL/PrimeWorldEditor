@@ -20,9 +20,9 @@
         <property ID="0x845EF489" type="float">
             <default>3.0</default>
         </property>
-        <property ID="0x670B9A1F" type="file" extensions="PART"/>
+        <property ID="0x670B9A1F" type="asset" extensions="PART"/>
         <struct ID="0xE8619082" template="Structs/DamageInfo.xml"/>
-        <property ID="0x1AA418F4" type="file" extensions="TXTR"/>
+        <property ID="0x1AA418F4" type="asset" extensions="TXTR"/>
         <property ID="0xC9A55479" type="float">
             <default>0.5</default>
         </property>
@@ -36,8 +36,8 @@
             <default>false</default>
         </property>
         <struct ID="0xDEFF74EA" template="Structs/DamageInfo.xml"/>
-        <property ID="0xC4C39403" type="file" extensions="CAUD"/>
-        <property ID="0xC7C3F610" type="file" extensions="CAUD"/>
+        <property ID="0xC4C39403" type="asset" extensions="CAUD"/>
+        <property ID="0xC7C3F610" type="asset" extensions="CAUD"/>
     </properties>
     <states/>
     <messages/>

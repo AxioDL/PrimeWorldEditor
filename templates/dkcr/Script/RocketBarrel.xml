@@ -85,11 +85,11 @@
                 <property ID="0x0FB70190" type="float">
                     <default>-16.0</default>
                 </property>
-                <property ID="0xD190899C" type="file" extensions="CAUD"/>
+                <property ID="0xD190899C" type="asset" extensions="CAUD"/>
                 <property ID="0x82375435" type="MayaSpline"/>
                 <property ID="0xB875593B" type="MayaSpline"/>
                 <property ID="0xDE4F0C2F" type="MayaSpline"/>
-                <property ID="0x7548B8AA" type="file" extensions="CAUD"/>
+                <property ID="0x7548B8AA" type="asset" extensions="CAUD"/>
                 <property ID="0x10D8E545" type="MayaSpline"/>
                 <property ID="0xCB864877" type="MayaSpline"/>
                 <property ID="0xA156F285" type="MayaSpline"/>
@@ -126,7 +126,7 @@
                 </property>
                 <struct ID="0xFE6F6D0F" type="multi">
                     <properties>
-                        <property ID="0xA55DACF6" type="file" extensions="CAUD"/>
+                        <property ID="0xA55DACF6" type="asset" extensions="CAUD"/>
                         <property ID="0x8A939379" type="MayaSpline"/>
                         <property ID="0x0E727FC4" type="MayaSpline"/>
                         <property ID="0xF3FBE484" type="MayaSpline"/>

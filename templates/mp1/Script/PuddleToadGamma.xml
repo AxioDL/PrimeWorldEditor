@@ -18,7 +18,7 @@
         <property ID="0x0D" name="Unknown 8" type="float"/>
         <struct ID="0x0E" name="DamageInfo 1" template="Structs/DamageInfo.xml"/>
         <struct ID="0x0F" name="DamageInfo 2" template="Structs/DamageInfo.xml"/>
-        <property ID="0x10" name="DCLN" type="file" extensions="DCLN"/>
+        <property ID="0x10" name="DCLN" type="asset" extensions="DCLN"/>
     </properties>
     <states/>
     <messages/>

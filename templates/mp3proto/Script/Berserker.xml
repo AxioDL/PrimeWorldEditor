@@ -115,9 +115,9 @@
                 <property ID="0x62901DA8" type="float">
                     <default>0.5</default>
                 </property>
-                <property ID="0x19F31D4E" type="file" extensions="UNKN"/>
-                <property ID="0xCDA8F0F3" type="file" extensions="UNKN"/>
-                <property ID="0x237C0374" type="file" extensions="UNKN"/>
+                <property ID="0x19F31D4E" type="asset" extensions="UNKN"/>
+                <property ID="0xCDA8F0F3" type="asset" extensions="UNKN"/>
+                <property ID="0x237C0374" type="asset" extensions="UNKN"/>
                 <struct ID="0x9C8094F5" template="Structs/GrappleData.xml">
                     <properties>
                         <property ID="0x5DCF91E1">
@@ -176,11 +176,11 @@
                 <property ID="0x83439084" type="float">
                     <default>500.0</default>
                 </property>
-                <property ID="0x04547D34" type="file" extensions="UNKN"/>
-                <property ID="0x82C00F9A" type="file" extensions="UNKN"/>
-                <property ID="0x499CDC3F" type="file" extensions="UNKN"/>
-                <property ID="0x5499EC87" type="file" extensions="UNKN"/>
-                <property ID="0x9FC53F22" type="file" extensions="UNKN"/>
+                <property ID="0x04547D34" type="asset" extensions="UNKN"/>
+                <property ID="0x82C00F9A" type="asset" extensions="UNKN"/>
+                <property ID="0x499CDC3F" type="asset" extensions="UNKN"/>
+                <property ID="0x5499EC87" type="asset" extensions="UNKN"/>
+                <property ID="0x9FC53F22" type="asset" extensions="UNKN"/>
             </properties>
         </struct>
     </properties>

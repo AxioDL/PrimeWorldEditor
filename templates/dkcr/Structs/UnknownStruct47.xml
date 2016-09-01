@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <struct name="UnknownStruct47" type="multi">
     <properties>
-        <property ID="0xA06EDAF9" type="file" extensions="PART"/>
-        <property ID="0x2B258629" type="file" extensions="CAUD"/>
+        <property ID="0xA06EDAF9" type="asset" extensions="PART"/>
+        <property ID="0x2B258629" type="asset" extensions="CAUD"/>
     </properties>
 </struct>

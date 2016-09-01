@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <struct name="SandBossStructA" type="multi">
     <properties>
-        <property ID="0x07D8CC4F" type="file" extensions="CMDL"/>
-        <property ID="0xAE30AE06" type="file" extensions="CMDL"/>
-        <property ID="0x656C7DA3" type="file" extensions="CMDL"/>
-        <property ID="0x78694D1B" type="file" extensions="CMDL"/>
-        <property ID="0xB3359EBE" type="file" extensions="CMDL"/>
-        <property ID="0x35A1EC10" type="file" extensions="CMDL"/>
-        <property ID="0xFEFD3FB5" type="file" extensions="CMDL"/>
-        <property ID="0x37E99C23" type="file" extensions="CMDL"/>
-        <property ID="0xDCC2BF11" type="file" extensions="CMDL"/>
+        <property ID="0x07D8CC4F" type="asset" extensions="CMDL"/>
+        <property ID="0xAE30AE06" type="asset" extensions="CMDL"/>
+        <property ID="0x656C7DA3" type="asset" extensions="CMDL"/>
+        <property ID="0x78694D1B" type="asset" extensions="CMDL"/>
+        <property ID="0xB3359EBE" type="asset" extensions="CMDL"/>
+        <property ID="0x35A1EC10" type="asset" extensions="CMDL"/>
+        <property ID="0xFEFD3FB5" type="asset" extensions="CMDL"/>
+        <property ID="0x37E99C23" type="asset" extensions="CMDL"/>
+        <property ID="0xDCC2BF11" type="asset" extensions="CMDL"/>
     </properties>
 </struct>

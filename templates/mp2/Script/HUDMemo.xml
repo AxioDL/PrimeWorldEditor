@@ -30,7 +30,7 @@
         <property ID="0x4AB3B95B" type="long">
             <default>0</default>
         </property>
-        <property ID="0x9182250C" type="file" extensions="STRG"/>
+        <property ID="0x9182250C" type="asset" extensions="STRG"/>
     </properties>
     <states/>
     <messages/>

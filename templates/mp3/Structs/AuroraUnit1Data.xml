@@ -7,8 +7,8 @@
         <property ID="0x50E46527" type="float">
             <default>120.0</default>
         </property>
-        <property ID="0x073842E7" type="file" extensions="CMDL"/>
-        <property ID="0xDDD72AAD" type="file" extensions="CMDL"/>
+        <property ID="0x073842E7" type="asset" extensions="CMDL"/>
+        <property ID="0xDDD72AAD" type="asset" extensions="CMDL"/>
         <struct ID="0x243AB10D" template="Structs/DamageVulnerability.xml"/>
         <property ID="0x7B4C8A7F" type="float">
             <default>700.0</default>
@@ -51,13 +51,13 @@
                 <property ID="0x52806EFF" type="long">
                     <default>2</default>
                 </property>
-                <property ID="0x2EA31F83" type="file" extensions="WPSC"/>
+                <property ID="0x2EA31F83" type="asset" extensions="WPSC"/>
                 <struct ID="0x258CFB4D" template="Structs/DamageInfo.xml"/>
                 <property ID="0x7BECDB66" type="float">
                     <default>100.0</default>
                 </property>
-                <property ID="0x87AFE8D8" type="file" extensions="PART"/>
-                <property ID="0x3DFD1C4F" type="file" extensions="CAUD"/>
+                <property ID="0x87AFE8D8" type="asset" extensions="PART"/>
+                <property ID="0x3DFD1C4F" type="asset" extensions="CAUD"/>
                 <property ID="0xB8BF561E" type="float">
                     <default>6.75</default>
                 </property>
@@ -217,7 +217,7 @@
         </struct>
         <struct ID="0x9A9EB786" type="multi">
             <properties>
-                <property ID="0x276A4FC5" type="file" extensions="SCAN"/>
+                <property ID="0x276A4FC5" type="asset" extensions="SCAN"/>
                 <property ID="0xEAD66DD7" type="float">
                     <default>13.0</default>
                 </property>

@@ -4,21 +4,21 @@
     <properties>
         <property ID="0x00" name="Name" type="string"/>
         <property ID="0x01" name="Active" type="bool"/>
-        <property ID="0x02" name="World" type="file" extensions="MLVL"/>
-        <property ID="0x03" name="Area" type="file" extensions="MREA"/>
+        <property ID="0x02" name="World" type="asset" extensions="MLVL"/>
+        <property ID="0x03" name="Area" type="asset" extensions="MREA"/>
         <property ID="0x04" name="Player Model" type="character"/>
         <property ID="0x05" name="Player Scale" type="vector3f"/>
-        <property ID="0x06" name="Elevator Platform Model" type="file" extensions="CMDL"/>
+        <property ID="0x06" name="Elevator Platform Model" type="asset" extensions="CMDL"/>
         <property ID="0x07" name="Elevator Platform Scale" type="vector3f"/>
-        <property ID="0x08" name="Elevator Background Model" type="file" extensions="CMDL"/>
+        <property ID="0x08" name="Elevator Background Model" type="asset" extensions="CMDL"/>
         <property ID="0x09" name="Elevator Background Scale" type="vector3f"/>
         <property ID="0x0A" name="Upward Elevator" type="bool"/>
         <property ID="0x0B" name="Sound ID" type="long"/>
         <property ID="0x0C" name="Sound Volume" type="long"/>
         <property ID="0x0D" name="Unknown (Sound-Related)" type="long"/>
         <property ID="0x0E" name="Show Text Instead Of Cutscene" type="bool"/>
-        <property ID="0x0F" name="Font" type="file" extensions="FONT"/>
-        <property ID="0x10" name="String" type="file" extensions="STRG"/>
+        <property ID="0x0F" name="Font" type="asset" extensions="FONT"/>
+        <property ID="0x10" name="String" type="asset" extensions="STRG"/>
         <property ID="0x11" name="Fade In From/Out To White" type="bool"/>
         <property ID="0x12" name="Character Fade In Time" type="float"/>
         <property ID="0x13" name="Characters Per Second" type="float"/>

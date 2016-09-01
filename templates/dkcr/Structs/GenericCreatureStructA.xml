@@ -120,7 +120,7 @@
                 <property ID="0x2D8DB31D" type="float">
                     <default>3.0</default>
                 </property>
-                <property ID="0x750EB3EB" type="file" extensions="RULE"/>
+                <property ID="0x750EB3EB" type="asset" extensions="RULE"/>
                 <property ID="0xFE0086A4" type="bool">
                     <default>false</default>
                 </property>
@@ -330,13 +330,13 @@
                 <property ID="0x787EA8B1" type="vector3f">
                     <default>1.0, 1.0, 1.0</default>
                 </property>
-                <property ID="0xAD61C23A" type="file" extensions="PART"/>
-                <property ID="0x9965B481" type="file" extensions="PART"/>
-                <property ID="0x389C3BD6" type="file" extensions="unknown"/>
-                <property ID="0x17918504" type="file" extensions="PART"/>
-                <property ID="0x6CF5915A" type="file" extensions="CAUD"/>
-                <property ID="0x57184EE6" type="file" extensions="CAUD"/>
-                <property ID="0xB58B514E" type="file" extensions="CAUD"/>
+                <property ID="0xAD61C23A" type="asset" extensions="PART"/>
+                <property ID="0x9965B481" type="asset" extensions="PART"/>
+                <property ID="0x389C3BD6" type="asset" extensions="unknown"/>
+                <property ID="0x17918504" type="asset" extensions="PART"/>
+                <property ID="0x6CF5915A" type="asset" extensions="CAUD"/>
+                <property ID="0x57184EE6" type="asset" extensions="CAUD"/>
+                <property ID="0xB58B514E" type="asset" extensions="CAUD"/>
                 <property ID="0x96C063E5" type="MayaSpline"/>
                 <property ID="0xBF0A46C6" type="MayaSpline"/>
                 <property ID="0xF688A042" type="vector3f">
@@ -434,7 +434,7 @@
                 <property ID="0xA72DFC5E" type="float">
                     <default>0.8</default>
                 </property>
-                <property ID="0x019FF362" type="file" extensions="RULE"/>
+                <property ID="0x019FF362" type="asset" extensions="RULE"/>
                 <property ID="0x09A83636" type="bool">
                     <default>false</default>
                 </property>
@@ -723,7 +723,7 @@
                 <property ID="0x29A27CB9" type="float">
                     <default>8.0</default>
                 </property>
-                <property ID="0x3311BA2B" type="file" extensions="UNKN"/>
+                <property ID="0x3311BA2B" type="asset" extensions="UNKN"/>
             </properties>
         </struct>
         <struct ID="0xDE440D53" type="multi">
@@ -822,7 +822,7 @@
                     <default>2.0</default>
                 </property>
                 <property ID="0xD2BA9438" type="string"/>
-                <property ID="0x3311BA2B" type="file" extensions="UNKN"/>
+                <property ID="0x3311BA2B" type="asset" extensions="UNKN"/>
             </properties>
         </struct>
         <struct ID="0xEA2C12F9" type="multi">
@@ -901,7 +901,7 @@
                 <property ID="0x3AA64111" type="bool">
                     <default>false</default>
                 </property>
-                <property ID="0x4FA9F7C2" type="file" extensions="RULE"/>
+                <property ID="0x4FA9F7C2" type="asset" extensions="RULE"/>
                 <property ID="0xF5BEE58E" type="float">
                     <default>2.0</default>
                 </property>
@@ -1290,7 +1290,7 @@
                 <property ID="0xD4600821" type="float">
                     <default>0.0</default>
                 </property>
-                <property ID="0xE1E66B24" type="file" extensions="CAUD"/>
+                <property ID="0xE1E66B24" type="asset" extensions="CAUD"/>
                 <property ID="0xB413C45F" type="MayaSpline"/>
                 <property ID="0x76C7464C" type="MayaSpline"/>
                 <property ID="0x10E05AAF" type="MayaSpline"/>

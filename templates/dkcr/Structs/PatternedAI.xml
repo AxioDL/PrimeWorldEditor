@@ -26,8 +26,8 @@
             <default>0.16</default>
         </property>
         <property ID="0xA244C9D8" type="character"/>
-        <property ID="0x1749405B" type="file" extensions="FSMC"/>
-        <property ID="0x1B21EEB2" type="file" extensions="FSMC"/>
+        <property ID="0x1749405B" type="asset" extensions="FSMC"/>
+        <property ID="0x1B21EEB2" type="asset" extensions="FSMC"/>
         <property ID="0x98169634" type="long">
             <default>0</default>
         </property>
@@ -37,9 +37,9 @@
         <property ID="0x47DE2455" type="bool">
             <default>false</default>
         </property>
-        <property ID="0xDFE74895" type="file" extensions="PART"/>
-        <property ID="0xC88AD680" type="file" extensions="CAUD"/>
-        <property ID="0x64C22667" type="file" extensions="unknown"/>
+        <property ID="0xDFE74895" type="asset" extensions="PART"/>
+        <property ID="0xC88AD680" type="asset" extensions="CAUD"/>
+        <property ID="0x64C22667" type="asset" extensions="unknown"/>
         <property ID="0xFD8A9692" type="bool">
             <default>true</default>
         </property>

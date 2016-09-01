@@ -3,8 +3,8 @@
     <name>WorldAttributes</name>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0x932E690F" type="file" extensions="UNKN"/>
-        <property ID="0x133B973D" type="file" extensions="UNKN"/>
+        <property ID="0x932E690F" type="asset" extensions="UNKN"/>
+        <property ID="0x133B973D" type="asset" extensions="UNKN"/>
     </properties>
     <states/>
     <messages/>

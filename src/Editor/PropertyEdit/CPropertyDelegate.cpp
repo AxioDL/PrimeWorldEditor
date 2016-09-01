@@ -126,14 +126,14 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
             break;
         }
 
-        case eFileProperty:
+        case eAssetProperty:
         {
             WResourceSelector *pSelector = new WResourceSelector(pParent);
-            CFileTemplate *pTemp = static_cast<CFileTemplate*>(pProp->Template());
-            pSelector->SetAllowedExtensions(pTemp->Extensions());
+            CAssetTemplate *pTemp = static_cast<CAssetTemplate*>(pProp->Template());
+            pSelector->SetAllowedExtensions(pTemp->AllowedExtensions());
             pSelector->setFont(qobject_cast<QWidget*>(parent())->font()); // bit of a hack to stop the resource selector font from changing
 
-            CONNECT_RELAY(pSelector, rkIndex, ResourceChanged(QString))
+            CONNECT_RELAY(pSelector, rkIndex, ResourceChanged(CResourceEntry*))
             pOut = pSelector;
             break;
         }
@@ -294,11 +294,11 @@ void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkInd
                     break;
                 }
 
-                case eFileProperty:
+                case eAssetProperty:
                 {
                     WResourceSelector *pSelector = static_cast<WResourceSelector*>(pEditor);
-                    TFileProperty *pFile = static_cast<TFileProperty*>(pProp);
-                    pSelector->SetResource(pFile->Get());
+                    TAssetProperty *pAsset = static_cast<TAssetProperty*>(pProp);
+                    pSelector->SetResource(pAsset->Get());
                     break;
                 }
 
@@ -448,11 +448,13 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
             break;
         }
 
-        case eFileProperty:
+        case eAssetProperty:
         {
             WResourceSelector *pSelector = static_cast<WResourceSelector*>(pEditor);
-            TFileProperty *pFile = static_cast<TFileProperty*>(pProp);
-            pFile->Set(pSelector->GetResourceInfo());
+            CResourceEntry *pEntry = pSelector->GetResourceEntry();
+
+            TAssetProperty *pAsset = static_cast<TAssetProperty*>(pProp);
+            pAsset->Set(pEntry ? pEntry->ID() : CAssetID::InvalidID(mpEditor->CurrentGame()));
             break;
         }
 
@@ -581,7 +583,7 @@ QWidget* CPropertyDelegate::CreateCharacterEditor(QWidget *pParent, const QModel
     if (Type == eUnknownProperty) return nullptr;
 
     // Create widget
-    if (Type == eFileProperty)
+    if (Type == eAssetProperty)
     {
         WResourceSelector *pSelector = new WResourceSelector(pParent);
         pSelector->setFont(qobject_cast<QWidget*>(parent())->font()); // hack to keep the selector font from changing
@@ -627,7 +629,7 @@ void CPropertyDelegate::SetCharacterEditorData(QWidget *pEditor, const QModelInd
     CAnimationParameters Params = pProp->Get();
     EPropertyType Type = DetermineCharacterPropType(Params.Version(), rkIndex);
 
-    if (Type == eFileProperty)
+    if (Type == eAssetProperty)
     {
         static_cast<WResourceSelector*>(pEditor)->SetResource(Params.AnimSet());
     }
@@ -651,9 +653,9 @@ void CPropertyDelegate::SetCharacterModelData(QWidget *pEditor, const QModelInde
     CAnimationParameters Params = pProp->Get();
     EPropertyType Type = DetermineCharacterPropType(Params.Version(), rkIndex);
 
-    if (Type == eFileProperty)
+    if (Type == eAssetProperty)
     {
-        Params.SetResource( static_cast<WResourceSelector*>(pEditor)->GetResourceInfo() );
+        Params.SetResource( static_cast<WResourceSelector*>(pEditor)->GetResourceEntry()->ID() );
         // Reset all other parameters to 0
         Params.SetCharIndex(0);
         for (u32 iUnk = 0; iUnk < 3; iUnk++)
@@ -675,7 +677,7 @@ void CPropertyDelegate::SetCharacterModelData(QWidget *pEditor, const QModelInde
 
     // If we just updated the resource, make sure all the sub-properties of the character are flagged as changed.
     // We want to do this -after- updating the anim params on the property, which is why we have a second type check.
-    if (Type == eFileProperty)
+    if (Type == eAssetProperty)
     {
         QModelIndex ParentIndex = rkIndex.parent();
         mpModel->dataChanged(mpModel->index(1, 1, ParentIndex), mpModel->index(mpModel->rowCount(ParentIndex) - 1, 1, ParentIndex));
@@ -686,18 +688,18 @@ EPropertyType CPropertyDelegate::DetermineCharacterPropType(EGame Game, const QM
 {
     if (Game <= eEchoes)
     {
-        if      (rkIndex.row() == 0) return eFileProperty;
+        if      (rkIndex.row() == 0) return eAssetProperty;
         else if (rkIndex.row() == 1) return eEnumProperty;
         else if (rkIndex.row() == 2) return eLongProperty;
     }
     else if (Game <= eCorruption)
     {
-        if      (rkIndex.row() == 0) return eFileProperty;
+        if      (rkIndex.row() == 0) return eAssetProperty;
         else if (rkIndex.row() == 1) return eLongProperty;
     }
     else
     {
-        if      (rkIndex.row() == 0) return eFileProperty;
+        if      (rkIndex.row() == 0) return eAssetProperty;
         else if (rkIndex.row() <= 2) return eLongProperty;
     }
     return eUnknownProperty;

@@ -3,8 +3,8 @@
     <name>VisorGoo</name>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0x6D1CE525" type="file" extensions="PART"/>
-        <property ID="0x71DBE2F2" type="file" extensions="ELSC"/>
+        <property ID="0x6D1CE525" type="asset" extensions="PART"/>
+        <property ID="0x71DBE2F2" type="asset" extensions="ELSC"/>
         <property ID="0x9744971E" type="float">
             <default>1.0</default>
         </property>
@@ -20,7 +20,7 @@
         <property ID="0x37C7D09D" type="color">
             <default>1.0, 1.0, 1.0, 1.0</default>
         </property>
-        <property ID="0x5CFD034A" type="file" extensions="CAUD"/>
+        <property ID="0x5CFD034A" type="asset" extensions="CAUD"/>
         <property ID="0xD5B78BC9" type="bool">
             <default>false</default>
         </property>

@@ -9,9 +9,9 @@
         <property ID="0x95F8D644" type="long">
             <default>0</default>
         </property>
-        <property ID="0xC39F8936" type="file" extensions="TXTR"/>
-        <property ID="0x222CF8EC" type="file" extensions="TXTR"/>
-        <property ID="0x0BF00EB1" type="file" extensions="TXTR"/>
+        <property ID="0xC39F8936" type="asset" extensions="TXTR"/>
+        <property ID="0x222CF8EC" type="asset" extensions="TXTR"/>
+        <property ID="0x0BF00EB1" type="asset" extensions="TXTR"/>
         <enum ID="0x08072DA5" template="Enums/Item.xml">
             <default>0xFB73F2B8</default>
         </enum>

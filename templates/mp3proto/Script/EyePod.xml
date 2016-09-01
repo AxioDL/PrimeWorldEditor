@@ -81,8 +81,8 @@
                 <property ID="0x6773242B" type="float">
                     <default>7.0</default>
                 </property>
-                <property ID="0xE8C819E6" type="file" extensions="WPSC"/>
-                <property ID="0xB14FEA52" type="file" extensions="WPSC"/>
+                <property ID="0xE8C819E6" type="asset" extensions="WPSC"/>
+                <property ID="0xB14FEA52" type="asset" extensions="WPSC"/>
                 <struct ID="0xC93109E7" template="Structs/DamageInfo.xml"/>
                 <struct ID="0x37A6F562" template="Structs/DamageInfo.xml"/>
                 <property ID="0xD75F9CF2" type="float">
