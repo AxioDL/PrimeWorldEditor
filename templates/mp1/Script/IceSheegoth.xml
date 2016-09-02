@@ -30,12 +30,12 @@
         <property ID="0x19" name="Unknown 7" type="float"/>
         <property ID="0x1A" name="Unknown 8" type="float"/>
         <struct ID="0x1B" name="DamageInfo 3" template="Structs/DamageInfo.xml"/>
-        <property ID="0x1C" name="Sound ID 1" type="long"/>
+        <property ID="0x1C" name="Sound ID 1" type="sound"/>
         <property ID="0x1D" name="Unknown 9" type="float"/>
         <property ID="0x1E" name="Unknown 10" type="float"/>
         <property ID="0x1F" name="Unknown 11" type="float"/>
         <property ID="0x20" name="Texture" type="asset" extensions="TXTR"/>
-        <property ID="0x21" name="Sound ID 2" type="long"/>
+        <property ID="0x21" name="Sound ID 2" type="sound"/>
         <property ID="0x22" name="Particle 6" type="asset" extensions="PART"/>
         <property ID="0x23" name="Unknown 12" type="bool"/>
         <property ID="0x24" name="Unknown 13" type="bool"/>

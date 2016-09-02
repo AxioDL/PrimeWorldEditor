@@ -14,7 +14,7 @@
         <property ID="0x09" name="WPSC" type="asset" extensions="WPSC"/>
         <struct ID="0x0A" name="DamageInfo 2" template="Structs/DamageInfo.xml"/>
         <property ID="0x0B" name="Particle" type="asset" extensions="PART"/>
-        <property ID="0x0C" name="Unknown 3" type="long"/>
+        <property ID="0x0C" name="Unknown 3" type="sound"/>
     </properties>
     <states/>
     <messages/>

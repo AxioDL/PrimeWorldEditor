@@ -229,6 +229,7 @@ TString PropEnumToPropString(EPropertyType Prop)
     case eStringProperty:     return "string";
     case eColorProperty:      return "color";
     case eVector3Property:    return "vector3f";
+    case eSoundProperty:      return "sound";
     case eAssetProperty:      return "asset";
     case eStructProperty:     return "struct";
     case eArrayProperty:      return "array";
@@ -255,6 +256,7 @@ EPropertyType PropStringToPropEnum(TString Prop)
     if (Prop == "string")     return eStringProperty;
     if (Prop == "color")      return eColorProperty;
     if (Prop == "vector3f")   return eVector3Property;
+    if (Prop == "sound")      return eSoundProperty;
     if (Prop == "asset")      return eAssetProperty;
     if (Prop == "struct")     return eStructProperty;
     if (Prop == "array")      return eArrayProperty;

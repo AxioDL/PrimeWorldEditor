@@ -21,7 +21,7 @@
         <property ID="0x10" name="Always FFFFFFFF 1" type="long"/>
         <property ID="0x11" name="Always FFFFFFFF 2" type="long"/>
         <property ID="0x12" name="Always FFFFFFFF 3" type="long"/>
-        <property ID="0x13" name="Unknown 5" type="long"/>
+        <property ID="0x13" name="Laser Sound" type="sound"/>
         <property ID="0x14" name="Unknown 6" type="bool"/>
     </properties>
     <states/>

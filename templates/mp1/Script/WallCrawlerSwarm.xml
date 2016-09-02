@@ -39,8 +39,8 @@
         <property ID="0x22" name="Unknown 22" type="float"/>
         <struct ID="0x23" name="HealthInfo" template="Structs/HealthInfo.xml"/>
         <struct ID="0x24" name="DamageVulnerability" template="Structs/DamageVulnerability.xml"/>
-        <property ID="0x25" name="Sound? 1" type="long"/>
-        <property ID="0x26" name="Sound? 2" type="long"/>
+        <property ID="0x25" name="Sound 1" type="sound"/>
+        <property ID="0x26" name="Sound 2" type="sound"/>
     </properties>
     <states/>
     <messages/>

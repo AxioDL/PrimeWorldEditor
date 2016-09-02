@@ -35,7 +35,7 @@
         <property ID="0x1E" name="Unknown 25" type="long"/>
         <property ID="0x1F" name="Unknown 26" type="long"/>
         <property ID="0x20" name="Unknown 27" type="long"/>
-        <property ID="0x21" name="Unknown 28" type="long"/>
+        <property ID="0x21" name="Unknown 28" type="sound"/>
         <property ID="0x22" name="Unknown 29" type="bool"/>
         <property ID="0x23" name="Unknown 30" type="bool"/>
     </properties>

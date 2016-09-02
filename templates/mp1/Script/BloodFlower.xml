@@ -19,7 +19,7 @@
         <property ID="0x0E" name="Particle 4" type="asset" extensions="PART"/>
         <property ID="0x0F" name="Unknown 1" type="float"/>
         <property ID="0x10" name="Particle 5" type="asset" extensions="PART"/>
-        <property ID="0x11" name="Unknown 2" type="long"/>
+        <property ID="0x11" name="Unknown 2" type="sound"/>
     </properties>
     <states/>
     <messages/>

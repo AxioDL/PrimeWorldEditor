@@ -308,7 +308,7 @@ typedef TNumericalPropertyTemplate<float, eFloatProperty, CFloatValue>          
 typedef TTypedPropertyTemplate<CVector3f, eVector3Property, CVector3Value, true>                    TVector3Template;
 typedef TTypedPropertyTemplate<CColor, eColorProperty, CColorValue, true>                           TColorTemplate;
 
-// TCharacterTemplate, TStringTemplate, and TMayaSplineTemplate get their own subclasses so they can reimplement a couple functions
+// TCharacterTemplate, TSoundTemplate, TStringTemplate, and TMayaSplineTemplate get their own subclasses so they can reimplement a couple functions
 class TCharacterTemplate : public TTypedPropertyTemplate<CAnimationParameters, eCharacterProperty, CCharacterValue, false>
 {
     friend class CTemplateLoader;
@@ -324,6 +324,24 @@ public:
     IProperty* InstantiateProperty(CScriptObject *pInstance, CPropertyStruct *pParent)
     {
         return new TCharacterProperty(this, pInstance, pParent, CAnimationParameters(Game()));
+    }
+};
+
+class TSoundTemplate : public TTypedPropertyTemplate<u32, eSoundProperty, CSoundValue, false>
+{
+    friend class CTemplateLoader;
+    friend class CTemplateWriter;
+
+public:
+    TSoundTemplate(u32 ID, CScriptTemplate *pScript, CMasterTemplate *pMaster, CStructTemplate *pParent = 0)
+        : TTypedPropertyTemplate(ID, pScript, pMaster, pParent) {}
+
+    TSoundTemplate(u32 ID, const TString& rkName, ECookPreference CookPreference, CScriptTemplate *pScript, CMasterTemplate *pMaster, CStructTemplate *pParent = 0)
+        : TTypedPropertyTemplate(ID, rkName, CookPreference, pScript, pMaster, pParent) {}
+
+    IProperty* InstantiateProperty(CScriptObject *pInstance, CPropertyStruct *pParent)
+    {
+        return new TSoundProperty(this, pInstance, pParent, -1);
     }
 };
 

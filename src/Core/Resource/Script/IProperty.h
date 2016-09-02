@@ -22,8 +22,6 @@ typedef TString TIDString;
  */
 class IProperty
 {
-    friend class CScriptLoader;
-
 protected:
     class CPropertyStruct *mpParent;
     CScriptObject *mpInstance;
@@ -78,7 +76,6 @@ public:
 template <typename ValueType, EPropertyType TypeEnum, class ValueClass>
 class TTypedProperty : public IProperty
 {
-    friend class CScriptLoader;
     ValueClass mValue;
 public:
     TTypedProperty(IPropertyTemplate *pTemp, CScriptObject *pInstance, CPropertyStruct *pParent)
@@ -124,7 +121,7 @@ typedef TTypedProperty<CColor, eColorProperty, CColorValue>                     
 typedef TTypedProperty<std::vector<u8>, eUnknownProperty, CUnknownValue>            TUnknownProperty;
 
 /*
- * TStringProperty, TAssetProperty, and TCharacterProperty get little subclasses in order to override some virtual functions.
+ * TStringProperty, TSoundProperty, TAssetProperty, and TCharacterProperty get little subclasses in order to override some virtual functions.
  */
 #define IMPLEMENT_PROPERTY_CTORS(ClassName, ValueType) \
     ClassName(IPropertyTemplate *pTemp, CScriptObject *pInstance, CPropertyStruct *pParent) \
@@ -140,6 +137,15 @@ public:
     IMPLEMENT_PROPERTY_CLONE(TStringProperty)
     virtual bool MatchesDefault()   { return Get().IsEmpty(); }
     virtual bool ShouldCook()       { return true; }
+};
+
+class TSoundProperty : public TTypedProperty<u32, eSoundProperty, CSoundValue>
+{
+public:
+    IMPLEMENT_PROPERTY_CTORS(TSoundProperty, u32)
+    IMPLEMENT_PROPERTY_CLONE(TSoundProperty)
+    virtual bool MatchesDefault()   { return Get() == -1; }
+    virtual bool ShouldCook()       { return MatchesDefault(); }
 };
 
 class TAssetProperty : public TTypedProperty<CAssetID, eAssetProperty, CAssetValue>

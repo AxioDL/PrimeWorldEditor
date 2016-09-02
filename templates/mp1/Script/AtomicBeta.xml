@@ -19,9 +19,9 @@
         <property ID="0x0E" name="Unknown 4" type="float"/>
         <property ID="0x0F" name="Unknown 5" type="float"/>
         <property ID="0x10" name="Unknown 6" type="float"/>
-        <property ID="0x11" name="Unknown 7" type="long"/>
-        <property ID="0x12" name="Unknown 8" type="long"/>
-        <property ID="0x13" name="Unknown 9" type="long"/>
+        <property ID="0x11" name="Unknown 7" type="sound"/>
+        <property ID="0x12" name="Unknown 8" type="sound"/>
+        <property ID="0x13" name="Unknown 9" type="sound"/>
         <property ID="0x14" name="Unknown 10" type="float"/>
     </properties>
     <states/>

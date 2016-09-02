@@ -106,6 +106,13 @@ void CScriptLoader::ReadProperty(IProperty *pProp, u32 Size, IInputStream& rSCLY
         break;
     }
 
+    case eSoundProperty:
+    {
+        TSoundProperty *pSoundCast = static_cast<TSoundProperty*>(pProp);
+        pSoundCast->Set(rSCLY.ReadLong());
+        break;
+    }
+
     case eAssetProperty:
     {
         TAssetProperty *pAssetCast = static_cast<TAssetProperty*>(pProp);

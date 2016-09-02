@@ -342,6 +342,21 @@ public:
     }
 };
 
+class CSoundValue : public TTypedPropertyValue<u32>
+{
+public:
+    CSoundValue() {}
+    CSoundValue(u32 SoundID)    { mValue = SoundID; }
+
+    TString ToString() const                    { return TString::FromInt32(mValue, 0, 10); }
+    void FromString(const TString& rkString)    { mValue = rkString.ToInt32(10); }
+
+    IPropertyValue* Clone() const
+    {
+        return new CSoundValue(mValue);
+    }
+};
+
 class CAssetValue : public TTypedPropertyValue<CAssetID>
 {
 public:

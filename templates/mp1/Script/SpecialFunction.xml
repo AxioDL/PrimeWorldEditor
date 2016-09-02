@@ -55,9 +55,9 @@
         <enum ID="0x09" name="Item" template="Enums/Item.xml"/>
         <property ID="0x0A" name="Active" type="bool"/>
         <property ID="0x0B" name="Unknown 5" type="float"/>
-        <property ID="0x0C" name="Used by SpinnerController 1" type="long"/>
-        <property ID="0x0D" name="Used by SpinnerController 2" type="long"/>
-        <property ID="0x0E" name="Used by SpinnerController 3" type="long"/>
+        <property ID="0x0C" name="Used by SpinnerController 1" type="sound"/>
+        <property ID="0x0D" name="Used by SpinnerController 2" type="sound"/>
+        <property ID="0x0E" name="Used by SpinnerController 3" type="sound"/>
     </properties>
     <states/>
     <messages/>

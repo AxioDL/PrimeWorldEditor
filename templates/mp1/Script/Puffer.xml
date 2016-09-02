@@ -17,7 +17,7 @@
         <property ID="0x0C" name="Unknown 4" type="bool"/>
         <property ID="0x0D" name="Unknown 5" type="bool"/>
         <struct ID="0x0E" name="DamageInfo 2" template="Structs/DamageInfo.xml"/>
-        <property ID="0x0F" name="Unknown 6" type="long"/>
+        <property ID="0x0F" name="Unknown 6" type="sound"/>
     </properties>
     <states/>
     <messages/>

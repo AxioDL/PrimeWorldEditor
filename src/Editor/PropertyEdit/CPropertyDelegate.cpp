@@ -104,6 +104,16 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
             break;
         }
 
+        case eSoundProperty:
+        {
+            WIntegralSpinBox *pSpinBox = new WIntegralSpinBox(pParent);
+            pSpinBox->setMinimum(-1);
+            pSpinBox->setMaximum(0xFFFF);
+            CONNECT_RELAY(pSpinBox, rkIndex, valueChanged(int))
+            pOut = pSpinBox;
+            break;
+        }
+
         case eStringProperty:
         {
             QLineEdit *pLineEdit = new QLineEdit(pParent);
@@ -237,6 +247,7 @@ void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkInd
                 }
 
                 case eLongProperty:
+                case eSoundProperty:
                 {
                     WIntegralSpinBox *pSpinBox = static_cast<WIntegralSpinBox*>(pEditor);
 
@@ -406,6 +417,7 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
         }
 
         case eLongProperty:
+        case eSoundProperty:
         {
             WIntegralSpinBox *pSpinBox = static_cast<WIntegralSpinBox*>(pEditor);
             TLongProperty *pLong = static_cast<TLongProperty*>(pProp);

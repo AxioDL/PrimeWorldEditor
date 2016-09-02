@@ -1,5 +1,6 @@
 #include "CPropertyModel.h"
 #include "Editor/UICommon.h"
+#include <Core/GameProject/CGameProject.h>
 #include <Core/Resource/Script/IProperty.h>
 #include <Core/Resource/Script/IPropertyTemplate.h>
 #include <QFont>
@@ -288,6 +289,34 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                 // Enclose vector property text in parentheses
                 case eVector3Property:
                     return "(" + TO_QSTRING(pProp->ToString()) + ")";
+
+                // Display the AGSC/sound name for sounds
+                case eSoundProperty:
+                {
+                    TSoundProperty *pSound = static_cast<TSoundProperty*>(pProp);
+                    u32 SoundID = pSound->Get();
+                    if (SoundID == -1) return "[None]";
+
+                    CGameProject *pProj = CGameProject::ActiveProject();
+                    SSoundInfo SoundInfo = pProj->AudioManager()->GetSoundInfo(SoundID);
+
+                    QString Out = QString::number(SoundID);
+
+                    if (SoundInfo.DefineID == -1)
+                        return Out + " [INVALID]";
+
+                    // Always display define ID. Display sound name if we have one, otherwise display AGSC ID.
+                    Out += " [" + TO_QSTRING( TString::HexString(SoundInfo.DefineID, 4) );
+                    QString AudioGroupName = (SoundInfo.pAudioGroup ? TO_QSTRING(SoundInfo.pAudioGroup->Entry()->Name()) : "NO AUDIO GROUP");
+                    QString Name = (!SoundInfo.Name.IsEmpty() ? TO_QSTRING(SoundInfo.Name) : AudioGroupName);
+                    Out += " " + Name + "]";
+
+                    // If we have a sound name and this is a tooltip, add a second line with the AGSC name
+                    if (Role == Qt::ToolTipRole && !SoundInfo.Name.IsEmpty())
+                        Out += "\n" + AudioGroupName;
+
+                    return Out;
+                }
 
                 // Display character name for characters
                 case eCharacterProperty:

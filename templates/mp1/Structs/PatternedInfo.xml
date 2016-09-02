@@ -25,7 +25,7 @@
         <property ID="0x15" name="Unknown 5" type="float"/>
         <property ID="0x16" name="Unknown 6" type="float"/>
         <property ID="0x17" name="Unknown 7" type="float"/>
-        <property ID="0x18" name="Sound ID 1" type="long"/>
+        <property ID="0x18" name="Death Sound" type="sound"/>
         <property ID="0x19" name="AnimationParameters" type="character"/>
         <property ID="0x1A" name="Active" type="bool"/>
         <property ID="0x1B" name="State Machine" type="asset" extensions="AFSM"/>
@@ -38,6 +38,6 @@
         <property ID="0x22" name="Unknown 13" type="long"/>
         <property ID="0x23" name="Unknown 14" type="vector3f"/>
         <property ID="0x24" name="Particle 2" type="asset" extensions="PART"/>
-        <property ID="0x25" name="Sound ID 2" type="long"/>
+        <property ID="0x25" name="Ice Shatter Sound" type="sound"/>
     </properties>
 </struct>

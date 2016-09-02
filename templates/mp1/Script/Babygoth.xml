@@ -21,19 +21,19 @@
         <property ID="0x10" name="Model" type="asset" extensions="CMDL"/>
         <property ID="0x11" name="CSKR" type="asset" extensions="CSKR"/>
         <property ID="0x12" name="Unknown 3" type="float"/>
-        <property ID="0x13" name="Unknown 4" type="long"/>
+        <property ID="0x13" name="Unknown 4" type="sound"/>
         <property ID="0x14" name="Particle 2" type="asset" extensions="PART"/>
         <property ID="0x15" name="Particle 3" type="asset" extensions="PART"/>
         <property ID="0x16" name="Particle 4" type="asset" extensions="PART"/>
         <property ID="0x17" name="Particle 5" type="asset" extensions="PART"/>
-        <property ID="0x18" name="Unknown 5" type="long"/>
-        <property ID="0x19" name="Unknown 6" type="long"/>
-        <property ID="0x1A" name="Unknown 7" type="long"/>
+        <property ID="0x18" name="Unknown 5" type="sound"/>
+        <property ID="0x19" name="Unknown 6" type="sound"/>
+        <property ID="0x1A" name="Unknown 7" type="sound"/>
         <property ID="0x1B" name="Unknown 8" type="float"/>
         <property ID="0x1C" name="Unknown 9" type="float"/>
         <property ID="0x1D" name="Unknown 10" type="float"/>
         <property ID="0x1E" name="Texture" type="asset" extensions="TXTR"/>
-        <property ID="0x1F" name="Unknown 11" type="long"/>
+        <property ID="0x1F" name="Unknown 11" type="sound"/>
         <property ID="0x20" name="Particle 6" type="asset" extensions="PART"/>
     </properties>
     <states/>

@@ -11,7 +11,7 @@
         <property ID="0x06" name="Unknown 3" type="float"/>
         <property ID="0x07" name="Unknown 4" type="float"/>
         <property ID="0x08" name="Unknown 5" type="color"/>
-        <property ID="0x09" name="Sound" type="long"/>
+        <property ID="0x09" name="Sound" type="sound"/>
         <property ID="0x0A" name="Unknown 7" type="bool"/>
     </properties>
     <states/>
