@@ -190,6 +190,7 @@ IPropertyTemplate* CTemplateLoader::CreateProperty(u32 ID, EPropertyType Type, c
     case eStringProperty:       pOut = CREATE_PROP_TEMP(TStringTemplate);       break;
     case eVector3Property:      pOut = CREATE_PROP_TEMP(TVector3Template);      break;
     case eColorProperty:        pOut = CREATE_PROP_TEMP(TColorTemplate);        break;
+    case eSoundProperty:        pOut = CREATE_PROP_TEMP(TSoundTemplate);        break;
     case eAssetProperty:        pOut = CREATE_PROP_TEMP(CAssetTemplate);        break;
     case eCharacterProperty:    pOut = CREATE_PROP_TEMP(TCharacterTemplate);    break;
     case eMayaSplineProperty:   pOut = CREATE_PROP_TEMP(TMayaSplineTemplate);   break;

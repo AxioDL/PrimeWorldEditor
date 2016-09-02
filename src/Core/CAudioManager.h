@@ -8,6 +8,14 @@
 #include <algorithm>
 #include <unordered_map>
 
+struct SSoundInfo
+{
+    CAudioGroup *pAudioGroup;
+    TString Name;
+    u32 SoundID;
+    u16 DefineID;
+};
+
 class CAudioManager
 {
     CGameProject *mpProject;
@@ -20,6 +28,7 @@ class CAudioManager
 public:
     CAudioManager(CGameProject *pProj);
     void LoadAssets();
+    SSoundInfo GetSoundInfo(u32 SoundID);
     void LogSoundInfo(u32 SoundID);
 };
 

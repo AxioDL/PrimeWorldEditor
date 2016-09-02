@@ -19,16 +19,16 @@
         <struct ID="0x0E" name="BehaveChance 1" template="Structs/BehaveChance.xml"/>
         <struct ID="0x0F" name="BehaveChance 2" template="Structs/BehaveChance.xml"/>
         <struct ID="0x10" name="BehaveChance 3" template="Structs/BehaveChance.xml"/>
-        <property ID="0x11" name="Sound ID 1" type="long"/>
+        <property ID="0x11" name="Sound ID 1" type="sound"/>
         <property ID="0x12" name="Unknown 5" type="float"/>
-        <property ID="0x13" name="Sound ID 2" type="long"/>
-        <property ID="0x14" name="Sound ID 3" type="long"/>
+        <property ID="0x13" name="Sound ID 2" type="sound"/>
+        <property ID="0x14" name="Sound ID 3" type="sound"/>
         <property ID="0x15" name="Unknown 6" type="long"/>
         <property ID="0x16" name="Unknown 7" type="float"/>
         <property ID="0x17" name="Unknown 8" type="long"/>
         <property ID="0x18" name="Unknown 9" type="float"/>
         <property ID="0x19" name="Particle" type="asset" extensions="PART"/>
-        <property ID="0x1A" name="Sound ID 4" type="long"/>
+        <property ID="0x1A" name="Sound ID 4" type="sound"/>
         <property ID="0x1B" name="Unknown 10" type="float"/>
         <property ID="0x1C" name="Unknown 11" type="float"/>
         <property ID="0x1D" name="Unknown 12" type="long"/>

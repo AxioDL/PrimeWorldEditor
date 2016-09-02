@@ -17,11 +17,11 @@
         <property ID="0x0C" name="Unknown 7" type="float"/>
         <property ID="0x0D" name="Unknown 8" type="float"/>
         <property ID="0x0E" name="Particle 1" type="asset" extensions="PART"/>
-        <property ID="0x0F" name="Sound ID 1" type="long"/>
+        <property ID="0x0F" name="Sound ID 1" type="sound"/>
         <struct ID="0x10" name="ActorParameters 2" template="Structs/ActorParameters.xml"/>
         <property ID="0x11" name="AnimationParameters" type="character"/>
         <property ID="0x12" name="Particle 2" type="asset" extensions="PART"/>
-        <property ID="0x13" name="Sound ID 2" type="long"/>
+        <property ID="0x13" name="Sound ID 2" type="sound"/>
         <property ID="0x14" name="Model" type="asset" extensions="CMDL"/>
         <struct ID="0x15" name="DamageInfo 1" template="Structs/DamageInfo.xml"/>
         <property ID="0x16" name="Unknown 9" type="float"/>
@@ -36,12 +36,12 @@
         <property ID="0x1F" name="Unknown 14" type="float"/>
         <property ID="0x20" name="Unknown 15" type="float"/>
         <property ID="0x21" name="Unknown 16" type="long"/>
-        <property ID="0x22" name="Sound ID 3" type="long"/>
-        <property ID="0x23" name="Sound ID 4" type="long"/>
+        <property ID="0x22" name="Sound ID 3" type="sound"/>
+        <property ID="0x23" name="Sound ID 4" type="sound"/>
         <property ID="0x24" name="Particle 7" type="asset" extensions="PART"/>
         <struct ID="0x25" name="DamageInfo 2" template="Structs/DamageInfo.xml"/>
         <property ID="0x26" name="ELSC" type="asset" extensions="ELSC"/>
-        <property ID="0x27" name="Sound ID 5" type="long"/>
+        <property ID="0x27" name="Sound ID 5" type="sound"/>
         <property ID="0x28" name="Unknown 17" type="bool"/>
         <property ID="0x29" name="Unknown 18" type="bool"/>
     </properties>

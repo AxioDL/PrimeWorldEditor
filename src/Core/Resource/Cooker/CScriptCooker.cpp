@@ -86,6 +86,13 @@ void CScriptCooker::WriteProperty(IProperty *pProp, bool InSingleStruct)
         break;
     }
 
+    case eSoundProperty:
+    {
+        TSoundProperty *pSoundCast = static_cast<TSoundProperty*>(pProp);
+        mpSCLY->WriteLong(pSoundCast->Get());
+        break;
+    }
+
     case eAssetProperty:
     {
         TAssetProperty *pAssetCast = static_cast<TAssetProperty*>(pProp);

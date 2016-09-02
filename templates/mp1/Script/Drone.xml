@@ -45,7 +45,7 @@
         <property ID="0x28" name="Unknown 27" type="float"/>
         <property ID="0x29" name="Unknown 28" type="float"/>
         <property ID="0x2A" name="Unknown 29" type="float"/>
-        <property ID="0x2B" name="Sound?" type="long"/>
+        <property ID="0x2B" name="Sound" type="sound"/>
         <property ID="0x2C" name="Unknown 30" type="bool"/>
     </properties>
     <states/>

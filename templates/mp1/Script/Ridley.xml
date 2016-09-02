@@ -48,14 +48,14 @@
                 <property ID="0x10" name="Unknown 17" type="color"/>
             </properties>
         </struct>
-        <property ID="0x1A" name="Sound ID 1" type="long"/>
+        <property ID="0x1A" name="Sound ID 1" type="sound"/>
         <property ID="0x1B" name="WPSC 2" type="asset" extensions="WPSC"/>
         <struct ID="0x1C" name="DamageInfo 2" template="Structs/DamageInfo.xml"/>
         <struct ID="0x1D" name="RidleyStruct2 1" template="Structs/RidleyStruct2.xml"/>
         <property ID="0x1E" name="WPSC 3" type="asset" extensions="WPSC"/>
         <struct ID="0x1F" name="DamageInfo 3" template="Structs/DamageInfo.xml"/>
         <struct ID="0x20" name="RidleyStruct2 2" template="Structs/RidleyStruct2.xml"/>
-        <property ID="0x21" name="Sound ID 2" type="long"/>
+        <property ID="0x21" name="Sound ID 2" type="sound"/>
         <struct ID="0x22" name="DamageInfo 4" template="Structs/DamageInfo.xml"/>
         <struct ID="0x23" name="RidleyStruct2 3" template="Structs/RidleyStruct2.xml"/>
         <property ID="0x24" name="Unknown 18" type="float"/>
@@ -68,7 +68,7 @@
         <property ID="0x2B" name="Unknown 22" type="float"/>
         <property ID="0x2C" name="ELSC" type="asset" extensions="ELSC"/>
         <property ID="0x2D" name="Unknown 23" type="float"/>
-        <property ID="0x2E" name="Sound ID 3" type="long"/>
+        <property ID="0x2E" name="Sound ID 3" type="sound"/>
         <struct ID="0x2F" name="DamageInfo 8" template="Structs/DamageInfo.xml"/>
     </properties>
     <states/>

@@ -16,7 +16,7 @@ public:
 
     inline u16 FindSoundDefineID(u32 SoundID)
     {
-        ASSERT(SoundID >= 0 && SoundID < mDefineIDs.size());
+        if (SoundID >= mDefineIDs.size()) return -1;
         return mDefineIDs[SoundID];
     }
 };

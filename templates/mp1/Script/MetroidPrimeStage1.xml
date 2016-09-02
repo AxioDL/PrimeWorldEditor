@@ -41,7 +41,7 @@
                 <property ID="0x0D" name="Unknown 16" type="float"/>
                 <property ID="0x0E" name="Texture 1" type="asset" extensions="TXTR"/>
                 <property ID="0x0F" name="Unknown 17" type="long"/>
-                <property ID="0x10" name="Unknown 18" type="long"/>
+                <property ID="0x10" name="Unknown 18" type="sound"/>
                 <property ID="0x11" name="Particle 4" type="asset" extensions="PART"/>
                 <struct ID="0x12" name="PrimeStruct4 1" template="Structs/PrimeStruct4.xml"/>
                 <struct ID="0x13" name="PrimeStruct4 2" template="Structs/PrimeStruct4.xml"/>

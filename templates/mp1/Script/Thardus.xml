@@ -23,7 +23,7 @@
         <property ID="0x12" name="Phazon Weak Point 4 Model" type="asset" extensions="CMDL"/>
         <property ID="0x13" name="Phazon Weak Point 5 Model" type="asset" extensions="CMDL"/>
         <property ID="0x14" name="Phazon Weak Point 6 Model" type="asset" extensions="CMDL"/>
-        <property ID="0x15" name="Phazon Weak Point 7 Mdoel" type="asset" extensions="CMDL"/>
+        <property ID="0x15" name="Phazon Weak Point 7 Model" type="asset" extensions="CMDL"/>
         <property ID="0x16" name="Particle 1" type="asset" extensions="PART"/>
         <property ID="0x17" name="Particle 2" type="asset" extensions="PART"/>
         <property ID="0x18" name="Particle 3" type="asset" extensions="PART"/>
@@ -41,11 +41,11 @@
         <property ID="0x24" name="Rock Weak Point Health" type="float"/>
         <property ID="0x25" name="Ice Spikes Speed" type="float"/>
         <property ID="0x26" name="Texture" type="asset" extensions="TXTR"/>
-        <property ID="0x27" name="Unknown 9" type="long"/>
+        <property ID="0x27" name="Unknown 9" type="sound"/>
         <property ID="0x28" name="Particle 10" type="asset" extensions="PART"/>
-        <property ID="0x29" name="Unknown 10" type="long"/>
-        <property ID="0x2A" name="Unknown 11" type="long"/>
-        <property ID="0x2B" name="Unknown 12" type="long"/>
+        <property ID="0x29" name="Unknown 10" type="sound"/>
+        <property ID="0x2A" name="Unknown 11" type="sound"/>
+        <property ID="0x2B" name="Unknown 12" type="sound"/>
     </properties>
     <states/>
     <messages/>

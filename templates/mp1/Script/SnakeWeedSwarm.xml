@@ -24,9 +24,9 @@
         <property ID="0x13" name="Unknown 15" type="float"/>
         <struct ID="0x14" name="DamageInfo" template="Structs/DamageInfo.xml"/>
         <property ID="0x15" name="Unknown 16" type="float"/>
-        <property ID="0x16" name="Unknown 17" type="long"/>
-        <property ID="0x17" name="Unknown 18" type="long"/>
-        <property ID="0x18" name="Unknown 19" type="long"/>
+        <property ID="0x16" name="Unknown 17" type="sound"/>
+        <property ID="0x17" name="Unknown 18" type="sound"/>
+        <property ID="0x18" name="Unknown 19" type="sound"/>
     </properties>
     <states/>
     <messages/>

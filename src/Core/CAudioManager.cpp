@@ -56,30 +56,38 @@ void CAudioManager::LoadAssets()
     }
 }
 
+SSoundInfo CAudioManager::GetSoundInfo(u32 SoundID)
+{
+    SSoundInfo Out;
+    Out.SoundID = SoundID;
+    Out.DefineID = mpAudioLookupTable->FindSoundDefineID(SoundID);
+    Out.pAudioGroup = nullptr;
+
+    if (Out.DefineID != 0xFFFF)
+    {
+        auto Iter = mSfxIdMap.find(Out.DefineID);
+        if (Iter != mSfxIdMap.end())
+            Out.pAudioGroup = Iter->second;
+
+        if (mpProject->Game() >= eEchoesDemo)
+            Out.Name = mpSfxNameList->StringByIndex(Out.DefineID);
+    }
+
+    return Out;
+}
+
 void CAudioManager::LogSoundInfo(u32 SoundID)
 {
-    u16 DefineID = mpAudioLookupTable->FindSoundDefineID(SoundID);
+    SSoundInfo SoundInfo = GetSoundInfo(SoundID);
 
-    if (DefineID == -1)
-        Log::Write("Invalid sound");
-
-    else
+    if (SoundInfo.DefineID != 0xFFFF)
     {
-        auto Iter = mSfxIdMap.find(DefineID);
+        if (mpProject->Game() >= eEchoesDemo)
+            Log::Write("Sound Name: " + SoundInfo.Name);
 
-        if (Iter != mSfxIdMap.end())
-        {
-            if (mpProject->Game() >= eEchoesDemo)
-            {
-                TString SoundName = mpSfxNameList->StringByIndex(DefineID);
-                Log::Write("Sound Name: " + SoundName);
-            }
-
-            CAudioGroup *pGroup = Iter->second;
-            Log::Write("Sound ID: " + TString::HexString(SoundID, 4));
-            Log::Write("Define ID: " + TString::HexString(DefineID, 4));
-            Log::Write("Audio Group: " + pGroup->Entry()->Name().ToUTF8());
-            Log::Write("");
-        }
+        Log::Write("Sound ID: " + TString::HexString(SoundInfo.SoundID, 4));
+        Log::Write("Define ID: " + TString::HexString(SoundInfo.DefineID, 4));
+        Log::Write("Audio Group: " + SoundInfo.pAudioGroup->Entry()->Name().ToUTF8());
+        Log::Write("");
     }
 }

@@ -13,7 +13,7 @@
         <property ID="0x08" name="Elevator Background Model" type="asset" extensions="CMDL"/>
         <property ID="0x09" name="Elevator Background Scale" type="vector3f"/>
         <property ID="0x0A" name="Upward Elevator" type="bool"/>
-        <property ID="0x0B" name="Sound ID" type="long"/>
+        <property ID="0x0B" name="Elevator Sound" type="sound"/>
         <property ID="0x0C" name="Sound Volume" type="long"/>
         <property ID="0x0D" name="Unknown (Sound-Related)" type="long"/>
         <property ID="0x0E" name="Show Text Instead Of Cutscene" type="bool"/>

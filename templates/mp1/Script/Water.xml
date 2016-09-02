@@ -50,11 +50,11 @@
         <property ID="0x23" name="Particle 3" type="asset" extensions="PART"/>
         <property ID="0x24" name="Particle 4" type="asset" extensions="PART"/>
         <property ID="0x25" name="Particle 5" type="asset" extensions="PART"/>
-        <property ID="0x26" name="Sound? 1" type="long"/>
-        <property ID="0x27" name="Sound? 2" type="long"/>
-        <property ID="0x28" name="Sound? 3" type="long"/>
-        <property ID="0x29" name="Sound? 4" type="long"/>
-        <property ID="0x2A" name="Sound? 5" type="long"/>
+        <property ID="0x26" name="Sound 1" type="sound"/>
+        <property ID="0x27" name="Sound 2" type="sound"/>
+        <property ID="0x28" name="Sound 3" type="sound"/>
+        <property ID="0x29" name="Sound 4" type="sound"/>
+        <property ID="0x2A" name="Sound 5" type="sound"/>
         <property ID="0x2B" name="Unknown 40" type="float"/>
         <property ID="0x2C" name="Unknown 41" type="long"/>
         <property ID="0x2D" name="Unknown 42" type="float"/>
