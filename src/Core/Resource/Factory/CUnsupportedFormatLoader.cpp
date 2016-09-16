@@ -1,4 +1,5 @@
 #include "CUnsupportedFormatLoader.h"
+#include "Core/GameProject/CGameProject.h"
 #include "Core/Resource/ParticleParameters.h"
 
 CDependencyGroup* CUnsupportedFormatLoader::LoadCSNG(IInputStream& rCSNG, CResourceEntry *pEntry)
@@ -67,8 +68,16 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadEVNT(IInputStream& rEVNT, CResou
         {
             rEVNT.Seek(0x2, SEEK_CUR);
             rEVNT.ReadString();
-            rEVNT.Seek(0x27, SEEK_CUR);
+            rEVNT.Seek(0x1B, SEEK_CUR);
+            u32 SoundID = rEVNT.ReadLong() & 0xFFFF;
+            rEVNT.Seek(0x8, SEEK_CUR);
             if (IsEchoes) rEVNT.Seek(0xC, SEEK_CUR);
+
+            if (SoundID != 0xFFFF)
+            {
+                SSoundInfo SoundInfo = CGameProject::ActiveProject()->AudioManager()->GetSoundInfo(SoundID);
+                pGroup->AddDependency(SoundInfo.pAudioGroup);
+            }
         }
     }
 

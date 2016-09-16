@@ -273,14 +273,13 @@ void CPackageDependencyListBuilder::EvaluateDependencyNode(CResourceEntry *pCurE
         for (u32 iChild = 0; iChild < pNode->NumChildren(); iChild++)
             EvaluateDependencyNode(pCurEntry, pNode->ChildByIndex(iChild), rOut);
 
-
         if (Type == eDNT_ScriptInstance)
             mIsPlayerActor = false;
     }
 }
 
 // ************ CAreaDependencyListBuilder ************
-void CAreaDependencyListBuilder::BuildDependencyList(std::list<CAssetID>& rAssetsOut, std::list<u32>& rLayerOffsetsOut)
+void CAreaDependencyListBuilder::BuildDependencyList(std::list<CAssetID>& rAssetsOut, std::list<u32>& rLayerOffsetsOut, std::set<CAssetID> *pAudioGroupsOut)
 {
     CAreaDependencyTree *pTree = static_cast<CAreaDependencyTree*>(mpAreaEntry->Dependencies());
 
@@ -331,7 +330,7 @@ void CAreaDependencyListBuilder::BuildDependencyList(std::list<CAssetID>& rAsset
                         continue;
                 }
 
-                AddDependency(pDep->ID(), rAssetsOut);
+                AddDependency(pDep->ID(), rAssetsOut, pAudioGroupsOut);
             }
         }
     }
@@ -344,24 +343,27 @@ void CAreaDependencyListBuilder::BuildDependencyList(std::list<CAssetID>& rAsset
     for (u32 iDep = 0; iDep < BaseEndIndex; iDep++)
     {
         CResourceDependency *pDep = static_cast<CResourceDependency*>(pTree->ChildByIndex(iDep));
-        AddDependency(pDep->ID(), rAssetsOut);
+        AddDependency(pDep->ID(), rAssetsOut, pAudioGroupsOut);
     }
 }
 
-void CAreaDependencyListBuilder::AddDependency(const CAssetID& rkID, std::list<CAssetID>& rOut)
+void CAreaDependencyListBuilder::AddDependency(const CAssetID& rkID, std::list<CAssetID>& rOut, std::set<CAssetID> *pAudioGroupsOut)
 {
     CResourceEntry *pEntry = gpResourceStore->FindEntry(rkID);
     if (!pEntry) return;
 
     EResType ResType = pEntry->ResourceType();
 
-    // Check if this is a valid dependency
-    bool IsValid =  ResType != eMidi &&
-                    ResType != eWorld &&
-                    ResType != eArea &&
-                   (ResType != eAudioGroup || mGame >= eEchoesDemo);
+    // If this is an audio group, for MP1, save it in the output set. For MP2, treat audio groups as a normal dependency.
+    if (mGame <= ePrime && ResType == eAudioGroup)
+    {
+        if (pAudioGroupsOut) pAudioGroupsOut->insert(rkID);
+        return;
+    }
 
-    if (!IsValid) return;
+    // Check to ensure this is a valid/new dependency
+    if (ResType == eWorld || ResType == eArea)
+        return;
 
     if (mBaseUsedAssets.find(rkID) != mBaseUsedAssets.end() || mLayerUsedAssets.find(rkID) != mLayerUsedAssets.end())
         return;
@@ -378,7 +380,7 @@ void CAreaDependencyListBuilder::AddDependency(const CAssetID& rkID, std::list<C
         {
             CResourceDependency *pDep = static_cast<CResourceDependency*>(pTree->ChildByIndex(iDep));
             ASSERT(pDep->Type() == eDNT_ResourceDependency);
-            AddDependency(pDep->ID(), rOut);
+            AddDependency(pDep->ID(), rOut, pAudioGroupsOut);
         }
 
         for (u32 iChar = 0; iChar < pTree->NumCharacters(); iChar++)
@@ -395,7 +397,7 @@ void CAreaDependencyListBuilder::AddDependency(const CAssetID& rkID, std::list<C
             {
                 CResourceDependency *pDep = static_cast<CResourceDependency*>(pTree->ChildByIndex(iDep));
                 ASSERT(pDep->Type() == eDNT_ResourceDependency);
-                AddDependency(pDep->ID(), rOut);
+                AddDependency(pDep->ID(), rOut, pAudioGroupsOut);
             }
         }
     }
@@ -409,9 +411,11 @@ void CAreaDependencyListBuilder::AddDependency(const CAssetID& rkID, std::list<C
         {
             CResourceDependency *pDep = static_cast<CResourceDependency*>(pTree->ChildByIndex(iDep));
             ASSERT(pDep->Type() == eDNT_ResourceDependency);
-            AddDependency(pDep->ID(), rOut);
+            AddDependency(pDep->ID(), rOut, pAudioGroupsOut);
         }
     }
 
-    rOut.push_back(rkID);
+    // Don't add CSNGs to the output dependency list (we parse them because we need their AGSC dependencies in the output AudioGroup set)
+    if (ResType != eMidi)
+        rOut.push_back(rkID);
 }

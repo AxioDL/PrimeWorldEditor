@@ -16,8 +16,9 @@ CResourceEntry::CResourceEntry(CResourceStore *pStore, const CAssetID& rkID,
     , mpStore(pStore)
     , mpDependencies(nullptr)
     , mID(rkID)
-    , mName(rkFilename)
     , mType(Type)
+    , mpDirectory(nullptr)
+    , mName(rkFilename)
     , mCachedSize(-1)
     , mCachedUppercaseName(rkFilename.ToUpper())
 {

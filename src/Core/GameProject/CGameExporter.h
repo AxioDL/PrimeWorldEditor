@@ -14,6 +14,7 @@ class CGameExporter
     // Project
     CGameProject *mpProject;
     CResourceStore *mpStore;
+    EGame mGame;
 
     // Directories
     TWideString mGameDir;
@@ -59,6 +60,7 @@ protected:
     void LoadResource(const SResourceInstance& rkResource, std::vector<u8>& rBuffer);
     void ExportWorlds();
     void ExportCookedResources();
+    void ExportResourceEditorData();
     void ExportResource(SResourceInstance& rRes);
 
     // Convenience Functions
@@ -80,9 +82,6 @@ protected:
     {
         mResourcePaths[rkID] = SResourcePath { rkDir, rkName };
     }
-
-    inline EGame Game() const       { return mpProject->Game(); }
-    inline void SetGame(EGame Game) { mpProject->SetGame(Game); }
 };
 
 #endif // CGAMEEXPORTER_H

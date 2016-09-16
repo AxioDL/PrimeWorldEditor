@@ -72,8 +72,8 @@ public:
         ASSERT(mpAreaEntry->ResourceType() == eArea);
     }
 
-    void BuildDependencyList(std::list<CAssetID>& rAssetsOut, std::list<u32>& rLayerOffsetsOut);
-    void AddDependency(const CAssetID& rkID, std::list<CAssetID>& rOut);
+    void BuildDependencyList(std::list<CAssetID>& rAssetsOut, std::list<u32>& rLayerOffsetsOut, std::set<CAssetID> *pAudioGroupsOut = nullptr);
+    void AddDependency(const CAssetID& rkID, std::list<CAssetID>& rOut, std::set<CAssetID> *pAudioGroupsOut);
 };
 
 #endif // DEPENDENCYLISTBUILDERS

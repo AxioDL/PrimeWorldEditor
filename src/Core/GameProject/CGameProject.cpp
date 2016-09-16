@@ -8,6 +8,9 @@ CGameProject::~CGameProject()
 {
     if (IsActive())
         mspActiveProject = nullptr;
+
+    delete mpAudioManager;
+    delete mpResourceStore;
 }
 
 bool CGameProject::Load(const TWideString& rkPath)
@@ -20,7 +23,7 @@ bool CGameProject::Load(const TWideString& rkPath)
     Serialize(Reader);
 
     mpResourceStore->LoadResourceDatabase();
-    mAudioManager.LoadAssets();
+    mpAudioManager->LoadAssets();
     return true;
 }
 

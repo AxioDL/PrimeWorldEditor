@@ -1,4 +1,5 @@
 #include "CUnsupportedParticleLoader.h"
+#include <Core/GameProject/CGameProject.h>
 
 // ************ PARAMETER LOADING ************
 bool CUnsupportedParticleLoader::ParseParticleParameter(IInputStream& rPART)
@@ -462,8 +463,7 @@ bool CUnsupportedParticleLoader::ParseWeaponParameter(IInputStream& rWPSC)
     case kWeaponVMD2:
         ParseBoolFunction(rWPSC);
         break;
-
-    case kWeaponPJFX:
+        
     case kWeaponPSLT:
         ParseIntFunction(rWPSC);
         break;
@@ -508,6 +508,10 @@ bool CUnsupportedParticleLoader::ParseWeaponParameter(IInputStream& rWPSC)
     case kWeaponB2TX:
     case kWeaponTTEX:
         ParseUVFunction(rWPSC);
+        break;
+        
+    case kWeaponPJFX:
+        ParseSoundFunction(rWPSC);
         break;
 
     case kWeaponAPSM:
@@ -570,26 +574,12 @@ bool CUnsupportedParticleLoader::ParseCollisionResponseParameter(IInputStream& r
     case kColi6GRN:
     case kColi2MUD:
     case kColi2SAN:
-    case kColiBHFX:
-    case kColiCHFX:
-    case kColiCSFX:
-    case kColiCZFX:
     case kColiDCSH:
-    case kColiDSFX:
     case kColiDSHX:
-    case kColiGOFX:
-    case kColiGRFX:
-    case kColiHBFX:
-    case kColiICFX:
-    case kColiMSFX:
     case kColiPBHX:
     case kColiPBOS:
     case kColiPBSX:
-    case kColiSHFX:
-    case kColiTAFX:
     case kColiTASP:
-    case kColiWSFX:
-    case kColiWTFX:
         ParseIntFunction(rCRSC);
         break;
 
@@ -597,7 +587,24 @@ bool CUnsupportedParticleLoader::ParseCollisionResponseParameter(IInputStream& r
     case kColiRNGE:
         ParseFloatFunction(rCRSC);
         break;
-
+        
+    case kColiBHFX:
+    case kColiCHFX:
+    case kColiCSFX:
+    case kColiCZFX:
+    case kColiDSFX:
+    case kColiGOFX:
+    case kColiGRFX:
+    case kColiHBFX:
+    case kColiICFX:
+    case kColiMSFX:
+    case kColiSHFX:
+    case kColiTAFX:
+    case kColiWSFX:
+    case kColiWTFX:
+        ParseSoundFunction(rCRSC);
+        break;
+        
     case kColi1LAV:
     case kColi3LAV:
     case kColi1MUD:
@@ -1271,6 +1278,35 @@ void CUnsupportedParticleLoader::ParseEmitterFunction(IInputStream& rFile)
     default:
         Log::FileError(rFile.GetSourceString(), FuncOffset, "Unknown emitter function: " + Func.ToString());
         DEBUG_BREAK;
+        break;
+    }
+}
+
+void CUnsupportedParticleLoader::ParseSoundFunction(IInputStream& rFile)
+{
+    u32 FuncOffset = rFile.Tell();
+    CFourCC Func = rFile.ReadLong();
+    
+    switch (Func.ToLong())
+    {
+    case kFuncNONE:
+        break;
+        
+    case kSoundCNST:
+    {
+        u32 SoundID = rFile.ReadLong() & 0xFFFF;
+
+        if (SoundID != 0xFFFF)
+        {
+            SSoundInfo SoundInfo = CGameProject::ActiveProject()->AudioManager()->GetSoundInfo(SoundID);
+            mpGroup->AddDependency(SoundInfo.pAudioGroup);
+        }
+        
+        break;
+    }
+        
+    default:
+        Log::FileError(rFile.GetSourceString(), FuncOffset, "Unknown sound function: " + Func.ToString());
         break;
     }
 }

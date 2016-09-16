@@ -24,13 +24,14 @@ CResourceStore::CResourceStore(const TWideString& rkDatabasePath)
     mDatabaseName = rkDatabasePath.GetFileName();
 }
 
-CResourceStore::CResourceStore(CGameExporter *pExporter, const TWideString& rkRawDir, const TWideString& rkCookedDir, EGame Game)
+CResourceStore::CResourceStore(CGameProject *pProject, CGameExporter *pExporter, const TWideString& rkRawDir, const TWideString& rkCookedDir, EGame Game)
     : mpProj(nullptr)
     , mGame(Game)
     , mRawDir(rkRawDir)
     , mCookedDir(rkCookedDir)
     , mpExporter(pExporter)
 {
+    SetProject(pProject);
 }
 
 CResourceStore::CResourceStore(CGameProject *pProject)
