@@ -4,6 +4,7 @@
 #include "CPackage.h"
 #include "CResourceStore.h"
 #include "Core/CAudioManager.h"
+#include "Core/Resource/Script/CMasterTemplate.h"
 #include <Common/CAssetID.h>
 #include <Common/EGame.h>
 #include <Common/FileUtil.h>
@@ -18,7 +19,7 @@ class CGameProject
     TWideString mResourceDBPath;
     std::vector<CPackage*> mPackages;
     CResourceStore *mpResourceStore;
-    CAudioManager mAudioManager;
+    CAudioManager *mpAudioManager;
 
     enum EProjectVersion
     {
@@ -34,9 +35,10 @@ public:
     CGameProject()
         : mGame(eUnknownGame)
         , mProjectName("Unnamed Project")
-        , mAudioManager(this)
+        , mResourceDBPath(L"ResourceDB.rdb")
     {
         mpResourceStore = new CResourceStore(this);
+        mpAudioManager = new CAudioManager(this);
     }
 
     CGameProject(const TWideString& rkProjRootDir)
@@ -44,9 +46,20 @@ public:
         , mProjectName("Unnamed Project")
         , mProjectRoot(rkProjRootDir)
         , mResourceDBPath(L"ResourceDB.rdb")
-        , mAudioManager(this)
     {
         mpResourceStore = new CResourceStore(this);
+        mpAudioManager = new CAudioManager(this);
+        mProjectRoot.Replace(L"/", L"\\");
+    }
+
+    CGameProject(CGameExporter *pExporter, const TWideString& rkProjRootDir, EGame Game)
+        : mGame(Game)
+        , mProjectName(CMasterTemplate::FindGameName(Game))
+        , mProjectRoot(rkProjRootDir)
+        , mResourceDBPath(L"ResourceDB.rdb")
+    {
+        mpResourceStore = new CResourceStore(this, pExporter, L"Content\\", L"Cooked\\", Game);
+        mpAudioManager = new CAudioManager(this);
         mProjectRoot.Replace(L"/", L"\\");
     }
 
@@ -69,14 +82,13 @@ public:
     inline TWideString ResourceCachePath(bool Relative) const   { return ResourceDBPath(Relative).GetFileDirectory() + L"ResourceCacheData.rcd"; }
 
     // Accessors
-    inline void SetGame(EGame Game)                     { mGame = Game; }
     inline void SetProjectName(const TString& rkName)   { mProjectName = rkName; }
 
     inline u32 NumPackages() const                      { return mPackages.size(); }
     inline CPackage* PackageByIndex(u32 Index) const    { return mPackages[Index]; }
     inline void AddPackage(CPackage *pPackage)          { mPackages.push_back(pPackage); }
     inline CResourceStore* ResourceStore() const        { return mpResourceStore; }
-    inline CAudioManager* AudioManager()                { return &mAudioManager; }
+    inline CAudioManager* AudioManager() const          { return mpAudioManager; }
     inline EGame Game() const                           { return mGame; }
     inline bool IsActive() const                        { return mspActiveProject == this; }
 

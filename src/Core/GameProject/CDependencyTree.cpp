@@ -1,4 +1,5 @@
 #include "CDependencyTree.h"
+#include "Core/GameProject/CGameProject.h"
 #include "Core/Resource/Script/CMasterTemplate.h"
 #include "Core/Resource/Script/CScriptLayer.h"
 #include "Core/Resource/Script/CScriptObject.h"
@@ -119,6 +120,22 @@ void CScriptInstanceDependency::ParseStructDependencies(CScriptInstanceDependenc
 
         if (Type == eStructProperty || Type == eArrayProperty)
             ParseStructDependencies(pInst, static_cast<CPropertyStruct*>(pProp));
+
+        else if (Type == eSoundProperty)
+        {
+            u32 SoundID = static_cast<TSoundProperty*>(pProp)->Get();
+
+            if (SoundID != -1)
+            {
+                SSoundInfo Info = CGameProject::ActiveProject()->AudioManager()->GetSoundInfo(SoundID);
+
+                if (Info.pAudioGroup)
+                {
+                    CPropertyDependency *pDep = new CPropertyDependency(pProp->IDString(true), Info.pAudioGroup->ID());
+                    pInst->mChildren.push_back(pDep);
+                }
+            }
+        }
 
         else if (Type == eAssetProperty)
         {

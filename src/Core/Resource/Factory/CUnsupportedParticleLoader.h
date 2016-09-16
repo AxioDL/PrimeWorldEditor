@@ -31,6 +31,7 @@ class CUnsupportedParticleLoader
     void ParseColorFunction(IInputStream& rFile);
     void ParseUVFunction(IInputStream& rFile);
     void ParseEmitterFunction(IInputStream& rFile);
+    void ParseSoundFunction(IInputStream& rFile);
     void ParseAssetFunction(IInputStream& rFile);
     void ParseSpawnSystemKeyframeData(IInputStream& rFile);
     void ParseKeyframeEmitterData(IInputStream& rFile, const CFourCC& rkFunc, u32 ElemSize);

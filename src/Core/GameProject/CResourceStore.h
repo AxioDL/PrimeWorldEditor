@@ -46,7 +46,7 @@ class CResourceStore
 
 public:
     CResourceStore(const TWideString& rkDatabasePath);
-    CResourceStore(CGameExporter *pExporter, const TWideString& rkRawDir, const TWideString& rkCookedDir, EGame Game);
+    CResourceStore(CGameProject *pProject, CGameExporter *pExporter, const TWideString& rkRawDir, const TWideString& rkCookedDir, EGame Game);
     CResourceStore(CGameProject *pProject);
     ~CResourceStore();
     void SerializeResourceDatabase(IArchive& rArc);

@@ -515,6 +515,8 @@ FUNC(Color, VRTC, 'V', 'R', 'T', 'C') // Vector, Float
 // UV Functions
 FUNC(UV, CNST, 'C', 'N', 'S', 'T') // Asset (TXTR)
 FUNC(UV, ATEX, 'A', 'T', 'E', 'X') // Asset (TXTR), Int, Int, Int, Int, Int, Bool
+// Sound Functions
+FUNC(Sound, CNST, 'C', 'N', 'S', 'T') // Sound ID
 // Asset Functions
 FUNC(Asset, CNST, 'C', 'N', 'S', 'T') // Asset ID
 // Emitter Functions

@@ -19,11 +19,12 @@
 
 CGameExporter::CGameExporter(const TString& rkInputDir, const TString& rkOutputDir)
 {
+    mGame = eUnknownGame;
     mGameDir = FileUtil::MakeAbsolute(rkInputDir);
     mExportDir = FileUtil::MakeAbsolute(rkOutputDir);
 
     mpProject = new CGameProject(mExportDir);
-    mDiscDir = mpProject->DiscDir(true);
+    mDiscDir = L"Disc\\";
     mWorldsDirName = L"Worlds\\";
 }
 
@@ -38,12 +39,18 @@ bool CGameExporter::Export()
     FileUtil::CreateDirectory(mExportDir);
     FileUtil::ClearDirectory(mExportDir);
 
+    // Initial analyze/copy of disc data
     CopyDiscData();
-    mpStore = new CResourceStore(this, L"Content\\", L"Cooked\\", mpProject->Game());
-    mpStore->SetProject(mpProject);
+
+    // Create project
+    mpProject = new CGameProject(this, mExportDir, mGame);
+    mpProject->SetProjectName(CMasterTemplate::FindGameName(mGame));
+    mpProject->SetActive();
+    mpStore = mpProject->ResourceStore();
     mContentDir = mpStore->RawDir(false);
     mCookedDir = mpStore->CookedDir(false);
 
+    // Export game data
     CResourceStore *pOldStore = gpResourceStore;
     gpResourceStore = mpStore;
 
@@ -51,10 +58,12 @@ bool CGameExporter::Export()
     LoadPaks();
     ExportWorlds();
     ExportCookedResources();
+    mpProject->AudioManager()->LoadAssets();
+    ExportResourceEditorData();
 
+    // Export finished!
+    delete mpProject;
     gpResourceStore = pOldStore;
-    delete mpStore;
-    mpStore = nullptr;
 
     return true;
 }
@@ -89,16 +98,16 @@ void CGameExporter::CopyDiscData()
             continue;
 
         // Hack to determine game
-        if (Game() == eUnknownGame)
+        if (mGame == eUnknownGame)
         {
             TWideString Name = FullPath.GetFileName(false);
-            if      (Name == L"MetroidCWP")  SetGame(ePrimeDemo);
-            else if (Name == L"NESemu")      SetGame(ePrime);
-            else if (Name == L"PirateGun")   SetGame(eEchoesDemo);
-            else if (Name == L"AtomicBeta")  SetGame(eEchoes);
-            else if (Name == L"InGameAudio") SetGame(eCorruptionProto);
-            else if (Name == L"GuiDVD")      SetGame(eCorruption);
-            else if (Name == L"PreloadData") SetGame(eReturns);
+            if      (Name == L"MetroidCWP")  mGame = ePrimeDemo;
+            else if (Name == L"NESemu")      mGame = ePrime;
+            else if (Name == L"PirateGun")   mGame = eEchoesDemo;
+            else if (Name == L"AtomicBeta")  mGame = eEchoes;
+            else if (Name == L"InGameAudio") mGame = eCorruptionProto;
+            else if (Name == L"GuiDVD")      mGame = eCorruption;
+            else if (Name == L"PreloadData") mGame = eReturns;
         }
 
         // Detect paks
@@ -116,9 +125,7 @@ void CGameExporter::CopyDiscData()
 #endif
     }
 
-    ASSERT(Game() != eUnknownGame);
-    mpProject->SetGame(Game());
-    mpProject->SetProjectName(CMasterTemplate::FindGameName(Game()));
+    ASSERT(mGame != eUnknownGame);
 }
 
 void CGameExporter::LoadAssetList()
@@ -128,7 +135,7 @@ void CGameExporter::LoadAssetList()
     // Determine the asset list to use
     TString ListFile = "../resources/list/AssetList";
 
-    switch (Game())
+    switch (mGame)
     {
     case ePrimeDemo:        ListFile += "MP1Demo"; break;
     case ePrime:            ListFile += "MP1"; break;
@@ -177,7 +184,6 @@ void CGameExporter::LoadPaks()
 {
 #if LOAD_PAKS
     SCOPED_TIMER(LoadPaks);
-    EIDLength IDLength = (Game() < eCorruptionProto ? e32Bit : e64Bit);
 
     for (auto It = mPaks.begin(); It != mPaks.end(); It++)
     {
@@ -196,7 +202,7 @@ void CGameExporter::LoadPaks()
         CResourceCollection *pCollection = pPackage->AddCollection("Default");
 
         // MP1-MP3Proto
-        if (Game() < eCorruption)
+        if (mGame < eCorruption)
         {
             u32 PakVersion = Pak.ReadLong();
             Pak.Seek(0x4, SEEK_CUR);
@@ -211,7 +217,7 @@ void CGameExporter::LoadPaks()
                 for (u32 iName = 0; iName < NumNamedResources; iName++)
                 {
                     CFourCC ResType = Pak.ReadLong();
-                    CAssetID ResID(Pak, IDLength);
+                    CAssetID ResID(Pak, mGame);
                     u32 NameLen = Pak.ReadLong();
                     TString Name = Pak.ReadString(NameLen);
                     pCollection->AddResource(Name, ResID, ResType);
@@ -228,7 +234,7 @@ void CGameExporter::LoadPaks()
                 {
                     bool Compressed = (Pak.ReadLong() == 1);
                     CFourCC ResType = Pak.ReadLong();
-                    CAssetID ResID(Pak, IDLength);
+                    CAssetID ResID(Pak, mGame);
                     u32 ResSize = Pak.ReadLong();
                     u32 ResOffset = Pak.ReadLong();
 
@@ -288,7 +294,7 @@ void CGameExporter::LoadPaks()
                     {
                         TString Name = Pak.ReadString();
                         CFourCC ResType = Pak.ReadLong();
-                        CAssetID ResID(Pak, IDLength);
+                        CAssetID ResID(Pak, mGame);
                         pCollection->AddResource(Name, ResID, ResType);
                         SetResourcePath(ResID, PakName + L"\\", Name.ToUTF16());
                     }
@@ -308,7 +314,7 @@ void CGameExporter::LoadPaks()
                     {
                         bool Compressed = (Pak.ReadLong() == 1);
                         CFourCC Type = Pak.ReadLong();
-                        CAssetID ResID(Pak, IDLength);
+                        CAssetID ResID(Pak, mGame);
                         u32 Size = Pak.ReadLong();
                         u32 Offset = DataStart + Pak.ReadLong();
 
@@ -316,7 +322,7 @@ void CGameExporter::LoadPaks()
                             mResourceMap[ResID] = SResourceInstance { PakPath, ResID, Type, Offset, Size, Compressed, false };
 
                         // Check for duplicate resources (unnecessary for DKCR)
-                        if (Game() != eReturns)
+                        if (mGame != eReturns)
                         {
                             if (Type == "MREA")
                             {
@@ -357,9 +363,9 @@ void CGameExporter::LoadResource(const SResourceInstance& rkResource, std::vecto
         // Handle compression
         if (rkResource.Compressed)
         {
-            bool ZlibCompressed = (Game() <= eEchoesDemo || Game() == eReturns);
+            bool ZlibCompressed = (mGame <= eEchoesDemo || mGame == eReturns);
 
-            if (Game() <= eCorruptionProto)
+            if (mGame <= eCorruptionProto)
             {
                 std::vector<u8> CompressedData(rkResource.PakSize);
 
@@ -539,6 +545,10 @@ void CGameExporter::ExportCookedResources()
 #endif
         mpProject->Save();
     }
+}
+
+void CGameExporter::ExportResourceEditorData()
+{
     {
         // Save raw versions of resources + resource cache data files
         // Note this has to be done after all cooked resources are exported
