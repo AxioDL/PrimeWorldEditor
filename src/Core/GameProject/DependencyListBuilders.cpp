@@ -200,10 +200,7 @@ void CPackageDependencyListBuilder::AddDependency(CResourceEntry *pCurEntry, con
         mAreaUsedAssets.clear();
         mCurrentAreaHasDuplicates = false;
 
-        if (!mEnableDuplicates)
-            mCurrentAreaHasDuplicates = false;
-
-        else
+        if (mEnableDuplicates)
         {
             for (u32 iArea = 0; iArea < mpWorld->NumAreas(); iArea++)
             {
@@ -216,10 +213,18 @@ void CPackageDependencyListBuilder::AddDependency(CResourceEntry *pCurEntry, con
         }
     }
 
+    // Animset - keep track of the current animset ID
+    else if (ResType == eAnimSet)
+        mCurrentAnimSetID = rkID;
+
     // Evaluate dependencies of this entry
     CDependencyTree *pTree = pEntry->Dependencies();
     EvaluateDependencyNode(pEntry, pTree, rOut);
     rOut.push_back(rkID);
+
+    // Revert current animset ID
+    if (ResType == eAnimSet)
+        mCurrentAnimSetID = CAssetID::InvalidID(mGame);
 }
 
 void CPackageDependencyListBuilder::EvaluateDependencyNode(CResourceEntry *pCurEntry, IDependencyNode *pNode, std::list<CAssetID>& rOut)
@@ -260,6 +265,15 @@ void CPackageDependencyListBuilder::EvaluateDependencyNode(CResourceEntry *pCurE
     {
         CResourceDependency *pDep = static_cast<CResourceDependency*>(pNode);
         AddDependency(pCurEntry, pDep->ID(), rOut);
+    }
+
+    else if (Type == eDNT_AnimEvent)
+    {
+        CAnimEventDependency *pDep = static_cast<CAnimEventDependency*>(pNode);
+        u32 CharIndex = pDep->CharIndex();
+
+        if (CharIndex == -1 || mCharacterUsageMap.IsCharacterUsed(mCurrentAnimSetID, CharIndex))
+            AddDependency(pCurEntry, pDep->ID(), rOut);
     }
 
     else
@@ -372,6 +386,8 @@ void CAreaDependencyListBuilder::AddDependency(const CAssetID& rkID, std::list<C
     // For animsets, only add used character indices
     if (ResType == eAnimSet && mGame <= eEchoes)
     {
+        mCurrentAnimSetID = rkID;
+
         // Add base dependencies first, then character-specific ones
         CAnimSetDependencyTree *pTree = static_cast<CAnimSetDependencyTree*>(pEntry->Dependencies());
         u32 BaseEndIdx = (pTree->NumCharacters() > 0 ? pTree->CharacterOffset(0) : pTree->NumChildren());
@@ -379,8 +395,20 @@ void CAreaDependencyListBuilder::AddDependency(const CAssetID& rkID, std::list<C
         for (u32 iDep = 0; iDep < BaseEndIdx; iDep++)
         {
             CResourceDependency *pDep = static_cast<CResourceDependency*>(pTree->ChildByIndex(iDep));
-            ASSERT(pDep->Type() == eDNT_ResourceDependency);
-            AddDependency(pDep->ID(), rOut, pAudioGroupsOut);
+            EDependencyNodeType Type = pDep->Type();
+            ASSERT(Type == eDNT_ResourceDependency || Type == eDNT_AnimEvent);
+
+            if (Type == eDNT_ResourceDependency)
+                AddDependency(pDep->ID(), rOut, pAudioGroupsOut);
+
+            else
+            {
+                CAnimEventDependency *pEvent = static_cast<CAnimEventDependency*>(pDep);
+                u32 CharIdx = pEvent->CharIndex();
+
+                if (CharIdx == -1 || mCharacterUsageMap.IsCharacterUsed(rkID, CharIdx))
+                    AddDependency(pDep->ID(), rOut, pAudioGroupsOut);
+            }
         }
 
         for (u32 iChar = 0; iChar < pTree->NumCharacters(); iChar++)
@@ -399,6 +427,24 @@ void CAreaDependencyListBuilder::AddDependency(const CAssetID& rkID, std::list<C
                 ASSERT(pDep->Type() == eDNT_ResourceDependency);
                 AddDependency(pDep->ID(), rOut, pAudioGroupsOut);
             }
+        }
+
+        mCurrentAnimSetID = CAssetID::InvalidID(mGame);
+    }
+
+    // For EVNT, only add events for used character indices
+    else if (ResType == eAnimEventData)
+    {
+        CDependencyTree *pTree = pEntry->Dependencies();
+
+        for (u32 iDep = 0; iDep < pTree->NumChildren(); iDep++)
+        {
+            CAnimEventDependency *pDep = static_cast<CAnimEventDependency*>(pTree->ChildByIndex(iDep));
+            ASSERT(pDep->Type() == eDNT_AnimEvent);
+            u32 CharIdx = pDep->CharIndex();
+
+            if (CharIdx == -1 || mCharacterUsageMap.IsCharacterUsed(mCurrentAnimSetID, CharIdx))
+                AddDependency(pDep->ID(), rOut, pAudioGroupsOut);
         }
     }
 

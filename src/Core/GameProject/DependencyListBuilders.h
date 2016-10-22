@@ -34,6 +34,7 @@ class CPackageDependencyListBuilder
     CPackage *mpPackage;
     EGame mGame;
     TResPtr<CWorld> mpWorld;
+    CAssetID mCurrentAnimSetID;
     CCharacterUsageMap mCharacterUsageMap;
     std::set<CAssetID> mPackageUsedAssets;
     std::set<CAssetID> mAreaUsedAssets;
@@ -59,6 +60,7 @@ class CAreaDependencyListBuilder
 {
     CResourceEntry *mpAreaEntry;
     EGame mGame;
+    CAssetID mCurrentAnimSetID;
     CCharacterUsageMap mCharacterUsageMap;
     std::set<CAssetID> mBaseUsedAssets;
     std::set<CAssetID> mLayerUsedAssets;

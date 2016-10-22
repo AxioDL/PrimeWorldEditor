@@ -108,7 +108,11 @@ void CResourceStore::LoadResourceDatabase()
         mpDatabaseRoot = new CVirtualDirectory();
 
     CXMLReader Reader(Path);
-    if (!mpProj) mGame = Reader.Game();
+
+    if (mpProj)
+        ASSERT(mpProj->Game() == Reader.Game());
+
+    mGame = Reader.Game();
     SerializeResourceDatabase(Reader);
     LoadCacheFile();
 }

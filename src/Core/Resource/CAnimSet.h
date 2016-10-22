@@ -3,6 +3,7 @@
 
 #include "TResPtr.h"
 #include "CAnimation.h"
+#include "CAnimEventData.h"
 #include "CDependencyGroup.h"
 #include "CResource.h"
 #include "CSkeleton.h"
@@ -12,7 +13,6 @@
 
 #include <vector>
 
-// will expand later! this is where animation support will come in
 struct SSetCharacter
 {
     TString Name;
@@ -42,7 +42,7 @@ class CAnimSet : public CResource
         TResPtr<CAnimation> pAnim;
     };
     std::vector<SAnimation> mAnims;
-    std::vector<CDependencyGroup*> mEventDependencies;
+    std::vector<CAnimEventData*> mEventDependencies;
 
 public:
     CAnimSet(CResourceEntry *pEntry = 0) : CResource(pEntry) {}
@@ -85,12 +85,13 @@ public:
 
         for (u32 iEvnt = 0; iEvnt < mEventDependencies.size(); iEvnt++)
         {
-            CDependencyGroup *pGroup = mEventDependencies[iEvnt];
+            CAnimEventData *pData = mEventDependencies[iEvnt];
 
-            for (u32 iDep = 0; iDep < pGroup->NumDependencies(); iDep++)
+            for (u32 iEvt = 0; iEvt < pData->NumEvents(); iEvt++)
             {
-                CAssetID ID = pGroup->DependencyByIndex(iDep);
-                pTree->AddDependency(ID);
+                CAssetID ID = pData->EventAssetRef(iEvt);
+                u32 CharIdx = pData->EventCharacterIndex(iEvt);
+                pTree->AddEventDependency(ID, CharIdx);
                 BaseUsedSet.insert(ID);
             }
         }

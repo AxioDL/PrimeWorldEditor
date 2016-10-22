@@ -19,6 +19,7 @@ enum EDependencyNodeType
     eDNT_ScriptInstance     = FOURCC_CONSTEXPR('S', 'C', 'I', 'N'),
     eDNT_ScriptProperty     = FOURCC_CONSTEXPR('S', 'C', 'P', 'R'),
     eDNT_CharacterProperty  = FOURCC_CONSTEXPR('C', 'R', 'P', 'R'),
+    eDNT_AnimEvent          = FOURCC_CONSTEXPR('E', 'V', 'N', 'T'),
     eDNT_AnimSet            = FOURCC_CONSTEXPR('A', 'N', 'C', 'S'),
     eDNT_Area               = FOURCC_CONSTEXPR('A', 'R', 'E', 'A'),
 };
@@ -55,6 +56,7 @@ public:
 
     void AddDependency(const CAssetID& rkID, bool AvoidDuplicates = true);
     void AddDependency(CResource *pRes, bool AvoidDuplicates = true);
+    void AddEventDependency(const CAssetID& rkID, u32 CharIndex);
 
     // Accessors
     inline void SetID(const CAssetID& rkID) { mRootID = rkID; }
@@ -145,6 +147,24 @@ protected:
     static void ParseStructDependencies(CScriptInstanceDependency *pTree, CPropertyStruct *pStruct);
 };
 
+// Node representing an animation event.
+class CAnimEventDependency : public CResourceDependency
+{
+protected:
+    u32 mCharIndex;
+
+public:
+    CAnimEventDependency() : CResourceDependency() {}
+    CAnimEventDependency(const CAssetID& rkID, u32 CharIndex)
+        : CResourceDependency(rkID), mCharIndex(CharIndex) {}
+
+    virtual EDependencyNodeType Type() const;
+    virtual void Serialize(IArchive& rArc);
+
+    // Accessors
+    inline u32 CharIndex() const    { return mCharIndex; }
+};
+
 // Node representing an animset resource; allows for lookup of dependencies of a particular character in the set.
 class CAnimSetDependencyTree : public CDependencyTree
 {
@@ -200,9 +220,10 @@ public:
         case eDNT_ScriptInstance:       return new CScriptInstanceDependency;
         case eDNT_ScriptProperty:       return new CPropertyDependency;
         case eDNT_CharacterProperty:    return new CCharPropertyDependency;
+        case eDNT_AnimEvent:            return new CAnimEventDependency;
         case eDNT_AnimSet:              return new CAnimSetDependencyTree;
         case eDNT_Area:                 return new CAreaDependencyTree;
-        default:                        return nullptr;
+        default:                        ASSERT(false); return nullptr;
         }
     }
 };

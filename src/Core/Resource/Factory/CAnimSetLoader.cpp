@@ -1,5 +1,5 @@
 #include "CAnimSetLoader.h"
-#include "CUnsupportedFormatLoader.h"
+#include "CAnimEventLoader.h"
 #include "Core/GameProject/CResourceStore.h"
 #include <Common/Log.h>
 
@@ -381,8 +381,8 @@ CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS, CResourceEntry *pEntry)
 
         for (u32 iEvnt = 0; iEvnt < EventDataCount; iEvnt++)
         {
-            CDependencyGroup *pGrp = CUnsupportedFormatLoader::LoadEVNT(rANCS, nullptr, true);
-            Loader.pSet->mEventDependencies.push_back(pGrp);
+            CAnimEventData *pData = CAnimEventLoader::LoadAnimSetEvents(rANCS);
+            Loader.pSet->mEventDependencies.push_back(pData);
         }
     }
 

@@ -208,7 +208,9 @@ HEADERS += \
     Resource/Factory/CAudioGroupLoader.h \
     Resource/CAudioLookupTable.h \
     Resource/CStringList.h \
-    CAudioManager.h
+    CAudioManager.h \
+    Resource/CAnimEventData.h \
+    Resource/Factory/CAnimEventLoader.h
 
 # Source Files
 SOURCES += \
@@ -306,4 +308,5 @@ SOURCES += \
     Resource/Factory/CUnsupportedParticleLoader.cpp \
     GameProject/DependencyListBuilders.cpp \
     Resource/Factory/CAudioGroupLoader.cpp \
-    CAudioManager.cpp
+    CAudioManager.cpp \
+    Resource/Factory/CAnimEventLoader.cpp
