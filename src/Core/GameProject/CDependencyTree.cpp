@@ -42,6 +42,14 @@ void CDependencyTree::AddDependency(CResource *pRes, bool AvoidDuplicates /*= tr
     AddDependency(pRes->ID(), AvoidDuplicates);
 }
 
+void CDependencyTree::AddEventDependency(const CAssetID& rkID, u32 CharIndex)
+{
+    // Note: No duplicate check because there might be multiple events using the same asset ID with different character indices
+    if (!rkID.IsValid()) return;
+    CAnimEventDependency *pDepend = new CAnimEventDependency(rkID, CharIndex);
+    mChildren.push_back(pDepend);
+}
+
 void CDependencyTree::AddDependency(const CAssetID& rkID, bool AvoidDuplicates /*= true*/)
 {
     if (!rkID.IsValid() || (AvoidDuplicates && HasDependency(rkID))) return;
@@ -170,6 +178,18 @@ void CScriptInstanceDependency::ParseStructDependencies(CScriptInstanceDependenc
             }
         }
     }
+}
+
+// ************ CAnimEventDependency ************
+EDependencyNodeType CAnimEventDependency::Type() const
+{
+    return eDNT_AnimEvent;
+}
+
+void CAnimEventDependency::Serialize(IArchive& rArc)
+{
+    CResourceDependency::Serialize(rArc);
+    rArc << SERIAL("CharacterIndex", mCharIndex);
 }
 
 // ************ CAnimSetDependencyTree ************

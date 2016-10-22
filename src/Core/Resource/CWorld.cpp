@@ -9,6 +9,7 @@ CWorld::CWorld(CResourceEntry *pEntry /*= 0*/)
     , mpSaveWorld(nullptr)
     , mpDefaultSkybox(nullptr)
     , mpMapWorld(nullptr)
+    , mTempleKeyWorldIndex(0)
 {
 }
 

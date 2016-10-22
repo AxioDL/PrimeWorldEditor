@@ -2,6 +2,7 @@
 #define CRESOURCEFACTORY
 
 #include "CAnimationLoader.h"
+#include "CAnimEventLoader.h"
 #include "CAnimSetLoader.h"
 #include "CAreaLoader.h"
 #include "CAudioGroupLoader.h"
@@ -34,6 +35,7 @@ public:
         switch (pEntry->ResourceType())
         {
         case eAnimation:            return new CAnimation(pEntry);
+        case eAnimEventData:        return new CAnimEventData(pEntry);
         case eAnimSet:              return new CAnimSet(pEntry);
         case eArea:                 return new CGameArea(pEntry);
         case eAudioGroup:           return new CAudioGroup(pEntry);
@@ -63,7 +65,7 @@ public:
         switch (pEntry->ResourceType())
         {
         case eAnimation:            pRes = CAnimationLoader::LoadANIM(rInput, pEntry);          break;
-        case eAnimEventData:        pRes = CUnsupportedFormatLoader::LoadEVNT(rInput, pEntry);  break;
+        case eAnimEventData:        pRes = CAnimEventLoader::LoadEVNT(rInput, pEntry);          break;
         case eAnimSet:              pRes = CAnimSetLoader::LoadANCSOrCHAR(rInput, pEntry);      break;
         case eArea:                 pRes = CAreaLoader::LoadMREA(rInput, pEntry);               break;
         case eAudioGroup:           pRes = CAudioGroupLoader::LoadAGSC(rInput, pEntry);         break;
