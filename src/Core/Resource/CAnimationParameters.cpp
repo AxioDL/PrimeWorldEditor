@@ -145,8 +145,8 @@ CModel* CAnimationParameters::GetCurrentModel(s32 NodeIndex /*= -1*/)
     if (pSet->Type() != eAnimSet) return nullptr;
     if (NodeIndex == -1) NodeIndex = mCharIndex;
 
-    if (pSet->NumNodes() <= (u32) NodeIndex) return nullptr;
-    return pSet->NodeModel(NodeIndex);
+    if (pSet->NumCharacters() <= (u32) NodeIndex) return nullptr;
+    return pSet->Character(NodeIndex)->pModel;
 }
 
 TString CAnimationParameters::GetCurrentCharacterName(s32 NodeIndex /*= -1*/)
@@ -158,8 +158,8 @@ TString CAnimationParameters::GetCurrentCharacterName(s32 NodeIndex /*= -1*/)
     if (pSet->Type() != eAnimSet) return "";
     if (NodeIndex == -1) NodeIndex = mCharIndex;
 
-    if (pSet->NumNodes() <= (u32) NodeIndex) return "";
-    return pSet->NodeName((u32) NodeIndex);
+    if (pSet->NumCharacters() <= (u32) NodeIndex) return "";
+    return pSet->Character(NodeIndex)->Name;
 }
 
 // ************ ACCESSORS ************

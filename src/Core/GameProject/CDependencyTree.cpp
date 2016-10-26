@@ -36,18 +36,10 @@ void CDependencyTree::Serialize(IArchive& rArc)
          << SERIAL_ABSTRACT_CONTAINER("Children", mChildren, "Child", &gDependencyNodeFactory);
 }
 
-void CDependencyTree::AddDependency(CResource *pRes, bool AvoidDuplicates /*= true*/)
+void CDependencyTree::AddChild(IDependencyNode *pNode)
 {
-    if (!pRes) return;
-    AddDependency(pRes->ID(), AvoidDuplicates);
-}
-
-void CDependencyTree::AddEventDependency(const CAssetID& rkID, u32 CharIndex)
-{
-    // Note: No duplicate check because there might be multiple events using the same asset ID with different character indices
-    if (!rkID.IsValid()) return;
-    CAnimEventDependency *pDepend = new CAnimEventDependency(rkID, CharIndex);
-    mChildren.push_back(pDepend);
+    ASSERT(pNode);
+    mChildren.push_back(pNode);
 }
 
 void CDependencyTree::AddDependency(const CAssetID& rkID, bool AvoidDuplicates /*= true*/)
@@ -55,6 +47,12 @@ void CDependencyTree::AddDependency(const CAssetID& rkID, bool AvoidDuplicates /
     if (!rkID.IsValid() || (AvoidDuplicates && HasDependency(rkID))) return;
     CResourceDependency *pDepend = new CResourceDependency(rkID);
     mChildren.push_back(pDepend);
+}
+
+void CDependencyTree::AddDependency(CResource *pRes, bool AvoidDuplicates /*= true*/)
+{
+    if (!pRes) return;
+    AddDependency(pRes->ID(), AvoidDuplicates);
 }
 
 // ************ CResourceDependency ************
@@ -180,6 +178,88 @@ void CScriptInstanceDependency::ParseStructDependencies(CScriptInstanceDependenc
     }
 }
 
+// ************ CSetCharacterDependency ************
+EDependencyNodeType CSetCharacterDependency::Type() const
+{
+    return eDNT_SetCharacter;
+}
+
+void CSetCharacterDependency::Serialize(IArchive& rArc)
+{
+    rArc << SERIAL("SetIndex", mSetIndex)
+         << SERIAL_ABSTRACT_CONTAINER("Children", mChildren, "Child", &gDependencyNodeFactory);
+}
+
+CSetCharacterDependency* CSetCharacterDependency::BuildTree(const CAnimSet *pkOwnerSet, u32 CharIndex)
+{
+    CSetCharacterDependency *pTree = new CSetCharacterDependency(CharIndex);
+    const SSetCharacter *pkChar = pkOwnerSet->Character(CharIndex);
+
+    if (pkChar)
+    {
+        pTree->AddDependency(pkChar->pModel);
+        pTree->AddDependency(pkChar->pSkeleton);
+        pTree->AddDependency(pkChar->pSkin);
+
+        const std::vector<CAssetID> *pkParticleVectors[5] = {
+            &pkChar->GenericParticles, &pkChar->ElectricParticles,
+            &pkChar->SwooshParticles, &pkChar->SpawnParticles,
+            &pkChar->EffectParticles
+        };
+
+        for (u32 iVec = 0; iVec < 5; iVec++)
+        {
+            for (u32 iPart = 0; iPart < pkParticleVectors[iVec]->size(); iPart++)
+                pTree->AddDependency(pkParticleVectors[iVec]->at(iPart));
+        }
+
+        pTree->AddDependency(pkChar->IceModel);
+        pTree->AddDependency(pkChar->IceSkin);
+    }
+
+    return pTree;
+}
+
+// ************ CSetAnimationDependency ************
+EDependencyNodeType CSetAnimationDependency::Type() const
+{
+    return eDNT_SetAnimation;
+}
+
+void CSetAnimationDependency::Serialize(IArchive& rArc)
+{
+    rArc << SERIAL_CONTAINER("CharacterIndices", mCharacterIndices, "Index")
+         << SERIAL_ABSTRACT_CONTAINER("Children", mChildren, "Child", &gDependencyNodeFactory);
+}
+
+CSetAnimationDependency* CSetAnimationDependency::BuildTree(const CAnimSet *pkOwnerSet, u32 AnimIndex)
+{
+    const SSetAnimation *pkAnim = pkOwnerSet->Animation(AnimIndex);
+    CSetAnimationDependency *pTree = new CSetAnimationDependency;
+
+    // Find relevant character indices
+    for (u32 iChar = 0; iChar < pkOwnerSet->NumCharacters(); iChar++)
+    {
+        const SSetCharacter *pkChar = pkOwnerSet->Character(iChar);
+
+        if ( pkChar->UsedAnimationIndices.find(AnimIndex) != pkChar->UsedAnimationIndices.end() )
+            pTree->mCharacterIndices.insert(iChar);
+    }
+
+    // Add dependencies. In MP2 animation event data is not a standalone resource.
+    pTree->AddDependency(pkAnim->pAnim);
+
+    if (pkAnim->pEventData)
+    {
+        if (pkAnim->pEventData->Entry())
+            pTree->AddDependency(pkAnim->pEventData);
+        else
+            pkAnim->pEventData->AddDependenciesToTree(pTree);
+    }
+
+    return pTree;
+}
+
 // ************ CAnimEventDependency ************
 EDependencyNodeType CAnimEventDependency::Type() const
 {
@@ -190,59 +270,6 @@ void CAnimEventDependency::Serialize(IArchive& rArc)
 {
     CResourceDependency::Serialize(rArc);
     rArc << SERIAL("CharacterIndex", mCharIndex);
-}
-
-// ************ CAnimSetDependencyTree ************
-EDependencyNodeType CAnimSetDependencyTree::Type() const
-{
-    return eDNT_AnimSet;
-}
-
-void CAnimSetDependencyTree::Serialize(IArchive& rArc)
-{
-    CDependencyTree::Serialize(rArc);
-    rArc << SERIAL_CONTAINER("CharacterOffsets", mCharacterOffsets, "Offset");
-}
-
-void CAnimSetDependencyTree::AddCharacter(const SSetCharacter *pkChar, const std::set<CAssetID>& rkBaseUsedSet)
-{
-    mCharacterOffsets.push_back( NumChildren() );
-    if (!pkChar) return;
-
-    std::set<CAssetID> UsedSet = rkBaseUsedSet;
-    AddCharDependency(pkChar->pModel, UsedSet);
-    AddCharDependency(pkChar->pSkeleton, UsedSet);
-    AddCharDependency(pkChar->pSkin, UsedSet);
-
-    const std::vector<CAssetID> *pkParticleVectors[5] = {
-        &pkChar->GenericParticles, &pkChar->ElectricParticles,
-        &pkChar->SwooshParticles, &pkChar->SpawnParticles,
-        &pkChar->EffectParticles
-    };
-
-    for (u32 iVec = 0; iVec < 5; iVec++)
-    {
-        for (u32 iPart = 0; iPart < pkParticleVectors[iVec]->size(); iPart++)
-            AddCharDependency(pkParticleVectors[iVec]->at(iPart), UsedSet);
-    }
-
-    AddCharDependency(pkChar->IceModel, UsedSet);
-    AddCharDependency(pkChar->IceSkin, UsedSet);
-}
-
-void CAnimSetDependencyTree::AddCharDependency(const CAssetID& rkID, std::set<CAssetID>& rUsedSet)
-{
-    if (rkID.IsValid() && rUsedSet.find(rkID) == rUsedSet.end())
-    {
-        rUsedSet.insert(rkID);
-        AddDependency(rkID, false);
-    }
-}
-
-void CAnimSetDependencyTree::AddCharDependency(CResource *pRes, std::set<CAssetID>& rUsedSet)
-{
-    if (!pRes) return;
-    AddCharDependency(pRes->ID(), rUsedSet);
 }
 
 // ************ CAreaDependencyTree ************

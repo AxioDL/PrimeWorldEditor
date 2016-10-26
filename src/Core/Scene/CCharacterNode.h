@@ -33,7 +33,7 @@ public:
     inline CAnimSet* Character() const      { return mpCharacter; }
     inline u32 ActiveCharIndex() const      { return mActiveCharSet; }
     inline u32 ActiveAnimIndex() const      { return mActiveAnim; }
-    inline CAnimation* CurrentAnim() const  { return (mAnimated && mpCharacter ? mpCharacter->Animation(mActiveAnim) : nullptr); }
+    inline CAnimation* CurrentAnim() const  { return (mAnimated && mpCharacter ? mpCharacter->Animation(mActiveAnim)->pAnim : nullptr); }
     inline bool IsAnimated() const          { return (mAnimated && CurrentAnim() != nullptr); }
 
     void SetAnimated(bool Animated)     { mAnimated = Animated; SetDirty(); }

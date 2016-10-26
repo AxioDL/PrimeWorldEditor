@@ -9,7 +9,9 @@
 class CScriptLayer;
 class CScriptObject;
 class CPropertyStruct;
+class CAnimSet;
 struct SSetCharacter;
+struct SSetAnimation;
 
 // Group of node classes forming a tree of cached resource dependencies.
 enum EDependencyNodeType
@@ -19,8 +21,9 @@ enum EDependencyNodeType
     eDNT_ScriptInstance     = FOURCC_CONSTEXPR('S', 'C', 'I', 'N'),
     eDNT_ScriptProperty     = FOURCC_CONSTEXPR('S', 'C', 'P', 'R'),
     eDNT_CharacterProperty  = FOURCC_CONSTEXPR('C', 'R', 'P', 'R'),
+    eDNT_SetCharacter       = FOURCC_CONSTEXPR('S', 'C', 'H', 'R'),
+    eDNT_SetAnimation       = FOURCC_CONSTEXPR('S', 'A', 'N', 'M'),
     eDNT_AnimEvent          = FOURCC_CONSTEXPR('E', 'V', 'N', 'T'),
-    eDNT_AnimSet            = FOURCC_CONSTEXPR('A', 'N', 'C', 'S'),
     eDNT_Area               = FOURCC_CONSTEXPR('A', 'R', 'E', 'A'),
 };
 
@@ -54,9 +57,9 @@ public:
     virtual EDependencyNodeType Type() const;
     virtual void Serialize(IArchive& rArc);
 
+    void AddChild(IDependencyNode *pNode);
     void AddDependency(const CAssetID& rkID, bool AvoidDuplicates = true);
     void AddDependency(CResource *pRes, bool AvoidDuplicates = true);
-    void AddEventDependency(const CAssetID& rkID, u32 CharIndex);
 
     // Accessors
     inline void SetID(const CAssetID& rkID) { mRootID = rkID; }
@@ -147,7 +150,46 @@ protected:
     static void ParseStructDependencies(CScriptInstanceDependency *pTree, CPropertyStruct *pStruct);
 };
 
-// Node representing an animation event.
+// Node representing an animset character. Indicates what index the character is within the animset.
+class CSetCharacterDependency : public CDependencyTree
+{
+protected:
+    u32 mSetIndex;
+
+public:
+    CSetCharacterDependency() : CDependencyTree() {}
+    CSetCharacterDependency(u32 SetIndex) : CDependencyTree(), mSetIndex(SetIndex) {}
+
+    virtual EDependencyNodeType Type() const;
+    virtual void Serialize(IArchive& rArc);
+
+    // Accessors
+    inline u32 SetIndex() const { return mSetIndex; }
+
+    // Static
+    static CSetCharacterDependency* BuildTree(const CAnimSet *pkOwnerSet, u32 CharIndex);
+};
+
+// Node representing a character animation. Indicates which character indices use this animation.
+class CSetAnimationDependency : public CDependencyTree
+{
+protected:
+    std::set<u32> mCharacterIndices;
+
+public:
+    CSetAnimationDependency() : CDependencyTree() {}
+
+    virtual EDependencyNodeType Type() const;
+    virtual void Serialize(IArchive& rArc);
+
+    // Accessors
+    inline bool IsUsedByCharacter(u32 CharIdx) const    { return mCharacterIndices.find(CharIdx) != mCharacterIndices.end(); }
+
+    // Static
+    static CSetAnimationDependency* BuildTree(const CAnimSet *pkOwnerSet, u32 AnimIndex);
+};
+
+// Node representing an animation event. Indicates which character index uses this event.
 class CAnimEventDependency : public CResourceDependency
 {
 protected:
@@ -163,27 +205,6 @@ public:
 
     // Accessors
     inline u32 CharIndex() const    { return mCharIndex; }
-};
-
-// Node representing an animset resource; allows for lookup of dependencies of a particular character in the set.
-class CAnimSetDependencyTree : public CDependencyTree
-{
-protected:
-    std::vector<u32> mCharacterOffsets;
-
-public:
-    CAnimSetDependencyTree() : CDependencyTree() {}
-    CAnimSetDependencyTree(const CAssetID& rkID) : CDependencyTree(rkID) {}
-    virtual EDependencyNodeType Type() const;
-    virtual void Serialize(IArchive& rArc);
-
-    void AddCharacter(const SSetCharacter *pkChar, const std::set<CAssetID>& rkBaseUsedSet);
-    void AddCharDependency(const CAssetID& rkID, std::set<CAssetID>& rUsedSet);
-    void AddCharDependency(CResource *pRes, std::set<CAssetID>& rUsedSet);
-
-    // Accessors
-    inline u32 NumCharacters() const                { return mCharacterOffsets.size(); }
-    inline u32 CharacterOffset(u32 CharIdx) const   { return mCharacterOffsets[CharIdx]; }
 };
 
 // Node representing an area. Tracks dependencies on a per-instance basis and can separate dependencies of different script layers.
@@ -220,8 +241,9 @@ public:
         case eDNT_ScriptInstance:       return new CScriptInstanceDependency;
         case eDNT_ScriptProperty:       return new CPropertyDependency;
         case eDNT_CharacterProperty:    return new CCharPropertyDependency;
+        case eDNT_SetCharacter:         return new CSetCharacterDependency;
+        case eDNT_SetAnimation:         return new CSetAnimationDependency;
         case eDNT_AnimEvent:            return new CAnimEventDependency;
-        case eDNT_AnimSet:              return new CAnimSetDependencyTree;
         case eDNT_Area:                 return new CAreaDependencyTree;
         default:                        ASSERT(false); return nullptr;
         }

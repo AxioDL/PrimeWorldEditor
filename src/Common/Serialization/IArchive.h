@@ -80,7 +80,7 @@ inline THexSerialParameter<ValType> MakeHexSerialParameter(const char *pkName, V
 #define SERIAL_HEX(ParamName, ParamValue) MakeHexSerialParameter(ParamName, ParamValue)
 #define SERIAL_HEX_AUTO(ParamValue) MakeHexSerialParameter(#ParamValue, ParamValue)
 
-// TAbstractSerialParameter - name/value pair for polymorphic objects a pointer to a factory
+// TAbstractSerialParameter - name/value pair for polymorphic objects with a pointer to a factory
 template<typename ValType, typename FactoryType>
 struct TAbstractSerialParameter
 {
