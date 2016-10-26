@@ -27,6 +27,14 @@ struct SSetCharacter
     std::vector<CAssetID> EffectParticles;
     CAssetID IceModel;
     CAssetID IceSkin;
+    std::set<u32> UsedAnimationIndices;
+};
+
+struct SSetAnimation
+{
+    TString Name;
+    TResPtr<CAnimation> pAnim;
+    TResPtr<CAnimEventData> pEventData;
 };
 
 class CAnimSet : public CResource
@@ -35,73 +43,54 @@ class CAnimSet : public CResource
     friend class CAnimSetLoader;
 
     std::vector<SSetCharacter> mCharacters;
-
-    struct SAnimation
-    {
-        TString Name;
-        TResPtr<CAnimation> pAnim;
-    };
-    std::vector<SAnimation> mAnims;
-    std::vector<CAnimEventData*> mEventDependencies;
+    std::vector<SSetAnimation> mAnimations;
 
 public:
     CAnimSet(CResourceEntry *pEntry = 0) : CResource(pEntry) {}
 
     ~CAnimSet()
     {
-        for (u32 iEvnt = 0; iEvnt < mEventDependencies.size(); iEvnt++)
+        // note: in MP2, event data isn't a standalone resource, so it's owned by the animset; therefore we need to delete it manually
+        if (Game() >= eEchoesDemo)
         {
-            ASSERT(!mEventDependencies[iEvnt]->Entry());
-            delete mEventDependencies[iEvnt];
+            for (u32 iAnim = 0; iAnim < mAnimations.size(); iAnim++)
+            {
+                SSetAnimation& rAnim = mAnimations[iAnim];
+                CAnimEventData *pEvents = rAnim.pEventData;
+                ASSERT(pEvents && !pEvents->Entry());
+                rAnim.pEventData = nullptr; // make sure TResPtr destructor doesn't attempt to access
+                delete pEvents;
+            }
         }
     }
-
-    u32 NumNodes() const                { return mCharacters.size(); }
-    TString NodeName(u32 Index)         { if (Index >= mCharacters.size()) Index = 0; return mCharacters[Index].Name; }
-    CModel* NodeModel(u32 Index)        { if (Index >= mCharacters.size()) Index = 0; return mCharacters[Index].pModel; }
-    CSkin* NodeSkin(u32 Index)          { if (Index >= mCharacters.size()) Index = 0; return mCharacters[Index].pSkin; }
-    CSkeleton* NodeSkeleton(u32 Index)  { if (Index >= mCharacters.size()) Index = 0; return mCharacters[Index].pSkeleton; }
-
-    u32 NumAnims() const                { return mAnims.size(); }
-    CAnimation* Animation(u32 Index)    { if (Index >= mAnims.size()) Index = 0; return mAnims[Index].pAnim; }
-    TString AnimName(u32 Index)         { if (Index >= mAnims.size()) Index = 0; return mAnims[Index].Name; }
 
     CDependencyTree* BuildDependencyTree() const
     {
-        CAnimSetDependencyTree *pTree = new CAnimSetDependencyTree(ID());
-        std::set<CAssetID> BaseUsedSet;
-
-        // Base dependencies
-        for (u32 iAnim = 0; iAnim < mAnims.size(); iAnim++)
-        {
-            CAnimation *pAnim = mAnims[iAnim].pAnim;
-
-            if (pAnim)
-            {
-                pTree->AddDependency(mAnims[iAnim].pAnim);
-                BaseUsedSet.insert(pAnim->ID());
-            }
-        }
-
-        for (u32 iEvnt = 0; iEvnt < mEventDependencies.size(); iEvnt++)
-        {
-            CAnimEventData *pData = mEventDependencies[iEvnt];
-
-            for (u32 iEvt = 0; iEvt < pData->NumEvents(); iEvt++)
-            {
-                CAssetID ID = pData->EventAssetRef(iEvt);
-                u32 CharIdx = pData->EventCharacterIndex(iEvt);
-                pTree->AddEventDependency(ID, CharIdx);
-                BaseUsedSet.insert(ID);
-            }
-        }
+        CDependencyTree *pTree = new CDependencyTree(ID());
 
         // Character dependencies
-        for (u32 iNode = 0; iNode < mCharacters.size(); iNode++)
-            pTree->AddCharacter(&mCharacters[iNode], BaseUsedSet);
+        for (u32 iChar = 0; iChar < mCharacters.size(); iChar++)
+        {
+            CSetCharacterDependency *pCharTree = CSetCharacterDependency::BuildTree(this, iChar);
+            ASSERT(pCharTree);
+            pTree->AddChild(pCharTree);
+        }
+
+        for (u32 iAnim = 0; iAnim < mAnimations.size(); iAnim++)
+        {
+            CSetAnimationDependency *pAnimTree = CSetAnimationDependency::BuildTree(this, iAnim);
+            ASSERT(pAnimTree);
+            pTree->AddChild(pAnimTree);
+        }
 
         return pTree;
     }
+
+    // Accessors
+    inline u32 NumCharacters() const                        { return mCharacters.size(); }
+    inline u32 NumAnimations() const                        { return mAnimations.size(); }
+    inline const SSetCharacter* Character(u32 Index) const  { ASSERT(Index >= 0 && Index < NumCharacters()); return &mCharacters[Index]; }
+    inline const SSetAnimation* Animation(u32 Index) const  { ASSERT(Index >= 0 && Index < NumAnimations()); return &mAnimations[Index]; }
 };
 
 #endif // CCHARACTERSET_H

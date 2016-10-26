@@ -22,14 +22,23 @@ public:
     CDependencyTree* BuildDependencyTree() const
     {
         CDependencyTree *pTree = new CDependencyTree(ID());
+        AddDependenciesToTree(pTree);
+        return pTree;
+    }
 
+    void AddDependenciesToTree(CDependencyTree *pTree) const
+    {
         for (u32 iEvt = 0; iEvt < mEvents.size(); iEvt++)
         {
             const SEvent& rkEvent = mEvents[iEvt];
-            pTree->AddEventDependency(rkEvent.mAssetRef, rkEvent.mCharacterIndex);
-        }
+            CAssetID ID = rkEvent.mAssetRef;
 
-        return pTree;
+            if (ID.IsValid() && !pTree->HasDependency(ID))
+            {
+                CAnimEventDependency *pDep = new CAnimEventDependency(ID, rkEvent.mCharacterIndex);
+                pTree->AddChild(pDep);
+            }
+        }
     }
 
     inline u32 NumEvents() const                        { return mEvents.size(); }

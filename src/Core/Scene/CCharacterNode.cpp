@@ -19,8 +19,8 @@ void CCharacterNode::PostLoad()
 {
     if (mpCharacter)
     {
-        for (u32 iChar = 0; iChar < mpCharacter->NumNodes(); iChar++)
-            mpCharacter->NodeModel(iChar)->BufferGL();
+        for (u32 iChar = 0; iChar < mpCharacter->NumCharacters(); iChar++)
+            mpCharacter->Character(iChar)->pModel->BufferGL();
     }
 }
 
@@ -31,8 +31,8 @@ void CCharacterNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkView
     if (!mpCharacter) return;
     UpdateTransformData();
 
-    CModel *pModel = mpCharacter->NodeModel(mActiveCharSet);
-    CSkeleton *pSkel = mpCharacter->NodeSkeleton(mActiveCharSet);
+    CModel *pModel = mpCharacter->Character(mActiveCharSet)->pModel;
+    CSkeleton *pSkel = mpCharacter->Character(mActiveCharSet)->pSkeleton;
 
     if (pModel && rkViewInfo.ShowFlags.HasFlag(eShowObjectGeometry))
         AddModelToRenderer(pRenderer, pModel, 0);
@@ -46,7 +46,7 @@ void CCharacterNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkView
 
 void CCharacterNode::Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand Command, const SViewInfo& rkViewInfo)
 {
-    CSkeleton *pSkel = mpCharacter->NodeSkeleton(mActiveCharSet);
+    CSkeleton *pSkel = mpCharacter->Character(mActiveCharSet)->pSkeleton;
 
     // Draw skeleton
     if (ComponentIndex == 0)
@@ -73,7 +73,7 @@ void CCharacterNode::Draw(FRenderOptions Options, int ComponentIndex, ERenderCom
         else
             CGraphics::LoadIdentityBoneTransforms();
 
-        CModel *pModel = mpCharacter->NodeModel(mActiveCharSet);
+        CModel *pModel = mpCharacter->Character(mActiveCharSet)->pModel;
         DrawModelParts(pModel, Options, 0, Command);
     }
 }
@@ -83,7 +83,7 @@ SRayIntersection CCharacterNode::RayNodeIntersectTest(const CRay& rkRay, u32 /*A
     // Check for bone under ray. Doesn't check for model intersections atm
     if (mpCharacter && rkViewInfo.ShowFlags.HasFlag(eShowSkeletons))
     {
-        CSkeleton *pSkel = mpCharacter->NodeSkeleton(mActiveCharSet);
+        CSkeleton *pSkel = mpCharacter->Character(mActiveCharSet)->pSkeleton;
 
         if (pSkel)
         {
@@ -109,7 +109,7 @@ SRayIntersection CCharacterNode::RayNodeIntersectTest(const CRay& rkRay, u32 /*A
 CVector3f CCharacterNode::BonePosition(u32 BoneID)
 {
     UpdateTransformData();
-    CSkeleton *pSkel = (mpCharacter ? mpCharacter->NodeSkeleton(mActiveCharSet) : nullptr);
+    CSkeleton *pSkel = (mpCharacter ? mpCharacter->Character(mActiveCharSet)->pSkeleton : nullptr);
     CBone *pBone = (pSkel ? pSkel->BoneByID(BoneID) : nullptr);
 
     CVector3f Out = AbsolutePosition();
@@ -121,6 +121,7 @@ void CCharacterNode::SetCharSet(CAnimSet *pChar)
 {
     mpCharacter = pChar;
     SetActiveChar(0);
+    SetActiveAnim(0);
     ConditionalSetDirty();
 
     if (!mpCharacter)
@@ -134,8 +135,8 @@ void CCharacterNode::SetActiveChar(u32 CharIndex)
 
     if (mpCharacter)
     {
-        CModel *pModel = mpCharacter->NodeModel(CharIndex);
-        mTransformData.ResizeToSkeleton(mpCharacter->NodeSkeleton(CharIndex));
+        CModel *pModel = mpCharacter->Character(CharIndex)->pModel;
+        mTransformData.ResizeToSkeleton(mpCharacter->Character(CharIndex)->pSkeleton);
         mLocalAABox = pModel ? pModel->AABox() : CAABox::skZero;
         MarkTransformChanged();
     }
@@ -152,7 +153,7 @@ void CCharacterNode::UpdateTransformData()
 {
     if (mTransformDataDirty)
     {
-        CSkeleton *pSkel = mpCharacter->NodeSkeleton(mActiveCharSet);
+        CSkeleton *pSkel = mpCharacter->Character(mActiveCharSet)->pSkeleton;
         if (pSkel) pSkel->UpdateTransform(mTransformData, CurrentAnim(), mAnimTime, false);
         mTransformDataDirty = false;
     }

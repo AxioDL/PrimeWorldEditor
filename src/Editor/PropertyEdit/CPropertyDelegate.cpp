@@ -617,8 +617,8 @@ QWidget* CPropertyDelegate::CreateCharacterEditor(QWidget *pParent, const QModel
 
         if (pAnimSet)
         {
-            for (u32 iChr = 0; iChr < pAnimSet->NumNodes(); iChr++)
-                pComboBox->addItem(TO_QSTRING(pAnimSet->NodeName(iChr)));
+            for (u32 iChr = 0; iChr < pAnimSet->NumCharacters(); iChr++)
+                pComboBox->addItem(TO_QSTRING(pAnimSet->Character(iChr)->Name));
         }
 
         CONNECT_RELAY(pComboBox, rkIndex, currentIndexChanged(int));

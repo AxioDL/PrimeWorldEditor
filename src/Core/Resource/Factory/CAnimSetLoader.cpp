@@ -107,9 +107,7 @@ void CAnimSetLoader::LoadPrimitive(IInputStream& rANCS)
     u32 AnimIndex = rANCS.ReadLong();
     TString AnimName = rANCS.ReadString();
     rANCS.Seek(0x8, SEEK_CUR);
-
-    if (mAnimPrimitives.size() < (AnimIndex + 1))
-        mAnimPrimitives.resize(AnimIndex + 1);
+    ASSERT(AnimIndex < mAnimPrimitives.size());
 
     if (!mAnimPrimitives[AnimIndex].Loaded)
     {
@@ -319,8 +317,13 @@ CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS, CResourceEntry *pEntry)
         pChar->IceModel = CAssetID(rANCS, e32Bit);
         pChar->IceSkin = CAssetID(rANCS, e32Bit);
 
-        u32 UnknownCount = rANCS.ReadLong();
-        rANCS.Seek(UnknownCount * 4, SEEK_CUR);
+        u32 AnimIndexCount = rANCS.ReadLong();
+
+        for (u32 iAnim = 0; iAnim < AnimIndexCount; iAnim++)
+        {
+            u32 AnimIndex = rANCS.ReadLong();
+            pChar->UsedAnimationIndices.insert(AnimIndex);
+        }
 
         if (Loader.mVersion == eEchoes)
         {
@@ -335,6 +338,7 @@ CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS, CResourceEntry *pEntry)
     SetStart = SetStart;
     u16 InfoCount = rANCS.ReadShort();
     u32 NumAnims = rANCS.ReadLong();
+    Loader.mAnimPrimitives.resize(NumAnims);
 
     for (u32 iAnim = 0; iAnim < NumAnims; iAnim++)
         Loader.LoadAnimation(rANCS);
@@ -361,16 +365,18 @@ CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS, CResourceEntry *pEntry)
     }
 
     // Add anims to set
+    Loader.pSet->mAnimations.resize(Loader.mAnimPrimitives.size());
+
     for (u32 iPrim = 0; iPrim < Loader.mAnimPrimitives.size(); iPrim++)
     {
         SPrimitive& rPrim = Loader.mAnimPrimitives[iPrim];
 
         if (rPrim.Loaded)
         {
-            CAnimSet::SAnimation Anim;
+            SSetAnimation Anim;
             Anim.Name = rPrim.Name;
             Anim.pAnim = gpResourceStore->LoadResource(rPrim.AnimID, "ANIM");
-            Loader.pSet->mAnims.push_back(Anim);
+            Loader.pSet->mAnimations[iPrim] = Anim;
         }
     }
 
@@ -378,12 +384,10 @@ CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS, CResourceEntry *pEntry)
     if (Loader.pSet->Game() >= eEchoesDemo)
     {
         u32 EventDataCount = rANCS.ReadLong();
+        ASSERT(EventDataCount == NumAnims);
 
         for (u32 iEvnt = 0; iEvnt < EventDataCount; iEvnt++)
-        {
-            CAnimEventData *pData = CAnimEventLoader::LoadAnimSetEvents(rANCS);
-            Loader.pSet->mEventDependencies.push_back(pData);
-        }
+            Loader.pSet->mAnimations[iEvnt].pEventData = CAnimEventLoader::LoadAnimSetEvents(rANCS);
     }
 
     return Loader.pSet;

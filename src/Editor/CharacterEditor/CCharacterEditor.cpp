@@ -161,7 +161,7 @@ void CCharacterEditor::UpdateCameraOrbit()
 CSkeleton* CCharacterEditor::CurrentSkeleton() const
 {
     if (mpSet)
-        return mpSet->NodeSkeleton(mCurrentChar);
+        return mpSet->Character(mCurrentChar)->pSkeleton;
     else
         return nullptr;
 }
@@ -169,7 +169,7 @@ CSkeleton* CCharacterEditor::CurrentSkeleton() const
 CAnimation* CCharacterEditor::CurrentAnimation() const
 {
     if (mpSet)
-        return mpSet->Animation(mCurrentAnim);
+        return mpSet->Animation(mCurrentAnim)->pAnim;
     else
         return nullptr;
 }
@@ -188,8 +188,8 @@ void CCharacterEditor::SetActiveAnimSet(CAnimSet *pSet)
     mpCharComboBox->blockSignals(true);
     mpCharComboBox->clear();
 
-    for (u32 iChar = 0; iChar < mpSet->NumNodes(); iChar++)
-        mpCharComboBox->addItem( TO_QSTRING(mpSet->NodeName(iChar)) );
+    for (u32 iChar = 0; iChar < mpSet->NumCharacters(); iChar++)
+        mpCharComboBox->addItem( TO_QSTRING(mpSet->Character(iChar)->Name) );
 
     SetActiveCharacterIndex(0);
     mpCharComboBox->blockSignals(false);
@@ -198,14 +198,14 @@ void CCharacterEditor::SetActiveAnimSet(CAnimSet *pSet)
     mpAnimComboBox->blockSignals(true);
     mpAnimComboBox->clear();
 
-    for (u32 iAnim = 0; iAnim < mpSet->NumAnims(); iAnim++)
-        mpAnimComboBox->addItem( TO_QSTRING(mpSet->AnimName(iAnim)) );
+    for (u32 iAnim = 0; iAnim < mpSet->NumAnimations(); iAnim++)
+        mpAnimComboBox->addItem( TO_QSTRING(mpSet->Animation(iAnim)->Name) );
 
     SetActiveAnimation(0);
     mpAnimComboBox->blockSignals(false);
 
     // Set up skeleton tree view
-    CSkeleton *pSkel = mpSet->NodeSkeleton(mCurrentChar);
+    CSkeleton *pSkel = mpSet->Character(mCurrentChar)->pSkeleton;
     mSkeletonModel.SetSkeleton(pSkel);
     ui->SkeletonHierarchyTreeView->expandAll();
     ui->SkeletonHierarchyTreeView->resizeColumnToContents(0);
@@ -304,13 +304,13 @@ void CCharacterEditor::OnViewportHoverBoneChanged(u32 BoneID)
     if (BoneID == 0xFFFFFFFF)
         ui->StatusBar->clearMessage();
     else
-        ui->StatusBar->showMessage(QString("Bone %1: %2").arg(BoneID).arg( TO_QSTRING(mpSet->NodeSkeleton(mCurrentChar)->BoneByID(BoneID)->Name()) ));
+        ui->StatusBar->showMessage(QString("Bone %1: %2").arg(BoneID).arg( TO_QSTRING(mpSet->Character(mCurrentChar)->pSkeleton->BoneByID(BoneID)->Name()) ));
 }
 
 void CCharacterEditor::OnViewportClick()
 {
     u32 HoverBoneID = ui->Viewport->HoverBoneID();
-    CSkeleton *pSkel = (mpSet ? mpSet->NodeSkeleton(mCurrentChar) : nullptr);
+    CSkeleton *pSkel = (mpSet ? mpSet->Character(mCurrentChar)->pSkeleton : nullptr);
     CBone *pBone = (pSkel ? pSkel->BoneByID(HoverBoneID) : nullptr);
 
     if (!pBone || !pBone->IsSelected())
@@ -362,7 +362,7 @@ void CCharacterEditor::PrevAnim()
 
 void CCharacterEditor::NextAnim()
 {
-    u32 MaxAnim = (mpSet ? mpSet->NumAnims() - 1 : 0);
+    u32 MaxAnim = (mpSet ? mpSet->NumAnimations() - 1 : 0);
     if (mCurrentAnim < MaxAnim) SetActiveAnimation(mCurrentAnim + 1);
 }
 
@@ -385,7 +385,7 @@ void CCharacterEditor::SetAnimTime(float Time)
 
     mpCharNode->SetAnimTime(Time);
 
-    CAnimation *pAnim = (mpSet ? mpSet->Animation(mCurrentAnim) : nullptr);
+    CAnimation *pAnim = (mpSet ? mpSet->Animation(mCurrentAnim)->pAnim : nullptr);
     u32 NumKeys = 1, CurKey = 0;
 
     if (pAnim)

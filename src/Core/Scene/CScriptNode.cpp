@@ -655,7 +655,7 @@ CModel* CScriptNode::ActiveModel() const
         if (mpDisplayAsset->Type() == eModel)
             return static_cast<CModel*>(mpDisplayAsset.RawPointer());
         else if (mpDisplayAsset->Type() == eAnimSet)
-            return static_cast<CAnimSet*>(mpDisplayAsset.RawPointer())->NodeModel(mCharIndex);
+            return static_cast<CAnimSet*>(mpDisplayAsset.RawPointer())->Character(mCharIndex)->pModel;
     }
 
     return nullptr;
@@ -672,14 +672,14 @@ CAnimSet* CScriptNode::ActiveAnimSet() const
 CSkeleton* CScriptNode::ActiveSkeleton() const
 {
     CAnimSet *pSet = ActiveAnimSet();
-    if (pSet) return pSet->NodeSkeleton(mCharIndex);
+    if (pSet) return pSet->Character(mCharIndex)->pSkeleton;
     else return nullptr;
 }
 
 CAnimation* CScriptNode::ActiveAnimation() const
 {
     CAnimSet *pSet = ActiveAnimSet();
-    if (pSet) return pSet->Animation(mAnimIndex);
+    if (pSet) return pSet->Animation(mAnimIndex)->pAnim;
     else return nullptr;
 }
 

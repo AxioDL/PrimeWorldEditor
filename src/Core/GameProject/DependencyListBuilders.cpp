@@ -11,6 +11,21 @@ bool CCharacterUsageMap::IsCharacterUsed(const CAssetID& rkID, u32 CharacterInde
     else return rkUsageList[CharacterIndex];
 }
 
+bool CCharacterUsageMap::IsAnimationUsed(const CAssetID& rkID, CSetAnimationDependency *pAnim) const
+{
+    auto Find = mUsageMap.find(rkID);
+    if (Find == mUsageMap.end()) return false;
+    const std::vector<bool>& rkUsageList = Find->second;
+
+    for (u32 iChar = 0; iChar < rkUsageList.size(); iChar++)
+    {
+        if (rkUsageList[iChar] && pAnim->IsUsedByCharacter(iChar))
+            return true;
+    }
+
+    return false;
+}
+
 void CCharacterUsageMap::FindUsagesForArea(CWorld *pWorld, CResourceEntry *pEntry)
 {
     ASSERT(pEntry->ResourceType() == eArea);
@@ -76,10 +91,10 @@ void CCharacterUsageMap::DebugPrintContents()
         std::vector<bool>& rUsedList = Iter->second;
         CAnimSet *pSet = (CAnimSet*) gpResourceStore->LoadResource(ID, "ANCS");
 
-        for (u32 iChar = 0; iChar < pSet->NumNodes(); iChar++)
+        for (u32 iChar = 0; iChar < pSet->NumCharacters(); iChar++)
         {
             bool Used = (rUsedList.size() > iChar && rUsedList[iChar]);
-            TString CharName = pSet->NodeName(iChar);
+            TString CharName = pSet->Character(iChar)->Name;
             Log::Write(ID.ToString() + " : Char " + TString::FromInt32(iChar, 0, 10) + " : " + CharName + " : " + (Used ? "USED" : "UNUSED"));
         }
     }
@@ -230,43 +245,16 @@ void CPackageDependencyListBuilder::AddDependency(CResourceEntry *pCurEntry, con
 void CPackageDependencyListBuilder::EvaluateDependencyNode(CResourceEntry *pCurEntry, IDependencyNode *pNode, std::list<CAssetID>& rOut)
 {
     EDependencyNodeType Type = pNode->Type();
+    bool ParseChildren = false;
 
-    if (Type == eDNT_AnimSet)
-    {
-        // Add base dependencies, then only add dependencies from used characters
-        CAnimSetDependencyTree *pTree = static_cast<CAnimSetDependencyTree*>(pNode);
-        u32 BaseEnd = (pTree->NumCharacters() > 0 ? pTree->CharacterOffset(0) : pTree->NumChildren());
-
-        for (u32 iDep = 0; iDep < BaseEnd; iDep++)
-        {
-            CResourceDependency *pDep = static_cast<CResourceDependency*>(pTree->ChildByIndex(iDep));
-            ASSERT(pDep->Type() == eDNT_ResourceDependency);
-            AddDependency(pCurEntry, pDep->ID(), rOut);
-        }
-
-        for (u32 iChar = 0; iChar < pTree->NumCharacters(); iChar++)
-        {
-            if (mCharacterUsageMap.IsCharacterUsed(pCurEntry->ID(), iChar) || mGame > eEchoes || mIsPlayerActor)
-            {
-                u32 StartIdx = pTree->CharacterOffset(iChar);
-                u32 EndIdx = (iChar == pTree->NumCharacters() - 1 ? pTree->NumChildren() : pTree->CharacterOffset(iChar + 1));
-
-                for (u32 iDep = StartIdx; iDep < EndIdx; iDep++)
-                {
-                    CResourceDependency *pDep = static_cast<CResourceDependency*>(pTree->ChildByIndex(iDep));
-                    ASSERT(pDep->Type() == eDNT_ResourceDependency);
-                    AddDependency(pCurEntry, pDep->ID(), rOut);
-                }
-            }
-        }
-    }
-
-    else if (Type == eDNT_ResourceDependency || Type == eDNT_ScriptProperty || Type == eDNT_CharacterProperty)
+    // Straight resource dependencies should just be added to the tree directly
+    if (Type == eDNT_ResourceDependency || Type == eDNT_ScriptProperty || Type == eDNT_CharacterProperty)
     {
         CResourceDependency *pDep = static_cast<CResourceDependency*>(pNode);
         AddDependency(pCurEntry, pDep->ID(), rOut);
     }
 
+    // Anim events should be added if either they apply to characters, or their character index is used
     else if (Type == eDNT_AnimEvent)
     {
         CAnimEventDependency *pDep = static_cast<CAnimEventDependency*>(pNode);
@@ -276,7 +264,25 @@ void CPackageDependencyListBuilder::EvaluateDependencyNode(CResourceEntry *pCurE
             AddDependency(pCurEntry, pDep->ID(), rOut);
     }
 
+    // Set characters should only be added if their character index is used
+    else if (Type == eDNT_SetCharacter)
+    {
+        CSetCharacterDependency *pChar = static_cast<CSetCharacterDependency*>(pNode);
+        ParseChildren = mCharacterUsageMap.IsCharacterUsed(mCurrentAnimSetID, pChar->SetIndex()) || mIsPlayerActor;
+    }
+
+    // Set animations should only be added if they're being used by at least one used character
+    else if (Type == eDNT_SetAnimation)
+    {
+        CSetAnimationDependency *pAnim = static_cast<CSetAnimationDependency*>(pNode);
+        ParseChildren = mCharacterUsageMap.IsAnimationUsed(mCurrentAnimSetID, pAnim) || mIsPlayerActor; // todo - should maybe omit completely unused animations on PlayerActors?
+    }
+
     else
+        ParseChildren = true;
+
+    // Analyze this node's children
+    if (ParseChildren)
     {
         if (Type == eDNT_ScriptInstance)
         {
@@ -371,7 +377,8 @@ void CAreaDependencyListBuilder::AddDependency(const CAssetID& rkID, std::list<C
     // If this is an audio group, for MP1, save it in the output set. For MP2, treat audio groups as a normal dependency.
     if (mGame <= ePrime && ResType == eAudioGroup)
     {
-        if (pAudioGroupsOut) pAudioGroupsOut->insert(rkID);
+        if (pAudioGroupsOut)
+            pAudioGroupsOut->insert(rkID);
         return;
     }
 
@@ -382,86 +389,71 @@ void CAreaDependencyListBuilder::AddDependency(const CAssetID& rkID, std::list<C
     if (mBaseUsedAssets.find(rkID) != mBaseUsedAssets.end() || mLayerUsedAssets.find(rkID) != mLayerUsedAssets.end())
         return;
 
-    // Dependency is valid! Evaluate sub-dependencies
-    // For animsets, only add used character indices
-    if (ResType == eAnimSet && mGame <= eEchoes)
+    // Dependency is valid! Evaluate the node tree (except for SCAN and DGRP)
+    if (ResType != eScan && ResType != eDependencyGroup)
     {
-        mCurrentAnimSetID = rkID;
-
-        // Add base dependencies first, then character-specific ones
-        CAnimSetDependencyTree *pTree = static_cast<CAnimSetDependencyTree*>(pEntry->Dependencies());
-        u32 BaseEndIdx = (pTree->NumCharacters() > 0 ? pTree->CharacterOffset(0) : pTree->NumChildren());
-
-        for (u32 iDep = 0; iDep < BaseEndIdx; iDep++)
+        if (ResType == eAnimSet)
         {
-            CResourceDependency *pDep = static_cast<CResourceDependency*>(pTree->ChildByIndex(iDep));
-            EDependencyNodeType Type = pDep->Type();
-            ASSERT(Type == eDNT_ResourceDependency || Type == eDNT_AnimEvent);
-
-            if (Type == eDNT_ResourceDependency)
-                AddDependency(pDep->ID(), rOut, pAudioGroupsOut);
-
-            else
-            {
-                CAnimEventDependency *pEvent = static_cast<CAnimEventDependency*>(pDep);
-                u32 CharIdx = pEvent->CharIndex();
-
-                if (CharIdx == -1 || mCharacterUsageMap.IsCharacterUsed(rkID, CharIdx))
-                    AddDependency(pDep->ID(), rOut, pAudioGroupsOut);
-            }
+            ASSERT(!mCurrentAnimSetID.IsValid());
+            mCurrentAnimSetID = pEntry->ID();
         }
 
-        for (u32 iChar = 0; iChar < pTree->NumCharacters(); iChar++)
+        EvaluateDependencyNode(pEntry, pEntry->Dependencies(), rOut, pAudioGroupsOut);
+
+        if (ResType == eAnimSet)
         {
-            // Note: For MP1/2 PlayerActor, always treat as if Empty Suit is the only used one
-            const u32 kEmptySuitIndex = (mGame >= eEchoesDemo ? 3 : 5);
-            bool IsUsed = (mIsPlayerActor ? iChar == kEmptySuitIndex : mCharacterUsageMap.IsCharacterUsed(rkID, iChar));
-            if (!IsUsed) continue;
-
-            u32 StartIdx = pTree->CharacterOffset(iChar);
-            u32 EndIdx = (iChar == pTree->NumCharacters() - 1 ? pTree->NumChildren() : pTree->CharacterOffset(iChar + 1));
-
-            for (u32 iDep = StartIdx; iDep < EndIdx; iDep++)
-            {
-                CResourceDependency *pDep = static_cast<CResourceDependency*>(pTree->ChildByIndex(iDep));
-                ASSERT(pDep->Type() == eDNT_ResourceDependency);
-                AddDependency(pDep->ID(), rOut, pAudioGroupsOut);
-            }
-        }
-
-        mCurrentAnimSetID = CAssetID::InvalidID(mGame);
-    }
-
-    // For EVNT, only add events for used character indices
-    else if (ResType == eAnimEventData)
-    {
-        CDependencyTree *pTree = pEntry->Dependencies();
-
-        for (u32 iDep = 0; iDep < pTree->NumChildren(); iDep++)
-        {
-            CAnimEventDependency *pDep = static_cast<CAnimEventDependency*>(pTree->ChildByIndex(iDep));
-            ASSERT(pDep->Type() == eDNT_AnimEvent);
-            u32 CharIdx = pDep->CharIndex();
-
-            if (CharIdx == -1 || mCharacterUsageMap.IsCharacterUsed(mCurrentAnimSetID, CharIdx))
-                AddDependency(pDep->ID(), rOut, pAudioGroupsOut);
-        }
-    }
-
-    // For other resource types (except SCAN and DGRP), evaluate all sub-dependencies
-    else if (ResType != eScan && ResType != eDependencyGroup)
-    {
-        CDependencyTree *pTree = pEntry->Dependencies();
-
-        for (u32 iDep = 0; iDep < pTree->NumChildren(); iDep++)
-        {
-            CResourceDependency *pDep = static_cast<CResourceDependency*>(pTree->ChildByIndex(iDep));
-            ASSERT(pDep->Type() == eDNT_ResourceDependency);
-            AddDependency(pDep->ID(), rOut, pAudioGroupsOut);
+            ASSERT(mCurrentAnimSetID.IsValid());
+            mCurrentAnimSetID = CAssetID::InvalidID(mGame);
         }
     }
 
     // Don't add CSNGs to the output dependency list (we parse them because we need their AGSC dependencies in the output AudioGroup set)
     if (ResType != eMidi)
         rOut.push_back(rkID);
+}
+
+void CAreaDependencyListBuilder::EvaluateDependencyNode(CResourceEntry *pCurEntry, IDependencyNode *pNode, std::list<CAssetID>& rOut, std::set<CAssetID> *pAudioGroupsOut)
+{
+    EDependencyNodeType Type = pNode->Type();
+    bool ParseChildren = false;
+
+    if (Type == eDNT_ResourceDependency || Type == eDNT_ScriptProperty || Type == eDNT_CharacterProperty)
+    {
+        CResourceDependency *pDep = static_cast<CResourceDependency*>(pNode);
+        AddDependency(pDep->ID(), rOut, pAudioGroupsOut);
+    }
+
+    else if (Type == eDNT_AnimEvent)
+    {
+        CAnimEventDependency *pDep = static_cast<CAnimEventDependency*>(pNode);
+        u32 CharIndex = pDep->CharIndex();
+
+        if (CharIndex == -1 || mCharacterUsageMap.IsCharacterUsed(mCurrentAnimSetID, CharIndex))
+            AddDependency(pDep->ID(), rOut, pAudioGroupsOut);
+    }
+
+    else if (Type == eDNT_SetCharacter)
+    {
+        // Note: For MP1/2 PlayerActor, always treat as if Empty Suit is the only used one
+        const u32 kEmptySuitIndex = (mGame >= eEchoesDemo ? 3 : 5);
+
+        CSetCharacterDependency *pChar = static_cast<CSetCharacterDependency*>(pNode);
+        u32 SetIndex = pChar->SetIndex();
+        ParseChildren = mCharacterUsageMap.IsCharacterUsed(mCurrentAnimSetID, pChar->SetIndex()) || (mIsPlayerActor && SetIndex == kEmptySuitIndex);
+    }
+
+    else if (Type == eDNT_SetAnimation)
+    {
+        CSetAnimationDependency *pAnim = static_cast<CSetAnimationDependency*>(pNode);
+        ParseChildren = mCharacterUsageMap.IsAnimationUsed(mCurrentAnimSetID, pAnim);
+    }
+
+    else
+        ParseChildren = true;
+
+    if (ParseChildren)
+    {
+        for (u32 iChild = 0; iChild < pNode->NumChildren(); iChild++)
+            EvaluateDependencyNode(pCurEntry, pNode->ChildByIndex(iChild), rOut, pAudioGroupsOut);
+    }
 }
