@@ -1,7 +1,7 @@
 #ifndef CANIMEVENTLOADER_H
 #define CANIMEVENTLOADER_H
 
-#include "Core/Resource/CAnimEventData.h"
+#include "Core/Resource/Animation/CAnimEventData.h"
 #include "Core/Resource/TResPtr.h"
 
 class CAnimEventLoader

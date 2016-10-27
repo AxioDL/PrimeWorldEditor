@@ -1,7 +1,7 @@
 #ifndef CANIMATION_H
 #define CANIMATION_H
 
-#include "CResource.h"
+#include "Core/Resource/CResource.h"
 #include <Math/CQuaternion.h>
 #include <Math/CVector3f.h>
 #include <vector>

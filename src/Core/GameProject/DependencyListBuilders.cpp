@@ -81,7 +81,7 @@ void CCharacterUsageMap::FindUsagesForLayer(CResourceEntry *pAreaEntry, u32 Laye
         ParseDependencyNode(pTree->ChildByIndex(iInst));
 }
 
-#include "Core/Resource/CAnimSet.h"
+#include "Core/Resource/Animation/CAnimSet.h"
 
 void CCharacterUsageMap::DebugPrintContents()
 {

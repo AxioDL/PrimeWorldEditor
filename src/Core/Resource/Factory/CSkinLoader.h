@@ -1,7 +1,7 @@
 #ifndef CSKINLOADER_H
 #define CSKINLOADER_H
 
-#include "Core/Resource/CSkin.h"
+#include "Core/Resource/Animation/CSkin.h"
 #include "Core/Resource/TResPtr.h"
 
 class CSkinLoader

@@ -4,7 +4,7 @@
 #include "EPropertyType.h"
 #include <Common/CAssetID.h>
 #include <Common/Log.h>
-#include "Core/Resource/CAnimationParameters.h"
+#include "Core/Resource/Animation/CAnimationParameters.h"
 #include "Core/Resource/CResource.h"
 #include "Core/Resource/TResPtr.h"
 

@@ -2,7 +2,7 @@
 #define CANIMATIONPARAMETERS_H
 
 #include "CAnimSet.h"
-#include "TResPtr.h"
+#include "Core/Resource/TResPtr.h"
 #include "Core/Resource/Model/CModel.h"
 #include <Common/EGame.h>
 

@@ -113,8 +113,6 @@ HEADERS += \
     Resource/Script/CScriptTemplate.h \
     Resource/Script/EPropertyType.h \
     Resource/Script/EVolumeShape.h \
-    Resource/CAnimationParameters.h \
-    Resource/CAnimSet.h \
     Resource/CCollisionMesh.h \
     Resource/CCollisionMeshGroup.h \
     Resource/CFont.h \
@@ -177,13 +175,10 @@ HEADERS += \
     Resource/Cooker/CScriptCooker.h \
     ScriptExtra/CSplinePathExtra.h \
     Resource/Script/CLink.h \
-    Resource/CSkeleton.h \
     Resource/Factory/CSkeletonLoader.h \
     Scene/CCharacterNode.h \
-    Resource/CAnimation.h \
     Resource/Factory/CAnimationLoader.h \
     Render/CBoneTransformData.h \
-    Resource/CSkin.h \
     Resource/Factory/CSkinLoader.h \
     Render/EDepthGroup.h \
     Scene/CScriptAttachNode.h \
@@ -209,8 +204,14 @@ HEADERS += \
     Resource/CAudioLookupTable.h \
     Resource/CStringList.h \
     CAudioManager.h \
-    Resource/CAnimEventData.h \
-    Resource/Factory/CAnimEventLoader.h
+    Resource/Factory/CAnimEventLoader.h \
+    Resource/AnimationClasses.h \
+    Resource/Animation/CAnimation.h \
+    Resource/Animation/CAnimationParameters.h \
+    Resource/Animation/CAnimEventData.h \
+    Resource/Animation/CAnimSet.h \
+    Resource/Animation/CSkeleton.h \
+    Resource/Animation/CSkin.h
 
 # Source Files
 SOURCES += \
@@ -244,7 +245,6 @@ SOURCES += \
     Resource/Script/CMasterTemplate.cpp \
     Resource/Script/CScriptObject.cpp \
     Resource/Script/CScriptTemplate.cpp \
-    Resource/CAnimationParameters.cpp \
     Resource/CCollisionMesh.cpp \
     Resource/CFont.cpp \
     Resource/CLight.cpp \
@@ -287,10 +287,8 @@ SOURCES += \
     Resource/Cooker/CPoiToWorldCooker.cpp \
     Resource/Cooker/CScriptCooker.cpp \
     ScriptExtra/CSplinePathExtra.cpp \
-    Resource/CSkeleton.cpp \
     Resource/Factory/CSkeletonLoader.cpp \
     Scene/CCharacterNode.cpp \
-    Resource/CAnimation.cpp \
     Resource/Factory/CAnimationLoader.cpp \
     Resource/Factory/CSkinLoader.cpp \
     Resource/Model/EVertexAttribute.cpp \
@@ -309,4 +307,7 @@ SOURCES += \
     GameProject/DependencyListBuilders.cpp \
     Resource/Factory/CAudioGroupLoader.cpp \
     CAudioManager.cpp \
-    Resource/Factory/CAnimEventLoader.cpp
+    Resource/Factory/CAnimEventLoader.cpp \
+    Resource/Animation/CAnimation.cpp \
+    Resource/Animation/CAnimationParameters.cpp \
+    Resource/Animation/CSkeleton.cpp

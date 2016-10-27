@@ -2,8 +2,8 @@
 #define CSKELETON_H
 
 #include "CAnimation.h"
-#include "CResource.h"
 #include "Core/Render/FRenderOptions.h"
+#include "Core/Resource/CResource.h"
 #include <Common/TString.h>
 #include <Common/types.h>
 #include <Math/CRay.h>

@@ -2,7 +2,7 @@
 #include "CScriptObject.h"
 #include "CMasterTemplate.h"
 #include "Core/GameProject/CResourceStore.h"
-#include "Core/Resource/CAnimSet.h"
+#include "Core/Resource/Animation/CAnimSet.h"
 #include <Common/Log.h>
 
 #include <iostream>

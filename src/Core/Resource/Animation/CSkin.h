@@ -1,7 +1,7 @@
 #ifndef CSKIN_H
 #define CSKIN_H
 
-#include "CResource.h"
+#include "Core/Resource/CResource.h"
 #include "Core/Resource/Model/CVertex.h"
 
 struct SVertexWeights

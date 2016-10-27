@@ -5,7 +5,7 @@
 #include "IPropertyValue.h"
 #include "Core/Resource/CResource.h"
 #include "Core/Resource/TResPtr.h"
-#include "Core/Resource/CAnimationParameters.h"
+#include "Core/Resource/Animation/CAnimationParameters.h"
 #include <Common/CColor.h>
 #include <Common/TString.h>
 #include <Math/CVector3f.h>
