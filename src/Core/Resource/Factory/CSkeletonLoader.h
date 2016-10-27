@@ -1,7 +1,7 @@
 #ifndef CSKELETONLOADER_H
 #define CSKELETONLOADER_H
 
-#include "Core/Resource/CSkeleton.h"
+#include "Core/Resource/Animation/CSkeleton.h"
 #include "Core/Resource/TResPtr.h"
 #include <Common/EGame.h>
 

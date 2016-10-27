@@ -1,13 +1,13 @@
 #ifndef CANIMSET_H
 #define CANIMSET_H
 
-#include "TResPtr.h"
 #include "CAnimation.h"
 #include "CAnimEventData.h"
-#include "CDependencyGroup.h"
-#include "CResource.h"
 #include "CSkeleton.h"
 #include "CSkin.h"
+#include "Core/Resource/CDependencyGroup.h"
+#include "Core/Resource/CResource.h"
+#include "Core/Resource/TResPtr.h"
 #include "Core/Resource/Model/CModel.h"
 #include <Common/types.h>
 

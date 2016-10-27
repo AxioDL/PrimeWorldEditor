@@ -1,8 +1,8 @@
 #ifndef CVERTEXBUFFER_H
 #define CVERTEXBUFFER_H
 
-#include "Core/Resource/CSkin.h"
 #include "Core/Resource/TResPtr.h"
+#include "Core/Resource/Animation/CSkin.h"
 #include "Core/Resource/Model/CVertex.h"
 #include "Core/Resource/Model/EVertexAttribute.h"
 #include <vector>

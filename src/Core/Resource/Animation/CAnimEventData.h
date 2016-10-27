@@ -1,7 +1,7 @@
 #ifndef CANIMEVENTDATA
 #define CANIMEVENTDATA
 
-#include "CResource.h"
+#include "Core/Resource/CResource.h"
 
 class CAnimEventData : public CResource
 {

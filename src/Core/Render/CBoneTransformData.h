@@ -1,7 +1,7 @@
 #ifndef CBONETRANSFORMDATA
 #define CBONETRANSFORMDATA
 
-#include "Core/Resource/CSkeleton.h"
+#include "Core/Resource/Animation/CSkeleton.h"
 #include <Common/types.h>
 #include <Math/CTransform4f.h>
 #include <vector>

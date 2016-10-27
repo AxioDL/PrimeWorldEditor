@@ -1,7 +1,7 @@
 #ifndef CCHARACTERLOADER_H
 #define CCHARACTERLOADER_H
 
-#include "Core/Resource/CAnimSet.h"
+#include "Core/Resource/Animation/CAnimSet.h"
 #include <Common/EGame.h>
 
 class CAnimSetLoader

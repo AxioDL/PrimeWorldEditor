@@ -2,7 +2,7 @@
 #define CANIMATIONLOADER_H
 
 #include "Core/Resource/TResPtr.h"
-#include "Core/Resource/CAnimation.h"
+#include "Core/Resource/Animation/CAnimation.h"
 #include <Common/EGame.h>
 
 class CAnimationLoader

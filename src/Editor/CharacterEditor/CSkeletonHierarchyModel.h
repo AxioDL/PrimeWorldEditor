@@ -2,7 +2,7 @@
 #define CSKELETONHIERARCHYMODEL
 
 #include <QAbstractItemModel>
-#include <Core/Resource/CSkeleton.h>
+#include <Core/Resource/Animation/CSkeleton.h>
 
 class CSkeletonHierarchyModel : public QAbstractItemModel
 {

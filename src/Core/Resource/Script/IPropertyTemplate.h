@@ -4,7 +4,7 @@
 #include "EPropertyType.h"
 #include "IProperty.h"
 #include "IPropertyValue.h"
-#include "Core/Resource/CAnimationParameters.h"
+#include "Core/Resource/Animation/CAnimationParameters.h"
 #include <Common/CColor.h>
 #include <Common/TString.h>
 #include <Common/types.h>

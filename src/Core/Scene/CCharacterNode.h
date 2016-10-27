@@ -3,7 +3,7 @@
 
 #include "CSceneNode.h"
 #include "Core/Render/CBoneTransformData.h"
-#include "Core/Resource/CAnimSet.h"
+#include "Core/Resource/Animation/CAnimSet.h"
 
 class CCharacterNode : public CSceneNode
 {
