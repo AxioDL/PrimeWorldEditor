@@ -9,62 +9,98 @@ enum EMetaAnimationType
 {
     eMAT_Play = 0,
     eMAT_Blend = 1,
-    eMAT_PhaseBlend = 2, // note: structure shared with eMAT_Blend, differences are currently unknown
+    eMAT_PhaseBlend = 2, // note: structure shared with eMAT_Blend
     eMAT_Random = 3,
     eMAT_Sequence = 4
+};
+
+// Factory class
+class CMetaAnimFactory
+{
+public:
+    class IMetaAnimation* LoadFromStream(IInputStream& rInput);
+};
+extern CMetaAnimFactory gMetaAnimFactory;
+
+// Animation primitive class
+class CAnimPrimitive
+{
+    TResPtr<CAnimation> mpAnim;
+    u32 mID;
+    TString mName;
+
+public:
+    CAnimPrimitive() : mID(0) {}
+
+    CAnimPrimitive(IInputStream& rInput)
+    {
+        mpAnim = gpResourceStore->LoadResource(rInput.ReadLong(), "ANIM");
+        mID = rInput.ReadLong();
+        mName = rInput.ReadString();
+    }
+
+    inline bool operator==(const CAnimPrimitive& rkRight) const { return mID == rkRight.mID; }
+    inline bool operator< (const CAnimPrimitive& rkRight) const { return mID < rkRight.mID; }
+
+    // Accessors
+    CAnimation* Animation() const   { return mpAnim; }
+    u32 ID() const                  { return mID; }
+    TString Name() const            { return mName; }
 };
 
 // Base MetaAnimation interface
 class IMetaAnimation
 {
+public:
+    IMetaAnimation() {}
+    virtual ~IMetaAnimation() {}
+    virtual EMetaAnimationType Type() const = 0;
+    virtual void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const = 0;
+
+    // Static
+    static IMetaAnimation* LoadFromStream(IInputStream& rInput);
+};
+
+// CMetaAnimPlay - plays an animation
+class CMetaAnimPlay : public IMetaAnimation
+{
 protected:
-    TString mName;
-    EMetaAnimationType mType;
+    CAnimPrimitive mPrimitive;
+    float mUnknownA;
+    u32 mUnknownB;
 
 public:
-    IMetaAnimation(EMetaAnimationType Type)
-        : mType(Type) {}
-
-    virtual ~IMetaAnimation() {}
+    CMetaAnimPlay(IInputStream& rInput);
+    virtual EMetaAnimationType Type() const;
+    virtual void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const;
 
     // Accessors
-    inline void SetName(const TString& rkName)  { mName = rkName; }
-    inline TString Name() const                 { return mName; }
-    inline EMetaAnimationType Type() const      { return mType; }
+    inline CAnimPrimitive Primitive() const { return mPrimitive; }
+    inline float UnknownA() const           { return mUnknownA; }
+    inline u32 UnknownB() const             { return mUnknownB; }
 };
 
-// CMetaAnimationPlay - plays an animation
-class CMetaAnimationPlay : public IMetaAnimation
+// CMetaAnimBlend - blend between two animations
+class CMetaAnimBlend : public IMetaAnimation
 {
 protected:
-    TResPtr<CAnimation> mpAnim;
+    EMetaAnimationType mType;
+    IMetaAnimation *mpMetaAnimA;
+    IMetaAnimation *mpMetaAnimB;
+    float mUnknownA;
+    bool mUnknownB;
 
 public:
-    CMetaAnimationPlay(CAnimation *pAnim)
-        : IMetaAnimation(eMAT_Play), mpAnim(pAnim) {}
+    CMetaAnimBlend(EMetaAnimationType Type, IInputStream& rInput);
+    ~CMetaAnimBlend();
+    virtual EMetaAnimationType Type() const;
+    virtual void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const;
 
-    inline CAnimation* GetPlayAnimation() const { return mpAnim; }
-};
-
-// CMetaAnimationBlend - blend between two animations
-class CMetaAnimationBlend : public IMetaAnimation
-{
-protected:
-    IMetaAnimation *mpAnimA;
-    IMetaAnimation *mpAnimB;
-
-public:
-    CMetaAnimationBlend(IMetaAnimation *pAnimA, IMetaAnimation *pAnimB)
-        : IMetaAnimation(eMAT_Blend), mpAnimA(pAnimA), mpAnimB(pAnimB) {}
-
-    ~CMetaAnimationBlend()
-    {
-        delete mpAnimA;
-        delete mpAnimB;
-    }
-
-    inline IMetaAnimation* BlendAnimationA() const  { return mpAnimA; }
-    inline IMetaAnimation* BlendAnimationB() const  { return mpAnimB; }
+    // Accessors
+    inline IMetaAnimation* BlendAnimationA() const  { return mpMetaAnimA; }
+    inline IMetaAnimation* BlendAnimationB() const  { return mpMetaAnimB; }
+    inline float UnknownA() const                   { return mUnknownA; }
+    inline bool UnknownB() const                    { return mUnknownB; }
 };
 
 // SAnimProbabilityPair - structure used by CMetaAnimationRandom to associate an animation with a probability value
@@ -74,14 +110,30 @@ struct SAnimProbabilityPair
     u32 Probability;
 };
 
-// CMetaAnimationRandom - play random animation
-class CMetaAnimationRandom : public IMetaAnimation
+// CMetaAnimRandom - play random animation
+class CMetaAnimRandom : public IMetaAnimation
 {
 protected:
     std::vector<SAnimProbabilityPair> mProbabilityPairs;
 
 public:
+    CMetaAnimRandom(IInputStream& rInput);
+    ~CMetaAnimRandom();
+    virtual EMetaAnimationType Type() const;
+    virtual void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const;
+};
 
+// CMetaAnim - play a series of animations in sequence
+class CMetaAnimSequence : public IMetaAnimation
+{
+protected:
+    std::vector<IMetaAnimation*> mAnimations;
+
+public:
+    CMetaAnimSequence(IInputStream& rInput);
+    ~CMetaAnimSequence();
+    virtual EMetaAnimationType Type() const;
+    virtual void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const;
 };
 
 #endif // IMETAANIMATION

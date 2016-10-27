@@ -679,8 +679,7 @@ CSkeleton* CScriptNode::ActiveSkeleton() const
 CAnimation* CScriptNode::ActiveAnimation() const
 {
     CAnimSet *pSet = ActiveAnimSet();
-    if (pSet) return pSet->Animation(mAnimIndex)->pAnim;
-    else return nullptr;
+    return pSet ? pSet->FindAnimationAsset(mAnimIndex) : nullptr;
 }
 
 CTexture* CScriptNode::ActiveBillboard() const

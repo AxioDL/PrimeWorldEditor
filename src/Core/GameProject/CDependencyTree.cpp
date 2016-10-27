@@ -186,7 +186,7 @@ EDependencyNodeType CSetCharacterDependency::Type() const
 
 void CSetCharacterDependency::Serialize(IArchive& rArc)
 {
-    rArc << SERIAL("SetIndex", mSetIndex)
+    rArc << SERIAL("CharSetIndex", mCharSetIndex)
          << SERIAL_ABSTRACT_CONTAINER("Children", mChildren, "Child", &gDependencyNodeFactory);
 }
 
@@ -234,8 +234,8 @@ void CSetAnimationDependency::Serialize(IArchive& rArc)
 
 CSetAnimationDependency* CSetAnimationDependency::BuildTree(const CAnimSet *pkOwnerSet, u32 AnimIndex)
 {
-    const SSetAnimation *pkAnim = pkOwnerSet->Animation(AnimIndex);
     CSetAnimationDependency *pTree = new CSetAnimationDependency;
+    const SAnimation *pkAnim = pkOwnerSet->Animation(AnimIndex);
 
     // Find relevant character indices
     for (u32 iChar = 0; iChar < pkOwnerSet->NumCharacters(); iChar++)
@@ -246,15 +246,21 @@ CSetAnimationDependency* CSetAnimationDependency::BuildTree(const CAnimSet *pkOw
             pTree->mCharacterIndices.insert(iChar);
     }
 
-    // Add dependencies. In MP2 animation event data is not a standalone resource.
-    pTree->AddDependency(pkAnim->pAnim);
+    // Add primitive dependencies. In MP2 animation event data is not a standalone resource.
+    std::set<CAnimPrimitive> UsedPrimitives;
+    pkAnim->pMetaAnim->GetUniquePrimitives(UsedPrimitives);
 
-    if (pkAnim->pEventData)
+    for (auto Iter = UsedPrimitives.begin(); Iter != UsedPrimitives.end(); Iter++)
     {
-        if (pkAnim->pEventData->Entry())
-            pTree->AddDependency(pkAnim->pEventData);
-        else
-            pkAnim->pEventData->AddDependenciesToTree(pTree);
+        const CAnimPrimitive& rkPrim = *Iter;
+        pTree->AddDependency(rkPrim.Animation());
+
+        if (pkOwnerSet->Game() >= eEchoesDemo)
+        {
+            CAnimEventData *pEvents = pkOwnerSet->AnimationEventData(rkPrim.ID());
+            ASSERT(pEvents && !pEvents->Entry());
+            pEvents->AddDependenciesToTree(pTree);
+        }
     }
 
     return pTree;

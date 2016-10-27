@@ -160,18 +160,12 @@ void CCharacterEditor::UpdateCameraOrbit()
 
 CSkeleton* CCharacterEditor::CurrentSkeleton() const
 {
-    if (mpSet)
-        return mpSet->Character(mCurrentChar)->pSkeleton;
-    else
-        return nullptr;
+    return mpSet ? mpSet->Character(mCurrentChar)->pSkeleton : nullptr;
 }
 
 CAnimation* CCharacterEditor::CurrentAnimation() const
 {
-    if (mpSet)
-        return mpSet->Animation(mCurrentAnim)->pAnim;
-    else
-        return nullptr;
+    return mpSet ? mpSet->FindAnimationAsset(mCurrentAnim) : nullptr;
 }
 
 void CCharacterEditor::SetActiveAnimSet(CAnimSet *pSet)
@@ -385,7 +379,7 @@ void CCharacterEditor::SetAnimTime(float Time)
 
     mpCharNode->SetAnimTime(Time);
 
-    CAnimation *pAnim = (mpSet ? mpSet->Animation(mCurrentAnim)->pAnim : nullptr);
+    CAnimation *pAnim = CurrentAnimation();
     u32 NumKeys = 1, CurKey = 0;
 
     if (pAnim)

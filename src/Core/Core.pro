@@ -211,7 +211,9 @@ HEADERS += \
     Resource/Animation/CAnimEventData.h \
     Resource/Animation/CAnimSet.h \
     Resource/Animation/CSkeleton.h \
-    Resource/Animation/CSkin.h
+    Resource/Animation/CSkin.h \
+    Resource/Animation/IMetaTransition.h \
+    Resource/Animation/IMetaAnimation.h
 
 # Source Files
 SOURCES += \
@@ -310,4 +312,6 @@ SOURCES += \
     Resource/Factory/CAnimEventLoader.cpp \
     Resource/Animation/CAnimation.cpp \
     Resource/Animation/CAnimationParameters.cpp \
-    Resource/Animation/CSkeleton.cpp
+    Resource/Animation/CSkeleton.cpp \
+    Resource/Animation/IMetaAnimation.cpp \
+    Resource/Animation/IMetaTransition.cpp
