@@ -11,7 +11,6 @@ class CScriptObject;
 class CPropertyStruct;
 class CAnimSet;
 struct SSetCharacter;
-struct SSetAnimation;
 
 // Group of node classes forming a tree of cached resource dependencies.
 enum EDependencyNodeType
@@ -154,17 +153,17 @@ protected:
 class CSetCharacterDependency : public CDependencyTree
 {
 protected:
-    u32 mSetIndex;
+    u32 mCharSetIndex;
 
 public:
     CSetCharacterDependency() : CDependencyTree() {}
-    CSetCharacterDependency(u32 SetIndex) : CDependencyTree(), mSetIndex(SetIndex) {}
+    CSetCharacterDependency(u32 SetIndex) : CDependencyTree(), mCharSetIndex(SetIndex) {}
 
     virtual EDependencyNodeType Type() const;
     virtual void Serialize(IArchive& rArc);
 
     // Accessors
-    inline u32 SetIndex() const { return mSetIndex; }
+    inline u32 CharSetIndex() const { return mCharSetIndex; }
 
     // Static
     static CSetCharacterDependency* BuildTree(const CAnimSet *pkOwnerSet, u32 CharIndex);

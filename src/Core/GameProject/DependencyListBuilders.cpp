@@ -268,7 +268,7 @@ void CPackageDependencyListBuilder::EvaluateDependencyNode(CResourceEntry *pCurE
     else if (Type == eDNT_SetCharacter)
     {
         CSetCharacterDependency *pChar = static_cast<CSetCharacterDependency*>(pNode);
-        ParseChildren = mCharacterUsageMap.IsCharacterUsed(mCurrentAnimSetID, pChar->SetIndex()) || mIsPlayerActor;
+        ParseChildren = mCharacterUsageMap.IsCharacterUsed(mCurrentAnimSetID, pChar->CharSetIndex()) || mIsPlayerActor;
     }
 
     // Set animations should only be added if they're being used by at least one used character
@@ -438,8 +438,8 @@ void CAreaDependencyListBuilder::EvaluateDependencyNode(CResourceEntry *pCurEntr
         const u32 kEmptySuitIndex = (mGame >= eEchoesDemo ? 3 : 5);
 
         CSetCharacterDependency *pChar = static_cast<CSetCharacterDependency*>(pNode);
-        u32 SetIndex = pChar->SetIndex();
-        ParseChildren = mCharacterUsageMap.IsCharacterUsed(mCurrentAnimSetID, pChar->SetIndex()) || (mIsPlayerActor && SetIndex == kEmptySuitIndex);
+        u32 SetIndex = pChar->CharSetIndex();
+        ParseChildren = mCharacterUsageMap.IsCharacterUsed(mCurrentAnimSetID, pChar->CharSetIndex()) || (mIsPlayerActor && SetIndex == kEmptySuitIndex);
     }
 
     else if (Type == eDNT_SetAnimation)

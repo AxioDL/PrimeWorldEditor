@@ -19,7 +19,7 @@ CAnimation::CAnimation(CResourceEntry *pEntry /*= 0*/)
 CDependencyTree* CAnimation::BuildDependencyTree() const
 {
     CDependencyTree *pTree = new CDependencyTree(ID());
-    pTree->AddDependency(mEventData);
+    pTree->AddDependency(mpEventData);
     return pTree;
 }
 

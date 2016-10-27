@@ -2,6 +2,8 @@
 #define CANIMATION_H
 
 #include "Core/Resource/CResource.h"
+#include "Core/Resource/TResPtr.h"
+#include "Core/Resource/Animation/CAnimEventData.h"
 #include <Math/CQuaternion.h>
 #include <Math/CVector3f.h>
 #include <vector>
@@ -31,7 +33,7 @@ class CAnimation : public CResource
     };
     SBoneChannelInfo mBoneInfo[100];
 
-    CAssetID mEventData;
+    TResPtr<CAnimEventData> mpEventData;
 
 public:
     CAnimation(CResourceEntry *pEntry = 0);
@@ -39,9 +41,10 @@ public:
     void EvaluateTransform(float Time, u32 BoneID, CVector3f *pOutTranslation, CQuaternion *pOutRotation, CVector3f *pOutScale) const;
     bool HasTranslation(u32 BoneID) const;
 
-    inline float Duration() const       { return mDuration; }
-    inline u32 NumKeys() const          { return mNumKeys; }
-    inline float TickInterval() const   { return mTickInterval; }
+    inline float Duration() const               { return mDuration; }
+    inline u32 NumKeys() const                  { return mNumKeys; }
+    inline float TickInterval() const           { return mTickInterval; }
+    inline CAnimEventData* EventData() const    { return mpEventData; }
 };
 
 #endif // CANIMATION_H
