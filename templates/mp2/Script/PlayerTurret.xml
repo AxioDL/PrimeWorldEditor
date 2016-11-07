@@ -36,21 +36,11 @@
         <struct ID="0x8E5F7E96" template="Structs/DamageInfo.xml"/>
         <property ID="0xC43360A7" type="asset" extensions="WPSC"/>
         <property ID="0xA99D3DBE" type="asset" extensions="WPSC"/>
-        <property ID="0xE7234F72" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x3E2F7AFB" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x7CABD1F1" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x7EF976EB" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x035459FD" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xE7234F72" type="sound"/>
+        <property ID="0x3E2F7AFB" type="sound"/>
+        <property ID="0x7CABD1F1" type="sound"/>
+        <property ID="0x7EF976EB" type="sound"/>
+        <property ID="0x035459FD" type="sound"/>
     </properties>
     <states/>
     <messages/>

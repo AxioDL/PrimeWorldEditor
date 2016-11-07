@@ -41,18 +41,10 @@
         <property ID="0x3DB583AE" type="float">
             <default>1.0</default>
         </property>
-        <property ID="0xA24376EC" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xD35EB69D" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xAADAABB8" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x8128CE4A" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xA24376EC" type="sound"/>
+        <property ID="0xD35EB69D" type="sound"/>
+        <property ID="0xAADAABB8" type="sound"/>
+        <property ID="0x8128CE4A" type="sound"/>
         <property ID="0x66E34A08" type="asset" extensions="CMDL"/>
         <property ID="0x5F3F29E3" type="asset" extensions="CMDL"/>
         <property ID="0x63DCBBB6" type="float">
@@ -156,12 +148,8 @@
         <property ID="0x3D58F51F" type="float">
             <default>0.0</default>
         </property>
-        <property ID="0x8C41066C" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x8649FE53" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x8C41066C" type="sound"/>
+        <property ID="0x8649FE53" type="sound"/>
         <property ID="0x547F9400" type="float">
             <default>50.0</default>
         </property>

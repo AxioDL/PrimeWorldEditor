@@ -11,7 +11,7 @@
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
         <struct ID="0xD520975D" type="multi">
             <properties>
-                <property ID="0x55744160" type="asset" extensions="AFSM"/>
+                <property ID="0x55744160" type="asset" extensions="AFSM,FSM2"/>
                 <struct ID="0xCF90D15E" template="Structs/HealthInfo.xml">
                     <properties>
                         <property ID="0x3A2D17E4">
@@ -26,21 +26,11 @@
                 <property ID="0xE8A6E174" type="asset" extensions="PART"/>
                 <property ID="0x1AB2B090" type="asset" extensions="PART"/>
                 <property ID="0x1CCFA4BA" type="asset" extensions="PART"/>
-                <property ID="0x4CAB30A9" type="long">
-                    <default>-1</default>
-                </property>
-                <property ID="0x8F83BE73" type="long">
-                    <default>-1</default>
-                </property>
-                <property ID="0xB392943A" type="long">
-                    <default>-1</default>
-                </property>
-                <property ID="0x24ECC1E9" type="long">
-                    <default>-1</default>
-                </property>
-                <property ID="0x4489935E" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0x4CAB30A9" type="sound"/>
+                <property ID="0x8F83BE73" type="sound"/>
+                <property ID="0xB392943A" type="sound"/>
+                <property ID="0x24ECC1E9" type="sound"/>
+                <property ID="0x4489935E" type="sound"/>
                 <struct ID="0x7B71AE90" template="Structs/DamageVulnerability.xml"/>
             </properties>
         </struct>

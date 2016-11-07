@@ -60,15 +60,9 @@
         <property ID="0xE0CDC7E3" type="float">
             <default>0.0</default>
         </property>
-        <property ID="0xCD7D996E" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x1026DB89" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xCDE17346" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xCD7D996E" type="sound"/>
+        <property ID="0x1026DB89" type="sound"/>
+        <property ID="0xCDE17346" type="sound"/>
     </properties>
     <states/>
     <messages/>

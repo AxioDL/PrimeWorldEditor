@@ -81,9 +81,7 @@
                 </property>
             </properties>
         </struct>
-        <property ID="0xEAC27605" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xEAC27605" type="sound"/>
         <property ID="0xCA294811" type="asset" extensions="WPSC"/>
         <struct ID="0x258CFB4D" template="Structs/DamageInfo.xml">
             <properties>
@@ -134,12 +132,8 @@
         <property ID="0x8EE7F440" type="float">
             <default>1000.0</default>
         </property>
-        <property ID="0x1BB16EA5" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x0FF5AB8F" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x1BB16EA5" type="sound"/>
+        <property ID="0x0FF5AB8F" type="sound"/>
         <property ID="0x87B2BC5A" type="float">
             <default>25.0</default>
         </property>
@@ -152,12 +146,8 @@
         <property ID="0x317212AB" type="asset" extensions="PART"/>
         <property ID="0xBC113D7B" type="asset" extensions="PART"/>
         <property ID="0x738BBBAA" type="asset" extensions="PART"/>
-        <property ID="0x3BB37A8F" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xE160B593" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x3BB37A8F" type="sound"/>
+        <property ID="0xE160B593" type="sound"/>
         <property ID="0x966D11F3" type="float">
             <default>25.0</default>
         </property>

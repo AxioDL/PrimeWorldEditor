@@ -51,14 +51,10 @@
         <property ID="0x00AE9C61" type="asset" extensions="CMDL"/>
         <property ID="0xACDAE408" type="asset" extensions="CSKR"/>
         <property ID="0xAA482D8D" type="asset" extensions="PART"/>
-        <property ID="0xEEAF03C4" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xEEAF03C4" type="sound"/>
         <property ID="0xAF4FAE74" type="asset" extensions="PART"/>
         <property ID="0x64A1F558" type="asset" extensions="PART"/>
-        <property ID="0xBF107374" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xBF107374" type="sound"/>
         <property ID="0xB43A4CAA" type="asset" extensions="PART"/>
         <property ID="0x61C4C0EA" type="float">
             <default>8.0</default>
@@ -122,9 +118,7 @@
         <property ID="0xB92B481D" type="character"/>
         <property ID="0x7E6E0D38" type="character"/>
         <property ID="0xBD321538" type="asset" extensions="ELSC"/>
-        <property ID="0x58A492EF" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x58A492EF" type="sound"/>
         <struct ID="0xE61748ED" template="Structs/IngPossessionData.xml"/>
     </properties>
     <states/>

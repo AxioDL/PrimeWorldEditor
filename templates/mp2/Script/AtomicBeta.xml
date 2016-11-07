@@ -57,7 +57,7 @@
             </properties>
         </struct>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <property ID="0x05439A08" type="asset" extensions="WPSC"/>
+        <property ID="0x05439A08" type="asset" extensions="ELSC,WPSC"/>
         <property ID="0x2CBF989B" type="asset" extensions="WPSC"/>
         <struct ID="0x13E30E4D" template="Structs/DamageInfo.xml"/>
         <property ID="0xC271EAF5" type="asset" extensions="PART"/>
@@ -80,13 +80,13 @@
         <property ID="0xAC202A5D" type="float">
             <default>1.0</default>
         </property>
-        <property ID="0x14038B71" type="long">
+        <property ID="0x14038B71" type="sound">
             <default>-1</default>
         </property>
-        <property ID="0x16A435CB" type="long">
+        <property ID="0x16A435CB" type="sound">
             <default>-1</default>
         </property>
-        <property ID="0x67EDEFC2" type="long">
+        <property ID="0x67EDEFC2" type="sound">
             <default>-1</default>
         </property>
         <property ID="0x8F4FB79D" type="float">

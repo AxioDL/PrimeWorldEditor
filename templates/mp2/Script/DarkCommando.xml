@@ -102,12 +102,8 @@
                         <property ID="0x2D4706E8" type="float">
                             <default>8.0</default>
                         </property>
-                        <property ID="0x258C3E1B" type="long">
-                            <default>-1</default>
-                        </property>
-                        <property ID="0xAF6AAD88" type="long">
-                            <default>-1</default>
-                        </property>
+                        <property ID="0x258C3E1B" type="sound"/>
+                        <property ID="0xAF6AAD88" type="sound"/>
                     </properties>
                 </struct>
                 <struct ID="0xE6C64015" type="multi">

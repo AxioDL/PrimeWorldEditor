@@ -29,12 +29,8 @@
         <property ID="0x74FA22F0" type="float">
             <default>-1.0</default>
         </property>
-        <property ID="0x1F468967" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x1A08AADC" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x1F468967" type="sound"/>
+        <property ID="0x1A08AADC" type="sound"/>
         <property ID="0x6689925B" type="bool">
             <default>false</default>
         </property>
@@ -97,23 +93,15 @@
         <property ID="0xAC43BA34" type="asset" extensions="PART"/>
         <property ID="0x449AA4AA" type="asset" extensions="SWHC"/>
         <property ID="0x0345FA17" type="asset" extensions="SWHC"/>
-        <property ID="0x2C72576B" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x9E02691C" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x2C72576B" type="sound"/>
+        <property ID="0x9E02691C" type="sound"/>
         <property ID="0x3433BC8B" type="asset" extensions="PART"/>
         <struct ID="0x4841182B" template="Structs/AudioPlaybackParms.xml"/>
         <property ID="0xA6C42023" type="asset" extensions="PART"/>
-        <property ID="0xD3593630" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xD3593630" type="sound"/>
         <property ID="0x908B06E9" type="asset" extensions="PART"/>
         <property ID="0x494DE4A4" type="asset" extensions="PART"/>
-        <property ID="0xA861649F" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xA861649F" type="sound"/>
         <struct ID="0x18402AA9" template="Structs/DamageInfo.xml"/>
         <property ID="0xE701DAEA" type="asset" extensions="PART"/>
         <property ID="0xBF62B633" type="asset" extensions="WPSC"/>

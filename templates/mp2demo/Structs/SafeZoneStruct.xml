@@ -1,18 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <struct name="SafeZoneStruct" type="multi">
     <properties>
-        <property ID="0xC6BFC270" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xC6BFC270" type="sound"/>
         <property ID="0xD4839A3F" type="float">
             <default>0.0</default>
         </property>
-        <property ID="0xE0903825" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xE5567935" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xE0903825" type="sound"/>
+        <property ID="0xE5567935" type="sound"/>
         <property ID="0xD09F83E7" type="asset" extensions="TXTR"/>
         <property ID="0xC496A6A8" type="float">
             <default>50.0</default>

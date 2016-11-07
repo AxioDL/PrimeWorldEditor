@@ -74,21 +74,13 @@
         <property ID="0xD6E82200" type="asset" extensions="PART"/>
         <property ID="0x94A23BF9" type="asset" extensions="PART"/>
         <property ID="0x43A704FB" type="asset" extensions="PART"/>
-        <property ID="0xBA717F19" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xBA717F19" type="sound"/>
         <property ID="0xAE7C7EFC" type="long">
             <default>-1</default>
         </property>
-        <property ID="0xEEF81E4C" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x63C96763" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xD36209BC" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xEEF81E4C" type="sound"/>
+        <property ID="0x63C96763" type="sound"/>
+        <property ID="0xD36209BC" type="sound"/>
         <property ID="0xE578C0DD" type="color">
             <default>1.0, 1.0, 1.0, 1.0</default>
         </property>

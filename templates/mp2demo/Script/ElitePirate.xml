@@ -122,9 +122,7 @@
         <struct ID="0x62C744CD" template="Structs/ActorParameters.xml"/>
         <property ID="0xB92B481D" type="character"/>
         <property ID="0xBD321538" type="asset" extensions="ELSC"/>
-        <property ID="0x58A492EF" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x58A492EF" type="sound"/>
     </properties>
     <states/>
     <messages/>

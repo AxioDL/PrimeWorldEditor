@@ -151,27 +151,17 @@
                         </property>
                     </properties>
                 </struct>
-                <property ID="0xEA307548" type="long">
-                    <default>-1</default>
-                </property>
-                <property ID="0x3779BD93" type="long">
-                    <default>-1</default>
-                </property>
-                <property ID="0xC90DBDB4" type="long">
-                    <default>-1</default>
-                </property>
-                <property ID="0xE7724802" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0xEA307548" type="sound"/>
+                <property ID="0x3779BD93" type="sound"/>
+                <property ID="0xC90DBDB4" type="sound"/>
+                <property ID="0xE7724802" type="sound"/>
                 <property ID="0xD4A06273" type="long">
                     <default>-1</default>
                 </property>
                 <property ID="0xAFC20631" type="long">
                     <default>-1</default>
                 </property>
-                <property ID="0x2FF5A809" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0x2FF5A809" type="sound"/>
                 <struct ID="0xE61748ED" template="Structs/IngPossessionData.xml"/>
                 <struct ID="0x80A8EF3B" template="Structs/DamageVulnerability.xml"/>
                 <struct ID="0xA21C90EA" template="Structs/DamageVulnerability.xml"/>

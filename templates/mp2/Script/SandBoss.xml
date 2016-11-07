@@ -119,12 +119,8 @@
                             <default>150.0</default>
                         </property>
                         <property ID="0x8F06342A" type="asset" extensions="PART"/>
-                        <property ID="0xD8B11129" type="long">
-                            <default>-1</default>
-                        </property>
-                        <property ID="0xE99E5316" type="long">
-                            <default>-1</default>
-                        </property>
+                        <property ID="0xD8B11129" type="sound"/>
+                        <property ID="0xE99E5316" type="sound"/>
                         <struct ID="0x1440D152" template="Structs/DamageInfo.xml">
                             <properties>
                                 <enum ID="0x119FBD31">

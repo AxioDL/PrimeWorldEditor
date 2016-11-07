@@ -13,8 +13,6 @@
         <property ID="0x8B51E23F" type="float">
             <default>1.0</default>
         </property>
-        <property ID="0x388D2E46" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x388D2E46" type="sound"/>
     </properties>
 </struct>

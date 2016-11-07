@@ -18,9 +18,9 @@ namespace CompressionUtil
     // Compression
     bool CompressZlib(u8 *pSrc, u32 SrcLen, u8 *pDst, u32 DstLen, u32& rTotalOut);
     bool CompressLZO(u8 *pSrc, u32 SrcLen, u8 *pDst, u32& rTotalOut);
-    bool CompressSegmentedData(u8 *pSrc, u32 SrcLen, u8 *pDst, u32& rTotalOut, bool IsZlib);
-    bool CompressZlibSegmented(u8 *pSrc, u32 SrcLen, u8 *pDst, u32& rTotalOut);
-    bool CompressLZOSegmented(u8 *pSrc, u32 SrcLen, u8 *pDst, u32& rTotalOut);
+    bool CompressSegmentedData(u8 *pSrc, u32 SrcLen, u8 *pDst, u32& rTotalOut, bool IsZlib, bool AllowUncompressedSegments);
+    bool CompressZlibSegmented(u8 *pSrc, u32 SrcLen, u8 *pDst, u32& rTotalOut, bool AllowUncompressedSegments);
+    bool CompressLZOSegmented(u8 *pSrc, u32 SrcLen, u8 *pDst, u32& rTotalOut, bool AllowUncompressedSegments);
 }
 
 #endif // COMPRESSIONUTIL_H

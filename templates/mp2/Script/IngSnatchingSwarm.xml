@@ -6,8 +6,8 @@
     </modules>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0x55744160" type="asset" extensions="AFSM"/>
-        <property ID="0x83CF6509" type="asset" extensions="SRSC"/>
+        <property ID="0x55744160" type="asset" extensions="AFSM,FSM2"/>
+        <property ID="0x83CF6509" type="asset" extensions="PART,SRSC"/>
         <property ID="0x7CAE2ED5" type="float">
             <default>0.5</default>
         </property>
@@ -65,15 +65,9 @@
                 </property>
             </properties>
         </struct>
-        <property ID="0x1BB16EA5" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xAF38968E" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x6C101854" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x1BB16EA5" type="sound"/>
+        <property ID="0xAF38968E" type="sound"/>
+        <property ID="0x6C101854" type="sound"/>
         <property ID="0xF0668919" type="float">
             <default>50.0</default>
         </property>

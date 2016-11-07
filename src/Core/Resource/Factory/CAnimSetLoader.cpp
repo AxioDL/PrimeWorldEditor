@@ -33,7 +33,7 @@ CAnimSet* CAnimSetLoader::LoadReturnsCHAR(IInputStream& rCHAR)
     return pSet;
 }
 
-void CAnimSetLoader::LoadPASDatabase(IInputStream& rPAS4, SSetCharacter *pChar)
+void CAnimSetLoader::LoadPASDatabase(IInputStream& rPAS4)
 {
     // For now, just parse the data; don't store it
     rPAS4.Seek(0x4, SEEK_CUR); // Skipping PAS4 FourCC
@@ -68,11 +68,7 @@ void CAnimSetLoader::LoadPASDatabase(IInputStream& rPAS4, SSetCharacter *pChar)
         }
 
         for (u32 iInfo = 0; iInfo < AnimInfoCount; iInfo++)
-        {
-            u32 MetaAnimID = rPAS4.ReadLong();
-            rPAS4.Seek(Skip, SEEK_CUR);
-            pChar->UsedAnimationIndices.insert(MetaAnimID);
-        }
+            rPAS4.Seek(0x4 + Skip, SEEK_CUR);
     }
 }
 
@@ -321,7 +317,7 @@ CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS, CResourceEntry *pEntry)
         }
 
         // PAS Database
-        Loader.LoadPASDatabase(rANCS, pChar);
+        Loader.LoadPASDatabase(rANCS);
 
         // Particles
         u32 ParticleCount = rANCS.ReadLong();
@@ -394,7 +390,8 @@ CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS, CResourceEntry *pEntry)
 
         if (Loader.mVersion == eEchoes)
         {
-            rANCS.Seek(0x5, SEEK_CUR);
+            pChar->SpatialPrimitives = rANCS.ReadLong();
+            rANCS.Seek(0x1, SEEK_CUR);
             u32 UnknownCount2 = rANCS.ReadLong();
             rANCS.Seek(UnknownCount2 * 0x1C, SEEK_CUR);
         }

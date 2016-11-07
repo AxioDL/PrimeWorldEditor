@@ -26,9 +26,7 @@
                         <property ID="0x491C2657" type="float">
                             <default>0.0</default>
                         </property>
-                        <property ID="0xE19F4608" type="long">
-                            <default>-1</default>
-                        </property>
+                        <property ID="0xE19F4608" type="sound"/>
                     </properties>
                 </struct>
                 <struct ID="0xF59F9A60" type="multi">
@@ -54,12 +52,8 @@
                         <property ID="0x94880277" type="long">
                             <default>-1</default>
                         </property>
-                        <property ID="0x1C3E84B6" type="long">
-                            <default>-1</default>
-                        </property>
-                        <property ID="0xA93F0198" type="long">
-                            <default>-1</default>
-                        </property>
+                        <property ID="0x1C3E84B6" type="sound"/>
+                        <property ID="0xA93F0198" type="sound"/>
                     </properties>
                 </struct>
                 <struct ID="0xB4BC04C4" type="multi">
@@ -71,9 +65,7 @@
                             <default>0</default>
                         </property>
                         <struct ID="0x8F4787CB" template="Structs/ShockWaveInfo.xml"/>
-                        <property ID="0x25AF490E" type="long">
-                            <default>-1</default>
-                        </property>
+                        <property ID="0x25AF490E" type="sound"/>
                     </properties>
                 </struct>
                 <struct ID="0x8E6D20EC" type="multi">
@@ -107,9 +99,7 @@
                             </properties>
                         </struct>
                         <struct ID="0x337F9524" template="Structs/DamageInfo.xml"/>
-                        <property ID="0x5F7C352E" type="long">
-                            <default>-1</default>
-                        </property>
+                        <property ID="0x5F7C352E" type="sound"/>
                     </properties>
                 </struct>
                 <property ID="0xA588AFD1" type="float">

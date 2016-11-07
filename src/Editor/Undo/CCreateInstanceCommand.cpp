@@ -12,6 +12,7 @@ CCreateInstanceCommand::CCreateInstanceCommand(CWorldEditor *pEditor, CScriptTem
     , mpNewInstance(nullptr)
     , mpNewNode(nullptr)
 {
+    ASSERT(mLayerIndex != -1);
 }
 
 void CCreateInstanceCommand::undo()
@@ -30,7 +31,7 @@ void CCreateInstanceCommand::redo()
 {
     mpEditor->NotifyNodeAboutToBeSpawned();
 
-    CScriptLayer *pLayer = (mLayerIndex == -1 ? mpArea->GeneratedObjectsLayer() : mpArea->ScriptLayer(mLayerIndex));
+    CScriptLayer *pLayer = mpArea->ScriptLayer(mLayerIndex);
     CScriptObject *pNewInst = mpArea->SpawnInstance(mpTemplate, pLayer, mSpawnPosition);
     CScriptNode *pNewNode = mpScene->CreateScriptNode(pNewInst);
     pNewNode->SetPosition(mSpawnPosition);

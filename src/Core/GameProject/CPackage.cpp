@@ -159,7 +159,7 @@ void CPackage::Cook()
             if (mpProject->Game() <= eEchoesDemo)
                 Success = CompressionUtil::CompressZlib(ResourceData.data(), ResourceData.size(), CompressedData.data(), CompressedData.size(), CompressedSize);
             else
-                Success = CompressionUtil::CompressLZOSegmented(ResourceData.data(), ResourceData.size(), CompressedData.data(), CompressedSize);
+                Success = CompressionUtil::CompressLZOSegmented(ResourceData.data(), ResourceData.size(), CompressedData.data(), CompressedSize, false);
 
             // Make sure that the compressed data is actually smaller, accounting for padding + uncompressed size value
             if (Success)
@@ -217,7 +217,7 @@ void CPackage::CompareOriginalAssetList(const std::list<CAssetID>& rkNewList)
     TWideString CookedPath = CookedPackagePath(false);
     CFileInStream Pak(CookedPath.ToUTF8().ToStdString(), IOUtil::eBigEndian);
 
-    if (!Pak.IsValid())
+    if (!Pak.IsValid() || Pak.Size() == 0)
     {
         Log::Error("Failed to compare to original asset list; couldn't open the original pak");
         return;

@@ -55,6 +55,15 @@ void CDependencyTree::AddDependency(CResource *pRes, bool AvoidDuplicates /*= tr
     AddDependency(pRes->ID(), AvoidDuplicates);
 }
 
+void CDependencyTree::AddCharacterDependency(const CAnimationParameters& rkAnimParams)
+{
+    // This is for formats other than MREA that use AnimationParameters (such as SCAN).
+    CAnimSet *pSet = rkAnimParams.AnimSet();
+    if (!pSet || rkAnimParams.CharacterIndex() == -1) return;
+    CCharPropertyDependency *pChar = new CCharPropertyDependency("NULL", pSet->ID(), rkAnimParams.CharacterIndex());
+    mChildren.push_back(pChar);
+}
+
 // ************ CResourceDependency ************
 EDependencyNodeType CResourceDependency::Type() const
 {
@@ -215,6 +224,7 @@ CSetCharacterDependency* CSetCharacterDependency::BuildTree(const CAnimSet *pkOw
 
         pTree->AddDependency(pkChar->IceModel);
         pTree->AddDependency(pkChar->IceSkin);
+        pTree->AddDependency(pkChar->SpatialPrimitives);
     }
 
     return pTree;
@@ -300,7 +310,8 @@ void CAreaDependencyTree::AddScriptLayer(CScriptLayer *pLayer)
         CScriptInstanceDependency *pTree = CScriptInstanceDependency::BuildTree( pLayer->InstanceByIndex(iInst) );
         ASSERT(pTree != nullptr);
 
-        if (pTree->NumChildren() > 0)
+        // Note: MP2+ need to track all instances (not just instances with dependencies) to be able to build the layer module list
+        if (pTree->NumChildren() > 0 || pLayer->Area()->Game() >= eEchoesDemo)
             mChildren.push_back(pTree);
         else
             delete pTree;

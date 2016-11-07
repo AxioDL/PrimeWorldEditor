@@ -141,6 +141,10 @@ bool CWorldCooker::CookMLVL(CWorld *pWorld, IOutputStream& rMLVL)
             for (u32 iOff = 0; iOff < ModuleLayerOffsets.size(); iOff++)
                 rMLVL.WriteLong(ModuleLayerOffsets[iOff]);
         }
+
+        // Internal Name
+        if (Game >= eEchoesDemo)
+            rMLVL.WriteString(rArea.InternalName.ToStdString());
     }
 
     if (Game <= eCorruption)

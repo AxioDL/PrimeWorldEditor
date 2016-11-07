@@ -113,6 +113,7 @@ public:
 
     EGame Game() const;
     bool IsInVersion(u32 Version) const;
+    TString FullName() const;
     TIDString IDString(bool FullPath) const;
     bool IsDescendantOf(const CStructTemplate *pStruct) const;
     bool IsFromStructTemplate() const;

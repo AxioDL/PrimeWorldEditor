@@ -68,12 +68,8 @@
         <property ID="0x47691396" type="float">
             <default>45.0</default>
         </property>
-        <property ID="0xA4231323" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x3AAF7871" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xA4231323" type="sound"/>
+        <property ID="0x3AAF7871" type="sound"/>
     </properties>
     <states/>
     <messages/>

@@ -30,8 +30,6 @@
             </properties>
         </struct>
         <struct ID="0x337F9524" template="Structs/DamageInfo.xml"/>
-        <property ID="0xF6F185D6" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xF6F185D6" type="sound"/>
     </properties>
 </struct>

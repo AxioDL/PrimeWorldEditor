@@ -15,15 +15,9 @@
         </property>
         <property ID="0xE08E2172" type="asset" extensions="AGSC"/>
         <property ID="0xB3E6C4E3" type="asset" extensions="AGSC"/>
-        <property ID="0x508520E1" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x34C7C1CC" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xB253B362" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x508520E1" type="sound"/>
+        <property ID="0x34C7C1CC" type="sound"/>
+        <property ID="0xB253B362" type="sound"/>
         <property ID="0x4406DC02" type="long">
             <default>0</default>
         </property>

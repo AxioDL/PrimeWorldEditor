@@ -38,9 +38,7 @@
         <property ID="0x6AE6F0EB" type="long">
             <default>-1</default>
         </property>
-        <property ID="0xE4780219" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xE4780219" type="sound"/>
         <property ID="0x2E603DED" type="bool">
             <default>false</default>
         </property>

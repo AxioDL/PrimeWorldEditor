@@ -199,7 +199,7 @@ namespace CompressionUtil
         return true;
     }
 
-    bool CompressSegmentedData(u8 *pSrc, u32 SrcLen, u8 *pDst, u32& rTotalOut, bool IsZlib)
+    bool CompressSegmentedData(u8 *pSrc, u32 SrcLen, u8 *pDst, u32& rTotalOut, bool IsZlib, bool AllowUncompressedSegments)
     {
         u8 *pSrcEnd = pSrc + SrcLen;
         u8 *pDstStart = pDst;
@@ -222,7 +222,7 @@ namespace CompressionUtil
                 CompressLZO(pSrc, Size, Compressed.data(), TotalOut);
 
             // Verify that the compressed data is actually smaller.
-            if (TotalOut >= Size)
+            if (AllowUncompressedSegments && TotalOut >= Size)
             {
                 // Write negative size value to destination (which signifies uncompressed)
                 *pDst++ = -Size >> 8;
@@ -250,13 +250,13 @@ namespace CompressionUtil
         return true;
     }
 
-    bool CompressZlibSegmented(u8 *pSrc, u32 SrcLen, u8 *pDst, u32& rTotalOut)
+    bool CompressZlibSegmented(u8 *pSrc, u32 SrcLen, u8 *pDst, u32& rTotalOut, bool AllowUncompressedSegments)
     {
-        return CompressSegmentedData(pSrc, SrcLen, pDst, rTotalOut, true);
+        return CompressSegmentedData(pSrc, SrcLen, pDst, rTotalOut, true, AllowUncompressedSegments);
     }
 
-    bool CompressLZOSegmented(u8 *pSrc, u32 SrcLen, u8 *pDst, u32& rTotalOut)
+    bool CompressLZOSegmented(u8 *pSrc, u32 SrcLen, u8 *pDst, u32& rTotalOut, bool AllowUncompressedSegments)
     {
-        return CompressSegmentedData(pSrc, SrcLen, pDst, rTotalOut, false);
+        return CompressSegmentedData(pSrc, SrcLen, pDst, rTotalOut, false, AllowUncompressedSegments);
     }
 }

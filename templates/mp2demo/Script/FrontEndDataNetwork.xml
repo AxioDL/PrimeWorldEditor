@@ -39,9 +39,7 @@
         <property ID="0xB44D4C70" type="color">
             <default>0.247059, 0.247059, 0.247059, 1.0</default>
         </property>
-        <property ID="0x2D23720F" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x2D23720F" type="sound"/>
     </properties>
     <states/>
     <messages/>

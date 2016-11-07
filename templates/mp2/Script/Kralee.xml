@@ -123,9 +123,7 @@
         </property>
         <property ID="0x351DBC73" type="asset" extensions="PART"/>
         <property ID="0x2D72BA7B" type="asset" extensions="PART"/>
-        <property ID="0x80B58324" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x80B58324" type="sound"/>
         <property ID="0xA4EF7B42" type="long">
             <default>-1</default>
         </property>

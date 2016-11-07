@@ -27,28 +27,33 @@ CAudioGroup* CAudioGroupLoader::LoadAGSC(IInputStream& rAGSC, CResourceEntry *pE
     }
 
     // Read needed data from the Proj chunk
-    u32 ProjStart = rAGSC.Tell();
-    rAGSC.Seek(0x4, SEEK_CUR);
-    u16 GroupID = rAGSC.ReadShort();
-    u16 GroupType = rAGSC.ReadShort();
-    rAGSC.Seek(0x14, SEEK_CUR);
-    u32 SfxTableStart = rAGSC.ReadLong();
+    u16 Peek = rAGSC.PeekShort();
 
-    if (Game == ePrime)
-        pOut->mGroupID = GroupID;
-    else
-        ASSERT(pOut->mGroupID == GroupID);
-
-    if (GroupType == 1)
+    if (Peek != 0xFFFF)
     {
-        rAGSC.Seek(ProjStart + SfxTableStart, SEEK_SET);
-        u16 NumSounds = rAGSC.ReadShort();
-        rAGSC.Seek(0x2, SEEK_CUR);
+        u32 ProjStart = rAGSC.Tell();
+        rAGSC.Seek(0x4, SEEK_CUR);
+        u16 GroupID = rAGSC.ReadShort();
+        u16 GroupType = rAGSC.ReadShort();
+        rAGSC.Seek(0x14, SEEK_CUR);
+        u32 SfxTableStart = rAGSC.ReadLong();
 
-        for (u32 iSfx = 0; iSfx < NumSounds; iSfx++)
+        if (Game == ePrime)
+            pOut->mGroupID = GroupID;
+        else
+            ASSERT(pOut->mGroupID == GroupID);
+
+        if (GroupType == 1)
         {
-            pOut->mDefineIDs.push_back( rAGSC.ReadShort() );
-            rAGSC.Seek(0x8, SEEK_CUR);
+            rAGSC.Seek(ProjStart + SfxTableStart, SEEK_SET);
+            u16 NumSounds = rAGSC.ReadShort();
+            rAGSC.Seek(0x2, SEEK_CUR);
+
+            for (u32 iSfx = 0; iSfx < NumSounds; iSfx++)
+            {
+                pOut->mDefineIDs.push_back( rAGSC.ReadShort() );
+                rAGSC.Seek(0x8, SEEK_CUR);
+            }
         }
     }
 
@@ -70,9 +75,10 @@ CStringList* CAudioGroupLoader::LoadSTLC(IInputStream& rSTLC, CResourceEntry *pE
 {
     CStringList *pOut = new CStringList(pEntry);
     u32 NumStrings = rSTLC.ReadLong();
+    pOut->mStringList.reserve(NumStrings);
 
     for (u32 iStr = 0; iStr < NumStrings; iStr++)
-        pOut->mStringList[iStr] = rSTLC.ReadString();
+        pOut->mStringList.push_back( rSTLC.ReadString() );
 
     return pOut;
 }

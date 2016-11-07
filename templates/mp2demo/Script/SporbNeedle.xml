@@ -32,21 +32,11 @@
         </property>
         <property ID="0x36EEE791" type="asset" extensions="PART"/>
         <property ID="0xF8B7BA26" type="asset" extensions="PART"/>
-        <property ID="0x0DD66F77" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x1BC7F2FC" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xDFBD90E1" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x92CAA97D" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x6028D1CC" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x0DD66F77" type="sound"/>
+        <property ID="0x1BC7F2FC" type="sound"/>
+        <property ID="0xDFBD90E1" type="sound"/>
+        <property ID="0x92CAA97D" type="sound"/>
+        <property ID="0x6028D1CC" type="sound"/>
     </properties>
     <states/>
     <messages/>

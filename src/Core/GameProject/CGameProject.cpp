@@ -1,4 +1,5 @@
 #include "CGameProject.h"
+#include "Core/Resource/Factory/CTemplateLoader.h"
 #include "Core/Resource/Script/CMasterTemplate.h"
 #include <Common/Serialization/XML.h>
 
@@ -21,6 +22,7 @@ bool CGameProject::Load(const TWideString& rkPath)
     TString ProjPath = rkPath.ToUTF8();
     CXMLReader Reader(ProjPath);
     Serialize(Reader);
+    CTemplateLoader::LoadGameTemplates(mGame);
 
     mpResourceStore->LoadResourceDatabase();
     mpAudioManager->LoadAssets();

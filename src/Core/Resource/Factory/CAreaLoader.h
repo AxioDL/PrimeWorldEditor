@@ -78,6 +78,7 @@ class CAreaLoader
     void ReadPATH();
     void ReadPTLA();
     void ReadEGMC();
+    void MergeGeneratedLayer(CScriptLayer *pLayer);
     void SetUpObjects();
 
 public:

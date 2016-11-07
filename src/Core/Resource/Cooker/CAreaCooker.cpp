@@ -200,10 +200,11 @@ void CAreaCooker::WritePrimeSCLY(IOutputStream& rOut)
     // SCGN
     if (mVersion == eEchoesDemo)
     {
-        rOut.WriteString("SCGN", 4);
+        // IMPORTANT TODO - REGENERATE SCGN LAYER
+        /*rOut.WriteString("SCGN", 4);
         rOut.WriteByte(1);
         CScriptCooker::WriteLayer(mVersion, mpArea->mpGeneratorLayer, rOut);
-        FinishSection(false);
+        FinishSection(false);*/
     }
 }
 
@@ -220,9 +221,10 @@ void CAreaCooker::WriteEchoesSCLY(IOutputStream& rOut)
     }
 
     // SCGN
+    // IMPORTANT TODO - REGENERATE SCGN
     rOut.WriteString("SCGN", 4);
     rOut.WriteByte(0x1);
-    CScriptCooker::WriteLayer(mVersion, mpArea->mpGeneratorLayer, rOut);
+    //CScriptCooker::WriteLayer(mVersion, mpArea->mpGeneratorLayer, rOut);
     FinishSection(true);
 }
 
@@ -276,7 +278,7 @@ void CAreaCooker::FinishBlock()
 
     if (EnableCompression)
     {
-        bool Success = CompressionUtil::CompressSegmentedData((u8*) mCompressedData.Data(), mCompressedData.Size(), CompressedBuf.data(), CompressedSize, UseZlib);
+        bool Success = CompressionUtil::CompressSegmentedData((u8*) mCompressedData.Data(), mCompressedData.Size(), CompressedBuf.data(), CompressedSize, UseZlib, true);
         u32 PadBytes = (32 - (CompressedSize % 32)) & 0x1F;
         WriteCompressedData = Success && (CompressedSize + PadBytes < (u32) mCompressedData.Size());
     }

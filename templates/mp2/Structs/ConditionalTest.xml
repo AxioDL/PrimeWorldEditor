@@ -22,12 +22,13 @@
         <enum ID="0x70729364">
             <default>0x00000000</default>
             <enumerators>
-                <enumerator ID="0x00" name="Equals"/>
-                <enumerator ID="0x01" name="Does Not Equal"/>
-                <enumerator ID="0x02" name="Is Greater Than"/>
-                <enumerator ID="0x03" name="Is Less Than"/>
-                <enumerator ID="0x04" name="Is Greater Than Or Equals"/>
-                <enumerator ID="0x05" name="Is Less Than Or Equals"/>
+                <enumerator ID="0x00" name="Equal To"/>
+                <enumerator ID="0x01" name="Not Equal To"/>
+                <enumerator ID="0x02" name="Greater Than"/>
+                <enumerator ID="0x03" name="Less Than"/>
+                <enumerator ID="0x04" name="Greater Than or Equal To"/>
+                <enumerator ID="0x05" name="Less Than or Equal To"/>
+				<enumerator ID="0x06" name="Unknown"/>
             </enumerators>
         </enum>
         <property ID="0x8DB9398A" type="long">

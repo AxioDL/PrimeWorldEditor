@@ -59,7 +59,7 @@ void CScriptLoader::ReadProperty(IProperty *pProp, u32 Size, IInputStream& rSCLY
 
         u32 Check = pBitfieldCast->Get() & ~Mask;
         if (Check != 0)
-            Log::FileWarning(rSCLY.GetSourceString(), rSCLY.Tell() - 4, "Bitfield property \"" + pBitfieldTemp->Name() + "\" in struct \"" + pTemp->Name() + "\" has flags set that aren't in the template: " + TString::HexString(Check));
+            Log::FileWarning(rSCLY.GetSourceString(), rSCLY.Tell() - 4, "Bitfield property \"" + pBitfieldTemp->FullName() + "\" + (" + pBitfieldTemp->IDString(true) + ") has flags set that aren't in the template: " + TString::HexString(Check));
 
         break;
     }
@@ -72,7 +72,7 @@ void CScriptLoader::ReadProperty(IProperty *pProp, u32 Size, IInputStream& rSCLY
 
         // Validate
         u32 Index = pEnumTemp->EnumeratorIndex(ID);
-        if (Index == -1) Log::FileError(rSCLY.GetSourceString(), rSCLY.Tell() - 4, "Enum property \"" + pEnumTemp->Name() + "\" in struct \"" + pTemp->Name() + "\" has invalid enumerator value: " + TString::HexString(ID));
+        if (Index == -1) Log::FileError(rSCLY.GetSourceString(), rSCLY.Tell() - 4, "Enum property \"" + pEnumTemp->FullName() + "\" (" + pEnumTemp->IDString(true) + ") has invalid enumerator value: " + TString::HexString(ID));
 
         pEnumCast->Set(ID);
         break;
@@ -140,7 +140,7 @@ void CScriptLoader::ReadProperty(IProperty *pProp, u32 Size, IInputStream& rSCLY
                 }
 
                 if (!Valid)
-                    Log::FileWarning(rSCLY.GetSourceString(), rSCLY.Tell() - ID.Length(), "Asset property " + pTemp->IDString(true) + " in object " + pTemp->ScriptTemplate()->Name() + " has a reference to an illegal asset type: " + CookedExt);
+                    Log::FileWarning(rSCLY.GetSourceString(), rSCLY.Tell() - ID.Length(), "Asset property \"" + pTemp->FullName() + "\" (" + pTemp->IDString(true) + ") has a reference to an illegal asset type: " + CookedExt);
             }
         }
 
@@ -220,7 +220,7 @@ void CScriptLoader::LoadStructMP1(IInputStream& rSCLY, CPropertyStruct *pStruct,
             TIDString IDString = pTemp->IDString(true);
             if (!IDString.IsEmpty()) IDString = " (" + IDString + ")";
 
-            Log::FileWarning(rSCLY.GetSourceString(), StructStart, "Struct \"" + pTemp->Name() + "\"" + IDString + " template prop count doesn't match file; template is " + TString::HexString(PropCount, 2) + ", file is " + TString::HexString(FilePropCount, 2));
+            Log::FileWarning(rSCLY.GetSourceString(), StructStart, "Struct \"" + pTemp->FullName() + "\" (" + IDString + ") template prop count doesn't match file; template is " + TString::HexString(PropCount, 2) + ", file is " + TString::HexString(FilePropCount, 2));
             Version = 0;
         }
     }

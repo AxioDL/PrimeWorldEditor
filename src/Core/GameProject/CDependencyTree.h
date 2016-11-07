@@ -10,6 +10,7 @@ class CScriptLayer;
 class CScriptObject;
 class CPropertyStruct;
 class CAnimSet;
+class CAnimationParameters;
 struct SSetCharacter;
 
 // Group of node classes forming a tree of cached resource dependencies.
@@ -39,8 +40,8 @@ public:
     virtual bool HasDependency(const CAssetID& rkID) const;
 
     // Accessors
-    u32 NumChildren() const                         { return mChildren.size(); }
-    IDependencyNode* ChildByIndex(u32 Index) const  { return mChildren[Index]; }
+    inline u32 NumChildren() const                          { return mChildren.size(); }
+    inline IDependencyNode* ChildByIndex(u32 Index) const   { return mChildren[Index]; }
 };
 
 // Basic dependency tree; this class is sufficient for most resource types.
@@ -59,6 +60,7 @@ public:
     void AddChild(IDependencyNode *pNode);
     void AddDependency(const CAssetID& rkID, bool AvoidDuplicates = true);
     void AddDependency(CResource *pRes, bool AvoidDuplicates = true);
+    void AddCharacterDependency(const CAnimationParameters& rkAnimParams);
 
     // Accessors
     inline void SetID(const CAssetID& rkID) { mRootID = rkID; }
@@ -183,6 +185,7 @@ public:
 
     // Accessors
     inline bool IsUsedByCharacter(u32 CharIdx) const    { return mCharacterIndices.find(CharIdx) != mCharacterIndices.end(); }
+    inline bool IsUsedByAnyCharacter() const            { return !mCharacterIndices.empty(); }
 
     // Static
     static CSetAnimationDependency* BuildTree(const CAnimSet *pkOwnerSet, u32 AnimIndex);

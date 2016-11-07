@@ -23,9 +23,7 @@
             </properties>
         </struct>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <property ID="0x1F468967" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x1F468967" type="sound"/>
         <property ID="0x6689925B" type="bool">
             <default>false</default>
         </property>

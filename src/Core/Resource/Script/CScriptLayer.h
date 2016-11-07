@@ -2,6 +2,7 @@
 #define CSCRIPTLAYER_H
 
 #include "CScriptObject.h"
+#include "Core/Resource/CDependencyGroup.h"
 #include <Common/types.h>
 #include <string>
 #include <vector>
@@ -106,9 +107,6 @@ public:
             if (mpArea->ScriptLayer(iLyr) == this)
                 return iLyr;
         }
-
-        if (mpArea->GeneratedObjectsLayer() == this)
-            return mpArea->NumScriptLayers();
 
         return -1;
     }

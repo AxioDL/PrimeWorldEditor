@@ -99,45 +99,19 @@
         <property ID="0x45B71390" type="long">
             <default>-1</default>
         </property>
-        <property ID="0x23316032" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xA3B39766" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x9674EFF1" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x49880C24" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xF57880EC" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x99FE97F6" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xA2714856" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xD58A2FA7" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xB381355A" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x00628C84" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x40533B8D" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x613CAFD8" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x20C03692" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x23316032" type="sound"/>
+        <property ID="0xA3B39766" type="sound"/>
+        <property ID="0x9674EFF1" type="sound"/>
+        <property ID="0x49880C24" type="sound"/>
+        <property ID="0xF57880EC" type="sound"/>
+        <property ID="0x99FE97F6" type="sound"/>
+        <property ID="0xA2714856" type="sound"/>
+        <property ID="0xD58A2FA7" type="sound"/>
+        <property ID="0xB381355A" type="sound"/>
+        <property ID="0x00628C84" type="sound"/>
+        <property ID="0x40533B8D" type="sound"/>
+        <property ID="0x613CAFD8" type="sound"/>
+        <property ID="0x20C03692" type="sound"/>
         <property ID="0x214E48A0" type="float">
             <default>100.0</default>
         </property>

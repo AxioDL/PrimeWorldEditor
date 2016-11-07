@@ -114,12 +114,8 @@
             <default>1.0, 0.0, 0.0, 1.0</default>
         </property>
         <property ID="0xC3566114" type="asset" extensions="DPSC"/>
-        <property ID="0x6A11338F" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xF64CA627" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x6A11338F" type="sound"/>
+        <property ID="0xF64CA627" type="sound"/>
         <property ID="0x214E48A0" type="float">
             <default>50.0</default>
         </property>

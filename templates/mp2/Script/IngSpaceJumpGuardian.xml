@@ -32,9 +32,7 @@
         <struct ID="0xF9837AB3" type="multi">
             <properties>
                 <property ID="0xCC5A4918" type="asset" extensions="PART"/>
-                <property ID="0x46E902E8" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0x46E902E8" type="sound"/>
                 <struct ID="0x5E1D1931" template="Structs/IngSpaceJumpGuardianStruct.xml"/>
                 <struct ID="0x6B08E2E5" template="Structs/IngSpaceJumpGuardianStruct.xml"/>
                 <struct ID="0xF223AA76" template="Structs/IngSpaceJumpGuardianStruct.xml"/>
@@ -46,9 +44,7 @@
                     <default>5.0</default>
                 </property>
                 <property ID="0xA926F8A8" type="asset" extensions="PART"/>
-                <property ID="0x4051FD1A" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0x4051FD1A" type="sound"/>
                 <struct ID="0x424A6D37" template="Structs/DamageInfo.xml">
                     <properties>
                         <enum ID="0x119FBD31">
