@@ -69,12 +69,8 @@
         <property ID="0xC24CF580" type="character"/>
         <property ID="0x72258FE7" type="asset" extensions="CMDL"/>
         <property ID="0xE5FBA24C" type="asset" extensions="CSKR"/>
-        <property ID="0x55C51213" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x385E4738" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x55C51213" type="sound"/>
+        <property ID="0x385E4738" type="sound"/>
         <property ID="0x5D8F2BEE" type="float">
             <default>4.5</default>
         </property>

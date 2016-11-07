@@ -30,21 +30,13 @@
             </properties>
         </struct>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <property ID="0x72124842" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x72124842" type="asset" extensions="SCAN"/>
         <property ID="0xE34D7C49" type="long">
             <default>0</default>
         </property>
-        <property ID="0xE47262F5" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x62E6105B" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xA9BAC3FE" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xE47262F5" type="asset" extensions="CMDL"/>
+        <property ID="0x62E6105B" type="asset" extensions="CMDL"/>
+        <property ID="0xA9BAC3FE" type="asset" extensions="CMDL"/>
         <property ID="0x71EAB030" type="color">
             <default>0.498039, 0.498039, 0.0, 1.0</default>
         </property>
@@ -238,36 +230,16 @@
         <property ID="0x6F135965" type="float">
             <default>5.0</default>
         </property>
-        <property ID="0x07D8CC4F" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xAE30AE06" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x656C7DA3" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x78694D1B" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xB3359EBE" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x35A1EC10" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xFEFD3FB5" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xC49086D9" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xBBD84681" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xDF6DA1A2" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x07D8CC4F" type="asset" extensions="CMDL"/>
+        <property ID="0xAE30AE06" type="asset" extensions="CMDL"/>
+        <property ID="0x656C7DA3" type="asset" extensions="CMDL"/>
+        <property ID="0x78694D1B" type="asset" extensions="CMDL"/>
+        <property ID="0xB3359EBE" type="asset" extensions="CMDL"/>
+        <property ID="0x35A1EC10" type="asset" extensions="CMDL"/>
+        <property ID="0xFEFD3FB5" type="asset" extensions="CMDL"/>
+        <property ID="0xC49086D9" type="asset" extensions="PART"/>
+        <property ID="0xBBD84681" type="asset" extensions="CMDL"/>
+        <property ID="0xDF6DA1A2" type="asset" extensions="CSKR"/>
         <property ID="0xDCC2BF11" type="long">
             <default>-1</default>
         </property>

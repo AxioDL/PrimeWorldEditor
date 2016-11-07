@@ -49,7 +49,6 @@ class CGameArea : public CResource
     std::vector<CStaticModel*> mStaticWorldModels; // StaticTerrainModels is the merged terrain for faster rendering in the world editor
     // Script
     std::vector<CScriptLayer*> mScriptLayers;
-    CScriptLayer *mpGeneratorLayer;
     std::unordered_map<u32, CScriptObject*> mObjectMap;
     // Collision
     CCollisionMeshGroup *mpCollision;
@@ -92,7 +91,6 @@ public:
     inline CCollisionMeshGroup* Collision() const               { return mpCollision; }
     inline u32 NumScriptLayers() const                          { return mScriptLayers.size(); }
     inline CScriptLayer* ScriptLayer(u32 Index) const           { return mScriptLayers[Index]; }
-    inline CScriptLayer* GeneratedObjectsLayer() const          { return mpGeneratorLayer; }
     inline u32 NumLightLayers() const                           { return mLightLayers.size(); }
     inline u32 NumLights(u32 LayerIndex) const                  { return (LayerIndex < mLightLayers.size() ? mLightLayers[LayerIndex].size() : 0); }
     inline CLight* Light(u32 LayerIndex, u32 LightIndex) const  { return mLightLayers[LayerIndex][LightIndex]; }

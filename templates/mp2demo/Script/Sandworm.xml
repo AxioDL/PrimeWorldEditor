@@ -26,27 +26,17 @@
             </properties>
         </struct>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <property ID="0xA24376EC" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xAADAABB8" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x66E34A08" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x5F3F29E3" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xA24376EC" type="sound"/>
+        <property ID="0xAADAABB8" type="sound"/>
+        <property ID="0x66E34A08" type="asset" extensions="CMDL"/>
+        <property ID="0x5F3F29E3" type="asset" extensions="CMDL"/>
         <property ID="0x63DCBBB6" type="float">
             <default>9.0</default>
         </property>
         <property ID="0x2393C3C0" type="float">
             <default>25.0</default>
         </property>
-        <property ID="0xF9469E49" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xF9469E49" type="asset" extensions="PART"/>
         <property ID="0x61F75902" type="float">
             <default>60.0</default>
         </property>

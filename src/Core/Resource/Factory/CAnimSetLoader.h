@@ -12,7 +12,7 @@ class CAnimSetLoader
     CAnimSetLoader();
     CAnimSet* LoadCorruptionCHAR(IInputStream& rCHAR);
     CAnimSet* LoadReturnsCHAR(IInputStream& rCHAR);
-    void LoadPASDatabase(IInputStream& rPAS4, SSetCharacter *pChar);
+    void LoadPASDatabase(IInputStream& rPAS4);
 
     void LoadAnimationSet(IInputStream& rANCS);
     void ProcessPrimitives();

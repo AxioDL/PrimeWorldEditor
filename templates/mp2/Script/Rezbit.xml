@@ -140,12 +140,8 @@
                 <property ID="0x973D7CC3" type="long">
                     <default>-1</default>
                 </property>
-                <property ID="0xBB3F8A7B" type="long">
-                    <default>-1</default>
-                </property>
-                <property ID="0x601F846D" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0xBB3F8A7B" type="sound"/>
+                <property ID="0x601F846D" type="sound"/>
                 <property ID="0x64C7990D" type="float">
                     <default>20.0</default>
                 </property>

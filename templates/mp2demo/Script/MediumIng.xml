@@ -90,9 +90,7 @@
         <property ID="0xB459C3E9" type="MayaSpline"/>
         <property ID="0x323E4ED0" type="MayaSpline"/>
         <property ID="0x079BC576" type="asset" extensions="PART"/>
-        <property ID="0x7CB63CD3" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x7CB63CD3" type="sound"/>
     </properties>
     <states/>
     <messages/>

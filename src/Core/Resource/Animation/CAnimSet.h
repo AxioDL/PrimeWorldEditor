@@ -57,6 +57,7 @@ struct SSetCharacter
     std::vector<CAssetID> EffectParticles;
     CAssetID IceModel;
     CAssetID IceSkin;
+    CAssetID SpatialPrimitives;
     std::set<u32> UsedAnimationIndices;
 };
 

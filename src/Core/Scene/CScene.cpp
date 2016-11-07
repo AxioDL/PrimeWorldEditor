@@ -217,16 +217,6 @@ void CScene::SetActiveArea(CGameArea *pArea)
         }
     }
 
-    CScriptLayer *pGenLayer = mpArea->GeneratedObjectsLayer();
-    if (pGenLayer)
-    {
-        for (u32 iObj = 0; iObj < pGenLayer->NumInstances(); iObj++)
-        {
-            CScriptObject *pObj = pGenLayer->InstanceByIndex(iObj);
-            CreateScriptNode(pObj);
-        }
-    }
-
     // Ensure script nodes have valid positions + build light lists
     for (CSceneIterator It(this, eScriptNode, true); It; ++It)
     {

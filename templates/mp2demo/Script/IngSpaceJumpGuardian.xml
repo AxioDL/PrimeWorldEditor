@@ -43,12 +43,8 @@
                 <property ID="0xD24B888F" type="float">
                     <default>5.0</default>
                 </property>
-                <property ID="0xA926F8A8" type="long">
-                    <default>-1</default>
-                </property>
-                <property ID="0x4051FD1A" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0xA926F8A8" type="asset" extensions="PART"/>
+                <property ID="0x4051FD1A" type="sound"/>
                 <struct ID="0x424A6D37" template="Structs/DamageInfo.xml">
                     <properties>
                         <property ID="0x119FBD31">

@@ -27,15 +27,9 @@
         <property ID="0xE8F0A1CE" type="bool">
             <default>true</default>
         </property>
-        <property ID="0x8B66ECA2" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x52EDD16B" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xE88E7D41" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x8B66ECA2" type="sound"/>
+        <property ID="0x52EDD16B" type="sound"/>
+        <property ID="0xE88E7D41" type="sound"/>
     </properties>
     <states/>
     <messages/>

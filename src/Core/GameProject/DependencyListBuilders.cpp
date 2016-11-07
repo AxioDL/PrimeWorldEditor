@@ -139,6 +139,21 @@ void CCharacterUsageMap::ParseDependencyNode(IDependencyNode *pNode)
         rUsageList[UsedChar] = true;
     }
 
+    // Parse dependencies of the referenced resource if it's a type that can reference animsets
+    else if (Type == eDNT_ResourceDependency || Type == eDNT_ScriptProperty)
+    {
+        CResourceDependency *pDep = static_cast<CResourceDependency*>(pNode);
+        CResourceEntry *pEntry = gpResourceStore->FindEntry(pDep->ID());
+
+        if (pEntry)
+        {
+            EResType ResType = pEntry->ResourceType();
+
+            if (ResType == eScan)
+                ParseDependencyNode(pEntry->Dependencies());
+        }
+    }
+
     // Look for sub-dependencies of the current node
     else
     {
@@ -275,7 +290,7 @@ void CPackageDependencyListBuilder::EvaluateDependencyNode(CResourceEntry *pCurE
     else if (Type == eDNT_SetAnimation)
     {
         CSetAnimationDependency *pAnim = static_cast<CSetAnimationDependency*>(pNode);
-        ParseChildren = mCharacterUsageMap.IsAnimationUsed(mCurrentAnimSetID, pAnim) || mIsPlayerActor; // todo - should maybe omit completely unused animations on PlayerActors?
+        ParseChildren = mCharacterUsageMap.IsAnimationUsed(mCurrentAnimSetID, pAnim) || (mIsPlayerActor && pAnim->IsUsedByAnyCharacter());
     }
 
     else
@@ -409,7 +424,10 @@ void CAreaDependencyListBuilder::AddDependency(const CAssetID& rkID, std::list<C
 
     // Don't add CSNGs to the output dependency list (we parse them because we need their AGSC dependencies in the output AudioGroup set)
     if (ResType != eMidi)
+    {
         rOut.push_back(rkID);
+        mLayerUsedAssets.insert(rkID);
+    }
 }
 
 void CAreaDependencyListBuilder::EvaluateDependencyNode(CResourceEntry *pCurEntry, IDependencyNode *pNode, std::list<CAssetID>& rOut, std::set<CAssetID> *pAudioGroupsOut)
@@ -445,7 +463,7 @@ void CAreaDependencyListBuilder::EvaluateDependencyNode(CResourceEntry *pCurEntr
     else if (Type == eDNT_SetAnimation)
     {
         CSetAnimationDependency *pAnim = static_cast<CSetAnimationDependency*>(pNode);
-        ParseChildren = mCharacterUsageMap.IsAnimationUsed(mCurrentAnimSetID, pAnim);
+        ParseChildren = mCharacterUsageMap.IsAnimationUsed(mCurrentAnimSetID, pAnim) || (mIsPlayerActor && pAnim->IsUsedByAnyCharacter());
     }
 
     else

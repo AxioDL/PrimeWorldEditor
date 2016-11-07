@@ -66,9 +66,7 @@
         <property ID="0x42AD1392" type="float">
             <default>0.0</default>
         </property>
-        <property ID="0xFE20B4F5" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xFE20B4F5" type="sound"/>
         <struct ID="0x8F4787CB" template="Structs/ShockWaveInfo.xml"/>
     </properties>
     <states/>

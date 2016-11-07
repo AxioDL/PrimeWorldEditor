@@ -11,7 +11,6 @@ CGameArea::CGameArea(CResourceEntry *pEntry /*= 0*/)
     , mOriginalWorldMeshCount(0)
     , mUsesCompression(false)
     , mpMaterialSet(nullptr)
-    , mpGeneratorLayer(nullptr)
     , mpCollision(nullptr)
 {
 }
@@ -21,7 +20,6 @@ CGameArea::~CGameArea()
     ClearTerrain();
 
     delete mpCollision;
-    delete mpGeneratorLayer;
 
     for (u32 iSCLY = 0; iSCLY < mScriptLayers.size(); iSCLY++)
         delete mScriptLayers[iSCLY];
@@ -53,8 +51,6 @@ CDependencyTree* CGameArea::BuildDependencyTree() const
     // Layer dependencies
     for (u32 iLayer = 0; iLayer < mScriptLayers.size(); iLayer++)
         pTree->AddScriptLayer(mScriptLayers[iLayer]);
-
-    pTree->AddScriptLayer(mpGeneratorLayer);
 
     return pTree;
 }
@@ -134,8 +130,6 @@ void CGameArea::ClearScriptLayers()
     for (auto it = mScriptLayers.begin(); it != mScriptLayers.end(); it++)
         delete *it;
     mScriptLayers.clear();
-    delete mpGeneratorLayer;
-    mpGeneratorLayer = nullptr;
 }
 
 u32 CGameArea::TotalInstanceCount() const

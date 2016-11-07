@@ -70,11 +70,13 @@ bool CScriptObject::IsEditorProperty(IProperty *pProp)
 
 void CScriptObject::SetLayer(CScriptLayer *pLayer, u32 NewLayerIndex)
 {
+    ASSERT(pLayer != nullptr);
+
     if (pLayer != mpLayer)
     {
         if (mpLayer) mpLayer->RemoveInstance(this);
         mpLayer = pLayer;
-        if (mpLayer) mpLayer->AddInstance(this, NewLayerIndex);
+        mpLayer->AddInstance(this, NewLayerIndex);
     }
 }
 

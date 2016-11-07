@@ -54,21 +54,11 @@
         <property ID="0x8851DC01" type="asset" extensions="PART"/>
         <property ID="0x5D01100F" type="asset" extensions="PART"/>
         <property ID="0x9A56892E" type="asset" extensions="PART"/>
-        <property ID="0x4CAB30A9" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x8F83BE73" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xB392943A" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x24ECC1E9" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x4489935E" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x4CAB30A9" type="sound"/>
+        <property ID="0x8F83BE73" type="sound"/>
+        <property ID="0xB392943A" type="sound"/>
+        <property ID="0x24ECC1E9" type="sound"/>
+        <property ID="0x4489935E" type="sound"/>
         <property ID="0x3C2D681E" type="asset" extensions="PART"/>
         <property ID="0xD576F379" type="asset" extensions="SRSC"/>
         <property ID="0x3DA219C7" type="asset" extensions="PART"/>
@@ -85,21 +75,11 @@
         <property ID="0x0BD7D5A9" type="float">
             <default>1.5</default>
         </property>
-        <property ID="0xE8EA5BC8" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x5650366A" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xB09AF706" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x0C13C5A8" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x148B81E4" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xE8EA5BC8" type="sound"/>
+        <property ID="0x5650366A" type="sound"/>
+        <property ID="0xB09AF706" type="sound"/>
+        <property ID="0x0C13C5A8" type="sound"/>
+        <property ID="0x148B81E4" type="sound"/>
         <property ID="0x5D0D2C40" type="float">
             <default>15.0</default>
         </property>
@@ -160,12 +140,8 @@
         <property ID="0xB57BAE86" type="float">
             <default>40.0</default>
         </property>
-        <property ID="0x2025858B" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x19F8FEE6" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x2025858B" type="sound"/>
+        <property ID="0x19F8FEE6" type="sound"/>
         <property ID="0xDC741FBD" type="float">
             <default>70.0</default>
         </property>
@@ -176,9 +152,7 @@
             <default>100.0</default>
         </property>
         <property ID="0xA926F8A8" type="asset" extensions="PART"/>
-        <property ID="0x4051FD1A" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x4051FD1A" type="sound"/>
         <struct ID="0x424A6D37" template="Structs/DamageInfo.xml">
             <properties>
                 <enum ID="0x119FBD31">
@@ -239,12 +213,8 @@
         <property ID="0xC2320B06" type="float">
             <default>30.0</default>
         </property>
-        <property ID="0x4832703B" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x36B0E542" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x4832703B" type="sound"/>
+        <property ID="0x36B0E542" type="sound"/>
         <property ID="0x421651F6" type="float">
             <default>10.0</default>
         </property>

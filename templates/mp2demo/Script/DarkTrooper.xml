@@ -44,12 +44,8 @@
             <default>18.0</default>
         </property>
         <struct ID="0x98F9A308" template="Structs/DamageInfo.xml"/>
-        <property ID="0xB8432896" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x49727753" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xB8432896" type="asset" extensions="WPSC"/>
+        <property ID="0x49727753" type="sound"/>
     </properties>
     <states/>
     <messages/>

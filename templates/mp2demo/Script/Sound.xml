@@ -3,9 +3,7 @@
     <name>Sound</name>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0x5F7C352E" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x5F7C352E" type="sound"/>
         <property ID="0x214E48A0" type="float">
             <default>50.0</default>
         </property>

@@ -21,7 +21,7 @@ CScan* CScanLoader::LoadScanMP1(IInputStream& rSCAN)
         rSCAN.Seek(0x18, SEEK_CUR);
     }
 
-    mpScan->mVersion = ePrime;
+    mpScan->SetGame(ePrime);
     return mpScan;
 }
 
@@ -67,26 +67,29 @@ CScan* CScanLoader::LoadScanMP2(IInputStream& rSCAN)
     case 0xB:
         mpScan = new CScan(mpEntry);
         mpScan->SetGame(eEchoes);
-        LoadParamsMP2(rSCAN);
+        LoadParamsMP2(rSCAN, NumProperties);
         break;
     case 0x12:
     case 0x16:
         mpScan = new CScan(mpEntry);
         mpScan->SetGame(eCorruption);
-        LoadParamsMP3(rSCAN);
+        LoadParamsMP3(rSCAN, NumProperties);
         break;
     default:
         Log::FileError(rSCAN.GetSourceString(), rSCAN.Tell() - 2, "Invalid SNFO property count: " + TString::HexString(NumProperties));
         return nullptr;
     }
 
+    mpScan->SetGame(eEchoes);
     return mpScan;
 }
 
-void CScanLoader::LoadParamsMP2(IInputStream& rSCAN)
+void CScanLoader::LoadParamsMP2(IInputStream& rSCAN, u16 NumProperties)
 {
     // Function begins after the SNFO property count
-    for (u32 iProp = 0; iProp < 20; iProp++)
+    mpScan->mSecondaryModels.resize(9);
+
+    for (u32 iProp = 0; iProp < NumProperties; iProp++)
     {
         u32 PropertyID = rSCAN.ReadLong();
         u16 PropertySize = rSCAN.ReadShort();
@@ -103,39 +106,75 @@ void CScanLoader::LoadParamsMP2(IInputStream& rSCAN)
             break;
 
         case 0x7B714814:
-            mpScan->mIsImportant = (rSCAN.ReadByte() != 0);
+            mpScan->mIsImportant = rSCAN.ReadBool();
             break;
 
-        // Override texture and logbook model/animsets
+        case 0x1733B1EC:
+            mpScan->mUseLogbookModelPostScan = rSCAN.ReadBool();
+            break;
+
         case 0x53336141:
-        case 0xB7ADC418:
-        case 0x15694EE1:
-        case 0x58F9FE99:
-            mpScan->mLogbookAssets.push_back( CAssetID(rSCAN, eEchoes) );
+            mpScan->mPostOverrideTexture = CAssetID(rSCAN, mVersion);
             break;
 
-        // ScanInfoSecondaryModels
+        case 0x3DE0BA64:
+            mpScan->mLogbookDefaultRotX = rSCAN.ReadFloat();
+            break;
+
+        case 0x2ADD6628:
+            mpScan->mLogbookDefaultRotZ = rSCAN.ReadFloat();
+            break;
+
+        case 0xD0C15066:
+            mpScan->mLogbookScale = rSCAN.ReadFloat();
+            break;
+
+        case 0xB7ADC418:
+            mpScan->mLogbookModel = CAssetID(rSCAN, mVersion);
+            break;
+
+        case 0x15694EE1:
+            mpScan->mLogbookAnimParams = CAnimationParameters(rSCAN, mVersion);
+            break;
+
+        case 0x58F9FE99:
+            mpScan->mUnknownAnimParams = CAnimationParameters(rSCAN, mVersion);
+            break;
+
         case 0x1C5B4A3A:
+            LoadScanInfoSecondaryModel( rSCAN, mpScan->mSecondaryModels[0] );
+            break;
+
         case 0x8728A0EE:
+            LoadScanInfoSecondaryModel( rSCAN, mpScan->mSecondaryModels[1] );
+            break;
+
         case 0xF1CD99D3:
+            LoadScanInfoSecondaryModel( rSCAN, mpScan->mSecondaryModels[2] );
+            break;
+
         case 0x6ABE7307:
+            LoadScanInfoSecondaryModel( rSCAN, mpScan->mSecondaryModels[3] );
+            break;
+
         case 0x1C07EBA9:
+            LoadScanInfoSecondaryModel( rSCAN, mpScan->mSecondaryModels[4] );
+            break;
+
         case 0x8774017D:
+            LoadScanInfoSecondaryModel( rSCAN, mpScan->mSecondaryModels[5] );
+            break;
+
         case 0xF1913840:
+            LoadScanInfoSecondaryModel( rSCAN, mpScan->mSecondaryModels[6] );
+            break;
+
         case 0x6AE2D294:
+            LoadScanInfoSecondaryModel( rSCAN, mpScan->mSecondaryModels[7] );
+            break;
+
         case 0x1CE2091C:
-            u16 NumSubProps = rSCAN.ReadShort();
-
-            for (u32 iSub = 0; iSub < NumSubProps; iSub++)
-            {
-                u32 SubPropertyID = rSCAN.ReadLong();
-                u32 Next = rSCAN.Tell() + rSCAN.ReadShort();
-
-                if (SubPropertyID == 0x1F7921BC || SubPropertyID == 0xCDD202D1)
-                    mpScan->mLogbookAssets.push_back( CAssetID(rSCAN, eEchoes) );
-
-                rSCAN.Seek(Next, SEEK_SET);
-            }
+            LoadScanInfoSecondaryModel( rSCAN, mpScan->mSecondaryModels[8] );
             break;
         }
 
@@ -143,15 +182,12 @@ void CScanLoader::LoadParamsMP2(IInputStream& rSCAN)
     }
 
     mpScan->mCategory = CScan::eNone;
-    mpScan->mVersion = eEchoes;
 }
 
-void CScanLoader::LoadParamsMP3(IInputStream& rSCAN)
+void CScanLoader::LoadParamsMP3(IInputStream& rSCAN, u16 NumProperties)
 {
     // Function begins after the SNFO property count
-    // Function is near-identical to the MP2 one, but when I add support
-    // for the other params, there will be more differences
-    for (u32 iProp = 0; iProp < 20; iProp++)
+    for (u32 iProp = 0; iProp < NumProperties; iProp++)
     {
         u32 PropertyID = rSCAN.ReadLong();
         u16 PropertySize = rSCAN.ReadShort();
@@ -176,7 +212,35 @@ void CScanLoader::LoadParamsMP3(IInputStream& rSCAN)
     }
 
     mpScan->mCategory = CScan::eNone;
-    mpScan->mVersion = eCorruption;
+}
+
+void CScanLoader::LoadScanInfoSecondaryModel(IInputStream& rSCAN, CScan::SScanInfoSecondaryModel& rSecondaryModel)
+{
+    u16 NumProperties = rSCAN.ReadShort();
+
+    for (u32 iProp = 0; iProp < NumProperties; iProp++)
+    {
+        u32 PropertyID = rSCAN.ReadLong();
+        u16 PropertySize = rSCAN.ReadShort();
+        u32 Next = rSCAN.Tell() + PropertySize;
+
+        switch (PropertyID)
+        {
+        case 0x1F7921BC:
+            rSecondaryModel.ModelID = CAssetID(rSCAN, mVersion);
+            break;
+
+        case 0xCDD202D1:
+            rSecondaryModel.AnimParams = CAnimationParameters(rSCAN, mVersion);
+            break;
+
+        case 0x3EA2BED8:
+            rSecondaryModel.AttachBoneName = rSCAN.ReadString();
+            break;
+        }
+
+        rSCAN.Seek(Next, SEEK_SET);
+    }
 }
 
 // ************ STATIC/PUBLIC ************

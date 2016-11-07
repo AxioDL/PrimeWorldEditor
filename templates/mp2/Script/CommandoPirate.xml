@@ -78,15 +78,9 @@
         <property ID="0xDC36E745" type="float">
             <default>80.0</default>
         </property>
-        <property ID="0x1BB16EA5" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x3BB37A8F" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xE160B593" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x1BB16EA5" type="sound"/>
+        <property ID="0x3BB37A8F" type="sound"/>
+        <property ID="0xE160B593" type="sound"/>
         <property ID="0xFCA76593" type="long">
             <default>-1</default>
         </property>
@@ -117,9 +111,7 @@
                 </property>
             </properties>
         </struct>
-        <property ID="0xEAC27605" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xEAC27605" type="sound"/>
         <property ID="0xED69488F" type="float">
             <default>20.0</default>
         </property>
@@ -177,12 +169,8 @@
                 <property ID="0x2D4706E8" type="float">
                     <default>8.0</default>
                 </property>
-                <property ID="0x258C3E1B" type="long">
-                    <default>-1</default>
-                </property>
-                <property ID="0xAF6AAD88" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0x258C3E1B" type="sound"/>
+                <property ID="0xAF6AAD88" type="sound"/>
             </properties>
         </struct>
         <struct ID="0x388E16C9" type="multi">
@@ -211,9 +199,7 @@
                     <default>40.0</default>
                 </property>
                 <property ID="0xA41F75EF" type="asset" extensions="PART"/>
-                <property ID="0xE6E92E73" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0xE6E92E73" type="sound"/>
                 <property ID="0x6CB0DA5A" type="float">
                     <default>50.0</default>
                 </property>
@@ -232,12 +218,8 @@
                 <property ID="0x5CA206CA" type="asset" extensions="PART"/>
                 <property ID="0xEBF69CF0" type="asset" extensions="PART"/>
                 <property ID="0x4AAB4E04" type="asset" extensions="PART"/>
-                <property ID="0xBF3C59B6" type="long">
-                    <default>-1</default>
-                </property>
-                <property ID="0x78BE3B8D" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0xBF3C59B6" type="sound"/>
+                <property ID="0x78BE3B8D" type="sound"/>
             </properties>
         </struct>
         <property ID="0x71587B45" type="float">

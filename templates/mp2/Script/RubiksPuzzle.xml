@@ -11,7 +11,7 @@
                 <property ID="0x11CD076F" type="float">
                     <default>90.0</default>
                 </property>
-                <property ID="0x55744160" type="asset" extensions="AFSM"/>
+                <property ID="0x55744160" type="asset" extensions="AFSM,FSM2"/>
             </properties>
         </struct>
     </properties>

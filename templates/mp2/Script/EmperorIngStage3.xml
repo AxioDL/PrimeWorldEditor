@@ -43,9 +43,7 @@
                 <struct ID="0xAF7E3033" type="multi">
                     <properties>
                         <property ID="0xB68C6D96" type="asset" extensions="PART"/>
-                        <property ID="0x1A66BED7" type="long">
-                            <default>-1</default>
-                        </property>
+                        <property ID="0x1A66BED7" type="sound"/>
                         <struct ID="0x553B1339" template="Structs/DamageInfo.xml">
                             <properties>
                                 <enum ID="0x119FBD31">
@@ -90,9 +88,7 @@
                     </properties>
                 </struct>
                 <struct ID="0xAB4ED456" template="Structs/ShockWaveInfo.xml"/>
-                <property ID="0x985F72FD" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0x985F72FD" type="sound"/>
                 <struct ID="0xE843417F" template="Structs/EmperorIngStage3StructB.xml"/>
                 <struct ID="0xD13BEC3F" template="Structs/EmperorIngStage3StructB.xml"/>
                 <struct ID="0xC61388FF" template="Structs/EmperorIngStage3StructB.xml"/>

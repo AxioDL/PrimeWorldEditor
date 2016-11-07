@@ -59,15 +59,9 @@
                 </property>
             </properties>
         </struct>
-        <property ID="0x1BB16EA5" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xAF38968E" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x6C101854" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x1BB16EA5" type="sound"/>
+        <property ID="0xAF38968E" type="sound"/>
+        <property ID="0x6C101854" type="sound"/>
         <property ID="0xF0668919" type="float">
             <default>50.0</default>
         </property>

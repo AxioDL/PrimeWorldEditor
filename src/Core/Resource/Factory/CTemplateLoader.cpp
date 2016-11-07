@@ -105,7 +105,7 @@ IPropertyTemplate* CTemplateLoader::LoadProperty(XMLElement *pElem, CScriptTempl
         pParams = pParams->NextSiblingElement();
     }
 
-    // File-specific parameters
+    // Asset-specific parameters
     if (Type == eAssetProperty)
     {
         TString ExtensionsAttr = pElem->Attribute("extensions");

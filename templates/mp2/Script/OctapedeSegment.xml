@@ -153,21 +153,11 @@
                 </property>
             </properties>
         </struct>
-        <property ID="0xA24376EC" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x40338715" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x527A643E" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x0BB3CCAE" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xF3A4AF05" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xA24376EC" type="sound"/>
+        <property ID="0x40338715" type="sound"/>
+        <property ID="0x527A643E" type="sound"/>
+        <property ID="0x0BB3CCAE" type="sound"/>
+        <property ID="0xF3A4AF05" type="sound"/>
         <property ID="0x0C4763D7" type="float">
             <default>0.0</default>
         </property>

@@ -21,9 +21,7 @@
             <default>true</default>
         </property>
         <property ID="0x3133C626" type="asset" extensions="AGSC"/>
-        <property ID="0xC11FDB3B" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xC11FDB3B" type="sound"/>
         <property ID="0x80C66C37" type="long">
             <default>127</default>
         </property>

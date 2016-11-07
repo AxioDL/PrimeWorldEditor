@@ -14,16 +14,17 @@
  * Note that in public release builds, asserts are compiled out entirely, so neither log messages nor debug breaks
  * will occur.
  *
- * There are two other macros defined which can be useful for debugging, but shouldn't be used as permanent error
- * checks: BREAK_ONLY_ASSERT, which doesn't write the error to the log, and LOG_ONLY_ASSERT, which doesn't trigger
- * a debug break.
+ * LOG_ONLY_ASSERT is similar to a regular assert, but doesn't trigger a debug break. It can be useful for debugging,
+ * but shouldn't be used as a permanent error check.
  */
 #define __FILE_SHORT__ strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__
 
 #if _DEBUG
     #define DEBUG_BREAK __debugbreak();
+    #define CONDITIONAL_BREAK(Condition) if (##Condition) DEBUG_BREAK
 #else
     #define DEBUG_BREAK {}
+    #define CONDITIONAL_BREAK(Condition) {}
 #endif
 
 #if !PUBLIC_RELEASE
@@ -40,11 +41,6 @@
 
     #define WRITE_FAILURE_TO_LOG(Expression) \
         Log::Write(TString(__FILE_SHORT__) + "(" + TString::FromInt32(__LINE__, 0, 10) + "): ASSERT FAILED: " + #Expression);
-
-    #define BREAK_ONLY_ASSERT(Expression) \
-        ASSERT_CHECK_BEGIN(Expression) \
-        DEBUG_BREAK \
-        ASSERT_CHECK_END
 
     #define LOG_ONLY_ASSERT(Expression) \
         ASSERT_CHECK_BEGIN(Expression) \

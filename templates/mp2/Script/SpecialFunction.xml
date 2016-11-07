@@ -106,15 +106,9 @@
         <enum ID="0x3FA164BC" template="Enums/Item.xml">
             <default>0x00000000</default>
         </enum>
-        <property ID="0xA4EE16BF" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x227A6411" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xE926B7B4" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xA4EE16BF" type="sound"/>
+        <property ID="0x227A6411" type="sound"/>
+        <property ID="0xE926B7B4" type="sound"/>
     </properties>
     <states/>
     <messages/>

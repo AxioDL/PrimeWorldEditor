@@ -96,21 +96,11 @@
                 <property ID="0xD473158D" type="asset" extensions="PART"/>
                 <property ID="0xCCA298B4" type="asset" extensions="PART"/>
                 <property ID="0xB99C80D3" type="asset" extensions="PART"/>
-                <property ID="0xAF38968E" type="long">
-                    <default>-1</default>
-                </property>
-                <property ID="0x6C101854" type="long">
-                    <default>-1</default>
-                </property>
-                <property ID="0xB392943A" type="long">
-                    <default>-1</default>
-                </property>
-                <property ID="0x24ECC1E9" type="long">
-                    <default>-1</default>
-                </property>
-                <property ID="0xE160B593" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0xAF38968E" type="sound"/>
+                <property ID="0x6C101854" type="sound"/>
+                <property ID="0xB392943A" type="sound"/>
+                <property ID="0x24ECC1E9" type="sound"/>
+                <property ID="0xE160B593" type="sound"/>
                 <struct ID="0x7B71AE90" template="Structs/DamageVulnerability.xml"/>
             </properties>
         </struct>
@@ -150,12 +140,8 @@
                 <property ID="0xFBCDB101" type="long">
                     <default>5</default>
                 </property>
-                <property ID="0x6758BF01" type="long">
-                    <default>-1</default>
-                </property>
-                <property ID="0x524A8073" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0x6758BF01" type="sound"/>
+                <property ID="0x524A8073" type="sound"/>
                 <property ID="0x50E46527" type="float">
                     <default>30.0</default>
                 </property>

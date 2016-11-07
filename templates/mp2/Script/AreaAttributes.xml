@@ -23,15 +23,13 @@
                 <enumerator ID="0x00" name="None"/>
                 <enumerator ID="0x01" name="Snow"/>
                 <enumerator ID="0x02" name="Rain"/>
-                <enumerator ID="0x03" name="[Lower Torvus]"/>
+                <enumerator ID="0x03" name="Bubbles"/>
                 <enumerator ID="0x04" name="Dark World"/>
                 <enumerator ID="0x05" name="[Aerie]"/>
                 <enumerator ID="0x06" name="Electric Rain"/>
             </enumerators>
         </enum>
-        <property ID="0x56263E35" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x56263E35" type="sound"/>
         <property ID="0x64E5FE9F" type="float">
             <default>1.0</default>
         </property>

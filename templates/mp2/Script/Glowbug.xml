@@ -10,7 +10,7 @@
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
         <property ID="0xD75426F9" type="asset" extensions="PART"/>
         <property ID="0x8985B339" type="asset" extensions="PART"/>
-        <property ID="0xB258D3E8" type="asset" extensions="PART"/>
+        <property ID="0xB258D3E8" type="asset" extensions="PART,ELSC"/>
         <property ID="0xB06815B3" type="asset" extensions="PART"/>
         <property ID="0xAB378A64" type="asset" extensions="PART"/>
         <property ID="0x16342C18" type="float">
@@ -22,12 +22,8 @@
         <property ID="0x540C1F87" type="vector3f">
             <default>0.0, 0.0, 0.0</default>
         </property>
-        <property ID="0x0DB10F6B" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x50E45EA8" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x0DB10F6B" type="sound"/>
+        <property ID="0x50E45EA8" type="sound"/>
         <property ID="0xA9482EB1" type="asset" extensions="CMDL"/>
         <property ID="0x1917A180" type="bool">
             <default>false</default>

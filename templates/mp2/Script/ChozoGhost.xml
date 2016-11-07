@@ -67,9 +67,7 @@
         <property ID="0x1E8722C7" type="float">
             <default>2.0</default>
         </property>
-        <property ID="0x54151870" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x54151870" type="asset" extensions="WPSC"/>
         <struct ID="0xFFCDA1F8" template="Structs/DamageInfo.xml">
             <properties>
                 <property ID="0xF2D02613">
@@ -77,9 +75,7 @@
                 </property>
             </properties>
         </struct>
-        <property ID="0x3A58089C" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x3A58089C" type="asset" extensions="WPSC"/>
         <struct ID="0x1FF047A9" template="Structs/DamageInfo.xml">
             <properties>
                 <property ID="0xF2D02613">
@@ -147,18 +143,12 @@
                 </property>
             </properties>
         </struct>
-        <property ID="0x1BB16EA5" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x1BB16EA5" type="sound"/>
         <property ID="0xC87D7EC7" type="float">
             <default>1.5</default>
         </property>
-        <property ID="0x2ADCBB2E" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x58B8EC5D" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x2ADCBB2E" type="sound"/>
+        <property ID="0x58B8EC5D" type="sound"/>
         <property ID="0xEC76940C" type="long">
             <default>0</default>
         </property>
@@ -171,12 +161,8 @@
         <property ID="0x96FEB75D" type="float">
             <default>1.5</default>
         </property>
-        <property ID="0x8F8C64A0" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xE15B4F4A" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x8F8C64A0" type="asset" extensions="PART"/>
+        <property ID="0xE15B4F4A" type="sound"/>
         <property ID="0x61E511B3" type="float">
             <default>20.0</default>
         </property>

@@ -48,18 +48,14 @@
         <property ID="0x40992D51" type="asset" extensions="PART"/>
         <property ID="0x1140D11D" type="asset" extensions="PART"/>
         <property ID="0xD207FF0F" type="asset" extensions="PART"/>
-        <property ID="0x2C1DFA22" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x2C1DFA22" type="sound"/>
         <property ID="0x285EFBD9" type="float">
             <default>0.0</default>
         </property>
         <property ID="0x15E0C159" type="float">
             <default>100.0</default>
         </property>
-        <property ID="0x30752C95" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x30752C95" type="sound"/>
         <property ID="0xBA66A16E" type="float">
             <default>0.0</default>
         </property>

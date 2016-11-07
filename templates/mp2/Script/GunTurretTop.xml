@@ -23,12 +23,8 @@
         <property ID="0xBD3EFE7D" type="color">
             <default>1.0, 1.0, 1.0, 0.0</default>
         </property>
-        <property ID="0xE4AEEBA4" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x5D9ED447" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0xE4AEEBA4" type="sound"/>
+        <property ID="0x5D9ED447" type="sound"/>
         <struct ID="0xB3774750" template="Structs/PatternedInfo.xml"/>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
     </properties>

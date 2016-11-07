@@ -158,9 +158,8 @@ void CAreaLoader::ReadSCLYPrime()
 
             if (pLayer)
             {
-                mpArea->mpGeneratorLayer = pLayer;
-                pLayer->SetName("Generated Objects");
-                pLayer->SetActive(true);
+                MergeGeneratedLayer(pLayer);
+                delete pLayer;
             }
         }
     }
@@ -311,6 +310,7 @@ void CAreaLoader::ReadSCLYEchoes()
     }
 
     // SCGN
+    // we want to regenerate the SCGN layer on cook - for now just move everything back to its original layer
     CFourCC SCGN(*mpMREA);
     if (SCGN != "SCGN")
     {
@@ -319,12 +319,12 @@ void CAreaLoader::ReadSCLYEchoes()
     }
 
     mpMREA->Seek(0x1, SEEK_CUR); // Skipping unknown
-    mpArea->mpGeneratorLayer = CScriptLoader::LoadLayer(*mpMREA, mpArea, mVersion);
+    CScriptLayer *pGeneratedLayer = CScriptLoader::LoadLayer(*mpMREA, mpArea, mVersion);
 
-    if (mpArea->mpGeneratorLayer)
+    if (pGeneratedLayer)
     {
-        mpArea->mpGeneratorLayer->SetName("Generated Objects");
-        mpArea->mpGeneratorLayer->SetActive(true);
+        MergeGeneratedLayer(pGeneratedLayer);
+        delete pGeneratedLayer;
     }
 
     SetUpObjects();
@@ -606,19 +606,37 @@ void CAreaLoader::ReadEGMC()
     mpArea->mpPoiToWorldMap = gpResourceStore->LoadResource(EGMC, "EGMC");
 }
 
-void CAreaLoader::SetUpObjects()
+void CAreaLoader::MergeGeneratedLayer(CScriptLayer *pLayer)
 {
-    // Iterate over all objects
-    for (u32 iLyr = 0; iLyr < mpArea->NumScriptLayers() + 1; iLyr++)
+    while (pLayer->NumInstances() != 0)
     {
-        CScriptLayer *pLayer;
-        if (iLyr < mpArea->NumScriptLayers()) pLayer = mpArea->mScriptLayers[iLyr];
+        CScriptObject *pObj = pLayer->InstanceByIndex(0);
+        u32 InstanceID = pObj->InstanceID();
+
+        // Check if this is a duplicate of an existing instance (this only happens with DKCR GenericCreature as far as I'm aware)
+        CScriptObject *pDupe = mpArea->InstanceByID(InstanceID);
+
+        if (pDupe)
+        {
+            Log::Write("Duplicate SCGN object: [" + pObj->Template()->Name() + "] " + pObj->InstanceName() + " (" + TString::HexString(pObj->InstanceID(), 8, false) + ")");
+            pLayer->RemoveInstance(pObj);
+            delete pObj;
+        }
 
         else
         {
-            pLayer = mpArea->GeneratedObjectsLayer();
-            if (!pLayer) break;
+            u32 LayerIdx = (InstanceID >> 26) & 0x3F;
+            pObj->SetLayer( mpArea->ScriptLayer(LayerIdx) );
         }
+    }
+}
+
+void CAreaLoader::SetUpObjects()
+{
+    // Iterate over all objects
+    for (u32 iLyr = 0; iLyr < mpArea->NumScriptLayers(); iLyr++)
+    {
+        CScriptLayer *pLayer = mpArea->mScriptLayers[iLyr];
 
         for (u32 iObj = 0; iObj < pLayer->NumInstances(); iObj++)
         {

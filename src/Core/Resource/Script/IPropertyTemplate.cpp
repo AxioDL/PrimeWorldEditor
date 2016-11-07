@@ -20,20 +20,25 @@ bool IPropertyTemplate::IsInVersion(u32 Version) const
     return false;
 }
 
+TString IPropertyTemplate::FullName() const
+{
+    return mpParent ? mpParent->FullName() + "::" + Name() : Name();
+}
+
 TIDString IPropertyTemplate::IDString(bool FullPath) const
 {
     if (mID != 0xFFFFFFFF)
     {
-        TIDString out;
+        TIDString Out;
 
         if (mpParent && FullPath)
         {
-            out = mpParent->IDString(true);
-            if (!out.IsEmpty()) out += ":";
+            Out = mpParent->IDString(true);
+            if (!Out.IsEmpty()) Out += ":";
         }
 
-        out += TIDString::HexString(mID);
-        return out;
+        Out += TIDString::HexString(mID);
+        return Out;
     }
     else return "";
 }

@@ -2,10 +2,10 @@
 #include "Editor/UICommon.h"
 #include <Core/Resource/Script/CScriptLayer.h>
 
-CLayerModel::CLayerModel(QObject *pParent) : QAbstractListModel(pParent)
+CLayerModel::CLayerModel(QObject *pParent)
+    : QAbstractListModel(pParent)
+    , mpArea(nullptr)
 {
-    mpArea = nullptr;
-    mHasGenerateLayer = false;
 }
 
 CLayerModel::~CLayerModel()
@@ -14,9 +14,7 @@ CLayerModel::~CLayerModel()
 
 int CLayerModel::rowCount(const QModelIndex& /*parent*/) const
 {
-    if (!mpArea) return 0;
-    if (mHasGenerateLayer) return mpArea->NumScriptLayers() + 1;
-    else return mpArea->NumScriptLayers();
+    return mpArea ? mpArea->NumScriptLayers() : 0;
 }
 
 QVariant CLayerModel::data(const QModelIndex &index, int role) const
@@ -30,7 +28,6 @@ QVariant CLayerModel::data(const QModelIndex &index, int role) const
 void CLayerModel::SetArea(CGameArea *pArea)
 {
     mpArea = pArea;
-    mHasGenerateLayer = (pArea->GeneratedObjectsLayer() != nullptr);
     emit layoutChanged();
 }
 
@@ -41,8 +38,6 @@ CScriptLayer* CLayerModel::Layer(const QModelIndex& index) const
 
     if (index.row() < (int) NumLayers)
         return mpArea->ScriptLayer(index.row());
-    if (mHasGenerateLayer && (index.row() == NumLayers))
-        return mpArea->GeneratedObjectsLayer();
 
     return nullptr;
 }

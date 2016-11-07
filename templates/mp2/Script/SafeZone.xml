@@ -115,9 +115,7 @@
         <property ID="0x452F7876" type="float">
             <default>0.5</default>
         </property>
-        <property ID="0x4FAAC896" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x4FAAC896" type="sound"/>
         <property ID="0xD5869B0B" type="long">
             <default>0</default>
         </property>

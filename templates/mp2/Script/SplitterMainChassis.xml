@@ -124,9 +124,7 @@
                         </property>
                     </properties>
                 </struct>
-                <property ID="0xA61C2A66" type="long">
-                    <default>-1</default>
-                </property>
+                <property ID="0xA61C2A66" type="sound"/>
                 <struct ID="0xE61748ED" template="Structs/IngPossessionData.xml"/>
                 <struct ID="0x24E23CC5" template="Structs/DamageVulnerability.xml"/>
             </properties>

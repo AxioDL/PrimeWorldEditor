@@ -49,12 +49,8 @@
         <property ID="0x311B0750" type="float">
             <default>0.5</default>
         </property>
-        <property ID="0x4AB24275" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xFE3E7BBF" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x4AB24275" type="sound"/>
+        <property ID="0xFE3E7BBF" type="sound"/>
         <property ID="0xAD4CE8F3" type="float">
             <default>0.5</default>
         </property>

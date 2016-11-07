@@ -73,9 +73,7 @@
         <property ID="0x061CBE62" type="float">
             <default>0.0</default>
         </property>
-        <property ID="0x19F84380" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x19F84380" type="sound"/>
         <property ID="0xE25FB08C" type="character"/>
         <property ID="0x55744160" type="asset" extensions="AFSM"/>
         <property ID="0xC1C7E255" type="asset" extensions="FSM2"/>
@@ -100,15 +98,9 @@
             <default>0.0, 0.0, 0.0</default>
         </property>
         <property ID="0xA8DA9239" type="asset" extensions="PART"/>
-        <property ID="0x7344D6CD" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x562CF323" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xCDD9F41C" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x7344D6CD" type="sound"/>
+        <property ID="0x562CF323" type="sound"/>
+        <property ID="0xCDD9F41C" type="sound"/>
         <property ID="0x87011652" type="asset" extensions="RULE"/>
         <property ID="0x4BC4C4D9" type="long">
             <default>0</default>

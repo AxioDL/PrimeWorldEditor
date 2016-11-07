@@ -87,9 +87,7 @@
         <property ID="0x91AE1374" type="long">
             <default>0</default>
         </property>
-        <property ID="0x3DE26FC8" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x3DE26FC8" type="sound"/>
         <property ID="0xC320A050" type="bool">
             <default>true</default>
         </property>

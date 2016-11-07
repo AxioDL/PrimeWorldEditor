@@ -101,9 +101,7 @@
         <property ID="0xBC01A28E" type="bool">
             <default>false</default>
         </property>
-        <property ID="0x97070F80" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x97070F80" type="sound"/>
         <property ID="0xAA453357" type="long">
             <default>-1</default>
         </property>
