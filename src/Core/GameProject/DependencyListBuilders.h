@@ -20,9 +20,11 @@ public:
     CCharacterUsageMap() : mLayerIndex(-1), mIsInitialArea(true), mCurrentAreaAllowsDupes(false) {}
     bool IsCharacterUsed(const CAssetID& rkID, u32 CharacterIndex) const;
     bool IsAnimationUsed(const CAssetID& rkID, CSetAnimationDependency *pAnim) const;
+    void FindUsagesForAsset(CResourceEntry *pEntry);
     void FindUsagesForArea(CWorld *pWorld, CResourceEntry *pEntry);
     void FindUsagesForArea(CWorld *pWorld, u32 AreaIndex);
     void FindUsagesForLayer(CResourceEntry *pAreaEntry, u32 LayerIndex);
+    void Clear();
     void DebugPrintContents();
 
 protected:
