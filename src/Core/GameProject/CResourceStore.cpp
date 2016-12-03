@@ -313,7 +313,7 @@ CResourceEntry* CResourceStore::FindEntry(const TWideString& rkPath) const
 
 bool CResourceStore::IsResourceRegistered(const CAssetID& rkID) const
 {
-    return FindEntry(rkID) == nullptr;
+    return FindEntry(rkID) != nullptr;
 }
 
 CResourceEntry* CResourceStore::RegisterResource(const CAssetID& rkID, EResType Type, const TWideString& rkDir, const TWideString& rkFileName)

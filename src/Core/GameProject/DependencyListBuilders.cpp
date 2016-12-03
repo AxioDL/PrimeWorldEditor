@@ -26,6 +26,12 @@ bool CCharacterUsageMap::IsAnimationUsed(const CAssetID& rkID, CSetAnimationDepe
     return false;
 }
 
+void CCharacterUsageMap::FindUsagesForAsset(CResourceEntry *pEntry)
+{
+    Clear();
+    ParseDependencyNode(pEntry->Dependencies());
+}
+
 void CCharacterUsageMap::FindUsagesForArea(CWorld *pWorld, CResourceEntry *pEntry)
 {
     ASSERT(pEntry->ResourceType() == eArea);
@@ -43,10 +49,7 @@ void CCharacterUsageMap::FindUsagesForArea(CWorld *pWorld, CResourceEntry *pEntr
 void CCharacterUsageMap::FindUsagesForArea(CWorld *pWorld, u32 AreaIndex)
 {
     // We only need to search forward from this area to other areas that both use the same character(s) + have duplicates enabled
-    mUsageMap.clear();
-    mStillLookingIDs.clear();
-    mLayerIndex = -1;
-    mIsInitialArea = true;
+    Clear();
 
     for (u32 iArea = AreaIndex; iArea < pWorld->NumAreas(); iArea++)
     {
@@ -64,10 +67,8 @@ void CCharacterUsageMap::FindUsagesForArea(CWorld *pWorld, u32 AreaIndex)
 
 void CCharacterUsageMap::FindUsagesForLayer(CResourceEntry *pAreaEntry, u32 LayerIndex)
 {
-    mUsageMap.clear();
-    mStillLookingIDs.clear();
+    Clear();
     mLayerIndex = LayerIndex;
-    mIsInitialArea = true;
 
     CAreaDependencyTree *pTree = static_cast<CAreaDependencyTree*>(pAreaEntry->Dependencies());
     ASSERT(pTree->Type() == eDNT_Area);
@@ -79,6 +80,14 @@ void CCharacterUsageMap::FindUsagesForLayer(CResourceEntry *pAreaEntry, u32 Laye
 
     for (u32 iInst = StartIdx; iInst < EndIdx; iInst++)
         ParseDependencyNode(pTree->ChildByIndex(iInst));
+}
+
+void CCharacterUsageMap::Clear()
+{
+    mUsageMap.clear();
+    mStillLookingIDs.clear();
+    mLayerIndex = -1;
+    mIsInitialArea = true;
 }
 
 #include "Core/Resource/Animation/CAnimSet.h"
@@ -178,7 +187,7 @@ void CPackageDependencyListBuilder::BuildDependencyList(bool AllowDuplicates, st
             CResourceEntry *pEntry = gpResourceStore->FindEntry(rkRes.ID);
             if (!pEntry) continue;
 
-            if (rkRes.Name.EndsWith("NODEPEND"))
+            if (rkRes.Name.EndsWith("NODEPEND") || rkRes.Type == "CSNG")
             {
                 rOut.push_back(rkRes.ID);
                 continue;
@@ -186,13 +195,15 @@ void CPackageDependencyListBuilder::BuildDependencyList(bool AllowDuplicates, st
 
             if (rkRes.Type == "MLVL")
             {
-                CResourceEntry *pWorldEntry = gpResourceStore->FindEntry(rkRes.ID);
-                ASSERT(pWorldEntry);
-                mpWorld = (CWorld*) pWorldEntry->Load();
+                mpWorld = (CWorld*) pEntry->Load();
                 ASSERT(mpWorld);
             }
 
+            else
+                mCharacterUsageMap.FindUsagesForAsset(pEntry);
+
             AddDependency(nullptr, rkRes.ID, rOut);
+            mpWorld = nullptr;
         }
     }
 }

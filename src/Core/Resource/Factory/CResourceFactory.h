@@ -70,6 +70,7 @@ public:
         case eArea:                 pRes = CAreaLoader::LoadMREA(rInput, pEntry);               break;
         case eAudioGroup:           pRes = CAudioGroupLoader::LoadAGSC(rInput, pEntry);         break;
         case eAudioLookupTable:     pRes = CAudioGroupLoader::LoadATBL(rInput, pEntry);         break;
+        case eBinaryData:           pRes = CUnsupportedFormatLoader::LoadDUMB(rInput, pEntry);  break;
         case eDependencyGroup:      pRes = CDependencyGroupLoader::LoadDGRP(rInput, pEntry);    break;
         case eDynamicCollision:     pRes = CCollisionLoader::LoadDCLN(rInput, pEntry);          break;
         case eFont:                 pRes = CFontLoader::LoadFONT(rInput, pEntry);               break;

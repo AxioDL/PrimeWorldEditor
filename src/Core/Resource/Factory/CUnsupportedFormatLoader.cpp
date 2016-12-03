@@ -13,6 +13,48 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadCSNG(IInputStream& rCSNG, CResou
     return pGroup;
 }
 
+CDependencyGroup* CUnsupportedFormatLoader::LoadDUMB(IInputStream& rDUMB, CResourceEntry *pEntry)
+{
+    // Check for HIER, which needs special handling
+    if (CFourCC(rDUMB.PeekLong()) == "HIER")
+        return LoadHIER(rDUMB, pEntry);
+
+    // Load other DUMB file. DUMB files don't have a set format - they're different between different files
+    std::vector<u8> Data(rDUMB.Size());
+    rDUMB.ReadBytes(Data.data(), Data.size());
+
+    CDependencyGroup *pGroup = new CDependencyGroup(pEntry);
+    u32 MaxIndex = (pEntry->Game() <= eEchoes ? Data.size() - 3 : Data.size() - 7);
+    CAssetID ID;
+
+    for (u32 iByte = 0; iByte < MaxIndex; iByte++)
+    {
+        if (pEntry->Game() <= eEchoes)
+        {
+            ID = ( (Data[iByte+0] << 24) |
+                   (Data[iByte+1] << 16) |
+                   (Data[iByte+2] <<  8) |
+                   (Data[iByte+3] <<  0) );
+        }
+        else
+        {
+            ID = ( ((u64) Data[iByte+0] << 56) |
+                   ((u64) Data[iByte+1] << 48) |
+                   ((u64) Data[iByte+2] << 40) |
+                   ((u64) Data[iByte+3] << 32) |
+                   ((u64) Data[iByte+4] << 24) |
+                   ((u64) Data[iByte+5] << 16) |
+                   ((u64) Data[iByte+6] <<  8) |
+                   ((u64) Data[iByte+7] <<  0) );
+        }
+
+        if (gpResourceStore->IsResourceRegistered(ID))
+            pGroup->AddDependency(ID);
+    }
+
+    return pGroup;
+}
+
 CDependencyGroup* CUnsupportedFormatLoader::LoadFRME(IInputStream& rFRME, CResourceEntry *pEntry)
 {
     u32 Version = rFRME.ReadLong();
@@ -218,6 +260,25 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadFSM2(IInputStream& rFSM2, CResou
         }
 
         pOut->AddDependency( CAssetID(rFSM2, eEchoes) );
+    }
+
+    return pOut;
+}
+
+CDependencyGroup* CUnsupportedFormatLoader::LoadHIER(IInputStream& rHIER, CResourceEntry *pEntry)
+{
+    CFourCC Magic = rHIER.ReadLong();
+    ASSERT(Magic == "HIER");
+
+    u32 NumNodes = rHIER.ReadLong();
+    CDependencyGroup *pOut = new CDependencyGroup(pEntry);
+
+    for (u32 iNode = 0; iNode < NumNodes; iNode++)
+    {
+        // NOTE: The SCAN ID isn't considered a real dependency!
+        pOut->AddDependency( rHIER.ReadLong() );
+        rHIER.ReadString();
+        rHIER.Seek(0x8, SEEK_CUR);
     }
 
     return pOut;
