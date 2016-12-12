@@ -161,30 +161,6 @@ bool CWorldCooker::CookMLVL(CWorld *pWorld, IOutputStream& rMLVL)
     // Audio Groups
     if (Game <= ePrime)
     {
-        // Debug: make sure our generated list matches the original, no missing or extra audio groups
-        std::set<CAssetID> OriginalGroups;
-
-        for (u32 iGrp = 0; iGrp < pWorld->mAudioGrps.size(); iGrp++)
-        {
-            CWorld::SAudioGrp& rAudioGroup = pWorld->mAudioGrps[iGrp];
-            OriginalGroups.insert(rAudioGroup.ResID);
-
-            if (AudioGroups.find(rAudioGroup.ResID) == AudioGroups.end())
-            {
-                CResourceEntry *pEntry = gpResourceStore->FindEntry(rAudioGroup.ResID);
-                Log::Error("Missing audio group: " + pEntry->Name().ToUTF8());
-            }
-        }
-
-        for (auto It = AudioGroups.begin(); It != AudioGroups.end(); It++)
-        {
-            if (OriginalGroups.find(*It) == OriginalGroups.end())
-            {
-                CResourceEntry *pEntry = gpResourceStore->FindEntry(*It);
-                Log::Error("Extra audio group: " + pEntry->Name().ToUTF8());
-            }
-        }
-
         // Create sorted list of audio groups (sort by group ID)
         std::vector<CAudioGroup*> SortedAudioGroups;
 
@@ -208,17 +184,6 @@ bool CWorldCooker::CookMLVL(CWorld *pWorld, IOutputStream& rMLVL)
             rMLVL.WriteLong(pGroup->GroupID());
             pGroup->ID().Write(rMLVL);
         }
-
-#if 0
-        rMLVL.WriteLong(pWorld->mAudioGrps.size());
-
-        for (u32 iGrp = 0; iGrp < pWorld->mAudioGrps.size(); iGrp++)
-        {
-            CWorld::SAudioGrp& rAudioGroup = pWorld->mAudioGrps[iGrp];
-            rMLVL.WriteLong(rAudioGroup.GroupID);
-            rAudioGroup.ResID.Write(rMLVL);
-        }
-#endif
 
         rMLVL.WriteByte(0);
     }

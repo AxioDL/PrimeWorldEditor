@@ -33,12 +33,6 @@ CDependencyTree* CWorld::BuildDependencyTree() const
     pTree->AddDependency(mpDefaultSkybox);
     pTree->AddDependency(mpMapWorld);
 
-    if (Game() <= ePrime)
-    {
-        for (u32 iGrp = 0; iGrp < mAudioGrps.size(); iGrp++)
-            pTree->AddDependency(mAudioGrps[iGrp].ResID);
-    }
-
     return pTree;
 }
 
@@ -79,9 +73,6 @@ void CWorld::Serialize(IArchive& rArc)
         rArc << SERIAL_CONTAINER("MemoryRelays", mMemoryRelays, "MemoryRelay");
 
     rArc << SERIAL_CONTAINER("Areas", mAreas, "Area");
-
-    if (rArc.Game() <= ePrime)
-        rArc << SERIAL_CONTAINER("AudioGroups", mAudioGrps, "AudioGroup");
 }
 
 void Serialize(IArchive& rArc, CWorld::SMemoryRelay& rMemRelay)
