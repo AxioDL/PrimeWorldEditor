@@ -18,6 +18,8 @@ CResourceStore::CResourceStore(const TWideString& rkDatabasePath)
     : mpProj(nullptr)
     , mGame(eUnknownGame)
     , mpExporter(nullptr)
+    , mDatabaseDirty(false)
+    , mCacheFileDirty(false)
 {
     mpDatabaseRoot = new CVirtualDirectory();
     mDatabasePath = FileUtil::MakeAbsolute(rkDatabasePath.GetFileDirectory());
@@ -30,6 +32,8 @@ CResourceStore::CResourceStore(CGameProject *pProject, CGameExporter *pExporter,
     , mRawDir(rkRawDir)
     , mCookedDir(rkCookedDir)
     , mpExporter(pExporter)
+    , mDatabaseDirty(false)
+    , mCacheFileDirty(false)
 {
     SetProject(pProject);
 }
@@ -39,6 +43,8 @@ CResourceStore::CResourceStore(CGameProject *pProject)
     , mGame(eUnknownGame)
     , mpDatabaseRoot(nullptr)
     , mpExporter(nullptr)
+    , mDatabaseDirty(false)
+    , mCacheFileDirty(false)
 {
     SetProject(pProject);
 }
@@ -122,6 +128,7 @@ void CResourceStore::SaveResourceDatabase()
     TString Path = DatabasePath().ToUTF8();
     CXMLWriter Writer(Path, "ResourceDB", 0, mGame);
     SerializeResourceDatabase(Writer);
+    mDatabaseDirty = false;
 }
 
 void CResourceStore::LoadCacheFile()
@@ -208,6 +215,13 @@ void CResourceStore::SaveCacheFile()
 
     CacheFile.Seek(ResCountOffset, SEEK_SET);
     CacheFile.WriteLong(ResCount);
+    mCacheFileDirty = false;
+}
+
+void CResourceStore::ConditionalSaveStore()
+{
+    if (mDatabaseDirty)  SaveResourceDatabase();
+    if (mCacheFileDirty) SaveCacheFile();
 }
 
 void CResourceStore::SetProject(CGameProject *pProj)
@@ -298,6 +312,21 @@ CVirtualDirectory* CResourceStore::GetVirtualDirectory(const TWideString& rkPath
     else return nullptr;
 }
 
+void CResourceStore::ConditionalDeleteDirectory(CVirtualDirectory *pDir)
+{
+    if (pDir->IsEmpty())
+    {
+        // If this directory is part of the project, then we should delete the corresponding filesystem directories
+        if (pDir->GetRoot() == mpDatabaseRoot)
+        {
+            FileUtil::DeleteDirectory(RawDir(false) + pDir->FullPath());
+            FileUtil::DeleteDirectory(CookedDir(false) + pDir->FullPath());
+        }
+
+        pDir->Parent()->RemoveChildDirectory(pDir);
+    }
+}
+
 CResourceEntry* CResourceStore::FindEntry(const CAssetID& rkID) const
 {
     if (!rkID.IsValid()) return nullptr;
@@ -316,7 +345,7 @@ bool CResourceStore::IsResourceRegistered(const CAssetID& rkID) const
     return FindEntry(rkID) != nullptr;
 }
 
-CResourceEntry* CResourceStore::RegisterResource(const CAssetID& rkID, EResType Type, const TWideString& rkDir, const TWideString& rkFileName)
+CResourceEntry* CResourceStore::RegisterResource(const CAssetID& rkID, EResType Type, const TWideString& rkDir, const TWideString& rkName)
 {
     CResourceEntry *pEntry = FindEntry(rkID);
 
@@ -325,16 +354,16 @@ CResourceEntry* CResourceStore::RegisterResource(const CAssetID& rkID, EResType 
         if (pEntry->IsTransient())
         {
             ASSERT(pEntry->ResourceType() == Type);
-            pEntry->AddToProject(rkDir, rkFileName);
+            pEntry->AddToProject(rkDir, rkName);
         }
 
         else
-            Log::Error("Attempted to register resource that's already tracked in the database: " + rkID.ToString() + " / " + rkDir.ToUTF8() + " / " + rkFileName.ToUTF8());
+            Log::Error("Attempted to register resource that's already tracked in the database: " + rkID.ToString() + " / " + rkDir.ToUTF8() + " / " + rkName.ToUTF8());
     }
 
     else
     {
-        pEntry = new CResourceEntry(this, rkID, rkDir, rkFileName.GetFileName(false), Type);
+        pEntry = new CResourceEntry(this, rkID, rkDir, rkName, Type);
         mResourceEntries[rkID] = pEntry;
     }
 

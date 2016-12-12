@@ -47,9 +47,9 @@ public:
         , mProjectRoot(rkProjRootDir)
         , mResourceDBPath(L"ResourceDB.rdb")
     {
+        mProjectRoot.Replace(L"/", L"\\");
         mpResourceStore = new CResourceStore(this);
         mpAudioManager = new CAudioManager(this);
-        mProjectRoot.Replace(L"/", L"\\");
     }
 
     CGameProject(CGameExporter *pExporter, const TWideString& rkProjRootDir, EGame Game)
@@ -58,9 +58,9 @@ public:
         , mProjectRoot(rkProjRootDir)
         , mResourceDBPath(L"ResourceDB.rdb")
     {
+        mProjectRoot.Replace(L"/", L"\\");
         mpResourceStore = new CResourceStore(this, pExporter, L"Content\\", L"Cooked\\", Game);
         mpAudioManager = new CAudioManager(this);
-        mProjectRoot.Replace(L"/", L"\\");
     }
 
     ~CGameProject();
@@ -94,7 +94,5 @@ public:
 
     static inline CGameProject* ActiveProject() { return mspActiveProject; }
 };
-
-extern CGameProject *gpProject;
 
 #endif // CGAMEPROJECT_H

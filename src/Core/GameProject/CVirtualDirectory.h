@@ -2,6 +2,7 @@
 #define CVIRTUALDIRECTORY
 
 /* Virtual directory system used to look up resources by their location in the filesystem. */
+#include "Core/Resource/EResType.h"
 #include <Common/AssertMacro.h>
 #include <Common/TString.h>
 #include <vector>
@@ -26,6 +27,7 @@ public:
     CVirtualDirectory* GetRoot();
     CVirtualDirectory* FindChildDirectory(const TWideString& rkName, bool AllowCreate);
     CResourceEntry* FindChildResource(const TWideString& rkPath);
+    CResourceEntry* FindChildResource(const TWideString& rkName, EResType Type);
     void AddChild(const TWideString& rkPath, CResourceEntry *pEntry);
     bool RemoveChildDirectory(CVirtualDirectory *pSubdir);
     bool RemoveChildResource(CResourceEntry *pEntry);

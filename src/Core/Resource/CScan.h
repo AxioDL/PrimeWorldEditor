@@ -98,10 +98,14 @@ public:
         return pTree;
     }
 
-    CStringTable* ScanText() const              { return mpStringTable; }
-    bool IsImportant() const                    { return mIsImportant; }
-    bool IsSlow() const                         { return mIsSlow; }
-    ELogbookCategory LogbookCategory() const    { return mCategory; }
+    // Accessors
+    inline CStringTable* ScanText() const           { return mpStringTable; }
+    inline bool IsImportant() const                 { return mIsImportant; }
+    inline bool IsSlow() const                      { return mIsSlow; }
+    inline ELogbookCategory LogbookCategory() const { return mCategory; }
+    inline CAssetID GuiFrame() const                { return mFrameID; }
+    inline CAssetID ScanImage(u32 ImgIndex) const   { return mScanImageTextures[ImgIndex]; }
+    inline CAssetID LogbookDisplayAssetID() const   { return (mLogbookAnimParams.ID().IsValid() ? mLogbookAnimParams.ID() : mLogbookModel); }
 };
 
 #endif // CSCAN_H

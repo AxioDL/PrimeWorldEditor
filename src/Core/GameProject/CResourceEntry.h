@@ -14,12 +14,13 @@ class CDependencyTree;
 
 enum EResEntryFlag
 {
-    eREF_NeedsRecook     = 0x1, // Resource has been updated but not recooked
-    eREF_Transient       = 0x2, // Resource is transient (not part of a game project resource DB)
-    eREF_HasThumbnail    = 0x4, // Resource has a unique thumbnail
-    eREF_ThumbnailLoaded = 0x8, // Resource thumbnail is currently in memory
+    eREF_NeedsRecook     = 0x00000001, // Resource has been updated but not recooked
+    eREF_Transient       = 0x00000002, // Resource is transient (not part of a game project resource DB)
+    eREF_HasThumbnail    = 0x00000004, // Resource has a unique thumbnail
+    eREF_ThumbnailLoaded = 0x00000008, // Resource thumbnail is currently in memory
+    eREF_Hidden          = 0x00000010, // Resource is hidden, doesn't show up in resource browser
     // Flags that save to the cache file
-    eREF_SavedFlags      = eREF_NeedsRecook | eREF_HasThumbnail
+    eREF_SavedFlags      = eREF_NeedsRecook | eREF_HasThumbnail | eREF_Hidden
 };
 DECLARE_FLAGS(EResEntryFlag, FResEntryFlags)
 
@@ -61,24 +62,30 @@ public:
     CResource* Load();
     CResource* LoadCooked(IInputStream& rInput);
     bool Unload();
-    void Move(const TWideString& rkDir, const TWideString& rkName);
+    bool CanMoveTo(const TWideString& rkDir, const TWideString& rkName);
+    bool Move(const TWideString& rkDir, const TWideString& rkName);
     void AddToProject(const TWideString& rkDir, const TWideString& rkName);
     void RemoveFromProject();
 
     // Accessors
     void SetDirty()                                     { mFlags.SetFlag(eREF_NeedsRecook); }
+    void SetHidden(bool Hidden)                         { Hidden ? mFlags.SetFlag(eREF_Hidden) : mFlags.ClearFlag(eREF_Hidden); }
 
     inline bool IsLoaded() const                        { return mpResource != nullptr; }
+    inline bool IsCategorized() const                   { return mpDirectory && mpDirectory->FullPath() != L"Uncategorized\\"; }
+    inline bool IsNamed() const                         { return mName != mID.ToString().ToUTF16(); }
     inline CResource* Resource() const                  { return mpResource; }
     inline CResourceStore* ResourceStore() const        { return mpStore; }
     inline CDependencyTree* Dependencies() const        { return mpDependencies; }
     inline CAssetID ID() const                          { return mID; }
     inline EGame Game() const                           { return mGame; }
     inline CVirtualDirectory* Directory() const         { return mpDirectory; }
+    inline TWideString DirectoryPath() const            { return mpDirectory->FullPath(); }
     inline TWideString Name() const                     { return mName; }
     inline const TWideString& UppercaseName() const     { return mCachedUppercaseName; }
     inline EResType ResourceType() const                { return mType; }
     inline bool IsTransient() const                     { return mFlags.HasFlag(eREF_Transient); }
+    inline bool IsHidden() const                        { return mFlags.HasFlag(eREF_Hidden); }
 
 protected:
     CResource* InternalLoad(IInputStream& rInput);

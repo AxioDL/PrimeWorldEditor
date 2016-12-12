@@ -25,6 +25,8 @@ class CResourceStore
     std::vector<CVirtualDirectory*> mTransientRoots;
     std::map<CAssetID, CResourceEntry*> mResourceEntries;
     std::map<CAssetID, CResourceEntry*> mLoadedResources;
+    bool mDatabaseDirty;
+    bool mCacheFileDirty;
 
     // Directory paths
     TWideString mDatabasePath;
@@ -54,12 +56,14 @@ public:
     void SaveResourceDatabase();
     void LoadCacheFile();
     void SaveCacheFile();
+    void ConditionalSaveStore();
     void SetProject(CGameProject *pProj);
     void CloseProject();
     CVirtualDirectory* GetVirtualDirectory(const TWideString& rkPath, bool Transient, bool AllowCreate);
+    void ConditionalDeleteDirectory(CVirtualDirectory *pDir);
 
     bool IsResourceRegistered(const CAssetID& rkID) const;
-    CResourceEntry* RegisterResource(const CAssetID& rkID, EResType Type, const TWideString& rkDir, const TWideString& rkFileName);
+    CResourceEntry* RegisterResource(const CAssetID& rkID, EResType Type, const TWideString& rkDir, const TWideString& rkName);
     CResourceEntry* FindEntry(const CAssetID& rkID) const;
     CResourceEntry* FindEntry(const TWideString& rkPath) const;
     CResourceEntry* RegisterTransientResource(EResType Type, const TWideString& rkDir = L"", const TWideString& rkFileName = L"");
@@ -84,6 +88,10 @@ public:
     inline CVirtualDirectory* RootDirectory() const     { return mpDatabaseRoot; }
     inline u32 NumTotalResources() const                { return mResourceEntries.size(); }
     inline u32 NumLoadedResources() const               { return mLoadedResources.size(); }
+    inline bool IsDirty() const                         { return mDatabaseDirty || mCacheFileDirty; }
+
+    inline void SetDatabaseDirty()                      { mDatabaseDirty = true; }
+    inline void SetCacheDataDirty()                     { mCacheFileDirty = true; }
 };
 
 extern CResourceStore *gpResourceStore;

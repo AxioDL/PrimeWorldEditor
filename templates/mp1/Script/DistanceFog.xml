@@ -3,29 +3,20 @@
     <name>DistanceFog</name>
     <properties>
         <property ID="0x00" name="Name" type="string"/>
-        <property ID="0x01" name="Unknown 1" type="long"/>
-        <property ID="0x02" name="Unknown 2" type="color"/>
-        <struct ID="0x03" name="FloatFloat 1" type="single">
-            <properties>
-                <property ID="0x00" name="Unknown 3" type="float"/>
-                <property ID="0x01" name="Unknown 4" type="float"/>
-            </properties>
-        </struct>
-        <struct ID="0x04" name="FloatFloat 2" type="single">
-            <properties>
-                <property ID="0x00" name="Unknown 5" type="float"/>
-                <property ID="0x01" name="Unknown 6" type="float"/>
-            </properties>
-        </struct>
-        <property ID="0x05" name="Unknown 7" type="float"/>
-        <property ID="0x06" name="Unknown 8" type="bool"/>
-        <property ID="0x07" name="Unknown 9" type="bool"/>
+        <property ID="0x01" name="Mode" type="long"/>
+        <property ID="0x02" name="Color" type="color"/>
+        <struct ID="0x03" name="Range" template="Structs/Vector2f.xml"/>
+        <property ID="0x04" name="Color Delta" type="float"/>
+        <struct ID="0x05" name="Range Delta" template="Structs/Vector2f.xml"/>
+        <property ID="0x06" name="Explicit" type="bool"/>
+        <property ID="0x07" name="Active" type="bool"/>
     </properties>
     <states/>
     <messages/>
     <editor>
         <properties>
             <property name="InstanceName" ID="0x00"/>
+            <property name="Active" ID="0x07"/>
         </properties>
         <assets>
             <billboard source="file">script/common/DistanceFog.txtr</billboard>

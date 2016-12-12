@@ -66,14 +66,14 @@ public:
     }
 };
 
-template<class ResType>
+template<EResType ResType>
 class TResourceIterator : public CResourceIterator
 {
 public:
     TResourceIterator(CResourceStore *pStore = gpResourceStore)
         : CResourceIterator(pStore)
     {
-        if (mpCurEntry->ResourceType() != ResType::StaticType())
+        if (mpCurEntry->ResourceType() != ResType)
             Next();
     }
 
@@ -81,7 +81,7 @@ public:
     {
         do {
             CResourceIterator::Next();
-        } while (mpCurEntry && mpCurEntry->ResourceType() != ResType::StaticType());
+        } while (mpCurEntry && mpCurEntry->ResourceType() != ResType);
 
         return mpCurEntry;
     }

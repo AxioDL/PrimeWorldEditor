@@ -7,6 +7,8 @@ CGameProject *CGameProject::mspActiveProject = nullptr;
 
 CGameProject::~CGameProject()
 {
+    ASSERT(!mpResourceStore->IsDirty());
+
     if (IsActive())
         mspActiveProject = nullptr;
 

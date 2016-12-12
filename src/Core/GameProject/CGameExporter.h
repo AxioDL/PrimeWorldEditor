@@ -1,6 +1,7 @@
 #ifndef CGAMEEXPORTER_H
 #define CGAMEEXPORTER_H
 
+#include "CAssetNameMap.h"
 #include "CGameProject.h"
 #include "CResourceStore.h"
 #include <Common/CAssetID.h>
@@ -28,6 +29,7 @@ class CGameExporter
     // Resources
     TWideStringList mPaks;
     std::map<CAssetID, bool> mAreaDuplicateMap;
+    CAssetNameMap mNameMap;
 
     struct SResourceInstance
     {
@@ -41,13 +43,6 @@ class CGameExporter
     };
     std::map<CAssetID, SResourceInstance> mResourceMap;
 
-    struct SResourcePath
-    {
-        TWideString Dir;
-        TWideString Name;
-    };
-    std::map<CAssetID, SResourcePath> mResourcePaths;
-
 public:
     CGameExporter(const TString& rkInputDir, const TString& rkOutputDir);
     bool Export();
@@ -55,10 +50,8 @@ public:
 
 protected:
     void CopyDiscData();
-    void LoadAssetList();
     void LoadPaks();
     void LoadResource(const SResourceInstance& rkResource, std::vector<u8>& rBuffer);
-    void ExportWorlds();
     void ExportCookedResources();
     void ExportResourceEditorData();
     void ExportResource(SResourceInstance& rRes);
@@ -69,18 +62,6 @@ protected:
         u64 IntegralID = rkID.ToLongLong();
         auto Found = mResourceMap.find(IntegralID);
         return (Found == mResourceMap.end() ? nullptr : &Found->second);
-    }
-
-    inline SResourcePath* FindResourcePath(const CAssetID& rkID)
-    {
-        u64 IntegralID = rkID.ToLongLong();
-        auto Found = mResourcePaths.find(IntegralID);
-        return (Found == mResourcePaths.end() ? nullptr : &Found->second);
-    }
-
-    inline void SetResourcePath(const CAssetID& rkID, const TWideString& rkDir, const TWideString& rkName)
-    {
-        mResourcePaths[rkID] = SResourcePath { rkDir, rkName };
     }
 };
 

@@ -13,6 +13,7 @@ bool IsFile(const TWideString& rkFilePath);
 bool IsDirectory(const TWideString& rkDirPath);
 bool IsAbsolute(const TWideString& rkDirPath);
 bool IsRelative(const TWideString& rkDirPath);
+bool IsEmpty(const TWideString& rkDirPath);
 bool CreateDirectory(const TWideString& rkNewDir);
 bool CopyFile(const TWideString& rkOrigPath, const TWideString& rkNewPath);
 bool CopyDirectory(const TWideString& rkOrigPath, const TWideString& rkNewPath);

@@ -126,6 +126,39 @@ public:
 
         return pTree;
     }
+
+    static TWideString StripFormatting(const TWideString& rkStr)
+    {
+        TWideString Out = rkStr;
+        int TagStart = -1;
+
+        for (u32 iChr = 0; iChr < Out.Size(); iChr++)
+        {
+            if (Out[iChr] == L'&')
+            {
+                if (TagStart == -1)
+                    TagStart = iChr;
+
+                else
+                {
+                    Out.Remove(TagStart, 1);
+                    TagStart = -1;
+                    iChr--;
+                }
+            }
+
+            else if (TagStart != -1 && Out[iChr] == L';')
+            {
+                int TagEnd = iChr + 1;
+                int TagLen = TagEnd - TagStart;
+                Out.Remove(TagStart, TagLen);
+                iChr = TagStart - 1;
+                TagStart = -1;
+            }
+        }
+
+        return Out;
+    }
 };
 
 #endif // CSTRINGTABLE_H

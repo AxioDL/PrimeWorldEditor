@@ -196,9 +196,10 @@ bool CResourceEntry::Save(bool SkipCacheSave /*= false*/)
 
     // Resource has been saved, now update dependencies + cache file
     UpdateDependencies();
+    mpStore->SetCacheDataDirty();
 
     if (!SkipCacheSave)
-        mpStore->SaveCacheFile();
+        mpStore->ConditionalSaveStore();
 
     if (ShouldCollectGarbage)
         mpStore->DestroyUnreferencedResources();
@@ -277,40 +278,92 @@ bool CResourceEntry::Unload()
     return true;
 }
 
-void CResourceEntry::Move(const TWideString& rkDir, const TWideString& rkName)
+bool CResourceEntry::CanMoveTo(const TWideString& rkDir, const TWideString& rkName)
 {
+    // Transient resources can't be moved
+    if (IsTransient()) return false;
+
+    // Validate that the path/name are valid file paths
+    if (!FileUtil::IsValidPath(rkDir, true) || !FileUtil::IsValidName(rkName, false)) return false;
+
+    // We need to validate the path isn't taken already - either the directory doesn't exist, or doesn't have a resource by this name
+    CVirtualDirectory *pDir = mpStore->GetVirtualDirectory(rkDir, false, false);
+    if (pDir && pDir->FindChildResource(rkName, mType)) return false;
+
+    // All checks are true
+    return true;
+}
+
+bool CResourceEntry::Move(const TWideString& rkDir, const TWideString& rkName)
+{
+    if (!CanMoveTo(rkDir, rkName)) return false;
+
     // Store old paths
+    CVirtualDirectory *pOldDir = mpDirectory;
+    TWideString OldName = mName;
     TString OldCookedPath = CookedAssetPath();
     TString OldRawPath = RawAssetPath();
 
     // Set new directory and name
-    bool HasDirectory = mpDirectory != nullptr;
     CVirtualDirectory *pNewDir = mpStore->GetVirtualDirectory(rkDir, IsTransient(), true);
+    if (pNewDir == mpDirectory && rkName == mName) return false;
 
-    if (pNewDir != mpDirectory)
+    // Check if we can legally move to this spot
+    ASSERT(pNewDir->FindChildResource(rkName, mType) == nullptr); // this check should be guaranteed to pass due to CanMoveTo() having already checked it
+
+    mpDirectory = pNewDir;
+    mName = rkName;
+    TString NewCookedPath = CookedAssetPath();
+    TString NewRawPath = RawAssetPath();
+
+    // If the old/new paths are the same then we should have already exited as CanMoveTo() should have returned false
+    ASSERT(OldCookedPath != NewCookedPath && OldRawPath != NewRawPath);
+
+    // The cooked/raw asset paths should not exist right now!!!
+    bool FSMoveSuccess = false;
+
+    if (!HasRawVersion() && !HasCookedVersion())
     {
-        if (mpDirectory)
-            mpDirectory->RemoveChildResource(this);
-        mpDirectory = pNewDir;
+        FSMoveSuccess = true;
+
+        if (FileUtil::Exists(OldRawPath))
+        {
+            FSMoveSuccess = FileUtil::CopyFile(OldRawPath, NewRawPath);
+            if (!FSMoveSuccess) FileUtil::DeleteFile(NewRawPath);
+        }
+
+        if (FSMoveSuccess && FileUtil::Exists(OldCookedPath))
+        {
+            FSMoveSuccess = FileUtil::CopyFile(OldCookedPath, NewCookedPath);
+            if (!FSMoveSuccess) FileUtil::DeleteFile(NewCookedPath);
+        }
     }
 
-    if (mName != rkName)
-        ASSERT(mpDirectory->FindChildResource(rkName) == nullptr);
-
-    mName = rkName;
-    mCachedUppercaseName = rkName.ToUpper();
-
-    // Move files
-    if (HasDirectory)
+    // If we succeeded, finish the move
+    if (FSMoveSuccess)
     {
-        TString CookedPath = CookedAssetPath();
-        TString RawPath = RawAssetPath();
+        if (mpDirectory != pOldDir)
+        {
+            FSMoveSuccess = pOldDir->RemoveChildResource(this);
+            ASSERT(FSMoveSuccess == true); // this shouldn't be able to fail
+            mpDirectory->AddChild(L"", this);
+            mpStore->ConditionalDeleteDirectory(pOldDir);
+        }
 
-        if (FileUtil::Exists(OldCookedPath) && CookedPath != OldCookedPath)
-            FileUtil::MoveFile(OldCookedPath, CookedPath);
+        mpStore->SetDatabaseDirty();
+        mCachedUppercaseName = rkName.ToUpper();
+        FileUtil::DeleteFile(OldRawPath);
+        FileUtil::DeleteFile(OldCookedPath);
+        return true;
+    }
 
-        if (FileUtil::Exists(OldRawPath) && RawPath != OldRawPath)
-            FileUtil::MoveFile(OldRawPath, RawPath);
+    // Otherwise, revert changes and let the caller know the move failed
+    else
+    {
+        mpDirectory = pOldDir;
+        mName = OldName;
+        mpStore->ConditionalDeleteDirectory(pNewDir);
+        return false;
     }
 }
 

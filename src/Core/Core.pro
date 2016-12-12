@@ -213,7 +213,9 @@ HEADERS += \
     Resource/Animation/CSkeleton.h \
     Resource/Animation/CSkin.h \
     Resource/Animation/IMetaTransition.h \
-    Resource/Animation/IMetaAnimation.h
+    Resource/Animation/IMetaAnimation.h \
+    GameProject/CAssetNameMap.h \
+    GameProject/AssetNameGeneration.h
 
 # Source Files
 SOURCES += \
@@ -314,4 +316,5 @@ SOURCES += \
     Resource/Animation/CAnimationParameters.cpp \
     Resource/Animation/CSkeleton.cpp \
     Resource/Animation/IMetaAnimation.cpp \
-    Resource/Animation/IMetaTransition.cpp
+    Resource/Animation/IMetaTransition.cpp \
+    GameProject/AssetNameGeneration.cpp

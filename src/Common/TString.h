@@ -4,11 +4,12 @@
 #include "types.h"
 #include <FileIO/IOUtil.h>
 
-#include <string>
-#include <list>
-#include <vector>
-#include <sstream>
+#include <cstdarg>
 #include <iomanip>
+#include <list>
+#include <sstream>
+#include <string>
+#include <vector>
 
 /* This is a string class which is essentially a wrapper around std::basic_string.
  * The reason for this is because there are a lot of string functions I use very
@@ -149,24 +150,22 @@ public:
             return (u32) Pos;
     }
 
-    u32 IndexOfPhrase(_TString Str, u32 Offset, bool CaseSensitive = true) const
+    u32 IndexOfPhrase(const _TString& rkStr, u32 Offset, bool CaseSensitive = true) const
     {
-        if (Size() < Str.Size()) return -1;
-
-        // Apply case sensitivity
-        _TString CheckStr(CaseSensitive ? *this : ToUpper());
-        if (!CaseSensitive) Str = Str.ToUpper();
+        if (Size() < rkStr.Size()) return -1;
 
         // Now loop from the offset provided by the user.
         u32 Pos = Offset;
-        u32 LatestPossibleStart = Size() - Str.Size();
+        u32 LatestPossibleStart = Size() - rkStr.Size();
         u32 MatchStart = -1;
         u32 Matched = 0;
 
         while (Pos < Size())
         {
             // If this character matches, increment Matched!
-            if (CheckStr[Pos] == Str[Matched])
+            bool Match = CaseSensitive ? (At(Pos) == rkStr[Matched]) : (CharToUpper(At(Pos)) == CharToUpper(rkStr[Matched]));
+
+            if (Match)
             {
                 Matched++;
 
@@ -174,7 +173,7 @@ public:
                     MatchStart = Pos;
 
                 // If we matched the entire string, we can return.
-                if (Matched == Str.Size())
+                if (Matched == rkStr.Size())
                     return MatchStart;
             }
 
@@ -198,9 +197,9 @@ public:
         return -1;
     }
 
-    inline u32 IndexOfPhrase(_TString Str, bool CaseSensitive = true) const
+    inline u32 IndexOfPhrase(const _TString& rkStr, bool CaseSensitive = true) const
     {
-        return IndexOfPhrase(Str, 0, CaseSensitive);
+        return IndexOfPhrase(rkStr, 0, CaseSensitive);
     }
 
     // Modify String
@@ -318,18 +317,10 @@ public:
 
     _TString ToUpper() const
     {
-        // todo: doesn't handle accented characters
         _TString Out(Size());
 
         for (u32 iChar = 0; iChar < Size(); iChar++)
-        {
-            CharType Chr = At(iChar);
-
-            if (Chr >= CHAR_LITERAL('a') && Chr <= CHAR_LITERAL('z'))
-                Out[iChar] = Chr - 0x20;
-            else
-                Out[iChar] = Chr;
-        }
+            Out[iChar] = CharToUpper( At(iChar) );
 
         return Out;
     }
@@ -340,14 +331,7 @@ public:
         _TString Out(Size());
 
         for (u32 iChar = 0; iChar < Size(); iChar++)
-        {
-            CharType Chr = At(iChar);
-
-            if (Chr >= 'A' && Chr <= 'Z')
-                Out[iChar] = Chr + 0x20;
-            else
-                Out[iChar] = Chr;
-        }
+            Out[iChar] = CharToLower( At(iChar) );
 
         return Out;
     }
@@ -509,26 +493,22 @@ public:
         return (Size() == 0);
     }
 
-    bool StartsWith(_TString Str, bool CaseSensitive = true) const
+    bool StartsWith(const _TString& rkStr, bool CaseSensitive = true) const
     {
-        if (Size() < Str.Size())
+        if (Size() < rkStr.Size())
             return false;
 
-        _TString CompStr = (CaseSensitive ? *this : ToUpper());
-        if (!CaseSensitive) Str = Str.ToUpper();
-
-        return (CompStr.SubString(0, Str.Size()) == Str);
+        _TString SubStr = SubString(0, rkStr.Size());
+        return CaseSensitive ? SubStr == rkStr : SubStr.CaseInsensitiveCompare(rkStr);
     }
 
-    bool EndsWith(_TString Str, bool CaseSensitive = true) const
+    bool EndsWith(const _TString& rkStr, bool CaseSensitive = true) const
     {
-        if (Size() < Str.Size())
+        if (Size() < rkStr.Size())
             return false;
 
-        _TString CompStr = (CaseSensitive ? *this : ToUpper());
-        if (!CaseSensitive) Str = Str.ToUpper();
-
-        return (CompStr.SubString(CompStr.Size() - Str.Size(), Str.Size()) == Str);
+        _TString SubStr = SubString(Size() - rkStr.Size(), rkStr.Size());
+        return CaseSensitive ? SubStr == rkStr : SubStr.CaseInsensitiveCompare(rkStr);
     }
 
     bool Contains(_TString Str, bool CaseSensitive = true) const
@@ -577,7 +557,14 @@ public:
 
     inline bool CaseInsensitiveCompare(const _TString& rkOther) const
     {
-        return (ToUpper() == rkOther.ToUpper());
+        if (Size() != rkOther.Size())
+            return false;
+
+        for (u32 iChr = 0; iChr < Size(); iChr++)
+            if (CharToUpper(At(iChr)) != CharToUpper(rkOther[iChr]))
+                return false;
+
+        return true;
     }
 
     // Get Filename Components
@@ -615,10 +602,8 @@ public:
         return SubString(0, EndName);
     }
 
-    _TString GetParentDirectoryPath(_TString ParentDirName, bool CaseSensitive = true)
+    _TString GetParentDirectoryPath(const _TString& rkParentDirName, bool CaseSensitive = true)
     {
-        if (!CaseSensitive) ParentDirName = ParentDirName.ToUpper();
-
         int IdxA = 0;
         int IdxB = IndexOf(LITERAL("\\/"));
         if (IdxB == -1) return _TString();
@@ -626,9 +611,8 @@ public:
         while (IdxB != -1)
         {
             _TString DirName = SubString(IdxA, IdxB - IdxA);
-            if (!CaseSensitive) DirName = DirName.ToUpper();
 
-            if (DirName == ParentDirName)
+            if (CaseSensitive ? (DirName == rkParentDirName) : (DirName.CaseInsensitiveCompare(rkParentDirName)))
                 return Truncate(IdxB + 1);
 
             IdxA = IdxB + 1;
@@ -639,6 +623,12 @@ public:
     }
 
     // Operators
+    inline _TString& operator=(CharType Char)
+    {
+        mInternalString = Char;
+        return *this;
+    }
+
     inline _TString& operator=(const CharType* pkText)
     {
         mInternalString = pkText;
@@ -666,6 +656,14 @@ public:
         return CString();
     }
 
+    _TString operator+(CharType Other) const
+    {
+        _TString Out(Size() + 1);
+        memcpy(&Out[0], mInternalString.data(), Size() * sizeof(CharType));
+        memcpy(&Out[Size()], &Other, sizeof(CharType));
+        return Out;
+    }
+
     _TString operator+(const CharType* pkOther) const
     {
         u32 Len = CStringLength(pkOther);
@@ -681,6 +679,11 @@ public:
         return (*this + rkOther.CString());
     }
 
+    inline void operator+=(CharType Other)
+    {
+        *this = *this + Other;
+    }
+
     inline void operator+=(const CharType* pkOther)
     {
         *this = *this + pkOther;
@@ -689,6 +692,14 @@ public:
     inline void operator+=(const _TString& rkOther)
     {
         *this = *this + rkOther;
+    }
+
+    inline friend _TString operator+(CharType Left, const _TString& rkRight)
+    {
+        _TString Out(rkRight.Size() + 1);
+        memcpy(&Out[0], &Left, sizeof(CharType));
+        memcpy(&Out[sizeof(CharType)], rkRight.CString(), rkRight.Size() * sizeof(CharType));
+        return Out;
     }
 
     inline friend _TString operator+(const CharType* pkLeft, const _TString& rkRight)
@@ -709,6 +720,11 @@ public:
         return Out;
     }
 
+    inline bool operator==(CharType Other) const
+    {
+        return Size() == 1 && At(0) == Other;
+    }
+
     inline bool operator==(const CharType *pkText) const
     {
         return CompareCStrings(pkText, CString());
@@ -717,6 +733,11 @@ public:
     inline bool operator==(const _TString& rkOther) const
     {
         return (mInternalString == rkOther.mInternalString);
+    }
+
+    inline friend bool operator==(CharType Other, const _TString& rkString)
+    {
+        return (rkString == Other);
     }
 
     inline friend bool operator==(const CharType *pkText, const _TString& rkString)
@@ -729,6 +750,11 @@ public:
         return (rkStringB == rkStringA);
     }
 
+    inline bool operator!=(CharType Other) const
+    {
+        return (!(*this == Other));
+    }
+
     inline bool operator!=(const CharType *pkText) const
     {
         return (!(*this == pkText));
@@ -737,6 +763,11 @@ public:
     inline bool operator!=(const _TString& rkOther) const
     {
         return (!(*this == rkOther));
+    }
+
+    inline friend bool operator!=(CharType Other, const _TString& rkString)
+    {
+        return (rkString != Other);
     }
 
     inline friend bool operator!=(const CharType *pkText, const _TString& rkString)
@@ -842,21 +873,39 @@ public:
     }
 
     // Static
-    static TBasicString<CharType> FromInt32(s32 Value, int Width = 0, int Base = 16)
+    static _TString Format(const CharType *pkFmt, ...)
+    {
+        // Probably better to rewrite this at some point for better error handling + avoiding all the C-style syntax
+        const int kBufferSize = 4096;
+        CharType StringBuffer[kBufferSize];
+
+        std::va_list Args;
+        va_start(Args, pkFmt);
+
+        if (typeid(CharType) == typeid(char))
+            vsprintf_s((char*) StringBuffer, kBufferSize, (char*) pkFmt, Args);
+        else
+            vswprintf_s((wchar_t*) StringBuffer, kBufferSize, (wchar_t*) pkFmt, Args);
+
+        va_end(Args);
+        return _TString(StringBuffer);
+    }
+
+    static _TString FromInt32(s32 Value, int Width = 0, int Base = 16)
     {
         std::basic_stringstream<CharType> SStream;
         SStream << std::setbase(Base) << std::setw(Width) << std::setfill(CHAR_LITERAL('0')) << Value;
         return SStream.str();
     }
 
-    static TBasicString<CharType> FromInt64(s64 Value, int Width = 0, int Base = 16)
+    static _TString FromInt64(s64 Value, int Width = 0, int Base = 16)
     {
         std::basic_stringstream<CharType> SStream;
         SStream << std::setbase(Base) << std::setw(Width) << std::setfill(CHAR_LITERAL('0')) << Value;
         return SStream.str();
     }
 
-    static TBasicString<CharType> FromFloat(float Value, int MinDecimals = 1)
+    static _TString FromFloat(float Value, int MinDecimals = 1)
     {
         // Initial float -> string conversion
         std::basic_stringstream<CharType> SStream;
@@ -900,7 +949,7 @@ public:
         return Out;
     }
 
-    static TBasicString<CharType> FileSizeString(u64 Size, u32 NumDecimals = 2)
+    static _TString FileSizeString(u64 Size, u32 NumDecimals = 2)
     {
         _TString Out;
         _TString Type;
@@ -933,17 +982,17 @@ public:
         return Out + Type;
     }
 
-    static TBasicString<CharType> HexString(unsigned char Num, int Width = 8, bool AddPrefix = true, bool Uppercase = true)
+    static _TString HexString(unsigned char Num, int Width = 8, bool AddPrefix = true, bool Uppercase = true)
     {
         return HexString((unsigned long) Num, Width, AddPrefix, Uppercase);
     }
 
-    static TBasicString<CharType> HexString(unsigned short Num, int Width = 8, bool AddPrefix = true, bool Uppercase = true)
+    static _TString HexString(unsigned short Num, int Width = 8, bool AddPrefix = true, bool Uppercase = true)
     {
         return HexString((unsigned long) Num, Width, AddPrefix, Uppercase);
     }
 
-    static TBasicString<CharType> HexString(unsigned long Num, int Width = 8, bool AddPrefix = true, bool Uppercase = true)
+    static _TString HexString(unsigned long Num, int Width = 8, bool AddPrefix = true, bool Uppercase = true)
     {
         std::basic_stringstream<CharType> SStream;
         SStream << std::hex << std::setw(Width) << std::setfill('0') << Num;
@@ -979,6 +1028,18 @@ public:
         }
     }
 
+    inline static CharType CharToLower(CharType Chr)
+    {
+        // todo: doesn't handle accented characters
+        return (Chr >= CHAR_LITERAL('A') && Chr <= CHAR_LITERAL('Z')) ? Chr + 0x20 : Chr;
+    }
+
+    inline static CharType CharToUpper(CharType Chr)
+    {
+        // todo: doesn't handle accented characters
+        return (Chr >= CHAR_LITERAL('a') && Chr <= CHAR_LITERAL('z')) ? Chr - 0x20 : Chr;
+    }
+
     static bool IsWhitespace(CharType Chr)
     {
         return ( (Chr == CHAR_LITERAL('\t')) ||
@@ -987,6 +1048,11 @@ public:
                  (Chr == CHAR_LITERAL('\f')) ||
                  (Chr == CHAR_LITERAL('\r')) ||
                  (Chr == CHAR_LITERAL(' '))  );
+    }
+
+    static inline bool IsNumerical(CharType Chr)
+    {
+        return (Chr >= CHAR_LITERAL('0') && Chr <= CHAR_LITERAL('9'));
     }
 };
 
