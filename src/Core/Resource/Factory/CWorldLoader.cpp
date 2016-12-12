@@ -136,20 +136,11 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
     mpWorld->mpMapWorld = gpResourceStore->LoadResource( CAssetID(rMLVL, mVersion), "MAPW" );
     rMLVL.Seek(0x5, SEEK_CUR); // Unknown values which are always 0
 
-    // AudioGrps
+    // Audio Groups - we don't need this info as we regenerate it on cook
     if (mVersion == ePrime)
     {
         u32 NumAudioGrps = rMLVL.ReadLong();
-        mpWorld->mAudioGrps.reserve(NumAudioGrps);
-
-        for (u32 iGrp = 0; iGrp < NumAudioGrps; iGrp++)
-        {
-            CWorld::SAudioGrp AudioGrp;
-            AudioGrp.GroupID = rMLVL.ReadLong();
-            AudioGrp.ResID = rMLVL.ReadLong() & 0xFFFFFFFF;
-            mpWorld->mAudioGrps.push_back(AudioGrp);
-        }
-
+        rMLVL.Seek(0x8 * NumAudioGrps, SEEK_CUR);
         rMLVL.Seek(0x1, SEEK_CUR); // Unknown values which are always 0
     }
 
