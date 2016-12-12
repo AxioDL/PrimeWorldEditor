@@ -42,6 +42,18 @@ bool IsRelative(const TWideString& rkDirPath)
     return !boost::filesystem::path(*rkDirPath).is_relative();
 }
 
+bool IsEmpty(const TWideString& rkDirPath)
+{
+    if (!IsDirectory(rkDirPath))
+    {
+        Log::Error("Non-directory path passed to IsEmpty(): " + rkDirPath.ToUTF8());
+        DEBUG_BREAK;
+        return false;
+    }
+
+    return is_empty(*rkDirPath);
+}
+
 bool CreateDirectory(const TWideString& rkNewDir)
 {
     if (!IsValidPath(rkNewDir, true))
@@ -61,6 +73,7 @@ bool CopyFile(const TWideString& rkOrigPath, const TWideString& rkNewPath)
         return false;
     }
 
+    CreateDirectory(rkNewPath.GetFileDirectory());
     boost::system::error_code Error;
     copy(*rkOrigPath, *rkNewPath, Error);
     return (Error == boost::system::errc::success);
@@ -74,6 +87,7 @@ bool CopyDirectory(const TWideString& rkOrigPath, const TWideString& rkNewPath)
         return false;
     }
 
+    CreateDirectory(rkNewPath.GetFileDirectory());
     boost::system::error_code Error;
     copy_directory(*rkOrigPath, *rkNewPath, Error);
     return (Error == boost::system::errc::success);
@@ -317,7 +331,7 @@ TWideString SanitizePath(TWideString Path, bool Directory)
         TWideString Comp = *It;
         bool IsDir = Directory || CompIdx < Components.size() - 1;
         bool IsRoot = CompIdx == 0;
-        SanitizeName(Comp, IsDir, IsRoot);
+        Comp = SanitizeName(Comp, IsDir, IsRoot);
 
         Path += Comp;
         if (IsDir) Path += L'\\';
@@ -330,6 +344,9 @@ TWideString SanitizePath(TWideString Path, bool Directory)
 bool IsValidName(const TWideString& rkName, bool Directory, bool RootDir /*= false*/)
 {
     // Windows only atm
+    if (rkName.IsEmpty())
+        return false;
+
     u32 NumIllegalChars = sizeof(gskIllegalNameChars) / sizeof(wchar_t);
 
     if (Directory && (rkName == L"." || rkName == L".."))

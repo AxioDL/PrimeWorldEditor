@@ -29,6 +29,36 @@ EGame GetGameForID(const CFourCC& rkID)
     return eUnknownGame;
 }
 
+TString GetGameName(EGame Game)
+{
+    switch (Game)
+    {
+    case ePrimeDemo:        return "Metroid Prime Kiosk Demo";
+    case ePrime:            return "Metroid Prime";
+    case eEchoesDemo:       return "Metroid Prime 2: Echoes Demo";
+    case eEchoes:           return "Metroid Prime 2: Echoes";
+    case eCorruptionProto:  return "Metroid Prime 3: Corruption Prototype";
+    case eCorruption:       return "Metroid Prime 3: Corruption";
+    case eReturns:          return "Donkey Kong Country Returns";
+    default:                return "Unknown Game";
+    }
+}
+
+TString GetGameShortName(EGame Game)
+{
+    switch (Game)
+    {
+    case ePrimeDemo:        return "MP1Demo";
+    case ePrime:            return "MP1";
+    case eEchoesDemo:       return "MP2Demo";
+    case eEchoes:           return "MP2";
+    case eCorruptionProto:  return "MP3Proto";
+    case eCorruption:       return "MP3";
+    case eReturns:          return "DKCR";
+    default:                return "Unknown";
+    }
+}
+
 void Serialize(IArchive& rArc, EGame& rGame)
 {
     CFourCC GameID = GetGameID(rGame);

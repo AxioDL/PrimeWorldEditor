@@ -129,6 +129,12 @@ public:
         return nullptr;
     }
 
+    void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const
+    {
+        for (u32 iAnim = 0; iAnim < mAnimPrimitives.size(); iAnim++)
+            rPrimSet.insert(mAnimPrimitives[iAnim]);
+    }
+
     // Accessors
     inline u32 NumCharacters() const        { return mCharacters.size(); }
     inline u32 NumAnimations() const        { return mAnimations.size(); }

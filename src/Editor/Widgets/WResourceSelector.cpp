@@ -129,7 +129,7 @@ void WResourceSelector::SetResource(CResourceEntry *pRes)
         // when the user types in a resource path so I'd prefer for the text not to be cleared out in that case
         if (mpResource)
         {
-            TWideString Path = mpResource->HasRawVersion() ? mpResource->RawAssetPath(true) : mpResource->CookedAssetPath(true);
+            TWideString Path = mpResource->CookedAssetPath(true);
             mUI.LineEdit->setText(TO_QSTRING(Path));
             mResourceValid = HasSupportedExtension(mpResource);
         }

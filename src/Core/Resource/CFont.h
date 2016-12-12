@@ -65,6 +65,10 @@ public:
                            CVector2f Position = CVector2f(0,0),
                            CColor FillColor = CColor::skWhite, CColor StrokeColor = CColor::skBlack,
                            u32 FontSize = CFONT_DEFAULT_SIZE);
+
+    // Accessors
+    inline TString FontName() const         { return mFontName; }
+    inline CTexture* Texture() const   { return mpFontTexture; }
 private:
     void InitBuffers();
 };

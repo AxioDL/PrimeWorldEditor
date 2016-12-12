@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="Vector2f" type="single">
+    <properties>
+        <property ID="0x00" name="X" type="float"/>
+        <property ID="0x01" name="Y" type="float"/>
+    </properties>
+</struct>

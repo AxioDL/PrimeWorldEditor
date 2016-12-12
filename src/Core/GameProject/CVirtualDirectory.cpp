@@ -1,6 +1,7 @@
 #include "CVirtualDirectory.h"
 #include "CResourceEntry.h"
 #include "CResourceStore.h"
+#include "Core/Resource/CResource.h"
 #include <algorithm>
 
 CVirtualDirectory::CVirtualDirectory()
@@ -33,7 +34,7 @@ bool CVirtualDirectory::IsEmpty() const
 
 TWideString CVirtualDirectory::FullPath() const
 {
-    return (mpParent && !mpParent->IsRoot() ? mpParent->FullPath() + L'\\' + mName + L"\\" : mName + L"\\");
+    return (mpParent && !mpParent->IsRoot() ? mpParent->FullPath() + mName + L'\\' : mName + L'\\');
 }
 
 CVirtualDirectory* CVirtualDirectory::GetRoot()
@@ -50,7 +51,7 @@ CVirtualDirectory* CVirtualDirectory::FindChildDirectory(const TWideString& rkNa
     {
         CVirtualDirectory *pChild = mSubdirectories[iSub];
 
-        if (pChild->Name() == DirName)
+        if (pChild->Name().CaseInsensitiveCompare(DirName))
         {
             if (SlashIdx == -1)
                 return pChild;
@@ -81,7 +82,7 @@ CVirtualDirectory* CVirtualDirectory::FindChildDirectory(const TWideString& rkNa
 CResourceEntry* CVirtualDirectory::FindChildResource(const TWideString& rkPath)
 {
     TWideString Dir = rkPath.GetFileDirectory();
-    TWideString Name = rkPath.GetFileName(false);
+    TWideString Name = rkPath.GetFileName();
 
     if (!Dir.IsEmpty())
     {
@@ -89,13 +90,22 @@ CResourceEntry* CVirtualDirectory::FindChildResource(const TWideString& rkPath)
         if (pDir) return pDir->FindChildResource(Name);
     }
 
-    else
+    else if (!Name.IsEmpty())
     {
-        for (u32 iRes = 0; iRes < mResources.size(); iRes++)
-        {
-            if (mResources[iRes]->Name() == Name)
-                return mResources[iRes];
-        }
+        TWideString Ext = Name.GetFileExtension();
+        EResType Type = CResource::ResTypeForExtension(Ext);
+        return FindChildResource(Name.GetFileName(false), Type);
+    }
+
+    return nullptr;
+}
+
+CResourceEntry* CVirtualDirectory::FindChildResource(const TWideString& rkName, EResType Type)
+{
+    for (u32 iRes = 0; iRes < mResources.size(); iRes++)
+    {
+        if (rkName.CaseInsensitiveCompare(mResources[iRes]->Name()) && mResources[iRes]->ResourceType() == Type)
+            return mResources[iRes];
     }
 
     return nullptr;
@@ -168,10 +178,6 @@ bool CVirtualDirectory::RemoveChildResource(CResourceEntry *pEntry)
         if (*It == pEntry)
         {
             mResources.erase(It);
-
-            if (mpParent && IsEmpty())
-                mpParent->RemoveChildDirectory(this);
-
             return true;
         }
     }

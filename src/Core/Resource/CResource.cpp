@@ -14,7 +14,7 @@ u32 GetGameTypeID(EGame Game, EResType ResType)
 // ************ STATIC ************
 EResType CResource::ResTypeForExtension(CFourCC Extension)
 {
-    auto Find = gExtensionTypeMap.find(Extension.ToLong());
+    auto Find = gExtensionTypeMap.find(Extension.ToUpper().ToLong());
 
     if (Find == gExtensionTypeMap.end())
     {

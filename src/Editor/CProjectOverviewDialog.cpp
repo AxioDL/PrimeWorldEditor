@@ -83,6 +83,13 @@ void CProjectOverviewDialog::ExportGame()
         return;
     }
 
+    // Verify export directory is empty
+    if (!FileUtil::IsEmpty(TO_TSTRING(ExportDir)))
+    {
+        QMessageBox::Button Button = QMessageBox::warning(this, "Warning", "<b>Warning:</b> The specified directory is not empty. Export anyway?", QMessageBox::Ok | QMessageBox::Cancel, QMessageBox::NoButton);
+        if (Button != QMessageBox::Ok) return;
+    }
+
     CGameExporter Exporter(TO_TSTRING(GameRoot), TO_TSTRING(ExportDir));
     Exporter.Export();
 }

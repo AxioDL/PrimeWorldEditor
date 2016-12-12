@@ -426,6 +426,7 @@ public:
 
 // Container serialize methods
 #include <list>
+#include <map>
 #include <set>
 #include <vector>
 
@@ -524,6 +525,79 @@ inline void SerializeContainer(IArchive& rArc, std::set<ValType>& rSet, const TS
         {
             ValType Val = *Iter;
             rArc << SERIAL_ABSTRACT(*rkElemName, Val, pFactory);
+        }
+    }
+}
+
+// std::map
+template<typename KeyType, typename ValType>
+inline void SerializeContainer(IArchive& rArc, std::map<KeyType,ValType>& rMap, const TString& rkElemName)
+{
+    u32 Size = rMap.size();
+    rArc.SerializeContainerSize(Size);
+
+    if (rArc.IsReader())
+    {
+        for (u32 iElem = 0; iElem < Size; iElem++)
+        {
+            KeyType Key;
+            ValType Val;
+
+            rArc.ParamBegin(*rkElemName);
+            rArc << SERIAL("Key", Key) << SERIAL("Value", Val);
+            rArc.ParamEnd();
+
+            ASSERT(rMap.find(Key) == rMap.end());
+            rMap[Key] = Val;
+        }
+    }
+
+    else
+    {
+        for (auto Iter = rMap.begin(); Iter != rMap.end(); Iter++)
+        {
+            KeyType Key = Iter->first;
+            ValType Val = Iter->second;
+
+            rArc.ParamBegin(*rkElemName);
+            rArc << SERIAL("Key", Key) << SERIAL("Value", Val);
+            rArc.ParamEnd();
+        }
+    }
+}
+
+template<typename KeyType, typename ValType, typename FactoryType>
+inline void SerializeContainer(IArchive& rArc, std::map<KeyType,ValType>& rMap, const TString& rkElemName, FactoryType *pFactory)
+{
+    u32 Size = rMap.size();
+    rArc.SerializeContainerSize(Size);
+
+    if (rArc.IsReader())
+    {
+        for (u32 iElem = 0; iElem < Size; iElem++)
+        {
+            KeyType Key;
+            ValType Val;
+
+            rArc.ParamBegin(*rkElemName);
+            rArc << SERIAL_ABSTRACT("Key", Key, pFactory) << SERIAL("Value", Val);
+            rArc.ParamEnd();
+
+            ASSERT(rMap.find(Key) == rMap.end());
+            rMap[Key] = Val;
+        }
+    }
+
+    else
+    {
+        for (auto Iter = rMap.begin(); Iter != rMap.end(); Iter++)
+        {
+            KeyType Key = Iter->first;
+            ValType Val = Iter->second;
+
+            rArc.ParamBegin(*rkElemName);
+            rArc << SERIAL("Key", Key) << SERIAL("Value", Val);
+            rArc.ParamEnd();
         }
     }
 }
