@@ -333,7 +333,7 @@ void CRenderer::EndFrame()
 {
     // Copy result to the backbuffer
     mSceneFramebuffer.Bind(GL_READ_FRAMEBUFFER);
-    CFramebuffer::BindDefaultFramebuffer(GL_DRAW_FRAMEBUFFER);
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, mDefaultFramebuffer);
     glViewport(0, 0, mViewportWidth, mViewportHeight);
     glBlitFramebuffer(0, 0, mViewportWidth, mViewportHeight, 0, 0, mViewportWidth, mViewportHeight, GL_COLOR_BUFFER_BIT, GL_NEAREST);
     gDrawCount = 0;
