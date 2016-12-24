@@ -10,84 +10,50 @@
 
 const TString gkAssetListDir = "..\\resources\\list\\";
 
-struct SAssetNameInfo
-{
-    TWideString Name;
-    TWideString Directory;
-
-    void Serialize(IArchive& rArc)
-    {
-        rArc << SERIAL_AUTO(Name) << SERIAL_AUTO(Directory);
-    }
-};
-
 class CAssetNameMap
 {
-    typedef std::map<CAssetID, SAssetNameInfo> TAssetMap;
-    std::shared_ptr<TAssetMap> mpMap;
+    struct SAssetNameInfo
+    {
+        TWideString Name;
+        TWideString Directory;
+
+        void Serialize(IArchive& rArc)
+        {
+            rArc << SERIAL_AUTO(Name) << SERIAL_AUTO(Directory);
+        }
+    };
+
+    EGame mGame;
+    std::map<CAssetID, SAssetNameInfo> mMap;
+    static std::map<EGame, CAssetNameMap*> smGameMap;
+
+    // Private Methods
+    CAssetNameMap(EGame Game);
 
     void Serialize(IArchive& rArc)
     {
-        rArc << SERIAL_CONTAINER("AssetNameMap", *mpMap.get(), "Asset");
+        rArc << SERIAL_CONTAINER("AssetNameMap", mMap, "Asset");
     }
 
 public:
-    CAssetNameMap()
-    {
-        mpMap = std::make_shared<TAssetMap>(TAssetMap());
-    }
+    void SaveAssetNames();
+    void GetNameInfo(CAssetID ID, TString& rOutDirectory, TString& rOutName);
+    void CopyFromStore(CResourceStore *pStore);
 
-    void GetNameInfo(CAssetID ID, TString& rOutDirectory, TString& rOutName)
-    {
-        auto It = mpMap->find(ID);
-
-        if (It != mpMap->end())
-        {
-            SAssetNameInfo& rInfo = It->second;
-            rOutName = rInfo.Name;
-            rOutDirectory = rInfo.Directory;
-        }
-
-        else
-        {
-            rOutDirectory = "Uncategorized\\";
-            rOutName = ID.ToString();
-        }
-    }
-
+    // Static Methods
     static TString GetAssetListPath(EGame Game)
     {
         return gkAssetListDir + "AssetList" + GetGameShortName(Game) + ".xml";
     }
 
-    static CAssetNameMap LoadAssetNames(EGame Game)
+    static CAssetNameMap* GetGameNameMap(EGame Game)
     {
-        TString ListPath = GetAssetListPath(Game);
-        CXMLReader Reader(ListPath);
+        auto Find = smGameMap.find(Game);
+        if (Find != smGameMap.end()) return Find->second;
 
-        CAssetNameMap Map;
-        Map.Serialize(Reader);
-        return Map;
-    }
-
-    static void SaveAssetNames(CResourceStore *pStore = gpResourceStore)
-    {
-        CAssetNameMap Map;
-
-        for (CResourceIterator It(pStore); It; ++It)
-        {
-            if (It->IsCategorized() || It->IsNamed())
-            {
-                CAssetID ID = It->ID();
-                TWideString Name = It->Name();
-                TWideString Directory = It->Directory()->FullPath();
-                (*Map.mpMap)[ID] = SAssetNameInfo { Name, Directory };
-            }
-        }
-
-        TString ListPath = GetAssetListPath(pStore->Game());
-        CXMLWriter Writer(ListPath, "AssetList", 0, pStore->Game());
-        Map.Serialize(Writer);
+        CAssetNameMap *pMap = new CAssetNameMap(Game);
+        smGameMap[Game] = pMap;
+        return pMap;
     }
 };
 

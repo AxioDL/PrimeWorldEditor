@@ -620,3 +620,73 @@ void CResourceStore::SetTransientLoadDir(const TString& rkDir)
     mTransientLoadDir.EnsureEndsWith('\\');
     Log::Write("Set resource directory: " + rkDir);
 }
+
+void CResourceStore::ImportNamesFromPakContentsTxt(const TString& rkTxtPath, bool UnnamedOnly)
+{
+    // Read file contents -first- then move assets -after-; this
+    // 1. avoids anything fucking up if the contents file is badly formatted and we crash, and
+    // 2. avoids extra redundant moves (since there are redundant entries in the file)
+    std::map<CResourceEntry*, TString> PathMap;
+    FILE *pContentsFile;
+    fopen_s(&pContentsFile, *rkTxtPath, "r");
+
+    if (!pContentsFile)
+    {
+        Log::Error("Failed to open .contents.txt file: " + rkTxtPath);
+        return;
+    }
+
+    while (!feof(pContentsFile))
+    {
+        // Get new line, parse to extract the ID/path
+        char LineBuffer[512];
+        fgets(LineBuffer, 512, pContentsFile);
+
+        TString Line(LineBuffer);
+        if (Line.IsEmpty()) break;
+
+        u32 IDStart = Line.IndexOfPhrase("0x") + 2;
+        if (IDStart == 1) continue;
+
+        u32 IDEnd = Line.IndexOf(" \t", IDStart);
+        u32 PathStart = IDEnd + 1;
+        u32 PathEnd = Line.Size() - 4;
+
+        TString IDStr = Line.SubString(IDStart, IDEnd - IDStart);
+        TString Path = Line.SubString(PathStart, PathEnd - PathStart);
+
+        CAssetID ID = CAssetID::FromString(IDStr);
+        CResourceEntry *pEntry = FindEntry(ID);
+
+        // Only process this entry if the ID exists
+        if (pEntry)
+        {
+            // Chop name to just after "x_rep"
+            u32 RepStart = Path.IndexOfPhrase("_rep");
+
+            if (RepStart != -1)
+                Path = Path.ChopFront(RepStart + 5);
+
+            // If the "x_rep" folder doesn't exist in this path for some reason, then just chop off the drive letter
+            else
+                Path = Path.ChopFront(3);
+
+            PathMap[pEntry] = Path;
+        }
+    }
+
+    fclose(pContentsFile);
+
+    // Assign names
+    for (auto Iter = PathMap.begin(); Iter != PathMap.end(); Iter++)
+    {
+        CResourceEntry *pEntry = Iter->first;
+        if (UnnamedOnly && pEntry->IsNamed()) continue;
+
+        TWideString Path = Iter->second.ToUTF16();
+        pEntry->Move(Path.GetFileDirectory(), Path.GetFileName(false));
+    }
+
+    // Save
+    ConditionalSaveStore();
+}

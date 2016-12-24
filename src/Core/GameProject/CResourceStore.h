@@ -77,6 +77,8 @@ public:
     bool DeleteResourceEntry(CResourceEntry *pEntry);
     void SetTransientLoadDir(const TString& rkDir);
 
+    void ImportNamesFromPakContentsTxt(const TString& rkTxtPath, bool UnnamedOnly);
+
     // Accessors
     inline CGameProject* Project() const                { return mpProj; }
     inline EGame Game() const                           { return mGame; }

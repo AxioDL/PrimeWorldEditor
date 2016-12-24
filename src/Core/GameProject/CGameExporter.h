@@ -29,7 +29,7 @@ class CGameExporter
     // Resources
     TWideStringList mPaks;
     std::map<CAssetID, bool> mAreaDuplicateMap;
-    CAssetNameMap mNameMap;
+    CAssetNameMap *mpNameMap;
 
     struct SResourceInstance
     {

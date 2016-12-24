@@ -187,6 +187,20 @@
      </item>
     </layout>
    </item>
+   <item>
+    <widget class="QPushButton" name="ImportNamesButton">
+     <property name="text">
+      <string>Import Names</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="ExportNamesButton">
+     <property name="text">
+      <string>Export Names</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <resources/>

@@ -207,10 +207,11 @@ void GenerateAssetNames(CGameProject *pProj)
                 {
                     TString Name = pInst->InstanceName();
 
-                    if (Name.EndsWith(".scan"))
+                    if (Name.EndsWith(".SCAN", false))
                     {
                         TIDString ScanIDString = (pProj->Game() <= ePrime ? "0x4:0x0" : "0xBDBEC295:0xB94E9BE7");
                         TAssetProperty *pScanProperty = TPropCast<TAssetProperty>(pInst->PropertyByIDString(ScanIDString));
+                        ASSERT(pScanProperty); // Temporary assert to remind myself later to update this code when uncooked properties are added to the template
 
                         if (pScanProperty)
                         {
@@ -220,6 +221,10 @@ void GenerateAssetNames(CGameProject *pProj)
                             if (pEntry && !pEntry->IsNamed())
                             {
                                 TWideString ScanName = Name.ToUTF16().ChopBack(5);
+
+                                if (ScanName.StartsWith(L"POI_"))
+                                    ScanName = ScanName.ChopFront(4);
+
                                 ApplyGeneratedName(pEntry, pEntry->DirectoryPath(), ScanName);
 
                                 CScan *pScan = (CScan*) pEntry->Load();
@@ -228,6 +233,34 @@ void GenerateAssetNames(CGameProject *pProj)
                                     CResourceEntry *pStringEntry = pScan->ScanText()->Entry();
                                     ApplyGeneratedName(pStringEntry, pStringEntry->DirectoryPath(), ScanName);
                                 }
+                            }
+                        }
+                    }
+                }
+
+                else if (pInst->ObjectTypeID() == 0x17 || pInst->ObjectTypeID() == FOURCC("MEMO"))
+                {
+                    TString Name = pInst->InstanceName();
+
+                    if (Name.EndsWith(".STRG", false))
+                    {
+                        u32 StringPropID = (pProj->Game() <= ePrime ? 0x4 : 0x9182250C);
+                        TAssetProperty *pStringProperty = TPropCast<TAssetProperty>(pInst->Properties()->PropertyByID(StringPropID));
+                        ASSERT(pStringProperty); // Temporary assert to remind myself later to update this code when uncooked properties are added to the template
+
+                        if (pStringProperty)
+                        {
+                            CAssetID StringID = pStringProperty->Get();
+                            CResourceEntry *pEntry = pStore->FindEntry(StringID);
+
+                            if (pEntry && !pEntry->IsNamed())
+                            {
+                                TWideString StringName = Name.ToUTF16().ChopBack(5);
+
+                                if (StringName.StartsWith(L"HUDMemo - "))
+                                    StringName = StringName.ChopFront(10);
+
+                                ApplyGeneratedName(pEntry, pEntry->DirectoryPath(), StringName);
                             }
                         }
                     }

@@ -2,6 +2,8 @@
 #include "ui_CResourceBrowser.h"
 #include "Editor/ModelEditor/CModelEditorWindow.h"
 #include "Editor/CharacterEditor/CCharacterEditor.h"
+#include <QFileDialog>
+#include <QMenu>
 #include <QMessageBox>
 
 CResourceBrowser::CResourceBrowser(QWidget *pParent)
@@ -17,7 +19,6 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
     mpProxyModel = new CResourceProxyModel(this);
     mpProxyModel->setSourceModel(mpModel);
     mpUI->ResourceTableView->setModel(mpProxyModel);
-    RefreshResources();
 
     QHeaderView *pHeader = mpUI->ResourceTableView->horizontalHeader();
     pHeader->setSectionResizeMode(0, QHeaderView::Stretch);
@@ -26,9 +27,16 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
 
     // Set up directory tree model
     mpDirectoryModel = new CVirtualDirectoryModel(this);
-    mpDirectoryModel->SetRoot(gpResourceStore ? gpResourceStore->RootDirectory() : nullptr);
     mpUI->DirectoryTreeView->setModel(mpDirectoryModel);
-    mpUI->DirectoryTreeView->expand(mpDirectoryModel->index(0, 0, QModelIndex()));
+
+    RefreshResources();
+
+    // Set up Import Names menu
+    QMenu *pImportNamesMenu = new QMenu(this);
+    mpUI->ImportNamesButton->setMenu(pImportNamesMenu);
+
+    QAction *pImportFromContentsTxtAction = new QAction("Import from Pak Contents List", this);
+    pImportNamesMenu->addAction(pImportFromContentsTxtAction);
 
     // Set up connections
     connect(mpUI->StoreComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(OnStoreChanged(int)));
@@ -36,6 +44,7 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
     connect(mpUI->SortComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(OnSortModeChanged(int)));
     connect(mpUI->DirectoryTreeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(OnDirectorySelectionChanged(QModelIndex,QModelIndex)));
     connect(mpUI->ResourceTableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnDoubleClickResource(QModelIndex)));
+    connect(pImportFromContentsTxtAction, SIGNAL(triggered()), this, SLOT(OnImportPakContentsTxt()));
 }
 
 CResourceBrowser::~CResourceBrowser()
@@ -45,19 +54,21 @@ CResourceBrowser::~CResourceBrowser()
 
 void CResourceBrowser::RefreshResources()
 {
+    // Fill resource table
     mpModel->FillEntryList(mpStore);
+
+    // Fill directory tree
+    mpDirectoryModel->SetRoot(mpStore ? mpStore->RootDirectory() : nullptr);
+    QModelIndex RootIndex = mpDirectoryModel->index(0, 0, QModelIndex());
+    mpUI->DirectoryTreeView->expand(RootIndex);
+    mpUI->DirectoryTreeView->clearSelection();
+    OnDirectorySelectionChanged(QModelIndex(), QModelIndex());
 }
 
 void CResourceBrowser::OnStoreChanged(int Index)
 {
     mpStore = (Index == 0 ? gpResourceStore : gpEditorStore);
     RefreshResources();
-
-    mpDirectoryModel->SetRoot(mpStore ? mpStore->RootDirectory() : nullptr);
-    QModelIndex RootIndex = mpDirectoryModel->index(0, 0, QModelIndex());
-    mpUI->DirectoryTreeView->expand(RootIndex);
-    mpUI->DirectoryTreeView->clearSelection();
-    OnDirectorySelectionChanged(QModelIndex(), QModelIndex());
 }
 
 void CResourceBrowser::OnSortModeChanged(int Index)
@@ -116,4 +127,15 @@ void CResourceBrowser::OnDoubleClickResource(QModelIndex Index)
 
     else
         QMessageBox::information(this, "Unsupported Resource", "The selected resource type is currently unsupported for editing.");
+}
+
+void CResourceBrowser::OnImportPakContentsTxt()
+{
+    QStringList PathList = QFileDialog::getOpenFileNames(this, "Open pak contents list", "", "*.pak.contents.txt");
+    if (PathList.isEmpty()) return;
+
+    foreach(const QString& rkPath, PathList)
+        mpStore->ImportNamesFromPakContentsTxt(TO_TSTRING(rkPath), false);
+
+    RefreshResources();
 }
