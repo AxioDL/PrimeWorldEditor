@@ -333,7 +333,6 @@ void CDrawUtil::UseCollisionShader(const CColor& TintColor /*= CColor::skWhite*/
 {
     Init();
     mpCollisionShader->SetCurrent();
-    LoadCheckerboardTexture(0);
 
     static GLuint TintColorLoc = mpCollisionShader->GetUniformLocation("TintColor");
     glUniform4f(TintColorLoc, TintColor.R, TintColor.G, TintColor.B, TintColor.A);

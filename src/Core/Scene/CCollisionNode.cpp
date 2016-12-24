@@ -39,8 +39,6 @@ void CCollisionNode::Draw(FRenderOptions /*Options*/, int /*ComponentIndex*/, ER
 
     CDrawUtil::UseCollisionShader(TintColor(rkViewInfo));
     mpCollision->Draw();
-    CDrawUtil::UseColorShader(CColor::skTransparentBlack);
-    mpCollision->DrawWireframe();
 }
 
 SRayIntersection CCollisionNode::RayNodeIntersectTest(const CRay& /*rkRay*/, u32 /*AssetID*/, const SViewInfo& /*rkViewInfo*/)
