@@ -317,4 +317,5 @@ SOURCES += \
     Resource/Animation/CSkeleton.cpp \
     Resource/Animation/IMetaAnimation.cpp \
     Resource/Animation/IMetaTransition.cpp \
-    GameProject/AssetNameGeneration.cpp
+    GameProject/AssetNameGeneration.cpp \
+    GameProject/CAssetNameMap.cpp

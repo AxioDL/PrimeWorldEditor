@@ -30,6 +30,7 @@ public slots:
     void OnSearchStringChanged();
     void OnDirectorySelectionChanged(const QModelIndex& rkNewIndex, const QModelIndex& rkPrevIndex);
     void OnDoubleClickResource(QModelIndex Index);
+    void OnImportPakContentsTxt();
 };
 
 #endif // CRESOURCEBROWSER_H

@@ -18,6 +18,7 @@
 #define EXPORT_COOKED 1
 
 CGameExporter::CGameExporter(const TString& rkInputDir, const TString& rkOutputDir)
+    : mpNameMap(nullptr)
 {
     mGame = eUnknownGame;
     mGameDir = FileUtil::MakeAbsolute(rkInputDir);
@@ -51,7 +52,7 @@ bool CGameExporter::Export()
     mCookedDir = mpStore->CookedDir(false);
 
 #if USE_ASSET_NAME_MAP
-    mNameMap = CAssetNameMap::LoadAssetNames(mGame);
+    mpNameMap = CAssetNameMap::GetGameNameMap(mGame);
 #endif
 
     // Export game data
@@ -470,7 +471,7 @@ void CGameExporter::ExportResource(SResourceInstance& rRes)
 
         // Register resource and write to file
         TString Directory, Name;
-        mNameMap.GetNameInfo(rRes.ResourceID, Directory, Name);
+        mpNameMap->GetNameInfo(rRes.ResourceID, Directory, Name);
         CResourceEntry *pEntry = mpStore->RegisterResource(rRes.ResourceID, CResource::ResTypeForExtension(rRes.ResourceType), Directory, Name);
 
 #if EXPORT_COOKED

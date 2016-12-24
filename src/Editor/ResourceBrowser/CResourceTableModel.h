@@ -36,8 +36,15 @@ public:
 
         if (Role == Qt::DisplayRole)
         {
-            if (Col == 0) return TO_QSTRING(pEntry->Name());
-            if (Col == 1) return TO_QSTRING(GetResourceTypeName(pEntry->ResourceType()));
+            if (Col == 0)
+            {
+                return TO_QSTRING(pEntry->Name());
+            }
+
+            if (Col == 1)
+            {
+                return TO_QSTRING(GetResourceTypeName(pEntry->ResourceType()));
+            }
 
             if (Col == 2)
             {
