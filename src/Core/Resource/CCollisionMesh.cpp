@@ -4,7 +4,7 @@
 
 CCollisionMesh::CCollisionMesh()
 {
-    mVBO.SetVertexDesc(ePosition);
+    mVBO.SetVertexDesc(ePosition | eNormal);
     mVertexCount = 0;
     mLineCount = 0;
     mFaceCount = 0;
@@ -31,13 +31,10 @@ void CCollisionMesh::BufferGL()
         mBuffered = false;
     }
 
-    // Add all the verts to our VBO, first...
-    mVBO.Reserve(mCollisionVertices.size());
-    for (u16 iVtx = 0; iVtx < mCollisionVertices.size(); iVtx++)
-        mVBO.AddVertex(CVertex(mCollisionVertices[iVtx].Pos));
-
-    // Then add all the relevant indices to the IBO
+    // Add all the relevant indices to the IBO
+    mVBO.Reserve(mCollisionFaces.size() * 3);
     mIBO.Reserve(mCollisionFaces.size() * 3);
+
     for (u32 iVtx = 0; iVtx < mCollisionFaces.size(); iVtx++)
     {
         u16 Verts[3];
@@ -56,14 +53,29 @@ void CCollisionMesh::BufferGL()
             Verts[2] = pLineB->Vertices[1];
 
         // Some faces have a property that indicates they need to be inverted
-        if (!pFace->Properties.Invert)
-            mIBO.AddIndices(&Verts[0], 3);
-
-        else
+        if (pFace->Properties.Invert)
         {
-            mIBO.AddIndex(Verts[2]);
-            mIBO.AddIndex(Verts[1]);
-            mIBO.AddIndex(Verts[0]);
+            u16 V0 = Verts[0];
+            Verts[0] = Verts[2];
+            Verts[2] = V0;
+        }
+
+        // Generate vertices - we don't share vertices between triangles in order to get the generated normals looking correct
+        CCollisionVertex& rVert0 = mCollisionVertices[Verts[0]];
+        CCollisionVertex& rVert1 = mCollisionVertices[Verts[1]];
+        CCollisionVertex& rVert2 = mCollisionVertices[Verts[2]];
+
+        CVector3f V0toV1 = (rVert1.Pos - rVert0.Pos).Normalized();
+        CVector3f V0toV2 = (rVert2.Pos - rVert0.Pos).Normalized();
+        CVector3f FaceNormal = V0toV1.Cross(V0toV2).Normalized();
+
+        for (u32 iVtx = 0; iVtx < 3; iVtx++)
+        {
+            CVertex Vtx;
+            Vtx.Position = mCollisionVertices[ Verts[iVtx] ].Pos;
+            Vtx.Normal = FaceNormal;
+            u16 Index = mVBO.AddVertex(Vtx);
+            mIBO.AddIndex(Index);
         }
     }
 
