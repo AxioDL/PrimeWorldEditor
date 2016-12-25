@@ -1,6 +1,7 @@
 #include "CCollisionMesh.h"
 #include "Core/Render/CRenderer.h"
 #include "Core/Render/CDrawUtil.h"
+#include <Common/Assert.h>
 
 CCollisionMesh::CCollisionMesh()
 {
@@ -31,19 +32,38 @@ void CCollisionMesh::BufferGL()
         mBuffered = false;
     }
 
-    // Add all the relevant indices to the IBO
-    mVBO.Reserve(mCollisionFaces.size() * 3);
-    mIBO.Reserve(mCollisionFaces.size() * 3);
+    // Create new list of collision faces sorted by material index
+    std::vector<CCollisionFace> SortedTris = mCollisionFaces;
+    std::sort(SortedTris.begin(), SortedTris.end(), [](CCollisionFace& rLeft, CCollisionFace& rRight) -> bool {
+        return rLeft.MaterialIdx < rRight.MaterialIdx;
+    });
 
-    for (u32 iVtx = 0; iVtx < mCollisionFaces.size(); iVtx++)
+    // Add all the relevant indices to the IBO
+    mVBO.Reserve(SortedTris.size() * 3);
+    mIBO.Reserve(SortedTris.size() * 3);
+
+    mMaterialOffsets.reserve(mMaterials.size());
+    u32 CurMat = 0;
+
+    for (u32 iTri = 0; iTri < SortedTris.size(); iTri++)
     {
         u16 Verts[3];
 
-        CCollisionFace *pFace = &mCollisionFaces[iVtx];
+        CCollisionFace *pFace = &SortedTris[iTri];
         CCollisionLine *pLineA = GetLine(pFace->Lines[0]);
         CCollisionLine *pLineB = GetLine(pFace->Lines[1]);
         Verts[0] = pLineA->Vertices[0];
         Verts[1] = pLineA->Vertices[1];
+
+        // Check if we've reached a new material
+        if (pFace->MaterialIdx != CurMat)
+        {
+            while (CurMat != pFace->MaterialIdx)
+            {
+                mMaterialOffsets.push_back(mIBO.GetSize());
+                CurMat++;
+            }
+        }
 
         // We have two vertex indices; the last one is one of the ones on line B, but we're not sure which one
         if ((pLineB->Vertices[0] != Verts[0]) &&
@@ -53,7 +73,7 @@ void CCollisionMesh::BufferGL()
             Verts[2] = pLineB->Vertices[1];
 
         // Some faces have a property that indicates they need to be inverted
-        if (pFace->Properties.Invert)
+        if (GetMaterial(pFace->MaterialIdx).FlippedTri)
         {
             u16 V0 = Verts[0];
             Verts[0] = Verts[2];
@@ -79,6 +99,14 @@ void CCollisionMesh::BufferGL()
         }
     }
 
+    while (CurMat != mMaterials.size())
+    {
+        mMaterialOffsets.push_back(mIBO.GetSize());
+        CurMat++;
+    }
+
+    ASSERT(mMaterialOffsets.size() == mMaterials.size());
+
     // Buffer, and done
     mVBO.Buffer();
     mIBO.Buffer();
@@ -91,6 +119,18 @@ void CCollisionMesh::Draw()
 
     mVBO.Bind();
     mIBO.DrawElements();
+    mVBO.Unbind();
+}
+
+void CCollisionMesh::DrawMaterial(u32 MatIdx)
+{
+    if (!mBuffered) BufferGL();
+    ASSERT(MatIdx < mMaterials.size());
+
+    mVBO.Bind();
+    u32 StartIdx = (MatIdx == 0 ? 0 : mMaterialOffsets[MatIdx - 1]);
+    u32 NumElements = mMaterialOffsets[MatIdx] - StartIdx;
+    mIBO.DrawElements(StartIdx, NumElements);
     mVBO.Unbind();
 }
 

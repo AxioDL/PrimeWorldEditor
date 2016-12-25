@@ -37,8 +37,21 @@ void CCollisionNode::Draw(FRenderOptions /*Options*/, int /*ComponentIndex*/, ER
     glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
     glDepthMask(GL_TRUE);
 
-    CDrawUtil::UseCollisionShader(TintColor(rkViewInfo));
-    mpCollision->Draw();
+    CColor BaseTint = TintColor(rkViewInfo);
+
+    for (u32 iMesh = 0; iMesh < mpCollision->NumMeshes(); iMesh++)
+    {
+        CCollisionMesh *pMesh = mpCollision->MeshByIndex(iMesh);
+
+        for (u32 iMat = 0; iMat < pMesh->NumMaterials(); iMat++)
+        {
+            CDrawUtil::UseCollisionShader(BaseTint);
+            pMesh->DrawMaterial(iMat);
+        }
+    }
+
+    //CDrawUtil::UseColorShader(CColor::skTransparentBlack);
+    //mpCollision->DrawWireframe();
 }
 
 SRayIntersection CCollisionNode::RayNodeIntersectTest(const CRay& /*rkRay*/, u32 /*AssetID*/, const SViewInfo& /*rkViewInfo*/)
