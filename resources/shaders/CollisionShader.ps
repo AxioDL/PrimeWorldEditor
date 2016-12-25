@@ -9,8 +9,25 @@ out vec4 PixelColor;
 // Uniforms
 uniform vec4 TintColor;
 
+// Functions
+float InterpolateDecelerate(float Min, float Max, float t, float Factor)
+{
+	float Alpha = (1.0 - pow(1.0 - t, Factor));
+	return mix(Min, Max, Alpha);
+}
+
 // Main
 void main()
 {
-	PixelColor = LightColor * TintColor;
+	const float kMaxDepth = 75.0;		// Controls the max depth range that kDepthTintNear and kDepthTintFar are interpolated between
+	const float kDepthTintNear = 0.0;	// Sets the pixel color offset for pixels close to the screen
+	const float kDepthTintFar = -0.2;	// Sets the pixel color offset for pixels far from the screen
+	const float kDepthCurveFactor = 2;	// Controls the strength of the interpolation curve (higher = color chabges faster from up close and slower from further away)
+	
+	// Apply some fake fog so pixels closer to the camera appear slightly brighter
+	float Depth = ( (2.0 * gl_FragCoord.z - gl_DepthRange.near - gl_DepthRange.far) / (gl_DepthRange.far - gl_DepthRange.near) ) / gl_FragCoord.w;
+	float DepthAlpha = min(Depth, kMaxDepth) / kMaxDepth;
+	DepthAlpha = clamp(DepthAlpha, 0.0, 1.0);
+	float DepthTint = InterpolateDecelerate(kDepthTintNear, kDepthTintFar, DepthAlpha, kDepthCurveFactor);
+	PixelColor = (LightColor + vec4(DepthTint, DepthTint, DepthTint, 1.0)) * TintColor;
 }

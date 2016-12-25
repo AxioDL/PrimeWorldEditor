@@ -38,27 +38,27 @@ void CCollisionLoader::ParseOBBNode(IInputStream& rDCLN)
 
 void CCollisionLoader::ReadPropertyFlags(IInputStream& rSrc)
 {
-    CCollisionMesh::SCollisionProperties Property;
+    SCollisionMaterial Material;
 
     if (mVersion == ePrime)
     {
-        u32 Flag = rSrc.ReadLong();
-        Property.Invert = (Flag >> 25) & 0x1;
+        Material.RawFlags = rSrc.ReadLong();
+        Material.FlippedTri = (Material.RawFlags >> 25) & 0x1;
     }
 
     else if (mVersion == eEchoes)
     {
-        u64 Flag = rSrc.ReadLongLong();
-        Property.Invert = (Flag >> 24) & 0x1;
+        Material.RawFlags = rSrc.ReadLongLong();
+        Material.FlippedTri = (Material.RawFlags >> 24) & 0x1;
     }
 
     else if (mVersion == eReturns)
     {
-        u64 Flag = rSrc.ReadLongLong();
-        Property.Invert = (Flag >> 28) & 0x1;
+        Material.RawFlags = rSrc.ReadLongLong();
+        Material.FlippedTri = (Material.RawFlags >> 28) & 0x1;
     }
 
-    mProperties.push_back(Property);
+    mpMesh->mMaterials.push_back(Material);
 }
 
 void CCollisionLoader::LoadCollisionIndices(IInputStream &rFile, bool BuildAABox)
@@ -89,7 +89,7 @@ void CCollisionLoader::LoadCollisionIndices(IInputStream &rFile, bool BuildAABox
         CCollisionMesh::CCollisionLine *pLine = &mpMesh->mCollisionLines[iLine];
         pLine->Vertices[0] = rFile.ReadShort();
         pLine->Vertices[1] = rFile.ReadShort();
-        pLine->Properties =  mProperties[LineIndices[iLine]];
+        pLine->MaterialIdx = LineIndices[iLine];
     }
 
     // Faces
@@ -102,7 +102,7 @@ void CCollisionLoader::LoadCollisionIndices(IInputStream &rFile, bool BuildAABox
         pFace->Lines[0] = rFile.ReadShort();
         pFace->Lines[1] = rFile.ReadShort();
         pFace->Lines[2] = rFile.ReadShort();
-        pFace->Properties = mProperties[FaceIndices[iFace]];
+        pFace->MaterialIdx = FaceIndices[iFace];
     }
 
     // Echoes introduces a new data chunk; don't know what it is yet, skipping for now
@@ -121,7 +121,7 @@ void CCollisionLoader::LoadCollisionIndices(IInputStream &rFile, bool BuildAABox
     {
         CCollisionMesh::CCollisionVertex *pVtx = &mpMesh->mCollisionVertices[iVtx];
         pVtx->Pos = CVector3f(rFile);
-        pVtx->Properties = mProperties[VtxIndices[iVtx]];
+        pVtx->MaterialIdx = VtxIndices[iVtx];
         if (BuildAABox) Bounds.ExpandBounds(pVtx->Pos);
     }
     if (BuildAABox) mpMesh->mAABox = Bounds;

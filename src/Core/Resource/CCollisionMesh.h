@@ -6,6 +6,17 @@
 #include "Core/OpenGL/CIndexBuffer.h"
 #include <Math/CAABox.h>
 
+struct SCollisionMaterial
+{
+    // todo: figure out what the other properties are
+    u64 RawFlags;
+    bool AiWalkThru;
+    bool FlippedTri;
+    bool ShootThru;
+    bool CameraThru;
+    bool Solid;
+};
+
 class CCollisionMesh
 {
     friend class CCollisionLoader;
@@ -30,30 +41,24 @@ class CCollisionMesh
         SOctreeNode* mpRoot;
     };
 
-    struct SCollisionProperties
-    {
-        // todo: figure out what the other properties are
-        bool Invert;
-    };
-
     class CCollisionVertex
     {
     public:
-        SCollisionProperties Properties;
+        u32 MaterialIdx;
         CVector3f Pos;
     };
 
     class CCollisionLine
     {
     public:
-        SCollisionProperties Properties;
+        u32 MaterialIdx;
         u16 Vertices[2];
     };
 
     class CCollisionFace
     {
     public:
-        SCollisionProperties Properties;
+        u32 MaterialIdx;
         u16 Lines[3];
     };
 
@@ -66,10 +71,11 @@ class CCollisionMesh
 
     CAABox mAABox;
     CCollisionOctree *mpOctree;
-    std::vector<u32> mFlags;
+    std::vector<SCollisionMaterial> mMaterials;
     std::vector<CCollisionVertex> mCollisionVertices;
     std::vector<CCollisionLine> mCollisionLines;
     std::vector<CCollisionFace> mCollisionFaces;
+    std::vector<u32> mMaterialOffsets;
     bool mOctreeLoaded;
 
     CCollisionVertex *GetVertex(u16 Index);
@@ -82,7 +88,11 @@ public:
 
     void BufferGL();
     void Draw();
+    void DrawMaterial(u32 MatIdx);
     void DrawWireframe();
+
+    inline u32 NumMaterials() const                     { return mMaterials.size(); }
+    inline SCollisionMaterial& GetMaterial(u32 Index)   { return mMaterials[Index]; }
 };
 
 #endif // CCOLLISIONMESH_H

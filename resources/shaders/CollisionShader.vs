@@ -18,12 +18,17 @@ layout(std140) uniform MVPBlock
 // Main
 void main()
 {
+	const vec3 kLightDir = normalize( vec3(0.3, 0, -1) );	// Sets the direction of the light
+	const float kLightColorMin = 0.5;						// Sets the minimum light color (color of a vertex facing away from the light)
+	const float kLightColorMax = 0.9;						// Sets the maximum light color (color of a vertex facing towards the light)
+	
+	// Calculate vertex position
     mat4 MVP = ModelMtx * ViewMtx * ProjMtx;
 	gl_Position = vec4(RawPosition, 1) * MVP;
 	
-	// Fake lighting; render one white skylight pointing straight down with an ambient 0.5
-	float LightDot = dot(RawNormal, vec3(0, 0, -1));
+	// Apply some simple lighting
+	float LightDot = dot(RawNormal, kLightDir);
 	float Alpha = (-LightDot + 1.0) / 2;
-	float LightAlpha = mix(0.5, 0.9, Alpha);
+	float LightAlpha = mix(kLightColorMin, kLightColorMax, Alpha);
 	LightColor = vec4(LightAlpha, LightAlpha, LightAlpha, 1.0);
 }
