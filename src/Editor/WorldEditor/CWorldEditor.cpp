@@ -34,6 +34,7 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     , ui(new Ui::CWorldEditor)
     , mpArea(nullptr)
     , mpWorld(nullptr)
+    , mpCollisionDialog(new CCollisionRenderSettingsDialog(this, this))
     , mpLinkDialog(new CLinkDialog(this, this))
     , mpPoiDialog(nullptr)
     , mIsMakingLink(false)
@@ -139,6 +140,7 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     connect(ui->ActionBloom, SIGNAL(triggered()), this, SLOT(SetBloom()));
     connect(ui->ActionIncrementGizmo, SIGNAL(triggered()), this, SLOT(IncrementGizmo()));
     connect(ui->ActionDecrementGizmo, SIGNAL(triggered()), this, SLOT(DecrementGizmo()));
+    connect(ui->ActionCollisionRenderSettings, SIGNAL(triggered()), this, SLOT(EditCollisionRenderSettings()));
     connect(ui->ActionEditLayers, SIGNAL(triggered()), this, SLOT(EditLayers()));
     connect(ui->ActionEditPoiToWorldMap, SIGNAL(triggered()), this, SLOT(EditPoiToWorldMap()));
 
@@ -1102,6 +1104,11 @@ void CWorldEditor::IncrementGizmo()
 void CWorldEditor::DecrementGizmo()
 {
     mGizmo.DecrementSize();
+}
+
+void CWorldEditor::EditCollisionRenderSettings()
+{
+    mpCollisionDialog->show();
 }
 
 void CWorldEditor::EditLayers()
