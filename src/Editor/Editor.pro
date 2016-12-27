@@ -164,7 +164,8 @@ HEADERS += \
     CharacterEditor/CCharacterEditorViewport.h \
     CGridRenderable.h \
     CharacterEditor/CSkeletonHierarchyModel.h \
-    CLineRenderable.h
+    CLineRenderable.h \
+    WorldEditor/CCollisionRenderSettingsDialog.h
 
 # Source Files
 SOURCES += \
@@ -224,7 +225,8 @@ SOURCES += \
     CAboutDialog.cpp \
     CharacterEditor/CCharacterEditor.cpp \
     CharacterEditor/CCharacterEditorViewport.cpp \
-    CharacterEditor/CSkeletonHierarchyModel.cpp
+    CharacterEditor/CSkeletonHierarchyModel.cpp \
+    WorldEditor/CCollisionRenderSettingsDialog.cpp
 
 # UI Files
 FORMS += \
@@ -245,4 +247,5 @@ FORMS += \
     WorldEditor/CSelectInstanceDialog.ui \
     WorldEditor/CRepackInfoDialog.ui \
     CAboutDialog.ui \
-    CharacterEditor/CCharacterEditor.ui
+    CharacterEditor/CCharacterEditor.ui \
+    WorldEditor/CCollisionRenderSettingsDialog.ui

@@ -144,6 +144,7 @@ CCollisionMeshGroup* CCollisionLoader::LoadAreaCollision(IInputStream& rMREA)
     loader.mVersion = GetFormatVersion(rMREA.ReadLong());
 
     loader.mpGroup = new CCollisionMeshGroup;
+    loader.mpGroup->SetGame(loader.mVersion);
     loader.mpMesh = new CCollisionMesh;
 
     // Octree - structure is known, but not coding this right now
@@ -180,6 +181,7 @@ CCollisionMeshGroup* CCollisionLoader::LoadDCLN(IInputStream& rDCLN)
         }
 
         Loader.mVersion = GetFormatVersion(rDCLN.ReadLong());
+        Loader.mpGroup->SetGame(Loader.mVersion);
 
         Loader.mpMesh = new CCollisionMesh;
         Loader.mpMesh->mOctreeLoaded = false;

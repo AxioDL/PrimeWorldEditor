@@ -301,12 +301,22 @@ public:
 
     inline u32 ToInt32(int Base = 16) const
     {
-        return std::stoul(mInternalString, nullptr, Base);
+        try {
+            return std::stoul(mInternalString, nullptr, Base);
+        }
+        catch(...) {
+            return 0;
+        }
     }
 
     inline u64 ToInt64(int Base = 16) const
     {
-        return std::stoull(mInternalString, nullptr, Base);
+        try {
+            return std::stoull(mInternalString, nullptr, Base);
+        }
+        catch(...) {
+            return 0;
+        }
     }
 
     void ToInt128(CharType* pOut, int Base = 16) const
@@ -452,6 +462,10 @@ public:
             // If the string has the 0x prefix, remove it
             if (HasPrefix)
                 Str = Str.ChopFront(2);
+
+            // If the string is empty other than the prefix, then this is not a valid hex string
+            if (Str.IsEmpty())
+                return false;
 
             // If we have a variable width then assign the width value to the string size
             Width = Str.Size();

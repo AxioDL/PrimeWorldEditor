@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CCollisionRenderSettingsDialog</class>
+ <widget class="QDialog" name="CCollisionRenderSettingsDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>309</width>
+    <height>89</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QFormLayout" name="formLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="HideMaskLabel">
+       <property name="text">
+        <string>Hide Mask</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="HideMaskLineEdit"/>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="HighlightMaskLabel">
+       <property name="text">
+        <string>Highlight Mask</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="HighlightMaskLineEdit"/>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="WireframeLabel">
+       <property name="text">
+        <string>Wireframe</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QCheckBox" name="WireframeCheckBox">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

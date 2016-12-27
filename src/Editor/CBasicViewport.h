@@ -64,6 +64,7 @@ public:
     CVector2f MouseDeviceCoordinates();
     double LastRenderDuration();
 
+    inline SCollisionRenderSettings& CollisionRenderSettings()  { return mViewInfo.CollisionSettings; }
 public slots:
     void ProcessInput();
     void Render();

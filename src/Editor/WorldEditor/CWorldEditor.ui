@@ -463,6 +463,7 @@
     <addaction name="menuLighting"/>
     <addaction name="menuBloom"/>
     <addaction name="separator"/>
+    <addaction name="ActionCollisionRenderSettings"/>
     <addaction name="ActionDisableBackfaceCull"/>
     <addaction name="ActionDisableAlpha"/>
    </widget>
@@ -816,6 +817,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+S</string>
+   </property>
+  </action>
+  <action name="ActionCollisionRenderSettings">
+   <property name="text">
+    <string>Collision Render Settings</string>
    </property>
   </action>
  </widget>
