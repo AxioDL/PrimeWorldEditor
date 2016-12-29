@@ -14,7 +14,7 @@
         <object ID="AMIA" template="Script/AmbientAI.xml"/>
         <object ID="AMOR" template="Script/ActorMorph.xml"/>
         <object ID="AOCL" template="Script/AudioOccluder.xml"/>
-        <object ID="ASAS" template="Script/AssignedAudioStream.xml"/>
+        <object ID="ASAS" template="Script/AreaStreamedAudioState.xml"/>
         <object ID="ATMA" template="Script/AtomicAlpha.xml"/>
         <object ID="ATRN" template="Script/ActorTransform.xml"/>
         <object ID="AUR1" template="Script/AuroraUnit1.xml"/>

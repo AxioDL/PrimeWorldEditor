@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ScriptTemplate version="4">
-    <name>AssignedAudioStream</name>
+    <name>AreaStreamedAudioState</name>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
         <enum ID="0xE7D8D823" template="Enums/MusicEnumB.xml">

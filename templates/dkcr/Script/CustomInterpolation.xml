@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ScriptTemplate version="4">
-    <name>Bonus</name>
+    <name>CustomInterpolation</name>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0xD569AD4D" type="bool">
-            <default>false</default>
+        <property ID="0x67A984CB" type="long">
+            <default>3</default>
+            <cook_pref>always</cook_pref>
         </property>
-        <property ID="0x3217DFF8" type="bool">
-            <default>false</default>
+        <property ID="0xC3BF43BE" type="float">
+            <default>100.0</default>
         </property>
-        <property ID="0x6C160621" type="float">
-            <default>10.0</default>
+        <property ID="0x382A1973" type="float">
+            <default>135.0</default>
         </property>
-        <property ID="0x7B1E2AEB" type="float">
-            <default>5.0</default>
-        </property>
+        <struct ID="0x84335E71" template="Structs/MotionInterpolationMethod.xml"/>
+        <struct ID="0x1DF8D319" template="Structs/OrientationInterpolationMethod.xml"/>
+        <struct ID="0x31FAF024" template="Structs/FOVInterpolationMethod.xml"/>
     </properties>
     <states/>
     <messages/>
