@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ScriptTemplate version="4">
-    <name>StreamedAudioModifier</name>
+    <name>VolumeGroup</name>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0x0D21D348" type="float">
-            <default>0.25</default>
+        <property ID="0x6FE8333D" type="string"/>
+        <property ID="0xC7A7F189" type="float">
+            <default>1.0</default>
         </property>
-        <property ID="0xF977CB35" type="float">
-            <default>0.25</default>
-        </property>
-        <property ID="0xDC091BD4" type="float">
-            <default>0.0</default>
+        <property ID="0x70FDFCC4" type="bool">
+            <default>false</default>
         </property>
     </properties>
     <states/>
@@ -23,9 +21,7 @@
             <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
             <property name="Active" ID="0x255A4580:0x41435456"/>
         </properties>
-        <assets>
-            <billboard source="file">script/common/StreamedAudioModifier.txtr</billboard>
-        </assets>
+        <assets/>
         <preview_scale>0.5</preview_scale>
         <rotation_type>enabled</rotation_type>
         <scale_type>enabled</scale_type>

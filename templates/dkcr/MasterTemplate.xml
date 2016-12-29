@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <MasterTemplate version="4">
     <objects>
-        <object ID="AAGM" template="Script/AnimGridModifier.xml"/>
+        <object ID="AAGM" template="Script/ActorAnimGridModifier.xml"/>
         <object ID="ACKF" template="Script/ActorKeyframe.xml"/>
         <object ID="ACOU" template="Script/Acoustics.xml"/>
         <object ID="ACTR" template="Script/Actor.xml"/>
@@ -13,7 +13,7 @@
         <object ID="AOCL" template="Script/AudioOccluder.xml"/>
         <object ID="ARNO" template="Script/AreaNode.xml"/>
         <object ID="ARPA" template="Script/AreaPath.xml"/>
-        <object ID="ASAS" template="Script/AssignedAudioStream.xml"/>
+        <object ID="ASAS" template="Script/AreaStreamedAudioState.xml"/>
         <object ID="ATRN" template="Script/ActorTransform.xml"/>
         <object ID="AVIS" template="Script/AVIS.xml"/>
         <object ID="BABL" template="Script/BarrelBalloon.xml"/>
@@ -22,7 +22,7 @@
         <object ID="BLME" template="Script/BloomEffect.xml"/>
         <object ID="BLMV" template="Script/BloomVolume.xml"/>
         <object ID="BLUR" template="Script/CameraBlurKeyframe.xml"/>
-        <object ID="BONU" template="Script/Bonus.xml"/>
+        <object ID="BONU" template="Script/BonusRoom.xml"/>
         <object ID="BTYR" template="Script/BouncyTire.xml"/>
         <object ID="BUHA" template="Script/BeatUpHandler.xml"/>
         <object ID="CABL" template="Script/Cable.xml"/>
@@ -39,10 +39,10 @@
         <object ID="CNTA" template="Script/ControllerAction.xml"/>
         <object ID="CNTR" template="Script/Counter.xml"/>
         <object ID="CRAB" template="Script/PirateCrab.xml"/>
-        <object ID="CRED" template="Script/Credits.xml"/>
+        <object ID="CRED" template="Script/CreditsScreen.xml"/>
         <object ID="CRLY" template="Script/ConditionalRelay.xml"/>
-        <object ID="CSGO" template="Script/GameOver.xml"/>
-        <object ID="CSTI" template="Script/CSTI.xml"/>
+        <object ID="CSGO" template="Script/GameOverDisplay.xml"/>
+        <object ID="CSTI" template="Script/CustomInterpolation.xml"/>
         <object ID="DEBR" template="Script/Debris.xml"/>
         <object ID="DFOG" template="Script/DistanceFog.xml"/>
         <object ID="DLHT" template="Script/DynamicLight.xml"/>
@@ -71,7 +71,7 @@
         <object ID="GSLD" template="Script/GuiSlider.xml"/>
         <object ID="GUCH" template="Script/GuiCharacter.xml"/>
         <object ID="GWIG" template="Script/GuiWidget.xml"/>
-        <object ID="HINT" template="Script/PlayerHint.xml"/>
+        <object ID="HINT" template="Script/PlayerActionHint.xml"/>
         <object ID="HUDD" template="Script/HUD.xml"/>
         <object ID="HUDP" template="Script/HUDProxy.xml"/>
         <object ID="IHUD" template="Script/IslandHUD.xml"/>
@@ -113,15 +113,15 @@
         <object ID="RCKF" template="Script/RobotChickenFlyer.xml"/>
         <object ID="RCTL" template="Script/ReviewControl.xml"/>
         <object ID="REAA" template="Script/AreaAttributes.xml"/>
-        <object ID="REAC" template="Script/ReactiveObject.xml"/>
+        <object ID="REAC" template="Script/ReactiveActor.xml"/>
         <object ID="RMBI" template="Script/Rambi.xml"/>
         <object ID="ROPE" template="Script/SwingRope.xml"/>
-        <object ID="RRLY" template="Script/RandomRelay.xml"/>
+        <object ID="RRLY" template="Script/RelayRandom.xml"/>
         <object ID="RSBL" template="Script/RespawnBalloon.xml"/>
-        <object ID="RSCL" template="Script/RSCL.xml"/>
+        <object ID="RSCL" template="Script/ReactiveScale.xml"/>
         <object ID="RTNM" template="Script/Retronome.xml"/>
         <object ID="RUMB" template="Script/RumbleEffect.xml"/>
-        <object ID="SAMD" template="Script/StreamedAudioModifier.xml"/>
+        <object ID="SAMD" template="Script/MusicModifier.xml"/>
         <object ID="SBMI" template="Script/SkyboxModInca.xml"/>
         <object ID="SCTL" template="Script/SurfaceControl.xml"/>
         <object ID="SHDW" template="Script/ShadowProjector.xml"/>
@@ -141,7 +141,7 @@
         <object ID="SUBT" template="Script/Subtitles.xml"/>
         <object ID="SUSP" template="Script/SuspensionBridge.xml"/>
         <object ID="SVOL" template="Script/SplineModifierVolume.xml"/>
-        <object ID="SWKP" template="Script/SquawkPuzzleAlert.xml"/>
+        <object ID="SWKP" template="Script/SquawkProxy.xml"/>
         <object ID="SWTC" template="Script/Switch.xml"/>
         <object ID="TARP" template="Script/TarPit.xml"/>
         <object ID="TEOL" template="Script/TimeAttackEOLDisplay.xml"/>
@@ -157,7 +157,7 @@
         <object ID="TUTR" template="Script/Tutorial.xml"/>
         <object ID="TXPN" template="Script/TextPane.xml"/>
         <object ID="VBPT" template="Script/VolcanoBossBodyPart.xml"/>
-        <object ID="VOLG" template="Script/VolGroup.xml"/>
+        <object ID="VOLG" template="Script/VolumeGroup.xml"/>
         <object ID="VRBR" template="Script/VerticalRocketBarrel.xml"/>
         <object ID="WAVE" template="Script/OceanWave.xml"/>
         <object ID="WAYP" template="Script/Waypoint.xml"/>
