@@ -37,6 +37,13 @@ void CCollisionNode::Draw(FRenderOptions /*Options*/, int /*ComponentIndex*/, ER
     glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
     glDepthMask(GL_TRUE);
 
+    // Turn off backface culling
+    EGame CollisionGame = mpCollision->Game();
+    bool ForceDisableBackfaceCull = (rkViewInfo.CollisionSettings.DrawBackfaces || CollisionGame == eReturns) && glIsEnabled(GL_CULL_FACE);
+
+    if (ForceDisableBackfaceCull)
+        glDisable(GL_CULL_FACE);
+
     CColor BaseTint = TintColor(rkViewInfo);
 
     for (u32 iMesh = 0; iMesh < mpCollision->NumMeshes(); iMesh++)
@@ -45,63 +52,22 @@ void CCollisionNode::Draw(FRenderOptions /*Options*/, int /*ComponentIndex*/, ER
 
         for (u32 iMat = 0; iMat < pMesh->NumMaterials(); iMat++)
         {
-            SCollisionMaterial& rMat = pMesh->GetMaterial(iMat);
+            CCollisionMaterial& rMat = pMesh->GetMaterial(iMat);
 
-            if (rkViewInfo.CollisionSettings.HideMask != 0 && (rMat.RawFlags & rkViewInfo.CollisionSettings.HideMask) == rkViewInfo.CollisionSettings.HideMask)
+            if (rkViewInfo.CollisionSettings.HideMask != 0 && (rMat.RawFlags() & rkViewInfo.CollisionSettings.HideMask) == rkViewInfo.CollisionSettings.HideMask)
                 continue;
 
             CColor Tint = BaseTint;
 
-            if (rkViewInfo.CollisionSettings.HighlightMask != 0 && (rMat.RawFlags & rkViewInfo.CollisionSettings.HighlightMask) == rkViewInfo.CollisionSettings.HighlightMask)
+            if (rkViewInfo.CollisionSettings.HighlightMask != 0 && (rMat.RawFlags() & rkViewInfo.CollisionSettings.HighlightMask) == rkViewInfo.CollisionSettings.HighlightMask)
                 Tint *= CColor::skRed;
 
-            else if (mpCollision->Game() <= ePrime && rkViewInfo.CollisionSettings.DrawMode == eCDM_TintSurfaceType)
-            {
-                // Organic
-                if (rMat.RawFlags & 0x00800000)
-                    Tint *= CColor::Integral(130, 130, 250); // Purple
-                // Wood
-                else if (rMat.RawFlags & 0x00400000)
-                    Tint *= CColor::Integral(190, 140, 105); // Brown
-                // Sand
-                else if (rMat.RawFlags & 0x00020000)
-                    Tint *= CColor::Integral(230, 200, 170); // Light Brown
-                // Shield
-                else if (rMat.RawFlags & 0x00010000)
-                    Tint *= CColor::Integral(250, 230, 60); // Yellow
-                // Glass
-                else if (rMat.RawFlags & 0x00008000)
-                    Tint *= CColor::Integral(20, 255, 190); // Greenish/Bluish
-                // Snow
-                else if (rMat.RawFlags & 0x00000800)
-                    Tint *= CColor::Integral(230, 255, 255); // *Very* light blue
-                // Lava
-                else if (rMat.RawFlags & 0x00000200)
-                    Tint *= CColor::Integral(200, 30, 30); // Red
-                // Rock
-                else if (rMat.RawFlags & 0x00000100)
-                    Tint *= CColor::Integral(150, 130, 120); // Brownish-gray
-                // Phazon
-                else if (rMat.RawFlags & 0x00000080)
-                    Tint *= CColor::Integral(0, 128, 255); // Blue
-                // Metal Grating
-                else if (rMat.RawFlags & 0x00000040)
-                    Tint *= CColor::Integral(170, 170, 170); // Gray
-                // Ice
-                else if (rMat.RawFlags & 0x00000010)
-                    Tint *= CColor::Integral(200, 255, 255); // Light blue
-                // Grass
-                else if (rMat.RawFlags & 0x00000008)
-                    Tint *= CColor::Integral(90, 150, 70); // Green
-                // Metal
-                else if (rMat.RawFlags & 0x00000004)
-                    Tint *= CColor::Integral(110, 110, 110); // Dark gray
-                // Stone
-                else if (rMat.RawFlags & 0x00000002)
-                    Tint *= CColor::Integral(220, 215, 160); // Brown/green ish
-            }
+            else if (CollisionGame != eReturns && rkViewInfo.CollisionSettings.TintWithSurfaceColor)
+                Tint *= rMat.SurfaceColor(CollisionGame);
 
-            CDrawUtil::UseCollisionShader(Tint);
+            bool IsFloor = (rkViewInfo.CollisionSettings.TintUnwalkableTris ? rMat.HasFlag(eCF_Floor) : true);
+            bool IsUnstandable = (rkViewInfo.CollisionSettings.TintUnwalkableTris ? rMat.HasFlag(eCF_JumpNotAllowed) : false);
+            CDrawUtil::UseCollisionShader(IsFloor, IsUnstandable, Tint);
             pMesh->DrawMaterial(iMat);
         }
     }
@@ -111,6 +77,16 @@ void CCollisionNode::Draw(FRenderOptions /*Options*/, int /*ComponentIndex*/, ER
         CDrawUtil::UseColorShader(CColor::skTransparentBlack);
         mpCollision->DrawWireframe();
     }
+
+    // Restore backface culling setting
+    if (ForceDisableBackfaceCull)
+        glEnable(GL_CULL_FACE);
+
+    // Draw collision bounds for area collision
+    // note: right now checking parent is the best way to check whether this node is area collision instead of actor collision
+    // actor collision will have a script node parent whereas area collision will have a root node parent
+    if (rkViewInfo.CollisionSettings.DrawAreaCollisionBounds && Parent()->NodeType() == eRootNode)
+        CDrawUtil::DrawWireCube( mpCollision->MeshByIndex(0)->BoundingBox(), CColor::skRed );
 }
 
 SRayIntersection CCollisionNode::RayNodeIntersectTest(const CRay& /*rkRay*/, u32 /*AssetID*/, const SViewInfo& /*rkViewInfo*/)

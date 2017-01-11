@@ -6,21 +6,24 @@
 #include <Math/CMatrix4f.h>
 #include <Math/CRay.h>
 
-enum ECollisionDrawMode
-{
-    eCDM_Default,
-    eCDM_TintSurfaceType
-};
-
 struct SCollisionRenderSettings
 {
-    ECollisionDrawMode DrawMode;
     u64 HighlightMask;
     u64 HideMask;
     bool DrawWireframe;
+    bool DrawBackfaces;
+    bool DrawAreaCollisionBounds;
+    bool TintWithSurfaceColor;
+    bool TintUnwalkableTris;
 
     SCollisionRenderSettings()
-        : DrawMode(eCDM_TintSurfaceType), HighlightMask(0), HideMask(0), DrawWireframe(false) {}
+        : HighlightMask(0)
+        , HideMask(0)
+        , DrawWireframe(true)
+        , DrawBackfaces(false)
+        , DrawAreaCollisionBounds(true)
+        , TintWithSurfaceColor(true)
+        , TintUnwalkableTris(false) {}
 };
 
 struct SViewInfo
