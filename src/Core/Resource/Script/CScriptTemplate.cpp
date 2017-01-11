@@ -160,6 +160,7 @@ CResource* CScriptTemplate::FindDisplayAsset(CPropertyStruct *pProperties, u32& 
 
     for (auto it = mAssets.begin(); it != mAssets.end(); it++)
     {
+        if (it->AssetType == SEditorAsset::eCollision) continue;
         CResource *pRes = nullptr;
 
         // File

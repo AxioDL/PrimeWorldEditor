@@ -1,21 +1,11 @@
 #ifndef CCOLLISIONMESH_H
 #define CCOLLISIONMESH_H
 
+#include "CCollisionMaterial.h"
 #include "CResource.h"
 #include "Core/OpenGL/CVertexBuffer.h"
 #include "Core/OpenGL/CIndexBuffer.h"
 #include <Math/CAABox.h>
-
-struct SCollisionMaterial
-{
-    // todo: figure out what the other properties are
-    u64 RawFlags;
-    bool AiWalkThru;
-    bool FlippedTri;
-    bool ShootThru;
-    bool CameraThru;
-    bool Solid;
-};
 
 class CCollisionMesh
 {
@@ -71,7 +61,7 @@ class CCollisionMesh
 
     CAABox mAABox;
     CCollisionOctree *mpOctree;
-    std::vector<SCollisionMaterial> mMaterials;
+    std::vector<CCollisionMaterial> mMaterials;
     std::vector<CCollisionVertex> mCollisionVertices;
     std::vector<CCollisionLine> mCollisionLines;
     std::vector<CCollisionFace> mCollisionFaces;
@@ -92,7 +82,8 @@ public:
     void DrawWireframe();
 
     inline u32 NumMaterials() const                     { return mMaterials.size(); }
-    inline SCollisionMaterial& GetMaterial(u32 Index)   { return mMaterials[Index]; }
+    inline CCollisionMaterial& GetMaterial(u32 Index)   { return mMaterials[Index]; }
+    inline const CAABox& BoundingBox() const            { return mAABox; }
 };
 
 #endif // CCOLLISIONMESH_H

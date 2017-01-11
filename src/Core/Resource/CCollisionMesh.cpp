@@ -73,7 +73,7 @@ void CCollisionMesh::BufferGL()
             Verts[2] = pLineB->Vertices[1];
 
         // Some faces have a property that indicates they need to be inverted
-        if (GetMaterial(pFace->MaterialIdx).FlippedTri)
+        if (GetMaterial(pFace->MaterialIdx) & eCF_FlippedTri)
         {
             u16 V0 = Verts[0];
             Verts[0] = Verts[2];

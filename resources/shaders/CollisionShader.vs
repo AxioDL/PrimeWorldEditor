@@ -15,6 +15,9 @@ layout(std140) uniform MVPBlock
 	mat4 ProjMtx;
 };
 
+uniform bool IsFloor;
+uniform bool IsUnstandable;
+
 // Main
 void main()
 {
@@ -31,4 +34,9 @@ void main()
 	float Alpha = (-LightDot + 1.0) / 2;
 	float LightAlpha = mix(kLightColorMin, kLightColorMax, Alpha);
 	LightColor = vec4(LightAlpha, LightAlpha, LightAlpha, 1.0);
+	
+	// If this is not a floor, make the surface significantly darker
+	// The surface is considered a floor if IsFloor is true OR if the floor normal Z is greater than 0.85
+	float FloorMul = (!IsUnstandable && (IsFloor || RawNormal.z > 0.85)) ? 1.0 : 0.5;
+	LightColor *= FloorMul;
 }
