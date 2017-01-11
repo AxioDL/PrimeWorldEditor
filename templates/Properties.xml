@@ -1081,7 +1081,7 @@
     <property ID="0x197779D1" name="Unknown"/>
     <property ID="0x19849710" name="Unknown"/>
     <property ID="0x19863914" name="Unknown"/>
-    <property ID="0x1989E2E5" name="Unknown"/>
+    <property ID="0x1989E2E5" name="Path Travel Time"/>
     <property ID="0x19926420" name="Unknown"/>
     <property ID="0x1994D506" name="Unknown"/>
     <property ID="0x1999E3D7" name="CAUD"/>
@@ -2054,7 +2054,7 @@
     <property ID="0x2E686C2A" name="Unknown"/>
     <property ID="0x2E6A683A" name="Unknown"/>
     <property ID="0x2E73549A" name="Unknown"/>
-    <property ID="0x2E7C745F" name="Unknown"/>
+    <property ID="0x2E7C745F" name="Part Of Music System"/>
     <property ID="0x2E7E55F2" name="Unknown"/>
     <property ID="0x2E83BD3C" name="Unknown"/>
     <property ID="0x2E94D98E" name="Unknown"/>
@@ -2158,7 +2158,7 @@
     <property ID="0x30B81A7E" name="Unknown"/>
     <property ID="0x30C30368" name="Unknown"/>
     <property ID="0x30C93088" name="UnknownStruct5"/>
-    <property ID="0x30CBDB68" name="Unknown"/>
+    <property ID="0x30CBDB68" name="Area Number"/>
     <property ID="0x30D11671" name="Unknown"/>
     <property ID="0x30D313EB" name="Unknown"/>
     <property ID="0x30DE1A5B" name="Unknown"/>
@@ -2622,7 +2622,7 @@
     <property ID="0x3B6CDADB" name="PART"/>
     <property ID="0x3B7085AD" name="ReptilicusHunterData"/>
     <property ID="0x3B774D55" name="Unknown"/>
-    <property ID="0x3B83DD31" name="STRG"/>
+    <property ID="0x3B83DD31" name="Area Name String"/>
     <property ID="0x3B846868" name="Unknown"/>
     <property ID="0x3B85732C" name="Unknown"/>
     <property ID="0x3B8C7CB4" name="FOVInterpolationMethod"/>
@@ -3502,7 +3502,7 @@
     <property ID="0x4DDC1327" name="Unknown"/>
     <property ID="0x4DE17472" name="Unknown"/>
     <property ID="0x4DEF660D" name="Unknown"/>
-    <property ID="0x4DEF7B9B" name="Unknown"/>
+    <property ID="0x4DEF7B9B" name="Hidden"/>
     <property ID="0x4DFCD432" name="Difficulty 2 damage"/>
     <property ID="0x4E08B984" name="Unknown"/>
     <property ID="0x4E194F55" name="Unknown"/>
@@ -4076,7 +4076,7 @@
     <property ID="0x5B67A4E7" name="TXTR"/>
     <property ID="0x5B772F6D" name="Unknown"/>
     <property ID="0x5B8275BC" name="Unknown"/>
-    <property ID="0x5B851589" name="Unknown"/>
+    <property ID="0x5B851589" name="Max"/>
     <property ID="0x5B888032" name="Unknown"/>
     <property ID="0x5B91FF38" name="Unknown"/>
     <property ID="0x5B928A5D" name="CAUD"/>
@@ -5139,7 +5139,7 @@
     <property ID="0x73570173" name="Unknown"/>
     <property ID="0x7357FBAC" name="Unknown"/>
     <property ID="0x735A909E" name="Unknown"/>
-    <property ID="0x737631AD" name="STRG"/>
+    <property ID="0x737631AD" name="World Name String"/>
     <property ID="0x7384AEA3" name="Unknown"/>
     <property ID="0x738BBBAA" name="Unknown"/>
     <property ID="0x738D1C80" name="Unknown"/>
@@ -5212,7 +5212,7 @@
     <property ID="0x75586C2B" name="Unknown"/>
     <property ID="0x755F0513" name="Unknown"/>
     <property ID="0x75608ED3" name="Unknown"/>
-    <property ID="0x7561F8F7" name="Unknown"/>
+    <property ID="0x7561F8F7" name="Padlock Path"/>
     <property ID="0x7569FDBA" name="Unknown"/>
     <property ID="0x756A3682" name="Unknown"/>
     <property ID="0x756D7CC9" name="Unknown"/>
@@ -6285,7 +6285,7 @@
     <property ID="0x8D1CF97A" name="Unknown"/>
     <property ID="0x8D2DF72E" name="Unknown"/>
     <property ID="0x8D33465F" name="Deactivate On Entered"/>
-    <property ID="0x8D3AB314" name="Unknown"/>
+    <property ID="0x8D3AB314" name="Area Type"/>
     <property ID="0x8D3BA8AE" name="Unknown"/>
     <property ID="0x8D3C1940" name="SwarmSoundData"/>
     <property ID="0x8D42A8D5" name="Unknown"/>
@@ -6989,7 +6989,7 @@
     <property ID="0x9D0006AB" name="Environmental Effect"/>
     <property ID="0x9D06B0FE" name="Unknown"/>
     <property ID="0x9D0C992F" name="Unknown"/>
-    <property ID="0x9D1A67A8" name="STRM"/>
+    <property ID="0x9D1A67A8" name="Song File"/>
     <property ID="0x9D24604F" name="GrappleBlock"/>
     <property ID="0x9D331279" name="Unknown"/>
     <property ID="0x9D3CFEB0" name="Unknown"/>
@@ -7191,7 +7191,7 @@
     <property ID="0xA1D7E06B" name="Unknown"/>
     <property ID="0xA1D9802E" name="Unknown"/>
     <property ID="0xA1DD15F6" name="Unknown"/>
-    <property ID="0xA1DFFAD2" name="Unknown"/>
+    <property ID="0xA1DFFAD2" name="Open"/>
     <property ID="0xA1ECC54B" name="Unknown"/>
     <property ID="0xA1ED5408" name="Unknown"/>
     <property ID="0xA1F091B2" name="Unknown"/>
@@ -8031,7 +8031,7 @@
     <property ID="0xB40C6FBF" name="Unknown"/>
     <property ID="0xB4135CDD" name="Unknown"/>
     <property ID="0xB413C45F" name="Unknown"/>
-    <property ID="0xB417064A" name="Unknown"/>
+    <property ID="0xB417064A" name="DVD File"/>
     <property ID="0xB41C7A19" name="Unknown"/>
     <property ID="0xB43A4CAA" name="Unknown"/>
     <property ID="0xB43B2477" name="Unknown"/>
@@ -8910,7 +8910,7 @@
     <property ID="0xC79AA0C6" name="Unknown"/>
     <property ID="0xC7A07E1C" name="Unknown"/>
     <property ID="0xC7A69A59" name="Unknown"/>
-    <property ID="0xC7A734CE" name="Unknown"/>
+    <property ID="0xC7A734CE" name="Credits Duration"/>
     <property ID="0xC7A7F189" name="Unknown"/>
     <property ID="0xC7B183B7" name="STRG"/>
     <property ID="0xC7B1DD81" name="ShipDecalControllerStruct"/>
@@ -10617,7 +10617,7 @@
     <property ID="0xED999133" name="Unknown"/>
     <property ID="0xED9BF5A3" name="Unknown"/>
     <property ID="0xEDA45014" name="Unknown"/>
-    <property ID="0xEDA47FF6" name="Unknown"/>
+    <property ID="0xEDA47FF6" name="Looped"/>
     <property ID="0xEDA4C771" name="Unknown"/>
     <property ID="0xEDA6D736" name="Unknown"/>
     <property ID="0xEDB06C1D" name="Unknown"/>
@@ -10806,7 +10806,7 @@
     <property ID="0xF19B113E" name="Unknown"/>
     <property ID="0xF1A50D29" name="Unknown"/>
     <property ID="0xF1ABB2C7" name="Unknown"/>
-    <property ID="0xF1AE2F13" name="Unknown"/>
+    <property ID="0xF1AE2F13" name="Event On Completion"/>
     <property ID="0xF1AED43D" name="Unknown"/>
     <property ID="0xF1BDD73E" name="Unknown"/>
     <property ID="0xF1BF1C16" name="Unknown"/>
