@@ -15,14 +15,14 @@
         <enum ID="0x8D3AB314">
             <default>0x24E6FE6B</default>
             <enumerators>
-                <enumerator ID="0x0BB40E5E" name="Unknown 1"/>
-                <enumerator ID="0x24E6FE6B" name="Unknown 2"/>
-                <enumerator ID="0xFB8DD144" name="Unknown 3"/>
-                <enumerator ID="0x060BCB31" name="Unknown 4"/>
-                <enumerator ID="0xC8068C4F" name="Unknown 5"/>
-                <enumerator ID="0xA5355C31" name="Unknown 6"/>
-                <enumerator ID="0x0CA17800" name="Unknown 7"/>
-                <enumerator ID="0x9DFC67D1" name="Unknown 8"/>
+                <enumerator ID="0x0BB40E5E" name="Start"/>
+                <enumerator ID="0x24E6FE6B" name="Stage"/>
+                <enumerator ID="0xFB8DD144" name="Boss"/>
+                <enumerator ID="0x060BCB31" name="Shop"/>
+                <enumerator ID="0xC8068C4F" name="Trophy"/>
+                <enumerator ID="0xA5355C31" name="Unknown"/>
+                <enumerator ID="0x0CA17800" name="Rocket"/>
+                <enumerator ID="0x9DFC67D1" name="Temple"/>
             </enumerators>
         </enum>
         <property ID="0x6A02F05F" type="string"/>
@@ -30,6 +30,7 @@
         <property ID="0x3B83DD31" type="file" extensions="STRG"/>
         <property ID="0x30CBDB68" type="long">
             <default>0</default>
+            <description>Seems to affect the number displayed on the file select screen for "last completed stage"</description>
         </property>
         <property ID="0xF344C0B0" type="vector3f">
             <default>0.0, 0.0, 0.0</default>
