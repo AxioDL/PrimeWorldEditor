@@ -122,7 +122,7 @@ void CCollisionMesh::Draw()
     mVBO.Unbind();
 }
 
-void CCollisionMesh::DrawMaterial(u32 MatIdx)
+void CCollisionMesh::DrawMaterial(u32 MatIdx, bool Wireframe)
 {
     if (!mBuffered) BufferGL();
     ASSERT(MatIdx < mMaterials.size());
@@ -130,7 +130,18 @@ void CCollisionMesh::DrawMaterial(u32 MatIdx)
     mVBO.Bind();
     u32 StartIdx = (MatIdx == 0 ? 0 : mMaterialOffsets[MatIdx - 1]);
     u32 NumElements = mMaterialOffsets[MatIdx] - StartIdx;
+
+    if (Wireframe)
+    {
+        CDrawUtil::UseColorShader(CColor::skBlack);
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    }
+
     mIBO.DrawElements(StartIdx, NumElements);
+
+    if (Wireframe)
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
     mVBO.Unbind();
 }
 

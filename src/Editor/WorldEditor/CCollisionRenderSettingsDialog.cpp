@@ -10,14 +10,59 @@ CCollisionRenderSettingsDialog::CCollisionRenderSettingsDialog(CWorldEditor *pEd
 {
     mpUi->setupUi(this);
 
+    SetupWidgets();
     connect(mpUi->HideMaskLineEdit, SIGNAL(textChanged(QString)), this, SLOT(OnHideMaskChanged(QString)));
     connect(mpUi->HighlightMaskLineEdit, SIGNAL(textChanged(QString)), this, SLOT(OnHighlightMaskChanged(QString)));
     connect(mpUi->WireframeCheckBox, SIGNAL(toggled(bool)), this, SLOT(OnWireframeToggled(bool)));
+    connect(mpUi->SurfaceTypeCheckBox, SIGNAL(toggled(bool)), this, SLOT(OnSurfaceTypeToggled(bool)));
+    connect(mpUi->StandableTrisCheckBox, SIGNAL(toggled(bool)), this, SLOT(OnStandableTrisToggled(bool)));
+    connect(mpUi->AreaBoundsCheckBox, SIGNAL(toggled(bool)), this, SLOT(OnAreaBoundsToggled(bool)));
+    connect(mpUi->BackfacesCheckBox, SIGNAL(toggled(bool)), this, SLOT(OnBackfacesToggled(bool)));
+
+    connect(mpUi->HideShootThruCheckBox, SIGNAL(toggled(bool)), this, SLOT(OnHideCheckboxesToggled()));
+    connect(mpUi->HideCameraThruCheckBox, SIGNAL(toggled(bool)), this, SLOT(OnHideCheckboxesToggled()));
+    connect(mpUi->HideScanThruCheckBox, SIGNAL(toggled(bool)), this, SLOT(OnHideCheckboxesToggled()));
+    connect(mpUi->HideAiWalkThruCheckBox, SIGNAL(toggled(bool)), this, SLOT(OnHideCheckboxesToggled()));
+    connect(mpUi->HideAiBlockCheckBox, SIGNAL(toggled(bool)), this, SLOT(OnHideCheckboxesToggled()));
 }
 
 CCollisionRenderSettingsDialog::~CCollisionRenderSettingsDialog()
 {
     delete mpUi;
+}
+
+void CCollisionRenderSettingsDialog::SetupWidgets()
+{
+    SCollisionRenderSettings& rSettings = mpEditor->Viewport()->CollisionRenderSettings();
+    EGame Game = mpEditor->CurrentGame();
+
+    // Set widgets to match current render setting values
+    mpUi->HideMaskLineEdit->setText( "0x" + QString::number(rSettings.HideMask, 16).toUpper() );
+    mpUi->HighlightMaskLineEdit->setText( "0x" + QString::number(rSettings.HighlightMask, 16).toUpper() );
+    mpUi->WireframeCheckBox->setChecked(rSettings.DrawWireframe);
+    mpUi->SurfaceTypeCheckBox->setChecked(rSettings.TintWithSurfaceColor);
+    mpUi->StandableTrisCheckBox->setChecked(rSettings.TintUnwalkableTris);
+    mpUi->AreaBoundsCheckBox->setChecked(rSettings.DrawAreaCollisionBounds);
+    mpUi->BackfacesCheckBox->setChecked(rSettings.DrawBackfaces);
+
+    mpUi->HideShootThruCheckBox->setChecked(rSettings.HideMaterial.HasFlag(eCF_ShootThru));
+    mpUi->HideCameraThruCheckBox->setChecked(rSettings.HideMaterial.HasFlag(eCF_CameraThru));
+    mpUi->HideScanThruCheckBox->setChecked(rSettings.HideMaterial.HasFlag(eCF_ScanThru));
+    mpUi->HideAiWalkThruCheckBox->setChecked(rSettings.HideMaterial.HasFlag(eCF_AiWalkThru));
+    mpUi->HideAiBlockCheckBox->setChecked(rSettings.HideMaterial.HasFlag(eCF_AiBlock));
+
+    // Toggle visibility of game-exclusive widgets
+    mpUi->SurfaceTypeCheckBox->setHidden( Game == eReturns );
+    mpUi->StandableTrisCheckBox->setHidden( Game == eReturns );
+    mpUi->AreaBoundsCheckBox->setHidden( Game == eReturns );
+    mpUi->BackfacesCheckBox->setHidden( Game == eReturns );
+
+    mpUi->VisibilityGroupBox->setHidden( Game == eReturns );
+    mpUi->HideShootThruCheckBox->setHidden( Game == eReturns );
+    mpUi->HideCameraThruCheckBox->setHidden( Game == eReturns );
+    mpUi->HideScanThruCheckBox->setHidden( Game == eReturns );
+    mpUi->HideAiWalkThruCheckBox->setHidden( Game == eReturns );
+    mpUi->HideAiBlockCheckBox->setHidden( Game < eEchoesDemo || Game == eReturns );
 }
 
 void CCollisionRenderSettingsDialog::OnHideMaskChanged(QString NewMask)
@@ -37,4 +82,34 @@ void CCollisionRenderSettingsDialog::OnHighlightMaskChanged(QString NewMask)
 void CCollisionRenderSettingsDialog::OnWireframeToggled(bool Enable)
 {
     mpEditor->Viewport()->CollisionRenderSettings().DrawWireframe = Enable;
+}
+
+void CCollisionRenderSettingsDialog::OnSurfaceTypeToggled(bool Enable)
+{
+    mpEditor->Viewport()->CollisionRenderSettings().TintWithSurfaceColor = Enable;
+}
+
+void CCollisionRenderSettingsDialog::OnStandableTrisToggled(bool Enable)
+{
+    mpEditor->Viewport()->CollisionRenderSettings().TintUnwalkableTris = Enable;
+}
+
+void CCollisionRenderSettingsDialog::OnAreaBoundsToggled(bool Enable)
+{
+    mpEditor->Viewport()->CollisionRenderSettings().DrawAreaCollisionBounds = Enable;
+}
+
+void CCollisionRenderSettingsDialog::OnBackfacesToggled(bool Enable)
+{
+    mpEditor->Viewport()->CollisionRenderSettings().DrawBackfaces = Enable;
+}
+
+void CCollisionRenderSettingsDialog::OnHideCheckboxesToggled()
+{
+    CCollisionMaterial& rMat = mpEditor->Viewport()->CollisionRenderSettings().HideMaterial;
+    mpUi->HideShootThruCheckBox->isChecked() ? rMat |= eCF_ShootThru : rMat &= ~eCF_ShootThru;
+    mpUi->HideCameraThruCheckBox->isChecked() ? rMat |= eCF_CameraThru : rMat &= ~eCF_CameraThru;
+    mpUi->HideScanThruCheckBox->isChecked() ? rMat |= eCF_ScanThru : rMat &= ~eCF_ScanThru;
+    mpUi->HideAiWalkThruCheckBox->isChecked() ? rMat |= eCF_AiWalkThru : rMat &= ~eCF_AiWalkThru;
+    mpUi->HideAiBlockCheckBox->isChecked() ? rMat |= eCF_AiBlock : rMat &= ~eCF_AiBlock;
 }

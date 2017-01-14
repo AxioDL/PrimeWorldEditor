@@ -1,6 +1,6 @@
 #include "CCollisionMaterial.h"
 #include "EGame.h"
-#include <map>
+#include <unordered_map>
 
 ECollisionFlag CCollisionMaterial::SurfaceType(EGame Game) const
 {
@@ -42,7 +42,7 @@ ECollisionFlag CCollisionMaterial::SurfaceType(EGame Game) const
 }
 
 // Type-to-color mappings
-const std::map<ECollisionFlag, CColor> gkTypeToColor = {
+const std::unordered_map<ECollisionFlag, CColor> gkTypeToColor = {
     { eCF_Stone,            CColor::Integral(220, 215, 160) }, // Brownish/greenish
     { eCF_Metal,            CColor::Integral(143, 143, 143) }, // Gray
     { eCF_Grass,            CColor::Integral( 90, 150,  70) }, // Green

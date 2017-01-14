@@ -34,7 +34,6 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     , ui(new Ui::CWorldEditor)
     , mpArea(nullptr)
     , mpWorld(nullptr)
-    , mpCollisionDialog(new CCollisionRenderSettingsDialog(this, this))
     , mpLinkDialog(new CLinkDialog(this, this))
     , mpPoiDialog(nullptr)
     , mIsMakingLink(false)
@@ -93,6 +92,8 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     ui->ActionDelete->setAutoRepeat(false);
     ui->ActionDelete->setShortcut(QKeySequence::Delete);
 
+    mpCollisionDialog = new CCollisionRenderSettingsDialog(this, this);
+
     // Connect signals and slots
     connect(ui->MainViewport, SIGNAL(ViewportClick(SRayIntersection,QMouseEvent*)), this, SLOT(OnViewportClick(SRayIntersection,QMouseEvent*)));
     connect(ui->MainViewport, SIGNAL(InputProcessed(SRayIntersection,QMouseEvent*)), this, SLOT(OnViewportInputProcessed(SRayIntersection,QMouseEvent*)));
@@ -129,7 +130,6 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     connect(ui->ActionDrawLights, SIGNAL(triggered()), this, SLOT(ToggleDrawLights()));
     connect(ui->ActionDrawSky, SIGNAL(triggered()), this, SLOT(ToggleDrawSky()));
     connect(ui->ActionGameMode, SIGNAL(triggered()), this, SLOT(ToggleGameMode()));
-    connect(ui->ActionDisableBackfaceCull, SIGNAL(triggered()), this, SLOT(ToggleBackfaceCull()));
     connect(ui->ActionDisableAlpha, SIGNAL(triggered()), this, SLOT(ToggleDisableAlpha()));
     connect(ui->ActionNoLighting, SIGNAL(triggered()), this, SLOT(SetNoLighting()));
     connect(ui->ActionBasicLighting, SIGNAL(triggered()), this, SLOT(SetBasicLighting()));
@@ -162,6 +162,7 @@ void CWorldEditor::closeEvent(QCloseEvent *pEvent)
     if (ShouldClose)
     {
         mUndoStack.clear();
+        mpCollisionDialog->close();
         mpLinkDialog->close();
 
         if (mpPoiDialog)
@@ -228,6 +229,7 @@ void CWorldEditor::SetArea(CWorld *pWorld, CGameArea *pArea)
     ui->InstancesTabContents->SetMaster(pMaster);
 
     // Set up dialogs
+    mpCollisionDialog->SetupWidgets(); // Won't modify any settings but will update widget visibility status if we've changed games
     mpLinkDialog->SetMaster(pMaster);
 
     // Set window title
@@ -1024,11 +1026,6 @@ void CWorldEditor::ToggleDrawSky()
 void CWorldEditor::ToggleGameMode()
 {
     ui->MainViewport->SetGameMode(ui->ActionGameMode->isChecked());
-}
-
-void CWorldEditor::ToggleBackfaceCull()
-{
-    ui->MainViewport->Renderer()->ToggleBackfaceCull(!ui->ActionDisableBackfaceCull->isChecked());
 }
 
 void CWorldEditor::ToggleDisableAlpha()
