@@ -464,7 +464,6 @@
     <addaction name="menuBloom"/>
     <addaction name="separator"/>
     <addaction name="ActionCollisionRenderSettings"/>
-    <addaction name="ActionDisableBackfaceCull"/>
     <addaction name="ActionDisableAlpha"/>
    </widget>
    <widget class="QMenu" name="menuTools">

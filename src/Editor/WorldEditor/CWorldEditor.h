@@ -123,7 +123,6 @@ private slots:
     void ToggleDrawLights();
     void ToggleDrawSky();
     void ToggleGameMode();
-    void ToggleBackfaceCull();
     void ToggleDisableAlpha();
     void SetNoLighting();
     void SetBasicLighting();

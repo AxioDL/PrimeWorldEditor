@@ -1,6 +1,7 @@
 #ifndef SVIEWINFO
 #define SVIEWINFO
 
+#include "Core/Resource/CCollisionMaterial.h"
 #include "Core/Scene/FShowFlags.h"
 #include <Math/CFrustumPlanes.h>
 #include <Math/CMatrix4f.h>
@@ -10,6 +11,8 @@ struct SCollisionRenderSettings
 {
     u64 HighlightMask;
     u64 HideMask;
+
+    CCollisionMaterial HideMaterial;
     bool DrawWireframe;
     bool DrawBackfaces;
     bool DrawAreaCollisionBounds;
@@ -23,7 +26,7 @@ struct SCollisionRenderSettings
         , DrawBackfaces(false)
         , DrawAreaCollisionBounds(true)
         , TintWithSurfaceColor(true)
-        , TintUnwalkableTris(false) {}
+        , TintUnwalkableTris(true) {}
 };
 
 struct SViewInfo

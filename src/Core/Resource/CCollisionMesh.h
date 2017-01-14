@@ -78,7 +78,7 @@ public:
 
     void BufferGL();
     void Draw();
-    void DrawMaterial(u32 MatIdx);
+    void DrawMaterial(u32 MatIdx, bool Wireframe);
     void DrawWireframe();
 
     inline u32 NumMaterials() const                     { return mMaterials.size(); }

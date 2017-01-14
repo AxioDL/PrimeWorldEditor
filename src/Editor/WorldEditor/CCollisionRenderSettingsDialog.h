@@ -21,9 +21,15 @@ public:
     ~CCollisionRenderSettingsDialog();
 
 public slots:
+    void SetupWidgets();
     void OnHideMaskChanged(QString NewMask);
     void OnHighlightMaskChanged(QString NewMask);
     void OnWireframeToggled(bool Enable);
+    void OnSurfaceTypeToggled(bool Enable);
+    void OnStandableTrisToggled(bool Enable);
+    void OnAreaBoundsToggled(bool Enable);
+    void OnBackfacesToggled(bool Enable);
+    void OnHideCheckboxesToggled();
 };
 
 #endif // CCOLLISIONRENDERSETTINGSDIALOG_H
