@@ -41,11 +41,11 @@ enum ECollisionFlag
     eCF_ScanThru            = 0x01000000,
     eCF_AiWalkThru          = 0x02000000,
     eCF_FlippedTri          = 0x04000000,
-    eCF_Floor               = 0x08000000,
-    eCF_AiBlock             = 0x10000000,
-    eCF_JumpNotAllowed      = 0x20000000,
-    eCF_SpiderBall          = 0x40000000,
-    eCF_WallJump            = 0x80000000
+    eCF_Ceiling             = 0x08000000,
+    eCF_Wall                = 0x10000000,
+    eCF_Floor               = 0x20000000,
+    eCF_AiBlock             = 0x40000000,
+    eCF_JumpNotAllowed      = 0x80000000
 };
 
 class CCollisionMaterial : public TFlags<ECollisionFlag>
@@ -56,6 +56,8 @@ class CCollisionMaterial : public TFlags<ECollisionFlag>
 public:
     ECollisionFlag SurfaceType(EGame Game) const;
     CColor SurfaceColor(EGame Game) const;
+    bool IsFloor() const;
+    bool IsUnstandable(EGame Game) const;
 
     inline u64 RawFlags() const { return mRawFlags; }
 };
