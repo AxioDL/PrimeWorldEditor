@@ -38,27 +38,79 @@ void CCollisionLoader::ParseOBBNode(IInputStream& rDCLN)
 
 void CCollisionLoader::ReadPropertyFlags(IInputStream& rSrc)
 {
-    CCollisionMesh::SCollisionProperties Property;
+    CCollisionMaterial Material;
+    u64 RawFlags = (mVersion <= ePrime ? rSrc.ReadLong() : rSrc.ReadLongLong());
+    Material.mRawFlags = RawFlags;
 
-    if (mVersion == ePrime)
+    if (mVersion <= ePrime)
     {
-        u32 Flag = rSrc.ReadLong();
-        Property.Invert = (Flag >> 25) & 0x1;
+        if (RawFlags & 0x00000001) Material |= eCF_Unknown;
+        if (RawFlags & 0x00000002) Material |= eCF_Stone;
+        if (RawFlags & 0x00000004) Material |= eCF_Metal;
+        if (RawFlags & 0x00000008) Material |= eCF_Grass;
+        if (RawFlags & 0x00000010) Material |= eCF_Ice;
+        if (RawFlags & 0x00000040) Material |= eCF_MetalGrating;
+        if (RawFlags & 0x00000080) Material |= eCF_Phazon;
+        if (RawFlags & 0x00000100) Material |= eCF_Dirt;
+        if (RawFlags & 0x00000200) Material |= eCF_Lava;
+        if (RawFlags & 0x00000800) Material |= eCF_Snow;
+        if (RawFlags & 0x00001000) Material |= eCF_SlowMud;
+        if (RawFlags & 0x00004000) Material |= eCF_Mud;
+        if (RawFlags & 0x00008000) Material |= eCF_Glass;
+        if (RawFlags & 0x00010000) Material |= eCF_Shield;
+        if (RawFlags & 0x00020000) Material |= eCF_Sand;
+        if (RawFlags & 0x00040000) Material |= eCF_ShootThru;
+        if (RawFlags & 0x00200000) Material |= eCF_CameraThru;
+        if (RawFlags & 0x00400000) Material |= eCF_Wood;
+        if (RawFlags & 0x00800000) Material |= eCF_Organic;
+        if (RawFlags & 0x02000000) Material |= eCF_FlippedTri;
+        if (RawFlags & 0x08000000) Material |= eCF_ScanThru;
+        if (RawFlags & 0x10000000) Material |= eCF_AiWalkThru;
+        if (RawFlags & 0x20000000) Material |= eCF_Ceiling;
+        if (RawFlags & 0x40000000) Material |= eCF_Wall;
+        if (RawFlags & 0x80000000) Material |= eCF_Floor;
     }
 
-    else if (mVersion == eEchoes)
+    else if (mVersion <= eCorruption)
     {
-        u64 Flag = rSrc.ReadLongLong();
-        Property.Invert = (Flag >> 24) & 0x1;
+        if (RawFlags & 0x00000001) Material |= eCF_Unknown;
+        if (RawFlags & 0x00000002) Material |= eCF_Stone;
+        if (RawFlags & 0x00000004) Material |= eCF_Metal;
+        if (RawFlags & 0x00000008) Material |= eCF_Grass;
+        if (RawFlags & 0x00000010) Material |= eCF_Ice;
+        if (RawFlags & 0x00000040) Material |= eCF_MetalGrating;
+        if (RawFlags & 0x00000080) Material |= eCF_Phazon;
+        if (RawFlags & 0x00000100) Material |= eCF_Dirt;
+        if (RawFlags & 0x00000200) Material |= eCF_AltMetal;
+        if (RawFlags & 0x00000400) Material |= eCF_Glass;
+        if (RawFlags & 0x00000800) Material |= eCF_Snow;
+        if (RawFlags & 0x00001000) Material |= eCF_Fabric;
+        if (RawFlags & 0x00010000) Material |= eCF_Shield;
+        if (RawFlags & 0x00020000) Material |= eCF_Sand;
+        if (RawFlags & 0x00040000) Material |= eCF_MothSeedOrganics;
+        if (RawFlags & 0x00080000) Material |= eCF_Web;
+        if (RawFlags & 0x00100000) Material |= eCF_ShootThru;
+        if (RawFlags & 0x00200000) Material |= eCF_CameraThru;
+        if (RawFlags & 0x00400000) Material |= eCF_Wood;
+        if (RawFlags & 0x00800000) Material |= eCF_Organic;
+        if (RawFlags & 0x01000000) Material |= eCF_FlippedTri;
+        if (RawFlags & 0x02000000) Material |= eCF_Rubber;
+        if (RawFlags & 0x08000000) Material |= eCF_ScanThru;
+        if (RawFlags & 0x10000000) Material |= eCF_AiWalkThru;
+        if (RawFlags & 0x20000000) Material |= eCF_Ceiling;
+        if (RawFlags & 0x40000000) Material |= eCF_Wall;
+        if (RawFlags & 0x80000000) Material |= eCF_Floor;
+
+        if (RawFlags & 0x0001000000000000) Material |= eCF_AiBlock;
+        if (RawFlags & 0x0400000000000000) Material |= eCF_JumpNotAllowed;
     }
 
     else if (mVersion == eReturns)
     {
-        u64 Flag = rSrc.ReadLongLong();
-        Property.Invert = (Flag >> 28) & 0x1;
+        if (RawFlags & 0x10000000) Material |= eCF_FlippedTri;
     }
 
-    mProperties.push_back(Property);
+    mpMesh->mMaterials.push_back(Material);
 }
 
 void CCollisionLoader::LoadCollisionIndices(IInputStream &rFile, bool BuildAABox)
@@ -89,7 +141,7 @@ void CCollisionLoader::LoadCollisionIndices(IInputStream &rFile, bool BuildAABox
         CCollisionMesh::CCollisionLine *pLine = &mpMesh->mCollisionLines[iLine];
         pLine->Vertices[0] = rFile.ReadShort();
         pLine->Vertices[1] = rFile.ReadShort();
-        pLine->Properties =  mProperties[LineIndices[iLine]];
+        pLine->MaterialIdx = LineIndices[iLine];
     }
 
     // Faces
@@ -102,7 +154,7 @@ void CCollisionLoader::LoadCollisionIndices(IInputStream &rFile, bool BuildAABox
         pFace->Lines[0] = rFile.ReadShort();
         pFace->Lines[1] = rFile.ReadShort();
         pFace->Lines[2] = rFile.ReadShort();
-        pFace->Properties = mProperties[FaceIndices[iFace]];
+        pFace->MaterialIdx = FaceIndices[iFace];
     }
 
     // Echoes introduces a new data chunk; don't know what it is yet, skipping for now
@@ -121,7 +173,7 @@ void CCollisionLoader::LoadCollisionIndices(IInputStream &rFile, bool BuildAABox
     {
         CCollisionMesh::CCollisionVertex *pVtx = &mpMesh->mCollisionVertices[iVtx];
         pVtx->Pos = CVector3f(rFile);
-        pVtx->Properties = mProperties[VtxIndices[iVtx]];
+        pVtx->MaterialIdx = VtxIndices[iVtx];
         if (BuildAABox) Bounds.ExpandBounds(pVtx->Pos);
     }
     if (BuildAABox) mpMesh->mAABox = Bounds;

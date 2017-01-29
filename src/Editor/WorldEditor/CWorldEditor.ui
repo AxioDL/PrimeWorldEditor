@@ -463,7 +463,7 @@
     <addaction name="menuLighting"/>
     <addaction name="menuBloom"/>
     <addaction name="separator"/>
-    <addaction name="ActionDisableBackfaceCull"/>
+    <addaction name="ActionCollisionRenderSettings"/>
     <addaction name="ActionDisableAlpha"/>
    </widget>
    <widget class="QMenu" name="menuTools">
@@ -816,6 +816,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+S</string>
+   </property>
+  </action>
+  <action name="ActionCollisionRenderSettings">
+   <property name="text">
+    <string>Collision Render Settings</string>
    </property>
   </action>
  </widget>

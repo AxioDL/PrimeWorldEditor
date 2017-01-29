@@ -183,6 +183,7 @@ HEADERS += \
     Render/EDepthGroup.h \
     Scene/CScriptAttachNode.h \
     ScriptExtra/CSandwormExtra.h \
+    Resource/CCollisionMaterial.h \
     GameProject/CGameProject.h \
     GameProject/CPackage.h \
     GameProject/CGameExporter.h \
@@ -298,6 +299,7 @@ SOURCES += \
     Resource/Model/EVertexAttribute.cpp \
     Scene/CScriptAttachNode.cpp \
     ScriptExtra/CSandwormExtra.cpp \
+    Resource/CCollisionMaterial.cpp \
     GameProject/CGameProject.cpp \
     GameProject/CGameExporter.cpp \
     GameProject/CResourceStore.cpp \

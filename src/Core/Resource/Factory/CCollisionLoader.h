@@ -10,7 +10,6 @@ class CCollisionLoader
     TResPtr<CCollisionMeshGroup> mpGroup;
     CCollisionMesh *mpMesh;
     EGame mVersion;
-    std::vector<CCollisionMesh::SCollisionProperties> mProperties;
 
     CCollisionLoader();
     CCollisionMesh::CCollisionOctree* ParseOctree(IInputStream& rSrc);
