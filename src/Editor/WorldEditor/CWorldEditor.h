@@ -1,6 +1,7 @@
 #ifndef CWORLDEDITOR_H
 #define CWORLDEDITOR_H
 
+#include "CCollisionRenderSettingsDialog.h"
 #include "CLinkDialog.h"
 #include "CPoiMapEditDialog.h"
 #include "Editor/INodeEditor.h"
@@ -38,6 +39,7 @@ class CWorldEditor : public INodeEditor
     TResPtr<CWorld> mpWorld;
     TResPtr<CGameArea> mpArea;
 
+    CCollisionRenderSettingsDialog *mpCollisionDialog;
     CLinkDialog *mpLinkDialog;
     CPoiMapEditDialog *mpPoiDialog;
 
@@ -120,7 +122,6 @@ private slots:
     void ToggleDrawLights();
     void ToggleDrawSky();
     void ToggleGameMode();
-    void ToggleBackfaceCull();
     void ToggleDisableAlpha();
     void SetNoLighting();
     void SetBasicLighting();
@@ -131,6 +132,7 @@ private slots:
     void SetBloom();
     void IncrementGizmo();
     void DecrementGizmo();
+    void EditCollisionRenderSettings();
     void EditLayers();
     void EditPoiToWorldMap();
 

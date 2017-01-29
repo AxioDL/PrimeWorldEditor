@@ -163,6 +163,7 @@ HEADERS += \
     CGridRenderable.h \
     CharacterEditor/CSkeletonHierarchyModel.h \
     CLineRenderable.h \
+    WorldEditor/CCollisionRenderSettingsDialog.h \
     CProjectOverviewDialog.h \
     ResourceBrowser/CResourceBrowser.h \
     ResourceBrowser/CResourceTableModel.h \
@@ -229,6 +230,7 @@ SOURCES += \
     CharacterEditor/CCharacterEditor.cpp \
     CharacterEditor/CCharacterEditorViewport.cpp \
     CharacterEditor/CSkeletonHierarchyModel.cpp \
+    WorldEditor/CCollisionRenderSettingsDialog.cpp \
     CProjectOverviewDialog.cpp \
     ResourceBrowser/CResourceBrowser.cpp \
     CEditorApplication.cpp
@@ -253,5 +255,6 @@ FORMS += \
     WorldEditor/CRepackInfoDialog.ui \
     CAboutDialog.ui \
     CharacterEditor/CCharacterEditor.ui \
+    WorldEditor/CCollisionRenderSettingsDialog.ui \
     CProjectOverviewDialog.ui \
     ResourceBrowser/CResourceBrowser.ui

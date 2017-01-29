@@ -329,14 +329,22 @@ void CDrawUtil::UseTextureShader(const CColor& TintColor)
     CMaterial::KillCachedMaterial();
 }
 
-void CDrawUtil::UseCollisionShader(const CColor& TintColor /*= CColor::skWhite*/)
+void CDrawUtil::UseCollisionShader(bool IsFloor, bool IsUnstandable, const CColor& TintColor /*= CColor::skWhite*/)
 {
     Init();
     mpCollisionShader->SetCurrent();
-    LoadCheckerboardTexture(0);
+
+    // Force blend mode to opaque + set alpha to 0 to ensure collision geometry isn't bloomed
+    glBlendFuncSeparate(GL_ONE, GL_ZERO, GL_ZERO, GL_ZERO);
 
     static GLuint TintColorLoc = mpCollisionShader->GetUniformLocation("TintColor");
     glUniform4f(TintColorLoc, TintColor.R, TintColor.G, TintColor.B, TintColor.A);
+
+    static GLuint IsFloorLoc = mpCollisionShader->GetUniformLocation("IsFloor");
+    glUniform1i(IsFloorLoc, IsFloor ? 1 : 0);
+
+    static GLuint IsUnstandableLoc = mpCollisionShader->GetUniformLocation("IsUnstandable");
+    glUniform1i(IsUnstandableLoc, IsUnstandable ? 1 : 0);
 
     CMaterial::KillCachedMaterial();
 }

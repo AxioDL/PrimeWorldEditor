@@ -88,6 +88,8 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     ui->ActionDelete->setAutoRepeat(false);
     ui->ActionDelete->setShortcut(QKeySequence::Delete);
 
+    mpCollisionDialog = new CCollisionRenderSettingsDialog(this, this);
+
     // Connect signals and slots
     connect(ui->MainViewport, SIGNAL(ViewportClick(SRayIntersection,QMouseEvent*)), this, SLOT(OnViewportClick(SRayIntersection,QMouseEvent*)));
     connect(ui->MainViewport, SIGNAL(InputProcessed(SRayIntersection,QMouseEvent*)), this, SLOT(OnViewportInputProcessed(SRayIntersection,QMouseEvent*)));
@@ -124,7 +126,6 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     connect(ui->ActionDrawLights, SIGNAL(triggered()), this, SLOT(ToggleDrawLights()));
     connect(ui->ActionDrawSky, SIGNAL(triggered()), this, SLOT(ToggleDrawSky()));
     connect(ui->ActionGameMode, SIGNAL(triggered()), this, SLOT(ToggleGameMode()));
-    connect(ui->ActionDisableBackfaceCull, SIGNAL(triggered()), this, SLOT(ToggleBackfaceCull()));
     connect(ui->ActionDisableAlpha, SIGNAL(triggered()), this, SLOT(ToggleDisableAlpha()));
     connect(ui->ActionNoLighting, SIGNAL(triggered()), this, SLOT(SetNoLighting()));
     connect(ui->ActionBasicLighting, SIGNAL(triggered()), this, SLOT(SetBasicLighting()));
@@ -135,6 +136,7 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     connect(ui->ActionBloom, SIGNAL(triggered()), this, SLOT(SetBloom()));
     connect(ui->ActionIncrementGizmo, SIGNAL(triggered()), this, SLOT(IncrementGizmo()));
     connect(ui->ActionDecrementGizmo, SIGNAL(triggered()), this, SLOT(DecrementGizmo()));
+    connect(ui->ActionCollisionRenderSettings, SIGNAL(triggered()), this, SLOT(EditCollisionRenderSettings()));
     connect(ui->ActionEditLayers, SIGNAL(triggered()), this, SLOT(EditLayers()));
     connect(ui->ActionEditPoiToWorldMap, SIGNAL(triggered()), this, SLOT(EditPoiToWorldMap()));
 
@@ -156,6 +158,7 @@ void CWorldEditor::closeEvent(QCloseEvent *pEvent)
     if (ShouldClose)
     {
         mUndoStack.clear();
+        mpCollisionDialog->close();
         mpLinkDialog->close();
 
         if (mpPoiDialog)
@@ -222,6 +225,7 @@ void CWorldEditor::SetArea(CWorld *pWorld, CGameArea *pArea)
     ui->InstancesTabContents->SetMaster(pMaster);
 
     // Set up dialogs
+    mpCollisionDialog->SetupWidgets(); // Won't modify any settings but will update widget visibility status if we've changed games
     mpLinkDialog->SetMaster(pMaster);
 
     // Set window title
@@ -1020,11 +1024,6 @@ void CWorldEditor::ToggleGameMode()
     ui->MainViewport->SetGameMode(ui->ActionGameMode->isChecked());
 }
 
-void CWorldEditor::ToggleBackfaceCull()
-{
-    ui->MainViewport->Renderer()->ToggleBackfaceCull(!ui->ActionDisableBackfaceCull->isChecked());
-}
-
 void CWorldEditor::ToggleDisableAlpha()
 {
     ui->MainViewport->Renderer()->ToggleAlphaDisabled(ui->ActionDisableAlpha->isChecked());
@@ -1098,6 +1097,11 @@ void CWorldEditor::IncrementGizmo()
 void CWorldEditor::DecrementGizmo()
 {
     mGizmo.DecrementSize();
+}
+
+void CWorldEditor::EditCollisionRenderSettings()
+{
+    mpCollisionDialog->show();
 }
 
 void CWorldEditor::EditLayers()

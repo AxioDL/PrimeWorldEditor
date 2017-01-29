@@ -178,13 +178,13 @@
         <state ID="CPTH" name="CameraPath"/>
         <state ID="CTGT" name="CameraTarget"/>
         <state ID="DAMG" name="Damage"/>
-        <state ID="DBNH" name="Invalid"/>
+        <state ID="DBNH" name="DBNH"/>
         <state ID="DEAD" name="Dead"/>
-        <state ID="DSPN" name="Invalid"/>
+        <state ID="DSPN" name="DSPN"/>
         <state ID="ENTR" name="Entered"/>
         <state ID="EXIT" name="Exited"/>
         <state ID="FOVP" name="FOVP"/>
-        <state ID="GIBB" name="Invalid"/>
+        <state ID="GIBB" name="GIBB"/>
         <state ID="GRN0" name="GRN0"/>
         <state ID="GRN1" name="GRN1"/>
         <state ID="GRNT" name="Generate"/>
@@ -210,57 +210,57 @@
         <state ID="IS17" name="InternalState17"/>
         <state ID="IS18" name="InternalState18"/>
         <state ID="IS19" name="InternalState19"/>
-        <state ID="IS20" name="IS20"/>
-        <state ID="IS21" name="IS21"/>
-        <state ID="IS22" name="IS22"/>
-        <state ID="IS23" name="IS23"/>
-        <state ID="IS24" name="IS24"/>
-        <state ID="IS25" name="IS25"/>
-        <state ID="IS26" name="IS26"/>
-        <state ID="IS27" name="IS27"/>
-        <state ID="IS28" name="IS28"/>
-        <state ID="IS29" name="IS29"/>
-        <state ID="IS30" name="IS30"/>
-        <state ID="IS31" name="IS31"/>
-        <state ID="IS32" name="IS32"/>
-        <state ID="IS33" name="IS33"/>
-        <state ID="IS34" name="IS34"/>
-        <state ID="IS35" name="IS35"/>
-        <state ID="IS36" name="IS36"/>
-        <state ID="IS37" name="IS37"/>
-        <state ID="IS38" name="IS38"/>
-        <state ID="IS39" name="IS39"/>
-        <state ID="IS40" name="IS40"/>
-        <state ID="IS41" name="IS41"/>
-        <state ID="IS42" name="Invalid"/>
-        <state ID="IS43" name="Invalid"/>
-        <state ID="IS44" name="IS44"/>
-        <state ID="IS45" name="IS45"/>
-        <state ID="IS46" name="IS46"/>
-        <state ID="IS47" name="IS47"/>
-        <state ID="IS48" name="IS48"/>
-        <state ID="IS49" name="Invalid"/>
-        <state ID="IS50" name="Invalid"/>
-        <state ID="IS51" name="Invalid"/>
-        <state ID="IS52" name="Invalid"/>
-        <state ID="IS53" name="Invalid"/>
-        <state ID="IS54" name="Invalid"/>
-        <state ID="IS55" name="Invalid"/>
-        <state ID="IS56" name="Invalid"/>
-        <state ID="IS57" name="Invalid"/>
-        <state ID="IS62" name="Invalid"/>
-        <state ID="IS65" name="Invalid"/>
-        <state ID="IS66" name="Invalid"/>
-        <state ID="IS67" name="Invalid"/>
-        <state ID="IS68" name="Invalid"/>
-        <state ID="IS70" name="Invalid"/>
-        <state ID="IS72" name="Invalid"/>
-        <state ID="IS73" name="Invalid"/>
-        <state ID="IS77" name="Invalid"/>
-        <state ID="IS78" name="Invalid"/>
-        <state ID="IS79" name="Invalid"/>
-        <state ID="KBDD" name="Invalid"/>
-        <state ID="KBDK" name="Invalid"/>
+        <state ID="IS20" name="InternalState20"/>
+        <state ID="IS21" name="InternalState21"/>
+        <state ID="IS22" name="InternalState22"/>
+        <state ID="IS23" name="InternalState23"/>
+        <state ID="IS24" name="InternalState24"/>
+        <state ID="IS25" name="InternalState25"/>
+        <state ID="IS26" name="InternalState26"/>
+        <state ID="IS27" name="InternalState27"/>
+        <state ID="IS28" name="InternalState28"/>
+        <state ID="IS29" name="InternalState29"/>
+        <state ID="IS30" name="InternalState30"/>
+        <state ID="IS31" name="InternalState31"/>
+        <state ID="IS32" name="InternalState32"/>
+        <state ID="IS33" name="InternalState33"/>
+        <state ID="IS34" name="InternalState34"/>
+        <state ID="IS35" name="InternalState35"/>
+        <state ID="IS36" name="InternalState36"/>
+        <state ID="IS37" name="InternalState37"/>
+        <state ID="IS38" name="InternalState38"/>
+        <state ID="IS39" name="InternalState39"/>
+        <state ID="IS40" name="InternalState40"/>
+        <state ID="IS41" name="InternalState41"/>
+        <state ID="IS42" name="InternalState42"/>
+        <state ID="IS43" name="InternalState43"/>
+        <state ID="IS44" name="InternalState44"/>
+        <state ID="IS45" name="InternalState45"/>
+        <state ID="IS46" name="InternalState46"/>
+        <state ID="IS47" name="InternalState47"/>
+        <state ID="IS48" name="InternalState48"/>
+        <state ID="IS49" name="InternalState49"/>
+        <state ID="IS50" name="InternalState50"/>
+        <state ID="IS51" name="InternalState51"/>
+        <state ID="IS52" name="InternalState52"/>
+        <state ID="IS53" name="InternalState53"/>
+        <state ID="IS54" name="InternalState54"/>
+        <state ID="IS55" name="InternalState55"/>
+        <state ID="IS56" name="InternalState56"/>
+        <state ID="IS57" name="InternalState57"/>
+        <state ID="IS62" name="InternalState62"/>
+        <state ID="IS65" name="InternalState65"/>
+        <state ID="IS66" name="InternalState66"/>
+        <state ID="IS67" name="InternalState67"/>
+        <state ID="IS68" name="InternalState68"/>
+        <state ID="IS70" name="InternalState70"/>
+        <state ID="IS72" name="InternalState72"/>
+        <state ID="IS73" name="InternalState73"/>
+        <state ID="IS77" name="InternalState77"/>
+        <state ID="IS78" name="InternalState78"/>
+        <state ID="IS79" name="InternalState79"/>
+        <state ID="KBDD" name="KBDD"/>
+        <state ID="KBDK" name="KBDK"/>
         <state ID="LDWA" name="DrawAfter"/>
         <state ID="LDWB" name="DrawBefore"/>
         <state ID="LTKA" name="ThinkAfter"/>
@@ -268,12 +268,12 @@
         <state ID="MAXR" name="MaxReached"/>
         <state ID="MOTP" name="MOTP"/>
         <state ID="MOTS" name="MOTS"/>
-        <state ID="NEXT" name="NEXT"/>
-        <state ID="OBJP" name="Invalid"/>
+        <state ID="NEXT" name="Next"/>
+        <state ID="OBJP" name="OBJP"/>
         <state ID="OPEN" name="Open"/>
         <state ID="PLAY" name="Play"/>
         <state ID="PLRP" name="PLRP"/>
-        <state ID="PREV" name="Invalid"/>
+        <state ID="PREV" name="Previous"/>
         <state ID="PTRL" name="Patrol"/>
         <state ID="RATL" name="DeathRattle"/>
         <state ID="RLAY" name="Relay"/>
@@ -282,12 +282,12 @@
         <state ID="SE01" name="SE01"/>
         <state ID="SE02" name="SE02"/>
         <state ID="SE03" name="SE03"/>
-        <state ID="SE05" name="Invalid"/>
-        <state ID="SE06" name="Invalid"/>
-        <state ID="SE07" name="Invalid"/>
-        <state ID="SE08" name="Invalid"/>
-        <state ID="SE09" name="Invalid"/>
-        <state ID="SE10" name="Invalid"/>
+        <state ID="SE05" name="SE05"/>
+        <state ID="SE06" name="SE06"/>
+        <state ID="SE07" name="SE07"/>
+        <state ID="SE08" name="SE08"/>
+        <state ID="SE09" name="SE09"/>
+        <state ID="SE10" name="SE10"/>
         <state ID="SLAV" name="Slave"/>
         <state ID="SQNC" name="Sequence"/>
         <state ID="TGTO" name="TGTO"/>
@@ -296,7 +296,7 @@
         <state ID="ZERO" name="Zero"/>
     </states>
     <messages>
-        <message ID="ACMT" name="Invalid"/>
+        <message ID="ACMT" name="ACMT"/>
         <message ID="ACTN" name="Action"/>
         <message ID="ACTV" name="Activate"/>
         <message ID="ATCH" name="Attach"/>
@@ -326,40 +326,40 @@
         <message ID="IM17" name="InternalMessage17"/>
         <message ID="IM18" name="InternalMessage18"/>
         <message ID="IM19" name="InternalMessage19"/>
-        <message ID="IM20" name="IM20"/>
-        <message ID="IM21" name="IM21"/>
-        <message ID="IM22" name="IM22"/>
-        <message ID="IM23" name="IM23"/>
-        <message ID="IM24" name="IM24"/>
-        <message ID="IM25" name="IM25"/>
-        <message ID="IM26" name="IM26"/>
-        <message ID="IM27" name="IM27"/>
-        <message ID="IM28" name="IM28"/>
-        <message ID="IM29" name="Invalid"/>
-        <message ID="IM30" name="Invalid"/>
-        <message ID="IM31" name="Invalid"/>
-        <message ID="IM32" name="Invalid"/>
-        <message ID="IM33" name="Invalid"/>
-        <message ID="IM34" name="Invalid"/>
-        <message ID="IM35" name="Invalid"/>
-        <message ID="IM36" name="Invalid"/>
-        <message ID="IM37" name="Invalid"/>
-        <message ID="IM38" name="Invalid"/>
-        <message ID="IM39" name="Invalid"/>
-        <message ID="IM40" name="Invalid"/>
-        <message ID="IM41" name="Invalid"/>
-        <message ID="IM50" name="Invalid"/>
+        <message ID="IM20" name="InternalMessage20"/>
+        <message ID="IM21" name="InternalMessage21"/>
+        <message ID="IM22" name="InternalMessage22"/>
+        <message ID="IM23" name="InternalMessage23"/>
+        <message ID="IM24" name="InternalMessage24"/>
+        <message ID="IM25" name="InternalMessage25"/>
+        <message ID="IM26" name="InternalMessage26"/>
+        <message ID="IM27" name="InternalMessage27"/>
+        <message ID="IM28" name="InternalMessage28"/>
+        <message ID="IM29" name="InternalMessage29"/>
+        <message ID="IM30" name="InternalMessage30"/>
+        <message ID="IM31" name="InternalMessage31"/>
+        <message ID="IM32" name="InternalMessage32"/>
+        <message ID="IM33" name="InternalMessage33"/>
+        <message ID="IM34" name="InternalMessage34"/>
+        <message ID="IM35" name="InternalMessage35"/>
+        <message ID="IM36" name="InternalMessage36"/>
+        <message ID="IM37" name="InternalMessage37"/>
+        <message ID="IM38" name="InternalMessage38"/>
+        <message ID="IM39" name="InternalMessage39"/>
+        <message ID="IM40" name="InternalMessage40"/>
+        <message ID="IM41" name="InternalMessage41"/>
+        <message ID="IM50" name="InternalMessage50"/>
         <message ID="INCR" name="Increment"/>
         <message ID="KILL" name="Kill"/>
         <message ID="LOAD" name="Load"/>
         <message ID="LOCK" name="Lock"/>
         <message ID="NEXT" name="Next"/>
-        <message ID="OFF " name="OFF "/>
-        <message ID="ON  " name="ON  "/>
-        <message ID="OPEN" name="OPEN"/>
-        <message ID="PAUS" name="Invalid"/>
-        <message ID="PLAY" name="PLAY"/>
-        <message ID="RCMT" name="Invalid"/>
+        <message ID="OFF " name="Off"/>
+        <message ID="ON  " name="On"/>
+        <message ID="OPEN" name="Open"/>
+        <message ID="PAUS" name="Pause"/>
+        <message ID="PLAY" name="Play"/>
+        <message ID="RCMT" name="RCMT"/>
         <message ID="RMOV" name="RMOV"/>
         <message ID="RSAN" name="RSAN"/>
         <message ID="RSET" name="Reset"/>

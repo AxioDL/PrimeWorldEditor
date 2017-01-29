@@ -89,7 +89,7 @@ public:
     static void UseColorShaderLighting(const CColor& Color);
     static void UseTextureShader();
     static void UseTextureShader(const CColor& TintColor);
-    static void UseCollisionShader(const CColor& TintColor = CColor::skWhite);
+    static void UseCollisionShader(bool IsFloor, bool IsUnstandable, const CColor& TintColor = CColor::skWhite);
 
     static CShader* GetTextShader();
     static void LoadCheckerboardTexture(u32 GLTextureUnit);
