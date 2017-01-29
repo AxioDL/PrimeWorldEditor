@@ -68,8 +68,8 @@ void CCollisionNode::Draw(FRenderOptions /*Options*/, int /*ComponentIndex*/, ER
             else if (CollisionGame != eReturns && rkViewInfo.CollisionSettings.TintWithSurfaceColor)
                 Tint *= rMat.SurfaceColor(CollisionGame);
 
-            bool IsFloor = (rkViewInfo.CollisionSettings.TintUnwalkableTris ? rMat.HasFlag(eCF_Floor) : true) || CollisionGame == eReturns;
-            bool IsUnstandable = (rkViewInfo.CollisionSettings.TintUnwalkableTris ? rMat.HasFlag(eCF_JumpNotAllowed) : false) && CollisionGame != eReturns;
+            bool IsFloor = (rkViewInfo.CollisionSettings.TintUnwalkableTris ? rMat.IsFloor() : true) || CollisionGame == eReturns;
+            bool IsUnstandable = (rkViewInfo.CollisionSettings.TintUnwalkableTris ? rMat.IsUnstandable(CollisionGame) : false) && CollisionGame != eReturns;
             CDrawUtil::UseCollisionShader(IsFloor, IsUnstandable, Tint);
             pMesh->DrawMaterial(iMat, false);
 

@@ -1,5 +1,6 @@
 #include "CCollisionMaterial.h"
 #include "EGame.h"
+#include <Common/Assert.h>
 #include <unordered_map>
 
 ECollisionFlag CCollisionMaterial::SurfaceType(EGame Game) const
@@ -70,4 +71,15 @@ CColor CCollisionMaterial::SurfaceColor(EGame Game) const
     ECollisionFlag SurfType = SurfaceType(Game);
     auto FindColor = gkTypeToColor.find(SurfType);
     return (FindColor == gkTypeToColor.end() ? CColor::skWhite : FindColor->second);
+}
+
+bool CCollisionMaterial::IsFloor() const
+{
+    return HasFlag(eCF_Floor) && !HasFlag(eCF_JumpNotAllowed);
+}
+
+bool CCollisionMaterial::IsUnstandable(EGame Game) const
+{
+    BREAK_ONLY_ASSERT(!HasFlag(eCF_Wood));
+    return HasFlag(eCF_JumpNotAllowed) || (Game >= eEchoesDemo && !HasFlag(eCF_Floor) && HasAnyFlags(eCF_Wall | eCF_Ceiling));
 }

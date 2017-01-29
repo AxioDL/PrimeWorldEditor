@@ -66,6 +66,8 @@ void CCollisionLoader::ReadPropertyFlags(IInputStream& rSrc)
         if (RawFlags & 0x02000000) Material |= eCF_FlippedTri;
         if (RawFlags & 0x08000000) Material |= eCF_ScanThru;
         if (RawFlags & 0x10000000) Material |= eCF_AiWalkThru;
+        if (RawFlags & 0x20000000) Material |= eCF_Ceiling;
+        if (RawFlags & 0x40000000) Material |= eCF_Wall;
         if (RawFlags & 0x80000000) Material |= eCF_Floor;
     }
 
@@ -95,12 +97,12 @@ void CCollisionLoader::ReadPropertyFlags(IInputStream& rSrc)
         if (RawFlags & 0x02000000) Material |= eCF_Rubber;
         if (RawFlags & 0x08000000) Material |= eCF_ScanThru;
         if (RawFlags & 0x10000000) Material |= eCF_AiWalkThru;
+        if (RawFlags & 0x20000000) Material |= eCF_Ceiling;
+        if (RawFlags & 0x40000000) Material |= eCF_Wall;
         if (RawFlags & 0x80000000) Material |= eCF_Floor;
 
         if (RawFlags & 0x0001000000000000) Material |= eCF_AiBlock;
         if (RawFlags & 0x0400000000000000) Material |= eCF_JumpNotAllowed;
-        if (RawFlags & 0x2000000000000000) Material |= eCF_SpiderBall;
-        if (RawFlags & 0x4000000000000000) Material |= eCF_WallJump;
     }
 
     else if (mVersion == eReturns)
