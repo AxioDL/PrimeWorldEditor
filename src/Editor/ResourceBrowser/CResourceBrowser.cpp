@@ -45,6 +45,7 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
     connect(mpUI->DirectoryTreeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(OnDirectorySelectionChanged(QModelIndex,QModelIndex)));
     connect(mpUI->ResourceTableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnDoubleClickResource(QModelIndex)));
     connect(pImportFromContentsTxtAction, SIGNAL(triggered()), this, SLOT(OnImportPakContentsTxt()));
+    connect(&mUpdateFilterTimer, SIGNAL(timeout()), this, SLOT(UpdateFilter()));
 }
 
 CResourceBrowser::~CResourceBrowser()
@@ -79,7 +80,8 @@ void CResourceBrowser::OnSortModeChanged(int Index)
 
 void CResourceBrowser::OnSearchStringChanged()
 {
-    mpProxyModel->SetSearchString( TO_TWIDESTRING(mpUI->SearchBar->text()) );
+    const int kUpdateWaitTime = 500;
+    mUpdateFilterTimer.start(kUpdateWaitTime);
 }
 
 void CResourceBrowser::OnDirectorySelectionChanged(const QModelIndex& rkNewIndex, const QModelIndex& /*rkPrevIndex*/)
@@ -138,4 +140,9 @@ void CResourceBrowser::OnImportPakContentsTxt()
         mpStore->ImportNamesFromPakContentsTxt(TO_TSTRING(rkPath), false);
 
     RefreshResources();
+}
+
+void CResourceBrowser::UpdateFilter()
+{
+    mpProxyModel->SetSearchString( TO_TWIDESTRING(mpUI->SearchBar->text()) );
 }

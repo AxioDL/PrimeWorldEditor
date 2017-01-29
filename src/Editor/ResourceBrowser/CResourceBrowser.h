@@ -18,6 +18,7 @@ class CResourceBrowser : public QDialog
     CResourceTableModel *mpModel;
     CResourceProxyModel *mpProxyModel;
     CVirtualDirectoryModel *mpDirectoryModel;
+    QTimer mUpdateFilterTimer;
 
 public:
     explicit CResourceBrowser(QWidget *pParent = 0);
@@ -31,6 +32,7 @@ public slots:
     void OnDirectorySelectionChanged(const QModelIndex& rkNewIndex, const QModelIndex& rkPrevIndex);
     void OnDoubleClickResource(QModelIndex Index);
     void OnImportPakContentsTxt();
+    void UpdateFilter();
 };
 
 #endif // CRESOURCEBROWSER_H
