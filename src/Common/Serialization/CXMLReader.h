@@ -84,9 +84,12 @@ protected:
     }
 
 public:
-    virtual void SerializeContainerSize(u32& rSize)
+    virtual void SerializeContainerSize(u32& rSize, const TString& rkElemName)
     {
-        rSize = TString(mpCurElem->Attribute("Size")).ToInt32(10);
+        rSize = 0;
+
+        for (tinyxml2::XMLElement *pElem = mpCurElem->FirstChildElement(*rkElemName); pElem; pElem = pElem->NextSiblingElement(*rkElemName))
+            rSize++;
     }
 
     virtual void SerializeAbstractObjectType(u32& rType)

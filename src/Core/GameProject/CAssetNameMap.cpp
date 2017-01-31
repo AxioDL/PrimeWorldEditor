@@ -1,23 +1,18 @@
 #include "CAssetNameMap.h"
 
-std::map<EGame, CAssetNameMap*> CAssetNameMap::smGameMap;
-
-CAssetNameMap::CAssetNameMap(EGame Game)
-    : mGame(Game)
+void CAssetNameMap::LoadAssetNames(TString Path /*= gkAssetMapPath*/)
 {
-    TString ListPath = GetAssetListPath(mGame);
-    CXMLReader Reader(ListPath);
+    CXMLReader Reader(Path);
     Serialize(Reader);
 }
 
-void CAssetNameMap::SaveAssetNames()
+void CAssetNameMap::SaveAssetNames(TString Path /*= gkAssetMapPath*/)
 {
-    TString ListPath = GetAssetListPath(mGame);
-    CXMLWriter Writer(ListPath, "AssetList", 0, mGame);
+    CXMLWriter Writer(Path, "AssetNameMap", 0, eUnknownGame);
     Serialize(Writer);
 }
 
-void CAssetNameMap::GetNameInfo(CAssetID ID, TString& rOutDirectory, TString& rOutName)
+bool CAssetNameMap::GetNameInfo(CAssetID ID, TString& rOutDirectory, TString& rOutName)
 {
     auto It = mMap.find(ID);
 
@@ -26,12 +21,14 @@ void CAssetNameMap::GetNameInfo(CAssetID ID, TString& rOutDirectory, TString& rO
         SAssetNameInfo& rInfo = It->second;
         rOutName = rInfo.Name;
         rOutDirectory = rInfo.Directory;
+        return true;
     }
 
     else
     {
         rOutDirectory = "Uncategorized\\";
         rOutName = ID.ToString();
+        return false;
     }
 }
 

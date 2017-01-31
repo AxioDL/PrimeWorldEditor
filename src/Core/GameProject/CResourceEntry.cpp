@@ -316,11 +316,14 @@ bool CResourceEntry::Move(const TWideString& rkDir, const TWideString& rkName)
     TString NewCookedPath = CookedAssetPath();
     TString NewRawPath = RawAssetPath();
 
+    Log::Write("MOVING RESOURCE: " + OldCookedPath + " --> " + NewCookedPath);
+
     // If the old/new paths are the same then we should have already exited as CanMoveTo() should have returned false
     ASSERT(OldCookedPath != NewCookedPath && OldRawPath != NewRawPath);
 
     // The cooked/raw asset paths should not exist right now!!!
     bool FSMoveSuccess = false;
+    TString MoveFailReason;
 
     if (!HasRawVersion() && !HasCookedVersion())
     {
@@ -329,14 +332,29 @@ bool CResourceEntry::Move(const TWideString& rkDir, const TWideString& rkName)
         if (FileUtil::Exists(OldRawPath))
         {
             FSMoveSuccess = FileUtil::CopyFile(OldRawPath, NewRawPath);
-            if (!FSMoveSuccess) FileUtil::DeleteFile(NewRawPath);
+
+            if (!FSMoveSuccess)
+            {
+                FileUtil::DeleteFile(NewRawPath);
+                MoveFailReason = TString::Format("Failed to move raw file to new destination (%s --> %s)", *OldRawPath, *NewRawPath);
+            }
         }
 
         if (FSMoveSuccess && FileUtil::Exists(OldCookedPath))
         {
             FSMoveSuccess = FileUtil::CopyFile(OldCookedPath, NewCookedPath);
-            if (!FSMoveSuccess) FileUtil::DeleteFile(NewCookedPath);
+
+            if (!FSMoveSuccess)
+            {
+                FileUtil::DeleteFile(NewCookedPath);
+                MoveFailReason = TString::Format("Failed to move cooked file to new destination (%s --> %s)", *OldCookedPath, *NewCookedPath);
+            }
         }
+    }
+    else
+    {
+        bool HasRaw = HasRawVersion();
+        MoveFailReason = TString::Format("File already exists at %s asset destination (%s)", HasRaw ? "raw" : "cooked", HasRaw ? *NewRawPath : *NewCookedPath);
     }
 
     // If we succeeded, finish the move
@@ -360,6 +378,7 @@ bool CResourceEntry::Move(const TWideString& rkDir, const TWideString& rkName)
     // Otherwise, revert changes and let the caller know the move failed
     else
     {
+        Log::Error("MOVE FAILED: " + MoveFailReason);
         mpDirectory = pOldDir;
         mName = OldName;
         mpStore->ConditionalDeleteDirectory(pNewDir);

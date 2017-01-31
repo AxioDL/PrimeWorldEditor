@@ -109,7 +109,7 @@ public:
         mParamStack.pop_back();
     }
 
-    virtual void SerializeContainerSize(u32& rSize)
+    virtual void SerializeContainerSize(u32& rSize, const TString& /*rkElemName*/)
     {
         // Mostly handled by ParamBegin, we just need to return the size correctly so the container can be resized
         rSize = (u32) mpStream->PeekShort();

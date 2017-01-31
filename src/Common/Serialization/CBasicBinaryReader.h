@@ -44,7 +44,7 @@ public:
     virtual bool ParamBegin(const char*)    { return true; }
     virtual void ParamEnd()                 { }
 
-    virtual void SerializeContainerSize(u32& rSize)         { SerializePrimitive(rSize); }
+    virtual void SerializeContainerSize(u32& rSize, const TString&) { SerializePrimitive(rSize); }
     virtual void SerializeAbstractObjectType(u32& rType)    { SerializePrimitive(rType); }
     virtual void SerializePrimitive(bool& rValue)           { rValue = mpStream->ReadBool(); }
     virtual void SerializePrimitive(char& rValue)           { rValue = mpStream->ReadByte(); }

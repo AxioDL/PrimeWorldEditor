@@ -51,7 +51,7 @@ public:
     virtual bool ParamBegin(const char*)    { return true; }
     virtual void ParamEnd()                 { }
 
-    virtual void SerializeContainerSize(u32& rSize)         { mpStream->WriteLong(rSize); }
+    virtual void SerializeContainerSize(u32& rSize, const TString&) { mpStream->WriteLong(rSize); }
     virtual void SerializeAbstractObjectType(u32& rType)    { mpStream->WriteLong(rType); }
     virtual void SerializePrimitive(bool& rValue)           { mpStream->WriteBool(rValue); }
     virtual void SerializePrimitive(char& rValue)           { mpStream->WriteByte(rValue); }

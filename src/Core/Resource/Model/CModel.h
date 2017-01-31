@@ -41,6 +41,7 @@ public:
     CMaterial* GetMaterialBySurface(u32 MatSet, u32 Surface);
     bool HasTransparency(u32 MatSet);
     bool IsSurfaceTransparent(u32 Surface, u32 MatSet);
+    bool IsLightmapped() const;
 
     inline bool IsSkinned() const       { return (mpSkin != nullptr); }
 

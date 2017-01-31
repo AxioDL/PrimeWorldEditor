@@ -275,6 +275,22 @@ bool CModel::IsSurfaceTransparent(u32 Surface, u32 MatSet)
     return (mMaterialSets[MatSet]->MaterialByIndex(matID)->Options() & CMaterial::eTransparent) != 0;
 }
 
+bool CModel::IsLightmapped() const
+{
+    for (u32 iSet = 0; iSet < mMaterialSets.size(); iSet++)
+    {
+        CMaterialSet *pSet = mMaterialSets[iSet];
+
+        for (u32 iMat = 0; iMat < pSet->NumMaterials(); iMat++)
+        {
+            CMaterial *pMat = pSet->MaterialByIndex(iMat);
+            if (pMat->Options().HasFlag(CMaterial::eLightmap))
+                return true;
+        }
+    }
+    return false;
+}
+
 CIndexBuffer* CModel::InternalGetIBO(u32 Surface, EGXPrimitiveType Primitive)
 {
     std::vector<CIndexBuffer> *pIBOs = &mSurfaceIndexBuffers[Surface];

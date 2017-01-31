@@ -38,6 +38,79 @@ void ApplyGeneratedName(CResourceEntry *pEntry, const TWideString& rkDir, const 
     ASSERT(Success);
 }
 
+TWideString MakeWorldName(EGame Game, TWideString RawName)
+{
+    // MP1 demo - Remove ! from the beginning
+    if (Game == ePrimeDemo)
+    {
+        if (RawName.StartsWith(L'!'))
+            RawName = RawName.ChopFront(1);
+    }
+
+    // MP1 - Remove prefix characters and ending date
+    else if (Game == ePrime)
+    {
+        RawName = RawName.ChopFront(2);
+        bool StartedDate = false;
+
+        while (!RawName.IsEmpty())
+        {
+            wchar_t Chr = RawName.Back();
+
+            if (!StartedDate && Chr >= L'0' && Chr <= L'9')
+                StartedDate = true;
+            else if (StartedDate && Chr != L'_' && (Chr < L'0' || Chr > L'9'))
+                break;
+
+            RawName = RawName.ChopBack(1);
+        }
+    }
+
+    // MP2 demo - Use text between the first and second underscores
+    else if (Game == eEchoesDemo)
+    {
+        u32 UnderscoreA = RawName.IndexOf(L'_');
+        u32 UnderscoreB = RawName.IndexOf(L'_', UnderscoreA + 1);
+        RawName = RawName.SubString(UnderscoreA + 1, UnderscoreB - UnderscoreA - 1);
+    }
+
+    // MP3 proto - Remove ! from the beginning and all text after last underscore
+    else if (Game == eCorruptionProto)
+    {
+        if (RawName.StartsWith(L'!'))
+            RawName = RawName.ChopFront(1);
+
+        u32 LastUnderscore = RawName.LastIndexOf(L"_");
+        RawName = RawName.ChopBack(RawName.Size() - LastUnderscore);
+    }
+
+    // MP2/3 - Remove text before first underscore and after last underscore, strip remaining underscores (except multiplayer maps, which have one underscore)
+    else if (Game == eEchoes || Game == eCorruption)
+    {
+        u32 FirstUnderscore = RawName.IndexOf(L'_');
+        u32 LastUnderscore = RawName.LastIndexOf(L"_");
+
+        if (FirstUnderscore != LastUnderscore)
+        {
+            RawName = RawName.ChopBack(RawName.Size() - LastUnderscore);
+            RawName = RawName.ChopFront(FirstUnderscore + 1);
+        }
+
+        RawName.Remove(L'_');
+    }
+
+    // DKCR - Remove text after second-to-last underscore
+    else if (Game == eReturns)
+    {
+        u32 Underscore = RawName.LastIndexOf(L"_");
+        RawName = RawName.ChopBack(RawName.Size() - Underscore);
+        Underscore = RawName.LastIndexOf(L"_");
+        RawName = RawName.ChopBack(RawName.Size() - Underscore);
+    }
+
+    return RawName;
+}
+
 void GenerateAssetNames(CGameProject *pProj)
 {
     // todo: CAUD/CSMP
@@ -69,34 +142,17 @@ void GenerateAssetNames(CGameProject *pProj)
 
     for (TResourceIterator<eWorld> It(pStore); It; ++It)
     {
-        // World common stuff
-        TWideString WorldName = It->Name();
-
-        // Remove date from the end of the world name
-        if (WorldName.EndsWith(L"_#SERIAL#"))
-            WorldName = WorldName.ChopBack(9);
-
-        // Verify the second-to-last character is a number to make sure there is actually a date in the world name
-        // note MP2 multiplayer worlds do not have dates in their names
-        else if (WorldName[WorldName.Size() - 2] >= '0' && WorldName[WorldName.Size() - 2] <= '9')
-        {
-            bool StartedDate = false;
-
-            while (!WorldName.IsEmpty())
-            {
-                wchar_t Chr = WorldName.Back();
-
-                if (!StartedDate && Chr >= L'0' && Chr <= L'9')
-                    StartedDate = true;
-                else if (StartedDate && Chr != L'_' && (Chr < L'0' || Chr > L'9'))
-                    break;
-
-                WorldName = WorldName.ChopBack(1);
-            }
-        }
-
+        // Generate world name
+        TWideString WorldName = MakeWorldName(pProj->Game(), It->Name());
         TWideString WorldDir = kWorldsRoot + WorldName + L'\\';
-        ApplyGeneratedName(*It, WorldDir, WorldName);
+
+        TWideString WorldMasterName = L"!" + WorldName + L"_Master";
+        TWideString WorldMasterDir = WorldDir + WorldMasterName + L'\\';
+        ApplyGeneratedName(*It, WorldMasterDir, WorldMasterName);
+
+        // Move world stuff
+        const TWideString WorldNamesDir = L"Strings\\Worlds\\General\\";
+        const TWideString AreaNamesDir = TWideString::Format(L"Strings\\Worlds\\%s\\", *WorldName);
 
         CWorld *pWorld = (CWorld*) It->Load();
         CModel *pSkyModel = pWorld->DefaultSkybox();
@@ -105,53 +161,68 @@ void GenerateAssetNames(CGameProject *pProj)
         CResource *pSaveWorld = pWorld->SaveWorld();
         CResource *pMapWorld = pWorld->MapWorld();
 
+        if (pSaveWorld)
+            ApplyGeneratedName(pSaveWorld->Entry(), WorldMasterDir, WorldMasterName);
+
+        if (pMapWorld)
+            ApplyGeneratedName(pMapWorld->Entry(), WorldMasterDir, WorldMasterName);
+
         if (pSkyModel && !pSkyModel->Entry()->IsCategorized())
         {
+            // Move sky model
             CResourceEntry *pSkyEntry = pSkyModel->Entry();
-            ApplyGeneratedName(pSkyEntry, WorldDir, TWideString::Format(L"%s_Sky", *WorldName));
+            ApplyGeneratedName(pSkyEntry, WorldDir + L"sky\\cooked\\", L"sky");
+
+            // Move sky textures
+            for (u32 iSet = 0; iSet < pSkyModel->GetMatSetCount(); iSet++)
+            {
+                CMaterialSet *pSet = pSkyModel->GetMatSet(iSet);
+
+                for (u32 iMat = 0; iMat < pSet->NumMaterials(); iMat++)
+                {
+                    CMaterial *pMat = pSet->MaterialByIndex(iMat);
+
+                    for (u32 iPass = 0; iPass < pMat->PassCount(); iPass++)
+                    {
+                        CMaterialPass *pPass = pMat->Pass(iPass);
+
+                        if (pPass->Texture() && !pPass->Texture()->Entry()->IsCategorized())
+                            ApplyGeneratedName(pPass->Texture()->Entry(), WorldDir + L"sky\\sourceimages\\", pPass->Texture()->Entry()->Name());
+                    }
+                }
+            }
         }
 
         if (pWorldNameTable)
         {
             CResourceEntry *pNameEntry = pWorldNameTable->Entry();
-            ApplyGeneratedName(pNameEntry, WorldDir, pNameEntry->Name());
+            ApplyGeneratedName(pNameEntry, WorldNamesDir, WorldName);
         }
+
         if (pDarkWorldNameTable)
         {
             CResourceEntry *pDarkNameEntry = pDarkWorldNameTable->Entry();
-            ApplyGeneratedName(pDarkNameEntry, WorldDir, pDarkNameEntry->Name());
+            ApplyGeneratedName(pDarkNameEntry, WorldNamesDir, WorldName + L"Dark");
         }
-        if (pSaveWorld)
-            ApplyGeneratedName(pSaveWorld->Entry(), WorldDir, TWideString::Format(L"%s_SaveInfo", *WorldName));
-
-        if (pMapWorld)
-            ApplyGeneratedName(pMapWorld->Entry(), WorldDir, TWideString::Format(L"%s_Map", *WorldName));
 
         // Areas
         for (u32 iArea = 0; iArea < pWorld->NumAreas(); iArea++)
         {
             // Determine area name
+            TWideString AreaName = pWorld->AreaInternalName(iArea).ToUTF16();
             CAssetID AreaID = pWorld->AreaResourceID(iArea);
-            TString InternalAreaName = pWorld->AreaInternalName(iArea);
-            CStringTable *pAreaNameTable = pWorld->AreaName(iArea);
-            TWideString AreaName;
 
-            if (pAreaNameTable)
-                AreaName = pAreaNameTable->String("ENGL", 0);
-            else if (!InternalAreaName.IsEmpty())
-                AreaName = L"!!" + InternalAreaName.ToUTF16();
-            else
-                AreaName = L"!!" + AreaID.ToString().ToUTF16();
-
-            TWideString AreaDir = TWideString::Format(L"%s%02d_%s\\", *WorldDir, iArea, *AreaName);
+            if (AreaName.IsEmpty())
+                AreaName = AreaID.ToString().ToUTF16();
 
             // Rename area stuff
             CResourceEntry *pAreaEntry = pStore->FindEntry(AreaID);
             ASSERT(pAreaEntry != nullptr);
-            ApplyGeneratedName(pAreaEntry, AreaDir, AreaName);
+            ApplyGeneratedName(pAreaEntry, WorldMasterDir, AreaName);
 
+            CStringTable *pAreaNameTable = pWorld->AreaName(iArea);
             if (pAreaNameTable)
-                ApplyGeneratedName(pAreaNameTable->Entry(), AreaDir, pAreaNameTable->Entry()->Name());
+                ApplyGeneratedName(pAreaNameTable->Entry(), AreaNamesDir, AreaName);
 
             if (pMapWorld)
             {
@@ -161,128 +232,149 @@ void GenerateAssetNames(CGameProject *pProj)
                 CResourceEntry *pMapEntry = pStore->FindEntry(MapID);
                 ASSERT(pMapEntry != nullptr);
 
-                ApplyGeneratedName(pMapEntry, AreaDir, TWideString::Format(L"%s_Map", *AreaName));
+                ApplyGeneratedName(pMapEntry, WorldMasterDir, AreaName);
             }
-        }
-    }
-#endif
 
 #if PROCESS_AREAS
-    // Generate area stuff
-    for (TResourceIterator<eArea> It(pStore); It; ++It)
-    {
-        TWideString AreaDir = It->DirectoryPath();
-        TWideString AreaName = It->Name();
-        CGameArea *pArea = (CGameArea*) It->Load();
+            // Move area dependencies
+            TWideString AreaCookedDir = WorldDir + AreaName + L"\\cooked\\";
+            CGameArea *pArea = (CGameArea*) pAreaEntry->Load();
 
-        // Area lightmaps
-        TWideString LightmapDir = AreaDir + L"Lightmaps\\";
-        CMaterialSet *pMaterials = pArea->Materials();
+            // Area lightmaps
+            u32 LightmapNum = 0;
+            CMaterialSet *pMaterials = pArea->Materials();
 
-        for (u32 iMat = 0; iMat < pMaterials->NumMaterials(); iMat++)
-        {
-            CMaterial *pMat = pMaterials->MaterialByIndex(iMat);
-
-            if (pMat->Options().HasFlag(CMaterial::eLightmap))
+            for (u32 iMat = 0; iMat < pMaterials->NumMaterials(); iMat++)
             {
-                CTexture *pLightmapTex = pMat->Pass(0)->Texture();
-                CResourceEntry *pTexEntry = pLightmapTex->Entry();
+                CMaterial *pMat = pMaterials->MaterialByIndex(iMat);
 
-                TWideString TexName = TWideString::Format(L"lit_%s_%dx%d", *pLightmapTex->ID().ToString().ToUTF16(), pLightmapTex->Width(), pLightmapTex->Height());
-                ApplyGeneratedName(pTexEntry, LightmapDir, TexName);
-                pTexEntry->SetHidden(true);
-            }
-        }
-
-        // Generate names from script instance names
-        for (u32 iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
-        {
-            CScriptLayer *pLayer = pArea->ScriptLayer(iLyr);
-
-            for (u32 iInst = 0; iInst < pLayer->NumInstances(); iInst++)
-            {
-                CScriptObject *pInst = pLayer->InstanceByIndex(iInst);
-
-                if (pInst->ObjectTypeID() == 0x42 || pInst->ObjectTypeID() == FOURCC("POIN"))
+                if (pMat->Options().HasFlag(CMaterial::eLightmap))
                 {
-                    TString Name = pInst->InstanceName();
+                    CTexture *pLightmapTex = pMat->Pass(0)->Texture();
+                    CResourceEntry *pTexEntry = pLightmapTex->Entry();
+                    if (pTexEntry->IsCategorized()) continue;
 
-                    if (Name.EndsWith(".SCAN", false))
+                    TWideString TexName = TWideString::Format(L"%s_lit_lightmap%d", *AreaName, LightmapNum);
+                    ApplyGeneratedName(pTexEntry, AreaCookedDir, TexName);
+                    pTexEntry->SetHidden(true);
+                    LightmapNum++;
+                }
+            }
+
+            // Generate names from script instance names
+            for (u32 iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
+            {
+                CScriptLayer *pLayer = pArea->ScriptLayer(iLyr);
+
+                for (u32 iInst = 0; iInst < pLayer->NumInstances(); iInst++)
+                {
+                    CScriptObject *pInst = pLayer->InstanceByIndex(iInst);
+
+                    if (pInst->ObjectTypeID() == 0x42 || pInst->ObjectTypeID() == FOURCC("POIN"))
                     {
-                        TIDString ScanIDString = (pProj->Game() <= ePrime ? "0x4:0x0" : "0xBDBEC295:0xB94E9BE7");
-                        TAssetProperty *pScanProperty = TPropCast<TAssetProperty>(pInst->PropertyByIDString(ScanIDString));
-                        ASSERT(pScanProperty); // Temporary assert to remind myself later to update this code when uncooked properties are added to the template
+                        TString Name = pInst->InstanceName();
 
-                        if (pScanProperty)
+                        if (Name.EndsWith(".SCAN", false))
                         {
-                            CAssetID ScanID = pScanProperty->Get();
-                            CResourceEntry *pEntry = pStore->FindEntry(ScanID);
+                            TIDString ScanIDString = (pProj->Game() <= ePrime ? "0x4:0x0" : "0xBDBEC295:0xB94E9BE7");
+                            TAssetProperty *pScanProperty = TPropCast<TAssetProperty>(pInst->PropertyByIDString(ScanIDString));
+                            ASSERT(pScanProperty); // Temporary assert to remind myself later to update this code when uncooked properties are added to the template
 
-                            if (pEntry && !pEntry->IsNamed())
+                            if (pScanProperty)
                             {
-                                TWideString ScanName = Name.ToUTF16().ChopBack(5);
+                                CAssetID ScanID = pScanProperty->Get();
+                                CResourceEntry *pEntry = pStore->FindEntry(ScanID);
 
-                                if (ScanName.StartsWith(L"POI_"))
-                                    ScanName = ScanName.ChopFront(4);
-
-                                ApplyGeneratedName(pEntry, pEntry->DirectoryPath(), ScanName);
-
-                                CScan *pScan = (CScan*) pEntry->Load();
-                                if (pScan && pScan->ScanText())
+                                if (pEntry && !pEntry->IsNamed())
                                 {
-                                    CResourceEntry *pStringEntry = pScan->ScanText()->Entry();
-                                    ApplyGeneratedName(pStringEntry, pStringEntry->DirectoryPath(), ScanName);
+                                    TWideString ScanName = Name.ToUTF16().ChopBack(5);
+
+                                    if (ScanName.StartsWith(L"POI_"))
+                                        ScanName = ScanName.ChopFront(4);
+
+                                    ApplyGeneratedName(pEntry, pEntry->DirectoryPath(), ScanName);
+
+                                    CScan *pScan = (CScan*) pEntry->Load();
+                                    if (pScan && pScan->ScanText())
+                                    {
+                                        CResourceEntry *pStringEntry = pScan->ScanText()->Entry();
+                                        ApplyGeneratedName(pStringEntry, pStringEntry->DirectoryPath(), ScanName);
+                                    }
                                 }
                             }
                         }
                     }
-                }
 
-                else if (pInst->ObjectTypeID() == 0x17 || pInst->ObjectTypeID() == FOURCC("MEMO"))
-                {
-                    TString Name = pInst->InstanceName();
-
-                    if (Name.EndsWith(".STRG", false))
+                    else if (pInst->ObjectTypeID() == 0x17 || pInst->ObjectTypeID() == FOURCC("MEMO"))
                     {
-                        u32 StringPropID = (pProj->Game() <= ePrime ? 0x4 : 0x9182250C);
-                        TAssetProperty *pStringProperty = TPropCast<TAssetProperty>(pInst->Properties()->PropertyByID(StringPropID));
-                        ASSERT(pStringProperty); // Temporary assert to remind myself later to update this code when uncooked properties are added to the template
+                        TString Name = pInst->InstanceName();
 
-                        if (pStringProperty)
+                        if (Name.EndsWith(".STRG", false))
                         {
-                            CAssetID StringID = pStringProperty->Get();
-                            CResourceEntry *pEntry = pStore->FindEntry(StringID);
+                            u32 StringPropID = (pProj->Game() <= ePrime ? 0x4 : 0x9182250C);
+                            TAssetProperty *pStringProperty = TPropCast<TAssetProperty>(pInst->Properties()->PropertyByID(StringPropID));
+                            ASSERT(pStringProperty); // Temporary assert to remind myself later to update this code when uncooked properties are added to the template
 
-                            if (pEntry && !pEntry->IsNamed())
+                            if (pStringProperty)
                             {
-                                TWideString StringName = Name.ToUTF16().ChopBack(5);
+                                CAssetID StringID = pStringProperty->Get();
+                                CResourceEntry *pEntry = pStore->FindEntry(StringID);
 
-                                if (StringName.StartsWith(L"HUDMemo - "))
-                                    StringName = StringName.ChopFront(10);
+                                if (pEntry && !pEntry->IsNamed())
+                                {
+                                    TWideString StringName = Name.ToUTF16().ChopBack(5);
 
-                                ApplyGeneratedName(pEntry, pEntry->DirectoryPath(), StringName);
+                                    if (StringName.StartsWith(L"HUDMemo - "))
+                                        StringName = StringName.ChopFront(10);
+
+                                    ApplyGeneratedName(pEntry, pEntry->DirectoryPath(), StringName);
+                                }
+                            }
+                        }
+                    }
+
+                    // Look for lightmapped models - these are going to be unique to this area
+                    else if (pInst->ObjectTypeID() == 0x0 || pInst->ObjectTypeID() == FOURCC("ACTR") ||
+                             pInst->ObjectTypeID() == 0x8 || pInst->ObjectTypeID() == FOURCC("PLAT"))
+                    {
+                        u32 ModelPropID = (pProj->Game() <= ePrime ? (pInst->ObjectTypeID() == 0x0 ? 0xA : 0x6) : 0xC27FFA8F);
+                        TAssetProperty *pModelProperty = TPropCast<TAssetProperty>(pInst->Properties()->PropertyByID(ModelPropID));
+                        ASSERT(pModelProperty); // Temporary assert to remind myself later to update this code when uncooked properties are added to the template
+
+                        if (pModelProperty)
+                        {
+                            CAssetID ModelID = pModelProperty->Get();
+                            CResourceEntry *pEntry = pStore->FindEntry(ModelID);
+
+                            if (pEntry && !pEntry->IsCategorized())
+                            {
+                                CModel *pModel = (CModel*) pEntry->Load();
+
+                                if (pModel->IsLightmapped())
+                                    ApplyGeneratedName(pEntry, AreaCookedDir, pEntry->Name());
                             }
                         }
                     }
                 }
             }
+
+            // Other area assets
+            CResourceEntry *pPathEntry = pStore->FindEntry(pArea->PathID());
+            CResourceEntry *pPoiMapEntry = pArea->PoiToWorldMap() ? pArea->PoiToWorldMap()->Entry() : nullptr;
+            CResourceEntry *pPortalEntry = pStore->FindEntry(pArea->PortalAreaID());
+
+            if (pPathEntry)
+                ApplyGeneratedName(pPathEntry, WorldMasterDir, AreaName);
+
+            if (pPoiMapEntry)
+                ApplyGeneratedName(pPoiMapEntry, WorldMasterDir, AreaName);
+
+            if (pPortalEntry)
+                ApplyGeneratedName(pPortalEntry, WorldMasterDir, AreaName);
+
+            pStore->DestroyUnreferencedResources();
+#endif
         }
-
-        // Other area assets
-        CResourceEntry *pPathEntry = pStore->FindEntry(pArea->PathID());
-        CResourceEntry *pPoiMapEntry = pArea->PoiToWorldMap() ? pArea->PoiToWorldMap()->Entry() : nullptr;
-        CResourceEntry *pPortalEntry = pStore->FindEntry(pArea->PortalAreaID());
-
-        if (pPathEntry)
-            ApplyGeneratedName(pPathEntry, AreaDir, TWideString::Format(L"%s_Path", *AreaName));
-
-        if (pPoiMapEntry)
-            ApplyGeneratedName(pPoiMapEntry, AreaDir, TWideString::Format(L"%s_EGMC", *AreaName));
-
-        if (pPortalEntry)
-            ApplyGeneratedName(pPortalEntry, AreaDir, TWideString::Format(L"%s_PortalArea", *AreaName));
-
-        pStore->DestroyUnreferencedResources();
     }
 #endif
 
@@ -291,6 +383,7 @@ void GenerateAssetNames(CGameProject *pProj)
     for (TResourceIterator<eModel> It(pStore); It; ++It)
     {
         CModel *pModel = (CModel*) It->Load();
+        u32 LightmapNum = 0;
 
         for (u32 iSet = 0; iSet < pModel->GetMatSetCount(); iSet++)
         {
@@ -306,9 +399,10 @@ void GenerateAssetNames(CGameProject *pProj)
                     CResourceEntry *pTexEntry = pLightmapTex->Entry();
                     if (pTexEntry->IsNamed() || pTexEntry->IsCategorized()) continue;
 
-                    TWideString TexName = TWideString::Format(L"lit_%s_%dx%d", *pLightmapTex->ID().ToString().ToUTF16(), pLightmapTex->Width(), pLightmapTex->Height());
+                    TWideString TexName = TWideString::Format(L"%s_lightmap%d", *It->Name(), LightmapNum);
                     ApplyGeneratedName(pTexEntry, pModel->Entry()->DirectoryPath(), TexName);
                     pTexEntry->SetHidden(true);
+                    LightmapNum++;
                 }
             }
         }

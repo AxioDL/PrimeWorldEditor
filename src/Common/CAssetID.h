@@ -30,14 +30,14 @@ public:
     bool IsValid() const;
 
     // Operators
-    inline void operator=(const u64& rkInput)               { *this = CAssetID(rkInput); }
-    inline void operator=(const char *pkInput)              { *this = CAssetID(pkInput); }
+    inline void operator= (const u64& rkInput)              { *this = CAssetID(rkInput); }
+    inline void operator= (const char *pkInput)             { *this = CAssetID(pkInput); }
     inline bool operator==(const CAssetID& rkOther) const   { return mLength == rkOther.mLength && mID == rkOther.mID; }
     inline bool operator!=(const CAssetID& rkOther) const   { return mLength != rkOther.mLength || mID != rkOther.mID; }
-    inline bool operator>(const CAssetID& rkOther) const    { return mID > rkOther.mID; }
-    inline bool operator>=(const CAssetID& rkOther) const   { return mID >= rkOther.mID; }
-    inline bool operator<(const CAssetID& rkOther) const    { return mID < rkOther.mID; }
-    inline bool operator<=(const CAssetID& rkOther) const   { return mID <= rkOther.mID; }
+    inline bool operator> (const CAssetID& rkOther) const   { return mLength >= rkOther.mLength && mID > rkOther.mID; }
+    inline bool operator>=(const CAssetID& rkOther) const   { return mLength >= rkOther.mLength && mID >= rkOther.mID; }
+    inline bool operator< (const CAssetID& rkOther) const   { return mLength <  rkOther.mLength || mID < rkOther.mID; }
+    inline bool operator<=(const CAssetID& rkOther) const   { return mLength <  rkOther.mLength || mID <= rkOther.mID; }
     inline bool operator==(u64 Other) const                 { return mID == Other; }
     inline bool operator!=(u64 Other) const                 { return mID != Other; }
 

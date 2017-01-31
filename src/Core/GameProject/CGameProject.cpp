@@ -13,6 +13,7 @@ CGameProject::~CGameProject()
         mspActiveProject = nullptr;
 
     delete mpAudioManager;
+    delete mpGameInfo;
     delete mpResourceStore;
 }
 
@@ -23,10 +24,12 @@ bool CGameProject::Load(const TWideString& rkPath)
 
     TString ProjPath = rkPath.ToUTF8();
     CXMLReader Reader(ProjPath);
+    mGame = Reader.Game();
     Serialize(Reader);
     CTemplateLoader::LoadGameTemplates(mGame);
 
     mpResourceStore->LoadResourceDatabase();
+    mpGameInfo->LoadGameInfo(mGame);
     mpAudioManager->LoadAssets();
     return true;
 }
@@ -41,7 +44,7 @@ void CGameProject::Save()
 void CGameProject::Serialize(IArchive& rArc)
 {
     rArc << SERIAL("Name", mProjectName)
-         << SERIAL("Game", mGame)
+         << SERIAL("BuildVersion", mBuildVersion)
          << SERIAL("ResourceDB", mResourceDBPath);
 
     // Packages

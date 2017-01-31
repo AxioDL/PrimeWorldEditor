@@ -372,7 +372,7 @@ public:
     virtual bool ParamBegin(const char *pkName) = 0;
     virtual void ParamEnd() = 0;
 
-    virtual void SerializeContainerSize(u32& rSize) = 0;
+    virtual void SerializeContainerSize(u32& rSize, const TString& rkElemName) = 0;
     virtual void SerializeAbstractObjectType(u32& rType) = 0;
 
     virtual void SerializePrimitive(bool& rValue) = 0;
@@ -431,10 +431,10 @@ public:
 #include <vector>
 
 template<typename Container>
-inline void SerializeContainerSize(IArchive& rArc, Container& rContainer)
+inline void SerializeContainerSize(IArchive& rArc, Container& rContainer, const TString& rkElemName)
 {
     u32 Size = rContainer.size();
-    rArc.SerializeContainerSize(Size);
+    rArc.SerializeContainerSize(Size, rkElemName);
     if (rArc.IsReader()) rContainer.resize(Size);
 }
 
@@ -442,7 +442,7 @@ inline void SerializeContainerSize(IArchive& rArc, Container& rContainer)
 template<typename ValType>
 inline void SerializeContainer(IArchive& rArc, std::vector<ValType>& rVec, const TString& rkElemName = "Item")
 {
-    SerializeContainerSize(rArc, rVec);
+    SerializeContainerSize(rArc, rVec, rkElemName);
 
     for (u32 iElem = 0; iElem < rVec.size(); iElem++)
         rArc << SERIAL(*rkElemName, rVec[iElem]);
@@ -451,7 +451,7 @@ inline void SerializeContainer(IArchive& rArc, std::vector<ValType>& rVec, const
 template<typename ValType, typename FactoryType>
 inline void SerializeContainer(IArchive& rArc, std::vector<ValType>& rVec, const TString& rkElemName, FactoryType *pFactory)
 {
-    SerializeContainerSize(rArc, rVec);
+    SerializeContainerSize(rArc, rVec, rkElemName);
 
     for (u32 iElem = 0; iElem < rVec.size(); iElem++)
         rArc << SERIAL_ABSTRACT(*rkElemName, rVec[iElem], pFactory);
@@ -461,7 +461,7 @@ inline void SerializeContainer(IArchive& rArc, std::vector<ValType>& rVec, const
 template<typename ValType>
 inline void SerializeContainer(IArchive& rArc, std::list<ValType>& rList, const TString& rkElemName)
 {
-    SerializeContainerSize(rArc, rList);
+    SerializeContainerSize(rArc, rList, rkElemName);
 
     for (auto Iter = rList.begin(); Iter != rList.end(); Iter++)
         rArc << SERIAL(*rkElemName, *Iter);
@@ -470,7 +470,7 @@ inline void SerializeContainer(IArchive& rArc, std::list<ValType>& rList, const 
 template<typename ValType, typename FactoryType>
 inline void SerializeContainer(IArchive& rArc, std::list<ValType>& rList, const TString& rkElemName, FactoryType *pFactory)
 {
-    SerializeContainerSize(rArc, rList);
+    SerializeContainerSize(rArc, rList, rkElemName);
 
     for (auto Iter = rList.begin(); Iter != rList.end(); Iter++)
         rArc << SERIAL_ABSTRACT(*rkElemName, rVec[iElem], pFactory);
@@ -481,7 +481,7 @@ template<typename ValType>
 inline void SerializeContainer(IArchive& rArc, std::set<ValType>& rSet, const TString& rkElemName)
 {
     u32 Size = rSet.size();
-    rArc.SerializeContainerSize(Size);
+    rArc.SerializeContainerSize(Size, rkElemName);
 
     if (rArc.IsReader())
     {
@@ -507,7 +507,7 @@ template<typename ValType, typename FactoryType>
 inline void SerializeContainer(IArchive& rArc, std::set<ValType>& rSet, const TString& rkElemName, FactoryType *pFactory)
 {
     u32 Size = rSet.size();
-    rArc.SerializeContainerSize(Size);
+    rArc.SerializeContainerSize(Size, rkElemName);
 
     if (rArc.IsReader())
     {
@@ -534,7 +534,7 @@ template<typename KeyType, typename ValType>
 inline void SerializeContainer(IArchive& rArc, std::map<KeyType,ValType>& rMap, const TString& rkElemName)
 {
     u32 Size = rMap.size();
-    rArc.SerializeContainerSize(Size);
+    rArc.SerializeContainerSize(Size, rkElemName);
 
     if (rArc.IsReader())
     {
@@ -570,7 +570,7 @@ template<typename KeyType, typename ValType, typename FactoryType>
 inline void SerializeContainer(IArchive& rArc, std::map<KeyType,ValType>& rMap, const TString& rkElemName, FactoryType *pFactory)
 {
     u32 Size = rMap.size();
-    rArc.SerializeContainerSize(Size);
+    rArc.SerializeContainerSize(Size, rkElemName);
 
     if (rArc.IsReader())
     {
