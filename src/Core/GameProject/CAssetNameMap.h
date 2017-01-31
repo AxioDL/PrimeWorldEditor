@@ -8,7 +8,7 @@
 #include <map>
 #include <memory>
 
-const TString gkAssetListDir = "..\\resources\\list\\";
+const TString gkAssetMapPath = "..\\resources\\gameinfo\\AssetNameMap.xml";
 
 class CAssetNameMap
 {
@@ -23,38 +23,19 @@ class CAssetNameMap
         }
     };
 
-    EGame mGame;
     std::map<CAssetID, SAssetNameInfo> mMap;
-    static std::map<EGame, CAssetNameMap*> smGameMap;
 
     // Private Methods
-    CAssetNameMap(EGame Game);
-
     void Serialize(IArchive& rArc)
     {
         rArc << SERIAL_CONTAINER("AssetNameMap", mMap, "Asset");
     }
 
 public:
-    void SaveAssetNames();
-    void GetNameInfo(CAssetID ID, TString& rOutDirectory, TString& rOutName);
+    void LoadAssetNames(TString Path = gkAssetMapPath);
+    void SaveAssetNames(TString Path = gkAssetMapPath);
+    bool GetNameInfo(CAssetID ID, TString& rOutDirectory, TString& rOutName);
     void CopyFromStore(CResourceStore *pStore);
-
-    // Static Methods
-    static TString GetAssetListPath(EGame Game)
-    {
-        return gkAssetListDir + "AssetList" + GetGameShortName(Game) + ".xml";
-    }
-
-    static CAssetNameMap* GetGameNameMap(EGame Game)
-    {
-        auto Find = smGameMap.find(Game);
-        if (Find != smGameMap.end()) return Find->second;
-
-        CAssetNameMap *pMap = new CAssetNameMap(Game);
-        smGameMap[Game] = pMap;
-        return pMap;
-    }
 };
 
 #endif // CASSETNAMEMAP

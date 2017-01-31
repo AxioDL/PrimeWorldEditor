@@ -91,7 +91,7 @@ public:
         mParamStack.pop_back();
     }
 
-    virtual void SerializeContainerSize(u32& rSize)
+    virtual void SerializeContainerSize(u32& rSize, const TString& /*rkElemName*/)
     {
         // Normally handled by ParamBegin and ParamEnd but we need to do something here to account for zero-sized containers
         if (rSize == 0)

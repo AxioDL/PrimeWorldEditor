@@ -216,7 +216,8 @@ HEADERS += \
     Resource/Animation/IMetaTransition.h \
     Resource/Animation/IMetaAnimation.h \
     GameProject/CAssetNameMap.h \
-    GameProject/AssetNameGeneration.h
+    GameProject/AssetNameGeneration.h \
+    GameProject/CGameInfo.h
 
 # Source Files
 SOURCES += \
@@ -320,4 +321,5 @@ SOURCES += \
     Resource/Animation/IMetaAnimation.cpp \
     Resource/Animation/IMetaTransition.cpp \
     GameProject/AssetNameGeneration.cpp \
-    GameProject/CAssetNameMap.cpp
+    GameProject/CAssetNameMap.cpp \
+    GameProject/CGameInfo.cpp

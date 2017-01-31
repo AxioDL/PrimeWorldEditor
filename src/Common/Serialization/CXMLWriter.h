@@ -58,9 +58,9 @@ protected:
     }
 
 public:
-    virtual void SerializeContainerSize(u32& rSize)
+    virtual void SerializeContainerSize(u32&, const TString&)
     {
-        mpCurElem->SetAttribute("Size", (unsigned int) rSize);
+        // Reader obtains container size from number of child elements
     }
 
     virtual void SerializeAbstractObjectType(u32& rType)

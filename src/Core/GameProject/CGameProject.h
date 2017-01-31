@@ -1,6 +1,7 @@
 #ifndef CGAMEPROJECT_H
 #define CGAMEPROJECT_H
 
+#include "CGameInfo.h"
 #include "CPackage.h"
 #include "CResourceStore.h"
 #include "Core/CAudioManager.h"
@@ -14,11 +15,13 @@
 class CGameProject
 {
     EGame mGame;
+    float mBuildVersion;
     TString mProjectName;
     TWideString mProjectRoot;
     TWideString mResourceDBPath;
     std::vector<CPackage*> mPackages;
     CResourceStore *mpResourceStore;
+    CGameInfo *mpGameInfo;
     CAudioManager *mpAudioManager;
 
     enum EProjectVersion
@@ -38,6 +41,7 @@ public:
         , mResourceDBPath(L"ResourceDB.rdb")
     {
         mpResourceStore = new CResourceStore(this);
+        mpGameInfo = new CGameInfo();
         mpAudioManager = new CAudioManager(this);
     }
 
@@ -49,17 +53,21 @@ public:
     {
         mProjectRoot.Replace(L"/", L"\\");
         mpResourceStore = new CResourceStore(this);
+        mpGameInfo = new CGameInfo();
         mpAudioManager = new CAudioManager(this);
     }
 
-    CGameProject(CGameExporter *pExporter, const TWideString& rkProjRootDir, EGame Game)
+    CGameProject(CGameExporter *pExporter, const TWideString& rkProjRootDir, EGame Game, float BuildVer)
         : mGame(Game)
+        , mBuildVersion(BuildVer)
         , mProjectName(CMasterTemplate::FindGameName(Game))
         , mProjectRoot(rkProjRootDir)
         , mResourceDBPath(L"ResourceDB.rdb")
     {
         mProjectRoot.Replace(L"/", L"\\");
         mpResourceStore = new CResourceStore(this, pExporter, L"Content\\", L"Cooked\\", Game);
+        mpGameInfo = new CGameInfo();
+        mpGameInfo->LoadGameInfo(mGame);
         mpAudioManager = new CAudioManager(this);
     }
 
@@ -88,8 +96,10 @@ public:
     inline CPackage* PackageByIndex(u32 Index) const    { return mPackages[Index]; }
     inline void AddPackage(CPackage *pPackage)          { mPackages.push_back(pPackage); }
     inline CResourceStore* ResourceStore() const        { return mpResourceStore; }
+    inline CGameInfo* GameInfo() const                  { return mpGameInfo; }
     inline CAudioManager* AudioManager() const          { return mpAudioManager; }
     inline EGame Game() const                           { return mGame; }
+    inline float BuildVersion() const                   { return mBuildVersion; }
     inline bool IsActive() const                        { return mspActiveProject == this; }
 
     static inline CGameProject* ActiveProject() { return mspActiveProject; }

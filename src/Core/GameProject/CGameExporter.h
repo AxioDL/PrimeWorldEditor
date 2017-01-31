@@ -2,6 +2,7 @@
 #define CGAMEEXPORTER_H
 
 #include "CAssetNameMap.h"
+#include "CGameInfo.h"
 #include "CGameProject.h"
 #include "CResourceStore.h"
 #include <Common/CAssetID.h>
@@ -16,6 +17,7 @@ class CGameExporter
     CGameProject *mpProject;
     CResourceStore *mpStore;
     EGame mGame;
+    float mBuildVersion;
 
     // Directories
     TWideString mGameDir;
@@ -26,10 +28,14 @@ class CGameExporter
 
     TWideString mWorldsDirName;
 
+    // Files
+    TWideString mDolPath;
+
     // Resources
     TWideStringList mPaks;
     std::map<CAssetID, bool> mAreaDuplicateMap;
-    CAssetNameMap *mpNameMap;
+    CAssetNameMap mNameMap;
+    CGameInfo mGameInfo;
 
     struct SResourceInstance
     {
@@ -50,6 +56,7 @@ public:
 
 protected:
     void CopyDiscData();
+    void FindBuildVersion();
     void LoadPaks();
     void LoadResource(const SResourceInstance& rkResource, std::vector<u8>& rBuffer);
     void ExportCookedResources();

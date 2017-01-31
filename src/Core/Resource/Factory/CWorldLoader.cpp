@@ -1,4 +1,5 @@
 #include "CWorldLoader.h"
+#include "Core/GameProject/CGameProject.h"
 #include "Core/GameProject/CResourceStore.h"
 #include <Common/Log.h>
 
@@ -125,11 +126,9 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
             }
         }
 
-        // Internal name - MP1 doesn't have this so reuse the area's real name
+        // Internal name - MP1 doesn't have this, we'll get it from the GameInfo file later
         if (mVersion >= eEchoesDemo)
             pArea->InternalName = rMLVL.ReadString();
-        else
-            pArea->InternalName = (pArea->pAreaName ? pArea->pAreaName->String("ENGL", 0).ToUTF8() : "");
     }
 
     // MapWorld
@@ -234,6 +233,21 @@ void CWorldLoader::LoadReturnsMLVL(IInputStream& rMLVL)
     // todo: Layer ID support
 }
 
+void CWorldLoader::GenerateEditorData()
+{
+    CGameInfo *pGameInfo = mpWorld->Entry()->ResourceStore()->Project()->GameInfo();
+
+    if (mVersion <= ePrime)
+    {
+        for (u32 iArea = 0; iArea < mpWorld->NumAreas(); iArea++)
+        {
+            CWorld::SArea& rArea = mpWorld->mAreas[iArea];
+            rArea.InternalName = pGameInfo->GetAreaName(rArea.AreaResID);
+            ASSERT(!rArea.InternalName.IsEmpty());
+        }
+    }
+}
+
 CWorld* CWorldLoader::LoadMLVL(IInputStream& rMLVL, CResourceEntry *pEntry)
 {
     if (!rMLVL.IsValid()) return nullptr;
@@ -264,6 +278,7 @@ CWorld* CWorldLoader::LoadMLVL(IInputStream& rMLVL, CResourceEntry *pEntry)
     else
         Loader.LoadReturnsMLVL(rMLVL);
 
+    Loader.GenerateEditorData();
     return Loader.mpWorld;
 }
 

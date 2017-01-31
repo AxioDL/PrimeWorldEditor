@@ -323,7 +323,9 @@ void CResourceStore::ConditionalDeleteDirectory(CVirtualDirectory *pDir)
             FileUtil::DeleteDirectory(CookedDir(false) + pDir->FullPath());
         }
 
-        pDir->Parent()->RemoveChildDirectory(pDir);
+        CVirtualDirectory *pParent = pDir->Parent();
+        pParent->RemoveChildDirectory(pDir);
+        ConditionalDeleteDirectory(pParent);
     }
 }
 

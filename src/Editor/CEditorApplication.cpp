@@ -30,7 +30,7 @@ void CEditorApplication::TickEditors()
     // The resource store should NOT be dirty at the beginning of a tick - this indicates we forgot to save it after updating somewhere
     if (gpResourceStore && gpResourceStore->IsDirty())
     {
-        Log::Error("ERROR: Resource store is dirty at the beginning of a tick! Call ConditionalSaveStore() after making any significant changes to assets!");
+        Log::Error("Resource store is dirty at the beginning of a tick! Call ConditionalSaveStore() after making any significant changes to assets!");
         DEBUG_BREAK;
         gpResourceStore->ConditionalSaveStore();
     }

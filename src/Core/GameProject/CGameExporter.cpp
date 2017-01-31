@@ -1,6 +1,7 @@
 #include "CGameExporter.h"
-#include "Core/GameProject/CResourceIterator.h"
-#include "Core/GameProject/CResourceStore.h"
+#include "CGameInfo.h"
+#include "CResourceIterator.h"
+#include "CResourceStore.h"
 #include "Core/Resource/CWorld.h"
 #include "Core/Resource/Script/CMasterTemplate.h"
 #include <FileIO/FileIO.h>
@@ -14,13 +15,14 @@
 #define COPY_DISC_DATA 1
 #define LOAD_PAKS 1
 #define SAVE_PACKAGE_DEFINITIONS 1
-#define USE_ASSET_NAME_MAP 0
+#define USE_ASSET_NAME_MAP 1
 #define EXPORT_COOKED 1
 
 CGameExporter::CGameExporter(const TString& rkInputDir, const TString& rkOutputDir)
-    : mpNameMap(nullptr)
 {
     mGame = eUnknownGame;
+    mBuildVersion = 0.f;
+
     mGameDir = FileUtil::MakeAbsolute(rkInputDir);
     mExportDir = FileUtil::MakeAbsolute(rkOutputDir);
 
@@ -42,9 +44,10 @@ bool CGameExporter::Export()
 
     // Initial analyze/copy of disc data
     CopyDiscData();
+    FindBuildVersion();
 
     // Create project
-    mpProject = new CGameProject(this, mExportDir, mGame);
+    mpProject = new CGameProject(this, mExportDir, mGame, mBuildVersion);
     mpProject->SetProjectName(CMasterTemplate::FindGameName(mGame));
     mpProject->SetActive();
     mpStore = mpProject->ResourceStore();
@@ -52,7 +55,7 @@ bool CGameExporter::Export()
     mCookedDir = mpStore->CookedDir(false);
 
 #if USE_ASSET_NAME_MAP
-    mpNameMap = CAssetNameMap::GetGameNameMap(mGame);
+    mNameMap.LoadAssetNames();
 #endif
 
     // Export game data
@@ -113,6 +116,10 @@ void CGameExporter::CopyDiscData()
             else if (Name == L"PreloadData") mGame = eReturns;
         }
 
+        // Mark dol path. Note size != 0 check is needed because some ISO unpackers (*cough* GCRebuilder) can export bad dol files
+        if (mDolPath.IsEmpty() && FullPath.EndsWith(L".dol", false) && FileUtil::FileSize(FullPath) != 0)
+            mDolPath = FullPath;
+
         // Detect paks
         if (FullPath.GetFileExtension().ToLower() == L"pak")
             mPaks.push_back(FullPath);
@@ -129,6 +136,45 @@ void CGameExporter::CopyDiscData()
     }
 
     ASSERT(mGame != eUnknownGame);
+}
+
+void CGameExporter::FindBuildVersion()
+{
+    ASSERT(!mDolPath.IsEmpty());
+
+    // MP1 demo build doesn't have a build version
+    if (mGame == ePrimeDemo) return;
+
+    // Read entire file into a big buffer
+    CFileInStream File(mDolPath.ToUTF8().ToStdString(), IOUtil::eBigEndian);
+    std::vector<char> FileContents(File.Size());
+    File.ReadBytes(FileContents.data(), FileContents.size());
+    File.Close();
+
+    // Find build info string
+    const char *pkSearchText = "!#$MetroidBuildInfo!#$";
+    const int SearchTextSize = strlen(pkSearchText);
+
+    for (u32 SearchIdx = 0; SearchIdx < FileContents.size() - SearchTextSize + 1; SearchIdx++)
+    {
+        int Match = 0;
+
+        while (FileContents[SearchIdx + Match] == pkSearchText[Match] && Match < SearchTextSize)
+            Match++;
+
+        if (Match == SearchTextSize)
+        {
+            // Found the build info string; extract version number
+            TString BuildInfo = &FileContents[SearchIdx + SearchTextSize];
+            int BuildVerStart = BuildInfo.IndexOfPhrase("Build v") + 7;
+            ASSERT(BuildVerStart != 6);
+
+            mBuildVersion = BuildInfo.SubString(BuildVerStart, 5).ToFloat();
+            return;
+        }
+    }
+
+    Log::Error("Failed to find MetroidBuildInfo string. Build Version will be set to 0. DOL file: " + mDolPath.ToUTF8());
 }
 
 // ************ RESOURCE LOADING ************
@@ -471,7 +517,7 @@ void CGameExporter::ExportResource(SResourceInstance& rRes)
 
         // Register resource and write to file
         TString Directory, Name;
-        mpNameMap->GetNameInfo(rRes.ResourceID, Directory, Name);
+        mNameMap.GetNameInfo(rRes.ResourceID, Directory, Name);
         CResourceEntry *pEntry = mpStore->RegisterResource(rRes.ResourceID, CResource::ResTypeForExtension(rRes.ResourceType), Directory, Name);
 
 #if EXPORT_COOKED

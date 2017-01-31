@@ -2,6 +2,8 @@
 #include "ui_CResourceBrowser.h"
 #include "Editor/ModelEditor/CModelEditorWindow.h"
 #include "Editor/CharacterEditor/CCharacterEditor.h"
+#include <Core/GameProject/AssetNameGeneration.h>
+#include <Core/GameProject/CAssetNameMap.h>
 #include <QFileDialog>
 #include <QMenu>
 #include <QMessageBox>
@@ -38,6 +40,14 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
     QAction *pImportFromContentsTxtAction = new QAction("Import from Pak Contents List", this);
     pImportNamesMenu->addAction(pImportFromContentsTxtAction);
 
+#if !PUBLIC_RELEASE
+    QAction *pGenerateAssetNamesAction = new QAction("Generate Asset Names", this);
+    pImportNamesMenu->addAction(pGenerateAssetNamesAction);
+#endif
+
+    QAction *pImportFromAssetNameMapAction = new QAction("Import from Asset Name Map", this);
+    pImportNamesMenu->addAction(pImportFromAssetNameMapAction);
+
     // Set up connections
     connect(mpUI->StoreComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(OnStoreChanged(int)));
     connect(mpUI->SearchBar, SIGNAL(textChanged(QString)), this, SLOT(OnSearchStringChanged()));
@@ -45,7 +55,13 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
     connect(mpUI->DirectoryTreeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(OnDirectorySelectionChanged(QModelIndex,QModelIndex)));
     connect(mpUI->ResourceTableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnDoubleClickResource(QModelIndex)));
     connect(pImportFromContentsTxtAction, SIGNAL(triggered()), this, SLOT(OnImportPakContentsTxt()));
+    connect(pImportFromAssetNameMapAction, SIGNAL(triggered()), this, SLOT(OnImportNamesFromAssetNameMap()));
+    connect(mpUI->ExportNamesButton, SIGNAL(clicked()), this, SLOT(ExportAssetNames()));
     connect(&mUpdateFilterTimer, SIGNAL(timeout()), this, SLOT(UpdateFilter()));
+
+#if !PUBLIC_RELEASE
+    connect(pGenerateAssetNamesAction, SIGNAL(triggered()), this, SLOT(OnGenerateAssetNames()));
+#endif
 }
 
 CResourceBrowser::~CResourceBrowser()
@@ -140,6 +156,40 @@ void CResourceBrowser::OnImportPakContentsTxt()
         mpStore->ImportNamesFromPakContentsTxt(TO_TSTRING(rkPath), false);
 
     RefreshResources();
+}
+
+void CResourceBrowser::OnGenerateAssetNames()
+{
+    GenerateAssetNames(mpStore->Project());
+    RefreshResources();
+}
+
+void CResourceBrowser::OnImportNamesFromAssetNameMap()
+{
+    CAssetNameMap Map;
+    Map.LoadAssetNames();
+
+    for (CResourceIterator It(mpStore); It; ++It)
+    {
+        TString Dir, Name;
+
+        if (Map.GetNameInfo(It->ID(), Dir, Name))
+            It->Move(Dir.ToUTF16(), Name.ToUTF16());
+    }
+
+    mpStore->ConditionalSaveStore();
+    RefreshResources();
+}
+
+void CResourceBrowser::ExportAssetNames()
+{
+    QString OutFile = QFileDialog::getSaveFileName(this, "Export asset name map", "../resources/gameinfo/", "*.xml");
+    if (OutFile.isEmpty()) return;
+
+    CAssetNameMap NameMap;
+    NameMap.LoadAssetNames();
+    NameMap.CopyFromStore(mpStore);
+    NameMap.SaveAssetNames();
 }
 
 void CResourceBrowser::UpdateFilter()

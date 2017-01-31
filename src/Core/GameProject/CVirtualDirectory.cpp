@@ -160,10 +160,6 @@ bool CVirtualDirectory::RemoveChildDirectory(CVirtualDirectory *pSubdir)
         {
             mSubdirectories.erase(It);
             delete pSubdir;
-
-            if (mpParent && IsEmpty())
-                mpParent->RemoveChildDirectory(this);
-
             return true;
         }
     }

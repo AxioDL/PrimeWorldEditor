@@ -5,6 +5,7 @@
 #include "CResourceTableModel.h"
 #include "CVirtualDirectoryModel.h"
 #include <QDialog>
+#include <QTimer>
 
 namespace Ui {
 class CResourceBrowser;
@@ -32,6 +33,9 @@ public slots:
     void OnDirectorySelectionChanged(const QModelIndex& rkNewIndex, const QModelIndex& rkPrevIndex);
     void OnDoubleClickResource(QModelIndex Index);
     void OnImportPakContentsTxt();
+    void OnGenerateAssetNames();
+    void OnImportNamesFromAssetNameMap();
+    void ExportAssetNames();
     void UpdateFilter();
 };
 

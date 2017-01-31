@@ -15,6 +15,7 @@ class CWorldLoader
     CWorldLoader();
     void LoadPrimeMLVL(IInputStream& rMLVL);
     void LoadReturnsMLVL(IInputStream& rMLVL);
+    void GenerateEditorData();
 
 public:
     static CWorld* LoadMLVL(IInputStream& rMLVL, CResourceEntry *pEntry);
