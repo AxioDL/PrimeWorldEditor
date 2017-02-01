@@ -4,6 +4,7 @@
 #include "Editor/UICommon.h"
 #include "Editor/Undo/CEditScriptPropertyCommand.h"
 #include "Editor/Undo/CResizeScriptArrayCommand.h"
+#include "Editor/Widgets/CResourceSelector.h"
 #include "Editor/Widgets/WColorPicker.h"
 #include "Editor/Widgets/WDraggableSpinBox.h"
 #include "Editor/Widgets/WIntegralSpinBox.h"
@@ -138,10 +139,9 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
 
         case eAssetProperty:
         {
-            WResourceSelector *pSelector = new WResourceSelector(pParent);
+            CResourceSelector *pSelector = new CResourceSelector(pParent);
             CAssetTemplate *pTemp = static_cast<CAssetTemplate*>(pProp->Template());
             pSelector->SetAllowedExtensions(pTemp->AllowedExtensions());
-            pSelector->setFont(qobject_cast<QWidget*>(parent())->font()); // bit of a hack to stop the resource selector font from changing
 
             CONNECT_RELAY(pSelector, rkIndex, ResourceChanged(CResourceEntry*))
             pOut = pSelector;
@@ -307,7 +307,7 @@ void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkInd
 
                 case eAssetProperty:
                 {
-                    WResourceSelector *pSelector = static_cast<WResourceSelector*>(pEditor);
+                    CResourceSelector *pSelector = static_cast<CResourceSelector*>(pEditor);
                     TAssetProperty *pAsset = static_cast<TAssetProperty*>(pProp);
                     pSelector->SetResource(pAsset->Get());
                     break;
@@ -462,8 +462,8 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
 
         case eAssetProperty:
         {
-            WResourceSelector *pSelector = static_cast<WResourceSelector*>(pEditor);
-            CResourceEntry *pEntry = pSelector->GetResourceEntry();
+            CResourceSelector *pSelector = static_cast<CResourceSelector*>(pEditor);
+            CResourceEntry *pEntry = pSelector->Entry();
 
             TAssetProperty *pAsset = static_cast<TAssetProperty*>(pProp);
             pAsset->Set(pEntry ? pEntry->ID() : CAssetID::InvalidID(mpEditor->CurrentGame()));
@@ -597,15 +597,14 @@ QWidget* CPropertyDelegate::CreateCharacterEditor(QWidget *pParent, const QModel
     // Create widget
     if (Type == eAssetProperty)
     {
-        WResourceSelector *pSelector = new WResourceSelector(pParent);
-        pSelector->setFont(qobject_cast<QWidget*>(parent())->font()); // hack to keep the selector font from changing
+        CResourceSelector *pSelector = new CResourceSelector(pParent);
 
         if (Params.Version() <= eEchoes)
             pSelector->SetAllowedExtensions("ANCS");
         else
             pSelector->SetAllowedExtensions("CHAR");
 
-        CONNECT_RELAY(pSelector, rkIndex, ResourceChanged(QString));
+        CONNECT_RELAY(pSelector, rkIndex, ResourceChanged(CResourceEntry*));
         return pSelector;
     }
 
@@ -643,7 +642,7 @@ void CPropertyDelegate::SetCharacterEditorData(QWidget *pEditor, const QModelInd
 
     if (Type == eAssetProperty)
     {
-        static_cast<WResourceSelector*>(pEditor)->SetResource(Params.AnimSet());
+        static_cast<CResourceSelector*>(pEditor)->SetResource(Params.AnimSet());
     }
 
     else if (Type == eEnumProperty)
@@ -667,7 +666,7 @@ void CPropertyDelegate::SetCharacterModelData(QWidget *pEditor, const QModelInde
 
     if (Type == eAssetProperty)
     {
-        Params.SetResource( static_cast<WResourceSelector*>(pEditor)->GetResourceEntry()->ID() );
+        Params.SetResource( static_cast<CResourceSelector*>(pEditor)->Entry()->ID() );
         // Reset all other parameters to 0
         Params.SetCharIndex(0);
         for (u32 iUnk = 0; iUnk < 3; iUnk++)

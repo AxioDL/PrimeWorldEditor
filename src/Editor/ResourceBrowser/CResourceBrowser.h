@@ -15,6 +15,7 @@ class CResourceBrowser : public QDialog
 {
     Q_OBJECT
     Ui::CResourceBrowser *mpUI;
+    CResourceEntry *mpSelectedEntry;
     CResourceStore *mpStore;
     CResourceTableModel *mpModel;
     CResourceProxyModel *mpProxyModel;
@@ -24,19 +25,25 @@ class CResourceBrowser : public QDialog
 public:
     explicit CResourceBrowser(QWidget *pParent = 0);
     ~CResourceBrowser();
-    void RefreshResources();
+
+    // Accessors
+    inline CResourceEntry* SelectedEntry() const    { return mpSelectedEntry; }
 
 public slots:
-    void OnStoreChanged(int Index);
+    void RefreshResources();
     void OnSortModeChanged(int Index);
     void OnSearchStringChanged();
     void OnDirectorySelectionChanged(const QModelIndex& rkNewIndex, const QModelIndex& rkPrevIndex);
     void OnDoubleClickResource(QModelIndex Index);
+    void OnResourceSelectionChanged(const QModelIndex& rkNewIndex, const QModelIndex& rkPrevIndex);
     void OnImportPakContentsTxt();
     void OnGenerateAssetNames();
     void OnImportNamesFromAssetNameMap();
     void ExportAssetNames();
     void UpdateFilter();
+
+signals:
+    void SelectedResourceChanged(CResourceEntry *pNewRes);
 };
 
 #endif // CRESOURCEBROWSER_H

@@ -58,8 +58,7 @@ int main(int argc, char *argv[])
     qApp->setPalette(DarkPalette);
 
     // Execute application
-    CProjectOverviewDialog Dialog;
-    Dialog.show();
-
+    App.InitEditor();
+    App.ProjectDialog()->show();
     return App.exec();
 }

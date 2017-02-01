@@ -209,7 +209,7 @@ void CPropertyView::CreateContextMenu(const QPoint& rkPos)
 {
     QModelIndex Index = indexAt(rkPos);
 
-    if (Index.isValid())
+    if (Index.isValid() && Index.column() == 0)
     {
         IProperty *pProp = mpModel->PropertyForIndex(Index, true);
         mpMenuProperty = pProp;

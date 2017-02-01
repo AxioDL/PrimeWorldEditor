@@ -11,6 +11,7 @@
 CResourceBrowser::CResourceBrowser(QWidget *pParent)
     : QDialog(pParent)
     , mpUI(new Ui::CResourceBrowser)
+    , mpSelectedEntry(nullptr)
     , mpStore(gpResourceStore)
 {
     mpUI->setupUi(this);
@@ -49,11 +50,12 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
     pImportNamesMenu->addAction(pImportFromAssetNameMapAction);
 
     // Set up connections
-    connect(mpUI->StoreComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(OnStoreChanged(int)));
+    connect(mpUI->StoreComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(RefreshResources()));
     connect(mpUI->SearchBar, SIGNAL(textChanged(QString)), this, SLOT(OnSearchStringChanged()));
     connect(mpUI->SortComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(OnSortModeChanged(int)));
     connect(mpUI->DirectoryTreeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(OnDirectorySelectionChanged(QModelIndex,QModelIndex)));
     connect(mpUI->ResourceTableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnDoubleClickResource(QModelIndex)));
+    connect(mpUI->ResourceTableView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(OnResourceSelectionChanged(QModelIndex, QModelIndex)));
     connect(pImportFromContentsTxtAction, SIGNAL(triggered()), this, SLOT(OnImportPakContentsTxt()));
     connect(pImportFromAssetNameMapAction, SIGNAL(triggered()), this, SLOT(OnImportNamesFromAssetNameMap()));
     connect(mpUI->ExportNamesButton, SIGNAL(clicked()), this, SLOT(ExportAssetNames()));
@@ -72,6 +74,7 @@ CResourceBrowser::~CResourceBrowser()
 void CResourceBrowser::RefreshResources()
 {
     // Fill resource table
+    mpStore = (mpUI->StoreComboBox->currentIndex() == 0 ? gpResourceStore : gpEditorStore);
     mpModel->FillEntryList(mpStore);
 
     // Fill directory tree
@@ -80,12 +83,6 @@ void CResourceBrowser::RefreshResources()
     mpUI->DirectoryTreeView->expand(RootIndex);
     mpUI->DirectoryTreeView->clearSelection();
     OnDirectorySelectionChanged(QModelIndex(), QModelIndex());
-}
-
-void CResourceBrowser::OnStoreChanged(int Index)
-{
-    mpStore = (Index == 0 ? gpResourceStore : gpEditorStore);
-    RefreshResources();
 }
 
 void CResourceBrowser::OnSortModeChanged(int Index)
@@ -145,6 +142,13 @@ void CResourceBrowser::OnDoubleClickResource(QModelIndex Index)
 
     else
         QMessageBox::information(this, "Unsupported Resource", "The selected resource type is currently unsupported for editing.");
+}
+
+void CResourceBrowser::OnResourceSelectionChanged(const QModelIndex& rkNewIndex, const QModelIndex& /*rkPrevIndex*/)
+{
+    QModelIndex SourceIndex = mpProxyModel->mapToSource(rkNewIndex);
+    mpSelectedEntry = mpModel->IndexEntry(SourceIndex);
+    emit SelectedResourceChanged(mpSelectedEntry);
 }
 
 void CResourceBrowser::OnImportPakContentsTxt()
