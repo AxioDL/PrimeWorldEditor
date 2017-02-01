@@ -217,7 +217,8 @@ HEADERS += \
     Resource/Animation/IMetaAnimation.h \
     GameProject/CAssetNameMap.h \
     GameProject/AssetNameGeneration.h \
-    GameProject/CGameInfo.h
+    GameProject/CGameInfo.h \
+    Resource/CResTypeInfo.h
 
 # Source Files
 SOURCES += \
@@ -256,7 +257,6 @@ SOURCES += \
     Resource/CLight.cpp \
     Resource/CMaterial.cpp \
     Resource/CMaterialPass.cpp \
-    Resource/CResource.cpp \
     Resource/CTexture.cpp \
     Resource/CWorld.cpp \
     Scene/CCollisionNode.cpp \
@@ -322,4 +322,5 @@ SOURCES += \
     Resource/Animation/IMetaTransition.cpp \
     GameProject/AssetNameGeneration.cpp \
     GameProject/CAssetNameMap.cpp \
-    GameProject/CGameInfo.cpp
+    GameProject/CGameInfo.cpp \
+    Resource/CResTypeInfo.cpp

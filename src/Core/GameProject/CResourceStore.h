@@ -72,7 +72,6 @@ public:
     CResource* LoadResource(const CAssetID& rkID, const CFourCC& rkType);
     CResource* LoadResource(const TWideString& rkPath);
     void TrackLoadedResource(CResourceEntry *pEntry);
-    CFourCC ResourceTypeByID(const CAssetID& rkID, const TStringList& rkPossibleTypes) const;
     void DestroyUnreferencedResources();
     bool DeleteResourceEntry(CResourceEntry *pEntry);
     void SetTransientLoadDir(const TString& rkDir);

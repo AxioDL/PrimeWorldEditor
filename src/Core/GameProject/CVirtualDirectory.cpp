@@ -4,16 +4,16 @@
 #include "Core/Resource/CResource.h"
 #include <algorithm>
 
-CVirtualDirectory::CVirtualDirectory()
-    : mpParent(nullptr)
+CVirtualDirectory::CVirtualDirectory(CResourceStore *pStore)
+    : mpParent(nullptr), mpStore(pStore)
 {}
 
-CVirtualDirectory::CVirtualDirectory(const TWideString& rkName)
-    : mpParent(nullptr), mName(rkName)
+CVirtualDirectory::CVirtualDirectory(const TWideString& rkName, CResourceStore *pStore)
+    : mpParent(nullptr), mName(rkName), mpStore(pStore)
 {}
 
-CVirtualDirectory::CVirtualDirectory(CVirtualDirectory *pParent, const TWideString& rkName)
-    : mpParent(pParent), mName(rkName)
+CVirtualDirectory::CVirtualDirectory(CVirtualDirectory *pParent, const TWideString& rkName, CResourceStore *pStore)
+    : mpParent(pParent), mName(rkName), mpStore(pStore)
 {}
 
 CVirtualDirectory::~CVirtualDirectory()
@@ -93,7 +93,7 @@ CResourceEntry* CVirtualDirectory::FindChildResource(const TWideString& rkPath)
     else if (!Name.IsEmpty())
     {
         TWideString Ext = Name.GetFileExtension();
-        EResType Type = CResource::ResTypeForExtension(Ext);
+        EResType Type = CResTypeInfo::TypeForCookedExtension(mpStore->Game(), Ext)->Type();
         return FindChildResource(Name.GetFileName(false), Type);
     }
 
@@ -137,7 +137,7 @@ void CVirtualDirectory::AddChild(const TWideString &rkPath, CResourceEntry *pEnt
 
         if (!pSubdir)
         {
-            pSubdir = new CVirtualDirectory(this, DirName);
+            pSubdir = new CVirtualDirectory(this, DirName, mpStore);
             mSubdirectories.push_back(pSubdir);
 
             std::sort(mSubdirectories.begin(), mSubdirectories.end(), [](CVirtualDirectory *pLeft, CVirtualDirectory *pRight) -> bool {

@@ -59,7 +59,7 @@ void CProjectOverviewDialog::ExportGame()
 {
     // TEMP - hardcoded names for convenience. will remove later!
 #define USE_HARDCODED_GAME_ROOT 0
-#define USE_HARDCODED_EXPORT_DIR 1
+#define USE_HARDCODED_EXPORT_DIR 0
 
 #if USE_HARDCODED_GAME_ROOT
     QString GameRoot = "E:/Unpacked/Metroid Prime";

@@ -16,12 +16,14 @@ CResourceEntry::CResourceEntry(CResourceStore *pStore, const CAssetID& rkID,
     , mpStore(pStore)
     , mpDependencies(nullptr)
     , mID(rkID)
-    , mType(Type)
     , mpDirectory(nullptr)
     , mName(rkFilename)
     , mCachedSize(-1)
     , mCachedUppercaseName(rkFilename.ToUpper())
 {
+    mpTypeInfo = CResTypeInfo::FindTypeInfo(Type);
+    ASSERT(mpTypeInfo);
+
     if (Transient) mFlags |= eREF_Transient;
 
     mpDirectory = mpStore->GetVirtualDirectory(rkDir, Transient, true);
@@ -93,7 +95,7 @@ bool CResourceEntry::HasCookedVersion() const
 
 TString CResourceEntry::RawAssetPath(bool Relative) const
 {
-    TWideString Ext = GetResourceRawExtension(mType, mGame).ToUTF16();
+    TWideString Ext = RawExtension().ToUTF16();
     TWideString Path = mpDirectory ? mpDirectory->FullPath() : L"";
     TWideString Name = mName + L"." + Ext;
     return ((IsTransient() || Relative) ? Path + Name : mpStore->RawDir(false) + Path + Name);
@@ -101,12 +103,12 @@ TString CResourceEntry::RawAssetPath(bool Relative) const
 
 TString CResourceEntry::RawExtension() const
 {
-    return GetResourceRawExtension(mType, mGame);
+    return mpTypeInfo->RawExtension();
 }
 
 TString CResourceEntry::CookedAssetPath(bool Relative) const
 {
-    TWideString Ext = GetResourceCookedExtension(mType, mGame).ToUTF16();
+    TWideString Ext = CookedExtension().ToString().ToUTF16();
     TWideString Path = mpDirectory ? mpDirectory->FullPath() : L"";
     TWideString Name = mName + L"." + Ext;
     return ((IsTransient() || Relative) ? Path + Name : mpStore->CookedDir(false) + Path + Name);
@@ -114,7 +116,7 @@ TString CResourceEntry::CookedAssetPath(bool Relative) const
 
 CFourCC CResourceEntry::CookedExtension() const
 {
-    return CFourCC( GetResourceCookedExtension(mType, mGame) );
+    return mpTypeInfo->CookedExtension(mGame);
 }
 
 bool CResourceEntry::IsInDirectory(CVirtualDirectory *pDir) const
@@ -178,7 +180,7 @@ bool CResourceEntry::Save(bool SkipCacheSave /*= false*/)
     bool ShouldCollectGarbage = false;
 
     // Save raw resource
-    if (ResourceSupportsSerialization(ResourceType()))
+    if (mpTypeInfo->CanBeSerialized())
     {
         ShouldCollectGarbage = !IsLoaded();
 
@@ -190,7 +192,9 @@ bool CResourceEntry::Save(bool SkipCacheSave /*= false*/)
         TString Dir = Path.GetFileDirectory();
         FileUtil::CreateDirectory(Dir.ToUTF16());
 
-        CXMLWriter Writer(Path, GetResourceSerialName(ResourceType()), 0, mGame);
+        TString SerialName = mpTypeInfo->TypeName();
+        SerialName.RemoveWhitespace();
+        CXMLWriter Writer(Path, SerialName, 0, mGame);
         mpResource->Serialize(Writer);
     }
 
@@ -288,7 +292,7 @@ bool CResourceEntry::CanMoveTo(const TWideString& rkDir, const TWideString& rkNa
 
     // We need to validate the path isn't taken already - either the directory doesn't exist, or doesn't have a resource by this name
     CVirtualDirectory *pDir = mpStore->GetVirtualDirectory(rkDir, false, false);
-    if (pDir && pDir->FindChildResource(rkName, mType)) return false;
+    if (pDir && pDir->FindChildResource(rkName, ResourceType())) return false;
 
     // All checks are true
     return true;
@@ -309,7 +313,7 @@ bool CResourceEntry::Move(const TWideString& rkDir, const TWideString& rkName)
     if (pNewDir == mpDirectory && rkName == mName) return false;
 
     // Check if we can legally move to this spot
-    ASSERT(pNewDir->FindChildResource(rkName, mType) == nullptr); // this check should be guaranteed to pass due to CanMoveTo() having already checked it
+    ASSERT(pNewDir->FindChildResource(rkName, ResourceType()) == nullptr); // this check should be guaranteed to pass due to CanMoveTo() having already checked it
 
     mpDirectory = pNewDir;
     mName = rkName;

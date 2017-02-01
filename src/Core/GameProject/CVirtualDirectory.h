@@ -8,18 +8,20 @@
 #include <vector>
 
 class CResourceEntry;
+class CResourceStore;
 
 class CVirtualDirectory
 {
     CVirtualDirectory *mpParent;
+    CResourceStore *mpStore;
     TWideString mName;
     std::vector<CVirtualDirectory*> mSubdirectories;
     std::vector<CResourceEntry*> mResources;
 
 public:
-    CVirtualDirectory();
-    CVirtualDirectory(const TWideString& rkName);
-    CVirtualDirectory(CVirtualDirectory *pParent, const TWideString& rkName);
+    CVirtualDirectory(CResourceStore *pStore);
+    CVirtualDirectory(const TWideString& rkName, CResourceStore *pStore);
+    CVirtualDirectory(CVirtualDirectory *pParent, const TWideString& rkName, CResourceStore *pStore);
     ~CVirtualDirectory();
 
     bool IsEmpty() const;

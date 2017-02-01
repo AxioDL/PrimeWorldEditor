@@ -43,7 +43,7 @@ public:
 
             if (Col == 1)
             {
-                return TO_QSTRING(GetResourceTypeName(pEntry->ResourceType()));
+                return TO_QSTRING(pEntry->TypeInfo()->TypeName());
             }
 
             if (Col == 2)
@@ -54,7 +54,7 @@ public:
         }
 
         else if (Role == Qt::ToolTipRole)
-            return TO_QSTRING(pEntry->Directory()->FullPath() + pEntry->Name());
+            return TO_QSTRING(pEntry->CookedAssetPath(true));
 
         else if (Role == Qt::TextAlignmentRole && rkIndex.column() == 2)
             return Qt::AlignRight;

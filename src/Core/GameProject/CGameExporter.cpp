@@ -518,7 +518,7 @@ void CGameExporter::ExportResource(SResourceInstance& rRes)
         // Register resource and write to file
         TString Directory, Name;
         mNameMap.GetNameInfo(rRes.ResourceID, Directory, Name);
-        CResourceEntry *pEntry = mpStore->RegisterResource(rRes.ResourceID, CResource::ResTypeForExtension(rRes.ResourceType), Directory, Name);
+        CResourceEntry *pEntry = mpStore->RegisterResource(rRes.ResourceID, CResTypeInfo::TypeForCookedExtension(mGame, rRes.ResourceType)->Type(), Directory, Name);
 
 #if EXPORT_COOKED
         // Save cooked asset
