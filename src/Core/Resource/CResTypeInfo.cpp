@@ -127,6 +127,7 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
     {
         CResTypeInfo *pType = new CResTypeInfo(eAnimation, "Animation");
         AddExtension(pType, "ANIM", ePrimeDemo, eReturns);
+        pType->mRawExtension = "ani";
         pType->mHidden = true;
     }
     {
@@ -142,6 +143,7 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
     {
         CResTypeInfo *pType = new CResTypeInfo(eAnimSet, "Animation Character Set");
         AddExtension(pType, "ANCS", ePrimeDemo, eEchoes);
+        pType->mRawExtension = "acs";
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eArea, "Area");
@@ -166,13 +168,15 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
         pType->mHidden = true;
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eBinaryData, "Binary Data");
+        CResTypeInfo *pType = new CResTypeInfo(eBinaryData, "Generic Data");
         AddExtension(pType, "DUMB", ePrimeDemo, eCorruption);
+        pType->mRawExtension = "dat";
         pType->mHidden = true;
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eBurstFireData, "Burst Fire Data");
         AddExtension(pType, "BFRC", eCorruptionProto, eCorruption);
+        pType->mRawExtension = "bfre";
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eCharacter, "Character");
@@ -189,6 +193,7 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
     {
         CResTypeInfo *pType = new CResTypeInfo(eFont, "Font");
         AddExtension(pType, "FONT", ePrimeDemo, eReturns);
+        pType->mRawExtension = "rpff";
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eGuiFrame, "Gui Frame");
@@ -229,6 +234,7 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
     {
         CResTypeInfo *pType = new CResTypeInfo(eParticle, "Particle System");
         AddExtension(pType, "PART", ePrimeDemo, eReturns);
+        pType->mRawExtension = "gpsm";
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eParticleCollisionResponse, "Collision Response Particle System");
@@ -237,30 +243,37 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
     {
         CResTypeInfo *pType = new CResTypeInfo(eParticleDecal, "Decal Particle System");
         AddExtension(pType, "DPSC", ePrimeDemo, eCorruption);
+        pType->mRawExtension = "dpsm";
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eParticleElectric, "Electric Particle System");
         AddExtension(pType, "ELSC", ePrimeDemo, eCorruption);
+        pType->mRawExtension = "elsm";
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eParticleSorted, "Sorted Particle System");
         AddExtension(pType, "SRSC", eEchoesDemo, eEchoes);
+        pType->mRawExtension = "srsm";
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eParticleSpawn, "Spawn Particle System");
         AddExtension(pType, "SPSC", eEchoesDemo, eReturns);
+        pType->mRawExtension = "spsm";
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eParticleSwoosh, "Swoosh Particle System");
         AddExtension(pType, "SWHC", ePrimeDemo, eReturns);
+        pType->mRawExtension = "swsh";
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eParticleTransform, "Transform Particle System");
         AddExtension(pType, "XFSC", eReturns, eReturns);
+        pType->mRawExtension = "xfsm";
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eParticleWeapon, "Weapon Particle System");
         AddExtension(pType, "WPSC", ePrimeDemo, eCorruption);
+        pType->mRawExtension = "wpsm";
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(ePathfinding, "Pathfinding Mesh");
@@ -292,6 +305,7 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
     {
         CResTypeInfo *pType = new CResTypeInfo(eSkeleton, "Skeleton");
         AddExtension(pType, "CINF", ePrimeDemo, eReturns);
+        pType->mRawExtension = "cin";
         pType->mHidden = true;
     }
     {
@@ -313,10 +327,12 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
         AddExtension(pType, "AFSM", ePrimeDemo, eEchoes);
         AddExtension(pType, "FSM2", eCorruptionProto, eCorruption);
         AddExtension(pType, "FSMC", eReturns, eReturns);
+        pType->mRawExtension = "fsm";
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eStateMachine2, "State Machine 2");
         AddExtension(pType, "FSM2", eEchoesDemo, eEchoes);
+        pType->mRawExtension = "fsm2";
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eStaticGeometryMap, "Static Geometry Map");

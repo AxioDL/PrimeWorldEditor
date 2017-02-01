@@ -1,6 +1,8 @@
 #include "CEditorApplication.h"
 #include "IEditor.h"
 #include "CBasicViewport.h"
+#include "CProjectOverviewDialog.h"
+#include "Editor/ResourceBrowser/CResourceBrowser.h"
 #include "Editor/WorldEditor/CWorldEditor.h"
 #include <Common/AssertMacro.h>
 #include <Common/CTimer.h>
@@ -8,11 +10,29 @@
 
 CEditorApplication::CEditorApplication(int& rArgc, char **ppArgv)
     : QApplication(rArgc, ppArgv)
+    , mpWorldEditor(nullptr)
+    , mpResourceBrowser(nullptr)
+    , mpProjectDialog(nullptr)
 {
     mLastUpdate = CTimer::GlobalTime();
 
     connect(&mRefreshTimer, SIGNAL(timeout()), this, SLOT(TickEditors()));
     mRefreshTimer.start(8);
+}
+
+CEditorApplication::~CEditorApplication()
+{
+    delete mpWorldEditor;
+    delete mpResourceBrowser;
+    delete mpProjectDialog;
+}
+
+void CEditorApplication::InitEditor()
+{
+    mpWorldEditor = new CWorldEditor();
+    mpResourceBrowser = new CResourceBrowser(mpWorldEditor);
+    mpProjectDialog = new CProjectOverviewDialog();
+    connect(mpProjectDialog, SIGNAL(ActiveProjectChanged(CGameProject*)), mpResourceBrowser, SLOT(RefreshResources()));
 }
 
 void CEditorApplication::AddEditor(IEditor *pEditor)

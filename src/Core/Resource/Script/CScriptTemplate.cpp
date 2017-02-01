@@ -179,7 +179,7 @@ CResource* CScriptTemplate::FindDisplayAsset(CPropertyStruct *pProperties, u32& 
 
                 if (pRes)
                 {
-                    rOutCharIndex = (it->ForceNodeIndex >= 0 ? it->ForceNodeIndex : pChar->Get().CharacterIndex());
+                    rOutCharIndex = (it->ForceNodeIndex >= 0 && it->ForceNodeIndex < (s32) static_cast<CAnimSet*>(pRes)->NumCharacters() ? it->ForceNodeIndex : pChar->Get().CharacterIndex());
                     rOutAnimIndex = pChar->Get().AnimIndex();
                 }
             }

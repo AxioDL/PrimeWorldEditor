@@ -1,5 +1,6 @@
 #include "CProjectOverviewDialog.h"
 #include "ui_CProjectOverviewDialog.h"
+#include "CEditorApplication.h"
 #include "UICommon.h"
 #include "Editor/ResourceBrowser/CResourceBrowser.h"
 #include <Common/AssertMacro.h>
@@ -13,7 +14,6 @@ CProjectOverviewDialog::CProjectOverviewDialog(QWidget *pParent)
     , mpProject(nullptr)
 {
     mpUI->setupUi(this);
-    mpWorldEditor = new CWorldEditor();
 
     connect(mpUI->OpenProjectButton, SIGNAL(clicked()), this, SLOT(OpenProject()));
     connect(mpUI->ExportGameButton, SIGNAL(clicked()), this, SLOT(ExportGame()));
@@ -26,7 +26,6 @@ CProjectOverviewDialog::CProjectOverviewDialog(QWidget *pParent)
 CProjectOverviewDialog::~CProjectOverviewDialog()
 {
     delete mpUI;
-    delete mpWorldEditor;
 }
 
 void CProjectOverviewDialog::OpenProject()
@@ -46,6 +45,7 @@ void CProjectOverviewDialog::OpenProject()
         mpProject->SetActive();
         SetupWorldsList();
         SetupPackagesList();
+        emit ActiveProjectChanged(mpProject);
     }
 
     else
@@ -176,8 +176,8 @@ void CProjectOverviewDialog::LaunchEditor()
     {
         pArea->SetWorldIndex(AreaIdx);
         mpWorld->SetAreaLayerInfo(pArea);
-        mpWorldEditor->SetArea(mpWorld, pArea);
-        mpWorldEditor->showMaximized();
+        gpEdApp->WorldEditor()->SetArea(mpWorld, pArea);
+        gpEdApp->WorldEditor()->showMaximized();
     }
 
     else
@@ -188,8 +188,7 @@ void CProjectOverviewDialog::LaunchEditor()
 
 void CProjectOverviewDialog::LaunchResourceBrowser()
 {
-    CResourceBrowser *pBrowser = new CResourceBrowser(mpWorldEditor);
-    pBrowser->show();
+    gpEdApp->ResourceBrowser()->show();
 }
 
 void CProjectOverviewDialog::CookPackage()

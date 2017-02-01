@@ -170,7 +170,8 @@ HEADERS += \
     ResourceBrowser/CResourceProxyModel.h \
     ResourceBrowser/CVirtualDirectoryModel.h \
     CEditorApplication.h \
-    IEditor.h
+    IEditor.h \
+    Widgets/CResourceSelector.h
 
 # Source Files
 SOURCES += \
@@ -233,7 +234,8 @@ SOURCES += \
     WorldEditor/CCollisionRenderSettingsDialog.cpp \
     CProjectOverviewDialog.cpp \
     ResourceBrowser/CResourceBrowser.cpp \
-    CEditorApplication.cpp
+    CEditorApplication.cpp \
+    Widgets/CResourceSelector.cpp
 
 # UI Files
 FORMS += \

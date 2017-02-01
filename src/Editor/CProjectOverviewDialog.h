@@ -14,7 +14,6 @@ class CProjectOverviewDialog : public QDialog
 {
     Q_OBJECT
     Ui::CProjectOverviewDialog *mpUI;
-    CWorldEditor *mpWorldEditor;
     CGameProject *mpProject;
 
     QVector<CResourceEntry*> mWorldEntries;
@@ -35,6 +34,9 @@ public slots:
 
     void SetupWorldsList();
     void SetupPackagesList();
+
+signals:
+    void ActiveProjectChanged(CGameProject *pNewProj);
 };
 
 #endif // CPROJECTOVERVIEWDIALOG_H

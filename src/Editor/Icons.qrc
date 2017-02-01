@@ -64,5 +64,8 @@
         <file>icons/Grid_24px.png</file>
         <file>icons/Grid_32px.png</file>
         <file>icons/OrbitCamera_32px.png</file>
+        <file>icons/X_16px.png</file>
+        <file>icons/ArrowL_16px.png</file>
+        <file>icons/Search_16px.png</file>
     </qresource>
 </RCC>
