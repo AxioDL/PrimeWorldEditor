@@ -64,14 +64,7 @@ public:
         CFourCC Out;
 
         for (int iChr = 0; iChr < 4; iChr++)
-        {
-            char Chr = (*this)[iChr];
-
-            if ((Chr >= 0x61) && (Chr <= 0x7A))
-                Chr -= 0x20;
-
-            Out.mFourCC |= (Chr << (8 * (3 - iChr)));
-        }
+            Out.mFourCC_Chars[iChr] = TString::CharToUpper(mFourCC_Chars[iChr]);
 
         return CFourCC(Out);
     }
@@ -98,6 +91,26 @@ public:
             Index = 3 - Index;
 
         return ((char*)(&mFourCC))[Index];
+    }
+
+    inline TString operator+(const char *pkText) const
+    {
+        return ToString() + pkText;
+    }
+
+    inline TString operator+(const TString& rkStr) const
+    {
+        return ToString() + rkStr;
+    }
+
+    inline friend TString operator+(const char *pkText, const CFourCC& rkFourCC)
+    {
+        return pkText + rkFourCC.ToString();
+    }
+
+    inline friend TString operator+(const TString& rkStr, const CFourCC& rkFourCC)
+    {
+        return rkStr + rkFourCC.ToString();
     }
 
     inline CFourCC& operator=(const char *pkSrc)            { mFourCC = FOURCC(pkSrc);  return *this;   }

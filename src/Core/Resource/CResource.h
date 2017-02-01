@@ -1,6 +1,7 @@
 #ifndef CRESOURCE_H
 #define CRESOURCE_H
 
+#include "CResTypeInfo.h"
 #include "EResType.h"
 #include "Core/GameProject/CDependencyTree.h"
 #include "Core/GameProject/CResourceEntry.h"
@@ -45,6 +46,7 @@ public:
     virtual void Serialize(IArchive& /*rArc*/)              {}
     
     inline CResourceEntry* Entry() const    { return mpEntry; }
+    inline CResTypeInfo* TypeInfo() const   { return mpEntry->TypeInfo(); }
     inline TString Source() const           { return mpEntry ? mpEntry->CookedAssetPath(true).GetFileName() : ""; }
     inline TString FullSource() const       { return mpEntry ? mpEntry->CookedAssetPath(true) : ""; }
     inline CAssetID ID() const              { return mpEntry ? mpEntry->ID() : CAssetID::skInvalidID64; }
@@ -53,15 +55,6 @@ public:
     inline void SetGame(EGame Game)         { if (mpEntry) mpEntry->SetGame(Game); }
     inline void Lock()                      { mRefCount++; }
     inline void Release()                   { mRefCount--; }
-
-    static EResType ResTypeForExtension(CFourCC Extension);
 };
-
-// Global Functions
-bool ResourceSupportsSerialization(EResType Type);
-TString GetResourceTypeName(EResType Type);
-TString GetResourceSerialName(EResType Type);
-TString GetResourceRawExtension(EResType Type, EGame Game);
-TString GetResourceCookedExtension(EResType Type, EGame Game);
 
 #endif // CRESOURCE_H

@@ -2,6 +2,7 @@
 #define CRESOURCEENTRY_H
 
 #include "CVirtualDirectory.h"
+#include "Core/Resource/CResTypeInfo.h"
 #include "Core/Resource/EResType.h"
 #include <Common/CAssetID.h>
 #include <Common/CFourCC.h>
@@ -26,10 +27,10 @@ DECLARE_FLAGS(EResEntryFlag, FResEntryFlags)
 class CResourceEntry
 {
     CResource *mpResource;
+    CResTypeInfo *mpTypeInfo;
     CResourceStore *mpStore;
     CDependencyTree *mpDependencies;
     CAssetID mID;
-    EResType mType;
     EGame mGame;
     CVirtualDirectory *mpDirectory;
     TWideString mName;
@@ -74,6 +75,7 @@ public:
     inline bool IsCategorized() const                   { return mpDirectory && mpDirectory->FullPath() != L"Uncategorized\\"; }
     inline bool IsNamed() const                         { return mName != mID.ToString().ToUTF16(); }
     inline CResource* Resource() const                  { return mpResource; }
+    inline CResTypeInfo* TypeInfo() const               { return mpTypeInfo; }
     inline CResourceStore* ResourceStore() const        { return mpStore; }
     inline CDependencyTree* Dependencies() const        { return mpDependencies; }
     inline CAssetID ID() const                          { return mID; }
@@ -82,7 +84,7 @@ public:
     inline TWideString DirectoryPath() const            { return mpDirectory->FullPath(); }
     inline TWideString Name() const                     { return mName; }
     inline const TWideString& UppercaseName() const     { return mCachedUppercaseName; }
-    inline EResType ResourceType() const                { return mType; }
+    inline EResType ResourceType() const                { return mpTypeInfo->Type(); }
     inline bool IsTransient() const                     { return mFlags.HasFlag(eREF_Transient); }
     inline bool IsHidden() const                        { return mFlags.HasFlag(eREF_Hidden); }
 

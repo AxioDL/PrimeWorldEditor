@@ -21,7 +21,7 @@ CResourceStore::CResourceStore(const TWideString& rkDatabasePath)
     , mDatabaseDirty(false)
     , mCacheFileDirty(false)
 {
-    mpDatabaseRoot = new CVirtualDirectory();
+    mpDatabaseRoot = new CVirtualDirectory(this);
     mDatabasePath = FileUtil::MakeAbsolute(rkDatabasePath.GetFileDirectory());
     mDatabaseName = rkDatabasePath.GetFileName();
 }
@@ -100,7 +100,7 @@ void CResourceStore::SerializeResourceDatabase(IArchive& rArc)
         for (auto Iter = Resources.begin(); Iter != Resources.end(); Iter++)
         {
             SDatabaseResource& rRes = *Iter;
-            RegisterResource(rRes.ID, CResource::ResTypeForExtension(rRes.Type), rRes.Directory, rRes.Name);
+            RegisterResource(rRes.ID, CResTypeInfo::TypeForCookedExtension(rArc.Game(), rRes.Type)->Type(), rRes.Directory, rRes.Name);
         }
     }
 }
@@ -111,7 +111,7 @@ void CResourceStore::LoadResourceDatabase()
     TString Path = DatabasePath().ToUTF8();
 
     if (!mpDatabaseRoot)
-        mpDatabaseRoot = new CVirtualDirectory();
+        mpDatabaseRoot = new CVirtualDirectory(this);
 
     CXMLReader Reader(Path);
 
@@ -238,7 +238,7 @@ void CResourceStore::SetProject(CGameProject *pProj)
         TWideString DatabasePath = mpProj->ResourceDBPath(false);
         mDatabasePath = DatabasePath.GetFileDirectory();
         mDatabaseName = DatabasePath.GetFileName();
-        mpDatabaseRoot = new CVirtualDirectory();
+        mpDatabaseRoot = new CVirtualDirectory(this);
         mGame = mpProj->Game();
     }
 }
@@ -296,7 +296,7 @@ CVirtualDirectory* CResourceStore::GetVirtualDirectory(const TWideString& rkPath
 
         if (AllowCreate)
         {
-            CVirtualDirectory *pDir = new CVirtualDirectory(rkPath);
+            CVirtualDirectory *pDir = new CVirtualDirectory(rkPath, this);
             mTransientRoots.push_back(pDir);
             return pDir;
         }
@@ -409,7 +409,7 @@ CResource* CResourceStore::LoadResource(const CAssetID& rkID, const CFourCC& rkT
         if (DataBuffer.empty()) return nullptr;
 
         CMemoryInStream MemStream(DataBuffer.data(), DataBuffer.size(), IOUtil::eBigEndian);
-        EResType Type = CResource::ResTypeForExtension(rkType);
+        EResType Type = CResTypeInfo::TypeForCookedExtension(mGame, rkType)->Type();
         CResourceEntry *pEntry = RegisterTransientResource(Type, rkID);
         CResource *pRes = pEntry->LoadCooked(MemStream);
         return pRes;
@@ -423,7 +423,7 @@ CResource* CResourceStore::LoadResource(const CAssetID& rkID, const CFourCC& rkT
         if (pEntry) return pEntry->Load();
 
         // Check in transient load directory - this only works for cooked
-        EResType Type = CResource::ResTypeForExtension(rkType);
+        EResType Type = CResTypeInfo::TypeForCookedExtension(mGame, rkType)->Type();
 
         if (Type != eInvalidResType)
         {
@@ -490,7 +490,7 @@ CResource* CResourceStore::LoadResource(const TWideString& rkPath)
     // Determine type
     TString PathUTF8 = rkPath.ToUTF8();
     TString Extension = TString(PathUTF8).GetFileExtension().ToUpper();
-    EResType Type = CResource::ResTypeForExtension(Extension);
+    EResType Type = CResTypeInfo::TypeForCookedExtension(mGame, Extension)->Type();
 
     if (Type == eInvalidResType)
     {
@@ -525,32 +525,6 @@ void CResourceStore::TrackLoadedResource(CResourceEntry *pEntry)
     ASSERT(pEntry->IsLoaded());
     ASSERT(mLoadedResources.find(pEntry->ID()) == mLoadedResources.end());
     mLoadedResources[pEntry->ID()] = pEntry;
-}
-
-CFourCC CResourceStore::ResourceTypeByID(const CAssetID& rkID, const TStringList& rkPossibleTypes) const
-{
-    if (!rkID.IsValid()) return eInvalidResType;
-    if (rkPossibleTypes.size() == 1) return CFourCC(rkPossibleTypes.front());
-
-    // Check for existing entry
-    auto Find = mResourceEntries.find(rkID);
-    if (Find != mResourceEntries.end())
-        return GetResourceCookedExtension(Find->second->ResourceType(), Find->second->Game());
-
-    // Determine extension from filesystem - try every extension until we find the file
-    TString PathBase = mTransientLoadDir.ToUTF8() + rkID.ToString() + '.';
-
-    for (auto It = rkPossibleTypes.begin(); It != rkPossibleTypes.end(); It++)
-    {
-        TString NewPath = PathBase + *It;
-
-        if (FileUtil::Exists(NewPath))
-            return CFourCC(*It);
-    }
-
-    // Couldn't find one, so return unknown. Note that it'd be possible to look up the extension from the
-    // filesystem even if it's not one of the provided possible types, but this would be too slow.
-    return "UNKN";
 }
 
 void CResourceStore::DestroyUnreferencedResources()

@@ -255,7 +255,7 @@ void CPackage::CompareOriginalAssetList(const std::list<CAssetID>& rkNewList)
         if (NewListSet.find(ID) == NewListSet.end())
         {
             CResourceEntry *pEntry = gpResourceStore->FindEntry(ID);
-            TString Extension = (pEntry ? "." + GetResourceCookedExtension(pEntry->ResourceType(), pEntry->Game()) : "");
+            TString Extension = (pEntry ? "." + pEntry->CookedExtension() : "");
             Log::Error("Missing resource: " + ID.ToString() + Extension);
         }
     }
@@ -268,7 +268,7 @@ void CPackage::CompareOriginalAssetList(const std::list<CAssetID>& rkNewList)
         if (OldListSet.find(ID) == OldListSet.end())
         {
             CResourceEntry *pEntry = gpResourceStore->FindEntry(ID);
-            TString Extension = (pEntry ? "." + GetResourceCookedExtension(pEntry->ResourceType(), pEntry->Game()) : "");
+            TString Extension = (pEntry ? "." + pEntry->CookedExtension() : "");
             Log::Error("Extra resource: " + ID.ToString() + Extension);
         }
     }
