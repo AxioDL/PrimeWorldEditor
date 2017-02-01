@@ -22,7 +22,7 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-CModelEditorWindow::CModelEditorWindow(QWidget *pParent)
+CModelEditorWindow::CModelEditorWindow(CModel *pModel, QWidget *pParent)
     : IEditor(pParent)
     , ui(new Ui::CModelEditorWindow)
     , mpScene(new CScene())
@@ -145,6 +145,8 @@ CModelEditorWindow::CModelEditorWindow(QWidget *pParent)
     connect(ui->AnimParamCSpinBox, SIGNAL(valueChanged(double)), this, SLOT(UpdateMaterial(double)));
     connect(ui->AnimParamDSpinBox, SIGNAL(valueChanged(double)), this, SLOT(UpdateMaterial(double)));
     // That was fun
+
+    SetActiveModel(pModel);
 }
 
 CModelEditorWindow::~CModelEditorWindow()

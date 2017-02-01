@@ -77,30 +77,10 @@ public:
             for (CResourceIterator It(pStore); It; ++It)
             {
                 if (It->IsTransient()) continue;
-                EResType Type = It->ResourceType();
 
-                switch (Type)
-                {
-                case eArea:
-                case eAreaCollision:
-                case eAreaLights:
-                case eAreaMaterials:
-                case eAreaSurfaceBounds:
-                case eAreaOctree:
-                case eAreaVisibilityTree:
-                case eMapArea:
-                case eMapWorld:
-                case ePathfinding:
-                case ePortalArea:
-                case eSaveArea:
-                case eSaveWorld:
-                case eStaticGeometryMap:
-                case eTweak:
-                case eWorld:
-                    continue;
-                default:
+                CResTypeInfo *pInfo = It->TypeInfo();
+                if (pInfo->IsVisibleInBrowser() && !It->IsHidden())
                     mEntries << *It;
-                }
             }
         }
 

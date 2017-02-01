@@ -21,6 +21,7 @@ class CResourceSelector : public QWidget
     QPushButton *mpClearButton;
 
     // Context Menu
+    QAction *mpEditAssetAction;
     QAction *mpCopyNameAction;
     QAction *mpCopyPathAction;
 
@@ -39,6 +40,7 @@ public slots:
     void CreateContextMenu(const QPoint& rkPoint);
     void Set();
     void Clear();
+    void EditAsset();
     void CopyName();
     void CopyPath();
     void OnResourceChanged();

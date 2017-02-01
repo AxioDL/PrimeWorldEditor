@@ -31,7 +31,7 @@ class CModelEditorWindow : public IEditor
     bool mIgnoreSignals;
 
 public:
-    explicit CModelEditorWindow(QWidget *pParent = 0);
+    explicit CModelEditorWindow(CModel *pModel, QWidget *pParent = 0);
     ~CModelEditorWindow();
     void SetActiveModel(CModel *pModel);
     CModelEditorViewport* Viewport() const;
