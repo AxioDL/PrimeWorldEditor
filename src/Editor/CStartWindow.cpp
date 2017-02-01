@@ -23,8 +23,6 @@ CStartWindow::CStartWindow(QWidget *parent)
 
     mpWorld = nullptr;
     mpWorldEditor = new CWorldEditor(0);
-    mpModelEditor = new CModelEditorWindow(this);
-    mpCharEditor = new CCharacterEditor(this);
 
     connect(ui->ActionAbout, SIGNAL(triggered()), this, SLOT(About()));
     connect(ui->ActionCharacterEditor, SIGNAL(triggered()), this, SLOT(LaunchCharacterEditor()));

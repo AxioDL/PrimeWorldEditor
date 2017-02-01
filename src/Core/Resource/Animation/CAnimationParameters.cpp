@@ -178,19 +178,24 @@ u32 CAnimationParameters::Unknown(u32 Index)
 
 void CAnimationParameters::SetResource(const CAssetID& rkID)
 {
-    mCharacterID = rkID;
-    mCharIndex = 0;
-    mAnimIndex = 0;
-
-    // Validate ID
-    if (mCharacterID.IsValid())
+    if (mCharacterID != rkID)
     {
-        CResourceEntry *pEntry = gpResourceStore->FindEntry(rkID);
+        mCharacterID = rkID;
+        mCharIndex = 0;
+        mAnimIndex = 0;
+        mUnknown2 = 0;
+        mUnknown3 = 0;
 
-        if (!pEntry)
-            Log::Error("Invalid resource ID passed to CAnimationParameters: " + rkID.ToString());
-        else if (pEntry->ResourceType() != eAnimSet)
-            Log::Error("Resource with invalid type passed to CAnimationParameters: " + pEntry->CookedAssetPath().GetFileName());
+        // Validate ID
+        if (mCharacterID.IsValid())
+        {
+            CResourceEntry *pEntry = gpResourceStore->FindEntry(rkID);
+
+            if (!pEntry)
+                Log::Error("Invalid resource ID passed to CAnimationParameters: " + rkID.ToString());
+            else if (pEntry->ResourceType() != eAnimSet)
+                Log::Error("Resource with invalid type passed to CAnimationParameters: " + pEntry->CookedAssetPath().GetFileName());
+        }
     }
 }
 

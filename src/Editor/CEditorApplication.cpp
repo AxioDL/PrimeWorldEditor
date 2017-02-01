@@ -2,11 +2,14 @@
 #include "IEditor.h"
 #include "CBasicViewport.h"
 #include "CProjectOverviewDialog.h"
+#include "Editor/CharacterEditor/CCharacterEditor.h"
+#include "Editor/ModelEditor/CModelEditorWindow.h"
 #include "Editor/ResourceBrowser/CResourceBrowser.h"
 #include "Editor/WorldEditor/CWorldEditor.h"
 #include <Common/AssertMacro.h>
 #include <Common/CTimer.h>
 #include <Core/GameProject/CGameProject.h>
+#include <QMessageBox>
 
 CEditorApplication::CEditorApplication(int& rArgc, char **ppArgv)
     : QApplication(rArgc, ppArgv)
@@ -23,7 +26,6 @@ CEditorApplication::CEditorApplication(int& rArgc, char **ppArgv)
 CEditorApplication::~CEditorApplication()
 {
     delete mpWorldEditor;
-    delete mpResourceBrowser;
     delete mpProjectDialog;
 }
 
@@ -33,6 +35,53 @@ void CEditorApplication::InitEditor()
     mpResourceBrowser = new CResourceBrowser(mpWorldEditor);
     mpProjectDialog = new CProjectOverviewDialog();
     connect(mpProjectDialog, SIGNAL(ActiveProjectChanged(CGameProject*)), mpResourceBrowser, SLOT(RefreshResources()));
+}
+
+void CEditorApplication::EditResource(CResourceEntry *pEntry)
+{
+    ASSERT(pEntry != nullptr);
+
+    // Check if we're already editing this resource
+    if (mEditingMap.contains(pEntry))
+    {
+        IEditor *pEd = mEditingMap[pEntry];
+        pEd->show();
+        pEd->raise();
+    }
+
+    else
+    {
+        // Attempt to load asset
+        CResource *pRes = pEntry->Load();
+
+        if (!pRes)
+        {
+            QMessageBox::warning(nullptr, "Error", "Failed to load resource!");
+            return;
+        }
+
+        // Launch editor window
+        IEditor *pEd = nullptr;
+
+        switch (pEntry->ResourceType())
+        {
+        case eModel:
+            pEd = new CModelEditorWindow((CModel*) pRes, mpWorldEditor);
+            break;
+
+        case eAnimSet:
+            pEd = new CCharacterEditor((CAnimSet*) pRes, mpWorldEditor);
+            break;
+        }
+
+        if (pEd)
+        {
+            pEd->show();
+            mEditingMap[pEntry] = pEd;
+        }
+        else
+            QMessageBox::information(0, "Unsupported Resource", "This resource type is currently unsupported for editing.");
+    }
 }
 
 void CEditorApplication::AddEditor(IEditor *pEditor)
@@ -80,6 +129,15 @@ void CEditorApplication::OnEditorClose()
 
     if (qobject_cast<CWorldEditor*>(pEditor) == nullptr)
     {
+        for (auto Iter = mEditingMap.begin(); Iter != mEditingMap.end(); Iter++)
+        {
+            if (Iter.value() == pEditor)
+            {
+                mEditingMap.erase(Iter);
+                break;
+            }
+        }
+
         mEditorWindows.removeOne(pEditor);
         delete pEditor;
     }

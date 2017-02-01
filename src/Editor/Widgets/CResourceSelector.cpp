@@ -18,7 +18,7 @@ CResourceSelector::CResourceSelector(QWidget *pParent /*= 0*/)
     mpResNameLabel = new QLabel(this);
     
     mpSetButton = new QPushButton(this);
-    mpSetButton->setToolTip("Set");
+    mpSetButton->setToolTip("Use selected asset in Resource Browser");
     mpSetButton->setIcon(QIcon(":/icons/ArrowL_16px.png"));
     mpSetButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     mpSetButton->setFixedSize(16, 16);
@@ -44,28 +44,38 @@ CResourceSelector::CResourceSelector(QWidget *pParent /*= 0*/)
     mpLayout->addWidget(mpClearButton);
     setLayout(mpLayout);
 
-    UpdateUI();
-
     // UI Connections
     connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(CreateContextMenu(QPoint)));
     connect(mpSetButton, SIGNAL(clicked()), this, SLOT(Set()));
     connect(mpClearButton, SIGNAL(clicked()), this, SLOT(Clear()));
 
     // Set up context menu
+    mpEditAssetAction = new QAction("Edit", this);
     mpCopyNameAction = new QAction("Copy name", this);
     mpCopyPathAction = new QAction("Copy path", this);
 
     // Context menu connections
+    connect(mpEditAssetAction, SIGNAL(triggered()), this, SLOT(EditAsset()));
     connect(mpCopyNameAction, SIGNAL(triggered()), this, SLOT(CopyName()));
     connect(mpCopyPathAction, SIGNAL(triggered()), this, SLOT(CopyPath()));
+
+    UpdateUI();
 }
 
 void CResourceSelector::UpdateUI()
 {
-    mpResNameLabel->setText(mpResEntry ? TO_QSTRING(mpResEntry->Name()) + "." + TO_QSTRING(mpResEntry->CookedExtension().ToString()) : "");
-    mpResNameLabel->setToolTip(mpResEntry ? TO_QSTRING(mpResEntry->CookedAssetPath(true)) : "");
-    mpFindButton->setEnabled(mpResEntry != nullptr);
-    mpClearButton->setEnabled(mpResEntry != nullptr);
+    bool HasResource = mpResEntry != nullptr;
+
+    // Update main UI
+    mpResNameLabel->setText(HasResource ? TO_QSTRING(mpResEntry->Name()) + "." + TO_QSTRING(mpResEntry->CookedExtension().ToString()) : "");
+    mpResNameLabel->setToolTip(HasResource ? TO_QSTRING(mpResEntry->CookedAssetPath(true)) : "");
+    mpFindButton->setEnabled(HasResource);
+    mpClearButton->setEnabled(HasResource);
+
+    // Update context menu
+    mpEditAssetAction->setEnabled(HasResource);
+    mpCopyNameAction->setEnabled(HasResource);
+    mpCopyPathAction->setEnabled(HasResource);
 }
 
 void CResourceSelector::SetAllowedExtensions(const QString& /*rkExtension*/)
@@ -99,9 +109,16 @@ void CResourceSelector::SetResource(CResource *pRes)
 void CResourceSelector::CreateContextMenu(const QPoint& rkPoint)
 {
     QMenu Menu;
+    Menu.addAction(mpEditAssetAction);
+    Menu.addSeparator();
     Menu.addAction(mpCopyNameAction);
     Menu.addAction(mpCopyPathAction);
     Menu.exec(mapToGlobal(rkPoint));
+}
+
+void CResourceSelector::EditAsset()
+{
+    gpEdApp->EditResource(mpResEntry);
 }
 
 void CResourceSelector::CopyName()
@@ -118,8 +135,13 @@ void CResourceSelector::CopyPath()
 void CResourceSelector::Set()
 {
     // todo - validate this resource is a valid type
-    mpResEntry = gpEdApp->ResourceBrowser()->SelectedEntry();
-    OnResourceChanged();
+    CResourceBrowser *pBrowser = gpEdApp->ResourceBrowser();
+
+    if (pBrowser->isVisible() && pBrowser->SelectedEntry())
+    {
+        mpResEntry = gpEdApp->ResourceBrowser()->SelectedEntry();
+        OnResourceChanged();
+    }
 }
 
 void CResourceSelector::Clear()

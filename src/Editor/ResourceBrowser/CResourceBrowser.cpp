@@ -1,7 +1,6 @@
 #include "CResourceBrowser.h"
 #include "ui_CResourceBrowser.h"
-#include "Editor/ModelEditor/CModelEditorWindow.h"
-#include "Editor/CharacterEditor/CCharacterEditor.h"
+#include "Editor/CEditorApplication.h"
 #include <Core/GameProject/AssetNameGeneration.h>
 #include <Core/GameProject/CAssetNameMap.h>
 #include <QFileDialog>
@@ -111,37 +110,7 @@ void CResourceBrowser::OnDoubleClickResource(QModelIndex Index)
 {
     QModelIndex SourceIndex = mpProxyModel->mapToSource(Index);
     CResourceEntry *pEntry = mpModel->IndexEntry(SourceIndex);
-
-    if (pEntry->ResourceType() == eModel)
-    {
-        CModel *pModel = (CModel*) pEntry->Load();
-
-        if (pModel)
-        {
-            CModelEditorWindow *pModelEd = new CModelEditorWindow(parentWidget());
-            pModelEd->SetActiveModel(pModel);
-            pModelEd->show();
-        }
-        else
-            QMessageBox::warning(this, "Error", "Failed to load resource");
-    }
-
-    else if (pEntry->ResourceType() == eAnimSet)
-    {
-        CAnimSet *pSet = (CAnimSet*) pEntry->Load();
-
-        if (pSet)
-        {
-            CCharacterEditor *pCharEd = new CCharacterEditor(parentWidget());
-            pCharEd->SetActiveAnimSet(pSet);
-            pCharEd->show();
-        }
-        else
-            QMessageBox::warning(this, "Error", "Failed to load resource");
-    }
-
-    else
-        QMessageBox::information(this, "Unsupported Resource", "The selected resource type is currently unsupported for editing.");
+    gpEdApp->EditResource(pEntry);
 }
 
 void CResourceBrowser::OnResourceSelectionChanged(const QModelIndex& rkNewIndex, const QModelIndex& /*rkPrevIndex*/)

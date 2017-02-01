@@ -44,7 +44,7 @@ class CCharacterEditor : public IEditor
     static const float skDefaultOrbitDistance;
 
 public:
-    explicit CCharacterEditor(QWidget *parent = 0);
+    explicit CCharacterEditor(CAnimSet *pSet, QWidget *parent = 0);
     ~CCharacterEditor();
     void EditorTick(float DeltaTime);
     void UpdateAnimTime(float DeltaTime);

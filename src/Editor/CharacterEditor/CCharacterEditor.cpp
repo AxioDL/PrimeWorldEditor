@@ -10,7 +10,7 @@
 const CVector3f CCharacterEditor::skDefaultOrbitTarget = CVector3f(0,0,1);
 const float CCharacterEditor::skDefaultOrbitDistance = 4.f;
 
-CCharacterEditor::CCharacterEditor(QWidget *parent)
+CCharacterEditor::CCharacterEditor(CAnimSet *pSet, QWidget *parent)
     : IEditor(parent)
     , ui(new Ui::CCharacterEditor)
     , mpScene(new CScene())
@@ -74,6 +74,8 @@ CCharacterEditor::CCharacterEditor(QWidget *parent)
     ui->splitter->setSizes(SplitterSizes);
 
     connect(ui->SkeletonHierarchyTreeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(OnSkeletonTreeSelectionChanged(QModelIndex)));
+
+    SetActiveAnimSet(pSet);
 }
 
 CCharacterEditor::~CCharacterEditor()

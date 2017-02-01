@@ -297,6 +297,7 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
     {
         CResTypeInfo *pType = new CResTypeInfo(eSaveWorld, "World Save Info");
         AddExtension(pType, "SAVW", ePrime, eReturns);
+        pType->mHidden = true;
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eScan, "Scan");

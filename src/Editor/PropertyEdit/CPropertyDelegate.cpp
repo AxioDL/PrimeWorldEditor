@@ -667,10 +667,6 @@ void CPropertyDelegate::SetCharacterModelData(QWidget *pEditor, const QModelInde
     if (Type == eAssetProperty)
     {
         Params.SetResource( static_cast<CResourceSelector*>(pEditor)->Entry()->ID() );
-        // Reset all other parameters to 0
-        Params.SetCharIndex(0);
-        for (u32 iUnk = 0; iUnk < 3; iUnk++)
-            Params.SetUnknown(iUnk, 0);
     }
 
     else if (Type == eEnumProperty)

@@ -8,6 +8,7 @@
 class CBasicViewport;
 class CProjectOverviewDialog;
 class CResourceBrowser;
+class CResourceEntry;
 class CWorldEditor;
 class IEditor;
 
@@ -20,12 +21,14 @@ class CEditorApplication : public QApplication
     CResourceBrowser *mpResourceBrowser;
     CProjectOverviewDialog *mpProjectDialog;
     QVector<IEditor*> mEditorWindows;
+    QMap<CResourceEntry*,IEditor*> mEditingMap;
     double mLastUpdate;
 
 public:
     CEditorApplication(int& rArgc, char **ppArgv);
     ~CEditorApplication();
     void InitEditor();
+    void EditResource(CResourceEntry *pEntry);
 
     // Accessors
     inline CWorldEditor* WorldEditor() const                { return mpWorldEditor; }
