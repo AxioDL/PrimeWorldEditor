@@ -666,7 +666,8 @@ void CPropertyDelegate::SetCharacterModelData(QWidget *pEditor, const QModelInde
 
     if (Type == eAssetProperty)
     {
-        Params.SetResource( static_cast<CResourceSelector*>(pEditor)->Entry()->ID() );
+        CResourceEntry *pEntry = static_cast<CResourceSelector*>(pEditor)->Entry();
+        Params.SetResource( pEntry ? pEntry->ID() : CAssetID::InvalidID(mpEditor->CurrentGame()) );
     }
 
     else if (Type == eEnumProperty)

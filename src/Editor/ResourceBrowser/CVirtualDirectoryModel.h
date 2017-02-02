@@ -85,6 +85,42 @@ public:
         return QVariant::Invalid;
     }
 
+    QModelIndex GetIndexForDirectory(CVirtualDirectory *pDir)
+    {
+        QVector<int> Indices;
+        CVirtualDirectory *pOriginal = pDir;
+        CVirtualDirectory *pParent = pDir->Parent();
+
+        // Get index list
+        while (pParent)
+        {
+            bool Found = false;
+
+            for (u32 iDir = 0; iDir < pParent->NumSubdirectories(); iDir++)
+            {
+                if (pParent->SubdirectoryByIndex(iDir) == pDir)
+                {
+                    Indices.push_front(iDir);
+                    pDir = pParent;
+                    pParent = pParent->Parent();
+                    Found = true;
+                    break;
+                }
+            }
+
+            ASSERT(Found); // it should not be possible for this not to work
+        }
+
+        // Traverse hierarchy
+        QModelIndex Out = index(0, 0, QModelIndex());
+
+        foreach (int Idx, Indices)
+            Out = index(Idx, 0, Out);
+
+        ASSERT(IndexDirectory(Out) == pOriginal);
+        return Out;
+    }
+
     inline CVirtualDirectory* IndexDirectory(const QModelIndex& rkIndex) const
     {
         if (!rkIndex.isValid()) return nullptr;

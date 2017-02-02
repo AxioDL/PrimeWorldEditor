@@ -39,25 +39,40 @@ public:
 
     bool lessThan(const QModelIndex& rkLeft, const QModelIndex& rkRight) const
     {
-        CResourceEntry *pLeft = mpModel->IndexEntry(rkLeft);
-        CResourceEntry *pRight = mpModel->IndexEntry(rkRight);
+        CVirtualDirectory *pLeftDir = mpModel->IndexDirectory(rkLeft);
+        CVirtualDirectory *pRightDir = mpModel->IndexDirectory(rkRight);
+        CResourceEntry *pLeftRes = mpModel->IndexEntry(rkLeft);
+        CResourceEntry *pRightRes = mpModel->IndexEntry(rkRight);
 
-        if (mSortMode == eSortByName)
-            return pLeft->UppercaseName() < pRight->UppercaseName();
+        if (pLeftDir && !pRightDir)
+            return true;
+
+        else if (pRightDir && !pLeftDir)
+            return false;
+
+        else if (pLeftDir && pRightDir)
+            return rkLeft.row() < rkRight.row(); // leave original directory order intact
+
+        else if (mSortMode == eSortByName)
+            return pLeftRes->UppercaseName() < pRightRes->UppercaseName();
+
         else
-            return pLeft->Size() < pRight->Size();
+            return pLeftRes->Size() < pRightRes->Size();
     }
 
     bool filterAcceptsRow(int SourceRow, const QModelIndex& rkSourceParent) const
     {
         QModelIndex Index = mpModel->index(SourceRow, 0, rkSourceParent);
+        CVirtualDirectory *pDir = mpModel->IndexDirectory(Index);
         CResourceEntry *pEntry = mpModel->IndexEntry(Index);
 
-        if (mpDirectory && !pEntry->IsInDirectory(mpDirectory))
-            return false;
-
-        if (!mSearchString.IsEmpty() && !pEntry->UppercaseName().Contains(mSearchString))
-            return false;
+        if (!mSearchString.IsEmpty())
+        {
+            if (pDir)
+                return false;
+            else
+                return pEntry->UppercaseName().Contains(mSearchString);
+        }
 
         return true;
     }

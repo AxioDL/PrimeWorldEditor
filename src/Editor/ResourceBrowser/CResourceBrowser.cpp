@@ -12,6 +12,8 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
     , mpUI(new Ui::CResourceBrowser)
     , mpSelectedEntry(nullptr)
     , mpStore(gpResourceStore)
+    , mpSelectedDir(nullptr)
+    , mSearching(false)
 {
     mpUI->setupUi(this);
     setWindowFlags(windowFlags() | Qt::WindowMinimizeButtonHint);
@@ -49,11 +51,11 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
     pImportNamesMenu->addAction(pImportFromAssetNameMapAction);
 
     // Set up connections
-    connect(mpUI->StoreComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(RefreshResources()));
+    connect(mpUI->StoreComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateStore()));
     connect(mpUI->SearchBar, SIGNAL(textChanged(QString)), this, SLOT(OnSearchStringChanged()));
     connect(mpUI->SortComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(OnSortModeChanged(int)));
     connect(mpUI->DirectoryTreeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(OnDirectorySelectionChanged(QModelIndex,QModelIndex)));
-    connect(mpUI->ResourceTableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnDoubleClickResource(QModelIndex)));
+    connect(mpUI->ResourceTableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnDoubleClickTable(QModelIndex)));
     connect(mpUI->ResourceTableView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(OnResourceSelectionChanged(QModelIndex, QModelIndex)));
     connect(pImportFromContentsTxtAction, SIGNAL(triggered()), this, SLOT(OnImportPakContentsTxt()));
     connect(pImportFromAssetNameMapAction, SIGNAL(triggered()), this, SLOT(OnImportNamesFromAssetNameMap()));
@@ -73,15 +75,55 @@ CResourceBrowser::~CResourceBrowser()
 void CResourceBrowser::RefreshResources()
 {
     // Fill resource table
-    mpStore = (mpUI->StoreComboBox->currentIndex() == 0 ? gpResourceStore : gpEditorStore);
-    mpModel->FillEntryList(mpStore);
+    mpModel->FillEntryList(mpSelectedDir, mSearching);
 
-    // Fill directory tree
-    mpDirectoryModel->SetRoot(mpStore ? mpStore->RootDirectory() : nullptr);
-    QModelIndex RootIndex = mpDirectoryModel->index(0, 0, QModelIndex());
-    mpUI->DirectoryTreeView->expand(RootIndex);
-    mpUI->DirectoryTreeView->clearSelection();
-    OnDirectorySelectionChanged(QModelIndex(), QModelIndex());
+    // Mark directories to span all three columns
+    mpUI->ResourceTableView->clearSpans();
+
+    for (u32 iDir = 0; iDir < mpModel->NumDirectories(); iDir++)
+        mpUI->ResourceTableView->setSpan(iDir, 0, 1, 3);
+}
+
+void CResourceBrowser::UpdateDescriptionLabel()
+{
+    QString Desc;
+
+    bool ValidDir = mpSelectedDir && !mpSelectedDir->IsRoot();
+    QString Path = (ValidDir ? '\\' + TO_QSTRING(mpSelectedDir->FullPath()) : "");
+
+    if (mSearching)
+    {
+        QString SearchText = mpUI->SearchBar->text();
+        Desc = QString("Searching \"%1\"").arg(SearchText);
+
+        if (ValidDir)
+            Desc += QString(" in %1").arg(Path);
+    }
+    else
+    {
+        if (ValidDir)
+            Desc = Path;
+    }
+
+    mpUI->TableDescriptionLabel->setText(Desc);
+}
+
+void CResourceBrowser::UpdateStore()
+{
+    int StoreIndex = mpUI->StoreComboBox->currentIndex();
+    CResourceStore *pNewStore = (StoreIndex == 0 ? gpResourceStore : gpEditorStore);
+
+    if (mpStore != pNewStore)
+    {
+        mpStore = pNewStore;
+
+        // Refresh directory tree
+        mpDirectoryModel->SetRoot(mpStore ? mpStore->RootDirectory() : nullptr);
+        QModelIndex RootIndex = mpDirectoryModel->index(0, 0, QModelIndex());
+        mpUI->DirectoryTreeView->expand(RootIndex);
+        mpUI->DirectoryTreeView->clearSelection();
+        OnDirectorySelectionChanged(QModelIndex(), QModelIndex());
+    }
 }
 
 void CResourceBrowser::OnSortModeChanged(int Index)
@@ -98,19 +140,33 @@ void CResourceBrowser::OnSearchStringChanged()
 
 void CResourceBrowser::OnDirectorySelectionChanged(const QModelIndex& rkNewIndex, const QModelIndex& /*rkPrevIndex*/)
 {
-    CVirtualDirectory *pDir = nullptr;
-
     if (rkNewIndex.isValid())
-        pDir = mpDirectoryModel->IndexDirectory(rkNewIndex);
+        mpSelectedDir = mpDirectoryModel->IndexDirectory(rkNewIndex);
+    else
+        mpSelectedDir = mpStore ? mpStore->RootDirectory() : nullptr;
 
-    mpProxyModel->SetDirectory(pDir);
+    UpdateDescriptionLabel();
+    RefreshResources();
 }
 
-void CResourceBrowser::OnDoubleClickResource(QModelIndex Index)
+void CResourceBrowser::OnDoubleClickTable(QModelIndex Index)
 {
     QModelIndex SourceIndex = mpProxyModel->mapToSource(Index);
-    CResourceEntry *pEntry = mpModel->IndexEntry(SourceIndex);
-    gpEdApp->EditResource(pEntry);
+
+    // Directory - switch to the selected directory
+    if (mpModel->IsIndexDirectory(SourceIndex))
+    {
+        CVirtualDirectory *pDir = mpModel->IndexDirectory(SourceIndex);
+        QModelIndex Index = mpDirectoryModel->GetIndexForDirectory(pDir);
+        mpUI->DirectoryTreeView->selectionModel()->setCurrentIndex(Index, QItemSelectionModel::ClearAndSelect);
+    }
+
+    // Resource - open resource for editing
+    else
+    {
+        CResourceEntry *pEntry = mpModel->IndexEntry(SourceIndex);
+        gpEdApp->EditResource(pEntry);
+    }
 }
 
 void CResourceBrowser::OnResourceSelectionChanged(const QModelIndex& rkNewIndex, const QModelIndex& /*rkPrevIndex*/)
@@ -167,5 +223,15 @@ void CResourceBrowser::ExportAssetNames()
 
 void CResourceBrowser::UpdateFilter()
 {
+    QString SearchText = mpUI->SearchBar->text();
+    bool NewSearching = !SearchText.isEmpty();
+
+    if (mSearching != NewSearching)
+    {
+        mSearching = NewSearching;
+        RefreshResources();
+    }
+
+    UpdateDescriptionLabel();
     mpProxyModel->SetSearchString( TO_TWIDESTRING(mpUI->SearchBar->text()) );
 }
