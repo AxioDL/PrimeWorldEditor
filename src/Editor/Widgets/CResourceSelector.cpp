@@ -47,6 +47,7 @@ CResourceSelector::CResourceSelector(QWidget *pParent /*= 0*/)
     // UI Connections
     connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(CreateContextMenu(QPoint)));
     connect(mpSetButton, SIGNAL(clicked()), this, SLOT(Set()));
+    connect(mpFindButton, SIGNAL(clicked()), this, SLOT(Find()));
     connect(mpClearButton, SIGNAL(clicked()), this, SLOT(Clear()));
 
     // Set up context menu
@@ -142,6 +143,14 @@ void CResourceSelector::Set()
         mpResEntry = gpEdApp->ResourceBrowser()->SelectedEntry();
         OnResourceChanged();
     }
+}
+
+void CResourceSelector::Find()
+{
+    CResourceBrowser *pBrowser = gpEdApp->ResourceBrowser();
+    pBrowser->SelectResource(mpResEntry);
+    pBrowser->show();
+    pBrowser->raise();
 }
 
 void CResourceSelector::Clear()

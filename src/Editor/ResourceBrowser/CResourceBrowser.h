@@ -27,6 +27,8 @@ class CResourceBrowser : public QDialog
 public:
     explicit CResourceBrowser(QWidget *pParent = 0);
     ~CResourceBrowser();
+    void SelectResource(CResourceEntry *pEntry);
+    void SelectDirectory(CVirtualDirectory *pDir);
 
     // Accessors
     inline CResourceEntry* SelectedEntry() const    { return mpSelectedEntry; }
