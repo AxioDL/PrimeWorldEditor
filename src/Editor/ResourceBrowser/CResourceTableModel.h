@@ -85,6 +85,21 @@ public:
         return QVariant::Invalid;
     }
 
+    QModelIndex GetIndexForEntry(CResourceEntry *pEntry) const
+    {
+        for (int iRes = 0; iRes < mEntries.size(); iRes++)
+        {
+            if (mEntries[iRes] == pEntry)
+            {
+                QModelIndex Out = index(mDirectories.size() + iRes, 0);
+                ASSERT(IndexEntry(Out) == pEntry);
+                return Out;
+            }
+        }
+
+        return QModelIndex();
+    }
+
     CResourceEntry* IndexEntry(const QModelIndex& rkIndex) const
     {
         int Index = rkIndex.row() - mDirectories.size();
@@ -144,7 +159,12 @@ protected:
     void RecursiveAddDirectoryContents(CVirtualDirectory *pDir)
     {
         for (u32 iRes = 0; iRes < pDir->NumResources(); iRes++)
-            mEntries << pDir->ResourceByIndex(iRes);
+        {
+            CResourceEntry *pEntry = pDir->ResourceByIndex(iRes);
+
+            if (pEntry->TypeInfo()->IsVisibleInBrowser() && !pEntry->IsHidden())
+                mEntries << pDir->ResourceByIndex(iRes);
+        }
 
         for (u32 iDir = 0; iDir < pDir->NumSubdirectories(); iDir++)
             RecursiveAddDirectoryContents(pDir->SubdirectoryByIndex(iDir));

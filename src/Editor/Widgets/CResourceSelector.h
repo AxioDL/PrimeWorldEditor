@@ -39,6 +39,7 @@ public:
 public slots:
     void CreateContextMenu(const QPoint& rkPoint);
     void Set();
+    void Find();
     void Clear();
     void EditAsset();
     void CopyName();

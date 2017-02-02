@@ -72,6 +72,35 @@ CResourceBrowser::~CResourceBrowser()
     delete mpUI;
 }
 
+void CResourceBrowser::SelectResource(CResourceEntry *pEntry)
+{
+    ASSERT(pEntry);
+
+    // Clear search
+    mpUI->SearchBar->clear();
+    UpdateFilter();
+
+    // Select target directory
+    SelectDirectory(pEntry->Directory());
+
+    // Select resource
+    int Row = mpModel->GetIndexForEntry(pEntry).row();
+    mpUI->ResourceTableView->selectionModel()->clearSelection();
+
+    for (int iCol = 0; iCol < mpModel->columnCount(QModelIndex()); iCol++)
+    {
+        QModelIndex Index = mpModel->index(Row, iCol, QModelIndex());
+        QModelIndex ProxyIndex = mpProxyModel->mapFromSource(Index);
+        mpUI->ResourceTableView->selectionModel()->setCurrentIndex(ProxyIndex, QItemSelectionModel::Select);
+    }
+}
+
+void CResourceBrowser::SelectDirectory(CVirtualDirectory *pDir)
+{
+    QModelIndex Index = mpDirectoryModel->GetIndexForDirectory(pDir);
+    mpUI->DirectoryTreeView->selectionModel()->setCurrentIndex(Index, QItemSelectionModel::ClearAndSelect);
+}
+
 void CResourceBrowser::RefreshResources()
 {
     // Fill resource table
@@ -157,8 +186,7 @@ void CResourceBrowser::OnDoubleClickTable(QModelIndex Index)
     if (mpModel->IsIndexDirectory(SourceIndex))
     {
         CVirtualDirectory *pDir = mpModel->IndexDirectory(SourceIndex);
-        QModelIndex Index = mpDirectoryModel->GetIndexForDirectory(pDir);
-        mpUI->DirectoryTreeView->selectionModel()->setCurrentIndex(Index, QItemSelectionModel::ClearAndSelect);
+        SelectDirectory(pDir);
     }
 
     // Resource - open resource for editing
