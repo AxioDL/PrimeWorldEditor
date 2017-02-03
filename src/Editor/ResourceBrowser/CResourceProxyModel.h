@@ -2,6 +2,7 @@
 #define CRESOURCEPROXYMODEL
 
 #include "CResourceTableModel.h"
+#include <QSet>
 #include <QSortFilterProxyModel>
 
 class CResourceProxyModel : public QSortFilterProxyModel
@@ -16,15 +17,14 @@ public:
 
 private:
     CResourceTableModel *mpModel;
-    CVirtualDirectory *mpDirectory;
     TWideString mSearchString;
     ESortMode mSortMode;
+    QSet<CResTypeInfo*> mTypeFilter;
 
 public:
     explicit CResourceProxyModel(QObject *pParent = 0)
         : QSortFilterProxyModel(pParent)
         , mpModel(nullptr)
-        , mpDirectory(nullptr)
     {
         SetSortMode(eSortByName);
     }
@@ -66,6 +66,9 @@ public:
         CVirtualDirectory *pDir = mpModel->IndexDirectory(Index);
         CResourceEntry *pEntry = mpModel->IndexEntry(Index);
 
+        if (pEntry && HasTypeFilter() && !mTypeFilter.contains(pEntry->TypeInfo()))
+            return false;
+
         if (!mSearchString.IsEmpty())
         {
             if (pDir)
@@ -77,6 +80,24 @@ public:
         return true;
     }
 
+    inline void SetTypeFilter(CResTypeInfo *pInfo, bool Allow)
+    {
+        if (Allow)
+            mTypeFilter.insert(pInfo);
+        else
+            mTypeFilter.remove(pInfo);
+    }
+
+    inline void ClearTypeFilter()
+    {
+        mTypeFilter.clear();
+    }
+
+    inline bool HasTypeFilter() const
+    {
+        return !mTypeFilter.isEmpty();
+    }
+
     inline void SetSortMode(ESortMode Mode)
     {
         if (mSortMode != Mode)
@@ -86,17 +107,10 @@ public:
         }
     }
 
-    inline void SetDirectory(CVirtualDirectory *pDir)
-    {
-        mpDirectory = pDir;
-        invalidate();
-    }
-
 public slots:
     void SetSearchString(const TWideString& rkString)
     {
         mSearchString = rkString.ToUpper();
-        invalidate();
     }
 };
 

@@ -3,6 +3,7 @@
 #include "Editor/CEditorApplication.h"
 #include <Core/GameProject/AssetNameGeneration.h>
 #include <Core/GameProject/CAssetNameMap.h>
+#include <QCheckBox>
 #include <QFileDialog>
 #include <QMenu>
 #include <QMessageBox>
@@ -13,6 +14,7 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
     , mpSelectedEntry(nullptr)
     , mpStore(gpResourceStore)
     , mpSelectedDir(nullptr)
+    , mAssetListMode(true)
     , mSearching(false)
 {
     mpUI->setupUi(this);
@@ -35,6 +37,31 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
 
     RefreshResources();
 
+    // Set up filter checkboxes
+    mpFilterBoxesLayout = new QVBoxLayout();
+    mpFilterBoxesLayout->setContentsMargins(2, 2, 2, 2);
+    mpFilterBoxesLayout->setSpacing(1);
+
+    mpFilterBoxesContainerWidget = new QWidget(this);
+    mpFilterBoxesContainerWidget->setLayout(mpFilterBoxesLayout);
+
+    mpUI->FilterCheckboxScrollArea->setWidget(mpFilterBoxesContainerWidget);
+    mpUI->FilterCheckboxScrollArea->setBackgroundRole(QPalette::AlternateBase);
+
+    mFilterBoxFont = font();
+    mFilterBoxFont.setPointSize(mFilterBoxFont.pointSize() - 1);
+
+    QFont AllBoxFont = mFilterBoxFont;
+    AllBoxFont.setBold(true);
+
+    mpFilterAllBox = new QCheckBox(this);
+    mpFilterAllBox->setChecked(true);
+    mpFilterAllBox->setFont(AllBoxFont);
+    mpFilterAllBox->setText("All");
+    mpFilterBoxesLayout->addWidget(mpFilterAllBox);
+
+    CreateFilterCheckboxes();
+
     // Set up Import Names menu
     QMenu *pImportNamesMenu = new QMenu(this);
     mpUI->ImportNamesButton->setMenu(pImportNamesMenu);
@@ -53,6 +80,7 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
     // Set up connections
     connect(mpUI->StoreComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateStore()));
     connect(mpUI->SearchBar, SIGNAL(textChanged(QString)), this, SLOT(OnSearchStringChanged()));
+    connect(mpUI->DisplayTypeComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(OnDisplayModeChanged(int)));
     connect(mpUI->SortComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(OnSortModeChanged(int)));
     connect(mpUI->DirectoryTreeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(OnDirectorySelectionChanged(QModelIndex,QModelIndex)));
     connect(mpUI->ResourceTableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnDoubleClickTable(QModelIndex)));
@@ -61,6 +89,7 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
     connect(pImportFromAssetNameMapAction, SIGNAL(triggered()), this, SLOT(OnImportNamesFromAssetNameMap()));
     connect(mpUI->ExportNamesButton, SIGNAL(clicked()), this, SLOT(ExportAssetNames()));
     connect(&mUpdateFilterTimer, SIGNAL(timeout()), this, SLOT(UpdateFilter()));
+    connect(mpFilterAllBox, SIGNAL(toggled(bool)), this, SLOT(OnFilterTypeBoxTicked(bool)));
 
 #if !PUBLIC_RELEASE
     connect(pGenerateAssetNamesAction, SIGNAL(triggered()), this, SLOT(OnGenerateAssetNames()));
@@ -101,10 +130,51 @@ void CResourceBrowser::SelectDirectory(CVirtualDirectory *pDir)
     mpUI->DirectoryTreeView->selectionModel()->setCurrentIndex(Index, QItemSelectionModel::ClearAndSelect);
 }
 
+void CResourceBrowser::CreateFilterCheckboxes()
+{
+    // Delete existing checkboxes
+    foreach (const SResourceType& rkType, mTypeList)
+        delete rkType.pFilterCheckBox;
+
+    mTypeList.clear();
+
+    // No store - leave empty
+    if (!mpStore) return;
+
+    // Get new type list
+    std::list<CResTypeInfo*> TypeList;
+    CResTypeInfo::GetAllTypesInGame(mpStore->Game(), TypeList);
+
+    for (auto Iter = TypeList.begin(); Iter != TypeList.end(); Iter++)
+    {
+        CResTypeInfo *pType = *Iter;
+
+        if (pType->IsVisibleInBrowser())
+        {
+            QCheckBox *pCheck = new QCheckBox(this);
+            pCheck->setFont(mFilterBoxFont);
+            pCheck->setText(TO_QSTRING(pType->TypeName()));
+            mTypeList << SResourceType { pType, pCheck };
+        }
+    }
+
+    qSort(mTypeList.begin(), mTypeList.end(), [](const SResourceType& rkLeft, const SResourceType& rkRight) -> bool {
+        return rkLeft.pTypeInfo->TypeName().ToUpper() < rkRight.pTypeInfo->TypeName().ToUpper();
+    });
+
+    // Add sorted checkboxes to the UI
+    foreach (const SResourceType& rkType, mTypeList)
+    {
+        QCheckBox *pCheck = rkType.pFilterCheckBox;
+        mpFilterBoxesLayout->addWidget(rkType.pFilterCheckBox);
+        connect(pCheck, SIGNAL(toggled(bool)), this, SLOT(OnFilterTypeBoxTicked(bool)));
+    }
+}
+
 void CResourceBrowser::RefreshResources()
 {
     // Fill resource table
-    mpModel->FillEntryList(mpSelectedDir, mSearching);
+    mpModel->FillEntryList(mpSelectedDir, InAssetListMode());
 
     // Mark directories to span all three columns
     mpUI->ResourceTableView->clearSpans();
@@ -116,6 +186,8 @@ void CResourceBrowser::RefreshResources()
 void CResourceBrowser::UpdateDescriptionLabel()
 {
     QString Desc;
+    Desc += (mAssetListMode ? "[Assets]" : "[Filesystem]");
+    Desc += " ";
 
     bool ValidDir = mpSelectedDir && !mpSelectedDir->IsRoot();
     QString Path = (ValidDir ? '\\' + TO_QSTRING(mpSelectedDir->FullPath()) : "");
@@ -123,7 +195,7 @@ void CResourceBrowser::UpdateDescriptionLabel()
     if (mSearching)
     {
         QString SearchText = mpUI->SearchBar->text();
-        Desc = QString("Searching \"%1\"").arg(SearchText);
+        Desc += QString("Searching \"%1\"").arg(SearchText);
 
         if (ValidDir)
             Desc += QString(" in %1").arg(Path);
@@ -131,7 +203,9 @@ void CResourceBrowser::UpdateDescriptionLabel()
     else
     {
         if (ValidDir)
-            Desc = Path;
+            Desc += Path;
+        else
+            Desc += "Root";
     }
 
     mpUI->TableDescriptionLabel->setText(Desc);
@@ -146,6 +220,9 @@ void CResourceBrowser::UpdateStore()
     {
         mpStore = pNewStore;
 
+        // Refresh type filter list
+        CreateFilterCheckboxes();
+
         // Refresh directory tree
         mpDirectoryModel->SetRoot(mpStore ? mpStore->RootDirectory() : nullptr);
         QModelIndex RootIndex = mpDirectoryModel->index(0, 0, QModelIndex());
@@ -153,6 +230,15 @@ void CResourceBrowser::UpdateStore()
         mpUI->DirectoryTreeView->clearSelection();
         OnDirectorySelectionChanged(QModelIndex(), QModelIndex());
     }
+}
+
+void CResourceBrowser::OnDisplayModeChanged(int Index)
+{
+    bool OldIsAssetList = InAssetListMode();
+    mAssetListMode = Index == 0;
+
+    if (InAssetListMode() != OldIsAssetList)
+        RefreshResources();
 }
 
 void CResourceBrowser::OnSortModeChanged(int Index)
@@ -251,15 +337,60 @@ void CResourceBrowser::ExportAssetNames()
 
 void CResourceBrowser::UpdateFilter()
 {
+    bool OldIsAssetList = InAssetListMode();
     QString SearchText = mpUI->SearchBar->text();
-    bool NewSearching = !SearchText.isEmpty();
+    mSearching = !SearchText.isEmpty();
 
-    if (mSearching != NewSearching)
+    if (InAssetListMode() != OldIsAssetList)
     {
-        mSearching = NewSearching;
         RefreshResources();
     }
 
     UpdateDescriptionLabel();
     mpProxyModel->SetSearchString( TO_TWIDESTRING(mpUI->SearchBar->text()) );
+    mpProxyModel->invalidate();
+}
+
+void CResourceBrowser::ResetTypeFilter()
+{
+    mpFilterAllBox->setChecked(true);
+}
+
+void CResourceBrowser::OnFilterTypeBoxTicked(bool Checked)
+{
+    static bool ReentrantGuard = false;
+    if (ReentrantGuard) return;
+    ReentrantGuard = true;
+
+    if (sender() == mpFilterAllBox)
+    {
+        if (!Checked && !mpProxyModel->HasTypeFilter())
+            mpFilterAllBox->setChecked(true);
+
+        else if (Checked)
+        {
+            foreach (const SResourceType& rkType, mTypeList)
+            {
+                rkType.pFilterCheckBox->setChecked(false);
+                mpProxyModel->SetTypeFilter(rkType.pTypeInfo, false);
+            }
+        }
+    }
+
+    else
+    {
+        foreach (const SResourceType& rkType, mTypeList)
+        {
+            if (rkType.pFilterCheckBox == sender())
+            {
+                mpProxyModel->SetTypeFilter(rkType.pTypeInfo, Checked);
+                break;
+            }
+        }
+
+        mpFilterAllBox->setChecked(!mpProxyModel->HasTypeFilter());
+    }
+
+    mpProxyModel->invalidate();
+    ReentrantGuard = false;
 }
