@@ -80,6 +80,20 @@
        </widget>
       </item>
       <item>
+       <widget class="QComboBox" name="DisplayTypeComboBox">
+        <item>
+         <property name="text">
+          <string>Asset List</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Filesystem</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
        <widget class="QComboBox" name="SortComboBox">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -100,7 +114,36 @@
        </widget>
       </item>
       <item>
+       <widget class="QScrollArea" name="FilterCheckboxScrollArea">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>1</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="widgetResizable">
+         <bool>true</bool>
+        </property>
+        <widget class="QWidget" name="scrollAreaWidgetContents">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>189</width>
+           <height>128</height>
+          </rect>
+         </property>
+        </widget>
+       </widget>
+      </item>
+      <item>
        <widget class="QTreeView" name="DirectoryTreeView">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>2</verstretch>
+         </sizepolicy>
+        </property>
         <property name="font">
          <font>
           <pointsize>10</pointsize>

@@ -116,7 +116,7 @@ public:
         return rkIndex.row() < mDirectories.size();
     }
 
-    void FillEntryList(CVirtualDirectory *pDir, bool IsSearching)
+    void FillEntryList(CVirtualDirectory *pDir, bool AssetListMode)
     {
         beginResetModel();
 
@@ -126,8 +126,8 @@ public:
 
         if (pDir)
         {
-            // When not searching, show only subdirectories and assets in the current directory.
-            if (!IsSearching)
+            // In filesystem mode, show only subdirectories and assets in the current directory.
+            if (!AssetListMode)
             {
                 if (!pDir->IsRoot())
                 {
@@ -147,7 +147,7 @@ public:
                 }
             }
 
-            // When searching, do not show subdirectories and show all assets in current directory + all subdirectories.
+            // In asset list mode, do not show subdirectories and show all assets in current directory + all subdirectories.
             else
                 RecursiveAddDirectoryContents(pDir);
         }

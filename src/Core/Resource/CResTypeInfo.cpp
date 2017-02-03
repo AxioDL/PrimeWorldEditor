@@ -128,7 +128,6 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
         CResTypeInfo *pType = new CResTypeInfo(eAnimation, "Animation");
         AddExtension(pType, "ANIM", ePrimeDemo, eReturns);
         pType->mRawExtension = "ani";
-        pType->mHidden = true;
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eAnimCollisionPrimData, "Animation Collision Primitive Data");
@@ -171,7 +170,6 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
         CResTypeInfo *pType = new CResTypeInfo(eBinaryData, "Generic Data");
         AddExtension(pType, "DUMB", ePrimeDemo, eCorruption);
         pType->mRawExtension = "dat";
-        pType->mHidden = true;
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eBurstFireData, "Burst Fire Data");
@@ -206,7 +204,6 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
     {
         CResTypeInfo *pType = new CResTypeInfo(eHintSystem, "Hint System Data");
         AddExtension(pType, "HINT", ePrime, eCorruption);
-        pType->mHidden = true;
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eMapArea, "Area Map");

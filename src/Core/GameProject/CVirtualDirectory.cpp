@@ -141,7 +141,7 @@ void CVirtualDirectory::AddChild(const TWideString &rkPath, CResourceEntry *pEnt
             mSubdirectories.push_back(pSubdir);
 
             std::sort(mSubdirectories.begin(), mSubdirectories.end(), [](CVirtualDirectory *pLeft, CVirtualDirectory *pRight) -> bool {
-                return (pLeft->Name() < pRight->Name());
+                return (pLeft->Name().ToUpper() < pRight->Name().ToUpper());
             });
         }
 
