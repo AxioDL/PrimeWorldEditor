@@ -5,7 +5,6 @@
 #-------------------------------------------------
 
 QT       -= core gui
-QMAKE_CXXFLAGS += /WX
 DEFINES += PWE_FILEIO
 
 CONFIG += staticlib

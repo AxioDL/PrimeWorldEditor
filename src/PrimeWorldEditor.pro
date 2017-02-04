@@ -4,7 +4,6 @@
 #
 #-------------------------------------------------
 
-QMAKE_CXXFLAGS += /WX
 TEMPLATE = subdirs
 
 SUBDIRS += \

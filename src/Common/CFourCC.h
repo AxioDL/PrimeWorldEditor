@@ -50,10 +50,10 @@ public:
     inline TString ToString() const
     {
         char CharArray[4] = {
-            ( (mFourCC >> 24) & 0xFF),
-            ( (mFourCC >> 16) & 0xFF),
-            ( (mFourCC >>  8) & 0xFF),
-            ( (mFourCC >>  0) & 0xFF)
+            (char) ((mFourCC >> 24) & 0xFF),
+            (char) ((mFourCC >> 16) & 0xFF),
+            (char) ((mFourCC >>  8) & 0xFF),
+            (char) ((mFourCC >>  0) & 0xFF)
         };
 
         return TString(CharArray, 4);

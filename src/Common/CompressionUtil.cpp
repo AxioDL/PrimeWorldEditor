@@ -83,10 +83,12 @@ namespace CompressionUtil
         else return true;
     }
 
-    bool DecompressLZO(u8 *pSrc, u32 SrcLen, u8 *pDst, lzo_uint& rTotalOut)
+    bool DecompressLZO(u8 *pSrc, u32 SrcLen, u8 *pDst, u32& rTotalOut)
     {
         lzo_init();
-        s32 Error = lzo1x_decompress(pSrc, SrcLen, pDst, &rTotalOut, LZO1X_MEM_DECOMPRESS);
+        lzo_uint TotalOut;
+        s32 Error = lzo1x_decompress(pSrc, SrcLen, pDst, &TotalOut, LZO1X_MEM_DECOMPRESS);
+        rTotalOut = (u32) TotalOut;
 
         if (Error)
         {
@@ -130,7 +132,7 @@ namespace CompressionUtil
 
                 if (PeekMagic == 0x78DA || PeekMagic == 0x789C || PeekMagic == 0x7801)
                 {
-                    bool Success = DecompressZlib(pSrc, Size, pDst, pDstEnd - pDst, TotalOut);
+                    bool Success = DecompressZlib(pSrc, Size, pDst, (u32) (pDstEnd - pDst), TotalOut);
                     if (!Success) return false;
                 }
 
@@ -187,7 +189,7 @@ namespace CompressionUtil
         lzo_init();
 
         u8 *pWorkMem = new u8[LZO1X_999_MEM_COMPRESS];
-        s32 Error = lzo1x_999_compress(pSrc, SrcLen, pDst, &rTotalOut, pWorkMem);
+        s32 Error = lzo1x_999_compress(pSrc, SrcLen, pDst, (lzo_uint*) &rTotalOut, pWorkMem);
         delete[] pWorkMem;
 
         if (Error)
@@ -208,7 +210,7 @@ namespace CompressionUtil
         {
             // Each segment is compressed separately. Segment size should always be 0x4000 unless there's less than 0x4000 bytes left.
             u16 Size;
-            u32 Remaining = pSrcEnd - pSrc;
+            u32 Remaining = (u32) (pSrcEnd - pSrc);
 
             if (Remaining < 0x4000) Size = (u16) Remaining;
             else Size = 0x4000;
@@ -246,7 +248,7 @@ namespace CompressionUtil
             pDst += TotalOut;
         }
 
-        rTotalOut = pDst - pDstStart;
+        rTotalOut = (u32) (pDst - pDstStart);
         return true;
     }
 
