@@ -68,7 +68,7 @@ QModelIndex CInstancesModel::index(int Row, int Column, const QModelIndex& rkPar
     if (Type == eRootIndex)
     {
         if (Row < mBaseItems.count())
-            return createIndex(Row, Column, quint32(0));
+            return createIndex(Row, Column, quint64(0));
         else
             return QModelIndex();
     }
@@ -125,7 +125,7 @@ QModelIndex CInstancesModel::parent(const QModelIndex& rkChild) const
     if (Type == eObjectTypeIndex)
     {
         u32 NodeTypeRow = (rkChild.internalId() & TYPES_NODE_TYPE_MASK) >> TYPES_NODE_TYPE_SHIFT;
-        return createIndex(NodeTypeRow, 0, quint32(0));
+        return createIndex(NodeTypeRow, 0, quint64(0));
     }
 
     // Object type parent

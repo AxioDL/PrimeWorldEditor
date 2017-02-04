@@ -476,7 +476,7 @@ QModelIndex CPropertyModel::index(int Row, int Column, const QModelIndex& rkPare
 
     // Other property
     if (pParent->Type() == eColorProperty || pParent->Type() == eVector3Property || pParent->Type() == eBitfieldProperty || pParent->Type() == eCharacterProperty)
-        return createIndex(Row, Column, u32(pParent) | 0x1);
+        return createIndex(Row, Column, u64(pParent) | 0x1);
 
     return QModelIndex();
 }

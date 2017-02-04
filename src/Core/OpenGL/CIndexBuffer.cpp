@@ -75,7 +75,7 @@ void CIndexBuffer::DrawElements()
 void CIndexBuffer::DrawElements(u32 Offset, u32 Size)
 {
     Bind();
-    glDrawElements(mPrimitiveType, Size, GL_UNSIGNED_SHORT, (void*) (Offset * 2));
+    glDrawElements(mPrimitiveType, Size, GL_UNSIGNED_SHORT, (char*)0 + (Offset * 2));
     Unbind();
 }
 

@@ -24,8 +24,10 @@ CONFIG (debug, debug|release) {
 
     # Debug Libs
     LIBS += -L$$BUILD_DIR/FileIO/ -lFileIOd \
-            -L$$EXTERNALS_DIR/boost_1_56_0/lib32-msvc-12.0 -llibboost_filesystem-vc120-mt-gd-1_56 \
-            -L$$EXTERNALS_DIR/tinyxml2/lib/ -ltinyxml2d
+            -L$$EXTERNALS_DIR/boost_1_63_0/lib64-msvc-14.0 -llibboost_filesystem-vc140-mt-gd-1_63 \
+            -L$$EXTERNALS_DIR/lzo-2.09/lib -llzo2d \
+            -L$$EXTERNALS_DIR/tinyxml2/lib -ltinyxml2d \
+            -L$$EXTERNALS_DIR/zlib/lib -lzlibd
 
     # Debug Target Dependencies
     win32 {
@@ -40,8 +42,10 @@ CONFIG (release, debug|release) {
 
     # Release Libs
     LIBS += -L$$BUILD_DIR/FileIO/ -lFileIO \
-            -L$$EXTERNALS_DIR/boost_1_56_0/lib32-msvc-12.0 -llibboost_filesystem-vc120-mt-1_56 \
-            -L$$EXTERNALS_DIR/tinyxml2/lib/ -ltinyxml2
+            -L$$EXTERNALS_DIR/boost_1_63_0/lib64-msvc-140 -llibboost_filesystem-vc140-mt-1_63 \
+            -L$$EXTERNALS_DIR/lzo-2.09/lib -llzo2 \
+            -L$$EXTERNALS_DIR/tinyxml2/lib -ltinyxml2 \
+            -L$$EXTERNALS_DIR/zlib/lib -lzlib
 
     # Release Target Dependencies
     win32 {
@@ -49,14 +53,10 @@ CONFIG (release, debug|release) {
     }
 }
 
-# Debug/Release Libs
-LIBS += -L$$EXTERNALS_DIR/lzo-2.08/lib -llzo-2.08 \
-        -L$$EXTERNALS_DIR/zlib/lib -lzdll
-
 # Include Paths
 INCLUDEPATH += $$PWE_MAIN_INCLUDE \
-               $$EXTERNALS_DIR/boost_1_56_0 \
-               $$EXTERNALS_DIR/lzo-2.08/include \
+               $$EXTERNALS_DIR/boost_1_63_0 \
+               $$EXTERNALS_DIR/lzo-2.09/include \
                $$EXTERNALS_DIR/tinyxml2/include \
                $$EXTERNALS_DIR/zlib/include
 

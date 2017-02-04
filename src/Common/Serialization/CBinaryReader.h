@@ -89,7 +89,7 @@ public:
                     mpStream->Seek(ChildSize, SEEK_CUR);
                 else
                 {
-                    mParamStack.push_back( SParameter { mpStream->Tell() - 6, NextSize, false, false } );
+                    mParamStack.push_back( SParameter { (u32) mpStream->Tell() - 6, NextSize, false, false } );
                     return true;
                 }
             }

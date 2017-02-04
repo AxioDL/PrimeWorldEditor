@@ -63,7 +63,7 @@ public:
                 mpStream->WriteShort(-1); // Sub-param count filler
         }
 
-        mParamStack.push_back( SParameter { mpStream->Tell(), 0, false } );
+        mParamStack.push_back( SParameter { (u32) mpStream->Tell(), 0, false } );
 
         u32 ParamID = TString(pkName).Hash32();
         mpStream->WriteLong(ParamID);
