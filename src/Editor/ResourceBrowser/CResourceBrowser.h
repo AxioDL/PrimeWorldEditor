@@ -54,6 +54,7 @@ public:
 
 public slots:
     void RefreshResources();
+    void RefreshDirectories();
     void UpdateDescriptionLabel();
     void UpdateStore();
     void OnDisplayModeChanged(int Index);

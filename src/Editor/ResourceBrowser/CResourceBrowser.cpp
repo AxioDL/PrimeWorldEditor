@@ -183,6 +183,16 @@ void CResourceBrowser::RefreshResources()
         mpUI->ResourceTableView->setSpan(iDir, 0, 1, 3);
 }
 
+void CResourceBrowser::RefreshDirectories()
+{
+    mpDirectoryModel->SetRoot(mpStore->RootDirectory());
+
+    // Clear selection. This function is called when directories are created/deleted and our current selection might not be valid anymore
+    QModelIndex RootIndex = mpDirectoryModel->index(0, 0, QModelIndex());
+    mpUI->DirectoryTreeView->selectionModel()->setCurrentIndex(RootIndex, QItemSelectionModel::ClearAndSelect);
+    mpUI->DirectoryTreeView->setExpanded(RootIndex, true);
+}
+
 void CResourceBrowser::UpdateDescriptionLabel()
 {
     QString Desc;
@@ -299,12 +309,14 @@ void CResourceBrowser::OnImportPakContentsTxt()
         mpStore->ImportNamesFromPakContentsTxt(TO_TSTRING(rkPath), false);
 
     RefreshResources();
+    RefreshDirectories();
 }
 
 void CResourceBrowser::OnGenerateAssetNames()
 {
     GenerateAssetNames(mpStore->Project());
     RefreshResources();
+    RefreshDirectories();
 }
 
 void CResourceBrowser::OnImportNamesFromAssetNameMap()
@@ -322,6 +334,7 @@ void CResourceBrowser::OnImportNamesFromAssetNameMap()
 
     mpStore->ConditionalSaveStore();
     RefreshResources();
+    RefreshDirectories();
 }
 
 void CResourceBrowser::ExportAssetNames()
@@ -358,6 +371,7 @@ void CResourceBrowser::ResetTypeFilter()
 
 void CResourceBrowser::OnFilterTypeBoxTicked(bool Checked)
 {
+    // NOTE: there should only be one CResourceBrowser; if that ever changes for some reason change this to a member
     static bool ReentrantGuard = false;
     if (ReentrantGuard) return;
     ReentrantGuard = true;
