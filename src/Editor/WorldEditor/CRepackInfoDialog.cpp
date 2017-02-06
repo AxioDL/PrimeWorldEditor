@@ -63,7 +63,7 @@ QString CRepackInfoDialog::OutputPak() const
 // ************ PUBLIC SLOTS ************
 void CRepackInfoDialog::BrowseFolderClicked()
 {
-    QString Folder = QFileDialog::getExistingDirectory(this, "Choose directory");
+    QString Folder = UICommon::OpenDirDialog(this, "Choose directory");
 
     if (!Folder.isEmpty())
     {
@@ -74,7 +74,7 @@ void CRepackInfoDialog::BrowseFolderClicked()
 
 void CRepackInfoDialog::BrowseListClicked()
 {
-    QString List = QFileDialog::getOpenFileName(this, "Open list file", "", "All supported files (*.txt *.pak);;Text file (*.txt);;Pak file (*.pak)");
+    QString List = UICommon::OpenFileDialog(this, "Open list file", "All supported files (*.txt *.pak);;Text file (*.txt);;Pak file (*.pak)");
 
     if (!List.isEmpty())
     {
@@ -94,7 +94,7 @@ void CRepackInfoDialog::BrowseListClicked()
 
 void CRepackInfoDialog::BrowseOutPakClicked()
 {
-    QString Pak = QFileDialog::getSaveFileName(this, "Save pak", "", "Pak File (*.pak)");
+    QString Pak = UICommon::SaveFileDialog(this, "Save pak", "Pak File (*.pak)");
 
     if (!Pak.isEmpty())
     {

@@ -81,18 +81,29 @@ class CAnimSet : public CResource
     std::vector<CAnimEventData*> mAnimEvents; // note: these are for MP2, where event data isn't a standalone resource; these are owned by the animset
 
 public:
-    CAnimSet(CResourceEntry *pEntry = 0) : CResource(pEntry) {}
+    CAnimSet(CResourceEntry *pEntry = 0)
+        : CResource(pEntry)
+        , mpDefaultTransition(nullptr)
+    {}
 
     ~CAnimSet()
     {
+        for (u32 iAnim = 0; iAnim < mAnimations.size(); iAnim++)
+            delete mAnimations[iAnim].pMetaAnim;
+
+        for (u32 iTrans = 0; iTrans < mTransitions.size(); iTrans++)
+            delete mTransitions[iTrans].pMetaTrans;
+
+        for (u32 iHalf = 0; iHalf < mHalfTransitions.size(); iHalf++)
+            delete mHalfTransitions[iHalf].pMetaTrans;
+
+        delete mpDefaultTransition;
+
         // For MP2, anim events need to be cleaned up manually
-        if (Game() >= eEchoesDemo)
+        for (u32 iEvent = 0; iEvent < mAnimEvents.size(); iEvent++)
         {
-            for (u32 iEvent = 0; iEvent < mAnimEvents.size(); iEvent++)
-            {
-                ASSERT(mAnimEvents[iEvent] && !mAnimEvents[iEvent]->Entry());
-                delete mAnimEvents[iEvent];
-            }
+            ASSERT(mAnimEvents[iEvent] && !mAnimEvents[iEvent]->Entry());
+            delete mAnimEvents[iEvent];
         }
     }
 

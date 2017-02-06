@@ -292,7 +292,7 @@ void CResourceBrowser::OnResourceSelectionChanged(const QModelIndex& rkNewIndex,
 
 void CResourceBrowser::OnImportPakContentsTxt()
 {
-    QStringList PathList = QFileDialog::getOpenFileNames(this, "Open pak contents list", "", "*.pak.contents.txt");
+    QStringList PathList = UICommon::OpenFilesDialog(this, "Open pak contents list", "*.pak.contents.txt");
     if (PathList.isEmpty()) return;
 
     foreach(const QString& rkPath, PathList)
@@ -326,7 +326,7 @@ void CResourceBrowser::OnImportNamesFromAssetNameMap()
 
 void CResourceBrowser::ExportAssetNames()
 {
-    QString OutFile = QFileDialog::getSaveFileName(this, "Export asset name map", "../resources/gameinfo/", "*.xml");
+    QString OutFile = UICommon::SaveFileDialog(this, "Export asset name map", "*.xml", "../resources/gameinfo/");
     if (OutFile.isEmpty()) return;
 
     CAssetNameMap NameMap;

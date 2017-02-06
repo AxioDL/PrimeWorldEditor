@@ -7,7 +7,6 @@
 
 #include "Editor/ModelEditor/CModelEditorWindow.h"
 #include "Editor/WorldEditor/CWorldEditor.h"
-#include <Core/GameProject/CGameExporter.h>
 #include <Core/GameProject/CResourceStore.h>
 
 #include <QFileDialog>
@@ -26,7 +25,6 @@ CStartWindow::CStartWindow(QWidget *parent)
 
     connect(ui->ActionAbout, SIGNAL(triggered()), this, SLOT(About()));
     connect(ui->ActionCharacterEditor, SIGNAL(triggered()), this, SLOT(LaunchCharacterEditor()));
-    connect(ui->ActionExportGame, SIGNAL(triggered()), this, SLOT(ExportGame()));
 }
 
 CStartWindow::~CStartWindow()
@@ -244,36 +242,4 @@ void CStartWindow::About()
 {
     CAboutDialog Dialog(this);
     Dialog.exec();
-}
-
-void CStartWindow::ExportGame()
-{
-    // TEMP - hardcoded names for convenience. will remove later!
-#define USE_HARDCODED_GAME_ROOT 0
-#define USE_HARDCODED_EXPORT_DIR 1
-
-#if USE_HARDCODED_GAME_ROOT
-    QString GameRoot = "E:/Unpacked/Metroid Prime 2";
-#else
-    QString GameRoot = QFileDialog::getExistingDirectory(this, "Select game root directory");
-    if (GameRoot.isEmpty()) return;
-#endif
-
-#if USE_HARDCODED_EXPORT_DIR
-    QString ExportDir = "E:/Unpacked/ExportTest";
-#else
-    QString ExportDir = QFileDialog::getExistingDirectory(this, "Select output export directory");
-    if (ExportDir.isEmpty()) return;
-#endif
-
-    // Verify valid game root by checking if opening.bnr exists
-    TString OpeningBNR = TO_TSTRING(GameRoot) + "/opening.bnr";
-    if (!FileUtil::Exists(OpeningBNR.ToUTF16()))
-    {
-        QMessageBox::warning(this, "Error", "Error; this is not a valid game root directory!");
-        return;
-    }
-
-    CGameExporter Exporter(TO_TSTRING(GameRoot), TO_TSTRING(ExportDir));
-    Exporter.Export();
 }

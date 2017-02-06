@@ -28,4 +28,14 @@ TString GetGameName(EGame Game);
 TString GetGameShortName(EGame Game);
 void Serialize(IArchive& rArc, EGame& rGame);
 
+// ERegion
+enum ERegion
+{
+    eRegion_NTSC,
+    eRegion_PAL,
+    eRegion_JPN,
+    eRegion_Unknown = -1
+};
+void Serialize(IArchive& rArc, ERegion& rRegion);
+
 #endif // EGAME_H

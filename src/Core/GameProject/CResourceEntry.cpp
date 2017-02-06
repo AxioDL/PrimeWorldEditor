@@ -190,7 +190,7 @@ bool CResourceEntry::Save(bool SkipCacheSave /*= false*/)
         // Note: We call Serialize directly for resources to avoid having a redundant resource root node in the output file.
         TString Path = RawAssetPath();
         TString Dir = Path.GetFileDirectory();
-        FileUtil::CreateDirectory(Dir.ToUTF16());
+        FileUtil::MakeDirectory(Dir.ToUTF16());
 
         TString SerialName = mpTypeInfo->TypeName();
         SerialName.RemoveWhitespace();
@@ -268,7 +268,8 @@ CResource* CResourceEntry::LoadCooked(IInputStream& rInput)
     gpResourceStore = mpStore;
 
     mpResource = CResourceFactory::LoadCookedResource(this, rInput);
-    mpStore->TrackLoadedResource(this);
+    if (mpResource)
+        mpStore->TrackLoadedResource(this);
 
     gpResourceStore = pOldStore;
     return mpResource;

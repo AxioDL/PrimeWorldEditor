@@ -20,7 +20,7 @@ void CPackage::Load()
 void CPackage::Save()
 {
     TWideString DefPath = DefinitionPath(false);
-    FileUtil::CreateDirectory(DefPath.GetFileDirectory());
+    FileUtil::MakeDirectory(DefPath.GetFileDirectory());
 
     CXMLWriter Writer(DefPath.ToUTF8(), "PackageDefinition", 0, mpProject ? mpProject->Game() : eUnknownGame);
     Serialize(Writer);

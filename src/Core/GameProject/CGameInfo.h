@@ -9,6 +9,7 @@
 #include <map>
 
 const TString gkGameInfoDir = "..\\resources\\gameinfo";
+const TString gkGameInfoExt = "xml";
 
 class CGameInfo
 {
@@ -34,6 +35,8 @@ public:
     static CGameInfo* GetGameInfo(EGame Game);
     static EGame RoundGame(EGame Game);
     static TString GetDefaultGameInfoPath(EGame Game);
+
+    inline static TString GetExtension()    { return gkGameInfoExt; }
 };
 
 #endif // CGAMEINFO

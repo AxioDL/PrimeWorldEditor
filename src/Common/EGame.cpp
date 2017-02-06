@@ -65,3 +65,27 @@ void Serialize(IArchive& rArc, EGame& rGame)
     rArc.SerializePrimitive(GameID);
     if (rArc.IsReader()) rGame = GetGameForID(GameID);
 }
+
+// ERegion
+void Serialize(IArchive& rArc, ERegion& rRegion)
+{
+    static const TString skRegionNames[] = { "NTSC", "PAL", "JPN" };
+    TString Name;
+
+    if (rArc.IsWriter())
+        Name = skRegionNames[rRegion];
+
+    rArc.SerializePrimitive(Name);
+
+    if (rArc.IsReader())
+    {
+        for (u32 iReg = 0; iReg < 3; iReg++)
+        {
+            if (skRegionNames[iReg] == Name)
+            {
+                rRegion = (ERegion) iReg;
+                break;
+            }
+        }
+    }
+}

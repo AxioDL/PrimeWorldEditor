@@ -14,9 +14,16 @@
 
 class CGameProject
 {
-    EGame mGame;
-    float mBuildVersion;
     TString mProjectName;
+    EGame mGame;
+    ERegion mRegion;
+    TString mGameID;
+    float mBuildVersion;
+    TWideString mDolPath;
+    TWideString mApploaderPath;
+    TWideString mPartitionHeaderPath;
+    u32 mFilesystemAddress;
+
     TWideString mProjectRoot;
     TWideString mResourceDBPath;
     std::vector<CPackage*> mPackages;
@@ -34,51 +41,44 @@ class CGameProject
 
     static CGameProject *mspActiveProject;
 
-public:
+    // Private Constructor
     CGameProject()
-        : mGame(eUnknownGame)
-        , mProjectName("Unnamed Project")
+        : mProjectName("Unnamed Project")
+        , mGame(eUnknownGame)
+        , mRegion(eRegion_Unknown)
+        , mGameID("000000")
+        , mBuildVersion(0.f)
         , mResourceDBPath(L"ResourceDB.rdb")
+        , mpResourceStore(nullptr)
     {
-        mpResourceStore = new CResourceStore(this);
         mpGameInfo = new CGameInfo();
         mpAudioManager = new CAudioManager(this);
     }
 
-    CGameProject(const TWideString& rkProjRootDir)
-        : mGame(eUnknownGame)
-        , mProjectName("Unnamed Project")
-        , mProjectRoot(rkProjRootDir)
-        , mResourceDBPath(L"ResourceDB.rdb")
-    {
-        mProjectRoot.Replace(L"/", L"\\");
-        mpResourceStore = new CResourceStore(this);
-        mpGameInfo = new CGameInfo();
-        mpAudioManager = new CAudioManager(this);
-    }
-
-    CGameProject(CGameExporter *pExporter, const TWideString& rkProjRootDir, EGame Game, float BuildVer)
-        : mGame(Game)
-        , mBuildVersion(BuildVer)
-        , mProjectName(CMasterTemplate::FindGameName(Game))
-        , mProjectRoot(rkProjRootDir)
-        , mResourceDBPath(L"ResourceDB.rdb")
-    {
-        mProjectRoot.Replace(L"/", L"\\");
-        mpResourceStore = new CResourceStore(this, pExporter, L"Content\\", L"Cooked\\", Game);
-        mpGameInfo = new CGameInfo();
-        mpGameInfo->LoadGameInfo(mGame);
-        mpAudioManager = new CAudioManager(this);
-    }
-
+public:
     ~CGameProject();
 
-    bool Load(const TWideString& rkPath);
     void Save();
     void Serialize(IArchive& rArc);
     void SetActive();
     void GetWorldList(std::list<CAssetID>& rOut) const;
     CAssetID FindNamedResource(const TString& rkName) const;
+
+    // Static
+    static CGameProject* CreateProjectForExport(
+            CGameExporter *pExporter,
+            const TWideString& rkProjRootDir,
+            EGame Game,
+            ERegion Region,
+            const TString& rkGameID,
+            float BuildVer,
+            const TWideString& rkDolPath,
+            const TWideString& rkApploaderPath,
+            const TWideString& rkPartitionHeaderPath,
+            u32 FstAddress
+        );
+
+    static CGameProject* LoadProject(const TWideString& rkProjPath);
 
     // Directory Handling
     inline TWideString ProjectRoot() const                      { return mProjectRoot; }
@@ -101,6 +101,7 @@ public:
     inline EGame Game() const                           { return mGame; }
     inline float BuildVersion() const                   { return mBuildVersion; }
     inline bool IsActive() const                        { return mspActiveProject == this; }
+    inline bool IsWiiBuild() const                      { return mBuildVersion >= 3.f; }
 
     static inline CGameProject* ActiveProject() { return mspActiveProject; }
 };

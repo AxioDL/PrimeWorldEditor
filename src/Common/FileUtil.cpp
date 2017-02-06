@@ -54,7 +54,7 @@ bool IsEmpty(const TWideString& rkDirPath)
     return is_empty(*rkDirPath);
 }
 
-bool CreateDirectory(const TWideString& rkNewDir)
+bool MakeDirectory(const TWideString& rkNewDir)
 {
     if (!IsValidPath(rkNewDir, true))
     {
@@ -73,7 +73,7 @@ bool CopyFile(const TWideString& rkOrigPath, const TWideString& rkNewPath)
         return false;
     }
 
-    CreateDirectory(rkNewPath.GetFileDirectory());
+    MakeDirectory(rkNewPath.GetFileDirectory());
     boost::system::error_code Error;
     copy(*rkOrigPath, *rkNewPath, Error);
     return (Error == boost::system::errc::success);
@@ -87,7 +87,7 @@ bool CopyDirectory(const TWideString& rkOrigPath, const TWideString& rkNewPath)
         return false;
     }
 
-    CreateDirectory(rkNewPath.GetFileDirectory());
+    MakeDirectory(rkNewPath.GetFileDirectory());
     boost::system::error_code Error;
     copy_directory(*rkOrigPath, *rkNewPath, Error);
     return (Error == boost::system::errc::success);

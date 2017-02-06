@@ -162,7 +162,8 @@ void CAnimSetLoader::ProcessPrimitives()
     for (u32 iTrans = 0; iTrans < pSet->mTransitions.size(); iTrans++)
         pSet->mTransitions[iTrans].pMetaTrans->GetUniquePrimitives(UniquePrimitives);
 
-    pSet->mpDefaultTransition->GetUniquePrimitives(UniquePrimitives);
+    if (pSet->mpDefaultTransition)
+        pSet->mpDefaultTransition->GetUniquePrimitives(UniquePrimitives);
 
     for (u32 iTrans = 0; iTrans < pSet->mHalfTransitions.size(); iTrans++)
         pSet->mHalfTransitions[iTrans].pMetaTrans->GetUniquePrimitives(UniquePrimitives);
@@ -181,17 +182,20 @@ void CAnimSetLoader::ProcessPrimitives()
     }
 
     // Add animations referenced by default transition
-    std::set<CAnimPrimitive> DefaultTransPrimitives;
-    pSet->mpDefaultTransition->GetUniquePrimitives(DefaultTransPrimitives);
-
-    for (u32 iChar = 0; iChar < pSet->mCharacters.size(); iChar++)
+    if (pSet->mpDefaultTransition)
     {
-        SSetCharacter& rChar = pSet->mCharacters[iChar];
+        std::set<CAnimPrimitive> DefaultTransPrimitives;
+        pSet->mpDefaultTransition->GetUniquePrimitives(DefaultTransPrimitives);
 
-        for (auto Iter = DefaultTransPrimitives.begin(); Iter != DefaultTransPrimitives.end(); Iter++)
+        for (u32 iChar = 0; iChar < pSet->mCharacters.size(); iChar++)
         {
-            const CAnimPrimitive& rkPrim = *Iter;
-            rChar.UsedAnimationIndices.insert(rkPrim.ID());
+            SSetCharacter& rChar = pSet->mCharacters[iChar];
+
+            for (auto Iter = DefaultTransPrimitives.begin(); Iter != DefaultTransPrimitives.end(); Iter++)
+            {
+                const CAnimPrimitive& rkPrim = *Iter;
+                rChar.UsedAnimationIndices.insert(rkPrim.ID());
+            }
         }
     }
 
