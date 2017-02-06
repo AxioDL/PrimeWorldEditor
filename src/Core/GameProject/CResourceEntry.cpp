@@ -321,7 +321,7 @@ bool CResourceEntry::Move(const TWideString& rkDir, const TWideString& rkName)
     TString NewCookedPath = CookedAssetPath();
     TString NewRawPath = RawAssetPath();
 
-    Log::Write("MOVING RESOURCE: " + OldCookedPath + " --> " + NewCookedPath);
+    Log::Write("MOVING RESOURCE: " + FileUtil::MakeRelative(OldCookedPath, mpStore->CookedDir(false)).ToUTF8() + " --> " + FileUtil::MakeRelative(NewCookedPath, mpStore->CookedDir(false)).ToUTF8());
 
     // If the old/new paths are the same then we should have already exited as CanMoveTo() should have returned false
     ASSERT(OldCookedPath != NewCookedPath && OldRawPath != NewRawPath);

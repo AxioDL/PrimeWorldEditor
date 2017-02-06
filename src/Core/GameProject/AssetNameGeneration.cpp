@@ -7,6 +7,7 @@
 #include "Core/Resource/Script/CScriptLayer.h"
 #include <Math/MathUtil.h>
 
+#define PROCESS_PACKAGES 1
 #define PROCESS_WORLDS 1
 #define PROCESS_AREAS 1
 #define PROCESS_MODELS 1
@@ -94,9 +95,8 @@ TWideString MakeWorldName(EGame Game, TWideString RawName)
         {
             RawName = RawName.ChopBack(RawName.Size() - LastUnderscore);
             RawName = RawName.ChopFront(FirstUnderscore + 1);
+            RawName.Remove(L'_');
         }
-
-        RawName.Remove(L'_');
     }
 
     // DKCR - Remove text after second-to-last underscore
@@ -116,7 +116,8 @@ void GenerateAssetNames(CGameProject *pProj)
     // todo: CAUD/CSMP
     CResourceStore *pStore = pProj->ResourceStore();
 
-    // Generate names for package named resources first
+#if PROCESS_PACKAGES
+    // Generate names for package named resources
     for (u32 iPkg = 0; iPkg < pProj->NumPackages(); iPkg++)
     {
         CPackage *pPkg = pProj->PackageByIndex(iPkg);
@@ -135,6 +136,7 @@ void GenerateAssetNames(CGameProject *pProj)
             }
         }
     }
+#endif
 
 #if PROCESS_WORLDS
     // Generate world/area names
@@ -171,7 +173,7 @@ void GenerateAssetNames(CGameProject *pProj)
         {
             // Move sky model
             CResourceEntry *pSkyEntry = pSkyModel->Entry();
-            ApplyGeneratedName(pSkyEntry, WorldDir + L"sky\\cooked\\", L"sky");
+            ApplyGeneratedName(pSkyEntry, WorldDir + L"sky\\cooked\\", WorldName + L"_" + L"sky");
 
             // Move sky textures
             for (u32 iSet = 0; iSet < pSkyModel->GetMatSetCount(); iSet++)
@@ -484,8 +486,8 @@ void GenerateAssetNames(CGameProject *pProj)
     // Generate string names
     for (TResourceIterator<eStringTable> It(pStore); It; ++It)
     {
+        if (It->IsNamed()) continue;
         CStringTable *pString = (CStringTable*) It->Load();
-        if (pString->Entry()->IsNamed()) continue;
         TWideString String;
 
         for (u32 iStr = 0; iStr < pString->NumStrings() && String.IsEmpty(); iStr++)
@@ -556,7 +558,7 @@ void GenerateAssetNames(CGameProject *pProj)
             CTexture *pFontTex = pFont->Texture();
 
             if (pFontTex)
-                ApplyGeneratedName(pFontTex->Entry(), pFont->Entry()->DirectoryPath(), pFont->Entry()->Name());
+                ApplyGeneratedName(pFontTex->Entry(), pFont->Entry()->DirectoryPath(), pFont->Entry()->Name() + L"_tex");
         }
     }
 #endif

@@ -582,6 +582,9 @@ bool CResourceStore::DeleteResourceEntry(CResourceEntry *pEntry)
         mLoadedResources.erase(It);
     }
 
+    if (pEntry->Directory())
+        pEntry->Directory()->RemoveChildResource(pEntry);
+
     auto It = mResourceEntries.find(ID);
     ASSERT(It != mResourceEntries.end());
     mResourceEntries.erase(It);

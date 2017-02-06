@@ -252,6 +252,10 @@ TWideString MakeRelative(const TWideString& rkPath, const TWideString& rkRelativ
     for (; PathIter != PathComponents.end(); PathIter++)
         Out += *PathIter + L"\\";
 
+    // Attempt to detect if this path is a file as opposed to a directory; if so, remove trailing backslash
+    if (PathComponents.back().Contains(L'.') && !rkPath.EndsWith(L'/') && !rkPath.EndsWith(L'\\'))
+        Out = Out.ChopBack(1);
+
     return Out;
 }
 
