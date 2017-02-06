@@ -9,6 +9,9 @@
 
 #define FOURCC(Text) (Text[0] << 24 | Text[1] << 16 | Text[2] << 8 | Text[3])
 #define FOURCC_CONSTEXPR(A, B, C, D) (A << 24 | B << 16 | C << 8 | D)
+// todo: replace usages of FOURCC and FOURCC_CONSTEXPR with this macro
+// (it should be renamed to just FOURCC when the others aren't in use anymore)
+#define IFOURCC(Value) Value
 
 class CFourCC
 {

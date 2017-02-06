@@ -1,11 +1,14 @@
 #include "CGameInfo.h"
+#include <Common/FileUtil.h>
 
 void CGameInfo::LoadGameInfo(EGame Game)
 {
     Game = RoundGame(Game);
     mGame = Game;
 
-    LoadGameInfo(GetDefaultGameInfoPath(Game));
+    TString Path = GetDefaultGameInfoPath(Game);
+    if (FileUtil::Exists(Path))
+        LoadGameInfo(Path);
 }
 
 void CGameInfo::LoadGameInfo(TString Path)
@@ -59,5 +62,5 @@ TString CGameInfo::GetDefaultGameInfoPath(EGame Game)
         return "";
 
     TString GameName = GetGameShortName(Game);
-    return TString::Format("%s\\GameInfo%s.xml", *gkGameInfoDir, *GameName);
+    return TString::Format("%s\\GameInfo%s.%s", *gkGameInfoDir, *GameName, *gkGameInfoExt);
 }

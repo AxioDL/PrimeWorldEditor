@@ -1,6 +1,7 @@
 #include "CProjectOverviewDialog.h"
 #include "ui_CProjectOverviewDialog.h"
 #include "CEditorApplication.h"
+#include "CExportGameDialog.h"
 #include "UICommon.h"
 #include "Editor/ResourceBrowser/CResourceBrowser.h"
 #include <Common/AssertMacro.h>
@@ -28,17 +29,13 @@ CProjectOverviewDialog::~CProjectOverviewDialog()
     delete mpUI;
 }
 
-void CProjectOverviewDialog::OpenProject()
+void CProjectOverviewDialog::InternalLoadProject(const QString& rkPath)
 {
-    // Open project file
-    QString ProjPath = QFileDialog::getOpenFileName(this, "Open Project", "", "Game Project (*.prj)");
-    if (ProjPath.isEmpty()) return;
-
     // Load project
-    TWideString Path = TO_TWIDESTRING(ProjPath);
-    CGameProject *pNewProj = new CGameProject(Path.GetFileDirectory());
+    TWideString Path = TO_TWIDESTRING(rkPath);
+    CGameProject *pNewProj = CGameProject::LoadProject(Path);
 
-    if (pNewProj->Load(Path))
+    if (pNewProj)
     {
         if (mpProject) delete mpProject;
         mpProject = pNewProj;
@@ -49,49 +46,34 @@ void CProjectOverviewDialog::OpenProject()
     }
 
     else
-    {
         Log::Error("Failed to load project");
-        delete pNewProj;
-    }
+}
+
+void CProjectOverviewDialog::OpenProject()
+{
+    // Open project file
+    QString ProjPath = UICommon::OpenFileDialog(this, "Open Project", "Game Project (*.prj)");
+    if (!ProjPath.isEmpty()) InternalLoadProject(ProjPath);
 }
 
 void CProjectOverviewDialog::ExportGame()
 {
-    // TEMP - hardcoded names for convenience. will remove later!
-#define USE_HARDCODED_GAME_ROOT 0
-#define USE_HARDCODED_EXPORT_DIR 0
+    QString IsoPath = UICommon::OpenFileDialog(this, "Select ISO", "*.iso *.gcm *.tgc *.wbfs");
+    if (IsoPath.isEmpty()) return;
 
-#if USE_HARDCODED_GAME_ROOT
-    QString GameRoot = "E:/Unpacked/Metroid Prime";
-#else
-    QString GameRoot = QFileDialog::getExistingDirectory(this, "Select game root directory");
-    if (GameRoot.isEmpty()) return;
-#endif
-
-#if USE_HARDCODED_EXPORT_DIR
-    QString ExportDir = "E:/Unpacked/ExportTest";
-#else
-    QString ExportDir = QFileDialog::getExistingDirectory(this, "Select output export directory");
+    QString ExportDir = UICommon::OpenDirDialog(this, "Select output export directory");
     if (ExportDir.isEmpty()) return;
-#endif
 
-    // Verify valid game root by checking if opening.bnr exists
-    TString OpeningBNR = TO_TSTRING(GameRoot) + "/opening.bnr";
-    if (!FileUtil::Exists(OpeningBNR.ToUTF16()))
+    CExportGameDialog ExportDialog(IsoPath, ExportDir, this);
+    if (ExportDialog.HasValidDisc()) ExportDialog.exec();
+
+    if (ExportDialog.ExportSucceeded())
     {
-        QMessageBox::warning(this, "Error", "Error; this is not a valid game root directory!");
-        return;
-    }
+        int OpenChoice = QMessageBox::information(this, "Export complete", "Export finished successfully! Open new project?", QMessageBox::Yes, QMessageBox::No);
 
-    // Verify export directory is empty
-    if (!FileUtil::IsEmpty(TO_TSTRING(ExportDir)))
-    {
-        QMessageBox::Button Button = QMessageBox::warning(this, "Warning", "<b>Warning:</b> The specified directory is not empty. Export anyway?", QMessageBox::Ok | QMessageBox::Cancel, QMessageBox::NoButton);
-        if (Button != QMessageBox::Ok) return;
+        if (OpenChoice == QMessageBox::Yes)
+            InternalLoadProject(ExportDialog.ProjectPath());
     }
-
-    CGameExporter Exporter(TO_TSTRING(GameRoot), TO_TSTRING(ExportDir));
-    Exporter.Export();
 }
 
 void CProjectOverviewDialog::SetupWorldsList()

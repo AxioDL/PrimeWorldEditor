@@ -215,7 +215,7 @@ void WResourceSelector::OnBrowseButtonClicked()
         Filter += UICommon::ExtensionFilterString(mSupportedExtensions[iExt]);
     }
 
-    QString NewRes = QFileDialog::getOpenFileName(this, "Select resource", "", Filter);
+    QString NewRes = UICommon::OpenFileDialog(this, "Select resource", Filter);
 
     if (!NewRes.isEmpty())
     {

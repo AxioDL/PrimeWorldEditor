@@ -12,6 +12,8 @@ class CResourceEntry;
 class CWorldEditor;
 class IEditor;
 
+const int gkTickFrequencyMS = 8;
+
 class CEditorApplication : public QApplication
 {
     Q_OBJECT
@@ -34,6 +36,9 @@ public:
     inline CWorldEditor* WorldEditor() const                { return mpWorldEditor; }
     inline CResourceBrowser* ResourceBrowser() const        { return mpResourceBrowser; }
     inline CProjectOverviewDialog* ProjectDialog() const    { return mpProjectDialog; }
+
+    inline void SetEditorTicksEnabled(bool Enabled)         { Enabled ? mRefreshTimer.start(gkTickFrequencyMS) : mRefreshTimer.stop(); }
+    inline bool AreEditorTicksEnabled() const               { return mRefreshTimer.isActive(); }
 
 public slots:
     void AddEditor(IEditor *pEditor);

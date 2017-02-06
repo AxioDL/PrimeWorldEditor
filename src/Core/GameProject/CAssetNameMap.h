@@ -9,6 +9,7 @@
 #include <memory>
 
 const TString gkAssetMapPath = "..\\resources\\gameinfo\\AssetNameMap.xml";
+const TString gkAssetMapExt = "xml";
 
 class CAssetNameMap
 {
@@ -36,6 +37,9 @@ public:
     void SaveAssetNames(TString Path = gkAssetMapPath);
     bool GetNameInfo(CAssetID ID, TString& rOutDirectory, TString& rOutName);
     void CopyFromStore(CResourceStore *pStore);
+
+    inline static TString DefaultNameMapPath()  { return gkAssetMapPath; }
+    inline static TString GetExtension()        { return gkAssetMapExt; }
 };
 
 #endif // CASSETNAMEMAP

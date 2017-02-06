@@ -10,28 +10,14 @@ CGameProject::~CGameProject()
     ASSERT(!mpResourceStore->IsDirty());
 
     if (IsActive())
+    {
         mspActiveProject = nullptr;
+        gpResourceStore = nullptr;
+    }
 
     delete mpAudioManager;
     delete mpGameInfo;
     delete mpResourceStore;
-}
-
-bool CGameProject::Load(const TWideString& rkPath)
-{
-    mProjectRoot = rkPath.GetFileDirectory();
-    mProjectRoot.Replace(L"/", L"\\");
-
-    TString ProjPath = rkPath.ToUTF8();
-    CXMLReader Reader(ProjPath);
-    mGame = Reader.Game();
-    Serialize(Reader);
-    CTemplateLoader::LoadGameTemplates(mGame);
-
-    mpResourceStore->LoadResourceDatabase();
-    mpGameInfo->LoadGameInfo(mGame);
-    mpAudioManager->LoadAssets();
-    return true;
 }
 
 void CGameProject::Save()
@@ -44,8 +30,19 @@ void CGameProject::Save()
 void CGameProject::Serialize(IArchive& rArc)
 {
     rArc << SERIAL("Name", mProjectName)
+         << SERIAL("Region", mRegion)
+         << SERIAL("GameID", mGameID)
          << SERIAL("BuildVersion", mBuildVersion)
-         << SERIAL("ResourceDB", mResourceDBPath);
+         << SERIAL("DolPath", mDolPath)
+         << SERIAL("ApploaderPath", mApploaderPath);
+
+    if (rArc.Game() >= eCorruption)
+        rArc << SERIAL("PartitionHeaderPath", mPartitionHeaderPath);
+
+    if (!IsWiiBuild())
+        rArc << SERIAL("FstAddress", mFilesystemAddress);
+
+    rArc << SERIAL("ResourceDB", mResourceDBPath);
 
     // Packages
     std::vector<TString> PackageList;
@@ -128,4 +125,53 @@ CAssetID CGameProject::FindNamedResource(const TString& rkName) const
     }
 
     return CAssetID::InvalidID(mGame);
+}
+
+CGameProject* CGameProject::CreateProjectForExport(
+        CGameExporter *pExporter,
+        const TWideString& rkProjRootDir,
+        EGame Game,
+        ERegion Region,
+        const TString& rkGameID,
+        float BuildVer,
+        const TWideString& rkDolPath,
+        const TWideString& rkApploaderPath,
+        const TWideString& rkPartitionHeaderPath,
+        u32 FstAddress
+        )
+{
+    CGameProject *pProj = new CGameProject;
+    pProj->mGame = Game;
+    pProj->mRegion = Region;
+    pProj->mGameID = rkGameID;
+    pProj->mBuildVersion = BuildVer;
+    pProj->mDolPath = rkDolPath;
+    pProj->mApploaderPath = rkApploaderPath;
+    pProj->mPartitionHeaderPath = rkPartitionHeaderPath;
+    pProj->mFilesystemAddress = FstAddress;
+
+    pProj->mProjectRoot = rkProjRootDir;
+    pProj->mProjectRoot.Replace(L"/", L"\\");
+    pProj->mpResourceStore = new CResourceStore(pProj, pExporter, L"Content\\", L"Cooked\\", Game);
+    pProj->mpGameInfo->LoadGameInfo(Game);
+    return pProj;
+}
+
+CGameProject* CGameProject::LoadProject(const TWideString& rkProjPath)
+{
+    CGameProject *pProj = new CGameProject;
+    pProj->mProjectRoot = rkProjPath.GetFileDirectory();
+    pProj->mProjectRoot.Replace(L"/", L"\\");
+
+    TString ProjPath = rkProjPath.ToUTF8();
+    CXMLReader Reader(ProjPath);
+    pProj->mGame = Reader.Game();
+    pProj->Serialize(Reader);
+    CTemplateLoader::LoadGameTemplates(pProj->mGame);
+
+    pProj->mpResourceStore = new CResourceStore(pProj);
+    pProj->mpResourceStore->LoadResourceDatabase();
+    pProj->mpGameInfo->LoadGameInfo(pProj->mGame);
+    pProj->mpAudioManager->LoadAssets();
+    return pProj;
 }

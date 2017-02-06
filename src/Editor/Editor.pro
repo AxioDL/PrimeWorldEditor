@@ -35,6 +35,8 @@ CONFIG(debug, debug|release) {
             -L$$EXTERNALS_DIR/assimp/lib/ -lassimp-vc140-mtd \
             -L$$EXTERNALS_DIR/boost_1_63_0/lib64-msvc-14.0 -llibboost_filesystem-vc140-mt-gd-1_63 \
             -L$$EXTERNALS_DIR/lzo-2.09/lib/ -llzo2d \
+            -L$$EXTERNALS_DIR/nodtool/build/debug/lib/ -lnod \
+            -L$$EXTERNALS_DIR/nodtool/build/debug/logvisor/ -llogvisor \
             -L$$EXTERNALS_DIR/tinyxml2/lib/ -ltinyxml2d \
             -L$$EXTERNALS_DIR/zlib/lib/ -lzlibd
 
@@ -62,6 +64,8 @@ CONFIG(release, debug|release) {
             -L$$EXTERNALS_DIR/assimp/lib/ -lassimp-vc140-mt \
             -L$$EXTERNALS_DIR/boost_1_63_0/lib64-msvc-14.0 -llibboost_filesystem-vc140-mt-1_63 \
             -L$$EXTERNALS_DIR/lzo-2.09/lib/ -llzo2 \
+            -L$$EXTERNALS_DIR/nodtool/build/release/lib/ -lnod \
+            -L$$EXTERNALS_DIR/nodtool/build/release/logvisor -llogvisor \
             -L$$EXTERNALS_DIR/tinyxml2/lib/ -ltinyxml2 \
             -L$$EXTERNALS_DIR/zlib/lib/ -lzlib
 
@@ -84,6 +88,8 @@ INCLUDEPATH += $$PWE_MAIN_INCLUDE \
                $$EXTERNALS_DIR/glew-2.0.0/include \
                $$EXTERNALS_DIR/glm/glm \
                $$EXTERNALS_DIR/lzo-2.09/include \
+               $$EXTERNALS_DIR/nodtool/include \
+               $$EXTERNALS_DIR/nodtool/logvisor/include \
                $$EXTERNALS_DIR/tinyxml2/include \
                $$EXTERNALS_DIR/zlib/include
 
@@ -174,7 +180,8 @@ HEADERS += \
     ResourceBrowser/CVirtualDirectoryModel.h \
     CEditorApplication.h \
     IEditor.h \
-    Widgets/CResourceSelector.h
+    Widgets/CResourceSelector.h \
+    CExportGameDialog.h
 
 # Source Files
 SOURCES += \
@@ -238,7 +245,8 @@ SOURCES += \
     CProjectOverviewDialog.cpp \
     ResourceBrowser/CResourceBrowser.cpp \
     CEditorApplication.cpp \
-    Widgets/CResourceSelector.cpp
+    Widgets/CResourceSelector.cpp \
+    CExportGameDialog.cpp
 
 # UI Files
 FORMS += \
@@ -262,4 +270,5 @@ FORMS += \
     CharacterEditor/CCharacterEditor.ui \
     WorldEditor/CCollisionRenderSettingsDialog.ui \
     CProjectOverviewDialog.ui \
-    ResourceBrowser/CResourceBrowser.ui
+    ResourceBrowser/CResourceBrowser.ui \
+    CExportGameDialog.ui

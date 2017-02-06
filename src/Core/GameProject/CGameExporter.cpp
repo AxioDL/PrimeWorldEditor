@@ -12,65 +12,77 @@
 #include <Common/Serialization/CXMLWriter.h>
 #include <tinyxml2.h>
 
-#define COPY_DISC_DATA 1
 #define LOAD_PAKS 1
 #define SAVE_PACKAGE_DEFINITIONS 1
 #define USE_ASSET_NAME_MAP 1
 #define EXPORT_COOKED 1
 
-CGameExporter::CGameExporter(const TString& rkInputDir, const TString& rkOutputDir)
+CGameExporter::CGameExporter(EGame Game, ERegion Region, const TString& rkGameName, const TString& rkGameID, float BuildVersion)
+    : mGame(Game)
+    , mRegion(Region)
+    , mGameName(rkGameName)
+    , mGameID(rkGameID)
+    , mBuildVersion(BuildVersion)
 {
-    mGame = eUnknownGame;
-    mBuildVersion = 0.f;
-
-    mGameDir = FileUtil::MakeAbsolute(rkInputDir);
-    mExportDir = FileUtil::MakeAbsolute(rkOutputDir);
-
-    mpProject = new CGameProject(mExportDir);
-    mDiscDir = L"Disc\\";
-    mWorldsDirName = L"Worlds\\";
+    ASSERT(mGame != eUnknownGame);
+    ASSERT(mRegion != eRegion_Unknown);
 }
 
 #if PUBLIC_RELEASE
 #error Fix export directory being cleared!
 #endif
 
-bool CGameExporter::Export()
+bool CGameExporter::Export(nod::DiscBase *pDisc, const TString& rkOutputDir, CAssetNameMap *pNameMap, CGameInfo *pGameInfo)
 {
     SCOPED_TIMER(ExportGame);
 
-    FileUtil::CreateDirectory(mExportDir);
-    FileUtil::ClearDirectory(mExportDir);
+    mpDisc = pDisc;
+    mpNameMap = pNameMap;
+    mpGameInfo = pGameInfo;
 
-    // Initial analyze/copy of disc data
-    CopyDiscData();
-    FindBuildVersion();
+    mExportDir = FileUtil::MakeAbsolute(rkOutputDir);
+    mDiscDir = L"Disc\\";
+    mWorldsDirName = L"Worlds\\";
 
     // Create project
-    mpProject = new CGameProject(this, mExportDir, mGame, mBuildVersion);
-    mpProject->SetProjectName(CMasterTemplate::FindGameName(mGame));
+    FileUtil::MakeDirectory(mExportDir);
+    FileUtil::ClearDirectory(mExportDir);
+
+    // Extract disc
+    if (!ExtractDiscData())
+        return false;
+
+    // Create project
+    CGameProject *pOldActiveProj = CGameProject::ActiveProject();
+
+    mpProject = CGameProject::CreateProjectForExport(
+                this,
+                mExportDir,
+                mGame,
+                mRegion,
+                mGameID,
+                mBuildVersion,
+                mDolPath,
+                mApploaderPath,
+                mPartitionHeaderPath,
+                mFilesystemAddress);
+
+    mpProject->SetProjectName(mGameName);
     mpProject->SetActive();
     mpStore = mpProject->ResourceStore();
     mContentDir = mpStore->RawDir(false);
     mCookedDir = mpStore->CookedDir(false);
 
-#if USE_ASSET_NAME_MAP
-    mNameMap.LoadAssetNames();
-#endif
-
     // Export game data
-    CResourceStore *pOldStore = gpResourceStore;
-    gpResourceStore = mpStore;
-
     LoadPaks();
     ExportCookedResources();
     mpProject->AudioManager()->LoadAssets();
     ExportResourceEditorData();
 
     // Export finished!
+    mProjectPath = mpProject->ProjectPath();
     delete mpProject;
-    gpResourceStore = pOldStore;
-
+    if (pOldActiveProj) pOldActiveProj->SetActive();
     return true;
 }
 
@@ -81,100 +93,85 @@ void CGameExporter::LoadResource(const CAssetID& rkID, std::vector<u8>& rBuffer)
 }
 
 // ************ PROTECTED ************
-void CGameExporter::CopyDiscData()
+bool CGameExporter::ExtractDiscData()
 {
-#if COPY_DISC_DATA
-    SCOPED_TIMER(CopyDiscData);
+    // todo: handle dol, apploader, multiple partitions, wii ticket blob
+    SCOPED_TIMER(ExtractDiscData);
 
     // Create Disc output folder
-    FileUtil::CreateDirectory(mExportDir + mDiscDir);
-#endif
+    TWideString AbsDiscDir = mExportDir + mDiscDir;
+    FileUtil::MakeDirectory(AbsDiscDir);
 
-    // Copy data
-    TWideStringList DiscFiles;
-    FileUtil::GetDirectoryContents(mGameDir, DiscFiles);
+    // Extract disc filesystem
+    nod::Partition *pDataPartition = mpDisc->getDataPartition();
+    nod::ExtractionContext Context;
+    Context.force = false;
+    Context.verbose = false;
+    Context.progressCB = nullptr;
+    bool Success = ExtractDiscNodeRecursive(&pDataPartition->getFSTRoot(), AbsDiscDir, Context);
+    if (!Success) return false;
 
-    for (auto It = DiscFiles.begin(); It != DiscFiles.end(); It++)
+    // Extract dol
+    mDolPath = L"boot.dol";
+    CFileOutStream DolFile(TWideString(mExportDir + mDolPath).ToUTF8().ToStdString());
+    if (!DolFile.IsValid()) return false;
+
+    std::unique_ptr<uint8_t[]> pDolBuffer = pDataPartition->getDOLBuf();
+    DolFile.WriteBytes(pDolBuffer.get(), (u32) pDataPartition->getDOLSize());
+    DolFile.Close();
+
+    // Extract apploader
+    mApploaderPath = L"apploader.img";
+    CFileOutStream ApploaderFile(TWideString(mExportDir + mApploaderPath).ToUTF8().ToStdString());
+    if (!ApploaderFile.IsValid()) return false;
+
+    std::unique_ptr<uint8_t[]> pApploaderBuffer = pDataPartition->getApploaderBuf();
+    ApploaderFile.WriteBytes(pApploaderBuffer.get(), (u32) pDataPartition->getApploaderSize());
+    ApploaderFile.Close();
+
+    // Extract Wii partition header
+    bool IsWii = (mBuildVersion >= 3.f);
+
+    if (IsWii)
     {
-        TWideString FullPath = *It;
-        TWideString RelPath = FullPath.ChopFront(mGameDir.Size());
-
-        // Exclude PakTool files and folders
-        if (FullPath.GetFileName(false) == L"PakTool" || FullPath.GetFileName(false) == L"zlib1" || RelPath.Contains(L"-pak"))
-            continue;
-
-        // Hack to determine game
-        if (mGame == eUnknownGame)
-        {
-            TWideString Name = FullPath.GetFileName(false);
-            if      (Name == L"MetroidCWP")  mGame = ePrimeDemo;
-            else if (Name == L"NESemu")      mGame = ePrime;
-            else if (Name == L"PirateGun")   mGame = eEchoesDemo;
-            else if (Name == L"AtomicBeta")  mGame = eEchoes;
-            else if (Name == L"InGameAudio") mGame = eCorruptionProto;
-            else if (Name == L"GuiDVD")      mGame = eCorruption;
-            else if (Name == L"PreloadData") mGame = eReturns;
-        }
-
-        // Mark dol path. Note size != 0 check is needed because some ISO unpackers (*cough* GCRebuilder) can export bad dol files
-        if (mDolPath.IsEmpty() && FullPath.EndsWith(L".dol", false) && FileUtil::FileSize(FullPath) != 0)
-            mDolPath = FullPath;
-
-        // Detect paks
-        if (FullPath.GetFileExtension().ToLower() == L"pak")
-            mPaks.push_back(FullPath);
-
-#if COPY_DISC_DATA
-        // Create directory
-        TWideString OutFile = mExportDir + mDiscDir + RelPath;
-        FileUtil::CreateDirectory(OutFile.GetFileDirectory());
-
-        // Copy file
-        if (FileUtil::IsFile(FullPath))
-            FileUtil::CopyFile(FullPath, OutFile);
-#endif
+        mFilesystemAddress = 0;
+        mPartitionHeaderPath = L"partition_header.bin";
+        nod::DiscWii *pDiscWii = static_cast<nod::DiscWii*>(mpDisc);
+        Success = pDiscWii->writeOutDataPartitionHeader(*(mExportDir + mPartitionHeaderPath));
+        if (!Success) return false;
     }
+    else
+        mFilesystemAddress = (u32) pDataPartition->getFSTMemoryAddr();
 
-    ASSERT(mGame != eUnknownGame);
+    return true;
 }
 
-void CGameExporter::FindBuildVersion()
+bool CGameExporter::ExtractDiscNodeRecursive(const nod::Node *pkNode, const TWideString& rkDir, const nod::ExtractionContext& rkContext)
 {
-    ASSERT(!mDolPath.IsEmpty());
-
-    // MP1 demo build doesn't have a build version
-    if (mGame == ePrimeDemo) return;
-
-    // Read entire file into a big buffer
-    CFileInStream File(mDolPath.ToUTF8().ToStdString(), IOUtil::eBigEndian);
-    std::vector<char> FileContents(File.Size());
-    File.ReadBytes(FileContents.data(), FileContents.size());
-    File.Close();
-
-    // Find build info string
-    const char *pkSearchText = "!#$MetroidBuildInfo!#$";
-    const int SearchTextSize = strlen(pkSearchText);
-
-    for (u32 SearchIdx = 0; SearchIdx < FileContents.size() - SearchTextSize + 1; SearchIdx++)
+    for (nod::Node::DirectoryIterator Iter = pkNode->begin(); Iter != pkNode->end(); ++Iter)
     {
-        int Match = 0;
-
-        while (FileContents[SearchIdx + Match] == pkSearchText[Match] && Match < SearchTextSize)
-            Match++;
-
-        if (Match == SearchTextSize)
+        if (Iter->getKind() == nod::Node::Kind::File)
         {
-            // Found the build info string; extract version number
-            TString BuildInfo = &FileContents[SearchIdx + SearchTextSize];
-            int BuildVerStart = BuildInfo.IndexOfPhrase("Build v") + 7;
-            ASSERT(BuildVerStart != 6);
+            TWideString FilePath = rkDir + TString(Iter->getName()).ToUTF16();
+            bool Success = Iter->extractToDirectory(*rkDir, rkContext);
+            if (!Success) return false;
 
-            mBuildVersion = BuildInfo.SubString(BuildVerStart, 5).ToFloat();
-            return;
+            if (FilePath.GetFileExtension() == L"pak")
+                mPaks.push_back(FilePath);
+        }
+
+        else
+        {
+            TWideString Subdir = rkDir + TString(Iter->getName()).ToUTF16() + L"\\";
+            bool Success = FileUtil::MakeDirectory(Subdir);
+            if (!Success) return false;
+
+            Success = ExtractDiscNodeRecursive(&*Iter, Subdir, rkContext);
+            if (!Success) return false;
         }
     }
 
-    Log::Error("Failed to find MetroidBuildInfo string. Build Version will be set to 0. DOL file: " + mDolPath.ToUTF8());
+    return true;
 }
 
 // ************ RESOURCE LOADING ************
@@ -183,10 +180,13 @@ void CGameExporter::LoadPaks()
 #if LOAD_PAKS
     SCOPED_TIMER(LoadPaks);
 
+    mPaks.sort([](const TWideString& rkLeft, const TWideString& rkRight) -> bool {
+        return rkLeft.ToUpper() < rkRight.ToUpper();
+    });
+
     for (auto It = mPaks.begin(); It != mPaks.end(); It++)
     {
         TWideString PakPath = *It;
-        TWideString PakName = PakPath.GetFileName(false);
         TString CharPak = PakPath.ToUTF8();
         CFileInStream Pak(CharPak.ToStdString(), IOUtil::eBigEndian);
 
@@ -196,7 +196,7 @@ void CGameExporter::LoadPaks()
             continue;
         }
 
-        CPackage *pPackage = new CPackage(mpProject, CharPak.GetFileName(false), FileUtil::MakeRelative(PakPath.GetFileDirectory(), mGameDir));
+        CPackage *pPackage = new CPackage(mpProject, CharPak.GetFileName(false), FileUtil::MakeRelative(PakPath.GetFileDirectory(), mExportDir + mDiscDir));
         CResourceCollection *pCollection = pPackage->AddCollection("Default");
 
         // MP1-MP3Proto
@@ -448,7 +448,7 @@ void CGameExporter::ExportCookedResources()
 {
     {
         SCOPED_TIMER(ExportCookedResources);
-        FileUtil::CreateDirectory(mCookedDir);
+        FileUtil::MakeDirectory(mCookedDir);
 
         for (auto It = mResourceMap.begin(); It != mResourceMap.end(); It++)
         {
@@ -517,13 +517,20 @@ void CGameExporter::ExportResource(SResourceInstance& rRes)
 
         // Register resource and write to file
         TString Directory, Name;
-        mNameMap.GetNameInfo(rRes.ResourceID, Directory, Name);
+
+#if USE_ASSET_NAME_MAP
+        mpNameMap->GetNameInfo(rRes.ResourceID, Directory, Name);
+#else
+        Directory = "Uncategorized";
+        Name = rRes.ResourceID.ToString();
+#endif
+
         CResourceEntry *pEntry = mpStore->RegisterResource(rRes.ResourceID, CResTypeInfo::TypeForCookedExtension(mGame, rRes.ResourceType)->Type(), Directory, Name);
 
 #if EXPORT_COOKED
         // Save cooked asset
         TWideString OutCookedPath = pEntry->CookedAssetPath();
-        FileUtil::CreateDirectory(OutCookedPath.GetFileDirectory());
+        FileUtil::MakeDirectory(OutCookedPath.GetFileDirectory());
         CFileOutStream Out(OutCookedPath.ToUTF8().ToStdString(), IOUtil::eBigEndian);
 
         if (Out.IsValid())

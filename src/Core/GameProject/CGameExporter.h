@@ -10,17 +10,25 @@
 #include <Common/TString.h>
 #include <Common/types.h>
 #include <map>
+#include <nod/nod.hpp>
 
 class CGameExporter
 {
-    // Project
+    // Project Data
     CGameProject *mpProject;
+    TWideString mProjectPath;
     CResourceStore *mpStore;
     EGame mGame;
+    ERegion mRegion;
+    TString mGameName;
+    TString mGameID;
     float mBuildVersion;
+    TWideString mDolPath;
+    TWideString mApploaderPath;
+    TWideString mPartitionHeaderPath;
+    u32 mFilesystemAddress;
 
     // Directories
-    TWideString mGameDir;
     TWideString mExportDir;
     TWideString mDiscDir;
     TWideString mContentDir;
@@ -29,13 +37,13 @@ class CGameExporter
     TWideString mWorldsDirName;
 
     // Files
-    TWideString mDolPath;
+    nod::DiscBase *mpDisc;
 
     // Resources
     TWideStringList mPaks;
     std::map<CAssetID, bool> mAreaDuplicateMap;
-    CAssetNameMap mNameMap;
-    CGameInfo mGameInfo;
+    CAssetNameMap *mpNameMap;
+    CGameInfo *mpGameInfo;
 
     struct SResourceInstance
     {
@@ -50,13 +58,15 @@ class CGameExporter
     std::map<CAssetID, SResourceInstance> mResourceMap;
 
 public:
-    CGameExporter(const TString& rkInputDir, const TString& rkOutputDir);
-    bool Export();
+    CGameExporter(EGame Game, ERegion Region, const TString& rkGameName, const TString& rkGameID, float BuildVersion);
+    bool Export(nod::DiscBase *pDisc, const TString& rkOutputDir, CAssetNameMap *pNameMap, CGameInfo *pGameInfo);
     void LoadResource(const CAssetID& rkID, std::vector<u8>& rBuffer);
 
+    inline TWideString ProjectPath() const  { return mProjectPath; }
+
 protected:
-    void CopyDiscData();
-    void FindBuildVersion();
+    bool ExtractDiscData();
+    bool ExtractDiscNodeRecursive(const nod::Node *pkNode, const TWideString& rkDir, const nod::ExtractionContext& rkContext);
     void LoadPaks();
     void LoadResource(const SResourceInstance& rkResource, std::vector<u8>& rBuffer);
     void ExportCookedResources();

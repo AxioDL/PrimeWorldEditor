@@ -1,8 +1,11 @@
 #ifndef UICOMMON
 #define UICOMMON
 
+#include "CEditorApplication.h"
 #include <Common/TString.h>
+#include <QFileDialog>
 #include <QMap>
+#include <QMessageBox>
 #include <QString>
 
 // App string variable handling - automatically fill in application name/version
@@ -57,7 +60,54 @@ inline TWideString ToTWideString(const QString& rkStr)
 {
     return TWideString(rkStr.toStdWString());
 }
+
+// QFileDialog wrappers
+// Note: pause editor ticks while file dialogs are open because otherwise there's a bug that makes it really difficult to tab out and back in
+#define PUSH_TICKS_ENABLED \
+    bool TicksEnabled = gpEdApp->AreEditorTicksEnabled(); \
+    gpEdApp->SetEditorTicksEnabled(false);
+#define POP_TICKS_ENABLED \
+    gpEdApp->SetEditorTicksEnabled(TicksEnabled);
+
+inline QString OpenFileDialog(QWidget *pParent, const QString& rkCaption, const QString& rkFilter, const QString& rkStartingDir = "")
+{
+    PUSH_TICKS_ENABLED;
+    QString Result = QFileDialog::getOpenFileName(pParent, rkCaption, rkStartingDir, rkFilter);
+    POP_TICKS_ENABLED;
+    return Result;
 }
+
+inline QStringList OpenFilesDialog(QWidget *pParent, const QString& rkCaption, const QString& rkFilter, const QString& rkStartingDir = "")
+{
+    PUSH_TICKS_ENABLED;
+    QStringList Result = QFileDialog::getOpenFileNames(pParent, rkCaption, rkStartingDir, rkFilter);
+    POP_TICKS_ENABLED;
+    return Result;
+}
+
+inline QString SaveFileDialog(QWidget *pParent, const QString& rkCaption, const QString& rkFilter, const QString& rkStartingDir = "")
+{
+    PUSH_TICKS_ENABLED;
+    QString Result = QFileDialog::getSaveFileName(pParent, rkCaption, rkStartingDir, rkFilter);
+    POP_TICKS_ENABLED;
+    return Result;
+}
+
+inline QString OpenDirDialog(QWidget *pParent, const QString& rkCaption, const QString& rkStartingDir = "")
+{
+    PUSH_TICKS_ENABLED;
+    QString Result = QFileDialog::getExistingDirectory(pParent, rkCaption, rkStartingDir);
+    POP_TICKS_ENABLED;
+    return Result;
+}
+
+// QMessageBox wrappers
+inline void ErrorMsg(QWidget *pParent, QString ErrorText)
+{
+    QMessageBox::warning(pParent, "Error", ErrorText);
+}
+
+} // UICommon Namespace End
 
 #endif // UICOMMON
 
