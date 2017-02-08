@@ -188,7 +188,7 @@ void GenerateAssetNames(CGameProject *pProj)
                     {
                         CMaterialPass *pPass = pMat->Pass(iPass);
 
-                        if (pPass->Texture() && !pPass->Texture()->Entry()->IsCategorized())
+                        if (pPass->Texture())
                             ApplyGeneratedName(pPass->Texture()->Entry(), WorldDir + L"sky\\sourceimages\\", pPass->Texture()->Entry()->Name());
                     }
                 }

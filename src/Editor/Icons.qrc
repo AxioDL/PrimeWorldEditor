@@ -67,5 +67,8 @@
         <file>icons/X_16px.png</file>
         <file>icons/ArrowL_16px.png</file>
         <file>icons/Search_16px.png</file>
+        <file>icons/Open_16px.png</file>
+        <file>icons/New_16px.png</file>
+        <file>icons/Disc_16px.png</file>
     </qresource>
 </RCC>
