@@ -62,6 +62,10 @@ public:
         }
 
         // We couldn't find a matching element, so we can't load this parameter.
+        // If we pushed a parent earlier, undo it.
+        if (!mJustEndedParam)
+            mpCurElem = mpCurElem->Parent()->ToElement();
+
         return false;
     }
 

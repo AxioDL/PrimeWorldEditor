@@ -15,6 +15,7 @@ void CPackage::Load()
     TWideString DefPath = DefinitionPath(false);
     CXMLReader Reader(DefPath.ToUTF8());
     Serialize(Reader);
+    UpdateDependencyCache();
 }
 
 void CPackage::Save()
@@ -28,7 +29,18 @@ void CPackage::Save()
 
 void CPackage::Serialize(IArchive& rArc)
 {
-    rArc << SERIAL_CONTAINER("Collections", mCollections, "ResourceCollection");
+    rArc << SERIAL("NeedsRecook", mNeedsRecook)
+         << SERIAL_CONTAINER("Collections", mCollections, "ResourceCollection");
+}
+
+void CPackage::UpdateDependencyCache()
+{
+    CPackageDependencyListBuilder Builder(this);
+    std::list<CAssetID> AssetList;
+    Builder.BuildDependencyList(false, AssetList);
+
+    for (auto Iter = AssetList.begin(); Iter != AssetList.end(); Iter++)
+        mCachedDependencies.insert(*Iter);
 }
 
 void CPackage::Cook()
@@ -74,18 +86,6 @@ void CPackage::Cook()
         pkRes->ID.Write(Pak);
         Pak.WriteLong(pkRes->Name.Size());
         Pak.WriteString(pkRes->Name.ToStdString(), pkRes->Name.Size()); // Note: Explicitly specifying size means we don't write the terminating 0
-
-        // TEMP: recook world
-        if (pkRes->Type == "MLVL")
-        {
-            CResourceEntry *pEntry = gpResourceStore->FindEntry(pkRes->ID);
-            ASSERT(pEntry);
-            CWorld *pWorld = (CWorld*) pEntry->Load();
-            ASSERT(pWorld);
-            CFileOutStream MLVL(pEntry->CookedAssetPath().ToStdString(), IOUtil::eBigEndian);
-            ASSERT(MLVL.IsValid());
-            CWorldCooker::CookMLVL(pWorld, MLVL);
-        }
     }
 
     // Fill in table of contents with junk, write later
@@ -114,9 +114,13 @@ void CPackage::Cook()
 
     for (auto Iter = AssetList.begin(); Iter != AssetList.end(); Iter++, ResIdx++)
     {
+        // Initialize entry, recook assets if needed
         CAssetID ID = *Iter;
         CResourceEntry *pEntry = gpResourceStore->FindEntry(ID);
         ASSERT(pEntry != nullptr);
+
+        if (pEntry->NeedsRecook())
+            pEntry->Cook();
 
         SResourceTocInfo& rTocInfo = ResourceTocData[ResIdx];
         rTocInfo.pEntry = pEntry;
@@ -200,6 +204,8 @@ void CPackage::Cook()
         Pak.WriteLong(rkTocInfo.Offset);
     }
 
+    mNeedsRecook = false;
+    Save();
     Log::Write("Finished writing " + PakPath.ToUTF8());
 }
 

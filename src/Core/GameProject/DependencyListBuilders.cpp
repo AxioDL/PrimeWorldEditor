@@ -57,7 +57,7 @@ void CCharacterUsageMap::FindUsagesForArea(CWorld *pWorld, u32 AreaIndex)
         mCurrentAreaAllowsDupes = pWorld->DoesAreaAllowPakDuplicates(iArea);
 
         CAssetID AreaID = pWorld->AreaResourceID(iArea);
-        CResourceEntry *pEntry = gpResourceStore->FindEntry(AreaID);
+        CResourceEntry *pEntry = mpStore->FindEntry(AreaID);
         ASSERT(pEntry && pEntry->ResourceType() == eArea);
 
         ParseDependencyNode(pEntry->Dependencies());
@@ -98,7 +98,7 @@ void CCharacterUsageMap::DebugPrintContents()
     {
         CAssetID ID = Iter->first;
         std::vector<bool>& rUsedList = Iter->second;
-        CAnimSet *pSet = (CAnimSet*) gpResourceStore->LoadResource(ID, "ANCS");
+        CAnimSet *pSet = (CAnimSet*) mpStore->LoadResource(ID, "ANCS");
 
         for (u32 iChar = 0; iChar < pSet->NumCharacters(); iChar++)
         {
@@ -152,7 +152,7 @@ void CCharacterUsageMap::ParseDependencyNode(IDependencyNode *pNode)
     else if (Type == eDNT_ResourceDependency || Type == eDNT_ScriptProperty)
     {
         CResourceDependency *pDep = static_cast<CResourceDependency*>(pNode);
-        CResourceEntry *pEntry = gpResourceStore->FindEntry(pDep->ID());
+        CResourceEntry *pEntry = mpStore->FindEntry(pDep->ID());
 
         if (pEntry)
         {
@@ -184,7 +184,7 @@ void CPackageDependencyListBuilder::BuildDependencyList(bool AllowDuplicates, st
         for (u32 iRes = 0; iRes < pCollection->NumResources(); iRes++)
         {
             const SNamedResource& rkRes = pCollection->ResourceByIndex(iRes);
-            CResourceEntry *pEntry = gpResourceStore->FindEntry(rkRes.ID);
+            CResourceEntry *pEntry = mpStore->FindEntry(rkRes.ID);
             if (!pEntry) continue;
 
             if (rkRes.Name.EndsWith("NODEPEND") || rkRes.Type == "CSNG")
@@ -211,7 +211,7 @@ void CPackageDependencyListBuilder::BuildDependencyList(bool AllowDuplicates, st
 void CPackageDependencyListBuilder::AddDependency(CResourceEntry *pCurEntry, const CAssetID& rkID, std::list<CAssetID>& rOut)
 {
     if (pCurEntry && pCurEntry->ResourceType() == eDependencyGroup) return;
-    CResourceEntry *pEntry = gpResourceStore->FindEntry(rkID);
+    CResourceEntry *pEntry = mpStore->FindEntry(rkID);
     if (!pEntry) return;
 
     EResType ResType = pEntry->ResourceType();
@@ -395,7 +395,7 @@ void CAreaDependencyListBuilder::BuildDependencyList(std::list<CAssetID>& rAsset
 
 void CAreaDependencyListBuilder::AddDependency(const CAssetID& rkID, std::list<CAssetID>& rOut, std::set<CAssetID> *pAudioGroupsOut)
 {
-    CResourceEntry *pEntry = gpResourceStore->FindEntry(rkID);
+    CResourceEntry *pEntry = mpStore->FindEntry(rkID);
     if (!pEntry) return;
 
     EResType ResType = pEntry->ResourceType();

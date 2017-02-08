@@ -17,6 +17,7 @@
 #include "Editor/Widgets/WVectorEditor.h"
 #include "Editor/Undo/UndoCommands.h"
 
+#include <Core/GameProject/CGameProject.h>
 #include <Core/Render/CDrawUtil.h>
 #include <Core/Scene/CSceneIterator.h>
 #include <Common/Log.h>
@@ -360,6 +361,9 @@ bool CWorldEditor::Save()
     bool SaveEGMCSuccess = mpArea->PoiToWorldMap() ? mpArea->PoiToWorldMap()->Entry()->Save() : true;
     bool SaveWorldSuccess = mpWorld->Entry()->Save();
 
+    if (SaveAreaSuccess || SaveEGMCSuccess || SaveWorldSuccess)
+        gpEdApp->NotifyAssetsModified();
+
     if (SaveAreaSuccess && SaveEGMCSuccess && SaveWorldSuccess)
     {
         mUndoStack.setClean();
@@ -376,32 +380,8 @@ bool CWorldEditor::Save()
 bool CWorldEditor::SaveAndRepack()
 {
     if (!Save()) return false;
-
-    if (!CanRepack())
-    {
-        CRepackInfoDialog Dialog(mWorldDir, mPakFileList, mPakTarget, this);
-        Dialog.exec();
-
-        if (Dialog.result() == QDialog::Accepted)
-        {
-            SetWorldDir(Dialog.TargetFolder());
-            SetPakFileList(Dialog.ListFile());
-            SetPakTarget(Dialog.OutputPak());
-            if (!CanRepack()) return false;
-        }
-
-        else return false;
-    }
-
-    QString PakOut;
-    CPakToolDialog::EResult Result = CPakToolDialog::Repack(CurrentGame(), mPakTarget, mPakFileList, mWorldDir, &PakOut, this);
-
-    if (Result == CPakToolDialog::eError)
-        QMessageBox::warning(this, "Error", "Failed to repack!");
-    else if (Result == CPakToolDialog::eSuccess)
-        QMessageBox::information(this, "Success", "Successfully saved pak: " + PakOut);
-
-    return (Result == CPakToolDialog::eSuccess);
+    gpEdApp->CookAllDirtyPackages();
+    return true;
 }
 
 void CWorldEditor::OnLinksModified(const QList<CScriptObject*>& rkInstances)

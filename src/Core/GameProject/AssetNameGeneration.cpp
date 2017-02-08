@@ -276,7 +276,7 @@ void GenerateAssetNames(CGameProject *pProj)
                     {
                         TString Name = pInst->InstanceName();
 
-                        if (Name.EndsWith(".SCAN", false))
+                        if (Name.StartsWith("POI_", false))
                         {
                             TIDString ScanIDString = (pProj->Game() <= ePrime ? "0x4:0x0" : "0xBDBEC295:0xB94E9BE7");
                             TAssetProperty *pScanProperty = TPropCast<TAssetProperty>(pInst->PropertyByIDString(ScanIDString));
@@ -289,10 +289,10 @@ void GenerateAssetNames(CGameProject *pProj)
 
                                 if (pEntry && !pEntry->IsNamed())
                                 {
-                                    TWideString ScanName = Name.ToUTF16().ChopBack(5);
+                                    TWideString ScanName = Name.ToUTF16().ChopFront(4);
 
-                                    if (ScanName.StartsWith(L"POI_"))
-                                        ScanName = ScanName.ChopFront(4);
+                                    if (ScanName.EndsWith(L".SCAN", false))
+                                        ScanName = ScanName.ChopBack(5);
 
                                     ApplyGeneratedName(pEntry, pEntry->DirectoryPath(), ScanName);
 
@@ -419,7 +419,7 @@ void GenerateAssetNames(CGameProject *pProj)
     {
         CAudioGroup *pGroup = (CAudioGroup*) It->Load();
         TWideString GroupName = pGroup->GroupName().ToUTF16();
-        ApplyGeneratedName(*It, L"AudioGrp\\", GroupName);
+        ApplyGeneratedName(*It, L"Audio\\", GroupName);
     }
 #endif
 
