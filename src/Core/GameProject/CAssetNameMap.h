@@ -19,11 +19,6 @@ class CAssetNameMap
         TWideString Directory;
         CFourCC Type; // This is mostly just needed to verify no name conflicts
 
-        bool operator<(const SAssetNameInfo& rkOther) const
-        {
-            return FullPath() < rkOther.FullPath();
-        }
-
         TWideString FullPath() const
         {
             return Directory + Name + L'.' + Type.ToString().ToUTF16();
@@ -32,6 +27,16 @@ class CAssetNameMap
         void Serialize(IArchive& rArc)
         {
             rArc << SERIAL_AUTO(Name) << SERIAL_AUTO(Directory) << SERIAL_AUTO(Type);
+        }
+
+        bool operator<(const SAssetNameInfo& rkOther) const
+        {
+            return FullPath().ToUpper() < rkOther.FullPath().ToUpper();
+        }
+
+        bool operator==(const SAssetNameInfo& rkOther) const
+        {
+            return FullPath().CaseInsensitiveCompare(rkOther.FullPath());
         }
     };
 

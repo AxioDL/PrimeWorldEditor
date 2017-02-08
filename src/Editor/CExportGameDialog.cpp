@@ -22,7 +22,7 @@ CExportGameDialog::CExportGameDialog(const QString& rkIsoPath, const QString& rk
     , mGame(eUnknownGame)
     , mRegion(eRegion_Unknown)
     , mTrilogy(false)
-    , mExportSuccess(true)
+    , mExportSuccess(false)
 {
     mpUI->setupUi(this);
 
@@ -91,6 +91,7 @@ void CExportGameDialog::InitUI(QString ExportDir)
     QTreeWidgetItem *pTreeRoot = new QTreeWidgetItem((QTreeWidgetItem*) nullptr, QStringList(QString("Disc")));
     mpUI->DiscFstTreeWidget->addTopLevelItem(pTreeRoot);
     RecursiveAddToTree(pkDiscRoot, pTreeRoot);
+    pTreeRoot->setIcon(0, QIcon(":/icons/Disc_16px.png"));
     pTreeRoot->setExpanded(true);
 
     // Signals and slots
@@ -269,8 +270,8 @@ void RecursiveAddToTree(const nod::Node *pkNode, QTreeWidgetItem *pParent)
     });
 
     // Add nodes to tree
-    static const QIcon skFileIcon = QIcon(":/icons/New.png");
-    static const QIcon skDirIcon = QIcon(":/icons/Open_24px.png");
+    static const QIcon skFileIcon = QIcon(":/icons/New_16px.png");
+    static const QIcon skDirIcon = QIcon(":/icons/Open_16px.png");
 
     for (auto Iter = NodeList.begin(); Iter != NodeList.end(); Iter++)
     {
