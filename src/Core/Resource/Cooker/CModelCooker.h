@@ -22,8 +22,7 @@ class CModelCooker
     void WriteModelPrime(IOutputStream& rOut);
 
 public:
-    static void WriteCookedModel(CModel *pModel, EGame Version, IOutputStream& rOut);
-    static void WriteUncookedModel(CModel *pModel, IOutputStream& rOut);
+    static bool CookCMDL(CModel *pModel, IOutputStream& rOut);
     static u32 GetCMDLVersion(EGame Version);
 };
 

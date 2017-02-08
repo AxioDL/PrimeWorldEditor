@@ -8,7 +8,7 @@ class CPoiToWorldCooker
 {
     CPoiToWorldCooker() {}
 public:
-    static void WriteEGMC(CPoiToWorld *pPoiToWorld, IOutputStream& rOut);
+    static bool CookEGMC(CPoiToWorld *pPoiToWorld, IOutputStream& rOut);
 };
 
 #endif // CPOITOWORLDCOOKER_H

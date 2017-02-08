@@ -18,7 +18,6 @@
 #include "Editor/Undo/UndoCommands.h"
 
 #include <Core/Render/CDrawUtil.h>
-#include <Core/Resource/Cooker/CAreaCooker.h>
 #include <Core/Scene/CSceneIterator.h>
 #include <Common/Log.h>
 
@@ -357,19 +356,19 @@ void CWorldEditor::Paste()
 
 bool CWorldEditor::Save()
 {
-    TString Out = mpArea->FullSource();
-    CFileOutStream MREA(Out.ToStdString(), IOUtil::eBigEndian);
+    bool SaveAreaSuccess = mpArea->Entry()->Save();
+    bool SaveEGMCSuccess = mpArea->PoiToWorldMap() ? mpArea->PoiToWorldMap()->Entry()->Save() : true;
+    bool SaveWorldSuccess = mpWorld->Entry()->Save();
 
-    if (MREA.IsValid())
+    if (SaveAreaSuccess && SaveEGMCSuccess && SaveWorldSuccess)
     {
-        CAreaCooker::WriteCookedArea(mpArea, MREA);
         mUndoStack.setClean();
         setWindowModified(false);
         return true;
     }
     else
     {
-        QMessageBox::warning(this, "Error", "Unable to save error; couldn't open output file " + TO_QSTRING(Out));
+        UICommon::ErrorMsg(this, "Area failed to save!");
         return false;
     }
 }

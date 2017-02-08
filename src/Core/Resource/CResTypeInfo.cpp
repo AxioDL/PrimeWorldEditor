@@ -9,6 +9,7 @@ CResTypeInfo::CResTypeInfo(EResType Type, const TString& rkTypeName)
     , mTypeName(rkTypeName)
     , mHidden(false)
     , mCanBeSerialized(false)
+    , mCanHaveDependencies(true)
 {
 #if !PUBLIC_RELEASE
     ASSERT(smTypeMap.find(Type) == smTypeMap.end());
@@ -34,6 +35,10 @@ bool CResTypeInfo::IsInGame(EGame Game) const
 
 CFourCC CResTypeInfo::CookedExtension(EGame Game) const
 {
+    // Default to MP1
+    if (Game == eUnknownGame)
+        Game = ePrime;
+
     for (u32 iGame = 0; iGame < mCookedExtensions.size(); iGame++)
     {
         if (mCookedExtensions[iGame].Game == Game)
@@ -94,6 +99,26 @@ CResTypeInfo* CResTypeInfo::TypeForCookedExtension(EGame Game, CFourCC Ext)
     return nullptr;
 }
 
+// ************ SERIALIZATION ************
+void Serialize(IArchive& rArc, CResTypeInfo*& rpType)
+{
+    CFourCC Ext;
+
+    if (rArc.IsWriter())
+    {
+        ASSERT(rpType != nullptr);
+        Ext = rpType->CookedExtension(rArc.Game());
+    }
+
+    rArc.SerializePrimitive(Ext);
+
+    if (rArc.IsReader())
+    {
+        rpType = CResTypeInfo::TypeForCookedExtension(rArc.Game(), Ext);
+        ASSERT(rpType != nullptr);
+    }
+}
+
 // ************ CREATION ************
 CResTypeInfo::CResTypeInfoFactory CResTypeInfo::smTypeInfoFactory;
 
@@ -133,6 +158,7 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
         CResTypeInfo *pType = new CResTypeInfo(eAnimCollisionPrimData, "Animation Collision Primitive Data");
         AddExtension(pType, "CPRM", eReturns, eReturns);
         pType->mHidden = true;
+        pType->mCanHaveDependencies = false;
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eAnimEventData, "Animation Event Data");
@@ -147,11 +173,11 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
     {
         CResTypeInfo *pType = new CResTypeInfo(eArea, "Area");
         AddExtension(pType, "MREA", ePrimeDemo, eReturns);
-        pType->mHidden = true;
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eAudioGroup, "Audio Group");
         AddExtension(pType, "AGSC", ePrimeDemo, eEchoes);
+        pType->mCanHaveDependencies = false;
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eAudioMacro, "Audio Macro");
@@ -160,11 +186,13 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
     {
         CResTypeInfo *pType = new CResTypeInfo(eAudioSample, "Audio Sample");
         AddExtension(pType, "CSMP", eCorruptionProto, eReturns);
+        pType->mCanHaveDependencies = false;
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eAudioLookupTable, "Audio Lookup Table");
         AddExtension(pType, "ATBL", ePrimeDemo, eCorruption);
         pType->mHidden = true;
+        pType->mCanHaveDependencies = false;
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eBinaryData, "Generic Data");
@@ -187,6 +215,7 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
     {
         CResTypeInfo *pType = new CResTypeInfo(eDynamicCollision, "Dynamic Collision");
         AddExtension(pType, "DCLN", ePrimeDemo, eReturns);
+        pType->mCanHaveDependencies = false;
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eFont, "Font");
@@ -209,6 +238,7 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
         CResTypeInfo *pType = new CResTypeInfo(eMapArea, "Area Map");
         AddExtension(pType, "MAPA", ePrimeDemo, eCorruption);
         pType->mHidden = true;
+        pType->mCanHaveDependencies = false;
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eMapWorld, "World Map");
@@ -276,11 +306,13 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
         CResTypeInfo *pType = new CResTypeInfo(ePathfinding, "Pathfinding Mesh");
         AddExtension(pType, "PATH", ePrimeDemo, eCorruption);
         pType->mHidden = true;
+        pType->mCanHaveDependencies = false;
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(ePortalArea, "Portal Area");
         AddExtension(pType, "PTLA", eEchoesDemo, eCorruption);
         pType->mHidden = true;
+        pType->mCanHaveDependencies = false;
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eRuleSet, "Rule Set");
@@ -290,11 +322,13 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
         CResTypeInfo *pType = new CResTypeInfo(eSaveArea, "Area Save Info");
         AddExtension(pType, "SAVA", eCorruptionProto, eCorruption);
         pType->mHidden = true;
+        pType->mCanHaveDependencies = false;
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eSaveWorld, "World Save Info");
         AddExtension(pType, "SAVW", ePrime, eReturns);
         pType->mHidden = true;
+        pType->mCanHaveDependencies = false;
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eScan, "Scan");
@@ -305,11 +339,13 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
         AddExtension(pType, "CINF", ePrimeDemo, eReturns);
         pType->mRawExtension = "cin";
         pType->mHidden = true;
+        pType->mCanHaveDependencies = false;
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eSkin, "Skin");
         AddExtension(pType, "CSKR", ePrimeDemo, eReturns);
         pType->mHidden = true;
+        pType->mCanHaveDependencies = false;
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eSourceAnimData, "Source Animation Data");
@@ -319,6 +355,7 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
     {
         CResTypeInfo *pType = new CResTypeInfo(eSpatialPrimitive, "Spatial Primitive");
         AddExtension(pType, "CSPP", eEchoesDemo, eEchoes);
+        pType->mCanHaveDependencies = false;
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eStateMachine, "State Machine");
@@ -336,15 +373,18 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
         CResTypeInfo *pType = new CResTypeInfo(eStaticGeometryMap, "Static Geometry Map");
         AddExtension(pType, "EGMC", eEchoesDemo, eCorruption);
         pType->mHidden = true;
+        pType->mCanHaveDependencies = false;
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eStreamedAudio, "Streamed Audio");
         AddExtension(pType, "STRM", eCorruptionProto, eReturns);
+        pType->mCanHaveDependencies = false;
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eStringList, "String List");
         AddExtension(pType, "STLC", eEchoesDemo, eCorruptionProto);
         pType->mHidden = true;
+        pType->mCanHaveDependencies = false;
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eStringTable, "String Table");
@@ -353,10 +393,12 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
     {
         CResTypeInfo *pType = new CResTypeInfo(eTexture, "Texture");
         AddExtension(pType, "TXTR", ePrimeDemo, eReturns);
+        pType->mCanHaveDependencies = false;
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eTweak, "Tweak Data");
         AddExtension(pType, "CTWK", ePrimeDemo, ePrime);
+        pType->mCanHaveDependencies = false;
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eUnknown_CAAD, "CAAD");
@@ -370,7 +412,6 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
         CResTypeInfo *pType = new CResTypeInfo(eWorld, "World");
         AddExtension(pType, "MLVL", ePrimeDemo, eReturns);
         pType->mRawExtension = "mwld";
-        pType->mHidden = true;
         pType->mCanBeSerialized = true;
     }
 }

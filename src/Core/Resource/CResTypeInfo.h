@@ -23,6 +23,7 @@ class CResTypeInfo
     std::vector<SGameExtension> mCookedExtensions;
     bool mHidden;
     bool mCanBeSerialized;
+    bool mCanHaveDependencies;
 
     static std::unordered_map<EResType, CResTypeInfo*> smTypeMap;
 
@@ -41,6 +42,7 @@ public:
     inline TString RawExtension() const     { return mRawExtension; }
     inline bool IsVisibleInBrowser() const  { return !mHidden; }
     inline bool CanBeSerialized() const     { return mCanBeSerialized; }
+    inline bool CanHaveDependencies() const { return mCanHaveDependencies; }
 
     // Static
     static void GetAllTypesInGame(EGame Game, std::list<CResTypeInfo*>& rOut);
@@ -65,6 +67,9 @@ private:
     };
     static CResTypeInfoFactory smTypeInfoFactory;
 };
+
+// Serialization
+void Serialize(IArchive& rArc, CResTypeInfo*& rpType);
 
 #endif // CRESTYPEINFO
 

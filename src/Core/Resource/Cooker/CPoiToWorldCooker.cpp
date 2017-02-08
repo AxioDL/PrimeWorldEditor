@@ -1,6 +1,6 @@
 #include "CPoiToWorldCooker.h"
 
-void CPoiToWorldCooker::WriteEGMC(CPoiToWorld *pPoiToWorld, IOutputStream& rOut)
+bool CPoiToWorldCooker::CookEGMC(CPoiToWorld *pPoiToWorld, IOutputStream& rOut)
 {
     // Create mappings list
     struct SPoiMapping
@@ -31,4 +31,6 @@ void CPoiToWorldCooker::WriteEGMC(CPoiToWorld *pPoiToWorld, IOutputStream& rOut)
         rOut.WriteLong(Mappings[iMap].MeshID);
         rOut.WriteLong(Mappings[iMap].PoiID);
     }
+
+    return true;
 }

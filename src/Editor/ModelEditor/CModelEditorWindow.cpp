@@ -785,7 +785,7 @@ void CModelEditorWindow::Save()
     }
 
     CFileOutStream CMDLOut(mOutputFilename.toStdString(), IOUtil::eBigEndian);
-    CModelCooker::WriteCookedModel(mpCurrentModel, ePrime, CMDLOut);
+    CModelCooker::CookCMDL(mpCurrentModel, CMDLOut);
     QMessageBox::information(this, "Saved", "Model saved!");
 }
 

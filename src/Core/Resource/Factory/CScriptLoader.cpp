@@ -116,7 +116,14 @@ void CScriptLoader::ReadProperty(IProperty *pProp, u32 Size, IInputStream& rSCLY
     case eAssetProperty:
     {
         TAssetProperty *pAssetCast = static_cast<TAssetProperty*>(pProp);
-        CAssetID ID(rSCLY, mVersion);
+
+        // quick hacky fix - all games set version to DKCR for copy/paste
+        CAssetID ID;
+        if (mVersion == eReturns)
+            ID = CAssetID(rSCLY, (EIDLength) Size);
+        else
+            ID = CAssetID(rSCLY, mVersion);
+
         pAssetCast->Set(ID);
 
         // Verify this is a valid resource type for this property

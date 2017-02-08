@@ -308,7 +308,7 @@ void CAreaCooker::FinishBlock()
 }
 
 // ************ STATIC ************
-void CAreaCooker::WriteCookedArea(CGameArea *pArea, IOutputStream& rOut)
+bool CAreaCooker::CookMREA(CGameArea *pArea, IOutputStream& rOut)
 {
     CAreaCooker Cooker;
     Cooker.mpArea = pArea;
@@ -349,6 +349,7 @@ void CAreaCooker::WriteCookedArea(CGameArea *pArea, IOutputStream& rOut)
         Cooker.WriteCorruptionHeader(rOut);
 
     Cooker.WriteAreaData(rOut);
+    return true;
 }
 
 u32 CAreaCooker::GetMREAVersion(EGame Version)

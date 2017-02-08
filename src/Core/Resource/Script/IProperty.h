@@ -144,8 +144,7 @@ class TSoundProperty : public TTypedProperty<u32, eSoundProperty, CSoundValue>
 public:
     IMPLEMENT_PROPERTY_CTORS(TSoundProperty, u32)
     IMPLEMENT_PROPERTY_CLONE(TSoundProperty)
-    virtual bool MatchesDefault()   { return Get() == -1; }
-    virtual bool ShouldCook()       { return MatchesDefault(); }
+    virtual bool MatchesDefault()   { return Get() == 0xFFFFFFFF; }
 };
 
 class TAssetProperty : public TTypedProperty<CAssetID, eAssetProperty, CAssetValue>

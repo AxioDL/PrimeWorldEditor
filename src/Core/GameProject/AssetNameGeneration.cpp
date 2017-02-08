@@ -444,7 +444,7 @@ void GenerateAssetNames(CGameProject *pProj)
 
             if (pkChar->IceModel.IsValid() || pkChar->IceSkin.IsValid())
             {
-                TWideString IceName = TWideString::Format(L"%s_IceOverlay", *CharName);
+                TWideString IceName = TWideString::Format(L"%s_frozen", *CharName);
 
                 if (pkChar->IceModel.IsValid())
                 {
