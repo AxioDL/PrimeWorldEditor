@@ -497,7 +497,10 @@ void CGameExporter::ExportResourceEditorData()
                 }
 
                 // Save raw resource + generate dependencies
-                It->Save(true);
+                if (It->TypeInfo()->CanBeSerialized())
+                    It->Save(true);
+                else
+                    It->UpdateDependencies();
             }
         }
     }

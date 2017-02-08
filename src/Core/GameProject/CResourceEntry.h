@@ -59,6 +59,7 @@ public:
     bool NeedsRecook() const;
     void SetGame(EGame NewGame);
     bool Save(bool SkipCacheSave = false);
+    bool Cook();
     CResource* Load();
     CResource* LoadCooked(IInputStream& rInput);
     bool Unload();

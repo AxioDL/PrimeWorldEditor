@@ -227,7 +227,8 @@ HEADERS += \
     GameProject/CAssetNameMap.h \
     GameProject/AssetNameGeneration.h \
     GameProject/CGameInfo.h \
-    Resource/CResTypeInfo.h
+    Resource/CResTypeInfo.h \
+    Resource/Cooker/CResourceCooker.h
 
 # Source Files
 SOURCES += \

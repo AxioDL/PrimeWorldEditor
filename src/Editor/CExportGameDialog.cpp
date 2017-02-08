@@ -324,13 +324,25 @@ void CExportGameDialog::Export()
         if (Button != QMessageBox::Ok) return;
     }
 
-    // Verify name map path and game info path
+    // Verify name map is valid
     if (!NameMapPath.isEmpty() && !FileUtil::Exists(TO_TSTRING(NameMapPath)))
     {
         UICommon::ErrorMsg(this, "The Asset Name Map path is invalid!");
         return;
     }
 
+    CAssetNameMap NameMap;
+
+    if (!NameMapPath.isEmpty())
+        NameMap.LoadAssetNames( TO_TSTRING(NameMapPath) );
+
+    if (!NameMap.IsValid())
+    {
+        UICommon::ErrorMsg(this, "The Asset Name Map is invalid and cannot be used! See the log for more information.");
+        return;
+    }
+
+    // Verify game info is valid
     if (!GameInfoPath.isEmpty() && !FileUtil::Exists(TO_TSTRING(GameInfoPath)))
     {
         UICommon::ErrorMsg(this, "The Game Editor Info path is invalid!");
@@ -339,10 +351,6 @@ void CExportGameDialog::Export()
 
     // Do export
     close();
-
-    CAssetNameMap NameMap;
-    if (!NameMapPath.isEmpty())
-        NameMap.LoadAssetNames( TO_TSTRING(NameMapPath) );
 
     CGameInfo GameInfo;
     if (!GameInfoPath.isEmpty())

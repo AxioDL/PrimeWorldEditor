@@ -17,27 +17,40 @@ class CAssetNameMap
     {
         TWideString Name;
         TWideString Directory;
+        CFourCC Type; // This is mostly just needed to verify no name conflicts
+
+        bool operator<(const SAssetNameInfo& rkOther) const
+        {
+            return FullPath() < rkOther.FullPath();
+        }
+
+        TWideString FullPath() const
+        {
+            return Directory + Name + L'.' + Type.ToString().ToUTF16();
+        }
 
         void Serialize(IArchive& rArc)
         {
-            rArc << SERIAL_AUTO(Name) << SERIAL_AUTO(Directory);
+            rArc << SERIAL_AUTO(Name) << SERIAL_AUTO(Directory) << SERIAL_AUTO(Type);
         }
     };
 
+    std::set<SAssetNameInfo> mUsedSet; // Used to prevent name conflicts
     std::map<CAssetID, SAssetNameInfo> mMap;
+    bool mIsValid;
 
     // Private Methods
-    void Serialize(IArchive& rArc)
-    {
-        rArc << SERIAL_CONTAINER("AssetNameMap", mMap, "Asset");
-    }
+    void Serialize(IArchive& rArc);
+    void PostLoadValidate();
 
 public:
+    CAssetNameMap() : mIsValid(true) {}
     void LoadAssetNames(TString Path = gkAssetMapPath);
     void SaveAssetNames(TString Path = gkAssetMapPath);
     bool GetNameInfo(CAssetID ID, TString& rOutDirectory, TString& rOutName);
     void CopyFromStore(CResourceStore *pStore);
 
+    inline bool IsValid() const                 { return mIsValid; }
     inline static TString DefaultNameMapPath()  { return gkAssetMapPath; }
     inline static TString GetExtension()        { return gkAssetMapExt; }
 };

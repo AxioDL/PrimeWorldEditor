@@ -526,6 +526,11 @@ public:
         return (IndexOfPhrase(Str, CaseSensitive) != -1);
     }
 
+    bool Contains(CharType Chr) const
+    {
+        return IndexOf(Chr) != -1;
+    }
+
     bool IsHexString(bool RequirePrefix = false, u32 Width = -1) const
     {
         _TString Str(*this);

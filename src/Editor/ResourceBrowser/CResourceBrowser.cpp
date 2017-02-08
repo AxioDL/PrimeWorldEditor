@@ -341,11 +341,15 @@ void CResourceBrowser::ExportAssetNames()
 {
     QString OutFile = UICommon::SaveFileDialog(this, "Export asset name map", "*.xml", "../resources/gameinfo/");
     if (OutFile.isEmpty()) return;
+    TString OutFileStr = TO_TSTRING(OutFile);
 
     CAssetNameMap NameMap;
-    NameMap.LoadAssetNames();
+
+    if (FileUtil::Exists(OutFileStr))
+        NameMap.LoadAssetNames(OutFileStr);
+
     NameMap.CopyFromStore(mpStore);
-    NameMap.SaveAssetNames();
+    NameMap.SaveAssetNames(OutFileStr);
 }
 
 void CResourceBrowser::UpdateFilter()

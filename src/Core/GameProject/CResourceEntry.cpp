@@ -2,6 +2,7 @@
 #include "CGameProject.h"
 #include "CResourceStore.h"
 #include "Core/Resource/CResource.h"
+#include "Core/Resource/Cooker/CResourceCooker.h"
 #include "Core/Resource/Factory/CResourceFactory.h"
 #include <FileIO/FileIO.h>
 #include <Common/FileUtil.h>
@@ -59,9 +60,7 @@ void CResourceEntry::UpdateDependencies()
         mpDependencies = nullptr;
     }
 
-    // todo: more robust method of skipping dependency updates. For now just skip the most
-    // time-consuming type that can't have dependencies (textures).
-    if (ResourceType() == eTexture)
+    if (!mpTypeInfo->CanHaveDependencies())
     {
         mpDependencies = new CDependencyTree(ID());
         return;
@@ -79,6 +78,8 @@ void CResourceEntry::UpdateDependencies()
     }
 
     mpDependencies = mpResource->BuildDependencyTree();
+    mpStore->SetCacheDataDirty();
+
     if (!WasLoaded)
         mpStore->DestroyUnreferencedResources();
 }
@@ -196,6 +197,20 @@ bool CResourceEntry::Save(bool SkipCacheSave /*= false*/)
         SerialName.RemoveWhitespace();
         CXMLWriter Writer(Path, SerialName, 0, mGame);
         mpResource->Serialize(Writer);
+
+        mFlags |= eREF_NeedsRecook;
+    }
+
+    // This resource type doesn't have a raw format; save cooked instead
+    else
+    {
+        bool CookSuccess = Cook();
+
+        if (!CookSuccess)
+        {
+            Log::Error("Failed to save resource: " + Name().ToUTF8() + "." + CookedExtension().ToString());
+            return false;
+        }
     }
 
     // Resource has been saved, now update dependencies + cache file
@@ -209,6 +224,31 @@ bool CResourceEntry::Save(bool SkipCacheSave /*= false*/)
         mpStore->DestroyUnreferencedResources();
 
     return true;
+}
+
+bool CResourceEntry::Cook()
+{
+    Load();
+    if (!mpResource) return false;
+
+    TString Path = CookedAssetPath();
+    TString Dir = Path.GetFileDirectory();
+    FileUtil::MakeDirectory(Dir);
+
+    // Attempt to open output cooked file
+    CFileOutStream File(Path.ToStdString(), IOUtil::eBigEndian);
+    if (!File.IsValid())
+    {
+        Log::Error("Failed to open cooked file for writing: " + Path);
+        return false;
+    }
+
+    bool Success = CResourceCooker::CookResource(this, File);
+
+    if (Success)
+        mFlags.ClearFlag(eREF_NeedsRecook);
+
+    return Success;
 }
 
 CResource* CResourceEntry::Load()

@@ -66,13 +66,13 @@ void CResourceStore::SerializeResourceDatabase(IArchive& rArc)
     struct SDatabaseResource
     {
         CAssetID ID;
-        CFourCC Type;
+        CResTypeInfo *pType;
         TWideString Directory;
         TWideString Name;
 
         void Serialize(IArchive& rArc)
         {
-            rArc << SERIAL_AUTO(ID) << SERIAL_AUTO(Type) << SERIAL_AUTO(Directory) << SERIAL_AUTO(Name);
+            rArc << SERIAL_AUTO(ID) << SERIAL("Type", pType) << SERIAL_AUTO(Directory) << SERIAL_AUTO(Name);
         }
     };
     std::vector<SDatabaseResource> Resources;
@@ -85,7 +85,7 @@ void CResourceStore::SerializeResourceDatabase(IArchive& rArc)
         for (CResourceIterator It(this); It; ++It)
         {
             if (!It->IsTransient())
-                Resources.push_back( SDatabaseResource { It->ID(), It->CookedExtension(), It->Directory()->FullPath(), It->Name() } );
+                Resources.push_back( SDatabaseResource { It->ID(), It->TypeInfo(), It->Directory()->FullPath(), It->Name() } );
         }
     }
 
@@ -100,7 +100,7 @@ void CResourceStore::SerializeResourceDatabase(IArchive& rArc)
         for (auto Iter = Resources.begin(); Iter != Resources.end(); Iter++)
         {
             SDatabaseResource& rRes = *Iter;
-            RegisterResource(rRes.ID, CResTypeInfo::TypeForCookedExtension(rArc.Game(), rRes.Type)->Type(), rRes.Directory, rRes.Name);
+            RegisterResource(rRes.ID, rRes.pType->Type(), rRes.Directory, rRes.Name);
         }
     }
 }

@@ -190,7 +190,7 @@ void CPoiMapEditDialog::Save()
 
     if (Out.IsValid())
     {
-        CPoiToWorldCooker::WriteEGMC(pPoiToWorld, Out);
+        CPoiToWorldCooker::CookEGMC(pPoiToWorld, Out);
         QMessageBox::information(this, "Saved", QString("Saved to %1!").arg(TO_QSTRING(pPoiToWorld->Source())));
     }
     else

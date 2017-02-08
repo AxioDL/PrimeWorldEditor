@@ -63,7 +63,7 @@ class CAreaCooker
     void FinishBlock();
 
 public:
-    static void WriteCookedArea(CGameArea *pArea, IOutputStream& rOut);
+    static bool CookMREA(CGameArea *pArea, IOutputStream& rOut);
     static u32 GetMREAVersion(EGame Version);
 };
 

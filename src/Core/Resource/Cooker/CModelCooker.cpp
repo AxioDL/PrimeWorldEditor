@@ -224,25 +224,24 @@ void CModelCooker::WriteModelPrime(IOutputStream& rOut)
     // Done!
 }
 
-void CModelCooker::WriteCookedModel(CModel *pModel, EGame Version, IOutputStream& rOut)
+bool CModelCooker::CookCMDL(CModel *pModel, IOutputStream& rOut)
 {
     CModelCooker Cooker;
     Cooker.mpModel = pModel;
-    Cooker.mVersion = Version;
+    Cooker.mVersion = pModel->Game();
 
-    switch (Version)
+    switch (pModel->Game())
     {
     case ePrimeDemo:
     case ePrime:
     case eEchoesDemo:
     case eEchoes:
         Cooker.WriteModelPrime(rOut);
-        break;
-    }
-}
+        return true;
 
-void CModelCooker::WriteUncookedModel(CModel* /*pModel*/, IOutputStream& /*rOut*/)
-{
+    default:
+        return false;
+    }
 }
 
 u32 CModelCooker::GetCMDLVersion(EGame Version)
