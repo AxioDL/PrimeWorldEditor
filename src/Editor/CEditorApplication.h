@@ -31,6 +31,8 @@ public:
     ~CEditorApplication();
     void InitEditor();
     void EditResource(CResourceEntry *pEntry);
+    void NotifyAssetsModified();
+    void CookAllDirtyPackages();
 
     // Accessors
     inline CWorldEditor* WorldEditor() const                { return mpWorldEditor; }
@@ -44,6 +46,9 @@ public slots:
     void AddEditor(IEditor *pEditor);
     void TickEditors();
     void OnEditorClose();
+
+signals:
+    void AssetsModified();
 };
 
 #define gpEdApp static_cast<CEditorApplication*>(qApp)

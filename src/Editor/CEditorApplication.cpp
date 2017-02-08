@@ -84,6 +84,26 @@ void CEditorApplication::EditResource(CResourceEntry *pEntry)
     }
 }
 
+void CEditorApplication::NotifyAssetsModified()
+{
+    emit AssetsModified();
+}
+
+void CEditorApplication::CookAllDirtyPackages()
+{
+    CGameProject *pProj = CGameProject::ActiveProject();
+
+    for (u32 iPkg = 0; iPkg < pProj->NumPackages(); iPkg++)
+    {
+        CPackage *pPackage = pProj->PackageByIndex(iPkg);
+
+        if (pPackage->NeedsRecook())
+            pPackage->Cook();
+    }
+
+    mpProjectDialog->SetupPackagesList();
+}
+
 void CEditorApplication::AddEditor(IEditor *pEditor)
 {
     mEditorWindows << pEditor;

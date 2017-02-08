@@ -57,6 +57,12 @@ void CGameProject::Serialize(IArchive& rArc)
 
     if (rArc.IsReader())
     {
+        // Load resource store
+        ASSERT(mpResourceStore == nullptr);
+        mpResourceStore = new CResourceStore(this);
+        mpResourceStore->LoadResourceDatabase();
+
+        // Load packages
         for (u32 iPkg = 0; iPkg < mPackages.size(); iPkg++)
             delete mPackages[iPkg];
         mPackages.clear();
@@ -169,8 +175,6 @@ CGameProject* CGameProject::LoadProject(const TWideString& rkProjPath)
     pProj->Serialize(Reader);
     CTemplateLoader::LoadGameTemplates(pProj->mGame);
 
-    pProj->mpResourceStore = new CResourceStore(pProj);
-    pProj->mpResourceStore->LoadResourceDatabase();
     pProj->mpGameInfo->LoadGameInfo(pProj->mGame);
     pProj->mpAudioManager->LoadAssets();
     return pProj;

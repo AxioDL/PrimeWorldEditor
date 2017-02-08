@@ -50,6 +50,8 @@ class CPackage
     TString mPakName;
     TWideString mPakPath;
     std::vector<CResourceCollection*> mCollections;
+    std::set<CAssetID> mCachedDependencies;
+    bool mNeedsRecook;
 
     enum EPackageDefinitionVersion
     {
@@ -66,11 +68,13 @@ public:
         : mpProject(pProj)
         , mPakName(rkName)
         , mPakPath(rkPath)
+        , mNeedsRecook(false)
     {}
 
     void Load();
     void Save();
     void Serialize(IArchive& rArc);
+    void UpdateDependencyCache();
 
     void Cook();
     void CompareOriginalAssetList(const std::list<CAssetID>& rkNewList);
@@ -88,8 +92,11 @@ public:
     inline CGameProject* Project() const                            { return mpProject; }
     inline u32 NumCollections() const                               { return mCollections.size(); }
     inline CResourceCollection* CollectionByIndex(u32 Idx) const    { return mCollections[Idx]; }
+    inline bool ContainsAsset(const CAssetID& rkID) const           { return mCachedDependencies.find(rkID) != mCachedDependencies.end(); }
+    inline bool NeedsRecook() const                                 { return mNeedsRecook; }
 
     inline void SetPakName(TString NewName) { mPakName = NewName; }
+    inline void MarkDirty()                 { mNeedsRecook = true; Save(); UpdateDependencyCache(); }
 };
 
 #endif // CPACKAGE

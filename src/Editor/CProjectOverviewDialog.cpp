@@ -22,6 +22,8 @@ CProjectOverviewDialog::CProjectOverviewDialog(QWidget *pParent)
     connect(mpUI->LaunchEditorButton, SIGNAL(clicked()), this, SLOT(LaunchEditor()));
     connect(mpUI->ViewResourcesButton, SIGNAL(clicked()), this, SLOT(LaunchResourceBrowser()));
     connect(mpUI->CookPackageButton, SIGNAL(clicked()), this, SLOT(CookPackage()));
+
+    connect(gpEdApp, SIGNAL(AssetsModified()), this, SLOT(SetupPackagesList()));
 }
 
 CProjectOverviewDialog::~CProjectOverviewDialog()
@@ -113,7 +115,10 @@ void CProjectOverviewDialog::SetupPackagesList()
     {
         CPackage *pPackage = mpProject->PackageByIndex(iPkg);
         ASSERT(pPackage != nullptr);
-        mpUI->PackagesList->addItem(TO_QSTRING(pPackage->Name()));
+
+        QString PackageName = TO_QSTRING(pPackage->Name());
+        if (pPackage->NeedsRecook()) PackageName += '*';
+        mpUI->PackagesList->addItem(PackageName);
     }
 }
 

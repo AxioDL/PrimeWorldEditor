@@ -34,6 +34,24 @@ bool CAssetNameMap::GetNameInfo(CAssetID ID, TString& rOutDirectory, TString& rO
 
 void CAssetNameMap::CopyFromStore(CResourceStore *pStore /*= gpResourceStore*/)
 {
+    // Do a first pass to remove old paths from used set to prevent false positives from eg. if two resources switch places
+    for (CResourceIterator It(pStore); It; ++It)
+    {
+        if (It->IsCategorized() || It->IsNamed())
+        {
+            auto Find = mMap.find(It->ID());
+
+            if (Find != mMap.end())
+            {
+                SAssetNameInfo& rInfo = Find->second;
+                auto UsedFind = mUsedSet.find(rInfo);
+                ASSERT(UsedFind != mUsedSet.end());
+                mUsedSet.erase(UsedFind);
+            }
+        }
+    }
+
+    // Do a second pass to add the new paths to the map
     for (CResourceIterator It(pStore); It; ++It)
     {
         if (It->IsCategorized() || It->IsNamed())
@@ -43,17 +61,6 @@ void CAssetNameMap::CopyFromStore(CResourceStore *pStore /*= gpResourceStore*/)
             TWideString Directory = It->Directory()->FullPath();
             CFourCC Type = It->CookedExtension();
             SAssetNameInfo NameInfo { Name, Directory, Type };
-
-            // Remove old path from used set
-            auto Find = mMap.find(ID);
-
-            if (Find != mMap.end())
-            {
-                SAssetNameInfo& rInfo = Find->second;
-                auto UsedFind = mUsedSet.find(rInfo);
-                ASSERT(UsedFind != mUsedSet.end());
-                mUsedSet.erase(UsedFind);
-            }
 
             // Check for conflicts with new name
             if (mUsedSet.find(NameInfo) != mUsedSet.end())

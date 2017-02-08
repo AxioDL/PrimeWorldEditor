@@ -12,12 +12,16 @@ class CCharacterUsageMap
 {
     std::map<CAssetID, std::vector<bool>> mUsageMap;
     std::set<CAssetID> mStillLookingIDs;
+    CResourceStore *mpStore;
     u32 mLayerIndex;
     bool mIsInitialArea;
     bool mCurrentAreaAllowsDupes;
 
 public:
-    CCharacterUsageMap() : mLayerIndex(-1), mIsInitialArea(true), mCurrentAreaAllowsDupes(false) {}
+    CCharacterUsageMap(CResourceStore *pStore)
+        : mpStore(pStore), mLayerIndex(-1), mIsInitialArea(true), mCurrentAreaAllowsDupes(false)
+    {}
+
     bool IsCharacterUsed(const CAssetID& rkID, u32 CharacterIndex) const;
     bool IsAnimationUsed(const CAssetID& rkID, CSetAnimationDependency *pAnim) const;
     void FindUsagesForAsset(CResourceEntry *pEntry);
@@ -35,6 +39,7 @@ protected:
 class CPackageDependencyListBuilder
 {
     CPackage *mpPackage;
+    CResourceStore *mpStore;
     EGame mGame;
     TResPtr<CWorld> mpWorld;
     CAssetID mCurrentAnimSetID;
@@ -49,9 +54,12 @@ public:
     CPackageDependencyListBuilder(CPackage *pPackage)
         : mpPackage(pPackage)
         , mGame(pPackage->Project()->Game())
+        , mpStore(pPackage->Project()->ResourceStore())
+        , mCharacterUsageMap(pPackage->Project()->ResourceStore())
         , mCurrentAreaHasDuplicates(false)
         , mIsPlayerActor(false)
-    {}
+    {
+    }
 
     void BuildDependencyList(bool AllowDuplicates, std::list<CAssetID>& rOut);
     void AddDependency(CResourceEntry *pCurEntry, const CAssetID& rkID, std::list<CAssetID>& rOut);
@@ -62,6 +70,7 @@ public:
 class CAreaDependencyListBuilder
 {
     CResourceEntry *mpAreaEntry;
+    CResourceStore *mpStore;
     EGame mGame;
     CAssetID mCurrentAnimSetID;
     CCharacterUsageMap mCharacterUsageMap;
@@ -72,7 +81,9 @@ class CAreaDependencyListBuilder
 public:
     CAreaDependencyListBuilder(CResourceEntry *pAreaEntry)
         : mpAreaEntry(pAreaEntry)
+        , mpStore(pAreaEntry->ResourceStore())
         , mGame(pAreaEntry->Game())
+        , mCharacterUsageMap(pAreaEntry->ResourceStore())
     {
         ASSERT(mpAreaEntry->ResourceType() == eArea);
     }

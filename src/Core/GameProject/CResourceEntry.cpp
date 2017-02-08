@@ -213,12 +213,23 @@ bool CResourceEntry::Save(bool SkipCacheSave /*= false*/)
         }
     }
 
-    // Resource has been saved, now update dependencies + cache file
+    // Resource has been saved; now make sure dependencies, cache data, and packages are all up to date
     UpdateDependencies();
     mpStore->SetCacheDataDirty();
 
     if (!SkipCacheSave)
+    {
         mpStore->ConditionalSaveStore();
+
+        // Flag dirty any packages that contain this resource.
+        for (u32 iPkg = 0; iPkg < mpStore->Project()->NumPackages(); iPkg++)
+        {
+            CPackage *pPkg = mpStore->Project()->PackageByIndex(iPkg);
+
+            if (pPkg->ContainsAsset(ID()))
+                pPkg->MarkDirty();
+        }
+    }
 
     if (ShouldCollectGarbage)
         mpStore->DestroyUnreferencedResources();
