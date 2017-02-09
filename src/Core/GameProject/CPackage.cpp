@@ -49,7 +49,7 @@ void CPackage::Cook()
     CPackageDependencyListBuilder Builder(this);
     std::list<CAssetID> AssetList;
     Builder.BuildDependencyList(true, AssetList);
-    Log::Write(TString::FromInt32(AssetList.size(), 0, 10) + " assets in pak");
+    Log::Write(TString::FromInt32(AssetList.size(), 0, 10) + " assets in " + Name() + ".pak");
 
     // Get named resources
     std::list<const SNamedResource*> NamedResources;
@@ -207,6 +207,9 @@ void CPackage::Cook()
     mNeedsRecook = false;
     Save();
     Log::Write("Finished writing " + PakPath.ToUTF8());
+
+    // Update resource store in case we recooked any assets
+    mpProject->ResourceStore()->ConditionalSaveStore();
 }
 
 void CPackage::CompareOriginalAssetList(const std::list<CAssetID>& rkNewList)

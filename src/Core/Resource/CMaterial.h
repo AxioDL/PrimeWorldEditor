@@ -72,6 +72,14 @@ private:
 
     std::vector<CMaterialPass*> mPasses;
 
+    // Reuse shaders between materials that have identical TEV setups
+    struct SMaterialShader
+    {
+        int NumReferences;
+        CShader *pShader;
+    };
+    static std::map<u64, SMaterialShader> smShaderMap;
+
 public:
     CMaterial();
     CMaterial(EGame Version, FVertexDescription VtxDesc);
@@ -79,6 +87,7 @@ public:
 
     CMaterial* Clone();
     void GenerateShader(bool AllowRegen = true);
+    void ClearShader();
     bool SetCurrent(FRenderOptions Options);
     u64 HashParameters();
     void Update();

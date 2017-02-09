@@ -125,6 +125,13 @@
           </property>
          </widget>
         </item>
+        <item>
+         <widget class="QPushButton" name="CookAllDirtyPackagesButton">
+          <property name="text">
+           <string>Cook All Dirty Packages</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
      </item>

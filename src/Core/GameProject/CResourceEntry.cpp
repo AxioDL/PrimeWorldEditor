@@ -214,6 +214,8 @@ bool CResourceEntry::Save(bool SkipCacheSave /*= false*/)
     }
 
     // Resource has been saved; now make sure dependencies, cache data, and packages are all up to date
+    mFlags |= eREF_HasBeenModified;
+
     UpdateDependencies();
     mpStore->SetCacheDataDirty();
 
@@ -257,7 +259,11 @@ bool CResourceEntry::Cook()
     bool Success = CResourceCooker::CookResource(this, File);
 
     if (Success)
-        mFlags.ClearFlag(eREF_NeedsRecook);
+    {
+        mFlags &= ~eREF_NeedsRecook;
+        mFlags |= eREF_HasBeenModified;
+        mpStore->SetCacheDataDirty();
+    }
 
     return Success;
 }
@@ -281,6 +287,7 @@ CResource* CResourceEntry::Load()
 
             CXMLReader Reader(RawAssetPath());
             mpResource->Serialize(Reader);
+            mpStore->TrackLoadedResource(this);
 
             gpResourceStore = pOldStore;
         }

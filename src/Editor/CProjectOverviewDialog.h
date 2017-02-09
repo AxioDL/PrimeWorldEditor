@@ -34,6 +34,7 @@ public slots:
     void LaunchEditor();
     void LaunchResourceBrowser();
     void CookPackage();
+    void CookAllDirtyPackages();
 
     void SetupWorldsList();
     void SetupPackagesList();

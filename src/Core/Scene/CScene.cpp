@@ -26,6 +26,7 @@ CScene::CScene()
 CScene::~CScene()
 {
     ClearScene();
+    delete mpSceneRootNode;
 }
 
 bool CScene::IsNodeIDUsed(u32 ID) const
