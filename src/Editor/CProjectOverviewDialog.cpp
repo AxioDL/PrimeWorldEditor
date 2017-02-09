@@ -22,6 +22,7 @@ CProjectOverviewDialog::CProjectOverviewDialog(QWidget *pParent)
     connect(mpUI->LaunchEditorButton, SIGNAL(clicked()), this, SLOT(LaunchEditor()));
     connect(mpUI->ViewResourcesButton, SIGNAL(clicked()), this, SLOT(LaunchResourceBrowser()));
     connect(mpUI->CookPackageButton, SIGNAL(clicked()), this, SLOT(CookPackage()));
+    connect(mpUI->CookAllDirtyPackagesButton, SIGNAL(clicked(bool)), this, SLOT(CookAllDirtyPackages()));
 
     connect(gpEdApp, SIGNAL(AssetsModified()), this, SLOT(SetupPackagesList()));
 }
@@ -176,6 +177,7 @@ void CProjectOverviewDialog::LaunchEditor()
 void CProjectOverviewDialog::LaunchResourceBrowser()
 {
     gpEdApp->ResourceBrowser()->show();
+    gpEdApp->ResourceBrowser()->raise();
 }
 
 void CProjectOverviewDialog::CookPackage()
@@ -183,4 +185,11 @@ void CProjectOverviewDialog::CookPackage()
     u32 PackageIdx = mpUI->PackagesList->currentRow();
     CPackage *pPackage = mpProject->PackageByIndex(PackageIdx);
     pPackage->Cook();
+    SetupPackagesList();
+}
+
+void CProjectOverviewDialog::CookAllDirtyPackages()
+{
+    gpEdApp->CookAllDirtyPackages();
+    SetupPackagesList();
 }

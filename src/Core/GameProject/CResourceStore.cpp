@@ -14,6 +14,7 @@ using namespace tinyxml2;
 CResourceStore *gpResourceStore = nullptr;
 CResourceStore *gpEditorStore = nullptr;
 
+// Constructor for editor store
 CResourceStore::CResourceStore(const TWideString& rkDatabasePath)
     : mpProj(nullptr)
     , mGame(eUnknownGame)
@@ -26,6 +27,7 @@ CResourceStore::CResourceStore(const TWideString& rkDatabasePath)
     mDatabaseName = rkDatabasePath.GetFileName();
 }
 
+// Constructor for game exporter
 CResourceStore::CResourceStore(CGameProject *pProject, CGameExporter *pExporter, const TWideString& rkRawDir, const TWideString& rkCookedDir, EGame Game)
     : mpProj(nullptr)
     , mGame(Game)
@@ -38,6 +40,7 @@ CResourceStore::CResourceStore(CGameProject *pProject, CGameExporter *pExporter,
     SetProject(pProject);
 }
 
+// Main constructor for game projects
 CResourceStore::CResourceStore(CGameProject *pProject)
     : mpProj(nullptr)
     , mGame(eUnknownGame)

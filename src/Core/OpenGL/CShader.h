@@ -23,6 +23,7 @@ class CShader
     GLint mTextureUniforms[8];
     GLint mNumLightsUniform;
 
+    static int smNumShaders;
     static CShader* spCurrentShader;
 
 public:
@@ -44,6 +45,8 @@ public:
     static CShader* FromResourceFile(const TString& rkShaderName);
     static CShader* CurrentShader();
     static void KillCachedShader();
+
+    inline static int NumShaders() { return smNumShaders; }
 
 private:
     void CacheCommonUniforms();

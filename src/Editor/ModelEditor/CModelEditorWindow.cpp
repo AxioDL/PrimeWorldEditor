@@ -7,7 +7,6 @@
 #include <Common/TString.h>
 #include <Core/Render/CDrawUtil.h>
 #include <Core/Render/CRenderer.h>
-#include <Core/Resource/cooker/CModelCooker.h>
 #include <Core/Resource/cooker/CTextureEncoder.h>
 #include <Core/Resource/factory/CModelLoader.h>
 #include <Core/Resource/factory/CMaterialLoader.h>
@@ -47,9 +46,7 @@ CModelEditorWindow::CModelEditorWindow(CModel *pModel, QWidget *pParent)
     // UI initialization
     UpdateAnimParamUI(-1);
     ui->IndTextureResSelector->SetAllowedExtensions("TXTR");
-    ui->IndTextureResSelector->SetPreviewPanelEnabled(true);
     ui->PassTextureResSelector->SetAllowedExtensions("TXTR");
-    ui->PassTextureResSelector->SetPreviewPanelEnabled(true);
     ui->PassTable->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
     ui->PassTable->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
     ui->ClearColorPicker->SetColor(QColor(76, 76, 76, 255));
@@ -94,10 +91,8 @@ CModelEditorWindow::CModelEditorWindow(CModel *pModel, QWidget *pParent)
     ui->AnimParamCSpinBox->setProperty             ("ModelEditorWidgetType", eAnimParamCSpinBox);
     ui->AnimParamDSpinBox->setProperty             ("ModelEditorWidgetType", eAnimParamDSpinBox);
 
-    connect(ui->ActionOpen, SIGNAL(triggered()), this, SLOT(Open()));
     connect(ui->ActionImport, SIGNAL(triggered()), this, SLOT(Import()));
     connect(ui->ActionSave, SIGNAL(triggered()), this, SLOT(Save()));
-    connect(ui->ActionSaveAs, SIGNAL(triggered()), this, SLOT(SaveAs()));
     connect(ui->ActionConvertToDDS, SIGNAL(triggered()), this, SLOT(ConvertToDDS()));
     connect(ui->ActionConvertToTXTR, SIGNAL(triggered()), this, SLOT(ConvertToTXTR()));
     connect(ui->MeshPreviewButton, SIGNAL(clicked()), this, SLOT(SetMeshPreview()));
@@ -152,6 +147,7 @@ CModelEditorWindow::CModelEditorWindow(CModel *pModel, QWidget *pParent)
 CModelEditorWindow::~CModelEditorWindow()
 {
     delete mpCurrentModelNode;
+    delete mpScene;
     delete ui;
 }
 
@@ -236,9 +232,9 @@ void CModelEditorWindow::SetActiveMaterial(int MatIndex)
     ui->DestBlendComboBox->setCurrentIndex(DstFac);
 
     if (Settings & CMaterial::eIndStage)
-        ui->IndTextureResSelector->SetText(TO_QSTRING(mpCurrentMat->IndTexture()->FullSource()));
+        ui->IndTextureResSelector->SetResource(mpCurrentMat->IndTexture());
     else
-        ui->IndTextureResSelector->SetText("");
+        ui->IndTextureResSelector->Clear();
 
     for (u32 iKonst = 0; iKonst < 4; iKonst++)
     {
@@ -318,12 +314,7 @@ void CModelEditorWindow::SetActivePass(int PassIndex)
     else TexCoordSrc++;
     if (TexCoordSrc >= 5) TexCoordSrc -= 2;
 
-    CTexture *pPassTex = mpCurrentPass->Texture();
-    if (pPassTex)
-        ui->PassTextureResSelector->SetText(TO_QSTRING(pPassTex->FullSource()));
-    else
-        ui->PassTextureResSelector->SetText("");
-
+    ui->PassTextureResSelector->SetResource(mpCurrentPass->Texture());
     ui->TevKColorSelComboBox->setCurrentIndex(KColor);
     ui->TevKAlphaSelComboBox->setCurrentIndex(KAlpha);
     ui->TevRasSelComboBox->setCurrentIndex(Ras);
@@ -715,22 +706,6 @@ void CModelEditorWindow::UpdateAnimParamUI(int Mode)
     }
 }
 
-void CModelEditorWindow::Open()
-{
-    QString ModelFilename = QFileDialog::getOpenFileName(this, "Save model", "", "Retro Model (*.CMDL)");
-    if (ModelFilename.isEmpty()) return;
-
-    TResPtr<CModel> pModel = gpResourceStore->LoadResource(ModelFilename.toStdString());
-    if (pModel)
-    {
-        SetActiveModel(pModel);
-        SET_WINDOWTITLE_APPVARS("%APP_FULL_NAME% - Model Editor: " + TO_QSTRING(pModel->Source()));
-        mOutputFilename = TO_QSTRING(pModel->FullSource());
-    }
-
-    gpResourceStore->DestroyUnreferencedResources();
-}
-
 void CModelEditorWindow::Import()
 {
     QString FileName = QFileDialog::getOpenFileName(this, "Model", "", "*.obj;*.fbx;*.dae;*.3ds;*.blend");
@@ -777,28 +752,10 @@ void CModelEditorWindow::Import()
 void CModelEditorWindow::Save()
 {
     if (!mpCurrentModel) return;
+    bool SaveSuccess = mpCurrentModel->Entry()->Save();
 
-    if (mOutputFilename.isEmpty())
-    {
-        SaveAs();
-        return;
-    }
-
-    CFileOutStream CMDLOut(mOutputFilename.toStdString(), IOUtil::eBigEndian);
-    CModelCooker::CookCMDL(mpCurrentModel, CMDLOut);
-    QMessageBox::information(this, "Saved", "Model saved!");
-}
-
-void CModelEditorWindow::SaveAs()
-{
-    QString FileName = QFileDialog::getSaveFileName(this, "Save model", "", "Retro Model (*.CMDL)");
-    if (FileName.isEmpty()) return;
-
-    mOutputFilename = FileName;
-    Save();
-
-    TString Name = TString(FileName.toStdString());
-    SET_WINDOWTITLE_APPVARS("%APP_FULL_NAME% - Model Editor: " + TO_QSTRING(Name));
+    if (SaveSuccess)
+        gpEdApp->NotifyAssetsModified();
 }
 
 void CModelEditorWindow::ConvertToDDS()

@@ -172,7 +172,7 @@
          <property name="geometry">
           <rect>
            <x>0</x>
-           <y>0</y>
+           <y>-489</y>
            <width>308</width>
            <height>1184</height>
           </rect>
@@ -455,7 +455,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="WResourceSelector" name="IndTextureResSelector" native="true">
+                <widget class="CResourceSelector" name="IndTextureResSelector" native="true">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                    <horstretch>1</horstretch>
@@ -1128,7 +1128,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="WResourceSelector" name="PassTextureResSelector" native="true">
+                   <widget class="CResourceSelector" name="PassTextureResSelector" native="true">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                       <horstretch>1</horstretch>
@@ -2399,7 +2399,6 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="ActionOpen"/>
    <addaction name="ActionSave"/>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -2415,12 +2414,8 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="ActionOpen"/>
     <addaction name="ActionSave"/>
-    <addaction name="ActionSaveAs"/>
     <addaction name="ActionImport"/>
-    <addaction name="separator"/>
-    <addaction name="ActionExit"/>
    </widget>
    <widget class="QMenu" name="menuTextures">
     <property name="title">
@@ -2432,20 +2427,11 @@
    <addaction name="menuFile"/>
    <addaction name="menuTextures"/>
   </widget>
-  <action name="ActionOpen">
-   <property name="text">
-    <string>Open</string>
-   </property>
-  </action>
-  <action name="ActionExit">
-   <property name="text">
-    <string>Exit</string>
-   </property>
-   <property name="shortcut">
-    <string>Esc</string>
-   </property>
-  </action>
   <action name="ActionSave">
+   <property name="icon">
+    <iconset resource="../Icons.qrc">
+     <normaloff>:/icons/Save.png</normaloff>:/icons/Save.png</iconset>
+   </property>
    <property name="text">
     <string>Save</string>
    </property>
@@ -2455,19 +2441,9 @@
     <string>Export to DDS</string>
    </property>
   </action>
-  <action name="ActionExportCurrentModelTextures">
-   <property name="text">
-    <string>Export curent model's textures</string>
-   </property>
-  </action>
   <action name="ActionImport">
    <property name="text">
     <string>Import</string>
-   </property>
-  </action>
-  <action name="ActionSaveAs">
-   <property name="text">
-    <string>Save as...</string>
    </property>
   </action>
   <action name="ActionConvertToTXTR">
@@ -2492,15 +2468,15 @@
    </slots>
   </customwidget>
   <customwidget>
-   <class>WResourceSelector</class>
-   <extends>QWidget</extends>
-   <header>Editor/Widgets/WResourceSelector.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>CModelEditorViewport</class>
    <extends>QWidget</extends>
    <header>Editor/ModelEditor/CModelEditorViewport.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>CResourceSelector</class>
+   <extends>QWidget</extends>
+   <header>Editor/Widgets/CResourceSelector.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

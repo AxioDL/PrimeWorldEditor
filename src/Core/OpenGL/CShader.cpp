@@ -13,12 +13,14 @@ u64 gFailedCompileCount = 0;
 u64 gSuccessfulCompileCount = 0;
 
 CShader* CShader::spCurrentShader = nullptr;
+int CShader::smNumShaders = 0;
 
 CShader::CShader()
 {
     mVertexShaderExists = false;
     mPixelShaderExists = false;
     mProgramExists = false;
+    smNumShaders++;
 }
 
 CShader::CShader(const char *pkVertexSource, const char *pkPixelSource)
@@ -26,6 +28,7 @@ CShader::CShader(const char *pkVertexSource, const char *pkPixelSource)
     mVertexShaderExists = false;
     mPixelShaderExists = false;
     mProgramExists = false;
+    smNumShaders++;
 
     CompileVertexSource(pkVertexSource);
     CompilePixelSource(pkPixelSource);
@@ -39,6 +42,7 @@ CShader::~CShader()
     if (mProgramExists)      glDeleteProgram(mProgram);
 
     if (spCurrentShader == this) spCurrentShader = 0;
+    smNumShaders--;
 }
 
 bool CShader::CompileVertexSource(const char* pkSource)

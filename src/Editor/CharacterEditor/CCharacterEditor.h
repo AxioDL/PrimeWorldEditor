@@ -56,7 +56,6 @@ public:
     CCharacterEditorViewport* Viewport() const;
 
 public slots:
-    void Open();
     void ToggleGrid(bool Enable);
     void ToggleMeshVisible(bool Visible);
     void ToggleSkeletonVisible(bool Visible);

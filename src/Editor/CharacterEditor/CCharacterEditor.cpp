@@ -45,7 +45,6 @@ CCharacterEditor::CCharacterEditor(CAnimSet *pSet, QWidget *parent)
 
     connect(ui->Viewport, SIGNAL(HoverBoneChanged(u32)), this, SLOT(OnViewportHoverBoneChanged(u32)));
     connect(ui->Viewport, SIGNAL(ViewportClick(QMouseEvent*)), this, SLOT(OnViewportClick()));
-    connect(ui->ActionOpen, SIGNAL(triggered()), this, SLOT(Open()));
     connect(ui->ActionShowGrid, SIGNAL(toggled(bool)), this, SLOT(ToggleGrid(bool)));
     connect(ui->ActionShowMesh, SIGNAL(toggled(bool)), this, SLOT(ToggleMeshVisible(bool)));
     connect(ui->ActionShowSkeleton, SIGNAL(toggled(bool)), this, SLOT(ToggleSkeletonVisible(bool)));
@@ -230,26 +229,6 @@ CCharacterEditorViewport* CCharacterEditor::Viewport() const
 }
 
 // ************ PUBLIC SLOTS ************
-void CCharacterEditor::Open()
-{
-    QString CharFilename = QFileDialog::getOpenFileName(this, "Open Character", "", "Animation Character Set (*.ANCS)");
-    if (CharFilename.isEmpty()) return;
-
-    CAnimSet *pSet = (CAnimSet*) gpResourceStore->LoadResource(CharFilename.toStdString());
-
-    if (pSet)
-    {
-        SetActiveAnimSet(pSet);
-    }
-
-    else
-    {
-        QMessageBox::warning(this, "Error", "Couldn't load file: " + CharFilename);
-    }
-
-    gpResourceStore->DestroyUnreferencedResources();
-}
-
 void CCharacterEditor::ToggleGrid(bool Enable)
 {
     ui->Viewport->SetGridEnabled(Enable);

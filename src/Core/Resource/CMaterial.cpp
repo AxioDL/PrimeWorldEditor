@@ -11,6 +11,7 @@
 
 u64 CMaterial::sCurrentMaterial = 0;
 CColor CMaterial::sCurrentTint = CColor::skWhite;
+std::map<u64, CMaterial::SMaterialShader> CMaterial::smShaderMap;
 
 CMaterial::CMaterial()
     : mpShader(nullptr)
@@ -64,7 +65,7 @@ CMaterial::~CMaterial()
     for (u32 iPass = 0; iPass < mPasses.size(); iPass++)
         delete mPasses[iPass];
 
-    delete mpShader;
+    ClearShader();
 }
 
 CMaterial* CMaterial::Clone()
@@ -93,13 +94,65 @@ CMaterial* CMaterial::Clone()
 
 void CMaterial::GenerateShader(bool AllowRegen /*= true*/)
 {
+    HashParameters(); // Calling HashParameters() may change mShaderStatus so call it before checking
+
     if (mShaderStatus != eShaderExists || AllowRegen)
     {
-        delete mpShader;
-        mpShader = CShaderGenerator::GenerateShader(*this);
+        auto Find = smShaderMap.find(mParametersHash);
 
-        if (!mpShader->IsValidProgram()) mShaderStatus = eShaderFailed;
-        else mShaderStatus = eShaderExists;
+        if (Find != smShaderMap.end())
+        {
+            SMaterialShader& rShader = Find->second;
+
+            if (rShader.pShader == mpShader)
+                return;
+
+            ClearShader();
+            mpShader = rShader.pShader;
+            rShader.NumReferences++;
+        }
+
+        else
+        {
+            ClearShader();
+            mpShader = CShaderGenerator::GenerateShader(*this);
+
+            if (!mpShader->IsValidProgram())
+            {
+                mShaderStatus = eShaderFailed;
+                delete mpShader;
+                mpShader = nullptr;
+            }
+
+            else
+            {
+                mShaderStatus = eShaderExists;
+                smShaderMap[mParametersHash] = SMaterialShader { 1, mpShader };
+            }
+        }
+    }
+}
+
+void CMaterial::ClearShader()
+{
+    if (mpShader)
+    {
+        auto Find = smShaderMap.find(mParametersHash);
+        ASSERT(Find != smShaderMap.end());
+
+        SMaterialShader& rShader = Find->second;
+        ASSERT(rShader.pShader == mpShader);
+
+        rShader.NumReferences--;
+
+        if (rShader.NumReferences == 0)
+        {
+            delete mpShader;
+            smShaderMap.erase(Find);
+        }
+
+        mpShader = nullptr;
+        mShaderStatus = eNoShader;
     }
 }
 
@@ -206,7 +259,12 @@ u64 CMaterial::HashParameters()
         for (u32 iPass = 0; iPass < mPasses.size(); iPass++)
             mPasses[iPass]->HashParameters(Hash);
 
-        mParametersHash = Hash.GetHash64();
+        u64 NewHash = Hash.GetHash64();
+
+        if (mParametersHash != NewHash)
+            ClearShader();
+
+        mParametersHash = NewHash;
         mRecalcHash = false;
     }
 

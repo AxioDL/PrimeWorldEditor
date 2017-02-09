@@ -17,6 +17,7 @@ namespace Ui {
 class CModelEditorWindow;
 }
 
+// the model editor is messy and old as fuck, it needs a total rewrite
 class CModelEditorWindow : public IEditor
 {
     Q_OBJECT
@@ -98,10 +99,8 @@ private:
     };
 
 private slots:
-    void Open();
     void Import();
     void Save();
-    void SaveAs();
     void ConvertToDDS();
     void ConvertToTXTR();
     void SetMeshPreview();

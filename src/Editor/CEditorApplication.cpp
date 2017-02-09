@@ -161,4 +161,6 @@ void CEditorApplication::OnEditorClose()
         mEditorWindows.removeOne(pEditor);
         delete pEditor;
     }
+
+    CGameProject::ActiveProject()->ResourceStore()->DestroyUnreferencedResources();
 }

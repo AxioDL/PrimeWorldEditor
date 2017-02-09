@@ -49,7 +49,7 @@
         <bool>false</bool>
        </attribute>
       </widget>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
          <widget class="CCharacterEditorViewport" name="Viewport" native="true">
@@ -312,12 +312,6 @@
      <height>21</height>
     </rect>
    </property>
-   <widget class="QMenu" name="MenuFile">
-    <property name="title">
-     <string>File</string>
-    </property>
-    <addaction name="ActionOpen"/>
-   </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
      <string>Animation</string>
@@ -336,7 +330,6 @@
     <addaction name="ActionPrevAnim"/>
     <addaction name="ActionNextAnim"/>
    </widget>
-   <addaction name="MenuFile"/>
    <addaction name="menuView"/>
   </widget>
   <widget class="QStatusBar" name="StatusBar"/>
@@ -350,29 +343,12 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="ActionOpen"/>
-   <addaction name="separator"/>
    <addaction name="ActionShowGrid"/>
    <addaction name="ActionShowMesh"/>
    <addaction name="ActionShowSkeleton"/>
    <addaction name="ActionBindPose"/>
    <addaction name="ActionOrbit"/>
   </widget>
-  <action name="ActionOpen">
-   <property name="icon">
-    <iconset resource="../Icons.qrc">
-     <normaloff>:/icons/Open_24px.png</normaloff>:/icons/Open_24px.png</iconset>
-   </property>
-   <property name="text">
-    <string>Open</string>
-   </property>
-   <property name="toolTip">
-    <string>Open</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+O</string>
-   </property>
-  </action>
   <action name="ActionShowSkeleton">
    <property name="checkable">
     <bool>true</bool>

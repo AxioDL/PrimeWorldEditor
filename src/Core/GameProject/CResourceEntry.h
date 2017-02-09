@@ -19,8 +19,9 @@ enum EResEntryFlag
     eREF_Transient       = 0x00000002, // Resource is transient (not part of a game project resource DB)
     eREF_Hidden          = 0x00000004, // Resource is hidden, doesn't show up in resource browser
     eREF_HasBeenModified = 0x00000008, // Resource has been modified and resaved by the user
+    eREF_IsUserResource  = 0x00000010, // Resource was created by the user (i.e. isn't a Retro Studios asset)
     // Flags that save to the cache file
-    eREF_SavedFlags      = eREF_NeedsRecook | eREF_Hidden | eREF_HasBeenModified
+    eREF_SavedFlags      = eREF_NeedsRecook | eREF_Hidden | eREF_HasBeenModified | eREF_IsUserResource
 };
 DECLARE_FLAGS(EResEntryFlag, FResEntryFlags)
 
