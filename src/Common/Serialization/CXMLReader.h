@@ -18,17 +18,30 @@ public:
         // Load XML and set current element to the root element; read version
         mDoc.LoadFile(*rkFileName);
         mpCurElem = mDoc.FirstChildElement();
-        ASSERT(mpCurElem != nullptr);
 
-        mArchiveVersion = (u16) TString( mpCurElem->Attribute("ArchiveVer") ).ToInt32(10);
-        mFileVersion = (u16) TString( mpCurElem->Attribute("FileVer") ).ToInt32(10);
-        const char *pkGameAttr = mpCurElem->Attribute("Game");
-        mGame = pkGameAttr ? GetGameForID( CFourCC(pkGameAttr) ) : eUnknownGame;
+        if (mpCurElem != nullptr)
+        {
+            mArchiveVersion = (u16) TString( mpCurElem->Attribute("ArchiveVer") ).ToInt32(10);
+            mFileVersion = (u16) TString( mpCurElem->Attribute("FileVer") ).ToInt32(10);
+            const char *pkGameAttr = mpCurElem->Attribute("Game");
+            mGame = pkGameAttr ? GetGameForID( CFourCC(pkGameAttr) ) : eUnknownGame;
+        }
+        else
+        {
+            Log::Error("Failed to open XML for read: " + rkFileName);
+        }
+    }
+
+    inline bool IsValid() const
+    {
+        return mpCurElem != nullptr;
     }
 
     // Interface
     virtual bool ParamBegin(const char *pkName)
     {
+        ASSERT(IsValid());
+
         // Push new parent if needed
         if (!mJustEndedParam)
         {

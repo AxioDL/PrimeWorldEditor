@@ -71,8 +71,8 @@ public:
         , mNeedsRecook(false)
     {}
 
-    void Load();
-    void Save();
+    bool Load();
+    bool Save();
     void Serialize(IArchive& rArc);
     void UpdateDependencyCache();
 

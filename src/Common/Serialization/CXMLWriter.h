@@ -11,11 +11,13 @@ class CXMLWriter : public IArchive
     tinyxml2::XMLDocument mDoc;
     TString mOutFilename;
     tinyxml2::XMLElement *mpCurElem;
+    bool mSaved;
 
 public:
     CXMLWriter(const TString& rkFileName, const TString& rkRootName, u16 FileVersion, EGame Game = eUnknownGame)
         : IArchive(false, true)
         , mOutFilename(rkFileName)
+        , mSaved(false)
     {
         SetVersion(skCurrentArchiveVersion, FileVersion, Game);
 
@@ -34,12 +36,43 @@ public:
 
     ~CXMLWriter()
     {
-        mDoc.SaveFile(*mOutFilename);
+        if (!mSaved)
+        {
+            bool SaveSuccess = Save();
+            ASSERT(SaveSuccess);
+        }
+    }
+
+    inline bool Save()
+    {
+        if (mSaved)
+        {
+            Log::Error("Attempted to save XML twice!");
+            return false;
+        }
+
+        tinyxml2::XMLError Error = mDoc.SaveFile(*mOutFilename);
+        mSaved = true;
+
+        if (Error != tinyxml2::XML_SUCCESS)
+        {
+            Log::Error("Failed to save XML file: " + mOutFilename);
+            return false;
+        }
+        else
+            return true;
+    }
+
+    inline bool IsValid() const
+    {
+        return mpCurElem != nullptr && !mSaved;
     }
 
     // Interface
     virtual bool ParamBegin(const char *pkName)
     {
+        ASSERT(IsValid());
+
         tinyxml2::XMLElement *pElem = mDoc.NewElement(pkName);
         mpCurElem->LinkEndChild(pElem);
         mpCurElem = pElem;

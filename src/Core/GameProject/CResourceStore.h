@@ -52,10 +52,10 @@ public:
     CResourceStore(CGameProject *pProject);
     ~CResourceStore();
     void SerializeResourceDatabase(IArchive& rArc);
-    void LoadResourceDatabase();
-    void SaveResourceDatabase();
-    void LoadCacheFile();
-    void SaveCacheFile();
+    bool LoadResourceDatabase();
+    bool SaveResourceDatabase();
+    bool LoadCacheFile();
+    bool SaveCacheFile();
     void ConditionalSaveStore();
     void SetProject(CGameProject *pProj);
     void CloseProject();

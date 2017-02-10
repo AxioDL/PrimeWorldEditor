@@ -322,7 +322,18 @@ void CResourceBrowser::OnGenerateAssetNames()
 void CResourceBrowser::OnImportNamesFromAssetNameMap()
 {
     CAssetNameMap Map;
-    Map.LoadAssetNames();
+    bool LoadSuccess = Map.LoadAssetNames();
+
+    if (!LoadSuccess)
+    {
+        UICommon::ErrorMsg(this, "Import failed; couldn't load asset name map!");
+        return;
+    }
+    else if (!Map.IsValid())
+    {
+        UICommon::ErrorMsg(this, "Import failed; the input asset name map is invalid! See the log for details.");
+        return;
+    }
 
     for (CResourceIterator It(mpStore); It; ++It)
     {
@@ -335,6 +346,7 @@ void CResourceBrowser::OnImportNamesFromAssetNameMap()
     mpStore->ConditionalSaveStore();
     RefreshResources();
     RefreshDirectories();
+    UICommon::InfoMsg(this, "Success", "New asset names imported successfully!");
 }
 
 void CResourceBrowser::ExportAssetNames()
@@ -346,10 +358,29 @@ void CResourceBrowser::ExportAssetNames()
     CAssetNameMap NameMap;
 
     if (FileUtil::Exists(OutFileStr))
-        NameMap.LoadAssetNames(OutFileStr);
+    {
+        bool LoadSuccess = NameMap.LoadAssetNames(OutFileStr);
+
+        if (!LoadSuccess)
+        {
+            UICommon::ErrorMsg(this, "Unable to export; failed to load existing names from the original asset name map file!");
+            return;
+        }
+
+        else if (!NameMap.IsValid())
+        {
+            UICommon::ErrorMsg(this, "Unable to export; the original asset name map file is invalid! See the log for details.");
+            return;
+        }
+    }
 
     NameMap.CopyFromStore(mpStore);
-    NameMap.SaveAssetNames(OutFileStr);
+    bool SaveSuccess = NameMap.SaveAssetNames(OutFileStr);
+
+    if (SaveSuccess)
+        UICommon::ErrorMsg(this, "Failed to export asset names!");
+    else
+        UICommon::InfoMsg(this, "Success", "Asset names exported successfully!");
 }
 
 void CResourceBrowser::UpdateFilter()

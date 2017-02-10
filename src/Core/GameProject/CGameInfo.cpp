@@ -1,29 +1,35 @@
 #include "CGameInfo.h"
 #include <Common/FileUtil.h>
 
-void CGameInfo::LoadGameInfo(EGame Game)
+bool CGameInfo::LoadGameInfo(EGame Game)
 {
     Game = RoundGame(Game);
     mGame = Game;
 
     TString Path = GetDefaultGameInfoPath(Game);
-    if (FileUtil::Exists(Path))
-        LoadGameInfo(Path);
+    return LoadGameInfo(Path);
 }
 
-void CGameInfo::LoadGameInfo(TString Path)
+bool CGameInfo::LoadGameInfo(TString Path)
 {
     CXMLReader Reader(Path);
-    Serialize(Reader);
+
+    if (Reader.IsValid())
+    {
+        Serialize(Reader);
+        return true;
+    }
+    else return false;
 }
 
-void CGameInfo::SaveGameInfo(TString Path /*= ""*/)
+bool CGameInfo::SaveGameInfo(TString Path /*= ""*/)
 {
     ASSERT(mGame != eUnknownGame); // can't save game info that was never loaded
 
     if (Path.IsEmpty()) Path = GetDefaultGameInfoPath(mGame);
     CXMLWriter Writer(Path, "GameInfo", 0, mGame);
     Serialize(Writer);
+    return Writer.Save();
 }
 
 void CGameInfo::Serialize(IArchive& rArc)

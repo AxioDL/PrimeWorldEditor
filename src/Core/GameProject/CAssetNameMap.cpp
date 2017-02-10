@@ -1,15 +1,22 @@
 #include "CAssetNameMap.h"
 
-void CAssetNameMap::LoadAssetNames(TString Path /*= gkAssetMapPath*/)
+bool CAssetNameMap::LoadAssetNames(TString Path /*= gkAssetMapPath*/)
 {
     CXMLReader Reader(Path);
-    Serialize(Reader);
+
+    if (Reader.IsValid())
+    {
+        Serialize(Reader);
+        return true;
+    }
+    else return false;
 }
 
-void CAssetNameMap::SaveAssetNames(TString Path /*= gkAssetMapPath*/)
+bool CAssetNameMap::SaveAssetNames(TString Path /*= gkAssetMapPath*/)
 {
     CXMLWriter Writer(Path, "AssetNameMap", 0, eUnknownGame);
     Serialize(Writer);
+    return Writer.Save();
 }
 
 bool CAssetNameMap::GetNameInfo(CAssetID ID, TString& rOutDirectory, TString& rOutName)
