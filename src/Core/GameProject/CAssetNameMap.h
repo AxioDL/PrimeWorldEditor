@@ -50,8 +50,8 @@ class CAssetNameMap
 
 public:
     CAssetNameMap() : mIsValid(true) {}
-    void LoadAssetNames(TString Path = gkAssetMapPath);
-    void SaveAssetNames(TString Path = gkAssetMapPath);
+    bool LoadAssetNames(TString Path = gkAssetMapPath);
+    bool SaveAssetNames(TString Path = gkAssetMapPath);
     bool GetNameInfo(CAssetID ID, TString& rOutDirectory, TString& rOutName);
     void CopyFromStore(CResourceStore *pStore);
 

@@ -21,9 +21,9 @@ public:
         : mGame(eUnknownGame)
     {}
 
-    void LoadGameInfo(EGame Game);
-    void LoadGameInfo(TString Path);
-    void SaveGameInfo(TString Path = "");
+    bool LoadGameInfo(EGame Game);
+    bool LoadGameInfo(TString Path);
+    bool SaveGameInfo(TString Path = "");
     void Serialize(IArchive& rArc);
 
     TString GetAreaName(const CAssetID& rkID) const;

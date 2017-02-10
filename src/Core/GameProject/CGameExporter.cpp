@@ -342,7 +342,8 @@ void CGameExporter::LoadPaks()
         // Add package to project and save
         mpProject->AddPackage(pPackage);
 #if SAVE_PACKAGE_DEFINITIONS
-        pPackage->Save();
+        bool SaveSuccess = pPackage->Save();
+        ASSERT(SaveSuccess);
 #endif
     }
 #endif
@@ -461,7 +462,8 @@ void CGameExporter::ExportCookedResources()
 #if EXPORT_COOKED
         mpStore->SaveResourceDatabase();
 #endif
-        mpProject->Save();
+        bool SaveSuccess = mpProject->Save();
+        ASSERT(SaveSuccess);
     }
 }
 

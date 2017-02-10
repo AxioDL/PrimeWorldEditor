@@ -49,7 +49,9 @@ void CProjectOverviewDialog::InternalLoadProject(const QString& rkPath)
     }
 
     else
-        Log::Error("Failed to load project");
+    {
+        UICommon::ErrorMsg(this, "Failed to open project! Is it already open in another Prime World Editor instance?");
+    }
 }
 
 void CProjectOverviewDialog::OpenProject()

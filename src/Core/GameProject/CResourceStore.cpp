@@ -108,7 +108,7 @@ void CResourceStore::SerializeResourceDatabase(IArchive& rArc)
     }
 }
 
-void CResourceStore::LoadResourceDatabase()
+bool CResourceStore::LoadResourceDatabase()
 {
     ASSERT(!mDatabasePath.IsEmpty());
     TString Path = DatabasePath().ToUTF8();
@@ -118,27 +118,45 @@ void CResourceStore::LoadResourceDatabase()
 
     CXMLReader Reader(Path);
 
+    if (!Reader.IsValid())
+    {
+        Log::Error("Failed to open resource database for load: " + Path);
+        return false;
+    }
+
     if (mpProj)
         ASSERT(mpProj->Game() == Reader.Game());
 
     mGame = Reader.Game();
     SerializeResourceDatabase(Reader);
-    LoadCacheFile();
+    return LoadCacheFile();
 }
 
-void CResourceStore::SaveResourceDatabase()
+bool CResourceStore::SaveResourceDatabase()
 {
     TString Path = DatabasePath().ToUTF8();
     CXMLWriter Writer(Path, "ResourceDB", 0, mGame);
     SerializeResourceDatabase(Writer);
-    mDatabaseDirty = false;
+    bool SaveSuccess = Writer.Save();
+
+    if (SaveSuccess)
+        mDatabaseDirty = false;
+    else
+        Log::Error("Failed to save resource database: " + Path);
+
+    return SaveSuccess;
 }
 
-void CResourceStore::LoadCacheFile()
+bool CResourceStore::LoadCacheFile()
 {
     TString CachePath = CacheDataPath().ToUTF8();
     CFileInStream CacheFile(CachePath.ToStdString(), IOUtil::eBigEndian);
-    ASSERT(CacheFile.IsValid());
+
+    if (!CacheFile.IsValid())
+    {
+        Log::Error("Failed to open cache file for load: " + CachePath);
+        return false;
+    }
 
     // Cache header
     CFourCC Magic(CacheFile);
@@ -146,7 +164,7 @@ void CResourceStore::LoadCacheFile()
     if (Magic != "CACH")
     {
         Log::Error("Invalid resource cache data magic: " + Magic.ToString());
-        return;
+        return false;
     }
 
     CSerialVersion Version(CacheFile);
@@ -173,13 +191,19 @@ void CResourceStore::LoadCacheFile()
 
         CacheFile.Seek(EntryCacheEnd, SEEK_SET);
     }
+    return true;
 }
 
-void CResourceStore::SaveCacheFile()
+bool CResourceStore::SaveCacheFile()
 {
     TString CachePath = CacheDataPath().ToUTF8();
     CFileOutStream CacheFile(CachePath.ToStdString(), IOUtil::eBigEndian);
-    ASSERT(CacheFile.IsValid());
+
+    if (!CacheFile.IsValid())
+    {
+        Log::Error("Failed to open cache file for save: " + CachePath);
+        return false;
+    }
 
     // Cache header
     CFourCC("CACH").Write(CacheFile);
@@ -219,6 +243,7 @@ void CResourceStore::SaveCacheFile()
     CacheFile.Seek(ResCountOffset, SEEK_SET);
     CacheFile.WriteLong(ResCount);
     mCacheFileDirty = false;
+    return true;
 }
 
 void CResourceStore::ConditionalSaveStore()

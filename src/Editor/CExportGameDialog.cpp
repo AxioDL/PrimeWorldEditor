@@ -335,12 +335,20 @@ void CExportGameDialog::Export()
     CAssetNameMap NameMap;
 
     if (!NameMapPath.isEmpty())
-        NameMap.LoadAssetNames( TO_TSTRING(NameMapPath) );
-
-    if (!NameMap.IsValid())
     {
-        UICommon::ErrorMsg(this, "The Asset Name Map is invalid and cannot be used! See the log for more information.");
-        return;
+        bool LoadSuccess = NameMap.LoadAssetNames( TO_TSTRING(NameMapPath) );
+
+        if (!LoadSuccess)
+        {
+            UICommon::ErrorMsg(this, "Failed to load the asset name map!");
+            return;
+        }
+
+        else if (!NameMap.IsValid())
+        {
+            UICommon::ErrorMsg(this, "The Asset Name Map is invalid and cannot be used! See the log for more information.");
+            return;
+        }
     }
 
     // Verify game info is valid
@@ -350,12 +358,20 @@ void CExportGameDialog::Export()
         return;
     }
 
-    // Do export
-    close();
-
     CGameInfo GameInfo;
     if (!GameInfoPath.isEmpty())
-        GameInfo.LoadGameInfo( TO_TSTRING(GameInfoPath) );
+    {
+        bool LoadSuccess = GameInfo.LoadGameInfo( TO_TSTRING(GameInfoPath) );
+
+        if (!LoadSuccess)
+        {
+            UICommon::ErrorMsg(this, "Failed to load game info!");
+            return;
+        }
+    }
+
+    // Do export
+    close();
 
     CGameExporter Exporter(mGame, mRegion, mGameTitle, mGameID, mBuildVer);
     TString StrExportDir = TO_TSTRING(ExportDir);

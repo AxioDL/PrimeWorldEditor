@@ -7,7 +7,10 @@ CGameProject *CGameProject::mspActiveProject = nullptr;
 
 CGameProject::~CGameProject()
 {
-    ASSERT(!mpResourceStore->IsDirty());
+    if (mpResourceStore)
+    {
+        ASSERT(!mpResourceStore->IsDirty());
+    }
 
     if (IsActive())
     {
@@ -15,16 +18,23 @@ CGameProject::~CGameProject()
         gpResourceStore = nullptr;
     }
 
+    for (u32 iPkg = 0; iPkg < mPackages.size(); iPkg++)
+        delete mPackages[iPkg];
+
     delete mpAudioManager;
     delete mpGameInfo;
     delete mpResourceStore;
 }
 
-void CGameProject::Save()
+bool CGameProject::Save()
 {
+    mProjFileLock.Release();
     TString ProjPath = ProjectPath().ToUTF8();
     CXMLWriter Writer(ProjPath, "GameProject", eVer_Current, mGame);
     Serialize(Writer);
+    bool SaveSuccess = Writer.Save();
+    mProjFileLock.Lock(*ProjPath);
+    return SaveSuccess;
 }
 
 void CGameProject::Serialize(IArchive& rArc)
@@ -60,22 +70,31 @@ void CGameProject::Serialize(IArchive& rArc)
         // Load resource store
         ASSERT(mpResourceStore == nullptr);
         mpResourceStore = new CResourceStore(this);
-        mpResourceStore->LoadResourceDatabase();
 
-        // Load packages
-        for (u32 iPkg = 0; iPkg < mPackages.size(); iPkg++)
-            delete mPackages[iPkg];
-        mPackages.clear();
+        if (!mpResourceStore->LoadResourceDatabase())
+            mLoadSuccess = false;
 
-        for (u32 iPkg = 0; iPkg < PackageList.size(); iPkg++)
+        else
         {
-            const TWideString& rkPackagePath = PackageList[iPkg];
-            TString PackageName = TWideString(rkPackagePath.GetFileName(false)).ToUTF8();
-            TWideString PackageDir = rkPackagePath.GetFileDirectory();
+            // Load packages
+            ASSERT(mPackages.empty());
 
-            CPackage *pPackage = new CPackage(this, PackageName, PackageDir);
-            pPackage->Load();
-            mPackages.push_back(pPackage);
+            for (u32 iPkg = 0; iPkg < PackageList.size(); iPkg++)
+            {
+                const TWideString& rkPackagePath = PackageList[iPkg];
+                TString PackageName = TWideString(rkPackagePath.GetFileName(false)).ToUTF8();
+                TWideString PackageDir = rkPackagePath.GetFileDirectory();
+
+                CPackage *pPackage = new CPackage(this, PackageName, PackageDir);
+                bool PackageLoadSuccess = pPackage->Load();
+                mPackages.push_back(pPackage);
+
+                if (!PackageLoadSuccess)
+                {
+                    mLoadSuccess = false;
+                    break;
+                }
+            }
         }
     }
 }
@@ -160,6 +179,7 @@ CGameProject* CGameProject::CreateProjectForExport(
     pProj->mProjectRoot.Replace(L"/", L"\\");
     pProj->mpResourceStore = new CResourceStore(pProj, pExporter, L"Content\\", L"Cooked\\", Game);
     pProj->mpGameInfo->LoadGameInfo(Game);
+    pProj->mLoadSuccess = true;
     return pProj;
 }
 
@@ -171,10 +191,24 @@ CGameProject* CGameProject::LoadProject(const TWideString& rkProjPath)
 
     TString ProjPath = rkProjPath.ToUTF8();
     CXMLReader Reader(ProjPath);
+
+    if (!Reader.IsValid())
+    {
+        delete pProj;
+        return nullptr;
+    }
+
     pProj->mGame = Reader.Game();
     pProj->Serialize(Reader);
-    CTemplateLoader::LoadGameTemplates(pProj->mGame);
 
+    if (!pProj->mLoadSuccess)
+    {
+        delete pProj;
+        return nullptr;
+    }
+
+    CTemplateLoader::LoadGameTemplates(pProj->mGame);
+    pProj->mProjFileLock.Lock(*ProjPath);
     pProj->mpGameInfo->LoadGameInfo(pProj->mGame);
     pProj->mpAudioManager->LoadAssets();
     return pProj;

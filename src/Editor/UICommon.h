@@ -102,6 +102,11 @@ inline QString OpenDirDialog(QWidget *pParent, const QString& rkCaption, const Q
 }
 
 // QMessageBox wrappers
+inline void InfoMsg(QWidget *pParent, QString InfoBoxTitle, QString InfoText)
+{
+    QMessageBox::information(pParent, InfoBoxTitle, InfoText);
+}
+
 inline void ErrorMsg(QWidget *pParent, QString ErrorText)
 {
     QMessageBox::warning(pParent, "Error", ErrorText);

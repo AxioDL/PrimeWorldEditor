@@ -195,8 +195,16 @@ bool CResourceEntry::Save(bool SkipCacheSave /*= false*/)
 
         TString SerialName = mpTypeInfo->TypeName();
         SerialName.RemoveWhitespace();
+
         CXMLWriter Writer(Path, SerialName, 0, mGame);
         mpResource->Serialize(Writer);
+
+        if (!Writer.Save())
+        {
+            Log::Error("Failed to save raw resource: " + Path);
+            DEBUG_BREAK;
+            return false;
+        }
 
         mFlags |= eREF_NeedsRecook;
     }
@@ -286,16 +294,28 @@ CResource* CResourceEntry::Load()
             gpResourceStore = mpStore;
 
             CXMLReader Reader(RawAssetPath());
-            mpResource->Serialize(Reader);
-            mpStore->TrackLoadedResource(this);
 
-            gpResourceStore = pOldStore;
+            if (!Reader.IsValid())
+            {
+                Log::Error("Failed to load raw resource; falling back on cooked. Raw path: " + RawAssetPath());
+                delete mpResource;
+                mpResource = nullptr;
+            }
+
+            else
+            {
+                mpResource->Serialize(Reader);
+                mpStore->TrackLoadedResource(this);
+                gpResourceStore = pOldStore;
+            }
         }
 
-        return mpResource;
+        if (mpResource)
+            return mpResource;
     }
 
-    else if (HasCookedVersion())
+    ASSERT(!mpResource);
+    if (HasCookedVersion())
     {
         CFileInStream File(CookedAssetPath().ToStdString(), IOUtil::eBigEndian);
 

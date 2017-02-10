@@ -6,6 +6,7 @@
 #include "CResourceStore.h"
 #include "Core/CAudioManager.h"
 #include "Core/Resource/Script/CMasterTemplate.h"
+#include <FileIO/CFileLock.h>
 #include <Common/CAssetID.h>
 #include <Common/EGame.h>
 #include <Common/FileUtil.h>
@@ -31,6 +32,11 @@ class CGameProject
     CGameInfo *mpGameInfo;
     CAudioManager *mpAudioManager;
 
+    // Keep file handle open for the .prj file to prevent users from opening the same project
+    // in multiple instances of PWE
+    CFileLock mProjFileLock;
+    bool mLoadSuccess;
+
     enum EProjectVersion
     {
         eVer_Initial,
@@ -50,6 +56,7 @@ class CGameProject
         , mBuildVersion(0.f)
         , mResourceDBPath(L"ResourceDB.rdb")
         , mpResourceStore(nullptr)
+        , mLoadSuccess(true)
     {
         mpGameInfo = new CGameInfo();
         mpAudioManager = new CAudioManager(this);
@@ -58,7 +65,7 @@ class CGameProject
 public:
     ~CGameProject();
 
-    void Save();
+    bool Save();
     void Serialize(IArchive& rArc);
     void SetActive();
     void GetWorldList(std::list<CAssetID>& rOut) const;

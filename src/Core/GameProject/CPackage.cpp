@@ -10,21 +10,28 @@
 
 using namespace tinyxml2;
 
-void CPackage::Load()
+bool CPackage::Load()
 {
     TWideString DefPath = DefinitionPath(false);
     CXMLReader Reader(DefPath.ToUTF8());
-    Serialize(Reader);
-    UpdateDependencyCache();
+
+    if (Reader.IsValid())
+    {
+        Serialize(Reader);
+        UpdateDependencyCache();
+        return true;
+    }
+    else return false;
 }
 
-void CPackage::Save()
+bool CPackage::Save()
 {
     TWideString DefPath = DefinitionPath(false);
     FileUtil::MakeDirectory(DefPath.GetFileDirectory());
 
     CXMLWriter Writer(DefPath.ToUTF8(), "PackageDefinition", 0, mpProject ? mpProject->Game() : eUnknownGame);
     Serialize(Writer);
+    return Writer.Save();
 }
 
 void CPackage::Serialize(IArchive& rArc)

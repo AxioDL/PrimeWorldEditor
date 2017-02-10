@@ -41,7 +41,8 @@ HEADERS += \
     IOUtil.h \
     IInputStream.h \
     IOutputStream.h \
-    CBitStreamInWrapper.h
+    CBitStreamInWrapper.h \
+    CFileLock.h
 
 # Source Files
 SOURCES += \
