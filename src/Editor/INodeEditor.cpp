@@ -330,14 +330,14 @@ void INodeEditor::OnGizmoMoved()
         case CGizmo::eRotate:
         {
             CQuaternion Delta = mGizmo.DeltaRotation();
-            mUndoStack.push(new CRotateNodeCommand(this, mpSelection->SelectedNodeList(), CVector3f::skZero, Delta, mRotateSpace));
+            mUndoStack.push(new CRotateNodeCommand(this, mpSelection->SelectedNodeList(), true, mGizmo.Position(), mGizmo.Rotation(), Delta, mRotateSpace));
             break;
         }
 
         case CGizmo::eScale:
         {
             CVector3f Delta = mGizmo.DeltaScale();
-            mUndoStack.push(new CScaleNodeCommand(this, mpSelection->SelectedNodeList(), CVector3f::skZero, Delta));
+            mUndoStack.push(new CScaleNodeCommand(this, mpSelection->SelectedNodeList(), true, mGizmo.Position(), Delta));
             break;
         }
     }

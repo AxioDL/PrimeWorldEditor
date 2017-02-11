@@ -23,7 +23,7 @@ class CRotateNodeCommand : public IUndoCommand
 
 public:
     CRotateNodeCommand();
-    CRotateNodeCommand(INodeEditor *pEditor, const QList<CSceneNode*>& rkNodes, const CVector3f& rkPivot, const CQuaternion& rkDelta, ETransformSpace TransformSpace);
+    CRotateNodeCommand(INodeEditor *pEditor, const QList<CSceneNode*>& rkNodes, bool UsePivot, const CVector3f& rkPivot, const CQuaternion& rkPivotRotation, const CQuaternion& rkDelta, ETransformSpace TransformSpace);
     ~CRotateNodeCommand();
     int id() const;
     bool mergeWith(const QUndoCommand *pkOther);

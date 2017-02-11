@@ -86,7 +86,9 @@ public:
     // Transform
     void Translate(const CVector3f& rkTranslation, ETransformSpace TransformSpace);
     void Rotate(const CQuaternion& rkRotation, ETransformSpace TransformSpace);
+    void Rotate(const CQuaternion& rkRotation, const CVector3f& rkPivot, const CQuaternion& rkPivotRotation, ETransformSpace TransformSpace);
     void Scale(const CVector3f& rkScale);
+    void Scale(const CVector3f& rkScale, const CVector3f& rkPivot);
     const CTransform4f& Transform() const;
 protected:
     void MarkTransformChanged() const;

@@ -9,7 +9,7 @@ CScaleNodeCommand::CScaleNodeCommand()
 {
 }
 
-CScaleNodeCommand::CScaleNodeCommand(INodeEditor *pEditor, const QList<CSceneNode*>& rkNodes, const CVector3f& /*rkPivot*/, const CVector3f& rkDelta)
+CScaleNodeCommand::CScaleNodeCommand(INodeEditor *pEditor, const QList<CSceneNode*>& rkNodes, bool UsePivot, const CVector3f& rkPivot, const CVector3f& rkDelta)
     : IUndoCommand("Scale"),
       mpEditor(pEditor),
       mCommandEnded(false)
@@ -22,6 +22,12 @@ CScaleNodeCommand::CScaleNodeCommand(INodeEditor *pEditor, const QList<CSceneNod
         Scale.pNode = pNode;
         Scale.InitialPos = pNode->LocalPosition();
         Scale.InitialScale = pNode->LocalScale();
+
+        if (UsePivot)
+            pNode->Scale(rkDelta, rkPivot);
+        else
+            pNode->Scale(rkDelta);
+
         pNode->Scale(rkDelta);
         Scale.NewPos = pNode->LocalPosition();
         Scale.NewScale = pNode->LocalScale();
