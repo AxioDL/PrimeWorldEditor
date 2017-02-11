@@ -291,11 +291,32 @@ void CSceneNode::Rotate(const CQuaternion& rkRotation, ETransformSpace Transform
     MarkTransformChanged();
 }
 
+void CSceneNode::Rotate(const CQuaternion& rkRotation, const CVector3f& rkPivot, const CQuaternion& rkPivotRotation, ETransformSpace TransformSpace)
+{
+    Rotate(rkRotation, TransformSpace);
+
+    switch (TransformSpace)
+    {
+    case eWorldTransform:
+        mPosition = rkPivot + (rkRotation * (mPosition - rkPivot));
+        break;
+    case eLocalTransform:
+        mPosition = rkPivot + ((rkPivotRotation * rkRotation * rkPivotRotation.Inverse()) * (mPosition - rkPivot));
+        break;
+    }
+    MarkTransformChanged();
+}
+
 void CSceneNode::Scale(const CVector3f& rkScale)
 {
-    // No support for stretch/skew world-space scaling; local only
     mScale *= rkScale;
     MarkTransformChanged();
+}
+
+void CSceneNode::Scale(const CVector3f& rkScale, const CVector3f& rkPivot)
+{
+    mPosition = rkPivot + ((mPosition - rkPivot) * rkScale * rkScale);
+    Scale(rkScale);
 }
 
 void CSceneNode::ForceRecalculateTransform() const

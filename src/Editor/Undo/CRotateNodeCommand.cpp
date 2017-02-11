@@ -9,7 +9,15 @@ CRotateNodeCommand::CRotateNodeCommand()
 {
 }
 
-CRotateNodeCommand::CRotateNodeCommand(INodeEditor *pEditor, const QList<CSceneNode*>& rkNodes, const CVector3f& /*rkPivot*/, const CQuaternion& rkDelta, ETransformSpace TransformSpace)
+CRotateNodeCommand::CRotateNodeCommand(
+        INodeEditor *pEditor,
+        const QList<CSceneNode*>& rkNodes,
+        bool UsePivot,
+        const CVector3f& rkPivot,
+        const CQuaternion& rkPivotRotation,
+        const CQuaternion& rkDelta,
+        ETransformSpace TransformSpace
+    )
     : IUndoCommand("Rotate"),
       mpEditor(pEditor),
       mCommandEnded(false)
@@ -22,7 +30,12 @@ CRotateNodeCommand::CRotateNodeCommand(INodeEditor *pEditor, const QList<CSceneN
         Rotate.pNode = pNode;
         Rotate.InitialPos = pNode->LocalPosition();
         Rotate.InitialRot = pNode->LocalRotation();
-        pNode->Rotate(rkDelta, TransformSpace);
+
+        if (UsePivot)
+            pNode->Rotate(rkDelta, rkPivot, rkPivotRotation, TransformSpace);
+        else
+            pNode->Rotate(rkDelta, TransformSpace);
+
         Rotate.NewPos = pNode->LocalPosition();
         Rotate.NewRot = pNode->LocalRotation();
         mNodeList.push_back(Rotate);

@@ -35,6 +35,8 @@ void CEditorApplication::InitEditor()
     mpResourceBrowser = new CResourceBrowser(mpWorldEditor);
     mpProjectDialog = new CProjectOverviewDialog();
     connect(mpProjectDialog, SIGNAL(ActiveProjectChanged(CGameProject*)), mpResourceBrowser, SLOT(UpdateStore()));
+
+    mpProjectDialog->show();
 }
 
 void CEditorApplication::EditResource(CResourceEntry *pEntry)

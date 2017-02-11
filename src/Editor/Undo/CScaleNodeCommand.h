@@ -23,7 +23,7 @@ class CScaleNodeCommand : public IUndoCommand
 
 public:
     CScaleNodeCommand();
-    CScaleNodeCommand(INodeEditor *pEditor, const QList<CSceneNode*>& rkNodes, const CVector3f& rkPivot, const CVector3f& rkDelta);
+    CScaleNodeCommand(INodeEditor *pEditor, const QList<CSceneNode*>& rkNodes, bool UsePivot, const CVector3f& rkPivot, const CVector3f& rkDelta);
     ~CScaleNodeCommand();
     int id() const;
     bool mergeWith(const QUndoCommand *pkOther);

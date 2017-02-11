@@ -59,6 +59,5 @@ int main(int argc, char *argv[])
 
     // Execute application
     App.InitEditor();
-    App.ProjectDialog()->show();
     return App.exec();
 }
