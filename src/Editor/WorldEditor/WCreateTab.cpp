@@ -13,8 +13,8 @@ WCreateTab::WCreateTab(CWorldEditor *pEditor, QWidget *pParent /*= 0*/)
 
     mpEditor = pEditor;
     mpEditor->Viewport()->installEventFilter(this);
-    connect(mpEditor, SIGNAL(LayersModified()), this, SLOT(OnLayersChanged()));
 
+    connect(mpEditor, SIGNAL(LayersModified()), this, SLOT(OnLayersChanged()));
     connect(ui->SpawnLayerComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(OnSpawnLayerChanged(int)));
 }
 

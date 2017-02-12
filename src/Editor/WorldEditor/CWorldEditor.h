@@ -33,6 +33,12 @@ namespace Ui {
 class CWorldEditor;
 }
 
+enum EWorldEditorMode
+{
+    eWEM_WorldInfo,
+    eWEM_EditScript
+};
+
 class CWorldEditor : public INodeEditor
 {
     Q_OBJECT
@@ -61,6 +67,7 @@ class CWorldEditor : public INodeEditor
     QVBoxLayout *mpRightSidebarLayout;
     QWidget *mpCurSidebarWidget;
 
+    QButtonGroup *mpEditModeButtonGroup;
     CWorldInfoSidebar *mpWorldInfoSidebar;
     CScriptEditSidebar *mpScriptSidebar;
 
@@ -69,7 +76,7 @@ public:
     ~CWorldEditor();
     void closeEvent(QCloseEvent *pEvent);
     bool CloseWorld();
-    void SetArea(CWorld *pWorld, int AreaIndex);
+    bool SetArea(CWorld *pWorld, int AreaIndex);
     bool CheckUnsavedChanges();
     bool HasAnyScriptNodesSelected() const;
 
@@ -97,6 +104,10 @@ public slots:
     void CloseProject();
     bool Save();
     bool SaveAndRepack();
+
+    void ChangeEditMode(int Mode);
+    void ChangeEditMode(EWorldEditorMode Mode);
+    void OpenResourceBrowser();
 
     void OnActiveProjectChanged(CGameProject *pProj);
     void OnLinksModified(const QList<CScriptObject*>& rkInstances);

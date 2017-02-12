@@ -14,6 +14,7 @@
 #include "Editor/CSelectionIterator.h"
 #include "Editor/UICommon.h"
 #include "Editor/PropertyEdit/CPropertyView.h"
+#include "Editor/ResourceBrowser/CResourceBrowser.h"
 #include "Editor/Widgets/WDraggableSpinBox.h"
 #include "Editor/Widgets/WVectorEditor.h"
 #include "Editor/Undo/UndoCommands.h"
@@ -52,6 +53,7 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     ui->splitter->setSizes(SplitterSizes);
 
     // Initialize UI stuff
+    ui->MainViewport->Camera().Snap(CVector3f(0.f, 5.f, 1.f));
     ui->MainViewport->SetScene(this, &mScene);
     ui->MainViewport->setAcceptDrops(true);
     ui->TransformSpinBox->SetOrientation(Qt::Horizontal);
@@ -75,6 +77,11 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     mpScriptSidebar = new CScriptEditSidebar(this);
     mpScriptSidebar->setHidden(true);
     SetSidebarWidget(mpWorldInfoSidebar);
+
+    mpEditModeButtonGroup = new QButtonGroup(this);
+    mpEditModeButtonGroup->addButton( ui->EditWorldInfoButton,  eWEM_WorldInfo );
+    mpEditModeButtonGroup->addButton( ui->EditScriptButton,     eWEM_EditScript );
+    connect(mpEditModeButtonGroup, SIGNAL(buttonClicked(int)), this, SLOT(ChangeEditMode(int)));
 
     // Initialize actions
     addAction(ui->ActionIncrementGizmo);
@@ -147,6 +154,10 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     connect(ui->ActionLink, SIGNAL(toggled(bool)), this, SLOT(OnLinkButtonToggled(bool)));
     connect(ui->ActionUnlink, SIGNAL(triggered()), this, SLOT(OnUnlinkClicked()));
 
+    connect(ui->ActionResourceBrowser, SIGNAL(triggered()), this, SLOT(OpenResourceBrowser()));
+    connect(ui->ActionEditLayers, SIGNAL(triggered()), this, SLOT(EditLayers()));
+    connect(ui->ActionEditPoiToWorldMap, SIGNAL(triggered()), this, SLOT(EditPoiToWorldMap()));
+
     connect(ui->ActionDrawWorld, SIGNAL(triggered()), this, SLOT(ToggleDrawWorld()));
     connect(ui->ActionDrawObjects, SIGNAL(triggered()), this, SLOT(ToggleDrawObjects()));
     connect(ui->ActionDrawCollision, SIGNAL(triggered()), this, SLOT(ToggleDrawCollision()));
@@ -165,8 +176,6 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     connect(ui->ActionIncrementGizmo, SIGNAL(triggered()), this, SLOT(IncrementGizmo()));
     connect(ui->ActionDecrementGizmo, SIGNAL(triggered()), this, SLOT(DecrementGizmo()));
     connect(ui->ActionCollisionRenderSettings, SIGNAL(triggered()), this, SLOT(EditCollisionRenderSettings()));
-    connect(ui->ActionEditLayers, SIGNAL(triggered()), this, SLOT(EditLayers()));
-    connect(ui->ActionEditPoiToWorldMap, SIGNAL(triggered()), this, SLOT(EditPoiToWorldMap()));
 }
 
 CWorldEditor::~CWorldEditor()
@@ -224,8 +233,11 @@ bool CWorldEditor::CloseWorld()
     else return false;
 }
 
-void CWorldEditor::SetArea(CWorld *pWorld, int AreaIndex)
+bool CWorldEditor::SetArea(CWorld *pWorld, int AreaIndex)
 {
+    if (!CloseWorld())
+        return false;
+
     ExitPickMode();
     ui->MainViewport->ResetHover();
     ClearSelection();
@@ -311,6 +323,8 @@ void CWorldEditor::SetArea(CWorld *pWorld, int AreaIndex)
 
     // Make sure old area is destroyed
     gpResourceStore->DestroyUnreferencedResources();
+
+    return true;
 }
 
 bool CWorldEditor::CheckUnsavedChanges()
@@ -462,6 +476,40 @@ bool CWorldEditor::SaveAndRepack()
     return true;
 }
 
+void CWorldEditor::ChangeEditMode(int Mode)
+{
+    ChangeEditMode((EWorldEditorMode) Mode);
+}
+
+void CWorldEditor::ChangeEditMode(EWorldEditorMode Mode)
+{
+    mpEditModeButtonGroup->blockSignals(true);
+    mpEditModeButtonGroup->button(Mode)->setChecked(true);
+    mpEditModeButtonGroup->blockSignals(false);
+
+    switch (Mode)
+    {
+    case eWEM_WorldInfo:
+        SetSidebarWidget(mpWorldInfoSidebar);
+        break;
+
+    case eWEM_EditScript:
+        SetSidebarWidget(mpScriptSidebar);
+        break;
+
+    default:
+        ASSERT(false);
+        break;
+    }
+}
+
+void CWorldEditor::OpenResourceBrowser()
+{
+    CResourceBrowser *pBrowser = gpEdApp->ResourceBrowser();
+    pBrowser->show();
+    pBrowser->raise();
+}
+
 void CWorldEditor::OnActiveProjectChanged(CGameProject *pProj)
 {
     ui->ActionCloseProject->setEnabled( pProj != nullptr );
@@ -476,6 +524,8 @@ void CWorldEditor::OnActiveProjectChanged(CGameProject *pProj)
     RecentProjectsList.prepend(ProjPath);
     Settings.setValue("WorldEditor/RecentProjectsList", RecentProjectsList);
     UpdateOpenRecentActions();
+
+    ChangeEditMode(eWEM_WorldInfo);
 }
 
 void CWorldEditor::OnLinksModified(const QList<CScriptObject*>& rkInstances)
