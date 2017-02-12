@@ -10,12 +10,15 @@
 #include <QScrollArea>
 #include <QScrollBar>
 
-WModifyTab::WModifyTab(QWidget *pParent)
+WModifyTab::WModifyTab(CWorldEditor *pEditor, QWidget *pParent)
     : QWidget(pParent)
     , ui(new Ui::WModifyTab)
     , mIsPicking(false)
 {
     ui->setupUi(this);
+
+    mpWorldEditor = pEditor;
+    ui->PropertyView->SetEditor(mpWorldEditor);
 
     int PropViewWidth = ui->PropertyView->width();
     ui->PropertyView->header()->resizeSection(0, PropViewWidth * 0.3);
@@ -49,6 +52,10 @@ WModifyTab::WModifyTab(QWidget *pParent)
     connect(ui->DeleteIncomingConnectionButton, SIGNAL(clicked()), this, SLOT(OnDeleteLinksClicked()));
     connect(ui->EditOutgoingConnectionButton, SIGNAL(clicked()), this, SLOT(OnEditLinkClicked()));
     connect(ui->EditIncomingConnectionButton, SIGNAL(clicked()), this, SLOT(OnEditLinkClicked()));
+    connect(mpWorldEditor, SIGNAL(MapChanged(CWorld*,CGameArea*)), this, SLOT(OnMapChanged()));
+    connect(mpWorldEditor, SIGNAL(SelectionTransformed()), this, SLOT(OnWorldSelectionTransformed()));
+    connect(mpWorldEditor, SIGNAL(InstanceLinksModified(const QList<CScriptObject*>&)), this, SLOT(OnInstanceLinksModified(const QList<CScriptObject*>&)));
+    connect(mpWorldEditor->Selection(), SIGNAL(Modified()), this, SLOT(GenerateUI()));
 
     ClearUI();
 }
@@ -56,15 +63,6 @@ WModifyTab::WModifyTab(QWidget *pParent)
 WModifyTab::~WModifyTab()
 {
     delete ui;
-}
-
-void WModifyTab::SetEditor(CWorldEditor *pEditor)
-{
-    mpWorldEditor = pEditor;
-    ui->PropertyView->SetEditor(mpWorldEditor);
-    connect(mpWorldEditor, SIGNAL(SelectionTransformed()), this, SLOT(OnWorldSelectionTransformed()));
-    connect(mpWorldEditor, SIGNAL(InstanceLinksModified(const QList<CScriptObject*>&)), this, SLOT(OnInstanceLinksModified(const QList<CScriptObject*>&)));
-    connect(mpWorldEditor->Selection(), SIGNAL(Modified()), this, SLOT(GenerateUI()));
 }
 
 void WModifyTab::ClearUI()
@@ -129,6 +127,11 @@ void WModifyTab::OnInstanceLinksModified(const QList<CScriptObject*>& rkInstance
 void WModifyTab::OnWorldSelectionTransformed()
 {
     ui->PropertyView->UpdateEditorProperties(QModelIndex());
+}
+
+void WModifyTab::OnMapChanged()
+{
+    ClearUI();
 }
 
 void WModifyTab::OnLinksSelectionModified()

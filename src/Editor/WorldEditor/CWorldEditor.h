@@ -4,6 +4,8 @@
 #include "CCollisionRenderSettingsDialog.h"
 #include "CLinkDialog.h"
 #include "CPoiMapEditDialog.h"
+#include "CScriptEditSidebar.h"
+#include "CWorldInfoSidebar.h"
 #include "Editor/INodeEditor.h"
 #include "Editor/CGizmo.h"
 #include "Editor/CSceneViewport.h"
@@ -55,15 +57,23 @@ class CWorldEditor : public INodeEditor
     QString mPakFileList;
     QString mPakTarget;
 
+    // Sidebars
+    QVBoxLayout *mpRightSidebarLayout;
+    QWidget *mpCurSidebarWidget;
+
+    CWorldInfoSidebar *mpWorldInfoSidebar;
+    CScriptEditSidebar *mpScriptSidebar;
+
 public:
     explicit CWorldEditor(QWidget *parent = 0);
     ~CWorldEditor();
     void closeEvent(QCloseEvent *pEvent);
     bool CloseWorld();
-    void SetArea(CWorld *pWorld, CGameArea *pArea);
+    void SetArea(CWorld *pWorld, int AreaIndex);
     bool CheckUnsavedChanges();
     bool HasAnyScriptNodesSelected() const;
 
+    inline CWorld* ActiveWorld() const      { return mpWorld; }
     inline CGameArea* ActiveArea() const    { return mpArea; }
     inline EGame CurrentGame() const        { return mpArea ? mpArea->Game() : eUnknownGame; }
     inline CLinkDialog* LinkDialog() const  { return mpLinkDialog; }
@@ -104,6 +114,7 @@ public slots:
     void UpdateNewLinkLine();
 
 protected:
+    void SetSidebarWidget(QWidget *pWidget);
     void GizmoModeChanged(CGizmo::EGizmoMode Mode);
 
 private slots:
@@ -149,6 +160,7 @@ private slots:
     void EditPoiToWorldMap();
 
 signals:
+    void MapChanged(CWorld *pNewWorld, CGameArea *pNewArea);
     void LayersModified();
     void InstancesLayerAboutToChange();
     void InstancesLayerChanged(const QList<CScriptNode*>& rkInstanceList);

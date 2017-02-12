@@ -6,17 +6,22 @@
 #include <Core/Scene/CScene.h>
 #include <Core/Scene/CSceneIterator.h>
 
-WInstancesTab::WInstancesTab(QWidget *parent) :
+WInstancesTab::WInstancesTab(CWorldEditor *pEditor, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::WInstancesTab)
 {
     ui->setupUi(this);
 
-    mpEditor = nullptr;
+    mpEditor = pEditor;
+    mpScene = mpEditor->Scene();
+    connect(mpEditor, SIGNAL(MapChanged(CWorld*,CGameArea*)), this, SLOT(OnMapChange(CWorld*,CGameArea*)));
+
     mpLayersModel = new CInstancesModel(this);
     mpLayersModel->SetModelType(CInstancesModel::eLayers);
+    mpLayersModel->SetEditor(mpEditor);
     mpTypesModel = new CInstancesModel(this);
     mpTypesModel->SetModelType(CInstancesModel::eTypes);
+    mpTypesModel->SetEditor(mpEditor);
     mLayersProxyModel.setSourceModel(mpLayersModel);
     mTypesProxyModel.setSourceModel(mpTypesModel);
 
@@ -73,27 +78,16 @@ WInstancesTab::~WInstancesTab()
     delete ui;
 }
 
-void WInstancesTab::SetEditor(CWorldEditor *pEditor, CScene *pScene)
-{
-    mpEditor = pEditor;
-    mpScene = pScene;
-    mpTypesModel->SetEditor(pEditor);
-    mpLayersModel->SetEditor(pEditor);
-}
-
-void WInstancesTab::SetMaster(CMasterTemplate *pMaster)
-{
-    mpTypesModel->SetMaster(pMaster);
-    ExpandTopLevelItems();
-}
-
-void WInstancesTab::SetArea(CGameArea *pArea)
-{
-    mpLayersModel->SetArea(pArea);
-    ExpandTopLevelItems();
-}
-
 // ************ PRIVATE SLOTS ************
+void WInstancesTab::OnMapChange(CWorld*, CGameArea *pNewArea)
+{
+    EGame Game = mpEditor->CurrentGame();
+    CMasterTemplate *pMaster = CMasterTemplate::MasterForGame(Game);
+    mpTypesModel->SetMaster(pMaster);
+    mpLayersModel->SetArea(pNewArea);
+    ExpandTopLevelItems();
+}
+
 void WInstancesTab::OnTreeClick(QModelIndex Index)
 {
     // Single click is used to process show/hide events

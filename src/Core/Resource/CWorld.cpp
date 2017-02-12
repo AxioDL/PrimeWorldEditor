@@ -38,9 +38,15 @@ CDependencyTree* CWorld::BuildDependencyTree() const
 
 void CWorld::SetAreaLayerInfo(CGameArea *pArea)
 {
-    // The AreaIndex parameter is a placeholder until an improved world loader is implemented.
-    // For now it's the easiest/fastest way to do this because this function is called from
-    // the start window and the start window already knows the area index.
+    for (u32 iArea = 0; iArea < mAreas.size(); iArea++)
+    {
+        if (mAreas[iArea].AreaResID == pArea->ID())
+        {
+            pArea->SetWorldIndex(iArea);
+            break;
+        }
+    }
+
     SArea& AreaInfo = mAreas[pArea->WorldIndex()];
 
     for (u32 iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)

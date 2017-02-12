@@ -43,13 +43,11 @@ class WInstancesTab : public QWidget
     CInstancesModel::EIndexType mMenuIndexType;
 
 public:
-    explicit WInstancesTab(QWidget *parent = 0);
+    explicit WInstancesTab(CWorldEditor *pEditor, QWidget *parent = 0);
     ~WInstancesTab();
-    void SetEditor(CWorldEditor *pEditor, CScene *pScene);
-    void SetMaster(CMasterTemplate *pMaster);
-    void SetArea(CGameArea *pArea);
 
 private slots:
+    void OnMapChange(CWorld*, CGameArea *pNewArea);
     void OnTreeClick(QModelIndex Index);
     void OnTreeDoubleClick(QModelIndex Index);
 
