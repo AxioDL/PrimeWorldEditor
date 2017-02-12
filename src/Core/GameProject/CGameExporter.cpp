@@ -53,8 +53,6 @@ bool CGameExporter::Export(nod::DiscBase *pDisc, const TString& rkOutputDir, CAs
         return false;
 
     // Create project
-    CGameProject *pOldActiveProj = CGameProject::ActiveProject();
-
     mpProject = CGameProject::CreateProjectForExport(
                 this,
                 mExportDir,
@@ -68,10 +66,12 @@ bool CGameExporter::Export(nod::DiscBase *pDisc, const TString& rkOutputDir, CAs
                 mFilesystemAddress);
 
     mpProject->SetProjectName(mGameName);
-    mpProject->SetActive();
     mpStore = mpProject->ResourceStore();
     mContentDir = mpStore->RawDir(false);
     mCookedDir = mpStore->CookedDir(false);
+
+    CResourceStore *pOldStore = gpResourceStore;
+    gpResourceStore = mpStore;
 
     // Export game data
     LoadPaks();
@@ -82,7 +82,7 @@ bool CGameExporter::Export(nod::DiscBase *pDisc, const TString& rkOutputDir, CAs
     // Export finished!
     mProjectPath = mpProject->ProjectPath();
     delete mpProject;
-    if (pOldActiveProj) pOldActiveProj->SetActive();
+    if (pOldStore) gpResourceStore = pOldStore;
     return true;
 }
 

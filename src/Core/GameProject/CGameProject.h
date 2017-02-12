@@ -45,8 +45,6 @@ class CGameProject
         eVer_Current = eVer_Max - 1
     };
 
-    static CGameProject *mspActiveProject;
-
     // Private Constructor
     CGameProject()
         : mProjectName("Unnamed Project")
@@ -67,7 +65,6 @@ public:
 
     bool Save();
     void Serialize(IArchive& rArc);
-    void SetActive();
     void GetWorldList(std::list<CAssetID>& rOut) const;
     CAssetID FindNamedResource(const TString& rkName) const;
 
@@ -107,10 +104,7 @@ public:
     inline CAudioManager* AudioManager() const          { return mpAudioManager; }
     inline EGame Game() const                           { return mGame; }
     inline float BuildVersion() const                   { return mBuildVersion; }
-    inline bool IsActive() const                        { return mspActiveProject == this; }
     inline bool IsWiiBuild() const                      { return mBuildVersion >= 3.f; }
-
-    static inline CGameProject* ActiveProject() { return mspActiveProject; }
 };
 
 #endif // CGAMEPROJECT_H

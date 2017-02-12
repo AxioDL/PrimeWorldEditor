@@ -415,8 +415,16 @@
     <property name="title">
      <string>File</string>
     </property>
+    <addaction name="ActionOpenProject"/>
+    <addaction name="ActionOpenRecent"/>
+    <addaction name="separator"/>
     <addaction name="ActionSave"/>
     <addaction name="ActionSaveAndRepack"/>
+    <addaction name="separator"/>
+    <addaction name="ActionExportGame"/>
+    <addaction name="separator"/>
+    <addaction name="ActionCloseProject"/>
+    <addaction name="ActionExit"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
@@ -478,26 +486,13 @@
    <addaction name="menuTools"/>
    <addaction name="menuView"/>
   </widget>
-  <action name="ActionOpen">
-   <property name="text">
-    <string>Open</string>
-   </property>
-  </action>
   <action name="ActionSave">
    <property name="icon">
     <iconset resource="../Icons.qrc">
      <normaloff>:/icons/Save.png</normaloff>:/icons/Save.png</iconset>
    </property>
    <property name="text">
-    <string>Save</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+S</string>
-   </property>
-  </action>
-  <action name="actionOpen_model_viewer">
-   <property name="text">
-    <string>Open Model Viewer</string>
+    <string>Save World</string>
    </property>
   </action>
   <action name="ActionLink">
@@ -814,13 +809,46 @@
    <property name="toolTip">
     <string>Save and Repack</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+Shift+S</string>
-   </property>
   </action>
   <action name="ActionCollisionRenderSettings">
    <property name="text">
     <string>Collision Render Settings</string>
+   </property>
+  </action>
+  <action name="ActionOpenRecent">
+   <property name="icon">
+    <iconset resource="../Icons.qrc">
+     <normaloff>:/icons/Open_16px.png</normaloff>:/icons/Open_16px.png</iconset>
+   </property>
+   <property name="text">
+    <string>Open Recent</string>
+   </property>
+  </action>
+  <action name="ActionOpenProject">
+   <property name="icon">
+    <iconset resource="../Icons.qrc">
+     <normaloff>:/icons/Open_16px.png</normaloff>:/icons/Open_16px.png</iconset>
+   </property>
+   <property name="text">
+    <string>Open Project</string>
+   </property>
+  </action>
+  <action name="ActionExportGame">
+   <property name="text">
+    <string>Export Game</string>
+   </property>
+  </action>
+  <action name="ActionExit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
+  <action name="ActionCloseProject">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Close Project</string>
    </property>
   </action>
  </widget>

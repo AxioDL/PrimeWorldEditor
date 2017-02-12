@@ -2,6 +2,7 @@
 #define CSCENEVIEWPORT_H
 
 #include "CBasicViewport.h"
+#include "CGridRenderable.h"
 #include "CLineRenderable.h"
 #include "INodeEditor.h"
 
@@ -39,6 +40,9 @@ class CSceneViewport : public CBasicViewport
     QAction *mpSelectConnectedOutgoingAction;
     QAction *mpSelectConnectedIncomingAction;
     QAction *mpSelectConnectedAllAction;
+
+    // Grid
+    CGridRenderable mGrid;
 
     // Link Line
     bool mLinkLineEnabled;

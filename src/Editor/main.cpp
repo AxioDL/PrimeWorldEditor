@@ -25,6 +25,9 @@ int main(int argc, char *argv[])
     // Create application
     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
     CEditorApplication App(argc, argv);
+    App.setApplicationName( APP_NAME );
+    App.setApplicationVersion( APP_VERSION );
+    App.setOrganizationName("Aruki");
     App.setWindowIcon(QIcon(":/icons/AppIcon.ico"));
 
     // Init log

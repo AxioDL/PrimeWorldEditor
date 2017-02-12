@@ -497,3 +497,8 @@ void CResourceEntry::RemoveFromProject()
         Log::Error("RemoveFromProject called on transient resource entry: " + CookedAssetPath(true));
     }
 }
+
+CGameProject* CResourceEntry::Project() const
+{
+    return mpStore->Project();
+}

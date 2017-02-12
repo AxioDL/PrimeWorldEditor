@@ -142,7 +142,8 @@ void CScriptInstanceDependency::ParseStructDependencies(CScriptInstanceDependenc
 
             if (SoundID != -1)
             {
-                SSoundInfo Info = CGameProject::ActiveProject()->AudioManager()->GetSoundInfo(SoundID);
+                CGameProject *pProj = pStruct->Instance()->Area()->Entry()->Project();
+                SSoundInfo Info = pProj->AudioManager()->GetSoundInfo(SoundID);
 
                 if (Info.pAudioGroup)
                 {

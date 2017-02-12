@@ -3,19 +3,14 @@
 #include "Core/Resource/Script/CMasterTemplate.h"
 #include <Common/Serialization/XML.h>
 
-CGameProject *CGameProject::mspActiveProject = nullptr;
-
 CGameProject::~CGameProject()
 {
     if (mpResourceStore)
     {
         ASSERT(!mpResourceStore->IsDirty());
-    }
 
-    if (IsActive())
-    {
-        mspActiveProject = nullptr;
-        gpResourceStore = nullptr;
+        if (gpResourceStore == mpResourceStore)
+            gpResourceStore = nullptr;
     }
 
     for (u32 iPkg = 0; iPkg < mPackages.size(); iPkg++)
@@ -96,15 +91,6 @@ void CGameProject::Serialize(IArchive& rArc)
                 }
             }
         }
-    }
-}
-
-void CGameProject::SetActive()
-{
-    if (mspActiveProject != this)
-    {
-        mspActiveProject = this;
-        gpResourceStore = mpResourceStore;
     }
 }
 

@@ -34,7 +34,11 @@ class CWorldEditor;
 class CWorldEditor : public INodeEditor
 {
     Q_OBJECT
+    static const int mskMaxRecentProjects = 10;
+
     Ui::CWorldEditor *ui;
+    QMenu *mpOpenRecentMenu;
+    QAction *mRecentProjectsActions[ mskMaxRecentProjects ];
 
     TResPtr<CWorld> mpWorld;
     TResPtr<CGameArea> mpArea;
@@ -55,6 +59,7 @@ public:
     explicit CWorldEditor(QWidget *parent = 0);
     ~CWorldEditor();
     void closeEvent(QCloseEvent *pEvent);
+    bool CloseWorld();
     void SetArea(CWorld *pWorld, CGameArea *pArea);
     bool CheckUnsavedChanges();
     bool HasAnyScriptNodesSelected() const;
@@ -76,8 +81,14 @@ public slots:
     void Cut();
     void Copy();
     void Paste();
+
+    void OpenProject();
+    void OpenRecentProject();
+    void CloseProject();
     bool Save();
     bool SaveAndRepack();
+
+    void OnActiveProjectChanged(CGameProject *pProj);
     void OnLinksModified(const QList<CScriptObject*>& rkInstances);
     void OnPropertyModified(IProperty *pProp);
     void SetSelectionActive(bool Active);
@@ -85,6 +96,7 @@ public slots:
     void SetSelectionLayer(CScriptLayer *pLayer);
     void DeleteSelection();
 
+    void UpdateOpenRecentActions();
     void UpdateStatusBar();
     void UpdateGizmoUI();
     void UpdateSelectionUI();

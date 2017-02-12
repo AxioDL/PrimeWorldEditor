@@ -24,11 +24,7 @@ public:
     explicit CProjectOverviewDialog(QWidget *pParent = 0);
     ~CProjectOverviewDialog();
 
-protected:
-    void InternalLoadProject(const QString& rkPath);
-
 public slots:
-    void OpenProject();
     void ExportGame();
     void LoadWorld();
     void LaunchEditor();

@@ -11,6 +11,7 @@
 
 class CResource;
 class CResourceStore;
+class CGameProject;
 class CDependencyTree;
 
 enum EResEntryFlag
@@ -68,6 +69,7 @@ public:
     bool Move(const TWideString& rkDir, const TWideString& rkName);
     void AddToProject(const TWideString& rkDir, const TWideString& rkName);
     void RemoveFromProject();
+    CGameProject* Project() const;
 
     // Accessors
     void SetDirty()                                     { mFlags.SetFlag(eREF_NeedsRecook); }

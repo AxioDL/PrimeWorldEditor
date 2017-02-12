@@ -1,5 +1,6 @@
 #include "TestDialog.h"
 #include "ui_TestDialog.h"
+#include "CEditorApplication.h"
 #include <Core/GameProject/CGameProject.h>
 
 TestDialog::TestDialog(QWidget *pParent)
@@ -26,7 +27,7 @@ void TestDialog::OnSpinBoxChanged(int NewValue)
 void TestDialog::OnFind()
 {
     u32 SoundID = ui->spinBox->value();
-    CGameProject *pProj = CGameProject::ActiveProject();
+    CGameProject *pProj = gpEdApp->ActiveProject();
 
     if (pProj)
     {
