@@ -17,17 +17,16 @@
 #include "Editor/Widgets/WVectorEditor.h"
 #include "Editor/Undo/UndoCommands.h"
 
+#include <Common/Log.h>
 #include <Core/GameProject/CGameProject.h>
 #include <Core/Render/CDrawUtil.h>
 #include <Core/Scene/CSceneIterator.h>
-#include <Common/Log.h>
 
-#include <iostream>
 #include <QClipboard>
 #include <QComboBox>
 #include <QFontMetrics>
 #include <QMessageBox>
-#include <QOpenGLContext>
+#include <QSettings>
 
 CWorldEditor::CWorldEditor(QWidget *parent)
     : INodeEditor(parent)
@@ -90,7 +89,25 @@ CWorldEditor::CWorldEditor(QWidget *parent)
 
     mpCollisionDialog = new CCollisionRenderSettingsDialog(this, this);
 
+    // "Open Recent" menu
+    mpOpenRecentMenu = new QMenu(this);
+    ui->ActionOpenRecent->setMenu(mpOpenRecentMenu);
+
+    for (u32 iAct = 0; iAct < mskMaxRecentProjects; iAct++)
+    {
+        QAction *pAction = new QAction(this);
+        pAction->setVisible(false);
+        connect(pAction, SIGNAL(triggered(bool)), this, SLOT(OpenRecentProject()));
+
+        mpOpenRecentMenu->addAction(pAction);
+        mRecentProjectsActions[iAct] = pAction;
+    }
+    UpdateOpenRecentActions();
+
     // Connect signals and slots
+    connect(gpEdApp, SIGNAL(ActiveProjectChanged(CGameProject*)), this, SLOT(OnActiveProjectChanged(CGameProject*)));
+    connect(gpEdApp->clipboard(), SIGNAL(dataChanged()), this, SLOT(OnClipboardDataModified()));
+
     connect(ui->MainViewport, SIGNAL(ViewportClick(SRayIntersection,QMouseEvent*)), this, SLOT(OnViewportClick(SRayIntersection,QMouseEvent*)));
     connect(ui->MainViewport, SIGNAL(InputProcessed(SRayIntersection,QMouseEvent*)), this, SLOT(OnViewportInputProcessed(SRayIntersection,QMouseEvent*)));
     connect(ui->MainViewport, SIGNAL(InputProcessed(SRayIntersection,QMouseEvent*)), this, SLOT(UpdateGizmoUI()) );
@@ -105,10 +122,10 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     connect(ui->TransformSpinBox, SIGNAL(ValueChanged(CVector3f)), this, SLOT(OnTransformSpinBoxModified(CVector3f)));
     connect(ui->TransformSpinBox, SIGNAL(EditingDone(CVector3f)), this, SLOT(OnTransformSpinBoxEdited(CVector3f)));
     connect(ui->CamSpeedSpinBox, SIGNAL(valueChanged(double)), this, SLOT(OnCameraSpeedChange(double)));
-    connect(qApp->clipboard(), SIGNAL(dataChanged()), this, SLOT(OnClipboardDataModified()));
     connect(&mUndoStack, SIGNAL(indexChanged(int)), this, SLOT(OnUndoStackIndexChanged()));
 
-    connect(ui->ActionSave, SIGNAL(triggered()), this, SLOT(Save()));
+    connect(ui->ActionOpenProject, SIGNAL(triggered()), this, SLOT(OpenProject()));
+    connect(ui->ActionSave, SIGNAL(triggered()) , this, SLOT(Save()));
     connect(ui->ActionSaveAndRepack, SIGNAL(triggered()), this, SLOT(SaveAndRepack()));
     connect(ui->ActionCut, SIGNAL(triggered()), this, SLOT(Cut()));
     connect(ui->ActionCopy, SIGNAL(triggered()), this, SLOT(Copy()));
@@ -172,6 +189,34 @@ void CWorldEditor::closeEvent(QCloseEvent *pEvent)
     }
 }
 
+bool CWorldEditor::CloseWorld()
+{
+    if (CheckUnsavedChanges())
+    {
+        ExitPickMode();
+        ClearSelection();
+        ui->MainViewport->ResetHover();
+        ui->ModifyTabContents->ClearUI();
+        ui->InstancesTabContents->SetMaster(nullptr);
+
+        mUndoStack.clear();
+        mpCollisionDialog->close();
+        mpLinkDialog->close();
+
+        if (mpPoiDialog)
+            mpPoiDialog->close();
+
+        // Clear old area - hack until better world/area loader is implemented
+        if (mpArea)
+            mpArea->ClearScriptLayers();
+
+        mpArea = nullptr;
+        mpWorld = nullptr;
+        return true;
+    }
+    else return false;
+}
+
 void CWorldEditor::SetArea(CWorld *pWorld, CGameArea *pArea)
 {
     ExitPickMode();
@@ -187,10 +232,6 @@ void CWorldEditor::SetArea(CWorld *pWorld, CGameArea *pArea)
         delete mpPoiDialog;
         mpPoiDialog = nullptr;
     }
-
-    // Clear old area - hack until better world/area loader is implemented
-    if ((mpArea) && (pArea != mpArea))
-        mpArea->ClearScriptLayers();
 
     // Load new area
     mpArea = pArea;
@@ -355,6 +396,32 @@ void CWorldEditor::Paste()
     }
 }
 
+void CWorldEditor::OpenProject()
+{
+    QString ProjPath = UICommon::OpenFileDialog(this, "Open Project", "Game Project (*.prj)");
+    if (!ProjPath.isEmpty()) gpEdApp->OpenProject(ProjPath);
+}
+
+void CWorldEditor::OpenRecentProject()
+{
+    QAction *pSender = qobject_cast<QAction*>(sender());
+
+    if (pSender)
+    {
+        QSettings Settings;
+        QStringList RecentProjectsList = Settings.value("WorldEditor/RecentProjectsList").toStringList();
+
+        int ProjIndex = pSender->data().toInt();
+        QString ProjPath = RecentProjectsList[ProjIndex];
+        gpEdApp->OpenProject(ProjPath);
+    }
+}
+
+void CWorldEditor::CloseProject()
+{
+    gpEdApp->CloseProject();
+}
+
 bool CWorldEditor::Save()
 {
     bool SaveAreaSuccess = mpArea->Entry()->Save();
@@ -382,6 +449,22 @@ bool CWorldEditor::SaveAndRepack()
     if (!Save()) return false;
     gpEdApp->CookAllDirtyPackages();
     return true;
+}
+
+void CWorldEditor::OnActiveProjectChanged(CGameProject *pProj)
+{
+    ui->ActionCloseProject->setEnabled( pProj != nullptr );
+    if (!pProj) return;
+
+    // Update recent projects list
+    QSettings Settings;
+    QStringList RecentProjectsList = Settings.value("WorldEditor/RecentProjectsList").toStringList();
+    QString ProjPath = TO_QSTRING(pProj->ProjectPath());
+
+    RecentProjectsList.removeAll(ProjPath);
+    RecentProjectsList.prepend(ProjPath);
+    Settings.setValue("WorldEditor/RecentProjectsList", RecentProjectsList);
+    UpdateOpenRecentActions();
 }
 
 void CWorldEditor::OnLinksModified(const QList<CScriptObject*>& rkInstances)
@@ -506,6 +589,27 @@ void CWorldEditor::DeleteSelection()
     {
         CDeleteSelectionCommand *pCmd = new CDeleteSelectionCommand(this);
         mUndoStack.push(pCmd);
+    }
+}
+
+void CWorldEditor::UpdateOpenRecentActions()
+{
+    QSettings Settings;
+    QStringList RecentProjectsList = Settings.value("WorldEditor/RecentProjectsList").toStringList();
+
+    for (int iProj = 0; iProj < mskMaxRecentProjects; iProj++)
+    {
+        QAction *pAction = mRecentProjectsActions[iProj];
+
+        if (iProj < RecentProjectsList.size())
+        {
+            QString ActionText = QString("&%1 %2").arg(iProj).arg(RecentProjectsList[iProj]);
+            pAction->setText(ActionText);
+            pAction->setVisible(true);
+        }
+
+        else
+            pAction->setVisible(false);
     }
 }
 

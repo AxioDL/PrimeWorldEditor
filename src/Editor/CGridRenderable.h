@@ -7,7 +7,21 @@
 // Tiny helper to make sure the grid draws at the correct depth.
 class CGridRenderable : public IRenderable
 {
+    CColor mLineColor;
+    CColor mBoldLineColor;
+
 public:
+    CGridRenderable()
+        : mLineColor(0.6f, 0.6f, 0.6f, 0.f)
+        , mBoldLineColor(0.f, 0.f, 0.f, 0.f)
+    {}
+
+    inline void SetColor(const CColor& rkLineColor, const CColor& rkBoldColor)
+    {
+        mLineColor = rkLineColor;
+        mBoldLineColor = rkBoldColor;
+    }
+
     void AddToRenderer(CRenderer *pRenderer, const SViewInfo&)
     {
         pRenderer->AddMesh(this, 0, CAABox::skOne, false, eDrawMesh);
@@ -15,7 +29,7 @@ public:
 
     void Draw(FRenderOptions, int, ERenderCommand, const SViewInfo&)
     {
-        CDrawUtil::DrawGrid();
+        CDrawUtil::DrawGrid(mLineColor, mBoldLineColor);
     }
 };
 

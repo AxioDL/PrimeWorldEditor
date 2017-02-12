@@ -41,7 +41,7 @@ TResPtr<CTexture> CDrawUtil::mpLightMasks[4];
 bool CDrawUtil::mDrawUtilInitialized = false;
 
 // ************ PUBLIC ************
-void CDrawUtil::DrawGrid()
+void CDrawUtil::DrawGrid(CColor LineColor, CColor BoldLineColor)
 {
     Init();
 
@@ -55,11 +55,13 @@ void CDrawUtil::DrawGrid()
     glDepthMask(GL_TRUE);
 
     glLineWidth(1.0f);
-    UseColorShader(CColor(0.6f, 0.6f, 0.6f, 0.f));
+    LineColor.A = 0.f;
+    UseColorShader(LineColor);
     mGridIndices.DrawElements(0, mGridIndices.GetSize() - 4);
 
     glLineWidth(1.5f);
-    UseColorShader(CColor::skTransparentBlack);
+    BoldLineColor.A = 0.f;
+    UseColorShader(BoldLineColor);
     mGridIndices.DrawElements(mGridIndices.GetSize() - 4, 4);
 }
 
@@ -405,25 +407,32 @@ void CDrawUtil::Init()
 void CDrawUtil::InitGrid()
 {
     Log::Write("Creating grid");
-    mGridVertices.SetVertexDesc(ePosition);
-    mGridVertices.Reserve(64);
 
-     for (s32 i = -7; i < 8; i++)
+    const int kGridSize = 501; // must be odd
+    const float kGridSpacing = 1.f;
+    int MinIdx = (kGridSize - 1) / -2;
+    int MaxIdx = (kGridSize - 1) / 2;
+
+    mGridVertices.SetVertexDesc(ePosition);
+    mGridVertices.Reserve(kGridSize * 4);
+
+     for (s32 i = MinIdx; i <= MaxIdx; i++)
      {
          if (i == 0) continue;
-         mGridVertices.AddVertex(CVector3f(-7.0f, float(i), 0.0f));
-         mGridVertices.AddVertex(CVector3f( 7.0f, float(i), 0.0f));
-         mGridVertices.AddVertex(CVector3f(float(i), -7.0f, 0.0f));
-         mGridVertices.AddVertex(CVector3f(float(i),  7.0f, 0.0f));
+         mGridVertices.AddVertex(CVector3f(MinIdx * kGridSpacing, i * kGridSpacing, 0.0f));
+         mGridVertices.AddVertex(CVector3f(MaxIdx * kGridSpacing, i * kGridSpacing, 0.0f));
+         mGridVertices.AddVertex(CVector3f(i * kGridSpacing, MinIdx * kGridSpacing, 0.0f));
+         mGridVertices.AddVertex(CVector3f(i * kGridSpacing, MaxIdx * kGridSpacing, 0.0f));
      }
 
-     mGridVertices.AddVertex(CVector3f(-7.0f, 0, 0.0f));
-     mGridVertices.AddVertex(CVector3f( 7.0f, 0, 0.0f));
-     mGridVertices.AddVertex(CVector3f(0, -7.0f, 0.0f));
-     mGridVertices.AddVertex(CVector3f(0,  7.0f, 0.0f));
+     mGridVertices.AddVertex(CVector3f(MinIdx * kGridSpacing, 0, 0.0f));
+     mGridVertices.AddVertex(CVector3f(MaxIdx * kGridSpacing, 0, 0.0f));
+     mGridVertices.AddVertex(CVector3f(0, MinIdx * kGridSpacing, 0.0f));
+     mGridVertices.AddVertex(CVector3f(0, MaxIdx * kGridSpacing, 0.0f));
 
-     mGridIndices.Reserve(60);
-     for (u16 i = 0; i < 60; i++) mGridIndices.AddIndex(i);
+     int NumIndices = kGridSize * 4;
+     mGridIndices.Reserve(NumIndices);
+     for (u16 i = 0; i < NumIndices; i++) mGridIndices.AddIndex(i);
      mGridIndices.SetPrimitiveType(GL_LINES);
 }
 

@@ -57,7 +57,7 @@ class CDrawUtil
     static bool mDrawUtilInitialized;
 
 public:
-    static void DrawGrid();
+    static void DrawGrid(CColor LineColor, CColor BoldLineColor);
 
     static void DrawSquare();
     static void DrawSquare(const CVector2f& TexUL, const CVector2f& TexUR, const CVector2f& TexBR, const CVector2f& TexBL);

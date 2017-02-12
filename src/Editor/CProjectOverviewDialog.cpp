@@ -32,35 +32,6 @@ CProjectOverviewDialog::~CProjectOverviewDialog()
     delete mpUI;
 }
 
-void CProjectOverviewDialog::InternalLoadProject(const QString& rkPath)
-{
-    // Load project
-    TWideString Path = TO_TWIDESTRING(rkPath);
-    CGameProject *pNewProj = CGameProject::LoadProject(Path);
-
-    if (pNewProj)
-    {
-        if (mpProject) delete mpProject;
-        mpProject = pNewProj;
-        mpProject->SetActive();
-        SetupWorldsList();
-        SetupPackagesList();
-        emit ActiveProjectChanged(mpProject);
-    }
-
-    else
-    {
-        UICommon::ErrorMsg(this, "Failed to open project! Is it already open in another Prime World Editor instance?");
-    }
-}
-
-void CProjectOverviewDialog::OpenProject()
-{
-    // Open project file
-    QString ProjPath = UICommon::OpenFileDialog(this, "Open Project", "Game Project (*.prj)");
-    if (!ProjPath.isEmpty()) InternalLoadProject(ProjPath);
-}
-
 void CProjectOverviewDialog::ExportGame()
 {
     QString IsoPath = UICommon::OpenFileDialog(this, "Select ISO", "*.iso *.gcm *.tgc *.wbfs");
@@ -77,14 +48,12 @@ void CProjectOverviewDialog::ExportGame()
         int OpenChoice = QMessageBox::information(this, "Export complete", "Export finished successfully! Open new project?", QMessageBox::Yes, QMessageBox::No);
 
         if (OpenChoice == QMessageBox::Yes)
-            InternalLoadProject(ExportDialog.ProjectPath());
+            gpEdApp->OpenProject(ExportDialog.ProjectPath());
     }
 }
 
 void CProjectOverviewDialog::SetupWorldsList()
 {
-    ASSERT(mpProject != nullptr && mpProject->IsActive());
-
     std::list<CAssetID> WorldIDs;
     mpProject->GetWorldList(WorldIDs);
     mWorldEntries.clear();
@@ -111,7 +80,6 @@ void CProjectOverviewDialog::SetupWorldsList()
 
 void CProjectOverviewDialog::SetupPackagesList()
 {
-    ASSERT(mpProject != nullptr && mpProject->IsActive());
     mpUI->PackagesList->clear();
 
     for (u32 iPkg = 0; iPkg < mpProject->NumPackages(); iPkg++)

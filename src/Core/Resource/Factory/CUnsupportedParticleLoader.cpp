@@ -1298,7 +1298,7 @@ void CUnsupportedParticleLoader::ParseSoundFunction(IInputStream& rFile)
 
         if (SoundID != 0xFFFF)
         {
-            SSoundInfo SoundInfo = CGameProject::ActiveProject()->AudioManager()->GetSoundInfo(SoundID);
+            SSoundInfo SoundInfo = mpGroup->Entry()->Project()->AudioManager()->GetSoundInfo(SoundID);
             mpGroup->AddDependency(SoundInfo.pAudioGroup);
         }
         

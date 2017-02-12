@@ -13,6 +13,7 @@
 
 CEditorApplication::CEditorApplication(int& rArgc, char **ppArgv)
     : QApplication(rArgc, ppArgv)
+    , mpActiveProject(nullptr)
     , mpWorldEditor(nullptr)
     , mpResourceBrowser(nullptr)
     , mpProjectDialog(nullptr)
@@ -34,9 +35,56 @@ void CEditorApplication::InitEditor()
     mpWorldEditor = new CWorldEditor();
     mpResourceBrowser = new CResourceBrowser(mpWorldEditor);
     mpProjectDialog = new CProjectOverviewDialog();
-    connect(mpProjectDialog, SIGNAL(ActiveProjectChanged(CGameProject*)), mpResourceBrowser, SLOT(UpdateStore()));
+    mpWorldEditor->showMaximized();
+}
 
-    mpProjectDialog->show();
+bool CEditorApplication::CloseProject()
+{
+    if (mpActiveProject)
+    {
+        // Close active editor windows. todo: check for unsaved changes
+        foreach (IEditor *pEditor, mEditorWindows)
+        {
+            if (pEditor != mpWorldEditor && !pEditor->close())
+                return false;
+        }
+
+        // Close world
+        if (!mpWorldEditor->CloseWorld())
+            return false;
+
+        mpResourceBrowser->close();
+        mpProjectDialog->close();
+
+        delete mpActiveProject;
+        mpActiveProject = nullptr;
+        emit ActiveProjectChanged(nullptr);
+    }
+
+    return true;
+}
+
+bool CEditorApplication::OpenProject(const QString& rkProjPath)
+{
+    // Close existing project
+    if (!CloseProject())
+        return false;
+
+    // Load new project
+    TWideString Path = TO_TWIDESTRING(rkProjPath);
+    mpActiveProject = CGameProject::LoadProject(Path);
+
+    if (mpActiveProject)
+    {
+        gpResourceStore = mpActiveProject->ResourceStore();
+        emit ActiveProjectChanged(mpActiveProject);
+        return true;
+    }
+    else
+    {
+        UICommon::ErrorMsg(mpWorldEditor, "Failed to open project! Is it already open in another Prime World Editor instance?");
+        return false;
+    }
 }
 
 void CEditorApplication::EditResource(CResourceEntry *pEntry)
@@ -58,7 +106,7 @@ void CEditorApplication::EditResource(CResourceEntry *pEntry)
 
         if (!pRes)
         {
-            QMessageBox::warning(nullptr, "Error", "Failed to load resource!");
+            UICommon::ErrorMsg(mpWorldEditor, "Failed to load resource!");
             return;
         }
 
@@ -82,7 +130,7 @@ void CEditorApplication::EditResource(CResourceEntry *pEntry)
             mEditingMap[pEntry] = pEd;
         }
         else
-            QMessageBox::information(0, "Unsupported Resource", "This resource type is currently unsupported for editing.");
+            UICommon::InfoMsg(mpWorldEditor, "Unsupported Resource", "This resource type is currently unsupported for editing.");
     }
 }
 
@@ -93,19 +141,20 @@ void CEditorApplication::NotifyAssetsModified()
 
 void CEditorApplication::CookAllDirtyPackages()
 {
-    CGameProject *pProj = CGameProject::ActiveProject();
+    ASSERT(mpActiveProject != nullptr);
 
-    for (u32 iPkg = 0; iPkg < pProj->NumPackages(); iPkg++)
+    for (u32 iPkg = 0; iPkg < mpActiveProject->NumPackages(); iPkg++)
     {
-        CPackage *pPackage = pProj->PackageByIndex(iPkg);
+        CPackage *pPackage = mpActiveProject->PackageByIndex(iPkg);
 
         if (pPackage->NeedsRecook())
             pPackage->Cook();
     }
 
-    mpProjectDialog->SetupPackagesList();
+    emit PackagesCooked();
 }
 
+// ************ SLOTS ************
 void CEditorApplication::AddEditor(IEditor *pEditor)
 {
     mEditorWindows << pEditor;
@@ -149,7 +198,7 @@ void CEditorApplication::OnEditorClose()
     IEditor *pEditor = qobject_cast<IEditor*>(sender());
     ASSERT(pEditor);
 
-    if (qobject_cast<CWorldEditor*>(pEditor) == nullptr)
+    if (pEditor != mpWorldEditor)
     {
         for (auto Iter = mEditingMap.begin(); Iter != mEditingMap.end(); Iter++)
         {
@@ -162,7 +211,7 @@ void CEditorApplication::OnEditorClose()
 
         mEditorWindows.removeOne(pEditor);
         delete pEditor;
-    }
 
-    CGameProject::ActiveProject()->ResourceStore()->DestroyUnreferencedResources();
+        mpActiveProject->ResourceStore()->DestroyUnreferencedResources();
+    }
 }

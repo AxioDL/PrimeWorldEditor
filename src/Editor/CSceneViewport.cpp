@@ -20,6 +20,7 @@ CSceneViewport::CSceneViewport(QWidget *pParent)
     , mpContextMenu(nullptr)
     , mpMenuNode(nullptr)
 {
+    mGrid.SetColor(CColor(0.f, 0.f, 0.6f, 0.f), CColor(0.f, 0.f, 1.f, 0.f));
     mLinkLine.SetColor(CColor::skYellow);
 
     mpRenderer = new CRenderer();
@@ -299,6 +300,7 @@ void CSceneViewport::Paint()
 {
     if (!mpScene) return;
 
+    mpRenderer->SetClearColor(CColor::skBlack);
     mpRenderer->BeginFrame();
 
     // todo: The sky should really just be a regular node in the background depth group instead of having special rendering code here
@@ -318,6 +320,10 @@ void CSceneViewport::Paint()
         pGizmo->UpdateForCamera(mCamera);
         pGizmo->AddToRenderer(mpRenderer, mViewInfo);
     }
+
+    // Draw grid if the scene is empty
+    if (!mViewInfo.GameMode && mpScene->ActiveArea() == nullptr)
+        mGrid.AddToRenderer(mpRenderer, mViewInfo);
 
     // Draw the line for the link the user is editing.
     if (mLinkLineEnabled) mLinkLine.AddToRenderer(mpRenderer, mViewInfo);

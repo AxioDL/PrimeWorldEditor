@@ -67,7 +67,7 @@ void CAnimEventLoader::LoadEvents(IInputStream& rEVNT, bool IsEchoes)
 
             if (SoundID != 0xFFFF)
             {
-                SSoundInfo SoundInfo = CGameProject::ActiveProject()->AudioManager()->GetSoundInfo(SoundID);
+                SSoundInfo SoundInfo = mpEventData->Entry()->Project()->AudioManager()->GetSoundInfo(SoundID);
 
                 if (SoundInfo.pAudioGroup)
                     mpEventData->AddEvent(CharIndex, SoundInfo.pAudioGroup->ID());

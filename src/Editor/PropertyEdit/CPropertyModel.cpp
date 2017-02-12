@@ -297,7 +297,7 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                     u32 SoundID = pSound->Get();
                     if (SoundID == -1) return "[None]";
 
-                    CGameProject *pProj = CGameProject::ActiveProject();
+                    CGameProject *pProj = pSound->Instance()->Area()->Entry()->Project();
                     SSoundInfo SoundInfo = pProj->AudioManager()->GetSoundInfo(SoundID);
 
                     QString Out = QString::number(SoundID);

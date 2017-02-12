@@ -69,13 +69,14 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
     QAction *pImportFromContentsTxtAction = new QAction("Import from Pak Contents List", this);
     pImportNamesMenu->addAction(pImportFromContentsTxtAction);
 
-#if !PUBLIC_RELEASE
-    QAction *pGenerateAssetNamesAction = new QAction("Generate Asset Names", this);
-    pImportNamesMenu->addAction(pGenerateAssetNamesAction);
-#endif
-
     QAction *pImportFromAssetNameMapAction = new QAction("Import from Asset Name Map", this);
     pImportNamesMenu->addAction(pImportFromAssetNameMapAction);
+
+    QAction *pGenerateAssetNamesAction = new QAction("Generate Asset Names", this);
+    pImportNamesMenu->addAction(pGenerateAssetNamesAction);
+#if !PUBLIC_RELEASE
+    pGenerateAssetNamesAction->setVisible(false);
+#endif
 
     // Set up connections
     connect(mpUI->StoreComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateStore()));
@@ -87,13 +88,11 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
     connect(mpUI->ResourceTableView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(OnResourceSelectionChanged(QModelIndex, QModelIndex)));
     connect(pImportFromContentsTxtAction, SIGNAL(triggered()), this, SLOT(OnImportPakContentsTxt()));
     connect(pImportFromAssetNameMapAction, SIGNAL(triggered()), this, SLOT(OnImportNamesFromAssetNameMap()));
+    connect(pGenerateAssetNamesAction, SIGNAL(triggered()), this, SLOT(OnGenerateAssetNames()));
     connect(mpUI->ExportNamesButton, SIGNAL(clicked()), this, SLOT(ExportAssetNames()));
     connect(&mUpdateFilterTimer, SIGNAL(timeout()), this, SLOT(UpdateFilter()));
     connect(mpFilterAllBox, SIGNAL(toggled(bool)), this, SLOT(OnFilterTypeBoxTicked(bool)));
-
-#if !PUBLIC_RELEASE
-    connect(pGenerateAssetNamesAction, SIGNAL(triggered()), this, SLOT(OnGenerateAssetNames()));
-#endif
+    connect(gpEdApp, SIGNAL(ActiveProjectChanged(CGameProject*)), this, SLOT(UpdateStore()));
 }
 
 CResourceBrowser::~CResourceBrowser()

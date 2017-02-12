@@ -293,8 +293,6 @@ void CSceneNode::Rotate(const CQuaternion& rkRotation, ETransformSpace Transform
 
 void CSceneNode::Rotate(const CQuaternion& rkRotation, const CVector3f& rkPivot, const CQuaternion& rkPivotRotation, ETransformSpace TransformSpace)
 {
-    Rotate(rkRotation, TransformSpace);
-
     switch (TransformSpace)
     {
     case eWorldTransform:
@@ -304,7 +302,7 @@ void CSceneNode::Rotate(const CQuaternion& rkRotation, const CVector3f& rkPivot,
         mPosition = rkPivot + ((rkPivotRotation * rkRotation * rkPivotRotation.Inverse()) * (mPosition - rkPivot));
         break;
     }
-    MarkTransformChanged();
+    Rotate(rkRotation, TransformSpace);
 }
 
 void CSceneNode::Scale(const CVector3f& rkScale)
