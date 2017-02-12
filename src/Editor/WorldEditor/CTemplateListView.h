@@ -62,12 +62,15 @@ public:
         mpMaster = pMaster;
         mTemplates.clear();
 
-        for (u32 iTemp = 0; iTemp < mpMaster->NumScriptTemplates(); iTemp++)
-            mTemplates << mpMaster->TemplateByIndex(iTemp);
+        if (mpMaster)
+        {
+            for (u32 iTemp = 0; iTemp < mpMaster->NumScriptTemplates(); iTemp++)
+                mTemplates << mpMaster->TemplateByIndex(iTemp);
 
-        qSort(mTemplates.begin(), mTemplates.end(), [](CScriptTemplate *pLeft, CScriptTemplate *pRight) -> bool {
-            return pLeft->Name() < pRight->Name();
-        });
+            qSort(mTemplates.begin(), mTemplates.end(), [](CScriptTemplate *pLeft, CScriptTemplate *pRight) -> bool {
+                return pLeft->Name() < pRight->Name();
+            });
+        }
 
         endResetModel();
     }

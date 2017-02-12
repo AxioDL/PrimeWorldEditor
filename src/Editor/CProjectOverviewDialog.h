@@ -25,6 +25,7 @@ public:
     ~CProjectOverviewDialog();
 
 public slots:
+    void ActiveProjectChanged(CGameProject *pProj);
     void ExportGame();
     void LoadWorld();
     void LaunchEditor();
@@ -34,9 +35,6 @@ public slots:
 
     void SetupWorldsList();
     void SetupPackagesList();
-
-signals:
-    void ActiveProjectChanged(CGameProject *pNewProj);
 };
 
 #endif // CPROJECTOVERVIEWDIALOG_H

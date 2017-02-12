@@ -24,12 +24,20 @@ CProjectOverviewDialog::CProjectOverviewDialog(QWidget *pParent)
     connect(mpUI->CookPackageButton, SIGNAL(clicked()), this, SLOT(CookPackage()));
     connect(mpUI->CookAllDirtyPackagesButton, SIGNAL(clicked(bool)), this, SLOT(CookAllDirtyPackages()));
 
+    connect(gpEdApp, SIGNAL(ActiveProjectChanged(CGameProject*)), this, SLOT(ActiveProjectChanged(CGameProject*)));
     connect(gpEdApp, SIGNAL(AssetsModified()), this, SLOT(SetupPackagesList()));
 }
 
 CProjectOverviewDialog::~CProjectOverviewDialog()
 {
     delete mpUI;
+}
+
+void CProjectOverviewDialog::ActiveProjectChanged(CGameProject *pProj)
+{
+    mpProject = pProj;
+    SetupWorldsList();
+    SetupPackagesList();
 }
 
 void CProjectOverviewDialog::ExportGame()

@@ -35,7 +35,7 @@ class CWorldEditor;
 
 enum EWorldEditorMode
 {
-    eWEM_WorldInfo,
+    eWEM_EditWorldInfo,
     eWEM_EditScript
 };
 
@@ -125,6 +125,7 @@ public slots:
     void UpdateNewLinkLine();
 
 protected:
+    void AddEditModeButton(QIcon Icon, QString ToolTip, EWorldEditorMode Mode);
     void SetSidebarWidget(QWidget *pWidget);
     void GizmoModeChanged(CGizmo::EGizmoMode Mode);
 

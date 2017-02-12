@@ -76,12 +76,15 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     mpWorldInfoSidebar->setHidden(true);
     mpScriptSidebar = new CScriptEditSidebar(this);
     mpScriptSidebar->setHidden(true);
-    SetSidebarWidget(mpWorldInfoSidebar);
 
+    // Initialize edit mode toolbar
     mpEditModeButtonGroup = new QButtonGroup(this);
-    mpEditModeButtonGroup->addButton( ui->EditWorldInfoButton,  eWEM_WorldInfo );
-    mpEditModeButtonGroup->addButton( ui->EditScriptButton,     eWEM_EditScript );
     connect(mpEditModeButtonGroup, SIGNAL(buttonClicked(int)), this, SLOT(ChangeEditMode(int)));
+
+    AddEditModeButton( QIcon(":/icons/World.png"), "Edit World Info",eWEM_EditWorldInfo );
+    AddEditModeButton( QIcon(":/icons/Modify.png"), "Edit Script", eWEM_EditScript );
+
+    ChangeEditMode(eWEM_EditWorldInfo);
 
     // Initialize actions
     addAction(ui->ActionIncrementGizmo);
@@ -449,6 +452,9 @@ void CWorldEditor::CloseProject()
 
 bool CWorldEditor::Save()
 {
+    if (!mpArea)
+        return true;
+
     bool SaveAreaSuccess = mpArea->Entry()->Save();
     bool SaveEGMCSuccess = mpArea->PoiToWorldMap() ? mpArea->PoiToWorldMap()->Entry()->Save() : true;
     bool SaveWorldSuccess = mpWorld->Entry()->Save();
@@ -478,6 +484,7 @@ bool CWorldEditor::SaveAndRepack()
 
 void CWorldEditor::ChangeEditMode(int Mode)
 {
+    // This function is connected to the edit mode QButtonGroup.
     ChangeEditMode((EWorldEditorMode) Mode);
 }
 
@@ -489,7 +496,7 @@ void CWorldEditor::ChangeEditMode(EWorldEditorMode Mode)
 
     switch (Mode)
     {
-    case eWEM_WorldInfo:
+    case eWEM_EditWorldInfo:
         SetSidebarWidget(mpWorldInfoSidebar);
         break;
 
@@ -525,7 +532,7 @@ void CWorldEditor::OnActiveProjectChanged(CGameProject *pProj)
     Settings.setValue("WorldEditor/RecentProjectsList", RecentProjectsList);
     UpdateOpenRecentActions();
 
-    ChangeEditMode(eWEM_WorldInfo);
+    ChangeEditMode(eWEM_EditWorldInfo);
 }
 
 void CWorldEditor::OnLinksModified(const QList<CScriptObject*>& rkInstances)
@@ -846,6 +853,19 @@ void CWorldEditor::UpdateNewLinkLine()
 }
 
 // ************ PROTECTED ************
+void CWorldEditor::AddEditModeButton(QIcon Icon, QString ToolTip, EWorldEditorMode Mode)
+{
+    ASSERT(mpEditModeButtonGroup->button(Mode) == nullptr);
+
+    QPushButton *pButton = new QPushButton(Icon, "", this);
+    pButton->setCheckable(true);
+    pButton->setToolTip(ToolTip);
+    pButton->setIconSize(QSize(24, 24));
+
+    ui->EditModeToolBar->addWidget(pButton);
+    mpEditModeButtonGroup->addButton(pButton, Mode);
+}
+
 void CWorldEditor::SetSidebarWidget(QWidget *pWidget)
 {
     if (mpCurSidebarWidget)

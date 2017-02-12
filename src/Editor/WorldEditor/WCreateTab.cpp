@@ -15,6 +15,7 @@ WCreateTab::WCreateTab(CWorldEditor *pEditor, QWidget *pParent /*= 0*/)
     mpEditor->Viewport()->installEventFilter(this);
 
     connect(mpEditor, SIGNAL(LayersModified()), this, SLOT(OnLayersChanged()));
+    connect(gpEdApp, SIGNAL(ActiveProjectChanged(CGameProject*)), this, SLOT(OnActiveProjectChanged(CGameProject*)));
     connect(ui->SpawnLayerComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(OnSpawnLayerChanged(int)));
 }
 
@@ -57,9 +58,9 @@ bool WCreateTab::eventFilter(QObject *pObj, QEvent *pEvent)
 }
 
 // ************ PUBLIC SLOTS ************
-void WCreateTab::OnMapChanged()
+void WCreateTab::OnActiveProjectChanged(CGameProject *pProj)
 {
-    EGame Game = mpEditor->CurrentGame();
+    EGame Game = (pProj ? pProj->Game() : eUnknownGame);
     CMasterTemplate *pMaster = CMasterTemplate::MasterForGame(Game);
     ui->TemplateView->SetMaster(pMaster);
 }
