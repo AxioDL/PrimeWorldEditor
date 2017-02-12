@@ -20,6 +20,12 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
     mpUI->setupUi(this);
     setWindowFlags(windowFlags() | Qt::WindowMinimizeButtonHint);
 
+#if PUBLIC_RELEASE
+    // Hide store select combo box in public release build; we don't want users to edit the editor store
+    mpUI->StoreLabel->setHidden(true);
+    mpUI->StoreComboBox->setHidden(true);
+#endif
+
     // Set up table models
     mpModel = new CResourceTableModel(this);
     mpProxyModel = new CResourceProxyModel(this);
@@ -137,37 +143,40 @@ void CResourceBrowser::CreateFilterCheckboxes()
 
     mTypeList.clear();
 
-    // No store - leave empty
-    if (!mpStore) return;
-
-    // Get new type list
-    std::list<CResTypeInfo*> TypeList;
-    CResTypeInfo::GetAllTypesInGame(mpStore->Game(), TypeList);
-
-    for (auto Iter = TypeList.begin(); Iter != TypeList.end(); Iter++)
+    if (mpStore)
     {
-        CResTypeInfo *pType = *Iter;
+        // Get new type list
+        std::list<CResTypeInfo*> TypeList;
+        CResTypeInfo::GetAllTypesInGame(mpStore->Game(), TypeList);
 
-        if (pType->IsVisibleInBrowser())
+        for (auto Iter = TypeList.begin(); Iter != TypeList.end(); Iter++)
         {
-            QCheckBox *pCheck = new QCheckBox(this);
-            pCheck->setFont(mFilterBoxFont);
-            pCheck->setText(TO_QSTRING(pType->TypeName()));
-            mTypeList << SResourceType { pType, pCheck };
+            CResTypeInfo *pType = *Iter;
+
+            if (pType->IsVisibleInBrowser())
+            {
+                QCheckBox *pCheck = new QCheckBox(this);
+                pCheck->setFont(mFilterBoxFont);
+                pCheck->setText(TO_QSTRING(pType->TypeName()));
+                mTypeList << SResourceType { pType, pCheck };
+            }
+        }
+
+        qSort(mTypeList.begin(), mTypeList.end(), [](const SResourceType& rkLeft, const SResourceType& rkRight) -> bool {
+            return rkLeft.pTypeInfo->TypeName().ToUpper() < rkRight.pTypeInfo->TypeName().ToUpper();
+        });
+
+        // Add sorted checkboxes to the UI
+        foreach (const SResourceType& rkType, mTypeList)
+        {
+            QCheckBox *pCheck = rkType.pFilterCheckBox;
+            mpFilterBoxesLayout->addWidget(rkType.pFilterCheckBox);
+            connect(pCheck, SIGNAL(toggled(bool)), this, SLOT(OnFilterTypeBoxTicked(bool)));
         }
     }
 
-    qSort(mTypeList.begin(), mTypeList.end(), [](const SResourceType& rkLeft, const SResourceType& rkRight) -> bool {
-        return rkLeft.pTypeInfo->TypeName().ToUpper() < rkRight.pTypeInfo->TypeName().ToUpper();
-    });
-
-    // Add sorted checkboxes to the UI
-    foreach (const SResourceType& rkType, mTypeList)
-    {
-        QCheckBox *pCheck = rkType.pFilterCheckBox;
-        mpFilterBoxesLayout->addWidget(rkType.pFilterCheckBox);
-        connect(pCheck, SIGNAL(toggled(bool)), this, SLOT(OnFilterTypeBoxTicked(bool)));
-    }
+    QSpacerItem *pSpacer = new QSpacerItem(0, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+    mpFilterBoxesLayout->addSpacerItem(pSpacer);
 }
 
 void CResourceBrowser::RefreshResources()

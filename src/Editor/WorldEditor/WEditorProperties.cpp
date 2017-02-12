@@ -9,7 +9,7 @@ WEditorProperties::WEditorProperties(QWidget *pParent /*= 0*/)
     , mHasEditedName(false)
 {
     mpInstanceInfoLabel = new QLabel;
-    mpInstanceInfoLabel->setText("<i>No selection</i>");
+    mpInstanceInfoLabel->setText("<i>[No selection]</i>");
     mpInstanceInfoLayout = new QHBoxLayout;
     mpInstanceInfoLayout->addWidget(mpInstanceInfoLabel);
 
@@ -34,7 +34,7 @@ WEditorProperties::WEditorProperties(QWidget *pParent /*= 0*/)
     mpMainLayout->addLayout(mpInstanceInfoLayout);
     mpMainLayout->addLayout(mpNameLayout);
     mpMainLayout->addLayout(mpLayersLayout);
-    mpMainLayout->setContentsMargins(6, 6, 6, 0);
+    mpMainLayout->setContentsMargins(3, 3, 3, 0);
     mpMainLayout->setSpacing(3);
     setLayout(mpMainLayout);
     setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);

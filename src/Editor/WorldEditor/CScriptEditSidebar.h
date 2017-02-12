@@ -4,14 +4,17 @@
 #include <QTabWidget>
 
 class CWorldEditor;
+class WEditorProperties;
 class WCreateTab;
 class WModifyTab;
 class WInstancesTab;
 
-class CScriptEditSidebar : public QTabWidget
+class CScriptEditSidebar : public QWidget
 {
     Q_OBJECT
 
+    WEditorProperties *mpEditorProperties;
+    QTabWidget *mpTabWidget;
     WCreateTab *mpCreateTab;
     WModifyTab *mpModifyTab;
     WInstancesTab *mpInstancesTab;
