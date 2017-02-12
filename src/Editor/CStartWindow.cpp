@@ -182,19 +182,7 @@ void CStartWindow::on_LaunchWorldEditorButton_clicked()
     {
         Log::ClearErrorLog();
 
-        CAssetID AreaID = mpWorld->AreaResourceID(mSelectedAreaIndex);
-        TString AreaPath = mpWorld->Entry()->CookedAssetPath().GetFileDirectory() + AreaID.ToString() + ".MREA";
-        TResPtr<CGameArea> pArea = gpResourceStore->LoadResource(AreaPath);
-
-        if (!pArea)
-        {
-            QMessageBox::warning(this, "Error", "Couldn't load area!");
-            return;
-        }
-
-        pArea->SetWorldIndex(mSelectedAreaIndex);
-        mpWorld->SetAreaLayerInfo(pArea);
-        mpWorldEditor->SetArea(mpWorld, pArea);
+        mpWorldEditor->SetArea(mpWorld, mSelectedAreaIndex);
         gpResourceStore->DestroyUnreferencedResources();
 
         mpWorldEditor->setWindowModality(Qt::WindowModal);

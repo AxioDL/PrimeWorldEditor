@@ -4,12 +4,16 @@
 #include "CWorldEditor.h"
 #include "Editor/Undo/UndoCommands.h"
 
-WCreateTab::WCreateTab(QWidget *parent)
-    : QWidget(parent)
+WCreateTab::WCreateTab(CWorldEditor *pEditor, QWidget *pParent /*= 0*/)
+    : QWidget(pParent)
     , ui(new Ui::WCreateTab)
     , mpSpawnLayer(nullptr)
 {
     ui->setupUi(this);
+
+    mpEditor = pEditor;
+    mpEditor->Viewport()->installEventFilter(this);
+    connect(mpEditor, SIGNAL(LayersModified()), this, SLOT(OnLayersChanged()));
 
     connect(ui->SpawnLayerComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(OnSpawnLayerChanged(int)));
 }
@@ -52,19 +56,14 @@ bool WCreateTab::eventFilter(QObject *pObj, QEvent *pEvent)
     return false;
 }
 
-void WCreateTab::SetEditor(CWorldEditor *pEditor)
+// ************ PUBLIC SLOTS ************
+void WCreateTab::OnMapChanged()
 {
-    mpEditor = pEditor;
-    pEditor->Viewport()->installEventFilter(this);
-    connect(mpEditor, SIGNAL(LayersModified()), this, SLOT(OnLayersChanged()));
-}
-
-void WCreateTab::SetMaster(CMasterTemplate *pMaster)
-{
+    EGame Game = mpEditor->CurrentGame();
+    CMasterTemplate *pMaster = CMasterTemplate::MasterForGame(Game);
     ui->TemplateView->SetMaster(pMaster);
 }
 
-// ************ PUBLIC SLOTS ************
 void WCreateTab::OnLayersChanged()
 {
     CGameArea *pArea = mpEditor->ActiveArea();

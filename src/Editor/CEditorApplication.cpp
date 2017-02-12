@@ -56,9 +56,11 @@ bool CEditorApplication::CloseProject()
         mpResourceBrowser->close();
         mpProjectDialog->close();
 
-        delete mpActiveProject;
+        // Emit before actually deleting the project to allow editor references to clean up
+        CGameProject *pOldProj = mpActiveProject;
         mpActiveProject = nullptr;
         emit ActiveProjectChanged(nullptr);
+        delete pOldProj;
     }
 
     return true;

@@ -181,7 +181,11 @@ HEADERS += \
     CEditorApplication.h \
     IEditor.h \
     Widgets/CResourceSelector.h \
-    CExportGameDialog.h
+    CExportGameDialog.h \
+    WorldEditor/CScriptEditSidebar.h \
+    WorldEditor/CWorldInfoSidebar.h \
+    WorldEditor/CWorldTreeModel.h \
+    Widgets/CTimedLineEdit.h
 
 # Source Files
 SOURCES += \
@@ -246,7 +250,10 @@ SOURCES += \
     ResourceBrowser/CResourceBrowser.cpp \
     CEditorApplication.cpp \
     Widgets/CResourceSelector.cpp \
-    CExportGameDialog.cpp
+    CExportGameDialog.cpp \
+    WorldEditor/CScriptEditSidebar.cpp \
+    WorldEditor/CWorldInfoSidebar.cpp \
+    WorldEditor/CWorldTreeModel.cpp
 
 # UI Files
 FORMS += \
@@ -271,4 +278,5 @@ FORMS += \
     WorldEditor/CCollisionRenderSettingsDialog.ui \
     CProjectOverviewDialog.ui \
     ResourceBrowser/CResourceBrowser.ui \
-    CExportGameDialog.ui
+    CExportGameDialog.ui \
+    WorldEditor/CWorldInfoSidebar.ui

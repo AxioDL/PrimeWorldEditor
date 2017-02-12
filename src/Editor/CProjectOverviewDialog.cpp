@@ -134,7 +134,7 @@ void CProjectOverviewDialog::LaunchEditor()
     {
         pArea->SetWorldIndex(AreaIdx);
         mpWorld->SetAreaLayerInfo(pArea);
-        gpEdApp->WorldEditor()->SetArea(mpWorld, pArea);
+        gpEdApp->WorldEditor()->SetArea(mpWorld, AreaIdx);
         gpEdApp->WorldEditor()->showMaximized();
     }
 

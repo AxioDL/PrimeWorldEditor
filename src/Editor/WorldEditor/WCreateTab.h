@@ -16,16 +16,15 @@ class WCreateTab : public QWidget
     CScriptLayer *mpSpawnLayer;
 
 public:
-    explicit WCreateTab(QWidget *parent = 0);
+    explicit WCreateTab(CWorldEditor *pEditor, QWidget *parent = 0);
     ~WCreateTab();
     bool eventFilter(QObject *, QEvent *);
-    void SetEditor(CWorldEditor *pEditor);
-    void SetMaster(CMasterTemplate *pMaster);
 
     // Accessors
     inline CScriptLayer* SpawnLayer() const { return mpSpawnLayer; }
 
 public slots:
+    void OnMapChanged();
     void OnLayersChanged();
     void OnSpawnLayerChanged(int LayerIndex);
 

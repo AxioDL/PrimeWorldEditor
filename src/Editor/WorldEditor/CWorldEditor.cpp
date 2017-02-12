@@ -4,6 +4,7 @@
 #include "CLayerEditor.h"
 #include "CRepackInfoDialog.h"
 #include "CTemplateMimeData.h"
+#include "WCreateTab.h"
 #include "WModifyTab.h"
 #include "WInstancesTab.h"
 
@@ -52,9 +53,7 @@ CWorldEditor::CWorldEditor(QWidget *parent)
 
     // Initialize UI stuff
     ui->MainViewport->SetScene(this, &mScene);
-    ui->CreateTabContents->SetEditor(this);
-    ui->ModifyTabContents->SetEditor(this);
-    ui->InstancesTabContents->SetEditor(this, &mScene);
+    ui->MainViewport->setAcceptDrops(true);
     ui->TransformSpinBox->SetOrientation(Qt::Horizontal);
     ui->TransformSpinBox->layout()->setContentsMargins(0,0,0,0);
     ui->CamSpeedSpinBox->SetDefaultValue(1.0);
@@ -64,6 +63,18 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     ui->MainToolBar->addWidget(mpTransformCombo);
     ui->menuEdit->insertActions(ui->ActionCut, mUndoActions);
     ui->menuEdit->insertSeparator(ui->ActionCut);
+
+    // Initialize sidebar
+    mpCurSidebarWidget = nullptr;
+    mpRightSidebarLayout = new QVBoxLayout();
+    mpRightSidebarLayout->setContentsMargins(0, 0, 0, 0);
+    ui->RightSidebarFrame->setLayout(mpRightSidebarLayout);
+
+    mpWorldInfoSidebar = new CWorldInfoSidebar(this);
+    mpWorldInfoSidebar->setHidden(true);
+    mpScriptSidebar = new CScriptEditSidebar(this);
+    mpScriptSidebar->setHidden(true);
+    SetSidebarWidget(mpWorldInfoSidebar);
 
     // Initialize actions
     addAction(ui->ActionIncrementGizmo);
@@ -156,15 +167,11 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     connect(ui->ActionCollisionRenderSettings, SIGNAL(triggered()), this, SLOT(EditCollisionRenderSettings()));
     connect(ui->ActionEditLayers, SIGNAL(triggered()), this, SLOT(EditLayers()));
     connect(ui->ActionEditPoiToWorldMap, SIGNAL(triggered()), this, SLOT(EditPoiToWorldMap()));
-
-    ui->CreateTabEditorProperties->SyncToEditor(this);
-    ui->ModifyTabEditorProperties->SyncToEditor(this);
-    ui->InstancesTabEditorProperties->SyncToEditor(this);
-    ui->MainViewport->setAcceptDrops(true);
 }
 
 CWorldEditor::~CWorldEditor()
 {
+    delete mpScriptSidebar; // For some reason WCreateTab filters an event during the viewport's destructor
     delete ui;
 }
 
@@ -196,8 +203,6 @@ bool CWorldEditor::CloseWorld()
         ExitPickMode();
         ClearSelection();
         ui->MainViewport->ResetHover();
-        ui->ModifyTabContents->ClearUI();
-        ui->InstancesTabContents->SetMaster(nullptr);
 
         mUndoStack.clear();
         mpCollisionDialog->close();
@@ -212,19 +217,18 @@ bool CWorldEditor::CloseWorld()
 
         mpArea = nullptr;
         mpWorld = nullptr;
+
+        emit MapChanged(mpWorld, mpArea);
         return true;
     }
     else return false;
 }
 
-void CWorldEditor::SetArea(CWorld *pWorld, CGameArea *pArea)
+void CWorldEditor::SetArea(CWorld *pWorld, int AreaIndex)
 {
     ExitPickMode();
     ui->MainViewport->ResetHover();
     ClearSelection();
-    ui->ModifyTabContents->ClearUI();
-    ui->InstancesTabContents->SetMaster(nullptr);
-    ui->InstancesTabContents->SetArea(pArea);
     mUndoStack.clear();
 
     if (mpPoiDialog)
@@ -234,17 +238,24 @@ void CWorldEditor::SetArea(CWorld *pWorld, CGameArea *pArea)
     }
 
     // Load new area
-    mpArea = pArea;
     mpWorld = pWorld;
-    mScene.SetActiveWorld(pWorld);
-    mScene.SetActiveArea(pArea);
+    CAssetID AreaID = mpWorld->AreaResourceID(AreaIndex);
+    CResourceEntry *pAreaEntry = gpResourceStore->FindEntry(AreaID);
+    ASSERT(pAreaEntry);
+
+    mpArea = pAreaEntry->Load();
+    ASSERT(mpArea);
+    mpWorld->SetAreaLayerInfo(mpArea);
+
+    mScene.SetActiveWorld(mpWorld);
+    mScene.SetActiveArea(mpArea);
 
     // Snap camera to new area
     CCamera *pCamera = &ui->MainViewport->Camera();
 
     if (pCamera->MoveMode() == eFreeCamera)
     {
-        CTransform4f AreaTransform = pArea->Transform();
+        CTransform4f AreaTransform = mpArea->Transform();
         CVector3f AreaPosition(AreaTransform[0][3], AreaTransform[1][3], AreaTransform[2][3]);
         pCamera->Snap(AreaPosition);
     }
@@ -260,12 +271,8 @@ void CWorldEditor::SetArea(CWorld *pWorld, CGameArea *pArea)
     bool AllowEGMC = ( (mpWorld->Game() >= eEchoesDemo) && (mpWorld->Game() <= eCorruption) );
     ui->ActionEditPoiToWorldMap->setEnabled(AllowEGMC);
 
-    // Set up sidebar tabs
-    CMasterTemplate *pMaster = CMasterTemplate::MasterForGame(mpArea->Game());
-    ui->CreateTabContents->SetMaster(pMaster);
-    ui->InstancesTabContents->SetMaster(pMaster);
-
     // Set up dialogs
+    CMasterTemplate *pMaster = CMasterTemplate::MasterForGame(mpArea->Game());
     mpCollisionDialog->SetupWidgets(); // Won't modify any settings but will update widget visibility status if we've changed games
     mpLinkDialog->SetMaster(pMaster);
 
@@ -275,8 +282,8 @@ void CWorldEditor::SetArea(CWorld *pWorld, CGameArea *pArea)
 
     if (CurrentGame() < eReturns)
     {
-        CStringTable *pAreaNameTable = mpWorld->AreaName(mpArea->WorldIndex());
-        TWideString AreaName = pAreaNameTable ? pAreaNameTable->String("ENGL", 0) : (TWideString("!") + mpWorld->AreaInternalName(mpArea->WorldIndex()).ToUTF16());
+        CStringTable *pAreaNameTable = mpWorld->AreaName(AreaIndex);
+        TWideString AreaName = pAreaNameTable ? pAreaNameTable->String("ENGL", 0) : (TWideString("!") + mpWorld->AreaInternalName(AreaIndex).ToUTF16());
 
         if (AreaName.IsEmpty())
             AreaName = "[Untitled Area]";
@@ -289,7 +296,7 @@ void CWorldEditor::SetArea(CWorld *pWorld, CGameArea *pArea)
     {
         QString LevelName;
         if (pWorldNameTable) LevelName = TO_QSTRING(WorldName);
-        else LevelName = "!" + TO_QSTRING(mpWorld->AreaInternalName(mpArea->WorldIndex()));
+        else LevelName = "!" + TO_QSTRING(mpWorld->AreaInternalName(AreaIndex));
 
         SET_WINDOWTITLE_APPVARS( QString("%APP_FULL_NAME% - %1[*]").arg(LevelName) );
         Log::Write("Loaded level: World " + mpWorld->Source() + " / Area " + mpArea->Source() + " (" + TO_TSTRING(LevelName) + ")");
@@ -299,7 +306,11 @@ void CWorldEditor::SetArea(CWorld *pWorld, CGameArea *pArea)
     OnClipboardDataModified();
 
     // Emit signals
+    emit MapChanged(mpWorld, mpArea);
     emit LayersModified();
+
+    // Make sure old area is destroyed
+    gpResourceStore->DestroyUnreferencedResources();
 }
 
 bool CWorldEditor::CheckUnsavedChanges()
@@ -390,7 +401,7 @@ void CWorldEditor::Paste()
                     PastePoint = Ray.PointOnRay(10.f);
             }
 
-            CPasteNodesCommand *pCmd = new CPasteNodesCommand(this, ui->CreateTabContents->SpawnLayer(), PastePoint);
+            CPasteNodesCommand *pCmd = new CPasteNodesCommand(this, mpScriptSidebar->CreateTab()->SpawnLayer(), PastePoint);
             mUndoStack.push(pCmd);
         }
     }
@@ -748,8 +759,8 @@ void CWorldEditor::UpdateNewLinkLine()
         }
         else if (mIsMakingLink && mpNewLinkSender)
             pSender = mpNewLinkSender;
-        else if (ui->ModifyTabContents->IsPicking() && ui->ModifyTabContents->EditNode()->NodeType() == eScriptNode)
-            pSender = static_cast<CScriptNode*>(ui->ModifyTabContents->EditNode())->Instance();
+        else if (mpScriptSidebar->ModifyTab()->IsPicking() && mpScriptSidebar->ModifyTab()->EditNode()->NodeType() == eScriptNode)
+            pSender = static_cast<CScriptNode*>(mpScriptSidebar->ModifyTab()->EditNode())->Instance();
 
         // No sender and no receiver = no line
         if (!pSender && !pReceiver)
@@ -765,7 +776,7 @@ void CWorldEditor::UpdateNewLinkLine()
         // Compensate for missing sender or missing receiver
         else
         {
-            bool IsPicking = (mIsMakingLink || mpLinkDialog->IsPicking() || ui->ModifyTabContents->IsPicking());
+            bool IsPicking = (mIsMakingLink || mpLinkDialog->IsPicking() || mpScriptSidebar->ModifyTab()->IsPicking());
 
             if (ui->MainViewport->underMouse() && !ui->MainViewport->IsMouseInputActive() && IsPicking)
             {
@@ -785,6 +796,23 @@ void CWorldEditor::UpdateNewLinkLine()
 }
 
 // ************ PROTECTED ************
+void CWorldEditor::SetSidebarWidget(QWidget *pWidget)
+{
+    if (mpCurSidebarWidget)
+    {
+        mpRightSidebarLayout->removeWidget(mpCurSidebarWidget);
+        mpCurSidebarWidget->setHidden(true);
+    }
+
+    mpCurSidebarWidget = pWidget;
+
+    if (mpCurSidebarWidget)
+    {
+        mpRightSidebarLayout->addWidget(pWidget);
+        mpCurSidebarWidget->setHidden(false);
+    }
+}
+
 void CWorldEditor::GizmoModeChanged(CGizmo::EGizmoMode mode)
 {
     ui->TransformSpinBox->SetSingleStep( (mode == CGizmo::eRotate ? 1.0 : 0.1) );

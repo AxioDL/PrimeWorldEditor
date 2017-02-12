@@ -34,15 +34,15 @@ class WModifyTab : public QWidget
     bool mIsPicking;
 
 public:
-    explicit WModifyTab(QWidget *pParent = 0);
+    explicit WModifyTab(CWorldEditor *pEditor, QWidget *pParent = 0);
     ~WModifyTab();
-    void SetEditor(CWorldEditor *pEditor);
     void ClearUI();
 
 public slots:
     void GenerateUI();
     void OnInstanceLinksModified(const QList<CScriptObject*>& rkInstances);
     void OnWorldSelectionTransformed();
+    void OnMapChanged();
 
     void OnLinksSelectionModified();
     void OnAddLinkActionClicked(QAction *pAction);
