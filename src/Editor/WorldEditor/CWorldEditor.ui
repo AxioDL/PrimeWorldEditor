@@ -234,140 +234,6 @@
       </widget>
      </widget>
     </item>
-    <item>
-     <widget class="QFrame" name="EditModeFrame">
-      <property name="frameShape">
-       <enum>QFrame::NoFrame</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Sunken</enum>
-      </property>
-      <property name="lineWidth">
-       <number>1</number>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout_5">
-       <property name="spacing">
-        <number>3</number>
-       </property>
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
-       <item>
-        <widget class="QPushButton" name="EditWorldInfoButton">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>32</width>
-           <height>32</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>32</width>
-           <height>32</height>
-          </size>
-         </property>
-         <property name="toolTip">
-          <string>World Edit Mode</string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset resource="../Icons.qrc">
-           <normaloff>:/icons/World.png</normaloff>:/icons/World.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>24</width>
-           <height>24</height>
-          </size>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-         <property name="flat">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="EditScriptButton">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>32</width>
-           <height>32</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>32</width>
-           <height>32</height>
-          </size>
-         </property>
-         <property name="toolTip">
-          <string>Script Edit Mode</string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset resource="../Icons.qrc">
-           <normaloff>:/icons/Modify.png</normaloff>:/icons/Modify.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>24</width>
-           <height>24</height>
-          </size>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-         <property name="flat">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>546</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </widget>
-    </item>
    </layout>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -481,6 +347,23 @@
    <addaction name="menuEdit"/>
    <addaction name="menuTools"/>
    <addaction name="menuView"/>
+  </widget>
+  <widget class="QToolBar" name="EditModeToolBar">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>RightToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>true</bool>
+   </attribute>
   </widget>
   <action name="ActionSave">
    <property name="icon">
@@ -850,6 +733,33 @@
   <action name="ActionResourceBrowser">
    <property name="text">
     <string>Resource Browser</string>
+   </property>
+  </action>
+  <action name="ActionEditWorldInfoMode">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Icons.qrc">
+     <normaloff>:/icons/World.png</normaloff>:/icons/World.png</iconset>
+   </property>
+   <property name="text">
+    <string>Edit World Info</string>
+   </property>
+  </action>
+  <action name="ActionEditScriptMode">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Icons.qrc">
+     <normaloff>:/icons/Modify.png</normaloff>:/icons/Modify.png</iconset>
+   </property>
+   <property name="text">
+    <string>Edit Script</string>
    </property>
   </action>
  </widget>

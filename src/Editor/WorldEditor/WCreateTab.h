@@ -24,7 +24,7 @@ public:
     inline CScriptLayer* SpawnLayer() const { return mpSpawnLayer; }
 
 public slots:
-    void OnMapChanged();
+    void OnActiveProjectChanged(CGameProject *pProj);
     void OnLayersChanged();
     void OnSpawnLayerChanged(int LayerIndex);
 
