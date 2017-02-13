@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>314</width>
-    <height>585</height>
+    <height>670</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,48 +15,307 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="CTimedLineEdit" name="AreaSearchLineEdit">
-     <property name="font">
-      <font>
-       <pointsize>10</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="placeholderText">
-      <string>Search...</string>
-     </property>
-     <property name="clearButtonEnabled">
-      <bool>true</bool>
-     </property>
+    <widget class="QWidget" name="ProjectInfoWidget" native="true">
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="GameNameLabel">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>GAME NAME</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="CTimedLineEdit" name="AreaSearchLineEdit">
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="placeholderText">
+         <string>Search...</string>
+        </property>
+        <property name="clearButtonEnabled">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QTreeView" name="WorldTreeView">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>1</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="editTriggers">
+         <set>QAbstractItemView::NoEditTriggers</set>
+        </property>
+        <property name="alternatingRowColors">
+         <bool>true</bool>
+        </property>
+        <property name="verticalScrollMode">
+         <enum>QAbstractItemView::ScrollPerPixel</enum>
+        </property>
+        <property name="indentation">
+         <number>15</number>
+        </property>
+        <property name="sortingEnabled">
+         <bool>true</bool>
+        </property>
+        <attribute name="headerVisible">
+         <bool>false</bool>
+        </attribute>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
    <item>
-    <widget class="QTreeView" name="WorldTreeView">
-     <property name="font">
-      <font>
-       <pointsize>10</pointsize>
-      </font>
-     </property>
-     <property name="editTriggers">
-      <set>QAbstractItemView::NoEditTriggers</set>
-     </property>
-     <property name="alternatingRowColors">
-      <bool>true</bool>
-     </property>
-     <property name="verticalScrollMode">
-      <enum>QAbstractItemView::ScrollPerPixel</enum>
-     </property>
-     <property name="indentation">
-      <number>15</number>
-     </property>
-     <property name="sortingEnabled">
-      <bool>true</bool>
-     </property>
-     <attribute name="headerVisible">
-      <bool>true</bool>
-     </attribute>
+    <widget class="QWidget" name="WorldInfoWidget" native="true">
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="WorldNameLabel">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>WORLD NAME</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QFormLayout" name="formLayout_2">
+        <item row="0" column="0">
+         <widget class="QLabel" name="WorldLabel">
+          <property name="font">
+           <font>
+            <pointsize>9</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>World:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="CResourceSelector" name="WorldSelector" native="true"/>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="WorldNameStringLabel">
+          <property name="font">
+           <font>
+            <pointsize>9</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Name String:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="CResourceSelector" name="WorldNameSelector" native="true"/>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="DarkWorldNameStringLabel">
+          <property name="font">
+           <font>
+            <pointsize>9</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Dark World Name:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="CResourceSelector" name="DarkWorldNameSelector" native="true"/>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="WorldSkyLabel">
+          <property name="font">
+           <font>
+            <pointsize>9</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Default Sky:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="CResourceSelector" name="SkySelector" native="true"/>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="AreaInfoWidget" native="true">
+     <layout class="QVBoxLayout" name="verticalLayout_5">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="AreaNameLabel">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>AREA NAME</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QFormLayout" name="formLayout">
+        <item row="0" column="0">
+         <widget class="QLabel" name="AreaInternalNameLabel">
+          <property name="font">
+           <font>
+            <pointsize>9</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Name:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="AreaNameLineEdit"/>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="AreaLabel">
+          <property name="font">
+           <font>
+            <pointsize>9</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Area:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="CResourceSelector" name="AreaSelector" native="true">
+          <zorder>AreaNameLineEdit</zorder>
+          <zorder>AreaInternalNameLabel</zorder>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="AreaNameStringLabel">
+          <property name="font">
+           <font>
+            <pointsize>9</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Name String:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="CResourceSelector" name="AreaNameSelector" native="true"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <property name="spacing">
+         <number>1</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="AttachedAreasLabel">
+          <property name="font">
+           <font>
+            <pointsize>9</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Attached Areas</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QListWidget" name="AttachedAreasList">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>70</height>
+           </size>
+          </property>
+          <property name="alternatingRowColors">
+           <bool>true</bool>
+          </property>
+          <property name="verticalScrollMode">
+           <enum>QAbstractItemView::ScrollPerPixel</enum>
+          </property>
+          <property name="horizontalScrollMode">
+           <enum>QAbstractItemView::ScrollPerPixel</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
     </widget>
    </item>
   </layout>
@@ -66,6 +325,12 @@
    <class>CTimedLineEdit</class>
    <extends>QLineEdit</extends>
    <header>Editor/Widgets/CTimedLineEdit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>CResourceSelector</class>
+   <extends>QWidget</extends>
+   <header>Editor/Widgets/CResourceSelector.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

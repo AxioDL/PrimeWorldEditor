@@ -96,6 +96,7 @@ public:
     // Accessors
     inline void SetProjectName(const TString& rkName)   { mProjectName = rkName; }
 
+    inline TString Name() const                         { return mProjectName; }
     inline u32 NumPackages() const                      { return mPackages.size(); }
     inline CPackage* PackageByIndex(u32 Index) const    { return mPackages[Index]; }
     inline void AddPackage(CPackage *pPackage)          { mPackages.push_back(pPackage); }

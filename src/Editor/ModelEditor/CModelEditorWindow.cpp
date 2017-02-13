@@ -2,7 +2,6 @@
 #include "ui_CModelEditorWindow.h"
 #include "Editor/UICommon.h"
 #include "Editor/Widgets/WColorPicker.h"
-#include "Editor/Widgets/WResourceSelector.h"
 
 #include <Common/TString.h>
 #include <Core/Render/CDrawUtil.h>

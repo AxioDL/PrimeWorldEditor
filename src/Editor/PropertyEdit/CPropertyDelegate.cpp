@@ -8,7 +8,6 @@
 #include "Editor/Widgets/WColorPicker.h"
 #include "Editor/Widgets/WDraggableSpinBox.h"
 #include "Editor/Widgets/WIntegralSpinBox.h"
-#include "Editor/Widgets/WResourceSelector.h"
 
 #include <Core/Resource/Script/IProperty.h>
 #include <Core/Resource/Script/IPropertyTemplate.h>
@@ -140,6 +139,8 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
         case eAssetProperty:
         {
             CResourceSelector *pSelector = new CResourceSelector(pParent);
+            pSelector->SetFrameVisible(false);
+
             CAssetTemplate *pTemp = static_cast<CAssetTemplate*>(pProp->Template());
             pSelector->SetAllowedExtensions(pTemp->AllowedExtensions());
 
@@ -598,6 +599,7 @@ QWidget* CPropertyDelegate::CreateCharacterEditor(QWidget *pParent, const QModel
     if (Type == eAssetProperty)
     {
         CResourceSelector *pSelector = new CResourceSelector(pParent);
+        pSelector->SetFrameVisible(false);
 
         if (Params.Version() <= eEchoes)
             pSelector->SetAllowedExtensions("ANCS");
