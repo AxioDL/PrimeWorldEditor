@@ -57,6 +57,8 @@ void CWorldInfoSidebar::OnActiveProjectChanged(CGameProject *pProj)
     mpUI->ProjectInfoWidget->setHidden( pProj == nullptr );
     mpUI->WorldInfoWidget->setHidden(true);
     mpUI->AreaInfoWidget->setHidden(true);
+    mpUI->AreaSearchLineEdit->clear();
+    mProxyModel.SetFilterString("");
 
     bool IsEchoes = pProj && (pProj->Game() == eEchoesDemo || pProj->Game() == eEchoes);
     mpUI->GameNameLabel->setText( pProj ? TO_QSTRING(pProj->Name()) : "" );

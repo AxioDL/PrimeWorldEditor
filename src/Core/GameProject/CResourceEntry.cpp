@@ -356,6 +356,7 @@ CResource* CResourceEntry::LoadCooked(IInputStream& rInput)
 bool CResourceEntry::Unload()
 {
     ASSERT(mpResource != nullptr);
+    ASSERT(!mpResource->IsReferenced());
     delete mpResource;
     mpResource = nullptr;
     return true;

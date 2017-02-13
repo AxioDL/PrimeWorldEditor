@@ -12,7 +12,7 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
     : QDialog(pParent)
     , mpUI(new Ui::CResourceBrowser)
     , mpSelectedEntry(nullptr)
-    , mpStore(gpResourceStore)
+    , mpStore(nullptr)
     , mpSelectedDir(nullptr)
     , mAssetListMode(true)
     , mSearching(false)
@@ -232,7 +232,10 @@ void CResourceBrowser::UpdateDescriptionLabel()
 void CResourceBrowser::UpdateStore()
 {
     int StoreIndex = mpUI->StoreComboBox->currentIndex();
-    CResourceStore *pNewStore = (StoreIndex == 0 ? gpResourceStore : gpEditorStore);
+
+    CGameProject *pProj = gpEdApp->ActiveProject();
+    CResourceStore *pProjStore = (pProj ? pProj->ResourceStore() : nullptr);
+    CResourceStore *pNewStore = (StoreIndex == 0 ? pProjStore : gpEditorStore);
 
     if (mpStore != pNewStore)
     {

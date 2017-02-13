@@ -172,12 +172,13 @@ void CScene::DeleteNode(CSceneNode *pNode)
     mNumNodes--;
 }
 
-void CScene::SetActiveArea(CGameArea *pArea)
+void CScene::SetActiveArea(CWorld *pWorld, CGameArea *pArea)
 {
     // Clear existing area
     ClearScene();
 
     // Create nodes for new area
+    mpWorld = pWorld;
     mpArea = pArea;
     mpAreaRootNode = new CRootNode(this, -1, mpSceneRootNode);
 
@@ -248,11 +249,6 @@ void CScene::SetActiveArea(CGameArea *pArea)
     Log::Write( TString::FromInt32(CSceneNode::NumNodes(), 0, 10) + " nodes" );
 }
 
-void CScene::SetActiveWorld(CWorld* pWorld)
-{
-    mpWorld = pWorld;
-}
-
 void CScene::PostLoad()
 {
     mpSceneRootNode->OnLoadFinished();
@@ -265,6 +261,7 @@ void CScene::ClearScene()
     {
         mpAreaRootNode->Unparent();
         delete mpAreaRootNode;
+        mpAreaRootNode = nullptr;
     }
 
     mNodes.clear();
@@ -274,6 +271,7 @@ void CScene::ClearScene()
     mNumNodes = 0;
 
     mpArea = nullptr;
+    mpWorld = nullptr;
 }
 
 void CScene::AddSceneToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo)

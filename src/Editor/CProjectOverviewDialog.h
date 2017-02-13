@@ -26,15 +26,9 @@ public:
 
 public slots:
     void ActiveProjectChanged(CGameProject *pProj);
-    void ExportGame();
-    void LoadWorld();
-    void LaunchEditor();
-    void LaunchResourceBrowser();
+    void SetupPackagesList();
     void CookPackage();
     void CookAllDirtyPackages();
-
-    void SetupWorldsList();
-    void SetupPackagesList();
 };
 
 #endif // CPROJECTOVERVIEWDIALOG_H

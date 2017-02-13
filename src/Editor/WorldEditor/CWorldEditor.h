@@ -78,6 +78,7 @@ public:
     bool CloseWorld();
     bool SetArea(CWorld *pWorld, int AreaIndex);
     bool CheckUnsavedChanges();
+    void ResetCamera();
     bool HasAnyScriptNodesSelected() const;
 
     inline CWorld* ActiveWorld() const      { return mpWorld; }
@@ -101,9 +102,10 @@ public slots:
 
     void OpenProject();
     void OpenRecentProject();
-    void CloseProject();
     bool Save();
     bool SaveAndRepack();
+    void ExportGame();
+    void CloseProject();
 
     void ChangeEditMode(int Mode);
     void ChangeEditMode(EWorldEditorMode Mode);
