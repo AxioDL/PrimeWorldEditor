@@ -109,7 +109,6 @@ HEADERS += \
     Widgets/WColorPicker.h \
     Widgets/WDraggableSpinBox.h \
     Widgets/WIntegralSpinBox.h \
-    Widgets/WResourceSelector.h \
     Widgets/WScanPreviewPanel.h \
     Widgets/WStringPreviewPanel.h \
     Widgets/WTextureGLWidget.h \
@@ -198,7 +197,6 @@ SOURCES += \
     Widgets/WColorPicker.cpp \
     Widgets/WDraggableSpinBox.cpp \
     Widgets/WIntegralSpinBox.cpp \
-    Widgets/WResourceSelector.cpp \
     Widgets/WScanPreviewPanel.cpp \
     Widgets/WStringPreviewPanel.cpp \
     Widgets/WTextureGLWidget.cpp \

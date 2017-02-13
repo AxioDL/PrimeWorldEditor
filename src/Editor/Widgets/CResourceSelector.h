@@ -12,9 +12,12 @@ class CResourceSelector : public QWidget
     Q_OBJECT
 
     CResourceEntry *mpResEntry;
+    bool mIsEditable;
 
     // UI
-    QHBoxLayout *mpLayout;
+    QVBoxLayout *mpLayout;
+    QHBoxLayout *mpFrameLayout;
+    QFrame *mpFrame;
     QLabel *mpResNameLabel;
     QPushButton *mpSetButton;
     QPushButton *mpFindButton;
@@ -27,6 +30,8 @@ class CResourceSelector : public QWidget
 
 public:
     explicit CResourceSelector(QWidget *pParent = 0);
+    void SetFrameVisible(bool Visible);
+    void SetEditable(bool Editable);
     void SetAllowedExtensions(const QString& rkExtension);
     void SetAllowedExtensions(const TStringList& rkExtensions);
     void SetResource(const CAssetID& rkID);
@@ -35,6 +40,7 @@ public:
 
     // Accessors
     inline CResourceEntry* Entry() const    { return mpResEntry; }
+    inline bool IsEditable() const          { return mIsEditable; }
 
 public slots:
     void CreateContextMenu(const QPoint& rkPoint);

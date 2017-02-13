@@ -11,6 +11,7 @@
 CResourceSelector::CResourceSelector(QWidget *pParent /*= 0*/)
     : QWidget(pParent)
     , mpResEntry(nullptr)
+    , mIsEditable(true)
 {
     setContextMenuPolicy(Qt::CustomContextMenu);
 
@@ -35,13 +36,21 @@ CResourceSelector::CResourceSelector(QWidget *pParent /*= 0*/)
     mpClearButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     mpClearButton->setFixedSize(16, 16);
     
-    mpLayout = new QHBoxLayout(this);
-    mpLayout->setSpacing(2);
+    mpFrameLayout = new QHBoxLayout(this);
+    mpFrameLayout->setSpacing(2);
+    mpFrameLayout->setContentsMargins(3, 0, 0, 0);
+    mpFrameLayout->addWidget(mpResNameLabel);
+    mpFrameLayout->addWidget(mpSetButton);
+    mpFrameLayout->addWidget(mpFindButton);
+    mpFrameLayout->addWidget(mpClearButton);
+    mpFrame = new QFrame(this);
+    mpFrame->setBackgroundRole(QPalette::AlternateBase);
+    mpFrame->setLayout(mpFrameLayout);
+    SetFrameVisible(true);
+
+    mpLayout = new QVBoxLayout(this);
+    mpLayout->addWidget(mpFrame);
     mpLayout->setContentsMargins(0, 0, 0, 0);
-    mpLayout->addWidget(mpResNameLabel);
-    mpLayout->addWidget(mpSetButton);
-    mpLayout->addWidget(mpFindButton);
-    mpLayout->addWidget(mpClearButton);
     setLayout(mpLayout);
 
     // UI Connections
@@ -61,6 +70,19 @@ CResourceSelector::CResourceSelector(QWidget *pParent /*= 0*/)
     connect(mpCopyPathAction, SIGNAL(triggered()), this, SLOT(CopyPath()));
 
     UpdateUI();
+}
+
+void CResourceSelector::SetFrameVisible(bool Visible)
+{
+    mpFrame->setFrameStyle(Visible ? QFrame::StyledPanel : QFrame::NoFrame);
+    mpFrame->setAutoFillBackground(Visible);
+}
+
+void CResourceSelector::SetEditable(bool Editable)
+{
+    mpSetButton->setVisible(Editable);
+    mpClearButton->setVisible(Editable);
+    mIsEditable = Editable;
 }
 
 void CResourceSelector::UpdateUI()

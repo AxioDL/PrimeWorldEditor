@@ -118,6 +118,7 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     {
         QAction *pAction = new QAction(this);
         pAction->setVisible(false);
+        pAction->setData((int) iAct);
         connect(pAction, SIGNAL(triggered(bool)), this, SLOT(OpenRecentProject()));
 
         mpOpenRecentMenu->addAction(pAction);

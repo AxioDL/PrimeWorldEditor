@@ -60,6 +60,24 @@ void CWorld::SetAreaLayerInfo(CGameArea *pArea)
     }
 }
 
+TString CWorld::InGameName() const
+{
+    if (mpWorldName)
+        return mpWorldName->String("ENGL", 0).ToUTF8();
+    else
+        return Entry()->Name().ToUTF8();
+}
+
+TString CWorld::AreaInGameName(u32 AreaIndex) const
+{
+    const SArea& rkArea = mAreas[AreaIndex];
+
+    if (rkArea.pAreaName)
+        return rkArea.pAreaName->String("ENGL", 0).ToUTF8();
+    else
+        return "!!" + rkArea.InternalName;
+}
+
 // ************ SERIALIZATION ************
 void CWorld::Serialize(IArchive& rArc)
 {

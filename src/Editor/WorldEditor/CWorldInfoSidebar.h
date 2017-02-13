@@ -24,8 +24,12 @@ public:
     ~CWorldInfoSidebar();
 
 public slots:
+    void OnActiveProjectChanged(CGameProject *pProj);
     void OnAreaFilterStringChanged(const QString& rkFilter);
+    void OnWorldTreeClicked(QModelIndex Index);
     void OnWorldTreeDoubleClicked(QModelIndex Index);
+    void ClearWorldInfo();
+    void ClearAreaInfo();
 };
 
 #endif // CWORLDINFOSIDEBAR_H

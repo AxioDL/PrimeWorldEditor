@@ -80,6 +80,8 @@ public:
 
     CDependencyTree* BuildDependencyTree() const;
     void SetAreaLayerInfo(CGameArea *pArea);
+    TString InGameName() const;
+    TString AreaInGameName(u32 AreaIndex) const;
 
     // Serialization
     virtual void Serialize(IArchive& rArc);
