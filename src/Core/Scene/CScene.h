@@ -56,8 +56,7 @@ public:
     CScriptNode* CreateScriptNode(CScriptObject *pObj, u32 NodeID = -1);
     CLightNode* CreateLightNode(CLight *pLight, u32 NodeID = -1);
     void DeleteNode(CSceneNode *pNode);
-    void SetActiveArea(CGameArea *pArea);
-    void SetActiveWorld(CWorld *pWorld);
+    void SetActiveArea(CWorld *pWorld, CGameArea *pArea);
     void PostLoad();
     void ClearScene();
     void AddSceneToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo);

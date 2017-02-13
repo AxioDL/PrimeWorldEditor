@@ -53,6 +53,11 @@ CResourceSelector::CResourceSelector(QWidget *pParent /*= 0*/)
     mpLayout->setContentsMargins(0, 0, 0, 0);
     setLayout(mpLayout);
 
+    // Font
+    QFont Font = font();
+    Font.setPointSize(10);
+    setFont(Font);
+
     // UI Connections
     connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(CreateContextMenu(QPoint)));
     connect(mpSetButton, SIGNAL(clicked()), this, SLOT(Set()));

@@ -9,6 +9,7 @@
 #include "WInstancesTab.h"
 
 #include "Editor/CBasicViewport.h"
+#include "Editor/CExportGameDialog.h"
 #include "Editor/CNodeCopyMimeData.h"
 #include "Editor/CPakToolDialog.h"
 #include "Editor/CSelectionIterator.h"
@@ -53,7 +54,7 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     ui->splitter->setSizes(SplitterSizes);
 
     // Initialize UI stuff
-    ui->MainViewport->Camera().Snap(CVector3f(0.f, 5.f, 1.f));
+    ResetCamera();
     ui->MainViewport->SetScene(this, &mScene);
     ui->MainViewport->setAcceptDrops(true);
     ui->TransformSpinBox->SetOrientation(Qt::Horizontal);
@@ -110,6 +111,26 @@ CWorldEditor::CWorldEditor(QWidget *parent)
 
     mpCollisionDialog = new CCollisionRenderSettingsDialog(this, this);
 
+    // Resource Browser button
+    QPushButton *pBrowserButton = new QPushButton(this);
+    pBrowserButton->setText("Resource Browser");
+    connect(pBrowserButton, SIGNAL(pressed()), this, SLOT(OpenResourceBrowser()));
+
+    QPalette Palette = pBrowserButton->palette();
+    QBrush ButtonBrush = Palette.button();
+    ButtonBrush.setColor( QColor(36, 100, 100) );
+    Palette.setBrush(QPalette::Button, ButtonBrush);
+    pBrowserButton->setPalette(Palette);
+
+    QFont BrowserButtonFont = pBrowserButton->font();
+    BrowserButtonFont.setPointSize( BrowserButtonFont.pointSize() + 3 );
+    pBrowserButton->setFont(BrowserButtonFont);
+
+    QWidget *pSpacerWidget = new QWidget(this);
+    pSpacerWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+    ui->MainToolBar->addWidget(pSpacerWidget);
+    ui->MainToolBar->addWidget(pBrowserButton);
+
     // "Open Recent" menu
     mpOpenRecentMenu = new QMenu(this);
     ui->ActionOpenRecent->setMenu(mpOpenRecentMenu);
@@ -149,6 +170,10 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     connect(ui->ActionOpenProject, SIGNAL(triggered()), this, SLOT(OpenProject()));
     connect(ui->ActionSave, SIGNAL(triggered()) , this, SLOT(Save()));
     connect(ui->ActionSaveAndRepack, SIGNAL(triggered()), this, SLOT(SaveAndRepack()));
+    connect(ui->ActionExportGame, SIGNAL(triggered()), this, SLOT(ExportGame()));
+    connect(ui->ActionCloseProject, SIGNAL(triggered()), this, SLOT(CloseProject()));
+    connect(ui->ActionExit, SIGNAL(triggered()), this, SLOT(close()));
+
     connect(ui->ActionCut, SIGNAL(triggered()), this, SLOT(Cut()));
     connect(ui->ActionCopy, SIGNAL(triggered()), this, SLOT(Copy()));
     connect(ui->ActionPaste, SIGNAL(triggered()), this, SLOT(Paste()));
@@ -216,6 +241,7 @@ bool CWorldEditor::CloseWorld()
         ExitPickMode();
         ClearSelection();
         ui->MainViewport->ResetHover();
+        mScene.ClearScene();
 
         mUndoStack.clear();
         mpCollisionDialog->close();
@@ -262,9 +288,7 @@ bool CWorldEditor::SetArea(CWorld *pWorld, int AreaIndex)
     mpArea = pAreaEntry->Load();
     ASSERT(mpArea);
     mpWorld->SetAreaLayerInfo(mpArea);
-
-    mScene.SetActiveWorld(mpWorld);
-    mScene.SetActiveArea(mpArea);
+    mScene.SetActiveArea(mpWorld, mpArea);
 
     // Snap camera to new area
     CCamera *pCamera = &ui->MainViewport->Camera();
@@ -351,6 +375,11 @@ bool CWorldEditor::CheckUnsavedChanges()
     }
 
     return OkToClear;
+}
+
+void CWorldEditor::ResetCamera()
+{
+    ui->MainViewport->Camera().Snap(CVector3f(0.f, 5.f, 1.f));
 }
 
 bool CWorldEditor::HasAnyScriptNodesSelected() const
@@ -446,11 +475,6 @@ void CWorldEditor::OpenRecentProject()
     }
 }
 
-void CWorldEditor::CloseProject()
-{
-    gpEdApp->CloseProject();
-}
-
 bool CWorldEditor::Save()
 {
     if (!mpArea)
@@ -481,6 +505,31 @@ bool CWorldEditor::SaveAndRepack()
     if (!Save()) return false;
     gpEdApp->CookAllDirtyPackages();
     return true;
+}
+
+void CWorldEditor::ExportGame()
+{
+    QString IsoPath = UICommon::OpenFileDialog(this, "Select ISO", "*.iso *.gcm *.tgc *.wbfs");
+    if (IsoPath.isEmpty()) return;
+
+    QString ExportDir = UICommon::OpenDirDialog(this, "Select output export directory");
+    if (ExportDir.isEmpty()) return;
+
+    CExportGameDialog ExportDialog(IsoPath, ExportDir, this);
+    if (ExportDialog.HasValidDisc()) ExportDialog.exec();
+
+    if (ExportDialog.ExportSucceeded())
+    {
+        int OpenChoice = QMessageBox::information(this, "Export complete", "Export finished successfully! Open new project?", QMessageBox::Yes, QMessageBox::No);
+
+        if (OpenChoice == QMessageBox::Yes)
+            gpEdApp->OpenProject(ExportDialog.ProjectPath());
+    }
+}
+
+void CWorldEditor:: CloseProject()
+{
+    gpEdApp->CloseProject();
 }
 
 void CWorldEditor::ChangeEditMode(int Mode)
@@ -521,6 +570,7 @@ void CWorldEditor::OpenResourceBrowser()
 void CWorldEditor::OnActiveProjectChanged(CGameProject *pProj)
 {
     ui->ActionCloseProject->setEnabled( pProj != nullptr );
+    ResetCamera();
     if (!pProj) return;
 
     // Update recent projects list

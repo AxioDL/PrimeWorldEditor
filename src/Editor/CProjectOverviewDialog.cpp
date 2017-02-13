@@ -16,11 +16,6 @@ CProjectOverviewDialog::CProjectOverviewDialog(QWidget *pParent)
 {
     mpUI->setupUi(this);
 
-    connect(mpUI->OpenProjectButton, SIGNAL(clicked()), this, SLOT(OpenProject()));
-    connect(mpUI->ExportGameButton, SIGNAL(clicked()), this, SLOT(ExportGame()));
-    connect(mpUI->LoadWorldButton, SIGNAL(clicked()), this, SLOT(LoadWorld()));
-    connect(mpUI->LaunchEditorButton, SIGNAL(clicked()), this, SLOT(LaunchEditor()));
-    connect(mpUI->ViewResourcesButton, SIGNAL(clicked()), this, SLOT(LaunchResourceBrowser()));
     connect(mpUI->CookPackageButton, SIGNAL(clicked()), this, SLOT(CookPackage()));
     connect(mpUI->CookAllDirtyPackagesButton, SIGNAL(clicked(bool)), this, SLOT(CookAllDirtyPackages()));
 
@@ -36,59 +31,13 @@ CProjectOverviewDialog::~CProjectOverviewDialog()
 void CProjectOverviewDialog::ActiveProjectChanged(CGameProject *pProj)
 {
     mpProject = pProj;
-    SetupWorldsList();
     SetupPackagesList();
-}
-
-void CProjectOverviewDialog::ExportGame()
-{
-    QString IsoPath = UICommon::OpenFileDialog(this, "Select ISO", "*.iso *.gcm *.tgc *.wbfs");
-    if (IsoPath.isEmpty()) return;
-
-    QString ExportDir = UICommon::OpenDirDialog(this, "Select output export directory");
-    if (ExportDir.isEmpty()) return;
-
-    CExportGameDialog ExportDialog(IsoPath, ExportDir, this);
-    if (ExportDialog.HasValidDisc()) ExportDialog.exec();
-
-    if (ExportDialog.ExportSucceeded())
-    {
-        int OpenChoice = QMessageBox::information(this, "Export complete", "Export finished successfully! Open new project?", QMessageBox::Yes, QMessageBox::No);
-
-        if (OpenChoice == QMessageBox::Yes)
-            gpEdApp->OpenProject(ExportDialog.ProjectPath());
-    }
-}
-
-void CProjectOverviewDialog::SetupWorldsList()
-{
-    std::list<CAssetID> WorldIDs;
-    mpProject->GetWorldList(WorldIDs);
-    mWorldEntries.clear();
-    mpUI->WorldsList->clear();
-
-    for (auto It = WorldIDs.begin(); It != WorldIDs.end(); It++)
-    {
-        CAssetID ID = *It;
-        CResourceEntry *pEntry = gpResourceStore->FindEntry(ID);
-
-        if (!pEntry)
-        {
-            Log::Error("Couldn't find entry for world: " + ID.ToString());
-            continue;
-        }
-
-        mWorldEntries << pEntry;
-        mpUI->WorldsList->addItem(TO_QSTRING(pEntry->Name()));
-    }
-
-    mpUI->AreasGroupBox->setEnabled(false);
-    mpUI->LoadWorldButton->setEnabled(!mWorldEntries.isEmpty());
 }
 
 void CProjectOverviewDialog::SetupPackagesList()
 {
     mpUI->PackagesList->clear();
+    if (!mpProject) return;
 
     for (u32 iPkg = 0; iPkg < mpProject->NumPackages(); iPkg++)
     {
@@ -99,63 +48,6 @@ void CProjectOverviewDialog::SetupPackagesList()
         if (pPackage->NeedsRecook()) PackageName += '*';
         mpUI->PackagesList->addItem(PackageName);
     }
-}
-
-void CProjectOverviewDialog::LoadWorld()
-{
-    // Find world
-    u32 WorldIdx = mpUI->WorldsList->currentRow();
-    CResourceEntry *pWorldEntry = mWorldEntries[WorldIdx];
-    mpWorld = pWorldEntry->Load();
-
-    mAreaEntries.clear();
-    mpUI->AreaComboBox->clear();
-
-    if (mpWorld)
-    {
-        for (u32 iArea = 0; iArea < mpWorld->NumAreas(); iArea++)
-        {
-            CResourceEntry *pAreaEntry = gpResourceStore->FindEntry( mpWorld->AreaResourceID(iArea) );
-
-            if (pAreaEntry)
-            {
-                mAreaEntries << pAreaEntry;
-                mpUI->AreaComboBox->addItem(TO_QSTRING(pAreaEntry->Name()));
-            }
-        }
-    }
-
-    mpUI->AreasGroupBox->setEnabled(true);
-    mpUI->AreaComboBox->setEnabled(!mAreaEntries.isEmpty());
-    mpUI->LaunchEditorButton->setEnabled(!mAreaEntries.isEmpty());
-    gpResourceStore->DestroyUnreferencedResources();
-}
-
-void CProjectOverviewDialog::LaunchEditor()
-{
-    // Load area
-    u32 AreaIdx = mpUI->AreaComboBox->currentIndex();
-    CResourceEntry *pAreaEntry = mAreaEntries[AreaIdx];
-    CGameArea *pArea = (CGameArea*) pAreaEntry->Load();
-
-    if (pArea)
-    {
-        pArea->SetWorldIndex(AreaIdx);
-        mpWorld->SetAreaLayerInfo(pArea);
-        gpEdApp->WorldEditor()->SetArea(mpWorld, AreaIdx);
-        gpEdApp->WorldEditor()->showMaximized();
-    }
-
-    else
-        Log::Error("Failed to load area");
-
-    gpResourceStore->DestroyUnreferencedResources();
-}
-
-void CProjectOverviewDialog::LaunchResourceBrowser()
-{
-    gpEdApp->ResourceBrowser()->show();
-    gpEdApp->ResourceBrowser()->raise();
 }
 
 void CProjectOverviewDialog::CookPackage()

@@ -277,6 +277,21 @@ void CResourceStore::CloseProject()
     // various TResPtrs are destroyed. There might be a cleaner solution than this.)
     DestroyUnreferencedResources();
 
+    // There should be no loaded resources!!!
+    // If there are, that means something didn't clean up resource references properly on project close!!!
+    if (!mLoadedResources.empty())
+    {
+        Log::Error(TString::FromInt32(mLoadedResources.size(), 0, 10) + " resources still loaded on project close:");
+
+        for (auto Iter = mLoadedResources.begin(); Iter != mLoadedResources.end(); Iter++)
+        {
+            CResourceEntry *pEntry = Iter->second;
+            Log::Write("\t" + pEntry->Name().ToUTF8() + "." + pEntry->CookedExtension().ToString());
+        }
+
+        ASSERT(false);
+    }
+
     // Delete all entries from old project
     auto It = mResourceEntries.begin();
 
@@ -286,16 +301,6 @@ void CResourceStore::CloseProject()
 
         if (!pEntry->IsTransient())
         {
-            if (pEntry->IsLoaded())
-            {
-                bool UnloadSuccess = pEntry->Unload();
-                ASSERT(UnloadSuccess);
-
-                auto LoadIt = mLoadedResources.find(pEntry->ID());
-                ASSERT(LoadIt != mLoadedResources.end());
-                mLoadedResources.erase(LoadIt);
-            }
-
             delete pEntry;
             It = mResourceEntries.erase(It);
         }
