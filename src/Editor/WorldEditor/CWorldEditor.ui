@@ -283,8 +283,9 @@
     <addaction name="ActionSaveAndRepack"/>
     <addaction name="separator"/>
     <addaction name="ActionExportGame"/>
-    <addaction name="separator"/>
+    <addaction name="ActionProjectSettings"/>
     <addaction name="ActionCloseProject"/>
+    <addaction name="separator"/>
     <addaction name="ActionExit"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
@@ -350,7 +351,7 @@
   </widget>
   <widget class="QToolBar" name="EditModeToolBar">
    <property name="sizePolicy">
-    <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+    <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
      <horstretch>0</horstretch>
      <verstretch>0</verstretch>
     </sizepolicy>
@@ -362,7 +363,7 @@
     <enum>RightToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
-    <bool>true</bool>
+    <bool>false</bool>
    </attribute>
   </widget>
   <action name="ActionSave">
@@ -760,6 +761,14 @@
    </property>
    <property name="text">
     <string>Edit Script</string>
+   </property>
+  </action>
+  <action name="ActionProjectSettings">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Project Settings</string>
    </property>
   </action>
  </widget>

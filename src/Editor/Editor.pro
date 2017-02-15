@@ -172,7 +172,6 @@ HEADERS += \
     CharacterEditor/CSkeletonHierarchyModel.h \
     CLineRenderable.h \
     WorldEditor/CCollisionRenderSettingsDialog.h \
-    CProjectOverviewDialog.h \
     ResourceBrowser/CResourceBrowser.h \
     ResourceBrowser/CResourceTableModel.h \
     ResourceBrowser/CResourceProxyModel.h \
@@ -184,7 +183,8 @@ HEADERS += \
     WorldEditor/CScriptEditSidebar.h \
     WorldEditor/CWorldInfoSidebar.h \
     WorldEditor/CWorldTreeModel.h \
-    Widgets/CTimedLineEdit.h
+    Widgets/CTimedLineEdit.h \
+    CProjectSettingsDialog.h
 
 # Source Files
 SOURCES += \
@@ -244,14 +244,14 @@ SOURCES += \
     CharacterEditor/CCharacterEditorViewport.cpp \
     CharacterEditor/CSkeletonHierarchyModel.cpp \
     WorldEditor/CCollisionRenderSettingsDialog.cpp \
-    CProjectOverviewDialog.cpp \
     ResourceBrowser/CResourceBrowser.cpp \
     CEditorApplication.cpp \
     Widgets/CResourceSelector.cpp \
     CExportGameDialog.cpp \
     WorldEditor/CScriptEditSidebar.cpp \
     WorldEditor/CWorldInfoSidebar.cpp \
-    WorldEditor/CWorldTreeModel.cpp
+    WorldEditor/CWorldTreeModel.cpp \
+    CProjectSettingsDialog.cpp
 
 # UI Files
 FORMS += \
@@ -274,7 +274,7 @@ FORMS += \
     CAboutDialog.ui \
     CharacterEditor/CCharacterEditor.ui \
     WorldEditor/CCollisionRenderSettingsDialog.ui \
-    CProjectOverviewDialog.ui \
     ResourceBrowser/CResourceBrowser.ui \
     CExportGameDialog.ui \
-    WorldEditor/CWorldInfoSidebar.ui
+    WorldEditor/CWorldInfoSidebar.ui \
+    CProjectSettingsDialog.ui

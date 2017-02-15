@@ -104,6 +104,8 @@ public:
     inline CGameInfo* GameInfo() const                  { return mpGameInfo; }
     inline CAudioManager* AudioManager() const          { return mpAudioManager; }
     inline EGame Game() const                           { return mGame; }
+    inline ERegion Region() const                       { return mRegion; }
+    inline TString GameID() const                       { return mGameID; }
     inline float BuildVersion() const                   { return mBuildVersion; }
     inline bool IsWiiBuild() const                      { return mBuildVersion >= 3.f; }
 };

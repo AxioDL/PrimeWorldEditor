@@ -1,5 +1,5 @@
-#ifndef CPROJECTOVERVIEWDIALOG_H
-#define CPROJECTOVERVIEWDIALOG_H
+#ifndef CPROJECTSETTINGSDIALOG_H
+#define CPROJECTSETTINGSDIALOG_H
 
 #include "Editor/WorldEditor/CWorldEditor.h"
 #include <Core/GameProject/CGameProject.h>
@@ -7,13 +7,13 @@
 #include <QDialog>
 
 namespace Ui {
-class CProjectOverviewDialog;
+class CProjectSettingsDialog;
 }
 
-class CProjectOverviewDialog : public QDialog
+class CProjectSettingsDialog : public QDialog
 {
     Q_OBJECT
-    Ui::CProjectOverviewDialog *mpUI;
+    Ui::CProjectSettingsDialog *mpUI;
     CGameProject *mpProject;
 
     QVector<CResourceEntry*> mWorldEntries;
@@ -21,8 +21,8 @@ class CProjectOverviewDialog : public QDialog
     TResPtr<CWorld> mpWorld;
 
 public:
-    explicit CProjectOverviewDialog(QWidget *pParent = 0);
-    ~CProjectOverviewDialog();
+    explicit CProjectSettingsDialog(QWidget *pParent = 0);
+    ~CProjectSettingsDialog();
 
 public slots:
     void ActiveProjectChanged(CGameProject *pProj);
@@ -31,4 +31,4 @@ public slots:
     void CookAllDirtyPackages();
 };
 
-#endif // CPROJECTOVERVIEWDIALOG_H
+#endif // CPROJECTSETTINGSDIALOG_H

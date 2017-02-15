@@ -1,5 +1,4 @@
 #include "CEditorApplication.h"
-#include "CProjectOverviewDialog.h"
 #include <Common/Log.h>
 #include <Core/Resource/Factory/CTemplateLoader.h>
 

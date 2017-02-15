@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GameInfo ArchiveVer="0" FileVer="0" Game="DKCR">
+    <GameBuilds>
+        <Build>
+            <Version>74887</Version>
+            <Region>PAL</Region>
+            <Name>Wii PAL</Name>
+        </Build>
+        <Build>
+            <Version>75001</Version>
+            <Region>NTSC</Region>
+            <Name>Wii NTSC 0A-1</Name>
+        </Build>
+    </GameBuilds>
+</GameInfo>

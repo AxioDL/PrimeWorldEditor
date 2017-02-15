@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GameInfo ArchiveVer="0" FileVer="0" Game="MPRM">
+    <GameBuilds>
+        <Build>
+            <Version>0.160</Version>
+            <Region>NTSC</Region>
+            <Name>Metroid Prime 2: Echoes Bonus Disc</Name>
+        </Build>
+        <Build>
+            <Version>0.227</Version>
+            <Region>NTSC</Region>
+            <Name>Multi-Game Demo Disc v20, v23-26</Name>
+        </Build>
+        <Build>
+            <Version>0.237</Version>
+            <Region>PAL</Region>
+            <Name>EUR Interactive Multi-Game Demo Disc: November 2004</Name>
+        </Build>
+        <Build>
+            <Version>1.028</Version>
+            <Region>NTSC</Region>
+            <Name>GameCube 0-00 NTSC</Name>
+        </Build>
+        <Build>
+            <Version>1.035</Version>
+            <Region>PAL</Region>
+            <Name>GameCube 0-00 PAL</Name>
+        </Build>
+        <Build>
+            <Version>1.036</Version>
+            <Region>JPN</Region>
+            <Name>GameCube 0-00 NTSC-J</Name>
+        </Build>
+        <Build>
+            <Version>3.561</Version>
+            <Region>JPN</Region>
+            <Name>Wii de Asobu</Name>
+        </Build>
+        <Build>
+            <Version>3.593</Version>
+            <Region>NTSC</Region>
+            <Name>Metroid Prime: Trilogy NTSC</Name>
+        </Build>
+        <Build>
+            <Version>3.629</Version>
+            <Region>PAL</Region>
+            <Name>Metroid Prime: Trilogy PAL</Name>
+        </Build>
+    </GameBuilds>
+</GameInfo>

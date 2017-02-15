@@ -67,25 +67,32 @@ void Serialize(IArchive& rArc, EGame& rGame)
 }
 
 // ERegion
+static const TString gskRegionNames[] = { "NTSC", "PAL", "JPN", "UnknownRegion" };
+static const u32 gskNumRegions = sizeof(gskRegionNames) / sizeof(gskRegionNames[0]);
+
+TString GetRegionName(ERegion Region)
+{
+    return gskRegionNames[(int) Region];
+}
+
+ERegion GetRegionForName(const TString& rkName)
+{
+    for (u32 iReg = 0; iReg < gskNumRegions; iReg++)
+        if (gskRegionNames[iReg] == rkName)
+            return (ERegion) iReg;
+
+    return eRegion_Unknown;
+}
+
 void Serialize(IArchive& rArc, ERegion& rRegion)
 {
-    static const TString skRegionNames[] = { "NTSC", "PAL", "JPN" };
     TString Name;
 
     if (rArc.IsWriter())
-        Name = skRegionNames[rRegion];
+        Name = GetRegionName(rRegion);
 
     rArc.SerializePrimitive(Name);
 
     if (rArc.IsReader())
-    {
-        for (u32 iReg = 0; iReg < 3; iReg++)
-        {
-            if (skRegionNames[iReg] == Name)
-            {
-                rRegion = (ERegion) iReg;
-                break;
-            }
-        }
-    }
+        rRegion = GetRegionForName(Name);
 }

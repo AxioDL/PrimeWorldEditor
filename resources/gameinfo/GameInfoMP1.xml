@@ -1,5 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GameInfo ArchiveVer="0" FileVer="0" Game="MPRM">
+    <GameBuilds>
+        <Build>
+            <Version>0.0</Version>
+            <Region>NTSC</Region>
+            <Name>Multi-Game Demo Disc v7-9</Name>
+        </Build>
+        <Build>
+            <Version>1.088</Version>
+            <Region>NTSC</Region>
+            <Name>GameCube 0-00 NTSC</Name>
+        </Build>
+        <Build>
+            <Version>1.093</Version>
+            <Region>NTSC</Region>
+            <Name>GameCube 0-01 NTSC</Name>
+        </Build>
+        <Build>
+            <Version>1.097</Version>
+            <Region>NTSC</Region>
+            <Name>GameCube 0-30 NTSC-K</Name>
+        </Build>
+        <Build>
+            <Version>1.101</Version>
+            <Region>PAL</Region>
+            <Name>EUR Interactive Multi-Game Demo Disc: February 2003</Name>
+        </Build>
+        <Build>
+            <Version>1.111</Version>
+            <Region>JPN</Region>
+            <Name>GameCube 0-00 NTSC-J</Name>
+        </Build>
+        <Build>
+            <Version>1.111</Version>
+            <Region>JPN</Region>
+            <Name>GameCube 0-02 NTSC (Player's Choice)</Name>
+        </Build>
+        <Build>
+            <Version>3.570</Version>
+            <Region>JPN</Region>
+            <Name>Wii de Asobu</Name>
+        </Build>
+        <Build>
+            <Version>3.593</Version>
+            <Region>NTSC</Region>
+            <Name>Metroid Prime: Trilogy NTSC</Name>
+        </Build>
+        <Build>
+            <Version>3.629</Version>
+            <Region>PAL</Region>
+            <Name>Metroid Prime: Trilogy PAL</Name>
+        </Build>
+    </GameBuilds>
     <AreaNameMap>
         <AreaName>
             <Key>0035FDAD</Key>

@@ -1,7 +1,7 @@
 #include "CEditorApplication.h"
 #include "IEditor.h"
 #include "CBasicViewport.h"
-#include "CProjectOverviewDialog.h"
+#include "CProjectSettingsDialog.h"
 #include "Editor/CharacterEditor/CCharacterEditor.h"
 #include "Editor/ModelEditor/CModelEditorWindow.h"
 #include "Editor/ResourceBrowser/CResourceBrowser.h"
@@ -34,7 +34,7 @@ void CEditorApplication::InitEditor()
 {
     mpWorldEditor = new CWorldEditor();
     mpResourceBrowser = new CResourceBrowser(mpWorldEditor);
-    mpProjectDialog = new CProjectOverviewDialog();
+    mpProjectDialog = new CProjectSettingsDialog(mpWorldEditor);
     mpWorldEditor->showMaximized();
 }
 

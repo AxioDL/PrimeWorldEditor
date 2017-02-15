@@ -17,6 +17,7 @@ CWorldInfoSidebar::CWorldInfoSidebar(CWorldEditor *pEditor)
     pHeader->resizeSection(0, pHeader->width() * 2); // I really have no idea how this works, I just got this from trial & error
 
     connect(gpEdApp, SIGNAL(ActiveProjectChanged(CGameProject*)), this, SLOT(OnActiveProjectChanged(CGameProject*)));
+    connect(mpUI->ProjectSettingsButton, SIGNAL(pressed()), pEditor, SLOT(OpenProjectSettings()));
     connect(mpUI->AreaSearchLineEdit, SIGNAL(StoppedTyping(QString)), this, SLOT(OnAreaFilterStringChanged(QString)));
     connect(mpUI->WorldTreeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(OnWorldTreeClicked(QModelIndex)));
     connect(mpUI->WorldTreeView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnWorldTreeDoubleClicked(QModelIndex)));

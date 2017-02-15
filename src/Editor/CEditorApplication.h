@@ -7,7 +7,7 @@
 #include <QVector>
 
 class CBasicViewport;
-class CProjectOverviewDialog;
+class CProjectSettingsDialog;
 class CResourceBrowser;
 class CResourceEntry;
 class CWorldEditor;
@@ -22,7 +22,7 @@ class CEditorApplication : public QApplication
     CGameProject *mpActiveProject;
     CWorldEditor *mpWorldEditor;
     CResourceBrowser *mpResourceBrowser;
-    CProjectOverviewDialog *mpProjectDialog;
+    CProjectSettingsDialog *mpProjectDialog;
     QVector<IEditor*> mEditorWindows;
     QMap<CResourceEntry*,IEditor*> mEditingMap;
 
@@ -43,7 +43,7 @@ public:
     inline CGameProject* ActiveProject() const              { return mpActiveProject; }
     inline CWorldEditor* WorldEditor() const                { return mpWorldEditor; }
     inline CResourceBrowser* ResourceBrowser() const        { return mpResourceBrowser; }
-    inline CProjectOverviewDialog* ProjectDialog() const    { return mpProjectDialog; }
+    inline CProjectSettingsDialog* ProjectDialog() const    { return mpProjectDialog; }
 
     inline void SetEditorTicksEnabled(bool Enabled)         { Enabled ? mRefreshTimer.start(gkTickFrequencyMS) : mRefreshTimer.stop(); }
     inline bool AreEditorTicksEnabled() const               { return mRefreshTimer.isActive(); }
