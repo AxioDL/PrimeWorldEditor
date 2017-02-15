@@ -38,7 +38,7 @@ protected:
 // ************ CPackageDependencyListBuilder ************
 class CPackageDependencyListBuilder
 {
-    CPackage *mpPackage;
+    const CPackage *mpkPackage;
     CResourceStore *mpStore;
     EGame mGame;
     TResPtr<CWorld> mpWorld;
@@ -51,11 +51,11 @@ class CPackageDependencyListBuilder
     bool mIsPlayerActor;
 
 public:
-    CPackageDependencyListBuilder(CPackage *pPackage)
-        : mpPackage(pPackage)
-        , mGame(pPackage->Project()->Game())
-        , mpStore(pPackage->Project()->ResourceStore())
-        , mCharacterUsageMap(pPackage->Project()->ResourceStore())
+    CPackageDependencyListBuilder(const CPackage *pkPackage)
+        : mpkPackage(pkPackage)
+        , mGame(pkPackage->Project()->Game())
+        , mpStore(pkPackage->Project()->ResourceStore())
+        , mCharacterUsageMap(pkPackage->Project()->ResourceStore())
         , mCurrentAreaHasDuplicates(false)
         , mIsPlayerActor(false)
     {

@@ -197,7 +197,6 @@ void CGameExporter::LoadPaks()
         }
 
         CPackage *pPackage = new CPackage(mpProject, CharPak.GetFileName(false), FileUtil::MakeRelative(PakPath.GetFileDirectory(), mExportDir + mDiscDir));
-        CResourceCollection *pCollection = pPackage->AddCollection("Default");
 
         // MP1-MP3Proto
         if (mGame < eCorruption)
@@ -218,7 +217,7 @@ void CGameExporter::LoadPaks()
                     CAssetID ResID(Pak, mGame);
                     u32 NameLen = Pak.ReadLong();
                     TString Name = Pak.ReadString(NameLen);
-                    pCollection->AddResource(Name, ResID, ResType);
+                    pPackage->AddResource(Name, ResID, ResType);
                 }
 
                 u32 NumResources = Pak.ReadLong();
@@ -292,7 +291,7 @@ void CGameExporter::LoadPaks()
                         TString Name = Pak.ReadString();
                         CFourCC ResType = Pak.ReadLong();
                         CAssetID ResID(Pak, mGame);
-                        pCollection->AddResource(Name, ResID, ResType);
+                        pPackage->AddResource(Name, ResID, ResType);
                     }
                 }
 

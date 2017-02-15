@@ -100,17 +100,12 @@ void CGameProject::GetWorldList(std::list<CAssetID>& rOut) const
     {
         CPackage *pPkg = mPackages[iPkg];
 
-        for (u32 iCol = 0; iCol < pPkg->NumCollections(); iCol++)
+        for (u32 iRes = 0; iRes < pPkg->NumNamedResources(); iRes++)
         {
-            CResourceCollection *pCol = pPkg->CollectionByIndex(iCol);
+            const SNamedResource& rkRes = pPkg->NamedResourceByIndex(iRes);
 
-            for (u32 iRes = 0; iRes < pCol->NumResources(); iRes++)
-            {
-                const SNamedResource& rkRes = pCol->ResourceByIndex(iRes);
-
-                if (rkRes.Type == "MLVL" && !rkRes.Name.EndsWith("NODEPEND"))
-                    rOut.push_back(rkRes.ID);
-            }
+            if (rkRes.Type == "MLVL" && !rkRes.Name.EndsWith("NODEPEND"))
+                rOut.push_back(rkRes.ID);
         }
     }
 }
@@ -121,17 +116,12 @@ CAssetID CGameProject::FindNamedResource(const TString& rkName) const
     {
         CPackage *pPkg = mPackages[iPkg];
 
-        for (u32 iCol = 0; iCol < pPkg->NumCollections(); iCol++)
+        for (u32 iRes = 0; iRes < pPkg->NumNamedResources(); iRes++)
         {
-            CResourceCollection *pCol = pPkg->CollectionByIndex(iCol);
+            const SNamedResource& rkRes = pPkg->NamedResourceByIndex(iRes);
 
-            for (u32 iRes = 0; iRes < pCol->NumResources(); iRes++)
-            {
-                const SNamedResource& rkRes = pCol->ResourceByIndex(iRes);
-
-                if (rkRes.Name == rkName)
-                    return rkRes.ID;
-            }
+            if (rkRes.Name == rkName)
+                return rkRes.ID;
         }
     }
 
