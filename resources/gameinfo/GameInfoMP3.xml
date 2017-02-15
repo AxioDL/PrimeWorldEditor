@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GameInfo ArchiveVer="0" FileVer="0" Game="MP3C">
+    <GameBuilds>
+        <Build>
+            <Version>3.068</Version>
+            <Region>NTSC</Region>
+            <Name>E3 2006 Prototype</Name>
+        </Build>
+        <Build>
+            <Version>3.436</Version>
+            <Region>NTSC</Region>
+            <Name>Wii NTSC</Name>
+        </Build>
+        <Build>
+            <Version>3.453</Version>
+            <Region>PAL</Region>
+            <Name>Wii PAL</Name>
+        </Build>
+        <Build>
+            <Version>3.495</Version>
+            <Region>JPN</Region>
+            <Name>Wii NTSC-J</Name>
+        </Build>
+        <Build>
+            <Version>3.593</Version>
+            <Region>NTSC</Region>
+            <Name>Metroid Prime: Trilogy NTSC</Name>
+        </Build>
+        <Build>
+            <Version>3.629</Version>
+            <Region>PAL</Region>
+            <Name>Metroid Prime: Trilogy PAL</Name>
+        </Build>
+    </GameBuilds>
+</GameInfo>

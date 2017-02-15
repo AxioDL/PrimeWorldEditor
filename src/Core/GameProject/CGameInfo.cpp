@@ -41,8 +41,23 @@ void CGameInfo::Serialize(IArchive& rArc)
     }
 
     // Serialize data
+    rArc << SERIAL_CONTAINER("GameBuilds", mBuilds, "Build");
+
     if (mGame <= ePrime)
         rArc << SERIAL_CONTAINER("AreaNameMap", mAreaNameMap, "AreaName");
+}
+
+TString CGameInfo::GetBuildName(float BuildVer, ERegion Region) const
+{
+    for (u32 iBuild = 0; iBuild < mBuilds.size(); iBuild++)
+    {
+        const SBuildInfo& rkBuildInfo = mBuilds[iBuild];
+
+        if (rkBuildInfo.Version == BuildVer && rkBuildInfo.Region == Region)
+            return rkBuildInfo.Name;
+    }
+
+    return "Unknown Build";
 }
 
 TString CGameInfo::GetAreaName(const CAssetID &rkID) const

@@ -1,5 +1,5 @@
-#include "CProjectOverviewDialog.h"
-#include "ui_CProjectOverviewDialog.h"
+#include "CProjectSettingsDialog.h"
+#include "ui_CProjectSettingsDialog.h"
 #include "CEditorApplication.h"
 #include "CExportGameDialog.h"
 #include "UICommon.h"
@@ -9,9 +9,9 @@
 #include <QFileDialog>
 #include <QMessageBox>
 
-CProjectOverviewDialog::CProjectOverviewDialog(QWidget *pParent)
+CProjectSettingsDialog::CProjectSettingsDialog(QWidget *pParent)
     : QDialog(pParent)
-    , mpUI(new Ui::CProjectOverviewDialog)
+    , mpUI(new Ui::CProjectSettingsDialog)
     , mpProject(nullptr)
 {
     mpUI->setupUi(this);
@@ -23,18 +23,43 @@ CProjectOverviewDialog::CProjectOverviewDialog(QWidget *pParent)
     connect(gpEdApp, SIGNAL(AssetsModified()), this, SLOT(SetupPackagesList()));
 }
 
-CProjectOverviewDialog::~CProjectOverviewDialog()
+CProjectSettingsDialog::~CProjectSettingsDialog()
 {
     delete mpUI;
 }
 
-void CProjectOverviewDialog::ActiveProjectChanged(CGameProject *pProj)
+void CProjectSettingsDialog::ActiveProjectChanged(CGameProject *pProj)
 {
     mpProject = pProj;
+
+    if (mpProject)
+    {
+        // Set up project info
+        mpUI->ProjectNameLineEdit->setText( TO_QSTRING(pProj->Name()) );
+        mpUI->GameLineEdit->setText( TO_QSTRING(GetGameName(pProj->Game())) );
+        mpUI->GameIdLineEdit->setText( TO_QSTRING(pProj->GameID()) );
+
+        float BuildVer = pProj->BuildVersion();
+        ERegion Region = pProj->Region();
+        TString BuildName = pProj->GameInfo()->GetBuildName(BuildVer, Region);
+        mpUI->BuildLineEdit->setText( QString("%1 (%2)").arg(BuildVer).arg( TO_QSTRING(BuildName) ) );
+        mpUI->RegionLineEdit->setText( TO_QSTRING(GetRegionName(Region)) );
+    }
+    else
+    {
+        // Clear project info
+        mpUI->ProjectNameLineEdit->clear();
+        mpUI->GameLineEdit->clear();
+        mpUI->GameIdLineEdit->clear();
+        mpUI->BuildLineEdit->clear();
+        mpUI->RegionLineEdit->clear();
+        close();
+    }
+
     SetupPackagesList();
 }
 
-void CProjectOverviewDialog::SetupPackagesList()
+void CProjectSettingsDialog::SetupPackagesList()
 {
     mpUI->PackagesList->clear();
     if (!mpProject) return;
@@ -50,7 +75,7 @@ void CProjectOverviewDialog::SetupPackagesList()
     }
 }
 
-void CProjectOverviewDialog::CookPackage()
+void CProjectSettingsDialog::CookPackage()
 {
     u32 PackageIdx = mpUI->PackagesList->currentRow();
     CPackage *pPackage = mpProject->PackageByIndex(PackageIdx);
@@ -58,7 +83,7 @@ void CProjectOverviewDialog::CookPackage()
     SetupPackagesList();
 }
 
-void CProjectOverviewDialog::CookAllDirtyPackages()
+void CProjectSettingsDialog::CookAllDirtyPackages()
 {
     gpEdApp->CookAllDirtyPackages();
     SetupPackagesList();

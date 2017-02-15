@@ -36,6 +36,8 @@ enum ERegion
     eRegion_JPN,
     eRegion_Unknown = -1
 };
+TString GetRegionName(ERegion Region);
+ERegion GetRegionForName(const TString& rkName);
 void Serialize(IArchive& rArc, ERegion& rRegion);
 
 #endif // EGAME_H

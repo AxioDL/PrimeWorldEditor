@@ -12,6 +12,7 @@
 #include "Editor/CExportGameDialog.h"
 #include "Editor/CNodeCopyMimeData.h"
 #include "Editor/CPakToolDialog.h"
+#include "Editor/CProjectSettingsDialog.h"
 #include "Editor/CSelectionIterator.h"
 #include "Editor/UICommon.h"
 #include "Editor/PropertyEdit/CPropertyView.h"
@@ -171,6 +172,7 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     connect(ui->ActionSave, SIGNAL(triggered()) , this, SLOT(Save()));
     connect(ui->ActionSaveAndRepack, SIGNAL(triggered()), this, SLOT(SaveAndRepack()));
     connect(ui->ActionExportGame, SIGNAL(triggered()), this, SLOT(ExportGame()));
+    connect(ui->ActionProjectSettings, SIGNAL(triggered()), this, SLOT(OpenProjectSettings()));
     connect(ui->ActionCloseProject, SIGNAL(triggered()), this, SLOT(CloseProject()));
     connect(ui->ActionExit, SIGNAL(triggered()), this, SLOT(close()));
 
@@ -317,29 +319,20 @@ bool CWorldEditor::SetArea(CWorld *pWorld, int AreaIndex)
     mpLinkDialog->SetMaster(pMaster);
 
     // Set window title
-    CStringTable *pWorldNameTable = mpWorld->WorldName();
-    TWideString WorldName = pWorldNameTable ? pWorldNameTable->String("ENGL", 0) : "[Untitled World]";
+    QString ProjectName = TO_QSTRING(gpEdApp->ActiveProject()->Name());
+    QString WorldName = TO_QSTRING(mpWorld->InGameName());
+    QString AreaName = TO_QSTRING(mpWorld->AreaInGameName(AreaIndex));
 
     if (CurrentGame() < eReturns)
     {
-        CStringTable *pAreaNameTable = mpWorld->AreaName(AreaIndex);
-        TWideString AreaName = pAreaNameTable ? pAreaNameTable->String("ENGL", 0) : (TWideString("!") + mpWorld->AreaInternalName(AreaIndex).ToUTF16());
-
-        if (AreaName.IsEmpty())
-            AreaName = "[Untitled Area]";
-
-        SET_WINDOWTITLE_APPVARS( QString("%APP_FULL_NAME% - %1 - %2[*]").arg(TO_QSTRING(WorldName)).arg(TO_QSTRING(AreaName)) );
-        Log::Write("Loaded area: " + mpArea->Source() + " (" + TO_TSTRING(TO_QSTRING(AreaName)) + ")");
+        SET_WINDOWTITLE_APPVARS( QString("%APP_FULL_NAME% - %1 - %2 - %3[*]").arg(ProjectName, WorldName, AreaName) );
+        Log::Write("Loaded area: " + mpArea->Entry()->Name().ToUTF8() + " (" + TO_TSTRING(AreaName) + ")");
     }
 
     else
     {
-        QString LevelName;
-        if (pWorldNameTable) LevelName = TO_QSTRING(WorldName);
-        else LevelName = "!" + TO_QSTRING(mpWorld->AreaInternalName(AreaIndex));
-
-        SET_WINDOWTITLE_APPVARS( QString("%APP_FULL_NAME% - %1[*]").arg(LevelName) );
-        Log::Write("Loaded level: World " + mpWorld->Source() + " / Area " + mpArea->Source() + " (" + TO_TSTRING(LevelName) + ")");
+        SET_WINDOWTITLE_APPVARS( QString("%APP_FULL_NAME% - %1 - %2[*]").arg(AreaName) );
+        Log::Write("Loaded level: World " + mpWorld->Entry()->Name().ToUTF8() + " / Area " + mpArea->Entry()->Name().ToUTF8() + " (" + TO_TSTRING(AreaName) + ")");
     }
 
     // Update paste action
@@ -560,6 +553,13 @@ void CWorldEditor::ChangeEditMode(EWorldEditorMode Mode)
     }
 }
 
+void CWorldEditor::OpenProjectSettings()
+{
+    CProjectSettingsDialog *pDialog = gpEdApp->ProjectDialog();
+    pDialog->show();
+    pDialog->raise();
+}
+
 void CWorldEditor::OpenResourceBrowser()
 {
     CResourceBrowser *pBrowser = gpEdApp->ResourceBrowser();
@@ -569,6 +569,7 @@ void CWorldEditor::OpenResourceBrowser()
 
 void CWorldEditor::OnActiveProjectChanged(CGameProject *pProj)
 {
+    ui->ActionProjectSettings->setEnabled( pProj != nullptr );
     ui->ActionCloseProject->setEnabled( pProj != nullptr );
     ResetCamera();
     if (!pProj) return;

@@ -109,6 +109,7 @@ public slots:
 
     void ChangeEditMode(int Mode);
     void ChangeEditMode(EWorldEditorMode Mode);
+    void OpenProjectSettings();
     void OpenResourceBrowser();
 
     void OnActiveProjectChanged(CGameProject *pProj);

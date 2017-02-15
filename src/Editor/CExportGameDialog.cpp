@@ -61,6 +61,9 @@ void CExportGameDialog::InitUI(QString ExportDir)
     ASSERT(mpDisc != nullptr);
 
     // Export settings
+    CGameInfo GameInfo;
+    GameInfo.LoadGameInfo(mGame);
+
     ExportDir.replace('/', '\\');
 
     TWideString DefaultNameMapPath = CAssetNameMap::DefaultNameMapPath();
@@ -76,7 +79,7 @@ void CExportGameDialog::InitUI(QString ExportDir)
     // Info boxes
     mpUI->GameTitleLineEdit->setText( TO_QSTRING(mGameTitle) );
     mpUI->GameIdLineEdit->setText( TO_QSTRING(mGameID) );
-    mpUI->BuildVersionLineEdit->setText( QString::number(mBuildVer) );
+    mpUI->BuildVersionLineEdit->setText( QString("%1 (%2)").arg(mBuildVer).arg( TO_QSTRING(GameInfo.GetBuildName(mBuildVer, mRegion)) ));
     mpUI->RegionLineEdit->setText( mRegion == eRegion_NTSC ? "NTSC" :
                                    mRegion == eRegion_PAL ? "PAL" : "JPN" );
 
