@@ -20,38 +20,17 @@ struct SNamedResource
     }
 };
 
-class CResourceCollection
-{
-    TString mName;
-    std::vector<SNamedResource> mNamedResources;
-
-public:
-    CResourceCollection() : mName("UNNAMED") {}
-    CResourceCollection(const TString& rkName) : mName(rkName) {}
-
-    void Serialize(IArchive& rArc)
-    {
-        rArc << SERIAL("Name", mName) << SERIAL_CONTAINER("Resources", mNamedResources, "Resource");
-    }
-
-    inline TString Name() const                                 { return mName; }
-    inline u32 NumResources() const                             { return mNamedResources.size(); }
-    inline const SNamedResource& ResourceByIndex(u32 Idx) const { return mNamedResources[Idx]; }
-
-    inline void AddResource(const TString& rkName, const CAssetID& rkID, const CFourCC& rkType)
-    {
-        mNamedResources.push_back( SNamedResource { rkName, rkID, rkType } );
-    }
-};
-
 class CPackage
 {
     CGameProject *mpProject;
     TString mPakName;
     TWideString mPakPath;
-    std::vector<CResourceCollection*> mCollections;
-    std::set<CAssetID> mCachedDependencies;
+    std::vector<SNamedResource> mResources;
     bool mNeedsRecook;
+
+    // Cached dependency list; used to figure out if a given resource is in this package
+    mutable bool mCacheDirty;
+    mutable std::set<CAssetID> mCachedDependencies;
 
     enum EPackageDefinitionVersion
     {
@@ -69,31 +48,29 @@ public:
         , mPakName(rkName)
         , mPakPath(rkPath)
         , mNeedsRecook(false)
+        , mCacheDirty(true)
     {}
 
     bool Load();
     bool Save();
     void Serialize(IArchive& rArc);
-    void UpdateDependencyCache();
+    void AddResource(const TString& rkName, const CAssetID& rkID, const CFourCC& rkType);
+    void UpdateDependencyCache() const;
 
     void Cook();
     void CompareOriginalAssetList(const std::list<CAssetID>& rkNewList);
+    bool ContainsAsset(const CAssetID& rkID) const;
 
     TWideString DefinitionPath(bool Relative) const;
     TWideString CookedPackagePath(bool Relative) const;
 
-    CResourceCollection* AddCollection(const TString& rkName);
-    void RemoveCollection(CResourceCollection *pCollection);
-    void RemoveCollection(u32 Index);
-
     // Accessors
-    inline TString Name() const                                     { return mPakName; }
-    inline TWideString Path() const                                 { return mPakPath; }
-    inline CGameProject* Project() const                            { return mpProject; }
-    inline u32 NumCollections() const                               { return mCollections.size(); }
-    inline CResourceCollection* CollectionByIndex(u32 Idx) const    { return mCollections[Idx]; }
-    inline bool ContainsAsset(const CAssetID& rkID) const           { return mCachedDependencies.find(rkID) != mCachedDependencies.end(); }
-    inline bool NeedsRecook() const                                 { return mNeedsRecook; }
+    inline TString Name() const                                         { return mPakName; }
+    inline TWideString Path() const                                     { return mPakPath; }
+    inline CGameProject* Project() const                                { return mpProject; }
+    inline u32 NumNamedResources() const                                { return mResources.size(); }
+    inline const SNamedResource& NamedResourceByIndex(u32 Idx) const    { return mResources[Idx]; }
+    inline bool NeedsRecook() const                                     { return mNeedsRecook; }
 
     inline void SetPakName(TString NewName) { mPakName = NewName; }
     inline void MarkDirty()                 { mNeedsRecook = true; Save(); UpdateDependencyCache(); }

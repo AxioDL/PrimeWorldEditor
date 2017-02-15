@@ -122,18 +122,13 @@ void GenerateAssetNames(CGameProject *pProj)
     {
         CPackage *pPkg = pProj->PackageByIndex(iPkg);
 
-        for (u32 iCol = 0; iCol < pPkg->NumCollections(); iCol++)
+        for (u32 iRes = 0; iRes < pPkg->NumNamedResources(); iRes++)
         {
-            CResourceCollection *pCol = pPkg->CollectionByIndex(iCol);
+            const SNamedResource& rkRes = pPkg->NamedResourceByIndex(iRes);
+            if (rkRes.Name.EndsWith("NODEPEND")) continue;
 
-            for (u32 iRes = 0; iRes < pCol->NumResources(); iRes++)
-            {
-                const SNamedResource& rkRes = pCol->ResourceByIndex(iRes);
-                if (rkRes.Name.EndsWith("NODEPEND")) continue;
-
-                CResourceEntry *pRes = pStore->FindEntry(rkRes.ID);
-                ApplyGeneratedName(pRes, pPkg->Name().ToUTF16(), rkRes.Name.ToUTF16());
-            }
+            CResourceEntry *pRes = pStore->FindEntry(rkRes.ID);
+            ApplyGeneratedName(pRes, pPkg->Name().ToUTF16(), rkRes.Name.ToUTF16());
         }
     }
 #endif

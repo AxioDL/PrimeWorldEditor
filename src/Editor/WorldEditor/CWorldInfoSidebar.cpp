@@ -18,7 +18,7 @@ CWorldInfoSidebar::CWorldInfoSidebar(CWorldEditor *pEditor)
 
     connect(gpEdApp, SIGNAL(ActiveProjectChanged(CGameProject*)), this, SLOT(OnActiveProjectChanged(CGameProject*)));
     connect(mpUI->AreaSearchLineEdit, SIGNAL(StoppedTyping(QString)), this, SLOT(OnAreaFilterStringChanged(QString)));
-    connect(mpUI->WorldTreeView, SIGNAL(clicked(QModelIndex)), this, SLOT(OnWorldTreeClicked(QModelIndex)));
+    connect(mpUI->WorldTreeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(OnWorldTreeClicked(QModelIndex)));
     connect(mpUI->WorldTreeView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnWorldTreeDoubleClicked(QModelIndex)));
 
     // Set up UI for world/area info; disable editing for now

@@ -18,7 +18,7 @@ bool CPackage::Load()
     if (Reader.IsValid())
     {
         Serialize(Reader);
-        UpdateDependencyCache();
+        mCacheDirty = true;
         return true;
     }
     else return false;
@@ -37,17 +37,26 @@ bool CPackage::Save()
 void CPackage::Serialize(IArchive& rArc)
 {
     rArc << SERIAL("NeedsRecook", mNeedsRecook)
-         << SERIAL_CONTAINER("Collections", mCollections, "ResourceCollection");
+         << SERIAL_CONTAINER("NamedResources", mResources, "Resource");
 }
 
-void CPackage::UpdateDependencyCache()
+void CPackage::AddResource(const TString& rkName, const CAssetID& rkID, const CFourCC& rkType)
+{
+    mResources.push_back( SNamedResource { rkName, rkID, rkType } );
+    mCacheDirty = true;
+}
+
+void CPackage::UpdateDependencyCache() const
 {
     CPackageDependencyListBuilder Builder(this);
     std::list<CAssetID> AssetList;
     Builder.BuildDependencyList(false, AssetList);
 
+    mCachedDependencies.clear();
     for (auto Iter = AssetList.begin(); Iter != AssetList.end(); Iter++)
         mCachedDependencies.insert(*Iter);
+
+    mCacheDirty = false;
 }
 
 void CPackage::Cook()
@@ -57,17 +66,6 @@ void CPackage::Cook()
     std::list<CAssetID> AssetList;
     Builder.BuildDependencyList(true, AssetList);
     Log::Write(TString::FromInt32(AssetList.size(), 0, 10) + " assets in " + Name() + ".pak");
-
-    // Get named resources
-    std::list<const SNamedResource*> NamedResources;
-
-    for (u32 iCol = 0; iCol < mCollections.size(); iCol++)
-    {
-        CResourceCollection *pCol = mCollections[iCol];
-
-        for (u32 iRes = 0; iRes < pCol->NumResources(); iRes++)
-            NamedResources.push_back(&pCol->ResourceByIndex(iRes));
-    }
 
     // Write new pak
     TWideString PakPath = CookedPackagePath(false);
@@ -84,15 +82,15 @@ void CPackage::Cook()
     Pak.WriteLong(0); // Unknown
 
     // Named Resources
-    Pak.WriteLong(NamedResources.size());
+    Pak.WriteLong(mResources.size());
 
-    for (auto Iter = NamedResources.begin(); Iter != NamedResources.end(); Iter++)
+    for (auto Iter = mResources.begin(); Iter != mResources.end(); Iter++)
     {
-        const SNamedResource *pkRes = *Iter;
-        pkRes->Type.Write(Pak);
-        pkRes->ID.Write(Pak);
-        Pak.WriteLong(pkRes->Name.Size());
-        Pak.WriteString(pkRes->Name.ToStdString(), pkRes->Name.Size()); // Note: Explicitly specifying size means we don't write the terminating 0
+        const SNamedResource& rkRes = *Iter;
+        rkRes.Type.Write(Pak);
+        rkRes.ID.Write(Pak);
+        Pak.WriteLong(rkRes.Name.Size());
+        Pak.WriteString(rkRes.Name.ToStdString(), rkRes.Name.Size()); // Note: Explicitly specifying size means we don't write the terminating 0
     }
 
     // Fill in table of contents with junk, write later
@@ -290,6 +288,14 @@ void CPackage::CompareOriginalAssetList(const std::list<CAssetID>& rkNewList)
     }
 }
 
+bool CPackage::ContainsAsset(const CAssetID& rkID) const
+{
+    if (mCacheDirty)
+        UpdateDependencyCache();
+
+    return mCachedDependencies.find(rkID) != mCachedDependencies.end();
+}
+
 TWideString CPackage::DefinitionPath(bool Relative) const
 {
     TWideString RelPath = mPakPath + mPakName.ToUTF16() + L".pkd";
@@ -300,31 +306,4 @@ TWideString CPackage::CookedPackagePath(bool Relative) const
 {
     TWideString RelPath = mPakPath + mPakName.ToUTF16() + L".pak";
     return Relative ? RelPath : mpProject->DiscDir(false) + RelPath;
-}
-
-CResourceCollection* CPackage::AddCollection(const TString& rkName)
-{
-    CResourceCollection *pCollection = new CResourceCollection(rkName);
-    mCollections.push_back(pCollection);
-    return pCollection;
-}
-
-void CPackage::RemoveCollection(CResourceCollection *pCollection)
-{
-    for (u32 iCol = 0; iCol < mCollections.size(); iCol++)
-    {
-        if (mCollections[iCol] == pCollection)
-        {
-            RemoveCollection(iCol);
-            break;
-        }
-    }
-}
-
-void CPackage::RemoveCollection(u32 Index)
-{
-    ASSERT(Index < mCollections.size());
-    auto Iter = mCollections.begin() + Index;
-    delete *Iter;
-    mCollections.erase(Iter);
 }

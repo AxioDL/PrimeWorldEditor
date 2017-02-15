@@ -176,35 +176,30 @@ void CPackageDependencyListBuilder::BuildDependencyList(bool AllowDuplicates, st
 {
     mEnableDuplicates = AllowDuplicates;
 
-    // Iterate over all resource collections and resources and parse their dependencies
-    for (u32 iCol = 0; iCol < mpPackage->NumCollections(); iCol++)
+    // Iterate over all resources and parse their dependencies
+    for (u32 iRes = 0; iRes < mpkPackage->NumNamedResources(); iRes++)
     {
-        CResourceCollection *pCollection = mpPackage->CollectionByIndex(iCol);
+        const SNamedResource& rkRes = mpkPackage->NamedResourceByIndex(iRes);
+        CResourceEntry *pEntry = mpStore->FindEntry(rkRes.ID);
+        if (!pEntry) continue;
 
-        for (u32 iRes = 0; iRes < pCollection->NumResources(); iRes++)
+        if (rkRes.Name.EndsWith("NODEPEND") || rkRes.Type == "CSNG")
         {
-            const SNamedResource& rkRes = pCollection->ResourceByIndex(iRes);
-            CResourceEntry *pEntry = mpStore->FindEntry(rkRes.ID);
-            if (!pEntry) continue;
-
-            if (rkRes.Name.EndsWith("NODEPEND") || rkRes.Type == "CSNG")
-            {
-                rOut.push_back(rkRes.ID);
-                continue;
-            }
-
-            if (rkRes.Type == "MLVL")
-            {
-                mpWorld = (CWorld*) pEntry->Load();
-                ASSERT(mpWorld);
-            }
-
-            else
-                mCharacterUsageMap.FindUsagesForAsset(pEntry);
-
-            AddDependency(nullptr, rkRes.ID, rOut);
-            mpWorld = nullptr;
+            rOut.push_back(rkRes.ID);
+            continue;
         }
+
+        if (rkRes.Type == "MLVL")
+        {
+            mpWorld = (CWorld*) pEntry->Load();
+            ASSERT(mpWorld);
+        }
+
+        else
+            mCharacterUsageMap.FindUsagesForAsset(pEntry);
+
+        AddDependency(nullptr, rkRes.ID, rOut);
+        mpWorld = nullptr;
     }
 }
 
