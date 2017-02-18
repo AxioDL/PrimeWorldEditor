@@ -1,6 +1,5 @@
 #include "CUnsupportedFormatLoader.h"
 #include "Core/GameProject/CGameProject.h"
-#include "Core/Resource/ParticleParameters.h"
 
 CDependencyGroup* CUnsupportedFormatLoader::LoadCSNG(IInputStream& rCSNG, CResourceEntry *pEntry)
 {
@@ -16,7 +15,7 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadCSNG(IInputStream& rCSNG, CResou
 CDependencyGroup* CUnsupportedFormatLoader::LoadDUMB(IInputStream& rDUMB, CResourceEntry *pEntry)
 {
     // Check for HIER, which needs special handling
-    if (CFourCC(rDUMB.PeekLong()) == "HIER")
+    if (rDUMB.PeekLong() == FOURCC('HIER'))
         return LoadHIER(rDUMB, pEntry);
 
     // Load other DUMB file. DUMB files don't have a set format - they're different between different files
@@ -199,7 +198,7 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadFRME(IInputStream& rFRME, CResou
 CDependencyGroup* CUnsupportedFormatLoader::LoadFSM2(IInputStream& rFSM2, CResourceEntry *pEntry)
 {
     u32 Magic = rFSM2.ReadLong();
-    ASSERT(Magic == FOURCC("FSM2"));
+    ASSERT(Magic == FOURCC('FSM2'));
 
     CDependencyGroup *pOut = new CDependencyGroup(pEntry);
     u32 Version = rFSM2.ReadLong();
@@ -381,7 +380,7 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadRULE(IInputStream& rRULE, CResou
 {
     // RULE files can contain a reference to another RULE file, but has no other dependencies.
     u32 Magic = rRULE.ReadLong();
-    ASSERT(CFourCC(Magic) == "RULE");
+    ASSERT(Magic == FOURCC('RULE'));
 
     CDependencyGroup *pGroup = new CDependencyGroup(pEntry);
     rRULE.Seek(0x1, SEEK_CUR);

@@ -6,144 +6,144 @@ bool CUnsupportedParticleLoader::ParseParticleParameter(IInputStream& rPART)
 {
     u32 ParamOffset = rPART.Tell();
     CFourCC Param = rPART.ReadLong();
-    if (Param == kParamEND)
+    if (Param == FOURCC('_END'))
         return false;
 
     switch (Param.ToLong())
     {
     // Bool
-    case kGenAAPH:
-    case kGenCIND:
-    case kGenFXLL:
-    case kGenINDM:
-    case kGenLINE:
-    case kGenLIT_:
-    case kGenMBLR:
-    case kGenOPTS:
-    case kGenORNT:
-    case kGenPMAB:
-    case kGenPMOO:
-    case kGenPMUS:
-    case kGenRDOP:
-    case kGenRSOP:
-    case kGenSORT:
-    case kGenVMD1:
-    case kGenVMD2:
-    case kGenVMD3:
-    case kGenVMD4:
-    case kGenVMPC:
-    case kGenZBUF:
+    case FOURCC('AAPH'):
+    case FOURCC('CIND'):
+    case FOURCC('FXLL'):
+    case FOURCC('INDM'):
+    case FOURCC('LINE'):
+    case FOURCC('LIT_'):
+    case FOURCC('MBLR'):
+    case FOURCC('OPTS'):
+    case FOURCC('ORNT'):
+    case FOURCC('PMAB'):
+    case FOURCC('PMOO'):
+    case FOURCC('PMUS'):
+    case FOURCC('RDOP'):
+    case FOURCC('RSOP'):
+    case FOURCC('SORT'):
+    case FOURCC('VMD1'):
+    case FOURCC('VMD2'):
+    case FOURCC('VMD3'):
+    case FOURCC('VMD4'):
+    case FOURCC('VMPC'):
+    case FOURCC('ZBUF'):
         ParseBoolFunction(rPART);
         break;
 
     // Bitfield
-    case kGenDFLG:
+    case FOURCC('DFLG'):
         ParseBitfieldFunction(rPART);
         break;
 
     // Int
-    case kGenCSSD:
-    case kGenLFOT:
-    case kGenLTME:
-    case kGenLTYP:
-    case kGenMAXP:
-    case kGenMBSP:
-    case kGenNCSY:
-    case kGenNDSY:
-    case kGenPISY:
-    case kGenPSIV:
-    case kGenPSLT:
-    case kGenPSWT:
-    case kGenSEED:
-    case kGenSESD:
-    case kGenSISY:
-    case kGenSSSD:
-    case kGenXTAD:
+    case FOURCC('CSSD'):
+    case FOURCC('LFOT'):
+    case FOURCC('LTME'):
+    case FOURCC('LTYP'):
+    case FOURCC('MAXP'):
+    case FOURCC('MBSP'):
+    case FOURCC('NCSY'):
+    case FOURCC('NDSY'):
+    case FOURCC('PISY'):
+    case FOURCC('PSIV'):
+    case FOURCC('PSLT'):
+    case FOURCC('PSWT'):
+    case FOURCC('SEED'):
+    case FOURCC('SESD'):
+    case FOURCC('SISY'):
+    case FOURCC('SSSD'):
+    case FOURCC('XTAD'):
         ParseIntFunction(rPART);
         break;
 
     // Float
-    case kGenADV1:
-    case kGenADV2:
-    case kGenADV3:
-    case kGenADV4:
-    case kGenADV5:
-    case kGenADV6:
-    case kGenADV7:
-    case kGenADV8:
-    case kGenADV9:
-    case kGenFXBR:
-    case kGenGRTE:
-    case kGenLENG:
-    case kGenLFOR:
-    case kGenLINT:
-    case kGenLSLA:
-    case kGenPSTS:
-    case kGenROTA:
-    case kGenSIZE:
-    case kGenWIDT:
+    case FOURCC('ADV1'):
+    case FOURCC('ADV2'):
+    case FOURCC('ADV3'):
+    case FOURCC('ADV4'):
+    case FOURCC('ADV5'):
+    case FOURCC('ADV6'):
+    case FOURCC('ADV7'):
+    case FOURCC('ADV8'):
+    case FOURCC('ADV9'):
+    case FOURCC('FXBR'):
+    case FOURCC('GRTE'):
+    case FOURCC('LENG'):
+    case FOURCC('LFOR'):
+    case FOURCC('LINT'):
+    case FOURCC('LSLA'):
+    case FOURCC('PSTS'):
+    case FOURCC('ROTA'):
+    case FOURCC('SIZE'):
+    case FOURCC('WIDT'):
         ParseFloatFunction(rPART);
         break;
 
     // Vector
-    case kGenFXBO:
-    case kGenILOC:
-    case kGenIVEC:
-    case kGenLDIR:
-    case kGenLOFF:
-    case kGenPMOP:
-    case kGenPMOV:
-    case kGenPMRT:
-    case kGenPMSC:
-    case kGenPOFS:
-    case kGenPSOV:
-    case kGenSEPO:
-    case kGenSSPO:
-    case kGenVAV1:
-    case kGenVAV2:
-    case kGenVAV3:
+    case FOURCC('FXBO'):
+    case FOURCC('ILOC'):
+    case FOURCC('IVEC'):
+    case FOURCC('LDIR'):
+    case FOURCC('LOFF'):
+    case FOURCC('PMOP'):
+    case FOURCC('PMOV'):
+    case FOURCC('PMRT'):
+    case FOURCC('PMSC'):
+    case FOURCC('POFS'):
+    case FOURCC('PSOV'):
+    case FOURCC('SEPO'):
+    case FOURCC('SSPO'):
+    case FOURCC('VAV1'):
+    case FOURCC('VAV2'):
+    case FOURCC('VAV3'):
         ParseVectorFunction(rPART);
         break;
 
     // Mod Vector
-    case kGenPSVM:
-    case kGenVEL1:
-    case kGenVEL2:
-    case kGenVEL3:
-    case kGenVEL4:
+    case FOURCC('PSVM'):
+    case FOURCC('VEL1'):
+    case FOURCC('VEL2'):
+    case FOURCC('VEL3'):
+    case FOURCC('VEL4'):
         ParseModVectorFunction(rPART);
         break;
 
     // Color
-    case kGenCOLR:
-    case kGenLCLR:
-    case kGenPMCL:
+    case FOURCC('COLR'):
+    case FOURCC('LCLR'):
+    case FOURCC('PMCL'):
         ParseColorFunction(rPART);
         break;
 
     // UV
-    case kGenTEXR:
-    case kGenTIND:
+    case FOURCC('TEXR'):
+    case FOURCC('TIND'):
         ParseUVFunction(rPART);
         break;
 
     // Emitter
-    case kGenEMTR:
+    case FOURCC('EMTR'):
         ParseEmitterFunction(rPART);
         break;
 
     // Spawn System Keyframe Data
-    case kGenKSSM:
+    case FOURCC('KSSM'):
         ParseSpawnSystemKeyframeData(rPART);
         break;
 
     // Asset
-    case kGenICTS:
-    case kGenIDTS:
-    case kGenIITS:
-    case kGenPMDL:
-    case kGenSELC:
-    case kGenSSWH:
+    case FOURCC('ICTS'):
+    case FOURCC('IDTS'):
+    case FOURCC('IITS'):
+    case FOURCC('PMDL'):
+    case FOURCC('SELC'):
+    case FOURCC('SSWH'):
         ParseAssetFunction(rPART);
         break;
 
@@ -160,53 +160,53 @@ bool CUnsupportedParticleLoader::ParseElectricParameter(IInputStream& rELSC)
 {
     u32 ParamOffset = rELSC.Tell();
     CFourCC Param = rELSC.ReadLong();
-    if (Param == kParamEND) return false;
+    if (Param == FOURCC('_END')) return false;
 
     switch (Param.ToLong())
     {
-    case kElecZERY:
+    case FOURCC('ZERY'):
         ParseBoolFunction(rELSC);
         break;
 
-    case kElecDFLG:
+    case FOURCC('DFLG'):
         ParseBitfieldFunction(rELSC);
         break;
 
-    case kElecLIFE:
-    case kElecSCNT:
-    case kElecSLIF:
-    case kElecSSEG:
+    case FOURCC('LIFE'):
+    case FOURCC('SCNT'):
+    case FOURCC('SLIF'):
+    case FOURCC('SSEG'):
         ParseIntFunction(rELSC);
         break;
 
-    case kElecAMPD:
-    case kElecAMPL:
-    case kElecGRAT:
-    case kElecLWD1:
-    case kElecLWD2:
-    case kElecLWD3:
+    case FOURCC('AMPD'):
+    case FOURCC('AMPL'):
+    case FOURCC('GRAT'):
+    case FOURCC('LWD1'):
+    case FOURCC('LWD2'):
+    case FOURCC('LWD3'):
         ParseFloatFunction(rELSC);
         break;
 
-    case kElecCOLR:
-    case kElecLCL1:
-    case kElecLCL2:
-    case kElecLCL3:
+    case FOURCC('COLR'):
+    case FOURCC('LCL1'):
+    case FOURCC('LCL2'):
+    case FOURCC('LCL3'):
         ParseColorFunction(rELSC);
         break;
 
-    case kElecTEXR:
+    case FOURCC('TEXR'):
         ParseUVFunction(rELSC);
         break;
 
-    case kElecFEMT:
-    case kElecIEMT:
+    case FOURCC('FEMT'):
+    case FOURCC('IEMT'):
         ParseEmitterFunction(rELSC);
         break;
 
-    case kElecEPSM:
-    case kElecGPSM:
-    case kElecSSWH:
+    case FOURCC('EPSM'):
+    case FOURCC('GPSM'):
+    case FOURCC('SSWH'):
         ParseAssetFunction(rELSC);
         break;
 
@@ -223,9 +223,9 @@ bool CUnsupportedParticleLoader::ParseSortedParameter(IInputStream& rSRSC)
 {
     u32 ParamOffset = rSRSC.Tell();
     CFourCC Param = rSRSC.ReadLong();
-    if (Param == kParamEND) return false;
+    if (Param == FOURCC('_END')) return false;
 
-    if (Param == "SPWN")
+    if (Param == FOURCC('SPWN'))
         ParseSpawnSystemKeyframeData(rSRSC);
 
     else
@@ -242,49 +242,49 @@ bool CUnsupportedParticleLoader::ParseSpawnParameter(IInputStream& rSPSC)
 {
     u32 ParamOffset = rSPSC.Tell();
     CFourCC Param = rSPSC.ReadLong();
-    if (Param == kParamEND) return false;
+    if (Param == FOURCC('_END')) return false;
 
     switch (Param.ToLong())
     {
-    case kSpawnDEOL:
-    case kSpawnFRCO:
-    case kSpawnIGGT:
-    case kSpawnIGLT:
-    case kSpawnVMD1:
-    case kSpawnVMD2:
+    case FOURCC('DEOL'):
+    case FOURCC('FRCO'):
+    case FOURCC('IGGT'):
+    case FOURCC('IGLT'):
+    case FOURCC('VMD1'):
+    case FOURCC('VMD2'):
         ParseBoolFunction(rSPSC);
         break;
 
-    case kSpawnGIVL:
-    case kSpawnPSLT:
+    case FOURCC('GIVL'):
+    case FOURCC('PSLT'):
         ParseIntFunction(rSPSC);
         break;
 
-    case kSpawnVBLN:
+    case FOURCC('VBLN'):
         ParseFloatFunction(rSPSC);
         break;
 
-    case kSpawnFROV:
-    case kSpawnGORN:
-    case kSpawnGTRN:
-    case kSpawnIVEC:
-    case kSpawnLSCL:
-    case kSpawnORNT:
-    case kSpawnSCLE:
-    case kSpawnTRNL:
+    case FOURCC('FROV'):
+    case FOURCC('GORN'):
+    case FOURCC('GTRN'):
+    case FOURCC('IVEC'):
+    case FOURCC('LSCL'):
+    case FOURCC('ORNT'):
+    case FOURCC('SCLE'):
+    case FOURCC('TRNL'):
         ParseVectorFunction(rSPSC);
         break;
 
-    case kSpawnVLM1:
-    case kSpawnVLM2:
+    case FOURCC('VLM1'):
+    case FOURCC('VLM2'):
         ParseModVectorFunction(rSPSC);
         break;
 
-    case kSpawnPCOL:
+    case FOURCC('PCOL'):
         ParseColorFunction(rSPSC);
         break;
 
-    case kSpawnSPWN:
+    case FOURCC('SPWN'):
         ParseSpawnSystemKeyframeData(rSPSC);
         break;
 
@@ -301,61 +301,61 @@ bool CUnsupportedParticleLoader::ParseSwooshParameter(IInputStream& rSWHC)
 {
     u32 ParamOffset = rSWHC.Tell();
     CFourCC Param = rSWHC.ReadLong();
-    if (Param == kParamEND) return false;
+    if (Param == FOURCC('_END')) return false;
 
     switch (Param.ToLong())
     {
-    case kSwooshAALP:
-    case kSwooshCLTX:
-    case kSwooshCRND:
-    case kSwooshCROS:
-    case kSwooshLLRD:
-    case kSwooshORNT:
-    case kSwooshSROT:
-    case kSwooshTEXW:
-    case kSwooshVLS1:
-    case kSwooshVLS2:
-    case kSwooshWIRE:
-    case kSwooshZBUF:
+    case FOURCC('AALP'):
+    case FOURCC('CLTX'):
+    case FOURCC('CRND'):
+    case FOURCC('CROS'):
+    case FOURCC('LLRD'):
+    case FOURCC('ORNT'):
+    case FOURCC('SROT'):
+    case FOURCC('TEXW'):
+    case FOURCC('VLS1'):
+    case FOURCC('VLS2'):
+    case FOURCC('WIRE'):
+    case FOURCC('ZBUF'):
         ParseBoolFunction(rSWHC);
         break;
 
-    case kSwooshDFLG:
+    case FOURCC('DFLG'):
         ParseBitfieldFunction(rSWHC);
         break;
 
-    case kSwooshLENG:
-    case kSwooshPSLT:
-    case kSwooshSIDE:
+    case FOURCC('LENG'):
+    case FOURCC('PSLT'):
+    case FOURCC('SIDE'):
         ParseIntFunction(rSWHC);
         break;
 
-    case kSwooshIROT:
-    case kSwooshLRAD:
-    case kSwooshROTM:
-    case kSwooshRRAD:
-    case kSwooshSPLN:
-    case kSwooshTIME:
-    case kSwooshTSPN:
+    case FOURCC('IROT'):
+    case FOURCC('LRAD'):
+    case FOURCC('ROTM'):
+    case FOURCC('RRAD'):
+    case FOURCC('SPLN'):
+    case FOURCC('TIME'):
+    case FOURCC('TSPN'):
         ParseFloatFunction(rSWHC);
         break;
 
-    case kSwooshIVEL:
-    case kSwooshNPOS:
-    case kSwooshPOFS:
+    case FOURCC('IVEL'):
+    case FOURCC('NPOS'):
+    case FOURCC('POFS'):
         ParseVectorFunction(rSWHC);
         break;
 
-    case kSwooshVELM:
-    case kSwooshVLM2:
+    case FOURCC('VELM'):
+    case FOURCC('VLM2'):
         ParseModVectorFunction(rSWHC);
         break;
 
-    case kSwooshCOLR:
+    case FOURCC('COLR'):
         ParseColorFunction(rSWHC);
         break;
 
-    case kSwooshTEXR:
+    case FOURCC('TEXR'):
         ParseUVFunction(rSWHC);
         break;
 
@@ -372,50 +372,50 @@ bool CUnsupportedParticleLoader::ParseDecalParameter(IInputStream& rDPSC)
 {
     u32 ParamOffset = rDPSC.Tell();
     CFourCC Param = rDPSC.ReadLong();
-    if (Param == kParamEND) return false;
+    if (Param == FOURCC('_END')) return false;
 
     switch (Param.ToLong())
     {
-    case kDecal1ADD:
-    case kDecal2ADD:
-    case kDecalDMAB:
-    case kDecalDMOO:
+    case FOURCC('1ADD'):
+    case FOURCC('2ADD'):
+    case FOURCC('DMAB'):
+    case FOURCC('DMOO'):
         ParseBoolFunction(rDPSC);
         break;
 
-    case kDecal1LFT:
-    case kDecal2LFT:
-    case kDecalDLFT:
+    case FOURCC('1LFT'):
+    case FOURCC('2LFT'):
+    case FOURCC('DLFT'):
         ParseIntFunction(rDPSC);
         break;
 
-    case kDecal1ROT:
-    case kDecal2ROT:
-    case kDecal1SZE:
-    case kDecal2SZE:
+    case FOURCC('1ROT'):
+    case FOURCC('2ROT'):
+    case FOURCC('1SZE'):
+    case FOURCC('2SZE'):
         ParseFloatFunction(rDPSC);
         break;
 
-    case kDecal1OFF:
-    case kDecal2OFF:
-    case kDecalDMOP:
-    case kDecalDMRT:
-    case kDecalDMSC:
+    case FOURCC('1OFF'):
+    case FOURCC('2OFF'):
+    case FOURCC('DMOP'):
+    case FOURCC('DMRT'):
+    case FOURCC('DMSC'):
         ParseVectorFunction(rDPSC);
         break;
 
-    case kDecal1CLR:
-    case kDecal2CLR:
-    case kDecalDMCL:
+    case FOURCC('1CLR'):
+    case FOURCC('2CLR'):
+    case FOURCC('DMCL'):
         ParseColorFunction(rDPSC);
         break;
 
-    case kDecal1TEX:
-    case kDecal2TEX:
+    case FOURCC('1TEX'):
+    case FOURCC('2TEX'):
         ParseUVFunction(rDPSC);
         break;
 
-    case kDecalDMDL:
+    case FOURCC('DMDL'):
         ParseAssetFunction(rDPSC);
         break;
 
@@ -432,96 +432,96 @@ bool CUnsupportedParticleLoader::ParseWeaponParameter(IInputStream& rWPSC)
 {
     u32 ParamOffset = rWPSC.Tell();
     CFourCC Param = rWPSC.ReadLong();
-    if (Param == kParamEND) return false;
+    if (Param == FOURCC('_END')) return false;
 
     switch (Param.ToLong())
     {
-    case kWeaponAPSO:
-    case kWeaponAP11:
-    case kWeaponAP21:
-    case kWeaponAS11:
-    case kWeaponAS12:
-    case kWeaponAS13:
-    case kWeaponBHBT:
-    case kWeaponDP1C:
-    case kWeaponDP2C:
-    case kWeaponEELT:
-    case kWeaponEWTR:
-    case kWeaponF60H:
-    case kWeaponFC60:
-    case kWeaponHOMG:
-    case kWeaponLWTR:
-    case kWeaponNDTT:
-    case kWeaponRB1A:
-    case kWeaponRB2A:
-    case kWeaponRTLA:
-    case kWeaponRWPE:
-    case kWeaponSPS1:
-    case kWeaponSPS2:
-    case kWeaponSVBD:
-    case kWeaponSWTR:
-    case kWeaponVMD2:
+    case FOURCC('APSO'):
+    case FOURCC('AP11'):
+    case FOURCC('AP21'):
+    case FOURCC('AS11'):
+    case FOURCC('AS12'):
+    case FOURCC('AS13'):
+    case FOURCC('BHBT'):
+    case FOURCC('DP1C'):
+    case FOURCC('DP2C'):
+    case FOURCC('EELT'):
+    case FOURCC('EWTR'):
+    case FOURCC('F60H'):
+    case FOURCC('FC60'):
+    case FOURCC('HOMG'):
+    case FOURCC('LWTR'):
+    case FOURCC('NDTT'):
+    case FOURCC('RB1A'):
+    case FOURCC('RB2A'):
+    case FOURCC('RTLA'):
+    case FOURCC('RWPE'):
+    case FOURCC('SPS1'):
+    case FOURCC('SPS2'):
+    case FOURCC('SVBD'):
+    case FOURCC('SWTR'):
+    case FOURCC('VMD2'):
         ParseBoolFunction(rWPSC);
         break;
         
-    case kWeaponPSLT:
+    case FOURCC('PSLT'):
         ParseIntFunction(rWPSC);
         break;
 
-    case kWeaponB1RT:
-    case kWeaponB1SE:
-    case kWeaponB2RT:
-    case kWeaponB2SE:
-    case kWeaponFOFF:
-    case kWeaponRNGE:
-    case kWeaponTLEN:
-    case kWeaponTRAT:
-    case kWeaponTSZE:
+    case FOURCC('B1RT'):
+    case FOURCC('B1SE'):
+    case FOURCC('B2RT'):
+    case FOURCC('B2SE'):
+    case FOURCC('FOFF'):
+    case FOURCC('RNGE'):
+    case FOURCC('TLEN'):
+    case FOURCC('TRAT'):
+    case FOURCC('TSZE'):
         ParseFloatFunction(rWPSC);
         break;
 
-    case kWeaponB1PO:
-    case kWeaponB2PO:
-    case kWeaponIORN:
-    case kWeaponIVEC:
-    case kWeaponOFST:
-    case kWeaponPOFS:
-    case kWeaponPSCL:
-    case kWeaponPSOV:
-    case kWeaponTLPO:
+    case FOURCC('B1PO'):
+    case FOURCC('B2PO'):
+    case FOURCC('IORN'):
+    case FOURCC('IVEC'):
+    case FOURCC('OFST'):
+    case FOURCC('POFS'):
+    case FOURCC('PSCL'):
+    case FOURCC('PSOV'):
+    case FOURCC('TLPO'):
         ParseVectorFunction(rWPSC);
         break;
 
-    case kWeaponPSVM:
+    case FOURCC('PSVM'):
         ParseModVectorFunction(rWPSC);
         break;
 
-    case kWeaponB1CL:
-    case kWeaponB2CL:
-    case kWeaponPCOL:
-    case kWeaponTECL:
-    case kWeaponTSCL:
+    case FOURCC('B1CL'):
+    case FOURCC('B2CL'):
+    case FOURCC('PCOL'):
+    case FOURCC('TECL'):
+    case FOURCC('TSCL'):
         ParseColorFunction(rWPSC);
         break;
 
-    case kWeaponB1TX:
-    case kWeaponB2TX:
-    case kWeaponTTEX:
+    case FOURCC('B1TX'):
+    case FOURCC('B2TX'):
+    case FOURCC('TTEX'):
         ParseUVFunction(rWPSC);
         break;
         
-    case kWeaponPJFX:
+    case FOURCC('PJFX'):
         ParseSoundFunction(rWPSC);
         break;
 
-    case kWeaponAPSM:
-    case kWeaponAPS1:
-    case kWeaponAPS2:
-    case kWeaponASW1:
-    case kWeaponASW2:
-    case kWeaponASW3:
-    case kWeaponCOLR:
-    case kWeaponOHEF:
+    case FOURCC('APSM'):
+    case FOURCC('APS1'):
+    case FOURCC('APS2'):
+    case FOURCC('ASW1'):
+    case FOURCC('ASW2'):
+    case FOURCC('ASW3'):
+    case FOURCC('COLR'):
+    case FOURCC('OHEF'):
         ParseAssetFunction(rWPSC);
         break;
 
@@ -538,12 +538,12 @@ bool CUnsupportedParticleLoader::ParseCollisionResponseParameter(IInputStream& r
 {
     u32 ParamOffset = rCRSC.Tell();
     CFourCC Param = rCRSC.ReadLong();
-    if (Param == kParamEND) return false;
+    if (Param == FOURCC('_END')) return false;
 
     // CRSC has way too many useless extra parameters that are never used to bother typing out, so just skip past them
     u32 FuncPeek = rCRSC.PeekLong();
 
-    if (FuncPeek == kFuncNONE)
+    if (FuncPeek == FOURCC('NONE'))
     {
         rCRSC.Seek(0x4, SEEK_CUR);
         return true;
@@ -551,88 +551,88 @@ bool CUnsupportedParticleLoader::ParseCollisionResponseParameter(IInputStream& r
 
     switch (Param.ToLong())
     {
-    case kColi1ATA:
-    case kColi2ATA:
-    case kColi3ATA:
-    case kColi4ATA:
-    case kColi5ATA:
-    case kColi6ATA:
-    case kColi1ATB:
-    case kColi2ATB:
-    case kColi3ATB:
-    case kColi4ATB:
-    case kColi5ATB:
-    case kColi6ATB:
-    case kColi1BSE:
-    case kColi2BSE:
-    case kColi1DRN:
-    case kColi2DRN:
-    case kColi3DRN:
-    case kColi4DRN:
-    case kColi5DRN:
-    case kColi6DRN:
-    case kColi6GRN:
-    case kColi2MUD:
-    case kColi2SAN:
-    case kColiDCSH:
-    case kColiDSHX:
-    case kColiPBHX:
-    case kColiPBOS:
-    case kColiPBSX:
-    case kColiTASP:
+    case FOURCC('1ATA'):
+    case FOURCC('2ATA'):
+    case FOURCC('3ATA'):
+    case FOURCC('4ATA'):
+    case FOURCC('5ATA'):
+    case FOURCC('6ATA'):
+    case FOURCC('1ATB'):
+    case FOURCC('2ATB'):
+    case FOURCC('3ATB'):
+    case FOURCC('4ATB'):
+    case FOURCC('5ATB'):
+    case FOURCC('6ATB'):
+    case FOURCC('1BSE'):
+    case FOURCC('2BSE'):
+    case FOURCC('1DRN'):
+    case FOURCC('2DRN'):
+    case FOURCC('3DRN'):
+    case FOURCC('4DRN'):
+    case FOURCC('5DRN'):
+    case FOURCC('6DRN'):
+    case FOURCC('6GRN'):
+    case FOURCC('2MUD'):
+    case FOURCC('2SAN'):
+    case FOURCC('DCSH'):
+    case FOURCC('DSHX'):
+    case FOURCC('PBHX'):
+    case FOURCC('PBOS'):
+    case FOURCC('PBSX'):
+    case FOURCC('TASP'):
         ParseIntFunction(rCRSC);
         break;
 
-    case kColiFOFF:
-    case kColiRNGE:
+    case FOURCC('FOFF'):
+    case FOURCC('RNGE'):
         ParseFloatFunction(rCRSC);
         break;
         
-    case kColiBHFX:
-    case kColiCHFX:
-    case kColiCSFX:
-    case kColiCZFX:
-    case kColiDSFX:
-    case kColiGOFX:
-    case kColiGRFX:
-    case kColiHBFX:
-    case kColiICFX:
-    case kColiMSFX:
-    case kColiSHFX:
-    case kColiTAFX:
-    case kColiWSFX:
-    case kColiWTFX:
+    case FOURCC('BHFX'):
+    case FOURCC('CHFX'):
+    case FOURCC('CSFX'):
+    case FOURCC('CZFX'):
+    case FOURCC('DSFX'):
+    case FOURCC('GOFX'):
+    case FOURCC('GRFX'):
+    case FOURCC('HBFX'):
+    case FOURCC('ICFX'):
+    case FOURCC('MSFX'):
+    case FOURCC('SHFX'):
+    case FOURCC('TAFX'):
+    case FOURCC('WSFX'):
+    case FOURCC('WTFX'):
         ParseSoundFunction(rCRSC);
         break;
         
-    case kColi1LAV:
-    case kColi3LAV:
-    case kColi1MUD:
-    case kColi3MUD:
-    case kColi1SAN:
-    case kColi3SAN:
-    case kColiCHDL:
-    case kColiCODL:
-    case kColiCRTS:
-    case kColiDCHR:
-    case kColiDDCL:
-    case kColiDEFS:
-    case kColiDENM:
-    case kColiDESH:
-    case kColiENDL:
-    case kColiGODL:
-    case kColiGOOO:
-    case kColiGRAS:
-    case kColiGRDL:
-    case kColiICDL:
-    case kColiICEE:
-    case kColiMEDL:
-    case kColiMTLS:
-    case kColiTALP:
-    case kColiWATR:
-    case kColiWODL:
-    case kColiWODS:
-    case kColiWTDL:
+    case FOURCC('1LAV'):
+    case FOURCC('3LAV'):
+    case FOURCC('1MUD'):
+    case FOURCC('3MUD'):
+    case FOURCC('1SAN'):
+    case FOURCC('3SAN'):
+    case FOURCC('CHDL'):
+    case FOURCC('CODL'):
+    case FOURCC('CRTS'):
+    case FOURCC('DCHR'):
+    case FOURCC('DDCL'):
+    case FOURCC('DEFS'):
+    case FOURCC('DENM'):
+    case FOURCC('DESH'):
+    case FOURCC('ENDL'):
+    case FOURCC('GODL'):
+    case FOURCC('GOOO'):
+    case FOURCC('GRAS'):
+    case FOURCC('GRDL'):
+    case FOURCC('ICDL'):
+    case FOURCC('ICEE'):
+    case FOURCC('MEDL'):
+    case FOURCC('MTLS'):
+    case FOURCC('TALP'):
+    case FOURCC('WATR'):
+    case FOURCC('WODL'):
+    case FOURCC('WODS'):
+    case FOURCC('WTDL'):
         ParseAssetFunction(rCRSC);
         break;
 
@@ -653,11 +653,11 @@ void CUnsupportedParticleLoader::ParseBoolFunction(IInputStream& rFile)
 
     switch (Func.ToLong())
     {
-    case kBoolCNST:
+    case FOURCC('CNST'):
         rFile.Seek(0x1, SEEK_CUR);
         break;
 
-    case kFuncNONE:
+    case FOURCC('NONE'):
         break;
 
     default:
@@ -680,66 +680,66 @@ void CUnsupportedParticleLoader::ParseIntFunction(IInputStream& rFile)
 
     switch (Func.ToLong())
     {
-    case kFuncNONE:
-    case kIntGAPC:
-    case kIntGEMT:
-    case kIntGTCP:
-    case kIntPCRT:
-    case kIntPDET:
+    case FOURCC('NONE'):
+    case FOURCC('GAPC'):
+    case FOURCC('GEMT'):
+    case FOURCC('GTCP'):
+    case FOURCC('PCRT'):
+    case FOURCC('PDET'):
         break;
 
-    case kIntILPT:
-    case kIntIMPL:
-    case kIntKPIN:
-        ParseIntFunction(rFile);
-        break;
-
-    case kIntADD_:
-    case kIntDETH:
-    case kIntDIVD:
-    case kIntIRND:
-    case kIntISWT:
-    case kIntMODU:
-    case kIntMULT:
-    case kIntRAND:
-    case kIntSUB_:
-        ParseIntFunction(rFile);
+    case FOURCC('ILPT'):
+    case FOURCC('IMPL'):
+    case FOURCC('KPIN'):
         ParseIntFunction(rFile);
         break;
 
-    case kIntCHAN:
-    case kIntCLMP:
-    case kIntSPAH:
-        ParseIntFunction(rFile);
+    case FOURCC('ADD_'):
+    case FOURCC('DETH'):
+    case FOURCC('DIVD'):
+    case FOURCC('IRND'):
+    case FOURCC('ISWT'):
+    case FOURCC('MODU'):
+    case FOURCC('MULT'):
+    case FOURCC('RAND'):
+    case FOURCC('SUB_'):
         ParseIntFunction(rFile);
         ParseIntFunction(rFile);
         break;
 
-    case kIntPULS:
-        ParseIntFunction(rFile);
+    case FOURCC('CHAN'):
+    case FOURCC('CLMP'):
+    case FOURCC('SPAH'):
         ParseIntFunction(rFile);
         ParseIntFunction(rFile);
         ParseIntFunction(rFile);
         break;
 
-    case kIntCNST:
+    case FOURCC('PULS'):
+        ParseIntFunction(rFile);
+        ParseIntFunction(rFile);
+        ParseIntFunction(rFile);
+        ParseIntFunction(rFile);
+        break;
+
+    case FOURCC('CNST'):
     {
         u32 Value = rFile.ReadLong();
         ASSERT(gpResourceStore->FindEntry(CAssetID(Value)) == nullptr);
         break;
     }
 
-    case kIntKEYE:
-    case kIntKEYF:
-    case kIntKEYP:
+    case FOURCC('KEYE'):
+    case FOURCC('KEYF'):
+    case FOURCC('KEYP'):
         ParseKeyframeEmitterData(rFile, Func, 0x4);
         break;
 
-    case kIntTSCL:
+    case FOURCC('TSCL'):
         ParseFloatFunction(rFile);
         break;
 
-    case kIntRTOI:
+    case FOURCC('RTOI'):
         ParseFloatFunction(rFile);
         ParseFloatFunction(rFile);
         break;
@@ -758,71 +758,71 @@ void CUnsupportedParticleLoader::ParseFloatFunction(IInputStream& rFile)
 
     switch (Func.ToLong())
     {
-    case kFuncNONE:
-    case kFloatGTCP:
-    case kFloatPAP1:
-    case kFloatPAP2:
-    case kFloatPAP3:
-    case kFloatPAP4:
-    case kFloatPAP5:
-    case kFloatPAP6:
-    case kFloatPAP7:
-    case kFloatPAP8:
-    case kFloatPAP9:
-    case kFloatPRLW:
-    case kFloatPSLL:
+    case FOURCC('NONE'):
+    case FOURCC('GTCP'):
+    case FOURCC('PAP1'):
+    case FOURCC('PAP2'):
+    case FOURCC('PAP3'):
+    case FOURCC('PAP4'):
+    case FOURCC('PAP5'):
+    case FOURCC('PAP6'):
+    case FOURCC('PAP7'):
+    case FOURCC('PAP8'):
+    case FOURCC('PAP9'):
+    case FOURCC('PRLW'):
+    case FOURCC('PSLL'):
         break;
 
-    case kFloatKPIN:
-    case kFloatPRN1:
-    case kFloatRLPT:
-    case kFloatSCAL:
-        ParseFloatFunction(rFile);
-        break;
-
-    case kFloatADD_:
-    case kFloatIRND:
-    case kFloatISWT:
-    case kFloatLFTW:
-    case kFloatMULT:
-    case kFloatPRN2:
-    case kFloatRAND:
-    case kFloatSUB_:
-        ParseFloatFunction(rFile);
+    case FOURCC('KPIN'):
+    case FOURCC('PRN1'):
+    case FOURCC('RLPT'):
+    case FOURCC('SCAL'):
         ParseFloatFunction(rFile);
         break;
 
-    case kFloatCEQL:
-    case kFloatCLTN:
-        ParseFloatFunction(rFile);
-        ParseFloatFunction(rFile);
+    case FOURCC('ADD_'):
+    case FOURCC('IRND'):
+    case FOURCC('ISWT'):
+    case FOURCC('LFTW'):
+    case FOURCC('MULT'):
+    case FOURCC('PRN2'):
+    case FOURCC('RAND'):
+    case FOURCC('SUB_'):
         ParseFloatFunction(rFile);
         ParseFloatFunction(rFile);
         break;
 
-    case kFloatCEXT:
-    case kFloatOCSP:
+    case FOURCC('CEQL'):
+    case FOURCC('CLTN'):
+        ParseFloatFunction(rFile);
+        ParseFloatFunction(rFile);
+        ParseFloatFunction(rFile);
+        ParseFloatFunction(rFile);
+        break;
+
+    case FOURCC('CEXT'):
+    case FOURCC('OCSP'):
         ParseIntFunction(rFile);
         break;
 
-    case kFloatCHAN:
+    case FOURCC('CHAN'):
         ParseFloatFunction(rFile);
         ParseFloatFunction(rFile);
         ParseIntFunction(rFile);
         break;
 
-    case kFloatCLMP:
-    case kFloatSINE:
+    case FOURCC('CLMP'):
+    case FOURCC('SINE'):
         ParseFloatFunction(rFile);
         ParseFloatFunction(rFile);
         ParseFloatFunction(rFile);
         break;
 
-    case kFloatCNST:
+    case FOURCC('CNST'):
         rFile.Seek(0x4, SEEK_CUR);
         break;
 
-    case kFloatCRNG:
+    case FOURCC('CRNG'):
         ParseFloatFunction(rFile);
         ParseFloatFunction(rFile);
         ParseFloatFunction(rFile);
@@ -830,52 +830,52 @@ void CUnsupportedParticleLoader::ParseFloatFunction(IInputStream& rFile)
         ParseFloatFunction(rFile);
         break;
 
-    case kFloatDOTP:
+    case FOURCC('DOTP'):
         ParseVectorFunction(rFile);
         ParseVectorFunction(rFile);
         break;
 
-    case kFloatGTCR:
-    case kFloatGTCG:
-    case kFloatGTCB:
-    case kFloatGTCA:
+    case FOURCC('GTCR'):
+    case FOURCC('GTCG'):
+    case FOURCC('GTCB'):
+    case FOURCC('GTCA'):
         ParseColorFunction(rFile);
         break;
 
-    case kFloatITRL:
+    case FOURCC('ITRL'):
         ParseIntFunction(rFile);
         ParseFloatFunction(rFile);
         break;
 
-    case kFloatKEYE:
-    case kFloatKEYF:
-    case kFloatKEYP:
+    case FOURCC('KEYE'):
+    case FOURCC('KEYF'):
+    case FOURCC('KEYP'):
         ParseKeyframeEmitterData(rFile, Func, 0x4);
         break;
 
-    case kFloatPULS:
+    case FOURCC('PULS'):
         ParseIntFunction(rFile);
         ParseIntFunction(rFile);
         ParseFloatFunction(rFile);
         ParseFloatFunction(rFile);
         break;
 
-    case kFloatPRN3:
-    case kFloatVMAG:
-    case kFloatVXTR:
-    case kFloatVYTR:
-    case kFloatVZTR:
+    case FOURCC('PRN3'):
+    case FOURCC('VMAG'):
+    case FOURCC('VXTR'):
+    case FOURCC('VYTR'):
+    case FOURCC('VZTR'):
         ParseVectorFunction(rFile);
         break;
 
-    case kFloatPNO1:
+    case FOURCC('PNO1'):
         ParseFloatFunction(rFile);
         ParseFloatFunction(rFile);
         ParseFloatFunction(rFile);
         ParseIntFunction(rFile);
         break;
 
-    case kFloatPNO2:
+    case FOURCC('PNO2'):
         ParseFloatFunction(rFile);
         ParseFloatFunction(rFile);
         ParseFloatFunction(rFile);
@@ -883,14 +883,14 @@ void CUnsupportedParticleLoader::ParseFloatFunction(IInputStream& rFile)
         ParseIntFunction(rFile);
         break;
 
-    case kFloatPNO3:
+    case FOURCC('PNO3'):
         ParseVectorFunction(rFile);
         ParseFloatFunction(rFile);
         ParseFloatFunction(rFile);
         ParseIntFunction(rFile);
         break;
 
-    case kFloatPNO4:
+    case FOURCC('PNO4'):
         ParseVectorFunction(rFile);
         ParseFloatFunction(rFile);
         ParseFloatFunction(rFile);
@@ -898,12 +898,12 @@ void CUnsupportedParticleLoader::ParseFloatFunction(IInputStream& rFile)
         ParseIntFunction(rFile);
         break;
 
-    case kFloatPRN4:
+    case FOURCC('PRN4'):
         ParseVectorFunction(rFile);
         ParseFloatFunction(rFile);
         break;
 
-    case kFloatTOCS:
+    case FOURCC('TOCS'):
         ParseBoolFunction(rFile);
         ParseIntFunction(rFile);
         ParseIntFunction(rFile);
@@ -924,15 +924,15 @@ void CUnsupportedParticleLoader::ParseVectorFunction(IInputStream& rFile)
 
     switch (Func.ToLong())
     {
-    case kVectorADD_:
-    case kVectorISWT:
-    case kVectorMULT:
-    case kVectorSUB_:
+    case FOURCC('ADD_'):
+    case FOURCC('ISWT'):
+    case FOURCC('MULT'):
+    case FOURCC('SUB_'):
         ParseVectorFunction(rFile);
         ParseVectorFunction(rFile);
         break;
 
-    case kVectorANGC:
+    case FOURCC('ANGC'):
         ParseFloatFunction(rFile);
         ParseFloatFunction(rFile);
         ParseFloatFunction(rFile);
@@ -940,20 +940,20 @@ void CUnsupportedParticleLoader::ParseVectorFunction(IInputStream& rFile)
         ParseFloatFunction(rFile);
         break;
 
-    case kVectorCCLU:
+    case FOURCC('CCLU'):
         ParseVectorFunction(rFile);
         ParseVectorFunction(rFile);
         ParseIntFunction(rFile);
         ParseFloatFunction(rFile);
         break;
 
-    case kVectorCHAN:
+    case FOURCC('CHAN'):
         ParseVectorFunction(rFile);
         ParseVectorFunction(rFile);
         ParseIntFunction(rFile);
         break;
 
-    case kVectorCIRC:
+    case FOURCC('CIRC'):
         ParseVectorFunction(rFile);
         ParseVectorFunction(rFile);
         ParseFloatFunction(rFile);
@@ -961,61 +961,61 @@ void CUnsupportedParticleLoader::ParseVectorFunction(IInputStream& rFile)
         ParseFloatFunction(rFile);
         break;
 
-    case kVectorCNST:
+    case FOURCC('CNST'):
         ParseFloatFunction(rFile);
         ParseFloatFunction(rFile);
         ParseFloatFunction(rFile);
         break;
 
-    case kVectorCONE:
+    case FOURCC('CONE'):
         ParseVectorFunction(rFile);
         ParseFloatFunction(rFile);
         break;
 
-    case kVectorCTVC:
+    case FOURCC('CTVC'):
         ParseColorFunction(rFile);
         break;
 
-    case kVectorKEYE:
-    case kVectorKEYF:
-    case kVectorKEYP:
+    case FOURCC('KEYE'):
+    case FOURCC('KEYF'):
+    case FOURCC('KEYP'):
         ParseKeyframeEmitterData(rFile, Func, 0xC);
         break;
 
-    case kVectorKPIN:
-    case kVectorNORM:
+    case FOURCC('KPIN'):
+    case FOURCC('NORM'):
         ParseVectorFunction(rFile);
         break;
 
-    case kFuncNONE:
-    case kVectorPAP1:
-    case kVectorPAP2:
-    case kVectorPAP3:
-    case kVectorPENV:
-    case kVectorPETR:
-    case kVectorPEVL:
-    case kVectorPINV:
-    case kVectorPITR:
-    case kVectorPIVL:
-    case kVectorPLCO:
-    case kVectorPLOC:
-    case kVectorPNCV:
-    case kVectorPSOF:
-    case kVectorPSOU:
-    case kVectorPSOR:
-    case kVectorPSTR:
-    case kVectorPVEL:
+    case FOURCC('NONE'):
+    case FOURCC('PAP1'):
+    case FOURCC('PAP2'):
+    case FOURCC('PAP3'):
+    case FOURCC('PENV'):
+    case FOURCC('PETR'):
+    case FOURCC('PEVL'):
+    case FOURCC('PINV'):
+    case FOURCC('PITR'):
+    case FOURCC('PIVL'):
+    case FOURCC('PLCO'):
+    case FOURCC('PLOC'):
+    case FOURCC('PNCV'):
+    case FOURCC('PSOF'):
+    case FOURCC('PSOU'):
+    case FOURCC('PSOR'):
+    case FOURCC('PSTR'):
+    case FOURCC('PVEL'):
         break;
 
-    case kVectorPULS:
+    case FOURCC('PULS'):
         ParseIntFunction(rFile);
         ParseIntFunction(rFile);
         ParseVectorFunction(rFile);
         ParseVectorFunction(rFile);
         break;
 
-    case kVectorRNDV:
-    case kVectorRTOV:
+    case FOURCC('RNDV'):
+    case FOURCC('RTOV'):
         ParseFloatFunction(rFile);
         break;
 
@@ -1033,10 +1033,10 @@ void CUnsupportedParticleLoader::ParseModVectorFunction(IInputStream& rFile)
 
     switch (Func.ToLong())
     {
-    case kFuncNONE:
+    case FOURCC('NONE'):
         break;
 
-    case kModVectorBNCE:
+    case FOURCC('BNCE'):
         ParseVectorFunction(rFile);
         ParseVectorFunction(rFile);
         ParseFloatFunction(rFile);
@@ -1044,27 +1044,27 @@ void CUnsupportedParticleLoader::ParseModVectorFunction(IInputStream& rFile)
         ParseBoolFunction(rFile);
         break;
 
-    case kModVectorBOXV:
+    case FOURCC('BOXV'):
         ParseVectorFunction(rFile);
         ParseVectorFunction(rFile);
         ParseModVectorFunction(rFile);
         break;
 
-    case kModVectorCHAN:
+    case FOURCC('CHAN'):
         ParseModVectorFunction(rFile);
         ParseModVectorFunction(rFile);
         ParseIntFunction(rFile);
         break;
 
-    case kModVectorCNST:
+    case FOURCC('CNST'):
         ParseFloatFunction(rFile);
         ParseFloatFunction(rFile);
         ParseFloatFunction(rFile);
         break;
 
-    case kModVectorEMPL:
-    case kModVectorIMPL:
-    case kModVectorLMPL:
+    case FOURCC('EMPL'):
+    case FOURCC('IMPL'):
+    case FOURCC('LMPL'):
         ParseVectorFunction(rFile);
         ParseFloatFunction(rFile);
         ParseFloatFunction(rFile);
@@ -1072,37 +1072,37 @@ void CUnsupportedParticleLoader::ParseModVectorFunction(IInputStream& rFile)
         ParseBoolFunction(rFile);
         break;
 
-    case kModVectorEXPL:
+    case FOURCC('EXPL'):
         ParseFloatFunction(rFile);
         ParseFloatFunction(rFile);
         break;
 
-    case kModVectorGRAV:
-    case kModVectorSPOS:
+    case FOURCC('GRAV'):
+    case FOURCC('SPOS'):
         ParseVectorFunction(rFile);
         break;
 
-    case kModVectorPULS:
+    case FOURCC('PULS'):
         ParseIntFunction(rFile);
         ParseIntFunction(rFile);
         ParseFloatFunction(rFile);
         ParseFloatFunction(rFile);
         break;
 
-    case kModVectorSPHV:
+    case FOURCC('SPHV'):
         ParseVectorFunction(rFile);
         ParseFloatFunction(rFile);
         ParseModVectorFunction(rFile);
         break;
 
-    case kModVectorSWRL:
+    case FOURCC('SWRL'):
         ParseVectorFunction(rFile);
         ParseVectorFunction(rFile);
         ParseFloatFunction(rFile);
         ParseFloatFunction(rFile);
         break;
 
-    case kModVectorWIND:
+    case FOURCC('WIND'):
         ParseVectorFunction(rFile);
         ParseFloatFunction(rFile);
         break;
@@ -1121,65 +1121,65 @@ void CUnsupportedParticleLoader::ParseColorFunction(IInputStream& rFile)
 
     switch (Func.ToLong())
     {
-    case kColorCFDE:
+    case FOURCC('CFDE'):
         ParseColorFunction(rFile);
         ParseColorFunction(rFile);
         ParseFloatFunction(rFile);
         ParseFloatFunction(rFile);
         break;
 
-    case kColorCHAN:
+    case FOURCC('CHAN'):
         ParseColorFunction(rFile);
         ParseColorFunction(rFile);
         ParseIntFunction(rFile);
         break;
 
-    case kColorCNST:
+    case FOURCC('CNST'):
         ParseFloatFunction(rFile);
         ParseFloatFunction(rFile);
         ParseFloatFunction(rFile);
         ParseFloatFunction(rFile);
         break;
 
-    case kColorFADE:
+    case FOURCC('FADE'):
         ParseColorFunction(rFile);
         ParseColorFunction(rFile);
         ParseFloatFunction(rFile);
         break;
 
-    case kColorISWT:
-    case kColorMULT:
+    case FOURCC('ISWT'):
+    case FOURCC('MULT'):
         ParseColorFunction(rFile);
         ParseColorFunction(rFile);
         break;
 
-    case kColorKEYE:
-    case kColorKEYF:
-    case kColorKEYP:
+    case FOURCC('KEYE'):
+    case FOURCC('KEYF'):
+    case FOURCC('KEYP'):
         ParseKeyframeEmitterData(rFile, Func, 0x10);
         break;
 
-    case kColorKPIN:
+    case FOURCC('KPIN'):
         ParseColorFunction(rFile);
         break;
 
-    case kColorMDAO:
+    case FOURCC('MDAO'):
         ParseColorFunction(rFile);
         ParseFloatFunction(rFile);
         break;
 
-    case kFuncNONE:
-    case kColorPCOL:
+    case FOURCC('NONE'):
+    case FOURCC('PCOL'):
         break;
 
-    case kColorPULS:
+    case FOURCC('PULS'):
         ParseIntFunction(rFile);
         ParseIntFunction(rFile);
         ParseColorFunction(rFile);
         ParseColorFunction(rFile);
         break;
 
-    case kColorVRTC:
+    case FOURCC('VRTC'):
         ParseVectorFunction(rFile);
         ParseFloatFunction(rFile);
         break;
@@ -1198,14 +1198,14 @@ void CUnsupportedParticleLoader::ParseUVFunction(IInputStream& rFile)
 
     switch (Func.ToLong())
     {
-    case kFuncNONE:
+    case FOURCC('NONE'):
         break;
 
-    case kUVCNST:
+    case FOURCC('CNST'):
         ParseAssetFunction(rFile);
         break;
 
-    case kUVATEX:
+    case FOURCC('ATEX'):
         ParseAssetFunction(rFile);
         ParseIntFunction(rFile);
         ParseIntFunction(rFile);
@@ -1229,10 +1229,10 @@ void CUnsupportedParticleLoader::ParseEmitterFunction(IInputStream& rFile)
 
     switch (Func.ToLong())
     {
-    case kFuncNONE:
+    case FOURCC('NONE'):
         break;
 
-    case kEmitterASPH:
+    case FOURCC('ASPH'):
         ParseVectorFunction(rFile);
         ParseFloatFunction(rFile);
         ParseFloatFunction(rFile);
@@ -1242,7 +1242,7 @@ void CUnsupportedParticleLoader::ParseEmitterFunction(IInputStream& rFile)
         ParseFloatFunction(rFile);
         break;
 
-    case kEmitterELPS:
+    case FOURCC('ELPS'):
         ParseVectorFunction(rFile);
         ParseVectorFunction(rFile);
         ParseVectorFunction(rFile);
@@ -1250,7 +1250,7 @@ void CUnsupportedParticleLoader::ParseEmitterFunction(IInputStream& rFile)
         ParseBoolFunction(rFile);
         break;
 
-    case kEmitterPLNE:
+    case FOURCC('PLNE'):
         ParseVectorFunction(rFile);
         ParseVectorFunction(rFile);
         ParseVectorFunction(rFile);
@@ -1259,17 +1259,17 @@ void CUnsupportedParticleLoader::ParseEmitterFunction(IInputStream& rFile)
         ParseFloatFunction(rFile);
         break;
 
-    case kEmitterSEMR:
+    case FOURCC('SEMR'):
         ParseVectorFunction(rFile);
         ParseVectorFunction(rFile);
         break;
 
-    case kEmitterSETR:
+    case FOURCC('SETR'):
         ParseParticleParameter(rFile);
         ParseParticleParameter(rFile);
         break;
 
-    case kEmitterSPHE:
+    case FOURCC('SPHE'):
         ParseVectorFunction(rFile);
         ParseFloatFunction(rFile);
         ParseFloatFunction(rFile);
@@ -1289,10 +1289,10 @@ void CUnsupportedParticleLoader::ParseSoundFunction(IInputStream& rFile)
     
     switch (Func.ToLong())
     {
-    case kFuncNONE:
+    case FOURCC('NONE'):
         break;
         
-    case kSoundCNST:
+    case FOURCC('CNST'):
     {
         u32 SoundID = rFile.ReadLong() & 0xFFFF;
 
@@ -1318,10 +1318,10 @@ void CUnsupportedParticleLoader::ParseAssetFunction(IInputStream& rFile)
 
     switch (Func.ToLong())
     {
-    case kFuncNONE:
+    case FOURCC('NONE'):
         break;
 
-    case kAssetCNST:
+    case FOURCC('CNST'):
         mpGroup->AddDependency( CAssetID(rFile, mpGroup->Game()) );
         break;
 
@@ -1371,14 +1371,14 @@ void CUnsupportedParticleLoader::ParseKeyframeEmitterData(IInputStream& rFile, c
 
 // ************ STATIC ************
 enum {
-    kGPSM = FOURCC_CONSTEXPR('G', 'P', 'S', 'M'),
-    kELSM = FOURCC_CONSTEXPR('E', 'L', 'S', 'M'),
-    kSRSM = FOURCC_CONSTEXPR('S', 'R', 'S', 'M'),
-    kSPSM = FOURCC_CONSTEXPR('S', 'P', 'S', 'M'),
-    kSWSH = FOURCC_CONSTEXPR('S', 'W', 'S', 'H'),
-    kDPSM = FOURCC_CONSTEXPR('D', 'P', 'S', 'M'),
-    kWPSM = FOURCC_CONSTEXPR('W', 'P', 'S', 'M'),
-    kCRSM = FOURCC_CONSTEXPR('C', 'R', 'S', 'M')
+    kGPSM = FOURCC('GPSM'),
+    kELSM = FOURCC('ELSM'),
+    kSRSM = FOURCC('SRSM'),
+    kSPSM = FOURCC('SPSM'),
+    kSWSH = FOURCC('SWSH'),
+    kDPSM = FOURCC('DPSM'),
+    kWPSM = FOURCC('WPSM'),
+    kCRSM = FOURCC('CRSM')
 };
 
 CDependencyGroup* CUnsupportedParticleLoader::LoadParticle(IInputStream& rFile, CResourceEntry *pEntry)

@@ -200,7 +200,12 @@ void CEditorApplication::OnEditorClose()
     IEditor *pEditor = qobject_cast<IEditor*>(sender());
     ASSERT(pEditor);
 
-    if (pEditor != mpWorldEditor)
+    if (pEditor == mpWorldEditor)
+    {
+        mpWorldEditor = nullptr;
+        quit();
+    }
+    else
     {
         for (auto Iter = mEditingMap.begin(); Iter != mEditingMap.end(); Iter++)
         {

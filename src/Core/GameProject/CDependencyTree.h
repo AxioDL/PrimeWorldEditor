@@ -16,15 +16,15 @@ struct SSetCharacter;
 // Group of node classes forming a tree of cached resource dependencies.
 enum EDependencyNodeType
 {
-    eDNT_DependencyTree     = FOURCC_CONSTEXPR('T', 'R', 'E', 'E'),
-    eDNT_ResourceDependency = FOURCC_CONSTEXPR('R', 'S', 'D', 'P'),
-    eDNT_ScriptInstance     = FOURCC_CONSTEXPR('S', 'C', 'I', 'N'),
-    eDNT_ScriptProperty     = FOURCC_CONSTEXPR('S', 'C', 'P', 'R'),
-    eDNT_CharacterProperty  = FOURCC_CONSTEXPR('C', 'R', 'P', 'R'),
-    eDNT_SetCharacter       = FOURCC_CONSTEXPR('S', 'C', 'H', 'R'),
-    eDNT_SetAnimation       = FOURCC_CONSTEXPR('S', 'A', 'N', 'M'),
-    eDNT_AnimEvent          = FOURCC_CONSTEXPR('E', 'V', 'N', 'T'),
-    eDNT_Area               = FOURCC_CONSTEXPR('A', 'R', 'E', 'A'),
+    eDNT_DependencyTree     = FOURCC('TREE'),
+    eDNT_ResourceDependency = FOURCC('RSDP'),
+    eDNT_ScriptInstance     = FOURCC('SCIN'),
+    eDNT_ScriptProperty     = FOURCC('SCPR'),
+    eDNT_CharacterProperty  = FOURCC('CRPR'),
+    eDNT_SetCharacter       = FOURCC('SCHR'),
+    eDNT_SetAnimation       = FOURCC('SANM'),
+    eDNT_AnimEvent          = FOURCC('EVNT'),
+    eDNT_Area               = FOURCC('AREA'),
 };
 
 // Base class providing an interface for a basic dependency node.

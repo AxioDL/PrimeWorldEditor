@@ -267,7 +267,7 @@ void GenerateAssetNames(CGameProject *pProj)
                 {
                     CScriptObject *pInst = pLayer->InstanceByIndex(iInst);
 
-                    if (pInst->ObjectTypeID() == 0x42 || pInst->ObjectTypeID() == FOURCC("POIN"))
+                    if (pInst->ObjectTypeID() == 0x42 || pInst->ObjectTypeID() == FOURCC('POIN'))
                     {
                         TString Name = pInst->InstanceName();
 
@@ -302,7 +302,7 @@ void GenerateAssetNames(CGameProject *pProj)
                         }
                     }
 
-                    else if (pInst->ObjectTypeID() == 0x17 || pInst->ObjectTypeID() == FOURCC("MEMO"))
+                    else if (pInst->ObjectTypeID() == 0x17 || pInst->ObjectTypeID() == FOURCC('MEMO'))
                     {
                         TString Name = pInst->InstanceName();
 
@@ -331,8 +331,8 @@ void GenerateAssetNames(CGameProject *pProj)
                     }
 
                     // Look for lightmapped models - these are going to be unique to this area
-                    else if (pInst->ObjectTypeID() == 0x0 || pInst->ObjectTypeID() == FOURCC("ACTR") ||
-                             pInst->ObjectTypeID() == 0x8 || pInst->ObjectTypeID() == FOURCC("PLAT"))
+                    else if (pInst->ObjectTypeID() == 0x0 || pInst->ObjectTypeID() == FOURCC('ACTR') ||
+                             pInst->ObjectTypeID() == 0x8 || pInst->ObjectTypeID() == FOURCC('PLAT'))
                     {
                         u32 ModelPropID = (pProj->Game() <= ePrime ? (pInst->ObjectTypeID() == 0x0 ? 0xA : 0x6) : 0xC27FFA8F);
                         TAssetProperty *pModelProperty = TPropCast<TAssetProperty>(pInst->Properties()->PropertyByID(ModelPropID));

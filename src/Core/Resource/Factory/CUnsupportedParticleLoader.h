@@ -2,7 +2,6 @@
 #define CUNSUPPORTEDPARTICLELOADER_H
 
 #include "Core/Resource/CDependencyGroup.h"
-#include "Core/Resource/ParticleParameters.h"
 
 // This class is responsible for loading particle formats that aren't yet fully supported.
 // Used for finding dependencies. Split from CUnsupportedFormatLoader for being too big.
