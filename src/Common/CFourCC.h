@@ -7,11 +7,10 @@
 #include <FileIO/IInputStream.h>
 #include <FileIO/IOutputStream.h>
 
-#define FOURCC(Text) (Text[0] << 24 | Text[1] << 16 | Text[2] << 8 | Text[3])
-#define FOURCC_CONSTEXPR(A, B, C, D) (A << 24 | B << 16 | C << 8 | D)
-// todo: replace usages of FOURCC and FOURCC_CONSTEXPR with this macro
-// (it should be renamed to just FOURCC when the others aren't in use anymore)
-#define IFOURCC(Value) Value
+#define FOURCC_FROM_TEXT(Text) (Text[0] << 24 | Text[1] << 16 | Text[2] << 8 | Text[3])
+
+// Note: All FourCC constants should be wrapped in this macro
+#define FOURCC(Value) Value
 
 class CFourCC
 {
@@ -25,9 +24,9 @@ class CFourCC
 public:
     // Constructors
     inline CFourCC()                        { mFourCC = 0; }
-    inline CFourCC(const char *pkSrc)       { mFourCC = FOURCC(pkSrc); }
-    inline CFourCC(const TString& rkSrc)    { ASSERT(rkSrc.Length() == 4); mFourCC = FOURCC(rkSrc); }
-    inline CFourCC(const TWideString& rkSrc){ ASSERT(rkSrc.Length() == 4); mFourCC = FOURCC(rkSrc); }
+    inline CFourCC(const char *pkSrc)       { mFourCC = FOURCC_FROM_TEXT(pkSrc); }
+    inline CFourCC(const TString& rkSrc)    { ASSERT(rkSrc.Length() == 4); mFourCC = FOURCC_FROM_TEXT(rkSrc); }
+    inline CFourCC(const TWideString& rkSrc){ ASSERT(rkSrc.Length() == 4); mFourCC = FOURCC_FROM_TEXT(rkSrc); }
     inline CFourCC(u32 Src)                 { mFourCC = Src; }
     inline CFourCC(IInputStream& rSrc)      { Read(rSrc); }
 
@@ -116,15 +115,15 @@ public:
         return rkStr + rkFourCC.ToString();
     }
 
-    inline CFourCC& operator=(const char *pkSrc)            { mFourCC = FOURCC(pkSrc);  return *this;   }
-    inline CFourCC& operator=(const TString& rkSrc)         { mFourCC = FOURCC(rkSrc);  return *this;   }
-    inline CFourCC& operator=(u32 Src)                      { mFourCC = Src;            return *this;   }
-    inline bool operator==(const CFourCC& rkOther) const    { return mFourCC == rkOther.mFourCC;        }
-    inline bool operator!=(const CFourCC& rkOther) const    { return mFourCC != rkOther.mFourCC;        }
-    inline bool operator> (const CFourCC& rkOther) const    { return mFourCC >  rkOther.mFourCC;        }
-    inline bool operator>=(const CFourCC& rkOther) const    { return mFourCC >= rkOther.mFourCC;        }
-    inline bool operator< (const CFourCC& rkOther) const    { return mFourCC <  rkOther.mFourCC;        }
-    inline bool operator<=(const CFourCC& rkOther) const    { return mFourCC <= rkOther.mFourCC;        }
+    inline CFourCC& operator=(const char *pkSrc)            { mFourCC = FOURCC_FROM_TEXT(pkSrc);    return *this;   }
+    inline CFourCC& operator=(const TString& rkSrc)         { mFourCC = FOURCC_FROM_TEXT(rkSrc);    return *this;   }
+    inline CFourCC& operator=(u32 Src)                      { mFourCC = Src;                        return *this;   }
+    inline bool operator==(const CFourCC& rkOther) const    { return mFourCC == rkOther.mFourCC;                    }
+    inline bool operator!=(const CFourCC& rkOther) const    { return mFourCC != rkOther.mFourCC;                    }
+    inline bool operator> (const CFourCC& rkOther) const    { return mFourCC >  rkOther.mFourCC;                    }
+    inline bool operator>=(const CFourCC& rkOther) const    { return mFourCC >= rkOther.mFourCC;                    }
+    inline bool operator< (const CFourCC& rkOther) const    { return mFourCC <  rkOther.mFourCC;                    }
+    inline bool operator<=(const CFourCC& rkOther) const    { return mFourCC <= rkOther.mFourCC;                    }
 };
 
 #endif // CFOURCC_H

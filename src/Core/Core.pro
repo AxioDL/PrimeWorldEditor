@@ -204,7 +204,6 @@ HEADERS += \
     Resource/Factory/CDependencyGroupLoader.h \
     GameProject/CDependencyTree.h \
     Resource/Factory/CUnsupportedFormatLoader.h \
-    Resource/ParticleParameters.h \
     Resource/Factory/CUnsupportedParticleLoader.h \
     Resource/Resources.h \
     Resource/Factory/CResourceFactory.h \

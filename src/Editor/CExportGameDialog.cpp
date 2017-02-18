@@ -140,7 +140,7 @@ bool CExportGameDialog::ValidateGame()
 
     switch (GameID.ToLong())
     {
-    case IFOURCC('GM8X'):
+    case FOURCC('GM8X'):
         // This ID is normally MP1, but it's used by the MP1 NTSC demo and the MP2 bonus disc demo as well
         if (strcmp(rkHeader.m_gameTitle, "Long Game Name") == 0)
         {
@@ -151,7 +151,7 @@ bool CExportGameDialog::ValidateGame()
         mGame = ePrime;
         break;
 
-    case IFOURCC('G2MX'):
+    case FOURCC('G2MX'):
         // Echoes, but also appears in the MP3 proto
         if (mGameID[4] == 'A' && mGameID[5] == 'B')
             mGame = eCorruptionProto;
@@ -159,23 +159,23 @@ bool CExportGameDialog::ValidateGame()
             mGame = eEchoes;
         break;
 
-    case IFOURCC('RM3X'):
+    case FOURCC('RM3X'):
         mGame = eCorruption;
         break;
 
-    case IFOURCC('SF8X'):
+    case FOURCC('SF8X'):
         mGame = eReturns;
         break;
 
-    case IFOURCC('R3MX'):
+    case FOURCC('R3MX'):
         // Trilogy
         mTrilogy = true;
         if (!RequestTrilogyGame()) return false;
         break;
 
-    case IFOURCC('R3IX'):
+    case FOURCC('R3IX'):
         // MP1 Wii de Asobu
-    case IFOURCC('R32X'):
+    case FOURCC('R32X'):
         // MP2 Wii de Asobu
     default:
         // Unrecognized game ID
