@@ -1,8 +1,10 @@
 #include "CEditorApplication.h"
+#include "UICommon.h"
 #include <Common/Log.h>
 #include <Core/Resource/Factory/CTemplateLoader.h>
 
 #include <QApplication>
+#include <QIcon>
 #include <QMessageBox>
 #include <QStyleFactory>
 #include <QtGlobal>

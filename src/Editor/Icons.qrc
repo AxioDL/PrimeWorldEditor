@@ -70,5 +70,6 @@
         <file>icons/Open_16px.png</file>
         <file>icons/New_16px.png</file>
         <file>icons/Disc_16px.png</file>
+        <file>icons/World_16px.png</file>
     </qresource>
 </RCC>
