@@ -252,10 +252,6 @@ bool CWorldEditor::CloseWorld()
         if (mpPoiDialog)
             mpPoiDialog->close();
 
-        // Clear old area - hack until better world/area loader is implemented
-        if (mpArea)
-            mpArea->ClearScriptLayers();
-
         mpArea = nullptr;
         mpWorld = nullptr;
 
@@ -575,13 +571,6 @@ void CWorldEditor::OnActiveProjectChanged(CGameProject *pProj)
     if (!pProj) return;
 
     // Update recent projects list
-    QSettings Settings;
-    QStringList RecentProjectsList = Settings.value("WorldEditor/RecentProjectsList").toStringList();
-    QString ProjPath = TO_QSTRING(pProj->ProjectPath());
-
-    RecentProjectsList.removeAll(ProjPath);
-    RecentProjectsList.prepend(ProjPath);
-    Settings.setValue("WorldEditor/RecentProjectsList", RecentProjectsList);
     UpdateOpenRecentActions();
 
     ChangeEditMode(eWEM_EditWorldInfo);
@@ -717,6 +706,26 @@ void CWorldEditor::UpdateOpenRecentActions()
     QSettings Settings;
     QStringList RecentProjectsList = Settings.value("WorldEditor/RecentProjectsList").toStringList();
 
+    // Bump the current project to the front
+    CGameProject *pProj = gpEdApp->ActiveProject();
+
+    if (pProj)
+    {
+        QString ProjPath = TO_QSTRING(pProj->ProjectPath());
+        RecentProjectsList.removeAll(ProjPath);
+        RecentProjectsList.prepend(ProjPath);
+    }
+
+    // Remove projects that don't exist anymore
+    foreach (const QString& rkProj, RecentProjectsList)
+    {
+        if (!FileUtil::Exists( TO_TWIDESTRING(rkProj) ))
+            RecentProjectsList.removeAll(rkProj);
+    }
+
+    Settings.setValue("WorldEditor/RecentProjectsList", RecentProjectsList);
+
+    // Set up the menu actions
     for (int iProj = 0; iProj < mskMaxRecentProjects; iProj++)
     {
         QAction *pAction = mRecentProjectsActions[iProj];
