@@ -1389,20 +1389,23 @@ CDependencyGroup* CUnsupportedParticleLoader::LoadParticle(IInputStream& rFile, 
     CUnsupportedParticleLoader Loader;
     Loader.mpGroup = new CDependencyGroup(pEntry);
 
+    if (pEntry->Game() >= eCorruptionProto)
+        return Loader.mpGroup;
+
     while (true)
     {
         bool ShouldContinue = false;
 
         switch (Magic.ToLong())
         {
-        case kGPSM: ShouldContinue = Loader.ParseParticleParameter(rFile);          break;
-        case kELSM: ShouldContinue = Loader.ParseElectricParameter(rFile);          break;
-        case kSRSM: ShouldContinue = Loader.ParseSortedParameter(rFile);            break;
-        case kSPSM: ShouldContinue = Loader.ParseSpawnParameter(rFile);             break;
-        case kSWSH: ShouldContinue = Loader.ParseSwooshParameter(rFile);            break;
-        case kDPSM: ShouldContinue = Loader.ParseDecalParameter(rFile);             break;
-        case kWPSM: ShouldContinue = Loader.ParseWeaponParameter(rFile);            break;
-        case kCRSM: ShouldContinue = Loader.ParseCollisionResponseParameter(rFile); break;
+        case FOURCC('GPSM'): ShouldContinue = Loader.ParseParticleParameter(rFile);          break;
+        case FOURCC('ELSM'): ShouldContinue = Loader.ParseElectricParameter(rFile);          break;
+        case FOURCC('SRSM'): ShouldContinue = Loader.ParseSortedParameter(rFile);            break;
+        case FOURCC('SPSM'): ShouldContinue = Loader.ParseSpawnParameter(rFile);             break;
+        case FOURCC('SWSH'): ShouldContinue = Loader.ParseSwooshParameter(rFile);            break;
+        case FOURCC('DPSM'): ShouldContinue = Loader.ParseDecalParameter(rFile);             break;
+        case FOURCC('WPSM'): ShouldContinue = Loader.ParseWeaponParameter(rFile);            break;
+        case FOURCC('CRSM'): ShouldContinue = Loader.ParseCollisionResponseParameter(rFile); break;
 
         default:
             Log::Error("Unrecognized particle system magic: " + Magic.ToString());

@@ -270,7 +270,6 @@ CWorld* CWorldLoader::LoadMLVL(IInputStream& rMLVL, CResourceEntry *pEntry)
     // Filestream is valid, magic+version are valid; everything seems good!
     CWorldLoader Loader;
     Loader.mpWorld = new CWorld(pEntry);
-    Loader.mpWorld->SetGame(Version);
     Loader.mVersion = Version;
 
     if (Version != eReturns)

@@ -60,7 +60,6 @@ CSkeleton* CSkeletonLoader::LoadCINF(IInputStream& rCINF, CResourceEntry *pEntry
         {
             u32 Check = rCINF.PeekLong();
             Game = ((Check > 100 || Check == 0) ? eEchoes : ePrime);
-            Loader.mpSkeleton->SetGame(Game);
         }
         if (Game == eEchoes)
         {

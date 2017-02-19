@@ -100,12 +100,27 @@ void CGameProject::GetWorldList(std::list<CAssetID>& rOut) const
     {
         CPackage *pPkg = mPackages[iPkg];
 
+        // Little workaround to fix some of Retro's paks having worlds listed in the wrong order...
+        // Construct a sorted list of worlds in this package
+        std::list<const SNamedResource*> PackageWorlds;
+
         for (u32 iRes = 0; iRes < pPkg->NumNamedResources(); iRes++)
         {
             const SNamedResource& rkRes = pPkg->NamedResourceByIndex(iRes);
 
             if (rkRes.Type == "MLVL" && !rkRes.Name.EndsWith("NODEPEND"))
-                rOut.push_back(rkRes.ID);
+                PackageWorlds.push_back(&rkRes);
+        }
+
+        PackageWorlds.sort([](const SNamedResource *pkLeft, const SNamedResource *pkRight) -> bool {
+            return pkLeft->Name.ToUpper() < pkRight->Name.ToUpper();
+        });
+
+        // Add sorted worlds to the output world list
+        for (auto Iter = PackageWorlds.begin(); Iter != PackageWorlds.end(); Iter++)
+        {
+            const SNamedResource *pkRes = *Iter;
+            rOut.push_back(pkRes->ID);
         }
     }
 }

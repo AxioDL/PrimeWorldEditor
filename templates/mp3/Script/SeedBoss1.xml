@@ -167,7 +167,7 @@
                         <struct ID="0xCF90D15E" template="Structs/HealthInfo.xml"/>
                         <struct ID="0x7B71AE90" template="Structs/DamageVulnerability.xml"/>
                         <property ID="0x71A5A198" type="character"/>
-                        <property ID="0x55744160" type="asset" extensions="AFSM"/>
+                        <property ID="0x55744160" type="asset" extensions="FSM2"/>
                         <struct ID="0xA30EE999" template="Structs/ActorParameters.xml"/>
                         <property ID="0xD8C6D15C" type="asset" extensions="PART"/>
                         <property ID="0x9A094814" type="asset" extensions="CAUD"/>

@@ -6,7 +6,7 @@
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
         <struct ID="0x6F3BB625" type="multi">
             <properties>
-                <property ID="0x55744160" type="asset" extensions="AFSM"/>
+                <property ID="0x55744160" type="asset" extensions="FSM2"/>
                 <struct ID="0xCF90D15E" template="Structs/HealthInfo.xml">
                     <properties>
                         <property ID="0xF0668919">

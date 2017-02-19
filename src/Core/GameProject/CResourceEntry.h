@@ -33,7 +33,6 @@ class CResourceEntry
     CResourceStore *mpStore;
     CDependencyTree *mpDependencies;
     CAssetID mID;
-    EGame mGame;
     CVirtualDirectory *mpDirectory;
     TWideString mName;
     FResEntryFlags mFlags;
@@ -59,7 +58,6 @@ public:
     bool IsInDirectory(CVirtualDirectory *pDir) const;
     u64 Size() const;
     bool NeedsRecook() const;
-    void SetGame(EGame NewGame);
     bool Save(bool SkipCacheSave = false);
     bool Cook();
     CResource* Load();
@@ -70,6 +68,7 @@ public:
     void AddToProject(const TWideString& rkDir, const TWideString& rkName);
     void RemoveFromProject();
     CGameProject* Project() const;
+    EGame Game() const;
 
     // Accessors
     void SetDirty()                                     { mFlags.SetFlag(eREF_NeedsRecook); }
@@ -83,7 +82,6 @@ public:
     inline CResourceStore* ResourceStore() const        { return mpStore; }
     inline CDependencyTree* Dependencies() const        { return mpDependencies; }
     inline CAssetID ID() const                          { return mID; }
-    inline EGame Game() const                           { return mGame; }
     inline CVirtualDirectory* Directory() const         { return mpDirectory; }
     inline TWideString DirectoryPath() const            { return mpDirectory->FullPath(); }
     inline TWideString Name() const                     { return mName; }

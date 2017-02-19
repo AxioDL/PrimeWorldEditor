@@ -41,6 +41,7 @@ void ApplyGeneratedName(CResourceEntry *pEntry, const TWideString& rkDir, const 
 
 TWideString MakeWorldName(EGame Game, TWideString RawName)
 {
+    // The raw world names are basically formatted differently in every single game...
     // MP1 demo - Remove ! from the beginning
     if (Game == ePrimeDemo)
     {
@@ -75,18 +76,8 @@ TWideString MakeWorldName(EGame Game, TWideString RawName)
         RawName = RawName.SubString(UnderscoreA + 1, UnderscoreB - UnderscoreA - 1);
     }
 
-    // MP3 proto - Remove ! from the beginning and all text after last underscore
-    else if (Game == eCorruptionProto)
-    {
-        if (RawName.StartsWith(L'!'))
-            RawName = RawName.ChopFront(1);
-
-        u32 LastUnderscore = RawName.LastIndexOf(L"_");
-        RawName = RawName.ChopBack(RawName.Size() - LastUnderscore);
-    }
-
-    // MP2/3 - Remove text before first underscore and after last underscore, strip remaining underscores (except multiplayer maps, which have one underscore)
-    else if (Game == eEchoes || Game == eCorruption)
+    // MP2 - Remove text before first underscore and after last underscore, strip remaining underscores (except multiplayer maps, which have one underscore)
+    else if (Game == eEchoes)
     {
         u32 FirstUnderscore = RawName.IndexOf(L'_');
         u32 LastUnderscore = RawName.LastIndexOf(L"_");
@@ -97,6 +88,23 @@ TWideString MakeWorldName(EGame Game, TWideString RawName)
             RawName = RawName.ChopFront(FirstUnderscore + 1);
             RawName.Remove(L'_');
         }
+    }
+
+    // MP3 proto - Remove ! from the beginning and all text after last underscore
+    else if (Game == eCorruptionProto)
+    {
+        if (RawName.StartsWith(L'!'))
+            RawName = RawName.ChopFront(1);
+
+        u32 LastUnderscore = RawName.LastIndexOf(L"_");
+        RawName = RawName.ChopBack(RawName.Size() - LastUnderscore);
+    }
+
+    // MP3 - Remove text after last underscore
+    else if (Game == eCorruption)
+    {
+        u32 LastUnderscore = RawName.LastIndexOf(L"_");
+        RawName = RawName.ChopBack(RawName.Size() - LastUnderscore);
     }
 
     // DKCR - Remove text after second-to-last underscore

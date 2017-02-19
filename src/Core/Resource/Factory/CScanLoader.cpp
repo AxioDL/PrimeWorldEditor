@@ -21,7 +21,6 @@ CScan* CScanLoader::LoadScanMP1(IInputStream& rSCAN)
         rSCAN.Seek(0x18, SEEK_CUR);
     }
 
-    mpScan->SetGame(ePrime);
     return mpScan;
 }
 
@@ -66,13 +65,11 @@ CScan* CScanLoader::LoadScanMP2(IInputStream& rSCAN)
     case 0x14:
     case 0xB:
         mpScan = new CScan(mpEntry);
-        mpScan->SetGame(eEchoes);
         LoadParamsMP2(rSCAN, NumProperties);
         break;
     case 0x12:
     case 0x16:
         mpScan = new CScan(mpEntry);
-        mpScan->SetGame(eCorruption);
         LoadParamsMP3(rSCAN, NumProperties);
         break;
     default:
@@ -80,7 +77,6 @@ CScan* CScanLoader::LoadScanMP2(IInputStream& rSCAN)
         return nullptr;
     }
 
-    mpScan->SetGame(eEchoes);
     return mpScan;
 }
 
@@ -283,7 +279,6 @@ CScan* CScanLoader::LoadSCAN(IInputStream& rSCAN, CResourceEntry *pEntry)
     CScanLoader Loader;
     Loader.mVersion = ePrime;
     Loader.mpScan = new CScan(pEntry);
-    Loader.mpScan->SetGame(ePrime);
     Loader.mpEntry = pEntry;
     return Loader.LoadScanMP1(rSCAN);
 }

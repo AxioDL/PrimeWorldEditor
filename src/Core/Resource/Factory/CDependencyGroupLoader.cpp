@@ -8,20 +8,24 @@ EGame CDependencyGroupLoader::VersionTest(IInputStream& rDGRP, u32 DepCount)
     rDGRP.Seek(DepCount * 8, SEEK_CUR);
     u32 Remaining = rDGRP.Size() - rDGRP.Tell();
 
-    EGame Game = ePrimeDemo;
+    EGame Game = eCorruptionProto;
 
     if (Remaining < 32)
     {
+        bool IsEOF = true;
+
         for (u32 iRem = 0; iRem < Remaining; iRem++)
         {
             u8 Byte = rDGRP.ReadByte();
 
             if (Byte != 0xFF)
             {
-                Game = eCorruptionProto;
+                IsEOF = false;
                 break;
             }
         }
+
+        if (IsEOF) Game = ePrimeDemo;
     }
 
     rDGRP.Seek(Start, SEEK_SET);
@@ -36,7 +40,6 @@ CDependencyGroup* CDependencyGroupLoader::LoadDGRP(IInputStream& rDGRP, CResourc
     EGame Game = VersionTest(rDGRP, NumDependencies);
 
     CDependencyGroup *pGroup = new CDependencyGroup(pEntry);
-    pGroup->SetGame(Game);
 
     for (u32 iDep = 0; iDep < NumDependencies; iDep++)
     {

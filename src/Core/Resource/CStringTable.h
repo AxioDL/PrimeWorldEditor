@@ -76,6 +76,12 @@ public:
                     // Font
                     if (TagName == L"font")
                     {
+                        if (Game() >= eCorruptionProto)
+                        {
+                            ASSERT(ParamString.StartsWith(L"0x"));
+                            ParamString = ParamString.ChopFront(2);
+                        }
+
                         ASSERT(ParamString.Size() == IDLength * 2);
                         pTree->AddDependency( CAssetID::FromString(ParamString) );
                     }
@@ -115,6 +121,13 @@ public:
                             if (iParam >= TexturesStart)
                             {
                                 TWideString Param = *Iter;
+
+                                if (Game() >= eCorruptionProto)
+                                {
+                                    ASSERT(Param.StartsWith(L"0x"));
+                                    Param = Param.ChopFront(2);
+                                }
+
                                 ASSERT(Param.Size() == IDLength * 2);
                                 pTree->AddDependency( CAssetID::FromString(Param) );
                             }

@@ -301,7 +301,6 @@ CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS, CResourceEntry *pEntry)
         if (iNode == 0 && Loader.mVersion == eUnknownGame)
         {
             Loader.mVersion = (Unknown1 == 0xA) ? eEchoes : ePrime; // Best version indicator we know of unfortunately
-            Loader.pSet->SetGame(Loader.mVersion);
         }
         pChar->Name = rANCS.ReadString();
         pChar->pModel = gpResourceStore->LoadResource(rANCS.ReadLong(), "CMDL");
@@ -419,7 +418,6 @@ CAnimSet* CAnimSetLoader::LoadCHAR(IInputStream& rCHAR, CResourceEntry *pEntry)
     {
         Loader.mVersion = eCorruption;
         Loader.pSet = new CAnimSet(pEntry);
-        Loader.pSet->SetGame(eCorruption);
         return Loader.LoadCorruptionCHAR(rCHAR);
     }
 
@@ -427,7 +425,6 @@ CAnimSet* CAnimSetLoader::LoadCHAR(IInputStream& rCHAR, CResourceEntry *pEntry)
     {
         Loader.mVersion = eReturns;
         Loader.pSet = new CAnimSet(pEntry);
-        Loader.pSet->SetGame(eReturns);
         return Loader.LoadReturnsCHAR(rCHAR);
     }
 
