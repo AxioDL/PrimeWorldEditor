@@ -29,7 +29,6 @@ CResourceEntry::CResourceEntry(CResourceStore *pStore, const CAssetID& rkID,
 
     mpDirectory = mpStore->GetVirtualDirectory(rkDir, Transient, true);
     if (mpDirectory) mpDirectory->AddChild(L"", this);
-    mGame = ((Transient || !mpStore) ? eUnknownGame : mpStore->Game());
 }
 
 CResourceEntry::~CResourceEntry()
@@ -74,6 +73,7 @@ void CResourceEntry::UpdateDependencies()
     if (!mpResource)
     {
         Log::Error("Unable to update cached dependencies; failed to load resource");
+        mpDependencies = new CDependencyTree(ID());
         return;
     }
 
@@ -117,7 +117,7 @@ TString CResourceEntry::CookedAssetPath(bool Relative) const
 
 CFourCC CResourceEntry::CookedExtension() const
 {
-    return mpTypeInfo->CookedExtension(mGame);
+    return mpTypeInfo->CookedExtension(Game());
 }
 
 bool CResourceEntry::IsInDirectory(CVirtualDirectory *pDir) const
@@ -157,17 +157,6 @@ bool CResourceEntry::NeedsRecook() const
     return (FileUtil::LastModifiedTime(CookedAssetPath()) < FileUtil::LastModifiedTime(RawAssetPath()));
 }
 
-void CResourceEntry::SetGame(EGame NewGame)
-{
-    if (mGame != NewGame)
-    {
-        // todo: implement checks here. This needs work because we should trigger a recook and if the extension changes
-        // we should delete the old file. Also a lot of resources can't evaluate this correctly due to file version
-        // numbers being shared between games.
-        mGame = NewGame;
-    }
-}
-
 bool CResourceEntry::Save(bool SkipCacheSave /*= false*/)
 {
     // SkipCacheSave argument tells us not to save the resource cache file. This is generally not advised because we don't
@@ -196,7 +185,7 @@ bool CResourceEntry::Save(bool SkipCacheSave /*= false*/)
         TString SerialName = mpTypeInfo->TypeName();
         SerialName.RemoveWhitespace();
 
-        CXMLWriter Writer(Path, SerialName, 0, mGame);
+        CXMLWriter Writer(Path, SerialName, 0, Game());
         mpResource->Serialize(Writer);
 
         if (!Writer.Save())
@@ -501,5 +490,10 @@ void CResourceEntry::RemoveFromProject()
 
 CGameProject* CResourceEntry::Project() const
 {
-    return mpStore->Project();
+    return mpStore ? mpStore->Project() : nullptr;
+}
+
+EGame CResourceEntry::Game() const
+{
+    return mpStore ? mpStore->Game() : eUnknownGame;
 }

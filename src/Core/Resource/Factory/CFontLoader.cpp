@@ -100,7 +100,6 @@ CFont* CFontLoader::LoadFONT(IInputStream& rFONT, CResourceEntry *pEntry)
 
     CFontLoader Loader;
     Loader.mpFont = new CFont(pEntry);
-    Loader.mpFont->SetGame(Version);
     Loader.mVersion = Version;
     return Loader.LoadFont(rFONT);
 }

@@ -2,6 +2,11 @@
 <GameInfo ArchiveVer="0" FileVer="0" Game="DKCR">
     <GameBuilds>
         <Build>
+            <Version>74844</Version>
+            <Region>NTSC</Region>
+            <Name>Wii NTSC 0A-0</Name>
+        </Build>
+        <Build>
             <Version>74887</Version>
             <Region>PAL</Region>
             <Name>Wii PAL</Name>

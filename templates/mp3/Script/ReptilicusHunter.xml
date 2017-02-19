@@ -97,7 +97,7 @@
                         <property ID="0x2ED25F50" type="float">
                             <default>5.0</default>
                         </property>
-                        <property ID="0xE9C8E2BD" type="asset" extensions="PART"/>
+                        <property ID="0xE9C8E2BD" type="asset" extensions="PART,ELSC"/>
                         <property ID="0x7E192395" type="float">
                             <default>1.0</default>
                         </property>
@@ -148,7 +148,7 @@
                         <property ID="0x7C269EBC" type="float">
                             <default>0.5</default>
                         </property>
-                        <property ID="0xE9C8E2BD" type="asset" extensions="PART"/>
+                        <property ID="0xE9C8E2BD" type="asset" extensions="PART,ELSC"/>
                         <property ID="0x7E192395" type="float">
                             <default>1.0</default>
                         </property>

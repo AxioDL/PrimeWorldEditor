@@ -40,6 +40,7 @@ public:
         case eArea:                 return new CGameArea(pEntry);
         case eAudioGroup:           return new CAudioGroup(pEntry);
         case eAudioLookupTable:     return new CAudioLookupTable(pEntry);
+        case eCharacter:            return new CAnimSet(pEntry);
         case eDynamicCollision:     return new CCollisionMeshGroup(pEntry);
         case eDependencyGroup:      return new CDependencyGroup(pEntry);
         case eFont:                 return new CFont(pEntry);
@@ -66,11 +67,12 @@ public:
         {
         case eAnimation:            pRes = CAnimationLoader::LoadANIM(rInput, pEntry);          break;
         case eAnimEventData:        pRes = CAnimEventLoader::LoadEVNT(rInput, pEntry);          break;
-        case eAnimSet:              pRes = CAnimSetLoader::LoadANCSOrCHAR(rInput, pEntry);      break;
+        case eAnimSet:              pRes = CAnimSetLoader::LoadANCS(rInput, pEntry);            break;
         case eArea:                 pRes = CAreaLoader::LoadMREA(rInput, pEntry);               break;
         case eAudioGroup:           pRes = CAudioGroupLoader::LoadAGSC(rInput, pEntry);         break;
         case eAudioLookupTable:     pRes = CAudioGroupLoader::LoadATBL(rInput, pEntry);         break;
         case eBinaryData:           pRes = CUnsupportedFormatLoader::LoadDUMB(rInput, pEntry);  break;
+        case eCharacter:            pRes = CAnimSetLoader::LoadCHAR(rInput, pEntry);            break;
         case eDependencyGroup:      pRes = CDependencyGroupLoader::LoadDGRP(rInput, pEntry);    break;
         case eDynamicCollision:     pRes = CCollisionLoader::LoadDCLN(rInput, pEntry);          break;
         case eFont:                 pRes = CFontLoader::LoadFONT(rInput, pEntry);               break;

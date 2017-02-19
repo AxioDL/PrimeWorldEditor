@@ -453,7 +453,6 @@ CModel* CModelLoader::LoadCMDL(IInputStream& rCMDL, CResourceEntry *pEntry)
     }
 
     CModel *pModel = new CModel(pEntry);
-    pModel->SetGame(Loader.mVersion);
     Loader.mpModel = pModel;
     Loader.mpSectionMgr = new CSectionMgrIn(BlockCount, &rCMDL);
     rCMDL.SeekToBoundary(32);

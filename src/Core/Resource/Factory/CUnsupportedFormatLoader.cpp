@@ -272,6 +272,11 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadHIER(IInputStream& rHIER, CResou
     u32 NumNodes = rHIER.ReadLong();
     CDependencyGroup *pOut = new CDependencyGroup(pEntry);
 
+    // Note: For some reason this file still exists in MP3 and it's identical to MP2, including with 32-bit asset IDs.
+    // Obviously we can't read 32-bit asset IDs in MP3, so this file should just be ignored.
+    if (pEntry->Game() > eEchoes)
+        return pOut;
+
     for (u32 iNode = 0; iNode < NumNodes; iNode++)
     {
         // NOTE: The SCAN ID isn't considered a real dependency!

@@ -686,7 +686,6 @@ CGameArea* CAreaLoader::LoadMREA(IInputStream& MREA, CResourceEntry *pEntry)
     Loader.mpArea = new CGameArea(pEntry);
     u32 Version = MREA.ReadLong();
     Loader.mVersion = GetFormatVersion(Version);
-    Loader.mpArea->SetGame(Loader.mVersion);
     Loader.mpMREA = &MREA;
 
     switch (Loader.mVersion)

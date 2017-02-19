@@ -195,7 +195,6 @@ CStringTable* CStringLoader::LoadSTRG(IInputStream& rSTRG, CResourceEntry *pEntr
     // Valid; now we create the loader and call the function that reads the rest of the file
     CStringLoader Loader;
     Loader.mpStringTable = new CStringTable(pEntry);
-    Loader.mpStringTable->SetGame(Version);
     Loader.mVersion = Version;
 
     if (Version == ePrimeDemo) Loader.LoadPrimeDemoSTRG(rSTRG);

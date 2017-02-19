@@ -235,7 +235,6 @@ CCollisionMeshGroup* CCollisionLoader::LoadDCLN(IInputStream& rDCLN, CResourceEn
 
         Loader.mpMesh = new CCollisionMesh;
         Loader.mpMesh->mOctreeLoaded = false;
-        Loader.mpGroup->SetGame(Loader.mVersion);
 
         if (Loader.mVersion == eReturns)
             Loader.mpMesh->mAABox = CAABox(rDCLN);
