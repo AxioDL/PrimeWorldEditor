@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QSortFilterProxyModel>
+#include "CWorldEditorSidebar.h"
 #include "CWorldTreeModel.h"
 
 class CWorldEditor;
@@ -11,7 +12,7 @@ namespace Ui {
 class CWorldInfoSidebar;
 }
 
-class CWorldInfoSidebar : public QWidget
+class CWorldInfoSidebar : public CWorldEditorSidebar
 {
     Q_OBJECT
 

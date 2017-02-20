@@ -38,14 +38,13 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     , mpArea(nullptr)
     , mpWorld(nullptr)
     , mpLinkDialog(new CLinkDialog(this, this))
-    , mpPoiDialog(nullptr)
     , mIsMakingLink(false)
     , mpNewLinkSender(nullptr)
     , mpNewLinkReceiver(nullptr)
 {
     Log::Write("Creating World Editor");
     ui->setupUi(this);
-    REPLACE_WINDOWTITLE_APPVARS;
+    UpdateWindowTitle();
 
     mpSelection->SetAllowedNodeTypes(eScriptNode | eLightNode);
 
@@ -69,15 +68,14 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     ui->menuEdit->insertSeparator(ui->ActionCut);
 
     // Initialize sidebar
-    mpCurSidebarWidget = nullptr;
+    mpCurSidebar = nullptr;
     mpRightSidebarLayout = new QVBoxLayout();
     mpRightSidebarLayout->setContentsMargins(0, 0, 0, 0);
     ui->RightSidebarFrame->setLayout(mpRightSidebarLayout);
 
     mpWorldInfoSidebar = new CWorldInfoSidebar(this);
-    mpWorldInfoSidebar->setHidden(true);
     mpScriptSidebar = new CScriptEditSidebar(this);
-    mpScriptSidebar->setHidden(true);
+    mpPoiMapSidebar = new CPoiMapSidebar(this);
 
     // Initialize edit mode toolbar
     mpEditModeButtonGroup = new QButtonGroup(this);
@@ -85,6 +83,8 @@ CWorldEditor::CWorldEditor(QWidget *parent)
 
     AddEditModeButton( QIcon(":/icons/World.png"), "Edit World Info",eWEM_EditWorldInfo );
     AddEditModeButton( QIcon(":/icons/Modify.png"), "Edit Script", eWEM_EditScript );
+    mpPoiMapButton = AddEditModeButton( QIcon(":/icons/POI Normal.png"), "Edit POI Mappings", eWEM_EditPOIMappings );
+    mpPoiMapButton->setEnabled(false);
 
     ChangeEditMode(eWEM_EditWorldInfo);
 
@@ -187,7 +187,6 @@ CWorldEditor::CWorldEditor(QWidget *parent)
 
     connect(ui->ActionResourceBrowser, SIGNAL(triggered()), this, SLOT(OpenResourceBrowser()));
     connect(ui->ActionEditLayers, SIGNAL(triggered()), this, SLOT(EditLayers()));
-    connect(ui->ActionEditPoiToWorldMap, SIGNAL(triggered()), this, SLOT(EditPoiToWorldMap()));
 
     connect(ui->ActionDrawWorld, SIGNAL(triggered()), this, SLOT(ToggleDrawWorld()));
     connect(ui->ActionDrawObjects, SIGNAL(triggered()), this, SLOT(ToggleDrawObjects()));
@@ -224,10 +223,6 @@ void CWorldEditor::closeEvent(QCloseEvent *pEvent)
         mUndoStack.clear();
         mpCollisionDialog->close();
         mpLinkDialog->close();
-
-        if (mpPoiDialog)
-            mpPoiDialog->close();
-
         IEditor::closeEvent(pEvent);
     }
     else
@@ -249,12 +244,10 @@ bool CWorldEditor::CloseWorld()
         mpCollisionDialog->close();
         mpLinkDialog->close();
 
-        if (mpPoiDialog)
-            mpPoiDialog->close();
-
         mpArea = nullptr;
         mpWorld = nullptr;
         gpResourceStore->DestroyUnreferencedResources(); // this should destroy the area!
+        UpdateWindowTitle();
 
         emit MapChanged(mpWorld, mpArea);
         return true;
@@ -271,12 +264,6 @@ bool CWorldEditor::SetArea(CWorld *pWorld, int AreaIndex)
     ui->MainViewport->ResetHover();
     ClearSelection();
     mUndoStack.clear();
-
-    if (mpPoiDialog)
-    {
-        delete mpPoiDialog;
-        mpPoiDialog = nullptr;
-    }
 
     // Load new area
     mpWorld = pWorld;
@@ -301,36 +288,20 @@ bool CWorldEditor::SetArea(CWorld *pWorld, int AreaIndex)
 
     UpdateCameraOrbit();
 
-    // Default bloom to Fake Bloom for Metroid Prime 3; disable for other games
-    bool AllowBloom = (mpWorld->Game() == eCorruptionProto || mpWorld->Game() == eCorruption);
-    AllowBloom ? SetFakeBloom() : SetNoBloom();
-    ui->menuBloom->setEnabled(AllowBloom);
+    // Update UI stuff
+    UpdateWindowTitle();
 
-    // Disable EGMC editing for Prime 1 and DKCR
-    bool AllowEGMC = ( (mpWorld->Game() >= eEchoesDemo) && (mpWorld->Game() <= eCorruption) );
-    ui->ActionEditPoiToWorldMap->setEnabled(AllowEGMC);
-
-    // Set up dialogs
     CMasterTemplate *pMaster = CMasterTemplate::MasterForGame(mpArea->Game());
-    mpCollisionDialog->SetupWidgets(); // Won't modify any settings but will update widget visibility status if we've changed games
     mpLinkDialog->SetMaster(pMaster);
 
-    // Set window title
     QString ProjectName = TO_QSTRING(gpEdApp->ActiveProject()->Name());
     QString WorldName = TO_QSTRING(mpWorld->InGameName());
     QString AreaName = TO_QSTRING(mpWorld->AreaInGameName(AreaIndex));
 
     if (CurrentGame() < eReturns)
-    {
-        SET_WINDOWTITLE_APPVARS( QString("%APP_FULL_NAME% - %1 - %2 - %3[*]").arg(ProjectName, WorldName, AreaName) );
         Log::Write("Loaded area: " + mpArea->Entry()->Name().ToUTF8() + " (" + TO_TSTRING(AreaName) + ")");
-    }
-
     else
-    {
-        SET_WINDOWTITLE_APPVARS( QString("%APP_FULL_NAME% - %1 - %2[*]").arg(AreaName) );
         Log::Write("Loaded level: World " + mpWorld->Entry()->Name().ToUTF8() + " / Area " + mpArea->Entry()->Name().ToUTF8() + " (" + TO_TSTRING(AreaName) + ")");
-    }
 
     // Update paste action
     OnClipboardDataModified();
@@ -517,6 +488,7 @@ void CWorldEditor::ExportGame()
 void CWorldEditor:: CloseProject()
 {
     gpEdApp->CloseProject();
+    SET_WINDOWTITLE_APPVARS( QString("%APP_FULL_NAME%") );
 }
 
 void CWorldEditor::ChangeEditMode(int Mode)
@@ -534,17 +506,26 @@ void CWorldEditor::ChangeEditMode(EWorldEditorMode Mode)
     switch (Mode)
     {
     case eWEM_EditWorldInfo:
-        SetSidebarWidget(mpWorldInfoSidebar);
+        SetSidebar(mpWorldInfoSidebar);
         break;
 
     case eWEM_EditScript:
-        SetSidebarWidget(mpScriptSidebar);
+        SetSidebar(mpScriptSidebar);
+        break;
+
+    case eWEM_EditPOIMappings:
+        SetSidebar(mpPoiMapSidebar);
         break;
 
     default:
         ASSERT(false);
         break;
     }
+}
+
+void CWorldEditor::SetRenderingMergedWorld(bool RenderMerged)
+{
+    Viewport()->SetRenderMergedWorld(RenderMerged);
 }
 
 void CWorldEditor::OpenProjectSettings()
@@ -565,13 +546,23 @@ void CWorldEditor::OnActiveProjectChanged(CGameProject *pProj)
 {
     ui->ActionProjectSettings->setEnabled( pProj != nullptr );
     ui->ActionCloseProject->setEnabled( pProj != nullptr );
+    mpPoiMapButton->setEnabled( pProj != nullptr && pProj->Game() >= eEchoesDemo && pProj->Game() <= eCorruption );
     ResetCamera();
-    if (!pProj) return;
+    UpdateWindowTitle();
 
-    // Update recent projects list
-    UpdateOpenRecentActions();
+    // Default bloom to Fake Bloom for Metroid Prime 3; disable for other games
+    bool AllowBloom = (CurrentGame() == eCorruptionProto || CurrentGame() == eCorruption);
+    AllowBloom ? SetFakeBloom() : SetNoBloom();
+    ui->menuBloom->setEnabled(AllowBloom);
 
-    ChangeEditMode(eWEM_EditWorldInfo);
+    if (!pProj)
+    {
+        // Update recent projects list
+        UpdateOpenRecentActions();
+
+        // Reset editor mode
+        ChangeEditMode(eWEM_EditWorldInfo);
+    }
 }
 
 void CWorldEditor::OnLinksModified(const QList<CScriptObject*>& rkInstances)
@@ -738,6 +729,28 @@ void CWorldEditor::UpdateOpenRecentActions()
         else
             pAction->setVisible(false);
     }
+}
+
+void CWorldEditor::UpdateWindowTitle()
+{
+    QString WindowTitle = "%APP_FULL_NAME%";
+    CGameProject *pProj = gpEdApp->ActiveProject();
+
+    if (pProj)
+    {
+        WindowTitle += " - " + TO_QSTRING( pProj->Name() );
+
+        if (mpWorld)
+        {
+            WindowTitle += " - " + TO_QSTRING(mpWorld->InGameName());
+
+            if (mpArea && CurrentGame() < eReturns)
+                WindowTitle += " - " + TO_QSTRING( mpWorld->AreaInGameName(mpArea->WorldIndex()) );
+        }
+    }
+
+    WindowTitle += "[*]";
+    SET_WINDOWTITLE_APPVARS(WindowTitle);
 }
 
 void CWorldEditor::UpdateStatusBar()
@@ -912,7 +925,7 @@ void CWorldEditor::UpdateNewLinkLine()
 }
 
 // ************ PROTECTED ************
-void CWorldEditor::AddEditModeButton(QIcon Icon, QString ToolTip, EWorldEditorMode Mode)
+QPushButton* CWorldEditor::AddEditModeButton(QIcon Icon, QString ToolTip, EWorldEditorMode Mode)
 {
     ASSERT(mpEditModeButtonGroup->button(Mode) == nullptr);
 
@@ -923,22 +936,28 @@ void CWorldEditor::AddEditModeButton(QIcon Icon, QString ToolTip, EWorldEditorMo
 
     ui->EditModeToolBar->addWidget(pButton);
     mpEditModeButtonGroup->addButton(pButton, Mode);
+    return pButton;
 }
 
-void CWorldEditor::SetSidebarWidget(QWidget *pWidget)
+void CWorldEditor::SetSidebar(CWorldEditorSidebar *pSidebar)
 {
-    if (mpCurSidebarWidget)
+    if (mpCurSidebar == pSidebar)
+        return;
+
+    if (mpCurSidebar)
     {
-        mpRightSidebarLayout->removeWidget(mpCurSidebarWidget);
-        mpCurSidebarWidget->setHidden(true);
+        mpCurSidebar->SidebarClose();
+        mpRightSidebarLayout->removeWidget(mpCurSidebar);
+        mpCurSidebar->setHidden(true);
     }
 
-    mpCurSidebarWidget = pWidget;
+    mpCurSidebar = pSidebar;
 
-    if (mpCurSidebarWidget)
+    if (mpCurSidebar)
     {
-        mpRightSidebarLayout->addWidget(pWidget);
-        mpCurSidebarWidget->setHidden(false);
+        mpCurSidebar->SidebarOpen();
+        mpRightSidebarLayout->addWidget(mpCurSidebar);
+        mpCurSidebar->setHidden(false);
     }
 }
 
@@ -1208,13 +1227,6 @@ void CWorldEditor::OnTransformSpinBoxEdited(CVector3f)
     UpdateGizmoUI();
 }
 
-void CWorldEditor::OnClosePoiEditDialog()
-{
-    delete mpPoiDialog;
-    mpPoiDialog = nullptr;
-    ui->MainViewport->SetRenderMergedWorld(true);
-}
-
 void CWorldEditor::SelectAllTriggered()
 {
     FNodeFlags NodeFlags = CScene::NodeFlagsForShowFlags(ui->MainViewport->ShowFlags());
@@ -1350,19 +1362,4 @@ void CWorldEditor::EditLayers()
     CLayerEditor Editor(this);
     Editor.SetArea(mpArea);
     Editor.exec();
-}
-
-void CWorldEditor::EditPoiToWorldMap()
-{
-    if (!mpPoiDialog)
-    {
-        mpPoiDialog = new CPoiMapEditDialog(this, this);
-        mpPoiDialog->show();
-        ui->MainViewport->SetRenderMergedWorld(false);
-        connect(mpPoiDialog, SIGNAL(Closed()), this, SLOT(OnClosePoiEditDialog()));
-    }
-    else
-    {
-        mpPoiDialog->show();
-    }
 }

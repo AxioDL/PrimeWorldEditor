@@ -1,4 +1,5 @@
 #include "CCollisionNode.h"
+#include "CScene.h"
 #include "Core/Render/CDrawUtil.h"
 #include "Core/Render/CGraphics.h"
 #include "Core/Render/CRenderer.h"
@@ -38,8 +39,8 @@ void CCollisionNode::Draw(FRenderOptions /*Options*/, int /*ComponentIndex*/, ER
     glDepthMask(GL_TRUE);
 
     // Turn off backface culling
-    EGame CollisionGame = mpCollision->Game();
-    bool ForceDisableBackfaceCull = (rkViewInfo.CollisionSettings.DrawBackfaces || CollisionGame == eReturns) && glIsEnabled(GL_CULL_FACE);
+    EGame Game = mpScene->ActiveArea()->Game();
+    bool ForceDisableBackfaceCull = (rkViewInfo.CollisionSettings.DrawBackfaces || Game == eReturns) && glIsEnabled(GL_CULL_FACE);
 
     if (ForceDisableBackfaceCull)
         glDisable(GL_CULL_FACE);
@@ -65,11 +66,11 @@ void CCollisionNode::Draw(FRenderOptions /*Options*/, int /*ComponentIndex*/, ER
             if (rkViewInfo.CollisionSettings.HighlightMask != 0 && (rMat.RawFlags() & rkViewInfo.CollisionSettings.HighlightMask) == rkViewInfo.CollisionSettings.HighlightMask)
                 Tint *= CColor::skRed;
 
-            else if (CollisionGame != eReturns && rkViewInfo.CollisionSettings.TintWithSurfaceColor)
-                Tint *= rMat.SurfaceColor(CollisionGame);
+            else if (Game != eReturns && rkViewInfo.CollisionSettings.TintWithSurfaceColor)
+                Tint *= rMat.SurfaceColor(Game);
 
-            bool IsFloor = (rkViewInfo.CollisionSettings.TintUnwalkableTris ? rMat.IsFloor() : true) || CollisionGame == eReturns;
-            bool IsUnstandable = (rkViewInfo.CollisionSettings.TintUnwalkableTris ? rMat.IsUnstandable(CollisionGame) : false) && CollisionGame != eReturns;
+            bool IsFloor = (rkViewInfo.CollisionSettings.TintUnwalkableTris ? rMat.IsFloor() : true) || Game == eReturns;
+            bool IsUnstandable = (rkViewInfo.CollisionSettings.TintUnwalkableTris ? rMat.IsUnstandable(Game) : false) && Game != eReturns;
             CDrawUtil::UseCollisionShader(IsFloor, IsUnstandable, Tint);
             pMesh->DrawMaterial(iMat, false);
 
@@ -85,7 +86,7 @@ void CCollisionNode::Draw(FRenderOptions /*Options*/, int /*ComponentIndex*/, ER
     // Draw collision bounds for area collision
     // note: right now checking parent is the best way to check whether this node is area collision instead of actor collision
     // actor collision will have a script node parent whereas area collision will have a root node parent
-    if (rkViewInfo.CollisionSettings.DrawAreaCollisionBounds && Parent()->NodeType() == eRootNode && CollisionGame != eReturns)
+    if (rkViewInfo.CollisionSettings.DrawAreaCollisionBounds && Parent()->NodeType() == eRootNode && Game != eReturns)
         CDrawUtil::DrawWireCube( mpCollision->MeshByIndex(0)->BoundingBox(), CColor::skRed );
 }
 

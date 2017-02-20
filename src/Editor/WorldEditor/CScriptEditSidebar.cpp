@@ -6,7 +6,7 @@
 #include "CWorldEditor.h"
 
 CScriptEditSidebar::CScriptEditSidebar(CWorldEditor *pEditor)
-    : QWidget(pEditor)
+    : CWorldEditorSidebar(pEditor)
 {
     QVBoxLayout *pLayout = new QVBoxLayout(this);
     pLayout->setContentsMargins(1, 1, 1, 1);

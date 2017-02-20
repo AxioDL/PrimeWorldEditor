@@ -4,7 +4,7 @@
 #include "Editor/CEditorApplication.h"
 
 CWorldInfoSidebar::CWorldInfoSidebar(CWorldEditor *pEditor)
-    : QWidget(pEditor)
+    : CWorldEditorSidebar(pEditor)
     , mpUI(new Ui::CWorldInfoSidebar)
     , mModel(pEditor)
 {
