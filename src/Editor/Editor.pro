@@ -125,7 +125,6 @@ HEADERS += \
     CGizmo.h \
     CNodeSelection.h \
     CSceneViewport.h \
-    CStartWindow.h \
     INodeEditor.h \
     TestDialog.h \
     UICommon.h \
@@ -212,7 +211,6 @@ SOURCES += \
     CBasicViewport.cpp \
     CGizmo.cpp \
     CSceneViewport.cpp \
-    CStartWindow.cpp \
     INodeEditor.cpp \
     main.cpp \
     TestDialog.cpp \
@@ -255,7 +253,6 @@ SOURCES += \
 
 # UI Files
 FORMS += \
-    CStartWindow.ui \
     TestDialog.ui \
     ModelEditor/CModelEditorWindow.ui \
     Widgets/WScanPreviewPanel.ui \

@@ -1,6 +1,7 @@
 #include "AssetNameGeneration.h"
 #include "CGameProject.h"
 #include "CResourceIterator.h"
+#include "Core/Resource/CAudioMacro.h"
 #include "Core/Resource/CFont.h"
 #include "Core/Resource/CScan.h"
 #include "Core/Resource/CWorld.h"
@@ -12,6 +13,7 @@
 #define PROCESS_AREAS 1
 #define PROCESS_MODELS 1
 #define PROCESS_AUDIO_GROUPS 1
+#define PROCESS_AUDIO_MACROS 1
 #define PROCESS_ANIM_CHAR_SETS 1
 #define PROCESS_STRINGS 1
 #define PROCESS_SCANS 1
@@ -19,9 +21,15 @@
 
 void ApplyGeneratedName(CResourceEntry *pEntry, const TWideString& rkDir, const TWideString& rkName)
 {
+    ASSERT(pEntry != nullptr);
     TWideString SanitizedName = FileUtil::SanitizeName(rkName, false);
     TWideString SanitizedDir = FileUtil::SanitizePath(rkDir, true);
     if (SanitizedName.IsEmpty()) return;
+
+    // trying to keep these as consistent with Retro's naming scheme as possible, and
+    // for some reason in MP3 they started using all lowercase folder names...
+    if (pEntry->Game() >= eCorruptionProto)
+        SanitizedDir = SanitizedDir.ToLower();
 
     CVirtualDirectory *pNewDir = pEntry->ResourceStore()->GetVirtualDirectory(SanitizedDir, false, true);
     if (pEntry->Directory() == pNewDir && pEntry->Name() == SanitizedName) return;
@@ -39,89 +47,8 @@ void ApplyGeneratedName(CResourceEntry *pEntry, const TWideString& rkDir, const 
     ASSERT(Success);
 }
 
-TWideString MakeWorldName(EGame Game, TWideString RawName)
-{
-    // The raw world names are basically formatted differently in every single game...
-    // MP1 demo - Remove ! from the beginning
-    if (Game == ePrimeDemo)
-    {
-        if (RawName.StartsWith(L'!'))
-            RawName = RawName.ChopFront(1);
-    }
-
-    // MP1 - Remove prefix characters and ending date
-    else if (Game == ePrime)
-    {
-        RawName = RawName.ChopFront(2);
-        bool StartedDate = false;
-
-        while (!RawName.IsEmpty())
-        {
-            wchar_t Chr = RawName.Back();
-
-            if (!StartedDate && Chr >= L'0' && Chr <= L'9')
-                StartedDate = true;
-            else if (StartedDate && Chr != L'_' && (Chr < L'0' || Chr > L'9'))
-                break;
-
-            RawName = RawName.ChopBack(1);
-        }
-    }
-
-    // MP2 demo - Use text between the first and second underscores
-    else if (Game == eEchoesDemo)
-    {
-        u32 UnderscoreA = RawName.IndexOf(L'_');
-        u32 UnderscoreB = RawName.IndexOf(L'_', UnderscoreA + 1);
-        RawName = RawName.SubString(UnderscoreA + 1, UnderscoreB - UnderscoreA - 1);
-    }
-
-    // MP2 - Remove text before first underscore and after last underscore, strip remaining underscores (except multiplayer maps, which have one underscore)
-    else if (Game == eEchoes)
-    {
-        u32 FirstUnderscore = RawName.IndexOf(L'_');
-        u32 LastUnderscore = RawName.LastIndexOf(L"_");
-
-        if (FirstUnderscore != LastUnderscore)
-        {
-            RawName = RawName.ChopBack(RawName.Size() - LastUnderscore);
-            RawName = RawName.ChopFront(FirstUnderscore + 1);
-            RawName.Remove(L'_');
-        }
-    }
-
-    // MP3 proto - Remove ! from the beginning and all text after last underscore
-    else if (Game == eCorruptionProto)
-    {
-        if (RawName.StartsWith(L'!'))
-            RawName = RawName.ChopFront(1);
-
-        u32 LastUnderscore = RawName.LastIndexOf(L"_");
-        RawName = RawName.ChopBack(RawName.Size() - LastUnderscore);
-    }
-
-    // MP3 - Remove text after last underscore
-    else if (Game == eCorruption)
-    {
-        u32 LastUnderscore = RawName.LastIndexOf(L"_");
-        RawName = RawName.ChopBack(RawName.Size() - LastUnderscore);
-    }
-
-    // DKCR - Remove text after second-to-last underscore
-    else if (Game == eReturns)
-    {
-        u32 Underscore = RawName.LastIndexOf(L"_");
-        RawName = RawName.ChopBack(RawName.Size() - Underscore);
-        Underscore = RawName.LastIndexOf(L"_");
-        RawName = RawName.ChopBack(RawName.Size() - Underscore);
-    }
-
-    return RawName;
-}
-
 void GenerateAssetNames(CGameProject *pProj)
 {
-    // todo: CAUD/CSMP
     CResourceStore *pStore = pProj->ResourceStore();
 
 #if PROCESS_PACKAGES
@@ -135,8 +62,11 @@ void GenerateAssetNames(CGameProject *pProj)
             const SNamedResource& rkRes = pPkg->NamedResourceByIndex(iRes);
             if (rkRes.Name.EndsWith("NODEPEND")) continue;
 
+            // Some of Retro's paks reference assets that don't exist, so we need this check here.
             CResourceEntry *pRes = pStore->FindEntry(rkRes.ID);
-            ApplyGeneratedName(pRes, pPkg->Name().ToUTF16(), rkRes.Name.ToUTF16());
+
+            if (pRes)
+                ApplyGeneratedName(pRes, pPkg->Name().ToUTF16(), rkRes.Name.ToUTF16());
         }
     }
 #endif
@@ -147,8 +77,9 @@ void GenerateAssetNames(CGameProject *pProj)
 
     for (TResourceIterator<eWorld> It(pStore); It; ++It)
     {
-        // Generate world name
-        TWideString WorldName = MakeWorldName(pProj->Game(), It->Name());
+        // Set world name
+        CWorld *pWorld = (CWorld*) It->Load();
+        TWideString WorldName = L'!' + pWorld->Name().ToUTF16() + L"_Master";
         TWideString WorldDir = kWorldsRoot + WorldName + L'\\';
 
         TWideString WorldMasterName = L"!" + WorldName + L"_Master";
@@ -159,10 +90,9 @@ void GenerateAssetNames(CGameProject *pProj)
         const TWideString WorldNamesDir = L"Strings\\Worlds\\General\\";
         const TWideString AreaNamesDir = TWideString::Format(L"Strings\\Worlds\\%s\\", *WorldName);
 
-        CWorld *pWorld = (CWorld*) It->Load();
         CModel *pSkyModel = pWorld->DefaultSkybox();
-        CStringTable *pWorldNameTable = pWorld->WorldName();
-        CStringTable *pDarkWorldNameTable = pWorld->DarkWorldName();
+        CStringTable *pWorldNameTable = pWorld->NameString();
+        CStringTable *pDarkWorldNameTable = pWorld->DarkNameString();
         CResource *pSaveWorld = pWorld->SaveWorld();
         CResource *pMapWorld = pWorld->MapWorld();
 
@@ -418,11 +348,34 @@ void GenerateAssetNames(CGameProject *pProj)
 
 #if PROCESS_AUDIO_GROUPS
     // Generate Audio Group names
+    const TWideString kAudioGrpDir = L"Audio\\";
+
     for (TResourceIterator<eAudioGroup> It(pStore); It; ++It)
     {
         CAudioGroup *pGroup = (CAudioGroup*) It->Load();
         TWideString GroupName = pGroup->GroupName().ToUTF16();
-        ApplyGeneratedName(*It, L"Audio\\", GroupName);
+        ApplyGeneratedName(*It, kAudioGrpDir, GroupName);
+    }
+#endif
+
+#if PROCESS_AUDIO_MACROS
+    // Process audio macro/sample names
+    const TWideString kSfxDir = L"Audio\\Uncategorized\\";
+
+    for (TResourceIterator<eAudioMacro> It(pStore); It; ++It)
+    {
+        CAudioMacro *pMacro = (CAudioMacro*) It->Load();
+        TWideString MacroName = pMacro->MacroName().ToUTF16();
+        ApplyGeneratedName(*It, kSfxDir, MacroName);
+
+        for (u32 iSamp = 0; iSamp < pMacro->NumSamples(); iSamp++)
+        {
+            CAssetID SampleID = pMacro->SampleByIndex(iSamp);
+            CResourceEntry *pSample = pStore->FindEntry(SampleID);
+
+            if (pSample && !pSample->IsNamed())
+                ApplyGeneratedName(pSample, kSfxDir, TWideString::Format(L"%s_sample%d", *MacroName, iSamp));
+        }
     }
 #endif
 
@@ -487,6 +440,8 @@ void GenerateAssetNames(CGameProject *pProj)
 
 #if PROCESS_STRINGS
     // Generate string names
+    const TWideString kStringsDir = L"Strings\\Uncategorized\\";
+
     for (TResourceIterator<eStringTable> It(pStore); It; ++It)
     {
         if (It->IsNamed()) continue;
@@ -504,7 +459,7 @@ void GenerateAssetNames(CGameProject *pProj)
             while (Name.EndsWith(L".") || TWideString::IsWhitespace(Name.Back()))
                 Name = Name.ChopBack(1);
 
-            ApplyGeneratedName(pString->Entry(), pString->Entry()->DirectoryPath(), Name);
+            ApplyGeneratedName(pString->Entry(), kStringsDir, Name);
         }
     }
 #endif

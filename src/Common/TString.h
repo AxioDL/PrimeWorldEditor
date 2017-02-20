@@ -140,6 +140,12 @@ public:
         return IndexOf(pkCharacters, 0);
     }
 
+    inline u32 LastIndexOf(CharType Character) const
+    {
+        size_t Pos = mInternalString.find_last_of(Character);
+        return (Pos == _TStdString::npos ? -1 : (u32) Pos);
+    }
+
     inline u32 LastIndexOf(const CharType* pkCharacters) const
     {
         size_t Pos = mInternalString.find_last_of(pkCharacters);

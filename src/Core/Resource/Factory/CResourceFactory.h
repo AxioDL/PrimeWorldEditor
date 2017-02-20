@@ -38,6 +38,7 @@ public:
         case eAnimEventData:        return new CAnimEventData(pEntry);
         case eAnimSet:              return new CAnimSet(pEntry);
         case eArea:                 return new CGameArea(pEntry);
+        case eAudioMacro:           return new CAudioMacro(pEntry);
         case eAudioGroup:           return new CAudioGroup(pEntry);
         case eAudioLookupTable:     return new CAudioLookupTable(pEntry);
         case eCharacter:            return new CAnimSet(pEntry);
@@ -69,6 +70,7 @@ public:
         case eAnimEventData:        pRes = CAnimEventLoader::LoadEVNT(rInput, pEntry);          break;
         case eAnimSet:              pRes = CAnimSetLoader::LoadANCS(rInput, pEntry);            break;
         case eArea:                 pRes = CAreaLoader::LoadMREA(rInput, pEntry);               break;
+        case eAudioMacro:           pRes = CUnsupportedFormatLoader::LoadCAUD(rInput, pEntry);  break;
         case eAudioGroup:           pRes = CAudioGroupLoader::LoadAGSC(rInput, pEntry);         break;
         case eAudioLookupTable:     pRes = CAudioGroupLoader::LoadATBL(rInput, pEntry);         break;
         case eBinaryData:           pRes = CUnsupportedFormatLoader::LoadDUMB(rInput, pEntry);  break;

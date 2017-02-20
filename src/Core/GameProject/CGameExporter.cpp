@@ -482,11 +482,13 @@ void CGameExporter::ExportResourceEditorData()
         {
             if (!It->IsTransient())
             {
-                // Worlds need to know which areas can have duplicates. We only have this info at export time.
+                // Worlds need some info we can only get from the pak at export time; namely, which areas can
+                // have duplicates, as well as the world's internal name.
                 if (It->ResourceType() == eWorld)
                 {
                     CWorld *pWorld = (CWorld*) It->Load();
 
+                    // Set area duplicate flags
                     for (u32 iArea = 0; iArea < pWorld->NumAreas(); iArea++)
                     {
                         CAssetID AreaID = pWorld->AreaResourceID(iArea);
@@ -495,6 +497,10 @@ void CGameExporter::ExportResourceEditorData()
                         if (Find != mAreaDuplicateMap.end())
                             pWorld->SetAreaAllowsPakDuplicates(iArea, Find->second);
                     }
+
+                    // Set world name
+                    TString WorldName = MakeWorldName(pWorld->ID());
+                    pWorld->SetName(WorldName);
                 }
 
                 // Save raw resource + generate dependencies
@@ -545,4 +551,116 @@ void CGameExporter::ExportResource(SResourceInstance& rRes)
 
         rRes.Exported = true;
     }
+}
+
+TString CGameExporter::MakeWorldName(CAssetID WorldID)
+{
+    CResourceEntry *pWorldEntry = mpStore->FindEntry(WorldID);
+    ASSERT(pWorldEntry && pWorldEntry->ResourceType() == eWorld);
+
+    // Find the original world name in the package resource names
+    TString WorldName;
+
+    for (u32 iPkg = 0; iPkg < mpProject->NumPackages(); iPkg++)
+    {
+        CPackage *pPkg = mpProject->PackageByIndex(iPkg);
+
+        for (u32 iRes = 0; iRes < pPkg->NumNamedResources(); iRes++)
+        {
+            const SNamedResource& rkRes = pPkg->NamedResourceByIndex(iRes);
+
+            if (rkRes.ID == WorldID && !rkRes.Name.EndsWith("_NODEPEND"))
+            {
+                WorldName = rkRes.Name;
+                break;
+            }
+        }
+
+        if (!WorldName.IsEmpty()) break;
+    }
+
+    // Fix up the name; remove date/time, leading exclamation points, etc
+    if (!WorldName.IsEmpty())
+    {
+        // World names are basically formatted differently in every game...
+        // MP1 demo - Remove ! from the beginning
+        if (mGame == ePrimeDemo)
+        {
+            if (WorldName.StartsWith('!'))
+                WorldName = WorldName.ChopFront(1);
+        }
+
+        // MP1 - Remove prefix characters and ending date
+        else if (mGame == ePrime)
+        {
+            WorldName = WorldName.ChopFront(2);
+            bool StartedDate = false;
+
+            while (!WorldName.IsEmpty())
+            {
+                char Chr = WorldName.Back();
+
+                if (!StartedDate && Chr >= '0' && Chr <= '9')
+                    StartedDate = true;
+                else if (StartedDate && Chr != '_' && (Chr < '0' || Chr > '9'))
+                    break;
+
+                WorldName = WorldName.ChopBack(1);
+            }
+        }
+
+        // MP2 demo - Use text between the first and second underscores
+        else if (mGame == eEchoesDemo)
+        {
+            u32 UnderscoreA = WorldName.IndexOf('_');
+            u32 UnderscoreB = WorldName.IndexOf('_', UnderscoreA + 1);
+
+            if (UnderscoreA != UnderscoreB && UnderscoreA != -1 && UnderscoreB != -1)
+                WorldName = WorldName.SubString(UnderscoreA + 1, UnderscoreB - UnderscoreA - 1);
+        }
+
+        // MP2 - Remove text before first underscore and after last underscore, strip remaining underscores (except multiplayer maps, which have one underscore)
+        else if (mGame == eEchoes)
+        {
+            u32 FirstUnderscore = WorldName.IndexOf('_');
+            u32 LastUnderscore = WorldName.LastIndexOf('_');
+
+            if (FirstUnderscore != LastUnderscore && FirstUnderscore != -1 && LastUnderscore != -1)
+            {
+                WorldName = WorldName.ChopBack(WorldName.Size() - LastUnderscore);
+                WorldName = WorldName.ChopFront(FirstUnderscore + 1);
+                WorldName.Remove('_');
+            }
+        }
+
+        // MP3 proto - Remove ! from the beginning and all text after last underscore
+        else if (mGame == eCorruptionProto)
+        {
+            if (WorldName.StartsWith('!'))
+                WorldName = WorldName.ChopFront(1);
+
+            u32 LastUnderscore = WorldName.LastIndexOf('_');
+            WorldName = WorldName.ChopBack(WorldName.Size() - LastUnderscore);
+        }
+
+        // MP3 - Remove text after last underscore
+        else if (mGame == eCorruption)
+        {
+            u32 LastUnderscore = WorldName.LastIndexOf('_');
+
+            if (LastUnderscore != -1)
+                WorldName = WorldName.ChopBack(WorldName.Size() - LastUnderscore);
+        }
+
+        // DKCR - Remove text after second-to-last underscore
+        else if (mGame == eReturns)
+        {
+            u32 Underscore = WorldName.LastIndexOf('_');
+            WorldName = WorldName.ChopBack(WorldName.Size() - Underscore);
+            Underscore = WorldName.LastIndexOf('_');
+            WorldName = WorldName.ChopBack(WorldName.Size() - Underscore);
+        }
+    }
+
+    return WorldName;
 }

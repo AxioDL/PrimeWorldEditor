@@ -19,7 +19,7 @@ CWorld::~CWorld()
 
 CDependencyTree* CWorld::BuildDependencyTree() const
 {
-    CDependencyTree *pTree = new CDependencyTree(ID());
+    CDependencyTree *pTree = new CDependencyTree();
 
     for (u32 iArea = 0; iArea < mAreas.size(); iArea++)
     {
@@ -81,10 +81,11 @@ TString CWorld::AreaInGameName(u32 AreaIndex) const
 // ************ SERIALIZATION ************
 void CWorld::Serialize(IArchive& rArc)
 {
-    rArc << SERIAL("WorldNameString", mpWorldName);
+    rArc << SERIAL("Name", mName)
+         << SERIAL("NameString", mpWorldName);
 
     if (rArc.Game() == eEchoesDemo || rArc.Game() == eEchoes)
-        rArc << SERIAL("DarkWorldNameString", mpDarkWorldName);
+        rArc << SERIAL("DarkNameString", mpDarkWorldName);
 
     rArc << SERIAL("WorldSaveInfo", mpSaveWorld)
          << SERIAL("WorldMap", mpMapWorld)

@@ -26,10 +26,10 @@
 #define TYPES_NODE_TYPE_SHIFT 1
 #define TYPES_ITEM_TYPE_SHIFT 0
 
-CInstancesModel::CInstancesModel(QObject *pParent)
+CInstancesModel::CInstancesModel(CWorldEditor *pEditor, QObject *pParent)
     : QAbstractItemModel(pParent)
-    , mpEditor(nullptr)
-    , mpScene(nullptr)
+    , mpEditor(pEditor)
+    , mpScene(pEditor->Scene())
     , mpArea(nullptr)
     , mpCurrentMaster(nullptr)
     , mModelType(eLayers)
@@ -37,6 +37,16 @@ CInstancesModel::CInstancesModel(QObject *pParent)
     , mChangingLayout(false)
 {
     mBaseItems << "Script";
+
+    connect(gpEdApp, SIGNAL(ActiveProjectChanged(CGameProject*)), this, SLOT(OnActiveProjectChanged(CGameProject*)));
+    connect(mpEditor, SIGNAL(MapChanged(CWorld*,CGameArea*)), this, SLOT(OnMapChange()));
+    connect(mpEditor, SIGNAL(NodeAboutToBeSpawned()), this, SLOT(NodeAboutToBeCreated()));
+    connect(mpEditor, SIGNAL(NodeSpawned(CSceneNode*)), this, SLOT(NodeCreated(CSceneNode*)));
+    connect(mpEditor, SIGNAL(NodeAboutToBeDeleted(CSceneNode*)), this, SLOT(NodeAboutToBeDeleted(CSceneNode*)));
+    connect(mpEditor, SIGNAL(NodeDeleted()), this, SLOT(NodeDeleted()));
+    connect(mpEditor, SIGNAL(PropertyModified(CScriptObject*,IProperty*)), this, SLOT(PropertyModified(CScriptObject*,IProperty*)));
+    connect(mpEditor, SIGNAL(InstancesLayerAboutToChange()), this, SLOT(InstancesLayerPreChange()));
+    connect(mpEditor, SIGNAL(InstancesLayerChanged(QList<CScriptNode*>)), this, SLOT(InstancesLayerPostChange(QList<CScriptNode*>)));
 }
 
 CInstancesModel::~CInstancesModel()
@@ -311,35 +321,6 @@ QVariant CInstancesModel::data(const QModelIndex& rkIndex, int Role) const
     return QVariant::Invalid;
 }
 
-void CInstancesModel::SetEditor(CWorldEditor *pEditor)
-{
-    if (mpEditor)
-        disconnect(mpEditor, 0, this, 0);
-
-    mpEditor = pEditor;
-    mpScene = (pEditor ? pEditor->Scene() : nullptr);
-    connect(mpEditor, SIGNAL(NodeAboutToBeSpawned()), this, SLOT(NodeAboutToBeCreated()));
-    connect(mpEditor, SIGNAL(NodeSpawned(CSceneNode*)), this, SLOT(NodeCreated(CSceneNode*)));
-    connect(mpEditor, SIGNAL(NodeAboutToBeDeleted(CSceneNode*)), this, SLOT(NodeAboutToBeDeleted(CSceneNode*)));
-    connect(mpEditor, SIGNAL(NodeDeleted()), this, SLOT(NodeDeleted()));
-    connect(mpEditor, SIGNAL(PropertyModified(CScriptObject*,IProperty*)), this, SLOT(PropertyModified(CScriptObject*,IProperty*)));
-    connect(mpEditor, SIGNAL(InstancesLayerAboutToChange()), this, SLOT(InstancesLayerPreChange()));
-    connect(mpEditor, SIGNAL(InstancesLayerChanged(QList<CScriptNode*>)), this, SLOT(InstancesLayerPostChange(QList<CScriptNode*>)));
-}
-
-void CInstancesModel::SetMaster(CMasterTemplate *pMaster)
-{
-    mpCurrentMaster = pMaster;
-    GenerateList();
-}
-
-void CInstancesModel::SetArea(CGameArea *pArea)
-{
-    beginResetModel();
-    mpArea = pArea;
-    endResetModel();
-}
-
 void CInstancesModel::SetModelType(EInstanceModelType Type)
 {
     mModelType = Type;
@@ -378,6 +359,35 @@ CScriptObject* CInstancesModel::IndexObject(const QModelIndex& rkIndex) const
 }
 
 // ************ PUBLIC SLOTS ************
+void CInstancesModel::OnActiveProjectChanged(CGameProject *pProj)
+{
+    if (mModelType == eTypes)
+    {
+        if (pProj)
+        {
+            EGame ProjGame = pProj->Game();
+            mpCurrentMaster = CMasterTemplate::MasterForGame(ProjGame);
+        }
+        else
+            mpCurrentMaster = nullptr;
+
+        GenerateList();
+    }
+}
+
+void CInstancesModel::OnMapChange()
+{
+    if (mModelType == eTypes)
+        GenerateList();
+
+    else
+    {
+        beginResetModel();
+        mpArea = mpEditor->ActiveArea();
+        endResetModel();
+    }
+}
+
 void CInstancesModel::NodeAboutToBeCreated()
 {
     if (!mChangingLayout)

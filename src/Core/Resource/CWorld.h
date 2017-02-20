@@ -14,6 +14,7 @@ class CWorld : public CResource
     friend class CWorldCooker;
 
     // Instances of CResource pointers are placeholders for unimplemented resource types (eg CMapWorld)
+    TString mName;
     TResPtr<CStringTable> mpWorldName;
     TResPtr<CStringTable> mpDarkWorldName;
     TResPtr<CResource>    mpSaveWorld;
@@ -93,8 +94,9 @@ public:
     friend void Serialize(IArchive& rArc, SAudioGrp& rAudioGrp);
 
     // Accessors
-    inline CStringTable* WorldName() const      { return mpWorldName; }
-    inline CStringTable* DarkWorldName() const  { return mpDarkWorldName; }
+    inline TString Name() const                 { return mName; }
+    inline CStringTable* NameString() const     { return mpWorldName; }
+    inline CStringTable* DarkNameString() const { return mpDarkWorldName; }
     inline CResource* SaveWorld() const         { return mpSaveWorld; }
     inline CModel* DefaultSkybox() const        { return mpDefaultSkybox; }
     inline CResource* MapWorld() const          { return mpMapWorld; }
@@ -107,6 +109,7 @@ public:
     inline CStringTable* AreaName(u32 AreaIndex) const                  { return mAreas[AreaIndex].pAreaName; }
     inline bool DoesAreaAllowPakDuplicates(u32 AreaIndex) const         { return mAreas[AreaIndex].AllowPakDuplicates; }
 
+    inline void SetName(const TString& rkName)  { mName = rkName; }
     inline void SetAreaAllowsPakDuplicates(u32 AreaIndex, bool Allow)   { mAreas[AreaIndex].AllowPakDuplicates = Allow; }
 };
 

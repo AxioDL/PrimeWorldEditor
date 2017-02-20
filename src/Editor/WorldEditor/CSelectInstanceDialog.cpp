@@ -5,6 +5,8 @@ CSelectInstanceDialog::CSelectInstanceDialog(CWorldEditor *pEditor, QWidget *pPa
     : QDialog(pParent)
     , ui(new Ui::CSelectInstanceDialog)
     , mpEditor(pEditor)
+    , mLayersModel(pEditor, this)
+    , mTypesModel(pEditor, this)
     , mValidSelection(false)
     , mpLayersInst(nullptr)
     , mpTypesInst(nullptr)
@@ -12,14 +14,9 @@ CSelectInstanceDialog::CSelectInstanceDialog(CWorldEditor *pEditor, QWidget *pPa
     ui->setupUi(this);
 
     mLayersModel.SetModelType(CInstancesModel::eLayers);
-    mLayersModel.SetEditor(pEditor);
-    mLayersModel.SetArea(pEditor->ActiveArea());
     mLayersModel.SetShowColumnEnabled(false);
 
     mTypesModel.SetModelType(CInstancesModel::eTypes);
-    mTypesModel.SetEditor(pEditor);
-    mTypesModel.SetArea(pEditor->ActiveArea());
-    mTypesModel.SetMaster(CMasterTemplate::MasterForGame(pEditor->CurrentGame()));
     mTypesModel.SetShowColumnEnabled(false);
 
     int Col0Width = ui->LayersTreeView->width() * 0.9;

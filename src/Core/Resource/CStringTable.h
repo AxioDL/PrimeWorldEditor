@@ -45,7 +45,7 @@ public:
     CDependencyTree* BuildDependencyTree() const
     {
         // STRGs can reference FONTs with the &font=; formatting tag and TXTRs with the &image=; tag
-        CDependencyTree *pTree = new CDependencyTree(ID());
+        CDependencyTree *pTree = new CDependencyTree();
         EIDLength IDLength = (Game() <= eEchoes ? e32Bit : e64Bit);
 
         for (u32 iLang = 0; iLang < mLangTables.size(); iLang++)

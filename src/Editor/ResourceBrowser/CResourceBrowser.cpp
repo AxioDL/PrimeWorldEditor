@@ -80,7 +80,7 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
 
     QAction *pGenerateAssetNamesAction = new QAction("Generate Asset Names", this);
     pImportNamesMenu->addAction(pGenerateAssetNamesAction);
-#if !PUBLIC_RELEASE
+#if PUBLIC_RELEASE
     pGenerateAssetNamesAction->setVisible(false);
 #endif
 
@@ -315,6 +315,7 @@ void CResourceBrowser::OnImportPakContentsTxt()
 {
     QStringList PathList = UICommon::OpenFilesDialog(this, "Open pak contents list", "*.pak.contents.txt");
     if (PathList.isEmpty()) return;
+    SelectDirectory(nullptr);
 
     foreach(const QString& rkPath, PathList)
         mpStore->ImportNamesFromPakContentsTxt(TO_TSTRING(rkPath), false);
@@ -325,6 +326,7 @@ void CResourceBrowser::OnImportPakContentsTxt()
 
 void CResourceBrowser::OnGenerateAssetNames()
 {
+    SelectDirectory(nullptr);
     GenerateAssetNames(mpStore->Project());
     RefreshResources();
     RefreshDirectories();
@@ -345,6 +347,8 @@ void CResourceBrowser::OnImportNamesFromAssetNameMap()
         UICommon::ErrorMsg(this, "Import failed; the input asset name map is invalid! See the log for details.");
         return;
     }
+
+    SelectDirectory(nullptr);
 
     for (CResourceIterator It(mpStore); It; ++It)
     {

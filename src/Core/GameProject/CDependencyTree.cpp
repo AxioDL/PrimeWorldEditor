@@ -32,8 +32,7 @@ EDependencyNodeType CDependencyTree::Type() const
 
 void CDependencyTree::Serialize(IArchive& rArc)
 {
-    rArc << SERIAL("RootID", mRootID)
-         << SERIAL_ABSTRACT_CONTAINER("Children", mChildren, "Child", &gDependencyNodeFactory);
+    rArc << SERIAL_ABSTRACT_CONTAINER("Children", mChildren, "Child", &gDependencyNodeFactory);
 }
 
 void CDependencyTree::AddChild(IDependencyNode *pNode)

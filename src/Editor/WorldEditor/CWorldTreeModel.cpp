@@ -54,18 +54,23 @@ QVariant CWorldTreeModel::data(const QModelIndex& rkIndex, int Role) const
         // World
         if (IndexIsWorld(rkIndex))
         {
-            QString WorldAssetName = TO_QSTRING( pWorld->Entry()->Name() );
-            CStringTable *pWorldNameString = pWorld->WorldName();
+            QString WorldName = TO_QSTRING( pWorld->Name() );
+            CStringTable *pWorldNameString = pWorld->NameString();
 
-            if (rkIndex.column() == 1)
-                return WorldAssetName;
+            // For Corruption worlds, we swap the columns around. This is because Corruption's in-game world names
+            // are often missing, confusing, or just straight-up inaccurate, which makes the internal name a better
+            // means of telling worlds apart.
+            u32 InternalNameCol = (pWorld->Game() == eCorruption ? 0 : 1);
+
+            if (rkIndex.column() == InternalNameCol)
+                return WorldName;
 
             else
             {
                 if (pWorldNameString)
                     return TO_QSTRING( pWorldNameString->String("ENGL", 0) );
                 else
-                    return WorldAssetName;
+                    return WorldName;
             }
         }
 
@@ -217,6 +222,14 @@ void CWorldTreeModel::OnProjectChanged(CGameProject *pProj)
                     mWorldList << Info;
                 }
             }
+        }
+
+        // Sort in alphabetical order for MP3
+        if (pProj->Game() == eCorruption)
+        {
+            qSort(mWorldList.begin(), mWorldList.end(), [](const SWorldInfo& rkLeft, const SWorldInfo& rkRight) -> bool {
+                return (rkLeft.pWorld->Name().ToUpper() < rkRight.pWorld->Name().ToUpper());
+            });
         }
     }
 

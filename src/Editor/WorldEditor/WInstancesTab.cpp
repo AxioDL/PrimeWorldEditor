@@ -14,16 +14,16 @@ WInstancesTab::WInstancesTab(CWorldEditor *pEditor, QWidget *parent) :
 
     mpEditor = pEditor;
     mpScene = mpEditor->Scene();
-    connect(mpEditor, SIGNAL(MapChanged(CWorld*,CGameArea*)), this, SLOT(OnMapChange(CWorld*,CGameArea*)));
 
-    mpLayersModel = new CInstancesModel(this);
+    mpLayersModel = new CInstancesModel(pEditor, this);
     mpLayersModel->SetModelType(CInstancesModel::eLayers);
-    mpLayersModel->SetEditor(mpEditor);
-    mpTypesModel = new CInstancesModel(this);
+    mpTypesModel = new CInstancesModel(pEditor, this);
     mpTypesModel->SetModelType(CInstancesModel::eTypes);
-    mpTypesModel->SetEditor(mpEditor);
     mLayersProxyModel.setSourceModel(mpLayersModel);
     mTypesProxyModel.setSourceModel(mpTypesModel);
+
+    connect(mpLayersModel, SIGNAL(modelReset()), this, SLOT(ExpandTopLevelItems()));
+    connect(mpTypesModel, SIGNAL(modelReset()), this, SLOT(ExpandTopLevelItems()));
 
     int ColWidth = ui->LayersTreeView->width() * 0.29;
 
@@ -79,15 +79,6 @@ WInstancesTab::~WInstancesTab()
 }
 
 // ************ PRIVATE SLOTS ************
-void WInstancesTab::OnMapChange(CWorld*, CGameArea *pNewArea)
-{
-    EGame Game = mpEditor->CurrentGame();
-    CMasterTemplate *pMaster = CMasterTemplate::MasterForGame(Game);
-    mpTypesModel->SetMaster(pMaster);
-    mpLayersModel->SetArea(pNewArea);
-    ExpandTopLevelItems();
-}
-
 void WInstancesTab::OnTreeClick(QModelIndex Index)
 {
     // Single click is used to process show/hide events

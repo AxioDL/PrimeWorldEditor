@@ -32,7 +32,7 @@ CGameArea::~CGameArea()
 CDependencyTree* CGameArea::BuildDependencyTree() const
 {
     // Base dependencies
-    CAreaDependencyTree *pTree = new CAreaDependencyTree(ID());
+    CAreaDependencyTree *pTree = new CAreaDependencyTree();
 
     std::set<CAssetID> MatTextures;
     mpMaterialSet->GetUsedTextureIDs(MatTextures);
