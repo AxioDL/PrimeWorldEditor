@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>%APP_FULL_NAME%</string>
+   <string/>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -342,7 +342,6 @@
     </property>
     <addaction name="ActionResourceBrowser"/>
     <addaction name="ActionEditLayers"/>
-    <addaction name="ActionEditPoiToWorldMap"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -636,11 +635,6 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+I</string>
-   </property>
-  </action>
-  <action name="ActionEditPoiToWorldMap">
-   <property name="text">
-    <string>Edit POI to World Map</string>
    </property>
   </action>
   <action name="ActionDelete">

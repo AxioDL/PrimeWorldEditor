@@ -44,6 +44,7 @@ public:
     inline CWorldEditor* WorldEditor() const                { return mpWorldEditor; }
     inline CResourceBrowser* ResourceBrowser() const        { return mpResourceBrowser; }
     inline CProjectSettingsDialog* ProjectDialog() const    { return mpProjectDialog; }
+    inline EGame CurrentGame() const                        { return mpActiveProject ? mpActiveProject->Game() : eUnknownGame; }
 
     inline void SetEditorTicksEnabled(bool Enabled)         { Enabled ? mRefreshTimer.start(gkTickFrequencyMS) : mRefreshTimer.stop(); }
     inline bool AreEditorTicksEnabled() const               { return mRefreshTimer.isActive(); }

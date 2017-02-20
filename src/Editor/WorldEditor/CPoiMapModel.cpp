@@ -7,48 +7,10 @@
 CPoiMapModel::CPoiMapModel(CWorldEditor *pEditor, QObject *pParent /*= 0*/)
     : QAbstractListModel(pParent)
     , mpEditor(pEditor)
-    , mpArea(pEditor->ActiveArea())
-    , mpPoiToWorld(mpArea->PoiToWorldMap())
+    , mpArea(nullptr)
+    , mpPoiToWorld(nullptr)
 {
-    if (mpPoiToWorld)
-    {
-        // Create an ID -> Model Node lookup map
-        QMap<u32,CModelNode*> NodeMap;
-
-        for (CSceneIterator It(mpEditor->Scene(), eModelNode, true); !It.DoneIterating(); ++It)
-        {
-            CModelNode *pNode = static_cast<CModelNode*>(*It);
-            NodeMap[pNode->FindMeshID()] = pNode;
-        }
-
-        // Create internal model map
-        for (u32 iPoi = 0; iPoi < mpPoiToWorld->NumMappedPOIs(); iPoi++)
-        {
-            const CPoiToWorld::SPoiMap *pkMap = mpPoiToWorld->MapByIndex(iPoi);
-            CScriptNode *pPoiNode = mpEditor->Scene()->NodeForInstanceID(pkMap->PoiID);
-
-            if (pPoiNode)
-            {
-                QList<CModelNode*> *pModelList = new QList<CModelNode*>;
-
-                for (auto it = pkMap->ModelIDs.begin(); it != pkMap->ModelIDs.end(); it++)
-                {
-                    if (NodeMap.contains(*it))
-                        *pModelList << NodeMap[*it];
-                }
-
-                mModelMap[pPoiNode] = pModelList;
-            }
-        }
-    }
-}
-
-CPoiMapModel::~CPoiMapModel()
-{
-    QList<QList<CModelNode*>*> Lists = mModelMap.values();
-
-    for (auto it = Lists.begin(); it != Lists.end(); it++)
-        delete *it;
+    connect(pEditor, SIGNAL(MapChanged(CWorld*,CGameArea*)), this, SLOT(OnMapChange(CWorld*,CGameArea*)));
 }
 
 QVariant CPoiMapModel::headerData(int Section, Qt::Orientation Orientation, int Role) const
@@ -61,7 +23,7 @@ QVariant CPoiMapModel::headerData(int Section, Qt::Orientation Orientation, int 
 
 int CPoiMapModel::rowCount(const QModelIndex& /*rkParent*/) const
 {
-    return mpPoiToWorld->NumMappedPOIs();
+    return mpPoiToWorld ? mpPoiToWorld->NumMappedPOIs() : 0;
 }
 
 QVariant CPoiMapModel::data(const QModelIndex& rkIndex, int Role) const
@@ -198,4 +160,55 @@ const QList<CModelNode*>& CPoiMapModel::GetPoiMeshList(const QModelIndex& rkInde
 const QList<CModelNode*>& CPoiMapModel::GetPoiMeshList(CScriptNode *pPOI) const
 {
     return *mModelMap[pPOI];
+}
+
+void CPoiMapModel::OnMapChange(CWorld*, CGameArea *pArea)
+{
+    beginResetModel();
+    mpArea = pArea;
+    mpPoiToWorld = (pArea ? pArea->PoiToWorldMap() : nullptr);
+
+    if (mpPoiToWorld)
+    {
+        // Create an ID -> Model Node lookup map
+        QMap<u32,CModelNode*> NodeMap;
+
+        for (CSceneIterator It(mpEditor->Scene(), eModelNode, true); !It.DoneIterating(); ++It)
+        {
+            CModelNode *pNode = static_cast<CModelNode*>(*It);
+            NodeMap[pNode->FindMeshID()] = pNode;
+        }
+
+        // Create internal model map
+        for (u32 iPoi = 0; iPoi < mpPoiToWorld->NumMappedPOIs(); iPoi++)
+        {
+            const CPoiToWorld::SPoiMap *pkMap = mpPoiToWorld->MapByIndex(iPoi);
+            CScriptNode *pPoiNode = mpEditor->Scene()->NodeForInstanceID(pkMap->PoiID);
+
+            if (pPoiNode)
+            {
+                QList<CModelNode*> *pModelList = new QList<CModelNode*>;
+
+                for (auto it = pkMap->ModelIDs.begin(); it != pkMap->ModelIDs.end(); it++)
+                {
+                    if (NodeMap.contains(*it))
+                        *pModelList << NodeMap[*it];
+                }
+
+                mModelMap[pPoiNode] = pModelList;
+            }
+        }
+    }
+
+    else
+    {
+        QList<QList<CModelNode*>*> Lists = mModelMap.values();
+
+        for (auto it = Lists.begin(); it != Lists.end(); it++)
+            delete *it;
+
+        mModelMap.clear();
+    }
+
+    endResetModel();
 }

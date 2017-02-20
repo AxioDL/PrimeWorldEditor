@@ -2,8 +2,9 @@
 #define CWORLDEDITOR_H
 
 #include "CCollisionRenderSettingsDialog.h"
+#include "CEditorApplication.h"
 #include "CLinkDialog.h"
-#include "CPoiMapEditDialog.h"
+#include "CPoiMapSidebar.h"
 #include "CScriptEditSidebar.h"
 #include "CWorldInfoSidebar.h"
 #include "Editor/INodeEditor.h"
@@ -36,7 +37,8 @@ class CWorldEditor;
 enum EWorldEditorMode
 {
     eWEM_EditWorldInfo,
-    eWEM_EditScript
+    eWEM_EditScript,
+    eWEM_EditPOIMappings
 };
 
 class CWorldEditor : public INodeEditor
@@ -53,7 +55,6 @@ class CWorldEditor : public INodeEditor
 
     CCollisionRenderSettingsDialog *mpCollisionDialog;
     CLinkDialog *mpLinkDialog;
-    CPoiMapEditDialog *mpPoiDialog;
 
     bool mIsMakingLink;
     CScriptObject *mpNewLinkSender;
@@ -65,11 +66,14 @@ class CWorldEditor : public INodeEditor
 
     // Sidebars
     QVBoxLayout *mpRightSidebarLayout;
-    QWidget *mpCurSidebarWidget;
+    CWorldEditorSidebar *mpCurSidebar;
 
     QButtonGroup *mpEditModeButtonGroup;
     CWorldInfoSidebar *mpWorldInfoSidebar;
     CScriptEditSidebar *mpScriptSidebar;
+    CPoiMapSidebar *mpPoiMapSidebar;
+
+    QPushButton *mpPoiMapButton;
 
 public:
     explicit CWorldEditor(QWidget *parent = 0);
@@ -83,7 +87,7 @@ public:
 
     inline CWorld* ActiveWorld() const      { return mpWorld; }
     inline CGameArea* ActiveArea() const    { return mpArea; }
-    inline EGame CurrentGame() const        { return mpArea ? mpArea->Game() : eUnknownGame; }
+    inline EGame CurrentGame() const        { return gpEdApp->CurrentGame(); }
     inline CLinkDialog* LinkDialog() const  { return mpLinkDialog; }
     CSceneViewport* Viewport() const;
 
@@ -109,6 +113,7 @@ public slots:
 
     void ChangeEditMode(int Mode);
     void ChangeEditMode(EWorldEditorMode Mode);
+    void SetRenderingMergedWorld(bool RenderMerged);
     void OpenProjectSettings();
     void OpenResourceBrowser();
 
@@ -121,6 +126,7 @@ public slots:
     void DeleteSelection();
 
     void UpdateOpenRecentActions();
+    void UpdateWindowTitle();
     void UpdateStatusBar();
     void UpdateGizmoUI();
     void UpdateSelectionUI();
@@ -128,8 +134,8 @@ public slots:
     void UpdateNewLinkLine();
 
 protected:
-    void AddEditModeButton(QIcon Icon, QString ToolTip, EWorldEditorMode Mode);
-    void SetSidebarWidget(QWidget *pWidget);
+    QPushButton* AddEditModeButton(QIcon Icon, QString ToolTip, EWorldEditorMode Mode);
+    void SetSidebar(CWorldEditorSidebar *pSidebar);
     void GizmoModeChanged(CGizmo::EGizmoMode Mode);
 
 private slots:
@@ -149,7 +155,6 @@ private slots:
     void OnCameraSpeedChange(double Speed);
     void OnTransformSpinBoxModified(CVector3f Value);
     void OnTransformSpinBoxEdited(CVector3f Value);
-    void OnClosePoiEditDialog();
 
     void SelectAllTriggered();
     void InvertSelectionTriggered();
@@ -172,7 +177,6 @@ private slots:
     void DecrementGizmo();
     void EditCollisionRenderSettings();
     void EditLayers();
-    void EditPoiToWorldMap();
 
 signals:
     void MapChanged(CWorld *pNewWorld, CGameArea *pNewArea);

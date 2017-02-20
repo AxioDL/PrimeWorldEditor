@@ -131,7 +131,6 @@ HEADERS += \
     CErrorLogDialog.h \
     Undo/CSelectAllCommand.h \
     Undo/CInvertSelectionCommand.h \
-    WorldEditor/CPoiMapEditDialog.h \
     WorldEditor/CPoiMapModel.h \
     WorldEditor/CPoiListDialog.h \
     PropertyEdit/CPropertyModel.h \
@@ -183,7 +182,9 @@ HEADERS += \
     WorldEditor/CWorldInfoSidebar.h \
     WorldEditor/CWorldTreeModel.h \
     Widgets/CTimedLineEdit.h \
-    CProjectSettingsDialog.h
+    CProjectSettingsDialog.h \
+    WorldEditor/CPoiMapSidebar.h \
+    WorldEditor/CWorldEditorSidebar.h
 
 # Source Files
 SOURCES += \
@@ -216,7 +217,6 @@ SOURCES += \
     TestDialog.cpp \
     UICommon.cpp \
     CErrorLogDialog.cpp \
-    WorldEditor/CPoiMapEditDialog.cpp \
     WorldEditor/CPoiMapModel.cpp \
     PropertyEdit/CPropertyModel.cpp \
     PropertyEdit/CPropertyDelegate.cpp \
@@ -249,7 +249,9 @@ SOURCES += \
     WorldEditor/CScriptEditSidebar.cpp \
     WorldEditor/CWorldInfoSidebar.cpp \
     WorldEditor/CWorldTreeModel.cpp \
-    CProjectSettingsDialog.cpp
+    CProjectSettingsDialog.cpp \
+    WorldEditor/CPoiMapSidebar.cpp \
+    WorldEditor/CWorldEditorSidebar.cpp
 
 # UI Files
 FORMS += \
@@ -263,7 +265,6 @@ FORMS += \
     WorldEditor/WInstancesTab.ui \
     WorldEditor/WModifyTab.ui \
     CErrorLogDialog.ui \
-    WorldEditor/CPoiMapEditDialog.ui \
     WorldEditor/CTemplateEditDialog.ui \
     WorldEditor/CLinkDialog.ui \
     WorldEditor/CSelectInstanceDialog.ui \
@@ -274,4 +275,5 @@ FORMS += \
     ResourceBrowser/CResourceBrowser.ui \
     CExportGameDialog.ui \
     WorldEditor/CWorldInfoSidebar.ui \
-    CProjectSettingsDialog.ui
+    CProjectSettingsDialog.ui \
+    WorldEditor/CPoiMapSidebar.ui

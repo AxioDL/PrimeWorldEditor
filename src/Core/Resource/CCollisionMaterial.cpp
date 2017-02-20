@@ -79,5 +79,5 @@ bool CCollisionMaterial::IsFloor() const
 
 bool CCollisionMaterial::IsUnstandable(EGame Game) const
 {
-    return HasFlag(eCF_JumpNotAllowed) || (Game >= eEchoesDemo && !HasFlag(eCF_Floor) && HasAnyFlags(eCF_Wall | eCF_Ceiling));
+    return HasFlag(eCF_JumpNotAllowed) || (Game >= eCorruptionProto && !HasFlag(eCF_Floor) && HasAnyFlags(eCF_Wall | eCF_Ceiling));
 }

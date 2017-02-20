@@ -11,6 +11,7 @@ CCollisionRenderSettingsDialog::CCollisionRenderSettingsDialog(CWorldEditor *pEd
     mpUi->setupUi(this);
 
     SetupWidgets();
+    connect(gpEdApp, SIGNAL(ActiveProjectChanged(CGameProject*)), this, SLOT(SetupWidgets()));
     connect(mpUi->HideMaskLineEdit, SIGNAL(textChanged(QString)), this, SLOT(OnHideMaskChanged(QString)));
     connect(mpUi->HighlightMaskLineEdit, SIGNAL(textChanged(QString)), this, SLOT(OnHighlightMaskChanged(QString)));
     connect(mpUi->WireframeCheckBox, SIGNAL(toggled(bool)), this, SLOT(OnWireframeToggled(bool)));

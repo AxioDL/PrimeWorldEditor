@@ -1,6 +1,7 @@
 #ifndef CSCRIPTEDITSIDEBAR_H
 #define CSCRIPTEDITSIDEBAR_H
 
+#include "CWorldEditorSidebar.h"
 #include <QTabWidget>
 
 class CWorldEditor;
@@ -9,7 +10,7 @@ class WCreateTab;
 class WModifyTab;
 class WInstancesTab;
 
-class CScriptEditSidebar : public QWidget
+class CScriptEditSidebar : public CWorldEditorSidebar
 {
     Q_OBJECT
 
