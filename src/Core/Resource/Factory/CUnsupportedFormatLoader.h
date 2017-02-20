@@ -1,6 +1,7 @@
 #ifndef CUNSUPPORTEDFORMATLOADER_H
 #define CUNSUPPORTEDFORMATLOADER_H
 
+#include "Core/Resource/CAudioMacro.h"
 #include "Core/Resource/CDependencyGroup.h"
 
 // This class is responsible for loading formats that aren't yet fully supported.
@@ -11,6 +12,7 @@ class CUnsupportedFormatLoader
     CUnsupportedFormatLoader() {}
 
 public:
+    static CAudioMacro*      LoadCAUD(IInputStream& rCAUD, CResourceEntry *pEntry);
     static CDependencyGroup* LoadCSNG(IInputStream& rCSNG, CResourceEntry *pEntry);
     static CDependencyGroup* LoadDUMB(IInputStream& rDUMB, CResourceEntry *pEntry);
     static CDependencyGroup* LoadFRME(IInputStream& rFRME, CResourceEntry *pEntry);

@@ -67,7 +67,7 @@ public:
         if (Game() >= eCorruptionProto)
             Log::Warning("CScan::BuildDependencyTree not handling Corruption dependencies");
 
-        CDependencyTree *pTree = new CDependencyTree(ID());
+        CDependencyTree *pTree = new CDependencyTree();
 
         if (Game() <= ePrime)
             pTree->AddDependency(mFrameID);

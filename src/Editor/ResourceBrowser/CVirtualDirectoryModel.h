@@ -87,6 +87,9 @@ public:
 
     QModelIndex GetIndexForDirectory(CVirtualDirectory *pDir)
     {
+        if (!pDir)
+            return QModelIndex();
+
         QVector<int> Indices;
         CVirtualDirectory *pOriginal = pDir;
         CVirtualDirectory *pParent = pDir->Parent();

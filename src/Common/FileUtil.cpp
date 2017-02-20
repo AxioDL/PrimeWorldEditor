@@ -321,6 +321,14 @@ TWideString SanitizeName(TWideString Name, bool Directory, bool RootDir /*= fals
         if (ChopNum > 0) Name = Name.ChopBack(ChopNum);
     }
 
+    // Remove spaces from beginning of path
+    u32 NumLeadingSpaces = 0;
+    while (NumLeadingSpaces < Name.Size() && Name[NumLeadingSpaces] == L' ')
+        NumLeadingSpaces++;
+
+    if (NumLeadingSpaces > 0)
+        Name = Name.ChopFront(NumLeadingSpaces);
+
     return Name;
 }
 

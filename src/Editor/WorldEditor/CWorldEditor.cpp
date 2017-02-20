@@ -254,6 +254,7 @@ bool CWorldEditor::CloseWorld()
 
         mpArea = nullptr;
         mpWorld = nullptr;
+        gpResourceStore->DestroyUnreferencedResources(); // this should destroy the area!
 
         emit MapChanged(mpWorld, mpArea);
         return true;
@@ -337,9 +338,6 @@ bool CWorldEditor::SetArea(CWorld *pWorld, int AreaIndex)
     // Emit signals
     emit MapChanged(mpWorld, mpArea);
     emit LayersModified();
-
-    // Make sure old area is destroyed
-    gpResourceStore->DestroyUnreferencedResources();
 
     return true;
 }

@@ -109,7 +109,7 @@ public:
 
     CDependencyTree* BuildDependencyTree() const
     {
-        CDependencyTree *pTree = new CDependencyTree(ID());
+        CDependencyTree *pTree = new CDependencyTree();
 
         // Character dependencies
         for (u32 iChar = 0; iChar < mCharacters.size(); iChar++)

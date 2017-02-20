@@ -52,7 +52,7 @@ public:
 
     CDependencyTree* BuildDependencyTree() const
     {
-        CDependencyTree *pTree = new CDependencyTree(ID());
+        CDependencyTree *pTree = new CDependencyTree();
 
         for (auto DepIt = mDependencies.begin(); DepIt != mDependencies.end(); DepIt++)
             pTree->AddDependency(*DepIt);

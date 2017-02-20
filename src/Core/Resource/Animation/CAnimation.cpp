@@ -18,7 +18,7 @@ CAnimation::CAnimation(CResourceEntry *pEntry /*= 0*/)
 
 CDependencyTree* CAnimation::BuildDependencyTree() const
 {
-    CDependencyTree *pTree = new CDependencyTree(ID());
+    CDependencyTree *pTree = new CDependencyTree();
     pTree->AddDependency(mpEventData);
     return pTree;
 }

@@ -94,8 +94,8 @@ void CWorldInfoSidebar::OnWorldTreeClicked(QModelIndex Index)
     CWorld *pWorld = mModel.WorldForIndex(RealIndex);
     mpUI->WorldNameLabel->setText( TO_QSTRING(pWorld->InGameName()) );
     mpUI->WorldSelector->SetResource(pWorld);
-    mpUI->WorldNameSelector->SetResource(pWorld->WorldName());
-    mpUI->DarkWorldNameSelector->SetResource(pWorld->DarkWorldName());
+    mpUI->WorldNameSelector->SetResource(pWorld->NameString());
+    mpUI->DarkWorldNameSelector->SetResource(pWorld->DarkNameString());
     mpUI->SkySelector->SetResource(pWorld->DefaultSkybox());
 
     // Fill in area info

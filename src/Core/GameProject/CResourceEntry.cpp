@@ -61,7 +61,7 @@ void CResourceEntry::UpdateDependencies()
 
     if (!mpTypeInfo->CanHaveDependencies())
     {
-        mpDependencies = new CDependencyTree(ID());
+        mpDependencies = new CDependencyTree();
         return;
     }
 
@@ -73,7 +73,7 @@ void CResourceEntry::UpdateDependencies()
     if (!mpResource)
     {
         Log::Error("Unable to update cached dependencies; failed to load resource");
-        mpDependencies = new CDependencyTree(ID());
+        mpDependencies = new CDependencyTree();
         return;
     }
 

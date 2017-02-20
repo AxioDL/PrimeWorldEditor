@@ -32,7 +32,7 @@ CModel::~CModel()
 
 CDependencyTree* CModel::BuildDependencyTree() const
 {
-    CDependencyTree *pTree = new CDependencyTree(ID());
+    CDependencyTree *pTree = new CDependencyTree();
     std::set<CAssetID> TextureIDs;
 
     for (u32 iSet = 0; iSet < mMaterialSets.size(); iSet++)

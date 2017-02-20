@@ -47,12 +47,8 @@ public:
 // Basic dependency tree; this class is sufficient for most resource types.
 class CDependencyTree : public IDependencyNode
 {
-protected:
-    CAssetID mRootID;
-
 public:
     CDependencyTree() {}
-    CDependencyTree(const CAssetID& rkID) : mRootID(rkID) {}
 
     virtual EDependencyNodeType Type() const;
     virtual void Serialize(IArchive& rArc);
@@ -61,10 +57,6 @@ public:
     void AddDependency(const CAssetID& rkID, bool AvoidDuplicates = true);
     void AddDependency(CResource *pRes, bool AvoidDuplicates = true);
     void AddCharacterDependency(const CAnimationParameters& rkAnimParams);
-
-    // Accessors
-    inline void SetID(const CAssetID& rkID) { mRootID = rkID; }
-    inline CAssetID ID() const              { return mRootID; }
 };
 
 // Node representing a single resource dependency.
@@ -217,7 +209,6 @@ protected:
 
 public:
     CAreaDependencyTree() : CDependencyTree() {}
-    CAreaDependencyTree(const CAssetID& rkID) : CDependencyTree(rkID) {}
 
     virtual EDependencyNodeType Type() const;
     virtual void Serialize(IArchive& rArc);

@@ -42,7 +42,7 @@ public:
     }
 
     virtual ~CResource() {}
-    virtual CDependencyTree* BuildDependencyTree() const    { return new CDependencyTree(ID()); }
+    virtual CDependencyTree* BuildDependencyTree() const    { return new CDependencyTree(); }
     virtual void Serialize(IArchive& /*rArc*/)              {}
     
     inline CResourceEntry* Entry() const    { return mpEntry; }

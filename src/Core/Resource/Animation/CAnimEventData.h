@@ -21,7 +21,7 @@ public:
 
     CDependencyTree* BuildDependencyTree() const
     {
-        CDependencyTree *pTree = new CDependencyTree(ID());
+        CDependencyTree *pTree = new CDependencyTree();
         AddDependenciesToTree(pTree);
         return pTree;
     }

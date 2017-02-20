@@ -47,7 +47,6 @@ public:
     ~WInstancesTab();
 
 private slots:
-    void OnMapChange(CWorld*, CGameArea *pNewArea);
     void OnTreeClick(QModelIndex Index);
     void OnTreeDoubleClick(QModelIndex Index);
 

@@ -1,6 +1,53 @@
 #include "CUnsupportedFormatLoader.h"
 #include "Core/GameProject/CGameProject.h"
 
+CAudioMacro* CUnsupportedFormatLoader::LoadCAUD(IInputStream& rCAUD, CResourceEntry *pEntry)
+{
+    u32 Magic = rCAUD.ReadLong();
+    ASSERT(Magic == FOURCC('CAUD'));
+
+    u32 Version = rCAUD.ReadLong();
+    EGame Game = (Version == 0x2 ? eCorruptionProto :
+                  Version == 0x9 ? eCorruption :
+                  Version == 0xE ? eReturns :
+                  eUnknownGame);
+    ASSERT(Game != eUnknownGame && Game == pEntry->Game());
+
+    CAudioMacro *pMacro = new CAudioMacro(pEntry);
+    pMacro->mMacroName = rCAUD.ReadString();
+
+    // DKCR needs some reverse engineering work still in order to parse the file correctly, unfortunately
+    if (Game == eReturns)
+    {
+        Log::Warning("DKCR CAUD dependencies not being handled!");
+        return pMacro;
+    }
+
+    // Skip past the rest of the header
+    u32 NumVolGroups = rCAUD.ReadLong();
+
+    for (u32 iVol = 0; iVol < NumVolGroups; iVol++)
+        rCAUD.ReadString();
+
+    u32 SkipAmt = (Game == eCorruptionProto ? 0x10 : 0x14);
+    rCAUD.Seek(SkipAmt, SEEK_CUR);
+    u32 NumSamples = rCAUD.ReadLong();
+
+    for (u32 iSamp = 0; iSamp < NumSamples; iSamp++)
+    {
+        u32 SampleDataSize = rCAUD.ReadLong();
+        u32 SampleDataEnd = rCAUD.Tell() + SampleDataSize;
+
+        CAssetID SampleID(rCAUD, Game);
+        ASSERT(gpResourceStore->IsResourceRegistered(SampleID) == true);
+        pMacro->mSamples.push_back(SampleID);
+
+        rCAUD.Seek(SampleDataEnd, SEEK_SET);
+    }
+
+    return pMacro;
+}
+
 CDependencyGroup* CUnsupportedFormatLoader::LoadCSNG(IInputStream& rCSNG, CResourceEntry *pEntry)
 {
     u32 Magic = rCSNG.ReadLong();

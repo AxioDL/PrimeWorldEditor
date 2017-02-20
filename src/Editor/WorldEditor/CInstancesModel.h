@@ -34,7 +34,7 @@ public:
 private:
     CWorldEditor *mpEditor;
     CScene *mpScene;
-    TResPtr<CGameArea> mpArea;
+    CGameArea *mpArea;
     CMasterTemplate *mpCurrentMaster;
     EInstanceModelType mModelType;
     QList<CScriptTemplate*> mTemplateList;
@@ -43,7 +43,7 @@ private:
     bool mChangingLayout;
 
 public:
-    explicit CInstancesModel(QObject *pParent = 0);
+    explicit CInstancesModel(CWorldEditor *pEditor, QObject *pParent = 0);
     ~CInstancesModel();
     QVariant headerData(int Section, Qt::Orientation Orientation, int Role) const;
     QModelIndex index(int Row, int Column, const QModelIndex& rkParent = QModelIndex()) const;
@@ -52,9 +52,6 @@ public:
     int columnCount(const QModelIndex& rkParent) const;
     QVariant data(const QModelIndex& rkIndex, int Role) const;
 
-    void SetEditor(CWorldEditor *pEditor);
-    void SetMaster(CMasterTemplate *pMaster);
-    void SetArea(CGameArea *pArea);
     void SetModelType(EInstanceModelType Type);
     void SetShowColumnEnabled(bool Enabled);
     CScriptLayer* IndexLayer(const QModelIndex& rkIndex) const;
@@ -62,6 +59,9 @@ public:
     CScriptObject* IndexObject(const QModelIndex& rkIndex) const;
 
 public slots:
+    void OnActiveProjectChanged(CGameProject *pProj);
+    void OnMapChange();
+
     void NodeAboutToBeCreated();
     void NodeCreated(CSceneNode *pNode);
     void NodeAboutToBeDeleted(CSceneNode *pNode);
