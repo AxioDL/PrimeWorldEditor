@@ -114,6 +114,10 @@ bool CExportGameDialog::ValidateGame()
     mGameID = TString(6, 0);
     memcpy(&mGameID[0], rkHeader.m_gameID, 6);
 
+    // The MP2 ISO doesn't have a colon in the game name and it kinda annoys me
+    if (mGameTitle == "Metroid Prime 2 Echoes")
+        mGameTitle = "Metroid Prime 2: Echoes";
+
     // Check region byte
     switch (mGameID[3])
     {
