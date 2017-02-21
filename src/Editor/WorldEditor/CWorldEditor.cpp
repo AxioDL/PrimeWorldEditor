@@ -83,7 +83,7 @@ CWorldEditor::CWorldEditor(QWidget *parent)
 
     AddEditModeButton( QIcon(":/icons/World.png"), "Edit World Info",eWEM_EditWorldInfo );
     AddEditModeButton( QIcon(":/icons/Modify.png"), "Edit Script", eWEM_EditScript );
-    mpPoiMapButton = AddEditModeButton( QIcon(":/icons/POI Normal.png"), "Edit POI Mappings", eWEM_EditPOIMappings );
+    mpPoiMapButton = AddEditModeButton( QIcon(":/icons/PoiSymbol_24px.png"), "Edit POI Mappings", eWEM_EditPOIMappings );
     mpPoiMapButton->setEnabled(false);
 
     ChangeEditMode(eWEM_EditWorldInfo);

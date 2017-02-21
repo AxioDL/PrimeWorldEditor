@@ -71,5 +71,6 @@
         <file>icons/New_16px.png</file>
         <file>icons/Disc_16px.png</file>
         <file>icons/World_16px.png</file>
+        <file>icons/PoiSymbol_24px.png</file>
     </qresource>
 </RCC>

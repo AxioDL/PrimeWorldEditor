@@ -37,9 +37,7 @@ CWorldInfoSidebar::CWorldInfoSidebar(CWorldEditor *pEditor)
 
     mpUI->WorldSelector->SetEditable(false);
     mpUI->WorldNameSelector->SetEditable(false);
-    mpUI->DarkWorldNameStringLabel->setHidden(true);
     mpUI->DarkWorldNameSelector->SetEditable(false);
-    mpUI->DarkWorldNameSelector->setHidden(true);
     mpUI->SkySelector->SetEditable(false);
 
     mpUI->AreaNameLineEdit->setEnabled(false);
@@ -61,10 +59,25 @@ void CWorldInfoSidebar::OnActiveProjectChanged(CGameProject *pProj)
     mpUI->AreaSearchLineEdit->clear();
     mProxyModel.SetFilterString("");
 
-    bool IsEchoes = pProj && (pProj->Game() == eEchoesDemo || pProj->Game() == eEchoes);
     mpUI->GameNameLabel->setText( pProj ? TO_QSTRING(pProj->Name()) : "" );
+
+    // Add/remove widgets from the form layout based on the game. This is needed because
+    // simply hiding the widgets causes a minor spacing issue. The only fix seems to be
+    // actually entirely removing the widgets from the layout when not in use.
+    bool IsEchoes = pProj && (pProj->Game() == eEchoesDemo || pProj->Game() == eEchoes);
     mpUI->DarkWorldNameStringLabel->setHidden(!IsEchoes);
     mpUI->DarkWorldNameSelector->setHidden(!IsEchoes);
+
+    if (IsEchoes)
+    {
+        mpUI->WorldInfoFormLayout->insertRow(2, mpUI->DarkWorldNameStringLabel, mpUI->DarkWorldNameSelector);
+    }
+    else
+    {
+        mpUI->WorldInfoFormLayout->removeWidget(mpUI->DarkWorldNameStringLabel);
+        mpUI->WorldInfoFormLayout->removeWidget(mpUI->DarkWorldNameSelector);
+    }
+
     ClearWorldInfo();
 }
 
