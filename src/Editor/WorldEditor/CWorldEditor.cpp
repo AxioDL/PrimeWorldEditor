@@ -83,8 +83,8 @@ CWorldEditor::CWorldEditor(QWidget *parent)
 
     AddEditModeButton( QIcon(":/icons/World.png"), "Edit World Info",eWEM_EditWorldInfo );
     AddEditModeButton( QIcon(":/icons/Modify.png"), "Edit Script", eWEM_EditScript );
-    mpPoiMapButton = AddEditModeButton( QIcon(":/icons/PoiSymbol_24px.png"), "Edit POI Mappings", eWEM_EditPOIMappings );
-    mpPoiMapButton->setEnabled(false);
+    mpPoiMapAction = AddEditModeButton( QIcon(":/icons/PoiSymbol_24px.png"), "Edit POI Mappings", eWEM_EditPOIMappings );
+    mpPoiMapAction->setVisible(false);
 
     ChangeEditMode(eWEM_EditWorldInfo);
 
@@ -546,7 +546,7 @@ void CWorldEditor::OnActiveProjectChanged(CGameProject *pProj)
 {
     ui->ActionProjectSettings->setEnabled( pProj != nullptr );
     ui->ActionCloseProject->setEnabled( pProj != nullptr );
-    mpPoiMapButton->setEnabled( pProj != nullptr && pProj->Game() >= eEchoesDemo && pProj->Game() <= eCorruption );
+    mpPoiMapAction->setVisible( pProj != nullptr && pProj->Game() >= eEchoesDemo && pProj->Game() <= eCorruption );
     ResetCamera();
     UpdateWindowTitle();
 
@@ -925,7 +925,7 @@ void CWorldEditor::UpdateNewLinkLine()
 }
 
 // ************ PROTECTED ************
-QPushButton* CWorldEditor::AddEditModeButton(QIcon Icon, QString ToolTip, EWorldEditorMode Mode)
+QAction* CWorldEditor::AddEditModeButton(QIcon Icon, QString ToolTip, EWorldEditorMode Mode)
 {
     ASSERT(mpEditModeButtonGroup->button(Mode) == nullptr);
 
@@ -934,9 +934,9 @@ QPushButton* CWorldEditor::AddEditModeButton(QIcon Icon, QString ToolTip, EWorld
     pButton->setToolTip(ToolTip);
     pButton->setIconSize(QSize(24, 24));
 
-    ui->EditModeToolBar->addWidget(pButton);
+    QAction *pAction = ui->EditModeToolBar->addWidget(pButton);
     mpEditModeButtonGroup->addButton(pButton, Mode);
-    return pButton;
+    return pAction;
 }
 
 void CWorldEditor::SetSidebar(CWorldEditorSidebar *pSidebar)
@@ -1172,6 +1172,8 @@ void CWorldEditor::UpdateCameraOrbit()
         pCamera->SetOrbit(mpSelection->Bounds());
     else if (mpArea)
         pCamera->SetOrbit(mpArea->AABox(), 1.2f);
+    else
+        pCamera->ResetOrbit();
 }
 
 void CWorldEditor::OnCameraSpeedChange(double Speed)

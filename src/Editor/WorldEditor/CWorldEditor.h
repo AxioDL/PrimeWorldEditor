@@ -73,7 +73,7 @@ class CWorldEditor : public INodeEditor
     CScriptEditSidebar *mpScriptSidebar;
     CPoiMapSidebar *mpPoiMapSidebar;
 
-    QPushButton *mpPoiMapButton;
+    QAction *mpPoiMapAction;
 
 public:
     explicit CWorldEditor(QWidget *parent = 0);
@@ -134,7 +134,7 @@ public slots:
     void UpdateNewLinkLine();
 
 protected:
-    QPushButton* AddEditModeButton(QIcon Icon, QString ToolTip, EWorldEditorMode Mode);
+    QAction* AddEditModeButton(QIcon Icon, QString ToolTip, EWorldEditorMode Mode);
     void SetSidebar(CWorldEditorSidebar *pSidebar);
     void GizmoModeChanged(CGizmo::EGizmoMode Mode);
 

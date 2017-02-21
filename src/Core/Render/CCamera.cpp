@@ -17,7 +17,7 @@ CCamera::CCamera()
     , mProjectionDirty(true)
     , mFrustumPlanesDirty(true)
 {
-    SetOrbit(CVector3f(0), 5.f);
+    ResetOrbit();
 }
 
 // todo: make it actually look at the target!
