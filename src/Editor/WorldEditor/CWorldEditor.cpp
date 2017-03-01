@@ -555,14 +555,11 @@ void CWorldEditor::OnActiveProjectChanged(CGameProject *pProj)
     AllowBloom ? SetFakeBloom() : SetNoBloom();
     ui->menuBloom->setEnabled(AllowBloom);
 
-    if (!pProj)
-    {
-        // Update recent projects list
-        UpdateOpenRecentActions();
+    // Update recent projects list
+    UpdateOpenRecentActions();
 
-        // Reset editor mode
-        ChangeEditMode(eWEM_EditWorldInfo);
-    }
+    // Reset editor mode
+    ChangeEditMode(eWEM_EditWorldInfo);
 }
 
 void CWorldEditor::OnLinksModified(const QList<CScriptObject*>& rkInstances)

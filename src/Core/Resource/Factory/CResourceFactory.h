@@ -95,6 +95,7 @@ public:
         case eTexture:              pRes = CTextureDecoder::LoadTXTR(rInput, pEntry);           break;
         case eWorld:                pRes = CWorldLoader::LoadMLVL(rInput, pEntry);              break;
 
+        case eBurstFireData:
         case eParticle:
         case eParticleElectric:
         case eParticleSorted:
@@ -103,6 +104,7 @@ public:
         case eParticleDecal:
         case eParticleWeapon:
         case eParticleCollisionResponse:
+        case eUserEvaluatorData:
             pRes = CUnsupportedParticleLoader::LoadParticle(rInput, pEntry);
             break;
 
