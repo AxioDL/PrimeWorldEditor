@@ -19,6 +19,8 @@ class CUnsupportedParticleLoader
     bool ParseDecalParameter(IInputStream& rDPSC);
     bool ParseWeaponParameter(IInputStream& rWPSC);
     bool ParseCollisionResponseParameter(IInputStream& rCRSC);
+    bool ParseBurstFireParameter(IInputStream& rBFRC);
+    bool ParseUserEvaluatorParameter(IInputStream& rUSRC);
 
     // Function Loading
     void ParseBoolFunction(IInputStream& rFile);

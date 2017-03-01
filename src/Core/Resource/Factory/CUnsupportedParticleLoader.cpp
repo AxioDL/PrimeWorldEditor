@@ -14,6 +14,7 @@ bool CUnsupportedParticleLoader::ParseParticleParameter(IInputStream& rPART)
     // Bool
     case FOURCC('AAPH'):
     case FOURCC('CIND'):
+    case FOURCC('DBPS'):
     case FOURCC('FXLL'):
     case FOURCC('INDM'):
     case FOURCC('LINE'):
@@ -21,12 +22,20 @@ bool CUnsupportedParticleLoader::ParseParticleParameter(IInputStream& rPART)
     case FOURCC('MBLR'):
     case FOURCC('OPTS'):
     case FOURCC('ORNT'):
+    case FOURCC('ORTC'):
     case FOURCC('PMAB'):
+    case FOURCC('PMLT'):
     case FOURCC('PMOO'):
+    case FOURCC('PMTF'):
     case FOURCC('PMUS'):
     case FOURCC('RDOP'):
     case FOURCC('RSOP'):
     case FOURCC('SORT'):
+    case FOURCC('STOP'):
+    case FOURCC('VGD1'):
+    case FOURCC('VGD2'):
+    case FOURCC('VGD3'):
+    case FOURCC('VGD4'):
     case FOURCC('VMD1'):
     case FOURCC('VMD2'):
     case FOURCC('VMD3'):
@@ -42,22 +51,28 @@ bool CUnsupportedParticleLoader::ParseParticleParameter(IInputStream& rPART)
         break;
 
     // Int
+    case FOURCC('ALSC'):
+    case FOURCC('AMSC'):
     case FOURCC('CSSD'):
+    case FOURCC('HJAK'):
     case FOURCC('LFOT'):
     case FOURCC('LTME'):
     case FOURCC('LTYP'):
     case FOURCC('MAXP'):
+    case FOURCC('MBDM'):
     case FOURCC('MBSP'):
     case FOURCC('NCSY'):
     case FOURCC('NDSY'):
+    case FOURCC('PBDM'):
     case FOURCC('PISY'):
-    case FOURCC('PSIV'):
     case FOURCC('PSLT'):
     case FOURCC('PSWT'):
     case FOURCC('SEED'):
     case FOURCC('SESD'):
     case FOURCC('SISY'):
     case FOURCC('SSSD'):
+    case FOURCC('VSPC'):
+    case FOURCC('XJAK'):
     case FOURCC('XTAD'):
         ParseIntFunction(rPART);
         break;
@@ -72,8 +87,10 @@ bool CUnsupportedParticleLoader::ParseParticleParameter(IInputStream& rPART)
     case FOURCC('ADV7'):
     case FOURCC('ADV8'):
     case FOURCC('ADV9'):
+    case FOURCC('EADV'):
     case FOURCC('FXBR'):
     case FOURCC('GRTE'):
+    case FOURCC('ISVF'):
     case FOURCC('LENG'):
     case FOURCC('LFOR'):
     case FOURCC('LINT'):
@@ -81,6 +98,7 @@ bool CUnsupportedParticleLoader::ParseParticleParameter(IInputStream& rPART)
     case FOURCC('PSTS'):
     case FOURCC('ROTA'):
     case FOURCC('SIZE'):
+    case FOURCC('SVEO'):
     case FOURCC('WIDT'):
         ParseFloatFunction(rPART);
         break;
@@ -96,6 +114,7 @@ bool CUnsupportedParticleLoader::ParseParticleParameter(IInputStream& rPART)
     case FOURCC('PMRT'):
     case FOURCC('PMSC'):
     case FOURCC('POFS'):
+    case FOURCC('PSIV'):
     case FOURCC('PSOV'):
     case FOURCC('SEPO'):
     case FOURCC('SSPO'):
@@ -172,6 +191,7 @@ bool CUnsupportedParticleLoader::ParseElectricParameter(IInputStream& rELSC)
         ParseBitfieldFunction(rELSC);
         break;
 
+    case FOURCC('BLDM'):
     case FOURCC('LIFE'):
     case FOURCC('SCNT'):
     case FOURCC('SLIF'):
@@ -324,9 +344,13 @@ bool CUnsupportedParticleLoader::ParseSwooshParameter(IInputStream& rSWHC)
         ParseBitfieldFunction(rSWHC);
         break;
 
+    case FOURCC('ALSC'):
     case FOURCC('LENG'):
     case FOURCC('PSLT'):
+    case FOURCC('SBDM'):
     case FOURCC('SIDE'):
+    case FOURCC('SPLN'):
+    case FOURCC('TSPN'):
         ParseIntFunction(rSWHC);
         break;
 
@@ -334,9 +358,10 @@ bool CUnsupportedParticleLoader::ParseSwooshParameter(IInputStream& rSWHC)
     case FOURCC('LRAD'):
     case FOURCC('ROTM'):
     case FOURCC('RRAD'):
-    case FOURCC('SPLN'):
     case FOURCC('TIME'):
-    case FOURCC('TSPN'):
+    case FOURCC('XROT'):
+    case FOURCC('YROT'):
+    case FOURCC('ZROT'):
         ParseFloatFunction(rSWHC);
         break;
 
@@ -442,6 +467,7 @@ bool CUnsupportedParticleLoader::ParseWeaponParameter(IInputStream& rWPSC)
     case FOURCC('AS11'):
     case FOURCC('AS12'):
     case FOURCC('AS13'):
+    case FOURCC('BEAM'):
     case FOURCC('BHBT'):
     case FOURCC('DP1C'):
     case FOURCC('DP2C'):
@@ -458,8 +484,10 @@ bool CUnsupportedParticleLoader::ParseWeaponParameter(IInputStream& rWPSC)
     case FOURCC('RWPE'):
     case FOURCC('SPS1'):
     case FOURCC('SPS2'):
+    case FOURCC('SREL'):
     case FOURCC('SVBD'):
     case FOURCC('SWTR'):
+    case FOURCC('TCND'):
     case FOURCC('VMD2'):
         ParseBoolFunction(rWPSC);
         break;
@@ -472,6 +500,8 @@ bool CUnsupportedParticleLoader::ParseWeaponParameter(IInputStream& rWPSC)
     case FOURCC('B1SE'):
     case FOURCC('B2RT'):
     case FOURCC('B2SE'):
+    case FOURCC('FADD'):
+    case FOURCC('FADS'):
     case FOURCC('FOFF'):
     case FOURCC('RNGE'):
     case FOURCC('TLEN'):
@@ -522,6 +552,7 @@ bool CUnsupportedParticleLoader::ParseWeaponParameter(IInputStream& rWPSC)
     case FOURCC('ASW3'):
     case FOURCC('COLR'):
     case FOURCC('OHEF'):
+    case FOURCC('PSFX'):
         ParseAssetFunction(rWPSC);
         break;
 
@@ -609,17 +640,28 @@ bool CUnsupportedParticleLoader::ParseCollisionResponseParameter(IInputStream& r
     case FOURCC('3LAV'):
     case FOURCC('1MUD'):
     case FOURCC('3MUD'):
+    case FOURCC('1PRJ'):
+    case FOURCC('3PRJ'):
     case FOURCC('1SAN'):
     case FOURCC('3SAN'):
+    case FOURCC('1WOD'):
+    case FOURCC('3WOD'):
     case FOURCC('CHDL'):
     case FOURCC('CODL'):
     case FOURCC('CRTS'):
+    case FOURCC('CSSD'):
     case FOURCC('DCHR'):
+    case FOURCC('DCSD'):
     case FOURCC('DDCL'):
     case FOURCC('DEFS'):
     case FOURCC('DENM'):
+    case FOURCC('DESD'):
     case FOURCC('DESH'):
+    case FOURCC('DSND'):
+    case FOURCC('DSSD'):
     case FOURCC('ENDL'):
+    case FOURCC('GLAS'):
+    case FOURCC('GLDL'):
     case FOURCC('GODL'):
     case FOURCC('GOOO'):
     case FOURCC('GRAS'):
@@ -628,6 +670,12 @@ bool CUnsupportedParticleLoader::ParseCollisionResponseParameter(IInputStream& r
     case FOURCC('ICEE'):
     case FOURCC('MEDL'):
     case FOURCC('MTLS'):
+    case FOURCC('P3SD'):
+    case FOURCC('PLAY'):
+    case FOURCC('PLSD'):
+    case FOURCC('PLY3'):
+    case FOURCC('SNDL'):
+    case FOURCC('SNEE'):
     case FOURCC('TALP'):
     case FOURCC('WATR'):
     case FOURCC('WODL'):
@@ -638,6 +686,111 @@ bool CUnsupportedParticleLoader::ParseCollisionResponseParameter(IInputStream& r
 
     default:
         Log::FileError(rCRSC.GetSourceString(), ParamOffset, "Unknown CRSC parameter: " + Param.ToString());
+        DEBUG_BREAK;
+        return false;
+    }
+
+    return true;
+}
+
+bool CUnsupportedParticleLoader::ParseBurstFireParameter(IInputStream& rBFRC)
+{
+    u32 ParamOffset = rBFRC.Tell();
+    CFourCC Param = rBFRC.ReadLong();
+    if (Param == FOURCC('_END')) return false;
+
+    switch (Param.ToLong())
+    {
+    case FOURCC('BTMI'):
+        ParseIntFunction(rBFRC);
+        break;
+
+    case FOURCC('B0CH'):
+    case FOURCC('B1CH'):
+    case FOURCC('B2CH'):
+    case FOURCC('B3CH'):
+    case FOURCC('B4CH'):
+    case FOURCC('B5CH'):
+    case FOURCC('B6CH'):
+    case FOURCC('B7CH'):
+    case FOURCC('B0VL'):
+    case FOURCC('B1VL'):
+    case FOURCC('B2VL'):
+    case FOURCC('B3VL'):
+    case FOURCC('B4VL'):
+    case FOURCC('B5VL'):
+    case FOURCC('B6VL'):
+    case FOURCC('B7VL'):
+    case FOURCC('OVLH'):
+    case FOURCC('OVLW'):
+    case FOURCC('SHVR'):
+        ParseFloatFunction(rBFRC);
+        break;
+
+    default:
+        Log::FileError(rBFRC.GetSourceString(), ParamOffset, "Unknown BFRC parameter: " + Param.ToString());
+        DEBUG_BREAK;
+        return false;
+    }
+
+    return true;
+}
+
+bool CUnsupportedParticleLoader::ParseUserEvaluatorParameter(IInputStream& rUSRC)
+{
+    u32 ParamOffset = rUSRC.Tell();
+    CFourCC Param = rUSRC.ReadLong();
+    if (Param == FOURCC('_END')) return false;
+
+    switch (Param.ToLong())
+    {
+    case FOURCC('IPM0'):
+    case FOURCC('IPM1'):
+    case FOURCC('IPM2'):
+    case FOURCC('IPM3'):
+    case FOURCC('IPM4'):
+        ParseIntFunction(rUSRC);
+        break;
+
+    case FOURCC('RPM0'):
+    case FOURCC('RPM1'):
+    case FOURCC('RPM2'):
+    case FOURCC('RPM3'):
+    case FOURCC('RPM4'):
+    case FOURCC('RPM5'):
+    case FOURCC('RPM6'):
+    case FOURCC('RPM7'):
+    case FOURCC('RPM8'):
+    case FOURCC('RPM9'):
+        ParseFloatFunction(rUSRC);
+        break;
+
+    case FOURCC('VEC0'):
+    case FOURCC('VEC1'):
+    case FOURCC('VEC2'):
+        ParseVectorFunction(rUSRC);
+        break;
+
+    case FOURCC('MVC0'):
+    case FOURCC('MVC1'):
+        ParseModVectorFunction(rUSRC);
+        break;
+
+    case FOURCC('CLR1'):
+        ParseColorFunction(rUSRC);
+        break;
+
+    case FOURCC('TEX0'):
+    case FOURCC('TEX1'):
+        ParseUVFunction(rUSRC);
+        break;
+
+    case FOURCC('EMT1'):
+        ParseEmitterFunction(rUSRC);
+        break;
+
+    default:
+        Log::FileError(rUSRC.GetSourceString(), ParamOffset, "Unknown USRC parameter: " + Param.ToString());
         DEBUG_BREAK;
         return false;
     }
@@ -769,6 +922,7 @@ void CUnsupportedParticleLoader::ParseFloatFunction(IInputStream& rFile)
     case FOURCC('PAP7'):
     case FOURCC('PAP8'):
     case FOURCC('PAP9'):
+    case FOURCC('PEA0'):
     case FOURCC('PRLW'):
     case FOURCC('PSLL'):
         break;
@@ -802,6 +956,11 @@ void CUnsupportedParticleLoader::ParseFloatFunction(IInputStream& rFile)
 
     case FOURCC('CEXT'):
     case FOURCC('OCSP'):
+        ParseIntFunction(rFile);
+        break;
+
+    case FOURCC('MULV'):
+        ParseFloatFunction(rFile);
         ParseIntFunction(rFile);
         break;
 
@@ -1073,6 +1232,7 @@ void CUnsupportedParticleLoader::ParseModVectorFunction(IInputStream& rFile)
         break;
 
     case FOURCC('EXPL'):
+    case FOURCC('SWLC'):
         ParseFloatFunction(rFile);
         ParseFloatFunction(rFile);
         break;
@@ -1085,8 +1245,8 @@ void CUnsupportedParticleLoader::ParseModVectorFunction(IInputStream& rFile)
     case FOURCC('PULS'):
         ParseIntFunction(rFile);
         ParseIntFunction(rFile);
-        ParseFloatFunction(rFile);
-        ParseFloatFunction(rFile);
+        ParseModVectorFunction(rFile);
+        ParseModVectorFunction(rFile);
         break;
 
     case FOURCC('SPHV'):
@@ -1147,6 +1307,7 @@ void CUnsupportedParticleLoader::ParseColorFunction(IInputStream& rFile)
         ParseFloatFunction(rFile);
         break;
 
+    case FOURCC('CFDL'):
     case FOURCC('ISWT'):
     case FOURCC('MULT'):
         ParseColorFunction(rFile);
@@ -1213,6 +1374,13 @@ void CUnsupportedParticleLoader::ParseUVFunction(IInputStream& rFile)
         ParseIntFunction(rFile);
         ParseIntFunction(rFile);
         ParseBoolFunction(rFile);
+        break;
+
+    case FOURCC('TEXP'):
+        ParseAssetFunction(rFile);
+        ParseIntFunction(rFile);
+        ParseIntFunction(rFile);
+        ParseFloatFunction(rFile);
         break;
 
     default:
@@ -1370,17 +1538,6 @@ void CUnsupportedParticleLoader::ParseKeyframeEmitterData(IInputStream& rFile, c
 }
 
 // ************ STATIC ************
-enum {
-    kGPSM = FOURCC('GPSM'),
-    kELSM = FOURCC('ELSM'),
-    kSRSM = FOURCC('SRSM'),
-    kSPSM = FOURCC('SPSM'),
-    kSWSH = FOURCC('SWSH'),
-    kDPSM = FOURCC('DPSM'),
-    kWPSM = FOURCC('WPSM'),
-    kCRSM = FOURCC('CRSM')
-};
-
 CDependencyGroup* CUnsupportedParticleLoader::LoadParticle(IInputStream& rFile, CResourceEntry *pEntry)
 {
     CFourCC Magic = rFile.ReadLong();
@@ -1389,7 +1546,7 @@ CDependencyGroup* CUnsupportedParticleLoader::LoadParticle(IInputStream& rFile, 
     CUnsupportedParticleLoader Loader;
     Loader.mpGroup = new CDependencyGroup(pEntry);
 
-    if (pEntry->Game() >= eCorruptionProto)
+    if (pEntry->Game() >= eReturns)
         return Loader.mpGroup;
 
     while (true)
@@ -1406,9 +1563,12 @@ CDependencyGroup* CUnsupportedParticleLoader::LoadParticle(IInputStream& rFile, 
         case FOURCC('DPSM'): ShouldContinue = Loader.ParseDecalParameter(rFile);             break;
         case FOURCC('WPSM'): ShouldContinue = Loader.ParseWeaponParameter(rFile);            break;
         case FOURCC('CRSM'): ShouldContinue = Loader.ParseCollisionResponseParameter(rFile); break;
+        case FOURCC('BFRE'): ShouldContinue = Loader.ParseBurstFireParameter(rFile);         break;
+        case FOURCC('USER'): ShouldContinue = Loader.ParseUserEvaluatorParameter(rFile);     break;
 
         default:
             Log::Error("Unrecognized particle system magic: " + Magic.ToString());
+            ShouldContinue = false;
             break;
         }
 
