@@ -45,6 +45,12 @@ void IOutputStream::WriteDouble(double Val)
     WriteBytes(&Val, 8);
 }
 
+void IOutputStream::WriteFourCC(long Val)
+{
+    if (IOUtil::kSystemEndianness == IOUtil::eLittleEndian) IOUtil::SwapBytes(Val);
+    WriteBytes(&Val, 4);
+}
+
 void IOutputStream::WriteString(const std::string& rkVal)
 {
     for (unsigned int i = 0; i < rkVal.size(); i++)
@@ -91,6 +97,17 @@ void IOutputStream::WriteSizedWideString(const std::wstring& rkVal)
 {
     WriteLong(rkVal.size());
     WriteBytes(rkVal.data(), rkVal.size() * 2);
+}
+
+
+bool IOutputStream::GoTo(long Address)
+{
+    return Seek(Address, SEEK_SET);
+}
+
+bool IOutputStream::Skip(long SkipAmount)
+{
+    return Seek(SkipAmount, SEEK_CUR);
 }
 
 void IOutputStream::WriteToBoundary(unsigned long Boundary, unsigned char Fill)

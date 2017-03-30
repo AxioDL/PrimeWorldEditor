@@ -23,6 +23,14 @@ float DegreesToRadians(float Deg);
 float RadiansToDegrees(float Rad);
 
 template<typename Type>
+Type Clamp(const Type& rkMin, const Type& rkMax, const Type& rkVal)
+{
+    return (rkVal < rkMin) ? rkMin :
+           (rkVal > rkMax) ? rkMax :
+                             rkVal;
+}
+
+template<typename Type>
 Type Max(const Type& rkA, const Type& rkB)
 {
     return (rkA > rkB ? rkA : rkB);

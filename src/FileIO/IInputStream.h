@@ -19,6 +19,7 @@ public:
     long long ReadLongLong();
     float ReadFloat();
     double ReadDouble();
+    long ReadFourCC();
     std::string ReadString();
     std::string ReadString(unsigned long Count);
     std::string ReadSizedString();
@@ -32,6 +33,10 @@ public:
     long long PeekLongLong();
     float PeekFloat();
     double PeekDouble();
+    long PeekFourCC();
+
+    bool GoTo(long Address);
+    bool Skip(long SkipAmount);
 
     void SeekToBoundary(unsigned long Boundary);
     void SetEndianness(IOUtil::EEndianness Endianness);

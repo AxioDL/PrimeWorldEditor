@@ -42,7 +42,7 @@ CONFIG (release, debug|release) {
 
     # Release Libs
     LIBS += -L$$BUILD_DIR/FileIO/ -lFileIO \
-            -L$$EXTERNALS_DIR/boost_1_63_0/lib64-msvc-140 -llibboost_filesystem-vc140-mt-1_63 \
+            -L$$EXTERNALS_DIR/boost_1_63_0/lib64-msvc-14.0 -llibboost_filesystem-vc140-mt-1_63 \
             -L$$EXTERNALS_DIR/lzo-2.09/lib -llzo2 \
             -L$$EXTERNALS_DIR/tinyxml2/lib -ltinyxml2 \
             -L$$EXTERNALS_DIR/zlib/lib -lzlib
