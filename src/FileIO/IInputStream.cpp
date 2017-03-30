@@ -60,6 +60,14 @@ double IInputStream::ReadDouble()
     return Val;
 }
 
+long IInputStream::ReadFourCC()
+{
+    long Val;
+    ReadBytes(&Val, 4);
+    if (IOUtil::kSystemEndianness == IOUtil::eLittleEndian) IOUtil::SwapBytes(Val);
+    return Val;
+}
+
 std::string IInputStream::ReadString()
 {
     std::string Str;
@@ -164,6 +172,23 @@ double IInputStream::PeekDouble()
     double Val = ReadDouble();
     Seek(-8, SEEK_CUR);
     return Val;
+}
+
+long IInputStream::PeekFourCC()
+{
+    long Val = ReadFourCC();
+    Seek(-4, SEEK_CUR);
+    return Val;
+}
+
+bool IInputStream::GoTo(long Address)
+{
+    return Seek(Address, SEEK_SET);
+}
+
+bool IInputStream::Skip(long SkipAmount)
+{
+    return Seek(SkipAmount, SEEK_CUR);
 }
 
 void IInputStream::SeekToBoundary(unsigned long Boundary)

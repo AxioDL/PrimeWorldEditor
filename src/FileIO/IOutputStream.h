@@ -18,12 +18,16 @@ public:
     void WriteLongLong(long long Val);
     void WriteFloat(float Val);
     void WriteDouble(double Val);
+    void WriteFourCC(long Val);
     void WriteString(const std::string& rkVal);
     void WriteString(const std::string& rkVal, unsigned long Count, bool Terminate = false);
     void WriteSizedString(const std::string& rkVal);
     void WriteWideString(const std::wstring& rkVal);
     void WriteWideString(const std::wstring& rkVal, unsigned long Count, bool Terminate = false);
     void WriteSizedWideString(const std::wstring& rkVal);
+
+    bool GoTo(long Address);
+    bool Skip(long SkipAmount);
 
     void WriteToBoundary(unsigned long Boundary, unsigned char Fill);
     void SetEndianness(IOUtil::EEndianness Endianness);
