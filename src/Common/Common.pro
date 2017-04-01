@@ -25,9 +25,7 @@ CONFIG (debug, debug|release) {
     # Debug Libs
     LIBS += -L$$BUILD_DIR/FileIO/ -lFileIOd \
             -L$$EXTERNALS_DIR/boost_1_63_0/lib64-msvc-14.0 -llibboost_filesystem-vc140-mt-gd-1_63 \
-            -L$$EXTERNALS_DIR/lzo-2.09/lib -llzo2d \
-            -L$$EXTERNALS_DIR/tinyxml2/lib -ltinyxml2d \
-            -L$$EXTERNALS_DIR/zlib/lib -lzlibd
+            -L$$EXTERNALS_DIR/tinyxml2/lib -ltinyxml2d
 
     # Debug Target Dependencies
     win32 {
@@ -43,9 +41,7 @@ CONFIG (release, debug|release) {
     # Release Libs
     LIBS += -L$$BUILD_DIR/FileIO/ -lFileIO \
             -L$$EXTERNALS_DIR/boost_1_63_0/lib64-msvc-14.0 -llibboost_filesystem-vc140-mt-1_63 \
-            -L$$EXTERNALS_DIR/lzo-2.09/lib -llzo2 \
-            -L$$EXTERNALS_DIR/tinyxml2/lib -ltinyxml2 \
-            -L$$EXTERNALS_DIR/zlib/lib -lzlib
+            -L$$EXTERNALS_DIR/tinyxml2/lib -ltinyxml2
 
     # Release Target Dependencies
     win32 {
@@ -56,9 +52,7 @@ CONFIG (release, debug|release) {
 # Include Paths
 INCLUDEPATH += $$PWE_MAIN_INCLUDE \
                $$EXTERNALS_DIR/boost_1_63_0 \
-               $$EXTERNALS_DIR/lzo-2.09/include \
-               $$EXTERNALS_DIR/tinyxml2/include \
-               $$EXTERNALS_DIR/zlib/include
+               $$EXTERNALS_DIR/tinyxml2/include
 
 # Header Files
 HEADERS += \
