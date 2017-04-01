@@ -138,21 +138,6 @@ float CMatrix4f::Determinant() const
     return (A - B + C - D);
 }
 
-glm::mat4 CMatrix4f::ToGlmMat4() const
-{
-    glm::mat4 Out = glm::mat4(1);
-    memcpy(&Out[0][0], &m[0][0], sizeof(glm::mat4));
-    return Out;
-}
-
-// ************ STATIC ************
-CMatrix4f CMatrix4f::FromGlmMat4(const glm::mat4& rkSrc)
-{
-    CMatrix4f Out;
-    memcpy(&Out[0][0], &rkSrc[0][0], sizeof(CMatrix4f));
-    return Out;
-}
-
 // ************ OPERATORS ************
 inline float* CMatrix4f::operator[](long Index)
 {

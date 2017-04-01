@@ -57,7 +57,6 @@ CONFIG (release, debug|release) {
 
 # Include Paths
 INCLUDEPATH += $$PWE_MAIN_INCLUDE \
-               $$EXTERNALS_DIR/glm/glm \
                $$EXTERNALS_DIR/lzo-2.09/include \
                $$EXTERNALS_DIR/tinyxml2/include \
                $$EXTERNALS_DIR/zlib/include

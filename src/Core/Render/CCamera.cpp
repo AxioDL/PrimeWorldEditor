@@ -2,7 +2,6 @@
 #include "CGraphics.h"
 #include <Math/CQuaternion.h>
 #include <Math/MathUtil.h>
-#include <gtc/matrix_transform.hpp>
 
 CCamera::CCamera()
     : mMode(eFreeCamera)
@@ -243,15 +242,17 @@ void CCamera::UpdateTransform() const
 
 void CCamera::UpdateView() const
 {
-    // todo: don't use glm
     UpdateTransform();
 
     if (mViewDirty)
     {
-        glm::vec3 glmpos(mPosition.X, mPosition.Y, mPosition.Z);
-        glm::vec3 glmdir(mDirection.X, mDirection.Y, mDirection.Z);
-        glm::vec3 glmup(mUpVector.X, mUpVector.Y, mUpVector.Z);
-        mViewMatrix = CMatrix4f::FromGlmMat4(glm::lookAt(glmpos, glmpos + glmdir, glmup)).Transpose();
+        mViewMatrix = CMatrix4f(
+            mRightVector.X, mRightVector.Y, mRightVector.Z, -mRightVector.Dot(mPosition),
+               mUpVector.X,    mUpVector.Y,    mUpVector.Z,    -mUpVector.Dot(mPosition),
+             -mDirection.X,  -mDirection.Y,  -mDirection.Z,    mDirection.Dot(mPosition),
+                       0.f,            0.f,            0.f,                          1.f
+            );
+
         mViewDirty = false;
     }
 }
