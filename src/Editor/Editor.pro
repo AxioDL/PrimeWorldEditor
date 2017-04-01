@@ -86,7 +86,6 @@ LIBS += -L$$EXTERNALS_DIR/glew-2.0.0/lib/Release/x64 -lglew32s \
 INCLUDEPATH += $$PWE_MAIN_INCLUDE \
                $$EXTERNALS_DIR/assimp/include \
                $$EXTERNALS_DIR/glew-2.0.0/include \
-               $$EXTERNALS_DIR/glm/glm \
                $$EXTERNALS_DIR/lzo-2.09/include \
                $$EXTERNALS_DIR/nodtool/include \
                $$EXTERNALS_DIR/nodtool/logvisor/include \

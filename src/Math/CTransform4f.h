@@ -4,7 +4,6 @@
 #include <FileIO/FileIO.h>
 #include <Common/Serialization/IArchive.h>
 #include "CMatrix4f.h"
-#include <glm.hpp>
 
 class CVector3f;
 class CVector4f;
@@ -48,7 +47,6 @@ public:
     static CTransform4f TranslationMatrix(CVector3f Translation);
     static CTransform4f RotationMatrix(CQuaternion Rotation);
     static CTransform4f ScaleMatrix(CVector3f Scale);
-    static CTransform4f FromGlmMat4(const glm::mat4& rkMtx);
 
     // Operators
     float* operator[](long Index);

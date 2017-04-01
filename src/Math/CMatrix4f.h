@@ -1,8 +1,6 @@
 #ifndef CMATRIX4_H
 #define CMATRIX4_H
 
-#include <glm.hpp>
-
 class CQuaternion;
 class CVector3f;
 class CVector4f;
@@ -29,12 +27,6 @@ public:
     CMatrix4f Transpose() const;
     CMatrix4f Inverse() const;
     float Determinant() const;
-
-    // Conversion
-    glm::mat4 ToGlmMat4() const;
-
-    // Static
-    static CMatrix4f FromGlmMat4(const glm::mat4& rkSrc);
 
     // Operators
     inline float* operator[](long Index);

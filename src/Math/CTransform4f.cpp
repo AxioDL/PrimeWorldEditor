@@ -323,19 +323,6 @@ CTransform4f CTransform4f::ScaleMatrix(CVector3f Scale)
     return Out;
 }
 
-CTransform4f CTransform4f::FromGlmMat4(const glm::mat4& rkMtx)
-{
-    CTransform4f Out;
-    for (int iRow = 0; iRow < 3; iRow++)
-        for (int iCol = 0; iCol < 4; iCol++)
-            Out[iRow][iCol] = rkMtx[iRow][iCol];
-    return Out;
-}
-
-static CTransform4f FromGlmMat4(const glm::mat4&)
-{
-}
-
 // ************ CONSTANTS ************
 const CTransform4f CTransform4f::skIdentity(1.0f, 0.0f, 0.0f, 0.0f,
                                             0.0f, 1.0f, 0.0f, 0.0f,

@@ -1,6 +1,5 @@
 #include "MathUtil.h"
 #include "CMatrix4f.h"
-#include <gtc/matrix_transform.hpp>
 
 namespace Math
 {
@@ -367,13 +366,22 @@ std::pair<bool,float> RayTriangleIntersection(const CRay& rkRay,
 
 CMatrix4f PerspectiveMatrix(float FOV, float Aspect, float Near, float Far)
 {
-    // todo: don't use glm
-    return CMatrix4f::FromGlmMat4(glm::perspective(FOV, Aspect, Near, Far)).Transpose();
+    float TanHalfFOV = tanf( DegreesToRadians(FOV) / 2.f );
+    return CMatrix4f(
+                1.f / (Aspect * TanHalfFOV), 0, 0, 0,
+                0, 1.f / TanHalfFOV, 0, 0,
+                0, 0, -(Far+Near)/(Far-Near), (-2.f*Far*Near)/(Far-Near),
+                0, 0, -1, 0
+            );
 }
 
 CMatrix4f OrthographicMatrix(float Left, float Right, float Bottom, float Top, float Near, float Far)
 {
-    return CMatrix4f::FromGlmMat4(glm::ortho(Left, Right, Bottom, Top, Near, Far)).Transpose();
+    return CMatrix4f (
+                2/(Right-Left), 0, 0, -(Right+Left)/(Right-Left),
+                0, 2/(Top-Bottom), 0, -(Top+Bottom)/(Top-Bottom),
+                0, 0, -2/(Far-Near), -(Far+Near)/(Far-Near),
+                0, 0, 0, 1);
 }
 
 } // End namespace

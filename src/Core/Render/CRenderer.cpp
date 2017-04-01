@@ -11,7 +11,6 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
-#include <gtx/transform.hpp>
 
 // ************ STATIC MEMBER INITIALIZATION ************
 u32 CRenderer::sNumRenderers = 0;
