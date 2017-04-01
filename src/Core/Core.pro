@@ -227,7 +227,9 @@ HEADERS += \
     GameProject/CGameInfo.h \
     Resource/CResTypeInfo.h \
     Resource/Cooker/CResourceCooker.h \
-    Resource/CAudioMacro.h
+    Resource/CAudioMacro.h \
+    Resource/Animation/CCharacter.h \
+    CompressionUtil.h
 
 # Source Files
 SOURCES += \
@@ -332,4 +334,5 @@ SOURCES += \
     GameProject/AssetNameGeneration.cpp \
     GameProject/CAssetNameMap.cpp \
     GameProject/CGameInfo.cpp \
-    Resource/CResTypeInfo.cpp
+    Resource/CResTypeInfo.cpp \
+    CompressionUtil.cpp

@@ -1,9 +1,9 @@
 #ifndef COMPRESSIONUTIL_H
 #define COMPRESSIONUTIL_H
 
-#include "TString.h"
-#include "types.h"
 #include <FileIO/FileIO.h>
+#include <Common/TString.h>
+#include <Common/types.h>
 
 namespace CompressionUtil
 {

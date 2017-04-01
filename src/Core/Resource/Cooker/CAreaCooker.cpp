@@ -1,6 +1,6 @@
 #include "CAreaCooker.h"
 #include "CScriptCooker.h"
-#include <Common/CompressionUtil.h>
+#include "Core/CompressionUtil.h"
 #include <Common/Log.h>
 
 const bool gkForceDisableCompression = false;
