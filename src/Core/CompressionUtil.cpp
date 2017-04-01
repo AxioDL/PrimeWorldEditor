@@ -1,7 +1,7 @@
 #include "CompressionUtil.h"
-#include "Log.h"
-#include "TString.h"
-#include "types.h"
+#include <Common/Log.h>
+#include <Common/TString.h>
+#include <Common/types.h>
 
 #include <lzo/lzo1x.h>
 #include <zlib.h>

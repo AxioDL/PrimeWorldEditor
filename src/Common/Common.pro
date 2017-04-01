@@ -65,7 +65,6 @@ HEADERS += \
     CColor.h \
     CFourCC.h \
     CHashFNV1A.h \
-    CompressionUtil.h \
     CTimer.h \
     EKeyInputs.h \
     EMouseInputs.h \
@@ -93,7 +92,6 @@ HEADERS += \
 # Source Files
 SOURCES += \
     CColor.cpp \
-    CompressionUtil.cpp \
     CTimer.cpp \
     TString.cpp \
     Log.cpp \

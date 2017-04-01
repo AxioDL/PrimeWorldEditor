@@ -1,10 +1,10 @@
 #include "CPackage.h"
 #include "DependencyListBuilders.h"
 #include "CGameProject.h"
+#include "Core/CompressionUtil.h"
 #include "Core/Resource/Cooker/CWorldCooker.h"
 #include <FileIO/FileIO.h>
 #include <Common/AssertMacro.h>
-#include <Common/CompressionUtil.h>
 #include <Common/FileUtil.h>
 #include <Common/Serialization/XML.h>
 

@@ -3,10 +3,10 @@
 #include "CModelLoader.h"
 #include "CMaterialLoader.h"
 #include "CScriptLoader.h"
+#include "Core/CompressionUtil.h"
 #include <Common/Log.h>
 
 #include <Common/CFourCC.h>
-#include <Common/CompressionUtil.h>
 
 #include <iostream>
 
