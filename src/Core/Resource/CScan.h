@@ -52,6 +52,9 @@ private:
     CAnimationParameters mUnknownAnimParams;
     std::vector<SScanInfoSecondaryModel> mSecondaryModels;
 
+    // MP3
+    std::vector<CAssetID> mDependencyList;
+
 public:
     CScan(CResourceEntry *pEntry = 0)
         : CResource(pEntry)
@@ -63,12 +66,20 @@ public:
 
     CDependencyTree* BuildDependencyTree() const
     {
-        // note: not handling Corruption yet
-        if (Game() >= eCorruptionProto)
-            Log::Warning("CScan::BuildDependencyTree not handling Corruption dependencies");
-
         CDependencyTree *pTree = new CDependencyTree();
 
+        // Corruption's SCAN has a list of all assets - just grab that
+        if (Game() >= eCorruptionProto)
+        {
+            for (u32 iDep = 0; iDep < mDependencyList.size(); iDep++)
+            {
+                pTree->AddDependency(mDependencyList[iDep]);
+            }
+
+            return pTree;
+        }
+
+        // Otherwise add all the dependencies we need from the properties
         if (Game() <= ePrime)
             pTree->AddDependency(mFrameID);
 

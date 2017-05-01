@@ -5,6 +5,7 @@
 #include "CAnimEventData.h"
 #include "CSkeleton.h"
 #include "CSkin.h"
+#include "CSourceAnimData.h"
 #include "IMetaAnimation.h"
 #include "IMetaTransition.h"
 #include "Core/Resource/CDependencyGroup.h"
@@ -43,20 +44,38 @@ struct SHalfTransition
     IMetaTransition *pMetaTrans;
 };
 
+// Character structures
+enum EOverlayType
+{
+    eOT_Frozen = FOURCC('FRZN'),
+    eOT_Hypermode = FOURCC('HYPR'),
+    eOT_Acid = FOURCC('ACID'),
+    eOT_XRay = FOURCC('XRAY')
+};
+
+struct SOverlayModel
+{
+    EOverlayType Type;
+    CAssetID ModelID;
+    CAssetID SkinID;
+};
+
 struct SSetCharacter
 {
+    u32 ID;
     TString Name;
     TResPtr<CModel> pModel;
     TResPtr<CSkin> pSkin;
     TResPtr<CSkeleton> pSkeleton;
+    std::vector<SOverlayModel> OverlayModels;
+    CAssetID AnimDataID;
 
     std::vector<CAssetID> GenericParticles;
     std::vector<CAssetID> ElectricParticles;
     std::vector<CAssetID> SwooshParticles;
     std::vector<CAssetID> SpawnParticles;
     std::vector<CAssetID> EffectParticles;
-    CAssetID IceModel;
-    CAssetID IceSkin;
+    std::vector<CAssetID> SoundEffects;
     CAssetID SpatialPrimitives;
     std::set<u32> UsedAnimationIndices;
 };
@@ -114,16 +133,49 @@ public:
         // Character dependencies
         for (u32 iChar = 0; iChar < mCharacters.size(); iChar++)
         {
-            CSetCharacterDependency *pCharTree = CSetCharacterDependency::BuildTree(this, iChar);
+            CSetCharacterDependency *pCharTree = CSetCharacterDependency::BuildTree( mCharacters[iChar] );
             ASSERT(pCharTree);
             pTree->AddChild(pCharTree);
         }
 
-        for (u32 iAnim = 0; iAnim < mAnimations.size(); iAnim++)
+        // Animation dependencies
+        if (Game() <= eEchoes)
         {
-            CSetAnimationDependency *pAnimTree = CSetAnimationDependency::BuildTree(this, iAnim);
-            ASSERT(pAnimTree);
-            pTree->AddChild(pAnimTree);
+            for (u32 iAnim = 0; iAnim < mAnimations.size(); iAnim++)
+            {
+                CSetAnimationDependency *pAnimTree = CSetAnimationDependency::BuildTree(this, iAnim);
+                ASSERT(pAnimTree);
+                pTree->AddChild(pAnimTree);
+            }
+        }
+
+        else
+        {
+            const SSetCharacter& rkChar = mCharacters[0];
+            std::set<CAnimPrimitive> PrimitiveSet;
+
+            // Animations
+            for (u32 iAnim = 0; iAnim < mAnimations.size(); iAnim++)
+            {
+                const SAnimation& rkAnim = mAnimations[iAnim];
+                rkAnim.pMetaAnim->GetUniquePrimitives(PrimitiveSet);
+            }
+
+            CSourceAnimData *pAnimData = (CSourceAnimData*) gpResourceStore->LoadResource(rkChar.AnimDataID, "SAND");
+            if (pAnimData)
+                pAnimData->AddTransitionDependencies(pTree);
+
+            // Event particles/sounds
+            for (auto Iter = PrimitiveSet.begin(); Iter != PrimitiveSet.end(); Iter++)
+            {
+                const CAnimPrimitive& rkPrim = *Iter;
+                pTree->AddDependency(rkPrim.Animation());
+            }
+
+            for (u32 iSound = 0; iSound < rkChar.SoundEffects.size(); iSound++)
+            {
+                pTree->AddDependency(rkChar.SoundEffects[iSound]);
+            }
         }
 
         return pTree;

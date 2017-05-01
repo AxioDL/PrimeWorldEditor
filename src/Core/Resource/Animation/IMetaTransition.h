@@ -11,14 +11,15 @@ enum EMetaTransitionType
     eMTT_MetaAnim = 0,
     eMTT_Trans = 1,
     eMTT_PhaseTrans = 2, // note: structure shared with eMTT_Trans
-    eMTT_Snap = 3
+    eMTT_Snap = 3,
+    eMTT_Type4 = 4 // MP3 only
 };
 
 // Factory class
 class CMetaTransFactory
 {
 public:
-    class IMetaTransition* LoadFromStream(IInputStream& rInput);
+    class IMetaTransition* LoadFromStream(IInputStream& rInput, EGame Game);
 };
 extern CMetaTransFactory gMetaTransFactory;
 
@@ -38,7 +39,7 @@ class CMetaTransMetaAnim : public IMetaTransition
     IMetaAnimation *mpAnim;
 
 public:
-    CMetaTransMetaAnim(IInputStream& rInput);
+    CMetaTransMetaAnim(IInputStream& rInput, EGame Game);
     ~CMetaTransMetaAnim();
     virtual EMetaTransitionType Type() const;
     virtual void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const;
@@ -55,7 +56,7 @@ class CMetaTransTrans : public IMetaTransition
     u32 mUnknownE;
 
 public:
-    CMetaTransTrans(EMetaTransitionType Type, IInputStream& rInput);
+    CMetaTransTrans(EMetaTransitionType Type, IInputStream& rInput, EGame Game);
     virtual EMetaTransitionType Type() const;
     virtual void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const;
 };
@@ -64,7 +65,16 @@ public:
 class CMetaTransSnap : public IMetaTransition
 {
 public:
-    CMetaTransSnap(IInputStream& rInput);
+    CMetaTransSnap(IInputStream& rInput, EGame Game);
+    virtual EMetaTransitionType Type() const;
+    virtual void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const;
+};
+
+// CMetaTransType4
+class CMetaTransType4 : public IMetaTransition
+{
+public:
+    CMetaTransType4(IInputStream& rInput, EGame Game);
     virtual EMetaTransitionType Type() const;
     virtual void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const;
 };

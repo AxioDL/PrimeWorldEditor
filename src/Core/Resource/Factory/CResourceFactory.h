@@ -49,6 +49,7 @@ public:
         case eScan:                 return new CScan(pEntry);
         case eSkeleton:             return new CSkeleton(pEntry);
         case eSkin:                 return new CSkin(pEntry);
+        case eSourceAnimData:       return new CSourceAnimData(pEntry);
         case eStaticGeometryMap:    return new CPoiToWorld(pEntry);
         case eStringList:           return new CStringList(pEntry);
         case eStringTable:          return new CStringTable(pEntry);
@@ -88,6 +89,7 @@ public:
         case eScan:                 pRes = CScanLoader::LoadSCAN(rInput, pEntry);               break;
         case eSkeleton:             pRes = CSkeletonLoader::LoadCINF(rInput, pEntry);           break;
         case eSkin:                 pRes = CSkinLoader::LoadCSKR(rInput, pEntry);               break;
+        case eSourceAnimData:       pRes = CAnimSetLoader::LoadSAND(rInput, pEntry);            break;
         case eStateMachine2:        pRes = CUnsupportedFormatLoader::LoadFSM2(rInput, pEntry);  break;
         case eStaticGeometryMap:    pRes = CPoiToWorldLoader::LoadEGMC(rInput, pEntry);         break;
         case eStringList:           pRes = CAudioGroupLoader::LoadSTLC(rInput, pEntry);         break;

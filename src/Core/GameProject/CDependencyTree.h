@@ -160,7 +160,7 @@ public:
     inline u32 CharSetIndex() const { return mCharSetIndex; }
 
     // Static
-    static CSetCharacterDependency* BuildTree(const CAnimSet *pkOwnerSet, u32 CharIndex);
+    static CSetCharacterDependency* BuildTree(const SSetCharacter& rkChar);
 };
 
 // Node representing a character animation. Indicates which character indices use this animation.

@@ -2,7 +2,7 @@
 #include "Core/CAudioManager.h"
 #include "Core/GameProject/CGameProject.h"
 
-void CAnimEventLoader::LoadEvents(IInputStream& rEVNT, bool IsEchoes)
+void CAnimEventLoader::LoadEvents(IInputStream& rEVNT)
 {
     u32 Version = rEVNT.ReadLong();
     ASSERT(Version == 1 || Version == 2);
@@ -12,9 +12,7 @@ void CAnimEventLoader::LoadEvents(IInputStream& rEVNT, bool IsEchoes)
 
     for (u32 iLoop = 0; iLoop < NumLoopEvents; iLoop++)
     {
-        rEVNT.Seek(0x2, SEEK_CUR);
-        rEVNT.ReadString();
-        rEVNT.Seek(0x1C, SEEK_CUR);
+        LoadLoopEvent(rEVNT);
     }
 
     // User Events
@@ -22,10 +20,7 @@ void CAnimEventLoader::LoadEvents(IInputStream& rEVNT, bool IsEchoes)
 
     for (u32 iUser = 0; iUser < NumUserEvents; iUser++)
     {
-        rEVNT.Seek(0x2, SEEK_CUR);
-        rEVNT.ReadString();
-        rEVNT.Seek(0x1F, SEEK_CUR);
-        rEVNT.ReadString();
+        LoadUserEvent(rEVNT);
     }
 
     // Effect Events
@@ -33,20 +28,7 @@ void CAnimEventLoader::LoadEvents(IInputStream& rEVNT, bool IsEchoes)
 
     for (u32 iFX = 0; iFX < NumEffectEvents; iFX++)
     {
-        rEVNT.Seek(0x2, SEEK_CUR);
-        rEVNT.ReadString();
-        rEVNT.Seek(0x13, SEEK_CUR);
-        u32 CharIndex = rEVNT.ReadLong();
-        rEVNT.Seek(0xC, SEEK_CUR);
-        CAssetID ParticleID = rEVNT.ReadLong();
-        mpEventData->AddEvent(CharIndex, ParticleID);
-
-        if (IsEchoes)
-            rEVNT.Seek(0x4, SEEK_CUR);
-        else
-            rEVNT.ReadString();
-
-        rEVNT.Seek(0x8, SEEK_CUR);
+        LoadEffectEvent(rEVNT);
     }
 
     // Sound Events
@@ -56,21 +38,92 @@ void CAnimEventLoader::LoadEvents(IInputStream& rEVNT, bool IsEchoes)
 
         for (u32 iSound = 0; iSound < NumSoundEvents; iSound++)
         {
-            rEVNT.Seek(0x2, SEEK_CUR);
-            rEVNT.ReadString();
-            rEVNT.Seek(0x13, SEEK_CUR);
-            u32 CharIndex = rEVNT.ReadLong();
-            rEVNT.Seek(0x4, SEEK_CUR);
-            u32 SoundID = rEVNT.ReadLong() & 0xFFFF;
-            rEVNT.Seek(0x8, SEEK_CUR);
-            if (IsEchoes) rEVNT.Seek(0xC, SEEK_CUR);
+            LoadSoundEvent(rEVNT);
+        }
+    }
+}
 
-            if (SoundID != 0xFFFF)
+s32 CAnimEventLoader::LoadEventBase(IInputStream& rEVNT)
+{
+    rEVNT.Skip(0x2);
+    rEVNT.ReadString();
+    rEVNT.Skip(mGame < eCorruptionProto ? 0x13 : 0x17);
+    s32 CharacterIndex = rEVNT.ReadLong();
+    rEVNT.Skip(mGame < eCorruptionProto ? 0x4 : 0x18);
+    return CharacterIndex;
+}
+
+void CAnimEventLoader::LoadLoopEvent(IInputStream& rEVNT)
+{
+    LoadEventBase(rEVNT);
+    rEVNT.Skip(0x1);
+}
+
+void CAnimEventLoader::LoadUserEvent(IInputStream& rEVNT)
+{
+    LoadEventBase(rEVNT);
+    rEVNT.Skip(0x4);
+    rEVNT.ReadString();
+}
+
+void CAnimEventLoader::LoadEffectEvent(IInputStream& rEVNT)
+{
+    s32 CharIndex = LoadEventBase(rEVNT);
+    rEVNT.Skip(mGame < eCorruptionProto ? 0x8 : 0x4);
+    CAssetID ParticleID(rEVNT, mGame);
+    mpEventData->AddEvent(CharIndex, ParticleID);
+
+    if (mGame <= ePrime)
+        rEVNT.ReadString();
+    else if (mGame <= eEchoes)
+        rEVNT.Skip(0x4);
+
+    rEVNT.Skip(0x8);
+}
+
+void CAnimEventLoader::LoadSoundEvent(IInputStream& rEVNT)
+{
+    s32 CharIndex = LoadEventBase(rEVNT);
+
+    // Metroid Prime 1/2
+    if (mGame <= eEchoes)
+    {
+        u32 SoundID = rEVNT.ReadLong() & 0xFFFF;
+        rEVNT.Skip(0x8);
+        if (mGame >= eEchoes) rEVNT.Skip(0xC);
+
+        if (SoundID != 0xFFFF)
+        {
+            SSoundInfo SoundInfo = gpResourceStore->Project()->AudioManager()->GetSoundInfo(SoundID);
+
+            if (SoundInfo.pAudioGroup)
+                mpEventData->AddEvent(CharIndex, SoundInfo.pAudioGroup->ID());
+        }
+    }
+
+    // Metroid Prime 3
+    else
+    {
+        CAssetID SoundID(rEVNT, mGame);
+        mpEventData->AddEvent(CharIndex, SoundID);
+        rEVNT.Skip(0x8);
+
+        for (u32 StructIdx = 0; StructIdx < 2; StructIdx++)
+        {
+            u32 StructType = rEVNT.ReadLong();
+            ASSERT(StructType <= 2);
+
+            if (StructType == 1)
             {
-                SSoundInfo SoundInfo = gpResourceStore->Project()->AudioManager()->GetSoundInfo(SoundID);
-
-                if (SoundInfo.pAudioGroup)
-                    mpEventData->AddEvent(CharIndex, SoundInfo.pAudioGroup->ID());
+                rEVNT.Skip(4);
+            }
+            else if (StructType == 2)
+            {
+                // This is a maya spline
+                rEVNT.Skip(2);
+                u32 KnotCount = rEVNT.ReadLong();
+                rEVNT.Skip(0xA * KnotCount);
+                rEVNT.Skip(9);
             }
         }
     }
@@ -81,7 +134,8 @@ CAnimEventData* CAnimEventLoader::LoadEVNT(IInputStream& rEVNT, CResourceEntry *
 {
     CAnimEventLoader Loader;
     Loader.mpEventData = new CAnimEventData(pEntry);
-    Loader.LoadEvents(rEVNT, false);
+    Loader.mGame = ePrime;
+    Loader.LoadEvents(rEVNT);
     return Loader.mpEventData;
 }
 
@@ -89,6 +143,38 @@ CAnimEventData* CAnimEventLoader::LoadAnimSetEvents(IInputStream& rANCS)
 {
     CAnimEventLoader Loader;
     Loader.mpEventData = new CAnimEventData();
-    Loader.LoadEvents(rANCS, true);
+    Loader.mGame = eEchoes;
+    Loader.LoadEvents(rANCS);
+    return Loader.mpEventData;
+}
+
+CAnimEventData* CAnimEventLoader::LoadCorruptionCharacterEventSet(IInputStream& rCHAR)
+{
+    CAnimEventLoader Loader;
+    Loader.mpEventData = new CAnimEventData();
+    Loader.mGame = eCorruption;
+
+    // Read event set header
+    rCHAR.Skip(0x4); // Skip animation ID
+    rCHAR.ReadString(); // Skip set name
+
+    // Read effect events
+    u32 NumEffectEvents = rCHAR.ReadLong();
+
+    for (u32 EventIdx = 0; EventIdx < NumEffectEvents; EventIdx++)
+    {
+        rCHAR.ReadString();
+        Loader.LoadEffectEvent(rCHAR);
+    }
+
+    // Read sound events
+    u32 NumSoundEvents = rCHAR.ReadLong();
+
+    for (u32 EventIdx = 0; EventIdx < NumSoundEvents; EventIdx++)
+    {
+        rCHAR.ReadString();
+        Loader.LoadSoundEvent(rCHAR);
+    }
+
     return Loader.mpEventData;
 }

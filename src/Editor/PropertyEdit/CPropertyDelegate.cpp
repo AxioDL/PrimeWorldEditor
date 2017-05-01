@@ -9,6 +9,7 @@
 #include "Editor/Widgets/WDraggableSpinBox.h"
 #include "Editor/Widgets/WIntegralSpinBox.h"
 
+#include <Core/Resource/Animation/CAnimSet.h>
 #include <Core/Resource/Script/IProperty.h>
 #include <Core/Resource/Script/IPropertyTemplate.h>
 

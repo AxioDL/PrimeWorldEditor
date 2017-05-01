@@ -18,7 +18,7 @@ enum EMetaAnimationType
 class CMetaAnimFactory
 {
 public:
-    class IMetaAnimation* LoadFromStream(IInputStream& rInput);
+    class IMetaAnimation* LoadFromStream(IInputStream& rInput, EGame Game);
 };
 extern CMetaAnimFactory gMetaAnimFactory;
 
@@ -32,9 +32,9 @@ class CAnimPrimitive
 public:
     CAnimPrimitive() : mID(0) {}
 
-    CAnimPrimitive(IInputStream& rInput)
+    CAnimPrimitive(IInputStream& rInput, EGame Game)
     {
-        mpAnim = gpResourceStore->LoadResource(rInput.ReadLong(), "ANIM");
+        mpAnim = gpResourceStore->LoadResource( CAssetID(rInput, Game), "ANIM" );
         mID = rInput.ReadLong();
         mName = rInput.ReadString();
     }
@@ -58,7 +58,7 @@ public:
     virtual void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const = 0;
 
     // Static
-    static IMetaAnimation* LoadFromStream(IInputStream& rInput);
+    static IMetaAnimation* LoadFromStream(IInputStream& rInput, EGame Game);
 };
 
 // CMetaAnimPlay - plays an animation
@@ -70,7 +70,7 @@ protected:
     u32 mUnknownB;
 
 public:
-    CMetaAnimPlay(IInputStream& rInput);
+    CMetaAnimPlay(IInputStream& rInput, EGame Game);
     virtual EMetaAnimationType Type() const;
     virtual void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const;
 
@@ -91,7 +91,7 @@ protected:
     bool mUnknownB;
 
 public:
-    CMetaAnimBlend(EMetaAnimationType Type, IInputStream& rInput);
+    CMetaAnimBlend(EMetaAnimationType Type, IInputStream& rInput, EGame Game);
     ~CMetaAnimBlend();
     virtual EMetaAnimationType Type() const;
     virtual void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const;
@@ -117,7 +117,7 @@ protected:
     std::vector<SAnimProbabilityPair> mProbabilityPairs;
 
 public:
-    CMetaAnimRandom(IInputStream& rInput);
+    CMetaAnimRandom(IInputStream& rInput, EGame Game);
     ~CMetaAnimRandom();
     virtual EMetaAnimationType Type() const;
     virtual void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const;
@@ -130,7 +130,7 @@ protected:
     std::vector<IMetaAnimation*> mAnimations;
 
 public:
-    CMetaAnimSequence(IInputStream& rInput);
+    CMetaAnimSequence(IInputStream& rInput, EGame Game);
     ~CMetaAnimSequence();
     virtual EMetaAnimationType Type() const;
     virtual void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const;

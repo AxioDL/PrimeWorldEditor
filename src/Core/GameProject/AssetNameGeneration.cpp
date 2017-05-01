@@ -5,6 +5,7 @@
 #include "Core/Resource/CFont.h"
 #include "Core/Resource/CScan.h"
 #include "Core/Resource/CWorld.h"
+#include "Core/Resource/Animation/CAnimSet.h"
 #include "Core/Resource/Script/CScriptLayer.h"
 #include <Math/MathUtil.h>
 
@@ -398,19 +399,44 @@ void GenerateAssetNames(CGameProject *pProj)
             if (pkChar->pSkeleton)  ApplyGeneratedName(pkChar->pSkeleton->Entry(), SetDir, CharName);
             if (pkChar->pSkin)      ApplyGeneratedName(pkChar->pSkin->Entry(), SetDir, CharName);
 
-            if (pkChar->IceModel.IsValid() || pkChar->IceSkin.IsValid())
+            if (pProj->Game() >= eCorruptionProto && pProj->Game() <= eCorruption && pkChar->ID == 0)
             {
-                TWideString IceName = TWideString::Format(L"%s_frozen", *CharName);
+                CResourceEntry *pAnimDataEntry = gpResourceStore->FindEntry( pkChar->AnimDataID );
 
-                if (pkChar->IceModel.IsValid())
+                if (pAnimDataEntry)
                 {
-                    CResourceEntry *pIceModelEntry = pStore->FindEntry(pkChar->IceModel);
-                    ApplyGeneratedName(pIceModelEntry, SetDir, IceName);
+                    TWideString AnimDataName = TString::Format(L"%s_animdata", *CharName);
+                    ApplyGeneratedName(pAnimDataEntry, SetDir, AnimDataName);
                 }
-                if (pkChar->IceSkin.IsValid())
+            }
+
+            for (u32 iOverlay = 0; iOverlay < pkChar->OverlayModels.size(); iOverlay++)
+            {
+                const SOverlayModel& rkOverlay = pkChar->OverlayModels[iOverlay];
+
+                if (rkOverlay.ModelID.IsValid() || rkOverlay.SkinID.IsValid())
                 {
-                    CResourceEntry *pIceSkinEntry = pStore->FindEntry(pkChar->IceSkin);
-                    ApplyGeneratedName(pIceSkinEntry, SetDir, IceName);
+                    TWideString TypeName = (
+                                rkOverlay.Type == eOT_Frozen ? L"frozen" :
+                                rkOverlay.Type == eOT_Acid ? L"acid" :
+                                rkOverlay.Type == eOT_Hypermode ? L"hypermode" :
+                                rkOverlay.Type == eOT_XRay ? L"xray" :
+                                L""
+                    );
+                    ASSERT(TypeName != L"");
+
+                    TWideString OverlayName = TWideString::Format(L"%s_%s", *CharName, *TypeName);
+
+                    if (rkOverlay.ModelID.IsValid())
+                    {
+                        CResourceEntry *pModelEntry = pStore->FindEntry(rkOverlay.ModelID);
+                        ApplyGeneratedName(pModelEntry, SetDir, OverlayName);
+                    }
+                    if (rkOverlay.SkinID.IsValid())
+                    {
+                        CResourceEntry *pSkinEntry = pStore->FindEntry(rkOverlay.SkinID);
+                        ApplyGeneratedName(pSkinEntry, SetDir, OverlayName);
+                    }
                 }
             }
         }
