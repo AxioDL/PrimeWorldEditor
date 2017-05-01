@@ -144,8 +144,8 @@ void CRenderer::RenderBuckets(const SViewInfo& rkViewInfo)
 
 void CRenderer::RenderBloom()
 {
-    // Check to ensure bloom is enabled
-    if (mBloomMode == eNoBloom) return;
+    // Check to ensure bloom is enabled. Also don't render bloom in unlit mode.
+    if (mBloomMode == eNoBloom || CGraphics::sLightMode != CGraphics::eWorldLighting) return;
 
     // Setup
     static const float skHOffset[6] = { -0.008595f, -0.005470f, -0.002345f,

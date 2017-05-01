@@ -56,7 +56,7 @@ void IOutputStream::WriteString(const std::string& rkVal)
     for (unsigned int i = 0; i < rkVal.size(); i++)
         WriteByte(rkVal[i]);
 
-    if ((rkVal.empty()) || (rkVal.back() != '\0'))
+    if (rkVal.empty() || rkVal.back() != '\0')
         WriteByte(0);
 }
 
@@ -65,7 +65,7 @@ void IOutputStream::WriteString(const std::string& rkVal, unsigned long Count, b
     for (unsigned int iChr = 0; iChr < Count; iChr++)
         WriteByte(rkVal[iChr]);
 
-    if (Terminate && (rkVal[Count-1] != '\0'))
+    if (Terminate && (Count == 0 || rkVal[Count-1] != '\0'))
         WriteByte(0);
 }
 
@@ -80,7 +80,7 @@ void IOutputStream::WriteWideString(const std::wstring& rkVal)
     for (unsigned int iChr = 0; iChr < rkVal.size(); iChr++)
         WriteShort(rkVal[iChr]);
 
-    if ((!rkVal.empty()) && (rkVal.back() != '\0'))
+    if (rkVal.empty() || rkVal.back() != '\0')
         WriteShort(0);
 }
 
@@ -89,7 +89,7 @@ void IOutputStream::WriteWideString(const std::wstring& rkVal, unsigned long Cou
     for (unsigned int iChr = 0; iChr < Count; iChr++)
         WriteShort(rkVal[iChr]);
 
-    if (Terminate && (rkVal[Count-1] != 0))
+    if (Terminate && (Count == 0 || rkVal[Count-1] != 0))
         WriteShort(0);
 }
 
@@ -98,7 +98,6 @@ void IOutputStream::WriteSizedWideString(const std::wstring& rkVal)
     WriteLong(rkVal.size());
     WriteBytes(rkVal.data(), rkVal.size() * 2);
 }
-
 
 bool IOutputStream::GoTo(long Address)
 {

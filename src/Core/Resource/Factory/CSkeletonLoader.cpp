@@ -32,6 +32,10 @@ CSkeleton* CSkeletonLoader::LoadCINF(IInputStream& rCINF, CResourceEntry *pEntry
     Loader.mpSkeleton = pSkel;
     EGame Game = pEntry->Game();
 
+    // We don't support DKCR CINF right now
+    if (rCINF.PeekLong() == 0x9E220006)
+        return pSkel;
+
     u32 NumBones = rCINF.ReadLong();
     pSkel->mBones.reserve(NumBones);
 
@@ -61,7 +65,7 @@ CSkeleton* CSkeletonLoader::LoadCINF(IInputStream& rCINF, CResourceEntry *pEntry
             u32 Check = rCINF.PeekLong();
             Game = ((Check > 100 || Check == 0) ? eEchoes : ePrime);
         }
-        if (Game == eEchoes)
+        if (Game >= eEchoes)
         {
             pBone->mRotation = CQuaternion(rCINF);
             pBone->mLocalRotation = CQuaternion(rCINF);

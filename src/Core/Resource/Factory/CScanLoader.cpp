@@ -44,7 +44,10 @@ CScan* CScanLoader::LoadScanMP2(IInputStream& rSCAN)
         return nullptr;
     }
 
-    rSCAN.Seek(0x6, SEEK_CUR);
+    u16 InstanceSize = rSCAN.ReadShort();
+    u32 InstanceEnd = rSCAN.Tell() + InstanceSize;
+    rSCAN.Seek(0x4, SEEK_CUR);
+
     u16 NumConnections = rSCAN.ReadShort();
     if (NumConnections > 0) {
         Log::FileWarning(rSCAN.GetSourceString(), ScanInfoStart, "SNFO object in SCAN has connections");
@@ -68,6 +71,7 @@ CScan* CScanLoader::LoadScanMP2(IInputStream& rSCAN)
         LoadParamsMP2(rSCAN, NumProperties);
         break;
     case 0x12:
+    case 0x15:
     case 0x16:
         mpScan = new CScan(mpEntry);
         LoadParamsMP3(rSCAN, NumProperties);
@@ -75,6 +79,20 @@ CScan* CScanLoader::LoadScanMP2(IInputStream& rSCAN)
     default:
         Log::FileError(rSCAN.GetSourceString(), rSCAN.Tell() - 2, "Invalid SNFO property count: " + TString::HexString(NumProperties));
         return nullptr;
+    }
+
+    // Load MP3 dependency list
+    if (mpScan->Game() == eCorruption)
+    {
+        rSCAN.GoTo(InstanceEnd);
+        u32 NumDeps = rSCAN.ReadLong();
+
+        for (u32 DepIdx = 0; DepIdx < NumDeps; DepIdx++)
+        {
+            rSCAN.Skip(4);
+            CAssetID ID(rSCAN, mpScan->Game());
+            mpScan->mDependencyList.push_back(ID);
+        }
     }
 
     return mpScan;

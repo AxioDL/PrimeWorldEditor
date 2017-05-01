@@ -1,7 +1,6 @@
 #ifndef CANIMATIONPARAMETERS_H
 #define CANIMATIONPARAMETERS_H
 
-#include "CAnimSet.h"
 #include "Core/Resource/TResPtr.h"
 #include "Core/Resource/Model/CModel.h"
 #include <Common/EGame.h>
@@ -22,6 +21,7 @@ public:
     CAnimationParameters(IInputStream& rSCLY, EGame Game);
     void Write(IOutputStream& rSCLY);
 
+    const SSetCharacter* GetCurrentSetCharacter(s32 NodeIndex = -1);
     CModel* GetCurrentModel(s32 NodeIndex = -1);
     TString GetCurrentCharacterName(s32 NodeIndex = -1);
 

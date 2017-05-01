@@ -466,7 +466,7 @@ CAnimation* CAnimationLoader::LoadANIM(IInputStream& rANIM, CResourceEntry *pEnt
 {
     // MP3/DKCR unsupported
     if (pEntry->Game() > eEchoes)
-        return nullptr;
+        return new CAnimation(pEntry);
 
     u32 CompressionType = rANIM.ReadLong();
 

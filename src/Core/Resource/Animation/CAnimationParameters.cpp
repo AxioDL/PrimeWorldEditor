@@ -136,30 +136,32 @@ void CAnimationParameters::Write(IOutputStream& rSCLY)
     }
 }
 
+const SSetCharacter* CAnimationParameters::GetCurrentSetCharacter(s32 NodeIndex /*= -1*/)
+{
+    CAnimSet *pSet = AnimSet();
+
+    if (pSet && pSet->Type() == eAnimSet)
+    {
+        if (NodeIndex == -1)
+            NodeIndex = mCharIndex;
+
+        if (mCharIndex != -1 && pSet->NumCharacters() > (u32) NodeIndex)
+            return pSet->Character(NodeIndex);
+    }
+
+    return nullptr;
+}
+
 CModel* CAnimationParameters::GetCurrentModel(s32 NodeIndex /*= -1*/)
 {
-    if (!mCharacterID.IsValid()) return nullptr;
-
-    CAnimSet *pSet = AnimSet();
-    if (!pSet) return nullptr;
-    if (pSet->Type() != eAnimSet) return nullptr;
-    if (NodeIndex == -1) NodeIndex = mCharIndex;
-
-    if (pSet->NumCharacters() <= (u32) NodeIndex) return nullptr;
-    return pSet->Character(NodeIndex)->pModel;
+    const SSetCharacter *pkChar = GetCurrentSetCharacter(NodeIndex);
+    return pkChar ? pkChar->pModel : nullptr;
 }
 
 TString CAnimationParameters::GetCurrentCharacterName(s32 NodeIndex /*= -1*/)
 {
-    if (!mCharacterID.IsValid()) return "";
-
-    CAnimSet *pSet = AnimSet();
-    if (!pSet) return "";
-    if (pSet->Type() != eAnimSet) return "";
-    if (NodeIndex == -1) NodeIndex = mCharIndex;
-
-    if (pSet->NumCharacters() <= (u32) NodeIndex) return "";
-    return pSet->Character(NodeIndex)->Name;
+    const SSetCharacter *pkChar = GetCurrentSetCharacter(NodeIndex);
+    return pkChar ? pkChar->Name : "";
 }
 
 // ************ ACCESSORS ************

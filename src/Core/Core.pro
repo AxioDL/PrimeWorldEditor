@@ -228,8 +228,8 @@ HEADERS += \
     Resource/CResTypeInfo.h \
     Resource/Cooker/CResourceCooker.h \
     Resource/CAudioMacro.h \
-    Resource/Animation/CCharacter.h \
-    CompressionUtil.h
+    CompressionUtil.h \
+    Resource/Animation/CSourceAnimData.h
 
 # Source Files
 SOURCES += \

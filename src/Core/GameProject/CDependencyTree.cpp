@@ -1,5 +1,6 @@
 #include "CDependencyTree.h"
 #include "Core/GameProject/CGameProject.h"
+#include "Core/Resource/Animation/CAnimSet.h"
 #include "Core/Resource/Script/CMasterTemplate.h"
 #include "Core/Resource/Script/CScriptLayer.h"
 #include "Core/Resource/Script/CScriptObject.h"
@@ -199,33 +200,34 @@ void CSetCharacterDependency::Serialize(IArchive& rArc)
          << SERIAL_ABSTRACT_CONTAINER("Children", mChildren, "Child", &gDependencyNodeFactory);
 }
 
-CSetCharacterDependency* CSetCharacterDependency::BuildTree(const CAnimSet *pkOwnerSet, u32 CharIndex)
+CSetCharacterDependency* CSetCharacterDependency::BuildTree(const SSetCharacter& rkChar)
 {
-    CSetCharacterDependency *pTree = new CSetCharacterDependency(CharIndex);
-    const SSetCharacter *pkChar = pkOwnerSet->Character(CharIndex);
+    CSetCharacterDependency *pTree = new CSetCharacterDependency(rkChar.ID);
+    pTree->AddDependency(rkChar.pModel);
+    pTree->AddDependency(rkChar.pSkeleton);
+    pTree->AddDependency(rkChar.pSkin);
+    pTree->AddDependency(rkChar.AnimDataID);
 
-    if (pkChar)
+    const std::vector<CAssetID> *pkParticleVectors[5] = {
+        &rkChar.GenericParticles, &rkChar.ElectricParticles,
+        &rkChar.SwooshParticles, &rkChar.SpawnParticles,
+        &rkChar.EffectParticles
+    };
+
+    for (u32 iVec = 0; iVec < 5; iVec++)
     {
-        pTree->AddDependency(pkChar->pModel);
-        pTree->AddDependency(pkChar->pSkeleton);
-        pTree->AddDependency(pkChar->pSkin);
-
-        const std::vector<CAssetID> *pkParticleVectors[5] = {
-            &pkChar->GenericParticles, &pkChar->ElectricParticles,
-            &pkChar->SwooshParticles, &pkChar->SpawnParticles,
-            &pkChar->EffectParticles
-        };
-
-        for (u32 iVec = 0; iVec < 5; iVec++)
-        {
-            for (u32 iPart = 0; iPart < pkParticleVectors[iVec]->size(); iPart++)
-                pTree->AddDependency(pkParticleVectors[iVec]->at(iPart));
-        }
-
-        pTree->AddDependency(pkChar->IceModel);
-        pTree->AddDependency(pkChar->IceSkin);
-        pTree->AddDependency(pkChar->SpatialPrimitives);
+        for (u32 iPart = 0; iPart < pkParticleVectors[iVec]->size(); iPart++)
+            pTree->AddDependency(pkParticleVectors[iVec]->at(iPart));
     }
+
+    for (u32 iOverlay = 0; iOverlay < rkChar.OverlayModels.size(); iOverlay++)
+    {
+        const SOverlayModel& rkOverlay = rkChar.OverlayModels[iOverlay];
+        pTree->AddDependency(rkOverlay.ModelID);
+        pTree->AddDependency(rkOverlay.SkinID);
+    }
+
+    pTree->AddDependency(rkChar.SpatialPrimitives);
 
     return pTree;
 }

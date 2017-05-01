@@ -351,6 +351,7 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
         CResTypeInfo *pType = new CResTypeInfo(eSourceAnimData, "Source Animation Data");
         AddExtension(pType, "SAND", eCorruptionProto, eCorruption);
         pType->mHidden = true;
+        pType->mCanHaveDependencies = false; // all dependencies are added to the CHAR dependency tree
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eSpatialPrimitive, "Spatial Primitive");

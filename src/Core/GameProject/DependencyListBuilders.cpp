@@ -154,12 +154,9 @@ void CCharacterUsageMap::ParseDependencyNode(IDependencyNode *pNode)
         CResourceDependency *pDep = static_cast<CResourceDependency*>(pNode);
         CResourceEntry *pEntry = mpStore->FindEntry(pDep->ID());
 
-        if (pEntry)
+        if (pEntry && pEntry->ResourceType() == eScan)
         {
-            EResType ResType = pEntry->ResourceType();
-
-            if (ResType == eScan)
-                ParseDependencyNode(pEntry->Dependencies());
+            ParseDependencyNode(pEntry->Dependencies());
         }
     }
 
