@@ -358,10 +358,11 @@ CMaterial* CMaterialLoader::ReadCorruptionMaterial()
             pPass->mPassType = mpFile->ReadLong();
             pPass->mSettings = (CMaterialPass::EPassSettings) mpFile->ReadLong();
 
+            // Skip passes that don't have a texture. Honestly don't really know what to do with these right now
             u64 TextureID = mpFile->ReadLongLong();
             if (TextureID == 0xFFFFFFFFFFFFFFFF)
             {
-                Log::FileWarning(mpFile->GetSourceString(), mPassOffsets.back(), "Skipping " + pPass->mPassType.ToString() + " pass with no texture");
+                //Log::FileWarning(mpFile->GetSourceString(), mPassOffsets.back(), "Skipping " + pPass->mPassType.ToString() + " pass with no texture");
                 delete pPass;
                 continue;
             }
@@ -555,7 +556,7 @@ void CMaterialLoader::CreateCorruptionPasses(CMaterial *pMat)
             if (mHas0x400) pPass->SetEnabled(false);
         }
 
-        // Bloom
+        // Bloom Incandescence
         else if (Type == "BLOI")
         {
             pPass->SetColorInputs(eZeroRGB, eZeroRGB, eZeroRGB, ePrevRGB);
@@ -568,6 +569,12 @@ void CMaterialLoader::CreateCorruptionPasses(CMaterial *pMat)
 
             pPass->SetColorOutput(ePrevReg);
             pPass->SetAlphaOutput(ePrevReg);
+        }
+
+        // Bloom Diffuse
+        else if (Type == "BLOD")
+        {
+            // Not supported yet
         }
 
         // X-Ray - since we don't support X-Ray previews, no effect
@@ -601,6 +608,7 @@ void CMaterialLoader::CreateCorruptionPasses(CMaterial *pMat)
 
         else
         {
+            //
             Log::FileError(mpFile->GetSourceString(), mPassOffsets[iPass], "Unsupported material pass type: " + Type.ToString());
             pPass->mEnabled = false;
         }

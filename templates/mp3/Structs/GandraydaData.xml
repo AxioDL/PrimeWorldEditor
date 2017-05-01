@@ -120,7 +120,7 @@
             <properties>
                 <property ID="0x459AE4A8" type="asset" extensions="WPSC"/>
                 <struct ID="0x337F9524" template="Structs/DamageInfo.xml"/>
-                <property ID="0xE9C8E2BD" type="asset" extensions="PART"/>
+                <property ID="0xE9C8E2BD" type="asset" extensions="PART,ELSC"/>
                 <property ID="0x86FFB3F6" type="asset" extensions="CAUD"/>
                 <property ID="0x2F79B3D0" type="float">
                     <default>20.0</default>

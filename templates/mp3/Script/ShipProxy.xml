@@ -3,6 +3,7 @@
     <name>ShipProxy</name>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
+        <property ID="0xA3D63F44" type="character"/>
     </properties>
     <states/>
     <messages/>

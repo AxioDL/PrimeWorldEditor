@@ -117,7 +117,7 @@
                         <property ID="0xEF485DB9" type="asset" extensions="WPSC"/>
                         <struct ID="0x337F9524" template="Structs/DamageInfo.xml"/>
                         <property ID="0xA55DACF6" type="asset" extensions="CAUD"/>
-                        <property ID="0xE9C8E2BD" type="asset" extensions="PART"/>
+                        <property ID="0xE9C8E2BD" type="asset" extensions="PART,ELSC"/>
                         <property ID="0x86FFB3F6" type="asset" extensions="CAUD"/>
                         <property ID="0xFF77C96F" type="float">
                             <default>50.0</default>
@@ -139,7 +139,7 @@
                         <property ID="0xF0D25256" type="asset" extensions="WPSC"/>
                         <property ID="0x645E8CC5" type="asset" extensions="WPSC"/>
                         <struct ID="0x337F9524" template="Structs/DamageInfo.xml"/>
-                        <property ID="0xE9C8E2BD" type="asset" extensions="PART"/>
+                        <property ID="0xE9C8E2BD" type="asset" extensions="PART,ELSC"/>
                         <property ID="0x86FFB3F6" type="asset" extensions="CAUD"/>
                         <property ID="0x053AE4A7" type="float">
                             <default>10.0</default>
