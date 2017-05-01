@@ -3,7 +3,7 @@
     <name>Effect</name>
     <properties>
         <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0x0A479D6F" type="asset" extensions="PART,ELSC,SWHC"/>
+        <property ID="0x0A479D6F" type="asset" extensions="PART,ELSC,SPSC,SWHC"/>
         <property ID="0x3217DFF8" type="bool">
             <default>true</default>
         </property>

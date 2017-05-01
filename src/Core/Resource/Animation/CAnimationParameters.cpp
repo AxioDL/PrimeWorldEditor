@@ -89,7 +89,7 @@ void CAnimationParameters::Write(IOutputStream& rSCLY)
         }
         else
         {
-            rSCLY.WriteLong(0xFFFFFFFF);
+            CAssetID::skInvalidID32.Write(rSCLY);
             rSCLY.WriteLong(0);
             rSCLY.WriteLong(0xFFFFFFFF);
         }
@@ -105,7 +105,7 @@ void CAnimationParameters::Write(IOutputStream& rSCLY)
 
         else
         {
-            rSCLY.WriteLongLong(CAssetID::skInvalidID64.ToLongLong());
+            CAssetID::skInvalidID64.Write(rSCLY);
             rSCLY.WriteLong(0xFFFFFFFF);
         }
     }

@@ -80,7 +80,7 @@ void GenerateAssetNames(CGameProject *pProj)
     {
         // Set world name
         CWorld *pWorld = (CWorld*) It->Load();
-        TWideString WorldName = L'!' + pWorld->Name().ToUTF16() + L"_Master";
+        TWideString WorldName = pWorld->Name().ToUTF16();
         TWideString WorldDir = kWorldsRoot + WorldName + L'\\';
 
         TWideString WorldMasterName = L"!" + WorldName + L"_Master";
@@ -405,7 +405,7 @@ void GenerateAssetNames(CGameProject *pProj)
 
                 if (pAnimDataEntry)
                 {
-                    TWideString AnimDataName = TString::Format(L"%s_animdata", *CharName);
+                    TWideString AnimDataName = TWideString::Format(L"%s_animdata", *CharName);
                     ApplyGeneratedName(pAnimDataEntry, SetDir, AnimDataName);
                 }
             }
