@@ -92,6 +92,7 @@ CAnimSet* CAnimSetLoader::LoadCorruptionCHAR(IInputStream& rCHAR)
         rChar.SoundEffects.push_back(SoundID);
     }
 
+    ProcessPrimitives();
     return pSet;
 }
 
@@ -282,6 +283,14 @@ void CAnimSetLoader::ProcessPrimitives()
     for (u32 iTrans = 0; iTrans < pSet->mHalfTransitions.size(); iTrans++)
         pSet->mHalfTransitions[iTrans].pMetaTrans->GetUniquePrimitives(UniquePrimitives);
 
+    if (mGame == eCorruptionProto || mGame == eCorruption)
+    {
+        CSourceAnimData *pAnimData = (CSourceAnimData*) gpResourceStore->LoadResource( pSet->mCharacters[0].AnimDataID, "SAND" );
+
+        if (pAnimData)
+            pAnimData->GetUniquePrimitives(UniquePrimitives);
+    }
+
     // Copy anim primitives into the animset
     for (auto Iter = UniquePrimitives.begin(); Iter != UniquePrimitives.end(); Iter++)
     {
@@ -292,79 +301,82 @@ void CAnimSetLoader::ProcessPrimitives()
             pSet->mAnimPrimitives.resize(ID + 1);
 
         pSet->mAnimPrimitives[ID] = rkPrim;
-        ASSERT(pSet->Animation(ID)->pMetaAnim->Type() == eMAT_Play);
     }
 
-    // Add animations referenced by default transition
-    if (pSet->mpDefaultTransition)
+    // Add used animation indices from the animset to the character's list
+    if (mGame <= eEchoes)
     {
-        std::set<CAnimPrimitive> DefaultTransPrimitives;
-        pSet->mpDefaultTransition->GetUniquePrimitives(DefaultTransPrimitives);
+        // Add animations referenced by default transition
+        if (pSet->mpDefaultTransition)
+        {
+            std::set<CAnimPrimitive> DefaultTransPrimitives;
+            pSet->mpDefaultTransition->GetUniquePrimitives(DefaultTransPrimitives);
 
+            for (u32 iChar = 0; iChar < pSet->mCharacters.size(); iChar++)
+            {
+                SSetCharacter& rChar = pSet->mCharacters[iChar];
+
+                for (auto Iter = DefaultTransPrimitives.begin(); Iter != DefaultTransPrimitives.end(); Iter++)
+                {
+                    const CAnimPrimitive& rkPrim = *Iter;
+                    rChar.UsedAnimationIndices.insert(rkPrim.ID());
+                }
+            }
+        }
+
+        // Add animations referenced by used transitions
         for (u32 iChar = 0; iChar < pSet->mCharacters.size(); iChar++)
         {
             SSetCharacter& rChar = pSet->mCharacters[iChar];
+            bool AddedNewAnims = true;
 
-            for (auto Iter = DefaultTransPrimitives.begin(); Iter != DefaultTransPrimitives.end(); Iter++)
+            // Loop this until we run out of new animations. This is in case any animations
+            // referenced by any transitions are also referenced by earlier transitions.
+            while (AddedNewAnims)
             {
-                const CAnimPrimitive& rkPrim = *Iter;
-                rChar.UsedAnimationIndices.insert(rkPrim.ID());
-            }
-        }
-    }
+                AddedNewAnims = false;
 
-    // Add animations referenced by used transitions
-    for (u32 iChar = 0; iChar < pSet->mCharacters.size(); iChar++)
-    {
-        SSetCharacter& rChar = pSet->mCharacters[iChar];
-        bool AddedNewAnims = true;
-
-        // Loop this until we run out of new animations. This is in case any animations
-        // referenced by any transitions are also referenced by earlier transitions.
-        while (AddedNewAnims)
-        {
-            AddedNewAnims = false;
-
-            for (u32 iTrans = 0; iTrans < pSet->mTransitions.size(); iTrans++)
-            {
-                STransition& rTrans = pSet->mTransitions[iTrans];
-
-                if ( rChar.UsedAnimationIndices.find(rTrans.AnimIdA) != rChar.UsedAnimationIndices.end() &&
-                     rChar.UsedAnimationIndices.find(rTrans.AnimIdB) != rChar.UsedAnimationIndices.end() )
+                for (u32 iTrans = 0; iTrans < pSet->mTransitions.size(); iTrans++)
                 {
-                    std::set<CAnimPrimitive> Primitives;
-                    rTrans.pMetaTrans->GetUniquePrimitives(Primitives);
+                    STransition& rTrans = pSet->mTransitions[iTrans];
 
-                    for (auto Iter = Primitives.begin(); Iter != Primitives.end(); Iter++)
+                    if ( rChar.UsedAnimationIndices.find(rTrans.AnimIdA) != rChar.UsedAnimationIndices.end() &&
+                         rChar.UsedAnimationIndices.find(rTrans.AnimIdB) != rChar.UsedAnimationIndices.end() )
                     {
-                        const CAnimPrimitive& rkPrim = *Iter;
+                        std::set<CAnimPrimitive> Primitives;
+                        rTrans.pMetaTrans->GetUniquePrimitives(Primitives);
 
-                        if (rChar.UsedAnimationIndices.find(rkPrim.ID()) == rChar.UsedAnimationIndices.end())
+                        for (auto Iter = Primitives.begin(); Iter != Primitives.end(); Iter++)
                         {
-                            rChar.UsedAnimationIndices.insert(rkPrim.ID());
-                            AddedNewAnims = true;
+                            const CAnimPrimitive& rkPrim = *Iter;
+
+                            if (rChar.UsedAnimationIndices.find(rkPrim.ID()) == rChar.UsedAnimationIndices.end())
+                            {
+                                rChar.UsedAnimationIndices.insert(rkPrim.ID());
+                                AddedNewAnims = true;
+                            }
                         }
                     }
                 }
-            }
 
-            for (u32 iHalf = 0; iHalf < pSet->mHalfTransitions.size(); iHalf++)
-            {
-                SHalfTransition& rTrans = pSet->mHalfTransitions[iHalf];
-
-                if (rChar.UsedAnimationIndices.find(rTrans.AnimID) != rChar.UsedAnimationIndices.end())
+                for (u32 iHalf = 0; iHalf < pSet->mHalfTransitions.size(); iHalf++)
                 {
-                    std::set<CAnimPrimitive> Primitives;
-                    rTrans.pMetaTrans->GetUniquePrimitives(Primitives);
+                    SHalfTransition& rTrans = pSet->mHalfTransitions[iHalf];
 
-                    for (auto Iter = Primitives.begin(); Iter != Primitives.end(); Iter++)
+                    if (rChar.UsedAnimationIndices.find(rTrans.AnimID) != rChar.UsedAnimationIndices.end())
                     {
-                        const CAnimPrimitive& rkPrim = *Iter;
+                        std::set<CAnimPrimitive> Primitives;
+                        rTrans.pMetaTrans->GetUniquePrimitives(Primitives);
 
-                        if (rChar.UsedAnimationIndices.find(rkPrim.ID()) == rChar.UsedAnimationIndices.end())
+                        for (auto Iter = Primitives.begin(); Iter != Primitives.end(); Iter++)
                         {
-                            rChar.UsedAnimationIndices.insert(rkPrim.ID());
-                            AddedNewAnims = true;
+                            const CAnimPrimitive& rkPrim = *Iter;
+
+                            if (rChar.UsedAnimationIndices.find(rkPrim.ID()) == rChar.UsedAnimationIndices.end())
+                            {
+                                rChar.UsedAnimationIndices.insert(rkPrim.ID());
+                                AddedNewAnims = true;
+                            }
                         }
                     }
                 }

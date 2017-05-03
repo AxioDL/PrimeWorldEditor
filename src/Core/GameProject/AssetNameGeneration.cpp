@@ -183,18 +183,41 @@ void GenerateAssetNames(CGameProject *pProj)
             for (u32 iMat = 0; iMat < pMaterials->NumMaterials(); iMat++)
             {
                 CMaterial *pMat = pMaterials->MaterialByIndex(iMat);
+                bool FoundLightmap = false;
 
-                if (pMat->Options().HasFlag(CMaterial::eLightmap))
+                for (u32 iPass = 0; iPass < pMat->PassCount(); iPass++)
                 {
-                    CTexture *pLightmapTex = pMat->Pass(0)->Texture();
-                    CResourceEntry *pTexEntry = pLightmapTex->Entry();
-                    if (pTexEntry->IsCategorized()) continue;
+                    CMaterialPass *pPass = pMat->Pass(iPass);
 
-                    TWideString TexName = TWideString::Format(L"%s_lit_lightmap%d", *AreaName, LightmapNum);
-                    ApplyGeneratedName(pTexEntry, AreaCookedDir, TexName);
-                    pTexEntry->SetHidden(true);
-                    LightmapNum++;
+                    bool IsLightmap = ( (pArea->Game() <= eEchoes && pMat->Options().HasFlag(CMaterial::eLightmap) && iPass == 0) ||
+                                        (pArea->Game() >= eCorruptionProto && pPass->Type() == "DIFF") );
+                    bool IsBloomLightmap = (pArea->Game() >= eCorruptionProto && pPass->Type() == "BLOL");
+
+                    TWideString TexName;
+
+                    if (IsLightmap)
+                    {
+                        TexName = TWideString::Format(L"%s_lit_lightmap%d", *AreaName, LightmapNum);
+                    }
+                    else if (IsBloomLightmap)
+                    {
+                        TexName = TWideString::Format(L"%s_lit_lightmap_bloom%d", *AreaName, LightmapNum);
+                    }
+
+                    if (!TexName.IsEmpty())
+                    {
+                        CTexture *pLightmapTex = pPass->Texture();
+                        CResourceEntry *pTexEntry = pLightmapTex->Entry();
+                        if (pTexEntry->IsCategorized()) continue;
+
+                        ApplyGeneratedName(pTexEntry, AreaCookedDir, TexName);
+                        pTexEntry->SetHidden(true);
+                        FoundLightmap = true;
+                    }
                 }
+
+                if (FoundLightmap)
+                    LightmapNum++;
             }
 
             // Generate names from script instance names
@@ -329,16 +352,24 @@ void GenerateAssetNames(CGameProject *pProj)
             {
                 CMaterial *pMat = pSet->MaterialByIndex(iMat);
 
-                if (pMat->Options().HasFlag(CMaterial::eLightmap))
+                for (u32 iPass = 0; iPass < pMat->PassCount(); iPass++)
                 {
-                    CTexture *pLightmapTex = pMat->Pass(0)->Texture();
-                    CResourceEntry *pTexEntry = pLightmapTex->Entry();
-                    if (pTexEntry->IsNamed() || pTexEntry->IsCategorized()) continue;
+                    CMaterialPass *pPass = pMat->Pass(iPass);
 
-                    TWideString TexName = TWideString::Format(L"%s_lightmap%d", *It->Name(), LightmapNum);
-                    ApplyGeneratedName(pTexEntry, pModel->Entry()->DirectoryPath(), TexName);
-                    pTexEntry->SetHidden(true);
-                    LightmapNum++;
+                    bool IsLightmap = ( (pMat->Version() <= eEchoes && pMat->Options().HasFlag(CMaterial::eLightmap) && iPass == 0) ||
+                                        (pMat->Version() >= eCorruptionProto && pPass->Type() == "DIFF") );
+
+                    if (IsLightmap)
+                    {
+                        CTexture *pLightmapTex = pPass->Texture();
+                        CResourceEntry *pTexEntry = pLightmapTex->Entry();
+                        if (pTexEntry->IsNamed() || pTexEntry->IsCategorized()) continue;
+
+                        TWideString TexName = TWideString::Format(L"%s_lightmap%d", *It->Name(), LightmapNum);
+                        ApplyGeneratedName(pTexEntry, pModel->Entry()->DirectoryPath(), TexName);
+                        pTexEntry->SetHidden(true);
+                        LightmapNum++;
+                    }
                 }
             }
         }
@@ -375,14 +406,27 @@ void GenerateAssetNames(CGameProject *pProj)
             CResourceEntry *pSample = pStore->FindEntry(SampleID);
 
             if (pSample && !pSample->IsNamed())
-                ApplyGeneratedName(pSample, kSfxDir, TWideString::Format(L"%s_sample%d", *MacroName, iSamp));
+            {
+                TWideString SampleName;
+
+                if (pMacro->NumSamples() == 1)
+                    SampleName = MacroName;
+                else
+                    SampleName = TWideString::Format(L"%s_%d", *MacroName, iSamp);
+
+                ApplyGeneratedName(pSample, kSfxDir, SampleName);
+            }
         }
     }
 #endif
 
 #if PROCESS_ANIM_CHAR_SETS
     // Generate animation format names
-    for (TResourceIterator<eAnimSet> It(pStore); It; ++It)
+    // Hacky syntax because animsets are under eAnimSet in MP1/2 and eCharacter in MP3/DKCR
+    CResourceIterator *pIter = (pProj->Game() <= eEchoes ? (CResourceIterator*) new TResourceIterator<eAnimSet> : (CResourceIterator*) new TResourceIterator<eCharacter>);
+    CResourceIterator& It = *pIter;
+
+    for (; It; ++It)
     {
         TWideString SetDir = It->DirectoryPath();
         TWideString NewSetName;
@@ -462,6 +506,7 @@ void GenerateAssetNames(CGameProject *pProj)
             }
         }
     }
+    delete pIter;
 #endif
 
 #if PROCESS_STRINGS

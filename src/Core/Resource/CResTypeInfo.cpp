@@ -175,6 +175,10 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
         AddExtension(pType, "MREA", ePrimeDemo, eReturns);
     }
     {
+        CResTypeInfo *pType = new CResTypeInfo(eAudioAmplitudeData, "Audio Amplitude Data");
+        AddExtension(pType, "CAAD", eCorruption, eCorruption);
+    }
+    {
         CResTypeInfo *pType = new CResTypeInfo(eAudioGroup, "Audio Group");
         AddExtension(pType, "AGSC", ePrimeDemo, eEchoes);
         pType->mCanHaveDependencies = false;
@@ -400,10 +404,6 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
         CResTypeInfo *pType = new CResTypeInfo(eTweak, "Tweak Data");
         AddExtension(pType, "CTWK", ePrimeDemo, ePrime);
         pType->mCanHaveDependencies = false;
-    }
-    {
-        CResTypeInfo *pType = new CResTypeInfo(eUnknown_CAAD, "CAAD");
-        AddExtension(pType, "CAAD", eCorruption, eCorruption);
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eUserEvaluatorData, "User Evaluator Data");

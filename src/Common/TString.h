@@ -459,7 +459,7 @@ public:
         return mInternalString;
     }
 
-    _TStringList Split(const CharType* pkTokens) const
+    _TStringList Split(const CharType* pkTokens, bool KeepEmptyParts = false) const
     {
         _TStringList Out;
         u32 LastSplit = 0;
@@ -475,7 +475,7 @@ public:
                 if (mInternalString[iChr] == pkTokens[iTok])
                 {
                     // Token found - split string
-                    if (iChr > LastSplit)
+                    if (iChr > LastSplit || KeepEmptyParts)
                         Out.push_back(SubString(LastSplit, iChr - LastSplit));
 
                     LastSplit = iChr + 1;
@@ -485,7 +485,7 @@ public:
         }
 
         // Add final string
-        if (LastSplit != Length())
+        if (LastSplit != Length() || KeepEmptyParts)
             Out.push_back(SubString(LastSplit, Length() - LastSplit));
 
         return Out;
@@ -509,6 +509,14 @@ public:
         return (Size() == 0);
     }
 
+    bool StartsWith(CharType Chr, bool CaseSensitive = true) const
+    {
+        if (IsEmpty())
+            return false;
+
+        return CaseSensitive ? Front() == Chr : CharToUpper(Front()) == CharToUpper(Chr);
+    }
+
     bool StartsWith(const _TString& rkStr, bool CaseSensitive = true) const
     {
         if (Size() < rkStr.Size())
@@ -516,6 +524,14 @@ public:
 
         _TString SubStr = SubString(0, rkStr.Size());
         return CaseSensitive ? SubStr == rkStr : SubStr.CaseInsensitiveCompare(rkStr);
+    }
+
+    bool EndsWith(CharType Chr, bool CaseSensitive = true) const
+    {
+        if (IsEmpty())
+            return false;
+
+        return CaseSensitive ? Back() == Chr : CharToUpper(Back()) == CharToUpper(Chr);
     }
 
     bool EndsWith(const _TString& rkStr, bool CaseSensitive = true) const
@@ -596,7 +612,7 @@ public:
     _TString GetFileDirectory() const
     {
         size_t EndPath = mInternalString.find_last_of(LITERAL("\\/"));
-        return SubString(0, EndPath + 1);
+        return EndPath == _TStdString::npos ? LITERAL("") : SubString(0, EndPath + 1);
     }
 
     _TString GetFileName(bool WithExtension = true) const
@@ -618,13 +634,13 @@ public:
     _TString GetFileExtension() const
     {
         size_t EndName = mInternalString.find_last_of(LITERAL("."));
-        return SubString(EndName + 1, Size() - EndName);
+        return EndName == _TStdString::npos ? LITERAL("") : SubString(EndName + 1, Size() - EndName);
     }
 
     _TString GetFilePathWithoutExtension() const
     {
         size_t EndName = mInternalString.find_last_of(LITERAL("."));
-        return SubString(0, EndName);
+        return EndName == _TStdString::npos ? *this : SubString(0, EndName);
     }
 
     _TString GetParentDirectoryPath(const _TString& rkParentDirName, bool CaseSensitive = true)

@@ -144,7 +144,6 @@ CAssetID CGameProject::FindNamedResource(const TString& rkName) const
 }
 
 CGameProject* CGameProject::CreateProjectForExport(
-        CGameExporter *pExporter,
         const TWideString& rkProjRootDir,
         EGame Game,
         ERegion Region,
@@ -168,7 +167,7 @@ CGameProject* CGameProject::CreateProjectForExport(
 
     pProj->mProjectRoot = rkProjRootDir;
     pProj->mProjectRoot.Replace(L"/", L"\\");
-    pProj->mpResourceStore = new CResourceStore(pProj, pExporter, L"Content\\", L"Cooked\\", Game);
+    pProj->mpResourceStore = new CResourceStore(pProj, L"Content\\", L"Cooked\\", Game);
     pProj->mpGameInfo->LoadGameInfo(Game);
     pProj->mLoadSuccess = true;
     return pProj;
