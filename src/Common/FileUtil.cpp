@@ -39,7 +39,7 @@ bool IsAbsolute(const TWideString& rkDirPath)
 
 bool IsRelative(const TWideString& rkDirPath)
 {
-    return !boost::filesystem::path(*rkDirPath).is_relative();
+    return boost::filesystem::path(*rkDirPath).is_relative();
 }
 
 bool IsEmpty(const TWideString& rkDirPath)
@@ -116,7 +116,7 @@ bool MoveDirectory(const TWideString& rkOldPath, const TWideString& rkNewPath)
     }
 
     if (CopyDirectory(rkOldPath, rkNewPath))
-        return DeleteDirectory(rkOldPath);
+        return DeleteDirectory(rkOldPath, false);
     else
         return false;
 }
@@ -127,7 +127,7 @@ bool DeleteFile(const TWideString& rkFilePath)
     return remove(*rkFilePath) == 1;
 }
 
-bool DeleteDirectory(const TWideString& rkDirPath)
+bool DeleteDirectory(const TWideString& rkDirPath, bool FailIfNotEmpty)
 {
     // This is an extremely destructive function, be careful using it!
     if (!IsDirectory(rkDirPath)) return false;
@@ -142,6 +142,11 @@ bool DeleteDirectory(const TWideString& rkDirPath)
         return false;
     }
 
+    // Check if directory is empty
+    if (FailIfNotEmpty && !IsEmpty(rkDirPath))
+        return false;
+
+    // Delete directory
     boost::system::error_code Error;
     remove_all(*rkDirPath, Error);
     return (Error == boost::system::errc::success);
@@ -173,7 +178,7 @@ bool ClearDirectory(const TWideString& rkDirPath)
         if (IsFile(*It))
             Success = DeleteFile(*It);
         else if (IsDirectory(*It))
-            Success = DeleteDirectory(*It);
+            Success = DeleteDirectory(*It, false);
 
         if (!Success)
             Log::Error("Failed to delete filesystem object: " + TWideString(*It).ToUTF8());
@@ -255,6 +260,32 @@ TWideString MakeRelative(const TWideString& rkPath, const TWideString& rkRelativ
     // Attempt to detect if this path is a file as opposed to a directory; if so, remove trailing backslash
     if (PathComponents.back().Contains(L'.') && !rkPath.EndsWith(L'/') && !rkPath.EndsWith(L'\\'))
         Out = Out.ChopBack(1);
+
+    return Out;
+}
+
+TWideString SimplifyRelativePath(const TWideString& rkPath)
+{
+    TWideStringList PathComponents = rkPath.Split(L"/\\");
+
+    TWideStringList::iterator Iter = PathComponents.begin();
+    TWideStringList::iterator PrevIter = Iter;
+
+    for (auto Iter = PathComponents.begin(); Iter != PathComponents.end(); PrevIter = Iter, Iter++)
+    {
+        if (*Iter == L".." && *PrevIter != L"..")
+        {
+            PrevIter = PathComponents.erase(PrevIter);
+            PrevIter = PathComponents.erase(PrevIter);
+            Iter = PrevIter;
+            Iter--;
+        }
+    }
+
+    TWideString Out;
+
+    for (auto Iter = PathComponents.begin(); Iter != PathComponents.end(); Iter++)
+        Out += *Iter + L'\\';
 
     return Out;
 }
@@ -355,7 +386,8 @@ TWideString SanitizePath(TWideString Path, bool Directory)
 
 bool IsValidName(const TWideString& rkName, bool Directory, bool RootDir /*= false*/)
 {
-    // Windows only atm
+    // Only accounting for Windows limitations right now. However, this function should
+    // ideally return the same output on all platforms to ensure projects are cross compatible.
     if (rkName.IsEmpty())
         return false;
 
@@ -391,7 +423,8 @@ bool IsValidName(const TWideString& rkName, bool Directory, bool RootDir /*= fal
 
 bool IsValidPath(const TWideString& rkPath, bool Directory)
 {
-    // Windows only atm
+    // Only accounting for Windows limitations right now. However, this function should
+    // ideally return the same output on all platforms to ensure projects are cross compatible.
     TWideStringList Components = rkPath.Split(L"\\/");
 
     // Validate other components

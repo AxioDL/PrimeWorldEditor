@@ -52,6 +52,18 @@ public:
         return new CDependencyTree();
     }
 
+    void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const
+    {
+        for (u32 TransIdx = 0; TransIdx < mTransitions.size(); TransIdx++)
+            mTransitions[TransIdx].pTransition->GetUniquePrimitives(rPrimSet);
+
+        for (u32 HalfIdx = 0; HalfIdx < mHalfTransitions.size(); HalfIdx++)
+            mHalfTransitions[HalfIdx].pTransition->GetUniquePrimitives(rPrimSet);
+
+        if (mpDefaultTransition)
+            mpDefaultTransition->GetUniquePrimitives(rPrimSet);
+    }
+
     void AddTransitionDependencies(CDependencyTree *pTree)
     {
         // Note: All CHAR animations must have been added to the tree before this function is run

@@ -54,7 +54,6 @@ bool CGameExporter::Export(nod::DiscBase *pDisc, const TString& rkOutputDir, CAs
 
     // Create project
     mpProject = CGameProject::CreateProjectForExport(
-                this,
                 mExportDir,
                 mGame,
                 mRegion,
@@ -446,23 +445,13 @@ void CGameExporter::LoadResource(const SResourceInstance& rkResource, std::vecto
 
 void CGameExporter::ExportCookedResources()
 {
-    {
-        SCOPED_TIMER(ExportCookedResources);
-        FileUtil::MakeDirectory(mCookedDir);
+    SCOPED_TIMER(ExportCookedResources);
+    FileUtil::MakeDirectory(mCookedDir);
 
-        for (auto It = mResourceMap.begin(); It != mResourceMap.end(); It++)
-        {
-            SResourceInstance& rRes = It->second;
-            ExportResource(rRes);
-        }
-    }
+    for (auto It = mResourceMap.begin(); It != mResourceMap.end(); It++)
     {
-        SCOPED_TIMER(SaveResourceDatabase);
-#if EXPORT_COOKED
-        mpStore->SaveResourceDatabase();
-#endif
-        bool SaveSuccess = mpProject->Save();
-        ASSERT(SaveSuccess);
+        SResourceInstance& rRes = It->second;
+        ExportResource(rRes);
     }
 }
 
@@ -512,8 +501,13 @@ void CGameExporter::ExportResourceEditorData()
         }
     }
     {
-        // All resources should have dependencies generated, so save the cache file
-        SCOPED_TIMER(SaveResourceCacheData);
+        // All resources should have dependencies generated, so save the project files
+        SCOPED_TIMER(SaveResourceDatabase);
+#if EXPORT_COOKED
+        mpStore->SaveResourceDatabase();
+#endif
+        bool SaveSuccess = mpProject->Save();
+        ASSERT(SaveSuccess);
         mpStore->SaveCacheFile();
     }
 }

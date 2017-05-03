@@ -18,7 +18,6 @@ CResourceStore *gpEditorStore = nullptr;
 CResourceStore::CResourceStore(const TWideString& rkDatabasePath)
     : mpProj(nullptr)
     , mGame(eUnknownGame)
-    , mpExporter(nullptr)
     , mDatabaseDirty(false)
     , mCacheFileDirty(false)
 {
@@ -28,12 +27,11 @@ CResourceStore::CResourceStore(const TWideString& rkDatabasePath)
 }
 
 // Constructor for game exporter
-CResourceStore::CResourceStore(CGameProject *pProject, CGameExporter *pExporter, const TWideString& rkRawDir, const TWideString& rkCookedDir, EGame Game)
+CResourceStore::CResourceStore(CGameProject *pProject, const TWideString& rkRawDir, const TWideString& rkCookedDir, EGame Game)
     : mpProj(nullptr)
     , mGame(Game)
     , mRawDir(rkRawDir)
     , mCookedDir(rkCookedDir)
-    , mpExporter(pExporter)
     , mDatabaseDirty(false)
     , mCacheFileDirty(false)
 {
@@ -45,7 +43,6 @@ CResourceStore::CResourceStore(CGameProject *pProject)
     : mpProj(nullptr)
     , mGame(eUnknownGame)
     , mpDatabaseRoot(nullptr)
-    , mpExporter(nullptr)
     , mDatabaseDirty(false)
     , mCacheFileDirty(false)
 {
@@ -352,8 +349,8 @@ void CResourceStore::ConditionalDeleteDirectory(CVirtualDirectory *pDir)
         // If this directory is part of the project, then we should delete the corresponding filesystem directories
         if (pDir->GetRoot() == mpDatabaseRoot)
         {
-            FileUtil::DeleteDirectory(RawDir(false) + pDir->FullPath());
-            FileUtil::DeleteDirectory(CookedDir(false) + pDir->FullPath());
+            FileUtil::DeleteDirectory(RawDir(false) + pDir->FullPath(), true);
+            FileUtil::DeleteDirectory(CookedDir(false) + pDir->FullPath(), true);
         }
 
         CVirtualDirectory *pParent = pDir->Parent();
@@ -398,8 +395,15 @@ CResourceEntry* CResourceStore::RegisterResource(const CAssetID& rkID, EResType 
 
     else
     {
-        pEntry = new CResourceEntry(this, rkID, rkDir, rkName, Type);
-        mResourceEntries[rkID] = pEntry;
+        // Validate directory
+        if (IsValidResourcePath(rkDir, rkName))
+        {
+            pEntry = new CResourceEntry(this, rkID, rkDir, rkName, Type);
+            mResourceEntries[rkID] = pEntry;
+        }
+
+        else
+            Log::Error("Invalid resource path, failed to register: " + rkDir.ToUTF8() + rkName.ToUTF8());
     }
 
     return pEntry;
@@ -434,50 +438,32 @@ CResource* CResourceStore::LoadResource(const CAssetID& rkID, const CFourCC& rkT
     if (Find != mLoadedResources.end())
         return Find->second->Resource();
 
-    // With Game Exporter - Get data buffer from exporter
-    if (mpExporter)
-    {
-        std::vector<u8> DataBuffer;
-        mpExporter->LoadResource(rkID, DataBuffer);
-        if (DataBuffer.empty()) return nullptr;
+    // Check for resource in store
+    CResourceEntry *pEntry = FindEntry(rkID);
+    if (pEntry) return pEntry->Load();
 
-        CMemoryInStream MemStream(DataBuffer.data(), DataBuffer.size(), IOUtil::eBigEndian);
-        EResType Type = CResTypeInfo::TypeForCookedExtension(mGame, rkType)->Type();
-        CResourceEntry *pEntry = RegisterTransientResource(Type, rkID);
-        CResource *pRes = pEntry->LoadCooked(MemStream);
+    // Check in transient load directory - this only works for cooked
+    EResType Type = CResTypeInfo::TypeForCookedExtension(mGame, rkType)->Type();
+
+    if (Type != eInvalidResType)
+    {
+        // Note the entry may not be able to find the resource on its own (due to not knowing what game
+        // it is) so we will attempt to open the file stream ourselves and pass it to the entry instead.
+        TString Name = rkID.ToString();
+        CResourceEntry *pEntry = RegisterTransientResource(Type, mTransientLoadDir, Name.ToUTF16());
+
+        TString Path = mTransientLoadDir.ToUTF8() + Name + "." + rkType.ToString();
+        CFileInStream File(Path.ToStdString(), IOUtil::eBigEndian);
+        CResource *pRes = pEntry->LoadCooked(File);
+
+        if (!pRes) DeleteResourceEntry(pEntry);
         return pRes;
     }
 
-    // Without Game Exporter - Check store resource entries and transient load directory.
     else
     {
-        // Check for resource in store
-        CResourceEntry *pEntry = FindEntry(rkID);
-        if (pEntry) return pEntry->Load();
-
-        // Check in transient load directory - this only works for cooked
-        EResType Type = CResTypeInfo::TypeForCookedExtension(mGame, rkType)->Type();
-
-        if (Type != eInvalidResType)
-        {
-            // Note the entry may not be able to find the resource on its own (due to not knowing what game
-            // it is) so we will attempt to open the file stream ourselves and pass it to the entry instead.
-            TString Name = rkID.ToString();
-            CResourceEntry *pEntry = RegisterTransientResource(Type, mTransientLoadDir, Name.ToUTF16());
-
-            TString Path = mTransientLoadDir.ToUTF8() + Name + "." + rkType.ToString();
-            CFileInStream File(Path.ToStdString(), IOUtil::eBigEndian);
-            CResource *pRes = pEntry->LoadCooked(File);
-
-            if (!pRes) DeleteResourceEntry(pEntry);
-            return pRes;
-        }
-
-        else
-        {
-            Log::Error("Can't load requested resource with ID \"" + rkID.ToString() + "\"; can't locate resource. Note: Loading raw assets from an arbitrary directory is unsupported.");;
-            return nullptr;
-        }
+        Log::Error("Can't load requested resource with ID \"" + rkID.ToString() + "\"; can't locate resource. Note: Loading raw assets from an arbitrary directory is unsupported.");;
+        return nullptr;
     }
 }
 
@@ -662,7 +648,7 @@ void CResourceStore::ImportNamesFromPakContentsTxt(const TString& rkTxtPath, boo
 
         u32 IDEnd = Line.IndexOf(" \t", IDStart);
         u32 PathStart = IDEnd + 1;
-        u32 PathEnd = Line.Size() - 4;
+        u32 PathEnd = Line.Size() - 5;
 
         TString IDStr = Line.SubString(IDStart, IDEnd - IDStart);
         TString Path = Line.SubString(PathStart, PathEnd - PathStart);
@@ -679,8 +665,9 @@ void CResourceStore::ImportNamesFromPakContentsTxt(const TString& rkTxtPath, boo
             if (RepStart != -1)
                 Path = Path.ChopFront(RepStart + 5);
 
-            // If the "x_rep" folder doesn't exist in this path for some reason, then just chop off the drive letter
-            else
+            // If the "x_rep" folder doesn't exist in this path for some reason, but this is still a path, then just chop off the drive letter.
+            // Otherwise, this is most likely just a standalone name, so use the full name as-is.
+            else if (Path[1] == ':')
                 Path = Path.ChopFront(3);
 
             PathMap[pEntry] = Path;
@@ -696,9 +683,23 @@ void CResourceStore::ImportNamesFromPakContentsTxt(const TString& rkTxtPath, boo
         if (UnnamedOnly && pEntry->IsNamed()) continue;
 
         TWideString Path = Iter->second.ToUTF16();
-        pEntry->Move(Path.GetFileDirectory(), Path.GetFileName(false));
+        TWideString Dir = Path.GetFileDirectory();
+        TWideString Name = Path.GetFileName(false);
+        if (Dir.IsEmpty()) Dir = pEntry->DirectoryPath();
+
+        pEntry->Move(Dir, Name);
     }
 
     // Save
     ConditionalSaveStore();
+}
+
+bool CResourceStore::IsValidResourcePath(const TWideString& rkPath, const TWideString& rkName)
+{
+    // Path must not be an absolute path and must not go outside the project structure.
+    // Name must not be a path.
+    return ( CVirtualDirectory::IsValidDirectoryPath(rkPath) &&
+             FileUtil::IsValidName(rkName, false) &&
+             !rkName.Contains(L'/') &&
+             !rkName.Contains(L'\\') );
 }

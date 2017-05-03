@@ -35,9 +35,6 @@ class CResourceStore
     TWideString mCookedDir;
     TWideString mTransientLoadDir;
 
-    // Game exporter currently in use - lets us load from paks being exported
-    CGameExporter *mpExporter;
-
     enum EDatabaseVersion
     {
         eVer_Initial,
@@ -48,7 +45,7 @@ class CResourceStore
 
 public:
     CResourceStore(const TWideString& rkDatabasePath);
-    CResourceStore(CGameProject *pProject, CGameExporter *pExporter, const TWideString& rkRawDir, const TWideString& rkCookedDir, EGame Game);
+    CResourceStore(CGameProject *pProject, const TWideString& rkRawDir, const TWideString& rkCookedDir, EGame Game);
     CResourceStore(CGameProject *pProject);
     ~CResourceStore();
     void SerializeResourceDatabase(IArchive& rArc);
@@ -77,6 +74,8 @@ public:
     void SetTransientLoadDir(const TString& rkDir);
 
     void ImportNamesFromPakContentsTxt(const TString& rkTxtPath, bool UnnamedOnly);
+
+    static bool IsValidResourcePath(const TWideString& rkPath, const TWideString& rkName);
 
     // Accessors
     inline CGameProject* Project() const                { return mpProj; }

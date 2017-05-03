@@ -356,8 +356,8 @@ bool CResourceEntry::CanMoveTo(const TWideString& rkDir, const TWideString& rkNa
     // Transient resources can't be moved
     if (IsTransient()) return false;
 
-    // Validate that the path/name are valid file paths
-    if (!FileUtil::IsValidPath(rkDir, true) || !FileUtil::IsValidName(rkName, false)) return false;
+    // Validate that the path/name are valid
+    if (!mpStore->IsValidResourcePath(rkDir, rkName)) return false;
 
     // We need to validate the path isn't taken already - either the directory doesn't exist, or doesn't have a resource by this name
     CVirtualDirectory *pDir = mpStore->GetVirtualDirectory(rkDir, false, false);

@@ -30,9 +30,12 @@ public:
     CVirtualDirectory* FindChildDirectory(const TWideString& rkName, bool AllowCreate);
     CResourceEntry* FindChildResource(const TWideString& rkPath);
     CResourceEntry* FindChildResource(const TWideString& rkName, EResType Type);
-    void AddChild(const TWideString& rkPath, CResourceEntry *pEntry);
+    bool AddChild(const TWideString& rkPath, CResourceEntry *pEntry);
     bool RemoveChildDirectory(CVirtualDirectory *pSubdir);
     bool RemoveChildResource(CResourceEntry *pEntry);
+
+    static bool IsValidDirectoryName(const TWideString& rkName);
+    static bool IsValidDirectoryPath(TWideString Path);
 
     // Accessors
     inline CVirtualDirectory* Parent() const    { return mpParent; }

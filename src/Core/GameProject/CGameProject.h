@@ -70,7 +70,6 @@ public:
 
     // Static
     static CGameProject* CreateProjectForExport(
-            CGameExporter *pExporter,
             const TWideString& rkProjRootDir,
             EGame Game,
             ERegion Region,
