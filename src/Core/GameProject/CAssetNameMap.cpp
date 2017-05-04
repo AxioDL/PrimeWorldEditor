@@ -91,8 +91,8 @@ void CAssetNameMap::CopyFromStore(CResourceStore *pStore /*= gpResourceStore*/)
             CAssetID ID = It->ID();
             ASSERT(ID.Length() == mIDLength);
 
-            TWideString Name = It->Name();
-            TWideString Directory = It->Directory()->FullPath();
+            TString Name = It->Name();
+            TString Directory = It->Directory()->FullPath();
             CFourCC Type = It->CookedExtension();
             SAssetNameInfo NameInfo { Name, Directory, Type };
 
@@ -104,12 +104,12 @@ void CAssetNameMap::CopyFromStore(CResourceStore *pStore /*= gpResourceStore*/)
 
                 while (mUsedSet.find(NewNameInfo) != mUsedSet.end())
                 {
-                    NewNameInfo.Name = NameInfo.Name + L'_' + TWideString::FromInt32(NumConflicted, 0, 10);
+                    NewNameInfo.Name = NameInfo.Name + '_' + TString::FromInt32(NumConflicted, 0, 10);
                     NumConflicted++;
                 }
 
-                TString OldPath = NameInfo.FullPath().ToUTF8();
-                TString NewPath = NewNameInfo.FullPath().ToUTF8();
+                TString OldPath = NameInfo.FullPath();
+                TString NewPath = NewNameInfo.FullPath();
                 Log::Warning("Detected name conflict when copying asset name from the resource store; renaming.");
                 Log::Warning("\tOld Path: " + OldPath);
                 Log::Warning("\tNew Path: " + NewPath);
@@ -153,7 +153,7 @@ void CAssetNameMap::PostLoadValidate()
             // Verify the name/path is valid
             if (!CResourceStore::IsValidResourcePath(rkInfo.Directory, rkInfo.Name))
             {
-                Log::Error("Invalid resource path in asset name map: " + rkInfo.Directory.ToUTF8() + rkInfo.Name.ToUTF8() + "." + rkInfo.Type.ToString());
+                Log::Error("Invalid resource path in asset name map: " + rkInfo.Directory + rkInfo.Name + "." + rkInfo.Type.ToString());
                 Iter = mMap.erase(Iter);
                 FoundErrors = true;
             }
@@ -176,7 +176,7 @@ void CAssetNameMap::PostLoadValidate()
         for (auto Iter = Dupes.begin(); Iter != Dupes.end(); Iter++)
         {
             const SAssetNameInfo& rkInfo = *Iter;
-            TString FullPath = rkInfo.FullPath().ToUTF8();
+            TString FullPath = rkInfo.FullPath();
             Log::Error("\t" + FullPath);
         }
 

@@ -11,7 +11,7 @@
 #include <Common/Serialization/CXMLWriter.h>
 
 CResourceEntry::CResourceEntry(CResourceStore *pStore, const CAssetID& rkID,
-               const TWideString& rkDir, const TWideString& rkFilename,
+               const TString& rkDir, const TString& rkFilename,
                EResType Type, bool Transient /*= false*/)
     : mpResource(nullptr)
     , mpStore(pStore)
@@ -28,7 +28,7 @@ CResourceEntry::CResourceEntry(CResourceStore *pStore, const CAssetID& rkID,
     if (Transient) mFlags |= eREF_Transient;
 
     mpDirectory = mpStore->GetVirtualDirectory(rkDir, Transient, true);
-    if (mpDirectory) mpDirectory->AddChild(L"", this);
+    if (mpDirectory) mpDirectory->AddChild("", this);
 }
 
 CResourceEntry::~CResourceEntry()
@@ -96,9 +96,9 @@ bool CResourceEntry::HasCookedVersion() const
 
 TString CResourceEntry::RawAssetPath(bool Relative) const
 {
-    TWideString Ext = RawExtension().ToUTF16();
-    TWideString Path = mpDirectory ? mpDirectory->FullPath() : L"";
-    TWideString Name = mName + L"." + Ext;
+    TString Ext = RawExtension();
+    TString Path = mpDirectory ? mpDirectory->FullPath() : "";
+    TString Name = mName + "." + Ext;
     return ((IsTransient() || Relative) ? Path + Name : mpStore->RawDir(false) + Path + Name);
 }
 
@@ -109,9 +109,9 @@ TString CResourceEntry::RawExtension() const
 
 TString CResourceEntry::CookedAssetPath(bool Relative) const
 {
-    TWideString Ext = CookedExtension().ToString().ToUTF16();
-    TWideString Path = mpDirectory ? mpDirectory->FullPath() : L"";
-    TWideString Name = mName + L"." + Ext;
+    TString Ext = CookedExtension().ToString();
+    TString Path = mpDirectory ? mpDirectory->FullPath() : "";
+    TString Name = mName + "." + Ext;
     return ((IsTransient() || Relative) ? Path + Name : mpStore->CookedDir(false) + Path + Name);
 }
 
@@ -180,7 +180,7 @@ bool CResourceEntry::Save(bool SkipCacheSave /*= false*/)
         // Note: We call Serialize directly for resources to avoid having a redundant resource root node in the output file.
         TString Path = RawAssetPath();
         TString Dir = Path.GetFileDirectory();
-        FileUtil::MakeDirectory(Dir.ToUTF16());
+        FileUtil::MakeDirectory(Dir);
 
         TString SerialName = mpTypeInfo->TypeName();
         SerialName.RemoveWhitespace();
@@ -205,7 +205,7 @@ bool CResourceEntry::Save(bool SkipCacheSave /*= false*/)
 
         if (!CookSuccess)
         {
-            Log::Error("Failed to save resource: " + Name().ToUTF8() + "." + CookedExtension().ToString());
+            Log::Error("Failed to save resource: " + Name() + "." + CookedExtension().ToString());
             return false;
         }
     }
@@ -246,7 +246,7 @@ bool CResourceEntry::Cook()
     FileUtil::MakeDirectory(Dir);
 
     // Attempt to open output cooked file
-    CFileOutStream File(Path.ToStdString(), IOUtil::eBigEndian);
+    CFileOutStream File(Path, IOUtil::eBigEndian);
     if (!File.IsValid())
     {
         Log::Error("Failed to open cooked file for writing: " + Path);
@@ -306,7 +306,7 @@ CResource* CResourceEntry::Load()
     ASSERT(!mpResource);
     if (HasCookedVersion())
     {
-        CFileInStream File(CookedAssetPath().ToStdString(), IOUtil::eBigEndian);
+        CFileInStream File(CookedAssetPath(), IOUtil::eBigEndian);
 
         if (!File.IsValid())
         {
@@ -351,7 +351,7 @@ bool CResourceEntry::Unload()
     return true;
 }
 
-bool CResourceEntry::CanMoveTo(const TWideString& rkDir, const TWideString& rkName)
+bool CResourceEntry::CanMoveTo(const TString& rkDir, const TString& rkName)
 {
     // Transient resources can't be moved
     if (IsTransient()) return false;
@@ -367,13 +367,13 @@ bool CResourceEntry::CanMoveTo(const TWideString& rkDir, const TWideString& rkNa
     return true;
 }
 
-bool CResourceEntry::Move(const TWideString& rkDir, const TWideString& rkName)
+bool CResourceEntry::Move(const TString& rkDir, const TString& rkName)
 {
     if (!CanMoveTo(rkDir, rkName)) return false;
 
     // Store old paths
     CVirtualDirectory *pOldDir = mpDirectory;
-    TWideString OldName = mName;
+    TString OldName = mName;
     TString OldCookedPath = CookedAssetPath();
     TString OldRawPath = RawAssetPath();
 
@@ -389,7 +389,7 @@ bool CResourceEntry::Move(const TWideString& rkDir, const TWideString& rkName)
     TString NewCookedPath = CookedAssetPath();
     TString NewRawPath = RawAssetPath();
 
-    Log::Write("MOVING RESOURCE: " + FileUtil::MakeRelative(OldCookedPath, mpStore->CookedDir(false)).ToUTF8() + " --> " + FileUtil::MakeRelative(NewCookedPath, mpStore->CookedDir(false)).ToUTF8());
+    Log::Write("MOVING RESOURCE: " + FileUtil::MakeRelative(OldCookedPath, mpStore->CookedDir(false)) + " --> " + FileUtil::MakeRelative(NewCookedPath, mpStore->CookedDir(false)));
 
     // If the old/new paths are the same then we should have already exited as CanMoveTo() should have returned false
     ASSERT(OldCookedPath != NewCookedPath && OldRawPath != NewRawPath);
@@ -437,7 +437,7 @@ bool CResourceEntry::Move(const TWideString& rkDir, const TWideString& rkName)
         {
             FSMoveSuccess = pOldDir->RemoveChildResource(this);
             ASSERT(FSMoveSuccess == true); // this shouldn't be able to fail
-            mpDirectory->AddChild(L"", this);
+            mpDirectory->AddChild("", this);
             mpStore->ConditionalDeleteDirectory(pOldDir);
         }
 
@@ -459,7 +459,7 @@ bool CResourceEntry::Move(const TWideString& rkDir, const TWideString& rkName)
     }
 }
 
-void CResourceEntry::AddToProject(const TWideString& rkDir, const TWideString& rkName)
+void CResourceEntry::AddToProject(const TString& rkDir, const TString& rkName)
 {
     if (mFlags.HasFlag(eREF_Transient))
     {

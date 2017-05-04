@@ -83,7 +83,7 @@ public:
                         }
 
                         ASSERT(ParamString.Size() == IDLength * 2);
-                        pTree->AddDependency( CAssetID::FromString(ParamString) );
+                        pTree->AddDependency( CAssetID::FromString(ParamString.ToUTF8()) );
                     }
 
                     // Image
@@ -129,7 +129,7 @@ public:
                                 }
 
                                 ASSERT(Param.Size() == IDLength * 2);
-                                pTree->AddDependency( CAssetID::FromString(Param) );
+                                pTree->AddDependency( CAssetID::FromString(Param.ToUTF8()) );
                             }
                         }
                     }

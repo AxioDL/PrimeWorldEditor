@@ -22,7 +22,7 @@ public:
         : IArchive(false, true)
         , mOwnsStream(true)
     {
-        mpStream = new CFileOutStream(rkFilename.ToStdString(), IOUtil::eBigEndian);
+        mpStream = new CFileOutStream(rkFilename, IOUtil::eBigEndian);
         ASSERT(mpStream->IsValid());
 
         SetVersion(skCurrentArchiveVersion, FileVersion, Game);
@@ -117,8 +117,8 @@ public:
     virtual void SerializePrimitive(u64& rValue)            { mpStream->WriteLongLong(rValue); }
     virtual void SerializePrimitive(float& rValue)          { mpStream->WriteFloat(rValue); }
     virtual void SerializePrimitive(double& rValue)         { mpStream->WriteDouble(rValue); }
-    virtual void SerializePrimitive(TString& rValue)        { mpStream->WriteSizedString(rValue.ToStdString()); }
-    virtual void SerializePrimitive(TWideString& rValue)    { mpStream->WriteSizedWideString(rValue.ToStdString()); }
+    virtual void SerializePrimitive(TString& rValue)        { mpStream->WriteSizedString(rValue); }
+    virtual void SerializePrimitive(TWideString& rValue)    { mpStream->WriteSizedWideString(rValue); }
     virtual void SerializePrimitive(CFourCC& rValue)        { rValue.Write(*mpStream); }
     virtual void SerializePrimitive(CAssetID& rValue)       { rValue.Write(*mpStream); }
 

@@ -762,11 +762,11 @@ void CModelEditorWindow::ConvertToDDS()
     QString Input = QFileDialog::getOpenFileName(this, "Retro Texture (*.TXTR)", "", "*.TXTR");
     if (Input.isEmpty()) return;
 
-    TString TexFilename = Input.toStdString();
+    TString TexFilename = TO_TSTRING(Input);
     TResPtr<CTexture> pTex = gpResourceStore->LoadResource(TexFilename);
     TString OutName = TexFilename.GetFilePathWithoutExtension() + ".dds";
 
-    CFileOutStream Out(OutName.ToStdString(), IOUtil::eLittleEndian);
+    CFileOutStream Out(OutName, IOUtil::eLittleEndian);
     if (!Out.IsValid()) QMessageBox::warning(this, "Error", "Couldn't open output DDS!");
 
     else
@@ -783,7 +783,7 @@ void CModelEditorWindow::ConvertToTXTR()
     if (Input.isEmpty()) return;
 
     TString TexFilename = TO_TSTRING(Input);
-    CTexture *pTex = CTextureDecoder::LoadDDS(CFileInStream(TexFilename.ToStdString(), IOUtil::eLittleEndian), nullptr);
+    CTexture *pTex = CTextureDecoder::LoadDDS(CFileInStream(TexFilename, IOUtil::eLittleEndian), nullptr);
     TString OutName = TexFilename.GetFilePathWithoutExtension() + ".txtr";
 
     if ((pTex->TexelFormat() != eDXT1) || (pTex->NumMipMaps() > 1))
@@ -791,7 +791,7 @@ void CModelEditorWindow::ConvertToTXTR()
 
     else
     {
-        CFileOutStream Out(OutName.ToStdString(), IOUtil::eBigEndian);
+        CFileOutStream Out(OutName, IOUtil::eBigEndian);
         if (!Out.IsValid()) QMessageBox::warning(this, "Error", "Couldn't open output TXTR!");
 
         else

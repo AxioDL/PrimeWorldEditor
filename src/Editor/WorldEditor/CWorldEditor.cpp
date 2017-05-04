@@ -299,9 +299,9 @@ bool CWorldEditor::SetArea(CWorld *pWorld, int AreaIndex)
     QString AreaName = TO_QSTRING(mpWorld->AreaInGameName(AreaIndex));
 
     if (CurrentGame() < eReturns)
-        Log::Write("Loaded area: " + mpArea->Entry()->Name().ToUTF8() + " (" + TO_TSTRING(AreaName) + ")");
+        Log::Write("Loaded area: " + mpArea->Entry()->Name() + " (" + TO_TSTRING(AreaName) + ")");
     else
-        Log::Write("Loaded level: World " + mpWorld->Entry()->Name().ToUTF8() + " / Area " + mpArea->Entry()->Name().ToUTF8() + " (" + TO_TSTRING(AreaName) + ")");
+        Log::Write("Loaded level: World " + mpWorld->Entry()->Name() + " / Area " + mpArea->Entry()->Name() + " (" + TO_TSTRING(AreaName) + ")");
 
     // Update paste action
     OnClipboardDataModified();
@@ -705,7 +705,7 @@ void CWorldEditor::UpdateOpenRecentActions()
     // Remove projects that don't exist anymore
     foreach (const QString& rkProj, RecentProjectsList)
     {
-        if (!FileUtil::Exists( TO_TWIDESTRING(rkProj) ))
+        if (!FileUtil::Exists( TO_TSTRING(rkProj) ))
             RecentProjectsList.removeAll(rkProj);
     }
 

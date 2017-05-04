@@ -24,7 +24,7 @@ CGameProject::~CGameProject()
 bool CGameProject::Save()
 {
     mProjFileLock.Release();
-    TString ProjPath = ProjectPath().ToUTF8();
+    TString ProjPath = ProjectPath();
     CXMLWriter Writer(ProjPath, "GameProject", eVer_Current, mGame);
     Serialize(Writer);
     bool SaveSuccess = Writer.Save();
@@ -55,7 +55,7 @@ void CGameProject::Serialize(IArchive& rArc)
     if (!rArc.IsReader())
     {
         for (u32 iPkg = 0; iPkg < mPackages.size(); iPkg++)
-            PackageList.push_back( mPackages[iPkg]->DefinitionPath(true).ToUTF8() );
+            PackageList.push_back( mPackages[iPkg]->DefinitionPath(true) );
     }
 
     rArc << SERIAL_CONTAINER("Packages", PackageList, "Package");
@@ -76,9 +76,9 @@ void CGameProject::Serialize(IArchive& rArc)
 
             for (u32 iPkg = 0; iPkg < PackageList.size(); iPkg++)
             {
-                const TWideString& rkPackagePath = PackageList[iPkg];
-                TString PackageName = TWideString(rkPackagePath.GetFileName(false)).ToUTF8();
-                TWideString PackageDir = rkPackagePath.GetFileDirectory();
+                const TString& rkPackagePath = PackageList[iPkg];
+                TString PackageName = rkPackagePath.GetFileName(false);
+                TString PackageDir = rkPackagePath.GetFileDirectory();
 
                 CPackage *pPackage = new CPackage(this, PackageName, PackageDir);
                 bool PackageLoadSuccess = pPackage->Load();
@@ -144,14 +144,14 @@ CAssetID CGameProject::FindNamedResource(const TString& rkName) const
 }
 
 CGameProject* CGameProject::CreateProjectForExport(
-        const TWideString& rkProjRootDir,
+        const TString& rkProjRootDir,
         EGame Game,
         ERegion Region,
         const TString& rkGameID,
         float BuildVer,
-        const TWideString& rkDolPath,
-        const TWideString& rkApploaderPath,
-        const TWideString& rkPartitionHeaderPath,
+        const TString& rkDolPath,
+        const TString& rkApploaderPath,
+        const TString& rkPartitionHeaderPath,
         u32 FstAddress
         )
 {
@@ -166,20 +166,20 @@ CGameProject* CGameProject::CreateProjectForExport(
     pProj->mFilesystemAddress = FstAddress;
 
     pProj->mProjectRoot = rkProjRootDir;
-    pProj->mProjectRoot.Replace(L"/", L"\\");
-    pProj->mpResourceStore = new CResourceStore(pProj, L"Content\\", L"Cooked\\", Game);
+    pProj->mProjectRoot.Replace("/", "\\");
+    pProj->mpResourceStore = new CResourceStore(pProj, "Content\\", "Cooked\\", Game);
     pProj->mpGameInfo->LoadGameInfo(Game);
     pProj->mLoadSuccess = true;
     return pProj;
 }
 
-CGameProject* CGameProject::LoadProject(const TWideString& rkProjPath)
+CGameProject* CGameProject::LoadProject(const TString& rkProjPath)
 {
     CGameProject *pProj = new CGameProject;
     pProj->mProjectRoot = rkProjPath.GetFileDirectory();
-    pProj->mProjectRoot.Replace(L"/", L"\\");
+    pProj->mProjectRoot.Replace("/", "\\");
 
-    TString ProjPath = rkProjPath.ToUTF8();
+    TString ProjPath = rkProjPath;
     CXMLReader Reader(ProjPath);
 
     if (!Reader.IsValid())

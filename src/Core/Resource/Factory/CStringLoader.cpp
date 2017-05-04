@@ -117,7 +117,7 @@ void CStringLoader::LoadCorruptionSTRG(IInputStream& rSTRG)
             rSTRG.Seek(StringsStart + LangOffsets[iLang][iStr], SEEK_SET);
             rSTRG.Seek(0x4, SEEK_CUR); // Skipping string size
 
-            pLang->Strings[iStr] = rSTRG.ReadString();
+            pLang->Strings[iStr] = rSTRG.ReadString().ToUTF16();
         }
     }
 }

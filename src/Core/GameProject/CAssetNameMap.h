@@ -15,13 +15,13 @@ class CAssetNameMap
 {
     struct SAssetNameInfo
     {
-        TWideString Name;
-        TWideString Directory;
+        TString Name;
+        TString Directory;
         CFourCC Type; // This is mostly just needed to verify no name conflicts
 
-        TWideString FullPath() const
+        TString FullPath() const
         {
-            return Directory + Name + L'.' + Type.ToString().ToUTF16();
+            return Directory + Name + '.' + Type.ToString();
         }
 
         void Serialize(IArchive& rArc)

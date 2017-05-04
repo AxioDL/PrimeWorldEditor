@@ -562,7 +562,7 @@ void CAreaLoader::Decompress()
 
     TString Source = mpMREA->GetSourceString();
     mpMREA = new CMemoryInStream(mpDecmpBuffer, mTotalDecmpSize, IOUtil::eBigEndian);
-    mpMREA->SetSourceString(Source.ToStdString());
+    mpMREA->SetSourceString(Source);
     mpSectionMgr->SetInputStream(mpMREA);
     mHasDecompressedBuffer = true;
 }

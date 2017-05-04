@@ -12,8 +12,8 @@ using namespace tinyxml2;
 
 bool CPackage::Load()
 {
-    TWideString DefPath = DefinitionPath(false);
-    CXMLReader Reader(DefPath.ToUTF8());
+    TString DefPath = DefinitionPath(false);
+    CXMLReader Reader(DefPath);
 
     if (Reader.IsValid())
     {
@@ -26,10 +26,10 @@ bool CPackage::Load()
 
 bool CPackage::Save()
 {
-    TWideString DefPath = DefinitionPath(false);
+    TString DefPath = DefinitionPath(false);
     FileUtil::MakeDirectory(DefPath.GetFileDirectory());
 
-    CXMLWriter Writer(DefPath.ToUTF8(), "PackageDefinition", 0, mpProject ? mpProject->Game() : eUnknownGame);
+    CXMLWriter Writer(DefPath, "PackageDefinition", 0, mpProject ? mpProject->Game() : eUnknownGame);
     Serialize(Writer);
     return Writer.Save();
 }
@@ -68,12 +68,12 @@ void CPackage::Cook()
     Log::Write(TString::FromInt32(AssetList.size(), 0, 10) + " assets in " + Name() + ".pak");
 
     // Write new pak
-    TWideString PakPath = CookedPackagePath(false);
-    CFileOutStream Pak(PakPath.ToUTF8().ToStdString(), IOUtil::eBigEndian);
+    TString PakPath = CookedPackagePath(false);
+    CFileOutStream Pak(PakPath, IOUtil::eBigEndian);
 
     if (!Pak.IsValid())
     {
-        Log::Error("Couldn't cook package " + CookedPackagePath(true).ToUTF8() + "; unable to open package for writing");
+        Log::Error("Couldn't cook package " + CookedPackagePath(true) + "; unable to open package for writing");
         return;
     }
 
@@ -89,8 +89,7 @@ void CPackage::Cook()
         const SNamedResource& rkRes = *Iter;
         rkRes.Type.Write(Pak);
         rkRes.ID.Write(Pak);
-        Pak.WriteLong(rkRes.Name.Size());
-        Pak.WriteString(rkRes.Name.ToStdString(), rkRes.Name.Size()); // Note: Explicitly specifying size means we don't write the terminating 0
+        Pak.WriteSizedString(rkRes.Name);
     }
 
     // Fill in table of contents with junk, write later
@@ -132,7 +131,7 @@ void CPackage::Cook()
         rTocInfo.Offset = Pak.Tell();
 
         // Load resource data
-        CFileInStream CookedAsset(pEntry->CookedAssetPath().ToStdString(), IOUtil::eBigEndian);
+        CFileInStream CookedAsset(pEntry->CookedAssetPath(), IOUtil::eBigEndian);
         ASSERT(CookedAsset.IsValid());
         u32 ResourceSize = CookedAsset.Size();
 
@@ -211,7 +210,7 @@ void CPackage::Cook()
 
     mNeedsRecook = false;
     Save();
-    Log::Write("Finished writing " + PakPath.ToUTF8());
+    Log::Write("Finished writing " + PakPath);
 
     // Update resource store in case we recooked any assets
     mpProject->ResourceStore()->ConditionalSaveStore();
@@ -228,8 +227,8 @@ void CPackage::CompareOriginalAssetList(const std::list<CAssetID>& rkNewList)
         NewListSet.insert(*Iter);
 
     // Read the original pak
-    TWideString CookedPath = CookedPackagePath(false);
-    CFileInStream Pak(CookedPath.ToUTF8().ToStdString(), IOUtil::eBigEndian);
+    TString CookedPath = CookedPackagePath(false);
+    CFileInStream Pak(CookedPath, IOUtil::eBigEndian);
 
     if (!Pak.IsValid() || Pak.Size() == 0)
     {
@@ -296,14 +295,14 @@ bool CPackage::ContainsAsset(const CAssetID& rkID) const
     return mCachedDependencies.find(rkID) != mCachedDependencies.end();
 }
 
-TWideString CPackage::DefinitionPath(bool Relative) const
+TString CPackage::DefinitionPath(bool Relative) const
 {
-    TWideString RelPath = mPakPath + mPakName.ToUTF16() + L".pkd";
+    TString RelPath = mPakPath + mPakName + ".pkd";
     return Relative ? RelPath : mpProject->PackagesDir(false) + RelPath;
 }
 
-TWideString CPackage::CookedPackagePath(bool Relative) const
+TString CPackage::CookedPackagePath(bool Relative) const
 {
-    TWideString RelPath = mPakPath + mPakName.ToUTF16() + L".pak";
+    TString RelPath = mPakPath + mPakName + ".pak";
     return Relative ? RelPath : mpProject->DiscDir(false) + RelPath;
 }
