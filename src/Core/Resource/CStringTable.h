@@ -18,7 +18,7 @@ class CStringTable : public CResource
     struct SLangTable
     {
         CFourCC Language;
-        std::vector<TWideString> Strings;
+        std::vector<TString> Strings;
     };
     std::vector<SLangTable> mLangTables;
 
@@ -28,10 +28,10 @@ public:
     inline u32 NumStrings() const               { return mNumStrings; }
     inline u32 NumLanguages() const             { return mLangTables.size(); }
     inline CFourCC LanguageTag(u32 Index) const { return mLangTables[Index].Language; }
-    inline TWideString String(u32 LangIndex, u32 StringIndex) const    { return mLangTables[LangIndex].Strings[StringIndex]; }
-    inline TString StringName(u32 StringIndex) const                   { return mStringNames[StringIndex]; }
+    inline TString String(u32 LangIndex, u32 StringIndex) const { return mLangTables[LangIndex].Strings[StringIndex]; }
+    inline TString StringName(u32 StringIndex) const            { return mStringNames[StringIndex]; }
 
-    TWideString String(CFourCC Lang, u32 StringIndex) const
+    TString String(CFourCC Lang, u32 StringIndex) const
     {
         for (u32 iLang = 0; iLang < NumLanguages(); iLang++)
         {
@@ -39,7 +39,7 @@ public:
                 return String(iLang, StringIndex);
         }
 
-        return TWideString();
+        return TString();
     }
 
     CDependencyTree* BuildDependencyTree() const
@@ -54,53 +54,53 @@ public:
 
             for (u32 iStr = 0; iStr < rkTable.Strings.size(); iStr++)
             {
-                const TWideString& rkStr = rkTable.Strings[iStr];
+                const TString& rkStr = rkTable.Strings[iStr];
 
-                for (u32 TagIdx = rkStr.IndexOf(L'&'); TagIdx != -1; TagIdx = rkStr.IndexOf(L'&', TagIdx + 1))
+                for (u32 TagIdx = rkStr.IndexOf('&'); TagIdx != -1; TagIdx = rkStr.IndexOf('&', TagIdx + 1))
                 {
                     // Check for double ampersand (escape character in DKCR, not sure about other games)
-                    if (rkStr.At(TagIdx + 1) == L'&')
+                    if (rkStr.At(TagIdx + 1) == '&')
                     {
                         TagIdx++;
                         continue;
                     }
 
                     // Get tag name and parameters
-                    u32 NameEnd = rkStr.IndexOf(L'=', TagIdx);
-                    u32 TagEnd = rkStr.IndexOf(L';', TagIdx);
+                    u32 NameEnd = rkStr.IndexOf('=', TagIdx);
+                    u32 TagEnd = rkStr.IndexOf(';', TagIdx);
                     if (NameEnd == -1 || TagEnd == -1) continue;
 
-                    TWideString TagName = rkStr.SubString(TagIdx + 1, NameEnd - TagIdx - 1);
-                    TWideString ParamString = rkStr.SubString(NameEnd + 1, TagEnd - NameEnd - 1);
+                    TString TagName = rkStr.SubString(TagIdx + 1, NameEnd - TagIdx - 1);
+                    TString ParamString = rkStr.SubString(NameEnd + 1, TagEnd - NameEnd - 1);
 
                     // Font
-                    if (TagName == L"font")
+                    if (TagName == "font")
                     {
                         if (Game() >= eCorruptionProto)
                         {
-                            ASSERT(ParamString.StartsWith(L"0x"));
+                            ASSERT(ParamString.StartsWith("0x"));
                             ParamString = ParamString.ChopFront(2);
                         }
 
                         ASSERT(ParamString.Size() == IDLength * 2);
-                        pTree->AddDependency( CAssetID::FromString(ParamString.ToUTF8()) );
+                        pTree->AddDependency( CAssetID::FromString(ParamString) );
                     }
 
                     // Image
-                    else if (TagName == L"image")
+                    else if (TagName == "image")
                     {
                         // Determine which params are textures based on image type
-                        TWideStringList Params = ParamString.Split(L",");
-                        TWideString ImageType = Params.front();
+                        TStringList Params = ParamString.Split(",");
+                        TString ImageType = Params.front();
                         u32 TexturesStart = -1;
 
-                        if (ImageType == L"A")
+                        if (ImageType == "A")
                             TexturesStart = 2;
 
-                        else if (ImageType == L"SI")
+                        else if (ImageType == "SI")
                             TexturesStart = 3;
 
-                        else if (ImageType == L"SA")
+                        else if (ImageType == "SA")
                             TexturesStart = 4;
 
                         else if (ImageType.IsHexString(false, IDLength * 2))
@@ -108,28 +108,28 @@ public:
 
                         else
                         {
-                            Log::Error("Unrecognized image type: " + ImageType.ToUTF8());
+                            Log::Error("Unrecognized image type: " + ImageType);
                             DEBUG_BREAK;
                             continue;
                         }
 
                         // Load texture IDs
-                        TWideStringList::iterator Iter = Params.begin();
+                        TStringList::iterator Iter = Params.begin();
 
                         for (u32 iParam = 0; iParam < Params.size(); iParam++, Iter++)
                         {
                             if (iParam >= TexturesStart)
                             {
-                                TWideString Param = *Iter;
+                                TString Param = *Iter;
 
                                 if (Game() >= eCorruptionProto)
                                 {
-                                    ASSERT(Param.StartsWith(L"0x"));
+                                    ASSERT(Param.StartsWith("0x"));
                                     Param = Param.ChopFront(2);
                                 }
 
                                 ASSERT(Param.Size() == IDLength * 2);
-                                pTree->AddDependency( CAssetID::FromString(Param.ToUTF8()) );
+                                pTree->AddDependency( CAssetID::FromString(Param) );
                             }
                         }
                     }
@@ -140,14 +140,14 @@ public:
         return pTree;
     }
 
-    static TWideString StripFormatting(const TWideString& rkStr)
+    static TString StripFormatting(const TString& rkStr)
     {
-        TWideString Out = rkStr;
+        TString Out = rkStr;
         int TagStart = -1;
 
         for (u32 iChr = 0; iChr < Out.Size(); iChr++)
         {
-            if (Out[iChr] == L'&')
+            if (Out[iChr] == '&')
             {
                 if (TagStart == -1)
                     TagStart = iChr;
@@ -160,7 +160,7 @@ public:
                 }
             }
 
-            else if (TagStart != -1 && Out[iChr] == L';')
+            else if (TagStart != -1 && Out[iChr] == ';')
             {
                 int TagEnd = iChr + 1;
                 int TagLen = TagEnd - TagStart;

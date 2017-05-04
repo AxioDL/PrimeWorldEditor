@@ -24,7 +24,7 @@ void CStringLoader::LoadPrimeDemoSTRG(IInputStream& rSTRG)
     for (u32 iStr = 0; iStr < NumStrings; iStr++)
     {
         rSTRG.Seek(TableStart + StringOffsets[iStr], SEEK_SET);
-        Lang->Strings[iStr] = rSTRG.ReadWString();
+        Lang->Strings[iStr] = rSTRG.ReadWString().ToUTF8();
     }
 }
 
@@ -71,7 +71,7 @@ void CStringLoader::LoadPrimeSTRG(IInputStream& rSTRG)
         for (u32 iStr = 0; iStr < NumStrings; iStr++)
         {
             rSTRG.Seek(LangStart + StringOffsets[iStr], SEEK_SET);
-            pLang->Strings[iStr] = rSTRG.ReadWString();
+            pLang->Strings[iStr] = rSTRG.ReadWString().ToUTF8();
         }
     }
 }
@@ -117,7 +117,7 @@ void CStringLoader::LoadCorruptionSTRG(IInputStream& rSTRG)
             rSTRG.Seek(StringsStart + LangOffsets[iLang][iStr], SEEK_SET);
             rSTRG.Seek(0x4, SEEK_CUR); // Skipping string size
 
-            pLang->Strings[iStr] = rSTRG.ReadString().ToUTF16();
+            pLang->Strings[iStr] = rSTRG.ReadString();
         }
     }
 }

@@ -517,20 +517,20 @@ void GenerateAssetNames(CGameProject *pProj)
     {
         if (It->IsNamed()) continue;
         CStringTable *pString = (CStringTable*) It->Load();
-        TWideString String;
+        TString String;
 
         for (u32 iStr = 0; iStr < pString->NumStrings() && String.IsEmpty(); iStr++)
             String = CStringTable::StripFormatting( pString->String("ENGL", iStr) ).Trimmed();
 
         if (!String.IsEmpty())
         {
-            TWideString Name = String.SubString(0, Math::Min<u32>(String.Size(), 50)).Trimmed();
-            Name.Replace(L"\n", L" ");
+            TString Name = String.SubString(0, Math::Min<u32>(String.Size(), 50)).Trimmed();
+            Name.Replace("\n", " ");
 
-            while (Name.EndsWith(L".") || TWideString::IsWhitespace(Name.Back()))
+            while (Name.EndsWith(".") || TString::IsWhitespace(Name.Back()))
                 Name = Name.ChopBack(1);
 
-            ApplyGeneratedName(pString->Entry(), kStringsDir, Name.ToUTF8());
+            ApplyGeneratedName(pString->Entry(), kStringsDir, Name);
         }
     }
 #endif
