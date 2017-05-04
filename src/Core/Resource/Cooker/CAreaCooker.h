@@ -3,8 +3,8 @@
 
 #include "CSectionMgrOut.h"
 #include "Core/Resource/Area/CGameArea.h"
-#include <FileIO/FileIO.h>
 #include <Common/EGame.h>
+#include <Common/FileIO.h>
 
 class CAreaCooker
 {

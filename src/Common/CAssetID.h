@@ -2,9 +2,9 @@
 #define CASSETID_H
 
 #include "EGame.h"
+#include "FileIO.h"
 #include "TString.h"
 #include "types.h"
-#include <FileIO/FileIO.h>
 
 enum EIDLength
 {

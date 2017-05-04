@@ -4,8 +4,7 @@
 #include "Core/GameProject/CResourceStore.h"
 #include "Core/Resource/CWorld.h"
 #include <Common/EGame.h>
-
-#include <FileIO/FileIO.h>
+#include <Common/FileIO.h>
 
 class CWorldLoader
 {

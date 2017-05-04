@@ -13,11 +13,11 @@ void CBitStreamInWrapper::SetChunkSize(EChunkSize Size)
     mChunkSize = Size;
 }
 
-long CBitStreamInWrapper::ReadBits(long NumBits, bool ExtendSignBit /*= true*/)
+long CBitStreamInWrapper::ReadBits(u32 NumBits, bool ExtendSignBit /*= true*/)
 {
-    long BitsRemaining = NumBits;
-    long Out = 0;
-    long Shift = 0;
+    u32 BitsRemaining = NumBits;
+    u32 Out = 0;
+    u32 Shift = 0;
 
     while (BitsRemaining > 0)
     {

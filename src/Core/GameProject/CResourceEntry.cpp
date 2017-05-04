@@ -4,7 +4,7 @@
 #include "Core/Resource/CResource.h"
 #include "Core/Resource/Cooker/CResourceCooker.h"
 #include "Core/Resource/Factory/CResourceFactory.h"
-#include <FileIO/FileIO.h>
+#include <Common/FileIO.h>
 #include <Common/FileUtil.h>
 #include <Common/TString.h>
 #include <Common/Serialization/CXMLReader.h>

@@ -2,9 +2,9 @@
 #define CDEPENDENCYTREE
 
 #include "CResourceEntry.h"
-#include <FileIO/FileIO.h>
 #include <Common/AssertMacro.h>
 #include <Common/CAssetID.h>
+#include <Common/FileIO.h>
 
 class CScriptLayer;
 class CScriptObject;

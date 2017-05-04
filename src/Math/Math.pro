@@ -23,14 +23,12 @@ CONFIG (debug, debug|release) {
     TARGET = Mathd
 
     # Debug Libs
-    LIBS += -L$$BUILD_DIR/FileIO/ -lFileIOd \
-            -L$$BUILD_DIR/Common/ -lCommond \
+    LIBS += -L$$BUILD_DIR/Common/ -lCommond \
             -L$$EXTERNALS_DIR/tinyxml2/lib/ -ltinyxml2d
 
     # Debug Target Dependencies
     win32 {
-        PRE_TARGETDEPS += $$BUILD_DIR/FileIO/FileIOd.lib \
-                          $$BUILD_DIR/Common/Commond.lib
+        PRE_TARGETDEPS += $$BUILD_DIR/Common/Commond.lib
     }
 }
 
@@ -40,14 +38,12 @@ CONFIG (release, debug|release) {
     TARGET = Math
 
     # Release Libs
-    LIBS += -L$$BUILD_DIR/FileIO/ -lFileIO \
-            -L$$BUILD_DIR/Common/ -lCommon \
+    LIBS += -L$$BUILD_DIR/Common/ -lCommon \
             -L$$EXTERNALS_DIR/tinyxml2/lib/ -ltinyxml2
 
     # Release Target Dependencies
     win32 {
-        PRE_TARGETDEPS += $$BUILD_DIR/FileIO/FileIO.lib \
-                          $$BUILD_DIR/Common/Common.lib
+        PRE_TARGETDEPS += $$BUILD_DIR/Common/Common.lib
     }
 }
 

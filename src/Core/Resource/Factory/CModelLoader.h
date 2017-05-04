@@ -6,9 +6,9 @@
 #include "Core/Resource/Model/CBasicModel.h"
 #include "Core/Resource/Model/CModel.h"
 #include <Common/EGame.h>
+#include <Common/FileIO.h>
 #include <Common/Flags.h>
 
-#include <FileIO/FileIO.h>
 #include <assimp/scene.h>
 
 class CModelLoader

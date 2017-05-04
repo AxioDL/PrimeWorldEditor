@@ -7,7 +7,6 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    FileIO \
     Common \
     Math \
     Core \

@@ -7,7 +7,7 @@ CTextInStream::CTextInStream()
 {
 }
 
-CTextInStream::CTextInStream(const std::string& rkFile)
+CTextInStream::CTextInStream(const TString& rkFile)
     : mpFStream(nullptr)
 {
     Open(rkFile);
@@ -28,12 +28,13 @@ CTextInStream::~CTextInStream()
         Close();
 }
 
-void CTextInStream::Open(const std::string& rkFile)
+void CTextInStream::Open(const TString& rkFile)
 {
     if (IsValid())
         Close();
 
-    fopen_s(&mpFStream, rkFile.c_str(), "r");
+    TWideString WideFile = rkFile.ToUTF16();
+    _wfopen_s(&mpFStream, *WideFile, L"r");
     mFileName = rkFile;
 
     if (IsValid())
@@ -68,7 +69,7 @@ char CTextInStream::GetChar()
     return (char) fgetc(mpFStream);
 }
 
-std::string CTextInStream::GetString()
+TString CTextInStream::GetString()
 {
     if (!IsValid()) return "";
 
@@ -77,13 +78,13 @@ std::string CTextInStream::GetString()
     return std::string(Buf);
 }
 
-long CTextInStream::Seek(long Offset, long Origin)
+u32 CTextInStream::Seek(s32 Offset, u32 Origin)
 {
     if (!IsValid()) return 1;
     return fseek(mpFStream, Offset, Origin);
 }
 
-long CTextInStream::Tell() const
+u32 CTextInStream::Tell() const
 {
     if (!IsValid()) return 0;
     return ftell(mpFStream);
@@ -99,7 +100,7 @@ bool CTextInStream::IsValid() const
     return (mpFStream != 0);
 }
 
-long CTextInStream::Size() const
+u32 CTextInStream::Size() const
 {
     return mFileSize;
 }

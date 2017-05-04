@@ -2,8 +2,8 @@
 #define CSERIALVERSION
 
 #include "Common/EGame.h"
+#include "Common/FileIO.h"
 #include "Common/types.h"
-#include <FileIO/FileIO.h>
 
 class CSerialVersion
 {

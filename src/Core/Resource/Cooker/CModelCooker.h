@@ -2,8 +2,8 @@
 #define CMODELCOOKER_H
 
 #include "Core/Resource/Model/CModel.h"
-#include <FileIO/FileIO.h>
 #include <Common/EGame.h>
+#include <Common/FileIO.h>
 
 class CModelCooker
 {

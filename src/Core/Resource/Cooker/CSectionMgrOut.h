@@ -2,7 +2,7 @@
 #define CBLOCKMGROUT_H
 
 #include <Common/types.h>
-#include <FileIO/IOutputStream.h>
+#include <Common/FileIO/IOutputStream.h>
 #include <vector>
 
 // Small class to manage file sections for CMDL/MREA output

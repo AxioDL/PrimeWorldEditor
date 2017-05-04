@@ -3,8 +3,8 @@
 
 #include "Core/Resource/Script/CScriptLayer.h"
 #include "Core/Resource/Script/CScriptObject.h"
-#include <FileIO/FileIO.h>
 #include <Common/EGame.h>
+#include <Common/FileIO.h>
 
 class CScriptCooker
 {

@@ -1,7 +1,7 @@
 #ifndef COMPRESSIONUTIL_H
 #define COMPRESSIONUTIL_H
 
-#include <FileIO/FileIO.h>
+#include <Common/FileIO.h>
 #include <Common/TString.h>
 #include <Common/types.h>
 

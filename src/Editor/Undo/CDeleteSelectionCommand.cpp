@@ -1,6 +1,6 @@
 #include "CDeleteSelectionCommand.h"
 #include "Editor/CSelectionIterator.h"
-#include <FileIO/FileIO.h>
+#include <Common/FileIO.h>
 #include <Core/Resource/Cooker/CScriptCooker.h>
 #include <Core/Resource/Factory/CScriptLoader.h>
 

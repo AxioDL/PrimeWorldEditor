@@ -1,8 +1,8 @@
 #ifndef CSECTIONMGRIN_H
 #define CSECTIONMGRIN_H
 
-#include <FileIO/IInputStream.h>
 #include <Common/types.h>
+#include <Common/FileIO/IInputStream.h>
 #include <vector>
 
 // The purpose of this class is to keep track of data block navigation - required to read CMDL and MREA files correctly

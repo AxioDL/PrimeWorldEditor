@@ -18,7 +18,7 @@ CVectorOutStream::CVectorOutStream(IOUtil::EEndianness DataEndianness)
     mDataEndianness = DataEndianness;
 }
 
-CVectorOutStream::CVectorOutStream(unsigned long InitialSize, IOUtil::EEndianness DataEndianness)
+CVectorOutStream::CVectorOutStream(u32 InitialSize, IOUtil::EEndianness DataEndianness)
     : mpVector(new std::vector<char>(InitialSize))
     , mOwnsVector(true)
     , mPos(0)
@@ -41,7 +41,7 @@ CVectorOutStream::~CVectorOutStream()
     if (mOwnsVector) delete mpVector;
 }
 
-void CVectorOutStream::WriteBytes(const void *pkSrc, unsigned long Count)
+void CVectorOutStream::WriteBytes(const void *pkSrc, u32 Count)
 {
     if (!IsValid()) return;
 
@@ -53,7 +53,7 @@ void CVectorOutStream::WriteBytes(const void *pkSrc, unsigned long Count)
     if (mPos > mUsed) mUsed = mPos;
 }
 
-bool CVectorOutStream::Seek(long Offset, long Origin)
+bool CVectorOutStream::Seek(s32 Offset, u32 Origin)
 {
     if (!IsValid()) return false;
 
@@ -84,13 +84,13 @@ bool CVectorOutStream::Seek(long Offset, long Origin)
     if (mPos > mUsed)
         mUsed = mPos;
 
-    if (mPos > (signed long) mpVector->size())
+    if (mPos > mpVector->size())
         mpVector->resize(mPos);
 
     return true;
 }
 
-long CVectorOutStream::Tell() const
+u32 CVectorOutStream::Tell() const
 {
     return mPos;
 }
@@ -105,12 +105,12 @@ bool CVectorOutStream::IsValid() const
     return true;
 }
 
-long CVectorOutStream::Size() const
+u32 CVectorOutStream::Size() const
 {
     return mUsed;
 }
 
-long CVectorOutStream::SizeRemaining() const
+u32 CVectorOutStream::SizeRemaining() const
 {
     return mpVector->size() - mPos;
 }
@@ -133,7 +133,7 @@ void* CVectorOutStream::DataAtPosition()
     return mpVector->data() + mPos;
 }
 
-void CVectorOutStream::Expand(unsigned long Amount)
+void CVectorOutStream::Expand(u32 Amount)
 {
     mpVector->resize(mpVector->size() + Amount);
 }

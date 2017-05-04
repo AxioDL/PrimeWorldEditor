@@ -3,7 +3,7 @@
 
 #include "CResource.h"
 #include "ETexelFormat.h"
-#include <FileIO/FileIO.h>
+#include <Common/FileIO.h>
 #include <Common/types.h>
 #include <Math/CVector2f.h>
 

@@ -2,31 +2,31 @@
 #define CTEXTINSTREAM_H
 
 #include <cstdio>
-#include <string>
+#include "Common/TString.h"
 
 class CTextInStream
 {
     FILE *mpFStream;
-    std::string mFileName;
+    TString mFileName;
     long mFileSize;
 
 public:
     CTextInStream();
-    CTextInStream(const std::string& rkFile);
+    CTextInStream(const TString& rkFile);
     CTextInStream(const CTextInStream& rkSrc);
     ~CTextInStream();
-    void Open(const std::string& rkFile);
+    void Open(const TString& rkFile);
     void Close();
 
     void Scan(const char *pkFormat, ... );
     char GetChar();
-    std::string GetString();
+    TString GetString();
 
-    long Seek(long Offset, long Origin);
-    long Tell() const;
+    u32 Seek(s32 Offset, u32 Origin);
+    u32 Tell() const;
     bool EoF() const;
     bool IsValid() const;
-    long Size() const;
+    u32 Size() const;
 };
 
 #endif // CTEXTINSTREAM_H

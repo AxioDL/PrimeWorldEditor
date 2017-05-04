@@ -7,10 +7,10 @@ CTextOutStream::CTextOutStream()
 {
 }
 
-CTextOutStream::CTextOutStream(const std::string& rkFile)
+CTextOutStream::CTextOutStream(const TString& rkFile)
     : mpFStream(nullptr)
 {
-    Open(rkFile.c_str());
+    Open(rkFile);
 }
 
 CTextOutStream::CTextOutStream(const CTextOutStream& rkSrc)
@@ -28,9 +28,10 @@ CTextOutStream::~CTextOutStream()
         Close();
 }
 
-void CTextOutStream::Open(const std::string& rkFile)
+void CTextOutStream::Open(const TString& rkFile)
 {
-    fopen_s(&mpFStream, rkFile.c_str(), "w");
+    TWideString WideFile = rkFile.ToUTF16();
+    _wfopen_s(&mpFStream, *WideFile, L"w");
     mFileName = rkFile;
     mSize = 0;
 }
@@ -56,23 +57,23 @@ void CTextOutStream::WriteChar(char Chr)
 {
     if (!IsValid()) return;
     fputc(Chr, mpFStream);
-    if ((unsigned long) Tell() > mSize) mSize = Tell();
+    if (Tell() > mSize) mSize = Tell();
 }
 
-void CTextOutStream::WriteString(const std::string& rkStr)
+void CTextOutStream::WriteString(const TString& rkStr)
 {
     if (!IsValid()) return;
-    fputs(rkStr.c_str(), mpFStream);
-    if ((unsigned long) Tell() > mSize) mSize = Tell();
+    fputs(*rkStr, mpFStream);
+    if (Tell() > mSize) mSize = Tell();
 }
 
-bool CTextOutStream::Seek(long Offset, long Origin)
+bool CTextOutStream::Seek(s32 Offset, u32 Origin)
 {
     if (!IsValid()) return false;
     return (fseek(mpFStream, Offset, Origin) != 0);
 }
 
-long CTextOutStream::Tell() const
+u32 CTextOutStream::Tell() const
 {
     if (!IsValid()) return 0;
     return ftell(mpFStream);
@@ -88,7 +89,7 @@ bool CTextOutStream::IsValid() const
     return (mpFStream != 0);
 }
 
-long CTextOutStream::Size() const
+u32 CTextOutStream::Size() const
 {
     return mSize;
 }

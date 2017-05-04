@@ -1,8 +1,8 @@
 #ifndef CVECTOR3F_H
 #define CVECTOR3F_H
 
-#include <FileIO/IInputStream.h>
-#include <FileIO/IOutputStream.h>
+#include <Common/FileIO/IInputStream.h>
+#include <Common/FileIO/IOutputStream.h>
 #include <Common/Serialization/IArchive.h>
 #include <ostream>
 
