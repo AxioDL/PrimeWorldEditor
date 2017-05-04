@@ -34,15 +34,15 @@ class CResourceEntry
     CDependencyTree *mpDependencies;
     CAssetID mID;
     CVirtualDirectory *mpDirectory;
-    TWideString mName;
+    TString mName;
     FResEntryFlags mFlags;
 
     mutable u64 mCachedSize;
-    mutable TWideString mCachedUppercaseName; // This is used to speed up case-insensitive sorting and filtering.
+    mutable TString mCachedUppercaseName; // This is used to speed up case-insensitive sorting and filtering.
 
 public:
     CResourceEntry(CResourceStore *pStore, const CAssetID& rkID,
-                   const TWideString& rkDir, const TWideString& rkFilename,
+                   const TString& rkDir, const TString& rkFilename,
                    EResType Type, bool Transient = false);
     ~CResourceEntry();
 
@@ -63,32 +63,32 @@ public:
     CResource* Load();
     CResource* LoadCooked(IInputStream& rInput);
     bool Unload();
-    bool CanMoveTo(const TWideString& rkDir, const TWideString& rkName);
-    bool Move(const TWideString& rkDir, const TWideString& rkName);
-    void AddToProject(const TWideString& rkDir, const TWideString& rkName);
+    bool CanMoveTo(const TString& rkDir, const TString& rkName);
+    bool Move(const TString& rkDir, const TString& rkName);
+    void AddToProject(const TString& rkDir, const TString& rkName);
     void RemoveFromProject();
     CGameProject* Project() const;
     EGame Game() const;
 
     // Accessors
-    void SetDirty()                                     { mFlags.SetFlag(eREF_NeedsRecook); }
-    void SetHidden(bool Hidden)                         { Hidden ? mFlags.SetFlag(eREF_Hidden) : mFlags.ClearFlag(eREF_Hidden); }
+    void SetDirty()                                 { mFlags.SetFlag(eREF_NeedsRecook); }
+    void SetHidden(bool Hidden)                     { Hidden ? mFlags.SetFlag(eREF_Hidden) : mFlags.ClearFlag(eREF_Hidden); }
 
-    inline bool IsLoaded() const                        { return mpResource != nullptr; }
-    inline bool IsCategorized() const                   { return mpDirectory && mpDirectory->FullPath() != L"Uncategorized\\"; }
-    inline bool IsNamed() const                         { return mName != mID.ToString().ToUTF16(); }
-    inline CResource* Resource() const                  { return mpResource; }
-    inline CResTypeInfo* TypeInfo() const               { return mpTypeInfo; }
-    inline CResourceStore* ResourceStore() const        { return mpStore; }
-    inline CDependencyTree* Dependencies() const        { return mpDependencies; }
-    inline CAssetID ID() const                          { return mID; }
-    inline CVirtualDirectory* Directory() const         { return mpDirectory; }
-    inline TWideString DirectoryPath() const            { return mpDirectory->FullPath(); }
-    inline TWideString Name() const                     { return mName; }
-    inline const TWideString& UppercaseName() const     { return mCachedUppercaseName; }
-    inline EResType ResourceType() const                { return mpTypeInfo->Type(); }
-    inline bool IsTransient() const                     { return mFlags.HasFlag(eREF_Transient); }
-    inline bool IsHidden() const                        { return mFlags.HasFlag(eREF_Hidden); }
+    inline bool IsLoaded() const                    { return mpResource != nullptr; }
+    inline bool IsCategorized() const               { return mpDirectory && mpDirectory->FullPath() != "Uncategorized\\"; }
+    inline bool IsNamed() const                     { return mName != mID.ToString(); }
+    inline CResource* Resource() const              { return mpResource; }
+    inline CResTypeInfo* TypeInfo() const           { return mpTypeInfo; }
+    inline CResourceStore* ResourceStore() const    { return mpStore; }
+    inline CDependencyTree* Dependencies() const    { return mpDependencies; }
+    inline CAssetID ID() const                      { return mID; }
+    inline CVirtualDirectory* Directory() const     { return mpDirectory; }
+    inline TString DirectoryPath() const            { return mpDirectory->FullPath(); }
+    inline TString Name() const                     { return mName; }
+    inline const TString& UppercaseName() const     { return mCachedUppercaseName; }
+    inline EResType ResourceType() const            { return mpTypeInfo->Type(); }
+    inline bool IsTransient() const                 { return mFlags.HasFlag(eREF_Transient); }
+    inline bool IsHidden() const                    { return mFlags.HasFlag(eREF_Hidden); }
 
 protected:
     CResource* InternalLoad(IInputStream& rInput);

@@ -87,7 +87,7 @@ void CAudioManager::LogSoundInfo(u32 SoundID)
 
         Log::Write("Sound ID: " + TString::HexString(SoundInfo.SoundID, 4));
         Log::Write("Define ID: " + TString::HexString(SoundInfo.DefineID, 4));
-        Log::Write("Audio Group: " + SoundInfo.pAudioGroup->Entry()->Name().ToUTF8());
+        Log::Write("Audio Group: " + SoundInfo.pAudioGroup->Entry()->Name());
         Log::Write("");
     }
 }

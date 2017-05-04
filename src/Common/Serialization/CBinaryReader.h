@@ -24,7 +24,7 @@ public:
         : IArchive(true, false)
         , mOwnsStream(true)
     {
-        mpStream = new CFileInStream(rkFilename.ToStdString(), IOUtil::eBigEndian);
+        mpStream = new CFileInStream(rkFilename, IOUtil::eBigEndian);
         ASSERT(mpStream->IsValid());
 
         CSerialVersion Version(*mpStream);

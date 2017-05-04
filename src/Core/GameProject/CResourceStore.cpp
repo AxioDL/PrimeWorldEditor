@@ -15,7 +15,7 @@ CResourceStore *gpResourceStore = nullptr;
 CResourceStore *gpEditorStore = nullptr;
 
 // Constructor for editor store
-CResourceStore::CResourceStore(const TWideString& rkDatabasePath)
+CResourceStore::CResourceStore(const TString& rkDatabasePath)
     : mpProj(nullptr)
     , mGame(eUnknownGame)
     , mDatabaseDirty(false)
@@ -27,7 +27,7 @@ CResourceStore::CResourceStore(const TWideString& rkDatabasePath)
 }
 
 // Constructor for game exporter
-CResourceStore::CResourceStore(CGameProject *pProject, const TWideString& rkRawDir, const TWideString& rkCookedDir, EGame Game)
+CResourceStore::CResourceStore(CGameProject *pProject, const TString& rkRawDir, const TString& rkCookedDir, EGame Game)
     : mpProj(nullptr)
     , mGame(Game)
     , mRawDir(rkRawDir)
@@ -67,8 +67,8 @@ void CResourceStore::SerializeResourceDatabase(IArchive& rArc)
     {
         CAssetID ID;
         CResTypeInfo *pType;
-        TWideString Directory;
-        TWideString Name;
+        TString Directory;
+        TString Name;
 
         void Serialize(IArchive& rArc)
         {
@@ -108,7 +108,7 @@ void CResourceStore::SerializeResourceDatabase(IArchive& rArc)
 bool CResourceStore::LoadResourceDatabase()
 {
     ASSERT(!mDatabasePath.IsEmpty());
-    TString Path = DatabasePath().ToUTF8();
+    TString Path = DatabasePath();
 
     if (!mpDatabaseRoot)
         mpDatabaseRoot = new CVirtualDirectory(this);
@@ -131,7 +131,7 @@ bool CResourceStore::LoadResourceDatabase()
 
 bool CResourceStore::SaveResourceDatabase()
 {
-    TString Path = DatabasePath().ToUTF8();
+    TString Path = DatabasePath();
     CXMLWriter Writer(Path, "ResourceDB", 0, mGame);
     SerializeResourceDatabase(Writer);
     bool SaveSuccess = Writer.Save();
@@ -146,8 +146,8 @@ bool CResourceStore::SaveResourceDatabase()
 
 bool CResourceStore::LoadCacheFile()
 {
-    TString CachePath = CacheDataPath().ToUTF8();
-    CFileInStream CacheFile(CachePath.ToStdString(), IOUtil::eBigEndian);
+    TString CachePath = CacheDataPath();
+    CFileInStream CacheFile(CachePath, IOUtil::eBigEndian);
 
     if (!CacheFile.IsValid())
     {
@@ -193,8 +193,8 @@ bool CResourceStore::LoadCacheFile()
 
 bool CResourceStore::SaveCacheFile()
 {
-    TString CachePath = CacheDataPath().ToUTF8();
-    CFileOutStream CacheFile(CachePath.ToStdString(), IOUtil::eBigEndian);
+    TString CachePath = CacheDataPath();
+    CFileOutStream CacheFile(CachePath, IOUtil::eBigEndian);
 
     if (!CacheFile.IsValid())
     {
@@ -260,7 +260,7 @@ void CResourceStore::SetProject(CGameProject *pProj)
 
     if (mpProj)
     {
-        TWideString DatabasePath = mpProj->ResourceDBPath(false);
+        TString DatabasePath = mpProj->ResourceDBPath(false);
         mDatabasePath = DatabasePath.GetFileDirectory();
         mDatabaseName = DatabasePath.GetFileName();
         mpDatabaseRoot = new CVirtualDirectory(this);
@@ -283,7 +283,7 @@ void CResourceStore::CloseProject()
         for (auto Iter = mLoadedResources.begin(); Iter != mLoadedResources.end(); Iter++)
         {
             CResourceEntry *pEntry = Iter->second;
-            Log::Write("\t" + pEntry->Name().ToUTF8() + "." + pEntry->CookedExtension().ToString());
+            Log::Write("\t" + pEntry->Name() + "." + pEntry->CookedExtension().ToString());
         }
 
         ASSERT(false);
@@ -312,7 +312,7 @@ void CResourceStore::CloseProject()
     mGame = eUnknownGame;
 }
 
-CVirtualDirectory* CResourceStore::GetVirtualDirectory(const TWideString& rkPath, bool Transient, bool AllowCreate)
+CVirtualDirectory* CResourceStore::GetVirtualDirectory(const TString& rkPath, bool Transient, bool AllowCreate)
 {
     if (rkPath.IsEmpty()) return mpDatabaseRoot;
 
@@ -367,7 +367,7 @@ CResourceEntry* CResourceStore::FindEntry(const CAssetID& rkID) const
     else return Found->second;
 }
 
-CResourceEntry* CResourceStore::FindEntry(const TWideString& rkPath) const
+CResourceEntry* CResourceStore::FindEntry(const TString& rkPath) const
 {
     return (mpDatabaseRoot ? mpDatabaseRoot->FindChildResource(rkPath) : nullptr);
 }
@@ -377,7 +377,7 @@ bool CResourceStore::IsResourceRegistered(const CAssetID& rkID) const
     return FindEntry(rkID) != nullptr;
 }
 
-CResourceEntry* CResourceStore::RegisterResource(const CAssetID& rkID, EResType Type, const TWideString& rkDir, const TWideString& rkName)
+CResourceEntry* CResourceStore::RegisterResource(const CAssetID& rkID, EResType Type, const TString& rkDir, const TString& rkName)
 {
     CResourceEntry *pEntry = FindEntry(rkID);
 
@@ -390,7 +390,7 @@ CResourceEntry* CResourceStore::RegisterResource(const CAssetID& rkID, EResType 
         }
 
         else
-            Log::Error("Attempted to register resource that's already tracked in the database: " + rkID.ToString() + " / " + rkDir.ToUTF8() + " / " + rkName.ToUTF8());
+            Log::Error("Attempted to register resource that's already tracked in the database: " + rkID.ToString() + " / " + rkDir + " / " + rkName);
     }
 
     else
@@ -403,20 +403,20 @@ CResourceEntry* CResourceStore::RegisterResource(const CAssetID& rkID, EResType 
         }
 
         else
-            Log::Error("Invalid resource path, failed to register: " + rkDir.ToUTF8() + rkName.ToUTF8());
+            Log::Error("Invalid resource path, failed to register: " + rkDir + rkName);
     }
 
     return pEntry;
 }
 
-CResourceEntry* CResourceStore::RegisterTransientResource(EResType Type, const TWideString& rkDir /*= L""*/, const TWideString& rkFileName /*= L""*/)
+CResourceEntry* CResourceStore::RegisterTransientResource(EResType Type, const TString& rkDir /*= ""*/, const TString& rkFileName /*= ""*/)
 {
     CResourceEntry *pEntry = new CResourceEntry(this, CAssetID::RandomID(), rkDir, rkFileName, Type, true);
     mResourceEntries[pEntry->ID()] = pEntry;
     return pEntry;
 }
 
-CResourceEntry* CResourceStore::RegisterTransientResource(EResType Type, const CAssetID& rkID, const TWideString& rkDir /*=L ""*/, const TWideString& rkFileName /*= L""*/)
+CResourceEntry* CResourceStore::RegisterTransientResource(EResType Type, const CAssetID& rkID, const TString& rkDir /*=L ""*/, const TString& rkFileName /*= ""*/)
 {
     CResourceEntry *pEntry = FindEntry(rkID);
 
@@ -450,10 +450,10 @@ CResource* CResourceStore::LoadResource(const CAssetID& rkID, const CFourCC& rkT
         // Note the entry may not be able to find the resource on its own (due to not knowing what game
         // it is) so we will attempt to open the file stream ourselves and pass it to the entry instead.
         TString Name = rkID.ToString();
-        CResourceEntry *pEntry = RegisterTransientResource(Type, mTransientLoadDir, Name.ToUTF16());
+        CResourceEntry *pEntry = RegisterTransientResource(Type, mTransientLoadDir, Name);
 
-        TString Path = mTransientLoadDir.ToUTF8() + Name + "." + rkType.ToString();
-        CFileInStream File(Path.ToStdString(), IOUtil::eBigEndian);
+        TString Path = mTransientLoadDir + Name + "." + rkType.ToString();
+        CFileInStream File(Path, IOUtil::eBigEndian);
         CResource *pRes = pEntry->LoadCooked(File);
 
         if (!pRes) DeleteResourceEntry(pEntry);
@@ -467,7 +467,7 @@ CResource* CResourceStore::LoadResource(const CAssetID& rkID, const CFourCC& rkT
     }
 }
 
-CResource* CResourceStore::LoadResource(const TWideString& rkPath)
+CResource* CResourceStore::LoadResource(const TString& rkPath)
 {
     // If this is a relative path then load via the resource DB
     if (!FileUtil::IsAbsolute(rkPath))
@@ -477,7 +477,7 @@ CResource* CResourceStore::LoadResource(const TWideString& rkPath)
         if (pEntry)
         {
             // Verify extension matches the entry + load resource
-            TString Ext = rkPath.ToUTF8().GetFileExtension();
+            TString Ext = rkPath.GetFileExtension();
 
             if (!Ext.IsEmpty())
             {
@@ -498,7 +498,7 @@ CResource* CResourceStore::LoadResource(const TWideString& rkPath)
     }
 
     // Otherwise create transient entry; construct ID from string, check if resource is loaded already
-    TWideString Dir = FileUtil::MakeAbsolute(TWideString(rkPath.GetFileDirectory()));
+    TString Dir = FileUtil::MakeAbsolute(rkPath.GetFileDirectory());
     TString Name = rkPath.GetFileName(false);
     CAssetID ID = (Name.IsHexString() ? Name.ToInt64() : rkPath.Hash64());
     auto Find = mLoadedResources.find(ID);
@@ -507,22 +507,21 @@ CResource* CResourceStore::LoadResource(const TWideString& rkPath)
         return Find->second->Resource();
 
     // Determine type
-    TString PathUTF8 = rkPath.ToUTF8();
-    TString Extension = TString(PathUTF8).GetFileExtension().ToUpper();
+    TString Extension = rkPath.GetFileExtension().ToUpper();
     EResType Type = CResTypeInfo::TypeForCookedExtension(mGame, Extension)->Type();
 
     if (Type == eInvalidResType)
     {
-        Log::Error("Unable to load resource " + PathUTF8 + "; unrecognized extension: " + Extension);
+        Log::Error("Unable to load resource " + rkPath + "; unrecognized extension: " + Extension);
         return nullptr;
     }
 
     // Open file
-    CFileInStream File(PathUTF8.ToStdString(), IOUtil::eBigEndian);
+    CFileInStream File(rkPath, IOUtil::eBigEndian);
 
     if (!File.IsValid())
     {
-        Log::Error("Unable to load resource; couldn't open file: " + PathUTF8);
+        Log::Error("Unable to load resource; couldn't open file: " + rkPath);
         return nullptr;
     }
 
@@ -683,9 +682,9 @@ void CResourceStore::ImportNamesFromPakContentsTxt(const TString& rkTxtPath, boo
         CResourceEntry *pEntry = Iter->first;
         if (UnnamedOnly && pEntry->IsNamed()) continue;
 
-        TWideString Path = Iter->second.ToUTF16();
-        TWideString Dir = Path.GetFileDirectory();
-        TWideString Name = Path.GetFileName(false);
+        TString Path = Iter->second;
+        TString Dir = Path.GetFileDirectory();
+        TString Name = Path.GetFileName(false);
         if (Dir.IsEmpty()) Dir = pEntry->DirectoryPath();
 
         pEntry->Move(Dir, Name);
@@ -695,12 +694,12 @@ void CResourceStore::ImportNamesFromPakContentsTxt(const TString& rkTxtPath, boo
     ConditionalSaveStore();
 }
 
-bool CResourceStore::IsValidResourcePath(const TWideString& rkPath, const TWideString& rkName)
+bool CResourceStore::IsValidResourcePath(const TString& rkPath, const TString& rkName)
 {
     // Path must not be an absolute path and must not go outside the project structure.
     // Name must not be a path.
     return ( CVirtualDirectory::IsValidDirectoryPath(rkPath) &&
              FileUtil::IsValidName(rkName, false) &&
-             !rkName.Contains(L'/') &&
-             !rkName.Contains(L'\\') );
+             !rkName.Contains('/') &&
+             !rkName.Contains('\\') );
 }

@@ -16,38 +16,38 @@ class CGameExporter
 {
     // Project Data
     CGameProject *mpProject;
-    TWideString mProjectPath;
+    TString mProjectPath;
     CResourceStore *mpStore;
     EGame mGame;
     ERegion mRegion;
     TString mGameName;
     TString mGameID;
     float mBuildVersion;
-    TWideString mDolPath;
-    TWideString mApploaderPath;
-    TWideString mPartitionHeaderPath;
+    TString mDolPath;
+    TString mApploaderPath;
+    TString mPartitionHeaderPath;
     u32 mFilesystemAddress;
 
     // Directories
-    TWideString mExportDir;
-    TWideString mDiscDir;
-    TWideString mContentDir;
-    TWideString mCookedDir;
+    TString mExportDir;
+    TString mDiscDir;
+    TString mContentDir;
+    TString mCookedDir;
 
-    TWideString mWorldsDirName;
+    TString mWorldsDirName;
 
     // Files
     nod::DiscBase *mpDisc;
 
     // Resources
-    TWideStringList mPaks;
+    TStringList mPaks;
     std::map<CAssetID, bool> mAreaDuplicateMap;
     CAssetNameMap *mpNameMap;
     CGameInfo *mpGameInfo;
 
     struct SResourceInstance
     {
-        TWideString PakFile;
+        TString PakFile;
         CAssetID ResourceID;
         CFourCC ResourceType;
         u32 PakOffset;
@@ -62,11 +62,11 @@ public:
     bool Export(nod::DiscBase *pDisc, const TString& rkOutputDir, CAssetNameMap *pNameMap, CGameInfo *pGameInfo);
     void LoadResource(const CAssetID& rkID, std::vector<u8>& rBuffer);
 
-    inline TWideString ProjectPath() const  { return mProjectPath; }
+    inline TString ProjectPath() const  { return mProjectPath; }
 
 protected:
     bool ExtractDiscData();
-    bool ExtractDiscNodeRecursive(const nod::Node *pkNode, const TWideString& rkDir, const nod::ExtractionContext& rkContext);
+    bool ExtractDiscNodeRecursive(const nod::Node *pkNode, const TString& rkDir, const nod::ExtractionContext& rkContext);
     void LoadPaks();
     void LoadResource(const SResourceInstance& rkResource, std::vector<u8>& rBuffer);
     void ExportCookedResources();

@@ -46,7 +46,7 @@ void CLayerEditor::SetCurrentIndex(int Index)
 
 void CLayerEditor::EditLayerName(const QString& rkName)
 {
-    mpCurrentLayer->SetName(rkName.toStdString());
+    mpCurrentLayer->SetName(TO_TSTRING(rkName));
     ui->LayerSelectComboBox->update();
 }
 

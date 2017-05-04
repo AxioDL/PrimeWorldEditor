@@ -65,7 +65,7 @@ TString CWorld::InGameName() const
     if (mpWorldName)
         return mpWorldName->String("ENGL", 0).ToUTF8();
     else
-        return Entry()->Name().ToUTF8();
+        return Entry()->Name();
 }
 
 TString CWorld::AreaInGameName(u32 AreaIndex) const

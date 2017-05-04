@@ -29,11 +29,11 @@ class CResourceStore
     bool mCacheFileDirty;
 
     // Directory paths
-    TWideString mDatabasePath;
-    TWideString mDatabaseName;
-    TWideString mRawDir;
-    TWideString mCookedDir;
-    TWideString mTransientLoadDir;
+    TString mDatabasePath;
+    TString mDatabaseName;
+    TString mRawDir;
+    TString mCookedDir;
+    TString mTransientLoadDir;
 
     enum EDatabaseVersion
     {
@@ -44,8 +44,8 @@ class CResourceStore
     };
 
 public:
-    CResourceStore(const TWideString& rkDatabasePath);
-    CResourceStore(CGameProject *pProject, const TWideString& rkRawDir, const TWideString& rkCookedDir, EGame Game);
+    CResourceStore(const TString& rkDatabasePath);
+    CResourceStore(CGameProject *pProject, const TString& rkRawDir, const TString& rkCookedDir, EGame Game);
     CResourceStore(CGameProject *pProject);
     ~CResourceStore();
     void SerializeResourceDatabase(IArchive& rArc);
@@ -56,18 +56,18 @@ public:
     void ConditionalSaveStore();
     void SetProject(CGameProject *pProj);
     void CloseProject();
-    CVirtualDirectory* GetVirtualDirectory(const TWideString& rkPath, bool Transient, bool AllowCreate);
+    CVirtualDirectory* GetVirtualDirectory(const TString& rkPath, bool Transient, bool AllowCreate);
     void ConditionalDeleteDirectory(CVirtualDirectory *pDir);
 
     bool IsResourceRegistered(const CAssetID& rkID) const;
-    CResourceEntry* RegisterResource(const CAssetID& rkID, EResType Type, const TWideString& rkDir, const TWideString& rkName);
+    CResourceEntry* RegisterResource(const CAssetID& rkID, EResType Type, const TString& rkDir, const TString& rkName);
     CResourceEntry* FindEntry(const CAssetID& rkID) const;
-    CResourceEntry* FindEntry(const TWideString& rkPath) const;
-    CResourceEntry* RegisterTransientResource(EResType Type, const TWideString& rkDir = L"", const TWideString& rkFileName = L"");
-    CResourceEntry* RegisterTransientResource(EResType Type, const CAssetID& rkID, const TWideString& rkDir = L"", const TWideString& rkFileName = L"");
+    CResourceEntry* FindEntry(const TString& rkPath) const;
+    CResourceEntry* RegisterTransientResource(EResType Type, const TString& rkDir = "", const TString& rkFileName = "");
+    CResourceEntry* RegisterTransientResource(EResType Type, const CAssetID& rkID, const TString& rkDir = "", const TString& rkFileName = "");
 
     CResource* LoadResource(const CAssetID& rkID, const CFourCC& rkType);
-    CResource* LoadResource(const TWideString& rkPath);
+    CResource* LoadResource(const TString& rkPath);
     void TrackLoadedResource(CResourceEntry *pEntry);
     void DestroyUnreferencedResources();
     bool DeleteResourceEntry(CResourceEntry *pEntry);
@@ -75,23 +75,23 @@ public:
 
     void ImportNamesFromPakContentsTxt(const TString& rkTxtPath, bool UnnamedOnly);
 
-    static bool IsValidResourcePath(const TWideString& rkPath, const TWideString& rkName);
+    static bool IsValidResourcePath(const TString& rkPath, const TString& rkName);
 
     // Accessors
-    inline CGameProject* Project() const                { return mpProj; }
-    inline EGame Game() const                           { return mGame; }
-    inline TWideString DatabaseRootPath() const         { return mDatabasePath; }
-    inline TWideString RawDir(bool Relative) const      { return Relative ? mRawDir : mDatabasePath + mRawDir; }
-    inline TWideString CookedDir(bool Relative) const   { return Relative ? mCookedDir : mDatabasePath + mCookedDir; }
-    inline TWideString DatabasePath() const             { return DatabaseRootPath() + mDatabaseName; }
-    inline TWideString CacheDataPath() const            { return DatabaseRootPath() + L"ResourceCacheData.rcd"; }
-    inline CVirtualDirectory* RootDirectory() const     { return mpDatabaseRoot; }
-    inline u32 NumTotalResources() const                { return mResourceEntries.size(); }
-    inline u32 NumLoadedResources() const               { return mLoadedResources.size(); }
-    inline bool IsDirty() const                         { return mDatabaseDirty || mCacheFileDirty; }
+    inline CGameProject* Project() const            { return mpProj; }
+    inline EGame Game() const                       { return mGame; }
+    inline TString DatabaseRootPath() const         { return mDatabasePath; }
+    inline TString RawDir(bool Relative) const      { return Relative ? mRawDir : mDatabasePath + mRawDir; }
+    inline TString CookedDir(bool Relative) const   { return Relative ? mCookedDir : mDatabasePath + mCookedDir; }
+    inline TString DatabasePath() const             { return DatabaseRootPath() + mDatabaseName; }
+    inline TString CacheDataPath() const            { return DatabaseRootPath() + "ResourceCacheData.rcd"; }
+    inline CVirtualDirectory* RootDirectory() const { return mpDatabaseRoot; }
+    inline u32 NumTotalResources() const            { return mResourceEntries.size(); }
+    inline u32 NumLoadedResources() const           { return mLoadedResources.size(); }
+    inline bool IsDirty() const                     { return mDatabaseDirty || mCacheFileDirty; }
 
-    inline void SetDatabaseDirty()                      { mDatabaseDirty = true; }
-    inline void SetCacheDataDirty()                     { mCacheFileDirty = true; }
+    inline void SetDatabaseDirty()                  { mDatabaseDirty = true; }
+    inline void SetCacheDataDirty()                 { mCacheFileDirty = true; }
 };
 
 extern CResourceStore *gpResourceStore;

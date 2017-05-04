@@ -1105,15 +1105,12 @@ class TString : public TBasicString<char>
 {
 public:
     TString()                                   : TBasicString<char>() {}
-    TString(size_t size)                        : TBasicString<char>(size) {}
-    TString(size_t size, char fill)             : TBasicString<char>(size, fill) {}
+    TString(size_t Size)                        : TBasicString<char>(Size) {}
+    TString(size_t Size, char Fill)             : TBasicString<char>(Size, Fill) {}
     TString(const char* pkText)                 : TBasicString<char>(pkText) {}
-    TString(const char* pkText, u32 length)     : TBasicString<char>(pkText, length) {}
+    TString(const char* pkText, u32 Length)     : TBasicString<char>(pkText, Length) {}
     TString(const std::string& rkText)          : TBasicString<char>(rkText) {}
     TString(const TBasicString<char>& rkStr)    : TBasicString<char>(rkStr) {}
-    TString(const wchar_t* pkText);
-    TString(const std::wstring& rkText);
-    TString(const class TWideString& rkText);
 
     class TWideString ToUTF16() const;
 };
@@ -1123,15 +1120,12 @@ class TWideString : public TBasicString<wchar_t>
 {
 public:
     TWideString()                                   : TBasicString<wchar_t>() {}
-    TWideString(u32 size)                           : TBasicString<wchar_t>(size) {}
-    TWideString(u32 size, wchar_t fill)             : TBasicString<wchar_t>(size, fill) {}
+    TWideString(u32 Size)                           : TBasicString<wchar_t>(Size) {}
+    TWideString(u32 Size, wchar_t Fill)             : TBasicString<wchar_t>(Size, Fill) {}
     TWideString(const wchar_t* pkText)              : TBasicString<wchar_t>(pkText) {}
-    TWideString(const wchar_t* pkText, u32 length)  : TBasicString<wchar_t>(pkText, length) {}
+    TWideString(const wchar_t* pkText, u32 Length)  : TBasicString<wchar_t>(pkText, Length) {}
     TWideString(const std::wstring& rkText)         : TBasicString<wchar_t>(rkText) {}
     TWideString(const TBasicString<wchar_t>& rkStr) : TBasicString<wchar_t>(rkStr) {}
-    TWideString(const char* pkText);
-    TWideString(const std::string& rkText);
-    TWideString(const TString& rkText);
 
     class TString ToUTF8() const;
 };

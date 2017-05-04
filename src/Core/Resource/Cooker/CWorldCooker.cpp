@@ -134,7 +134,7 @@ bool CWorldCooker::CookMLVL(CWorld *pWorld, IOutputStream& rMLVL)
             rMLVL.WriteLong(ModuleNames.size());
 
             for (u32 iMod = 0; iMod < ModuleNames.size(); iMod++)
-                rMLVL.WriteString(ModuleNames[iMod].ToStdString());
+                rMLVL.WriteString(ModuleNames[iMod]);
 
             rMLVL.WriteLong(ModuleLayerOffsets.size());
 
@@ -144,7 +144,7 @@ bool CWorldCooker::CookMLVL(CWorld *pWorld, IOutputStream& rMLVL)
 
         // Internal Name
         if (Game >= eEchoesDemo)
-            rMLVL.WriteString(rArea.InternalName.ToStdString());
+            rMLVL.WriteString(rArea.InternalName);
     }
 
     if (Game <= eCorruption)
@@ -218,7 +218,7 @@ bool CWorldCooker::CookMLVL(CWorld *pWorld, IOutputStream& rMLVL)
     rMLVL.WriteLong(LayerNames.size());
 
     for (u32 iLyr = 0; iLyr < LayerNames.size(); iLyr++)
-        rMLVL.WriteString(LayerNames[iLyr].ToStdString());
+        rMLVL.WriteString(LayerNames[iLyr]);
 
     // todo: Layer Saved State IDs go here for MP3/DKCR; need support for saved state IDs to implement
     if (Game == eCorruption || Game == eReturns)

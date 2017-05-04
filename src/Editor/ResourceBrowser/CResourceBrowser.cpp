@@ -355,7 +355,7 @@ void CResourceBrowser::OnImportNamesFromAssetNameMap()
         TString Dir, Name;
 
         if (Map.GetNameInfo(It->ID(), Dir, Name))
-            It->Move(Dir.ToUTF16(), Name.ToUTF16());
+            It->Move(Dir, Name);
     }
 
     mpStore->ConditionalSaveStore();
@@ -404,7 +404,7 @@ void CResourceBrowser::UpdateFilter()
     }
 
     UpdateDescriptionLabel();
-    mpProxyModel->SetSearchString( TO_TWIDESTRING(mpUI->SearchBar->text()) );
+    mpProxyModel->SetSearchString( TO_TSTRING(mpUI->SearchBar->text()) );
     mpProxyModel->invalidate();
 }
 

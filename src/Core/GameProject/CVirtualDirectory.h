@@ -14,33 +14,33 @@ class CVirtualDirectory
 {
     CVirtualDirectory *mpParent;
     CResourceStore *mpStore;
-    TWideString mName;
+    TString mName;
     std::vector<CVirtualDirectory*> mSubdirectories;
     std::vector<CResourceEntry*> mResources;
 
 public:
     CVirtualDirectory(CResourceStore *pStore);
-    CVirtualDirectory(const TWideString& rkName, CResourceStore *pStore);
-    CVirtualDirectory(CVirtualDirectory *pParent, const TWideString& rkName, CResourceStore *pStore);
+    CVirtualDirectory(const TString& rkName, CResourceStore *pStore);
+    CVirtualDirectory(CVirtualDirectory *pParent, const TString& rkName, CResourceStore *pStore);
     ~CVirtualDirectory();
 
     bool IsEmpty() const;
-    TWideString FullPath() const;
+    TString FullPath() const;
     CVirtualDirectory* GetRoot();
-    CVirtualDirectory* FindChildDirectory(const TWideString& rkName, bool AllowCreate);
-    CResourceEntry* FindChildResource(const TWideString& rkPath);
-    CResourceEntry* FindChildResource(const TWideString& rkName, EResType Type);
-    bool AddChild(const TWideString& rkPath, CResourceEntry *pEntry);
+    CVirtualDirectory* FindChildDirectory(const TString& rkName, bool AllowCreate);
+    CResourceEntry* FindChildResource(const TString& rkPath);
+    CResourceEntry* FindChildResource(const TString& rkName, EResType Type);
+    bool AddChild(const TString& rkPath, CResourceEntry *pEntry);
     bool RemoveChildDirectory(CVirtualDirectory *pSubdir);
     bool RemoveChildResource(CResourceEntry *pEntry);
 
-    static bool IsValidDirectoryName(const TWideString& rkName);
-    static bool IsValidDirectoryPath(TWideString Path);
+    static bool IsValidDirectoryName(const TString& rkName);
+    static bool IsValidDirectoryPath(TString Path);
 
     // Accessors
     inline CVirtualDirectory* Parent() const    { return mpParent; }
     inline bool IsRoot() const                  { return !mpParent; }
-    inline TWideString Name() const             { return mName; }
+    inline TString Name() const             { return mName; }
 
     inline u32 NumSubdirectories() const                        { return mSubdirectories.size(); }
     inline CVirtualDirectory* SubdirectoryByIndex(u32 Index)    { return mSubdirectories[Index]; }

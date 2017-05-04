@@ -68,7 +68,7 @@ void CScriptCooker::WriteProperty(IProperty *pProp, bool InSingleStruct)
     case eStringProperty:
     {
         TStringProperty *pStringCast = static_cast<TStringProperty*>(pProp);
-        mpSCLY->WriteString(pStringCast->Get().ToStdString());
+        mpSCLY->WriteString(pStringCast->Get());
         break;
     }
 

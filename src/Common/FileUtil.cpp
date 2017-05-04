@@ -6,98 +6,102 @@
 // These are mostly just wrappers around boost::filesystem functions.
 using namespace boost::filesystem;
 
+// Macro encapsulating a TString -> boost::filesystem::path conversion
+// boost does not handle conversion from UTF-8 correctly so we need to do it manually
+#define TO_PATH(String) path( *String.ToUTF16() )
+
 namespace FileUtil
 {
 
-bool Exists(const TWideString &rkFilePath)
+bool Exists(const TString &rkFilePath)
 {
-    return exists(*rkFilePath);
+    return exists( TO_PATH(rkFilePath) );
 }
 
-bool IsRoot(const TWideString& rkPath)
+bool IsRoot(const TString& rkPath)
 {
     // todo: is this actually a good/multiplatform way of checking for root?
-    TWideString AbsPath = MakeAbsolute(rkPath);
-    TWideStringList Split = AbsPath.Split(L"\\/");
+    TString AbsPath = MakeAbsolute(rkPath);
+    TStringList Split = AbsPath.Split("\\/");
     return (Split.size() <= 1);
 }
 
-bool IsFile(const TWideString& rkFilePath)
+bool IsFile(const TString& rkFilePath)
 {
-    return is_regular_file(*rkFilePath);
+    return is_regular_file( TO_PATH(rkFilePath) );
 }
 
-bool IsDirectory(const TWideString& rkDirPath)
+bool IsDirectory(const TString& rkDirPath)
 {
-    return is_directory(*rkDirPath);
+    return is_directory( TO_PATH(rkDirPath) );
 }
 
-bool IsAbsolute(const TWideString& rkDirPath)
+bool IsAbsolute(const TString& rkDirPath)
 {
-    return boost::filesystem::path(*rkDirPath).is_absolute();
+    return boost::filesystem::path( TO_PATH(rkDirPath) ).is_absolute();
 }
 
-bool IsRelative(const TWideString& rkDirPath)
+bool IsRelative(const TString& rkDirPath)
 {
-    return boost::filesystem::path(*rkDirPath).is_relative();
+    return boost::filesystem::path( TO_PATH(rkDirPath) ).is_relative();
 }
 
-bool IsEmpty(const TWideString& rkDirPath)
+bool IsEmpty(const TString& rkDirPath)
 {
     if (!IsDirectory(rkDirPath))
     {
-        Log::Error("Non-directory path passed to IsEmpty(): " + rkDirPath.ToUTF8());
+        Log::Error("Non-directory path passed to IsEmpty(): " + rkDirPath);
         DEBUG_BREAK;
         return false;
     }
 
-    return is_empty(*rkDirPath);
+    return is_empty( TO_PATH(rkDirPath) );
 }
 
-bool MakeDirectory(const TWideString& rkNewDir)
+bool MakeDirectory(const TString& rkNewDir)
 {
     if (!IsValidPath(rkNewDir, true))
     {
-        Log::Error("Unable to create directory because name contains illegal characters: " + rkNewDir.ToUTF8());
+        Log::Error("Unable to create directory because name contains illegal characters: " + rkNewDir);
         return false;
     }
 
-    return create_directories(*rkNewDir);
+    return create_directories( TO_PATH(rkNewDir) );
 }
 
-bool CopyFile(const TWideString& rkOrigPath, const TWideString& rkNewPath)
+bool CopyFile(const TString& rkOrigPath, const TString& rkNewPath)
 {
     if (!IsValidPath(rkNewPath, false))
     {
-        Log::Error("Unable to copy file because destination name contains illegal characters: " + rkNewPath.ToUTF8());
+        Log::Error("Unable to copy file because destination name contains illegal characters: " + rkNewPath);
         return false;
     }
 
     MakeDirectory(rkNewPath.GetFileDirectory());
     boost::system::error_code Error;
-    copy(*rkOrigPath, *rkNewPath, Error);
+    copy(TO_PATH(rkOrigPath), TO_PATH(rkNewPath), Error);
     return (Error == boost::system::errc::success);
 }
 
-bool CopyDirectory(const TWideString& rkOrigPath, const TWideString& rkNewPath)
+bool CopyDirectory(const TString& rkOrigPath, const TString& rkNewPath)
 {
     if (!IsValidPath(rkNewPath, true))
     {
-        Log::Error("Unable to copy directory because destination name contains illegal characters: " + rkNewPath.ToUTF8());
+        Log::Error("Unable to copy directory because destination name contains illegal characters: " + rkNewPath);
         return false;
     }
 
     MakeDirectory(rkNewPath.GetFileDirectory());
     boost::system::error_code Error;
-    copy_directory(*rkOrigPath, *rkNewPath, Error);
+    copy_directory(TO_PATH(rkOrigPath), TO_PATH(rkNewPath), Error);
     return (Error == boost::system::errc::success);
 }
 
-bool MoveFile(const TWideString& rkOldPath, const TWideString& rkNewPath)
+bool MoveFile(const TString& rkOldPath, const TString& rkNewPath)
 {
     if (!IsValidPath(rkNewPath, false))
     {
-        Log::Error("Unable to move file because destination name contains illegal characters: " + rkNewPath.ToUTF8());
+        Log::Error("Unable to move file because destination name contains illegal characters: " + rkNewPath);
         return false;
     }
 
@@ -107,11 +111,11 @@ bool MoveFile(const TWideString& rkOldPath, const TWideString& rkNewPath)
         return false;
 }
 
-bool MoveDirectory(const TWideString& rkOldPath, const TWideString& rkNewPath)
+bool MoveDirectory(const TString& rkOldPath, const TString& rkNewPath)
 {
     if (!IsValidPath(rkNewPath, true))
     {
-        Log::Error("Unable to move directory because destination name contains illegal characters: " + rkNewPath.ToUTF8());
+        Log::Error("Unable to move directory because destination name contains illegal characters: " + rkNewPath);
         return false;
     }
 
@@ -121,13 +125,13 @@ bool MoveDirectory(const TWideString& rkOldPath, const TWideString& rkNewPath)
         return false;
 }
 
-bool DeleteFile(const TWideString& rkFilePath)
+bool DeleteFile(const TString& rkFilePath)
 {
     if (!IsFile(rkFilePath)) return false;
-    return remove(*rkFilePath) == 1;
+    return remove( TO_PATH(rkFilePath) ) == 1;
 }
 
-bool DeleteDirectory(const TWideString& rkDirPath, bool FailIfNotEmpty)
+bool DeleteDirectory(const TString& rkDirPath, bool FailIfNotEmpty)
 {
     // This is an extremely destructive function, be careful using it!
     if (!IsDirectory(rkDirPath)) return false;
@@ -148,11 +152,11 @@ bool DeleteDirectory(const TWideString& rkDirPath, bool FailIfNotEmpty)
 
     // Delete directory
     boost::system::error_code Error;
-    remove_all(*rkDirPath, Error);
+    remove_all(TO_PATH(rkDirPath), Error);
     return (Error == boost::system::errc::success);
 }
 
-bool ClearDirectory(const TWideString& rkDirPath)
+bool ClearDirectory(const TString& rkDirPath)
 {
     // This is an extremely destructive function, be careful using it!
     if (!IsDirectory(rkDirPath)) return false;
@@ -168,7 +172,7 @@ bool ClearDirectory(const TWideString& rkDirPath)
     }
 
     // Delete directory contents
-    TWideStringList DirContents;
+    TStringList DirContents;
     GetDirectoryContents(rkDirPath, DirContents, false);
 
     for (auto It = DirContents.begin(); It != DirContents.end(); It++)
@@ -181,62 +185,62 @@ bool ClearDirectory(const TWideString& rkDirPath)
             Success = DeleteDirectory(*It, false);
 
         if (!Success)
-            Log::Error("Failed to delete filesystem object: " + TWideString(*It).ToUTF8());
+            Log::Error("Failed to delete filesystem object: " + TString(*It));
     }
 
     return true;
 }
 
-u64 FileSize(const TWideString &rkFilePath)
+u64 FileSize(const TString &rkFilePath)
 {
-    return (u64) (Exists(*rkFilePath) ? file_size(*rkFilePath) : -1);
+    return (u64) (Exists(rkFilePath) ? file_size( TO_PATH(rkFilePath) ) : -1);
 }
 
-u64 LastModifiedTime(const TWideString& rkFilePath)
+u64 LastModifiedTime(const TString& rkFilePath)
 {
-    return (u64) last_write_time(*rkFilePath);
+    return (u64) last_write_time( TO_PATH(rkFilePath) );
 }
 
-TWideString WorkingDirectory()
+TString WorkingDirectory()
 {
     return boost::filesystem::current_path().string();
 }
 
-TWideString MakeAbsolute(TWideString Path)
+TString MakeAbsolute(TString Path)
 {
-    if (!boost::filesystem::path(*Path).has_root_name())
-        Path = WorkingDirectory() + L"\\" + Path;
+    if (!TO_PATH(Path).has_root_name())
+        Path = WorkingDirectory() + "\\" + Path;
 
-    TWideStringList Components = Path.Split(L"/\\");
-    TWideStringList::iterator Prev;
+    TStringList Components = Path.Split("/\\");
+    TStringList::iterator Prev;
 
-    for (TWideStringList::iterator Iter = Components.begin(); Iter != Components.end(); Iter++)
+    for (TStringList::iterator Iter = Components.begin(); Iter != Components.end(); Iter++)
     {
-        if (*Iter == L".")
+        if (*Iter == ".")
             Iter = Components.erase(Iter);
-        else if (*Iter == L"..")
+        else if (*Iter == "..")
             Iter = std::prev(Components.erase(Prev, std::next(Iter)));
 
         Prev = Iter;
     }
 
-    TWideString Out;
+    TString Out;
     for (auto it = Components.begin(); it != Components.end(); it++)
-        Out += *it + L"\\";
+        Out += *it + "\\";
 
     return Out;
 }
 
-TWideString MakeRelative(const TWideString& rkPath, const TWideString& rkRelativeTo /*= WorkingDirectory()*/)
+TString MakeRelative(const TString& rkPath, const TString& rkRelativeTo /*= WorkingDirectory()*/)
 {
-    TWideString AbsPath = MakeAbsolute(rkPath);
-    TWideString AbsRelTo = MakeAbsolute(rkRelativeTo);
-    TWideStringList PathComponents = AbsPath.Split(L"/\\");
-    TWideStringList RelToComponents = AbsRelTo.Split(L"/\\");
+    TString AbsPath = MakeAbsolute(rkPath);
+    TString AbsRelTo = MakeAbsolute(rkRelativeTo);
+    TStringList PathComponents = AbsPath.Split("/\\");
+    TStringList RelToComponents = AbsRelTo.Split("/\\");
 
     // Find furthest common parent
-    TWideStringList::iterator PathIter = PathComponents.begin();
-    TWideStringList::iterator RelToIter = RelToComponents.begin();
+    TStringList::iterator PathIter = PathComponents.begin();
+    TStringList::iterator RelToIter = RelToComponents.begin();
 
     for (; PathIter != PathComponents.end() && RelToIter != RelToComponents.end(); PathIter++, RelToIter++)
     {
@@ -249,31 +253,31 @@ TWideString MakeRelative(const TWideString& rkPath, const TWideString& rkRelativ
         return AbsPath;
 
     // Construct output path
-    TWideString Out;
+    TString Out;
 
     for (; RelToIter != RelToComponents.end(); RelToIter++)
-        Out += L"..\\";
+        Out += "..\\";
 
     for (; PathIter != PathComponents.end(); PathIter++)
-        Out += *PathIter + L"\\";
+        Out += *PathIter + "\\";
 
     // Attempt to detect if this path is a file as opposed to a directory; if so, remove trailing backslash
-    if (PathComponents.back().Contains(L'.') && !rkPath.EndsWith(L'/') && !rkPath.EndsWith(L'\\'))
+    if (PathComponents.back().Contains('.') && !rkPath.EndsWith('/') && !rkPath.EndsWith('\\'))
         Out = Out.ChopBack(1);
 
     return Out;
 }
 
-TWideString SimplifyRelativePath(const TWideString& rkPath)
+TString SimplifyRelativePath(const TString& rkPath)
 {
-    TWideStringList PathComponents = rkPath.Split(L"/\\");
+    TStringList PathComponents = rkPath.Split("/\\");
 
-    TWideStringList::iterator Iter = PathComponents.begin();
-    TWideStringList::iterator PrevIter = Iter;
+    TStringList::iterator Iter = PathComponents.begin();
+    TStringList::iterator PrevIter = Iter;
 
     for (auto Iter = PathComponents.begin(); Iter != PathComponents.end(); PrevIter = Iter, Iter++)
     {
-        if (*Iter == L".." && *PrevIter != L"..")
+        if (*Iter == ".." && *PrevIter != "..")
         {
             PrevIter = PathComponents.erase(PrevIter);
             PrevIter = PathComponents.erase(PrevIter);
@@ -282,22 +286,22 @@ TWideString SimplifyRelativePath(const TWideString& rkPath)
         }
     }
 
-    TWideString Out;
+    TString Out;
 
     for (auto Iter = PathComponents.begin(); Iter != PathComponents.end(); Iter++)
-        Out += *Iter + L'\\';
+        Out += *Iter + '\\';
 
     return Out;
 }
 
-static const wchar_t gskIllegalNameChars[] = {
-    L'<', L'>', L'\"', L'/', L'\\', L'|', L'?', L'*'
+static const char gskIllegalNameChars[] = {
+    '<', '>', '\"', '/', '\\', '|', '?', '*'
 };
 
-TWideString SanitizeName(TWideString Name, bool Directory, bool RootDir /*= false*/)
+TString SanitizeName(TString Name, bool Directory, bool RootDir /*= false*/)
 {
     // Windows only atm
-    if (Directory && (Name == L"." || Name == L".."))
+    if (Directory && (Name == "." || Name == ".."))
         return Name;
 
     // Remove illegal characters from path
@@ -312,7 +316,7 @@ TWideString SanitizeName(TWideString Name, bool Directory, bool RootDir /*= fals
             Remove = true;
 
         // For root, allow colon only as the last character of the name
-        else if (Chr == L':' && (!RootDir || iChr != Name.Size() - 1))
+        else if (Chr == ':' && (!RootDir || iChr != Name.Size() - 1))
             Remove = true;
 
         else
@@ -343,7 +347,7 @@ TWideString SanitizeName(TWideString Name, bool Directory, bool RootDir /*= fals
         {
             wchar_t Chr = Name[iChr];
 
-            if (Chr == L' ' || Chr == L'.')
+            if (Chr == ' ' || Chr == '.')
                 ChopNum++;
             else
                 break;
@@ -354,7 +358,7 @@ TWideString SanitizeName(TWideString Name, bool Directory, bool RootDir /*= fals
 
     // Remove spaces from beginning of path
     u32 NumLeadingSpaces = 0;
-    while (NumLeadingSpaces < Name.Size() && Name[NumLeadingSpaces] == L' ')
+    while (NumLeadingSpaces < Name.Size() && Name[NumLeadingSpaces] == ' ')
         NumLeadingSpaces++;
 
     if (NumLeadingSpaces > 0)
@@ -363,37 +367,40 @@ TWideString SanitizeName(TWideString Name, bool Directory, bool RootDir /*= fals
     return Name;
 }
 
-TWideString SanitizePath(TWideString Path, bool Directory)
+TString SanitizePath(TString Path, bool Directory)
 {
-    TWideStringList Components = Path.Split(L"\\/");
+    TStringList Components = Path.Split("\\/");
     u32 CompIdx = 0;
-    Path = L"";
+    Path = "";
 
     for (auto It = Components.begin(); It != Components.end(); It++)
     {
-        TWideString Comp = *It;
+        TString Comp = *It;
         bool IsDir = Directory || CompIdx < Components.size() - 1;
         bool IsRoot = CompIdx == 0;
         Comp = SanitizeName(Comp, IsDir, IsRoot);
 
         Path += Comp;
-        if (IsDir) Path += L'\\';
+        if (IsDir) Path += '\\';
         CompIdx++;
     }
 
     return Path;
 }
 
-bool IsValidName(const TWideString& rkName, bool Directory, bool RootDir /*= false*/)
+bool IsValidName(const TString& rkName, bool Directory, bool RootDir /*= false*/)
 {
     // Only accounting for Windows limitations right now. However, this function should
-    // ideally return the same output on all platforms to ensure projects are cross compatible.
+    // ideally return the same output on all platforms to ensure projects are cross platform.
     if (rkName.IsEmpty())
+        return false;
+
+    if (rkName.Size() > 255)
         return false;
 
     u32 NumIllegalChars = sizeof(gskIllegalNameChars) / sizeof(wchar_t);
 
-    if (Directory && (rkName == L"." || rkName == L".."))
+    if (Directory && (rkName == "." || rkName == ".."))
         return true;
 
     // Check for banned characters
@@ -405,7 +412,7 @@ bool IsValidName(const TWideString& rkName, bool Directory, bool RootDir /*= fal
             return false;
 
         // Allow colon only on last character of root
-        if (Chr == L':' && (!RootDir || iChr != rkName.Size() - 1))
+        if (Chr == ':' && (!RootDir || iChr != rkName.Size() - 1))
             return false;
 
         for (u32 iBan = 0; iBan < NumIllegalChars; iBan++)
@@ -415,17 +422,17 @@ bool IsValidName(const TWideString& rkName, bool Directory, bool RootDir /*= fal
         }
     }
 
-    if (Directory && (rkName.Back() == L' ' || rkName.Back() == L'.'))
+    if (Directory && (rkName.Back() == ' ' || rkName.Back() == '.'))
         return false;
 
     return true;
 }
 
-bool IsValidPath(const TWideString& rkPath, bool Directory)
+bool IsValidPath(const TString& rkPath, bool Directory)
 {
     // Only accounting for Windows limitations right now. However, this function should
-    // ideally return the same output on all platforms to ensure projects are cross compatible.
-    TWideStringList Components = rkPath.Split(L"\\/");
+    // ideally return the same output on all platforms to ensure projects are cross platform.
+    TStringList Components = rkPath.Split("\\/");
 
     // Validate other components
     u32 CompIdx = 0;
@@ -444,14 +451,14 @@ bool IsValidPath(const TWideString& rkPath, bool Directory)
     return true;
 }
 
-void GetDirectoryContents(TWideString DirPath, TWideStringList& rOut, bool Recursive /*= true*/, bool IncludeFiles /*= true*/, bool IncludeDirs /*= true*/)
+void GetDirectoryContents(TString DirPath, TStringList& rOut, bool Recursive /*= true*/, bool IncludeFiles /*= true*/, bool IncludeDirs /*= true*/)
 {
     if (IsDirectory(DirPath))
     {
-        DirPath.Replace(L"/", L"\\");
+        DirPath.Replace("/", "\\");
         bool IncludeAll = IncludeFiles && IncludeDirs;
 
-        auto AddFileLambda = [IncludeFiles, IncludeDirs, IncludeAll, &rOut](std::wstring Path) -> void {
+        auto AddFileLambda = [IncludeFiles, IncludeDirs, IncludeAll, &rOut](TString Path) -> void {
             bool ShouldAddFile = IncludeAll || (IncludeFiles && IsFile(Path)) || (IncludeDirs && IsDirectory(Path));
 
             if (ShouldAddFile)
@@ -460,39 +467,31 @@ void GetDirectoryContents(TWideString DirPath, TWideStringList& rOut, bool Recur
 
         if (Recursive)
         {
-            for (recursive_directory_iterator It(*DirPath); It != recursive_directory_iterator(); ++It)
+            for (recursive_directory_iterator It( TO_PATH(DirPath) ); It != recursive_directory_iterator(); ++It)
             {
-#ifdef _WIN32
-                AddFileLambda( It->path().native() );
-#else
-                AddFileLambda( TString(It->path().native()).ToUTF16().ToStdString() );
-#endif
+                AddFileLambda( It->path().string() );
             }
         }
 
         else
         {
-            for (directory_iterator It(*DirPath); It != directory_iterator(); ++It)
+            for (directory_iterator It( TO_PATH(DirPath) ); It != directory_iterator(); ++It)
             {
-#ifdef _WIN32
-                AddFileLambda( It->path().native() );
-#else
-                AddFileLambda( TString(It->path().native()).ToUTF16().ToStdString() );
-#endif
+                AddFileLambda( It->path().string() );
             }
         }
     }
 }
 
-TWideString FindFileExtension(const TWideString& rkDir, const TWideString& rkName)
+TString FindFileExtension(const TString& rkDir, const TString& rkName)
 {
-    for (directory_iterator It(*rkDir); It != directory_iterator(); ++It)
+    for (directory_iterator It( TO_PATH(rkDir) ); It != directory_iterator(); ++It)
     {
-        TWideString Name = It->path().filename().native();
+        TString Name = It->path().filename().string();
         if (Name.GetFileName(false) == rkName) return Name.GetFileExtension();
     }
 
-    return L"";
+    return "";
 }
 
 }

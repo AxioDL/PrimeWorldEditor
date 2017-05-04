@@ -8,13 +8,13 @@ CVirtualDirectory::CVirtualDirectory(CResourceStore *pStore)
     : mpParent(nullptr), mpStore(pStore)
 {}
 
-CVirtualDirectory::CVirtualDirectory(const TWideString& rkName, CResourceStore *pStore)
+CVirtualDirectory::CVirtualDirectory(const TString& rkName, CResourceStore *pStore)
     : mpParent(nullptr), mName(rkName), mpStore(pStore)
 {
     ASSERT(!mName.IsEmpty() && FileUtil::IsValidName(mName, true));
 }
 
-CVirtualDirectory::CVirtualDirectory(CVirtualDirectory *pParent, const TWideString& rkName, CResourceStore *pStore)
+CVirtualDirectory::CVirtualDirectory(CVirtualDirectory *pParent, const TString& rkName, CResourceStore *pStore)
     : mpParent(pParent), mName(rkName), mpStore(pStore)
 {
     ASSERT(!mName.IsEmpty() && FileUtil::IsValidName(mName, true));
@@ -36,12 +36,12 @@ bool CVirtualDirectory::IsEmpty() const
     return true;
 }
 
-TWideString CVirtualDirectory::FullPath() const
+TString CVirtualDirectory::FullPath() const
 {
     if (IsRoot())
-        return L"";
+        return "";
     else
-        return (mpParent && !mpParent->IsRoot() ? mpParent->FullPath() + mName + L'\\' : mName + L'\\');
+        return (mpParent && !mpParent->IsRoot() ? mpParent->FullPath() + mName + '\\' : mName + '\\');
 }
 
 CVirtualDirectory* CVirtualDirectory::GetRoot()
@@ -49,10 +49,10 @@ CVirtualDirectory* CVirtualDirectory::GetRoot()
     return (mpParent ? mpParent->GetRoot() : this);
 }
 
-CVirtualDirectory* CVirtualDirectory::FindChildDirectory(const TWideString& rkName, bool AllowCreate)
+CVirtualDirectory* CVirtualDirectory::FindChildDirectory(const TString& rkName, bool AllowCreate)
 {
-    u32 SlashIdx = rkName.IndexOf(L"\\/");
-    TWideString DirName = (SlashIdx == -1 ? rkName : rkName.SubString(0, SlashIdx));
+    u32 SlashIdx = rkName.IndexOf("\\/");
+    TString DirName = (SlashIdx == -1 ? rkName : rkName.SubString(0, SlashIdx));
 
     for (u32 iSub = 0; iSub < mSubdirectories.size(); iSub++)
     {
@@ -65,7 +65,7 @@ CVirtualDirectory* CVirtualDirectory::FindChildDirectory(const TWideString& rkNa
 
             else
             {
-                TWideString Remaining = rkName.SubString(SlashIdx + 1, rkName.Size() - SlashIdx);
+                TString Remaining = rkName.SubString(SlashIdx + 1, rkName.Size() - SlashIdx);
 
                 if (Remaining.IsEmpty())
                     return pChild;
@@ -88,10 +88,10 @@ CVirtualDirectory* CVirtualDirectory::FindChildDirectory(const TWideString& rkNa
     return nullptr;
 }
 
-CResourceEntry* CVirtualDirectory::FindChildResource(const TWideString& rkPath)
+CResourceEntry* CVirtualDirectory::FindChildResource(const TString& rkPath)
 {
-    TWideString Dir = rkPath.GetFileDirectory();
-    TWideString Name = rkPath.GetFileName();
+    TString Dir = rkPath.GetFileDirectory();
+    TString Name = rkPath.GetFileName();
 
     if (!Dir.IsEmpty())
     {
@@ -101,7 +101,7 @@ CResourceEntry* CVirtualDirectory::FindChildResource(const TWideString& rkPath)
 
     else if (!Name.IsEmpty())
     {
-        TWideString Ext = Name.GetFileExtension();
+        TString Ext = Name.GetFileExtension();
         EResType Type = CResTypeInfo::TypeForCookedExtension(mpStore->Game(), Ext)->Type();
         return FindChildResource(Name.GetFileName(false), Type);
     }
@@ -109,7 +109,7 @@ CResourceEntry* CVirtualDirectory::FindChildResource(const TWideString& rkPath)
     return nullptr;
 }
 
-CResourceEntry* CVirtualDirectory::FindChildResource(const TWideString& rkName, EResType Type)
+CResourceEntry* CVirtualDirectory::FindChildResource(const TString& rkName, EResType Type)
 {
     for (u32 iRes = 0; iRes < mResources.size(); iRes++)
     {
@@ -120,7 +120,7 @@ CResourceEntry* CVirtualDirectory::FindChildResource(const TWideString& rkName, 
     return nullptr;
 }
 
-bool CVirtualDirectory::AddChild(const TWideString &rkPath, CResourceEntry *pEntry)
+bool CVirtualDirectory::AddChild(const TString &rkPath, CResourceEntry *pEntry)
 {
     if (rkPath.IsEmpty())
     {
@@ -135,9 +135,9 @@ bool CVirtualDirectory::AddChild(const TWideString &rkPath, CResourceEntry *pEnt
 
     else if (IsValidDirectoryPath(rkPath))
     {
-        u32 SlashIdx = rkPath.IndexOf(L"\\/");
-        TWideString DirName = (SlashIdx == -1 ? rkPath : rkPath.SubString(0, SlashIdx));
-        TWideString Remaining = (SlashIdx == -1 ? L"" : rkPath.SubString(SlashIdx + 1, rkPath.Size() - SlashIdx));
+        u32 SlashIdx = rkPath.IndexOf("\\/");
+        TString DirName = (SlashIdx == -1 ? rkPath : rkPath.SubString(0, SlashIdx));
+        TString Remaining = (SlashIdx == -1 ? "" : rkPath.SubString(SlashIdx + 1, rkPath.Size() - SlashIdx));
 
         // Check if this subdirectory already exists
         CVirtualDirectory *pSubdir = nullptr;
@@ -163,7 +163,7 @@ bool CVirtualDirectory::AddChild(const TWideString &rkPath, CResourceEntry *pEnt
 
             // As an optimization, don't recurse here. We've already verified the full path is valid, so we don't need to do it again.
             // We also know none of the remaining directories already exist because this is a new, empty directory.
-            TWideStringList Components = Remaining.Split(L"/\\");
+            TStringList Components = Remaining.Split("/\\");
 
             for (auto Iter = Components.begin(); Iter != Components.end(); Iter++)
             {
@@ -222,24 +222,24 @@ bool CVirtualDirectory::RemoveChildResource(CResourceEntry *pEntry)
 }
 
 // ************ STATIC ************
-bool CVirtualDirectory::IsValidDirectoryName(const TWideString& rkName)
+bool CVirtualDirectory::IsValidDirectoryName(const TString& rkName)
 {
-    return ( rkName != L"." &&
-             rkName != L".." &&
+    return ( rkName != "." &&
+             rkName != ".." &&
              FileUtil::IsValidName(rkName, true) );
 }
 
-bool CVirtualDirectory::IsValidDirectoryPath(TWideString Path)
+bool CVirtualDirectory::IsValidDirectoryPath(TString Path)
 {
     // Entirely empty path is valid - this refers to root
     if (Path.IsEmpty())
         return true;
 
     // One trailing slash is allowed, but will cause IsValidName to fail, so we remove it here
-    if (Path.EndsWith(L'/') || Path.EndsWith(L'\\'))
+    if (Path.EndsWith('/') || Path.EndsWith('\\'))
         Path = Path.ChopBack(1);
 
-    TWideStringList Parts = Path.Split(L"/\\", true);
+    TStringList Parts = Path.Split("/\\", true);
 
     for (auto Iter = Parts.begin(); Iter != Parts.end(); Iter++)
     {

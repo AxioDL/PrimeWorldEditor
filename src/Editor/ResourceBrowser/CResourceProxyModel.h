@@ -17,7 +17,7 @@ public:
 
 private:
     CResourceTableModel *mpModel;
-    TWideString mSearchString;
+    TString mSearchString;
     ESortMode mSortMode;
     QSet<CResTypeInfo*> mTypeFilter;
 
@@ -108,7 +108,7 @@ public:
     }
 
 public slots:
-    void SetSearchString(const TWideString& rkString)
+    void SetSearchString(const TString& rkString)
     {
         mSearchString = rkString.ToUpper();
     }

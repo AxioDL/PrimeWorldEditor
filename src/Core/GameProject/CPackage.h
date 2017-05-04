@@ -24,7 +24,7 @@ class CPackage
 {
     CGameProject *mpProject;
     TString mPakName;
-    TWideString mPakPath;
+    TString mPakPath;
     std::vector<SNamedResource> mResources;
     bool mNeedsRecook;
 
@@ -43,7 +43,7 @@ class CPackage
 public:
     CPackage() {}
 
-    CPackage(CGameProject *pProj, const TString& rkName, const TWideString& rkPath)
+    CPackage(CGameProject *pProj, const TString& rkName, const TString& rkPath)
         : mpProject(pProj)
         , mPakName(rkName)
         , mPakPath(rkPath)
@@ -61,12 +61,12 @@ public:
     void CompareOriginalAssetList(const std::list<CAssetID>& rkNewList);
     bool ContainsAsset(const CAssetID& rkID) const;
 
-    TWideString DefinitionPath(bool Relative) const;
-    TWideString CookedPackagePath(bool Relative) const;
+    TString DefinitionPath(bool Relative) const;
+    TString CookedPackagePath(bool Relative) const;
 
     // Accessors
     inline TString Name() const                                         { return mPakName; }
-    inline TWideString Path() const                                     { return mPakPath; }
+    inline TString Path() const                                         { return mPakPath; }
     inline CGameProject* Project() const                                { return mpProject; }
     inline u32 NumNamedResources() const                                { return mResources.size(); }
     inline const SNamedResource& NamedResourceByIndex(u32 Idx) const    { return mResources[Idx]; }

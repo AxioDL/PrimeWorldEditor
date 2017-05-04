@@ -66,11 +66,11 @@ void CExportGameDialog::InitUI(QString ExportDir)
 
     ExportDir.replace('/', '\\');
 
-    TWideString DefaultNameMapPath = CAssetNameMap::DefaultNameMapPath(mGame);
-    if (!FileUtil::Exists(DefaultNameMapPath)) DefaultNameMapPath = L"";
+    TString DefaultNameMapPath = CAssetNameMap::DefaultNameMapPath(mGame);
+    if (!FileUtil::Exists(DefaultNameMapPath)) DefaultNameMapPath = "";
 
-    TWideString DefaultGameInfoPath = CGameInfo::GetDefaultGameInfoPath(mGame);
-    if (!FileUtil::Exists(DefaultGameInfoPath)) DefaultGameInfoPath = L"";
+    TString DefaultGameInfoPath = CGameInfo::GetDefaultGameInfoPath(mGame);
+    if (!FileUtil::Exists(DefaultGameInfoPath)) DefaultGameInfoPath = "";
 
     mpUI->OutputDirectoryLineEdit->setText(ExportDir);
     mpUI->AssetNameMapLineEdit->setText(TO_QSTRING(DefaultNameMapPath));

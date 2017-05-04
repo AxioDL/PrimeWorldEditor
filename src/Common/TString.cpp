@@ -4,21 +4,6 @@
 #include <locale>
 
 // ************ TString ************
-TString::TString(const wchar_t* pkText)
-{
-    *this = TWideString(pkText).ToUTF8();
-}
-
-TString::TString(const std::wstring& rkText)
-{
-    *this = TWideString(rkText).ToUTF8();
-}
-
-TString::TString(const TWideString& rkText)
-{
-    *this = rkText.ToUTF8();
-}
-
 TWideString TString::ToUTF16() const
 {
     TWideString Out;
@@ -96,21 +81,6 @@ TWideString TString::ToUTF16() const
 }
 
 // ************ TWideString ************
-TWideString::TWideString(const char* pkText)
-{
-    *this = TString(pkText).ToUTF16();
-}
-
-TWideString::TWideString(const std::string& rkText)
-{
-    *this = TString(rkText).ToUTF16();
-}
-
-TWideString::TWideString(const TString& rkText)
-{
-    *this = rkText.ToUTF16();
-}
-
 TString TWideString::ToUTF8() const
 {
     std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> Convert;

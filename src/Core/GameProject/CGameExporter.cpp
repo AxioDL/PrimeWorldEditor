@@ -41,8 +41,8 @@ bool CGameExporter::Export(nod::DiscBase *pDisc, const TString& rkOutputDir, CAs
     mpGameInfo = pGameInfo;
 
     mExportDir = FileUtil::MakeAbsolute(rkOutputDir);
-    mDiscDir = L"Disc\\";
-    mWorldsDirName = L"Worlds\\";
+    mDiscDir = "Disc\\";
+    mWorldsDirName = "Worlds\\";
 
     // Create project
     FileUtil::MakeDirectory(mExportDir);
@@ -98,7 +98,7 @@ bool CGameExporter::ExtractDiscData()
     SCOPED_TIMER(ExtractDiscData);
 
     // Create Disc output folder
-    TWideString AbsDiscDir = mExportDir + mDiscDir;
+    TString AbsDiscDir = mExportDir + mDiscDir;
     FileUtil::MakeDirectory(AbsDiscDir);
 
     // Extract disc filesystem
@@ -111,8 +111,8 @@ bool CGameExporter::ExtractDiscData()
     if (!Success) return false;
 
     // Extract dol
-    mDolPath = L"boot.dol";
-    CFileOutStream DolFile(TWideString(mExportDir + mDolPath).ToUTF8().ToStdString());
+    mDolPath = "boot.dol";
+    CFileOutStream DolFile(mExportDir + mDolPath);
     if (!DolFile.IsValid()) return false;
 
     std::unique_ptr<uint8_t[]> pDolBuffer = pDataPartition->getDOLBuf();
@@ -120,8 +120,8 @@ bool CGameExporter::ExtractDiscData()
     DolFile.Close();
 
     // Extract apploader
-    mApploaderPath = L"apploader.img";
-    CFileOutStream ApploaderFile(TWideString(mExportDir + mApploaderPath).ToUTF8().ToStdString());
+    mApploaderPath = "apploader.img";
+    CFileOutStream ApploaderFile(mExportDir + mApploaderPath);
     if (!ApploaderFile.IsValid()) return false;
 
     std::unique_ptr<uint8_t[]> pApploaderBuffer = pDataPartition->getApploaderBuf();
@@ -134,9 +134,9 @@ bool CGameExporter::ExtractDiscData()
     if (IsWii)
     {
         mFilesystemAddress = 0;
-        mPartitionHeaderPath = L"partition_header.bin";
+        mPartitionHeaderPath = "partition_header.bin";
         nod::DiscWii *pDiscWii = static_cast<nod::DiscWii*>(mpDisc);
-        Success = pDiscWii->writeOutDataPartitionHeader(*(mExportDir + mPartitionHeaderPath));
+        Success = pDiscWii->writeOutDataPartitionHeader(*TString(mExportDir + mPartitionHeaderPath).ToUTF16());
         if (!Success) return false;
     }
     else
@@ -145,23 +145,23 @@ bool CGameExporter::ExtractDiscData()
     return true;
 }
 
-bool CGameExporter::ExtractDiscNodeRecursive(const nod::Node *pkNode, const TWideString& rkDir, const nod::ExtractionContext& rkContext)
+bool CGameExporter::ExtractDiscNodeRecursive(const nod::Node *pkNode, const TString& rkDir, const nod::ExtractionContext& rkContext)
 {
     for (nod::Node::DirectoryIterator Iter = pkNode->begin(); Iter != pkNode->end(); ++Iter)
     {
         if (Iter->getKind() == nod::Node::Kind::File)
         {
-            TWideString FilePath = rkDir + TString(Iter->getName()).ToUTF16();
-            bool Success = Iter->extractToDirectory(*rkDir, rkContext);
+            TString FilePath = rkDir + Iter->getName();
+            bool Success = Iter->extractToDirectory(*rkDir.ToUTF16(), rkContext);
             if (!Success) return false;
 
-            if (FilePath.GetFileExtension() == L"pak")
+            if (FilePath.GetFileExtension() == "pak")
                 mPaks.push_back(FilePath);
         }
 
         else
         {
-            TWideString Subdir = rkDir + TString(Iter->getName()).ToUTF16() + L"\\";
+            TString Subdir = rkDir + Iter->getName() + "\\";
             bool Success = FileUtil::MakeDirectory(Subdir);
             if (!Success) return false;
 
@@ -179,23 +179,22 @@ void CGameExporter::LoadPaks()
 #if LOAD_PAKS
     SCOPED_TIMER(LoadPaks);
 
-    mPaks.sort([](const TWideString& rkLeft, const TWideString& rkRight) -> bool {
+    mPaks.sort([](const TString& rkLeft, const TString& rkRight) -> bool {
         return rkLeft.ToUpper() < rkRight.ToUpper();
     });
 
     for (auto It = mPaks.begin(); It != mPaks.end(); It++)
     {
-        TWideString PakPath = *It;
-        TString CharPak = PakPath.ToUTF8();
-        CFileInStream Pak(CharPak.ToStdString(), IOUtil::eBigEndian);
+        TString PakPath = *It;
+        CFileInStream Pak(PakPath, IOUtil::eBigEndian);
 
         if (!Pak.IsValid())
         {
-            Log::Error("Couldn't open pak: " + CharPak);
+            Log::Error("Couldn't open pak: " + PakPath);
             continue;
         }
 
-        CPackage *pPackage = new CPackage(mpProject, CharPak.GetFileName(false), FileUtil::MakeRelative(PakPath.GetFileDirectory(), mExportDir + mDiscDir));
+        CPackage *pPackage = new CPackage(mpProject, PakPath.GetFileName(false), FileUtil::MakeRelative(PakPath.GetFileDirectory(), mExportDir + mDiscDir));
 
         // MP1-MP3Proto
         if (mGame < eCorruption)
@@ -349,7 +348,7 @@ void CGameExporter::LoadPaks()
 
 void CGameExporter::LoadResource(const SResourceInstance& rkResource, std::vector<u8>& rBuffer)
 {
-    CFileInStream Pak(rkResource.PakFile.ToUTF8().ToStdString(), IOUtil::eBigEndian);
+    CFileInStream Pak(rkResource.PakFile, IOUtil::eBigEndian);
 
     if (Pak.IsValid())
     {
@@ -533,9 +532,9 @@ void CGameExporter::ExportResource(SResourceInstance& rRes)
 
 #if EXPORT_COOKED
         // Save cooked asset
-        TWideString OutCookedPath = pEntry->CookedAssetPath();
+        TString OutCookedPath = pEntry->CookedAssetPath();
         FileUtil::MakeDirectory(OutCookedPath.GetFileDirectory());
-        CFileOutStream Out(OutCookedPath.ToUTF8().ToStdString(), IOUtil::eBigEndian);
+        CFileOutStream Out(OutCookedPath, IOUtil::eBigEndian);
 
         if (Out.IsValid())
             Out.WriteBytes(ResourceData.data(), ResourceData.size());

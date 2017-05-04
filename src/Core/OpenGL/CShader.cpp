@@ -219,8 +219,8 @@ CShader* CShader::FromResourceFile(const TString& rkShaderName)
 {
     TString VertexShaderFilename = "../resources/shaders/" + rkShaderName + ".vs";
     TString PixelShaderFilename = "../resources/shaders/" + rkShaderName + ".ps";
-    CTextInStream VertexShaderFile(VertexShaderFilename.ToStdString());
-    CTextInStream PixelShaderFile(PixelShaderFilename.ToStdString());
+    CTextInStream VertexShaderFile(VertexShaderFilename);
+    CTextInStream PixelShaderFile(PixelShaderFilename);
 
     if (!VertexShaderFile.IsValid())
         Log::Error("Couldn't load vertex shader file for " + rkShaderName);

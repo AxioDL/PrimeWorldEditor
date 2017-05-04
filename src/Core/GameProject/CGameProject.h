@@ -20,13 +20,13 @@ class CGameProject
     ERegion mRegion;
     TString mGameID;
     float mBuildVersion;
-    TWideString mDolPath;
-    TWideString mApploaderPath;
-    TWideString mPartitionHeaderPath;
+    TString mDolPath;
+    TString mApploaderPath;
+    TString mPartitionHeaderPath;
     u32 mFilesystemAddress;
 
-    TWideString mProjectRoot;
-    TWideString mResourceDBPath;
+    TString mProjectRoot;
+    TString mResourceDBPath;
     std::vector<CPackage*> mPackages;
     CResourceStore *mpResourceStore;
     CGameInfo *mpGameInfo;
@@ -52,7 +52,7 @@ class CGameProject
         , mRegion(eRegion_Unknown)
         , mGameID("000000")
         , mBuildVersion(0.f)
-        , mResourceDBPath(L"ResourceDB.rdb")
+        , mResourceDBPath("ResourceDB.rdb")
         , mpResourceStore(nullptr)
         , mLoadSuccess(true)
     {
@@ -70,27 +70,27 @@ public:
 
     // Static
     static CGameProject* CreateProjectForExport(
-            const TWideString& rkProjRootDir,
+            const TString& rkProjRootDir,
             EGame Game,
             ERegion Region,
             const TString& rkGameID,
             float BuildVer,
-            const TWideString& rkDolPath,
-            const TWideString& rkApploaderPath,
-            const TWideString& rkPartitionHeaderPath,
+            const TString& rkDolPath,
+            const TString& rkApploaderPath,
+            const TString& rkPartitionHeaderPath,
             u32 FstAddress
         );
 
-    static CGameProject* LoadProject(const TWideString& rkProjPath);
+    static CGameProject* LoadProject(const TString& rkProjPath);
 
     // Directory Handling
-    inline TWideString ProjectRoot() const                      { return mProjectRoot; }
-    inline TWideString ResourceDBPath(bool Relative) const      { return Relative ? mResourceDBPath : mProjectRoot + mResourceDBPath; }
-    inline TWideString DiscDir(bool Relative) const             { return Relative ? L"Disc\\" : mProjectRoot + L"Disc\\"; }
-    inline TWideString CacheDir(bool Relative) const            { return Relative ? L"Cache\\" : mProjectRoot + L"Cache\\"; }
-    inline TWideString PackagesDir(bool Relative) const         { return Relative ? L"Packages\\" : mProjectRoot + L"Packages\\"; }
-    inline TWideString ProjectPath() const                      { return mProjectRoot + FileUtil::SanitizeName(mProjectName.ToUTF16(), false) + L".prj"; }
-    inline TWideString ResourceCachePath(bool Relative) const   { return ResourceDBPath(Relative).GetFileDirectory() + L"ResourceCacheData.rcd"; }
+    inline TString ProjectRoot() const                      { return mProjectRoot; }
+    inline TString ResourceDBPath(bool Relative) const      { return Relative ? mResourceDBPath : mProjectRoot + mResourceDBPath; }
+    inline TString DiscDir(bool Relative) const             { return Relative ? "Disc\\" : mProjectRoot + "Disc\\"; }
+    inline TString CacheDir(bool Relative) const            { return Relative ? "Cache\\" : mProjectRoot + "Cache\\"; }
+    inline TString PackagesDir(bool Relative) const         { return Relative ? "Packages\\" : mProjectRoot + "Packages\\"; }
+    inline TString ProjectPath() const                      { return mProjectRoot + FileUtil::SanitizeName(mProjectName, false) + ".prj"; }
+    inline TString ResourceCachePath(bool Relative) const   { return ResourceDBPath(Relative).GetFileDirectory() + "ResourceCacheData.rcd"; }
 
     // Accessors
     inline void SetProjectName(const TString& rkName)   { mProjectName = rkName; }

@@ -73,7 +73,7 @@ bool CEditorApplication::OpenProject(const QString& rkProjPath)
         return false;
 
     // Load new project
-    TWideString Path = TO_TWIDESTRING(rkProjPath);
+    TString Path = TO_TSTRING(rkProjPath);
     mpActiveProject = CGameProject::LoadProject(Path);
 
     if (mpActiveProject)
