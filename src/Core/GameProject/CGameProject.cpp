@@ -198,7 +198,7 @@ CGameProject* CGameProject::LoadProject(const TWideString& rkProjPath)
     }
 
     CTemplateLoader::LoadGameTemplates(pProj->mGame);
-    pProj->mProjFileLock.Lock(*ProjPath);
+    pProj->mProjFileLock.Lock(ProjPath);
     pProj->mpGameInfo->LoadGameInfo(pProj->mGame);
     pProj->mpAudioManager->LoadAssets();
     return pProj;

@@ -2,7 +2,7 @@
 #define CPOITOWORLDCOOKER_H
 
 #include "Core/Resource/CPoiToWorld.h"
-#include <FileIO/FileIO.h>
+#include <Common/FileIO.h>
 
 class CPoiToWorldCooker
 {

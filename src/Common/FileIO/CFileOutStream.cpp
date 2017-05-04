@@ -6,13 +6,13 @@ CFileOutStream::CFileOutStream()
 {
 }
 
-CFileOutStream::CFileOutStream(const std::string& rkFile)
+CFileOutStream::CFileOutStream(const TString& rkFile)
     : mpFStream(nullptr)
 {
     Open(rkFile, IOUtil::eBigEndian);
 }
 
-CFileOutStream::CFileOutStream(const std::string& rkFile, IOUtil::EEndianness FileEndianness)
+CFileOutStream::CFileOutStream(const TString& rkFile, IOUtil::EEndianness FileEndianness)
     : mpFStream(nullptr)
 {
     Open(rkFile, FileEndianness);
@@ -33,23 +33,25 @@ CFileOutStream::~CFileOutStream()
         Close();
 }
 
-void CFileOutStream::Open(const std::string& rkFile, IOUtil::EEndianness FileEndianness)
+void CFileOutStream::Open(const TString& rkFile, IOUtil::EEndianness FileEndianness)
 {
     if (IsValid())
         Close();
 
-    fopen_s(&mpFStream, rkFile.c_str(), "wb");
+    TWideString WideFile = rkFile.ToUTF16();
+    _wfopen_s(&mpFStream, *WideFile, L"wb");
     mName = rkFile;
     mDataEndianness = FileEndianness;
     mSize = 0;
 }
 
-void CFileOutStream::Update(const std::string& rkFile, IOUtil::EEndianness FileEndianness)
+void CFileOutStream::Update(const TString& rkFile, IOUtil::EEndianness FileEndianness)
 {
     if (IsValid())
         Close();
 
-    fopen_s(&mpFStream, rkFile.c_str(), "rb+");
+    TWideString WideFile = rkFile.ToUTF16();
+    _wfopen_s(&mpFStream, *WideFile, L"rb+");
     mName = rkFile;
     mDataEndianness = FileEndianness;
     Seek(0x0, SEEK_END);
@@ -65,32 +67,32 @@ void CFileOutStream::Close()
     mSize = 0;
 }
 
-void CFileOutStream::WriteBytes(const void *pkSrc, unsigned long Count)
+void CFileOutStream::WriteBytes(const void *pkSrc, u32 Count)
 {
     if (!IsValid()) return;
     fwrite(pkSrc, 1, Count, mpFStream);
-    if ((unsigned long) Tell() > mSize) mSize = Tell();
+    if (Tell() > mSize) mSize = Tell();
 }
 
-bool CFileOutStream::Seek(long Offset, long Origin)
+bool CFileOutStream::Seek(s32 Offset, u32 Origin)
 {
     if (!IsValid()) return false;
     return (fseek(mpFStream, Offset, Origin) != 0);
 }
 
-bool CFileOutStream::Seek64(long long Offset, long Origin)
+bool CFileOutStream::Seek64(s64 Offset, u32 Origin)
 {
     if (!IsValid()) return false;
     return (_fseeki64(mpFStream, Offset, Origin) != 0);
 }
 
-long CFileOutStream::Tell() const
+u32 CFileOutStream::Tell() const
 {
     if (!IsValid()) return 0;
     return ftell(mpFStream);
 }
 
-long long CFileOutStream::Tell64() const
+u64 CFileOutStream::Tell64() const
 {
     if (!IsValid()) return 0;
     return _ftelli64(mpFStream);
@@ -106,13 +108,13 @@ bool CFileOutStream::IsValid() const
     return (mpFStream != 0);
 }
 
-long CFileOutStream::Size() const
+u32 CFileOutStream::Size() const
 {
     if (!IsValid()) return 0;
     return mSize;
 }
 
-std::string CFileOutStream::FileName() const
+TString CFileOutStream::FileName() const
 {
     return mName;
 }

@@ -68,68 +68,60 @@ long IInputStream::ReadFourCC()
     return Val;
 }
 
-std::string IInputStream::ReadString()
+TString IInputStream::ReadString()
 {
-    std::string Str;
-    char Chr = 1;
+    TString Str;
+    char Chr;
 
-    while ((Chr != 0) && (!EoF()))
+    do
     {
         Chr = ReadByte();
-        if (Chr != 0) Str.push_back(Chr);
+        if (Chr != 0) Str.Append(Chr);
     }
+    while ((Chr != 0) && (!EoF()));
 
     return Str;
 }
 
-std::string IInputStream::ReadString(unsigned long Count)
+TString IInputStream::ReadString(u32 Count)
 {
-    std::string Str(Count, 0);
-
-    for (unsigned long iChr = 0; iChr < Count; iChr++)
-        Str[iChr] = ReadByte();
-
+    TString Str(Count, 0);
+    ReadBytes(&Str[0], Count);
     return Str;
 }
 
-std::string IInputStream::ReadSizedString()
+TString IInputStream::ReadSizedString()
 {
-    unsigned int StringSize = ReadLong();
-    std::string Str(StringSize, 0);
-    ReadBytes(&Str[0], Str.size());
-    return Str;
+    u32 StringSize = ReadLong();
+    return ReadString(StringSize);
 }
 
-std::wstring IInputStream::ReadWString()
+TWideString IInputStream::ReadWString()
 {
-    std::wstring WStr;
+    TWideString WStr;
     short Chr = 1;
 
-    while (Chr != 0)
+    do
     {
         Chr = ReadShort();
-        if (Chr != 0) WStr.push_back(Chr);
+        if (Chr != 0) WStr.Append(Chr);
     }
+    while (Chr != 0 && !EoF());
 
     return WStr;
 }
 
-std::wstring IInputStream::ReadWString(unsigned long Count)
+TWideString IInputStream::ReadWString(u32 Count)
 {
-    std::wstring WStr(Count, 0);
-
-    for (unsigned long c = 0; c < Count; c++)
-        WStr[c] = ReadShort();
-
+    TWideString WStr(Count, 0);
+    ReadBytes(&WStr[0], WStr.Size() * 2);
     return WStr;
 }
 
-std::wstring IInputStream::ReadSizedWString()
+TWideString IInputStream::ReadSizedWString()
 {
-    unsigned int StringSize = ReadLong();
-    std::wstring WStr(StringSize, 0);
-    ReadBytes(&WStr[0], WStr.size() * 2);
-    return WStr;
+    u32 StringSize = ReadLong();
+    return ReadWString(StringSize);
 }
 
 char IInputStream::PeekByte()
@@ -181,19 +173,19 @@ long IInputStream::PeekFourCC()
     return Val;
 }
 
-bool IInputStream::GoTo(long Address)
+bool IInputStream::GoTo(u32 Address)
 {
     return Seek(Address, SEEK_SET);
 }
 
-bool IInputStream::Skip(long SkipAmount)
+bool IInputStream::Skip(s32 SkipAmount)
 {
     return Seek(SkipAmount, SEEK_CUR);
 }
 
-void IInputStream::SeekToBoundary(unsigned long Boundary)
+void IInputStream::SeekToBoundary(u32 Boundary)
 {
-    long Num = Boundary - (Tell() % Boundary);
+    u32 Num = Boundary - (Tell() % Boundary);
     if (Num == Boundary) return;
     else Seek(Num, SEEK_CUR);
 }
@@ -203,7 +195,7 @@ void IInputStream::SetEndianness(IOUtil::EEndianness Endianness)
     mDataEndianness = Endianness;
 }
 
-void IInputStream::SetSourceString(const std::string& rkSource)
+void IInputStream::SetSourceString(const TString& rkSource)
 {
     mDataSource = rkSource;
 }
@@ -213,17 +205,17 @@ IOUtil::EEndianness IInputStream::GetEndianness() const
     return mDataEndianness;
 }
 
-std::string IInputStream::GetSourceString() const
+TString IInputStream::GetSourceString() const
 {
     return mDataSource;
 }
 
-bool IInputStream::Seek64(long long Offset, long Origin)
+bool IInputStream::Seek64(s64 Offset, u32 Origin)
 {
-    return Seek((long) Offset, Origin);
+    return Seek((s32) Offset, Origin);
 }
 
-long long IInputStream::Tell64() const
+u64 IInputStream::Tell64() const
 {
-    return (long long) Tell();
+    return (u64) Tell();
 }

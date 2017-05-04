@@ -6,7 +6,7 @@
 #include <Common/CColor.h>
 #include <Common/types.h>
 
-#include <FileIO/FileIO.h>
+#include <Common/FileIO.h>
 
 class CTextureDecoder
 {

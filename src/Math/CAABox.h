@@ -2,9 +2,9 @@
 #define CAABOX_H
 
 #include "CVector3f.h"
+#include <Common/FileIO/IInputStream.h>
+#include <Common/FileIO/IOutputStream.h>
 #include <Common/Serialization/IArchive.h>
-#include <FileIO/IInputStream.h>
-#include <FileIO/IOutputStream.h>
 #include <utility>
 
 class CRay;

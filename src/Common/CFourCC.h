@@ -2,10 +2,9 @@
 #define CFOURCC_H
 
 #include "AssertMacro.h"
+#include "FileIO.h"
 #include "types.h"
 #include "TString.h"
-#include <FileIO/IInputStream.h>
-#include <FileIO/IOutputStream.h>
 
 #define FOURCC_FROM_TEXT(Text) (Text[0] << 24 | Text[1] << 16 | Text[2] << 8 | Text[3])
 

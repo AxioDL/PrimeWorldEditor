@@ -5,7 +5,7 @@
 #include "Core/Resource/Script/CScriptLayer.h"
 #include "Core/CRayCollisionTester.h"
 
-#include <FileIO/CFileInStream.h>
+#include <Common/FileIO/CFileInStream.h>
 #include <Common/TString.h>
 #include <Math/CRay.h>
 

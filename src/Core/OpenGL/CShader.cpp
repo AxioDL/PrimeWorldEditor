@@ -3,7 +3,7 @@
 #include <Common/Log.h>
 #include <Common/TString.h>
 #include <Common/types.h>
-#include <FileIO/CTextInStream.h>
+#include <Common/FileIO/CTextInStream.h>
 
 #include <fstream>
 #include <sstream>

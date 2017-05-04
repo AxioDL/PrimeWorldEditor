@@ -14,13 +14,13 @@ public:
 private:
     IInputStream *mpSourceStream;
     EChunkSize mChunkSize;
-    unsigned long mBitPool;
-    long mBitsRemaining;
+    u32 mBitPool;
+    u32 mBitsRemaining;
 
 public:
     CBitStreamInWrapper(IInputStream *pStream, EChunkSize ChunkSize = e32Bit);
     void SetChunkSize(EChunkSize Size);
-    long ReadBits(long NumBits, bool ExtendSignBit = true);
+    long ReadBits(u32 NumBits, bool ExtendSignBit = true);
     bool ReadBit();
 
 private:

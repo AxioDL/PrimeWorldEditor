@@ -8,27 +8,27 @@ class CVectorOutStream : public IOutputStream
 {
     std::vector<char> *mpVector;
     bool mOwnsVector;
-    long mPos;
-    long mUsed;
+    u32 mPos;
+    u32 mUsed;
 
 public:
     CVectorOutStream();
     CVectorOutStream(IOUtil::EEndianness DataEndianness);
-    CVectorOutStream(unsigned long InitialSize, IOUtil::EEndianness DataEndianness);
+    CVectorOutStream(u32 InitialSize, IOUtil::EEndianness DataEndianness);
     CVectorOutStream(std::vector<char> *pVector, IOUtil::EEndianness DataEndianness);
     ~CVectorOutStream();
 
-    void WriteBytes(const void *pkSrc, unsigned long Count);
-    bool Seek(long Offset, long Origin);
-    long Tell() const;
+    void WriteBytes(const void *pkSrc, u32 Count);
+    bool Seek(s32 Offset, u32 Origin);
+    u32 Tell() const;
     bool EoF() const;
     bool IsValid() const;
-    long Size() const;
-    long SizeRemaining() const;
+    u32 Size() const;
+    u32 SizeRemaining() const;
     void SetVector(std::vector<char> *pVector);
     void *Data();
     void *DataAtPosition();
-    void Expand(unsigned long Amount);
+    void Expand(u32 Amount);
     void Shrink();
     void Reset();
     void Clear();

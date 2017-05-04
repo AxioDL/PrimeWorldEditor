@@ -6,12 +6,12 @@
 #include "CResourceStore.h"
 #include "Core/CAudioManager.h"
 #include "Core/Resource/Script/CMasterTemplate.h"
-#include <FileIO/CFileLock.h>
 #include <Common/CAssetID.h>
 #include <Common/EGame.h>
 #include <Common/FileUtil.h>
 #include <Common/TString.h>
 #include <Common/types.h>
+#include <Common/FileIO/CFileLock.h>
 
 class CGameProject
 {

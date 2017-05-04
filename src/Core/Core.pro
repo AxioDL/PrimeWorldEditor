@@ -24,8 +24,7 @@ CONFIG (debug, debug|release) {
     TARGET = Cored
 
     # Debug Libs
-    LIBS += -L$$BUILD_DIR/FileIO/ -lFileIOd \
-            -L$$BUILD_DIR/Common/ -lCommond \
+    LIBS += -L$$BUILD_DIR/Common/ -lCommond \
             -L$$BUILD_DIR/Math/ -lMathd \
             -L$$EXTERNALS_DIR/assimp/lib/ -lassimp-vc140-mtd \
             -L$$EXTERNALS_DIR/lzo-2.09/lib/ -llzo2d \
@@ -36,8 +35,7 @@ CONFIG (debug, debug|release) {
 
     # Debug Target Dependencies
     win32 {
-        PRE_TARGETDEPS += $$BUILD_DIR/FileIO/FileIOd.lib \
-                          $$BUILD_DIR/Common/Commond.lib \
+        PRE_TARGETDEPS += $$BUILD_DIR/Common/Commond.lib \
                           $$BUILD_DIR/Math/Mathd.lib
     }
 }
@@ -48,8 +46,7 @@ CONFIG (release, debug|release) {
     TARGET = Core
 
     # Release Libs
-    LIBS += -L$$BUILD_DIR/FileIO/ -lFileIO \
-            -L$$BUILD_DIR/Common/ -lCommon \
+    LIBS += -L$$BUILD_DIR/Common/ -lCommon \
             -L$$BUILD_DIR/Math/ -lMath \
             -L$$EXTERNALS_DIR/assimp/lib/ -lassimp-vc140-mt \
             -L$$EXTERNALS_DIR/lzo-2.09/lib/ -llzo2 \
@@ -60,8 +57,7 @@ CONFIG (release, debug|release) {
 
     # Release Target Dependencies
     win32 {
-        PRE_TARGETDEPS += $$BUILD_DIR/FileIO/FileIO.lib \
-                          $$BUILD_DIR/Common/Common.lib \
+        PRE_TARGETDEPS += $$BUILD_DIR/Common/Common.lib \
                           $$BUILD_DIR/Math/Math.lib
     }
 }

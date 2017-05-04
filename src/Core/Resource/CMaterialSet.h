@@ -3,8 +3,8 @@
 
 #include "CMaterial.h"
 #include "CTexture.h"
-#include <FileIO/IInputStream.h>
 #include <Common/EGame.h>
+#include <Common/FileIO/IInputStream.h>
 
 class CMaterialSet
 {

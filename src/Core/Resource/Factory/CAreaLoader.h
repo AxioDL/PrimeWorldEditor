@@ -6,8 +6,7 @@
 #include "Core/Resource/Area/CGameArea.h"
 #include "Core/Resource/Script/CLink.h"
 #include <Common/EGame.h>
-
-#include <FileIO/FileIO.h>
+#include <Common/FileIO.h>
 
 class CAreaLoader
 {

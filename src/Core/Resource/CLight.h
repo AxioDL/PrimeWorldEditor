@@ -1,8 +1,8 @@
 #ifndef CLIGHT_H
 #define CLIGHT_H
 
-#include <FileIO/IInputStream.h>
 #include <Common/CColor.h>
+#include <Common/FileIO/IInputStream.h>
 #include <Math/CVector3f.h>
 
 /* CLight is currently heavily based on the lights system from Metroid Prime,

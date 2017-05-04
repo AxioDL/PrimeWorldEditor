@@ -2,6 +2,7 @@
 #define CFILELOCK_H
 
 #include <cstdio>
+#include "Common/TString.h"
 
 // Maintain a file handle to prevent other processes from accessing the file.
 class CFileLock
@@ -18,10 +19,11 @@ public:
         Release();
     }
 
-    void Lock(const char *pkPath)
+    void Lock(const TString& rkPath)
     {
         Release();
-        mpFile = fopen(pkPath, "a+");
+        TWideString WidePath = rkPath.ToUTF16();
+        mpFile = _wfopen(*WidePath, L"a+");
     }
 
     void Release()

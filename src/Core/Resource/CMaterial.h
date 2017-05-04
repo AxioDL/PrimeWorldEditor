@@ -12,7 +12,7 @@
 #include <Common/EGame.h>
 #include <Common/Flags.h>
 #include <Common/types.h>
-#include <FileIO/IInputStream.h>
+#include <Common/FileIO/IInputStream.h>
 
 class CMaterialSet;
 

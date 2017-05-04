@@ -5,9 +5,9 @@
 #include "Core/CompressionUtil.h"
 #include "Core/Resource/CWorld.h"
 #include "Core/Resource/Script/CMasterTemplate.h"
-#include <FileIO/FileIO.h>
 #include <Common/AssertMacro.h>
 #include <Common/CScopedTimer.h>
+#include <Common/FileIO.h>
 #include <Common/FileUtil.h>
 #include <Common/Serialization/CXMLWriter.h>
 #include <tinyxml2.h>

@@ -23,14 +23,8 @@ CONFIG (debug, debug|release) {
     TARGET = Commond
 
     # Debug Libs
-    LIBS += -L$$BUILD_DIR/FileIO/ -lFileIOd \
-            -L$$EXTERNALS_DIR/boost_1_63_0/lib64-msvc-14.0 -llibboost_filesystem-vc140-mt-gd-1_63 \
+    LIBS += -L$$EXTERNALS_DIR/boost_1_63_0/lib64-msvc-14.0 -llibboost_filesystem-vc140-mt-gd-1_63 \
             -L$$EXTERNALS_DIR/tinyxml2/lib -ltinyxml2d
-
-    # Debug Target Dependencies
-    win32 {
-        PRE_TARGETDEPS += $$BUILD_DIR/FileIO/FileIOd.lib
-    }
 }
 
 CONFIG (release, debug|release) {
@@ -39,14 +33,8 @@ CONFIG (release, debug|release) {
     TARGET = Common
 
     # Release Libs
-    LIBS += -L$$BUILD_DIR/FileIO/ -lFileIO \
-            -L$$EXTERNALS_DIR/boost_1_63_0/lib64-msvc-14.0 -llibboost_filesystem-vc140-mt-1_63 \
+    LIBS += -L$$EXTERNALS_DIR/boost_1_63_0/lib64-msvc-14.0 -llibboost_filesystem-vc140-mt-1_63 \
             -L$$EXTERNALS_DIR/tinyxml2/lib -ltinyxml2
-
-    # Release Target Dependencies
-    win32 {
-        PRE_TARGETDEPS += $$BUILD_DIR/FileIO/FileIO.lib
-    }
 }
 
 # Include Paths
@@ -81,7 +69,21 @@ HEADERS += \
     Serialization/CBinaryReader.h \
     Serialization/CSerialVersion.h \
     Serialization/XML.h \
-    Serialization/Binary.h
+    Serialization/Binary.h \
+    FileIO\CFileInStream.h \
+    FileIO\CFileOutStream.h \
+    FileIO\CMemoryInStream.h \
+    FileIO\CMemoryOutStream.h \
+    FileIO\CTextInStream.h \
+    FileIO\CTextOutStream.h \
+    FileIO\CVectorOutStream.h \
+    FileIO\IOUtil.h \
+    FileIO\IInputStream.h \
+    FileIO\IOutputStream.h \
+    FileIO\CBitStreamInWrapper.h \
+    FileIO\CFileLock.h \
+    FileIO.h \
+    Common.h
 
 # Source Files
 SOURCES += \
@@ -92,4 +94,15 @@ SOURCES += \
     FileUtil.cpp \
     CAssetID.cpp \
     EGame.cpp \
-    Serialization/CSerialVersion.cpp
+    Serialization/CSerialVersion.cpp \
+    FileIO\CFileInStream.cpp \
+    FileIO\CFileOutStream.cpp \
+    FileIO\CMemoryInStream.cpp \
+    FileIO\CMemoryOutStream.cpp \
+    FileIO\CTextInStream.cpp \
+    FileIO\CTextOutStream.cpp \
+    FileIO\CVectorOutStream.cpp \
+    FileIO\IOUtil.cpp \
+    FileIO\IInputStream.cpp \
+    FileIO\IOutputStream.cpp \
+    FileIO\CBitStreamInWrapper.cpp

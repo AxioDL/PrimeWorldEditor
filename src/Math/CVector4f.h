@@ -1,8 +1,8 @@
 #ifndef CVECTOR4F
 #define CVECTOR4F
 
-#include <FileIO/IInputStream.h>
-#include <FileIO/IOutputStream.h>
+#include <Common/FileIO/IInputStream.h>
+#include <Common/FileIO/IOutputStream.h>
 
 class CMatrix4f;
 class CTransform4f;

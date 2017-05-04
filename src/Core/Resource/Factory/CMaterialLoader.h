@@ -5,7 +5,7 @@
 #include "Core/Resource/CMaterialSet.h"
 #include <Common/EGame.h>
 
-#include <FileIO/FileIO.h>
+#include <Common/FileIO.h>
 #include <assimp/scene.h>
 
 class CMaterialLoader

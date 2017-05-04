@@ -4,7 +4,7 @@
 #include "IArchive.h"
 #include "CSerialVersion.h"
 #include "Common/CFourCC.h"
-#include <FileIO/IInputStream.h>
+#include "Common/FileIO/IInputStream.h"
 
 // This is a basic binary reader that doesn't do any checks on parameter names.
 // This is the fastest serializer, but it relies entirely on parameter order so

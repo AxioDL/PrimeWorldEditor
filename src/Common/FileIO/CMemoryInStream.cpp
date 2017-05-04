@@ -6,31 +6,31 @@ CMemoryInStream::CMemoryInStream()
     , mPos(0)
 {
 }
-CMemoryInStream::CMemoryInStream(const void *pData, unsigned long Size, IOUtil::EEndianness DataEndianness)
+CMemoryInStream::CMemoryInStream(const void *pkData, u32 Size, IOUtil::EEndianness DataEndianness)
 {
-    SetData(pData, Size, DataEndianness);
+    SetData(pkData, Size, DataEndianness);
 }
 
 CMemoryInStream::~CMemoryInStream()
 {
 }
 
-void CMemoryInStream::SetData(const void *pData, unsigned long Size, IOUtil::EEndianness DataEndianness)
+void CMemoryInStream::SetData(const void *pkData, u32 Size, IOUtil::EEndianness DataEndianness)
 {
-    mpDataStart = static_cast<const char*>(pData);
+    mpDataStart = (const char*) pkData;
     mDataSize = Size;
     mPos = 0;
     mDataEndianness = DataEndianness;
 }
 
-void CMemoryInStream::ReadBytes(void *pDst, unsigned long Count)
+void CMemoryInStream::ReadBytes(void *pDst, u32 Count)
 {
     if (!IsValid()) return;
     memcpy(pDst, mpDataStart + mPos, Count);
     mPos += Count;
 }
 
-bool CMemoryInStream::Seek(long Offset, long Origin)
+bool CMemoryInStream::Seek(s32 Offset, u32 Origin)
 {
     if (!IsValid()) return false;
     switch (Origin)
@@ -66,7 +66,7 @@ bool CMemoryInStream::Seek(long Offset, long Origin)
     return true;
 }
 
-long CMemoryInStream::Tell() const
+u32 CMemoryInStream::Tell() const
 {
     return mPos;
 }
@@ -81,12 +81,12 @@ bool CMemoryInStream::IsValid() const
     return (mpDataStart != nullptr);
 }
 
-long CMemoryInStream::Size() const
+u32 CMemoryInStream::Size() const
 {
     return mDataSize;
 }
 
-void CMemoryInStream::SetSize(unsigned long Size)
+void CMemoryInStream::SetSize(u32 Size)
 {
     mDataSize = Size;
     if (mPos > mDataSize)
