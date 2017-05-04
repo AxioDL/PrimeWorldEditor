@@ -624,6 +624,7 @@ void CResourceStore::ImportNamesFromPakContentsTxt(const TString& rkTxtPath, boo
     // Read file contents -first- then move assets -after-; this
     // 1. avoids anything fucking up if the contents file is badly formatted and we crash, and
     // 2. avoids extra redundant moves (since there are redundant entries in the file)
+    // todo: move to CAssetNameMap?
     std::map<CResourceEntry*, TString> PathMap;
     FILE *pContentsFile;
     fopen_s(&pContentsFile, *rkTxtPath, "r");

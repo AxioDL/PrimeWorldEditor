@@ -66,7 +66,7 @@ void CExportGameDialog::InitUI(QString ExportDir)
 
     ExportDir.replace('/', '\\');
 
-    TWideString DefaultNameMapPath = CAssetNameMap::DefaultNameMapPath();
+    TWideString DefaultNameMapPath = CAssetNameMap::DefaultNameMapPath(mGame);
     if (!FileUtil::Exists(DefaultNameMapPath)) DefaultNameMapPath = L"";
 
     TWideString DefaultGameInfoPath = CGameInfo::GetDefaultGameInfoPath(mGame);
@@ -339,7 +339,7 @@ void CExportGameDialog::Export()
         return;
     }
 
-    CAssetNameMap NameMap;
+    CAssetNameMap NameMap(mGame);
 
     if (!NameMapPath.isEmpty())
     {

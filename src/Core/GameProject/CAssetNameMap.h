@@ -8,7 +8,7 @@
 #include <map>
 #include <memory>
 
-const TString gkAssetMapPath = "..\\resources\\gameinfo\\AssetNameMap.xml";
+const TString gkAssetMapPath = "..\\resources\\gameinfo\\AssetNameMap";
 const TString gkAssetMapExt = "xml";
 
 class CAssetNameMap
@@ -43,20 +43,24 @@ class CAssetNameMap
     std::set<SAssetNameInfo> mUsedSet; // Used to prevent name conflicts
     std::map<CAssetID, SAssetNameInfo> mMap;
     bool mIsValid;
+    EIDLength mIDLength;
 
     // Private Methods
     void Serialize(IArchive& rArc);
     void PostLoadValidate();
 
 public:
-    CAssetNameMap() : mIsValid(true) {}
-    bool LoadAssetNames(TString Path = gkAssetMapPath);
-    bool SaveAssetNames(TString Path = gkAssetMapPath);
+    CAssetNameMap(EIDLength IDLength) : mIsValid(true), mIDLength(IDLength)                       { ASSERT(mIDLength != eInvalidIDLength); }
+    CAssetNameMap(EGame Game)         : mIsValid(true), mIDLength( CAssetID::GameIDLength(Game) ) { ASSERT(mIDLength != eInvalidIDLength); }
+    bool LoadAssetNames(TString Path = "");
+    bool SaveAssetNames(TString Path = "");
     bool GetNameInfo(CAssetID ID, TString& rOutDirectory, TString& rOutName);
     void CopyFromStore(CResourceStore *pStore);
 
+    static TString DefaultNameMapPath(EIDLength IDLength);
+    static TString DefaultNameMapPath(EGame Game);
+
     inline bool IsValid() const                 { return mIsValid; }
-    inline static TString DefaultNameMapPath()  { return gkAssetMapPath; }
     inline static TString GetExtension()        { return gkAssetMapExt; }
 };
 
