@@ -1,20 +1,43 @@
 #include "CAssetNameMap.h"
 
-bool CAssetNameMap::LoadAssetNames(TString Path /*= gkAssetMapPath*/)
+bool CAssetNameMap::LoadAssetNames(TString Path /*= ""*/)
 {
+    if (Path.IsEmpty())
+        Path = DefaultNameMapPath(mIDLength);
+
     CXMLReader Reader(Path);
 
     if (Reader.IsValid())
     {
-        Serialize(Reader);
-        return true;
+        CAssetID FileIDLength = CAssetID::GameIDLength(Reader.Game());
+
+        if (FileIDLength == mIDLength)
+        {
+            Serialize(Reader);
+            return true;
+        }
+        else
+        {
+            TString ExpectedIDLength = (mIDLength == e32Bit ? "32-bit" : "64-bit");
+            TString GotIDLength = (FileIDLength == e32Bit ? "32-bit" : "64-bit");
+            Log::Error("Failed to load asset names; expected " + ExpectedIDLength + " IDs, got " + GotIDLength);
+            return false;
+        }
     }
-    else return false;
+    else
+    {
+        Log::Error("Failed to load asset names; couldn't open XML.");
+        return false;
+    }
 }
 
-bool CAssetNameMap::SaveAssetNames(TString Path /*= gkAssetMapPath*/)
+bool CAssetNameMap::SaveAssetNames(TString Path /*= ""*/)
 {
-    CXMLWriter Writer(Path, "AssetNameMap", 0, eUnknownGame);
+    if (Path.IsEmpty())
+        Path = DefaultNameMapPath(mIDLength);
+
+    EGame Game = (mIDLength == e32Bit ? ePrime : eCorruption);
+    CXMLWriter Writer(Path, "AssetNameMap", 0, Game);
     Serialize(Writer);
     return Writer.Save();
 }
@@ -42,6 +65,8 @@ bool CAssetNameMap::GetNameInfo(CAssetID ID, TString& rOutDirectory, TString& rO
 void CAssetNameMap::CopyFromStore(CResourceStore *pStore /*= gpResourceStore*/)
 {
     // Do a first pass to remove old paths from used set to prevent false positives from eg. if two resources switch places
+    ASSERT( CAssetID::GameIDLength(pStore->Game()) == mIDLength );
+
     for (CResourceIterator It(pStore); It; ++It)
     {
         if (It->IsCategorized() || It->IsNamed())
@@ -64,6 +89,8 @@ void CAssetNameMap::CopyFromStore(CResourceStore *pStore /*= gpResourceStore*/)
         if (It->IsCategorized() || It->IsNamed())
         {
             CAssetID ID = It->ID();
+            ASSERT(ID.Length() == mIDLength);
+
             TWideString Name = It->Name();
             TWideString Directory = It->Directory()->FullPath();
             CFourCC Type = It->CookedExtension();
@@ -107,7 +134,8 @@ void CAssetNameMap::Serialize(IArchive& rArc)
 
 void CAssetNameMap::PostLoadValidate()
 {
-    // Make sure the newly loaded map doesn't contain any name conflicts.
+    // Make sure the newly loaded map doesn't contain any errors or name conflicts.
+    bool FoundErrors = false;
     mIsValid = false;
     std::set<SAssetNameInfo> Dupes;
 
@@ -117,8 +145,27 @@ void CAssetNameMap::PostLoadValidate()
 
         if (mUsedSet.find(rkInfo) != mUsedSet.end())
             Dupes.insert(rkInfo);
+
         else
+        {
             mUsedSet.insert(rkInfo);
+
+            // Verify the name/path is valid
+            if (!CResourceStore::IsValidResourcePath(rkInfo.Directory, rkInfo.Name))
+            {
+                Log::Error("Invalid resource path in asset name map: " + rkInfo.Directory.ToUTF8() + rkInfo.Name.ToUTF8() + "." + rkInfo.Type.ToString());
+                Iter = mMap.erase(Iter);
+                FoundErrors = true;
+            }
+
+            // Verify correct ID length
+            if (Iter->first.Length() != mIDLength)
+            {
+                Log::Error("Incorrect asset ID length in asset name map: " + Iter->first.ToString());
+                Iter = mMap.erase(Iter);
+                FoundErrors = true;
+            }
+        }
     }
 
     // If we detected any dupes, then this map can't be used
@@ -136,5 +183,17 @@ void CAssetNameMap::PostLoadValidate()
         mMap.clear();
     }
     else
-        mIsValid = true;
+        mIsValid = !FoundErrors;
+}
+
+TString CAssetNameMap::DefaultNameMapPath(EIDLength IDLength)
+{
+    ASSERT(IDLength != eInvalidIDLength);
+    TString Suffix = (IDLength == e32Bit ? "32" : "64");
+    return gkAssetMapPath + Suffix + "." + gkAssetMapExt;
+}
+
+TString CAssetNameMap::DefaultNameMapPath(EGame Game)
+{
+    return DefaultNameMapPath( CAssetID::GameIDLength(Game) );
 }
