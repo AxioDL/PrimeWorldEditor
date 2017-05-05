@@ -614,7 +614,7 @@ bool CResourceStore::DeleteResourceEntry(CResourceEntry *pEntry)
 void CResourceStore::SetTransientLoadDir(const TString& rkDir)
 {
     mTransientLoadDir = rkDir;
-    mTransientLoadDir.EnsureEndsWith('\\');
+    mTransientLoadDir.EnsureEndsWith('/');
     Log::Write("Set resource directory: " + rkDir);
 }
 

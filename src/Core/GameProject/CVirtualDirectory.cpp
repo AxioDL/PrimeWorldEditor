@@ -41,7 +41,7 @@ TString CVirtualDirectory::FullPath() const
     if (IsRoot())
         return "";
     else
-        return (mpParent && !mpParent->IsRoot() ? mpParent->FullPath() + mName + '\\' : mName + '\\');
+        return (mpParent && !mpParent->IsRoot() ? mpParent->FullPath() + mName + '/' : mName + '/');
 }
 
 CVirtualDirectory* CVirtualDirectory::GetRoot()

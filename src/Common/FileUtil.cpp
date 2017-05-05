@@ -209,7 +209,7 @@ TString WorkingDirectory()
 TString MakeAbsolute(TString Path)
 {
     if (!TO_PATH(Path).has_root_name())
-        Path = WorkingDirectory() + "\\" + Path;
+        Path = WorkingDirectory() + "/" + Path;
 
     TStringList Components = Path.Split("/\\");
     TStringList::iterator Prev;
@@ -226,7 +226,7 @@ TString MakeAbsolute(TString Path)
 
     TString Out;
     for (auto it = Components.begin(); it != Components.end(); it++)
-        Out += *it + "\\";
+        Out += *it + "/";
 
     return Out;
 }
@@ -256,10 +256,10 @@ TString MakeRelative(const TString& rkPath, const TString& rkRelativeTo /*= Work
     TString Out;
 
     for (; RelToIter != RelToComponents.end(); RelToIter++)
-        Out += "..\\";
+        Out += "../";
 
     for (; PathIter != PathComponents.end(); PathIter++)
-        Out += *PathIter + "\\";
+        Out += *PathIter + "/";
 
     // Attempt to detect if this path is a file as opposed to a directory; if so, remove trailing backslash
     if (PathComponents.back().Contains('.') && !rkPath.EndsWith('/') && !rkPath.EndsWith('\\'))
@@ -289,7 +289,7 @@ TString SimplifyRelativePath(const TString& rkPath)
     TString Out;
 
     for (auto Iter = PathComponents.begin(); Iter != PathComponents.end(); Iter++)
-        Out += *Iter + '\\';
+        Out += *Iter + '/';
 
     return Out;
 }
@@ -381,7 +381,7 @@ TString SanitizePath(TString Path, bool Directory)
         Comp = SanitizeName(Comp, IsDir, IsRoot);
 
         Path += Comp;
-        if (IsDir) Path += '\\';
+        if (IsDir) Path += '/';
         CompIdx++;
     }
 
@@ -455,7 +455,7 @@ void GetDirectoryContents(TString DirPath, TStringList& rOut, bool Recursive /*=
 {
     if (IsDirectory(DirPath))
     {
-        DirPath.Replace("/", "\\");
+        DirPath.Replace("\\", "/");
         bool IncludeAll = IncludeFiles && IncludeDirs;
 
         auto AddFileLambda = [IncludeFiles, IncludeDirs, IncludeAll, &rOut](TString Path) -> void {

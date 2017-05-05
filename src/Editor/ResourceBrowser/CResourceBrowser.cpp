@@ -208,7 +208,7 @@ void CResourceBrowser::UpdateDescriptionLabel()
     Desc += " ";
 
     bool ValidDir = mpSelectedDir && !mpSelectedDir->IsRoot();
-    QString Path = (ValidDir ? '\\' + TO_QSTRING(mpSelectedDir->FullPath()) : "");
+    QString Path = (ValidDir ? '/' + TO_QSTRING(mpSelectedDir->FullPath()) : "");
 
     if (mSearching)
     {

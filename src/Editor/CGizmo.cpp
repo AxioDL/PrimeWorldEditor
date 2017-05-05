@@ -543,32 +543,32 @@ void CGizmo::LoadModels()
     {
         Log::Write("Loading transform gizmo models");
 
-        smTranslateModels[CGIZMO_TRANSLATE_X]        = SModelPart(eX,  true,  false, gpEditorStore->LoadResource("editor\\TranslateX.CMDL"));
-        smTranslateModels[CGIZMO_TRANSLATE_Y]        = SModelPart(eY,  true,  false, gpEditorStore->LoadResource("editor\\TranslateY.CMDL"));
-        smTranslateModels[CGIZMO_TRANSLATE_Z]        = SModelPart(eZ,  true,  false, gpEditorStore->LoadResource("editor\\TranslateZ.CMDL"));
-        smTranslateModels[CGIZMO_TRANSLATE_LINES_XY] = SModelPart(eXY, true,  false, gpEditorStore->LoadResource("editor\\TranslateLinesXY.CMDL"));
-        smTranslateModels[CGIZMO_TRANSLATE_LINES_XZ] = SModelPart(eXZ, true,  false, gpEditorStore->LoadResource("editor\\TranslateLinesXZ.CMDL"));
-        smTranslateModels[CGIZMO_TRANSLATE_LINES_YZ] = SModelPart(eYZ, true,  false, gpEditorStore->LoadResource("editor\\TranslateLinesYZ.CMDL"));
-        smTranslateModels[CGIZMO_TRANSLATE_POLY_XY]  = SModelPart(eXY, false, false, gpEditorStore->LoadResource("editor\\TranslatePolyXY.CMDL"));
-        smTranslateModels[CGIZMO_TRANSLATE_POLY_XZ]  = SModelPart(eXZ, false, false, gpEditorStore->LoadResource("editor\\TranslatePolyXZ.CMDL"));
-        smTranslateModels[CGIZMO_TRANSLATE_POLY_YZ]  = SModelPart(eYZ, false, false, gpEditorStore->LoadResource("editor\\TranslatePolyYZ.CMDL"));
+        smTranslateModels[CGIZMO_TRANSLATE_X]        = SModelPart(eX,  true,  false, gpEditorStore->LoadResource("editor/TranslateX.CMDL"));
+        smTranslateModels[CGIZMO_TRANSLATE_Y]        = SModelPart(eY,  true,  false, gpEditorStore->LoadResource("editor/TranslateY.CMDL"));
+        smTranslateModels[CGIZMO_TRANSLATE_Z]        = SModelPart(eZ,  true,  false, gpEditorStore->LoadResource("editor/TranslateZ.CMDL"));
+        smTranslateModels[CGIZMO_TRANSLATE_LINES_XY] = SModelPart(eXY, true,  false, gpEditorStore->LoadResource("editor/TranslateLinesXY.CMDL"));
+        smTranslateModels[CGIZMO_TRANSLATE_LINES_XZ] = SModelPart(eXZ, true,  false, gpEditorStore->LoadResource("editor/TranslateLinesXZ.CMDL"));
+        smTranslateModels[CGIZMO_TRANSLATE_LINES_YZ] = SModelPart(eYZ, true,  false, gpEditorStore->LoadResource("editor/TranslateLinesYZ.CMDL"));
+        smTranslateModels[CGIZMO_TRANSLATE_POLY_XY]  = SModelPart(eXY, false, false, gpEditorStore->LoadResource("editor/TranslatePolyXY.CMDL"));
+        smTranslateModels[CGIZMO_TRANSLATE_POLY_XZ]  = SModelPart(eXZ, false, false, gpEditorStore->LoadResource("editor/TranslatePolyXZ.CMDL"));
+        smTranslateModels[CGIZMO_TRANSLATE_POLY_YZ]  = SModelPart(eYZ, false, false, gpEditorStore->LoadResource("editor/TranslatePolyYZ.CMDL"));
 
-        smRotateModels[CGIZMO_ROTATE_OUTLINE] = SModelPart(eNone, true,  true,  gpEditorStore->LoadResource("editor\\RotateClipOutline.CMDL"));
-        smRotateModels[CGIZMO_ROTATE_X]       = SModelPart(eX,    true,  false, gpEditorStore->LoadResource("editor\\RotateX.CMDL"));
-        smRotateModels[CGIZMO_ROTATE_Y]       = SModelPart(eY,    true,  false, gpEditorStore->LoadResource("editor\\RotateY.CMDL"));
-        smRotateModels[CGIZMO_ROTATE_Z]       = SModelPart(eZ,    true,  false, gpEditorStore->LoadResource("editor\\RotateZ.CMDL"));
-        smRotateModels[CGIZMO_ROTATE_XYZ]     = SModelPart(eXYZ,  false, false, gpEditorStore->LoadResource("editor\\RotateXYZ.CMDL"));
+        smRotateModels[CGIZMO_ROTATE_OUTLINE] = SModelPart(eNone, true,  true,  gpEditorStore->LoadResource("editor/RotateClipOutline.CMDL"));
+        smRotateModels[CGIZMO_ROTATE_X]       = SModelPart(eX,    true,  false, gpEditorStore->LoadResource("editor/RotateX.CMDL"));
+        smRotateModels[CGIZMO_ROTATE_Y]       = SModelPart(eY,    true,  false, gpEditorStore->LoadResource("editor/RotateY.CMDL"));
+        smRotateModels[CGIZMO_ROTATE_Z]       = SModelPart(eZ,    true,  false, gpEditorStore->LoadResource("editor/RotateZ.CMDL"));
+        smRotateModels[CGIZMO_ROTATE_XYZ]     = SModelPart(eXYZ,  false, false, gpEditorStore->LoadResource("editor/RotateXYZ.CMDL"));
 
-        smScaleModels[CGIZMO_SCALE_X]         = SModelPart(eX,   true,  false, gpEditorStore->LoadResource("editor\\ScaleX.CMDL"));
-        smScaleModels[CGIZMO_SCALE_Y]         = SModelPart(eY,   true,  false, gpEditorStore->LoadResource("editor\\ScaleY.CMDL"));
-        smScaleModels[CGIZMO_SCALE_Z]         = SModelPart(eZ,   true,  false, gpEditorStore->LoadResource("editor\\ScaleZ.CMDL"));
-        smScaleModels[CGIZMO_SCALE_LINES_XY]  = SModelPart(eXY,  true,  false, gpEditorStore->LoadResource("editor\\ScaleLinesXY.CMDL"));
-        smScaleModels[CGIZMO_SCALE_LINES_XZ]  = SModelPart(eXZ,  true,  false, gpEditorStore->LoadResource("editor\\ScaleLinesXZ.CMDL"));
-        smScaleModels[CGIZMO_SCALE_LINES_YZ]  = SModelPart(eYZ,  true,  false, gpEditorStore->LoadResource("editor\\ScaleLinesYZ.CMDL"));
-        smScaleModels[CGIZMO_SCALE_POLY_XY]   = SModelPart(eXY,  true,  false, gpEditorStore->LoadResource("editor\\ScalePolyXY.CMDL"));
-        smScaleModels[CGIZMO_SCALE_POLY_XZ]   = SModelPart(eXZ,  true,  false, gpEditorStore->LoadResource("editor\\ScalePolyXZ.CMDL"));
-        smScaleModels[CGIZMO_SCALE_POLY_YZ]   = SModelPart(eYZ,  true,  false, gpEditorStore->LoadResource("editor\\ScalePolyYZ.CMDL"));
-        smScaleModels[CGIZMO_SCALE_XYZ]       = SModelPart(eXYZ, true,  false, gpEditorStore->LoadResource("editor\\ScaleXYZ.CMDL"));
+        smScaleModels[CGIZMO_SCALE_X]         = SModelPart(eX,   true,  false, gpEditorStore->LoadResource("editor/ScaleX.CMDL"));
+        smScaleModels[CGIZMO_SCALE_Y]         = SModelPart(eY,   true,  false, gpEditorStore->LoadResource("editor/ScaleY.CMDL"));
+        smScaleModels[CGIZMO_SCALE_Z]         = SModelPart(eZ,   true,  false, gpEditorStore->LoadResource("editor/ScaleZ.CMDL"));
+        smScaleModels[CGIZMO_SCALE_LINES_XY]  = SModelPart(eXY,  true,  false, gpEditorStore->LoadResource("editor/ScaleLinesXY.CMDL"));
+        smScaleModels[CGIZMO_SCALE_LINES_XZ]  = SModelPart(eXZ,  true,  false, gpEditorStore->LoadResource("editor/ScaleLinesXZ.CMDL"));
+        smScaleModels[CGIZMO_SCALE_LINES_YZ]  = SModelPart(eYZ,  true,  false, gpEditorStore->LoadResource("editor/ScaleLinesYZ.CMDL"));
+        smScaleModels[CGIZMO_SCALE_POLY_XY]   = SModelPart(eXY,  true,  false, gpEditorStore->LoadResource("editor/ScalePolyXY.CMDL"));
+        smScaleModels[CGIZMO_SCALE_POLY_XZ]   = SModelPart(eXZ,  true,  false, gpEditorStore->LoadResource("editor/ScalePolyXZ.CMDL"));
+        smScaleModels[CGIZMO_SCALE_POLY_YZ]   = SModelPart(eYZ,  true,  false, gpEditorStore->LoadResource("editor/ScalePolyYZ.CMDL"));
+        smScaleModels[CGIZMO_SCALE_XYZ]       = SModelPart(eXYZ, true,  false, gpEditorStore->LoadResource("editor/ScaleXYZ.CMDL"));
 
         smModelsLoaded = true;
     }

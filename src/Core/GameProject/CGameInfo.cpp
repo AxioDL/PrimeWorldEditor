@@ -83,5 +83,5 @@ TString CGameInfo::GetDefaultGameInfoPath(EGame Game)
         return "";
 
     TString GameName = GetGameShortName(Game);
-    return TString::Format("%s\\GameInfo%s.%s", *gkGameInfoDir, *GameName, *gkGameInfoExt);
+    return TString::Format("%s/GameInfo%s.%s", *gkGameInfoDir, *GameName, *gkGameInfoExt);
 }
