@@ -6,13 +6,13 @@
         <Resource>
             <ID>08F992A8</ID>
             <Type>TXTR</Type>
-            <Directory>script\common\</Directory>
+            <Directory>script/common/</Directory>
             <Name>RandomRelay</Name>
         </Resource>
         <Resource>
             <ID>0A11104B</ID>
             <Type>CMDL</Type>
-            <Directory>editor\</Directory>
+            <Directory>editor/</Directory>
             <Name>TranslateX</Name>
         </Resource>
         <Resource>
@@ -24,7 +24,7 @@
         <Resource>
             <ID>0EDB1C7A</ID>
             <Type>CMDL</Type>
-            <Directory>script\dkcr\</Directory>
+            <Directory>script/dkcr/</Directory>
             <Name>Waypoint</Name>
         </Resource>
         <Resource>
@@ -36,145 +36,145 @@
         <Resource>
             <ID>0FD29E3B</ID>
             <Type>CMDL</Type>
-            <Directory>script\common\</Directory>
+            <Directory>script/common/</Directory>
             <Name>Waypoint</Name>
         </Resource>
         <Resource>
             <ID>115C21DD</ID>
             <Type>TXTR</Type>
-            <Directory>script\common\</Directory>
+            <Directory>script/common/</Directory>
             <Name>CameraFilterKeyframe</Name>
         </Resource>
         <Resource>
             <ID>1C010ADC</ID>
             <Type>CMDL</Type>
-            <Directory>editor\</Directory>
+            <Directory>editor/</Directory>
             <Name>TranslatePolyXY</Name>
         </Resource>
         <Resource>
             <ID>1FFC7E43</ID>
             <Type>CMDL</Type>
-            <Directory>editor\</Directory>
+            <Directory>editor/</Directory>
             <Name>RotateXYZ</Name>
         </Resource>
         <Resource>
             <ID>2A14558D</ID>
             <Type>TXTR</Type>
-            <Directory>script\common\</Directory>
+            <Directory>script/common/</Directory>
             <Name>HUDMemo</Name>
         </Resource>
         <Resource>
             <ID>2B75E193</ID>
             <Type>TXTR</Type>
-            <Directory>script\common\</Directory>
+            <Directory>script/common/</Directory>
             <Name>VisorFlare</Name>
         </Resource>
         <Resource>
             <ID>31485556</ID>
             <Type>TXTR</Type>
-            <Directory>script\mp2\</Directory>
+            <Directory>script/mp2/</Directory>
             <Name>AdvancedCounter</Name>
         </Resource>
         <Resource>
             <ID>31992094</ID>
             <Type>CMDL</Type>
-            <Directory>editor\</Directory>
+            <Directory>editor/</Directory>
             <Name>TranslateY</Name>
         </Resource>
         <Resource>
             <ID>32432719</ID>
             <Type>CMDL</Type>
-            <Directory>script\common\</Directory>
+            <Directory>script/common/</Directory>
             <Name>SpiderBallWaypoint</Name>
         </Resource>
         <Resource>
             <ID>32C9F9D1</ID>
             <Type>TXTR</Type>
-            <Directory>script\common\</Directory>
+            <Directory>script/common/</Directory>
             <Name>StreamedAudio</Name>
         </Resource>
         <Resource>
             <ID>3440526F</ID>
             <Type>CMDL</Type>
-            <Directory>editor\</Directory>
+            <Directory>editor/</Directory>
             <Name>TranslateLinesXY</Name>
         </Resource>
         <Resource>
             <ID>3A947189</ID>
             <Type>CMDL</Type>
-            <Directory>script\common\</Directory>
+            <Directory>script/common/</Directory>
             <Name>AIWaypoint</Name>
         </Resource>
         <Resource>
             <ID>3C093300</ID>
             <Type>CMDL</Type>
-            <Directory>editor\</Directory>
+            <Directory>editor/</Directory>
             <Name>ScaleXYZ</Name>
         </Resource>
         <Resource>
             <ID>40969072</ID>
             <Type>TXTR</Type>
-            <Directory>script\common\</Directory>
+            <Directory>script/common/</Directory>
             <Name>AreaAttributes</Name>
         </Resource>
         <Resource>
             <ID>43891B25</ID>
             <Type>CMDL</Type>
-            <Directory>editor\</Directory>
+            <Directory>editor/</Directory>
             <Name>TranslatePolyXZ</Name>
         </Resource>
         <Resource>
             <ID>43E9B0A9</ID>
             <Type>CMDL</Type>
-            <Directory>editor\</Directory>
+            <Directory>editor/</Directory>
             <Name>ScaleX</Name>
         </Resource>
         <Resource>
             <ID>4443279C</ID>
             <Type>TXTR</Type>
-            <Directory>script\common\</Directory>
+            <Directory>script/common/</Directory>
             <Name>CameraBlurKeyframe</Name>
         </Resource>
         <Resource>
             <ID>4A2D76D1</ID>
             <Type>TXTR</Type>
-            <Directory>script\common\</Directory>
+            <Directory>script/common/</Directory>
             <Name>DamageableTrigger</Name>
         </Resource>
         <Resource>
             <ID>4C3D3E7F</ID>
             <Type>TXTR</Type>
-            <Directory>script\common\</Directory>
+            <Directory>script/common/</Directory>
             <Name>GrapplePoint</Name>
         </Resource>
         <Resource>
             <ID>4E133EF2</ID>
             <Type>TXTR</Type>
-            <Directory>script\common\</Directory>
+            <Directory>script/common/</Directory>
             <Name>SpiderBallAttractionSurface</Name>
         </Resource>
         <Resource>
             <ID>57F8715F</ID>
             <Type>TXTR</Type>
-            <Directory>script\common\</Directory>
+            <Directory>script/common/</Directory>
             <Name>Dock</Name>
         </Resource>
         <Resource>
             <ID>592130DD</ID>
             <Type>CMDL</Type>
-            <Directory>editor\</Directory>
+            <Directory>editor/</Directory>
             <Name>TranslateZ</Name>
         </Resource>
         <Resource>
             <ID>5BC862B8</ID>
             <Type>CMDL</Type>
-            <Directory>editor\</Directory>
+            <Directory>editor/</Directory>
             <Name>TranslateLinesXZ</Name>
         </Resource>
         <Resource>
             <ID>5D08CCF6</ID>
             <Type>TXTR</Type>
-            <Directory>script\mp3\</Directory>
+            <Directory>script/mp3/</Directory>
             <Name>WeaponGenerator</Name>
         </Resource>
         <Resource>
@@ -192,13 +192,13 @@
         <Resource>
             <ID>6649251D</ID>
             <Type>CMDL</Type>
-            <Directory>script\common\</Directory>
+            <Directory>script/common/</Directory>
             <Name>Camera</Name>
         </Resource>
         <Resource>
             <ID>6A17B38F</ID>
             <Type>TXTR</Type>
-            <Directory>script\common\</Directory>
+            <Directory>script/common/</Directory>
             <Name>Sound</Name>
         </Resource>
         <Resource>
@@ -210,7 +210,7 @@
         <Resource>
             <ID>6B71C0F2</ID>
             <Type>CMDL</Type>
-            <Directory>editor\</Directory>
+            <Directory>editor/</Directory>
             <Name>ScaleY</Name>
         </Resource>
         <Resource>
@@ -222,7 +222,7 @@
         <Resource>
             <ID>6D5BC167</ID>
             <Type>TXTR</Type>
-            <Directory>script\common\</Directory>
+            <Directory>script/common/</Directory>
             <Name>Effect</Name>
         </Resource>
         <Resource>
@@ -240,7 +240,7 @@
         <Resource>
             <ID>72978DCF</ID>
             <Type>TXTR</Type>
-            <Directory>script\common\</Directory>
+            <Directory>script/common/</Directory>
             <Name>Relay</Name>
         </Resource>
         <Resource>
@@ -252,37 +252,37 @@
         <Resource>
             <ID>7F494724</ID>
             <Type>CMDL</Type>
-            <Directory>editor\</Directory>
+            <Directory>editor/</Directory>
             <Name>RotateX</Name>
         </Resource>
         <Resource>
             <ID>81326A53</ID>
             <Type>CMDL</Type>
-            <Directory>editor\</Directory>
+            <Directory>editor/</Directory>
             <Name>ScaleLinesYZ</Name>
         </Resource>
         <Resource>
             <ID>825CDFA8</ID>
             <Type>CMDL</Type>
-            <Directory>editor\</Directory>
+            <Directory>editor/</Directory>
             <Name>ScalePolyYZ</Name>
         </Resource>
         <Resource>
             <ID>826C9800</ID>
             <Type>TXTR</Type>
-            <Directory>script\common\</Directory>
+            <Directory>script/common/</Directory>
             <Name>ColorModulate</Name>
         </Resource>
         <Resource>
             <ID>85CE16D7</ID>
             <Type>TXTR</Type>
-            <Directory>script\common\</Directory>
+            <Directory>script/common/</Directory>
             <Name>StreamedMovie</Name>
         </Resource>
         <Resource>
             <ID>875A6FD7</ID>
             <Type>TXTR</Type>
-            <Directory>script\common\</Directory>
+            <Directory>script/common/</Directory>
             <Name>PointOfInterest</Name>
         </Resource>
         <Resource>
@@ -294,13 +294,13 @@
         <Resource>
             <ID>91437414</ID>
             <Type>CMDL</Type>
-            <Directory>script\common\</Directory>
+            <Directory>script/common/</Directory>
             <Name>CameraWaypoint</Name>
         </Resource>
         <Resource>
             <ID>92F9D13B</ID>
             <Type>CMDL</Type>
-            <Directory>editor\</Directory>
+            <Directory>editor/</Directory>
             <Name>ScaleZ</Name>
         </Resource>
         <Resource>
@@ -312,19 +312,19 @@
         <Resource>
             <ID>968C405E</ID>
             <Type>TXTR</Type>
-            <Directory>script\common\</Directory>
+            <Directory>script/common/</Directory>
             <Name>SoundModifier</Name>
         </Resource>
         <Resource>
             <ID>9FF04AA1</ID>
             <Type>TXTR</Type>
-            <Directory>script\common\</Directory>
+            <Directory>script/common/</Directory>
             <Name>Generator</Name>
         </Resource>
         <Resource>
             <ID>A6D1576D</ID>
             <Type>CMDL</Type>
-            <Directory>editor\</Directory>
+            <Directory>editor/</Directory>
             <Name>RotateY</Name>
         </Resource>
         <Resource>
@@ -336,7 +336,7 @@
         <Resource>
             <ID>AC18950A</ID>
             <Type>TXTR</Type>
-            <Directory>script\common\</Directory>
+            <Directory>script/common/</Directory>
             <Name>RadialDamage</Name>
         </Resource>
         <Resource>
@@ -354,49 +354,49 @@
         <Resource>
             <ID>B23F1022</ID>
             <Type>TXTR</Type>
-            <Directory>script\common\</Directory>
+            <Directory>script/common/</Directory>
             <Name>VisorGoo</Name>
         </Resource>
         <Resource>
             <ID>B2DBCAED</ID>
             <Type>TXTR</Type>
-            <Directory>script\common\</Directory>
+            <Directory>script/common/</Directory>
             <Name>PickupGenerator</Name>
         </Resource>
         <Resource>
             <ID>B3050E38</ID>
             <Type>TXTR</Type>
-            <Directory>script\common\</Directory>
+            <Directory>script/common/</Directory>
             <Name>SequenceTimer</Name>
         </Resource>
         <Resource>
             <ID>B97DB26B</ID>
             <Type>TXTR</Type>
-            <Directory>script\common\</Directory>
+            <Directory>script/common/</Directory>
             <Name>Timer</Name>
         </Resource>
         <Resource>
             <ID>BA7EA4F6</ID>
             <Type>TXTR</Type>
-            <Directory>script\common\</Directory>
+            <Directory>script/common/</Directory>
             <Name>Trigger</Name>
         </Resource>
         <Resource>
             <ID>C0FBED3D</ID>
             <Type>CMDL</Type>
-            <Directory>editor\</Directory>
+            <Directory>editor/</Directory>
             <Name>ScaleLinesXY</Name>
         </Resource>
         <Resource>
             <ID>C2266292</ID>
             <Type>CMDL</Type>
-            <Directory>editor\</Directory>
+            <Directory>editor/</Directory>
             <Name>ScalePolyXY</Name>
         </Resource>
         <Resource>
             <ID>C4E83425</ID>
             <Type>TXTR</Type>
-            <Directory>script\common\</Directory>
+            <Directory>script/common/</Directory>
             <Name>DistanceFog</Name>
         </Resource>
         <Resource>
@@ -408,19 +408,19 @@
         <Resource>
             <ID>CB904B3D</ID>
             <Type>TXTR</Type>
-            <Directory>script\common\</Directory>
+            <Directory>script/common/</Directory>
             <Name>SpecialFunction</Name>
         </Resource>
         <Resource>
             <ID>CE5967B6</ID>
             <Type>CMDL</Type>
-            <Directory>editor\</Directory>
+            <Directory>editor/</Directory>
             <Name>RotateZ</Name>
         </Resource>
         <Resource>
             <ID>D2F07DAF</ID>
             <Type>TXTR</Type>
-            <Directory>script\common\</Directory>
+            <Directory>script/common/</Directory>
             <Name>ConditionalRelay</Name>
         </Resource>
         <Resource>
@@ -438,49 +438,49 @@
         <Resource>
             <ID>DC3787F2</ID>
             <Type>CMDL</Type>
-            <Directory>editor\</Directory>
+            <Directory>editor/</Directory>
             <Name>TranslatePolyYZ</Name>
         </Resource>
         <Resource>
             <ID>E1A0D860</ID>
             <Type>TXTR</Type>
-            <Directory>script\common\</Directory>
+            <Directory>script/common/</Directory>
             <Name>StreamedAudioModifier</Name>
         </Resource>
         <Resource>
             <ID>E883FD86</ID>
             <Type>CMDL</Type>
-            <Directory>editor\</Directory>
+            <Directory>editor/</Directory>
             <Name>ScaleLinesXZ</Name>
         </Resource>
         <Resource>
             <ID>E9AE72DB</ID>
             <Type>CMDL</Type>
-            <Directory>editor\</Directory>
+            <Directory>editor/</Directory>
             <Name>ScalePolyXZ</Name>
         </Resource>
         <Resource>
             <ID>EE340FC4</ID>
             <Type>TXTR</Type>
-            <Directory>script\common\</Directory>
+            <Directory>script/common/</Directory>
             <Name>MemoryRelay</Name>
         </Resource>
         <Resource>
             <ID>F476CF85</ID>
             <Type>CMDL</Type>
-            <Directory>editor\</Directory>
+            <Directory>editor/</Directory>
             <Name>TranslateLinesYZ</Name>
         </Resource>
         <Resource>
             <ID>F76B369A</ID>
             <Type>TXTR</Type>
-            <Directory>script\common\</Directory>
+            <Directory>script/common/</Directory>
             <Name>Counter</Name>
         </Resource>
         <Resource>
             <ID>FB50DA78</ID>
             <Type>CMDL</Type>
-            <Directory>editor\</Directory>
+            <Directory>editor/</Directory>
             <Name>RotateClipOutline</Name>
         </Resource>
         <Resource>
@@ -492,13 +492,13 @@
         <Resource>
             <ID>FD78FBC8</ID>
             <Type>TXTR</Type>
-            <Directory>script\mp1\</Directory>
+            <Directory>script/mp1/</Directory>
             <Name>NewCameraShaker</Name>
         </Resource>
         <Resource>
             <ID>FFAC2525</ID>
             <Type>TXTR</Type>
-            <Directory>script\common\</Directory>
+            <Directory>script/common/</Directory>
             <Name>CameraShaker</Name>
         </Resource>
     </Resources>

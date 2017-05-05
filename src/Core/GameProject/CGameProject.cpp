@@ -166,8 +166,8 @@ CGameProject* CGameProject::CreateProjectForExport(
     pProj->mFilesystemAddress = FstAddress;
 
     pProj->mProjectRoot = rkProjRootDir;
-    pProj->mProjectRoot.Replace("/", "\\");
-    pProj->mpResourceStore = new CResourceStore(pProj, "Content\\", "Cooked\\", Game);
+    pProj->mProjectRoot.Replace("\\", "/");
+    pProj->mpResourceStore = new CResourceStore(pProj, "Content/", "Cooked/", Game);
     pProj->mpGameInfo->LoadGameInfo(Game);
     pProj->mLoadSuccess = true;
     return pProj;
@@ -177,7 +177,7 @@ CGameProject* CGameProject::LoadProject(const TString& rkProjPath)
 {
     CGameProject *pProj = new CGameProject;
     pProj->mProjectRoot = rkProjPath.GetFileDirectory();
-    pProj->mProjectRoot.Replace("/", "\\");
+    pProj->mProjectRoot.Replace("\\", "/");
 
     TString ProjPath = rkProjPath;
     CXMLReader Reader(ProjPath);

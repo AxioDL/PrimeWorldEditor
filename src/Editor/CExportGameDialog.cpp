@@ -64,7 +64,7 @@ void CExportGameDialog::InitUI(QString ExportDir)
     CGameInfo GameInfo;
     GameInfo.LoadGameInfo(mGame);
 
-    ExportDir.replace('/', '\\');
+    ExportDir.replace('\\', '/');
 
     TString DefaultNameMapPath = CAssetNameMap::DefaultNameMapPath(mGame);
     if (!FileUtil::Exists(DefaultNameMapPath)) DefaultNameMapPath = "";
@@ -382,7 +382,7 @@ void CExportGameDialog::Export()
 
     CGameExporter Exporter(mGame, mRegion, mGameTitle, mGameID, mBuildVer);
     TString StrExportDir = TO_TSTRING(ExportDir);
-    StrExportDir.EnsureEndsWith('\\');
+    StrExportDir.EnsureEndsWith('/');
     mExportSuccess = Exporter.Export(mpDisc, StrExportDir, &NameMap, &GameInfo);
 
     if (!mExportSuccess)

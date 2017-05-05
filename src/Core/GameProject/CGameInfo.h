@@ -8,7 +8,7 @@
 #include <Common/Serialization/XML.h>
 #include <map>
 
-const TString gkGameInfoDir = "..\\resources\\gameinfo";
+const TString gkGameInfoDir = "../resources/gameinfo";
 const TString gkGameInfoExt = "xml";
 
 class CGameInfo

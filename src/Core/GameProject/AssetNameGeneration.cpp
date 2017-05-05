@@ -74,22 +74,22 @@ void GenerateAssetNames(CGameProject *pProj)
 
 #if PROCESS_WORLDS
     // Generate world/area names
-    const TString kWorldsRoot = "Worlds\\";
+    const TString kWorldsRoot = "Worlds/";
 
     for (TResourceIterator<eWorld> It(pStore); It; ++It)
     {
         // Set world name
         CWorld *pWorld = (CWorld*) It->Load();
         TString WorldName = pWorld->Name();
-        TString WorldDir = kWorldsRoot + WorldName + '\\';
+        TString WorldDir = kWorldsRoot + WorldName + '/';
 
         TString WorldMasterName = "!" + WorldName + "_Master";
-        TString WorldMasterDir = WorldDir + WorldMasterName + '\\';
+        TString WorldMasterDir = WorldDir + WorldMasterName + '/';
         ApplyGeneratedName(*It, WorldMasterDir, WorldMasterName);
 
         // Move world stuff
-        const TString WorldNamesDir = "Strings\\Worlds\\General\\";
-        const TString AreaNamesDir = TString::Format("Strings\\Worlds\\%s\\", *WorldName);
+        const TString WorldNamesDir = "Strings/Worlds/General/";
+        const TString AreaNamesDir = TString::Format("Strings/Worlds/%s/", *WorldName);
 
         CModel *pSkyModel = pWorld->DefaultSkybox();
         CStringTable *pWorldNameTable = pWorld->NameString();
@@ -107,7 +107,7 @@ void GenerateAssetNames(CGameProject *pProj)
         {
             // Move sky model
             CResourceEntry *pSkyEntry = pSkyModel->Entry();
-            ApplyGeneratedName(pSkyEntry, WorldDir + "sky\\cooked\\", WorldName + "_sky");
+            ApplyGeneratedName(pSkyEntry, WorldDir + "sky/cooked/", WorldName + "_sky");
 
             // Move sky textures
             for (u32 iSet = 0; iSet < pSkyModel->GetMatSetCount(); iSet++)
@@ -123,7 +123,7 @@ void GenerateAssetNames(CGameProject *pProj)
                         CMaterialPass *pPass = pMat->Pass(iPass);
 
                         if (pPass->Texture())
-                            ApplyGeneratedName(pPass->Texture()->Entry(), WorldDir + "sky\\sourceimages\\", pPass->Texture()->Entry()->Name());
+                            ApplyGeneratedName(pPass->Texture()->Entry(), WorldDir + "sky/sourceimages/", pPass->Texture()->Entry()->Name());
                     }
                 }
             }
@@ -173,7 +173,7 @@ void GenerateAssetNames(CGameProject *pProj)
 
 #if PROCESS_AREAS
             // Move area dependencies
-            TString AreaCookedDir = WorldDir + AreaName + "\\cooked\\";
+            TString AreaCookedDir = WorldDir + AreaName + "/cooked/";
             CGameArea *pArea = (CGameArea*) pAreaEntry->Load();
 
             // Area lightmaps
@@ -380,7 +380,7 @@ void GenerateAssetNames(CGameProject *pProj)
 
 #if PROCESS_AUDIO_GROUPS
     // Generate Audio Group names
-    const TString kAudioGrpDir = "Audio\\";
+    const TString kAudioGrpDir = "Audio/";
 
     for (TResourceIterator<eAudioGroup> It(pStore); It; ++It)
     {
@@ -392,7 +392,7 @@ void GenerateAssetNames(CGameProject *pProj)
 
 #if PROCESS_AUDIO_MACROS
     // Process audio macro/sample names
-    const TString kSfxDir = "Audio\\Uncategorized\\";
+    const TString kSfxDir = "Audio/Uncategorized/";
 
     for (TResourceIterator<eAudioMacro> It(pStore); It; ++It)
     {
@@ -511,7 +511,7 @@ void GenerateAssetNames(CGameProject *pProj)
 
 #if PROCESS_STRINGS
     // Generate string names
-    const TString kStringsDir = "Strings\\Uncategorized\\";
+    const TString kStringsDir = "Strings/Uncategorized/";
 
     for (TResourceIterator<eStringTable> It(pStore); It; ++It)
     {

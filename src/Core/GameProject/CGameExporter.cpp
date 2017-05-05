@@ -41,8 +41,8 @@ bool CGameExporter::Export(nod::DiscBase *pDisc, const TString& rkOutputDir, CAs
     mpGameInfo = pGameInfo;
 
     mExportDir = FileUtil::MakeAbsolute(rkOutputDir);
-    mDiscDir = "Disc\\";
-    mWorldsDirName = "Worlds\\";
+    mDiscDir = "Disc/";
+    mWorldsDirName = "Worlds/";
 
     // Create project
     FileUtil::MakeDirectory(mExportDir);
@@ -161,7 +161,7 @@ bool CGameExporter::ExtractDiscNodeRecursive(const nod::Node *pkNode, const TStr
 
         else
         {
-            TString Subdir = rkDir + Iter->getName() + "\\";
+            TString Subdir = rkDir + Iter->getName() + "/";
             bool Success = FileUtil::MakeDirectory(Subdir);
             if (!Success) return false;
 

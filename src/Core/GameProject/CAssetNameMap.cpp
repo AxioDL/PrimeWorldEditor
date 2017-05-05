@@ -56,7 +56,7 @@ bool CAssetNameMap::GetNameInfo(CAssetID ID, TString& rOutDirectory, TString& rO
 
     else
     {
-        rOutDirectory = "Uncategorized\\";
+        rOutDirectory = "Uncategorized/";
         rOutName = ID.ToString();
         return false;
     }

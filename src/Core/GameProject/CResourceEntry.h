@@ -75,7 +75,7 @@ public:
     void SetHidden(bool Hidden)                     { Hidden ? mFlags.SetFlag(eREF_Hidden) : mFlags.ClearFlag(eREF_Hidden); }
 
     inline bool IsLoaded() const                    { return mpResource != nullptr; }
-    inline bool IsCategorized() const               { return mpDirectory && mpDirectory->FullPath() != "Uncategorized\\"; }
+    inline bool IsCategorized() const               { return mpDirectory && mpDirectory->FullPath() != "Uncategorized/"; }
     inline bool IsNamed() const                     { return mName != mID.ToString(); }
     inline CResource* Resource() const              { return mpResource; }
     inline CResTypeInfo* TypeInfo() const           { return mpTypeInfo; }

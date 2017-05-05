@@ -8,7 +8,7 @@
 #include <map>
 #include <memory>
 
-const TString gkAssetMapPath = "..\\resources\\gameinfo\\AssetNameMap";
+const TString gkAssetMapPath = "../resources/gameinfo/AssetNameMap";
 const TString gkAssetMapExt = "xml";
 
 class CAssetNameMap
