@@ -98,7 +98,7 @@ void CCharacterUsageMap::DebugPrintContents()
     {
         CAssetID ID = Iter->first;
         std::vector<bool>& rUsedList = Iter->second;
-        CAnimSet *pSet = (CAnimSet*) mpStore->LoadResource(ID, "ANCS");
+        CAnimSet *pSet = mpStore->LoadResource<CAnimSet>(ID);
 
         for (u32 iChar = 0; iChar < pSet->NumCharacters(); iChar++)
         {

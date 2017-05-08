@@ -10,7 +10,7 @@ CScan* CScanLoader::LoadScanMP1(IInputStream& rSCAN)
 {
     // Basic support at the moment - don't read animation/scan image data
     mpScan->mFrameID = CAssetID(rSCAN, e32Bit);
-    mpScan->mpStringTable = gpResourceStore->LoadResource(rSCAN.ReadLong(), "STRG");
+    mpScan->mpStringTable = gpResourceStore->LoadResource(rSCAN.ReadLong(), eStringTable);
     mpScan->mIsSlow = (rSCAN.ReadLong() != 0);
     mpScan->mCategory = (CScan::ELogbookCategory) rSCAN.ReadLong();
     mpScan->mIsImportant = (rSCAN.ReadByte() == 1);
@@ -112,7 +112,7 @@ void CScanLoader::LoadParamsMP2(IInputStream& rSCAN, u16 NumProperties)
         switch (PropertyID)
         {
         case 0x2F5B6423:
-            mpScan->mpStringTable = gpResourceStore->LoadResource(rSCAN.ReadLong(), "STRG");
+            mpScan->mpStringTable = gpResourceStore->LoadResource(rSCAN.ReadLong(), eStringTable);
             break;
 
         case 0xC308A322:
@@ -210,7 +210,7 @@ void CScanLoader::LoadParamsMP3(IInputStream& rSCAN, u16 NumProperties)
         switch (PropertyID)
         {
         case 0x2F5B6423:
-            mpScan->mpStringTable = gpResourceStore->LoadResource(rSCAN.ReadLongLong(), "STRG");
+            mpScan->mpStringTable = gpResourceStore->LoadResource(rSCAN.ReadLongLong(), eStringTable);
             break;
 
         case 0xC308A322:

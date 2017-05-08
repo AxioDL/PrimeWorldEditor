@@ -33,11 +33,6 @@ CAssetID::CAssetID(u64 ID, EIDLength Length)
         mID &= 0xFFFFFFFF;
 }
 
-CAssetID::CAssetID(const char* pkID)
-{
-    *this = CAssetID::FromString(pkID);
-}
-
 void CAssetID::Write(IOutputStream& rOutput) const
 {
     if (mLength == e32Bit)

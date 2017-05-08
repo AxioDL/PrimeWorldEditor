@@ -28,7 +28,7 @@ public:
     // Accessors
     inline EGame Version() const        { return mGame; }
     inline CAssetID ID() const          { return mCharacterID; }
-    inline CAnimSet* AnimSet() const    { return (CAnimSet*) gpResourceStore->LoadResource(mCharacterID, (mGame < eCorruptionProto ? "ANCS" : "CHAR")); }
+    inline CAnimSet* AnimSet() const    { return (CAnimSet*) gpResourceStore->LoadResource(mCharacterID); }
     inline u32 CharacterIndex() const   { return mCharIndex; }
     inline u32 AnimIndex() const        { return mAnimIndex; }
     inline void SetCharIndex(u32 Index) { mCharIndex = Index; }

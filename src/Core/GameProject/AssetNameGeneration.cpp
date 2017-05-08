@@ -32,7 +32,7 @@ void ApplyGeneratedName(CResourceEntry *pEntry, const TString& rkDir, const TStr
     if (pEntry->Game() >= eCorruptionProto)
         SanitizedDir = SanitizedDir.ToLower();
 
-    CVirtualDirectory *pNewDir = pEntry->ResourceStore()->GetVirtualDirectory(SanitizedDir, false, true);
+    CVirtualDirectory *pNewDir = pEntry->ResourceStore()->GetVirtualDirectory(SanitizedDir, true);
     if (pEntry->Directory() == pNewDir && pEntry->Name() == SanitizedName) return;
 
     TString Name = SanitizedName;

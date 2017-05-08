@@ -15,8 +15,8 @@ CAnimSet* CAnimSetLoader::LoadCorruptionCHAR(IInputStream& rCHAR)
     // Character Header
     rChar.ID = rCHAR.ReadByte();
     rChar.Name = rCHAR.ReadString();
-    rChar.pModel = gpResourceStore->LoadResource(rCHAR.ReadLongLong(), "CMDL");
-    rChar.pSkin = gpResourceStore->LoadResource(rCHAR.ReadLongLong(), "CSKR");
+    rChar.pModel = gpResourceStore->LoadResource<CModel>(rCHAR.ReadLongLong());
+    rChar.pSkin = gpResourceStore->LoadResource<CSkin>(rCHAR.ReadLongLong());
 
     u32 NumOverlays = rCHAR.ReadLong();
 
@@ -29,7 +29,7 @@ CAnimSet* CAnimSetLoader::LoadCorruptionCHAR(IInputStream& rCHAR)
         rChar.OverlayModels.push_back(Overlay);
     }
 
-    rChar.pSkeleton = gpResourceStore->LoadResource(rCHAR.ReadLongLong(), "CINF");
+    rChar.pSkeleton = gpResourceStore->LoadResource<CSkeleton>(rCHAR.ReadLongLong());
     rChar.AnimDataID = CAssetID(rCHAR, e64Bit);
 
     // PAS Database
@@ -108,7 +108,7 @@ CAnimSet* CAnimSetLoader::LoadReturnsCHAR(IInputStream& rCHAR)
     rChar.Name = rCHAR.ReadString();
     rCHAR.Seek(0x14, SEEK_CUR);
     rCHAR.ReadString();
-    rChar.pModel = gpResourceStore->LoadResource(rCHAR.ReadLongLong(), "CMDL");
+    rChar.pModel = gpResourceStore->LoadResource<CModel>(rCHAR.ReadLongLong());
     return pSet;
 }
 
@@ -285,7 +285,7 @@ void CAnimSetLoader::ProcessPrimitives()
 
     if (mGame == eCorruptionProto || mGame == eCorruption)
     {
-        CSourceAnimData *pAnimData = (CSourceAnimData*) gpResourceStore->LoadResource( pSet->mCharacters[0].AnimDataID, "SAND" );
+        CSourceAnimData *pAnimData = gpResourceStore->LoadResource<CSourceAnimData>( pSet->mCharacters[0].AnimDataID );
 
         if (pAnimData)
             pAnimData->GetUniquePrimitives(UniquePrimitives);
@@ -415,9 +415,9 @@ CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS, CResourceEntry *pEntry)
             Loader.mGame = (CharVersion == 0xA) ? eEchoes : ePrime;
         }
         pChar->Name = rANCS.ReadString();
-        pChar->pModel = gpResourceStore->LoadResource(rANCS.ReadLong(), "CMDL");
-        pChar->pSkin = gpResourceStore->LoadResource(rANCS.ReadLong(), "CSKR");
-        pChar->pSkeleton = gpResourceStore->LoadResource(rANCS.ReadLong(), "CINF");
+        pChar->pModel = gpResourceStore->LoadResource<CModel>(rANCS.ReadLong());
+        pChar->pSkin = gpResourceStore->LoadResource<CSkin>(rANCS.ReadLong());
+        pChar->pSkeleton = gpResourceStore->LoadResource<CSkeleton>(rANCS.ReadLong());
         if (pChar->pModel) pChar->pModel->SetSkin(pChar->pSkin);
 
         // Unfortunately that's all that's actually supported at the moment. Hope to expand later.

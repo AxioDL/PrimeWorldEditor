@@ -22,7 +22,6 @@ public:
     CAssetID();
     CAssetID(u64 ID);
     CAssetID(u64 ID, EIDLength Length);
-    CAssetID(const char* pkID);
     CAssetID(IInputStream& rInput, EIDLength Length);
     CAssetID(IInputStream& rInput, EGame Game);
     void Write(IOutputStream& rOutput) const;
@@ -31,7 +30,6 @@ public:
 
     // Operators
     inline void operator= (const u64& rkInput)              { *this = CAssetID(rkInput); }
-    inline void operator= (const char *pkInput)             { *this = CAssetID(pkInput); }
     inline bool operator==(const CAssetID& rkOther) const   { return mLength == rkOther.mLength && mID == rkOther.mID; }
     inline bool operator!=(const CAssetID& rkOther) const   { return mLength != rkOther.mLength || mID != rkOther.mID; }
     inline bool operator> (const CAssetID& rkOther) const   { return mLength >= rkOther.mLength && mID > rkOther.mID; }

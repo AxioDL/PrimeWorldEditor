@@ -45,14 +45,14 @@ void CAudioManager::LoadAssets()
     CAssetID AudioLookupID = mpProject->FindNamedResource(AudioLookupName);
 
     if (AudioLookupID.IsValid())
-        mpAudioLookupTable = mpProject->ResourceStore()->LoadResource(AudioLookupID, "ATBL");
+        mpAudioLookupTable = mpProject->ResourceStore()->LoadResource<CAudioLookupTable>(AudioLookupID);
 
     if (mpProject->Game() >= eEchoesDemo)
     {
         CAssetID SfxNameListID = mpProject->FindNamedResource("audio_name_lookup_STLC");
 
         if (SfxNameListID.IsValid())
-            mpSfxNameList = mpProject->ResourceStore()->LoadResource(SfxNameListID, "STLC");
+            mpSfxNameList = mpProject->ResourceStore()->LoadResource<CStringList>(SfxNameListID);
     }
 }
 

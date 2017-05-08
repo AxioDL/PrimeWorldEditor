@@ -224,7 +224,7 @@ CCollisionMeshGroup* CScriptTemplate::FindCollision(CPropertyStruct *pProperties
             if (pProp->Type() == eAssetProperty)
             {
                 TAssetProperty *pAsset = static_cast<TAssetProperty*>(pProp);
-                pRes = gpResourceStore->LoadResource( pAsset->Get(), "DCLN" );
+                pRes = gpResourceStore->LoadResource( pAsset->Get(), eDynamicCollision );
             }
         }
 

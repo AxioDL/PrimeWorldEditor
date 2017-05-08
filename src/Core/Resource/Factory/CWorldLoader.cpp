@@ -16,19 +16,19 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
     // Header
     if (mVersion < eCorruptionProto)
     {
-        mpWorld->mpWorldName = gpResourceStore->LoadResource(rMLVL.ReadLong(), "STRG");
-        if (mVersion == eEchoes) mpWorld->mpDarkWorldName = gpResourceStore->LoadResource(rMLVL.ReadLong(), "STRG");
+        mpWorld->mpWorldName = gpResourceStore->LoadResource(rMLVL.ReadLong(), eStringTable);
+        if (mVersion == eEchoes) mpWorld->mpDarkWorldName = gpResourceStore->LoadResource(rMLVL.ReadLong(), eStringTable);
         if (mVersion >= eEchoes) mpWorld->mTempleKeyWorldIndex = rMLVL.ReadLong();
-        if (mVersion >= ePrime) mpWorld->mpSaveWorld = gpResourceStore->LoadResource(rMLVL.ReadLong(), "SAVW");
-        mpWorld->mpDefaultSkybox = gpResourceStore->LoadResource(rMLVL.ReadLong(), "CMDL");
+        if (mVersion >= ePrime) mpWorld->mpSaveWorld = gpResourceStore->LoadResource(rMLVL.ReadLong(), eSaveWorld);
+        mpWorld->mpDefaultSkybox = gpResourceStore->LoadResource(rMLVL.ReadLong(), eModel);
     }
 
     else
     {
-        mpWorld->mpWorldName = gpResourceStore->LoadResource(rMLVL.ReadLongLong(), "STRG");
+        mpWorld->mpWorldName = gpResourceStore->LoadResource(rMLVL.ReadLongLong(), eStringTable);
         rMLVL.Seek(0x4, SEEK_CUR); // Skipping unknown value
-        mpWorld->mpSaveWorld = gpResourceStore->LoadResource(rMLVL.ReadLongLong(), "SAVW");
-        mpWorld->mpDefaultSkybox = gpResourceStore->LoadResource(rMLVL.ReadLongLong(), "CMDL");
+        mpWorld->mpSaveWorld = gpResourceStore->LoadResource(rMLVL.ReadLongLong(), eStringTable);
+        mpWorld->mpDefaultSkybox = gpResourceStore->LoadResource(rMLVL.ReadLongLong(), eModel);
     }
 
     // Memory relays - only in MP1
@@ -57,7 +57,7 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
     {
         // Area header
         CWorld::SArea *pArea = &mpWorld->mAreas[iArea];
-        pArea->pAreaName = gpResourceStore->LoadResource( CAssetID(rMLVL, mVersion), "STRG" );
+        pArea->pAreaName = gpResourceStore->LoadResource<CStringTable>( CAssetID(rMLVL, mVersion) );
         pArea->Transform = CTransform4f(rMLVL);
         pArea->AetherBox = CAABox(rMLVL);
         pArea->AreaResID = CAssetID(rMLVL, mVersion);
@@ -132,7 +132,7 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
     }
 
     // MapWorld
-    mpWorld->mpMapWorld = gpResourceStore->LoadResource( CAssetID(rMLVL, mVersion), "MAPW" );
+    mpWorld->mpMapWorld = gpResourceStore->LoadResource( CAssetID(rMLVL, mVersion), eMapWorld );
     rMLVL.Seek(0x5, SEEK_CUR); // Unknown values which are always 0
 
     // Audio Groups - we don't need this info as we regenerate it on cook
@@ -173,7 +173,7 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
 
 void CWorldLoader::LoadReturnsMLVL(IInputStream& rMLVL)
 {
-    mpWorld->mpWorldName = gpResourceStore->LoadResource(rMLVL.ReadLongLong(), "STRG");
+    mpWorld->mpWorldName = gpResourceStore->LoadResource<CStringTable>(rMLVL.ReadLongLong());
 
     bool Check = (rMLVL.ReadByte() != 0);
     if (Check)
@@ -182,8 +182,8 @@ void CWorldLoader::LoadReturnsMLVL(IInputStream& rMLVL)
         rMLVL.Seek(0x10, SEEK_CUR);
     }
 
-    mpWorld->mpSaveWorld = gpResourceStore->LoadResource(rMLVL.ReadLongLong(), "SAVW");
-    mpWorld->mpDefaultSkybox = gpResourceStore->LoadResource(rMLVL.ReadLongLong(), "CMDL");
+    mpWorld->mpSaveWorld = gpResourceStore->LoadResource(rMLVL.ReadLongLong(), eSaveWorld);
+    mpWorld->mpDefaultSkybox = gpResourceStore->LoadResource<CModel>(rMLVL.ReadLongLong());
 
     // Areas
     u32 NumAreas = rMLVL.ReadLong();
@@ -194,7 +194,7 @@ void CWorldLoader::LoadReturnsMLVL(IInputStream& rMLVL)
         // Area header
         CWorld::SArea *pArea = &mpWorld->mAreas[iArea];
 
-        pArea->pAreaName = gpResourceStore->LoadResource(rMLVL.ReadLongLong(), "STRG");
+        pArea->pAreaName = gpResourceStore->LoadResource<CStringTable>(rMLVL.ReadLongLong());
         pArea->Transform = CTransform4f(rMLVL);
         pArea->AetherBox = CAABox(rMLVL);
         pArea->AreaResID = rMLVL.ReadLongLong();
