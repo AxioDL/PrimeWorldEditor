@@ -92,8 +92,8 @@ void CMaterialPass::SetAnimCurrent(FRenderOptions Options, u32 PassIndex)
     const CMatrix4f& ModelMtx = CGraphics::sMVPBlock.ModelMatrix;
     const CMatrix4f& ViewMtx = CGraphics::sMVPBlock.ViewMatrix;
 
-    CMatrix4f TexMtx = CMatrix4f::skIdentity;
-    CMatrix4f PostMtx = CMatrix4f::skIdentity;
+    CTransform4f TexMtx = CMatrix4f::skIdentity;
+    CTransform4f PostMtx = CMatrix4f::skIdentity;
 
     switch (mAnimMode)
     {
@@ -101,7 +101,8 @@ void CMaterialPass::SetAnimCurrent(FRenderOptions Options, u32 PassIndex)
     case eInverseMV: // Mode 0
     case eSimpleMode: // Mode 10 - maybe not correct?
     {
-        TexMtx  = (ModelMtx * ViewMtx).Transpose().Inverse();
+        TexMtx = (ViewMtx.Inverse().Transpose() * ModelMtx);
+        TexMtx[0][3] = TexMtx[1][3] = TexMtx[2][3] = 0.f;
         PostMtx = CMatrix4f(0.5f, 0.0f, 0.0f, 0.5f,
                             0.0f, 0.5f, 0.0f, 0.5f,
                             0.0f, 0.0f, 0.0f, 1.0f,
@@ -111,7 +112,7 @@ void CMaterialPass::SetAnimCurrent(FRenderOptions Options, u32 PassIndex)
 
     case eInverseMVTranslated: // Mode 1
     {
-        TexMtx = (ModelMtx * ViewMtx).Transpose().Inverse();
+        TexMtx = (ViewMtx.Inverse().Transpose() * ModelMtx);
         PostMtx = CMatrix4f(0.5f, 0.0f, 0.0f, 0.5f,
                             0.0f, 0.5f, 0.0f, 0.5f,
                             0.0f, 0.0f, 0.0f, 1.0f,
@@ -163,9 +164,9 @@ void CMaterialPass::SetAnimCurrent(FRenderOptions Options, u32 PassIndex)
     case eModelMatrix: // Mode 6
     {
         // It looks ok, but I can't tell whether it's correct...
-        TexMtx  = ModelMtx.Transpose();
-        PostMtx = CMatrix4f(0.5f, 0.0f, 0.0f, TexMtx[0][3] * 0.50000001f,
-                            0.0f, 0.5f, 0.0f, TexMtx[1][3] * 0.50000001f,
+        TexMtx  = ModelMtx;
+        PostMtx = CMatrix4f(0.5f, 0.0f, 0.0f, TexMtx[0][3] * 0.5f,
+                            0.0f, 0.5f, 0.0f, TexMtx[1][3] * 0.5f,
                             0.0f, 0.0f, 0.0f, 1.0f,
                             0.0f, 0.0f, 0.0f, 1.0f);
         TexMtx[0][3] = 0.f;
@@ -177,7 +178,7 @@ void CMaterialPass::SetAnimCurrent(FRenderOptions Options, u32 PassIndex)
     {
         CMatrix4f View = CGraphics::sMVPBlock.ViewMatrix;
 
-        TexMtx = (ModelMtx * ViewMtx).Transpose().Inverse();
+        TexMtx = (ViewMtx.Inverse().Transpose() * ModelMtx);
         TexMtx[0][3] = TexMtx[1][3] = TexMtx[2][3] = 0.f;
 
         float XY = (View[3][0] + View[3][1]) * 0.025f * mAnimParams[1];
