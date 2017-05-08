@@ -56,9 +56,6 @@ CResourceStore::~CResourceStore()
 
     for (auto It = mResourceEntries.begin(); It != mResourceEntries.end(); It++)
         delete It->second;
-
-    for (auto It = mTransientRoots.begin(); It != mTransientRoots.end(); It++)
-        delete *It;
 }
 
 void CResourceStore::SerializeResourceDatabase(IArchive& rArc)
@@ -83,10 +80,7 @@ void CResourceStore::SerializeResourceDatabase(IArchive& rArc)
         Resources.reserve(mResourceEntries.size());
 
         for (CResourceIterator It(this); It; ++It)
-        {
-            if (!It->IsTransient())
-                Resources.push_back( SDatabaseResource { It->ID(), It->TypeInfo(), It->Directory()->FullPath(), It->Name() } );
-        }
+            Resources.push_back( SDatabaseResource { It->ID(), It->TypeInfo(), It->Directory()->FullPath(), It->Name() } );
     }
 
     // Serialize
@@ -175,7 +169,7 @@ bool CResourceStore::LoadCacheFile()
 
         CResourceEntry *pEntry = FindEntry(ID);
 
-        if (pEntry && !pEntry->IsTransient())
+        if (pEntry)
         {
             CBasicBinaryReader Reader(&CacheFile, Version);
 
@@ -215,26 +209,23 @@ bool CResourceStore::SaveCacheFile()
     // Structure: Entry Asset ID -> Entry Cache Size -> Serialized Entry Cache Data
     for (CResourceIterator It(this); It; ++It)
     {
-        if (!It->IsTransient())
+        ResCount++;
+        It->ID().Write(CacheFile);
+        u32 SizeOffset = CacheFile.Tell();
+        CacheFile.WriteLong(0);
+
+        CBasicBinaryWriter Writer(&CacheFile, Version.FileVersion(), Version.Game());
+
+        if (Writer.ParamBegin("EntryCache"))
         {
-            ResCount++;
-            It->ID().Write(CacheFile);
-            u32 SizeOffset = CacheFile.Tell();
-            CacheFile.WriteLong(0);
-
-            CBasicBinaryWriter Writer(&CacheFile, Version.FileVersion(), Version.Game());
-
-            if (Writer.ParamBegin("EntryCache"))
-            {
-                It->SerializeCacheData(Writer);
-                Writer.ParamEnd();
-            }
-
-            u32 EntryCacheEnd = CacheFile.Tell();
-            CacheFile.Seek(SizeOffset, SEEK_SET);
-            CacheFile.WriteLong(EntryCacheEnd - SizeOffset - 4);
-            CacheFile.Seek(EntryCacheEnd, SEEK_SET);
+            It->SerializeCacheData(Writer);
+            Writer.ParamEnd();
         }
+
+        u32 EntryCacheEnd = CacheFile.Tell();
+        CacheFile.Seek(SizeOffset, SEEK_SET);
+        CacheFile.WriteLong(EntryCacheEnd - SizeOffset - 4);
+        CacheFile.Seek(EntryCacheEnd, SEEK_SET);
     }
 
     CacheFile.Seek(ResCountOffset, SEEK_SET);
@@ -294,16 +285,8 @@ void CResourceStore::CloseProject()
 
     while (It != mResourceEntries.end())
     {
-        CResourceEntry *pEntry = It->second;
-
-        if (!pEntry->IsTransient())
-        {
-            delete pEntry;
-            It = mResourceEntries.erase(It);
-        }
-
-        else
-            It++;
+        delete It->second;
+        It = mResourceEntries.erase(It);
     }
 
     delete mpDatabaseRoot;
@@ -312,34 +295,14 @@ void CResourceStore::CloseProject()
     mGame = eUnknownGame;
 }
 
-CVirtualDirectory* CResourceStore::GetVirtualDirectory(const TString& rkPath, bool Transient, bool AllowCreate)
+CVirtualDirectory* CResourceStore::GetVirtualDirectory(const TString& rkPath, bool AllowCreate)
 {
-    if (rkPath.IsEmpty()) return mpDatabaseRoot;
-
-    else if (Transient)
-    {
-        for (u32 iTrans = 0; iTrans < mTransientRoots.size(); iTrans++)
-        {
-            if (mTransientRoots[iTrans]->Name() == rkPath)
-                return mTransientRoots[iTrans];
-        }
-
-        if (AllowCreate)
-        {
-            CVirtualDirectory *pDir = new CVirtualDirectory(rkPath, this);
-            mTransientRoots.push_back(pDir);
-            return pDir;
-        }
-
-        else return nullptr;
-    }
-
+    if (rkPath.IsEmpty())
+        return mpDatabaseRoot;
     else if (mpDatabaseRoot)
-    {
         return mpDatabaseRoot->FindChildDirectory(rkPath, AllowCreate);
-    }
-
-    else return nullptr;
+    else
+        return nullptr;
 }
 
 void CResourceStore::ConditionalDeleteDirectory(CVirtualDirectory *pDir)
@@ -382,16 +345,7 @@ CResourceEntry* CResourceStore::RegisterResource(const CAssetID& rkID, EResType 
     CResourceEntry *pEntry = FindEntry(rkID);
 
     if (pEntry)
-    {
-        if (pEntry->IsTransient())
-        {
-            ASSERT(pEntry->ResourceType() == Type);
-            pEntry->AddToProject(rkDir, rkName);
-        }
-
-        else
-            Log::Error("Attempted to register resource that's already tracked in the database: " + rkID.ToString() + " / " + rkDir + " / " + rkName);
-    }
+        Log::Error("Attempted to register resource that's already tracked in the database: " + rkID.ToString() + " / " + rkDir + " / " + rkName);
 
     else
     {
@@ -409,133 +363,74 @@ CResourceEntry* CResourceStore::RegisterResource(const CAssetID& rkID, EResType 
     return pEntry;
 }
 
-CResourceEntry* CResourceStore::RegisterTransientResource(EResType Type, const TString& rkDir /*= ""*/, const TString& rkFileName /*= ""*/)
-{
-    CResourceEntry *pEntry = new CResourceEntry(this, CAssetID::RandomID(), rkDir, rkFileName, Type, true);
-    mResourceEntries[pEntry->ID()] = pEntry;
-    return pEntry;
-}
-
-CResourceEntry* CResourceStore::RegisterTransientResource(EResType Type, const CAssetID& rkID, const TString& rkDir /*=L ""*/, const TString& rkFileName /*= ""*/)
-{
-    CResourceEntry *pEntry = FindEntry(rkID);
-
-    if (!pEntry)
-    {
-        pEntry = new CResourceEntry(this, rkID, rkDir, rkFileName, Type, true);
-        mResourceEntries[rkID] = pEntry;
-    }
-
-    return pEntry;
-}
-
-CResource* CResourceStore::LoadResource(const CAssetID& rkID, const CFourCC& rkType)
+CResource* CResourceStore::LoadResource(const CAssetID& rkID)
 {
     if (!rkID.IsValid()) return nullptr;
 
-    // Check if resource is already loaded
-    auto Find = mLoadedResources.find(rkID);
-    if (Find != mLoadedResources.end())
-        return Find->second->Resource();
-
-    // Check for resource in store
     CResourceEntry *pEntry = FindEntry(rkID);
-    if (pEntry) return pEntry->Load();
 
-    // Check in transient load directory - this only works for cooked
-    EResType Type = CResTypeInfo::TypeForCookedExtension(mGame, rkType)->Type();
-
-    if (Type != eInvalidResType)
-    {
-        // Note the entry may not be able to find the resource on its own (due to not knowing what game
-        // it is) so we will attempt to open the file stream ourselves and pass it to the entry instead.
-        TString Name = rkID.ToString();
-        CResourceEntry *pEntry = RegisterTransientResource(Type, mTransientLoadDir, Name);
-
-        TString Path = mTransientLoadDir + Name + "." + rkType.ToString();
-        CFileInStream File(Path, IOUtil::eBigEndian);
-        CResource *pRes = pEntry->LoadCooked(File);
-
-        if (!pRes) DeleteResourceEntry(pEntry);
-        return pRes;
-    }
+    if (pEntry)
+        return pEntry->Load();
 
     else
     {
-        Log::Error("Can't load requested resource with ID \"" + rkID.ToString() + "\"; can't locate resource. Note: Loading raw assets from an arbitrary directory is unsupported.");;
+        // Resource doesn't seem to exist
+        Log::Error("Can't find requested resource with ID \"" + rkID.ToString() + "\".");;
         return nullptr;
     }
+}
+
+CResource* CResourceStore::LoadResource(const CAssetID& rkID, EResType Type)
+{
+    CResource *pRes = LoadResource(rkID);
+
+    if (pRes)
+    {
+        if (pRes->Type() == Type)
+        {
+            return pRes;
+        }
+        else
+        {
+            CResTypeInfo *pExpectedType = CResTypeInfo::FindTypeInfo(Type);
+            CResTypeInfo *pGotType = pRes->TypeInfo();
+            ASSERT(pExpectedType && pGotType);
+
+            Log::Error("Resource with ID \"" + rkID.ToString() + "\" requested with the wrong type; expected " + pExpectedType->TypeName() + " asset, got " + pGotType->TypeName() + " asset");
+            return nullptr;
+        }
+    }
+
+    else
+        return nullptr;
 }
 
 CResource* CResourceStore::LoadResource(const TString& rkPath)
 {
     // If this is a relative path then load via the resource DB
-    if (!FileUtil::IsAbsolute(rkPath))
+    CResourceEntry *pEntry = FindEntry(rkPath);
+
+    if (pEntry)
     {
-        CResourceEntry *pEntry = FindEntry(rkPath);
+        // Verify extension matches the entry + load resource
+        TString Ext = rkPath.GetFileExtension();
 
-        if (pEntry)
+        if (!Ext.IsEmpty())
         {
-            // Verify extension matches the entry + load resource
-            TString Ext = rkPath.GetFileExtension();
-
-            if (!Ext.IsEmpty())
+            if (Ext.Length() == 4)
             {
-                if (Ext.Length() == 4)
-                {
-                    ASSERT(Ext.CaseInsensitiveCompare(pEntry->CookedExtension().ToString()));
-                }
-                else
-                {
-                    ASSERT(Ext.CaseInsensitiveCompare(pEntry->RawExtension()));
-                }
+                ASSERT(Ext.CaseInsensitiveCompare(pEntry->CookedExtension().ToString()));
             }
-
-            return pEntry->Load();
+            else
+            {
+                ASSERT(Ext.CaseInsensitiveCompare(pEntry->RawExtension()));
+            }
         }
 
-        else return nullptr;
+        return pEntry->Load();
     }
 
-    // Otherwise create transient entry; construct ID from string, check if resource is loaded already
-    TString Dir = FileUtil::MakeAbsolute(rkPath.GetFileDirectory());
-    TString Name = rkPath.GetFileName(false);
-    CAssetID ID = (Name.IsHexString() ? Name.ToInt64() : rkPath.Hash64());
-    auto Find = mLoadedResources.find(ID);
-
-    if (Find != mLoadedResources.end())
-        return Find->second->Resource();
-
-    // Determine type
-    TString Extension = rkPath.GetFileExtension().ToUpper();
-    EResType Type = CResTypeInfo::TypeForCookedExtension(mGame, Extension)->Type();
-
-    if (Type == eInvalidResType)
-    {
-        Log::Error("Unable to load resource " + rkPath + "; unrecognized extension: " + Extension);
-        return nullptr;
-    }
-
-    // Open file
-    CFileInStream File(rkPath, IOUtil::eBigEndian);
-
-    if (!File.IsValid())
-    {
-        Log::Error("Unable to load resource; couldn't open file: " + rkPath);
-        return nullptr;
-    }
-
-    // Load resource
-    TString OldTransientDir = mTransientLoadDir;
-    mTransientLoadDir = Dir;
-
-    CResourceEntry *pEntry = RegisterTransientResource(Type, ID, Dir, Name);
-    CResource *pRes = pEntry->LoadCooked(File);
-    if (!pRes) DeleteResourceEntry(pEntry);
-
-    mTransientLoadDir = OldTransientDir;
-
-    return pRes;
+    else return nullptr;
 }
 
 void CResourceStore::TrackLoadedResource(CResourceEntry *pEntry)
@@ -563,27 +458,11 @@ void CResourceStore::DestroyUnreferencedResources()
             {
                 It = mLoadedResources.erase(It);
                 NumDeleted++;
-
-                // Transient resources should have their entries cleared out when the resource is unloaded
-                if (pEntry->IsTransient())
-                    DeleteResourceEntry(pEntry);
             }
 
             else It++;
         }
     } while (NumDeleted > 0);
-
-    // Destroy empty virtual directories
-    for (auto DirIt = mTransientRoots.begin(); DirIt != mTransientRoots.end(); DirIt++)
-    {
-        CVirtualDirectory *pRoot = *DirIt;
-
-        if (pRoot->IsEmpty())
-        {
-            delete pRoot;
-            DirIt = mTransientRoots.erase(DirIt);
-        }
-    }
 }
 
 bool CResourceStore::DeleteResourceEntry(CResourceEntry *pEntry)
@@ -609,13 +488,6 @@ bool CResourceStore::DeleteResourceEntry(CResourceEntry *pEntry)
 
     delete pEntry;
     return true;
-}
-
-void CResourceStore::SetTransientLoadDir(const TString& rkDir)
-{
-    mTransientLoadDir = rkDir;
-    mTransientLoadDir.EnsureEndsWith('/');
-    Log::Write("Set resource directory: " + rkDir);
 }
 
 void CResourceStore::ImportNamesFromPakContentsTxt(const TString& rkTxtPath, bool UnnamedOnly)

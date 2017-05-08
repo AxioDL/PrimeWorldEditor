@@ -22,7 +22,6 @@ class CResourceStore
     CGameProject *mpProj;
     EGame mGame;
     CVirtualDirectory *mpDatabaseRoot;
-    std::vector<CVirtualDirectory*> mTransientRoots;
     std::map<CAssetID, CResourceEntry*> mResourceEntries;
     std::map<CAssetID, CResourceEntry*> mLoadedResources;
     bool mDatabaseDirty;
@@ -33,7 +32,6 @@ class CResourceStore
     TString mDatabaseName;
     TString mRawDir;
     TString mCookedDir;
-    TString mTransientLoadDir;
 
     enum EDatabaseVersion
     {
@@ -56,22 +54,21 @@ public:
     void ConditionalSaveStore();
     void SetProject(CGameProject *pProj);
     void CloseProject();
-    CVirtualDirectory* GetVirtualDirectory(const TString& rkPath, bool Transient, bool AllowCreate);
+    CVirtualDirectory* GetVirtualDirectory(const TString& rkPath, bool AllowCreate);
     void ConditionalDeleteDirectory(CVirtualDirectory *pDir);
 
     bool IsResourceRegistered(const CAssetID& rkID) const;
     CResourceEntry* RegisterResource(const CAssetID& rkID, EResType Type, const TString& rkDir, const TString& rkName);
     CResourceEntry* FindEntry(const CAssetID& rkID) const;
     CResourceEntry* FindEntry(const TString& rkPath) const;
-    CResourceEntry* RegisterTransientResource(EResType Type, const TString& rkDir = "", const TString& rkFileName = "");
-    CResourceEntry* RegisterTransientResource(EResType Type, const CAssetID& rkID, const TString& rkDir = "", const TString& rkFileName = "");
 
-    CResource* LoadResource(const CAssetID& rkID, const CFourCC& rkType);
+    template<typename ResType> ResType* LoadResource(const CAssetID& rkID)  { return static_cast<ResType*>(LoadResource(rkID, ResType::StaticType())); }
+    CResource* LoadResource(const CAssetID& rkID);
+    CResource* LoadResource(const CAssetID& rkID, EResType Type);
     CResource* LoadResource(const TString& rkPath);
     void TrackLoadedResource(CResourceEntry *pEntry);
     void DestroyUnreferencedResources();
     bool DeleteResourceEntry(CResourceEntry *pEntry);
-    void SetTransientLoadDir(const TString& rkDir);
 
     void ImportNamesFromPakContentsTxt(const TString& rkTxtPath, bool UnnamedOnly);
 

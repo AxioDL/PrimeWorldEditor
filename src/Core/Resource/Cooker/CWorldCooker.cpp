@@ -166,7 +166,7 @@ bool CWorldCooker::CookMLVL(CWorld *pWorld, IOutputStream& rMLVL)
 
         for (auto It = AudioGroups.begin(); It != AudioGroups.end(); It++)
         {
-            CAudioGroup *pGroup = (CAudioGroup*) gpResourceStore->LoadResource(*It, "AGSC");
+            CAudioGroup *pGroup = gpResourceStore->LoadResource<CAudioGroup>(*It);
             ASSERT(pGroup);
             SortedAudioGroups.push_back(pGroup);
         }

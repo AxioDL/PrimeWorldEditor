@@ -17,7 +17,7 @@ class CDependencyTree;
 enum EResEntryFlag
 {
     eREF_NeedsRecook     = 0x00000001, // Resource has been updated but not recooked
-    eREF_Transient       = 0x00000002, // Resource is transient (not part of a game project resource DB)
+    // UNUSED            = 0x00000002,
     eREF_Hidden          = 0x00000004, // Resource is hidden, doesn't show up in resource browser
     eREF_HasBeenModified = 0x00000008, // Resource has been modified and resaved by the user
     eREF_IsUserResource  = 0x00000010, // Resource was created by the user (i.e. isn't a Retro Studios asset)
@@ -43,7 +43,7 @@ class CResourceEntry
 public:
     CResourceEntry(CResourceStore *pStore, const CAssetID& rkID,
                    const TString& rkDir, const TString& rkFilename,
-                   EResType Type, bool Transient = false);
+                   EResType Type);
     ~CResourceEntry();
 
     void SerializeCacheData(IArchive& rArc);
@@ -65,8 +65,6 @@ public:
     bool Unload();
     bool CanMoveTo(const TString& rkDir, const TString& rkName);
     bool Move(const TString& rkDir, const TString& rkName);
-    void AddToProject(const TString& rkDir, const TString& rkName);
-    void RemoveFromProject();
     CGameProject* Project() const;
     EGame Game() const;
 
@@ -87,7 +85,6 @@ public:
     inline TString Name() const                     { return mName; }
     inline const TString& UppercaseName() const     { return mCachedUppercaseName; }
     inline EResType ResourceType() const            { return mpTypeInfo->Type(); }
-    inline bool IsTransient() const                 { return mFlags.HasFlag(eREF_Transient); }
     inline bool IsHidden() const                    { return mFlags.HasFlag(eREF_Hidden); }
 
 protected:

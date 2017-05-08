@@ -705,7 +705,7 @@ void CWorldEditor::UpdateOpenRecentActions()
     // Remove projects that don't exist anymore
     foreach (const QString& rkProj, RecentProjectsList)
     {
-        if (!FileUtil::Exists( TO_TSTRING(rkProj) ))
+        if (!FileUtil::Exists( TO_TSTRING(rkProj) ) || rkProj.contains('\\') )
             RecentProjectsList.removeAll(rkProj);
     }
 

@@ -19,7 +19,7 @@ CPointOfInterestExtra::CPointOfInterestExtra(CScriptObject *pInstance, CScene *p
 void CPointOfInterestExtra::PropertyModified(IProperty* pProperty)
 {
     if (mpScanProperty == pProperty)
-        mpScanData = gpResourceStore->LoadResource( mpScanProperty->Get(), "SCAN" );
+        mpScanData = gpResourceStore->LoadResource<CScan>( mpScanProperty->Get() );
 }
 
 void CPointOfInterestExtra::ModifyTintColor(CColor& Color)

@@ -12,7 +12,7 @@
 
 CResourceEntry::CResourceEntry(CResourceStore *pStore, const CAssetID& rkID,
                const TString& rkDir, const TString& rkFilename,
-               EResType Type, bool Transient /*= false*/)
+               EResType Type)
     : mpResource(nullptr)
     , mpStore(pStore)
     , mpDependencies(nullptr)
@@ -25,9 +25,7 @@ CResourceEntry::CResourceEntry(CResourceStore *pStore, const CAssetID& rkID,
     mpTypeInfo = CResTypeInfo::FindTypeInfo(Type);
     ASSERT(mpTypeInfo);
 
-    if (Transient) mFlags |= eREF_Transient;
-
-    mpDirectory = mpStore->GetVirtualDirectory(rkDir, Transient, true);
+    mpDirectory = mpStore->GetVirtualDirectory(rkDir, true);
     if (mpDirectory) mpDirectory->AddChild("", this);
 }
 
@@ -39,8 +37,6 @@ CResourceEntry::~CResourceEntry()
 
 void CResourceEntry::SerializeCacheData(IArchive& rArc)
 {
-    ASSERT(!IsTransient());
-
     u32 Flags = mFlags & eREF_SavedFlags;
     rArc << SERIAL_AUTO(Flags);
     if (rArc.IsReader()) mFlags = Flags & eREF_SavedFlags;
@@ -99,7 +95,7 @@ TString CResourceEntry::RawAssetPath(bool Relative) const
     TString Ext = RawExtension();
     TString Path = mpDirectory ? mpDirectory->FullPath() : "";
     TString Name = mName + "." + Ext;
-    return ((IsTransient() || Relative) ? Path + Name : mpStore->RawDir(false) + Path + Name);
+    return Relative ? Path + Name : mpStore->RawDir(false) + Path + Name;
 }
 
 TString CResourceEntry::RawExtension() const
@@ -112,7 +108,7 @@ TString CResourceEntry::CookedAssetPath(bool Relative) const
     TString Ext = CookedExtension().ToString();
     TString Path = mpDirectory ? mpDirectory->FullPath() : "";
     TString Name = mName + "." + Ext;
-    return ((IsTransient() || Relative) ? Path + Name : mpStore->CookedDir(false) + Path + Name);
+    return Relative ? Path + Name : mpStore->CookedDir(false) + Path + Name;
 }
 
 CFourCC CResourceEntry::CookedExtension() const
@@ -267,11 +263,12 @@ bool CResourceEntry::Cook()
 
 CResource* CResourceEntry::Load()
 {
+    // If the asset is already loaded then just return it immediately
+    if (mpResource) return mpResource;
+
     // Always try to load raw version as the raw version contains extra editor-only data.
     // If there is no raw version (which will be the case for resource types that don't
     // support serialization yet) then load the cooked version as a backup.
-    if (mpResource) return mpResource;
-
     if (HasRawVersion())
     {
         mpResource = CResourceFactory::SpawnResource(this);
@@ -353,14 +350,11 @@ bool CResourceEntry::Unload()
 
 bool CResourceEntry::CanMoveTo(const TString& rkDir, const TString& rkName)
 {
-    // Transient resources can't be moved
-    if (IsTransient()) return false;
-
     // Validate that the path/name are valid
     if (!mpStore->IsValidResourcePath(rkDir, rkName)) return false;
 
     // We need to validate the path isn't taken already - either the directory doesn't exist, or doesn't have a resource by this name
-    CVirtualDirectory *pDir = mpStore->GetVirtualDirectory(rkDir, false, false);
+    CVirtualDirectory *pDir = mpStore->GetVirtualDirectory(rkDir, false);
     if (pDir && pDir->FindChildResource(rkName, ResourceType())) return false;
 
     // All checks are true
@@ -378,7 +372,7 @@ bool CResourceEntry::Move(const TString& rkDir, const TString& rkName)
     TString OldRawPath = RawAssetPath();
 
     // Set new directory and name
-    CVirtualDirectory *pNewDir = mpStore->GetVirtualDirectory(rkDir, IsTransient(), true);
+    CVirtualDirectory *pNewDir = mpStore->GetVirtualDirectory(rkDir, true);
     if (pNewDir == mpDirectory && rkName == mName) return false;
 
     // Check if we can legally move to this spot
@@ -456,35 +450,6 @@ bool CResourceEntry::Move(const TString& rkDir, const TString& rkName)
         mName = OldName;
         mpStore->ConditionalDeleteDirectory(pNewDir);
         return false;
-    }
-}
-
-void CResourceEntry::AddToProject(const TString& rkDir, const TString& rkName)
-{
-    if (mFlags.HasFlag(eREF_Transient))
-    {
-        mFlags.ClearFlag(eREF_Transient);
-        Move(rkDir, rkName);
-    }
-
-    else
-    {
-        Log::Error("AddToProject called on non-transient resource entry: " + CookedAssetPath(true));
-    }
-}
-
-void CResourceEntry::RemoveFromProject()
-{
-    if (!mFlags.HasFlag(eREF_Transient))
-    {
-        TString Dir = CookedAssetPath().GetFileDirectory();
-        mFlags.SetFlag(eREF_Transient);
-        Move(Dir, mName);
-    }
-
-    else
-    {
-        Log::Error("RemoveFromProject called on transient resource entry: " + CookedAssetPath(true));
     }
 }
 

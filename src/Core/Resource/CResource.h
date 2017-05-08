@@ -26,6 +26,11 @@ public: \
         return ResTypeEnum; \
     } \
     \
+    static CResTypeInfo* StaticTypeInfo() \
+    { \
+        return CResTypeInfo::FindTypeInfo(StaticType()); \
+    } \
+    \
 private: \
 
 class CResource

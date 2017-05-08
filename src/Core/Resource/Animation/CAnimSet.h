@@ -161,7 +161,7 @@ public:
                 rkAnim.pMetaAnim->GetUniquePrimitives(PrimitiveSet);
             }
 
-            CSourceAnimData *pAnimData = (CSourceAnimData*) gpResourceStore->LoadResource(rkChar.AnimDataID, "SAND");
+            CSourceAnimData *pAnimData = gpResourceStore->LoadResource<CSourceAnimData>(rkChar.AnimDataID);
             if (pAnimData)
                 pAnimData->AddTransitionDependencies(pTree);
 

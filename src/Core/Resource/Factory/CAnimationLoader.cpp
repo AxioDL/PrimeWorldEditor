@@ -199,7 +199,7 @@ void CAnimationLoader::ReadUncompressedANIM()
 
     if (mGame == ePrime)
     {
-        mpAnim->mpEventData = gpResourceStore->LoadResource(mpInput->ReadLong(), "EVNT");
+        mpAnim->mpEventData = gpResourceStore->LoadResource<CAnimEventData>(mpInput->ReadLong());
     }
 }
 
@@ -213,7 +213,7 @@ void CAnimationLoader::ReadCompressedANIM()
 
     if (mGame == ePrime)
     {
-        mpAnim->mpEventData = gpResourceStore->LoadResource(mpInput->ReadLong(), "EVNT");
+        mpAnim->mpEventData = gpResourceStore->LoadResource<CAnimEventData>(mpInput->ReadLong());
         mpInput->Seek(0x4, SEEK_CUR); // Skip unknown
     }
     else mpInput->Seek(0x2, SEEK_CUR); // Skip unknowns

@@ -22,7 +22,7 @@ void CScriptAttachNode::AttachPropertyModified()
     if (mpAttachAssetProp)
     {
         if (mpAttachAssetProp->Type() == eAssetProperty)
-            mpAttachAsset = gpResourceStore->LoadResource( TPropCast<TAssetProperty>(mpAttachAssetProp)->Get(), "CMDL" );
+            mpAttachAsset = gpResourceStore->LoadResource<CModel>( TPropCast<TAssetProperty>(mpAttachAssetProp)->Get() );
         else if (mpAttachAssetProp->Type() == eCharacterProperty)
             mpAttachAsset = TPropCast<TCharacterProperty>(mpAttachAssetProp)->Get().AnimSet();
 

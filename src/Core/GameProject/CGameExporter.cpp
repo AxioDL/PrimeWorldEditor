@@ -468,35 +468,32 @@ void CGameExporter::ExportResourceEditorData()
         // should really be doing this by dependency order instead of by ID order.
         for (CResourceIterator It(mpStore); It; ++It)
         {
-            if (!It->IsTransient())
+            // Worlds need some info we can only get from the pak at export time; namely, which areas can
+            // have duplicates, as well as the world's internal name.
+            if (It->ResourceType() == eWorld)
             {
-                // Worlds need some info we can only get from the pak at export time; namely, which areas can
-                // have duplicates, as well as the world's internal name.
-                if (It->ResourceType() == eWorld)
+                CWorld *pWorld = (CWorld*) It->Load();
+
+                // Set area duplicate flags
+                for (u32 iArea = 0; iArea < pWorld->NumAreas(); iArea++)
                 {
-                    CWorld *pWorld = (CWorld*) It->Load();
+                    CAssetID AreaID = pWorld->AreaResourceID(iArea);
+                    auto Find = mAreaDuplicateMap.find(AreaID);
 
-                    // Set area duplicate flags
-                    for (u32 iArea = 0; iArea < pWorld->NumAreas(); iArea++)
-                    {
-                        CAssetID AreaID = pWorld->AreaResourceID(iArea);
-                        auto Find = mAreaDuplicateMap.find(AreaID);
-
-                        if (Find != mAreaDuplicateMap.end())
-                            pWorld->SetAreaAllowsPakDuplicates(iArea, Find->second);
-                    }
-
-                    // Set world name
-                    TString WorldName = MakeWorldName(pWorld->ID());
-                    pWorld->SetName(WorldName);
+                    if (Find != mAreaDuplicateMap.end())
+                        pWorld->SetAreaAllowsPakDuplicates(iArea, Find->second);
                 }
 
-                // Save raw resource + generate dependencies
-                if (It->TypeInfo()->CanBeSerialized())
-                    It->Save(true);
-                else
-                    It->UpdateDependencies();
+                // Set world name
+                TString WorldName = MakeWorldName(pWorld->ID());
+                pWorld->SetName(WorldName);
             }
+
+            // Save raw resource + generate dependencies
+            if (It->TypeInfo()->CanBeSerialized())
+                It->Save(true);
+            else
+                It->UpdateDependencies();
         }
     }
     {
