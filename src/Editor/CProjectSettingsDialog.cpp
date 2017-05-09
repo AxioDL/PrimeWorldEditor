@@ -78,9 +78,13 @@ void CProjectSettingsDialog::SetupPackagesList()
 void CProjectSettingsDialog::CookPackage()
 {
     u32 PackageIdx = mpUI->PackagesList->currentRow();
-    CPackage *pPackage = mpProject->PackageByIndex(PackageIdx);
-    pPackage->Cook();
-    SetupPackagesList();
+
+    if (PackageIdx != -1)
+    {
+        CPackage *pPackage = mpProject->PackageByIndex(PackageIdx);
+        pPackage->Cook();
+        SetupPackagesList();
+    }
 }
 
 void CProjectSettingsDialog::CookAllDirtyPackages()

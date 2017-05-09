@@ -655,7 +655,7 @@ CModel* CScriptNode::ActiveModel() const
     {
         if (mpDisplayAsset->Type() == eModel)
             return static_cast<CModel*>(mpDisplayAsset.RawPointer());
-        else if (mpDisplayAsset->Type() == eAnimSet)
+        else if (mpDisplayAsset->Type() == eAnimSet || mpDisplayAsset->Type() == eCharacter)
             return static_cast<CAnimSet*>(mpDisplayAsset.RawPointer())->Character(mCharIndex)->pModel;
     }
 
@@ -664,7 +664,7 @@ CModel* CScriptNode::ActiveModel() const
 
 CAnimSet* CScriptNode::ActiveAnimSet() const
 {
-    if (mpDisplayAsset && mpDisplayAsset->Type() == eAnimSet)
+    if (mpDisplayAsset && (mpDisplayAsset->Type() == eAnimSet || mpDisplayAsset->Type() == eCharacter))
         return static_cast<CAnimSet*>(mpDisplayAsset.RawPointer());
     else
         return nullptr;
@@ -739,7 +739,7 @@ void CScriptNode::SetDisplayAsset(CResource *pRes)
 {
     mpDisplayAsset = pRes;
 
-    bool IsAnimSet = (pRes && pRes->Type() == eAnimSet);
+    bool IsAnimSet = (pRes && (pRes->Type() == eAnimSet || pRes->Type() == eCharacter));
     mCharIndex = (IsAnimSet ? mpInstance->ActiveCharIndex() : -1);
     mAnimIndex = (IsAnimSet ? mpInstance->ActiveAnimIndex() : -1);
 

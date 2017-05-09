@@ -242,7 +242,6 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
         CResTypeInfo *pType = new CResTypeInfo(eMapArea, "Area Map");
         AddExtension(pType, "MAPA", ePrimeDemo, eCorruption);
         pType->mHidden = true;
-        pType->mCanHaveDependencies = false;
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eMapWorld, "World Map");
@@ -371,7 +370,7 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eStateMachine2, "State Machine 2");
-        AddExtension(pType, "FSM2", eEchoesDemo, eEchoes);
+        AddExtension(pType, "FSM2", eEchoesDemo, eCorruption);
         pType->mRawExtension = "fsm2";
     }
     {

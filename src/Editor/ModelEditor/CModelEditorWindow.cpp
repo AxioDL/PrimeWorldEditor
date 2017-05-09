@@ -763,7 +763,7 @@ void CModelEditorWindow::ConvertToDDS()
     if (Input.isEmpty()) return;
 
     TString TexFilename = TO_TSTRING(Input);
-    TResPtr<CTexture> pTex = gpResourceStore->LoadResource(TexFilename);
+    CTexture *pTex = CTextureDecoder::LoadDDS( CFileInStream(TexFilename, IOUtil::eLittleEndian), nullptr );
     TString OutName = TexFilename.GetFilePathWithoutExtension() + ".dds";
 
     CFileOutStream Out(OutName, IOUtil::eLittleEndian);
@@ -775,6 +775,8 @@ void CModelEditorWindow::ConvertToDDS()
         if (!Success) QMessageBox::warning(this, "Error", "Couldn't write output DDS!");
         else QMessageBox::information(this, "Success", "Successfully converted to DDS!");
     }
+
+    delete pTex;
 }
 
 void CModelEditorWindow::ConvertToTXTR()

@@ -46,8 +46,10 @@ class CPackageDependencyListBuilder
     CCharacterUsageMap mCharacterUsageMap;
     std::set<CAssetID> mPackageUsedAssets;
     std::set<CAssetID> mAreaUsedAssets;
+    std::set<CAssetID> mUniversalAreaAssets;
     bool mEnableDuplicates;
     bool mCurrentAreaHasDuplicates;
+    bool mIsUniversalAreaAsset;
     bool mIsPlayerActor;
 
 public:
@@ -64,6 +66,7 @@ public:
     void BuildDependencyList(bool AllowDuplicates, std::list<CAssetID>& rOut);
     void AddDependency(CResourceEntry *pCurEntry, const CAssetID& rkID, std::list<CAssetID>& rOut);
     void EvaluateDependencyNode(CResourceEntry *pCurEntry, IDependencyNode *pNode, std::list<CAssetID>& rOut);
+    void FindUniversalAreaAssets();
 };
 
 // ************ CAreaDependencyListBuilder ************

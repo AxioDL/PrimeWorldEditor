@@ -120,7 +120,7 @@ public:
     virtual void SerializePrimitive(TString& rValue)        { mpStream->WriteSizedString(rValue); }
     virtual void SerializePrimitive(TWideString& rValue)    { mpStream->WriteSizedWideString(rValue); }
     virtual void SerializePrimitive(CFourCC& rValue)        { rValue.Write(*mpStream); }
-    virtual void SerializePrimitive(CAssetID& rValue)       { rValue.Write(*mpStream); }
+    virtual void SerializePrimitive(CAssetID& rValue)       { rValue.Write(*mpStream, CAssetID::GameIDLength(Game())); }
 
     virtual void SerializeHexPrimitive(u8& rValue)          { mpStream->WriteByte(rValue); }
     virtual void SerializeHexPrimitive(u16& rValue)         { mpStream->WriteShort(rValue); }

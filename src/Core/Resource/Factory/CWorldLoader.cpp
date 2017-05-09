@@ -27,7 +27,7 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
     {
         mpWorld->mpWorldName = gpResourceStore->LoadResource(rMLVL.ReadLongLong(), eStringTable);
         rMLVL.Seek(0x4, SEEK_CUR); // Skipping unknown value
-        mpWorld->mpSaveWorld = gpResourceStore->LoadResource(rMLVL.ReadLongLong(), eStringTable);
+        mpWorld->mpSaveWorld = gpResourceStore->LoadResource(rMLVL.ReadLongLong(), eSaveWorld);
         mpWorld->mpDefaultSkybox = gpResourceStore->LoadResource(rMLVL.ReadLongLong(), eModel);
     }
 

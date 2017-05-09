@@ -225,7 +225,8 @@ HEADERS += \
     Resource/Cooker/CResourceCooker.h \
     Resource/CAudioMacro.h \
     CompressionUtil.h \
-    Resource/Animation/CSourceAnimData.h
+    Resource/Animation/CSourceAnimData.h \
+    Resource/CMapArea.h
 
 # Source Files
 SOURCES += \

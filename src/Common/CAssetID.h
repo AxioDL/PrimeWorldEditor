@@ -24,8 +24,8 @@ public:
     CAssetID(u64 ID, EIDLength Length);
     CAssetID(IInputStream& rInput, EIDLength Length);
     CAssetID(IInputStream& rInput, EGame Game);
-    void Write(IOutputStream& rOutput) const;
-    TString ToString() const;
+    void Write(IOutputStream& rOutput, EIDLength ForcedLength = eInvalidIDLength) const;
+    TString ToString(EIDLength ForcedLength = eInvalidIDLength) const;
     bool IsValid() const;
 
     // Operators
