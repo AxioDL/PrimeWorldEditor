@@ -143,6 +143,24 @@ CAssetID CGameProject::FindNamedResource(const TString& rkName) const
     return CAssetID::InvalidID(mGame);
 }
 
+CPackage* CGameProject::FindPackage(const TString& rkName) const
+{
+    if (mGame == eCorruptionProto || mGame == eCorruption)
+    {
+        for (u32 iPkg = 0; iPkg < mPackages.size(); iPkg++)
+        {
+            CPackage *pPackage = mPackages[iPkg];
+
+            if (pPackage->Name() == rkName)
+            {
+                return pPackage;
+            }
+        }
+    }
+
+    return nullptr;
+}
+
 CGameProject* CGameProject::CreateProjectForExport(
         const TString& rkProjRootDir,
         EGame Game,

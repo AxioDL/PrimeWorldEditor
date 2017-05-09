@@ -3,6 +3,7 @@
 // ************ CCharacterUsageMap ************
 bool CCharacterUsageMap::IsCharacterUsed(const CAssetID& rkID, u32 CharacterIndex) const
 {
+    if (mpStore->Game() >= eCorruptionProto) return true;
     auto Find = mUsageMap.find(rkID);
     if (Find == mUsageMap.end()) return false;
 
@@ -172,6 +173,7 @@ void CCharacterUsageMap::ParseDependencyNode(IDependencyNode *pNode)
 void CPackageDependencyListBuilder::BuildDependencyList(bool AllowDuplicates, std::list<CAssetID>& rOut)
 {
     mEnableDuplicates = AllowDuplicates;
+    FindUniversalAreaAssets();
 
     // Iterate over all resources and parse their dependencies
     for (u32 iRes = 0; iRes < mpkPackage->NumNamedResources(); iRes++)
@@ -185,6 +187,8 @@ void CPackageDependencyListBuilder::BuildDependencyList(bool AllowDuplicates, st
             rOut.push_back(rkRes.ID);
             continue;
         }
+
+        mIsUniversalAreaAsset = (mUniversalAreaAssets.find(rkRes.ID) != mUniversalAreaAssets.end());
 
         if (rkRes.Type == "MLVL")
         {
@@ -217,7 +221,8 @@ void CPackageDependencyListBuilder::AddDependency(CResourceEntry *pCurEntry, con
     if (!IsValid) return;
 
     if ( ( mCurrentAreaHasDuplicates && mAreaUsedAssets.find(rkID) != mAreaUsedAssets.end()) ||
-         (!mCurrentAreaHasDuplicates && mPackageUsedAssets.find(rkID) != mPackageUsedAssets.end()) )
+         (!mCurrentAreaHasDuplicates && mPackageUsedAssets.find(rkID) != mPackageUsedAssets.end()) ||
+         (!mIsUniversalAreaAsset && mUniversalAreaAssets.find(rkID) != mUniversalAreaAssets.end() ) )
         return;
 
     // Entry is valid, parse its sub-dependencies
@@ -258,6 +263,10 @@ void CPackageDependencyListBuilder::AddDependency(CResourceEntry *pCurEntry, con
     // Revert current animset ID
     if (ResType == eAnimSet)
         mCurrentAnimSetID = CAssetID::InvalidID(mGame);
+
+    // Revert duplicate flag
+    else if (ResType == eArea)
+        mCurrentAreaHasDuplicates = false;
 }
 
 void CPackageDependencyListBuilder::EvaluateDependencyNode(CResourceEntry *pCurEntry, IDependencyNode *pNode, std::list<CAssetID>& rOut)
@@ -313,6 +322,58 @@ void CPackageDependencyListBuilder::EvaluateDependencyNode(CResourceEntry *pCurE
 
         if (Type == eDNT_ScriptInstance)
             mIsPlayerActor = false;
+    }
+}
+
+void CPackageDependencyListBuilder::FindUniversalAreaAssets()
+{
+    CGameProject *pProject = mpStore->Project();
+    CPackage *pPackage = pProject->FindPackage("UniverseArea");
+
+    if (pPackage)
+    {
+        // Iterate over all the package contents, keep track of all universal area assets
+        for (u32 ResIdx = 0; ResIdx < pPackage->NumNamedResources(); ResIdx++)
+        {
+            const SNamedResource& rkRes = pPackage->NamedResourceByIndex(ResIdx);
+
+            if (rkRes.ID.IsValid())
+            {
+                mUniversalAreaAssets.insert(rkRes.ID);
+
+                // For the universal area world, load it into memory to make sure we can exclude the area/map IDs
+                if (rkRes.Type == "MLVL")
+                {
+                    CWorld *pUniverseWorld = gpResourceStore->LoadResource<CWorld>(rkRes.ID);
+
+                    if (pUniverseWorld)
+                    {
+                        // Area IDs
+                        for (u32 AreaIdx = 0; AreaIdx < pUniverseWorld->NumAreas(); AreaIdx++)
+                        {
+                            CAssetID AreaID = pUniverseWorld->AreaResourceID(AreaIdx);
+
+                            if (AreaID.IsValid())
+                                mUniversalAreaAssets.insert(AreaID);
+                        }
+
+                        // Map IDs
+                        CDependencyGroup *pMapWorld = (CDependencyGroup*) pUniverseWorld->MapWorld();
+
+                        if (pMapWorld)
+                        {
+                            for (u32 DepIdx = 0; DepIdx < pMapWorld->NumDependencies(); DepIdx++)
+                            {
+                                CAssetID DepID = pMapWorld->DependencyByIndex(DepIdx);
+
+                                if (DepID.IsValid())
+                                    mUniversalAreaAssets.insert(DepID);
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 

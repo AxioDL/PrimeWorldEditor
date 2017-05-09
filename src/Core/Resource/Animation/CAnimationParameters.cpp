@@ -140,7 +140,7 @@ const SSetCharacter* CAnimationParameters::GetCurrentSetCharacter(s32 NodeIndex 
 {
     CAnimSet *pSet = AnimSet();
 
-    if (pSet && pSet->Type() == eAnimSet)
+    if (pSet && (pSet->Type() == eAnimSet || pSet->Type() == eCharacter))
     {
         if (NodeIndex == -1)
             NodeIndex = mCharIndex;

@@ -236,28 +236,56 @@ void CPackage::CompareOriginalAssetList(const std::list<CAssetID>& rkNewList)
         return;
     }
 
-    // Skip past header + named resources
+    // Determine pak version
     u32 PakVersion = Pak.ReadLong();
-    ASSERT(PakVersion == 0x00030005);
-    Pak.Seek(0x4, SEEK_CUR);
-    u32 NumNamedResources = Pak.ReadLong();
-
-    for (u32 iName = 0; iName < NumNamedResources; iName++)
-    {
-        Pak.Seek(0x8, SEEK_CUR);
-        u32 NameLen = Pak.ReadLong();
-        Pak.Seek(NameLen, SEEK_CUR);
-    }
-
-    // Build a set out of the original pak resource list
-    u32 NumResources = Pak.ReadLong();
     std::set<CAssetID> OldListSet;
 
-    for (u32 iRes = 0; iRes < NumResources; iRes++)
+    // Read MP1/2 pak
+    if (PakVersion == 0x00030005)
     {
-        Pak.Seek(0x8, SEEK_CUR);
-        OldListSet.insert( CAssetID(Pak, e32Bit) );
-        Pak.Seek(0x8, SEEK_CUR);
+        Pak.Seek(0x4, SEEK_CUR);
+        u32 NumNamedResources = Pak.ReadLong();
+
+        for (u32 iName = 0; iName < NumNamedResources; iName++)
+        {
+            Pak.Seek(0x8, SEEK_CUR);
+            u32 NameLen = Pak.ReadLong();
+            Pak.Seek(NameLen, SEEK_CUR);
+        }
+
+        // Build a set out of the original pak resource list
+        u32 NumResources = Pak.ReadLong();
+
+        for (u32 iRes = 0; iRes < NumResources; iRes++)
+        {
+            Pak.Seek(0x8, SEEK_CUR);
+            OldListSet.insert( CAssetID(Pak, e32Bit) );
+            Pak.Seek(0x8, SEEK_CUR);
+        }
+    }
+
+    // Read MP3/DKCR pak
+    else
+    {
+        ASSERT(PakVersion == 0x2);
+
+        // Skip named resources
+        Pak.Seek(0x44, SEEK_SET);
+        CFourCC StringSecType = Pak.ReadLong();
+        u32 StringSecSize = Pak.ReadLong();
+        ASSERT(StringSecType == "STRG");
+
+        Pak.Seek(0x80 + StringSecSize, SEEK_SET);
+
+        // Read resource table
+        u32 NumResources = Pak.ReadLong();
+
+        for (u32 iRes = 0; iRes < NumResources; iRes++)
+        {
+            Pak.Seek(0x8, SEEK_CUR);
+            OldListSet.insert( CAssetID(Pak, e64Bit) );
+            Pak.Seek(0x8, SEEK_CUR);
+        }
     }
 
     // Check for missing resources in the new list

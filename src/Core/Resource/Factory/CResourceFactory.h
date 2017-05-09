@@ -45,6 +45,7 @@ public:
         case eDynamicCollision:     return new CCollisionMeshGroup(pEntry);
         case eDependencyGroup:      return new CDependencyGroup(pEntry);
         case eFont:                 return new CFont(pEntry);
+        case eMapArea:              return new CMapArea(pEntry);
         case eModel:                return new CModel(pEntry);
         case eScan:                 return new CScan(pEntry);
         case eSkeleton:             return new CSkeleton(pEntry);
@@ -81,6 +82,7 @@ public:
         case eFont:                 pRes = CFontLoader::LoadFONT(rInput, pEntry);               break;
         case eGuiFrame:             pRes = CUnsupportedFormatLoader::LoadFRME(rInput, pEntry);  break;
         case eHintSystem:           pRes = CUnsupportedFormatLoader::LoadHINT(rInput, pEntry);  break;
+        case eMapArea:              pRes = CUnsupportedFormatLoader::LoadMAPA(rInput, pEntry);  break;
         case eMapWorld:             pRes = CUnsupportedFormatLoader::LoadMAPW(rInput, pEntry);  break;
         case eMapUniverse:          pRes = CUnsupportedFormatLoader::LoadMAPU(rInput, pEntry);  break;
         case eMidi:                 pRes = CUnsupportedFormatLoader::LoadCSNG(rInput, pEntry);  break;
@@ -96,6 +98,12 @@ public:
         case eStringTable:          pRes = CStringLoader::LoadSTRG(rInput, pEntry);             break;
         case eTexture:              pRes = CTextureDecoder::LoadTXTR(rInput, pEntry);           break;
         case eWorld:                pRes = CWorldLoader::LoadMLVL(rInput, pEntry);              break;
+
+        case eStateMachine:
+            // AFSM and FSMC currently unsupported
+            if (pEntry->Game() == eCorruptionProto || pEntry->Game() == eCorruption)
+                pRes = CUnsupportedFormatLoader::LoadFSM2(rInput, pEntry);
+            break;
 
         case eBurstFireData:
         case eParticle:

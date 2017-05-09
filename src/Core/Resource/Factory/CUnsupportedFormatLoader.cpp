@@ -1,5 +1,7 @@
 #include "CUnsupportedFormatLoader.h"
 #include "Core/GameProject/CGameProject.h"
+#include "Core/GameProject/CResourceIterator.h"
+#include "Core/Resource/CWorld.h"
 
 CAudioMacro* CUnsupportedFormatLoader::LoadCAUD(IInputStream& rCAUD, CResourceEntry *pEntry)
 {
@@ -253,11 +255,12 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadFSM2(IInputStream& rFSM2, CResou
     u32 NumUnkA = rFSM2.ReadLong();
     u32 NumUnkB = rFSM2.ReadLong();
     u32 NumUnkC = rFSM2.ReadLong();
-    ASSERT(Version == 1);
+    ASSERT(Version == 1 || Version == 2);
 
     for (u32 iState = 0; iState < NumStates; iState++)
     {
         rFSM2.ReadString();
+        if (Version >= 2) rFSM2.Seek(0x10, SEEK_CUR);
         u32 UnkCount = rFSM2.ReadLong();
 
         for (u32 iUnk = 0; iUnk < UnkCount; iUnk++)
@@ -270,6 +273,7 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadFSM2(IInputStream& rFSM2, CResou
     for (u32 iUnkA = 0; iUnkA < NumUnkA; iUnkA++)
     {
         rFSM2.ReadString();
+        if (Version >= 2) rFSM2.Seek(0x10, SEEK_CUR);
         rFSM2.Seek(0x4, SEEK_CUR);
         u32 UnkCount = rFSM2.ReadLong();
 
@@ -285,6 +289,7 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadFSM2(IInputStream& rFSM2, CResou
     for (u32 iUnkB = 0; iUnkB < NumUnkB; iUnkB++)
     {
         rFSM2.ReadString();
+        if (Version >= 2) rFSM2.Seek(0x10, SEEK_CUR);
         u32 UnkCount = rFSM2.ReadLong();
 
         for (u32 iUnkB2 = 0; iUnkB2 < UnkCount; iUnkB2++)
@@ -297,6 +302,7 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadFSM2(IInputStream& rFSM2, CResou
     for (u32 iUnkC = 0; iUnkC < NumUnkC; iUnkC++)
     {
         rFSM2.ReadString();
+        if (Version >= 2) rFSM2.Seek(0x10, SEEK_CUR);
         u32 UnkCount = rFSM2.ReadLong();
 
         for (u32 iUnkC2 = 0; iUnkC2 < UnkCount; iUnkC2++)
@@ -305,7 +311,7 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadFSM2(IInputStream& rFSM2, CResou
             rFSM2.Seek(0x4, SEEK_CUR);
         }
 
-        pOut->AddDependency( CAssetID(rFSM2, eEchoes) );
+        pOut->AddDependency( CAssetID(rFSM2, pEntry->Game()) );
     }
 
     return pOut;
@@ -362,18 +368,81 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadHINT(IInputStream& rHINT, CResou
         rHINT.ReadString(); // Skip hint name
         rHINT.Seek(0x8, SEEK_CUR); // Skip unknown + appear time
         pGroup->AddDependency( CAssetID(rHINT, Game) ); // Pop-up STRG
-        rHINT.Seek(0x8, SEEK_CUR); // Skip unknowns
+        rHINT.Seek(0x4, SEEK_CUR); // Skip unknowns
 
         if (Game <= eEchoes)
         {
+            rHINT.Seek(0x4, SEEK_CUR);
             pGroup->AddDependency( CAssetID(rHINT, Game) ); // Target MLVL
             pGroup->AddDependency( CAssetID(rHINT, Game) ); // Target MREA
             rHINT.Seek(0x4, SEEK_CUR); // Skip target room index
             pGroup->AddDependency( CAssetID(rHINT, Game) ); // Map STRG
         }
+
+        else
+        {
+            u32 NumLocations = rHINT.ReadLong();
+
+            for (u32 iLoc = 0; iLoc < NumLocations; iLoc++)
+            {
+                rHINT.Seek(0x14, SEEK_CUR); // Skip world/area ID, area index
+                pGroup->AddDependency( CAssetID(rHINT, Game) ); // Objective string
+                rHINT.Seek(0xC, SEEK_CUR); // Skip unknown data
+            }
+        }
     }
 
     return pGroup;
+}
+
+CMapArea* CUnsupportedFormatLoader::LoadMAPA(IInputStream& /*rMAPA*/, CResourceEntry *pEntry)
+{
+    TResPtr<CMapArea> pMap = new CMapArea(pEntry);
+
+    // We don't actually read the file. Just fetch the name string so we can build the dependency tree.
+    CAssetID MapAreaID = pMap->ID();
+
+    // Find a MapWorld that contains this MapArea
+    CAssetID MapWorldID;
+    u32 WorldIndex = -1;
+
+    for (TResourceIterator<eMapWorld> It; It; ++It)
+    {
+        CDependencyGroup *pGroup = (CDependencyGroup*) It->Load();
+
+        for (u32 AreaIdx = 0; AreaIdx < pGroup->NumDependencies(); AreaIdx++)
+        {
+            if (pGroup->DependencyByIndex(AreaIdx) == MapAreaID)
+            {
+                WorldIndex = AreaIdx;
+                MapWorldID = pGroup->ID();
+                break;
+            }
+        }
+
+        if (WorldIndex != -1)
+            break;
+    }
+
+    // Find a world that contains this MapWorld
+    if (WorldIndex != -1)
+    {
+        for (TResourceIterator<eWorld> It; It; ++It)
+        {
+            CWorld *pWorld = (CWorld*) It->Load();
+            CDependencyGroup *pMapWorld = (CDependencyGroup*) pWorld->MapWorld();
+
+            if (pMapWorld && pMapWorld->ID() == MapWorldID)
+            {
+                CStringTable *pNameString = pWorld->AreaName(WorldIndex);
+                pMap->mNameString = (pNameString ? pNameString->ID() : CAssetID::InvalidID(pEntry->Game()));
+                break;
+            }
+        }
+    }
+
+    pMap->Entry()->ResourceStore()->DestroyUnreferencedResources();
+    return pMap;
 }
 
 CDependencyGroup* CUnsupportedFormatLoader::LoadMAPW(IInputStream& rMAPW, CResourceEntry *pEntry)

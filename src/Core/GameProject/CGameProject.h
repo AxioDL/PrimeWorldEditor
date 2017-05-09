@@ -67,6 +67,7 @@ public:
     void Serialize(IArchive& rArc);
     void GetWorldList(std::list<CAssetID>& rOut) const;
     CAssetID FindNamedResource(const TString& rkName) const;
+    CPackage* FindPackage(const TString& rkName) const;
 
     // Static
     static CGameProject* CreateProjectForExport(

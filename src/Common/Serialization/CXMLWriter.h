@@ -116,7 +116,7 @@ public:
     virtual void SerializePrimitive(TString& rValue)     { WriteParam(*rValue); }
     virtual void SerializePrimitive(TWideString& rValue) { WriteParam(*rValue.ToUTF8()); }
     virtual void SerializePrimitive(CFourCC& rValue)     { WriteParam(*rValue.ToString()); }
-    virtual void SerializePrimitive(CAssetID& rValue)    { WriteParam(*rValue.ToString()); }
+    virtual void SerializePrimitive(CAssetID& rValue)    { WriteParam(*rValue.ToString( CAssetID::GameIDLength(Game()) )); }
 
     virtual void SerializeHexPrimitive(u8& rValue)       { WriteParam(*TString::HexString(rValue, 2)); }
     virtual void SerializeHexPrimitive(u16& rValue)      { WriteParam(*TString::HexString(rValue, 4)); }

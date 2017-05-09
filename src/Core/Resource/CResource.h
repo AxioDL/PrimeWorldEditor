@@ -16,11 +16,6 @@
 // Must be included on every CResource subclass.
 #define DECLARE_RESOURCE_TYPE(ResTypeEnum) \
 public: \
-    virtual EResType Type() const \
-    { \
-        return ResTypeEnum; \
-    } \
-    \
     static EResType StaticType() \
     { \
         return ResTypeEnum; \
@@ -52,6 +47,7 @@ public:
     
     inline CResourceEntry* Entry() const    { return mpEntry; }
     inline CResTypeInfo* TypeInfo() const   { return mpEntry->TypeInfo(); }
+    inline EResType Type() const            { return mpEntry->TypeInfo()->Type(); }
     inline TString Source() const           { return mpEntry ? mpEntry->CookedAssetPath(true).GetFileName() : ""; }
     inline TString FullSource() const       { return mpEntry ? mpEntry->CookedAssetPath(true) : ""; }
     inline CAssetID ID() const              { return mpEntry ? mpEntry->ID() : CAssetID::skInvalidID64; }
