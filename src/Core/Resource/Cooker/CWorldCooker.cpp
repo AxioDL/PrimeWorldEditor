@@ -25,7 +25,24 @@ bool CWorldCooker::CookMLVL(CWorld *pWorld, IOutputStream& rMLVL)
     if (Game == eEchoesDemo || Game == eEchoes)
     {
         DarkWorldNameID.Write(rMLVL);
-        rMLVL.WriteLong(0);
+    }
+    if (Game >= eEchoesDemo && Game <= eCorruption)
+    {
+        rMLVL.WriteLong(pWorld->mTempleKeyWorldIndex);
+    }
+    if (Game == eReturns)
+    {
+        const CWorld::STimeAttackData& rkData = pWorld->mTimeAttackData;
+        rMLVL.WriteBool(rkData.HasTimeAttack);
+
+        if (rkData.HasTimeAttack)
+        {
+            rMLVL.WriteString(rkData.ActNumber);
+            rMLVL.WriteFloat(rkData.BronzeTime);
+            rMLVL.WriteFloat(rkData.SilverTime);
+            rMLVL.WriteFloat(rkData.GoldTime);
+            rMLVL.WriteFloat(rkData.ShinyGoldTime);
+        }
     }
 
     SaveWorldID.Write(rMLVL);
@@ -142,6 +159,10 @@ bool CWorldCooker::CookMLVL(CWorld *pWorld, IOutputStream& rMLVL)
                 rMLVL.WriteLong(ModuleLayerOffsets[iOff]);
         }
 
+        // Unknown
+        if (Game == eReturns)
+            rMLVL.WriteLong(0);
+
         // Internal Name
         if (Game >= eEchoesDemo)
             rMLVL.WriteString(rArea.InternalName);
@@ -191,6 +212,7 @@ bool CWorldCooker::CookMLVL(CWorld *pWorld, IOutputStream& rMLVL)
     // Layers
     rMLVL.WriteLong(pWorld->mAreas.size());
     std::vector<TString> LayerNames;
+    std::vector<CSavedStateID> LayerStateIDs;
     std::vector<u32> LayerNameOffsets;
 
     // Layer Flags
@@ -209,6 +231,7 @@ bool CWorldCooker::CookMLVL(CWorld *pWorld, IOutputStream& rMLVL)
                 LayerActiveFlags &= ~(1 << iLyr);
 
             LayerNames.push_back(rLayer.LayerName);
+            LayerStateIDs.push_back(rLayer.LayerStateID);
         }
 
         rMLVL.WriteLongLong(LayerActiveFlags);
@@ -220,9 +243,13 @@ bool CWorldCooker::CookMLVL(CWorld *pWorld, IOutputStream& rMLVL)
     for (u32 iLyr = 0; iLyr < LayerNames.size(); iLyr++)
         rMLVL.WriteString(LayerNames[iLyr]);
 
-    // todo: Layer Saved State IDs go here for MP3/DKCR; need support for saved state IDs to implement
-    if (Game == eCorruption || Game == eReturns)
+    // Layer Saved State IDs
+    if (Game >= eCorruption)
     {
+        rMLVL.WriteLong(LayerStateIDs.size());
+
+        for (u32 iLyr = 0; iLyr < LayerStateIDs.size(); iLyr++)
+            LayerStateIDs[iLyr].Write(rMLVL);
     }
 
     // Layer Name Offsets

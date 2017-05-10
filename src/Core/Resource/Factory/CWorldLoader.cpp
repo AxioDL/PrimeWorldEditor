@@ -167,19 +167,37 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
             pArea->Layers[iLayer].LayerName = rMLVL.ReadString();
     }
 
+    // Layer state IDs
+    if (mVersion >= eCorruption)
+    {
+        rMLVL.Seek(0x4, SEEK_CUR); // Skipping redundant layer count
+        for (u32 iArea = 0; iArea < NumAreas; iArea++)
+        {
+            CWorld::SArea *pArea = &mpWorld->mAreas[iArea];
+            u32 NumLayers = pArea->Layers.size();
+
+            for (u32 iLayer = 0; iLayer < NumLayers; iLayer++)
+                pArea->Layers[iLayer].LayerStateID = CSavedStateID(rMLVL);
+        }
+    }
+
     // Last part of the file is layer name offsets, but we don't need it
-    // todo: Layer ID support for MP3
 }
 
 void CWorldLoader::LoadReturnsMLVL(IInputStream& rMLVL)
 {
     mpWorld->mpWorldName = gpResourceStore->LoadResource<CStringTable>(rMLVL.ReadLongLong());
 
-    bool Check = (rMLVL.ReadByte() != 0);
-    if (Check)
+    CWorld::STimeAttackData& rData = mpWorld->mTimeAttackData;
+    rData.HasTimeAttack = rMLVL.ReadBool();
+
+    if (rData.HasTimeAttack)
     {
-        rMLVL.ReadString();
-        rMLVL.Seek(0x10, SEEK_CUR);
+        rData.ActNumber = rMLVL.ReadString();
+        rData.BronzeTime = rMLVL.ReadFloat();
+        rData.SilverTime = rMLVL.ReadFloat();
+        rData.GoldTime = rMLVL.ReadFloat();
+        rData.ShinyGoldTime = rMLVL.ReadFloat();
     }
 
     mpWorld->mpSaveWorld = gpResourceStore->LoadResource(rMLVL.ReadLongLong(), eSaveWorld);
@@ -229,8 +247,18 @@ void CWorldLoader::LoadReturnsMLVL(IInputStream& rMLVL)
             pArea->Layers[iLayer].LayerName = rMLVL.ReadString();
     }
 
+    // Layer state IDs
+    rMLVL.Seek(0x4, SEEK_CUR); // Skipping redundant layer count
+    for (u32 iArea = 0; iArea < NumAreas; iArea++)
+    {
+        CWorld::SArea *pArea = &mpWorld->mAreas[iArea];
+        u32 NumLayers = pArea->Layers.size();
+
+        for (u32 iLayer = 0; iLayer < NumLayers; iLayer++)
+            pArea->Layers[iLayer].LayerStateID = CSavedStateID(rMLVL);
+    }
+
     // Last part of the file is layer name offsets, but we don't need it
-    // todo: Layer ID support
 }
 
 void CWorldLoader::GenerateEditorData()

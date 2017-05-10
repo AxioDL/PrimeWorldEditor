@@ -2,6 +2,7 @@
 #define CWORLD_H
 
 #include "CResource.h"
+#include "CSavedStateID.h"
 #include "CStringTable.h"
 #include "Core/Resource/Area/CGameArea.h"
 #include "Core/Resource/Model/CModel.h"
@@ -21,6 +22,16 @@ class CWorld : public CResource
     TResPtr<CModel>       mpDefaultSkybox;
     TResPtr<CResource>    mpMapWorld;
     u32 mTempleKeyWorldIndex;
+
+    struct STimeAttackData
+    {
+        bool HasTimeAttack;
+        TString ActNumber;
+        float BronzeTime;
+        float SilverTime;
+        float GoldTime;
+        float ShinyGoldTime;
+    } mTimeAttackData;
 
     struct SAudioGrp
     {
@@ -69,7 +80,7 @@ class CWorld : public CResource
         {
             TString LayerName;
             bool Active;
-            u8 LayerID[16];
+            CSavedStateID LayerStateID;
         };
         std::vector<SLayer> Layers;
     };
@@ -86,6 +97,7 @@ public:
 
     // Serialization
     virtual void Serialize(IArchive& rArc);
+    friend void Serialize(IArchive& rArc, STimeAttackData& rTimeAttackData);
     friend void Serialize(IArchive& rArc, SMemoryRelay& rMemRelay);
     friend void Serialize(IArchive& rArc, SArea& rArea);
     friend void Serialize(IArchive& rArc, SArea::SDock& rDock);

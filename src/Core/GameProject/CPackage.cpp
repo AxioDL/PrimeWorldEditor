@@ -77,48 +77,94 @@ void CPackage::Cook()
         return;
     }
 
-    // todo: MP3/DKCR pak format support
-    Pak.WriteLong(0x00030005); // Major/Minor Version
-    Pak.WriteLong(0); // Unknown
+    EGame Game = mpProject->Game();
+    u32 Alignment = (Game <= eCorruptionProto ? 0x20 : 0x40);
+    u32 AlignmentMinusOne = Alignment - 1;
 
-    // Named Resources
-    Pak.WriteLong(mResources.size());
+    u32 TocOffset = 0;
+    u32 NamesSize = 0;
+    u32 ResTableOffset = 0;
+    u32 ResTableSize = 0;
+    u32 ResDataSize = 0;
 
-    for (auto Iter = mResources.begin(); Iter != mResources.end(); Iter++)
+    // Write MP1 pak header
+    if (Game <= eCorruptionProto)
     {
-        const SNamedResource& rkRes = *Iter;
-        rkRes.Type.Write(Pak);
-        rkRes.ID.Write(Pak);
-        Pak.WriteSizedString(rkRes.Name);
+        Pak.WriteLong(0x00030005); // Major/Minor Version
+        Pak.WriteLong(0); // Unknown
+
+        // Named Resources
+        Pak.WriteLong(mResources.size());
+
+        for (auto Iter = mResources.begin(); Iter != mResources.end(); Iter++)
+        {
+            const SNamedResource& rkRes = *Iter;
+            rkRes.Type.Write(Pak);
+            rkRes.ID.Write(Pak);
+            Pak.WriteSizedString(rkRes.Name);
+        }
     }
 
-    // Fill in table of contents with junk, write later
+    // Write MP3 pak header
+    else
+    {
+        // Header
+        Pak.WriteLong(2); // Version
+        Pak.WriteLong(0x40); // Header size
+        Pak.WriteToBoundary(0x40, 0); // We don't care about the MD5 hash; the game doesn't use it
+
+        // PAK table of contents; write later
+        TocOffset = Pak.Tell();
+        Pak.WriteLong(0);
+        Pak.WriteToBoundary(0x40, 0);
+
+        // Named Resources
+        u32 NamesStart = Pak.Tell();
+        Pak.WriteLong(mResources.size());
+
+        for (auto Iter = mResources.begin(); Iter != mResources.end(); Iter++)
+        {
+            const SNamedResource& rkRes = *Iter;
+            Pak.WriteString(rkRes.Name);
+            rkRes.Type.Write(Pak);
+            rkRes.ID.Write(Pak);
+        }
+
+        Pak.WriteToBoundary(0x40, 0);
+        NamesSize = Pak.Tell() - NamesStart;
+    }
+
+    // Fill in resource table with junk, write later
+    ResTableOffset = Pak.Tell();
     Pak.WriteLong(AssetList.size());
-    u32 TocOffset = Pak.Tell();
+    CAssetID Dummy = CAssetID::InvalidID(Game);
 
     for (u32 iRes = 0; iRes < AssetList.size(); iRes++)
     {
         Pak.WriteLongLong(0);
+        Dummy.Write(Pak);
         Pak.WriteLongLong(0);
-        Pak.WriteLong(0);
     }
 
-    Pak.WriteToBoundary(32, 0);
+    Pak.WriteToBoundary(Alignment, 0);
+    ResTableSize = Pak.Tell() - ResTableOffset;
 
     // Start writing resources
-    struct SResourceTocInfo
+    struct SResourceTableInfo
     {
         CResourceEntry *pEntry;
         u32 Offset;
         u32 Size;
         bool Compressed;
     };
-    std::vector<SResourceTocInfo> ResourceTocData(AssetList.size());
+    std::vector<SResourceTableInfo> ResourceTableData(AssetList.size());
     u32 ResIdx = 0;
+    u32 ResDataOffset = Pak.Tell();
 
     for (auto Iter = AssetList.begin(); Iter != AssetList.end(); Iter++, ResIdx++)
     {
         // Initialize entry, recook assets if needed
+        u32 AssetOffset = Pak.Tell();
         CAssetID ID = *Iter;
         CResourceEntry *pEntry = gpResourceStore->FindEntry(ID);
         ASSERT(pEntry != nullptr);
@@ -126,9 +172,9 @@ void CPackage::Cook()
         if (pEntry->NeedsRecook())
             pEntry->Cook();
 
-        SResourceTocInfo& rTocInfo = ResourceTocData[ResIdx];
-        rTocInfo.pEntry = pEntry;
-        rTocInfo.Offset = Pak.Tell();
+        SResourceTableInfo& rTableInfo = ResourceTableData[ResIdx];
+        rTableInfo.pEntry = pEntry;
+        rTableInfo.Offset = (Game <= eEchoes ? AssetOffset : AssetOffset - ResDataOffset);
 
         // Load resource data
         CFileInStream CookedAsset(pEntry->CookedAssetPath(), IOUtil::eBigEndian);
@@ -141,21 +187,31 @@ void CPackage::Cook()
         // Check if this asset should be compressed; there are a few resource types that are
         // always compressed, and some types that are compressed if they're over a certain size
         EResType Type = pEntry->ResourceType();
+        u32 CompressThreshold = (Game <= eCorruptionProto ? 0x400 : 0x80);
 
         bool ShouldAlwaysCompress = (Type == eTexture || Type == eModel || Type == eSkin ||
                                      Type == eAnimSet || Type == eAnimation || Type == eFont);
 
+        if (Game >= eCorruption)
+        {
+            ShouldAlwaysCompress = ShouldAlwaysCompress ||
+                                   (Type == eCharacter || Type == eSourceAnimData || Type == eScan ||
+                                    Type == eAudioSample || Type == eStringTable || Type == eAudioAmplitudeData ||
+                                    Type == eDynamicCollision);
+        }
+
         bool ShouldCompressConditional = !ShouldAlwaysCompress &&
                 (Type == eParticle || Type == eParticleElectric || Type == eParticleSwoosh ||
-                 Type == eParticleWeapon || Type == eParticleDecal || Type == eParticleCollisionResponse);
+                 Type == eParticleWeapon || Type == eParticleDecal || Type == eParticleCollisionResponse ||
+                 Type == eParticleSpawn || Type == eParticleSorted || Type == eBurstFireData);
 
-        bool ShouldCompress = ShouldAlwaysCompress || (ShouldCompressConditional && ResourceSize >= 0x400);
+        bool ShouldCompress = ShouldAlwaysCompress || (ShouldCompressConditional && ResourceSize >= CompressThreshold);
 
         // Write resource data to pak
         if (!ShouldCompress)
         {
             Pak.WriteBytes(ResourceData.data(), ResourceSize);
-            rTocInfo.Compressed = false;
+            rTableInfo.Compressed = false;
         }
 
         else
@@ -164,7 +220,7 @@ void CPackage::Cook()
             std::vector<u8> CompressedData(ResourceData.size() * 2);
             bool Success = false;
 
-            if (mpProject->Game() <= eEchoesDemo)
+            if (Game <= eEchoesDemo || Game == eReturns)
                 Success = CompressionUtil::CompressZlib(ResourceData.data(), ResourceData.size(), CompressedData.data(), CompressedData.size(), CompressedSize);
             else
                 Success = CompressionUtil::CompressLZOSegmented(ResourceData.data(), ResourceData.size(), CompressedData.data(), CompressedSize, false);
@@ -172,44 +228,77 @@ void CPackage::Cook()
             // Make sure that the compressed data is actually smaller, accounting for padding + uncompressed size value
             if (Success)
             {
-                u32 PaddedUncompressedSize = (ResourceSize + 0x1F) & ~0x1F;
-                u32 PaddedCompressedSize = (CompressedSize + 4 + 0x1F) & ~0x1F;
+                u32 CompressionHeaderSize = (Game <= eCorruptionProto ? 4 : 0x10);
+                u32 PaddedUncompressedSize = (ResourceSize + AlignmentMinusOne) & ~AlignmentMinusOne;
+                u32 PaddedCompressedSize = (CompressedSize + CompressionHeaderSize + AlignmentMinusOne) & ~AlignmentMinusOne;
                 Success = (PaddedCompressedSize < PaddedUncompressedSize);
             }
 
             // Write file to pak
             if (Success)
             {
-                Pak.WriteLong(ResourceSize);
+                // Write MP1/2 compressed asset
+                if (Game <= eCorruptionProto)
+                {
+                    Pak.WriteLong(ResourceSize);
+                }
+                // Write MP3/DKCR compressed asset
+                else
+                {
+                    // Note: Compressed asset data can be stored in multiple blocks. Normally, the only assets that make use of this are textures,
+                    // which can store each separate component of the file (header, palette, image data) in separate blocks. However, some textures
+                    // are stored in one block, and I've had no luck figuring out why. The game doesn't generally seem to care whether textures use
+                    // multiple blocks or not, so for the sake of complicity we compress everything to one block.
+                    Pak.WriteFourCC( FOURCC('CMPD') );
+                    Pak.WriteLong(1);
+                    Pak.WriteLong(0xA0000000 | CompressedSize);
+                    Pak.WriteLong(ResourceSize);
+                }
                 Pak.WriteBytes(CompressedData.data(), CompressedSize);
             }
             else
                 Pak.WriteBytes(ResourceData.data(), ResourceSize);
 
-            rTocInfo.Compressed = Success;
+            rTableInfo.Compressed = Success;
         }
 
-        Pak.WriteToBoundary(32, 0xFF);
-        rTocInfo.Size = Pak.Tell() - rTocInfo.Offset;
+        Pak.WriteToBoundary(Alignment, 0xFF);
+        rTableInfo.Size = Pak.Tell() - AssetOffset;
     }
+    ResDataSize = Pak.Tell() - ResDataOffset;
 
     // Write table of contents for real
-    Pak.Seek(TocOffset, SEEK_SET);
+    if (Game >= eCorruption)
+    {
+        Pak.Seek(TocOffset, SEEK_SET);
+        Pak.WriteLong(3); // Always 3 pak sections
+        Pak.WriteFourCC( FOURCC('STRG') );
+        Pak.WriteLong(NamesSize);
+        Pak.WriteFourCC( FOURCC('RSHD') );
+        Pak.WriteLong(ResTableSize);
+        Pak.WriteFourCC( FOURCC('DATA') );
+        Pak.WriteLong(ResDataSize);
+    }
+
+    // Write resource table for real
+    Pak.Seek(ResTableOffset+4, SEEK_SET);
 
     for (u32 iRes = 0; iRes < AssetList.size(); iRes++)
     {
-        const SResourceTocInfo& rkTocInfo = ResourceTocData[iRes];
-        CResourceEntry *pEntry = rkTocInfo.pEntry;
+        const SResourceTableInfo& rkInfo = ResourceTableData[iRes];
+        CResourceEntry *pEntry = rkInfo.pEntry;
 
-        Pak.WriteLong( rkTocInfo.Compressed ? 1 : 0 );
+        Pak.WriteLong( rkInfo.Compressed ? 1 : 0 );
         pEntry->CookedExtension().Write(Pak);
         pEntry->ID().Write(Pak);
-        Pak.WriteLong(rkTocInfo.Size);
-        Pak.WriteLong(rkTocInfo.Offset);
+        Pak.WriteLong(rkInfo.Size);
+        Pak.WriteLong(rkInfo.Offset);
     }
 
+    // Clear recook flag
     mNeedsRecook = false;
     Save();
+
     Log::Write("Finished writing " + PakPath);
 
     // Update resource store in case we recooked any assets
