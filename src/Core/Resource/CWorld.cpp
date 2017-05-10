@@ -94,10 +94,23 @@ void CWorld::Serialize(IArchive& rArc)
     if (rArc.Game() >= eEchoesDemo && rArc.Game() <= eCorruption)
         rArc << SERIAL("TempleKeyWorldIndex", mTempleKeyWorldIndex);
 
+    if (rArc.Game() == eReturns)
+        rArc << SERIAL("TimeAttackData", mTimeAttackData);
+
     if (rArc.Game() == ePrime)
         rArc << SERIAL_CONTAINER("MemoryRelays", mMemoryRelays, "MemoryRelay");
 
     rArc << SERIAL_CONTAINER("Areas", mAreas, "Area");
+}
+
+void Serialize(IArchive& rArc, CWorld::STimeAttackData& rData)
+{
+    rArc << SERIAL("HasTimeAttack", rData.HasTimeAttack)
+         << SERIAL("ActNumber", rData.ActNumber)
+         << SERIAL("BronzeTime", rData.BronzeTime)
+         << SERIAL("SilverTime", rData.SilverTime)
+         << SERIAL("GoldTime", rData.GoldTime)
+         << SERIAL("ShinyGoldTime", rData.ShinyGoldTime);
 }
 
 void Serialize(IArchive& rArc, CWorld::SMemoryRelay& rMemRelay)
@@ -140,6 +153,11 @@ void Serialize(IArchive& rArc, CWorld::SArea::SLayer& rLayer)
 {
     rArc << SERIAL("Name", rLayer.LayerName)
          << SERIAL("Active", rLayer.Active);
+
+    if (rArc.Game() >= eCorruption)
+    {
+        rArc << SERIAL("StateID", rLayer.LayerStateID);
+    }
 }
 
 void Serialize(IArchive& rArc, CWorld::SAudioGrp& rAudioGrp)

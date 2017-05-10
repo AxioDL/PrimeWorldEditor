@@ -461,6 +461,10 @@ void CAreaDependencyListBuilder::AddDependency(const CAssetID& rkID, std::list<C
         return;
     }
 
+    // If this is an audio stream, skip
+    if (ResType == eStreamedAudio)
+        return;
+
     // Check to ensure this is a valid/new dependency
     if (ResType == eWorld || ResType == eArea)
         return;

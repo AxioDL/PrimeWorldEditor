@@ -25,6 +25,8 @@ class CAreaCooker
     u32 mFFFFSecNum;
     u32 mPTLASecNum;
     u32 mEGMCSecNum;
+    u32 mDepsSecNum;
+    u32 mModulesSecNum;
 
     struct SCompressedBlock
     {
@@ -56,6 +58,10 @@ class CAreaCooker
     // SCLY
     void WritePrimeSCLY(IOutputStream& rOut);
     void WriteEchoesSCLY(IOutputStream& rOut);
+
+    // Other Sections
+    void WriteDependencies(IOutputStream& rOut);
+    void WriteModules(IOutputStream& rOut);
 
     // Section Management
     void AddSectionToBlock();

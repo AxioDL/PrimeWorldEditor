@@ -226,7 +226,8 @@ HEADERS += \
     Resource/CAudioMacro.h \
     CompressionUtil.h \
     Resource/Animation/CSourceAnimData.h \
-    Resource/CMapArea.h
+    Resource/CMapArea.h \
+    Resource/CSavedStateID.h
 
 # Source Files
 SOURCES += \

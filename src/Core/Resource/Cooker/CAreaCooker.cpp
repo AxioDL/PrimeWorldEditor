@@ -1,11 +1,26 @@
 #include "CAreaCooker.h"
 #include "CScriptCooker.h"
 #include "Core/CompressionUtil.h"
+#include "Core/GameProject/DependencyListBuilders.h"
 #include <Common/Log.h>
 
-const bool gkForceDisableCompression = false;
+const bool gkForceDisableCompression = true;
 
 CAreaCooker::CAreaCooker()
+    : mGeometrySecNum(-1)
+    , mSCLYSecNum(-1)
+    , mSCGNSecNum(-1)
+    , mCollisionSecNum(-1)
+    , mUnknownSecNum(-1)
+    , mLightsSecNum(-1)
+    , mVISISecNum(-1)
+    , mPATHSecNum(-1)
+    , mAROTSecNum(-1)
+    , mFFFFSecNum(-1)
+    , mPTLASecNum(-1)
+    , mEGMCSecNum(-1)
+    , mDepsSecNum(-1)
+    , mModulesSecNum(-1)
 {
 }
 
@@ -69,8 +84,10 @@ void CAreaCooker::DetermineSectionNumbersCorruption()
     for (u32 iNum = 0; iNum < mpArea->mSectionNumbers.size(); iNum++)
     {
         CGameArea::SSectionNumber& rNum = mpArea->mSectionNumbers[iNum];
-        if (rNum.SectionID == "SOBJ") mSCLYSecNum = rNum.Index;
+        if      (rNum.SectionID == "SOBJ") mSCLYSecNum = rNum.Index;
         else if (rNum.SectionID == "SGEN") mSCGNSecNum = rNum.Index;
+        else if (rNum.SectionID == "DEPS") mDepsSecNum = rNum.Index;
+        else if (rNum.SectionID == "RSOS") mModulesSecNum = rNum.Index;
     }
 }
 
@@ -228,6 +245,57 @@ void CAreaCooker::WriteEchoesSCLY(IOutputStream& rOut)
     FinishSection(true);
 }
 
+void CAreaCooker::WriteDependencies(IOutputStream& rOut)
+{
+    // Build dependency list
+    std::list<CAssetID> Dependencies;
+    std::list<u32> LayerOffsets;
+
+    CAreaDependencyListBuilder Builder(mpArea->Entry());
+    Builder.BuildDependencyList(Dependencies, LayerOffsets);
+
+    // Write
+    rOut.WriteLong(Dependencies.size());
+
+    for (auto Iter = Dependencies.begin(); Iter != Dependencies.end(); Iter++)
+    {
+        CAssetID ID = *Iter;
+        CResourceEntry *pEntry = gpResourceStore->FindEntry(ID);
+        ID.Write(rOut);
+        pEntry->CookedExtension().Write(rOut);
+    }
+
+    rOut.WriteLong(LayerOffsets.size());
+
+    for (auto Iter = LayerOffsets.begin(); Iter != LayerOffsets.end(); Iter++)
+        rOut.WriteLong(*Iter);
+
+    FinishSection(false);
+}
+
+void CAreaCooker::WriteModules(IOutputStream& rOut)
+{
+    // Build module list
+    std::vector<TString> ModuleNames;
+    std::vector<u32> LayerOffsets;
+
+    CAreaDependencyTree *pAreaDeps = static_cast<CAreaDependencyTree*>(mpArea->Entry()->Dependencies());
+    pAreaDeps->GetModuleDependencies(mpArea->Game(), ModuleNames, LayerOffsets);
+
+    // Write
+    rOut.WriteLong(ModuleNames.size());
+
+    for (u32 ModuleIdx = 0; ModuleIdx < ModuleNames.size(); ModuleIdx++)
+        rOut.WriteString( ModuleNames[ModuleIdx] );
+
+    rOut.WriteLong(LayerOffsets.size());
+
+    for (u32 OffsetIdx = 0; OffsetIdx < LayerOffsets.size(); OffsetIdx++)
+        rOut.WriteLong(LayerOffsets[OffsetIdx]);
+
+    FinishSection(false);
+}
+
 // ************ SECTION MANAGEMENT ************
 void CAreaCooker::AddSectionToBlock()
 {
@@ -322,8 +390,14 @@ bool CAreaCooker::CookMREA(CGameArea *pArea, IOutputStream& rOut)
     // Write pre-SCLY data sections
     for (u32 iSec = 0; iSec < Cooker.mSCLYSecNum; iSec++)
     {
-        Cooker.mSectionData.WriteBytes(pArea->mSectionDataBuffers[iSec].data(), pArea->mSectionDataBuffers[iSec].size());
-        Cooker.FinishSection(false);
+        if (iSec == Cooker.mDepsSecNum)
+            Cooker.WriteDependencies(Cooker.mSectionData);
+
+        else
+        {
+            Cooker.mSectionData.WriteBytes(pArea->mSectionDataBuffers[iSec].data(), pArea->mSectionDataBuffers[iSec].size());
+            Cooker.FinishSection(false);
+        }
     }
 
     // Write SCLY
@@ -336,8 +410,14 @@ bool CAreaCooker::CookMREA(CGameArea *pArea, IOutputStream& rOut)
     u32 PostSCLY = (Cooker.mVersion <= ePrime ? Cooker.mSCLYSecNum + 1 : Cooker.mSCGNSecNum + 1);
     for (u32 iSec = PostSCLY; iSec < pArea->mSectionDataBuffers.size(); iSec++)
     {
-        Cooker.mSectionData.WriteBytes(pArea->mSectionDataBuffers[iSec].data(), pArea->mSectionDataBuffers[iSec].size());
-        Cooker.FinishSection(false);
+        if (iSec == Cooker.mModulesSecNum)
+            Cooker.WriteModules(Cooker.mSectionData);
+
+        else
+        {
+            Cooker.mSectionData.WriteBytes(pArea->mSectionDataBuffers[iSec].data(), pArea->mSectionDataBuffers[iSec].size());
+            Cooker.FinishSection(false);
+        }
     }
 
     Cooker.FinishBlock();
