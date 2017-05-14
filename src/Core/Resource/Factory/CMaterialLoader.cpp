@@ -397,7 +397,10 @@ CMaterial* CMaterialLoader::ReadCorruptionMaterial()
                 case 6: // Model Matrix
                 case 10: // Yet-to-be-named
                     break;
-                case 8: // Unknown/unsupported animation type
+
+                // Unknown/unsupported animation type
+                case 8:
+                case 11:
                     break;
                 default:
                     Log::FileError(mpFile->GetSourceString(), mpFile->Tell() - 8, "Unsupported animation mode encountered: " + TString::HexString((u32) pPass->mAnimMode));

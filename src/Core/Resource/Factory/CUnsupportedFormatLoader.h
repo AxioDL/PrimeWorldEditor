@@ -12,6 +12,8 @@ class CUnsupportedFormatLoader
     CDependencyGroup *mpGroup;
     CUnsupportedFormatLoader() {}
 
+    static void PerformCheating(IInputStream& rFile, EGame Game, std::list<CAssetID>& rAssetList);
+
 public:
     static CAudioMacro*      LoadCAUD(IInputStream& rCAUD, CResourceEntry *pEntry);
     static CDependencyGroup* LoadCSNG(IInputStream& rCSNG, CResourceEntry *pEntry);

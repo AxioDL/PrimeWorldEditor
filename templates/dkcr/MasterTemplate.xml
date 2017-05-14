@@ -102,7 +102,7 @@
         <object ID="PLAT" template="Script/Platform.xml"/>
         <object ID="PNUT" template="Script/Peanut.xml"/>
         <object ID="POIO" template="Script/PoiObject.xml"/>
-        <object ID="PRLA" template="Script/PickupRelay.xml"/>
+        <object ID="PRLA" template="Script/ProbabilityRelay.xml"/>
         <object ID="PROJ" template="Script/Projectile.xml"/>
         <object ID="PRSP" template="Script/PlayerRespawn.xml"/>
         <object ID="PTOK" template="Script/PlayerToken.xml"/>
