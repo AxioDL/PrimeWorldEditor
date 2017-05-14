@@ -102,14 +102,17 @@ void CWorldInfoSidebar::OnWorldTreeClicked(QModelIndex Index)
     QModelIndex RealIndex = mProxyModel.mapToSource(Index);
 
     // Fill in world info
-    mpUI->WorldInfoWidget->setHidden(false);
-
     CWorld *pWorld = mModel.WorldForIndex(RealIndex);
-    mpUI->WorldNameLabel->setText( TO_QSTRING(pWorld->InGameName()) );
-    mpUI->WorldSelector->SetResource(pWorld);
-    mpUI->WorldNameSelector->SetResource(pWorld->NameString());
-    mpUI->DarkWorldNameSelector->SetResource(pWorld->DarkNameString());
-    mpUI->SkySelector->SetResource(pWorld->DefaultSkybox());
+    mpUI->WorldInfoWidget->setHidden( pWorld == nullptr );
+
+    if (pWorld)
+    {
+        mpUI->WorldNameLabel->setText( TO_QSTRING(pWorld->InGameName()) );
+        mpUI->WorldSelector->SetResource(pWorld);
+        mpUI->WorldNameSelector->SetResource(pWorld->NameString());
+        mpUI->DarkWorldNameSelector->SetResource(pWorld->DarkNameString());
+        mpUI->SkySelector->SetResource(pWorld->DefaultSkybox());
+    }
 
     // Fill in area info
     bool IsArea = !mModel.IndexIsWorld(RealIndex);
@@ -117,7 +120,7 @@ void CWorldInfoSidebar::OnWorldTreeClicked(QModelIndex Index)
 
     if (IsArea)
     {
-        int AreaIndex = mModel.AreaIndexForIndex(RealIndex);
+        int AreaIndex = Editor()->CurrentGame() == eReturns ? 0 : mModel.AreaIndexForIndex(RealIndex);
         mpUI->AreaNameLabel->setText( TO_QSTRING(pWorld->AreaInGameName(AreaIndex)) );
         mpUI->AreaSelector->SetResource( pWorld->AreaResourceID(AreaIndex) );
         mpUI->AreaNameLineEdit->setText( TO_QSTRING(pWorld->AreaInternalName(AreaIndex)) );
@@ -140,9 +143,20 @@ void CWorldInfoSidebar::OnWorldTreeDoubleClicked(QModelIndex Index)
 
     if (!mModel.IndexIsWorld(RealIndex))
     {
-        CWorld *pWorld = mModel.WorldForIndex(RealIndex);
+        TResPtr<CWorld> pWorld = mModel.WorldForIndex(RealIndex);
         int AreaIndex = mModel.AreaIndexForIndex(RealIndex);
-        gpEdApp->WorldEditor()->SetArea(pWorld, AreaIndex);
+
+        // Validate area actually exists... DKCR has worlds that contain areas that don't exist
+        CAssetID AreaAssetID = pWorld->AreaResourceID(AreaIndex);
+
+        if (gpResourceStore->IsResourceRegistered(AreaAssetID))
+        {
+            gpEdApp->WorldEditor()->SetArea(pWorld, AreaIndex);
+        }
+        else
+        {
+            UICommon::ErrorMsg(Editor(), "The MREA asset associated with this area doesn't exist!");
+        }
     }
 }
 
