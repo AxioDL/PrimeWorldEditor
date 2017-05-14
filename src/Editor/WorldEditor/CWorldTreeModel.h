@@ -6,12 +6,19 @@
 #include <QSortFilterProxyModel>
 class CWorldEditor;
 
+struct STreeArea
+{
+    CAssetID WorldID;
+    int AreaIndex;
+};
+
 class CWorldTreeModel : public QAbstractItemModel
 {
     Q_OBJECT
 
     struct SWorldInfo
     {
+        QString WorldName;
         TResPtr<CWorld> pWorld;
         QList<CResourceEntry*> Areas;
     };
@@ -28,9 +35,12 @@ public:
     QVariant headerData(int Section, Qt::Orientation Orientation, int Role) const;
 
     bool IndexIsWorld(const QModelIndex& rkIndex) const;
-    CWorld* WorldForIndex(const QModelIndex& rkIndex) const;
     int AreaIndexForIndex(const QModelIndex& rkIndex) const;
+    CWorld* WorldForIndex(const QModelIndex& rkIndex) const;
     CResourceEntry* AreaEntryForIndex(const QModelIndex& rkIndex) const;
+
+protected:
+    const SWorldInfo& WorldInfoForIndex(const QModelIndex& rkIndex) const;
 
 public slots:
     void OnProjectChanged(CGameProject *pProj);

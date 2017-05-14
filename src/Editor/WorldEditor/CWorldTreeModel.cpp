@@ -3,6 +3,7 @@
 #include "CWorldEditor.h"
 #include "UICommon.h"
 #include <Core/GameProject/CGameProject.h>
+#include <Core/GameProject/CResourceIterator.h>
 #include <QIcon>
 
 CWorldTreeModel::CWorldTreeModel(CWorldEditor *pEditor)
@@ -14,7 +15,7 @@ CWorldTreeModel::CWorldTreeModel(CWorldEditor *pEditor)
 int CWorldTreeModel::rowCount(const QModelIndex& rkParent) const
 {
     if (!rkParent.isValid())            return mWorldList.size();
-    else if (IndexIsWorld(rkParent))    return WorldForIndex(rkParent)->NumAreas();
+    else if (IndexIsWorld(rkParent))    return mWorldList[rkParent.row()].Areas.size();
     else                                return 0;
 }
 
@@ -49,54 +50,46 @@ QVariant CWorldTreeModel::data(const QModelIndex& rkIndex, int Role) const
 {
     if (Role == Qt::DisplayRole || Role == Qt::ToolTipRole)
     {
-        CWorld *pWorld = WorldForIndex(rkIndex);
+        const SWorldInfo& rkInfo = WorldInfoForIndex(rkIndex);
 
         // World
         if (IndexIsWorld(rkIndex))
         {
-            QString WorldName = TO_QSTRING( pWorld->Name() );
-            CStringTable *pWorldNameString = pWorld->NameString();
-
             // For Corruption worlds, we swap the columns around. This is because Corruption's in-game world names
             // are often missing, confusing, or just straight-up inaccurate, which makes the internal name a better
             // means of telling worlds apart.
-            u32 InternalNameCol = (pWorld->Game() == eCorruption ? 0 : 1);
+            // For DKCR worlds, we only display the world name in the first column.
+            u32 InternalNameCol = (gpEdApp->ActiveProject()->Game() >= eCorruption ? 0 : 1);
 
+            // Internal name
             if (rkIndex.column() == InternalNameCol)
-                return WorldName;
+                return rkInfo.WorldName;
 
+            // In-Game name
             else
             {
-                if (pWorldNameString)
-                    return TO_QSTRING( pWorldNameString->String("ENGL", 0) );
+                if (rkInfo.pWorld)
+                    return TO_QSTRING( rkInfo.pWorld->InGameName() );
                 else
-                    return WorldName;
+                    return "";
             }
         }
 
         // Area
         else
         {
-            u32 AreaIndex = AreaIndexForIndex(rkIndex);
-            ASSERT(AreaIndex >= 0 && AreaIndex < pWorld->NumAreas());
+            CWorld *pWorld = WorldForIndex(rkIndex);
+            int AreaIndex = AreaIndexForIndex(rkIndex);
+            ASSERT(pWorld);
 
-            CAssetID AreaAssetID = pWorld->AreaResourceID(AreaIndex);
-            CResourceEntry *pAreaEntry = pWorld->Entry()->ResourceStore()->FindEntry(AreaAssetID);
-            ASSERT(pAreaEntry);
+            TString AreaInternalName = pWorld->AreaInternalName(AreaIndex);
+            TString AreaInGameName = (gpEdApp->ActiveProject()->Game() == eReturns ? pWorld->InGameName() : pWorld->AreaInGameName( AreaIndexForIndex(rkIndex) ));
 
-            QString AreaAssetName = TO_QSTRING( pAreaEntry->Name() );
-            CStringTable *pAreaNameString = pWorld->AreaName(AreaIndex);
-
+            // Return name
             if (rkIndex.column() == 1)
-                return AreaAssetName;
-
+                return TO_QSTRING(AreaInternalName);
             else
-            {
-                if (pAreaNameString)
-                    return TO_QSTRING( pAreaNameString->String("ENGL", 0) );
-                else
-                    return "!!" + AreaAssetName;
-            }
+                return TO_QSTRING(AreaInGameName);
         }
     }
 
@@ -115,9 +108,6 @@ QVariant CWorldTreeModel::data(const QModelIndex& rkIndex, int Role) const
 
     else if (Role == Qt::FontRole)
     {
-        CWorld *pWorld = WorldForIndex(rkIndex);
-        ASSERT(pWorld);
-
         QFont Font;
         int PointSize = Font.pointSize() + 2;
 
@@ -125,16 +115,25 @@ QVariant CWorldTreeModel::data(const QModelIndex& rkIndex, int Role) const
         {
             PointSize += 1;
 
-            CWorld *pWorld = WorldForIndex(rkIndex);
-            if (gpEdApp->WorldEditor()->ActiveWorld() == pWorld)
-                Font.setBold(true);
+            const SWorldInfo& rkInfo = WorldInfoForIndex(rkIndex);
+            CWorld *pActiveWorld = gpEdApp->WorldEditor()->ActiveWorld();
+
+            if (pActiveWorld)
+            {
+                EGame Game = gpEdApp->ActiveProject()->Game();
+
+                bool IsActiveWorld = (Game <= eCorruption && rkInfo.pWorld == pActiveWorld) ||
+                                   (Game == eReturns && rkInfo.Areas.contains(pActiveWorld->Entry()));
+
+                if (IsActiveWorld)
+                    Font.setBold(true);
+            }
         }
         else
         {
             CResourceEntry *pEntry = AreaEntryForIndex(rkIndex);
-            ASSERT(pEntry);
 
-            if (pEntry->IsLoaded())
+            if (pEntry && pEntry->IsLoaded())
             {
                 if (gpEdApp->WorldEditor()->ActiveArea() == pEntry->Resource())
                     Font.setBold(true);
@@ -164,26 +163,52 @@ QVariant CWorldTreeModel::headerData(int Section, Qt::Orientation Orientation, i
 
 bool CWorldTreeModel::IndexIsWorld(const QModelIndex& rkIndex) const
 {
-    return AreaIndexForIndex(rkIndex) == 0xFFFF;
-}
-
-CWorld* CWorldTreeModel::WorldForIndex(const QModelIndex& rkIndex) const
-{
-    int WorldIndex = (rkIndex.internalId() >> 16) & 0xFFFF;
-    return mWorldList[WorldIndex].pWorld;
+    int AreaIndex = (int) rkIndex.internalId() & 0xFFFF;
+    return (AreaIndex == 0xFFFF);
 }
 
 int CWorldTreeModel::AreaIndexForIndex(const QModelIndex& rkIndex) const
 {
-    int InternalID = (int) rkIndex.internalId();
-    return (InternalID & 0xFFFF);
+    if (gpEdApp->ActiveProject()->Game() == eReturns)
+        return 0;
+
+    else
+    {
+        int InternalID = (int) rkIndex.internalId();
+        return (InternalID & 0xFFFF);
+    }
+}
+
+CWorld* CWorldTreeModel::WorldForIndex(const QModelIndex& rkIndex) const
+{
+    ASSERT(rkIndex.isValid());
+    const SWorldInfo& rkInfo = WorldInfoForIndex(rkIndex);
+
+    if (gpEdApp->ActiveProject()->Game() == eReturns && !IndexIsWorld(rkIndex))
+    {
+        int AreaIndex = (int) rkIndex.internalId() & 0xFFFF;
+        CResourceEntry *pEntry = rkInfo.Areas[AreaIndex];
+        return pEntry ? (CWorld*) pEntry->Load() : nullptr;
+    }
+    else
+        return rkInfo.pWorld;
 }
 
 CResourceEntry* CWorldTreeModel::AreaEntryForIndex(const QModelIndex& rkIndex) const
 {
     ASSERT(rkIndex.isValid() && !IndexIsWorld(rkIndex));
-    const SWorldInfo& rkInfo = mWorldList[rkIndex.parent().row()];
-    return rkInfo.Areas[rkIndex.row()];
+    CWorld *pWorld = WorldForIndex(rkIndex);
+    int AreaIndex = AreaIndexForIndex(rkIndex);
+
+    CAssetID AreaID;
+    if (pWorld) AreaID = pWorld->AreaResourceID(AreaIndex);
+    return gpResourceStore->FindEntry(AreaID);
+}
+
+const CWorldTreeModel::SWorldInfo& CWorldTreeModel::WorldInfoForIndex(const QModelIndex& rkIndex) const
+{
+    int WorldIndex = ((int) rkIndex.internalId() >> 16) & 0xFFFF;
+    return mWorldList[WorldIndex];
 }
 
 // ************ SLOTS ************
@@ -194,43 +219,125 @@ void CWorldTreeModel::OnProjectChanged(CGameProject *pProj)
 
     if (pProj)
     {
-        std::list<CAssetID> WorldIDs;
-        pProj->GetWorldList(WorldIDs);
-        QList<CAssetID> QWorldIDs = QList<CAssetID>::fromStdList(WorldIDs);
-
-        foreach (const CAssetID& rkID, QWorldIDs)
+        if (pProj->Game() != eReturns)
         {
-            CResourceEntry *pEntry = pProj->ResourceStore()->FindEntry(rkID);
+            // Metroid Prime series; fetch all world assets
+            std::list<CAssetID> WorldIDs;
+            pProj->GetWorldList(WorldIDs);
+            QList<CAssetID> QWorldIDs = QList<CAssetID>::fromStdList(WorldIDs);
 
-            if (pEntry)
+            foreach (const CAssetID& rkID, QWorldIDs)
             {
-                TResPtr<CWorld> pWorld = pEntry->Load();
+                CResourceEntry *pEntry = pProj->ResourceStore()->FindEntry(rkID);
 
-                if (pWorld)
+                if (pEntry)
                 {
-                    SWorldInfo Info;
-                    Info.pWorld = pWorld;
+                    TResPtr<CWorld> pWorld = pEntry->Load();
 
-                    for (u32 iArea = 0; iArea < pWorld->NumAreas(); iArea++)
+                    if (pWorld)
                     {
-                        CAssetID AreaID = pWorld->AreaResourceID(iArea);
-                        CResourceEntry *pAreaEntry = pWorld->Entry()->ResourceStore()->FindEntry(AreaID);
-                        ASSERT(pAreaEntry);
-                        Info.Areas << pAreaEntry;
-                    }
+                        SWorldInfo Info;
+                        Info.WorldName = TO_QSTRING( pWorld->Name() );
+                        Info.pWorld = pWorld;
 
-                    mWorldList << Info;
+                        // Add areas
+                        for (u32 iArea = 0; iArea < pWorld->NumAreas(); iArea++)
+                        {
+                            CAssetID AreaID = pWorld->AreaResourceID(iArea);
+                            CResourceEntry *pAreaEntry = pWorld->Entry()->ResourceStore()->FindEntry(AreaID);
+                            ASSERT(pAreaEntry);
+                            Info.Areas << pAreaEntry;
+                        }
+
+                        mWorldList << Info;
+                    }
                 }
+            }
+
+            // Sort in alphabetical order for MP3
+            if (pProj->Game() >= eCorruption)
+            {
+                qSort(mWorldList.begin(), mWorldList.end(), [](const SWorldInfo& rkA, const SWorldInfo& rkB) -> bool {
+                    return (rkA.WorldName.toUpper() < rkB.WorldName.toUpper());
+                });
             }
         }
 
-        // Sort in alphabetical order for MP3
-        if (pProj->Game() == eCorruption)
+        // DKCR - Get worlds from areas.lst
+        else
         {
-            qSort(mWorldList.begin(), mWorldList.end(), [](const SWorldInfo& rkLeft, const SWorldInfo& rkRight) -> bool {
-                return (rkLeft.pWorld->Name().ToUpper() < rkRight.pWorld->Name().ToUpper());
+            TString AreaListPath = pProj->DiscDir(false) + "areas.lst";
+
+            // I really need a good text stream class at some point
+            FILE* pAreaList = fopen(*AreaListPath, "r");
+            SWorldInfo *pInfo = nullptr;
+            std::set<CAssetID> UsedWorlds;
+
+            while (!feof(pAreaList))
+            {
+                char LineBuffer[256];
+                memset(LineBuffer, 0, 256);
+                fgets(LineBuffer, 256, pAreaList);
+                TString Line(LineBuffer);
+
+                CAssetID WorldID;
+                TString WorldName;
+                u32 IDSplit = Line.IndexOf(' ');
+
+                if (IDSplit != -1)
+                {
+                    // Get world ID
+                    TString IDString = (IDSplit == -1 ? "" : Line.SubString(2, IDSplit - 2));
+                    WorldID = CAssetID::FromString(IDString);
+
+                    // Get world name
+                    TString WorldPath = (IDSplit == -1 ? "" : Line.SubString(IDSplit + 1, Line.Size() - IDSplit - 1));
+                    u32 UnderscoreIdx = WorldPath.IndexOf('_');
+                    u32 WorldDirEnd = WorldPath.IndexOf("\\/", UnderscoreIdx);
+
+                    if (UnderscoreIdx != -1 && WorldDirEnd != -1)
+                        WorldName = WorldPath.SubString(UnderscoreIdx + 1, WorldDirEnd - UnderscoreIdx - 1);
+                }
+
+                if (WorldID.IsValid() && !WorldName.IsEmpty())
+                {
+                    CResourceEntry *pEntry = gpResourceStore->FindEntry(WorldID);
+
+                    if (pEntry)
+                    {
+                        QString WorldNameQ = TO_QSTRING(WorldName);
+
+                        if (!pInfo || pInfo->WorldName != WorldNameQ)
+                        {
+                            mWorldList << SWorldInfo();
+                            pInfo = &mWorldList.back();
+                            pInfo->WorldName = WorldNameQ;
+                        }
+
+                        pInfo->Areas << pEntry;
+                        UsedWorlds.insert(pEntry->ID());
+                    }
+                }
+            }
+            fclose(pAreaList);
+
+            // Add remaining worlds to FrontEnd world
+            mWorldList.prepend( SWorldInfo() );
+            pInfo = &mWorldList.front();
+            pInfo->WorldName = "FrontEnd";
+
+            for (TResourceIterator<eWorld> It; It; ++It)
+            {
+                if (UsedWorlds.find(It->ID()) == UsedWorlds.end())
+                    pInfo->Areas << *It;
+            }
+
+            // Sort FrontEnd world
+            qSort( pInfo->Areas.begin(), pInfo->Areas.end(), [](CResourceEntry *pA, CResourceEntry *pB) -> bool {
+                return pA->UppercaseName() < pB->UppercaseName();
             });
         }
+
     }
 
     endResetModel();
