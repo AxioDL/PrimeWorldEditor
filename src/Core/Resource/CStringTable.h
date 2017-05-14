@@ -72,6 +72,7 @@ public:
 
                     TString TagName = rkStr.SubString(TagIdx + 1, NameEnd - TagIdx - 1);
                     TString ParamString = rkStr.SubString(NameEnd + 1, TagEnd - NameEnd - 1);
+                    if (ParamString.IsEmpty()) continue;
 
                     // Font
                     if (TagName == "font")
@@ -102,6 +103,9 @@ public:
 
                         else if (ImageType == "SA")
                             TexturesStart = 4;
+
+                        else if (ImageType == "B")
+                            TexturesStart = 2;
 
                         else if (ImageType.IsHexString(false, IDLength * 2))
                             TexturesStart = 0;

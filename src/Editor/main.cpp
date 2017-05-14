@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
     qInstallMessageHandler(QtLogRedirect);
 
     // Create editor resource store
-    gpEditorStore = new CResourceStore(L"../resources/EditorResourceDB.rdb");
+    gpEditorStore = new CResourceStore("../resources/EditorResourceDB.rdb");
     gpEditorStore->LoadResourceDatabase();
 
     // Load templates

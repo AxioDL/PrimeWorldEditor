@@ -5,6 +5,8 @@
 
 class CAnimEventData : public CResource
 {
+    DECLARE_RESOURCE_TYPE(eAnimEventData)
+
     struct SEvent
     {
         u32 mCharacterIndex;

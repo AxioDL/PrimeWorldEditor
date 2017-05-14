@@ -3,6 +3,41 @@
 #include "Core/GameProject/CResourceIterator.h"
 #include "Core/Resource/CWorld.h"
 
+void CUnsupportedFormatLoader::PerformCheating(IInputStream& rFile, EGame Game, std::list<CAssetID>& rAssetList)
+{
+    // Analyze file contents and check every sequence of 4/8 bytes for asset IDs
+    std::vector<u8> Data(rFile.Size() - rFile.Tell());
+    rFile.ReadBytes(Data.data(), Data.size());
+
+    u32 MaxIndex = (Game <= eEchoes ? Data.size() - 3 : Data.size() - 7);
+    CAssetID ID;
+
+    for (u32 iByte = 0; iByte < MaxIndex; iByte++)
+    {
+        if (Game <= eEchoes)
+        {
+            ID = ( (Data[iByte+0] << 24) |
+                   (Data[iByte+1] << 16) |
+                   (Data[iByte+2] <<  8) |
+                   (Data[iByte+3] <<  0) );
+        }
+        else
+        {
+            ID = ( ((u64) Data[iByte+0] << 56) |
+                   ((u64) Data[iByte+1] << 48) |
+                   ((u64) Data[iByte+2] << 40) |
+                   ((u64) Data[iByte+3] << 32) |
+                   ((u64) Data[iByte+4] << 24) |
+                   ((u64) Data[iByte+5] << 16) |
+                   ((u64) Data[iByte+6] <<  8) |
+                   ((u64) Data[iByte+7] <<  0) );
+        }
+
+        if (gpResourceStore->IsResourceRegistered(ID))
+            rAssetList.push_back(ID);
+    }
+}
+
 CAudioMacro* CUnsupportedFormatLoader::LoadCAUD(IInputStream& rCAUD, CResourceEntry *pEntry)
 {
     u32 Magic = rCAUD.ReadLong();
@@ -18,10 +53,15 @@ CAudioMacro* CUnsupportedFormatLoader::LoadCAUD(IInputStream& rCAUD, CResourceEn
     CAudioMacro *pMacro = new CAudioMacro(pEntry);
     pMacro->mMacroName = rCAUD.ReadString();
 
-    // DKCR needs some reverse engineering work still in order to parse the file correctly, unfortunately
+    // DKCR is missing the sample data size value, and the bulk of the format isn't well understood, unfortunately
     if (Game == eReturns)
     {
-        Log::Warning("DKCR CAUD dependencies not being handled!");
+        std::list<CAssetID> AssetList;
+        PerformCheating(rCAUD, pEntry->Game(), AssetList);
+
+        for (auto Iter = AssetList.begin(); Iter != AssetList.end(); Iter++)
+            pMacro->mSamples.push_back(*Iter);
+
         return pMacro;
     }
 
@@ -68,37 +108,13 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadDUMB(IInputStream& rDUMB, CResou
         return LoadHIER(rDUMB, pEntry);
 
     // Load other DUMB file. DUMB files don't have a set format - they're different between different files
-    std::vector<u8> Data(rDUMB.Size());
-    rDUMB.ReadBytes(Data.data(), Data.size());
-
     CDependencyGroup *pGroup = new CDependencyGroup(pEntry);
-    u32 MaxIndex = (pEntry->Game() <= eEchoes ? Data.size() - 3 : Data.size() - 7);
-    CAssetID ID;
 
-    for (u32 iByte = 0; iByte < MaxIndex; iByte++)
-    {
-        if (pEntry->Game() <= eEchoes)
-        {
-            ID = ( (Data[iByte+0] << 24) |
-                   (Data[iByte+1] << 16) |
-                   (Data[iByte+2] <<  8) |
-                   (Data[iByte+3] <<  0) );
-        }
-        else
-        {
-            ID = ( ((u64) Data[iByte+0] << 56) |
-                   ((u64) Data[iByte+1] << 48) |
-                   ((u64) Data[iByte+2] << 40) |
-                   ((u64) Data[iByte+3] << 32) |
-                   ((u64) Data[iByte+4] << 24) |
-                   ((u64) Data[iByte+5] << 16) |
-                   ((u64) Data[iByte+6] <<  8) |
-                   ((u64) Data[iByte+7] <<  0) );
-        }
+    std::list<CAssetID> DepList;
+    PerformCheating(rDUMB, pEntry->Game(), DepList);
 
-        if (gpResourceStore->IsResourceRegistered(ID))
-            pGroup->AddDependency(ID);
-    }
+    for (auto Iter = DepList.begin(); Iter != DepList.end(); Iter++)
+        pGroup->AddDependency(*Iter);
 
     return pGroup;
 }
