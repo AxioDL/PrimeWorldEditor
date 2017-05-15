@@ -94,6 +94,12 @@ bool IProperty::MatchesDefault()
     else return pkValue->Matches(pkDefault);
 }
 
+// ************ TAssetProperty ************
+TAssetProperty::TAssetProperty(IPropertyTemplate *pTemp, CScriptObject *pInstance, CPropertyStruct *pParent)
+    : TTypedProperty(pTemp, pInstance, pParent, CAssetID::InvalidID( pTemp->Game() ))
+{
+}
+
 // ************ CPropertyStruct ************
 void CPropertyStruct::Copy(const IProperty *pkProp)
 {
