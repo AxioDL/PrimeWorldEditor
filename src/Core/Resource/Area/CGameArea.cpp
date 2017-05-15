@@ -149,9 +149,9 @@ CScriptObject* CGameArea::InstanceByID(u32 InstanceID)
     else return nullptr;
 }
 
-u32 CGameArea::FindUnusedInstanceID(CScriptLayer *pLayer) const
+u32 CGameArea::FindUnusedInstanceID() const
 {
-    u32 InstanceID = (pLayer->AreaIndex() << 26) | (mWorldIndex << 16) | 1;
+    u32 InstanceID = (mWorldIndex << 16) | 1;
 
     while (true)
     {
@@ -205,7 +205,7 @@ CScriptObject* CGameArea::SpawnInstance(CScriptTemplate *pTemplate,
         }
 
         // Look for a valid instance ID
-        InstanceID = FindUnusedInstanceID(pLayer);
+        InstanceID = FindUnusedInstanceID();
     }
 
     // Spawn instance

@@ -8,7 +8,7 @@ CPoiToWorld* CPoiToWorldLoader::LoadEGMC(IInputStream& rEGMC, CResourceEntry *pE
     for (u32 iMap = 0; iMap < NumMappings; iMap++)
     {
         u32 MeshID = rEGMC.ReadLong();
-        u32 InstanceID = rEGMC.ReadLong();
+        u32 InstanceID = rEGMC.ReadLong() & 0x03FFFFFF;
         pOut->AddPoiMeshMap(InstanceID, MeshID);
     }
 

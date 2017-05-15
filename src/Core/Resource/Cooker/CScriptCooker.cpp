@@ -215,7 +215,8 @@ void CScriptCooker::WriteInstanceMP1(CScriptObject *pInstance)
     mpSCLY->WriteLong(0);
     u32 InstanceStart = mpSCLY->Tell();
 
-    mpSCLY->WriteLong(pInstance->InstanceID());
+    u32 InstanceID = (pInstance->Layer()->AreaIndex() << 26) | pInstance->InstanceID();
+    mpSCLY->WriteLong(InstanceID);
     mpSCLY->WriteLong(pInstance->NumLinks(eOutgoing));
 
     for (u32 iLink = 0; iLink < pInstance->NumLinks(eOutgoing); iLink++)
@@ -265,7 +266,8 @@ void CScriptCooker::WriteInstanceMP2(CScriptObject *pInstance)
     mpSCLY->WriteShort(0);
     u32 InstanceStart = mpSCLY->Tell();
 
-    mpSCLY->WriteLong(pInstance->InstanceID());
+    u32 InstanceID = (pInstance->Layer()->AreaIndex() << 26) | pInstance->InstanceID();
+    mpSCLY->WriteLong(InstanceID);
     mpSCLY->WriteShort((u16) pInstance->NumLinks(eOutgoing));
 
     for (u32 iLink = 0; iLink < pInstance->NumLinks(eOutgoing); iLink++)
