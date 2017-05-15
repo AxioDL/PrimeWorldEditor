@@ -150,7 +150,10 @@ public:
 class TAssetProperty : public TTypedProperty<CAssetID, eAssetProperty, CAssetValue>
 {
 public:
-    IMPLEMENT_PROPERTY_CTORS(TAssetProperty, CAssetID)
+    TAssetProperty(IPropertyTemplate *pTemp, CScriptObject *pInstance, CPropertyStruct *pParent); // Can't be in the header because needs to check the template to set the correct ID length
+    TAssetProperty(IPropertyTemplate *pTemp, CScriptObject *pInstance, CPropertyStruct *pParent, CAssetID v)
+        : TTypedProperty(pTemp, pInstance, pParent, v) {}
+
     IMPLEMENT_PROPERTY_CLONE(TAssetProperty)
     virtual bool MatchesDefault()   { return !Get().IsValid(); }
     virtual bool ShouldCook()       { return true; }
