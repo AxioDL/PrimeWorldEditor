@@ -259,8 +259,8 @@ CScriptObject* CScriptLoader::LoadObjectMP1(IInputStream& rSCLY)
         return nullptr;
     }
 
-    u32 InstanceID = rSCLY.ReadLong();
-    if (InstanceID == -1) InstanceID = mpArea->FindUnusedInstanceID(mpLayer);
+    u32 InstanceID = rSCLY.ReadLong() & 0x03FFFFFF;
+    if (InstanceID == -1) InstanceID = mpArea->FindUnusedInstanceID();
     mpObj = new CScriptObject(InstanceID, mpArea, mpLayer, pTemp);
 
     // Load connections
@@ -271,7 +271,7 @@ CScriptObject* CScriptLoader::LoadObjectMP1(IInputStream& rSCLY)
     {
         u32 State = rSCLY.ReadLong();
         u32 Message = rSCLY.ReadLong();
-        u32 ReceiverID = rSCLY.ReadLong();
+        u32 ReceiverID = rSCLY.ReadLong() & 0x03FFFFFF;
 
         CLink *pLink = new CLink(mpArea, State, Message, mpObj->mInstanceID, ReceiverID);
         mpObj->mOutLinks.push_back(pLink);
@@ -373,8 +373,8 @@ CScriptObject* CScriptLoader::LoadObjectMP2(IInputStream& rSCLY)
         return nullptr;
     }
 
-    u32 InstanceID = rSCLY.ReadLong();
-    if (InstanceID == -1) InstanceID = mpArea->FindUnusedInstanceID(mpLayer);
+    u32 InstanceID = rSCLY.ReadLong() & 0x03FFFFFF;
+    if (InstanceID == -1) InstanceID = mpArea->FindUnusedInstanceID();
     mpObj = new CScriptObject(InstanceID, mpArea, mpLayer, pTemplate);
 
     // Load connections
@@ -385,7 +385,7 @@ CScriptObject* CScriptLoader::LoadObjectMP2(IInputStream& rSCLY)
     {
         u32 State = rSCLY.ReadLong();
         u32 Message = rSCLY.ReadLong();
-        u32 ReceiverID = rSCLY.ReadLong();
+        u32 ReceiverID = rSCLY.ReadLong() & 0x03FFFFFF;
 
         CLink *pLink = new CLink(mpArea, State, Message, mpObj->mInstanceID, ReceiverID);
         mpObj->mOutLinks.push_back(pLink);
