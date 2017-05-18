@@ -650,6 +650,17 @@ void CAreaLoader::SetUpObjects()
                 CLink *pLink = pObj->Link(eOutgoing, iCon);
                 mConnectionMap[pLink->ReceiverID()].push_back(pLink);
             }
+
+            // Remove "-component" garbage from MP1 instance names
+            if (mVersion <= ePrime)
+            {
+                TString InstanceName = pObj->InstanceName();
+
+                while (InstanceName.EndsWith("-component"))
+                    InstanceName = InstanceName.ChopBack(10);
+
+                pObj->SetName(InstanceName);
+            }
         }
     }
 
