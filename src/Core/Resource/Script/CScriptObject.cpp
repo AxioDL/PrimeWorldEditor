@@ -14,6 +14,13 @@ CScriptObject::CScriptObject(u32 InstanceID, CGameArea *pArea, CScriptLayer *pLa
 {
     mpTemplate->AddObject(this);
     mpProperties = (CPropertyStruct*) pTemplate->BaseStruct()->InstantiateProperty(this, nullptr);
+
+    mpInstanceName = mpTemplate->FindInstanceName(mpProperties);
+    mpPosition = mpTemplate->FindPosition(mpProperties);
+    mpRotation = mpTemplate->FindRotation(mpProperties);
+    mpScale = mpTemplate->FindScale(mpProperties);
+    mpActive = mpTemplate->FindActive(mpProperties);
+    mpLightParameters = mpTemplate->FindLightParameters(mpProperties);
 }
 
 CScriptObject::~CScriptObject()
@@ -29,12 +36,6 @@ CScriptObject::~CScriptObject()
 // ************ DATA MANIPULATION ************
  void CScriptObject::EvaluateProperties()
 {
-    mpInstanceName = mpTemplate->FindInstanceName(mpProperties);
-    mpPosition = mpTemplate->FindPosition(mpProperties);
-    mpRotation = mpTemplate->FindRotation(mpProperties);
-    mpScale = mpTemplate->FindScale(mpProperties);
-    mpActive = mpTemplate->FindActive(mpProperties);
-    mpLightParameters = mpTemplate->FindLightParameters(mpProperties);
     EvaluateDisplayAsset();
     EvaluateCollisionModel();
     EvaluateVolume();
