@@ -141,6 +141,18 @@
      </layout>
     </widget>
    </item>
+   <item>
+    <widget class="QPushButton" name="BuildIsoButton">
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Build ISO</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <resources/>

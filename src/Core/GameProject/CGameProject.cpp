@@ -2,6 +2,7 @@
 #include "Core/Resource/Factory/CTemplateLoader.h"
 #include "Core/Resource/Script/CMasterTemplate.h"
 #include <Common/Serialization/XML.h>
+#include <nod/nod.hpp>
 
 CGameProject::~CGameProject()
 {
@@ -91,6 +92,30 @@ void CGameProject::Serialize(IArchive& rArc)
                 }
             }
         }
+    }
+}
+
+void ProgressDummy(size_t, const nod::SystemString&, size_t) {}
+
+bool CGameProject::BuildISO(const TString& rkIsoPath)
+{
+    ASSERT( FileUtil::IsValidPath(rkIsoPath, false) );
+
+    if (IsWiiBuild())
+    {
+        Log::Error("Wii ISO building not supported!");
+        return false;
+    }
+
+    else
+    {
+        nod::DiscBuilderGCN *pBuilder = new nod::DiscBuilderGCN(*rkIsoPath.ToUTF16(), *mGameID, *mProjectName, mFilesystemAddress, &ProgressDummy);
+
+        TWideString ProjRoot = ProjectRoot().ToUTF16();
+        TWideString DiscRoot = DiscDir(false).ToUTF16();
+        TWideString DolPath = ProjRoot + mDolPath.ToUTF16();
+        TWideString ApploaderPath = ProjRoot + mApploaderPath.ToUTF16();
+        return pBuilder->buildFromDirectory(*DiscRoot, *DolPath, *ApploaderPath);
     }
 }
 

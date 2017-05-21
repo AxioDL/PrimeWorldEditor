@@ -18,9 +18,17 @@ CProjectSettingsDialog::CProjectSettingsDialog(QWidget *pParent)
 
     connect(mpUI->CookPackageButton, SIGNAL(clicked()), this, SLOT(CookPackage()));
     connect(mpUI->CookAllDirtyPackagesButton, SIGNAL(clicked(bool)), this, SLOT(CookAllDirtyPackages()));
+    connect(mpUI->BuildIsoButton, SIGNAL(clicked(bool)), this, SLOT(BuildISO()));
 
     connect(gpEdApp, SIGNAL(ActiveProjectChanged(CGameProject*)), this, SLOT(ActiveProjectChanged(CGameProject*)));
     connect(gpEdApp, SIGNAL(AssetsModified()), this, SLOT(SetupPackagesList()));
+
+    // Set build ISO button color
+    QPalette Palette = mpUI->BuildIsoButton->palette();
+    QBrush ButtonBrush = Palette.button();
+    ButtonBrush.setColor( UICommon::kImportantButtonColor );
+    Palette.setBrush(QPalette::Button, ButtonBrush);
+    mpUI->BuildIsoButton->setPalette(Palette);
 }
 
 CProjectSettingsDialog::~CProjectSettingsDialog()
@@ -56,6 +64,7 @@ void CProjectSettingsDialog::ActiveProjectChanged(CGameProject *pProj)
         close();
     }
 
+    mpUI->BuildIsoButton->setEnabled( pProj && !pProj->IsWiiBuild() );
     SetupPackagesList();
 }
 
@@ -91,4 +100,19 @@ void CProjectSettingsDialog::CookAllDirtyPackages()
 {
     gpEdApp->CookAllDirtyPackages();
     SetupPackagesList();
+}
+
+void CProjectSettingsDialog::BuildISO()
+{
+    CGameProject *pProj = gpEdApp->ActiveProject();
+    ASSERT(pProj && !pProj->IsWiiBuild());
+
+    QString DefaultPath = TO_QSTRING(pProj->ProjectRoot() + pProj->Name()) + ".gcm";
+    QString IsoPath = UICommon::SaveFileDialog(this, "Choose output ISO path", "*.gcm", DefaultPath);
+
+    if (!IsoPath.isEmpty())
+    {
+        if (!pProj->BuildISO( TO_TSTRING(IsoPath) ))
+            UICommon::ErrorMsg(this, "Failed to build ISO! Check the log for details.");
+    }
 }

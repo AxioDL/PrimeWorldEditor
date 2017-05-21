@@ -29,6 +29,7 @@ public slots:
     void SetupPackagesList();
     void CookPackage();
     void CookAllDirtyPackages();
+    void BuildISO();
 };
 
 #endif // CPROJECTSETTINGSDIALOG_H
