@@ -119,7 +119,7 @@ CWorldEditor::CWorldEditor(QWidget *parent)
 
     QPalette Palette = pBrowserButton->palette();
     QBrush ButtonBrush = Palette.button();
-    ButtonBrush.setColor( QColor(36, 100, 100) );
+    ButtonBrush.setColor( UICommon::kImportantButtonColor );
     Palette.setBrush(QPalette::Button, ButtonBrush);
     pBrowserButton->setPalette(Palette);
 

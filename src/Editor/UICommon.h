@@ -112,6 +112,9 @@ inline void ErrorMsg(QWidget *pParent, QString ErrorText)
     QMessageBox::warning(pParent, "Error", ErrorText);
 }
 
+// Constants
+const QColor kImportantButtonColor(36, 100, 100);
+
 } // UICommon Namespace End
 
 #endif // UICOMMON

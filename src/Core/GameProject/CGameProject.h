@@ -65,6 +65,7 @@ public:
 
     bool Save();
     void Serialize(IArchive& rArc);
+    bool BuildISO(const TString& rkIsoPath);
     void GetWorldList(std::list<CAssetID>& rOut) const;
     CAssetID FindNamedResource(const TString& rkName) const;
     CPackage* FindPackage(const TString& rkName) const;
@@ -108,6 +109,7 @@ public:
     inline TString GameID() const                       { return mGameID; }
     inline float BuildVersion() const                   { return mBuildVersion; }
     inline bool IsWiiBuild() const                      { return mBuildVersion >= 3.f; }
+    inline bool IsTrilogy() const                       { return mGame <= eCorruption && mBuildVersion >= 3.593f; }
 };
 
 #endif // CGAMEPROJECT_H
