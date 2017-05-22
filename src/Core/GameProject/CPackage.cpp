@@ -59,9 +59,13 @@ void CPackage::UpdateDependencyCache() const
     mCacheDirty = false;
 }
 
-void CPackage::Cook()
+void CPackage::Cook(IProgressNotifier *pProgress)
 {
+    SCOPED_TIMER(CookPackage);
+
     // Build asset list
+    pProgress->Report(-1, -1, "Building dependency list");
+
     CPackageDependencyListBuilder Builder(this);
     std::list<CAssetID> AssetList;
     Builder.BuildDependencyList(true, AssetList);
@@ -161,7 +165,7 @@ void CPackage::Cook()
     u32 ResIdx = 0;
     u32 ResDataOffset = Pak.Tell();
 
-    for (auto Iter = AssetList.begin(); Iter != AssetList.end(); Iter++, ResIdx++)
+    for (auto Iter = AssetList.begin(); Iter != AssetList.end() && !pProgress->ShouldCancel(); Iter++, ResIdx++)
     {
         // Initialize entry, recook assets if needed
         u32 AssetOffset = Pak.Tell();
@@ -170,8 +174,18 @@ void CPackage::Cook()
         ASSERT(pEntry != nullptr);
 
         if (pEntry->NeedsRecook())
+        {
+            pProgress->Report(ResIdx, AssetList.size(), "Cooking asset: " + pEntry->Name() + "." + pEntry->CookedExtension());
             pEntry->Cook();
+        }
 
+        // Update progress bar
+        if (ResIdx & 0x1 || ResIdx == AssetList.size() - 1)
+        {
+            pProgress->Report(ResIdx, AssetList.size(), TString::Format("Writing asset %d/%d: %s", ResIdx+1, AssetList.size(), *(pEntry->Name() + "." + pEntry->CookedExtension())));
+        }
+
+        // Update table info
         SResourceTableInfo& rTableInfo = ResourceTableData[ResIdx];
         rTableInfo.pEntry = pEntry;
         rTableInfo.Offset = (Game <= eEchoes ? AssetOffset : AssetOffset - ResDataOffset);
@@ -267,39 +281,50 @@ void CPackage::Cook()
     }
     ResDataSize = Pak.Tell() - ResDataOffset;
 
-    // Write table of contents for real
-    if (Game >= eCorruption)
+    // If we cancelled, don't finish writing the pak; delete the file instead and make sure the package is flagged for recook
+    if (pProgress->ShouldCancel())
     {
-        Pak.Seek(TocOffset, SEEK_SET);
-        Pak.WriteLong(3); // Always 3 pak sections
-        Pak.WriteFourCC( FOURCC('STRG') );
-        Pak.WriteLong(NamesSize);
-        Pak.WriteFourCC( FOURCC('RSHD') );
-        Pak.WriteLong(ResTableSize);
-        Pak.WriteFourCC( FOURCC('DATA') );
-        Pak.WriteLong(ResDataSize);
+        Pak.Close();
+        FileUtil::DeleteFile(PakPath);
+        mNeedsRecook = true;
     }
 
-    // Write resource table for real
-    Pak.Seek(ResTableOffset+4, SEEK_SET);
-
-    for (u32 iRes = 0; iRes < AssetList.size(); iRes++)
+    else
     {
-        const SResourceTableInfo& rkInfo = ResourceTableData[iRes];
-        CResourceEntry *pEntry = rkInfo.pEntry;
+        // Write table of contents for real
+        if (Game >= eCorruption)
+        {
+            Pak.Seek(TocOffset, SEEK_SET);
+            Pak.WriteLong(3); // Always 3 pak sections
+            Pak.WriteFourCC( FOURCC('STRG') );
+            Pak.WriteLong(NamesSize);
+            Pak.WriteFourCC( FOURCC('RSHD') );
+            Pak.WriteLong(ResTableSize);
+            Pak.WriteFourCC( FOURCC('DATA') );
+            Pak.WriteLong(ResDataSize);
+        }
 
-        Pak.WriteLong( rkInfo.Compressed ? 1 : 0 );
-        pEntry->CookedExtension().Write(Pak);
-        pEntry->ID().Write(Pak);
-        Pak.WriteLong(rkInfo.Size);
-        Pak.WriteLong(rkInfo.Offset);
+        // Write resource table for real
+        Pak.Seek(ResTableOffset+4, SEEK_SET);
+
+        for (u32 iRes = 0; iRes < AssetList.size(); iRes++)
+        {
+            const SResourceTableInfo& rkInfo = ResourceTableData[iRes];
+            CResourceEntry *pEntry = rkInfo.pEntry;
+
+            Pak.WriteLong( rkInfo.Compressed ? 1 : 0 );
+            pEntry->CookedExtension().Write(Pak);
+            pEntry->ID().Write(Pak);
+            Pak.WriteLong(rkInfo.Size);
+            Pak.WriteLong(rkInfo.Offset);
+        }
+
+        // Clear recook flag
+        mNeedsRecook = false;
+        Log::Write("Finished writing " + PakPath);
     }
 
-    // Clear recook flag
-    mNeedsRecook = false;
     Save();
-
-    Log::Write("Finished writing " + PakPath);
 
     // Update resource store in case we recooked any assets
     mpProject->ResourceStore()->ConditionalSaveStore();

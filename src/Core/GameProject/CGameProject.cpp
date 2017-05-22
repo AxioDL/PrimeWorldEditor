@@ -95,9 +95,7 @@ void CGameProject::Serialize(IArchive& rArc)
     }
 }
 
-void ProgressDummy(size_t, const nod::SystemString&, size_t) {}
-
-bool CGameProject::BuildISO(const TString& rkIsoPath)
+bool CGameProject::BuildISO(const TString& rkIsoPath, IProgressNotifier *pProgress)
 {
     ASSERT( FileUtil::IsValidPath(rkIsoPath, false) );
 
@@ -109,7 +107,13 @@ bool CGameProject::BuildISO(const TString& rkIsoPath)
 
     else
     {
-        nod::DiscBuilderGCN *pBuilder = new nod::DiscBuilderGCN(*rkIsoPath.ToUTF16(), *mGameID, *mProjectName, mFilesystemAddress, &ProgressDummy);
+        auto ProgressCallback = [&](size_t, const nod::SystemString& rkInfoString, size_t)
+        {
+            pProgress->Report(0, 0, TWideString(rkInfoString).ToUTF8());
+        };
+
+        nod::DiscBuilderGCN *pBuilder = new nod::DiscBuilderGCN(*rkIsoPath.ToUTF16(), *mGameID, *mProjectName, mFilesystemAddress, ProgressCallback);
+        pProgress->SetTask(0, "Building " + rkIsoPath.GetFileName());
 
         TWideString ProjRoot = ProjectRoot().ToUTF16();
         TWideString DiscRoot = DiscDir(false).ToUTF16();

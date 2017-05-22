@@ -9,7 +9,10 @@ QMAKE_CXXFLAGS += /WX
 DEFINES += PWE_EDITOR
 RESOURCES += Icons.qrc
 
-win32: RC_ICONS += icons/AppIcon.ico
+win32: {
+    RC_ICONS += icons/AppIcon.ico
+    QT += winextras
+}
 
 TEMPLATE = app
 DESTDIR = $$PWD/../../bin
@@ -156,8 +159,6 @@ HEADERS += \
     Undo/CCloneSelectionCommand.h \
     CNodeCopyMimeData.h \
     Undo/CPasteNodesCommand.h \
-    CPakToolDialog.h \
-    WorldEditor/CRepackInfoDialog.h \
     CAboutDialog.h \
     CharacterEditor/CCharacterEditor.h \
     CharacterEditor/CCharacterEditorViewport.h \
@@ -179,7 +180,9 @@ HEADERS += \
     Widgets/CTimedLineEdit.h \
     CProjectSettingsDialog.h \
     WorldEditor/CPoiMapSidebar.h \
-    WorldEditor/CWorldEditorSidebar.h
+    WorldEditor/CWorldEditorSidebar.h \
+    CProgressDialog.h \
+    IProgressNotifierUI.h
 
 # Source Files
 SOURCES += \
@@ -231,7 +234,6 @@ SOURCES += \
     Undo/CCreateInstanceCommand.cpp \
     Undo/CCloneSelectionCommand.cpp \
     Undo/CPasteNodesCommand.cpp \
-    WorldEditor/CRepackInfoDialog.cpp \
     CAboutDialog.cpp \
     CharacterEditor/CCharacterEditor.cpp \
     CharacterEditor/CCharacterEditorViewport.cpp \
@@ -246,7 +248,8 @@ SOURCES += \
     WorldEditor/CWorldTreeModel.cpp \
     CProjectSettingsDialog.cpp \
     WorldEditor/CPoiMapSidebar.cpp \
-    WorldEditor/CWorldEditorSidebar.cpp
+    WorldEditor/CWorldEditorSidebar.cpp \
+    CProgressDialog.cpp
 
 # UI Files
 FORMS += \
@@ -263,7 +266,6 @@ FORMS += \
     WorldEditor/CTemplateEditDialog.ui \
     WorldEditor/CLinkDialog.ui \
     WorldEditor/CSelectInstanceDialog.ui \
-    WorldEditor/CRepackInfoDialog.ui \
     CAboutDialog.ui \
     CharacterEditor/CCharacterEditor.ui \
     WorldEditor/CCollisionRenderSettingsDialog.ui \
@@ -271,4 +273,5 @@ FORMS += \
     CExportGameDialog.ui \
     WorldEditor/CWorldInfoSidebar.ui \
     CProjectSettingsDialog.ui \
-    WorldEditor/CPoiMapSidebar.ui
+    WorldEditor/CPoiMapSidebar.ui \
+    CProgressDialog.ui

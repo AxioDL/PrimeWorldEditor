@@ -6,15 +6,15 @@
         <property ID="0x01" name="Position" type="vector3f"/>
         <property ID="0x02" name="Rotation" type="vector3f"/>
         <property ID="0x03" name="Scale" type="vector3f"/>
-        <property ID="0x04" name="Unknown 1" type="vector3f"/>
-        <property ID="0x05" name="Scan Offset" type="vector3f"/>
-        <property ID="0x06" name="Unknown 2" type="float"/>
-        <property ID="0x07" name="Unknown 3" type="float"/>
+        <property ID="0x04" name="Collision Extent" type="vector3f"/>
+        <property ID="0x05" name="Collision/Scan Offset" type="vector3f"/>
+        <property ID="0x06" name="Mass" type="float"/>
+        <property ID="0x07" name="Z Momentum" type="float"/>
         <struct ID="0x08" name="HealthInfo" template="Structs/HealthInfo.xml"/>
         <struct ID="0x09" name="DamageVulnerability" template="Structs/DamageVulnerability.xml"/>
         <property ID="0x0A" name="AnimationParameters" type="character"/>
         <struct ID="0x0B" name="ActorParameters" template="Structs/ActorParameters.xml"/>
-        <property ID="0x0C" name="Particle" type="asset" extensions="PART"/>
+        <property ID="0x0C" name="Flame Particle" type="asset" extensions="PART"/>
         <struct ID="0x0D" name="DamageInfo" template="Structs/DamageInfo.xml"/>
         <property ID="0x0E" name="Active" type="bool"/>
     </properties>

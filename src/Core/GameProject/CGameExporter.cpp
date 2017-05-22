@@ -23,6 +23,7 @@ CGameExporter::CGameExporter(EGame Game, ERegion Region, const TString& rkGameNa
     , mGameName(rkGameName)
     , mGameID(rkGameID)
     , mBuildVersion(BuildVersion)
+    , mpProgress(nullptr)
 {
     ASSERT(mGame != eUnknownGame);
     ASSERT(mRegion != eRegion_Unknown);
@@ -32,7 +33,7 @@ CGameExporter::CGameExporter(EGame Game, ERegion Region, const TString& rkGameNa
 #error Fix export directory being cleared!
 #endif
 
-bool CGameExporter::Export(nod::DiscBase *pDisc, const TString& rkOutputDir, CAssetNameMap *pNameMap, CGameInfo *pGameInfo)
+bool CGameExporter::Export(nod::DiscBase *pDisc, const TString& rkOutputDir, CAssetNameMap *pNameMap, CGameInfo *pGameInfo, IProgressNotifier *pProgress)
 {
     SCOPED_TIMER(ExportGame);
 
@@ -43,6 +44,10 @@ bool CGameExporter::Export(nod::DiscBase *pDisc, const TString& rkOutputDir, CAs
     mExportDir = FileUtil::MakeAbsolute(rkOutputDir);
     mDiscDir = "Disc/";
     mWorldsDirName = "Worlds/";
+
+    // Init progress
+    mpProgress = pProgress;
+    mpProgress->SetNumTasks(eES_NumSteps);
 
     // Create project
     FileUtil::MakeDirectory(mExportDir);
@@ -72,17 +77,22 @@ bool CGameExporter::Export(nod::DiscBase *pDisc, const TString& rkOutputDir, CAs
     CResourceStore *pOldStore = gpResourceStore;
     gpResourceStore = mpStore;
 
-    // Export game data
+    // Export cooked data
     LoadPaks();
     ExportCookedResources();
-    mpProject->AudioManager()->LoadAssets();
-    ExportResourceEditorData();
+
+    // Export editor data
+    if (!mpProgress->ShouldCancel())
+    {
+        mpProject->AudioManager()->LoadAssets();
+        ExportResourceEditorData();
+    }
 
     // Export finished!
     mProjectPath = mpProject->ProjectPath();
     delete mpProject;
     if (pOldStore) gpResourceStore = pOldStore;
-    return true;
+    return !mpProgress->ShouldCancel();
 }
 
 void CGameExporter::LoadResource(const CAssetID& rkID, std::vector<u8>& rBuffer)
@@ -97,6 +107,9 @@ bool CGameExporter::ExtractDiscData()
     // todo: handle dol, apploader, multiple partitions, wii ticket blob
     SCOPED_TIMER(ExtractDiscData);
 
+    // Init progress
+    mpProgress->SetTask(eES_ExtractDisc, "Extracting disc files");
+
     // Create Disc output folder
     TString AbsDiscDir = mExportDir + mDiscDir;
     FileUtil::MakeDirectory(AbsDiscDir);
@@ -106,43 +119,52 @@ bool CGameExporter::ExtractDiscData()
     nod::ExtractionContext Context;
     Context.force = false;
     Context.verbose = false;
-    Context.progressCB = nullptr;
+    Context.progressCB = [&](const std::string& rkDesc) {
+        mpProgress->Report(0, 1, rkDesc);
+    };
+
     bool Success = ExtractDiscNodeRecursive(&pDataPartition->getFSTRoot(), AbsDiscDir, Context);
     if (!Success) return false;
 
-    // Extract dol
-    mDolPath = "boot.dol";
-    CFileOutStream DolFile(mExportDir + mDolPath);
-    if (!DolFile.IsValid()) return false;
-
-    std::unique_ptr<uint8_t[]> pDolBuffer = pDataPartition->getDOLBuf();
-    DolFile.WriteBytes(pDolBuffer.get(), (u32) pDataPartition->getDOLSize());
-    DolFile.Close();
-
-    // Extract apploader
-    mApploaderPath = "apploader.img";
-    CFileOutStream ApploaderFile(mExportDir + mApploaderPath);
-    if (!ApploaderFile.IsValid()) return false;
-
-    std::unique_ptr<uint8_t[]> pApploaderBuffer = pDataPartition->getApploaderBuf();
-    ApploaderFile.WriteBytes(pApploaderBuffer.get(), (u32) pDataPartition->getApploaderSize());
-    ApploaderFile.Close();
-
-    // Extract Wii partition header
-    bool IsWii = (mBuildVersion >= 3.f);
-
-    if (IsWii)
+    // Extract the remaining disc data
+    if (!mpProgress->ShouldCancel())
     {
-        mFilesystemAddress = 0;
-        mPartitionHeaderPath = "partition_header.bin";
-        nod::DiscWii *pDiscWii = static_cast<nod::DiscWii*>(mpDisc);
-        Success = pDiscWii->writeOutDataPartitionHeader(*TString(mExportDir + mPartitionHeaderPath).ToUTF16());
-        if (!Success) return false;
+        // Extract dol
+        mDolPath = "boot.dol";
+        CFileOutStream DolFile(mExportDir + mDolPath);
+        if (!DolFile.IsValid()) return false;
+
+        std::unique_ptr<uint8_t[]> pDolBuffer = pDataPartition->getDOLBuf();
+        DolFile.WriteBytes(pDolBuffer.get(), (u32) pDataPartition->getDOLSize());
+        DolFile.Close();
+
+        // Extract apploader
+        mApploaderPath = "apploader.img";
+        CFileOutStream ApploaderFile(mExportDir + mApploaderPath);
+        if (!ApploaderFile.IsValid()) return false;
+
+        std::unique_ptr<uint8_t[]> pApploaderBuffer = pDataPartition->getApploaderBuf();
+        ApploaderFile.WriteBytes(pApploaderBuffer.get(), (u32) pDataPartition->getApploaderSize());
+        ApploaderFile.Close();
+
+        // Extract Wii partition header
+        bool IsWii = (mBuildVersion >= 3.f);
+
+        if (IsWii)
+        {
+            mFilesystemAddress = 0;
+            mPartitionHeaderPath = "partition_header.bin";
+            nod::DiscWii *pDiscWii = static_cast<nod::DiscWii*>(mpDisc);
+            Success = pDiscWii->writeOutDataPartitionHeader(*TString(mExportDir + mPartitionHeaderPath).ToUTF16());
+            if (!Success) return false;
+        }
+        else
+            mFilesystemAddress = (u32) pDataPartition->getFSTMemoryAddr();
+
+        return true;
     }
     else
-        mFilesystemAddress = (u32) pDataPartition->getFSTMemoryAddr();
-
-    return true;
+        return false;
 }
 
 bool CGameExporter::ExtractDiscNodeRecursive(const nod::Node *pkNode, const TString& rkDir, const nod::ExtractionContext& rkContext)
@@ -447,9 +469,18 @@ void CGameExporter::ExportCookedResources()
     SCOPED_TIMER(ExportCookedResources);
     FileUtil::MakeDirectory(mCookedDir);
 
-    for (auto It = mResourceMap.begin(); It != mResourceMap.end(); It++)
+    mpProgress->SetTask(eES_ExportCooked, "Unpacking cooked assets");
+    int ResIndex = 0;
+
+    for (auto It = mResourceMap.begin(); It != mResourceMap.end() && !mpProgress->ShouldCancel(); It++, ResIndex++)
     {
         SResourceInstance& rRes = It->second;
+
+        // Update progress
+        if ((ResIndex & 0x3) == 0)
+            mpProgress->Report(ResIndex, mResourceMap.size(), TString::Format("Unpacking asset %d/%d", ResIndex, mResourceMap.size()) );
+
+        // Export resource
         ExportResource(rRes);
     }
 }
@@ -462,12 +493,19 @@ void CGameExporter::ExportResourceEditorData()
         // because we have to load the resource to build its dependency tree and
         // some resources will fail to load if their dependencies don't exist
         SCOPED_TIMER(SaveRawResources);
+        mpProgress->SetTask(eES_GenerateRaw, "Generating editor data");
+        int ResIndex = 0;
 
         // todo: we're wasting a ton of time loading the same resources over and over because most resources automatically
         // load all their dependencies and then we just clear it out from memory even though we'll need it again later. we
         // should really be doing this by dependency order instead of by ID order.
-        for (CResourceIterator It(mpStore); It; ++It)
+        for (CResourceIterator It(mpStore); It && !mpProgress->ShouldCancel(); ++It, ++ResIndex)
         {
+            // Update progress
+            if ((ResIndex & 0x3) == 0)
+                mpProgress->Report(ResIndex, mpStore->NumTotalResources(), TString::Format("Processing asset %d/%d: %s",
+                    ResIndex, mpStore->NumTotalResources(), *It->CookedAssetPath(true).GetFileName()) );
+
             // Worlds need some info we can only get from the pak at export time; namely, which areas can
             // have duplicates, as well as the world's internal name.
             if (It->ResourceType() == eWorld)
@@ -496,6 +534,8 @@ void CGameExporter::ExportResourceEditorData()
                 It->UpdateDependencies();
         }
     }
+
+    if (!mpProgress->ShouldCancel())
     {
         // All resources should have dependencies generated, so save the project files
         SCOPED_TIMER(SaveResourceDatabase);

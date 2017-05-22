@@ -5,6 +5,7 @@
 #include <Common/CFourCC.h>
 #include <Common/TString.h>
 #include <Common/Serialization/IArchive.h>
+#include "Core/IProgressNotifier.h"
 
 class CGameProject;
 
@@ -57,7 +58,7 @@ public:
     void AddResource(const TString& rkName, const CAssetID& rkID, const CFourCC& rkType);
     void UpdateDependencyCache() const;
 
-    void Cook();
+    void Cook(IProgressNotifier *pProgress);
     void CompareOriginalAssetList(const std::list<CAssetID>& rkNewList);
     bool ContainsAsset(const CAssetID& rkID) const;
 

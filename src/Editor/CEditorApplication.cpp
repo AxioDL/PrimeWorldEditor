@@ -1,6 +1,7 @@
 #include "CEditorApplication.h"
 #include "IEditor.h"
 #include "CBasicViewport.h"
+#include "CProgressDialog.h"
 #include "CProjectSettingsDialog.h"
 #include "Editor/CharacterEditor/CCharacterEditor.h"
 #include "Editor/ModelEditor/CModelEditorWindow.h"
@@ -9,7 +10,9 @@
 #include <Common/AssertMacro.h>
 #include <Common/CTimer.h>
 #include <Core/GameProject/CGameProject.h>
-#include <QMessageBox>
+
+#include <QFuture>
+#include <QtConcurrent/QtConcurrentRun>
 
 CEditorApplication::CEditorApplication(int& rArgc, char **ppArgv)
     : QApplication(rArgc, ppArgv)
@@ -141,19 +144,51 @@ void CEditorApplication::NotifyAssetsModified()
     emit AssetsModified();
 }
 
-void CEditorApplication::CookAllDirtyPackages()
+bool CEditorApplication::CookPackage(CPackage *pPkg)
+{
+    return CookPackageList(QList<CPackage*>() << pPkg);
+}
+
+bool CEditorApplication::CookAllDirtyPackages()
 {
     ASSERT(mpActiveProject != nullptr);
+    QList<CPackage*> PackageList;
 
     for (u32 iPkg = 0; iPkg < mpActiveProject->NumPackages(); iPkg++)
     {
         CPackage *pPackage = mpActiveProject->PackageByIndex(iPkg);
 
         if (pPackage->NeedsRecook())
-            pPackage->Cook();
+            PackageList << pPackage;
     }
 
-    emit PackagesCooked();
+    return CookPackageList(PackageList);
+}
+
+bool CEditorApplication::CookPackageList(QList<CPackage*> PackageList)
+{
+    if (!PackageList.isEmpty())
+    {
+        CProgressDialog Dialog("Cooking package" + QString(PackageList.size() > 1  ? "s" : ""), true, mpWorldEditor);
+
+        QFuture<void> Future = QtConcurrent::run([&]()
+        {
+            Dialog.SetNumTasks(PackageList.size());
+
+            for (int PkgIdx = 0; PkgIdx < PackageList.size() && !Dialog.ShouldCancel(); PkgIdx++)
+            {
+                CPackage *pPkg = PackageList[PkgIdx];
+                Dialog.SetTask(PkgIdx, "Cooking " + pPkg->Name() + ".pak...");
+                pPkg->Cook(&Dialog);
+            }
+        });
+
+        Dialog.WaitForResults(Future);
+
+        emit PackagesCooked();
+        return !Dialog.ShouldCancel();
+    }
+    else return true;
 }
 
 // ************ SLOTS ************

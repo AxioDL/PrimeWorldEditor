@@ -1,5 +1,6 @@
 #include "CExportGameDialog.h"
 #include "ui_CExportGameDialog.h"
+#include "CProgressDialog.h"
 #include "UICommon.h"
 
 #include <Common/AssertMacro.h>
@@ -13,6 +14,7 @@
 #include <QFileDialog>
 #include <QLabel>
 #include <QVBoxLayout>
+#include <QtConcurrent/QtConcurrentRun>
 
 #include <nod/nod.hpp>
 
@@ -383,10 +385,16 @@ void CExportGameDialog::Export()
     CGameExporter Exporter(mGame, mRegion, mGameTitle, mGameID, mBuildVer);
     TString StrExportDir = TO_TSTRING(ExportDir);
     StrExportDir.EnsureEndsWith('/');
-    mExportSuccess = Exporter.Export(mpDisc, StrExportDir, &NameMap, &GameInfo);
+
+    CProgressDialog Dialog("Creating new game project", true, parentWidget());
+    QFuture<bool> Future = QtConcurrent::run(&Exporter, &CGameExporter::Export, mpDisc, StrExportDir, &NameMap, &GameInfo, &Dialog);
+    mExportSuccess = Dialog.WaitForResults(Future);
 
     if (!mExportSuccess)
-        UICommon::ErrorMsg(this, "Export failed!");
+    {
+        if (!Dialog.ShouldCancel())
+            UICommon::ErrorMsg(this, "Export failed!");
+    }
     else
         mNewProjectPath = TO_QSTRING(Exporter.ProjectPath());
 }

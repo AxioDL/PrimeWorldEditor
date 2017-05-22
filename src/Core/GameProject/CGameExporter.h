@@ -57,9 +57,21 @@ class CGameExporter
     };
     std::map<CAssetID, SResourceInstance> mResourceMap;
 
+    // Progress
+    IProgressNotifier *mpProgress;
+
+    enum EExportStep
+    {
+        eES_ExtractDisc,
+        eES_ExportCooked,
+        eES_GenerateRaw,
+        // eES_Max must be last
+        eES_NumSteps
+    };
+
 public:
     CGameExporter(EGame Game, ERegion Region, const TString& rkGameName, const TString& rkGameID, float BuildVersion);
-    bool Export(nod::DiscBase *pDisc, const TString& rkOutputDir, CAssetNameMap *pNameMap, CGameInfo *pGameInfo);
+    bool Export(nod::DiscBase *pDisc, const TString& rkOutputDir, CAssetNameMap *pNameMap, CGameInfo *pGameInfo, IProgressNotifier *pProgress);
     void LoadResource(const CAssetID& rkID, std::vector<u8>& rBuffer);
 
     inline TString ProjectPath() const  { return mProjectPath; }

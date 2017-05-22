@@ -227,7 +227,8 @@ HEADERS += \
     CompressionUtil.h \
     Resource/Animation/CSourceAnimData.h \
     Resource/CMapArea.h \
-    Resource/CSavedStateID.h
+    Resource/CSavedStateID.h \
+    IProgressNotifier.h
 
 # Source Files
 SOURCES += \
