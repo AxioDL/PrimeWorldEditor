@@ -107,9 +107,9 @@ bool CGameProject::BuildISO(const TString& rkIsoPath, IProgressNotifier *pProgre
 
     else
     {
-        auto ProgressCallback = [&](size_t, const nod::SystemString& rkInfoString, size_t)
+        auto ProgressCallback = [&](float ProgressPercent, const nod::SystemString& rkInfoString, size_t)
         {
-            pProgress->Report(0, 0, TWideString(rkInfoString).ToUTF8());
+            pProgress->Report((int) (ProgressPercent * 10000), 10000, TWideString(rkInfoString).ToUTF8());
         };
 
         nod::DiscBuilderGCN *pBuilder = new nod::DiscBuilderGCN(*rkIsoPath.ToUTF16(), *mGameID, *mProjectName, mFilesystemAddress, ProgressCallback);
@@ -119,7 +119,7 @@ bool CGameProject::BuildISO(const TString& rkIsoPath, IProgressNotifier *pProgre
         TWideString DiscRoot = DiscDir(false).ToUTF16();
         TWideString DolPath = ProjRoot + mDolPath.ToUTF16();
         TWideString ApploaderPath = ProjRoot + mApploaderPath.ToUTF16();
-        return pBuilder->buildFromDirectory(*DiscRoot, *DolPath, *ApploaderPath);
+        return pBuilder->buildFromDirectory(*DiscRoot, *DolPath, *ApploaderPath) == nod::EBuildResult::Success;
     }
 }
 
