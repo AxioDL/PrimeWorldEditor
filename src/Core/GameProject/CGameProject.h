@@ -5,6 +5,7 @@
 #include "CPackage.h"
 #include "CResourceStore.h"
 #include "Core/CAudioManager.h"
+#include "Core/IProgressNotifier.h"
 #include "Core/Resource/Script/CMasterTemplate.h"
 #include <Common/CAssetID.h>
 #include <Common/EGame.h>
@@ -65,7 +66,7 @@ public:
 
     bool Save();
     void Serialize(IArchive& rArc);
-    bool BuildISO(const TString& rkIsoPath);
+    bool BuildISO(const TString& rkIsoPath, IProgressNotifier *pProgress);
     void GetWorldList(std::list<CAssetID>& rOut) const;
     CAssetID FindNamedResource(const TString& rkName) const;
     CPackage* FindPackage(const TString& rkName) const;

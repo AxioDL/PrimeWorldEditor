@@ -37,7 +37,10 @@ public:
     bool OpenProject(const QString& rkProjPath);
     void EditResource(CResourceEntry *pEntry);
     void NotifyAssetsModified();
-    void CookAllDirtyPackages();
+
+    bool CookPackage(CPackage *pPackage);
+    bool CookAllDirtyPackages();
+    bool CookPackageList(QList<CPackage*> PackageList);
 
     // Accessors
     inline CGameProject* ActiveProject() const              { return mpActiveProject; }

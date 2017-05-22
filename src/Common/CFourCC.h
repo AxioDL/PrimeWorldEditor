@@ -13,7 +13,7 @@
 
 class CFourCC
 {
-    // Note: mFourCC_Chars isn't really used due to endian issues. It's mostly here for easier readability in the debugger.
+    // Note: mFourCC_Chars isn't used much due to endianness.
     union
     {
         u32 mFourCC;
