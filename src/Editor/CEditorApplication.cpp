@@ -217,15 +217,12 @@ void CEditorApplication::TickEditors()
     {
         if (pEditor->isVisible())
         {
-            pEditor->EditorTick((float) DeltaTime);
-
             CBasicViewport *pViewport = pEditor->Viewport();
+            bool ViewportVisible = (pViewport && pViewport->isVisible() && !pEditor->isMinimized());
 
-            if (pViewport && pViewport->isVisible() && !pEditor->isMinimized())
-            {
-                pViewport->ProcessInput();
-                pViewport->Render();
-            }
+            if (ViewportVisible) pViewport->ProcessInput();
+            pEditor->EditorTick((float) DeltaTime);
+            if (ViewportVisible) pViewport->Render();
         }
     }
 }
