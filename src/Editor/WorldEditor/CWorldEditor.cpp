@@ -355,6 +355,12 @@ CSceneViewport* CWorldEditor::Viewport() const
 }
 
 // ************ PUBLIC SLOTS ************
+void CWorldEditor::EditorTick(float)
+{
+    // Update new link line
+    UpdateNewLinkLine();
+}
+
 void CWorldEditor::NotifyNodeAboutToBeDeleted(CSceneNode *pNode)
 {
     INodeEditor::NotifyNodeAboutToBeDeleted(pNode);
@@ -1142,21 +1148,6 @@ void CWorldEditor::OnPickModeEnter(QCursor Cursor)
 void CWorldEditor::OnPickModeExit()
 {
     UpdateCursor();
-}
-
-void CWorldEditor::RefreshViewport()
-{
-    if (!mGizmo.IsTransforming())
-        mGizmo.ResetSelectedAxes();
-
-    // Process input
-    ui->MainViewport->ProcessInput();
-
-    // Update new link line
-    UpdateNewLinkLine();
-
-    // Render
-    ui->MainViewport->Render();
 }
 
 void CWorldEditor::UpdateCameraOrbit()

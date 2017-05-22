@@ -98,6 +98,7 @@ public:
     inline bool CanRepack() const { return !mWorldDir.isEmpty() && !mPakFileList.isEmpty() && !mPakTarget.isEmpty(); }
 
 public slots:
+    virtual void EditorTick(float);
     virtual void NotifyNodeAboutToBeDeleted(CSceneNode *pNode);
 
     void Cut();
@@ -150,7 +151,6 @@ private slots:
     void OnUndoStackIndexChanged();
     void OnPickModeEnter(QCursor Cursor);
     void OnPickModeExit();
-    void RefreshViewport();
     void UpdateCameraOrbit();
     void OnCameraSpeedChange(double Speed);
     void OnTransformSpinBoxModified(CVector3f Value);
