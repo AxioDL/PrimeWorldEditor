@@ -118,9 +118,9 @@ bool CGameExporter::ExtractDiscData()
     nod::Partition *pDataPartition = mpDisc->getDataPartition();
     nod::ExtractionContext Context;
     Context.force = false;
-    Context.verbose = false;
-    Context.progressCB = [&](const std::string& rkDesc) {
-        mpProgress->Report(0, 1, rkDesc);
+    Context.verbose = true;
+    Context.progressCB = [&](const std::string& rkDesc, float ProgressPercent) {
+        mpProgress->Report((int) (ProgressPercent * 10000), 10000, rkDesc);
     };
 
     bool Success = ExtractDiscNodeRecursive(&pDataPartition->getFSTRoot(), AbsDiscDir, Context);
