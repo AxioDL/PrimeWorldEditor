@@ -260,7 +260,7 @@ CScriptObject* CScriptLoader::LoadObjectMP1(IInputStream& rSCLY)
     }
 
     u32 InstanceID = rSCLY.ReadLong() & 0x03FFFFFF;
-    if (InstanceID == -1) InstanceID = mpArea->FindUnusedInstanceID();
+    if (InstanceID == 0x03FFFFFF) InstanceID = mpArea->FindUnusedInstanceID();
     mpObj = new CScriptObject(InstanceID, mpArea, mpLayer, pTemp);
 
     // Load connections
@@ -374,7 +374,7 @@ CScriptObject* CScriptLoader::LoadObjectMP2(IInputStream& rSCLY)
     }
 
     u32 InstanceID = rSCLY.ReadLong() & 0x03FFFFFF;
-    if (InstanceID == -1) InstanceID = mpArea->FindUnusedInstanceID();
+    if (InstanceID == 0x03FFFFFF) InstanceID = mpArea->FindUnusedInstanceID();
     mpObj = new CScriptObject(InstanceID, mpArea, mpLayer, pTemplate);
 
     // Load connections

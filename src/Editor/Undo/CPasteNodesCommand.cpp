@@ -116,7 +116,11 @@ void CPasteNodesCommand::redo()
                 }
 
                 else
-                    mLinkedInstances << pLink->Receiver();
+                {
+                    CScriptObject *pReceiver = pLink->Receiver();
+                    pReceiver->AddLink(eIncoming, pLink);
+                    mLinkedInstances << pReceiver;
+                }
             }
         }
     }
