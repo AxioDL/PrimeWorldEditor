@@ -143,28 +143,25 @@ void CAreaLoader::ReadSCLYPrime()
     }
 
     // SCGN
-    if (mVersion == eEchoesDemo)
+    CScriptLayer *pGenLayer = nullptr;
+
+    if (mVersion >= eEchoesDemo)
     {
         mpSectionMgr->ToSection(mScriptGeneratorBlockNum);
+        CFourCC SCGN = mpMREA->ReadFourCC();
 
-        CFourCC SCGN(*mpMREA);
-        if (SCGN != "SCGN")
+        if (SCGN != FOURCC('SCGN'))
             Log::FileError(mpMREA->GetSourceString(), mpMREA->Tell() - 4, "Invalid SCGN magic: " + SCGN.ToString());
 
         else
         {
             mpMREA->Seek(0x1, SEEK_CUR);
-            CScriptLayer *pLayer = CScriptLoader::LoadLayer(*mpMREA, mpArea, mVersion);
-
-            if (pLayer)
-            {
-                MergeGeneratedLayer(pLayer);
-                delete pLayer;
-            }
+            pGenLayer = CScriptLoader::LoadLayer(*mpMREA, mpArea, mVersion);
         }
     }
 
-    SetUpObjects();
+    SetUpObjects(pGenLayer);
+    delete pGenLayer;
 }
 
 void CAreaLoader::ReadLightsPrime()
@@ -310,7 +307,6 @@ void CAreaLoader::ReadSCLYEchoes()
     }
 
     // SCGN
-    // we want to regenerate the SCGN layer on cook - for now just move everything back to its original layer
     CFourCC SCGN(*mpMREA);
     if (SCGN != "SCGN")
     {
@@ -320,14 +316,8 @@ void CAreaLoader::ReadSCLYEchoes()
 
     mpMREA->Seek(0x1, SEEK_CUR); // Skipping unknown
     CScriptLayer *pGeneratedLayer = CScriptLoader::LoadLayer(*mpMREA, mpArea, mVersion);
-
-    if (pGeneratedLayer)
-    {
-        MergeGeneratedLayer(pGeneratedLayer);
-        delete pGeneratedLayer;
-    }
-
-    SetUpObjects();
+    SetUpObjects(pGeneratedLayer);
+    delete pGeneratedLayer;
 }
 
 // ************ CORRUPTION ************
@@ -606,61 +596,66 @@ void CAreaLoader::ReadEGMC()
     mpArea->mpPoiToWorldMap = gpResourceStore->LoadResource(EGMC, eStaticGeometryMap);
 }
 
-void CAreaLoader::MergeGeneratedLayer(CScriptLayer *pLayer)
+void CAreaLoader::SetUpObjects(CScriptLayer *pGenLayer)
 {
-    while (pLayer->NumInstances() != 0)
+    // Create instance map
+    for (u32 LayerIdx = 0; LayerIdx < mpArea->NumScriptLayers(); LayerIdx++)
     {
-        CScriptObject *pObj = pLayer->InstanceByIndex(0);
-        u32 InstanceID = pObj->InstanceID();
+        CScriptLayer *pLayer = mpArea->mScriptLayers[LayerIdx];
+
+        for (u32 InstIdx = 0; InstIdx < pLayer->NumInstances(); InstIdx++)
+        {
+            CScriptObject *pInst = pLayer->InstanceByIndex(InstIdx);
+            u32 InstanceID = pInst->InstanceID();
+            CScriptObject *pExisting = mpArea->InstanceByID(InstanceID);
+            ASSERT(pExisting == nullptr);
+            mpArea->mObjectMap[InstanceID] = pInst;
+        }
+    }
+
+    // Merge objects from the generated layer back into the regular script layers
+    while (pGenLayer->NumInstances() != 0)
+    {
+        CScriptObject *pInst = pGenLayer->InstanceByIndex(0);
+        u32 InstanceID = pInst->InstanceID();
 
         // Check if this is a duplicate of an existing instance (this only happens with DKCR GenericCreature as far as I'm aware)
-        CScriptObject *pDupe = mpArea->InstanceByID(InstanceID);
-
-        if (pDupe)
+        if (mpArea->InstanceByID(InstanceID) != nullptr)
         {
-            Log::Write("Duplicate SCGN object: [" + pObj->Template()->Name() + "] " + pObj->InstanceName() + " (" + TString::HexString(pObj->InstanceID(), 8, false) + ")");
-            pLayer->RemoveInstance(pObj);
-            delete pObj;
+            Log::Write("Duplicate SCGN object: [" + pInst->Template()->Name() + "] " + pInst->InstanceName() + " (" + TString::HexString(pInst->InstanceID(), 8, false) + ")");
+            pGenLayer->RemoveInstance(pInst);
+            delete pInst;
         }
 
         else
         {
             u32 LayerIdx = (InstanceID >> 26) & 0x3F;
-            pObj->SetLayer( mpArea->ScriptLayer(LayerIdx) );
+            pInst->SetLayer( mpArea->ScriptLayer(LayerIdx) );
+            mpArea->mObjectMap[InstanceID] = pInst;
         }
     }
-}
 
-void CAreaLoader::SetUpObjects()
-{
     // Iterate over all objects
-    for (u32 iLyr = 0; iLyr < mpArea->NumScriptLayers(); iLyr++)
+    for (auto Iter = mpArea->mObjectMap.begin(); Iter != mpArea->mObjectMap.end(); Iter++)
     {
-        CScriptLayer *pLayer = mpArea->mScriptLayers[iLyr];
+        CScriptObject *pInst = Iter->second;
 
-        for (u32 iObj = 0; iObj < pLayer->NumInstances(); iObj++)
+        // Store outgoing connections
+        for (u32 iCon = 0; iCon < pInst->NumLinks(eOutgoing); iCon++)
         {
-            // Add object to object map
-            CScriptObject *pObj = (*pLayer)[iObj];
-            mpArea->mObjectMap[pObj->InstanceID()] = pObj;
+            CLink *pLink = pInst->Link(eOutgoing, iCon);
+            mConnectionMap[pLink->ReceiverID()].push_back(pLink);
+        }
 
-            // Store outgoing connections
-            for (u32 iCon = 0; iCon < pObj->NumLinks(eOutgoing); iCon++)
-            {
-                CLink *pLink = pObj->Link(eOutgoing, iCon);
-                mConnectionMap[pLink->ReceiverID()].push_back(pLink);
-            }
+        // Remove "-component" garbage from MP1 instance names
+        if (mVersion <= ePrime)
+        {
+            TString InstanceName = pInst->InstanceName();
 
-            // Remove "-component" garbage from MP1 instance names
-            if (mVersion <= ePrime)
-            {
-                TString InstanceName = pObj->InstanceName();
+            while (InstanceName.EndsWith("-component"))
+                InstanceName = InstanceName.ChopBack(10);
 
-                while (InstanceName.EndsWith("-component"))
-                    InstanceName = InstanceName.ChopBack(10);
-
-                pObj->SetName(InstanceName);
-            }
+            pInst->SetName(InstanceName);
         }
     }
 

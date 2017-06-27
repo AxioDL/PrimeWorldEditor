@@ -1,16 +1,16 @@
 #include "CScriptCooker.h"
 #include "Core/Resource/Script/CLink.h"
 
-void CScriptCooker::WriteProperty(IProperty *pProp, bool InSingleStruct)
+void CScriptCooker::WriteProperty(IOutputStream& rOut,IProperty *pProp, bool InSingleStruct)
 {
     u32 SizeOffset = 0, PropStart = 0;
 
-    if (mVersion >= eEchoesDemo && !InSingleStruct)
+    if (mGame >= eEchoesDemo && !InSingleStruct)
     {
-        mpSCLY->WriteLong(pProp->ID());
-        SizeOffset = mpSCLY->Tell();
-        mpSCLY->WriteShort(0x0);
-        PropStart = mpSCLY->Tell();
+        rOut.WriteLong(pProp->ID());
+        SizeOffset = rOut.Tell();
+        rOut.WriteShort(0x0);
+        PropStart = rOut.Tell();
     }
 
     switch (pProp->Type())
@@ -19,91 +19,91 @@ void CScriptCooker::WriteProperty(IProperty *pProp, bool InSingleStruct)
     case eBoolProperty:
     {
         TBoolProperty *pBoolCast = static_cast<TBoolProperty*>(pProp);
-        mpSCLY->WriteByte(pBoolCast->Get() ? 1 : 0);
+        rOut.WriteBool(pBoolCast->Get());
         break;
     }
 
     case eByteProperty:
     {
         TByteProperty *pByteCast = static_cast<TByteProperty*>(pProp);
-        mpSCLY->WriteByte(pByteCast->Get());
+        rOut.WriteByte(pByteCast->Get());
         break;
     }
 
     case eShortProperty:
     {
         TShortProperty *pShortCast = static_cast<TShortProperty*>(pProp);
-        mpSCLY->WriteShort(pShortCast->Get());
+        rOut.WriteShort(pShortCast->Get());
         break;
     }
 
     case eLongProperty:
     {
         TLongProperty *pLongCast = static_cast<TLongProperty*>(pProp);
-        mpSCLY->WriteLong(pLongCast->Get());
+        rOut.WriteLong(pLongCast->Get());
         break;
     }
 
     case eEnumProperty:
     {
         TEnumProperty *pEnumCast = static_cast<TEnumProperty*>(pProp);
-        mpSCLY->WriteLong(pEnumCast->Get());
+        rOut.WriteLong(pEnumCast->Get());
         break;
     }
 
     case eBitfieldProperty:
     {
         TBitfieldProperty *pBitfieldCast = static_cast<TBitfieldProperty*>(pProp);
-        mpSCLY->WriteLong(pBitfieldCast->Get());
+        rOut.WriteLong(pBitfieldCast->Get());
         break;
     }
 
     case eFloatProperty:
     {
         TFloatProperty *pFloatCast = static_cast<TFloatProperty*>(pProp);
-        mpSCLY->WriteFloat(pFloatCast->Get());
+        rOut.WriteFloat(pFloatCast->Get());
         break;
     }
 
     case eStringProperty:
     {
         TStringProperty *pStringCast = static_cast<TStringProperty*>(pProp);
-        mpSCLY->WriteString(pStringCast->Get());
+        rOut.WriteString(pStringCast->Get());
         break;
     }
 
     case eVector3Property:
     {
         TVector3Property *pVectorCast = static_cast<TVector3Property*>(pProp);
-        pVectorCast->Get().Write(*mpSCLY);
+        pVectorCast->Get().Write(rOut);
         break;
     }
 
     case eColorProperty:
     {
         TColorProperty *pColorCast = static_cast<TColorProperty*>(pProp);
-        pColorCast->Get().Write(*mpSCLY, false);
+        pColorCast->Get().Write(rOut, false);
         break;
     }
 
     case eSoundProperty:
     {
         TSoundProperty *pSoundCast = static_cast<TSoundProperty*>(pProp);
-        mpSCLY->WriteLong(pSoundCast->Get());
+        rOut.WriteLong(pSoundCast->Get());
         break;
     }
 
     case eAssetProperty:
     {
         TAssetProperty *pAssetCast = static_cast<TAssetProperty*>(pProp);
-        pAssetCast->Get().Write(*mpSCLY);
+        pAssetCast->Get().Write(rOut);
         break;
     }
 
     case eCharacterProperty:
     {
         TCharacterProperty *pCharCast = static_cast<TCharacterProperty*>(pProp);
-        pCharCast->Get().Write(*mpSCLY);
+        pCharCast->Get().Write(rOut);
         break;
     }
 
@@ -111,25 +111,25 @@ void CScriptCooker::WriteProperty(IProperty *pProp, bool InSingleStruct)
     {
         TMayaSplineProperty *pSplineCast = static_cast<TMayaSplineProperty*>(pProp);
         std::vector<u8> Buffer = pSplineCast->Get();
-        if (!Buffer.empty()) mpSCLY->WriteBytes(Buffer.data(), Buffer.size());
+        if (!Buffer.empty()) rOut.WriteBytes(Buffer.data(), Buffer.size());
 
         else
         {
-            if (mVersion < eReturns)
+            if (mGame < eReturns)
             {
-                mpSCLY->WriteShort(0);
-                mpSCLY->WriteLong(0);
-                mpSCLY->WriteByte(1);
-                mpSCLY->WriteFloat(0);
-                mpSCLY->WriteFloat(1);
+                rOut.WriteShort(0);
+                rOut.WriteLong(0);
+                rOut.WriteByte(1);
+                rOut.WriteFloat(0);
+                rOut.WriteFloat(1);
             }
             else
             {
-                mpSCLY->WriteLong(0);
-                mpSCLY->WriteFloat(0);
-                mpSCLY->WriteFloat(1);
-                mpSCLY->WriteShort(0);
-                mpSCLY->WriteByte(1);
+                rOut.WriteLong(0);
+                rOut.WriteFloat(0);
+                rOut.WriteFloat(1);
+                rOut.WriteShort(0);
+                rOut.WriteByte(1);
             }
         }
 
@@ -153,14 +153,14 @@ void CScriptCooker::WriteProperty(IProperty *pProp, bool InSingleStruct)
 
         if (!pTemp->IsSingleProperty())
         {
-            if (mVersion <= ePrime)
-                mpSCLY->WriteLong(PropertiesToWrite.size());
+            if (mGame <= ePrime)
+                rOut.WriteLong(PropertiesToWrite.size());
             else
-                mpSCLY->WriteShort((u16) PropertiesToWrite.size());
+                rOut.WriteShort((u16) PropertiesToWrite.size());
         }
 
         for (u32 iProp = 0; iProp < PropertiesToWrite.size(); iProp++)
-            WriteProperty(PropertiesToWrite[iProp], pTemp->IsSingleProperty());
+            WriteProperty(rOut, PropertiesToWrite[iProp], pTemp->IsSingleProperty());
 
         break;
     }
@@ -168,10 +168,10 @@ void CScriptCooker::WriteProperty(IProperty *pProp, bool InSingleStruct)
     case eArrayProperty:
     {
         CArrayProperty *pArray = static_cast<CArrayProperty*>(pProp);
-        mpSCLY->WriteLong(pArray->Count());
+        rOut.WriteLong(pArray->Count());
 
         for (u32 iProp = 0; iProp < pArray->Count(); iProp++)
-            WriteProperty(pArray->PropertyByIndex(iProp), true);
+            WriteProperty(rOut, pArray->PropertyByIndex(iProp), true);
 
         break;
     }
@@ -180,133 +180,128 @@ void CScriptCooker::WriteProperty(IProperty *pProp, bool InSingleStruct)
 
     if (SizeOffset != 0)
     {
-        u32 PropEnd = mpSCLY->Tell();
-        mpSCLY->Seek(SizeOffset, SEEK_SET);
-        mpSCLY->WriteShort((u16) (PropEnd - PropStart));
-        mpSCLY->Seek(PropEnd, SEEK_SET);
+        u32 PropEnd = rOut.Tell();
+        rOut.Seek(SizeOffset, SEEK_SET);
+        rOut.WriteShort((u16) (PropEnd - PropStart));
+        rOut.Seek(PropEnd, SEEK_SET);
     }
 }
 
-void CScriptCooker::WriteLayerMP1(CScriptLayer *pLayer)
+// ************ PUBLIC ************
+void CScriptCooker::WriteInstance(IOutputStream& rOut, CScriptObject *pInstance)
 {
-    u32 LayerStart = mpSCLY->Tell();
-    mpSCLY->WriteByte(0); // Unknown value
-    mpSCLY->WriteLong(pLayer->NumInstances());
+    ASSERT(pInstance->Area()->Game() == mGame);
 
-    for (u32 iInst = 0; iInst < pLayer->NumInstances(); iInst++)
-    {
-        CScriptObject *pInstance = pLayer->InstanceByIndex(iInst);
-        WriteInstanceMP1(pInstance);
-    }
+    // Note the format is pretty much the same between games; the main difference is a
+    // number of fields changed size between MP1 and 2, but they're still the same fields
+    bool IsPrime1 = (mGame <= ePrime);
 
-    u32 LayerSize = mpSCLY->Tell() - LayerStart;
-    u32 NumPadBytes = 32 - (LayerSize % 32);
-    if (NumPadBytes == 32) NumPadBytes = 0;
+    u32 ObjectType = pInstance->ObjectTypeID();
+    IsPrime1 ? rOut.WriteByte((u8) ObjectType) : rOut.WriteLong(ObjectType);
 
-    for (u32 iPad = 0; iPad < NumPadBytes; iPad++)
-        mpSCLY->WriteByte(0);
-}
+    u32 SizeOffset = rOut.Tell();
+    IsPrime1 ? rOut.WriteLong(0) : rOut.WriteShort(0);
 
-void CScriptCooker::WriteInstanceMP1(CScriptObject *pInstance)
-{
-    mpSCLY->WriteByte((u8) pInstance->ObjectTypeID());
-
-    u32 SizeOffset = mpSCLY->Tell();
-    mpSCLY->WriteLong(0);
-    u32 InstanceStart = mpSCLY->Tell();
-
+    u32 InstanceStart = rOut.Tell();
     u32 InstanceID = (pInstance->Layer()->AreaIndex() << 26) | pInstance->InstanceID();
-    mpSCLY->WriteLong(InstanceID);
-    mpSCLY->WriteLong(pInstance->NumLinks(eOutgoing));
+    rOut.WriteLong(InstanceID);
+
+    u32 NumLinks = pInstance->NumLinks(eOutgoing);
+    IsPrime1 ? rOut.WriteLong(NumLinks) : rOut.WriteShort((u16) NumLinks);
 
     for (u32 iLink = 0; iLink < pInstance->NumLinks(eOutgoing); iLink++)
     {
         CLink *pLink = pInstance->Link(eOutgoing, iLink);
-        mpSCLY->WriteLong(pLink->State());
-        mpSCLY->WriteLong(pLink->Message());
-        mpSCLY->WriteLong(pLink->ReceiverID());
+        rOut.WriteLong(pLink->State());
+        rOut.WriteLong(pLink->Message());
+        rOut.WriteLong(pLink->ReceiverID());
     }
 
-    WriteProperty(pInstance->Properties(), false);
-    u32 InstanceEnd = mpSCLY->Tell();
+    WriteProperty(rOut, pInstance->Properties(), false);
+    u32 InstanceEnd = rOut.Tell();
 
-    mpSCLY->Seek(SizeOffset, SEEK_SET);
-    mpSCLY->WriteLong(InstanceEnd - InstanceStart);
-    mpSCLY->Seek(InstanceEnd, SEEK_SET);
+    rOut.Seek(SizeOffset, SEEK_SET);
+    u32 Size = InstanceEnd - InstanceStart;
+    IsPrime1 ? rOut.WriteLong(Size) : rOut.WriteShort((u16) Size);
+    rOut.Seek(InstanceEnd, SEEK_SET);
 }
 
-void CScriptCooker::WriteLayerMP2(CScriptLayer *pLayer)
+void CScriptCooker::WriteLayer(IOutputStream& rOut, CScriptLayer *pLayer)
 {
-    u32 LayerStart = mpSCLY->Tell();
-    mpSCLY->WriteByte(0x1);
-    mpSCLY->WriteLong(pLayer->NumInstances());
+    ASSERT(pLayer->Area()->Game() == mGame);
+
+    rOut.WriteByte( mGame <= ePrime ? 0 : 1 ); // Version
+
+    u32 InstanceCountOffset = rOut.Tell();
+    u32 NumWrittenInstances = 0;
+    rOut.WriteLong(0);
 
     for (u32 iInst = 0; iInst < pLayer->NumInstances(); iInst++)
     {
         CScriptObject *pInstance = pLayer->InstanceByIndex(iInst);
-        WriteInstanceMP2(pInstance);
+
+        // Is this a generated instance?
+        bool ShouldWrite = true;
+
+        if (mWriteGeneratedSeparately)
+        {
+            // GenericCreature instances in DKCR always write to both SCLY and SCGN
+            if (mGame == eReturns && pInstance->ObjectTypeID() == FOURCC('GCTR'))
+                mGeneratedObjects.push_back(pInstance);
+
+            // Instances receiving a Generate/Activate message (MP2) or a
+            // Generate/Attach message (MP3+) should be written to SCGN, not SCLY
+            else
+            {
+                for (u32 LinkIdx = 0; LinkIdx < pInstance->NumLinks(eIncoming); LinkIdx++)
+                {
+                    CLink *pLink = pInstance->Link(eIncoming, LinkIdx);
+
+                    if (mGame <= eEchoes)
+                    {
+                        if (pLink->State() == FOURCC('GRNT') && pLink->Message() == FOURCC('ACTV'))
+                        {
+                            ShouldWrite = false;
+                            break;
+                        }
+                    }
+
+                    else
+                    {
+                        if (pLink->Message() == FOURCC('ATCH'))
+                        {
+                            if (pLink->State() == FOURCC('GRNT') || pLink->State() == FOURCC('GRN0') || pLink->State() == FOURCC('GRN1'))
+                            {
+                                ShouldWrite = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (!ShouldWrite)
+                    mGeneratedObjects.push_back(pInstance);
+            }
+        }
+
+        if (ShouldWrite)
+        {
+            WriteInstance(rOut, pInstance);
+            NumWrittenInstances++;
+        }
     }
 
-    if (mVersion == eEchoesDemo)
-    {
-        u32 LayerSize = mpSCLY->Tell() - LayerStart;
-        u32 NumPadBytes = 32 - (LayerSize % 32);
-        if (NumPadBytes == 32) NumPadBytes = 0;
-
-        for (u32 iPad = 0; iPad < NumPadBytes; iPad++)
-            mpSCLY->WriteByte(0);
-    }
+    u32 LayerEnd = rOut.Tell();
+    rOut.GoTo(InstanceCountOffset);
+    rOut.WriteLong(NumWrittenInstances);
+    rOut.GoTo(LayerEnd);
 }
 
-void CScriptCooker::WriteInstanceMP2(CScriptObject *pInstance)
+void CScriptCooker::WriteGeneratedLayer(IOutputStream& rOut)
 {
-    mpSCLY->WriteLong(pInstance->ObjectTypeID());
+    rOut.WriteByte(1); // Version
+    rOut.WriteLong(mGeneratedObjects.size());
 
-    u32 SizeOffset = mpSCLY->Tell();
-    mpSCLY->WriteShort(0);
-    u32 InstanceStart = mpSCLY->Tell();
-
-    u32 InstanceID = (pInstance->Layer()->AreaIndex() << 26) | pInstance->InstanceID();
-    mpSCLY->WriteLong(InstanceID);
-    mpSCLY->WriteShort((u16) pInstance->NumLinks(eOutgoing));
-
-    for (u32 iLink = 0; iLink < pInstance->NumLinks(eOutgoing); iLink++)
-    {
-        CLink *pLink = pInstance->Link(eOutgoing, iLink);
-        mpSCLY->WriteLong(pLink->State());
-        mpSCLY->WriteLong(pLink->Message());
-        mpSCLY->WriteLong(pLink->ReceiverID());
-    }
-
-    WriteProperty(pInstance->Properties(), false);
-    u32 InstanceEnd = mpSCLY->Tell();
-
-    mpSCLY->Seek(SizeOffset, SEEK_SET);
-    mpSCLY->WriteShort((u16) (InstanceEnd - InstanceStart));
-    mpSCLY->Seek(InstanceEnd, SEEK_SET);
-}
-
-// ************ STATIC ************
-void CScriptCooker::WriteLayer(EGame Game, CScriptLayer *pLayer, IOutputStream& rOut)
-{
-    CScriptCooker Cooker;
-    Cooker.mpSCLY = &rOut;
-    Cooker.mVersion = Game;
-
-    if (Game <= ePrime)
-        Cooker.WriteLayerMP1(pLayer);
-    else
-        Cooker.WriteLayerMP2(pLayer);
-}
-
-void CScriptCooker::CookInstance(EGame Game, CScriptObject *pInstance, IOutputStream& rOut)
-{
-    CScriptCooker Cooker;
-    Cooker.mpSCLY = &rOut;
-    Cooker.mVersion = Game;
-
-    if (Game <= ePrime)
-        Cooker.WriteInstanceMP1(pInstance);
-    else
-        Cooker.WriteInstanceMP2(pInstance);
+    for (u32 InstIdx = 0; InstIdx < mGeneratedObjects.size(); InstIdx++)
+        WriteInstance(rOut, mGeneratedObjects[InstIdx]);
 }

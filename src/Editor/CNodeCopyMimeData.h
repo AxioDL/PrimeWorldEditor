@@ -70,7 +70,9 @@ public:
                 rNode.OriginalInstanceID = pInst->InstanceID();
 
                 CVectorOutStream Out(&rNode.InstanceData, IOUtil::eBigEndian);
-                CScriptCooker::CookInstance(eReturns, static_cast<CScriptNode*>(*It)->Instance(), Out);
+
+                CScriptCooker Cooker(mGame);
+                Cooker.WriteInstance(Out, static_cast<CScriptNode*>(*It)->Instance());
 
                 // Replace instance ID with 0xFFFFFFFF to force it to generate a new one.
                 Out.Seek(0x6, SEEK_SET);
