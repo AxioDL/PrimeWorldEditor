@@ -364,6 +364,13 @@ TString SanitizeName(TString Name, bool Directory, bool RootDir /*= false*/)
     if (NumLeadingSpaces > 0)
         Name = Name.ChopFront(NumLeadingSpaces);
 
+    // Ensure the name is below the character limit
+    if (Name.Size() > 255)
+    {
+        u32 ChopNum = Name.Size() - 255;
+        Name = Name.ChopBack(ChopNum);
+    }
+
     return Name;
 }
 

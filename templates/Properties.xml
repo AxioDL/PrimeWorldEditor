@@ -230,7 +230,7 @@
     <property ID="0x05439A08" name="WPSC"/>
     <property ID="0x0547FF5F" name="UnknownStruct2"/>
     <property ID="0x05486319" name="Skin (No Holos)"/>
-    <property ID="0x054A1E34" name="Unknown"/>
+    <property ID="0x054A1E34" name="Close When Used"/>
     <property ID="0x054F1A14" name="Unknown"/>
     <property ID="0x05577977" name="Unknown"/>
     <property ID="0x055B8291" name="Unknown"/>

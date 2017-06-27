@@ -174,16 +174,13 @@ CAssetID CGameProject::FindNamedResource(const TString& rkName) const
 
 CPackage* CGameProject::FindPackage(const TString& rkName) const
 {
-    if (mGame == eCorruptionProto || mGame == eCorruption)
+    for (u32 iPkg = 0; iPkg < mPackages.size(); iPkg++)
     {
-        for (u32 iPkg = 0; iPkg < mPackages.size(); iPkg++)
-        {
-            CPackage *pPackage = mPackages[iPkg];
+        CPackage *pPackage = mPackages[iPkg];
 
-            if (pPackage->Name() == rkName)
-            {
-                return pPackage;
-            }
+        if (pPackage->Name() == rkName)
+        {
+            return pPackage;
         }
     }
 
