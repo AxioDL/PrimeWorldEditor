@@ -185,31 +185,43 @@ void CAreaCooker::WriteAreaData(IOutputStream& rOut)
 // ************ SCLY ************
 void CAreaCooker::WritePrimeSCLY(IOutputStream& rOut)
 {
-    rOut.WriteString("SCLY", 4);
+    // This function covers both Prime 1 and the Echoes demo.
+    // The Echoes demo has a similar SCLY format but with minor layout differences and with SCGN.
+    rOut.WriteFourCC( FOURCC('SCLY') );
     mVersion <= ePrime ? rOut.WriteLong(1) : rOut.WriteByte(1);
 
     u32 NumLayers = mpArea->mScriptLayers.size();
     rOut.WriteLong(NumLayers);
 
     u32 LayerSizesStart = rOut.Tell();
-    for (u32 iLyr = 0; iLyr < NumLayers; iLyr++)
+    for (u32 LayerIdx = 0; LayerIdx < NumLayers; LayerIdx++)
         rOut.WriteLong(0);
 
     // SCLY
+    CScriptCooker ScriptCooker(mVersion, true);
     std::vector<u32> LayerSizes(NumLayers);
 
-    for (u32 iLyr = 0; iLyr < NumLayers; iLyr++)
+    for (u32 LayerIdx = 0; LayerIdx < NumLayers; LayerIdx++)
     {
         u32 LayerStart = rOut.Tell();
-        CScriptCooker::WriteLayer(mVersion, mpArea->mScriptLayers[iLyr], rOut);
-        LayerSizes[iLyr] = rOut.Tell() - LayerStart;
+        ScriptCooker.WriteLayer(rOut, mpArea->mScriptLayers[LayerIdx]);
+
+        // Pad the layer to 32 bytes
+        u32 LayerSize = rOut.Tell() - LayerStart;
+        u32 PaddedSize = (LayerSize + 31) & ~31;
+        u32 NumPadBytes = PaddedSize - LayerSize;
+
+        for (u32 Pad = 0; Pad < NumPadBytes; Pad++)
+            rOut.WriteByte(0);
+
+        LayerSizes[LayerIdx] = PaddedSize;
     }
 
     u32 LayersEnd = rOut.Tell();
     rOut.Seek(LayerSizesStart, SEEK_SET);
 
-    for (u32 iLyr = 0; iLyr < NumLayers; iLyr++)
-        rOut.WriteLong(LayerSizes[iLyr]);
+    for (u32 LayerIdx = 0; LayerIdx < NumLayers; LayerIdx++)
+        rOut.WriteLong(LayerSizes[LayerIdx]);
 
     rOut.Seek(LayersEnd, SEEK_SET);
     FinishSection(false);
@@ -217,31 +229,31 @@ void CAreaCooker::WritePrimeSCLY(IOutputStream& rOut)
     // SCGN
     if (mVersion == eEchoesDemo)
     {
-        // IMPORTANT TODO - REGENERATE SCGN LAYER
-        /*rOut.WriteString("SCGN", 4);
+        rOut.WriteFourCC( FOURCC('SCGN') );
         rOut.WriteByte(1);
-        CScriptCooker::WriteLayer(mVersion, mpArea->mpGeneratorLayer, rOut);
-        FinishSection(false);*/
+        ScriptCooker.WriteGeneratedLayer(rOut);
+        FinishSection(false);
     }
 }
 
 void CAreaCooker::WriteEchoesSCLY(IOutputStream& rOut)
 {
     // SCLY
-    for (u32 iLyr = 0; iLyr < mpArea->mScriptLayers.size(); iLyr++)
+    CScriptCooker ScriptCooker(mVersion);
+
+    for (u32 LayerIdx = 0; LayerIdx < mpArea->mScriptLayers.size(); LayerIdx++)
     {
-        rOut.WriteString("SCLY", 4);
-        rOut.WriteByte(0x1);
-        rOut.WriteLong(iLyr);
-        CScriptCooker::WriteLayer(mVersion, mpArea->mScriptLayers[iLyr], rOut);
+        rOut.WriteFourCC( FOURCC('SCLY') );
+        rOut.WriteByte(1);
+        rOut.WriteLong(LayerIdx);
+        ScriptCooker.WriteLayer(rOut, mpArea->mScriptLayers[LayerIdx]);
         FinishSection(true);
     }
 
     // SCGN
-    // IMPORTANT TODO - REGENERATE SCGN
-    rOut.WriteString("SCGN", 4);
-    rOut.WriteByte(0x1);
-    //CScriptCooker::WriteLayer(mVersion, mpArea->mpGeneratorLayer, rOut);
+    rOut.WriteFourCC( FOURCC('SCGN') );
+    rOut.WriteByte(1);
+    ScriptCooker.WriteGeneratedLayer(rOut);
     FinishSection(true);
 }
 

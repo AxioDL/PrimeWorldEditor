@@ -77,8 +77,7 @@ class CAreaLoader
     void ReadPATH();
     void ReadPTLA();
     void ReadEGMC();
-    void MergeGeneratedLayer(CScriptLayer *pLayer);
-    void SetUpObjects();
+    void SetUpObjects(CScriptLayer *pGenLayer);
 
 public:
     static CGameArea* LoadMREA(IInputStream& rMREA, CResourceEntry *pEntry);

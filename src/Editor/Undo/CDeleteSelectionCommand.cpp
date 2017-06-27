@@ -64,7 +64,8 @@ CDeleteSelectionCommand::CDeleteSelectionCommand(CWorldEditor *pEditor, const QS
             }
 
             CVectorOutStream PropertyDataOut(&rNode.InstanceData, IOUtil::eBigEndian);
-            CScriptCooker::CookInstance(eReturns, pInst, PropertyDataOut);
+            CScriptCooker Cooker(pEditor->CurrentGame());
+            Cooker.WriteInstance(PropertyDataOut, pInst);
         }
 
         else

@@ -1,6 +1,7 @@
 #ifndef CSCRIPTCOOKER_H
 #define CSCRIPTCOOKER_H
 
+#include "CSectionMgrOut.h"
 #include "Core/Resource/Script/CScriptLayer.h"
 #include "Core/Resource/Script/CScriptObject.h"
 #include <Common/EGame.h>
@@ -8,19 +9,21 @@
 
 class CScriptCooker
 {
-    IOutputStream *mpSCLY;
-    EGame mVersion;
+    EGame mGame;
+    std::vector<CScriptObject*> mGeneratedObjects;
+    bool mWriteGeneratedSeparately;
 
-    CScriptCooker() {}
-    void WriteProperty(IProperty *pProp, bool InSingleStruct);
-    void WriteLayerMP1(CScriptLayer *pLayer);
-    void WriteInstanceMP1(CScriptObject *pInstance);
-    void WriteLayerMP2(CScriptLayer *pLayer);
-    void WriteInstanceMP2(CScriptObject *pInstance);
+    void WriteProperty(IOutputStream& rOut,IProperty *pProp, bool InSingleStruct);
 
 public:
-    static void WriteLayer(EGame Game, CScriptLayer *pLayer, IOutputStream& rOut);
-    static void CookInstance(EGame Game, CScriptObject *pInstance, IOutputStream& rOut);
+    CScriptCooker(EGame Game, bool WriteGeneratedObjectsSeparately = true)
+        : mGame(Game)
+        , mWriteGeneratedSeparately(WriteGeneratedObjectsSeparately && mGame >= eEchoesDemo)
+    {}
+
+    void WriteInstance(IOutputStream& rOut, CScriptObject *pInstance);
+    void WriteLayer(IOutputStream& rOut, CScriptLayer *pLayer);
+    void WriteGeneratedLayer(IOutputStream& rOut);
 };
 
 #endif // CSCRIPTCOOKER_H
