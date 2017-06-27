@@ -100,9 +100,11 @@ public:
         case eWorld:                pRes = CWorldLoader::LoadMLVL(rInput, pEntry);              break;
 
         case eStateMachine:
-            // AFSM and FSMC currently unsupported
+            // AFSM currently unsupported
             if (pEntry->Game() == eCorruptionProto || pEntry->Game() == eCorruption)
                 pRes = CUnsupportedFormatLoader::LoadFSM2(rInput, pEntry);
+            else if (pEntry->Game() == eReturns)
+                pRes = CUnsupportedFormatLoader::LoadFSMC(rInput, pEntry);
             break;
 
         case eBurstFireData:
@@ -114,6 +116,7 @@ public:
         case eParticleDecal:
         case eParticleWeapon:
         case eParticleCollisionResponse:
+        case eParticleTransform:
         case eUserEvaluatorData:
             pRes = CUnsupportedParticleLoader::LoadParticle(rInput, pEntry);
             break;

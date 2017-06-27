@@ -69,6 +69,7 @@ struct SSetCharacter
     TResPtr<CSkeleton> pSkeleton;
     std::vector<SOverlayModel> OverlayModels;
     CAssetID AnimDataID;
+    CAssetID CollisionPrimitivesID;
 
     std::vector<CAssetID> GenericParticles;
     std::vector<CAssetID> ElectricParticles;
@@ -76,6 +77,7 @@ struct SSetCharacter
     std::vector<CAssetID> SpawnParticles;
     std::vector<CAssetID> EffectParticles;
     std::vector<CAssetID> SoundEffects;
+    std::vector<CAssetID> DKDependencies;
     CAssetID SpatialPrimitives;
     std::set<u32> UsedAnimationIndices;
 };
@@ -149,7 +151,7 @@ public:
             }
         }
 
-        else
+        else if (Game() <= eCorruption)
         {
             const SSetCharacter& rkChar = mCharacters[0];
             std::set<CAnimPrimitive> PrimitiveSet;
@@ -165,17 +167,25 @@ public:
             if (pAnimData)
                 pAnimData->AddTransitionDependencies(pTree);
 
-            // Event particles/sounds
             for (auto Iter = PrimitiveSet.begin(); Iter != PrimitiveSet.end(); Iter++)
             {
                 const CAnimPrimitive& rkPrim = *Iter;
                 pTree->AddDependency(rkPrim.Animation());
             }
 
+            // Event sounds
             for (u32 iSound = 0; iSound < rkChar.SoundEffects.size(); iSound++)
             {
                 pTree->AddDependency(rkChar.SoundEffects[iSound]);
             }
+        }
+
+        else
+        {
+            const SSetCharacter& rkChar = mCharacters[0];
+
+            for (u32 iDep = 0; iDep < rkChar.DKDependencies.size(); iDep++)
+                pTree->AddDependency(rkChar.DKDependencies[iDep]);
         }
 
         return pTree;

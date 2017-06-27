@@ -98,17 +98,137 @@ CAnimSet* CAnimSetLoader::LoadCorruptionCHAR(IInputStream& rCHAR)
 
 CAnimSet* CAnimSetLoader::LoadReturnsCHAR(IInputStream& rCHAR)
 {
-    // For now, we only read enough to fetch the model
-    rCHAR.Seek(0x16, SEEK_CUR);
+    rCHAR.Skip(0x14);
+    u8 Flag = rCHAR.ReadByte();
+    rCHAR.Skip(1);
 
     pSet->mCharacters.emplace_back( SSetCharacter() );;
     SSetCharacter& rChar = pSet->mCharacters.back();
 
+    // Character Header
     rChar.ID = 0;
     rChar.Name = rCHAR.ReadString();
-    rCHAR.Seek(0x14, SEEK_CUR);
-    rCHAR.ReadString();
-    rChar.pModel = gpResourceStore->LoadResource<CModel>(rCHAR.ReadLongLong());
+    rChar.pSkeleton = gpResourceStore->LoadResource<CSkeleton>( rCHAR.ReadLongLong() );
+    rChar.CollisionPrimitivesID = rCHAR.ReadLongLong();
+
+    u32 NumModels = rCHAR.ReadLong();
+
+    for (u32 ModelIdx = 0; ModelIdx < NumModels; ModelIdx++)
+    {
+        rCHAR.ReadString();
+        CAssetID ModelID(rCHAR, eReturns);
+        CAssetID SkinID(rCHAR, eReturns);
+        rCHAR.Skip(0x18);
+
+        if (ModelIdx == 0)
+        {
+            rChar.pModel = gpResourceStore->LoadResource<CModel>(ModelID);
+            rChar.pSkin = gpResourceStore->LoadResource<CSkin>(SkinID);
+        }
+        else
+        {
+            rChar.DKDependencies.push_back(ModelID);
+            rChar.DKDependencies.push_back(SkinID);
+        }
+    }
+
+    // Animations
+    u32 NumAnims = rCHAR.ReadLong();
+
+    for (u32 AnimIdx = 0; AnimIdx < NumAnims; AnimIdx++)
+    {
+        rCHAR.ReadString();
+        CAssetID AnimID(rCHAR, eReturns);
+        rCHAR.Skip(0x25);
+        rChar.DKDependencies.push_back(AnimID);
+    }
+
+    // The only other thing we care about right now is the dependency list. If this file doesn't have a dependency list, exit out.
+    if ((Flag & 0x10) == 0)
+        return pSet;
+
+    // Anim ID Map
+    if (Flag & 0x20)
+    {
+        u32 NumIDs = rCHAR.ReadLong();
+        rCHAR.Skip(NumIDs * 4);
+    }
+
+    // Transitions
+    if (Flag & 0x80)
+    {
+        u32 NumAdditiveAnims = rCHAR.ReadLong();
+        rCHAR.Skip(NumAdditiveAnims * 0x10);
+
+        u32 NumTransitionTypes = rCHAR.ReadLong();
+
+        for (u32 TypeIdx = 0; TypeIdx < NumTransitionTypes; TypeIdx++)
+        {
+            u16 Type = rCHAR.ReadShort();
+
+            switch (Type)
+            {
+            case 0:
+                break;
+            case 1:
+            case 2:
+                rCHAR.Skip(9);
+                break;
+            case 3:
+                rCHAR.Skip(0xC);
+                break;
+            default:
+                Log::FileError(rCHAR.GetSourceString(), rCHAR.Tell() - 2, "Invalid transition type: " + TString::FromInt32(Type, 0, 10));
+                return pSet;
+            }
+        }
+
+        u32 NumFullTransitions = rCHAR.ReadLong();
+        rCHAR.Skip(NumFullTransitions * 0xC);
+
+        u32 NumHalfTransitions = rCHAR.ReadLong();
+        rCHAR.Skip(NumHalfTransitions * 0x8);
+
+        rCHAR.Skip(0x8);
+    }
+
+    // Transform Bits
+    if (Flag & 0x40)
+    {
+        u32 NumTransformBits = rCHAR.ReadLong();
+        rCHAR.Skip(NumTransformBits);
+    }
+
+    u32 NumUnknown = rCHAR.ReadLong();
+    rCHAR.Skip(NumUnknown * 4);
+
+    // Skel Joint Sets
+    u32 NumSkelJointSets = rCHAR.ReadLong();
+
+    for (u32 SetIdx = 0; SetIdx < NumSkelJointSets; SetIdx++)
+    {
+        rCHAR.Skip(4);
+        u32 NumUnknown2 = rCHAR.ReadLong();
+        rCHAR.Skip(0x20 + NumUnknown2);
+    }
+
+    // Resources
+    if (Flag & 0x10)
+    {
+        // Don't need the extensions
+        u32 NumExtensions = rCHAR.ReadLong();
+        rCHAR.Skip(NumExtensions * 4);
+
+        u32 NumResources = rCHAR.ReadLong();
+
+        for (u32 ResIdx = 0; ResIdx < NumResources; ResIdx++)
+        {
+            CAssetID ResID(rCHAR, eReturns);
+            rCHAR.Skip(3);
+            rChar.DKDependencies.push_back(ResID);
+        }
+    }
+
     return pSet;
 }
 

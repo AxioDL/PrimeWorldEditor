@@ -21,8 +21,10 @@ class CUnsupportedParticleLoader
     bool ParseCollisionResponseParameter(IInputStream& rCRSC);
     bool ParseBurstFireParameter(IInputStream& rBFRC);
     bool ParseUserEvaluatorParameter(IInputStream& rUSRC);
+    bool ParseTransformParameter(IInputStream& rXFSC);
 
     // Function Loading
+    void ParseBool(IInputStream& rFile);
     void ParseBoolFunction(IInputStream& rFile);
     void ParseBitfieldFunction(IInputStream& rFile);
     void ParseIntFunction(IInputStream& rFile);
@@ -30,6 +32,7 @@ class CUnsupportedParticleLoader
     void ParseVectorFunction(IInputStream& rFile);
     void ParseModVectorFunction(IInputStream& rFile);
     void ParseColorFunction(IInputStream& rFile);
+    void ParseRotationFunction(IInputStream& rFile);
     void ParseUVFunction(IInputStream& rFile);
     void ParseEmitterFunction(IInputStream& rFile);
     void ParseSoundFunction(IInputStream& rFile);

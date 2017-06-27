@@ -11,15 +11,24 @@ bool CUnsupportedParticleLoader::ParseParticleParameter(IInputStream& rPART)
 
     switch (Param.ToLong())
     {
-    // Bool
+    // Bool Constant
     case FOURCC('AAPH'):
     case FOURCC('CIND'):
     case FOURCC('DBPS'):
+    case FOURCC('DDIT'):
+    case FOURCC('DFOG'):
+    case FOURCC('EMTU'):
+    case FOURCC('FXBI'):
+    case FOURCC('FXBT'):
     case FOURCC('FXLL'):
     case FOURCC('INDM'):
+    case FOURCC('INDP'):
+    case FOURCC('ITPE'):
     case FOURCC('LINE'):
     case FOURCC('LIT_'):
     case FOURCC('MBLR'):
+    case FOURCC('NTIK'):
+    case FOURCC('ONET'):
     case FOURCC('OPTS'):
     case FOURCC('ORNT'):
     case FOURCC('ORTC'):
@@ -30,6 +39,7 @@ bool CUnsupportedParticleLoader::ParseParticleParameter(IInputStream& rPART)
     case FOURCC('PMUS'):
     case FOURCC('RDOP'):
     case FOURCC('RSOP'):
+    case FOURCC('SCNV'):
     case FOURCC('SORT'):
     case FOURCC('STOP'):
     case FOURCC('VGD1'):
@@ -42,7 +52,7 @@ bool CUnsupportedParticleLoader::ParseParticleParameter(IInputStream& rPART)
     case FOURCC('VMD4'):
     case FOURCC('VMPC'):
     case FOURCC('ZBUF'):
-        ParseBoolFunction(rPART);
+        ParseBool(rPART);
         break;
 
     // Bitfield
@@ -55,22 +65,32 @@ bool CUnsupportedParticleLoader::ParseParticleParameter(IInputStream& rPART)
     case FOURCC('AMSC'):
     case FOURCC('CSSD'):
     case FOURCC('HJAK'):
+    case FOURCC('IAV0'):
+    case FOURCC('IAV1'):
+    case FOURCC('IAV2'):
+    case FOURCC('IAV3'):
     case FOURCC('LFOT'):
     case FOURCC('LTME'):
     case FOURCC('LTYP'):
     case FOURCC('MAXP'):
     case FOURCC('MBDM'):
     case FOURCC('MBSP'):
+    case FOURCC('MSLT'):
     case FOURCC('NCSY'):
     case FOURCC('NDSY'):
     case FOURCC('PBDM'):
     case FOURCC('PISY'):
     case FOURCC('PSLT'):
     case FOURCC('PSWT'):
+    case FOURCC('PWGT'):
+    case FOURCC('SCTR'):
     case FOURCC('SEED'):
     case FOURCC('SESD'):
     case FOURCC('SISY'):
     case FOURCC('SSSD'):
+    case FOURCC('SSWT'):
+    case FOURCC('SVI0'):
+    case FOURCC('SVI1'):
     case FOURCC('VSPC'):
     case FOURCC('XJAK'):
     case FOURCC('XTAD'):
@@ -87,6 +107,7 @@ bool CUnsupportedParticleLoader::ParseParticleParameter(IInputStream& rPART)
     case FOURCC('ADV7'):
     case FOURCC('ADV8'):
     case FOURCC('ADV9'):
+    case FOURCC('DBIS'):
     case FOURCC('EADV'):
     case FOURCC('FXBR'):
     case FOURCC('GRTE'):
@@ -99,11 +120,15 @@ bool CUnsupportedParticleLoader::ParseParticleParameter(IInputStream& rPART)
     case FOURCC('ROTA'):
     case FOURCC('SIZE'):
     case FOURCC('SVEO'):
+    case FOURCC('SVR0'):
+    case FOURCC('SVR1'):
+    case FOURCC('SVR2'):
     case FOURCC('WIDT'):
         ParseFloatFunction(rPART);
         break;
 
     // Vector
+    case FOURCC('FXBM'):
     case FOURCC('FXBO'):
     case FOURCC('ILOC'):
     case FOURCC('IVEC'):
@@ -111,16 +136,21 @@ bool CUnsupportedParticleLoader::ParseParticleParameter(IInputStream& rPART)
     case FOURCC('LOFF'):
     case FOURCC('PMOP'):
     case FOURCC('PMOV'):
+    case FOURCC('PMPV'):
     case FOURCC('PMRT'):
     case FOURCC('PMSC'):
     case FOURCC('POFS'):
     case FOURCC('PSIV'):
     case FOURCC('PSOV'):
+    case FOURCC('SAXS'):
     case FOURCC('SEPO'):
     case FOURCC('SSPO'):
+    case FOURCC('SVV0'):
+    case FOURCC('SVV1'):
     case FOURCC('VAV1'):
     case FOURCC('VAV2'):
     case FOURCC('VAV3'):
+    case FOURCC('VAV4'):
         ParseVectorFunction(rPART);
         break;
 
@@ -134,9 +164,15 @@ bool CUnsupportedParticleLoader::ParseParticleParameter(IInputStream& rPART)
         break;
 
     // Color
+    case FOURCC('CAV0'):
+    case FOURCC('CAV1'):
+    case FOURCC('CAV2'):
+    case FOURCC('CAV3'):
     case FOURCC('COLR'):
     case FOURCC('LCLR'):
     case FOURCC('PMCL'):
+    case FOURCC('SVC0'):
+    case FOURCC('SVC1'):
         ParseColorFunction(rPART);
         break;
 
@@ -160,6 +196,15 @@ bool CUnsupportedParticleLoader::ParseParticleParameter(IInputStream& rPART)
     case FOURCC('ICTS'):
     case FOURCC('IDTS'):
     case FOURCC('IITS'):
+    case FOURCC('MDL1'):
+    case FOURCC('MDL2'):
+    case FOURCC('MDL3'):
+    case FOURCC('MDL4'):
+    case FOURCC('MDL5'):
+    case FOURCC('MDL6'):
+    case FOURCC('MDL7'):
+    case FOURCC('MDL8'):
+    case FOURCC('MDL9'):
     case FOURCC('PMDL'):
     case FOURCC('SELC'):
     case FOURCC('SSWH'):
@@ -184,7 +229,7 @@ bool CUnsupportedParticleLoader::ParseElectricParameter(IInputStream& rELSC)
     switch (Param.ToLong())
     {
     case FOURCC('ZERY'):
-        ParseBoolFunction(rELSC);
+        ParseBool(rELSC);
         break;
 
     case FOURCC('DFLG'):
@@ -272,7 +317,7 @@ bool CUnsupportedParticleLoader::ParseSpawnParameter(IInputStream& rSPSC)
     case FOURCC('IGLT'):
     case FOURCC('VMD1'):
     case FOURCC('VMD2'):
-        ParseBoolFunction(rSPSC);
+        ParseBool(rSPSC);
         break;
 
     case FOURCC('GIVL'):
@@ -331,13 +376,15 @@ bool CUnsupportedParticleLoader::ParseSwooshParameter(IInputStream& rSWHC)
     case FOURCC('CROS'):
     case FOURCC('LLRD'):
     case FOURCC('ORNT'):
+    case FOURCC('PTMG'):
+    case FOURCC('SCNV'):
     case FOURCC('SROT'):
     case FOURCC('TEXW'):
     case FOURCC('VLS1'):
     case FOURCC('VLS2'):
     case FOURCC('WIRE'):
     case FOURCC('ZBUF'):
-        ParseBoolFunction(rSWHC);
+        ParseBool(rSWHC);
         break;
 
     case FOURCC('DFLG'):
@@ -405,7 +452,7 @@ bool CUnsupportedParticleLoader::ParseDecalParameter(IInputStream& rDPSC)
     case FOURCC('2ADD'):
     case FOURCC('DMAB'):
     case FOURCC('DMOO'):
-        ParseBoolFunction(rDPSC);
+        ParseBool(rDPSC);
         break;
 
     case FOURCC('1LFT'):
@@ -489,7 +536,7 @@ bool CUnsupportedParticleLoader::ParseWeaponParameter(IInputStream& rWPSC)
     case FOURCC('SWTR'):
     case FOURCC('TCND'):
     case FOURCC('VMD2'):
-        ParseBoolFunction(rWPSC);
+        ParseBool(rWPSC);
         break;
         
     case FOURCC('PSLT'):
@@ -798,8 +845,60 @@ bool CUnsupportedParticleLoader::ParseUserEvaluatorParameter(IInputStream& rUSRC
     return true;
 }
 
+bool CUnsupportedParticleLoader::ParseTransformParameter(IInputStream& rXFSC)
+{
+    u32 ParamOffset = rXFSC.Tell();
+    CFourCC Param = rXFSC.ReadLong();
+    if (Param == FOURCC('_END')) return false;
+
+    switch (Param.ToLong())
+    {
+    case FOURCC('IAV0'):
+    case FOURCC('IAV1'):
+    case FOURCC('IAV2'):
+    case FOURCC('IAV3'):
+        ParseIntFunction(rXFSC);
+        break;
+
+    case FOURCC('ADV1'):
+    case FOURCC('ADV2'):
+    case FOURCC('ADV3'):
+    case FOURCC('ADV4'):
+    case FOURCC('ADV5'):
+    case FOURCC('ADV6'):
+    case FOURCC('ADV7'):
+    case FOURCC('ADV8'):
+    case FOURCC('ADV9'):
+    case FOURCC('EFSC'):
+        ParseFloatFunction(rXFSC);
+        break;
+
+    case FOURCC('EOFS'):
+    case FOURCC('SOFS'):
+    case FOURCC('VAV1'):
+    case FOURCC('VAV2'):
+    case FOURCC('VAV3'):
+    case FOURCC('VAV4'):
+        ParseVectorFunction(rXFSC);
+        break;
+
+    case FOURCC('EROT'):
+    case FOURCC('ROT0'):
+    case FOURCC('SROT'):
+        ParseRotationFunction(rXFSC);
+        break;
+
+    default:
+        Log::FileError(rXFSC.GetSourceString(), ParamOffset, "Unknown XFSC parameter: " + Param.ToString());
+        DEBUG_BREAK;
+        return false;
+    }
+
+    return true;
+}
+
 // ************ FUNCTION LOADING ************
-void CUnsupportedParticleLoader::ParseBoolFunction(IInputStream& rFile)
+void CUnsupportedParticleLoader::ParseBool(IInputStream& rFile)
 {
     u32 FuncOffset = rFile.Tell();
     CFourCC Func = rFile.ReadLong();
@@ -811,6 +910,38 @@ void CUnsupportedParticleLoader::ParseBoolFunction(IInputStream& rFile)
         break;
 
     case FOURCC('NONE'):
+        break;
+
+    default:
+        Log::FileError(rFile.GetSourceString(), FuncOffset, "Unknown bool constant function: " + Func.ToString());
+        DEBUG_BREAK;
+        break;
+    }
+}
+
+void CUnsupportedParticleLoader::ParseBoolFunction(IInputStream& rFile)
+{
+    u32 FuncOffset = rFile.Tell();
+    CFourCC Func = rFile.ReadLong();
+
+    switch (Func.ToLong())
+    {
+    case FOURCC('CNST'):
+        rFile.Seek(0x1, SEEK_CUR);
+        break;
+
+    case FOURCC('MIRR'):
+    case FOURCC('P50H'):
+        break;
+
+    case FOURCC('EQUL'):
+    case FOURCC('LTHN'):
+        ParseFloatFunction(rFile);
+        ParseFloatFunction(rFile);
+        break;
+
+    case FOURCC('NORM'):
+        ParseVectorFunction(rFile);
         break;
 
     default:
@@ -837,6 +968,10 @@ void CUnsupportedParticleLoader::ParseIntFunction(IInputStream& rFile)
     case FOURCC('GAPC'):
     case FOURCC('GEMT'):
     case FOURCC('GTCP'):
+    case FOURCC('PAP0'):
+    case FOURCC('PAP1'):
+    case FOURCC('PAP2'):
+    case FOURCC('PAP3'):
     case FOURCC('PCRT'):
     case FOURCC('PDET'):
         break;
@@ -897,6 +1032,12 @@ void CUnsupportedParticleLoader::ParseIntFunction(IInputStream& rFile)
         ParseFloatFunction(rFile);
         break;
 
+    case FOURCC('BNID'):
+        rFile.Seek(0x4, SEEK_CUR);
+        rFile.ReadString();
+        ParseBool(rFile);
+        break;
+
     default:
         Log::FileError(rFile.GetSourceString(), FuncOffset, "Unknown int function: " + Func.ToString());
         DEBUG_BREAK;
@@ -924,6 +1065,15 @@ void CUnsupportedParticleLoader::ParseFloatFunction(IInputStream& rFile)
     case FOURCC('PAP9'):
     case FOURCC('PEA0'):
     case FOURCC('PRLW'):
+    case FOURCC('PSA0'):
+    case FOURCC('PSA1'):
+    case FOURCC('PSA2'):
+    case FOURCC('PSC0'):
+    case FOURCC('PSC1'):
+    case FOURCC('PSI0'):
+    case FOURCC('PSI1'):
+    case FOURCC('PSV0'):
+    case FOURCC('PSV1'):
     case FOURCC('PSLL'):
         break;
 
@@ -954,7 +1104,6 @@ void CUnsupportedParticleLoader::ParseFloatFunction(IInputStream& rFile)
         ParseFloatFunction(rFile);
         break;
 
-    case FOURCC('CEXT'):
     case FOURCC('OCSP'):
         ParseIntFunction(rFile);
         break;
@@ -1063,10 +1212,21 @@ void CUnsupportedParticleLoader::ParseFloatFunction(IInputStream& rFile)
         break;
 
     case FOURCC('TOCS'):
+        ParseBool(rFile);
+        ParseIntFunction(rFile);
+        ParseIntFunction(rFile);
+        ParseIntFunction(rFile);
+        break;
+
+    case FOURCC('CREL'):
         ParseBoolFunction(rFile);
+        ParseFloatFunction(rFile);
+        ParseFloatFunction(rFile);
+        break;
+
+    case FOURCC('CEXT'):
         ParseIntFunction(rFile);
-        ParseIntFunction(rFile);
-        ParseIntFunction(rFile);
+        if (mpGroup->Game() >= eReturns) ParseFloatFunction(rFile);
         break;
 
     default:
@@ -1146,10 +1306,12 @@ void CUnsupportedParticleLoader::ParseVectorFunction(IInputStream& rFile)
         ParseVectorFunction(rFile);
         break;
 
+    case FOURCC('CMPS'):
     case FOURCC('NONE'):
     case FOURCC('PAP1'):
     case FOURCC('PAP2'):
     case FOURCC('PAP3'):
+    case FOURCC('PAP4'):
     case FOURCC('PENV'):
     case FOURCC('PETR'):
     case FOURCC('PEVL'):
@@ -1160,10 +1322,11 @@ void CUnsupportedParticleLoader::ParseVectorFunction(IInputStream& rFile)
     case FOURCC('PLOC'):
     case FOURCC('PNCV'):
     case FOURCC('PSOF'):
-    case FOURCC('PSOU'):
     case FOURCC('PSOR'):
+    case FOURCC('PSOU'):
     case FOURCC('PSTR'):
     case FOURCC('PVEL'):
+    case FOURCC('SLOC'):
         break;
 
     case FOURCC('PULS'):
@@ -1176,6 +1339,28 @@ void CUnsupportedParticleLoader::ParseVectorFunction(IInputStream& rFile)
     case FOURCC('RNDV'):
     case FOURCC('RTOV'):
         ParseFloatFunction(rFile);
+        break;
+
+    case FOURCC('BNPS'):
+    case FOURCC('BNSC'):
+        ParseIntFunction(rFile);
+        break;
+
+    case FOURCC('CVEC'):
+        ParseBoolFunction(rFile);
+        ParseVectorFunction(rFile);
+        ParseVectorFunction(rFile);
+        break;
+
+    case FOURCC('IRTV'):
+    case FOURCC('ROTV'):
+        ParseRotationFunction(rFile);
+        ParseVectorFunction(rFile);
+        break;
+
+    case FOURCC('VEXT'):
+        ParseIntFunction(rFile);
+        ParseVectorFunction(rFile);
         break;
 
     default:
@@ -1200,7 +1385,7 @@ void CUnsupportedParticleLoader::ParseModVectorFunction(IInputStream& rFile)
         ParseVectorFunction(rFile);
         ParseFloatFunction(rFile);
         ParseFloatFunction(rFile);
-        ParseBoolFunction(rFile);
+        ParseBool(rFile);
         break;
 
     case FOURCC('BOXV'):
@@ -1228,7 +1413,7 @@ void CUnsupportedParticleLoader::ParseModVectorFunction(IInputStream& rFile)
         ParseFloatFunction(rFile);
         ParseFloatFunction(rFile);
         ParseFloatFunction(rFile);
-        ParseBoolFunction(rFile);
+        ParseBool(rFile);
         break;
 
     case FOURCC('EXPL'):
@@ -1330,6 +1515,10 @@ void CUnsupportedParticleLoader::ParseColorFunction(IInputStream& rFile)
         break;
 
     case FOURCC('NONE'):
+    case FOURCC('PAP0'):
+    case FOURCC('PAP1'):
+    case FOURCC('PAP2'):
+    case FOURCC('PAP3'):
     case FOURCC('PCOL'):
         break;
 
@@ -1347,6 +1536,64 @@ void CUnsupportedParticleLoader::ParseColorFunction(IInputStream& rFile)
 
     default:
         Log::FileError(rFile.GetSourceString(), FuncOffset, "Unknown color function: " + Func.ToString());
+        DEBUG_BREAK;
+        break;
+    }
+}
+
+void CUnsupportedParticleLoader::ParseRotationFunction(IInputStream& rFile)
+{
+    u32 FuncOffset = rFile.Tell();
+    CFourCC Func = rFile.ReadLong();
+
+    switch (Func.ToLong())
+    {
+    case FOURCC('NONE'):
+    case FOURCC('RLCL'):
+    case FOURCC('RSYS'):
+        break;
+
+    case FOURCC('CNST'):
+        rFile.Seek(0x10, SEEK_CUR);
+        break;
+
+    case FOURCC('BNRT'):
+        ParseIntFunction(rFile);
+        break;
+
+    case FOURCC('CROT'):
+        ParseBoolFunction(rFile);
+        ParseRotationFunction(rFile);
+        ParseRotationFunction(rFile);
+        break;
+
+    case FOURCC('ISWT'):
+    case FOURCC('RADD'):
+    case FOURCC('RADN'):
+    case FOURCC('RSBN'):
+    case FOURCC('RSUB'):
+        ParseRotationFunction(rFile);
+        ParseRotationFunction(rFile);
+        break;
+
+    case FOURCC('KPIN'):
+        ParseRotationFunction(rFile);
+        break;
+
+    case FOURCC('RAXZ'):
+        ParseVectorFunction(rFile);
+        ParseVectorFunction(rFile);
+        ParseRotationFunction(rFile);
+        break;
+
+    case FOURCC('REUL'):
+        ParseFloatFunction(rFile);
+        ParseFloatFunction(rFile);
+        ParseFloatFunction(rFile);
+        break;
+
+    default:
+        Log::FileError(rFile.GetSourceString(), FuncOffset, "Unknown rotation function: " + Func.ToString());
         DEBUG_BREAK;
         break;
     }
@@ -1373,7 +1620,7 @@ void CUnsupportedParticleLoader::ParseUVFunction(IInputStream& rFile)
         ParseIntFunction(rFile);
         ParseIntFunction(rFile);
         ParseIntFunction(rFile);
-        ParseBoolFunction(rFile);
+        ParseBool(rFile);
         break;
 
     case FOURCC('TEXP'):
@@ -1415,7 +1662,7 @@ void CUnsupportedParticleLoader::ParseEmitterFunction(IInputStream& rFile)
         ParseVectorFunction(rFile);
         ParseVectorFunction(rFile);
         ParseFloatFunction(rFile);
-        ParseBoolFunction(rFile);
+        ParseBool(rFile);
         break;
 
     case FOURCC('PLNE'):
@@ -1540,15 +1787,24 @@ void CUnsupportedParticleLoader::ParseKeyframeEmitterData(IInputStream& rFile, c
 // ************ STATIC ************
 CDependencyGroup* CUnsupportedParticleLoader::LoadParticle(IInputStream& rFile, CResourceEntry *pEntry)
 {
-    CFourCC Magic = rFile.ReadLong();
-
-    // Loop through particle functions
     CUnsupportedParticleLoader Loader;
     Loader.mpGroup = new CDependencyGroup(pEntry);
 
-    if (pEntry->Game() >= eReturns)
-        return Loader.mpGroup;
+    // Validate DKCR asset header
+    if (pEntry->Game() == eReturns)
+    {
+        u32 AssetHeader = rFile.ReadLong();
 
+        if (AssetHeader != 0x6E190001)
+        {
+            Log::Error("Invalid DKCR particle header: " + TString::HexString(AssetHeader));
+            return Loader.mpGroup;
+        }
+    }
+
+    CFourCC Magic = rFile.ReadLong();
+
+    // Loop through particle functions
     while (true)
     {
         bool ShouldContinue = false;
@@ -1565,6 +1821,7 @@ CDependencyGroup* CUnsupportedParticleLoader::LoadParticle(IInputStream& rFile, 
         case FOURCC('CRSM'): ShouldContinue = Loader.ParseCollisionResponseParameter(rFile); break;
         case FOURCC('BFRE'): ShouldContinue = Loader.ParseBurstFireParameter(rFile);         break;
         case FOURCC('USER'): ShouldContinue = Loader.ParseUserEvaluatorParameter(rFile);     break;
+        case FOURCC('XFSM'): ShouldContinue = Loader.ParseTransformParameter(rFile);         break;
 
         default:
             Log::Error("Unrecognized particle system magic: " + Magic.ToString());

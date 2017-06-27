@@ -333,6 +333,22 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadFSM2(IInputStream& rFSM2, CResou
     return pOut;
 }
 
+CDependencyGroup* CUnsupportedFormatLoader::LoadFSMC(IInputStream& rFSMC, CResourceEntry *pEntry)
+{
+    CFourCC Magic = rFSMC.ReadLong();
+    ASSERT(Magic == FOURCC('FSMC'));
+
+    CDependencyGroup *pGroup = new CDependencyGroup(pEntry);
+
+    std::list<CAssetID> AssetList;
+    PerformCheating(rFSMC, pEntry->Game(), AssetList);
+
+    for (auto Iter = AssetList.begin(); Iter != AssetList.end(); Iter++)
+        pGroup->AddDependency(*Iter);
+
+    return pGroup;
+}
+
 CDependencyGroup* CUnsupportedFormatLoader::LoadHIER(IInputStream& rHIER, CResourceEntry *pEntry)
 {
     CFourCC Magic = rHIER.ReadLong();

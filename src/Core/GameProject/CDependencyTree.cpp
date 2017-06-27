@@ -207,6 +207,7 @@ CSetCharacterDependency* CSetCharacterDependency::BuildTree(const SSetCharacter&
     pTree->AddDependency(rkChar.pSkeleton);
     pTree->AddDependency(rkChar.pSkin);
     pTree->AddDependency(rkChar.AnimDataID);
+    pTree->AddDependency(rkChar.CollisionPrimitivesID);
 
     const std::vector<CAssetID> *pkParticleVectors[5] = {
         &rkChar.GenericParticles, &rkChar.ElectricParticles,
