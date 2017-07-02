@@ -9,6 +9,7 @@
 #include "Core/Resource/Script/CScriptLayer.h"
 #include <Math/MathUtil.h>
 
+#define REVERT_AUTO_NAMES 1
 #define PROCESS_PACKAGES 1
 #define PROCESS_WORLDS 1
 #define PROCESS_AREAS 1
@@ -23,37 +24,91 @@
 void ApplyGeneratedName(CResourceEntry *pEntry, const TString& rkDir, const TString& rkName)
 {
     ASSERT(pEntry != nullptr);
-    TString SanitizedName = FileUtil::SanitizeName(rkName, false);
-    TString SanitizedDir = FileUtil::SanitizePath(rkDir, true);
-    if (SanitizedName.IsEmpty()) return;
 
-    // trying to keep these as consistent with Retro's naming scheme as possible, and
-    // for some reason in MP3 they started using all lowercase folder names...
-    if (pEntry->Game() >= eCorruptionProto)
-        SanitizedDir = SanitizedDir.ToLower();
+    // Don't overwrite hand-picked names and directories with auto-generated ones
+    bool HasCustomDir = !pEntry->HasFlag(eREF_AutoResDir);
+    bool HasCustomName = !pEntry->HasFlag(eREF_AutoResName);
+    if (HasCustomDir && HasCustomName) return;
 
-    CVirtualDirectory *pNewDir = pEntry->ResourceStore()->GetVirtualDirectory(SanitizedDir, true);
-    if (pEntry->Directory() == pNewDir && pEntry->Name() == SanitizedName) return;
+    // Determine final directory to use
+    CVirtualDirectory *pNewDir = nullptr;
 
-    TString Name = SanitizedName;
-    int AppendNum = 0;
-
-    while (pNewDir->FindChildResource(Name, pEntry->ResourceType()) != nullptr)
+    if (HasCustomDir)
     {
-        Name = TString::Format("%s_%d", *SanitizedName, AppendNum);
-        AppendNum++;
+        pNewDir = pEntry->Directory();
+    }
+    else
+    {
+        TString SanitizedDir = FileUtil::SanitizePath(rkDir, true);
+
+        // trying to keep these as consistent with Retro's naming scheme as possible, and
+        // for some reason in MP3 they started using all lowercase folder names...
+        if (pEntry->Game() >= eCorruptionProto)
+            SanitizedDir = SanitizedDir.ToLower();
+
+        pNewDir = pEntry->ResourceStore()->GetVirtualDirectory(SanitizedDir, true);
     }
 
-    bool Success = pEntry->Move(SanitizedDir, Name);
+    // Determine final name to use
+    TString NewName;
+
+    if (HasCustomName)
+    {
+        NewName = pEntry->Name();
+    }
+    else
+    {
+        TString SanitizedName = FileUtil::SanitizeName(rkName, false);
+        if (SanitizedName.IsEmpty()) return;
+
+        // Find an unused variant of this name
+        NewName = SanitizedName;
+        int AppendNum = 0;
+
+        while (pNewDir->FindChildResource(NewName, pEntry->ResourceType()) != nullptr)
+        {
+            NewName = TString::Format("%s_%d", *SanitizedName, AppendNum);
+            AppendNum++;
+        }
+    }
+
+    // Check if we're actually moving anything
+    if (pEntry->Directory() == pNewDir && pEntry->Name() == NewName) return;
+
+    // Perform the move
+    CVirtualDirectory *pOldDir = pEntry->Directory();
+    bool Success = pEntry->Move(pNewDir->FullPath(), NewName, true, true);
     ASSERT(Success);
+
+    // If the old directory is now empty, delete it
+    pEntry->ResourceStore()->ConditionalDeleteDirectory(pOldDir);
 }
 
 void GenerateAssetNames(CGameProject *pProj)
 {
+    Log::Write("*** Generating Asset Names ***");
     CResourceStore *pStore = pProj->ResourceStore();
+
+#if REVERT_AUTO_NAMES
+    // Revert all auto-generated asset names back to default to prevent name conflicts resulting in inconsistent results.
+    Log::Write("Reverting auto-generated names");
+
+    for (CResourceIterator It(pStore); It; ++It)
+    {
+        bool HasCustomDir = !It->HasFlag(eREF_AutoResDir);
+        bool HasCustomName = !It->HasFlag(eREF_AutoResName);
+        if (HasCustomDir && HasCustomName) continue;
+
+        TString NewDir = (HasCustomDir ? It->DirectoryPath() : "Uncategorized/");
+        TString NewName = (HasCustomName ? It->Name() : It->ID().ToString());
+        It->Move(NewDir, NewName);
+    }
+#endif
 
 #if PROCESS_PACKAGES
     // Generate names for package named resources
+    Log::Write("Processing packages");
+
     for (u32 iPkg = 0; iPkg < pProj->NumPackages(); iPkg++)
     {
         CPackage *pPkg = pProj->PackageByIndex(iPkg);
@@ -74,6 +129,7 @@ void GenerateAssetNames(CGameProject *pProj)
 
 #if PROCESS_WORLDS
     // Generate world/area names
+    Log::Write("Processing worlds");
     const TString kWorldsRoot = "Worlds/";
 
     for (TResourceIterator<eWorld> It(pStore); It; ++It)
@@ -162,8 +218,9 @@ void GenerateAssetNames(CGameProject *pProj)
 
             if (pMapWorld)
             {
-                ASSERT(pMapWorld->Type() == eDependencyGroup);
-                CDependencyGroup *pGroup = static_cast<CDependencyGroup*>(pMapWorld);
+                CDependencyGroup *pGroup = dynamic_cast<CDependencyGroup*>(pMapWorld);
+                ASSERT(pGroup != nullptr);
+
                 CAssetID MapID = pGroup->DependencyByIndex(iArea);
                 CResourceEntry *pMapEntry = pStore->FindEntry(MapID);
                 ASSERT(pMapEntry != nullptr);
@@ -339,6 +396,8 @@ void GenerateAssetNames(CGameProject *pProj)
 
 #if PROCESS_MODELS
     // Generate Model Lightmap names
+    Log::Write("Processing model lightmaps");
+
     for (TResourceIterator<eModel> It(pStore); It; ++It)
     {
         CModel *pModel = (CModel*) It->Load();
@@ -380,6 +439,7 @@ void GenerateAssetNames(CGameProject *pProj)
 
 #if PROCESS_AUDIO_GROUPS
     // Generate Audio Group names
+    Log::Write("Processing audio groups");
     const TString kAudioGrpDir = "Audio/";
 
     for (TResourceIterator<eAudioGroup> It(pStore); It; ++It)
@@ -392,6 +452,7 @@ void GenerateAssetNames(CGameProject *pProj)
 
 #if PROCESS_AUDIO_MACROS
     // Process audio macro/sample names
+    Log::Write("Processing audio macros");
     const TString kSfxDir = "Audio/Uncategorized/";
 
     for (TResourceIterator<eAudioMacro> It(pStore); It; ++It)
@@ -423,6 +484,7 @@ void GenerateAssetNames(CGameProject *pProj)
 #if PROCESS_ANIM_CHAR_SETS
     // Generate animation format names
     // Hacky syntax because animsets are under eAnimSet in MP1/2 and eCharacter in MP3/DKCR
+    Log::Write("Processing animation data");
     CResourceIterator *pIter = (pProj->Game() <= eEchoes ? (CResourceIterator*) new TResourceIterator<eAnimSet> : (CResourceIterator*) new TResourceIterator<eCharacter>);
     CResourceIterator& It = *pIter;
 
@@ -511,6 +573,7 @@ void GenerateAssetNames(CGameProject *pProj)
 
 #if PROCESS_STRINGS
     // Generate string names
+    Log::Write("Processing strings");
     const TString kStringsDir = "Strings/Uncategorized/";
 
     for (TResourceIterator<eStringTable> It(pStore); It; ++It)
@@ -537,6 +600,7 @@ void GenerateAssetNames(CGameProject *pProj)
 
 #if PROCESS_SCANS
     // Generate scan names
+    Log::Write("Processing scans");
     for (TResourceIterator<eScan> It(pStore); It; ++It)
     {
         if (It->IsNamed()) continue;
@@ -576,6 +640,7 @@ void GenerateAssetNames(CGameProject *pProj)
 
 #if PROCESS_FONTS
     // Generate font names
+    Log::Write("Processing fonts");
     for (TResourceIterator<eFont> It(pStore); It; ++It)
     {
         CFont *pFont = (CFont*) It->Load();
@@ -592,5 +657,6 @@ void GenerateAssetNames(CGameProject *pProj)
     }
 #endif
 
+    Log::Write("*** Asset Name Generation FINISHED ***");
     pStore->ConditionalSaveStore();
 }

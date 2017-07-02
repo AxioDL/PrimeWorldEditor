@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>609</width>
-    <height>89</height>
+    <height>92</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -45,7 +45,7 @@
           </font>
          </property>
          <property name="text">
-          <string>Task Text</string>
+          <string>Preparing to begin task</string>
          </property>
         </widget>
        </item>
@@ -57,7 +57,7 @@
           </font>
          </property>
          <property name="text">
-          <string>Step Text</string>
+          <string>Please wait...</string>
          </property>
         </widget>
        </item>
@@ -97,13 +97,6 @@
     </layout>
    </item>
   </layout>
-  <zorder>TaskLabel</zorder>
-  <zorder>StepLabel</zorder>
-  <zorder>ProgressBar</zorder>
-  <zorder>label</zorder>
-  <zorder>CancelButton</zorder>
-  <zorder>CancelButton</zorder>
-  <zorder>verticalSpacer</zorder>
  </widget>
  <resources>
   <include location="Icons.qrc"/>

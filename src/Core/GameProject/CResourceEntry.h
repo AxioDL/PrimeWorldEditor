@@ -16,14 +16,14 @@ class CDependencyTree;
 
 enum EResEntryFlag
 {
-    eREF_NeedsRecook     = 0x00000001, // Resource has been updated but not recooked
-    eREF_IsRetroResource = 0x00000002, // Resource is from the original game, not user-created
-    eREF_Hidden          = 0x00000004, // Resource is hidden, doesn't show up in resource browser
-    eREF_HasBeenModified = 0x00000008, // Resource has been modified and resaved by the user
-    eREF_AutoResName     = 0x00000010, // Resource name is auto-generated
-    eREF_AutoResDir      = 0x00000020, // Resource directory name is auto-generated
+    eREF_NeedsRecook        = 0x00000001, // Resource has been updated but not recooked
+    eREF_IsBaseGameResource = 0x00000002, // Resource is from the original game, not user-created
+    eREF_Hidden             = 0x00000004, // Resource is hidden, doesn't show up in resource browser
+    eREF_HasBeenModified    = 0x00000008, // Resource has been modified and resaved by the user
+    eREF_AutoResName        = 0x00000010, // Resource name is auto-generated
+    eREF_AutoResDir         = 0x00000020, // Resource directory name is auto-generated
     // Flags that save to the cache file
-    eREF_SavedFlags      = eREF_NeedsRecook | eREF_IsRetroResource | eREF_Hidden | eREF_HasBeenModified |
+    eREF_SavedFlags      = eREF_NeedsRecook | eREF_IsBaseGameResource | eREF_Hidden | eREF_HasBeenModified |
                            eREF_AutoResName | eREF_AutoResDir
 };
 DECLARE_FLAGS(EResEntryFlag, FResEntryFlags)
@@ -57,6 +57,7 @@ public:
 
     bool HasRawVersion() const;
     bool HasCookedVersion() const;
+    bool HasMetadataFile() const;
     TString RawAssetPath(bool Relative = false) const;
     TString RawExtension() const;
     TString CookedAssetPath(bool Relative = false) const;
@@ -71,7 +72,7 @@ public:
     CResource* LoadCooked(IInputStream& rInput);
     bool Unload();
     bool CanMoveTo(const TString& rkDir, const TString& rkName);
-    bool Move(const TString& rkDir, const TString& rkName);
+    bool Move(const TString& rkDir, const TString& rkName, bool IsAutoGenDir = false, bool IsAutoGenName = false);
     CGameProject* Project() const;
     EGame Game() const;
 
@@ -79,6 +80,8 @@ public:
     void ClearFlag(EResEntryFlag Flag);
 
     // Accessors
+    inline void SetFlagEnabled(EResEntryFlag Flag, bool Enabled)    { Enabled ? SetFlag(Flag) : ClearFlag(Flag); }
+
     inline void SetDirty()                          { SetFlag(eREF_NeedsRecook); }
     inline void SetHidden(bool Hidden)              { Hidden ? SetFlag(eREF_Hidden) : ClearFlag(eREF_Hidden); }
     inline bool HasFlag(EResEntryFlag Flag) const   { return mFlags.HasFlag(Flag); }

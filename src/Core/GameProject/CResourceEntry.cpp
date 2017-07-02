@@ -432,13 +432,21 @@ bool CResourceEntry::CanMoveTo(const TString& rkDir, const TString& rkName)
 
     // We need to validate the path isn't taken already - either the directory doesn't exist, or doesn't have a resource by this name
     CVirtualDirectory *pDir = mpStore->GetVirtualDirectory(rkDir, false);
-    if (pDir && pDir->FindChildResource(rkName, ResourceType())) return false;
+
+    if (pDir)
+    {
+        if (pDir == mpDirectory && rkName == mName)
+            return false;
+
+        if (pDir->FindChildResource(rkName, ResourceType()))
+            return false;
+    }
 
     // All checks are true
     return true;
 }
 
-bool CResourceEntry::Move(const TString& rkDir, const TString& rkName)
+bool CResourceEntry::Move(const TString& rkDir, const TString& rkName, bool IsAutoGenDir /*= false*/, bool IsAutoGenName /*= false*/)
 {
     if (!CanMoveTo(rkDir, rkName)) return false;
 
@@ -447,6 +455,7 @@ bool CResourceEntry::Move(const TString& rkDir, const TString& rkName)
     TString OldName = mName;
     TString OldCookedPath = CookedAssetPath();
     TString OldRawPath = RawAssetPath();
+    TString OldMetaPath = MetadataFilePath();
 
     // Set new directory and name
     CVirtualDirectory *pNewDir = mpStore->GetVirtualDirectory(rkDir, true);
@@ -459,46 +468,70 @@ bool CResourceEntry::Move(const TString& rkDir, const TString& rkName)
     mName = rkName;
     TString NewCookedPath = CookedAssetPath();
     TString NewRawPath = RawAssetPath();
+    TString NewMetaPath = MetadataFilePath();
 
     Log::Write("MOVING RESOURCE: " + FileUtil::MakeRelative(OldCookedPath, mpStore->ResourcesDir()) + " --> " + FileUtil::MakeRelative(NewCookedPath, mpStore->ResourcesDir()));
 
     // If the old/new paths are the same then we should have already exited as CanMoveTo() should have returned false
-    ASSERT(OldCookedPath != NewCookedPath && OldRawPath != NewRawPath);
+    ASSERT(OldCookedPath != NewCookedPath && OldRawPath != NewRawPath && OldMetaPath != NewMetaPath);
 
     // The cooked/raw asset paths should not exist right now!!!
     bool FSMoveSuccess = false;
     TString MoveFailReason;
 
-    if (!HasRawVersion() && !HasCookedVersion())
+    if (!FileUtil::Exists(NewCookedPath) && !FileUtil::Exists(NewRawPath) && !FileUtil::Exists(NewMetaPath))
     {
         FSMoveSuccess = true;
 
+        // Move raw file to new location
         if (FileUtil::Exists(OldRawPath))
         {
             FSMoveSuccess = FileUtil::CopyFile(OldRawPath, NewRawPath);
 
             if (!FSMoveSuccess)
-            {
-                FileUtil::DeleteFile(NewRawPath);
                 MoveFailReason = TString::Format("Failed to move raw file to new destination (%s --> %s)", *OldRawPath, *NewRawPath);
-            }
         }
 
+        // Move cooked file to new location
         if (FSMoveSuccess && FileUtil::Exists(OldCookedPath))
         {
             FSMoveSuccess = FileUtil::CopyFile(OldCookedPath, NewCookedPath);
 
             if (!FSMoveSuccess)
             {
-                FileUtil::DeleteFile(NewCookedPath);
+                FileUtil::DeleteFile(NewRawPath);
                 MoveFailReason = TString::Format("Failed to move cooked file to new destination (%s --> %s)", *OldCookedPath, *NewCookedPath);
             }
+        }
+
+        // Move metadata file to new location
+        if (FSMoveSuccess)
+        {
+            if (FileUtil::Exists(OldMetaPath))
+            {
+                FSMoveSuccess = FileUtil::CopyFile(OldMetaPath, NewMetaPath);
+
+                if (!FSMoveSuccess)
+                {
+                    FileUtil::DeleteFile(NewRawPath);
+                    FileUtil::DeleteFile(NewCookedPath);
+                    MoveFailReason = TString::Format("Failed to move metadata file to new destination (%s --> %s)", *OldMetaPath, *NewMetaPath);
+                }
+            }
+
+            else
+                mMetadataDirty = true;
         }
     }
     else
     {
-        bool HasRaw = HasRawVersion();
-        MoveFailReason = TString::Format("File already exists at %s asset destination (%s)", HasRaw ? "raw" : "cooked", HasRaw ? *NewRawPath : *NewCookedPath);
+        bool HasCooked = FileUtil::Exists(NewCookedPath);
+        bool HasRaw = FileUtil::Exists(NewRawPath);
+
+        TString BadFileType = HasCooked ? "cooked"      : (HasRaw ? "raw"      : "metadata");
+        TString BadFilePath = HasCooked ? NewCookedPath : (HasRaw ? NewRawPath : NewMetaPath);
+
+        MoveFailReason = TString::Format("File already exists at %s asset destination (%s)", *BadFileType, *BadFilePath);
     }
 
     // If we succeeded, finish the move
@@ -509,12 +542,21 @@ bool CResourceEntry::Move(const TString& rkDir, const TString& rkName)
             FSMoveSuccess = pOldDir->RemoveChildResource(this);
             ASSERT(FSMoveSuccess == true); // this shouldn't be able to fail
             mpDirectory->AddChild("", this);
+            SetFlagEnabled(eREF_AutoResDir, IsAutoGenDir);
+        }
+
+        if (mName != OldName)
+        {
+            SetFlagEnabled(eREF_AutoResName, IsAutoGenName);
         }
 
         mpStore->SetDatabaseDirty();
         mCachedUppercaseName = rkName.ToUpper();
         FileUtil::DeleteFile(OldRawPath);
         FileUtil::DeleteFile(OldCookedPath);
+        FileUtil::DeleteFile(OldMetaPath);
+
+        SaveMetadata();
         return true;
     }
 

@@ -353,9 +353,10 @@ void CResourceBrowser::OnImportNamesFromAssetNameMap()
     for (CResourceIterator It(mpStore); It; ++It)
     {
         TString Dir, Name;
+        bool AutoDir, AutoName;
 
-        if (Map.GetNameInfo(It->ID(), Dir, Name))
-            It->Move(Dir, Name);
+        if (Map.GetNameInfo(It->ID(), Dir, Name, AutoDir, AutoName))
+            It->Move(Dir, Name, AutoDir, AutoName);
     }
 
     mpStore->ConditionalSaveStore();
