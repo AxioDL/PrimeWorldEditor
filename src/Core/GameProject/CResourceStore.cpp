@@ -138,7 +138,7 @@ bool CResourceStore::LoadCacheFile()
     // Cache header
     CFourCC Magic(CacheFile);
 
-    if (Magic != "CACH")
+    if (Magic != FOURCC('CACH'))
     {
         Log::Error("Invalid resource cache data magic: " + Magic.ToString());
         return false;
@@ -183,8 +183,8 @@ bool CResourceStore::SaveCacheFile()
     }
 
     // Cache header
-    CFourCC("CACH").Write(CacheFile);
-    CSerialVersion Version(0, 0, mGame);
+    CacheFile.WriteLong(0); // Magic dummy. Magic isn't written until the rest of the file is saved successfully.
+    CSerialVersion Version(IArchive::skCurrentArchiveVersion, 0, mGame);
     Version.Write(CacheFile);
 
     u32 ResCountOffset = CacheFile.Tell();
@@ -216,6 +216,8 @@ bool CResourceStore::SaveCacheFile()
 
     CacheFile.Seek(ResCountOffset, SEEK_SET);
     CacheFile.WriteLong(ResCount);
+    CacheFile.Seek(0, SEEK_SET);
+    CacheFile.WriteLong( FOURCC('CACH') );
     mCacheFileDirty = false;
     return true;
 }
@@ -295,7 +297,7 @@ void CResourceStore::ConditionalDeleteDirectory(CVirtualDirectory *pDir)
 {
     if (pDir->IsEmpty())
     {
-        // If this directory is part of the project, then we should delete the corresponding filesystem directories
+        // If this directory is part of the project, then we should delete the corresponding filesystem directory
         if (pDir->GetRoot() == mpDatabaseRoot && !pDir->IsRoot())
         {
             FileUtil::DeleteDirectory(ResourcesDir() + pDir->FullPath(), true);
@@ -338,6 +340,7 @@ CResourceEntry* CResourceStore::RegisterResource(const CAssetID& rkID, EResType 
         if (IsValidResourcePath(rkDir, rkName))
         {
             pEntry = new CResourceEntry(this, rkID, rkDir, rkName, Type);
+            pEntry->LoadMetadata();
             mResourceEntries[rkID] = pEntry;
         }
 

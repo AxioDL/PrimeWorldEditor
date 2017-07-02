@@ -531,6 +531,10 @@ void CGameExporter::ExportResourceEditorData()
                 It->Save(true);
             else
                 It->UpdateDependencies();
+
+            // Set flags, save metadata
+            It->SetFlag(eREF_IsRetroResource);
+            It->SaveMetadata(true);
         }
     }
 
