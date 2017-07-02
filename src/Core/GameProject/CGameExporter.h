@@ -31,8 +31,7 @@ class CGameExporter
     // Directories
     TString mExportDir;
     TString mDiscDir;
-    TString mContentDir;
-    TString mCookedDir;
+    TString mResourcesDir;
 
     TString mWorldsDirName;
 

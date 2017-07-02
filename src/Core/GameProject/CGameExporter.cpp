@@ -71,8 +71,7 @@ bool CGameExporter::Export(nod::DiscBase *pDisc, const TString& rkOutputDir, CAs
 
     mpProject->SetProjectName(mGameName);
     mpStore = mpProject->ResourceStore();
-    mContentDir = mpStore->RawDir(false);
-    mCookedDir = mpStore->CookedDir(false);
+    mResourcesDir = mpStore->ResourcesDir();
 
     CResourceStore *pOldStore = gpResourceStore;
     gpResourceStore = mpStore;
@@ -467,7 +466,7 @@ void CGameExporter::LoadResource(const SResourceInstance& rkResource, std::vecto
 void CGameExporter::ExportCookedResources()
 {
     SCOPED_TIMER(ExportCookedResources);
-    FileUtil::MakeDirectory(mCookedDir);
+    FileUtil::MakeDirectory(mResourcesDir);
 
     mpProgress->SetTask(eES_ExportCooked, "Unpacking cooked assets");
     int ResIndex = 0;
@@ -502,7 +501,7 @@ void CGameExporter::ExportResourceEditorData()
         for (CResourceIterator It(mpStore); It && !mpProgress->ShouldCancel(); ++It, ++ResIndex)
         {
             // Update progress
-            if ((ResIndex & 0x3) == 0)
+            if ((ResIndex & 0x3) == 0 || It->ResourceType() == eArea)
                 mpProgress->Report(ResIndex, mpStore->NumTotalResources(), TString::Format("Processing asset %d/%d: %s",
                     ResIndex, mpStore->NumTotalResources(), *It->CookedAssetPath(true).GetFileName()) );
 

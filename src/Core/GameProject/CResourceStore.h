@@ -30,8 +30,6 @@ class CResourceStore
     // Directory paths
     TString mDatabasePath;
     TString mDatabaseName;
-    TString mRawDir;
-    TString mCookedDir;
 
     enum EDatabaseVersion
     {
@@ -43,7 +41,6 @@ class CResourceStore
 
 public:
     CResourceStore(const TString& rkDatabasePath);
-    CResourceStore(CGameProject *pProject, const TString& rkRawDir, const TString& rkCookedDir, EGame Game);
     CResourceStore(CGameProject *pProject);
     ~CResourceStore();
     void SerializeResourceDatabase(IArchive& rArc);
@@ -78,10 +75,9 @@ public:
     inline CGameProject* Project() const            { return mpProj; }
     inline EGame Game() const                       { return mGame; }
     inline TString DatabaseRootPath() const         { return mDatabasePath; }
-    inline TString RawDir(bool Relative) const      { return Relative ? mRawDir : mDatabasePath + mRawDir; }
-    inline TString CookedDir(bool Relative) const   { return Relative ? mCookedDir : mDatabasePath + mCookedDir; }
-    inline TString DatabasePath() const             { return DatabaseRootPath() + mDatabaseName; }
-    inline TString CacheDataPath() const            { return DatabaseRootPath() + "ResourceCacheData.rcd"; }
+    inline TString ResourcesDir() const             { return IsEditorStore() ? DatabaseRootPath() : DatabaseRootPath() + "Resources/"; }
+    inline TString DatabasePath() const             { return DatabaseRootPath() + "ResourceDatabase.xml"; }
+    inline TString CacheDataPath() const            { return DatabaseRootPath() + "ResourceCacheData.bin"; }
     inline CVirtualDirectory* RootDirectory() const { return mpDatabaseRoot; }
     inline u32 NumTotalResources() const            { return mResourceEntries.size(); }
     inline u32 NumLoadedResources() const           { return mLoadedResources.size(); }
@@ -89,6 +85,7 @@ public:
 
     inline void SetDatabaseDirty()                  { mDatabaseDirty = true; }
     inline void SetCacheDataDirty()                 { mCacheFileDirty = true; }
+    inline bool IsEditorStore() const               { return mpProj == nullptr; }
 };
 
 extern CResourceStore *gpResourceStore;
