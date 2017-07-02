@@ -18,6 +18,8 @@ class CAssetNameMap
         TString Name;
         TString Directory;
         CFourCC Type; // This is mostly just needed to verify no name conflicts
+        bool AutoGenName;
+        bool AutoGenDir;
 
         TString FullPath() const
         {
@@ -26,7 +28,7 @@ class CAssetNameMap
 
         void Serialize(IArchive& rArc)
         {
-            rArc << SERIAL_AUTO(Name) << SERIAL_AUTO(Directory) << SERIAL_AUTO(Type);
+            rArc << SERIAL_AUTO(Name) << SERIAL_AUTO(Directory) << SERIAL_AUTO(Type) << SERIAL_AUTO(AutoGenName) << SERIAL_AUTO(AutoGenDir);
         }
 
         bool operator<(const SAssetNameInfo& rkOther) const
@@ -54,7 +56,7 @@ public:
     CAssetNameMap(EGame Game)         : mIsValid(true), mIDLength( CAssetID::GameIDLength(Game) ) { ASSERT(mIDLength != eInvalidIDLength); }
     bool LoadAssetNames(TString Path = "");
     bool SaveAssetNames(TString Path = "");
-    bool GetNameInfo(CAssetID ID, TString& rOutDirectory, TString& rOutName);
+    bool GetNameInfo(CAssetID ID, TString& rOutDirectory, TString& rOutName, bool& rOutAutoGenDir, bool& rOutAutoGenName);
     void CopyFromStore(CResourceStore *pStore);
 
     static TString DefaultNameMapPath(EIDLength IDLength);

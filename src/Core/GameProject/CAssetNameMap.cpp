@@ -42,7 +42,7 @@ bool CAssetNameMap::SaveAssetNames(TString Path /*= ""*/)
     return Writer.Save();
 }
 
-bool CAssetNameMap::GetNameInfo(CAssetID ID, TString& rOutDirectory, TString& rOutName)
+bool CAssetNameMap::GetNameInfo(CAssetID ID, TString& rOutDirectory, TString& rOutName, bool& rOutAutoGenDir, bool& rOutAutoGenName)
 {
     auto It = mMap.find(ID);
 
@@ -51,6 +51,8 @@ bool CAssetNameMap::GetNameInfo(CAssetID ID, TString& rOutDirectory, TString& rO
         SAssetNameInfo& rInfo = It->second;
         rOutName = rInfo.Name;
         rOutDirectory = rInfo.Directory;
+        rOutAutoGenDir = rInfo.AutoGenDir;
+        rOutAutoGenName = rInfo.AutoGenName;
         return true;
     }
 
@@ -58,6 +60,8 @@ bool CAssetNameMap::GetNameInfo(CAssetID ID, TString& rOutDirectory, TString& rO
     {
         rOutDirectory = "Uncategorized/";
         rOutName = ID.ToString();
+        rOutAutoGenDir = true;
+        rOutAutoGenName = true;
         return false;
     }
 }
@@ -94,7 +98,9 @@ void CAssetNameMap::CopyFromStore(CResourceStore *pStore /*= gpResourceStore*/)
             TString Name = It->Name();
             TString Directory = It->Directory()->FullPath();
             CFourCC Type = It->CookedExtension();
-            SAssetNameInfo NameInfo { Name, Directory, Type };
+            bool AutoName = It->HasFlag(eREF_AutoResName);
+            bool AutoDir = It->HasFlag(eREF_AutoResDir);
+            SAssetNameInfo NameInfo { Name, Directory, Type, AutoName, AutoDir };
 
             // Check for conflicts with new name
             if (mUsedSet.find(NameInfo) != mUsedSet.end())

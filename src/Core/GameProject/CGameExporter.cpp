@@ -533,7 +533,6 @@ void CGameExporter::ExportResourceEditorData()
                 It->UpdateDependencies();
 
             // Set flags, save metadata
-            It->SetFlag(eREF_IsRetroResource);
             It->SaveMetadata(true);
         }
     }
@@ -560,15 +559,21 @@ void CGameExporter::ExportResource(SResourceInstance& rRes)
 
         // Register resource and write to file
         TString Directory, Name;
+        bool AutoDir, AutoName;
 
 #if USE_ASSET_NAME_MAP
-        mpNameMap->GetNameInfo(rRes.ResourceID, Directory, Name);
+        mpNameMap->GetNameInfo(rRes.ResourceID, Directory, Name, AutoDir, AutoName);
 #else
         Directory = "Uncategorized";
         Name = rRes.ResourceID.ToString();
 #endif
 
         CResourceEntry *pEntry = mpStore->RegisterResource(rRes.ResourceID, CResTypeInfo::TypeForCookedExtension(mGame, rRes.ResourceType)->Type(), Directory, Name);
+
+        // Set flags
+        pEntry->SetFlag(eREF_IsBaseGameResource);
+        pEntry->SetFlagEnabled(eREF_AutoResDir, AutoDir);
+        pEntry->SetFlagEnabled(eREF_AutoResName, AutoName);
 
 #if EXPORT_COOKED
         // Save cooked asset
