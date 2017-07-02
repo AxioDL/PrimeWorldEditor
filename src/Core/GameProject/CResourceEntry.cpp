@@ -19,6 +19,7 @@ CResourceEntry::CResourceEntry(CResourceStore *pStore, const CAssetID& rkID,
     , mID(rkID)
     , mpDirectory(nullptr)
     , mName(rkFilename)
+    , mMetadataDirty(false)
     , mCachedSize(-1)
     , mCachedUppercaseName(rkFilename.ToUpper())
 {
@@ -35,12 +36,87 @@ CResourceEntry::~CResourceEntry()
     if (mpDependencies) delete mpDependencies;
 }
 
-void CResourceEntry::SerializeCacheData(IArchive& rArc)
+bool CResourceEntry::LoadMetadata()
 {
+    ASSERT(!mMetadataDirty);
+    TString Path = MetadataFilePath();
+
+    if (FileUtil::Exists(Path))
+    {
+        // Validate file
+        CFileInStream MetaFile(Path, IOUtil::eBigEndian);
+        u32 Magic = MetaFile.ReadLong();
+
+        if (Magic == FOURCC('META'))
+        {
+            CSerialVersion Version(MetaFile);
+            CBinaryReader Reader(&MetaFile, Version);
+            SerializeMetadata(Reader);
+            return true;
+        }
+        else
+        {
+            Log::Error(Path + ": Failed to load metadata file, invalid magic: " + CFourCC(Magic).ToString());
+        }
+    }
+
+    return false;
+}
+
+bool CResourceEntry::SaveMetadata(bool ForceSave /*= false*/)
+{
+    if (mMetadataDirty || ForceSave)
+    {
+        TString Path = MetadataFilePath();
+        TString Dir = Path.GetFileDirectory();
+        FileUtil::MakeDirectory(Dir);
+
+        CFileOutStream MetaFile(Path, IOUtil::eBigEndian);
+
+        if (MetaFile.IsValid())
+        {
+            MetaFile.WriteLong(0); // Magic dummy
+
+            CSerialVersion Version(IArchive::skCurrentArchiveVersion, 0, Game());
+            Version.Write(MetaFile);
+
+            // Scope the binary writer to ensure it finishes before we go back to write the magic value
+            {
+                CBinaryWriter Writer(&MetaFile, Version);
+                SerializeMetadata(Writer);
+            }
+
+            MetaFile.GoTo(0);
+            MetaFile.WriteLong(FOURCC('META'));
+
+            mMetadataDirty = false;
+            return true;
+        }
+    }
+
+    return false;
+}
+
+void CResourceEntry::SerializeMetadata(IArchive& rArc)
+{
+    // Serialize ID. If we already have a valid ID then don't allow the file to override it.
+    CAssetID ID = mID;
+    rArc << SERIAL("AssetID", ID);
+
+    if (rArc.IsReader() && !mID.IsValid())
+        mID = ID;
+
+    // Serialize type
+    rArc << SERIAL("Type", mpTypeInfo);
+
+    // Serialize flags
     u32 Flags = mFlags & eREF_SavedFlags;
     rArc << SERIAL_AUTO(Flags);
     if (rArc.IsReader()) mFlags = Flags & eREF_SavedFlags;
+}
 
+void CResourceEntry::SerializeCacheData(IArchive& rArc)
+{
     // Note: If the dependency tree format is changed this should be adjusted so that
     // we regenerate the dependencies from scratch instead of reading the tree if the
     // file version number is too low
@@ -92,12 +168,12 @@ bool CResourceEntry::HasCookedVersion() const
 
 TString CResourceEntry::RawAssetPath(bool Relative) const
 {
-    return CookedAssetPath(Relative) + ".raw";
+    return CookedAssetPath(Relative) + ".rsraw";
 }
 
 TString CResourceEntry::RawExtension() const
 {
-    return CookedExtension().ToString() + ".raw";
+    return CookedExtension().ToString() + ".rsraw";
 }
 
 TString CResourceEntry::CookedAssetPath(bool Relative) const
@@ -111,6 +187,11 @@ TString CResourceEntry::CookedAssetPath(bool Relative) const
 CFourCC CResourceEntry::CookedExtension() const
 {
     return mpTypeInfo->CookedExtension(Game());
+}
+
+TString CResourceEntry::MetadataFilePath(bool Relative) const
+{
+    return CookedAssetPath(Relative) + ".rsmeta";
 }
 
 bool CResourceEntry::IsInDirectory(CVirtualDirectory *pDir) const
@@ -146,7 +227,7 @@ bool CResourceEntry::NeedsRecook() const
     // toggled to arbitrarily flag any asset for recook.
     if (!HasRawVersion()) return false;
     if (!HasCookedVersion()) return true;
-    if (mFlags.HasFlag(eREF_NeedsRecook)) return true;
+    if (HasFlag(eREF_NeedsRecook)) return true;
     return (FileUtil::LastModifiedTime(CookedAssetPath()) < FileUtil::LastModifiedTime(RawAssetPath()));
 }
 
@@ -188,7 +269,7 @@ bool CResourceEntry::Save(bool SkipCacheSave /*= false*/)
             return false;
         }
 
-        mFlags |= eREF_NeedsRecook;
+        SetFlag(eREF_NeedsRecook);
     }
 
     // This resource type doesn't have a raw format; save cooked instead
@@ -203,11 +284,10 @@ bool CResourceEntry::Save(bool SkipCacheSave /*= false*/)
         }
     }
 
-    // Resource has been saved; now make sure dependencies, cache data, and packages are all up to date
-    mFlags |= eREF_HasBeenModified;
-
+    // Resource has been saved; now make sure metadata, dependencies, and packages are all up to date
+    SetFlag(eREF_HasBeenModified);
+    SaveMetadata();
     UpdateDependencies();
-    mpStore->SetCacheDataDirty();
 
     if (!SkipCacheSave)
     {
@@ -250,9 +330,9 @@ bool CResourceEntry::Cook()
 
     if (Success)
     {
-        mFlags &= ~eREF_NeedsRecook;
-        mFlags |= eREF_HasBeenModified;
-        mpStore->SetCacheDataDirty();
+        ClearFlag(eREF_NeedsRecook);
+        SetFlag(eREF_HasBeenModified);
+        SaveMetadata();
     }
 
     return Success;
@@ -457,4 +537,22 @@ CGameProject* CResourceEntry::Project() const
 EGame CResourceEntry::Game() const
 {
     return mpStore ? mpStore->Game() : eUnknownGame;
+}
+
+void CResourceEntry::SetFlag(EResEntryFlag Flag)
+{
+    if (!HasFlag(Flag))
+    {
+        mFlags.SetFlag(Flag);
+        mMetadataDirty = true;
+    }
+}
+
+void CResourceEntry::ClearFlag(EResEntryFlag Flag)
+{
+    if (HasFlag(Flag))
+    {
+        mFlags.ClearFlag(Flag);
+        mMetadataDirty = true;
+    }
 }

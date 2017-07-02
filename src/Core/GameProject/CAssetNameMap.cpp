@@ -9,7 +9,7 @@ bool CAssetNameMap::LoadAssetNames(TString Path /*= ""*/)
 
     if (Reader.IsValid())
     {
-        CAssetID FileIDLength = CAssetID::GameIDLength(Reader.Game());
+        EIDLength FileIDLength = CAssetID::GameIDLength(Reader.Game());
 
         if (FileIDLength == mIDLength)
         {

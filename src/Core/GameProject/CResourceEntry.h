@@ -17,12 +17,14 @@ class CDependencyTree;
 enum EResEntryFlag
 {
     eREF_NeedsRecook     = 0x00000001, // Resource has been updated but not recooked
-    // UNUSED            = 0x00000002,
+    eREF_IsRetroResource = 0x00000002, // Resource is from the original game, not user-created
     eREF_Hidden          = 0x00000004, // Resource is hidden, doesn't show up in resource browser
     eREF_HasBeenModified = 0x00000008, // Resource has been modified and resaved by the user
-    eREF_IsUserResource  = 0x00000010, // Resource was created by the user (i.e. isn't a Retro Studios asset)
+    eREF_AutoResName     = 0x00000010, // Resource name is auto-generated
+    eREF_AutoResDir      = 0x00000020, // Resource directory name is auto-generated
     // Flags that save to the cache file
-    eREF_SavedFlags      = eREF_NeedsRecook | eREF_Hidden | eREF_HasBeenModified | eREF_IsUserResource
+    eREF_SavedFlags      = eREF_NeedsRecook | eREF_IsRetroResource | eREF_Hidden | eREF_HasBeenModified |
+                           eREF_AutoResName | eREF_AutoResDir
 };
 DECLARE_FLAGS(EResEntryFlag, FResEntryFlags)
 
@@ -37,6 +39,7 @@ class CResourceEntry
     TString mName;
     FResEntryFlags mFlags;
 
+    mutable bool mMetadataDirty;
     mutable u64 mCachedSize;
     mutable TString mCachedUppercaseName; // This is used to speed up case-insensitive sorting and filtering.
 
@@ -46,6 +49,9 @@ public:
                    EResType Type);
     ~CResourceEntry();
 
+    bool LoadMetadata();
+    bool SaveMetadata(bool ForceSave = false);
+    void SerializeMetadata(IArchive& rArc);
     void SerializeCacheData(IArchive& rArc);
     void UpdateDependencies();
 
@@ -55,6 +61,7 @@ public:
     TString RawExtension() const;
     TString CookedAssetPath(bool Relative = false) const;
     CFourCC CookedExtension() const;
+    TString MetadataFilePath(bool Relative = false) const;
     bool IsInDirectory(CVirtualDirectory *pDir) const;
     u64 Size() const;
     bool NeedsRecook() const;
@@ -68,9 +75,14 @@ public:
     CGameProject* Project() const;
     EGame Game() const;
 
+    void SetFlag(EResEntryFlag Flag);
+    void ClearFlag(EResEntryFlag Flag);
+
     // Accessors
-    void SetDirty()                                 { mFlags.SetFlag(eREF_NeedsRecook); }
-    void SetHidden(bool Hidden)                     { Hidden ? mFlags.SetFlag(eREF_Hidden) : mFlags.ClearFlag(eREF_Hidden); }
+    inline void SetDirty()                          { SetFlag(eREF_NeedsRecook); }
+    inline void SetHidden(bool Hidden)              { Hidden ? SetFlag(eREF_Hidden) : ClearFlag(eREF_Hidden); }
+    inline bool HasFlag(EResEntryFlag Flag) const   { return mFlags.HasFlag(Flag); }
+    inline bool IsHidden() const                    { return HasFlag(eREF_Hidden); }
 
     inline bool IsLoaded() const                    { return mpResource != nullptr; }
     inline bool IsCategorized() const               { return mpDirectory && mpDirectory->FullPath() != "Uncategorized/"; }
@@ -85,7 +97,6 @@ public:
     inline TString Name() const                     { return mName; }
     inline const TString& UppercaseName() const     { return mCachedUppercaseName; }
     inline EResType ResourceType() const            { return mpTypeInfo->Type(); }
-    inline bool IsHidden() const                    { return mFlags.HasFlag(eREF_Hidden); }
 
 protected:
     CResource* InternalLoad(IInputStream& rInput);
