@@ -387,32 +387,6 @@ public:
         return SubString(0, Size() - Amount);
     }
 
-    u32 Hash32() const
-    {
-        u32 Hash = 0;
-
-        for (u32 iChar = 0; iChar < Size(); iChar++)
-        {
-            Hash += At(iChar);
-            Hash *= 101;
-        }
-
-        return Hash;
-    }
-
-    u64 Hash64() const
-    {
-        u64 Hash = 0;
-
-        for (u32 iChar = 0; iChar < Size(); iChar++)
-        {
-            Hash += At(iChar);
-            Hash *= 101;
-        }
-
-        return Hash;
-    }
-
     inline u32 ToInt32(int Base = 16) const
     {
         try {
@@ -1112,6 +1086,8 @@ public:
     TString(const std::string& rkText)          : TBasicString<char>(rkText) {}
     TString(const TBasicString<char>& rkStr)    : TBasicString<char>(rkStr) {}
 
+    u32 Hash32() const;
+    u64 Hash64() const;
     class TWideString ToUTF16() const;
 };
 
@@ -1127,6 +1103,8 @@ public:
     TWideString(const std::wstring& rkText)         : TBasicString<wchar_t>(rkText) {}
     TWideString(const TBasicString<wchar_t>& rkStr) : TBasicString<wchar_t>(rkStr) {}
 
+    u32 Hash32() const;
+    u64 Hash64() const;
     class TString ToUTF8() const;
 };
 
