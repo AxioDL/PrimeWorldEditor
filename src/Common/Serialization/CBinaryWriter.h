@@ -27,6 +27,7 @@ public:
 
         SetVersion(skCurrentArchiveVersion, FileVersion, Game);
         GetVersionInfo().Write(*mpStream);
+        InitParamStack();
     }
 
     CBinaryWriter(IOutputStream *pStream, u16 FileVersion, EGame Game = eUnknownGame)
@@ -36,6 +37,7 @@ public:
         ASSERT(pStream->IsValid());
         mpStream = pStream;
         SetVersion(skCurrentArchiveVersion, FileVersion, Game);
+        InitParamStack();
     }
 
     CBinaryWriter(IOutputStream *pStream, const CSerialVersion& rkVersion)
@@ -45,49 +47,71 @@ public:
         ASSERT(pStream->IsValid());
         mpStream = pStream;
         SetVersion(rkVersion);
+        InitParamStack();
     }
 
     ~CBinaryWriter()
     {
-        if (mOwnsStream) delete mpStream;
+        // Ensure all params have been finished
+        ASSERT(mParamStack.size() == 1);
+
+        // Finish root param
+        ParamEnd();
+
+        // Delete stream
+        if (mOwnsStream)
+            delete mpStream;
     }
 
+private:
+    void InitParamStack()
+    {
+        mParamStack.reserve(20);
+        mpStream->WriteLong(0xFFFFFFFF);
+        mpStream->WriteShort(0); // Size filler
+        mParamStack.push_back( SParameter { mpStream->Tell(), 0, false } );
+    }
+
+public:
     // Interface
     virtual bool ParamBegin(const char *pkName)
     {
-        if (!mParamStack.empty())
-        {
-            mParamStack.back().NumSubParams++;
+        // Update parent param
+        mParamStack.back().NumSubParams++;
 
-            if (mParamStack.back().NumSubParams == 1)
-                mpStream->WriteShort(-1); // Sub-param count filler
-        }
+        if (mParamStack.back().NumSubParams == 1)
+            mpStream->WriteShort(-1); // Sub-param count filler
 
-        mParamStack.push_back( SParameter { (u32) mpStream->Tell(), 0, false } );
-
+        // Write param metadata
         u32 ParamID = TString(pkName).Hash32();
         mpStream->WriteLong(ParamID);
         mpStream->WriteShort((u16) 0xFFFF); // Param size filler
+
+        // Add new param to the stack
+        mParamStack.push_back( SParameter { mpStream->Tell(), 0, false } );
+
         return true;
     }
 
     virtual void ParamEnd()
     {
+        // Write param size
         SParameter& rParam = mParamStack.back();
         u32 StartOffset = rParam.Offset;
         u32 EndOffset = mpStream->Tell();
-        u16 ParamSize = (u16) (EndOffset - StartOffset) - 6;
+        u16 ParamSize = (u16) (EndOffset - StartOffset);
 
-        mpStream->Seek(StartOffset + 4, SEEK_SET);
+        mpStream->GoTo(StartOffset - 2);
         mpStream->WriteShort(ParamSize);
 
-        if (rParam.NumSubParams > 0)
+        // Write param child count
+        if (rParam.NumSubParams > 0 || mParamStack.size() == 1)
         {
-            if (rParam.Abstract) mpStream->Seek(4, SEEK_CUR);
+            if (rParam.Abstract) mpStream->Skip(4);
             mpStream->WriteShort(rParam.NumSubParams);
         }
 
-        mpStream->Seek(EndOffset, SEEK_SET);
+        mpStream->GoTo(EndOffset);
         mParamStack.pop_back();
     }
 

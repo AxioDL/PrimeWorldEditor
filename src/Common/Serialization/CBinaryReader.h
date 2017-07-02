@@ -11,7 +11,8 @@ class CBinaryReader : public IArchive
     {
         u32 Offset;
         u16 Size;
-        bool HasChildren;
+        u16 NumChildren;
+        u16 ChildIndex;
         bool Abstract;
     };
     std::vector<SParameter> mParamStack;
@@ -30,7 +31,7 @@ public:
         CSerialVersion Version(*mpStream);
         SetVersion(Version);
 
-        mParamStack.reserve(20);
+        InitParamStack();
     }
 
     CBinaryReader(IInputStream *pStream, const CSerialVersion& rkVersion)
@@ -41,7 +42,7 @@ public:
         mpStream = pStream;
         SetVersion(rkVersion);
 
-        mParamStack.reserve(20);
+        InitParamStack();
     }
 
     ~CBinaryReader()
@@ -49,27 +50,43 @@ public:
         if (mOwnsStream) delete mpStream;
     }
 
+private:
+    void InitParamStack()
+    {
+        mpStream->Skip(4); // Skip root ID (which is always -1)
+        u16 Size = mpStream->ReadShort();
+        u32 Offset = mpStream->Tell();
+        u16 NumChildren = mpStream->ReadShort();
+        mParamStack.push_back( SParameter { Offset, Size, NumChildren, 0, false } );
+        mParamStack.reserve(20);
+    }
+
+public:
     // Interface
     virtual bool ParamBegin(const char *pkName)
     {
-        // If this is the parent parameter's first child, then skip the child count
-        if (!mParamStack.empty() && !mParamStack.back().HasChildren)
+        // If this is the parent parameter's first child, then read the child count
+        if (mParamStack.back().NumChildren == 0xFFFF)
         {
-            mpStream->Seek(0x2, SEEK_CUR);
-            mParamStack.back().HasChildren = true;
+            mParamStack.back().NumChildren = mpStream->ReadShort();
         }
 
-        // Check the next parameter ID first and check whether it's a match for the current parameter
-        u32 ParamID = TString(pkName).Hash32();
+        // Save current offset
         u32 Offset = mpStream->Tell();
-        u32 NextID = mpStream->ReadLong();
-        u16 NextSize = mpStream->ReadShort();
+        u32 ParamID = TString(pkName).Hash32();
 
-        // Does the next parameter ID match the current one?
-        if (NextID == ParamID)
+        // Check the next parameter ID first and check whether it's a match for the current parameter
+        if (mParamStack.back().ChildIndex < mParamStack.back().NumChildren)
         {
-            mParamStack.push_back( SParameter { Offset, NextSize, false, false } );
-            return true;
+            u32 NextID = mpStream->ReadLong();
+            u16 NextSize = mpStream->ReadShort();
+
+            // Does the next parameter ID match the current one?
+            if (NextID == ParamID)
+            {
+                mParamStack.push_back( SParameter { Offset, NextSize, 0xFFFF, 0, false } );
+                return true;
+            }
         }
 
         // It's not a match - return to the parent parameter's first child and check all children to find a match
@@ -77,26 +94,27 @@ public:
         {
             bool ParentAbstract = mParamStack.back().Abstract;
             u32 ParentOffset = mParamStack.back().Offset;
-            mpStream->Seek(ParentOffset + (ParentAbstract ? 0xA : 0x6), SEEK_SET);
-            u16 NumChildren = mpStream->ReadShort();
+            u16 NumChildren = mParamStack.back().NumChildren;
+            mpStream->GoTo(ParentOffset + (ParentAbstract ? 0xC : 0x8));
 
-            for (u32 iChild = 0; iChild < NumChildren; iChild++)
+            for (u32 ChildIdx = 0; ChildIdx < NumChildren; ChildIdx++)
             {
                 u32 ChildID = mpStream->ReadLong();
                 u16 ChildSize = mpStream->ReadShort();
 
                 if (ChildID != ParamID)
-                    mpStream->Seek(ChildSize, SEEK_CUR);
+                    mpStream->Skip(ChildSize);
                 else
                 {
-                    mParamStack.push_back( SParameter { (u32) mpStream->Tell() - 6, NextSize, false, false } );
+                    mParamStack.back().ChildIndex = (u16) ChildIdx;
+                    mParamStack.push_back( SParameter { mpStream->Tell() - 6, ChildSize, 0xFFFF, 0, false } );
                     return true;
                 }
             }
         }
 
         // None of the children were a match - this parameter isn't in the file
-        mpStream->Seek(Offset, SEEK_SET);
+        mpStream->GoTo(Offset);
         return false;
     }
 
@@ -105,8 +123,12 @@ public:
         // Make sure we're at the end of the parameter
         SParameter& rParam = mParamStack.back();
         u32 EndOffset = rParam.Offset + rParam.Size + 6;
-        mpStream->Seek(EndOffset, SEEK_SET);
+        mpStream->GoTo(EndOffset);
         mParamStack.pop_back();
+
+        // Increment parent child index
+        if (!mParamStack.empty())
+            mParamStack.back().ChildIndex++;
     }
 
     virtual void SerializeContainerSize(u32& rSize, const TString& /*rkElemName*/)

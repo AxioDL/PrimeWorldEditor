@@ -6,11 +6,14 @@
 
 class CHashFNV1A
 {
-    u64 mHash;
-
+public:
     enum EHashLength {
         e32Bit, e64Bit
-    } mHashLength;
+    };
+
+private:
+    u64 mHash;
+    EHashLength mHashLength;
 
     static const u64 skFNVOffsetBasis32 = 0x811C9DC5;
     static const u64 skFNVOffsetBasis64 = 0xCBF29CE484222325;
@@ -18,9 +21,12 @@ class CHashFNV1A
     static const u64 skFNVPrime64 = 0x100000001B3;
 
 public:
-    CHashFNV1A()
+    CHashFNV1A(EHashLength Length)
     {
-        Init32();
+        if (Length == e32Bit)
+            Init32();
+        else
+            Init64();
     }
 
     void Init32()

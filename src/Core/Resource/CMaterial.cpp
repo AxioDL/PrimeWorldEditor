@@ -243,8 +243,7 @@ u64 CMaterial::HashParameters()
 {
     if (mRecalcHash)
     {
-        CHashFNV1A Hash;
-        Hash.Init64();
+        CHashFNV1A Hash(CHashFNV1A::e64Bit);
 
         Hash.HashLong(mVersion);
         Hash.HashLong(mOptions);
