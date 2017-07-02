@@ -4,7 +4,7 @@
 #include "Core/GameProject/DependencyListBuilders.h"
 #include <Common/Log.h>
 
-const bool gkForceDisableCompression = true;
+const bool gkForceDisableCompression = false;
 
 CAreaCooker::CAreaCooker()
     : mGeometrySecNum(-1)

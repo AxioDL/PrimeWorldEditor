@@ -26,19 +26,7 @@ CResourceStore::CResourceStore(const TString& rkDatabasePath)
     mDatabaseName = rkDatabasePath.GetFileName();
 }
 
-// Constructor for game exporter
-CResourceStore::CResourceStore(CGameProject *pProject, const TString& rkRawDir, const TString& rkCookedDir, EGame Game)
-    : mpProj(nullptr)
-    , mGame(Game)
-    , mRawDir(rkRawDir)
-    , mCookedDir(rkCookedDir)
-    , mDatabaseDirty(false)
-    , mCacheFileDirty(false)
-{
-    SetProject(pProject);
-}
-
-// Main constructor for game projects
+// Main constructor for game projects and game exporter
 CResourceStore::CResourceStore(CGameProject *pProject)
     : mpProj(nullptr)
     , mGame(eUnknownGame)
@@ -84,9 +72,7 @@ void CResourceStore::SerializeResourceDatabase(IArchive& rArc)
     }
 
     // Serialize
-    rArc << SERIAL("RawDir", mRawDir)
-         << SERIAL("CookedDir", mCookedDir)
-         << SERIAL_CONTAINER_AUTO(Resources, "Resource");
+    rArc << SERIAL_CONTAINER_AUTO(Resources, "Resource");
 
     // Register resources
     if (rArc.IsReader())
@@ -310,10 +296,9 @@ void CResourceStore::ConditionalDeleteDirectory(CVirtualDirectory *pDir)
     if (pDir->IsEmpty())
     {
         // If this directory is part of the project, then we should delete the corresponding filesystem directories
-        if (pDir->GetRoot() == mpDatabaseRoot)
+        if (pDir->GetRoot() == mpDatabaseRoot && !pDir->IsRoot())
         {
-            FileUtil::DeleteDirectory(RawDir(false) + pDir->FullPath(), true);
-            FileUtil::DeleteDirectory(CookedDir(false) + pDir->FullPath(), true);
+            FileUtil::DeleteDirectory(ResourcesDir() + pDir->FullPath(), true);
         }
 
         CVirtualDirectory *pParent = pDir->Parent();
@@ -419,11 +404,11 @@ CResource* CResourceStore::LoadResource(const TString& rkPath)
         {
             if (Ext.Length() == 4)
             {
-                ASSERT(Ext.CaseInsensitiveCompare(pEntry->CookedExtension().ToString()));
+                ASSERT( Ext.CaseInsensitiveCompare(pEntry->CookedExtension().ToString()) );
             }
             else
             {
-                ASSERT(Ext.CaseInsensitiveCompare(pEntry->RawExtension()));
+                ASSERT( rkPath.EndsWith(pEntry->RawExtension()) );
             }
         }
 

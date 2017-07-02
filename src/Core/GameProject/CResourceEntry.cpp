@@ -92,15 +92,12 @@ bool CResourceEntry::HasCookedVersion() const
 
 TString CResourceEntry::RawAssetPath(bool Relative) const
 {
-    TString Ext = RawExtension();
-    TString Path = mpDirectory ? mpDirectory->FullPath() : "";
-    TString Name = mName + "." + Ext;
-    return Relative ? Path + Name : mpStore->RawDir(false) + Path + Name;
+    return CookedAssetPath(Relative) + ".raw";
 }
 
 TString CResourceEntry::RawExtension() const
 {
-    return mpTypeInfo->RawExtension();
+    return CookedExtension().ToString() + ".raw";
 }
 
 TString CResourceEntry::CookedAssetPath(bool Relative) const
@@ -108,7 +105,7 @@ TString CResourceEntry::CookedAssetPath(bool Relative) const
     TString Ext = CookedExtension().ToString();
     TString Path = mpDirectory ? mpDirectory->FullPath() : "";
     TString Name = mName + "." + Ext;
-    return Relative ? Path + Name : mpStore->CookedDir(false) + Path + Name;
+    return Relative ? Path + Name : mpStore->ResourcesDir() + Path + Name;
 }
 
 CFourCC CResourceEntry::CookedExtension() const
@@ -383,7 +380,7 @@ bool CResourceEntry::Move(const TString& rkDir, const TString& rkName)
     TString NewCookedPath = CookedAssetPath();
     TString NewRawPath = RawAssetPath();
 
-    Log::Write("MOVING RESOURCE: " + FileUtil::MakeRelative(OldCookedPath, mpStore->CookedDir(false)) + " --> " + FileUtil::MakeRelative(NewCookedPath, mpStore->CookedDir(false)));
+    Log::Write("MOVING RESOURCE: " + FileUtil::MakeRelative(OldCookedPath, mpStore->ResourcesDir()) + " --> " + FileUtil::MakeRelative(NewCookedPath, mpStore->ResourcesDir()));
 
     // If the old/new paths are the same then we should have already exited as CanMoveTo() should have returned false
     ASSERT(OldCookedPath != NewCookedPath && OldRawPath != NewRawPath);
@@ -432,7 +429,6 @@ bool CResourceEntry::Move(const TString& rkDir, const TString& rkName)
             FSMoveSuccess = pOldDir->RemoveChildResource(this);
             ASSERT(FSMoveSuccess == true); // this shouldn't be able to fail
             mpDirectory->AddChild("", this);
-            mpStore->ConditionalDeleteDirectory(pOldDir);
         }
 
         mpStore->SetDatabaseDirty();

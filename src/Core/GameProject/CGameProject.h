@@ -90,8 +90,8 @@ public:
     inline TString ProjectRoot() const                      { return mProjectRoot; }
     inline TString ResourceDBPath(bool Relative) const      { return Relative ? mResourceDBPath : mProjectRoot + mResourceDBPath; }
     inline TString DiscDir(bool Relative) const             { return Relative ? "Disc/" : mProjectRoot + "Disc/"; }
-    inline TString CacheDir(bool Relative) const            { return Relative ? "Cache/" : mProjectRoot + "Cache/"; }
     inline TString PackagesDir(bool Relative) const         { return Relative ? "Packages/" : mProjectRoot + "Packages/"; }
+    inline TString ResourcesDir(bool Relative) const        { return Relative ? "Resources/" : mProjectRoot + "Resources/"; }
     inline TString ProjectPath() const                      { return mProjectRoot + FileUtil::SanitizeName(mProjectName, false) + ".prj"; }
     inline TString ResourceCachePath(bool Relative) const   { return ResourceDBPath(Relative).GetFileDirectory() + "ResourceCacheData.rcd"; }
 

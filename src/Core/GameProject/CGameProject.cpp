@@ -211,7 +211,7 @@ CGameProject* CGameProject::CreateProjectForExport(
 
     pProj->mProjectRoot = rkProjRootDir;
     pProj->mProjectRoot.Replace("\\", "/");
-    pProj->mpResourceStore = new CResourceStore(pProj, "Content/", "Cooked/", Game);
+    pProj->mpResourceStore = new CResourceStore(pProj);
     pProj->mpGameInfo->LoadGameInfo(Game);
     pProj->mLoadSuccess = true;
     return pProj;

@@ -614,24 +614,27 @@ void CAreaLoader::SetUpObjects(CScriptLayer *pGenLayer)
     }
 
     // Merge objects from the generated layer back into the regular script layers
-    while (pGenLayer->NumInstances() != 0)
+    if (pGenLayer)
     {
-        CScriptObject *pInst = pGenLayer->InstanceByIndex(0);
-        u32 InstanceID = pInst->InstanceID();
-
-        // Check if this is a duplicate of an existing instance (this only happens with DKCR GenericCreature as far as I'm aware)
-        if (mpArea->InstanceByID(InstanceID) != nullptr)
+        while (pGenLayer->NumInstances() != 0)
         {
-            Log::Write("Duplicate SCGN object: [" + pInst->Template()->Name() + "] " + pInst->InstanceName() + " (" + TString::HexString(pInst->InstanceID(), 8, false) + ")");
-            pGenLayer->RemoveInstance(pInst);
-            delete pInst;
-        }
+            CScriptObject *pInst = pGenLayer->InstanceByIndex(0);
+            u32 InstanceID = pInst->InstanceID();
 
-        else
-        {
-            u32 LayerIdx = (InstanceID >> 26) & 0x3F;
-            pInst->SetLayer( mpArea->ScriptLayer(LayerIdx) );
-            mpArea->mObjectMap[InstanceID] = pInst;
+            // Check if this is a duplicate of an existing instance (this only happens with DKCR GenericCreature as far as I'm aware)
+            if (mpArea->InstanceByID(InstanceID) != nullptr)
+            {
+                Log::Write("Duplicate SCGN object: [" + pInst->Template()->Name() + "] " + pInst->InstanceName() + " (" + TString::HexString(pInst->InstanceID(), 8, false) + ")");
+                pGenLayer->RemoveInstance(pInst);
+                delete pInst;
+            }
+
+            else
+            {
+                u32 LayerIdx = (InstanceID >> 26) & 0x3F;
+                pInst->SetLayer( mpArea->ScriptLayer(LayerIdx) );
+                mpArea->mObjectMap[InstanceID] = pInst;
+            }
         }
     }
 
