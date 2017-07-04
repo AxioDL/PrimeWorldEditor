@@ -476,6 +476,21 @@ inline void SerializeContainer(IArchive& rArc, std::list<ValType>& rList, const 
         rArc << SERIAL_ABSTRACT(*rkElemName, rVec[iElem], pFactory);
 }
 
+// Overload for TStringList and TWideStringList so they can use the TString/TWideString serialize functions
+inline void SerializeContainer(IArchive& rArc, TStringList& rList, const TString& rkElemName)
+{
+    typedef std::list<TString> ListType;
+    ListType& rGenericList = *reinterpret_cast<ListType*>(&rList);
+    SerializeContainer(rArc, rGenericList, rkElemName);
+}
+
+inline void SerializeContainer(IArchive& rArc, TWideStringList& rList, const TString& rkElemName)
+{
+    typedef std::list<TWideString> ListType;
+    ListType& rGenericList = *reinterpret_cast<ListType*>(&rList);
+    SerializeContainer(rArc, rGenericList, rkElemName);
+}
+
 // std::set
 template<typename ValType>
 inline void SerializeContainer(IArchive& rArc, std::set<ValType>& rSet, const TString& rkElemName)
