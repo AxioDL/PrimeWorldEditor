@@ -52,6 +52,7 @@ public:
     void SetProject(CGameProject *pProj);
     void CloseProject();
     CVirtualDirectory* GetVirtualDirectory(const TString& rkPath, bool AllowCreate);
+    void CreateVirtualDirectory(const TString& rkPath);
     void ConditionalDeleteDirectory(CVirtualDirectory *pDir, bool Recurse);
 
     bool IsResourceRegistered(const CAssetID& rkID) const;
@@ -60,6 +61,7 @@ public:
     CResourceEntry* FindEntry(const TString& rkPath) const;
     bool AreAllEntriesValid() const;
     void ClearDatabase();
+    void BuildFromDirectory();
     void RebuildFromDirectory();
 
     template<typename ResType> ResType* LoadResource(const CAssetID& rkID)  { return static_cast<ResType*>(LoadResource(rkID, ResType::StaticType())); }

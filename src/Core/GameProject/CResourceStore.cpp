@@ -46,6 +46,20 @@ CResourceStore::~CResourceStore()
         delete It->second;
 }
 
+void RecursiveGetListOfEmptyDirectories(CVirtualDirectory *pDir, TStringList& rOutList)
+{
+    // Helper function for SerializeResourceDatabase
+    if (pDir->IsEmpty())
+    {
+        rOutList.push_back(pDir->FullPath());
+    }
+    else
+    {
+        for (u32 SubIdx = 0; SubIdx < pDir->NumSubdirectories(); SubIdx++)
+            RecursiveGetListOfEmptyDirectories(pDir->SubdirectoryByIndex(SubIdx), rOutList);
+    }
+}
+
 bool CResourceStore::SerializeResourceDatabase(IArchive& rArc)
 {
     struct SDatabaseResource
@@ -71,12 +85,22 @@ bool CResourceStore::SerializeResourceDatabase(IArchive& rArc)
             Resources.push_back( SDatabaseResource { It->ID(), It->TypeInfo(), It->Directory()->FullPath(), It->Name() } );
     }
 
+    // Populate directory list
+    TStringList EmptyDirectories;
+
+    if (!rArc.IsReader())
+        RecursiveGetListOfEmptyDirectories(mpDatabaseRoot, EmptyDirectories);
+
     // Serialize
-    rArc << SERIAL_CONTAINER_AUTO(Resources, "Resource");
+    rArc << SERIAL_CONTAINER_AUTO(Resources, "Resource")
+         << SERIAL_CONTAINER_AUTO(EmptyDirectories, "Directory");
 
     // Register resources
     if (rArc.IsReader())
     {
+        for (auto Iter = EmptyDirectories.begin(); Iter != EmptyDirectories.end(); Iter++)
+            CreateVirtualDirectory(*Iter);
+
         for (auto Iter = Resources.begin(); Iter != Resources.end(); Iter++)
         {
             SDatabaseResource& rRes = *Iter;
@@ -295,6 +319,12 @@ CVirtualDirectory* CResourceStore::GetVirtualDirectory(const TString& rkPath, bo
         return nullptr;
 }
 
+void CResourceStore::CreateVirtualDirectory(const TString& rkPath)
+{
+    if (!rkPath.IsEmpty())
+        mpDatabaseRoot->FindChildDirectory(rkPath, true);
+}
+
 void CResourceStore::ConditionalDeleteDirectory(CVirtualDirectory *pDir, bool Recurse)
 {
     if (pDir->IsEmpty() && !pDir->IsRoot())
@@ -351,11 +381,10 @@ void CResourceStore::ClearDatabase()
     mCacheFileDirty = true;
 }
 
-void CResourceStore::RebuildFromDirectory()
+void CResourceStore::BuildFromDirectory()
 {
     ASSERT(mpProj != nullptr);
-    mpProj->AudioManager()->ClearAssets();
-    ClearDatabase();
+    ASSERT(mResourceEntries.empty());
 
     // Get list of resources
     TString ResDir = ResourcesDir();
@@ -398,8 +427,16 @@ void CResourceStore::RebuildFromDirectory()
         }
 
         else if (FileUtil::IsDirectory(Path))
-            GetVirtualDirectory(RelPath, true);
+            CreateVirtualDirectory(RelPath);
     }
+}
+
+void CResourceStore::RebuildFromDirectory()
+{
+    ASSERT(mpProj != nullptr);
+    mpProj->AudioManager()->ClearAssets();
+    ClearDatabase();
+    BuildFromDirectory();
 
     // Make sure audio manager is loaded correctly so AGSC dependencies can be looked up
     mpProj->AudioManager()->LoadAssets();
