@@ -386,7 +386,7 @@ void CExportGameDialog::Export()
     TString StrExportDir = TO_TSTRING(ExportDir);
     StrExportDir.EnsureEndsWith('/');
 
-    CProgressDialog Dialog("Creating new game project", true, parentWidget());
+    CProgressDialog Dialog("Creating new game project", false, true, parentWidget());
     QFuture<bool> Future = QtConcurrent::run(&Exporter, &CGameExporter::Export, mpDisc, StrExportDir, &NameMap, &GameInfo, &Dialog);
     mExportSuccess = Dialog.WaitForResults(Future);
 

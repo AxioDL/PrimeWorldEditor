@@ -23,6 +23,7 @@ class CProgressDialog : public IProgressNotifierUI
 {
     Q_OBJECT
     Ui::CProgressDialog *mpUI;
+    bool mUseBusyIndicator;
     bool mAlertOnFinish;
     bool mFinished;
     bool mCanceled;
@@ -32,7 +33,7 @@ class CProgressDialog : public IProgressNotifierUI
 #endif
 
 public:
-    explicit CProgressDialog(QString OperationName, bool AlertOnFinish, QWidget *pParent = 0);
+    explicit CProgressDialog(QString OperationName, bool UseBusyIndicator, bool AlertOnFinish, QWidget *pParent = 0);
     ~CProgressDialog();
 
     void DisallowCanceling();

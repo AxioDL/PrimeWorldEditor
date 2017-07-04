@@ -117,7 +117,7 @@ void CProjectSettingsDialog::BuildISO()
     {
         if (gpEdApp->CookAllDirtyPackages())
         {
-            CProgressDialog Dialog("Building ISO", true, this);
+            CProgressDialog Dialog("Building ISO", false, true, this);
             Dialog.DisallowCanceling();
             QFuture<void> Future = QtConcurrent::run(pProj, &CGameProject::BuildISO, TO_TSTRING(IsoPath), &Dialog);
             Dialog.WaitForResults(Future);

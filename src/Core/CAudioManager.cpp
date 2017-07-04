@@ -56,6 +56,14 @@ void CAudioManager::LoadAssets()
     }
 }
 
+void CAudioManager::ClearAssets()
+{
+    mAudioGroups.clear();
+    mpAudioLookupTable = nullptr;
+    mpSfxNameList = nullptr;
+    mSfxIdMap.clear();
+}
+
 SSoundInfo CAudioManager::GetSoundInfo(u32 SoundID)
 {
     SSoundInfo Out;

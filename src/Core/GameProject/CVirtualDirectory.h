@@ -33,6 +33,7 @@ public:
     bool AddChild(const TString& rkPath, CResourceEntry *pEntry);
     bool RemoveChildDirectory(CVirtualDirectory *pSubdir);
     bool RemoveChildResource(CResourceEntry *pEntry);
+    void RemoveEmptySubdirectories();
 
     static bool IsValidDirectoryName(const TString& rkName);
     static bool IsValidDirectoryPath(TString Path);

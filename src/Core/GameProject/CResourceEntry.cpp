@@ -566,7 +566,7 @@ bool CResourceEntry::Move(const TString& rkDir, const TString& rkName, bool IsAu
         Log::Error("MOVE FAILED: " + MoveFailReason);
         mpDirectory = pOldDir;
         mName = OldName;
-        mpStore->ConditionalDeleteDirectory(pNewDir);
+        mpStore->ConditionalDeleteDirectory(pNewDir, false);
         return false;
     }
 }

@@ -130,7 +130,7 @@
            <x>0</x>
            <y>0</y>
            <width>189</width>
-           <height>126</height>
+           <height>117</height>
           </rect>
          </property>
         </widget>
@@ -186,6 +186,13 @@
        <widget class="QPushButton" name="ExportNamesButton">
         <property name="text">
          <string>Export Names</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="RebuildDatabaseButton">
+        <property name="text">
+         <string>Rebuild Database</string>
         </property>
        </widget>
       </item>

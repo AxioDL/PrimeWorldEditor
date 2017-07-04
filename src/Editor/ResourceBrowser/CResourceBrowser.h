@@ -67,6 +67,7 @@ public slots:
     void OnGenerateAssetNames();
     void OnImportNamesFromAssetNameMap();
     void ExportAssetNames();
+    void RebuildResourceDB();
     void UpdateFilter();
 
     void ResetTypeFilter();

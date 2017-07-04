@@ -1,4 +1,5 @@
 #include "CEditorApplication.h"
+#include "CUIRelay.h"
 #include "UICommon.h"
 #include <Common/Log.h>
 #include <Core/Resource/Factory/CTemplateLoader.h>
@@ -35,6 +36,10 @@ int main(int argc, char *argv[])
     bool Initialized = Log::InitLog("primeworldeditor.log");
     if (!Initialized) QMessageBox::warning(0, "Error", "Couldn't open log file. Logging will not work for this session.");
     qInstallMessageHandler(QtLogRedirect);
+
+    // Create UI relay
+    CUIRelay UIRelay(&App);
+    gpUIRelay = &UIRelay;
 
     // Create editor resource store
     gpEditorStore = new CResourceStore("../resources/EditorResourceDB.rdb");

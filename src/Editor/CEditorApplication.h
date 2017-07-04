@@ -33,6 +33,7 @@ public:
     CEditorApplication(int& rArgc, char **ppArgv);
     ~CEditorApplication();
     void InitEditor();
+    bool CloseAllEditors();
     bool CloseProject();
     bool OpenProject(const QString& rkProjPath);
     void EditResource(CResourceEntry *pEntry);
@@ -41,6 +42,8 @@ public:
     bool CookPackage(CPackage *pPackage);
     bool CookAllDirtyPackages();
     bool CookPackageList(QList<CPackage*> PackageList);
+
+    bool RebuildResourceDatabase();
 
     // Accessors
     inline CGameProject* ActiveProject() const              { return mpActiveProject; }

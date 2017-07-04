@@ -46,7 +46,7 @@ CResourceStore::~CResourceStore()
         delete It->second;
 }
 
-void CResourceStore::SerializeResourceDatabase(IArchive& rArc)
+bool CResourceStore::SerializeResourceDatabase(IArchive& rArc)
 {
     struct SDatabaseResource
     {
@@ -83,6 +83,8 @@ void CResourceStore::SerializeResourceDatabase(IArchive& rArc)
             RegisterResource(rRes.ID, rRes.pType->Type(), rRes.Directory, rRes.Name);
         }
     }
+
+    return true;
 }
 
 bool CResourceStore::LoadResourceDatabase()
@@ -105,7 +107,7 @@ bool CResourceStore::LoadResourceDatabase()
         ASSERT(mpProj->Game() == Reader.Game());
 
     mGame = Reader.Game();
-    SerializeResourceDatabase(Reader);
+    if (!SerializeResourceDatabase(Reader)) return false;
     return LoadCacheFile();
 }
 
@@ -293,19 +295,17 @@ CVirtualDirectory* CResourceStore::GetVirtualDirectory(const TString& rkPath, bo
         return nullptr;
 }
 
-void CResourceStore::ConditionalDeleteDirectory(CVirtualDirectory *pDir)
+void CResourceStore::ConditionalDeleteDirectory(CVirtualDirectory *pDir, bool Recurse)
 {
-    if (pDir->IsEmpty())
+    if (pDir->IsEmpty() && !pDir->IsRoot())
     {
-        // If this directory is part of the project, then we should delete the corresponding filesystem directory
-        if (pDir->GetRoot() == mpDatabaseRoot && !pDir->IsRoot())
-        {
-            FileUtil::DeleteDirectory(ResourcesDir() + pDir->FullPath(), true);
-        }
-
         CVirtualDirectory *pParent = pDir->Parent();
         pParent->RemoveChildDirectory(pDir);
-        ConditionalDeleteDirectory(pParent);
+
+        if (Recurse)
+        {
+            ConditionalDeleteDirectory(pParent, true);
+        }
     }
 }
 
@@ -320,6 +320,98 @@ CResourceEntry* CResourceStore::FindEntry(const CAssetID& rkID) const
 CResourceEntry* CResourceStore::FindEntry(const TString& rkPath) const
 {
     return (mpDatabaseRoot ? mpDatabaseRoot->FindChildResource(rkPath) : nullptr);
+}
+
+bool CResourceStore::AreAllEntriesValid() const
+{
+    for (CResourceIterator Iter(this); Iter; ++Iter)
+    {
+        if (!Iter->HasCookedVersion() && !Iter->HasRawVersion())
+            return false;
+    }
+
+    return true;
+}
+
+void CResourceStore::ClearDatabase()
+{
+    // THIS OPERATION REQUIRES THAT ALL RESOURCES ARE UNREFERENCED
+    DestroyUnreferencedResources();
+    ASSERT(mLoadedResources.empty());
+
+    // Clear out existing resource entries and directories
+    for (auto Iter = mResourceEntries.begin(); Iter != mResourceEntries.end(); Iter++)
+        delete Iter->second;
+    mResourceEntries.clear();
+
+    delete mpDatabaseRoot;
+    mpDatabaseRoot = new CVirtualDirectory(this);
+
+    mDatabaseDirty = true;
+    mCacheFileDirty = true;
+}
+
+void CResourceStore::RebuildFromDirectory()
+{
+    ASSERT(mpProj != nullptr);
+    mpProj->AudioManager()->ClearAssets();
+    ClearDatabase();
+
+    // Get list of resources
+    TString ResDir = ResourcesDir();
+    TStringList ResourceList;
+    FileUtil::GetDirectoryContents(ResDir, ResourceList);
+
+    for (auto Iter = ResourceList.begin(); Iter != ResourceList.end(); Iter++)
+    {
+        TString Path = *Iter;
+        TString RelPath = FileUtil::MakeRelative(Path, ResDir);
+
+        if (FileUtil::IsFile(Path) && Path.GetFileExtension() == "rsmeta")
+        {
+            // Determine resource name
+            TString DirPath = RelPath.GetFileDirectory();
+            TString CookedFilename = RelPath.GetFileName(false); // This call removes the .rsmeta extension
+            TString ResName = CookedFilename.GetFileName(false); // This call removes the cooked extension
+            ASSERT( IsValidResourcePath(DirPath, ResName) );
+
+            // Determine resource type
+            TString CookedExtension = CookedFilename.GetFileExtension();
+            CResTypeInfo *pTypeInfo = CResTypeInfo::TypeForCookedExtension( Game(), CFourCC(CookedExtension) );
+
+            if (!pTypeInfo)
+            {
+                Log::Error("Found resource but couldn't register because failed to identify resource type: " + RelPath);
+                continue;
+            }
+
+            // Create resource entry
+            CResourceEntry *pEntry = new CResourceEntry(this, CAssetID::InvalidID(mGame), DirPath, ResName, pTypeInfo->Type());
+            pEntry->LoadMetadata();
+
+            // Validate the entry
+            CAssetID ID = pEntry->ID();
+            ASSERT( mResourceEntries.find(ID) == mResourceEntries.end() );
+            ASSERT( ID.Length() == CAssetID::GameIDLength(mGame) );
+
+            mResourceEntries[ID] = pEntry;
+        }
+
+        else if (FileUtil::IsDirectory(Path))
+            GetVirtualDirectory(RelPath, true);
+    }
+
+    // Make sure audio manager is loaded correctly so AGSC dependencies can be looked up
+    mpProj->AudioManager()->LoadAssets();
+
+    // Update dependencies
+    for (CResourceIterator It(this); It; ++It)
+        It->UpdateDependencies();
+
+    // Update database files
+    mDatabaseDirty = true;
+    mCacheFileDirty = true;
+    ConditionalSaveStore();
 }
 
 bool CResourceStore::IsResourceRegistered(const CAssetID& rkID) const
