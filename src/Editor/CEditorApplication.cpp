@@ -41,24 +41,28 @@ void CEditorApplication::InitEditor()
     mpWorldEditor->showMaximized();
 }
 
+bool CEditorApplication::CloseAllEditors()
+{
+    // Close active editor windows.
+    foreach (IEditor *pEditor, mEditorWindows)
+    {
+        if (pEditor != mpWorldEditor && !pEditor->close())
+            return false;
+    }
+
+    // Close world
+    if (!mpWorldEditor->CloseWorld())
+        return false;
+
+    mpResourceBrowser->close();
+    mpProjectDialog->close();
+    return true;
+}
+
 bool CEditorApplication::CloseProject()
 {
-    if (mpActiveProject)
+    if (mpActiveProject && CloseAllEditors())
     {
-        // Close active editor windows. todo: check for unsaved changes
-        foreach (IEditor *pEditor, mEditorWindows)
-        {
-            if (pEditor != mpWorldEditor && !pEditor->close())
-                return false;
-        }
-
-        // Close world
-        if (!mpWorldEditor->CloseWorld())
-            return false;
-
-        mpResourceBrowser->close();
-        mpProjectDialog->close();
-
         // Emit before actually deleting the project to allow editor references to clean up
         CGameProject *pOldProj = mpActiveProject;
         mpActiveProject = nullptr;
@@ -77,7 +81,12 @@ bool CEditorApplication::OpenProject(const QString& rkProjPath)
 
     // Load new project
     TString Path = TO_TSTRING(rkProjPath);
-    mpActiveProject = CGameProject::LoadProject(Path);
+
+    CProgressDialog Dialog("Opening " + TO_QSTRING(Path.GetFileName()), true, true, mpWorldEditor);
+    Dialog.DisallowCanceling();
+    QFuture<CGameProject*> Future = QtConcurrent::run(&CGameProject::LoadProject, Path, &Dialog);
+    mpActiveProject = Dialog.WaitForResults(Future);
+    Dialog.close();
 
     if (mpActiveProject)
     {
@@ -169,7 +178,7 @@ bool CEditorApplication::CookPackageList(QList<CPackage*> PackageList)
 {
     if (!PackageList.isEmpty())
     {
-        CProgressDialog Dialog("Cooking package" + QString(PackageList.size() > 1  ? "s" : ""), true, mpWorldEditor);
+        CProgressDialog Dialog("Cooking package" + QString(PackageList.size() > 1  ? "s" : ""), false, true, mpWorldEditor);
 
         QFuture<void> Future = QtConcurrent::run([&]()
         {
@@ -189,6 +198,45 @@ bool CEditorApplication::CookPackageList(QList<CPackage*> PackageList)
         return !Dialog.ShouldCancel();
     }
     else return true;
+}
+
+bool CEditorApplication::RebuildResourceDatabase()
+{
+    bool BrowserIsOpen = mpResourceBrowser->isVisible();
+
+    // Make sure all editors are closed
+    if (mpActiveProject && CloseAllEditors())
+    {
+        // Fake-close the project, but keep it in memory so we can modify the resource store
+        CGameProject *pProj = mpActiveProject;
+        mpActiveProject = nullptr;
+        emit ActiveProjectChanged(nullptr);
+
+        // Rebuild
+        CProgressDialog Dialog("Rebuilding resource database", true, false, mpWorldEditor);
+        Dialog.SetOneShotTask("Rebuilding resource database");
+        Dialog.DisallowCanceling();
+
+        QFuture<void> Future = QtConcurrent::run(pProj->ResourceStore(), &CResourceStore::RebuildFromDirectory);
+        Dialog.WaitForResults(Future);
+        Dialog.close();
+
+        // Set project to active again
+        mpActiveProject = pProj;
+        emit ActiveProjectChanged(pProj);
+
+        // If the resource browser was open before, then reopen it now
+        if (BrowserIsOpen)
+        {
+            mpResourceBrowser->show();
+            mpResourceBrowser->raise();
+        }
+
+        UICommon::InfoMsg(mpWorldEditor, "Success", "Resource database rebuilt successfully!");
+        return true;
+    }
+
+    return false;
 }
 
 // ************ SLOTS ************

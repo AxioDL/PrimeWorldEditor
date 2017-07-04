@@ -3,16 +3,17 @@
 #include "CEditorApplication.h"
 #include <QCloseEvent>
 
-CProgressDialog::CProgressDialog(QString OperationName, bool AlertOnFinish, QWidget *pParent)
+CProgressDialog::CProgressDialog(QString OperationName, bool UseBusyIndicator, bool AlertOnFinish, QWidget *pParent)
     : IProgressNotifierUI(pParent)
     , mpUI(new Ui::CProgressDialog)
+    , mUseBusyIndicator(UseBusyIndicator)
     , mAlertOnFinish(AlertOnFinish)
     , mFinished(false)
     , mCanceled(false)
 {
     mpUI->setupUi(this);
     mpUI->ProgressBar->setMinimum(0);
-    mpUI->ProgressBar->setMaximum(10000);
+    mpUI->ProgressBar->setMaximum(UseBusyIndicator ? 0 : 10000);
     setWindowTitle(OperationName);
 
 #if WIN32
@@ -23,7 +24,7 @@ CProgressDialog::CProgressDialog(QString OperationName, bool AlertOnFinish, QWid
 
     mpTaskbarProgress = pButton->progress();
     mpTaskbarProgress->setMinimum(0);
-    mpTaskbarProgress->setMaximum(10000);
+    mpTaskbarProgress->setMaximum(UseBusyIndicator ? 0 : 10000);
     mpTaskbarProgress->show();
 
     setWindowFlags(windowFlags() | Qt::MSWindowsFixedSizeDialogHint);
@@ -82,10 +83,26 @@ void CProgressDialog::UpdateUI(const QString& rkTaskDesc, const QString& rkStepD
     mpUI->TaskLabel->setText(rkTaskDesc);
     mpUI->StepLabel->setText(rkStepDesc);
 
-    int ProgressValue = 10000 * ProgressPercent;
-    mpUI->ProgressBar->setValue(ProgressValue);
+    if (rkStepDesc.isEmpty() && !mpUI->StepLabel->isHidden())
+    {
+        mpUI->StepLabel->hide();
+        mpUI->TaskInfoBoxLayout->removeWidget(mpUI->StepLabel);
+        mpUI->TaskInfoBoxLayout->removeItem(mpUI->LabelSpacer);
+    }
+    else if (!rkStepDesc.isEmpty() && mpUI->StepLabel->isHidden())
+    {
+        mpUI->StepLabel->show();
+        mpUI->TaskInfoBoxLayout->addWidget(mpUI->StepLabel);
+        mpUI->TaskInfoBoxLayout->addItem(mpUI->LabelSpacer);
+    }
+
+    if (!mUseBusyIndicator)
+    {
+        int ProgressValue = 10000 * ProgressPercent;
+        mpUI->ProgressBar->setValue(ProgressValue);
 
 #if WIN32
-    mpTaskbarProgress->setValue(ProgressValue);
+        mpTaskbarProgress->setValue(ProgressValue);
 #endif
+    }
 }

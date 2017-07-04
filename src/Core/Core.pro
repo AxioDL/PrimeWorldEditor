@@ -228,7 +228,8 @@ HEADERS += \
     Resource/Animation/CSourceAnimData.h \
     Resource/CMapArea.h \
     Resource/CSavedStateID.h \
-    IProgressNotifier.h
+    IProgressNotifier.h \
+    IUIRelay.h
 
 # Source Files
 SOURCES += \
@@ -334,4 +335,5 @@ SOURCES += \
     GameProject/CAssetNameMap.cpp \
     GameProject/CGameInfo.cpp \
     Resource/CResTypeInfo.cpp \
-    CompressionUtil.cpp
+    CompressionUtil.cpp \
+    IUIRelay.cpp

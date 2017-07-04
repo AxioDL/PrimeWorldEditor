@@ -1,5 +1,6 @@
 #include "CResourceBrowser.h"
 #include "ui_CResourceBrowser.h"
+#include "CProgressDialog.h"
 #include "Editor/CEditorApplication.h"
 #include <Core/GameProject/AssetNameGeneration.h>
 #include <Core/GameProject/CAssetNameMap.h>
@@ -7,6 +8,7 @@
 #include <QFileDialog>
 #include <QMenu>
 #include <QMessageBox>
+#include <QtConcurrent/QtConcurrentRun>
 
 CResourceBrowser::CResourceBrowser(QWidget *pParent)
     : QDialog(pParent)
@@ -96,6 +98,7 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
     connect(pImportFromAssetNameMapAction, SIGNAL(triggered()), this, SLOT(OnImportNamesFromAssetNameMap()));
     connect(pGenerateAssetNamesAction, SIGNAL(triggered()), this, SLOT(OnGenerateAssetNames()));
     connect(mpUI->ExportNamesButton, SIGNAL(clicked()), this, SLOT(ExportAssetNames()));
+    connect(mpUI->RebuildDatabaseButton, SIGNAL(clicked(bool)), this, SLOT(RebuildResourceDB()));
     connect(&mUpdateFilterTimer, SIGNAL(timeout()), this, SLOT(UpdateFilter()));
     connect(mpFilterAllBox, SIGNAL(toggled(bool)), this, SLOT(OnFilterTypeBoxTicked(bool)));
     connect(gpEdApp, SIGNAL(ActiveProjectChanged(CGameProject*)), this, SLOT(UpdateStore()));
@@ -327,9 +330,18 @@ void CResourceBrowser::OnImportPakContentsTxt()
 void CResourceBrowser::OnGenerateAssetNames()
 {
     SelectDirectory(nullptr);
-    GenerateAssetNames(mpStore->Project());
+
+    CProgressDialog Dialog("Generating asset names", true, true, this);
+    Dialog.DisallowCanceling();
+    Dialog.SetOneShotTask("Generating asset names");
+
+    QFuture<void> Future = QtConcurrent::run(&GenerateAssetNames, mpStore->Project());
+    Dialog.WaitForResults(Future);
+
     RefreshResources();
     RefreshDirectories();
+
+    UICommon::InfoMsg(this, "Complete", "Asset name generation complete!");
 }
 
 void CResourceBrowser::OnImportNamesFromAssetNameMap()
@@ -391,6 +403,14 @@ void CResourceBrowser::ExportAssetNames()
         UICommon::ErrorMsg(this, "Failed to export asset names!");
     else
         UICommon::InfoMsg(this, "Success", "Asset names exported successfully!");
+}
+
+void CResourceBrowser::RebuildResourceDB()
+{
+    if (UICommon::YesNoQuestion(this, "Rebuild resource database", "Are you sure you want to rebuild the resource database?"))
+    {
+        gpEdApp->RebuildResourceDatabase();
+    }
 }
 
 void CResourceBrowser::UpdateFilter()

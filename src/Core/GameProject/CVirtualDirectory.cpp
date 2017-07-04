@@ -155,6 +155,7 @@ bool CVirtualDirectory::AddChild(const TString &rkPath, CResourceEntry *pEntry)
         {
             // Create new subdirectory
             pSubdir = new CVirtualDirectory(this, DirName, mpStore);
+            FileUtil::MakeDirectory(mpStore->ResourcesDir() + pSubdir->FullPath());
             mSubdirectories.push_back(pSubdir);
 
             std::sort(mSubdirectories.begin(), mSubdirectories.end(), [](CVirtualDirectory *pLeft, CVirtualDirectory *pRight) -> bool {
@@ -199,6 +200,14 @@ bool CVirtualDirectory::RemoveChildDirectory(CVirtualDirectory *pSubdir)
         if (*It == pSubdir)
         {
             mSubdirectories.erase(It);
+
+            // If this is part of the resource store, delete the corresponding filesystem directory
+            if (mpStore && pSubdir->GetRoot() == mpStore->RootDirectory())
+            {
+                TString AbsPath = mpStore->DatabaseRootPath() + pSubdir->FullPath();
+                FileUtil::DeleteDirectory(AbsPath, true);
+            }
+
             delete pSubdir;
             return true;
         }
@@ -219,6 +228,19 @@ bool CVirtualDirectory::RemoveChildResource(CResourceEntry *pEntry)
     }
 
     return false;
+}
+
+void CVirtualDirectory::RemoveEmptySubdirectories()
+{
+    for (u32 SubdirIdx = 0; SubdirIdx < mSubdirectories.size(); SubdirIdx++)
+    {
+        CVirtualDirectory *pDir = mSubdirectories[SubdirIdx];
+
+        if (pDir->IsEmpty())
+            RemoveChildDirectory(pDir);
+        else
+            pDir->RemoveEmptySubdirectories();
+    }
 }
 
 // ************ STATIC ************

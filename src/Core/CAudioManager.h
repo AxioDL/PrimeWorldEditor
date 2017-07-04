@@ -28,6 +28,7 @@ class CAudioManager
 public:
     CAudioManager(CGameProject *pProj);
     void LoadAssets();
+    void ClearAssets();
     SSoundInfo GetSoundInfo(u32 SoundID);
     void LogSoundInfo(u32 SoundID);
 };

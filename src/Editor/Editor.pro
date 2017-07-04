@@ -182,7 +182,8 @@ HEADERS += \
     WorldEditor/CPoiMapSidebar.h \
     WorldEditor/CWorldEditorSidebar.h \
     CProgressDialog.h \
-    IProgressNotifierUI.h
+    IProgressNotifierUI.h \
+    CUIRelay.h
 
 # Source Files
 SOURCES += \

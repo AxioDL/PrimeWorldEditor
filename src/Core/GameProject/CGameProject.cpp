@@ -1,4 +1,5 @@
 #include "CGameProject.h"
+#include "IUIRelay.h"
 #include "Core/Resource/Factory/CTemplateLoader.h"
 #include "Core/Resource/Script/CMasterTemplate.h"
 #include <Common/Serialization/XML.h>
@@ -33,7 +34,7 @@ bool CGameProject::Save()
     return SaveSuccess;
 }
 
-void CGameProject::Serialize(IArchive& rArc)
+bool CGameProject::Serialize(IArchive& rArc)
 {
     rArc << SERIAL("Name", mProjectName)
          << SERIAL("Region", mRegion)
@@ -50,7 +51,7 @@ void CGameProject::Serialize(IArchive& rArc)
 
     rArc << SERIAL("ResourceDB", mResourceDBPath);
 
-    // Packages
+    // Serialize package list
     std::vector<TString> PackageList;
 
     if (!rArc.IsReader())
@@ -61,38 +62,29 @@ void CGameProject::Serialize(IArchive& rArc)
 
     rArc << SERIAL_CONTAINER("Packages", PackageList, "Package");
 
+    // Load packages
     if (rArc.IsReader())
     {
-        // Load resource store
-        ASSERT(mpResourceStore == nullptr);
-        mpResourceStore = new CResourceStore(this);
+        ASSERT(mPackages.empty());
 
-        if (!mpResourceStore->LoadResourceDatabase())
-            mLoadSuccess = false;
-
-        else
+        for (u32 iPkg = 0; iPkg < PackageList.size(); iPkg++)
         {
-            // Load packages
-            ASSERT(mPackages.empty());
+            const TString& rkPackagePath = PackageList[iPkg];
+            TString PackageName = rkPackagePath.GetFileName(false);
+            TString PackageDir = rkPackagePath.GetFileDirectory();
 
-            for (u32 iPkg = 0; iPkg < PackageList.size(); iPkg++)
+            CPackage *pPackage = new CPackage(this, PackageName, PackageDir);
+            bool PackageLoadSuccess = pPackage->Load();
+            mPackages.push_back(pPackage);
+
+            if (!PackageLoadSuccess)
             {
-                const TString& rkPackagePath = PackageList[iPkg];
-                TString PackageName = rkPackagePath.GetFileName(false);
-                TString PackageDir = rkPackagePath.GetFileDirectory();
-
-                CPackage *pPackage = new CPackage(this, PackageName, PackageDir);
-                bool PackageLoadSuccess = pPackage->Load();
-                mPackages.push_back(pPackage);
-
-                if (!PackageLoadSuccess)
-                {
-                    mLoadSuccess = false;
-                    break;
-                }
+                return false;
             }
         }
     }
+
+    return true;
 }
 
 bool CGameProject::BuildISO(const TString& rkIsoPath, IProgressNotifier *pProgress)
@@ -213,15 +205,22 @@ CGameProject* CGameProject::CreateProjectForExport(
     pProj->mProjectRoot.Replace("\\", "/");
     pProj->mpResourceStore = new CResourceStore(pProj);
     pProj->mpGameInfo->LoadGameInfo(Game);
-    pProj->mLoadSuccess = true;
     return pProj;
 }
 
-CGameProject* CGameProject::LoadProject(const TString& rkProjPath)
+CGameProject* CGameProject::LoadProject(const TString& rkProjPath, IProgressNotifier *pProgress)
 {
+    // Init project
     CGameProject *pProj = new CGameProject;
     pProj->mProjectRoot = rkProjPath.GetFileDirectory();
     pProj->mProjectRoot.Replace("\\", "/");
+
+    // Init progress
+    pProgress->SetTask(0, "Loading project: " + rkProjPath.GetFileName());
+
+    // Load main project file
+    pProgress->Report("Loading project settings");
+    bool LoadSuccess = false;
 
     TString ProjPath = rkProjPath;
     CXMLReader Reader(ProjPath);
@@ -233,9 +232,37 @@ CGameProject* CGameProject::LoadProject(const TString& rkProjPath)
     }
 
     pProj->mGame = Reader.Game();
-    pProj->Serialize(Reader);
 
-    if (!pProj->mLoadSuccess)
+    if (pProj->Serialize(Reader))
+    {
+        // Load resource database
+        pProgress->Report("Loading resource database");
+        pProj->mpResourceStore = new CResourceStore(pProj);
+        LoadSuccess = pProj->mpResourceStore->LoadResourceDatabase();
+
+        // Validate resource database
+        if (LoadSuccess)
+        {
+            pProgress->Report("Validating resource database");
+            bool DatabaseIsValid = pProj->mpResourceStore->AreAllEntriesValid();
+
+            // Resource database is corrupt. Ask the user if they want to rebuild it.
+            if (!DatabaseIsValid)
+            {
+                bool ShouldRebuild = gpUIRelay->AskYesNoQuestion("Error", "The resource database is corrupt. Attempt to repair it?");
+
+                if (ShouldRebuild)
+                {
+                    pProgress->Report("Repairing resource database");
+                    pProj->mpResourceStore->RebuildFromDirectory();
+                }
+                else
+                    LoadSuccess = false;
+            }
+        }
+    }
+
+    if (!LoadSuccess)
     {
         delete pProj;
         return nullptr;

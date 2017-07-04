@@ -43,7 +43,7 @@ public:
     CResourceStore(const TString& rkDatabasePath);
     CResourceStore(CGameProject *pProject);
     ~CResourceStore();
-    void SerializeResourceDatabase(IArchive& rArc);
+    bool SerializeResourceDatabase(IArchive& rArc);
     bool LoadResourceDatabase();
     bool SaveResourceDatabase();
     bool LoadCacheFile();
@@ -52,12 +52,15 @@ public:
     void SetProject(CGameProject *pProj);
     void CloseProject();
     CVirtualDirectory* GetVirtualDirectory(const TString& rkPath, bool AllowCreate);
-    void ConditionalDeleteDirectory(CVirtualDirectory *pDir);
+    void ConditionalDeleteDirectory(CVirtualDirectory *pDir, bool Recurse);
 
     bool IsResourceRegistered(const CAssetID& rkID) const;
     CResourceEntry* RegisterResource(const CAssetID& rkID, EResType Type, const TString& rkDir, const TString& rkName);
     CResourceEntry* FindEntry(const CAssetID& rkID) const;
     CResourceEntry* FindEntry(const TString& rkPath) const;
+    bool AreAllEntriesValid() const;
+    void ClearDatabase();
+    void RebuildFromDirectory();
 
     template<typename ResType> ResType* LoadResource(const CAssetID& rkID)  { return static_cast<ResType*>(LoadResource(rkID, ResType::StaticType())); }
     CResource* LoadResource(const CAssetID& rkID);

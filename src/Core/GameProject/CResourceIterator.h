@@ -7,22 +7,22 @@
 class CResourceIterator
 {
 protected:
-    CResourceStore *mpStore;
-    std::map<CAssetID, CResourceEntry*>::iterator mIter;
+    const CResourceStore *mpkStore;
+    std::map<CAssetID, CResourceEntry*>::const_iterator mIter;
     CResourceEntry *mpCurEntry;
 
 public:
-    CResourceIterator(CResourceStore *pStore = gpResourceStore)
-        : mpStore(pStore)
+    CResourceIterator(const CResourceStore *pkStore = gpResourceStore)
+        : mpkStore(pkStore)
         , mpCurEntry(nullptr)
     {
-        mIter = mpStore->mResourceEntries.begin();
+        mIter = mpkStore->mResourceEntries.begin();
         Next();
     }
 
     virtual CResourceEntry* Next()
     {
-        if (mIter != mpStore->mResourceEntries.end())
+        if (mIter != mpkStore->mResourceEntries.end())
         {
             mpCurEntry = mIter->second;
             mIter++;
@@ -73,7 +73,7 @@ public:
     TResourceIterator(CResourceStore *pStore = gpResourceStore)
         : CResourceIterator(pStore)
     {
-        if (mpCurEntry->ResourceType() != ResType)
+        if (mpCurEntry && mpCurEntry->ResourceType() != ResType)
             Next();
     }
 

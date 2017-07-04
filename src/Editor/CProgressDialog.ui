@@ -36,7 +36,7 @@
       </widget>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout">
+      <layout class="QVBoxLayout" name="TaskInfoBoxLayout">
        <item>
         <widget class="QLabel" name="TaskLabel">
          <property name="font">
@@ -62,7 +62,7 @@
         </widget>
        </item>
        <item>
-        <spacer name="verticalSpacer">
+        <spacer name="LabelSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>

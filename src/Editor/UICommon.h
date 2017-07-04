@@ -3,6 +3,7 @@
 
 #include "CEditorApplication.h"
 #include <Common/TString.h>
+#include <QDialogButtonBox>
 #include <QFileDialog>
 #include <QMap>
 #include <QMessageBox>
@@ -110,6 +111,12 @@ inline void InfoMsg(QWidget *pParent, QString InfoBoxTitle, QString InfoText)
 inline void ErrorMsg(QWidget *pParent, QString ErrorText)
 {
     QMessageBox::warning(pParent, "Error", ErrorText);
+}
+
+inline bool YesNoQuestion(QWidget *pParent, QString InfoBoxTitle, QString Question)
+{
+    QMessageBox::StandardButton Button = QMessageBox::question(pParent, InfoBoxTitle, Question, QMessageBox::Yes | QMessageBox::No);
+    return Button == QMessageBox::Yes;
 }
 
 // Constants

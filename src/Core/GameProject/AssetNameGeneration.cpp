@@ -76,12 +76,8 @@ void ApplyGeneratedName(CResourceEntry *pEntry, const TString& rkDir, const TStr
     if (pEntry->Directory() == pNewDir && pEntry->Name() == NewName) return;
 
     // Perform the move
-    CVirtualDirectory *pOldDir = pEntry->Directory();
     bool Success = pEntry->Move(pNewDir->FullPath(), NewName, true, true);
     ASSERT(Success);
-
-    // If the old directory is now empty, delete it
-    pEntry->ResourceStore()->ConditionalDeleteDirectory(pOldDir);
 }
 
 void GenerateAssetNames(CGameProject *pProj)
@@ -657,6 +653,7 @@ void GenerateAssetNames(CGameProject *pProj)
     }
 #endif
 
-    Log::Write("*** Asset Name Generation FINISHED ***");
+    pStore->RootDirectory()->RemoveEmptySubdirectories();
     pStore->ConditionalSaveStore();
+    Log::Write("*** Asset Name Generation FINISHED ***");
 }

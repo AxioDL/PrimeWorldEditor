@@ -36,7 +36,6 @@ class CGameProject
     // Keep file handle open for the .prj file to prevent users from opening the same project
     // in multiple instances of PWE
     CFileLock mProjFileLock;
-    bool mLoadSuccess;
 
     enum EProjectVersion
     {
@@ -55,7 +54,6 @@ class CGameProject
         , mBuildVersion(0.f)
         , mResourceDBPath("ResourceDB.rdb")
         , mpResourceStore(nullptr)
-        , mLoadSuccess(true)
     {
         mpGameInfo = new CGameInfo();
         mpAudioManager = new CAudioManager(this);
@@ -65,7 +63,7 @@ public:
     ~CGameProject();
 
     bool Save();
-    void Serialize(IArchive& rArc);
+    bool Serialize(IArchive& rArc);
     bool BuildISO(const TString& rkIsoPath, IProgressNotifier *pProgress);
     void GetWorldList(std::list<CAssetID>& rOut) const;
     CAssetID FindNamedResource(const TString& rkName) const;
@@ -84,7 +82,7 @@ public:
             u32 FstAddress
         );
 
-    static CGameProject* LoadProject(const TString& rkProjPath);
+    static CGameProject* LoadProject(const TString& rkProjPath, IProgressNotifier *pProgress);
 
     // Directory Handling
     inline TString ProjectRoot() const                      { return mProjectRoot; }
