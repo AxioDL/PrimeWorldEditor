@@ -17,7 +17,7 @@
             <property name="Rotation" ID="0x02"/>
         </properties>
         <assets>
-            <model source="file">script/common/SpiderBallWaypoint.cmdl</model>
+            <model source="file">script/common/SpiderBallWaypoint.CMDL</model>
         </assets>
         <preview_scale>0.5</preview_scale>
         <rotation_type>enabled</rotation_type>

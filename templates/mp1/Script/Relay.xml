@@ -13,7 +13,7 @@
             <property name="Active" ID="0x01"/>
         </properties>
         <assets>
-            <billboard source="file">script/common/Relay.txtr</billboard>
+            <billboard source="file">script/common/Relay.TXTR</billboard>
         </assets>
         <rotation_type>enabled</rotation_type>
         <scale_type>enabled</scale_type>

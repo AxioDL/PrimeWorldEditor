@@ -20,7 +20,7 @@
             <property name="Active" ID="0x08"/>
         </properties>
         <assets>
-            <billboard source="file">script/common/CameraShaker.txtr</billboard>
+            <billboard source="file">script/common/CameraShaker.TXTR</billboard>
         </assets>
         <rotation_type>disabled</rotation_type>
         <scale_type>disabled</scale_type>

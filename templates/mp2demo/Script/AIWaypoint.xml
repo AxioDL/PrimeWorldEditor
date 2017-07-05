@@ -27,7 +27,7 @@
             <property name="Active" ID="0x255A4580:0x41435456"/>
         </properties>
         <assets>
-            <model source="file">script/common/AIWaypoint.cmdl</model>
+            <model source="file">script/common/AIWaypoint.CMDL</model>
         </assets>
         <rotation_type>enabled</rotation_type>
         <scale_type>enabled</scale_type>

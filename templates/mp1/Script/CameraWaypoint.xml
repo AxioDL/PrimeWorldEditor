@@ -19,7 +19,7 @@
             <property name="Active" ID="0x03"/>
         </properties>
         <assets>
-            <model source="file">script/common/CameraWaypoint.cmdl</model>
+            <model source="file">script/common/CameraWaypoint.CMDL</model>
         </assets>
         <preview_scale>0.5</preview_scale>
         <rotation_type>enabled</rotation_type>

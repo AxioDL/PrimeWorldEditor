@@ -19,7 +19,7 @@
             <property name="Active" ID="0x07"/>
         </properties>
         <assets>
-            <billboard source="file">script/common/DistanceFog.txtr</billboard>
+            <billboard source="file">script/common/DistanceFog.TXTR</billboard>
         </assets>
         <rotation_type>disabled</rotation_type>
         <scale_type>disabled</scale_type>

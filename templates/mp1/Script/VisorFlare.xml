@@ -25,7 +25,7 @@
             <property name="Position" ID="0x01"/>
         </properties>
         <assets>
-            <billboard source="file">script/common/VisorFlare.txtr</billboard>
+            <billboard source="file">script/common/VisorFlare.TXTR</billboard>
         </assets>
         <rotation_type>disabled</rotation_type>
         <scale_type>disabled</scale_type>

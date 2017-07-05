@@ -21,7 +21,7 @@
             <property name="Active" ID="0x01"/>
         </properties>
         <assets>
-            <billboard source="file">script/common/CameraFilterKeyframe.txtr</billboard>
+            <billboard source="file">script/common/CameraFilterKeyframe.TXTR</billboard>
         </assets>
         <rotation_type>disabled</rotation_type>
         <scale_type>disabled</scale_type>

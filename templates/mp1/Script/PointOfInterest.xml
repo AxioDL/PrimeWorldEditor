@@ -21,7 +21,7 @@
             <property name="Active" ID="0x03"/>
         </properties>
         <assets>
-            <billboard source="file">script/common/PointOfInterest.txtr</billboard>
+            <billboard source="file">script/common/PointOfInterest.TXTR</billboard>
         </assets>
         <rotation_type>enabled</rotation_type>
         <scale_type>enabled</scale_type>

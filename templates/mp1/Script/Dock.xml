@@ -20,7 +20,7 @@
             <property name="Active" ID="0x01"/>
         </properties>
         <assets>
-            <billboard source="file">script/common/Dock.txtr</billboard>
+            <billboard source="file">script/common/Dock.TXTR</billboard>
         </assets>
         <rotation_type>disabled</rotation_type>
         <scale_type>volume</scale_type>

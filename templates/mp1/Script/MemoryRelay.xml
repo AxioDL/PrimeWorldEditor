@@ -14,7 +14,7 @@
             <property name="Active" ID="0x02"/>
         </properties>
         <assets>
-            <billboard source="file">script/common/MemoryRelay.txtr</billboard>
+            <billboard source="file">script/common/MemoryRelay.TXTR</billboard>
         </assets>
         <rotation_type>disabled</rotation_type>
         <scale_type>enabled</scale_type>

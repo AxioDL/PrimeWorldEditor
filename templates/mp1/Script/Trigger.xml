@@ -43,7 +43,7 @@
             <property name="Active" ID="0x06"/>
         </properties>
         <assets>
-            <billboard source="file">script/common/Trigger.txtr</billboard>
+            <billboard source="file">script/common/Trigger.TXTR</billboard>
         </assets>
         <rotation_type>disabled</rotation_type>
         <scale_type>volume</scale_type>

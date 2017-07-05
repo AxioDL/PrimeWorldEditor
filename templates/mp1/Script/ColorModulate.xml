@@ -22,7 +22,7 @@
             <property name="InstanceName" ID="0x00"/>
         </properties>
         <assets>
-            <billboard source="file">script/common/ColorModulate.txtr</billboard>
+            <billboard source="file">script/common/ColorModulate.TXTR</billboard>
         </assets>
         <rotation_type>disabled</rotation_type>
         <scale_type>disabled</scale_type>
