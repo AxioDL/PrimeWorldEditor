@@ -22,9 +22,6 @@ enum EResEntryFlag
     eREF_HasBeenModified    = 0x00000008, // Resource has been modified and resaved by the user
     eREF_AutoResName        = 0x00000010, // Resource name is auto-generated
     eREF_AutoResDir         = 0x00000020, // Resource directory name is auto-generated
-    // Flags that save to the cache file
-    eREF_SavedFlags      = eREF_NeedsRecook | eREF_IsBaseGameResource | eREF_Hidden | eREF_HasBeenModified |
-                           eREF_AutoResName | eREF_AutoResDir
 };
 DECLARE_FLAGS(EResEntryFlag, FResEntryFlags)
 
@@ -43,16 +40,21 @@ class CResourceEntry
     mutable u64 mCachedSize;
     mutable TString mCachedUppercaseName; // This is used to speed up case-insensitive sorting and filtering.
 
+    // Private constructor
+    CResourceEntry(CResourceStore *pStore);
+
 public:
-    CResourceEntry(CResourceStore *pStore, const CAssetID& rkID,
-                   const TString& rkDir, const TString& rkFilename,
-                   EResType Type);
+    static CResourceEntry* CreateNewResource(CResourceStore *pStore, const CAssetID& rkID,
+                                             const TString& rkDir, const TString& rkName,
+                                             EResType Type);
+    static CResourceEntry* BuildFromArchive(CResourceStore *pStore, IArchive& rArc);
+    static CResourceEntry* BuildFromDirectory(CResourceStore *pStore, CResTypeInfo *pTypeInfo,
+                                              const TString& rkDirPath, const TString& rkName);
     ~CResourceEntry();
 
     bool LoadMetadata();
     bool SaveMetadata(bool ForceSave = false);
-    void SerializeMetadata(IArchive& rArc);
-    void SerializeCacheData(IArchive& rArc);
+    void SerializeEntryInfo(IArchive& rArc, bool MetadataOnly);
     void UpdateDependencies();
 
     bool HasRawVersion() const;

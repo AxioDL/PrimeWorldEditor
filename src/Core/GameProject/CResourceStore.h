@@ -24,12 +24,10 @@ class CResourceStore
     CVirtualDirectory *mpDatabaseRoot;
     std::map<CAssetID, CResourceEntry*> mResourceEntries;
     std::map<CAssetID, CResourceEntry*> mLoadedResources;
-    bool mDatabaseDirty;
-    bool mCacheFileDirty;
+    bool mDatabaseCacheDirty;
 
     // Directory paths
     TString mDatabasePath;
-    TString mDatabaseName;
 
     enum EDatabaseVersion
     {
@@ -43,11 +41,9 @@ public:
     CResourceStore(const TString& rkDatabasePath);
     CResourceStore(CGameProject *pProject);
     ~CResourceStore();
-    bool SerializeResourceDatabase(IArchive& rArc);
-    bool LoadResourceDatabase();
-    bool SaveResourceDatabase();
-    bool LoadCacheFile();
-    bool SaveCacheFile();
+    bool SerializeDatabaseCache(IArchive& rArc);
+    bool LoadDatabaseCache();
+    bool SaveDatabaseCache();
     void ConditionalSaveStore();
     void SetProject(CGameProject *pProj);
     void CloseProject();
@@ -61,7 +57,7 @@ public:
     CResourceEntry* FindEntry(const TString& rkPath) const;
     bool AreAllEntriesValid() const;
     void ClearDatabase();
-    void BuildFromDirectory();
+    bool BuildFromDirectory(bool ShouldGenerateCacheFile);
     void RebuildFromDirectory();
 
     template<typename ResType> ResType* LoadResource(const CAssetID& rkID)  { return static_cast<ResType*>(LoadResource(rkID, ResType::StaticType())); }
@@ -81,15 +77,13 @@ public:
     inline EGame Game() const                       { return mGame; }
     inline TString DatabaseRootPath() const         { return mDatabasePath; }
     inline TString ResourcesDir() const             { return IsEditorStore() ? DatabaseRootPath() : DatabaseRootPath() + "Resources/"; }
-    inline TString DatabasePath() const             { return DatabaseRootPath() + "ResourceDatabase.xml"; }
-    inline TString CacheDataPath() const            { return DatabaseRootPath() + "ResourceCacheData.bin"; }
+    inline TString DatabasePath() const             { return DatabaseRootPath() + "ResourceDatabaseCache.bin"; }
     inline CVirtualDirectory* RootDirectory() const { return mpDatabaseRoot; }
     inline u32 NumTotalResources() const            { return mResourceEntries.size(); }
     inline u32 NumLoadedResources() const           { return mLoadedResources.size(); }
-    inline bool IsDirty() const                     { return mDatabaseDirty || mCacheFileDirty; }
+    inline bool IsCacheDirty() const                { return mDatabaseCacheDirty; }
 
-    inline void SetDatabaseDirty()                  { mDatabaseDirty = true; }
-    inline void SetCacheDataDirty()                 { mCacheFileDirty = true; }
+    inline void SetCacheDirty()                     { mDatabaseCacheDirty = true; }
     inline bool IsEditorStore() const               { return mpProj == nullptr; }
 };
 

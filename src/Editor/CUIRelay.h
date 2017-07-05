@@ -6,9 +6,17 @@
 #include "WorldEditor/CWorldEditor.h"
 #include "UICommon.h"
 
+#include <QThread>
+
 class CUIRelay : public QObject, public IUIRelay
 {
     Q_OBJECT
+
+    Qt::ConnectionType GetConnectionType()
+    {
+        bool IsUIThread = (QThread::currentThread() == gpEdApp->thread());
+        return IsUIThread ? Qt::DirectConnection : Qt::BlockingQueuedConnection;
+    }
 
 public:
     explicit CUIRelay(QObject *pParent = 0)
@@ -20,7 +28,7 @@ public:
     virtual bool AskYesNoQuestion(const TString& rkInfoBoxTitle, const TString& rkQuestion)
     {
         bool RetVal;
-        QMetaObject::invokeMethod(this, "AskYesNoQuestionSlot", Qt::BlockingQueuedConnection,
+        QMetaObject::invokeMethod(this, "AskYesNoQuestionSlot", GetConnectionType(),
                                   Q_RETURN_ARG(bool, RetVal),
                                   Q_ARG(QString, TO_QSTRING(rkInfoBoxTitle)),
                                   Q_ARG(QString, TO_QSTRING(rkQuestion)) );

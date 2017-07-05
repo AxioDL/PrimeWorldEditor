@@ -10,24 +10,70 @@
 #include <Common/Serialization/CXMLReader.h>
 #include <Common/Serialization/CXMLWriter.h>
 
-CResourceEntry::CResourceEntry(CResourceStore *pStore, const CAssetID& rkID,
-               const TString& rkDir, const TString& rkFilename,
-               EResType Type)
+CResourceEntry::CResourceEntry(CResourceStore *pStore)
     : mpResource(nullptr)
+    , mpTypeInfo(nullptr)
     , mpStore(pStore)
     , mpDependencies(nullptr)
-    , mID(rkID)
+    , mID( CAssetID::InvalidID(pStore->Game()) )
     , mpDirectory(nullptr)
-    , mName(rkFilename)
     , mMetadataDirty(false)
     , mCachedSize(-1)
-    , mCachedUppercaseName(rkFilename.ToUpper())
-{
-    mpTypeInfo = CResTypeInfo::FindTypeInfo(Type);
-    ASSERT(mpTypeInfo);
+{}
 
-    mpDirectory = mpStore->GetVirtualDirectory(rkDir, true);
-    if (mpDirectory) mpDirectory->AddChild("", this);
+// Static constructors
+CResourceEntry* CResourceEntry::CreateNewResource(CResourceStore *pStore, const CAssetID& rkID,
+                                                    const TString& rkDir, const TString& rkName,
+                                                    EResType Type)
+{
+    // Initialize all entry info with the input data.
+    CResourceEntry *pEntry = new CResourceEntry(pStore);
+    pEntry->mID = rkID;
+    pEntry->mName = rkName;
+    pEntry->mCachedUppercaseName = rkName.ToUpper();
+
+    pEntry->mpTypeInfo = CResTypeInfo::FindTypeInfo(Type);
+    ASSERT(pEntry->mpTypeInfo);
+
+    pEntry->mpDirectory = pStore->GetVirtualDirectory(rkDir, true);
+    ASSERT(pEntry->mpDirectory);
+    pEntry->mpDirectory->AddChild("", pEntry);
+
+    pEntry->mMetadataDirty = true;
+    return pEntry;
+}
+
+CResourceEntry* CResourceEntry::BuildFromArchive(CResourceStore *pStore, IArchive& rArc)
+{
+    // Load all entry info from the archive.
+    CResourceEntry *pEntry = new CResourceEntry(pStore);
+    pEntry->SerializeEntryInfo(rArc, false);
+    ASSERT(pEntry->mpTypeInfo);
+    ASSERT(pEntry->mpDirectory);
+    return pEntry;
+}
+
+CResourceEntry* CResourceEntry::BuildFromDirectory(CResourceStore *pStore, CResTypeInfo *pTypeInfo,
+                                                   const TString& rkDirPath, const TString& rkName)
+{
+    // Initialize as much entry info as possible from the input data, then load the rest from the metadata file.
+    ASSERT(pTypeInfo);
+
+    CResourceEntry *pEntry = new CResourceEntry(pStore);
+    pEntry->mpTypeInfo = pTypeInfo;
+    pEntry->mName = rkName;
+    pEntry->mCachedUppercaseName = rkName.ToUpper();
+
+    pEntry->mpDirectory = pStore->GetVirtualDirectory(rkDirPath, true);
+    ASSERT(pEntry->mpDirectory);
+    pEntry->mpDirectory->AddChild("", pEntry);
+
+    // Make sure we're valid, then load the remaining data from the metadata file
+    ASSERT(pEntry->HasCookedVersion() || pEntry->HasRawVersion());
+    bool Success = pEntry->LoadMetadata();
+    ASSERT(Success);
+
+    return pEntry;
 }
 
 CResourceEntry::~CResourceEntry()
@@ -39,25 +85,18 @@ CResourceEntry::~CResourceEntry()
 bool CResourceEntry::LoadMetadata()
 {
     ASSERT(!mMetadataDirty);
+
     TString Path = MetadataFilePath();
+    CBinaryReader MetaFile(Path, FOURCC('META'));
 
-    if (FileUtil::Exists(Path))
+    if (MetaFile.IsValid())
     {
-        // Validate file
-        CFileInStream MetaFile(Path, IOUtil::eBigEndian);
-        u32 Magic = MetaFile.ReadLong();
-
-        if (Magic == FOURCC('META'))
-        {
-            CSerialVersion Version(MetaFile);
-            CBinaryReader Reader(&MetaFile, Version);
-            SerializeMetadata(Reader);
-            return true;
-        }
-        else
-        {
-            Log::Error(Path + ": Failed to load metadata file, invalid magic: " + CFourCC(Magic).ToString());
-        }
+        SerializeEntryInfo(MetaFile, true);
+        return true;
+    }
+    else
+    {
+        Log::Error(Path + ": Failed to load metadata file!");
     }
 
     return false;
@@ -71,24 +110,11 @@ bool CResourceEntry::SaveMetadata(bool ForceSave /*= false*/)
         TString Dir = Path.GetFileDirectory();
         FileUtil::MakeDirectory(Dir);
 
-        CFileOutStream MetaFile(Path, IOUtil::eBigEndian);
+        CBinaryWriter MetaFile(Path, FOURCC('META'), 0, Game());
 
         if (MetaFile.IsValid())
         {
-            MetaFile.WriteLong(0); // Magic dummy
-
-            CSerialVersion Version(IArchive::skCurrentArchiveVersion, 0, Game());
-            Version.Write(MetaFile);
-
-            // Scope the binary writer to ensure it finishes before we go back to write the magic value
-            {
-                CBinaryWriter Writer(&MetaFile, Version);
-                SerializeMetadata(Writer);
-            }
-
-            MetaFile.GoTo(0);
-            MetaFile.WriteLong(FOURCC('META'));
-
+            SerializeEntryInfo(MetaFile, true);
             mMetadataDirty = false;
             return true;
         }
@@ -97,30 +123,34 @@ bool CResourceEntry::SaveMetadata(bool ForceSave /*= false*/)
     return false;
 }
 
-void CResourceEntry::SerializeMetadata(IArchive& rArc)
+void CResourceEntry::SerializeEntryInfo(IArchive& rArc, bool MetadataOnly)
 {
-    // Serialize ID. If we already have a valid ID then don't allow the file to override it.
     CAssetID ID = mID;
-    rArc << SERIAL("AssetID", ID);
 
+    rArc << SERIAL("AssetID", ID)
+         << SERIAL("Type", mpTypeInfo)
+         << SERIAL("Flags", mFlags);
+
+    // Don't allow the file to override our asset ID if we already have a valid one.
     if (rArc.IsReader() && !mID.IsValid())
         mID = ID;
 
-    // Serialize type
-    rArc << SERIAL("Type", mpTypeInfo);
+    // Serialize extra data that we exclude from the metadata file
+    if (!MetadataOnly)
+    {
+        TString Dir = (mpDirectory ? mpDirectory->FullPath() : "");
 
-    // Serialize flags
-    u32 Flags = mFlags & eREF_SavedFlags;
-    rArc << SERIAL_AUTO(Flags);
-    if (rArc.IsReader()) mFlags = Flags & eREF_SavedFlags;
-}
+        rArc << SERIAL("Name", mName)
+             << SERIAL("Directory", Dir)
+             << SERIAL_ABSTRACT("Dependencies", mpDependencies, &gDependencyNodeFactory);
 
-void CResourceEntry::SerializeCacheData(IArchive& rArc)
-{
-    // Note: If the dependency tree format is changed this should be adjusted so that
-    // we regenerate the dependencies from scratch instead of reading the tree if the
-    // file version number is too low
-    rArc << SERIAL_ABSTRACT("Dependencies", mpDependencies, &gDependencyNodeFactory);
+        if (rArc.IsReader())
+        {
+            mpDirectory = mpStore->GetVirtualDirectory(Dir, true);
+            mpDirectory->AddChild("", this);
+            mCachedUppercaseName = mName.ToUpper();
+        }
+    }
 }
 
 void CResourceEntry::UpdateDependencies()
@@ -150,7 +180,7 @@ void CResourceEntry::UpdateDependencies()
     }
 
     mpDependencies = mpResource->BuildDependencyTree();
-    mpStore->SetCacheDataDirty();
+    mpStore->SetCacheDirty();
 
     if (!WasLoaded)
         mpStore->DestroyUnreferencedResources();
@@ -550,7 +580,7 @@ bool CResourceEntry::Move(const TString& rkDir, const TString& rkName, bool IsAu
             SetFlagEnabled(eREF_AutoResName, IsAutoGenName);
         }
 
-        mpStore->SetDatabaseDirty();
+        mpStore->SetCacheDirty();
         mCachedUppercaseName = rkName.ToUpper();
         FileUtil::DeleteFile(OldRawPath);
         FileUtil::DeleteFile(OldCookedPath);

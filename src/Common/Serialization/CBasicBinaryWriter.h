@@ -11,20 +11,26 @@
 class CBasicBinaryWriter : public IArchive
 {
     IOutputStream *mpStream;
+    u32 mMagic;
     bool mOwnsStream;
 
 public:
-    CBasicBinaryWriter(const TString& rkFilename, u16 FileVersion, EGame Game = eUnknownGame, IOUtil::EEndianness = IOUtil::eLittleEndian)
+    CBasicBinaryWriter(const TString& rkFilename, u32 Magic, u16 FileVersion, EGame Game)
         : IArchive(false, true)
+        , mMagic(Magic)
         , mOwnsStream(true)
     {
         mpStream = new CFileOutStream(rkFilename, IOUtil::eBigEndian);
-        ASSERT(mpStream->IsValid());
-        SetVersion(skCurrentArchiveVersion, FileVersion, Game);
-        GetVersionInfo().Write(*mpStream);
+
+        if (mpStream->IsValid())
+        {
+            mpStream->WriteLong(0); // Magic is written after the rest of the file is successfully saved
+            SetVersion(skCurrentArchiveVersion, FileVersion, Game);
+            GetVersionInfo().Write(*mpStream);
+        }
     }
 
-    CBasicBinaryWriter(IOutputStream *pStream, u16 FileVersion, EGame Game = eUnknownGame)
+    CBasicBinaryWriter(IOutputStream *pStream, u16 FileVersion, EGame Game)
         : IArchive(false, true)
         , mOwnsStream(false)
     {
@@ -44,8 +50,16 @@ public:
 
     ~CBasicBinaryWriter()
     {
-        if (mOwnsStream) delete mpStream;
+        // Write magic and delete stream
+        if (mOwnsStream)
+        {
+            mpStream->GoTo(0);
+            mpStream->WriteLong(mMagic);
+            delete mpStream;
+        }
     }
+
+    inline bool IsValid() const { return mpStream->IsValid(); }
 
     // Interface
     virtual bool ParamBegin(const char*)    { return true; }

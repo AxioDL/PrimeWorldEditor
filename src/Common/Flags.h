@@ -7,7 +7,7 @@
 template<typename FlagEnum>
 class TFlags
 {
-    int mValue;
+    u32 mValue;
 
 public:
     TFlags() : mValue(0) {}
