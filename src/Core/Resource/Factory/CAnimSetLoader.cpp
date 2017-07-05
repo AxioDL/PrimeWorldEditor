@@ -137,10 +137,16 @@ CAnimSet* CAnimSetLoader::LoadReturnsCHAR(IInputStream& rCHAR)
 
     for (u32 AnimIdx = 0; AnimIdx < NumAnims; AnimIdx++)
     {
-        rCHAR.ReadString();
+        TString AnimName = rCHAR.ReadString();
         CAssetID AnimID(rCHAR, eReturns);
         rCHAR.Skip(0x25);
         rChar.DKDependencies.push_back(AnimID);
+
+        // small hack - create a meta-anim for it so we can generate asset names for the ANIM files correctly
+        SAnimation Anim;
+        Anim.Name = AnimName;
+        Anim.pMetaAnim = new CMetaAnimPlay( CAnimPrimitive(AnimID, AnimIdx, AnimName), 0.f, 0 );
+        pSet->mAnimations.push_back(Anim);
     }
 
     // The only other thing we care about right now is the dependency list. If this file doesn't have a dependency list, exit out.
@@ -229,6 +235,7 @@ CAnimSet* CAnimSetLoader::LoadReturnsCHAR(IInputStream& rCHAR)
         }
     }
 
+    ProcessPrimitives();
     return pSet;
 }
 

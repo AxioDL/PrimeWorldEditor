@@ -335,6 +335,9 @@ void CResourceBrowser::OnGenerateAssetNames()
     Dialog.DisallowCanceling();
     Dialog.SetOneShotTask("Generating asset names");
 
+    // Temporarily set root to null to ensure the window doesn't access the resource store while we're running.
+    mpDirectoryModel->SetRoot(mpStore->RootDirectory());
+
     QFuture<void> Future = QtConcurrent::run(&GenerateAssetNames, mpStore->Project());
     Dialog.WaitForResults(Future);
 

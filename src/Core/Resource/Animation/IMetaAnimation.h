@@ -32,6 +32,12 @@ class CAnimPrimitive
 public:
     CAnimPrimitive() : mID(0) {}
 
+    CAnimPrimitive(const CAssetID& rkAnimAssetID, u32 CharAnimID, const TString& rkAnimName)
+        : mID(CharAnimID), mName(rkAnimName)
+    {
+        mpAnim = gpResourceStore->LoadResource(rkAnimAssetID);
+    }
+
     CAnimPrimitive(IInputStream& rInput, EGame Game)
     {
         mpAnim = gpResourceStore->LoadResource( CAssetID(rInput, Game) );
@@ -70,6 +76,7 @@ protected:
     u32 mUnknownB;
 
 public:
+    CMetaAnimPlay(const CAnimPrimitive& rkPrimitive, float UnkA, u32 UnkB);
     CMetaAnimPlay(IInputStream& rInput, EGame Game);
     virtual EMetaAnimationType Type() const;
     virtual void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const;

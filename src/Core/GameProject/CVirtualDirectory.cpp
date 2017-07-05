@@ -204,7 +204,7 @@ bool CVirtualDirectory::RemoveChildDirectory(CVirtualDirectory *pSubdir)
             // If this is part of the resource store, delete the corresponding filesystem directory
             if (mpStore && pSubdir->GetRoot() == mpStore->RootDirectory())
             {
-                TString AbsPath = mpStore->DatabaseRootPath() + pSubdir->FullPath();
+                TString AbsPath = mpStore->ResourcesDir() + pSubdir->FullPath();
                 FileUtil::DeleteDirectory(AbsPath, true);
             }
 
@@ -237,7 +237,10 @@ void CVirtualDirectory::RemoveEmptySubdirectories()
         CVirtualDirectory *pDir = mSubdirectories[SubdirIdx];
 
         if (pDir->IsEmpty())
+        {
             RemoveChildDirectory(pDir);
+            SubdirIdx--;
+        }
         else
             pDir->RemoveEmptySubdirectories();
     }

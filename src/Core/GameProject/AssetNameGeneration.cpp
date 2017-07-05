@@ -97,7 +97,7 @@ void GenerateAssetNames(CGameProject *pProj)
 
         TString NewDir = (HasCustomDir ? It->DirectoryPath() : "Uncategorized/");
         TString NewName = (HasCustomName ? It->Name() : It->ID().ToString());
-        It->Move(NewDir, NewName);
+        It->Move(NewDir, NewName, true, true);
     }
 #endif
 
@@ -131,7 +131,7 @@ void GenerateAssetNames(CGameProject *pProj)
     for (TResourceIterator<eWorld> It(pStore); It; ++It)
     {
         // Set world name
-        CWorld *pWorld = (CWorld*) It->Load();
+        TResPtr<CWorld> pWorld = It->Load();
         TString WorldName = pWorld->Name();
         TString WorldDir = kWorldsRoot + WorldName + '/';
 
@@ -205,7 +205,7 @@ void GenerateAssetNames(CGameProject *pProj)
 
             // Rename area stuff
             CResourceEntry *pAreaEntry = pStore->FindEntry(AreaID);
-            ASSERT(pAreaEntry != nullptr);
+            if (!pAreaEntry) continue; // Some DKCR worlds reference areas that don't exist
             ApplyGeneratedName(pAreaEntry, WorldMasterDir, AreaName);
 
             CStringTable *pAreaNameTable = pWorld->AreaName(iArea);

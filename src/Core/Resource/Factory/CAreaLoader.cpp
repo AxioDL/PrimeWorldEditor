@@ -624,7 +624,9 @@ void CAreaLoader::SetUpObjects(CScriptLayer *pGenLayer)
             // Check if this is a duplicate of an existing instance (this only happens with DKCR GenericCreature as far as I'm aware)
             if (mpArea->InstanceByID(InstanceID) != nullptr)
             {
-                Log::Write("Duplicate SCGN object: [" + pInst->Template()->Name() + "] " + pInst->InstanceName() + " (" + TString::HexString(pInst->InstanceID(), 8, false) + ")");
+                if (pInst->ObjectTypeID() != FOURCC('GCTR'))
+                    Log::Write("Duplicate SCGN object: [" + pInst->Template()->Name() + "] " + pInst->InstanceName() + " (" + TString::HexString(pInst->InstanceID(), 8, false) + ")");
+
                 pGenLayer->RemoveInstance(pInst);
                 delete pInst;
             }
