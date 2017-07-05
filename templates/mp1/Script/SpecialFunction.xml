@@ -69,7 +69,7 @@
             <property name="Active" ID="0x0A"/>
         </properties>
         <assets>
-            <billboard source="file">script/common/SpecialFunction.txtr</billboard>
+            <billboard source="file">script/common/SpecialFunction.TXTR</billboard>
         </assets>
         <rotation_type>enabled</rotation_type>
         <scale_type>enabled</scale_type>

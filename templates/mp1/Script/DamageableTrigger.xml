@@ -35,7 +35,7 @@
             <property name="Active" ID="0x0A"/>
         </properties>
         <assets>
-            <billboard source="file">script/common/DamageableTrigger.txtr</billboard>
+            <billboard source="file">script/common/DamageableTrigger.TXTR</billboard>
         </assets>
         <rotation_type>disabled</rotation_type>
         <scale_type>volume</scale_type>

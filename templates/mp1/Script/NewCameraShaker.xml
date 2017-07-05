@@ -80,7 +80,7 @@
             <property name="Position" ID="0x01"/>
         </properties>
         <assets>
-            <billboard source="file">script/mp1/NewCameraShaker.txtr</billboard>
+            <billboard source="file">script/mp1/NewCameraShaker.TXTR</billboard>
         </assets>
         <rotation_type>disabled</rotation_type>
         <scale_type>disabled</scale_type>

@@ -16,7 +16,7 @@
             <property name="Active" ID="0x04"/>
         </properties>
         <assets>
-            <billboard source="file">script/common/RandomRelay.txtr</billboard>
+            <billboard source="file">script/common/RandomRelay.TXTR</billboard>
         </assets>
         <rotation_type>disabled</rotation_type>
         <scale_type>enabled</scale_type>

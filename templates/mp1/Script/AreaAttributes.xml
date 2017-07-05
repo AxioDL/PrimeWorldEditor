@@ -32,7 +32,7 @@
     <editor>
         <properties/>
         <assets>
-            <billboard source="file">script/common/AreaAttributes.txtr</billboard>
+            <billboard source="file">script/common/AreaAttributes.TXTR</billboard>
         </assets>
         <rotation_type>disabled</rotation_type>
         <scale_type>disabled</scale_type>

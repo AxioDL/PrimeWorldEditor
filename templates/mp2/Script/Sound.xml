@@ -80,7 +80,7 @@
             <property name="Active" ID="0x255A4580:0x41435456"/>
         </properties>
         <assets>
-            <billboard source="file">script/common/Sound.txtr</billboard>
+            <billboard source="file">script/common/Sound.TXTR</billboard>
         </assets>
         <preview_scale>0.5</preview_scale>
         <rotation_type>enabled</rotation_type>

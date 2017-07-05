@@ -18,7 +18,7 @@
             <property name="Active" ID="0x01"/>
         </properties>
         <assets>
-            <billboard source="file">script/common/CameraBlurKeyframe.txtr</billboard>
+            <billboard source="file">script/common/CameraBlurKeyframe.TXTR</billboard>
         </assets>
         <rotation_type>disabled</rotation_type>
         <scale_type>disabled</scale_type>

@@ -22,7 +22,7 @@
             <property name="Active" ID="0x05"/>
         </properties>
         <assets>
-            <billboard source="file">script/common/HUDMemo.txtr</billboard>
+            <billboard source="file">script/common/HUDMemo.TXTR</billboard>
         </assets>
         <rotation_type>disabled</rotation_type>
         <scale_type>enabled</scale_type>

@@ -27,7 +27,7 @@
             <property name="Rotation" ID="0x02"/>
         </properties>
         <assets>
-            <model source="file">script/common/Camera.cmdl</model>
+            <model source="file">script/common/Camera.CMDL</model>
         </assets>
         <rotation_type>enabled</rotation_type>
         <scale_type>disabled</scale_type>

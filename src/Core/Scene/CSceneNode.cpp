@@ -258,7 +258,7 @@ void CSceneNode::DrawBoundingBox() const
 
 void CSceneNode::DrawRotationArrow() const
 {
-    static TResPtr<CModel> spArrowModel = gpEditorStore->LoadResource("RotationArrow.cmdl");
+    static TResPtr<CModel> spArrowModel = gpEditorStore->LoadResource("RotationArrow.CMDL");
     spArrowModel->Draw(eNoRenderOptions, 0);
 }
 
