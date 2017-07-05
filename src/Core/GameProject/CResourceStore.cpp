@@ -2,6 +2,7 @@
 #include "CGameExporter.h"
 #include "CGameProject.h"
 #include "CResourceIterator.h"
+#include "Core/IUIRelay.h"
 #include "Core/Resource/CResource.h"
 #include <Common/AssertMacro.h>
 #include <Common/FileUtil.h>
@@ -17,13 +18,12 @@ CResourceStore *gpEditorStore = nullptr;
 // Constructor for editor store
 CResourceStore::CResourceStore(const TString& rkDatabasePath)
     : mpProj(nullptr)
-    , mGame(eUnknownGame)
-    , mDatabaseDirty(false)
-    , mCacheFileDirty(false)
+    , mGame(ePrime)
+    , mDatabaseCacheDirty(false)
 {
     mpDatabaseRoot = new CVirtualDirectory(this);
     mDatabasePath = FileUtil::MakeAbsolute(rkDatabasePath.GetFileDirectory());
-    mDatabaseName = rkDatabasePath.GetFileName();
+    LoadDatabaseCache();
 }
 
 // Main constructor for game projects and game exporter
@@ -31,8 +31,7 @@ CResourceStore::CResourceStore(CGameProject *pProject)
     : mpProj(nullptr)
     , mGame(eUnknownGame)
     , mpDatabaseRoot(nullptr)
-    , mDatabaseDirty(false)
-    , mCacheFileDirty(false)
+    , mDatabaseCacheDirty(false)
 {
     SetProject(pProject);
 }
@@ -60,58 +59,60 @@ void RecursiveGetListOfEmptyDirectories(CVirtualDirectory *pDir, TStringList& rO
     }
 }
 
-bool CResourceStore::SerializeResourceDatabase(IArchive& rArc)
+bool CResourceStore::SerializeDatabaseCache(IArchive& rArc)
 {
-    struct SDatabaseResource
+    // Serialize resources
+    if (rArc.ParamBegin("Resources"))
     {
-        CAssetID ID;
-        CResTypeInfo *pType;
-        TString Directory;
-        TString Name;
+        // Serialize resources
+        u32 ResourceCount = mResourceEntries.size();
+        rArc << SERIAL_AUTO(ResourceCount);
 
-        void Serialize(IArchive& rArc)
+        if (rArc.IsReader())
         {
-            rArc << SERIAL_AUTO(ID) << SERIAL("Type", pType) << SERIAL_AUTO(Directory) << SERIAL_AUTO(Name);
+            for (u32 ResIdx = 0; ResIdx < ResourceCount; ResIdx++)
+            {
+                if (rArc.ParamBegin("Resource"))
+                {
+                    CResourceEntry *pEntry = CResourceEntry::BuildFromArchive(this, rArc);
+                    ASSERT( FindEntry(pEntry->ID()) == nullptr );
+                    mResourceEntries[pEntry->ID()] = pEntry;
+                    rArc.ParamEnd();
+                }
+            }
         }
-    };
-    std::vector<SDatabaseResource> Resources;
-
-    // Populate resource list
-    if (!rArc.IsReader())
-    {
-        Resources.reserve(mResourceEntries.size());
-
-        for (CResourceIterator It(this); It; ++It)
-            Resources.push_back( SDatabaseResource { It->ID(), It->TypeInfo(), It->Directory()->FullPath(), It->Name() } );
+        else
+        {
+            for (CResourceIterator It(this); It; ++It)
+            {
+                if (rArc.ParamBegin("Resource"))
+                {
+                    It->SerializeEntryInfo(rArc, false);
+                    rArc.ParamEnd();
+                }
+            }
+        }
+        rArc.ParamEnd();
     }
 
-    // Populate directory list
+    // Serialize empty directory list
     TStringList EmptyDirectories;
 
     if (!rArc.IsReader())
         RecursiveGetListOfEmptyDirectories(mpDatabaseRoot, EmptyDirectories);
 
-    // Serialize
-    rArc << SERIAL_CONTAINER_AUTO(Resources, "Resource")
-         << SERIAL_CONTAINER_AUTO(EmptyDirectories, "Directory");
+    rArc << SERIAL_CONTAINER_AUTO(EmptyDirectories, "Directory");
 
-    // Register resources
     if (rArc.IsReader())
     {
         for (auto Iter = EmptyDirectories.begin(); Iter != EmptyDirectories.end(); Iter++)
             CreateVirtualDirectory(*Iter);
-
-        for (auto Iter = Resources.begin(); Iter != Resources.end(); Iter++)
-        {
-            SDatabaseResource& rRes = *Iter;
-            RegisterResource(rRes.ID, rRes.pType->Type(), rRes.Directory, rRes.Name);
-        }
     }
 
     return true;
 }
 
-bool CResourceStore::LoadResourceDatabase()
+bool CResourceStore::LoadDatabaseCache()
 {
     ASSERT(!mDatabasePath.IsEmpty());
     TString Path = DatabasePath();
@@ -119,139 +120,46 @@ bool CResourceStore::LoadResourceDatabase()
     if (!mpDatabaseRoot)
         mpDatabaseRoot = new CVirtualDirectory(this);
 
-    CXMLReader Reader(Path);
+    // Load the resource database
+    CBinaryReader Reader(Path, FOURCC('CACH'));
 
-    if (!Reader.IsValid())
+    if (!Reader.IsValid() || !SerializeDatabaseCache(Reader))
     {
-        Log::Error("Failed to open resource database for load: " + Path);
-        return false;
+        if (gpUIRelay->AskYesNoQuestion("Error", "Failed to load the resource database. Attempt to build from the directory? (This may take a while.)"))
+        {
+            if (!BuildFromDirectory(true))
+                return false;
+        }
+        else return false;
     }
-
-    if (mpProj)
-        ASSERT(mpProj->Game() == Reader.Game());
+    else
+    {
+        // Database is succesfully loaded at this point
+        if (mpProj)
+            ASSERT(mpProj->Game() == Reader.Game());
+    }
 
     mGame = Reader.Game();
-    if (!SerializeResourceDatabase(Reader)) return false;
-    return LoadCacheFile();
-}
-
-bool CResourceStore::SaveResourceDatabase()
-{
-    TString Path = DatabasePath();
-    CXMLWriter Writer(Path, "ResourceDB", 0, mGame);
-    SerializeResourceDatabase(Writer);
-    bool SaveSuccess = Writer.Save();
-
-    if (SaveSuccess)
-        mDatabaseDirty = false;
-    else
-        Log::Error("Failed to save resource database: " + Path);
-
-    return SaveSuccess;
-}
-
-bool CResourceStore::LoadCacheFile()
-{
-    TString CachePath = CacheDataPath();
-    CFileInStream CacheFile(CachePath, IOUtil::eBigEndian);
-
-    if (!CacheFile.IsValid())
-    {
-        Log::Error("Failed to open cache file for load: " + CachePath);
-        return false;
-    }
-
-    // Cache header
-    CFourCC Magic(CacheFile);
-
-    if (Magic != FOURCC('CACH'))
-    {
-        Log::Error("Invalid resource cache data magic: " + Magic.ToString());
-        return false;
-    }
-
-    CSerialVersion Version(CacheFile);
-    u32 NumResources = CacheFile.ReadLong();
-
-    for (u32 iRes = 0; iRes < NumResources; iRes++)
-    {
-        CAssetID ID(CacheFile, Version.Game());
-        u32 EntryCacheSize = CacheFile.ReadLong();
-        u32 EntryCacheEnd = CacheFile.Tell() + EntryCacheSize;
-
-        CResourceEntry *pEntry = FindEntry(ID);
-
-        if (pEntry)
-        {
-            CBasicBinaryReader Reader(&CacheFile, Version);
-
-            if (Reader.ParamBegin("EntryCache"))
-            {
-                pEntry->SerializeCacheData(Reader);
-                Reader.ParamEnd();
-            }
-        }
-
-        CacheFile.Seek(EntryCacheEnd, SEEK_SET);
-    }
     return true;
 }
 
-bool CResourceStore::SaveCacheFile()
+bool CResourceStore::SaveDatabaseCache()
 {
-    TString CachePath = CacheDataPath();
-    CFileOutStream CacheFile(CachePath, IOUtil::eBigEndian);
+    TString Path = DatabasePath();
 
-    if (!CacheFile.IsValid())
-    {
-        Log::Error("Failed to open cache file for save: " + CachePath);
+    CBinaryWriter Writer(Path, FOURCC('CACH'), 0, mGame);
+
+    if (!Writer.IsValid())
         return false;
-    }
 
-    // Cache header
-    CacheFile.WriteLong(0); // Magic dummy. Magic isn't written until the rest of the file is saved successfully.
-    CSerialVersion Version(IArchive::skCurrentArchiveVersion, 0, mGame);
-    Version.Write(CacheFile);
-
-    u32 ResCountOffset = CacheFile.Tell();
-    u32 ResCount = 0;
-    CacheFile.WriteLong(0); // Resource count dummy - fill in when we know the real count
-
-    // Save entry cache data
-    // Structure: Entry Asset ID -> Entry Cache Size -> Serialized Entry Cache Data
-    for (CResourceIterator It(this); It; ++It)
-    {
-        ResCount++;
-        It->ID().Write(CacheFile);
-        u32 SizeOffset = CacheFile.Tell();
-        CacheFile.WriteLong(0);
-
-        CBasicBinaryWriter Writer(&CacheFile, Version.FileVersion(), Version.Game());
-
-        if (Writer.ParamBegin("EntryCache"))
-        {
-            It->SerializeCacheData(Writer);
-            Writer.ParamEnd();
-        }
-
-        u32 EntryCacheEnd = CacheFile.Tell();
-        CacheFile.Seek(SizeOffset, SEEK_SET);
-        CacheFile.WriteLong(EntryCacheEnd - SizeOffset - 4);
-        CacheFile.Seek(EntryCacheEnd, SEEK_SET);
-    }
-
-    CacheFile.Seek(ResCountOffset, SEEK_SET);
-    CacheFile.WriteLong(ResCount);
-    CacheFile.Seek(0, SEEK_SET);
-    CacheFile.WriteLong( FOURCC('CACH') );
-    mCacheFileDirty = false;
+    SerializeDatabaseCache(Writer);
+    mDatabaseCacheDirty = false;
     return true;
 }
 
 void CResourceStore::ConditionalSaveStore()
 {
-    if (mDatabaseDirty)  SaveResourceDatabase();
-    if (mCacheFileDirty) SaveCacheFile();
+    if (mDatabaseCacheDirty)  SaveDatabaseCache();
 }
 
 void CResourceStore::SetProject(CGameProject *pProj)
@@ -267,7 +175,6 @@ void CResourceStore::SetProject(CGameProject *pProj)
     {
         TString DatabasePath = mpProj->ResourceDBPath(false);
         mDatabasePath = DatabasePath.GetFileDirectory();
-        mDatabaseName = DatabasePath.GetFileName();
         mpDatabaseRoot = new CVirtualDirectory(this);
         mGame = mpProj->Game();
     }
@@ -377,13 +284,11 @@ void CResourceStore::ClearDatabase()
     delete mpDatabaseRoot;
     mpDatabaseRoot = new CVirtualDirectory(this);
 
-    mDatabaseDirty = true;
-    mCacheFileDirty = true;
+    mDatabaseCacheDirty = true;
 }
 
-void CResourceStore::BuildFromDirectory()
+bool CResourceStore::BuildFromDirectory(bool ShouldGenerateCacheFile)
 {
-    ASSERT(mpProj != nullptr);
     ASSERT(mResourceEntries.empty());
 
     // Get list of resources
@@ -415,8 +320,7 @@ void CResourceStore::BuildFromDirectory()
             }
 
             // Create resource entry
-            CResourceEntry *pEntry = new CResourceEntry(this, CAssetID::InvalidID(mGame), DirPath, ResName, pTypeInfo->Type());
-            pEntry->LoadMetadata();
+            CResourceEntry *pEntry = CResourceEntry::BuildFromDirectory(this, pTypeInfo, DirPath, ResName);
 
             // Validate the entry
             CAssetID ID = pEntry->ID();
@@ -429,6 +333,31 @@ void CResourceStore::BuildFromDirectory()
         else if (FileUtil::IsDirectory(Path))
             CreateVirtualDirectory(RelPath);
     }
+
+    // Generate new cache file
+    if (ShouldGenerateCacheFile)
+    {
+        // Make sure gpResourceStore points to this store
+        CResourceStore *pOldStore = gpResourceStore;
+        gpResourceStore = this;
+
+        // Make sure audio manager is loaded correctly so AGSC dependencies can be looked up
+        if (mpProj)
+            mpProj->AudioManager()->LoadAssets();
+
+        // Update dependencies
+        for (CResourceIterator It(this); It; ++It)
+            It->UpdateDependencies();
+
+        // Update database file
+        mDatabaseCacheDirty = true;
+        ConditionalSaveStore();
+
+        // Restore old gpResourceStore
+        gpResourceStore = pOldStore;
+    }
+
+    return true;
 }
 
 void CResourceStore::RebuildFromDirectory()
@@ -436,19 +365,7 @@ void CResourceStore::RebuildFromDirectory()
     ASSERT(mpProj != nullptr);
     mpProj->AudioManager()->ClearAssets();
     ClearDatabase();
-    BuildFromDirectory();
-
-    // Make sure audio manager is loaded correctly so AGSC dependencies can be looked up
-    mpProj->AudioManager()->LoadAssets();
-
-    // Update dependencies
-    for (CResourceIterator It(this); It; ++It)
-        It->UpdateDependencies();
-
-    // Update database files
-    mDatabaseDirty = true;
-    mCacheFileDirty = true;
-    ConditionalSaveStore();
+    BuildFromDirectory(true);
 }
 
 bool CResourceStore::IsResourceRegistered(const CAssetID& rkID) const
@@ -468,8 +385,7 @@ CResourceEntry* CResourceStore::RegisterResource(const CAssetID& rkID, EResType 
         // Validate directory
         if (IsValidResourcePath(rkDir, rkName))
         {
-            pEntry = new CResourceEntry(this, rkID, rkDir, rkName, Type);
-            pEntry->LoadMetadata();
+            pEntry = CResourceEntry::CreateNewResource(this, rkID, rkDir, rkName, Type);
             mResourceEntries[rkID] = pEntry;
         }
 

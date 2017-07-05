@@ -9,32 +9,39 @@ class CBinaryWriter : public IArchive
     struct SParameter
     {
         u32 Offset;
-        u16 NumSubParams;
+        u32 NumSubParams;
         bool Abstract;
     };
     std::vector<SParameter> mParamStack;
 
     IOutputStream *mpStream;
+    u32 mMagic;
     bool mOwnsStream;
 
 public:
-    CBinaryWriter(const TString& rkFilename, u16 FileVersion, EGame Game = eUnknownGame)
+    CBinaryWriter(const TString& rkFilename, u32 Magic, u16 FileVersion, EGame Game)
         : IArchive(false, true)
+        , mMagic(Magic)
         , mOwnsStream(true)
     {
         mpStream = new CFileOutStream(rkFilename, IOUtil::eBigEndian);
-        ASSERT(mpStream->IsValid());
 
-        SetVersion(skCurrentArchiveVersion, FileVersion, Game);
-        GetVersionInfo().Write(*mpStream);
+        if (mpStream->IsValid())
+        {
+            mpStream->WriteLong(0); // Magic is written after the rest of the file has been successfully written
+            SetVersion(skCurrentArchiveVersion, FileVersion, Game);
+            GetVersionInfo().Write(*mpStream);
+        }
+
         InitParamStack();
     }
 
-    CBinaryWriter(IOutputStream *pStream, u16 FileVersion, EGame Game = eUnknownGame)
+    CBinaryWriter(IOutputStream *pStream, u16 FileVersion, EGame Game)
         : IArchive(false, true)
+        , mMagic(0)
         , mOwnsStream(false)
     {
-        ASSERT(pStream->IsValid());
+        ASSERT(pStream && pStream->IsValid());
         mpStream = pStream;
         SetVersion(skCurrentArchiveVersion, FileVersion, Game);
         InitParamStack();
@@ -42,9 +49,10 @@ public:
 
     CBinaryWriter(IOutputStream *pStream, const CSerialVersion& rkVersion)
         : IArchive(false, true)
+        , mMagic(0)
         , mOwnsStream(false)
     {
-        ASSERT(pStream->IsValid());
+        ASSERT(pStream && pStream->IsValid());
         mpStream = pStream;
         SetVersion(rkVersion);
         InitParamStack();
@@ -58,17 +66,23 @@ public:
         // Finish root param
         ParamEnd();
 
-        // Delete stream
+        // Write magic and delete stream
         if (mOwnsStream)
+        {
+            mpStream->GoTo(0);
+            mpStream->WriteLong(mMagic);
             delete mpStream;
+        }
     }
+
+    inline bool IsValid() const { return mpStream->IsValid(); }
 
 private:
     void InitParamStack()
     {
         mParamStack.reserve(20);
         mpStream->WriteLong(0xFFFFFFFF);
-        mpStream->WriteShort(0); // Size filler
+        mpStream->WriteLong(0); // Size filler
         mParamStack.push_back( SParameter { mpStream->Tell(), 0, false } );
     }
 
@@ -80,12 +94,12 @@ public:
         mParamStack.back().NumSubParams++;
 
         if (mParamStack.back().NumSubParams == 1)
-            mpStream->WriteShort(-1); // Sub-param count filler
+            mpStream->WriteLong(-1); // Sub-param count filler
 
         // Write param metadata
         u32 ParamID = TString(pkName).Hash32();
         mpStream->WriteLong(ParamID);
-        mpStream->WriteShort((u16) 0xFFFF); // Param size filler
+        mpStream->WriteLong(-1); // Param size filler
 
         // Add new param to the stack
         mParamStack.push_back( SParameter { mpStream->Tell(), 0, false } );
@@ -99,16 +113,16 @@ public:
         SParameter& rParam = mParamStack.back();
         u32 StartOffset = rParam.Offset;
         u32 EndOffset = mpStream->Tell();
-        u16 ParamSize = (u16) (EndOffset - StartOffset);
+        u32 ParamSize = (EndOffset - StartOffset);
 
-        mpStream->GoTo(StartOffset - 2);
-        mpStream->WriteShort(ParamSize);
+        mpStream->GoTo(StartOffset - 4);
+        mpStream->WriteLong(ParamSize);
 
         // Write param child count
         if (rParam.NumSubParams > 0 || mParamStack.size() == 1)
         {
             if (rParam.Abstract) mpStream->Skip(4);
-            mpStream->WriteShort(rParam.NumSubParams);
+            mpStream->WriteLong(rParam.NumSubParams);
         }
 
         mpStream->GoTo(EndOffset);
@@ -119,7 +133,7 @@ public:
     {
         // Normally handled by ParamBegin and ParamEnd but we need to do something here to account for zero-sized containers
         if (rSize == 0)
-            mpStream->WriteShort(0);
+            mpStream->WriteLong(0);
     }
 
     virtual void SerializeAbstractObjectType(u32& rType)

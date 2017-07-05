@@ -542,11 +542,11 @@ void CGameExporter::ExportResourceEditorData()
         // All resources should have dependencies generated, so save the project files
         SCOPED_TIMER(SaveResourceDatabase);
 #if EXPORT_COOKED
-        mpStore->SaveResourceDatabase();
+        bool ResDBSaveSuccess = mpStore->SaveDatabaseCache();
+        ASSERT(ResDBSaveSuccess);
 #endif
-        bool SaveSuccess = mpProject->Save();
-        ASSERT(SaveSuccess);
-        mpStore->SaveCacheFile();
+        bool ProjectSaveSuccess = mpProject->Save();
+        ASSERT(ProjectSaveSuccess);
     }
 }
 

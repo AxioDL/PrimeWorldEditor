@@ -178,7 +178,14 @@ protected:
     bool mIsWriter;
 
 public:
-    static const u32 skCurrentArchiveVersion = 0;
+    enum EArchiveVersion
+    {
+        eArVer_Initial,
+        eArVer_32BitBinarySize,
+        // Insert new versions before this line
+        eArVer_Max
+    };
+    static const u32 skCurrentArchiveVersion = (eArVer_Max - 1);
 
     IArchive(bool IsReader, bool IsWriter)
         : mFileVersion(0)

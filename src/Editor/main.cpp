@@ -32,21 +32,9 @@ int main(int argc, char *argv[])
     App.setOrganizationName("Aruki");
     App.setWindowIcon(QIcon(":/icons/AppIcon.ico"));
 
-    // Init log
-    bool Initialized = Log::InitLog("primeworldeditor.log");
-    if (!Initialized) QMessageBox::warning(0, "Error", "Couldn't open log file. Logging will not work for this session.");
-    qInstallMessageHandler(QtLogRedirect);
-
     // Create UI relay
     CUIRelay UIRelay(&App);
     gpUIRelay = &UIRelay;
-
-    // Create editor resource store
-    gpEditorStore = new CResourceStore("../resources/EditorResourceDB.rdb");
-    gpEditorStore->LoadResourceDatabase();
-
-    // Load templates
-    CTemplateLoader::LoadGameList();
 
     // Set up dark theme
     qApp->setStyle(QStyleFactory::create("Fusion"));
@@ -65,6 +53,17 @@ int main(int argc, char *argv[])
     DarkPalette.setColor(QPalette::Highlight, QColor(42, 130, 218));
     DarkPalette.setColor(QPalette::HighlightedText, Qt::white);
     qApp->setPalette(DarkPalette);
+
+    // Init log
+    bool Initialized = Log::InitLog("primeworldeditor.log");
+    if (!Initialized) QMessageBox::warning(0, "Error", "Couldn't open log file. Logging will not work for this session.");
+    qInstallMessageHandler(QtLogRedirect);
+
+    // Create editor resource store
+    gpEditorStore = new CResourceStore("../resources/");
+
+    // Load templates
+    CTemplateLoader::LoadGameList();
 
     // Execute application
     App.InitEditor();

@@ -9,7 +9,7 @@ CGameProject::~CGameProject()
 {
     if (mpResourceStore)
     {
-        ASSERT(!mpResourceStore->IsDirty());
+        ASSERT(!mpResourceStore->IsCacheDirty());
 
         if (gpResourceStore == mpResourceStore)
             gpResourceStore = nullptr;
@@ -238,7 +238,7 @@ CGameProject* CGameProject::LoadProject(const TString& rkProjPath, IProgressNoti
         // Load resource database
         pProgress->Report("Loading resource database");
         pProj->mpResourceStore = new CResourceStore(pProj);
-        LoadSuccess = pProj->mpResourceStore->LoadResourceDatabase();
+        LoadSuccess = pProj->mpResourceStore->LoadDatabaseCache();
 
         // Validate resource database
         if (LoadSuccess)

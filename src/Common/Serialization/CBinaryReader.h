@@ -10,35 +10,40 @@ class CBinaryReader : public IArchive
     struct SParameter
     {
         u32 Offset;
-        u16 Size;
-        u16 NumChildren;
-        u16 ChildIndex;
+        u32 Size;
+        u32 NumChildren;
+        u32 ChildIndex;
         bool Abstract;
     };
     std::vector<SParameter> mParamStack;
 
     IInputStream *mpStream;
+    bool mMagicValid;
     bool mOwnsStream;
 
 public:
-    CBinaryReader(const TString& rkFilename)
+    CBinaryReader(const TString& rkFilename, u32 Magic)
         : IArchive(true, false)
         , mOwnsStream(true)
     {
         mpStream = new CFileInStream(rkFilename, IOUtil::eBigEndian);
-        ASSERT(mpStream->IsValid());
 
-        CSerialVersion Version(*mpStream);
-        SetVersion(Version);
+        if (mpStream->IsValid())
+        {
+            mMagicValid = (mpStream->ReadLong() == Magic);
+            CSerialVersion Version(*mpStream);
+            SetVersion(Version);
+        }
 
         InitParamStack();
     }
 
     CBinaryReader(IInputStream *pStream, const CSerialVersion& rkVersion)
         : IArchive(true, false)
+        , mMagicValid(true)
         , mOwnsStream(false)
     {
-        ASSERT(pStream->IsValid());
+        ASSERT(pStream && pStream->IsValid());
         mpStream = pStream;
         SetVersion(rkVersion);
 
@@ -50,25 +55,32 @@ public:
         if (mOwnsStream) delete mpStream;
     }
 
+    inline bool IsValid() const { return mpStream->IsValid() && mMagicValid; }
+
 private:
     void InitParamStack()
     {
         mpStream->Skip(4); // Skip root ID (which is always -1)
-        u16 Size = mpStream->ReadShort();
+        u32 Size = ReadSize();
         u32 Offset = mpStream->Tell();
-        u16 NumChildren = mpStream->ReadShort();
+        u32 NumChildren = ReadSize();
         mParamStack.push_back( SParameter { Offset, Size, NumChildren, 0, false } );
         mParamStack.reserve(20);
     }
 
 public:
     // Interface
+    u32 ReadSize()
+    {
+        return (mArchiveVersion < eArVer_32BitBinarySize ? (u32) mpStream->ReadShort() : mpStream->ReadLong());
+    }
+
     virtual bool ParamBegin(const char *pkName)
     {
         // If this is the parent parameter's first child, then read the child count
-        if (mParamStack.back().NumChildren == 0xFFFF)
+        if (mParamStack.back().NumChildren == 0xFFFFFFFF)
         {
-            mParamStack.back().NumChildren = mpStream->ReadShort();
+            mParamStack.back().NumChildren = ReadSize();
         }
 
         // Save current offset
@@ -79,12 +91,12 @@ public:
         if (mParamStack.back().ChildIndex < mParamStack.back().NumChildren)
         {
             u32 NextID = mpStream->ReadLong();
-            u16 NextSize = mpStream->ReadShort();
+            u32 NextSize = ReadSize();
 
             // Does the next parameter ID match the current one?
             if (NextID == ParamID)
             {
-                mParamStack.push_back( SParameter { Offset, NextSize, 0xFFFF, 0, false } );
+                mParamStack.push_back( SParameter { mpStream->Tell(), NextSize, 0xFFFFFFFF, 0, false } );
                 return true;
             }
         }
@@ -94,20 +106,20 @@ public:
         {
             bool ParentAbstract = mParamStack.back().Abstract;
             u32 ParentOffset = mParamStack.back().Offset;
-            u16 NumChildren = mParamStack.back().NumChildren;
-            mpStream->GoTo(ParentOffset + (ParentAbstract ? 0xC : 0x8));
+            u32 NumChildren = mParamStack.back().NumChildren;
+            mpStream->GoTo(ParentOffset + (ParentAbstract ? 4 : 0));
 
             for (u32 ChildIdx = 0; ChildIdx < NumChildren; ChildIdx++)
             {
                 u32 ChildID = mpStream->ReadLong();
-                u16 ChildSize = mpStream->ReadShort();
+                u32 ChildSize = ReadSize();
 
                 if (ChildID != ParamID)
                     mpStream->Skip(ChildSize);
                 else
                 {
-                    mParamStack.back().ChildIndex = (u16) ChildIdx;
-                    mParamStack.push_back( SParameter { mpStream->Tell() - 6, ChildSize, 0xFFFF, 0, false } );
+                    mParamStack.back().ChildIndex = ChildIdx;
+                    mParamStack.push_back( SParameter { mpStream->Tell(), ChildSize, 0xFFFFFFFF, 0, false } );
                     return true;
                 }
             }
@@ -122,7 +134,7 @@ public:
     {
         // Make sure we're at the end of the parameter
         SParameter& rParam = mParamStack.back();
-        u32 EndOffset = rParam.Offset + rParam.Size + 6;
+        u32 EndOffset = rParam.Offset + rParam.Size;
         mpStream->GoTo(EndOffset);
         mParamStack.pop_back();
 
@@ -134,7 +146,7 @@ public:
     virtual void SerializeContainerSize(u32& rSize, const TString& /*rkElemName*/)
     {
         // Mostly handled by ParamBegin, we just need to return the size correctly so the container can be resized
-        rSize = (u32) mpStream->PeekShort();
+        rSize = (mArchiveVersion < eArVer_32BitBinarySize ? (u32) mpStream->PeekShort() : mpStream->PeekLong());
     }
 
     virtual void SerializeAbstractObjectType(u32& rType)
