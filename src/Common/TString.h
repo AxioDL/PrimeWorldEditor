@@ -214,6 +214,16 @@ public:
         return mInternalString.substr(StartPos, Length);
     }
 
+    inline void Reserve(u32 Amount)
+    {
+        mInternalString.reserve(Amount);
+    }
+
+    inline void Shrink()
+    {
+        mInternalString.shrink_to_fit();
+    }
+
     inline void Insert(u32 Pos, CharType Chr)
     {
 #ifdef _DEBUG

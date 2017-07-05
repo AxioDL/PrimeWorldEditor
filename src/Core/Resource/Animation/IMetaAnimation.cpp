@@ -29,6 +29,13 @@ IMetaAnimation* CMetaAnimFactory::LoadFromStream(IInputStream& rInput, EGame Gam
 }
 
 // ************ CMetaAnimationPlay ************
+CMetaAnimPlay::CMetaAnimPlay(const CAnimPrimitive& rkPrimitive, float UnkA, u32 UnkB)
+    : mPrimitive(rkPrimitive)
+    , mUnknownA(UnkA)
+    , mUnknownB(UnkB)
+{
+}
+
 CMetaAnimPlay::CMetaAnimPlay(IInputStream& rInput, EGame Game)
 {
     mPrimitive = CAnimPrimitive(rInput, Game);

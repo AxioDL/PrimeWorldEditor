@@ -9,6 +9,7 @@ using namespace boost::filesystem;
 // Macro encapsulating a TString -> boost::filesystem::path conversion
 // boost does not handle conversion from UTF-8 correctly so we need to do it manually
 #define TO_PATH(String) path( *String.ToUTF16() )
+#define FROM_PATH(Path) TWideString( Path.native() ).ToUTF8()
 
 namespace FileUtil
 {
@@ -203,7 +204,7 @@ u64 LastModifiedTime(const TString& rkFilePath)
 
 TString WorkingDirectory()
 {
-    return boost::filesystem::current_path().string();
+    return FROM_PATH( boost::filesystem::current_path() );
 }
 
 TString MakeAbsolute(TString Path)
@@ -305,11 +306,11 @@ TString SanitizeName(TString Name, bool Directory, bool RootDir /*= false*/)
         return Name;
 
     // Remove illegal characters from path
-    u32 NumIllegalChars = sizeof(gskIllegalNameChars) / sizeof(wchar_t);
+    u32 NumIllegalChars = sizeof(gskIllegalNameChars) / sizeof(char);
 
     for (u32 iChr = 0; iChr < Name.Size(); iChr++)
     {
-        wchar_t Chr = Name[iChr];
+        char Chr = Name[iChr];
         bool Remove = false;
 
         if (Chr >= 0 && Chr <= 31)
@@ -345,7 +346,7 @@ TString SanitizeName(TString Name, bool Directory, bool RootDir /*= false*/)
 
         for (int iChr = (int) Name.Size() - 1; iChr >= 0; iChr--)
         {
-            wchar_t Chr = Name[iChr];
+            char Chr = Name[iChr];
 
             if (Chr == ' ' || Chr == '.')
                 ChopNum++;
@@ -405,7 +406,7 @@ bool IsValidName(const TString& rkName, bool Directory, bool RootDir /*= false*/
     if (rkName.Size() > 255)
         return false;
 
-    u32 NumIllegalChars = sizeof(gskIllegalNameChars) / sizeof(wchar_t);
+    u32 NumIllegalChars = sizeof(gskIllegalNameChars) / sizeof(char);
 
     if (Directory && (rkName == "." || rkName == ".."))
         return true;
@@ -413,7 +414,7 @@ bool IsValidName(const TString& rkName, bool Directory, bool RootDir /*= false*/
     // Check for banned characters
     for (u32 iChr = 0; iChr < rkName.Size(); iChr++)
     {
-        wchar_t Chr = rkName[iChr];
+        char Chr = rkName[iChr];
 
         if (Chr >= 0 && Chr <= 31)
             return false;
@@ -476,7 +477,7 @@ void GetDirectoryContents(TString DirPath, TStringList& rOut, bool Recursive /*=
         {
             for (recursive_directory_iterator It( TO_PATH(DirPath) ); It != recursive_directory_iterator(); ++It)
             {
-                AddFileLambda( It->path().string() );
+                AddFileLambda( FROM_PATH(It->path()) );
             }
         }
 
@@ -484,7 +485,7 @@ void GetDirectoryContents(TString DirPath, TStringList& rOut, bool Recursive /*=
         {
             for (directory_iterator It( TO_PATH(DirPath) ); It != directory_iterator(); ++It)
             {
-                AddFileLambda( It->path().string() );
+                AddFileLambda( FROM_PATH(It->path()) );
             }
         }
     }
@@ -494,7 +495,7 @@ TString FindFileExtension(const TString& rkDir, const TString& rkName)
 {
     for (directory_iterator It( TO_PATH(rkDir) ); It != directory_iterator(); ++It)
     {
-        TString Name = It->path().filename().string();
+        TString Name = FROM_PATH( It->path().filename() );
         if (Name.GetFileName(false) == rkName) return Name.GetFileExtension();
     }
 

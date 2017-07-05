@@ -22,6 +22,8 @@ u64 TString::Hash64() const
 TWideString TString::ToUTF16() const
 {
     TWideString Out;
+    Out.Reserve(Size());
+
     const char *pkCStr = CString();
 
     while (pkCStr[0])
@@ -86,12 +88,20 @@ TWideString TString::ToUTF16() const
             pkCStr += 6;
         }
 
+        // Invalid?
+        else
+        {
+            CodePoint = pkCStr[0];
+            pkCStr++;
+        }
+
         // Step 2: Append to output string
         if ( ((CodePoint >= 0)      && (CodePoint <= 0xD7FF)) ||
              ((CodePoint >= 0xE000) && (CodePoint <= 0xFFFF)) )
             Out.Append((wchar_t) (CodePoint & 0xFFFF));
     }
 
+    Out.Shrink();
     return Out;
 }
 
