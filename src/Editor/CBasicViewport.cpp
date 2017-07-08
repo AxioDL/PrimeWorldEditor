@@ -302,6 +302,7 @@ void CBasicViewport::Render()
 void CBasicViewport::DrawAxes()
 {
     // Draw 64x64 axes in lower-left corner with 8px margins
+    glBlendFunc(GL_ONE, GL_ZERO);
     glViewport(8, 8, 64, 64);
     glEnable(GL_DEPTH_TEST);
     glClear(GL_DEPTH_BUFFER_BIT);
