@@ -247,6 +247,8 @@ bool CWorldEditor::CloseWorld()
         gpResourceStore->DestroyUnreferencedResources(); // this should destroy the area!
         UpdateWindowTitle();
 
+        ui->ActionSave->setEnabled(false);
+        ui->ActionSaveAndRepack->setEnabled(false);
         emit MapChanged(mpWorld, mpArea);
         return true;
     }
@@ -292,8 +294,6 @@ bool CWorldEditor::SetArea(CWorld *pWorld, int AreaIndex)
     CMasterTemplate *pMaster = CMasterTemplate::MasterForGame(mpArea->Game());
     mpLinkDialog->SetMaster(pMaster);
 
-    QString ProjectName = TO_QSTRING(gpEdApp->ActiveProject()->Name());
-    QString WorldName = TO_QSTRING(mpWorld->InGameName());
     QString AreaName = TO_QSTRING(mpWorld->AreaInGameName(AreaIndex));
 
     if (CurrentGame() < eReturns)
@@ -303,6 +303,10 @@ bool CWorldEditor::SetArea(CWorld *pWorld, int AreaIndex)
 
     // Update paste action
     OnClipboardDataModified();
+
+    // Update toolbar actions
+    ui->ActionSave->setEnabled(true);
+    ui->ActionSaveAndRepack->setEnabled(true);
 
     // Emit signals
     emit MapChanged(mpWorld, mpArea);
