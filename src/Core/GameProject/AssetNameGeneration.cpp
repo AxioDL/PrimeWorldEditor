@@ -100,10 +100,6 @@ void GenerateAssetNames(CGameProject *pProj)
 
         TString NewDir = (HasCustomDir ? It->DirectoryPath() : pStore->DefaultResourceDirPath());
         TString NewName = (HasCustomName ? It->Name() : It->ID().ToString());
-
-        if (!HasCustomDir && pProj->Game() >= eCorruptionProto)
-            NewDir = NewDir.ToLower();
-
         It->Move(NewDir, NewName, true, true);
     }
 #endif
