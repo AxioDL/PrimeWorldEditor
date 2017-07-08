@@ -58,7 +58,8 @@ bool CAssetNameMap::GetNameInfo(CAssetID ID, TString& rOutDirectory, TString& rO
 
     else
     {
-        rOutDirectory = "Uncategorized/";
+        EGame Game = (ID.Length() == e32Bit ? ePrime : eCorruption);
+        rOutDirectory = CResourceStore::StaticDefaultResourceDirPath(Game);
         rOutName = ID.ToString();
         rOutAutoGenDir = true;
         rOutAutoGenName = true;

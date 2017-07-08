@@ -1,6 +1,7 @@
 #ifndef CRESOURCEENTRY_H
 #define CRESOURCEENTRY_H
 
+#include "CResourceStore.h"
 #include "CVirtualDirectory.h"
 #include "Core/Resource/CResTypeInfo.h"
 #include "Core/Resource/EResType.h"
@@ -10,7 +11,6 @@
 #include <Common/types.h>
 
 class CResource;
-class CResourceStore;
 class CGameProject;
 class CDependencyTree;
 
@@ -90,7 +90,7 @@ public:
     inline bool IsHidden() const                    { return HasFlag(eREF_Hidden); }
 
     inline bool IsLoaded() const                    { return mpResource != nullptr; }
-    inline bool IsCategorized() const               { return mpDirectory && mpDirectory->FullPath() != "Uncategorized/"; }
+    inline bool IsCategorized() const               { return mpDirectory && !mpDirectory->FullPath().CaseInsensitiveCompare( mpStore->DefaultResourceDirPath() ); }
     inline bool IsNamed() const                     { return mName != mID.ToString(); }
     inline CResource* Resource() const              { return mpResource; }
     inline CResTypeInfo* TypeInfo() const           { return mpTypeInfo; }

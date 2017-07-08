@@ -1,5 +1,5 @@
-#ifndef CRESOURCEDATABASE_H
-#define CRESOURCEDATABASE_H
+#ifndef CRESOURCESTORE_H
+#define CRESOURCESTORE_H
 
 #include "CVirtualDirectory.h"
 #include "Core/Resource/EResType.h"
@@ -47,9 +47,11 @@ public:
     void ConditionalSaveStore();
     void SetProject(CGameProject *pProj);
     void CloseProject();
+
     CVirtualDirectory* GetVirtualDirectory(const TString& rkPath, bool AllowCreate);
     void CreateVirtualDirectory(const TString& rkPath);
     void ConditionalDeleteDirectory(CVirtualDirectory *pDir, bool Recurse);
+    TString DefaultResourceDirPath() const;
 
     bool IsResourceRegistered(const CAssetID& rkID) const;
     CResourceEntry* RegisterResource(const CAssetID& rkID, EResType Type, const TString& rkDir, const TString& rkName);
@@ -71,6 +73,7 @@ public:
     void ImportNamesFromPakContentsTxt(const TString& rkTxtPath, bool UnnamedOnly);
 
     static bool IsValidResourcePath(const TString& rkPath, const TString& rkName);
+    static TString StaticDefaultResourceDirPath(EGame Game);
 
     // Accessors
     inline CGameProject* Project() const            { return mpProj; }
@@ -90,4 +93,4 @@ public:
 extern CResourceStore *gpResourceStore;
 extern CResourceStore *gpEditorStore;
 
-#endif // CRESOURCEDATABASE_H
+#endif // CRESOURCESTORE_H
