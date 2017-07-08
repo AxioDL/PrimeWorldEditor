@@ -65,8 +65,11 @@ void ApplyGeneratedName(CResourceEntry *pEntry, const TString& rkDir, const TStr
         NewName = SanitizedName;
         int AppendNum = 0;
 
-        while (pNewDir->FindChildResource(NewName, pEntry->ResourceType()) != nullptr)
+        while (CResourceEntry *pConflict = pNewDir->FindChildResource(NewName, pEntry->ResourceType()))
         {
+            if (pConflict == pEntry)
+                return;
+
             NewName = TString::Format("%s_%d", *SanitizedName, AppendNum);
             AppendNum++;
         }
@@ -95,8 +98,12 @@ void GenerateAssetNames(CGameProject *pProj)
         bool HasCustomName = !It->HasFlag(eREF_AutoResName);
         if (HasCustomDir && HasCustomName) continue;
 
-        TString NewDir = (HasCustomDir ? It->DirectoryPath() : "Uncategorized/");
+        TString NewDir = (HasCustomDir ? It->DirectoryPath() : pStore->DefaultResourceDirPath());
         TString NewName = (HasCustomName ? It->Name() : It->ID().ToString());
+
+        if (!HasCustomDir && pProj->Game() >= eCorruptionProto)
+            NewDir = NewDir.ToLower();
+
         It->Move(NewDir, NewName, true, true);
     }
 #endif

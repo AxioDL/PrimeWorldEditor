@@ -14,7 +14,6 @@ CCharacterEditor::CCharacterEditor(CAnimSet *pSet, QWidget *parent)
     : IEditor(parent)
     , ui(new Ui::CCharacterEditor)
     , mpScene(new CScene())
-    , mpCharNode(new CCharacterNode(mpScene, -1))
     , mpSelectedBone(nullptr)
     , mBindPose(false)
     , mPlayAnim(true)
@@ -25,6 +24,7 @@ CCharacterEditor::CCharacterEditor(CAnimSet *pSet, QWidget *parent)
     ui->setupUi(this);
     REPLACE_WINDOWTITLE_APPVARS;
 
+    mpCharNode = new CCharacterNode(mpScene, -1);
     ui->Viewport->SetNode(mpCharNode);
 
     CCamera& rCamera = ui->Viewport->Camera();
@@ -80,6 +80,8 @@ CCharacterEditor::CCharacterEditor(CAnimSet *pSet, QWidget *parent)
 CCharacterEditor::~CCharacterEditor()
 {
     delete ui;
+    delete mpScene;
+    delete mpCharNode;
 }
 
 void CCharacterEditor::EditorTick(float DeltaTime)

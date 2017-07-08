@@ -564,7 +564,7 @@ void CGameExporter::ExportResource(SResourceInstance& rRes)
 #if USE_ASSET_NAME_MAP
         mpNameMap->GetNameInfo(rRes.ResourceID, Directory, Name, AutoDir, AutoName);
 #else
-        Directory = "Uncategorized";
+        Directory = mpStore->DefaultAssetDirectoryPath(mpStore->Game());
         Name = rRes.ResourceID.ToString();
 #endif
 
@@ -607,9 +607,13 @@ TString CGameExporter::MakeWorldName(CAssetID WorldID)
         {
             const SNamedResource& rkRes = pPkg->NamedResourceByIndex(iRes);
 
-            if (rkRes.ID == WorldID && !rkRes.Name.EndsWith("_NODEPEND"))
+            if (rkRes.ID == WorldID)
             {
                 WorldName = rkRes.Name;
+
+                if (WorldName.EndsWith("_NODEPEND"))
+                    WorldName = WorldName.ChopBack(9);
+
                 break;
             }
         }
@@ -686,17 +690,15 @@ TString CGameExporter::MakeWorldName(CAssetID WorldID)
         {
             u32 LastUnderscore = WorldName.LastIndexOf('_');
 
-            if (LastUnderscore != -1)
+            if (LastUnderscore != -1 && !WorldName.StartsWith("front_end_"))
                 WorldName = WorldName.ChopBack(WorldName.Size() - LastUnderscore);
         }
 
-        // DKCR - Remove text after second-to-last underscore
+        // DKCR - Remove text prior to first underscore
         else if (mGame == eReturns)
         {
-            u32 Underscore = WorldName.LastIndexOf('_');
-            WorldName = WorldName.ChopBack(WorldName.Size() - Underscore);
-            Underscore = WorldName.LastIndexOf('_');
-            WorldName = WorldName.ChopBack(WorldName.Size() - Underscore);
+            u32 Underscore = WorldName.IndexOf('_');
+            WorldName = WorldName.ChopFront(Underscore + 1);
         }
     }
 

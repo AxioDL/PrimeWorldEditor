@@ -41,7 +41,7 @@ public:
     // Accessors
     inline CVirtualDirectory* Parent() const    { return mpParent; }
     inline bool IsRoot() const                  { return !mpParent; }
-    inline TString Name() const             { return mName; }
+    inline TString Name() const                 { return mName; }
 
     inline u32 NumSubdirectories() const                        { return mSubdirectories.size(); }
     inline CVirtualDirectory* SubdirectoryByIndex(u32 Index)    { return mSubdirectories[Index]; }

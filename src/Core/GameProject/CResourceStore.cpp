@@ -246,6 +246,11 @@ void CResourceStore::ConditionalDeleteDirectory(CVirtualDirectory *pDir, bool Re
     }
 }
 
+TString CResourceStore::DefaultResourceDirPath() const
+{
+    return StaticDefaultResourceDirPath( mGame );
+}
+
 CResourceEntry* CResourceStore::FindEntry(const CAssetID& rkID) const
 {
     if (!rkID.IsValid()) return nullptr;
@@ -607,4 +612,9 @@ bool CResourceStore::IsValidResourcePath(const TString& rkPath, const TString& r
              FileUtil::IsValidName(rkName, false) &&
              !rkName.Contains('/') &&
              !rkName.Contains('\\') );
+}
+
+TString CResourceStore::StaticDefaultResourceDirPath(EGame Game)
+{
+    return (Game < eCorruptionProto ? "Uncategorized/" : "uncategorized/");
 }
