@@ -446,5 +446,5 @@ TString CPackage::DefinitionPath(bool Relative) const
 TString CPackage::CookedPackagePath(bool Relative) const
 {
     TString RelPath = mPakPath + mPakName + ".pak";
-    return Relative ? RelPath : mpProject->DiscDir(false) + RelPath;
+    return Relative ? RelPath : mpProject->DiscFilesystemRoot(false) + RelPath;
 }

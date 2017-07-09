@@ -39,17 +39,7 @@ bool CGameProject::Serialize(IArchive& rArc)
     rArc << SERIAL("Name", mProjectName)
          << SERIAL("Region", mRegion)
          << SERIAL("GameID", mGameID)
-         << SERIAL("BuildVersion", mBuildVersion)
-         << SERIAL("DolPath", mDolPath)
-         << SERIAL("ApploaderPath", mApploaderPath);
-
-    if (rArc.Game() >= eCorruption)
-        rArc << SERIAL("PartitionHeaderPath", mPartitionHeaderPath);
-
-    if (!IsWiiBuild())
-        rArc << SERIAL("FstAddress", mFilesystemAddress);
-
-    rArc << SERIAL("ResourceDB", mResourceDBPath);
+         << SERIAL("BuildVersion", mBuildVersion);
 
     // Serialize package list
     std::vector<TString> PackageList;
@@ -104,14 +94,11 @@ bool CGameProject::BuildISO(const TString& rkIsoPath, IProgressNotifier *pProgre
             pProgress->Report((int) (ProgressPercent * 10000), 10000, TWideString(rkInfoString).ToUTF8());
         };
 
-        nod::DiscBuilderGCN *pBuilder = new nod::DiscBuilderGCN(*rkIsoPath.ToUTF16(), *mGameID, *mProjectName, mFilesystemAddress, ProgressCallback);
+        nod::DiscBuilderGCN *pBuilder = new nod::DiscBuilderGCN(*rkIsoPath.ToUTF16(), ProgressCallback);
         pProgress->SetTask(0, "Building " + rkIsoPath.GetFileName());
 
-        TWideString ProjRoot = ProjectRoot().ToUTF16();
         TWideString DiscRoot = DiscDir(false).ToUTF16();
-        TWideString DolPath = ProjRoot + mDolPath.ToUTF16();
-        TWideString ApploaderPath = ProjRoot + mApploaderPath.ToUTF16();
-        return pBuilder->buildFromDirectory(*DiscRoot, *DolPath, *ApploaderPath) == nod::EBuildResult::Success;
+        return pBuilder->buildFromDirectory(*DiscRoot) == nod::EBuildResult::Success;
     }
 }
 
@@ -184,11 +171,7 @@ CGameProject* CGameProject::CreateProjectForExport(
         EGame Game,
         ERegion Region,
         const TString& rkGameID,
-        float BuildVer,
-        const TString& rkDolPath,
-        const TString& rkApploaderPath,
-        const TString& rkPartitionHeaderPath,
-        u32 FstAddress
+        float BuildVer
         )
 {
     CGameProject *pProj = new CGameProject;
@@ -196,10 +179,6 @@ CGameProject* CGameProject::CreateProjectForExport(
     pProj->mRegion = Region;
     pProj->mGameID = rkGameID;
     pProj->mBuildVersion = BuildVer;
-    pProj->mDolPath = rkDolPath;
-    pProj->mApploaderPath = rkApploaderPath;
-    pProj->mPartitionHeaderPath = rkPartitionHeaderPath;
-    pProj->mFilesystemAddress = FstAddress;
 
     pProj->mProjectRoot = rkProjRootDir;
     pProj->mProjectRoot.Replace("\\", "/");

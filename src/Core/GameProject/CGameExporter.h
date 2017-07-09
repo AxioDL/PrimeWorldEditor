@@ -23,10 +23,6 @@ class CGameExporter
     TString mGameName;
     TString mGameID;
     float mBuildVersion;
-    TString mDolPath;
-    TString mApploaderPath;
-    TString mPartitionHeaderPath;
-    u32 mFilesystemAddress;
 
     // Directories
     TString mExportDir;
