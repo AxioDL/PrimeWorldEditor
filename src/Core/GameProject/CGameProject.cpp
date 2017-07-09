@@ -81,24 +81,23 @@ bool CGameProject::BuildISO(const TString& rkIsoPath, IProgressNotifier *pProgre
 {
     ASSERT( FileUtil::IsValidPath(rkIsoPath, false) );
 
-    if (IsWiiBuild())
+    auto ProgressCallback = [&](float ProgressPercent, const nod::SystemString& rkInfoString, size_t)
     {
-        Log::Error("Wii ISO building not supported!");
-        return false;
-    }
+        pProgress->Report((int) (ProgressPercent * 10000), 10000, TWideString(rkInfoString).ToUTF8());
+    };
 
+    pProgress->SetTask(0, "Building " + rkIsoPath.GetFileName());
+    TWideString DiscRoot = DiscDir(false).ToUTF16();
+
+    if (!IsWiiBuild())
+    {
+        nod::DiscBuilderGCN Builder(*rkIsoPath.ToUTF16(), ProgressCallback);
+        return Builder.buildFromDirectory(*DiscRoot) == nod::EBuildResult::Success;
+    }
     else
     {
-        auto ProgressCallback = [&](float ProgressPercent, const nod::SystemString& rkInfoString, size_t)
-        {
-            pProgress->Report((int) (ProgressPercent * 10000), 10000, TWideString(rkInfoString).ToUTF8());
-        };
-
-        nod::DiscBuilderGCN *pBuilder = new nod::DiscBuilderGCN(*rkIsoPath.ToUTF16(), ProgressCallback);
-        pProgress->SetTask(0, "Building " + rkIsoPath.GetFileName());
-
-        TWideString DiscRoot = DiscDir(false).ToUTF16();
-        return pBuilder->buildFromDirectory(*DiscRoot) == nod::EBuildResult::Success;
+        nod::DiscBuilderWii Builder(*rkIsoPath.ToUTF16(), IsTrilogy(), ProgressCallback);
+        return Builder.buildFromDirectory(*DiscRoot) == nod::EBuildResult::Success;
     }
 }
 
