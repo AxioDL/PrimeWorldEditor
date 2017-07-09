@@ -63,11 +63,7 @@ bool CGameExporter::Export(nod::DiscBase *pDisc, const TString& rkOutputDir, CAs
                 mGame,
                 mRegion,
                 mGameID,
-                mBuildVersion,
-                mDolPath,
-                mApploaderPath,
-                mPartitionHeaderPath,
-                mFilesystemAddress);
+                mBuildVersion);
 
     mpProject->SetProjectName(mGameName);
     mpStore = mpProject->ResourceStore();
@@ -111,54 +107,42 @@ bool CGameExporter::ExtractDiscData()
 
     // Create Disc output folder
     TString AbsDiscDir = mExportDir + mDiscDir;
+    bool IsWii = (mBuildVersion >= 3.f);
+    if (IsWii) AbsDiscDir += "DATA/";
     FileUtil::MakeDirectory(AbsDiscDir);
 
     // Extract disc filesystem
     nod::Partition *pDataPartition = mpDisc->getDataPartition();
     nod::ExtractionContext Context;
     Context.force = false;
-    Context.verbose = true;
     Context.progressCB = [&](const std::string& rkDesc, float ProgressPercent) {
         mpProgress->Report((int) (ProgressPercent * 10000), 10000, rkDesc);
     };
 
-    bool Success = ExtractDiscNodeRecursive(&pDataPartition->getFSTRoot(), AbsDiscDir, Context);
+    TString FilesDir = AbsDiscDir + "files/";
+    FileUtil::MakeDirectory(FilesDir);
+
+    bool Success = ExtractDiscNodeRecursive(&pDataPartition->getFSTRoot(), FilesDir, Context);
     if (!Success) return false;
 
-    // Extract the remaining disc data
     if (!mpProgress->ShouldCancel())
     {
-        // Extract dol
-        mDolPath = "boot.dol";
-        CFileOutStream DolFile(mExportDir + mDolPath);
-        if (!DolFile.IsValid()) return false;
-
-        std::unique_ptr<uint8_t[]> pDolBuffer = pDataPartition->getDOLBuf();
-        DolFile.WriteBytes(pDolBuffer.get(), (u32) pDataPartition->getDOLSize());
-        DolFile.Close();
-
-        // Extract apploader
-        mApploaderPath = "apploader.img";
-        CFileOutStream ApploaderFile(mExportDir + mApploaderPath);
-        if (!ApploaderFile.IsValid()) return false;
-
-        std::unique_ptr<uint8_t[]> pApploaderBuffer = pDataPartition->getApploaderBuf();
-        ApploaderFile.WriteBytes(pApploaderBuffer.get(), (u32) pDataPartition->getApploaderSize());
-        ApploaderFile.Close();
-
-        // Extract Wii partition header
-        bool IsWii = (mBuildVersion >= 3.f);
+        Context.progressCB = nullptr;
 
         if (IsWii)
         {
-            mFilesystemAddress = 0;
-            mPartitionHeaderPath = "partition_header.bin";
-            nod::DiscWii *pDiscWii = static_cast<nod::DiscWii*>(mpDisc);
-            Success = pDiscWii->writeOutDataPartitionHeader(*TString(mExportDir + mPartitionHeaderPath).ToUTF16());
-            if (!Success) return false;
+            // Extract crypto files
+            if (!pDataPartition->extractCryptoFiles(*AbsDiscDir.ToUTF16(), Context))
+                return false;
+
+            // Extract disc header files
+            if (!mpDisc->extractDiscHeaderFiles(*AbsDiscDir.ToUTF16(), Context))
+                return false;
         }
-        else
-            mFilesystemAddress = (u32) pDataPartition->getFSTMemoryAddr();
+
+        // Extract system files
+        if (!pDataPartition->extractSysFiles(*AbsDiscDir.ToUTF16(), Context))
+            return false;
 
         return true;
     }
@@ -215,7 +199,8 @@ void CGameExporter::LoadPaks()
             continue;
         }
 
-        CPackage *pPackage = new CPackage(mpProject, PakPath.GetFileName(false), FileUtil::MakeRelative(PakPath.GetFileDirectory(), mExportDir + mDiscDir));
+        TString RelPakPath = FileUtil::MakeRelative(PakPath.GetFileDirectory(), mpProject->DiscFilesystemRoot(false));
+        CPackage *pPackage = new CPackage(mpProject, PakPath.GetFileName(false), RelPakPath);
 
         // MP1-MP3Proto
         if (mGame < eCorruption)

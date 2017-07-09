@@ -21,13 +21,8 @@ class CGameProject
     ERegion mRegion;
     TString mGameID;
     float mBuildVersion;
-    TString mDolPath;
-    TString mApploaderPath;
-    TString mPartitionHeaderPath;
-    u32 mFilesystemAddress;
 
     TString mProjectRoot;
-    TString mResourceDBPath;
     std::vector<CPackage*> mPackages;
     CResourceStore *mpResourceStore;
     CGameInfo *mpGameInfo;
@@ -52,7 +47,6 @@ class CGameProject
         , mRegion(eRegion_Unknown)
         , mGameID("000000")
         , mBuildVersion(0.f)
-        , mResourceDBPath("ResourceDB.rdb")
         , mpResourceStore(nullptr)
     {
         mpGameInfo = new CGameInfo();
@@ -75,23 +69,20 @@ public:
             EGame Game,
             ERegion Region,
             const TString& rkGameID,
-            float BuildVer,
-            const TString& rkDolPath,
-            const TString& rkApploaderPath,
-            const TString& rkPartitionHeaderPath,
-            u32 FstAddress
+            float BuildVer
         );
 
     static CGameProject* LoadProject(const TString& rkProjPath, IProgressNotifier *pProgress);
 
     // Directory Handling
     inline TString ProjectRoot() const                      { return mProjectRoot; }
-    inline TString ResourceDBPath(bool Relative) const      { return Relative ? mResourceDBPath : mProjectRoot + mResourceDBPath; }
+    inline TString ProjectPath() const                      { return mProjectRoot + FileUtil::SanitizeName(mProjectName, false) + ".prj"; }
     inline TString DiscDir(bool Relative) const             { return Relative ? "Disc/" : mProjectRoot + "Disc/"; }
     inline TString PackagesDir(bool Relative) const         { return Relative ? "Packages/" : mProjectRoot + "Packages/"; }
     inline TString ResourcesDir(bool Relative) const        { return Relative ? "Resources/" : mProjectRoot + "Resources/"; }
-    inline TString ProjectPath() const                      { return mProjectRoot + FileUtil::SanitizeName(mProjectName, false) + ".prj"; }
-    inline TString ResourceCachePath(bool Relative) const   { return ResourceDBPath(Relative).GetFileDirectory() + "ResourceCacheData.rcd"; }
+
+    // Disc Filesystem Management
+    inline TString DiscFilesystemRoot(bool Relative) const  { return DiscDir(Relative) + (IsWiiBuild() ? "DATA/" : "") + "files/"; }
 
     // Accessors
     inline void SetProjectName(const TString& rkName)   { mProjectName = rkName; }

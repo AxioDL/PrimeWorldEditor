@@ -266,7 +266,7 @@ void CWorldTreeModel::OnProjectChanged(CGameProject *pProj)
         // DKCR - Get worlds from areas.lst
         else
         {
-            TString AreaListPath = pProj->DiscDir(false) + "areas.lst";
+            TString AreaListPath = pProj->DiscFilesystemRoot(false) + "areas.lst";
 
             // I really need a good text stream class at some point
             FILE* pAreaList = fopen(*AreaListPath, "r");

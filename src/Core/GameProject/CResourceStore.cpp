@@ -173,8 +173,7 @@ void CResourceStore::SetProject(CGameProject *pProj)
 
     if (mpProj)
     {
-        TString DatabasePath = mpProj->ResourceDBPath(false);
-        mDatabasePath = DatabasePath.GetFileDirectory();
+        mDatabasePath = mpProj->ProjectRoot();
         mpDatabaseRoot = new CVirtualDirectory(this);
         mGame = mpProj->Game();
     }
