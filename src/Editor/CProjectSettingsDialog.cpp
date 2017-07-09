@@ -69,7 +69,6 @@ void CProjectSettingsDialog::ActiveProjectChanged(CGameProject *pProj)
         close();
     }
 
-    mpUI->BuildIsoButton->setEnabled( pProj && !pProj->IsWiiBuild() );
     SetupPackagesList();
 }
 
@@ -108,10 +107,23 @@ void CProjectSettingsDialog::CookAllDirtyPackages()
 void CProjectSettingsDialog::BuildISO()
 {
     CGameProject *pProj = gpEdApp->ActiveProject();
-    ASSERT(pProj && !pProj->IsWiiBuild());
+    ASSERT(pProj);
 
-    QString DefaultPath = TO_QSTRING( pProj->ProjectRoot() + FileUtil::SanitizeName(pProj->Name(), false) + ".gcm" );
-    QString IsoPath = UICommon::SaveFileDialog(this, "Choose output ISO path", "*.gcm", DefaultPath);
+    QString DefaultExtension, FilterString;
+
+    if (!pProj->IsWiiBuild())
+    {
+        DefaultExtension = ".gcm";
+        FilterString = "*.gcm;*.iso";
+    }
+    else
+    {
+        DefaultExtension = ".iso";
+        FilterString = "*.iso";
+    }
+
+    QString DefaultPath = TO_QSTRING( pProj->ProjectRoot() + FileUtil::SanitizeName(pProj->Name(), false) ) + DefaultExtension;
+    QString IsoPath = UICommon::SaveFileDialog(this, "Choose output ISO path", FilterString, DefaultPath);
 
     if (!IsoPath.isEmpty())
     {
