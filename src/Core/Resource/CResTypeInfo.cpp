@@ -93,8 +93,12 @@ CResTypeInfo* CResTypeInfo::TypeForCookedExtension(EGame Game, CFourCC Ext)
     }
 
     // Haven't found it; caller gave us an invalid type
-    Log::Error("Failed to find resource type for cooked extension: " + Ext.ToString());
-    DEBUG_BREAK;
+    // Note UNKN is used to indicate unknown asset type
+    if (Ext != FOURCC('UNKN'))
+    {
+        Log::Error("Failed to find resource type for cooked extension: " + Ext.ToString());
+        DEBUG_BREAK;
+    }
     sCachedTypeMap[Ext] = nullptr;
     return nullptr;
 }

@@ -133,21 +133,11 @@ void CScriptLoader::ReadProperty(IProperty *pProp, u32 Size, IInputStream& rSCLY
 
             if (pEntry)
             {
-                TString CookedExt = pEntry->CookedExtension().ToString();
-                const TStringList& rkExtensions = static_cast<CAssetTemplate*>(pTemp)->AllowedExtensions();
-                bool Valid = false;
-
-                for (auto It = rkExtensions.begin(); It != rkExtensions.end(); It++)
-                {
-                    if (*It == CookedExt)
-                    {
-                        Valid = true;
-                        break;
-                    }
-                }
+                const CResTypeFilter& rkFilter = static_cast<CAssetTemplate*>(pTemp)->TypeFilter();
+                bool Valid = rkFilter.Accepts(pEntry->ResourceType());
 
                 if (!Valid)
-                    Log::FileWarning(rSCLY.GetSourceString(), rSCLY.Tell() - ID.Length(), "Asset property \"" + pTemp->FullName() + "\" (" + pTemp->IDString(true) + ") has a reference to an illegal asset type: " + CookedExt);
+                    Log::FileWarning(rSCLY.GetSourceString(), rSCLY.Tell() - ID.Length(), "Asset property \"" + pTemp->FullName() + "\" (" + pTemp->IDString(true) + ") has a reference to an illegal asset type: " + pEntry->CookedExtension());
             }
         }
 

@@ -606,8 +606,9 @@ void CWorldEditor::OnPropertyModified(IProperty *pProp)
         if (pProp->Type() == eAssetProperty)
         {
             CAssetTemplate *pAsset = static_cast<CAssetTemplate*>(pProp->Template());
+            const CResTypeFilter& rkFilter = pAsset->TypeFilter();
 
-            if (pAsset->AcceptsExtension("CMDL") || pAsset->AcceptsExtension("ANCS") || pAsset->AcceptsExtension("CHAR"))
+            if (rkFilter.Accepts(eModel) || rkFilter.Accepts(eAnimSet) || rkFilter.Accepts(eCharacter))
                 SelectionModified();
         }
         else if (pProp->Type() == eCharacterProperty)

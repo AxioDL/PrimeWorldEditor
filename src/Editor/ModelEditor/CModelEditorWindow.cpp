@@ -44,8 +44,8 @@ CModelEditorWindow::CModelEditorWindow(CModel *pModel, QWidget *pParent)
 
     // UI initialization
     UpdateAnimParamUI(-1);
-    ui->IndTextureResSelector->SetAllowedExtensions("TXTR");
-    ui->PassTextureResSelector->SetAllowedExtensions("TXTR");
+    ui->IndTextureResSelector->SetTypeFilter(pModel->Game(), "TXTR");
+    ui->PassTextureResSelector->SetTypeFilter(pModel->Game(), "TXTR");
     ui->PassTable->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
     ui->PassTable->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
     ui->ClearColorPicker->SetColor(QColor(76, 76, 76, 255));

@@ -143,7 +143,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
             pSelector->SetFrameVisible(false);
 
             CAssetTemplate *pTemp = static_cast<CAssetTemplate*>(pProp->Template());
-            pSelector->SetAllowedExtensions(pTemp->AllowedExtensions());
+            pSelector->SetTypeFilter(pTemp->TypeFilter());
 
             CONNECT_RELAY(pSelector, rkIndex, ResourceChanged(CResourceEntry*))
             pOut = pSelector;
@@ -603,9 +603,9 @@ QWidget* CPropertyDelegate::CreateCharacterEditor(QWidget *pParent, const QModel
         pSelector->SetFrameVisible(false);
 
         if (Params.Version() <= eEchoes)
-            pSelector->SetAllowedExtensions("ANCS");
+            pSelector->SetTypeFilter(mpEditor->CurrentGame(), "ANCS");
         else
-            pSelector->SetAllowedExtensions("CHAR");
+            pSelector->SetTypeFilter(mpEditor->CurrentGame(), "CHAR");
 
         CONNECT_RELAY(pSelector, rkIndex, ResourceChanged(CResourceEntry*));
         return pSelector;

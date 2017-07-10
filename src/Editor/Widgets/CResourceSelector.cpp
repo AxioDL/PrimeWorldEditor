@@ -1,4 +1,5 @@
 #include "CResourceSelector.h"
+#include "CSelectResourcePanel.h"
 #include "Editor/CEditorApplication.h"
 #include "Editor/UICommon.h"
 #include "Editor/ResourceBrowser/CResourceBrowser.h"
@@ -20,11 +21,11 @@ CResourceSelector::CResourceSelector(QWidget *pParent /*= 0*/)
     mpResNameButton->setFlat(true);
     mpResNameButton->setStyleSheet("text-align:left; font-size:10pt; margin:0px; padding-left:2px");
     
-    mpSetButton = new QPushButton(this);
-    mpSetButton->setToolTip("Use selected asset in Resource Browser");
-    mpSetButton->setIcon(QIcon(":/icons/ArrowL_16px.png"));
-    mpSetButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    mpSetButton->setFixedSize(16, 16);
+    mpSelectButton = new QPushButton(this);
+    mpSelectButton->setToolTip("Select Resource");
+    mpSelectButton->setIcon(QIcon(":/icons/ArrowD_16px.png"));
+    mpSelectButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    mpSelectButton->setFixedSize(16, 16);
 
     mpClearButton = new QPushButton(this);
     mpClearButton->setToolTip("Clear");
@@ -36,7 +37,7 @@ CResourceSelector::CResourceSelector(QWidget *pParent /*= 0*/)
     mpFrameLayout->setSpacing(2);
     mpFrameLayout->setContentsMargins(0, 0, 0, 0);
     mpFrameLayout->addWidget(mpResNameButton);
-    mpFrameLayout->addWidget(mpSetButton);
+    mpFrameLayout->addWidget(mpSelectButton);
     mpFrameLayout->addWidget(mpClearButton);
     mpFrame = new QFrame(this);
     mpFrame->setBackgroundRole(QPalette::AlternateBase);
@@ -51,7 +52,7 @@ CResourceSelector::CResourceSelector(QWidget *pParent /*= 0*/)
     // UI Connections
     connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(CreateContextMenu(QPoint)));
     connect(mpResNameButton, SIGNAL(clicked()), this, SLOT(Find()));
-    connect(mpSetButton, SIGNAL(clicked()), this, SLOT(Set()));
+    connect(mpSelectButton, SIGNAL(clicked()), this, SLOT(Select()));
     connect(mpClearButton, SIGNAL(clicked()), this, SLOT(Clear()));
 
     // Set up context menu
@@ -75,7 +76,7 @@ void CResourceSelector::SetFrameVisible(bool Visible)
 
 void CResourceSelector::SetEditable(bool Editable)
 {
-    mpSetButton->setVisible(Editable);
+    mpSelectButton->setVisible(Editable);
     mpClearButton->setVisible(Editable);
     mIsEditable = Editable;
 }
@@ -95,14 +96,16 @@ void CResourceSelector::UpdateUI()
     mpCopyPathAction->setEnabled(HasResource);
 }
 
-void CResourceSelector::SetAllowedExtensions(const QString& /*rkExtension*/)
+void CResourceSelector::SetTypeFilter(const CResTypeFilter& rkFilter)
 {
-    // todo
+    mTypeFilter = rkFilter;
+    ASSERT(!mpResEntry || mTypeFilter.Accepts(mpResEntry));
 }
 
-void CResourceSelector::SetAllowedExtensions(const TStringList& /*rkExtensions*/)
+void CResourceSelector::SetTypeFilter(EGame Game, const TString& rkTypeList)
 {
-    // todo
+    mTypeFilter.FromString(Game, rkTypeList);
+    ASSERT(!mpResEntry || mTypeFilter.Accepts(mpResEntry));
 }
 
 void CResourceSelector::SetResource(const CAssetID& rkID)
@@ -149,16 +152,9 @@ void CResourceSelector::CopyPath()
     gpEdApp->clipboard()->setText(Text);
 }
 
-void CResourceSelector::Set()
+void CResourceSelector::Select()
 {
-    // todo - validate this resource is a valid type
-    CResourceBrowser *pBrowser = gpEdApp->ResourceBrowser();
-
-    if (pBrowser->isVisible() && pBrowser->SelectedEntry())
-    {
-        mpResEntry = gpEdApp->ResourceBrowser()->SelectedEntry();
-        OnResourceChanged();
-    }
+    new CSelectResourcePanel(this);
 }
 
 void CResourceSelector::Find()

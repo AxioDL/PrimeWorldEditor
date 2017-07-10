@@ -4,6 +4,7 @@
 #include "EPropertyType.h"
 #include "IProperty.h"
 #include "IPropertyValue.h"
+#include "Core/Resource/CResTypeFilter.h"
 #include "Core/Resource/Animation/CAnimationParameters.h"
 #include <Common/CColor.h>
 #include <Common/TString.h>
@@ -389,7 +390,7 @@ class CAssetTemplate : public IPropertyTemplate
     friend class CTemplateLoader;
     friend class CTemplateWriter;
 
-    TStringList mAcceptedExtensions;
+    CResTypeFilter mTypeFilter;
 public:
     CAssetTemplate(u32 ID, CScriptTemplate *pScript, CMasterTemplate *pMaster, CStructTemplate *pParent = 0)
         : IPropertyTemplate(ID, pScript, pMaster, pParent) {}
@@ -411,7 +412,7 @@ public:
     virtual void Copy(const IPropertyTemplate *pkTemp)
     {
         IPropertyTemplate::Copy(pkTemp);
-        mAcceptedExtensions = static_cast<const CAssetTemplate*>(pkTemp)->mAcceptedExtensions;
+        mTypeFilter = static_cast<const CAssetTemplate*>(pkTemp)->mTypeFilter;
     }
 
     virtual bool Matches(const IPropertyTemplate *pkTemp) const
@@ -419,18 +420,11 @@ public:
         const CAssetTemplate *pkAsset = static_cast<const CAssetTemplate*>(pkTemp);
 
         return ( (IPropertyTemplate::Matches(pkTemp)) &&
-                 (mAcceptedExtensions == pkAsset->mAcceptedExtensions) );
+                 (mTypeFilter == pkAsset->mTypeFilter) );
     }
 
-    bool AcceptsExtension(const TString& rkExtension)
-    {
-        for (auto it = mAcceptedExtensions.begin(); it != mAcceptedExtensions.end(); it++)
-            if (*it == rkExtension) return true;
-        return false;
-    }
-
-    void SetAllowedExtensions(const TStringList& rkExtensions)  { mAcceptedExtensions = rkExtensions; }
-    const TStringList& AllowedExtensions() const                { return mAcceptedExtensions; }
+    void SetTypeFilter(const TStringList& rkExtensions)  { mTypeFilter.SetAcceptedTypes(Game(), rkExtensions); }
+    const CResTypeFilter& TypeFilter() const             { return mTypeFilter; }
 };
 
 // CEnumTemplate - Property template for enums. Tracks a list of possible values (enumerators).

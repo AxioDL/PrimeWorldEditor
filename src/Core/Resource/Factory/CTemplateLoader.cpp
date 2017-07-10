@@ -114,7 +114,7 @@ IPropertyTemplate* CTemplateLoader::LoadProperty(XMLElement *pElem, CScriptTempl
         {
             TStringList ExtensionsList = ExtensionsAttr.Split(", ");
             CAssetTemplate *pAsset = static_cast<CAssetTemplate*>(pProp);
-            pAsset->SetAllowedExtensions(ExtensionsList);
+            pAsset->SetTypeFilter(ExtensionsList);
         }
     }
 
@@ -606,7 +606,7 @@ CScriptTemplate* CTemplateLoader::LoadScriptTemplate(XMLDocument *pDoc, const TS
 
                 if (!pProp)
                     Log::Error(rkTemplateName + ": Invalid property for attachment " + TString::FromInt32(AttachIdx) + ": " + Attachment.AttachProperty);
-                else if (pProp->Type() != eCharacterProperty && (pProp->Type() != eAssetProperty || !static_cast<CAssetTemplate*>(pProp)->AcceptsExtension("CMDL")))
+                else if (pProp->Type() != eCharacterProperty && (pProp->Type() != eAssetProperty || !static_cast<CAssetTemplate*>(pProp)->TypeFilter().Accepts(eModel)))
                     Log::Error(rkTemplateName + ": Property referred to by attachment " + TString::FromInt32(AttachIdx) + " is not an attachable asset! Must be a file property that accepts CMDLs, or a character property.");
 
                 else
