@@ -230,7 +230,8 @@ HEADERS += \
     Resource/CSavedStateID.h \
     IProgressNotifier.h \
     IUIRelay.h \
-    Resource/CResTypeFilter.h
+    Resource/CResTypeFilter.h \
+    GameProject/COpeningBanner.h
 
 # Source Files
 SOURCES += \
@@ -337,4 +338,5 @@ SOURCES += \
     GameProject/CGameInfo.cpp \
     Resource/CResTypeInfo.cpp \
     CompressionUtil.cpp \
-    IUIRelay.cpp
+    IUIRelay.cpp \
+    GameProject\COpeningBanner.cpp

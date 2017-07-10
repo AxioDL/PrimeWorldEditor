@@ -156,7 +156,7 @@ public:
     virtual void SerializePrimitive(float& rValue)          { mpStream->WriteFloat(rValue); }
     virtual void SerializePrimitive(double& rValue)         { mpStream->WriteDouble(rValue); }
     virtual void SerializePrimitive(TString& rValue)        { mpStream->WriteSizedString(rValue); }
-    virtual void SerializePrimitive(TWideString& rValue)    { mpStream->WriteSizedWideString(rValue); }
+    virtual void SerializePrimitive(TWideString& rValue)    { mpStream->WriteSizedWString(rValue); }
     virtual void SerializePrimitive(CFourCC& rValue)        { rValue.Write(*mpStream); }
     virtual void SerializePrimitive(CAssetID& rValue)       { rValue.Write(*mpStream, CAssetID::GameIDLength(Game())); }
 

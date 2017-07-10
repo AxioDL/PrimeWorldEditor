@@ -51,19 +51,14 @@ void IOutputStream::WriteFourCC(long Val)
     WriteBytes(&Val, 4);
 }
 
-void IOutputStream::WriteString(const TString& rkVal)
+void IOutputStream::WriteString(const TString& rkVal, int Count /*= -1*/, bool Terminate /*= true*/)
 {
-    WriteBytes(rkVal.Data(), rkVal.Size());
+    if (Count < 0)
+        Count = rkVal.Size();
 
-    if (rkVal.IsEmpty() || rkVal.Back() != '\0')
-        WriteByte(0);
-}
-
-void IOutputStream::WriteString(const TString& rkVal, u32 Count, bool Terminate)
-{
     WriteBytes(rkVal.Data(), Count);
 
-    if (Terminate && (Count == 0 || rkVal.Back() != '\0'))
+    if (Terminate && (rkVal.IsEmpty() || rkVal[Count-1] != 0))
         WriteByte(0);
 }
 
@@ -73,26 +68,24 @@ void IOutputStream::WriteSizedString(const TString& rkVal)
     WriteBytes(rkVal.Data(), rkVal.Size());
 }
 
-void IOutputStream::WriteWideString(const TWideString& rkVal)
+void IOutputStream::WriteWString(const TWideString& rkVal, int Count /*= -1*/, bool Terminate /*= true*/)
 {
-    WriteBytes(rkVal.Data(), rkVal.Size() * 2);
+    if (Count < 0)
+        Count = rkVal.Size();
 
-    if (rkVal.IsEmpty() || rkVal.Back() != '\0')
+    for (int ChrIdx = 0; ChrIdx < Count; ChrIdx++)
+        WriteShort(rkVal[ChrIdx]);
+
+    if (Terminate && (rkVal.IsEmpty() || rkVal[Count-1] != 0))
         WriteShort(0);
 }
 
-void IOutputStream::WriteWideString(const TWideString& rkVal, u32 Count, bool Terminate)
-{
-    WriteBytes(rkVal.Data(), Count * 2);
-
-    if (Terminate && (Count == 0 || rkVal.Back() != 0))
-        WriteShort(0);
-}
-
-void IOutputStream::WriteSizedWideString(const TWideString& rkVal)
+void IOutputStream::WriteSizedWString(const TWideString& rkVal)
 {
     WriteLong(rkVal.Size());
-    WriteBytes(rkVal.Data(), rkVal.Size() * 2);
+
+    for (u32 ChrIdx = 0; ChrIdx < rkVal.Size(); ChrIdx++)
+        WriteShort(rkVal[ChrIdx]);
 }
 
 bool IOutputStream::GoTo(u32 Address)

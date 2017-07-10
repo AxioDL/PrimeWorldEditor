@@ -7,6 +7,7 @@
 #include "Editor/ResourceBrowser/CResourceBrowser.h"
 #include <Common/AssertMacro.h>
 #include <Core/GameProject/CGameExporter.h>
+#include <Core/GameProject/COpeningBanner.h>
 #include <QFileDialog>
 #include <QFuture>
 #include <QFutureWatcher>
@@ -20,6 +21,7 @@ CProjectSettingsDialog::CProjectSettingsDialog(QWidget *pParent)
 {
     mpUI->setupUi(this);
 
+    connect(mpUI->GameNameLineEdit, SIGNAL(editingFinished()), this, SLOT(GameNameChanged()));
     connect(mpUI->CookPackageButton, SIGNAL(clicked()), this, SLOT(CookPackage()));
     connect(mpUI->CookAllDirtyPackagesButton, SIGNAL(clicked(bool)), this, SLOT(CookAllDirtyPackages()));
     connect(mpUI->BuildIsoButton, SIGNAL(clicked(bool)), this, SLOT(BuildISO()));
@@ -57,6 +59,11 @@ void CProjectSettingsDialog::ActiveProjectChanged(CGameProject *pProj)
         TString BuildName = pProj->GameInfo()->GetBuildName(BuildVer, Region);
         mpUI->BuildLineEdit->setText( QString("%1 (%2)").arg(BuildVer).arg( TO_QSTRING(BuildName) ) );
         mpUI->RegionLineEdit->setText( TO_QSTRING(GetRegionName(Region)) );
+
+        // Banner info
+        COpeningBanner Banner(pProj);
+        mpUI->GameNameLineEdit->setText( TO_QSTRING(Banner.EnglishGameName()) );
+        mpUI->GameNameLineEdit->setMaxLength( Banner.MaxGameNameLength() );
     }
     else
     {
@@ -66,10 +73,23 @@ void CProjectSettingsDialog::ActiveProjectChanged(CGameProject *pProj)
         mpUI->GameIdLineEdit->clear();
         mpUI->BuildLineEdit->clear();
         mpUI->RegionLineEdit->clear();
+        mpUI->GameNameLineEdit->clear();
         close();
     }
 
     SetupPackagesList();
+}
+
+void CProjectSettingsDialog::GameNameChanged()
+{
+    if (mpProject)
+    {
+        QString NewName = mpUI->GameNameLineEdit->text();
+
+        COpeningBanner Banner(mpProject);
+        Banner.SetEnglishGameName( TO_TSTRING(NewName) );
+        Banner.Save();
+    }
 }
 
 void CProjectSettingsDialog::SetupPackagesList()
