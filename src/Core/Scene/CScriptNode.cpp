@@ -476,13 +476,14 @@ void CScriptNode::PropertyModified(IProperty *pProp)
     else if (pProp->Type() == eAssetProperty)
     {
         CAssetTemplate *pAssetTemp = static_cast<CAssetTemplate*>(pProp->Template());
+        const CResTypeFilter& rkFilter = pAssetTemp->TypeFilter();
 
-        if (pAssetTemp->AcceptsExtension("CMDL") || pAssetTemp->AcceptsExtension("TXTR") || pAssetTemp->AcceptsExtension("ANCS") || pAssetTemp->AcceptsExtension("CHAR"))
+        if (rkFilter.Accepts(eModel) || rkFilter.Accepts(eTexture) || rkFilter.Accepts(eAnimSet) || rkFilter.Accepts(eCharacter))
         {
             mpInstance->EvaluateDisplayAsset();
             SetDisplayAsset(mpInstance->DisplayAsset());
         }
-        else if (pAssetTemp->AcceptsExtension("DCLN"))
+        else if (rkFilter.Accepts(eDynamicCollision))
         {
             mpInstance->EvaluateCollisionModel();
             mpCollisionNode->SetCollision(mpInstance->Collision());

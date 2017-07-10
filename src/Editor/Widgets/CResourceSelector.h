@@ -2,6 +2,7 @@
 #define CRESOURCESELECTOR
 
 #include <Core/GameProject/CResourceEntry.h>
+#include <Core/Resource/CResTypeFilter.h>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QPushButton>
@@ -12,6 +13,7 @@ class CResourceSelector : public QWidget
     Q_OBJECT
 
     CResourceEntry *mpResEntry;
+    CResTypeFilter mTypeFilter;
     bool mIsEditable;
 
     // UI
@@ -19,7 +21,7 @@ class CResourceSelector : public QWidget
     QHBoxLayout *mpFrameLayout;
     QFrame *mpFrame;
     QPushButton *mpResNameButton;
-    QPushButton *mpSetButton;
+    QPushButton *mpSelectButton;
     QPushButton *mpClearButton;
 
     // Context Menu
@@ -31,19 +33,20 @@ public:
     explicit CResourceSelector(QWidget *pParent = 0);
     void SetFrameVisible(bool Visible);
     void SetEditable(bool Editable);
-    void SetAllowedExtensions(const QString& rkExtension);
-    void SetAllowedExtensions(const TStringList& rkExtensions);
+    void SetTypeFilter(const CResTypeFilter& rkFilter);
+    void SetTypeFilter(EGame Game, const TString& rkTypeList);
     void SetResource(const CAssetID& rkID);
     void SetResource(CResourceEntry *pEntry);
     void SetResource(CResource *pRes);
 
     // Accessors
-    inline CResourceEntry* Entry() const    { return mpResEntry; }
-    inline bool IsEditable() const          { return mIsEditable; }
+    inline CResourceEntry* Entry() const            { return mpResEntry; }
+    inline const CResTypeFilter& TypeFilter() const { return mTypeFilter; }
+    inline bool IsEditable() const                  { return mIsEditable; }
 
 public slots:
     void CreateContextMenu(const QPoint& rkPoint);
-    void Set();
+    void Select();
     void Find();
     void Clear();
     void EditAsset();

@@ -624,13 +624,8 @@ void CTemplateWriter::SaveProperties(XMLDocument *pDoc, XMLElement *pParent, CSt
         if (pProp->Type() == eAssetProperty)
         {
             CAssetTemplate *pAsset = static_cast<CAssetTemplate*>(pProp);
-            const TStringList& rkExtensions = pAsset->AllowedExtensions();
-            TString ExtensionsString;
-
-            for (auto it = rkExtensions.begin(); it != rkExtensions.end(); it++)
-                ExtensionsString += *it + ",";
-
-            ExtensionsString = ExtensionsString.ChopBack(1); // Remove extra comma
+            const CResTypeFilter& rkFilter = pAsset->TypeFilter();
+            TString ExtensionsString = rkFilter.ToString();
             if (ExtensionsString.IsEmpty()) ExtensionsString = "UNKN";
             pElem->SetAttribute("extensions", *ExtensionsString);
         }
@@ -796,14 +791,9 @@ void CTemplateWriter::SavePropertyOverrides(XMLDocument *pDoc, XMLElement *pPare
                     CAssetTemplate *pAsset = static_cast<CAssetTemplate*>(pProp);
                     CAssetTemplate *pSourceAsset = static_cast<CAssetTemplate*>(pSource);
 
-                    if (pAsset->AllowedExtensions() != pSourceAsset->AllowedExtensions())
+                    if (pAsset->TypeFilter() != pSourceAsset->TypeFilter())
                     {
-                        TString ExtensionsString;
-
-                        for (auto it = pAsset->AllowedExtensions().begin(); it != pAsset->AllowedExtensions().end(); it++)
-                            ExtensionsString += *it + ",";
-
-                        ExtensionsString = ExtensionsString.ChopBack(1);
+                        TString ExtensionsString = pAsset->TypeFilter().ToString();
                         if (ExtensionsString.IsEmpty()) ExtensionsString = "UNKN";
                         pElem->SetAttribute("extensions", *ExtensionsString);
                     }

@@ -229,7 +229,8 @@ HEADERS += \
     Resource/CMapArea.h \
     Resource/CSavedStateID.h \
     IProgressNotifier.h \
-    IUIRelay.h
+    IUIRelay.h \
+    Resource/CResTypeFilter.h
 
 # Source Files
 SOURCES += \
