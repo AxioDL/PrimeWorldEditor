@@ -26,6 +26,7 @@ public:
 
 public slots:
     void ActiveProjectChanged(CGameProject *pProj);
+    void GameNameChanged();
     void SetupPackagesList();
     void CookPackage();
     void CookAllDirtyPackages();

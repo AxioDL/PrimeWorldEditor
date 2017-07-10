@@ -19,12 +19,10 @@ public:
     void WriteFloat(float Val);
     void WriteDouble(double Val);
     void WriteFourCC(long Val);
-    void WriteString(const TString& rkVal);
-    void WriteString(const TString& rkVal, u32 Count, bool Terminate = false);
+    void WriteString(const TString& rkVal, int Count = -1, bool Terminate = true);
     void WriteSizedString(const TString& rkVal);
-    void WriteWideString(const TWideString& rkVal);
-    void WriteWideString(const TWideString& rkVal, u32 Count, bool Terminate = false);
-    void WriteSizedWideString(const TWideString& rkVal);
+    void WriteWString(const TWideString& rkVal, int Count = -1, bool Terminate = true);
+    void WriteSizedWString(const TWideString& rkVal);
 
     bool GoTo(u32 Address);
     bool Skip(s32 SkipAmount);

@@ -276,16 +276,16 @@
     <property name="title">
      <string>File</string>
     </property>
+    <addaction name="ActionExportGame"/>
     <addaction name="ActionOpenProject"/>
     <addaction name="ActionOpenRecent"/>
     <addaction name="separator"/>
     <addaction name="ActionSave"/>
     <addaction name="ActionSaveAndRepack"/>
     <addaction name="separator"/>
-    <addaction name="ActionExportGame"/>
     <addaction name="ActionProjectSettings"/>
-    <addaction name="ActionCloseProject"/>
     <addaction name="separator"/>
+    <addaction name="ActionCloseProject"/>
     <addaction name="ActionExit"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
@@ -714,8 +714,12 @@
    </property>
   </action>
   <action name="ActionExportGame">
+   <property name="icon">
+    <iconset resource="../Icons.qrc">
+     <normaloff>:/icons/New_16px.png</normaloff>:/icons/New_16px.png</iconset>
+   </property>
    <property name="text">
-    <string>Export Game</string>
+    <string>Create Project</string>
    </property>
   </action>
   <action name="ActionExit">

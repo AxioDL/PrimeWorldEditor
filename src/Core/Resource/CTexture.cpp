@@ -187,7 +187,7 @@ bool CTexture::WriteDDS(IOutputStream& rOut)
 
     CopyGLBuffer();
 
-    rOut.WriteString("DDS ", 4);     // "DDS " fourCC
+    rOut.WriteFourCC(FOURCC('DDS')); // "DDS " fourCC
     rOut.WriteLong(0x7C);            // dwSize
     rOut.WriteLong(0x21007);         // dwFlags
     rOut.WriteLong(mHeight);         // dwHeight
@@ -245,7 +245,7 @@ bool CTexture::WriteDDS(IOutputStream& rOut)
     }
 
     rOut.WriteLong(PFFlags);    // DDS_PIXELFORMAT.dwFlags
-    (mTexelFormat == eDXT1) ? rOut.WriteString("DXT1", 4) : rOut.WriteLong(0); // DDS_PIXELFORMAT.dwFourCC
+    (mTexelFormat == eDXT1) ? rOut.WriteFourCC(FOURCC('DXT1')) : rOut.WriteLong(0); // DDS_PIXELFORMAT.dwFourCC
     rOut.WriteLong(PFBpp);      // DDS_PIXELFORMAT.dwRGBBitCount
     rOut.WriteLong(PFRBitMask); // DDS_PIXELFORMAT.dwRBitMask
     rOut.WriteLong(PFGBitMask); // DDS_PIXELFORMAT.dwGBitMask
