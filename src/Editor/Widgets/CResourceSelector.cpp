@@ -16,19 +16,15 @@ CResourceSelector::CResourceSelector(QWidget *pParent /*= 0*/)
     setContextMenuPolicy(Qt::CustomContextMenu);
 
     // Set up UI
-    mpResNameLabel = new QLabel(this);
+    mpResNameButton = new QPushButton(this);
+    mpResNameButton->setFlat(true);
+    mpResNameButton->setStyleSheet("text-align:left; font-size:10pt; margin:0px; padding-left:2px");
     
     mpSetButton = new QPushButton(this);
     mpSetButton->setToolTip("Use selected asset in Resource Browser");
     mpSetButton->setIcon(QIcon(":/icons/ArrowL_16px.png"));
     mpSetButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     mpSetButton->setFixedSize(16, 16);
-
-    mpFindButton = new QPushButton(this);
-    mpFindButton->setToolTip("Find in Resource Browser");
-    mpFindButton->setIcon(QIcon(":/icons/Search_16px.png"));
-    mpFindButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    mpFindButton->setFixedSize(16, 16);
 
     mpClearButton = new QPushButton(this);
     mpClearButton->setToolTip("Clear");
@@ -38,10 +34,9 @@ CResourceSelector::CResourceSelector(QWidget *pParent /*= 0*/)
     
     mpFrameLayout = new QHBoxLayout(this);
     mpFrameLayout->setSpacing(2);
-    mpFrameLayout->setContentsMargins(3, 0, 0, 0);
-    mpFrameLayout->addWidget(mpResNameLabel);
+    mpFrameLayout->setContentsMargins(0, 0, 0, 0);
+    mpFrameLayout->addWidget(mpResNameButton);
     mpFrameLayout->addWidget(mpSetButton);
-    mpFrameLayout->addWidget(mpFindButton);
     mpFrameLayout->addWidget(mpClearButton);
     mpFrame = new QFrame(this);
     mpFrame->setBackgroundRole(QPalette::AlternateBase);
@@ -53,15 +48,10 @@ CResourceSelector::CResourceSelector(QWidget *pParent /*= 0*/)
     mpLayout->setContentsMargins(0, 0, 0, 0);
     setLayout(mpLayout);
 
-    // Font
-    QFont Font = font();
-    Font.setPointSize(10);
-    setFont(Font);
-
     // UI Connections
     connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(CreateContextMenu(QPoint)));
+    connect(mpResNameButton, SIGNAL(clicked()), this, SLOT(Find()));
     connect(mpSetButton, SIGNAL(clicked()), this, SLOT(Set()));
-    connect(mpFindButton, SIGNAL(clicked()), this, SLOT(Find()));
     connect(mpClearButton, SIGNAL(clicked()), this, SLOT(Clear()));
 
     // Set up context menu
@@ -95,9 +85,8 @@ void CResourceSelector::UpdateUI()
     bool HasResource = mpResEntry != nullptr;
 
     // Update main UI
-    mpResNameLabel->setText(HasResource ? TO_QSTRING(mpResEntry->Name()) + "." + TO_QSTRING(mpResEntry->CookedExtension().ToString()) : "");
-    mpResNameLabel->setToolTip(HasResource ? TO_QSTRING(mpResEntry->CookedAssetPath(true)) : "");
-    mpFindButton->setEnabled(HasResource);
+    mpResNameButton->setText(HasResource ? TO_QSTRING(mpResEntry->Name()) + "." + TO_QSTRING(mpResEntry->CookedExtension().ToString()) : "");
+    mpResNameButton->setToolTip(HasResource ? TO_QSTRING(mpResEntry->CookedAssetPath(true)) : "");
     mpClearButton->setEnabled(HasResource);
 
     // Update context menu
@@ -151,7 +140,7 @@ void CResourceSelector::EditAsset()
 
 void CResourceSelector::CopyName()
 {
-    gpEdApp->clipboard()->setText(mpResNameLabel->text());
+    gpEdApp->clipboard()->setText(mpResNameButton->text());
 }
 
 void CResourceSelector::CopyPath()
@@ -174,10 +163,13 @@ void CResourceSelector::Set()
 
 void CResourceSelector::Find()
 {
-    CResourceBrowser *pBrowser = gpEdApp->ResourceBrowser();
-    pBrowser->SelectResource(mpResEntry);
-    pBrowser->show();
-    pBrowser->raise();
+    if (mpResEntry)
+    {
+        CResourceBrowser *pBrowser = gpEdApp->ResourceBrowser();
+        pBrowser->SelectResource(mpResEntry);
+        pBrowser->show();
+        pBrowser->raise();
+    }
 }
 
 void CResourceSelector::Clear()

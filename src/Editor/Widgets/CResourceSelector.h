@@ -18,9 +18,8 @@ class CResourceSelector : public QWidget
     QVBoxLayout *mpLayout;
     QHBoxLayout *mpFrameLayout;
     QFrame *mpFrame;
-    QLabel *mpResNameLabel;
+    QPushButton *mpResNameButton;
     QPushButton *mpSetButton;
-    QPushButton *mpFindButton;
     QPushButton *mpClearButton;
 
     // Context Menu
