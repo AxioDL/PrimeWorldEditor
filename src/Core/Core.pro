@@ -5,7 +5,6 @@
 #-------------------------------------------------
 
 QT -= core gui
-QMAKE_CXXFLAGS += /WX
 DEFINES += PWE_CORE
 
 CONFIG += staticlib
@@ -15,6 +14,7 @@ DEFINES += GLEW_STATIC
 
 unix {
     target.path = /usr/lib
+    QMAKE_CXXFLAGS += /WX
     INSTALLS += target
 }
 

@@ -5,11 +5,11 @@
 #-------------------------------------------------
 
 QT += core gui opengl widgets
-QMAKE_CXXFLAGS += /WX
 DEFINES += PWE_EDITOR
 RESOURCES += Icons.qrc
 
 win32: {
+    QMAKE_CXXFLAGS += /WX
     RC_ICONS += icons/AppIcon.ico
     QT += winextras
 }
