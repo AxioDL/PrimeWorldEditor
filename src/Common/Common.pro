@@ -5,7 +5,6 @@
 #-------------------------------------------------
 
 QT -= core gui
-QMAKE_CXXFLAGS += /WX
 DEFINES += PWE_COMMON
 
 CONFIG += staticlib
@@ -14,6 +13,7 @@ DESTDIR = $$BUILD_DIR/Common
 
 unix {
     target.path = /usr/lib
+    QMAKE_CXXFLAGS += /WX
     INSTALLS += target
 }
 
