@@ -185,7 +185,8 @@ HEADERS += \
     IProgressNotifierUI.h \
     CUIRelay.h \
     Widgets/CSelectResourcePanel.h \
-    Widgets/CFilteredResourceModel.h
+    Widgets/CFilteredResourceModel.h \
+    ResourceBrowser/CResourceDelegate.h
 
 # Source Files
 SOURCES += \
@@ -253,7 +254,8 @@ SOURCES += \
     WorldEditor/CPoiMapSidebar.cpp \
     WorldEditor/CWorldEditorSidebar.cpp \
     CProgressDialog.cpp \
-    Widgets/CSelectResourcePanel.cpp
+    Widgets/CSelectResourcePanel.cpp \
+    ResourceBrowser/CResourceDelegate.cpp
 
 # UI Files
 FORMS += \

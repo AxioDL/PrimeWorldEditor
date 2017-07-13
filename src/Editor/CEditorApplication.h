@@ -21,7 +21,6 @@ class CEditorApplication : public QApplication
 
     CGameProject *mpActiveProject;
     CWorldEditor *mpWorldEditor;
-    CResourceBrowser *mpResourceBrowser;
     CProjectSettingsDialog *mpProjectDialog;
     QVector<IEditor*> mEditorWindows;
     QMap<CResourceEntry*,IEditor*> mEditingMap;
@@ -45,10 +44,11 @@ public:
 
     bool RebuildResourceDatabase();
 
+    CResourceBrowser* ResourceBrowser() const;
+
     // Accessors
     inline CGameProject* ActiveProject() const              { return mpActiveProject; }
     inline CWorldEditor* WorldEditor() const                { return mpWorldEditor; }
-    inline CResourceBrowser* ResourceBrowser() const        { return mpResourceBrowser; }
     inline CProjectSettingsDialog* ProjectDialog() const    { return mpProjectDialog; }
     inline EGame CurrentGame() const                        { return mpActiveProject ? mpActiveProject->Game() : eUnknownGame; }
 

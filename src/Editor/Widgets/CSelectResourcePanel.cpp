@@ -6,7 +6,7 @@
 #include <QDebug>
 
 CSelectResourcePanel::CSelectResourcePanel(CResourceSelector *pSelector)
-    : QWidget(pSelector)
+    : QFrame(pSelector)
     , mpUI(new Ui::CSelectResourcePanel)
     , mpSelector(pSelector)
     , mModel(pSelector)

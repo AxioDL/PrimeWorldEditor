@@ -262,7 +262,7 @@ void CPackage::Cook(IProgressNotifier *pProgress)
                     // Note: Compressed asset data can be stored in multiple blocks. Normally, the only assets that make use of this are textures,
                     // which can store each separate component of the file (header, palette, image data) in separate blocks. However, some textures
                     // are stored in one block, and I've had no luck figuring out why. The game doesn't generally seem to care whether textures use
-                    // multiple blocks or not, so for the sake of complicity we compress everything to one block.
+                    // multiple blocks or not, so for the sake of simplicity we compress everything to one block.
                     Pak.WriteFourCC( FOURCC('CMPD') );
                     Pak.WriteLong(1);
                     Pak.WriteLong(0xA0000000 | CompressedSize);

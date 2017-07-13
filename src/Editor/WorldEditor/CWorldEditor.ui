@@ -14,27 +14,25 @@
    <string/>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_3">
-    <property name="spacing">
-     <number>3</number>
-    </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
     <property name="leftMargin">
-     <number>3</number>
+     <number>0</number>
     </property>
     <property name="topMargin">
-     <number>3</number>
+     <number>0</number>
     </property>
     <property name="rightMargin">
-     <number>3</number>
+     <number>0</number>
     </property>
     <property name="bottomMargin">
-     <number>3</number>
+     <number>0</number>
     </property>
     <item>
      <widget class="QSplitter" name="splitter">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
+      <widget class="CResourceBrowser" name="ResourceBrowser" native="true"/>
       <widget class="QWidget" name="layoutWidget">
        <layout class="QVBoxLayout" name="verticalLayout_4">
         <item>
@@ -340,7 +338,6 @@
     <property name="title">
      <string>Tools</string>
     </property>
-    <addaction name="ActionResourceBrowser"/>
     <addaction name="ActionEditLayers"/>
    </widget>
    <addaction name="menuFile"/>
@@ -735,11 +732,6 @@
     <string>Close Project</string>
    </property>
   </action>
-  <action name="ActionResourceBrowser">
-   <property name="text">
-    <string>Resource Browser</string>
-   </property>
-  </action>
   <action name="ActionEditWorldInfoMode">
    <property name="checkable">
     <bool>true</bool>
@@ -792,6 +784,12 @@
    <class>CSceneViewport</class>
    <extends>QWidget</extends>
    <header>Editor/CSceneViewport.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>CResourceBrowser</class>
+   <extends>QWidget</extends>
+   <header>Editor/ResourceBrowser/CResourceBrowser.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

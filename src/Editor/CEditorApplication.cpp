@@ -18,7 +18,6 @@ CEditorApplication::CEditorApplication(int& rArgc, char **ppArgv)
     : QApplication(rArgc, ppArgv)
     , mpActiveProject(nullptr)
     , mpWorldEditor(nullptr)
-    , mpResourceBrowser(nullptr)
     , mpProjectDialog(nullptr)
 {
     mLastUpdate = CTimer::GlobalTime();
@@ -36,7 +35,6 @@ CEditorApplication::~CEditorApplication()
 void CEditorApplication::InitEditor()
 {
     mpWorldEditor = new CWorldEditor();
-    mpResourceBrowser = new CResourceBrowser(mpWorldEditor);
     mpProjectDialog = new CProjectSettingsDialog(mpWorldEditor);
     mpWorldEditor->showMaximized();
 }
@@ -54,7 +52,6 @@ bool CEditorApplication::CloseAllEditors()
     if (!mpWorldEditor->CloseWorld())
         return false;
 
-    mpResourceBrowser->close();
     mpProjectDialog->close();
     return true;
 }
@@ -202,8 +199,6 @@ bool CEditorApplication::CookPackageList(QList<CPackage*> PackageList)
 
 bool CEditorApplication::RebuildResourceDatabase()
 {
-    bool BrowserIsOpen = mpResourceBrowser->isVisible();
-
     // Make sure all editors are closed
     if (mpActiveProject && CloseAllEditors())
     {
@@ -224,13 +219,6 @@ bool CEditorApplication::RebuildResourceDatabase()
         // Set project to active again
         mpActiveProject = pProj;
         emit ActiveProjectChanged(pProj);
-
-        // If the resource browser was open before, then reopen it now
-        if (BrowserIsOpen)
-        {
-            mpResourceBrowser->show();
-            mpResourceBrowser->raise();
-        }
 
         UICommon::InfoMsg(mpWorldEditor, "Success", "Resource database rebuilt successfully!");
         return true;
@@ -301,4 +289,9 @@ void CEditorApplication::OnEditorClose()
 
         mpActiveProject->ResourceStore()->DestroyUnreferencedResources();
     }
+}
+
+CResourceBrowser* CEditorApplication::ResourceBrowser() const
+{
+    return mpWorldEditor->ResourceBrowser();
 }

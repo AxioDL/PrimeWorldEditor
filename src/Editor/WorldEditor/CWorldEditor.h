@@ -89,6 +89,7 @@ public:
     inline CGameArea* ActiveArea() const    { return mpArea; }
     inline EGame CurrentGame() const        { return gpEdApp->CurrentGame(); }
     inline CLinkDialog* LinkDialog() const  { return mpLinkDialog; }
+    CResourceBrowser* ResourceBrowser() const;
     CSceneViewport* Viewport() const;
 
     inline void SetWorldDir(QString WorldDir)       { mWorldDir = (QDir(WorldDir).exists() ? WorldDir : ""); }
@@ -116,7 +117,6 @@ public slots:
     void ChangeEditMode(EWorldEditorMode Mode);
     void SetRenderingMergedWorld(bool RenderMerged);
     void OpenProjectSettings();
-    void OpenResourceBrowser();
 
     void OnActiveProjectChanged(CGameProject *pProj);
     void OnLinksModified(const QList<CScriptObject*>& rkInstances);

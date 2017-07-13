@@ -110,26 +110,6 @@ CWorldEditor::CWorldEditor(QWidget *parent)
 
     mpCollisionDialog = new CCollisionRenderSettingsDialog(this, this);
 
-    // Resource Browser button
-    QPushButton *pBrowserButton = new QPushButton(this);
-    pBrowserButton->setText("Resource Browser");
-    connect(pBrowserButton, SIGNAL(pressed()), this, SLOT(OpenResourceBrowser()));
-
-    QPalette Palette = pBrowserButton->palette();
-    QBrush ButtonBrush = Palette.button();
-    ButtonBrush.setColor( UICommon::kImportantButtonColor );
-    Palette.setBrush(QPalette::Button, ButtonBrush);
-    pBrowserButton->setPalette(Palette);
-
-    QFont BrowserButtonFont = pBrowserButton->font();
-    BrowserButtonFont.setPointSize( BrowserButtonFont.pointSize() + 3 );
-    pBrowserButton->setFont(BrowserButtonFont);
-
-    QWidget *pSpacerWidget = new QWidget(this);
-    pSpacerWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
-    ui->MainToolBar->addWidget(pSpacerWidget);
-    ui->MainToolBar->addWidget(pBrowserButton);
-
     // "Open Recent" menu
     mpOpenRecentMenu = new QMenu(this);
     ui->ActionOpenRecent->setMenu(mpOpenRecentMenu);
@@ -183,7 +163,6 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     connect(ui->ActionLink, SIGNAL(toggled(bool)), this, SLOT(OnLinkButtonToggled(bool)));
     connect(ui->ActionUnlink, SIGNAL(triggered()), this, SLOT(OnUnlinkClicked()));
 
-    connect(ui->ActionResourceBrowser, SIGNAL(triggered()), this, SLOT(OpenResourceBrowser()));
     connect(ui->ActionEditLayers, SIGNAL(triggered()), this, SLOT(EditLayers()));
 
     connect(ui->ActionDrawWorld, SIGNAL(triggered()), this, SLOT(ToggleDrawWorld()));
@@ -351,6 +330,11 @@ bool CWorldEditor::HasAnyScriptNodesSelected() const
     }
 
     return false;
+}
+
+CResourceBrowser* CWorldEditor::ResourceBrowser() const
+{
+    return ui->ResourceBrowser;
 }
 
 CSceneViewport* CWorldEditor::Viewport() const
@@ -541,13 +525,6 @@ void CWorldEditor::OpenProjectSettings()
     CProjectSettingsDialog *pDialog = gpEdApp->ProjectDialog();
     pDialog->show();
     pDialog->raise();
-}
-
-void CWorldEditor::OpenResourceBrowser()
-{
-    CResourceBrowser *pBrowser = gpEdApp->ResourceBrowser();
-    pBrowser->show();
-    pBrowser->raise();
 }
 
 void CWorldEditor::OnActiveProjectChanged(CGameProject *pProj)
