@@ -9,7 +9,7 @@ namespace Ui {
 class CSelectResourcePanel;
 }
 
-class CSelectResourcePanel : public QWidget
+class CSelectResourcePanel : public QFrame
 {
     Q_OBJECT
     Ui::CSelectResourcePanel *mpUI;

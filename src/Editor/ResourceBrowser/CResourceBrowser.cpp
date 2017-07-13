@@ -1,6 +1,7 @@
 #include "CResourceBrowser.h"
 #include "ui_CResourceBrowser.h"
 #include "CProgressDialog.h"
+#include "CResourceDelegate.h"
 #include "Editor/CEditorApplication.h"
 #include <Core/GameProject/AssetNameGeneration.h>
 #include <Core/GameProject/CAssetNameMap.h>
@@ -11,22 +12,25 @@
 #include <QtConcurrent/QtConcurrentRun>
 
 CResourceBrowser::CResourceBrowser(QWidget *pParent)
-    : QDialog(pParent)
+    : QWidget(pParent)
     , mpUI(new Ui::CResourceBrowser)
     , mpSelectedEntry(nullptr)
     , mpStore(nullptr)
     , mpSelectedDir(nullptr)
-    , mAssetListMode(true)
+    , mEditorStore(false)
+    , mAssetListMode(false)
     , mSearching(false)
 {
     mpUI->setupUi(this);
-    setWindowFlags(windowFlags() | Qt::WindowMinimizeButtonHint);
 
-#if PUBLIC_RELEASE
-    // Hide store select combo box in public release build; we don't want users to edit the editor store
-    mpUI->StoreLabel->setHidden(true);
-    mpUI->StoreComboBox->setHidden(true);
-#endif
+    // Hide sorting combo box for now. The size isn't displayed on the UI so this isn't really useful for the end user.
+    mpUI->SortComboBox->hide();
+
+    // Configure display mode buttons
+    QButtonGroup *pModeGroup = new QButtonGroup(this);
+    pModeGroup->addButton(mpUI->ResourceTreeButton);
+    pModeGroup->addButton(mpUI->ResourceListButton);
+    pModeGroup->setExclusive(true);
 
     // Set up table models
     mpModel = new CResourceTableModel(this);
@@ -36,8 +40,9 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
 
     QHeaderView *pHeader = mpUI->ResourceTableView->horizontalHeader();
     pHeader->setSectionResizeMode(0, QHeaderView::Stretch);
-    pHeader->resizeSection(1, 215);
-    pHeader->resizeSection(2, 75);
+
+    mpDelegate = new CResourceBrowserDelegate(this);
+    mpUI->ResourceTableView->setItemDelegate(mpDelegate);
 
     // Set up directory tree model
     mpDirectoryModel = new CVirtualDirectoryModel(this);
@@ -70,35 +75,49 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
 
     CreateFilterCheckboxes();
 
-    // Set up Import Names menu
-    QMenu *pImportNamesMenu = new QMenu(this);
-    mpUI->ImportNamesButton->setMenu(pImportNamesMenu);
+    // Set up the options menu
+    QMenu *pOptionsMenu = new QMenu(this);
+    QMenu *pImportMenu = pOptionsMenu->addMenu("Import Names");
+    pOptionsMenu->addAction("Export Names", this, SLOT(ExportAssetNames()));
+    pOptionsMenu->addSeparator();
 
-    QAction *pImportFromContentsTxtAction = new QAction("Import from Pak Contents List", this);
-    pImportNamesMenu->addAction(pImportFromContentsTxtAction);
+    pImportMenu->addAction("Asset Name Map", this, SLOT(ImportAssetNameMap()));
+    pImportMenu->addAction("Package Contents List", this, SLOT(ImportPackageContentsList()));
+    pImportMenu->addAction("Generate Asset Names", this, SLOT(GenerateAssetNames()));
 
-    QAction *pImportFromAssetNameMapAction = new QAction("Import from Asset Name Map", this);
-    pImportNamesMenu->addAction(pImportFromAssetNameMapAction);
+    QAction *pDisplayAssetIDsAction = new QAction("Display Asset IDs", this);
+    pDisplayAssetIDsAction->setCheckable(true);
+    connect(pDisplayAssetIDsAction, SIGNAL(toggled(bool)), this, SLOT(SetAssetIdDisplayEnabled(bool)));
+    pOptionsMenu->addAction(pDisplayAssetIDsAction);
 
-    QAction *pGenerateAssetNamesAction = new QAction("Generate Asset Names", this);
-    pImportNamesMenu->addAction(pGenerateAssetNamesAction);
-#if PUBLIC_RELEASE
-    pGenerateAssetNamesAction->setVisible(false);
+    pOptionsMenu->addAction("Rebuild Database", this, SLOT(RebuildResourceDB()));
+    mpUI->OptionsToolButton->setMenu(pOptionsMenu);
+
+#if !PUBLIC_RELEASE
+    // Only add the store menu in debug builds. We don't want end users editing the editor store.
+    pOptionsMenu->addSeparator();
+    QMenu *pStoreMenu = pOptionsMenu->addMenu("Set Store");
+    QAction *pProjStoreAction = pStoreMenu->addAction("Project Store", this, SLOT(SetProjectStore()));
+    QAction *pEdStoreAction = pStoreMenu->addAction("Editor Store", this, SLOT(SetEditorStore()));
+
+    pProjStoreAction->setCheckable(true);
+    pProjStoreAction->setChecked(true);
+    pEdStoreAction->setCheckable(true);
+
+    QActionGroup *pGroup = new QActionGroup(this);
+    pGroup->addAction(pProjStoreAction);
+    pGroup->addAction(pEdStoreAction);
 #endif
 
     // Set up connections
-    connect(mpUI->StoreComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateStore()));
     connect(mpUI->SearchBar, SIGNAL(textChanged(QString)), this, SLOT(OnSearchStringChanged()));
-    connect(mpUI->DisplayTypeComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(OnDisplayModeChanged(int)));
+    connect(mpUI->ResourceTreeButton, SIGNAL(pressed()), this, SLOT(SetResourceTreeView()));
+    connect(mpUI->ResourceListButton, SIGNAL(pressed()), this, SLOT(SetResourceListView()));
     connect(mpUI->SortComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(OnSortModeChanged(int)));
     connect(mpUI->DirectoryTreeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(OnDirectorySelectionChanged(QModelIndex,QModelIndex)));
     connect(mpUI->ResourceTableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnDoubleClickTable(QModelIndex)));
     connect(mpUI->ResourceTableView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(OnResourceSelectionChanged(QModelIndex, QModelIndex)));
-    connect(pImportFromContentsTxtAction, SIGNAL(triggered()), this, SLOT(OnImportPakContentsTxt()));
-    connect(pImportFromAssetNameMapAction, SIGNAL(triggered()), this, SLOT(OnImportNamesFromAssetNameMap()));
-    connect(pGenerateAssetNamesAction, SIGNAL(triggered()), this, SLOT(OnGenerateAssetNames()));
-    connect(mpUI->ExportNamesButton, SIGNAL(clicked()), this, SLOT(ExportAssetNames()));
-    connect(mpUI->RebuildDatabaseButton, SIGNAL(clicked(bool)), this, SLOT(RebuildResourceDB()));
+    connect(mpProxyModel, SIGNAL(layoutChanged(QList<QPersistentModelIndex>,QAbstractItemModel::LayoutChangeHint)), mpUI->ResourceTableView, SLOT(resizeRowsToContents()));
     connect(&mUpdateFilterTimer, SIGNAL(timeout()), this, SLOT(UpdateFilter()));
     connect(mpFilterAllBox, SIGNAL(toggled(bool)), this, SLOT(OnFilterTypeBoxTicked(bool)));
     connect(gpEdApp, SIGNAL(ActiveProjectChanged(CGameProject*)), this, SLOT(UpdateStore()));
@@ -113,23 +132,21 @@ void CResourceBrowser::SelectResource(CResourceEntry *pEntry)
 {
     ASSERT(pEntry);
 
-    // Clear search
-    mpUI->SearchBar->clear();
-    UpdateFilter();
-
     // Select target directory
     SelectDirectory(pEntry->Directory());
 
-    // Select resource
-    int Row = mpModel->GetIndexForEntry(pEntry).row();
-    mpUI->ResourceTableView->selectionModel()->clearSelection();
-
-    for (int iCol = 0; iCol < mpModel->columnCount(QModelIndex()); iCol++)
+    // Clear search
+    if (!mpUI->SearchBar->text().isEmpty())
     {
-        QModelIndex Index = mpModel->index(Row, iCol, QModelIndex());
-        QModelIndex ProxyIndex = mpProxyModel->mapFromSource(Index);
-        mpUI->ResourceTableView->selectionModel()->setCurrentIndex(ProxyIndex, QItemSelectionModel::Select);
+        mpUI->SearchBar->clear();
+        UpdateFilter();
     }
+
+    // Select resource
+    QModelIndex SourceIndex = mpModel->GetIndexForEntry(pEntry);
+    QModelIndex ProxyIndex = mpProxyModel->mapFromSource(SourceIndex);
+    mpUI->ResourceTableView->selectionModel()->select(ProxyIndex, QItemSelectionModel::ClearAndSelect);
+    mpUI->ResourceTableView->scrollTo(ProxyIndex, QAbstractItemView::PositionAtCenter);
 }
 
 void CResourceBrowser::SelectDirectory(CVirtualDirectory *pDir)
@@ -185,13 +202,7 @@ void CResourceBrowser::CreateFilterCheckboxes()
 void CResourceBrowser::RefreshResources()
 {
     // Fill resource table
-    mpModel->FillEntryList(mpSelectedDir, InAssetListMode());
-
-    // Mark directories to span all three columns
-    mpUI->ResourceTableView->clearSpans();
-
-    for (u32 iDir = 0; iDir < mpModel->NumDirectories(); iDir++)
-        mpUI->ResourceTableView->setSpan(iDir, 0, 1, 3);
+    mpModel->FillEntryList(mpSelectedDir, mAssetListMode);
 }
 
 void CResourceBrowser::RefreshDirectories()
@@ -232,37 +243,16 @@ void CResourceBrowser::UpdateDescriptionLabel()
     mpUI->TableDescriptionLabel->setText(Desc);
 }
 
-void CResourceBrowser::UpdateStore()
+void CResourceBrowser::SetResourceTreeView()
 {
-    int StoreIndex = mpUI->StoreComboBox->currentIndex();
-
-    CGameProject *pProj = gpEdApp->ActiveProject();
-    CResourceStore *pProjStore = (pProj ? pProj->ResourceStore() : nullptr);
-    CResourceStore *pNewStore = (StoreIndex == 0 ? pProjStore : gpEditorStore);
-
-    if (mpStore != pNewStore)
-    {
-        mpStore = pNewStore;
-
-        // Refresh type filter list
-        CreateFilterCheckboxes();
-
-        // Refresh directory tree
-        mpDirectoryModel->SetRoot(mpStore ? mpStore->RootDirectory() : nullptr);
-        QModelIndex RootIndex = mpDirectoryModel->index(0, 0, QModelIndex());
-        mpUI->DirectoryTreeView->expand(RootIndex);
-        mpUI->DirectoryTreeView->clearSelection();
-        OnDirectorySelectionChanged(QModelIndex(), QModelIndex());
-    }
+    mAssetListMode = false;
+    RefreshResources();
 }
 
-void CResourceBrowser::OnDisplayModeChanged(int Index)
+void CResourceBrowser::SetResourceListView()
 {
-    bool OldIsAssetList = InAssetListMode();
-    mAssetListMode = Index == 0;
-
-    if (InAssetListMode() != OldIsAssetList)
-        RefreshResources();
+    mAssetListMode = true;
+    RefreshResources();
 }
 
 void CResourceBrowser::OnSortModeChanged(int Index)
@@ -314,9 +304,49 @@ void CResourceBrowser::OnResourceSelectionChanged(const QModelIndex& rkNewIndex,
     emit SelectedResourceChanged(mpSelectedEntry);
 }
 
-void CResourceBrowser::OnImportPakContentsTxt()
+void CResourceBrowser::SetAssetIdDisplayEnabled(bool Enable)
 {
-    QStringList PathList = UICommon::OpenFilesDialog(this, "Open pak contents list", "*.pak.contents.txt");
+    mpDelegate->SetDisplayAssetIDs(Enable);
+    mpUI->ResourceTableView->repaint();
+}
+
+void CResourceBrowser::UpdateStore()
+{
+    CGameProject *pProj = gpEdApp->ActiveProject();
+    CResourceStore *pProjStore = (pProj ? pProj->ResourceStore() : nullptr);
+    CResourceStore *pNewStore = (mEditorStore ? gpEditorStore : pProjStore);
+
+    if (mpStore != pNewStore)
+    {
+        mpStore = pNewStore;
+
+        // Refresh type filter list
+        CreateFilterCheckboxes();
+
+        // Refresh directory tree
+        mpDirectoryModel->SetRoot(mpStore ? mpStore->RootDirectory() : nullptr);
+        QModelIndex RootIndex = mpDirectoryModel->index(0, 0, QModelIndex());
+        mpUI->DirectoryTreeView->expand(RootIndex);
+        mpUI->DirectoryTreeView->clearSelection();
+        OnDirectorySelectionChanged(QModelIndex(), QModelIndex());
+    }
+}
+
+void CResourceBrowser::SetProjectStore()
+{
+    mEditorStore = false;
+    UpdateStore();
+}
+
+void CResourceBrowser::SetEditorStore()
+{
+    mEditorStore = true;
+    UpdateStore();
+}
+
+void CResourceBrowser::ImportPackageContentsList()
+{
+    QStringList PathList = UICommon::OpenFilesDialog(this, "Open package contents list", "*.pak.contents.txt");
     if (PathList.isEmpty()) return;
     SelectDirectory(nullptr);
 
@@ -327,7 +357,7 @@ void CResourceBrowser::OnImportPakContentsTxt()
     RefreshDirectories();
 }
 
-void CResourceBrowser::OnGenerateAssetNames()
+void CResourceBrowser::GenerateAssetNames()
 {
     SelectDirectory(nullptr);
 
@@ -338,7 +368,7 @@ void CResourceBrowser::OnGenerateAssetNames()
     // Temporarily set root to null to ensure the window doesn't access the resource store while we're running.
     mpDirectoryModel->SetRoot(mpStore->RootDirectory());
 
-    QFuture<void> Future = QtConcurrent::run(&GenerateAssetNames, mpStore->Project());
+    QFuture<void> Future = QtConcurrent::run(&::GenerateAssetNames, mpStore->Project());
     Dialog.WaitForResults(Future);
 
     RefreshResources();
@@ -347,7 +377,7 @@ void CResourceBrowser::OnGenerateAssetNames()
     UICommon::InfoMsg(this, "Complete", "Asset name generation complete!");
 }
 
-void CResourceBrowser::OnImportNamesFromAssetNameMap()
+void CResourceBrowser::ImportAssetNameMap()
 {
     CAssetNameMap Map( mpStore->Game() );
     bool LoadSuccess = Map.LoadAssetNames();
@@ -410,7 +440,7 @@ void CResourceBrowser::ExportAssetNames()
 
 void CResourceBrowser::RebuildResourceDB()
 {
-    if (UICommon::YesNoQuestion(this, "Rebuild resource database", "Are you sure you want to rebuild the resource database?"))
+    if (UICommon::YesNoQuestion(this, "Rebuild resource database", "Are you sure you want to rebuild the resource database? This will take a while."))
     {
         gpEdApp->RebuildResourceDatabase();
     }
@@ -418,14 +448,8 @@ void CResourceBrowser::RebuildResourceDB()
 
 void CResourceBrowser::UpdateFilter()
 {
-    bool OldIsAssetList = InAssetListMode();
     QString SearchText = mpUI->SearchBar->text();
     mSearching = !SearchText.isEmpty();
-
-    if (InAssetListMode() != OldIsAssetList)
-    {
-        RefreshResources();
-    }
 
     UpdateDescriptionLabel();
     mpProxyModel->SetSearchString( TO_TSTRING(mpUI->SearchBar->text()) );

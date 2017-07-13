@@ -73,5 +73,9 @@
         <file>icons/World_16px.png</file>
         <file>icons/PoiSymbol_24px.png</file>
         <file>icons/ArrowD_16px.png</file>
+        <file>icons/Tree_16px.png</file>
+        <file>icons/Tree_24px.png</file>
+        <file>icons/Gear_16px.png</file>
+        <file>icons/Gear_24px.png</file>
     </qresource>
 </RCC>

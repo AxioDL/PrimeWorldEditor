@@ -15,6 +15,7 @@ class CResourceTableModel : public QAbstractTableModel
 
     QList<CVirtualDirectory*> mDirectories;
     QList<CResourceEntry*> mEntries;
+    QMap<CResourceEntry*, int> mEntryIndexMap;
     bool mHasParent;
 
 public:
@@ -29,19 +30,17 @@ public:
 
     int columnCount(const QModelIndex& /*rkParent*/) const
     {
-        return 3;
+        return 1;
     }
 
     QVariant data(const QModelIndex& rkIndex, int Role) const
     {
-        u32 Col = rkIndex.column();
+        if (rkIndex.column() != 0)
+            return QVariant::Invalid;
 
         // Directory
         if (IsIndexDirectory(rkIndex))
         {
-            if (Col != 0)
-                return QVariant::Invalid;
-
             CVirtualDirectory *pDir = IndexDirectory(rkIndex);
 
             if (Role == Qt::DisplayRole || Role == Qt::ToolTipRole)
@@ -58,46 +57,23 @@ public:
         CResourceEntry *pEntry = IndexEntry(rkIndex);
 
         if (Role == Qt::DisplayRole)
-        {
-            if (Col == 0)
-            {
-                return TO_QSTRING(pEntry->Name());
-            }
-
-            if (Col == 1)
-            {
-                return TO_QSTRING(pEntry->TypeInfo()->TypeName());
-            }
-
-            if (Col == 2)
-            {
-                u64 Size = pEntry->Size();
-                return Size ? TO_QSTRING( TString::FileSizeString(pEntry->Size()) ) : "";
-            }
-        }
+            return TO_QSTRING(pEntry->Name());
 
         else if (Role == Qt::ToolTipRole)
             return TO_QSTRING(pEntry->CookedAssetPath(true));
 
-        else if (Role == Qt::TextAlignmentRole && rkIndex.column() == 2)
-            return Qt::AlignRight;
+        else if (Role == Qt::DecorationRole)
+            return QIcon(":/icons/Sphere Preview.png");
 
         return QVariant::Invalid;
     }
 
     QModelIndex GetIndexForEntry(CResourceEntry *pEntry) const
     {
-        for (int iRes = 0; iRes < mEntries.size(); iRes++)
-        {
-            if (mEntries[iRes] == pEntry)
-            {
-                QModelIndex Out = index(mDirectories.size() + iRes, 0);
-                ASSERT(IndexEntry(Out) == pEntry);
-                return Out;
-            }
-        }
-
-        return QModelIndex();
+        if (mEntryIndexMap.contains(pEntry))
+            return index(mEntryIndexMap[pEntry] + mDirectories.size(), 0, QModelIndex());
+        else
+            return QModelIndex();
     }
 
     CResourceEntry* IndexEntry(const QModelIndex& rkIndex) const
@@ -122,6 +98,7 @@ public:
 
         mEntries.clear();
         mDirectories.clear();
+        mEntryIndexMap.clear();
         mHasParent = false;
 
         if (pDir)
@@ -143,7 +120,10 @@ public:
                     CResourceEntry *pEntry = pDir->ResourceByIndex(iRes);
 
                     if (pEntry->TypeInfo()->IsVisibleInBrowser() && !pEntry->IsHidden())
+                    {
+                        mEntryIndexMap[pEntry] = mEntries.size();
                         mEntries << pEntry;
+                    }
                 }
             }
 
@@ -163,7 +143,10 @@ protected:
             CResourceEntry *pEntry = pDir->ResourceByIndex(iRes);
 
             if (pEntry->TypeInfo()->IsVisibleInBrowser() && !pEntry->IsHidden())
-                mEntries << pDir->ResourceByIndex(iRes);
+            {
+                mEntryIndexMap[pEntry] = mEntries.size();
+                mEntries << pEntry;
+            }
         }
 
         for (u32 iDir = 0; iDir < pDir->NumSubdirectories(); iDir++)

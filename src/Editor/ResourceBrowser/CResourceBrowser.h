@@ -1,11 +1,11 @@
 #ifndef CRESOURCEBROWSER_H
 #define CRESOURCEBROWSER_H
 
+#include "CResourceDelegate.h"
 #include "CResourceProxyModel.h"
 #include "CResourceTableModel.h"
 #include "CVirtualDirectoryModel.h"
 #include <QCheckBox>
-#include <QDialog>
 #include <QTimer>
 #include <QVBoxLayout>
 
@@ -13,7 +13,7 @@ namespace Ui {
 class CResourceBrowser;
 }
 
-class CResourceBrowser : public QDialog
+class CResourceBrowser : public QWidget
 {
     Q_OBJECT
     Ui::CResourceBrowser *mpUI;
@@ -21,9 +21,11 @@ class CResourceBrowser : public QDialog
     CResourceStore *mpStore;
     CResourceTableModel *mpModel;
     CResourceProxyModel *mpProxyModel;
+    CResourceBrowserDelegate *mpDelegate;
     CVirtualDirectory *mpSelectedDir;
     CVirtualDirectoryModel *mpDirectoryModel;
     QTimer mUpdateFilterTimer;
+    bool mEditorStore;
     bool mAssetListMode;
     bool mSearching;
 
@@ -56,16 +58,21 @@ public slots:
     void RefreshResources();
     void RefreshDirectories();
     void UpdateDescriptionLabel();
-    void UpdateStore();
-    void OnDisplayModeChanged(int Index);
+    void SetResourceTreeView();
+    void SetResourceListView();
     void OnSortModeChanged(int Index);
     void OnSearchStringChanged();
     void OnDirectorySelectionChanged(const QModelIndex& rkNewIndex, const QModelIndex& rkPrevIndex);
     void OnDoubleClickTable(QModelIndex Index);
     void OnResourceSelectionChanged(const QModelIndex& rkNewIndex, const QModelIndex& rkPrevIndex);
-    void OnImportPakContentsTxt();
-    void OnGenerateAssetNames();
-    void OnImportNamesFromAssetNameMap();
+    void SetAssetIdDisplayEnabled(bool Enable);
+
+    void UpdateStore();
+    void SetProjectStore();
+    void SetEditorStore();
+    void ImportPackageContentsList();
+    void GenerateAssetNames();
+    void ImportAssetNameMap();
     void ExportAssetNames();
     void RebuildResourceDB();
     void UpdateFilter();
