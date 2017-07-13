@@ -38,8 +38,10 @@
 
 namespace UICommon
 {
-extern QMap<QString,QString> FilterMap;
-QString ExtensionFilterString(const QString& rkExtension);
+
+// Utility
+void OpenContainingFolder(const QString& rkPath);
+bool OpenInExternalApplication(const QString& rkPath);
 
 // TString/TWideString <-> QString
 inline QString ToQString(const TString& rkStr)

@@ -24,7 +24,6 @@ class CResourceBrowser : public QWidget
     CResourceBrowserDelegate *mpDelegate;
     CVirtualDirectory *mpSelectedDir;
     CVirtualDirectoryModel *mpDirectoryModel;
-    QTimer mUpdateFilterTimer;
     bool mEditorStore;
     bool mAssetListMode;
     bool mSearching;
@@ -51,6 +50,7 @@ public:
     void CreateFilterCheckboxes();
 
     // Accessors
+    inline CResourceStore* CurrentStore() const     { return mpStore; }
     inline CResourceEntry* SelectedEntry() const    { return mpSelectedEntry; }
     inline bool InAssetListMode() const             { return mAssetListMode || mSearching; }
 
@@ -61,7 +61,7 @@ public slots:
     void SetResourceTreeView();
     void SetResourceListView();
     void OnSortModeChanged(int Index);
-    void OnSearchStringChanged();
+    void OnSearchStringChanged(QString SearchString);
     void OnDirectorySelectionChanged(const QModelIndex& rkNewIndex, const QModelIndex& rkPrevIndex);
     void OnDoubleClickTable(QModelIndex Index);
     void OnResourceSelectionChanged(const QModelIndex& rkNewIndex, const QModelIndex& rkPrevIndex);

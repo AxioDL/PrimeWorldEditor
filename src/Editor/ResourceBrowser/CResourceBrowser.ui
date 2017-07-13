@@ -70,7 +70,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="SearchBar">
+      <widget class="CTimedLineEdit" name="SearchBar">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>5</horstretch>
@@ -185,7 +185,7 @@
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
         <widget class="QScrollArea" name="FilterCheckboxScrollArea">
@@ -269,6 +269,9 @@
         <pointsize>8</pointsize>
        </font>
       </property>
+      <property name="contextMenuPolicy">
+       <enum>Qt::CustomContextMenu</enum>
+      </property>
       <property name="editTriggers">
        <set>QAbstractItemView::NoEditTriggers</set>
       </property>
@@ -301,6 +304,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>CTimedLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>Editor/Widgets/CTimedLineEdit.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../Icons.qrc"/>
  </resources>
