@@ -2,9 +2,11 @@
 #include "ui_CResourceBrowser.h"
 #include "CProgressDialog.h"
 #include "CResourceDelegate.h"
+#include "CResourceTableContextMenu.h"
 #include "Editor/CEditorApplication.h"
 #include <Core/GameProject/AssetNameGeneration.h>
 #include <Core/GameProject/CAssetNameMap.h>
+
 #include <QCheckBox>
 #include <QFileDialog>
 #include <QMenu>
@@ -109,8 +111,11 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
     pGroup->addAction(pEdStoreAction);
 #endif
 
+    // Create context menu for the resource table
+    new CResourceTableContextMenu(this, mpUI->ResourceTableView, mpModel, mpProxyModel);
+
     // Set up connections
-    connect(mpUI->SearchBar, SIGNAL(textChanged(QString)), this, SLOT(OnSearchStringChanged()));
+    connect(mpUI->SearchBar, SIGNAL(StoppedTyping(QString)), this, SLOT(OnSearchStringChanged(QString)));
     connect(mpUI->ResourceTreeButton, SIGNAL(pressed()), this, SLOT(SetResourceTreeView()));
     connect(mpUI->ResourceListButton, SIGNAL(pressed()), this, SLOT(SetResourceListView()));
     connect(mpUI->SortComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(OnSortModeChanged(int)));
@@ -118,7 +123,6 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
     connect(mpUI->ResourceTableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnDoubleClickTable(QModelIndex)));
     connect(mpUI->ResourceTableView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(OnResourceSelectionChanged(QModelIndex, QModelIndex)));
     connect(mpProxyModel, SIGNAL(layoutChanged(QList<QPersistentModelIndex>,QAbstractItemModel::LayoutChangeHint)), mpUI->ResourceTableView, SLOT(resizeRowsToContents()));
-    connect(&mUpdateFilterTimer, SIGNAL(timeout()), this, SLOT(UpdateFilter()));
     connect(mpFilterAllBox, SIGNAL(toggled(bool)), this, SLOT(OnFilterTypeBoxTicked(bool)));
     connect(gpEdApp, SIGNAL(ActiveProjectChanged(CGameProject*)), this, SLOT(UpdateStore()));
 }
@@ -202,7 +206,7 @@ void CResourceBrowser::CreateFilterCheckboxes()
 void CResourceBrowser::RefreshResources()
 {
     // Fill resource table
-    mpModel->FillEntryList(mpSelectedDir, mAssetListMode);
+    mpModel->FillEntryList(mpSelectedDir, mAssetListMode || mSearching);
 }
 
 void CResourceBrowser::RefreshDirectories()
@@ -261,10 +265,22 @@ void CResourceBrowser::OnSortModeChanged(int Index)
     mpProxyModel->SetSortMode(Mode);
 }
 
-void CResourceBrowser::OnSearchStringChanged()
+void CResourceBrowser::OnSearchStringChanged(QString SearchString)
 {
-    const int kUpdateWaitTime = 500;
-    mUpdateFilterTimer.start(kUpdateWaitTime);
+    bool WasSearching = mSearching;
+    mSearching = !SearchString.isEmpty();
+
+    // Check if we need to change to/from asset list mode to display/stop displaying search results
+    if (!mAssetListMode)
+    {
+        if ( (mSearching && !WasSearching) ||
+             (!mSearching && WasSearching) )
+        {
+            RefreshResources();
+        }
+    }
+
+    UpdateFilter();
 }
 
 void CResourceBrowser::OnDirectorySelectionChanged(const QModelIndex& rkNewIndex, const QModelIndex& /*rkPrevIndex*/)
@@ -319,6 +335,10 @@ void CResourceBrowser::UpdateStore()
     if (mpStore != pNewStore)
     {
         mpStore = pNewStore;
+
+        // Clear search
+        mpUI->SearchBar->clear();
+        mSearching = false;
 
         // Refresh type filter list
         CreateFilterCheckboxes();

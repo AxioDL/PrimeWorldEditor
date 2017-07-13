@@ -186,7 +186,8 @@ HEADERS += \
     CUIRelay.h \
     Widgets/CSelectResourcePanel.h \
     Widgets/CFilteredResourceModel.h \
-    ResourceBrowser/CResourceDelegate.h
+    ResourceBrowser/CResourceDelegate.h \
+    ResourceBrowser/CResourceTableContextMenu.h
 
 # Source Files
 SOURCES += \
@@ -255,7 +256,8 @@ SOURCES += \
     WorldEditor/CWorldEditorSidebar.cpp \
     CProgressDialog.cpp \
     Widgets/CSelectResourcePanel.cpp \
-    ResourceBrowser/CResourceDelegate.cpp
+    ResourceBrowser/CResourceDelegate.cpp \
+    ResourceBrowser/CResourceTableContextMenu.cpp
 
 # UI Files
 FORMS += \
