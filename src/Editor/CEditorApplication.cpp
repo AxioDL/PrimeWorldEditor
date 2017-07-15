@@ -287,7 +287,10 @@ void CEditorApplication::OnEditorClose()
         mEditorWindows.removeOne(pEditor);
         delete pEditor;
 
-        mpActiveProject->ResourceStore()->DestroyUnreferencedResources();
+        if (mpActiveProject)
+        {
+            mpActiveProject->ResourceStore()->DestroyUnreferencedResources();
+        }
     }
 }
 

@@ -9,7 +9,7 @@
         <struct ID="0x04" name="PatternedInfo" template="Structs/PatternedInfo.xml"/>
         <struct ID="0x05" name="ActorParameters" template="Structs/ActorParameters.xml"/>
         <property ID="0x06" name="WPSC" type="asset" extensions="WPSC"/>
-        <property ID="0x07" name="Model" type="asset" extensions="CMDL"/>
+        <property ID="0x07" name="Bomb Model" type="asset" extensions="CMDL"/>
         <struct ID="0x08" name="DamageInfo" template="Structs/DamageInfo.xml"/>
         <property ID="0x09" name="Unknown 1" type="float"/>
         <property ID="0x0A" name="Unknown 2" type="float"/>
@@ -34,6 +34,12 @@
             <model source="property">0x05:0x04</model>
             <model source="property">0x07</model>
         </assets>
+        <attachments>
+            <attachment propertyID="0x07" locator="bomb1_LCTR"/>
+            <attachment propertyID="0x07" locator="bomb2_LCTR"/>
+            <attachment propertyID="0x07" locator="bomb3_LCTR"/>
+            <attachment propertyID="0x07" locator="bomb4_LCTR"/>
+        </attachments>
         <rotation_type>enabled</rotation_type>
         <scale_type>enabled</scale_type>
     </editor>

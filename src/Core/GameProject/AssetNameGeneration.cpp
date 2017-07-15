@@ -79,7 +79,7 @@ void ApplyGeneratedName(CResourceEntry *pEntry, const TString& rkDir, const TStr
     if (pEntry->Directory() == pNewDir && pEntry->Name() == NewName) return;
 
     // Perform the move
-    bool Success = pEntry->Move(pNewDir->FullPath(), NewName, true, true);
+    bool Success = pEntry->MoveAndRename(pNewDir->FullPath(), NewName, true, true);
     ASSERT(Success);
 }
 
@@ -100,7 +100,7 @@ void GenerateAssetNames(CGameProject *pProj)
 
         TString NewDir = (HasCustomDir ? It->DirectoryPath() : pStore->DefaultResourceDirPath());
         TString NewName = (HasCustomName ? It->Name() : It->ID().ToString());
-        It->Move(NewDir, NewName, true, true);
+        It->MoveAndRename(NewDir, NewName, true, true);
     }
 #endif
 
@@ -656,7 +656,7 @@ void GenerateAssetNames(CGameProject *pProj)
     }
 #endif
 
-    pStore->RootDirectory()->RemoveEmptySubdirectories();
+    pStore->RootDirectory()->DeleteEmptySubdirectories();
     pStore->ConditionalSaveStore();
     Log::Write("*** Asset Name Generation FINISHED ***");
 }

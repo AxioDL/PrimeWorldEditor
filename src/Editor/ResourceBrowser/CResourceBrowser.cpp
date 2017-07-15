@@ -4,6 +4,8 @@
 #include "CResourceDelegate.h"
 #include "CResourceTableContextMenu.h"
 #include "Editor/CEditorApplication.h"
+#include "Editor/Undo/CMoveDirectoryCommand.h"
+#include "Editor/Undo/CMoveResourceCommand.h"
 #include <Core/GameProject/AssetNameGeneration.h>
 #include <Core/GameProject/CAssetNameMap.h>
 
@@ -28,6 +30,19 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
     // Hide sorting combo box for now. The size isn't displayed on the UI so this isn't really useful for the end user.
     mpUI->SortComboBox->hide();
 
+    // Create undo/redo actions
+    mpUndoAction = new QAction("Undo", this);
+    mpRedoAction = new QAction("Redo", this);
+    mpUndoAction->setShortcut( QKeySequence::Undo );
+    mpRedoAction->setShortcut( QKeySequence::Redo );
+    addAction(mpUndoAction);
+    addAction(mpRedoAction);
+
+    connect(mpUndoAction, SIGNAL(triggered(bool)), this, SLOT(Undo()));
+    connect(mpRedoAction, SIGNAL(triggered(bool)), this, SLOT(Redo()));
+    connect(&mUndoStack, SIGNAL(canUndoChanged(bool)), this, SLOT(UpdateUndoActionStates()));
+    connect(&mUndoStack, SIGNAL(canRedoChanged(bool)), this, SLOT(UpdateUndoActionStates()));
+
     // Configure display mode buttons
     QButtonGroup *pModeGroup = new QButtonGroup(this);
     pModeGroup->addButton(mpUI->ResourceTreeButton);
@@ -45,6 +60,7 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
 
     mpDelegate = new CResourceBrowserDelegate(this);
     mpUI->ResourceTableView->setItemDelegate(mpDelegate);
+    mpUI->ResourceTableView->installEventFilter(this);
 
     // Set up directory tree model
     mpDirectoryModel = new CVirtualDirectoryModel(this);
@@ -201,6 +217,70 @@ void CResourceBrowser::CreateFilterCheckboxes()
 
     QSpacerItem *pSpacer = new QSpacerItem(0, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
     mpFilterBoxesLayout->addSpacerItem(pSpacer);
+}
+
+bool CResourceBrowser::MoveResources(const QList<CResourceEntry*>& rkResources, const QList<CVirtualDirectory*>& rkDirectories, CVirtualDirectory *pNewDir)
+{
+    // Check for any conflicts
+    QList<CResourceEntry*> ConflictingResources;
+
+    foreach (CResourceEntry *pEntry, rkResources)
+    {
+        if (pNewDir->FindChildResource(pEntry->Name(), pEntry->ResourceType()) != nullptr)
+            ConflictingResources << pEntry;
+    }
+
+    QList<CVirtualDirectory*> ConflictingDirs;
+
+    foreach (CVirtualDirectory *pDir, rkDirectories)
+    {
+        if (pNewDir->FindChildDirectory(pDir->Name(), false) != nullptr)
+            ConflictingDirs << pDir;
+    }
+
+    // If there were conflicts, notify the user of them
+    if (!ConflictingResources.isEmpty() || !ConflictingDirs.isEmpty())
+    {
+        QString ErrorMsg = "Unable to move; the destination directory has conflicting files.\n\n";
+
+        foreach (CVirtualDirectory *pDir, ConflictingDirs)
+        {
+            ErrorMsg += QString("* %1").arg( TO_QSTRING(pDir->Name()) );
+        }
+
+        foreach (CResourceEntry *pEntry, ConflictingResources)
+        {
+            ErrorMsg += QString("* %1.%2\n").arg( TO_QSTRING(pEntry->Name()) ).arg( TO_QSTRING(pEntry->CookedExtension().ToString()) );
+        }
+
+        UICommon::ErrorMsg(this, ErrorMsg);
+        return false;
+    }
+
+    // Create undo actions to actually perform the moves
+    mUndoStack.beginMacro("Move Resources");
+
+    foreach (CVirtualDirectory *pDir, rkDirectories)
+        mUndoStack.push( new CMoveDirectoryCommand(mpStore, pDir, pNewDir) );
+
+    foreach (CResourceEntry *pEntry, rkResources)
+        mUndoStack.push( new CMoveResourceCommand(pEntry, pNewDir) );
+
+    mUndoStack.endMacro();
+    return true;
+}
+
+bool CResourceBrowser::eventFilter(QObject *pWatched, QEvent *pEvent)
+{
+    if (pWatched == mpUI->ResourceTableView)
+    {
+        if (pEvent->type() == QEvent::FocusIn || pEvent->type() == QEvent::FocusOut)
+        {
+            UpdateUndoActionStates();
+        }
+    }
+
+    return false;
 }
 
 void CResourceBrowser::RefreshResources()
@@ -421,7 +501,7 @@ void CResourceBrowser::ImportAssetNameMap()
         bool AutoDir, AutoName;
 
         if (Map.GetNameInfo(It->ID(), Dir, Name, AutoDir, AutoName))
-            It->Move(Dir, Name, AutoDir, AutoName);
+            It->MoveAndRename(Dir, Name, AutoDir, AutoName);
     }
 
     mpStore->ConditionalSaveStore();
@@ -519,4 +599,25 @@ void CResourceBrowser::OnFilterTypeBoxTicked(bool Checked)
 
     mpProxyModel->invalidate();
     ReentrantGuard = false;
+}
+
+void CResourceBrowser::UpdateUndoActionStates()
+{
+    // Make sure that the undo actions are only enabled when the table view has focus.
+    // This is to prevent them from conflicting with world editor undo/redo actions.
+    bool HasFocus = (mpUI->ResourceTableView->hasFocus());
+    mpUndoAction->setEnabled( HasFocus && mUndoStack.canUndo() );
+    mpRedoAction->setEnabled( HasFocus && mUndoStack.canRedo() );
+}
+
+void CResourceBrowser::Undo()
+{
+    mUndoStack.undo();
+    UpdateUndoActionStates();
+}
+
+void CResourceBrowser::Redo()
+{
+    mUndoStack.redo();
+    UpdateUndoActionStates();
 }

@@ -187,7 +187,11 @@ HEADERS += \
     Widgets/CSelectResourcePanel.h \
     Widgets/CFilteredResourceModel.h \
     ResourceBrowser/CResourceDelegate.h \
-    ResourceBrowser/CResourceTableContextMenu.h
+    ResourceBrowser/CResourceTableContextMenu.h \
+    ResourceBrowser/CResourceMimeData.h \
+    ResourceBrowser/CResourceTableView.h \
+    Undo/CMoveResourceCommand.h \
+    Undo/CMoveDirectoryCommand.h
 
 # Source Files
 SOURCES += \
@@ -257,7 +261,9 @@ SOURCES += \
     CProgressDialog.cpp \
     Widgets/CSelectResourcePanel.cpp \
     ResourceBrowser/CResourceDelegate.cpp \
-    ResourceBrowser/CResourceTableContextMenu.cpp
+    ResourceBrowser/CResourceTableContextMenu.cpp \
+    ResourceBrowser/CResourceTableModel.cpp \
+    ResourceBrowser/CResourceTableView.cpp
 
 # UI Files
 FORMS += \

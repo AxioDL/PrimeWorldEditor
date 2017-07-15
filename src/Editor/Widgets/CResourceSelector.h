@@ -29,6 +29,10 @@ class CResourceSelector : public QWidget
     QAction *mpCopyNameAction;
     QAction *mpCopyPathAction;
 
+    // Drag and Drop
+    bool mIsDragging;
+    QPoint mDragStartPosition;
+
 public:
     explicit CResourceSelector(QWidget *pParent = 0);
     void SetFrameVisible(bool Visible);
@@ -38,6 +42,18 @@ public:
     void SetResource(const CAssetID& rkID);
     void SetResource(CResourceEntry *pEntry);
     void SetResource(CResource *pRes);
+
+    // Interface
+    bool eventFilter(QObject *pWatched, QEvent *pEvent);
+
+    // Drag
+    void mousePressEvent(QMouseEvent *pEvent);
+    void mouseMoveEvent(QMouseEvent *pEvent);
+    void mouseReleaseEvent(QMouseEvent *pEvent);
+
+    // Drop
+    void dragEnterEvent(QDragEnterEvent *pEvent);
+    void dropEvent(QDropEvent *pEvent);
 
     // Accessors
     inline CResourceEntry* Entry() const            { return mpResEntry; }

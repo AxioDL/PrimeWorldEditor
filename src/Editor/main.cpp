@@ -62,6 +62,13 @@ int main(int argc, char *argv[])
     // Create editor resource store
     gpEditorStore = new CResourceStore("../resources/");
 
+    if (!gpEditorStore->AreAllEntriesValid())
+    {
+        Log::Write("Editor store has invalid entries. Rebuilding database...");
+        gpEditorStore->RebuildFromDirectory();
+        gpEditorStore->ConditionalSaveStore();
+    }
+
     // Load templates
     CTemplateLoader::LoadGameList();
 
