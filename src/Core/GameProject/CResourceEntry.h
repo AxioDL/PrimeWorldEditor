@@ -74,7 +74,10 @@ public:
     CResource* LoadCooked(IInputStream& rInput);
     bool Unload();
     bool CanMoveTo(const TString& rkDir, const TString& rkName);
-    bool Move(const TString& rkDir, const TString& rkName, bool IsAutoGenDir = false, bool IsAutoGenName = false);
+    bool MoveAndRename(const TString& rkDir, const TString& rkName, bool IsAutoGenDir = false, bool IsAutoGenName = false);
+    bool Move(const TString& rkDir, bool IsAutoGenDir = false);
+    bool Rename(const TString& rkName, bool IsAutoGenName = false);
+
     CGameProject* Project() const;
     EGame Game() const;
 

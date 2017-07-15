@@ -29,18 +29,22 @@ void CResourceTableContextMenu::ShowMenu(const QPoint& rkPos)
 {
     // Fetch the entry/directory
     QModelIndex ProxyIndex = mpTable->indexAt(rkPos);
-    mIndex = mpProxy->mapToSource(ProxyIndex);
-    mpEntry = mpModel->IndexEntry(mIndex);
-    mpDirectory = mpModel->IndexDirectory(mIndex);
 
-    // Show/hide menu options
-    bool IsRes = (mpEntry != nullptr);
-    mpOpenInExternalAppAction->setVisible(IsRes);
-    mpCopyIDAction->setVisible(IsRes);
+    if (ProxyIndex.isValid())
+    {
+        mIndex = mpProxy->mapToSource(ProxyIndex);
+        mpEntry = mpModel->IndexEntry(mIndex);
+        mpDirectory = mpModel->IndexDirectory(mIndex);
 
-    // Exec menu
-    QPoint GlobalPos = mpTable->viewport()->mapToGlobal(rkPos);
-    exec(GlobalPos);
+        // Show/hide menu options
+        bool IsRes = (mpEntry != nullptr);
+        mpOpenInExternalAppAction->setVisible(IsRes);
+        mpCopyIDAction->setVisible(IsRes);
+
+        // Exec menu
+        QPoint GlobalPos = mpTable->viewport()->mapToGlobal(rkPos);
+        exec(GlobalPos);
+    }
 }
 
 // Menu Options

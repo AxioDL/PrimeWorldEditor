@@ -3,17 +3,26 @@
 #include "Editor/CEditorApplication.h"
 #include "Editor/UICommon.h"
 #include "Editor/ResourceBrowser/CResourceBrowser.h"
+#include "Editor/ResourceBrowser/CResourceMimeData.h"
+
 #include <Core/GameProject/CResourceStore.h>
 #include <Core/Resource/CResource.h>
+
 #include <QAction>
 #include <QClipboard>
+#include <QDrag>
+#include <QDragEnterEvent>
+#include <QDragMoveEvent>
+#include <QDropEvent>
 #include <QMenu>
 
 CResourceSelector::CResourceSelector(QWidget *pParent /*= 0*/)
     : QWidget(pParent)
     , mpResEntry(nullptr)
     , mIsEditable(true)
+    , mIsDragging(false)
 {
+    setAcceptDrops(true);
     setContextMenuPolicy(Qt::CustomContextMenu);
 
     // Set up UI
@@ -48,6 +57,9 @@ CResourceSelector::CResourceSelector(QWidget *pParent /*= 0*/)
     mpLayout->addWidget(mpFrame);
     mpLayout->setContentsMargins(0, 0, 0, 0);
     setLayout(mpLayout);
+
+    // Set up event filter
+    mpResNameButton->installEventFilter(this);
 
     // UI Connections
     connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(CreateContextMenu(QPoint)));
@@ -110,22 +122,123 @@ void CResourceSelector::SetTypeFilter(EGame Game, const TString& rkTypeList)
 
 void CResourceSelector::SetResource(const CAssetID& rkID)
 {
-    mpResEntry = gpResourceStore->FindEntry(rkID);
-    OnResourceChanged();
+    CResourceEntry *pNewEntry = gpResourceStore->FindEntry(rkID);
+
+    if (mpResEntry != pNewEntry)
+    {
+        mpResEntry = pNewEntry;
+        OnResourceChanged();
+    }
 }
 
 void CResourceSelector::SetResource(CResourceEntry *pEntry)
 {
-    mpResEntry = pEntry;
-    OnResourceChanged();
+    if (mpResEntry != pEntry)
+    {
+        mpResEntry = pEntry;
+        OnResourceChanged();
+    }
 }
 
 void CResourceSelector::SetResource(CResource *pRes)
 {
-    mpResEntry = (pRes ? pRes->Entry() : nullptr);
-    OnResourceChanged();
+    CResourceEntry *pNewEntry = (pRes ? pRes->Entry() : nullptr);
+
+    if (mpResEntry != pNewEntry)
+    {
+        mpResEntry = pNewEntry;
+        OnResourceChanged();
+    }
 }
 
+// ************ INTERFACE ************
+bool CResourceSelector::eventFilter(QObject *pWatched, QEvent *pEvent)
+{
+    if (pWatched == mpResNameButton)
+    {
+        if (pEvent->type() == QEvent::MouseButtonPress)
+        {
+            QMouseEvent *pMouseEvent = static_cast<QMouseEvent*>(pEvent);
+            mousePressEvent(pMouseEvent);
+            return false;
+        }
+
+        else if (pEvent->type() == QEvent::MouseButtonDblClick)
+        {
+            QMouseEvent *pMouseEvent = static_cast<QMouseEvent*>(pEvent);
+
+            if (pMouseEvent->button() == Qt::LeftButton)
+            {
+                if (mpResEntry)
+                    gpEdApp->EditResource(mpResEntry);
+
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+// ************ DRAG ************
+void CResourceSelector::mousePressEvent(QMouseEvent *pEvent)
+{
+    if (mpResNameButton->rect().contains(pEvent->pos()) && pEvent->button() == Qt::LeftButton)
+    {
+        mDragStartPosition = pEvent->pos();
+        mIsDragging = true;
+    }
+}
+
+void CResourceSelector::mouseMoveEvent(QMouseEvent *pEvent)
+{
+    if (mIsDragging)
+    {
+        if ( (pEvent->pos() - mDragStartPosition).manhattanLength() >= gpEdApp->startDragDistance() )
+        {
+            QDrag *pDrag = new QDrag(this);
+            CResourceMimeData *pMimeData = new CResourceMimeData(mpResEntry);
+            pDrag->setMimeData(pMimeData);
+            pDrag->exec(Qt::CopyAction);
+        }
+    }
+}
+
+void CResourceSelector::mouseReleaseEvent(QMouseEvent *pEvent)
+{
+    if (pEvent->button() == Qt::LeftButton)
+    {
+        mIsDragging = false;
+    }
+}
+
+// ************ DROP *************
+void CResourceSelector::dragEnterEvent(QDragEnterEvent *pEvent)
+{
+    // Check whether the mime data is a valid format
+    if (mIsEditable && (pEvent->possibleActions() & Qt::CopyAction))
+    {
+        const CResourceMimeData *pkData = qobject_cast<const CResourceMimeData*>(pEvent->mimeData());
+
+        if (pkData && pkData->Directories().isEmpty() && pkData->Resources().size() == 1)
+        {
+            CResourceEntry *pEntry = pkData->Resources().front();
+
+            if (!pEntry || mTypeFilter.Accepts(pEntry))
+                pEvent->acceptProposedAction();
+        }
+    }
+}
+
+void CResourceSelector::dropEvent(QDropEvent *pEvent)
+{
+    // Set the new resource
+    const CResourceMimeData *pkMimeData = qobject_cast<const CResourceMimeData*>(pEvent->mimeData());
+    CResourceEntry *pEntry = pkMimeData->Resources().front();
+    SetResource(pEntry);
+}
+
+// ************ SLOTS ************
 void CResourceSelector::CreateContextMenu(const QPoint& rkPoint)
 {
     QMenu Menu;

@@ -13,150 +13,45 @@ class CResourceTableModel : public QAbstractTableModel
 {
     Q_OBJECT
 
+    CVirtualDirectory *mpCurrentDir;
     QList<CVirtualDirectory*> mDirectories;
     QList<CResourceEntry*> mEntries;
     QMap<CResourceEntry*, int> mEntryIndexMap;
     bool mHasParent;
 
 public:
-    CResourceTableModel(QObject *pParent = 0)
-        : QAbstractTableModel(pParent)
-    {}
+    CResourceTableModel(QObject *pParent = 0);
 
-    int rowCount(const QModelIndex& /*rkParent*/) const
-    {
-        return mDirectories.size() + mEntries.size();
-    }
+    // Interface
+    int rowCount(const QModelIndex& /*rkParent*/) const;
+    int columnCount(const QModelIndex& /*rkParent*/) const;
+    QVariant data(const QModelIndex& rkIndex, int Role) const;
+    Qt::ItemFlags flags(const QModelIndex& rkIndex) const;
 
-    int columnCount(const QModelIndex& /*rkParent*/) const
-    {
-        return 1;
-    }
+    bool canDropMimeData(const QMimeData *pkData, Qt::DropAction Action, int Row, int Column, const QModelIndex& rkParent) const;
+    bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
+    QMimeData* mimeData(const QModelIndexList& rkIndexes) const;
+    Qt::DropActions supportedDragActions() const;
+    Qt::DropActions supportedDropActions() const;
 
-    QVariant data(const QModelIndex& rkIndex, int Role) const
-    {
-        if (rkIndex.column() != 0)
-            return QVariant::Invalid;
-
-        // Directory
-        if (IsIndexDirectory(rkIndex))
-        {
-            CVirtualDirectory *pDir = IndexDirectory(rkIndex);
-
-            if (Role == Qt::DisplayRole || Role == Qt::ToolTipRole)
-                return (mHasParent && rkIndex.row() == 0 ? ".." : TO_QSTRING(pDir->Name()));
-
-            else if (Role == Qt::DecorationRole)
-                return QIcon(":/icons/Open_24px.png");
-
-            else
-                return QVariant::Invalid;
-        }
-
-        // Resource
-        CResourceEntry *pEntry = IndexEntry(rkIndex);
-
-        if (Role == Qt::DisplayRole)
-            return TO_QSTRING(pEntry->Name());
-
-        else if (Role == Qt::ToolTipRole)
-            return TO_QSTRING(pEntry->CookedAssetPath(true));
-
-        else if (Role == Qt::DecorationRole)
-            return QIcon(":/icons/Sphere Preview.png");
-
-        return QVariant::Invalid;
-    }
-
-    QModelIndex GetIndexForEntry(CResourceEntry *pEntry) const
-    {
-        if (mEntryIndexMap.contains(pEntry))
-            return index(mEntryIndexMap[pEntry] + mDirectories.size(), 0, QModelIndex());
-        else
-            return QModelIndex();
-    }
-
-    CResourceEntry* IndexEntry(const QModelIndex& rkIndex) const
-    {
-        int Index = rkIndex.row() - mDirectories.size();
-        return (Index >= 0 ? mEntries[Index] : nullptr);
-    }
-
-    CVirtualDirectory* IndexDirectory(const QModelIndex& rkIndex) const
-    {
-        return (rkIndex.row() < mDirectories.size() ? mDirectories[rkIndex.row()] : nullptr);
-    }
-
-    bool IsIndexDirectory(const QModelIndex& rkIndex) const
-    {
-        return rkIndex.row() < mDirectories.size();
-    }
-
-    void FillEntryList(CVirtualDirectory *pDir, bool AssetListMode)
-    {
-        beginResetModel();
-
-        mEntries.clear();
-        mDirectories.clear();
-        mEntryIndexMap.clear();
-        mHasParent = false;
-
-        if (pDir)
-        {
-            // In filesystem mode, show only subdirectories and assets in the current directory.
-            if (!AssetListMode)
-            {
-                if (!pDir->IsRoot())
-                {
-                    mDirectories << pDir->Parent();
-                    mHasParent = true;
-                }
-
-                for (u32 iDir = 0; iDir < pDir->NumSubdirectories(); iDir++)
-                    mDirectories << pDir->SubdirectoryByIndex(iDir);
-
-                for (u32 iRes = 0; iRes < pDir->NumResources(); iRes++)
-                {
-                    CResourceEntry *pEntry = pDir->ResourceByIndex(iRes);
-
-                    if (pEntry->TypeInfo()->IsVisibleInBrowser() && !pEntry->IsHidden())
-                    {
-                        mEntryIndexMap[pEntry] = mEntries.size();
-                        mEntries << pEntry;
-                    }
-                }
-            }
-
-            // In asset list mode, do not show subdirectories and show all assets in current directory + all subdirectories.
-            else
-                RecursiveAddDirectoryContents(pDir);
-        }
-
-        endResetModel();
-    }
-
+    // Functionality
+    QModelIndex GetIndexForEntry(CResourceEntry *pEntry) const;
+    QModelIndex GetIndexForDirectory(CVirtualDirectory *pDir) const;
+    CResourceEntry* IndexEntry(const QModelIndex& rkIndex) const;
+    CVirtualDirectory* IndexDirectory(const QModelIndex& rkIndex) const;
+    bool IsIndexDirectory(const QModelIndex& rkIndex) const;
+    void FillEntryList(CVirtualDirectory *pDir, bool AssetListMode);
 protected:
-    void RecursiveAddDirectoryContents(CVirtualDirectory *pDir)
-    {
-        for (u32 iRes = 0; iRes < pDir->NumResources(); iRes++)
-        {
-            CResourceEntry *pEntry = pDir->ResourceByIndex(iRes);
-
-            if (pEntry->TypeInfo()->IsVisibleInBrowser() && !pEntry->IsHidden())
-            {
-                mEntryIndexMap[pEntry] = mEntries.size();
-                mEntries << pEntry;
-            }
-        }
-
-        for (u32 iDir = 0; iDir < pDir->NumSubdirectories(); iDir++)
-            RecursiveAddDirectoryContents(pDir->SubdirectoryByIndex(iDir));
-    }
+    void RecursiveAddDirectoryContents(CVirtualDirectory *pDir);
 
 public:
     // Accessors
     inline u32 NumDirectories() const   { return mDirectories.size(); }
     inline u32 NumResources() const     { return mEntries.size(); }
+
+public slots:
+    void OnResourceRenamed(CResourceEntry *pEntry);
+    void OnDirectoryRenamed(CVirtualDirectory *pDir);
 };
 
 #endif // CRESOURCELISTMODEL

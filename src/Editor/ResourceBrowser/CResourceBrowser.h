@@ -7,6 +7,7 @@
 #include "CVirtualDirectoryModel.h"
 #include <QCheckBox>
 #include <QTimer>
+#include <QUndoStack>
 #include <QVBoxLayout>
 
 namespace Ui {
@@ -41,6 +42,12 @@ class CResourceBrowser : public QWidget
     };
     QList<SResourceType> mTypeList;
 
+    // Undo/Redo
+    QUndoStack mUndoStack;
+    QAction *mpUndoAction;
+    QAction *mpRedoAction;
+    QWidget *mpActionContainerWidget;
+
 public:
     explicit CResourceBrowser(QWidget *pParent = 0);
     ~CResourceBrowser();
@@ -48,6 +55,11 @@ public:
     void SelectResource(CResourceEntry *pEntry);
     void SelectDirectory(CVirtualDirectory *pDir);
     void CreateFilterCheckboxes();
+
+    bool MoveResources(const QList<CResourceEntry*>& rkResources, const QList<CVirtualDirectory*>& rkDirectories, CVirtualDirectory *pNewDir);
+
+    // Interface
+    bool eventFilter(QObject *pWatched, QEvent *pEvent);
 
     // Accessors
     inline CResourceStore* CurrentStore() const     { return mpStore; }
@@ -79,6 +91,10 @@ public slots:
 
     void ResetTypeFilter();
     void OnFilterTypeBoxTicked(bool Checked);
+
+    void UpdateUndoActionStates();
+    void Undo();
+    void Redo();
 
 signals:
     void SelectedResourceChanged(CResourceEntry *pNewRes);

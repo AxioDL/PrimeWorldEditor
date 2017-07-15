@@ -26,14 +26,24 @@ CVirtualDirectory::~CVirtualDirectory()
         delete mSubdirectories[iSub];
 }
 
-bool CVirtualDirectory::IsEmpty() const
+bool CVirtualDirectory::IsEmpty(bool CheckFilesystem) const
 {
-    if (!mResources.empty()) return false;
+    if (!mResources.empty())
+        return false;
 
     for (u32 iSub = 0; iSub < mSubdirectories.size(); iSub++)
-        if (!mSubdirectories[iSub]->IsEmpty()) return false;
+        if (!mSubdirectories[iSub]->IsEmpty(CheckFilesystem))
+            return false;
+
+    if (CheckFilesystem && !FileUtil::IsEmpty( AbsolutePath() ))
+        return false;
 
     return true;
+}
+
+bool CVirtualDirectory::IsDescendantOf(CVirtualDirectory *pDir) const
+{
+    return mpParent && (mpParent == pDir || mpParent->IsDescendantOf(pDir));
 }
 
 TString CVirtualDirectory::FullPath() const
@@ -41,7 +51,12 @@ TString CVirtualDirectory::FullPath() const
     if (IsRoot())
         return "";
     else
-        return (mpParent && !mpParent->IsRoot() ? mpParent->FullPath() + mName + '/' : mName + '/');
+        return (mpParent ? mpParent->FullPath() + mName : mName) + '/';
+}
+
+TString CVirtualDirectory::AbsolutePath() const
+{
+    return mpStore->ResourcesDir() + FullPath();
 }
 
 CVirtualDirectory* CVirtualDirectory::GetRoot()
@@ -191,24 +206,26 @@ bool CVirtualDirectory::AddChild(const TString &rkPath, CResourceEntry *pEntry)
         return false;
 }
 
+bool CVirtualDirectory::AddChild(CVirtualDirectory *pDir)
+{
+    if (pDir->Parent() != this) return false;
+    if (FindChildDirectory(pDir->Name(), false) != nullptr) return false;
+
+    mSubdirectories.push_back(pDir);
+    std::sort(mSubdirectories.begin(), mSubdirectories.end(), [](CVirtualDirectory *pLeft, CVirtualDirectory *pRight) -> bool {
+        return (pLeft->Name().ToUpper() < pRight->Name().ToUpper());
+    });
+
+    return true;
+}
+
 bool CVirtualDirectory::RemoveChildDirectory(CVirtualDirectory *pSubdir)
 {
-    ASSERT(pSubdir->IsEmpty());
-
     for (auto It = mSubdirectories.begin(); It != mSubdirectories.end(); It++)
     {
         if (*It == pSubdir)
         {
             mSubdirectories.erase(It);
-
-            // If this is part of the resource store, delete the corresponding filesystem directory
-            if (mpStore && pSubdir->GetRoot() == mpStore->RootDirectory())
-            {
-                TString AbsPath = mpStore->ResourcesDir() + pSubdir->FullPath();
-                FileUtil::DeleteDirectory(AbsPath, true);
-            }
-
-            delete pSubdir;
             return true;
         }
     }
@@ -230,19 +247,73 @@ bool CVirtualDirectory::RemoveChildResource(CResourceEntry *pEntry)
     return false;
 }
 
-void CVirtualDirectory::RemoveEmptySubdirectories()
+bool CVirtualDirectory::Delete()
+{
+    ASSERT(IsEmpty(true) && !IsRoot());
+
+    if (IsEmpty(true) && !IsRoot())
+    {
+        if (FileUtil::DeleteDirectory(AbsolutePath(), true))
+        {
+            if (!mpParent || mpParent->RemoveChildDirectory(this))
+            {
+                delete this;
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+void CVirtualDirectory::DeleteEmptySubdirectories()
 {
     for (u32 SubdirIdx = 0; SubdirIdx < mSubdirectories.size(); SubdirIdx++)
     {
         CVirtualDirectory *pDir = mSubdirectories[SubdirIdx];
 
-        if (pDir->IsEmpty())
+        if (pDir->IsEmpty(true))
         {
-            RemoveChildDirectory(pDir);
+            pDir->Delete();
             SubdirIdx--;
         }
         else
-            pDir->RemoveEmptySubdirectories();
+            pDir->DeleteEmptySubdirectories();
+    }
+}
+
+bool CVirtualDirectory::SetParent(CVirtualDirectory *pParent)
+{
+    ASSERT(!pParent->IsDescendantOf(this));
+    if (mpParent == pParent) return true;
+
+    Log::Write("MOVING DIRECTORY: " + FullPath() + " -> " + pParent->FullPath() + mName + '/');
+
+    // Check for a conflict
+    CVirtualDirectory *pConflictDir = pParent->FindChildDirectory(mName, false);
+
+    if (pConflictDir)
+    {
+        Log::Error("DIRECTORY MOVE FAILED: Conflicting directory exists at the destination path!");
+        return false;
+    }
+
+    // Move filesystem contents to new path
+    TString AbsOldPath = mpStore->ResourcesDir() + FullPath();
+    TString AbsNewPath = mpStore->ResourcesDir() + pParent->FullPath() + mName + '/';
+
+    if (mpParent->RemoveChildDirectory(this) && FileUtil::MoveDirectory(AbsOldPath, AbsNewPath))
+    {
+        mpParent = pParent;
+        mpParent->AddChild(this);
+        mpStore->SetCacheDirty();
+        return true;
+    }
+    else
+    {
+        Log::Error("DIRECTORY MOVE FAILED: Filesystem move operation failed!");
+        mpParent->AddChild(this);
+        return false;
     }
 }
 

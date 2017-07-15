@@ -106,10 +106,15 @@ bool MoveFile(const TString& rkOldPath, const TString& rkNewPath)
         return false;
     }
 
-    if (CopyFile(rkOldPath, rkNewPath))
-        return DeleteFile(rkOldPath);
-    else
+    if (Exists(rkNewPath))
+    {
+        Log::Error("Unable to move file because there is an existing file at the destination path: " + rkNewPath);
         return false;
+    }
+
+    // todo: check return value? Docs don't say what the return value actually is
+    rename(*rkOldPath, *rkNewPath);
+    return true;
 }
 
 bool MoveDirectory(const TString& rkOldPath, const TString& rkNewPath)
@@ -120,10 +125,15 @@ bool MoveDirectory(const TString& rkOldPath, const TString& rkNewPath)
         return false;
     }
 
-    if (CopyDirectory(rkOldPath, rkNewPath))
-        return DeleteDirectory(rkOldPath, false);
-    else
+    if (Exists(rkNewPath))
+    {
+        Log::Error("Unable to move directory because there is an existing directory at the destination path: " + rkNewPath);
         return false;
+    }
+
+    // todo: check return value? Docs don't say what the return value actually is
+    rename(*rkOldPath, *rkNewPath);
+    return true;
 }
 
 bool DeleteFile(const TString& rkFilePath)

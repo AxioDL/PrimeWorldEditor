@@ -476,7 +476,7 @@ bool CResourceEntry::CanMoveTo(const TString& rkDir, const TString& rkName)
     return true;
 }
 
-bool CResourceEntry::Move(const TString& rkDir, const TString& rkName, bool IsAutoGenDir /*= false*/, bool IsAutoGenName /*= false*/)
+bool CResourceEntry::MoveAndRename(const TString& rkDir, const TString& rkName, bool IsAutoGenDir /*= false*/, bool IsAutoGenName /*= false*/)
 {
     if (!CanMoveTo(rkDir, rkName)) return false;
 
@@ -516,7 +516,7 @@ bool CResourceEntry::Move(const TString& rkDir, const TString& rkName, bool IsAu
         // Move raw file to new location
         if (FileUtil::Exists(OldRawPath))
         {
-            FSMoveSuccess = FileUtil::CopyFile(OldRawPath, NewRawPath);
+            FSMoveSuccess = FileUtil::MoveFile(OldRawPath, NewRawPath);
 
             if (!FSMoveSuccess)
                 MoveFailReason = TString::Format("Failed to move raw file to new destination (%s --> %s)", *OldRawPath, *NewRawPath);
@@ -525,11 +525,10 @@ bool CResourceEntry::Move(const TString& rkDir, const TString& rkName, bool IsAu
         // Move cooked file to new location
         if (FSMoveSuccess && FileUtil::Exists(OldCookedPath))
         {
-            FSMoveSuccess = FileUtil::CopyFile(OldCookedPath, NewCookedPath);
+            FSMoveSuccess = FileUtil::MoveFile(OldCookedPath, NewCookedPath);
 
             if (!FSMoveSuccess)
             {
-                FileUtil::DeleteFile(NewRawPath);
                 MoveFailReason = TString::Format("Failed to move cooked file to new destination (%s --> %s)", *OldCookedPath, *NewCookedPath);
             }
         }
@@ -539,12 +538,10 @@ bool CResourceEntry::Move(const TString& rkDir, const TString& rkName, bool IsAu
         {
             if (FileUtil::Exists(OldMetaPath))
             {
-                FSMoveSuccess = FileUtil::CopyFile(OldMetaPath, NewMetaPath);
+                FSMoveSuccess = FileUtil::MoveFile(OldMetaPath, NewMetaPath);
 
                 if (!FSMoveSuccess)
                 {
-                    FileUtil::DeleteFile(NewRawPath);
-                    FileUtil::DeleteFile(NewCookedPath);
                     MoveFailReason = TString::Format("Failed to move metadata file to new destination (%s --> %s)", *OldMetaPath, *NewMetaPath);
                 }
             }
@@ -582,10 +579,6 @@ bool CResourceEntry::Move(const TString& rkDir, const TString& rkName, bool IsAu
 
         mpStore->SetCacheDirty();
         mCachedUppercaseName = rkName.ToUpper();
-        FileUtil::DeleteFile(OldRawPath);
-        FileUtil::DeleteFile(OldCookedPath);
-        FileUtil::DeleteFile(OldMetaPath);
-
         SaveMetadata();
         return true;
     }
@@ -597,8 +590,25 @@ bool CResourceEntry::Move(const TString& rkDir, const TString& rkName, bool IsAu
         mpDirectory = pOldDir;
         mName = OldName;
         mpStore->ConditionalDeleteDirectory(pNewDir, false);
+
+        if (FileUtil::Exists(NewRawPath))
+            FileUtil::MoveFile(NewRawPath, OldRawPath);
+
+        if (FileUtil::Exists(NewCookedPath))
+            FileUtil::MoveFile(NewCookedPath, OldCookedPath);
+
         return false;
     }
+}
+
+bool CResourceEntry::Move(const TString& rkDir, bool IsAutoGenDir /*= false*/)
+{
+    return MoveAndRename(rkDir, mName, IsAutoGenDir, false);
+}
+
+bool CResourceEntry::Rename(const TString& rkName, bool IsAutoGenName /*= false*/)
+{
+    return MoveAndRename(mpDirectory->FullPath(), rkName, false, IsAutoGenName);
 }
 
 CGameProject* CResourceEntry::Project() const

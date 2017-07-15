@@ -257,7 +257,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QTableView" name="ResourceTableView">
+     <widget class="CResourceTableView" name="ResourceTableView">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
         <horstretch>0</horstretch>
@@ -274,6 +274,15 @@
       </property>
       <property name="editTriggers">
        <set>QAbstractItemView::NoEditTriggers</set>
+      </property>
+      <property name="dragEnabled">
+       <bool>true</bool>
+      </property>
+      <property name="dragDropMode">
+       <enum>QAbstractItemView::DragDrop</enum>
+      </property>
+      <property name="defaultDropAction">
+       <enum>Qt::MoveAction</enum>
       </property>
       <property name="alternatingRowColors">
        <bool>true</bool>
@@ -309,6 +318,11 @@
    <class>CTimedLineEdit</class>
    <extends>QLineEdit</extends>
    <header>Editor/Widgets/CTimedLineEdit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>CResourceTableView</class>
+   <extends>QTableView</extends>
+   <header>Editor/ResourceBrowser/CResourceTableView.h</header>
   </customwidget>
  </customwidgets>
  <resources>

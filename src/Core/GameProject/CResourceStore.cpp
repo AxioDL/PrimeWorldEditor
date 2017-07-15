@@ -48,7 +48,7 @@ CResourceStore::~CResourceStore()
 void RecursiveGetListOfEmptyDirectories(CVirtualDirectory *pDir, TStringList& rOutList)
 {
     // Helper function for SerializeResourceDatabase
-    if (pDir->IsEmpty())
+    if (pDir->IsEmpty(false))
     {
         rOutList.push_back(pDir->FullPath());
     }
@@ -233,7 +233,7 @@ void CResourceStore::CreateVirtualDirectory(const TString& rkPath)
 
 void CResourceStore::ConditionalDeleteDirectory(CVirtualDirectory *pDir, bool Recurse)
 {
-    if (pDir->IsEmpty() && !pDir->IsRoot())
+    if (pDir->IsEmpty(true) && !pDir->IsRoot())
     {
         CVirtualDirectory *pParent = pDir->Parent();
         pParent->RemoveChildDirectory(pDir);
@@ -366,8 +366,9 @@ bool CResourceStore::BuildFromDirectory(bool ShouldGenerateCacheFile)
 
 void CResourceStore::RebuildFromDirectory()
 {
-    ASSERT(mpProj != nullptr);
-    mpProj->AudioManager()->ClearAssets();
+    if (mpProj)
+        mpProj->AudioManager()->ClearAssets();
+
     ClearDatabase();
     BuildFromDirectory(true);
 }
@@ -596,7 +597,7 @@ void CResourceStore::ImportNamesFromPakContentsTxt(const TString& rkTxtPath, boo
         TString Name = Path.GetFileName(false);
         if (Dir.IsEmpty()) Dir = pEntry->DirectoryPath();
 
-        pEntry->Move(Dir, Name);
+        pEntry->MoveAndRename(Dir, Name);
     }
 
     // Save

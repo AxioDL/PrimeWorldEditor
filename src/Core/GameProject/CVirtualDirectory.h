@@ -24,16 +24,21 @@ public:
     CVirtualDirectory(CVirtualDirectory *pParent, const TString& rkName, CResourceStore *pStore);
     ~CVirtualDirectory();
 
-    bool IsEmpty() const;
+    bool IsEmpty(bool CheckFilesystem) const;
+    bool IsDescendantOf(CVirtualDirectory *pDir) const;
     TString FullPath() const;
+    TString AbsolutePath() const;
     CVirtualDirectory* GetRoot();
     CVirtualDirectory* FindChildDirectory(const TString& rkName, bool AllowCreate);
     CResourceEntry* FindChildResource(const TString& rkPath);
     CResourceEntry* FindChildResource(const TString& rkName, EResType Type);
     bool AddChild(const TString& rkPath, CResourceEntry *pEntry);
+    bool AddChild(CVirtualDirectory *pDir);
     bool RemoveChildDirectory(CVirtualDirectory *pSubdir);
     bool RemoveChildResource(CResourceEntry *pEntry);
-    void RemoveEmptySubdirectories();
+    bool Delete();
+    void DeleteEmptySubdirectories();
+    bool SetParent(CVirtualDirectory *pParent);
 
     static bool IsValidDirectoryName(const TString& rkName);
     static bool IsValidDirectoryPath(TString Path);
