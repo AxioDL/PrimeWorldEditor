@@ -2,12 +2,12 @@
 #include "CResourceBrowser.h"
 #include "CResourceMimeData.h"
 
-CResourceTableModel::CResourceTableModel(QObject *pParent /*= 0*/)
+CResourceTableModel::CResourceTableModel(CResourceBrowser *pBrowser, QObject *pParent /*= 0*/)
     : QAbstractTableModel(pParent)
     , mpCurrentDir(nullptr)
 {
-    connect(gpEdApp, SIGNAL(ResourceRenamed(CResourceEntry*)), this, SLOT(OnResourceRenamed(CResourceEntry*)));
-    connect(gpEdApp, SIGNAL(DirectoryRenamed(CVirtualDirectory*)), this, SLOT(OnDirectoryRenamed(CVirtualDirectory*)));
+    connect(pBrowser, SIGNAL(ResourceMoved(CResourceEntry*,CVirtualDirectory*,TString)), this, SLOT(OnResourceMoved(CResourceEntry*,CVirtualDirectory*,TString)));
+    connect(pBrowser, SIGNAL(DirectoryMoved(CVirtualDirectory*,CVirtualDirectory*,TString)), this, SLOT(OnDirectoryMoved(CVirtualDirectory*,CVirtualDirectory*,TString)));
 }
 
 // ************ INTERFACE ************
@@ -32,7 +32,8 @@ QVariant CResourceTableModel::data(const QModelIndex& rkIndex, int Role) const
         CVirtualDirectory *pDir = IndexDirectory(rkIndex);
 
         if (Role == Qt::DisplayRole || Role == Qt::ToolTipRole)
-            return (mHasParent && rkIndex.row() == 0 ? ".." : TO_QSTRING(pDir->Name()));
+            return ( (mpCurrentDir && !mpCurrentDir->IsRoot() && rkIndex.row() == 0)
+                    ? ".." : TO_QSTRING(pDir->Name()));
 
         else if (Role == Qt::DecorationRole)
             return QIcon(":/icons/Open_24px.png");
@@ -143,10 +144,27 @@ Qt::DropActions CResourceTableModel::supportedDropActions() const
 // ************ FUNCTIONALITY ************
 QModelIndex CResourceTableModel::GetIndexForEntry(CResourceEntry *pEntry) const
 {
-    if (mEntryIndexMap.contains(pEntry))
-        return index(mEntryIndexMap[pEntry] + mDirectories.size(), 0, QModelIndex());
-    else
+    auto Iter = qBinaryFind(mEntries, pEntry);
+
+    if (Iter == mEntries.end())
         return QModelIndex();
+
+    else
+    {
+        int Index = Iter - mEntries.begin();
+        return index(mDirectories.size() + Index, 0, QModelIndex());
+    }
+}
+
+QModelIndex CResourceTableModel::GetIndexForDirectory(CVirtualDirectory *pDir) const
+{
+    for (int DirIdx = 0; DirIdx < mDirectories.size(); DirIdx++)
+    {
+        if (mDirectories[DirIdx] == pDir)
+            return index(DirIdx, 0, QModelIndex());
+    }
+
+    return QModelIndex();
 }
 
 CResourceEntry* CResourceTableModel::IndexEntry(const QModelIndex& rkIndex) const
@@ -169,21 +187,18 @@ void CResourceTableModel::FillEntryList(CVirtualDirectory *pDir, bool AssetListM
 {
     beginResetModel();
 
+    mpCurrentDir = pDir;
     mEntries.clear();
     mDirectories.clear();
-    mEntryIndexMap.clear();
-    mHasParent = false;
+    mIsAssetListMode = AssetListMode;
 
     if (pDir)
     {
         // In filesystem mode, show only subdirectories and assets in the current directory.
-        if (!AssetListMode)
+        if (!mIsAssetListMode)
         {
             if (!pDir->IsRoot())
-            {
                 mDirectories << pDir->Parent();
-                mHasParent = true;
-            }
 
             for (u32 iDir = 0; iDir < pDir->NumSubdirectories(); iDir++)
                 mDirectories << pDir->SubdirectoryByIndex(iDir);
@@ -194,8 +209,8 @@ void CResourceTableModel::FillEntryList(CVirtualDirectory *pDir, bool AssetListM
 
                 if (pEntry->TypeInfo()->IsVisibleInBrowser() && !pEntry->IsHidden())
                 {
-                    mEntryIndexMap[pEntry] = mEntries.size();
-                    mEntries << pEntry;
+                    int Index = EntryListIndex(pEntry);
+                    mEntries.insert(Index, pEntry);
                 }
             }
         }
@@ -216,8 +231,8 @@ void CResourceTableModel::RecursiveAddDirectoryContents(CVirtualDirectory *pDir)
 
         if (pEntry->TypeInfo()->IsVisibleInBrowser() && !pEntry->IsHidden())
         {
-            mEntryIndexMap[pEntry] = mEntries.size();
-            mEntries << pEntry;
+            int Index = EntryListIndex(pEntry);
+            mEntries.insert(Index, pEntry);
         }
     }
 
@@ -225,29 +240,84 @@ void CResourceTableModel::RecursiveAddDirectoryContents(CVirtualDirectory *pDir)
         RecursiveAddDirectoryContents(pDir->SubdirectoryByIndex(iDir));
 }
 
-void CResourceTableModel::OnResourceRenamed(CResourceEntry *pEntry)
+int CResourceTableModel::EntryListIndex(CResourceEntry *pEntry)
 {
-    if (mEntryIndexMap.contains(pEntry))
-    {
-        int Index = mEntries.indexOf(pEntry);
-        int Row = Index + mDirectories.size();
+    return qLowerBound(mEntries, pEntry) - mEntries.constBegin();
+}
 
-        beginRemoveRows(QModelIndex(), Row, Row);
-        mEntries.removeAt(Index);
-        mEntryIndexMap.remove(pEntry);
-        endRemoveRows();
+void CResourceTableModel::OnResourceMoved(CResourceEntry *pEntry, CVirtualDirectory *pOldDir, TString OldName)
+{
+    CVirtualDirectory *pNewDir = pEntry->Directory();
+    bool WasInModel = (pOldDir == mpCurrentDir || (mIsAssetListMode && pOldDir->IsDescendantOf(mpCurrentDir)));
+    bool IsInModel = (pNewDir == mpCurrentDir || (mIsAssetListMode && pNewDir->IsDescendantOf(mpCurrentDir)));
+
+    // Handle rename
+    if (WasInModel && IsInModel && pEntry->Name() != OldName)
+    {
+        int ResIdx = EntryListIndex(pEntry);
+        int Row = ResIdx + mDirectories.size();
+        QModelIndex Index = index(Row, 0, QModelIndex());
+        emit dataChanged(Index, Index);
+    }
+
+    else if (pNewDir != pOldDir)
+    {
+        // Remove
+        if (WasInModel && !IsInModel)
+        {
+            int Pos = EntryListIndex(pEntry);
+            int Row = mDirectories.size() + Pos;
+
+            beginRemoveRows(QModelIndex(), Row, Row);
+            mEntries.removeAt(Pos);
+            endRemoveRows();
+        }
+
+        // Add
+        else if (!WasInModel && IsInModel)
+        {
+            int Index = EntryListIndex(pEntry);
+            int Row = mDirectories.size() + Index;
+
+            beginInsertRows(QModelIndex(), Row, Row);
+            mEntries.insert(Index, pEntry);
+            endInsertRows();
+        }
     }
 }
 
-void CResourceTableModel::OnDirectoryRenamed(CVirtualDirectory *pDir)
+void CResourceTableModel::OnDirectoryMoved(CVirtualDirectory *pDir, CVirtualDirectory *pOldDir, TString OldName)
 {
-    for (int DirIdx = 0; DirIdx < mDirectories.size(); DirIdx++)
+    CVirtualDirectory *pNewDir = pDir->Parent();
+    bool WasInModel = !mIsAssetListMode && pOldDir == mpCurrentDir;
+    bool IsInModel = !mIsAssetListMode && pNewDir == mpCurrentDir;
+
+    // Handle rename
+    if (WasInModel && IsInModel && pDir->Name() != OldName)
     {
-        if (mDirectories[DirIdx] == pDir)
+        QModelIndex Index = GetIndexForDirectory(pDir);
+        emit dataChanged(Index, Index);
+    }
+
+    else if (pNewDir != pOldDir)
+    {
+        // Remove
+        if (WasInModel && !IsInModel)
         {
-            beginRemoveRows(QModelIndex(), DirIdx, DirIdx);
-            mDirectories.removeAt(DirIdx);
+            QModelIndex Index = GetIndexForDirectory(pDir);
+
+            beginRemoveRows(QModelIndex(), Index.row(), Index.row());
+            mDirectories.removeOne(pDir);
             endRemoveRows();
+        }
+
+        // Add
+        else if (!WasInModel && !IsInModel)
+        {
+            // Just append to the end, let the proxy handle sorting
+            beginInsertRows(QModelIndex(), mDirectories.size(), mDirectories.size());
+            mDirectories << pDir;
+            endInsertRows();
         }
     }
 }

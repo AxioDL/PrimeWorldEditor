@@ -64,8 +64,6 @@ signals:
     void ActiveProjectChanged(CGameProject *pNewProj);
     void AssetsModified();
     void PackagesCooked();
-    void ResourceRenamed(CResourceEntry *pEntry);
-    void DirectoryRenamed(CVirtualDirectory *pDir);
 };
 
 #define gpEdApp static_cast<CEditorApplication*>(qApp)

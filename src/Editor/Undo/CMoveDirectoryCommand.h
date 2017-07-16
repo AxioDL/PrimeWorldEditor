@@ -3,6 +3,7 @@
 
 #include "IUndoCommand.h"
 #include "Editor/CEditorApplication.h"
+#include "Editor/ResourceBrowser/CResourceBrowser.h"
 #include <Core/GameProject/CResourceStore.h>
 #include <Core/GameProject/CVirtualDirectory.h>
 
@@ -22,31 +23,24 @@ public:
         , mNewParent(pNewParent->FullPath())
     {}
 
-    void undo()
-    {
-        CVirtualDirectory *pDir = mpStore->GetVirtualDirectory(mTargetDir, false);
-        CVirtualDirectory *pParent = mpStore->GetVirtualDirectory(mOldParent, false);
-        ASSERT(pDir && pParent);
-
-        pDir->SetParent(pParent);
-        mTargetDir = pDir->FullPath();
-
-        gpEdApp->DirectoryRenamed(pDir);
-    }
-
-    void redo()
-    {
-        CVirtualDirectory *pDir = mpStore->GetVirtualDirectory(mTargetDir, false);
-        CVirtualDirectory *pParent = mpStore->GetVirtualDirectory(mNewParent, false);
-        ASSERT(pDir && pParent);
-
-        pDir->SetParent(pParent);
-        mTargetDir = pDir->FullPath();
-
-        gpEdApp->DirectoryRenamed(pDir);
-    }
-
+    void undo() { DoMove(mOldParent); }
+    void redo() { DoMove(mNewParent); }
     bool AffectsCleanState() const { return false; }
+
+protected:
+    void DoMove(const TString& rkPath)
+    {
+        CVirtualDirectory *pDir = mpStore->GetVirtualDirectory(mTargetDir, false);
+        CVirtualDirectory *pParent = mpStore->GetVirtualDirectory(rkPath, false);
+        ASSERT(pDir && pParent);
+
+        TString OldName = pDir->Name();
+        CVirtualDirectory *pOldParent = pDir->Parent();
+        pDir->SetParent(pParent);
+        mTargetDir = pDir->FullPath();
+
+        gpEdApp->ResourceBrowser()->DirectoryMoved(pDir, pOldParent, OldName);
+    }
 };
 
 #endif // CMOVEDIRECTORYCOMMAND_H

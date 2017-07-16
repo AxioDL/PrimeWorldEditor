@@ -240,13 +240,9 @@ void CEditorApplication::TickEditors()
     mLastUpdate = CTimer::GlobalTime();
     double DeltaTime = mLastUpdate - LastUpdate;
 
-    // The resource store should NOT be dirty at the beginning of a tick - this indicates we forgot to save it after updating somewhere
-    if (gpResourceStore && gpResourceStore->IsCacheDirty())
-    {
-        Log::Error("Resource store is dirty at the beginning of a tick! Call ConditionalSaveStore() after making any significant changes to assets!");
-        DEBUG_BREAK;
+    // Make sure the resource store cache is up-to-date
+    if (gpResourceStore)
         gpResourceStore->ConditionalSaveStore();
-    }
 
     // Tick each editor window and redraw their viewports
     foreach(IEditor *pEditor, mEditorWindows)

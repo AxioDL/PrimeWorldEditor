@@ -98,6 +98,8 @@ public slots:
 
 signals:
     void SelectedResourceChanged(CResourceEntry *pNewRes);
+    void ResourceMoved(CResourceEntry *pRes, CVirtualDirectory *pOldDir, TString OldName);
+    void DirectoryMoved(CVirtualDirectory *pDir, CVirtualDirectory *pOldDir, TString OldName);
 };
 
 #endif // CRESOURCEBROWSER_H
