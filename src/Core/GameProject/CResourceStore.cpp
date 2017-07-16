@@ -121,7 +121,7 @@ bool CResourceStore::LoadDatabaseCache()
         mpDatabaseRoot = new CVirtualDirectory(this);
 
     // Load the resource database
-    CBinaryReader Reader(Path, FOURCC('CACH'));
+    CBasicBinaryReader Reader(Path, FOURCC('CACH'));
 
     if (!Reader.IsValid() || !SerializeDatabaseCache(Reader))
     {
@@ -147,7 +147,7 @@ bool CResourceStore::SaveDatabaseCache()
 {
     TString Path = DatabasePath();
 
-    CBinaryWriter Writer(Path, FOURCC('CACH'), 0, mGame);
+    CBasicBinaryWriter Writer(Path, FOURCC('CACH'), 0, mGame);
 
     if (!Writer.IsValid())
         return false;
