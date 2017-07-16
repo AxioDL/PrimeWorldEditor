@@ -159,7 +159,7 @@ bool CResourceStore::SaveDatabaseCache()
 
 void CResourceStore::ConditionalSaveStore()
 {
-    if (mDatabaseCacheDirty)  SaveDatabaseCache();
+    if (mDatabaseCacheDirty) SaveDatabaseCache();
 }
 
 void CResourceStore::SetProject(CGameProject *pProj)

@@ -16,11 +16,10 @@ class CResourceTableModel : public QAbstractTableModel
     CVirtualDirectory *mpCurrentDir;
     QList<CVirtualDirectory*> mDirectories;
     QList<CResourceEntry*> mEntries;
-    QMap<CResourceEntry*, int> mEntryIndexMap;
-    bool mHasParent;
+    bool mIsAssetListMode;
 
 public:
-    CResourceTableModel(QObject *pParent = 0);
+    CResourceTableModel(CResourceBrowser *pBrowser, QObject *pParent = 0);
 
     // Interface
     int rowCount(const QModelIndex& /*rkParent*/) const;
@@ -43,6 +42,7 @@ public:
     void FillEntryList(CVirtualDirectory *pDir, bool AssetListMode);
 protected:
     void RecursiveAddDirectoryContents(CVirtualDirectory *pDir);
+    int EntryListIndex(CResourceEntry *pEntry);
 
 public:
     // Accessors
@@ -50,8 +50,8 @@ public:
     inline u32 NumResources() const     { return mEntries.size(); }
 
 public slots:
-    void OnResourceRenamed(CResourceEntry *pEntry);
-    void OnDirectoryRenamed(CVirtualDirectory *pDir);
+    void OnResourceMoved(CResourceEntry *pEntry, CVirtualDirectory *pOldDir, TString OldName);
+    void OnDirectoryMoved(CVirtualDirectory *pDir, CVirtualDirectory *pOldDir, TString OldName);
 };
 
 #endif // CRESOURCELISTMODEL

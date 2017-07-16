@@ -50,7 +50,7 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
     pModeGroup->setExclusive(true);
 
     // Set up table models
-    mpModel = new CResourceTableModel(this);
+    mpModel = new CResourceTableModel(this, this);
     mpProxyModel = new CResourceProxyModel(this);
     mpProxyModel->setSourceModel(mpModel);
     mpUI->ResourceTableView->setModel(mpProxyModel);
@@ -138,6 +138,7 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
     connect(mpUI->DirectoryTreeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(OnDirectorySelectionChanged(QModelIndex,QModelIndex)));
     connect(mpUI->ResourceTableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnDoubleClickTable(QModelIndex)));
     connect(mpUI->ResourceTableView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(OnResourceSelectionChanged(QModelIndex, QModelIndex)));
+    connect(mpProxyModel, SIGNAL(rowsInserted(QModelIndex,int,int)), mpUI->ResourceTableView, SLOT(resizeRowsToContents()));
     connect(mpProxyModel, SIGNAL(layoutChanged(QList<QPersistentModelIndex>,QAbstractItemModel::LayoutChangeHint)), mpUI->ResourceTableView, SLOT(resizeRowsToContents()));
     connect(mpFilterAllBox, SIGNAL(toggled(bool)), this, SLOT(OnFilterTypeBoxTicked(bool)));
     connect(gpEdApp, SIGNAL(ActiveProjectChanged(CGameProject*)), this, SLOT(UpdateStore()));
