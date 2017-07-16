@@ -63,4 +63,14 @@ protected:
     virtual void UpdateProgress(const TString& rkTaskName, const TString& rkStepDesc, float ProgressPercent) = 0;
 };
 
+// Null progress notifier can be passed to functions that require a progress notifier if you don't want to use one.
+class CNullProgressNotifier : public IProgressNotifier
+{
+public:
+    bool ShouldCancel() const { return false; }
+protected:
+    void UpdateProgress(const TString&, const TString&, float) {}
+};
+extern CNullProgressNotifier *gpNullProgress;
+
 #endif // IPROGRESSNOTIFIER_H

@@ -303,9 +303,9 @@ bool CResourceStore::BuildFromDirectory(bool ShouldGenerateCacheFile)
     for (auto Iter = ResourceList.begin(); Iter != ResourceList.end(); Iter++)
     {
         TString Path = *Iter;
-        TString RelPath = FileUtil::MakeRelative(Path, ResDir);
+        TString RelPath = Path.ChopFront( ResDir.Size() );
 
-        if (FileUtil::IsFile(Path) && Path.GetFileExtension() == "rsmeta")
+        if (FileUtil::IsFile(Path) && Path.EndsWith(".rsmeta"))
         {
             // Determine resource name
             TString DirPath = RelPath.GetFileDirectory();

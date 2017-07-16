@@ -339,4 +339,5 @@ SOURCES += \
     Resource/CResTypeInfo.cpp \
     CompressionUtil.cpp \
     IUIRelay.cpp \
-    GameProject\COpeningBanner.cpp
+    GameProject\COpeningBanner.cpp \
+    IProgressNotifier.cpp
