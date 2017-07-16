@@ -16,6 +16,7 @@ class CResourceTableContextMenu : public QMenu
     CResourceTableModel *mpModel;
     CResourceProxyModel *mpProxy;
 
+    QModelIndex mProxyIndex;
     QModelIndex mIndex;
     CResourceEntry *mpEntry;
     CVirtualDirectory *mpDirectory;
@@ -24,6 +25,8 @@ class CResourceTableContextMenu : public QMenu
     QAction *mpOpenAction;
     QAction *mpOpenInExternalAppAction;
     QAction *mpOpenContainingFolderAction;
+
+    QAction *mpRenameAction;
 
     QAction *mpCopyNameAction;
     QAction *mpCopyPathAction;
@@ -39,6 +42,7 @@ public slots:
     void Open();
     void OpenInExternalApp();
     void OpenContainingFolder();
+    void Rename();
     void CopyName();
     void CopyPath();
     void CopyID();

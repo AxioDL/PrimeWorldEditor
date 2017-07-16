@@ -247,6 +247,30 @@ bool CVirtualDirectory::RemoveChildResource(CResourceEntry *pEntry)
     return false;
 }
 
+bool CVirtualDirectory::Rename(const TString& rkNewName)
+{
+    Log::Write("MOVING DIRECTORY: " + FullPath() + " -> " + mpParent->FullPath() + rkNewName + '/');
+
+    if (!IsRoot())
+    {
+        if (!mpParent->FindChildDirectory(rkNewName, false))
+        {
+            TString AbsPath = AbsolutePath();
+            TString NewPath = mpParent->AbsolutePath() + rkNewName + "/";
+
+            if (FileUtil::MoveDirectory(AbsPath, NewPath))
+            {
+                mName = rkNewName;
+                mpStore->SetCacheDirty();
+                return true;
+            }
+        }
+    }
+
+    Log::Error("DIRECTORY MOVE FAILED");
+    return false;
+}
+
 bool CVirtualDirectory::Delete()
 {
     ASSERT(IsEmpty(true) && !IsRoot());
@@ -257,6 +281,7 @@ bool CVirtualDirectory::Delete()
         {
             if (!mpParent || mpParent->RemoveChildDirectory(this))
             {
+                mpStore->SetCacheDirty();
                 delete this;
                 return true;
             }

@@ -106,7 +106,13 @@ bool CResourceStore::SerializeDatabaseCache(IArchive& rArc)
     if (rArc.IsReader())
     {
         for (auto Iter = EmptyDirectories.begin(); Iter != EmptyDirectories.end(); Iter++)
-            CreateVirtualDirectory(*Iter);
+        {
+            // Don't create empty virtual directories that don't actually exist in the filesystem
+            TString AbsPath = ResourcesDir() + *Iter;
+
+            if (FileUtil::Exists(AbsPath))
+                CreateVirtualDirectory(*Iter);
+        }
     }
 
     return true;

@@ -240,7 +240,10 @@ void CEditorApplication::TickEditors()
     mLastUpdate = CTimer::GlobalTime();
     double DeltaTime = mLastUpdate - LastUpdate;
 
-    // Make sure the resource store cache is up-to-date
+    // Make sure the resource store caches are up-to-date
+    if (gpEditorStore)
+        gpEditorStore->ConditionalSaveStore();
+
     if (gpResourceStore)
         gpResourceStore->ConditionalSaveStore();
 
