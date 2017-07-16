@@ -20,6 +20,8 @@ CResourceTableContextMenu::CResourceTableContextMenu(CResourceBrowser *pBrowser,
     mpOpenInExternalAppAction = addAction("Open in external application", this, SLOT(OpenInExternalApp()));
     mpOpenContainingFolderAction = addAction("Open containing folder", this, SLOT(OpenContainingFolder()));
     addSeparator();
+    mpRenameAction = addAction("Rename", this, SLOT(Rename()));
+    addSeparator();
     mpCopyNameAction = addAction("Copy name", this, SLOT(CopyName()));
     mpCopyPathAction = addAction("Copy path", this, SLOT(CopyPath()));
     mpCopyIDAction = addAction("Copy asset ID", this, SLOT(CopyID()));
@@ -28,11 +30,11 @@ CResourceTableContextMenu::CResourceTableContextMenu(CResourceBrowser *pBrowser,
 void CResourceTableContextMenu::ShowMenu(const QPoint& rkPos)
 {
     // Fetch the entry/directory
-    QModelIndex ProxyIndex = mpTable->indexAt(rkPos);
+    mProxyIndex = mpTable->indexAt(rkPos);
 
-    if (ProxyIndex.isValid())
+    if (mProxyIndex.isValid())
     {
-        mIndex = mpProxy->mapToSource(ProxyIndex);
+        mIndex = mpProxy->mapToSource(mProxyIndex);
         mpEntry = mpModel->IndexEntry(mIndex);
         mpDirectory = mpModel->IndexDirectory(mIndex);
 
@@ -75,6 +77,11 @@ void CResourceTableContextMenu::OpenContainingFolder()
         QString Path = TO_QSTRING( BasePath + mpDirectory->FullPath() );
         UICommon::OpenContainingFolder(Path);
     }
+}
+
+void CResourceTableContextMenu::Rename()
+{
+    mpTable->edit(mProxyIndex);
 }
 
 void CResourceTableContextMenu::CopyName()

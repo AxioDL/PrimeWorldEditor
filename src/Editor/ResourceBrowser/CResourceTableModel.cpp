@@ -59,7 +59,7 @@ QVariant CResourceTableModel::data(const QModelIndex& rkIndex, int Role) const
 
 Qt::ItemFlags CResourceTableModel::flags(const QModelIndex& rkIndex) const
 {
-    Qt::ItemFlags Out = Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled;
+    Qt::ItemFlags Out = Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable;
 
     if (IsIndexDirectory(rkIndex))
         Out |= Qt::ItemIsDropEnabled;
@@ -99,16 +99,20 @@ bool CResourceTableModel::canDropMimeData(const QMimeData *pkData, Qt::DropActio
     return false;
 }
 
-bool CResourceTableModel::dropMimeData(const QMimeData *pkData, Qt::DropAction, int Row, int Column, const QModelIndex& rkParent)
+bool CResourceTableModel::dropMimeData(const QMimeData *pkData, Qt::DropAction Action, int Row, int Column, const QModelIndex& rkParent)
 {
     const CResourceMimeData *pkMimeData = qobject_cast<const CResourceMimeData*>(pkData);
 
-    QModelIndex Index = (rkParent.isValid() ? rkParent : index(Row, Column, rkParent));
-    CVirtualDirectory *pDir = IndexDirectory(Index);
-    ASSERT(pDir);
+    if (canDropMimeData(pkData, Action, Row, Column, rkParent))
+    {
+        QModelIndex Index = (rkParent.isValid() ? rkParent : index(Row, Column, rkParent));
+        CVirtualDirectory *pDir = IndexDirectory(Index);
+        ASSERT(pDir);
 
-    gpEdApp->ResourceBrowser()->MoveResources( pkMimeData->Resources(), pkMimeData->Directories(), pDir );
-    return true;
+        gpEdApp->ResourceBrowser()->MoveResources( pkMimeData->Resources(), pkMimeData->Directories(), pDir );
+        return true;
+    }
+    else return false;
 }
 
 QMimeData* CResourceTableModel::mimeData(const QModelIndexList& rkIndexes) const
@@ -292,6 +296,13 @@ void CResourceTableModel::OnDirectoryMoved(CVirtualDirectory *pDir, CVirtualDire
     bool WasInModel = !mIsAssetListMode && pOldDir == mpCurrentDir;
     bool IsInModel = !mIsAssetListMode && pNewDir == mpCurrentDir;
 
+    // Handle parent link
+    if (pDir == mpCurrentDir)
+    {
+        ASSERT(mDirectories.front() == pOldDir);
+        mDirectories[0] = pNewDir;
+    }
+
     // Handle rename
     if (WasInModel && IsInModel && pDir->Name() != OldName)
     {
@@ -312,7 +323,7 @@ void CResourceTableModel::OnDirectoryMoved(CVirtualDirectory *pDir, CVirtualDire
         }
 
         // Add
-        else if (!WasInModel && !IsInModel)
+        else if (!WasInModel && IsInModel)
         {
             // Just append to the end, let the proxy handle sorting
             beginInsertRows(QModelIndex(), mDirectories.size(), mDirectories.size());

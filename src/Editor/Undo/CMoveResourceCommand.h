@@ -34,11 +34,10 @@ protected:
     void DoMove(const TString& rkPath, bool IsAutoDir)
     {
         CVirtualDirectory *pOldDir = mpEntry->Directory();
-        TString OldName = mpEntry->Name();
         bool Success = mpEntry->Move(rkPath, IsAutoDir);
         ASSERT(Success); // todo better error handling
 
-        gpEdApp->ResourceBrowser()->ResourceMoved(mpEntry, pOldDir, OldName);
+        gpEdApp->ResourceBrowser()->ResourceMoved(mpEntry, pOldDir, mpEntry->Name());
     }
 };
 

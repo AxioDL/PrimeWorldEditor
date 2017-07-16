@@ -191,7 +191,10 @@ HEADERS += \
     ResourceBrowser/CResourceMimeData.h \
     ResourceBrowser/CResourceTableView.h \
     Undo/CMoveResourceCommand.h \
-    Undo/CMoveDirectoryCommand.h
+    Undo/CMoveDirectoryCommand.h \
+    Undo/CRenameResourceCommand.h \
+    Undo/CRenameDirectoryCommand.h \
+    CFileNameValidator.h
 
 # Source Files
 SOURCES += \

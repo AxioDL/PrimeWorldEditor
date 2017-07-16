@@ -112,9 +112,8 @@ bool MoveFile(const TString& rkOldPath, const TString& rkNewPath)
         return false;
     }
 
-    // todo: check return value? Docs don't say what the return value actually is
-    rename(*rkOldPath, *rkNewPath);
-    return true;
+    int Result = rename(*rkOldPath, *rkNewPath);
+    return (Result == 0);
 }
 
 bool MoveDirectory(const TString& rkOldPath, const TString& rkNewPath)
@@ -131,9 +130,8 @@ bool MoveDirectory(const TString& rkOldPath, const TString& rkNewPath)
         return false;
     }
 
-    // todo: check return value? Docs don't say what the return value actually is
-    rename(*rkOldPath, *rkNewPath);
-    return true;
+    int Result = rename(*rkOldPath, *rkNewPath);
+    return (Result == 0);
 }
 
 bool DeleteFile(const TString& rkFilePath)
@@ -305,8 +303,13 @@ TString SimplifyRelativePath(const TString& rkPath)
     return Out;
 }
 
+u32 MaxFileNameLength()
+{
+    return 255;
+}
+
 static const char gskIllegalNameChars[] = {
-    '<', '>', '\"', '/', '\\', '|', '?', '*'
+    '<', '>', '\"', '/', '\\', '|', '?', '*', ':'
 };
 
 TString SanitizeName(TString Name, bool Directory, bool RootDir /*= false*/)
@@ -316,8 +319,6 @@ TString SanitizeName(TString Name, bool Directory, bool RootDir /*= false*/)
         return Name;
 
     // Remove illegal characters from path
-    u32 NumIllegalChars = sizeof(gskIllegalNameChars) / sizeof(char);
-
     for (u32 iChr = 0; iChr < Name.Size(); iChr++)
     {
         char Chr = Name[iChr];
@@ -326,21 +327,11 @@ TString SanitizeName(TString Name, bool Directory, bool RootDir /*= false*/)
         if (Chr >= 0 && Chr <= 31)
             Remove = true;
 
-        // For root, allow colon only as the last character of the name
-        else if (Chr == ':' && (!RootDir || iChr != Name.Size() - 1))
-            Remove = true;
+        // Allow colon only as the last character of root
+        bool IsLegalColon = (Chr == ':' && RootDir && iChr == Name.Size() - 1);
 
-        else
-        {
-            for (u32 iBan = 0; iBan < NumIllegalChars; iBan++)
-            {
-                if (Chr == gskIllegalNameChars[iBan])
-                {
-                    Remove = true;
-                    break;
-                }
-            }
-        }
+        if (!IsLegalColon && !IsValidFileNameCharacter(Chr))
+            Remove = true;
 
         if (Remove)
         {
@@ -376,9 +367,9 @@ TString SanitizeName(TString Name, bool Directory, bool RootDir /*= false*/)
         Name = Name.ChopFront(NumLeadingSpaces);
 
     // Ensure the name is below the character limit
-    if (Name.Size() > 255)
+    if (Name.Size() > MaxFileNameLength())
     {
-        u32 ChopNum = Name.Size() - 255;
+        u32 ChopNum = Name.Size() - MaxFileNameLength();
         Name = Name.ChopBack(ChopNum);
     }
 
@@ -406,6 +397,22 @@ TString SanitizePath(TString Path, bool Directory)
     return Path;
 }
 
+bool IsValidFileNameCharacter(char Chr)
+{
+    static const u32 skNumIllegalChars = sizeof(gskIllegalNameChars) / sizeof(char);
+
+    if (Chr >= 0 && Chr <= 31)
+        return false;
+
+    for (u32 BanIdx = 0; BanIdx < skNumIllegalChars; BanIdx++)
+    {
+        if (Chr == gskIllegalNameChars[BanIdx])
+            return false;
+    }
+
+    return true;
+}
+
 bool IsValidName(const TString& rkName, bool Directory, bool RootDir /*= false*/)
 {
     // Only accounting for Windows limitations right now. However, this function should
@@ -413,10 +420,8 @@ bool IsValidName(const TString& rkName, bool Directory, bool RootDir /*= false*/
     if (rkName.IsEmpty())
         return false;
 
-    if (rkName.Size() > 255)
+    if (rkName.Size() > MaxFileNameLength())
         return false;
-
-    u32 NumIllegalChars = sizeof(gskIllegalNameChars) / sizeof(char);
 
     if (Directory && (rkName == "." || rkName == ".."))
         return true;
@@ -426,18 +431,11 @@ bool IsValidName(const TString& rkName, bool Directory, bool RootDir /*= false*/
     {
         char Chr = rkName[iChr];
 
-        if (Chr >= 0 && Chr <= 31)
-            return false;
+        // Allow colon only as the last character of root
+        bool IsLegalColon = (Chr == ':' && RootDir && iChr == rkName.Size() - 1);
 
-        // Allow colon only on last character of root
-        if (Chr == ':' && (!RootDir || iChr != rkName.Size() - 1))
+        if (!IsLegalColon && !IsValidFileNameCharacter(Chr))
             return false;
-
-        for (u32 iBan = 0; iBan < NumIllegalChars; iBan++)
-        {
-            if (Chr == gskIllegalNameChars[iBan])
-                return false;
-        }
     }
 
     if (Directory && (rkName.Back() == ' ' || rkName.Back() == '.'))

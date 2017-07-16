@@ -6,6 +6,8 @@
 #include "Editor/CEditorApplication.h"
 #include "Editor/Undo/CMoveDirectoryCommand.h"
 #include "Editor/Undo/CMoveResourceCommand.h"
+#include "Editor/Undo/CRenameDirectoryCommand.h"
+#include "Editor/Undo/CRenameResourceCommand.h"
 #include <Core/GameProject/AssetNameGeneration.h>
 #include <Core/GameProject/CAssetNameMap.h>
 
@@ -220,6 +222,54 @@ void CResourceBrowser::CreateFilterCheckboxes()
     mpFilterBoxesLayout->addSpacerItem(pSpacer);
 }
 
+bool CResourceBrowser::RenameResource(CResourceEntry *pEntry, const TString& rkNewName)
+{
+    if (pEntry->Name() == rkNewName)
+        return false;
+
+    // Check if the move is valid
+    if (!pEntry->CanMoveTo(pEntry->DirectoryPath(), rkNewName))
+    {
+        if (pEntry->Directory()->FindChildResource(rkNewName, pEntry->ResourceType()) != nullptr)
+        {
+            UICommon::ErrorMsg(this, "Failed to rename; the destination directory has conflicting files!");
+            return false;
+        }
+        else
+        {
+            UICommon::ErrorMsg(this, "Failed to rename; filename is invalid!");
+            return false;
+        }
+    }
+
+    // Everything seems to be valid; proceed with the rename
+    mUndoStack.push( new CRenameResourceCommand(pEntry, rkNewName) );
+    return true;
+}
+
+bool CResourceBrowser::RenameDirectory(CVirtualDirectory *pDir, const TString& rkNewName)
+{
+    if (pDir->Name() == rkNewName)
+        return false;
+
+    if (!CVirtualDirectory::IsValidDirectoryName(rkNewName))
+    {
+        UICommon::ErrorMsg(this, "Failed to rename; directory name is invalid!");
+        return false;
+    }
+
+    // Check for conflicts
+    if (pDir->Parent()->FindChildDirectory(rkNewName, false) != nullptr)
+    {
+        UICommon::ErrorMsg(this, "Failed to rename; the destination directory has a conflicting directory!");
+        return false;
+    }
+
+    // No conflicts, proceed with the rename
+    mUndoStack.push( new CRenameDirectoryCommand(pDir, rkNewName) );
+    return true;
+}
+
 bool CResourceBrowser::MoveResources(const QList<CResourceEntry*>& rkResources, const QList<CVirtualDirectory*>& rkDirectories, CVirtualDirectory *pNewDir)
 {
     // Check for any conflicts
@@ -242,7 +292,7 @@ bool CResourceBrowser::MoveResources(const QList<CResourceEntry*>& rkResources, 
     // If there were conflicts, notify the user of them
     if (!ConflictingResources.isEmpty() || !ConflictingDirs.isEmpty())
     {
-        QString ErrorMsg = "Unable to move; the destination directory has conflicting files.\n\n";
+        QString ErrorMsg = "Failed to move; the destination directory has conflicting files.\n\n";
 
         foreach (CVirtualDirectory *pDir, ConflictingDirs)
         {

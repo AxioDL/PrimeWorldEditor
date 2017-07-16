@@ -51,7 +51,7 @@ public:
             return false;
 
         else if (pLeftDir && pRightDir)
-            return rkLeft.row() < rkRight.row(); // leave original directory order intact
+            return pLeftDir->Name().ToUpper() < pRightDir->Name().ToUpper();
 
         else if (mSortMode == eSortByName)
             return pLeftRes->UppercaseName() < pRightRes->UppercaseName();

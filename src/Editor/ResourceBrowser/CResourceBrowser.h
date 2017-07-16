@@ -56,6 +56,8 @@ public:
     void SelectDirectory(CVirtualDirectory *pDir);
     void CreateFilterCheckboxes();
 
+    bool RenameResource(CResourceEntry *pEntry, const TString& rkNewName);
+    bool RenameDirectory(CVirtualDirectory *pDir, const TString& rkNewName);
     bool MoveResources(const QList<CResourceEntry*>& rkResources, const QList<CVirtualDirectory*>& rkDirectories, CVirtualDirectory *pNewDir);
 
     // Interface
