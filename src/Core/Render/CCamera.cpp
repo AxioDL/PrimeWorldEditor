@@ -7,7 +7,7 @@ CCamera::CCamera()
     : mMode(eFreeCamera)
     , mPosition(0)
     , mAspectRatio(1.7777777f)
-    , mYaw(Math::skHalfPi)
+    , mYaw(-Math::skHalfPi)
     , mPitch(0.f)
     , mMoveSpeed(1.f)
     , mLookSpeed(1.f)
@@ -26,7 +26,7 @@ CCamera::CCamera(CVector3f Position, CVector3f /*Target*/)
     , mMoveSpeed(1.f)
     , mLookSpeed(1.f)
     , mPosition(Position)
-    , mYaw(Math::skHalfPi)
+    , mYaw(-Math::skHalfPi)
     , mPitch(0.f)
 {
 }
@@ -75,7 +75,7 @@ void CCamera::Zoom(float Amount)
 void CCamera::Snap(CVector3f Position)
 {
     mPosition = Position;
-    mYaw = Math::skHalfPi;
+    mYaw = -Math::skHalfPi;
     mPitch = 0.0f;
     mTransformDirty = true;
     mViewDirty = true;

@@ -46,9 +46,19 @@ CWorldEditor::CWorldEditor(QWidget *parent)
 
     mpSelection->SetAllowedNodeTypes(eScriptNode | eLightNode);
 
+    // Add resource browser to the layout
+    QVBoxLayout *pLayout = new QVBoxLayout();
+    pLayout->setContentsMargins(0,0,0,0);
+
+    CResourceBrowser *pResourceBrowser = gpEdApp->ResourceBrowser();
+    //pResourceBrowser->setParent(this);
+    pLayout->addWidget( pResourceBrowser );
+
+    ui->ResourceBrowserContainer->setLayout(pLayout);
+
     // Initialize splitter
     QList<int> SplitterSizes;
-    SplitterSizes << width() * 0.775 << width() * 0.225;
+    SplitterSizes << width() * 0.25 << width() * 0.53 << width() * 0.22;
     ui->splitter->setSizes(SplitterSizes);
 
     // Initialize UI stuff
@@ -330,11 +340,6 @@ bool CWorldEditor::HasAnyScriptNodesSelected() const
     }
 
     return false;
-}
-
-CResourceBrowser* CWorldEditor::ResourceBrowser() const
-{
-    return ui->ResourceBrowser;
 }
 
 CSceneViewport* CWorldEditor::Viewport() const

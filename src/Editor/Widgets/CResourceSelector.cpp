@@ -66,6 +66,7 @@ CResourceSelector::CResourceSelector(QWidget *pParent /*= 0*/)
     connect(mpResNameButton, SIGNAL(clicked()), this, SLOT(Find()));
     connect(mpSelectButton, SIGNAL(clicked()), this, SLOT(Select()));
     connect(mpClearButton, SIGNAL(clicked()), this, SLOT(Clear()));
+    connect(gpEdApp->ResourceBrowser(), SIGNAL(ResourceMoved(CResourceEntry*,CVirtualDirectory*,TString)), this, SLOT(OnResourceMoved(CResourceEntry*)));
 
     // Set up context menu
     mpEditAssetAction = new QAction("Edit", this);
@@ -291,4 +292,10 @@ void CResourceSelector::OnResourceChanged()
 {
     UpdateUI();
     emit ResourceChanged(mpResEntry);
+}
+
+void CResourceSelector::OnResourceMoved(CResourceEntry *pEntry)
+{
+    if (pEntry == mpResEntry)
+        UpdateUI();
 }

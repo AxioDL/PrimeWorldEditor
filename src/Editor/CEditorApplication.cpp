@@ -34,6 +34,7 @@ CEditorApplication::~CEditorApplication()
 
 void CEditorApplication::InitEditor()
 {
+    mpResourceBrowser = new CResourceBrowser();
     mpWorldEditor = new CWorldEditor();
     mpProjectDialog = new CProjectSettingsDialog(mpWorldEditor);
     mpWorldEditor->showMaximized();
@@ -291,9 +292,4 @@ void CEditorApplication::OnEditorClose()
             mpActiveProject->ResourceStore()->DestroyUnreferencedResources();
         }
     }
-}
-
-CResourceBrowser* CEditorApplication::ResourceBrowser() const
-{
-    return mpWorldEditor->ResourceBrowser();
 }
