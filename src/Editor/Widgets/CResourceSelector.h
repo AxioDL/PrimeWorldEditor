@@ -69,6 +69,7 @@ public slots:
     void CopyName();
     void CopyPath();
     void OnResourceChanged();
+    void OnResourceMoved(CResourceEntry *pEntry);
     void UpdateUI();
 
 signals:

@@ -31,6 +31,7 @@ CModelEditorWindow::CModelEditorWindow(CModel *pModel, QWidget *pParent)
     , mIgnoreSignals(false)
 {
     ui->setupUi(this);
+    ui->ActionSave->setEnabled( pModel->Game() == ePrime ); // we don't support saving games later than MP1
     REPLACE_WINDOWTITLE_APPVARS;
 
     ui->Viewport->SetNode(mpCurrentModelNode);
