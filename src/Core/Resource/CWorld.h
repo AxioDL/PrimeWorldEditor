@@ -94,6 +94,7 @@ public:
     void SetAreaLayerInfo(CGameArea *pArea);
     TString InGameName() const;
     TString AreaInGameName(u32 AreaIndex) const;
+    u32 AreaIndex(CAssetID AreaID) const;
 
     // Serialization
     virtual void Serialize(IArchive& rArc);

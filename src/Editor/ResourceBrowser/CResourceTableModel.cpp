@@ -5,6 +5,7 @@
 CResourceTableModel::CResourceTableModel(CResourceBrowser *pBrowser, QObject *pParent /*= 0*/)
     : QAbstractTableModel(pParent)
     , mpCurrentDir(nullptr)
+    , mIsDisplayingUserEntryList(false)
 {
     connect(pBrowser, SIGNAL(DirectoryCreated(CVirtualDirectory*)), this, SLOT(CheckAddDirectory(CVirtualDirectory*)));
     connect(pBrowser, SIGNAL(DirectoryAboutToBeDeleted(CVirtualDirectory*)), this, SLOT(CheckRemoveDirectory(CVirtualDirectory*)));
@@ -189,6 +190,11 @@ bool CResourceTableModel::IsIndexDirectory(const QModelIndex& rkIndex) const
     return rkIndex.row() >= 0 && rkIndex.row() < mDirectories.size();
 }
 
+bool CResourceTableModel::HasParentDirectoryEntry() const
+{
+    return !mIsAssetListMode && mpCurrentDir && !mpCurrentDir->IsRoot();
+}
+
 void CResourceTableModel::FillEntryList(CVirtualDirectory *pDir, bool AssetListMode)
 {
     beginResetModel();
@@ -197,6 +203,7 @@ void CResourceTableModel::FillEntryList(CVirtualDirectory *pDir, bool AssetListM
     mEntries.clear();
     mDirectories.clear();
     mIsAssetListMode = AssetListMode;
+    mIsDisplayingUserEntryList = false;
 
     if (pDir)
     {
@@ -226,6 +233,22 @@ void CResourceTableModel::FillEntryList(CVirtualDirectory *pDir, bool AssetListM
             RecursiveAddDirectoryContents(pDir);
     }
 
+    if (pDir)
+        mModelDescription = pDir->IsRoot() ? "Root" : TO_QSTRING(pDir->FullPath());
+    else
+        mModelDescription = "Nothing";
+
+    endResetModel();
+}
+
+void CResourceTableModel::DisplayEntryList(QList<CResourceEntry*>& rkEntries, const QString& rkListDescription)
+{
+    beginResetModel();
+    mEntries = rkEntries;
+    mDirectories.clear();
+    mModelDescription = rkListDescription;
+    mIsAssetListMode = true;
+    mIsDisplayingUserEntryList = true;
     endResetModel();
 }
 
