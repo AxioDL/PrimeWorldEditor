@@ -25,6 +25,12 @@ bool IDependencyNode::HasDependency(const CAssetID& rkID) const
     return false;
 }
 
+void IDependencyNode::GetAllResourceReferences(std::set<CAssetID>& rOutSet) const
+{
+    for (u32 iChild = 0; iChild < mChildren.size(); iChild++)
+        mChildren[iChild]->GetAllResourceReferences(rOutSet);
+}
+
 // ************ CDependencyTree ************
 EDependencyNodeType CDependencyTree::Type() const
 {
@@ -73,6 +79,11 @@ EDependencyNodeType CResourceDependency::Type() const
 void CResourceDependency::Serialize(IArchive& rArc)
 {
     rArc << SERIAL("ID", mID);
+}
+
+void CResourceDependency::GetAllResourceReferences(std::set<CAssetID>& rOutSet) const
+{
+    rOutSet.insert(mID);
 }
 
 bool CResourceDependency::HasDependency(const CAssetID& rkID) const

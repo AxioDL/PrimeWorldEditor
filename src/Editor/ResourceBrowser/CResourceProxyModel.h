@@ -39,6 +39,17 @@ public:
 
     bool lessThan(const QModelIndex& rkLeft, const QModelIndex& rkRight) const
     {
+        // Parent directory is always row 0 and should always be at the top
+        if (mpModel->HasParentDirectoryEntry())
+        {
+            if (rkLeft.row() == 0)
+                return true;
+
+            if (rkRight.row() == 0)
+                return false;
+        }
+
+        // Fetch directories and compare them
         CVirtualDirectory *pLeftDir = mpModel->IndexDirectory(rkLeft);
         CVirtualDirectory *pRightDir = mpModel->IndexDirectory(rkRight);
         CResourceEntry *pLeftRes = mpModel->IndexEntry(rkLeft);

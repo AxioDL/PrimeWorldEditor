@@ -2,10 +2,16 @@
 #define CRESOURCETABLEVIEW_H
 
 #include <QTableView>
+#include "CResourceTableModel.h"
+#include "CResourceProxyModel.h"
 
 class CResourceTableView : public QTableView
 {
     Q_OBJECT
+
+    CResourceTableModel *mpModel;
+    CResourceProxyModel *mpProxy;
+
     QAction *mpRenameAction;
     QAction *mpDeleteAction;
 

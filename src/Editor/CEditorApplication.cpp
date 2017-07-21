@@ -127,6 +127,24 @@ void CEditorApplication::EditResource(CResourceEntry *pEntry)
 
         switch (pEntry->ResourceType())
         {
+        case eArea:
+            // We can't open an area on its own. Find a world that contains this area.
+            for (TResourceIterator<eWorld> It; It; ++It)
+            {
+                if (It->Dependencies()->HasDependency(pEntry->ID()))
+                {
+                    CWorld *pWorld = (CWorld*) It->Load();
+                    u32 AreaIdx = pWorld->AreaIndex(pEntry->ID());
+
+                    if (AreaIdx != -1)
+                    {
+                        mpWorldEditor->SetArea(pWorld, AreaIdx);
+                        break;
+                    }
+                }
+            }
+            break;
+
         case eModel:
             pEd = new CModelEditorWindow((CModel*) pRes, mpWorldEditor);
             break;
@@ -141,7 +159,7 @@ void CEditorApplication::EditResource(CResourceEntry *pEntry)
             pEd->show();
             mEditingMap[pEntry] = pEd;
         }
-        else
+        else if (pEntry->ResourceType() != eArea)
             UICommon::InfoMsg(mpWorldEditor, "Unsupported Resource", "This resource type is currently unsupported for editing.");
     }
 }

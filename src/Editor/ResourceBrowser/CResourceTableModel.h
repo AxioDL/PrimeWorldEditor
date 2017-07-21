@@ -16,7 +16,9 @@ class CResourceTableModel : public QAbstractTableModel
     CVirtualDirectory *mpCurrentDir;
     QList<CVirtualDirectory*> mDirectories;
     QList<CResourceEntry*> mEntries;
+    QString mModelDescription;
     bool mIsAssetListMode;
+    bool mIsDisplayingUserEntryList;
 
 public:
     CResourceTableModel(CResourceBrowser *pBrowser, QObject *pParent = 0);
@@ -39,15 +41,21 @@ public:
     CResourceEntry* IndexEntry(const QModelIndex& rkIndex) const;
     CVirtualDirectory* IndexDirectory(const QModelIndex& rkIndex) const;
     bool IsIndexDirectory(const QModelIndex& rkIndex) const;
+    bool HasParentDirectoryEntry() const;
     void FillEntryList(CVirtualDirectory *pDir, bool AssetListMode);
+    void DisplayEntryList(QList<CResourceEntry*>& rkEntries, const QString& rkListDescription);
 protected:
     void RecursiveAddDirectoryContents(CVirtualDirectory *pDir);
     int EntryListIndex(CResourceEntry *pEntry);
 
 public:
     // Accessors
-    inline u32 NumDirectories() const   { return mDirectories.size(); }
-    inline u32 NumResources() const     { return mEntries.size(); }
+    inline u32 NumDirectories() const               { return mDirectories.size(); }
+    inline u32 NumResources() const                 { return mEntries.size(); }
+    inline CVirtualDirectory* CurrentDir() const    { return mpCurrentDir; }
+    inline bool IsDisplayingAssetList() const       { return mIsAssetListMode; }
+    inline bool IsDisplayingUserEntryList() const   { return mIsDisplayingUserEntryList; }
+    inline QString ModelDescription() const         { return mModelDescription; }
 
 public slots:
     void CheckAddDirectory(CVirtualDirectory *pDir);

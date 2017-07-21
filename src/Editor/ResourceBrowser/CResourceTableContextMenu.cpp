@@ -16,11 +16,22 @@ CResourceTableContextMenu::CResourceTableContextMenu(CResourceBrowser *pBrowser,
     connect(pView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(ShowMenu(QPoint)));
 
     // Create actions
+#if WIN32
+    QString OpenInExplorerString = "Show in Explorer";
+#elif __APPLE__
+    QString OpenInExplorerString = "Show in Finder";
+#else
+    QString OpenInExplorerString = "Show in file manager";
+#endif
+
     mpOpenAction = addAction("Open", this, SLOT(Open()));
     mpOpenInExternalAppAction = addAction("Open in external application", this, SLOT(OpenInExternalApp()));
-    mpOpenContainingFolderAction = addAction("Open containing folder", this, SLOT(OpenContainingFolder()));
+    mpOpenInExplorerAction = addAction(OpenInExplorerString, this, SLOT(OpenInExplorer()));
+    mpSelectFolderAction = addAction("Select folder", this, SLOT(SelectFolder()));
     addSeparator();
     mpRenameAction = addAction("Rename", this, SLOT(Rename()));
+    mpShowReferencersAction = addAction("Show referencers", this, SLOT(ShowReferencers()));
+    mpShowDependenciesAction = addAction("Show dependencies", this, SLOT(ShowDependencies()));
     addSeparator();
     mpCopyNameAction = addAction("Copy name", this, SLOT(CopyName()));
     mpCopyPathAction = addAction("Copy path", this, SLOT(CopyPath()));
@@ -41,6 +52,9 @@ void CResourceTableContextMenu::ShowMenu(const QPoint& rkPos)
         // Show/hide menu options
         bool IsRes = (mpEntry != nullptr);
         mpOpenInExternalAppAction->setVisible(IsRes);
+        mpSelectFolderAction->setVisible(mpModel->IsDisplayingAssetList());
+        mpShowDependenciesAction->setVisible(IsRes);
+        mpShowReferencersAction->setVisible(IsRes);
         mpCopyIDAction->setVisible(IsRes);
 
         // Exec menu
@@ -55,7 +69,7 @@ void CResourceTableContextMenu::Open()
     if (mpEntry)
         gpEdApp->EditResource(mpEntry);
     else
-        mpBrowser->SelectDirectory(mpDirectory);
+        mpBrowser->SetActiveDirectory(mpDirectory);
 }
 
 void CResourceTableContextMenu::OpenInExternalApp()
@@ -64,7 +78,7 @@ void CResourceTableContextMenu::OpenInExternalApp()
     UICommon::OpenInExternalApplication( TO_QSTRING(mpEntry->CookedAssetPath()) );
 }
 
-void CResourceTableContextMenu::OpenContainingFolder()
+void CResourceTableContextMenu::OpenInExplorer()
 {
     if (mpEntry)
     {
@@ -79,9 +93,65 @@ void CResourceTableContextMenu::OpenContainingFolder()
     }
 }
 
+void CResourceTableContextMenu::SelectFolder()
+{
+    CVirtualDirectory *pDir = (mpEntry ? mpEntry->Directory() : mpDirectory->Parent());
+    mpBrowser->SetActiveDirectory(pDir);
+
+    if (mpEntry)
+        mpBrowser->SelectResource(mpEntry);
+    else
+        mpBrowser->SelectDirectory(mpDirectory);
+}
+
 void CResourceTableContextMenu::Rename()
 {
     mpTable->edit(mProxyIndex);
+}
+
+void CResourceTableContextMenu::ShowReferencers()
+{
+    ASSERT(mpEntry);
+
+    QList<CResourceEntry*> EntryList;
+
+    for (CResourceIterator Iter(mpEntry->ResourceStore()); Iter; ++Iter)
+    {
+        if (Iter->Dependencies()->HasDependency(mpEntry->ID()))
+            EntryList << *Iter;
+    }
+
+    if (!mpModel->IsDisplayingUserEntryList())
+        mpBrowser->SetInspectedEntry(mpEntry);
+
+    QString ListDesc = QString("Referencers of \"%1\"").arg( TO_QSTRING(mpEntry->CookedAssetPath().GetFileName()) );
+    mpModel->DisplayEntryList(EntryList, ListDesc);
+    mpBrowser->ClearFilters();
+}
+
+void CResourceTableContextMenu::ShowDependencies()
+{
+    ASSERT(mpEntry);
+
+    std::set<CAssetID> Dependencies;
+    mpEntry->Dependencies()->GetAllResourceReferences(Dependencies);
+
+    QList<CResourceEntry*> EntryList;
+
+    for (auto Iter = Dependencies.begin(); Iter != Dependencies.end(); Iter++)
+    {
+        CResourceEntry *pEntry = mpEntry->ResourceStore()->FindEntry(*Iter);
+
+        if (pEntry)
+            EntryList << pEntry;
+    }
+
+    if (!mpModel->IsDisplayingUserEntryList())
+        mpBrowser->SetInspectedEntry(mpEntry);
+
+    QString ListDesc = QString("Dependencies of \"%1\"").arg( TO_QSTRING(mpEntry->CookedAssetPath().GetFileName()) );
+    mpModel->DisplayEntryList(EntryList, ListDesc);
+    mpBrowser->ClearFilters();
 }
 
 void CResourceTableContextMenu::CopyName()

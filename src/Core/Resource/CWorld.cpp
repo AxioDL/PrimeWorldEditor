@@ -78,6 +78,17 @@ TString CWorld::AreaInGameName(u32 AreaIndex) const
         return "!!" + rkArea.InternalName;
 }
 
+u32 CWorld::AreaIndex(CAssetID AreaID) const
+{
+    for (u32 AreaIdx = 0; AreaIdx < mAreas.size(); AreaIdx++)
+    {
+        if (mAreas[AreaIdx].AreaResID == AreaID)
+            return AreaIdx;
+    }
+
+    return -1;
+}
+
 // ************ SERIALIZATION ************
 void CWorld::Serialize(IArchive& rArc)
 {

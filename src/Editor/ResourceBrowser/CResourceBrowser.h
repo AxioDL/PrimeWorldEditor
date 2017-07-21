@@ -48,10 +48,14 @@ class CResourceBrowser : public QWidget
     QAction *mpRedoAction;
     QWidget *mpActionContainerWidget;
 
+    // Misc
+    CResourceEntry *mpInspectedEntry; // Entry being "inspected" (viewing dependencies/referencers, etc)
+
 public:
     explicit CResourceBrowser(QWidget *pParent = 0);
     ~CResourceBrowser();
 
+    void SetActiveDirectory(CVirtualDirectory *pDir);
     void SelectResource(CResourceEntry *pEntry);
     void SelectDirectory(CVirtualDirectory *pDir);
     void CreateFilterCheckboxes();
@@ -66,7 +70,9 @@ public:
     // Accessors
     inline CResourceStore* CurrentStore() const     { return mpStore; }
     inline CResourceEntry* SelectedEntry() const    { return mpSelectedEntry; }
-    inline bool InAssetListMode() const             { return mAssetListMode || mSearching; }
+    inline bool InAssetListMode() const             { return mAssetListMode || mSearching || mpModel->IsDisplayingUserEntryList(); }
+
+    inline void SetInspectedEntry(CResourceEntry *pEntry)   { mpInspectedEntry = pEntry; }
 
 public slots:
     void RefreshResources();
@@ -74,13 +80,14 @@ public slots:
     void UpdateDescriptionLabel();
     void SetResourceTreeView();
     void SetResourceListView();
+    void OnClearButtonPressed();
     void OnSortModeChanged(int Index);
     bool CreateDirectory();
     bool DeleteDirectories(const QList<CVirtualDirectory*>& rkDirs);
     void OnSearchStringChanged(QString SearchString);
-    void OnDirectorySelectionChanged(const QModelIndex& rkNewIndex, const QModelIndex& rkPrevIndex);
+    void OnDirectorySelectionChanged(const QModelIndex& rkNewIndex);
     void OnDoubleClickTable(QModelIndex Index);
-    void OnResourceSelectionChanged(const QModelIndex& rkNewIndex, const QModelIndex& rkPrevIndex);
+    void OnResourceSelectionChanged(const QModelIndex& rkNewIndex);
     void SetAssetIdDisplayEnabled(bool Enable);
 
     void UpdateStore();
@@ -91,10 +98,12 @@ public slots:
     void ImportAssetNameMap();
     void ExportAssetNames();
     void RebuildResourceDB();
-    void UpdateFilter();
 
+    void ClearFilters();
+    void ResetSearch();
     void ResetTypeFilter();
     void OnFilterTypeBoxTicked(bool Checked);
+    void UpdateFilter();
 
     void UpdateUndoActionStates();
     void Undo();

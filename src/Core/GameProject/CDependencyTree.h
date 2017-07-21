@@ -37,6 +37,7 @@ public:
     virtual ~IDependencyNode();
     virtual EDependencyNodeType Type() const = 0;
     virtual void Serialize(IArchive& rArc) = 0;
+    virtual void GetAllResourceReferences(std::set<CAssetID>& rOutSet) const;
     virtual bool HasDependency(const CAssetID& rkID) const;
 
     // Accessors
@@ -71,6 +72,7 @@ public:
 
     virtual EDependencyNodeType Type() const;
     virtual void Serialize(IArchive& rArc);
+    virtual void GetAllResourceReferences(std::set<CAssetID>& rOutSet) const;
     virtual bool HasDependency(const CAssetID& rkID) const;
 
     // Accessors
