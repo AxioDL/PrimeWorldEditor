@@ -7,7 +7,6 @@ std::unordered_map<EResType, CResTypeInfo*> CResTypeInfo::smTypeMap;
 CResTypeInfo::CResTypeInfo(EResType Type, const TString& rkTypeName)
     : mType(Type)
     , mTypeName(rkTypeName)
-    , mHidden(false)
     , mCanBeSerialized(false)
     , mCanHaveDependencies(true)
 {
@@ -160,13 +159,11 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
     {
         CResTypeInfo *pType = new CResTypeInfo(eAnimCollisionPrimData, "Animation Collision Primitive Data");
         AddExtension(pType, "CPRM", eReturns, eReturns);
-        pType->mHidden = true;
         pType->mCanHaveDependencies = false;
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eAnimEventData, "Animation Event Data");
         AddExtension(pType, "EVNT", ePrimeDemo, ePrime);
-        pType->mHidden = true;
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eAnimSet, "Animation Character Set");
@@ -197,7 +194,6 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
     {
         CResTypeInfo *pType = new CResTypeInfo(eAudioLookupTable, "Audio Lookup Table");
         AddExtension(pType, "ATBL", ePrimeDemo, eCorruption);
-        pType->mHidden = true;
         pType->mCanHaveDependencies = false;
     }
     {
@@ -240,17 +236,14 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
     {
         CResTypeInfo *pType = new CResTypeInfo(eMapArea, "Area Map");
         AddExtension(pType, "MAPA", ePrimeDemo, eCorruption);
-        pType->mHidden = true;
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eMapWorld, "World Map");
         AddExtension(pType, "MAPW", ePrimeDemo, eCorruption);
-        pType->mHidden = true;
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eMapUniverse, "Universe Map");
         AddExtension(pType, "MAPU", ePrimeDemo, eEchoes);
-        pType->mHidden = true;
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eMidi, "MIDI");
@@ -299,13 +292,11 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
     {
         CResTypeInfo *pType = new CResTypeInfo(ePathfinding, "Pathfinding Mesh");
         AddExtension(pType, "PATH", ePrimeDemo, eCorruption);
-        pType->mHidden = true;
         pType->mCanHaveDependencies = false;
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(ePortalArea, "Portal Area");
         AddExtension(pType, "PTLA", eEchoesDemo, eCorruption);
-        pType->mHidden = true;
         pType->mCanHaveDependencies = false;
     }
     {
@@ -315,13 +306,11 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
     {
         CResTypeInfo *pType = new CResTypeInfo(eSaveArea, "Area Save Info");
         AddExtension(pType, "SAVA", eCorruptionProto, eCorruption);
-        pType->mHidden = true;
         pType->mCanHaveDependencies = false;
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eSaveWorld, "World Save Info");
         AddExtension(pType, "SAVW", ePrime, eReturns);
-        pType->mHidden = true;
         pType->mCanHaveDependencies = false;
     }
     {
@@ -331,19 +320,16 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
     {
         CResTypeInfo *pType = new CResTypeInfo(eSkeleton, "Skeleton");
         AddExtension(pType, "CINF", ePrimeDemo, eReturns);
-        pType->mHidden = true;
         pType->mCanHaveDependencies = false;
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eSkin, "Skin");
         AddExtension(pType, "CSKR", ePrimeDemo, eReturns);
-        pType->mHidden = true;
         pType->mCanHaveDependencies = false;
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(eSourceAnimData, "Source Animation Data");
         AddExtension(pType, "SAND", eCorruptionProto, eCorruption);
-        pType->mHidden = true;
         pType->mCanHaveDependencies = false; // all dependencies are added to the CHAR dependency tree
     }
     {
@@ -362,9 +348,8 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
         AddExtension(pType, "FSM2", eEchoesDemo, eCorruption);
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eStaticGeometryMap, "Static Geometry Map");
+        CResTypeInfo *pType = new CResTypeInfo(eStaticGeometryMap, "Static Scan Map");
         AddExtension(pType, "EGMC", eEchoesDemo, eCorruption);
-        pType->mHidden = true;
         pType->mCanHaveDependencies = false;
     }
     {
@@ -375,7 +360,6 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
     {
         CResTypeInfo *pType = new CResTypeInfo(eStringList, "String List");
         AddExtension(pType, "STLC", eEchoesDemo, eCorruptionProto);
-        pType->mHidden = true;
         pType->mCanHaveDependencies = false;
     }
     {

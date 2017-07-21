@@ -20,7 +20,6 @@ class CResTypeInfo
     EResType mType;
     TString mTypeName;
     std::vector<SGameExtension> mCookedExtensions;
-    bool mHidden;
     bool mCanBeSerialized;
     bool mCanHaveDependencies;
 
@@ -38,7 +37,6 @@ public:
     // Accessors
     inline EResType Type() const            { return mType; }
     inline TString TypeName() const         { return mTypeName; }
-    inline bool IsVisibleInBrowser() const  { return !mHidden; }
     inline bool CanBeSerialized() const     { return mCanBeSerialized; }
     inline bool CanHaveDependencies() const { return mCanHaveDependencies; }
 

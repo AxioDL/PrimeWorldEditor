@@ -75,6 +75,8 @@ public slots:
     void SetResourceTreeView();
     void SetResourceListView();
     void OnSortModeChanged(int Index);
+    bool CreateDirectory();
+    bool DeleteDirectories(const QList<CVirtualDirectory*>& rkDirs);
     void OnSearchStringChanged(QString SearchString);
     void OnDirectorySelectionChanged(const QModelIndex& rkNewIndex, const QModelIndex& rkPrevIndex);
     void OnDoubleClickTable(QModelIndex Index);
@@ -100,6 +102,9 @@ public slots:
 
 signals:
     void SelectedResourceChanged(CResourceEntry *pNewRes);
+    void DirectoryCreated(CVirtualDirectory *pDir);
+    void DirectoryAboutToBeDeleted(CVirtualDirectory *pDir);
+    void DirectoryDeleted();
     void ResourceMoved(CResourceEntry *pRes, CVirtualDirectory *pOldDir, TString OldName);
     void DirectoryMoved(CVirtualDirectory *pDir, CVirtualDirectory *pOldDir, TString OldName);
 };

@@ -8,6 +8,7 @@
 #include "Editor/Undo/CMoveResourceCommand.h"
 #include "Editor/Undo/CRenameDirectoryCommand.h"
 #include "Editor/Undo/CRenameResourceCommand.h"
+#include "Editor/Undo/ICreateDeleteDirectoryCommand.h"
 #include <Core/GameProject/AssetNameGeneration.h>
 #include <Core/GameProject/CAssetNameMap.h>
 
@@ -140,6 +141,7 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
     connect(mpUI->ResourceTreeButton, SIGNAL(pressed()), this, SLOT(SetResourceTreeView()));
     connect(mpUI->ResourceListButton, SIGNAL(pressed()), this, SLOT(SetResourceListView()));
     connect(mpUI->SortComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(OnSortModeChanged(int)));
+    connect(mpUI->NewFolderButton, SIGNAL(pressed()), this, SLOT(CreateDirectory()));
     connect(mpUI->DirectoryTreeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(OnDirectorySelectionChanged(QModelIndex,QModelIndex)));
     connect(mpUI->ResourceTableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnDoubleClickTable(QModelIndex)));
     connect(mpUI->ResourceTableView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(OnResourceSelectionChanged(QModelIndex, QModelIndex)));
@@ -198,14 +200,10 @@ void CResourceBrowser::CreateFilterCheckboxes()
         for (auto Iter = TypeList.begin(); Iter != TypeList.end(); Iter++)
         {
             CResTypeInfo *pType = *Iter;
-
-            if (pType->IsVisibleInBrowser())
-            {
-                QCheckBox *pCheck = new QCheckBox(this);
-                pCheck->setFont(mFilterBoxFont);
-                pCheck->setText(TO_QSTRING(pType->TypeName()));
-                mTypeList << SResourceType { pType, pCheck };
-            }
+            QCheckBox *pCheck = new QCheckBox(this);
+            pCheck->setFont(mFilterBoxFont);
+            pCheck->setText(TO_QSTRING(pType->TypeName()));
+            mTypeList << SResourceType { pType, pCheck };
         }
 
         qSort(mTypeList.begin(), mTypeList.end(), [](const SResourceType& rkLeft, const SResourceType& rkRight) -> bool {
@@ -397,6 +395,68 @@ void CResourceBrowser::OnSortModeChanged(int Index)
 {
     CResourceProxyModel::ESortMode Mode = (Index == 0 ? CResourceProxyModel::eSortByName : CResourceProxyModel::eSortBySize);
     mpProxyModel->SetSortMode(Mode);
+}
+
+bool CResourceBrowser::CreateDirectory()
+{
+    if (mpSelectedDir)
+    {
+        TString DirNameBase = "New Folder";
+        TString DirName = DirNameBase;
+        u32 AppendNum = 0;
+
+        while (mpSelectedDir->FindChildDirectory(DirName, false) != nullptr)
+        {
+            AppendNum++;
+            DirName = TString::Format("%s (%d)", *DirNameBase, AppendNum);
+        }
+
+        // Push create command to actually create the directory
+        CCreateDirectoryCommand *pCmd = new CCreateDirectoryCommand(mpStore, mpSelectedDir->FullPath(), DirName);
+        mUndoStack.push(pCmd);
+
+        // Now fetch the new directory and start editing it so the user can enter a name
+        CVirtualDirectory *pNewDir = mpSelectedDir->FindChildDirectory(DirName, false);
+        if (!pNewDir) return false;
+
+        // todo: edit in the directory tree view instead if it has focus
+        if (!mpUI->DirectoryTreeView->hasFocus())
+        {
+            QModelIndex Index = mpModel->GetIndexForDirectory(pNewDir);
+            ASSERT(Index.isValid());
+
+            QModelIndex ProxyIndex = mpProxyModel->mapFromSource(Index);
+            mpUI->ResourceTableView->edit(ProxyIndex);
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
+bool CResourceBrowser::DeleteDirectories(const QList<CVirtualDirectory*>& rkDirs)
+{
+    QList<CVirtualDirectory*> DeletableDirs;
+
+    foreach (CVirtualDirectory *pDir, rkDirs)
+    {
+        if (pDir && pDir->IsEmpty(true))
+            DeletableDirs << pDir;
+    }
+
+    if (DeletableDirs.size() > 0)
+    {
+        mUndoStack.beginMacro("Delete Directories");
+
+        foreach (CVirtualDirectory *pDir, DeletableDirs)
+            mUndoStack.push( new CDeleteDirectoryCommand(mpStore, pDir->Parent()->FullPath(), pDir->Name()) );
+
+        mUndoStack.endMacro();
+        return true;
+    }
+
+    else return false;
 }
 
 void CResourceBrowser::OnSearchStringChanged(QString SearchString)
