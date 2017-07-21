@@ -141,6 +141,23 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="NewFolderButton">
+       <property name="text">
+        <string>  New Folder</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../Icons.qrc">
+         <normaloff>:/icons/Plus.png</normaloff>:/icons/Plus.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QComboBox" name="SortComboBox">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">

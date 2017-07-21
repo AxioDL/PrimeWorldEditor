@@ -194,7 +194,8 @@ HEADERS += \
     Undo/CMoveDirectoryCommand.h \
     Undo/CRenameResourceCommand.h \
     Undo/CRenameDirectoryCommand.h \
-    CFileNameValidator.h
+    CFileNameValidator.h \
+    Undo/ICreateDeleteDirectoryCommand.h
 
 # Source Files
 SOURCES += \

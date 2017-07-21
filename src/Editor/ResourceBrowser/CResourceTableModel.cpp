@@ -6,6 +6,8 @@ CResourceTableModel::CResourceTableModel(CResourceBrowser *pBrowser, QObject *pP
     : QAbstractTableModel(pParent)
     , mpCurrentDir(nullptr)
 {
+    connect(pBrowser, SIGNAL(DirectoryCreated(CVirtualDirectory*)), this, SLOT(CheckAddDirectory(CVirtualDirectory*)));
+    connect(pBrowser, SIGNAL(DirectoryAboutToBeDeleted(CVirtualDirectory*)), this, SLOT(CheckRemoveDirectory(CVirtualDirectory*)));
     connect(pBrowser, SIGNAL(ResourceMoved(CResourceEntry*,CVirtualDirectory*,TString)), this, SLOT(OnResourceMoved(CResourceEntry*,CVirtualDirectory*,TString)));
     connect(pBrowser, SIGNAL(DirectoryMoved(CVirtualDirectory*,CVirtualDirectory*,TString)), this, SLOT(OnDirectoryMoved(CVirtualDirectory*,CVirtualDirectory*,TString)));
 }
@@ -211,7 +213,7 @@ void CResourceTableModel::FillEntryList(CVirtualDirectory *pDir, bool AssetListM
             {
                 CResourceEntry *pEntry = pDir->ResourceByIndex(iRes);
 
-                if (pEntry->TypeInfo()->IsVisibleInBrowser() && !pEntry->IsHidden())
+                if (!pEntry->IsHidden())
                 {
                     int Index = EntryListIndex(pEntry);
                     mEntries.insert(Index, pEntry);
@@ -233,7 +235,7 @@ void CResourceTableModel::RecursiveAddDirectoryContents(CVirtualDirectory *pDir)
     {
         CResourceEntry *pEntry = pDir->ResourceByIndex(iRes);
 
-        if (pEntry->TypeInfo()->IsVisibleInBrowser() && !pEntry->IsHidden())
+        if (!pEntry->IsHidden())
         {
             int Index = EntryListIndex(pEntry);
             mEntries.insert(Index, pEntry);
@@ -247,6 +249,29 @@ void CResourceTableModel::RecursiveAddDirectoryContents(CVirtualDirectory *pDir)
 int CResourceTableModel::EntryListIndex(CResourceEntry *pEntry)
 {
     return qLowerBound(mEntries, pEntry) - mEntries.constBegin();
+}
+
+void CResourceTableModel::CheckAddDirectory(CVirtualDirectory *pDir)
+{
+    if (pDir->Parent() == mpCurrentDir)
+    {
+        // Just append to the end, let the proxy handle sorting
+        beginInsertRows(QModelIndex(), mDirectories.size(), mDirectories.size());
+        mDirectories << pDir;
+        endInsertRows();
+    }
+}
+
+void CResourceTableModel::CheckRemoveDirectory(CVirtualDirectory *pDir)
+{
+    if (pDir->Parent() == mpCurrentDir)
+    {
+        QModelIndex Index = GetIndexForDirectory(pDir);
+
+        beginRemoveRows(QModelIndex(), Index.row(), Index.row());
+        mDirectories.removeAt(Index.row());
+        endRemoveRows();
+    }
 }
 
 void CResourceTableModel::OnResourceMoved(CResourceEntry *pEntry, CVirtualDirectory *pOldDir, TString OldName)
@@ -314,21 +339,10 @@ void CResourceTableModel::OnDirectoryMoved(CVirtualDirectory *pDir, CVirtualDire
     {
         // Remove
         if (WasInModel && !IsInModel)
-        {
-            QModelIndex Index = GetIndexForDirectory(pDir);
-
-            beginRemoveRows(QModelIndex(), Index.row(), Index.row());
-            mDirectories.removeOne(pDir);
-            endRemoveRows();
-        }
+            CheckRemoveDirectory(pDir);
 
         // Add
         else if (!WasInModel && IsInModel)
-        {
-            // Just append to the end, let the proxy handle sorting
-            beginInsertRows(QModelIndex(), mDirectories.size(), mDirectories.size());
-            mDirectories << pDir;
-            endInsertRows();
-        }
+            CheckAddDirectory(pDir);
     }
 }

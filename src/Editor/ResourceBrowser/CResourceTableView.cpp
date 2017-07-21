@@ -1,4 +1,6 @@
 #include "CResourceTableView.h"
+#include "CResourceBrowser.h"
+#include "CResourceProxyModel.h"
 #include <QAction>
 #include <QDragEnterEvent>
 
@@ -11,6 +13,17 @@ CResourceTableView::CResourceTableView(QWidget *pParent /*= 0*/)
     mpRenameAction->setShortcut( QKeySequence(Qt::Key_F2) );
     connect(mpRenameAction, SIGNAL(triggered(bool)), this, SLOT(RenameSelected()));
     addAction(mpRenameAction);
+
+    mpDeleteAction = new QAction(this);
+    mpDeleteAction->setShortcut(QKeySequence::Delete);
+    connect(mpDeleteAction, SIGNAL(triggered(bool)), this, SLOT(DeleteSelected()));
+    addAction(mpDeleteAction);
+}
+
+void CResourceTableView::setModel(QAbstractItemModel *pModel)
+{
+    if (qobject_cast<CResourceProxyModel*>(pModel) != nullptr)
+        QTableView::setModel(pModel);
 }
 
 void CResourceTableView::dragEnterEvent(QDragEnterEvent *pEvent)
@@ -46,4 +59,43 @@ void CResourceTableView::RenameSelected()
     {
         edit(List.front());
     }
+}
+
+void CResourceTableView::DeleteSelected()
+{
+    QModelIndexList List = selectionModel()->selectedIndexes();
+
+    // Figure out which indices can actually be deleted
+    CResourceProxyModel *pProxy = static_cast<CResourceProxyModel*>(model());
+    CResourceTableModel *pModel = static_cast<CResourceTableModel*>(pProxy->sourceModel());
+    QList<CVirtualDirectory*> DirsToDelete;
+    bool HasNonEmptyDirSelected = false;
+
+    foreach (QModelIndex Index, List)
+    {
+        QModelIndex SourceIndex = pProxy->mapToSource(Index);
+
+        if (pModel->IsIndexDirectory(SourceIndex))
+        {
+            CVirtualDirectory *pDir = pModel->IndexDirectory(SourceIndex);
+
+            if (pDir)
+            {
+                if (pDir->IsEmpty(true))
+                    DirsToDelete << pDir;
+                else
+                    HasNonEmptyDirSelected = true;
+            }
+        }
+    }
+
+    // Let the user know if all selected directories are non empty
+    if (HasNonEmptyDirSelected && DirsToDelete.isEmpty())
+    {
+        UICommon::ErrorMsg(parentWidget(), "Unable to delete; one or more of the selected directories is non-empty.");
+        return;
+    }
+
+    // Delete
+    gpEdApp->ResourceBrowser()->DeleteDirectories(DirsToDelete);
 }

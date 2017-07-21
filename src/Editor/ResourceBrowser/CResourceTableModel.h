@@ -50,6 +50,8 @@ public:
     inline u32 NumResources() const     { return mEntries.size(); }
 
 public slots:
+    void CheckAddDirectory(CVirtualDirectory *pDir);
+    void CheckRemoveDirectory(CVirtualDirectory *pDir);
     void OnResourceMoved(CResourceEntry *pEntry, CVirtualDirectory *pOldDir, TString OldName);
     void OnDirectoryMoved(CVirtualDirectory *pDir, CVirtualDirectory *pOldDir, TString OldName);
 };

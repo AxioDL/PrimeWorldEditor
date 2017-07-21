@@ -51,7 +51,7 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     pLayout->setContentsMargins(0,0,0,0);
 
     CResourceBrowser *pResourceBrowser = gpEdApp->ResourceBrowser();
-    //pResourceBrowser->setParent(this);
+    pResourceBrowser->setParent(this);
     pLayout->addWidget( pResourceBrowser );
 
     ui->ResourceBrowserContainer->setLayout(pLayout);
