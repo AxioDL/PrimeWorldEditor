@@ -276,7 +276,7 @@ void CResourceSelector::Find()
     if (mpResEntry)
     {
         CResourceBrowser *pBrowser = gpEdApp->ResourceBrowser();
-        pBrowser->SelectResource(mpResEntry);
+        pBrowser->SelectResource(mpResEntry, true);
     }
 }
 

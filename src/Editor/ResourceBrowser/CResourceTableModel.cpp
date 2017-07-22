@@ -274,6 +274,17 @@ int CResourceTableModel::EntryListIndex(CResourceEntry *pEntry)
     return qLowerBound(mEntries, pEntry) - mEntries.constBegin();
 }
 
+void CResourceTableModel::RefreshAllIndices()
+{
+    int NumRows = rowCount(QModelIndex());
+    int NumCols = columnCount(QModelIndex());
+
+    if (NumRows > 0 && NumCols > 0)
+    {
+        emit dataChanged( index(0,0), index(NumRows-1, NumCols-1) );
+    }
+}
+
 void CResourceTableModel::CheckAddDirectory(CVirtualDirectory *pDir)
 {
     if (pDir->Parent() == mpCurrentDir)
