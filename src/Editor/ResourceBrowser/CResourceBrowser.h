@@ -56,7 +56,7 @@ public:
     ~CResourceBrowser();
 
     void SetActiveDirectory(CVirtualDirectory *pDir);
-    void SelectResource(CResourceEntry *pEntry);
+    void SelectResource(CResourceEntry *pEntry, bool ClearFiltersIfNecessary = false);
     void SelectDirectory(CVirtualDirectory *pDir);
     void CreateFilterCheckboxes();
 
@@ -88,7 +88,8 @@ public slots:
     void OnDirectorySelectionChanged(const QModelIndex& rkNewIndex);
     void OnDoubleClickTable(QModelIndex Index);
     void OnResourceSelectionChanged(const QModelIndex& rkNewIndex);
-    void SetAssetIdDisplayEnabled(bool Enable);
+    void FindAssetByID();
+    void SetAssetIDDisplayEnabled(bool Enable);
 
     void UpdateStore();
     void SetProjectStore();

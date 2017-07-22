@@ -77,7 +77,7 @@ public:
         CVirtualDirectory *pDir = mpModel->IndexDirectory(Index);
         CResourceEntry *pEntry = mpModel->IndexEntry(Index);
 
-        if (pEntry && HasTypeFilter() && !mTypeFilter.contains(pEntry->TypeInfo()))
+        if (pEntry && !IsTypeAccepted(pEntry->TypeInfo()))
             return false;
 
         if (!mSearchString.IsEmpty())
@@ -107,6 +107,11 @@ public:
     inline bool HasTypeFilter() const
     {
         return !mTypeFilter.isEmpty();
+    }
+
+    inline bool IsTypeAccepted(CResTypeInfo *pTypeInfo) const
+    {
+        return mTypeFilter.isEmpty() || mTypeFilter.contains(pTypeInfo);
     }
 
     inline void SetSortMode(ESortMode Mode)

@@ -77,5 +77,6 @@
         <file>icons/Tree_24px.png</file>
         <file>icons/Gear_16px.png</file>
         <file>icons/Gear_24px.png</file>
+        <file>icons/ToParentFolder_16px.png</file>
     </qresource>
 </RCC>

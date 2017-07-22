@@ -14,6 +14,7 @@
 
 #include <QCheckBox>
 #include <QFileDialog>
+#include <QInputDialog>
 #include <QMenu>
 #include <QMessageBox>
 #include <QtConcurrent/QtConcurrentRun>
@@ -110,9 +111,10 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
 
     QAction *pDisplayAssetIDsAction = new QAction("Display Asset IDs", this);
     pDisplayAssetIDsAction->setCheckable(true);
-    connect(pDisplayAssetIDsAction, SIGNAL(toggled(bool)), this, SLOT(SetAssetIdDisplayEnabled(bool)));
+    connect(pDisplayAssetIDsAction, SIGNAL(toggled(bool)), this, SLOT(SetAssetIDDisplayEnabled(bool)));
     pOptionsMenu->addAction(pDisplayAssetIDsAction);
 
+    pOptionsMenu->addAction("Find Asset by ID", this, SLOT(FindAssetByID()));
     pOptionsMenu->addAction("Rebuild Database", this, SLOT(RebuildResourceDB()));
     mpUI->OptionsToolButton->setMenu(pOptionsMenu);
 
@@ -177,7 +179,7 @@ void CResourceBrowser::SetActiveDirectory(CVirtualDirectory *pDir)
     }
 }
 
-void CResourceBrowser::SelectResource(CResourceEntry *pEntry)
+void CResourceBrowser::SelectResource(CResourceEntry *pEntry, bool ClearFiltersIfNecessary /*= false*/)
 {
     ASSERT(pEntry);
 
@@ -189,6 +191,12 @@ void CResourceBrowser::SelectResource(CResourceEntry *pEntry)
     {
         mpUI->SearchBar->clear();
         UpdateFilter();
+    }
+
+    // Change filter
+    if (ClearFiltersIfNecessary && !mpProxyModel->IsTypeAccepted(pEntry->TypeInfo()))
+    {
+        ResetTypeFilter();
     }
 
     // Select resource
@@ -416,8 +424,10 @@ void CResourceBrowser::UpdateDescriptionLabel()
     mpUI->TableDescriptionLabel->setText(Desc);
 
     // Update clear button status
-    bool EnableClearButton = (!mpUI->SearchBar->text().isEmpty() || mpModel->IsDisplayingUserEntryList() || (mpSelectedDir && !mpSelectedDir->IsRoot()));
-    mpUI->ClearButton->setEnabled(EnableClearButton);
+    bool CanGoUp = (mpSelectedDir && !mpSelectedDir->IsRoot());
+    bool CanClear = (!mpUI->SearchBar->text().isEmpty() || mpModel->IsDisplayingUserEntryList());
+    mpUI->ClearButton->setEnabled(CanGoUp || CanClear);
+    mpUI->ClearButton->setIcon( CanClear ? QIcon(":/icons/X_16px.png") : QIcon(":/icons/ToParentFolder_16px.png") );
 }
 
 void CResourceBrowser::SetResourceTreeView()
@@ -581,10 +591,48 @@ void CResourceBrowser::OnResourceSelectionChanged(const QModelIndex& rkNewIndex)
     emit SelectedResourceChanged(mpSelectedEntry);
 }
 
-void CResourceBrowser::SetAssetIdDisplayEnabled(bool Enable)
+void CResourceBrowser::FindAssetByID()
+{
+    if (!mpStore)
+        return;
+
+    QString QStringAssetID = QInputDialog::getText(this, "Enter Asset ID", "Enter asset ID:");
+    TString StringAssetID = TO_TSTRING(QStringAssetID);
+
+    if (!StringAssetID.IsEmpty())
+    {
+        EGame Game = mpStore->Game();
+        EIDLength IDLength = CAssetID::GameIDLength(Game);
+
+        if (StringAssetID.IsHexString(false, IDLength * 2))
+        {
+            if (StringAssetID.StartsWith("0x", false))
+                StringAssetID = StringAssetID.ChopFront(2);
+
+            // Find the resource entry
+            CAssetID ID = (IDLength == e32Bit ? StringAssetID.ToInt32(16) : StringAssetID.ToInt64(16));
+            CResourceEntry *pEntry = mpStore->FindEntry(ID);
+
+            if (pEntry)
+                SelectResource(pEntry, true);
+
+            // User entered unrecognized ID
+            else
+                UICommon::ErrorMsg(this, QString("Couldn't find any asset with ID %1").arg(QStringAssetID));
+        }
+
+        // User entered invalid string
+        else
+            UICommon::ErrorMsg(this, "The entered string is not a valid asset ID!");
+    }
+
+    // User entered nothing, don't do anything
+}
+
+void CResourceBrowser::SetAssetIDDisplayEnabled(bool Enable)
 {
     mpDelegate->SetDisplayAssetIDs(Enable);
-    mpUI->ResourceTableView->repaint();
+    mpModel->RefreshAllIndices();
 }
 
 void CResourceBrowser::UpdateStore()
