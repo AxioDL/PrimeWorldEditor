@@ -21,6 +21,10 @@ private:
     ESortMode mSortMode;
     QSet<CResTypeInfo*> mTypeFilter;
 
+    u64 mCompareID;
+    u64 mCompareMask;
+    u32 mCompareBitLength;
+
 public:
     explicit CResourceProxyModel(QObject *pParent = 0)
         : QSortFilterProxyModel(pParent)
@@ -74,18 +78,49 @@ public:
     bool filterAcceptsRow(int SourceRow, const QModelIndex& rkSourceParent) const
     {
         QModelIndex Index = mpModel->index(SourceRow, 0, rkSourceParent);
-        CVirtualDirectory *pDir = mpModel->IndexDirectory(Index);
         CResourceEntry *pEntry = mpModel->IndexEntry(Index);
 
         if (pEntry && !IsTypeAccepted(pEntry->TypeInfo()))
             return false;
 
+        // Compare search results
         if (!mSearchString.IsEmpty())
         {
-            if (pDir)
+            if (!pEntry)
                 return false;
-            else
-                return pEntry->UppercaseName().Contains(mSearchString);
+
+            bool HasNameMatch = pEntry->UppercaseName().Contains(mSearchString);
+
+            if (!HasNameMatch)
+            {
+                bool HasIDMatch = false;
+
+                if (mCompareBitLength > 0)
+                {
+                    u32 IDBitLength = pEntry->ID().Length() * 8;
+
+                    if (mCompareBitLength <= IDBitLength)
+                    {
+                        u64 ID = pEntry->ID().ToLongLong();
+                        u32 MaxShift = IDBitLength - mCompareBitLength;
+
+                        for (u32 Shift = 0; Shift <= MaxShift; Shift += 4)
+                        {
+                            u64 ShiftCompare = mCompareID << Shift;
+                            u32 Mask = mCompareMask << Shift;
+
+                            if ((ID & Mask) == ShiftCompare)
+                            {
+                                HasIDMatch = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (!HasIDMatch)
+                    return false;
+            }
         }
 
         return true;
@@ -127,6 +162,29 @@ public slots:
     void SetSearchString(const TString& rkString)
     {
         mSearchString = rkString.ToUpper();
+
+        // Check if this is an asset ID
+        TString IDString = rkString;
+        IDString.RemoveWhitespace();
+
+        if (IDString.StartsWith("0x"))
+            IDString = IDString.ChopFront(2);
+
+        if (IDString.Size() <= 16 && IDString.IsHexString())
+        {
+            mCompareBitLength = IDString.Size() * 4;
+            mCompareMask = ((u64) 1 << mCompareBitLength) - 1;
+            mCompareID = IDString.ToInt64(16);
+
+            if (mCompareMask == 0)
+                mCompareMask = -1;
+        }
+        else
+        {
+            mCompareID = -1;
+            mCompareMask = 0;
+            mCompareBitLength = 0;
+        }
     }
 };
 

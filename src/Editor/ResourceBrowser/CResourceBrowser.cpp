@@ -598,6 +598,7 @@ void CResourceBrowser::FindAssetByID()
 
     QString QStringAssetID = QInputDialog::getText(this, "Enter Asset ID", "Enter asset ID:");
     TString StringAssetID = TO_TSTRING(QStringAssetID);
+    StringAssetID.RemoveWhitespace();
 
     if (!StringAssetID.IsEmpty())
     {
