@@ -27,6 +27,9 @@ public:
 protected:
     void DoMove(const TString& rkName)
     {
+        QString ParentPath = TO_QSTRING(mpDir->Parent() ? mpDir->Parent()->FullPath() : "");
+        gpEdApp->ResourceBrowser()->DirectoryAboutToBeMoved(mpDir, ParentPath + TO_QSTRING(rkName));
+
         TString OldName = mpDir->Name();
         bool Success = mpDir->Rename(rkName);
         ASSERT(Success);

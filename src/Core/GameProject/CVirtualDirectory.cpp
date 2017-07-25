@@ -178,9 +178,7 @@ bool CVirtualDirectory::AddChild(const TString &rkPath, CResourceEntry *pEntry)
             }
 
             mSubdirectories.push_back(pSubdir);
-            std::sort(mSubdirectories.begin(), mSubdirectories.end(), [](CVirtualDirectory *pLeft, CVirtualDirectory *pRight) -> bool {
-                return (pLeft->Name().ToUpper() < pRight->Name().ToUpper());
-            });
+            SortSubdirectories();
 
             // As an optimization, don't recurse here. We've already verified the full path is valid, so we don't need to do it again.
             // We also know none of the remaining directories already exist because this is a new, empty directory.
@@ -224,9 +222,7 @@ bool CVirtualDirectory::AddChild(CVirtualDirectory *pDir)
     if (FindChildDirectory(pDir->Name(), false) != nullptr) return false;
 
     mSubdirectories.push_back(pDir);
-    std::sort(mSubdirectories.begin(), mSubdirectories.end(), [](CVirtualDirectory *pLeft, CVirtualDirectory *pRight) -> bool {
-        return (pLeft->Name().ToUpper() < pRight->Name().ToUpper());
-    });
+    SortSubdirectories();
 
     return true;
 }
@@ -259,6 +255,13 @@ bool CVirtualDirectory::RemoveChildResource(CResourceEntry *pEntry)
     return false;
 }
 
+void CVirtualDirectory::SortSubdirectories()
+{
+    std::sort(mSubdirectories.begin(), mSubdirectories.end(), [](CVirtualDirectory *pLeft, CVirtualDirectory *pRight) -> bool {
+        return (pLeft->Name().ToUpper() < pRight->Name().ToUpper());
+    });
+}
+
 bool CVirtualDirectory::Rename(const TString& rkNewName)
 {
     Log::Write("MOVING DIRECTORY: " + FullPath() + " -> " + mpParent->FullPath() + rkNewName + '/');
@@ -274,6 +277,7 @@ bool CVirtualDirectory::Rename(const TString& rkNewName)
             {
                 mName = rkNewName;
                 mpStore->SetCacheDirty();
+                mpParent->SortSubdirectories();
                 return true;
             }
         }

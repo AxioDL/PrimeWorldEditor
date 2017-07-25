@@ -36,6 +36,7 @@ public:
     bool AddChild(CVirtualDirectory *pDir);
     bool RemoveChildDirectory(CVirtualDirectory *pSubdir);
     bool RemoveChildResource(CResourceEntry *pEntry);
+    void SortSubdirectories();
     bool Rename(const TString& rkNewName);
     bool Delete();
     void DeleteEmptySubdirectories();

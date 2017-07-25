@@ -68,7 +68,7 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
     mpUI->ResourceTableView->installEventFilter(this);
 
     // Set up directory tree model
-    mpDirectoryModel = new CVirtualDirectoryModel(this);
+    mpDirectoryModel = new CVirtualDirectoryModel(this, this);
     mpUI->DirectoryTreeView->setModel(mpDirectoryModel);
 
     RefreshResources();
@@ -501,6 +501,7 @@ bool CResourceBrowser::CreateDirectory()
             ASSERT(Index.isValid());
 
             QModelIndex ProxyIndex = mpProxyModel->mapFromSource(Index);
+            mpUI->ResourceTableView->selectionModel()->select(ProxyIndex, QItemSelectionModel::ClearAndSelect);
             mpUI->ResourceTableView->edit(ProxyIndex);
         }
 

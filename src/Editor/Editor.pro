@@ -267,7 +267,8 @@ SOURCES += \
     ResourceBrowser/CResourceDelegate.cpp \
     ResourceBrowser/CResourceTableContextMenu.cpp \
     ResourceBrowser/CResourceTableModel.cpp \
-    ResourceBrowser/CResourceTableView.cpp
+    ResourceBrowser/CResourceTableView.cpp \
+    ResourceBrowser/CVirtualDirectoryModel.cpp
 
 # UI Files
 FORMS += \

@@ -29,6 +29,9 @@ public:
 protected:
     void DoMove(const TString& rkName, bool IsAutoName)
     {
+        TString FullNewName = rkName + "." + mpEntry->CookedExtension().ToString();
+        gpEdApp->ResourceBrowser()->ResourceAboutToBeMoved(mpEntry, TO_QSTRING(mpEntry->Directory()->FullPath() + FullNewName));
+
         TString OldName = mpEntry->Name();
         bool Success = mpEntry->Rename(rkName, IsAutoName);
         ASSERT(Success);
