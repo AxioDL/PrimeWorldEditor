@@ -31,10 +31,9 @@ protected:
 
         if (pParent)
         {
+            gpEdApp->ResourceBrowser()->DirectoryAboutToBeCreated( TO_QSTRING(mParentPath + mDirName) );
             mpDir = pParent->FindChildDirectory(mDirName, true);
-
-            if (mpDir)
-                gpEdApp->ResourceBrowser()->DirectoryCreated(mpDir);
+            gpEdApp->ResourceBrowser()->DirectoryCreated(mpDir);
         }
     }
 

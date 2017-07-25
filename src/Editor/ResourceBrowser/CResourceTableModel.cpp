@@ -234,7 +234,7 @@ void CResourceTableModel::FillEntryList(CVirtualDirectory *pDir, bool AssetListM
     }
 
     if (pDir)
-        mModelDescription = pDir->IsRoot() ? "Root" : TO_QSTRING(pDir->FullPath());
+        mModelDescription = pDir->IsRoot() ? "Resources" : TO_QSTRING(pDir->FullPath());
     else
         mModelDescription = "Nothing";
 

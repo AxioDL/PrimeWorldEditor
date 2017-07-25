@@ -112,11 +112,18 @@ public slots:
 
 signals:
     void SelectedResourceChanged(CResourceEntry *pNewRes);
+
+    void ResourceAboutToBeMoved(CResourceEntry *pRes, QString NewPath);
+    void ResourceMoved(CResourceEntry *pRes, CVirtualDirectory *pOldDir, TString OldName);
+
+    void DirectoryAboutToBeMoved(CVirtualDirectory *pDir, QString NewPath);
+    void DirectoryMoved(CVirtualDirectory *pDir, CVirtualDirectory *pOldDir, TString OldName);
+
+    void DirectoryAboutToBeCreated(QString DirPath);
     void DirectoryCreated(CVirtualDirectory *pDir);
+
     void DirectoryAboutToBeDeleted(CVirtualDirectory *pDir);
     void DirectoryDeleted();
-    void ResourceMoved(CResourceEntry *pRes, CVirtualDirectory *pOldDir, TString OldName);
-    void DirectoryMoved(CVirtualDirectory *pDir, CVirtualDirectory *pOldDir, TString OldName);
 };
 
 #endif // CRESOURCEBROWSER_H

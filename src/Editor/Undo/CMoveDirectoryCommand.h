@@ -34,6 +34,8 @@ protected:
         CVirtualDirectory *pParent = mpStore->GetVirtualDirectory(rkPath, false);
         ASSERT(pDir && pParent);
 
+        gpEdApp->ResourceBrowser()->DirectoryAboutToBeMoved(pDir, TO_QSTRING(rkPath));
+
         TString OldName = pDir->Name();
         CVirtualDirectory *pOldParent = pDir->Parent();
         pDir->SetParent(pParent);
