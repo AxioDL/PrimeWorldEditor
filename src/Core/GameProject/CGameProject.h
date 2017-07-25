@@ -14,6 +14,8 @@
 #include <Common/types.h>
 #include <Common/FileIO/CFileLock.h>
 
+namespace nod { class DiscWii; }
+
 class CGameProject
 {
     TString mProjectName;
@@ -56,9 +58,11 @@ class CGameProject
 public:
     ~CGameProject();
 
+
     bool Save();
     bool Serialize(IArchive& rArc);
     bool BuildISO(const TString& rkIsoPath, IProgressNotifier *pProgress);
+    bool MergeISO(const TString& rkIsoPath, nod::DiscWii *pOriginalIso, IProgressNotifier *pProgress);
     void GetWorldList(std::list<CAssetID>& rOut) const;
     CAssetID FindNamedResource(const TString& rkName) const;
     CPackage* FindPackage(const TString& rkName) const;
@@ -100,7 +104,7 @@ public:
     inline float BuildVersion() const                   { return mBuildVersion; }
     inline bool IsWiiBuild() const                      { return mBuildVersion >= 3.f; }
     inline bool IsTrilogy() const                       { return mGame <= eCorruption && mBuildVersion >= 3.593f; }
-    inline bool IsWiiDeAsobu() const                    { return mGame < eCorruption && mBuildVersion >= 3.f && mBuildVersion < 3.593f; }
+    inline bool IsWiiDeAsobu() const                    { return mGame <= eCorruption && mBuildVersion >= 3.f && mBuildVersion < 3.593f; }
 };
 
 #endif // CGAMEPROJECT_H
