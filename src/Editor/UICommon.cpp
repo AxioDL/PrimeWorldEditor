@@ -5,6 +5,14 @@
 namespace UICommon
 {
 
+QWindow* FindWidgetWindowHandle(QWidget *pWidget)
+{
+    while (pWidget && !pWidget->windowHandle())
+        pWidget = pWidget->parentWidget();
+
+    return pWidget ? pWidget->windowHandle() : nullptr;
+}
+
 void OpenContainingFolder(const QString& rkPath)
 {
 #if WIN32

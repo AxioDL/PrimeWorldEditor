@@ -21,9 +21,13 @@
 CExportGameDialog::CExportGameDialog(const QString& rkIsoPath, const QString& rkExportDir, QWidget *pParent /*= 0*/)
     : QDialog(pParent)
     , mpUI(new Ui::CExportGameDialog)
+    , mpDisc(nullptr)
+    , mpExporter(nullptr)
+    , mDiscType(eDT_Normal)
     , mGame(eUnknownGame)
     , mRegion(eRegion_Unknown)
-    , mTrilogy(false)
+    , mBuildVer(0.f)
+    , mWiiFrontend(false)
     , mExportSuccess(false)
 {
     mpUI->setupUi(this);
@@ -35,18 +39,11 @@ CExportGameDialog::CExportGameDialog(const QString& rkIsoPath, const QString& rk
     if (ValidateGame())
     {
         mBuildVer = FindBuildVersion();
+        mpExporter = new CGameExporter(mDiscType, mGame, mWiiFrontend, mRegion, mGameTitle, mGameID, mBuildVer);
         InitUI(rkExportDir);
 
         TString IsoName = TO_TSTRING(rkIsoPath).GetFileName();
         setWindowTitle(QString("Export Settings - %1").arg( TO_QSTRING(IsoName) ));
-    }
-    else
-    {
-        if (!mTrilogy)
-            UICommon::ErrorMsg(this, "Invalid ISO!");
-
-        delete mpDisc;
-        mpDisc = nullptr;
     }
 }
 
@@ -54,6 +51,7 @@ CExportGameDialog::~CExportGameDialog()
 {
     delete mpUI;
     delete mpDisc;
+    delete mpExporter;
 }
 
 void RecursiveAddToTree(const nod::Node *pkNode, QTreeWidgetItem *pParent);
@@ -89,13 +87,12 @@ void CExportGameDialog::InitUI(QString ExportDir)
     nod::Partition *pPartition = mpDisc->getDataPartition();
     ASSERT(pPartition);
 
-    const nod::Node *pkDiscRoot = &pPartition->getFSTRoot();
-    if (mTrilogy)
-        pkDiscRoot = &*pkDiscRoot->find( GetGameShortName(mGame).ToStdString() );
-
     QTreeWidgetItem *pTreeRoot = new QTreeWidgetItem((QTreeWidgetItem*) nullptr, QStringList(QString("Disc")));
     mpUI->DiscFstTreeWidget->addTopLevelItem(pTreeRoot);
+
+    const nod::Node *pkDiscRoot = &pPartition->getFSTRoot();
     RecursiveAddToTree(pkDiscRoot, pTreeRoot);
+
     pTreeRoot->setIcon(0, QIcon(":/icons/Disc_16px.png"));
     pTreeRoot->setExpanded(true);
 
@@ -175,14 +172,28 @@ bool CExportGameDialog::ValidateGame()
 
     case FOURCC('R3MX'):
         // Trilogy
-        mTrilogy = true;
-        if (!RequestTrilogyGame()) return false;
+        mDiscType = eDT_Trilogy;
+        if (!RequestWiiPortGame()) return false;
+
+        // Force change game name so it isn't "Metroid Prime Trilogy"
+        if (!mWiiFrontend)
+            mGameTitle = GetGameName(mGame);
+
         break;
 
     case FOURCC('R3IX'):
         // MP1 Wii de Asobu
+        mGame = ePrime;
+        mDiscType = eDT_WiiDeAsobu;
+        if (!RequestWiiPortGame()) return false;
+        break;
+
     case FOURCC('R32X'):
-        // MP2 Wii de Asobu
+        mGame = eEchoes;
+        mDiscType = eDT_WiiDeAsobu;
+        if (!RequestWiiPortGame()) return false;
+        break;
+
     default:
         // Unrecognized game ID
         return false;
@@ -191,16 +202,25 @@ bool CExportGameDialog::ValidateGame()
     return true;
 }
 
-bool CExportGameDialog::RequestTrilogyGame()
+bool CExportGameDialog::RequestWiiPortGame()
 {
     QDialog Dialog;
-    Dialog.setWindowTitle("Select Trilogy Game");
+    Dialog.setWindowTitle("Select Game");
 
-    QLabel Label("You have selected a Metroid Prime: Trilogy ISO. Please pick a game to export:", &Dialog);
+    bool IsTrilogy = (mGame == eUnknownGame);
+    bool HasMP1 = (IsTrilogy || mGame == ePrime);
+    bool HasMP2 = (IsTrilogy || mGame == eEchoes);
+    bool HasMP3 = IsTrilogy;
+
+    QString GameName = (IsTrilogy ? "Metroid Prime: Trilogy" : "Wii de Asobu");
+    QString LabelText = QString("You have selected a %1 ISO. Please pick a game to export:").arg(GameName);
+    QLabel Label(LabelText, &Dialog);
+
     QComboBox ComboBox(&Dialog);
-    ComboBox.addItem("Metroid Prime");
-    ComboBox.addItem("Metroid Prime 2: Echoes");
-    ComboBox.addItem("Metroid Prime 3: Corruption");
+    ComboBox.addItem("Front End");
+    if (HasMP1) ComboBox.addItem("Metroid Prime");
+    if (HasMP2) ComboBox.addItem("Metroid Prime 2: Echoes");
+    if (HasMP3) ComboBox.addItem("Metroid Prime 3: Corruption");
     QDialogButtonBox ButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, &Dialog);
     connect(&ButtonBox, SIGNAL(accepted()), &Dialog, SLOT(accept()));
     connect(&ButtonBox, SIGNAL(rejected()), &Dialog, SLOT(reject()));
@@ -217,10 +237,24 @@ bool CExportGameDialog::RequestTrilogyGame()
     {
         switch (ComboBox.currentIndex())
         {
-        case 0: mGame = ePrime;         break;
-        case 1: mGame = eEchoes;        break;
-        case 2: mGame = eCorruption;    break;
+        case 0:
+            mGame = eCorruption;
+            mWiiFrontend = true;
+            break;
+
+        case 1:
+            mGame = (HasMP1 ? ePrime : eEchoes);
+            break;
+
+        case 2:
+            mGame = eEchoes;
+            break;
+
+        case 3:
+            mGame = eCorruption;
+            break;
         }
+
         return true;
     }
     else return false;
@@ -263,7 +297,7 @@ float CExportGameDialog::FindBuildVersion()
     return 0.f;
 }
 
-void RecursiveAddToTree(const nod::Node *pkNode, QTreeWidgetItem *pParent)
+void CExportGameDialog::RecursiveAddToTree(const nod::Node *pkNode, QTreeWidgetItem *pParent)
 {
     // Get sorted list of nodes
     std::list<const nod::Node*> NodeList;
@@ -285,6 +319,10 @@ void RecursiveAddToTree(const nod::Node *pkNode, QTreeWidgetItem *pParent)
     for (auto Iter = NodeList.begin(); Iter != NodeList.end(); Iter++)
     {
         const nod::Node *pkNode = *Iter;
+
+        if (!mpExporter->ShouldExportDiscNode(pkNode, pParent->parent() == nullptr))
+            continue;
+
         bool IsDir = pkNode->getKind() == nod::Node::Kind::Directory;
 
         QTreeWidgetItem *pItem = new QTreeWidgetItem(pParent, QStringList(QString::fromStdString(pkNode->getName())) );
@@ -382,12 +420,11 @@ void CExportGameDialog::Export()
     // Do export
     close();
 
-    CGameExporter Exporter(mGame, mRegion, mGameTitle, mGameID, mBuildVer);
     TString StrExportDir = TO_TSTRING(ExportDir);
     StrExportDir.EnsureEndsWith('/');
 
     CProgressDialog Dialog("Creating new game project", false, true, parentWidget());
-    QFuture<bool> Future = QtConcurrent::run(&Exporter, &CGameExporter::Export, mpDisc, StrExportDir, &NameMap, &GameInfo, &Dialog);
+    QFuture<bool> Future = QtConcurrent::run(mpExporter, &CGameExporter::Export, mpDisc, StrExportDir, &NameMap, &GameInfo, &Dialog);
     mExportSuccess = Dialog.WaitForResults(Future);
 
     if (!mExportSuccess)
@@ -396,5 +433,5 @@ void CExportGameDialog::Export()
             UICommon::ErrorMsg(this, "Export failed!");
     }
     else
-        mNewProjectPath = TO_QSTRING(Exporter.ProjectPath());
+        mNewProjectPath = TO_QSTRING(mpExporter->ProjectPath());
 }

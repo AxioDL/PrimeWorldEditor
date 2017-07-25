@@ -2,6 +2,7 @@
 #define CEXPORTGAMEDIALOG_H
 
 #include <Common/EGame.h>
+#include <Core/GameProject/CGameExporter.h>
 #include <Core/GameProject/CGameProject.h>
 #include <QDialog>
 #include <QString>
@@ -17,13 +18,17 @@ class CExportGameDialog : public QDialog
 
     Ui::CExportGameDialog *mpUI;
     nod::DiscBase *mpDisc;
+    CGameExporter *mpExporter;
 
     TString mGameTitle;
     TString mGameID;
+
+    // Build Info
+    EDiscType mDiscType;
     EGame mGame;
     ERegion mRegion;
     float mBuildVer;
-    bool mTrilogy;
+    bool mWiiFrontend;
 
     bool mExportSuccess;
     QString mNewProjectPath;
@@ -34,8 +39,11 @@ public:
 
     void InitUI(QString ExportDir);
     bool ValidateGame();
-    bool RequestTrilogyGame();
+    bool RequestWiiPortGame();
     float FindBuildVersion();
+
+    // Disc Tree
+    void RecursiveAddToTree(const nod::Node *pkNode, class QTreeWidgetItem *pParent);
 
     // Accessors
     inline bool HasValidDisc() const    { return mpDisc != nullptr; }

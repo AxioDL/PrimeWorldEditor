@@ -170,9 +170,14 @@ bool CVirtualDirectory::AddChild(const TString &rkPath, CResourceEntry *pEntry)
         {
             // Create new subdirectory
             pSubdir = new CVirtualDirectory(this, DirName, mpStore);
-            FileUtil::MakeDirectory(mpStore->ResourcesDir() + pSubdir->FullPath());
-            mSubdirectories.push_back(pSubdir);
 
+            if (!pSubdir->CreateFilesystemDirectory())
+            {
+                delete pSubdir;
+                return false;
+            }
+
+            mSubdirectories.push_back(pSubdir);
             std::sort(mSubdirectories.begin(), mSubdirectories.end(), [](CVirtualDirectory *pLeft, CVirtualDirectory *pRight) -> bool {
                 return (pLeft->Name().ToUpper() < pRight->Name().ToUpper());
             });
@@ -184,6 +189,13 @@ bool CVirtualDirectory::AddChild(const TString &rkPath, CResourceEntry *pEntry)
             for (auto Iter = Components.begin(); Iter != Components.end(); Iter++)
             {
                 pSubdir = new CVirtualDirectory(pSubdir, *Iter, mpStore);
+
+                if (!pSubdir->CreateFilesystemDirectory())
+                {
+                    delete pSubdir;
+                    return false;
+                }
+
                 pSubdir->Parent()->mSubdirectories.push_back(pSubdir);
             }
 
@@ -305,6 +317,23 @@ void CVirtualDirectory::DeleteEmptySubdirectories()
         else
             pDir->DeleteEmptySubdirectories();
     }
+}
+
+bool CVirtualDirectory::CreateFilesystemDirectory()
+{
+    TString AbsPath = AbsolutePath();
+
+    if (!FileUtil::Exists(AbsPath))
+    {
+        bool CreateSuccess = FileUtil::MakeDirectory(AbsPath);
+
+        if (!CreateSuccess)
+            Log::Error("FAILED to create filesystem directory: " + AbsPath);
+
+        return CreateSuccess;
+    }
+
+    return true;
 }
 
 bool CVirtualDirectory::SetParent(CVirtualDirectory *pParent)

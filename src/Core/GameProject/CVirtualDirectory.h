@@ -39,6 +39,7 @@ public:
     bool Rename(const TString& rkNewName);
     bool Delete();
     void DeleteEmptySubdirectories();
+    bool CreateFilesystemDirectory();
     bool SetParent(CVirtualDirectory *pParent);
 
     static bool IsValidDirectoryName(const TString& rkName);

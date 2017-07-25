@@ -12,6 +12,13 @@
 #include <map>
 #include <nod/nod.hpp>
 
+enum EDiscType
+{
+    eDT_Normal,
+    eDT_WiiDeAsobu,
+    eDT_Trilogy
+};
+
 class CGameExporter
 {
     // Project Data
@@ -33,6 +40,8 @@ class CGameExporter
 
     // Files
     nod::DiscBase *mpDisc;
+    EDiscType mDiscType;
+    bool mFrontEnd;
 
     // Resources
     TStringList mPaks;
@@ -65,15 +74,16 @@ class CGameExporter
     };
 
 public:
-    CGameExporter(EGame Game, ERegion Region, const TString& rkGameName, const TString& rkGameID, float BuildVersion);
+    CGameExporter(EDiscType DiscType, EGame Game, bool FrontEnd, ERegion Region, const TString& rkGameName, const TString& rkGameID, float BuildVersion);
     bool Export(nod::DiscBase *pDisc, const TString& rkOutputDir, CAssetNameMap *pNameMap, CGameInfo *pGameInfo, IProgressNotifier *pProgress);
     void LoadResource(const CAssetID& rkID, std::vector<u8>& rBuffer);
+    bool ShouldExportDiscNode(const nod::Node *pkNode, bool IsInRoot);
 
     inline TString ProjectPath() const  { return mProjectPath; }
 
 protected:
     bool ExtractDiscData();
-    bool ExtractDiscNodeRecursive(const nod::Node *pkNode, const TString& rkDir, const nod::ExtractionContext& rkContext);
+    bool ExtractDiscNodeRecursive(const nod::Node *pkNode, const TString& rkDir, bool RootNode, const nod::ExtractionContext& rkContext);
     void LoadPaks();
     void LoadResource(const SResourceInstance& rkResource, std::vector<u8>& rBuffer);
     void ExportCookedResources();

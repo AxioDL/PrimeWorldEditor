@@ -100,6 +100,7 @@ public:
     inline float BuildVersion() const                   { return mBuildVersion; }
     inline bool IsWiiBuild() const                      { return mBuildVersion >= 3.f; }
     inline bool IsTrilogy() const                       { return mGame <= eCorruption && mBuildVersion >= 3.593f; }
+    inline bool IsWiiDeAsobu() const                    { return mGame < eCorruption && mBuildVersion >= 3.f && mBuildVersion < 3.593f; }
 };
 
 #endif // CGAMEPROJECT_H
