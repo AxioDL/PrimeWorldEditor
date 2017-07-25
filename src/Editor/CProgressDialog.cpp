@@ -18,15 +18,19 @@ CProgressDialog::CProgressDialog(QString OperationName, bool UseBusyIndicator, b
 
 #if WIN32
     QWinTaskbarButton *pButton = new QWinTaskbarButton(this);
-    QWindow *pWindow = parentWidget()->windowHandle();
-    ASSERT(pWindow);
-    pButton->setWindow(pWindow);
+    QWindow *pWindow = UICommon::FindWidgetWindowHandle( parentWidget() );
 
-    mpTaskbarProgress = pButton->progress();
-    mpTaskbarProgress->setMinimum(0);
-    mpTaskbarProgress->setMaximum(UseBusyIndicator ? 0 : 10000);
-    mpTaskbarProgress->show();
-
+    if (pWindow)
+    {
+        pButton->setWindow(pWindow);
+        mpTaskbarProgress = pButton->progress();
+        mpTaskbarProgress->setMinimum(0);
+        mpTaskbarProgress->setMaximum(UseBusyIndicator ? 0 : 10000);
+        mpTaskbarProgress->show();
+    }
+    else
+        mpTaskbarProgress = nullptr;
+    
     setWindowFlags(windowFlags() | Qt::MSWindowsFixedSizeDialogHint);
 #endif
 
@@ -60,8 +64,11 @@ void CProgressDialog::closeEvent(QCloseEvent *pEvent)
         pEvent->accept();
 
 #if WIN32
-        mpTaskbarProgress->reset();
-        mpTaskbarProgress->hide();
+        if (mpTaskbarProgress)
+        {
+            mpTaskbarProgress->reset();
+            mpTaskbarProgress->hide();
+        }
 #endif
     }
 }
@@ -102,7 +109,8 @@ void CProgressDialog::UpdateUI(const QString& rkTaskDesc, const QString& rkStepD
         mpUI->ProgressBar->setValue(ProgressValue);
 
 #if WIN32
-        mpTaskbarProgress->setValue(ProgressValue);
+        if (mpTaskbarProgress)
+            mpTaskbarProgress->setValue(ProgressValue);
 #endif
     }
 }

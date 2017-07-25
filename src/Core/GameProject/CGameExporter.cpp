@@ -17,12 +17,14 @@
 #define USE_ASSET_NAME_MAP 1
 #define EXPORT_COOKED 1
 
-CGameExporter::CGameExporter(EGame Game, ERegion Region, const TString& rkGameName, const TString& rkGameID, float BuildVersion)
+CGameExporter::CGameExporter(EDiscType DiscType, EGame Game, bool FrontEnd, ERegion Region, const TString& rkGameName, const TString& rkGameID, float BuildVersion)
     : mGame(Game)
     , mRegion(Region)
     , mGameName(rkGameName)
     , mGameID(rkGameID)
     , mBuildVersion(BuildVersion)
+    , mDiscType(DiscType)
+    , mFrontEnd(FrontEnd)
     , mpProgress(nullptr)
 {
     ASSERT(mGame != eUnknownGame);
@@ -96,6 +98,70 @@ void CGameExporter::LoadResource(const CAssetID& rkID, std::vector<u8>& rBuffer)
     if (pInst) LoadResource(*pInst, rBuffer);
 }
 
+bool CGameExporter::ShouldExportDiscNode(const nod::Node *pkNode, bool IsInRoot)
+{
+    if (IsInRoot && mDiscType != eDT_Normal)
+    {
+        // Directories - exclude the filesystem for other games
+        if (pkNode->getKind() == nod::Node::Kind::Directory)
+        {
+            // Frontend is always included; this is for compatibility with Dolphin
+            if (pkNode->getName() == "fe")
+                return true;
+
+            else if (mFrontEnd)
+                return false;
+
+            switch (mGame)
+            {
+            case ePrime:
+                return ( (mDiscType == eDT_WiiDeAsobu && pkNode->getName() == "MP1JPN") ||
+                         (mDiscType == eDT_Trilogy && pkNode->getName() == "MP1") );
+
+            case eEchoes:
+                return ( (mDiscType == eDT_WiiDeAsobu && pkNode->getName() == "MP2JPN") ||
+                         (mDiscType == eDT_Trilogy && pkNode->getName() == "MP2") );
+
+            case eCorruption:
+                return (mDiscType == eDT_Trilogy && pkNode->getName() == "MP3");
+
+            default:
+                return false;
+            }
+        }
+
+        // Files - exclude the DOLs for other games
+        else
+        {
+            // Again - always include frontend. Always include opening.bnr as well.
+            if (pkNode->getName() == "rs5fe_p.dol" || pkNode->getName() == "opening.bnr")
+                return true;
+
+            else if (mFrontEnd)
+                return false;
+
+            switch (mGame)
+            {
+            case ePrime:
+                return ( (mDiscType == eDT_WiiDeAsobu && pkNode->getName() == "rs5mp1jpn_p.dol") ||
+                         (mDiscType == eDT_Trilogy && pkNode->getName() == "rs5mp1_p.dol") );
+
+            case eEchoes:
+                return ( (mDiscType == eDT_WiiDeAsobu && pkNode->getName() == "rs5mp2jpn_p.dol") ||
+                         (mDiscType == eDT_Trilogy && pkNode->getName() == "rs5mp2_p.dol") );
+
+            case eCorruption:
+                return (mDiscType == eDT_Trilogy && pkNode->getName() == "rs5mp3_p.dol");
+
+            default:
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
 // ************ PROTECTED ************
 bool CGameExporter::ExtractDiscData()
 {
@@ -122,7 +188,7 @@ bool CGameExporter::ExtractDiscData()
     TString FilesDir = AbsDiscDir + "files/";
     FileUtil::MakeDirectory(FilesDir);
 
-    bool Success = ExtractDiscNodeRecursive(&pDataPartition->getFSTRoot(), FilesDir, Context);
+    bool Success = ExtractDiscNodeRecursive(&pDataPartition->getFSTRoot(), FilesDir, true, Context);
     if (!Success) return false;
 
     if (!mpProgress->ShouldCancel())
@@ -150,18 +216,25 @@ bool CGameExporter::ExtractDiscData()
         return false;
 }
 
-bool CGameExporter::ExtractDiscNodeRecursive(const nod::Node *pkNode, const TString& rkDir, const nod::ExtractionContext& rkContext)
+bool CGameExporter::ExtractDiscNodeRecursive(const nod::Node *pkNode, const TString& rkDir, bool RootNode, const nod::ExtractionContext& rkContext)
 {
     for (nod::Node::DirectoryIterator Iter = pkNode->begin(); Iter != pkNode->end(); ++Iter)
     {
+        if (!ShouldExportDiscNode(&*Iter, RootNode))
+            continue;
+
         if (Iter->getKind() == nod::Node::Kind::File)
         {
             TString FilePath = rkDir + Iter->getName();
             bool Success = Iter->extractToDirectory(*rkDir.ToUTF16(), rkContext);
             if (!Success) return false;
 
-            if (FilePath.GetFileExtension() == "pak")
-                mPaks.push_back(FilePath);
+            if (FilePath.GetFileExtension().CaseInsensitiveCompare("pak"))
+            {
+                // For multi-game Wii discs, don't track packages for frontend unless we're exporting frontend
+                if (mDiscType == eDT_Normal || mFrontEnd || pkNode->getName() != "fe")
+                    mPaks.push_back(FilePath);
+            }
         }
 
         else
@@ -170,7 +243,7 @@ bool CGameExporter::ExtractDiscNodeRecursive(const nod::Node *pkNode, const TStr
             bool Success = FileUtil::MakeDirectory(Subdir);
             if (!Success) return false;
 
-            Success = ExtractDiscNodeRecursive(&*Iter, Subdir, rkContext);
+            Success = ExtractDiscNodeRecursive(&*Iter, Subdir, false, rkContext);
             if (!Success) return false;
         }
     }

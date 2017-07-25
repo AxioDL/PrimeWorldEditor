@@ -107,7 +107,7 @@ public:
                         for (u32 Shift = 0; Shift <= MaxShift; Shift += 4)
                         {
                             u64 ShiftCompare = mCompareID << Shift;
-                            u32 Mask = mCompareMask << Shift;
+                            u64 Mask = mCompareMask << Shift;
 
                             if ((ID & Mask) == ShiftCompare)
                             {

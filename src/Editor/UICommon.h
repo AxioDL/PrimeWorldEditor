@@ -40,6 +40,7 @@ namespace UICommon
 {
 
 // Utility
+QWindow* FindWidgetWindowHandle(QWidget *pWidget);
 void OpenContainingFolder(const QString& rkPath);
 bool OpenInExternalApplication(const QString& rkPath);
 
