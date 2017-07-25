@@ -8,6 +8,9 @@
 #include <Common/AssertMacro.h>
 #include <Core/GameProject/CGameExporter.h>
 #include <Core/GameProject/COpeningBanner.h>
+
+#include <nod/nod.hpp>
+
 #include <QFileDialog>
 #include <QFuture>
 #include <QFutureWatcher>
@@ -147,12 +150,58 @@ void CProjectSettingsDialog::BuildISO()
 
     if (!IsoPath.isEmpty())
     {
+        bool NeedsDiscMerge = pProj->IsWiiDeAsobu() || pProj->IsTrilogy();
+        std::unique_ptr<nod::DiscBase> pBaseDisc = nullptr;
+
+        if (NeedsDiscMerge)
+        {
+            FilterString += ";*.wbfs";
+            QString SourceIsoPath = UICommon::OpenFileDialog(this, "Select the original ISO", FilterString, DefaultPath);
+
+            if (SourceIsoPath.isEmpty())
+                return;
+
+            // Verify this ISO matches the original
+            bool IsWii;
+            pBaseDisc = nod::OpenDiscFromImage(*TO_TWIDESTRING(SourceIsoPath), IsWii);
+
+            if (!pBaseDisc || !IsWii)
+            {
+                UICommon::ErrorMsg(this, "The ISO provided is not a valid Wii ISO!");
+                return;
+            }
+
+            const nod::Header& rkHeader = pBaseDisc->getHeader();
+            TString GameID = pProj->GameID();
+
+            if (strncmp(*GameID, rkHeader.m_gameID, 6) != 0)
+            {
+                UICommon::ErrorMsg(this, "The ISO provided doesn't match the project!");
+                return;
+            }
+        }
+
         if (gpEdApp->CookAllDirtyPackages())
         {
             CProgressDialog Dialog("Building ISO", false, true, this);
             Dialog.DisallowCanceling();
-            QFuture<void> Future = QtConcurrent::run(pProj, &CGameProject::BuildISO, TO_TSTRING(IsoPath), &Dialog);
-            Dialog.WaitForResults(Future);
+            bool Success;
+
+            if (!NeedsDiscMerge)
+            {
+                QFuture<bool> Future = QtConcurrent::run(pProj, &CGameProject::BuildISO, TO_TSTRING(IsoPath), &Dialog);
+                Success = Dialog.WaitForResults(Future);
+            }
+            else
+            {
+                QFuture<bool> Future = QtConcurrent::run(pProj, &CGameProject::MergeISO, TO_TSTRING(IsoPath), (nod::DiscWii*) pBaseDisc.get(), &Dialog);
+                Success = Dialog.WaitForResults(Future);
+            }
+
+            if (Success)
+                UICommon::InfoMsg(this, "Success", "ISO built successfully!");
+            else
+                UICommon::ErrorMsg(this, "ISO build failed!");
         }
     }
 }

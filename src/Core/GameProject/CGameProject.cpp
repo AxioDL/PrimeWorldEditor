@@ -80,6 +80,7 @@ bool CGameProject::Serialize(IArchive& rArc)
 bool CGameProject::BuildISO(const TString& rkIsoPath, IProgressNotifier *pProgress)
 {
     ASSERT( FileUtil::IsValidPath(rkIsoPath, false) );
+    ASSERT( !IsWiiDeAsobu() && !IsTrilogy() );
 
     auto ProgressCallback = [&](float ProgressPercent, const nod::SystemString& rkInfoString, size_t)
     {
@@ -99,6 +100,25 @@ bool CGameProject::BuildISO(const TString& rkIsoPath, IProgressNotifier *pProgre
         nod::DiscBuilderWii Builder(*rkIsoPath.ToUTF16(), IsTrilogy(), ProgressCallback);
         return Builder.buildFromDirectory(*DiscRoot) == nod::EBuildResult::Success;
     }
+}
+
+bool CGameProject::MergeISO(const TString& rkIsoPath, nod::DiscWii *pOriginalIso, IProgressNotifier *pProgress)
+{
+    ASSERT( FileUtil::IsValidPath(rkIsoPath, false) );
+    ASSERT( IsWiiDeAsobu() || IsTrilogy() );
+    ASSERT( pOriginalIso != nullptr );
+
+    auto ProgressCallback = [&](float ProgressPercent, const nod::SystemString& rkInfoString, size_t)
+    {
+        pProgress->Report((int) (ProgressPercent * 10000), 10000, TWideString(rkInfoString).ToUTF8());
+    };
+
+    pProgress->SetTask(0, "Building " + rkIsoPath.GetFileName());
+
+    TWideString DiscRoot = DiscFilesystemRoot(false).ToUTF16();
+
+    nod::DiscMergerWii Merger(*rkIsoPath.ToUTF16(), *pOriginalIso, IsTrilogy(), ProgressCallback);
+    return Merger.mergeFromDirectory(*DiscRoot) == nod::EBuildResult::Success;
 }
 
 void CGameProject::GetWorldList(std::list<CAssetID>& rOut) const
