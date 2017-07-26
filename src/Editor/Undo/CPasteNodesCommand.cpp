@@ -55,7 +55,7 @@ void CPasteNodesCommand::redo()
         if (rkNode.Type == eScriptNode)
         {
             CMemoryInStream In(rkNode.InstanceData.data(), rkNode.InstanceData.size(), IOUtil::eBigEndian);
-            CScriptObject *pInstance = CScriptLoader::LoadInstance(In, pArea, mpLayer, pArea->Game(), true);
+            CScriptObject *pInstance = CScriptLoader::LoadInstance(In, pArea, mpLayer, pArea->Game(), false);
             pArea->AddInstanceToArea(pInstance);
             mpLayer->AddInstance(pInstance);
 

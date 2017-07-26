@@ -75,7 +75,7 @@ public:
                 Cooker.WriteInstance(Out, static_cast<CScriptNode*>(*It)->Instance());
 
                 // Replace instance ID with 0xFFFFFFFF to force it to generate a new one.
-                Out.Seek(0x6, SEEK_SET);
+                Out.Seek(mGame <= ePrime ? 0x5 : 0x6, SEEK_SET);
                 Out.WriteLong(0xFFFFFFFF);
 
                 if (!SetFirstNodePos)
