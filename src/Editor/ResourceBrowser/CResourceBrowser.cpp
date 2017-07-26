@@ -327,19 +327,35 @@ bool CResourceBrowser::MoveResources(const QList<CResourceEntry*>& rkResources, 
 {
     // Check for any conflicts
     QList<CResourceEntry*> ConflictingResources;
+    QList<CResourceEntry*> ValidResources;
 
     foreach (CResourceEntry *pEntry, rkResources)
     {
-        if (pNewDir->FindChildResource(pEntry->Name(), pEntry->ResourceType()) != nullptr)
-            ConflictingResources << pEntry;
+        CResourceEntry *pConflict = pNewDir->FindChildResource(pEntry->Name(), pEntry->ResourceType());
+
+        if (pConflict != pEntry)
+        {
+            if (pConflict != nullptr)
+                ConflictingResources << pEntry;
+            else
+                ValidResources << pEntry;
+        }
     }
 
     QList<CVirtualDirectory*> ConflictingDirs;
+    QList<CVirtualDirectory*> ValidDirs;
 
     foreach (CVirtualDirectory *pDir, rkDirectories)
     {
-        if (pNewDir->FindChildDirectory(pDir->Name(), false) != nullptr)
-            ConflictingDirs << pDir;
+        CVirtualDirectory *pConflict = pNewDir->FindChildDirectory(pDir->Name(), false);
+
+        if (pConflict != pDir)
+        {
+            if (pConflict != nullptr)
+                ConflictingDirs << pDir;
+            else
+                ValidDirs << pDir;
+        }
     }
 
     // If there were conflicts, notify the user of them
@@ -362,15 +378,19 @@ bool CResourceBrowser::MoveResources(const QList<CResourceEntry*>& rkResources, 
     }
 
     // Create undo actions to actually perform the moves
-    mUndoStack.beginMacro("Move Resources");
+    if (!ValidResources.isEmpty() || !ValidDirs.isEmpty())
+    {
+        mUndoStack.beginMacro("Move Resources");
 
-    foreach (CVirtualDirectory *pDir, rkDirectories)
-        mUndoStack.push( new CMoveDirectoryCommand(mpStore, pDir, pNewDir) );
+        foreach (CVirtualDirectory *pDir, ValidDirs)
+            mUndoStack.push( new CMoveDirectoryCommand(mpStore, pDir, pNewDir) );
 
-    foreach (CResourceEntry *pEntry, rkResources)
-        mUndoStack.push( new CMoveResourceCommand(pEntry, pNewDir) );
+        foreach (CResourceEntry *pEntry, ValidResources)
+            mUndoStack.push( new CMoveResourceCommand(pEntry, pNewDir) );
 
-    mUndoStack.endMacro();
+        mUndoStack.endMacro();
+    }
+
     return true;
 }
 

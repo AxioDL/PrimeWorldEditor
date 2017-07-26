@@ -62,41 +62,47 @@ QVariant CResourceTableModel::data(const QModelIndex& rkIndex, int Role) const
 
 Qt::ItemFlags CResourceTableModel::flags(const QModelIndex& rkIndex) const
 {
-    Qt::ItemFlags Out = Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable;
+    Qt::ItemFlags Out = Qt::ItemIsSelectable |Qt::ItemIsEnabled;
+    CVirtualDirectory *pDir = IndexDirectory(rkIndex);
 
-    if (IsIndexDirectory(rkIndex))
+    if (pDir)
         Out |= Qt::ItemIsDropEnabled;
+
+    if (!pDir || mpCurrentDir->Parent() != pDir)
+        Out |= Qt::ItemIsEditable | Qt::ItemIsDragEnabled;
 
     return Out;
 }
 
 bool CResourceTableModel::canDropMimeData(const QMimeData *pkData, Qt::DropAction, int Row, int Column, const QModelIndex& rkParent) const
 {
+    // Don't allow dropping between items.
+    if (Row != -1 || Column != -1)
+        return false;
+
     const CResourceMimeData *pkMimeData = qobject_cast<const CResourceMimeData*>(pkData);
 
     if (pkMimeData)
     {
+        // Don't allow dropping onto blank space in asset list mode
+        if (!rkParent.isValid() && mIsAssetListMode)
+            return false;
+
         // Make sure we're dropping onto a directory
-        QModelIndex Index = (rkParent.isValid() ? rkParent : index(Row, Column, rkParent));
+        CVirtualDirectory *pDir = (rkParent.isValid() ? IndexDirectory(rkParent) : mpCurrentDir);
 
-        if (Index.isValid())
+        if (pDir)
         {
-            CVirtualDirectory *pDir = IndexDirectory(Index);
-
-            if (pDir)
+            // Make sure this directory isn't part of the mime data, or a subdirectory of a directory in the mime data
+            foreach (CVirtualDirectory *pMimeDir, pkMimeData->Directories())
             {
-                // Make sure this directory isn't part of the mime data, or a subdirectory of a directory in the mime data
-                foreach (CVirtualDirectory *pMimeDir, pkMimeData->Directories())
-                {
-                    if (pDir == pMimeDir || pDir->IsDescendantOf(pMimeDir))
-                        return false;
-                }
-
-                // Valid directory
-                return true;
+                if (pDir == pMimeDir || pDir->IsDescendantOf(pMimeDir))
+                    return false;
             }
+
+            // Valid directory
+            return true;
         }
-        else return false;
     }
 
     return false;
@@ -108,12 +114,10 @@ bool CResourceTableModel::dropMimeData(const QMimeData *pkData, Qt::DropAction A
 
     if (canDropMimeData(pkData, Action, Row, Column, rkParent))
     {
-        QModelIndex Index = (rkParent.isValid() ? rkParent : index(Row, Column, rkParent));
-        CVirtualDirectory *pDir = IndexDirectory(Index);
+        CVirtualDirectory *pDir = (rkParent.isValid() ? IndexDirectory(rkParent) : mpCurrentDir);
         ASSERT(pDir);
 
-        gpEdApp->ResourceBrowser()->MoveResources( pkMimeData->Resources(), pkMimeData->Directories(), pDir );
-        return true;
+        return gpEdApp->ResourceBrowser()->MoveResources( pkMimeData->Resources(), pkMimeData->Directories(), pDir );
     }
     else return false;
 }
@@ -298,7 +302,7 @@ void CResourceTableModel::CheckAddDirectory(CVirtualDirectory *pDir)
 
 void CResourceTableModel::CheckRemoveDirectory(CVirtualDirectory *pDir)
 {
-    if (pDir->Parent() == mpCurrentDir)
+    if (pDir->Parent() != mpCurrentDir)
     {
         QModelIndex Index = GetIndexForDirectory(pDir);
 

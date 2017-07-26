@@ -12,6 +12,7 @@ class CVirtualDirectoryModel : public QAbstractItemModel
     CVirtualDirectory *mpRoot;
     bool mInsertingRows;
     bool mRemovingRows;
+    bool mMovingRows;
     bool mChangingLayout;
 
 public:
@@ -22,6 +23,14 @@ public:
     int rowCount(const QModelIndex& rkParent) const;
     int columnCount(const QModelIndex& /*rkParent*/) const;
     QVariant data(const QModelIndex& rkIndex, int Role) const;
+    bool setData(const QModelIndex& rkIndex, const QVariant& rkValue, int Role);
+    Qt::ItemFlags flags(const QModelIndex& rkIndex) const;
+
+    bool canDropMimeData(const QMimeData *pkData, Qt::DropAction Action, int Row, int Column, const QModelIndex& rkParent) const;
+    bool dropMimeData(const QMimeData *pkData, Qt::DropAction Action, int Row, int Column, const QModelIndex& rkParent);
+    QMimeData* mimeData(const QModelIndexList& rkIndexes) const;
+    Qt::DropActions supportedDragActions() const;
+    Qt::DropActions supportedDropActions() const;
 
     QModelIndex GetIndexForDirectory(CVirtualDirectory *pDir);
     CVirtualDirectory* IndexDirectory(const QModelIndex& rkIndex) const;

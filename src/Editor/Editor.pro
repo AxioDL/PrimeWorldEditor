@@ -195,7 +195,8 @@ HEADERS += \
     Undo/CRenameResourceCommand.h \
     Undo/CRenameDirectoryCommand.h \
     CFileNameValidator.h \
-    Undo/ICreateDeleteDirectoryCommand.h
+    Undo/ICreateDeleteDirectoryCommand.h \
+    ResourceBrowser/CVirtualDirectoryTreeView.h
 
 # Source Files
 SOURCES += \
@@ -268,7 +269,8 @@ SOURCES += \
     ResourceBrowser/CResourceTableContextMenu.cpp \
     ResourceBrowser/CResourceTableModel.cpp \
     ResourceBrowser/CResourceTableView.cpp \
-    ResourceBrowser/CVirtualDirectoryModel.cpp
+    ResourceBrowser/CVirtualDirectoryModel.cpp \
+    ResourceBrowser/CVirtualDirectoryTreeView.cpp
 
 # UI Files
 FORMS += \
