@@ -25,17 +25,18 @@ CResourceTableContextMenu::CResourceTableContextMenu(CResourceBrowser *pBrowser,
 #endif
 
     mpOpenAction = addAction("Open", this, SLOT(Open()));
-    mpOpenInExternalAppAction = addAction("Open in external application", this, SLOT(OpenInExternalApp()));
+    mpOpenInExternalAppAction = addAction("Open in External Application", this, SLOT(OpenInExternalApp()));
     mpOpenInExplorerAction = addAction(OpenInExplorerString, this, SLOT(OpenInExplorer()));
-    mpSelectFolderAction = addAction("Select folder", this, SLOT(SelectFolder()));
     addSeparator();
     mpRenameAction = addAction("Rename", this, SLOT(Rename()));
-    mpShowReferencersAction = addAction("Show referencers", this, SLOT(ShowReferencers()));
-    mpShowDependenciesAction = addAction("Show dependencies", this, SLOT(ShowDependencies()));
+    mpSelectFolderAction = addAction("Select Folder", this, SLOT(SelectFolder()));
+    mpShowReferencersAction = addAction("Show Referencers", this, SLOT(ShowReferencers()));
+    mpShowDependenciesAction = addAction("Show Dependencies", this, SLOT(ShowDependencies()));
+    mpDeleteAction = addAction("Delete", this, SLOT(Delete()));
     addSeparator();
-    mpCopyNameAction = addAction("Copy name", this, SLOT(CopyName()));
-    mpCopyPathAction = addAction("Copy path", this, SLOT(CopyPath()));
-    mpCopyIDAction = addAction("Copy asset ID", this, SLOT(CopyID()));
+    mpCopyNameAction = addAction("Copy Name", this, SLOT(CopyName()));
+    mpCopyPathAction = addAction("Copy Path", this, SLOT(CopyPath()));
+    mpCopyIDAction = addAction("Copy Asset ID", this, SLOT(CopyID()));
 }
 
 void CResourceTableContextMenu::ShowMenu(const QPoint& rkPos)
@@ -55,6 +56,7 @@ void CResourceTableContextMenu::ShowMenu(const QPoint& rkPos)
         mpSelectFolderAction->setVisible(mpModel->IsDisplayingAssetList());
         mpShowDependenciesAction->setVisible(IsRes);
         mpShowReferencersAction->setVisible(IsRes);
+        mpDeleteAction->setVisible(mpDirectory && mpDirectory->IsEmpty(true));
         mpCopyIDAction->setVisible(IsRes);
 
         // Exec menu
@@ -93,6 +95,11 @@ void CResourceTableContextMenu::OpenInExplorer()
     }
 }
 
+void CResourceTableContextMenu::Rename()
+{
+    mpTable->edit(mProxyIndex);
+}
+
 void CResourceTableContextMenu::SelectFolder()
 {
     CVirtualDirectory *pDir = (mpEntry ? mpEntry->Directory() : mpDirectory->Parent());
@@ -102,11 +109,6 @@ void CResourceTableContextMenu::SelectFolder()
         mpBrowser->SelectResource(mpEntry);
     else
         mpBrowser->SelectDirectory(mpDirectory);
-}
-
-void CResourceTableContextMenu::Rename()
-{
-    mpTable->edit(mProxyIndex);
 }
 
 void CResourceTableContextMenu::ShowReferencers()
@@ -152,6 +154,15 @@ void CResourceTableContextMenu::ShowDependencies()
     QString ListDesc = QString("Dependencies of \"%1\"").arg( TO_QSTRING(mpEntry->CookedAssetPath().GetFileName()) );
     mpModel->DisplayEntryList(EntryList, ListDesc);
     mpBrowser->ClearFilters();
+}
+
+void CResourceTableContextMenu::Delete()
+{
+    ASSERT(mpDirectory && mpDirectory->IsEmpty(true));
+
+    QList<CVirtualDirectory*> List;
+    List << mpDirectory;
+    mpBrowser->DeleteDirectories(List);
 }
 
 void CResourceTableContextMenu::CopyName()

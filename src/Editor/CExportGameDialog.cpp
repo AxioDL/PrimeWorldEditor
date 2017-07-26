@@ -45,6 +45,11 @@ CExportGameDialog::CExportGameDialog(const QString& rkIsoPath, const QString& rk
         TString IsoName = TO_TSTRING(rkIsoPath).GetFileName();
         setWindowTitle(QString("Export Settings - %1").arg( TO_QSTRING(IsoName) ));
     }
+    else
+    {
+        delete mpDisc;
+        mpDisc = nullptr;
+    }
 }
 
 CExportGameDialog::~CExportGameDialog()
