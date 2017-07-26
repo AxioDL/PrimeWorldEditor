@@ -215,7 +215,7 @@ public:
     virtual EDependencyNodeType Type() const;
     virtual void Serialize(IArchive& rArc);
 
-    void AddScriptLayer(CScriptLayer *pLayer);
+    void AddScriptLayer(CScriptLayer *pLayer, const std::vector<CAssetID>& rkExtraDeps);
     void GetModuleDependencies(EGame Game, std::vector<TString>& rModuleDepsOut, std::vector<u32>& rModuleLayerOffsetsOut) const;
 
     // Accessors

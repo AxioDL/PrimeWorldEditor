@@ -439,6 +439,9 @@ bool CWorldEditor::Save()
     bool SaveEGMCSuccess = mpArea->PoiToWorldMap() ? mpArea->PoiToWorldMap()->Entry()->Save() : true;
     bool SaveWorldSuccess = mpWorld->Entry()->Save();
 
+    if (SaveAreaSuccess)
+        mpArea->ClearExtraDependencies();
+
     if (SaveAreaSuccess || SaveEGMCSuccess || SaveWorldSuccess)
         gpEdApp->NotifyAssetsModified();
 

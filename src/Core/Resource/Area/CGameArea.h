@@ -60,6 +60,9 @@ class CGameArea : public CResource
     CAssetID mPortalAreaID;
     // Object to Static Geometry Map
     TResPtr<CPoiToWorld> mpPoiToWorldMap;
+    // Dependencies
+    std::vector<CAssetID> mExtraAreaDeps;
+    std::vector< std::vector<CAssetID> > mExtraLayerDeps;
 
 public:
     CGameArea(CResourceEntry *pEntry = 0);
@@ -80,6 +83,7 @@ public:
                                  u32 SuggestedID = -1, u32 SuggestedLayerIndex = -1);
     void AddInstanceToArea(CScriptObject *pInstance);
     void DeleteInstance(CScriptObject *pInstance);
+    void ClearExtraDependencies();
 
     // Inline Accessors
     inline u32 WorldIndex() const                               { return mWorldIndex; }
