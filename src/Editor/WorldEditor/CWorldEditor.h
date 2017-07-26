@@ -113,6 +113,8 @@ public slots:
     void ExportGame();
     void CloseProject();
 
+    void About();
+
     void ChangeEditMode(int Mode);
     void ChangeEditMode(EWorldEditorMode Mode);
     void SetRenderingMergedWorld(bool RenderMerged);

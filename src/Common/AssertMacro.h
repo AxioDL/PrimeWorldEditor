@@ -27,9 +27,9 @@
     #define CONDITIONAL_BREAK(Condition) {}
 #endif
 
-#if !PUBLIC_RELEASE
+#if 1
 
-    // Development Build
+    // Asserts Enabled
     #define ASSERT_CHECK_BEGIN(Expression) \
         { \
             if (!(Expression)) \
@@ -55,7 +55,7 @@
 
 #else
 
-    // Public Release Build
+    // Asserts Disabled
     #define BREAK_ONLY_ASSERT(Expression) {}
     #define LOG_ONLY_ASSERT(Expression) {}
     #define ASSERT(Expression) {}

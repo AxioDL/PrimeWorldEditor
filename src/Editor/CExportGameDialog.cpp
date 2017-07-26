@@ -367,14 +367,14 @@ void CExportGameDialog::Export()
     // Validate export dir
     if (ExportDir.isEmpty())
     {
-        UICommon::ErrorMsg(this, "Please specify an output directory!");
+        UICommon::ErrorMsg(this, "Please specify an empty output directory!");
         return;
     }
 
     else if (!FileUtil::IsEmpty( TO_TSTRING(ExportDir) ))
     {
-        QMessageBox::Button Button = QMessageBox::warning(this, "Warning", "<b>Warning:</b> The specified directory is not empty. Export anyway?", QMessageBox::Ok | QMessageBox::Cancel, QMessageBox::NoButton);
-        if (Button != QMessageBox::Ok) return;
+        UICommon::ErrorMsg(this, "The output directory is not empty!");
+        return;
     }
 
     // Verify name map is valid

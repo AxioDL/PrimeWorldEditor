@@ -7,6 +7,7 @@
 #include "WModifyTab.h"
 #include "WInstancesTab.h"
 
+#include "Editor/CAboutDialog.h"
 #include "Editor/CBasicViewport.h"
 #include "Editor/CExportGameDialog.h"
 #include "Editor/CNodeCopyMimeData.h"
@@ -193,6 +194,8 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     connect(ui->ActionIncrementGizmo, SIGNAL(triggered()), this, SLOT(IncrementGizmo()));
     connect(ui->ActionDecrementGizmo, SIGNAL(triggered()), this, SLOT(DecrementGizmo()));
     connect(ui->ActionCollisionRenderSettings, SIGNAL(triggered()), this, SLOT(EditCollisionRenderSettings()));
+
+    connect(ui->ActionAbout, SIGNAL(triggered(bool)), this, SLOT(About()));
 }
 
 CWorldEditor::~CWorldEditor()
@@ -489,6 +492,12 @@ void CWorldEditor:: CloseProject()
 {
     gpEdApp->CloseProject();
     SET_WINDOWTITLE_APPVARS( QString("%APP_FULL_NAME%") );
+}
+
+void CWorldEditor::About()
+{
+    CAboutDialog Dialog(this);
+    Dialog.exec();
 }
 
 void CWorldEditor::ChangeEditMode(int Mode)
