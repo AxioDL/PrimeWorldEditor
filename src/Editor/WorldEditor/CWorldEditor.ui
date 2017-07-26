@@ -340,10 +340,17 @@
     </property>
     <addaction name="ActionEditLayers"/>
    </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="ActionAbout"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuTools"/>
    <addaction name="menuView"/>
+   <addaction name="menuHelp"/>
   </widget>
   <widget class="QToolBar" name="EditModeToolBar">
    <property name="sizePolicy">
@@ -765,6 +772,11 @@
    </property>
    <property name="text">
     <string>Project Settings</string>
+   </property>
+  </action>
+  <action name="ActionAbout">
+   <property name="text">
+    <string>About</string>
    </property>
   </action>
  </widget>

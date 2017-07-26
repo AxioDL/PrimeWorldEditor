@@ -31,10 +31,6 @@ CGameExporter::CGameExporter(EDiscType DiscType, EGame Game, bool FrontEnd, EReg
     ASSERT(mRegion != eRegion_Unknown);
 }
 
-#if PUBLIC_RELEASE
-#error Fix export directory being cleared!
-#endif
-
 bool CGameExporter::Export(nod::DiscBase *pDisc, const TString& rkOutputDir, CAssetNameMap *pNameMap, CGameInfo *pGameInfo, IProgressNotifier *pProgress)
 {
     SCOPED_TIMER(ExportGame);
@@ -47,13 +43,15 @@ bool CGameExporter::Export(nod::DiscBase *pDisc, const TString& rkOutputDir, CAs
     mDiscDir = "Disc/";
     mWorldsDirName = "Worlds/";
 
+    // Export directory must be empty!
+    if (FileUtil::Exists(mExportDir) && !FileUtil::IsEmpty(mExportDir))
+        return false;
+
+    FileUtil::MakeDirectory(mExportDir);
+
     // Init progress
     mpProgress = pProgress;
     mpProgress->SetNumTasks(eES_NumSteps);
-
-    // Create project
-    FileUtil::MakeDirectory(mExportDir);
-    FileUtil::ClearDirectory(mExportDir);
 
     // Extract disc
     if (!ExtractDiscData())
