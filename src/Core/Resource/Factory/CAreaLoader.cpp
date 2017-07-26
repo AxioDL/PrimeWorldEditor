@@ -412,6 +412,52 @@ void CAreaLoader::ReadGeometryCorruption()
     mpArea->MergeTerrain();
 }
 
+void CAreaLoader::ReadDependenciesCorruption()
+{
+    mpSectionMgr->ToSection(mDependenciesBlockNum);
+
+    // Read the offsets first so we can read the deps directly into their corresponding arrays
+    u32 NumDeps = mpMREA->ReadLong();
+    u32 DepsStart = mpMREA->Tell();
+    mpMREA->Skip(NumDeps * 0xC);
+
+    u32 NumOffsets = mpMREA->ReadLong();
+    std::vector<u32> Offsets(NumOffsets);
+
+    for (u32 OffsetIdx = 0; OffsetIdx < NumOffsets; OffsetIdx++)
+        Offsets[OffsetIdx] = mpMREA->ReadLong();
+
+    mpMREA->GoTo(DepsStart);
+
+    // Read layer dependencies
+    u32 NumLayers = NumOffsets - 1;
+    mpArea->mExtraLayerDeps.resize(NumLayers);
+
+    for (u32 LayerIdx = 0; LayerIdx < NumLayers; LayerIdx++)
+    {
+        u32 NumLayerDeps = Offsets[LayerIdx+1] - Offsets[LayerIdx];
+        mpArea->mExtraLayerDeps[LayerIdx].reserve(NumLayerDeps);
+
+        for (u32 DepIdx = 0; DepIdx < NumLayerDeps; DepIdx++)
+        {
+            CAssetID AssetID(*mpMREA, eCorruption);
+            mpMREA->Skip(4);
+            mpArea->mExtraLayerDeps[LayerIdx].push_back(AssetID);
+        }
+    }
+
+    // Read area dependencies
+    u32 NumAreaDeps = NumDeps - Offsets[NumLayers];
+    mpArea->mExtraAreaDeps.reserve(NumAreaDeps);
+
+    for (u32 DepIdx = 0; DepIdx < NumAreaDeps; DepIdx++)
+    {
+        CAssetID AssetID(*mpMREA, eCorruption);
+        mpMREA->Skip(4);
+        mpArea->mExtraAreaDeps.push_back(AssetID);
+    }
+}
+
 void CAreaLoader::ReadLightsCorruption()
 {
     mpSectionMgr->ToSection(mLightsBlockNum);
@@ -733,6 +779,7 @@ CGameArea* CAreaLoader::LoadMREA(IInputStream& MREA, CResourceEntry *pEntry)
         case eCorruptionProto:
             Loader.ReadHeaderCorruption();
             Loader.ReadGeometryPrime();
+            Loader.ReadDependenciesCorruption();
             Loader.ReadSCLYEchoes();
             Loader.ReadCollision();
             Loader.ReadLightsCorruption();
@@ -744,6 +791,7 @@ CGameArea* CAreaLoader::LoadMREA(IInputStream& MREA, CResourceEntry *pEntry)
         case eReturns:
             Loader.ReadHeaderCorruption();
             Loader.ReadGeometryCorruption();
+            Loader.ReadDependenciesCorruption();
             Loader.ReadSCLYEchoes();
             Loader.ReadCollision();
             if (Loader.mVersion == eCorruption)

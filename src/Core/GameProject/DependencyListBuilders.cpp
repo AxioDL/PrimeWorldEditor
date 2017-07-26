@@ -405,31 +405,44 @@ void CAreaDependencyListBuilder::BuildDependencyList(std::list<CAssetID>& rAsset
 
         for (u32 iChild = StartIdx; iChild < EndIdx; iChild++)
         {
-            CScriptInstanceDependency *pInst = static_cast<CScriptInstanceDependency*>(pTree->ChildByIndex(iChild));
-            ASSERT(pInst->Type() == eDNT_ScriptInstance);
-            mIsPlayerActor = (pInst->ObjectType() == 0x4C || pInst->ObjectType() == FOURCC('PLAC'));
+            IDependencyNode *pNode = pTree->ChildByIndex(iChild);
 
-            for (u32 iDep = 0; iDep < pInst->NumChildren(); iDep++)
+            if (pNode->Type() == eDNT_ScriptInstance)
             {
-                CPropertyDependency *pDep = static_cast<CPropertyDependency*>(pInst->ChildByIndex(iDep));
+                CScriptInstanceDependency *pInst = static_cast<CScriptInstanceDependency*>(pNode);
+                mIsPlayerActor = (pInst->ObjectType() == 0x4C || pInst->ObjectType() == FOURCC('PLAC'));
 
-                // For MP3, exclude the CMDL/CSKR properties for the suit assets - only include default character assets
-                if (mGame == eCorruption && mIsPlayerActor)
+                for (u32 iDep = 0; iDep < pInst->NumChildren(); iDep++)
                 {
-                    TString PropID = pDep->PropertyID();
+                    CPropertyDependency *pDep = static_cast<CPropertyDependency*>(pInst->ChildByIndex(iDep));
 
-                    if (    PropID == "0x846397A8" || PropID == "0x685A4C01" ||
-                            PropID == "0x9834ECC9" || PropID == "0x188B8960" ||
-                            PropID == "0x134A81E3" || PropID == "0x4ABF030C" ||
-                            PropID == "0x9BF030DC" || PropID == "0x981263D3" ||
-                            PropID == "0x8A8D5AA5" || PropID == "0xE4734608" ||
-                            PropID == "0x3376814D" || PropID == "0x797CA77E" ||
-                            PropID == "0x0EBEC440" || PropID == "0xBC0952D8" ||
-                            PropID == "0xA8778E57" || PropID == "0x1CB10DBE"    )
-                        continue;
+                    // For MP3, exclude the CMDL/CSKR properties for the suit assets - only include default character assets
+                    if (mGame == eCorruption && mIsPlayerActor)
+                    {
+                        TString PropID = pDep->PropertyID();
+
+                        if (    PropID == "0x846397A8" || PropID == "0x685A4C01" ||
+                                PropID == "0x9834ECC9" || PropID == "0x188B8960" ||
+                                PropID == "0x134A81E3" || PropID == "0x4ABF030C" ||
+                                PropID == "0x9BF030DC" || PropID == "0x981263D3" ||
+                                PropID == "0x8A8D5AA5" || PropID == "0xE4734608" ||
+                                PropID == "0x3376814D" || PropID == "0x797CA77E" ||
+                                PropID == "0x0EBEC440" || PropID == "0xBC0952D8" ||
+                                PropID == "0xA8778E57" || PropID == "0x1CB10DBE"    )
+                            continue;
+                    }
+
+                    AddDependency(pDep->ID(), rAssetsOut, pAudioGroupsOut);
                 }
-
-                AddDependency(pDep->ID(), rAssetsOut, pAudioGroupsOut);
+            }
+            else if (pNode->Type() == eDNT_ResourceDependency)
+            {
+                CResourceDependency *pResDep = static_cast<CResourceDependency*>(pNode);
+                AddDependency(pResDep->ID(), rAssetsOut, pAudioGroupsOut);
+            }
+            else
+            {
+                ASSERT(false); // unhandled case!
             }
         }
     }

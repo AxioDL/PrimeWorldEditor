@@ -48,9 +48,18 @@ CDependencyTree* CGameArea::BuildDependencyTree() const
         pTree->AddDependency(mpPoiToWorldMap);
     }
     
+    // Extra deps
+    for (u32 iDep = 0; iDep < mExtraAreaDeps.size(); iDep++)
+        pTree->AddDependency(mExtraAreaDeps[iDep]);
+
     // Layer dependencies
+    std::vector<CAssetID> DummyDeps;
+
     for (u32 iLayer = 0; iLayer < mScriptLayers.size(); iLayer++)
-        pTree->AddScriptLayer(mScriptLayers[iLayer]);
+    {
+        const std::vector<CAssetID>& rkExtras = (mExtraLayerDeps.size() > iLayer ? mExtraLayerDeps[iLayer] : DummyDeps);
+        pTree->AddScriptLayer(mScriptLayers[iLayer], rkExtras);
+    }
 
     return pTree;
 }
@@ -241,4 +250,14 @@ void CGameArea::DeleteInstance(CScriptObject *pInstance)
         mpPoiToWorldMap->RemovePoi(pInstance->InstanceID());
 
     delete pInstance;
+}
+
+void CGameArea::ClearExtraDependencies()
+{
+    if (mExtraAreaDeps.empty() || !mExtraLayerDeps.empty())
+    {
+        mExtraAreaDeps.clear();
+        mExtraLayerDeps.clear();
+        Entry()->UpdateDependencies();
+    }
 }

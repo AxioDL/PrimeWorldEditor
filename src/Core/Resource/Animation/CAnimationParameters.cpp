@@ -195,7 +195,7 @@ void CAnimationParameters::SetResource(const CAssetID& rkID)
 
             if (!pEntry)
                 Log::Error("Invalid resource ID passed to CAnimationParameters: " + rkID.ToString());
-            else if (pEntry->ResourceType() != eAnimSet)
+            else if (pEntry->ResourceType() != eAnimSet && pEntry->ResourceType() != eCharacter)
                 Log::Error("Resource with invalid type passed to CAnimationParameters: " + pEntry->CookedAssetPath().GetFileName());
         }
     }

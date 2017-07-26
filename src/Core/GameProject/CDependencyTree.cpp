@@ -314,10 +314,11 @@ void CAreaDependencyTree::Serialize(IArchive& rArc)
     rArc << SERIAL_CONTAINER("LayerOffsets", mLayerOffsets, "Offset");
 }
 
-void CAreaDependencyTree::AddScriptLayer(CScriptLayer *pLayer)
+void CAreaDependencyTree::AddScriptLayer(CScriptLayer *pLayer, const std::vector<CAssetID>& rkExtraDeps)
 {
     if (!pLayer) return;
     mLayerOffsets.push_back(mChildren.size());
+    std::set<CAssetID> UsedIDs;
 
     for (u32 iInst = 0; iInst < pLayer->NumInstances(); iInst++)
     {
@@ -326,10 +327,16 @@ void CAreaDependencyTree::AddScriptLayer(CScriptLayer *pLayer)
 
         // Note: MP2+ need to track all instances (not just instances with dependencies) to be able to build the layer module list
         if (pTree->NumChildren() > 0 || pLayer->Area()->Game() >= eEchoesDemo)
+        {
             mChildren.push_back(pTree);
+            pTree->GetAllResourceReferences(UsedIDs);
+        }
         else
             delete pTree;
     }
+
+    for (u32 iDep = 0; iDep < rkExtraDeps.size(); iDep++)
+        AddDependency(rkExtraDeps[iDep]);
 }
 
 void CAreaDependencyTree::GetModuleDependencies(EGame Game, std::vector<TString>& rModuleDepsOut, std::vector<u32>& rModuleLayerOffsetsOut) const
@@ -351,8 +358,10 @@ void CAreaDependencyTree::GetModuleDependencies(EGame Game, std::vector<TString>
 
         for (u32 iInst = StartIdx; iInst < EndIdx; iInst++)
         {
-            CScriptInstanceDependency *pInst = static_cast<CScriptInstanceDependency*>(mChildren[iInst]);
-            ASSERT(pInst->Type() == eDNT_ScriptInstance);
+            IDependencyNode *pNode = mChildren[iInst];
+            if (pNode->Type() != eDNT_ScriptInstance) continue;
+
+            CScriptInstanceDependency *pInst = static_cast<CScriptInstanceDependency*>(pNode);
             u32 ObjType = pInst->ObjectType();
 
             if (UsedObjectTypes.find(ObjType) == UsedObjectTypes.end())
