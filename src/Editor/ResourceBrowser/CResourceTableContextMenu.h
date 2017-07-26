@@ -30,6 +30,7 @@ class CResourceTableContextMenu : public QMenu
     QAction *mpRenameAction;
     QAction *mpShowReferencersAction;
     QAction *mpShowDependenciesAction;
+    QAction *mpDeleteAction;
 
     QAction *mpCopyNameAction;
     QAction *mpCopyPathAction;
@@ -45,10 +46,11 @@ public slots:
     void Open();
     void OpenInExternalApp();
     void OpenInExplorer();
-    void SelectFolder();
     void Rename();
+    void SelectFolder();
     void ShowReferencers();
     void ShowDependencies();
+    void Delete();
     void CopyName();
     void CopyPath();
     void CopyID();

@@ -40,8 +40,12 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
     mpRedoAction = new QAction("Redo", this);
     mpUndoAction->setShortcut( QKeySequence::Undo );
     mpRedoAction->setShortcut( QKeySequence::Redo );
+
+    // todo - undo/redo commands are deactivated because they conflict with the World Editor undo/redo commands. fix this
+#if 0
     addAction(mpUndoAction);
     addAction(mpRedoAction);
+#endif
 
     connect(mpUndoAction, SIGNAL(triggered(bool)), this, SLOT(Undo()));
     connect(mpRedoAction, SIGNAL(triggered(bool)), this, SLOT(Redo()));

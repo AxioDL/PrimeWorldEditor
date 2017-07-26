@@ -302,12 +302,12 @@ void CResourceTableModel::CheckAddDirectory(CVirtualDirectory *pDir)
 
 void CResourceTableModel::CheckRemoveDirectory(CVirtualDirectory *pDir)
 {
-    if (pDir->Parent() != mpCurrentDir)
-    {
-        QModelIndex Index = GetIndexForDirectory(pDir);
+    int Index = mDirectories.indexOf(pDir);
 
-        beginRemoveRows(QModelIndex(), Index.row(), Index.row());
-        mDirectories.removeAt(Index.row());
+    if (Index != -1)
+    {
+        beginRemoveRows(QModelIndex(), Index, Index);
+        mDirectories.removeAt(Index);
         endRemoveRows();
     }
 }
