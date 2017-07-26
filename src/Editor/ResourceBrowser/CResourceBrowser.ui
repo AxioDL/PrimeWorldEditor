@@ -255,7 +255,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QTreeView" name="DirectoryTreeView">
+        <widget class="CVirtualDirectoryTreeView" name="DirectoryTreeView">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
            <horstretch>0</horstretch>
@@ -268,7 +268,19 @@
           </font>
          </property>
          <property name="editTriggers">
-          <set>QAbstractItemView::NoEditTriggers</set>
+          <set>QAbstractItemView::EditKeyPressed</set>
+         </property>
+         <property name="dragEnabled">
+          <bool>true</bool>
+         </property>
+         <property name="dragDropOverwriteMode">
+          <bool>true</bool>
+         </property>
+         <property name="dragDropMode">
+          <enum>QAbstractItemView::DragDrop</enum>
+         </property>
+         <property name="defaultDropAction">
+          <enum>Qt::MoveAction</enum>
          </property>
          <property name="alternatingRowColors">
           <bool>true</bool>
@@ -284,6 +296,9 @@
          </property>
          <property name="verticalScrollMode">
           <enum>QAbstractItemView::ScrollPerPixel</enum>
+         </property>
+         <property name="autoExpandDelay">
+          <number>-1</number>
          </property>
          <property name="indentation">
           <number>12</number>
@@ -311,7 +326,7 @@
        <enum>Qt::CustomContextMenu</enum>
       </property>
       <property name="editTriggers">
-       <set>QAbstractItemView::NoEditTriggers</set>
+       <set>QAbstractItemView::EditKeyPressed</set>
       </property>
       <property name="dragEnabled">
        <bool>true</bool>
@@ -361,6 +376,11 @@
    <class>CResourceTableView</class>
    <extends>QTableView</extends>
    <header>Editor/ResourceBrowser/CResourceTableView.h</header>
+  </customwidget>
+  <customwidget>
+   <class>CVirtualDirectoryTreeView</class>
+   <extends>QTreeView</extends>
+   <header>Editor/ResourceBrowser/CVirtualDirectoryTreeView.h</header>
   </customwidget>
  </customwidgets>
  <resources>

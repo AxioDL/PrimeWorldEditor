@@ -1,11 +1,13 @@
 #include "CVirtualDirectoryModel.h"
 #include "CResourceBrowser.h"
+#include "CResourceMimeData.h"
 
 CVirtualDirectoryModel::CVirtualDirectoryModel(CResourceBrowser *pBrowser, QObject *pParent /*= 0*/)
     : QAbstractItemModel(pParent)
     , mpRoot(nullptr)
     , mInsertingRows(false)
     , mRemovingRows(false)
+    , mMovingRows(false)
     , mChangingLayout(false)
 {
     connect(pBrowser, SIGNAL(DirectoryAboutToBeMoved(CVirtualDirectory*,QString)), this, SLOT(OnDirectoryAboutToBeMoved(CVirtualDirectory*,QString)));
@@ -93,6 +95,102 @@ QVariant CVirtualDirectoryModel::data(const QModelIndex& rkIndex, int Role) cons
     }
 
     return QVariant::Invalid;
+}
+
+bool CVirtualDirectoryModel::setData(const QModelIndex& rkIndex, const QVariant& rkValue, int Role)
+{
+    if (Role == Qt::EditRole)
+    {
+        QString NewName = rkValue.toString();
+        CVirtualDirectory *pDir = IndexDirectory(rkIndex);
+
+        if (pDir)
+        {
+            gpEdApp->ResourceBrowser()->RenameDirectory(pDir, TO_TSTRING(NewName));
+            return true;
+        }
+    }
+
+    return false;
+}
+
+Qt::ItemFlags CVirtualDirectoryModel::flags(const QModelIndex& rkIndex) const
+{
+    Qt::ItemFlags Out = Qt::ItemIsSelectable | Qt::ItemIsDropEnabled | Qt::ItemIsEnabled;
+
+    if (rkIndex.isValid() && rkIndex.parent().isValid())
+        Out |= Qt::ItemIsEditable | Qt::ItemIsDragEnabled;
+
+    return Out;
+}
+
+bool CVirtualDirectoryModel::canDropMimeData(const QMimeData *pkData, Qt::DropAction Action, int Row, int Column, const QModelIndex& rkParent) const
+{
+    // Don't allow dropping between items
+    if (Row != -1 || Column != -1)
+        return false;
+
+    if (Action == Qt::MoveAction)
+    {
+        CVirtualDirectory *pDir = IndexDirectory(rkParent);
+
+        if (pDir)
+        {
+            const CResourceMimeData *pkMimeData = qobject_cast<const CResourceMimeData*>(pkData);
+
+            if (pkMimeData)
+            {
+                // Don't allow moving a directory into one of its children
+                foreach (CVirtualDirectory *pMoveDir, pkMimeData->Directories())
+                {
+                    if (pDir->IsDescendantOf(pMoveDir))
+                        return false;
+                }
+
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+bool CVirtualDirectoryModel::dropMimeData(const QMimeData *pkData, Qt::DropAction Action, int Row, int Column, const QModelIndex& rkParent)
+{
+    // Perform move!
+    const CResourceMimeData *pkMimeData = qobject_cast<const CResourceMimeData*>(pkData);
+
+    if (canDropMimeData(pkData, Action, Row, Column, rkParent))
+    {
+        CVirtualDirectory *pDir = IndexDirectory(rkParent);
+        ASSERT(pDir);
+
+        return gpEdApp->ResourceBrowser()->MoveResources(pkMimeData->Resources(), pkMimeData->Directories(), pDir);
+    }
+    else return false;
+}
+
+QMimeData* CVirtualDirectoryModel::mimeData(const QModelIndexList& rkIndexes) const
+{
+    if (rkIndexes.size() == 1)
+    {
+        QModelIndex Index = rkIndexes.front();
+        CVirtualDirectory *pDir = IndexDirectory(Index);
+        CResourceMimeData *pMimeData = new CResourceMimeData(pDir);
+        return pMimeData;
+    }
+    else
+        return nullptr;
+}
+
+Qt::DropActions CVirtualDirectoryModel::supportedDragActions() const
+{
+    return Qt::CopyAction | Qt::MoveAction;
+}
+
+Qt::DropActions CVirtualDirectoryModel::supportedDropActions() const
+{
+    return Qt::MoveAction;
 }
 
 QModelIndex CVirtualDirectoryModel::GetIndexForDirectory(CVirtualDirectory *pDir)
@@ -184,10 +282,28 @@ bool CVirtualDirectoryModel::GetProposedIndex(QString Path, QModelIndex& rOutPar
     return true;
 }
 
-void CVirtualDirectoryModel::OnDirectoryAboutToBeMoved(CVirtualDirectory *, QString )
+void CVirtualDirectoryModel::OnDirectoryAboutToBeMoved(CVirtualDirectory *pDir, QString NewPath)
 {
-    emit layoutAboutToBeChanged();
-    mChangingLayout = true;
+    QModelIndex Parent;
+    int Row;
+
+    if (GetProposedIndex(NewPath, Parent, Row))
+    {
+        QModelIndex OldIndex = GetIndexForDirectory(pDir);
+        QModelIndex OldParent = OldIndex.parent();
+        int OldRow = OldIndex.row();
+
+        if (OldParent == Parent && (Row == OldRow || Row == OldRow + 1))
+        {
+            emit layoutAboutToBeChanged();
+            mChangingLayout = true;
+        }
+        else
+        {
+            beginMoveRows(OldParent, OldRow, OldRow, Parent, Row);
+            mMovingRows = true;
+        }
+    }
 }
 
 void CVirtualDirectoryModel::OnDirectoryAboutToBeCreated(QString DirPath)
@@ -224,6 +340,11 @@ void CVirtualDirectoryModel::FinishModelChanges()
     {
         endRemoveRows();
         mRemovingRows = false;
+    }
+    if (mMovingRows)
+    {
+        endMoveRows();
+        mMovingRows = false;
     }
     if (mChangingLayout)
     {

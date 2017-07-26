@@ -94,7 +94,7 @@ bool CEditorApplication::OpenProject(const QString& rkProjPath)
     }
     else
     {
-        UICommon::ErrorMsg(mpWorldEditor, "Failed to open project! Is it already open in another Prime World Editor instance?");
+        UICommon::ErrorMsg(mpWorldEditor, "Failed to open project!");
         return false;
     }
 }

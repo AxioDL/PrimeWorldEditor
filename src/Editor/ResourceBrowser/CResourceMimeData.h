@@ -24,6 +24,12 @@ public:
         mEntries << pEntry;
     }
 
+    CResourceMimeData(CVirtualDirectory *pDir)
+        : QMimeData()
+    {
+        mDirectories << pDir;
+    }
+
     const QList<CResourceEntry*>& Resources() const         { return mEntries; }
     const QList<CVirtualDirectory*>& Directories() const    { return mDirectories; }
 };
