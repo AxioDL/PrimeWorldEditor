@@ -4,7 +4,7 @@
 #include "Core/Render/CRenderer.h"
 #include "Core/OpenGL/GLCommon.h"
 #include "Core/OpenGL/CShaderGenerator.h"
-#include <Common/CHashFNV1A.h>
+#include <Common/Hash/CFNV1A.h>
 
 #include <iostream>
 #include <GL/glew.h>
@@ -243,7 +243,7 @@ u64 CMaterial::HashParameters()
 {
     if (mRecalcHash)
     {
-        CHashFNV1A Hash(CHashFNV1A::e64Bit);
+        CFNV1A Hash(CFNV1A::e64Bit);
 
         Hash.HashLong(mVersion);
         Hash.HashLong(mOptions);

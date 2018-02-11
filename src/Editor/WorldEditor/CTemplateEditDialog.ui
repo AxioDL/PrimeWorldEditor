@@ -13,9 +13,9 @@
   <property name="windowTitle">
    <string>Edit Template</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
+  <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
-    <layout class="QFormLayout" name="PropertyDataForm">
+    <layout class="QFormLayout" name="formLayout">
      <item row="0" column="0">
       <widget class="QLabel" name="IDLabel">
        <property name="text">
@@ -62,6 +62,26 @@
        </property>
       </widget>
      </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="SourceFileLabel">
+       <property name="text">
+        <string>Source File:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLabel" name="SourceFileDisplayLabel">
+       <property name="cursor">
+        <cursorShape>IBeamCursor</cursorShape>
+       </property>
+       <property name="text">
+        <string>SOURCE FILE GOES HERE</string>
+       </property>
+       <property name="textInteractionFlags">
+        <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+       </property>
+      </widget>
+     </item>
      <item row="3" column="0">
       <widget class="QLabel" name="NameLabel">
        <property name="text">
@@ -70,7 +90,31 @@
       </widget>
      </item>
      <item row="3" column="1">
-      <widget class="QLineEdit" name="NameLineEdit"/>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="CSoftValidatorLineEdit" name="NameLineEdit"/>
+       </item>
+       <item>
+        <widget class="CValidityLabel" name="ValidityLabel">
+         <property name="font">
+          <font>
+           <pointsize>7</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Valid</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
      <item row="4" column="0">
       <widget class="QLabel" name="DescriptionLabel">
@@ -101,26 +145,6 @@
        </property>
        <property name="plainText">
         <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="SourceFileLabel">
-       <property name="text">
-        <string>Source File:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QLabel" name="SourceFileDisplayLabel">
-       <property name="cursor">
-        <cursorShape>IBeamCursor</cursorShape>
-       </property>
-       <property name="text">
-        <string>SOURCE FILE GOES HERE</string>
-       </property>
-       <property name="textInteractionFlags">
-        <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
        </property>
       </widget>
      </item>
@@ -205,6 +229,18 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>CSoftValidatorLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>Editor/Widgets/CSoftValidatorLineEdit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>CValidityLabel</class>
+   <extends>QLabel</extends>
+   <header>Editor/Widgets/CValidityLabel.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>

@@ -11,6 +11,7 @@ class CPropertyModel : public QAbstractItemModel
 
     CPropertyStruct *mpBaseStruct;
     bool mBoldModifiedProperties;
+    bool mShowNameValidity;
     QFont mFont;
 
 public:
@@ -30,6 +31,8 @@ public:
     void ArrayAboutToBeResized(const QModelIndex& rkIndex, u32 NewSize);
     void ArrayResized(const QModelIndex& rkIndex, u32 OldSize);
     void ResizeArray(const QModelIndex& rkIndex, u32 NewSize);
+
+    void SetShowPropertyNameValidity(bool Enable);
 
     inline void SetFont(QFont Font) { mFont = Font; }
     inline void SetBoldModifiedProperties(bool Enable) { mBoldModifiedProperties = Enable; }

@@ -94,8 +94,8 @@
                 <property ID="0x003E7991" type="asset" extensions="CAUD"/>
                 <property ID="0x87501D31" type="asset" extensions="CAUD"/>
                 <property ID="0x72679165" type="asset" extensions="CAUD"/>
-                <property ID="0xCC70E91C" type="asset" extensions="unknown"/>
-                <property ID="0xB2B02A99" type="asset" extensions="unknown"/>
+                <property ID="0xCC70E91C" type="asset" extensions="UNKN"/>
+                <property ID="0xB2B02A99" type="asset" extensions="UNKN"/>
                 <property ID="0x4392D0C4" type="asset" extensions="CAUD"/>
             </properties>
         </struct>

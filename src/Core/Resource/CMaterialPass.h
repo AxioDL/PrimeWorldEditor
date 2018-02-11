@@ -6,7 +6,7 @@
 #include "ETevEnums.h"
 #include "Core/Render/FRenderOptions.h"
 #include <Common/CFourCC.h>
-#include <Common/CHashFNV1A.h>
+#include <Common/Hash/CFNV1A.h>
 
 class CMaterial;
 
@@ -45,7 +45,7 @@ public:
     CMaterialPass(CMaterial *pParent);
     ~CMaterialPass();
     CMaterialPass* Clone(CMaterial *pParent);
-    void HashParameters(CHashFNV1A& rHash);
+    void HashParameters(CFNV1A& rHash);
     void LoadTexture(u32 PassIndex);
     void SetAnimCurrent(FRenderOptions Options, u32 PassIndex);
 

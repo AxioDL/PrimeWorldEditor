@@ -1,10 +1,10 @@
-#ifndef CHASHFNV1A_H
-#define CHASHFNV1A_H
+#ifndef CFNV1A_H
+#define CFNV1A_H
 
-#include "types.h"
-#include "TString.h"
+#include "Common/types.h"
+#include "Common/TString.h"
 
-class CHashFNV1A
+class CFNV1A
 {
 public:
     enum EHashLength {
@@ -21,7 +21,7 @@ private:
     static const u64 skFNVPrime64 = 0x100000001B3;
 
 public:
-    CHashFNV1A(EHashLength Length)
+    CFNV1A(EHashLength Length)
     {
         if (Length == e32Bit)
             Init32();
@@ -65,4 +65,4 @@ public:
     inline void HashString(const TString& rkVal)    { HashData(rkVal.Data(), rkVal.Size()); }
 };
 
-#endif // CHASHFNV1A_H
+#endif // CFNV1A_H

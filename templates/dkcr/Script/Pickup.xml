@@ -12,7 +12,7 @@
         </property>
         <property ID="0xC27FFA8F" type="asset" extensions="CMDL"/>
         <property ID="0xA244C9D8" type="character"/>
-        <property ID="0x2CF40978" type="asset" extensions="unknown"/>
+        <property ID="0x2CF40978" type="asset" extensions="UNKN"/>
         <property ID="0x3128976F" type="character"/>
         <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
         <struct ID="0xD545F36B" type="multi">

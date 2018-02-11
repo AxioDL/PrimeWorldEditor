@@ -40,6 +40,8 @@ protected:
     u32 mID;
     ECookPreference mCookPreference;
     std::vector<u32> mAllowedVersions;
+    mutable bool mHasCachedNameCheck;
+    mutable bool mCachedNameIsCorrect;
 
 public:
     IPropertyTemplate(u32 ID, CScriptTemplate *pScript, CMasterTemplate *pMaster, CStructTemplate *pParent = 0)
@@ -49,6 +51,8 @@ public:
         , mpMasterTemplate(pMaster)
         , mName("UNSET PROPERTY NAME")
         , mCookPreference(eNoCookPreference)
+        , mHasCachedNameCheck(false)
+        , mCachedNameIsCorrect(false)
     {
     }
 
@@ -59,6 +63,8 @@ public:
         , mpMasterTemplate(pMaster)
         , mName(rkName)
         , mCookPreference(CookPreference)
+        , mHasCachedNameCheck(false)
+        , mCachedNameIsCorrect(false)
     {
     }
 
@@ -93,6 +99,7 @@ public:
     virtual bool HasValidRange() const                      { return false; }
     virtual TString RangeToString()   const                 { return ""; }
     virtual TString Suffix() const                          { return ""; }
+    virtual const char* GetTypeNameString() const           { return HashablePropTypeName(Type()); }
 
     virtual void SetParam(const TString& rkParamName, const TString& rkValue)
     {
@@ -118,6 +125,7 @@ public:
     TIDString IDString(bool FullPath) const;
     bool IsDescendantOf(const CStructTemplate *pStruct) const;
     bool IsFromStructTemplate() const;
+    bool IsNameCorrect() const;
     TString FindStructSource() const;
     CStructTemplate* RootStruct();
 
@@ -129,7 +137,7 @@ public:
     inline CStructTemplate* Parent() const              { return mpParent; }
     inline CScriptTemplate* ScriptTemplate() const      { return mpScriptTemplate; }
     inline CMasterTemplate* MasterTemplate() const      { return mpMasterTemplate; }
-    inline void SetName(const TString& rkName)          { mName = rkName; }
+    inline void SetName(const TString& rkName)          { mName = rkName; mHasCachedNameCheck = false; }
     inline void SetDescription(const TString& rkDesc)   { mDescription = rkDesc; }
 };
 
@@ -302,13 +310,13 @@ public:
 };
 
 // Typedefs for all property types that don't need further functionality.
-typedef TTypedPropertyTemplate<bool, eBoolProperty, CBoolValue, true>                               TBoolTemplate;
-typedef TNumericalPropertyTemplate<s8, eByteProperty, CByteValue>                                   TByteTemplate;
-typedef TNumericalPropertyTemplate<s16, eShortProperty, CShortValue>                                TShortTemplate;
-typedef TNumericalPropertyTemplate<s32, eLongProperty, CLongValue>                                  TLongTemplate;
-typedef TNumericalPropertyTemplate<float, eFloatProperty, CFloatValue>                              TFloatTemplate;
-typedef TTypedPropertyTemplate<CVector3f, eVector3Property, CVector3Value, true>                    TVector3Template;
-typedef TTypedPropertyTemplate<CColor, eColorProperty, CColorValue, true>                           TColorTemplate;
+typedef TTypedPropertyTemplate<bool, eBoolProperty, CBoolValue, true>                   TBoolTemplate;
+typedef TNumericalPropertyTemplate<s8, eByteProperty, CByteValue>                       TByteTemplate;
+typedef TNumericalPropertyTemplate<s16, eShortProperty, CShortValue>                    TShortTemplate;
+typedef TNumericalPropertyTemplate<s32, eLongProperty, CLongValue>                      TLongTemplate;
+typedef TNumericalPropertyTemplate<float, eFloatProperty, CFloatValue>                  TFloatTemplate;
+typedef TTypedPropertyTemplate<CVector3f, eVector3Property, CVector3Value, true>        TVector3Template;
+typedef TTypedPropertyTemplate<CColor, eColorProperty, CColorValue, true>               TColorTemplate;
 
 // TCharacterTemplate, TSoundTemplate, TStringTemplate, and TMayaSplineTemplate get their own subclasses so they can reimplement a couple functions
 class TCharacterTemplate : public TTypedPropertyTemplate<CAnimationParameters, eCharacterProperty, CCharacterValue, false>
@@ -327,6 +335,13 @@ public:
     {
         return new TCharacterProperty(this, pInstance, pParent, CAnimationParameters(Game()));
     }
+
+    const char* GetTypeNameString() const
+    {
+        return (Game() < eCorruptionProto ? "AnimationParameters" : "CharacterAnimationSet");
+    }
+
+    IMPLEMENT_TEMPLATE_CLONE(TCharacterTemplate)
 };
 
 class TSoundTemplate : public TTypedPropertyTemplate<u32, eSoundProperty, CSoundValue, false>
@@ -345,6 +360,8 @@ public:
     {
         return new TSoundProperty(this, pInstance, pParent, -1);
     }
+
+    IMPLEMENT_TEMPLATE_CLONE(TSoundTemplate)
 };
 
 class TStringTemplate : public TTypedPropertyTemplate<TString, eStringProperty, CStringValue, false>
@@ -363,6 +380,8 @@ public:
     {
         return new TStringProperty(this, pInstance, pParent);
     }
+
+    IMPLEMENT_TEMPLATE_CLONE(TStringTemplate)
 };
 
 class TMayaSplineTemplate : public TTypedPropertyTemplate<std::vector<u8>, eMayaSplineProperty, CMayaSplineValue, false>
@@ -381,6 +400,8 @@ public:
     {
         return new TMayaSplineProperty(this, pInstance, pParent);
     }
+
+    IMPLEMENT_TEMPLATE_CLONE(TMayaSplineTemplate)
 };
 
 // CAssetTemplate - Property template for assets. Tracks a list of resource types that
@@ -448,15 +469,18 @@ class CEnumTemplate : public TTypedPropertyTemplate<s32, eEnumProperty, CHexLong
     };
     std::vector<SEnumerator> mEnumerators;
     TString mSourceFile;
+    bool mUsesHashes;
 
 public:
     CEnumTemplate(u32 ID, CScriptTemplate *pScript, CMasterTemplate *pMaster, CStructTemplate *pParent = 0)
         : TTypedPropertyTemplate(ID, pScript, pMaster, pParent)
+        , mUsesHashes(false)
     {
     }
 
     CEnumTemplate(u32 ID, const TString& rkName, ECookPreference CookPreference, CScriptTemplate *pScript, CMasterTemplate *pMaster, CStructTemplate *pParent = 0)
         : TTypedPropertyTemplate(ID, rkName, CookPreference, pScript, pMaster, pParent)
+        , mUsesHashes(false)
     {
     }
 
@@ -480,6 +504,7 @@ public:
         const CEnumTemplate *pkEnum = static_cast<const CEnumTemplate*>(pkTemp);
         mEnumerators = pkEnum->mEnumerators;
         mSourceFile = pkEnum->mSourceFile;
+        mUsesHashes = pkEnum->mUsesHashes;
     }
 
     virtual bool Matches(const IPropertyTemplate *pkTemp) const
@@ -488,7 +513,13 @@ public:
 
         return ( (TTypedPropertyTemplate::Matches(pkTemp)) &&
                  (mEnumerators == pkEnum->mEnumerators) &&
-                 (mSourceFile == pkEnum->mSourceFile) );
+                 (mSourceFile == pkEnum->mSourceFile) &&
+                 (mUsesHashes == pkEnum->mUsesHashes) );
+    }
+
+    virtual const char* GetTypeNameString() const
+    {
+        return (mUsesHashes ? "enum" : "choice");
     }
 
     inline TString SourceFile() const { return mSourceFile; }
@@ -603,6 +634,7 @@ protected:
     std::vector<u32> mVersionPropertyCounts;
     bool mIsSingleProperty;
     TString mSourceFile;
+    TString mTypeName;
 
     void DetermineVersionPropertyCounts();
 public:
@@ -656,12 +688,19 @@ public:
         if ( (IPropertyTemplate::Matches(pkTemp)) &&
              (mVersionPropertyCounts == pkStruct->mVersionPropertyCounts) &&
              (mIsSingleProperty == pkStruct->mIsSingleProperty) &&
-             (mSourceFile == pkStruct->mSourceFile) )
+             (mSourceFile == pkStruct->mSourceFile) &&
+             (mTypeName == pkStruct->mTypeName) )
         {
             return StructDataMatches(pkStruct);
         }
 
         return false;
+    }
+
+    const char* GetTypeNameString() const
+    {
+        // hack - currently templates embedded within another XML can't have a type name
+        return mTypeName.IsEmpty() ? *mName : *mTypeName;
     }
 
     bool StructDataMatches(const CStructTemplate *pkStruct) const

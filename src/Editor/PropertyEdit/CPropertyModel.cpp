@@ -10,6 +10,7 @@ CPropertyModel::CPropertyModel(QObject *pParent /*= 0*/)
     : QAbstractItemModel(pParent)
     , mpBaseStruct(nullptr)
     , mBoldModifiedProperties(true)
+    , mShowNameValidity(false)
 {
 }
 
@@ -442,6 +443,23 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
         return QSize(0, 23);
     }
 
+    if (Role == Qt::ForegroundRole)
+    {
+        if (mShowNameValidity && mpBaseStruct->Template()->Game() >= eEchoesDemo)
+        {
+            IProperty *pProp = PropertyForIndex(rkIndex, true);
+            IPropertyTemplate *pTemp = (pProp ? pProp->Template() : nullptr);
+
+            // Don't highlight the name of the root property
+            if (pTemp && pTemp->Parent() != nullptr)
+            {
+                static const QColor skRightColor = QColor(128, 255, 128);
+                static const QColor skWrongColor = QColor(255, 128, 128);
+                return QBrush( pTemp->IsNameCorrect() ? skRightColor : skWrongColor );
+            }
+        }
+    }
+
     return QVariant::Invalid;
 }
 
@@ -584,4 +602,17 @@ void CPropertyModel::ArrayResized(const QModelIndex& rkIndex, u32 OldSize)
         else
             endRemoveRows();
     }
+}
+
+void CPropertyModel::SetShowPropertyNameValidity(bool Enable)
+{
+    mShowNameValidity = Enable;
+
+    // Emit data changed so that name colors are updated;
+    QVector<int> Roles;
+    Roles << Qt::ForegroundRole;
+
+    QModelIndex TopLeft = index(0, 0, QModelIndex());
+    QModelIndex BottomRight = index( rowCount(QModelIndex()) - 1, 0, QModelIndex());
+    emit dataChanged(TopLeft, BottomRight, Roles);
 }

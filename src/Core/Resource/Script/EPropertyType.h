@@ -28,6 +28,7 @@ enum EPropertyType
 // functions defined in IPropertyTemplate.cpp
 EPropertyType PropStringToPropEnum(TString Prop);
 TString PropEnumToPropString(EPropertyType Prop);
+const char* HashablePropTypeName(EPropertyType Prop);
 
 #endif // EPROPERTYTYPE
 

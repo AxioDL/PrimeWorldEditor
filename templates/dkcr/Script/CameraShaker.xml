@@ -21,7 +21,7 @@
                 <property ID="0x8B51E23F" type="float">
                     <default>1.0</default>
                 </property>
-                <property ID="0xC2ACB79E" type="asset" extensions="unknown"/>
+                <property ID="0xC2ACB79E" type="asset" extensions="UNKN"/>
                 <struct ID="0xD9EB71E0" template="Structs/CameraShakerEnvelope.xml"/>
                 <struct ID="0xC5B09632" template="Structs/CameraShakerEnvelope.xml"/>
                 <struct ID="0x21B704E3" template="Structs/CameraShakerEnvelope.xml"/>

@@ -19,6 +19,12 @@ CPropertyView::CPropertyView(QWidget *pParent)
     setModel(mpModel);
 
     setContextMenuPolicy(Qt::CustomContextMenu);
+
+    mpShowNameValidityAction = new QAction("Show whether property name is correct", this);
+    mpShowNameValidityAction->setCheckable(true);
+    mpShowNameValidityAction->setChecked(false);
+    connect(mpShowNameValidityAction, SIGNAL(triggered(bool)), this, SLOT(ToggleShowNameValidity(bool)));
+
     mpEditTemplateAction = new QAction("Edit template", this);
     connect(mpEditTemplateAction, SIGNAL(triggered()), this, SLOT(EditPropertyTemplate()));
 
@@ -216,8 +222,19 @@ void CPropertyView::CreateContextMenu(const QPoint& rkPos)
 
         QMenu Menu;
         Menu.addAction(mpEditTemplateAction);
+
+        if (mpEditor->CurrentGame() >= eEchoesDemo)
+        {
+            Menu.addAction(mpShowNameValidityAction);
+        }
+
         Menu.exec(viewport()->mapToGlobal(rkPos));
     }
+}
+
+void CPropertyView::ToggleShowNameValidity(bool ShouldShow)
+{
+    mpModel->SetShowPropertyNameValidity(ShouldShow);
 }
 
 void CPropertyView::EditPropertyTemplate()

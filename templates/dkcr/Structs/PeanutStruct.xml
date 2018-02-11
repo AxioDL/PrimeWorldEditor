@@ -2,7 +2,7 @@
 <struct name="PeanutStruct" type="multi">
     <properties>
         <struct ID="0xD72E09E1" template="Structs/ClingPathControlStruct.xml"/>
-        <property ID="0x5B60214F" type="asset" extensions="unknown"/>
-        <property ID="0xA272ADE0" type="asset" extensions="unknown"/>
+        <property ID="0x5B60214F" type="asset" extensions="UNKN"/>
+        <property ID="0xA272ADE0" type="asset" extensions="UNKN"/>
     </properties>
 </struct>

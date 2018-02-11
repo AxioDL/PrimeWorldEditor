@@ -1,5 +1,6 @@
 #include "IPropertyTemplate.h"
 #include "CMasterTemplate.h"
+#include <Common/Hash/CCRC32.h>
 #include <iostream>
 
 // ************ IPropertyTemplate ************
@@ -69,6 +70,36 @@ bool IPropertyTemplate::IsFromStructTemplate() const
     return false;
 }
 
+bool IPropertyTemplate::IsNameCorrect() const
+{
+    // Check whether the property name is correct... i.e., if we hash it, does it match the property ID?
+    // Only valid for Prime 2 and up, since Prime 1 doesn't have real property IDs, so we can't validate names
+    if (Game() >= eEchoesDemo)
+    {
+        // Don't hash for single-property structs
+        if ( (!Parent() || !Parent()->IsSingleProperty()) &&
+             // Don't hash for the three properties in EditorProperties that have fourCC property IDs
+                mID != FOURCC('INAM') &&
+                mID != FOURCC('XFRM') &&
+                mID != FOURCC('ACTV') )
+        {
+            // Only re-hash if we need to. Save the result (output won't change if function is called multiple times)
+            if (!mHasCachedNameCheck)
+            {
+                // The property ID is just a CRC32 of the property name + the type
+                CCRC32 Hash;
+                Hash.Hash(*mName);
+                Hash.Hash(GetTypeNameString());
+                mCachedNameIsCorrect = Hash.Digest() == mID;
+                mHasCachedNameCheck = true;
+            }
+            return mCachedNameIsCorrect;
+        }
+    }
+
+    return true;
+}
+
 TString IPropertyTemplate::FindStructSource() const
 {
     const CStructTemplate *pkStruct = mpParent;
@@ -95,6 +126,7 @@ void CStructTemplate::CopyStructData(const CStructTemplate *pkStruct)
     mVersionPropertyCounts = pkStruct->mVersionPropertyCounts;
     mIsSingleProperty = pkStruct->mIsSingleProperty;
     mSourceFile = pkStruct->mSourceFile;
+    mTypeName = pkStruct->mTypeName;
 
     mSubProperties.resize(pkStruct->mSubProperties.size());
 
@@ -269,6 +301,30 @@ EPropertyType PropStringToPropEnum(TString Prop)
     if (Prop == "mayaspline") return eMayaSplineProperty;
     if (Prop == "unknown")    return eUnknownProperty;
                               return eInvalidProperty;
+}
+
+const char* HashablePropTypeName(EPropertyType Prop)
+{
+    // Variants that match Retro's internal type names for generating property IDs. case sensitive
+    switch (Prop)
+    {
+    case eBoolProperty:         return "bool";
+    case eLongProperty:         return "int";
+    case eEnumProperty:         return "enum";
+    case eBitfieldProperty:     return "bitfield";
+    case eFloatProperty:        return "float";
+    case eStringProperty:       return "string";
+    case eColorProperty:        return "Color";
+    case eVector3Property:      return "Vector3f";
+    case eSoundProperty:        return "SfxId";
+    case eAssetProperty:        return "asset";
+    case eMayaSplineProperty:   return "MayaSpline";
+
+    // All other types are either invalid or need a custom reimplementation because they can return multiple strings (like struct)
+    default:
+        ASSERT(false);
+        return nullptr;
+    }
 }
 
 // ************ DEBUG ************

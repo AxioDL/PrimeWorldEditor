@@ -8,23 +8,26 @@
 
 CTemplateEditDialog::CTemplateEditDialog(IPropertyTemplate *pTemplate, QWidget *pParent)
     : QDialog(pParent)
-    , ui(new Ui::CTemplateEditDialog)
+    , mpUI(new Ui::CTemplateEditDialog)
+    , mpValidator(new CPropertyNameValidator(this))
     , mpTemplate(pTemplate)
     , mGame(pTemplate->Game())
     , mOriginalName(pTemplate->Name())
     , mOriginalDescription(pTemplate->Description())
+    , mOriginalNameWasValid(true)
 {
-    ui->setupUi(this);
+    mpUI->setupUi(this);
 
-    ui->IDDisplayLabel->setText(TO_QSTRING(pTemplate->IDString(false)));
-    ui->PathDisplayLabel->setText(TO_QSTRING(pTemplate->IDString(true)));
-    ui->NameLineEdit->setText(TO_QSTRING(pTemplate->Name()));
-    ui->DescriptionTextEdit->setPlainText(TO_QSTRING(pTemplate->Description()));
+    mpUI->IDDisplayLabel->setText(TO_QSTRING(pTemplate->IDString(false)));
+    mpUI->PathDisplayLabel->setText(TO_QSTRING(pTemplate->IDString(true)));
+    mpUI->NameLineEdit->setText(TO_QSTRING(pTemplate->Name()));
+    mpUI->DescriptionTextEdit->setPlainText(TO_QSTRING(pTemplate->Description()));
 
     if (mGame <= ePrime)
     {
-        ui->TemplatesGroupBox->hide();
-        ui->RenameAllCheckBox->setText("Rename all copies of this property");
+        mpUI->TemplatesGroupBox->hide();
+        mpUI->RenameAllCheckBox->setText("Rename all copies of this property");
+        mpUI->ValidityLabel->hide();
         resize(width(), minimumHeight());
     }
 
@@ -34,7 +37,14 @@ CTemplateEditDialog::CTemplateEditDialog(IPropertyTemplate *pTemplate, QWidget *
         std::vector<TString> TemplateList = CMasterTemplate::XMLsUsingID(pTemplate->PropertyID());
 
         for (u32 iTemp = 0; iTemp < TemplateList.size(); iTemp++)
-            ui->TemplatesListWidget->addItem(TO_QSTRING(TemplateList[iTemp]));
+            mpUI->TemplatesListWidget->addItem(TO_QSTRING(TemplateList[iTemp]));
+
+        mpUI->ValidityLabel->SetValidityText("Hash match! Property name is likely correct.", "Hash mismatch! Property name is likely wrong.");
+        connect(mpUI->NameLineEdit, SIGNAL( SoftValidityChanged(bool) ), mpUI->ValidityLabel, SLOT( SetValid(bool) ) );
+
+        mpValidator->SetProperty(pTemplate);
+        mpUI->NameLineEdit->SetSoftValidator(mpValidator);
+        mOriginalNameWasValid = mpUI->NameLineEdit->IsInputValid();
     }
 
     TString Source;
@@ -65,26 +75,36 @@ CTemplateEditDialog::CTemplateEditDialog(IPropertyTemplate *pTemplate, QWidget *
             Source = "None";
     }
 
-    ui->SourceFileDisplayLabel->setText(TO_QSTRING(Source));
+    mpUI->SourceFileDisplayLabel->setText(TO_QSTRING(Source));
 
-    connect(ui->ButtonBox, SIGNAL(accepted()), this, SLOT(ApplyChanges()));
-    connect(ui->ButtonBox, SIGNAL(rejected()), this, SLOT(close()));
+    connect(mpUI->ButtonBox, SIGNAL(accepted()), this, SLOT(ApplyChanges()));
+    connect(mpUI->ButtonBox, SIGNAL(rejected()), this, SLOT(close()));
 }
 
 CTemplateEditDialog::~CTemplateEditDialog()
 {
-    delete ui;
+    delete mpUI;
 }
 
 // ************ PUBLIC SLOTS ************
 void CTemplateEditDialog::ApplyChanges()
 {
+    // Make sure the user *really* wants to change the property if the hash used to be correct and now isn't...
+    if (mOriginalNameWasValid && !mpUI->NameLineEdit->IsInputValid())
+    {
+        bool ReallyApply = UICommon::YesNoQuestion(this, "Name mismatch",
+            "The new property name does not match the property ID. It is very likely that the original name was correct and the new one isn't. Are you sure you want to change it?");
+
+        if (!ReallyApply)
+            return;
+    }
+
     FindEquivalentProperties(mpTemplate);
 
     bool NeedsListResave = false;
-    bool RenameAll = ui->RenameAllCheckBox->isChecked();
+    bool RenameAll = mpUI->RenameAllCheckBox->isChecked();
 
-    TString NewName = TO_TSTRING(ui->NameLineEdit->text());
+    TString NewName = TO_TSTRING(mpUI->NameLineEdit->text());
     if (NewName.IsEmpty()) NewName = "Unknown";
 
     if (mOriginalName != NewName)
@@ -110,7 +130,7 @@ void CTemplateEditDialog::ApplyChanges()
             NeedsListResave = true;
     }
 
-    TString NewDescription = TO_TSTRING(ui->DescriptionTextEdit->toPlainText());
+    TString NewDescription = TO_TSTRING(mpUI->DescriptionTextEdit->toPlainText());
     UpdateDescription(NewDescription);
 
     // Resave templates

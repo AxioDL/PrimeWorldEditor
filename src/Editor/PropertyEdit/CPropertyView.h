@@ -16,6 +16,7 @@ class CPropertyView : public QTreeView
     CScriptObject *mpObject;
 
     IProperty *mpMenuProperty;
+    QAction *mpShowNameValidityAction;
     QAction *mpEditTemplateAction;
 
 public:
@@ -34,6 +35,7 @@ public slots:
     void OnPropertyModified(const QModelIndex& rkIndex);
 
     void CreateContextMenu(const QPoint& rkPos);
+    void ToggleShowNameValidity(bool ShouldShow);
     void EditPropertyTemplate();
 };
 

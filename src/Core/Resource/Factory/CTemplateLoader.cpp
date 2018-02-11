@@ -256,6 +256,7 @@ void CTemplateLoader::LoadStructTemplate(const TString& rkTemplateFileName, CStr
                 }
             }
             pSource->mSourceFile = rkTemplateFileName;
+            pSource->mTypeName = pSource->mSourceFile.GetFileName(false);
 
             TString NameAttr = TString(pRootElem->Attribute("name"));
             if (!NameAttr.IsEmpty())
@@ -373,7 +374,13 @@ void CTemplateLoader::LoadEnumerators(XMLElement *pEnumeratorsElem, CEnumTemplat
         const char *pkName = pChild->Attribute("name");
 
         if (pkID && pkName)
-            pTemp->mEnumerators.push_back(CEnumTemplate::SEnumerator(pkName, TString(pkID).ToInt32()));
+        {
+            u32 EnumeratorID = TString(pkID).ToInt32();
+            pTemp->mEnumerators.push_back(CEnumTemplate::SEnumerator(pkName, EnumeratorID));
+
+            if (EnumeratorID > 0xFF)
+                pTemp->mUsesHashes = true;
+        }
 
         else
         {
