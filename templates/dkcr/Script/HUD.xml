@@ -136,8 +136,8 @@
                         <property ID="0x4A66B162" type="asset" extensions="CAUD"/>
                         <property ID="0xD1C3FD0D" type="asset" extensions="CAUD"/>
                         <property ID="0xECC8C95F" type="asset" extensions="CAUD"/>
-                        <property ID="0x436EA086" type="asset" extensions="unknown"/>
-                        <property ID="0xDBAFBA23" type="asset" extensions="unknown"/>
+                        <property ID="0x436EA086" type="asset" extensions="UNKN"/>
+                        <property ID="0xDBAFBA23" type="asset" extensions="UNKN"/>
                     </properties>
                 </struct>
                 <struct ID="0x0BDE5216" type="multi">

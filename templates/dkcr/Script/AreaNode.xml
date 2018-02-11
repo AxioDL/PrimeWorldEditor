@@ -39,7 +39,7 @@
             <default>0.0, 0.0, 0.0</default>
         </property>
         <property ID="0x0FC966DC" type="asset" extensions="DCLN"/>
-        <property ID="0x33CF5665" type="asset" extensions="unknown"/>
+        <property ID="0x33CF5665" type="asset" extensions="UNKN"/>
         <property ID="0xA244C9D8" type="character"/>
         <property ID="0xB7CD213C" type="character"/>
         <property ID="0x9F93BC3F" type="character"/>

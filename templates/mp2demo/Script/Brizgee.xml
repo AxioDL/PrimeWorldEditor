@@ -41,15 +41,9 @@
         <property ID="0xF78947D4" type="float">
             <default>2.0</default>
         </property>
-        <property ID="0x6A942A60" type="sound">
-            <default>-1</default>
-        </property>
-        <property ID="0x808392EC" type="sound">
-            <default>-1</default>
-        </property>
-        <property ID="0xDF2D8017" type="sound">
-            <default>-1</default>
-        </property>
+        <property ID="0x6A942A60" type="sound"/>
+        <property ID="0x808392EC" type="sound"/>
+        <property ID="0xDF2D8017" type="sound"/>
     </properties>
     <states/>
     <messages/>

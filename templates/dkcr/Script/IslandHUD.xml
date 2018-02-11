@@ -17,7 +17,7 @@
                         <property ID="0xE7572064" type="asset" extensions="STRG"/>
                         <property ID="0xC022B7A6" type="asset" extensions="STRG"/>
                         <property ID="0xCC4EB20D" type="asset" extensions="STRG"/>
-                        <property ID="0xF7E675FE" type="asset" extensions="unknown"/>
+                        <property ID="0xF7E675FE" type="asset" extensions="UNKN"/>
                     </properties>
                 </struct>
                 <struct ID="0xF9674517" type="multi">
@@ -77,11 +77,11 @@
                         <property ID="0xA40D410E" type="asset" extensions="STRG"/>
                         <property ID="0x471FEA86" type="asset" extensions="STRG"/>
                         <property ID="0xA01E0887" type="asset" extensions="STRG"/>
-                        <property ID="0x4BEC8291" type="asset" extensions="unknown"/>
-                        <property ID="0xA0DB3992" type="asset" extensions="unknown"/>
-                        <property ID="0x4F1952AC" type="asset" extensions="unknown"/>
-                        <property ID="0xADC549D5" type="asset" extensions="unknown"/>
-                        <property ID="0x420722EB" type="asset" extensions="unknown"/>
+                        <property ID="0x4BEC8291" type="asset" extensions="UNKN"/>
+                        <property ID="0xA0DB3992" type="asset" extensions="UNKN"/>
+                        <property ID="0x4F1952AC" type="asset" extensions="UNKN"/>
+                        <property ID="0xADC549D5" type="asset" extensions="UNKN"/>
+                        <property ID="0x420722EB" type="asset" extensions="UNKN"/>
                     </properties>
                 </struct>
                 <struct ID="0x4CEA53F4" type="multi">

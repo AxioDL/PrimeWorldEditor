@@ -127,7 +127,7 @@
                             <default>0.2</default>
                         </property>
                         <property ID="0x68137EA7" type="asset" extensions="PART"/>
-                        <property ID="0xEBF3B81D" type="asset" extensions="unknown"/>
+                        <property ID="0xEBF3B81D" type="asset" extensions="UNKN"/>
                     </properties>
                 </struct>
                 <struct ID="0x9127FBC8" type="multi">

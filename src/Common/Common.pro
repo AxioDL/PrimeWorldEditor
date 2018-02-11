@@ -46,7 +46,6 @@ INCLUDEPATH += $$PWE_MAIN_INCLUDE \
 HEADERS += \
     CColor.h \
     CFourCC.h \
-    CHashFNV1A.h \
     CTimer.h \
     EKeyInputs.h \
     EMouseInputs.h \
@@ -59,6 +58,7 @@ HEADERS += \
     AssertMacro.h \
     CScopedTimer.h \
     CAssetID.h \
+    Hash\CFNV1A.h \
     Serialization/IArchive.h \
     Serialization/CXMLWriter.h \
     Serialization/CXMLReader.h \
@@ -83,7 +83,8 @@ HEADERS += \
     FileIO\CBitStreamInWrapper.h \
     FileIO\CFileLock.h \
     FileIO.h \
-    Common.h
+    Common.h \
+    Hash/CCRC32.h
 
 # Source Files
 SOURCES += \
@@ -105,4 +106,5 @@ SOURCES += \
     FileIO\IOUtil.cpp \
     FileIO\IInputStream.cpp \
     FileIO\IOutputStream.cpp \
-    FileIO\CBitStreamInWrapper.cpp
+    FileIO\CBitStreamInWrapper.cpp \
+    Hash/CCRC32.cpp

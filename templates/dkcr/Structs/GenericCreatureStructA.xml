@@ -332,7 +332,7 @@
                 </property>
                 <property ID="0xAD61C23A" type="asset" extensions="PART"/>
                 <property ID="0x9965B481" type="asset" extensions="PART"/>
-                <property ID="0x389C3BD6" type="asset" extensions="unknown"/>
+                <property ID="0x389C3BD6" type="asset" extensions="UNKN"/>
                 <property ID="0x17918504" type="asset" extensions="PART"/>
                 <property ID="0x6CF5915A" type="asset" extensions="CAUD"/>
                 <property ID="0x57184EE6" type="asset" extensions="CAUD"/>

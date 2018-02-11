@@ -80,15 +80,9 @@
         <property ID="0xAC202A5D" type="float">
             <default>1.0</default>
         </property>
-        <property ID="0x14038B71" type="sound">
-            <default>-1</default>
-        </property>
-        <property ID="0x16A435CB" type="sound">
-            <default>-1</default>
-        </property>
-        <property ID="0x67EDEFC2" type="sound">
-            <default>-1</default>
-        </property>
+        <property ID="0x14038B71" type="sound"/>
+        <property ID="0x16A435CB" type="sound"/>
+        <property ID="0x67EDEFC2" type="sound"/>
         <property ID="0x8F4FB79D" type="float">
             <default>1.0</default>
         </property>

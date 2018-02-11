@@ -16,8 +16,8 @@
                 <property ID="0x69A2B08E" type="asset" extensions="CMDL"/>
                 <property ID="0xA2FE632B" type="asset" extensions="CMDL"/>
                 <property ID="0x246A1185" type="asset" extensions="CMDL"/>
-                <property ID="0xEF36C220" type="asset" extensions="unknown"/>
-                <property ID="0xF233F298" type="asset" extensions="unknown"/>
+                <property ID="0xEF36C220" type="asset" extensions="UNKN"/>
+                <property ID="0xF233F298" type="asset" extensions="UNKN"/>
                 <property ID="0xF7AA5F32" type="MayaSpline"/>
                 <property ID="0xD0239F95" type="MayaSpline"/>
                 <property ID="0x5688683B" type="float">
@@ -179,20 +179,20 @@
                 </property>
                 <property ID="0xE7CA6050" type="asset" extensions="CAUD"/>
                 <property ID="0x5D4FBC07" type="asset" extensions="CAUD"/>
-                <property ID="0x0ED5E783" type="asset" extensions="unknown"/>
+                <property ID="0x0ED5E783" type="asset" extensions="UNKN"/>
                 <property ID="0xA3BAC487" type="asset" extensions="CAUD"/>
                 <property ID="0x4FE79727" type="asset" extensions="CAUD"/>
-                <property ID="0x1C7DCCA3" type="asset" extensions="unknown"/>
+                <property ID="0x1C7DCCA3" type="asset" extensions="UNKN"/>
                 <property ID="0x51ED297F" type="asset" extensions="CAUD"/>
                 <property ID="0xEAEFFC4B" type="asset" extensions="CAUD"/>
-                <property ID="0xB975A7CF" type="asset" extensions="unknown"/>
+                <property ID="0xB975A7CF" type="asset" extensions="UNKN"/>
                 <property ID="0xB6F08FE8" type="asset" extensions="CAUD"/>
                 <property ID="0x89E8256F" type="asset" extensions="CAUD"/>
-                <property ID="0xDA727EEB" type="asset" extensions="unknown"/>
+                <property ID="0xDA727EEB" type="asset" extensions="UNKN"/>
                 <property ID="0x6E33F4CE" type="asset" extensions="CAUD"/>
                 <property ID="0x7B8E2CD2" type="asset" extensions="CAUD"/>
-                <property ID="0x28147756" type="asset" extensions="unknown"/>
-                <property ID="0x0093800D" type="asset" extensions="unknown"/>
+                <property ID="0x28147756" type="asset" extensions="UNKN"/>
+                <property ID="0x0093800D" type="asset" extensions="UNKN"/>
                 <property ID="0xCCBB7330" type="MayaSpline"/>
                 <property ID="0xAA62345F" type="MayaSpline"/>
                 <property ID="0x1852AF24" type="MayaSpline"/>
