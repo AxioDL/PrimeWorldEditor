@@ -28,12 +28,8 @@
             <default>1.0</default>
         </property>
         <property ID="0x7A4B4685" type="asset" extensions="TXTR"/>
-        <property ID="0x5BA7702E" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x9A3463A7" type="long">
-            <default>-1</default>
-        </property>
+        <property ID="0x5BA7702E" type="asset" extensions="TXTR"/>
+        <property ID="0x9A3463A7" type="asset" extensions="TXTR"/>
         <property ID="0x041398D5" type="color">
             <default>0.0, 0.0, 0.498039, 1.0</default>
         </property>

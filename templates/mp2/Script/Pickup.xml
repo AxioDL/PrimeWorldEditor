@@ -27,7 +27,7 @@
         <property ID="0xC80FC827" type="float">
             <default>0.0</default>
         </property>
-        <property ID="0x32DC67F6" name="Life Time" type="float">
+        <property ID="0x32DC67F6" type="float">
             <default>0.0</default>
         </property>
         <property ID="0x56E3CEEF" type="float">
