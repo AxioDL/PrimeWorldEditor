@@ -231,7 +231,8 @@ HEADERS += \
     IProgressNotifier.h \
     IUIRelay.h \
     Resource/CResTypeFilter.h \
-    GameProject/COpeningBanner.h
+    GameProject/COpeningBanner.h \
+    Resource/Script/CPropertyNameGenerator.h
 
 # Source Files
 SOURCES += \
@@ -340,4 +341,5 @@ SOURCES += \
     CompressionUtil.cpp \
     IUIRelay.cpp \
     GameProject\COpeningBanner.cpp \
-    IProgressNotifier.cpp
+    IProgressNotifier.cpp \
+    Resource/Script/CPropertyNameGenerator.cpp

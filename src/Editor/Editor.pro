@@ -199,7 +199,11 @@ HEADERS += \
     ResourceBrowser/CVirtualDirectoryTreeView.h \
     CPropertyNameValidator.h \
     Widgets/CSoftValidatorLineEdit.h \
-    Widgets/CValidityLabel.h
+    Widgets/CValidityLabel.h \
+    CGeneratePropertyNamesDialog.h \
+    CProgressBarNotifier.h \
+    Widgets/CCheckableTreeWidgetItem.h \
+    Widgets/CCheckableTreeWidget.h
 
 # Source Files
 SOURCES += \
@@ -274,7 +278,8 @@ SOURCES += \
     ResourceBrowser/CResourceTableView.cpp \
     ResourceBrowser/CVirtualDirectoryModel.cpp \
     ResourceBrowser/CVirtualDirectoryTreeView.cpp \
-    CPropertyNameValidator.cpp
+    CPropertyNameValidator.cpp \
+    CGeneratePropertyNamesDialog.cpp
 
 # UI Files
 FORMS += \
@@ -300,4 +305,5 @@ FORMS += \
     CProjectSettingsDialog.ui \
     WorldEditor/CPoiMapSidebar.ui \
     CProgressDialog.ui \
-    Widgets/CSelectResourcePanel.ui
+    Widgets/CSelectResourcePanel.ui \
+    CGeneratePropertyNamesDialog.ui

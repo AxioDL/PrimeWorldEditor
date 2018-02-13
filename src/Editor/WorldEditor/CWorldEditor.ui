@@ -339,11 +339,12 @@
      <string>Tools</string>
     </property>
     <addaction name="ActionEditLayers"/>
+    <addaction name="ActionGeneratePropertyNames"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
-   <addaction name="menuTools"/>
    <addaction name="menuView"/>
+   <addaction name="menuTools"/>
   </widget>
   <widget class="QToolBar" name="EditModeToolBar">
    <property name="sizePolicy">
@@ -765,6 +766,11 @@
    </property>
    <property name="text">
     <string>Project Settings</string>
+   </property>
+  </action>
+  <action name="ActionGeneratePropertyNames">
+   <property name="text">
+    <string>Generate Property Names</string>
    </property>
   </action>
  </widget>

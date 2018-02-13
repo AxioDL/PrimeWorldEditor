@@ -36,6 +36,7 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     , mpArea(nullptr)
     , mpWorld(nullptr)
     , mpLinkDialog(new CLinkDialog(this, this))
+    , mpGeneratePropertyNamesDialog(new CGeneratePropertyNamesDialog(this))
     , mIsMakingLink(false)
     , mpNewLinkSender(nullptr)
     , mpNewLinkReceiver(nullptr)
@@ -174,6 +175,7 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     connect(ui->ActionUnlink, SIGNAL(triggered()), this, SLOT(OnUnlinkClicked()));
 
     connect(ui->ActionEditLayers, SIGNAL(triggered()), this, SLOT(EditLayers()));
+    connect(ui->ActionGeneratePropertyNames, SIGNAL(triggered()), this, SLOT(GeneratePropertyNames()));
 
     connect(ui->ActionDrawWorld, SIGNAL(triggered()), this, SLOT(ToggleDrawWorld()));
     connect(ui->ActionDrawObjects, SIGNAL(triggered()), this, SLOT(ToggleDrawObjects()));
@@ -1340,4 +1342,10 @@ void CWorldEditor::EditLayers()
     CLayerEditor Editor(this);
     Editor.SetArea(mpArea);
     Editor.exec();
+}
+
+void CWorldEditor::GeneratePropertyNames()
+{
+    // Launch property name generation dialog
+    mpGeneratePropertyNamesDialog->show();
 }

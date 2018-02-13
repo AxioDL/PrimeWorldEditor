@@ -223,7 +223,11 @@ void CMasterTemplate::RenameProperty(IPropertyTemplate *pTemp, const TString& rk
 {
     u32 ID = pTemp->PropertyID();
     if (ID <= 0xFF) ID = CreatePropertyID(pTemp);
+    RenameProperty(ID, rkNewName);
+}
 
+void CMasterTemplate::RenameProperty(u32 ID, const TString& rkNewName)
+{
     // Master name list
     auto NameIt = smPropertyNames.find(ID);
     TString Original;
@@ -249,17 +253,15 @@ void CMasterTemplate::RenameProperty(IPropertyTemplate *pTemp, const TString& rk
     }
 }
 
-std::vector<TString> CMasterTemplate::XMLsUsingID(u32 ID)
+void CMasterTemplate::XMLsUsingID(u32 ID, std::vector<TString>& rOutList)
 {
     auto InfoIt = smIDMap.find(ID);
 
     if (InfoIt != smIDMap.end())
     {
         const SPropIDInfo& rkInfo = InfoIt->second;
-        return rkInfo.XMLList;
+        rOutList = rkInfo.XMLList;
     }
-    else
-        return std::vector<TString>();
 }
 
 const std::vector<IPropertyTemplate*>* CMasterTemplate::TemplatesWithMatchingID(IPropertyTemplate *pTemp)
