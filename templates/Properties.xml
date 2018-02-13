@@ -10,17 +10,17 @@
     <property ID="0x002F1E9D" name="Unknown"/>
     <property ID="0x003E7991" name="CAUD"/>
     <property ID="0x004297B4" name="Unknown"/>
-    <property ID="0x004CAB64" name="Unknown"/>
+    <property ID="0x004CAB64" name="MaxMovementSpeed"/>
     <property ID="0x0057A7D8" name="Unknown"/>
     <property ID="0x005E3BE9" name="UnknownStruct41"/>
     <property ID="0x00628C84" name="Sound"/>
     <property ID="0x0063BDC5" name="Unknown"/>
     <property ID="0x0063F638" name="UnknownStruct"/>
     <property ID="0x00705F14" name="RobotChickenFlyerStructB"/>
-    <property ID="0x008BD240" name="Unknown"/>
+    <property ID="0x008BD240" name="BlockType"/>
     <property ID="0x008BECAB" name="PART"/>
     <property ID="0x0093800D" name="Unknown"/>
-    <property ID="0x0097F282" name="Unknown"/>
+    <property ID="0x0097F282" name="DropDelay"/>
     <property ID="0x009A1330" name="Unknown"/>
     <property ID="0x009E3658" name="AudioPlaybackParms"/>
     <property ID="0x00A7C38D" name="CameraRotation"/>
