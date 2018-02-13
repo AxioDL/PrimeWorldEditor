@@ -338,7 +338,7 @@ public:
 
     const char* GetTypeNameString() const
     {
-        return (Game() < eCorruptionProto ? "AnimationParameters" : "CharacterAnimationSet");
+        return (Game() < eCorruptionProto ? "AnimationSet" : "CharacterAnimationSet");
     }
 
     IMPLEMENT_TEMPLATE_CLONE(TCharacterTemplate)

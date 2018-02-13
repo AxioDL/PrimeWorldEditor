@@ -69,7 +69,8 @@ public:
     static u32 CreatePropertyID(IPropertyTemplate *pTemp);
     static void AddProperty(IPropertyTemplate *pTemp, const TString& rkTemplateName = "");
     static void RenameProperty(IPropertyTemplate *pTemp, const TString& rkNewName);
-    static std::vector<TString> XMLsUsingID(u32 ID);
+    static void RenameProperty(u32 ID, const TString& rkNewName);
+    static void XMLsUsingID(u32 ID, std::vector<TString>& rOutList);
     static const std::vector<IPropertyTemplate*>* TemplatesWithMatchingID(IPropertyTemplate *pTemp);
 };
 

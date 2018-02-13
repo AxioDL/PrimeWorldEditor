@@ -34,7 +34,8 @@ CTemplateEditDialog::CTemplateEditDialog(IPropertyTemplate *pTemplate, QWidget *
     else
     {
         CTemplateLoader::LoadAllGames();
-        std::vector<TString> TemplateList = CMasterTemplate::XMLsUsingID(pTemplate->PropertyID());
+        std::vector<TString> TemplateList;
+        CMasterTemplate::XMLsUsingID(pTemplate->PropertyID(), TemplateList);
 
         for (u32 iTemp = 0; iTemp < TemplateList.size(); iTemp++)
             mpUI->TemplatesListWidget->addItem(TO_QSTRING(TemplateList[iTemp]));

@@ -315,10 +315,10 @@ const char* HashablePropTypeName(EPropertyType Prop)
     case eFloatProperty:        return "float";
     case eStringProperty:       return "string";
     case eColorProperty:        return "Color";
-    case eVector3Property:      return "Vector3f";
-    case eSoundProperty:        return "SfxId";
+    case eVector3Property:      return "Vector";
+    case eSoundProperty:        return "sound";
     case eAssetProperty:        return "asset";
-    case eMayaSplineProperty:   return "MayaSpline";
+    case eMayaSplineProperty:   return "spline";
 
     // All other types are either invalid or need a custom reimplementation because they can return multiple strings (like struct)
     default:

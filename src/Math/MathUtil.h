@@ -46,7 +46,7 @@ template<typename Type>
 Type Lerp(const Type& rkA, const Type& rkB, float t)
 {
     Type Diff = rkB - rkA;
-    return rkA + (Diff * t);
+    return rkA + Type(Diff * t);
 }
 
 std::pair<bool,float> RayPlaneIntersection(const CRay& rkRay, const CPlane& rkPlane);
