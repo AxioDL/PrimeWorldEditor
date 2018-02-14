@@ -20020,6 +20020,7 @@ contraption
 darkburst
 deactivate
 deactivated
+diddy
 entangler
 fursuit
 glider
@@ -20047,6 +20048,7 @@ nullify
 params
 parm
 parms
+patterned
 phason
 phazon
 piggy
