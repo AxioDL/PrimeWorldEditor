@@ -4,6 +4,7 @@
 #include "Editor/Widgets/CCheckableTreeWidgetItem.h"
 #include "UICommon.h"
 #include <Core/Resource/Cooker/CTemplateWriter.h>
+#include <Core/Resource/Factory/CTemplateLoader.h>
 #include <QtConcurrent/QtConcurrent>
 #include <iterator>
 
@@ -83,6 +84,9 @@ void CGeneratePropertyNamesDialog::StartGeneration()
     mTaskOutput.clear();
     mCheckedItems.clear();
     mpUI->OutputTreeWidget->clear();
+
+    // Load all templates so we can match as many properties as possible
+    CTemplateLoader::LoadAllGames();
 
     // Configure the generator
     SPropertyNameGenerationParameters Params;
