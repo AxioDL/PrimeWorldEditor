@@ -69,6 +69,13 @@
            </layout>
           </item>
           <item>
+           <widget class="QCheckBox" name="UseUnderscoresCheckBox">
+            <property name="text">
+             <string>Use underscores</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QCheckBox" name="LogOutputCheckBox">
             <property name="text">
              <string>Print output to log</string>

@@ -130,6 +130,11 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
         for (; RecalcIndex < WordCache.size(); RecalcIndex++)
         {
             int Index = WordCache[RecalcIndex].WordIndex;
+
+            // Add an underscore if needed
+            if (RecalcIndex > 0 && rkParams.UseUnderscores)
+                LastValidHash.Hash("_");
+
             LastValidHash.Hash( *mWords[Index].Word );
             WordCache[RecalcIndex].Hash = LastValidHash;
         }
@@ -156,6 +161,12 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
                 for (int WordIdx = 0; WordIdx < WordCache.size(); WordIdx++)
                 {
                     int Index = WordCache[WordIdx].WordIndex;
+
+                    if (WordIdx > 0 && rkParams.UseUnderscores)
+                    {
+                        PropertyName.Name += "_";
+                    }
+
                     PropertyName.Name += mWords[Index].Word;
                 }
 
