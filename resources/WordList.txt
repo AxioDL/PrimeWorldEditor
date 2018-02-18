@@ -19868,6 +19868,7 @@ piggy
 pincer
 puddlespore
 puffer
+rambi
 respawn
 ridley
 ripper
