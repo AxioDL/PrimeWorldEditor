@@ -100,6 +100,7 @@ void CGeneratePropertyNamesDialog::StartGeneration()
     Params.MaxWords = mpUI->NumWordsSpinBox->value();
     Params.Prefix = TO_TSTRING( mpUI->PrefixLineEdit->text() );
     Params.Suffix = TO_TSTRING( mpUI->SuffixLineEdit->text() );
+    Params.UseUnderscores = mpUI->UseUnderscoresCheckBox->isChecked();
     Params.PrintToLog = mpUI->LogOutputCheckBox->isChecked();
 
     // Run the task and configure ourselves so we can update correctly

@@ -311,7 +311,7 @@ const char* HashablePropTypeName(EPropertyType Prop)
     case eBoolProperty:         return "bool";
     case eLongProperty:         return "int";
     case eEnumProperty:         return "enum";
-    case eBitfieldProperty:     return "bitfield";
+    case eBitfieldProperty:     return "Flags";
     case eFloatProperty:        return "float";
     case eStringProperty:       return "string";
     case eColorProperty:        return "Color";

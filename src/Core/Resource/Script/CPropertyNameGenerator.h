@@ -19,6 +19,9 @@ struct SPropertyNameGenerationParameters
     /** List of valid type suffixes */
     std::vector<TString> TypeNames;
 
+    /** Whether to separate words with underscores */
+    bool UseUnderscores;
+
     /** Whether to print the output from the generation process to the log */
     bool PrintToLog;
 };
