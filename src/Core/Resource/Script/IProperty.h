@@ -1,6 +1,7 @@
 #ifndef IPROPERTY
 #define IPROPERTY
 
+#if 0
 #include "EPropertyType.h"
 #include "IPropertyValue.h"
 #include "Core/Resource/CResource.h"
@@ -297,6 +298,6 @@ PropertyClass* TPropCast(IProperty *pProp)
 {
     return (pProp && pProp->Type() == PropertyClass::StaticType() ? static_cast<PropertyClass*>(pProp) : nullptr);
 }
-
+#endif
 #endif // IPROPERTY
 

@@ -569,36 +569,30 @@ void CWorldEditor::OnLinksModified(const QList<CScriptObject*>& rkInstances)
         emit InstanceLinksModified(rkInstances);
 }
 
-void CWorldEditor::OnPropertyModified(IProperty *pProp)
+void CWorldEditor::OnPropertyModified(IPropertyNew *pProp)
 {
-    bool EditorProperty = false;
-
     if (!mpSelection->IsEmpty() && mpSelection->Front()->NodeType() == eScriptNode)
     {
         CScriptNode *pScript = static_cast<CScriptNode*>(mpSelection->Front());
         pScript->PropertyModified(pProp);
 
-        // Check editor property
-        if (pScript->Instance()->IsEditorProperty(pProp))
-            EditorProperty = true;
-
         // If this is an editor property, update other parts of the UI to reflect the new value.
-        if (EditorProperty)
+        if ( pScript->Instance()->IsEditorProperty(pProp) )
         {
             UpdateStatusBar();
             UpdateSelectionUI();
         }
 
         // If this is a model/character, then we'll treat this as a modified selection. This is to make sure the selection bounds updates.
-        if (pProp->Type() == eAssetProperty)
+        if (pProp->Type() == EPropertyTypeNew::Asset)
         {
-            CAssetTemplate *pAsset = static_cast<CAssetTemplate*>(pProp->Template());
-            const CResTypeFilter& rkFilter = pAsset->TypeFilter();
+            CAssetProperty *pAsset = TPropCast<CAssetProperty>(pProp);
+            const CResTypeFilter& rkFilter = pAsset->GetTypeFilter();
 
             if (rkFilter.Accepts(eModel) || rkFilter.Accepts(eAnimSet) || rkFilter.Accepts(eCharacter))
                 SelectionModified();
         }
-        else if (pProp->Type() == eCharacterProperty)
+        else if (pProp->Type() == EPropertyTypeNew::AnimationSet)
             SelectionModified();
 
         // Emit signal so other widgets can react to the property change
@@ -615,11 +609,10 @@ void CWorldEditor::SetSelectionActive(bool Active)
     {
         if (It->NodeType() == eScriptNode)
         {
-            CScriptNode *pScript = static_cast<CScriptNode*>(*It);
-            CScriptObject *pInst = pScript->Instance();
-            IProperty *pActive = pInst->ActiveProperty();
+            CScriptNode* pScript = static_cast<CScriptNode*>(*It);
+            CScriptObject* pInst = pScript->Instance();
 
-            if (pActive)
+            if (pInst->IsActive())
                 Objects << pInst;
         }
     }
@@ -628,13 +621,13 @@ void CWorldEditor::SetSelectionActive(bool Active)
     {
         mUndoStack.beginMacro("Toggle Active");
 
-        foreach (CScriptObject *pInst, Objects)
+        /*foreach (CScriptObject *pInst, Objects)
         {
             IProperty *pActive = pInst->ActiveProperty();
             IPropertyValue *pOld = pActive->RawValue()->Clone();
             pInst->SetActive(Active);
             mUndoStack.push(new CEditScriptPropertyCommand(pActive, this, pOld, true));
-        }
+        }*/
 
         mUndoStack.endMacro();
     }
@@ -644,11 +637,10 @@ void CWorldEditor::SetSelectionInstanceNames(const QString& rkNewName, bool IsDo
 {
     // todo: this only supports one node at a time because a macro prevents us from merging undo commands
     // this is fine right now because this function is only ever called with a selection of one node, but probably want to fix in the future
-    if (mpSelection->Size() == 1 && mpSelection->Front()->NodeType() == eScriptNode)
+    /*if (mpSelection->Size() == 1 && mpSelection->Front()->NodeType() == eScriptNode)
     {
         CScriptNode *pNode = static_cast<CScriptNode*>(mpSelection->Front());
         CScriptObject *pInst = pNode->Instance();
-        IProperty *pName = pInst->InstanceNameProperty();
 
         if (pName)
         {
@@ -657,7 +649,7 @@ void CWorldEditor::SetSelectionInstanceNames(const QString& rkNewName, bool IsDo
             pInst->SetName(NewName);
             mUndoStack.push(new CEditScriptPropertyCommand(pName, this, pOld, IsDone, "Edit Instance Name"));
         }
-    }
+    }*/
 }
 
 void CWorldEditor::SetSelectionLayer(CScriptLayer *pLayer)

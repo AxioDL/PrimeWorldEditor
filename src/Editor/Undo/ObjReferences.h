@@ -111,35 +111,6 @@ public:
     }
 };
 
-class CPropertyPtr
-{
-    CInstancePtr mpInstance;
-    TIDString mPropertyID;
-    bool mValid;
-
-public:
-    CPropertyPtr()                  { SetProperty(nullptr); }
-    CPropertyPtr(IProperty *pProp)  { SetProperty(pProp); }
-
-    inline void SetProperty(IProperty *pProp)
-    {
-        mpInstance = pProp ? pProp->Instance() : nullptr;
-        mPropertyID = pProp ? pProp->IDString(true) : "";
-        mValid = pProp ? true : false;
-    }
-
-    inline CInstancePtr InstancePtr() const { return mpInstance; }
-    inline TIDString PropertyID() const     { return mPropertyID; }
-    inline IProperty* operator* () const    { return mValid ? mpInstance->PropertyByIDString(mPropertyID) : nullptr; }
-    inline IProperty* operator->() const    { return mValid ? mpInstance->PropertyByIDString(mPropertyID) : nullptr; }
-    inline CPropertyPtr& operator=(IProperty *pProp) { SetProperty(pProp); return *this; }
-
-    inline bool operator==(const CPropertyPtr& rkOther) const
-    {
-        return (mpInstance == rkOther.mpInstance && mPropertyID == rkOther.mPropertyID);
-    }
-};
-
 class CLinkPtr
 {
     CInstancePtr mpInstance;
@@ -170,7 +141,6 @@ public:
 
 DEFINE_PTR_LIST_CLASS(CNodePtrList, CNodePtr, CSceneNode*)
 DEFINE_PTR_LIST_CLASS(CInstancePtrList, CInstancePtr, CScriptObject*)
-DEFINE_PTR_LIST_CLASS(CPropertyPtrList, CPropertyPtr, IProperty*)
 DEFINE_PTR_LIST_CLASS(CLinkPtrList, CLinkPtr, CLink*)
 
 #endif // OBJREFERENCES

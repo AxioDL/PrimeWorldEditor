@@ -1,6 +1,7 @@
 #include "IProperty.h"
 #include "IPropertyTemplate.h"
 
+#if 0
 // ************ IProperty ************
 bool IProperty::IsInArray() const
 {
@@ -241,3 +242,4 @@ TString CArrayProperty::ElementName() const
 {
     return static_cast<CArrayTemplate*>(Template())->ElementName();
 }
+#endif

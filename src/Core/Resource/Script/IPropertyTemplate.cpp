@@ -3,6 +3,7 @@
 #include <Common/Hash/CCRC32.h>
 #include <iostream>
 
+#if 0
 // ************ IPropertyTemplate ************
 EGame IPropertyTemplate::Game() const
 {
@@ -250,75 +251,73 @@ void CStructTemplate::DetermineVersionPropertyCounts()
         }
     }
 }
+#endif
 
 // ************ GLOBAL FUNCTIONS ************
-TString PropEnumToPropString(EPropertyType Prop)
+TString PropEnumToPropString(EPropertyTypeNew Prop)
 {
     switch (Prop)
     {
-    case eBoolProperty:       return "bool";
-    case eByteProperty:       return "byte";
-    case eShortProperty:      return "short";
-    case eLongProperty:       return "long";
-    case eEnumProperty:       return "enum";
-    case eBitfieldProperty:   return "bitfield";
-    case eFloatProperty:      return "float";
-    case eStringProperty:     return "string";
-    case eColorProperty:      return "color";
-    case eVector3Property:    return "vector3f";
-    case eSoundProperty:      return "sound";
-    case eAssetProperty:      return "asset";
-    case eStructProperty:     return "struct";
-    case eArrayProperty:      return "array";
-    case eCharacterProperty:  return "character";
-    case eMayaSplineProperty: return "MayaSpline";
-    case eUnknownProperty:    return "unknown";
+    case EPropertyTypeNew::Bool:       return "bool";
+    case EPropertyTypeNew::Byte:       return "byte";
+    case EPropertyTypeNew::Short:      return "short";
+    case EPropertyTypeNew::Int:       return "long";
+    case EPropertyTypeNew::Enum:       return "enum";
+    case EPropertyTypeNew::Flags:   return "bitfield";
+    case EPropertyTypeNew::Float:      return "float";
+    case EPropertyTypeNew::String:     return "string";
+    case EPropertyTypeNew::Color:      return "color";
+    case EPropertyTypeNew::Vector:    return "vector3f";
+    case EPropertyTypeNew::Sound:      return "sound";
+    case EPropertyTypeNew::Asset:      return "asset";
+    case EPropertyTypeNew::Struct:     return "struct";
+    case EPropertyTypeNew::Array:      return "array";
+    case EPropertyTypeNew::AnimationSet:    return "character";
+    case EPropertyTypeNew::Spline: return "MayaSpline";
 
-    case eInvalidProperty:
     default:
         return "invalid";
     }
 }
 
-EPropertyType PropStringToPropEnum(TString Prop)
+EPropertyTypeNew PropStringToPropEnum(TString Prop)
 {
     Prop = Prop.ToLower();
-    if (Prop == "bool")       return eBoolProperty;
-    if (Prop == "byte")       return eByteProperty;
-    if (Prop == "short")      return eShortProperty;
-    if (Prop == "long")       return eLongProperty;
-    if (Prop == "enum")       return eEnumProperty;
-    if (Prop == "bitfield")   return eBitfieldProperty;
-    if (Prop == "float")      return eFloatProperty;
-    if (Prop == "string")     return eStringProperty;
-    if (Prop == "color")      return eColorProperty;
-    if (Prop == "vector3f")   return eVector3Property;
-    if (Prop == "sound")      return eSoundProperty;
-    if (Prop == "asset")      return eAssetProperty;
-    if (Prop == "struct")     return eStructProperty;
-    if (Prop == "array")      return eArrayProperty;
-    if (Prop == "character")  return eCharacterProperty;
-    if (Prop == "mayaspline") return eMayaSplineProperty;
-    if (Prop == "unknown")    return eUnknownProperty;
-                              return eInvalidProperty;
+    if (Prop == "bool")       return EPropertyTypeNew::Bool;
+    if (Prop == "byte")       return EPropertyTypeNew::Byte;
+    if (Prop == "short")      return EPropertyTypeNew::Short;
+    if (Prop == "long")       return EPropertyTypeNew::Int;
+    if (Prop == "enum")       return EPropertyTypeNew::Enum;
+    if (Prop == "bitfield")   return EPropertyTypeNew::Flags;
+    if (Prop == "float")      return EPropertyTypeNew::Float;
+    if (Prop == "string")     return EPropertyTypeNew::String;
+    if (Prop == "color")      return EPropertyTypeNew::Color;
+    if (Prop == "vector3f")   return EPropertyTypeNew::Vector;
+    if (Prop == "sound")      return EPropertyTypeNew::Sound;
+    if (Prop == "asset")      return EPropertyTypeNew::Asset;
+    if (Prop == "struct")     return EPropertyTypeNew::Struct;
+    if (Prop == "array")      return EPropertyTypeNew::Array;
+    if (Prop == "character")  return EPropertyTypeNew::AnimationSet;
+    if (Prop == "mayaspline") return EPropertyTypeNew::Spline;
+                              return EPropertyTypeNew::Invalid;
 }
 
-const char* HashablePropTypeName(EPropertyType Prop)
+const char* HashablePropTypeName(EPropertyTypeNew Prop)
 {
     // Variants that match Retro's internal type names for generating property IDs. case sensitive
     switch (Prop)
     {
-    case eBoolProperty:         return "bool";
-    case eLongProperty:         return "int";
-    case eEnumProperty:         return "enum";
-    case eBitfieldProperty:     return "Flags";
-    case eFloatProperty:        return "float";
-    case eStringProperty:       return "string";
-    case eColorProperty:        return "Color";
-    case eVector3Property:      return "Vector";
-    case eSoundProperty:        return "sound";
-    case eAssetProperty:        return "asset";
-    case eMayaSplineProperty:   return "spline";
+    case EPropertyTypeNew::Bool:    return "bool";
+    case EPropertyTypeNew::Int:     return "int";
+    case EPropertyTypeNew::Enum:    return "enum";
+    case EPropertyTypeNew::Flags:   return "Flags";
+    case EPropertyTypeNew::Float:   return "float";
+    case EPropertyTypeNew::String:  return "string";
+    case EPropertyTypeNew::Color:   return "Color";
+    case EPropertyTypeNew::Vector:  return "Vector";
+    case EPropertyTypeNew::Sound:   return "sound";
+    case EPropertyTypeNew::Asset:   return "asset";
+    case EPropertyTypeNew::Spline:  return "spline";
 
     // All other types are either invalid or need a custom reimplementation because they can return multiple strings (like struct)
     default:
@@ -327,6 +326,7 @@ const char* HashablePropTypeName(EPropertyType Prop)
     }
 }
 
+#if 0
 // ************ DEBUG ************
 void CStructTemplate::DebugPrintProperties(TString base)
 {
@@ -343,3 +343,4 @@ void CStructTemplate::DebugPrintProperties(TString base)
             Log::Write(base + tmp->Name());
     }
 }
+#endif

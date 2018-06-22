@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="BeamCombos" type="multi">
+    <properties>
+        <enum ID="0x00" name="Super Missile" template="Enums/VulnerabilityType.xml"/>
+        <enum ID="0x01" name="Ice Spreader" template="Enums/VulnerabilityType.xml"/>
+        <enum ID="0x02" name="Wavebuster" template="Enums/VulnerabilityType.xml"/>
+        <enum ID="0x03" name="Flamethrower" template="Enums/VulnerabilityType.xml"/>
+        <enum ID="0x04" name="Phazon Combo" template="Enums/VulnerabilityType.xml"/>
+    </properties>
+</struct>

@@ -283,7 +283,8 @@ void GenerateAssetNames(CGameProject *pProj)
 
                 for (u32 iInst = 0; iInst < pLayer->NumInstances(); iInst++)
                 {
-                    CScriptObject *pInst = pLayer->InstanceByIndex(iInst);
+                    CScriptObject* pInst = pLayer->InstanceByIndex(iInst);
+                    CStructPropertyNew* pProperties = pInst->Template()->Properties();
 
                     if (pInst->ObjectTypeID() == 0x42 || pInst->ObjectTypeID() == FOURCC('POIN'))
                     {
@@ -292,12 +293,12 @@ void GenerateAssetNames(CGameProject *pProj)
                         if (Name.StartsWith("POI_", false))
                         {
                             TIDString ScanIDString = (pProj->Game() <= ePrime ? "0x4:0x0" : "0xBDBEC295:0xB94E9BE7");
-                            TAssetProperty *pScanProperty = TPropCast<TAssetProperty>(pInst->PropertyByIDString(ScanIDString));
+                            CAssetProperty *pScanProperty = TPropCast<CAssetProperty>(pProperties->ChildByIDString(ScanIDString));
                             ASSERT(pScanProperty); // Temporary assert to remind myself later to update this code when uncooked properties are added to the template
 
                             if (pScanProperty)
                             {
-                                CAssetID ScanID = pScanProperty->Get();
+                                CAssetID ScanID = pScanProperty->Value(pInst->PropertyData());
                                 CResourceEntry *pEntry = pStore->FindEntry(ScanID);
 
                                 if (pEntry && !pEntry->IsNamed())
@@ -327,12 +328,12 @@ void GenerateAssetNames(CGameProject *pProj)
                         if (Name.EndsWith(".STRG", false))
                         {
                             u32 StringPropID = (pProj->Game() <= ePrime ? 0x4 : 0x9182250C);
-                            TAssetProperty *pStringProperty = TPropCast<TAssetProperty>(pInst->Properties()->PropertyByID(StringPropID));
+                            CAssetProperty *pStringProperty = TPropCast<CAssetProperty>(pProperties->ChildByID(StringPropID));
                             ASSERT(pStringProperty); // Temporary assert to remind myself later to update this code when uncooked properties are added to the template
 
                             if (pStringProperty)
                             {
-                                CAssetID StringID = pStringProperty->Get();
+                                CAssetID StringID = pStringProperty->Value(pInst->PropertyData());
                                 CResourceEntry *pEntry = pStore->FindEntry(StringID);
 
                                 if (pEntry && !pEntry->IsNamed())
@@ -353,12 +354,12 @@ void GenerateAssetNames(CGameProject *pProj)
                              pInst->ObjectTypeID() == 0x8 || pInst->ObjectTypeID() == FOURCC('PLAT'))
                     {
                         u32 ModelPropID = (pProj->Game() <= ePrime ? (pInst->ObjectTypeID() == 0x0 ? 0xA : 0x6) : 0xC27FFA8F);
-                        TAssetProperty *pModelProperty = TPropCast<TAssetProperty>(pInst->Properties()->PropertyByID(ModelPropID));
+                        CAssetProperty *pModelProperty = TPropCast<CAssetProperty>(pProperties->ChildByID(ModelPropID));
                         ASSERT(pModelProperty); // Temporary assert to remind myself later to update this code when uncooked properties are added to the template
 
                         if (pModelProperty)
                         {
-                            CAssetID ModelID = pModelProperty->Get();
+                            CAssetID ModelID = pModelProperty->Value(pInst->PropertyData());
                             CResourceEntry *pEntry = pStore->FindEntry(ModelID);
 
                             if (pEntry && !pEntry->IsCategorized())

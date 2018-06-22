@@ -88,7 +88,7 @@ SMessage CMasterTemplate::MessageByIndex(u32 Index)
     return (std::next(it, Index))->second;
 }
 
-CStructTemplate* CMasterTemplate::StructAtSource(const TString& rkSource)
+CStructPropertyNew* CMasterTemplate::StructAtSource(const TString& rkSource)
 {
     auto InfoIt = mStructTemplates.find(rkSource);
 
@@ -149,38 +149,44 @@ TString CMasterTemplate::PropertyName(u32 PropertyID)
         return "Unknown";
 }
 
-u32 CMasterTemplate::CreatePropertyID(IPropertyTemplate *pTemp)
+// Removing these functions for now. I'm not sure of the best way to go about implementing them under the new system yet.
+u32 CMasterTemplate::CreatePropertyID(IPropertyNew* pProp)
 {
     // MP1 properties don't have IDs so we can use this function to create one to track instances of a particular property.
     // To ensure the IDs are unique we'll create a hash using two things: the struct source file and the ID string (relative to the struct).
-    TString IDString = pTemp->IDString(false);
-    TString Source;
-    CStructTemplate *pStruct = pTemp->Parent();
+    //
+    // Note for properties that have accurate names we can apply a CRC32 to the name to generate a hash equivalent to what the hash would
+    // have been if this were an MP2/3 property. In an ideal world where every property was named, this would be great. However, we have a
+    // lot of properties that have generic names like "Unknown", and they should be tracked separately as they are in all likelihood
+    // different properties. So for this reason, we only want to track sub-instances of one property under one ID.
+    TString IDString = pProp->Archetype()->IDString(true);
+    TString TemplateFile = pProp->GetTemplateFileName();
 
-    while (pStruct)
-    {
-        Source = pStruct->SourceFile();
-        if (!Source.IsEmpty()) break;
-        IDString.Prepend(pStruct->IDString(false) + ":");
-        pStruct = pStruct->Parent();
-    }
-
-    return IDString.Hash32() * Source.Hash32();
+    CCRC32 Hash;
+    Hash.Hash(*IDString);
+    Hash.Hash(*TemplateFile);
+    return Hash.Digest();
 }
 
-void CMasterTemplate::AddProperty(IPropertyTemplate *pTemp, const TString& rkTemplateName /*= ""*/)
+void CMasterTemplate::AddProperty(IPropertyNew* pProp, const TString& rkTemplateName /*= ""*/)
 {
     u32 ID;
 
-    if (pTemp->Game() >= eEchoesDemo)
-        ID = pTemp->PropertyID();
+    if (pProp->Game() >= eEchoesDemo)
+        ID = pProp->ID();
 
     // Use a different ID for MP1
     else
     {
         // For MP1 we only really need to track properties that come from struct templates.
-        if (!pTemp->IsFromStructTemplate()) return;
-        else ID = CreatePropertyID(pTemp);
+        IPropertyNew* pArchetype = pProp->Archetype();
+
+        if (!pArchetype ||
+             pArchetype->ScriptTemplate() != nullptr ||
+             pArchetype->RootParent()->Type() != EPropertyTypeNew::Struct)
+            return;
+
+        ID = CreatePropertyID(pProp);
     }
 
     auto it = smIDMap.find(ID);
@@ -189,7 +195,7 @@ void CMasterTemplate::AddProperty(IPropertyTemplate *pTemp, const TString& rkTem
     if (it != smIDMap.end())
     {
         SPropIDInfo& rInfo = it->second;
-        rInfo.PropertyList.push_back(pTemp);
+        rInfo.PropertyList.push_back(pProp);
 
         if (!rkTemplateName.IsEmpty())
         {
@@ -214,15 +220,15 @@ void CMasterTemplate::AddProperty(IPropertyTemplate *pTemp, const TString& rkTem
     {
         SPropIDInfo Info;
         if (!rkTemplateName.IsEmpty()) Info.XMLList.push_back(rkTemplateName);
-        Info.PropertyList.push_back(pTemp);
+        Info.PropertyList.push_back(pProp);
         smIDMap[ID] = Info;
     }
 }
 
-void CMasterTemplate::RenameProperty(IPropertyTemplate *pTemp, const TString& rkNewName)
+void CMasterTemplate::RenameProperty(IPropertyNew* pProp, const TString& rkNewName)
 {
-    u32 ID = pTemp->PropertyID();
-    if (ID <= 0xFF) ID = CreatePropertyID(pTemp);
+    u32 ID = pProp->ID();
+    if (ID <= 0xFF) ID = CreatePropertyID(pProp);
     RenameProperty(ID, rkNewName);
 }
 
@@ -245,10 +251,10 @@ void CMasterTemplate::RenameProperty(u32 ID, const TString& rkNewName)
     {
         const SPropIDInfo& rkInfo = InfoIt->second;
 
-        for (u32 iTemp = 0; iTemp < rkInfo.PropertyList.size(); iTemp++)
+        for (u32 PropertyIdx = 0; PropertyIdx < rkInfo.PropertyList.size(); PropertyIdx++)
         {
-            if (Original.IsEmpty() || rkInfo.PropertyList[iTemp]->Name() == Original)
-                rkInfo.PropertyList[iTemp]->SetName(rkNewName);
+            if (Original.IsEmpty() || rkInfo.PropertyList[PropertyIdx]->Name() == Original)
+                rkInfo.PropertyList[PropertyIdx]->SetName(rkNewName);
         }
     }
 }
@@ -264,10 +270,10 @@ void CMasterTemplate::XMLsUsingID(u32 ID, std::vector<TString>& rOutList)
     }
 }
 
-const std::vector<IPropertyTemplate*>* CMasterTemplate::TemplatesWithMatchingID(IPropertyTemplate *pTemp)
+const std::vector<IPropertyNew*>* CMasterTemplate::TemplatesWithMatchingID(IPropertyNew* pProp)
 {
-    u32 ID = pTemp->PropertyID();
-    if (ID <= 0xFF) ID = CreatePropertyID(pTemp);
+    u32 ID = pProp->ID();
+    if (ID <= 0xFF) ID = CreatePropertyID(pProp);
 
     auto InfoIt = smIDMap.find(ID);
 

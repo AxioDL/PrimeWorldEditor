@@ -13,48 +13,30 @@ CAreaAttributes::~CAreaAttributes()
 
 void CAreaAttributes::SetObject(CScriptObject *pObj)
 {
-    mpObj = pObj;
-    mGame = pObj->Template()->MasterTemplate()->Game();
+    CScriptTemplate* pTemplate = pObj->Template();
+    CStructPropertyNew* pProperties = pTemplate->Properties();
+
+    mpObject = pObj;
+    mGame = pTemplate->MasterTemplate()->Game();
+    mNeedSky = CBoolRef(pObj, pProperties->ChildByIndex(1));
+
+    if (mGame == ePrime)
+        mOverrideSky = CAssetRef(pObj, pProperties->ChildByIndex(7));
+    else if (mGame > ePrime)
+        mOverrideSky = CAssetRef(pObj, pProperties->ChildByID(0xD208C9FA));
 }
 
 bool CAreaAttributes::IsLayerEnabled() const
 {
-    return mpObj->Layer()->IsActive();
+    return mpObject->Layer()->IsActive();
 }
 
 bool CAreaAttributes::IsSkyEnabled() const
 {
-    CPropertyStruct *pBaseStruct = mpObj->Properties();
-
-    switch (mGame)
-    {
-    case ePrime:
-    case eEchoesDemo:
-    case eEchoes:
-    case eCorruptionProto:
-    case eCorruption:
-    case eReturns:
-        return static_cast<TBoolProperty*>(pBaseStruct->PropertyByIndex(1))->Get();
-    default:
-        return false;
-    }
+    return mNeedSky.IsValid() ? mNeedSky.Get() : false;
 }
 
 CModel* CAreaAttributes::SkyModel() const
 {
-    CPropertyStruct *pBaseStruct = mpObj->Properties();
-
-    switch (mGame)
-    {
-    case ePrime:
-        return gpResourceStore->LoadResource<CModel>( static_cast<TAssetProperty*>(pBaseStruct->PropertyByIndex(7))->Get() );
-    case eEchoesDemo:
-    case eEchoes:
-    case eCorruptionProto:
-    case eCorruption:
-    case eReturns:
-        return gpResourceStore->LoadResource<CModel>( static_cast<TAssetProperty*>(pBaseStruct->PropertyByID(0xD208C9FA))->Get() );
-    default:
-        return nullptr;
-    }
+    return mOverrideSky.IsValid() ? gpResourceStore->LoadResource<CModel>(mOverrideSky.Get()) : nullptr;
 }

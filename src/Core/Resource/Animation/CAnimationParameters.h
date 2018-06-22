@@ -20,6 +20,7 @@ public:
     CAnimationParameters(EGame Game);
     CAnimationParameters(IInputStream& rSCLY, EGame Game);
     void Write(IOutputStream& rSCLY);
+    void Serialize(IArchive& rArc);
 
     const SSetCharacter* GetCurrentSetCharacter(s32 NodeIndex = -1);
     CModel* GetCurrentModel(s32 NodeIndex = -1);

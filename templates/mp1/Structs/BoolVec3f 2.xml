@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="BoolVec3f 2" type="single">
+    <properties>
+        <property ID="0x00" name="Unknown 34" type="bool"/>
+        <property ID="0x01" name="Unknown 35" type="vector3f"/>
+    </properties>
+</struct>

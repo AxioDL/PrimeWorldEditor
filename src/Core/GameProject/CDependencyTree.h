@@ -8,7 +8,7 @@
 
 class CScriptLayer;
 class CScriptObject;
-class CPropertyStruct;
+class CStructPropertyNew;
 class CAnimSet;
 class CAnimationParameters;
 struct SSetCharacter;
@@ -142,7 +142,7 @@ public:
     // Static
     static CScriptInstanceDependency* BuildTree(CScriptObject *pInstance);
 protected:
-    static void ParseStructDependencies(CScriptInstanceDependency *pTree, CPropertyStruct *pStruct);
+    static void ParseStructDependencies(CScriptInstanceDependency *pTree, CScriptObject* pInstance, CStructPropertyNew *pStruct);
 };
 
 // Node representing an animset character. Indicates what index the character is within the animset.

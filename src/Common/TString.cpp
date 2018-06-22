@@ -1,4 +1,5 @@
 #include "TString.h"
+#include "Hash/CCRC32.h"
 #include "Hash/CFNV1A.h"
 #include <FileIO/IOUtil.h>
 #include <codecvt>
@@ -7,13 +8,14 @@
 // ************ TString ************
 u32 TString::Hash32() const
 {
-    CFNV1A Hash(CFNV1A::e32Bit);
-    Hash.HashString(*this);
-    return Hash.GetHash32();
+    CCRC32 Hash;
+    Hash.Hash(**this);
+    return Hash.Digest();
 }
 
 u64 TString::Hash64() const
 {
+    // todo: replace with MD5
     CFNV1A Hash(CFNV1A::e64Bit);
     Hash.HashString(*this);
     return Hash.GetHash64();

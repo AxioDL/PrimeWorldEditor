@@ -6,22 +6,22 @@
 #include <Core/Resource/Factory/CTemplateLoader.h>
 #include <Core/Resource/Script/CMasterTemplate.h>
 
-CTemplateEditDialog::CTemplateEditDialog(IPropertyTemplate *pTemplate, QWidget *pParent)
+CTemplateEditDialog::CTemplateEditDialog(IPropertyNew *pProperty, QWidget *pParent)
     : QDialog(pParent)
     , mpUI(new Ui::CTemplateEditDialog)
     , mpValidator(new CPropertyNameValidator(this))
-    , mpTemplate(pTemplate)
-    , mGame(pTemplate->Game())
-    , mOriginalName(pTemplate->Name())
-    , mOriginalDescription(pTemplate->Description())
+    , mpProperty(pProperty)
+    , mGame(pProperty->Game())
+    , mOriginalName(pProperty->Name())
+    , mOriginalDescription(pProperty->Description())
     , mOriginalNameWasValid(true)
 {
     mpUI->setupUi(this);
 
-    mpUI->IDDisplayLabel->setText(TO_QSTRING(pTemplate->IDString(false)));
-    mpUI->PathDisplayLabel->setText(TO_QSTRING(pTemplate->IDString(true)));
-    mpUI->NameLineEdit->setText(TO_QSTRING(pTemplate->Name()));
-    mpUI->DescriptionTextEdit->setPlainText(TO_QSTRING(pTemplate->Description()));
+    mpUI->IDDisplayLabel->setText(TO_QSTRING(pProperty->IDString(false)));
+    mpUI->PathDisplayLabel->setText(TO_QSTRING(pProperty->IDString(true)));
+    mpUI->NameLineEdit->setText(TO_QSTRING(pProperty->Name()));
+    mpUI->DescriptionTextEdit->setPlainText(TO_QSTRING(pProperty->Description()));
 
     if (mGame <= ePrime)
     {
@@ -35,7 +35,7 @@ CTemplateEditDialog::CTemplateEditDialog(IPropertyTemplate *pTemplate, QWidget *
     {
         CTemplateLoader::LoadAllGames();
         std::vector<TString> TemplateList;
-        CMasterTemplate::XMLsUsingID(pTemplate->PropertyID(), TemplateList);
+        CMasterTemplate::XMLsUsingID(pProperty->ID(), TemplateList);
 
         for (u32 iTemp = 0; iTemp < TemplateList.size(); iTemp++)
             mpUI->TemplatesListWidget->addItem(TO_QSTRING(TemplateList[iTemp]));
@@ -43,38 +43,15 @@ CTemplateEditDialog::CTemplateEditDialog(IPropertyTemplate *pTemplate, QWidget *
         mpUI->ValidityLabel->SetValidityText("Hash match! Property name is likely correct.", "Hash mismatch! Property name is likely wrong.");
         connect(mpUI->NameLineEdit, SIGNAL( SoftValidityChanged(bool) ), mpUI->ValidityLabel, SLOT( SetValid(bool) ) );
 
-        mpValidator->SetProperty(pTemplate);
+        mpValidator->SetProperty(pProperty);
         mpUI->NameLineEdit->SetSoftValidator(mpValidator);
         mOriginalNameWasValid = mpUI->NameLineEdit->IsInputValid();
     }
 
-    TString Source;
-
-    if (mpTemplate->Type() == eStructProperty || mpTemplate->Type() == eArrayProperty)
-        Source = static_cast<CStructTemplate*>(mpTemplate)->SourceFile();
-    else if (mpTemplate->Type() == eEnumProperty)
-        Source = static_cast<CEnumTemplate*>(mpTemplate)->SourceFile();
-    else if (mpTemplate->Type() == eBitfieldProperty)
-        Source = static_cast<CBitfieldTemplate*>(mpTemplate)->SourceFile();
+    TString Source = mpProperty->GetTemplateFileName();
 
     if (Source.IsEmpty())
-    {
-        CStructTemplate *pParent = mpTemplate->Parent();
-        while (pParent)
-        {
-            Source = pParent->SourceFile();
-            if (!Source.IsEmpty()) break;
-            pParent = pParent->Parent();
-        }
-    }
-
-    if (Source.IsEmpty())
-    {
-        if (mpTemplate->ScriptTemplate())
-            Source = mpTemplate->ScriptTemplate()->SourceFile();
-        if (Source.IsEmpty())
-            Source = "None";
-    }
+        Source = "None";
 
     mpUI->SourceFileDisplayLabel->setText(TO_QSTRING(Source));
 
@@ -100,7 +77,7 @@ void CTemplateEditDialog::ApplyChanges()
             return;
     }
 
-    FindEquivalentProperties(mpTemplate);
+    FindEquivalentProperties(mpProperty);
 
     bool NeedsListResave = false;
     bool RenameAll = mpUI->RenameAllCheckBox->isChecked();
@@ -111,12 +88,12 @@ void CTemplateEditDialog::ApplyChanges()
     if (mOriginalName != NewName)
     {
         // Rename properties
-        if (RenameAll && (mGame >= eEchoesDemo || mpTemplate->IsFromStructTemplate()))
+        if (RenameAll && (mGame >= eEchoesDemo || mpProperty->Archetype() != nullptr))
         {
-            CMasterTemplate::RenameProperty(mpTemplate, NewName);
+            CMasterTemplate::RenameProperty(mpProperty, NewName);
 
             // Add modified templates to pending resave list
-            const std::vector<IPropertyTemplate*> *pList = CMasterTemplate::TemplatesWithMatchingID(mpTemplate);
+            const std::vector<IPropertyNew*> *pList = CMasterTemplate::TemplatesWithMatchingID(mpProperty);
 
             if (pList)
             {
@@ -125,7 +102,7 @@ void CTemplateEditDialog::ApplyChanges()
             }
         }
 
-        mpTemplate->SetName(NewName); // If mpTemplate has an overridden name then CMasterTemplate::RenameProperty won't touch it
+        mpProperty->SetName(NewName); // If mpTemplate has an overridden name then CMasterTemplate::RenameProperty won't touch it
 
         if (RenameAll && mGame >= eEchoesDemo)
             NeedsListResave = true;
@@ -135,28 +112,30 @@ void CTemplateEditDialog::ApplyChanges()
     UpdateDescription(NewDescription);
 
     // Resave templates
-    foreach (CScriptTemplate *pScript, mScriptTemplatesToResave)
+    //FIXME
+/*    foreach (CScriptTemplate *pScript, mScriptTemplatesToResave)
         CTemplateWriter::SaveScriptTemplate(pScript);
 
     foreach (CStructTemplate *pStruct, mStructTemplatesToResave)
         CTemplateWriter::SaveStructTemplate(pStruct);
 
     if (NeedsListResave)
-        CTemplateWriter::SavePropertyList();
+        CTemplateWriter::SavePropertyList();*/
 
     close();
 }
 
 // ************ PROTECTED ************
-void CTemplateEditDialog::AddTemplate(IPropertyTemplate *pTemp)
+void CTemplateEditDialog::AddTemplate(IPropertyNew* pProp)
 {
-    if (pTemp->IsFromStructTemplate())
+    //FIXME
+/*    if (pProp->Archetype() != nullptr)
     {
-        TString Source = pTemp->FindStructSource();
+        TString Source = pProp->GetTemplateFileName();
 
         if (!Source.IsEmpty())
         {
-            CStructTemplate *pStruct = pTemp->MasterTemplate()->StructAtSource(Source);
+            CStructTemplate *pStruct = pProp->MasterTemplate()->StructAtSource(Source);
 
             if (!mStructTemplatesToResave.contains(pStruct))
                 mStructTemplatesToResave << pStruct;
@@ -165,7 +144,7 @@ void CTemplateEditDialog::AddTemplate(IPropertyTemplate *pTemp)
 
     else
     {
-        CScriptTemplate *pScript = pTemp->ScriptTemplate();
+        CScriptTemplate *pScript = pProp->ScriptTemplate();
 
         if (pScript)
         {
@@ -175,22 +154,23 @@ void CTemplateEditDialog::AddTemplate(IPropertyTemplate *pTemp)
 
         else
         {
-            Log::Error("Can't determine where property " + pTemp->IDString(true) + " comes from");
+            Log::Error("Can't determine where property " + pProp->IDString(true) + " comes from");
         }
-    }
+    }*/
 }
 
 void CTemplateEditDialog::UpdateDescription(const TString& rkNewDesc)
 {
-    mpTemplate->SetDescription(rkNewDesc);
-    AddTemplate(mpTemplate);
+    //FIXME
+/*    mpProperty->SetDescription(rkNewDesc);
+    AddTemplate(mpProperty);
 
     // Update all copies of this property in memory with the new description
-    TString SourceFile = mpTemplate->FindStructSource();
+    TString SourceFile = mpProperty->FindStructSource();
 
     if (!SourceFile.IsEmpty())
     {
-        const std::vector<IPropertyTemplate*> *pkTemplates = CMasterTemplate::TemplatesWithMatchingID(mpTemplate);
+        const std::vector<IPropertyTemplate*> *pkTemplates = CMasterTemplate::TemplatesWithMatchingID(mpProperty);
 
         if (pkTemplates)
         {
@@ -209,11 +189,13 @@ void CTemplateEditDialog::UpdateDescription(const TString& rkNewDesc)
     {
         pTemp->SetDescription(rkNewDesc);
         AddTemplate(pTemp);
-    }
+    }*/
 }
 
-void CTemplateEditDialog::FindEquivalentProperties(IPropertyTemplate *pTemp)
+void CTemplateEditDialog::FindEquivalentProperties(IPropertyNew *pTemp)
 {
+    //FIXME
+    /*
     if (mGame <= ePrime) return;
 
     // Find the equivalent version of this property in other games.
@@ -275,5 +257,5 @@ void CTemplateEditDialog::FindEquivalentProperties(IPropertyTemplate *pTemp)
                     mEquivalentProperties << pNewTemp;
             }
         }
-    }
+    }*/
 }

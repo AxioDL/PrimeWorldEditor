@@ -74,5 +74,8 @@ enum EResType
     eInvalidResType = -1
 };
 
+// Defined in CResTypeInfo.cpp
+void Serialize(IArchive& rArc, EResType& rType);
+
 #endif // ERESTYPE
 

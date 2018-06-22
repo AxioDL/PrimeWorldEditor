@@ -88,12 +88,17 @@ void CPropertyView::SetInstance(CScriptObject *pObj)
 {
     mpObject = pObj;
     mpModel->SetBoldModifiedProperties(mpEditor ? (mpEditor->CurrentGame() > ePrime) : true);
-    mpModel->SetBaseStruct(pObj ? pObj->Properties() : nullptr);
+
+    if (pObj)
+        mpModel->ConfigureScript(pObj->Area()->Entry()->Project(), pObj->Template()->Properties(), pObj);
+    else
+        mpModel->ConfigureScript(nullptr, nullptr, nullptr);
+
     SetPersistentEditors(QModelIndex());
 
     // Auto-expand EditorProperties
     QModelIndex Index = mpModel->index(0, 0, QModelIndex());
-    IProperty *pProp = mpModel->PropertyForIndex(Index, false);
+    IPropertyNew *pProp = mpModel->PropertyForIndex(Index, false);
     if (pProp && pProp->ID() == 0x255A4580)
         expand(Index);
 }
@@ -108,19 +113,19 @@ void CPropertyView::UpdateEditorProperties(const QModelIndex& rkParent)
     {
         QModelIndex Index0 = mpModel->index(iRow, 0, rkParent);
         QModelIndex Index1 = mpModel->index(iRow, 1, rkParent);
-        IProperty *pProp = mpModel->PropertyForIndex(Index0, false);
+        IPropertyNew *pProp = mpModel->PropertyForIndex(Index0, false);
 
         if (pProp)
         {
             // For structs, update sub-properties.
-            if (pProp->Type() == eStructProperty)
+            if (pProp->Type() == EPropertyTypeNew::Struct)
             {
-                CStructTemplate *pStruct = static_cast<CStructTemplate*>(pProp->Template());
+                CStructPropertyNew *pStruct = TPropCast<CStructPropertyNew>(pProp);
 
-                // As an optimization, in MP2+, we don't need to update unless this is a single struct or if
+                // As an optimization, in MP2+, we don't need to update unless this is an atomic struct or if
                 // it's EditorProperties, because other structs never have editor properties in them.
                 // In MP1 this isn't the case so we need to update every struct regardless
-                if ((Game <= ePrime) || (pStruct->IsSingleProperty() || pStruct->PropertyID() == 0x255A4580))
+                if ((Game <= ePrime) || (pStruct->IsAtomic() || pStruct->ID() == 0x255A4580))
                     UpdateEditorProperties(Index0);
                 else
                     continue;
@@ -148,34 +153,35 @@ void CPropertyView::SetPersistentEditors(const QModelIndex& rkParent)
     for (u32 iChild = 0; iChild < NumChildren; iChild++)
     {
         QModelIndex ChildIndex = mpModel->index(iChild, 1, rkParent);
-        IProperty *pProp = mpModel->PropertyForIndex(ChildIndex, false);
-        EPropertyType Type = (pProp ? pProp->Type() : eInvalidProperty);
+        IPropertyNew *pProp = mpModel->PropertyForIndex(ChildIndex, false);
+        EPropertyTypeNew Type = (pProp ? pProp->Type() : EPropertyTypeNew::Invalid);
 
         // Handle persistent editors under character properties
-        if (!pProp && ChildIndex.internalId() & 0x1)
+        if (!pProp && ChildIndex.internalId() & 0x80000000)
         {
             pProp = mpModel->PropertyForIndex(ChildIndex, true);
 
-            if (pProp->Type() == eCharacterProperty)
+            if (pProp->Type() == EPropertyTypeNew::AnimationSet)
             {
-                EGame Game = static_cast<TCharacterProperty*>(pProp)->Get().Version();
+                EGame Game = mpObject->Area()->Game();
                 Type = mpDelegate->DetermineCharacterPropType(Game, ChildIndex);
             }
 
-            if (pProp->Type() == eBitfieldProperty)
-                Type = eBoolProperty;
+            if (pProp->Type() == EPropertyTypeNew::Flags)
+                Type = EPropertyTypeNew::Bool;
         }
 
 
         switch (Type)
         {
-        case eBoolProperty:
-        case eEnumProperty:
-        case eColorProperty:
-        case eAssetProperty:
+        case EPropertyTypeNew::Bool:
+        case EPropertyTypeNew::Enum:
+        case EPropertyTypeNew::Choice:
+        case EPropertyTypeNew::Color:
+        case EPropertyTypeNew::Asset:
             openPersistentEditor(ChildIndex);
             break;
-        case eStructProperty:
+        case EPropertyTypeNew::Struct:
             setFirstColumnSpanned(iChild, rkParent, true);
             break;
         }
@@ -202,9 +208,9 @@ void CPropertyView::ClosePersistentEditors(const QModelIndex& rkIndex)
 void CPropertyView::OnPropertyModified(const QModelIndex& rkIndex)
 {
     // Check for a character resource being changed. If that's the case we need to remake the persistent editors.
-    IProperty *pProp = mpModel->PropertyForIndex(rkIndex, true);
+    IPropertyNew *pProp = mpModel->PropertyForIndex(rkIndex, true);
 
-    if (pProp->Type() == eCharacterProperty /*&& rkIndex.internalId() & 0x1*/)
+    if (pProp->Type() == EPropertyTypeNew::AnimationSet /*&& rkIndex.internalId() & 0x1*/)
     {
         ClosePersistentEditors(rkIndex);
         SetPersistentEditors(rkIndex);
@@ -217,7 +223,7 @@ void CPropertyView::CreateContextMenu(const QPoint& rkPos)
 
     if (Index.isValid() && Index.column() == 0)
     {
-        IProperty *pProp = mpModel->PropertyForIndex(Index, true);
+        IPropertyNew *pProp = mpModel->PropertyForIndex(Index, true);
         mpMenuProperty = pProp;
 
         QMenu Menu;
@@ -239,6 +245,6 @@ void CPropertyView::ToggleShowNameValidity(bool ShouldShow)
 
 void CPropertyView::EditPropertyTemplate()
 {
-    CTemplateEditDialog Dialog(mpMenuProperty->Template(), mpEditor);
+    CTemplateEditDialog Dialog(mpMenuProperty, mpEditor);
     Dialog.exec();
 }

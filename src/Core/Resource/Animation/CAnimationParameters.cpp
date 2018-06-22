@@ -136,6 +136,25 @@ void CAnimationParameters::Write(IOutputStream& rSCLY)
     }
 }
 
+void CAnimationParameters::Serialize(IArchive& rArc)
+{
+    if (rArc.IsReader())
+        mGame = rArc.Game();
+
+    rArc << SERIAL("AnimationSetAsset", mCharacterID);
+
+    if (mGame <= eEchoes)
+        rArc << SERIAL("CharacterID", mCharIndex);
+
+    rArc << SERIAL("AnimationID", mAnimIndex);
+
+    if (mGame >= eReturns)
+    {
+        rArc << SERIAL("Unknown0", mUnknown2)
+             << SERIAL("Unknown1", mUnknown3);
+    }
+}
+
 const SSetCharacter* CAnimationParameters::GetCurrentSetCharacter(s32 NodeIndex /*= -1*/)
 {
     CAnimSet *pSet = AnimSet();

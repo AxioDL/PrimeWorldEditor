@@ -1,9 +1,11 @@
 #include "CTemplateWriter.h"
 #include "CAreaCooker.h"
 #include <Common/FileUtil.h>
+#include <Core/Resource/Script/IPropertyTemplate.h>
 
 #include <tinyxml2.h>
 
+#if 0
 using namespace tinyxml2;
 TString CTemplateWriter::smTemplatesDir = "../templates/";
 
@@ -802,9 +804,9 @@ void CTemplateWriter::SavePropertyOverrides(XMLDocument *pDoc, XMLElement *pPare
                 // Struct/array-specific parameters
                 else if (pProp->Type() == eStructProperty || pProp->Type() == eArrayProperty)
                 {
-                    CStructTemplate *pStruct = static_cast<CStructTemplate*>(pProp);
+                    CStructTemplate *pChildStruct = static_cast<CStructTemplate*>(pProp);
                     CStructTemplate *pSourceStruct = static_cast<CStructTemplate*>(pSource);
-                    SavePropertyOverrides(pDoc, pElem, pStruct, pSourceStruct);
+                    SavePropertyOverrides(pDoc, pElem, pChildStruct, pSourceStruct);
                 }
             }
         }
@@ -839,3 +841,4 @@ void CTemplateWriter::SaveBitFlags(XMLDocument *pDoc, XMLElement *pParent, CBitf
         pFlags->LinkEndChild(pElem);
     }
 }
+#endif

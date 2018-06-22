@@ -8,12 +8,12 @@
 class CPointOfInterestExtra : public CScriptExtra
 {
     // Tint POI billboard orange/red depending on scan importance
-    TAssetProperty *mpScanProperty;
+    CAssetRef mScanProperty;
     TResPtr<CScan> mpScanData;
 
 public:
     explicit CPointOfInterestExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent = 0);
-    void PropertyModified(IProperty* pProperty);
+    void PropertyModified(IPropertyNew* pProperty);
     void ModifyTintColor(CColor& Color);
     CScan* GetScan() const { return mpScanData; }
 

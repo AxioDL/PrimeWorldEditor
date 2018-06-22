@@ -232,7 +232,31 @@ HEADERS += \
     IUIRelay.h \
     Resource/CResTypeFilter.h \
     GameProject/COpeningBanner.h \
-    Resource/Script/CPropertyNameGenerator.h
+    Resource/Script/CPropertyNameGenerator.h \
+    Resource/Script/IPropertyNew.h \
+    Resource/Script/TPropertyProxy.h \
+    Resource/Script/Property/CEnumProperty.h \
+    Resource/Script/Property/CFlagsProperty.h \
+    Resource/Script/Property/CAssetProperty.h \
+    Resource/Script/Property/CPointerProperty.h \
+    Resource/Script/Property/CArrayProperty.h \
+    Resource/Script/Property/Properties.h \
+    Resource/Script/Property/TPropertyRef.h \
+    Resource/Script/Property/CBoolProperty.h \
+    Resource/Script/Property/CByteProperty.h \
+    Resource/Script/Property/CShortProperty.h \
+    Resource/Script/Property/CIntProperty.h \
+    Resource/Script/Property/CFloatProperty.h \
+    Resource/Script/Property/CStringProperty.h \
+    Resource/Script/Property/CSoundProperty.h \
+    Resource/Script/Property/CAnimationProperty.h \
+    Resource/Script/Property/CSequenceProperty.h \
+    Resource/Script/Property/CSplineProperty.h \
+    Resource/Script/Property/CAnimationSetProperty.h \
+    Resource/Script/Property/CVectorProperty.h \
+    Resource/Script/Property/CColorProperty.h \
+    Resource/Script/Property/CStructProperty.h \
+    Resource/Script/Property/CGuidProperty.h
 
 # Source Files
 SOURCES += \
@@ -342,4 +366,5 @@ SOURCES += \
     IUIRelay.cpp \
     GameProject\COpeningBanner.cpp \
     IProgressNotifier.cpp \
-    Resource/Script/CPropertyNameGenerator.cpp
+    Resource/Script/CPropertyNameGenerator.cpp \
+    Resource/Script/IPropertyNew.cpp

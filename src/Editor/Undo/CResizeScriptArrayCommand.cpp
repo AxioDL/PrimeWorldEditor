@@ -1,6 +1,6 @@
 #include "CResizeScriptArrayCommand.h"
-
-CResizeScriptArrayCommand::CResizeScriptArrayCommand(IProperty *pProp, CWorldEditor *pEditor, CPropertyModel *pModel, int NewSize)
+/*
+CResizeScriptArrayCommand::CResizeScriptArrayCommand(IPropertyNew *pProp, CWorldEditor *pEditor, CPropertyModel *pModel, int NewSize)
     : IUndoCommand("Edit Property")
     , mpEditor(pEditor)
     , mpArray(pProp)
@@ -23,7 +23,7 @@ CResizeScriptArrayCommand::CResizeScriptArrayCommand(IProperty *pProp, CWorldEdi
 
 CResizeScriptArrayCommand::~CResizeScriptArrayCommand()
 {
-    foreach (IProperty *pProp, mDeletedProperties)
+    foreach (IPropertyNew *pProp, mDeletedProperties)
         delete pProp;
 }
 
@@ -69,3 +69,4 @@ void CResizeScriptArrayCommand::redo()
         mpModel->ArrayResized(Index, (u32) mOldSize);
     }
 }
+*/

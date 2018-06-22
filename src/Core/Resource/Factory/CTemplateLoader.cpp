@@ -1,6 +1,7 @@
 #include "CTemplateLoader.h"
 #include "CAreaLoader.h"
 #include "Core/Resource/Script/IPropertyTemplate.h"
+#include "Core/Resource/Script/Property/Properties.h"
 #include <Common/FileUtil.h>
 #include <Common/Log.h>
 
@@ -9,7 +10,105 @@ const TString CTemplateLoader::mskGameListPath = CTemplateLoader::mskTemplatesDi
 
 using namespace tinyxml2;
 
-IPropertyTemplate* CTemplateLoader::LoadProperty(XMLElement *pElem, CScriptTemplate *pScript, CStructTemplate *pStruct, const TString& rkTemplateName)
+// ugly macro because this is all temp code anyway so whatever
+#define SET_MEMBER_CASES_NUMERICAL(MemberName, Param, LParam) \
+    case EPropertyTypeNew::Byte:\
+        TPropCast<CByteProperty>(pProp)->MemberName = (s8) LParam.ToInt32(10);\
+        break;\
+        \
+    case EPropertyTypeNew::Short:\
+        TPropCast<CShortProperty>(pProp)->MemberName = (s16) LParam.ToInt32(10);\
+        break;\
+        \
+    case EPropertyTypeNew::Int:\
+        TPropCast<CIntProperty>(pProp)->MemberName = (s32) LParam.ToInt32(10);\
+        break;\
+        \
+    case EPropertyTypeNew::Float:\
+        TPropCast<CFloatProperty>(pProp)->MemberName = LParam.ToFloat();\
+        break;\
+        \
+
+#define SET_MEMBER_CASES_NON_NUMERICAL(MemberName, Param, LParam) \
+    case EPropertyTypeNew::Bool:\
+        TPropCast<CBoolProperty>(pProp)->MemberName = (LParam == "true");\
+        break;\
+        \
+    case EPropertyTypeNew::Choice:\
+        TPropCast<CChoiceProperty>(pProp)->MemberName = LParam.ToInt32( LParam.StartsWith("0x") ? 16 : 10 );\
+        break;\
+        \
+    case EPropertyTypeNew::Enum:\
+        TPropCast<CEnumProperty>(pProp)->MemberName = LParam.ToInt32( LParam.StartsWith("0x") ? 16 : 10 );\
+        break;\
+        \
+    case EPropertyTypeNew::Flags:\
+        TPropCast<CFlagsProperty>(pProp)->MemberName = LParam.ToInt32( LParam.StartsWith("0x") ? 16 : 10 );\
+        break;\
+        \
+    case EPropertyTypeNew::String:\
+        TPropCast<CStringProperty>(pProp)->MemberName = Param;\
+        break;\
+        \
+    case EPropertyTypeNew::Vector:\
+    {\
+        TStringList Components = Param.Split(", ");\
+        if (Components.size() != 3) {\
+            TPropCast<CVectorProperty>(pProp)->MemberName = CVector3f::skInfinite;\
+            break;\
+        }\
+        float* pPtr = &TPropCast<CVectorProperty>(pProp)->MemberName.X;\
+        for (auto it = Components.begin(); it != Components.end(); it++)\
+        {\
+            *pPtr = it->ToFloat();\
+            pPtr++;\
+        }\
+        break;\
+    }\
+    case EPropertyTypeNew::Color:\
+    {\
+        TStringList Components = Param.Split(", ");\
+        if (Components.size() < 3 || Components.size() > 4) {\
+            TPropCast<CColorProperty>(pProp)->MemberName = CColor::skTransparentBlack;\
+            break;\
+        }\
+        float* pPtr = &TPropCast<CColorProperty>(pProp)->MemberName.R;\
+        TPropCast<CColorProperty>(pProp)->MemberName.A = 1.0f;\
+        for (auto it = Components.begin(); it != Components.end(); it++) {\
+            *pPtr = it->ToFloat();\
+            pPtr++;\
+        }\
+        break;\
+    }\
+    case EPropertyTypeNew::Asset:\
+        TPropCast<CAssetProperty>(pProp)->MemberName = CAssetID::FromString(Param);\
+        break;\
+        \
+    case EPropertyTypeNew::Sound:\
+        TPropCast<CSoundProperty>(pProp)->MemberName = LParam.ToInt32(10);\
+        break;\
+        \
+
+#define SET_MEMBER_FROM_STRING_TYPED(MemberName, Param, LParam)\
+    switch (Type)\
+    {\
+    SET_MEMBER_CASES_NON_NUMERICAL(MemberName, Param, LParam)\
+    SET_MEMBER_CASES_NUMERICAL(MemberName, Param, LParam)\
+    default:\
+        ASSERT(false);\
+        break;\
+    }\
+
+#define SET_MEMBER_FROM_STRING_NUMERICAL(MemberName, Param, LParam)\
+    switch(Type)\
+    {\
+    SET_MEMBER_CASES_NUMERICAL(MemberName, Param, LParam)\
+    default:\
+        ASSERT(false);\
+        break;\
+    }\
+
+IPropertyNew* CTemplateLoader::LoadProperty(XMLElement* pElem, CScriptTemplate* pScript, CStructPropertyNew* pParent, const TString& rkTemplateName)
 {
     TString NodeType = TString(pElem->Name()).ToLower();
     TString IDAttr = TString(pElem->Attribute("ID")).ToLower();
@@ -38,8 +137,8 @@ IPropertyTemplate* CTemplateLoader::LoadProperty(XMLElement *pElem, CScriptTempl
     }
 
     // Does the property already exist (eg is this an override)?
-    IPropertyTemplate *pProp = pStruct->PropertyByID(ID);
-    EPropertyType Type;
+    IPropertyNew* pProp = pParent->ChildByID(ID);
+    EPropertyTypeNew Type;
     bool IsNewProperty = false;
 
     // If it doesn't, then we'll need to create it.
@@ -50,7 +149,7 @@ IPropertyTemplate* CTemplateLoader::LoadProperty(XMLElement *pElem, CScriptTempl
         Type = PropStringToPropEnum(TypeStr);
         IsNewProperty = true;
 
-        if (Type == eInvalidProperty)
+        if (Type == EPropertyTypeNew::Invalid)
         {
             if (TypeStr.IsEmpty())
                 Log::Error(rkTemplateName + ": Property " + TString::HexString(ID) + " doesn't have a type set");
@@ -60,13 +159,56 @@ IPropertyTemplate* CTemplateLoader::LoadProperty(XMLElement *pElem, CScriptTempl
             return nullptr;
         }
 
-        pProp = CreateProperty(ID, Type, Name, pScript, pStruct);
+        // Load archetype if required
+        bool bNeedsArchetype = ( Type == EPropertyTypeNew::Struct ||
+                                 Type == EPropertyTypeNew::Enum ||
+                                 Type == EPropertyTypeNew::Choice ||
+                                 Type == EPropertyTypeNew::Flags );
 
+        if (bNeedsArchetype)
+        {
+            IPropertyNew* pArchetype = nullptr;
+
+            //todo: struct archetypes are not supposed to be optional but apparently some still don't have them
+            if (!TemplateAttr.IsEmpty())
+            {
+                if (Type == EPropertyTypeNew::Struct)
+                {
+                    pArchetype = LoadStructArchetype(TemplateAttr);
+                }
+                else if (Type == EPropertyTypeNew::Enum || Type == EPropertyTypeNew::Choice)
+                {
+                    pArchetype = LoadEnumArchetype(TemplateAttr, Type == EPropertyTypeNew::Choice);
+                }
+                else if (Type == EPropertyTypeNew::Flags)
+                {
+                    pArchetype = LoadFlagsArchetype(TemplateAttr);
+                }
+            }
+
+            // create property as a copy of the archetype
+            if (pArchetype != nullptr)
+            {
+                pProp = IPropertyNew::CreateCopy(pArchetype, pParent);
+            }
+        }
+
+        // no archetype, so do normal create
+        if (!pProp)
+        {
+            pProp = IPropertyNew::Create(Type, pParent, mpMaster, pScript, false);
+        }
+
+        // we need to have a valid property by this point
         if (!pProp)
         {
             Log::Error(rkTemplateName + ": Property " + TString::HexString(ID) + " seems to be using a valid but unsupported property type? (" + TypeStr + ")");
             return nullptr;
         }
+
+        // Initialize parameters on the new property
+        pProp->mID = ID;
+        pProp->mName = Name;
     }
     else
         Type = pProp->Type();
@@ -79,6 +221,7 @@ IPropertyTemplate* CTemplateLoader::LoadProperty(XMLElement *pElem, CScriptTempl
         TString ParamName = TString(pParams->Name()).ToLower();
         TString ParamVal = TString(pParams->GetText());
 
+#if 0
         // Load versions
         if (ParamName == "versions")
         {
@@ -100,245 +243,284 @@ IPropertyTemplate* CTemplateLoader::LoadProperty(XMLElement *pElem, CScriptTempl
 
         // Otherwise, delegate it to the template to parse the parameter.
         // (This is done because there's no common base class for typed properties, so it's tough to handle this in the template loader.)
-        else pProp->SetParam(ParamName, ParamVal);
+        else
+            Prop->SetParam(ParamName, ParamVal);
+#endif
+        if (ParamName == "cook_pref")
+        {
+            TString lValue = ParamVal.ToLower();
+
+            if (lValue == "always")
+                pProp->mCookPreference = ECookPreferenceNew::Always;
+            else if (lValue == "never")
+                pProp->mCookPreference = ECookPreferenceNew::Never;
+            else
+                pProp->mCookPreference = ECookPreferenceNew::Default;
+        }
+        else if (ParamName == "description")
+        {
+            pProp->mDescription = ParamVal;
+        }
+        else if (ParamName == "default")
+        {
+            TString lValue = ParamVal.ToLower();
+            SET_MEMBER_FROM_STRING_TYPED(mDefaultValue, ParamVal, lValue);
+        }
+        else if (ParamName == "range")
+        {
+            TStringList Components = ParamVal.ToLower().Split(", ");
+            TString Min = Components.front();
+            TString Max = Components.back();
+            SET_MEMBER_FROM_STRING_NUMERICAL(mMinValue, Min, Min);
+            SET_MEMBER_FROM_STRING_NUMERICAL(mMaxValue, Max, Max);
+        }
+        else if (ParamName == "suffix")
+        {
+            pProp->SetSuffix(ParamVal);
+        }
 
         pParams = pParams->NextSiblingElement();
     }
 
     // Asset-specific parameters
-    if (Type == eAssetProperty)
+    if (Type == EPropertyTypeNew::Asset)
     {
         TString ExtensionsAttr = pElem->Attribute("extensions");
 
         if (!ExtensionsAttr.IsEmpty())
         {
             TStringList ExtensionsList = ExtensionsAttr.Split(", ");
-            CAssetTemplate *pAsset = static_cast<CAssetTemplate*>(pProp);
+            CAssetProperty* pAsset = TPropCast<CAssetProperty>(pProp);
             pAsset->SetTypeFilter(ExtensionsList);
         }
     }
 
     // Enum-specific parameters
-    else if (Type == eEnumProperty)
+    else if (Type == EPropertyTypeNew::Enum || Type == EPropertyTypeNew::Choice)
     {
-        CEnumTemplate *pEnum = static_cast<CEnumTemplate*>(pProp);
-
-        // Load template
-        if (!TemplateAttr.IsEmpty())
-            LoadEnumTemplate(TemplateAttr, pEnum);
+        // use static_cast so we can do both enum and choice with this code
+        CEnumProperty* pEnum = static_cast<CEnumProperty*>(pProp);
 
         // Load embedded enumerators
-        XMLElement *pEnumerators = pElem->FirstChildElement("enumerators");
+        XMLElement* pEnumerators = pElem->FirstChildElement("enumerators");
 
         if (pEnumerators)
             LoadEnumerators(pEnumerators, pEnum, rkTemplateName);
     }
 
     // Bitfield-specific parameters
-    else if (Type == eBitfieldProperty)
+    else if (Type == EPropertyTypeNew::Flags)
     {
-        CBitfieldTemplate *pBitfield = static_cast<CBitfieldTemplate*>(pProp);
-
-        // Load template
-        if (!TemplateAttr.IsEmpty())
-            LoadBitfieldTemplate(TemplateAttr, pBitfield);
+        CFlagsProperty* pFlags = TPropCast<CFlagsProperty>(pProp);
 
         // Load embedded flags
-        XMLElement *pFlags = pElem->FirstChildElement("flags");
+        XMLElement* pFlagsElem = pElem->FirstChildElement("flags");
 
-        if (pFlags)
-            LoadBitFlags(pFlags, pBitfield, rkTemplateName);
+        if (pFlagsElem)
+            LoadBitFlags(pFlagsElem, pFlags, rkTemplateName);
     }
 
     // Struct-specific parameters
-    else if ( (Type == eStructProperty) || (Type == eArrayProperty) )
+    else if ( (Type == EPropertyTypeNew::Struct) || (Type == EPropertyTypeNew::Array) )
     {
-        CStructTemplate *pStruct = static_cast<CStructTemplate*>(pProp);
+        CStructPropertyNew* pStruct = nullptr;
 
-        // Load template or struct type
-        if (!TemplateAttr.IsEmpty())
-            LoadStructTemplate(TemplateAttr, pStruct);
+        if (Type == EPropertyTypeNew::Struct)
+        {
+            pStruct = TPropCast<CStructPropertyNew>(pProp);
+        }
+        else
+        {
+            CArrayProperty* pArray = TPropCast<CArrayProperty>(pProp);
 
-        if (IsNewProperty && TemplateAttr.IsEmpty() && Type == eStructProperty)
-            pStruct->mIsSingleProperty = (TypeAttr == "single");
+            if (pArray->mpArchetype != nullptr)
+            {
+                ASSERT(pArray->mpArchetype->Type() == EPropertyTypeNew::Struct);
+                pStruct = TPropCast<CStructPropertyNew>(pArray->mpArchetype);
+            }
+            else
+            {
+                pArray->mpArchetype = IPropertyNew::Create(EPropertyTypeNew::Struct, pArray, mpMaster, pScript, false);
+                pStruct = TPropCast<CStructPropertyNew>(pArray->mpArchetype);
+                pStruct->mFlags = EPropertyFlag::IsAtomic | EPropertyFlag::IsArrayArchetype;
+            }
+            pStruct = TPropCast<CStructPropertyNew>(pArray->mpArchetype);
+        }
 
-        // Load sub-properties and parameter overrides
+        // Load parameter overrides
         XMLElement *pProperties = pElem->FirstChildElement("properties");
 
         if (pProperties)
+        {
             LoadProperties(pProperties, pScript, pStruct, rkTemplateName);
+        }
+
+        if (Type == EPropertyTypeNew::Array)
+        {
+            pStruct->PostInitialize();
+        }
     }
 
     if (IsNewProperty)
         CMasterTemplate::AddProperty(pProp, mMasterDir + rkTemplateName);
 
+    pProp->PostInitialize();
     return pProp;
 }
 
-#define CREATE_PROP_TEMP(Class) new Class(ID, rkName, eNoCookPreference, pScript, mpMaster, pStruct)
-IPropertyTemplate* CTemplateLoader::CreateProperty(u32 ID, EPropertyType Type, const TString& rkName, CScriptTemplate *pScript, CStructTemplate *pStruct)
-{
-    IPropertyTemplate *pOut = pStruct->PropertyByID(ID);
-
-    switch (Type)
-    {
-    case eBoolProperty:         pOut = CREATE_PROP_TEMP(TBoolTemplate);         break;
-    case eByteProperty:         pOut = CREATE_PROP_TEMP(TByteTemplate);         break;
-    case eShortProperty:        pOut = CREATE_PROP_TEMP(TShortTemplate);        break;
-    case eLongProperty:         pOut = CREATE_PROP_TEMP(TLongTemplate);         break;
-    case eFloatProperty:        pOut = CREATE_PROP_TEMP(TFloatTemplate);        break;
-    case eStringProperty:       pOut = CREATE_PROP_TEMP(TStringTemplate);       break;
-    case eVector3Property:      pOut = CREATE_PROP_TEMP(TVector3Template);      break;
-    case eColorProperty:        pOut = CREATE_PROP_TEMP(TColorTemplate);        break;
-    case eSoundProperty:        pOut = CREATE_PROP_TEMP(TSoundTemplate);        break;
-    case eAssetProperty:        pOut = CREATE_PROP_TEMP(CAssetTemplate);        break;
-    case eCharacterProperty:    pOut = CREATE_PROP_TEMP(TCharacterTemplate);    break;
-    case eMayaSplineProperty:   pOut = CREATE_PROP_TEMP(TMayaSplineTemplate);   break;
-    case eEnumProperty:         pOut = CREATE_PROP_TEMP(CEnumTemplate);         break;
-    case eBitfieldProperty:     pOut = CREATE_PROP_TEMP(CBitfieldTemplate);     break;
-    case eArrayProperty:        pOut = CREATE_PROP_TEMP(CArrayTemplate);        break;
-    case eStructProperty:       pOut = CREATE_PROP_TEMP(CStructTemplate);       break;
-    }
-
-    if (pOut)
-        pStruct->mSubProperties.push_back(pOut);
-
-    return pOut;
-}
-
-void CTemplateLoader::LoadStructTemplate(const TString& rkTemplateFileName, CStructTemplate *pStruct)
+CStructPropertyNew* CTemplateLoader::LoadStructArchetype(const TString& rkTemplateFileName)
 {
     // Check whether this struct has already been read
     auto it = mpMaster->mStructTemplates.find(rkTemplateFileName);
-    CStructTemplate *pSource = (it == mpMaster->mStructTemplates.end() ? nullptr : it->second);
+    CStructPropertyNew* pArchetype = (it == mpMaster->mStructTemplates.end() ? nullptr : it->second);
 
-    // If the source hasn't been read yet, then we read it and add it to master's list
-    if (!pSource)
+    // If the struct template hasn't been read yet, then we read it and add it to master's list
+    if (!pArchetype)
     {
         XMLDocument Doc;
         OpenXML(mskTemplatesDir + mMasterDir + rkTemplateFileName, Doc);
 
         if (!Doc.Error())
         {
-            XMLElement *pRootElem;
+            pArchetype = TPropCast<CStructPropertyNew>(
+                        IPropertyNew::Create(EPropertyTypeNew::Struct,
+                                             nullptr,
+                                             mpMaster,
+                                             nullptr, false)
+                        );
+            ASSERT(pArchetype != nullptr);
 
-            if (pStruct->Type() == eStructProperty)
+            XMLElement* pRootElem = Doc.FirstChildElement("struct");
+            ASSERT(pRootElem);
+
+            TString TypeAttr = TString(pRootElem->Attribute("type")).ToLower();
+            ASSERT(!TypeAttr.IsEmpty())
+
+            if (TypeAttr == "single")
+                pArchetype->mFlags |= EPropertyFlag::IsAtomic;
+
+            pArchetype->mFlags |= EPropertyFlag::IsArchetype;
+            pArchetype->mTemplateFileName = rkTemplateFileName;
+            pArchetype->mName = rkTemplateFileName.GetFileName(false);
+
+#if 0
+            if (pArchetype->mTypeName.Contains("Struct"))
             {
-                pSource = new CStructTemplate(-1, nullptr, mpMaster);
-                pRootElem = Doc.FirstChildElement("struct");
-
-                if (!pRootElem)
-                {
-                    Log::Error(rkTemplateFileName + ": There is no root \"struct\" element");
-                    return;
-                }
-
-                TString TypeAttr = TString(pRootElem->Attribute("type")).ToLower();
-
-                if (TypeAttr.IsEmpty())
-                {
-                    Log::Error(rkTemplateFileName + ": There is no struct type specified");
-                    return;
-                }
-
-                pSource->mIsSingleProperty = (TypeAttr == "single" ? true : false);
+                pArchetype->mSourceFile = "Structs/" +
+                        GetGameShortName(mGame) +
+                        "-" +
+                        pArchetype->mTypeName +
+                        ".xml";
+                pArchetype->mTypeName = pArchetype->mSourceFile.GetFileName(false);
             }
+#endif
 
-            else if (pStruct->Type() == eArrayProperty)
-            {
-                pSource = new CArrayTemplate(-1, nullptr, mpMaster);
-                pRootElem = Doc.FirstChildElement("array");
-
-                if (!pRootElem)
-                {
-                    Log::Error(rkTemplateFileName + ": There is no root \"array\" element");
-                    return;
-                }
-            }
-            pSource->mSourceFile = rkTemplateFileName;
-            pSource->mTypeName = pSource->mSourceFile.GetFileName(false);
-
+            // ignore struct name attribute - archetypes should always have the type name
+#if 0
             TString NameAttr = TString(pRootElem->Attribute("name"));
             if (!NameAttr.IsEmpty())
-                pSource->mName = NameAttr;
+                pArchetype->mName = NameAttr;
+#endif
 
             // Read sub-properties
-            XMLElement *pSubPropsElem = pRootElem->FirstChildElement("properties");
+            XMLElement* pSubPropsElem = pRootElem->FirstChildElement("properties");
+            ASSERT(pSubPropsElem);
 
-            if (pSubPropsElem)
-            {
-                LoadProperties(pSubPropsElem, nullptr, pSource, rkTemplateFileName);
-                mpMaster->mStructTemplates[rkTemplateFileName] = pSource;
-            }
-
-            else
-            {
-                Log::Error(rkTemplateFileName + ": There is no \"properties\" block element");
-                delete pSource;
-                pSource = nullptr;
-            }
+            LoadProperties(pSubPropsElem, nullptr, pArchetype, rkTemplateFileName);
+            mpMaster->mStructTemplates[rkTemplateFileName] = pArchetype;
+            pArchetype->PostInitialize();
         }
     }
 
-    // Copy source to the new struct template
-    if (pSource)
-        pStruct->CopyStructData(pSource);
+    ASSERT(pArchetype != nullptr);
+    return pArchetype;
 }
 
-void CTemplateLoader::LoadEnumTemplate(const TString& rkTemplateFileName, CEnumTemplate *pEnum)
+CEnumProperty* CTemplateLoader::LoadEnumArchetype(const TString& rkTemplateFileName, bool bIsChoice)
 {
-    XMLDocument Doc;
-    OpenXML(mskTemplatesDir + mMasterDir + rkTemplateFileName, Doc);
+    // Check whether this struct has already been read
+    auto it = mpMaster->mEnumTemplates.find(rkTemplateFileName);
+    CEnumProperty* pArchetype = (it == mpMaster->mEnumTemplates.end() ? nullptr : it->second);
 
-    if (!Doc.Error())
+    // If the enum template hasn't been read yet, then we read it and add it to master's list
+    if (!pArchetype)
     {
-        pEnum->mSourceFile = rkTemplateFileName;
-        XMLElement *pRootElem = Doc.FirstChildElement("enum");
+        XMLDocument Doc;
+        OpenXML(mskTemplatesDir + mMasterDir + rkTemplateFileName, Doc);
 
-        if (!pRootElem)
+        if (!Doc.Error())
         {
-            Log::Error(rkTemplateFileName + ": There is no root \"enum\" element");
-            return;
+            // use static_cast so this code works for both enum and choice
+            pArchetype = static_cast<CEnumProperty*>(
+                        IPropertyNew::Create(bIsChoice ? EPropertyTypeNew::Choice : EPropertyTypeNew::Enum,
+                                             nullptr,
+                                             mpMaster,
+                                             nullptr,
+                                             false)
+                        );
+            ASSERT(pArchetype != nullptr);
+
+            pArchetype->mFlags |= EPropertyFlag::IsArchetype;
+            pArchetype->mSourceFile = rkTemplateFileName;
+
+            XMLElement* pRootElem = Doc.FirstChildElement("enum");
+            ASSERT(pRootElem);
+
+            XMLElement *pEnumers = pRootElem->FirstChildElement("enumerators");
+            ASSERT(pEnumers);
+
+            LoadEnumerators(pEnumers, pArchetype, rkTemplateFileName);
+            mpMaster->mEnumTemplates[rkTemplateFileName] = pArchetype;
+            pArchetype->PostInitialize();
         }
-
-        XMLElement *pEnumers = pRootElem->FirstChildElement("enumerators");
-
-        if (pEnumers)
-            LoadEnumerators(pEnumers, pEnum, rkTemplateFileName);
-
-        else
-            Log::Error(rkTemplateFileName + ": There is no \"enumerators\" block element");
-
     }
+
+    ASSERT(pArchetype != nullptr);
+    return pArchetype;
 }
 
-void CTemplateLoader::LoadBitfieldTemplate(const TString& rkTemplateFileName, CBitfieldTemplate *pBitfield)
+CFlagsProperty* CTemplateLoader::LoadFlagsArchetype(const TString& rkTemplateFileName)
 {
-    XMLDocument Doc;
-    OpenXML(mskTemplatesDir + mMasterDir + rkTemplateFileName, Doc);
+    // Check whether this struct has already been read
+    auto it = mpMaster->mFlagsTemplates.find(rkTemplateFileName);
+    CFlagsProperty* pArchetype = (it == mpMaster->mFlagsTemplates.end() ? nullptr : it->second);
 
-    if (!Doc.Error())
+    // If the enum template hasn't been read yet, then we read it and add it to master's list
+    if (!pArchetype)
     {
-        pBitfield->mSourceFile = rkTemplateFileName;
-        XMLElement *pRootElem = Doc.FirstChildElement("bitfield");
+        XMLDocument Doc;
+        OpenXML(mskTemplatesDir + mMasterDir + rkTemplateFileName, Doc);
 
-        if (!pRootElem)
+        if (!Doc.Error())
         {
-            Log::Error(rkTemplateFileName + ": There is no root \"bitfield\" element");
-            return;
+            pArchetype = TPropCast<CFlagsProperty>(
+                        IPropertyNew::Create(EPropertyTypeNew::Flags,
+                                             nullptr,
+                                             mpMaster,
+                                             nullptr, false)
+                        );
+            ASSERT(pArchetype != nullptr);
+
+            pArchetype->mFlags |= EPropertyFlag::IsArchetype;
+            pArchetype->mSourceFile = rkTemplateFileName;
+
+            XMLElement *pRootElem = Doc.FirstChildElement("bitfield");
+            ASSERT(pRootElem);
+
+            XMLElement *pFlags = pRootElem->FirstChildElement("flags");
+            ASSERT(pFlags);
+
+            LoadBitFlags(pFlags, pArchetype, rkTemplateFileName);
+            mpMaster->mFlagsTemplates[rkTemplateFileName] = pArchetype;
+            pArchetype->PostInitialize();
         }
-
-        XMLElement *pFlags = pRootElem->FirstChildElement("flags");
-
-        if (pFlags)
-            LoadBitFlags(pFlags, pBitfield, rkTemplateFileName);
-
-        else
-            Log::Error(rkTemplateFileName + ": There is no \"flags\" block element");
     }
+
+    ASSERT(pArchetype != nullptr);
+    return pArchetype;
 }
 
-void CTemplateLoader::LoadProperties(XMLElement *pPropertiesElem, CScriptTemplate *pScript, CStructTemplate *pStruct, const TString& rkTemplateName)
+void CTemplateLoader::LoadProperties(XMLElement *pPropertiesElem, CScriptTemplate *pScript, CStructPropertyNew* pStruct, const TString& rkTemplateName)
 {
     XMLElement *pChild = pPropertiesElem->FirstChildElement();
 
@@ -359,12 +541,9 @@ void CTemplateLoader::LoadProperties(XMLElement *pPropertiesElem, CScriptTemplat
 
         pChild = pChild->NextSiblingElement();
     }
-
-    pStruct->mVersionPropertyCounts.resize(mpMaster->NumGameVersions());
-    pStruct->DetermineVersionPropertyCounts();
 }
 
-void CTemplateLoader::LoadEnumerators(XMLElement *pEnumeratorsElem, CEnumTemplate *pTemp, const TString& rkTemplateName)
+void CTemplateLoader::LoadEnumerators(XMLElement *pEnumeratorsElem, CEnumProperty* pEnum, const TString& rkTemplateName)
 {
     XMLElement *pChild = pEnumeratorsElem->FirstChildElement("enumerator");
 
@@ -376,10 +555,7 @@ void CTemplateLoader::LoadEnumerators(XMLElement *pEnumeratorsElem, CEnumTemplat
         if (pkID && pkName)
         {
             u32 EnumeratorID = TString(pkID).ToInt32();
-            pTemp->mEnumerators.push_back(CEnumTemplate::SEnumerator(pkName, EnumeratorID));
-
-            if (EnumeratorID > 0xFF)
-                pTemp->mUsesHashes = true;
+            pEnum->mValues.push_back(CEnumProperty::SEnumValue(pkName, EnumeratorID));
         }
 
         else
@@ -395,7 +571,7 @@ void CTemplateLoader::LoadEnumerators(XMLElement *pEnumeratorsElem, CEnumTemplat
     }
 }
 
-void CTemplateLoader::LoadBitFlags(XMLElement *pFlagsElem, CBitfieldTemplate *pTemp, const TString& templateName)
+void CTemplateLoader::LoadBitFlags(XMLElement *pFlagsElem, CFlagsProperty* pFlags, const TString& kTemplateName)
 {
     XMLElement *pChild = pFlagsElem->FirstChildElement("flag");
 
@@ -405,11 +581,11 @@ void CTemplateLoader::LoadBitFlags(XMLElement *pFlagsElem, CBitfieldTemplate *pT
         const char *pkName = pChild->Attribute("name");
 
         if (pkMask && pkName)
-            pTemp->mBitFlags.push_back(CBitfieldTemplate::SBitFlag(pkName, TString(pkMask).ToInt32()));
+            pFlags->mBitFlags.push_back(CFlagsProperty::SBitFlag(pkName, TString(pkMask).ToInt32()));
 
         else
         {
-            TString LogErrorBase = templateName + ": Couldn't parse bit flag; ";
+            TString LogErrorBase = kTemplateName + ": Couldn't parse bit flag; ";
 
             if      (!pkMask && pkName) Log::Error(LogErrorBase + "no mask (" + pkName + ")");
             else if (pkMask && !pkName) Log::Error(LogErrorBase + "no name (mask " + pkMask + ")");
@@ -420,24 +596,27 @@ void CTemplateLoader::LoadBitFlags(XMLElement *pFlagsElem, CBitfieldTemplate *pT
     }
 }
 
+enum class ETest
+{
+    ValueA = (true ? 0 : (u32) reinterpret_cast<u64>("ValueA"))
+};
+
 // ************ SCRIPT OBJECT ************
 CScriptTemplate* CTemplateLoader::LoadScriptTemplate(XMLDocument *pDoc, const TString& rkTemplateName, u32 ObjectID)
 {
     CScriptTemplate *pScript = new CScriptTemplate(mpMaster);
     pScript->mObjectID = ObjectID;
-    pScript->mpBaseStruct = new CStructTemplate(-1, pScript, mpMaster);
     pScript->mSourceFile = rkTemplateName;
+
+    IPropertyNew* pBaseStruct = IPropertyNew::Create(EPropertyTypeNew::Struct, nullptr, mpMaster, pScript);
+    pScript->mpProperties = std::make_unique<CStructPropertyNew>( *TPropCast<CStructPropertyNew>(pBaseStruct) );
 
     XMLElement *pRoot = pDoc->FirstChildElement("ScriptTemplate");
 
     // Name
     XMLElement *pNameElem = pRoot->FirstChildElement("name");
-
-    if (pNameElem)
-    {
-        pScript->mTemplateName = pNameElem->GetText();
-        pScript->mpBaseStruct->SetName(pScript->mTemplateName);
-    }
+    ASSERT(pNameElem);
+    pScript->mpProperties->mName = pNameElem->GetText();
 
     // Modules
     XMLElement *pModulesElem = pRoot->FirstChildElement("modules");
@@ -457,7 +636,7 @@ CScriptTemplate* CTemplateLoader::LoadScriptTemplate(XMLDocument *pDoc, const TS
     XMLElement *pPropsElem = pRoot->FirstChildElement("properties");
 
     if (pPropsElem)
-        LoadProperties(pPropsElem, pScript, pScript->mpBaseStruct, rkTemplateName);
+        LoadProperties(pPropsElem, pScript, pScript->Properties(), rkTemplateName);
     else
         Log::Error(rkTemplateName + ": There is no \"properties\" block element");
 
@@ -565,7 +744,7 @@ CScriptTemplate* CTemplateLoader::LoadScriptTemplate(XMLDocument *pDoc, const TS
                     // Validate property asset
                     if (Asset.AssetSource == CScriptTemplate::SEditorAsset::eProperty)
                     {
-                        if (!pScript->mpBaseStruct->HasProperty(Asset.AssetLocation))
+                        if (!pScript->mpProperties->ChildByIDString(Asset.AssetLocation))
                         {
                             Log::Error(rkTemplateName + ": Invalid property for " + Type + " asset: " + ID);
                             pAsset = pAsset->NextSiblingElement();
@@ -609,12 +788,12 @@ CScriptTemplate* CTemplateLoader::LoadScriptTemplate(XMLDocument *pDoc, const TS
                 Attachment.AttachType = eAttach;
 
                 // Validate property
-                IPropertyTemplate *pProp = pScript->mpBaseStruct->PropertyByIDString(Attachment.AttachProperty);
+                IPropertyNew* pProp = pScript->mpProperties->ChildByIDString(Attachment.AttachProperty);
 
                 if (!pProp)
                     Log::Error(rkTemplateName + ": Invalid property for attachment " + TString::FromInt32(AttachIdx) + ": " + Attachment.AttachProperty);
-                else if (pProp->Type() != eCharacterProperty && (pProp->Type() != eAssetProperty || !static_cast<CAssetTemplate*>(pProp)->TypeFilter().Accepts(eModel)))
-                    Log::Error(rkTemplateName + ": Property referred to by attachment " + TString::FromInt32(AttachIdx) + " is not an attachable asset! Must be a file property that accepts CMDLs, or a character property.");
+                else if (pProp->Type() != EPropertyTypeNew::AnimationSet && (pProp->Type() != EPropertyTypeNew::Asset || !TPropCast<CAssetProperty>(pProp)->GetTypeFilter().Accepts(eModel)))
+                    Log::Error(rkTemplateName + ": Property referred to by attachment " + TString::FromInt32(AttachIdx) + " is not an attachable asset! Must be a file property that accepts CMDLs, or an animation set property.");
 
                 else
                 {
@@ -746,6 +925,7 @@ CScriptTemplate* CTemplateLoader::LoadScriptTemplate(XMLDocument *pDoc, const TS
         }
     }
 
+    pScript->PostLoad();
     return pScript;
 }
 

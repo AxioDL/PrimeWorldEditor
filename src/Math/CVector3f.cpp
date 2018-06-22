@@ -41,6 +41,11 @@ void CVector3f::Serialize(IArchive& rArc)
     rArc << SERIAL_AUTO(X) << SERIAL_AUTO(Y) << SERIAL_AUTO(Z);
 }
 
+TString CVector3f::ToString() const
+{
+    return TString::Format("%f.1, %f.1, %f.1", X, Y, Z);
+}
+
 // ************ SWIZZLE ************
 CVector2f CVector3f::XY()
 {

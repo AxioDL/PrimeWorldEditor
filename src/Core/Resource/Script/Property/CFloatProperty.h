@@ -1,0 +1,27 @@
+#ifndef CFLOATPROPERTY_H
+#define CFLOATPROPERTY_H
+
+#include "../IPropertyNew.h"
+
+class CFloatProperty : public TNumericalPropertyNew< float, EPropertyTypeNew::Float >
+{
+    friend class IPropertyNew;
+
+protected:
+    CFloatProperty()
+        : TNumericalPropertyNew()
+    {}
+
+public:
+    virtual void SerializeValue(void* pData, IArchive& Arc) const
+    {
+        Arc.SerializePrimitive( (float&) ValueRef(pData) );
+    }
+
+    virtual TString ValueAsString(void* pData)
+    {
+        return TString::FromFloat( Value(pData) );
+    }
+};
+
+#endif // CFLOATPROPERTY_H

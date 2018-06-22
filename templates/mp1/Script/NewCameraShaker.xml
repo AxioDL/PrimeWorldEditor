@@ -5,72 +5,11 @@
         <property ID="0x00" name="Name" type="string"/>
         <property ID="0x01" name="Position" type="vector3f"/>
         <property ID="0x02" name="Unknown 1" type="bool"/>
-        <struct ID="0x03" name="LongBool" type="single">
-            <properties>
-                <property ID="0x00" name="Unknown 2" type="long"/>
-                <property ID="0x01" name="Unknown 3" type="bool"/>
-            </properties>
-        </struct>
-        <struct ID="0x04" name="GuessStruct" type="single">
-            <properties>
-                <property ID="0x00" name="Unknown 4" type="float"/>
-                <property ID="0x01" name="Unknown 5" type="float"/>
-            </properties>
-        </struct>
-        <struct ID="0x05" name="NewCameraShakerStruct 1" type="single">
-            <properties>
-                <property ID="0x00" name="Unknown 6" type="long"/>
-                <property ID="0x01" name="Unknown 7" type="bool"/>
-                <property ID="0x02" name="Unknown 8" type="long"/>
-                <property ID="0x03" name="Unknown 9" type="bool"/>
-                <property ID="0x04" name="Unknown 10" type="float"/>
-                <property ID="0x05" name="Unknown 11" type="float"/>
-                <property ID="0x06" name="Unknown 12" type="float"/>
-                <property ID="0x07" name="Unknown 13" type="float"/>
-                <property ID="0x08" name="Unknown 14" type="long"/>
-                <property ID="0x09" name="Unknown 15" type="bool"/>
-                <property ID="0x0A" name="Unknown 16" type="float"/>
-                <property ID="0x0B" name="Unknown 17" type="float"/>
-                <property ID="0x0C" name="Unknown 18" type="float"/>
-                <property ID="0x0D" name="Unknown 19" type="float"/>
-            </properties>
-        </struct>
-        <struct ID="0x06" name="NewCameraShakerStruct 2" type="single">
-            <properties>
-                <property ID="0x00" name="Unknown 20" type="long"/>
-                <property ID="0x01" name="Unknown 21" type="bool"/>
-                <property ID="0x02" name="Unknown 22" type="long"/>
-                <property ID="0x03" name="Unknown 23" type="bool"/>
-                <property ID="0x04" name="Unknown 24" type="float"/>
-                <property ID="0x05" name="Unknown 25" type="float"/>
-                <property ID="0x06" name="Unknown 26" type="float"/>
-                <property ID="0x07" name="Unknown 27" type="float"/>
-                <property ID="0x08" name="Unknown 28" type="long"/>
-                <property ID="0x09" name="Unknown 29" type="bool"/>
-                <property ID="0x0A" name="Unknown 30" type="float"/>
-                <property ID="0x0B" name="Unknown 31" type="float"/>
-                <property ID="0x0C" name="Unknown 32" type="float"/>
-                <property ID="0x0D" name="Unknown 33" type="float"/>
-            </properties>
-        </struct>
-        <struct ID="0x07" name="NewCameraShakerStruct 3" type="single">
-            <properties>
-                <property ID="0x00" name="Unknown 34" type="long"/>
-                <property ID="0x01" name="Unknown 35" type="bool"/>
-                <property ID="0x02" name="Unknown 36" type="long"/>
-                <property ID="0x03" name="Unknown 37" type="bool"/>
-                <property ID="0x04" name="Unknown 38" type="float"/>
-                <property ID="0x05" name="Unknown 39" type="float"/>
-                <property ID="0x06" name="Unknown 40" type="float"/>
-                <property ID="0x07" name="Unknown 41" type="float"/>
-                <property ID="0x08" name="Unknown 42" type="long"/>
-                <property ID="0x09" name="Unknown 43" type="bool"/>
-                <property ID="0x0A" name="Unknown 44" type="float"/>
-                <property ID="0x0B" name="Unknown 45" type="float"/>
-                <property ID="0x0C" name="Unknown 46" type="float"/>
-                <property ID="0x0D" name="Unknown 47" type="float"/>
-            </properties>
-        </struct>
+        <struct ID="0x03" name="LongBool" template="Structs/LongBool.xml"/>
+        <struct ID="0x04" name="GuessStruct" template="Structs/MP1-GuessStruct.xml"/>
+        <struct ID="0x05" name="NewCameraShakerStruct 1" template="Structs/MP1-NewCameraShakerStruct 1.xml"/>
+        <struct ID="0x06" name="NewCameraShakerStruct 2" template="Structs/MP1-NewCameraShakerStruct 2.xml"/>
+        <struct ID="0x07" name="NewCameraShakerStruct 3" template="Structs/MP1-NewCameraShakerStruct 3.xml"/>
     </properties>
     <states/>
     <messages/>

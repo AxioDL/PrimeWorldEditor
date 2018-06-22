@@ -10,19 +10,22 @@
 class CScriptLoader
 {
     EGame mVersion;
-    CScriptObject *mpObj;
-    CScriptLayer *mpLayer;
-    CGameArea *mpArea;
+    CScriptObject* mpObj;
+    CScriptLayer* mpLayer;
+    CGameArea* mpArea;
     CMasterTemplate *mpMaster;
 
-    CScriptLoader();
-    void ReadProperty(IProperty *pProp, u32 Size, IInputStream& rSCLY);
+    // Current array item pointer
+    void* mpArrayItemData;
 
-    void LoadStructMP1(IInputStream& rSCLY, CPropertyStruct *pStruct, CStructTemplate *pTemp);
+    CScriptLoader();
+    void ReadProperty(IPropertyNew* pProp, u32 Size, IInputStream& rSCLY);
+
+    void LoadStructMP1(IInputStream& rSCLY, CStructPropertyNew* pStruct);
     CScriptObject* LoadObjectMP1(IInputStream& rSCLY);
     CScriptLayer* LoadLayerMP1(IInputStream& rSCLY);
 
-    void LoadStructMP2(IInputStream& rSCLY, CPropertyStruct *pStruct, CStructTemplate *pTemp);
+    void LoadStructMP2(IInputStream& rSCLY, CStructPropertyNew* pStruct);
     CScriptObject* LoadObjectMP2(IInputStream& rSCLY);
     CScriptLayer* LoadLayerMP2(IInputStream& rSCLY);
 

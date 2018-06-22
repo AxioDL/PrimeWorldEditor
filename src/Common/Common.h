@@ -1,6 +1,7 @@
 #ifndef COMMON_H
 #define COMMON_H
 
+#include "types.h"
 #include "AssertMacro.h"
 #include "CAssetID.h"
 #include "CColor.h"
@@ -15,10 +16,13 @@
 #include "Flags.h"
 #include "Log.h"
 #include "TString.h"
-#include "types.h"
 #include "Hash/CCRC32.h"
 #include "Hash/CFNV1A.h"
 #include "Serialization/Binary.h"
 #include "Serialization/XML.h"
+#include "NBasics.h"
+
+// temporary home for ALIGN macro, moving later
+#define ALIGN(Val, Align) ((Val + (Align-1)) & ~(Align-1))
 
 #endif // COMMON_H

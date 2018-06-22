@@ -27,37 +27,17 @@
         <property ID="0x16" name="Unknown 4" type="float"/>
         <property ID="0x17" name="WPSC 1" type="asset" extensions="WPSC"/>
         <struct ID="0x18" name="DamageInfo 1" template="Structs/DamageInfo.xml"/>
-        <struct ID="0x19" name="RidleyStruct1" type="single">
-            <properties>
-                <property ID="0x00" name="Unknown 5" type="long"/>
-                <property ID="0x01" name="Unknown 6" type="long"/>
-                <property ID="0x02" name="Particle 1" type="asset" extensions="PART"/>
-                <property ID="0x03" name="Particle 2" type="asset" extensions="PART"/>
-                <property ID="0x04" name="Texture 1" type="asset" extensions="TXTR"/>
-                <property ID="0x05" name="Texture 2" type="asset" extensions="TXTR"/>
-                <property ID="0x06" name="Unknown 7" type="float"/>
-                <property ID="0x07" name="Unknown 8" type="float"/>
-                <property ID="0x08" name="Unknown 9" type="float"/>
-                <property ID="0x09" name="Unknown 10" type="float"/>
-                <property ID="0x0A" name="Unknown 11" type="float"/>
-                <property ID="0x0B" name="Unknown 12" type="float"/>
-                <property ID="0x0C" name="Unknown 13" type="float"/>
-                <property ID="0x0D" name="Unknown 14" type="float"/>
-                <property ID="0x0E" name="Unknown 15" type="float"/>
-                <property ID="0x0F" name="Unknown 16" type="color"/>
-                <property ID="0x10" name="Unknown 17" type="color"/>
-            </properties>
-        </struct>
+        <struct ID="0x19" name="RidleyStruct1" template="Structs/MP1-RidleyStruct1.xml"/>
         <property ID="0x1A" name="Sound ID 1" type="sound"/>
         <property ID="0x1B" name="WPSC 2" type="asset" extensions="WPSC"/>
         <struct ID="0x1C" name="DamageInfo 2" template="Structs/DamageInfo.xml"/>
-        <struct ID="0x1D" name="RidleyStruct2 1" template="Structs/RidleyStruct2.xml"/>
+        <struct ID="0x1D" name="RidleyStruct2 1" template="Structs/MP1-RidleyStruct2.xml"/>
         <property ID="0x1E" name="WPSC 3" type="asset" extensions="WPSC"/>
         <struct ID="0x1F" name="DamageInfo 3" template="Structs/DamageInfo.xml"/>
-        <struct ID="0x20" name="RidleyStruct2 2" template="Structs/RidleyStruct2.xml"/>
+        <struct ID="0x20" name="RidleyStruct2 2" template="Structs/MP1-RidleyStruct2.xml"/>
         <property ID="0x21" name="Sound ID 2" type="sound"/>
         <struct ID="0x22" name="DamageInfo 4" template="Structs/DamageInfo.xml"/>
-        <struct ID="0x23" name="RidleyStruct2 3" template="Structs/RidleyStruct2.xml"/>
+        <struct ID="0x23" name="RidleyStruct2 3" template="Structs/MP1-RidleyStruct2.xml"/>
         <property ID="0x24" name="Unknown 18" type="float"/>
         <property ID="0x25" name="Unknown 19" type="float"/>
         <struct ID="0x26" name="DamageInfo 5" template="Structs/DamageInfo.xml"/>

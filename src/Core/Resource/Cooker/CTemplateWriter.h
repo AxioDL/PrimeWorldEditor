@@ -5,6 +5,7 @@
 #include "Core/Resource/Script/CScriptTemplate.h"
 #include <tinyxml2.h>
 
+#if 0
 class CTemplateWriter
 {
     CTemplateWriter();
@@ -24,5 +25,6 @@ public:
     static void SaveEnumerators(tinyxml2::XMLDocument *pDoc, tinyxml2::XMLElement *pParent, CEnumTemplate *pTemp);
     static void SaveBitFlags(tinyxml2::XMLDocument *pDoc, tinyxml2::XMLElement *pParent, CBitfieldTemplate *pTemp);
 };
+#endif
 
 #endif // CTEMPLATEWRITER_H

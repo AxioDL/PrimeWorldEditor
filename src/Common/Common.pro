@@ -84,7 +84,8 @@ HEADERS += \
     FileIO\CFileLock.h \
     FileIO.h \
     Common.h \
-    Hash/CCRC32.h
+    Hash/CCRC32.h \
+    NBasics.h
 
 # Source Files
 SOURCES += \
