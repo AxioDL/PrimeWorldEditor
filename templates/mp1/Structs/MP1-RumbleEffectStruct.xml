@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="MP1-RumbleEffectStruct" type="multi">
+    <properties>
+        <property ID="0x00" name="Unknown 4" type="bool"/>
+        <property ID="0x01" name="Unknown 5" type="bool"/>
+    </properties>
+</struct>

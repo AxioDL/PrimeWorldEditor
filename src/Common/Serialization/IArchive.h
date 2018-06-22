@@ -404,6 +404,21 @@ public:
     virtual void SerializeHexPrimitive(u32& rValue) = 0;
     virtual void SerializeHexPrimitive(u64& rValue) = 0;
 
+    virtual void BulkSerialize(void* pData, u32 DataSize) = 0;
+
+    void SerializeBulkData(std::vector<char>& InArray)
+    {
+        u32 Size = InArray.size();
+        SerializeContainerSize(Size, "Size");
+
+        if (IsReader())
+        {
+            InArray.resize(Size);
+        }
+
+        BulkSerialize(InArray.data(), Size);
+    }
+
     // Accessors
     inline u16 ArchiveVersion() const   { return mArchiveVersion; }
     inline u16 FileVersion() const      { return mFileVersion; }

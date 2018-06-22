@@ -31,7 +31,7 @@ CScriptNode::CScriptNode(CScene *pScene, u32 NodeID, CSceneNode *pParent, CScrip
         CScriptTemplate *pTemp = Template();
 
         // Determine transform
-        mHasValidPosition = pTemp->HasPosition();
+        mHasValidPosition = pTemp->PositionProperty() != nullptr;
         mPosition = mpInstance->Position();
         mRotation = CQuaternion::FromEuler(mpInstance->Rotation());
         mScale = mpInstance->Scale();
@@ -99,15 +99,13 @@ void CScriptNode::OnTransformed()
 {
     if (mpInstance)
     {
-        CScriptTemplate *pTemplate = Template();
-
-        if (pTemplate->HasPosition() && LocalPosition() != mpInstance->Position())
+        if (LocalPosition() != mpInstance->Position())
             mpInstance->SetPosition(LocalPosition());
 
-        if (pTemplate->HasRotation() && LocalRotation().ToEuler() != mpInstance->Rotation())
+        if (LocalRotation().ToEuler() != mpInstance->Rotation())
             mpInstance->SetRotation(LocalRotation().ToEuler());
 
-        if (pTemplate->HasScale() && LocalScale() != mpInstance->Scale())
+        if (LocalScale() != mpInstance->Scale())
             mpInstance->SetScale(LocalScale());
     }
 
@@ -456,27 +454,29 @@ void CScriptNode::LinksModified()
     if (mpExtra) mpExtra->LinksModified();
 }
 
-void CScriptNode::PropertyModified(IProperty *pProp)
+void CScriptNode::PropertyModified(IPropertyNew* pProp)
 {
     // Update volume
-    if ( (pProp->Type() == eBoolProperty) || (pProp->Type() == eByteProperty) || (pProp->Type() == eShortProperty) ||
-         (pProp->Type() == eLongProperty) || (pProp->Type() == eEnumProperty) )
+    EPropertyTypeNew Type = pProp->Type();
+
+    if ( Type == EPropertyTypeNew::Bool || Type == EPropertyTypeNew::Byte || Type == EPropertyTypeNew::Short ||
+         Type == EPropertyTypeNew::Int || Type == EPropertyTypeNew::Choice || Type == EPropertyTypeNew::Enum )
     {
         mpInstance->EvaluateVolume();
         UpdatePreviewVolume();
     }
 
     // Update resources
-    if (pProp->Type() == eCharacterProperty)
+    else if (Type == EPropertyTypeNew::AnimationSet)
     {
         mpInstance->EvaluateDisplayAsset();
         SetDisplayAsset(mpInstance->DisplayAsset());
     }
 
-    else if (pProp->Type() == eAssetProperty)
+    else if (Type == EPropertyTypeNew::Asset)
     {
-        CAssetTemplate *pAssetTemp = static_cast<CAssetTemplate*>(pProp->Template());
-        const CResTypeFilter& rkFilter = pAssetTemp->TypeFilter();
+        CAssetProperty* pAssetProperty = TPropCast<CAssetProperty>(pProp);
+        const CResTypeFilter& rkFilter = pAssetProperty->GetTypeFilter();
 
         if (rkFilter.Accepts(eModel) || rkFilter.Accepts(eTexture) || rkFilter.Accepts(eAnimSet) || rkFilter.Accepts(eCharacter))
         {
@@ -491,40 +491,37 @@ void CScriptNode::PropertyModified(IProperty *pProp)
     }
 
     // Update other editor properties
-    if (mpInstance->IsEditorProperty(pProp))
-    {
-        CScriptTemplate *pTemplate = Template();
+    CScriptTemplate *pTemplate = Template();
 
-        if (pTemplate->HasName())
-            SetName("[" + mpInstance->Template()->Name() + "] " + mpInstance->InstanceName());
+    if (pProp == pTemplate->NameProperty())
+        SetName("[" + mpInstance->Template()->Name() + "] " + mpInstance->InstanceName());
 
-        if (pTemplate->HasPosition())
-            mPosition = mpInstance->Position();
+    else if (pProp == pTemplate->PositionProperty())
+        mPosition = mpInstance->Position();
 
-        if (pTemplate->HasRotation())
-            mRotation = CQuaternion::FromEuler(mpInstance->Rotation());
+    else if (pProp == pTemplate->RotationProperty())
+        mRotation = CQuaternion::FromEuler(mpInstance->Rotation());
 
-        if (pTemplate->HasScale())
-            mScale = mpInstance->Scale();
+    else if (pProp == pTemplate->ScaleProperty())
+        mScale = mpInstance->Scale();
 
-        MarkTransformChanged();
-        SetLightLayerIndex(mpLightParameters->LightLayerIndex());
-    }
+    MarkTransformChanged();
+    SetLightLayerIndex(mpLightParameters->LightLayerIndex());
 
     // Notify attachments
-    for (u32 iAttach = 0; iAttach < mAttachments.size(); iAttach++)
+    for (u32 AttachIdx = 0; AttachIdx < mAttachments.size(); AttachIdx++)
     {
-        CScriptAttachNode *pAttach = mAttachments[iAttach];
+        CScriptAttachNode* pAttachNode = mAttachments[AttachIdx];
 
-        if (pAttach->AttachProperty() == pProp)
-            pAttach->AttachPropertyModified();
+        if (pAttachNode->AttachProperty() == pProp)
+            pAttachNode->AttachPropertyModified();
     }
 
     // Notify script extra
     if (mpExtra) mpExtra->PropertyModified(pProp);
 
     // Update game mode visibility
-    if (pProp && pProp == mpInstance->ActiveProperty())
+    if (pProp && pProp == pTemplate->ActiveProperty())
         TestGameModeVisibility();
 }
 

@@ -4,9 +4,10 @@
 
 std::unordered_map<EResType, CResTypeInfo*> CResTypeInfo::smTypeMap;
 
-CResTypeInfo::CResTypeInfo(EResType Type, const TString& rkTypeName)
+CResTypeInfo::CResTypeInfo(EResType Type, const TString& rkTypeName, const TString& rkRetroExtension)
     : mType(Type)
     , mTypeName(rkTypeName)
+    , mRetroExtension(rkRetroExtension)
     , mCanBeSerialized(false)
     , mCanHaveDependencies(true)
 {
@@ -122,6 +123,27 @@ void Serialize(IArchive& rArc, CResTypeInfo*& rpType)
     }
 }
 
+void Serialize(IArchive& rArc, EResType& rType)
+{
+    CFourCC Extension;
+
+    if (rArc.IsWriter())
+    {
+        CResTypeInfo* pTypeInfo = CResTypeInfo::FindTypeInfo(rType);
+        ASSERT(pTypeInfo != nullptr);
+        Extension = pTypeInfo->CookedExtension(rArc.Game());
+    }
+
+    rArc.SerializePrimitive(Extension);
+
+    if (rArc.IsReader())
+    {
+        CResTypeInfo* pTypeInfo = CResTypeInfo::TypeForCookedExtension(rArc.Game(), Extension);
+        ASSERT(pTypeInfo != nullptr);
+        rType = pTypeInfo->Type();
+    }
+}
+
 // ************ CREATION ************
 CResTypeInfo::CResTypeInfoFactory CResTypeInfo::smTypeInfoFactory;
 
@@ -153,235 +175,235 @@ void CResTypeInfo::CResTypeInfoFactory::AddExtension(CResTypeInfo *pType, CFourC
 void CResTypeInfo::CResTypeInfoFactory::InitTypes()
 {
     {
-        CResTypeInfo *pType = new CResTypeInfo(eAnimation, "Animation");
+        CResTypeInfo *pType = new CResTypeInfo(eAnimation, "Animation", "ani");
         AddExtension(pType, "ANIM", ePrimeDemo, eReturns);
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eAnimCollisionPrimData, "Animation Collision Primitive Data");
+        CResTypeInfo *pType = new CResTypeInfo(eAnimCollisionPrimData, "Animation Collision Primitive Data", "?");
         AddExtension(pType, "CPRM", eReturns, eReturns);
         pType->mCanHaveDependencies = false;
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eAnimEventData, "Animation Event Data");
+        CResTypeInfo *pType = new CResTypeInfo(eAnimEventData, "Animation Event Data", "evnt");
         AddExtension(pType, "EVNT", ePrimeDemo, ePrime);
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eAnimSet, "Animation Character Set");
+        CResTypeInfo *pType = new CResTypeInfo(eAnimSet, "Animation Character Set", "acs");
         AddExtension(pType, "ANCS", ePrimeDemo, eEchoes);
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eArea, "Area");
+        CResTypeInfo *pType = new CResTypeInfo(eArea, "Area", "mrea");
         AddExtension(pType, "MREA", ePrimeDemo, eReturns);
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eAudioAmplitudeData, "Audio Amplitude Data");
+        CResTypeInfo *pType = new CResTypeInfo(eAudioAmplitudeData, "Audio Amplitude Data", "?");
         AddExtension(pType, "CAAD", eCorruption, eCorruption);
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eAudioGroup, "Audio Group");
+        CResTypeInfo *pType = new CResTypeInfo(eAudioGroup, "Audio Group", "agsc");
         AddExtension(pType, "AGSC", ePrimeDemo, eEchoes);
         pType->mCanHaveDependencies = false;
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eAudioMacro, "Audio Macro");
+        CResTypeInfo *pType = new CResTypeInfo(eAudioMacro, "Audio Macro", "caud");
         AddExtension(pType, "CAUD", eCorruptionProto, eReturns);
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eAudioSample, "Audio Sample");
+        CResTypeInfo *pType = new CResTypeInfo(eAudioSample, "Audio Sample", "csmp");
         AddExtension(pType, "CSMP", eCorruptionProto, eReturns);
         pType->mCanHaveDependencies = false;
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eAudioLookupTable, "Audio Lookup Table");
+        CResTypeInfo *pType = new CResTypeInfo(eAudioLookupTable, "Audio Lookup Table", "atbl");
         AddExtension(pType, "ATBL", ePrimeDemo, eCorruption);
         pType->mCanHaveDependencies = false;
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eBinaryData, "Generic Data");
+        CResTypeInfo *pType = new CResTypeInfo(eBinaryData, "Generic Data", "dat");
         AddExtension(pType, "DUMB", ePrimeDemo, eCorruption);
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eBurstFireData, "Burst Fire Data");
+        CResTypeInfo *pType = new CResTypeInfo(eBurstFireData, "Burst Fire Data", "bfre.bfrc");
         AddExtension(pType, "BFRC", eCorruptionProto, eCorruption);
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eCharacter, "Character");
+        CResTypeInfo *pType = new CResTypeInfo(eCharacter, "Character", "char");
         AddExtension(pType, "CHAR", eCorruptionProto, eReturns);
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eDependencyGroup, "Dependency Group");
+        CResTypeInfo *pType = new CResTypeInfo(eDependencyGroup, "Dependency Group", "?");
         AddExtension(pType, "DGRP", ePrimeDemo, eReturns);
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eDynamicCollision, "Dynamic Collision");
+        CResTypeInfo *pType = new CResTypeInfo(eDynamicCollision, "Dynamic Collision", "dcln");
         AddExtension(pType, "DCLN", ePrimeDemo, eReturns);
         pType->mCanHaveDependencies = false;
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eFont, "Font");
+        CResTypeInfo *pType = new CResTypeInfo(eFont, "Font", "rpff");
         AddExtension(pType, "FONT", ePrimeDemo, eReturns);
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eGuiFrame, "Gui Frame");
+        CResTypeInfo *pType = new CResTypeInfo(eGuiFrame, "Gui Frame", "frme");
         AddExtension(pType, "FRME", ePrimeDemo, eReturns);
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eGuiKeyFrame, "Gui Keyframe");
+        CResTypeInfo *pType = new CResTypeInfo(eGuiKeyFrame, "Gui Keyframe", "?");
         AddExtension(pType, "KFAM", ePrimeDemo, ePrimeDemo);
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eHintSystem, "Hint System Data");
+        CResTypeInfo *pType = new CResTypeInfo(eHintSystem, "Hint System Data", "hint");
         AddExtension(pType, "HINT", ePrime, eCorruption);
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eMapArea, "Area Map");
+        CResTypeInfo *pType = new CResTypeInfo(eMapArea, "Area Map", "mapa");
         AddExtension(pType, "MAPA", ePrimeDemo, eCorruption);
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eMapWorld, "World Map");
+        CResTypeInfo *pType = new CResTypeInfo(eMapWorld, "World Map", "mapw");
         AddExtension(pType, "MAPW", ePrimeDemo, eCorruption);
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eMapUniverse, "Universe Map");
+        CResTypeInfo *pType = new CResTypeInfo(eMapUniverse, "Universe Map", "mapu");
         AddExtension(pType, "MAPU", ePrimeDemo, eEchoes);
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eMidi, "MIDI");
+        CResTypeInfo *pType = new CResTypeInfo(eMidi, "MIDI", "?");
         AddExtension(pType, "CSNG", ePrimeDemo, eEchoes);
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eModel, "Model");
+        CResTypeInfo *pType = new CResTypeInfo(eModel, "Model", "cmdl");
         AddExtension(pType, "CMDL", ePrimeDemo, eReturns);
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eParticle, "Particle System");
+        CResTypeInfo *pType = new CResTypeInfo(eParticle, "Particle System", "gpsm.part");
         AddExtension(pType, "PART", ePrimeDemo, eReturns);
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eParticleCollisionResponse, "Collision Response Particle System");
+        CResTypeInfo *pType = new CResTypeInfo(eParticleCollisionResponse, "Collision Response Particle System", "crsm.crsc");
         AddExtension(pType, "CRSC", ePrimeDemo, eCorruption);
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eParticleDecal, "Decal Particle System");
+        CResTypeInfo *pType = new CResTypeInfo(eParticleDecal, "Decal Particle System", "dpsm.dpsc");
         AddExtension(pType, "DPSC", ePrimeDemo, eCorruption);
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eParticleElectric, "Electric Particle System");
+        CResTypeInfo *pType = new CResTypeInfo(eParticleElectric, "Electric Particle System", "elsm.elsc");
         AddExtension(pType, "ELSC", ePrimeDemo, eCorruption);
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eParticleSorted, "Sorted Particle System");
+        CResTypeInfo *pType = new CResTypeInfo(eParticleSorted, "Sorted Particle System", "srsm.srsc");
         AddExtension(pType, "SRSC", eEchoesDemo, eEchoes);
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eParticleSpawn, "Spawn Particle System");
+        CResTypeInfo *pType = new CResTypeInfo(eParticleSpawn, "Spawn Particle System", "spsm.spsc");
         AddExtension(pType, "SPSC", eEchoesDemo, eReturns);
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eParticleSwoosh, "Swoosh Particle System");
+        CResTypeInfo *pType = new CResTypeInfo(eParticleSwoosh, "Swoosh Particle System", "swsh.swhc");
         AddExtension(pType, "SWHC", ePrimeDemo, eReturns);
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eParticleTransform, "Transform Particle System");
+        CResTypeInfo *pType = new CResTypeInfo(eParticleTransform, "Transform Particle System", "xfsm.xfsc");
         AddExtension(pType, "XFSC", eReturns, eReturns);
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eParticleWeapon, "Weapon Particle System");
+        CResTypeInfo *pType = new CResTypeInfo(eParticleWeapon, "Weapon Particle System", "wpsm.wpsc");
         AddExtension(pType, "WPSC", ePrimeDemo, eCorruption);
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(ePathfinding, "Pathfinding Mesh");
+        CResTypeInfo *pType = new CResTypeInfo(ePathfinding, "Pathfinding Mesh", "path");
         AddExtension(pType, "PATH", ePrimeDemo, eCorruption);
         pType->mCanHaveDependencies = false;
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(ePortalArea, "Portal Area");
+        CResTypeInfo *pType = new CResTypeInfo(ePortalArea, "Portal Area", "?");
         AddExtension(pType, "PTLA", eEchoesDemo, eCorruption);
         pType->mCanHaveDependencies = false;
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eRuleSet, "Rule Set");
+        CResTypeInfo *pType = new CResTypeInfo(eRuleSet, "Rule Set", "rule");
         AddExtension(pType, "RULE", eEchoesDemo, eReturns);
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eSaveArea, "Area Save Info");
+        CResTypeInfo *pType = new CResTypeInfo(eSaveArea, "Area Save Info", "sava");
         AddExtension(pType, "SAVA", eCorruptionProto, eCorruption);
         pType->mCanHaveDependencies = false;
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eSaveWorld, "World Save Info");
+        CResTypeInfo *pType = new CResTypeInfo(eSaveWorld, "World Save Info", "savw");
         AddExtension(pType, "SAVW", ePrime, eReturns);
         pType->mCanHaveDependencies = false;
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eScan, "Scan");
+        CResTypeInfo *pType = new CResTypeInfo(eScan, "Scan", "scan");
         AddExtension(pType, "SCAN", ePrimeDemo, eCorruption);
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eSkeleton, "Skeleton");
+        CResTypeInfo *pType = new CResTypeInfo(eSkeleton, "Skeleton", "cin");
         AddExtension(pType, "CINF", ePrimeDemo, eReturns);
         pType->mCanHaveDependencies = false;
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eSkin, "Skin");
+        CResTypeInfo *pType = new CResTypeInfo(eSkin, "Skin", "cskr");
         AddExtension(pType, "CSKR", ePrimeDemo, eReturns);
         pType->mCanHaveDependencies = false;
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eSourceAnimData, "Source Animation Data");
+        CResTypeInfo *pType = new CResTypeInfo(eSourceAnimData, "Source Animation Data", "sand");
         AddExtension(pType, "SAND", eCorruptionProto, eCorruption);
         pType->mCanHaveDependencies = false; // all dependencies are added to the CHAR dependency tree
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eSpatialPrimitive, "Spatial Primitive");
+        CResTypeInfo *pType = new CResTypeInfo(eSpatialPrimitive, "Spatial Primitive", "?");
         AddExtension(pType, "CSPP", eEchoesDemo, eEchoes);
         pType->mCanHaveDependencies = false;
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eStateMachine, "State Machine");
+        CResTypeInfo *pType = new CResTypeInfo(eStateMachine, "State Machine", "afsm");
         AddExtension(pType, "AFSM", ePrimeDemo, eEchoes);
         AddExtension(pType, "FSM2", eCorruptionProto, eCorruption);
         AddExtension(pType, "FSMC", eReturns, eReturns);
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eStateMachine2, "State Machine 2");
+        CResTypeInfo *pType = new CResTypeInfo(eStateMachine2, "State Machine 2", "fsm2");
         AddExtension(pType, "FSM2", eEchoesDemo, eCorruption);
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eStaticGeometryMap, "Static Scan Map");
+        CResTypeInfo *pType = new CResTypeInfo(eStaticGeometryMap, "Static Scan Map", "egmc");
         AddExtension(pType, "EGMC", eEchoesDemo, eCorruption);
         pType->mCanHaveDependencies = false;
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eStreamedAudio, "Streamed Audio");
+        CResTypeInfo *pType = new CResTypeInfo(eStreamedAudio, "Streamed Audio", "?");
         AddExtension(pType, "STRM", eCorruptionProto, eReturns);
         pType->mCanHaveDependencies = false;
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eStringList, "String List");
+        CResTypeInfo *pType = new CResTypeInfo(eStringList, "String List", "stlc");
         AddExtension(pType, "STLC", eEchoesDemo, eCorruptionProto);
         pType->mCanHaveDependencies = false;
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eStringTable, "String Table");
+        CResTypeInfo *pType = new CResTypeInfo(eStringTable, "String Table", "strg");
         AddExtension(pType, "STRG", ePrimeDemo, eReturns);
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eTexture, "Texture");
+        CResTypeInfo *pType = new CResTypeInfo(eTexture, "Texture", "txtr");
         AddExtension(pType, "TXTR", ePrimeDemo, eReturns);
         pType->mCanHaveDependencies = false;
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eTweak, "Tweak Data");
+        CResTypeInfo *pType = new CResTypeInfo(eTweak, "Tweak Data", "ctwk");
         AddExtension(pType, "CTWK", ePrimeDemo, ePrime);
         pType->mCanHaveDependencies = false;
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eUserEvaluatorData, "User Evaluator Data");
+        CResTypeInfo *pType = new CResTypeInfo(eUserEvaluatorData, "User Evaluator Data", "user.usrc");
         AddExtension(pType, "USRC", eCorruptionProto, eCorruption);
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(eWorld, "World");
+        CResTypeInfo *pType = new CResTypeInfo(eWorld, "World", "mwld");
         AddExtension(pType, "MLVL", ePrimeDemo, eReturns);
         pType->mCanBeSerialized = true;
     }

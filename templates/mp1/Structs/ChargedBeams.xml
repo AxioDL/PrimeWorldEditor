@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="ChargedBeams" type="multi">
+    <properties>
+        <enum ID="0x00" name="Power" template="Enums/VulnerabilityType.xml"/>
+        <enum ID="0x01" name="Ice" template="Enums/VulnerabilityType.xml"/>
+        <enum ID="0x02" name="Wave" template="Enums/VulnerabilityType.xml"/>
+        <enum ID="0x03" name="Plasma" template="Enums/VulnerabilityType.xml"/>
+        <enum ID="0x04" name="Phazon" template="Enums/VulnerabilityType.xml"/>
+    </properties>
+</struct>

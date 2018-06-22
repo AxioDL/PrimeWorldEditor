@@ -1,10 +1,10 @@
 #include "CVectorOutStream.h"
+#include "Common/Common.h"
 
 CVectorOutStream::CVectorOutStream()
     : mpVector(new std::vector<char>)
     , mOwnsVector(true)
     , mPos(0)
-    , mUsed(0)
 {
     mDataEndianness = IOUtil::eBigEndian;
 }
@@ -13,7 +13,6 @@ CVectorOutStream::CVectorOutStream(IOUtil::EEndianness DataEndianness)
     : mpVector(new std::vector<char>)
     , mOwnsVector(true)
     , mPos(0)
-    , mUsed(0)
 {
     mDataEndianness = DataEndianness;
 }
@@ -22,7 +21,6 @@ CVectorOutStream::CVectorOutStream(u32 InitialSize, IOUtil::EEndianness DataEndi
     : mpVector(new std::vector<char>(InitialSize))
     , mOwnsVector(true)
     , mPos(0)
-    , mUsed(0)
 {
     mDataEndianness = DataEndianness;
 }
@@ -31,7 +29,6 @@ CVectorOutStream::CVectorOutStream(std::vector<char> *pVector, IOUtil::EEndianne
     : mpVector(pVector)
     , mOwnsVector(false)
     , mPos(0)
-    , mUsed(0)
 {
     mDataEndianness = DataEndianness;
 }
@@ -45,12 +42,18 @@ void CVectorOutStream::WriteBytes(const void *pkSrc, u32 Count)
 {
     if (!IsValid()) return;
 
-    if ((mPos + Count) > mpVector->size())
-        mpVector->resize(mPos + Count);
+    u32 NewSize = mPos + Count;
+
+    if (NewSize > mpVector->size())
+    {
+        if (NewSize > mpVector->capacity())
+            mpVector->reserve( ALIGN(mPos + Count, skAllocSize) );
+
+        mpVector->resize(NewSize);
+    }
 
     memcpy(mpVector->data() + mPos, pkSrc, Count);
     mPos += Count;
-    if (mPos > mUsed) mUsed = mPos;
 }
 
 bool CVectorOutStream::Seek(s32 Offset, u32 Origin)
@@ -68,7 +71,7 @@ bool CVectorOutStream::Seek(s32 Offset, u32 Origin)
             break;
 
         case SEEK_END:
-            mPos = mUsed - Offset;
+            mPos = mpVector->size() - Offset;
             break;
 
         default:
@@ -80,9 +83,6 @@ bool CVectorOutStream::Seek(s32 Offset, u32 Origin)
         mPos = 0;
         return false;
     }
-
-    if (mPos > mUsed)
-        mUsed = mPos;
 
     if (mPos > mpVector->size())
         mpVector->resize(mPos);
@@ -107,20 +107,19 @@ bool CVectorOutStream::IsValid() const
 
 u32 CVectorOutStream::Size() const
 {
-    return mUsed;
-}
-
-u32 CVectorOutStream::SizeRemaining() const
-{
-    return mpVector->size() - mPos;
+    return mPos;
 }
 
 void CVectorOutStream::SetVector(std::vector<char> *pVector)
 {
-    if (mOwnsVector) delete mpVector;
+    if (mOwnsVector)
+    {
+        delete mpVector;
+        mOwnsVector = false;
+    }
+
     mpVector = pVector;
     mPos = 0;
-    mUsed = 0;
 }
 
 void* CVectorOutStream::Data()
@@ -133,24 +132,8 @@ void* CVectorOutStream::DataAtPosition()
     return mpVector->data() + mPos;
 }
 
-void CVectorOutStream::Expand(u32 Amount)
-{
-    mpVector->resize(mpVector->size() + Amount);
-}
-
-void CVectorOutStream::Shrink()
-{
-    mpVector->resize(mUsed);
-}
-
-void CVectorOutStream::Reset()
-{
-    mPos = 0;
-    mUsed = 0;
-}
-
 void CVectorOutStream::Clear()
 {
+    mPos = 0;
     mpVector->clear();
-    Reset();
 }

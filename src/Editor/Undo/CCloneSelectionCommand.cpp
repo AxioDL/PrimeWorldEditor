@@ -63,7 +63,7 @@ void CCloneSelectionCommand::redo()
         CScriptObject *pInstance = pScript->Instance();
 
         CScriptObject *pCloneInst = mpEditor->ActiveArea()->SpawnInstance(pInstance->Template(), pInstance->Layer());
-        pCloneInst->Properties()->Copy(pInstance->Properties());
+        pCloneInst->CopyProperties(pInstance);
         pCloneInst->EvaluateProperties();
 
         CScriptNode *pCloneNode = mpEditor->Scene()->CreateScriptNode(pCloneInst);

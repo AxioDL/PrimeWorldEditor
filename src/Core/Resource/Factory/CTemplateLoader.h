@@ -3,6 +3,9 @@
 
 #include "Core/Resource/Script/CMasterTemplate.h"
 #include "Core/Resource/Script/CScriptTemplate.h"
+#include "Core/Resource/Script/IPropertyNew.h"
+#include "Core/Resource/Script/Property/CEnumProperty.h"
+#include "Core/Resource/Script/Property/CFlagsProperty.h"
 #include <tinyxml2.h>
 
 class CTemplateLoader
@@ -20,23 +23,23 @@ class CTemplateLoader
         : mTemplatesDir(rkTemplatesDir) {}
 
     // Load Property
-    IPropertyTemplate* LoadProperty(tinyxml2::XMLElement *pElem, CScriptTemplate *pScript, CStructTemplate *pParentStruct, const TString& rkTemplateName);
-    IPropertyTemplate* CreateProperty(u32 ID, EPropertyType Type, const TString& rkName, CScriptTemplate *pScript, CStructTemplate *pStruct);
+    IPropertyNew* LoadProperty(tinyxml2::XMLElement* pElem, CScriptTemplate* pScript, CStructPropertyNew* pParentStruct, const TString& rkTemplateName);
+    IPropertyNew* CreateProperty(u32 ID, EPropertyTypeNew Type, const TString& rkName, CScriptTemplate* pScript, CStructPropertyNew* pStruct);
 
-    void LoadStructTemplate(const TString& rkTemplateFileName, CStructTemplate *pStruct);
-    void LoadEnumTemplate(const TString& rkTemplateFileName, CEnumTemplate *pEnum);
-    void LoadBitfieldTemplate(const TString& rkTemplateFileName, CBitfieldTemplate *pBitfield);
+    CStructPropertyNew* LoadStructArchetype(const TString& rkTemplateFileName);
+    CEnumProperty* LoadEnumArchetype(const TString& rkTemplateFileName, bool bIsChoice);
+    CFlagsProperty* LoadFlagsArchetype(const TString& rkTemplateFileName);
 
-    void LoadProperties(tinyxml2::XMLElement *pPropertiesElem, CScriptTemplate *pScript, CStructTemplate *pStruct, const TString& rkTemplateName);
-    void LoadEnumerators(tinyxml2::XMLElement *pEnumeratorsElem, CEnumTemplate *pEnum, const TString& rkTemplateName);
-    void LoadBitFlags(tinyxml2::XMLElement *pFlagsElem, CBitfieldTemplate *pBitfield, const TString& rkTemplateName);
+    void LoadProperties(tinyxml2::XMLElement* pPropertiesElem, CScriptTemplate* pScript, CStructPropertyNew* pStruct, const TString& rkTemplateName);
+    void LoadEnumerators(tinyxml2::XMLElement* pEnumeratorsElem, CEnumProperty* pEnum, const TString& rkTemplateName);
+    void LoadBitFlags(tinyxml2::XMLElement* pFlagsElem, CFlagsProperty* pFlags, const TString& rkTemplateName);
 
     // Load Script Object
-    CScriptTemplate* LoadScriptTemplate(tinyxml2::XMLDocument *pDoc, const TString& rkTemplateName, u32 ObjectID);
+    CScriptTemplate* LoadScriptTemplate(tinyxml2::XMLDocument* pDoc, const TString& rkTemplateName, u32 ObjectID);
 
     // Load Master
-    CMasterTemplate* LoadGameInfo(tinyxml2::XMLNode *pNode);
-    void LoadMasterTemplate(tinyxml2::XMLDocument *pDoc, CMasterTemplate *pMaster);
+    CMasterTemplate* LoadGameInfo(tinyxml2::XMLNode* pNode);
+    void LoadMasterTemplate(tinyxml2::XMLDocument* pDoc, CMasterTemplate* pMaster);
 
     // Utility
     static void OpenXML(const TString& rkPath, tinyxml2::XMLDocument& rDoc);
@@ -46,7 +49,7 @@ public:
     static void LoadGameList();
     static void LoadGameTemplates(EGame Game);
     static void LoadAllGames();
-    static void LoadPropertyList(tinyxml2::XMLDocument *pDoc, const TString& rkListName);
+    static void LoadPropertyList(tinyxml2::XMLDocument* pDoc, const TString& rkListName);
 };
 
 #endif // CTEMPLATELOADER_H

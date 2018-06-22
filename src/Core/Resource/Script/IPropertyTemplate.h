@@ -1,6 +1,7 @@
 #ifndef IPROPERTYTEMPLATE
 #define IPROPERTYTEMPLATE
 
+#if 0
 #include "EPropertyType.h"
 #include "IProperty.h"
 #include "IPropertyValue.h"
@@ -797,6 +798,7 @@ public:
         return (CPropertyStruct*) CStructTemplate::InstantiateProperty(pInstance, pArray);
     }
 };
+#endif
 
 #endif // IPROPERTYTEMPLATE
 

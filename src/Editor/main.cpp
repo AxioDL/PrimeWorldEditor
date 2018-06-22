@@ -3,6 +3,7 @@
 #include "UICommon.h"
 #include <Common/Log.h>
 #include <Core/Resource/Factory/CTemplateLoader.h>
+#include <Core/Resource/Cooker/CTemplateWriter.h>
 
 #include <QApplication>
 #include <QIcon>
@@ -54,6 +55,7 @@ int main(int argc, char *argv[])
     DarkPalette.setColor(QPalette::HighlightedText, Qt::white);
     qApp->setPalette(DarkPalette);
 
+
     // Init log
     bool Initialized = Log::InitLog("primeworldeditor.log");
     if (!Initialized) QMessageBox::warning(0, "Error", "Couldn't open log file. Logging will not work for this session.");
@@ -71,6 +73,8 @@ int main(int argc, char *argv[])
 
     // Load templates
     CTemplateLoader::LoadGameList();
+    CTemplateLoader::LoadAllGames();
+    //CTemplateWriter::SaveAllTemplates();
 
     // Execute application
     App.InitEditor();

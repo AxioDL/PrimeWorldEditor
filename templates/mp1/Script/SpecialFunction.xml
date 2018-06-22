@@ -46,12 +46,7 @@
         <property ID="0x05" name="Unknown 2" type="float"/>
         <property ID="0x06" name="Unknown 3" type="float"/>
         <property ID="0x07" name="Unknown 4" type="float"/>
-        <struct ID="0x08" name="LayerSwitch" type="single">
-            <properties>
-                <property ID="0x00" name="Room ID" type="asset" extensions="MREA"/>
-                <property ID="0x01" name="Layer no" type="long"/>
-            </properties>
-        </struct>
+        <struct ID="0x08" name="LayerSwitch" template="Structs/LayerSwitch.xml"/>
         <enum ID="0x09" name="Item" template="Enums/Item.xml"/>
         <property ID="0x0A" name="Active" type="bool"/>
         <property ID="0x0B" name="Unknown 5" type="float"/>

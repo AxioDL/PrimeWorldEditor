@@ -47,6 +47,12 @@ public:
         SetAcceptedTypes(Game, rkString.Split(","));
     }
 
+    void Serialize(IArchive& rArc)
+    {
+        if (rArc.IsReader()) mGame = rArc.Game();
+        rArc << SERIAL_CONTAINER("AcceptedTypes", mAcceptedTypes, "Type");
+    }
+
     inline bool Accepts(EResType Type) const
     {
         return mAcceptedTypes.find(Type) != mAcceptedTypes.end();

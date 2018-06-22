@@ -164,6 +164,8 @@ public:
     virtual void SerializeHexPrimitive(u16& rValue)         { mpStream->WriteShort(rValue); }
     virtual void SerializeHexPrimitive(u32& rValue)         { mpStream->WriteLong(rValue); }
     virtual void SerializeHexPrimitive(u64& rValue)         { mpStream->WriteLongLong(rValue); }
+
+    virtual void BulkSerialize(void* pData, u32 Size)       { mpStream->WriteBytes(pData, Size); }
 };
 
 #endif // CBINARYWRITER

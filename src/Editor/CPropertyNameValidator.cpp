@@ -6,7 +6,7 @@ CPropertyNameValidator::CPropertyNameValidator(QObject* pParent)
 {}
 
 /** Set the property to validate against */
-void CPropertyNameValidator::SetProperty(IPropertyTemplate* pProp)
+void CPropertyNameValidator::SetProperty(IPropertyNew* pProp)
 {
     mpProperty = pProp;
     emit changed();
@@ -19,10 +19,10 @@ QValidator::State CPropertyNameValidator::validate(QString& rInput, int&) const
     {
         CCRC32 Hash;
         Hash.Hash( rInput.toStdString().c_str() );
-        Hash.Hash( mpProperty->GetTypeNameString() );
+        Hash.Hash( mpProperty->HashableTypeName() );
         u32 PropertyID = Hash.Digest();
 
-        return ( PropertyID == mpProperty->PropertyID() ? QValidator::Acceptable : QValidator::Invalid );
+        return ( PropertyID == mpProperty->ID() ? QValidator::Acceptable : QValidator::Invalid );
     }
 
     return QValidator::Invalid;

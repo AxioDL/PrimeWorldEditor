@@ -132,28 +132,32 @@ CScriptInstanceDependency* CScriptInstanceDependency::BuildTree(CScriptObject *p
 {
     CScriptInstanceDependency *pInst = new CScriptInstanceDependency();
     pInst->mObjectType = pInstance->ObjectTypeID();
-    ParseStructDependencies(pInst, pInstance->Properties());
+    ParseStructDependencies(pInst, pInstance, pInstance->Template()->Properties());
     return pInst;
 }
 
-void CScriptInstanceDependency::ParseStructDependencies(CScriptInstanceDependency *pInst, CPropertyStruct *pStruct)
+void CScriptInstanceDependency::ParseStructDependencies(CScriptInstanceDependency* pInst, CScriptObject* pInstance, CStructPropertyNew *pStruct)
 {
     // Recursive function for parsing script dependencies and loading them into the script instance dependency
-    for (u32 iProp = 0; iProp < pStruct->Count(); iProp++)
+    void* pPropertyData = pInstance->PropertyData();
+
+    for (u32 PropertyIdx = 0; PropertyIdx < pStruct->NumChildren(); PropertyIdx++)
     {
-        IProperty *pProp = pStruct->PropertyByIndex(iProp);
-        EPropertyType Type = pProp->Type();
+        IPropertyNew *pProp = pStruct->ChildByIndex(PropertyIdx);
+        EPropertyTypeNew Type = pProp->Type();
 
-        if (Type == eStructProperty || Type == eArrayProperty)
-            ParseStructDependencies(pInst, static_cast<CPropertyStruct*>(pProp));
+        // Technically we aren't parsing array children, but it's not really worth refactoring this function
+        // to support it when there aren't any array properties that contain any asset references anyway...
+        if (Type == EPropertyTypeNew::Struct)
+            ParseStructDependencies(pInst, pInstance, TPropCast<CStructPropertyNew>(pProp));
 
-        else if (Type == eSoundProperty)
+        else if (Type == EPropertyTypeNew::Sound)
         {
-            u32 SoundID = static_cast<TSoundProperty*>(pProp)->Get();
+            u32 SoundID = TPropCast<CSoundProperty>(pProp)->Value(pPropertyData);
 
             if (SoundID != -1)
             {
-                CGameProject *pProj = pStruct->Instance()->Area()->Entry()->Project();
+                CGameProject *pProj = pInstance->Area()->Entry()->Project();
                 SSoundInfo Info = pProj->AudioManager()->GetSoundInfo(SoundID);
 
                 if (Info.pAudioGroup)
@@ -164,9 +168,9 @@ void CScriptInstanceDependency::ParseStructDependencies(CScriptInstanceDependenc
             }
         }
 
-        else if (Type == eAssetProperty)
+        else if (Type == EPropertyTypeNew::Asset)
         {
-            CAssetID ID = static_cast<TAssetProperty*>(pProp)->Get();
+            CAssetID ID = TPropCast<CAssetProperty>(pProp)->Value(pPropertyData);
 
             if (ID.IsValid())
             {
@@ -175,16 +179,15 @@ void CScriptInstanceDependency::ParseStructDependencies(CScriptInstanceDependenc
             }
         }
 
-        else if (Type == eCharacterProperty)
+        else if (Type == EPropertyTypeNew::AnimationSet)
         {
-            TCharacterProperty *pChar = static_cast<TCharacterProperty*>(pProp);
-            CAnimationParameters Params = pChar->Get();
+            CAnimationParameters Params = TPropCast<CAnimationSetProperty>(pProp)->Value(pPropertyData);
             CAssetID ID = Params.ID();
 
             if (ID.IsValid())
             {
                 // Character sets are removed starting in MP3, so we only need char property dependencies in Echoes and earlier
-                if (pStruct->Instance()->Area()->Game() <= eEchoes)
+                if (pStruct->Game() <= eEchoes)
                 {
                     CCharPropertyDependency *pDep = new CCharPropertyDependency(pProp->IDString(true), ID, Params.CharacterIndex());
                     pInst->mChildren.push_back(pDep);

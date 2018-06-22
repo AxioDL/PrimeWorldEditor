@@ -122,6 +122,17 @@ public:
     virtual void SerializeHexPrimitive(u16& rValue)      { WriteParam(*TString::HexString(rValue, 4)); }
     virtual void SerializeHexPrimitive(u32& rValue)      { WriteParam(*TString::HexString(rValue, 8)); }
     virtual void SerializeHexPrimitive(u64& rValue)      { WriteParam(*TString::HexString((u32) rValue, 16)); }
+
+    virtual void BulkSerialize(void* pData, u32 Size)
+    {
+        char* pCharData = (char*) pData;
+        TString OutString(Size*2);
+
+        for (u32 ByteIdx = 0; ByteIdx < Size; ByteIdx++)
+            itoa(pCharData[ByteIdx], &OutString[ByteIdx*2], 16);
+
+        WriteParam(*OutString);
+    }
 };
 
 #endif // CXMLWRITER

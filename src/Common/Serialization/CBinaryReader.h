@@ -177,6 +177,8 @@ public:
     virtual void SerializeHexPrimitive(u16& rValue)         { rValue = mpStream->ReadShort(); }
     virtual void SerializeHexPrimitive(u32& rValue)         { rValue = mpStream->ReadLong(); }
     virtual void SerializeHexPrimitive(u64& rValue)         { rValue = mpStream->ReadLongLong(); }
+
+    virtual void BulkSerialize(void* pData, u32 Size)       { mpStream->ReadBytes(pData, Size); }
 };
 
 #endif // CBINARYREADER

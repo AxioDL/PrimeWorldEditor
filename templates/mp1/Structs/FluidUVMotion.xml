@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="FluidUVMotion" type="single">
+    <properties>
+        <struct ID="0x00" name="Fluid Layer Motion 1" template="Structs/FluidLayerMotion.xml"/>
+        <struct ID="0x01" name="Fluid Layer Motion 2" template="Structs/FluidLayerMotion.xml"/>
+        <struct ID="0x02" name="Fluid Layer Motion 3" template="Structs/FluidLayerMotion.xml"/>
+        <property ID="0x03" name="Unknown 1" type="float"/>
+        <property ID="0x04" name="Unknown 2" type="float"/>
+    </properties>
+</struct>

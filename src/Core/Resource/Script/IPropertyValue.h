@@ -1,6 +1,7 @@
 #ifndef IPROPERTYVALUE_H
 #define IPROPERTYVALUE_H
 
+#if 0
 #include "EPropertyType.h"
 #include <Common/CAssetID.h>
 #include <Common/Log.h>
@@ -386,5 +387,6 @@ public:
         return new CUnknownValue(mValue);
     }
 };
+#endif
 
 #endif // IPROPERTYVALUE_H

@@ -1,7 +1,7 @@
 #include "CEditScriptPropertyCommand.h"
 #include "EUndoCommand.h"
 
-CEditScriptPropertyCommand::CEditScriptPropertyCommand(IProperty *pProp, CWorldEditor *pEditor, IPropertyValue *pOldValue, bool IsDone, const QString& rkCommandName /*= "Edit Property"*/)
+/*CEditScriptPropertyCommand::CEditScriptPropertyCommand(IProperty *pProp, CWorldEditor *pEditor, IPropertyValue *pOldValue, bool IsDone, const QString& rkCommandName /*= "Edit Property")
     : IUndoCommand(rkCommandName)
     , mpProp(pProp)
     , mpEditor(pEditor)
@@ -53,3 +53,4 @@ void CEditScriptPropertyCommand::redo()
     pProp->RawValue()->Copy(mpNewValue);
     mpEditor->OnPropertyModified(pProp);
 }
+*/

@@ -40,6 +40,15 @@ public:
         SetVersion(rkVersion);
     }
 
+    CBasicBinaryReader(void *pData, u32 DataSize, const CSerialVersion& rkVersion, IOUtil::EEndianness Endian = IOUtil::kSystemEndianness)
+        : IArchive(true, false)
+        , mMagicValid(true)
+        , mOwnsStream(true)
+    {
+        mpStream = new CMemoryInStream(pData, DataSize, Endian);
+        SetVersion(rkVersion);
+    }
+
     ~CBasicBinaryReader()
     {
         if (mOwnsStream) delete mpStream;
@@ -74,6 +83,8 @@ public:
     virtual void SerializeHexPrimitive(u16& rValue)         { rValue = mpStream->ReadShort(); }
     virtual void SerializeHexPrimitive(u32& rValue)         { rValue = mpStream->ReadLong(); }
     virtual void SerializeHexPrimitive(u64& rValue)         { rValue = mpStream->ReadLongLong(); }
+
+    virtual void BulkSerialize(void* pData, u32 Size)       { mpStream->ReadBytes(pData, Size); }
 };
 
 #endif // CBASICBINARYREADER

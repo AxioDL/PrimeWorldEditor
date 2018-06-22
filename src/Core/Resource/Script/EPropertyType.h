@@ -1,6 +1,9 @@
 #ifndef EPROPERTYTYPE
 #define EPROPERTYTYPE
 
+#include "IPropertyNew.h"
+
+#if 0
 #include <Common/TString.h>
 
 enum EPropertyType
@@ -24,11 +27,12 @@ enum EPropertyType
     eUnknownProperty,
     eInvalidProperty
 };
+#endif
 
 // functions defined in IPropertyTemplate.cpp
-EPropertyType PropStringToPropEnum(TString Prop);
-TString PropEnumToPropString(EPropertyType Prop);
-const char* HashablePropTypeName(EPropertyType Prop);
+EPropertyTypeNew PropStringToPropEnum(TString Prop);
+TString PropEnumToPropString(EPropertyTypeNew Prop);
+const char* HashablePropTypeName(EPropertyTypeNew Prop);
 
 #endif // EPROPERTYTYPE
 

@@ -1,24 +1,41 @@
 #ifndef CPROPERTYMODEL_H
 #define CPROPERTYMODEL_H
 
+#include <Core/Resource/Script/Property/Properties.h>
 #include <QAbstractItemModel>
-#include <Core/Resource/Script/IProperty.h>
 #include <QFont>
 
 class CPropertyModel : public QAbstractItemModel
 {
     Q_OBJECT
 
-    CPropertyStruct *mpBaseStruct;
+    struct SProperty
+    {
+        IPropertyNew* pProperty;
+        QModelIndex Index;
+        int ParentID;
+        std::vector<int> ChildIDs;
+    };
+    QVector<SProperty> mProperties;
+    QMap<IPropertyNew*, int> mPropertyToIDMap;
+
+    CGameProject* mpProject;
+    CScriptObject* mpObject; // may be null
+    IPropertyNew* mpRootProperty;
+    void* mpPropertyData;
+
     bool mBoldModifiedProperties;
     bool mShowNameValidity;
     QFont mFont;
 
+    int RecursiveBuildArrays(IPropertyNew* pProperty, int ParentID);
+
 public:
     CPropertyModel(QObject *pParent = 0);
-    void SetBaseStruct(CPropertyStruct *pBaseStruct);
-    IProperty* PropertyForIndex(const QModelIndex& rkIndex, bool HandleFlaggedPointers) const;
-    QModelIndex IndexForProperty(IProperty *pProp) const;
+    void ConfigureIntrinsic(CGameProject* pProject, IPropertyNew* pRootProperty, void* pPropertyData);
+    void ConfigureScript(CGameProject* pProject, IPropertyNew* pRootProperty, CScriptObject* pObject);
+    IPropertyNew* PropertyForIndex(const QModelIndex& rkIndex, bool HandleFlaggedIndices) const;
+    QModelIndex IndexForProperty(IPropertyNew *pProp) const;
 
     int columnCount(const QModelIndex& rkParent) const;
     int rowCount(const QModelIndex& rkParent) const;
@@ -36,9 +53,11 @@ public:
 
     inline void SetFont(QFont Font) { mFont = Font; }
     inline void SetBoldModifiedProperties(bool Enable) { mBoldModifiedProperties = Enable; }
+    inline void* GetPropertyData() const { return mpPropertyData; }
+    inline CScriptObject* GetScriptObject() const { return mpObject; }
 
 public slots:
-    void NotifyPropertyModified(class CScriptObject *pInst, IProperty *pProp);
+    void NotifyPropertyModified(class CScriptObject *pInst, IPropertyNew *pProp);
     void NotifyPropertyModified(const QModelIndex& rkIndex);
 
 signals:

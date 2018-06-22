@@ -24,15 +24,7 @@
         <property ID="0x13" name="Fluid Type" type="long"/>
         <property ID="0x14" name="Unknown 11" type="bool"/>
         <property ID="0x15" name="Unknown 12" type="float"/>
-        <struct ID="0x16" name="FluidUVMotion" type="single">
-            <properties>
-                <struct ID="0x00" name="Fluid Layer Motion 1" template="Structs/FluidLayerMotion.xml"/>
-                <struct ID="0x01" name="Fluid Layer Motion 2" template="Structs/FluidLayerMotion.xml"/>
-                <struct ID="0x02" name="Fluid Layer Motion 3" template="Structs/FluidLayerMotion.xml"/>
-                <property ID="0x03" name="Unknown 1" type="float"/>
-                <property ID="0x04" name="Unknown 2" type="float"/>
-            </properties>
-        </struct>
+        <struct ID="0x16" name="FluidUVMotion" template="Structs/FluidUVMotion.xml"/>
         <property ID="0x17" name="Unknown 30" type="float"/>
         <property ID="0x18" name="Unknown 31" type="float"/>
         <property ID="0x19" name="Unknown 32" type="float"/>

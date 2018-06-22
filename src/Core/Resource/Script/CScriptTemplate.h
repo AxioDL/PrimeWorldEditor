@@ -1,8 +1,7 @@
 #ifndef CSCRIPTTEMPLATE_H
 #define CSCRIPTTEMPLATE_H
 
-#include "IPropertyTemplate.h"
-#include "IProperty.h"
+#include "Core/Resource/Script/Property/Properties.h"
 #include "EPropertyType.h"
 #include "EVolumeShape.h"
 #include "Core/Resource/Model/CModel.h"
@@ -12,6 +11,7 @@
 #include <list>
 #include <vector>
 
+class CMasterTemplate;
 class CScriptObject;
 typedef TString TIDString;
 
@@ -64,10 +64,9 @@ private:
         s32 ForceNodeIndex; // Force animsets to use specific node instead of one from property
     };
 
-    CMasterTemplate *mpMaster;
-    CStructTemplate *mpBaseStruct;
+    CMasterTemplate* mpMaster;
+    std::unique_ptr<CStructPropertyNew> mpProperties;
     std::list<CScriptObject*> mObjectList;
-    TString mTemplateName;
     std::vector<TString> mModules;
     TString mSourceFile;
     u32 mObjectID;
@@ -80,6 +79,14 @@ private:
     TIDString mScaleIDString;
     TIDString mActiveIDString;
     TIDString mLightParametersIDString;
+
+    CStringProperty* mpNameProperty;
+    CVectorProperty* mpPositionProperty;
+    CVectorProperty* mpRotationProperty;
+    CVectorProperty* mpScaleProperty;
+    CBoolProperty* mpActiveProperty;
+    CStructPropertyNew* mpLightParametersProperty;
+    
     std::vector<SEditorAsset> mAssets;
     std::vector<SAttachment> mAttachments;
 
@@ -102,43 +109,37 @@ private:
 public:
     CScriptTemplate(CMasterTemplate *pMaster);
     ~CScriptTemplate();
+    void PostLoad();
     EGame Game() const;
 
     // Property Fetching
     EVolumeShape VolumeShape(CScriptObject *pObj);
     float VolumeScale(CScriptObject *pObj);
-    TStringProperty* FindInstanceName(CPropertyStruct *pProperties);
-    TVector3Property* FindPosition(CPropertyStruct *pProperties);
-    TVector3Property* FindRotation(CPropertyStruct *pProperties);
-    TVector3Property* FindScale(CPropertyStruct *pProperties);
-    TBoolProperty* FindActive(CPropertyStruct *pProperties);
-    CPropertyStruct* FindLightParameters(CPropertyStruct *pProperties);
-    CResource* FindDisplayAsset(CPropertyStruct *pProperties, u32& rOutCharIndex, u32& rOutAnimIndex, bool& rOutIsInGame);
-    CCollisionMeshGroup* FindCollision(CPropertyStruct *pProperties);
+    CResource* FindDisplayAsset(void* pPropertyData, u32& rOutCharIndex, u32& rOutAnimIndex, bool& rOutIsInGame);
+    CCollisionMeshGroup* FindCollision(void* pPropertyData);
 
     // Accessors
     inline CMasterTemplate* MasterTemplate() const          { return mpMaster; }
-    inline TString Name() const                             { return mTemplateName; }
+    inline TString Name() const                             { return mpProperties->Name(); }
     inline ERotationType RotationType() const               { return mRotationType; }
     inline EScaleType ScaleType() const                     { return mScaleType; }
     inline float PreviewScale() const                       { return mPreviewScale; }
     inline u32 ObjectID() const                             { return mObjectID; }
     inline bool IsVisible() const                           { return mVisible; }
     inline TString SourceFile() const                       { return mSourceFile; }
-    inline CStructTemplate* BaseStruct() const              { return mpBaseStruct; }
+    inline CStructPropertyNew* Properties() const           { return mpProperties.get(); }
     inline u32 NumAttachments() const                       { return mAttachments.size(); }
     const SAttachment& Attachment(u32 Index) const          { return mAttachments[Index]; }
     const std::vector<TString>& RequiredModules() const     { return mModules; }
 
-    inline bool HasName() const             { return !mNameIDString.IsEmpty(); }
-    inline bool HasPosition() const         { return !mPositionIDString.IsEmpty(); }
-    inline bool HasRotation() const         { return !mRotationIDString.IsEmpty(); }
-    inline bool HasScale() const            { return !mScaleIDString.IsEmpty(); }
-    inline bool HasActive() const           { return !mActiveIDString.IsEmpty(); }
+    inline CStringProperty* NameProperty() const            { return mpNameProperty; }
+    inline CVectorProperty* PositionProperty() const        { return mpPositionProperty; }
+    inline CVectorProperty* RotationProperty() const        { return mpRotationProperty; }
+    inline CVectorProperty* ScaleProperty() const           { return mpScaleProperty; }
+    inline CBoolProperty* ActiveProperty() const            { return mpActiveProperty; }
+    inline CStructPropertyNew* LightParametersProperty() const  { return mpLightParametersProperty; }
 
     inline void SetVisible(bool Visible)    { mVisible = Visible; }
-
-    inline void DebugPrintProperties()      { mpBaseStruct->DebugPrintProperties(""); }
 
     // Object Tracking
     u32 NumObjects() const;

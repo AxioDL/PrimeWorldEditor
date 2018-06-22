@@ -135,6 +135,19 @@ public:
     virtual void SerializeHexPrimitive(u16& rValue)      { rValue = (u16) ReadParam().ToInt32(16); }
     virtual void SerializeHexPrimitive(u32& rValue)      { rValue = (u32) ReadParam().ToInt32(16); }
     virtual void SerializeHexPrimitive(u64& rValue)      { rValue = (u64) ReadParam().ToInt32(16); }
+
+    virtual void BulkSerialize(void* pData, u32 Size)
+    {
+        char* pCharData = (char*) pData;
+        TString StringData = ReadParam();
+        ASSERT(StringData.Size() == Size*2);
+
+        for (u32 ByteIdx = 0; ByteIdx < Size; ByteIdx++)
+        {
+            *pCharData = (char) StringData.SubString(ByteIdx*2, 2).ToInt32(16);
+            pCharData++;
+        }
+    }
 };
 
 #endif // CXMLREADER

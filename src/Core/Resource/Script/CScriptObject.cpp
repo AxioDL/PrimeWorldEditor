@@ -13,19 +13,29 @@ CScriptObject::CScriptObject(u32 InstanceID, CGameArea *pArea, CScriptLayer *pLa
     , mIsCheckingNearVisibleActivation(false)
 {
     mpTemplate->AddObject(this);
-    mpProperties = (CPropertyStruct*) pTemplate->BaseStruct()->InstantiateProperty(this, nullptr);
 
-    mpInstanceName = mpTemplate->FindInstanceName(mpProperties);
-    mpPosition = mpTemplate->FindPosition(mpProperties);
-    mpRotation = mpTemplate->FindRotation(mpProperties);
-    mpScale = mpTemplate->FindScale(mpProperties);
-    mpActive = mpTemplate->FindActive(mpProperties);
-    mpLightParameters = mpTemplate->FindLightParameters(mpProperties);
+    // Init properties
+    CStructPropertyNew* pProperties = pTemplate->Properties();
+    u32 PropertiesSize = pProperties->DataSize();
+    mPropertyData.resize( PropertiesSize );
+    pProperties->Construct( mPropertyData.data() );
+
+    mInstanceName = CStringRef(this, pTemplate->NameProperty());
+    mPosition = CVectorRef(this, pTemplate->PositionProperty());
+    mRotation = CVectorRef(this, pTemplate->RotationProperty());
+    mScale = CVectorRef(this, pTemplate->ScaleProperty());
+    mActive = CBoolRef(this, pTemplate->ActiveProperty());
+    mLightParameters = CStructRef(this, pTemplate->LightParametersProperty());
 }
 
 CScriptObject::~CScriptObject()
 {
-    if (mpProperties) delete mpProperties;
+    if (!mPropertyData.empty())
+    {
+        mpTemplate->Properties()->Destruct( mPropertyData.data() );
+        mPropertyData.clear();
+    }
+
     mpTemplate->RemoveObject(this);
 
     // Note: Incoming links will be deleted by the sender.
@@ -34,6 +44,19 @@ CScriptObject::~CScriptObject()
 }
 
 // ************ DATA MANIPULATION ************
+void CScriptObject::CopyProperties(CScriptObject* pObject)
+{
+    ASSERT(pObject->Template() == Template());
+    CSerialVersion Version(0, IArchive::skCurrentArchiveVersion, Template()->Game());
+
+    CVectorOutStream DataStream;
+    CBasicBinaryWriter DataWriter(&DataStream, Version);
+    Template()->Properties()->SerializeValue( pObject->PropertyData(), DataWriter );
+
+    CBasicBinaryReader DataReader(DataStream.Data(), DataStream.Size(), Version);
+    Template()->Properties()->SerializeValue( PropertyData(), DataReader );
+}
+
  void CScriptObject::EvaluateProperties()
 {
     EvaluateDisplayAsset();
@@ -43,12 +66,12 @@ CScriptObject::~CScriptObject()
 
 void CScriptObject::EvaluateDisplayAsset()
 {
-    mpDisplayAsset = mpTemplate->FindDisplayAsset(mpProperties, mActiveCharIndex, mActiveAnimIndex, mHasInGameModel);
+    mpDisplayAsset = mpTemplate->FindDisplayAsset(PropertyData(), mActiveCharIndex, mActiveAnimIndex, mHasInGameModel);
 }
 
 void CScriptObject::EvaluateCollisionModel()
 {
-    mpCollision = mpTemplate->FindCollision(mpProperties);
+    mpCollision = mpTemplate->FindCollision(PropertyData());
 }
 
 void CScriptObject::EvaluateVolume()
@@ -57,15 +80,15 @@ void CScriptObject::EvaluateVolume()
     mVolumeScale = mpTemplate->VolumeScale(this);
 }
 
-bool CScriptObject::IsEditorProperty(IProperty *pProp)
+bool CScriptObject::IsEditorProperty(IPropertyNew *pProp)
 {
-    return ( (pProp == mpInstanceName) ||
-             (pProp == mpPosition) ||
-             (pProp == mpRotation) ||
-             (pProp == mpScale) ||
-             (pProp == mpActive) ||
-             (pProp == mpLightParameters) ||
-             (pProp->Parent() == mpLightParameters)
+    return ( (pProp == mInstanceName.Property()) ||
+             (pProp == mPosition.Property()) ||
+             (pProp == mRotation.Property()) ||
+             (pProp == mScale.Property()) ||
+             (pProp == mActive.Property()) ||
+             (pProp == mLightParameters.Property()) ||
+             (pProp->Parent() == mLightParameters.Property())
            );
 }
 

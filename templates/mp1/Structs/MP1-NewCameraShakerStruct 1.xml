@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="MP1-NewCameraShakerStruct 1" type="single">
+    <properties>
+        <property ID="0x00" name="Unknown 6" type="long"/>
+        <property ID="0x01" name="Unknown 7" type="bool"/>
+        <property ID="0x02" name="Unknown 8" type="long"/>
+        <property ID="0x03" name="Unknown 9" type="bool"/>
+        <property ID="0x04" name="Unknown 10" type="float"/>
+        <property ID="0x05" name="Unknown 11" type="float"/>
+        <property ID="0x06" name="Unknown 12" type="float"/>
+        <property ID="0x07" name="Unknown 13" type="float"/>
+        <property ID="0x08" name="Unknown 14" type="long"/>
+        <property ID="0x09" name="Unknown 15" type="bool"/>
+        <property ID="0x0A" name="Unknown 16" type="float"/>
+        <property ID="0x0B" name="Unknown 17" type="float"/>
+        <property ID="0x0C" name="Unknown 18" type="float"/>
+        <property ID="0x0D" name="Unknown 19" type="float"/>
+    </properties>
+</struct>

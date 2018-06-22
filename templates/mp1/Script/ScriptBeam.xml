@@ -7,26 +7,7 @@
         <property ID="0x02" name="Rotation" type="vector3f"/>
         <property ID="0x03" name="Unknown 1" type="bool"/>
         <property ID="0x04" name="WPSC" type="asset" extensions="WPSC"/>
-        <struct ID="0x05" name="ScriptBeamStruct" type="multi">
-            <properties>
-                <property ID="0x00" name="Unknown 2" type="long"/>
-                <property ID="0x01" name="Particle 1" type="asset" extensions="PART"/>
-                <property ID="0x02" name="Particle 2" type="asset" extensions="PART"/>
-                <property ID="0x03" name="Texture 1" type="asset" extensions="TXTR"/>
-                <property ID="0x04" name="Texture 2" type="asset" extensions="TXTR"/>
-                <property ID="0x05" name="Unknown 3" type="float"/>
-                <property ID="0x06" name="Unknown 4" type="float"/>
-                <property ID="0x07" name="Unknown 5" type="float"/>
-                <property ID="0x08" name="Unknown 6" type="float"/>
-                <property ID="0x09" name="Unknown 7" type="float"/>
-                <property ID="0x0A" name="Unknown 8" type="float"/>
-                <property ID="0x0B" name="Unknown 9" type="float"/>
-                <property ID="0x0C" name="Unknown 10" type="float"/>
-                <property ID="0x0D" name="Unknown 11" type="float"/>
-                <property ID="0x0E" name="Unknown 12" type="color"/>
-                <property ID="0x0F" name="Unknown 13" type="color"/>
-            </properties>
-        </struct>
+        <struct ID="0x05" name="ScriptBeamStruct" template="Structs/MP1-ScriptBeamStruct.xml"/>
         <struct ID="0x06" name="DamageInfo" template="Structs/DamageInfo.xml"/>
     </properties>
     <states/>

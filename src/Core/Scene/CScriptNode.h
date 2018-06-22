@@ -49,7 +49,7 @@ public:
     CColor WireframeColor() const;
 
     void LinksModified();
-    void PropertyModified(IProperty *pProp);
+    void PropertyModified(IPropertyNew* pProp);
     void UpdatePreviewVolume();
     void GeneratePosition();
     void TestGameModeVisibility();

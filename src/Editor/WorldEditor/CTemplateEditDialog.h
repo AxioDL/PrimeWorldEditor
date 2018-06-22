@@ -16,7 +16,7 @@ class CTemplateEditDialog : public QDialog
     Ui::CTemplateEditDialog* mpUI;
     CPropertyNameValidator* mpValidator;
 
-    IPropertyTemplate *mpTemplate;
+    IPropertyNew *mpProperty;
     EGame mGame;
 
     TString mOriginalName;
@@ -24,21 +24,22 @@ class CTemplateEditDialog : public QDialog
     bool mOriginalNameWasValid;
 
     // These members help track what templates need to be updated and resaved after the user clicks OK
-    QVector<CScriptTemplate*> mScriptTemplatesToResave;
-    QVector<CStructTemplate*> mStructTemplatesToResave;
-    QVector<IPropertyTemplate*> mEquivalentProperties;
+    //FIXME
+//    QVector<CScriptTemplate*> mScriptTemplatesToResave;
+//    QVector<CStructTemplate*> mStructTemplatesToResave;
+//    QVector<IPropertyTemplate*> mEquivalentProperties;
 
 public:
-    CTemplateEditDialog(IPropertyTemplate *pTemplate, QWidget *pParent = 0);
+    CTemplateEditDialog(IPropertyNew* pProperty, QWidget *pParent = 0);
     ~CTemplateEditDialog();
 
 public slots:
     void ApplyChanges();
 
 protected:
-    void AddTemplate(IPropertyTemplate *pTemp);
+    void AddTemplate(IPropertyNew* pProperty);
     void UpdateDescription(const TString& rkNewDesc);
-    void FindEquivalentProperties(IPropertyTemplate *pTemp);
+    void FindEquivalentProperties(IPropertyNew *pTemp);
 };
 
 #endif // CTEMPLATEEDITDIALOG_H

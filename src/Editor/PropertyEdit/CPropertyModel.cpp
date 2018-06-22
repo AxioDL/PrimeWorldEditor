@@ -8,77 +8,111 @@
 
 CPropertyModel::CPropertyModel(QObject *pParent /*= 0*/)
     : QAbstractItemModel(pParent)
-    , mpBaseStruct(nullptr)
+    , mpProject(nullptr)
+    , mpRootProperty(nullptr)
+    , mpPropertyData(nullptr)
     , mBoldModifiedProperties(true)
     , mShowNameValidity(false)
 {
 }
 
-void CPropertyModel::SetBaseStruct(CPropertyStruct *pBaseStruct)
+int CPropertyModel::RecursiveBuildArrays(IPropertyNew* pProperty, int ParentID)
+{
+    mProperties << SProperty();
+    SProperty& Property = mProperties.back();
+    Property.pProperty = pProperty;
+    Property.ParentID = ParentID;
+
+    int MyID = mProperties.size() - 1;
+    int RowNumber = (ParentID >= 0 ? mProperties[ParentID].ChildIDs.size() : 0);
+    Property.Index = createIndex(RowNumber, 0, pProperty);
+
+    if (pProperty->Type() == EPropertyTypeNew::Array)
+    {
+        CArrayProperty* pArray = TPropCast<CArrayProperty>(pProperty);
+
+        for (u32 ElementIdx = 0; ElementIdx < pArray->ArrayCount(mpPropertyData); ElementIdx++)
+        {
+            int NewChildID = RecursiveBuildArrays( pArray->Archetype(), MyID );
+            Property.ChildIDs.push_back(NewChildID);
+        }
+    }
+    else
+    {
+        for (u32 ChildIdx = 0; ChildIdx < pProperty->NumChildren(); ChildIdx++)
+        {
+            int NewChildID = RecursiveBuildArrays( pProperty->ChildByIndex(ChildIdx), MyID );
+            Property.ChildIDs.push_back(NewChildID);
+        }
+    }
+
+    if (!pProperty->IsArrayArchetype())
+    {
+        mPropertyToIDMap[pProperty] = MyID;
+    }
+
+    return MyID;
+}
+
+void CPropertyModel::ConfigureIntrinsic(CGameProject* pProject, IPropertyNew* pRootProperty, void* pPropertyData)
 {
     beginResetModel();
-    mpBaseStruct = pBaseStruct;
+
+    mpProject = pProject;
+    mpObject = nullptr;
+    mpRootProperty = pRootProperty;
+    mpPropertyData = pPropertyData;
+
+    mProperties.clear();
+    mPropertyToIDMap.clear();
+
+    if (pRootProperty)
+        RecursiveBuildArrays(pRootProperty, -1);
+
     endResetModel();
 }
 
-IProperty* CPropertyModel::PropertyForIndex(const QModelIndex& rkIndex, bool HandleFlaggedPointers) const
+void CPropertyModel::ConfigureScript(CGameProject* pProject, IPropertyNew* pRootProperty, CScriptObject* pObject)
 {
-    if (!rkIndex.isValid()) return mpBaseStruct;
+    ConfigureIntrinsic(pProject, pRootProperty, pObject);
+    mpObject = pObject;
+}
 
-    if (rkIndex.internalId() & 0x1)
+IPropertyNew* CPropertyModel::PropertyForIndex(const QModelIndex& rkIndex, bool HandleFlaggedIndices) const
+{
+    if (!rkIndex.isValid()) return mpRootProperty;
+
+    int Index = rkIndex.internalId();
+
+    if (Index & 0x80000000)
     {
-        if (HandleFlaggedPointers)
-        {
-            void *pID = (void*) (rkIndex.internalId() & ~0x1);
-            return static_cast<IProperty*>(pID);
-        }
+        if (HandleFlaggedIndices)
+            Index &= ~0x80000000;
         else
             return nullptr;
     }
 
-    return static_cast<IProperty*>(rkIndex.internalPointer());
+    return mProperties[Index].pProperty;
 }
 
-QModelIndex CPropertyModel::IndexForProperty(IProperty *pProp) const
+QModelIndex CPropertyModel::IndexForProperty(IPropertyNew *pProp) const
 {
-    if (pProp == mpBaseStruct) return QModelIndex();
-
-    QVector<u32> RowNumbers;
-    IProperty *pChild = pProp;
-    CPropertyStruct *pParent = pProp->Parent();
-
-    while (pParent)
+    // Array archetype properties cannot be associated with a single index because the same IProperty
+    // is used for every element of the array. So instead fetch the index for the array itself.
+    if (pProp->IsArrayArchetype())
     {
-        // Check for array with one sub-property
-        CPropertyStruct *pGrandparent = pParent->Parent();
-        if (pGrandparent && pGrandparent->Type() == eArrayProperty && pParent->Count() == 1)
-        {
-            pChild = pParent;
-            pParent = pGrandparent;
-            continue;
-        }
+        while (pProp && pProp->IsArrayArchetype())
+            pProp = pProp->Parent();
 
-        // Find row index for this child property
-        for (u32 iChild = 0; iChild < pParent->Count(); iChild++)
-        {
-            if (pParent->PropertyByIndex(iChild) == pChild)
-            {
-                RowNumbers << iChild;
-                break;
-            }
-        }
-
-        pChild = pParent;
-        pParent = pGrandparent;
+        ASSERT(pProp != nullptr && pProp->Type() == EPropertyTypeNew::Array);
     }
 
-    // Find the corresponding QModelIndex in the same spot
-    QModelIndex Index = QModelIndex();
+    if (pProp == mpRootProperty) return QModelIndex();
 
-    for (int iChild = RowNumbers.size() - 1; iChild >= 0; iChild--)
-        Index = index(RowNumbers[iChild], 0, Index);
+    int ID = mPropertyToIDMap[pProp];
+    ASSERT(ID >= 0);
 
-    return Index;
+    return mProperties[ID].Index;
 }
 
 int CPropertyModel::columnCount(const QModelIndex& /*rkParent*/) const
@@ -88,38 +122,30 @@ int CPropertyModel::columnCount(const QModelIndex& /*rkParent*/) const
 
 int CPropertyModel::rowCount(const QModelIndex& rkParent) const
 {
-    if (!mpBaseStruct) return 0;
-    if (!rkParent.isValid()) return mpBaseStruct->Count();
+    if (!mpRootProperty) return 0;
+    if (!rkParent.isValid()) return mpRootProperty->NumChildren();
     if (rkParent.column() != 0) return 0;
-    if (rkParent.internalId() & 0x1) return 0;
+    if (rkParent.internalId() & 0x80000000) return 0;
 
-    IProperty *pProp = PropertyForIndex(rkParent, false);
+    IPropertyNew *pProp = PropertyForIndex(rkParent, false);
+    int ID = mPropertyToIDMap[pProp];
 
     switch (pProp->Type())
     {
-    case eStructProperty:
-    case eArrayProperty:
-        return static_cast<CPropertyStruct*>(pProp)->Count();
+    case EPropertyTypeNew::Flags:
+        return TPropCast<CFlagsProperty>(pProp)->NumFlags();
 
-    case eBitfieldProperty:
-        return static_cast<CBitfieldTemplate*>(pProp->Template())->NumFlags();
-
-    case eVector3Property:
-        return 3;
-
-    case eColorProperty:
-        return 4;
-
-    case eCharacterProperty:
+    case EPropertyTypeNew::AnimationSet:
     {
-        CAnimationParameters Params = static_cast<TCharacterProperty*>(pProp)->Get();
+        CAnimationParameters Params = TPropCast<CAnimationSetProperty>(pProp)->Value(mpPropertyData);
+
         if (Params.Version() <= eEchoes) return 3;
         if (Params.Version() <= eCorruption) return 2;
         return 4;
     }
 
     default:
-        return 0;
+        return mProperties[ID].ChildIDs.size();
     }
 }
 
@@ -142,73 +168,29 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
     {
         if (rkIndex.internalId() & 0x1)
         {
-            IProperty *pProp = PropertyForIndex(rkIndex, true);
+            IPropertyNew *pProp = PropertyForIndex(rkIndex, true);
+            EPropertyTypeNew Type = pProp->Type();
 
-            if (pProp->Type() == eColorProperty)
+            if (Type == EPropertyTypeNew::Flags)
             {
-                if (rkIndex.column() == 0)
-                {
-                    if (rkIndex.row() == 0) return "R";
-                    if (rkIndex.row() == 1) return "G";
-                    if (rkIndex.row() == 2) return "B";
-                    if (rkIndex.row() == 3) return "A";
-                }
-
-                else if (rkIndex.column() == 1)
-                {
-                    TStringList Strings = pProp->ToString().Split(" ,");
-
-                    int i = 0;
-                    for (auto it = Strings.begin(); it != Strings.end(); it++)
-                    {
-                        if (i == rkIndex.row()) return TO_QSTRING(*it);
-                        i++;
-                    }
-                }
-            }
-
-            else if (pProp->Type() == eVector3Property)
-            {
-                if (rkIndex.column() == 0)
-                {
-                    if (rkIndex.row() == 0) return "X";
-                    if (rkIndex.row() == 1) return "Y";
-                    if (rkIndex.row() == 2) return "Z";
-                }
-
-                else if (rkIndex.column() == 1)
-                {
-                    TStringList Strings = pProp->ToString().Split(" ,");
-
-                    int i = 0;
-                    for (auto it = Strings.begin(); it != Strings.end(); it++)
-                    {
-                        if (i == rkIndex.row()) return TO_QSTRING(*it);
-                        i++;
-                    }
-                }
-            }
-
-            else if (pProp->Type() == eBitfieldProperty)
-            {
-                CBitfieldTemplate *pBitfield = static_cast<CBitfieldTemplate*>(pProp->Template());
+                CFlagsProperty* pFlags = TPropCast<CFlagsProperty>(pProp);
 
                 if (rkIndex.column() == 0)
-                    return TO_QSTRING(pBitfield->FlagName(rkIndex.row()));
+                    return TO_QSTRING( pFlags->FlagName(rkIndex.row()) );
 
                 if (rkIndex.column() == 1)
                 {
                     if (Role == Qt::DisplayRole)
                         return "";
                     else
-                        return TO_QSTRING(TString::HexString(pBitfield->FlagMask(rkIndex.row())));
+                        return TO_QSTRING(TString::HexString( pFlags->FlagMask(rkIndex.row())));
                 }
             }
 
-            else if (pProp->Type() == eCharacterProperty)
+            else if (Type == EPropertyTypeNew::AnimationSet)
             {
-                TCharacterProperty *pChar = static_cast<TCharacterProperty*>(pProp);
-                CAnimationParameters Params = pChar->Get();
+                CAnimationSetProperty* pAnimSet = TPropCast<CAnimationSetProperty>(pProp);
+                CAnimationParameters Params = pAnimSet->Value(mpPropertyData);
 
                 // There are three different layouts for this property - one for MP1/2, one for MP3, and one for DKCR
                 if (Params.Version() <= eEchoes)
@@ -255,28 +237,18 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
 
         else
         {
-            IProperty *pProp = PropertyForIndex(rkIndex, false);
+            IPropertyNew *pProp = PropertyForIndex(rkIndex, false);
 
             if (rkIndex.column() == 0)
             {
                 // Check for arrays
-                IProperty *pParent = pProp->Parent();
+                IPropertyNew *pParent = pProp->Parent();
 
-                if (pParent)
+                if (pParent && pParent->Type() == EPropertyTypeNew::Array)
                 {
-                    // For direct array sub-properties, display the element name instead of the property name (the property name is the array name)
-                    if (pProp->Type() == eStructProperty && pParent->Type() == eArrayProperty)
-                    {
-                        TString ElementName = static_cast<CArrayProperty*>(pParent)->ElementName();
-                        return QString("%1 %2").arg(TO_QSTRING(ElementName)).arg(rkIndex.row() + 1);
-                    }
-
-                    // Check whether the parent struct is an array element with one sub-property
-                    if (pParent->Type() == eStructProperty && pParent->Parent() && pParent->Parent()->Type() == eArrayProperty)
-                    {
-                        if (static_cast<CPropertyStruct*>(pParent)->Count() == 1)
-                            return QString("%1 %2").arg(TO_QSTRING(pProp->Name())).arg(rkIndex.row() + 1);
-                    }
+                    // For direct array sub-properties, display the element index after the name
+                    TString ElementName = pParent->Name();
+                    return QString("%1 %2").arg( TO_QSTRING(ElementName) ).arg(rkIndex.row() + 1);
                 }
 
                 // Display property name for everything else
@@ -288,19 +260,20 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                 switch (pProp->Type())
                 {
                 // Enclose vector property text in parentheses
-                case eVector3Property:
-                    return "(" + TO_QSTRING(pProp->ToString()) + ")";
+                case EPropertyTypeNew::Vector:
+                {
+                    CVector3f Value = TPropCast<CVectorProperty>(pProp)->Value(mpPropertyData);
+                    return TO_QSTRING("(" + Value.ToString() + ")");
+                }
 
                 // Display the AGSC/sound name for sounds
-                case eSoundProperty:
+                case EPropertyTypeNew::Sound:
                 {
-                    TSoundProperty *pSound = static_cast<TSoundProperty*>(pProp);
-                    u32 SoundID = pSound->Get();
+                    CSoundProperty* pSound = TPropCast<CSoundProperty>(pProp);
+                    u32 SoundID = pSound->Value(mpPropertyData);
                     if (SoundID == -1) return "[None]";
 
-                    CGameProject *pProj = pSound->Instance()->Area()->Entry()->Project();
-                    SSoundInfo SoundInfo = pProj->AudioManager()->GetSoundInfo(SoundID);
-
+                    SSoundInfo SoundInfo = mpProject->AudioManager()->GetSoundInfo(SoundID);
                     QString Out = QString::number(SoundID);
 
                     if (SoundInfo.DefineID == -1)
@@ -320,40 +293,47 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                 }
 
                 // Display character name for characters
-                case eCharacterProperty:
-                    return TO_QSTRING(static_cast<TCharacterProperty*>(pProp)->Get().GetCurrentCharacterName());
+                case EPropertyTypeNew::AnimationSet:
+                    return TO_QSTRING(TPropCast<CAnimationSetProperty>(pProp)->Value(mpPropertyData).GetCurrentCharacterName());
 
                 // Display enumerator name for enums (but only on ToolTipRole)
-                case eEnumProperty:
+                case EPropertyTypeNew::Choice:
+                case EPropertyTypeNew::Enum:
                     if (Role == Qt::ToolTipRole)
                     {
-                        TEnumProperty *pEnum = static_cast<TEnumProperty*>(pProp);
-                        CEnumTemplate *pTemp = static_cast<CEnumTemplate*>(pEnum->Template());
-                        return TO_QSTRING(pTemp->EnumeratorName( pTemp->EnumeratorIndex(pEnum->Get()) ));
+                        CEnumProperty *pEnum = TPropCast<CEnumProperty>(pProp);
+                        u32 ValueID = pEnum->Value(mpPropertyData);
+                        u32 ValueIndex = pEnum->ValueIndex(ValueID);
+                        return TO_QSTRING( pEnum->ValueName(ValueIndex) );
                     }
                     else return "";
 
                 // Display the element count for arrays
-                case eArrayProperty:
+                case EPropertyTypeNew::Array:
                 {
-                    u32 Count = static_cast<CArrayProperty*>(pProp)->Count();
+                    u32 Count = TPropCast<CArrayProperty>(pProp)->Value(mpPropertyData);
                     return QString("%1 element%2").arg(Count).arg(Count != 1 ? "s" : "");
                 }
 
-                // Display "[MayaSpline]" for MayaSplines (todo: proper support)
-                case eMayaSplineProperty:
-                    return "[MayaSpline]";
+                // Display "[spline]" for splines (todo: proper support)
+                case EPropertyTypeNew::Spline:
+                    return "[spline]";
 
                 // No display text on properties with persistent editors
-                case eBoolProperty:
-                case eAssetProperty:
-                case eColorProperty:
+                case EPropertyTypeNew::Bool:
+                    if (Role == Qt::DisplayRole)
+                        return TPropCast<CBoolProperty>(pProp)->Value(mpPropertyData) ? "True" : "False";
+                    else
+                        return "";
+
+                case EPropertyTypeNew::Asset:
+                case EPropertyTypeNew::Color:
                     if (Role == Qt::DisplayRole)
                         return "";
                 // fall through
                 // Display property value to string for everything else
                 default:
-                    return TO_QSTRING(pProp->ToString() + pProp->Template()->Suffix());
+                    return TO_QSTRING(pProp->ValueAsString(mpPropertyData) + pProp->Suffix());
                 }
             }
         }
@@ -364,23 +344,23 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
         if (!(rkIndex.internalId() & 0x1))
         {
             // Add name
-            IProperty *pProp = PropertyForIndex(rkIndex, false);
+            IPropertyNew *pProp = PropertyForIndex(rkIndex, false);
             QString DisplayText = data(rkIndex, Qt::DisplayRole).toString();
             QString Text = QString("<b>%1</b> <i>(%2)</i>").arg(DisplayText).arg(TO_QSTRING(PropEnumToPropString(pProp->Type())));
 
             // Add uncooked notification
-            if (pProp->Template()->CookPreference() == eNeverCook)
+            if (pProp->CookPreference() == ECookPreferenceNew::Never)
             {
                 Text.prepend("<i>[uncooked]</i>");
             }
 
             // Add description
-            TString Desc = pProp->Template()->Description();
+            TString Desc = pProp->Description();
             if (!Desc.IsEmpty()) Text += "<br/>" + TO_QSTRING(Desc);
 
-            // MayaSpline notification
-            if (pProp->Type() == eMayaSplineProperty)
-                Text += "<br/><i>(NOTE: MayaSpline properties are currently unsupported for editing)</i>";
+            // Spline notification
+            if (pProp->Type() == EPropertyTypeNew::Spline)
+                Text += "<br/><i>(NOTE: Spline properties are currently unsupported for editing)</i>";
 
             return Text;
         }
@@ -393,45 +373,12 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
 
         if (mBoldModifiedProperties)
         {
-            IProperty *pProp = PropertyForIndex(rkIndex, true);
+            IPropertyNew *pProp = PropertyForIndex(rkIndex, true);
 
-            if (!pProp->IsInArray())
+            if (!pProp->IsArrayArchetype())
             {
-                if (rkIndex.internalId() & 0x1)
-                {
-                    if (pProp->Type() == eVector3Property)
-                    {
-                        TVector3Property *pVec = static_cast<TVector3Property*>(pProp);
-                        TVector3Template *pTemp = static_cast<TVector3Template*>(pProp->Template());
-
-                        CVector3f Value = pVec->Get();
-                        CVector3f Default = pTemp->GetDefaultValue();
-
-                        if (rkIndex.row() == 0) Bold = (Value.X != Default.X);
-                        if (rkIndex.row() == 1) Bold = (Value.Y != Default.Y);
-                        if (rkIndex.row() == 2) Bold = (Value.Z != Default.Z);
-                    }
-
-                    else if (pProp->Type() == eColorProperty)
-                    {
-                        TColorProperty *pColor = static_cast<TColorProperty*>(pProp);
-                        TColorTemplate *pTemp = static_cast<TColorTemplate*>(pProp->Template());
-
-                        CColor Value = pColor->Get();
-                        CColor Default = pTemp->GetDefaultValue();
-
-                        if (rkIndex.row() == 0) Bold = (Value.R != Default.R);
-                        if (rkIndex.row() == 1) Bold = (Value.G != Default.G);
-                        if (rkIndex.row() == 2) Bold = (Value.B != Default.B);
-                        if (rkIndex.row() == 3) Bold = (Value.A != Default.A);
-                    }
-                }
-
-                else
-                {
-                    Bold = !pProp->MatchesDefault();
-                }
-             }
+                Bold = !pProp->MatchesDefault(mpPropertyData);
+            }
         }
 
         Font.setBold(Bold);
@@ -445,17 +392,16 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
 
     if (Role == Qt::ForegroundRole)
     {
-        if (mShowNameValidity && mpBaseStruct->Template()->Game() >= eEchoesDemo)
+        if (mShowNameValidity && mpRootProperty->ScriptTemplate()->Game() >= eEchoesDemo)
         {
-            IProperty *pProp = PropertyForIndex(rkIndex, true);
-            IPropertyTemplate *pTemp = (pProp ? pProp->Template() : nullptr);
+            IPropertyNew *pProp = PropertyForIndex(rkIndex, true);
 
             // Don't highlight the name of the root property
-            if (pTemp && pTemp->Parent() != nullptr)
+            if (pProp && pProp->Parent() != nullptr && !pProp->IsArrayArchetype())
             {
                 static const QColor skRightColor = QColor(128, 255, 128);
                 static const QColor skWrongColor = QColor(255, 128, 128);
-                return QBrush( pTemp->IsNameCorrect() ? skRightColor : skWrongColor );
+                return QBrush( pProp->HasAccurateName() ? skRightColor : skWrongColor );
             }
         }
     }
@@ -470,33 +416,19 @@ QModelIndex CPropertyModel::index(int Row, int Column, const QModelIndex& rkPare
         return QModelIndex();
 
     // Check property for children
-    IProperty *pParent = (rkParent.isValid() ? PropertyForIndex(rkParent, false) : mpBaseStruct);
+    IPropertyNew* pParent = (rkParent.isValid() ? PropertyForIndex(rkParent, false) : mpRootProperty);
+    EPropertyTypeNew ParentType = pParent->Type();
+    int ParentID = mPropertyToIDMap[pParent];
 
-    // Struct
-    if (pParent->Type() == eStructProperty)
+    if (ParentType == EPropertyTypeNew::Flags || ParentType == EPropertyTypeNew::AnimationSet)
     {
-        IProperty *pProp = static_cast<CPropertyStruct*>(pParent)->PropertyByIndex(Row);
-        return createIndex(Row, Column, pProp);
+        return createIndex(Row, Column, ParentID | 0x80000000);
     }
-
-    // Array
-    if (pParent->Type() == eArrayProperty)
+    else
     {
-        IProperty *pProp = static_cast<CArrayProperty*>(pParent)->PropertyByIndex(Row);
-
-        // If this array element only has one sub-property then let's just skip the redundant tree node and show the sub-property directly.
-        CPropertyStruct *pStruct = static_cast<CPropertyStruct*>(pProp);
-        if (pStruct->Count() == 1)
-            pProp = pStruct->PropertyByIndex(0);
-
-        return createIndex(Row, Column, pProp);
+        int ChildID = mProperties[ParentID].ChildIDs[Row];
+        return createIndex(Row, Column, ChildID);
     }
-
-    // Other property
-    if (pParent->Type() == eColorProperty || pParent->Type() == eVector3Property || pParent->Type() == eBitfieldProperty || pParent->Type() == eCharacterProperty)
-        return createIndex(Row, Column, u64(pParent) | 0x1);
-
-    return QModelIndex();
 }
 
 QModelIndex CPropertyModel::parent(const QModelIndex& rkChild) const
@@ -505,39 +437,14 @@ QModelIndex CPropertyModel::parent(const QModelIndex& rkChild) const
     if (!rkChild.isValid())
         return QModelIndex();
 
-    // Find parent property
-    IProperty *pParent;
+    int ID = int(rkChild.internalId());
 
-    if (rkChild.internalId() & 0x1)
-        pParent = PropertyForIndex(rkChild, true);
+    if (ID & 0x80000000)
+        ID &= ~0x80000000;
     else
-        pParent = PropertyForIndex(rkChild, false)->Parent();
+        ID = mProperties[ID].ParentID;
 
-    if (pParent == mpBaseStruct)
-        return QModelIndex();
-
-    // Iterate over grandfather properties until we find the row
-    CPropertyStruct *pGrandparent = pParent->Parent();
-
-    // Check for array with one sub-property
-    if (pGrandparent->Type() == eArrayProperty)
-    {
-        CPropertyStruct *pStruct = static_cast<CPropertyStruct*>(pParent);
-
-        if (pStruct->Count() == 1)
-        {
-            pParent = pGrandparent;
-            pGrandparent = pGrandparent->Parent();
-        }
-    }
-
-    for (u32 iProp = 0; iProp < pGrandparent->Count(); iProp++)
-    {
-        if (pGrandparent->PropertyByIndex(iProp) == pParent)
-            return createIndex(iProp, 0, pParent);
-    }
-
-    return QModelIndex();
+    return mProperties[ID].Index;
 }
 
 Qt::ItemFlags CPropertyModel::flags(const QModelIndex& rkIndex) const
@@ -546,7 +453,7 @@ Qt::ItemFlags CPropertyModel::flags(const QModelIndex& rkIndex) const
     else return (Qt::ItemIsEnabled | Qt::ItemIsEditable);
 }
 
-void CPropertyModel::NotifyPropertyModified(class CScriptObject*, IProperty *pProp)
+void CPropertyModel::NotifyPropertyModified(class CScriptObject*, IPropertyNew* pProp)
 {
     NotifyPropertyModified(IndexForProperty(pProp));
 }
@@ -556,7 +463,7 @@ void CPropertyModel::NotifyPropertyModified(const QModelIndex& rkIndex)
     if (rowCount(rkIndex) != 0)
         emit dataChanged( index(0, 0, rkIndex), index(rowCount(rkIndex) - 1, 1, rkIndex));
 
-    if (rkIndex.internalId() & 0x1)
+    if (rkIndex.internalId() & 0x80000000)
     {
         QModelIndex Parent = rkIndex.parent();
         QModelIndex Col0 = Parent.sibling(Parent.row(), 0);
@@ -573,7 +480,8 @@ void CPropertyModel::NotifyPropertyModified(const QModelIndex& rkIndex)
 
 void CPropertyModel::ArrayAboutToBeResized(const QModelIndex& rkIndex, u32 NewSize)
 {
-    QModelIndex Index = rkIndex.sibling(rkIndex.row(), 0);
+    //FIXME
+    /*QModelIndex Index = rkIndex.sibling(rkIndex.row(), 0);
     CArrayProperty *pArray = static_cast<CArrayProperty*>(PropertyForIndex(Index, false));
 
     if (pArray && pArray->Type() == eArrayProperty)
@@ -587,12 +495,13 @@ void CPropertyModel::ArrayAboutToBeResized(const QModelIndex& rkIndex, u32 NewSi
             else
                 beginRemoveRows(Index, NewSize, OldSize - 1);
         }
-    }
+    }*/
 }
 
 void CPropertyModel::ArrayResized(const QModelIndex& rkIndex, u32 OldSize)
 {
-    CArrayProperty *pArray = static_cast<CArrayProperty*>(PropertyForIndex(rkIndex, false));
+    //FIXME
+    /*CArrayProperty *pArray = static_cast<CArrayProperty*>(PropertyForIndex(rkIndex, false));
     u32 NewSize = pArray->Count();
 
     if (NewSize != OldSize)
@@ -601,7 +510,7 @@ void CPropertyModel::ArrayResized(const QModelIndex& rkIndex, u32 OldSize)
             endInsertRows();
         else
             endRemoveRows();
-    }
+    }*/
 }
 
 void CPropertyModel::SetShowPropertyNameValidity(bool Enable)

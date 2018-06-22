@@ -231,7 +231,8 @@ void CGeneratePropertyNamesDialog::ApplyChanges()
         pItem->setText(3, NewName);
     }
 
-    CTemplateWriter::SavePropertyList();
+    //FIXME
+//    CTemplateWriter::SavePropertyList();
 }
 
 /** Check progress on name generation task and display results on the UI */

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="MP1-RidleyStruct1" type="single">
+    <properties>
+        <property ID="0x00" name="Unknown 5" type="long"/>
+        <property ID="0x01" name="Unknown 6" type="long"/>
+        <property ID="0x02" name="Particle 1" type="asset" extensions="PART"/>
+        <property ID="0x03" name="Particle 2" type="asset" extensions="PART"/>
+        <property ID="0x04" name="Texture 1" type="asset" extensions="TXTR"/>
+        <property ID="0x05" name="Texture 2" type="asset" extensions="TXTR"/>
+        <property ID="0x06" name="Unknown 7" type="float"/>
+        <property ID="0x07" name="Unknown 8" type="float"/>
+        <property ID="0x08" name="Unknown 9" type="float"/>
+        <property ID="0x09" name="Unknown 10" type="float"/>
+        <property ID="0x0A" name="Unknown 11" type="float"/>
+        <property ID="0x0B" name="Unknown 12" type="float"/>
+        <property ID="0x0C" name="Unknown 13" type="float"/>
+        <property ID="0x0D" name="Unknown 14" type="float"/>
+        <property ID="0x0E" name="Unknown 15" type="float"/>
+        <property ID="0x0F" name="Unknown 16" type="color"/>
+        <property ID="0x10" name="Unknown 17" type="color"/>
+    </properties>
+</struct>

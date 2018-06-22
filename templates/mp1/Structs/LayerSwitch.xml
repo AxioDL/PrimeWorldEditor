@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct name="LayerSwitch" type="single">
+    <properties>
+        <property ID="0x00" name="Room ID" type="asset" extensions="MREA"/>
+        <property ID="0x01" name="Layer no" type="long"/>
+    </properties>
+</struct>

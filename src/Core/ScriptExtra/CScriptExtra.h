@@ -46,7 +46,7 @@ public:
 
     // Virtual CScriptExtra functions
     virtual void InstanceTransformed() {}
-    virtual void PropertyModified(IProperty* /*pProperty*/) {}
+    virtual void PropertyModified(IPropertyNew* /*pProperty*/) {}
     virtual void DisplayAssetChanged(CResource* /*pNewDisplayAsset*/) {}
     virtual void LinksModified() {}
     virtual bool ShouldDrawNormalAssets() { return true; }
