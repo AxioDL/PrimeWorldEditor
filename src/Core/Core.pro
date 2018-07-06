@@ -12,6 +12,9 @@ TEMPLATE = lib
 DESTDIR = $$BUILD_DIR/Core
 DEFINES += GLEW_STATIC
 
+win32 {
+    QMAKE_CXXFLAGS += -std:c++17
+}
 unix {
     target.path = /usr/lib
     QMAKE_CXXFLAGS += /WX
@@ -26,11 +29,9 @@ CONFIG (debug, debug|release) {
     # Debug Libs
     LIBS += -L$$BUILD_DIR/Common/ -lCommond \
             -L$$BUILD_DIR/Math/ -lMathd \
-            -L$$EXTERNALS_DIR/assimp/lib/ -lassimp-vc140-mtd \
-            -L$$EXTERNALS_DIR/lzo-2.09/lib/ -llzo2d \
-            -L$$EXTERNALS_DIR/nodtool/build/debug/lib/ -lnod \
-            -L$$EXTERNALS_DIR/nodtool/build/debug/logvisor/ -llogvisor \
-            -L$$EXTERNALS_DIR/tinyxml2/lib/ -ltinyxml2d \
+            -L$$EXTERNALS_DIR/assimp/lib/Debug -lassimp-vc140-mt \
+            -L$$EXTERNALS_DIR/nod/lib/Debug -lnod \
+            -L$$EXTERNALS_DIR/nod/logvisor/Debug -llogvisor \
             -L$$EXTERNALS_DIR/zlib/lib/ -lzlibd
 
     # Debug Target Dependencies
@@ -48,11 +49,9 @@ CONFIG (release, debug|release) {
     # Release Libs
     LIBS += -L$$BUILD_DIR/Common/ -lCommon \
             -L$$BUILD_DIR/Math/ -lMath \
-            -L$$EXTERNALS_DIR/assimp/lib/ -lassimp-vc140-mt \
-            -L$$EXTERNALS_DIR/lzo-2.09/lib/ -llzo2 \
-            -L$$EXTERNALS_DIR/nodtool/build/release/lib/ -lnod \
-            -L$$EXTERNALS_DIR/nodtool/build/release/logvisor -llogvisor \
-            -L$$EXTERNALS_DIR/tinyxml2/lib/ -ltinyxml2 \
+            -L$$EXTERNALS_DIR/assimp/lib/Release -lassimp-vc140-mt \
+            -L$$EXTERNALS_DIR/nod/lib/Release -lnod \
+            -L$$EXTERNALS_DIR/nod/logvisor/Release -llogvisor \
             -L$$EXTERNALS_DIR/zlib/lib/ -lzlib
 
     # Release Target Dependencies
@@ -63,18 +62,18 @@ CONFIG (release, debug|release) {
 }
 
 # Debug/Release Libs
-LIBS += -L$$EXTERNALS_DIR/glew-2.0.0/lib/Release/x64 -lglew32s \
+LIBS += -L$$EXTERNALS_DIR/glew-2.1.0/lib/Release/x64 -lglew32s \
         -lopengl32
 
 # Include Paths
 INCLUDEPATH += $$PWE_MAIN_INCLUDE \
                $$EXTERNALS_DIR/assimp/include \
-               $$EXTERNALS_DIR/glew-2.0.0/include \
-               $$EXTERNALS_DIR/lzo-2.09/include \
-               $$EXTERNALS_DIR/nodtool/include \
-               $$EXTERNALS_DIR/nodtool/logvisor/include \
-               $$EXTERNALS_DIR/tinyxml2/include \
-               $$EXTERNALS_DIR/zlib/include
+               $$EXTERNALS_DIR/glew-2.1.0/include \
+               $$EXTERNALS_DIR/lzo-2.10/include \
+               $$EXTERNALS_DIR/nod/include \
+               $$EXTERNALS_DIR/nod/logvisor/include \
+               $$EXTERNALS_DIR/tinyxml2 \
+               $$EXTERNALS_DIR/zlib
 
 # Header Files
 HEADERS += \
@@ -368,3 +367,8 @@ SOURCES += \
     IProgressNotifier.cpp \
     Resource/Script/CPropertyNameGenerator.cpp \
     Resource/Script/IPropertyNew.cpp
+
+# Library Sources
+SOURCES += $$EXTERNALS_DIR/lzo-2.10/src/lzo_init.c \
+           $$EXTERNALS_DIR/lzo-2.10/src/lzo1x_9x.c \
+           $$EXTERNALS_DIR/lzo-2.10/src/lzo1x_d1.c

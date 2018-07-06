@@ -10,6 +10,8 @@
 #include <Common/FileIO.h>
 #include <Common/FileUtil.h>
 #include <Common/Serialization/CXMLWriter.h>
+
+#include <nod/nod.hpp>
 #include <tinyxml2.h>
 
 #define LOAD_PAKS 1
@@ -178,11 +180,11 @@ bool CGameExporter::ExtractDiscData()
     FileUtil::MakeDirectory(AbsDiscDir);
 
     // Extract disc filesystem
-    nod::Partition *pDataPartition = mpDisc->getDataPartition();
+    nod::IPartition *pDataPartition = mpDisc->getDataPartition();
     nod::ExtractionContext Context;
     Context.force = false;
-    Context.progressCB = [&](const std::string& rkDesc, float ProgressPercent) {
-        mpProgress->Report((int) (ProgressPercent * 10000), 10000, rkDesc);
+    Context.progressCB = [&](const std::string_view rkDesc, float ProgressPercent) {
+        mpProgress->Report((int) (ProgressPercent * 10000), 10000, rkDesc.data());
     };
 
     TString FilesDir = AbsDiscDir + "files/";
@@ -225,7 +227,7 @@ bool CGameExporter::ExtractDiscNodeRecursive(const nod::Node *pkNode, const TStr
 
         if (Iter->getKind() == nod::Node::Kind::File)
         {
-            TString FilePath = rkDir + Iter->getName();
+            TString FilePath = rkDir + Iter->getName().data();
             bool Success = Iter->extractToDirectory(*rkDir.ToUTF16(), rkContext);
             if (!Success) return false;
 
@@ -239,7 +241,7 @@ bool CGameExporter::ExtractDiscNodeRecursive(const nod::Node *pkNode, const TStr
 
         else
         {
-            TString Subdir = rkDir + Iter->getName() + "/";
+            TString Subdir = rkDir + Iter->getName().data() + "/";
             bool Success = FileUtil::MakeDirectory(Subdir);
             if (!Success) return false;
 
