@@ -201,7 +201,7 @@ public:
 
     // Serialize primitives
     template<typename ValType, ENABLE_FOR_SERIAL_TYPE(Primitive)>
-    inline IArchive& operator<<(TSerialParameter<ValType>& rParam)
+    inline IArchive& operator<<(TSerialParameter<ValType> rParam)
     {
         if (ParamBegin(rParam.pkName))
         {
@@ -213,7 +213,7 @@ public:
 
     // Serialize pointers to primitives
     template<typename ValType, ENABLE_FOR_SERIAL_TYPE(Primitive)>
-    inline IArchive& operator<<(TSerialParameter<ValType*>& rParam)
+    inline IArchive& operator<<(TSerialParameter<ValType*> rParam)
     {
         if (ParamBegin(rParam.pkName))
         {
@@ -226,7 +226,7 @@ public:
 
     // Serialize hex primitives
     template<typename ValType, ENABLE_FOR_SERIAL_TYPE(Primitive)>
-    inline IArchive& operator<<(THexSerialParameter<ValType>& rParam)
+    inline IArchive& operator<<(THexSerialParameter<ValType> rParam)
     {
         if (ParamBegin(rParam.pkName))
         {
@@ -238,7 +238,7 @@ public:
 
     // Serialize pointers to hex primitives
     template<typename ValType, ENABLE_FOR_SERIAL_TYPE(Primitive)>
-    inline IArchive& operator<<(THexSerialParameter<ValType*>& rParam)
+    inline IArchive& operator<<(THexSerialParameter<ValType*> rParam)
     {
         if (ParamBegin(rParam.pkName))
         {
@@ -251,7 +251,7 @@ public:
 
     // Serialize objects with member Serialize methods
     template<typename ValType, ENABLE_FOR_SERIAL_TYPE(Member)>
-    inline IArchive& operator<<(TSerialParameter<ValType>& rParam)
+    inline IArchive& operator<<(TSerialParameter<ValType> rParam)
     {
         if (ParamBegin(rParam.pkName))
         {
@@ -263,7 +263,7 @@ public:
 
     // Serialize pointers to objects with member Serialize methods
     template<typename ValType, ENABLE_FOR_SERIAL_TYPE(Member)>
-    inline IArchive& operator<<(TSerialParameter<ValType*>& rParam)
+    inline IArchive& operator<<(TSerialParameter<ValType*> rParam)
     {
         if (ParamBegin(rParam.pkName))
         {
@@ -276,7 +276,7 @@ public:
 
     // Serialize objects with global Serialize functions
     template<typename ValType, ENABLE_FOR_SERIAL_TYPE(Global)>
-    inline IArchive& operator<<(TSerialParameter<ValType>& rParam)
+    inline IArchive& operator<<(TSerialParameter<ValType> rParam)
     {
         if (ParamBegin(rParam.pkName))
         {
@@ -288,7 +288,7 @@ public:
 
     // Serialize pointers to objects with global Serialize functions
     template<typename ValType, ENABLE_FOR_SERIAL_TYPE(Global)>
-    inline IArchive& operator<<(TSerialParameter<ValType*>& rParam)
+    inline IArchive& operator<<(TSerialParameter<ValType*> rParam)
     {
         if (ParamBegin(rParam.pkName))
         {
@@ -301,7 +301,7 @@ public:
 
     // Serialize abstract objects (global methods for abstract objects not supported)
     template<typename ValType, typename FactoryType, ENABLE_FOR_SERIAL_TYPE(Member)>
-    inline IArchive& operator<<(TAbstractSerialParameter<ValType, FactoryType>& rParam)
+    inline IArchive& operator<<(TAbstractSerialParameter<ValType, FactoryType> rParam)
     {
         if (ParamBegin(rParam.pkName))
         {
@@ -326,7 +326,7 @@ public:
 
     // Serialize containers (member methods for containers not supported)
     template<typename ValType, ENABLE_FOR_SERIAL_TYPE(Global)>
-    inline IArchive& operator<<(TContainerSerialParameter<ValType>& rParam)
+    inline IArchive& operator<<(TContainerSerialParameter<ValType> rParam)
     {
         if (ParamBegin(rParam.pkName))
         {
@@ -339,7 +339,7 @@ public:
 
     // Serialize abstract containers (member methods for containers not supported)
     template<typename ValType, typename FactoryType, ENABLE_FOR_SERIAL_TYPE(Global)>
-    inline IArchive& operator<<(TAbstractContainerSerialParameter<ValType, FactoryType>& rParam)
+    inline IArchive& operator<<(TAbstractContainerSerialParameter<ValType, FactoryType> rParam)
     {
         if (ParamBegin(rParam.pkName))
         {
@@ -352,25 +352,25 @@ public:
 
     // Generate compiler errors for classes with no valid Serialize function defined
     template<typename ValType, ENABLE_FOR_SERIAL_TYPE(None)>
-    inline IArchive& operator<<(TSerialParameter<ValType>&)
+    inline IArchive& operator<<(TSerialParameter<ValType>)
     {
         static_assert(false, "Object being serialized has no valid Serialize method defined.");
     }
 
     template<typename ValType, typename FactoryType, ENABLE_FOR_SERIAL_TYPE(None)>
-    inline IArchive& operator<<(TAbstractSerialParameter<ValType, FactoryType>&)
+    inline IArchive& operator<<(TAbstractSerialParameter<ValType, FactoryType>)
     {
         static_assert(false, "Abstract object being serialized must have a virtual Serialize method defined.");
     }
 
     template<typename ValType, ENABLE_FOR_SERIAL_TYPE(None)>
-    inline IArchive& operator<<(TContainerSerialParameter<ValType>&)
+    inline IArchive& operator<<(TContainerSerialParameter<ValType>)
     {
         static_assert(false, "Container being serialized has no valid Serialize method defined.");
     }
 
     template<typename ValType, typename FactoryType, ENABLE_FOR_SERIAL_TYPE(None)>
-    inline IArchive& operator<<(TAbstractContainerSerialParameter<ValType, FactoryType>&)
+    inline IArchive& operator<<(TAbstractContainerSerialParameter<ValType, FactoryType>)
     {
         static_assert(false, "Container being serialized has no valid Serialize method defined.");
     }

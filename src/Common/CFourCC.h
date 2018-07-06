@@ -72,7 +72,7 @@ public:
 
     inline void Reverse() const
     {
-        IOUtil::SwapBytes((u32) mFourCC);
+        IOUtil::SwapBytes((u32&) mFourCC);
     }
 
     // Operators
