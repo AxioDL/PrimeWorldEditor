@@ -89,7 +89,7 @@ void CExportGameDialog::InitUI(QString ExportDir)
                                    mRegion == eRegion_PAL ? "PAL" : "JPN" );
 
     // Disc tree widget
-    nod::Partition *pPartition = mpDisc->getDataPartition();
+    nod::IPartition *pPartition = mpDisc->getDataPartition();
     ASSERT(pPartition);
 
     QTreeWidgetItem *pTreeRoot = new QTreeWidgetItem((QTreeWidgetItem*) nullptr, QStringList(QString("Disc")));
@@ -314,7 +314,7 @@ void CExportGameDialog::RecursiveAddToTree(const nod::Node *pkNode, QTreeWidgetI
         if (pkLeft->getKind() != pkRight->getKind())
             return pkLeft->getKind() == nod::Node::Kind::Directory;
         else
-            return TString(pkLeft->getName()).ToUpper() < TString(pkRight->getName()).ToUpper();
+            return TString(pkLeft->getName().data()).ToUpper() < TString(pkRight->getName().data()).ToUpper();
     });
 
     // Add nodes to tree
@@ -330,7 +330,7 @@ void CExportGameDialog::RecursiveAddToTree(const nod::Node *pkNode, QTreeWidgetI
 
         bool IsDir = pkNode->getKind() == nod::Node::Kind::Directory;
 
-        QTreeWidgetItem *pItem = new QTreeWidgetItem(pParent, QStringList(QString::fromStdString(pkNode->getName())) );
+        QTreeWidgetItem *pItem = new QTreeWidgetItem(pParent, QStringList(QString::fromStdString(pkNode->getName().data())) );
         pItem->setIcon(0, QIcon(IsDir ? skDirIcon : skFileIcon));
 
         if (IsDir)

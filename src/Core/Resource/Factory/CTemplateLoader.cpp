@@ -1092,10 +1092,8 @@ TString CTemplateLoader::ErrorName(XMLError Error)
     case XML_ERROR_FILE_NOT_FOUND:              return "File not found";
     case XML_ERROR_FILE_COULD_NOT_BE_OPENED:    return "File could not be opened";
     case XML_ERROR_FILE_READ_ERROR:             return "File read error";
-    case XML_ERROR_ELEMENT_MISMATCH:            return "Element mismatch";
     case XML_ERROR_PARSING_ELEMENT:             return "Parsing element";
     case XML_ERROR_PARSING_ATTRIBUTE:           return "Parsing attribute";
-    case XML_ERROR_IDENTIFYING_TAG:             return "Identifying tag";
     case XML_ERROR_PARSING_TEXT:                return "Parsing text";
     case XML_ERROR_PARSING_CDATA:               return "Parsing CData";
     case XML_ERROR_PARSING_COMMENT:             return "Parsing comment";
@@ -1106,6 +1104,7 @@ TString CTemplateLoader::ErrorName(XMLError Error)
     case XML_ERROR_PARSING:                     return "Parsing";
     case XML_CAN_NOT_CONVERT_TEXT:              return "Cannot convert text";
     case XML_NO_TEXT_NODE:                      return "No text node";
+    case XML_ELEMENT_DEPTH_EXCEEDED:            return "Element depth exceeded";
     default:                                    return "Unknown error";
     }
 }
