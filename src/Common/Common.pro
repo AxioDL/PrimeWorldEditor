@@ -21,26 +21,17 @@ CONFIG (debug, debug|release) {
     # Debug Config
     OBJECTS_DIR = $$BUILD_DIR/Common/debug
     TARGET = Commond
-
-    # Debug Libs
-    LIBS += -L$$EXTERNALS_DIR/boost_1_63_0/lib64-msvc-14.0 -llibboost_filesystem-vc140-mt-gd-1_63 \
-            -L$$EXTERNALS_DIR/tinyxml2/lib -ltinyxml2d
 }
 
 CONFIG (release, debug|release) {
     # Release Config
     OBJECTS_DIR = $$BUILD_DIR/build/Common/release
     TARGET = Common
-
-    # Release Libs
-    LIBS += -L$$EXTERNALS_DIR/boost_1_63_0/lib64-msvc-14.0 -llibboost_filesystem-vc140-mt-1_63 \
-            -L$$EXTERNALS_DIR/tinyxml2/lib -ltinyxml2
 }
 
 # Include Paths
 INCLUDEPATH += $$PWE_MAIN_INCLUDE \
-               $$EXTERNALS_DIR/boost_1_63_0 \
-               $$EXTERNALS_DIR/tinyxml2/include
+               $$EXTERNALS_DIR/tinyxml2
 
 # Header Files
 HEADERS += \
@@ -109,3 +100,6 @@ SOURCES += \
     FileIO\IOutputStream.cpp \
     FileIO\CBitStreamInWrapper.cpp \
     Hash/CCRC32.cpp
+
+# Library Sources
+SOURCES += $$EXTERNALS_DIR/tinyxml2/tinyxml2.cpp

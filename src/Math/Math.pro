@@ -23,8 +23,7 @@ CONFIG (debug, debug|release) {
     TARGET = Mathd
 
     # Debug Libs
-    LIBS += -L$$BUILD_DIR/Common/ -lCommond \
-            -L$$EXTERNALS_DIR/tinyxml2/lib/ -ltinyxml2d
+    LIBS += -L$$BUILD_DIR/Common/ -lCommond
 
     # Debug Target Dependencies
     win32 {
@@ -38,8 +37,7 @@ CONFIG (release, debug|release) {
     TARGET = Math
 
     # Release Libs
-    LIBS += -L$$BUILD_DIR/Common/ -lCommon \
-            -L$$EXTERNALS_DIR/tinyxml2/lib/ -ltinyxml2
+    LIBS += -L$$BUILD_DIR/Common/ -lCommon
 
     # Release Target Dependencies
     win32 {
@@ -49,7 +47,7 @@ CONFIG (release, debug|release) {
 
 # Include Paths
 INCLUDEPATH += $$PWE_MAIN_INCLUDE \
-               $$EXTERNALS_DIR/tinyxml2/include
+               $$EXTERNALS_DIR/tinyxml2
 
 # Header Files
 HEADERS += \

@@ -82,9 +82,9 @@ bool CGameProject::BuildISO(const TString& rkIsoPath, IProgressNotifier *pProgre
     ASSERT( FileUtil::IsValidPath(rkIsoPath, false) );
     ASSERT( !IsWiiDeAsobu() && !IsTrilogy() );
 
-    auto ProgressCallback = [&](float ProgressPercent, const nod::SystemString& rkInfoString, size_t)
+    auto ProgressCallback = [&](float ProgressPercent, const nod::SystemStringView& rkInfoString, size_t)
     {
-        pProgress->Report((int) (ProgressPercent * 10000), 10000, TWideString(rkInfoString).ToUTF8());
+        pProgress->Report((int) (ProgressPercent * 10000), 10000, TWideString(rkInfoString.data()).ToUTF8());
     };
 
     pProgress->SetTask(0, "Building " + rkIsoPath.GetFileName());
@@ -108,9 +108,9 @@ bool CGameProject::MergeISO(const TString& rkIsoPath, nod::DiscWii *pOriginalIso
     ASSERT( IsWiiDeAsobu() || IsTrilogy() );
     ASSERT( pOriginalIso != nullptr );
 
-    auto ProgressCallback = [&](float ProgressPercent, const nod::SystemString& rkInfoString, size_t)
+    auto ProgressCallback = [&](float ProgressPercent, const nod::SystemStringView& rkInfoString, size_t)
     {
-        pProgress->Report((int) (ProgressPercent * 10000), 10000, TWideString(rkInfoString).ToUTF8());
+        pProgress->Report((int) (ProgressPercent * 10000), 10000, TWideString(rkInfoString.data()).ToUTF8());
     };
 
     pProgress->SetTask(0, "Building " + rkIsoPath.GetFileName());
