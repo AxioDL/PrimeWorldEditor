@@ -333,18 +333,22 @@ IPropertyNew* CTemplateLoader::LoadProperty(XMLElement* pElem, CScriptTemplate* 
         {
             CArrayProperty* pArray = TPropCast<CArrayProperty>(pProp);
 
-            if (pArray->mpArchetype != nullptr)
+            if (pArray->mpItemArchetype != nullptr)
             {
-                ASSERT(pArray->mpArchetype->Type() == EPropertyTypeNew::Struct);
-                pStruct = TPropCast<CStructPropertyNew>(pArray->mpArchetype);
+                ASSERT(pArray->mpItemArchetype->Type() == EPropertyTypeNew::Struct);
+                pStruct = TPropCast<CStructPropertyNew>(pArray->mpItemArchetype);
             }
             else
             {
-                pArray->mpArchetype = IPropertyNew::Create(EPropertyTypeNew::Struct, pArray, mpMaster, pScript, false);
-                pStruct = TPropCast<CStructPropertyNew>(pArray->mpArchetype);
+                pArray->mpItemArchetype = IPropertyNew::Create(EPropertyTypeNew::Struct, pArray, mpMaster, pScript, false);
+                pStruct = TPropCast<CStructPropertyNew>(pArray->mpItemArchetype);
                 pStruct->mFlags = EPropertyFlag::IsAtomic | EPropertyFlag::IsArrayArchetype;
             }
-            pStruct = TPropCast<CStructPropertyNew>(pArray->mpArchetype);
+
+            XMLElement* pItemNameElem = pElem->FirstChildElement("element_name");
+
+            if (pItemNameElem)
+                pStruct->mName = pItemNameElem->GetText();
         }
 
         // Load parameter overrides

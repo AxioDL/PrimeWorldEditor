@@ -72,6 +72,7 @@ inline const char* PropEnumToHashableTypeName(EPropertyTypeNew Type)
 {
     switch (Type)
     {
+    // these names are required to generate accurate property ID hashes
     case EPropertyTypeNew::Bool:    return "bool";
     case EPropertyTypeNew::Int:     return "int";
     case EPropertyTypeNew::Float:   return "float";
@@ -85,6 +86,14 @@ inline const char* PropEnumToHashableTypeName(EPropertyTypeNew Type)
     case EPropertyTypeNew::Sound:   return "sound";
     case EPropertyTypeNew::Spline:  return "spline";
     case EPropertyTypeNew::Guid:    return "guid";
+    // unknown hashable types - used in hashes but these names are inaccurate
+    case EPropertyTypeNew::Animation:   return "animation"; // hashable but real name unknown
+    case EPropertyTypeNew::Sequence:    return "sequence";
+    // non hashable types - not used in ID hashes but still displayed on the UI
+    case EPropertyTypeNew::Byte:    return "byte";
+    case EPropertyTypeNew::Short:   return "short";
+    case EPropertyTypeNew::Array:   return "array";
+    // fallback
     default:                        return "";
     }
 }

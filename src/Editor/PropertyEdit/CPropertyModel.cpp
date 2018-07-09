@@ -30,12 +30,17 @@ int CPropertyModel::RecursiveBuildArrays(IPropertyNew* pProperty, int ParentID)
     if (pProperty->Type() == EPropertyTypeNew::Array)
     {
         CArrayProperty* pArray = TPropCast<CArrayProperty>(pProperty);
+        u32 ArrayCount = pArray->ArrayCount(mpPropertyData);
+        void* pOldData = mpPropertyData;
 
-        for (u32 ElementIdx = 0; ElementIdx < pArray->ArrayCount(mpPropertyData); ElementIdx++)
+        for (u32 ElementIdx = 0; ElementIdx < ArrayCount; ElementIdx++)
         {
-            int NewChildID = RecursiveBuildArrays( pArray->Archetype(), MyID );
+            mpPropertyData = pArray->ItemPointer(pOldData, ElementIdx);
+            int NewChildID = RecursiveBuildArrays( pArray->ItemArchetype(), MyID );
             mProperties[MyID].ChildIDs.push_back(NewChildID);
         }
+
+        mpPropertyData = pOldData;
     }
     else
     {
@@ -115,6 +120,50 @@ QModelIndex CPropertyModel::IndexForProperty(IPropertyNew *pProp) const
     return mProperties[ID].Index;
 }
 
+void* CPropertyModel::DataPointerForIndex(const QModelIndex& rkIndex) const
+{
+    // Going to be the base pointer in 99% of cases, but we need to account for arrays in some cases
+    int ID = rkIndex.internalId();
+
+    if (!mProperties[ID].pProperty->IsArrayArchetype())
+        return mpPropertyData;
+
+    // Head up the hierarchy until we find a non-array property, keeping track of array indices along the way
+    // Static arrays to avoid memory allocations, we never have more than 2 nested arrays
+    CArrayProperty* ArrayProperties[2];
+    int ArrayIndices[2];
+    int MaxIndex = -1;
+
+    IPropertyNew* pProperty = mProperties[ID].pProperty;
+
+    while (pProperty->IsArrayArchetype())
+    {
+        CArrayProperty* pArray = TPropCast<CArrayProperty>(pProperty->Parent());
+
+        if (pArray)
+        {
+            MaxIndex++;
+            ArrayProperties[MaxIndex] = pArray;
+            ArrayIndices[MaxIndex] = mProperties[ID].Index.row();
+        }
+
+        ID = mProperties[ID].ParentID;
+        pProperty = pProperty->Parent();
+    }
+
+    // Now fetch the correct pointer from the array properties
+    void* pOutData = mpPropertyData;
+
+    for (int i = MaxIndex; i >= 0; i--)
+    {
+        CArrayProperty* pArray = ArrayProperties[i];
+        int ArrayIndex = ArrayIndices[i];
+        pOutData = pArray->ItemPointer(pOutData, ArrayIndex);
+    }
+
+    return pOutData;
+}
+
 int CPropertyModel::columnCount(const QModelIndex& /*rkParent*/) const
 {
     return 2;
@@ -128,7 +177,7 @@ int CPropertyModel::rowCount(const QModelIndex& rkParent) const
     if (rkParent.internalId() & 0x80000000) return 0;
 
     IPropertyNew *pProp = PropertyForIndex(rkParent, false);
-    int ID = mPropertyToIDMap[pProp];
+    int ID = rkParent.internalId();
 
     switch (pProp->Type())
     {
@@ -137,7 +186,8 @@ int CPropertyModel::rowCount(const QModelIndex& rkParent) const
 
     case EPropertyTypeNew::AnimationSet:
     {
-        CAnimationParameters Params = TPropCast<CAnimationSetProperty>(pProp)->Value(mpPropertyData);
+        void* pData = DataPointerForIndex(rkParent);
+        CAnimationParameters Params = TPropCast<CAnimationSetProperty>(pProp)->Value(pData);
 
         if (Params.Version() <= eEchoes) return 3;
         if (Params.Version() <= eCorruption) return 2;
@@ -183,14 +233,15 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                     if (Role == Qt::DisplayRole)
                         return "";
                     else
-                        return TO_QSTRING(TString::HexString( pFlags->FlagMask(rkIndex.row())));
+                        return TO_QSTRING(TString::HexString( pFlags->FlagMask(rkIndex.row()) ));
                 }
             }
 
             else if (Type == EPropertyTypeNew::AnimationSet)
             {
+                void* pData = DataPointerForIndex(rkIndex);
                 CAnimationSetProperty* pAnimSet = TPropCast<CAnimationSetProperty>(pProp);
-                CAnimationParameters Params = pAnimSet->Value(mpPropertyData);
+                CAnimationParameters Params = pAnimSet->Value(pData);
 
                 // There are three different layouts for this property - one for MP1/2, one for MP3, and one for DKCR
                 if (Params.Version() <= eEchoes)
@@ -247,7 +298,7 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                 if (pParent && pParent->Type() == EPropertyTypeNew::Array)
                 {
                     // For direct array sub-properties, display the element index after the name
-                    TString ElementName = pParent->Name();
+                    TString ElementName = pProp->Name();
                     return QString("%1 %2").arg( TO_QSTRING(ElementName) ).arg(rkIndex.row() + 1);
                 }
 
@@ -257,12 +308,14 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
 
             if (rkIndex.column() == 1)
             {
+                void* pData = DataPointerForIndex(rkIndex);
+
                 switch (pProp->Type())
                 {
                 // Enclose vector property text in parentheses
                 case EPropertyTypeNew::Vector:
                 {
-                    CVector3f Value = TPropCast<CVectorProperty>(pProp)->Value(mpPropertyData);
+                    CVector3f Value = TPropCast<CVectorProperty>(pProp)->Value(pData);
                     return TO_QSTRING("(" + Value.ToString() + ")");
                 }
 
@@ -270,7 +323,7 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                 case EPropertyTypeNew::Sound:
                 {
                     CSoundProperty* pSound = TPropCast<CSoundProperty>(pProp);
-                    u32 SoundID = pSound->Value(mpPropertyData);
+                    u32 SoundID = pSound->Value(pData);
                     if (SoundID == -1) return "[None]";
 
                     SSoundInfo SoundInfo = mpProject->AudioManager()->GetSoundInfo(SoundID);
@@ -294,7 +347,7 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
 
                 // Display character name for characters
                 case EPropertyTypeNew::AnimationSet:
-                    return TO_QSTRING(TPropCast<CAnimationSetProperty>(pProp)->Value(mpPropertyData).GetCurrentCharacterName());
+                    return TO_QSTRING(TPropCast<CAnimationSetProperty>(pProp)->Value(pData).GetCurrentCharacterName());
 
                 // Display enumerator name for enums (but only on ToolTipRole)
                 case EPropertyTypeNew::Choice:
@@ -302,7 +355,7 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                     if (Role == Qt::ToolTipRole)
                     {
                         CEnumProperty *pEnum = TPropCast<CEnumProperty>(pProp);
-                        u32 ValueID = pEnum->Value(mpPropertyData);
+                        u32 ValueID = pEnum->Value(pData);
                         u32 ValueIndex = pEnum->ValueIndex(ValueID);
                         return TO_QSTRING( pEnum->ValueName(ValueIndex) );
                     }
@@ -311,7 +364,7 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                 // Display the element count for arrays
                 case EPropertyTypeNew::Array:
                 {
-                    u32 Count = TPropCast<CArrayProperty>(pProp)->Value(mpPropertyData);
+                    u32 Count = TPropCast<CArrayProperty>(pProp)->Value(pData);
                     return QString("%1 element%2").arg(Count).arg(Count != 1 ? "s" : "");
                 }
 
@@ -328,7 +381,7 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                 // fall through
                 // Display property value to string for everything else
                 default:
-                    return TO_QSTRING(pProp->ValueAsString(mpPropertyData) + pProp->Suffix());
+                    return TO_QSTRING(pProp->ValueAsString(pData) + pProp->Suffix());
                 }
             }
         }
@@ -341,7 +394,8 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
             // Add name
             IPropertyNew *pProp = PropertyForIndex(rkIndex, false);
             QString DisplayText = data(rkIndex, Qt::DisplayRole).toString();
-            QString Text = QString("<b>%1</b> <i>(%2)</i>").arg(DisplayText).arg(pProp->HashableTypeName());
+            QString TypeName = pProp->HashableTypeName();
+            QString Text = QString("<b>%1</b> <i>(%2)</i>").arg(DisplayText).arg(TypeName);
 
             // Add uncooked notification
             if (pProp->CookPreference() == ECookPreferenceNew::Never)
@@ -392,7 +446,7 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
             IPropertyNew *pProp = PropertyForIndex(rkIndex, true);
 
             // Don't highlight the name of the root property
-            if (pProp && pProp->Parent() != nullptr && !pProp->IsArrayArchetype())
+            if (pProp && pProp->Parent() != nullptr)
             {
                 static const QColor skRightColor = QColor(128, 255, 128);
                 static const QColor skWrongColor = QColor(255, 128, 128);
@@ -413,7 +467,7 @@ QModelIndex CPropertyModel::index(int Row, int Column, const QModelIndex& rkPare
     // Check property for children
     IPropertyNew* pParent = (rkParent.isValid() ? PropertyForIndex(rkParent, false) : mpRootProperty);
     EPropertyTypeNew ParentType = pParent->Type();
-    int ParentID = mPropertyToIDMap[pParent];
+    int ParentID = rkParent.internalId();
 
     if (ParentType == EPropertyTypeNew::Flags || ParentType == EPropertyTypeNew::AnimationSet)
     {

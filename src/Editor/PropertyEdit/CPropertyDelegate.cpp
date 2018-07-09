@@ -201,7 +201,7 @@ void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkInd
     {
         // Set editor data for regular property
         IPropertyNew *pProp = mpModel->PropertyForIndex(rkIndex, false);
-        void* pData = mpModel->GetPropertyData();
+        void* pData = mpModel->DataPointerForIndex(rkIndex);
 
         if (pProp)
         {
@@ -356,7 +356,7 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
 
     IEditPropertyCommand* pCommand = nullptr;
     IPropertyNew *pProp = mpModel->PropertyForIndex(rkIndex, true);
-    void* pData = mpModel->GetPropertyData();
+    void* pData = mpModel->DataPointerForIndex(rkIndex);
 
     if (pProp)
     {
@@ -540,7 +540,7 @@ bool CPropertyDelegate::eventFilter(QObject *pObject, QEvent *pEvent)
 QWidget* CPropertyDelegate::CreateCharacterEditor(QWidget *pParent, const QModelIndex& rkIndex) const
 {
     CAnimationSetProperty* pAnimSetProp = TPropCast<CAnimationSetProperty>(mpModel->PropertyForIndex(rkIndex, true));
-    CAnimationParameters Params = pAnimSetProp->Value(mpModel->GetPropertyData());
+    CAnimationParameters Params = pAnimSetProp->Value(mpModel->DataPointerForIndex(rkIndex));
 
     // Determine property type
     EPropertyTypeNew Type = DetermineCharacterPropType(Params.Version(), rkIndex);
@@ -588,7 +588,7 @@ QWidget* CPropertyDelegate::CreateCharacterEditor(QWidget *pParent, const QModel
 void CPropertyDelegate::SetCharacterEditorData(QWidget *pEditor, const QModelIndex& rkIndex) const
 {
     CAnimationSetProperty* pAnimSetProp = TPropCast<CAnimationSetProperty>(mpModel->PropertyForIndex(rkIndex, true));
-    CAnimationParameters Params = pAnimSetProp->Value(mpModel->GetPropertyData());
+    CAnimationParameters Params = pAnimSetProp->Value(mpModel->DataPointerForIndex(rkIndex));
     EPropertyTypeNew Type = DetermineCharacterPropType(Params.Version(), rkIndex);
 
     if (Type == EPropertyTypeNew::Asset)
@@ -612,7 +612,7 @@ void CPropertyDelegate::SetCharacterEditorData(QWidget *pEditor, const QModelInd
 void CPropertyDelegate::SetCharacterModelData(QWidget *pEditor, const QModelIndex& rkIndex) const
 {
     CAnimationSetProperty* pAnimSetProp = TPropCast<CAnimationSetProperty>(mpModel->PropertyForIndex(rkIndex, true));
-    CAnimationParameters Params = pAnimSetProp->Value(mpModel->GetPropertyData());
+    CAnimationParameters Params = pAnimSetProp->Value(mpModel->DataPointerForIndex(rkIndex));
     EPropertyTypeNew Type = DetermineCharacterPropType(Params.Version(), rkIndex);
 
     if (Type == EPropertyTypeNew::Asset)
@@ -632,7 +632,7 @@ void CPropertyDelegate::SetCharacterModelData(QWidget *pEditor, const QModelInde
         Params.SetUnknown(UnkIndex, static_cast<WIntegralSpinBox*>(pEditor)->value() );
     }
 
-    pAnimSetProp->ValueRef(mpModel->GetPropertyData()) = Params;
+    pAnimSetProp->ValueRef(mpModel->DataPointerForIndex(rkIndex)) = Params;
 
     // If we just updated the resource, make sure all the sub-properties of the character are flagged as changed.
     // We want to do this -after- updating the anim params on the property, which is why we have a second type check.

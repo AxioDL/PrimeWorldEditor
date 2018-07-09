@@ -152,10 +152,8 @@ TString IPropertyNew::GetTemplateFileName()
 void* IPropertyNew::RawValuePtr(void* pData) const
 {
     // For array archetypes, the caller needs to provide the pointer to the correct array item
-    if (IsArrayArchetype())
-        return pData;
-
-    void* pBasePtr = (mpPointerParent ? mpPointerParent->GetChildDataPointer(pData) : pData);
+    // Array archetypes can't store their index in the array so it's impossible to determine the correct pointer.
+    void* pBasePtr = (mpPointerParent && !IsArrayArchetype() ? mpPointerParent->GetChildDataPointer(pData) : pData);
     void* pValuePtr = ((char*)pBasePtr + mOffset);
     return pValuePtr;
 }

@@ -17,6 +17,11 @@ public:
     {
         Value(pData).Serialize(Arc);
     }
+
+    virtual const char* HashableTypeName() const
+    {
+        return (Game() <= eEchoes ? "AnimationSet" : "CharacterAnimationSet");
+    }
 };
 
 #endif // CANIMATIONSETPROPERTY_H

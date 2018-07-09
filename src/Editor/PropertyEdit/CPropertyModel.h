@@ -36,6 +36,7 @@ public:
     void ConfigureScript(CGameProject* pProject, IPropertyNew* pRootProperty, CScriptObject* pObject);
     IPropertyNew* PropertyForIndex(const QModelIndex& rkIndex, bool HandleFlaggedIndices) const;
     QModelIndex IndexForProperty(IPropertyNew *pProp) const;
+    void* DataPointerForIndex(const QModelIndex& rkIndex) const;
 
     int columnCount(const QModelIndex& rkParent) const;
     int rowCount(const QModelIndex& rkParent) const;
@@ -53,7 +54,6 @@ public:
 
     inline void SetFont(QFont Font) { mFont = Font; }
     inline void SetBoldModifiedProperties(bool Enable) { mBoldModifiedProperties = Enable; }
-    inline void* GetPropertyData() const { return mpPropertyData; }
     inline CScriptObject* GetScriptObject() const { return mpObject; }
 
 public slots:
