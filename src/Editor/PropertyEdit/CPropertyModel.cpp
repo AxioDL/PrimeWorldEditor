@@ -18,14 +18,14 @@ CPropertyModel::CPropertyModel(QObject *pParent /*= 0*/)
 
 int CPropertyModel::RecursiveBuildArrays(IPropertyNew* pProperty, int ParentID)
 {
+    int MyID = mProperties.size();
     mProperties << SProperty();
-    SProperty& Property = mProperties.back();
-    Property.pProperty = pProperty;
-    Property.ParentID = ParentID;
 
-    int MyID = mProperties.size() - 1;
+    mProperties[MyID].pProperty = pProperty;
+    mProperties[MyID].ParentID = ParentID;
+
     int RowNumber = (ParentID >= 0 ? mProperties[ParentID].ChildIDs.size() : 0);
-    Property.Index = createIndex(RowNumber, 0, pProperty);
+    mProperties[MyID].Index = createIndex(RowNumber, 0, MyID);
 
     if (pProperty->Type() == EPropertyTypeNew::Array)
     {
@@ -34,7 +34,7 @@ int CPropertyModel::RecursiveBuildArrays(IPropertyNew* pProperty, int ParentID)
         for (u32 ElementIdx = 0; ElementIdx < pArray->ArrayCount(mpPropertyData); ElementIdx++)
         {
             int NewChildID = RecursiveBuildArrays( pArray->Archetype(), MyID );
-            Property.ChildIDs.push_back(NewChildID);
+            mProperties[MyID].ChildIDs.push_back(NewChildID);
         }
     }
     else
@@ -42,7 +42,7 @@ int CPropertyModel::RecursiveBuildArrays(IPropertyNew* pProperty, int ParentID)
         for (u32 ChildIdx = 0; ChildIdx < pProperty->NumChildren(); ChildIdx++)
         {
             int NewChildID = RecursiveBuildArrays( pProperty->ChildByIndex(ChildIdx), MyID );
-            Property.ChildIDs.push_back(NewChildID);
+            mProperties[MyID].ChildIDs.push_back(NewChildID);
         }
     }
 
@@ -74,7 +74,7 @@ void CPropertyModel::ConfigureIntrinsic(CGameProject* pProject, IPropertyNew* pR
 
 void CPropertyModel::ConfigureScript(CGameProject* pProject, IPropertyNew* pRootProperty, CScriptObject* pObject)
 {
-    ConfigureIntrinsic(pProject, pRootProperty, pObject);
+    ConfigureIntrinsic(pProject, pRootProperty, pObject ? pObject->PropertyData() : nullptr);
     mpObject = pObject;
 }
 
@@ -166,7 +166,7 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
 
     if (Role == Qt::DisplayRole || (Role == Qt::ToolTipRole && rkIndex.column() == 1) )
     {
-        if (rkIndex.internalId() & 0x1)
+        if (rkIndex.internalId() & 0x80000000)
         {
             IPropertyNew *pProp = PropertyForIndex(rkIndex, true);
             EPropertyTypeNew Type = pProp->Type();
@@ -321,11 +321,6 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
 
                 // No display text on properties with persistent editors
                 case EPropertyTypeNew::Bool:
-                    if (Role == Qt::DisplayRole)
-                        return TPropCast<CBoolProperty>(pProp)->Value(mpPropertyData) ? "True" : "False";
-                    else
-                        return "";
-
                 case EPropertyTypeNew::Asset:
                 case EPropertyTypeNew::Color:
                     if (Role == Qt::DisplayRole)
@@ -341,12 +336,12 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
 
     if (Role == Qt::ToolTipRole && rkIndex.column() == 0)
     {
-        if (!(rkIndex.internalId() & 0x1))
+        if (!(rkIndex.internalId() & 0x80000000))
         {
             // Add name
             IPropertyNew *pProp = PropertyForIndex(rkIndex, false);
             QString DisplayText = data(rkIndex, Qt::DisplayRole).toString();
-            QString Text = QString("<b>%1</b> <i>(%2)</i>").arg(DisplayText).arg(TO_QSTRING(PropEnumToPropString(pProp->Type())));
+            QString Text = QString("<b>%1</b> <i>(%2)</i>").arg(DisplayText).arg(pProp->HashableTypeName());
 
             // Add uncooked notification
             if (pProp->CookPreference() == ECookPreferenceNew::Never)
@@ -444,7 +439,10 @@ QModelIndex CPropertyModel::parent(const QModelIndex& rkChild) const
     else
         ID = mProperties[ID].ParentID;
 
-    return mProperties[ID].Index;
+    if (ID >= 0)
+        return mProperties[ID].Index;
+    else
+        return QModelIndex();
 }
 
 Qt::ItemFlags CPropertyModel::flags(const QModelIndex& rkIndex) const

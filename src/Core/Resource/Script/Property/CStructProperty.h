@@ -26,7 +26,7 @@ public:
         if (!mChildren.empty())
         {
             IPropertyNew* pLastChild = mChildren.back();
-            return _GetOffset() + pLastChild->DataSize();
+            return (pLastChild->Offset() - Offset()) + pLastChild->DataSize();
         }
         else
         {
@@ -36,7 +36,11 @@ public:
 
     virtual u32 DataAlignment() const
     {
-        return (mChildren.empty() ? 1 : mChildren[0]->DataAlignment());
+        // TODO. Should be aligned with the first child, but this function is called before children are loaded.
+        // So for now just use 8 to ensure correct alignment for all child types, but this is wasteful...
+        return 8;
+
+        //return (mChildren.empty() ? 1 : mChildren[0]->DataAlignment());
     }
 
     virtual void Construct(void* pData) const

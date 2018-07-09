@@ -75,9 +75,28 @@ public:
     }
 #endif
 
+    virtual void PostInitialize()
+    {
+        TTypedPropertyNew::PostInitialize();
+
+        // Create AllFlags mask
+        mAllFlags = 0;
+
+        for (int FlagIdx = 0; FlagIdx < mBitFlags.size(); FlagIdx++)
+            mAllFlags |= mBitFlags[FlagIdx].Mask;
+    }
+
     virtual void SerializeValue(void* pData, IArchive& rArc) const
     {
         rArc.SerializeHexPrimitive( (u32&) ValueRef(pData) );
+    }
+
+    virtual void InitFromArchetype(IPropertyNew* pOther)
+    {
+        TTypedPropertyNew::InitFromArchetype(pOther);
+        CFlagsProperty* pOtherFlags = static_cast<CFlagsProperty*>(pOther);
+        mBitFlags = pOtherFlags->mBitFlags;
+        mAllFlags = pOtherFlags->mAllFlags;
     }
 
     virtual TString GetTemplateFileName()

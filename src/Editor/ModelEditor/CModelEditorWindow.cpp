@@ -764,9 +764,10 @@ void CModelEditorWindow::ConvertToDDS()
     if (Input.isEmpty()) return;
 
     TString TexFilename = TO_TSTRING(Input);
-    CTexture *pTex = CTextureDecoder::LoadDDS( CFileInStream(TexFilename, IOUtil::eLittleEndian), nullptr );
-    TString OutName = TexFilename.GetFilePathWithoutExtension() + ".dds";
+    CFileInStream InTextureFile(TexFilename, IOUtil::eLittleEndian);
+    CTexture *pTex = CTextureDecoder::LoadTXTR( InTextureFile, nullptr );
 
+    TString OutName = TexFilename.GetFilePathWithoutExtension() + ".dds";
     CFileOutStream Out(OutName, IOUtil::eLittleEndian);
     if (!Out.IsValid()) QMessageBox::warning(this, "Error", "Couldn't open output DDS!");
 
@@ -786,7 +787,8 @@ void CModelEditorWindow::ConvertToTXTR()
     if (Input.isEmpty()) return;
 
     TString TexFilename = TO_TSTRING(Input);
-    CTexture *pTex = CTextureDecoder::LoadDDS(CFileInStream(TexFilename, IOUtil::eLittleEndian), nullptr);
+    CFileInStream InTextureFile = CFileInStream(TexFilename, IOUtil::eLittleEndian);
+    CTexture *pTex = CTextureDecoder::LoadDDS(InTextureFile, nullptr);
     TString OutName = TexFilename.GetFilePathWithoutExtension() + ".txtr";
 
     if ((pTex->TexelFormat() != eDXT1) || (pTex->NumMipMaps() > 1))

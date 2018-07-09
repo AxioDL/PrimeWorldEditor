@@ -81,7 +81,7 @@ void CPropertyView::SetEditor(CWorldEditor *pEditor)
 {
     mpEditor = pEditor;
     mpDelegate->SetEditor(pEditor);
-    connect(mpEditor, SIGNAL(PropertyModified(CScriptObject*,IProperty*)), mpModel, SLOT(NotifyPropertyModified(CScriptObject*,IProperty*)));
+    connect(mpEditor, SIGNAL(PropertyModified(CScriptObject*,IPropertyNew*)), mpModel, SLOT(NotifyPropertyModified(CScriptObject*,IPropertyNew*)));
 }
 
 void CPropertyView::SetInstance(CScriptObject *pObj)

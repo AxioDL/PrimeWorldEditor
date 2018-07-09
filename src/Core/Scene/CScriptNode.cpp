@@ -496,13 +496,13 @@ void CScriptNode::PropertyModified(IPropertyNew* pProp)
     if (pProp == pTemplate->NameProperty())
         SetName("[" + mpInstance->Template()->Name() + "] " + mpInstance->InstanceName());
 
-    else if (pProp == pTemplate->PositionProperty())
+    else if (pProp == pTemplate->PositionProperty() || pProp->Parent() == pTemplate->PositionProperty())
         mPosition = mpInstance->Position();
 
-    else if (pProp == pTemplate->RotationProperty())
+    else if (pProp == pTemplate->RotationProperty() || pProp->Parent() == pTemplate->RotationProperty())
         mRotation = CQuaternion::FromEuler(mpInstance->Rotation());
 
-    else if (pProp == pTemplate->ScaleProperty())
+    else if (pProp == pTemplate->ScaleProperty() || pProp->Parent() == pTemplate->ScaleProperty())
         mScale = mpInstance->Scale();
 
     MarkTransformChanged();
@@ -560,7 +560,7 @@ void CScriptNode::GeneratePosition()
     if (!mHasValidPosition)
     {
         // Default to center of the active area; this is to prevent recursion issues
-        CTransform4f& AreaTransform = mpScene->ActiveArea()->Transform();
+        CTransform4f AreaTransform = mpScene->ActiveArea()->Transform();
         mPosition = CVector3f(AreaTransform[0][3], AreaTransform[1][3], AreaTransform[2][3]);
         mHasValidPosition = true;
         MarkTransformChanged();

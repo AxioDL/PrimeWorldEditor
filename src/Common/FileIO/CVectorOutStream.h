@@ -6,7 +6,7 @@
 
 class CVectorOutStream : public IOutputStream
 {
-    static const u32 skAllocSize = 1024; // must be power of 2
+    static const u32 skAllocSize = 1; // must be 1 or a power of 2
 
     std::vector<char> *mpVector;
     bool mOwnsVector;

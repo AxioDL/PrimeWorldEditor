@@ -18,6 +18,12 @@ public:
     }
 #endif
 
+    virtual void InitFromArchetype(IPropertyNew* pOther)
+    {
+        TTypedPropertyNew::InitFromArchetype(pOther);
+        mTypeFilter = static_cast<CAssetProperty*>(pOther)->mTypeFilter;
+    }
+
     virtual void SerializeValue(void* pData, IArchive& Arc) const
     {
         Arc.SerializePrimitive( ValueRef(pData) );

@@ -65,7 +65,7 @@ void WEditorProperties::SyncToEditor(CWorldEditor *pEditor)
     connect(mpEditor, SIGNAL(SelectionModified()), this, SLOT(OnSelectionModified()));
     connect(mpEditor, SIGNAL(LayersModified()), this, SLOT(OnLayersModified()));
     connect(mpEditor, SIGNAL(InstancesLayerChanged(QList<CScriptNode*>)), this, SLOT(OnInstancesLayerChanged(QList<CScriptNode*>)));
-    connect(mpEditor, SIGNAL(PropertyModified(CScriptObject*,IProperty*)), this, SLOT(OnPropertyModified(CScriptObject*,IProperty*)));
+    connect(mpEditor, SIGNAL(PropertyModified(CScriptObject*,IPropertyNew*)), this, SLOT(OnPropertyModified(CScriptObject*,IPropertyNew*)));
 
     OnLayersModified();
 }

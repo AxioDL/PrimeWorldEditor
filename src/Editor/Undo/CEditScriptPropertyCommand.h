@@ -7,29 +7,83 @@
 #include "Editor/PropertyEdit/CPropertyModel.h"
 #include "Editor/WorldEditor/CWorldEditor.h"
 
-template<class PropertyClass>
-class TEditScriptPropertyCommand : public IUndoCommand
+class IEditPropertyCommand : public IUndoCommand
 {
-    typedef typename PropertyClass::ValueType ValueType;
+    std::vector<char> mOldData;
+    std::vector<char> mNewData;
 
-    CWorldEditor *mpEditor;
-    CInstancePtr mpInstance;
-    PropertyClass* mpProperty;
-    ValueType mOldValue;
-    ValueType mNewValue;
+protected:
+    IPropertyNew* mpProperty;
     bool mCommandEnded;
+    bool mSavedOldData;
+    bool mSavedNewData;
+
+    /** Save the current state of the object properties to the given data buffer */
+    void SaveObjectStateToArray(std::vector<char>& rVector)
+    {
+        CVectorOutStream MemStream(&rVector, IOUtil::kSystemEndianness);
+        CBasicBinaryWriter Writer(&MemStream, CSerialVersion(IArchive::skCurrentArchiveVersion, 0, mpProperty->Game()));
+
+        std::vector<void*> DataPointers;
+        GetObjectDataPointers(DataPointers);
+
+        for (int PtrIdx = 0; PtrIdx < DataPointers.size(); PtrIdx++)
+        {
+            void* pData = DataPointers[PtrIdx];
+            mpProperty->SerializeValue(pData, Writer);
+        }
+    }
+
+    /** Restore the state of the object properties from the given data buffer */
+    void RestoreObjectStateFromArray(std::vector<char>& rArray)
+    {
+        CBasicBinaryReader Reader(rArray.data(), rArray.size(), CSerialVersion(IArchive::skCurrentArchiveVersion, 0, mpProperty->Game()));
+
+        std::vector<void*> DataPointers;
+        GetObjectDataPointers(DataPointers);
+
+        for (int PtrIdx = 0; PtrIdx < DataPointers.size(); PtrIdx++)
+        {
+           void* pData = DataPointers[PtrIdx];
+           mpProperty->SerializeValue(pData, Reader);
+        }
+    }
 
 public:
-    TEditScriptPropertyCommand(PropertyClass* pProp, CScriptObject* pInstance, CWorldEditor* pEditor, ValueType NewValue, bool IsDone, const QString& rkCommandName = "Edit Property")
+    IEditPropertyCommand(IPropertyNew* pProperty, const QString& rkCommandName = "Edit Property")
         : IUndoCommand(rkCommandName)
-        , mpEditor(pEditor)
-        , mpInstance(pInstance)
-        , mpProperty(pProp)
-        , mOldValue(pProp->Value(pInstance->PropertyData()))
-        , mNewValue(NewValue)
-        , mCommandEnded(IsDone)
+        , mpProperty(pProperty)
+        , mSavedOldData(false)
+        , mSavedNewData(false)
     {}
 
+    void SaveOldData()
+    {
+        SaveObjectStateToArray(mOldData);
+        mSavedOldData = true;
+    }
+
+    void SaveNewData()
+    {
+        SaveObjectStateToArray(mNewData);
+        mSavedNewData = true;
+    }
+
+    bool IsNewDataDifferent()
+    {
+        if (mOldData.size() != mNewData.size()) return false;
+        return memcmp(mOldData.data(), mNewData.data(), mNewData.size()) != 0;
+    }
+
+    void SetEditComplete(bool IsComplete)
+    {
+        mCommandEnded = IsComplete;
+    }
+
+    /** Interface */
+    virtual void GetObjectDataPointers(std::vector<void*>& rOutPointers) const = 0;
+
+    /** IUndoCommand/QUndoCommand interface */
     int id() const
     {
         return eEditScriptPropertyCmd;
@@ -39,13 +93,29 @@ public:
     {
         if (!mCommandEnded)
         {
-            TEditScriptPropertyCommand* pkCmd = dynamic_cast<TEditScriptPropertyCommand>(pkOther);
+            const IEditPropertyCommand* pkCmd = dynamic_cast<const IEditPropertyCommand*>(pkOther);
 
-            if (pkCmd && pkCmd->mpProperty == mpProperty && pkCmd->mpInstance == mpInstance)
+            if (pkCmd && pkCmd->mpProperty == mpProperty)
             {
-                mNewValue = pkCmd->mNewValue;
-                mCommandEnded = pkCmd->mCommandEnded;
-                return true;
+                std::vector<void*> MyPointers;
+                GetObjectDataPointers(MyPointers);
+
+                std::vector<void*> TheirPointers;
+                pkCmd->GetObjectDataPointers(TheirPointers);
+
+                if (TheirPointers.size() == MyPointers.size())
+                {
+                    for (int PtrIdx = 0; PtrIdx < MyPointers.size(); PtrIdx++)
+                    {
+                        if (MyPointers[PtrIdx] != TheirPointers[PtrIdx])
+                            return false;
+                    }
+
+                    // Match
+                    mNewData = pkCmd->mNewData;
+                    mCommandEnded = pkCmd->mCommandEnded;
+                    return true;
+                }
             }
         }
 
@@ -54,17 +124,15 @@ public:
 
     void undo()
     {
-        void* pData = mpInstance->PropertyData();
-        mpProperty->ValueRef(pData) = mOldValue;
-        mpEditor->OnPropertyModified(mpProperty);
+        ASSERT(mSavedOldData && mSavedNewData);
+        RestoreObjectStateFromArray(mOldData);
         mCommandEnded = true;
     }
 
     void redo()
     {
-        void* pData = mpInstance->PropertyData();
-        mpProperty->ValueRef(pData) = mNewValue;
-        mpEditor->OnPropertyModified(mpProperty);
+        ASSERT(mSavedOldData && mSavedNewData);
+        RestoreObjectStateFromArray(mNewData);
     }
 
     bool AffectsCleanState() const
@@ -73,22 +141,46 @@ public:
     }
 };
 
-/*class CEditScriptPropertyCommand : public IUndoCommand
+class CEditScriptPropertyCommand : public IEditPropertyCommand
 {
-    CWorldEditor *mpEditor;
-    CPropertyPtr mpProp;
-    IPropertyValue *mpOldValue;
-    IPropertyValue *mpNewValue;
-    bool mCommandEnded;
+    std::vector<CInstancePtr> mInstances;
+    CWorldEditor* mpEditor;
 
 public:
-    CEditScriptPropertyCommand(IProperty *pProp, CWorldEditor *pEditor, IPropertyValue *pOldValue, bool IsDone, const QString& rkCommandName = "Edit Property");
-    ~CEditScriptPropertyCommand();
-    int id() const;
-    bool mergeWith(const QUndoCommand *pkOther);
-    void undo();
-    void redo();
-    bool AffectsCleanState() const { return true; }
-};*/
+    CEditScriptPropertyCommand(CWorldEditor* pEditor, CScriptObject* pInstance, IPropertyNew* pProperty, const QString& rkCommandName = "Edit Property")
+        : IEditPropertyCommand(pProperty, rkCommandName)
+        , mpEditor(pEditor)
+    {
+        mInstances.push_back( CInstancePtr(pInstance) );
+    }
+
+    virtual void GetObjectDataPointers(std::vector<void*>& rOutPointers) const override
+    {
+        rOutPointers.resize(mInstances.size());
+
+        for (int InstanceIdx = 0; InstanceIdx < mInstances.size(); InstanceIdx++)
+        {
+            rOutPointers[InstanceIdx] = mInstances[InstanceIdx]->PropertyData();
+        }
+    }
+
+    virtual void undo() override
+    {
+        IEditPropertyCommand::undo();
+        NotifyWorldEditor();
+    }
+
+    virtual void redo() override
+    {
+        IEditPropertyCommand::redo();
+        NotifyWorldEditor();
+    }
+
+    void NotifyWorldEditor()
+    {
+        for (int InstanceIdx = 0; InstanceIdx < mInstances.size(); InstanceIdx++)
+            mpEditor->OnPropertyModified(*mInstances[InstanceIdx], mpProperty);
+    }
+};
 
 #endif // CEDITSCRIPTPROPERTYCOMMAND_H

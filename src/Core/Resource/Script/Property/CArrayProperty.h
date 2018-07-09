@@ -24,8 +24,9 @@ class CArrayProperty : public TTypedPropertyNew<int, EPropertyTypeNew::Array>
 {
     friend class CTemplateLoader;
     /** This class inherits from TTypedPropertyNew<int> in order to expose the array
-     *  count value. Outside users can edit this value and we respond by updating the
-     *  allocated space, handling destruction/construction, etc.
+     *  count value (the first member of SScriptArray). Outside users can edit this
+     *  value and we respond by updating the allocated space, handling item destruction
+     *  and construction, etc.
      */
     IPropertyNew* mpItemArchetype;
 
@@ -99,7 +100,7 @@ public:
     virtual void SerializeValue(void* pData, IArchive& Arc) const
     {
         u32 Count = ArrayCount(pData);
-        Arc.SerializePrimitive(Count);
+        Arc.SerializeContainerSize(Count, "ArrayElement");
 
         if (Arc.IsReader())
             Resize(pData, Count);
@@ -113,6 +114,13 @@ public:
                 Arc.ParamEnd();
             }
         }
+    }
+
+    virtual void InitFromArchetype(IPropertyNew* pOther)
+    {
+        TTypedPropertyNew::InitFromArchetype(pOther);
+        CArrayProperty* pOtherArray = static_cast<CArrayProperty*>(pOther);
+        mpItemArchetype = IPropertyNew::CreateCopy(pOtherArray->mpItemArchetype, this);
     }
 
     u32 ArrayCount(void* pPropertyData) const

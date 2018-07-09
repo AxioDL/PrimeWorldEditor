@@ -46,6 +46,13 @@ public:
         Arc.SerializePrimitive( (u32&) ValueRef(pData) );
     }
 
+    virtual void InitFromArchetype(IPropertyNew* pOther)
+    {
+        TTypedPropertyNew::InitFromArchetype(pOther);
+        TEnumPropertyBase* pOtherEnum = static_cast<TEnumPropertyBase*>(pOther);
+        mValues = pOtherEnum->mValues;
+    }
+
     virtual TString GetTemplateFileName()
     {
         ASSERT(IsArchetype() || mpArchetype);

@@ -88,6 +88,9 @@ bool CScriptObject::IsEditorProperty(IPropertyNew *pProp)
              (pProp == mScale.Property()) ||
              (pProp == mActive.Property()) ||
              (pProp == mLightParameters.Property()) ||
+             (pProp->Parent() == mPosition.Property()) ||
+             (pProp->Parent() == mRotation.Property()) ||
+             (pProp->Parent() == mScale.Property()) ||
              (pProp->Parent() == mLightParameters.Property())
            );
 }

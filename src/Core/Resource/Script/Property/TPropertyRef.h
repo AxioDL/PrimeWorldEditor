@@ -50,7 +50,7 @@ public:
     /** Accessors */
     inline CScriptObject* Object() const        { return mpObject; }
     inline PropertyClass* Property() const      { return mpProperty; }
-    inline ValueType Get() const                { ASSERT(IsValid()); return *((ValueType*) mpProperty->RawValuePtr( mpObject->PropertyData() )); }
+    inline ValueType Get() const                { return IsValid() ? *((ValueType*) mpProperty->RawValuePtr( mpObject->PropertyData() )) : ValueType(); }
     inline void Set(const ValueType& kIn) const { if (IsValid()) *((ValueType*) mpProperty->RawValuePtr( mpObject->PropertyData() )) = kIn; }
     inline bool IsValid() const                 { return mpObject != nullptr && mpProperty != nullptr; }
 
