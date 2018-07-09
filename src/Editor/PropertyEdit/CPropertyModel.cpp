@@ -13,13 +13,25 @@ CPropertyModel::CPropertyModel(QObject *pParent /*= 0*/)
     , mpPropertyData(nullptr)
     , mBoldModifiedProperties(true)
     , mShowNameValidity(false)
+    , mFirstUnusedID(-1)
 {
 }
 
 int CPropertyModel::RecursiveBuildArrays(IPropertyNew* pProperty, int ParentID)
 {
-    int MyID = mProperties.size();
-    mProperties << SProperty();
+    // Insert into an unused slot if one exists. Otherwise, append to the end of the array.
+    int MyID = -1;
+
+    if (mFirstUnusedID >= 0)
+    {
+        MyID = mFirstUnusedID;
+        mFirstUnusedID = mProperties[MyID].ParentID; // on unused slots ParentID stores the ID of the next unused slot
+    }
+    else
+    {
+        MyID = mProperties.size();
+        mProperties << SProperty();
+    }
 
     mProperties[MyID].pProperty = pProperty;
     mProperties[MyID].ParentID = ParentID;
@@ -70,6 +82,7 @@ void CPropertyModel::ConfigureIntrinsic(CGameProject* pProject, IPropertyNew* pR
 
     mProperties.clear();
     mPropertyToIDMap.clear();
+    mFirstUnusedID = -1;
 
     if (pRootProperty)
         RecursiveBuildArrays(pRootProperty, -1);
@@ -532,37 +545,80 @@ void CPropertyModel::NotifyPropertyModified(const QModelIndex& rkIndex)
 
 void CPropertyModel::ArrayAboutToBeResized(const QModelIndex& rkIndex, u32 NewSize)
 {
-    //FIXME
-    /*QModelIndex Index = rkIndex.sibling(rkIndex.row(), 0);
-    CArrayProperty *pArray = static_cast<CArrayProperty*>(PropertyForIndex(Index, false));
+    QModelIndex Index = rkIndex.sibling(rkIndex.row(), 0);
+    IPropertyNew* pProperty = PropertyForIndex(Index, false);
+    CArrayProperty* pArray = TPropCast<CArrayProperty>(pProperty);
+    ASSERT(pArray);
 
-    if (pArray && pArray->Type() == eArrayProperty)
+    void* pArrayData = DataPointerForIndex(Index);
+    u32 OldSize = pArray->ArrayCount(pArrayData);
+
+    if (NewSize != OldSize)
     {
-        u32 OldSize = pArray->Count();
-
-        if (NewSize != OldSize)
-        {
-            if (NewSize > OldSize)
-                beginInsertRows(Index, OldSize, NewSize - 1);
-            else
-                beginRemoveRows(Index, NewSize, OldSize - 1);
-        }
-    }*/
+        if (NewSize > OldSize)
+            beginInsertRows(Index, OldSize, NewSize - 1);
+        else
+            beginRemoveRows(Index, NewSize, OldSize - 1);
+    }
 }
 
 void CPropertyModel::ArrayResized(const QModelIndex& rkIndex, u32 OldSize)
 {
-    //FIXME
-    /*CArrayProperty *pArray = static_cast<CArrayProperty*>(PropertyForIndex(rkIndex, false));
-    u32 NewSize = pArray->Count();
+    QModelIndex Index = rkIndex.sibling(rkIndex.row(), 0);
+    IPropertyNew* pProperty = PropertyForIndex(Index, false);
+    CArrayProperty* pArray = TPropCast<CArrayProperty>(pProperty);
+    ASSERT(pArray);
+
+    void* pArrayData = DataPointerForIndex(Index);
+    u32 NewSize = pArray->ArrayCount(pArrayData);
 
     if (NewSize != OldSize)
     {
-        if (pArray->Count() > OldSize)
+        int ID = Index.internalId();
+
+        if (NewSize > OldSize)
+        {
+            // add new elements
+            void* pOldData = mpPropertyData;
+
+            for (u32 ElementIdx = OldSize; ElementIdx < NewSize; ElementIdx++)
+            {
+                mpPropertyData = pArray->ItemPointer(pArrayData, ElementIdx);
+                int NewChildID = RecursiveBuildArrays( pArray->ItemArchetype(), ID );
+                mProperties[ID].ChildIDs.push_back(NewChildID);
+            }
+
+            mpPropertyData = pOldData;
             endInsertRows();
+        }
         else
+        {
+            // remove old elements
+            for (u32 ElementIdx = NewSize; ElementIdx < OldSize; ElementIdx++)
+            {
+                int ChildID = mProperties[ID].ChildIDs[ElementIdx];
+                ClearSlot(ChildID);
+            }
+
+            mProperties[ID].ChildIDs.resize(NewSize);
             endRemoveRows();
-    }*/
+        }
+    }
+}
+
+
+void CPropertyModel::ClearSlot(int ID)
+{
+    for (int ChildIdx = 0; ChildIdx < mProperties[ID].ChildIDs.size(); ChildIdx++)
+    {
+        ClearSlot(mProperties[ID].ChildIDs[ChildIdx]);
+    }
+
+    mProperties[ID].ChildIDs.clear();
+    mProperties[ID].Index = QModelIndex();
+    mProperties[ID].ParentID = mFirstUnusedID;
+    mProperties[ID].pProperty = nullptr;
+    mFirstUnusedID = ID;
 }
 
 void CPropertyModel::SetShowPropertyNameValidity(bool Enable)

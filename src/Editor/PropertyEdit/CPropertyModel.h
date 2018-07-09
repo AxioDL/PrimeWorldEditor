@@ -18,6 +18,7 @@ class CPropertyModel : public QAbstractItemModel
     };
     QVector<SProperty> mProperties;
     QMap<IPropertyNew*, int> mPropertyToIDMap;
+    int mFirstUnusedID;
 
     CGameProject* mpProject;
     CScriptObject* mpObject; // may be null
@@ -49,6 +50,7 @@ public:
     void ArrayAboutToBeResized(const QModelIndex& rkIndex, u32 NewSize);
     void ArrayResized(const QModelIndex& rkIndex, u32 OldSize);
     void ResizeArray(const QModelIndex& rkIndex, u32 NewSize);
+    void ClearSlot(int ID);
 
     void SetShowPropertyNameValidity(bool Enable);
 

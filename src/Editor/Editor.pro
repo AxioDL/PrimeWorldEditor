@@ -199,7 +199,8 @@ HEADERS += \
     CGeneratePropertyNamesDialog.h \
     CProgressBarNotifier.h \
     Widgets/CCheckableTreeWidgetItem.h \
-    Widgets/CCheckableTreeWidget.h
+    Widgets/CCheckableTreeWidget.h \
+    Undo/IEditPropertyCommand.h
 
 # Source Files
 SOURCES += \
@@ -237,8 +238,6 @@ SOURCES += \
     PropertyEdit/CPropertyDelegate.cpp \
     PropertyEdit/CPropertyView.cpp \
     WorldEditor/CInstancesModel.cpp \
-    Undo/CEditScriptPropertyCommand.cpp \
-    Undo/CResizeScriptArrayCommand.cpp \
     WorldEditor/WEditorProperties.cpp \
     Undo/CChangeLayerCommand.cpp \
     WorldEditor/CTemplateEditDialog.cpp \
@@ -275,7 +274,8 @@ SOURCES += \
     ResourceBrowser/CVirtualDirectoryModel.cpp \
     ResourceBrowser/CVirtualDirectoryTreeView.cpp \
     CPropertyNameValidator.cpp \
-    CGeneratePropertyNamesDialog.cpp
+    CGeneratePropertyNamesDialog.cpp \
+    Undo/IEditPropertyCommand.cpp
 
 # UI Files
 FORMS += \
