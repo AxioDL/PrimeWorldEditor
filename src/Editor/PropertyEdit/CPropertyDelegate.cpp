@@ -365,7 +365,7 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
         if (Type != EPropertyTypeNew::Array)
         {
             // TODO: support this for non script object properties
-            pCommand = new CEditScriptPropertyCommand(mpEditor, mpModel->GetScriptObject(), pProp);
+            pCommand = new CEditScriptPropertyCommand(mpEditor, rkIndex, mpModel);
             pCommand->SaveOldData();
 
             // Handle sub-properties of flags and animation sets
@@ -478,18 +478,22 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
         // Array
         else
         {
-            //FIXME
-            /*
+            pCommand = new CResizeScriptArrayCommand(mpEditor, rkIndex, mpModel);
+            pCommand->SaveOldData();
+
             WIntegralSpinBox* pSpinBox = static_cast<WIntegralSpinBox*>(pEditor);
             CArrayProperty* pArray = static_cast<CArrayProperty*>(pProp);
+            int OldCount = pArray->ArrayCount(pData);
             int NewCount = pSpinBox->value();
 
-            if (pArray->Count() != NewCount)
+            if (OldCount != NewCount)
             {
-                CResizeScriptArrayCommand *pCmd = new CResizeScriptArrayCommand(pProp, mpEditor, mpModel, NewCount);
-                mpEditor->UndoStack()->push(pCmd);
+                mpModel->ArrayAboutToBeResized(rkIndex, NewCount);
+                pArray->Resize(pData, NewCount);
+                mpModel->ArrayResized(rkIndex, OldCount);
             }
-            */
+
+            pCommand->SaveNewData();
         }
     }
 
