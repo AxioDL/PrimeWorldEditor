@@ -10,6 +10,7 @@
                     <default>0</default>
                 </property>
                 <array ID="0x01" name="Activation Times">
+                    <element_name>Activation Time</element_name>
                     <properties>
                         <property ID="0x00" name="Time" type="float">
                             <default>0.0</default>

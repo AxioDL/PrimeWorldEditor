@@ -213,7 +213,7 @@ void CScriptCooker::WriteProperty(IOutputStream& rOut, IPropertyNew* pProperty, 
         for (u32 ElementIdx = 0; ElementIdx < pArray->ArrayCount(pData); ElementIdx++)
         {
             mpArrayItemData = pArray->ItemPointer(pData, ElementIdx);
-            WriteProperty(rOut, pArray->ArchetypeProperty(), true);
+            WriteProperty(rOut, pArray->ItemArchetype(), true);
         }
 
         mpArrayItemData = pOldItemData;

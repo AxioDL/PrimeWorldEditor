@@ -22,7 +22,9 @@ struct SScriptArray
 /** @todo proper support of default values for arrays (this would be used for prefabs) */
 class CArrayProperty : public TTypedPropertyNew<int, EPropertyTypeNew::Array>
 {
+    friend class IPropertyNew;
     friend class CTemplateLoader;
+
     /** This class inherits from TTypedPropertyNew<int> in order to expose the array
      *  count value (the first member of SScriptArray). Outside users can edit this
      *  value and we respond by updating the allocated space, handling item destruction
@@ -41,6 +43,12 @@ class CArrayProperty : public TTypedPropertyNew<int, EPropertyTypeNew::Array>
         std::vector<char>& rArray = _GetInternalArray(pPropertyData).Array;
         return rArray.size() / ItemSize();
     }
+
+protected:
+    CArrayProperty()
+        : TTypedPropertyNew()
+        , mpItemArchetype(nullptr)
+    {}
 
 public:
     virtual u32 DataSize() const
@@ -110,7 +118,7 @@ public:
             if (Arc.ParamBegin("ArrayElement"))
             {
                 void* pItemData = ItemPointer(pData, ItemIdx);
-                mpArchetype->SerializeValue(pItemData, Arc);
+                mpItemArchetype->SerializeValue(pItemData, Arc);
                 Arc.ParamEnd();
             }
         }
@@ -148,6 +156,7 @@ public:
 
             u32 NewSize = NewCount * ItemSize();
             rArray.Array.resize(NewSize);
+            rArray.Count = NewCount;
 
             // Handle construction of new elements
             if (NewCount > OldCount)
@@ -163,7 +172,7 @@ public:
 
     void* ItemPointer(void* pPropertyData, u32 ItemIndex) const
     {
-        ASSERT(ArrayCount(pPropertyData) > ItemIndex);
+        ASSERT(_InternalArrayCount(pPropertyData) > ItemIndex);
         std::vector<char>& rArray = _GetInternalArray(pPropertyData).Array;
         u32 MyItemSize = ItemSize();
         ASSERT(rArray.size() >= (MyItemSize * (ItemIndex+1)));
@@ -178,7 +187,7 @@ public:
     }
 
     /** Accessors */
-    IPropertyNew* ArchetypeProperty() const { return mpArchetype; }
+    IPropertyNew* ItemArchetype() const { return mpItemArchetype; }
 };
 
 #endif // CARRAYPROPERTY_H

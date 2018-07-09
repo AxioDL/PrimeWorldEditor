@@ -219,7 +219,7 @@ void CScriptLoader::ReadProperty(IPropertyNew *pProp, u32 Size, IInputStream& rS
 
         // Make sure the array archetype is atomic... non-atomic array archetypes is not supported
         // because arrays can only have one possible archetype so having property IDs here wouldn't make sense
-        ASSERT(pArray->ArchetypeProperty()->IsAtomic());
+        ASSERT(pArray->ItemArchetype()->IsAtomic());
 
         for (int ElementIdx = 0; ElementIdx < Count; ElementIdx++)
         {
@@ -236,7 +236,7 @@ void CScriptLoader::ReadProperty(IPropertyNew *pProp, u32 Size, IInputStream& rS
              * things to make this cleaner
              */
             mpArrayItemData = pArray->ItemPointer(pData, ElementIdx);
-            ReadProperty(pArray->ArchetypeProperty(), 0, rSCLY);
+            ReadProperty(pArray->ItemArchetype(), 0, rSCLY);
         }
 
         mpArrayItemData = pOldArrayItemData;

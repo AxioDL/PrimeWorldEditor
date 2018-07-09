@@ -81,12 +81,10 @@ public:
 
     virtual const char* HashableTypeName() const
     {
-        ASSERT(IsArchetype() || mpArchetype != nullptr);
-
-        if (IsArchetype())
+        if (IsArchetype() || !mpArchetype)
             return *mName;
         else
-            return *mpArchetype->Name();
+            return mpArchetype->HashableTypeName();
     }
 
 #if 0
