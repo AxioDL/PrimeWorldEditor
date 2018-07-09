@@ -569,11 +569,12 @@ void CWorldEditor::OnLinksModified(const QList<CScriptObject*>& rkInstances)
         emit InstanceLinksModified(rkInstances);
 }
 
-void CWorldEditor::OnPropertyModified(IPropertyNew *pProp)
+void CWorldEditor::OnPropertyModified(CScriptObject* pObject, IPropertyNew *pProp)
 {
-    if (!mpSelection->IsEmpty() && mpSelection->Front()->NodeType() == eScriptNode)
+    CScriptNode *pScript = mScene.NodeForInstance(pObject);
+
+    if (pScript)
     {
-        CScriptNode *pScript = static_cast<CScriptNode*>(mpSelection->Front());
         pScript->PropertyModified(pProp);
 
         // If this is an editor property, update other parts of the UI to reflect the new value.
@@ -581,23 +582,24 @@ void CWorldEditor::OnPropertyModified(IPropertyNew *pProp)
         {
             UpdateStatusBar();
             UpdateSelectionUI();
+            mpSelection->UpdateBounds();
         }
-
-        // If this is a model/character, then we'll treat this as a modified selection. This is to make sure the selection bounds updates.
-        if (pProp->Type() == EPropertyTypeNew::Asset)
-        {
-            CAssetProperty *pAsset = TPropCast<CAssetProperty>(pProp);
-            const CResTypeFilter& rkFilter = pAsset->GetTypeFilter();
-
-            if (rkFilter.Accepts(eModel) || rkFilter.Accepts(eAnimSet) || rkFilter.Accepts(eCharacter))
-                SelectionModified();
-        }
-        else if (pProp->Type() == EPropertyTypeNew::AnimationSet)
-            SelectionModified();
-
-        // Emit signal so other widgets can react to the property change
-        emit PropertyModified(pScript->Instance(), pProp);
     }
+
+    // If this is a model/character, then we'll treat this as a modified selection. This is to make sure the selection bounds updates.
+    if (pProp->Type() == EPropertyTypeNew::Asset)
+    {
+        CAssetProperty *pAsset = TPropCast<CAssetProperty>(pProp);
+        const CResTypeFilter& rkFilter = pAsset->GetTypeFilter();
+
+        if (rkFilter.Accepts(eModel) || rkFilter.Accepts(eAnimSet) || rkFilter.Accepts(eCharacter))
+            SelectionModified();
+    }
+    else if (pProp->Type() == EPropertyTypeNew::AnimationSet)
+        SelectionModified();
+
+    // Emit signal so other widgets can react to the property change
+    emit PropertyModified(pObject, pProp);
 }
 
 void CWorldEditor::SetSelectionActive(bool Active)

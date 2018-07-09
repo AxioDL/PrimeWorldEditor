@@ -157,7 +157,6 @@ protected:
     /** Private constructor - use static methods to instantiate */
     IPropertyNew();
     void _CalcOffset();
-    u32 _GetOffset() const;
     void _ClearChildren();
 
     /** Called after property is created and fully initialized */
@@ -213,6 +212,7 @@ public:
     inline TString Description() const;
     inline TString Suffix() const;
     inline TIDString IDString(bool FullyQualified) const;
+    inline u32 Offset() const;
     inline u32 ID() const;
 
     inline bool IsArchetype() const         { return mFlags.HasFlag(EPropertyFlag::IsArchetype); }
@@ -227,8 +227,7 @@ public:
                                 bool CallPostInit = true);
 
     static IPropertyNew* CreateCopy(IPropertyNew* pArchetype,
-                                    IPropertyNew* pParent,
-                                    bool CallPostInit = true);
+                                    IPropertyNew* pParent);
 };
 
 inline ECookPreferenceNew IPropertyNew::CookPreference() const
@@ -298,10 +297,15 @@ inline TString IPropertyNew::Suffix() const
 
 inline TString IPropertyNew::IDString(bool FullyQualified) const
 {
-    if (FullyQualified && mpParent != nullptr)
+    if (FullyQualified && mpParent != nullptr && mpParent->Parent() != nullptr)
         return mpParent->IDString(FullyQualified) + ":" + TString::HexString(mID);
     else
         return TString::HexString(mID);
+}
+
+inline u32 IPropertyNew::Offset() const
+{
+    return mOffset;
 }
 
 inline u32 IPropertyNew::ID() const

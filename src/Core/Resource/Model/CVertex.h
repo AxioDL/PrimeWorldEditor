@@ -24,7 +24,7 @@ public:
 
     CVertex() {}
 
-    CVertex(CVector3f& rPos)
+    CVertex(const CVector3f& rPos)
     {
         Position = rPos;
     }

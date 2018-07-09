@@ -18,7 +18,7 @@ public:
         Arc.SerializePrimitive( (float&) ValueRef(pData) );
     }
 
-    virtual TString ValueAsString(void* pData)
+    virtual TString ValueAsString(void* pData) const
     {
         return TString::FromFloat( Value(pData) );
     }

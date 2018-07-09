@@ -73,7 +73,7 @@ int main(int argc, char *argv[])
 
     // Load templates
     CTemplateLoader::LoadGameList();
-    CTemplateLoader::LoadAllGames();
+    //CTemplateLoader::LoadAllGames();
     //CTemplateWriter::SaveAllTemplates();
 
     // Execute application

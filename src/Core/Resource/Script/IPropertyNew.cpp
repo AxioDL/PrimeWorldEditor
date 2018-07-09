@@ -55,11 +55,6 @@ void IPropertyNew::_CalcOffset()
     }
 }
 
-u32 IPropertyNew::_GetOffset() const
-{
-    return mOffset;
-}
-
 void IPropertyNew::_ClearChildren()
 {
     for (int ChildIdx = 0; ChildIdx < mChildren.size(); ChildIdx++)
@@ -118,7 +113,7 @@ void IPropertyNew::InitFromArchetype(IPropertyNew* pOther)
 {
     //@todo maybe somehow use Serialize for this instead?
     mpArchetype = pOther;
-    mFlags = pOther->mFlags & ~EPropertyFlag::ArchetypeCopyFlags;
+    mFlags = pOther->mFlags & EPropertyFlag::ArchetypeCopyFlags;
     mID = pOther->mID;
     mName = pOther->mName;
     mDescription = pOther->mDescription;
@@ -161,7 +156,8 @@ void* IPropertyNew::RawValuePtr(void* pData) const
         return pData;
 
     void* pBasePtr = (mpPointerParent ? mpPointerParent->GetChildDataPointer(pData) : pData);
-    return ((char*)pBasePtr + mOffset);
+    void* pValuePtr = ((char*)pBasePtr + mOffset);
+    return pValuePtr;
 }
 
 IPropertyNew* IPropertyNew::ChildByID(u32 ID) const
@@ -342,8 +338,7 @@ IPropertyNew* IPropertyNew::Create(EPropertyTypeNew Type,
 }
 
 IPropertyNew* IPropertyNew::CreateCopy(IPropertyNew* pArchetype,
-                                       IPropertyNew* pParent,
-                                       bool CallPostInit /*= true*/)
+                                       IPropertyNew* pParent)
 {
     // Note this is mainly going to be used to create copies from struct/enum/flag archetype properties.
     // Properties that have archetypes will never be the root property of a script template, and there
@@ -354,11 +349,5 @@ IPropertyNew* IPropertyNew::CreateCopy(IPropertyNew* pArchetype,
     IPropertyNew* pOut = Create(pArchetype->Type(), pParent, pParent->mpMasterTemplate, pParent->mpScriptTemplate, false);
     pOut->InitFromArchetype(pArchetype);
     pArchetype->mSubInstances.push_back(pOut);
-
-    if (CallPostInit)
-    {
-        pOut->PostInitialize();
-    }
-
     return pOut;
 }

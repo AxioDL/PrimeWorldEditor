@@ -112,7 +112,7 @@ public:
     inline void SetOptions(FMaterialOptions Options)           { mOptions = Options; Update(); }
     inline void SetVertexDescription(FVertexDescription Desc)  { mVtxDesc = Desc; Update(); }
     inline void SetBlendMode(GLenum SrcFac, GLenum DstFac)     { mBlendSrcFac = SrcFac; mBlendDstFac = DstFac; mRecalcHash = true; }
-    inline void SetKonst(CColor& Konst, u32 KIndex)            { mKonstColors[KIndex] = Konst; Update(); }
+    inline void SetKonst(const CColor& Konst, u32 KIndex)      { mKonstColors[KIndex] = Konst; Update(); }
     inline void SetIndTexture(CTexture *pTex)                  { mpIndirectTexture = pTex; }
     inline void SetLightingEnabled(bool Enabled)               { mLightingEnabled = Enabled; Update(); }
 

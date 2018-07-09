@@ -139,16 +139,6 @@ float CMatrix4f::Determinant() const
 }
 
 // ************ OPERATORS ************
-inline float* CMatrix4f::operator[](long Index)
-{
-    return m[Index];
-}
-
-inline const float* CMatrix4f::operator[](long Index) const
-{
-    return m[Index];
-}
-
 CVector3f CMatrix4f::operator*(const CVector3f& rkVec) const
 {
     // For vec3 multiplication, the vector w component is considered to be 1.0
