@@ -17,15 +17,17 @@ CScriptObject::CScriptObject(u32 InstanceID, CGameArea *pArea, CScriptLayer *pLa
     // Init properties
     CStructPropertyNew* pProperties = pTemplate->Properties();
     u32 PropertiesSize = pProperties->DataSize();
-    mPropertyData.resize( PropertiesSize );
-    pProperties->Construct( mPropertyData.data() );
 
-    mInstanceName = CStringRef(this, pTemplate->NameProperty());
-    mPosition = CVectorRef(this, pTemplate->PositionProperty());
-    mRotation = CVectorRef(this, pTemplate->RotationProperty());
-    mScale = CVectorRef(this, pTemplate->ScaleProperty());
-    mActive = CBoolRef(this, pTemplate->ActiveProperty());
-    mLightParameters = CStructRef(this, pTemplate->LightParametersProperty());
+    mPropertyData.resize( PropertiesSize );
+    void* pData = mPropertyData.data();
+    pProperties->Construct( pData );
+
+    mInstanceName = CStringRef(pData, pTemplate->NameProperty());
+    mPosition = CVectorRef(pData, pTemplate->PositionProperty());
+    mRotation = CVectorRef(pData, pTemplate->RotationProperty());
+    mScale = CVectorRef(pData, pTemplate->ScaleProperty());
+    mActive = CBoolRef(pData, pTemplate->ActiveProperty());
+    mLightParameters = CStructRef(pData, pTemplate->LightParametersProperty());
 }
 
 CScriptObject::~CScriptObject()

@@ -69,7 +69,6 @@ void WModifyTab::ClearUI()
 {
     ui->ObjectsTabWidget->hide();
     ui->PropertyView->SetInstance(nullptr);
-    ui->LightGroupBox->hide();
     mpSelectedNode = nullptr;
 }
 
@@ -85,22 +84,32 @@ void WModifyTab::GenerateUI()
         {
             mpSelectedNode = mpWorldEditor->Selection()->Front();
 
-            // todo: set up editing UI for Light Nodes
             if (mpSelectedNode->NodeType() == eScriptNode)
             {
-                ui->ObjectsTabWidget->show();
                 CScriptNode *pScriptNode = static_cast<CScriptNode*>(mpSelectedNode);
                 CScriptObject *pObj = pScriptNode->Instance();
 
                 // Set up UI
+                ui->ObjectsTabWidget->show();
                 ui->PropertyView->SetInstance(pObj);
-                ui->LightGroupBox->hide();
-
-                ui->InLinksTableView->clearSelection();
-                ui->OutLinksTableView->clearSelection();
                 mpInLinkModel->SetObject(pObj);
                 mpOutLinkModel->SetObject(pObj);
             }
+            // disabled this for now! implemented it as a quick test, it's cool it works,
+            // but it's buggy & not ready for deployment
+#if 0
+            else
+            {
+                CStructRef Properties = mpSelectedNode->GetProperties();
+                ui->PropertyView->SetProperties(Properties);
+
+                if (Properties.IsValid())
+                    ui->ObjectsTabWidget->show();
+            }
+#endif
+
+            ui->InLinksTableView->clearSelection();
+            ui->OutLinksTableView->clearSelection();
         }
     }
 

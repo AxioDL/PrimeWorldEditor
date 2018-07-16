@@ -454,6 +454,11 @@ void CScriptNode::LinksModified()
     if (mpExtra) mpExtra->LinksModified();
 }
 
+CStructRef CScriptNode::GetProperties() const
+{
+    return CStructRef(mpInstance->PropertyData(), mpInstance->Template()->Properties());
+}
+
 void CScriptNode::PropertyModified(IPropertyNew* pProp)
 {
     // Update volume

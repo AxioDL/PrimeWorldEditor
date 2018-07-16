@@ -196,7 +196,7 @@ IPropertyNew* CTemplateLoader::LoadProperty(XMLElement* pElem, CScriptTemplate* 
         // no archetype, so do normal create
         if (!pProp)
         {
-            pProp = IPropertyNew::Create(Type, pParent, mpMaster, pScript, false);
+            pProp = IPropertyNew::Create(Type, pParent, mGame, pScript, false);
         }
 
         // we need to have a valid property by this point
@@ -340,7 +340,7 @@ IPropertyNew* CTemplateLoader::LoadProperty(XMLElement* pElem, CScriptTemplate* 
             }
             else
             {
-                pArray->mpItemArchetype = IPropertyNew::Create(EPropertyTypeNew::Struct, pArray, mpMaster, pScript, false);
+                pArray->mpItemArchetype = IPropertyNew::Create(EPropertyTypeNew::Struct, pArray, mGame, pScript, false);
                 pStruct = TPropCast<CStructPropertyNew>(pArray->mpItemArchetype);
                 pStruct->mFlags = EPropertyFlag::IsAtomic | EPropertyFlag::IsArrayArchetype;
             }
@@ -389,8 +389,9 @@ CStructPropertyNew* CTemplateLoader::LoadStructArchetype(const TString& rkTempla
             pArchetype = TPropCast<CStructPropertyNew>(
                         IPropertyNew::Create(EPropertyTypeNew::Struct,
                                              nullptr,
-                                             mpMaster,
-                                             nullptr, false)
+                                             mGame,
+                                             nullptr,
+                                             false)
                         );
             ASSERT(pArchetype != nullptr);
 
@@ -458,7 +459,7 @@ CEnumProperty* CTemplateLoader::LoadEnumArchetype(const TString& rkTemplateFileN
             pArchetype = static_cast<CEnumProperty*>(
                         IPropertyNew::Create(bIsChoice ? EPropertyTypeNew::Choice : EPropertyTypeNew::Enum,
                                              nullptr,
-                                             mpMaster,
+                                             mGame,
                                              nullptr,
                                              false)
                         );
@@ -500,8 +501,9 @@ CFlagsProperty* CTemplateLoader::LoadFlagsArchetype(const TString& rkTemplateFil
             pArchetype = TPropCast<CFlagsProperty>(
                         IPropertyNew::Create(EPropertyTypeNew::Flags,
                                              nullptr,
-                                             mpMaster,
-                                             nullptr, false)
+                                             mGame,
+                                             nullptr,
+                                             false)
                         );
             ASSERT(pArchetype != nullptr);
 
@@ -600,11 +602,6 @@ void CTemplateLoader::LoadBitFlags(XMLElement *pFlagsElem, CFlagsProperty* pFlag
     }
 }
 
-enum class ETest
-{
-    ValueA = (true ? 0 : (u32) reinterpret_cast<u64>("ValueA"))
-};
-
 // ************ SCRIPT OBJECT ************
 CScriptTemplate* CTemplateLoader::LoadScriptTemplate(XMLDocument *pDoc, const TString& rkTemplateName, u32 ObjectID)
 {
@@ -612,7 +609,7 @@ CScriptTemplate* CTemplateLoader::LoadScriptTemplate(XMLDocument *pDoc, const TS
     pScript->mObjectID = ObjectID;
     pScript->mSourceFile = rkTemplateName;
 
-    IPropertyNew* pBaseStruct = IPropertyNew::Create(EPropertyTypeNew::Struct, nullptr, mpMaster, pScript);
+    IPropertyNew* pBaseStruct = IPropertyNew::Create(EPropertyTypeNew::Struct, nullptr, mGame, pScript);
     pScript->mpProperties = std::make_unique<CStructPropertyNew>( *TPropCast<CStructPropertyNew>(pBaseStruct) );
 
     XMLElement *pRoot = pDoc->FirstChildElement("ScriptTemplate");

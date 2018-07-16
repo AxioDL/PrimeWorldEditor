@@ -128,18 +128,14 @@ void CTemplateEditDialog::ApplyChanges()
 // ************ PROTECTED ************
 void CTemplateEditDialog::AddTemplate(IPropertyNew* pProp)
 {
-    //FIXME
-/*    if (pProp->Archetype() != nullptr)
+    TString Source = pProp->GetTemplateFileName();
+
+    if (!Source.IsEmpty())
     {
-        TString Source = pProp->GetTemplateFileName();
+        CStructPropertyNew* pStruct = pProp->MasterTemplate()->StructAtSource(Source);
 
-        if (!Source.IsEmpty())
-        {
-            CStructTemplate *pStruct = pProp->MasterTemplate()->StructAtSource(Source);
-
-            if (!mStructTemplatesToResave.contains(pStruct))
-                mStructTemplatesToResave << pStruct;
-        }
+        if (!mStructTemplatesToResave.contains(pStruct))
+            mStructTemplatesToResave << pStruct;
     }
 
     else
@@ -156,13 +152,12 @@ void CTemplateEditDialog::AddTemplate(IPropertyNew* pProp)
         {
             Log::Error("Can't determine where property " + pProp->IDString(true) + " comes from");
         }
-    }*/
+    }
 }
 
 void CTemplateEditDialog::UpdateDescription(const TString& rkNewDesc)
 {
-    //FIXME
-/*    mpProperty->SetDescription(rkNewDesc);
+    mpProperty->SetDescription(rkNewDesc);
     AddTemplate(mpProperty);
 
     // Update all copies of this property in memory with the new description
@@ -170,13 +165,13 @@ void CTemplateEditDialog::UpdateDescription(const TString& rkNewDesc)
 
     if (!SourceFile.IsEmpty())
     {
-        const std::vector<IPropertyTemplate*> *pkTemplates = CMasterTemplate::TemplatesWithMatchingID(mpProperty);
+        const std::vector<IPropertyNew*>* pkTemplates = CMasterTemplate::TemplatesWithMatchingID(mpProperty);
 
         if (pkTemplates)
         {
-            for (u32 iTemp = 0; iTemp < pkTemplates->size(); iTemp++)
+            for (u32 TemplateIdx = 0; TemplateIdx < pkTemplates->size(); TemplateIdx++)
             {
-                IPropertyTemplate *pTemp = pkTemplates->at(iTemp);
+                IPropertyNew* pTemp = pkTemplates->at(TemplateIdx);
 
                 if (pTemp->FindStructSource() == SourceFile && pTemp->Description() == mOriginalDescription)
                     pTemp->SetDescription(rkNewDesc);
@@ -185,11 +180,11 @@ void CTemplateEditDialog::UpdateDescription(const TString& rkNewDesc)
     }
 
     // Update equivalent properties with new description
-    foreach (IPropertyTemplate *pTemp, mEquivalentProperties)
+    foreach (IPropertyNew* pProperty, mEquivalentProperties)
     {
-        pTemp->SetDescription(rkNewDesc);
-        AddTemplate(pTemp);
-    }*/
+        pProperty->SetDescription(rkNewDesc);
+        AddTemplate(pProperty);
+    }
 }
 
 void CTemplateEditDialog::FindEquivalentProperties(IPropertyNew *pTemp)

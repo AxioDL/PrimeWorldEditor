@@ -577,11 +577,16 @@ void CWorldEditor::OnPropertyModified(CScriptObject* pObject, IPropertyNew *pPro
     {
         pScript->PropertyModified(pProp);
 
-        // If this is an editor property, update other parts of the UI to reflect the new value.
-        if ( pScript->Instance()->IsEditorProperty(pProp) )
+        // If this is the name, update other parts of the UI to reflect the new value.
+        if ( pProp->Name() == "Name" )
         {
             UpdateStatusBar();
             UpdateSelectionUI();
+        }
+        else if (pProp->Name() == "Position" ||
+                 pProp->Name() == "Rotation" ||
+                 pProp->Name() == "Scale")
+        {
             mpSelection->UpdateBounds();
         }
     }
@@ -613,9 +618,7 @@ void CWorldEditor::SetSelectionActive(bool Active)
         {
             CScriptNode* pScript = static_cast<CScriptNode*>(*It);
             CScriptObject* pInst = pScript->Instance();
-
-            if (pInst->IsActive())
-                Objects << pInst;
+            Objects << pInst;
         }
     }
 
@@ -623,13 +626,40 @@ void CWorldEditor::SetSelectionActive(bool Active)
     {
         mUndoStack.beginMacro("Toggle Active");
 
-        /*foreach (CScriptObject *pInst, Objects)
+        while (!Objects.isEmpty())
         {
-            IProperty *pActive = pInst->ActiveProperty();
-            IPropertyValue *pOld = pActive->RawValue()->Clone();
-            pInst->SetActive(Active);
-            mUndoStack.push(new CEditScriptPropertyCommand(pActive, this, pOld, true));
-        }*/
+            QVector<CScriptObject*> CommandObjects;
+            CScriptTemplate* pTemplate = Objects[0]->Template();
+            CBoolProperty* pActiveProperty = pTemplate->ActiveProperty();
+
+            for (int ObjIdx = 0; ObjIdx < Objects.size(); ObjIdx++)
+            {
+                if (Objects[ObjIdx]->Template() == pTemplate)
+                {
+                    CommandObjects << Objects[ObjIdx];
+                    Objects.removeAt(ObjIdx);
+                    ObjIdx--;
+                }
+            }
+
+            if (pActiveProperty)
+            {
+                CEditScriptPropertyCommand* pCommand = new CEditScriptPropertyCommand(
+                            pActiveProperty,
+                            this,
+                            CommandObjects
+                        );
+
+                pCommand->SaveOldData();
+
+                foreach (CScriptObject* pInstance, CommandObjects)
+                    pInstance->SetActive(Active);
+
+                pCommand->SaveNewData();
+
+                mUndoStack.push(pCommand);
+            }
+        }
 
         mUndoStack.endMacro();
     }

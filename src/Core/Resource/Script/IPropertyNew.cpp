@@ -255,12 +255,12 @@ bool IPropertyNew::HasAccurateName()
 /** IPropertyNew Accessors */
 EGame IPropertyNew::Game() const
 {
-    return mpMasterTemplate->Game();
+    return mGame;
 }
 
 IPropertyNew* IPropertyNew::Create(EPropertyTypeNew Type,
                                    IPropertyNew* pParent,
-                                   CMasterTemplate* pMaster,
+                                   EGame Game,
                                    CScriptTemplate* pScript,
                                    bool CallPostInit /*= true*/)
 {
@@ -316,7 +316,7 @@ IPropertyNew* IPropertyNew::Create(EPropertyTypeNew Type,
     }
 
     // Set other metadata
-    pOut->mpMasterTemplate = pMaster;
+    pOut->mGame = Game;
     pOut->mpScriptTemplate = pScript;
     pOut->_CalcOffset();
 
@@ -344,8 +344,20 @@ IPropertyNew* IPropertyNew::CreateCopy(IPropertyNew* pArchetype,
     // always be valid.
     ASSERT(pParent != nullptr);
 
-    IPropertyNew* pOut = Create(pArchetype->Type(), pParent, pParent->mpMasterTemplate, pParent->mpScriptTemplate, false);
+    IPropertyNew* pOut = Create(pArchetype->Type(), pParent, pParent->mGame, pParent->mpScriptTemplate, false);
     pOut->InitFromArchetype(pArchetype);
     pArchetype->mSubInstances.push_back(pOut);
+    return pOut;
+}
+
+IPropertyNew* IPropertyNew::CreateIntrinsic(EPropertyTypeNew Type,
+                                            IPropertyNew* pParent,
+                                            u32 Offset,
+                                            const TString& rkName)
+{
+    IPropertyNew* pOut = Create(Type, pParent, pParent ? pParent->mGame : eUnknownGame, nullptr, false);
+    pOut->mOffset = Offset;
+    pOut->SetName(rkName);
+    pOut->PostInitialize();
     return pOut;
 }

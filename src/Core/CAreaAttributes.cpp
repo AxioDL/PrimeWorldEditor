@@ -18,12 +18,12 @@ void CAreaAttributes::SetObject(CScriptObject *pObj)
 
     mpObject = pObj;
     mGame = pTemplate->MasterTemplate()->Game();
-    mNeedSky = CBoolRef(pObj, pProperties->ChildByIndex(1));
+    mNeedSky = CBoolRef(pObj->PropertyData(), pProperties->ChildByIndex(1));
 
     if (mGame == ePrime)
-        mOverrideSky = CAssetRef(pObj, pProperties->ChildByIndex(7));
+        mOverrideSky = CAssetRef(pObj->PropertyData(), pProperties->ChildByIndex(7));
     else if (mGame > ePrime)
-        mOverrideSky = CAssetRef(pObj, pProperties->ChildByID(0xD208C9FA));
+        mOverrideSky = CAssetRef(pObj->PropertyData(), pProperties->ChildByID(0xD208C9FA));
 }
 
 bool CAreaAttributes::IsLayerEnabled() const

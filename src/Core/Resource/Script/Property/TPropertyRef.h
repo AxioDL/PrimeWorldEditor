@@ -22,37 +22,37 @@
 #include "CStructProperty.h"
 #include "CVectorProperty.h"
 
-/** TPropertyRef: Embeds a reference to a property on a specific script object */
+/** TPropertyRef: Embeds a reference to a property on a specific object */
 template<class PropertyClass, typename ValueType = PropertyClass::ValueType>
 class TPropertyRef
 {
-    /** Script object containing the property data being referenced */
-    CScriptObject* mpObject;
+    /** Property data being referenced */
+    void*                   mpPropertyData;
 
     /** Property being referenced */
-    PropertyClass* mpProperty;
+    PropertyClass*          mpProperty;
 
 public:
     TPropertyRef()
-        : mpObject(nullptr), mpProperty(nullptr)
+        : mpPropertyData(nullptr), mpProperty(nullptr)
     {}
 
-    TPropertyRef(CScriptObject* pInObject, IPropertyNew* pInProperty)
-        : mpObject(pInObject), mpProperty( TPropCast<PropertyClass>(pInProperty) )
+    explicit TPropertyRef(void* pInData, IPropertyNew* pInProperty)
+        : mpPropertyData(pInData), mpProperty( TPropCast<PropertyClass>(pInProperty) )
     {
     }
 
-    TPropertyRef(CScriptObject* pInObject, PropertyClass* pInProperty)
-        : mpObject(pInObject), mpProperty(pInProperty)
+    explicit TPropertyRef(void* pInData, PropertyClass* pInProperty)
+        : mpPropertyData(pInData), mpProperty(pInProperty)
     {
     }
 
     /** Accessors */
-    inline CScriptObject* Object() const        { return mpObject; }
+    inline void* DataPointer() const            { return mpPropertyData; }
     inline PropertyClass* Property() const      { return mpProperty; }
-    inline ValueType Get() const                { return IsValid() ? *((ValueType*) mpProperty->RawValuePtr( mpObject->PropertyData() )) : ValueType(); }
-    inline void Set(const ValueType& kIn) const { if (IsValid()) *((ValueType*) mpProperty->RawValuePtr( mpObject->PropertyData() )) = kIn; }
-    inline bool IsValid() const                 { return mpObject != nullptr && mpProperty != nullptr; }
+    inline ValueType Get() const                { return IsValid() ? *((ValueType*) mpProperty->RawValuePtr( mpPropertyData )) : ValueType(); }
+    inline void Set(const ValueType& kIn) const { if (IsValid()) *((ValueType*) mpProperty->RawValuePtr( mpPropertyData )) = kIn; }
+    inline bool IsValid() const                 { return mpPropertyData != nullptr && mpProperty != nullptr; }
 
     /** Inline operators */
     inline operator ValueType() const
@@ -101,12 +101,12 @@ public:
         : TPropertyRef()
     {}
 
-    TEnumRef(CScriptObject* pInObject, IPropertyNew* pInProperty)
-        : TPropertyRef(pInObject, pInProperty)
+    TEnumRef(void* pInData, IPropertyNew* pInProperty)
+        : TPropertyRef(pInData, pInProperty)
     {}
 
-    TEnumRef(CScriptObject* pInObject, CEnumProperty* pInProperty)
-        : TPropertyRef(pInObject, pInProperty)
+    TEnumRef(void* pInData, CEnumProperty* pInProperty)
+        : TPropertyRef(pInData, pInProperty)
     {}
 };
 

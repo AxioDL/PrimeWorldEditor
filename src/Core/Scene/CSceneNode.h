@@ -69,6 +69,8 @@ public:
     virtual bool IsVisible() const;
     virtual CColor TintColor(const SViewInfo& rkViewInfo) const;
     virtual CColor WireframeColor() const;
+    virtual CStructRef GetProperties() const { return CStructRef(); }
+    virtual void PropertyModified(IPropertyNew* pProperty) {}
 
     void OnLoadFinished();
     void Unparent();

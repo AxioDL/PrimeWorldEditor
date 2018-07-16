@@ -25,4 +25,7 @@
 // temporary home for ALIGN macro, moving later
 #define ALIGN(Val, Align) ((Val + (Align-1)) & ~(Align-1))
 
+// temporary home for MEMBER_OFFSET macro
+#define MEMBER_OFFSET(TypeName, MemberName) ( (int) (long long) &((TypeName*)0)->MemberName )
+
 #endif // COMMON_H

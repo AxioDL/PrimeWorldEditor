@@ -24,13 +24,13 @@ public:
         {
             if (Game <= ePrime)
             {
-                mWorldLightingOptions = TEnumRef<EWorldLightingOptions>(InStruct.Object(), InStruct.Property()->ChildByIndex(0x7));
-                mLightLayer = CIntRef(InStruct.Object(), InStruct.Property()->ChildByIndex(0xD));
+                mWorldLightingOptions = TEnumRef<EWorldLightingOptions>(InStruct.DataPointer(), InStruct.Property()->ChildByIndex(0x7));
+                mLightLayer = CIntRef(InStruct.DataPointer(), InStruct.Property()->ChildByIndex(0xD));
             }
             else
             {
-                mWorldLightingOptions = TEnumRef<EWorldLightingOptions>(InStruct.Object(), InStruct.Property()->ChildByID(0x6B5E7509));
-                mLightLayer = CIntRef(InStruct.Object(), InStruct.Property()->ChildByID(0x1F715FD3));
+                mWorldLightingOptions = TEnumRef<EWorldLightingOptions>(InStruct.DataPointer(), InStruct.Property()->ChildByID(0x6B5E7509));
+                mLightLayer = CIntRef(InStruct.DataPointer(), InStruct.Property()->ChildByID(0x1F715FD3));
             }
         }
     }

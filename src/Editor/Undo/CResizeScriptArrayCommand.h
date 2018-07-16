@@ -5,45 +5,88 @@
 
 class CResizeScriptArrayCommand : public CEditScriptPropertyCommand
 {
+    /** Property model the edit was performed on */
+    CPropertyModel* mpModel;
+
+    /** Old/new model row counts; we store this here to support editing arrays on multiple instances at once */
+    int mOldRowCount;
+    int mNewRowCount;
+
 public:
-    CResizeScriptArrayCommand(CWorldEditor* pEditor, const QModelIndex& rkIndex, CPropertyModel* pInModel, const QString& rkCommandName = "Resize Array")
-        : CEditScriptPropertyCommand(pEditor, rkIndex, pInModel, rkCommandName)
-    {}
+    CResizeScriptArrayCommand(IPropertyNew* pProperty,
+                              CWorldEditor* pEditor,
+                              const QVector<CScriptObject*>& rkInstances,
+                              CPropertyModel* pModel = nullptr,
+                              QModelIndex Index = QModelIndex(),
+                              const QString& rkCommandName = "Resize Array"
+                )
+        :   CEditScriptPropertyCommand(pProperty, pEditor, rkInstances, Index, rkCommandName)
+        ,   mpModel(nullptr)
+        ,   mOldRowCount(-1)
+        ,   mNewRowCount(-1)
+    {
+        if (Index.isValid())
+        {
+            ASSERT(mpModel != nullptr);
+            mpModel = pModel;
+        }
+    }
 
     bool mergeWith(const QUndoCommand *pkOther)
     {
         return false;
     }
 
+    virtual void SaveOldData() override
+    {
+        CEditScriptPropertyCommand::SaveOldData();
+
+        if (mpModel)
+        {
+            mOldRowCount = mpModel->rowCount(mIndex);
+        }
+    }
+
+    virtual void SaveNewData() override
+    {
+        CEditScriptPropertyCommand::SaveNewData();
+
+        if (mpModel)
+        {
+            mNewRowCount = mpModel->rowCount(mIndex);
+        }
+    }
+
     // Note in some cases undo/redo may be called when the change has already been applied outside of the undo command
     // This is why we need to check the array's actual current size instead of assuming it will match one of the arrays
     void undo()
     {
-        // unpleasant cast, but easiest/fastest way to access the sizes
-        int NewSize = *((int*)mOldData.data());
-        int OldSize = CurrentArrayCount();
+        if (mpModel)
+        {
+            mpModel->ArrayAboutToBeResized(mIndex, mOldRowCount);
+        }
 
-        mpModel->ArrayAboutToBeResized(mIndex, NewSize);
         CEditScriptPropertyCommand::undo();
-        mpModel->ArrayResized(mIndex, OldSize);
+
+        if (mpModel)
+        {
+            mpModel->ArrayResized(mIndex, mNewRowCount);
+        }
     }
 
     void redo()
     {
-        // unpleasant cast, but easiest/fastest way to access the sizes
-        int NewSize = *((int*)mNewData.data());
-        int OldSize = CurrentArrayCount();
+        if (mpModel)
+        {
+            mpModel->ArrayAboutToBeResized(mIndex, mNewRowCount);
+        }
 
-        mpModel->ArrayAboutToBeResized(mIndex, NewSize);
         CEditScriptPropertyCommand::redo();
-        mpModel->ArrayResized(mIndex, OldSize);
-    }
 
-    int CurrentArrayCount()
-    {
-        void* pData = mpModel->DataPointerForIndex(mIndex);
-        CArrayProperty* pArray = TPropCast<CArrayProperty>(mpProperty);
-        return pArray->ArrayCount(pData);
+        if (mpModel)
+        {
+            mpModel->ArrayResized(mIndex, mOldRowCount);
+        }
     }
 };
 
