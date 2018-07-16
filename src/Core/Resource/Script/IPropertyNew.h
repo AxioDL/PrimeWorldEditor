@@ -137,9 +137,8 @@ protected:
     /** Child properties; these appear underneath this property on the UI */
     std::vector<IPropertyNew*> mChildren;
 
-    /** Master template for the game this property belongs to.
-     *  Cannot be derived from mpScriptTemplate because mpScriptTemplate is null sometimes */
-    CMasterTemplate* mpMasterTemplate;
+    /** Game this property belongs to */
+    EGame mGame;
 
     /** Script template that this property belongs to. Null for struct/enum/flag archetypes. */
     CScriptTemplate* mpScriptTemplate;
@@ -231,12 +230,17 @@ public:
     /** Create */
     static IPropertyNew* Create(EPropertyTypeNew Type,
                                 IPropertyNew* pParent,
-                                CMasterTemplate* pMaster,
+                                EGame Game,
                                 CScriptTemplate* pScript,
                                 bool CallPostInit = true);
 
     static IPropertyNew* CreateCopy(IPropertyNew* pArchetype,
                                     IPropertyNew* pParent);
+
+    static IPropertyNew* CreateIntrinsic(EPropertyTypeNew Type,
+                                         IPropertyNew* pParent,
+                                         u32 Offset,
+                                         const TString& rkName);
 };
 
 inline ECookPreferenceNew IPropertyNew::CookPreference() const
@@ -282,11 +286,6 @@ inline IPropertyNew* IPropertyNew::Archetype() const
 inline CScriptTemplate* IPropertyNew::ScriptTemplate() const
 {
     return mpScriptTemplate;
-}
-
-inline CMasterTemplate* IPropertyNew::MasterTemplate() const
-{
-    return mpMasterTemplate;
 }
 
 inline TString IPropertyNew::Name() const

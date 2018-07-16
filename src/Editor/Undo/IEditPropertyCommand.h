@@ -8,11 +8,10 @@
 class IEditPropertyCommand : public IUndoCommand
 {
 protected:
+    // Has to be std::vector for compatibility with CVectorOutStream
     std::vector<char> mOldData;
     std::vector<char> mNewData;
 
-    QModelIndex mIndex;
-    CPropertyModel* mpModel;
     IPropertyNew* mpProperty;
     bool mCommandEnded;
     bool mSavedOldData;
@@ -26,18 +25,18 @@ protected:
 
 public:
     IEditPropertyCommand(
-            const QModelIndex& rkInIndex,
-            CPropertyModel* pInModel,
+            IPropertyNew* pProperty,
             const QString& rkCommandName = "Edit Property"
             );
 
-    void SaveOldData();
-    void SaveNewData();
+    virtual void SaveOldData();
+    virtual void SaveNewData();
+
     bool IsNewDataDifferent();
     void SetEditComplete(bool IsComplete);
 
     /** Interface */
-    virtual void GetObjectDataPointers(std::vector<void*>& rOutPointers) const = 0;
+    virtual void GetObjectDataPointers(QVector<void*>& rOutPointers) const = 0;
 
     /** IUndoCommand/QUndoCommand interface */
     int id() const;

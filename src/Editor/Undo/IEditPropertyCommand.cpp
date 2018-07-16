@@ -6,12 +6,11 @@ void IEditPropertyCommand::SaveObjectStateToArray(std::vector<char>& rVector)
     CVectorOutStream MemStream(&rVector, IOUtil::kSystemEndianness);
     CBasicBinaryWriter Writer(&MemStream, CSerialVersion(IArchive::skCurrentArchiveVersion, 0, mpProperty->Game()));
 
-    std::vector<void*> DataPointers;
+    QVector<void*> DataPointers;
     GetObjectDataPointers(DataPointers);
 
-    for (int PtrIdx = 0; PtrIdx < DataPointers.size(); PtrIdx++)
+    foreach (void* pData, DataPointers)
     {
-        void* pData = DataPointers[PtrIdx];
         mpProperty->SerializeValue(pData, Writer);
     }
 }
@@ -21,29 +20,25 @@ void IEditPropertyCommand::RestoreObjectStateFromArray(std::vector<char>& rArray
 {
     CBasicBinaryReader Reader(rArray.data(), rArray.size(), CSerialVersion(IArchive::skCurrentArchiveVersion, 0, mpProperty->Game()));
 
-    std::vector<void*> DataPointers;
+    QVector<void*> DataPointers;
     GetObjectDataPointers(DataPointers);
 
-    for (int PtrIdx = 0; PtrIdx < DataPointers.size(); PtrIdx++)
+    foreach (void* pData, DataPointers)
     {
-       void* pData = DataPointers[PtrIdx];
        mpProperty->SerializeValue(pData, Reader);
     }
 }
 
 IEditPropertyCommand::IEditPropertyCommand(
-        const QModelIndex& rkInIndex,
-        CPropertyModel* pInModel,
+        IPropertyNew* pProperty,
         const QString& rkCommandName /*= "Edit Property"*/
         )
     : IUndoCommand(rkCommandName)
-    , mIndex(rkInIndex)
-    , mpModel(pInModel)
+    , mpProperty(pProperty)
     , mSavedOldData(false)
     , mSavedNewData(false)
 {
-    mpProperty = mpModel->PropertyForIndex(rkInIndex, true);
-    ASSERT(mpModel && mpProperty);
+    ASSERT(mpProperty);
 }
 
 void IEditPropertyCommand::SaveOldData()
@@ -81,12 +76,12 @@ bool IEditPropertyCommand::mergeWith(const QUndoCommand *pkOther)
     {
         const IEditPropertyCommand* pkCmd = dynamic_cast<const IEditPropertyCommand*>(pkOther);
 
-        if (pkCmd && pkCmd->mIndex == mIndex && pkCmd->mpProperty == mpProperty)
+        if (pkCmd && pkCmd->mpProperty == mpProperty)
         {
-            std::vector<void*> MyPointers;
+            QVector<void*> MyPointers;
             GetObjectDataPointers(MyPointers);
 
-            std::vector<void*> TheirPointers;
+            QVector<void*> TheirPointers;
             pkCmd->GetObjectDataPointers(TheirPointers);
 
             if (TheirPointers.size() == MyPointers.size())

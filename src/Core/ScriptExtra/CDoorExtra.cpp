@@ -6,18 +6,18 @@ CDoorExtra::CDoorExtra(CScriptObject* pInstance, CScene* pScene, CScriptNode* pP
 {
     CStructPropertyNew* pProperties = pInstance->Template()->Properties();
 
-    mShieldModelProp = CAssetRef(pInstance, pProperties->ChildByID(0xB20CC271));
+    mShieldModelProp = CAssetRef(pInstance->PropertyData(), pProperties->ChildByID(0xB20CC271));
     if (mShieldModelProp.IsValid()) PropertyModified(mShieldModelProp.Property());
 
     if (mGame >= eEchoes)
     {
-        mShieldColorProp = CColorRef(pInstance, pProperties->ChildByID(0x47B4E863));
+        mShieldColorProp = CColorRef(pInstance->PropertyData(), pProperties->ChildByID(0x47B4E863));
         if (mShieldColorProp.IsValid()) PropertyModified(mShieldColorProp.Property());
     }
 
     else
     {
-        mDisabledProp = CBoolRef(pInstance, pProperties->ChildByID(0xDEE730F5));
+        mDisabledProp = CBoolRef(pInstance->PropertyData(), pProperties->ChildByID(0xDEE730F5));
         if (mDisabledProp.IsValid()) PropertyModified(mDisabledProp.Property());
     }
 }

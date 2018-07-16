@@ -13,8 +13,8 @@ CScriptAttachNode::CScriptAttachNode(CScene *pScene, const SAttachment& rkAttach
     CStructPropertyNew* pBaseStruct = pParent->Template()->Properties();
 
     mpAttachAssetProp = pBaseStruct->ChildByIDString(rkAttachment.AttachProperty);
-    mAttachAssetRef = CAssetRef(pParent->Instance(), mpAttachAssetProp);
-    mAttachAnimSetRef = CAnimationSetRef(pParent->Instance(), mpAttachAssetProp);
+    mAttachAssetRef = CAssetRef(pParent->Instance()->PropertyData(), mpAttachAssetProp);
+    mAttachAnimSetRef = CAnimationSetRef(pParent->Instance()->PropertyData(), mpAttachAssetProp);
     if (mpAttachAssetProp) AttachPropertyModified();
 
     ParentDisplayAssetChanged(mpScriptNode->DisplayAsset());

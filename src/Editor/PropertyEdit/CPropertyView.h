@@ -24,6 +24,7 @@ public:
     void setModel(QAbstractItemModel *pModel);
     bool event(QEvent *pEvent);
     void SetEditor(CWorldEditor *pEditor);
+    void SetProperties(CStructRef InProperties);
     void SetInstance(CScriptObject *pObj);
     void UpdateEditorProperties(const QModelIndex& rkParent);
 

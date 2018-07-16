@@ -3,10 +3,10 @@
 
 #include "../IPropertyNew.h"
 
-/** There are two types of enum properties: in the game data enum and choice.
+/** There are two types of enum properties in the game data: enum and choice.
  *
  *  In the game, the difference is that choice properties are index-based, while
- *  enum properties are stored as a hash of the name of the enum.
+ *  enum properties are stored as a hash of the name of the enum value.
  *
  *  In PWE, however, they are both implemented the same way under the hood.
  */
@@ -57,6 +57,11 @@ public:
     {
         ASSERT(IsArchetype() || mpArchetype);
         return IsArchetype() ? mSourceFile : mpArchetype->GetTemplateFileName();
+    }
+
+    void AddValue(TString ValueName, u32 ValueID)
+    {
+        mValues.push_back( SEnumValue(ValueName, ValueID) );
     }
 
     inline u32 NumPossibleValues() const { return mValues.size(); }

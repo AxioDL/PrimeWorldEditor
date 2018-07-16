@@ -17,17 +17,17 @@ CDamageableTriggerExtra::CDamageableTriggerExtra(CScriptObject *pInstance, CScen
     CStructPropertyNew* pProperties = pInstance->Template()->Properties();
 
     // Fetch render side
-    mRenderSide = TEnumRef<ERenderSide>(pInstance, pProperties->ChildByIndex(5));
+    mRenderSide = TEnumRef<ERenderSide>(pInstance->PropertyData(), pProperties->ChildByIndex(5));
     if (mRenderSide.IsValid()) PropertyModified(mRenderSide.Property());
 
     // Fetch scale
-    mPlaneSize = CVectorRef(pInstance, pProperties->ChildByIndex(2));
+    mPlaneSize = CVectorRef(pInstance->PropertyData(), pProperties->ChildByIndex(2));
     if (mPlaneSize.IsValid()) PropertyModified(mPlaneSize.Property());
 
     // Fetch textures
     for (u32 TextureIdx = 0; TextureIdx < 3; TextureIdx++)
     {
-        mTextureAssets[TextureIdx] = CAssetRef(pInstance, pProperties->ChildByIndex(6 + TextureIdx));
+        mTextureAssets[TextureIdx] = CAssetRef(pInstance->PropertyData(), pProperties->ChildByIndex(6 + TextureIdx));
         if (mTextureAssets[TextureIdx].IsValid()) PropertyModified(mTextureAssets[TextureIdx].Property());
     }
 }

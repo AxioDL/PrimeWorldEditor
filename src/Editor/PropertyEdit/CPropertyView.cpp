@@ -84,6 +84,14 @@ void CPropertyView::SetEditor(CWorldEditor *pEditor)
     connect(mpEditor, SIGNAL(PropertyModified(CScriptObject*,IPropertyNew*)), mpModel, SLOT(NotifyPropertyModified(CScriptObject*,IPropertyNew*)));
 }
 
+void CPropertyView::SetProperties(CStructRef InProperties)
+{
+    mpObject = nullptr;
+    mpModel->SetBoldModifiedProperties(false); // todo, we prob want this, but can't set default properties on non script yet
+    mpModel->ConfigureIntrinsic(nullptr, InProperties.Property(), InProperties.DataPointer());
+    SetPersistentEditors(QModelIndex());
+}
+
 void CPropertyView::SetInstance(CScriptObject *pObj)
 {
     mpObject = pObj;
@@ -131,7 +139,7 @@ void CPropertyView::UpdateEditorProperties(const QModelIndex& rkParent)
                     continue;
             }
 
-            else if (mpObject->IsEditorProperty(pProp))
+            else if (mpObject && mpObject->IsEditorProperty(pProp))
             {
                 mpModel->dataChanged(Index1, Index1);
 

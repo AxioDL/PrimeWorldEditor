@@ -362,10 +362,13 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
     {
         EPropertyTypeNew Type = pProp->Type();
 
+        QVector<CScriptObject*> Objects;
+        Objects << mpModel->GetScriptObject();
+
         if (Type != EPropertyTypeNew::Array)
         {
             // TODO: support this for non script object properties
-            pCommand = new CEditScriptPropertyCommand(mpEditor, rkIndex, mpModel);
+            pCommand = new CEditScriptPropertyCommand(pProp, mpEditor, Objects, rkIndex);
             pCommand->SaveOldData();
 
             // Handle sub-properties of flags and animation sets
@@ -478,7 +481,7 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
         // Array
         else
         {
-            pCommand = new CResizeScriptArrayCommand(mpEditor, rkIndex, mpModel);
+            pCommand = new CResizeScriptArrayCommand(pProp, mpEditor, Objects, mpModel, rkIndex);
             pCommand->SaveOldData();
 
             WIntegralSpinBox* pSpinBox = static_cast<WIntegralSpinBox*>(pEditor);

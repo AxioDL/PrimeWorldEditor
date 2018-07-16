@@ -15,10 +15,10 @@ protected:
 public:
     virtual void PostInitialize()
     {
-        IPropertyNew* pR = Create(EPropertyTypeNew::Float, this, mpMasterTemplate, mpScriptTemplate);
-        IPropertyNew* pG = Create(EPropertyTypeNew::Float, this, mpMasterTemplate, mpScriptTemplate);
-        IPropertyNew* pB = Create(EPropertyTypeNew::Float, this, mpMasterTemplate, mpScriptTemplate);
-        IPropertyNew* pA = Create(EPropertyTypeNew::Float, this, mpMasterTemplate, mpScriptTemplate);
+        IPropertyNew* pR = Create(EPropertyTypeNew::Float, this, mGame, mpScriptTemplate);
+        IPropertyNew* pG = Create(EPropertyTypeNew::Float, this, mGame, mpScriptTemplate);
+        IPropertyNew* pB = Create(EPropertyTypeNew::Float, this, mGame, mpScriptTemplate);
+        IPropertyNew* pA = Create(EPropertyTypeNew::Float, this, mGame, mpScriptTemplate);
         pR->SetName("R");
         pG->SetName("G");
         pB->SetName("B");

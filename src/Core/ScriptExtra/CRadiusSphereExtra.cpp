@@ -11,16 +11,16 @@ CRadiusSphereExtra::CRadiusSphereExtra(CScriptObject* pInstance, CScene* pScene,
     switch (mObjectType)
     {
     case 0x63: // Repulsor (MP1)
-        mRadius = CFloatRef(pInstance, pProperties->ChildByID(3));
+        mRadius = CFloatRef(pInstance->PropertyData(), pProperties->ChildByID(3));
         break;
 
     case 0x68: // RadialDamage (MP1)
-        mRadius = CFloatRef(pInstance, pProperties->ChildByID(0x4));
+        mRadius = CFloatRef(pInstance->PropertyData(), pProperties->ChildByID(0x4));
         break;
 
     case FOURCC('REPL'): // Repulsor (MP2/MP3)
     case FOURCC('RADD'): // RadialDamage (MP2/MP3/DKCR)
-        mRadius = CFloatRef(pInstance, pProperties->ChildByID(0x78C507EB));
+        mRadius = CFloatRef(pInstance->PropertyData(), pProperties->ChildByID(0x78C507EB));
         break;
     }
 }

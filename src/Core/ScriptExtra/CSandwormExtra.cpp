@@ -13,7 +13,7 @@ CSandwormExtra::CSandwormExtra(CScriptObject* pInstance, CScene* pScene, CScript
     }
 
     // Get pincers scale
-    mPincersScale = CFloatRef(pInstance, pInstance->Template()->Properties()->ChildByID(0x3DB583AE));
+    mPincersScale = CFloatRef(pInstance->PropertyData(), pInstance->Template()->Properties()->ChildByID(0x3DB583AE));
     if (mPincersScale.IsValid()) PropertyModified(mPincersScale.Property());
 }
 
