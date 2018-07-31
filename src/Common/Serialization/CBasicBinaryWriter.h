@@ -16,7 +16,7 @@ class CBasicBinaryWriter : public IArchive
 
 public:
     CBasicBinaryWriter(const TString& rkFilename, u32 Magic, u16 FileVersion, EGame Game)
-        : IArchive(false, true)
+        : IArchive()
         , mMagic(Magic)
         , mOwnsStream(true)
     {
@@ -31,7 +31,7 @@ public:
     }
 
     CBasicBinaryWriter(IOutputStream *pStream, u16 FileVersion, EGame Game)
-        : IArchive(false, true)
+        : IArchive()
         , mOwnsStream(false)
     {
         ASSERT(pStream->IsValid());
@@ -40,7 +40,7 @@ public:
     }
 
     CBasicBinaryWriter(IOutputStream *pStream, const CSerialVersion& rkVersion)
-        : IArchive(false, true)
+        : IArchive()
         , mOwnsStream(false)
     {
         ASSERT(pStream->IsValid());
@@ -62,6 +62,10 @@ public:
     inline bool IsValid() const { return mpStream->IsValid(); }
 
     // Interface
+    virtual bool IsReader() const       { return false; }
+    virtual bool IsWriter() const       { return true; }
+    virtual bool IsTextFormat() const   { return false; }
+
     virtual bool ParamBegin(const char*)    { return true; }
     virtual void ParamEnd()                 { }
 

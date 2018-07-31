@@ -17,7 +17,7 @@ class CBasicBinaryReader : public IArchive
 
 public:
     CBasicBinaryReader(const TString& rkFilename, u32 Magic)
-        : IArchive(true, false)
+        : IArchive()
         , mOwnsStream(true)
     {
         mpStream = new CFileInStream(rkFilename, IOUtil::eBigEndian);
@@ -31,7 +31,7 @@ public:
     }
 
     CBasicBinaryReader(IInputStream *pStream, const CSerialVersion& rkVersion)
-        : IArchive(true, false)
+        : IArchive()
         , mMagicValid(true)
         , mOwnsStream(false)
     {
@@ -41,7 +41,7 @@ public:
     }
 
     CBasicBinaryReader(void *pData, u32 DataSize, const CSerialVersion& rkVersion, IOUtil::EEndianness Endian = IOUtil::kSystemEndianness)
-        : IArchive(true, false)
+        : IArchive()
         , mMagicValid(true)
         , mOwnsStream(true)
     {
@@ -57,6 +57,10 @@ public:
     inline bool IsValid() const { return mpStream->IsValid(); }
 
     // Interface
+    virtual bool IsReader() const       { return true; }
+    virtual bool IsWriter() const       { return false; }
+    virtual bool IsTextFormat() const   { return false; }
+
     virtual bool ParamBegin(const char*)    { return true; }
     virtual void ParamEnd()                 { }
 

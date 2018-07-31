@@ -68,6 +68,7 @@ LIBS += -L$$EXTERNALS_DIR/glew-2.1.0/lib/Release/x64 -lglew32s \
 # Include Paths
 INCLUDEPATH += $$PWE_MAIN_INCLUDE \
                $$EXTERNALS_DIR/assimp/include \
+               $$EXTERNALS_DIR/CodeGen/include \
                $$EXTERNALS_DIR/glew-2.1.0/include \
                $$EXTERNALS_DIR/lzo-2.10/include \
                $$EXTERNALS_DIR/nod/include \
@@ -161,7 +162,6 @@ HEADERS += \
     OpenGL/CVertexBuffer.h \
     OpenGL/GLCommon.h \
     ScriptExtra/CRadiusSphereExtra.h \
-    Resource/EGame.h \
     Resource/Cooker/CAreaCooker.h \
     Resource/Script/IPropertyValue.h \
     Resource/Script/IPropertyTemplate.h \
@@ -367,6 +367,11 @@ SOURCES += \
     IProgressNotifier.cpp \
     Resource/Script/CPropertyNameGenerator.cpp \
     Resource/Script/IPropertyNew.cpp
+
+# Codegen
+CODEGEN_OUT_PATH = $$BUILD_DIR/Core/codegen_build/auto_codegen.cpp
+CODEGEN_SRC_PATH = $$PWD
+include($$EXTERNALS_DIR/CodeGen/codegen.pri)
 
 # Library Sources
 SOURCES += $$EXTERNALS_DIR/lzo-2.10/src/lzo_init.c \

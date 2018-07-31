@@ -15,7 +15,7 @@ class CXMLWriter : public IArchive
 
 public:
     CXMLWriter(const TString& rkFileName, const TString& rkRootName, u16 FileVersion, EGame Game = eUnknownGame)
-        : IArchive(false, true)
+        : IArchive()
         , mOutFilename(rkFileName)
         , mSaved(false)
     {
@@ -69,6 +69,10 @@ public:
     }
 
     // Interface
+    virtual bool IsReader() const       { return false; }
+    virtual bool IsWriter() const       { return true; }
+    virtual bool IsTextFormat() const   { return true; }
+
     virtual bool ParamBegin(const char *pkName)
     {
         ASSERT(IsValid());

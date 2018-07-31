@@ -167,6 +167,8 @@ public:
                              None);
 };
 
+#define ENABLE_FOR_SERIAL_TYPE(SType) typename std::enable_if<SerialType<ValType, IArchive>::Type == SerialType<ValType, IArchive>::##SType, int>::type = 0
+
 // Actual archive class
 class IArchive
 {
@@ -174,8 +176,6 @@ protected:
     u16 mArchiveVersion;
     u16 mFileVersion;
     EGame mGame;
-    bool mIsReader;
-    bool mIsWriter;
 
 public:
     enum EArchiveVersion
@@ -187,17 +187,13 @@ public:
     };
     static const u32 skCurrentArchiveVersion = (eArVer_Max - 1);
 
-    IArchive(bool IsReader, bool IsWriter)
+    IArchive()
         : mFileVersion(0)
         , mArchiveVersion(skCurrentArchiveVersion)
         , mGame(eUnknownGame)
-        , mIsReader(IsReader)
-        , mIsWriter(IsWriter)
     {}
 
     virtual ~IArchive() {}
-
-    #define ENABLE_FOR_SERIAL_TYPE(SType) typename std::enable_if<SerialType<ValType, IArchive>::Type == SerialType<ValType, IArchive>::##SType, int>::type = 0
 
     // Serialize primitives
     template<typename ValType, ENABLE_FOR_SERIAL_TYPE(Primitive)>
@@ -419,12 +415,15 @@ public:
         BulkSerialize(InArray.data(), Size);
     }
 
+    // Meta
+    virtual bool IsReader() const = 0;
+    virtual bool IsWriter() const = 0;
+    virtual bool IsTextFormat() const = 0;
+
     // Accessors
     inline u16 ArchiveVersion() const   { return mArchiveVersion; }
     inline u16 FileVersion() const      { return mFileVersion; }
     inline EGame Game() const           { return mGame; }
-    inline bool IsReader() const        { return mIsReader; }
-    inline bool IsWriter() const        { return mIsWriter; }
 
     inline void SetVersion(u16 ArchiveVersion, u16 FileVersion, EGame Game)
     {
@@ -445,6 +444,32 @@ public:
         return CSerialVersion(mArchiveVersion, mFileVersion, mGame);
     }
 };
+
+// Default enum serializer; can be overridden
+#include <codegen/EnumReflection.h>
+
+template<typename T, typename = typename std::enable_if<std::is_enum<T>::value>::type>
+inline void Serialize(IArchive& Arc, T& Val)
+{
+    if (Arc.IsTextFormat())
+    {
+        if (Arc.IsReader())
+        {
+            TString ValueName;
+            Arc.SerializePrimitive(ValueName);
+            Val = TEnumReflection<T>::ConvertStringToValue( *ValueName );
+        }
+        else
+        {
+            TString ValueName = TEnumReflection<T>::ConvertValueToString(Val);
+            Arc.SerializePrimitive(ValueName);
+        }
+    }
+    else
+    {
+        Arc.SerializePrimitive((u32&) Val);
+    }
+}
 
 // Container serialize methods
 #include <list>
