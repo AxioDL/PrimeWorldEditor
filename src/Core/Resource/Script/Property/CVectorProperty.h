@@ -3,13 +3,13 @@
 
 #include "../IPropertyNew.h"
 
-class CVectorProperty : public TTypedPropertyNew< CVector3f, EPropertyTypeNew::Vector >
+class CVectorProperty : public TSerializeableTypedProperty< CVector3f, EPropertyTypeNew::Vector >
 {
     friend class IPropertyNew;
 
 protected:
     CVectorProperty()
-        : TTypedPropertyNew()
+        : TSerializeableTypedProperty()
     {}
 
 public:

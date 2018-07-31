@@ -20,7 +20,7 @@ struct SScriptArray
 
 /** You probably shouldn't use this on intrinsic classes; script only */
 /** @todo proper support of default values for arrays (this would be used for prefabs) */
-class CArrayProperty : public TTypedPropertyNew<int, EPropertyTypeNew::Array>
+class CArrayProperty : public TTypedPropertyNew<u32, EPropertyTypeNew::Array>
 {
     friend class IPropertyNew;
     friend class CTemplateLoader;
@@ -103,6 +103,12 @@ public:
         SScriptArray& rArray = _GetInternalArray(pPropertyData);
         rArray.Count = Math::Max(rArray.Count, 0);
         Resize(pPropertyData, rArray.Count);
+    }
+
+    virtual void Serialize(IArchive& rArc)
+    {
+        TTypedPropertyNew::Serialize(rArc);
+        //rArc << SERIAL("ItemArchetype", mpItemArchetype);
     }
 
     virtual void SerializeValue(void* pData, IArchive& Arc) const

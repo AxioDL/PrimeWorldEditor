@@ -3,7 +3,7 @@
 
 #include "../IPropertyNew.h"
 
-class CFlagsProperty : public TTypedPropertyNew<int, EPropertyTypeNew::Flags>
+class CFlagsProperty : public TSerializeableTypedProperty<u32, EPropertyTypeNew::Flags>
 {
     friend class CTemplateLoader;
     friend class IPropertyNew;
@@ -12,6 +12,10 @@ class CFlagsProperty : public TTypedPropertyNew<int, EPropertyTypeNew::Flags>
     {
         TString Name;
         u32 Mask;
+
+        SBitFlag()
+            : Mask(0)
+        {}
 
         SBitFlag(const TString& rkInName, u32 InMask)
             : Name(rkInName), Mask(InMask)
@@ -22,13 +26,11 @@ class CFlagsProperty : public TTypedPropertyNew<int, EPropertyTypeNew::Flags>
             return( Name == rkOther.Name && Mask == rkOther.Mask );
         }
 
-#if 0
         void Serialize(IArchive& rArc)
         {
             rArc << SERIAL("FlagName", Name)
                  << SERIAL_HEX("FlagMask", Mask);
         }
-#endif
     };
     std::vector<SBitFlag> mBitFlags;
     u32 mAllFlags;
@@ -37,7 +39,7 @@ class CFlagsProperty : public TTypedPropertyNew<int, EPropertyTypeNew::Flags>
     TString mSourceFile;
 
     CFlagsProperty()
-        : TTypedPropertyNew()
+        : TSerializeableTypedProperty()
         , mAllFlags(0)
     {}
 
@@ -59,21 +61,11 @@ public:
         return mBitFlags[Idx].Mask;
     }
 
-#if 0
     virtual void Serialize(IArchive& rArc)
     {
-        TTypedPropertyNew::Serialize(rArc);
-        rArc << SERIAL_CONTAINER("Flags", mFlags, "Flag");
-
-        // Initialize the "all flags" cache
-        if (rArc.IsReader())
-        {
-            mAllFlags = 0;
-            for (u32 FlagIdx = 0; FlagIdx < mFlags.size(); FlagIdx++)
-                mAllFlags |= mFlags[FlagIdx].Mask;
-        }
+        TSerializeableTypedProperty::Serialize(rArc);
+        rArc << SERIAL_CONTAINER("Flags", mBitFlags, "Flag");
     }
-#endif
 
     virtual void PostInitialize()
     {

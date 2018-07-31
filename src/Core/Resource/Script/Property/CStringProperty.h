@@ -3,13 +3,13 @@
 
 #include "../IPropertyNew.h"
 
-class CStringProperty : public TTypedPropertyNew< TString, EPropertyTypeNew::String >
+class CStringProperty : public TSerializeableTypedProperty< TString, EPropertyTypeNew::String >
 {
     friend class IPropertyNew;
 
 protected:
     CStringProperty()
-        : TTypedPropertyNew()
+        : TSerializeableTypedProperty()
     {}
 
 public:

@@ -20,20 +20,20 @@ typedef TString TIDString;
 enum class EPropertyFlag : u32
 {
     /** Property is an archetype (a template for other properties to copy from) */
-    IsArchetype = 0x1,
+    IsArchetype					= 0x1,
     /** Property is an array archetype (a template for elements of an array property) */
-    IsArrayArchetype = 0x2,
+    IsArrayArchetype			= 0x2,
     /** This property and all its children are a single unit and do not have individual property IDs, sizes, etc. */
-    IsAtomic = 0x4,
+    IsAtomic					= 0x4,
     /** We have cached whether the property name is correct */
-    HasCachedNameCheck = 0x40000000,
+    HasCachedNameCheck			= 0x40000000,
     /** The name of the property is a match for the property ID hash */
-    HasCorrectPropertyName = 0x80000000,
+    HasCorrectPropertyName 		= 0x80000000,
 
     /** Flags that are left intact when copying from an archetype */
-    ArchetypeCopyFlags = EPropertyFlag::IsAtomic,
+    ArchetypeCopyFlags 			= EPropertyFlag::IsAtomic,
     /** Flags that are inheritable from parent */
-    InheritableFlags = EPropertyFlag::IsArchetype | EPropertyFlag::IsArrayArchetype | EPropertyFlag::IsAtomic,
+    InheritableFlags 			= EPropertyFlag::IsArchetype | EPropertyFlag::IsArrayArchetype | EPropertyFlag::IsAtomic,
 };
 DECLARE_FLAGS_ENUMCLASS(EPropertyFlag, FPropertyFlags)
 
@@ -190,9 +190,7 @@ public:
 
     virtual const char* HashableTypeName() const;
     virtual void* GetChildDataPointer(void* pPropertyData) const;
-#if 0
     virtual void Serialize(IArchive& rArc);
-#endif
     virtual void InitFromArchetype(IPropertyNew* pOther);
     virtual TString GetTemplateFileName();
     
@@ -215,7 +213,6 @@ public:
     inline IPropertyNew* RootParent();
     inline IPropertyNew* Archetype() const;
     inline CScriptTemplate* ScriptTemplate() const;
-    inline CMasterTemplate* MasterTemplate() const;
     inline TString Name() const;
     inline TString Description() const;
     inline TString Suffix() const;
@@ -349,14 +346,6 @@ public:
 
     virtual bool CanHaveDefault() const { return true; }
 
-#if 0
-    virtual void Serialize(IArchive& rArc)
-    {
-        IPropertyNew::Serialize(rArc);
-        rArc << SERIAL("DefaultValue", mDefaultValue);
-    }
-#endif
-
     virtual void InitFromArchetype(IPropertyNew* pOther)
     {
         IPropertyNew::InitFromArchetype(pOther);
@@ -382,7 +371,23 @@ public:
 };
 
 template<typename PropType, EPropertyTypeNew PropEnum>
-class TNumericalPropertyNew : public TTypedPropertyNew<PropType, PropEnum>
+class TSerializeableTypedProperty : public TTypedPropertyNew<PropType, PropEnum>
+{
+protected:
+    TSerializeableTypedProperty()
+        : TTypedPropertyNew()
+    {}
+
+public:
+    virtual void Serialize(IArchive& rArc)
+    {
+        IPropertyNew::Serialize(rArc);
+        rArc << SERIAL("DefaultValue", mDefaultValue);
+    }
+};
+
+template<typename PropType, EPropertyTypeNew PropEnum>
+class TNumericalPropertyNew : public TSerializeableTypedProperty<PropType, PropEnum>
 {
     friend class IPropertyNew;
     friend class CTemplateLoader;
@@ -392,20 +397,18 @@ protected:
     PropType mMaxValue;
 
     TNumericalPropertyNew()
-        : TTypedPropertyNew()
+        : TSerializeableTypedProperty()
         , mMinValue( -1 )
         , mMaxValue( -1 )
     {}
 
 public:
-#if 0
     virtual void Serialize(IArchive& rArc)
     {
         TTypedPropertyNew::Serialize(rArc);
-        rArc << SERIAL("Min", mMin)
-             << SERIAL("Max", mMax);
+        rArc << SERIAL("Min", mMinValue)
+             << SERIAL("Max", mMaxValue);
     }
-#endif
 
     virtual void InitFromArchetype(IPropertyNew* pOther)
     {

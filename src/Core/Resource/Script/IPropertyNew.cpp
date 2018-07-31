@@ -91,7 +91,6 @@ void* IPropertyNew::GetChildDataPointer(void* pPropertyData) const
     return pPropertyData;
 }
 
-#if 0
 void IPropertyNew::Serialize(IArchive& rArc)
 {
     if (rArc.Game() <= ePrime)
@@ -101,13 +100,12 @@ void IPropertyNew::Serialize(IArchive& rArc)
 
     rArc << SERIAL_HEX("ID", mID)
          << SERIAL("Description", mDescription)
-         << SERIAL("CookPref", mCookPref)
+         << SERIAL("CookPref", mCookPreference)
          << SERIAL("MinVersion", mMinVersion)
          << SERIAL("MaxVersion", mMaxVersion);
 
     // Children don't get serialized for most property types
 }
-#endif
 
 void IPropertyNew::InitFromArchetype(IPropertyNew* pOther)
 {

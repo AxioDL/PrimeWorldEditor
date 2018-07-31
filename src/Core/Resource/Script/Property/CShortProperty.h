@@ -3,7 +3,7 @@
 
 #include "../IPropertyNew.h"
 
-class CShortProperty : public TNumericalPropertyNew< short, EPropertyTypeNew::Short >
+class CShortProperty : public TNumericalPropertyNew< s16, EPropertyTypeNew::Short >
 {
     friend class IPropertyNew;
 

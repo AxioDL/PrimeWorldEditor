@@ -3,13 +3,13 @@
 
 #include "../IPropertyNew.h"
 
-class CColorProperty : public TTypedPropertyNew< CColor, EPropertyTypeNew::Color >
+class CColorProperty : public TSerializeableTypedProperty< CColor, EPropertyTypeNew::Color >
 {
     friend class IPropertyNew;
 
 protected:
     CColorProperty()
-        : TTypedPropertyNew()
+        : TSerializeableTypedProperty()
     {}
 
 public:

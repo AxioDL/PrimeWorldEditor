@@ -132,7 +132,7 @@ void CTemplateEditDialog::AddTemplate(IPropertyNew* pProp)
 
     if (!Source.IsEmpty())
     {
-        CStructPropertyNew* pStruct = pProp->MasterTemplate()->StructAtSource(Source);
+        CStructPropertyNew* pStruct = CMasterTemplate::MasterForGame(pProp->Game())->StructAtSource(Source);
 
         if (!mStructTemplatesToResave.contains(pStruct))
             mStructTemplatesToResave << pStruct;
@@ -161,7 +161,7 @@ void CTemplateEditDialog::UpdateDescription(const TString& rkNewDesc)
     AddTemplate(mpProperty);
 
     // Update all copies of this property in memory with the new description
-    TString SourceFile = mpProperty->FindStructSource();
+    TString SourceFile = mpProperty->GetTemplateFileName();
 
     if (!SourceFile.IsEmpty())
     {
@@ -171,10 +171,10 @@ void CTemplateEditDialog::UpdateDescription(const TString& rkNewDesc)
         {
             for (u32 TemplateIdx = 0; TemplateIdx < pkTemplates->size(); TemplateIdx++)
             {
-                IPropertyNew* pTemp = pkTemplates->at(TemplateIdx);
+                IPropertyNew* pProp = pkTemplates->at(TemplateIdx);
 
-                if (pTemp->FindStructSource() == SourceFile && pTemp->Description() == mOriginalDescription)
-                    pTemp->SetDescription(rkNewDesc);
+                if (pProp->GetTemplateFileName() == SourceFile && pProp->Description() == mOriginalDescription)
+                    pProp->SetDescription(rkNewDesc);
             }
         }
     }

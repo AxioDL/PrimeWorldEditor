@@ -4,19 +4,17 @@
 #include "../IPropertyNew.h"
 #include "Core/Resource/CResTypeFilter.h"
 
-class CAssetProperty : public TTypedPropertyNew<CAssetID, EPropertyTypeNew::Asset>
+class CAssetProperty : public TSerializeableTypedProperty<CAssetID, EPropertyTypeNew::Asset>
 {
     friend class CTemplateLoader;
     CResTypeFilter mTypeFilter;
 
 public:
-#if 0
     virtual void Serialize(IArchive& rArc)
     {
-        TTypedPropertyNew::Serialize(rArc);
+        TSerializeableTypedProperty::Serialize(rArc);
         rArc << SERIAL("AcceptedTypes", mTypeFilter);
     }
-#endif
 
     virtual void InitFromArchetype(IPropertyNew* pOther)
     {

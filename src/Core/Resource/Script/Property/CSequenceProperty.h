@@ -3,7 +3,7 @@
 
 #include "../IPropertyNew.h"
 
-class CSequenceProperty : public TTypedPropertyNew< int, EPropertyTypeNew::Sequence >
+class CSequenceProperty : public TTypedPropertyNew< s32, EPropertyTypeNew::Sequence >
 {
     friend class IPropertyNew;
 

@@ -3,7 +3,7 @@
 
 #include "../IPropertyNew.h"
 
-class CByteProperty : public TNumericalPropertyNew< char, EPropertyTypeNew::Byte >
+class CByteProperty : public TNumericalPropertyNew< s8, EPropertyTypeNew::Byte >
 {
     friend class IPropertyNew;
 

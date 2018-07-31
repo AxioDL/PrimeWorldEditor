@@ -109,6 +109,7 @@ private:
 public:
     CScriptTemplate(CMasterTemplate *pMaster);
     ~CScriptTemplate();
+    void Serialize(IArchive& rArc);
     void PostLoad();
     EGame Game() const;
 

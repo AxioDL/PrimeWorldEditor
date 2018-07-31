@@ -3,13 +3,13 @@
 
 #include "../IPropertyNew.h"
 
-class CBoolProperty : public TTypedPropertyNew< bool, EPropertyTypeNew::Bool >
+class CBoolProperty : public TSerializeableTypedProperty< bool, EPropertyTypeNew::Bool >
 {
     friend class IPropertyNew;
 
 protected:
     CBoolProperty()
-        : TTypedPropertyNew()
+        : TSerializeableTypedProperty()
     {}
 
 public:
