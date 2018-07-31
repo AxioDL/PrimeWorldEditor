@@ -47,6 +47,7 @@ CONFIG (release, debug|release) {
 
 # Include Paths
 INCLUDEPATH += $$PWE_MAIN_INCLUDE \
+               $$EXTERNALS_DIR/CodeGen/include \
                $$EXTERNALS_DIR/tinyxml2
 
 # Header Files
@@ -77,3 +78,8 @@ SOURCES += \
     CVector3f.cpp \
     CVector4f.cpp \
     MathUtil.cpp
+
+# Codegen
+CODEGEN_OUT_PATH = $$BUILD_DIR/Common/codegen_build/auto_codegen.cpp
+CODEGEN_SRC_PATH = $$PWD
+include($$EXTERNALS_DIR/CodeGen/codegen.pri)

@@ -12,7 +12,7 @@ class CXMLReader : public IArchive
 
 public:
     CXMLReader(const TString& rkFileName)
-        : IArchive(true, false)
+        : IArchive()
         , mJustEndedParam(false)
     {
         // Load XML and set current element to the root element; read version
@@ -38,6 +38,10 @@ public:
     }
 
     // Interface
+    virtual bool IsReader() const       { return true; }
+    virtual bool IsWriter() const       { return false; }
+    virtual bool IsTextFormat() const   { return true; }
+
     virtual bool ParamBegin(const char *pkName)
     {
         ASSERT(IsValid());

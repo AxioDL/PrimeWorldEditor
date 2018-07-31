@@ -63,10 +63,6 @@ enum class EPropertyTypeNew
     Array           = FOURCC('ARRY'),
     Invalid         = FOURCC('INVD')
 };
-inline void Serialize(IArchive& rArc, EPropertyTypeNew& rType)
-{
-    rArc.SerializePrimitive( (CFourCC&) rType );
-}
 
 inline const char* PropEnumToHashableTypeName(EPropertyTypeNew Type)
 {
@@ -105,10 +101,6 @@ enum class ECookPreferenceNew
     Always,
     Never
 };
-inline void Serialize(IArchive& rArc, ECookPreferenceNew& rPref)
-{
-    rArc.SerializePrimitive( (u32&) rPref );
-}
 
 /** New property class */
 class IPropertyNew

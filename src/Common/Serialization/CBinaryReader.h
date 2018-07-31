@@ -23,7 +23,7 @@ class CBinaryReader : public IArchive
 
 public:
     CBinaryReader(const TString& rkFilename, u32 Magic)
-        : IArchive(true, false)
+        : IArchive()
         , mOwnsStream(true)
     {
         mpStream = new CFileInStream(rkFilename, IOUtil::eBigEndian);
@@ -39,7 +39,7 @@ public:
     }
 
     CBinaryReader(IInputStream *pStream, const CSerialVersion& rkVersion)
-        : IArchive(true, false)
+        : IArchive()
         , mMagicValid(true)
         , mOwnsStream(false)
     {
@@ -70,6 +70,10 @@ private:
 
 public:
     // Interface
+    virtual bool IsReader() const       { return true; }
+    virtual bool IsWriter() const       { return false; }
+    virtual bool IsTextFormat() const   { return false; }
+
     u32 ReadSize()
     {
         return (mArchiveVersion < eArVer_32BitBinarySize ? (u32) mpStream->ReadShort() : mpStream->ReadLong());

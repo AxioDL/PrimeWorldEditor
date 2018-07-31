@@ -31,6 +31,7 @@ CONFIG (release, debug|release) {
 
 # Include Paths
 INCLUDEPATH += $$PWE_MAIN_INCLUDE \
+               $$EXTERNALS_DIR/CodeGen/include \
                $$EXTERNALS_DIR/tinyxml2
 
 # Header Files
@@ -40,7 +41,6 @@ HEADERS += \
     CTimer.h \
     EKeyInputs.h \
     EMouseInputs.h \
-    ETransformSpace.h \
     Flags.h \
     TString.h \
     types.h \
@@ -100,6 +100,11 @@ SOURCES += \
     FileIO\IOutputStream.cpp \
     FileIO\CBitStreamInWrapper.cpp \
     Hash/CCRC32.cpp
+
+# Codegen
+CODEGEN_OUT_PATH = $$BUILD_DIR/Common/codegen_build/auto_codegen.cpp
+CODEGEN_SRC_PATH = $$PWD
+include($$EXTERNALS_DIR/CodeGen/codegen.pri)
 
 # Library Sources
 SOURCES += $$EXTERNALS_DIR/tinyxml2/tinyxml2.cpp

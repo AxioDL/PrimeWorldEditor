@@ -20,7 +20,7 @@ class CBinaryWriter : public IArchive
 
 public:
     CBinaryWriter(const TString& rkFilename, u32 Magic, u16 FileVersion, EGame Game)
-        : IArchive(false, true)
+        : IArchive()
         , mMagic(Magic)
         , mOwnsStream(true)
     {
@@ -37,7 +37,7 @@ public:
     }
 
     CBinaryWriter(IOutputStream *pStream, u16 FileVersion, EGame Game)
-        : IArchive(false, true)
+        : IArchive()
         , mMagic(0)
         , mOwnsStream(false)
     {
@@ -48,7 +48,7 @@ public:
     }
 
     CBinaryWriter(IOutputStream *pStream, const CSerialVersion& rkVersion)
-        : IArchive(false, true)
+        : IArchive()
         , mMagic(0)
         , mOwnsStream(false)
     {
@@ -88,6 +88,10 @@ private:
 
 public:
     // Interface
+    virtual bool IsReader() const       { return false; }
+    virtual bool IsWriter() const       { return true; }
+    virtual bool IsTextFormat() const   { return false; }
+
     virtual bool ParamBegin(const char *pkName)
     {
         // Update parent param

@@ -10,3 +10,6 @@
 [submodule "externals/nod"]
 	path = externals/nod
 	url = https://github.com/arukibree/nod
+[submodule "externals/CodeGen"]
+	path = externals/CodeGen
+	url = https://github.com/arukibree/CodeGen

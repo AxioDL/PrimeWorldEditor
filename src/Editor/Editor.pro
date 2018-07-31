@@ -80,6 +80,7 @@ LIBS += -L$$EXTERNALS_DIR/glew-2.1.0/lib/Release/x64 -lglew32s \
 # Include Paths
 INCLUDEPATH += $$PWE_MAIN_INCLUDE \
                $$EXTERNALS_DIR/assimp/include \
+               $$EXTERNALS_DIR/CodeGen/include \
                $$EXTERNALS_DIR/glew-2.1.0/include \
                $$EXTERNALS_DIR/lzo-2.10/include \
                $$EXTERNALS_DIR/nod/include \
@@ -303,3 +304,8 @@ FORMS += \
     CProgressDialog.ui \
     Widgets/CSelectResourcePanel.ui \
     CGeneratePropertyNamesDialog.ui
+
+# Codegen
+CODEGEN_OUT_PATH = $$BUILD_DIR/Editor/codegen_build/auto_codegen.cpp
+CODEGEN_SRC_PATH = $$PWD
+include($$EXTERNALS_DIR/CodeGen/codegen.pri)
