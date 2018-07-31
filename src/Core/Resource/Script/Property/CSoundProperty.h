@@ -3,13 +3,13 @@
 
 #include "../IPropertyNew.h"
 
-class CSoundProperty : public TTypedPropertyNew< int, EPropertyTypeNew::Sound >
+class CSoundProperty : public TSerializeableTypedProperty< s32, EPropertyTypeNew::Sound >
 {
     friend class IPropertyNew;
 
 protected:
     CSoundProperty()
-        : TTypedPropertyNew()
+        : TSerializeableTypedProperty()
     {}
 
 public:

@@ -3,13 +3,13 @@
 
 #include "../IPropertyNew.h"
 
-class CAnimationProperty : public TTypedPropertyNew< int, EPropertyTypeNew::Animation >
+class CAnimationProperty : public TSerializeableTypedProperty< u32, EPropertyTypeNew::Animation >
 {
     friend class IPropertyNew;
 
 protected:
     CAnimationProperty()
-        : TTypedPropertyNew()
+        : TSerializeableTypedProperty()
     {}
 
 public:

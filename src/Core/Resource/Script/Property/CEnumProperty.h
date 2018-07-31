@@ -11,7 +11,7 @@
  *  In PWE, however, they are both implemented the same way under the hood.
  */
 template<EPropertyTypeNew TypeEnum>
-class TEnumPropertyBase : public TTypedPropertyNew<int, TypeEnum>
+class TEnumPropertyBase : public TSerializeableTypedProperty<s32, TypeEnum>
 {
     friend class CTemplateLoader;
     struct SEnumValue
@@ -19,12 +19,23 @@ class TEnumPropertyBase : public TTypedPropertyNew<int, TypeEnum>
         TString Name;
         u32 ID;
 
+        SEnumValue()
+            : ID(0)
+        {}
+
         SEnumValue(const TString& rkInName, u32 InID)
             : Name(rkInName), ID(InID) {}
+
 
         inline bool operator==(const SEnumValue& rkOther) const
         {
             return( Name == rkOther.Name && ID == rkOther.ID );
+        }
+
+        void Serialize(IArchive& rArc)
+        {
+            rArc << SERIAL_AUTO(Name)
+                 << SERIAL_HEX_AUTO(ID);
         }
     };
     std::vector<SEnumValue> mValues;
@@ -39,6 +50,12 @@ public:
             return "enum";
         else
             return "choice";
+    }
+
+    virtual void Serialize(IArchive& rArc)
+    {
+        TSerializeableTypedProperty::Serialize(rArc);
+        rArc << SERIAL_CONTAINER("Values", mValues, "Values");
     }
 
     virtual void SerializeValue(void* pData, IArchive& Arc) const

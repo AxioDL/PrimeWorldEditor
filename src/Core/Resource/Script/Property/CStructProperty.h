@@ -87,14 +87,13 @@ public:
             return mpArchetype->HashableTypeName();
     }
 
-#if 0
     virtual void Serialize(IArchive& rArc)
     {
         IPropertyNew::Serialize(rArc);
 
         if (rArc.ParamBegin("SubProperties"))
         {
-            u32 NumChildren;
+            u32 NumChildren = mChildren.size();
             rArc.SerializeContainerSize(NumChildren, "Property");
 
             if (rArc.IsReader())
@@ -111,7 +110,7 @@ public:
 
                     if (rArc.IsReader())
                     {
-                        mChildren[ChildIdx] = Create(Type, this, mpMasterTemplate, mpScriptTemplate);
+                        mChildren[ChildIdx] = Create(Type, this, mGame, mpScriptTemplate);
                     }
 
                     mChildren[ChildIdx]->Serialize(rArc);
@@ -122,7 +121,6 @@ public:
             rArc.ParamEnd();
         }
     }
-#endif
 
     virtual void SerializeValue(void* pData, IArchive& Arc) const
     {
