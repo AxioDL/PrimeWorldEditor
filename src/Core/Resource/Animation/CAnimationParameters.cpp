@@ -15,6 +15,7 @@ CAnimationParameters::CAnimationParameters()
 
 CAnimationParameters::CAnimationParameters(EGame Game)
     : mGame(Game)
+    , mCharacterID( CAssetID::InvalidID(Game) )
     , mCharIndex(0)
     , mAnimIndex(0)
     , mUnknown2(0)
@@ -141,17 +142,17 @@ void CAnimationParameters::Serialize(IArchive& rArc)
     if (rArc.IsReader())
         mGame = rArc.Game();
 
-    rArc << SERIAL("AnimationSetAsset", mCharacterID);
+    rArc << SerialParameter("AnimationSetAsset", mCharacterID);
 
     if (mGame <= eEchoes)
-        rArc << SERIAL("CharacterID", mCharIndex);
+        rArc << SerialParameter("CharacterID", mCharIndex);
 
-    rArc << SERIAL("AnimationID", mAnimIndex);
+    rArc << SerialParameter("AnimationID", mAnimIndex);
 
     if (mGame >= eReturns)
     {
-        rArc << SERIAL("Unknown0", mUnknown2)
-             << SERIAL("Unknown1", mUnknown3);
+        rArc << SerialParameter("Unknown0", mUnknown2)
+             << SerialParameter("Unknown1", mUnknown3);
     }
 }
 

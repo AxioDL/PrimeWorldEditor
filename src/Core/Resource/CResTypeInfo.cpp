@@ -114,7 +114,7 @@ void Serialize(IArchive& rArc, CResTypeInfo*& rpType)
         Ext = rpType->CookedExtension(rArc.Game());
     }
 
-    rArc.SerializePrimitive(Ext);
+    rArc.SerializePrimitive(Ext, 0);
 
     if (rArc.IsReader())
     {
@@ -134,7 +134,7 @@ void Serialize(IArchive& rArc, EResType& rType)
         Extension = pTypeInfo->CookedExtension(rArc.Game());
     }
 
-    rArc.SerializePrimitive(Extension);
+    rArc.SerializePrimitive(Extension, 0);
 
     if (rArc.IsReader())
     {

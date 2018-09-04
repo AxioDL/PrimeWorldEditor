@@ -41,10 +41,10 @@ void CGameInfo::Serialize(IArchive& rArc)
     }
 
     // Serialize data
-    rArc << SERIAL_CONTAINER("GameBuilds", mBuilds, "Build");
+    rArc << SerialParameter("GameBuilds", mBuilds);
 
     if (mGame <= ePrime)
-        rArc << SERIAL_CONTAINER("AreaNameMap", mAreaNameMap, "AreaName");
+        rArc << SerialParameter("AreaNameMap", mAreaNameMap);
 }
 
 TString CGameInfo::GetBuildName(float BuildVer, ERegion Region) const

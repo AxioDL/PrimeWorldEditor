@@ -15,7 +15,7 @@ protected:
 public:
     virtual void SerializeValue(void* pData, IArchive& Arc) const
     {
-        Arc.SerializePrimitive( (float&) ValueRef(pData) );
+        Arc.SerializePrimitive( (float&) ValueRef(pData), 0 );
     }
 
     virtual TString ValueAsString(void* pData) const

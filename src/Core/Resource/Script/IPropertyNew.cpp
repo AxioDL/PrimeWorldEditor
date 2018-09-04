@@ -95,14 +95,14 @@ void IPropertyNew::Serialize(IArchive& rArc)
 {
     if (rArc.Game() <= ePrime)
     {
-        rArc << SERIAL("Name", mName);
+        rArc << SerialParameter("Name", mName);
     }
 
-    rArc << SERIAL_HEX("ID", mID)
-         << SERIAL("Description", mDescription)
-         << SERIAL("CookPref", mCookPreference)
-         << SERIAL("MinVersion", mMinVersion)
-         << SERIAL("MaxVersion", mMaxVersion);
+    rArc << SerialParameter("ID", mID, SH_HexDisplay | SH_Optional, (u32) 0xFFFFFFFF)
+         << SerialParameter("Description", mDescription, SH_Optional)
+         << SerialParameter("CookPref", mCookPreference, SH_Optional, ECookPreferenceNew::Default)
+         << SerialParameter("MinVersion", mMinVersion, SH_Optional, 0.f)
+         << SerialParameter("MaxVersion", mMaxVersion, SH_Optional, FLT_MAX);
 
     // Children don't get serialized for most property types
 }
@@ -358,4 +358,13 @@ IPropertyNew* IPropertyNew::CreateIntrinsic(EPropertyTypeNew Type,
     pOut->SetName(rkName);
     pOut->PostInitialize();
     return pOut;
+}
+
+IPropertyNew* IPropertyNew::ArchiveConstructor(EPropertyTypeNew Type,
+                                               const IArchive& Arc)
+{
+    IPropertyNew* pParent = Arc.FindParentObject<IPropertyNew>();
+    CScriptTemplate* pTemplate = (pParent ? pParent->ScriptTemplate() : Arc.FindParentObject<CScriptTemplate>());
+    EGame Game = Arc.Game();
+    return Create(Type, pParent, Game, pTemplate);
 }

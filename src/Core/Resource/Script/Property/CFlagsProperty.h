@@ -28,8 +28,8 @@ class CFlagsProperty : public TSerializeableTypedProperty<u32, EPropertyTypeNew:
 
         void Serialize(IArchive& rArc)
         {
-            rArc << SERIAL("FlagName", Name)
-                 << SERIAL_HEX("FlagMask", Mask);
+            rArc << SerialParameter("Name", Name)
+                 << SerialParameter("Mask", Mask, SH_HexDisplay);
         }
     };
     std::vector<SBitFlag> mBitFlags;
@@ -64,7 +64,7 @@ public:
     virtual void Serialize(IArchive& rArc)
     {
         TSerializeableTypedProperty::Serialize(rArc);
-        rArc << SERIAL_CONTAINER("Flags", mBitFlags, "Flag");
+        rArc << SerialParameter("Flags", mBitFlags);
     }
 
     virtual void PostInitialize()
@@ -80,7 +80,7 @@ public:
 
     virtual void SerializeValue(void* pData, IArchive& rArc) const
     {
-        rArc.SerializeHexPrimitive( (u32&) ValueRef(pData) );
+        rArc.SerializePrimitive( (u32&) ValueRef(pData), SH_HexDisplay );
     }
 
     virtual void InitFromArchetype(IPropertyNew* pOther)

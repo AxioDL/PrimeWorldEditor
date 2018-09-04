@@ -10,10 +10,19 @@ class CAssetProperty : public TSerializeableTypedProperty<CAssetID, EPropertyTyp
     CResTypeFilter mTypeFilter;
 
 public:
+    virtual void PostInitialize()
+    {
+        // Init default value to an invalid ID depending on the game
+        if (!mDefaultValue.IsValid())
+        {
+            mDefaultValue = CAssetID::InvalidID( mGame );
+        }
+    }
+
     virtual void Serialize(IArchive& rArc)
     {
         TSerializeableTypedProperty::Serialize(rArc);
-        rArc << SERIAL("AcceptedTypes", mTypeFilter);
+        rArc << SerialParameter("TypeFilter", mTypeFilter);
     }
 
     virtual void InitFromArchetype(IPropertyNew* pOther)
@@ -24,12 +33,17 @@ public:
 
     virtual void SerializeValue(void* pData, IArchive& Arc) const
     {
-        Arc.SerializePrimitive( ValueRef(pData) );
+        Arc.SerializePrimitive( ValueRef(pData), 0 );
     }
 
     virtual TString ValueAsString(void* pData) const
     {
         return Value(pData).ToString();
+    }
+
+    virtual CAssetID GetSerializationDefaultValue()
+    {
+        return CAssetID::InvalidID(Game());
     }
 
     void SetTypeFilter(const TStringList& rkExtensions)

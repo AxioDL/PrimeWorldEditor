@@ -133,7 +133,7 @@ void CAssetNameMap::CopyFromStore(CResourceStore *pStore /*= gpResourceStore*/)
 // ************ PRIVATE ************
 void CAssetNameMap::Serialize(IArchive& rArc)
 {
-    rArc << SERIAL_CONTAINER("AssetNameMap", mMap, "Asset");
+    rArc << SerialParameter("AssetNameMap", mMap);
 
     if (rArc.IsReader())
         PostLoadValidate();

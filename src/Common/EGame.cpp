@@ -62,7 +62,7 @@ TString GetGameShortName(EGame Game)
 void Serialize(IArchive& rArc, EGame& rGame)
 {
     CFourCC GameID = GetGameID(rGame);
-    rArc.SerializePrimitive(GameID);
+    rArc.SerializePrimitive(GameID, 0);
     if (rArc.IsReader()) rGame = GetGameForID(GameID);
 }
 
@@ -82,17 +82,4 @@ ERegion GetRegionForName(const TString& rkName)
             return (ERegion) iReg;
 
     return eRegion_Unknown;
-}
-
-void Serialize(IArchive& rArc, ERegion& rRegion)
-{
-    TString Name;
-
-    if (rArc.IsWriter())
-        Name = GetRegionName(rRegion);
-
-    rArc.SerializePrimitive(Name);
-
-    if (rArc.IsReader())
-        rRegion = GetRegionForName(Name);
 }

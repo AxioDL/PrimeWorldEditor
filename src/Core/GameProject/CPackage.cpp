@@ -36,8 +36,8 @@ bool CPackage::Save()
 
 void CPackage::Serialize(IArchive& rArc)
 {
-    rArc << SERIAL("NeedsRecook", mNeedsRecook)
-         << SERIAL_CONTAINER("NamedResources", mResources, "Resource");
+    rArc << SerialParameter("NeedsRecook", mNeedsRecook)
+         << SerialParameter("NamedResources", mResources);
 }
 
 void CPackage::AddResource(const TString& rkName, const CAssetID& rkID, const CFourCC& rkType)
