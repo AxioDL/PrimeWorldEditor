@@ -5,8 +5,6 @@
 #include "Core/Resource/Script/CScriptLayer.h"
 #include "Core/Resource/Script/CScriptObject.h"
 
-CDependencyNodeFactory gDependencyNodeFactory;
-
 // ************ IDependencyNode ************
 IDependencyNode::~IDependencyNode()
 {
@@ -31,6 +29,24 @@ void IDependencyNode::GetAllResourceReferences(std::set<CAssetID>& rOutSet) cons
         mChildren[iChild]->GetAllResourceReferences(rOutSet);
 }
 
+// Serialization constructor
+IDependencyNode* IDependencyNode::ArchiveConstructor(EDependencyNodeType Type)
+{
+    switch (Type)
+    {
+    case eDNT_DependencyTree:       return new CDependencyTree;
+    case eDNT_ResourceDependency:   return new CResourceDependency;
+    case eDNT_ScriptInstance:       return new CScriptInstanceDependency;
+    case eDNT_ScriptProperty:       return new CPropertyDependency;
+    case eDNT_CharacterProperty:    return new CCharPropertyDependency;
+    case eDNT_SetCharacter:         return new CSetCharacterDependency;
+    case eDNT_SetAnimation:         return new CSetAnimationDependency;
+    case eDNT_AnimEvent:            return new CAnimEventDependency;
+    case eDNT_Area:                 return new CAreaDependencyTree;
+    default:                        ASSERT(false); return nullptr;
+    }
+}
+
 // ************ CDependencyTree ************
 EDependencyNodeType CDependencyTree::Type() const
 {
@@ -39,7 +55,7 @@ EDependencyNodeType CDependencyTree::Type() const
 
 void CDependencyTree::Serialize(IArchive& rArc)
 {
-    rArc << SERIAL_ABSTRACT_CONTAINER("Children", mChildren, "Child", &gDependencyNodeFactory);
+    rArc << SerialParameter("Children", mChildren);
 }
 
 void CDependencyTree::AddChild(IDependencyNode *pNode)
@@ -78,7 +94,7 @@ EDependencyNodeType CResourceDependency::Type() const
 
 void CResourceDependency::Serialize(IArchive& rArc)
 {
-    rArc << SERIAL("ID", mID);
+    rArc << SerialParameter("ID", mID);
 }
 
 void CResourceDependency::GetAllResourceReferences(std::set<CAssetID>& rOutSet) const
@@ -99,7 +115,7 @@ EDependencyNodeType CPropertyDependency::Type() const
 
 void CPropertyDependency::Serialize(IArchive& rArc)
 {
-    rArc << SERIAL("PropertyID", mIDString);
+    rArc << SerialParameter("PropertyID", mIDString);
     CResourceDependency::Serialize(rArc);
 }
 
@@ -112,7 +128,7 @@ EDependencyNodeType CCharPropertyDependency::Type() const
 void CCharPropertyDependency::Serialize(IArchive& rArc)
 {
     CPropertyDependency::Serialize(rArc);
-    rArc << SERIAL("CharIndex", mUsedChar);
+    rArc << SerialParameter("CharIndex", mUsedChar);
 }
 
 // ************ CScriptInstanceDependency ************
@@ -123,8 +139,8 @@ EDependencyNodeType CScriptInstanceDependency::Type() const
 
 void CScriptInstanceDependency::Serialize(IArchive& rArc)
 {
-    rArc << SERIAL("ObjectType", mObjectType)
-         << SERIAL_ABSTRACT_CONTAINER("Properties", mChildren, "Property", &gDependencyNodeFactory);
+    rArc << SerialParameter("ObjectType", mObjectType)
+         << SerialParameter("Properties", mChildren);
 }
 
 // Static
@@ -210,8 +226,8 @@ EDependencyNodeType CSetCharacterDependency::Type() const
 
 void CSetCharacterDependency::Serialize(IArchive& rArc)
 {
-    rArc << SERIAL("CharSetIndex", mCharSetIndex)
-         << SERIAL_ABSTRACT_CONTAINER("Children", mChildren, "Child", &gDependencyNodeFactory);
+    rArc << SerialParameter("CharSetIndex", mCharSetIndex)
+         << SerialParameter("Children", mChildren);
 }
 
 CSetCharacterDependency* CSetCharacterDependency::BuildTree(const SSetCharacter& rkChar)
@@ -255,8 +271,8 @@ EDependencyNodeType CSetAnimationDependency::Type() const
 
 void CSetAnimationDependency::Serialize(IArchive& rArc)
 {
-    rArc << SERIAL_CONTAINER("CharacterIndices", mCharacterIndices, "Index")
-         << SERIAL_ABSTRACT_CONTAINER("Children", mChildren, "Child", &gDependencyNodeFactory);
+    rArc << SerialParameter("CharacterIndices", mCharacterIndices)
+         << SerialParameter("Children", mChildren);
 }
 
 CSetAnimationDependency* CSetAnimationDependency::BuildTree(const CAnimSet *pkOwnerSet, u32 AnimIndex)
@@ -302,7 +318,7 @@ EDependencyNodeType CAnimEventDependency::Type() const
 void CAnimEventDependency::Serialize(IArchive& rArc)
 {
     CResourceDependency::Serialize(rArc);
-    rArc << SERIAL("CharacterIndex", mCharIndex);
+    rArc << SerialParameter("CharacterIndex", mCharIndex);
 }
 
 // ************ CAreaDependencyTree ************
@@ -314,7 +330,7 @@ EDependencyNodeType CAreaDependencyTree::Type() const
 void CAreaDependencyTree::Serialize(IArchive& rArc)
 {
     CDependencyTree::Serialize(rArc);
-    rArc << SERIAL_CONTAINER("LayerOffsets", mLayerOffsets, "Offset");
+    rArc << SerialParameter("LayerOffsets", mLayerOffsets);
 }
 
 void CAreaDependencyTree::AddScriptLayer(CScriptLayer *pLayer, const std::vector<CAssetID>& rkExtraDeps)

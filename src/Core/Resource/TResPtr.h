@@ -33,7 +33,7 @@ public:
     inline void Serialize(IArchive& rArc)
     {
         CAssetID ID = (mpRes && !rArc.IsReader() ? mpRes->ID() : CAssetID::InvalidID(rArc.Game()));
-        rArc.SerializePrimitive(ID);
+        rArc.SerializePrimitive(ID, 0);
 
         if (rArc.IsReader())
         {

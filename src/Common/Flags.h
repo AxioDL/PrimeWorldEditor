@@ -38,7 +38,7 @@ public:
     inline void ClearFlag(FlagEnum Flag)        { mValue &= ~((u32) Flag); }
     inline void ClearFlag(TFlags Flags)         { mValue &= ~Flags; }
 
-    inline void Serialize(IArchive& rArc)       { rArc.SerializeHexPrimitive(mValue); }
+    inline void Serialize(IArchive& rArc)       { rArc.SerializePrimitive(mValue, SH_HexDisplay); }
 };
 #define DECLARE_FLAGS(Enum, FlagTypeName) typedef TFlags<Enum> FlagTypeName;
 

@@ -108,20 +108,20 @@ public:
     virtual void Serialize(IArchive& rArc)
     {
         TTypedPropertyNew::Serialize(rArc);
-        //rArc << SERIAL("ItemArchetype", mpItemArchetype);
+        rArc << SerialParameter("ItemArchetype", mpItemArchetype);
     }
 
     virtual void SerializeValue(void* pData, IArchive& Arc) const
     {
         u32 Count = ArrayCount(pData);
-        Arc.SerializeContainerSize(Count, "ArrayElement");
+        Arc.SerializeArraySize(Count);
 
         if (Arc.IsReader())
             Resize(pData, Count);
 
         for (u32 ItemIdx = 0; ItemIdx < Count; ItemIdx++)
         {
-            if (Arc.ParamBegin("ArrayElement"))
+            if (Arc.ParamBegin("ArrayElement", 0))
             {
                 void* pItemData = ItemPointer(pData, ItemIdx);
                 mpItemArchetype->SerializeValue(pItemData, Arc);

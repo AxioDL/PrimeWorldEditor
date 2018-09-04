@@ -15,7 +15,7 @@ protected:
 public:
     virtual void SerializeValue(void* pData, IArchive& rArc) const
     {
-        rArc.SerializeHexPrimitive( (u32&) ValueRef(pData) );
+        rArc.SerializePrimitive( (u32&) ValueRef(pData), SH_HexDisplay );
     }
 
     virtual TString ValueAsString(void* pData) const

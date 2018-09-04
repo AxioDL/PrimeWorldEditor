@@ -9,6 +9,14 @@
 #include "Common/TString.h"
 #include "Common/types.h"
 
+#include <type_traits>
+
+#include <list>
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <vector>
+
 /* This is a custom serialization implementation intended for saving game assets out to editor-
  * friendly formats, such as XML. The main goals of the serialization system is to simplify the
  * code for reading and writing editor files and to be able to easily update those files without
@@ -46,117 +54,127 @@
  * variable will be used as the parameter name instead).
  */
 
-// TSerialParameter - name/value pair for generic serial parameters
+/** ESerialHint - Parameter hint flags */
+enum ESerialHint
+{
+    SH_HexDisplay           = 0x1,      // The parameter should be written in hex in text formats
+    SH_Optional             = 0x2,      // The parameter should not be written to the file if its value matches the default value
+    SH_NeverSave            = 0x4,      // The parameter should not be saved to files
+    SH_AlwaysSave           = 0x8,      // The parameter should always be saved regardless of if it matches the default value
+    SH_Attribute            = 0x10,     // The parameter is an attribute of another parameter. Attributes cannot have children.
+    SH_IgnoreName           = 0x20,     // The parameter name will not be used to validate file data. May yield incorrect results if used improperly!
+};
+
+/** EArchiveFlags */
+enum EArchiveFlags
+{
+    AF_Reader               = 0x1,      // Archive reads data
+    AF_Writer               = 0x2,      // Archive writes data
+    AF_Text                 = 0x4,      // Archive reads/writes to a text format
+    AF_Binary               = 0x8,      // Archive reads/writes to a binary format
+    AF_NoSkipping           = 0x10,     // Properties are never skipped
+};
+
+/** Shortcut macro for enable_if */
+#define ENABLE_IF(Conditions, ReturnType) typename std::enable_if< Conditions, ReturnType >::type
+
+/** Check for whether the equality operator has been implemented for a given type */
+template<typename ValType, class = decltype(std::declval<ValType>() == std::declval<ValType>())>
+std::true_type  THasEqualToOperator(const ValType&);
+std::false_type THasEqualToOperator(...);
+template<typename ValType> using THasEqualTo = decltype(THasEqualToOperator(std::declval<ValType>()));
+
+/** Class that determines if the type is a container */
+template<typename>      struct TIsContainer : std::false_type {};
+template<typename T>    struct TIsContainer< std::vector<T> > : std::true_type {};
+template<typename T>    struct TIsContainer< std::list<T> > : std::true_type {};
+template<typename T>    struct TIsContainer< std::set<T> > : std::true_type {};
+template<typename T, typename V>    struct TIsContainer< std::map<T,V> > : std::true_type {};
+template<typename T, typename V>    struct TIsContainer< std::unordered_map<T,V> > : std::true_type {};
+
+/** Helper macro that tells us whether the parameter supports default property values */
+#define SUPPORTS_DEFAULT_VALUES (!std::is_pointer_v<ValType> && std::is_copy_assignable_v<ValType> && THasEqualTo<ValType>::value && !TIsContainer<ValType>::value)
+
+/** TSerialParameter - name/value pair for generic serial parameters */
 template<typename ValType>
 struct TSerialParameter
 {
-    const char *pkName;
-    ValType& rValue;
+    const char*         pkName;
+    ValType&            rValue;
+    u32                 HintFlags;
+    const ValType*      pDefaultValue;
 };
+
+/** Function that creates a SerialParameter */
+template<typename ValType>
+ENABLE_IF( SUPPORTS_DEFAULT_VALUES, TSerialParameter<ValType> )
+inline SerialParameter(const char* pkName, ValType& rValue, u32 HintFlags = 0, const ValType& rkDefaultValue = ValType())
+{
+    return TSerialParameter<ValType> { pkName, rValue, HintFlags, &rkDefaultValue };
+}
+template<typename ValType>
+ENABLE_IF( !SUPPORTS_DEFAULT_VALUES, TSerialParameter<ValType> )
+inline SerialParameter(const char* pkName, ValType& rValue, u32 HintFlags = 0)
+{
+    return TSerialParameter<ValType> { pkName, rValue, HintFlags, nullptr };
+}
+
+/** Returns whether the parameter value matches its default value */
+template<typename ValType>
+ENABLE_IF( SUPPORTS_DEFAULT_VALUES, bool )
+inline ParameterMatchesDefault( const TSerialParameter<ValType>& kParameter )
+{
+    return kParameter.pDefaultValue != nullptr && kParameter.rValue == *kParameter.pDefaultValue;
+}
 
 template<typename ValType>
-inline TSerialParameter<ValType> MakeSerialParameter(const char *pkName, ValType& rValue)
+ENABLE_IF( !SUPPORTS_DEFAULT_VALUES, bool )
+inline ParameterMatchesDefault( const TSerialParameter<ValType>& )
 {
-    return TSerialParameter<ValType> { pkName, rValue };
+    return false;
 }
 
-#define SERIAL(ParamName, ParamValue) MakeSerialParameter(ParamName, ParamValue)
-#define SERIAL_AUTO(ParamValue) MakeSerialParameter(#ParamValue, ParamValue)
-
-// THexSerialParameter - same as TSerialParameter but serialized in hex for improved readability
+/** Initializes the parameter to its default value */
 template<typename ValType>
-struct THexSerialParameter
+ENABLE_IF( SUPPORTS_DEFAULT_VALUES, bool )
+inline InitParameterToDefault( TSerialParameter<ValType>& Param )
 {
-    const char *pkName;
-    ValType& rValue;
-};
-
-template<typename ValType/*, class = typename std::enable_if<std::is_integral<ValType>::value, int>*/>
-inline THexSerialParameter<ValType> MakeHexSerialParameter(const char *pkName, ValType& rValue)
-{
-    return THexSerialParameter<ValType> { pkName, rValue };
+    if (Param.pDefaultValue != nullptr)
+    {
+        Param.rValue = *Param.pDefaultValue;
+        return true;
+    }
+    else
+        return false;
 }
-
-#define SERIAL_HEX(ParamName, ParamValue) MakeHexSerialParameter(ParamName, ParamValue)
-#define SERIAL_HEX_AUTO(ParamValue) MakeHexSerialParameter(#ParamValue, ParamValue)
-
-// TAbstractSerialParameter - name/value pair for polymorphic objects with a pointer to a factory
-template<typename ValType, typename FactoryType>
-struct TAbstractSerialParameter
-{
-    const char *pkName;
-    ValType*& rValue;
-    FactoryType *pFactory;
-};
-
-template<typename ValType, typename FactoryType>
-inline TAbstractSerialParameter<ValType, FactoryType> MakeAbstractSerialParameter(const char *pkName, ValType*& rValue, FactoryType *pFactory)
-{
-    return TAbstractSerialParameter<ValType, FactoryType> { pkName, rValue, pFactory };
-}
-
-#define SERIAL_ABSTRACT(ParamName, ParamValue, Factory) MakeAbstractSerialParameter(ParamName, ParamValue, Factory)
-#define SERIAL_ABSTRACT_AUTO(ParamValue, Factory) MakeAbstractSerialParameter(#ParamValue, ParamValue, Factory)
-
-// TContainerSerialParameter - name/value pair for containers with a parameter name string
-template<typename ValType>
-struct TContainerSerialParameter
-{
-    const char *pkName;
-    ValType& rContainer;
-    const char *pkElementName;
-};
 
 template<typename ValType>
-inline TContainerSerialParameter<ValType> MakeSerialParameter(const char *pkName, ValType& rContainer, const char *pkElementName)
+ENABLE_IF( !SUPPORTS_DEFAULT_VALUES, bool )
+inline InitParameterToDefault( TSerialParameter<ValType>& )
 {
-    return TContainerSerialParameter<ValType> { pkName, rContainer, pkElementName };
+    return false;
 }
 
-#define SERIAL_CONTAINER(ParamName, Container, ElementName) MakeSerialParameter(ParamName, Container, ElementName)
-#define SERIAL_CONTAINER_AUTO(Container, ElementName) MakeSerialParameter(#Container, Container, ElementName)
-
-// TAbstractContainerSerialParameter - name/value pair for containers of polymorphic objects with a parameter name string and a pointer to a factory
-template<typename ValType, typename FactoryType>
-struct TAbstractContainerSerialParameter
-{
-    const char *pkName;
-    ValType& rContainer;
-    const char *pkElementName;
-    FactoryType *pFactory;
-};
-
-template<typename ValType, typename FactoryType>
-inline TAbstractContainerSerialParameter<ValType, FactoryType> MakeSerialParameter(const char *pkName, ValType& rContainer, const char *pkElementName, FactoryType *pFactory)
-{
-    return TAbstractContainerSerialParameter<ValType, FactoryType> { pkName, rContainer, pkElementName, pFactory };
-}
-
-#define SERIAL_ABSTRACT_CONTAINER(ParamName, Container, ElementName, Factory) MakeSerialParameter(ParamName, Container, ElementName, Factory)
-#define SERIAL_ABSTRACT_CONTAINER_AUTO(Container, ElementName, Factory) MakeSerialParameter(#Container, Container, ElementName, Factory)
-
-// SFINAE serialize function type check
+/** SFINAE serialize function type check */
 // https://jguegant.github.io/blogs/tech/sfinae-introduction.html
 void Serialize(); // This needs to be here or else the global Serialize method handling causes a compiler error. Not sure of a better fix
-void SerializeContainer();
+void BulkSerialize();
 
-template<class ValueType, class ArchiveType>
+/** Helper struct to verify that function Func exists and matches the given function signature (FuncType) */
+template<typename FuncType, FuncType Func> struct FunctionExists;
+
+/** Determine what kind of Serialize function the type has */
+template<typename ValueType, class ArchiveType>
 struct SerialType
 {
-public:
     enum { Primitive, Member, Global, None };
 
-    // Helper struct to verify that function Func exists and matches the given function signature (FuncType)
-    template<typename FuncType, FuncType Func> struct FunctionExists;
-
     // Check for ArcType::SerializePrimitive(ValType&) method
-    template<typename ValType, typename ArcType> static long long&  Check(FunctionExists<void (ArcType::*)(ValType&), &ArcType::SerializePrimitive>*);
+    template<typename ValType, typename ArcType> static long long&  Check(FunctionExists<void (ArcType::*)(ValType&, u32), &ArcType::SerializePrimitive>*);
     // Check for ValType::Serialize(ArcType&)
     template<typename ValType, typename ArcType> static long&       Check(FunctionExists<void (ValType::*)(ArcType&), &ValType::Serialize>*);
     // Check for global Serialize(ArcType&,ValType&) function
     template<typename ValType, typename ArcType> static short&      Check(FunctionExists<void (*)(ArcType&, ValType&), &Serialize>*);
-    // Check for global SerializeContainer(ArcType&,ValType&,const TString&)
-    template<typename ValType, typename ArcType> static short&      Check(FunctionExists<void (*)(ArcType&, ValType&, const TString&), &SerializeContainer>*);
     // Fallback - no valid Serialize method exists
     template<typename ValType, typename ArcType> static char&       Check(...);
 
@@ -167,9 +185,44 @@ public:
                              None);
 };
 
-#define ENABLE_FOR_SERIAL_TYPE(SType) typename std::enable_if<SerialType<ValType, IArchive>::Type == SerialType<ValType, IArchive>::##SType, int>::type = 0
+/** Helper for determining the type used by a given abstract object class (i.e. the type returned by the Type() function) */
+#define ABSTRACT_TYPE decltype( std::declval<ValType>().Type() )
 
-// Actual archive class
+/** For abstract types, determine what kind of ArchiveConstructor the type has */
+template<typename ValType, class ArchiveType>
+struct ArchiveConstructorType
+{
+    typedef ABSTRACT_TYPE ObjType;
+
+    enum { Basic, Advanced, None };
+
+    // Check for ValueType::ArchiveConstructor(ObjectType, const IArchive&)
+    template<typename ValueType, typename ObjectType> static long&   Check(FunctionExists<ValueType* (*)(ObjectType, const ArchiveType&), &ValueType::ArchiveConstructor>*);
+    // Check for ValueType::ArchiveConstructor(ObjectType)
+    template<typename ValueType, typename ObjectType> static short&  Check(FunctionExists<ValueType* (*)(ObjectType), &ValueType::ArchiveConstructor>*);
+    // Fallback - no valid ArchiveConstructor method exists
+    template<typename ValueType, typename ObjectType> static char&   Check(...);
+
+    // Set Type enum to correspond to whichever function exists
+    static const int Type = (sizeof(Check<ValType, ObjType>(0)) == sizeof(long) ? Advanced :
+                             sizeof(Check<ValType, ObjType>(0)) == sizeof(short) ? Basic :
+                             None);
+
+    // If you fail here, you are missing an ArchiveConstructor() function, or you do have one but it is malformed.
+    // Check the comments at the top of this source file for details on serialization requirements for abstract objects.
+    static_assert(Type != None, "Abstract objects being serialized must have virtual Type() and static ArchiveConstructor() functions.");
+};
+
+/** Helper that turns functions on or off depending on their serialize type */
+#define IS_SERIAL_TYPE(SType) (SerialType<ValType, IArchive>::Type == SerialType<ValType, IArchive>::##SType)
+
+/** Helper that turns functions on or off depending on their StaticConstructor type */
+#define IS_ARCHIVE_CONSTRUCTOR_TYPE(CType) (ArchiveConstructorType<ValType, IArchive>::Type == ArchiveConstructorType<ValType, IArchive>::##CType)
+
+/** Helper that turns functions on or off depending on if the parameter type is abstract */
+#define IS_ABSTRACT std::is_abstract<ValType>::value
+
+/** IArchive - Main serializer archive interface */
 class IArchive
 {
 protected:
@@ -177,11 +230,25 @@ protected:
     u16 mFileVersion;
     EGame mGame;
 
+    // Subclasses must fill in flags in their constructors!!!
+    u32 mArchiveFlags;
+
+    // Info about the stack of parameters being serialized
+    struct SParmStackEntry
+    {
+        size_t TypeID;
+        size_t TypeSize;
+        void* pDataPointer;
+        u32 HintFlags;
+    };
+    std::vector<SParmStackEntry> mParmStack;
+
 public:
     enum EArchiveVersion
     {
         eArVer_Initial,
         eArVer_32BitBinarySize,
+        eArVer_Refactor,
         // Insert new versions before this line
         eArVer_Max
     };
@@ -191,236 +258,370 @@ public:
         : mFileVersion(0)
         , mArchiveVersion(skCurrentArchiveVersion)
         , mGame(eUnknownGame)
-    {}
+        , mArchiveFlags(0)
+    {
+        // hack to reduce allocations
+        mParmStack.reserve(16);
+    }
 
     virtual ~IArchive() {}
 
+protected:
+    // Serialize archive version. Always call after opening a file.
+    void SerializeVersion()
+    {
+        *this << SerialParameter("ArchiveVer",  mArchiveVersion,    SH_Attribute)
+              << SerialParameter("FileVer",     mFileVersion,       SH_Attribute | SH_Optional,     (u16) 0)
+              << SerialParameter("Game",        mGame,              SH_Attribute | SH_Optional,     eUnknownGame);
+    }
+
+    // Return whether this parameter should be serialized
+    template<typename ValType>
+    bool ShouldSerializeParameter(const TSerialParameter<ValType>& Param)
+    {
+        if (mArchiveFlags & AF_NoSkipping)
+            return true;
+
+        if ( IsWriter() )
+        {
+            if (Param.HintFlags & SH_NeverSave)
+                return false;
+
+            if ( ( Param.HintFlags & SH_Optional ) &&
+                 ( Param.HintFlags & SH_AlwaysSave ) == 0 &&
+                 ( ParameterMatchesDefault(Param) ) )
+                return false;
+        }
+
+        return true;
+    }
+
+    // Instantiate an abstract object from the file
+    // Only readers are allowed to instantiate objects
+    template<typename ValType, typename ObjType = ABSTRACT_TYPE>
+    ENABLE_IF( IS_ARCHIVE_CONSTRUCTOR_TYPE(Basic), ValType* )
+    inline InstantiateAbstractObject(const TSerialParameter<ValType*>& Param, ObjType Type)
+    {
+        // Variant for basic static constructor
+        ASSERT( IsReader() );
+        return ValType::ArchiveConstructor(Type);
+    }
+
+    template<typename ValType, typename ObjType = ABSTRACT_TYPE>
+    ENABLE_IF( IS_ARCHIVE_CONSTRUCTOR_TYPE(Advanced), ValType* )
+    InstantiateAbstractObject(const TSerialParameter<ValType*>& Param, ObjType Type)
+    {
+        // Variant for advanced static constructor
+        ASSERT( IsReader() );
+        return ValType::ArchiveConstructor(Type, *this);
+    }
+
+    // Parameter stack handling
+    template<typename ValType>
+    inline void PushParameter(const TSerialParameter<ValType>& Param)
+    {
+#if _DEBUG
+        if (mParmStack.size() > 0)
+        {
+            // Attribute properties cannot have children!
+            ASSERT( (mParmStack.back().HintFlags & SH_Attribute) == 0 );
+        }
+#endif
+
+        SParmStackEntry Entry;
+        Entry.TypeID = typeid(ValType).hash_code();
+        Entry.TypeSize = sizeof(ValType);
+        Entry.pDataPointer = &Param.rValue;
+        Entry.HintFlags = Param.HintFlags;
+        mParmStack.push_back(Entry);
+    }
+
+    template<typename ValType>
+    inline void PopParameter(const TSerialParameter<ValType>& Param)
+    {
+#if _DEBUG
+        // Make sure the entry matches the param that has been passed in
+        ASSERT(mParmStack.size() > 0);
+        const SParmStackEntry& kEntry = mParmStack.back();
+        ASSERT(kEntry.TypeID == typeid(ValType).hash_code());
+        ASSERT(kEntry.pDataPointer == &Param.rValue);
+#endif
+        mParmStack.pop_back();
+    }
+
+public:
     // Serialize primitives
-    template<typename ValType, ENABLE_FOR_SERIAL_TYPE(Primitive)>
-    inline IArchive& operator<<(TSerialParameter<ValType> rParam)
+    template<typename ValType>
+    ENABLE_IF( IS_SERIAL_TYPE(Primitive), IArchive& )
+    operator<<(TSerialParameter<ValType> rParam)
     {
-        if (ParamBegin(rParam.pkName))
+        PushParameter(rParam);
+
+        if (ShouldSerializeParameter(rParam)
+            && ParamBegin(rParam.pkName, rParam.HintFlags))
         {
-            SerializePrimitive(rParam.rValue);
+            SerializePrimitive(rParam.rValue, rParam.HintFlags);
             ParamEnd();
         }
+        else if (IsReader())
+            InitParameterToDefault(rParam);
+
+        PopParameter(rParam);
         return *this;
     }
 
-    // Serialize pointers to primitives
-    template<typename ValType, ENABLE_FOR_SERIAL_TYPE(Primitive)>
-    inline IArchive& operator<<(TSerialParameter<ValType*> rParam)
+    template<typename ValType>
+    ENABLE_IF( IS_SERIAL_TYPE(Primitive) && !IS_ABSTRACT, IArchive& )
+    operator<<(TSerialParameter<ValType*> rParam)
     {
-        if (ParamBegin(rParam.pkName))
-        {
-            if (IsReader() && !rParam.rValue) rParam.rValue = new ValType;
-            SerializePrimitive(*rParam.rValue);
-            ParamEnd();
-        }
-        return *this;
-    }
+        ASSERT( !(mArchiveFlags & AF_Writer) || rParam.rValue != nullptr );
+        PushParameter(rParam);
 
-    // Serialize hex primitives
-    template<typename ValType, ENABLE_FOR_SERIAL_TYPE(Primitive)>
-    inline IArchive& operator<<(THexSerialParameter<ValType> rParam)
-    {
-        if (ParamBegin(rParam.pkName))
+        if (ShouldSerializeParameter(rParam)
+            && ParamBegin(rParam.pkName, rParam.HintFlags))
         {
-            SerializeHexPrimitive(rParam.rValue);
-            ParamEnd();
-        }
-        return *this;
-    }
+            // Support for old versions of archives that serialize types on non-abstract polymorphic pointers
+            if (ArchiveVersion() < eArVer_Refactor && IsReader() && std::is_polymorphic_v<ValType>)
+            {
+                u32 Type;
+                *this << SerialParameter("Type", Type, SH_Attribute);
+            }
 
-    // Serialize pointers to hex primitives
-    template<typename ValType, ENABLE_FOR_SERIAL_TYPE(Primitive)>
-    inline IArchive& operator<<(THexSerialParameter<ValType*> rParam)
-    {
-        if (ParamBegin(rParam.pkName))
-        {
-            if (IsReader() && !rParam.rValue) rParam.rValue = new ValType;
-            SerializeHexPrimitive(*rParam.rValue);
-            ParamEnd();
-        }
-        return *this;
-    }
+            if (PreSerializePointer(rParam.rValue, rParam.HintFlags))
+            {
+                if (rParam.rValue == nullptr && (mArchiveFlags & AF_Reader))
+                    rParam.rValue = new ValType;
 
-    // Serialize objects with member Serialize methods
-    template<typename ValType, ENABLE_FOR_SERIAL_TYPE(Member)>
-    inline IArchive& operator<<(TSerialParameter<ValType> rParam)
-    {
-        if (ParamBegin(rParam.pkName))
-        {
-            rParam.rValue.Serialize(*this);
-            ParamEnd();
-        }
-        return *this;
-    }
+                if (rParam.rValue != nullptr)
+                    SerializePrimitive(*rParam.rValue, rParam.HintFlags);
+            }
+            else if (IsReader())
+                rParam.rValue = nullptr;
 
-    // Serialize pointers to objects with member Serialize methods
-    template<typename ValType, ENABLE_FOR_SERIAL_TYPE(Member)>
-    inline IArchive& operator<<(TSerialParameter<ValType*> rParam)
-    {
-        if (ParamBegin(rParam.pkName))
-        {
-            if (IsReader() && !rParam.rValue) rParam.rValue = new ValType;
-            rParam.rValue->Serialize(*this);
             ParamEnd();
         }
+
+        PopParameter(rParam);
         return *this;
     }
 
     // Serialize objects with global Serialize functions
-    template<typename ValType, ENABLE_FOR_SERIAL_TYPE(Global)>
-    inline IArchive& operator<<(TSerialParameter<ValType> rParam)
+    template<typename ValType>
+    ENABLE_IF( IS_SERIAL_TYPE(Global), IArchive& )
+    inline operator<<(TSerialParameter<ValType> rParam)
     {
-        if (ParamBegin(rParam.pkName))
+        PushParameter(rParam);
+
+        if (ShouldSerializeParameter(rParam)
+            && ParamBegin(rParam.pkName, rParam.HintFlags))
         {
             Serialize(*this, rParam.rValue);
             ParamEnd();
         }
+        else if (IsReader())
+            InitParameterToDefault(rParam);
+
+        PopParameter(rParam);
         return *this;
     }
 
-    // Serialize pointers to objects with global Serialize functions
-    template<typename ValType, ENABLE_FOR_SERIAL_TYPE(Global)>
-    inline IArchive& operator<<(TSerialParameter<ValType*> rParam)
+    template<typename ValType>
+    ENABLE_IF( IS_SERIAL_TYPE(Global) && !IS_ABSTRACT, IArchive&)
+    operator<<(TSerialParameter<ValType*> rParam)
     {
-        if (ParamBegin(rParam.pkName))
-        {
-            if (IsReader() && !rParam.rValue) rParam.rValue = new ValType;
-            Serialize(*this, *rParam.rValue);
-            ParamEnd();
-        }
-        return *this;
-    }
+        ASSERT( !IsWriter() || rParam.rValue != nullptr );
+        PushParameter(rParam);
 
-    // Serialize abstract objects (global methods for abstract objects not supported)
-    template<typename ValType, typename FactoryType, ENABLE_FOR_SERIAL_TYPE(Member)>
-    inline IArchive& operator<<(TAbstractSerialParameter<ValType, FactoryType> rParam)
-    {
-        if (ParamBegin(rParam.pkName))
+        if (ShouldSerializeParameter(rParam)
+            && ParamBegin(rParam.pkName))
         {
-            // Serialize object type
-            u32 Type = (IsWriter() ? (u32) rParam.rValue->Type() : 0);
-            SerializeAbstractObjectType(Type);
-
-            // Reader only - instantiate object
-            if (IsReader())
+            // Support for old versions of archives that serialize types on non-abstract polymorphic pointers
+            if (ArchiveVersion() < eArVer_Refactor && IsReader() && std::is_polymorphic_v<ValType>)
             {
-                rParam.rValue = static_cast<ValType*>(rParam.pFactory->SpawnObject(Type));
-                ASSERT(rParam.rValue != nullptr);
+                u32 Type;
+                *this << SerialParameter("Type", Type, SH_Attribute);
             }
 
-            // Finish serialize
-            rParam.rValue->Serialize(*this);
+            if (PreSerializePointer(rParam.rValue, rParam.HintFlags, rParam.HintFlags))
+            {
+                if (rParam.rValue == nullptr && IsReader())
+                    rParam.rValue = new ValType;
+
+                if (rParam.rValue != nullptr)
+                    Serialize(*this, *rParam.rValue);
+            }
+            else if (IsReader())
+                rParam.rValue = nullptr;
+
             ParamEnd();
         }
 
+        PopParameter(rParam);
         return *this;
     }
 
-    // Serialize containers (member methods for containers not supported)
-    template<typename ValType, ENABLE_FOR_SERIAL_TYPE(Global)>
-    inline IArchive& operator<<(TContainerSerialParameter<ValType> rParam)
+    // Serialize objects with Serialize methods
+    template<typename ValType>
+    ENABLE_IF( IS_SERIAL_TYPE(Member), IArchive& )
+    operator<<(TSerialParameter<ValType> rParam)
     {
-        if (ParamBegin(rParam.pkName))
+        PushParameter(rParam);
+
+        if (ShouldSerializeParameter(rParam) &&
+            ParamBegin(rParam.pkName, rParam.HintFlags))
         {
-            SerializeContainer(*this, rParam.rContainer, rParam.pkElementName);
+            rParam.rValue.Serialize(*this);
             ParamEnd();
         }
+        else if (IsReader())
+            InitParameterToDefault(rParam);
 
+        PopParameter(rParam);
         return *this;
     }
 
-    // Serialize abstract containers (member methods for containers not supported)
-    template<typename ValType, typename FactoryType, ENABLE_FOR_SERIAL_TYPE(Global)>
-    inline IArchive& operator<<(TAbstractContainerSerialParameter<ValType, FactoryType> rParam)
+    template<typename ValType>
+    ENABLE_IF( IS_SERIAL_TYPE(Member) && !IS_ABSTRACT, IArchive& )
+    operator<<(TSerialParameter<ValType*> rParam)
     {
-        if (ParamBegin(rParam.pkName))
+        PushParameter(rParam);
+
+        if (ShouldSerializeParameter(rParam) &&
+            ParamBegin(rParam.pkName, rParam.HintFlags))
         {
-            SerializeContainer(*this, rParam.rContainer, rParam.pkElementName, rParam.pFactory);
+            // Support for old versions of archives that serialize types on non-abstract polymorphic pointers
+            if (ArchiveVersion() < eArVer_Refactor && IsReader() && std::is_polymorphic_v<ValType>)
+            {
+                u32 Type;
+                *this << SerialParameter("Type", Type, SH_Attribute);
+            }
+
+            if (PreSerializePointer((void*&) rParam.rValue, rParam.HintFlags))
+            {
+                if (rParam.rValue == nullptr && IsReader())
+                    rParam.rValue = new ValType;
+
+                if (rParam.rValue != nullptr)
+                    rParam.rValue->Serialize(*this);
+            }
+            else if (IsReader())
+                rParam.rValue = nullptr;
+
             ParamEnd();
         }
 
+        PopParameter(rParam);
         return *this;
+    }
+
+    // Serialize polymorphic objects
+    template<typename ValType, typename ObjectType = decltype( std::declval<ValType>().Type() )>
+    ENABLE_IF( IS_SERIAL_TYPE(Member) && IS_ABSTRACT, IArchive&)
+    operator<<(TSerialParameter<ValType*> rParam)
+    {
+        PushParameter(rParam);
+
+        if (ShouldSerializeParameter(rParam) &&
+            ParamBegin(rParam.pkName, rParam.HintFlags))
+        {
+            if (PreSerializePointer( (void*&) rParam.rValue, rParam.HintFlags ))
+            {
+                // Non-reader archives cannot instantiate the class. It must exist already.
+                if (IsWriter())
+                {
+                    ObjectType Type = rParam.rValue->Type();
+                    *this << SerialParameter("Type", Type, SH_Attribute);
+                }
+                else
+                {
+                    // NOTE: If you crash here, it likely means that the pointer was initialized to a garbage value.
+                    // It is legal to serialize a pointer that already exists, so you still need to initialize it.
+                    ObjectType Type = (rParam.rValue ? rParam.rValue->Type() : ObjectType());
+                    ObjectType TypeCopy = Type;
+                    *this << SerialParameter("Type", Type, SH_Attribute);
+
+                    if (IsReader() && rParam.rValue == nullptr)
+                    {
+                        rParam.rValue = InstantiateAbstractObject(rParam, Type);
+                    }
+                    else if (rParam.rValue != nullptr)
+                    {
+                        // Make sure the type is what we are expecting
+                        ASSERT(Type == TypeCopy);
+                    }
+                }
+
+                // At this point, the object should exist and is ready for serializing.
+                if (rParam.rValue)
+                {
+                    rParam.rValue->Serialize(*this);
+                }
+            }
+            else if (IsReader())
+                rParam.rValue = nullptr;
+
+            ParamEnd();
+        }
+        else
+        {
+            // Polymorphic types don't support default values
+        }
+
+        PopParameter(rParam);
+        return *this;
+    }
+
+    // Error
+    template<typename ValType>
+    ENABLE_IF( IS_SERIAL_TYPE(Global) && IS_ABSTRACT, IArchive& )
+    operator<<(TSerialParameter<ValType*>)
+    {
+        static_assert(false, "Global Serialize method for polymorphic type pointers is not supported.");
     }
 
     // Generate compiler errors for classes with no valid Serialize function defined
-    template<typename ValType, ENABLE_FOR_SERIAL_TYPE(None)>
-    inline IArchive& operator<<(TSerialParameter<ValType>)
+    template<typename ValType>
+    ENABLE_IF( IS_SERIAL_TYPE(None), IArchive& )
+    operator<<(TSerialParameter<ValType>)
     {
         static_assert(false, "Object being serialized has no valid Serialize method defined.");
     }
 
-    template<typename ValType, typename FactoryType, ENABLE_FOR_SERIAL_TYPE(None)>
-    inline IArchive& operator<<(TAbstractSerialParameter<ValType, FactoryType>)
-    {
-        static_assert(false, "Abstract object being serialized must have a virtual Serialize method defined.");
-    }
-
-    template<typename ValType, ENABLE_FOR_SERIAL_TYPE(None)>
-    inline IArchive& operator<<(TContainerSerialParameter<ValType>)
-    {
-        static_assert(false, "Container being serialized has no valid Serialize method defined.");
-    }
-
-    template<typename ValType, typename FactoryType, ENABLE_FOR_SERIAL_TYPE(None)>
-    inline IArchive& operator<<(TAbstractContainerSerialParameter<ValType, FactoryType>)
-    {
-        static_assert(false, "Container being serialized has no valid Serialize method defined.");
-    }
-
     // Interface
-    virtual bool ParamBegin(const char *pkName) = 0;
+    virtual bool ParamBegin(const char *pkName, u32 Flags) = 0;
     virtual void ParamEnd() = 0;
 
-    virtual void SerializeContainerSize(u32& rSize, const TString& rkElemName) = 0;
-    virtual void SerializeAbstractObjectType(u32& rType) = 0;
+    virtual bool PreSerializePointer(void*& Pointer, u32 Flags) = 0;
+    virtual void SerializePrimitive(bool& rValue, u32 Flags) = 0;
+    virtual void SerializePrimitive(char& rValue, u32 Flags) = 0;
+    virtual void SerializePrimitive(s8& rValue, u32 Flags) = 0;
+    virtual void SerializePrimitive(u8& rValue, u32 Flags) = 0;
+    virtual void SerializePrimitive(s16& rValue, u32 Flags) = 0;
+    virtual void SerializePrimitive(u16& rValue, u32 Flags) = 0;
+    virtual void SerializePrimitive(s32& rValue, u32 Flags) = 0;
+    virtual void SerializePrimitive(u32& rValue, u32 Flags) = 0;
+    virtual void SerializePrimitive(s64& rValue, u32 Flags) = 0;
+    virtual void SerializePrimitive(u64& rValue, u32 Flags) = 0;
+    virtual void SerializePrimitive(float& rValue, u32 Flags) = 0;
+    virtual void SerializePrimitive(double& rValue, u32 Flags) = 0;
+    virtual void SerializePrimitive(TString& rValue, u32 Flags) = 0;
+    virtual void SerializePrimitive(TWideString& rValue, u32 Flags) = 0;
+    virtual void SerializePrimitive(CFourCC& rValue, u32 Flags) = 0;
+    virtual void SerializePrimitive(CAssetID& rValue, u32 Flags) = 0;
+    virtual void SerializeBulkData(void* pData, u32 DataSize, u32 Flags) = 0;
 
-    virtual void SerializePrimitive(bool& rValue) = 0;
-    virtual void SerializePrimitive(char& rValue) = 0;
-    virtual void SerializePrimitive(s8& rValue) = 0;
-    virtual void SerializePrimitive(u8& rValue) = 0;
-    virtual void SerializePrimitive(s16& rValue) = 0;
-    virtual void SerializePrimitive(u16& rValue) = 0;
-    virtual void SerializePrimitive(s32& rValue) = 0;
-    virtual void SerializePrimitive(u32& rValue) = 0;
-    virtual void SerializePrimitive(s64& rValue) = 0;
-    virtual void SerializePrimitive(u64& rValue) = 0;
-    virtual void SerializePrimitive(float& rValue) = 0;
-    virtual void SerializePrimitive(double& rValue) = 0;
-    virtual void SerializePrimitive(TString& rValue) = 0;
-    virtual void SerializePrimitive(TWideString& rValue) = 0;
-    virtual void SerializePrimitive(CFourCC& rValue) = 0;
-    virtual void SerializePrimitive(CAssetID& rValue) = 0;
-
-    virtual void SerializeHexPrimitive(u8& rValue) = 0;
-    virtual void SerializeHexPrimitive(u16& rValue) = 0;
-    virtual void SerializeHexPrimitive(u32& rValue) = 0;
-    virtual void SerializeHexPrimitive(u64& rValue) = 0;
-
-    virtual void BulkSerialize(void* pData, u32 DataSize) = 0;
-
-    void SerializeBulkData(std::vector<char>& InArray)
+    // Optional - serialize in an array size. By default, just stores size as an attribute property.
+    virtual void SerializeArraySize(u32& Value)
     {
-        u32 Size = InArray.size();
-        SerializeContainerSize(Size, "Size");
-
-        if (IsReader())
-        {
-            InArray.resize(Size);
-        }
-
-        BulkSerialize(InArray.data(), Size);
+        *this << SerialParameter("Size", Value, SH_Attribute);
     }
 
-    // Meta
-    virtual bool IsReader() const = 0;
-    virtual bool IsWriter() const = 0;
-    virtual bool IsTextFormat() const = 0;
-
     // Accessors
+    inline bool IsReader() const                { return (mArchiveFlags & AF_Reader) != 0; }
+    inline bool IsWriter() const                { return (mArchiveFlags & AF_Writer) != 0; }
+    inline bool IsTextFormat() const            { return (mArchiveFlags & AF_Text) != 0; }
+    inline bool IsBinaryFormat() const          { return (mArchiveFlags & AF_Binary) != 0; }
+
     inline u16 ArchiveVersion() const   { return mArchiveVersion; }
     inline u16 FileVersion() const      { return mFileVersion; }
     inline EGame Game() const           { return mGame; }
@@ -443,8 +644,27 @@ public:
     {
         return CSerialVersion(mArchiveVersion, mFileVersion, mGame);
     }
+
+    /** Returns the last object of a requested type in the parameter stack. Returns nullptr if the wasn't one.
+     *  This function will not return the current object being serialized. */
+    template<typename ValType>
+    ValType* FindParentObject() const
+    {
+        for (int ParmIdx = mParmStack.size() - 2; ParmIdx >= 0; ParmIdx--)
+        {
+            const SParmStackEntry& kEntry = mParmStack[ParmIdx];
+
+            if (kEntry.TypeID == typeid(ValType).hash_code())
+            {
+                return static_cast<ValType*>(kEntry.pDataPointer);
+            }
+        }
+
+        return nullptr;
+    }
 };
 
+#if WITH_CODEGEN
 // Default enum serializer; can be overridden
 #include <codegen/EnumReflection.h>
 
@@ -456,212 +676,179 @@ inline void Serialize(IArchive& Arc, T& Val)
         if (Arc.IsReader())
         {
             TString ValueName;
-            Arc.SerializePrimitive(ValueName);
+            Arc.SerializePrimitive(ValueName, 0);
             Val = TEnumReflection<T>::ConvertStringToValue( *ValueName );
         }
         else
         {
             TString ValueName = TEnumReflection<T>::ConvertValueToString(Val);
-            Arc.SerializePrimitive(ValueName);
+            Arc.SerializePrimitive(ValueName, 0);
         }
     }
     else
     {
-        Arc.SerializePrimitive((u32&) Val);
+        Arc.SerializePrimitive((u32&) Val, 0);
+    }
+}
+#endif
+
+// Container serialize methods
+
+// std::vector
+template<typename T>
+inline void Serialize(IArchive& Arc, std::vector<T>& Vector)
+{
+    u32 Size = Vector.size();
+    Arc.SerializeArraySize(Size);
+
+    if (Arc.IsReader())
+    {
+        Vector.resize(Size);
+    }
+
+    for (u32 i = 0; i < Size; i++)
+    {
+        // SH_IgnoreName to preserve compatibility with older files that may have differently-named items
+        Arc << SerialParameter("Item", Vector[i], SH_IgnoreName);
     }
 }
 
-// Container serialize methods
-#include <list>
-#include <map>
-#include <set>
-#include <vector>
-
-template<typename Container>
-inline void SerializeContainerSize(IArchive& rArc, Container& rContainer, const TString& rkElemName)
+// overload for std::vector<u8> that serializes in bulk
+template<>
+inline void Serialize(IArchive& Arc, std::vector<u8>& Vector)
 {
-    u32 Size = rContainer.size();
-    rArc.SerializeContainerSize(Size, rkElemName);
-    if (rArc.IsReader()) rContainer.resize(Size);
-}
+    // Don't use SerializeArraySize, bulk data is a special case that overloads may not handle correctly
+    u32 Size = Vector.size();
+    Arc << SerialParameter("Size", Size, SH_Attribute);
 
-// std::vector
-template<typename ValType>
-inline void SerializeContainer(IArchive& rArc, std::vector<ValType>& rVec, const TString& rkElemName = "Item")
-{
-    SerializeContainerSize(rArc, rVec, rkElemName);
+    if (Arc.IsReader())
+    {
+        Vector.resize(Size);
+    }
 
-    for (u32 iElem = 0; iElem < rVec.size(); iElem++)
-        rArc << SERIAL(*rkElemName, rVec[iElem]);
-}
-
-template<typename ValType, typename FactoryType>
-inline void SerializeContainer(IArchive& rArc, std::vector<ValType>& rVec, const TString& rkElemName, FactoryType *pFactory)
-{
-    SerializeContainerSize(rArc, rVec, rkElemName);
-
-    for (u32 iElem = 0; iElem < rVec.size(); iElem++)
-        rArc << SERIAL_ABSTRACT(*rkElemName, rVec[iElem], pFactory);
+    Arc.SerializeBulkData(Vector.data(), Vector.size(), 0);
 }
 
 // std::list
-template<typename ValType>
-inline void SerializeContainer(IArchive& rArc, std::list<ValType>& rList, const TString& rkElemName)
+template<typename T>
+inline void Serialize(IArchive& Arc, std::list<T>& List)
 {
-    SerializeContainerSize(rArc, rList, rkElemName);
+    u32 Size = List.size();
+    Arc.SerializeArraySize(Size);
 
-    for (auto Iter = rList.begin(); Iter != rList.end(); Iter++)
-        rArc << SERIAL(*rkElemName, *Iter);
-}
+    if (Arc.IsReader())
+    {
+        List.resize(Size);
+    }
 
-template<typename ValType, typename FactoryType>
-inline void SerializeContainer(IArchive& rArc, std::list<ValType>& rList, const TString& rkElemName, FactoryType *pFactory)
-{
-    SerializeContainerSize(rArc, rList, rkElemName);
-
-    for (auto Iter = rList.begin(); Iter != rList.end(); Iter++)
-        rArc << SERIAL_ABSTRACT(*rkElemName, rVec[iElem], pFactory);
+    for (auto Iter = List.begin(); Iter != List.end(); Iter++)
+        Arc << SerialParameter("Item", *Iter, SH_IgnoreName);
 }
 
 // Overload for TStringList and TWideStringList so they can use the TString/TWideString serialize functions
-inline void SerializeContainer(IArchive& rArc, TStringList& rList, const TString& rkElemName)
+inline void Serialize(IArchive& Arc, TStringList& List)
 {
-    typedef std::list<TString> ListType;
-    ListType& rGenericList = *reinterpret_cast<ListType*>(&rList);
-    SerializeContainer(rArc, rGenericList, rkElemName);
+    std::list<TString>& GenericList = *reinterpret_cast< std::list<TString>* >(&List);
+    Serialize(Arc, GenericList);
 }
 
-inline void SerializeContainer(IArchive& rArc, TWideStringList& rList, const TString& rkElemName)
+inline void Serialize(IArchive& Arc, TWideStringList& List)
 {
-    typedef std::list<TWideString> ListType;
-    ListType& rGenericList = *reinterpret_cast<ListType*>(&rList);
-    SerializeContainer(rArc, rGenericList, rkElemName);
+    std::list<TWideString>& GenericList = *reinterpret_cast< std::list<TWideString>* >(&List);
+    Serialize(Arc, GenericList);
 }
 
 // std::set
-template<typename ValType>
-inline void SerializeContainer(IArchive& rArc, std::set<ValType>& rSet, const TString& rkElemName)
+template<typename T>
+inline void Serialize(IArchive& Arc, std::set<T>& Set)
 {
-    u32 Size = rSet.size();
-    rArc.SerializeContainerSize(Size, rkElemName);
+    u32 Size = Set.size();
+    Arc.SerializeArraySize(Size);
 
-    if (rArc.IsReader())
+    if (Arc.IsReader())
     {
-        for (u32 iElem = 0; iElem < Size; iElem++)
+        for (u32 i = 0; i < Size; i++)
         {
-            ValType Val;
-            rArc << SERIAL(*rkElemName, Val);
-            rSet.insert(Val);
+            T Val;
+            Arc << SerialParameter("Item", Val, SH_IgnoreName);
+            Set.insert(Val);
         }
     }
 
     else
     {
-        for (auto Iter = rSet.begin(); Iter != rSet.end(); Iter++)
+        for (auto Iter = Set.begin(); Iter != Set.end(); Iter++)
         {
-            ValType Val = *Iter;
-            rArc << SERIAL(*rkElemName, Val);
+            T Val = *Iter;
+            Arc << SerialParameter("Item", Val, SH_IgnoreName);
         }
     }
 }
 
-template<typename ValType, typename FactoryType>
-inline void SerializeContainer(IArchive& rArc, std::set<ValType>& rSet, const TString& rkElemName, FactoryType *pFactory)
+// std::map and std::unordered_map
+template<typename KeyType, typename ValType, typename MapType>
+inline void SerializeMap_Internal(IArchive& Arc, MapType& Map)
 {
-    u32 Size = rSet.size();
-    rArc.SerializeContainerSize(Size, rkElemName);
+    u32 Size = Map.size();
+    Arc.SerializeArraySize(Size);
 
-    if (rArc.IsReader())
+    if (Arc.IsReader())
     {
-        for (u32 iElem = 0; iElem < Size; iElem++)
+        for (u32 i = 0; i < Size; i++)
         {
+            KeyType Key;
             ValType Val;
-            rArc << SERIAL_ABSTRACT(*rkElemName, Val, pFactory);
-            rSet.insert(Val);
+
+            if (Arc.ParamBegin("Item", SH_IgnoreName))
+            {
+                Arc << SerialParameter("Key", Key, SH_IgnoreName)
+                    << SerialParameter("Value", Val, SH_IgnoreName);
+
+                ASSERT(Map.find(Key) == Map.end());
+                Map[Key] = Val;
+                Arc.ParamEnd();
+            }
         }
     }
 
     else
     {
-        for (auto Iter = rSet.begin(); Iter != rSet.end(); Iter++)
+        for (auto Iter = Map.begin(); Iter != Map.end(); Iter++)
         {
-            ValType Val = *Iter;
-            rArc << SERIAL_ABSTRACT(*rkElemName, Val, pFactory);
+            // Creating copies is not ideal, but necessary because parameters cannot be const.
+            // Maybe this can be avoided somehow?
+            KeyType Key = Iter->first;
+            ValType Val = Iter->second;
+
+            if (Arc.ParamBegin("Item", SH_IgnoreName))
+            {
+                Arc << SerialParameter("Key", Key, SH_IgnoreName)
+                    << SerialParameter("Value", Val, SH_IgnoreName);
+
+                Arc.ParamEnd();
+            }
         }
     }
 }
 
-// std::map
 template<typename KeyType, typename ValType>
-inline void SerializeContainer(IArchive& rArc, std::map<KeyType,ValType>& rMap, const TString& rkElemName)
+inline void Serialize(IArchive& Arc, std::map<KeyType, ValType>& Map)
 {
-    u32 Size = rMap.size();
-    rArc.SerializeContainerSize(Size, rkElemName);
-
-    if (rArc.IsReader())
-    {
-        for (u32 iElem = 0; iElem < Size; iElem++)
-        {
-            KeyType Key;
-            ValType Val;
-
-            rArc.ParamBegin(*rkElemName);
-            rArc << SERIAL("Key", Key) << SERIAL("Value", Val);
-            rArc.ParamEnd();
-
-            ASSERT(rMap.find(Key) == rMap.end());
-            rMap[Key] = Val;
-        }
-    }
-
-    else
-    {
-        for (auto Iter = rMap.begin(); Iter != rMap.end(); Iter++)
-        {
-            KeyType Key = Iter->first;
-            ValType Val = Iter->second;
-
-            rArc.ParamBegin(*rkElemName);
-            rArc << SERIAL("Key", Key) << SERIAL("Value", Val);
-            rArc.ParamEnd();
-        }
-    }
+    SerializeMap_Internal<KeyType, ValType, std::map<KeyType, ValType> >(Arc, Map);
 }
 
-template<typename KeyType, typename ValType, typename FactoryType>
-inline void SerializeContainer(IArchive& rArc, std::map<KeyType,ValType>& rMap, const TString& rkElemName, FactoryType *pFactory)
+template<typename KeyType, typename ValType>
+inline void Serialize(IArchive& Arc, std::unordered_map<KeyType, ValType>& Map)
 {
-    u32 Size = rMap.size();
-    rArc.SerializeContainerSize(Size, rkElemName);
-
-    if (rArc.IsReader())
-    {
-        for (u32 iElem = 0; iElem < Size; iElem++)
-        {
-            KeyType Key;
-            ValType Val;
-
-            rArc.ParamBegin(*rkElemName);
-            rArc << SERIAL_ABSTRACT("Key", Key, pFactory) << SERIAL("Value", Val);
-            rArc.ParamEnd();
-
-            ASSERT(rMap.find(Key) == rMap.end());
-            rMap[Key] = Val;
-        }
-    }
-
-    else
-    {
-        for (auto Iter = rMap.begin(); Iter != rMap.end(); Iter++)
-        {
-            KeyType Key = Iter->first;
-            ValType Val = Iter->second;
-
-            rArc.ParamBegin(*rkElemName);
-            rArc << SERIAL("Key", Key) << SERIAL("Value", Val);
-            rArc.ParamEnd();
-        }
-    }
+    SerializeMap_Internal<KeyType, ValType, std::unordered_map<KeyType, ValType> >(Arc, Map);
 }
+
+// Remove header-only macros
+#undef ENABLE_IF
+#undef SUPPORTS_DEFAULT_VALUES
+#undef IS_ABSTRACT
+#undef IS_SERIAL_TYPE
+#undef IS_ARCHIVE_CONSTRUCTOR_TYPE
+#undef ABSTRACT_TYPE
 
 #endif // IARCHIVE

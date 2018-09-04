@@ -15,7 +15,7 @@ protected:
 public:
     virtual void SerializeValue(void* pData, IArchive& Arc) const
     {
-        Arc.SerializeBulkData( ValueRef(pData) );
+        Arc << SerialParameter("Data", ValueRef(pData));
     }
 };
 

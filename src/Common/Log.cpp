@@ -53,8 +53,10 @@ bool InitLog(const TString& rkFilename)
     fprintf(gpLogFile, "Opened log file at %s\n", Buffer);
     fflush(gpLogFile);
 
+#ifdef APP_FULL_NAME
     // Print app name and version
     fprintf(gpLogFile, APP_FULL_NAME"\n");
+#endif
 
     // Print any messages that were attempted before we initialized
     if (!gPreInitLogs.empty())

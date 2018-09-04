@@ -62,17 +62,17 @@ void RecursiveGetListOfEmptyDirectories(CVirtualDirectory *pDir, TStringList& rO
 bool CResourceStore::SerializeDatabaseCache(IArchive& rArc)
 {
     // Serialize resources
-    if (rArc.ParamBegin("Resources"))
+    if (rArc.ParamBegin("Resources", 0))
     {
         // Serialize resources
         u32 ResourceCount = mResourceEntries.size();
-        rArc << SERIAL_AUTO(ResourceCount);
+        rArc << SerialParameter("ResourceCount", ResourceCount);
 
         if (rArc.IsReader())
         {
             for (u32 ResIdx = 0; ResIdx < ResourceCount; ResIdx++)
             {
-                if (rArc.ParamBegin("Resource"))
+                if (rArc.ParamBegin("Resource", 0))
                 {
                     CResourceEntry *pEntry = CResourceEntry::BuildFromArchive(this, rArc);
                     ASSERT( FindEntry(pEntry->ID()) == nullptr );
@@ -85,7 +85,7 @@ bool CResourceStore::SerializeDatabaseCache(IArchive& rArc)
         {
             for (CResourceIterator It(this); It; ++It)
             {
-                if (rArc.ParamBegin("Resource"))
+                if (rArc.ParamBegin("Resource", 0))
                 {
                     It->SerializeEntryInfo(rArc, false);
                     rArc.ParamEnd();
@@ -101,7 +101,7 @@ bool CResourceStore::SerializeDatabaseCache(IArchive& rArc)
     if (!rArc.IsReader())
         RecursiveGetListOfEmptyDirectories(mpDatabaseRoot, EmptyDirectories);
 
-    rArc << SERIAL_CONTAINER_AUTO(EmptyDirectories, "Directory");
+    rArc << SerialParameter("EmptyDirectories", EmptyDirectories);
 
     if (rArc.IsReader())
     {

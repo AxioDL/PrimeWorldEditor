@@ -13,6 +13,11 @@ protected:
     {}
 
 public:
+    virtual void PostInitialize()
+    {
+        mDefaultValue.SetGame(Game());
+    }
+
     virtual void SerializeValue(void* pData, IArchive& Arc) const
     {
         Value(pData).Serialize(Arc);
@@ -21,6 +26,11 @@ public:
     virtual const char* HashableTypeName() const
     {
         return (Game() <= eEchoes ? "AnimationSet" : "CharacterAnimationSet");
+    }
+
+    virtual CAnimationParameters GetSerializationDefaultValue()
+    {
+        return CAnimationParameters( Game() );
     }
 };
 

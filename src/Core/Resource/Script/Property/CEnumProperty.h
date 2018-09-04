@@ -34,8 +34,8 @@ class TEnumPropertyBase : public TSerializeableTypedProperty<s32, TypeEnum>
 
         void Serialize(IArchive& rArc)
         {
-            rArc << SERIAL_AUTO(Name)
-                 << SERIAL_HEX_AUTO(ID);
+            rArc << SerialParameter("Name", Name)
+                 << SerialParameter("ID", ID, SH_HexDisplay);
         }
     };
     std::vector<SEnumValue> mValues;
@@ -55,12 +55,12 @@ public:
     virtual void Serialize(IArchive& rArc)
     {
         TSerializeableTypedProperty::Serialize(rArc);
-        rArc << SERIAL_CONTAINER("Values", mValues, "Values");
+        rArc << SerialParameter("Values", mValues);
     }
 
     virtual void SerializeValue(void* pData, IArchive& Arc) const
     {
-        Arc.SerializePrimitive( (u32&) ValueRef(pData) );
+        Arc.SerializePrimitive( (u32&) ValueRef(pData), 0 );
     }
 
     virtual void InitFromArchetype(IPropertyNew* pOther)

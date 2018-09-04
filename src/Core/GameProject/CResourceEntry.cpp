@@ -127,9 +127,9 @@ void CResourceEntry::SerializeEntryInfo(IArchive& rArc, bool MetadataOnly)
 {
     CAssetID ID = mID;
 
-    rArc << SERIAL("AssetID", ID)
-         << SERIAL("Type", mpTypeInfo)
-         << SERIAL("Flags", mFlags);
+    rArc << SerialParameter("AssetID", ID)
+         << SerialParameter("Type", mpTypeInfo)
+         << SerialParameter("Flags", mFlags);
 
     // Don't allow the file to override our asset ID if we already have a valid one.
     if (rArc.IsReader() && !mID.IsValid())
@@ -140,9 +140,9 @@ void CResourceEntry::SerializeEntryInfo(IArchive& rArc, bool MetadataOnly)
     {
         TString Dir = (mpDirectory ? mpDirectory->FullPath() : "");
 
-        rArc << SERIAL("Name", mName)
-             << SERIAL("Directory", Dir)
-             << SERIAL_ABSTRACT("Dependencies", mpDependencies, &gDependencyNodeFactory);
+        rArc << SerialParameter("Name", mName)
+             << SerialParameter("Directory", Dir)
+             << SerialParameter("Dependencies", mpDependencies);
 
         if (rArc.IsReader())
         {

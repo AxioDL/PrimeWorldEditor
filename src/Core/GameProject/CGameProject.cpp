@@ -36,10 +36,10 @@ bool CGameProject::Save()
 
 bool CGameProject::Serialize(IArchive& rArc)
 {
-    rArc << SERIAL("Name", mProjectName)
-         << SERIAL("Region", mRegion)
-         << SERIAL("GameID", mGameID)
-         << SERIAL("BuildVersion", mBuildVersion);
+    rArc << SerialParameter("Name", mProjectName)
+         << SerialParameter("Region", mRegion)
+         << SerialParameter("GameID", mGameID)
+         << SerialParameter("BuildVersion", mBuildVersion);
 
     // Serialize package list
     std::vector<TString> PackageList;
@@ -50,7 +50,7 @@ bool CGameProject::Serialize(IArchive& rArc)
             PackageList.push_back( mPackages[iPkg]->DefinitionPath(true) );
     }
 
-    rArc << SERIAL_CONTAINER("Packages", PackageList, "Package");
+    rArc << SerialParameter("Packages", PackageList);
 
     // Load packages
     if (rArc.IsReader())

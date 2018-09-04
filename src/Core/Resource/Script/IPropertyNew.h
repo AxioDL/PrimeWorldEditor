@@ -230,6 +230,9 @@ public:
                                          IPropertyNew* pParent,
                                          u32 Offset,
                                          const TString& rkName);
+
+    static IPropertyNew* ArchiveConstructor(EPropertyTypeNew Type,
+                                           const IArchive& Arc);
 };
 
 inline ECookPreferenceNew IPropertyNew::CookPreference() const
@@ -374,7 +377,43 @@ public:
     virtual void Serialize(IArchive& rArc)
     {
         IPropertyNew::Serialize(rArc);
-        rArc << SERIAL("DefaultValue", mDefaultValue);
+
+        // Determine if default value should be serialized as optional.
+        // All MP1 properties should be optional. For MP2 and on, we set optional
+        // on property types that don't have default values in the game executable.
+        bool MakeOptional = false;
+
+        if (Game() <= ePrime)
+        {
+            MakeOptional = true;
+        }
+        else
+        {
+            switch (Type())
+            {
+            case EPropertyTypeNew::String:
+            case EPropertyTypeNew::Asset:
+            case EPropertyTypeNew::Animation:
+            case EPropertyTypeNew::AnimationSet:
+            case EPropertyTypeNew::Sequence:
+            case EPropertyTypeNew::Spline:
+            case EPropertyTypeNew::Guid:
+                MakeOptional = true;
+                break;
+            }
+        }
+
+        // Branch here to avoid constructing a default value if we don't need to.
+        if (MakeOptional)
+            rArc << SerialParameter("DefaultValue", mDefaultValue, SH_Optional, GetSerializationDefaultValue());
+        else
+            rArc << SerialParameter("DefaultValue", mDefaultValue);
+    }
+
+    /** Return default value for serialization - can be customized per type */
+    virtual PropType GetSerializationDefaultValue()
+    {
+        return PropType();
     }
 };
 
@@ -398,8 +437,8 @@ public:
     virtual void Serialize(IArchive& rArc)
     {
         TTypedPropertyNew::Serialize(rArc);
-        rArc << SERIAL("Min", mMinValue)
-             << SERIAL("Max", mMaxValue);
+        rArc << SerialParameter("Min", mMinValue, SH_Optional, (PropType) -1)
+             << SerialParameter("Max", mMaxValue, SH_Optional, (PropType) -1);
     }
 
     virtual void InitFromArchetype(IPropertyNew* pOther)

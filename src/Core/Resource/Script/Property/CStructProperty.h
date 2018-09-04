@@ -90,43 +90,14 @@ public:
     virtual void Serialize(IArchive& rArc)
     {
         IPropertyNew::Serialize(rArc);
-
-        if (rArc.ParamBegin("SubProperties"))
-        {
-            u32 NumChildren = mChildren.size();
-            rArc.SerializeContainerSize(NumChildren, "Property");
-
-            if (rArc.IsReader())
-            {
-                mChildren.resize(NumChildren);
-            }
-
-            for (u32 ChildIdx = 0; ChildIdx < NumChildren; ChildIdx++)
-            {
-                if (rArc.ParamBegin("Property"))
-                {
-                    EPropertyTypeNew Type = (rArc.IsWriter() ? mChildren[ChildIdx]->Type() : EPropertyTypeNew::Invalid);
-                    rArc << SERIAL_AUTO(Type);
-
-                    if (rArc.IsReader())
-                    {
-                        mChildren[ChildIdx] = Create(Type, this, mGame, mpScriptTemplate);
-                    }
-
-                    mChildren[ChildIdx]->Serialize(rArc);
-                    rArc.ParamEnd();
-                }
-            }
-
-            rArc.ParamEnd();
-        }
+        rArc << SerialParameter("SubProperties", mChildren);
     }
 
     virtual void SerializeValue(void* pData, IArchive& Arc) const
     {
         for (u32 ChildIdx = 0; ChildIdx < mChildren.size(); ChildIdx++)
         {
-            if (Arc.ParamBegin("Property"))
+            if (Arc.ParamBegin("Property", 0))
             {
                 mChildren[ChildIdx]->SerializeValue(pData, Arc);
                 Arc.ParamEnd();

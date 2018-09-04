@@ -559,7 +559,7 @@
     <property ID="0x0D7E7E2C" name="BabyMetroidScale"/>
     <property ID="0x0D7EF013" name="Unknown"/>
     <property ID="0x0D7F8C7F" name="PlayAlways"/>
-    <property ID="0x0D7FAD55" name="Unknown"/>
+    <property ID="0x0D7FAD55" name="DieOnCollision"/>
     <property ID="0x0D8098BF" name="Unknown"/>
     <property ID="0x0D920DE2" name="ConnectorLocator"/>
     <property ID="0x0D9230D1" name="BodyVulnerability"/>

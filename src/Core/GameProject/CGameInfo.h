@@ -24,7 +24,9 @@ class CGameInfo
 
         void Serialize(IArchive& rArc)
         {
-            rArc << SERIAL_AUTO(Version) << SERIAL_AUTO(Region) << SERIAL_AUTO(Name);
+            rArc << SerialParameter("Version", Version)
+                 << SerialParameter("Region", Region)
+                 << SerialParameter("Name", Name);
         }
     };
     std::vector<SBuildInfo> mBuilds;

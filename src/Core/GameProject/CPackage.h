@@ -17,7 +17,9 @@ struct SNamedResource
 
     void Serialize(IArchive& rArc)
     {
-        rArc << SERIAL_AUTO(Name) << SERIAL_AUTO(ID) << SERIAL_AUTO(Type);
+        rArc << SerialParameter("Name", Name)
+             << SerialParameter("ID", ID)
+             << SerialParameter("Type", Type);
     }
 };
 
