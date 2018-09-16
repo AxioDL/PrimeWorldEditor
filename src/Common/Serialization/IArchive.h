@@ -67,6 +67,9 @@ enum ESerialHint
     SH_Proxy                = 0x80,     // The parameter is a proxy of the parent and will display inline instead of as a child parameter.
 };
 
+// Hints that can be inherited by SH_InheritHints and SH_Proxy
+const int gkInheritableSerialHints = (SH_HexDisplay | SH_NeverSave | SH_AlwaysSave);
+
 /** EArchiveFlags */
 enum EArchiveFlags
 {
@@ -366,8 +369,7 @@ private:
         // For InheritHints parameters, and for proxy parameters, copy the hint flags from the parent parameter.
         if (Param.HintFlags & (SH_InheritHints | SH_Proxy))
         {
-            Param.HintFlags |= mParmStack.back().HintFlags;
-            Param.HintFlags &= ~SH_InheritHints;
+            Param.HintFlags |= (mParmStack.back().HintFlags & gkInheritableSerialHints);
         }
 
         SParmStackEntry Entry;
@@ -699,30 +701,10 @@ public:
     }
 };
 
-/** Function that serializes a value directly */
-template<typename ValType>
-ENABLE_IF( IS_SERIAL_TYPE(Primitive), IArchive& )
-inline SerializeDirect(IArchive& Arc, ValType& Value)
-{
-    Arc.SerializePrimitive(Value, SH_InheritHints);
-    return Arc;
-}
-
-template<typename ValType>
-ENABLE_IF( IS_SERIAL_TYPE(Global), IArchive& )
-inline SerializeDirect(IArchive& Arc, ValType& Value)
-{
-    Serialize(Arc, Value);
-    return Arc;
-}
-
-template<typename ValType>
-ENABLE_IF( IS_SERIAL_TYPE(Member), IArchive& )
-inline SerializeDirect(IArchive& Arc, ValType& Value)
-{
-    Value.Serialize(Arc);
-    return Arc;
-}
+/** Class that determines if the type is a primitive */
+template<typename T>
+class TIsPrimitive : std::conditional< SerialType<T,IArchive>::Type == SerialType<T,IArchive>::Primitive, std::true_type, std::false_type >::type
+{};
 
 #if WITH_CODEGEN
 // Default enum serializer; can be overridden
@@ -769,7 +751,7 @@ inline void Serialize(IArchive& Arc, std::vector<T>& Vector)
     for (u32 i = 0; i < Size; i++)
     {
         // SH_IgnoreName to preserve compatibility with older files that may have differently-named items
-        Arc << SerialParameter("Element", Vector[i], SH_IgnoreName);
+        Arc << SerialParameter("Element", Vector[i], SH_InheritHints | SH_IgnoreName);
     }
 }
 
@@ -802,7 +784,7 @@ inline void Serialize(IArchive& Arc, std::list<T>& List)
     }
 
     for (auto Iter = List.begin(); Iter != List.end(); Iter++)
-        Arc << SerialParameter("Element", *Iter, SH_IgnoreName);
+        Arc << SerialParameter("Element", *Iter, SH_IgnoreName | SH_InheritHints);
 }
 
 // Overload for TStringList and TWideStringList so they can use the TString/TWideString serialize functions
@@ -830,7 +812,7 @@ inline void Serialize(IArchive& Arc, std::set<T>& Set)
         for (u32 i = 0; i < Size; i++)
         {
             T Val;
-            Arc << SerialParameter("Element", Val, SH_IgnoreName);
+            Arc << SerialParameter("Element", Val, SH_IgnoreName | SH_InheritHints);
             Set.insert(Val);
         }
     }
@@ -840,7 +822,7 @@ inline void Serialize(IArchive& Arc, std::set<T>& Set)
         for (auto Iter = Set.begin(); Iter != Set.end(); Iter++)
         {
             T Val = *Iter;
-            Arc << SerialParameter("Element", Val, SH_IgnoreName);
+            Arc << SerialParameter("Element", Val, SH_IgnoreName | SH_InheritHints);
         }
     }
 }
@@ -852,6 +834,14 @@ inline void SerializeMap_Internal(IArchive& Arc, MapType& Map)
     u32 Size = Map.size();
     Arc.SerializeArraySize(Size);
 
+    u32 Hints = SH_IgnoreName | SH_InheritHints;
+
+    // Serialize the key/value as attributes if they are both primitive types.
+    if (TIsPrimitive<KeyType>::value && TIsPrimitive<ValType>::value)
+    {
+        Hints |= SH_Attribute;
+    }
+
     if (Arc.IsReader())
     {
         for (u32 i = 0; i < Size; i++)
@@ -859,10 +849,10 @@ inline void SerializeMap_Internal(IArchive& Arc, MapType& Map)
             KeyType Key;
             ValType Val;
 
-            if (Arc.ParamBegin("Element", SH_IgnoreName))
+            if (Arc.ParamBegin("Element", SH_IgnoreName | SH_InheritHints))
             {
-                Arc << SerialParameter("Key", Key, SH_IgnoreName)
-                    << SerialParameter("Value", Val, SH_IgnoreName);
+                Arc << SerialParameter("Key", Key,  Hints)
+                    << SerialParameter("Value", Val, Hints);
 
                 ASSERT(Map.find(Key) == Map.end());
                 Map[Key] = Val;
@@ -880,10 +870,10 @@ inline void SerializeMap_Internal(IArchive& Arc, MapType& Map)
             KeyType Key = Iter->first;
             ValType Val = Iter->second;
 
-            if (Arc.ParamBegin("Element", SH_IgnoreName))
+            if (Arc.ParamBegin("Element", SH_IgnoreName | SH_InheritHints))
             {
-                Arc << SerialParameter("Key", Key, SH_IgnoreName)
-                    << SerialParameter("Value", Val, SH_IgnoreName);
+                Arc << SerialParameter("Key", Key, Hints)
+                    << SerialParameter("Value", Val, Hints);
 
                 Arc.ParamEnd();
             }
