@@ -3,34 +3,81 @@
 #include <Common/Log.h>
 
 CMasterTemplate::CMasterTemplate()
-    : mVersion(0)
-    , mFullyLoaded(false)
+    : mFullyLoaded(false)
 {
 }
 
-CMasterTemplate::~CMasterTemplate()
+void CMasterTemplate::Serialize(IArchive& Arc)
 {
-    for (auto it = mTemplates.begin(); it != mTemplates.end(); it++)
-        delete it->second;
+    Arc << SerialParameter("ScriptObjects", mScriptTemplates)
+        << SerialParameter("Structs", mStructTemplates)
+        << SerialParameter("Enums", mEnumTemplates)
+        << SerialParameter("Flags", mFlagsTemplates)
+        << SerialParameter("States", mStates)
+        << SerialParameter("Messages", mMessages);
+}
+
+void CMasterTemplate::LoadSubTemplates()
+{
+    //todo
+}
+
+void CMasterTemplate::SaveSubTemplates()
+{
+    TString GameDir = "../templates_new/" + GetDirectory();
+
+    for (auto Iter = mScriptTemplates.begin(); Iter != mScriptTemplates.end(); Iter++)
+    {
+        SScriptTemplatePath& Path = Iter->second;
+        TString OutPath = GameDir + Path.Path;
+
+        FileUtil::MakeDirectory( OutPath.GetFileDirectory() );
+        CXMLWriter Writer(OutPath, "ScriptObject", 0, Game());
+        Path.pTemplate->Serialize(Writer);
+    }
+
+    for (auto Iter = mStructTemplates.begin(); Iter != mStructTemplates.end(); Iter++)
+    {
+        SPropertyTemplatePath& Path = Iter->second;
+        TString OutPath = GameDir + Path.Path;
+
+        FileUtil::MakeDirectory( OutPath.GetFileDirectory() );
+        CXMLWriter Writer(OutPath, "Struct", 0, Game());
+        Path.pTemplate->Serialize(Writer);
+    }
+
+    for (auto Iter = mEnumTemplates.begin(); Iter != mEnumTemplates.end(); Iter++)
+    {
+        SPropertyTemplatePath& Path = Iter->second;
+        TString OutPath = GameDir + Path.Path;
+
+        FileUtil::MakeDirectory( OutPath.GetFileDirectory() );
+        CXMLWriter Writer(OutPath, "Enum", 0, Game());
+        Path.pTemplate->Serialize(Writer);
+    }
+
+    for (auto Iter = mFlagsTemplates.begin(); Iter != mFlagsTemplates.end(); Iter++)
+    {
+        SPropertyTemplatePath& Path = Iter->second;
+        TString OutPath = GameDir + Path.Path;
+
+        FileUtil::MakeDirectory( OutPath.GetFileDirectory() );
+        CXMLWriter Writer(OutPath, "Flags", 0, Game());
+        Path.pTemplate->Serialize(Writer);
+    }
 }
 
 u32 CMasterTemplate::GameVersion(TString VersionName)
 {
-    VersionName = VersionName.ToLower();
-
-    for (u32 iVer = 0; iVer < mGameVersions.size(); iVer++)
-        if (mGameVersions[iVer].ToLower() == VersionName)
-            return iVer;
-
     return -1;
 }
 
 CScriptTemplate* CMasterTemplate::TemplateByID(u32 ObjectID)
 {
-    auto it = mTemplates.find(ObjectID);
+    auto it = mScriptTemplates.find(ObjectID);
 
-    if (it != mTemplates.end())
-        return it->second;
+    if (it != mScriptTemplates.end())
+        return it->second.pTemplate.get();
     else
         return nullptr;
 }
@@ -42,16 +89,16 @@ CScriptTemplate* CMasterTemplate::TemplateByID(const CFourCC& ObjectID)
 
 CScriptTemplate* CMasterTemplate::TemplateByIndex(u32 Index)
 {
-    auto it = mTemplates.begin();
-    return (std::next(it, Index))->second;
+    auto it = mScriptTemplates.begin();
+    return (std::next(it, Index))->second.pTemplate.get();
 }
 
 SState CMasterTemplate::StateByID(u32 StateID)
 {
-    auto it = mStates.find(StateID);
+    auto Iter = mStates.find(StateID);
 
-    if (it != mStates.end())
-        return it->second;
+    if (Iter != mStates.end())
+        return SState(Iter->first, Iter->second);
     else
         return SState(-1, "Invalid");
 }
@@ -63,16 +110,17 @@ SState CMasterTemplate::StateByID(const CFourCC& State)
 
 SState CMasterTemplate::StateByIndex(u32 Index)
 {
-    auto it = mStates.begin();
-    return (std::next(it, Index))->second;
+    auto Iter = mStates.begin();
+    Iter = std::next(Iter, Index);
+    return SState(Iter->first, Iter->second);
 }
 
 SMessage CMasterTemplate::MessageByID(u32 MessageID)
 {
-    auto it = mMessages.find(MessageID);
+    auto Iter = mMessages.find(MessageID);
 
-    if (it != mMessages.end())
-        return it->second;
+    if (Iter != mMessages.end())
+        return SMessage(Iter->first, Iter->second);
     else
         return SMessage(-1, "Invalid");
 }
@@ -84,18 +132,31 @@ SMessage CMasterTemplate::MessageByID(const CFourCC& MessageID)
 
 SMessage CMasterTemplate::MessageByIndex(u32 Index)
 {
-    auto it = mMessages.begin();
-    return (std::next(it, Index))->second;
+    auto Iter = mMessages.begin();
+    Iter = std::next(Iter, Index);
+    return SMessage(Iter->first, Iter->second);
 }
 
-CStructPropertyNew* CMasterTemplate::StructAtSource(const TString& rkSource)
+
+CStructPropertyNew* CMasterTemplate::FindStructArchetype(const TString& kStructName) const
 {
-    auto InfoIt = mStructTemplates.find(rkSource);
+    auto Iter = mStructTemplates.find(kStructName);
+    IPropertyNew* pProperty = (Iter != mStructTemplates.end()) ? Iter->second.pTemplate.get() : nullptr;
+    return TPropCast<CStructPropertyNew>(pProperty);
+}
 
-    if (InfoIt != mStructTemplates.end())
-        return InfoIt->second;
+CEnumProperty* CMasterTemplate::FindEnumArchetype(const TString& kEnumName) const
+{
+    auto Iter = mEnumTemplates.find(kEnumName);
+    IPropertyNew* pProperty = (Iter != mEnumTemplates.end()) ? Iter->second.pTemplate.get() : nullptr;
+    return TPropCast<CEnumProperty>(pProperty);
+}
 
-    else return nullptr;
+CFlagsProperty* CMasterTemplate::FindFlagsArchetype(const TString& kFlagsName) const
+{
+    auto Iter = mFlagsTemplates.find(kFlagsName);
+    IPropertyNew* pProperty = (Iter != mFlagsTemplates.end()) ? Iter->second.pTemplate.get() : nullptr;
+    return TPropCast<CFlagsProperty>(pProperty);
 }
 
 // ************ STATIC ************

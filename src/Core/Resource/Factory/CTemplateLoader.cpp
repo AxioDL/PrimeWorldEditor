@@ -375,8 +375,8 @@ IPropertyNew* CTemplateLoader::LoadProperty(XMLElement* pElem, CScriptTemplate* 
 CStructPropertyNew* CTemplateLoader::LoadStructArchetype(const TString& rkTemplateFileName)
 {
     // Check whether this struct has already been read
-    auto it = mpMaster->mStructTemplates.find(rkTemplateFileName);
-    CStructPropertyNew* pArchetype = (it == mpMaster->mStructTemplates.end() ? nullptr : it->second);
+    TString StructName = rkTemplateFileName.GetFileName(false);
+    CStructPropertyNew* pArchetype = mpMaster->FindStructArchetype(StructName);
 
     // If the struct template hasn't been read yet, then we read it and add it to master's list
     if (!pArchetype)
@@ -432,8 +432,13 @@ CStructPropertyNew* CTemplateLoader::LoadStructArchetype(const TString& rkTempla
             ASSERT(pSubPropsElem);
 
             LoadProperties(pSubPropsElem, nullptr, pArchetype, rkTemplateFileName);
-            mpMaster->mStructTemplates[rkTemplateFileName] = pArchetype;
             pArchetype->PostInitialize();
+
+            mpMaster->mStructTemplates.emplace(
+                        std::make_pair(
+                                StructName,
+                                CMasterTemplate::SPropertyTemplatePath(rkTemplateFileName, pArchetype)
+                            ));
         }
     }
 
@@ -444,8 +449,8 @@ CStructPropertyNew* CTemplateLoader::LoadStructArchetype(const TString& rkTempla
 CEnumProperty* CTemplateLoader::LoadEnumArchetype(const TString& rkTemplateFileName, bool bIsChoice)
 {
     // Check whether this struct has already been read
-    auto it = mpMaster->mEnumTemplates.find(rkTemplateFileName);
-    CEnumProperty* pArchetype = (it == mpMaster->mEnumTemplates.end() ? nullptr : it->second);
+    TString EnumName = rkTemplateFileName.GetFileName(false);
+    CEnumProperty* pArchetype = mpMaster->FindEnumArchetype(EnumName);
 
     // If the enum template hasn't been read yet, then we read it and add it to master's list
     if (!pArchetype)
@@ -475,8 +480,13 @@ CEnumProperty* CTemplateLoader::LoadEnumArchetype(const TString& rkTemplateFileN
             ASSERT(pEnumers);
 
             LoadEnumerators(pEnumers, pArchetype, rkTemplateFileName);
-            mpMaster->mEnumTemplates[rkTemplateFileName] = pArchetype;
             pArchetype->PostInitialize();
+
+            mpMaster->mEnumTemplates.emplace(
+                        std::make_pair(
+                            EnumName,
+                            CMasterTemplate::SPropertyTemplatePath(rkTemplateFileName, pArchetype)
+                        ));
         }
     }
 
@@ -487,8 +497,8 @@ CEnumProperty* CTemplateLoader::LoadEnumArchetype(const TString& rkTemplateFileN
 CFlagsProperty* CTemplateLoader::LoadFlagsArchetype(const TString& rkTemplateFileName)
 {
     // Check whether this struct has already been read
-    auto it = mpMaster->mFlagsTemplates.find(rkTemplateFileName);
-    CFlagsProperty* pArchetype = (it == mpMaster->mFlagsTemplates.end() ? nullptr : it->second);
+    TString FlagsName = rkTemplateFileName.GetFileName(false);
+    CFlagsProperty* pArchetype = mpMaster->FindFlagsArchetype(FlagsName);
 
     // If the enum template hasn't been read yet, then we read it and add it to master's list
     if (!pArchetype)
@@ -517,8 +527,14 @@ CFlagsProperty* CTemplateLoader::LoadFlagsArchetype(const TString& rkTemplateFil
             ASSERT(pFlags);
 
             LoadBitFlags(pFlags, pArchetype, rkTemplateFileName);
-            mpMaster->mFlagsTemplates[rkTemplateFileName] = pArchetype;
             pArchetype->PostInitialize();
+
+            mpMaster->mFlagsTemplates.emplace(
+                        std::make_pair(
+                            FlagsName,
+                            CMasterTemplate::SPropertyTemplatePath(rkTemplateFileName, pArchetype)
+                        ));
+
         }
     }
 
@@ -937,28 +953,14 @@ void CTemplateLoader::LoadMasterTemplate(XMLDocument *pDoc, CMasterTemplate *pMa
     mMasterDir = pMaster->mSourceFile.GetFileDirectory();
 
     XMLElement *pRoot = pDoc->FirstChildElement("MasterTemplate");
-    mpMaster->mVersion = TString(pRoot->Attribute("version")).ToInt32();
-
     XMLElement *pElem = pRoot->FirstChildElement();
 
     while (pElem)
     {
         TString NodeName = pElem->Name();
 
-        // Versions
-        if (NodeName == "versions")
-        {
-            XMLElement *pVersion = pElem->FirstChildElement("version");
-
-            while (pVersion)
-            {
-                mpMaster->mGameVersions.push_back(pVersion->GetText());
-                pVersion = pVersion->NextSiblingElement("version");
-            }
-        }
-
         // Objects
-        else if (NodeName == "objects")
+        if (NodeName == "objects")
         {
             XMLElement *pObj = pElem->FirstChildElement("object");
 
@@ -984,7 +986,13 @@ void CTemplateLoader::LoadMasterTemplate(XMLDocument *pDoc, CMasterTemplate *pMa
                     CScriptTemplate *pTemp = LoadScriptTemplate(&ScriptXML, TemplateName, ID);
 
                     if (pTemp)
-                        mpMaster->mTemplates[ID] = pTemp;
+                    {
+                        mpMaster->mScriptTemplates.emplace(
+                                    std::make_pair(
+                                        ID,
+                                        CMasterTemplate::SScriptTemplatePath(ID, TemplateName, pTemp)
+                                    ));
+                    }
                 }
 
                 pObj = pObj->NextSiblingElement("object");
@@ -1007,7 +1015,7 @@ void CTemplateLoader::LoadMasterTemplate(XMLDocument *pDoc, CMasterTemplate *pMa
                     StateID = CFourCC(StrID).ToLong();
 
                 TString StateName = pState->Attribute("name");
-                mpMaster->mStates[StateID] = SState(StateID, StateName);
+                mpMaster->mStates[StateID] = StateName;
                 pState = pState->NextSiblingElement("state");
             }
         }
@@ -1028,7 +1036,7 @@ void CTemplateLoader::LoadMasterTemplate(XMLDocument *pDoc, CMasterTemplate *pMa
                     MessageID = CFourCC(StrID).ToLong();
 
                 TString MessageName = pMessage->Attribute("name");
-                mpMaster->mMessages[MessageID] = SMessage(MessageID, MessageName);
+                mpMaster->mMessages[MessageID] = MessageName;
                 pMessage = pMessage->NextSiblingElement("message");
             }
         }
@@ -1226,6 +1234,63 @@ void CTemplateLoader::LoadPropertyList(XMLDocument *pDoc, const TString& ListNam
                 CMasterTemplate::smPropertyNames[ID.ToInt32()] = Name;
 
             pElem = pElem->NextSiblingElement();
+        }
+    }
+}
+
+void CTemplateLoader::SaveGameList()
+{
+    const TString kTemplatesDir = "../templates_new/";
+    FileUtil::MakeDirectory( kTemplatesDir );
+
+    // Write game list
+    {
+        const TString kGameListPath = kTemplatesDir + "GameList.xml";
+        CXMLWriter Writer(kGameListPath, "GameList");
+        TString PropertyListPath = "PropertyNameMap.xml";
+        Writer << SerialParameter("PropertyList", PropertyListPath, 0);
+
+        Writer.ParamBegin("Games", 0);
+
+        for (auto Iter = CMasterTemplate::smMasterMap.begin(); Iter != CMasterTemplate::smMasterMap.end(); Iter++)
+        {
+            struct SGameInfo
+            {
+                EGame Game;
+                TString Name;
+                TString MasterPath;
+
+                void Serialize(IArchive& Arc)
+                {
+                    Arc << SerialParameter("ID", Game, SH_Attribute)
+                        << SerialParameter("Name", Name)
+                        << SerialParameter("MasterTemplate", MasterPath);
+                }
+            };
+
+            CMasterTemplate* pMaster = Iter->second;
+            SGameInfo Info;
+            Info.Game = pMaster->Game();
+            Info.Name = pMaster->GameName();
+            Info.MasterPath = pMaster->GetDirectory() + "MasterTemplate.xml";
+            Writer << SerialParameter("Game", Info);
+        }
+        Writer.ParamEnd();
+    }
+
+    // Write master templates
+    {
+        std::list<CMasterTemplate*> MasterList = CMasterTemplate::MasterList();
+
+        for (auto Iter = MasterList.begin(); Iter != MasterList.end(); Iter++)
+        {
+            CMasterTemplate* pMasterTemplate = *Iter;
+            TString MasterFilePath = kTemplatesDir + pMasterTemplate->GetDirectory() + "Game.xml";
+            FileUtil::MakeDirectory( MasterFilePath.GetFileDirectory() );
+
+            CXMLWriter Writer(MasterFilePath, "Game", 0, pMasterTemplate->Game());
+            pMasterTemplate->Serialize(Writer);
+            pMasterTemplate->SaveSubTemplates();
         }
     }
 }

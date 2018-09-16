@@ -9,13 +9,13 @@ namespace NBasics
 
 /** Remove an element from a vector */
 template<typename T>
-bool VectorRemoveOne(std::vector<T>& rVector, const T& rkElement)
+bool VectorRemoveOne(std::vector<T>& Vector, const T& kElement)
 {
-    for (auto Iter = rVector.begin(); Iter != rVector.end(); Iter++)
+    for (auto Iter = Vector.begin(); Iter != Vector.end(); Iter++)
     {
-        if (*Iter == rkElement)
+        if (*Iter == kElement)
         {
-            rVector.erase(Iter);
+            Vector.erase(Iter);
             return true;
         }
     }
@@ -24,20 +24,48 @@ bool VectorRemoveOne(std::vector<T>& rVector, const T& rkElement)
 
 /** Remove all occurrences of an element from a vector. Returns the number of elements that were removed. */
 template<typename T>
-int VectorRemoveAll(std::vector<T>& rVector, const T& rkElement)
+int VectorRemoveAll(std::vector<T>& Vector, const T& kElement)
 {
     int NumRemoved = 0;
 
-    for (auto Iter = rVector.begin(); Iter != rVector.end(); Iter++)
+    for (auto Iter = Vector.begin(); Iter != Vector.end(); Iter++)
     {
-        if (*Iter == rkElement)
+        if (*Iter == kElement)
         {
-            Iter = rVector.erase(Iter);
+            Iter = Vector.erase(Iter);
             NumRemoved++;
         }
     }
 
     return NumRemoved;
+}
+
+/** Returns whether the vector contains the given element */
+template<typename T>
+bool VectorContains(std::vector<T>& Vector, const T& kElement)
+{
+    for (auto Iter = Vector.begin(); Iter != Vector.end(); Iter++)
+    {
+        if (*Iter == kElement)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+/** Adds an element to a vector only if it is not already present */
+template<typename T>
+bool VectorAddUnique(std::vector<T>& Vector, const T& kElement)
+{
+    if (!VectorContainsElement(Vector, kElement))
+    {
+        Vector.push_back(kElement);
+        return true;
+    }
+
+    return false;
 }
 
 }

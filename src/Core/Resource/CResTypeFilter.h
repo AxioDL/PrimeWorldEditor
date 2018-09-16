@@ -50,7 +50,7 @@ public:
     void Serialize(IArchive& rArc)
     {
         if (rArc.IsReader()) mGame = rArc.Game();
-        rArc << SerialParameter("AcceptedTypes", mAcceptedTypes);
+        rArc << SerialParameter("AcceptedTypes", mAcceptedTypes, SH_Proxy);
     }
 
     inline bool Accepts(EResType Type) const

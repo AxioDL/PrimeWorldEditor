@@ -8,6 +8,7 @@
 #include <iostream>
 #include <string>
 
+// Old constructor
 CScriptTemplate::CScriptTemplate(CMasterTemplate *pMaster)
     : mpMaster(pMaster)
     , mpProperties(nullptr)
@@ -24,8 +25,56 @@ CScriptTemplate::CScriptTemplate(CMasterTemplate *pMaster)
 {
 }
 
+// New constructor
+CScriptTemplate::CScriptTemplate(CMasterTemplate* pInMaster, u32 InObjectID, const TString& kInFilePath)
+    : mRotationType(eRotationEnabled)
+    , mScaleType(eScaleEnabled)
+    , mPreviewScale(1.f)
+    , mVolumeShape(eNoShape)
+    , mVolumeScale(1.f)
+    , mSourceFile(kInFilePath)
+    , mObjectID(InObjectID)
+    , mpMaster(pInMaster)
+    , mpNameProperty(nullptr)
+    , mpPositionProperty(nullptr)
+    , mpRotationProperty(nullptr)
+    , mpScaleProperty(nullptr)
+    , mpActiveProperty(nullptr)
+    , mpLightParametersProperty(nullptr)
+    , mVisible(true)
+{
+}
+
 CScriptTemplate::~CScriptTemplate()
 {
+}
+
+void CScriptTemplate::Serialize(IArchive& Arc)
+{
+    Arc << SerialParameter("Modules", mModules, SH_Optional)
+        << SerialParameter("Properties", mpProperties);
+
+    if (Arc.ParamBegin("EditorProperties", 0))
+    {
+        Arc << SerialParameter("NameProperty", mNameIDString, SH_Optional)
+            << SerialParameter("PositionProperty", mPositionIDString, SH_Optional)
+            << SerialParameter("RotationProperty", mRotationIDString, SH_Optional)
+            << SerialParameter("ScaleProperty", mScaleIDString, SH_Optional)
+            << SerialParameter("ActiveProperty", mActiveIDString, SH_Optional)
+            << SerialParameter("LightParametersProperty", mLightParametersIDString, SH_Optional);
+
+        Arc.ParamEnd();
+    }
+
+    Arc << SerialParameter("Assets", mAssets, SH_Optional)
+        << SerialParameter("Attachments", mAttachments, SH_Optional)
+        << SerialParameter("RotationType", mRotationType, SH_Optional, eRotationEnabled)
+        << SerialParameter("ScaleType", mScaleType, SH_Optional, eScaleEnabled)
+        << SerialParameter("PreviewScale", mPreviewScale, SH_Optional, 1.0f)
+        << SerialParameter("VolumeShape", mVolumeShape, SH_Optional, eNoShape)
+        << SerialParameter("VolumeScale", mVolumeScale, SH_Optional, 1.0f)
+        << SerialParameter("VolumeConditionProperty", mVolumeConditionIDString, SH_Optional)
+        << SerialParameter("VolumeConditions", mVolumeConditions, SH_Optional);
 }
 
 void CScriptTemplate::PostLoad()

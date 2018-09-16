@@ -122,16 +122,17 @@ typedef TEnumPropertyBase<EPropertyTypeNew::Enum>   CEnumProperty;
 template<>
 inline CEnumProperty* TPropCast(IPropertyNew* pProperty)
 {
-    EPropertyTypeNew InType = pProperty->Type();
+    if (pProperty)
+    {
+        EPropertyTypeNew InType = pProperty->Type();
 
-    if (InType == EPropertyTypeNew::Enum || InType == EPropertyTypeNew::Choice)
-    {
-        return static_cast<CEnumProperty*>(pProperty);
+        if (InType == EPropertyTypeNew::Enum || InType == EPropertyTypeNew::Choice)
+        {
+            return static_cast<CEnumProperty*>(pProperty);
+        }
     }
-    else
-    {
-        return nullptr;
-    }
+
+    return nullptr;
 }
 
 template<>

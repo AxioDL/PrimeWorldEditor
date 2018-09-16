@@ -57,22 +57,24 @@
 /** ESerialHint - Parameter hint flags */
 enum ESerialHint
 {
-    SH_HexDisplay           = 0x1,      // The parameter should be written in hex in text formats
-    SH_Optional             = 0x2,      // The parameter should not be written to the file if its value matches the default value
-    SH_NeverSave            = 0x4,      // The parameter should not be saved to files
-    SH_AlwaysSave           = 0x8,      // The parameter should always be saved regardless of if it matches the default value
+    SH_HexDisplay           = 0x1,      // The parameter should be written in hex in text formats.
+    SH_Optional             = 0x2,      // The parameter should not be written to the file if its value matches the default value.
+    SH_NeverSave            = 0x4,      // The parameter should not be saved to files.
+    SH_AlwaysSave           = 0x8,      // The parameter should always be saved regardless of if it matches the default value.
     SH_Attribute            = 0x10,     // The parameter is an attribute of another parameter. Attributes cannot have children.
     SH_IgnoreName           = 0x20,     // The parameter name will not be used to validate file data. May yield incorrect results if used improperly!
+    SH_InheritHints         = 0x40,     // The parameter will inherit hints from its parent parameter (except for this flag).
+    SH_Proxy                = 0x80,     // The parameter is a proxy of the parent and will display inline instead of as a child parameter.
 };
 
 /** EArchiveFlags */
 enum EArchiveFlags
 {
-    AF_Reader               = 0x1,      // Archive reads data
-    AF_Writer               = 0x2,      // Archive writes data
-    AF_Text                 = 0x4,      // Archive reads/writes to a text format
-    AF_Binary               = 0x8,      // Archive reads/writes to a binary format
-    AF_NoSkipping           = 0x10,     // Properties are never skipped
+    AF_Reader               = 0x1,      // Archive reads data.
+    AF_Writer               = 0x2,      // Archive writes data.
+    AF_Text                 = 0x4,      // Archive reads/writes to a text format.
+    AF_Binary               = 0x8,      // Archive reads/writes to a binary format.
+    AF_NoSkipping           = 0x10,     // Properties are never skipped.
 };
 
 /** Shortcut macro for enable_if */
@@ -128,7 +130,14 @@ inline ParameterMatchesDefault( const TSerialParameter<ValType>& kParameter )
 }
 
 template<typename ValType>
-ENABLE_IF( !SUPPORTS_DEFAULT_VALUES, bool )
+ENABLE_IF( !SUPPORTS_DEFAULT_VALUES && TIsContainer<ValType>::value, bool )
+inline ParameterMatchesDefault( const TSerialParameter<ValType>& kParameter )
+{
+    return kParameter.rValue.size() == 0;
+}
+
+template<typename ValType>
+ENABLE_IF( !SUPPORTS_DEFAULT_VALUES && !TIsContainer<ValType>::value, bool )
 inline ParameterMatchesDefault( const TSerialParameter<ValType>& )
 {
     return false;
@@ -149,7 +158,15 @@ inline InitParameterToDefault( TSerialParameter<ValType>& Param )
 }
 
 template<typename ValType>
-ENABLE_IF( !SUPPORTS_DEFAULT_VALUES, bool )
+ENABLE_IF( !SUPPORTS_DEFAULT_VALUES && TIsContainer<ValType>::value, bool )
+inline InitParameterToDefault( TSerialParameter<ValType>& Param )
+{
+    Param.rValue.clear();
+    return true;
+}
+
+template<typename ValType>
+ENABLE_IF( !SUPPORTS_DEFAULT_VALUES && !TIsContainer<ValType>::value, bool )
 inline InitParameterToDefault( TSerialParameter<ValType>& )
 {
     return false;
@@ -266,13 +283,31 @@ public:
 
     virtual ~IArchive() {}
 
-protected:
     // Serialize archive version. Always call after opening a file.
     void SerializeVersion()
     {
         *this << SerialParameter("ArchiveVer",  mArchiveVersion,    SH_Attribute)
               << SerialParameter("FileVer",     mFileVersion,       SH_Attribute | SH_Optional,     (u16) 0)
               << SerialParameter("Game",        mGame,              SH_Attribute | SH_Optional,     eUnknownGame);
+    }
+
+private:
+    // Attempts to start a new parameter. Return whether the parameter should be serialized.
+    template<typename ValType>
+    bool InternalStartParam(const TSerialParameter<ValType>& Param)
+    {
+        bool IsProxy = (Param.HintFlags & SH_Proxy) != 0;
+        return ShouldSerializeParameter(Param) && (IsProxy || ParamBegin(Param.pkName, Param.HintFlags) );
+    }
+
+    // Ends a parameter.
+    template<typename ValType>
+    void InternalEndParam(const TSerialParameter<ValType>& Param)
+    {
+        if ((Param.HintFlags & SH_Proxy) == 0)
+        {
+            ParamEnd();
+        }
     }
 
     // Return whether this parameter should be serialized
@@ -318,7 +353,7 @@ protected:
 
     // Parameter stack handling
     template<typename ValType>
-    inline void PushParameter(const TSerialParameter<ValType>& Param)
+    inline void PushParameter(TSerialParameter<ValType>& Param)
     {
 #if _DEBUG
         if (mParmStack.size() > 0)
@@ -327,6 +362,13 @@ protected:
             ASSERT( (mParmStack.back().HintFlags & SH_Attribute) == 0 );
         }
 #endif
+
+        // For InheritHints parameters, and for proxy parameters, copy the hint flags from the parent parameter.
+        if (Param.HintFlags & (SH_InheritHints | SH_Proxy))
+        {
+            Param.HintFlags |= mParmStack.back().HintFlags;
+            Param.HintFlags &= ~SH_InheritHints;
+        }
 
         SParmStackEntry Entry;
         Entry.TypeID = typeid(ValType).hash_code();
@@ -357,11 +399,10 @@ public:
     {
         PushParameter(rParam);
 
-        if (ShouldSerializeParameter(rParam)
-            && ParamBegin(rParam.pkName, rParam.HintFlags))
+        if (InternalStartParam(rParam))
         {
             SerializePrimitive(rParam.rValue, rParam.HintFlags);
-            ParamEnd();
+            InternalEndParam(rParam);
         }
         else if (IsReader())
             InitParameterToDefault(rParam);
@@ -377,8 +418,7 @@ public:
         ASSERT( !(mArchiveFlags & AF_Writer) || rParam.rValue != nullptr );
         PushParameter(rParam);
 
-        if (ShouldSerializeParameter(rParam)
-            && ParamBegin(rParam.pkName, rParam.HintFlags))
+        if (InternalStartParam(rParam))
         {
             // Support for old versions of archives that serialize types on non-abstract polymorphic pointers
             if (ArchiveVersion() < eArVer_Refactor && IsReader() && std::is_polymorphic_v<ValType>)
@@ -398,7 +438,7 @@ public:
             else if (IsReader())
                 rParam.rValue = nullptr;
 
-            ParamEnd();
+            InternalEndParam(rParam);
         }
 
         PopParameter(rParam);
@@ -412,11 +452,10 @@ public:
     {
         PushParameter(rParam);
 
-        if (ShouldSerializeParameter(rParam)
-            && ParamBegin(rParam.pkName, rParam.HintFlags))
+        if (InternalStartParam(rParam))
         {
             Serialize(*this, rParam.rValue);
-            ParamEnd();
+            InternalEndParam(rParam);
         }
         else if (IsReader())
             InitParameterToDefault(rParam);
@@ -432,8 +471,7 @@ public:
         ASSERT( !IsWriter() || rParam.rValue != nullptr );
         PushParameter(rParam);
 
-        if (ShouldSerializeParameter(rParam)
-            && ParamBegin(rParam.pkName))
+        if (InternalStartParam(rParam))
         {
             // Support for old versions of archives that serialize types on non-abstract polymorphic pointers
             if (ArchiveVersion() < eArVer_Refactor && IsReader() && std::is_polymorphic_v<ValType>)
@@ -453,7 +491,7 @@ public:
             else if (IsReader())
                 rParam.rValue = nullptr;
 
-            ParamEnd();
+            InternalEndParam(rParam);
         }
 
         PopParameter(rParam);
@@ -467,11 +505,10 @@ public:
     {
         PushParameter(rParam);
 
-        if (ShouldSerializeParameter(rParam) &&
-            ParamBegin(rParam.pkName, rParam.HintFlags))
+        if (InternalStartParam(rParam))
         {
             rParam.rValue.Serialize(*this);
-            ParamEnd();
+            InternalEndParam(rParam);
         }
         else if (IsReader())
             InitParameterToDefault(rParam);
@@ -486,8 +523,7 @@ public:
     {
         PushParameter(rParam);
 
-        if (ShouldSerializeParameter(rParam) &&
-            ParamBegin(rParam.pkName, rParam.HintFlags))
+        if (InternalStartParam(rParam))
         {
             // Support for old versions of archives that serialize types on non-abstract polymorphic pointers
             if (ArchiveVersion() < eArVer_Refactor && IsReader() && std::is_polymorphic_v<ValType>)
@@ -507,7 +543,7 @@ public:
             else if (IsReader())
                 rParam.rValue = nullptr;
 
-            ParamEnd();
+            InternalEndParam(rParam);
         }
 
         PopParameter(rParam);
@@ -521,8 +557,7 @@ public:
     {
         PushParameter(rParam);
 
-        if (ShouldSerializeParameter(rParam) &&
-            ParamBegin(rParam.pkName, rParam.HintFlags))
+        if (InternalStartParam(rParam))
         {
             if (PreSerializePointer( (void*&) rParam.rValue, rParam.HintFlags ))
             {
@@ -560,7 +595,7 @@ public:
             else if (IsReader())
                 rParam.rValue = nullptr;
 
-            ParamEnd();
+            InternalEndParam(rParam);
         }
         else
         {
@@ -664,11 +699,36 @@ public:
     }
 };
 
+/** Function that serializes a value directly */
+template<typename ValType>
+ENABLE_IF( IS_SERIAL_TYPE(Primitive), IArchive& )
+inline SerializeDirect(IArchive& Arc, ValType& Value)
+{
+    Arc.SerializePrimitive(Value, SH_InheritHints);
+    return Arc;
+}
+
+template<typename ValType>
+ENABLE_IF( IS_SERIAL_TYPE(Global), IArchive& )
+inline SerializeDirect(IArchive& Arc, ValType& Value)
+{
+    Serialize(Arc, Value);
+    return Arc;
+}
+
+template<typename ValType>
+ENABLE_IF( IS_SERIAL_TYPE(Member), IArchive& )
+inline SerializeDirect(IArchive& Arc, ValType& Value)
+{
+    Value.Serialize(Arc);
+    return Arc;
+}
+
 #if WITH_CODEGEN
 // Default enum serializer; can be overridden
 #include <codegen/EnumReflection.h>
 
-template<typename T, typename = typename std::enable_if<std::is_enum<T>::value>::type>
+template<typename T, typename = typename std::enable_if< std::is_enum<T>::value >::type>
 inline void Serialize(IArchive& Arc, T& Val)
 {
     if (Arc.IsTextFormat())
@@ -709,7 +769,7 @@ inline void Serialize(IArchive& Arc, std::vector<T>& Vector)
     for (u32 i = 0; i < Size; i++)
     {
         // SH_IgnoreName to preserve compatibility with older files that may have differently-named items
-        Arc << SerialParameter("Item", Vector[i], SH_IgnoreName);
+        Arc << SerialParameter("Element", Vector[i], SH_IgnoreName);
     }
 }
 
@@ -742,7 +802,7 @@ inline void Serialize(IArchive& Arc, std::list<T>& List)
     }
 
     for (auto Iter = List.begin(); Iter != List.end(); Iter++)
-        Arc << SerialParameter("Item", *Iter, SH_IgnoreName);
+        Arc << SerialParameter("Element", *Iter, SH_IgnoreName);
 }
 
 // Overload for TStringList and TWideStringList so they can use the TString/TWideString serialize functions
@@ -770,7 +830,7 @@ inline void Serialize(IArchive& Arc, std::set<T>& Set)
         for (u32 i = 0; i < Size; i++)
         {
             T Val;
-            Arc << SerialParameter("Item", Val, SH_IgnoreName);
+            Arc << SerialParameter("Element", Val, SH_IgnoreName);
             Set.insert(Val);
         }
     }
@@ -780,7 +840,7 @@ inline void Serialize(IArchive& Arc, std::set<T>& Set)
         for (auto Iter = Set.begin(); Iter != Set.end(); Iter++)
         {
             T Val = *Iter;
-            Arc << SerialParameter("Item", Val, SH_IgnoreName);
+            Arc << SerialParameter("Element", Val, SH_IgnoreName);
         }
     }
 }
@@ -799,7 +859,7 @@ inline void SerializeMap_Internal(IArchive& Arc, MapType& Map)
             KeyType Key;
             ValType Val;
 
-            if (Arc.ParamBegin("Item", SH_IgnoreName))
+            if (Arc.ParamBegin("Element", SH_IgnoreName))
             {
                 Arc << SerialParameter("Key", Key, SH_IgnoreName)
                     << SerialParameter("Value", Val, SH_IgnoreName);
@@ -820,7 +880,7 @@ inline void SerializeMap_Internal(IArchive& Arc, MapType& Map)
             KeyType Key = Iter->first;
             ValType Val = Iter->second;
 
-            if (Arc.ParamBegin("Item", SH_IgnoreName))
+            if (Arc.ParamBegin("Element", SH_IgnoreName))
             {
                 Arc << SerialParameter("Key", Key, SH_IgnoreName)
                     << SerialParameter("Value", Val, SH_IgnoreName);
@@ -841,6 +901,27 @@ template<typename KeyType, typename ValType>
 inline void Serialize(IArchive& Arc, std::unordered_map<KeyType, ValType>& Map)
 {
     SerializeMap_Internal<KeyType, ValType, std::unordered_map<KeyType, ValType> >(Arc, Map);
+}
+
+// Smart pointer serialize methods
+template<typename T>
+void Serialize(IArchive& Arc, std::unique_ptr<T>& Pointer)
+{
+    T* pRawPtr = Pointer.get();
+    Arc << SerialParameter("RawPointer", pRawPtr, SH_Proxy);
+
+    if (Arc.IsReader())
+        Pointer = std::unique_ptr<T>(pRawPtr);
+}
+
+template<typename T>
+void Serialize(IArchive& Arc, std::shared_ptr<T>& Pointer)
+{
+    T* pRawPtr = Pointer.get();
+    Arc << SerialParameter("RawPointer", pRawPtr, SH_Proxy);
+
+    if (Arc.IsReader())
+        Pointer = std::shared_ptr<T>(pRawPtr);
 }
 
 // Remove header-only macros

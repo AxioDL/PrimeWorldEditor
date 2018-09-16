@@ -376,7 +376,7 @@ protected:
 public:
     virtual void Serialize(IArchive& rArc)
     {
-        IPropertyNew::Serialize(rArc);
+        TTypedPropertyNew::Serialize(rArc);
 
         // Determine if default value should be serialized as optional.
         // All MP1 properties should be optional. For MP2 and on, we set optional
@@ -436,14 +436,14 @@ protected:
 public:
     virtual void Serialize(IArchive& rArc)
     {
-        TTypedPropertyNew::Serialize(rArc);
+        TSerializeableTypedProperty::Serialize(rArc);
         rArc << SerialParameter("Min", mMinValue, SH_Optional, (PropType) -1)
              << SerialParameter("Max", mMaxValue, SH_Optional, (PropType) -1);
     }
 
     virtual void InitFromArchetype(IPropertyNew* pOther)
     {
-        TTypedPropertyNew::InitFromArchetype(pOther);
+        TSerializeableTypedProperty::InitFromArchetype(pOther);
         TNumericalPropertyNew* pCastOther = static_cast<TNumericalPropertyNew*>(pOther);
         mMinValue = pCastOther->mMinValue;
         mMaxValue = pCastOther->mMaxValue;
@@ -451,7 +451,7 @@ public:
 
     virtual void PropertyValueChanged(void* pPropertyData)
     {
-        IPropertyNew::PropertyValueChanged(pPropertyData);
+        TSerializeableTypedProperty::PropertyValueChanged(pPropertyData);
 
         if (mMinValue >= 0 && mMaxValue >= 0)
         {

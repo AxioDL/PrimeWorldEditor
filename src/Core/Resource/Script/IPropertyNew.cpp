@@ -93,14 +93,14 @@ void* IPropertyNew::GetChildDataPointer(void* pPropertyData) const
 
 void IPropertyNew::Serialize(IArchive& rArc)
 {
-    if (rArc.Game() <= ePrime)
+    if (rArc.Game() <= ePrime && !IsArchetype())
     {
         rArc << SerialParameter("Name", mName);
     }
 
-    rArc << SerialParameter("ID", mID, SH_HexDisplay | SH_Optional, (u32) 0xFFFFFFFF)
+    rArc << SerialParameter("ID", mID, SH_HexDisplay | SH_Attribute | SH_Optional, (u32) 0xFFFFFFFF)
          << SerialParameter("Description", mDescription, SH_Optional)
-         << SerialParameter("CookPref", mCookPreference, SH_Optional, ECookPreferenceNew::Default)
+         << SerialParameter("CookPreference", mCookPreference, SH_Optional, ECookPreferenceNew::Default)
          << SerialParameter("MinVersion", mMinVersion, SH_Optional, 0.f)
          << SerialParameter("MaxVersion", mMaxVersion, SH_Optional, FLT_MAX);
 
