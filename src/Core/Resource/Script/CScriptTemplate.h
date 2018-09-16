@@ -26,6 +26,13 @@ struct SAttachment
     TIDString AttachProperty; // Must point to a CMDL!
     TString LocatorName;
     EAttachType AttachType;
+
+    void Serialize(IArchive& Arc)
+    {
+        Arc << SerialParameter("AttachProperty", AttachProperty, SH_Attribute)
+            << SerialParameter("LocatorName", LocatorName, SH_Attribute)
+            << SerialParameter("AttachType", AttachType, SH_Attribute);
+    }
 };
 
 /*
@@ -52,41 +59,28 @@ public:
 private:
     struct SEditorAsset
     {
-        enum {
+        enum EAssetType {
             eModel, eAnimParams, eBillboard, eCollision
         } AssetType;
 
-        enum {
+        enum EAssetSource {
             eProperty, eFile
         } AssetSource;
 
         TIDString AssetLocation;
         s32 ForceNodeIndex; // Force animsets to use specific node instead of one from property
+
+        void Serialize(IArchive& Arc)
+        {
+            Arc << SerialParameter("Type", AssetType, SH_Attribute)
+                << SerialParameter("Source", AssetSource, SH_Attribute)
+                << SerialParameter("Location", AssetLocation, SH_Attribute)
+                << SerialParameter("ForceCharacterIndex", ForceNodeIndex, SH_Attribute | SH_Optional, (s32) -1);
+        }
     };
 
-    CMasterTemplate* mpMaster;
-    std::unique_ptr<CStructPropertyNew> mpProperties;
-    std::list<CScriptObject*> mObjectList;
     std::vector<TString> mModules;
-    TString mSourceFile;
-    u32 mObjectID;
-    bool mVisible;
-
-    // Editor Properties
-    TIDString mNameIDString;
-    TIDString mPositionIDString;
-    TIDString mRotationIDString;
-    TIDString mScaleIDString;
-    TIDString mActiveIDString;
-    TIDString mLightParametersIDString;
-
-    CStringProperty* mpNameProperty;
-    CVectorProperty* mpPositionProperty;
-    CVectorProperty* mpRotationProperty;
-    CVectorProperty* mpScaleProperty;
-    CBoolProperty* mpActiveProperty;
-    CStructPropertyNew* mpLightParametersProperty;
-    
+    std::unique_ptr<CStructPropertyNew> mpProperties;
     std::vector<SEditorAsset> mAssets;
     std::vector<SAttachment> mAttachments;
 
@@ -99,15 +93,47 @@ private:
     float mVolumeScale;
     TIDString mVolumeConditionIDString;
 
+    TString mSourceFile;
+    u32 mObjectID;
+
+    // Editor Properties
+    TIDString mNameIDString;
+    TIDString mPositionIDString;
+    TIDString mRotationIDString;
+    TIDString mScaleIDString;
+    TIDString mActiveIDString;
+    TIDString mLightParametersIDString;
+
+    CMasterTemplate* mpMaster;
+    std::list<CScriptObject*> mObjectList;
+
+    CStringProperty* mpNameProperty;
+    CVectorProperty* mpPositionProperty;
+    CVectorProperty* mpRotationProperty;
+    CVectorProperty* mpScaleProperty;
+    CBoolProperty* mpActiveProperty;
+    CStructPropertyNew* mpLightParametersProperty;
+
     struct SVolumeCondition {
-        int Value;
+        u32 Value;
         EVolumeShape Shape;
         float Scale;
+
+        void Serialize(IArchive& Arc)
+        {
+            Arc << SerialParameter("Value", Value)
+                << SerialParameter("Shape", Shape)
+                << SerialParameter("Scale", Scale, SH_Optional, 1.0f);
+        }
     };
     std::vector<SVolumeCondition> mVolumeConditions;
+    bool mVisible;
 
 public:
+    // Old constructor
     CScriptTemplate(CMasterTemplate *pMaster);
+    // New constructor
+    CScriptTemplate(CMasterTemplate* pMaster, u32 ObjectID, const TString& kFilePath);
     ~CScriptTemplate();
     void Serialize(IArchive& rArc);
     void PostLoad();
@@ -133,11 +159,11 @@ public:
     const SAttachment& Attachment(u32 Index) const          { return mAttachments[Index]; }
     const std::vector<TString>& RequiredModules() const     { return mModules; }
 
-    inline CStringProperty* NameProperty() const            { return mpNameProperty; }
-    inline CVectorProperty* PositionProperty() const        { return mpPositionProperty; }
-    inline CVectorProperty* RotationProperty() const        { return mpRotationProperty; }
-    inline CVectorProperty* ScaleProperty() const           { return mpScaleProperty; }
-    inline CBoolProperty* ActiveProperty() const            { return mpActiveProperty; }
+    inline CStringProperty* NameProperty() const                { return mpNameProperty; }
+    inline CVectorProperty* PositionProperty() const            { return mpPositionProperty; }
+    inline CVectorProperty* RotationProperty() const            { return mpRotationProperty; }
+    inline CVectorProperty* ScaleProperty() const               { return mpScaleProperty; }
+    inline CBoolProperty* ActiveProperty() const                { return mpActiveProperty; }
     inline CStructPropertyNew* LightParametersProperty() const  { return mpLightParametersProperty; }
 
     inline void SetVisible(bool Visible)    { mVisible = Visible; }

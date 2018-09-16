@@ -128,24 +128,38 @@ void CTemplateEditDialog::ApplyChanges()
 // ************ PROTECTED ************
 void CTemplateEditDialog::AddTemplate(IPropertyNew* pProp)
 {
-    TString Source = pProp->GetTemplateFileName();
+    IPropertyNew* pArchetype = pProp->Archetype();
 
-    if (!Source.IsEmpty())
+    if (pArchetype)
     {
-        CStructPropertyNew* pStruct = CMasterTemplate::MasterForGame(pProp->Game())->StructAtSource(Source);
+        pArchetype = pArchetype->RootParent();
 
-        if (!mStructTemplatesToResave.contains(pStruct))
-            mStructTemplatesToResave << pStruct;
+        switch (pArchetype->Type())
+        {
+
+        case EPropertyTypeNew::Struct:
+        {
+            CStructPropertyNew* pStruct = TPropCast<CStructPropertyNew>(pArchetype);
+            if (!mStructTemplatesToResave.contains(pStruct))
+            {
+                mStructTemplatesToResave << pStruct;
+            }
+            break;
+        }
+
+        default:
+            Log::Warning("Couldn't resave unsupported property archetype: " + TString( EnumValueName(pArchetype->Type()) ));
+            break;
+        }
     }
 
     else
     {
         CScriptTemplate *pScript = pProp->ScriptTemplate();
 
-        if (pScript)
+        if (pScript && !mScriptTemplatesToResave.contains(pScript))
         {
-            if (!mScriptTemplatesToResave.contains(pScript))
-                mScriptTemplatesToResave << pScript;
+            mScriptTemplatesToResave << pScript;
         }
 
         else

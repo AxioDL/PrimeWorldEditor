@@ -8,25 +8,113 @@
 #include <Common/types.h>
 #include <map>
 
+/** Serialization aid
+ *  Retro switched from using integers to fourCCs to represent IDs in several cases (states/messages, object IDs).
+ *  This struct is functionally an integer but it serializes as an int for MP1 and a fourCC for MP2 and on.
+ */
+struct SObjId
+{
+    union {
+        u32 ID;
+        CFourCC ID_4CC;
+    };
+
+    inline SObjId()                             {}
+    inline SObjId(u32 InID)     : ID(InID)      {}
+    inline SObjId(CFourCC InID) : ID_4CC(InID)  {}
+
+    inline operator u32() const     { return ID; }
+    inline operator CFourCC() const { return ID_4CC; }
+
+    void Serialize(IArchive& Arc)
+    {
+        if (Arc.Game() <= ePrime)
+            Arc.SerializePrimitive(ID, SH_HexDisplay);
+        else
+            Arc.SerializePrimitive(ID_4CC, 0);
+    }
+};
+
 class CMasterTemplate
 {
     friend class CTemplateLoader;
     friend class CTemplateWriter;
 
+    /** Struct holding a reference to a script object template */
+    struct SScriptTemplatePath
+    {
+        /** Script object ID */
+        SObjId ID;
+
+        /** File path to the template file, relative to the game directory */
+        TString Path;
+
+        /** Template in memory */
+        std::shared_ptr<CScriptTemplate> pTemplate;
+
+        /** Constructor */
+        SScriptTemplatePath()
+            : ID(0)
+        {}
+
+        SScriptTemplatePath(u32 InID, const TString& kInPath, CScriptTemplate* pInTemplate)
+            : ID(InID)
+            , Path(kInPath)
+            , pTemplate( std::shared_ptr<CScriptTemplate>(pInTemplate) )
+        {}
+
+        SScriptTemplatePath(const CFourCC& kInID, const TString& kInPath, CScriptTemplate* pInTemplate)
+            : ID(kInID)
+            , Path(kInPath)
+            , pTemplate( std::shared_ptr<CScriptTemplate>(pInTemplate) )
+        {}
+
+        /** Serializer */
+        void Serialize(IArchive& Arc)
+        {
+            Arc << SerialParameter("ID", ID, SH_Attribute)
+                << SerialParameter("Path", Path, SH_Attribute);
+        }
+    };
+
+    /** Struct holding a reference to a property template */
+    struct SPropertyTemplatePath
+    {
+        /** File path to the template file, relative to the game directory */
+        TString Path;
+
+        /** Template in memory */
+        std::shared_ptr<IPropertyNew> pTemplate;
+
+        /** Constructor */
+        SPropertyTemplatePath()
+        {}
+
+        SPropertyTemplatePath(const TString& kInPath, IPropertyNew* pInTemplate)
+            : Path(kInPath)
+            , pTemplate( std::shared_ptr<IPropertyNew>(pInTemplate) )
+        {}
+
+        /** Serializer */
+        void Serialize(IArchive& Arc)
+        {
+            Arc << SerialParameter("Path", Path, SH_Attribute);
+        }
+    };
+
     EGame mGame;
     TString mGameName;
     TString mSourceFile;
-    u32 mVersion;
     bool mFullyLoaded;
 
-    std::vector<TString> mGameVersions;
-    std::map<TString, CStructPropertyNew*> mStructTemplates;
-    std::map<TString, CEnumProperty*> mEnumTemplates;
-    std::map<TString, CFlagsProperty*> mFlagsTemplates;
+    /** Template arrays */
+    std::map<SObjId,  SScriptTemplatePath>    mScriptTemplates;
+    std::map<TString, SPropertyTemplatePath>  mStructTemplates;
+    std::map<TString, SPropertyTemplatePath>  mEnumTemplates;
+    std::map<TString, SPropertyTemplatePath>  mFlagsTemplates;
 
-    std::map<u32, CScriptTemplate*> mTemplates;
-    std::map<u32, SState> mStates;
-    std::map<u32, SMessage> mMessages;
+    std::map<SObjId, TString> mStates;
+    std::map<SObjId, TString> mMessages;
 
     struct SPropIDInfo
     {
@@ -40,7 +128,9 @@ class CMasterTemplate
 
 public:
     CMasterTemplate();
-    ~CMasterTemplate();
+    void Serialize(IArchive& Arc);
+    void LoadSubTemplates();
+    void SaveSubTemplates();
     u32 GameVersion(TString VersionName);
     CScriptTemplate* TemplateByID(u32 ObjectID);
     CScriptTemplate* TemplateByID(const CFourCC& ObjectID);
@@ -51,13 +141,15 @@ public:
     SMessage MessageByID(u32 MessageID);
     SMessage MessageByID(const CFourCC& MessageID);
     SMessage MessageByIndex(u32 Index);
-    CStructPropertyNew* StructAtSource(const TString& rkSource);
+
+    CStructPropertyNew* FindStructArchetype(const TString& kStructName) const;
+    CEnumProperty*      FindEnumArchetype(const TString& kEnumName) const;
+    CFlagsProperty*     FindFlagsArchetype(const TString& kFlagsName) const;
 
     // Inline Accessors
     inline EGame Game() const               { return mGame; }
     inline TString GameName() const         { return mGameName; }
-    inline u32 NumGameVersions() const      { return mGameVersions.empty() ? 1 : mGameVersions.size(); }
-    inline u32 NumScriptTemplates() const   { return mTemplates.size(); }
+    inline u32 NumScriptTemplates() const   { return mScriptTemplates.size(); }
     inline u32 NumStates() const            { return mStates.size(); }
     inline u32 NumMessages() const          { return mMessages.size(); }
     inline bool IsLoadedSuccessfully()      { return mFullyLoaded; }
