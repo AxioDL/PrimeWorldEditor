@@ -1278,6 +1278,12 @@ void CTemplateLoader::SaveGameList()
         Writer.ParamEnd();
     }
 
+    // Write property list
+    {
+        CXMLWriter Writer(kTemplatesDir + "PropertyMap.xml", "PropertyMap");
+        Writer << SerialParameter("PropertyMap", CMasterTemplate::smPropertyNames, SH_HexDisplay);
+    }
+
     // Write master templates
     {
         std::list<CMasterTemplate*> MasterList = CMasterTemplate::MasterList();

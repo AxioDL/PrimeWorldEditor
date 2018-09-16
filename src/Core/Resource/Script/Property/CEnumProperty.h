@@ -54,8 +54,11 @@ public:
 
     virtual void Serialize(IArchive& rArc)
     {
-        TSerializeableTypedProperty::Serialize(rArc);
-        rArc << SerialParameter("Values", mValues);
+        // Skip TSerializeableTypedProperty, serialize default value ourselves so we can set SH_HexDisplay
+        TTypedPropertyNew::Serialize(rArc);
+
+        rArc << SerialParameter("DefaultValue", mDefaultValue, SH_HexDisplay | (Game() <= ePrime ? SH_Optional : 0))
+             << SerialParameter("Values", mValues);
     }
 
     virtual void SerializeValue(void* pData, IArchive& Arc) const
