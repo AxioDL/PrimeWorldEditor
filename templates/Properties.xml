@@ -34,7 +34,7 @@
     <property ID="0x00C95A55" name="RollingSound2Pitch"/>
     <property ID="0x00CE7374" name="STRG"/>
     <property ID="0x00D1AA67" name="Unknown"/>
-    <property ID="0x00D74FC3" name="Unknown"/>
+    <property ID="0x00D74FC3" name="MaxLinearVelocity"/>
     <property ID="0x00DD06CC" name="SwarmBotVulnerability"/>
     <property ID="0x00DD86E2" name="EditorColor"/>
     <property ID="0x00E9C72C" name="WPSC"/>
@@ -47,7 +47,7 @@
     <property ID="0x0100CEDD" name="Unknown"/>
     <property ID="0x0105A02F" name="LandedSound"/>
     <property ID="0x010F2E81" name="Unknown"/>
-    <property ID="0x01169CCB" name="Unknown"/>
+    <property ID="0x01169CCB" name="ScanDelayMax"/>
     <property ID="0x01197C47" name="Unknown"/>
     <property ID="0x011F0193" name="Unknown"/>
     <property ID="0x012115A2" name="Unknown"/>
@@ -89,7 +89,7 @@
     <property ID="0x01E12C84" name="TGunResources"/>
     <property ID="0x01EAAB17" name="Unknown"/>
     <property ID="0x01F9C5BB" name="Look At POI"/>
-    <property ID="0x01FBA748" name="SCAN"/>
+    <property ID="0x01FBA748" name="Scan_WheelForm"/>
     <property ID="0x020C78BB" name="TurnSpeed"/>
     <property ID="0x02149892" name="Completion"/>
     <property ID="0x0214A7EB" name="Unknown"/>
@@ -130,7 +130,7 @@
     <property ID="0x0328E31B" name="MaxShadowHeight"/>
     <property ID="0x03304D0B" name="TXTR"/>
     <property ID="0x033153A0" name="Unknown"/>
-    <property ID="0x03336D49" name="Unknown"/>
+    <property ID="0x03336D49" name="PhazonDrainAmount"/>
     <property ID="0x03362858" name="Unknown"/>
     <property ID="0x03392283" name="AudioPlaybackParms"/>
     <property ID="0x0345FA17" name="SWHC"/>
@@ -160,7 +160,7 @@
     <property ID="0x03B0A66B" name="Unknown"/>
     <property ID="0x03B5981C" name="RightArmorAttachment"/>
     <property ID="0x03BDEA98" name="AmountOrCapacity"/>
-    <property ID="0x03BEE47E" name="Unknown"/>
+    <property ID="0x03BEE47E" name="Model01"/>
     <property ID="0x03C120FC" name="Unknown"/>
     <property ID="0x03D24E64" name="FastExitSpeed"/>
     <property ID="0x03D27FFD" name="Unknown"/>
@@ -493,7 +493,7 @@
     <property ID="0x0C13C5A8" name="Sound"/>
     <property ID="0x0C14253D" name="Unknown"/>
     <property ID="0x0C1A5644" name="Unknown"/>
-    <property ID="0x0C2506BC" name="Unknown"/>
+    <property ID="0x0C2506BC" name="CheckDelayMax"/>
     <property ID="0x0C2C91F7" name="Unknown"/>
     <property ID="0x0C36EB18" name="IsCrouching"/>
     <property ID="0x0C38A009" name="Unknown"/>
@@ -645,7 +645,7 @@
     <property ID="0x0FAEB7F1" name="Unknown"/>
     <property ID="0x0FAF6A8E" name="Unknown"/>
     <property ID="0x0FB70190" name="Unknown"/>
-    <property ID="0x0FBA492B" name="Unknown"/>
+    <property ID="0x0FBA492B" name="LaserSweepInterval"/>
     <property ID="0x0FBCE3FB" name="GradientEnd"/>
     <property ID="0x0FC0B9E3" name="MinBlinkRange"/>
     <property ID="0x0FC813A7" name="HyperModeScanInfo"/>
@@ -699,7 +699,7 @@
     <property ID="0x10E05AAF" name="FlightSoundVolume"/>
     <property ID="0x10E3EFDD" name="Sound_Projectile"/>
     <property ID="0x10E6F366" name="FlagsSurfaceOrientation"/>
-    <property ID="0x10E7121B" name="Unknown"/>
+    <property ID="0x10E7121B" name="DistanceDirectionMethod"/>
     <property ID="0x10E79562" name="Unknown"/>
     <property ID="0x10F17007" name="Unknown"/>
     <property ID="0x10F37815" name="Unknown"/>
@@ -730,7 +730,7 @@
     <property ID="0x119E75AC" name="ImageNames"/>
     <property ID="0x119FBD31" name="DI_WeaponType"/>
     <property ID="0x11A273CB" name="Upper Left Wing Target"/>
-    <property ID="0x11A73408" name="Unknown"/>
+    <property ID="0x11A73408" name="MaxBurnRate"/>
     <property ID="0x11AA184B" name="AutoIncrement"/>
     <property ID="0x11ACFD8E" name="Unknown"/>
     <property ID="0x11B6A17A" name="Unknown"/>
@@ -808,7 +808,7 @@
     <property ID="0x137EF87B" name="Unknown"/>
     <property ID="0x13820C03" name="Unknown"/>
     <property ID="0x13834D6F" name="Message"/>
-    <property ID="0x13845A66" name="AudioPlaybackParms"/>
+    <property ID="0x13845A66" name="Sound_ToeTarget"/>
     <property ID="0x138729A7" name="CameraHintStructA"/>
     <property ID="0x138821C3" name="TrainTrackManagerStructA"/>
     <property ID="0x138B3979" name="Unknown"/>
@@ -885,7 +885,7 @@
     <property ID="0x1524C118" name="Unknown"/>
     <property ID="0x152658FE" name="CMDL"/>
     <property ID="0x15283674" name="Unknown"/>
-    <property ID="0x15294900" name="Unknown"/>
+    <property ID="0x15294900" name="MinArmAttackInterval"/>
     <property ID="0x152DB484" name="IngSpiderballGuardianStruct"/>
     <property ID="0x152ED0D9" name="Fuses"/>
     <property ID="0x1531EDD3" name="Unknown"/>
@@ -1286,7 +1286,7 @@
     <property ID="0x1D627808" name="FragLimitChoices"/>
     <property ID="0x1D69BEC4" name="Unknown"/>
     <property ID="0x1D7A1562" name="Unknown"/>
-    <property ID="0x1D852415" name="Unknown"/>
+    <property ID="0x1D852415" name="GrappleAttachLength"/>
     <property ID="0x1D852D4B" name="IngPossessedHealth"/>
     <property ID="0x1D85F8CA" name="Unknown"/>
     <property ID="0x1D88C7C5" name="TrainTrackManagerStructA"/>
@@ -1307,7 +1307,7 @@
     <property ID="0x1DD553A2" name="Unknown"/>
     <property ID="0x1DD9E8BF" name="HatchCloseTime"/>
     <property ID="0x1DDA9552" name="TrainTrackManagerStructB"/>
-    <property ID="0x1DDFD45A" name="SCAN"/>
+    <property ID="0x1DDFD45A" name="Scan_TornadoForm"/>
     <property ID="0x1DF1C4D1" name="Unknown"/>
     <property ID="0x1DF8D319" name="OrientationInterpolation"/>
     <property ID="0x1E054E04" name="DamageInfo"/>
@@ -1346,7 +1346,7 @@
     <property ID="0x1EB8E254" name="KeepOrientation"/>
     <property ID="0x1EB90D06" name="Unknown"/>
     <property ID="0x1EBA4BD8" name="Unknown"/>
-    <property ID="0x1EBBD4C6" name="Unknown"/>
+    <property ID="0x1EBBD4C6" name="Model06"/>
     <property ID="0x1EC1AA7E" name="TrainTrackManagerStructA"/>
     <property ID="0x1EC3D689" name="MaxFallAngle"/>
     <property ID="0x1EC7F863" name="Unknown"/>
@@ -1432,7 +1432,7 @@
     <property ID="0x20DC1C96" name="Unknown"/>
     <property ID="0x20DDB661" name="SlideSoundVolume"/>
     <property ID="0x20E77E66" name="MaxTauntInterval"/>
-    <property ID="0x20F87E5D" name="Unknown"/>
+    <property ID="0x20F87E5D" name="MinDetachInterval"/>
     <property ID="0x210190C6" name="ProjectileCharacter"/>
     <property ID="0x21047226" name="Unknown"/>
     <property ID="0x2107E4FB" name="Unknown"/>
@@ -1603,7 +1603,7 @@
     <property ID="0x249DC50A" name="GenericCreatureStructG"/>
     <property ID="0x24A4FC9E" name="ELSC"/>
     <property ID="0x24A80F03" name="BlowLeft"/>
-    <property ID="0x24B1B5B6" name="Unknown"/>
+    <property ID="0x24B1B5B6" name="Model08"/>
     <property ID="0x24B933D3" name="DamageInfo"/>
     <property ID="0x24BBD5E4" name="ChorusPeriod"/>
     <property ID="0x24C6CDCF" name="Unknown"/>
@@ -1666,7 +1666,7 @@
     <property ID="0x25FA292E" name="Text"/>
     <property ID="0x26001979" name="DI_KnockBackSpeed"/>
     <property ID="0x2603A0BE" name="Unknown"/>
-    <property ID="0x260792CF" name="Unknown"/>
+    <property ID="0x260792CF" name="PatrolHorizSpline"/>
     <property ID="0x26087D23" name="ShotForce"/>
     <property ID="0x2608D801" name="MaxReactivateDistance"/>
     <property ID="0x2608DA71" name="Unknown"/>
@@ -1746,7 +1746,7 @@
     <property ID="0x277CBAF1" name="Unknown"/>
     <property ID="0x278289D8" name="OffsetVCoord"/>
     <property ID="0x278C0893" name="Unknown"/>
-    <property ID="0x2795FC57" name="Unknown"/>
+    <property ID="0x2795FC57" name="Distance02"/>
     <property ID="0x279852BA" name="BallTransitionResources"/>
     <property ID="0x27A06F6A" name="Unknown"/>
     <property ID="0x27B15C35" name="Unknown"/>
@@ -1799,7 +1799,7 @@
     <property ID="0x28F82261" name="SoftwareChannel"/>
     <property ID="0x28FD3183" name="Unknown"/>
     <property ID="0x290E5E0B" name="ChargeTurnSpeed"/>
-    <property ID="0x290F8665" name="Unknown"/>
+    <property ID="0x290F8665" name="MaximumFiringDistance"/>
     <property ID="0x29138B6C" name="UnknownStruct2"/>
     <property ID="0x2918609B" name="Unknown"/>
     <property ID="0x2920DB55" name="Unknown"/>
@@ -1808,7 +1808,7 @@
     <property ID="0x29293FB1" name="UNKNOWN"/>
     <property ID="0x2930D57F" name="Unknown"/>
     <property ID="0x293A0C19" name="TauntFrequency"/>
-    <property ID="0x29445302" name="Unknown"/>
+    <property ID="0x29445302" name="UseOverrideSky"/>
     <property ID="0x29453102" name="Unknown"/>
     <property ID="0x29463E36" name="Animation1"/>
     <property ID="0x29484BE4" name="Unknown"/>
@@ -1986,7 +1986,7 @@
     <property ID="0x2D15C27C" name="LayerSwitch"/>
     <property ID="0x2D163FF7" name="IngSpiderballGuardianStruct"/>
     <property ID="0x2D1C2ECD" name="Unknown"/>
-    <property ID="0x2D1C5515" name="WPSC"/>
+    <property ID="0x2D1C5515" name="PirateProjectileEffect"/>
     <property ID="0x2D23720F" name="RotationSound"/>
     <property ID="0x2D255C98" name="Unknown"/>
     <property ID="0x2D2A4AD6" name="LaunchBehavior"/>
@@ -2063,7 +2063,7 @@
     <property ID="0x2E997E0B" name="Unknown"/>
     <property ID="0x2E9DCA1C" name="DongleHinge4Model"/>
     <property ID="0x2E9F259E" name="FadeOutRate"/>
-    <property ID="0x2EA013A6" name="Unknown"/>
+    <property ID="0x2EA013A6" name="UseHeadTracking"/>
     <property ID="0x2EA31F83" name="MissileWeapon"/>
     <property ID="0x2EAFEDF7" name="Unknown"/>
     <property ID="0x2EB4A90D" name="FailedKeyString"/>
@@ -2071,7 +2071,7 @@
     <property ID="0x2EB81206" name="Unknown"/>
     <property ID="0x2EC254E3" name="GrappleSpringLength"/>
     <property ID="0x2ED00A34" name="TrainTrackManagerStructA"/>
-    <property ID="0x2ED25F50" name="Unknown"/>
+    <property ID="0x2ED25F50" name="MaxAttackDist"/>
     <property ID="0x2ED30BDD" name="IslandAreaStruct"/>
     <property ID="0x2EDF3368" name="MinAttackTime"/>
     <property ID="0x2EF22401" name="ConvergenceType"/>
@@ -2147,7 +2147,7 @@
     <property ID="0x308B92DD" name="Unknown"/>
     <property ID="0x308D4F23" name="SplashDelay"/>
     <property ID="0x308EDC44" name="LockTime"/>
-    <property ID="0x30967020" name="Unknown"/>
+    <property ID="0x30967020" name="GunAimTurnSpeed"/>
     <property ID="0x30969CFE" name="CMDL"/>
     <property ID="0x3099CA61" name="Unknown"/>
     <property ID="0x30A1847B" name="Unknown"/>
@@ -2233,9 +2233,9 @@
     <property ID="0x328B3E6E" name="Unknown"/>
     <property ID="0x3291B8A2" name="Count"/>
     <property ID="0x32969CBA" name="AudioPlaybackParms"/>
-    <property ID="0x32A13DFD" name="PART"/>
+    <property ID="0x32A13DFD" name="ColumnTrailEffect"/>
     <property ID="0x32AB2D0F" name="Unknown"/>
-    <property ID="0x32B60FED" name="Unknown"/>
+    <property ID="0x32B60FED" name="StunDelayMin"/>
     <property ID="0x32C6DC77" name="UnknownStruct2"/>
     <property ID="0x32C76FEA" name="MultiModelActorStruct"/>
     <property ID="0x32CE899F" name="DKBalloonCharacter"/>
@@ -2273,7 +2273,7 @@
     <property ID="0x33731936" name="Cycle Beam Up"/>
     <property ID="0x33737EA6" name="GrappleBallVulnerability"/>
     <property ID="0x3376814D" name="CMDL"/>
-    <property ID="0x337C4056" name="Unknown"/>
+    <property ID="0x337C4056" name="EnergyBarString"/>
     <property ID="0x337E60A9" name="Unknown"/>
     <property ID="0x337F9524" name="Damage"/>
     <property ID="0x33868C8F" name="TendrilParticleEffect"/>
@@ -2318,7 +2318,7 @@
     <property ID="0x348BFF02" name="Unknown"/>
     <property ID="0x348C9D90" name="Unknown"/>
     <property ID="0x34915075" name="Unknown"/>
-    <property ID="0x349E242E" name="WeaponVulnerability"/>
+    <property ID="0x349E242E" name="LightBomb"/>
     <property ID="0x34A8FC8E" name="GunTurretBaseData"/>
     <property ID="0x34A979A6" name="TandemBeam"/>
     <property ID="0x34B152C4" name="DefaultAudio"/>
@@ -2342,7 +2342,7 @@
     <property ID="0x351763AB" name="Prize2"/>
     <property ID="0x351DBC73" name="WarpInParticleEffect"/>
     <property ID="0x3523A47F" name="Unknown"/>
-    <property ID="0x352FF6A5" name="Unknown"/>
+    <property ID="0x352FF6A5" name="WeaponMinPitch"/>
     <property ID="0x35355A0B" name="RainSound"/>
     <property ID="0x353582BD" name="CharactersPerSecond"/>
     <property ID="0x3538D49B" name="Unknown"/>
@@ -2363,7 +2363,7 @@
     <property ID="0x358A191B" name="Unknown"/>
     <property ID="0x3595D977" name="AirControlDisabledDurationOnHighBounce"/>
     <property ID="0x359B8513" name="Invulnerable"/>
-    <property ID="0x359C7AAF" name="ControllerActionStruct"/>
+    <property ID="0x359C7AAF" name="Command"/>
     <property ID="0x35A1EC10" name="ArmorPiece6"/>
     <property ID="0x35A88FA1" name="PART"/>
     <property ID="0x35A93DD5" name="IndicatorTexture"/>
@@ -2446,7 +2446,7 @@
     <property ID="0x3769A209" name="OffsetInterpolant"/>
     <property ID="0x376E909F" name="Unknown"/>
     <property ID="0x37771360" name="StartFlashingTime"/>
-    <property ID="0x3779BD93" name="Sound"/>
+    <property ID="0x3779BD93" name="Sound_LaserChargeUp"/>
     <property ID="0x378285B9" name="Unknown"/>
     <property ID="0x378E02B2" name="HyperMode"/>
     <property ID="0x37A12336" name="FullRightDistance"/>
@@ -2462,7 +2462,7 @@
     <property ID="0x37E62F14" name="Unknown"/>
     <property ID="0x37E99C23" name="TailArmor"/>
     <property ID="0x37E9D29B" name="Unknown"/>
-    <property ID="0x37ED6EBB" name="DamageInfo"/>
+    <property ID="0x37ED6EBB" name="EnergyWaveProjectileDamage"/>
     <property ID="0x37F04700" name="LookLeftDistance"/>
     <property ID="0x37F4052D" name="Unknown"/>
     <property ID="0x37F86DC4" name="Sound_Frozen"/>
@@ -2580,12 +2580,12 @@
     <property ID="0x3A58089C" name="Unknown"/>
     <property ID="0x3A5925D6" name="Unknown"/>
     <property ID="0x3A5AB398" name="Unknown"/>
-    <property ID="0x3A5E2F52" name="AudioPlaybackParms"/>
+    <property ID="0x3A5E2F52" name="Sound_SpiderballRolling"/>
     <property ID="0x3A68EE5C" name="SlavePlatformMotionKnots"/>
     <property ID="0x3A6D3A64" name="PART"/>
     <property ID="0x3A7F59F7" name="UpdateTime"/>
     <property ID="0x3A80D135" name="Ridley1Data"/>
-    <property ID="0x3A90CCEF" name="Unknown"/>
+    <property ID="0x3A90CCEF" name="Distance05"/>
     <property ID="0x3A9808CF" name="FSMC"/>
     <property ID="0x3AA64111" name="Unknown"/>
     <property ID="0x3AA7A67E" name="VolcanoBossBodyPartStructD"/>
@@ -2593,7 +2593,7 @@
     <property ID="0x3AAF2A8C" name="Unknown"/>
     <property ID="0x3AAF7871" name="PhaseOutSound"/>
     <property ID="0x3AB0779B" name="ShipMissile"/>
-    <property ID="0x3AB1F69C" name="Unknown"/>
+    <property ID="0x3AB1F69C" name="HeightVariationMin"/>
     <property ID="0x3AB6B61B" name="Unknown"/>
     <property ID="0x3AB79847" name="HeadIceModel"/>
     <property ID="0x3AC94CF1" name="Unknown"/>
@@ -2674,7 +2674,7 @@
     <property ID="0x3C5F4E6E" name="OceanBridgeStructB"/>
     <property ID="0x3C67B14E" name="IsDashAutomatically"/>
     <property ID="0x3C6AF2AC" name="Unknown"/>
-    <property ID="0x3C764739" name="Unknown"/>
+    <property ID="0x3C764739" name="FluidLockString"/>
     <property ID="0x3C79E121" name="CHAR"/>
     <property ID="0x3C7DE892" name="SnapOrientationToSplineOnCreation"/>
     <property ID="0x3C8B534D" name="PulseProjectileDamage"/>
@@ -2709,7 +2709,7 @@
     <property ID="0x3D3C1B76" name="DownTurnSpeed"/>
     <property ID="0x3D4264EE" name="InstantKill"/>
     <property ID="0x3D43820C" name="HealthInfo"/>
-    <property ID="0x3D45EC67" name="Unknown"/>
+    <property ID="0x3D45EC67" name="ProjectileDelayMax"/>
     <property ID="0x3D46B799" name="PathRange"/>
     <property ID="0x3D58F51F" name="Unknown"/>
     <property ID="0x3D625F10" name="AreaDamageDark"/>
@@ -2740,7 +2740,7 @@
     <property ID="0x3DC3F16F" name="ReverbHiCrossTalk"/>
     <property ID="0x3DC59B72" name="Unknown"/>
     <property ID="0x3DC5F0C6" name="Unknown"/>
-    <property ID="0x3DC75733" name="Unknown"/>
+    <property ID="0x3DC75733" name="LookAtVelocity"/>
     <property ID="0x3DCF98A5" name="PART"/>
     <property ID="0x3DD5B3CF" name="AudioPlaybackParms"/>
     <property ID="0x3DD7B303" name="Unknown"/>
@@ -2848,7 +2848,7 @@
     <property ID="0x40533B8D" name="Sound"/>
     <property ID="0x4058D24A" name="Unknown"/>
     <property ID="0x405E5286" name="NoModel"/>
-    <property ID="0x405E8F55" name="Unknown"/>
+    <property ID="0x405E8F55" name="MinBurnRate"/>
     <property ID="0x4063422A" name="State"/>
     <property ID="0x4063D45C" name="RocketDamage"/>
     <property ID="0x407911AD" name="Unknown"/>
@@ -3007,7 +3007,7 @@
     <property ID="0x439F3678" name="Unknown"/>
     <property ID="0x43A6DED6" name="SpindlePositionInterpolant"/>
     <property ID="0x43A704FB" name="VisorRunoffBall"/>
-    <property ID="0x43B503A6" name="Unknown"/>
+    <property ID="0x43B503A6" name="CombatVisorMode"/>
     <property ID="0x43BBB1DD" name="PatternedAITypedef"/>
     <property ID="0x43BC661C" name="Unknown"/>
     <property ID="0x43C02224" name="AirDensity"/>
@@ -3113,7 +3113,7 @@
     <property ID="0x462D3C4D" name="Offset"/>
     <property ID="0x46322287" name="Unknown"/>
     <property ID="0x46353D93" name="Unknown"/>
-    <property ID="0x4638014F" name="Unknown"/>
+    <property ID="0x4638014F" name="MinHungerEnergy"/>
     <property ID="0x4643FABD" name="Unknown"/>
     <property ID="0x46477064" name="Offset"/>
     <property ID="0x465159A3" name="ResetSound"/>
@@ -3126,7 +3126,7 @@
     <property ID="0x467C3D94" name="Always FF"/>
     <property ID="0x4685A368" name="Unknown"/>
     <property ID="0x468B1161" name="UnknownStruct50"/>
-    <property ID="0x4691C9AB" name="AudioPlaybackParms"/>
+    <property ID="0x4691C9AB" name="Sound_ShockWave"/>
     <property ID="0x469550E8" name="Unknown"/>
     <property ID="0x46993681" name="Summary"/>
     <property ID="0x46997D8A" name="Unknown"/>
@@ -3224,7 +3224,7 @@
     <property ID="0x4848F444" name="Unknown"/>
     <property ID="0x485B0C11" name="XOffset"/>
     <property ID="0x485F2008" name="CancelSound"/>
-    <property ID="0x4866DF6C" name="Unknown"/>
+    <property ID="0x4866DF6C" name="HyperModeDurationMin"/>
     <property ID="0x4868549D" name="CAUD"/>
     <property ID="0x487E4F9A" name="Unknown"/>
     <property ID="0x487EF257" name="GibParticlesOffset"/>
@@ -3472,7 +3472,7 @@
     <property ID="0x4D4749A8" name="CAUD"/>
     <property ID="0x4D4D934B" name="Unknown"/>
     <property ID="0x4D50921E" name="DecSound"/>
-    <property ID="0x4D520C94" name="Unknown"/>
+    <property ID="0x4D520C94" name="Distance09"/>
     <property ID="0x4D55F7D4" name="Unknown"/>
     <property ID="0x4D577910" name="WeaponType"/>
     <property ID="0x4D61342A" name="Unknown"/>
@@ -3497,7 +3497,7 @@
     <property ID="0x4DB54A16" name="Unknown"/>
     <property ID="0x4DB6820F" name="Unknown"/>
     <property ID="0x4DB90261" name="IgnoreRambi"/>
-    <property ID="0x4DD7C2F9" name="DamageInfo"/>
+    <property ID="0x4DD7C2F9" name="GrenadeDamageHard"/>
     <property ID="0x4DD9D6D1" name="Unknown"/>
     <property ID="0x4DDC1327" name="Unknown"/>
     <property ID="0x4DE17472" name="MaxAdditiveChange"/>
@@ -3515,7 +3515,7 @@
     <property ID="0x4E4AE0E4" name="Unknown"/>
     <property ID="0x4E599427" name="Unknown"/>
     <property ID="0x4E749CB5" name="Unknown"/>
-    <property ID="0x4E764575" name="Unknown"/>
+    <property ID="0x4E764575" name="Model03"/>
     <property ID="0x4E78C4AC" name="Primary"/>
     <property ID="0x4E79F717" name="Unknown"/>
     <property ID="0x4E7DEF7E" name="Unknown"/>
@@ -3566,7 +3566,7 @@
     <property ID="0x4F6E81A8" name="Unknown"/>
     <property ID="0x4F7CF7D8" name="Unknown"/>
     <property ID="0x4F7FEC39" name="FlagsRumble"/>
-    <property ID="0x4F82B9E5" name="PART"/>
+    <property ID="0x4F82B9E5" name="LightSwarmEffect"/>
     <property ID="0x4F8F5F5C" name="Strength"/>
     <property ID="0x4F904909" name="AudioPlaybackParms"/>
     <property ID="0x4FA0EA5C" name="Unknown"/>
@@ -3750,7 +3750,7 @@
     <property ID="0x5368A35F" name="Unknown"/>
     <property ID="0x536B7493" name="ApproachPlayerTime"/>
     <property ID="0x5371AC0D" name="Unknown"/>
-    <property ID="0x537375CD" name="Unknown"/>
+    <property ID="0x537375CD" name="Model04"/>
     <property ID="0x5377D4B5" name="CHAR"/>
     <property ID="0x5378D17B" name="Unknown"/>
     <property ID="0x537F8382" name="PART"/>
@@ -3840,7 +3840,7 @@
     <property ID="0x55990ED8" name="Unknown"/>
     <property ID="0x559AE8C4" name="Unknown"/>
     <property ID="0x55A73403" name="Unknown"/>
-    <property ID="0x55A8011C" name="AudioPlaybackParms"/>
+    <property ID="0x55A8011C" name="Sound_TransmissionBeacon"/>
     <property ID="0x55B323E5" name="Unknown"/>
     <property ID="0x55BB9BA8" name="Unknown"/>
     <property ID="0x55BE3E8E" name="ModelGreen"/>
@@ -3918,7 +3918,7 @@
     <property ID="0x57300439" name="ModelSelect"/>
     <property ID="0x573BC2FA" name="Unknown"/>
     <property ID="0x57452DD9" name="Unknown"/>
-    <property ID="0x574F75CA" name="Unknown"/>
+    <property ID="0x574F75CA" name="InitialTimeMin"/>
     <property ID="0x57619496" name="MinVolume"/>
     <property ID="0x576D9946" name="UnknownStruct25"/>
     <property ID="0x577D0617" name="Unknown"/>
@@ -4002,7 +4002,7 @@
     <property ID="0x59550952" name="SeekerBombDamage"/>
     <property ID="0x595C63ED" name="Unknown"/>
     <property ID="0x595E38D6" name="IceSummonTimer"/>
-    <property ID="0x597245A1" name="Unknown"/>
+    <property ID="0x597245A1" name="MinMorphballAttackDuration"/>
     <property ID="0x59743F72" name="Unknown"/>
     <property ID="0x5974D648" name="Unknown"/>
     <property ID="0x59764DBB" name="CuttingLaserBeamInfo"/>
@@ -4120,7 +4120,7 @@
     <property ID="0x5C489CB5" name="Unknown"/>
     <property ID="0x5C4FB14B" name="EnableLeftLeg"/>
     <property ID="0x5C572665" name="Unknown"/>
-    <property ID="0x5C5B8B5D" name="Unknown"/>
+    <property ID="0x5C5B8B5D" name="SteamFadeOut"/>
     <property ID="0x5C5BCE53" name="CAUD"/>
     <property ID="0x5C6C7838" name="DKandDiddyPopSound"/>
     <property ID="0x5C72A964" name="OrientationType"/>
@@ -4129,7 +4129,7 @@
     <property ID="0x5C927FB2" name="Unknown"/>
     <property ID="0x5C9A798C" name="CanDespawn"/>
     <property ID="0x5C9D2056" name="BacteriaDeceleration"/>
-    <property ID="0x5CA206CA" name="PART"/>
+    <property ID="0x5CA206CA" name="ArmShieldExplodeEffect"/>
     <property ID="0x5CA612AA" name="VortexDamage"/>
     <property ID="0x5CB18EB4" name="IncandescentAnimation"/>
     <property ID="0x5CB27470" name="ProjectileRenderOptions"/>
@@ -4194,7 +4194,7 @@
     <property ID="0x5DCF91E1" name="GrappleType"/>
     <property ID="0x5DCF95C3" name="ResetOffset"/>
     <property ID="0x5DD9004D" name="Unknown"/>
-    <property ID="0x5DDE5B25" name="ELSC"/>
+    <property ID="0x5DDE5B25" name="HypermodeClearEffect"/>
     <property ID="0x5DE325E7" name="MaxRotationalVelocity"/>
     <property ID="0x5DEB4D57" name="EnableSheet"/>
     <property ID="0x5DEC33C5" name="Unknown"/>
@@ -4277,7 +4277,7 @@
     <property ID="0x5FE13A7B" name="FlyerMovementMode"/>
     <property ID="0x5FEB176E" name="Unknown"/>
     <property ID="0x5FED5C9D" name="Cost"/>
-    <property ID="0x5FF006D1" name="Unknown"/>
+    <property ID="0x5FF006D1" name="LaserSweepTurnSpeed"/>
     <property ID="0x5FF0B26C" name="PART"/>
     <property ID="0x5FF2321F" name="LandingDampingDelay"/>
     <property ID="0x5FF96AF1" name="Unknown"/>
@@ -4400,7 +4400,7 @@
     <property ID="0x62CA94F2" name="Unknown"/>
     <property ID="0x62E0A08F" name="VisorColorSchemeTypedef"/>
     <property ID="0x62E1522A" name="MoleTrainManagerStructA"/>
-    <property ID="0x62E39DB0" name="Unknown"/>
+    <property ID="0x62E39DB0" name="DoubleChargeTurnSpeed"/>
     <property ID="0x62E6105B" name="CrackedSphere2"/>
     <property ID="0x62F0CFFC" name="Unknown"/>
     <property ID="0x62F9EBF6" name="Unknown"/>
@@ -4424,7 +4424,7 @@
     <property ID="0x635B60AA" name="PART"/>
     <property ID="0x6362F910" name="Unknown"/>
     <property ID="0x6363D78D" name="Unknown"/>
-    <property ID="0x63694C13" name="Unknown"/>
+    <property ID="0x63694C13" name="FadeUpTime"/>
     <property ID="0x636DF2DB" name="InitialSize"/>
     <property ID="0x636E8DA2" name="Unknown"/>
     <property ID="0x636F11E5" name="Unknown"/>
@@ -4459,7 +4459,7 @@
     <property ID="0x6414E848" name="Unknown"/>
     <property ID="0x64337CCD" name="Unknown"/>
     <property ID="0x6439F487" name="Unknown"/>
-    <property ID="0x643D2769" name="Unknown"/>
+    <property ID="0x643D2769" name="AttachDist"/>
     <property ID="0x643E5052" name="LaserInnerColor"/>
     <property ID="0x64543B0C" name="Unknown"/>
     <property ID="0x64588114" name="Unknown"/>
@@ -4558,7 +4558,7 @@
     <property ID="0x668EC0A0" name="Unknown"/>
     <property ID="0x6697712A" name="InstantAttack"/>
     <property ID="0x66A43EEF" name="Unknown"/>
-    <property ID="0x66A5CD17" name="Unknown"/>
+    <property ID="0x66A5CD17" name="SteamFadeIn"/>
     <property ID="0x66A86577" name="OceanBridgeStructA"/>
     <property ID="0x66AB57A4" name="ChakramModel"/>
     <property ID="0x66AD2B98" name="Unknown"/>
@@ -4639,7 +4639,7 @@
     <property ID="0x68261C78" name="LeechSpawn"/>
     <property ID="0x682AA3C9" name="NumberOfAnimations"/>
     <property ID="0x682B8867" name="Unknown"/>
-    <property ID="0x682CE9ED" name="Unknown"/>
+    <property ID="0x682CE9ED" name="MinSpinAttackDelay"/>
     <property ID="0x682DE15C" name="Unknown"/>
     <property ID="0x6832496F" name="WallCrawlerDeathEffect"/>
     <property ID="0x68341633" name="Unknown"/>
@@ -4804,7 +4804,7 @@
     <property ID="0x6BB71E37" name="Unknown"/>
     <property ID="0x6BB8E35C" name="DamageInfo"/>
     <property ID="0x6BBF9CDC" name="Unknown"/>
-    <property ID="0x6BC22735" name="Unknown"/>
+    <property ID="0x6BC22735" name="NoMeleeAttack"/>
     <property ID="0x6BD144C8" name="DamageVulnerability"/>
     <property ID="0x6BD22C75" name="Unknown"/>
     <property ID="0x6BD4783A" name="Unknown"/>
@@ -4856,7 +4856,7 @@
     <property ID="0x6CA453B1" name="CaseModel"/>
     <property ID="0x6CA56014" name="FlyerMovementMode"/>
     <property ID="0x6CB0DA5A" name="Unknown"/>
-    <property ID="0x6CB6D8C7" name="Unknown"/>
+    <property ID="0x6CB6D8C7" name="MaxSpinAttackDelay"/>
     <property ID="0x6CC73EC1" name="Unknown"/>
     <property ID="0x6CC7412A" name="PlasmaBeamInfo"/>
     <property ID="0x6CCCDF8F" name="Unknown"/>
@@ -4910,7 +4910,7 @@
     <property ID="0x6D892893" name="Unknown"/>
     <property ID="0x6D89649B" name="Unknown"/>
     <property ID="0x6D8A6608" name="DarkSamusEchoData"/>
-    <property ID="0x6DA4A3B0" name="ELSC"/>
+    <property ID="0x6DA4A3B0" name="ElectricBallEffect"/>
     <property ID="0x6DA86200" name="IsCameraBlocker"/>
     <property ID="0x6DAC116A" name="LaunchProjectileData"/>
     <property ID="0x6DADE808" name="Unknown"/>
@@ -4945,7 +4945,7 @@
     <property ID="0x6E7F4D8C" name="Unknown"/>
     <property ID="0x6E88D6AD" name="AnimationFrames"/>
     <property ID="0x6E92D661" name="MinTimeBetweenMessages"/>
-    <property ID="0x6E953C6F" name="Unknown"/>
+    <property ID="0x6E953C6F" name="Model10"/>
     <property ID="0x6EC26414" name="DamageInfo"/>
     <property ID="0x6ED037D3" name="FixedDelay5"/>
     <property ID="0x6ED124EF" name="UnknownStruct55"/>
@@ -4987,7 +4987,7 @@
     <property ID="0x6FE93D70" name="Unknown"/>
     <property ID="0x6FF7392E" name="PitchAngle"/>
     <property ID="0x70073577" name="Unknown"/>
-    <property ID="0x700771B7" name="Unknown"/>
+    <property ID="0x700771B7" name="MinFireDist"/>
     <property ID="0x700E349F" name="TrainTrackManagerStructA"/>
     <property ID="0x70130FE6" name="Unknown"/>
     <property ID="0x7017EDFC" name="Invisible"/>
@@ -5070,7 +5070,7 @@
     <property ID="0x71B142CA" name="CloseSpeed"/>
     <property ID="0x71B207B4" name="Unknown"/>
     <property ID="0x71B475D0" name="Unknown"/>
-    <property ID="0x71BB7BCB" name="Unknown"/>
+    <property ID="0x71BB7BCB" name="PauseDurationMax"/>
     <property ID="0x71C406AC" name="Unknown"/>
     <property ID="0x71C8E644" name="Unknown"/>
     <property ID="0x71CFC8E2" name="PlayerControls"/>
@@ -5167,7 +5167,7 @@
     <property ID="0x74081E94" name="CopyModelColorToColorA"/>
     <property ID="0x740B661E" name="Unknown"/>
     <property ID="0x742287F5" name="DamageInfo"/>
-    <property ID="0x74288EF3" name="Unknown"/>
+    <property ID="0x74288EF3" name="DisablePlayerGrab"/>
     <property ID="0x7428A29F" name="WarpIn"/>
     <property ID="0x742B3336" name="DamageVulnerability"/>
     <property ID="0x742E0922" name="SamusShip"/>
@@ -5176,7 +5176,7 @@
     <property ID="0x74367D95" name="Unknown"/>
     <property ID="0x74411162" name="JungleBossStructD"/>
     <property ID="0x744165C4" name="Unknown"/>
-    <property ID="0x74479B13" name="Unknown"/>
+    <property ID="0x74479B13" name="GrenadeMinAttackInterval"/>
     <property ID="0x745124F0" name="Unknown"/>
     <property ID="0x745A8F03" name="SeekWhenBehaviorInactive"/>
     <property ID="0x7466F048" name="CameraFadeOutDelayTime"/>
@@ -5211,7 +5211,7 @@
     <property ID="0x7555C1EA" name="MaxRangedAttackers"/>
     <property ID="0x75586C2B" name="Unknown"/>
     <property ID="0x755F0513" name="Unknown"/>
-    <property ID="0x75608ED3" name="Unknown"/>
+    <property ID="0x75608ED3" name="WeaponMaxPitch"/>
     <property ID="0x7561F8F7" name="Padlock Path"/>
     <property ID="0x7569FDBA" name="Unknown"/>
     <property ID="0x756A3682" name="Unknown"/>
@@ -5251,7 +5251,7 @@
     <property ID="0x7642EF52" name="ExitConfirm"/>
     <property ID="0x764827D4" name="CameraInterpolation"/>
     <property ID="0x7651EC00" name="DamageInfo"/>
-    <property ID="0x76527E01" name="Unknown"/>
+    <property ID="0x76527E01" name="VortexAttackDuration"/>
     <property ID="0x76529176" name="TrainTrackManagerStructA"/>
     <property ID="0x76597839" name="Unknown"/>
     <property ID="0x765C3715" name="PatrolSpeed"/>
@@ -5268,7 +5268,7 @@
     <property ID="0x76956629" name="RobotChickenFlyerStructB"/>
     <property ID="0x769909C1" name="Unknown"/>
     <property ID="0x76AA6D55" name="Unknown"/>
-    <property ID="0x76AD063C" name="Unknown"/>
+    <property ID="0x76AD063C" name="MaxMorphballAttackDuration"/>
     <property ID="0x76AF083E" name="PART"/>
     <property ID="0x76B1B8E0" name="LaunchProjectileData"/>
     <property ID="0x76B2376C" name="Flare4"/>
@@ -5305,7 +5305,7 @@
     <property ID="0x775362CF" name="Unknown"/>
     <property ID="0x7755F349" name="IgnorePlayer"/>
     <property ID="0x775761C5" name="Unknown"/>
-    <property ID="0x77586DE4" name="Unknown"/>
+    <property ID="0x77586DE4" name="Distance07"/>
     <property ID="0x775A0160" name="Unknown"/>
     <property ID="0x7766D9E3" name="TrainTrackManagerStructA"/>
     <property ID="0x776DB913" name="Unknown"/>
@@ -5527,7 +5527,7 @@
     <property ID="0x7BEE566E" name="IncSound"/>
     <property ID="0x7BEF45CA" name="AutoReset"/>
     <property ID="0x7BF5CD04" name="AllowTurnInTheAir"/>
-    <property ID="0x7BFAB420" name="AudioPlaybackParms"/>
+    <property ID="0x7BFAB420" name="Sound_VortexFlash"/>
     <property ID="0x7C018C6C" name="LaunchProjectileData"/>
     <property ID="0x7C021D7E" name="MaxCloakOpacity"/>
     <property ID="0x7C0599C8" name="Unknown"/>
@@ -5586,7 +5586,7 @@
     <property ID="0x7D5A0487" name="PlayerLeashTime"/>
     <property ID="0x7D5A6C93" name="Unknown"/>
     <property ID="0x7D606B78" name="FluidType"/>
-    <property ID="0x7D7447B4" name="Unknown"/>
+    <property ID="0x7D7447B4" name="MinAttackDist"/>
     <property ID="0x7D792B8C" name="MaxAttackTime"/>
     <property ID="0x7D832158" name="Sound_Flinch"/>
     <property ID="0x7D8EE273" name="Unknown"/>
@@ -5728,7 +5728,7 @@
     <property ID="0x8081DC70" name="Unknown"/>
     <property ID="0x808392EC" name="PoisonHitSound"/>
     <property ID="0x80842977" name="Unknown"/>
-    <property ID="0x808576EE" name="Unknown"/>
+    <property ID="0x808576EE" name="NoKnockbackMovement"/>
     <property ID="0x808AE371" name="Unknown"/>
     <property ID="0x808E9E32" name="FloorOffset"/>
     <property ID="0x809644DC" name="Unknown"/>
@@ -5788,7 +5788,7 @@
     <property ID="0x81A8474F" name="Unknown"/>
     <property ID="0x81AF51D5" name="AttractionAngle"/>
     <property ID="0x81C8CA71" name="ForestBossStructA"/>
-    <property ID="0x81CC0D22" name="Unknown"/>
+    <property ID="0x81CC0D22" name="CircleLineMode"/>
     <property ID="0x81CC3D3E" name="Unknown"/>
     <property ID="0x81D093B3" name="ForwardsPitch"/>
     <property ID="0x81D14BE8" name="Unknown"/>
@@ -5835,7 +5835,7 @@
     <property ID="0x82B6DC81" name="Unknown"/>
     <property ID="0x82BAD3EE" name="Unknown"/>
     <property ID="0x82BD3B10" name="Unknown"/>
-    <property ID="0x82BE06BA" name="Unknown"/>
+    <property ID="0x82BE06BA" name="ChangeDirectionInterval"/>
     <property ID="0x82C00F9A" name="ArmorModel2"/>
     <property ID="0x82CF4CF1" name="Motion"/>
     <property ID="0x82D00CD4" name="ShieldDamageEffectOffset"/>
@@ -5851,7 +5851,7 @@
     <property ID="0x830639E0" name="Unknown"/>
     <property ID="0x8308E359" name="Unknown"/>
     <property ID="0x830966D5" name="ExitPortalDistance"/>
-    <property ID="0x83106405" name="PART"/>
+    <property ID="0x83106405" name="PhazonEnrageSphere"/>
     <property ID="0x8314E5EC" name="Unknown"/>
     <property ID="0x8317610F" name="Unknown"/>
     <property ID="0x832C442E" name="Unknown"/>
@@ -5870,7 +5870,7 @@
     <property ID="0x838EE838" name="DefenseMechanoidData"/>
     <property ID="0x83967AD2" name="Unknown"/>
     <property ID="0x839D50E7" name="UnknownStruct53"/>
-    <property ID="0x83A413D9" name="Unknown"/>
+    <property ID="0x83A413D9" name="PirateShieldEffect"/>
     <property ID="0x83A5293A" name="HighJumpMaxVelocityX"/>
     <property ID="0x83A5517F" name="ScatterShotProjectile2"/>
     <property ID="0x83A87042" name="Unknown"/>
@@ -5885,7 +5885,7 @@
     <property ID="0x840BA904" name="DamageInfo"/>
     <property ID="0x8416A311" name="STRG"/>
     <property ID="0x8421E909" name="Unknown"/>
-    <property ID="0x84284B1C" name="Unknown"/>
+    <property ID="0x84284B1C" name="PatrolVerticalSpline"/>
     <property ID="0x842AE0B4" name="Unknown"/>
     <property ID="0x84335E71" name="MotionInterpolation"/>
     <property ID="0x84360D80" name="CAUD"/>
@@ -5939,7 +5939,7 @@
     <property ID="0x851BE4BE" name="Unknown"/>
     <property ID="0x85249BD5" name="Unknown"/>
     <property ID="0x8527B396" name="Sound_MissileDeflection"/>
-    <property ID="0x852A96D0" name="Unknown"/>
+    <property ID="0x852A96D0" name="Model02"/>
     <property ID="0x852D3871" name="DamageMultiplier"/>
     <property ID="0x852D3BB0" name="Unknown"/>
     <property ID="0x85437C89" name="Unknown"/>
@@ -5958,7 +5958,7 @@
     <property ID="0x857BEE96" name="AuroraUnit2Data"/>
     <property ID="0x8590483B" name="Unknown"/>
     <property ID="0x859C432C" name="CAUD"/>
-    <property ID="0x85AB52BC" name="Unknown"/>
+    <property ID="0x85AB52BC" name="ActivateMorphballDamage"/>
     <property ID="0x85BB6891" name="Unknown"/>
     <property ID="0x85C31390" name="Unknown"/>
     <property ID="0x85CEA266" name="CanRenderSort"/>
@@ -5975,7 +5975,7 @@
     <property ID="0x85F74C0E" name="Unknown"/>
     <property ID="0x860139AD" name="UnknownStruct26"/>
     <property ID="0x86064471" name="MinCloakedTime"/>
-    <property ID="0x860EDF31" name="Unknown"/>
+    <property ID="0x860EDF31" name="Distance08"/>
     <property ID="0x861CD2A0" name="WPSC"/>
     <property ID="0x8626BAB3" name="Unknown"/>
     <property ID="0x86368613" name="Unknown"/>
@@ -6044,7 +6044,7 @@
     <property ID="0x87AFE8D8" name="PART"/>
     <property ID="0x87B10A69" name="CattleProd"/>
     <property ID="0x87B2BC5A" name="LandChance"/>
-    <property ID="0x87B30E02" name="AudioPlaybackParms"/>
+    <property ID="0x87B30E02" name="StunnedSound"/>
     <property ID="0x87B52F4C" name="RewardModel"/>
     <property ID="0x87C20643" name="Unknown"/>
     <property ID="0x87C38060" name="Unknown"/>
@@ -6250,8 +6250,8 @@
     <property ID="0x8C2FBB19" name="IngSpiderballGuardianStruct"/>
     <property ID="0x8C41066C" name="BombBounceSound"/>
     <property ID="0x8C4949CF" name="Unknown"/>
-    <property ID="0x8C598E41" name="AudioPlaybackParms"/>
     <property ID="0x8C5E15C9" name="TidalWaveData"/>
+    <property ID="0x8C598E41" name="Sound_ShieldOn"/>
     <property ID="0x8C63F9D0" name="Unknown"/>
     <property ID="0x8C6A34AD" name="OceanBridgeStructA"/>
     <property ID="0x8C723B8F" name="Unknown"/>
@@ -6401,7 +6401,7 @@
     <property ID="0x8F81831D" name="TrainTrackManagerStructA"/>
     <property ID="0x8F83BE73" name="Sound"/>
     <property ID="0x8F850F46" name="VolcanoBossBodyPartStructD"/>
-    <property ID="0x8F8C64A0" name="PART"/>
+    <property ID="0x8F8C64A0" name="ProjectileVisorEffect"/>
     <property ID="0x8F906959" name="Unknown"/>
     <property ID="0x8F922C1C" name="Unknown"/>
     <property ID="0x8F9A085F" name="Unknown"/>
@@ -6470,7 +6470,7 @@
     <property ID="0x912954E6" name="Rotation"/>
     <property ID="0x91337A24" name="Unknown"/>
     <property ID="0x91338F72" name="Unknown"/>
-    <property ID="0x91351B69" name="Unknown"/>
+    <property ID="0x91351B69" name="ScanOffsetLocal"/>
     <property ID="0x91407D7D" name="Unknown"/>
     <property ID="0x914977B4" name="Unknown"/>
     <property ID="0x91502686" name="Unknown"/>
@@ -6496,9 +6496,9 @@
     <property ID="0x91C8BA81" name="Unknown"/>
     <property ID="0x91CC9F6A" name="SpindlePositionInterpolant"/>
     <property ID="0x91CEFA1E" name="GuiWidgetProperties"/>
-    <property ID="0x91D2A042" name="AudioPlaybackParms"/>
+    <property ID="0x91D2A042" name="Sound_KneeArmorHit"/>
     <property ID="0x91D5B3CA" name="TextureAlignDelay"/>
-    <property ID="0x91D5F317" name="SCAN"/>
+    <property ID="0x91D5F317" name="Scan_SphereForm"/>
     <property ID="0x91E88D81" name="SandBossData"/>
     <property ID="0x91EBF133" name="Unknown"/>
     <property ID="0x91FA7B19" name="AreaPathStructA"/>
@@ -6764,7 +6764,7 @@
     <property ID="0x97C95A99" name="Unknown"/>
     <property ID="0x97D16AA1" name="Unknown"/>
     <property ID="0x97D30F8B" name="AttackSelector"/>
-    <property ID="0x97DBD42A" name="Unknown"/>
+    <property ID="0x97DBD42A" name="PauseDurationMin"/>
     <property ID="0x97DD1AA7" name="BloggStruct"/>
     <property ID="0x97DE7421" name="FleeOnDamaged"/>
     <property ID="0x97E2B6C7" name="CMDL"/>
@@ -6787,10 +6787,10 @@
     <property ID="0x982948DB" name="Actor"/>
     <property ID="0x9829F256" name="Unknown"/>
     <property ID="0x982D7FA8" name="Unknown"/>
-    <property ID="0x982FA668" name="Unknown"/>
+    <property ID="0x982FA668" name="Model05"/>
     <property ID="0x9834ECC9" name="VariaSuitModel"/>
     <property ID="0x983954AE" name="Unknown"/>
-    <property ID="0x98419EAC" name="AudioPlaybackParms"/>
+    <property ID="0x98419EAC" name="Sound_ToeTargetHit"/>
     <property ID="0x984AF3ED" name="VolumeFadeInTime"/>
     <property ID="0x98501823" name="BarrelCannonEnum"/>
     <property ID="0x9852C4B5" name="IsInvulnerable"/>
@@ -6824,7 +6824,7 @@
     <property ID="0x990745DD" name="WPSC"/>
     <property ID="0x990A1629" name="DI_HurlHeight"/>
     <property ID="0x991180EF" name="Unknown"/>
-    <property ID="0x991202C3" name="Unknown"/>
+    <property ID="0x991202C3" name="MaxBounceSounds"/>
     <property ID="0x991364AC" name="UnknownStruct37"/>
     <property ID="0x9916DF1C" name="Unknown"/>
     <property ID="0x99260F54" name="PotentialShadowReceiver"/>
@@ -6883,7 +6883,7 @@
     <property ID="0x9A9A7D1F" name="Unknown"/>
     <property ID="0x9A9EB786" name="Unknown"/>
     <property ID="0x9AA405C1" name="SeekerMissile"/>
-    <property ID="0x9AA90B6B" name="Unknown"/>
+    <property ID="0x9AA90B6B" name="RecheckPathTime"/>
     <property ID="0x9AAB0B9A" name="Unknown"/>
     <property ID="0x9AAB30F1" name="LaunchProjectileData"/>
     <property ID="0x9AB09E44" name="Unknown"/>
@@ -6897,7 +6897,7 @@
     <property ID="0x9ADA44F7" name="CAUD"/>
     <property ID="0x9ADF7732" name="Unknown"/>
     <property ID="0x9AE279DA" name="Unknown"/>
-    <property ID="0x9AE342FB" name="DamageInfo"/>
+    <property ID="0x9AE342FB" name="GrenadeDamageElite"/>
     <property ID="0x9AEB03D9" name="Unknown"/>
     <property ID="0x9AEBEBC8" name="Unknown"/>
     <property ID="0x9AECDC44" name="MoleTrainManagerStructB"/>
@@ -7021,7 +7021,7 @@
     <property ID="0x9DFADEE0" name="Unknown"/>
     <property ID="0x9E02691C" name="BoostBallHitPlayerSound"/>
     <property ID="0x9E116385" name="Unknown"/>
-    <property ID="0x9E156B9D" name="Unknown"/>
+    <property ID="0x9E156B9D" name="DipCheckTime"/>
     <property ID="0x9E1A78FF" name="Unknown"/>
     <property ID="0x9E1B8105" name="Unknown"/>
     <property ID="0x9E1C3F6C" name="ProjectileAttackTime"/>
@@ -7142,7 +7142,7 @@
     <property ID="0xA0EFDA8E" name="MaximumTwistSpeed"/>
     <property ID="0xA0F6B5CF" name="ReactiveObjectStruct"/>
     <property ID="0xA0FB9986" name="SpindlePositionInterpolant"/>
-    <property ID="0xA1018EF9" name="Unknown"/>
+    <property ID="0xA1018EF9" name="Distance01"/>
     <property ID="0xA111AD50" name="Unknown"/>
     <property ID="0xA115A5D6" name="Unknown"/>
     <property ID="0xA1172744" name="Unknown"/>
@@ -7188,16 +7188,16 @@
     <property ID="0xA1C6D9DE" name="UnknownStruct18"/>
     <property ID="0xA1CDA0B6" name="Unknown"/>
     <property ID="0xA1D73380" name="Unknown"/>
-    <property ID="0xA1D7E06B" name="Unknown"/>
+    <property ID="0xA1D7E06B" name="ApproachDist"/>
     <property ID="0xA1D9802E" name="Unknown"/>
     <property ID="0xA1DD15F6" name="Unknown"/>
     <property ID="0xA1DFFAD2" name="IsOpen"/>
     <property ID="0xA1ECC54B" name="Unknown"/>
     <property ID="0xA1ED5408" name="Unknown"/>
     <property ID="0xA1F091B2" name="Unknown"/>
-    <property ID="0xA1F350F5" name="Unknown"/>
+    <property ID="0xA1F350F5" name="EnergyBoltAttackDuration"/>
     <property ID="0xA2023BA8" name="Option 1"/>
-    <property ID="0xA21792BF" name="Dark Form Scan"/>
+    <property ID="0xA21792BF" name="ScanInfoDark"/>
     <property ID="0xA21B515A" name="UnknownStruct5"/>
     <property ID="0xA21C90EA" name="DarkShieldVulnerability"/>
     <property ID="0xA21FB5CE" name="LedgeAssistStepUpHeight"/>
@@ -7238,7 +7238,7 @@
     <property ID="0xA2EFCADA" name="Unknown"/>
     <property ID="0xA2F2168C" name="Unknown"/>
     <property ID="0xA2FE632B" name="CMDL"/>
-    <property ID="0xA305DCBA" name="AudioPlaybackParms"/>
+    <property ID="0xA305DCBA" name="Sound_ToeTargetAttack"/>
     <property ID="0xA30EE999" name="ActorParameters"/>
     <property ID="0xA3131519" name="FlinchSoundChance"/>
     <property ID="0xA31633B8" name="Unknown"/>
@@ -7253,7 +7253,7 @@
     <property ID="0xA33D1C6D" name="CRSC"/>
     <property ID="0xA33E5B0E" name="AmbientColor"/>
     <property ID="0xA342C3A6" name="Unknown"/>
-    <property ID="0xA34E2D84" name="AudioPlaybackParms"/>
+    <property ID="0xA34E2D84" name="Sound_ShieldExplode"/>
     <property ID="0xA350F15A" name="Unknown"/>
     <property ID="0xA355C04F" name="SpawnSpeed"/>
     <property ID="0xA357627C" name="Puzzle_6_Sound"/>
@@ -7286,7 +7286,7 @@
     <property ID="0xA3CAB6BF" name="EmperorIngStage3StructB"/>
     <property ID="0xA3D63F44" name="Animation"/>
     <property ID="0xA3DCF42A" name="Unknown"/>
-    <property ID="0xA3E1608C" name="Light Form Scan"/>
+    <property ID="0xA3E1608C" name="ScanInfoLight"/>
     <property ID="0xA3E32481" name="Unknown"/>
     <property ID="0xA3E8EC4E" name="Sound_VisorEffect"/>
     <property ID="0xA3EB8324" name="FirstIdleTime"/>
@@ -7505,7 +7505,7 @@
     <property ID="0xA8E3AFF1" name="RetriggerTime"/>
     <property ID="0xA8E46EA2" name="BounceDetectionAngle"/>
     <property ID="0xA8FADFA5" name="Player1"/>
-    <property ID="0xA8FDDBA0" name="Unknown"/>
+    <property ID="0xA8FDDBA0" name="LegStabAttackInterval"/>
     <property ID="0xA8FF9E59" name="SeedBoss1Stage"/>
     <property ID="0xA900887A" name="Look Left"/>
     <property ID="0xA90107C6" name="STRG"/>
@@ -7547,7 +7547,7 @@
     <property ID="0xA9B9997F" name="Unknown"/>
     <property ID="0xA9BAC3FE" name="CrackedSphere3"/>
     <property ID="0xA9BAC9F3" name="Unknown"/>
-    <property ID="0xA9BE1081" name="Unknown"/>
+    <property ID="0xA9BE1081" name="ColorHyperShockwave"/>
     <property ID="0xA9C8C651" name="Unknown"/>
     <property ID="0xA9CD091F" name="Unknown"/>
     <property ID="0xA9CF82F4" name="BeamTextureU2"/>
@@ -7647,7 +7647,7 @@
     <property ID="0xAC015A47" name="InvulnerableTime"/>
     <property ID="0xAC0B1EA5" name="CMDL"/>
     <property ID="0xAC0D6AFB" name="Unknown"/>
-    <property ID="0xAC187FA7" name="DamageInfo"/>
+    <property ID="0xAC187FA7" name="ThrownProjectileDamage"/>
     <property ID="0xAC1B6447" name="OceanBridgeStructB"/>
     <property ID="0xAC202A5D" name="Unknown"/>
     <property ID="0xAC2A467A" name="BacteriaPatrolColor"/>
@@ -7715,7 +7715,7 @@
     <property ID="0xAD671492" name="UnselectedMaxColor"/>
     <property ID="0xAD69AC32" name="Unknown"/>
     <property ID="0xAD6AFD31" name="Part8"/>
-    <property ID="0xAD6ECC7F" name="PART"/>
+    <property ID="0xAD6ECC7F" name="InterfaceDelayedEffect"/>
     <property ID="0xAD85924E" name="PirateShieldVulnerability"/>
     <property ID="0xAD8F1F84" name="Part4"/>
     <property ID="0xAD90C82A" name="Unknown"/>
@@ -7737,7 +7737,7 @@
     <property ID="0xADE0103B" name="Unknown"/>
     <property ID="0xADFA90FC" name="Unknown"/>
     <property ID="0xADFD4C91" name="JumpCount"/>
-    <property ID="0xAE06708D" name="Unknown"/>
+    <property ID="0xAE06708D" name="HyperModeDurationMax"/>
     <property ID="0xAE0E60E2" name="PuddleControlPhaseData"/>
     <property ID="0xAE11F975" name="Unknown"/>
     <property ID="0xAE1317D8" name="Unknown"/>
@@ -7762,13 +7762,13 @@
     <property ID="0xAE5B2114" name="BlueShellModel"/>
     <property ID="0xAE67E050" name="IntensityLoops"/>
     <property ID="0xAE6C5261" name="Unknown"/>
-    <property ID="0xAE71A22A" name="Unknown"/>
     <property ID="0xAE72A4FF" name="AfterJumpDampingTime"/>
+    <property ID="0xAE71A22A" name="FadeOffSize"/>
     <property ID="0xAE74C22F" name="Unknown"/>
     <property ID="0xAE7C7EFC" name="Sound_SoundRunoffBall"/>
     <property ID="0xAE7DD037" name="Unknown"/>
     <property ID="0xAE80628F" name="Unknown"/>
-    <property ID="0xAE813F86" name="SCAN"/>
+    <property ID="0xAE813F86" name="Scan_GiantForm"/>
     <property ID="0xAE89310E" name="Unknown"/>
     <property ID="0xAE8D20AA" name="Unknown"/>
     <property ID="0xAE8DEE81" name="UnlimitedMissiles"/>
@@ -7854,7 +7854,7 @@
     <property ID="0xB028DB0E" name="Lighting"/>
     <property ID="0xB0291470" name="Unknown"/>
     <property ID="0xB02AAA53" name="Unknown"/>
-    <property ID="0xB02CD31F" name="Unknown"/>
+    <property ID="0xB02CD31F" name="MaxTurnSpeedMelee"/>
     <property ID="0xB02DE555" name="LifeTime"/>
     <property ID="0xB03510B7" name="Unknown"/>
     <property ID="0xB0374D34" name="CanCauseDamage"/>
@@ -7874,7 +7874,7 @@
     <property ID="0xB0946259" name="Unknown"/>
     <property ID="0xB09AF706" name="Sound"/>
     <property ID="0xB09B39E0" name="Unknown"/>
-    <property ID="0xB09ED686" name="PART"/>
+    <property ID="0xB09ED686" name="GunConnectorEffect"/>
     <property ID="0xB0A32E5B" name="Unknown"/>
     <property ID="0xB0A9B728" name="HyperModeData"/>
     <property ID="0xB0AF3909" name="CameraFadeOutDelayTimeAfterDeathfall"/>
@@ -7904,7 +7904,7 @@
     <property ID="0xB11D9E90" name="Convergence"/>
     <property ID="0xB122A18D" name="DampenConstant"/>
     <property ID="0xB12E58B8" name="MaxMultiplier"/>
-    <property ID="0xB12FDA2B" name="Unknown"/>
+    <property ID="0xB12FDA2B" name="InitialTimeMax"/>
     <property ID="0xB1338BEB" name="Unknown"/>
     <property ID="0xB1351A96" name="Unknown"/>
     <property ID="0xB13FC578" name="AttractForce"/>
@@ -7948,7 +7948,7 @@
     <property ID="0xB27E700B" name="Unknown"/>
     <property ID="0xB27ECE5F" name="TrainTrackManagerStructB"/>
     <property ID="0xB2807D6D" name="ScaleFactor"/>
-    <property ID="0xB281F490" name="Unknown"/>
+    <property ID="0xB281F490" name="EnergyWaveJumpApex"/>
     <property ID="0xB28F37B1" name="AudioStream"/>
     <property ID="0xB29207A6" name="Unknown"/>
     <property ID="0xB297F186" name="TargetScaleOfBoundingBoxHeight"/>
@@ -8068,8 +8068,8 @@
     <property ID="0xB5049BBB" name="Unknown"/>
     <property ID="0xB515DD12" name="Unknown"/>
     <property ID="0xB5194095" name="Unknown"/>
-    <property ID="0xB53087CC" name="AudioPlaybackParms"/>
-    <property ID="0xB530D7DE" name="Unknown"/>
+    <property ID="0xB53087CC" name="StunnedFlinchSound"/>
+    <property ID="0xB530D7DE" name="UseModInca"/>
     <property ID="0xB53693FA" name="BoostBall"/>
     <property ID="0xB53C7993" name="HasJammerAntenna"/>
     <property ID="0xB54255B5" name="Unknown"/>
@@ -8169,7 +8169,7 @@
     <property ID="0xB763EB10" name="LaserPulseDamage"/>
     <property ID="0xB76775F8" name="DamageInfo"/>
     <property ID="0xB772D4C1" name="Unknown"/>
-    <property ID="0xB787F412" name="Unknown"/>
+    <property ID="0xB787F412" name="MinMistAttackInterval"/>
     <property ID="0xB7990651" name="CancelPromptText"/>
     <property ID="0xB7994EA1" name="Unknown"/>
     <property ID="0xB79DE7E8" name="Unknown"/>
@@ -8211,7 +8211,7 @@
     <property ID="0xB875593B" name="EngineSoundPitch"/>
     <property ID="0xB87C2C9B" name="GroundFire"/>
     <property ID="0xB87C5139" name="Unknown"/>
-    <property ID="0xB881B8B3" name="Unknown"/>
+    <property ID="0xB881B8B3" name="AttackLeashTime"/>
     <property ID="0xB883AC66" name="Unknown"/>
     <property ID="0xB889D4CE" name="FixedDelay3"/>
     <property ID="0xB897117A" name="Unknown"/>
@@ -8230,7 +8230,7 @@
     <property ID="0xB8DEE8E9" name="UnknownStruct50"/>
     <property ID="0xB8E343F5" name="ChangeSound"/>
     <property ID="0xB8ED9FFA" name="Unknown"/>
-    <property ID="0xB8EECC95" name="Unknown"/>
+    <property ID="0xB8EECC95" name="MeleeImpulseHorizontal"/>
     <property ID="0xB8F23D69" name="BoostAnimThreshold"/>
     <property ID="0xB8F60F9A" name="Mode"/>
     <property ID="0xB902B5A1" name="IgnoringDuration"/>
@@ -8376,7 +8376,7 @@
     <property ID="0xBBFE7D9B" name="SnapOrientationToSplineOnDeath"/>
     <property ID="0xBBFEE93E" name="TriggerInfo"/>
     <property ID="0xBC01A28E" name="Unknown"/>
-    <property ID="0xBC04BE41" name="Unknown"/>
+    <property ID="0xBC04BE41" name="Distance06"/>
     <property ID="0xBC0952D8" name="CSKR"/>
     <property ID="0xBC113D7B" name="PART"/>
     <property ID="0xBC1564B9" name="Unknown"/>
@@ -8425,7 +8425,7 @@
     <property ID="0xBD110814" name="Unknown"/>
     <property ID="0xBD1A42AF" name="PeanutDeflectionEffect"/>
     <property ID="0xBD28AF6E" name="Unknown"/>
-    <property ID="0xBD30F7A3" name="Unknown"/>
+    <property ID="0xBD30F7A3" name="MaxTimeExpanded"/>
     <property ID="0xBD321538" name="VisorElectricEffect"/>
     <property ID="0xBD3EB001" name="Sound_EnergyBolt"/>
     <property ID="0xBD3EFE7D" name="LightColor"/>
@@ -8757,7 +8757,7 @@
     <property ID="0xC4A1A44E" name="Unknown"/>
     <property ID="0xC4A217AD" name="Unknown"/>
     <property ID="0xC4A89872" name="DelayFeedback1"/>
-    <property ID="0xC4B1E6A1" name="Unknown"/>
+    <property ID="0xC4B1E6A1" name="TransformPositionOffset"/>
     <property ID="0xC4B88B80" name="UnknownStruct2"/>
     <property ID="0xC4BE2EEB" name="Unknown"/>
     <property ID="0xC4C39403" name="TurnSound"/>
@@ -8856,7 +8856,7 @@
     <property ID="0xC6A6B724" name="Unknown"/>
     <property ID="0xC6AABE9A" name="UseAnimation"/>
     <property ID="0xC6AF2FD0" name="Unknown"/>
-    <property ID="0xC6B19B45" name="Unknown"/>
+    <property ID="0xC6B19B45" name="FadeDownTime"/>
     <property ID="0xC6BA9753" name="ArmoredVulnerability"/>
     <property ID="0xC6BB2F45" name="Active"/>
     <property ID="0xC6BF0FC0" name="Unknown"/>
@@ -8872,7 +8872,7 @@
     <property ID="0xC6E6300F" name="ShoulderVulnerability"/>
     <property ID="0xC6E7B293" name="UnknownStruct2"/>
     <property ID="0xC6E9D30E" name="Unknown"/>
-    <property ID="0xC6EC1630" name="AudioPlaybackParms"/>
+    <property ID="0xC6EC1630" name="Sound_ToeTargetExplosion"/>
     <property ID="0xC6F229C6" name="BeamTexture"/>
     <property ID="0xC6F50032" name="ReverbHiPreDelay"/>
     <property ID="0xC6F86BFD" name="Unknown"/>
@@ -9097,11 +9097,11 @@
     <property ID="0xCC009F35" name="Unknown"/>
     <property ID="0xCC04105E" name="Unknown"/>
     <property ID="0xCC08EF1B" name="CameraMode"/>
-    <property ID="0xCC0AF287" name="ELSC"/>
+    <property ID="0xCC0AF287" name="ElectricVisorEffect"/>
     <property ID="0xCC14E90F" name="ChargeRangeMax"/>
     <property ID="0xCC27F827" name="Unknown"/>
     <property ID="0xCC28249E" name="ReturnSpeed"/>
-    <property ID="0xCC2A56E8" name="Unknown"/>
+    <property ID="0xCC2A56E8" name="Distance10"/>
     <property ID="0xCC2E857D" name="STRG"/>
     <property ID="0xCC2F25F1" name="Unknown"/>
     <property ID="0xCC4284A2" name="CanBounce"/>
@@ -9146,7 +9146,7 @@
     <property ID="0xCD0B4D09" name="BlendMode"/>
     <property ID="0xCD1E0E91" name="Unknown"/>
     <property ID="0xCD1EACB0" name="Spline4"/>
-    <property ID="0xCD2F3D00" name="SCAN"/>
+    <property ID="0xCD2F3D00" name="Scan_RingForm"/>
     <property ID="0xCD3A09A1" name="ActorMultiKeyframeStruct"/>
     <property ID="0xCD3B5F5C" name="OrientationTurnSpeed"/>
     <property ID="0xCD3DD32A" name="Unknown"/>
@@ -9204,7 +9204,7 @@
     <property ID="0xCE4C4668" name="MeleeAttack"/>
     <property ID="0xCE4E3843" name="Unknown"/>
     <property ID="0xCE54E50E" name="Unknown"/>
-    <property ID="0xCE56E428" name="WeaponVulnerability"/>
+    <property ID="0xCE56E428" name="AnnihilatorBomb"/>
     <property ID="0xCE59EBFF" name="BounceEffectTransform"/>
     <property ID="0xCE5D16C3" name="Unknown"/>
     <property ID="0xCE5F8DD9" name="Unknown"/>
@@ -9353,7 +9353,7 @@
     <property ID="0xD1777BF7" name="Unknown"/>
     <property ID="0xD18215AA" name="Behavior"/>
     <property ID="0xD187F05C" name="WPSC"/>
-    <property ID="0xD189A7AA" name="Unknown"/>
+    <property ID="0xD189A7AA" name="MinMeleeAttackInterval"/>
     <property ID="0xD190899C" name="EngineSound"/>
     <property ID="0xD1918347" name="RightArrow"/>
     <property ID="0xD1989E0D" name="Unknown"/>
@@ -9376,7 +9376,7 @@
     <property ID="0xD1F6C520" name="DamageInfo"/>
     <property ID="0xD1F82F92" name="Unknown"/>
     <property ID="0xD1FFB49F" name="UnlimitedBeamAmmo"/>
-    <property ID="0xD20288A4" name="Unknown"/>
+    <property ID="0xD20288A4" name="FirstShotType"/>
     <property ID="0xD2046050" name="LandCheckChance"/>
     <property ID="0xD207EF4F" name="ReactiveObjectStruct"/>
     <property ID="0xD207FF0F" name="GrenadeEffect"/>
@@ -9439,7 +9439,7 @@
     <property ID="0xD3023E6C" name="Sound_Thrust"/>
     <property ID="0xD3049E04" name="LowPass"/>
     <property ID="0xD3056808" name="Unknown"/>
-    <property ID="0xD30D9BB9" name="Unknown"/>
+    <property ID="0xD30D9BB9" name="MaxTurnSpeedNormal"/>
     <property ID="0xD31B2209" name="EnergyTank"/>
     <property ID="0xD32CCF88" name="Unknown"/>
     <property ID="0xD32D9FE3" name="Unknown"/>
@@ -9524,7 +9524,7 @@
     <property ID="0xD4C9B08C" name="Puzzle_5_Sound"/>
     <property ID="0xD4D4EDFA" name="MaxLifetime"/>
     <property ID="0xD4D52631" name="ExplodeRadius"/>
-    <property ID="0xD4D6A00C" name="Unknown"/>
+    <property ID="0xD4D6A00C" name="StunDelayMax"/>
     <property ID="0xD4DEC629" name="FlightMaxSpeed"/>
     <property ID="0xD4E11128" name="BirdBossStruct"/>
     <property ID="0xD4E26A8E" name="SkeletonRootArmorModel"/>
@@ -9568,7 +9568,7 @@
     <property ID="0xD5CC7E71" name="AudioPlaybackParms"/>
     <property ID="0xD5D00133" name="Unknown"/>
     <property ID="0xD5D38CBC" name="Unknown"/>
-    <property ID="0xD5E70763" name="Unknown"/>
+    <property ID="0xD5E70763" name="Model07"/>
     <property ID="0xD5E7B11E" name="DamageDuration"/>
     <property ID="0xD5ED0F77" name="LaunchTimer"/>
     <property ID="0xD5F34476" name="Unknown"/>
@@ -9742,7 +9742,7 @@
     <property ID="0xDA392607" name="ForestBossStructA"/>
     <property ID="0xDA3C9B32" name="SpitDamage"/>
     <property ID="0xDA3DFC45" name="Unknown"/>
-    <property ID="0xDA422AE5" name="WeaponVulnerability"/>
+    <property ID="0xDA422AE5" name="FriendlyAi"/>
     <property ID="0xDA4488BF" name="PuddleControlPhaseData"/>
     <property ID="0xDA44986F" name="HurlDirection"/>
     <property ID="0xDA471E5C" name="OceanBridgeStructB"/>
@@ -9781,7 +9781,7 @@
     <property ID="0xDB1FA61C" name="ParticleSystem1UsesGlobalOrientation"/>
     <property ID="0xDB21402F" name="SuperMissile"/>
     <property ID="0xDB2260B7" name="Unknown"/>
-    <property ID="0xDB254386" name="Unknown"/>
+    <property ID="0xDB254386" name="ProjectileDelayMin"/>
     <property ID="0xDB289B55" name="ThrowKillThreshold"/>
     <property ID="0xDB2CA6FF" name="Unknown"/>
     <property ID="0xDB36872A" name="Part3"/>
@@ -9842,7 +9842,7 @@
     <property ID="0xDCC2BF11" name="Sound_ArmorImpact"/>
     <property ID="0xDCCF07B6" name="Unknown"/>
     <property ID="0xDCD14611" name="Up"/>
-    <property ID="0xDCD1597D" name="Unknown"/>
+    <property ID="0xDCD1597D" name="HeightVariationMax"/>
     <property ID="0xDCD56FE8" name="MaximumSplashes"/>
     <property ID="0xDCDDEBC0" name="Unknown"/>
     <property ID="0xDCE1A940" name="CMDL"/>
@@ -9891,7 +9891,7 @@
     <property ID="0xDDE5DCCD" name="Unknown"/>
     <property ID="0xDDECEE96" name="NumberOfStrings"/>
     <property ID="0xDDF88C92" name="Unknown"/>
-    <property ID="0xDE054447" name="Unknown"/>
+    <property ID="0xDE054447" name="EnvMapSize"/>
     <property ID="0xDE12B1D5" name="Unknown"/>
     <property ID="0xDE139081" name="TurretHudTypedef"/>
     <property ID="0xDE1565A9" name="FlightEffect"/>
@@ -10035,8 +10035,8 @@
     <property ID="0xE15A93D0" name="DisablePhysics"/>
     <property ID="0xE15B4F4A" name="Sound_ProjectileVisor"/>
     <property ID="0xE160B593" name="Sound_Death"/>
-    <property ID="0xE174F463" name="Unknown"/>
     <property ID="0xE1771396" name="ScaleVCoord"/>
+    <property ID="0xE174F463" name="HyperModeInitialDelay"/>
     <property ID="0xE17C3B6E" name="PulseShockwave"/>
     <property ID="0xE18486ED" name="MaxFlightSpeed"/>
     <property ID="0xE18DC6FC" name="BoostBallDamage"/>
@@ -10114,7 +10114,7 @@
     <property ID="0xE2EFEE98" name="LeftBackHatchModel"/>
     <property ID="0xE30E3366" name="Unknown"/>
     <property ID="0xE31421E2" name="Unknown"/>
-    <property ID="0xE315EE72" name="UnknownEnum1"/>
+    <property ID="0xE315EE72" name="ActorMaterialType"/>
     <property ID="0xE31814DB" name="TeleportRenderPushAmount"/>
     <property ID="0xE32082D1" name="Unknown"/>
     <property ID="0xE328A2C3" name="Unknown"/>
@@ -10183,7 +10183,7 @@
     <property ID="0xE47334AE" name="Unknown"/>
     <property ID="0xE4734608" name="CSKR"/>
     <property ID="0xE4780219" name="LaserSound"/>
-    <property ID="0xE47B29C8" name="Unknown"/>
+    <property ID="0xE47B29C8" name="RadiusExpansionTime"/>
     <property ID="0xE482BCA4" name="PART"/>
     <property ID="0xE4854160" name="TrainTrackManagerStructB"/>
     <property ID="0xE488B89E" name="Unknown"/>
@@ -10323,7 +10323,7 @@
     <property ID="0xE7A0E69B" name="DamageInfo"/>
     <property ID="0xE7A5D759" name="Unknown"/>
     <property ID="0xE7AC3927" name="DefaultString"/>
-    <property ID="0xE7B4922A" name="Unknown"/>
+    <property ID="0xE7B4922A" name="MaxStaticIntensity"/>
     <property ID="0xE7B88D51" name="IgnoreMaxTime"/>
     <property ID="0xE7BB8978" name="Unknown"/>
     <property ID="0xE7C1049E" name="CMDL"/>
@@ -10430,7 +10430,7 @@
     <property ID="0xE9A36031" name="DelayEnabled"/>
     <property ID="0xE9AD286A" name="EffectType"/>
     <property ID="0xE9AE9114" name="Unknown"/>
-    <property ID="0xE9B7D4EE" name="Unknown"/>
+    <property ID="0xE9B7D4EE" name="HyperModeAttackTime"/>
     <property ID="0xE9B807AC" name="MaxMissileInterval"/>
     <property ID="0xE9BF2240" name="Unknown"/>
     <property ID="0xE9C116BF" name="Unknown"/>
@@ -10442,14 +10442,14 @@
     <property ID="0xE9D5359D" name="Unknown"/>
     <property ID="0xE9E0BEB6" name="MinimumSeekDirectionTime"/>
     <property ID="0xE9E388AF" name="SpindleCameraStruct"/>
-    <property ID="0xE9FD5A01" name="Unknown"/>
+    <property ID="0xE9FD5A01" name="HyperModeCheckTime"/>
     <property ID="0xE9FE0BAA" name="Unknown"/>
     <property ID="0xEA024AF3" name="ShipDecalControllerStruct"/>
     <property ID="0xEA03E258" name="Persistent"/>
     <property ID="0xEA0569D2" name="Unknown"/>
     <property ID="0xEA0F134D" name="Unknown"/>
     <property ID="0xEA119B2C" name="OptionsSound"/>
-    <property ID="0xEA11D1FA" name="AudioPlaybackParms"/>
+    <property ID="0xEA11D1FA" name="TurnSound"/>
     <property ID="0xEA17CB66" name="SweepBeamSound"/>
     <property ID="0xEA2700E9" name="EnvironmentEffects"/>
     <property ID="0xEA2C12F9" name="Unknown"/>
@@ -10461,7 +10461,7 @@
     <property ID="0xEA3E0F37" name="Unknown"/>
     <property ID="0xEA412141" name="Unknown"/>
     <property ID="0xEA4347BC" name="Unknown"/>
-    <property ID="0xEA45A95D" name="Unknown"/>
+    <property ID="0xEA45A95D" name="CheckDelayMin"/>
     <property ID="0xEA46B664" name="Unknown"/>
     <property ID="0xEA4B88C8" name="Unknown"/>
     <property ID="0xEA500E8B" name="GrenadeExplosionEffect"/>
@@ -10477,7 +10477,7 @@
     <property ID="0xEA8B1D10" name="Unknown"/>
     <property ID="0xEA8D54F4" name="AutoPlayWhenBuffered"/>
     <property ID="0xEA974B08" name="IsTeleport"/>
-    <property ID="0xEAA3C3F8" name="Unknown"/>
+    <property ID="0xEAA3C3F8" name="IngSpotTurnSpeed"/>
     <property ID="0xEAAC42D0" name="Unknown"/>
     <property ID="0xEABE0B93" name="Unknown"/>
     <property ID="0xEAC27605" name="Sound_Projectile"/>
@@ -10566,7 +10566,7 @@
     <property ID="0xECBA9FB2" name="Unknown"/>
     <property ID="0xECC78B13" name="RunGrab"/>
     <property ID="0xECC8C95F" name="CAUD"/>
-    <property ID="0xECC92FF2" name="Unknown"/>
+    <property ID="0xECC92FF2" name="Distance03"/>
     <property ID="0xECD100F8" name="Unknown"/>
     <property ID="0xECD5261F" name="HyperModePhaaze"/>
     <property ID="0xECD9D92D" name="SplitDestroyedPriority"/>
@@ -10652,7 +10652,7 @@
     <property ID="0xEE452490" name="Unknown"/>
     <property ID="0xEE492513" name="Unknown"/>
     <property ID="0xEE4C1F4B" name="Unknown"/>
-    <property ID="0xEE521DC6" name="Unknown"/>
+    <property ID="0xEE521DC6" name="TextBoundingWidth"/>
     <property ID="0xEE538174" name="Unknown"/>
     <property ID="0xEE53EBE7" name="SeedBoss1OrbData"/>
     <property ID="0xEE5BEA64" name="Unknown"/>
@@ -10722,7 +10722,7 @@
     <property ID="0xEFE4EA57" name="RotationSplines"/>
     <property ID="0xEFE9E465" name="Unknown"/>
     <property ID="0xEFEBE838" name="WorldOffset"/>
-    <property ID="0xEFED6613" name="Unknown"/>
+    <property ID="0xEFED6613" name="Model09"/>
     <property ID="0xEFEE802B" name="Unknown"/>
     <property ID="0xEFEF7B45" name="Unknown"/>
     <property ID="0xEFFFA3BE" name="Unknown"/>
@@ -10734,7 +10734,7 @@
     <property ID="0xF0397134" name="Unknown"/>
     <property ID="0xF03EB95E" name="Unknown"/>
     <property ID="0xF04414B3" name="Unknown"/>
-    <property ID="0xF04452F3" name="Unknown"/>
+    <property ID="0xF04452F3" name="HyperModeCheckChance"/>
     <property ID="0xF04C61F3" name="Unknown"/>
     <property ID="0xF04CADCA" name="Unknown"/>
     <property ID="0xF060EEEC" name="Unknown"/>
@@ -10790,7 +10790,7 @@
     <property ID="0xF148F728" name="BoostBallModel"/>
     <property ID="0xF14D911D" name="Unknown"/>
     <property ID="0xF14E3A14" name="FlowSpeed"/>
-    <property ID="0xF14F3237" name="DamageVulnerability"/>
+    <property ID="0xF14F3237" name="ToeTargetVulnerability"/>
     <property ID="0xF1548397" name="Unknown"/>
     <property ID="0xF15823C2" name="OkCore"/>
     <property ID="0xF15B9FB8" name="CenterLocator"/>
@@ -10814,9 +10814,9 @@
     <property ID="0xF1C247FF" name="StartsInvulnerable"/>
     <property ID="0xF1C2D224" name="Unknown"/>
     <property ID="0xF1C71061" name="Unknown"/>
-    <property ID="0xF1C823A6" name="Unknown"/>
+    <property ID="0xF1C823A6" name="ScaleRadialDamage"/>
     <property ID="0xF1C8A0AE" name="NoBackward"/>
-    <property ID="0xF1CC1F4A" name="Unknown"/>
+    <property ID="0xF1CC1F4A" name="Distance04"/>
     <property ID="0xF1CD99D3" name="SecondaryModel2"/>
     <property ID="0xF1D67032" name="Unknown"/>
     <property ID="0xF1F038DE" name="Unknown"/>
@@ -10851,7 +10851,7 @@
     <property ID="0xF2C3FC10" name="Unknown"/>
     <property ID="0xF2D02613" name="DI_Damage"/>
     <property ID="0xF2D2C8E8" name="TippyPlatformModule"/>
-    <property ID="0xF2D36ABB" name="Unknown"/>
+    <property ID="0xF2D36ABB" name="TextBoundingHeight"/>
     <property ID="0xF2DC8618" name="PART"/>
     <property ID="0xF2E13506" name="TextOutlineColor"/>
     <property ID="0xF2E23F30" name="Unknown"/>
@@ -10916,7 +10916,7 @@
     <property ID="0xF4379CF4" name="Unknown"/>
     <property ID="0xF437A62F" name="XScale"/>
     <property ID="0xF4386C42" name="WheelTumbleEffect"/>
-    <property ID="0xF4491ED5" name="AudioPlaybackParms"/>
+    <property ID="0xF4491ED5" name="Sound_ShieldOff"/>
     <property ID="0xF45F7D17" name="Unknown"/>
     <property ID="0xF465A51B" name="Unknown"/>
     <property ID="0xF4661F64" name="Unknown"/>
@@ -10962,7 +10962,7 @@
     <property ID="0xF51A1D6A" name="Unknown"/>
     <property ID="0xF51A3D06" name="PitchLimit"/>
     <property ID="0xF51B3578" name="ContextActionCombinationLockStruct"/>
-    <property ID="0xF5221F0D" name="Unknown"/>
+    <property ID="0xF5221F0D" name="HudStaticIntensity"/>
     <property ID="0xF5230E61" name="Unknown"/>
     <property ID="0xF52AF9F3" name="PreDelayTime"/>
     <property ID="0xF532B5D3" name="DKPopEffect"/>
@@ -10973,7 +10973,7 @@
     <property ID="0xF5479260" name="Unknown"/>
     <property ID="0xF5495F77" name="PlayerActivationDistanceSquared"/>
     <property ID="0xF549D269" name="Unknown"/>
-    <property ID="0xF549E733" name="Unknown"/>
+    <property ID="0xF549E733" name="MaxLinearAcceleration"/>
     <property ID="0xF54B2392" name="LandingBlendTime"/>
     <property ID="0xF54E1111" name="Unknown"/>
     <property ID="0xF5521FFA" name="CameraHintStructA"/>
@@ -10994,7 +10994,7 @@
     <property ID="0xF5915FF7" name="Unknown"/>
     <property ID="0xF593614F" name="Unknown"/>
     <property ID="0xF5937B1F" name="Unknown"/>
-    <property ID="0xF59AF01A" name="Unknown"/>
+    <property ID="0xF59AF01A" name="MeleeImpulseVertical"/>
     <property ID="0xF59F9A60" name="Unknown"/>
     <property ID="0xF5A53CC1" name="EnforceAttackRequirementsAtLaunchTime"/>
     <property ID="0xF5AA6363" name="Unknown"/>
@@ -11031,7 +11031,7 @@
     <property ID="0xF630B89F" name="CanBeKilled"/>
     <property ID="0xF64CA627" name="ShellCloseSound"/>
     <property ID="0xF64E3867" name="CanBeBlown"/>
-    <property ID="0xF64F1DBD" name="Unknown"/>
+    <property ID="0xF64F1DBD" name="ActivateMorphballBoost"/>
     <property ID="0xF6502596" name="GrappleVisorEffect"/>
     <property ID="0xF6555670" name="SuspensionBridgeStruct"/>
     <property ID="0xF65E430F" name="Unknown"/>
@@ -11065,7 +11065,7 @@
     <property ID="0xF726069B" name="AlignmentRadius"/>
     <property ID="0xF726E5DA" name="Scale"/>
     <property ID="0xF7283644" name="Unknown"/>
-    <property ID="0xF72EEFBD" name="Unknown"/>
+    <property ID="0xF72EEFBD" name="UseParentRotation"/>
     <property ID="0xF734DF8C" name="DynamicLightParent"/>
     <property ID="0xF7381A24" name="Unknown"/>
     <property ID="0xF73A8BAA" name="Unknown"/>
@@ -11237,7 +11237,7 @@
     <property ID="0xFA9B4240" name="VolcanoBossBodyPartStructB"/>
     <property ID="0xFAA6ABE5" name="Unknown"/>
     <property ID="0xFAA71E25" name="WeaponDamage"/>
-    <property ID="0xFAA81D3A" name="Unknown"/>
+    <property ID="0xFAA81D3A" name="MinTeleportDist"/>
     <property ID="0xFAB0199E" name="BelowBiteDamage"/>
     <property ID="0xFAB2F514" name="UnknownStruct58"/>
     <property ID="0xFACA49E8" name="ValueParm4"/>
@@ -11275,7 +11275,7 @@
     <property ID="0xFB67A26B" name="TargetLight"/>
     <property ID="0xFB6A407A" name="SpindleCameraStruct"/>
     <property ID="0xFB6A981B" name="MaxRiders"/>
-    <property ID="0xFB6D75A3" name="Unknown"/>
+    <property ID="0xFB6D75A3" name="MinVortexAttackInterval"/>
     <property ID="0xFB72F91E" name="Unknown"/>
     <property ID="0xFB7A7ABB" name="Unknown"/>
     <property ID="0xFB825EAA" name="MinAttackDistance"/>
@@ -11444,7 +11444,7 @@
     <property ID="0xFEE49B25" name="GandraydaData"/>
     <property ID="0xFEE59F8A" name="Message5Chance"/>
     <property ID="0xFEECA0D6" name="SpotlightAngle"/>
-    <property ID="0xFEEF914D" name="WeaponVulnerability"/>
+    <property ID="0xFEEF914D" name="DarkBomb"/>
     <property ID="0xFEF01104" name="CAUD"/>
     <property ID="0xFEF3D2DA" name="Unknown"/>
     <property ID="0xFEF5668B" name="Unknown"/>
@@ -11472,7 +11472,7 @@
     <property ID="0xFF7688BF" name="Unknown"/>
     <property ID="0xFF77C96F" name="MaxAttackRange"/>
     <property ID="0xFF8B7BA4" name="Unknown"/>
-    <property ID="0xFF8C4056" name="DamageVulnerability"/>
+    <property ID="0xFF8C4056" name="JammerAntennaVulnerability"/>
     <property ID="0xFF90B1E5" name="Unknown"/>
     <property ID="0xFF92E3ED" name="Unknown"/>
     <property ID="0xFF944885" name="Unknown"/>
