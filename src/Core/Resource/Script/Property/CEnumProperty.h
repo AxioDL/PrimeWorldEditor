@@ -34,8 +34,8 @@ class TEnumPropertyBase : public TSerializeableTypedProperty<s32, TypeEnum>
 
         void Serialize(IArchive& rArc)
         {
-            rArc << SerialParameter("Name", Name)
-                 << SerialParameter("ID", ID, SH_HexDisplay);
+            rArc << SerialParameter("Name", Name, SH_Attribute)
+                 << SerialParameter("ID", ID, SH_Attribute | SH_HexDisplay);
         }
     };
     std::vector<SEnumValue> mValues;
@@ -57,8 +57,14 @@ public:
         // Skip TSerializeableTypedProperty, serialize default value ourselves so we can set SH_HexDisplay
         TTypedPropertyNew::Serialize(rArc);
 
-        rArc << SerialParameter("DefaultValue", mDefaultValue, SH_HexDisplay | (Game() <= ePrime ? SH_Optional : 0))
-             << SerialParameter("Values", mValues);
+        TEnumPropertyBase* pArchetype = static_cast<TEnumPropertyBase*>(mpArchetype);
+        u32 DefaultValueFlags = SH_HexDisplay | (pArchetype || Game() <= ePrime ? SH_Optional : 0);
+        rArc << SerialParameter("DefaultValue", mDefaultValue, DefaultValueFlags, pArchetype ? pArchetype->mDefaultValue : 0);
+
+        if (!pArchetype || !rArc.CanSkipParameters() || mValues != pArchetype->mValues)
+        {
+            rArc << SerialParameter("Values", mValues);
+        }
     }
 
     virtual void SerializeValue(void* pData, IArchive& Arc) const

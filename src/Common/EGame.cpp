@@ -67,19 +67,12 @@ void Serialize(IArchive& rArc, EGame& rGame)
 }
 
 // ERegion
-static const TString gskRegionNames[] = { "NTSC", "PAL", "JPN", "UnknownRegion" };
-static const u32 gskNumRegions = sizeof(gskRegionNames) / sizeof(gskRegionNames[0]);
-
-TString GetRegionName(ERegion Region)
+const char* GetRegionName(ERegion Region)
 {
-    return gskRegionNames[(int) Region];
+    return TEnumReflection<ERegion>::ConvertValueToString(Region);
 }
 
-ERegion GetRegionForName(const TString& rkName)
+ERegion GetRegionForName(const char* pkName)
 {
-    for (u32 iReg = 0; iReg < gskNumRegions; iReg++)
-        if (gskRegionNames[iReg] == rkName)
-            return (ERegion) iReg;
-
-    return eRegion_Unknown;
+    return TEnumReflection<ERegion>::ConvertStringToValue(pkName);
 }

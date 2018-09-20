@@ -22,7 +22,15 @@ public:
     virtual void Serialize(IArchive& rArc)
     {
         TSerializeableTypedProperty::Serialize(rArc);
-        rArc << SerialParameter("TypeFilter", mTypeFilter);
+        CAssetProperty* pArchetype = static_cast<CAssetProperty*>(mpArchetype);
+        rArc << SerialParameter("TypeFilter", mTypeFilter, pArchetype ? SH_Optional : 0, pArchetype ? pArchetype->mTypeFilter : CResTypeFilter());
+    }
+
+    virtual bool ShouldSerialize() const
+    {
+        CAssetProperty* pArchetype = static_cast<CAssetProperty*>(mpArchetype);
+        return TSerializeableTypedProperty::ShouldSerialize() ||
+                mTypeFilter != pArchetype->mTypeFilter;
     }
 
     virtual void InitFromArchetype(IPropertyNew* pOther)

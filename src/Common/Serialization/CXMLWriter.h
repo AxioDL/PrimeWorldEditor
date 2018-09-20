@@ -93,9 +93,23 @@ public:
     virtual void ParamEnd()
     {
         if (mpAttributeName)
+        {
             mpAttributeName = nullptr;
+        }
         else
-            mpCurElem = mpCurElem->Parent()->ToElement();
+        {
+            // If we didn't save any sub parameters, remove the element.
+            tinyxml2::XMLElement* pParent = mpCurElem->Parent()->ToElement();
+
+            if ( mpCurElem->FirstAttribute() == nullptr
+                 && mpCurElem->FirstChild() == nullptr
+                 && mpCurElem->GetText() == nullptr )
+            {
+                pParent->DeleteChild(mpCurElem);
+            }
+
+            mpCurElem = pParent;
+        }
     }
 
 protected:

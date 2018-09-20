@@ -366,9 +366,12 @@ SOURCES += \
     GameProject\COpeningBanner.cpp \
     IProgressNotifier.cpp \
     Resource/Script/CPropertyNameGenerator.cpp \
-    Resource/Script/IPropertyNew.cpp
+    Resource/Script/IPropertyNew.cpp \
+    Resource/Script/Property/CStructProperty.cpp \
+    Resource/Script/Property/CFlagsProperty.cpp
 
 # Codegen
+CODEGEN_DIR = $$EXTERNALS_DIR/CodeGen
 CODEGEN_OUT_PATH = $$BUILD_DIR/Core/codegen_build/auto_codegen.cpp
 CODEGEN_SRC_PATH = $$PWD
 include($$EXTERNALS_DIR/CodeGen/codegen.pri)

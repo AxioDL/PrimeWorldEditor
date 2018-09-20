@@ -189,19 +189,55 @@ struct SerialType
 {
     enum { Primitive, Member, Global, None };
 
-    // Check for ArcType::SerializePrimitive(ValType&) method
-    template<typename ValType, typename ArcType> static long long&  Check(FunctionExists<void (ArcType::*)(ValType&, u32), &ArcType::SerializePrimitive>*);
-    // Check for ValType::Serialize(ArcType&)
-    template<typename ValType, typename ArcType> static long&       Check(FunctionExists<void (ValType::*)(ArcType&), &ValType::Serialize>*);
+    /** Check for ArcType::SerializePrimitive(ValType&) method */
+    template<typename V, typename A>
+    static constexpr auto HasPrimitiveSerialize(int) -> decltype(
+            std::declval<A>().SerializePrimitive( std::declval<V&>(), u32() ), bool()
+        )
+    {
+        return true;
+    }
+
+    template<typename V, typename A>
+    static constexpr bool HasPrimitiveSerialize(...)
+    {
+        return false;
+    }
+
+    /** Check for ValType::Serialize(ArcType&) */
+    template<typename V, typename A>
+    static constexpr auto HasMemberSerialize(int) -> decltype(
+            std::declval<V>().Serialize( std::declval<A&>() ), bool()
+        )
+    {
+        return true;
+    }
+
+    template<typename V, typename A>
+    static constexpr bool HasMemberSerialize(...)
+    {
+        return false;
+    }
+
     // Check for global Serialize(ArcType&,ValType&) function
-    template<typename ValType, typename ArcType> static short&      Check(FunctionExists<void (*)(ArcType&, ValType&), &Serialize>*);
-    // Fallback - no valid Serialize method exists
-    template<typename ValType, typename ArcType> static char&       Check(...);
+    template<typename V, typename A>
+    static constexpr auto HasGlobalSerialize(int) -> decltype(
+            Serialize( std::declval<A&>(), std::declval<V&>() ), bool()
+        )
+    {
+        return true;
+    }
+
+    template<typename V, typename A>
+    static constexpr bool HasGlobalSerialize(...)
+    {
+        return false;
+    }
 
     // Set Type enum to correspond to whichever function exists
-    static const int Type = (sizeof(Check<ValueType, ArchiveType>(0)) == sizeof(long long) ? Primitive :
-                             sizeof(Check<ValueType, ArchiveType>(0)) == sizeof(long) ? Member :
-                             sizeof(Check<ValueType, ArchiveType>(0)) == sizeof(short) ? Global :
+    static const int Type = (HasPrimitiveSerialize<ValueType, ArchiveType>(0) ? Primitive :
+                             HasMemberSerialize<ValueType, ArchiveType>(0) ? Member :
+                             HasGlobalSerialize<ValueType, ArchiveType>(0) ? Global :
                              None);
 };
 
@@ -216,21 +252,40 @@ struct ArchiveConstructorType
 
     enum { Basic, Advanced, None };
 
-    // Check for ValueType::ArchiveConstructor(ObjectType, const IArchive&)
-    template<typename ValueType, typename ObjectType> static long&   Check(FunctionExists<ValueType* (*)(ObjectType, const ArchiveType&), &ValueType::ArchiveConstructor>*);
-    // Check for ValueType::ArchiveConstructor(ObjectType)
-    template<typename ValueType, typename ObjectType> static short&  Check(FunctionExists<ValueType* (*)(ObjectType), &ValueType::ArchiveConstructor>*);
-    // Fallback - no valid ArchiveConstructor method exists
-    template<typename ValueType, typename ObjectType> static char&   Check(...);
+    /** Check for ValType::ArchiveConstructor(ObjectType) */
+    template<typename V, typename O>
+    static constexpr auto HasBasicArchiveConstructor(int) -> decltype(
+            std::declval<V>().ArchiveConstructor( std::declval<O>()), bool()
+        )
+    {
+        return true;
+    }
+
+    template<typename V, typename O>
+    static constexpr bool HasBasicArchiveConstructor(...)
+    {
+        return false;
+    }
+
+    /** Check for ValType::ArchiveConstructor(ObjectType, IArchive&) */
+    template<typename V, typename A, typename O>
+    static constexpr auto HasAdvancedArchiveConstructor(int) -> decltype(
+            std::declval<V>().ArchiveConstructor( std::declval<O>(), std::declval<A&>() ), bool()
+        )
+    {
+        return true;
+    }
+
+    template<typename V, typename A, typename O>
+    static constexpr bool HasAdvancedArchiveConstructor(...)
+    {
+        return false;
+    }
 
     // Set Type enum to correspond to whichever function exists
-    static const int Type = (sizeof(Check<ValType, ObjType>(0)) == sizeof(long) ? Advanced :
-                             sizeof(Check<ValType, ObjType>(0)) == sizeof(short) ? Basic :
+    static const int Type = (HasAdvancedArchiveConstructor<ValType, ArchiveType, ObjType>(0) ? Advanced :
+                             HasBasicArchiveConstructor<ValType, ObjType>(0) ? Basic :
                              None);
-
-    // If you fail here, you are missing an ArchiveConstructor() function, or you do have one but it is malformed.
-    // Check the comments at the top of this source file for details on serialization requirements for abstract objects.
-    static_assert(Type != None, "Abstract objects being serialized must have virtual Type() and static ArchiveConstructor() functions.");
 };
 
 /** Helper that turns functions on or off depending on their serialize type */
@@ -240,7 +295,7 @@ struct ArchiveConstructorType
 #define IS_ARCHIVE_CONSTRUCTOR_TYPE(CType) (ArchiveConstructorType<ValType, IArchive>::Type == ArchiveConstructorType<ValType, IArchive>::##CType)
 
 /** Helper that turns functions on or off depending on if the parameter type is abstract */
-#define IS_ABSTRACT std::is_abstract<ValType>::value
+#define IS_ABSTRACT ( std::is_abstract_v<ValType> || (std::is_polymorphic_v<ValType> && ArchiveConstructorType<ValType, IArchive>::Type != ArchiveConstructorType<ValType, IArchive>::None) )
 
 /** IArchive - Main serializer archive interface */
 class IArchive
@@ -269,6 +324,7 @@ public:
         eArVer_Initial,
         eArVer_32BitBinarySize,
         eArVer_Refactor,
+        eArVer_MapAttributes,
         // Insert new versions before this line
         eArVer_Max
     };
@@ -342,7 +398,7 @@ private:
     {
         // Variant for basic static constructor
         ASSERT( IsReader() );
-        return ValType::ArchiveConstructor(Type);
+        return (ValType*) ValType::ArchiveConstructor(Type);
     }
 
     template<typename ValType, typename ObjType = ABSTRACT_TYPE>
@@ -351,7 +407,16 @@ private:
     {
         // Variant for advanced static constructor
         ASSERT( IsReader() );
-        return ValType::ArchiveConstructor(Type, *this);
+        return (ValType*) ValType::ArchiveConstructor(Type, *this);
+    }
+
+    template<typename ValType, typename ObjType = ABSTRACT_TYPE>
+    ENABLE_IF( IS_ARCHIVE_CONSTRUCTOR_TYPE(None), ValType* )
+    InstantiateAbstractObject(const TSerialParameter<ValType*>& Param, ObjType Type)
+    {
+        // If you fail here, you are missing an ArchiveConstructor() function, or you do have one but it is malformed.
+        // Check the comments at the top of this source file for details on serialization requirements for abstract objects.
+        static_assert(false, "Abstract objects being serialized must have virtual Type() and static ArchiveConstructor() functions.");
     }
 
     // Parameter stack handling
@@ -579,7 +644,7 @@ public:
 
                     if (IsReader() && rParam.rValue == nullptr)
                     {
-                        rParam.rValue = InstantiateAbstractObject(rParam, Type);
+                        rParam.rValue = (ValType*) InstantiateAbstractObject(rParam, Type);
                     }
                     else if (rParam.rValue != nullptr)
                     {
@@ -658,6 +723,7 @@ public:
     inline bool IsWriter() const                { return (mArchiveFlags & AF_Writer) != 0; }
     inline bool IsTextFormat() const            { return (mArchiveFlags & AF_Text) != 0; }
     inline bool IsBinaryFormat() const          { return (mArchiveFlags & AF_Binary) != 0; }
+    inline bool CanSkipParameters() const       { return (mArchiveFlags & AF_NoSkipping) == 0; }
 
     inline u16 ArchiveVersion() const   { return mArchiveVersion; }
     inline u16 FileVersion() const      { return mFileVersion; }
@@ -837,7 +903,7 @@ inline void SerializeMap_Internal(IArchive& Arc, MapType& Map)
     u32 Hints = SH_IgnoreName | SH_InheritHints;
 
     // Serialize the key/value as attributes if they are both primitive types.
-    if (TIsPrimitive<KeyType>::value && TIsPrimitive<ValType>::value)
+    if (Arc.ArchiveVersion() >= IArchive::eArVer_MapAttributes && TIsPrimitive<KeyType>::value && TIsPrimitive<ValType>::value)
     {
         Hints |= SH_Attribute;
     }
@@ -851,7 +917,7 @@ inline void SerializeMap_Internal(IArchive& Arc, MapType& Map)
 
             if (Arc.ParamBegin("Element", SH_IgnoreName | SH_InheritHints))
             {
-                Arc << SerialParameter("Key", Key,  Hints)
+                Arc << SerialParameter("Key", Key, Hints)
                     << SerialParameter("Value", Val, Hints);
 
                 ASSERT(Map.find(Key) == Map.end());
