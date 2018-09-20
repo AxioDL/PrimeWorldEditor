@@ -376,7 +376,13 @@ CStructPropertyNew* CTemplateLoader::LoadStructArchetype(const TString& rkTempla
 {
     // Check whether this struct has already been read
     TString StructName = rkTemplateFileName.GetFileName(false);
-    CStructPropertyNew* pArchetype = mpMaster->FindStructArchetype(StructName);
+    CStructPropertyNew* pArchetype = static_cast<CStructPropertyNew*>( mpMaster->FindPropertyArchetype(StructName) );
+
+    // Names cannot be shared between multiple property archetypes
+    if (pArchetype != nullptr)
+    {
+        ASSERT(pArchetype->Type() == EPropertyTypeNew::Struct);
+    }
 
     // If the struct template hasn't been read yet, then we read it and add it to master's list
     if (!pArchetype)
@@ -434,7 +440,7 @@ CStructPropertyNew* CTemplateLoader::LoadStructArchetype(const TString& rkTempla
             LoadProperties(pSubPropsElem, nullptr, pArchetype, rkTemplateFileName);
             pArchetype->PostInitialize();
 
-            mpMaster->mStructTemplates.emplace(
+            mpMaster->mPropertyTemplates.emplace(
                         std::make_pair(
                                 StructName,
                                 CMasterTemplate::SPropertyTemplatePath(rkTemplateFileName, pArchetype)
@@ -450,7 +456,13 @@ CEnumProperty* CTemplateLoader::LoadEnumArchetype(const TString& rkTemplateFileN
 {
     // Check whether this struct has already been read
     TString EnumName = rkTemplateFileName.GetFileName(false);
-    CEnumProperty* pArchetype = mpMaster->FindEnumArchetype(EnumName);
+    CEnumProperty* pArchetype = static_cast<CEnumProperty*>( mpMaster->FindPropertyArchetype(EnumName) );
+
+    // Names cannot be shared between multiple property archetypes
+    if (pArchetype != nullptr)
+    {
+        ASSERT(pArchetype->Type() == EPropertyTypeNew::Enum || pArchetype->Type() == EPropertyTypeNew::Choice);
+    }
 
     // If the enum template hasn't been read yet, then we read it and add it to master's list
     if (!pArchetype)
@@ -470,6 +482,7 @@ CEnumProperty* CTemplateLoader::LoadEnumArchetype(const TString& rkTemplateFileN
                         );
             ASSERT(pArchetype != nullptr);
 
+            pArchetype->mName = rkTemplateFileName.GetFileName(false);
             pArchetype->mFlags |= EPropertyFlag::IsArchetype;
             pArchetype->mSourceFile = rkTemplateFileName;
 
@@ -482,7 +495,7 @@ CEnumProperty* CTemplateLoader::LoadEnumArchetype(const TString& rkTemplateFileN
             LoadEnumerators(pEnumers, pArchetype, rkTemplateFileName);
             pArchetype->PostInitialize();
 
-            mpMaster->mEnumTemplates.emplace(
+            mpMaster->mPropertyTemplates.emplace(
                         std::make_pair(
                             EnumName,
                             CMasterTemplate::SPropertyTemplatePath(rkTemplateFileName, pArchetype)
@@ -498,7 +511,13 @@ CFlagsProperty* CTemplateLoader::LoadFlagsArchetype(const TString& rkTemplateFil
 {
     // Check whether this struct has already been read
     TString FlagsName = rkTemplateFileName.GetFileName(false);
-    CFlagsProperty* pArchetype = mpMaster->FindFlagsArchetype(FlagsName);
+    CFlagsProperty* pArchetype = static_cast<CFlagsProperty*>( mpMaster->FindPropertyArchetype(FlagsName) );
+
+    // Names cannot be shared between multiple property archetypes
+    if (pArchetype != nullptr)
+    {
+        ASSERT(pArchetype->Type() == EPropertyTypeNew::Flags);
+    }
 
     // If the enum template hasn't been read yet, then we read it and add it to master's list
     if (!pArchetype)
@@ -517,6 +536,7 @@ CFlagsProperty* CTemplateLoader::LoadFlagsArchetype(const TString& rkTemplateFil
                         );
             ASSERT(pArchetype != nullptr);
 
+            pArchetype->mName = rkTemplateFileName.GetFileName(false);
             pArchetype->mFlags |= EPropertyFlag::IsArchetype;
             pArchetype->mSourceFile = rkTemplateFileName;
 
@@ -529,7 +549,7 @@ CFlagsProperty* CTemplateLoader::LoadFlagsArchetype(const TString& rkTemplateFil
             LoadBitFlags(pFlags, pArchetype, rkTemplateFileName);
             pArchetype->PostInitialize();
 
-            mpMaster->mFlagsTemplates.emplace(
+            mpMaster->mPropertyTemplates.emplace(
                         std::make_pair(
                             FlagsName,
                             CMasterTemplate::SPropertyTemplatePath(rkTemplateFileName, pArchetype)
@@ -1119,8 +1139,69 @@ TString CTemplateLoader::ErrorName(XMLError Error)
 }
 
 // ************ PUBLIC ************
+#define USE_NEW_TEMPLATES 0
+
 void CTemplateLoader::LoadGameList()
 {
+#if USE_NEW_TEMPLATES
+    const TString kTemplatesDir = "../templates_new/";
+
+    // Read game list
+    {
+        const TString kGameListPath = kTemplatesDir + "GameList.xml";
+        CXMLReader Reader(kGameListPath);
+        ASSERT(Reader.IsValid());
+
+        if (Reader.ParamBegin("Games", 0))
+        {
+            u32 NumGames;
+            Reader.SerializeArraySize(NumGames);
+
+            for (u32 GameIdx = 0; GameIdx < NumGames; GameIdx++)
+            {
+                if (Reader.ParamBegin("Game", 0))
+                {
+                    EGame Game;
+                    TString Name, MasterPath;
+
+                    Reader << SerialParameter("ID", Game, SH_Attribute)
+                           << SerialParameter("Name", Name)
+                           << SerialParameter("MasterTemplate", MasterPath);
+
+                    CMasterTemplate* pMaster = new CMasterTemplate();
+                    pMaster->mGame = Game;
+                    pMaster->mGameName = Name;
+                    pMaster->mSourceFile = MasterPath;
+                    CMasterTemplate::smMasterMap[Game] = pMaster;
+                    Reader.ParamEnd();
+                }
+            }
+            Reader.ParamEnd();
+        }
+    }
+    {
+        // Read property list
+        const TString kPropertyMapPath = kTemplatesDir + "PropertyMap.xml";
+        CXMLReader Reader(kPropertyMapPath);
+        ASSERT(Reader.IsValid());
+        Reader << SerialParameter("PropertyMap", CMasterTemplate::smPropertyNames, SH_HexDisplay);
+    }
+    {
+        // Read master templates
+        std::list<CMasterTemplate*> MasterList = CMasterTemplate::MasterList();
+
+        for (auto Iter = MasterList.begin(); Iter != MasterList.end(); Iter++)
+        {
+            CMasterTemplate* pMaster = *Iter;
+            const TString kMasterPath = kTemplatesDir + pMaster->GetDirectory() + "Game.xml";
+
+            CXMLReader Reader(kMasterPath);
+            ASSERT(Reader.IsValid());
+            pMaster->Serialize(Reader);
+            pMaster->LoadSubTemplates();
+        }
+    }
+#else
     Log::Write("Loading game list");
 
     // Load Game List XML
@@ -1164,6 +1245,7 @@ void CTemplateLoader::LoadGameList()
 
         pElem = pElem->NextSiblingElement();
     }
+#endif
 }
 
 void CTemplateLoader::LoadGameTemplates(EGame Game)
@@ -1247,10 +1329,10 @@ void CTemplateLoader::SaveGameList()
     {
         const TString kGameListPath = kTemplatesDir + "GameList.xml";
         CXMLWriter Writer(kGameListPath, "GameList");
-        TString PropertyListPath = "PropertyNameMap.xml";
-        Writer << SerialParameter("PropertyList", PropertyListPath, 0);
 
+        u32 NumGames = CMasterTemplate::smMasterMap.size();
         Writer.ParamBegin("Games", 0);
+        Writer.SerializeArraySize(NumGames);
 
         for (auto Iter = CMasterTemplate::smMasterMap.begin(); Iter != CMasterTemplate::smMasterMap.end(); Iter++)
         {
@@ -1272,7 +1354,7 @@ void CTemplateLoader::SaveGameList()
             SGameInfo Info;
             Info.Game = pMaster->Game();
             Info.Name = pMaster->GameName();
-            Info.MasterPath = pMaster->GetDirectory() + "MasterTemplate.xml";
+            Info.MasterPath = pMaster->GetDirectory() + "Game.xml";
             Writer << SerialParameter("Game", Info);
         }
         Writer.ParamEnd();

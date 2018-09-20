@@ -10,9 +10,7 @@ CMasterTemplate::CMasterTemplate()
 void CMasterTemplate::Serialize(IArchive& Arc)
 {
     Arc << SerialParameter("ScriptObjects", mScriptTemplates)
-        << SerialParameter("Structs", mStructTemplates)
-        << SerialParameter("Enums", mEnumTemplates)
-        << SerialParameter("Flags", mFlagsTemplates)
+        << SerialParameter("PropertyArchetypes", mPropertyTemplates)
         << SerialParameter("States", mStates)
         << SerialParameter("Messages", mMessages);
 }
@@ -36,33 +34,13 @@ void CMasterTemplate::SaveSubTemplates()
         Path.pTemplate->Serialize(Writer);
     }
 
-    for (auto Iter = mStructTemplates.begin(); Iter != mStructTemplates.end(); Iter++)
+    for (auto Iter = mPropertyTemplates.begin(); Iter != mPropertyTemplates.end(); Iter++)
     {
         SPropertyTemplatePath& Path = Iter->second;
         TString OutPath = GameDir + Path.Path;
 
         FileUtil::MakeDirectory( OutPath.GetFileDirectory() );
-        CXMLWriter Writer(OutPath, "Struct", 0, Game());
-        Path.pTemplate->Serialize(Writer);
-    }
-
-    for (auto Iter = mEnumTemplates.begin(); Iter != mEnumTemplates.end(); Iter++)
-    {
-        SPropertyTemplatePath& Path = Iter->second;
-        TString OutPath = GameDir + Path.Path;
-
-        FileUtil::MakeDirectory( OutPath.GetFileDirectory() );
-        CXMLWriter Writer(OutPath, "Enum", 0, Game());
-        Path.pTemplate->Serialize(Writer);
-    }
-
-    for (auto Iter = mFlagsTemplates.begin(); Iter != mFlagsTemplates.end(); Iter++)
-    {
-        SPropertyTemplatePath& Path = Iter->second;
-        TString OutPath = GameDir + Path.Path;
-
-        FileUtil::MakeDirectory( OutPath.GetFileDirectory() );
-        CXMLWriter Writer(OutPath, "Flags", 0, Game());
+        CXMLWriter Writer(OutPath, "PropertyArchetype", 0, Game());
         Path.pTemplate->Serialize(Writer);
     }
 }
@@ -137,26 +115,10 @@ SMessage CMasterTemplate::MessageByIndex(u32 Index)
     return SMessage(Iter->first, Iter->second);
 }
 
-
-CStructPropertyNew* CMasterTemplate::FindStructArchetype(const TString& kStructName) const
+IPropertyNew* CMasterTemplate::FindPropertyArchetype(const TString& kTypeName) const
 {
-    auto Iter = mStructTemplates.find(kStructName);
-    IPropertyNew* pProperty = (Iter != mStructTemplates.end()) ? Iter->second.pTemplate.get() : nullptr;
-    return TPropCast<CStructPropertyNew>(pProperty);
-}
-
-CEnumProperty* CMasterTemplate::FindEnumArchetype(const TString& kEnumName) const
-{
-    auto Iter = mEnumTemplates.find(kEnumName);
-    IPropertyNew* pProperty = (Iter != mEnumTemplates.end()) ? Iter->second.pTemplate.get() : nullptr;
-    return TPropCast<CEnumProperty>(pProperty);
-}
-
-CFlagsProperty* CMasterTemplate::FindFlagsArchetype(const TString& kFlagsName) const
-{
-    auto Iter = mFlagsTemplates.find(kFlagsName);
-    IPropertyNew* pProperty = (Iter != mFlagsTemplates.end()) ? Iter->second.pTemplate.get() : nullptr;
-    return TPropCast<CFlagsProperty>(pProperty);
+    auto Iter = mPropertyTemplates.find(kTypeName);
+    return (Iter != mPropertyTemplates.end()) ? Iter->second.pTemplate.get() : nullptr;
 }
 
 // ************ STATIC ************

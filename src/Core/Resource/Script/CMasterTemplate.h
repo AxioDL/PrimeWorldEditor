@@ -109,9 +109,7 @@ class CMasterTemplate
 
     /** Template arrays */
     std::map<SObjId,  SScriptTemplatePath>    mScriptTemplates;
-    std::map<TString, SPropertyTemplatePath>  mStructTemplates;
-    std::map<TString, SPropertyTemplatePath>  mEnumTemplates;
-    std::map<TString, SPropertyTemplatePath>  mFlagsTemplates;
+    std::map<TString, SPropertyTemplatePath>  mPropertyTemplates;
 
     std::map<SObjId, TString> mStates;
     std::map<SObjId, TString> mMessages;
@@ -141,10 +139,7 @@ public:
     SMessage MessageByID(u32 MessageID);
     SMessage MessageByID(const CFourCC& MessageID);
     SMessage MessageByIndex(u32 Index);
-
-    CStructPropertyNew* FindStructArchetype(const TString& kStructName) const;
-    CEnumProperty*      FindEnumArchetype(const TString& kEnumName) const;
-    CFlagsProperty*     FindFlagsArchetype(const TString& kFlagsName) const;
+    IPropertyNew* FindPropertyArchetype(const TString& kTypeName) const;
 
     // Inline Accessors
     inline EGame Game() const               { return mGame; }

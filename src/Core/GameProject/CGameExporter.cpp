@@ -30,7 +30,7 @@ CGameExporter::CGameExporter(EDiscType DiscType, EGame Game, bool FrontEnd, EReg
     , mpProgress(nullptr)
 {
     ASSERT(mGame != eUnknownGame);
-    ASSERT(mRegion != eRegion_Unknown);
+    ASSERT(mRegion != ERegion::Unknown);
 }
 
 #if PUBLIC_RELEASE

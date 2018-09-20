@@ -28,8 +28,8 @@ class CFlagsProperty : public TSerializeableTypedProperty<u32, EPropertyTypeNew:
 
         void Serialize(IArchive& rArc)
         {
-            rArc << SerialParameter("Name", Name)
-                 << SerialParameter("Mask", Mask, SH_HexDisplay);
+            rArc << SerialParameter("Name", Name, SH_Attribute)
+                 << SerialParameter("Mask", Mask, SH_Attribute | SH_HexDisplay);
         }
     };
     std::vector<SBitFlag> mBitFlags;
@@ -61,50 +61,17 @@ public:
         return mBitFlags[Idx].Mask;
     }
 
-    virtual void Serialize(IArchive& rArc)
-    {
-        TSerializeableTypedProperty::Serialize(rArc);
-        rArc << SerialParameter("Flags", mBitFlags);
-    }
-
-    virtual void PostInitialize()
-    {
-        TTypedPropertyNew::PostInitialize();
-
-        // Create AllFlags mask
-        mAllFlags = 0;
-
-        for (int FlagIdx = 0; FlagIdx < mBitFlags.size(); FlagIdx++)
-            mAllFlags |= mBitFlags[FlagIdx].Mask;
-    }
-
-    virtual void SerializeValue(void* pData, IArchive& rArc) const
-    {
-        rArc.SerializePrimitive( (u32&) ValueRef(pData), SH_HexDisplay );
-    }
-
-    virtual void InitFromArchetype(IPropertyNew* pOther)
-    {
-        TTypedPropertyNew::InitFromArchetype(pOther);
-        CFlagsProperty* pOtherFlags = static_cast<CFlagsProperty*>(pOther);
-        mBitFlags = pOtherFlags->mBitFlags;
-        mAllFlags = pOtherFlags->mAllFlags;
-    }
-
-    virtual TString GetTemplateFileName()
-    {
-        ASSERT(IsArchetype() || mpArchetype);
-        return IsArchetype() ? mSourceFile : mpArchetype->GetTemplateFileName();
-    }
+    virtual void Serialize(IArchive& rArc);
+    virtual void PostInitialize();
+    virtual void SerializeValue(void* pData, IArchive& rArc) const;
+    virtual void InitFromArchetype(IPropertyNew* pOther);
+    virtual TString GetTemplateFileName();
 
     /**
      * Checks whether there are any unrecognized bits toggled on in the property value.
      * Returns the mask of any invalid bits. If all bits are valid, returns 0.
      */
-    u32 HasValidValue(void* pPropertyData)
-    {
-        return ValueRef(pPropertyData) & ~mAllFlags;
-    }
+    u32 HasValidValue(void* pPropertyData);
 };
 
 #endif // CFLAGSPROPERTY_H

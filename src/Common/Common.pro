@@ -102,6 +102,7 @@ SOURCES += \
     Hash/CCRC32.cpp
 
 # Codegen
+CODEGEN_DIR = $$EXTERNALS_DIR/CodeGen
 CODEGEN_OUT_PATH = $$BUILD_DIR/Common/codegen_build/auto_codegen.cpp
 CODEGEN_SRC_PATH = $$PWD
 include($$EXTERNALS_DIR/CodeGen/codegen.pri)

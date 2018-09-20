@@ -184,6 +184,7 @@ public:
     virtual void* GetChildDataPointer(void* pPropertyData) const;
     virtual void Serialize(IArchive& rArc);
     virtual void InitFromArchetype(IPropertyNew* pOther);
+    virtual bool ShouldSerialize() const;
     virtual TString GetTemplateFileName();
     
     /** Utility methods */
@@ -215,6 +216,7 @@ public:
     inline bool IsArchetype() const         { return mFlags.HasFlag(EPropertyFlag::IsArchetype); }
     inline bool IsArrayArchetype() const    { return mFlags.HasFlag(EPropertyFlag::IsArrayArchetype); }
     inline bool IsAtomic() const            { return mFlags.HasFlag(EPropertyFlag::IsAtomic); }
+    inline bool IsRootParent() const        { return mpParent == nullptr; }
 
     /** Create */
     static IPropertyNew* Create(EPropertyTypeNew Type,
@@ -362,6 +364,11 @@ public:
         return *ValuePtr(pData);
     }
 
+    inline const PropType& DefaultValue() const
+    {
+        return mDefaultValue;
+    }
+
     inline static EPropertyTypeNew StaticType()     { return PropEnum; }
 };
 
@@ -377,13 +384,14 @@ public:
     virtual void Serialize(IArchive& rArc)
     {
         TTypedPropertyNew::Serialize(rArc);
+        TSerializeableTypedProperty* pArchetype = static_cast<TSerializeableTypedProperty*>(mpArchetype);
 
         // Determine if default value should be serialized as optional.
         // All MP1 properties should be optional. For MP2 and on, we set optional
         // on property types that don't have default values in the game executable.
         bool MakeOptional = false;
 
-        if (Game() <= ePrime)
+        if (Game() <= ePrime || pArchetype != nullptr)
         {
             MakeOptional = true;
         }
@@ -405,9 +413,17 @@ public:
 
         // Branch here to avoid constructing a default value if we don't need to.
         if (MakeOptional)
-            rArc << SerialParameter("DefaultValue", mDefaultValue, SH_Optional, GetSerializationDefaultValue());
+            rArc << SerialParameter("DefaultValue", mDefaultValue, SH_Optional, pArchetype ? pArchetype->mDefaultValue : GetSerializationDefaultValue());
         else
             rArc << SerialParameter("DefaultValue", mDefaultValue);
+    }
+
+    virtual bool ShouldSerialize() const
+    {
+        TTypedPropertyNew* pArchetype = static_cast<TTypedPropertyNew*>(mpArchetype);
+
+        return TTypedPropertyNew::ShouldSerialize() ||
+                !(mDefaultValue == pArchetype->DefaultValue());
     }
 
     /** Return default value for serialization - can be customized per type */
@@ -437,8 +453,18 @@ public:
     virtual void Serialize(IArchive& rArc)
     {
         TSerializeableTypedProperty::Serialize(rArc);
-        rArc << SerialParameter("Min", mMinValue, SH_Optional, (PropType) -1)
-             << SerialParameter("Max", mMaxValue, SH_Optional, (PropType) -1);
+        TNumericalPropertyNew* pArchetype = static_cast<TNumericalPropertyNew*>(mpArchetype);
+
+        rArc << SerialParameter("Min", mMinValue, SH_Optional, pArchetype ? pArchetype->mMinValue : (PropType) -1)
+             << SerialParameter("Max", mMaxValue, SH_Optional, pArchetype ? pArchetype->mMaxValue : (PropType) -1);
+    }
+
+    virtual bool ShouldSerialize() const
+    {
+        TNumericalPropertyNew* pArchetype = static_cast<TNumericalPropertyNew*>(mpArchetype);
+        return TSerializeableTypedProperty::ShouldSerialize() ||
+                mMinValue != pArchetype->mMinValue ||
+                mMaxValue != pArchetype->mMaxValue;
     }
 
     virtual void InitFromArchetype(IPropertyNew* pOther)

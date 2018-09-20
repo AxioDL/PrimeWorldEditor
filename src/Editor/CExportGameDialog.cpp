@@ -25,7 +25,7 @@ CExportGameDialog::CExportGameDialog(const QString& rkIsoPath, const QString& rk
     , mpExporter(nullptr)
     , mDiscType(eDT_Normal)
     , mGame(eUnknownGame)
-    , mRegion(eRegion_Unknown)
+    , mRegion(ERegion::Unknown)
     , mBuildVer(0.f)
     , mWiiFrontend(false)
     , mExportSuccess(false)
@@ -85,8 +85,7 @@ void CExportGameDialog::InitUI(QString ExportDir)
     mpUI->GameTitleLineEdit->setText( TO_QSTRING(mGameTitle) );
     mpUI->GameIdLineEdit->setText( TO_QSTRING(mGameID) );
     mpUI->BuildVersionLineEdit->setText( QString("%1 (%2)").arg(mBuildVer).arg( TO_QSTRING(GameInfo.GetBuildName(mBuildVer, mRegion)) ));
-    mpUI->RegionLineEdit->setText( mRegion == eRegion_NTSC ? "NTSC" :
-                                   mRegion == eRegion_PAL ? "PAL" : "JPN" );
+    mpUI->RegionLineEdit->setText( GetRegionName(mRegion) );
 
     // Disc tree widget
     nod::IPartition *pPartition = mpDisc->getDataPartition();
@@ -126,15 +125,15 @@ bool CExportGameDialog::ValidateGame()
     switch (mGameID[3])
     {
     case 'E':
-        mRegion = eRegion_NTSC;
+        mRegion = ERegion::NTSC;
         break;
 
     case 'P':
-        mRegion = eRegion_PAL;
+        mRegion = ERegion::PAL;
         break;
 
     case 'J':
-        mRegion = eRegion_JPN;
+        mRegion = ERegion::JPN;
         break;
 
     default:

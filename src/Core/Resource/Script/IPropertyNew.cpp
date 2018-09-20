@@ -93,16 +93,41 @@ void* IPropertyNew::GetChildDataPointer(void* pPropertyData) const
 
 void IPropertyNew::Serialize(IArchive& rArc)
 {
-    if (rArc.Game() <= ePrime && !IsArchetype())
+    // Always serialize ID first! ID is always required (except for root properties, which have an ID of 0xFFFFFFFF)
+    // because they are needed to look up the correct property to apply parameter overrides to.
+    rArc << SerialParameter("ID", mID, SH_HexDisplay | SH_Attribute | SH_Optional, (u32) 0xFFFFFFFF);
+
+    // Now we can serialize the archetype reference and initialize if needed
+    if ( ((mpArchetype && mpArchetype->IsRootParent()) || rArc.IsReader()) && rArc.CanSkipParameters() )
     {
-        rArc << SerialParameter("Name", mName);
+        TString ArchetypeName = (mpArchetype ? mpArchetype->Name() : "");
+        rArc << SerialParameter("Archetype", ArchetypeName, SH_Attribute);
+
+        if (rArc.IsReader() && !ArchetypeName.IsEmpty())
+        {
+            CMasterTemplate* pMaster = CMasterTemplate::MasterForGame( Game() );
+            IPropertyNew* pArchetype = pMaster->FindPropertyArchetype(ArchetypeName);
+
+            // The archetype must exist, or else the template file is malformed.
+            //@TODO: I think this will actually always fail right now, because property archetype loading has not been implemented yet
+            ASSERT(pArchetype != nullptr);
+
+            InitFromArchetype(pArchetype);
+        }
     }
 
-    rArc << SerialParameter("ID", mID, SH_HexDisplay | SH_Attribute | SH_Optional, (u32) 0xFFFFFFFF)
-         << SerialParameter("Description", mDescription, SH_Optional)
-         << SerialParameter("CookPreference", mCookPreference, SH_Optional, ECookPreferenceNew::Default)
-         << SerialParameter("MinVersion", mMinVersion, SH_Optional, 0.f)
-         << SerialParameter("MaxVersion", mMaxVersion, SH_Optional, FLT_MAX);
+    // In MP1, the game data does not use property IDs, so we serialize the name directly.
+    // In MP2 and on, property names are looked up based on the property ID via the property name map.
+    if (rArc.Game() <= ePrime && !IsArchetype())
+    {
+        rArc << SerialParameter("Name", mName, mpArchetype ? SH_Optional : 0, mpArchetype ? mpArchetype->mName : "");
+    }
+
+    rArc << SerialParameter("Description",      mDescription,       SH_Optional, mpArchetype ? mpArchetype->mDescription : "")
+         << SerialParameter("CookPreference",   mCookPreference,    SH_Optional, mpArchetype ? mpArchetype->mCookPreference : ECookPreferenceNew::Default)
+         << SerialParameter("MinVersion",       mMinVersion,        SH_Optional, mpArchetype ? mpArchetype->mMinVersion : 0.f)
+         << SerialParameter("MaxVersion",       mMaxVersion,        SH_Optional, mpArchetype ? mpArchetype->mMaxVersion : FLT_MAX)
+         << SerialParameter("Suffix",           mSuffix,            SH_Optional, mpArchetype ? mpArchetype->mSuffix : "");
 
     // Children don't get serialized for most property types
 }
@@ -127,6 +152,17 @@ void IPropertyNew::InitFromArchetype(IPropertyNew* pOther)
     {
         CreateCopy( pOther->mChildren[ChildIdx], this );
     }
+}
+
+bool IPropertyNew::ShouldSerialize() const
+{
+    return mpArchetype == nullptr ||
+           mName != mpArchetype->mName ||
+           mDescription != mpArchetype->mDescription ||
+           mSuffix != mpArchetype->mSuffix ||
+           mCookPreference != mpArchetype->mCookPreference ||
+           mMinVersion != mpArchetype->mMinVersion ||
+           mMaxVersion != mpArchetype->mMaxVersion;
 }
 
 TString IPropertyNew::GetTemplateFileName()

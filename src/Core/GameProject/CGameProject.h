@@ -46,7 +46,7 @@ class CGameProject
     CGameProject()
         : mProjectName("Unnamed Project")
         , mGame(eUnknownGame)
-        , mRegion(eRegion_Unknown)
+        , mRegion(ERegion::Unknown)
         , mGameID("000000")
         , mBuildVersion(0.f)
         , mpResourceStore(nullptr)
