@@ -8,8 +8,8 @@ class CSoundProperty : public TSerializeableTypedProperty< s32, EPropertyTypeNew
     friend class IPropertyNew;
 
 protected:
-    CSoundProperty()
-        : TSerializeableTypedProperty()
+    CSoundProperty(EGame Game)
+        : TSerializeableTypedProperty(Game)
     {}
 
 public:

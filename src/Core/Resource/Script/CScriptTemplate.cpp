@@ -79,6 +79,8 @@ void CScriptTemplate::Serialize(IArchive& Arc)
 
 void CScriptTemplate::PostLoad()
 {
+    mpProperties->Initialize(nullptr, this, 0);
+
     if (!mNameIDString.IsEmpty())               mpNameProperty = TPropCast<CStringProperty>( mpProperties->ChildByIDString(mNameIDString) );
     if (!mPositionIDString.IsEmpty())           mpPositionProperty = TPropCast<CVectorProperty>( mpProperties->ChildByIDString(mPositionIDString) );
     if (!mRotationIDString.IsEmpty())           mpRotationProperty = TPropCast<CVectorProperty>( mpProperties->ChildByIDString(mRotationIDString) );

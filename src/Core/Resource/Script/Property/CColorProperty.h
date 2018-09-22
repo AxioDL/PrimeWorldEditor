@@ -2,27 +2,25 @@
 #define CCOLORPROPERTY_H
 
 #include "../IPropertyNew.h"
+#include "CFloatProperty.h"
 
 class CColorProperty : public TSerializeableTypedProperty< CColor, EPropertyTypeNew::Color >
 {
     friend class IPropertyNew;
 
 protected:
-    CColorProperty()
-        : TSerializeableTypedProperty()
+    CColorProperty(EGame Game)
+        : TSerializeableTypedProperty(Game)
     {}
 
 public:
     virtual void PostInitialize()
     {
-        IPropertyNew* pR = Create(EPropertyTypeNew::Float, this, mGame, mpScriptTemplate);
-        IPropertyNew* pG = Create(EPropertyTypeNew::Float, this, mGame, mpScriptTemplate);
-        IPropertyNew* pB = Create(EPropertyTypeNew::Float, this, mGame, mpScriptTemplate);
-        IPropertyNew* pA = Create(EPropertyTypeNew::Float, this, mGame, mpScriptTemplate);
-        pR->SetName("R");
-        pG->SetName("G");
-        pB->SetName("B");
-        pA->SetName("A");
+        CreateIntrinsic(EPropertyTypeNew::Float, this, mOffset + 0,  "R");
+        CreateIntrinsic(EPropertyTypeNew::Float, this, mOffset + 4,  "G");
+        CreateIntrinsic(EPropertyTypeNew::Float, this, mOffset + 8,  "B");
+        CreateIntrinsic(EPropertyTypeNew::Float, this, mOffset + 12, "A");
+        TPropCast<CFloatProperty>( mChildren.back() )->SetDefaultValue(1.0f);
     }
 
     virtual void SerializeValue(void* pData, IArchive& Arc) const

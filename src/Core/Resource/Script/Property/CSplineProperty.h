@@ -8,8 +8,8 @@ class CSplineProperty : public TTypedPropertyNew< std::vector<char>, EPropertyTy
     friend class IPropertyNew;
 
 protected:
-    CSplineProperty()
-        : TTypedPropertyNew()
+    CSplineProperty(EGame Game)
+        : TTypedPropertyNew(Game)
     {}
 
 public:

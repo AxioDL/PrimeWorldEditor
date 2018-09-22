@@ -8,8 +8,8 @@ class CByteProperty : public TNumericalPropertyNew< s8, EPropertyTypeNew::Byte >
     friend class IPropertyNew;
 
 protected:
-    CByteProperty()
-        : TNumericalPropertyNew()
+    CByteProperty(EGame Game)
+        : TNumericalPropertyNew(Game)
     {}
 
 public:

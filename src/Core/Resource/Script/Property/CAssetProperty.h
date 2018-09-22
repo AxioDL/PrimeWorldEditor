@@ -7,18 +7,18 @@
 class CAssetProperty : public TSerializeableTypedProperty<CAssetID, EPropertyTypeNew::Asset>
 {
     friend class CTemplateLoader;
+    friend class IPropertyNew;
+
     CResTypeFilter mTypeFilter;
 
-public:
-    virtual void PostInitialize()
+protected:
+    CAssetProperty::CAssetProperty(EGame Game)
+        : TSerializeableTypedProperty(Game)
     {
-        // Init default value to an invalid ID depending on the game
-        if (!mDefaultValue.IsValid())
-        {
-            mDefaultValue = CAssetID::InvalidID( mGame );
-        }
+        mDefaultValue = CAssetID::InvalidID( mGame );
     }
 
+public:
     virtual void Serialize(IArchive& rArc)
     {
         TSerializeableTypedProperty::Serialize(rArc);

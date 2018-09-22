@@ -8,8 +8,8 @@ class CBoolProperty : public TSerializeableTypedProperty< bool, EPropertyTypeNew
     friend class IPropertyNew;
 
 protected:
-    CBoolProperty()
-        : TSerializeableTypedProperty()
+    CBoolProperty(EGame Game)
+        : TSerializeableTypedProperty(Game)
     {}
 
 public:

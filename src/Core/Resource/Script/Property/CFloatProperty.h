@@ -8,8 +8,8 @@ class CFloatProperty : public TNumericalPropertyNew< float, EPropertyTypeNew::Fl
     friend class IPropertyNew;
 
 protected:
-    CFloatProperty()
-        : TNumericalPropertyNew()
+    CFloatProperty(EGame Game)
+        : TNumericalPropertyNew(Game)
     {}
 
 public:

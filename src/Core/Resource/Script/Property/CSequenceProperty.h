@@ -8,8 +8,8 @@ class CSequenceProperty : public TTypedPropertyNew< s32, EPropertyTypeNew::Seque
     friend class IPropertyNew;
 
 protected:
-    CSequenceProperty()
-        : TTypedPropertyNew()
+    CSequenceProperty(EGame Game)
+        : TTypedPropertyNew(Game)
     {}
 
     virtual void SerializeValue(void* pData, IArchive& rArc) const

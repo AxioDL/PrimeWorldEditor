@@ -17,17 +17,52 @@ void CMasterTemplate::Serialize(IArchive& Arc)
 
 void CMasterTemplate::LoadSubTemplates()
 {
-    //todo
+    for (auto Iter = mScriptTemplates.begin(); Iter != mScriptTemplates.end(); Iter++)
+        Internal_LoadScriptTemplate( Iter->second );
+
+    for (auto Iter = mPropertyTemplates.begin(); Iter != mPropertyTemplates.end(); Iter++)
+        Internal_LoadPropertyTemplate( Iter->second );
+}
+
+void CMasterTemplate::Internal_LoadScriptTemplate(SScriptTemplatePath& Path)
+{
+    ASSERT(Path.pTemplate == nullptr); // make sure it hasn't been loaded yet
+
+    const TString kGameDir = GetGameDirectory(true);
+    const TString kTemplateFilePath = kGameDir + Path.Path;
+    CXMLReader Reader(kTemplateFilePath);
+    ASSERT(Reader.IsValid());
+
+    Path.pTemplate = std::make_shared<CScriptTemplate>(this, Path.ID.ID, Path.Path);
+    Path.pTemplate->Serialize(Reader);
+    Path.pTemplate->PostLoad();
+}
+
+void CMasterTemplate::Internal_LoadPropertyTemplate(SPropertyTemplatePath& Path)
+{
+    if (Path.pTemplate != nullptr) // don't load twice
+        return;
+
+    const TString kGameDir = GetGameDirectory(true);
+    const TString kTemplateFilePath = kGameDir + Path.Path;
+    CXMLReader Reader(kTemplateFilePath);
+    ASSERT(Reader.IsValid());
+
+    Reader << SerialParameter("PropertyArchetype", Path.pTemplate);
+    ASSERT(Path.pTemplate != nullptr);
+
+    Path.pTemplate->SetPropertyFlags( EPropertyFlag::IsArchetype );
+    Path.pTemplate->Initialize(nullptr, nullptr, 0);
 }
 
 void CMasterTemplate::SaveSubTemplates()
 {
-    TString GameDir = "../templates_new/" + GetDirectory();
+    const TString kGameDir = GetGameDirectory(true);
 
     for (auto Iter = mScriptTemplates.begin(); Iter != mScriptTemplates.end(); Iter++)
     {
         SScriptTemplatePath& Path = Iter->second;
-        TString OutPath = GameDir + Path.Path;
+        TString OutPath = kGameDir + Path.Path;
 
         FileUtil::MakeDirectory( OutPath.GetFileDirectory() );
         CXMLWriter Writer(OutPath, "ScriptObject", 0, Game());
@@ -37,11 +72,11 @@ void CMasterTemplate::SaveSubTemplates()
     for (auto Iter = mPropertyTemplates.begin(); Iter != mPropertyTemplates.end(); Iter++)
     {
         SPropertyTemplatePath& Path = Iter->second;
-        TString OutPath = GameDir + Path.Path;
+        TString OutPath = kGameDir + Path.Path;
 
         FileUtil::MakeDirectory( OutPath.GetFileDirectory() );
-        CXMLWriter Writer(OutPath, "PropertyArchetype", 0, Game());
-        Path.pTemplate->Serialize(Writer);
+        CXMLWriter Writer(OutPath, "PropertyTemplate", 0, Game());
+        Writer << SerialParameter("PropertyArchetype", Path.pTemplate);
     }
 }
 
@@ -115,10 +150,34 @@ SMessage CMasterTemplate::MessageByIndex(u32 Index)
     return SMessage(Iter->first, Iter->second);
 }
 
-IPropertyNew* CMasterTemplate::FindPropertyArchetype(const TString& kTypeName) const
+IPropertyNew* CMasterTemplate::FindPropertyArchetype(const TString& kTypeName)
 {
     auto Iter = mPropertyTemplates.find(kTypeName);
-    return (Iter != mPropertyTemplates.end()) ? Iter->second.pTemplate.get() : nullptr;
+
+    // Should require Iter to be valid in the future. For now, this is possible for some of the transition template loader code.
+//    ASSERT(Iter != mPropertyTemplates.end()); // Requested archetype property does not exist; missing or malformed template
+    if (Iter == mPropertyTemplates.end())
+    {
+        return nullptr;
+    }
+
+    // If the template isn't loaded yet, then load it.
+    // This has to be done here to allow recursion while loading other property archetypes, because some properties may
+    // request archetypes of other properties that haven't been loaded yet during their load.
+    SPropertyTemplatePath& Path = Iter->second;
+    if (!Path.pTemplate)
+    {
+        Internal_LoadPropertyTemplate(Path);
+        ASSERT(Path.pTemplate != nullptr); // Load failed; missing or malformed template
+    }
+
+    return Path.pTemplate.get();
+}
+
+TString CMasterTemplate::GetGameDirectory(bool Absolute) const
+{
+    TString Out = mSourceFile.GetFileDirectory();
+    return Absolute ? "../templates_new/" + Out : Out;
 }
 
 // ************ STATIC ************

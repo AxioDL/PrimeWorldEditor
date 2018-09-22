@@ -14,6 +14,8 @@ template<EPropertyTypeNew TypeEnum>
 class TEnumPropertyBase : public TSerializeableTypedProperty<s32, TypeEnum>
 {
     friend class CTemplateLoader;
+    friend class IPropertyNew;
+
     struct SEnumValue
     {
         TString Name;
@@ -42,6 +44,12 @@ class TEnumPropertyBase : public TSerializeableTypedProperty<s32, TypeEnum>
 
     /** XML template file that this enum originated from; for archetypes */
     TString mSourceFile;
+
+protected:
+    /** Constructor */
+    TEnumPropertyBase(EGame Game)
+        : TSerializeableTypedProperty(Game)
+    {}
 
 public:
     virtual const char* GetHashableTypeName() const

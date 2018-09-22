@@ -19,12 +19,16 @@ typedef TString TIDString;
 /** Property flags */
 enum class EPropertyFlag : u32
 {
+    /** Property has been fully initialized and has had PostLoad called */
+    IsInitialized               = 0x1,
     /** Property is an archetype (a template for other properties to copy from) */
-    IsArchetype					= 0x1,
+    IsArchetype					= 0x2,
     /** Property is an array archetype (a template for elements of an array property) */
-    IsArrayArchetype			= 0x2,
+    IsArrayArchetype			= 0x4,
     /** This property and all its children are a single unit and do not have individual property IDs, sizes, etc. */
-    IsAtomic					= 0x4,
+    IsAtomic					= 0x8,
+    /** This is a property of a C++ class, not a script object */
+    IsIntrinsic                 = 0x10,
     /** We have cached whether the property name is correct */
     HasCachedNameCheck			= 0x40000000,
     /** The name of the property is a match for the property ID hash */
@@ -122,8 +126,8 @@ protected:
     /** Archetype property; source property that we copied metadata from */
     IPropertyNew* mpArchetype;
 
-    /** Sub-instances of archetype properties. For non-archetypes, will be empty. @todo better
-     *  method of storing this? maybe a linked list? */
+    /** Sub-instances of archetype properties. For non-archetypes, will be empty.
+     *  @todo this really oughta be a linked list */
     std::vector<IPropertyNew*> mSubInstances;
 
     /** Child properties; these appear underneath this property on the UI */
@@ -155,12 +159,8 @@ protected:
     float mMaxVersion;
 
     /** Private constructor - use static methods to instantiate */
-    IPropertyNew();
-    void _CalcOffset();
+    IPropertyNew(EGame Game);
     void _ClearChildren();
-
-    /** Called after property is created and fully initialized */
-    virtual void PostInitialize() {}
 
 public:
     virtual ~IPropertyNew();
@@ -175,11 +175,11 @@ public:
     virtual void RevertToDefault(void* pData) const = 0;
     virtual void SerializeValue(void* pData, IArchive& Arc) const = 0;
 
+    virtual void PostInitialize() {}
     virtual void PropertyValueChanged(void* pPropertyData)  {}
     virtual bool IsNumericalType() const                    { return false; }
     virtual bool IsPointerType() const                      { return false; }
     virtual TString ValueAsString(void* pData) const        { return ""; }
-
     virtual const char* HashableTypeName() const;
     virtual void* GetChildDataPointer(void* pPropertyData) const;
     virtual void Serialize(IArchive& rArc);
@@ -188,6 +188,7 @@ public:
     virtual TString GetTemplateFileName();
     
     /** Utility methods */
+    void Initialize(IPropertyNew* pInParent, CScriptTemplate* pInTemplate, u32 InOffset);
     void* RawValuePtr(void* pData) const;
     IPropertyNew* ChildByID(u32 ID) const;
     IPropertyNew* ChildByIDString(const TIDString& rkIdString);
@@ -195,6 +196,7 @@ public:
     void SetName(const TString& rkNewName);
     void SetDescription(const TString& rkNewDescription);
     void SetSuffix(const TString& rkNewSuffix);
+    void SetPropertyFlags(FPropertyFlags FlagsToSet);
     bool HasAccurateName();
 
     /** Accessors */
@@ -216,17 +218,19 @@ public:
     inline bool IsArchetype() const         { return mFlags.HasFlag(EPropertyFlag::IsArchetype); }
     inline bool IsArrayArchetype() const    { return mFlags.HasFlag(EPropertyFlag::IsArrayArchetype); }
     inline bool IsAtomic() const            { return mFlags.HasFlag(EPropertyFlag::IsAtomic); }
+    inline bool IsIntrinsic() const         { return mFlags.HasFlag(EPropertyFlag::IsIntrinsic); }
     inline bool IsRootParent() const        { return mpParent == nullptr; }
 
     /** Create */
     static IPropertyNew* Create(EPropertyTypeNew Type,
-                                IPropertyNew* pParent,
-                                EGame Game,
-                                CScriptTemplate* pScript,
-                                bool CallPostInit = true);
+                                EGame Game);
 
-    static IPropertyNew* CreateCopy(IPropertyNew* pArchetype,
-                                    IPropertyNew* pParent);
+    static IPropertyNew* CreateCopy(IPropertyNew* pArchetype);
+
+    static IPropertyNew* CreateIntrinsic(EPropertyTypeNew Type,
+                                         EGame Game,
+                                         u32 Offset,
+                                         const TString& rkName);
 
     static IPropertyNew* CreateIntrinsic(EPropertyTypeNew Type,
                                          IPropertyNew* pParent,
@@ -326,8 +330,8 @@ public:
 protected:
     PropType mDefaultValue;
 
-    TTypedPropertyNew()
-        : IPropertyNew()
+    TTypedPropertyNew(EGame Game)
+        : IPropertyNew(Game)
     {
         memset(&mDefaultValue, 0, sizeof(PropType));
     }
@@ -369,6 +373,11 @@ public:
         return mDefaultValue;
     }
 
+    inline void SetDefaultValue(const PropType& kInDefaultValue)
+    {
+        mDefaultValue = kInDefaultValue;
+    }
+
     inline static EPropertyTypeNew StaticType()     { return PropEnum; }
 };
 
@@ -376,8 +385,8 @@ template<typename PropType, EPropertyTypeNew PropEnum>
 class TSerializeableTypedProperty : public TTypedPropertyNew<PropType, PropEnum>
 {
 protected:
-    TSerializeableTypedProperty()
-        : TTypedPropertyNew()
+    TSerializeableTypedProperty(EGame Game)
+        : TTypedPropertyNew(Game)
     {}
 
 public:
@@ -443,8 +452,8 @@ protected:
     PropType mMinValue;
     PropType mMaxValue;
 
-    TNumericalPropertyNew()
-        : TSerializeableTypedProperty()
+    TNumericalPropertyNew(EGame Game)
+        : TSerializeableTypedProperty(Game)
         , mMinValue( -1 )
         , mMaxValue( -1 )
     {}
