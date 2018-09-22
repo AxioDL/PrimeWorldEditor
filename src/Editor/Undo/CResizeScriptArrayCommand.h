@@ -27,7 +27,7 @@ public:
     {
         if (Index.isValid())
         {
-            ASSERT(mpModel != nullptr);
+            ASSERT(pModel != nullptr);
             mpModel = pModel;
         }
     }

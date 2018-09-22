@@ -136,7 +136,7 @@ QModelIndex CPropertyModel::IndexForProperty(IPropertyNew *pProp) const
 void* CPropertyModel::DataPointerForIndex(const QModelIndex& rkIndex) const
 {
     // Going to be the base pointer in 99% of cases, but we need to account for arrays in some cases
-    int ID = rkIndex.internalId();
+    int ID = rkIndex.internalId() & ~0x80000000;
 
     if (!mProperties[ID].pProperty->IsArrayArchetype())
         return mpPropertyData;
