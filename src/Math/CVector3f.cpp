@@ -45,7 +45,10 @@ void CVector3f::Serialize(IArchive& rArc)
 
 TString CVector3f::ToString() const
 {
-    return TString::Format("%.1f, %.1f, %.1f", X, Y, Z);
+    return TString::Format("%s, %s, %s",
+                           *TString::FromFloat(X),
+                           *TString::FromFloat(Y),
+                           *TString::FromFloat(Z));
 }
 
 // ************ SWIZZLE ************

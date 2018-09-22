@@ -340,21 +340,33 @@ IPropertyNew* CTemplateLoader::LoadProperty(XMLElement* pElem, CScriptTemplate* 
             }
             else
             {
-                pArray->mpItemArchetype = IPropertyNew::Create(EPropertyTypeNew::Struct, mGame);
-                pStruct = TPropCast<CStructPropertyNew>(pArray->mpItemArchetype);
-                pStruct->mFlags = EPropertyFlag::IsAtomic | EPropertyFlag::IsArrayArchetype;
+                if (Name == "Activation Times")
+                {
+                    CFloatProperty* pFloatItem = (CFloatProperty*) IPropertyNew::Create(EPropertyTypeNew::Float, mGame);
+                    pFloatItem->mName = "Time";
+                    pFloatItem->mID = 0;
+                    pFloatItem->mDefaultValue = 0.0f;
+                    pFloatItem->mFlags = EPropertyFlag::IsArrayArchetype;
+                    pArray->mpItemArchetype = pFloatItem;
+                }
+                else
+                {
+                    pArray->mpItemArchetype = IPropertyNew::Create(EPropertyTypeNew::Struct, mGame);
+                    pStruct = TPropCast<CStructPropertyNew>(pArray->mpItemArchetype);
+                    pStruct->mFlags = EPropertyFlag::IsAtomic | EPropertyFlag::IsArrayArchetype;
+                }
             }
 
             XMLElement* pItemNameElem = pElem->FirstChildElement("element_name");
 
-            if (pItemNameElem)
+            if (pStruct && pItemNameElem)
                 pStruct->mName = pItemNameElem->GetText();
         }
 
         // Load parameter overrides
         XMLElement *pProperties = pElem->FirstChildElement("properties");
 
-        if (pProperties)
+        if (pStruct && pProperties)
         {
             LoadProperties(pProperties, pScript, pStruct, rkTemplateName);
         }

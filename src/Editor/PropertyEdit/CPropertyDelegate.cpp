@@ -163,7 +163,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
         }
     }
 
-    // Check for sub-property of flgs/animation set
+    // Check for sub-property of flags/animation set
     else if (rkIndex.internalId() & 0x80000000)
     {
         pProp = mpModel->PropertyForIndex(rkIndex, true);

@@ -37,6 +37,11 @@ void CDoorExtra::PropertyModified(IPropertyNew* pProperty)
         MarkTransformChanged();
     }
 
+    else if (pProperty == mShieldColorProp)
+    {
+        mShieldColor = mShieldColorProp.Get();
+    }
+
     else if (pProperty == mDisabledProp)
     {
         // The Echoes demo doesn't have the shield color property. The color is

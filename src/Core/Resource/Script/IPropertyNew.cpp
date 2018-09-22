@@ -89,7 +89,7 @@ void IPropertyNew::Serialize(IArchive& rArc)
     //
     // We can't currently tell if this property is atomic, as the flag hasn't been serialized and the parent
     // hasn't been set, but atomic sub-properties don't use hash IDs, so we can do a pseudo-check against the ID.
-    if (rArc.Game() <= ePrime || IsRootParent() || mID <= 0xFF)
+    if (rArc.Game() <= ePrime || IsRootParent() || IsArrayArchetype() || mID <= 0xFF)
     {
         rArc << SerialParameter("Name", mName, mpArchetype ? SH_Optional : 0, mpArchetype ? mpArchetype->mName : "");
     }
@@ -162,7 +162,7 @@ void IPropertyNew::Initialize(IPropertyNew* pInParent, CScriptTemplate* pInTempl
     mpScriptTemplate = pInTemplate;
 
     // Look up property name if needed.
-    if (Game() >= eEchoesDemo && !IsRootParent() && !IsIntrinsic() && !mpParent->IsAtomic())
+    if (Game() >= eEchoesDemo && !IsRootParent() && !IsIntrinsic() && !mpParent->IsAtomic() && !IsArrayArchetype())
     {
         mName = CMasterTemplate::PropertyName(mID);
     }
@@ -301,8 +301,8 @@ bool IPropertyNew::HasAccurateName()
     if (mID == FOURCC('XFRM') || mID == FOURCC('INAM') || mID == FOURCC('ACTV'))
         return true;
 
-    // Children of atomic properties defer to parents. Intrinsic properties also defer to parents.
-    if ( (mpParent && mpParent->IsAtomic()) || IsIntrinsic() )
+    // Children of atomic properties defer to parents. Intrinsic properties and array archetypes also defer to parents.
+    if ( (mpParent && mpParent->IsAtomic()) || IsIntrinsic() || IsArrayArchetype() )
     {
         if (mpParent)
             return mpParent->HasAccurateName();
