@@ -12,7 +12,7 @@ protected:
     std::vector<char> mOldData;
     std::vector<char> mNewData;
 
-    IPropertyNew* mpProperty;
+    IProperty* mpProperty;
     bool mCommandEnded;
     bool mSavedOldData;
     bool mSavedNewData;
@@ -25,7 +25,7 @@ protected:
 
 public:
     IEditPropertyCommand(
-            IPropertyNew* pProperty,
+            IProperty* pProperty,
             const QString& rkCommandName = "Edit Property"
             );
 

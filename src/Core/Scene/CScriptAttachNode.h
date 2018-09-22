@@ -12,7 +12,7 @@ class CScriptAttachNode : public CSceneNode
     CScriptNode* mpScriptNode;
     TResPtr<CResource> mpAttachAsset;
 
-    IPropertyNew* mpAttachAssetProp;
+    IProperty* mpAttachAssetProp;
     CAssetRef mAttachAssetRef;
     CAnimationSetRef mAttachAnimSetRef;
 
@@ -33,7 +33,7 @@ public:
     void RayAABoxIntersectTest(CRayCollisionTester& rTester, const SViewInfo& rkViewInfo);
     SRayIntersection RayNodeIntersectTest(const CRay& rkRay, u32 AssetID, const SViewInfo& rkViewInfo);
 
-    inline IPropertyNew* AttachProperty() const { return mpAttachAssetProp; }
+    inline IProperty* AttachProperty() const { return mpAttachAssetProp; }
     inline TString LocatorName() const          { return mLocatorName; }
 
 protected:

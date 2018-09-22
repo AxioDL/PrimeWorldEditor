@@ -1,7 +1,7 @@
 #ifndef CSTRINGPROPERTY_H
 #define CSTRINGPROPERTY_H
 
-#include "../IPropertyNew.h"
+#include "IProperty.h"
 
 class CStringProperty : public TSerializeableTypedProperty< TString, EPropertyTypeNew::String >
 {

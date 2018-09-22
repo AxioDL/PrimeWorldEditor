@@ -2,7 +2,7 @@
 #define CTEMPLATEEDITDIALOG_H
 
 #include "Editor/CPropertyNameValidator.h"
-#include <Core/Resource/Script/IPropertyTemplate.h>
+#include <Core/Resource/Script/Property/Properties.h>
 #include <Core/Resource/Script/CMasterTemplate.h>
 #include <QDialog>
 

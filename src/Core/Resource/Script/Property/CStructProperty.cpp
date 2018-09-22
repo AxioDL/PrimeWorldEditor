@@ -1,16 +1,16 @@
 #include "CStructProperty.h"
 #include "Core/Resource/Script/CMasterTemplate.h"
 
-EPropertyTypeNew CStructPropertyNew::Type() const
+EPropertyType CStructProperty::Type() const
 {
-    return EPropertyTypeNew::Struct;
+    return EPropertyType::Struct;
 }
 
-u32 CStructPropertyNew::DataSize() const
+u32 CStructProperty::DataSize() const
 {
     if (!mChildren.empty())
     {
-        IPropertyNew* pLastChild = mChildren.back();
+        IProperty* pLastChild = mChildren.back();
         return (pLastChild->Offset() - Offset()) + pLastChild->DataSize();
     }
     else
@@ -19,13 +19,13 @@ u32 CStructPropertyNew::DataSize() const
     }
 }
 
-u32 CStructPropertyNew::DataAlignment() const
+u32 CStructProperty::DataAlignment() const
 {
     // Structs are aligned to the first child property.
     return (mChildren.empty() ? 1 : mChildren[0]->DataAlignment());
 }
 
-void CStructPropertyNew::Construct(void* pData) const
+void CStructProperty::Construct(void* pData) const
 {
     for (int ChildIdx = 0; ChildIdx < mChildren.size(); ChildIdx++)
     {
@@ -33,7 +33,7 @@ void CStructPropertyNew::Construct(void* pData) const
     }
 }
 
-void CStructPropertyNew::Destruct(void* pData) const
+void CStructProperty::Destruct(void* pData) const
 {
     for (int ChildIdx = 0; ChildIdx < mChildren.size(); ChildIdx++)
     {
@@ -41,7 +41,7 @@ void CStructPropertyNew::Destruct(void* pData) const
     }
 }
 
-bool CStructPropertyNew::MatchesDefault(void* pData) const
+bool CStructProperty::MatchesDefault(void* pData) const
 {
     for (int ChildIdx = 0; ChildIdx < mChildren.size(); ChildIdx++)
     {
@@ -53,7 +53,7 @@ bool CStructPropertyNew::MatchesDefault(void* pData) const
     return true;
 }
 
-void CStructPropertyNew::RevertToDefault(void* pData) const
+void CStructProperty::RevertToDefault(void* pData) const
 {
     for (int ChildIdx = 0; ChildIdx < mChildren.size(); ChildIdx++)
     {
@@ -61,14 +61,14 @@ void CStructPropertyNew::RevertToDefault(void* pData) const
     }
 }
 
-const char* CStructPropertyNew::HashableTypeName() const
+const char* CStructProperty::HashableTypeName() const
 {
     return mpArchetype ? mpArchetype->HashableTypeName() : *mName;
 }
 
-void CStructPropertyNew::Serialize(IArchive& rArc)
+void CStructProperty::Serialize(IArchive& rArc)
 {
-    IPropertyNew::Serialize(rArc);
+    IProperty::Serialize(rArc);
 
     // Serialize atomic flag
     bool Atomic = IsAtomic();
@@ -85,7 +85,7 @@ void CStructPropertyNew::Serialize(IArchive& rArc)
     // Serialize archetype
     if (mpArchetype)
     {
-        CStructPropertyNew* pArchetype = static_cast<CStructPropertyNew*>(mpArchetype);
+        CStructProperty* pArchetype = static_cast<CStructProperty*>(mpArchetype);
         ASSERT(pArchetype != nullptr);
 
         if (rArc.IsReader())
@@ -103,13 +103,13 @@ void CStructPropertyNew::Serialize(IArchive& rArc)
                         // Serialize type and ID, then look up the matching property and serialize it.
                         // We don't really need the type, but it's a good sanity check, and it's also good practice
                         // to guarantee that parameters are read in order, as some serializers are order-dependent.
-                        EPropertyTypeNew ChildType;
+                        EPropertyType ChildType;
                         u32 ChildID;
 
                         rArc << SerialParameter("Type", ChildType, SH_Attribute)
                              << SerialParameter("ID", ChildID, SH_Attribute | SH_HexDisplay );
 
-                        IPropertyNew* pChild = ChildByID(ChildID);
+                        IProperty* pChild = ChildByID(ChildID);
                         ASSERT(pChild != nullptr && pChild->Type() == ChildType);
                         pChild->Serialize(rArc);
 
@@ -123,7 +123,7 @@ void CStructPropertyNew::Serialize(IArchive& rArc)
         else
         {
             // Check if any properties need to override parameters from their archetype.
-            std::vector<IPropertyNew*> PropertiesToSerialize;
+            std::vector<IProperty*> PropertiesToSerialize;
 
             for (u32 ChildIdx = 0; ChildIdx < mChildren.size(); ChildIdx++)
             {
@@ -147,7 +147,7 @@ void CStructPropertyNew::Serialize(IArchive& rArc)
     }
 }
 
-void CStructPropertyNew::SerializeValue(void* pData, IArchive& Arc) const
+void CStructProperty::SerializeValue(void* pData, IArchive& Arc) const
 {
     for (u32 ChildIdx = 0; ChildIdx < mChildren.size(); ChildIdx++)
     {
@@ -159,9 +159,9 @@ void CStructPropertyNew::SerializeValue(void* pData, IArchive& Arc) const
     }
 }
 
-void CStructPropertyNew::InitFromArchetype(IPropertyNew* pOther)
+void CStructProperty::InitFromArchetype(IProperty* pOther)
 {
-    IPropertyNew::InitFromArchetype(pOther);
+    IProperty::InitFromArchetype(pOther);
 
     // Copy children
     _ClearChildren();
@@ -169,14 +169,14 @@ void CStructPropertyNew::InitFromArchetype(IPropertyNew* pOther)
 
     for (u32 ChildIdx = 0; ChildIdx < pOther->NumChildren(); ChildIdx++)
     {
-        IPropertyNew* pChild = CreateCopy( pOther->ChildByIndex(ChildIdx) );
+        IProperty* pChild = CreateCopy( pOther->ChildByIndex(ChildIdx) );
         mChildren.push_back( pChild );
     }
 }
 
-bool CStructPropertyNew::ShouldSerialize() const
+bool CStructProperty::ShouldSerialize() const
 {
-    if (IPropertyNew::ShouldSerialize())
+    if (IProperty::ShouldSerialize())
         return true;
 
     for (u32 ChildIdx = 0; ChildIdx < mChildren.size(); ChildIdx++)
@@ -188,7 +188,7 @@ bool CStructPropertyNew::ShouldSerialize() const
     return false;
 }
 
-TString CStructPropertyNew::GetTemplateFileName()
+TString CStructProperty::GetTemplateFileName()
 {
     ASSERT(IsArchetype() || mpArchetype);
     return IsArchetype() ? mTemplateFileName : mpArchetype->GetTemplateFileName();

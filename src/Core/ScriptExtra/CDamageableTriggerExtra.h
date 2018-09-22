@@ -35,7 +35,7 @@ public:
     ERenderSide RenderSideForDirection(const CVector3f& rkDir);
     ERenderSide TransformRenderSide(ERenderSide Side);
     void OnTransformed();
-    void PropertyModified(IPropertyNew* pProperty);
+    void PropertyModified(IProperty* pProperty);
     bool ShouldDrawNormalAssets();
     void AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo);
     void Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand Command, const SViewInfo& rkViewInfo);

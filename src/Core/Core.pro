@@ -91,7 +91,6 @@ HEADERS += \
     Resource/Cooker/CMaterialCooker.h \
     Resource/Cooker/CModelCooker.h \
     Resource/Cooker/CSectionMgrOut.h \
-    Resource/Cooker/CTemplateWriter.h \
     Resource/Cooker/CTextureEncoder.h \
     Resource/Cooker/CWorldCooker.h \
     Resource/Factory/CAnimSetLoader.h \
@@ -115,7 +114,6 @@ HEADERS += \
     Resource/Script/CScriptLayer.h \
     Resource/Script/CScriptObject.h \
     Resource/Script/CScriptTemplate.h \
-    Resource/Script/EPropertyType.h \
     Resource/Script/EVolumeShape.h \
     Resource/CCollisionMesh.h \
     Resource/CCollisionMeshGroup.h \
@@ -163,9 +161,6 @@ HEADERS += \
     OpenGL/GLCommon.h \
     ScriptExtra/CRadiusSphereExtra.h \
     Resource/Cooker/CAreaCooker.h \
-    Resource/Script/IPropertyValue.h \
-    Resource/Script/IPropertyTemplate.h \
-    Resource/Script/IProperty.h \
     Resource/Model/EVertexAttribute.h \
     Render/FRenderOptions.h \
     Scene/FShowFlags.h \
@@ -231,9 +226,8 @@ HEADERS += \
     IUIRelay.h \
     Resource/CResTypeFilter.h \
     GameProject/COpeningBanner.h \
-    Resource/Script/CPropertyNameGenerator.h \
-    Resource/Script/IPropertyNew.h \
-    Resource/Script/TPropertyProxy.h \
+    Resource/Script/Property/CPropertyNameGenerator.h \
+    Resource/Script/Property/IProperty.h \
     Resource/Script/Property/CEnumProperty.h \
     Resource/Script/Property/CFlagsProperty.h \
     Resource/Script/Property/CAssetProperty.h \
@@ -267,7 +261,6 @@ SOURCES += \
     Resource/Area/CGameArea.cpp \
     Resource/Cooker/CMaterialCooker.cpp \
     Resource/Cooker/CModelCooker.cpp \
-    Resource/Cooker/CTemplateWriter.cpp \
     Resource/Cooker/CTextureEncoder.cpp \
     Resource/Cooker/CWorldCooker.cpp \
     Resource/Factory/CAnimSetLoader.cpp \
@@ -320,8 +313,6 @@ SOURCES += \
     OpenGL/GLCommon.cpp \
     ScriptExtra/CRadiusSphereExtra.cpp \
     Resource/Cooker/CAreaCooker.cpp \
-    Resource/Script/IPropertyTemplate.cpp \
-    Resource/Script/IProperty.cpp \
     Scene/FShowFlags.cpp \
     Scene/CScene.cpp \
     Scene/CSceneIterator.cpp \
@@ -365,8 +356,8 @@ SOURCES += \
     IUIRelay.cpp \
     GameProject\COpeningBanner.cpp \
     IProgressNotifier.cpp \
-    Resource/Script/CPropertyNameGenerator.cpp \
-    Resource/Script/IPropertyNew.cpp \
+    Resource/Script/Property/CPropertyNameGenerator.cpp \
+    Resource/Script/Property/IProperty.cpp \
     Resource/Script/Property/CStructProperty.cpp \
     Resource/Script/Property/CFlagsProperty.cpp
 

@@ -2,7 +2,7 @@
 #define CGENERATEPROPERTYNAMESDIALOG_H
 
 #include "CProgressBarNotifier.h"
-#include <Core/Resource/Script/CPropertyNameGenerator.h>
+#include <Core/Resource/Script/Property/CPropertyNameGenerator.h>
 
 #include <QDialog>
 #include <QFuture>

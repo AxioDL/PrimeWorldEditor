@@ -2,7 +2,6 @@
 #define CSCRIPTTEMPLATE_H
 
 #include "Core/Resource/Script/Property/Properties.h"
-#include "EPropertyType.h"
 #include "EVolumeShape.h"
 #include "Core/Resource/Model/CModel.h"
 #include "Core/Resource/CCollisionMeshGroup.h"

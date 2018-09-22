@@ -1,6 +1,5 @@
 #include "CTemplateLoader.h"
 #include "CAreaLoader.h"
-#include "Core/Resource/Script/IPropertyTemplate.h"
 #include "Core/Resource/Script/Property/Properties.h"
 #include <Common/FileUtil.h>
 #include <Common/Log.h>
@@ -107,6 +106,28 @@ using namespace tinyxml2;
         ASSERT(false);\
         break;\
     }\
+
+EPropertyTypeNew PropStringToPropEnum(TString Prop)
+{
+    Prop = Prop.ToLower();
+    if (Prop == "bool")       return EPropertyTypeNew::Bool;
+    if (Prop == "byte")       return EPropertyTypeNew::Byte;
+    if (Prop == "short")      return EPropertyTypeNew::Short;
+    if (Prop == "long")       return EPropertyTypeNew::Int;
+    if (Prop == "enum")       return EPropertyTypeNew::Enum;
+    if (Prop == "bitfield")   return EPropertyTypeNew::Flags;
+    if (Prop == "float")      return EPropertyTypeNew::Float;
+    if (Prop == "string")     return EPropertyTypeNew::String;
+    if (Prop == "color")      return EPropertyTypeNew::Color;
+    if (Prop == "vector3f")   return EPropertyTypeNew::Vector;
+    if (Prop == "sound")      return EPropertyTypeNew::Sound;
+    if (Prop == "asset")      return EPropertyTypeNew::Asset;
+    if (Prop == "struct")     return EPropertyTypeNew::Struct;
+    if (Prop == "array")      return EPropertyTypeNew::Array;
+    if (Prop == "character")  return EPropertyTypeNew::AnimationSet;
+    if (Prop == "mayaspline") return EPropertyTypeNew::Spline;
+                              return EPropertyTypeNew::Invalid;
+}
 
 IPropertyNew* CTemplateLoader::LoadProperty(XMLElement* pElem, CScriptTemplate* pScript, CStructPropertyNew* pParent, const TString& rkTemplateName)
 {

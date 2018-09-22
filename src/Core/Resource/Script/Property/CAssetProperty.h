@@ -1,13 +1,13 @@
 #ifndef CASSETPROPERTY_H
 #define CASSETPROPERTY_H
 
-#include "../IPropertyNew.h"
+#include "IProperty.h"
 #include "Core/Resource/CResTypeFilter.h"
 
-class CAssetProperty : public TSerializeableTypedProperty<CAssetID, EPropertyTypeNew::Asset>
+class CAssetProperty : public TSerializeableTypedProperty<CAssetID, EPropertyType::Asset>
 {
     friend class CTemplateLoader;
-    friend class IPropertyNew;
+    friend class IProperty;
 
     CResTypeFilter mTypeFilter;
 
@@ -33,9 +33,9 @@ public:
                 mTypeFilter != pArchetype->mTypeFilter;
     }
 
-    virtual void InitFromArchetype(IPropertyNew* pOther)
+    virtual void InitFromArchetype(IProperty* pOther)
     {
-        TTypedPropertyNew::InitFromArchetype(pOther);
+        TTypedProperty::InitFromArchetype(pOther);
         mTypeFilter = static_cast<CAssetProperty*>(pOther)->mTypeFilter;
     }
 

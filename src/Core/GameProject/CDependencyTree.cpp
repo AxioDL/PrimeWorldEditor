@@ -152,22 +152,22 @@ CScriptInstanceDependency* CScriptInstanceDependency::BuildTree(CScriptObject *p
     return pInst;
 }
 
-void CScriptInstanceDependency::ParseStructDependencies(CScriptInstanceDependency* pInst, CScriptObject* pInstance, CStructPropertyNew *pStruct)
+void CScriptInstanceDependency::ParseStructDependencies(CScriptInstanceDependency* pInst, CScriptObject* pInstance, CStructProperty *pStruct)
 {
     // Recursive function for parsing script dependencies and loading them into the script instance dependency
     void* pPropertyData = pInstance->PropertyData();
 
     for (u32 PropertyIdx = 0; PropertyIdx < pStruct->NumChildren(); PropertyIdx++)
     {
-        IPropertyNew *pProp = pStruct->ChildByIndex(PropertyIdx);
-        EPropertyTypeNew Type = pProp->Type();
+        IProperty *pProp = pStruct->ChildByIndex(PropertyIdx);
+        EPropertyType Type = pProp->Type();
 
         // Technically we aren't parsing array children, but it's not really worth refactoring this function
         // to support it when there aren't any array properties that contain any asset references anyway...
-        if (Type == EPropertyTypeNew::Struct)
-            ParseStructDependencies(pInst, pInstance, TPropCast<CStructPropertyNew>(pProp));
+        if (Type == EPropertyType::Struct)
+            ParseStructDependencies(pInst, pInstance, TPropCast<CStructProperty>(pProp));
 
-        else if (Type == EPropertyTypeNew::Sound)
+        else if (Type == EPropertyType::Sound)
         {
             u32 SoundID = TPropCast<CSoundProperty>(pProp)->Value(pPropertyData);
 
@@ -184,7 +184,7 @@ void CScriptInstanceDependency::ParseStructDependencies(CScriptInstanceDependenc
             }
         }
 
-        else if (Type == EPropertyTypeNew::Asset)
+        else if (Type == EPropertyType::Asset)
         {
             CAssetID ID = TPropCast<CAssetProperty>(pProp)->Value(pPropertyData);
 
@@ -195,7 +195,7 @@ void CScriptInstanceDependency::ParseStructDependencies(CScriptInstanceDependenc
             }
         }
 
-        else if (Type == EPropertyTypeNew::AnimationSet)
+        else if (Type == EPropertyType::AnimationSet)
         {
             CAnimationParameters Params = TPropCast<CAnimationSetProperty>(pProp)->Value(pPropertyData);
             CAssetID ID = Params.ID();

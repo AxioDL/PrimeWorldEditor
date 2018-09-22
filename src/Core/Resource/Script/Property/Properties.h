@@ -1,7 +1,7 @@
 #ifndef PROPERTIES_H
 #define PROPERTIES_H
 
-#include "../IPropertyNew.h"
+#include "IProperty.h"
 #include "CAnimationProperty.h"
 #include "CAnimationSetProperty.h"
 #include "CArrayProperty.h"

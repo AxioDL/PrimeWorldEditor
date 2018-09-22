@@ -84,15 +84,15 @@ class CMasterTemplate
         TString Path;
 
         /** Template in memory */
-        std::shared_ptr<IPropertyNew> pTemplate;
+        std::shared_ptr<IProperty> pTemplate;
 
         /** Constructor */
         SPropertyTemplatePath()
         {}
 
-        SPropertyTemplatePath(const TString& kInPath, IPropertyNew* pInTemplate)
+        SPropertyTemplatePath(const TString& kInPath, IProperty* pInTemplate)
             : Path(kInPath)
-            , pTemplate( std::shared_ptr<IPropertyNew>(pInTemplate) )
+            , pTemplate( std::shared_ptr<IProperty>(pInTemplate) )
         {}
 
         /** Serializer */
@@ -117,7 +117,7 @@ class CMasterTemplate
     struct SPropIDInfo
     {
         std::vector<TString> XMLList; // List of script/struct templates that use this ID
-        std::vector<IPropertyNew*> PropertyList; // List of all properties that use this ID
+        std::vector<IProperty*> PropertyList; // List of all properties that use this ID
     };
     static std::map<u32, SPropIDInfo> smIDMap;
     static std::map<EGame, CMasterTemplate*> smMasterMap;
@@ -142,7 +142,7 @@ public:
     SMessage MessageByID(u32 MessageID);
     SMessage MessageByID(const CFourCC& MessageID);
     SMessage MessageByIndex(u32 Index);
-    IPropertyNew* FindPropertyArchetype(const TString& kTypeName);
+    IProperty* FindPropertyArchetype(const TString& kTypeName);
     TString GetGameDirectory(bool Absolute = false) const;
 
     // Inline Accessors
@@ -159,12 +159,12 @@ public:
     static TString FindGameName(EGame Game);
     static EGame FindGameForName(const TString& rkName);
     static TString PropertyName(u32 PropertyID);
-    static u32 CreatePropertyID(IPropertyNew *pTemp);
-    static void AddProperty(IPropertyNew *pTemp, const TString& rkTemplateName = "");
-    static void RenameProperty(IPropertyNew *pTemp, const TString& rkNewName);
+    static u32 CreatePropertyID(IProperty *pTemp);
+    static void AddProperty(IProperty *pTemp, const TString& rkTemplateName = "");
+    static void RenameProperty(IProperty *pTemp, const TString& rkNewName);
     static void RenameProperty(u32 ID, const TString& rkNewName);
     static void XMLsUsingID(u32 ID, std::vector<TString>& rOutList);
-    static const std::vector<IPropertyNew*>* TemplatesWithMatchingID(IPropertyNew *pTemp);
+    static const std::vector<IProperty*>* TemplatesWithMatchingID(IProperty *pTemp);
 };
 
 #endif // CMASTERTEMPLATE_H

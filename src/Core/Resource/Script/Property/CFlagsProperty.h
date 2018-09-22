@@ -1,7 +1,7 @@
 #ifndef CFLAGSPROPERTY_H
 #define CFLAGSPROPERTY_H
 
-#include "../IPropertyNew.h"
+#include "IProperty.h"
 
 class CFlagsProperty : public TSerializeableTypedProperty<u32, EPropertyTypeNew::Flags>
 {

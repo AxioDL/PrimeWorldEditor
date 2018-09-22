@@ -6,7 +6,7 @@ CRadiusSphereExtra::CRadiusSphereExtra(CScriptObject* pInstance, CScene* pScene,
     : CScriptExtra(pInstance, pScene, pParent)
 {
     mObjectType = pInstance->ObjectTypeID();
-    CStructPropertyNew* pProperties = pInstance->Template()->Properties();
+    CStructProperty* pProperties = pInstance->Template()->Properties();
 
     switch (mObjectType)
     {

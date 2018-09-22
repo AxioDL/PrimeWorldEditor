@@ -1,7 +1,7 @@
 #include "CPropertyView.h"
 #include "CPropertyDelegate.h"
 #include "Editor/WorldEditor/CTemplateEditDialog.h"
-#include <Core/Resource/Script/IPropertyTemplate.h>
+#include <Core/Resource/Script/Property/Properties.h>
 
 #include <QEvent>
 #include <QMenu>

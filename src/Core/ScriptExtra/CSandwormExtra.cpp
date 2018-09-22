@@ -17,7 +17,7 @@ CSandwormExtra::CSandwormExtra(CScriptObject* pInstance, CScene* pScene, CScript
     if (mPincersScale.IsValid()) PropertyModified(mPincersScale.Property());
 }
 
-void CSandwormExtra::PropertyModified(IPropertyNew* pProp)
+void CSandwormExtra::PropertyModified(IProperty* pProp)
 {
     if (pProp == mPincersScale)
     {

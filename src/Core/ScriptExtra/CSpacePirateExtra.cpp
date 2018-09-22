@@ -3,8 +3,8 @@
 CSpacePirateExtra::CSpacePirateExtra(CScriptObject* pInstance, CScene* pScene, CScriptNode* pParent)
     : CScriptExtra(pInstance, pScene ,pParent)
 {
-    CStructPropertyNew* pBaseStruct = pInstance->Template()->Properties();
-    CStructPropertyNew* pVulnerabilities = TPropCast<CStructPropertyNew>(pBaseStruct->ChildByIDString("0x04:0x10"));
+    CStructProperty* pBaseStruct = pInstance->Template()->Properties();
+    CStructProperty* pVulnerabilities = TPropCast<CStructProperty>(pBaseStruct->ChildByIDString("0x04:0x10"));
 
     if (pVulnerabilities)
     {

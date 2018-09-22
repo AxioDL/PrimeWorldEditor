@@ -1,7 +1,7 @@
 #ifndef CBYTEPROPERTY_H
 #define CBYTEPROPERTY_H
 
-#include "../IPropertyNew.h"
+#include "IProperty.h"
 
 class CByteProperty : public TNumericalPropertyNew< s8, EPropertyTypeNew::Byte >
 {

@@ -1,7 +1,7 @@
 #ifndef CGUIDPROPERTY_H
 #define CGUIDPROPERTY_H
 
-#include "../IPropertyNew.h"
+#include "IProperty.h"
 
 class CGuidProperty : public TTypedPropertyNew< std::vector<char>, EPropertyTypeNew::Guid >
 {

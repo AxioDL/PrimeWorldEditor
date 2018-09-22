@@ -13,7 +13,7 @@ protected:
     QModelIndex mIndex;
 
 public:
-    CEditScriptPropertyCommand(IPropertyNew* pProperty,
+    CEditScriptPropertyCommand(IProperty* pProperty,
                                CWorldEditor* pEditor,
                                const QVector<CScriptObject*>& rkInstances,
                                QModelIndex Index = QModelIndex(),

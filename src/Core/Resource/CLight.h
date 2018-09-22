@@ -63,7 +63,7 @@ public:
     void SetDistAtten(float DistCoefA, float DistCoefB, float DistCoefC);
     void SetAngleAtten(float AngleCoefA, float AngleCoefB, float AngleCoefC);
 
-    CStructPropertyNew* GetProperties() const;
+    CStructProperty* GetProperties() const;
 
     // Other
     void Load() const;

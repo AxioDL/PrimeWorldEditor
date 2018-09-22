@@ -459,26 +459,26 @@ CStructRef CScriptNode::GetProperties() const
     return CStructRef(mpInstance->PropertyData(), mpInstance->Template()->Properties());
 }
 
-void CScriptNode::PropertyModified(IPropertyNew* pProp)
+void CScriptNode::PropertyModified(IProperty* pProp)
 {
     // Update volume
-    EPropertyTypeNew Type = pProp->Type();
+    EPropertyType Type = pProp->Type();
 
-    if ( Type == EPropertyTypeNew::Bool || Type == EPropertyTypeNew::Byte || Type == EPropertyTypeNew::Short ||
-         Type == EPropertyTypeNew::Int || Type == EPropertyTypeNew::Choice || Type == EPropertyTypeNew::Enum )
+    if ( Type == EPropertyType::Bool || Type == EPropertyType::Byte || Type == EPropertyType::Short ||
+         Type == EPropertyType::Int || Type == EPropertyType::Choice || Type == EPropertyType::Enum )
     {
         mpInstance->EvaluateVolume();
         UpdatePreviewVolume();
     }
 
     // Update resources
-    else if (Type == EPropertyTypeNew::AnimationSet)
+    else if (Type == EPropertyType::AnimationSet)
     {
         mpInstance->EvaluateDisplayAsset();
         SetDisplayAsset(mpInstance->DisplayAsset());
     }
 
-    else if (Type == EPropertyTypeNew::Asset)
+    else if (Type == EPropertyType::Asset)
     {
         CAssetProperty* pAssetProperty = TPropCast<CAssetProperty>(pProp);
         const CResTypeFilter& rkFilter = pAssetProperty->GetTypeFilter();

@@ -3,7 +3,7 @@
 
 #include "Core/Resource/Script/CMasterTemplate.h"
 #include "Core/Resource/Script/CScriptTemplate.h"
-#include "Core/Resource/Script/IPropertyNew.h"
+#include "Core/Resource/Script/Property/IProperty.h"
 #include "Core/Resource/Script/Property/CEnumProperty.h"
 #include "Core/Resource/Script/Property/CFlagsProperty.h"
 #include <tinyxml2.h>

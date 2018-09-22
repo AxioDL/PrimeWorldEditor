@@ -14,7 +14,7 @@ CDamageableTriggerExtra::CDamageableTriggerExtra(CScriptObject *pInstance, CScen
     SetInheritance(true, false, false);
     CreateMaterial();
 
-    CStructPropertyNew* pProperties = pInstance->Template()->Properties();
+    CStructProperty* pProperties = pInstance->Template()->Properties();
 
     // Fetch render side
     mRenderSide = TEnumRef<ERenderSide>(pInstance->PropertyData(), pProperties->ChildByIndex(5));
@@ -178,7 +178,7 @@ void CDamageableTriggerExtra::OnTransformed()
     UpdatePlaneTransform();
 }
 
-void CDamageableTriggerExtra::PropertyModified(IPropertyNew* pProperty)
+void CDamageableTriggerExtra::PropertyModified(IProperty* pProperty)
 {
     if (pProperty == mRenderSide || pProperty == mPlaneSize)
     {

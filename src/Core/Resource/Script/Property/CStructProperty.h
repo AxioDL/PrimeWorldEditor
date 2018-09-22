@@ -1,7 +1,7 @@
 #ifndef CSTRUCTPROPERTY_H
 #define CSTRUCTPROPERTY_H
 
-#include "../IPropertyNew.h"
+#include "IProperty.h"
 
 class CStructPropertyNew : public IPropertyNew
 {

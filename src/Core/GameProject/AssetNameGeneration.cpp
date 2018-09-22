@@ -284,7 +284,7 @@ void GenerateAssetNames(CGameProject *pProj)
                 for (u32 iInst = 0; iInst < pLayer->NumInstances(); iInst++)
                 {
                     CScriptObject* pInst = pLayer->InstanceByIndex(iInst);
-                    CStructPropertyNew* pProperties = pInst->Template()->Properties();
+                    CStructProperty* pProperties = pInst->Template()->Properties();
 
                     if (pInst->ObjectTypeID() == 0x42 || pInst->ObjectTypeID() == FOURCC('POIN'))
                     {

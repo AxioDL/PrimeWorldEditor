@@ -130,7 +130,7 @@ CStructRef CLightNode::GetProperties() const
     return CStructRef(mpLight, mpLight->GetProperties());
 }
 
-void CLightNode::PropertyModified(IPropertyNew* pProperty)
+void CLightNode::PropertyModified(IProperty* pProperty)
 {
     CSceneNode::PropertyModified(pProperty);
 

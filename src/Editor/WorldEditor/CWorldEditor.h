@@ -122,7 +122,7 @@ public slots:
 
     void OnActiveProjectChanged(CGameProject *pProj);
     void OnLinksModified(const QList<CScriptObject*>& rkInstances);
-    void OnPropertyModified(CScriptObject* pObject, IPropertyNew *pProp);
+    void OnPropertyModified(CScriptObject* pObject, IProperty *pProp);
     void SetSelectionActive(bool Active);
     void SetSelectionInstanceNames(const QString& rkNewName, bool IsDone);
     void SetSelectionLayer(CScriptLayer *pLayer);
@@ -187,7 +187,7 @@ signals:
     void InstancesLayerAboutToChange();
     void InstancesLayerChanged(const QList<CScriptNode*>& rkInstanceList);
     void InstanceLinksModified(const QList<CScriptObject*>& rkInstances);
-    void PropertyModified(CScriptObject *pInst, IPropertyNew *pProp);
+    void PropertyModified(CScriptObject *pInst, IProperty *pProp);
 };
 
 #endif // CWORLDEDITOR_H

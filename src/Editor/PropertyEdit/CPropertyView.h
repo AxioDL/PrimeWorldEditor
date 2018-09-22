@@ -15,7 +15,7 @@ class CPropertyView : public QTreeView
     CPropertyDelegate *mpDelegate;
     CScriptObject *mpObject;
 
-    IPropertyNew *mpMenuProperty;
+    IProperty *mpMenuProperty;
     QAction *mpShowNameValidityAction;
     QAction *mpEditTemplateAction;
 

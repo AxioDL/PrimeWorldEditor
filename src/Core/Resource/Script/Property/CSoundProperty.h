@@ -1,7 +1,7 @@
 #ifndef CSOUNDPROPERTY_H
 #define CSOUNDPROPERTY_H
 
-#include "../IPropertyNew.h"
+#include "IProperty.h"
 
 class CSoundProperty : public TSerializeableTypedProperty< s32, EPropertyTypeNew::Sound >
 {

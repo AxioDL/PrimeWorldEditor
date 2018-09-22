@@ -5,7 +5,7 @@
 #include <Core/Resource/Script/Property/CEnumProperty.h>
 #include <Core/Resource/Script/Property/CFlagsProperty.h>
 
-void CScriptCooker::WriteProperty(IOutputStream& rOut, IPropertyNew* pProperty, bool InAtomicStruct)
+void CScriptCooker::WriteProperty(IOutputStream& rOut, IProperty* pProperty, bool InAtomicStruct)
 {
     u32 SizeOffset = 0, PropStart = 0;
     void* pData = (mpArrayItemData ? mpArrayItemData : mpObject->PropertyData());
@@ -21,118 +21,118 @@ void CScriptCooker::WriteProperty(IOutputStream& rOut, IPropertyNew* pProperty, 
     switch (pProperty->Type())
     {
 
-    case EPropertyTypeNew::Bool:
+    case EPropertyType::Bool:
     {
         CBoolProperty* pBool = TPropCast<CBoolProperty>(pProperty);
         rOut.WriteBool( pBool->Value(pData) );
         break;
     }
 
-    case EPropertyTypeNew::Byte:
+    case EPropertyType::Byte:
     {
         CByteProperty* pByte = TPropCast<CByteProperty>(pProperty);
         rOut.WriteByte( pByte->Value(pData) );
         break;
     }
 
-    case EPropertyTypeNew::Short:
+    case EPropertyType::Short:
     {
         CShortProperty* pShort = TPropCast<CShortProperty>(pProperty);
         rOut.WriteShort( pShort->Value(pData) );
         break;
     }
 
-    case EPropertyTypeNew::Int:
+    case EPropertyType::Int:
     {
         CIntProperty* pInt = TPropCast<CIntProperty>(pProperty);
         rOut.WriteLong( pInt->Value(pData) );
         break;
     }
 
-    case EPropertyTypeNew::Float:
+    case EPropertyType::Float:
     {
         CFloatProperty* pFloat = TPropCast<CFloatProperty>(pProperty);
         rOut.WriteFloat( pFloat->Value(pData) );
         break;
     }
 
-    case EPropertyTypeNew::Choice:
+    case EPropertyType::Choice:
     {
         CChoiceProperty* pChoice = TPropCast<CChoiceProperty>(pProperty);
         rOut.WriteLong( pChoice->Value(pData) );
         break;
     }
 
-    case EPropertyTypeNew::Enum:
+    case EPropertyType::Enum:
     {
         CEnumProperty* pEnum = TPropCast<CEnumProperty>(pProperty);
         rOut.WriteLong( pEnum->Value(pData) );
         break;
     }
 
-    case EPropertyTypeNew::Flags:
+    case EPropertyType::Flags:
     {
         CFlagsProperty* pFlags = TPropCast<CFlagsProperty>(pProperty);
         rOut.WriteLong( pFlags->Value(pData) );
         break;
     }
 
-    case EPropertyTypeNew::String:
+    case EPropertyType::String:
     {
         CStringProperty* pString = TPropCast<CStringProperty>(pProperty);
         rOut.WriteString( pString->Value(pData) );
         break;
     }
 
-    case EPropertyTypeNew::Vector:
+    case EPropertyType::Vector:
     {
         CVectorProperty* pVector = TPropCast<CVectorProperty>(pProperty);
         pVector->ValueRef(pData).Write(rOut);
         break;
     }
 
-    case EPropertyTypeNew::Color:
+    case EPropertyType::Color:
     {
         CColorProperty* pColor = TPropCast<CColorProperty>(pProperty);
         pColor->ValueRef(pData).Write(rOut);
         break;
     }
 
-    case EPropertyTypeNew::Asset:
+    case EPropertyType::Asset:
     {
         CAssetProperty* pAsset = TPropCast<CAssetProperty>(pProperty);
         pAsset->ValueRef(pData).Write(rOut);
         break;
     }
 
-    case EPropertyTypeNew::Sound:
+    case EPropertyType::Sound:
     {
         CSoundProperty* pSound = TPropCast<CSoundProperty>(pProperty);
         rOut.WriteLong( pSound->Value(pData) );
         break;
     }
 
-    case EPropertyTypeNew::Animation:
+    case EPropertyType::Animation:
     {
         CAnimationProperty* pAnim = TPropCast<CAnimationProperty>(pProperty);
         rOut.WriteLong( pAnim->Value(pData) );
         break;
     }
 
-    case EPropertyTypeNew::AnimationSet:
+    case EPropertyType::AnimationSet:
     {
         CAnimationSetProperty* pAnimSet = TPropCast<CAnimationSetProperty>(pProperty);
         pAnimSet->ValueRef(pData).Write(rOut);
         break;
     }
 
-    case EPropertyTypeNew::Sequence:
+    case EPropertyType::Sequence:
     {
         // TODO
         break;
     }
 
-    case EPropertyTypeNew::Spline:
+    case EPropertyType::Spline:
     {
         CSplineProperty* pSpline = TPropCast<CSplineProperty>(pProperty);
         std::vector<char>& rBuffer = pSpline->ValueRef(pData);
@@ -163,7 +163,7 @@ void CScriptCooker::WriteProperty(IOutputStream& rOut, IPropertyNew* pProperty, 
         break;
     }
 
-    case EPropertyTypeNew::Guid:
+    case EPropertyType::Guid:
     {
         CGuidProperty* pGuid = TPropCast<CGuidProperty>(pProperty);
         std::vector<char>& rBuffer = pGuid->ValueRef(pData);
@@ -175,14 +175,14 @@ void CScriptCooker::WriteProperty(IOutputStream& rOut, IPropertyNew* pProperty, 
         break;
     }
 
-    case EPropertyTypeNew::Struct:
+    case EPropertyType::Struct:
     {
-        CStructPropertyNew* pStruct = TPropCast<CStructPropertyNew>(pProperty);
-        std::vector<IPropertyNew*> PropertiesToWrite;
+        CStructProperty* pStruct = TPropCast<CStructProperty>(pProperty);
+        std::vector<IProperty*> PropertiesToWrite;
 
         for (u32 ChildIdx = 0; ChildIdx < pStruct->NumChildren(); ChildIdx++)
         {
-            IPropertyNew *pChild = pStruct->ChildByIndex(ChildIdx);
+            IProperty *pChild = pStruct->ChildByIndex(ChildIdx);
 
             if (pStruct->IsAtomic() || pChild->ShouldCook(pData))
                 PropertiesToWrite.push_back(pChild);
@@ -202,7 +202,7 @@ void CScriptCooker::WriteProperty(IOutputStream& rOut, IPropertyNew* pProperty, 
         break;
     }
 
-    case EPropertyTypeNew::Array:
+    case EPropertyType::Array:
     {
         CArrayProperty* pArray = TPropCast<CArrayProperty>(pProperty);
         u32 Count = pArray->ArrayCount(pData);

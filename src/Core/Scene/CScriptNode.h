@@ -48,7 +48,7 @@ public:
     CColor TintColor(const SViewInfo& rkViewInfo) const;
     CColor WireframeColor() const;
     CStructRef GetProperties() const;
-    void PropertyModified(IPropertyNew* pProp);
+    void PropertyModified(IProperty* pProp);
 
     void LinksModified();
     void UpdatePreviewVolume();

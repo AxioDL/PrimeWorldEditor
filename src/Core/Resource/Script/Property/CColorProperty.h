@@ -1,7 +1,7 @@
 #ifndef CCOLORPROPERTY_H
 #define CCOLORPROPERTY_H
 
-#include "../IPropertyNew.h"
+#include "IProperty.h"
 #include "CFloatProperty.h"
 
 class CColorProperty : public TSerializeableTypedProperty< CColor, EPropertyTypeNew::Color >

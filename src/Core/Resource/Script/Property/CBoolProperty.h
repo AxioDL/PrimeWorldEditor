@@ -1,11 +1,11 @@
 #ifndef CBOOLPROPERTY_H
 #define CBOOLPROPERTY_H
 
-#include "../IPropertyNew.h"
+#include "IProperty.h"
 
-class CBoolProperty : public TSerializeableTypedProperty< bool, EPropertyTypeNew::Bool >
+class CBoolProperty : public TSerializeableTypedProperty< bool, EPropertyType::Bool >
 {
-    friend class IPropertyNew;
+    friend class IProperty;
 
 protected:
     CBoolProperty(EGame Game)

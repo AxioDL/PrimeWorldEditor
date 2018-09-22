@@ -9,7 +9,7 @@ CSplinePathExtra::CSplinePathExtra(CScriptObject* pInstance, CScene* pScene, CSc
     mPathColor = CColorRef(pInstance->PropertyData(), pInstance->Template()->Properties()->ChildByID(0x00DD86E2));
 }
 
-void CSplinePathExtra::PropertyModified(IPropertyNew* pProperty)
+void CSplinePathExtra::PropertyModified(IProperty* pProperty)
 {
     if (pProperty == mPathColor.Property())
     {

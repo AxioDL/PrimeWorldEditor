@@ -1,7 +1,7 @@
 #ifndef CENUMPROPERTY_H
 #define CENUMPROPERTY_H
 
-#include "../IPropertyNew.h"
+#include "IProperty.h"
 
 /** There are two types of enum properties in the game data: enum and choice.
  *
