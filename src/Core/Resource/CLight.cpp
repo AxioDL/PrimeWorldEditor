@@ -128,20 +128,20 @@ void CLight::SetAngleAtten(float AngleCoefA, float AngleCoefB, float AngleCoefC)
     mAngleAttenCoefficients.Z = AngleCoefC;
 }
 
-CStructPropertyNew* CLight::GetProperties() const
+CStructProperty* CLight::GetProperties() const
 {
     //@todo MP1 properties only
     //@todo we cannot display full properties because a lot of them are discarded on load
-    static CStructPropertyNew* pProperties = nullptr;
+    static CStructProperty* pProperties = nullptr;
 
     if (!pProperties)
     {
-        pProperties = (CStructPropertyNew*) IPropertyNew::CreateIntrinsic(EPropertyTypeNew::Struct,
+        pProperties = (CStructProperty*) IProperty::CreateIntrinsic(EPropertyType::Struct,
                                                                           ePrime,
                                                                           0,
                                                                           "Light");
 
-        CChoiceProperty* pLightType = (CChoiceProperty*) IPropertyNew::CreateIntrinsic(EPropertyTypeNew::Choice,
+        CChoiceProperty* pLightType = (CChoiceProperty*) IProperty::CreateIntrinsic(EPropertyType::Choice,
                                                                                        pProperties,
                                                                                        MEMBER_OFFSET(CLight, mType),
                                                                                        "LightType");
@@ -150,22 +150,22 @@ CStructPropertyNew* CLight::GetProperties() const
         pLightType->AddValue("Spot", eSpot);
         pLightType->AddValue("Custom", eCustom);
 
-        IPropertyNew::CreateIntrinsic(EPropertyTypeNew::Color,
+        IProperty::CreateIntrinsic(EPropertyType::Color,
                                       pProperties,
                                       MEMBER_OFFSET(CLight, mColor),
                                       "Color");
 
-        IPropertyNew::CreateIntrinsic(EPropertyTypeNew::Vector,
+        IProperty::CreateIntrinsic(EPropertyType::Vector,
                                       pProperties,
                                       MEMBER_OFFSET(CLight, mPosition),
                                       "Position");
 
-        IPropertyNew::CreateIntrinsic(EPropertyTypeNew::Vector,
+        IProperty::CreateIntrinsic(EPropertyType::Vector,
                                       pProperties,
                                       MEMBER_OFFSET(CLight, mDirection),
                                       "Direction");
 
-        IPropertyNew::CreateIntrinsic(EPropertyTypeNew::Float,
+        IProperty::CreateIntrinsic(EPropertyType::Float,
                                       pProperties,
                                       MEMBER_OFFSET(CLight, mSpotCutoff),
                                       "SpotCutoff");

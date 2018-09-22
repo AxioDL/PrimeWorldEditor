@@ -10,13 +10,13 @@ class CPropertyNameValidator : public QValidator
     Q_OBJECT
 
     /** The property being validated against */
-    IPropertyNew* mpProperty;
+    IProperty* mpProperty;
 
 public:
     CPropertyNameValidator(QObject* pParent = 0);
 
     /** Set the property to validate against */
-    void SetProperty(IPropertyNew* pProp);
+    void SetProperty(IProperty* pProp);
 
     /** Perform validation */
     QValidator::State validate(QString& rInput, int& rPos) const;

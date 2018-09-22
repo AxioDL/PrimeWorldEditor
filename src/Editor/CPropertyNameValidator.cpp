@@ -6,7 +6,7 @@ CPropertyNameValidator::CPropertyNameValidator(QObject* pParent)
 {}
 
 /** Set the property to validate against */
-void CPropertyNameValidator::SetProperty(IPropertyNew* pProp)
+void CPropertyNameValidator::SetProperty(IProperty* pProp)
 {
     mpProperty = pProp;
     emit changed();

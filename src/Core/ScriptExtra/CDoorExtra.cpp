@@ -4,7 +4,7 @@
 CDoorExtra::CDoorExtra(CScriptObject* pInstance, CScene* pScene, CScriptNode* pParent)
     : CScriptExtra(pInstance, pScene, pParent)
 {
-    CStructPropertyNew* pProperties = pInstance->Template()->Properties();
+    CStructProperty* pProperties = pInstance->Template()->Properties();
 
     mShieldModelProp = CAssetRef(pInstance->PropertyData(), pProperties->ChildByID(0xB20CC271));
     if (mShieldModelProp.IsValid()) PropertyModified(mShieldModelProp.Property());
@@ -22,7 +22,7 @@ CDoorExtra::CDoorExtra(CScriptObject* pInstance, CScene* pScene, CScriptNode* pP
     }
 }
 
-void CDoorExtra::PropertyModified(IPropertyNew* pProperty)
+void CDoorExtra::PropertyModified(IProperty* pProperty)
 {
     if (pProperty == mShieldModelProp)
     {

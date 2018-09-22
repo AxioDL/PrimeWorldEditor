@@ -13,7 +13,7 @@ class CPointOfInterestExtra : public CScriptExtra
 
 public:
     explicit CPointOfInterestExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent = 0);
-    void PropertyModified(IPropertyNew* pProperty);
+    void PropertyModified(IProperty* pProperty);
     void ModifyTintColor(CColor& Color);
     CScan* GetScan() const { return mpScanData; }
 

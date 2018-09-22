@@ -6,7 +6,7 @@
 #include <Core/Resource/Factory/CTemplateLoader.h>
 #include <Core/Resource/Script/CMasterTemplate.h>
 
-CTemplateEditDialog::CTemplateEditDialog(IPropertyNew *pProperty, QWidget *pParent)
+CTemplateEditDialog::CTemplateEditDialog(IProperty *pProperty, QWidget *pParent)
     : QDialog(pParent)
     , mpUI(new Ui::CTemplateEditDialog)
     , mpValidator(new CPropertyNameValidator(this))
@@ -93,7 +93,7 @@ void CTemplateEditDialog::ApplyChanges()
             CMasterTemplate::RenameProperty(mpProperty, NewName);
 
             // Add modified templates to pending resave list
-            const std::vector<IPropertyNew*> *pList = CMasterTemplate::TemplatesWithMatchingID(mpProperty);
+            const std::vector<IProperty*> *pList = CMasterTemplate::TemplatesWithMatchingID(mpProperty);
 
             if (pList)
             {
@@ -126,9 +126,9 @@ void CTemplateEditDialog::ApplyChanges()
 }
 
 // ************ PROTECTED ************
-void CTemplateEditDialog::AddTemplate(IPropertyNew* pProp)
+void CTemplateEditDialog::AddTemplate(IProperty* pProp)
 {
-    IPropertyNew* pArchetype = pProp->Archetype();
+    IProperty* pArchetype = pProp->Archetype();
 
     if (pArchetype)
     {
@@ -137,9 +137,9 @@ void CTemplateEditDialog::AddTemplate(IPropertyNew* pProp)
         switch (pArchetype->Type())
         {
 
-        case EPropertyTypeNew::Struct:
+        case EPropertyType::Struct:
         {
-            CStructPropertyNew* pStruct = TPropCast<CStructPropertyNew>(pArchetype);
+            CStructProperty* pStruct = TPropCast<CStructProperty>(pArchetype);
             if (!mStructTemplatesToResave.contains(pStruct))
             {
                 mStructTemplatesToResave << pStruct;
@@ -179,13 +179,13 @@ void CTemplateEditDialog::UpdateDescription(const TString& rkNewDesc)
 
     if (!SourceFile.IsEmpty())
     {
-        const std::vector<IPropertyNew*>* pkTemplates = CMasterTemplate::TemplatesWithMatchingID(mpProperty);
+        const std::vector<IProperty*>* pkTemplates = CMasterTemplate::TemplatesWithMatchingID(mpProperty);
 
         if (pkTemplates)
         {
             for (u32 TemplateIdx = 0; TemplateIdx < pkTemplates->size(); TemplateIdx++)
             {
-                IPropertyNew* pProp = pkTemplates->at(TemplateIdx);
+                IProperty* pProp = pkTemplates->at(TemplateIdx);
 
                 if (pProp->GetTemplateFileName() == SourceFile && pProp->Description() == mOriginalDescription)
                     pProp->SetDescription(rkNewDesc);
@@ -194,14 +194,14 @@ void CTemplateEditDialog::UpdateDescription(const TString& rkNewDesc)
     }
 
     // Update equivalent properties with new description
-    foreach (IPropertyNew* pProperty, mEquivalentProperties)
+    foreach (IProperty* pProperty, mEquivalentProperties)
     {
         pProperty->SetDescription(rkNewDesc);
         AddTemplate(pProperty);
     }
 }
 
-void CTemplateEditDialog::FindEquivalentProperties(IPropertyNew *pTemp)
+void CTemplateEditDialog::FindEquivalentProperties(IProperty *pTemp)
 {
     //FIXME
     /*

@@ -11,32 +11,32 @@ class CPropertyModel : public QAbstractItemModel
 
     struct SProperty
     {
-        IPropertyNew* pProperty;
+        IProperty* pProperty;
         QModelIndex Index;
         int ParentID;
         std::vector<int> ChildIDs;
     };
     QVector<SProperty> mProperties;
-    QMap<IPropertyNew*, int> mPropertyToIDMap;
+    QMap<IProperty*, int> mPropertyToIDMap;
     int mFirstUnusedID;
 
     CGameProject* mpProject;
     CScriptObject* mpObject; // may be null
-    IPropertyNew* mpRootProperty;
+    IProperty* mpRootProperty;
     void* mpPropertyData;
 
     bool mBoldModifiedProperties;
     bool mShowNameValidity;
     QFont mFont;
 
-    int RecursiveBuildArrays(IPropertyNew* pProperty, int ParentID);
+    int RecursiveBuildArrays(IProperty* pProperty, int ParentID);
 
 public:
     CPropertyModel(QObject *pParent = 0);
-    void ConfigureIntrinsic(CGameProject* pProject, IPropertyNew* pRootProperty, void* pPropertyData);
-    void ConfigureScript(CGameProject* pProject, IPropertyNew* pRootProperty, CScriptObject* pObject);
-    IPropertyNew* PropertyForIndex(const QModelIndex& rkIndex, bool HandleFlaggedIndices) const;
-    QModelIndex IndexForProperty(IPropertyNew *pProp) const;
+    void ConfigureIntrinsic(CGameProject* pProject, IProperty* pRootProperty, void* pPropertyData);
+    void ConfigureScript(CGameProject* pProject, IProperty* pRootProperty, CScriptObject* pObject);
+    IProperty* PropertyForIndex(const QModelIndex& rkIndex, bool HandleFlaggedIndices) const;
+    QModelIndex IndexForProperty(IProperty *pProp) const;
     void* DataPointerForIndex(const QModelIndex& rkIndex) const;
 
     int columnCount(const QModelIndex& rkParent) const;
@@ -59,7 +59,7 @@ public:
     inline CScriptObject* GetScriptObject() const { return mpObject; }
 
 public slots:
-    void NotifyPropertyModified(class CScriptObject *pInst, IPropertyNew *pProp);
+    void NotifyPropertyModified(class CScriptObject *pInst, IProperty *pProp);
     void NotifyPropertyModified(const QModelIndex& rkIndex);
 
 signals:

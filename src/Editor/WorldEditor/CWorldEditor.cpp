@@ -569,7 +569,7 @@ void CWorldEditor::OnLinksModified(const QList<CScriptObject*>& rkInstances)
         emit InstanceLinksModified(rkInstances);
 }
 
-void CWorldEditor::OnPropertyModified(CScriptObject* pObject, IPropertyNew *pProp)
+void CWorldEditor::OnPropertyModified(CScriptObject* pObject, IProperty *pProp)
 {
     CScriptNode *pScript = mScene.NodeForInstance(pObject);
 
@@ -592,7 +592,7 @@ void CWorldEditor::OnPropertyModified(CScriptObject* pObject, IPropertyNew *pPro
     }
 
     // If this is a model/character, then we'll treat this as a modified selection. This is to make sure the selection bounds updates.
-    if (pProp->Type() == EPropertyTypeNew::Asset)
+    if (pProp->Type() == EPropertyType::Asset)
     {
         CAssetProperty *pAsset = TPropCast<CAssetProperty>(pProp);
         const CResTypeFilter& rkFilter = pAsset->GetTypeFilter();
@@ -600,7 +600,7 @@ void CWorldEditor::OnPropertyModified(CScriptObject* pObject, IPropertyNew *pPro
         if (rkFilter.Accepts(eModel) || rkFilter.Accepts(eAnimSet) || rkFilter.Accepts(eCharacter))
             SelectionModified();
     }
-    else if (pProp->Type() == EPropertyTypeNew::AnimationSet)
+    else if (pProp->Type() == EPropertyType::AnimationSet)
         SelectionModified();
 
     // Emit signal so other widgets can react to the property change

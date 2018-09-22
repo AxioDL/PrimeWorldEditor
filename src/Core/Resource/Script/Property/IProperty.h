@@ -87,7 +87,7 @@ inline const char* PropEnumToHashableTypeName(EPropertyTypeNew Type)
     case EPropertyTypeNew::Spline:  return "spline";
     case EPropertyTypeNew::Guid:    return "guid";
     // unknown hashable types - used in hashes but these names are inaccurate
-    case EPropertyTypeNew::Animation:   return "animation"; // hashable but real name unknown
+    case EPropertyTypeNew::Animation:   return "animation";
     case EPropertyTypeNew::Sequence:    return "sequence";
     // non hashable types - not used in ID hashes but still displayed on the UI
     case EPropertyTypeNew::Byte:    return "byte";

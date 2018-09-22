@@ -1,7 +1,7 @@
 #ifndef CSEQUENCEPROPERTY_H
 #define CSEQUENCEPROPERTY_H
 
-#include "../IPropertyNew.h"
+#include "IProperty.h"
 
 class CSequenceProperty : public TTypedPropertyNew< s32, EPropertyTypeNew::Sequence >
 {

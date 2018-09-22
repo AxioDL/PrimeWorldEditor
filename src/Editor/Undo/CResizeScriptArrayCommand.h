@@ -13,7 +13,7 @@ class CResizeScriptArrayCommand : public CEditScriptPropertyCommand
     int mNewRowCount;
 
 public:
-    CResizeScriptArrayCommand(IPropertyNew* pProperty,
+    CResizeScriptArrayCommand(IProperty* pProperty,
                               CWorldEditor* pEditor,
                               const QVector<CScriptObject*>& rkInstances,
                               CPropertyModel* pModel = nullptr,

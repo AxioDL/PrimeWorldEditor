@@ -150,7 +150,7 @@ SMessage CMasterTemplate::MessageByIndex(u32 Index)
     return SMessage(Iter->first, Iter->second);
 }
 
-IPropertyNew* CMasterTemplate::FindPropertyArchetype(const TString& kTypeName)
+IProperty* CMasterTemplate::FindPropertyArchetype(const TString& kTypeName)
 {
     auto Iter = mPropertyTemplates.find(kTypeName);
 
@@ -232,7 +232,7 @@ TString CMasterTemplate::PropertyName(u32 PropertyID)
 }
 
 // Removing these functions for now. I'm not sure of the best way to go about implementing them under the new system yet.
-u32 CMasterTemplate::CreatePropertyID(IPropertyNew* pProp)
+u32 CMasterTemplate::CreatePropertyID(IProperty* pProp)
 {
     // MP1 properties don't have IDs so we can use this function to create one to track instances of a particular property.
     // To ensure the IDs are unique we'll create a hash using two things: the struct source file and the ID string (relative to the struct).
@@ -250,7 +250,7 @@ u32 CMasterTemplate::CreatePropertyID(IPropertyNew* pProp)
     return Hash.Digest();
 }
 
-void CMasterTemplate::AddProperty(IPropertyNew* pProp, const TString& rkTemplateName /*= ""*/)
+void CMasterTemplate::AddProperty(IProperty* pProp, const TString& rkTemplateName /*= ""*/)
 {
     u32 ID;
 
@@ -261,11 +261,11 @@ void CMasterTemplate::AddProperty(IPropertyNew* pProp, const TString& rkTemplate
     else
     {
         // For MP1 we only really need to track properties that come from struct templates.
-        IPropertyNew* pArchetype = pProp->Archetype();
+        IProperty* pArchetype = pProp->Archetype();
 
         if (!pArchetype ||
              pArchetype->ScriptTemplate() != nullptr ||
-             pArchetype->RootParent()->Type() != EPropertyTypeNew::Struct)
+             pArchetype->RootParent()->Type() != EPropertyType::Struct)
             return;
 
         ID = CreatePropertyID(pProp);
@@ -307,7 +307,7 @@ void CMasterTemplate::AddProperty(IPropertyNew* pProp, const TString& rkTemplate
     }
 }
 
-void CMasterTemplate::RenameProperty(IPropertyNew* pProp, const TString& rkNewName)
+void CMasterTemplate::RenameProperty(IProperty* pProp, const TString& rkNewName)
 {
     u32 ID = pProp->ID();
     if (ID <= 0xFF) ID = CreatePropertyID(pProp);
@@ -352,7 +352,7 @@ void CMasterTemplate::XMLsUsingID(u32 ID, std::vector<TString>& rOutList)
     }
 }
 
-const std::vector<IPropertyNew*>* CMasterTemplate::TemplatesWithMatchingID(IPropertyNew* pProp)
+const std::vector<IProperty*>* CMasterTemplate::TemplatesWithMatchingID(IProperty* pProp)
 {
     u32 ID = pProp->ID();
     if (ID <= 0xFF) ID = CreatePropertyID(pProp);

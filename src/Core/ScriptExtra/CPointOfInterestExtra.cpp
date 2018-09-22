@@ -8,7 +8,7 @@ CPointOfInterestExtra::CPointOfInterestExtra(CScriptObject *pInstance, CScene *p
     , mpScanData(nullptr)
 {
     // Fetch scan data property
-    CStructPropertyNew* pProperties = pInstance->Template()->Properties();
+    CStructProperty* pProperties = pInstance->Template()->Properties();
 
     if (mGame <= ePrime)    mScanProperty = CAssetRef(pInstance->PropertyData(), pProperties->ChildByIDString("0x04:0x00"));
     else                    mScanProperty = CAssetRef(pInstance->PropertyData(), pProperties->ChildByIDString("0xBDBEC295:0xB94E9BE7"));
@@ -16,7 +16,7 @@ CPointOfInterestExtra::CPointOfInterestExtra(CScriptObject *pInstance, CScene *p
     PropertyModified(mScanProperty.Property());
 }
 
-void CPointOfInterestExtra::PropertyModified(IPropertyNew* pProperty)
+void CPointOfInterestExtra::PropertyModified(IProperty* pProperty)
 {
     if (mScanProperty.Property() == pProperty)
         mpScanData = gpResourceStore->LoadResource<CScan>( mScanProperty.Get() );

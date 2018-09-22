@@ -20,7 +20,7 @@ public:
     inline CColor PathColor() const { return (mPathColor.IsValid() ? mPathColor.Get() : CColor::skBlack); }
 
     void PostLoad();
-    void PropertyModified(IPropertyNew* pProperty);
+    void PropertyModified(IProperty* pProperty);
 
     void FindAttachedWaypoints(std::set<CWaypointExtra*>& rChecked, CWaypointExtra* pWaypoint);
     void AddWaypoints();

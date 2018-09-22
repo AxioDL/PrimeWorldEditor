@@ -19,49 +19,49 @@ CScriptLoader::CScriptLoader()
 {
 }
 
-void CScriptLoader::ReadProperty(IPropertyNew *pProp, u32 Size, IInputStream& rSCLY)
+void CScriptLoader::ReadProperty(IProperty *pProp, u32 Size, IInputStream& rSCLY)
 {
     void* pData = (mpArrayItemData ? mpArrayItemData : mpObj->mPropertyData.data());
 
     switch (pProp->Type())
     {
 
-    case EPropertyTypeNew::Bool:
+    case EPropertyType::Bool:
     {
         CBoolProperty* pBool = TPropCast<CBoolProperty>(pProp);
         pBool->ValueRef(pData) = rSCLY.ReadBool();
         break;
     }
 
-    case EPropertyTypeNew::Byte:
+    case EPropertyType::Byte:
     {
         CByteProperty* pByte = TPropCast<CByteProperty>(pProp);
         pByte->ValueRef(pData) = rSCLY.ReadByte();
         break;
     }
 
-    case EPropertyTypeNew::Short:
+    case EPropertyType::Short:
     {
         CShortProperty* pShort = TPropCast<CShortProperty>(pProp);
         pShort->ValueRef(pData) = rSCLY.ReadShort();
         break;
     }
 
-    case EPropertyTypeNew::Int:
+    case EPropertyType::Int:
     {
         CIntProperty* pInt = TPropCast<CIntProperty>(pProp);
         pInt->ValueRef(pData) = rSCLY.ReadLong();
         break;
     }
 
-    case EPropertyTypeNew::Float:
+    case EPropertyType::Float:
     {
         CFloatProperty* pFloat = TPropCast<CFloatProperty>(pProp);
         pFloat->ValueRef(pData) = rSCLY.ReadFloat();
         break;
     }
 
-    case EPropertyTypeNew::Choice:
+    case EPropertyType::Choice:
     {
         CChoiceProperty* pChoice = TPropCast<CChoiceProperty>(pProp);
         pChoice->ValueRef(pData) = rSCLY.ReadLong();
@@ -76,7 +76,7 @@ void CScriptLoader::ReadProperty(IPropertyNew *pProp, u32 Size, IInputStream& rS
         break;
     }
 
-    case EPropertyTypeNew::Enum:
+    case EPropertyType::Enum:
     {
         CEnumProperty* pEnum = TPropCast<CEnumProperty>(pProp);
         pEnum->ValueRef(pData) = rSCLY.ReadLong();
@@ -91,7 +91,7 @@ void CScriptLoader::ReadProperty(IPropertyNew *pProp, u32 Size, IInputStream& rS
         break;
     }
 
-    case EPropertyTypeNew::Flags:
+    case EPropertyType::Flags:
     {
         CFlagsProperty* pFlags = TPropCast<CFlagsProperty>(pProp);
         pFlags->ValueRef(pData) = rSCLY.ReadLong();
@@ -107,28 +107,28 @@ void CScriptLoader::ReadProperty(IPropertyNew *pProp, u32 Size, IInputStream& rS
         break;
     }
 
-    case EPropertyTypeNew::String:
+    case EPropertyType::String:
     {
         CStringProperty* pString = TPropCast<CStringProperty>(pProp);
         pString->ValueRef(pData) = rSCLY.ReadString();
         break;
     }
 
-    case EPropertyTypeNew::Vector:
+    case EPropertyType::Vector:
     {
         CVectorProperty* pVector = TPropCast<CVectorProperty>(pProp);
         pVector->ValueRef(pData) = CVector3f(rSCLY);
         break;
     }
 
-    case EPropertyTypeNew::Color:
+    case EPropertyType::Color:
     {
         CColorProperty* pColor = TPropCast<CColorProperty>(pProp);
         pColor->ValueRef(pData) = CColor(rSCLY);
         break;
     }
 
-    case EPropertyTypeNew::Asset:
+    case EPropertyType::Asset:
     {
         CAssetProperty* pAsset = TPropCast<CAssetProperty>(pProp);
         pAsset->ValueRef(pData) = CAssetID(rSCLY, mpMaster->Game());
@@ -153,34 +153,34 @@ void CScriptLoader::ReadProperty(IPropertyNew *pProp, u32 Size, IInputStream& rS
         break;
     }
 
-    case EPropertyTypeNew::Sound:
+    case EPropertyType::Sound:
     {
         CSoundProperty* pSound = TPropCast<CSoundProperty>(pProp);
         pSound->ValueRef(pData) = rSCLY.ReadLong();
         break;
     }
 
-    case EPropertyTypeNew::Animation:
+    case EPropertyType::Animation:
     {
         CAnimationProperty* pAnim = TPropCast<CAnimationProperty>(pProp);
         pAnim->ValueRef(pData) = rSCLY.ReadLong();
         break;
     }
 
-    case EPropertyTypeNew::AnimationSet:
+    case EPropertyType::AnimationSet:
     {
         CAnimationSetProperty* pAnimSet = TPropCast<CAnimationSetProperty>(pProp);
         pAnimSet->ValueRef(pData) = CAnimationParameters(rSCLY, mpMaster->Game());
         break;
     }
 
-    case EPropertyTypeNew::Sequence:
+    case EPropertyType::Sequence:
     {
         // TODO
         break;
     }
 
-    case EPropertyTypeNew::Spline:
+    case EPropertyType::Spline:
     {
         CSplineProperty* pSpline = TPropCast<CSplineProperty>(pProp);
         std::vector<char>& Buffer = pSpline->ValueRef(pData);
@@ -189,7 +189,7 @@ void CScriptLoader::ReadProperty(IPropertyNew *pProp, u32 Size, IInputStream& rS
         break;
     }
 
-    case EPropertyTypeNew::Guid:
+    case EPropertyType::Guid:
     {
         ASSERT(Size == 16);
         CGuidProperty* pGuid = TPropCast<CGuidProperty>(pProp);
@@ -198,9 +198,9 @@ void CScriptLoader::ReadProperty(IPropertyNew *pProp, u32 Size, IInputStream& rS
         break;
     }
 
-    case EPropertyTypeNew::Struct:
+    case EPropertyType::Struct:
     {
-        CStructPropertyNew* pStruct = TPropCast<CStructPropertyNew>(pProp);
+        CStructProperty* pStruct = TPropCast<CStructProperty>(pProp);
 
         if (mVersion < eEchoesDemo)
             LoadStructMP1(rSCLY, pStruct);
@@ -209,7 +209,7 @@ void CScriptLoader::ReadProperty(IPropertyNew *pProp, u32 Size, IInputStream& rS
         break;
     }
 
-    case EPropertyTypeNew::Array:
+    case EPropertyType::Array:
     {
         CArrayProperty *pArray = TPropCast<CArrayProperty>(pProp);
         int Count = rSCLY.ReadLong();
@@ -246,7 +246,7 @@ void CScriptLoader::ReadProperty(IPropertyNew *pProp, u32 Size, IInputStream& rS
     }
 }
 
-void CScriptLoader::LoadStructMP1(IInputStream& rSCLY, CStructPropertyNew* pStruct)
+void CScriptLoader::LoadStructMP1(IInputStream& rSCLY, CStructProperty* pStruct)
 {
     u32 StructStart = rSCLY.Tell();
 
@@ -263,10 +263,10 @@ void CScriptLoader::LoadStructMP1(IInputStream& rSCLY, CStructPropertyNew* pStru
     // Parse properties
     for (u32 ChildIndex = 0; ChildIndex < PropertyCount; ChildIndex++)
     {
-        IPropertyNew *pProperty = pStruct->ChildByIndex(ChildIndex);
+        IProperty *pProperty = pStruct->ChildByIndex(ChildIndex);
 
         //@todo version check
-        if (pProperty->CookPreference() != ECookPreferenceNew::Never)
+        if (pProperty->CookPreference() != ECookPreference::Never)
             ReadProperty(pProperty, 0, rSCLY);
     }
 }
@@ -306,7 +306,7 @@ CScriptObject* CScriptLoader::LoadObjectMP1(IInputStream& rSCLY)
     }
 
     // Load object...
-    CStructPropertyNew* pProperties = pTemplate->Properties();
+    CStructProperty* pProperties = pTemplate->Properties();
     LoadStructMP1(rSCLY, pProperties);
 
     // Cleanup and return
@@ -339,7 +339,7 @@ CScriptLayer* CScriptLoader::LoadLayerMP1(IInputStream& rSCLY)
     return mpLayer;
 }
 
-void CScriptLoader::LoadStructMP2(IInputStream& rSCLY, CStructPropertyNew* pStruct)
+void CScriptLoader::LoadStructMP2(IInputStream& rSCLY, CStructProperty* pStruct)
 {
     // Verify property count
     u32 ChildCount = pStruct->NumChildren();
@@ -350,7 +350,7 @@ void CScriptLoader::LoadStructMP2(IInputStream& rSCLY, CStructPropertyNew* pStru
     // Parse properties
     for (u32 ChildIdx = 0; ChildIdx < ChildCount; ChildIdx++)
     {
-        IPropertyNew* pProperty = nullptr;
+        IProperty* pProperty = nullptr;
         u32 PropertyStart = rSCLY.Tell();
         u32 PropertyID = -1;
         u16 PropertySize = 0;

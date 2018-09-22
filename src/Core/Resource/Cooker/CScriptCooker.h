@@ -15,7 +15,7 @@ class CScriptCooker
     std::vector<CScriptObject*> mGeneratedObjects;
     bool mWriteGeneratedSeparately;
 
-    void WriteProperty(IOutputStream& rOut, IPropertyNew* pProperty, bool InAtomicStruct);
+    void WriteProperty(IOutputStream& rOut, IProperty* pProperty, bool InAtomicStruct);
 
 public:
     CScriptCooker(EGame Game, bool WriteGeneratedObjectsSeparately = true)

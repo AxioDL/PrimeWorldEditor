@@ -1,7 +1,7 @@
 #ifndef CSHORTPROPERTY_H
 #define CSHORTPROPERTY_H
 
-#include "../IPropertyNew.h"
+#include "IProperty.h"
 
 class CShortProperty : public TNumericalPropertyNew< s16, EPropertyTypeNew::Short >
 {

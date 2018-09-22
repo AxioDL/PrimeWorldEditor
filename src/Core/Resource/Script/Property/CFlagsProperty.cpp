@@ -29,7 +29,7 @@ void CFlagsProperty::SerializeValue(void* pData, IArchive& rArc) const
     rArc.SerializePrimitive( (u32&) ValueRef(pData), SH_HexDisplay );
 }
 
-void CFlagsProperty::InitFromArchetype(IPropertyNew* pOther)
+void CFlagsProperty::InitFromArchetype(IProperty* pOther)
 {
     TSerializeableTypedProperty::InitFromArchetype(pOther);
     CFlagsProperty* pOtherFlags = static_cast<CFlagsProperty*>(pOther);

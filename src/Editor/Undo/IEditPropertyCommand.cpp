@@ -30,7 +30,7 @@ void IEditPropertyCommand::RestoreObjectStateFromArray(std::vector<char>& rArray
 }
 
 IEditPropertyCommand::IEditPropertyCommand(
-        IPropertyNew* pProperty,
+        IProperty* pProperty,
         const QString& rkCommandName /*= "Edit Property"*/
         )
     : IUndoCommand(rkCommandName)

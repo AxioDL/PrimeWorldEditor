@@ -1,7 +1,7 @@
 #ifndef CINTPROPERTY_H
 #define CINTPROPERTY_H
 
-#include "../IPropertyNew.h"
+#include "IProperty.h"
 
 class CIntProperty : public TNumericalPropertyNew< s32, EPropertyTypeNew::Int >
 {

@@ -14,7 +14,7 @@ CAreaAttributes::~CAreaAttributes()
 void CAreaAttributes::SetObject(CScriptObject *pObj)
 {
     CScriptTemplate* pTemplate = pObj->Template();
-    CStructPropertyNew* pProperties = pTemplate->Properties();
+    CStructProperty* pProperties = pTemplate->Properties();
 
     mpObject = pObj;
     mGame = pTemplate->MasterTemplate()->Game();

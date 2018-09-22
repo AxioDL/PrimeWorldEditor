@@ -86,7 +86,7 @@ void CScriptTemplate::PostLoad()
     if (!mRotationIDString.IsEmpty())           mpRotationProperty = TPropCast<CVectorProperty>( mpProperties->ChildByIDString(mRotationIDString) );
     if (!mScaleIDString.IsEmpty())              mpScaleProperty = TPropCast<CVectorProperty>( mpProperties->ChildByIDString(mScaleIDString) );
     if (!mActiveIDString.IsEmpty())             mpActiveProperty = TPropCast<CBoolProperty>( mpProperties->ChildByIDString(mActiveIDString) );
-    if (!mLightParametersIDString.IsEmpty())    mpLightParametersProperty = TPropCast<CStructPropertyNew>( mpProperties->ChildByIDString(mLightParametersIDString) );
+    if (!mLightParametersIDString.IsEmpty())    mpLightParametersProperty = TPropCast<CStructProperty>( mpProperties->ChildByIDString(mLightParametersIDString) );
 }
 
 EGame CScriptTemplate::Game() const
@@ -96,10 +96,10 @@ EGame CScriptTemplate::Game() const
 
 // ************ PROPERTY FETCHING ************
 template<class PropType>
-PropType* TFetchProperty(CStructPropertyNew* pProperties, const TIDString& rkID)
+PropType* TFetchProperty(CStructProperty* pProperties, const TIDString& rkID)
 {
     if (rkID.IsEmpty()) return nullptr;
-    IPropertyNew *pProp = pProperties->ChildByIDString(rkID);
+    IProperty *pProp = pProperties->ChildByIDString(rkID);
 
     if (pProp && (pProp->Type() == PropEnum))
         return static_cast<PropType*>(pProp)->ValuePtr();
@@ -147,7 +147,7 @@ s32 CScriptTemplate::CheckVolumeConditions(CScriptObject *pObj, bool LogErrors)
     if (mVolumeShape == eConditionalShape)
     {
         TIDString PropID = mVolumeConditionIDString;
-        IPropertyNew* pProp = pObj->Template()->Properties()->ChildByIDString( PropID );
+        IProperty* pProp = pObj->Template()->Properties()->ChildByIDString( PropID );
 
         // Get value of the condition test property (only boolean, integral, and enum types supported)
         void* pData = pObj->PropertyData();
@@ -155,24 +155,24 @@ s32 CScriptTemplate::CheckVolumeConditions(CScriptObject *pObj, bool LogErrors)
 
         switch (pProp->Type())
         {
-        case EPropertyTypeNew::Bool:
+        case EPropertyType::Bool:
             Val = TPropCast<CBoolProperty>(pProp)->Value(pData) ? 1 : 0;
             break;
 
-        case EPropertyTypeNew::Byte:
+        case EPropertyType::Byte:
             Val = (int) TPropCast<CByteProperty>(pProp)->Value(pData);
             break;
 
-        case EPropertyTypeNew::Short:
+        case EPropertyType::Short:
             Val = (int) TPropCast<CShortProperty>(pProp)->Value(pData);
             break;
 
-        case EPropertyTypeNew::Int:
+        case EPropertyType::Int:
             Val = TPropCast<CIntProperty>(pProp)->Value(pData);
             break;
 
-        case EPropertyTypeNew::Enum:
-        case EPropertyTypeNew::Choice:
+        case EPropertyType::Enum:
+        case EPropertyType::Choice:
             Val = TPropCast<CEnumProperty>(pProp)->Value(pData);
             break;
         }
@@ -209,9 +209,9 @@ CResource* CScriptTemplate::FindDisplayAsset(void* pPropertyData, u32& rOutCharI
         // Property
         else
         {
-            IPropertyNew* pProp = mpProperties->ChildByIDString(it->AssetLocation);
+            IProperty* pProp = mpProperties->ChildByIDString(it->AssetLocation);
 
-            if (it->AssetType == SEditorAsset::eAnimParams && pProp->Type() == EPropertyTypeNew::AnimationSet)
+            if (it->AssetType == SEditorAsset::eAnimParams && pProp->Type() == EPropertyType::AnimationSet)
             {
                 CAnimationSetProperty* pAnimSet = TPropCast<CAnimationSetProperty>(pProp);
                 CAnimationParameters Params = pAnimSet->Value(pPropertyData);
@@ -227,7 +227,7 @@ CResource* CScriptTemplate::FindDisplayAsset(void* pPropertyData, u32& rOutCharI
 
             else
             {
-                ASSERT(pProp->Type() == EPropertyTypeNew::Asset);
+                ASSERT(pProp->Type() == EPropertyType::Asset);
                 CAssetProperty* pAsset = TPropCast<CAssetProperty>(pProp);
                 CAssetID ID = pAsset->Value(pPropertyData);
                 CResourceEntry *pEntry = gpResourceStore->FindEntry( ID );
@@ -261,9 +261,9 @@ CCollisionMeshGroup* CScriptTemplate::FindCollision(void* pPropertyData)
         // Property
         else
         {
-            IPropertyNew* pProp = mpProperties->ChildByIDString(it->AssetLocation);
+            IProperty* pProp = mpProperties->ChildByIDString(it->AssetLocation);
 
-            if (pProp->Type() == EPropertyTypeNew::Asset)
+            if (pProp->Type() == EPropertyType::Asset)
             {
                 CAssetProperty* pAsset = TPropCast<CAssetProperty>(pProp);
                 pRes = gpResourceStore->LoadResource( pAsset->Value(pPropertyData), eDynamicCollision );

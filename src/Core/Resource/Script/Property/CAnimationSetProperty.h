@@ -1,11 +1,11 @@
 #ifndef CANIMATIONSETPROPERTY_H
 #define CANIMATIONSETPROPERTY_H
 
-#include "../IPropertyNew.h"
+#include "IProperty.h"
 
-class CAnimationSetProperty : public TSerializeableTypedProperty< CAnimationParameters, EPropertyTypeNew::AnimationSet >
+class CAnimationSetProperty : public TSerializeableTypedProperty< CAnimationParameters, EPropertyType::AnimationSet >
 {
-    friend class IPropertyNew;
+    friend class IProperty;
 
 protected:
     CAnimationSetProperty(EGame Game)

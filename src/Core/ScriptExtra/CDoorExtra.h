@@ -15,7 +15,7 @@ class CDoorExtra : public CScriptExtra
 
 public:
     explicit CDoorExtra(CScriptObject* pInstance, CScene* pScene, CScriptNode* pParent = 0);
-    void PropertyModified(IPropertyNew* pProperty);
+    void PropertyModified(IProperty* pProperty);
     void AddToRenderer(CRenderer* pRenderer, const SViewInfo& rkViewInfo);
     void Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand Command, const SViewInfo& rkViewInfo);
     void DrawSelection();

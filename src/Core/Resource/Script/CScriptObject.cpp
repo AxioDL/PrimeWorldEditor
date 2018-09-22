@@ -15,7 +15,7 @@ CScriptObject::CScriptObject(u32 InstanceID, CGameArea *pArea, CScriptLayer *pLa
     mpTemplate->AddObject(this);
 
     // Init properties
-    CStructPropertyNew* pProperties = pTemplate->Properties();
+    CStructProperty* pProperties = pTemplate->Properties();
     u32 PropertiesSize = pProperties->DataSize();
 
     mPropertyData.resize( PropertiesSize );
@@ -82,7 +82,7 @@ void CScriptObject::EvaluateVolume()
     mVolumeScale = mpTemplate->VolumeScale(this);
 }
 
-bool CScriptObject::IsEditorProperty(IPropertyNew *pProp)
+bool CScriptObject::IsEditorProperty(IProperty *pProp)
 {
     return ( (pProp == mInstanceName.Property()) ||
              (pProp == mPosition.Property()) ||

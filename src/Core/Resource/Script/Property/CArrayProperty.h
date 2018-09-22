@@ -1,7 +1,7 @@
 #ifndef CARRAYPROPERTY_H
 #define CARRAYPROPERTY_H
 
-#include "../IPropertyNew.h"
+#include "IProperty.h"
 
 struct SScriptArray
 {
@@ -20,9 +20,9 @@ struct SScriptArray
 
 /** You probably shouldn't use this on intrinsic classes; script only */
 /** @todo proper support of default values for arrays (this would be used for prefabs) */
-class CArrayProperty : public TTypedPropertyNew<u32, EPropertyTypeNew::Array>
+class CArrayProperty : public TTypedProperty<u32, EPropertyType::Array>
 {
-    friend class IPropertyNew;
+    friend class IProperty;
     friend class CTemplateLoader;
 
     /** This class inherits from TTypedPropertyNew<int> in order to expose the array
@@ -30,7 +30,7 @@ class CArrayProperty : public TTypedPropertyNew<u32, EPropertyTypeNew::Array>
      *  value and we respond by updating the allocated space, handling item destruction
      *  and construction, etc.
      */
-    IPropertyNew* mpItemArchetype;
+    IProperty* mpItemArchetype;
 
     /** Internal functions */
     SScriptArray& _GetInternalArray(void* pData) const
@@ -46,7 +46,7 @@ class CArrayProperty : public TTypedPropertyNew<u32, EPropertyTypeNew::Array>
 
 protected:
     CArrayProperty(EGame Game)
-        : TTypedPropertyNew(Game)
+        : TTypedProperty(Game)
         , mpItemArchetype(nullptr)
     {}
 
@@ -69,7 +69,7 @@ public:
     virtual void Destruct(void* pData) const
     {
         RevertToDefault(pData);
-        TTypedPropertyNew::Destruct(pData);
+        TTypedProperty::Destruct(pData);
     }
 
     virtual bool MatchesDefault(void* pData) const
@@ -107,7 +107,7 @@ public:
 
     virtual void Serialize(IArchive& rArc)
     {
-        TTypedPropertyNew::Serialize(rArc);
+        TTypedProperty::Serialize(rArc);
         rArc << SerialParameter("ItemArchetype", mpItemArchetype);
 
         if (rArc.IsReader())
@@ -135,16 +135,16 @@ public:
         }
     }
 
-    virtual void InitFromArchetype(IPropertyNew* pOther)
+    virtual void InitFromArchetype(IProperty* pOther)
     {
-        TTypedPropertyNew::InitFromArchetype(pOther);
+        TTypedProperty::InitFromArchetype(pOther);
         CArrayProperty* pOtherArray = static_cast<CArrayProperty*>(pOther);
-        mpItemArchetype = IPropertyNew::CreateCopy(pOtherArray->mpItemArchetype);
+        mpItemArchetype = IProperty::CreateCopy(pOtherArray->mpItemArchetype);
     }
 
     virtual void PostInitialize()
     {
-        TTypedPropertyNew::PostInitialize();
+        TTypedProperty::PostInitialize();
         mpItemArchetype->Initialize(this, mpScriptTemplate, 0);
     }
 
@@ -204,7 +204,7 @@ public:
     }
 
     /** Accessors */
-    IPropertyNew* ItemArchetype() const { return mpItemArchetype; }
+    IProperty* ItemArchetype() const { return mpItemArchetype; }
 };
 
 #endif // CARRAYPROPERTY_H

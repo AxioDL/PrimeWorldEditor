@@ -70,7 +70,7 @@ public:
     virtual CColor TintColor(const SViewInfo& rkViewInfo) const;
     virtual CColor WireframeColor() const;
     virtual CStructRef GetProperties() const { return CStructRef(); }
-    virtual void PropertyModified(IPropertyNew* pProperty) {}
+    virtual void PropertyModified(IProperty* pProperty) {}
 
     void OnLoadFinished();
     void Unparent();
