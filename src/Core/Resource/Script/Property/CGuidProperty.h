@@ -8,8 +8,8 @@ class CGuidProperty : public TTypedPropertyNew< std::vector<char>, EPropertyType
     friend class IPropertyNew;
 
 protected:
-    CGuidProperty()
-        : TTypedPropertyNew()
+    CGuidProperty(EGame Game)
+        : TTypedPropertyNew(Game)
     {}
 
 public:

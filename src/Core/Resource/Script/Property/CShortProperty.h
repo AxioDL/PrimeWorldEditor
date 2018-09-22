@@ -8,8 +8,8 @@ class CShortProperty : public TNumericalPropertyNew< s16, EPropertyTypeNew::Shor
     friend class IPropertyNew;
 
 protected:
-    CShortProperty()
-        : TNumericalPropertyNew()
+    CShortProperty(EGame Game)
+        : TNumericalPropertyNew(Game)
     {}
 
 public:

@@ -6,6 +6,12 @@
 class CPointerProperty : public TTypedPropertyNew<void*, EPropertyTypeNew::Pointer>
 {
     friend class CTemplateLoader;
+    friend class IPropertyNew;
+
+    CPointerProperty(EGame Game)
+        : TTypedPropertyNew(Game)
+    {}
+
 public:
     virtual bool IsPointerType() const
     {

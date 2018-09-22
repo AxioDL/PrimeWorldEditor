@@ -9,51 +9,18 @@
 #include "Core/Resource/Script/CScriptTemplate.h"
 
 /** IPropertyNew */
-IPropertyNew::IPropertyNew()
+IPropertyNew::IPropertyNew(EGame Game)
     : mpParent( nullptr )
     , mpPointerParent( nullptr )
     , mpArchetype( nullptr )
+    , mGame( Game )
+    , mpScriptTemplate( nullptr )
     , mOffset( -1 )
     , mID( -1 )
     , mCookPreference( ECookPreferenceNew::Default )
     , mMinVersion( 0.0f )
     , mMaxVersion( FLT_MAX )
 {}
-
-void IPropertyNew::_CalcOffset()
-{
-    // For standard properties, append to the end of the parent.
-    bool IsRootArrayArchetype = (IsArrayArchetype() && TPropCast<CArrayProperty>(mpParent) != nullptr);
-
-    if (mpParent && !IsRootArrayArchetype)
-    {
-        // When we have a parent, our data is usually located inside the parent's property data. So we want to
-        // position ourself at the end of the parent's existing children so we don't overlap any other properties.
-        IPropertyNew* pLastChild = (mpParent->mChildren.empty() ? nullptr : mpParent->mChildren.back());
-
-        if (pLastChild)
-        {
-            mOffset = pLastChild->mOffset + pLastChild->DataSize();
-        }
-        else if (mpParent != mpPointerParent)
-        {
-            mOffset = mpParent->mOffset;
-        }
-        else
-        {
-            mOffset = 0;
-        }
-
-        mOffset = ALIGN(mOffset, DataAlignment());
-    }
-    // Array archetypes are accessed differently because they have no way of knowing
-    // which array index is meant to be accessed. So the offset is 0 and the caller
-    // is responsible for passing in a pointer to the correct array item.
-    else
-    {
-        mOffset = 0;
-    }
-}
 
 void IPropertyNew::_ClearChildren()
 {
@@ -109,7 +76,6 @@ void IPropertyNew::Serialize(IArchive& rArc)
             IPropertyNew* pArchetype = pMaster->FindPropertyArchetype(ArchetypeName);
 
             // The archetype must exist, or else the template file is malformed.
-            //@TODO: I think this will actually always fail right now, because property archetype loading has not been implemented yet
             ASSERT(pArchetype != nullptr);
 
             InitFromArchetype(pArchetype);
@@ -118,7 +84,12 @@ void IPropertyNew::Serialize(IArchive& rArc)
 
     // In MP1, the game data does not use property IDs, so we serialize the name directly.
     // In MP2 and on, property names are looked up based on the property ID via the property name map.
-    if (rArc.Game() <= ePrime && !IsArchetype())
+    // Exceptions: Properties that are not in the name map still need to serialize their names.
+    // This includes root-level properties, and properties of atomic structs.
+    //
+    // We can't currently tell if this property is atomic, as the flag hasn't been serialized and the parent
+    // hasn't been set, but atomic sub-properties don't use hash IDs, so we can do a pseudo-check against the ID.
+    if (rArc.Game() <= ePrime || IsRootParent() || mID <= 0xFF)
     {
         rArc << SerialParameter("Name", mName, mpArchetype ? SH_Optional : 0, mpArchetype ? mpArchetype->mName : "");
     }
@@ -137,7 +108,6 @@ void IPropertyNew::InitFromArchetype(IPropertyNew* pOther)
     //@todo maybe somehow use Serialize for this instead?
     mpArchetype = pOther;
     mFlags = pOther->mFlags & EPropertyFlag::ArchetypeCopyFlags;
-    mID = pOther->mID;
     mName = pOther->mName;
     mDescription = pOther->mDescription;
     mSuffix = pOther->mSuffix;
@@ -145,12 +115,10 @@ void IPropertyNew::InitFromArchetype(IPropertyNew* pOther)
     mMinVersion = pOther->mMinVersion;
     mMaxVersion = pOther->mMaxVersion;
 
-    // Copy children
-    _ClearChildren();
-
-    for (u32 ChildIdx = 0; ChildIdx < pOther->mChildren.size(); ChildIdx++)
+    // Copy ID only if our existing ID is not valid.
+    if (mID == 0xFFFFFFFF)
     {
-        CreateCopy( pOther->mChildren[ChildIdx], this );
+        mID = pOther->mID;
     }
 }
 
@@ -180,6 +148,62 @@ TString IPropertyNew::GetTemplateFileName()
     else
     {
         return mpArchetype->GetTemplateFileName();
+    }
+}
+
+void IPropertyNew::Initialize(IPropertyNew* pInParent, CScriptTemplate* pInTemplate, u32 InOffset)
+{
+    // Make sure we only get initialized once.
+    ASSERT( (mFlags & EPropertyFlag::IsInitialized) == 0 );
+    mFlags |= EPropertyFlag::IsInitialized;
+
+    mpParent = pInParent;
+    mOffset = InOffset;
+    mpScriptTemplate = pInTemplate;
+
+    // Look up property name if needed.
+    if (Game() >= eEchoesDemo && !IsRootParent() && !IsIntrinsic() && !mpParent->IsAtomic())
+    {
+        mName = CMasterTemplate::PropertyName(mID);
+    }
+
+    // Set any fields dependent on the parent...
+    if (mpParent)
+    {
+        mFlags |= mpParent->mFlags & EPropertyFlag::InheritableFlags;
+
+        if (mpParent->IsPointerType())
+        {
+            mpPointerParent = mpParent;
+        }
+        else
+        {
+            mpPointerParent = mpParent->mpPointerParent;
+        }
+    }
+
+    // Allow subclasses to handle any initialization tasks
+    PostInitialize();
+
+    // Now, route initialization to any child properties...
+    u32 ChildOffset = mOffset;
+
+    for (int ChildIdx = 0; ChildIdx < mChildren.size(); ChildIdx++)
+    {
+        IPropertyNew* pChild = mChildren[ChildIdx];
+
+        // update offset and round up to the child's alignment
+        if (ChildIdx > 0)
+        {
+            ChildOffset += mChildren[ChildIdx-1]->DataSize();
+        }
+        ChildOffset = ALIGN(ChildOffset, pChild->DataAlignment());
+
+        // Don't call Initialize on intrinsic children as they have already been initialized.
+        if (!pChild->IsIntrinsic())
+        {
+            pChild->Initialize(this, pInTemplate, ChildOffset);
+        }
     }
 }
 
@@ -266,8 +290,27 @@ void IPropertyNew::SetSuffix(const TString& rkNewSuffix)
     mSuffix = rkNewSuffix;
 }
 
+void IPropertyNew::SetPropertyFlags(FPropertyFlags FlagsToSet)
+{
+    mFlags |= FlagsToSet;
+}
+
 bool IPropertyNew::HasAccurateName()
 {
+    // Exceptions for the three hardcoded 4CC property IDs
+    if (mID == FOURCC('XFRM') || mID == FOURCC('INAM') || mID == FOURCC('ACTV'))
+        return true;
+
+    // Children of atomic properties defer to parents. Intrinsic properties also defer to parents.
+    if ( (mpParent && mpParent->IsAtomic()) || IsIntrinsic() )
+    {
+        if (mpParent)
+            return mpParent->HasAccurateName();
+        else
+            return true;
+    }
+
+    // For everything else, hash the property name and check if it is a match for the property ID
     if (!mFlags.HasFlag(EPropertyFlag::HasCachedNameCheck))
     {
         CCRC32 Hash;
@@ -293,94 +336,57 @@ EGame IPropertyNew::Game() const
 }
 
 IPropertyNew* IPropertyNew::Create(EPropertyTypeNew Type,
-                                   IPropertyNew* pParent,
-                                   EGame Game,
-                                   CScriptTemplate* pScript,
-                                   bool CallPostInit /*= true*/)
+                                   EGame Game)
 {
     IPropertyNew* pOut = nullptr;
 
     switch (Type)
     {
-    case EPropertyTypeNew::Bool:            pOut = new CBoolProperty; break;
-    case EPropertyTypeNew::Byte:            pOut = new CByteProperty; break;
-    case EPropertyTypeNew::Short:           pOut = new CShortProperty; break;
-    case EPropertyTypeNew::Int:             pOut = new CIntProperty; break;
-    case EPropertyTypeNew::Float:           pOut = new CFloatProperty; break;
-    case EPropertyTypeNew::Choice:          pOut = new CChoiceProperty; break;
-    case EPropertyTypeNew::Enum:            pOut = new CEnumProperty; break;
-    case EPropertyTypeNew::Flags:           pOut = new CFlagsProperty; break;
-    case EPropertyTypeNew::String:          pOut = new CStringProperty; break;
-    case EPropertyTypeNew::Vector:          pOut = new CVectorProperty; break;
-    case EPropertyTypeNew::Color:           pOut = new CColorProperty; break;
-    case EPropertyTypeNew::Asset:           pOut = new CAssetProperty; break;
-    case EPropertyTypeNew::Sound:           pOut = new CSoundProperty; break;
-    case EPropertyTypeNew::Animation:       pOut = new CAnimationProperty; break;
-    case EPropertyTypeNew::AnimationSet:    pOut = new CAnimationSetProperty; break;
-    case EPropertyTypeNew::Sequence:        pOut = new CSequenceProperty; break;
-    case EPropertyTypeNew::Spline:          pOut = new CSplineProperty; break;
-    case EPropertyTypeNew::Guid:            pOut = new CGuidProperty; break;
-    case EPropertyTypeNew::Pointer:         pOut = new CPointerProperty; break;
-    case EPropertyTypeNew::Struct:          pOut = new CStructPropertyNew; break;
-    case EPropertyTypeNew::Array:           pOut = new CArrayProperty; break;
+    case EPropertyTypeNew::Bool:            pOut = new CBoolProperty(Game);             break;
+    case EPropertyTypeNew::Byte:            pOut = new CByteProperty(Game);             break;
+    case EPropertyTypeNew::Short:           pOut = new CShortProperty(Game);            break;
+    case EPropertyTypeNew::Int:             pOut = new CIntProperty(Game);              break;
+    case EPropertyTypeNew::Float:           pOut = new CFloatProperty(Game);            break;
+    case EPropertyTypeNew::Choice:          pOut = new CChoiceProperty(Game);           break;
+    case EPropertyTypeNew::Enum:            pOut = new CEnumProperty(Game);             break;
+    case EPropertyTypeNew::Flags:           pOut = new CFlagsProperty(Game);            break;
+    case EPropertyTypeNew::String:          pOut = new CStringProperty(Game);           break;
+    case EPropertyTypeNew::Vector:          pOut = new CVectorProperty(Game);           break;
+    case EPropertyTypeNew::Color:           pOut = new CColorProperty(Game);            break;
+    case EPropertyTypeNew::Asset:           pOut = new CAssetProperty(Game);            break;
+    case EPropertyTypeNew::Sound:           pOut = new CSoundProperty(Game);            break;
+    case EPropertyTypeNew::Animation:       pOut = new CAnimationProperty(Game);        break;
+    case EPropertyTypeNew::AnimationSet:    pOut = new CAnimationSetProperty(Game);     break;
+    case EPropertyTypeNew::Sequence:        pOut = new CSequenceProperty(Game);         break;
+    case EPropertyTypeNew::Spline:          pOut = new CSplineProperty(Game);           break;
+    case EPropertyTypeNew::Guid:            pOut = new CGuidProperty(Game);             break;
+    case EPropertyTypeNew::Pointer:         pOut = new CPointerProperty(Game);          break;
+    case EPropertyTypeNew::Struct:          pOut = new CStructPropertyNew(Game);        break;
+    case EPropertyTypeNew::Array:           pOut = new CArrayProperty(Game);            break;
     }
 
-    if (!pOut)
-    {
-        // this shouldn't be possible! unhandled type! someone fucked up!
-        ASSERT(false);
-        return nullptr;
-    }
-
-    // Set parent and offset
-    pOut->mpParent = pParent;
-
-    if (pParent)
-    {
-        pOut->mFlags = pParent->mFlags & EPropertyFlag::InheritableFlags;
-
-        if (pParent->IsPointerType())
-        {
-            pOut->mpPointerParent = pParent;
-        }
-        else
-        {
-            pOut->mpPointerParent = pParent->mpPointerParent;
-        }
-    }
-
-    // Set other metadata
-    pOut->mGame = Game;
-    pOut->mpScriptTemplate = pScript;
-    pOut->_CalcOffset();
-
-    // Add to the parent's array. This needs to be done -after- we calculate offset, as adding a child to
-    // the parent property will change the offset that gets calculated.
-    if (pParent)
-    {
-        pParent->mChildren.push_back(pOut);
-    }
-
-    if (CallPostInit)
-    {
-        pOut->PostInitialize();
-    }
-
+    // If this assertion fails, then there is an unhandled type!
+    ASSERT(pOut != nullptr);
     return pOut;
 }
 
-IPropertyNew* IPropertyNew::CreateCopy(IPropertyNew* pArchetype,
-                                       IPropertyNew* pParent)
+IPropertyNew* IPropertyNew::CreateCopy(IPropertyNew* pArchetype)
 {
-    // Note this is mainly going to be used to create copies from struct/enum/flag archetype properties.
-    // Properties that have archetypes will never be the root property of a script template, and there
-    // is no case where we will be creating archetypes outside this context. As such, pParent should
-    // always be valid.
-    ASSERT(pParent != nullptr);
-
-    IPropertyNew* pOut = Create(pArchetype->Type(), pParent, pParent->mGame, pParent->mpScriptTemplate, false);
+    IPropertyNew* pOut = Create(pArchetype->Type(), pArchetype->mGame);
     pOut->InitFromArchetype(pArchetype);
     pArchetype->mSubInstances.push_back(pOut);
+    return pOut;
+}
+
+IPropertyNew* IPropertyNew::CreateIntrinsic(EPropertyTypeNew Type,
+                                            EGame Game,
+                                            u32 Offset,
+                                            const TString& rkName)
+{
+    IPropertyNew* pOut = Create(Type, Game);
+    pOut->mFlags |= EPropertyFlag::IsIntrinsic;
+    pOut->SetName(rkName);
+    pOut->Initialize(nullptr, nullptr, Offset);
     return pOut;
 }
 
@@ -389,18 +395,20 @@ IPropertyNew* IPropertyNew::CreateIntrinsic(EPropertyTypeNew Type,
                                             u32 Offset,
                                             const TString& rkName)
 {
-    IPropertyNew* pOut = Create(Type, pParent, pParent ? pParent->mGame : eUnknownGame, nullptr, false);
-    pOut->mOffset = Offset;
+    // pParent should always be valid.
+    // If you are creating a root property, call the other overload takes an EGame instead of a parent.
+    ASSERT(pParent != nullptr);
+
+    IPropertyNew* pOut = Create(Type, pParent->mGame);
+    pOut->mFlags |= EPropertyFlag::IsIntrinsic;
     pOut->SetName(rkName);
-    pOut->PostInitialize();
+    pOut->Initialize(pParent, nullptr, Offset);
+    pParent->mChildren.push_back(pOut);
     return pOut;
 }
 
 IPropertyNew* IPropertyNew::ArchiveConstructor(EPropertyTypeNew Type,
                                                const IArchive& Arc)
 {
-    IPropertyNew* pParent = Arc.FindParentObject<IPropertyNew>();
-    CScriptTemplate* pTemplate = (pParent ? pParent->ScriptTemplate() : Arc.FindParentObject<CScriptTemplate>());
-    EGame Game = Arc.Game();
-    return Create(Type, pParent, Game, pTemplate);
+    return Create(Type, Arc.Game());
 }

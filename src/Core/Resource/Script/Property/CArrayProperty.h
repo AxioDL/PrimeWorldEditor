@@ -45,8 +45,8 @@ class CArrayProperty : public TTypedPropertyNew<u32, EPropertyTypeNew::Array>
     }
 
 protected:
-    CArrayProperty()
-        : TTypedPropertyNew()
+    CArrayProperty(EGame Game)
+        : TTypedPropertyNew(Game)
         , mpItemArchetype(nullptr)
     {}
 
@@ -109,6 +109,11 @@ public:
     {
         TTypedPropertyNew::Serialize(rArc);
         rArc << SerialParameter("ItemArchetype", mpItemArchetype);
+
+        if (rArc.IsReader())
+        {
+            mpItemArchetype->SetPropertyFlags( EPropertyFlag::IsArrayArchetype );
+        }
     }
 
     virtual void SerializeValue(void* pData, IArchive& Arc) const
@@ -134,7 +139,13 @@ public:
     {
         TTypedPropertyNew::InitFromArchetype(pOther);
         CArrayProperty* pOtherArray = static_cast<CArrayProperty*>(pOther);
-        mpItemArchetype = IPropertyNew::CreateCopy(pOtherArray->mpItemArchetype, this);
+        mpItemArchetype = IPropertyNew::CreateCopy(pOtherArray->mpItemArchetype);
+    }
+
+    virtual void PostInitialize()
+    {
+        TTypedPropertyNew::PostInitialize();
+        mpItemArchetype->Initialize(this, mpScriptTemplate, 0);
     }
 
     u32 ArrayCount(void* pPropertyData) const

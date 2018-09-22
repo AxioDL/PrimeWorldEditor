@@ -8,8 +8,8 @@ class CIntProperty : public TNumericalPropertyNew< s32, EPropertyTypeNew::Int >
     friend class IPropertyNew;
 
 protected:
-    CIntProperty()
-        : TNumericalPropertyNew()
+    CIntProperty(EGame Game)
+        : TNumericalPropertyNew(Game)
     {}
 
 public:

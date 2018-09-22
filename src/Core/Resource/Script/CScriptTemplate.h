@@ -130,6 +130,8 @@ private:
     bool mVisible;
 
 public:
+    // Default constructor. Don't use. This is only here so the serializer doesn't complain
+    CScriptTemplate() { ASSERT(false); }
     // Old constructor
     CScriptTemplate(CMasterTemplate *pMaster);
     // New constructor

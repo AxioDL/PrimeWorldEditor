@@ -266,7 +266,6 @@ CGameProject* CGameProject::LoadProject(const TString& rkProjPath, IProgressNoti
         return nullptr;
     }
 
-    CTemplateLoader::LoadGameTemplates(pProj->mGame);
     pProj->mProjFileLock.Lock(ProjPath);
     pProj->mpGameInfo->LoadGameInfo(pProj->mGame);
     pProj->mpAudioManager->LoadAssets();

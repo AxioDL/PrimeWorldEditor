@@ -124,6 +124,9 @@ class CMasterTemplate
     static std::map<u32, TString> smPropertyNames;
     static u32 smGameListVersion;
 
+    void Internal_LoadScriptTemplate(SScriptTemplatePath& Path);
+    void Internal_LoadPropertyTemplate(SPropertyTemplatePath& Path);
+
 public:
     CMasterTemplate();
     void Serialize(IArchive& Arc);
@@ -139,7 +142,8 @@ public:
     SMessage MessageByID(u32 MessageID);
     SMessage MessageByID(const CFourCC& MessageID);
     SMessage MessageByIndex(u32 Index);
-    IPropertyNew* FindPropertyArchetype(const TString& kTypeName) const;
+    IPropertyNew* FindPropertyArchetype(const TString& kTypeName);
+    TString GetGameDirectory(bool Absolute = false) const;
 
     // Inline Accessors
     inline EGame Game() const               { return mGame; }
@@ -148,7 +152,6 @@ public:
     inline u32 NumStates() const            { return mStates.size(); }
     inline u32 NumMessages() const          { return mMessages.size(); }
     inline bool IsLoadedSuccessfully()      { return mFullyLoaded; }
-    inline TString GetDirectory() const     { return mSourceFile.GetFileDirectory(); }
 
     // Static
     static CMasterTemplate* MasterForGame(EGame Game);

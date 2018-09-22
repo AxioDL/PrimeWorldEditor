@@ -235,7 +235,11 @@ void CPropertyView::CreateContextMenu(const QPoint& rkPos)
         mpMenuProperty = pProp;
 
         QMenu Menu;
-        Menu.addAction(mpEditTemplateAction);
+
+        if (!pProp->IsIntrinsic())
+        {
+            Menu.addAction(mpEditTemplateAction);
+        }
 
         if (mpEditor->CurrentGame() >= eEchoesDemo)
         {

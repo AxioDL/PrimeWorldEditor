@@ -8,16 +8,13 @@ class CAnimationSetProperty : public TSerializeableTypedProperty< CAnimationPara
     friend class IPropertyNew;
 
 protected:
-    CAnimationSetProperty()
-        : TSerializeableTypedProperty()
-    {}
-
-public:
-    virtual void PostInitialize()
+    CAnimationSetProperty(EGame Game)
+        : TSerializeableTypedProperty(Game)
     {
-        mDefaultValue.SetGame(Game());
+        mDefaultValue.SetGame(Game);
     }
 
+public:
     virtual void SerializeValue(void* pData, IArchive& Arc) const
     {
         Value(pData).Serialize(Arc);

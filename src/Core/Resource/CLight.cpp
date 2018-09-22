@@ -137,7 +137,7 @@ CStructPropertyNew* CLight::GetProperties() const
     if (!pProperties)
     {
         pProperties = (CStructPropertyNew*) IPropertyNew::CreateIntrinsic(EPropertyTypeNew::Struct,
-                                                                          nullptr,
+                                                                          ePrime,
                                                                           0,
                                                                           "Light");
 

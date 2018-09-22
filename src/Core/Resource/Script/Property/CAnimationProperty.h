@@ -8,8 +8,8 @@ class CAnimationProperty : public TSerializeableTypedProperty< u32, EPropertyTyp
     friend class IPropertyNew;
 
 protected:
-    CAnimationProperty()
-        : TSerializeableTypedProperty()
+    CAnimationProperty(EGame Game)
+        : TSerializeableTypedProperty(Game)
     {}
 
 public:

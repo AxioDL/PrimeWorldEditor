@@ -21,12 +21,8 @@ u32 CStructPropertyNew::DataSize() const
 
 u32 CStructPropertyNew::DataAlignment() const
 {
-    // TODO. Should be aligned with the first child, but this function is called before children are loaded.
-    // So for now just use 8 to ensure correct alignment for all child types, but this is wasteful...
-    // It's also problematic for casting property data to a struct
-    return 8;
-
-    //return (mChildren.empty() ? 1 : mChildren[0]->DataAlignment());
+    // Structs are aligned to the first child property.
+    return (mChildren.empty() ? 1 : mChildren[0]->DataAlignment());
 }
 
 void CStructPropertyNew::Construct(void* pData) const
@@ -67,15 +63,24 @@ void CStructPropertyNew::RevertToDefault(void* pData) const
 
 const char* CStructPropertyNew::HashableTypeName() const
 {
-    if (IsArchetype() || !mpArchetype)
-        return *mName;
-    else
-        return mpArchetype->HashableTypeName();
+    return mpArchetype ? mpArchetype->HashableTypeName() : *mName;
 }
 
 void CStructPropertyNew::Serialize(IArchive& rArc)
 {
     IPropertyNew::Serialize(rArc);
+
+    // Serialize atomic flag
+    bool Atomic = IsAtomic();
+    rArc << SerialParameter("Atomic", Atomic, SH_Optional, false);
+
+    if (rArc.IsReader())
+    {
+        if (Atomic)
+            mFlags.SetFlag(EPropertyFlag::IsAtomic);
+        else
+            mFlags.ClearFlag(EPropertyFlag::IsAtomic);
+    }
 
     // Serialize archetype
     if (mpArchetype)
@@ -96,13 +101,13 @@ void CStructPropertyNew::Serialize(IArchive& rArc)
                     if (rArc.ParamBegin("Element", SH_IgnoreName))
                     {
                         // Serialize type and ID, then look up the matching property and serialize it.
-                        // We don't really need the type, but it's a good sanity check, and it's also helpful
+                        // We don't really need the type, but it's a good sanity check, and it's also good practice
                         // to guarantee that parameters are read in order, as some serializers are order-dependent.
                         EPropertyTypeNew ChildType;
                         u32 ChildID;
 
                         rArc << SerialParameter("Type", ChildType, SH_Attribute)
-                             << SerialParameter("ID", ChildID, SH_Attribute);
+                             << SerialParameter("ID", ChildID, SH_Attribute | SH_HexDisplay );
 
                         IPropertyNew* pChild = ChildByID(ChildID);
                         ASSERT(pChild != nullptr && pChild->Type() == ChildType);
@@ -151,6 +156,21 @@ void CStructPropertyNew::SerializeValue(void* pData, IArchive& Arc) const
             mChildren[ChildIdx]->SerializeValue(pData, Arc);
             Arc.ParamEnd();
         }
+    }
+}
+
+void CStructPropertyNew::InitFromArchetype(IPropertyNew* pOther)
+{
+    IPropertyNew::InitFromArchetype(pOther);
+
+    // Copy children
+    _ClearChildren();
+    mChildren.reserve( pOther->NumChildren() );
+
+    for (u32 ChildIdx = 0; ChildIdx < pOther->NumChildren(); ChildIdx++)
+    {
+        IPropertyNew* pChild = CreateCopy( pOther->ChildByIndex(ChildIdx) );
+        mChildren.push_back( pChild );
     }
 }
 

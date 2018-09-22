@@ -8,8 +8,8 @@ class CStringProperty : public TSerializeableTypedProperty< TString, EPropertyTy
     friend class IPropertyNew;
 
 protected:
-    CStringProperty()
-        : TSerializeableTypedProperty()
+    CStringProperty(EGame Game)
+        : TSerializeableTypedProperty(Game)
     {}
 
 public:

@@ -8,19 +8,16 @@ class CVectorProperty : public TSerializeableTypedProperty< CVector3f, EProperty
     friend class IPropertyNew;
 
 protected:
-    CVectorProperty()
-        : TSerializeableTypedProperty()
+    CVectorProperty(EGame Game)
+        : TSerializeableTypedProperty(Game)
     {}
 
 public:
-    virtual void PostInitialize()
+    virtual void PostInitialize() override
     {
-        IPropertyNew* pX = Create(EPropertyTypeNew::Float, this, mGame, mpScriptTemplate);
-        IPropertyNew* pY = Create(EPropertyTypeNew::Float, this, mGame, mpScriptTemplate);
-        IPropertyNew* pZ = Create(EPropertyTypeNew::Float, this, mGame, mpScriptTemplate);
-        pX->SetName("X");
-        pY->SetName("Y");
-        pZ->SetName("Z");
+        CreateIntrinsic(EPropertyTypeNew::Float, this, mOffset + 0, "X");
+        CreateIntrinsic(EPropertyTypeNew::Float, this, mOffset + 4, "Y");
+        CreateIntrinsic(EPropertyTypeNew::Float, this, mOffset + 8, "Z");
     }
 
     virtual void SerializeValue(void* pData, IArchive& Arc) const

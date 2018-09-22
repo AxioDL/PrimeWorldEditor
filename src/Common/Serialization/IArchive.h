@@ -97,8 +97,13 @@ template<typename T>    struct TIsContainer< std::set<T> > : std::true_type {};
 template<typename T, typename V>    struct TIsContainer< std::map<T,V> > : std::true_type {};
 template<typename T, typename V>    struct TIsContainer< std::unordered_map<T,V> > : std::true_type {};
 
+/** Class that determines if the type is a smart pointer */
+template<typename>      struct TIsSmartPointer : std::false_type {};
+template<typename T>    struct TIsSmartPointer< std::shared_ptr<T> > : std::true_type {};
+template<typename T>    struct TIsSmartPointer< std::unique_ptr<T> > : std::true_type {};
+
 /** Helper macro that tells us whether the parameter supports default property values */
-#define SUPPORTS_DEFAULT_VALUES (!std::is_pointer_v<ValType> && std::is_copy_assignable_v<ValType> && THasEqualTo<ValType>::value && !TIsContainer<ValType>::value)
+#define SUPPORTS_DEFAULT_VALUES (!std::is_pointer_v<ValType> && std::is_copy_assignable_v<ValType> && THasEqualTo<ValType>::value && !TIsContainer<ValType>::value && !TIsSmartPointer<ValType>::value)
 
 /** TSerialParameter - name/value pair for generic serial parameters */
 template<typename ValType>
@@ -241,14 +246,26 @@ struct SerialType
                              None);
 };
 
-/** Helper for determining the type used by a given abstract object class (i.e. the type returned by the Type() function) */
-#define ABSTRACT_TYPE decltype( std::declval<ValType>().Type() )
-
 /** For abstract types, determine what kind of ArchiveConstructor the type has */
 template<typename ValType, class ArchiveType>
 struct ArchiveConstructorType
 {
-    typedef ABSTRACT_TYPE ObjType;
+    /** Figure out the type being used to represent the object type.
+     *  If there isn't a type function, then it doesn't matter; just substitute int.
+     */
+    template<typename T>
+    static constexpr auto HasTypeMethod(int) -> decltype( std::declval<T>().Type() )
+    {
+        return std::declval<T>().Type();
+    }
+
+    template<typename T>
+    static constexpr int HasTypeMethod(...)
+    {
+        return 0;
+    }
+
+    using ObjType = decltype(HasTypeMethod<ValType>(0));
 
     enum { Basic, Advanced, None };
 
@@ -340,7 +357,7 @@ public:
         mParmStack.reserve(16);
     }
 
-    virtual ~IArchive() {}
+    virtual ~IArchive() { ASSERT(mParmStack.empty()); }
 
     // Serialize archive version. Always call after opening a file.
     void SerializeVersion()

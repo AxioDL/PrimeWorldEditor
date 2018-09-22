@@ -38,8 +38,8 @@ class CFlagsProperty : public TSerializeableTypedProperty<u32, EPropertyTypeNew:
     /** XML template file that this enum originated from; for archetypes */
     TString mSourceFile;
 
-    CFlagsProperty()
-        : TSerializeableTypedProperty()
+    CFlagsProperty(EGame Game)
+        : TSerializeableTypedProperty(Game)
         , mAllFlags(0)
     {}
 
