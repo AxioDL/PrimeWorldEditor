@@ -4,9 +4,9 @@
 #include "IProperty.h"
 #include "CFloatProperty.h"
 
-class CColorProperty : public TSerializeableTypedProperty< CColor, EPropertyTypeNew::Color >
+class CColorProperty : public TSerializeableTypedProperty< CColor, EPropertyType::Color >
 {
-    friend class IPropertyNew;
+    friend class IProperty;
 
 protected:
     CColorProperty(EGame Game)
@@ -16,10 +16,10 @@ protected:
 public:
     virtual void PostInitialize()
     {
-        CreateIntrinsic(EPropertyTypeNew::Float, this, mOffset + 0,  "R");
-        CreateIntrinsic(EPropertyTypeNew::Float, this, mOffset + 4,  "G");
-        CreateIntrinsic(EPropertyTypeNew::Float, this, mOffset + 8,  "B");
-        CreateIntrinsic(EPropertyTypeNew::Float, this, mOffset + 12, "A");
+        CreateIntrinsic(EPropertyType::Float, this, mOffset + 0,  "R");
+        CreateIntrinsic(EPropertyType::Float, this, mOffset + 4,  "G");
+        CreateIntrinsic(EPropertyType::Float, this, mOffset + 8,  "B");
+        CreateIntrinsic(EPropertyType::Float, this, mOffset + 12, "A");
         TPropCast<CFloatProperty>( mChildren.back() )->SetDefaultValue(1.0f);
     }
 

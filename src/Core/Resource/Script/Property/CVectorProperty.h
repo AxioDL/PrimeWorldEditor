@@ -3,9 +3,9 @@
 
 #include "IProperty.h"
 
-class CVectorProperty : public TSerializeableTypedProperty< CVector3f, EPropertyTypeNew::Vector >
+class CVectorProperty : public TSerializeableTypedProperty< CVector3f, EPropertyType::Vector >
 {
-    friend class IPropertyNew;
+    friend class IProperty;
 
 protected:
     CVectorProperty(EGame Game)
@@ -15,9 +15,9 @@ protected:
 public:
     virtual void PostInitialize() override
     {
-        CreateIntrinsic(EPropertyTypeNew::Float, this, mOffset + 0, "X");
-        CreateIntrinsic(EPropertyTypeNew::Float, this, mOffset + 4, "Y");
-        CreateIntrinsic(EPropertyTypeNew::Float, this, mOffset + 8, "Z");
+        CreateIntrinsic(EPropertyType::Float, this, mOffset + 0, "X");
+        CreateIntrinsic(EPropertyType::Float, this, mOffset + 4, "Y");
+        CreateIntrinsic(EPropertyType::Float, this, mOffset + 8, "Z");
     }
 
     virtual void SerializeValue(void* pData, IArchive& Arc) const

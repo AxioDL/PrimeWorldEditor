@@ -11,45 +11,45 @@ using namespace tinyxml2;
 
 // ugly macro because this is all temp code anyway so whatever
 #define SET_MEMBER_CASES_NUMERICAL(MemberName, Param, LParam) \
-    case EPropertyTypeNew::Byte:\
+    case EPropertyType::Byte:\
         TPropCast<CByteProperty>(pProp)->MemberName = (s8) LParam.ToInt32(10);\
         break;\
         \
-    case EPropertyTypeNew::Short:\
+    case EPropertyType::Short:\
         TPropCast<CShortProperty>(pProp)->MemberName = (s16) LParam.ToInt32(10);\
         break;\
         \
-    case EPropertyTypeNew::Int:\
+    case EPropertyType::Int:\
         TPropCast<CIntProperty>(pProp)->MemberName = (s32) LParam.ToInt32(10);\
         break;\
         \
-    case EPropertyTypeNew::Float:\
+    case EPropertyType::Float:\
         TPropCast<CFloatProperty>(pProp)->MemberName = LParam.ToFloat();\
         break;\
         \
 
 #define SET_MEMBER_CASES_NON_NUMERICAL(MemberName, Param, LParam) \
-    case EPropertyTypeNew::Bool:\
+    case EPropertyType::Bool:\
         TPropCast<CBoolProperty>(pProp)->MemberName = (LParam == "true");\
         break;\
         \
-    case EPropertyTypeNew::Choice:\
+    case EPropertyType::Choice:\
         TPropCast<CChoiceProperty>(pProp)->MemberName = LParam.ToInt32( LParam.StartsWith("0x") ? 16 : 10 );\
         break;\
         \
-    case EPropertyTypeNew::Enum:\
+    case EPropertyType::Enum:\
         TPropCast<CEnumProperty>(pProp)->MemberName = LParam.ToInt32( LParam.StartsWith("0x") ? 16 : 10 );\
         break;\
         \
-    case EPropertyTypeNew::Flags:\
+    case EPropertyType::Flags:\
         TPropCast<CFlagsProperty>(pProp)->MemberName = LParam.ToInt32( LParam.StartsWith("0x") ? 16 : 10 );\
         break;\
         \
-    case EPropertyTypeNew::String:\
+    case EPropertyType::String:\
         TPropCast<CStringProperty>(pProp)->MemberName = Param;\
         break;\
         \
-    case EPropertyTypeNew::Vector:\
+    case EPropertyType::Vector:\
     {\
         TStringList Components = Param.Split(", ");\
         if (Components.size() != 3) {\
@@ -64,7 +64,7 @@ using namespace tinyxml2;
         }\
         break;\
     }\
-    case EPropertyTypeNew::Color:\
+    case EPropertyType::Color:\
     {\
         TStringList Components = Param.Split(", ");\
         if (Components.size() < 3 || Components.size() > 4) {\
@@ -79,11 +79,11 @@ using namespace tinyxml2;
         }\
         break;\
     }\
-    case EPropertyTypeNew::Asset:\
+    case EPropertyType::Asset:\
         TPropCast<CAssetProperty>(pProp)->MemberName = CAssetID::FromString(Param);\
         break;\
         \
-    case EPropertyTypeNew::Sound:\
+    case EPropertyType::Sound:\
         TPropCast<CSoundProperty>(pProp)->MemberName = LParam.ToInt32(10);\
         break;\
         \
@@ -107,29 +107,29 @@ using namespace tinyxml2;
         break;\
     }\
 
-EPropertyTypeNew PropStringToPropEnum(TString Prop)
+EPropertyType PropStringToPropEnum(TString Prop)
 {
     Prop = Prop.ToLower();
-    if (Prop == "bool")       return EPropertyTypeNew::Bool;
-    if (Prop == "byte")       return EPropertyTypeNew::Byte;
-    if (Prop == "short")      return EPropertyTypeNew::Short;
-    if (Prop == "long")       return EPropertyTypeNew::Int;
-    if (Prop == "enum")       return EPropertyTypeNew::Enum;
-    if (Prop == "bitfield")   return EPropertyTypeNew::Flags;
-    if (Prop == "float")      return EPropertyTypeNew::Float;
-    if (Prop == "string")     return EPropertyTypeNew::String;
-    if (Prop == "color")      return EPropertyTypeNew::Color;
-    if (Prop == "vector3f")   return EPropertyTypeNew::Vector;
-    if (Prop == "sound")      return EPropertyTypeNew::Sound;
-    if (Prop == "asset")      return EPropertyTypeNew::Asset;
-    if (Prop == "struct")     return EPropertyTypeNew::Struct;
-    if (Prop == "array")      return EPropertyTypeNew::Array;
-    if (Prop == "character")  return EPropertyTypeNew::AnimationSet;
-    if (Prop == "mayaspline") return EPropertyTypeNew::Spline;
-                              return EPropertyTypeNew::Invalid;
+    if (Prop == "bool")       return EPropertyType::Bool;
+    if (Prop == "byte")       return EPropertyType::Byte;
+    if (Prop == "short")      return EPropertyType::Short;
+    if (Prop == "long")       return EPropertyType::Int;
+    if (Prop == "enum")       return EPropertyType::Enum;
+    if (Prop == "bitfield")   return EPropertyType::Flags;
+    if (Prop == "float")      return EPropertyType::Float;
+    if (Prop == "string")     return EPropertyType::String;
+    if (Prop == "color")      return EPropertyType::Color;
+    if (Prop == "vector3f")   return EPropertyType::Vector;
+    if (Prop == "sound")      return EPropertyType::Sound;
+    if (Prop == "asset")      return EPropertyType::Asset;
+    if (Prop == "struct")     return EPropertyType::Struct;
+    if (Prop == "array")      return EPropertyType::Array;
+    if (Prop == "character")  return EPropertyType::AnimationSet;
+    if (Prop == "mayaspline") return EPropertyType::Spline;
+                              return EPropertyType::Invalid;
 }
 
-IPropertyNew* CTemplateLoader::LoadProperty(XMLElement* pElem, CScriptTemplate* pScript, CStructPropertyNew* pParent, const TString& rkTemplateName)
+IProperty* CTemplateLoader::LoadProperty(XMLElement* pElem, CScriptTemplate* pScript, CStructProperty* pParent, const TString& rkTemplateName)
 {
     TString NodeType = TString(pElem->Name()).ToLower();
     TString IDAttr = TString(pElem->Attribute("ID")).ToLower();
@@ -150,16 +150,16 @@ IPropertyNew* CTemplateLoader::LoadProperty(XMLElement* pElem, CScriptTemplate* 
     if (!NameAttr.IsEmpty())
         Name = NameAttr;
     else if (mGame >= eEchoesDemo)
-        Name = CMasterTemplate::PropertyName(ID);
+        Name = CGameTemplate::PropertyName(ID);
     else
     {
-        Log::Error(rkTemplateName + ": Property " + TString::HexString(ID) + " doesn't have a name either in the template itself nor in the master list");
+        Log::Error(rkTemplateName + ": Property " + TString::HexString(ID) + " doesn't have a name either in the template itself nor in the game list");
         return nullptr;
     }
 
     // Does the property already exist (eg is this an override)?
-    IPropertyNew* pProp = pParent->ChildByID(ID);
-    EPropertyTypeNew Type;
+    IProperty* pProp = pParent->ChildByID(ID);
+    EPropertyType Type;
     bool IsNewProperty = false;
 
     // If it doesn't, then we'll need to create it.
@@ -170,7 +170,7 @@ IPropertyNew* CTemplateLoader::LoadProperty(XMLElement* pElem, CScriptTemplate* 
         Type = PropStringToPropEnum(TypeStr);
         IsNewProperty = true;
 
-        if (Type == EPropertyTypeNew::Invalid)
+        if (Type == EPropertyType::Invalid)
         {
             if (TypeStr.IsEmpty())
                 Log::Error(rkTemplateName + ": Property " + TString::HexString(ID) + " doesn't have a type set");
@@ -181,27 +181,27 @@ IPropertyNew* CTemplateLoader::LoadProperty(XMLElement* pElem, CScriptTemplate* 
         }
 
         // Load archetype if required
-        bool bNeedsArchetype = ( Type == EPropertyTypeNew::Struct ||
-                                 Type == EPropertyTypeNew::Enum ||
-                                 Type == EPropertyTypeNew::Choice ||
-                                 Type == EPropertyTypeNew::Flags );
+        bool bNeedsArchetype = ( Type == EPropertyType::Struct ||
+                                 Type == EPropertyType::Enum ||
+                                 Type == EPropertyType::Choice ||
+                                 Type == EPropertyType::Flags );
 
         if (bNeedsArchetype)
         {
-            IPropertyNew* pArchetype = nullptr;
+            IProperty* pArchetype = nullptr;
 
             //todo: struct archetypes are not supposed to be optional but apparently some still don't have them
             if (!TemplateAttr.IsEmpty())
             {
-                if (Type == EPropertyTypeNew::Struct)
+                if (Type == EPropertyType::Struct)
                 {
                     pArchetype = LoadStructArchetype(TemplateAttr);
                 }
-                else if (Type == EPropertyTypeNew::Enum || Type == EPropertyTypeNew::Choice)
+                else if (Type == EPropertyType::Enum || Type == EPropertyType::Choice)
                 {
-                    pArchetype = LoadEnumArchetype(TemplateAttr, Type == EPropertyTypeNew::Choice);
+                    pArchetype = LoadEnumArchetype(TemplateAttr, Type == EPropertyType::Choice);
                 }
-                else if (Type == EPropertyTypeNew::Flags)
+                else if (Type == EPropertyType::Flags)
                 {
                     pArchetype = LoadFlagsArchetype(TemplateAttr);
                 }
@@ -210,14 +210,14 @@ IPropertyNew* CTemplateLoader::LoadProperty(XMLElement* pElem, CScriptTemplate* 
             // create property as a copy of the archetype
             if (pArchetype != nullptr)
             {
-                pProp = IPropertyNew::CreateCopy(pArchetype);
+                pProp = IProperty::CreateCopy(pArchetype);
             }
         }
 
         // no archetype, so do normal create
         if (!pProp)
         {
-            pProp = IPropertyNew::Create(Type, mGame);
+            pProp = IProperty::Create(Type, mGame);
         }
 
         // we need to have a valid property by this point
@@ -251,7 +251,7 @@ IPropertyNew* CTemplateLoader::LoadProperty(XMLElement* pElem, CScriptTemplate* 
             while (pVersion)
             {
                 TString VerName = pVersion->GetText();
-                u32 VerIdx = mpMaster->GameVersion(VerName);
+                u32 VerIdx = mpGameTemplate->GameVersion(VerName);
 
                 if (VerIdx == -1)
                     Log::Error(rkTemplateName + ": Property " + TString::HexString(ID) + " has invalid version \"" + VerName + "\"");
@@ -272,11 +272,11 @@ IPropertyNew* CTemplateLoader::LoadProperty(XMLElement* pElem, CScriptTemplate* 
             TString lValue = ParamVal.ToLower();
 
             if (lValue == "always")
-                pProp->mCookPreference = ECookPreferenceNew::Always;
+                pProp->mCookPreference = ECookPreference::Always;
             else if (lValue == "never")
-                pProp->mCookPreference = ECookPreferenceNew::Never;
+                pProp->mCookPreference = ECookPreference::Never;
             else
-                pProp->mCookPreference = ECookPreferenceNew::Default;
+                pProp->mCookPreference = ECookPreference::Default;
         }
         else if (ParamName == "description")
         {
@@ -304,7 +304,7 @@ IPropertyNew* CTemplateLoader::LoadProperty(XMLElement* pElem, CScriptTemplate* 
     }
 
     // Asset-specific parameters
-    if (Type == EPropertyTypeNew::Asset)
+    if (Type == EPropertyType::Asset)
     {
         TString ExtensionsAttr = pElem->Attribute("extensions");
 
@@ -317,7 +317,7 @@ IPropertyNew* CTemplateLoader::LoadProperty(XMLElement* pElem, CScriptTemplate* 
     }
 
     // Enum-specific parameters
-    else if (Type == EPropertyTypeNew::Enum || Type == EPropertyTypeNew::Choice)
+    else if (Type == EPropertyType::Enum || Type == EPropertyType::Choice)
     {
         // use static_cast so we can do both enum and choice with this code
         CEnumProperty* pEnum = static_cast<CEnumProperty*>(pProp);
@@ -330,7 +330,7 @@ IPropertyNew* CTemplateLoader::LoadProperty(XMLElement* pElem, CScriptTemplate* 
     }
 
     // Bitfield-specific parameters
-    else if (Type == EPropertyTypeNew::Flags)
+    else if (Type == EPropertyType::Flags)
     {
         CFlagsProperty* pFlags = TPropCast<CFlagsProperty>(pProp);
 
@@ -342,13 +342,13 @@ IPropertyNew* CTemplateLoader::LoadProperty(XMLElement* pElem, CScriptTemplate* 
     }
 
     // Struct-specific parameters
-    else if ( (Type == EPropertyTypeNew::Struct) || (Type == EPropertyTypeNew::Array) )
+    else if ( (Type == EPropertyType::Struct) || (Type == EPropertyType::Array) )
     {
-        CStructPropertyNew* pStruct = nullptr;
+        CStructProperty* pStruct = nullptr;
 
-        if (Type == EPropertyTypeNew::Struct)
+        if (Type == EPropertyType::Struct)
         {
-            pStruct = TPropCast<CStructPropertyNew>(pProp);
+            pStruct = TPropCast<CStructProperty>(pProp);
         }
         else
         {
@@ -356,14 +356,14 @@ IPropertyNew* CTemplateLoader::LoadProperty(XMLElement* pElem, CScriptTemplate* 
 
             if (pArray->mpItemArchetype != nullptr)
             {
-                ASSERT(pArray->mpItemArchetype->Type() == EPropertyTypeNew::Struct);
-                pStruct = TPropCast<CStructPropertyNew>(pArray->mpItemArchetype);
+                ASSERT(pArray->mpItemArchetype->Type() == EPropertyType::Struct);
+                pStruct = TPropCast<CStructProperty>(pArray->mpItemArchetype);
             }
             else
             {
                 if (Name == "Activation Times")
                 {
-                    CFloatProperty* pFloatItem = (CFloatProperty*) IPropertyNew::Create(EPropertyTypeNew::Float, mGame);
+                    CFloatProperty* pFloatItem = (CFloatProperty*) IProperty::Create(EPropertyType::Float, mGame);
                     pFloatItem->mName = "Time";
                     pFloatItem->mID = 0;
                     pFloatItem->mDefaultValue = 0.0f;
@@ -372,8 +372,8 @@ IPropertyNew* CTemplateLoader::LoadProperty(XMLElement* pElem, CScriptTemplate* 
                 }
                 else
                 {
-                    pArray->mpItemArchetype = IPropertyNew::Create(EPropertyTypeNew::Struct, mGame);
-                    pStruct = TPropCast<CStructPropertyNew>(pArray->mpItemArchetype);
+                    pArray->mpItemArchetype = IProperty::Create(EPropertyType::Struct, mGame);
+                    pStruct = TPropCast<CStructProperty>(pArray->mpItemArchetype);
                     pStruct->mFlags = EPropertyFlag::IsAtomic | EPropertyFlag::IsArrayArchetype;
                 }
             }
@@ -395,7 +395,7 @@ IPropertyNew* CTemplateLoader::LoadProperty(XMLElement* pElem, CScriptTemplate* 
 
     if (IsNewProperty)
     {
-        CMasterTemplate::AddProperty(pProp, mMasterDir + rkTemplateName);
+        CGameTemplate::AddProperty(pProp, mGameDir + rkTemplateName);
 
         if (pParent)
             pParent->mChildren.push_back(pProp);
@@ -404,28 +404,28 @@ IPropertyNew* CTemplateLoader::LoadProperty(XMLElement* pElem, CScriptTemplate* 
     return pProp;
 }
 
-CStructPropertyNew* CTemplateLoader::LoadStructArchetype(const TString& rkTemplateFileName)
+CStructProperty* CTemplateLoader::LoadStructArchetype(const TString& rkTemplateFileName)
 {
     // Check whether this struct has already been read
     TString StructName = rkTemplateFileName.GetFileName(false);
-    CStructPropertyNew* pArchetype = static_cast<CStructPropertyNew*>( mpMaster->FindPropertyArchetype(StructName) );
+    CStructProperty* pArchetype = static_cast<CStructProperty*>( mpGameTemplate->FindPropertyArchetype(StructName) );
 
     // Names cannot be shared between multiple property archetypes
     if (pArchetype != nullptr)
     {
-        ASSERT(pArchetype->Type() == EPropertyTypeNew::Struct);
+        ASSERT(pArchetype->Type() == EPropertyType::Struct);
     }
 
-    // If the struct template hasn't been read yet, then we read it and add it to master's list
+    // If the struct template hasn't been read yet, then we read it and add it to game's list
     if (!pArchetype)
     {
         XMLDocument Doc;
-        OpenXML(mskTemplatesDir + mMasterDir + rkTemplateFileName, Doc);
+        OpenXML(mskTemplatesDir + mGameDir + rkTemplateFileName, Doc);
 
         if (!Doc.Error())
         {
-            pArchetype = TPropCast<CStructPropertyNew>(
-                        IPropertyNew::Create(EPropertyTypeNew::Struct, mGame)
+            pArchetype = TPropCast<CStructProperty>(
+                        IProperty::Create(EPropertyType::Struct, mGame)
                         );
             ASSERT(pArchetype != nullptr);
 
@@ -468,10 +468,10 @@ CStructPropertyNew* CTemplateLoader::LoadStructArchetype(const TString& rkTempla
             LoadProperties(pSubPropsElem, nullptr, pArchetype, rkTemplateFileName);
             pArchetype->Initialize(nullptr, nullptr, 0);
 
-            mpMaster->mPropertyTemplates.emplace(
+            mpGameTemplate->mPropertyTemplates.emplace(
                         std::make_pair(
                                 StructName,
-                                CMasterTemplate::SPropertyTemplatePath(rkTemplateFileName, pArchetype)
+                                CGameTemplate::SPropertyTemplatePath(rkTemplateFileName, pArchetype)
                             ));
         }
     }
@@ -484,25 +484,25 @@ CEnumProperty* CTemplateLoader::LoadEnumArchetype(const TString& rkTemplateFileN
 {
     // Check whether this struct has already been read
     TString EnumName = rkTemplateFileName.GetFileName(false);
-    CEnumProperty* pArchetype = static_cast<CEnumProperty*>( mpMaster->FindPropertyArchetype(EnumName) );
+    CEnumProperty* pArchetype = static_cast<CEnumProperty*>( mpGameTemplate->FindPropertyArchetype(EnumName) );
 
     // Names cannot be shared between multiple property archetypes
     if (pArchetype != nullptr)
     {
-        ASSERT(pArchetype->Type() == EPropertyTypeNew::Enum || pArchetype->Type() == EPropertyTypeNew::Choice);
+        ASSERT(pArchetype->Type() == EPropertyType::Enum || pArchetype->Type() == EPropertyType::Choice);
     }
 
-    // If the enum template hasn't been read yet, then we read it and add it to master's list
+    // If the enum template hasn't been read yet, then we read it and add it to game's list
     if (!pArchetype)
     {
         XMLDocument Doc;
-        OpenXML(mskTemplatesDir + mMasterDir + rkTemplateFileName, Doc);
+        OpenXML(mskTemplatesDir + mGameDir + rkTemplateFileName, Doc);
 
         if (!Doc.Error())
         {
             // use static_cast so this code works for both enum and choice
             pArchetype = static_cast<CEnumProperty*>(
-                        IPropertyNew::Create(bIsChoice ? EPropertyTypeNew::Choice : EPropertyTypeNew::Enum, mGame)
+                        IProperty::Create(bIsChoice ? EPropertyType::Choice : EPropertyType::Enum, mGame)
                         );
             ASSERT(pArchetype != nullptr);
 
@@ -519,10 +519,10 @@ CEnumProperty* CTemplateLoader::LoadEnumArchetype(const TString& rkTemplateFileN
             LoadEnumerators(pEnumers, pArchetype, rkTemplateFileName);
             pArchetype->Initialize(nullptr, nullptr, 0);
 
-            mpMaster->mPropertyTemplates.emplace(
+            mpGameTemplate->mPropertyTemplates.emplace(
                         std::make_pair(
                             EnumName,
-                            CMasterTemplate::SPropertyTemplatePath(rkTemplateFileName, pArchetype)
+                            CGameTemplate::SPropertyTemplatePath(rkTemplateFileName, pArchetype)
                         ));
         }
     }
@@ -535,24 +535,24 @@ CFlagsProperty* CTemplateLoader::LoadFlagsArchetype(const TString& rkTemplateFil
 {
     // Check whether this struct has already been read
     TString FlagsName = rkTemplateFileName.GetFileName(false);
-    CFlagsProperty* pArchetype = static_cast<CFlagsProperty*>( mpMaster->FindPropertyArchetype(FlagsName) );
+    CFlagsProperty* pArchetype = static_cast<CFlagsProperty*>( mpGameTemplate->FindPropertyArchetype(FlagsName) );
 
     // Names cannot be shared between multiple property archetypes
     if (pArchetype != nullptr)
     {
-        ASSERT(pArchetype->Type() == EPropertyTypeNew::Flags);
+        ASSERT(pArchetype->Type() == EPropertyType::Flags);
     }
 
-    // If the enum template hasn't been read yet, then we read it and add it to master's list
+    // If the enum template hasn't been read yet, then we read it and add it to game's list
     if (!pArchetype)
     {
         XMLDocument Doc;
-        OpenXML(mskTemplatesDir + mMasterDir + rkTemplateFileName, Doc);
+        OpenXML(mskTemplatesDir + mGameDir + rkTemplateFileName, Doc);
 
         if (!Doc.Error())
         {
             pArchetype = TPropCast<CFlagsProperty>(
-                        IPropertyNew::Create(EPropertyTypeNew::Flags, mGame)
+                        IProperty::Create(EPropertyType::Flags, mGame)
                         );
             ASSERT(pArchetype != nullptr);
 
@@ -569,10 +569,10 @@ CFlagsProperty* CTemplateLoader::LoadFlagsArchetype(const TString& rkTemplateFil
             LoadBitFlags(pFlags, pArchetype, rkTemplateFileName);
             pArchetype->Initialize(nullptr, nullptr, 0);
 
-            mpMaster->mPropertyTemplates.emplace(
+            mpGameTemplate->mPropertyTemplates.emplace(
                         std::make_pair(
                             FlagsName,
-                            CMasterTemplate::SPropertyTemplatePath(rkTemplateFileName, pArchetype)
+                            CGameTemplate::SPropertyTemplatePath(rkTemplateFileName, pArchetype)
                         ));
 
         }
@@ -582,7 +582,7 @@ CFlagsProperty* CTemplateLoader::LoadFlagsArchetype(const TString& rkTemplateFil
     return pArchetype;
 }
 
-void CTemplateLoader::LoadProperties(XMLElement *pPropertiesElem, CScriptTemplate *pScript, CStructPropertyNew* pStruct, const TString& rkTemplateName)
+void CTemplateLoader::LoadProperties(XMLElement *pPropertiesElem, CScriptTemplate *pScript, CStructProperty* pStruct, const TString& rkTemplateName)
 {
     XMLElement *pChild = pPropertiesElem->FirstChildElement();
 
@@ -661,12 +661,12 @@ void CTemplateLoader::LoadBitFlags(XMLElement *pFlagsElem, CFlagsProperty* pFlag
 // ************ SCRIPT OBJECT ************
 CScriptTemplate* CTemplateLoader::LoadScriptTemplate(XMLDocument *pDoc, const TString& rkTemplateName, u32 ObjectID)
 {
-    CScriptTemplate *pScript = new CScriptTemplate(mpMaster);
+    CScriptTemplate *pScript = new CScriptTemplate(mpGameTemplate);
     pScript->mObjectID = ObjectID;
     pScript->mSourceFile = rkTemplateName;
 
-    IPropertyNew* pBaseStruct = IPropertyNew::Create(EPropertyTypeNew::Struct, mGame);
-    pScript->mpProperties = std::make_unique<CStructPropertyNew>( *TPropCast<CStructPropertyNew>(pBaseStruct) );
+    IProperty* pBaseStruct = IProperty::Create(EPropertyType::Struct, mGame);
+    pScript->mpProperties = std::make_unique<CStructProperty>( *TPropCast<CStructProperty>(pBaseStruct) );
 
     XMLElement *pRoot = pDoc->FirstChildElement("ScriptTemplate");
 
@@ -845,11 +845,11 @@ CScriptTemplate* CTemplateLoader::LoadScriptTemplate(XMLDocument *pDoc, const TS
                 Attachment.AttachType = eAttach;
 
                 // Validate property
-                IPropertyNew* pProp = pScript->mpProperties->ChildByIDString(Attachment.AttachProperty);
+                IProperty* pProp = pScript->mpProperties->ChildByIDString(Attachment.AttachProperty);
 
                 if (!pProp)
                     Log::Error(rkTemplateName + ": Invalid property for attachment " + TString::FromInt32(AttachIdx) + ": " + Attachment.AttachProperty);
-                else if (pProp->Type() != EPropertyTypeNew::AnimationSet && (pProp->Type() != EPropertyTypeNew::Asset || !TPropCast<CAssetProperty>(pProp)->GetTypeFilter().Accepts(eModel)))
+                else if (pProp->Type() != EPropertyType::AnimationSet && (pProp->Type() != EPropertyType::Asset || !TPropCast<CAssetProperty>(pProp)->GetTypeFilter().Accepts(eModel)))
                     Log::Error(rkTemplateName + ": Property referred to by attachment " + TString::FromInt32(AttachIdx) + " is not an attachable asset! Must be a file property that accepts CMDLs, or an animation set property.");
 
                 else
@@ -986,11 +986,11 @@ CScriptTemplate* CTemplateLoader::LoadScriptTemplate(XMLDocument *pDoc, const TS
     return pScript;
 }
 
-// ************ MASTER ************
-void CTemplateLoader::LoadMasterTemplate(XMLDocument *pDoc, CMasterTemplate *pMaster)
+// ************ GAME ************
+void CTemplateLoader::LoadGameTemplate(XMLDocument *pDoc, CGameTemplate *pGame)
 {
-    mpMaster = pMaster;
-    mMasterDir = pMaster->mSourceFile.GetFileDirectory();
+    mpGameTemplate = pGame;
+    mGameDir = pGame->mSourceFile.GetFileDirectory();
 
     XMLElement *pRoot = pDoc->FirstChildElement("MasterTemplate");
     XMLElement *pElem = pRoot->FirstChildElement();
@@ -1019,7 +1019,7 @@ void CTemplateLoader::LoadMasterTemplate(XMLDocument *pDoc, CMasterTemplate *pMa
                 TString TemplateName = pObj->Attribute("template");
 
                 XMLDocument ScriptXML;
-                OpenXML(mskTemplatesDir + mMasterDir + TemplateName, ScriptXML);
+                OpenXML(mskTemplatesDir + mGameDir + TemplateName, ScriptXML);
 
                 if (!ScriptXML.Error())
                 {
@@ -1027,10 +1027,10 @@ void CTemplateLoader::LoadMasterTemplate(XMLDocument *pDoc, CMasterTemplate *pMa
 
                     if (pTemp)
                     {
-                        mpMaster->mScriptTemplates.emplace(
+                        mpGameTemplate->mScriptTemplates.emplace(
                                     std::make_pair(
                                         ID,
-                                        CMasterTemplate::SScriptTemplatePath(ID, TemplateName, pTemp)
+                                        CGameTemplate::SScriptTemplatePath(ID, TemplateName, pTemp)
                                     ));
                     }
                 }
@@ -1055,7 +1055,7 @@ void CTemplateLoader::LoadMasterTemplate(XMLDocument *pDoc, CMasterTemplate *pMa
                     StateID = CFourCC(StrID).ToLong();
 
                 TString StateName = pState->Attribute("name");
-                mpMaster->mStates[StateID] = StateName;
+                mpGameTemplate->mStates[StateID] = StateName;
                 pState = pState->NextSiblingElement("state");
             }
         }
@@ -1076,7 +1076,7 @@ void CTemplateLoader::LoadMasterTemplate(XMLDocument *pDoc, CMasterTemplate *pMa
                     MessageID = CFourCC(StrID).ToLong();
 
                 TString MessageName = pMessage->Attribute("name");
-                mpMaster->mMessages[MessageID] = MessageName;
+                mpGameTemplate->mMessages[MessageID] = MessageName;
                 pMessage = pMessage->NextSiblingElement("message");
             }
         }
@@ -1084,12 +1084,12 @@ void CTemplateLoader::LoadMasterTemplate(XMLDocument *pDoc, CMasterTemplate *pMa
         pElem = pElem->NextSiblingElement();
     }
 
-    pMaster->mFullyLoaded = true;
+    pGame->mFullyLoaded = true;
 }
 
-CMasterTemplate* CTemplateLoader::LoadGameInfo(XMLNode *pNode)
+CGameTemplate* CTemplateLoader::LoadGameInfo(XMLNode *pNode)
 {
-    CMasterTemplate *pMaster = new CMasterTemplate();
+    CGameTemplate *pGame = new CGameTemplate();
     XMLElement *pGameElem = pNode->FirstChildElement();
 
     // Parse game parameters
@@ -1098,24 +1098,24 @@ CMasterTemplate* CTemplateLoader::LoadGameInfo(XMLNode *pNode)
         TString NodeName = TString(pGameElem->Name()).ToLower();
 
         if (NodeName == "name")
-            pMaster->mGameName = pGameElem->GetText();
+            pGame->mGameName = pGameElem->GetText();
 
         else if (NodeName == "mrea")
         {
             u32 VersionNum = std::stoul(pGameElem->GetText(), 0, 16);
-            pMaster->mGame = CAreaLoader::GetFormatVersion(VersionNum);
+            pGame->mGame = CAreaLoader::GetFormatVersion(VersionNum);
         }
 
         else if (NodeName == "master")
         {
             TString MasterPath = pGameElem->GetText();
-            pMaster->mSourceFile = MasterPath;
+            pGame->mSourceFile = MasterPath;
         }
 
         pGameElem = pGameElem->NextSiblingElement();
     }
 
-    return pMaster;
+    return pGame;
 }
 
 // ************ UTILITY ************
@@ -1182,17 +1182,17 @@ void CTemplateLoader::LoadGameList()
                 if (Reader.ParamBegin("Game", 0))
                 {
                     EGame Game;
-                    TString Name, MasterPath;
+                    TString Name, GamePath;
 
                     Reader << SerialParameter("ID", Game, SH_Attribute)
                            << SerialParameter("Name", Name)
-                           << SerialParameter("MasterTemplate", MasterPath);
+                           << SerialParameter("GameTemplate", GamePath);
 
-                    CMasterTemplate* pMaster = new CMasterTemplate();
-                    pMaster->mGame = Game;
-                    pMaster->mGameName = Name;
-                    pMaster->mSourceFile = MasterPath;
-                    CMasterTemplate::smMasterMap[Game] = pMaster;
+                    CGameTemplate* pGame = new CGameTemplate();
+                    pGame->mGame = Game;
+                    pGame->mGameName = Name;
+                    pGame->mSourceFile = GamePath;
+                    CGameTemplate::smGameMap[Game] = pGame;
                     Reader.ParamEnd();
                 }
             }
@@ -1204,21 +1204,21 @@ void CTemplateLoader::LoadGameList()
         const TString kPropertyMapPath = kTemplatesDir + "PropertyMap.xml";
         CXMLReader Reader(kPropertyMapPath);
         ASSERT(Reader.IsValid());
-        Reader << SerialParameter("PropertyMap", CMasterTemplate::smPropertyNames, SH_HexDisplay);
+        Reader << SerialParameter("PropertyMap", CGameTemplate::smPropertyNames, SH_HexDisplay);
     }
     {
-        // Read master templates
-        std::list<CMasterTemplate*> MasterList = CMasterTemplate::MasterList();
+        // Read game templates
+        std::list<CGameTemplate*> GameList = CGameTemplate::GameTemplateList();
 
-        for (auto Iter = MasterList.begin(); Iter != MasterList.end(); Iter++)
+        for (auto Iter = GameList.begin(); Iter != GameList.end(); Iter++)
         {
-            CMasterTemplate* pMaster = *Iter;
-            const TString kMasterPath = pMaster->GetGameDirectory(true) + "Game.xml";
+            CGameTemplate* pGame = *Iter;
+            const TString kGamePath = pGame->GetGameDirectory(true) + "Game.xml";
 
-            CXMLReader Reader(kMasterPath);
+            CXMLReader Reader(kGamePath);
             ASSERT(Reader.IsValid());
-            pMaster->Serialize(Reader);
-            pMaster->LoadSubTemplates();
+            pGame->Serialize(Reader);
+            pGame->LoadSubTemplates();
         }
     }
 #else
@@ -1236,7 +1236,7 @@ void CTemplateLoader::LoadGameList()
     const char *pkGameListVersion = pRoot->Attribute("version");
 
     if (pkGameListVersion)
-        CMasterTemplate::smGameListVersion = TString(pkGameListVersion).ToInt32(10);
+        CGameTemplate::smGameListVersion = TString(pkGameListVersion).ToInt32(10);
 
     XMLElement *pElem = pRoot->FirstChildElement();
 
@@ -1259,8 +1259,8 @@ void CTemplateLoader::LoadGameList()
         else if (NodeName == "game")
         {
             CTemplateLoader Loader(mskTemplatesDir);
-            CMasterTemplate *pMaster = Loader.LoadGameInfo(pElem);
-            CMasterTemplate::smMasterMap[pMaster->mGame] = pMaster;
+            CGameTemplate *pGame = Loader.LoadGameInfo(pElem);
+            CGameTemplate::smGameMap[pGame->mGame] = pGame;
         }
 
         pElem = pElem->NextSiblingElement();
@@ -1270,22 +1270,22 @@ void CTemplateLoader::LoadGameList()
 
 void CTemplateLoader::LoadGameTemplates(EGame Game)
 {
-    std::list<CMasterTemplate*> MasterList = CMasterTemplate::MasterList();
+    std::list<CGameTemplate*> GameList = CGameTemplate::GameTemplateList();
 
-    for (auto it = MasterList.begin(); it != MasterList.end(); it++)
+    for (auto it = GameList.begin(); it != GameList.end(); it++)
     {
-        CMasterTemplate *pMaster = *it;
+        CGameTemplate *pGame = *it;
 
-        if (pMaster->Game() == Game && !pMaster->IsLoadedSuccessfully())
+        if (pGame->Game() == Game && !pGame->IsLoadedSuccessfully())
         {
-            XMLDocument MasterXML;
-            OpenXML(mskTemplatesDir + pMaster->mSourceFile, MasterXML);
+            XMLDocument GameXML;
+            OpenXML(mskTemplatesDir + pGame->mSourceFile, GameXML);
 
-            if (!MasterXML.Error())
+            if (!GameXML.Error())
             {
                 CTemplateLoader Loader(mskTemplatesDir);
                 Loader.mGame = Game;
-                Loader.LoadMasterTemplate(&MasterXML, pMaster);
+                Loader.LoadGameTemplate(&GameXML, pGame);
             }
 
             break;
@@ -1295,22 +1295,22 @@ void CTemplateLoader::LoadGameTemplates(EGame Game)
 
 void CTemplateLoader::LoadAllGames()
 {
-    std::list<CMasterTemplate*> MasterList = CMasterTemplate::MasterList();
+    std::list<CGameTemplate*> GameList = CGameTemplate::GameTemplateList();
 
-    for (auto it = MasterList.begin(); it != MasterList.end(); it++)
+    for (auto it = GameList.begin(); it != GameList.end(); it++)
     {
-        CMasterTemplate *pMaster = *it;
+        CGameTemplate *pGame = *it;
 
-        if (!pMaster->IsLoadedSuccessfully())
+        if (!pGame->IsLoadedSuccessfully())
         {
-            XMLDocument MasterXML;
-            OpenXML(mskTemplatesDir + pMaster->mSourceFile, MasterXML);
+            XMLDocument GameXML;
+            OpenXML(mskTemplatesDir + pGame->mSourceFile, GameXML);
 
-            if (!MasterXML.Error())
+            if (!GameXML.Error())
             {
                 CTemplateLoader Loader(mskTemplatesDir);
-                Loader.mGame = pMaster->Game();
-                Loader.LoadMasterTemplate(&MasterXML, pMaster);
+                Loader.mGame = pGame->Game();
+                Loader.LoadGameTemplate(&GameXML, pGame);
             }
         }
     }
@@ -1333,7 +1333,7 @@ void CTemplateLoader::LoadPropertyList(XMLDocument *pDoc, const TString& ListNam
             TString Name = pElem->Attribute("name");
 
             if (!ID.IsEmpty() && !Name.IsEmpty())
-                CMasterTemplate::smPropertyNames[ID.ToInt32()] = Name;
+                CGameTemplate::smPropertyNames[ID.ToInt32()] = Name;
 
             pElem = pElem->NextSiblingElement();
         }
@@ -1350,31 +1350,31 @@ void CTemplateLoader::SaveGameList()
         const TString kGameListPath = kTemplatesDir + "GameList.xml";
         CXMLWriter Writer(kGameListPath, "GameList");
 
-        u32 NumGames = CMasterTemplate::smMasterMap.size();
+        u32 NumGames = CGameTemplate::smGameMap.size();
         Writer.ParamBegin("Games", 0);
         Writer.SerializeArraySize(NumGames);
 
-        for (auto Iter = CMasterTemplate::smMasterMap.begin(); Iter != CMasterTemplate::smMasterMap.end(); Iter++)
+        for (auto Iter = CGameTemplate::smGameMap.begin(); Iter != CGameTemplate::smGameMap.end(); Iter++)
         {
             struct SGameInfo
             {
                 EGame Game;
                 TString Name;
-                TString MasterPath;
+                TString GamePath;
 
                 void Serialize(IArchive& Arc)
                 {
                     Arc << SerialParameter("ID", Game, SH_Attribute)
                         << SerialParameter("Name", Name)
-                        << SerialParameter("MasterTemplate", MasterPath);
+                        << SerialParameter("GameTemplate", GamePath);
                 }
             };
 
-            CMasterTemplate* pMaster = Iter->second;
+            CGameTemplate* pGame = Iter->second;
             SGameInfo Info;
-            Info.Game = pMaster->Game();
-            Info.Name = pMaster->GameName();
-            Info.MasterPath = pMaster->GetGameDirectory() + "Game.xml";
+            Info.Game = pGame->Game();
+            Info.Name = pGame->GameName();
+            Info.GamePath = pGame->GetGameDirectory() + "Game.xml";
             Writer << SerialParameter("Game", Info);
         }
         Writer.ParamEnd();
@@ -1383,22 +1383,22 @@ void CTemplateLoader::SaveGameList()
     // Write property list
     {
         CXMLWriter Writer(kTemplatesDir + "PropertyMap.xml", "PropertyMap");
-        Writer << SerialParameter("PropertyMap", CMasterTemplate::smPropertyNames, SH_HexDisplay);
+        Writer << SerialParameter("PropertyMap", CGameTemplate::smPropertyNames, SH_HexDisplay);
     }
 
-    // Write master templates
+    // Write game templates
     {
-        std::list<CMasterTemplate*> MasterList = CMasterTemplate::MasterList();
+        std::list<CGameTemplate*> GameList = CGameTemplate::GameTemplateList();
 
-        for (auto Iter = MasterList.begin(); Iter != MasterList.end(); Iter++)
+        for (auto Iter = GameList.begin(); Iter != GameList.end(); Iter++)
         {
-            CMasterTemplate* pMasterTemplate = *Iter;
-            TString MasterFilePath = pMasterTemplate->GetGameDirectory(true) + "Game.xml";
-            FileUtil::MakeDirectory( MasterFilePath.GetFileDirectory() );
+            CGameTemplate* pGameTemplate = *Iter;
+            TString GameFilePath = pGameTemplate->GetGameDirectory(true) + "Game.xml";
+            FileUtil::MakeDirectory( GameFilePath.GetFileDirectory() );
 
-            CXMLWriter Writer(MasterFilePath, "Game", 0, pMasterTemplate->Game());
-            pMasterTemplate->Serialize(Writer);
-            pMasterTemplate->SaveSubTemplates();
+            CXMLWriter Writer(GameFilePath, "Game", 0, pGameTemplate->Game());
+            pGameTemplate->Serialize(Writer);
+            pGameTemplate->SaveSubTemplates();
         }
     }
 }

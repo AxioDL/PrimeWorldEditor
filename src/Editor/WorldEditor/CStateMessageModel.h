@@ -2,11 +2,11 @@
 #define CSTATEMESSAGEMODEL_H
 
 #include "Editor/UICommon.h"
-#include <Core/Resource/Script/CMasterTemplate.h>
+#include <Core/Resource/Script/CGameTemplate.h>
 #include <Core/Resource/Script/CScriptTemplate.h>
 #include <QAbstractListModel>
 
-// todo: support pulling states/messages from script templates instead of master
+// todo: support pulling states/messages from script templates instead of game
 class CStateMessageModel : public QAbstractListModel
 {
     Q_OBJECT
@@ -35,7 +35,7 @@ private:
     };
     QList<SEntry> mEntries;
 
-    CMasterTemplate *mpMaster;
+    CGameTemplate *mpGame;
     CScriptTemplate *mpScript;
     EType mType;
 
@@ -43,7 +43,7 @@ public:
     explicit CStateMessageModel(EType Type, QObject *pParent = 0)
         : QAbstractListModel(pParent)
         , mType(Type)
-        , mpMaster(nullptr)
+        , mpGame(nullptr)
         , mpScript(nullptr)
     {}
 
@@ -62,27 +62,27 @@ public:
         else return QVariant::Invalid;
     }
 
-    void SetMasterTemplate(CMasterTemplate *pMaster)
+    void SetGameTemplate(CGameTemplate *pGame)
     {
         beginResetModel();
 
-        mpMaster = pMaster;
+        mpGame = pGame;
         mEntries.clear();
 
         if (mType == eStates)
         {
-            for (u32 iState = 0; iState < pMaster->NumStates(); iState++)
+            for (u32 iState = 0; iState < pGame->NumStates(); iState++)
             {
-                SState State = pMaster->StateByIndex(iState);
+                SState State = pGame->StateByIndex(iState);
                 mEntries << SEntry(State.ID, TO_QSTRING(State.Name));
             }
         }
 
         else
         {
-            for (u32 iMsg = 0; iMsg < pMaster->NumMessages(); iMsg++)
+            for (u32 iMsg = 0; iMsg < pGame->NumMessages(); iMsg++)
             {
-                SMessage Message = pMaster->MessageByIndex(iMsg);
+                SMessage Message = pGame->MessageByIndex(iMsg);
                 mEntries << SEntry(Message.ID, TO_QSTRING(Message.Name));
             }
         }

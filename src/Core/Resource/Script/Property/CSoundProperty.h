@@ -3,9 +3,9 @@
 
 #include "IProperty.h"
 
-class CSoundProperty : public TSerializeableTypedProperty< s32, EPropertyTypeNew::Sound >
+class CSoundProperty : public TSerializeableTypedProperty< s32, EPropertyType::Sound >
 {
-    friend class IPropertyNew;
+    friend class IProperty;
 
 protected:
     CSoundProperty(EGame Game)

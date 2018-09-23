@@ -1,5 +1,5 @@
-#ifndef CMASTERTEMPLATE_H
-#define CMASTERTEMPLATE_H
+#ifndef CGAMETEMPLATE_H
+#define CGAMETEMPLATE_H
 
 #include "CLink.h"
 #include "CScriptTemplate.h"
@@ -35,7 +35,7 @@ struct SObjId
     }
 };
 
-class CMasterTemplate
+class CGameTemplate
 {
     friend class CTemplateLoader;
     friend class CTemplateWriter;
@@ -120,7 +120,7 @@ class CMasterTemplate
         std::vector<IProperty*> PropertyList; // List of all properties that use this ID
     };
     static std::map<u32, SPropIDInfo> smIDMap;
-    static std::map<EGame, CMasterTemplate*> smMasterMap;
+    static std::map<EGame, CGameTemplate*> smGameMap;
     static std::map<u32, TString> smPropertyNames;
     static u32 smGameListVersion;
 
@@ -128,10 +128,12 @@ class CMasterTemplate
     void Internal_LoadPropertyTemplate(SPropertyTemplatePath& Path);
 
 public:
-    CMasterTemplate();
+    CGameTemplate();
     void Serialize(IArchive& Arc);
     void LoadSubTemplates();
     void SaveSubTemplates();
+    void SaveScriptTemplate(CScriptTemplate* pTemplate);
+    void SavePropertyTemplate(IProperty* pProperty);
     u32 GameVersion(TString VersionName);
     CScriptTemplate* TemplateByID(u32 ObjectID);
     CScriptTemplate* TemplateByID(const CFourCC& ObjectID);
@@ -154,8 +156,8 @@ public:
     inline bool IsLoadedSuccessfully()      { return mFullyLoaded; }
 
     // Static
-    static CMasterTemplate* MasterForGame(EGame Game);
-    static std::list<CMasterTemplate*> MasterList();
+    static CGameTemplate* GetGameTemplate(EGame Game);
+    static std::list<CGameTemplate*> GameTemplateList();
     static TString FindGameName(EGame Game);
     static EGame FindGameForName(const TString& rkName);
     static TString PropertyName(u32 PropertyID);
@@ -167,4 +169,4 @@ public:
     static const std::vector<IProperty*>* TemplatesWithMatchingID(IProperty *pTemp);
 };
 
-#endif // CMASTERTEMPLATE_H
+#endif // CGAMETEMPLATE_H

@@ -48,7 +48,7 @@ void CPropertyDelegate::SetEditor(CWorldEditor *pEditor)
 QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionViewItem& /*rkOption*/, const QModelIndex& rkIndex) const
 {
     if (!mpModel) return nullptr;
-    IPropertyNew *pProp = mpModel->PropertyForIndex(rkIndex, false);
+    IProperty *pProp = mpModel->PropertyForIndex(rkIndex, false);
     QWidget *pOut = nullptr;
 
     if (pProp)
@@ -56,7 +56,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
         switch (pProp->Type())
         {
 
-        case EPropertyTypeNew::Bool:
+        case EPropertyType::Bool:
         {
             QCheckBox *pCheckBox = new QCheckBox(pParent);
             CONNECT_RELAY(pCheckBox, rkIndex, toggled(bool))
@@ -64,7 +64,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
             break;
         }
 
-        case EPropertyTypeNew::Short:
+        case EPropertyType::Short:
         {
             WIntegralSpinBox *pSpinBox = new WIntegralSpinBox(pParent);
             pSpinBox->setMinimum(INT16_MIN);
@@ -75,7 +75,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
             break;
         }
 
-        case EPropertyTypeNew::Int:
+        case EPropertyType::Int:
         {
             WIntegralSpinBox *pSpinBox = new WIntegralSpinBox(pParent);
             pSpinBox->setMinimum(INT32_MIN);
@@ -86,7 +86,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
             break;
         }
 
-        case EPropertyTypeNew::Float:
+        case EPropertyType::Float:
         {
             WDraggableSpinBox *pSpinBox = new WDraggableSpinBox(pParent);
             pSpinBox->setSingleStep(0.1);
@@ -96,7 +96,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
             break;
         }
 
-        case EPropertyTypeNew::Color:
+        case EPropertyType::Color:
         {
             WColorPicker *pColorPicker = new WColorPicker(pParent);
             CONNECT_RELAY(pColorPicker, rkIndex, ColorChanged(QColor))
@@ -104,7 +104,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
             break;
         }
 
-        case EPropertyTypeNew::Sound:
+        case EPropertyType::Sound:
         {
             WIntegralSpinBox *pSpinBox = new WIntegralSpinBox(pParent);
             pSpinBox->setMinimum(-1);
@@ -114,7 +114,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
             break;
         }
 
-        case EPropertyTypeNew::String:
+        case EPropertyType::String:
         {
             QLineEdit *pLineEdit = new QLineEdit(pParent);
             CONNECT_RELAY(pLineEdit, rkIndex, textEdited(QString))
@@ -122,8 +122,8 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
             break;
         }
 
-        case EPropertyTypeNew::Enum:
-        case EPropertyTypeNew::Choice:
+        case EPropertyType::Enum:
+        case EPropertyType::Choice:
         {
             QComboBox *pComboBox = new QComboBox(pParent);
             CEnumProperty* pEnum = TPropCast<CEnumProperty>(pProp);
@@ -136,7 +136,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
             break;
         }
 
-        case EPropertyTypeNew::Asset:
+        case EPropertyType::Asset:
         {
             CResourceSelector *pSelector = new CResourceSelector(pParent);
             pSelector->SetFrameVisible(false);
@@ -149,7 +149,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
             break;
         }
 
-        case EPropertyTypeNew::Array:
+        case EPropertyType::Array:
         {
             // No relay here, would prefer user to be sure of their change before it's reflected on the UI
             WIntegralSpinBox *pSpinBox = new WIntegralSpinBox(pParent);
@@ -166,14 +166,14 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
     else if (rkIndex.internalId() & 0x80000000)
     {
         pProp = mpModel->PropertyForIndex(rkIndex, true);
-        EPropertyTypeNew Type = pProp->Type();
+        EPropertyType Type = pProp->Type();
 
         // Handle character
-        if (Type == EPropertyTypeNew::AnimationSet)
+        if (Type == EPropertyType::AnimationSet)
             pOut = CreateCharacterEditor(pParent, rkIndex);
 
         // Handle flags
-        else if (Type == EPropertyTypeNew::Flags)
+        else if (Type == EPropertyType::Flags)
         {
             QCheckBox *pCheckBox = new QCheckBox(pParent);
             CONNECT_RELAY(pCheckBox, rkIndex, toggled(bool))
@@ -199,7 +199,7 @@ void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkInd
     if (pEditor)
     {
         // Set editor data for regular property
-        IPropertyNew *pProp = mpModel->PropertyForIndex(rkIndex, false);
+        IProperty *pProp = mpModel->PropertyForIndex(rkIndex, false);
         void* pData = mpModel->DataPointerForIndex(rkIndex);
 
         if (pProp)
@@ -209,7 +209,7 @@ void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkInd
                 switch (pProp->Type())
                 {
 
-                case EPropertyTypeNew::Bool:
+                case EPropertyType::Bool:
                 {
                     QCheckBox *pCheckBox = static_cast<QCheckBox*>(pEditor);
                     CBoolProperty *pBool = TPropCast<CBoolProperty>(pProp);
@@ -217,7 +217,7 @@ void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkInd
                     break;
                 }
 
-                case EPropertyTypeNew::Short:
+                case EPropertyType::Short:
                 {
                     WIntegralSpinBox *pSpinBox = static_cast<WIntegralSpinBox*>(pEditor);
 
@@ -230,7 +230,7 @@ void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkInd
                     break;
                 }
 
-                case EPropertyTypeNew::Int:
+                case EPropertyType::Int:
                 {
                     WIntegralSpinBox *pSpinBox = static_cast<WIntegralSpinBox*>(pEditor);
 
@@ -243,7 +243,7 @@ void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkInd
                     break;
                 }
 
-                case EPropertyTypeNew::Sound:
+                case EPropertyType::Sound:
                 {
                     WIntegralSpinBox *pSpinBox = static_cast<WIntegralSpinBox*>(pEditor);
 
@@ -256,7 +256,7 @@ void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkInd
                     break;
                 }
 
-                case EPropertyTypeNew::Float:
+                case EPropertyType::Float:
                 {
                     WDraggableSpinBox *pSpinBox = static_cast<WDraggableSpinBox*>(pEditor);
 
@@ -269,7 +269,7 @@ void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkInd
                     break;
                 }
 
-                case EPropertyTypeNew::Color:
+                case EPropertyType::Color:
                 {
                     WColorPicker *pColorPicker = static_cast<WColorPicker*>(pEditor);
                     CColorProperty *pColor = TPropCast<CColorProperty>(pProp);
@@ -279,7 +279,7 @@ void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkInd
                     break;
                 }
 
-                case EPropertyTypeNew::String:
+                case EPropertyType::String:
                 {
                     QLineEdit *pLineEdit = static_cast<QLineEdit*>(pEditor);
 
@@ -292,8 +292,8 @@ void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkInd
                     break;
                 }
 
-                case EPropertyTypeNew::Enum:
-                case EPropertyTypeNew::Choice:
+                case EPropertyType::Enum:
+                case EPropertyType::Choice:
                 {
                     QComboBox *pComboBox = static_cast<QComboBox*>(pEditor);
                     CEnumProperty* pEnum = TPropCast<CEnumProperty>(pProp);
@@ -301,7 +301,7 @@ void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkInd
                     break;
                 }
 
-                case EPropertyTypeNew::Asset:
+                case EPropertyType::Asset:
                 {
                     CResourceSelector *pSelector = static_cast<CResourceSelector*>(pEditor);
                     CAssetProperty *pAsset = TPropCast<CAssetProperty>(pProp);
@@ -309,7 +309,7 @@ void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkInd
                     break;
                 }
 
-                case EPropertyTypeNew::Array:
+                case EPropertyType::Array:
                 {
                     WIntegralSpinBox *pSpinBox = static_cast<WIntegralSpinBox*>(pEditor);
 
@@ -331,10 +331,10 @@ void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkInd
         {
             pProp = mpModel->PropertyForIndex(rkIndex, true);
 
-            if (pProp->Type() == EPropertyTypeNew::AnimationSet)
+            if (pProp->Type() == EPropertyType::AnimationSet)
                 SetCharacterEditorData(pEditor, rkIndex);
 
-            else if (pProp->Type() == EPropertyTypeNew::Flags)
+            else if (pProp->Type() == EPropertyType::Flags)
             {
                 QCheckBox *pCheckBox = static_cast<QCheckBox*>(pEditor);
                 CFlagsProperty* pFlags = TPropCast<CFlagsProperty>(pProp);
@@ -354,17 +354,17 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
     if (!pEditor) return;
 
     IEditPropertyCommand* pCommand = nullptr;
-    IPropertyNew *pProp = mpModel->PropertyForIndex(rkIndex, true);
+    IProperty *pProp = mpModel->PropertyForIndex(rkIndex, true);
     void* pData = mpModel->DataPointerForIndex(rkIndex);
 
     if (pProp)
     {
-        EPropertyTypeNew Type = pProp->Type();
+        EPropertyType Type = pProp->Type();
 
         QVector<CScriptObject*> Objects;
         Objects << mpModel->GetScriptObject();
 
-        if (Type != EPropertyTypeNew::Array)
+        if (Type != EPropertyType::Array)
         {
             // TODO: support this for non script object properties
             pCommand = new CEditScriptPropertyCommand(pProp, mpEditor, Objects, rkIndex);
@@ -373,10 +373,10 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
             // Handle sub-properties of flags and animation sets
             if (rkIndex.internalId() & 0x80000000)
             {
-                if (pProp->Type() == EPropertyTypeNew::AnimationSet)
+                if (pProp->Type() == EPropertyType::AnimationSet)
                     SetCharacterModelData(pEditor, rkIndex);
 
-                else if (pProp->Type() == EPropertyTypeNew::Flags)
+                else if (pProp->Type() == EPropertyType::Flags)
                 {
                     QCheckBox* pCheckBox = static_cast<QCheckBox*>(pEditor);
                     CFlagsProperty* pFlags = static_cast<CFlagsProperty*>(pProp);
@@ -394,7 +394,7 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
                 switch (pProp->Type())
                 {
 
-                case EPropertyTypeNew::Bool:
+                case EPropertyType::Bool:
                 {
                     QCheckBox *pCheckBox = static_cast<QCheckBox*>(pEditor);
                     CBoolProperty* pBool = static_cast<CBoolProperty*>(pProp);
@@ -402,7 +402,7 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
                     break;
                 }
 
-                case EPropertyTypeNew::Short:
+                case EPropertyType::Short:
                 {
                     WIntegralSpinBox* pSpinBox = static_cast<WIntegralSpinBox*>(pEditor);
                     CShortProperty* pShort = static_cast<CShortProperty*>(pProp);
@@ -410,7 +410,7 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
                     break;
                 }
 
-                case EPropertyTypeNew::Int:
+                case EPropertyType::Int:
                 {
                     WIntegralSpinBox* pSpinBox = static_cast<WIntegralSpinBox*>(pEditor);
                     CIntProperty* pInt = static_cast<CIntProperty*>(pProp);
@@ -418,7 +418,7 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
                     break;
                 }
 
-                case EPropertyTypeNew::Sound:
+                case EPropertyType::Sound:
                 {
                     WIntegralSpinBox* pSpinBox = static_cast<WIntegralSpinBox*>(pEditor);
                     CSoundProperty* pSound = static_cast<CSoundProperty*>(pProp);
@@ -426,7 +426,7 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
                     break;
                 }
 
-                case EPropertyTypeNew::Float:
+                case EPropertyType::Float:
                 {
                     WDraggableSpinBox* pSpinBox = static_cast<WDraggableSpinBox*>(pEditor);
                     CFloatProperty* pFloat = static_cast<CFloatProperty*>(pProp);
@@ -434,7 +434,7 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
                     break;
                 }
 
-                case EPropertyTypeNew::Color:
+                case EPropertyType::Color:
                 {
                     WColorPicker* pColorPicker = static_cast<WColorPicker*>(pEditor);
                     CColorProperty* pColor = static_cast<CColorProperty*>(pProp);
@@ -444,7 +444,7 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
                     break;
                 }
 
-                case EPropertyTypeNew::String:
+                case EPropertyType::String:
                 {
                     QLineEdit* pLineEdit = static_cast<QLineEdit*>(pEditor);
                     CStringProperty* pString = static_cast<CStringProperty*>(pProp);
@@ -452,8 +452,8 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
                     break;
                 }
 
-                case EPropertyTypeNew::Enum:
-                case EPropertyTypeNew::Choice:
+                case EPropertyType::Enum:
+                case EPropertyType::Choice:
                 {
                     QComboBox* pComboBox = static_cast<QComboBox*>(pEditor);
                     CEnumProperty* pEnum = static_cast<CEnumProperty*>(pProp);
@@ -461,7 +461,7 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
                     break;
                 }
 
-                case EPropertyTypeNew::Asset:
+                case EPropertyType::Asset:
                 {
                     CResourceSelector* pSelector = static_cast<CResourceSelector*>(pEditor);
                     CResourceEntry* pEntry = pSelector->Entry();
@@ -504,20 +504,20 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
         // Check for edit in progress
         bool DataChanged = pCommand->IsNewDataDifferent();
 
-        if (DataChanged && mInRelayWidgetEdit && (pEditor->hasFocus() || pProp->Type() == EPropertyTypeNew::Color))
+        if (DataChanged && mInRelayWidgetEdit && (pEditor->hasFocus() || pProp->Type() == EPropertyType::Color))
             mEditInProgress = true;
 
         bool EditWasInProgress = mEditInProgress;
 
         // Check for edit finished
-        if (!mInRelayWidgetEdit || (!pEditor->hasFocus() && pProp->Type() != EPropertyTypeNew::Color))
+        if (!mInRelayWidgetEdit || (!pEditor->hasFocus() && pProp->Type() != EPropertyType::Color))
             mEditInProgress = false;
 
         // Push undo command
         if (DataChanged || EditWasInProgress)
         {
             // Always consider the edit done for bool properties
-            pCommand->SetEditComplete(!mEditInProgress || pProp->Type() == EPropertyTypeNew::Bool);
+            pCommand->SetEditComplete(!mEditInProgress || pProp->Type() == EPropertyType::Bool);
             mpEditor->UndoStack()->push(pCommand);
         }
 
@@ -549,10 +549,10 @@ QWidget* CPropertyDelegate::CreateCharacterEditor(QWidget *pParent, const QModel
     CAnimationParameters Params = pAnimSetProp->Value(mpModel->DataPointerForIndex(rkIndex));
 
     // Determine property type
-    EPropertyTypeNew Type = DetermineCharacterPropType(Params.Version(), rkIndex);
+    EPropertyType Type = DetermineCharacterPropType(Params.Version(), rkIndex);
 
     // Create widget
-    if (Type == EPropertyTypeNew::Asset)
+    if (Type == EPropertyType::Asset)
     {
         CResourceSelector* pSelector = new CResourceSelector(pParent);
         pSelector->SetFrameVisible(false);
@@ -566,7 +566,7 @@ QWidget* CPropertyDelegate::CreateCharacterEditor(QWidget *pParent, const QModel
         return pSelector;
     }
 
-    else if (Type == EPropertyTypeNew::Enum || Type == EPropertyTypeNew::Choice)
+    else if (Type == EPropertyType::Enum || Type == EPropertyType::Choice)
     {
         QComboBox* pComboBox = new QComboBox(pParent);
         CAnimSet* pAnimSet = Params.AnimSet();
@@ -581,7 +581,7 @@ QWidget* CPropertyDelegate::CreateCharacterEditor(QWidget *pParent, const QModel
         return pComboBox;
     }
 
-    else if (Type == EPropertyTypeNew::Int)
+    else if (Type == EPropertyType::Int)
     {
         WIntegralSpinBox *pSpinBox = new WIntegralSpinBox(pParent);
         CONNECT_RELAY(pSpinBox, rkIndex, valueChanged(int));
@@ -595,19 +595,19 @@ void CPropertyDelegate::SetCharacterEditorData(QWidget *pEditor, const QModelInd
 {
     CAnimationSetProperty* pAnimSetProp = TPropCast<CAnimationSetProperty>(mpModel->PropertyForIndex(rkIndex, true));
     CAnimationParameters Params = pAnimSetProp->Value(mpModel->DataPointerForIndex(rkIndex));
-    EPropertyTypeNew Type = DetermineCharacterPropType(Params.Version(), rkIndex);
+    EPropertyType Type = DetermineCharacterPropType(Params.Version(), rkIndex);
 
-    if (Type == EPropertyTypeNew::Asset)
+    if (Type == EPropertyType::Asset)
     {
         static_cast<CResourceSelector*>(pEditor)->SetResource(Params.AnimSet());
     }
 
-    else if (Type == EPropertyTypeNew::Enum || Type == EPropertyTypeNew::Choice)
+    else if (Type == EPropertyType::Enum || Type == EPropertyType::Choice)
     {
         static_cast<QComboBox*>(pEditor)->setCurrentIndex(Params.CharacterIndex());
     }
 
-    else if (Type == EPropertyTypeNew::Int && !pEditor->hasFocus())
+    else if (Type == EPropertyType::Int && !pEditor->hasFocus())
     {
         int UnkIndex = (Params.Version() <= eEchoes ? rkIndex.row() - 2 : rkIndex.row() - 1);
         u32 Value = Params.Unknown(UnkIndex);
@@ -619,20 +619,20 @@ void CPropertyDelegate::SetCharacterModelData(QWidget *pEditor, const QModelInde
 {
     CAnimationSetProperty* pAnimSetProp = TPropCast<CAnimationSetProperty>(mpModel->PropertyForIndex(rkIndex, true));
     CAnimationParameters Params = pAnimSetProp->Value(mpModel->DataPointerForIndex(rkIndex));
-    EPropertyTypeNew Type = DetermineCharacterPropType(Params.Version(), rkIndex);
+    EPropertyType Type = DetermineCharacterPropType(Params.Version(), rkIndex);
 
-    if (Type == EPropertyTypeNew::Asset)
+    if (Type == EPropertyType::Asset)
     {
         CResourceEntry *pEntry = static_cast<CResourceSelector*>(pEditor)->Entry();
         Params.SetResource( pEntry ? pEntry->ID() : CAssetID::InvalidID(mpEditor->CurrentGame()) );
     }
 
-    else if (Type == EPropertyTypeNew::Enum || Type == EPropertyTypeNew::Choice)
+    else if (Type == EPropertyType::Enum || Type == EPropertyType::Choice)
     {
         Params.SetCharIndex( static_cast<QComboBox*>(pEditor)->currentIndex() );
     }
 
-    else if (Type == EPropertyTypeNew::Int)
+    else if (Type == EPropertyType::Int)
     {
         int UnkIndex = (Params.Version() <= eEchoes ? rkIndex.row() - 2 : rkIndex.row() - 1);
         Params.SetUnknown(UnkIndex, static_cast<WIntegralSpinBox*>(pEditor)->value() );
@@ -642,32 +642,32 @@ void CPropertyDelegate::SetCharacterModelData(QWidget *pEditor, const QModelInde
 
     // If we just updated the resource, make sure all the sub-properties of the character are flagged as changed.
     // We want to do this -after- updating the anim params on the property, which is why we have a second type check.
-    if (Type == EPropertyTypeNew::Asset)
+    if (Type == EPropertyType::Asset)
     {
         QModelIndex ParentIndex = rkIndex.parent();
         mpModel->dataChanged(mpModel->index(1, 1, ParentIndex), mpModel->index(mpModel->rowCount(ParentIndex) - 1, 1, ParentIndex));
     }
 }
 
-EPropertyTypeNew CPropertyDelegate::DetermineCharacterPropType(EGame Game, const QModelIndex& rkIndex) const
+EPropertyType CPropertyDelegate::DetermineCharacterPropType(EGame Game, const QModelIndex& rkIndex) const
 {
     if (Game <= eEchoes)
     {
-        if      (rkIndex.row() == 0) return EPropertyTypeNew::Asset;
-        else if (rkIndex.row() == 1) return EPropertyTypeNew::Choice;
-        else if (rkIndex.row() == 2) return EPropertyTypeNew::Int;
+        if      (rkIndex.row() == 0) return EPropertyType::Asset;
+        else if (rkIndex.row() == 1) return EPropertyType::Choice;
+        else if (rkIndex.row() == 2) return EPropertyType::Int;
     }
     else if (Game <= eCorruption)
     {
-        if      (rkIndex.row() == 0) return EPropertyTypeNew::Asset;
-        else if (rkIndex.row() == 1) return EPropertyTypeNew::Int;
+        if      (rkIndex.row() == 0) return EPropertyType::Asset;
+        else if (rkIndex.row() == 1) return EPropertyType::Int;
     }
     else
     {
-        if      (rkIndex.row() == 0) return EPropertyTypeNew::Asset;
-        else if (rkIndex.row() <= 2) return EPropertyTypeNew::Int;
+        if      (rkIndex.row() == 0) return EPropertyType::Asset;
+        else if (rkIndex.row() <= 2) return EPropertyType::Int;
     }
-    return EPropertyTypeNew::Invalid;
+    return EPropertyType::Invalid;
 }
 
 // ************ PUBLIC SLOTS ************

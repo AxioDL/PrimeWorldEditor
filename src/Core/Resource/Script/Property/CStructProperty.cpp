@@ -1,5 +1,5 @@
 #include "CStructProperty.h"
-#include "Core/Resource/Script/CMasterTemplate.h"
+#include "Core/Resource/Script/CGameTemplate.h"
 
 EPropertyType CStructProperty::Type() const
 {

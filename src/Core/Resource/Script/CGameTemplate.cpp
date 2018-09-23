@@ -1,13 +1,13 @@
-#include "CMasterTemplate.h"
+#include "CGameTemplate.h"
 #include "Core/Resource/Factory/CWorldLoader.h"
 #include <Common/Log.h>
 
-CMasterTemplate::CMasterTemplate()
+CGameTemplate::CGameTemplate()
     : mFullyLoaded(false)
 {
 }
 
-void CMasterTemplate::Serialize(IArchive& Arc)
+void CGameTemplate::Serialize(IArchive& Arc)
 {
     Arc << SerialParameter("ScriptObjects", mScriptTemplates)
         << SerialParameter("PropertyArchetypes", mPropertyTemplates)
@@ -15,7 +15,7 @@ void CMasterTemplate::Serialize(IArchive& Arc)
         << SerialParameter("Messages", mMessages);
 }
 
-void CMasterTemplate::LoadSubTemplates()
+void CGameTemplate::LoadSubTemplates()
 {
     for (auto Iter = mScriptTemplates.begin(); Iter != mScriptTemplates.end(); Iter++)
         Internal_LoadScriptTemplate( Iter->second );
@@ -24,7 +24,7 @@ void CMasterTemplate::LoadSubTemplates()
         Internal_LoadPropertyTemplate( Iter->second );
 }
 
-void CMasterTemplate::Internal_LoadScriptTemplate(SScriptTemplatePath& Path)
+void CGameTemplate::Internal_LoadScriptTemplate(SScriptTemplatePath& Path)
 {
     ASSERT(Path.pTemplate == nullptr); // make sure it hasn't been loaded yet
 
@@ -38,7 +38,7 @@ void CMasterTemplate::Internal_LoadScriptTemplate(SScriptTemplatePath& Path)
     Path.pTemplate->PostLoad();
 }
 
-void CMasterTemplate::Internal_LoadPropertyTemplate(SPropertyTemplatePath& Path)
+void CGameTemplate::Internal_LoadPropertyTemplate(SPropertyTemplatePath& Path)
 {
     if (Path.pTemplate != nullptr) // don't load twice
         return;
@@ -55,7 +55,7 @@ void CMasterTemplate::Internal_LoadPropertyTemplate(SPropertyTemplatePath& Path)
     Path.pTemplate->Initialize(nullptr, nullptr, 0);
 }
 
-void CMasterTemplate::SaveSubTemplates()
+void CGameTemplate::SaveSubTemplates()
 {
     const TString kGameDir = GetGameDirectory(true);
 
@@ -80,12 +80,21 @@ void CMasterTemplate::SaveSubTemplates()
     }
 }
 
-u32 CMasterTemplate::GameVersion(TString VersionName)
+void CGameTemplate::SaveScriptTemplate(CScriptTemplate* pTemplate)
+{
+    ASSERT( pTemplate->GameTemplate() == this );
+}
+
+void CGameTemplate::SavePropertyTemplate(IProperty* pProperty)
+{
+}
+
+u32 CGameTemplate::GameVersion(TString VersionName)
 {
     return -1;
 }
 
-CScriptTemplate* CMasterTemplate::TemplateByID(u32 ObjectID)
+CScriptTemplate* CGameTemplate::TemplateByID(u32 ObjectID)
 {
     auto it = mScriptTemplates.find(ObjectID);
 
@@ -95,18 +104,18 @@ CScriptTemplate* CMasterTemplate::TemplateByID(u32 ObjectID)
         return nullptr;
 }
 
-CScriptTemplate* CMasterTemplate::TemplateByID(const CFourCC& ObjectID)
+CScriptTemplate* CGameTemplate::TemplateByID(const CFourCC& ObjectID)
 {
     return TemplateByID(ObjectID.ToLong());
 }
 
-CScriptTemplate* CMasterTemplate::TemplateByIndex(u32 Index)
+CScriptTemplate* CGameTemplate::TemplateByIndex(u32 Index)
 {
     auto it = mScriptTemplates.begin();
     return (std::next(it, Index))->second.pTemplate.get();
 }
 
-SState CMasterTemplate::StateByID(u32 StateID)
+SState CGameTemplate::StateByID(u32 StateID)
 {
     auto Iter = mStates.find(StateID);
 
@@ -116,19 +125,19 @@ SState CMasterTemplate::StateByID(u32 StateID)
         return SState(-1, "Invalid");
 }
 
-SState CMasterTemplate::StateByID(const CFourCC& State)
+SState CGameTemplate::StateByID(const CFourCC& State)
 {
     return StateByID(State.ToLong());
 }
 
-SState CMasterTemplate::StateByIndex(u32 Index)
+SState CGameTemplate::StateByIndex(u32 Index)
 {
     auto Iter = mStates.begin();
     Iter = std::next(Iter, Index);
     return SState(Iter->first, Iter->second);
 }
 
-SMessage CMasterTemplate::MessageByID(u32 MessageID)
+SMessage CGameTemplate::MessageByID(u32 MessageID)
 {
     auto Iter = mMessages.find(MessageID);
 
@@ -138,19 +147,19 @@ SMessage CMasterTemplate::MessageByID(u32 MessageID)
         return SMessage(-1, "Invalid");
 }
 
-SMessage CMasterTemplate::MessageByID(const CFourCC& MessageID)
+SMessage CGameTemplate::MessageByID(const CFourCC& MessageID)
 {
     return MessageByID(MessageID.ToLong());
 }
 
-SMessage CMasterTemplate::MessageByIndex(u32 Index)
+SMessage CGameTemplate::MessageByIndex(u32 Index)
 {
     auto Iter = mMessages.begin();
     Iter = std::next(Iter, Index);
     return SMessage(Iter->first, Iter->second);
 }
 
-IProperty* CMasterTemplate::FindPropertyArchetype(const TString& kTypeName)
+IProperty* CGameTemplate::FindPropertyArchetype(const TString& kTypeName)
 {
     auto Iter = mPropertyTemplates.find(kTypeName);
 
@@ -174,54 +183,54 @@ IProperty* CMasterTemplate::FindPropertyArchetype(const TString& kTypeName)
     return Path.pTemplate.get();
 }
 
-TString CMasterTemplate::GetGameDirectory(bool Absolute) const
+TString CGameTemplate::GetGameDirectory(bool Absolute) const
 {
     TString Out = mSourceFile.GetFileDirectory();
     return Absolute ? "../templates_new/" + Out : Out;
 }
 
 // ************ STATIC ************
-CMasterTemplate* CMasterTemplate::MasterForGame(EGame Game)
+CGameTemplate* CGameTemplate::GetGameTemplate(EGame Game)
 {
-    auto it = smMasterMap.find(Game);
+    auto it = smGameMap.find(Game);
 
-    if (it != smMasterMap.end())
+    if (it != smGameMap.end())
         return it->second;
     else
         return nullptr;
 }
 
-std::list<CMasterTemplate*> CMasterTemplate::MasterList()
+std::list<CGameTemplate*> CGameTemplate::GameTemplateList()
 {
-    std::list<CMasterTemplate*> list;
+    std::list<CGameTemplate*> list;
 
-    for (auto it = smMasterMap.begin(); it != smMasterMap.end(); it++)
+    for (auto it = smGameMap.begin(); it != smGameMap.end(); it++)
         list.push_back(it->second);
 
     return list;
 }
 
-TString CMasterTemplate::FindGameName(EGame Game)
+TString CGameTemplate::FindGameName(EGame Game)
 {
-    CMasterTemplate *pMaster = MasterForGame(Game);
-    return pMaster ? pMaster->GameName() : "Unknown Game";
+    CGameTemplate *pGame = GetGameTemplate(Game);
+    return pGame ? pGame->GameName() : "Unknown Game";
 }
 
-EGame CMasterTemplate::FindGameForName(const TString& rkName)
+EGame CGameTemplate::FindGameForName(const TString& rkName)
 {
-    std::list<CMasterTemplate*> Masters = MasterList();
+    std::list<CGameTemplate*> Games = GameTemplateList();
 
-    for (auto It = Masters.begin(); It != Masters.end(); It++)
+    for (auto It = Games.begin(); It != Games.end(); It++)
     {
-        CMasterTemplate *pMaster = *It;
-        if (pMaster->GameName() == rkName)
-            return pMaster->Game();
+        CGameTemplate *pGame = *It;
+        if (pGame->GameName() == rkName)
+            return pGame->Game();
     }
 
     return eUnknownGame;
 }
 
-TString CMasterTemplate::PropertyName(u32 PropertyID)
+TString CGameTemplate::PropertyName(u32 PropertyID)
 {
     auto it = smPropertyNames.find(PropertyID);
 
@@ -232,7 +241,7 @@ TString CMasterTemplate::PropertyName(u32 PropertyID)
 }
 
 // Removing these functions for now. I'm not sure of the best way to go about implementing them under the new system yet.
-u32 CMasterTemplate::CreatePropertyID(IProperty* pProp)
+u32 CGameTemplate::CreatePropertyID(IProperty* pProp)
 {
     // MP1 properties don't have IDs so we can use this function to create one to track instances of a particular property.
     // To ensure the IDs are unique we'll create a hash using two things: the struct source file and the ID string (relative to the struct).
@@ -250,7 +259,7 @@ u32 CMasterTemplate::CreatePropertyID(IProperty* pProp)
     return Hash.Digest();
 }
 
-void CMasterTemplate::AddProperty(IProperty* pProp, const TString& rkTemplateName /*= ""*/)
+void CGameTemplate::AddProperty(IProperty* pProp, const TString& rkTemplateName /*= ""*/)
 {
     u32 ID;
 
@@ -307,16 +316,16 @@ void CMasterTemplate::AddProperty(IProperty* pProp, const TString& rkTemplateNam
     }
 }
 
-void CMasterTemplate::RenameProperty(IProperty* pProp, const TString& rkNewName)
+void CGameTemplate::RenameProperty(IProperty* pProp, const TString& rkNewName)
 {
     u32 ID = pProp->ID();
     if (ID <= 0xFF) ID = CreatePropertyID(pProp);
     RenameProperty(ID, rkNewName);
 }
 
-void CMasterTemplate::RenameProperty(u32 ID, const TString& rkNewName)
+void CGameTemplate::RenameProperty(u32 ID, const TString& rkNewName)
 {
-    // Master name list
+    // Game name list
     auto NameIt = smPropertyNames.find(ID);
     TString Original;
 
@@ -341,7 +350,7 @@ void CMasterTemplate::RenameProperty(u32 ID, const TString& rkNewName)
     }
 }
 
-void CMasterTemplate::XMLsUsingID(u32 ID, std::vector<TString>& rOutList)
+void CGameTemplate::XMLsUsingID(u32 ID, std::vector<TString>& rOutList)
 {
     auto InfoIt = smIDMap.find(ID);
 
@@ -352,7 +361,7 @@ void CMasterTemplate::XMLsUsingID(u32 ID, std::vector<TString>& rOutList)
     }
 }
 
-const std::vector<IProperty*>* CMasterTemplate::TemplatesWithMatchingID(IProperty* pProp)
+const std::vector<IProperty*>* CGameTemplate::TemplatesWithMatchingID(IProperty* pProp)
 {
     u32 ID = pProp->ID();
     if (ID <= 0xFF) ID = CreatePropertyID(pProp);
@@ -367,7 +376,7 @@ const std::vector<IProperty*>* CMasterTemplate::TemplatesWithMatchingID(IPropert
     return nullptr;
 }
 
-std::map<u32, CMasterTemplate::SPropIDInfo> CMasterTemplate::smIDMap;
-std::map<EGame, CMasterTemplate*> CMasterTemplate::smMasterMap;
-std::map<u32, TString> CMasterTemplate::smPropertyNames;
-u32 CMasterTemplate::smGameListVersion;
+std::map<u32, CGameTemplate::SPropIDInfo> CGameTemplate::smIDMap;
+std::map<EGame, CGameTemplate*> CGameTemplate::smGameMap;
+std::map<u32, TString> CGameTemplate::smPropertyNames;
+u32 CGameTemplate::smGameListVersion;

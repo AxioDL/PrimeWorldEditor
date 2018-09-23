@@ -5,7 +5,7 @@
 #include "Core/Resource/Area/CGameArea.h"
 #include "Core/Resource/Script/CScriptObject.h"
 #include "Core/Resource/Script/CScriptLayer.h"
-#include "Core/Resource/Script/CMasterTemplate.h"
+#include "Core/Resource/Script/CGameTemplate.h"
 
 class CScriptLoader
 {
@@ -13,7 +13,7 @@ class CScriptLoader
     CScriptObject* mpObj;
     CScriptLayer* mpLayer;
     CGameArea* mpArea;
-    CMasterTemplate *mpMaster;
+    CGameTemplate *mpGameTemplate;
 
     // Current array item pointer
     void* mpArrayItemData;

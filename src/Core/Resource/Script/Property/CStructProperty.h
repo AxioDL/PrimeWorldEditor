@@ -3,10 +3,10 @@
 
 #include "IProperty.h"
 
-class CStructPropertyNew : public IPropertyNew
+class CStructProperty : public IProperty
 {
     friend class CTemplateLoader;
-    friend class IPropertyNew;
+    friend class IProperty;
 
 public:
     // Must be a valid type for TPropertyRef
@@ -16,12 +16,12 @@ protected:
     /** For archetypes, the filename of the template XML file. */
     TString mTemplateFileName;
 
-    CStructPropertyNew(EGame Game)
-        : IPropertyNew(Game)
+    CStructProperty(EGame Game)
+        : IProperty(Game)
     {}
 
 public:
-    virtual EPropertyTypeNew Type() const;
+    virtual EPropertyType Type() const;
     virtual u32 DataSize() const;
     virtual u32 DataAlignment() const;
     virtual void Construct(void* pData) const;
@@ -31,11 +31,11 @@ public:
     virtual const char* HashableTypeName() const;
     virtual void Serialize(IArchive& rArc);
     virtual void SerializeValue(void* pData, IArchive& Arc) const;
-    virtual void InitFromArchetype(IPropertyNew* pOther);
+    virtual void InitFromArchetype(IProperty* pOther);
     virtual bool ShouldSerialize() const;
     virtual TString GetTemplateFileName();
 
-    inline static EPropertyTypeNew StaticType() { return EPropertyTypeNew::Struct; }
+    inline static EPropertyType StaticType() { return EPropertyType::Struct; }
 };
 
 #endif

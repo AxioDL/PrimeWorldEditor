@@ -3,13 +3,13 @@
 
 #include "IProperty.h"
 
-class CGuidProperty : public TTypedPropertyNew< std::vector<char>, EPropertyTypeNew::Guid >
+class CGuidProperty : public TTypedProperty< std::vector<char>, EPropertyType::Guid >
 {
-    friend class IPropertyNew;
+    friend class IProperty;
 
 protected:
     CGuidProperty(EGame Game)
-        : TTypedPropertyNew(Game)
+        : TTypedProperty(Game)
     {}
 
 public:

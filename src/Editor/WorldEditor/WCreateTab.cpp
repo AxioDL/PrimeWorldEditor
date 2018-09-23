@@ -61,8 +61,8 @@ bool WCreateTab::eventFilter(QObject *pObj, QEvent *pEvent)
 void WCreateTab::OnActiveProjectChanged(CGameProject *pProj)
 {
     EGame Game = (pProj ? pProj->Game() : eUnknownGame);
-    CMasterTemplate *pMaster = CMasterTemplate::MasterForGame(Game);
-    ui->TemplateView->SetMaster(pMaster);
+    CGameTemplate *pGame = CGameTemplate::GetGameTemplate(Game);
+    ui->TemplateView->SetGame(pGame);
 }
 
 void WCreateTab::OnLayersChanged()

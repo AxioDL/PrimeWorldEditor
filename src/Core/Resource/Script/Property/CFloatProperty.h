@@ -3,13 +3,13 @@
 
 #include "IProperty.h"
 
-class CFloatProperty : public TNumericalPropertyNew< float, EPropertyTypeNew::Float >
+class CFloatProperty : public TNumericalProperty< float, EPropertyType::Float >
 {
-    friend class IPropertyNew;
+    friend class IProperty;
 
 protected:
     CFloatProperty(EGame Game)
-        : TNumericalPropertyNew(Game)
+        : TNumericalProperty(Game)
     {}
 
 public:

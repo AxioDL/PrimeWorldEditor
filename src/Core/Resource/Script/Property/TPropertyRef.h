@@ -37,7 +37,7 @@ public:
         : mpPropertyData(nullptr), mpProperty(nullptr)
     {}
 
-    explicit TPropertyRef(void* pInData, IPropertyNew* pInProperty)
+    explicit TPropertyRef(void* pInData, IProperty* pInProperty)
         : mpPropertyData(pInData), mpProperty( TPropCast<PropertyClass>(pInProperty) )
     {
     }
@@ -60,12 +60,12 @@ public:
         return Get();
     }
 
-    inline bool operator==(IPropertyNew* pProperty) const
+    inline bool operator==(IProperty* pProperty) const
     {
         return mpProperty == pProperty;
     }
 
-    friend bool operator==(IPropertyNew* pLeft, const TPropertyRef& kRight)
+    friend bool operator==(IProperty* pLeft, const TPropertyRef& kRight)
     {
         return pLeft == kRight.Property();
     }
@@ -89,7 +89,7 @@ typedef TPropertyRef<CSequenceProperty>     CSequenceRef;
 typedef TPropertyRef<CSplineProperty>       CSplineRef;
 typedef TPropertyRef<CGuidProperty>         CGuidRef;
 typedef TPropertyRef<CPointerProperty>      CPointerRef;
-typedef TPropertyRef<CStructPropertyNew>    CStructRef;
+typedef TPropertyRef<CStructProperty>    CStructRef;
 typedef TPropertyRef<CArrayProperty>        CArrayRef;
 
 /** Special version for enums */
@@ -101,7 +101,7 @@ public:
         : TPropertyRef()
     {}
 
-    TEnumRef(void* pInData, IPropertyNew* pInProperty)
+    TEnumRef(void* pInData, IProperty* pInProperty)
         : TPropertyRef(pInData, pInProperty)
     {}
 

@@ -1,5 +1,5 @@
 #include "CAreaAttributes.h"
-#include "Core/Resource/Script/CMasterTemplate.h"
+#include "Core/Resource/Script/CGameTemplate.h"
 #include "Core/Resource/Script/CScriptLayer.h"
 
 CAreaAttributes::CAreaAttributes(CScriptObject *pObj)
@@ -17,7 +17,7 @@ void CAreaAttributes::SetObject(CScriptObject *pObj)
     CStructProperty* pProperties = pTemplate->Properties();
 
     mpObject = pObj;
-    mGame = pTemplate->MasterTemplate()->Game();
+    mGame = pTemplate->GameTemplate()->Game();
     mNeedSky = CBoolRef(pObj->PropertyData(), pProperties->ChildByIndex(1));
 
     if (mGame == ePrime)

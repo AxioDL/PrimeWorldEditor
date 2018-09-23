@@ -3,10 +3,10 @@
 
 #include "IProperty.h"
 
-class CFlagsProperty : public TSerializeableTypedProperty<u32, EPropertyTypeNew::Flags>
+class CFlagsProperty : public TSerializeableTypedProperty<u32, EPropertyType::Flags>
 {
     friend class CTemplateLoader;
-    friend class IPropertyNew;
+    friend class IProperty;
 
     struct SBitFlag
     {
@@ -64,7 +64,7 @@ public:
     virtual void Serialize(IArchive& rArc);
     virtual void PostInitialize();
     virtual void SerializeValue(void* pData, IArchive& rArc) const;
-    virtual void InitFromArchetype(IPropertyNew* pOther);
+    virtual void InitFromArchetype(IProperty* pOther);
     virtual TString GetTemplateFileName();
 
     /**

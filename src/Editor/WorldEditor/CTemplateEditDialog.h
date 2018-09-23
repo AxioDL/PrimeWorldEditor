@@ -3,7 +3,7 @@
 
 #include "Editor/CPropertyNameValidator.h"
 #include <Core/Resource/Script/Property/Properties.h>
-#include <Core/Resource/Script/CMasterTemplate.h>
+#include <Core/Resource/Script/CGameTemplate.h>
 #include <QDialog>
 
 namespace Ui {
@@ -16,7 +16,7 @@ class CTemplateEditDialog : public QDialog
     Ui::CTemplateEditDialog* mpUI;
     CPropertyNameValidator* mpValidator;
 
-    IPropertyNew *mpProperty;
+    IProperty *mpProperty;
     EGame mGame;
 
     TString mOriginalName;
@@ -25,20 +25,20 @@ class CTemplateEditDialog : public QDialog
 
     // These members help track what templates need to be updated and resaved after the user clicks OK
     QVector<CScriptTemplate*> mScriptTemplatesToResave;
-    QVector<CStructPropertyNew*> mStructTemplatesToResave;
-    QVector<IPropertyNew*> mEquivalentProperties;
+    QVector<CStructProperty*> mStructTemplatesToResave;
+    QVector<IProperty*> mEquivalentProperties;
 
 public:
-    CTemplateEditDialog(IPropertyNew* pProperty, QWidget *pParent = 0);
+    CTemplateEditDialog(IProperty* pProperty, QWidget *pParent = 0);
     ~CTemplateEditDialog();
 
 public slots:
     void ApplyChanges();
 
 protected:
-    void AddTemplate(IPropertyNew* pProperty);
+    void AddTemplate(IProperty* pProperty);
     void UpdateDescription(const TString& rkNewDesc);
-    void FindEquivalentProperties(IPropertyNew *pTemp);
+    void FindEquivalentProperties(IProperty *pTemp);
 };
 
 #endif // CTEMPLATEEDITDIALOG_H

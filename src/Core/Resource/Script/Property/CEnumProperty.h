@@ -10,11 +10,11 @@
  *
  *  In PWE, however, they are both implemented the same way under the hood.
  */
-template<EPropertyTypeNew TypeEnum>
+template<EPropertyType TypeEnum>
 class TEnumPropertyBase : public TSerializeableTypedProperty<s32, TypeEnum>
 {
     friend class CTemplateLoader;
-    friend class IPropertyNew;
+    friend class IProperty;
 
     struct SEnumValue
     {
@@ -54,7 +54,7 @@ protected:
 public:
     virtual const char* GetHashableTypeName() const
     {
-        if (TypeEnum == EPropertyTypeNew::Enum)
+        if (TypeEnum == EPropertyType::Enum)
             return "enum";
         else
             return "choice";
@@ -63,7 +63,7 @@ public:
     virtual void Serialize(IArchive& rArc)
     {
         // Skip TSerializeableTypedProperty, serialize default value ourselves so we can set SH_HexDisplay
-        TTypedPropertyNew::Serialize(rArc);
+        TTypedProperty::Serialize(rArc);
 
         TEnumPropertyBase* pArchetype = static_cast<TEnumPropertyBase*>(mpArchetype);
         u32 DefaultValueFlags = SH_HexDisplay | (pArchetype || Game() <= ePrime ? SH_Optional : 0);
@@ -80,9 +80,9 @@ public:
         Arc.SerializePrimitive( (u32&) ValueRef(pData), 0 );
     }
 
-    virtual void InitFromArchetype(IPropertyNew* pOther)
+    virtual void InitFromArchetype(IProperty* pOther)
     {
-        TTypedPropertyNew::InitFromArchetype(pOther);
+        TTypedProperty::InitFromArchetype(pOther);
         TEnumPropertyBase* pOtherEnum = static_cast<TEnumPropertyBase*>(pOther);
         mValues = pOtherEnum->mValues;
     }
@@ -132,18 +132,18 @@ public:
     }
 };
 
-typedef TEnumPropertyBase<EPropertyTypeNew::Choice> CChoiceProperty;
-typedef TEnumPropertyBase<EPropertyTypeNew::Enum>   CEnumProperty;
+typedef TEnumPropertyBase<EPropertyType::Choice> CChoiceProperty;
+typedef TEnumPropertyBase<EPropertyType::Enum>   CEnumProperty;
 
 // Specialization of TPropCast to allow interchangeable casting, as both types are the same thing
 template<>
-inline CEnumProperty* TPropCast(IPropertyNew* pProperty)
+inline CEnumProperty* TPropCast(IProperty* pProperty)
 {
     if (pProperty)
     {
-        EPropertyTypeNew InType = pProperty->Type();
+        EPropertyType InType = pProperty->Type();
 
-        if (InType == EPropertyTypeNew::Enum || InType == EPropertyTypeNew::Choice)
+        if (InType == EPropertyType::Enum || InType == EPropertyType::Choice)
         {
             return static_cast<CEnumProperty*>(pProperty);
         }
@@ -153,13 +153,13 @@ inline CEnumProperty* TPropCast(IPropertyNew* pProperty)
 }
 
 template<>
-inline CChoiceProperty* TPropCast(IPropertyNew* pProperty)
+inline CChoiceProperty* TPropCast(IProperty* pProperty)
 {
     if (pProperty)
     {
-        EPropertyTypeNew InType = pProperty->Type();
+        EPropertyType InType = pProperty->Type();
 
-        if (InType == EPropertyTypeNew::Enum || InType == EPropertyTypeNew::Choice)
+        if (InType == EPropertyType::Enum || InType == EPropertyType::Choice)
         {
             return static_cast<CChoiceProperty*>(pProperty);
         }

@@ -31,7 +31,7 @@ CInstancesModel::CInstancesModel(CWorldEditor *pEditor, QObject *pParent)
     , mpEditor(pEditor)
     , mpScene(pEditor->Scene())
     , mpArea(nullptr)
-    , mpCurrentMaster(nullptr)
+    , mpCurrentGame(nullptr)
     , mModelType(eLayers)
     , mShowColumnEnabled(true)
     , mChangingLayout(false)
@@ -366,10 +366,10 @@ void CInstancesModel::OnActiveProjectChanged(CGameProject *pProj)
         if (pProj)
         {
             EGame ProjGame = pProj->Game();
-            mpCurrentMaster = CMasterTemplate::MasterForGame(ProjGame);
+            mpCurrentGame = CGameTemplate::GetGameTemplate(ProjGame);
         }
         else
-            mpCurrentMaster = nullptr;
+            mpCurrentGame = nullptr;
 
         GenerateList();
     }
@@ -570,13 +570,13 @@ void CInstancesModel::GenerateList()
 
     mTemplateList.clear();
 
-    if (mpCurrentMaster)
+    if (mpCurrentGame)
     {
-        u32 NumTemplates = mpCurrentMaster->NumScriptTemplates();
+        u32 NumTemplates = mpCurrentGame->NumScriptTemplates();
 
         for (u32 iTemp = 0; iTemp < NumTemplates; iTemp++)
         {
-            CScriptTemplate *pTemp = mpCurrentMaster->TemplateByIndex(iTemp);
+            CScriptTemplate *pTemp = mpCurrentGame->TemplateByIndex(iTemp);
 
             if (pTemp->NumObjects() > 0)
                 mTemplateList << pTemp;

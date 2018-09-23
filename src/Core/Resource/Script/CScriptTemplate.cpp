@@ -1,6 +1,6 @@
 #include "CScriptTemplate.h"
 #include "CScriptObject.h"
-#include "CMasterTemplate.h"
+#include "CGameTemplate.h"
 #include "Core/GameProject/CResourceStore.h"
 #include "Core/Resource/Animation/CAnimSet.h"
 #include <Common/Log.h>
@@ -9,8 +9,8 @@
 #include <string>
 
 // Old constructor
-CScriptTemplate::CScriptTemplate(CMasterTemplate *pMaster)
-    : mpMaster(pMaster)
+CScriptTemplate::CScriptTemplate(CGameTemplate *pGame)
+    : mpGame(pGame)
     , mpProperties(nullptr)
     , mVisible(true)
     , mpNameProperty(nullptr)
@@ -26,7 +26,7 @@ CScriptTemplate::CScriptTemplate(CMasterTemplate *pMaster)
 }
 
 // New constructor
-CScriptTemplate::CScriptTemplate(CMasterTemplate* pInMaster, u32 InObjectID, const TString& kInFilePath)
+CScriptTemplate::CScriptTemplate(CGameTemplate* pInGame, u32 InObjectID, const TString& kInFilePath)
     : mRotationType(eRotationEnabled)
     , mScaleType(eScaleEnabled)
     , mPreviewScale(1.f)
@@ -34,7 +34,7 @@ CScriptTemplate::CScriptTemplate(CMasterTemplate* pInMaster, u32 InObjectID, con
     , mVolumeScale(1.f)
     , mSourceFile(kInFilePath)
     , mObjectID(InObjectID)
-    , mpMaster(pInMaster)
+    , mpGame(pInGame)
     , mpNameProperty(nullptr)
     , mpPositionProperty(nullptr)
     , mpRotationProperty(nullptr)
@@ -91,7 +91,7 @@ void CScriptTemplate::PostLoad()
 
 EGame CScriptTemplate::Game() const
 {
-    return mpMaster->Game();
+    return mpGame->Game();
 }
 
 // ************ PROPERTY FETCHING ************

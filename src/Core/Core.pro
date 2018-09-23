@@ -110,7 +110,6 @@ HEADERS += \
     Resource/Model/CStaticModel.h \
     Resource/Model/CVertex.h \
     Resource/Model/SSurface.h \
-    Resource/Script/CMasterTemplate.h \
     Resource/Script/CScriptLayer.h \
     Resource/Script/CScriptObject.h \
     Resource/Script/CScriptTemplate.h \
@@ -249,7 +248,8 @@ HEADERS += \
     Resource/Script/Property/CVectorProperty.h \
     Resource/Script/Property/CColorProperty.h \
     Resource/Script/Property/CStructProperty.h \
-    Resource/Script/Property/CGuidProperty.h
+    Resource/Script/Property/CGuidProperty.h \
+    Resource/Script/CGameTemplate.h
 
 # Source Files
 SOURCES += \
@@ -279,7 +279,6 @@ SOURCES += \
     Resource/Model/CModel.cpp \
     Resource/Model/CStaticModel.cpp \
     Resource/Model/SSurface.cpp \
-    Resource/Script/CMasterTemplate.cpp \
     Resource/Script/CScriptObject.cpp \
     Resource/Script/CScriptTemplate.cpp \
     Resource/CCollisionMesh.cpp \
@@ -359,7 +358,8 @@ SOURCES += \
     Resource/Script/Property/CPropertyNameGenerator.cpp \
     Resource/Script/Property/IProperty.cpp \
     Resource/Script/Property/CStructProperty.cpp \
-    Resource/Script/Property/CFlagsProperty.cpp
+    Resource/Script/Property/CFlagsProperty.cpp \
+    Resource/Script/CGameTemplate.cpp
 
 # Codegen
 CODEGEN_DIR = $$EXTERNALS_DIR/CodeGen

@@ -3,13 +3,13 @@
 
 #include "IProperty.h"
 
-class CShortProperty : public TNumericalPropertyNew< s16, EPropertyTypeNew::Short >
+class CShortProperty : public TNumericalProperty< s16, EPropertyType::Short >
 {
-    friend class IPropertyNew;
+    friend class IProperty;
 
 protected:
     CShortProperty(EGame Game)
-        : TNumericalPropertyNew(Game)
+        : TNumericalProperty(Game)
     {}
 
 public:

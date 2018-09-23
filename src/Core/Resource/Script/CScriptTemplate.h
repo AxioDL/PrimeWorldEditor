@@ -10,7 +10,7 @@
 #include <list>
 #include <vector>
 
-class CMasterTemplate;
+class CGameTemplate;
 class CScriptObject;
 typedef TString TIDString;
 
@@ -79,7 +79,7 @@ private:
     };
 
     std::vector<TString> mModules;
-    std::unique_ptr<CStructPropertyNew> mpProperties;
+    std::unique_ptr<CStructProperty> mpProperties;
     std::vector<SEditorAsset> mAssets;
     std::vector<SAttachment> mAttachments;
 
@@ -103,7 +103,7 @@ private:
     TIDString mActiveIDString;
     TIDString mLightParametersIDString;
 
-    CMasterTemplate* mpMaster;
+    CGameTemplate* mpGame;
     std::list<CScriptObject*> mObjectList;
 
     CStringProperty* mpNameProperty;
@@ -111,7 +111,7 @@ private:
     CVectorProperty* mpRotationProperty;
     CVectorProperty* mpScaleProperty;
     CBoolProperty* mpActiveProperty;
-    CStructPropertyNew* mpLightParametersProperty;
+    CStructProperty* mpLightParametersProperty;
 
     struct SVolumeCondition {
         u32 Value;
@@ -132,9 +132,9 @@ public:
     // Default constructor. Don't use. This is only here so the serializer doesn't complain
     CScriptTemplate() { ASSERT(false); }
     // Old constructor
-    CScriptTemplate(CMasterTemplate *pMaster);
+    CScriptTemplate(CGameTemplate *pGame);
     // New constructor
-    CScriptTemplate(CMasterTemplate* pMaster, u32 ObjectID, const TString& kFilePath);
+    CScriptTemplate(CGameTemplate* pGame, u32 ObjectID, const TString& kFilePath);
     ~CScriptTemplate();
     void Serialize(IArchive& rArc);
     void PostLoad();
@@ -147,7 +147,7 @@ public:
     CCollisionMeshGroup* FindCollision(void* pPropertyData);
 
     // Accessors
-    inline CMasterTemplate* MasterTemplate() const          { return mpMaster; }
+    inline CGameTemplate* GameTemplate() const              { return mpGame; }
     inline TString Name() const                             { return mpProperties->Name(); }
     inline ERotationType RotationType() const               { return mRotationType; }
     inline EScaleType ScaleType() const                     { return mScaleType; }
@@ -155,7 +155,7 @@ public:
     inline u32 ObjectID() const                             { return mObjectID; }
     inline bool IsVisible() const                           { return mVisible; }
     inline TString SourceFile() const                       { return mSourceFile; }
-    inline CStructPropertyNew* Properties() const           { return mpProperties.get(); }
+    inline CStructProperty* Properties() const              { return mpProperties.get(); }
     inline u32 NumAttachments() const                       { return mAttachments.size(); }
     const SAttachment& Attachment(u32 Index) const          { return mAttachments[Index]; }
     const std::vector<TString>& RequiredModules() const     { return mModules; }
@@ -165,7 +165,7 @@ public:
     inline CVectorProperty* RotationProperty() const            { return mpRotationProperty; }
     inline CVectorProperty* ScaleProperty() const               { return mpScaleProperty; }
     inline CBoolProperty* ActiveProperty() const                { return mpActiveProperty; }
-    inline CStructPropertyNew* LightParametersProperty() const  { return mpLightParametersProperty; }
+    inline CStructProperty* LightParametersProperty() const     { return mpLightParametersProperty; }
 
     inline void SetVisible(bool Visible)    { mVisible = Visible; }
 

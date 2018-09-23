@@ -3,13 +3,13 @@
 
 #include "IProperty.h"
 
-class CSequenceProperty : public TTypedPropertyNew< s32, EPropertyTypeNew::Sequence >
+class CSequenceProperty : public TTypedProperty< s32, EPropertyType::Sequence >
 {
-    friend class IPropertyNew;
+    friend class IProperty;
 
 protected:
     CSequenceProperty(EGame Game)
-        : TTypedPropertyNew(Game)
+        : TTypedProperty(Game)
     {}
 
     virtual void SerializeValue(void* pData, IArchive& rArc) const

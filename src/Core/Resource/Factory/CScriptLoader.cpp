@@ -1,7 +1,7 @@
 #include "CScriptLoader.h"
 #include "CTemplateLoader.h"
 #include "Core/GameProject/CResourceStore.h"
-#include "Core/Resource/Script/CMasterTemplate.h"
+#include "Core/Resource/Script/CGameTemplate.h"
 #include "Core/Resource/Script/Property/CArrayProperty.h"
 #include "Core/Resource/Script/Property/CAssetProperty.h"
 #include "Core/Resource/Script/Property/CEnumProperty.h"
@@ -131,7 +131,7 @@ void CScriptLoader::ReadProperty(IProperty *pProp, u32 Size, IInputStream& rSCLY
     case EPropertyType::Asset:
     {
         CAssetProperty* pAsset = TPropCast<CAssetProperty>(pProp);
-        pAsset->ValueRef(pData) = CAssetID(rSCLY, mpMaster->Game());
+        pAsset->ValueRef(pData) = CAssetID(rSCLY, mpGameTemplate->Game());
 
 #if VALIDATE_PROPERTY_VALUES
         CAssetID ID = pAsset->ValueRef(pData);
@@ -170,7 +170,7 @@ void CScriptLoader::ReadProperty(IProperty *pProp, u32 Size, IInputStream& rSCLY
     case EPropertyType::AnimationSet:
     {
         CAnimationSetProperty* pAnimSet = TPropCast<CAnimationSetProperty>(pProp);
-        pAnimSet->ValueRef(pData) = CAnimationParameters(rSCLY, mpMaster->Game());
+        pAnimSet->ValueRef(pData) = CAnimationParameters(rSCLY, mpGameTemplate->Game());
         break;
     }
 
@@ -278,7 +278,7 @@ CScriptObject* CScriptLoader::LoadObjectMP1(IInputStream& rSCLY)
     u32 Size = rSCLY.ReadLong();
     u32 End = rSCLY.Tell() + Size;
 
-    CScriptTemplate *pTemplate = mpMaster->TemplateByID((u32) Type);
+    CScriptTemplate *pTemplate = mpGameTemplate->TemplateByID((u32) Type);
     if (!pTemplate)
     {
         // No valid template for this object; can't load
@@ -385,7 +385,7 @@ CScriptObject* CScriptLoader::LoadObjectMP2(IInputStream& rSCLY)
     u16 ObjectSize = rSCLY.ReadShort();
     u32 ObjEnd = rSCLY.Tell() + ObjectSize;
 
-    CScriptTemplate* pTemplate = mpMaster->TemplateByID(ObjectID);
+    CScriptTemplate* pTemplate = mpGameTemplate->TemplateByID(ObjectID);
 
     if (!pTemplate)
     {
@@ -447,16 +447,16 @@ CScriptLayer* CScriptLoader::LoadLayer(IInputStream& rSCLY, CGameArea *pArea, EG
 
     CScriptLoader Loader;
     Loader.mVersion = Version;
-    Loader.mpMaster = CMasterTemplate::MasterForGame(Version);
+    Loader.mpGameTemplate = CGameTemplate::GetGameTemplate(Version);
     Loader.mpArea = pArea;
 
-    if (!Loader.mpMaster)
+    if (!Loader.mpGameTemplate)
     {
-        Log::Write("This game doesn't have a master template; couldn't load script layer");
+        Log::Write("This game doesn't have a game template; couldn't load script layer");
         return nullptr;
     }
 
-    if (!Loader.mpMaster->IsLoadedSuccessfully())
+    if (!Loader.mpGameTemplate->IsLoadedSuccessfully())
         CTemplateLoader::LoadGameTemplates(Version);
 
     if (Version <= ePrime)
@@ -471,17 +471,17 @@ CScriptObject* CScriptLoader::LoadInstance(IInputStream& rSCLY, CGameArea *pArea
 
     CScriptLoader Loader;
     Loader.mVersion = (ForceReturnsFormat ? eReturns : Version);
-    Loader.mpMaster = CMasterTemplate::MasterForGame(Version);
+    Loader.mpGameTemplate = CGameTemplate::GetGameTemplate(Version);
     Loader.mpArea = pArea;
     Loader.mpLayer = pLayer;
 
-    if (!Loader.mpMaster)
+    if (!Loader.mpGameTemplate)
     {
-        Log::Write("This game doesn't have a master template; couldn't load script instance");
+        Log::Write("This game doesn't have a game template; couldn't load script instance");
         return nullptr;
     }
 
-    if (!Loader.mpMaster->IsLoadedSuccessfully())
+    if (!Loader.mpGameTemplate->IsLoadedSuccessfully())
         CTemplateLoader::LoadGameTemplates(Version);
 
     if (Loader.mVersion <= ePrime)
