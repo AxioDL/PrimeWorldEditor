@@ -282,8 +282,8 @@ bool CWorldEditor::SetArea(CWorld *pWorld, int AreaIndex)
     // Update UI stuff
     UpdateWindowTitle();
 
-    CMasterTemplate *pMaster = CMasterTemplate::MasterForGame(mpArea->Game());
-    mpLinkDialog->SetMaster(pMaster);
+    CGameTemplate *pGame = CGameTemplate::GetGameTemplate(mpArea->Game());
+    mpLinkDialog->SetGame(pGame);
 
     QString AreaName = TO_QSTRING(mpWorld->AreaInGameName(AreaIndex));
 

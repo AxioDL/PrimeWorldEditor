@@ -3,7 +3,6 @@
 
 #include "Editor/Widgets/CCheckableTreeWidgetItem.h"
 #include "UICommon.h"
-#include <Core/Resource/Cooker/CTemplateWriter.h>
 #include <Core/Resource/Factory/CTemplateLoader.h>
 #include <QtConcurrent/QtConcurrent>
 #include <iterator>
@@ -227,7 +226,7 @@ void CGeneratePropertyNamesDialog::ApplyChanges()
         u32 ID = TO_TSTRING( pItem->text(2) ).ToInt32();
 
         QString NewName = pItem->text(0);
-        CMasterTemplate::RenameProperty( ID, TO_TSTRING(NewName) );
+        CGameTemplate::RenameProperty( ID, TO_TSTRING(NewName) );
         pItem->setText(3, NewName);
     }
 
@@ -259,7 +258,7 @@ void CGeneratePropertyNamesDialog::CheckForNewResults()
             ColumnText << TO_QSTRING( rkName.Name )
                        << TO_QSTRING( rkName.Type )
                        << TO_QSTRING( TString::HexString(rkName.ID) )
-                       << TO_QSTRING( CMasterTemplate::PropertyName(rkName.ID) );
+                       << TO_QSTRING( CGameTemplate::PropertyName(rkName.ID) );
 
             QTreeWidgetItem* pItem = new CCheckableTreeWidgetItem(pTreeWidget, ColumnText);
             pItem->setFlags(Qt::ItemIsEnabled |

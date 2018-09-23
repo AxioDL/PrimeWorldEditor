@@ -5,11 +5,11 @@
 #include "CFlagsProperty.h"
 #include "CPointerProperty.h"
 
-#include "Core/Resource/Script/CMasterTemplate.h"
+#include "Core/Resource/Script/CGameTemplate.h"
 #include "Core/Resource/Script/CScriptTemplate.h"
 
-/** IPropertyNew */
-IPropertyNew::IPropertyNew(EGame Game)
+/** IProperty */
+IProperty::IProperty(EGame Game)
     : mpParent( nullptr )
     , mpPointerParent( nullptr )
     , mpArchetype( nullptr )
@@ -17,12 +17,12 @@ IPropertyNew::IPropertyNew(EGame Game)
     , mpScriptTemplate( nullptr )
     , mOffset( -1 )
     , mID( -1 )
-    , mCookPreference( ECookPreferenceNew::Default )
+    , mCookPreference( ECookPreference::Default )
     , mMinVersion( 0.0f )
     , mMaxVersion( FLT_MAX )
 {}
 
-void IPropertyNew::_ClearChildren()
+void IProperty::_ClearChildren()
 {
     for (int ChildIdx = 0; ChildIdx < mChildren.size(); ChildIdx++)
         delete mChildren[ChildIdx];
@@ -30,7 +30,7 @@ void IPropertyNew::_ClearChildren()
     mChildren.clear();
 }
 
-IPropertyNew::~IPropertyNew()
+IProperty::~IProperty()
 {
     // Remove from archetype
     if( mpArchetype != nullptr )
@@ -48,17 +48,17 @@ IPropertyNew::~IPropertyNew()
     _ClearChildren();
 }
 
-const char* IPropertyNew::HashableTypeName() const
+const char* IProperty::HashableTypeName() const
 {
     return PropEnumToHashableTypeName( Type() );
 }
 
-void* IPropertyNew::GetChildDataPointer(void* pPropertyData) const
+void* IProperty::GetChildDataPointer(void* pPropertyData) const
 {
     return pPropertyData;
 }
 
-void IPropertyNew::Serialize(IArchive& rArc)
+void IProperty::Serialize(IArchive& rArc)
 {
     // Always serialize ID first! ID is always required (except for root properties, which have an ID of 0xFFFFFFFF)
     // because they are needed to look up the correct property to apply parameter overrides to.
@@ -72,8 +72,8 @@ void IPropertyNew::Serialize(IArchive& rArc)
 
         if (rArc.IsReader() && !ArchetypeName.IsEmpty())
         {
-            CMasterTemplate* pMaster = CMasterTemplate::MasterForGame( Game() );
-            IPropertyNew* pArchetype = pMaster->FindPropertyArchetype(ArchetypeName);
+            CGameTemplate* pGame = CGameTemplate::GetGameTemplate( Game() );
+            IProperty* pArchetype = pGame->FindPropertyArchetype(ArchetypeName);
 
             // The archetype must exist, or else the template file is malformed.
             ASSERT(pArchetype != nullptr);
@@ -95,7 +95,7 @@ void IPropertyNew::Serialize(IArchive& rArc)
     }
 
     rArc << SerialParameter("Description",      mDescription,       SH_Optional, mpArchetype ? mpArchetype->mDescription : "")
-         << SerialParameter("CookPreference",   mCookPreference,    SH_Optional, mpArchetype ? mpArchetype->mCookPreference : ECookPreferenceNew::Default)
+         << SerialParameter("CookPreference",   mCookPreference,    SH_Optional, mpArchetype ? mpArchetype->mCookPreference : ECookPreference::Default)
          << SerialParameter("MinVersion",       mMinVersion,        SH_Optional, mpArchetype ? mpArchetype->mMinVersion : 0.f)
          << SerialParameter("MaxVersion",       mMaxVersion,        SH_Optional, mpArchetype ? mpArchetype->mMaxVersion : FLT_MAX)
          << SerialParameter("Suffix",           mSuffix,            SH_Optional, mpArchetype ? mpArchetype->mSuffix : "");
@@ -103,7 +103,7 @@ void IPropertyNew::Serialize(IArchive& rArc)
     // Children don't get serialized for most property types
 }
 
-void IPropertyNew::InitFromArchetype(IPropertyNew* pOther)
+void IProperty::InitFromArchetype(IProperty* pOther)
 {
     //@todo maybe somehow use Serialize for this instead?
     mpArchetype = pOther;
@@ -122,7 +122,7 @@ void IPropertyNew::InitFromArchetype(IPropertyNew* pOther)
     }
 }
 
-bool IPropertyNew::ShouldSerialize() const
+bool IProperty::ShouldSerialize() const
 {
     return mpArchetype == nullptr ||
            mName != mpArchetype->mName ||
@@ -133,7 +133,7 @@ bool IPropertyNew::ShouldSerialize() const
            mMaxVersion != mpArchetype->mMaxVersion;
 }
 
-TString IPropertyNew::GetTemplateFileName()
+TString IProperty::GetTemplateFileName()
 {
     if (mpScriptTemplate)
     {
@@ -141,7 +141,7 @@ TString IPropertyNew::GetTemplateFileName()
     }
     else if (IsArchetype())
     {
-        IPropertyNew* pRootParent = RootParent();
+        IProperty* pRootParent = RootParent();
         ASSERT(pRootParent != this);
         return pRootParent->GetTemplateFileName();
     }
@@ -151,7 +151,7 @@ TString IPropertyNew::GetTemplateFileName()
     }
 }
 
-void IPropertyNew::Initialize(IPropertyNew* pInParent, CScriptTemplate* pInTemplate, u32 InOffset)
+void IProperty::Initialize(IProperty* pInParent, CScriptTemplate* pInTemplate, u32 InOffset)
 {
     // Make sure we only get initialized once.
     ASSERT( (mFlags & EPropertyFlag::IsInitialized) == 0 );
@@ -164,7 +164,7 @@ void IPropertyNew::Initialize(IPropertyNew* pInParent, CScriptTemplate* pInTempl
     // Look up property name if needed.
     if (Game() >= eEchoesDemo && !IsRootParent() && !IsIntrinsic() && !mpParent->IsAtomic() && !IsArrayArchetype())
     {
-        mName = CMasterTemplate::PropertyName(mID);
+        mName = CGameTemplate::PropertyName(mID);
     }
 
     // Set any fields dependent on the parent...
@@ -190,7 +190,7 @@ void IPropertyNew::Initialize(IPropertyNew* pInParent, CScriptTemplate* pInTempl
 
     for (int ChildIdx = 0; ChildIdx < mChildren.size(); ChildIdx++)
     {
-        IPropertyNew* pChild = mChildren[ChildIdx];
+        IProperty* pChild = mChildren[ChildIdx];
 
         // update offset and round up to the child's alignment
         if (ChildIdx > 0)
@@ -207,7 +207,7 @@ void IPropertyNew::Initialize(IPropertyNew* pInParent, CScriptTemplate* pInTempl
     }
 }
 
-void* IPropertyNew::RawValuePtr(void* pData) const
+void* IProperty::RawValuePtr(void* pData) const
 {
     // For array archetypes, the caller needs to provide the pointer to the correct array item
     // Array archetypes can't store their index in the array so it's impossible to determine the correct pointer.
@@ -216,7 +216,7 @@ void* IPropertyNew::RawValuePtr(void* pData) const
     return pValuePtr;
 }
 
-IPropertyNew* IPropertyNew::ChildByID(u32 ID) const
+IProperty* IProperty::ChildByID(u32 ID) const
 {
     for (u32 ChildIdx = 0; ChildIdx < mChildren.size(); ChildIdx++)
     {
@@ -227,7 +227,7 @@ IPropertyNew* IPropertyNew::ChildByID(u32 ID) const
     return nullptr;
 }
 
-IPropertyNew* IPropertyNew::ChildByIDString(const TIDString& rkIdString)
+IProperty* IProperty::ChildByIDString(const TIDString& rkIdString)
 {
     // String must contain at least one ID!
     // some ID strings are formatted with 8 characters and some with 2 (plus the beginning "0x")
@@ -246,7 +246,7 @@ IPropertyNew* IPropertyNew::ChildByIDString(const TIDString& rkIdString)
         return nullptr;
     }
 
-    IPropertyNew* pNextChild = ChildByID(NextChildID);
+    IProperty* pNextChild = ChildByID(NextChildID);
 
     // Check if we need to recurse
     if (IDEndPos != -1)
@@ -259,14 +259,14 @@ IPropertyNew* IPropertyNew::ChildByIDString(const TIDString& rkIdString)
     }
 }
 
-bool IPropertyNew::ShouldCook(void*pPropertyData) const
+bool IProperty::ShouldCook(void*pPropertyData) const
 {
     switch (mCookPreference)
     {
-    case ECookPreferenceNew::Always:
+    case ECookPreference::Always:
         return true;
 
-    case ECookPreferenceNew::Never:
+    case ECookPreference::Never:
         return false;
 
     default:
@@ -274,28 +274,28 @@ bool IPropertyNew::ShouldCook(void*pPropertyData) const
     }
 }
 
-void IPropertyNew::SetName(const TString& rkNewName)
+void IProperty::SetName(const TString& rkNewName)
 {
     mName = rkNewName;
     mFlags.ClearFlag(EPropertyFlag::HasCachedNameCheck);
 }
 
-void IPropertyNew::SetDescription(const TString& rkNewDescription)
+void IProperty::SetDescription(const TString& rkNewDescription)
 {
     mDescription = rkNewDescription;
 }
 
-void IPropertyNew::SetSuffix(const TString& rkNewSuffix)
+void IProperty::SetSuffix(const TString& rkNewSuffix)
 {
     mSuffix = rkNewSuffix;
 }
 
-void IPropertyNew::SetPropertyFlags(FPropertyFlags FlagsToSet)
+void IProperty::SetPropertyFlags(FPropertyFlags FlagsToSet)
 {
     mFlags |= FlagsToSet;
 }
 
-bool IPropertyNew::HasAccurateName()
+bool IProperty::HasAccurateName()
 {
     // Exceptions for the three hardcoded 4CC property IDs
     if (mID == FOURCC('XFRM') || mID == FOURCC('INAM') || mID == FOURCC('ACTV'))
@@ -330,39 +330,39 @@ bool IPropertyNew::HasAccurateName()
 }
 
 /** IPropertyNew Accessors */
-EGame IPropertyNew::Game() const
+EGame IProperty::Game() const
 {
     return mGame;
 }
 
-IPropertyNew* IPropertyNew::Create(EPropertyTypeNew Type,
+IProperty* IProperty::Create(EPropertyType Type,
                                    EGame Game)
 {
-    IPropertyNew* pOut = nullptr;
+    IProperty* pOut = nullptr;
 
     switch (Type)
     {
-    case EPropertyTypeNew::Bool:            pOut = new CBoolProperty(Game);             break;
-    case EPropertyTypeNew::Byte:            pOut = new CByteProperty(Game);             break;
-    case EPropertyTypeNew::Short:           pOut = new CShortProperty(Game);            break;
-    case EPropertyTypeNew::Int:             pOut = new CIntProperty(Game);              break;
-    case EPropertyTypeNew::Float:           pOut = new CFloatProperty(Game);            break;
-    case EPropertyTypeNew::Choice:          pOut = new CChoiceProperty(Game);           break;
-    case EPropertyTypeNew::Enum:            pOut = new CEnumProperty(Game);             break;
-    case EPropertyTypeNew::Flags:           pOut = new CFlagsProperty(Game);            break;
-    case EPropertyTypeNew::String:          pOut = new CStringProperty(Game);           break;
-    case EPropertyTypeNew::Vector:          pOut = new CVectorProperty(Game);           break;
-    case EPropertyTypeNew::Color:           pOut = new CColorProperty(Game);            break;
-    case EPropertyTypeNew::Asset:           pOut = new CAssetProperty(Game);            break;
-    case EPropertyTypeNew::Sound:           pOut = new CSoundProperty(Game);            break;
-    case EPropertyTypeNew::Animation:       pOut = new CAnimationProperty(Game);        break;
-    case EPropertyTypeNew::AnimationSet:    pOut = new CAnimationSetProperty(Game);     break;
-    case EPropertyTypeNew::Sequence:        pOut = new CSequenceProperty(Game);         break;
-    case EPropertyTypeNew::Spline:          pOut = new CSplineProperty(Game);           break;
-    case EPropertyTypeNew::Guid:            pOut = new CGuidProperty(Game);             break;
-    case EPropertyTypeNew::Pointer:         pOut = new CPointerProperty(Game);          break;
-    case EPropertyTypeNew::Struct:          pOut = new CStructPropertyNew(Game);        break;
-    case EPropertyTypeNew::Array:           pOut = new CArrayProperty(Game);            break;
+    case EPropertyType::Bool:            pOut = new CBoolProperty(Game);             break;
+    case EPropertyType::Byte:            pOut = new CByteProperty(Game);             break;
+    case EPropertyType::Short:           pOut = new CShortProperty(Game);            break;
+    case EPropertyType::Int:             pOut = new CIntProperty(Game);              break;
+    case EPropertyType::Float:           pOut = new CFloatProperty(Game);            break;
+    case EPropertyType::Choice:          pOut = new CChoiceProperty(Game);           break;
+    case EPropertyType::Enum:            pOut = new CEnumProperty(Game);             break;
+    case EPropertyType::Flags:           pOut = new CFlagsProperty(Game);            break;
+    case EPropertyType::String:          pOut = new CStringProperty(Game);           break;
+    case EPropertyType::Vector:          pOut = new CVectorProperty(Game);           break;
+    case EPropertyType::Color:           pOut = new CColorProperty(Game);            break;
+    case EPropertyType::Asset:           pOut = new CAssetProperty(Game);            break;
+    case EPropertyType::Sound:           pOut = new CSoundProperty(Game);            break;
+    case EPropertyType::Animation:       pOut = new CAnimationProperty(Game);        break;
+    case EPropertyType::AnimationSet:    pOut = new CAnimationSetProperty(Game);     break;
+    case EPropertyType::Sequence:        pOut = new CSequenceProperty(Game);         break;
+    case EPropertyType::Spline:          pOut = new CSplineProperty(Game);           break;
+    case EPropertyType::Guid:            pOut = new CGuidProperty(Game);             break;
+    case EPropertyType::Pointer:         pOut = new CPointerProperty(Game);          break;
+    case EPropertyType::Struct:          pOut = new CStructProperty(Game);        break;
+    case EPropertyType::Array:           pOut = new CArrayProperty(Game);            break;
     }
 
     // If this assertion fails, then there is an unhandled type!
@@ -370,28 +370,28 @@ IPropertyNew* IPropertyNew::Create(EPropertyTypeNew Type,
     return pOut;
 }
 
-IPropertyNew* IPropertyNew::CreateCopy(IPropertyNew* pArchetype)
+IProperty* IProperty::CreateCopy(IProperty* pArchetype)
 {
-    IPropertyNew* pOut = Create(pArchetype->Type(), pArchetype->mGame);
+    IProperty* pOut = Create(pArchetype->Type(), pArchetype->mGame);
     pOut->InitFromArchetype(pArchetype);
     pArchetype->mSubInstances.push_back(pOut);
     return pOut;
 }
 
-IPropertyNew* IPropertyNew::CreateIntrinsic(EPropertyTypeNew Type,
+IProperty* IProperty::CreateIntrinsic(EPropertyType Type,
                                             EGame Game,
                                             u32 Offset,
                                             const TString& rkName)
 {
-    IPropertyNew* pOut = Create(Type, Game);
+    IProperty* pOut = Create(Type, Game);
     pOut->mFlags |= EPropertyFlag::IsIntrinsic;
     pOut->SetName(rkName);
     pOut->Initialize(nullptr, nullptr, Offset);
     return pOut;
 }
 
-IPropertyNew* IPropertyNew::CreateIntrinsic(EPropertyTypeNew Type,
-                                            IPropertyNew* pParent,
+IProperty* IProperty::CreateIntrinsic(EPropertyType Type,
+                                            IProperty* pParent,
                                             u32 Offset,
                                             const TString& rkName)
 {
@@ -399,7 +399,7 @@ IPropertyNew* IPropertyNew::CreateIntrinsic(EPropertyTypeNew Type,
     // If you are creating a root property, call the other overload takes an EGame instead of a parent.
     ASSERT(pParent != nullptr);
 
-    IPropertyNew* pOut = Create(Type, pParent->mGame);
+    IProperty* pOut = Create(Type, pParent->mGame);
     pOut->mFlags |= EPropertyFlag::IsIntrinsic;
     pOut->SetName(rkName);
     pOut->Initialize(pParent, nullptr, Offset);
@@ -407,7 +407,7 @@ IPropertyNew* IPropertyNew::CreateIntrinsic(EPropertyTypeNew Type,
     return pOut;
 }
 
-IPropertyNew* IPropertyNew::ArchiveConstructor(EPropertyTypeNew Type,
+IProperty* IProperty::ArchiveConstructor(EPropertyType Type,
                                                const IArchive& Arc)
 {
     return Create(Type, Arc.Game());

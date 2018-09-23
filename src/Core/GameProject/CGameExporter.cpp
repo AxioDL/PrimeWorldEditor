@@ -4,7 +4,7 @@
 #include "CResourceStore.h"
 #include "Core/CompressionUtil.h"
 #include "Core/Resource/CWorld.h"
-#include "Core/Resource/Script/CMasterTemplate.h"
+#include "Core/Resource/Script/CGameTemplate.h"
 #include <Common/AssertMacro.h>
 #include <Common/CScopedTimer.h>
 #include <Common/FileIO.h>

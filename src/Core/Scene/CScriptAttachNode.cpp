@@ -10,7 +10,7 @@ CScriptAttachNode::CScriptAttachNode(CScene *pScene, const SAttachment& rkAttach
     , mAttachType(rkAttachment.AttachType)
     , mLocatorName(rkAttachment.LocatorName)
 {
-    CStructPropertyNew* pBaseStruct = pParent->Template()->Properties();
+    CStructProperty* pBaseStruct = pParent->Template()->Properties();
 
     mpAttachAssetProp = pBaseStruct->ChildByIDString(rkAttachment.AttachProperty);
     mAttachAssetRef = CAssetRef(pParent->Instance()->PropertyData(), mpAttachAssetProp);

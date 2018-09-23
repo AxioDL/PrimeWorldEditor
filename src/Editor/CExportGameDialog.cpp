@@ -7,7 +7,7 @@
 #include <Core/GameProject/CAssetNameMap.h>
 #include <Core/GameProject/CGameExporter.h>
 #include <Core/GameProject/CGameInfo.h>
-#include <Core/Resource/Script/CMasterTemplate.h>
+#include <Core/Resource/Script/CGameTemplate.h>
 
 #include <QComboBox>
 #include <QDialogButtonBox>

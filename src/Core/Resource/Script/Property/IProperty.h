@@ -1,5 +1,5 @@
-#ifndef IPROPERTYNEW_H
-#define IPROPERTYNEW_H
+#ifndef IPROPERTY_H
+#define IPROPERTY_H
 
 #include "Core/Resource/Animation/CAnimationParameters.h"
 #include <Common/Common.h>
@@ -9,9 +9,9 @@
 #include <memory>
 
 /** Forward declares */
-class CMasterTemplate;
+class CGameTemplate;
 class CScriptTemplate;
-class CStructPropertyNew;
+class CStructProperty;
 
 /** Typedefs */
 typedef TString TIDString;
@@ -42,7 +42,7 @@ enum class EPropertyFlag : u32
 DECLARE_FLAGS_ENUMCLASS(EPropertyFlag, FPropertyFlags)
 
 /** Property type */
-enum class EPropertyTypeNew
+enum class EPropertyType
 {
     Bool            = FOURCC('BOOL'),
     Byte            = FOURCC('BYTE'),
@@ -68,38 +68,38 @@ enum class EPropertyTypeNew
     Invalid         = FOURCC('INVD')
 };
 
-inline const char* PropEnumToHashableTypeName(EPropertyTypeNew Type)
+inline const char* PropEnumToHashableTypeName(EPropertyType Type)
 {
     switch (Type)
     {
     // these names are required to generate accurate property ID hashes
-    case EPropertyTypeNew::Bool:    return "bool";
-    case EPropertyTypeNew::Int:     return "int";
-    case EPropertyTypeNew::Float:   return "float";
-    case EPropertyTypeNew::Choice:  return "choice";
-    case EPropertyTypeNew::Enum:    return "enum";
-    case EPropertyTypeNew::Flags:   return "Flags";
-    case EPropertyTypeNew::String:  return "string";
-    case EPropertyTypeNew::Vector:  return "Vector";
-    case EPropertyTypeNew::Color:   return "Color";
-    case EPropertyTypeNew::Asset:   return "asset";
-    case EPropertyTypeNew::Sound:   return "sound";
-    case EPropertyTypeNew::Spline:  return "spline";
-    case EPropertyTypeNew::Guid:    return "guid";
+    case EPropertyType::Bool:       return "bool";
+    case EPropertyType::Int:        return "int";
+    case EPropertyType::Float:      return "float";
+    case EPropertyType::Choice:     return "choice";
+    case EPropertyType::Enum:       return "enum";
+    case EPropertyType::Flags:      return "Flags";
+    case EPropertyType::String:     return "string";
+    case EPropertyType::Vector:     return "Vector";
+    case EPropertyType::Color:      return "Color";
+    case EPropertyType::Asset:      return "asset";
+    case EPropertyType::Sound:      return "sound";
+    case EPropertyType::Spline:     return "spline";
+    case EPropertyType::Guid:       return "guid";
     // unknown hashable types - used in hashes but these names are inaccurate
-    case EPropertyTypeNew::Animation:   return "animation";
-    case EPropertyTypeNew::Sequence:    return "sequence";
+    case EPropertyType::Animation:  return "animation";
+    case EPropertyType::Sequence:   return "sequence";
     // non hashable types - not used in ID hashes but still displayed on the UI
-    case EPropertyTypeNew::Byte:    return "byte";
-    case EPropertyTypeNew::Short:   return "short";
-    case EPropertyTypeNew::Array:   return "array";
+    case EPropertyType::Byte:       return "byte";
+    case EPropertyType::Short:      return "short";
+    case EPropertyType::Array:      return "array";
     // fallback
     default:                        return "";
     }
 }
 
 /** Enum that describes when/how properties should be cooked out */
-enum class ECookPreferenceNew
+enum class ECookPreference
 {
     Default,
     Always,
@@ -107,7 +107,7 @@ enum class ECookPreferenceNew
 };
 
 /** New property class */
-class IPropertyNew
+class IProperty
 {
     friend class CTemplateLoader;
     friend class CPropertyFactory;
@@ -117,21 +117,21 @@ protected:
     FPropertyFlags mFlags;
 
     /** Parent property */
-    IPropertyNew* mpParent;
+    IProperty* mpParent;
 
     /** Pointer parent; if non-null, this parent needs to be dereferenced to access the correct
      *  memory region that our property data is stored in */
-    IPropertyNew* mpPointerParent;
+    IProperty* mpPointerParent;
 
     /** Archetype property; source property that we copied metadata from */
-    IPropertyNew* mpArchetype;
+    IProperty* mpArchetype;
 
     /** Sub-instances of archetype properties. For non-archetypes, will be empty.
      *  @todo this really oughta be a linked list */
-    std::vector<IPropertyNew*> mSubInstances;
+    std::vector<IProperty*> mSubInstances;
 
     /** Child properties; these appear underneath this property on the UI */
-    std::vector<IPropertyNew*> mChildren;
+    std::vector<IProperty*> mChildren;
 
     /** Game this property belongs to */
     EGame mGame;
@@ -149,7 +149,7 @@ protected:
     TString mName;
     TString mDescription;
     TString mSuffix;
-    ECookPreferenceNew mCookPreference;
+    ECookPreference mCookPreference;
 
     /** Min/max allowed version number. These numbers correspond to the game's internal build number.
      *  This is not used yet but in the future it can be used to configure certain properties to only
@@ -159,14 +159,14 @@ protected:
     float mMaxVersion;
 
     /** Private constructor - use static methods to instantiate */
-    IPropertyNew(EGame Game);
+    IProperty(EGame Game);
     void _ClearChildren();
 
 public:
-    virtual ~IPropertyNew();
+    virtual ~IProperty();
 
     /** Interface */
-    virtual EPropertyTypeNew Type() const = 0;
+    virtual EPropertyType Type() const = 0;
     virtual u32 DataSize() const = 0;
     virtual u32 DataAlignment() const = 0;
     virtual void Construct(void* pData) const = 0;
@@ -183,15 +183,15 @@ public:
     virtual const char* HashableTypeName() const;
     virtual void* GetChildDataPointer(void* pPropertyData) const;
     virtual void Serialize(IArchive& rArc);
-    virtual void InitFromArchetype(IPropertyNew* pOther);
+    virtual void InitFromArchetype(IProperty* pOther);
     virtual bool ShouldSerialize() const;
     virtual TString GetTemplateFileName();
     
     /** Utility methods */
-    void Initialize(IPropertyNew* pInParent, CScriptTemplate* pInTemplate, u32 InOffset);
+    void Initialize(IProperty* pInParent, CScriptTemplate* pInTemplate, u32 InOffset);
     void* RawValuePtr(void* pData) const;
-    IPropertyNew* ChildByID(u32 ID) const;
-    IPropertyNew* ChildByIDString(const TIDString& rkIdString);
+    IProperty* ChildByID(u32 ID) const;
+    IProperty* ChildByIDString(const TIDString& rkIdString);
     bool ShouldCook(void* pPropertyData) const;
     void SetName(const TString& rkNewName);
     void SetDescription(const TString& rkNewDescription);
@@ -201,12 +201,12 @@ public:
 
     /** Accessors */
     EGame Game() const;
-    inline ECookPreferenceNew CookPreference() const;
+    inline ECookPreference CookPreference() const;
     inline u32 NumChildren() const;
-    inline IPropertyNew* ChildByIndex(u32 ChildIndex) const;
-    inline IPropertyNew* Parent() const;
-    inline IPropertyNew* RootParent();
-    inline IPropertyNew* Archetype() const;
+    inline IProperty* ChildByIndex(u32 ChildIndex) const;
+    inline IProperty* Parent() const;
+    inline IProperty* RootParent();
+    inline IProperty* Archetype() const;
     inline CScriptTemplate* ScriptTemplate() const;
     inline TString Name() const;
     inline TString Description() const;
@@ -222,50 +222,50 @@ public:
     inline bool IsRootParent() const        { return mpParent == nullptr; }
 
     /** Create */
-    static IPropertyNew* Create(EPropertyTypeNew Type,
+    static IProperty* Create(EPropertyType Type,
                                 EGame Game);
 
-    static IPropertyNew* CreateCopy(IPropertyNew* pArchetype);
+    static IProperty* CreateCopy(IProperty* pArchetype);
 
-    static IPropertyNew* CreateIntrinsic(EPropertyTypeNew Type,
+    static IProperty* CreateIntrinsic(EPropertyType Type,
                                          EGame Game,
                                          u32 Offset,
                                          const TString& rkName);
 
-    static IPropertyNew* CreateIntrinsic(EPropertyTypeNew Type,
-                                         IPropertyNew* pParent,
+    static IProperty* CreateIntrinsic(EPropertyType Type,
+                                         IProperty* pParent,
                                          u32 Offset,
                                          const TString& rkName);
 
-    static IPropertyNew* ArchiveConstructor(EPropertyTypeNew Type,
+    static IProperty* ArchiveConstructor(EPropertyType Type,
                                            const IArchive& Arc);
 };
 
-inline ECookPreferenceNew IPropertyNew::CookPreference() const
+inline ECookPreference IProperty::CookPreference() const
 {
     return mCookPreference;
 }
 
-inline u32 IPropertyNew::NumChildren() const
+inline u32 IProperty::NumChildren() const
 {
     return mChildren.size();
 }
 
-inline IPropertyNew* IPropertyNew::ChildByIndex(u32 ChildIndex) const
+inline IProperty* IProperty::ChildByIndex(u32 ChildIndex) const
 {
     ASSERT(ChildIndex >= 0 && ChildIndex < mChildren.size());
     return mChildren[ChildIndex];
 }
 
-inline IPropertyNew* IPropertyNew::Parent() const
+inline IProperty* IProperty::Parent() const
 {
     return mpParent;
 }
 
-inline IPropertyNew* IPropertyNew::RootParent()
+inline IProperty* IProperty::RootParent()
 {
-    IPropertyNew* pParent = Parent();
-    IPropertyNew* pOut = this;
+    IProperty* pParent = Parent();
+    IProperty* pOut = this;
 
     while (pParent)
     {
@@ -276,32 +276,32 @@ inline IPropertyNew* IPropertyNew::RootParent()
     return pOut;
 }
 
-inline IPropertyNew* IPropertyNew::Archetype() const
+inline IProperty* IProperty::Archetype() const
 {
     return mpArchetype;
 }
 
-inline CScriptTemplate* IPropertyNew::ScriptTemplate() const
+inline CScriptTemplate* IProperty::ScriptTemplate() const
 {
     return mpScriptTemplate;
 }
 
-inline TString IPropertyNew::Name() const
+inline TString IProperty::Name() const
 {
     return mName;
 }
 
-inline TString IPropertyNew::Description() const
+inline TString IProperty::Description() const
 {
     return mDescription;
 }
 
-inline TString IPropertyNew::Suffix() const
+inline TString IProperty::Suffix() const
 {
     return mSuffix;
 }
 
-inline TString IPropertyNew::IDString(bool FullyQualified) const
+inline TString IProperty::IDString(bool FullyQualified) const
 {
     if (FullyQualified && mpParent != nullptr && mpParent->Parent() != nullptr)
         return mpParent->IDString(FullyQualified) + ":" + TString::HexString(mID);
@@ -309,20 +309,20 @@ inline TString IPropertyNew::IDString(bool FullyQualified) const
         return TString::HexString(mID);
 }
 
-inline u32 IPropertyNew::Offset() const
+inline u32 IProperty::Offset() const
 {
     return mOffset;
 }
 
-inline u32 IPropertyNew::ID() const
+inline u32 IProperty::ID() const
 {
     return mID;
 }
 
-template<typename PropType, EPropertyTypeNew PropEnum>
-class TTypedPropertyNew : public IPropertyNew
+template<typename PropType, EPropertyType PropEnum>
+class TTypedProperty : public IProperty
 {
-    friend class IPropertyNew;
+    friend class IProperty;
     friend class CTemplateLoader;
 public:
     typedef PropType ValueType;
@@ -330,14 +330,14 @@ public:
 protected:
     PropType mDefaultValue;
 
-    TTypedPropertyNew(EGame Game)
-        : IPropertyNew(Game)
+    TTypedProperty(EGame Game)
+        : IProperty(Game)
     {
         memset(&mDefaultValue, 0, sizeof(PropType));
     }
 
 public:
-    virtual EPropertyTypeNew Type() const           { return PropEnum; }
+    virtual EPropertyType Type() const           { return PropEnum; }
     virtual u32 DataSize() const                    { return sizeof(PropType); }
     virtual u32 DataAlignment() const               { return alignof(PropType); }
     virtual void Construct(void* pData) const       { new(ValuePtr(pData)) PropType(mDefaultValue); }
@@ -347,10 +347,10 @@ public:
 
     virtual bool CanHaveDefault() const { return true; }
 
-    virtual void InitFromArchetype(IPropertyNew* pOther)
+    virtual void InitFromArchetype(IProperty* pOther)
     {
-        IPropertyNew::InitFromArchetype(pOther);
-        mDefaultValue = static_cast<TTypedPropertyNew*>(pOther)->mDefaultValue;
+        IProperty::InitFromArchetype(pOther);
+        mDefaultValue = static_cast<TTypedProperty*>(pOther)->mDefaultValue;
     }
 
     inline PropType* ValuePtr(void* pData) const
@@ -378,21 +378,21 @@ public:
         mDefaultValue = kInDefaultValue;
     }
 
-    inline static EPropertyTypeNew StaticType()     { return PropEnum; }
+    inline static EPropertyType StaticType()     { return PropEnum; }
 };
 
-template<typename PropType, EPropertyTypeNew PropEnum>
-class TSerializeableTypedProperty : public TTypedPropertyNew<PropType, PropEnum>
+template<typename PropType, EPropertyType PropEnum>
+class TSerializeableTypedProperty : public TTypedProperty<PropType, PropEnum>
 {
 protected:
     TSerializeableTypedProperty(EGame Game)
-        : TTypedPropertyNew(Game)
+        : TTypedProperty(Game)
     {}
 
 public:
     virtual void Serialize(IArchive& rArc)
     {
-        TTypedPropertyNew::Serialize(rArc);
+        TTypedProperty::Serialize(rArc);
         TSerializeableTypedProperty* pArchetype = static_cast<TSerializeableTypedProperty*>(mpArchetype);
 
         // Determine if default value should be serialized as optional.
@@ -408,13 +408,13 @@ public:
         {
             switch (Type())
             {
-            case EPropertyTypeNew::String:
-            case EPropertyTypeNew::Asset:
-            case EPropertyTypeNew::Animation:
-            case EPropertyTypeNew::AnimationSet:
-            case EPropertyTypeNew::Sequence:
-            case EPropertyTypeNew::Spline:
-            case EPropertyTypeNew::Guid:
+            case EPropertyType::String:
+            case EPropertyType::Asset:
+            case EPropertyType::Animation:
+            case EPropertyType::AnimationSet:
+            case EPropertyType::Sequence:
+            case EPropertyType::Spline:
+            case EPropertyType::Guid:
                 MakeOptional = true;
                 break;
             }
@@ -429,9 +429,9 @@ public:
 
     virtual bool ShouldSerialize() const
     {
-        TTypedPropertyNew* pArchetype = static_cast<TTypedPropertyNew*>(mpArchetype);
+        TTypedProperty* pArchetype = static_cast<TTypedProperty*>(mpArchetype);
 
-        return TTypedPropertyNew::ShouldSerialize() ||
+        return TTypedProperty::ShouldSerialize() ||
                 !(mDefaultValue == pArchetype->DefaultValue());
     }
 
@@ -442,17 +442,17 @@ public:
     }
 };
 
-template<typename PropType, EPropertyTypeNew PropEnum>
-class TNumericalPropertyNew : public TSerializeableTypedProperty<PropType, PropEnum>
+template<typename PropType, EPropertyType PropEnum>
+class TNumericalProperty : public TSerializeableTypedProperty<PropType, PropEnum>
 {
-    friend class IPropertyNew;
+    friend class IProperty;
     friend class CTemplateLoader;
 
 protected:
     PropType mMinValue;
     PropType mMaxValue;
 
-    TNumericalPropertyNew(EGame Game)
+    TNumericalProperty(EGame Game)
         : TSerializeableTypedProperty(Game)
         , mMinValue( -1 )
         , mMaxValue( -1 )
@@ -462,7 +462,7 @@ public:
     virtual void Serialize(IArchive& rArc)
     {
         TSerializeableTypedProperty::Serialize(rArc);
-        TNumericalPropertyNew* pArchetype = static_cast<TNumericalPropertyNew*>(mpArchetype);
+        TNumericalProperty* pArchetype = static_cast<TNumericalProperty*>(mpArchetype);
 
         rArc << SerialParameter("Min", mMinValue, SH_Optional, pArchetype ? pArchetype->mMinValue : (PropType) -1)
              << SerialParameter("Max", mMaxValue, SH_Optional, pArchetype ? pArchetype->mMaxValue : (PropType) -1);
@@ -470,16 +470,16 @@ public:
 
     virtual bool ShouldSerialize() const
     {
-        TNumericalPropertyNew* pArchetype = static_cast<TNumericalPropertyNew*>(mpArchetype);
+        TNumericalProperty* pArchetype = static_cast<TNumericalProperty*>(mpArchetype);
         return TSerializeableTypedProperty::ShouldSerialize() ||
                 mMinValue != pArchetype->mMinValue ||
                 mMaxValue != pArchetype->mMaxValue;
     }
 
-    virtual void InitFromArchetype(IPropertyNew* pOther)
+    virtual void InitFromArchetype(IProperty* pOther)
     {
         TSerializeableTypedProperty::InitFromArchetype(pOther);
-        TNumericalPropertyNew* pCastOther = static_cast<TNumericalPropertyNew*>(pOther);
+        TNumericalProperty* pCastOther = static_cast<TNumericalProperty*>(pOther);
         mMinValue = pCastOther->mMinValue;
         mMaxValue = pCastOther->mMaxValue;
     }
@@ -498,7 +498,7 @@ public:
 
 /** Property casting with dynamic type checking */
 template<class PropertyClass>
-inline PropertyClass* TPropCast(IPropertyNew* pProperty)
+inline PropertyClass* TPropCast(IProperty* pProperty)
 {
     if (pProperty && pProperty->Type() == PropertyClass::StaticType())
     {
@@ -510,4 +510,4 @@ inline PropertyClass* TPropCast(IPropertyNew* pProperty)
     }
 }
 
-#endif // IPROPERTYNEW_H
+#endif // IPROPERTY_H

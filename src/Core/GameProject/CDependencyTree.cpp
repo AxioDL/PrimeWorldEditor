@@ -1,7 +1,7 @@
 #include "CDependencyTree.h"
 #include "Core/GameProject/CGameProject.h"
 #include "Core/Resource/Animation/CAnimSet.h"
-#include "Core/Resource/Script/CMasterTemplate.h"
+#include "Core/Resource/Script/CGameTemplate.h"
 #include "Core/Resource/Script/CScriptLayer.h"
 #include "Core/Resource/Script/CScriptObject.h"
 
@@ -360,7 +360,7 @@ void CAreaDependencyTree::AddScriptLayer(CScriptLayer *pLayer, const std::vector
 
 void CAreaDependencyTree::GetModuleDependencies(EGame Game, std::vector<TString>& rModuleDepsOut, std::vector<u32>& rModuleLayerOffsetsOut) const
 {
-    CMasterTemplate *pMaster = CMasterTemplate::MasterForGame(Game);
+    CGameTemplate *pGame = CGameTemplate::GetGameTemplate(Game);
 
     // Output module list will be split per-script layer
     // The output offset list contains two offsets per layer - start index and end index
@@ -386,7 +386,7 @@ void CAreaDependencyTree::GetModuleDependencies(EGame Game, std::vector<TString>
             if (UsedObjectTypes.find(ObjType) == UsedObjectTypes.end())
             {
                 // Get the module list for this object type and check whether any of them are new before adding them to the output list
-                CScriptTemplate *pTemplate = pMaster->TemplateByID(ObjType);
+                CScriptTemplate *pTemplate = pGame->TemplateByID(ObjType);
                 const std::vector<TString>& rkModules = pTemplate->RequiredModules();
 
                 for (u32 iMod = 0; iMod < rkModules.size(); iMod++)

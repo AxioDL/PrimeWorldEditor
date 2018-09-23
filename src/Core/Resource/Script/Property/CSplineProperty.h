@@ -3,13 +3,13 @@
 
 #include "IProperty.h"
 
-class CSplineProperty : public TTypedPropertyNew< std::vector<char>, EPropertyTypeNew::Spline >
+class CSplineProperty : public TTypedProperty< std::vector<char>, EPropertyType::Spline >
 {
-    friend class IPropertyNew;
+    friend class IProperty;
 
 protected:
     CSplineProperty(EGame Game)
-        : TTypedPropertyNew(Game)
+        : TTypedProperty(Game)
     {}
 
 public:

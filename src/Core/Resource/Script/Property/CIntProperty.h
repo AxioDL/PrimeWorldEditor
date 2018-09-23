@@ -3,13 +3,13 @@
 
 #include "IProperty.h"
 
-class CIntProperty : public TNumericalPropertyNew< s32, EPropertyTypeNew::Int >
+class CIntProperty : public TNumericalProperty< s32, EPropertyType::Int >
 {
-    friend class IPropertyNew;
+    friend class IProperty;
 
 protected:
     CIntProperty(EGame Game)
-        : TNumericalPropertyNew(Game)
+        : TNumericalProperty(Game)
     {}
 
 public:

@@ -2,7 +2,7 @@
 #define CTYPESINSTANCEMODEL_H
 
 #include "CWorldEditor.h"
-#include <Core/Resource/Script/CMasterTemplate.h>
+#include <Core/Resource/Script/CGameTemplate.h>
 #include <Core/Resource/Script/CScriptTemplate.h>
 #include <Core/Scene/CSceneNode.h>
 
@@ -35,7 +35,7 @@ private:
     CWorldEditor *mpEditor;
     CScene *mpScene;
     CGameArea *mpArea;
-    CMasterTemplate *mpCurrentMaster;
+    CGameTemplate *mpCurrentGame;
     EInstanceModelType mModelType;
     QList<CScriptTemplate*> mTemplateList;
     QStringList mBaseItems;

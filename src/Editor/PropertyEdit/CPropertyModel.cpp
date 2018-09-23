@@ -16,7 +16,7 @@ CPropertyModel::CPropertyModel(QObject *pParent /*= 0*/)
 {
 }
 
-int CPropertyModel::RecursiveBuildArrays(IPropertyNew* pProperty, int ParentID)
+int CPropertyModel::RecursiveBuildArrays(IProperty* pProperty, int ParentID)
 {
     // Insert into an unused slot if one exists. Otherwise, append to the end of the array.
     int MyID = -1;
@@ -38,7 +38,7 @@ int CPropertyModel::RecursiveBuildArrays(IPropertyNew* pProperty, int ParentID)
     int RowNumber = (ParentID >= 0 ? mProperties[ParentID].ChildIDs.size() : 0);
     mProperties[MyID].Index = createIndex(RowNumber, 0, MyID);
 
-    if (pProperty->Type() == EPropertyTypeNew::Array)
+    if (pProperty->Type() == EPropertyType::Array)
     {
         CArrayProperty* pArray = TPropCast<CArrayProperty>(pProperty);
         u32 ArrayCount = pArray->ArrayCount(mpPropertyData);
@@ -70,7 +70,7 @@ int CPropertyModel::RecursiveBuildArrays(IPropertyNew* pProperty, int ParentID)
     return MyID;
 }
 
-void CPropertyModel::ConfigureIntrinsic(CGameProject* pProject, IPropertyNew* pRootProperty, void* pPropertyData)
+void CPropertyModel::ConfigureIntrinsic(CGameProject* pProject, IProperty* pRootProperty, void* pPropertyData)
 {
     beginResetModel();
 
@@ -89,13 +89,13 @@ void CPropertyModel::ConfigureIntrinsic(CGameProject* pProject, IPropertyNew* pR
     endResetModel();
 }
 
-void CPropertyModel::ConfigureScript(CGameProject* pProject, IPropertyNew* pRootProperty, CScriptObject* pObject)
+void CPropertyModel::ConfigureScript(CGameProject* pProject, IProperty* pRootProperty, CScriptObject* pObject)
 {
     ConfigureIntrinsic(pProject, pRootProperty, pObject ? pObject->PropertyData() : nullptr);
     mpObject = pObject;
 }
 
-IPropertyNew* CPropertyModel::PropertyForIndex(const QModelIndex& rkIndex, bool HandleFlaggedIndices) const
+IProperty* CPropertyModel::PropertyForIndex(const QModelIndex& rkIndex, bool HandleFlaggedIndices) const
 {
     if (!rkIndex.isValid()) return mpRootProperty;
 
@@ -112,7 +112,7 @@ IPropertyNew* CPropertyModel::PropertyForIndex(const QModelIndex& rkIndex, bool 
     return mProperties[Index].pProperty;
 }
 
-QModelIndex CPropertyModel::IndexForProperty(IPropertyNew *pProp) const
+QModelIndex CPropertyModel::IndexForProperty(IProperty *pProp) const
 {
     // Array archetype properties cannot be associated with a single index because the same IProperty
     // is used for every element of the array. So instead fetch the index for the array itself.
@@ -121,7 +121,7 @@ QModelIndex CPropertyModel::IndexForProperty(IPropertyNew *pProp) const
         while (pProp && pProp->IsArrayArchetype())
             pProp = pProp->Parent();
 
-        ASSERT(pProp != nullptr && pProp->Type() == EPropertyTypeNew::Array);
+        ASSERT(pProp != nullptr && pProp->Type() == EPropertyType::Array);
     }
 
     if (pProp == mpRootProperty) return QModelIndex();
@@ -146,7 +146,7 @@ void* CPropertyModel::DataPointerForIndex(const QModelIndex& rkIndex) const
     int ArrayIndices[2];
     int MaxIndex = -1;
 
-    IPropertyNew* pProperty = mProperties[ID].pProperty;
+    IProperty* pProperty = mProperties[ID].pProperty;
 
     while (pProperty->IsArrayArchetype())
     {
@@ -188,15 +188,15 @@ int CPropertyModel::rowCount(const QModelIndex& rkParent) const
     if (rkParent.column() != 0) return 0;
     if (rkParent.internalId() & 0x80000000) return 0;
 
-    IPropertyNew *pProp = PropertyForIndex(rkParent, false);
+    IProperty *pProp = PropertyForIndex(rkParent, false);
     int ID = rkParent.internalId();
 
     switch (pProp->Type())
     {
-    case EPropertyTypeNew::Flags:
+    case EPropertyType::Flags:
         return TPropCast<CFlagsProperty>(pProp)->NumFlags();
 
-    case EPropertyTypeNew::AnimationSet:
+    case EPropertyType::AnimationSet:
     {
         void* pData = DataPointerForIndex(rkParent);
         CAnimationParameters Params = TPropCast<CAnimationSetProperty>(pProp)->Value(pData);
@@ -230,10 +230,10 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
     {
         if (rkIndex.internalId() & 0x80000000)
         {
-            IPropertyNew *pProp = PropertyForIndex(rkIndex, true);
-            EPropertyTypeNew Type = pProp->Type();
+            IProperty *pProp = PropertyForIndex(rkIndex, true);
+            EPropertyType Type = pProp->Type();
 
-            if (Type == EPropertyTypeNew::Flags)
+            if (Type == EPropertyType::Flags)
             {
                 CFlagsProperty* pFlags = TPropCast<CFlagsProperty>(pProp);
 
@@ -249,7 +249,7 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                 }
             }
 
-            else if (Type == EPropertyTypeNew::AnimationSet)
+            else if (Type == EPropertyType::AnimationSet)
             {
                 void* pData = DataPointerForIndex(rkIndex);
                 CAnimationSetProperty* pAnimSet = TPropCast<CAnimationSetProperty>(pProp);
@@ -300,14 +300,14 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
 
         else
         {
-            IPropertyNew *pProp = PropertyForIndex(rkIndex, false);
+            IProperty *pProp = PropertyForIndex(rkIndex, false);
 
             if (rkIndex.column() == 0)
             {
                 // Check for arrays
-                IPropertyNew *pParent = pProp->Parent();
+                IProperty *pParent = pProp->Parent();
 
-                if (pParent && pParent->Type() == EPropertyTypeNew::Array)
+                if (pParent && pParent->Type() == EPropertyType::Array)
                 {
                     // For direct array sub-properties, display the element index after the name
                     TString ElementName = pProp->Name();
@@ -325,14 +325,14 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                 switch (pProp->Type())
                 {
                 // Enclose vector property text in parentheses
-                case EPropertyTypeNew::Vector:
+                case EPropertyType::Vector:
                 {
                     CVector3f Value = TPropCast<CVectorProperty>(pProp)->Value(pData);
                     return TO_QSTRING("(" + Value.ToString() + ")");
                 }
 
                 // Display the AGSC/sound name for sounds
-                case EPropertyTypeNew::Sound:
+                case EPropertyType::Sound:
                 {
                     CSoundProperty* pSound = TPropCast<CSoundProperty>(pProp);
                     u32 SoundID = pSound->Value(pData);
@@ -358,12 +358,12 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                 }
 
                 // Display character name for characters
-                case EPropertyTypeNew::AnimationSet:
+                case EPropertyType::AnimationSet:
                     return TO_QSTRING(TPropCast<CAnimationSetProperty>(pProp)->Value(pData).GetCurrentCharacterName());
 
                 // Display enumerator name for enums (but only on ToolTipRole)
-                case EPropertyTypeNew::Choice:
-                case EPropertyTypeNew::Enum:
+                case EPropertyType::Choice:
+                case EPropertyType::Enum:
                     if (Role == Qt::ToolTipRole)
                     {
                         CEnumProperty *pEnum = TPropCast<CEnumProperty>(pProp);
@@ -374,20 +374,20 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                     else return "";
 
                 // Display the element count for arrays
-                case EPropertyTypeNew::Array:
+                case EPropertyType::Array:
                 {
                     u32 Count = TPropCast<CArrayProperty>(pProp)->Value(pData);
                     return QString("%1 element%2").arg(Count).arg(Count != 1 ? "s" : "");
                 }
 
                 // Display "[spline]" for splines (todo: proper support)
-                case EPropertyTypeNew::Spline:
+                case EPropertyType::Spline:
                     return "[spline]";
 
                 // No display text on properties with persistent editors
-                case EPropertyTypeNew::Bool:
-                case EPropertyTypeNew::Asset:
-                case EPropertyTypeNew::Color:
+                case EPropertyType::Bool:
+                case EPropertyType::Asset:
+                case EPropertyType::Color:
                     if (Role == Qt::DisplayRole)
                         return "";
                 // fall through
@@ -404,13 +404,13 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
         if (!(rkIndex.internalId() & 0x80000000))
         {
             // Add name
-            IPropertyNew *pProp = PropertyForIndex(rkIndex, false);
+            IProperty *pProp = PropertyForIndex(rkIndex, false);
             QString DisplayText = data(rkIndex, Qt::DisplayRole).toString();
             QString TypeName = pProp->HashableTypeName();
             QString Text = QString("<b>%1</b> <i>(%2)</i>").arg(DisplayText).arg(TypeName);
 
             // Add uncooked notification
-            if (pProp->CookPreference() == ECookPreferenceNew::Never)
+            if (pProp->CookPreference() == ECookPreference::Never)
             {
                 Text.prepend("<i>[uncooked]</i>");
             }
@@ -420,7 +420,7 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
             if (!Desc.IsEmpty()) Text += "<br/>" + TO_QSTRING(Desc);
 
             // Spline notification
-            if (pProp->Type() == EPropertyTypeNew::Spline)
+            if (pProp->Type() == EPropertyType::Spline)
                 Text += "<br/><i>(NOTE: Spline properties are currently unsupported for editing)</i>";
 
             return Text;
@@ -434,7 +434,7 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
 
         if (mBoldModifiedProperties)
         {
-            IPropertyNew *pProp = PropertyForIndex(rkIndex, true);
+            IProperty *pProp = PropertyForIndex(rkIndex, true);
 
             if (!pProp->IsArrayArchetype())
             {
@@ -455,7 +455,7 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
     {
         if (mShowNameValidity && mpRootProperty->ScriptTemplate()->Game() >= eEchoesDemo)
         {
-            IPropertyNew *pProp = PropertyForIndex(rkIndex, true);
+            IProperty *pProp = PropertyForIndex(rkIndex, true);
 
             // Don't highlight the name of the root property
             if (pProp && pProp->Parent() != nullptr)
@@ -477,11 +477,11 @@ QModelIndex CPropertyModel::index(int Row, int Column, const QModelIndex& rkPare
         return QModelIndex();
 
     // Check property for children
-    IPropertyNew* pParent = (rkParent.isValid() ? PropertyForIndex(rkParent, false) : mpRootProperty);
-    EPropertyTypeNew ParentType = pParent->Type();
+    IProperty* pParent = (rkParent.isValid() ? PropertyForIndex(rkParent, false) : mpRootProperty);
+    EPropertyType ParentType = pParent->Type();
     int ParentID = rkParent.internalId();
 
-    if (ParentType == EPropertyTypeNew::Flags || ParentType == EPropertyTypeNew::AnimationSet)
+    if (ParentType == EPropertyType::Flags || ParentType == EPropertyType::AnimationSet)
     {
         return createIndex(Row, Column, ParentID | 0x80000000);
     }
@@ -517,7 +517,7 @@ Qt::ItemFlags CPropertyModel::flags(const QModelIndex& rkIndex) const
     else return (Qt::ItemIsEnabled | Qt::ItemIsEditable);
 }
 
-void CPropertyModel::NotifyPropertyModified(class CScriptObject*, IPropertyNew* pProp)
+void CPropertyModel::NotifyPropertyModified(class CScriptObject*, IProperty* pProp)
 {
     NotifyPropertyModified(IndexForProperty(pProp));
 }
@@ -545,7 +545,7 @@ void CPropertyModel::NotifyPropertyModified(const QModelIndex& rkIndex)
 void CPropertyModel::ArrayAboutToBeResized(const QModelIndex& rkIndex, u32 NewSize)
 {
     QModelIndex Index = rkIndex.sibling(rkIndex.row(), 0);
-    IPropertyNew* pProperty = PropertyForIndex(Index, false);
+    IProperty* pProperty = PropertyForIndex(Index, false);
     CArrayProperty* pArray = TPropCast<CArrayProperty>(pProperty);
     ASSERT(pArray);
 
@@ -564,7 +564,7 @@ void CPropertyModel::ArrayAboutToBeResized(const QModelIndex& rkIndex, u32 NewSi
 void CPropertyModel::ArrayResized(const QModelIndex& rkIndex, u32 OldSize)
 {
     QModelIndex Index = rkIndex.sibling(rkIndex.row(), 0);
-    IPropertyNew* pProperty = PropertyForIndex(Index, false);
+    IProperty* pProperty = PropertyForIndex(Index, false);
     CArrayProperty* pArray = TPropCast<CArrayProperty>(pProperty);
     ASSERT(pArray);
 

@@ -3,13 +3,13 @@
 
 #include "IProperty.h"
 
-class CByteProperty : public TNumericalPropertyNew< s8, EPropertyTypeNew::Byte >
+class CByteProperty : public TNumericalProperty< s8, EPropertyType::Byte >
 {
-    friend class IPropertyNew;
+    friend class IProperty;
 
 protected:
     CByteProperty(EGame Game)
-        : TNumericalPropertyNew(Game)
+        : TNumericalProperty(Game)
     {}
 
 public:

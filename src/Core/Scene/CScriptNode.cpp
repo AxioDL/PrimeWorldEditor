@@ -5,7 +5,7 @@
 #include "Core/Render/CGraphics.h"
 #include "Core/Render/CRenderer.h"
 #include "Core/Resource/Animation/CAnimSet.h"
-#include "Core/Resource/Script/CMasterTemplate.h"
+#include "Core/Resource/Script/CGameTemplate.h"
 #include "Core/Resource/Script/CScriptLayer.h"
 #include "Core/ScriptExtra/CScriptExtra.h"
 #include <Common/AssertMacro.h>
@@ -66,7 +66,7 @@ CScriptNode::CScriptNode(CScene *pScene, u32 NodeID, CSceneNode *pParent, CScrip
         }
 
         // Fetch LightParameters
-        mpLightParameters = new CLightParameters(mpInstance->LightParameters(), mpInstance->MasterTemplate()->Game());
+        mpLightParameters = new CLightParameters(mpInstance->LightParameters(), mpInstance->GameTemplate()->Game());
         SetLightLayerIndex(mpLightParameters->LightLayerIndex());
     }
 

@@ -3,13 +3,13 @@
 
 #include "IProperty.h"
 
-class CPointerProperty : public TTypedPropertyNew<void*, EPropertyTypeNew::Pointer>
+class CPointerProperty : public TTypedProperty<void*, EPropertyType::Pointer>
 {
     friend class CTemplateLoader;
-    friend class IPropertyNew;
+    friend class IProperty;
 
     CPointerProperty(EGame Game)
-        : TTypedPropertyNew(Game)
+        : TTypedProperty(Game)
     {}
 
 public:

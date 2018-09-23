@@ -1,6 +1,6 @@
 #include "CScriptObject.h"
 #include "CScriptLayer.h"
-#include "CMasterTemplate.h"
+#include "CGameTemplate.h"
 #include "Core/Resource/Animation/CAnimSet.h"
 
 CScriptObject::CScriptObject(u32 InstanceID, CGameArea *pArea, CScriptLayer *pLayer, CScriptTemplate *pTemplate)

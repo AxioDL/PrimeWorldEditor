@@ -1,5 +1,5 @@
 #include "CFlagsProperty.h"
-#include "Core/Resource/Script/CMasterTemplate.h"
+#include "Core/Resource/Script/CGameTemplate.h"
 
 void CFlagsProperty::Serialize(IArchive& rArc)
 {

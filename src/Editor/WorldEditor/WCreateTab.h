@@ -2,7 +2,7 @@
 #define WCREATETAB_H
 
 #include "CWorldEditor.h"
-#include <Core/Resource/Script/CMasterTemplate.h>
+#include <Core/Resource/Script/CGameTemplate.h>
 #include <QWidget>
 
 namespace Ui {

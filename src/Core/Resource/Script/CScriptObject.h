@@ -70,7 +70,7 @@ public:
 
     // Accessors
     CScriptTemplate* Template() const                               { return mpTemplate; }
-    CMasterTemplate* MasterTemplate() const                         { return mpTemplate->MasterTemplate(); }
+    CGameTemplate* GameTemplate() const                             { return mpTemplate->GameTemplate(); }
     CGameArea* Area() const                                         { return mpArea; }
     CScriptLayer* Layer() const                                     { return mpLayer; }
     u32 Version() const                                             { return mVersion; }

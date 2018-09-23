@@ -1,7 +1,7 @@
 #include "CPropertyNameGenerator.h"
 #include "IUIRelay.h"
 #include "Core/Resource/Factory/CTemplateLoader.h"
-#include "Core/Resource/Script/CMasterTemplate.h"
+#include "Core/Resource/Script/CGameTemplate.h"
 #include <Common/Hash/CCRC32.h>
 
 /** Default constructor */
@@ -151,7 +151,7 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
 
             // Check if this hash is a property ID - it's valid if there are any XMLs using this ID
             SGeneratedPropertyName PropertyName;
-            CMasterTemplate::XMLsUsingID(PropertyID, PropertyName.XmlList);
+            CGameTemplate::XMLsUsingID(PropertyID, PropertyName.XmlList);
 
             if (PropertyName.XmlList.size() > 0)
             {

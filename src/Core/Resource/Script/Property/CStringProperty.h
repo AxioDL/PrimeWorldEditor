@@ -3,9 +3,9 @@
 
 #include "IProperty.h"
 
-class CStringProperty : public TSerializeableTypedProperty< TString, EPropertyTypeNew::String >
+class CStringProperty : public TSerializeableTypedProperty< TString, EPropertyType::String >
 {
-    friend class IPropertyNew;
+    friend class IProperty;
 
 protected:
     CStringProperty(EGame Game)

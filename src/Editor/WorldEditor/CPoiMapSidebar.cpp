@@ -5,7 +5,7 @@
 
 #include <Core/Resource/CScan.h>
 #include <Core/Resource/Cooker/CPoiToWorldCooker.h>
-#include <Core/Resource/Script/CMasterTemplate.h>
+#include <Core/Resource/Script/CGameTemplate.h>
 #include <Core/ScriptExtra/CPointOfInterestExtra.h>
 
 #include <QMouseEvent>
@@ -339,7 +339,7 @@ void CPoiMapSidebar::StopPicking()
 void CPoiMapSidebar::OnInstanceListButtonClicked()
 {
     EGame Game = Editor()->CurrentGame();
-    CScriptTemplate *pPoiTemplate = CMasterTemplate::MasterForGame(Game)->TemplateByID("POIN");
+    CScriptTemplate *pPoiTemplate = CGameTemplate::GetGameTemplate(Game)->TemplateByID("POIN");
 
     CPoiListDialog Dialog(pPoiTemplate, &mSourceModel, Editor()->Scene(), this);
     Dialog.exec();

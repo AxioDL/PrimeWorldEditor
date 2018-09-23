@@ -10,7 +10,7 @@ CLinkDialog::CLinkDialog(CWorldEditor *pEditor, QWidget *pParent /*= 0*/)
     : QDialog(pParent)
     , ui(new Ui::CLinkDialog)
     , mpEditor(pEditor)
-    , mpMaster(nullptr)
+    , mpGame(nullptr)
     , mpSender(nullptr)
     , mpReceiver(nullptr)
     , mSenderStateModel(CStateMessageModel::eStates, this)
@@ -77,13 +77,13 @@ void CLinkDialog::EditLink(CLink *pLink)
         ui->ReceiverMessageComboBox->setCurrentIndex(mReceiverMessageModel.MessageIndex(pLink->Message()));
 }
 
-void CLinkDialog::SetMaster(CMasterTemplate *pMaster)
+void CLinkDialog::SetGame(CGameTemplate *pGame)
 {
-    if (mpMaster != pMaster)
+    if (mpGame != pGame)
     {
-        mpMaster = pMaster;
-        mSenderStateModel.SetMasterTemplate(pMaster);
-        mReceiverMessageModel.SetMasterTemplate(pMaster);
+        mpGame = pGame;
+        mSenderStateModel.SetGameTemplate(pGame);
+        mReceiverMessageModel.SetGameTemplate(pGame);
     }
 }
 
