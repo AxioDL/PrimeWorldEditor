@@ -35,9 +35,6 @@ class CFlagsProperty : public TSerializeableTypedProperty<u32, EPropertyType::Fl
     std::vector<SBitFlag> mBitFlags;
     u32 mAllFlags;
 
-    /** XML template file that this enum originated from; for archetypes */
-    TString mSourceFile;
-
     CFlagsProperty(EGame Game)
         : TSerializeableTypedProperty(Game)
         , mAllFlags(0)
@@ -65,7 +62,6 @@ public:
     virtual void PostInitialize();
     virtual void SerializeValue(void* pData, IArchive& rArc) const;
     virtual void InitFromArchetype(IProperty* pOther);
-    virtual TString GetTemplateFileName();
 
     /**
      * Checks whether there are any unrecognized bits toggled on in the property value.

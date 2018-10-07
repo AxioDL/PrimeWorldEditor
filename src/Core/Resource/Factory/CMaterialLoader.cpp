@@ -92,7 +92,7 @@ CMaterial* CMaterialLoader::ReadPrimeMaterial()
     pMat->mVtxDesc = ConvertToVertexDescription( mpFile->ReadLong() );
 
     // Unknowns
-    if (mVersion >= eEchoesDemo)
+    if (mVersion >= EGame::EchoesDemo)
     {
         pMat->mEchoesUnknownA = mpFile->ReadLong();
         pMat->mEchoesUnknownB = mpFile->ReadLong();
@@ -648,7 +648,7 @@ CMaterialSet* CMaterialLoader::LoadMaterialSet(IInputStream& rMat, EGame Version
     Loader.mpFile = &rMat;
     Loader.mVersion = Version;
 
-    if ((Version >= ePrimeDemo) && (Version <= eEchoes))
+    if ((Version >= EGame::PrimeDemo) && (Version <= EGame::Echoes))
         Loader.ReadPrimeMatSet();
     else
         Loader.ReadCorruptionMatSet();

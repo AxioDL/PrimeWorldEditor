@@ -41,7 +41,7 @@ void CSplinePathExtra::FindAttachedWaypoints(std::set<CWaypointExtra*>& rChecked
 
 void CSplinePathExtra::AddWaypoints()
 {
-    if (mGame != eReturns)
+    if (mGame != EGame::DKCReturns)
         return;
 
     std::set<CWaypointExtra*> CheckedWaypoints;

@@ -18,7 +18,7 @@ CResourceStore *gpEditorStore = nullptr;
 // Constructor for editor store
 CResourceStore::CResourceStore(const TString& rkDatabasePath)
     : mpProj(nullptr)
-    , mGame(ePrime)
+    , mGame(EGame::Prime)
     , mDatabaseCacheDirty(false)
 {
     mpDatabaseRoot = new CVirtualDirectory(this);
@@ -29,7 +29,7 @@ CResourceStore::CResourceStore(const TString& rkDatabasePath)
 // Main constructor for game projects and game exporter
 CResourceStore::CResourceStore(CGameProject *pProject)
     : mpProj(nullptr)
-    , mGame(eUnknownGame)
+    , mGame(EGame::Invalid)
     , mpDatabaseRoot(nullptr)
     , mDatabaseCacheDirty(false)
 {
@@ -218,7 +218,7 @@ void CResourceStore::CloseProject()
     delete mpDatabaseRoot;
     mpDatabaseRoot = nullptr;
     mpProj = nullptr;
-    mGame = eUnknownGame;
+    mGame = EGame::Invalid;
 }
 
 CVirtualDirectory* CResourceStore::GetVirtualDirectory(const TString& rkPath, bool AllowCreate)
@@ -622,5 +622,5 @@ bool CResourceStore::IsValidResourcePath(const TString& rkPath, const TString& r
 
 TString CResourceStore::StaticDefaultResourceDirPath(EGame Game)
 {
-    return (Game < eCorruptionProto ? "Uncategorized/" : "uncategorized/");
+    return (Game < EGame::CorruptionProto ? "Uncategorized/" : "uncategorized/");
 }

@@ -95,7 +95,7 @@ void CPropertyView::SetProperties(CStructRef InProperties)
 void CPropertyView::SetInstance(CScriptObject *pObj)
 {
     mpObject = pObj;
-    mpModel->SetBoldModifiedProperties(mpEditor ? (mpEditor->CurrentGame() > ePrime) : true);
+    mpModel->SetBoldModifiedProperties(mpEditor ? (mpEditor->CurrentGame() > EGame::Prime) : true);
 
     if (pObj)
         mpModel->ConfigureScript(pObj->Area()->Entry()->Project(), pObj->Template()->Properties(), pObj);
@@ -133,7 +133,7 @@ void CPropertyView::UpdateEditorProperties(const QModelIndex& rkParent)
                 // As an optimization, in MP2+, we don't need to update unless this is an atomic struct or if
                 // it's EditorProperties, because other structs never have editor properties in them.
                 // In MP1 this isn't the case so we need to update every struct regardless
-                if ((Game <= ePrime) || (pStruct->IsAtomic() || pStruct->ID() == 0x255A4580))
+                if ((Game <= EGame::Prime) || (pStruct->IsAtomic() || pStruct->ID() == 0x255A4580))
                     UpdateEditorProperties(Index0);
                 else
                     continue;
@@ -241,7 +241,7 @@ void CPropertyView::CreateContextMenu(const QPoint& rkPos)
             Menu.addAction(mpEditTemplateAction);
         }
 
-        if (mpEditor->CurrentGame() >= eEchoesDemo)
+        if (mpEditor->CurrentGame() >= EGame::EchoesDemo)
         {
             Menu.addAction(mpShowNameValidityAction);
         }

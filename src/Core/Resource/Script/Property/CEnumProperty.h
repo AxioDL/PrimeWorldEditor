@@ -42,9 +42,6 @@ class TEnumPropertyBase : public TSerializeableTypedProperty<s32, TypeEnum>
     };
     std::vector<SEnumValue> mValues;
 
-    /** XML template file that this enum originated from; for archetypes */
-    TString mSourceFile;
-
 protected:
     /** Constructor */
     TEnumPropertyBase(EGame Game)
@@ -66,7 +63,7 @@ public:
         TTypedProperty::Serialize(rArc);
 
         TEnumPropertyBase* pArchetype = static_cast<TEnumPropertyBase*>(mpArchetype);
-        u32 DefaultValueFlags = SH_HexDisplay | (pArchetype || Game() <= ePrime ? SH_Optional : 0);
+        u32 DefaultValueFlags = SH_HexDisplay | (pArchetype || Game() <= EGame::Prime ? SH_Optional : 0);
         rArc << SerialParameter("DefaultValue", mDefaultValue, DefaultValueFlags, pArchetype ? pArchetype->mDefaultValue : 0);
 
         if (!pArchetype || !rArc.CanSkipParameters() || mValues != pArchetype->mValues)
@@ -85,12 +82,6 @@ public:
         TTypedProperty::InitFromArchetype(pOther);
         TEnumPropertyBase* pOtherEnum = static_cast<TEnumPropertyBase*>(pOther);
         mValues = pOtherEnum->mValues;
-    }
-
-    virtual TString GetTemplateFileName()
-    {
-        ASSERT(IsArchetype() || mpArchetype);
-        return IsArchetype() ? mSourceFile : mpArchetype->GetTemplateFileName();
     }
 
     void AddValue(TString ValueName, u32 ValueID)

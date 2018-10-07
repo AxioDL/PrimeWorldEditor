@@ -13,15 +13,13 @@ public:
     typedef void* ValueType;
 
 protected:
-    /** For archetypes, the filename of the template XML file. */
-    TString mTemplateFileName;
-
     CStructProperty(EGame Game)
         : IProperty(Game)
     {}
 
 public:
     virtual EPropertyType Type() const;
+    virtual void PostInitialize();
     virtual u32 DataSize() const;
     virtual u32 DataAlignment() const;
     virtual void Construct(void* pData) const;
@@ -33,7 +31,6 @@ public:
     virtual void SerializeValue(void* pData, IArchive& Arc) const;
     virtual void InitFromArchetype(IProperty* pOther);
     virtual bool ShouldSerialize() const;
-    virtual TString GetTemplateFileName();
 
     inline static EPropertyType StaticType() { return EPropertyType::Struct; }
 };

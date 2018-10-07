@@ -22,7 +22,7 @@ public:
         : mGame(Game)
         , mpObject(nullptr)
         , mpArrayItemData(nullptr)
-        , mWriteGeneratedSeparately(WriteGeneratedObjectsSeparately && mGame >= eEchoesDemo)
+        , mWriteGeneratedSeparately(WriteGeneratedObjectsSeparately && mGame >= EGame::EchoesDemo)
     {}
 
     void WriteInstance(IOutputStream& rOut, CScriptObject *pInstance);

@@ -149,6 +149,8 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
             FullHash.Hash( *rkParams.TypeNames[TypeIdx] );
             u32 PropertyID = FullHash.Digest();
 
+            //@FIXME
+#if 0
             // Check if this hash is a property ID - it's valid if there are any XMLs using this ID
             SGeneratedPropertyName PropertyName;
             CGameTemplate::XMLsUsingID(PropertyID, PropertyName.XmlList);
@@ -202,6 +204,7 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
                     Log::Write(LogMsg);
                 }
             }
+#endif
         }
 
         // Every 250 tests, check with the progress notifier. Update the progress

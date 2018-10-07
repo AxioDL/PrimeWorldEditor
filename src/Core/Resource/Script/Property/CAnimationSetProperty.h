@@ -22,7 +22,7 @@ public:
 
     virtual const char* HashableTypeName() const
     {
-        return (Game() <= eEchoes ? "AnimationSet" : "CharacterAnimationSet");
+        return (Game() <= EGame::Echoes ? "AnimationSet" : "CharacterAnimationSet");
     }
 
     virtual CAnimationParameters GetSerializationDefaultValue()

@@ -13,6 +13,7 @@ CScriptTemplate::CScriptTemplate(CGameTemplate *pGame)
     : mpGame(pGame)
     , mpProperties(nullptr)
     , mVisible(true)
+    , mDirty(false)
     , mpNameProperty(nullptr)
     , mpPositionProperty(nullptr)
     , mpRotationProperty(nullptr)
@@ -42,7 +43,23 @@ CScriptTemplate::CScriptTemplate(CGameTemplate* pInGame, u32 InObjectID, const T
     , mpActiveProperty(nullptr)
     , mpLightParametersProperty(nullptr)
     , mVisible(true)
+    , mDirty(false)
 {
+    // Load
+    CXMLReader Reader(kInFilePath);
+    ASSERT(Reader.IsValid());
+    Serialize(Reader);
+
+    // Post load initialization
+    mSourceFile = kInFilePath;
+    mpProperties->Initialize(nullptr, this, 0);
+
+    if (!mNameIDString.IsEmpty())               mpNameProperty = TPropCast<CStringProperty>( mpProperties->ChildByIDString(mNameIDString) );
+    if (!mPositionIDString.IsEmpty())           mpPositionProperty = TPropCast<CVectorProperty>( mpProperties->ChildByIDString(mPositionIDString) );
+    if (!mRotationIDString.IsEmpty())           mpRotationProperty = TPropCast<CVectorProperty>( mpProperties->ChildByIDString(mRotationIDString) );
+    if (!mScaleIDString.IsEmpty())              mpScaleProperty = TPropCast<CVectorProperty>( mpProperties->ChildByIDString(mScaleIDString) );
+    if (!mActiveIDString.IsEmpty())             mpActiveProperty = TPropCast<CBoolProperty>( mpProperties->ChildByIDString(mActiveIDString) );
+    if (!mLightParametersIDString.IsEmpty())    mpLightParametersProperty = TPropCast<CStructProperty>( mpProperties->ChildByIDString(mLightParametersIDString) );
 }
 
 CScriptTemplate::~CScriptTemplate()
@@ -77,16 +94,15 @@ void CScriptTemplate::Serialize(IArchive& Arc)
         << SerialParameter("VolumeConditions", mVolumeConditions, SH_Optional);
 }
 
-void CScriptTemplate::PostLoad()
+void CScriptTemplate::Save(bool Force)
 {
-    mpProperties->Initialize(nullptr, this, 0);
-
-    if (!mNameIDString.IsEmpty())               mpNameProperty = TPropCast<CStringProperty>( mpProperties->ChildByIDString(mNameIDString) );
-    if (!mPositionIDString.IsEmpty())           mpPositionProperty = TPropCast<CVectorProperty>( mpProperties->ChildByIDString(mPositionIDString) );
-    if (!mRotationIDString.IsEmpty())           mpRotationProperty = TPropCast<CVectorProperty>( mpProperties->ChildByIDString(mRotationIDString) );
-    if (!mScaleIDString.IsEmpty())              mpScaleProperty = TPropCast<CVectorProperty>( mpProperties->ChildByIDString(mScaleIDString) );
-    if (!mActiveIDString.IsEmpty())             mpActiveProperty = TPropCast<CBoolProperty>( mpProperties->ChildByIDString(mActiveIDString) );
-    if (!mLightParametersIDString.IsEmpty())    mpLightParametersProperty = TPropCast<CStructProperty>( mpProperties->ChildByIDString(mLightParametersIDString) );
+    if (mDirty || Force)
+    {
+        CXMLWriter Writer(mSourceFile, "ScriptObject", 0, mpGame->Game());
+        ASSERT(Writer.IsValid());
+        Serialize(Writer);
+        mDirty = false;
+    }
 }
 
 EGame CScriptTemplate::Game() const

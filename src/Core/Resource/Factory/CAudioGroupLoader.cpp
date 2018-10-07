@@ -5,11 +5,11 @@ CAudioGroup* CAudioGroupLoader::LoadAGSC(IInputStream& rAGSC, CResourceEntry *pE
     // For now we only load sound define IDs and the group ID!
     // Version check
     u32 Check = rAGSC.PeekLong();
-    EGame Game = (Check == 0x1 ? eEchoes : ePrime);
+    EGame Game = (Check == 0x1 ? EGame::Echoes : EGame::Prime);
     CAudioGroup *pOut = new CAudioGroup(pEntry);
 
     // Read header, navigate to Proj chunk
-    if (Game == ePrime)
+    if (Game == EGame::Prime)
     {
         rAGSC.ReadString();
         pOut->mGroupName = rAGSC.ReadString();
@@ -38,7 +38,7 @@ CAudioGroup* CAudioGroupLoader::LoadAGSC(IInputStream& rAGSC, CResourceEntry *pE
         rAGSC.Seek(0x14, SEEK_CUR);
         u32 SfxTableStart = rAGSC.ReadLong();
 
-        if (Game == ePrime)
+        if (Game == EGame::Prime)
             pOut->mGroupID = GroupID;
         else
             ASSERT(pOut->mGroupID == GroupID);

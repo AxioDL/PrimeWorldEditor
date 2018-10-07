@@ -201,8 +201,8 @@ int CPropertyModel::rowCount(const QModelIndex& rkParent) const
         void* pData = DataPointerForIndex(rkParent);
         CAnimationParameters Params = TPropCast<CAnimationSetProperty>(pProp)->Value(pData);
 
-        if (Params.Version() <= eEchoes) return 3;
-        if (Params.Version() <= eCorruption) return 2;
+        if (Params.Version() <= EGame::Echoes) return 3;
+        if (Params.Version() <= EGame::Corruption) return 2;
         return 4;
     }
 
@@ -256,7 +256,7 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                 CAnimationParameters Params = pAnimSet->Value(pData);
 
                 // There are three different layouts for this property - one for MP1/2, one for MP3, and one for DKCR
-                if (Params.Version() <= eEchoes)
+                if (Params.Version() <= EGame::Echoes)
                 {
                     if (rkIndex.column() == 0)
                     {
@@ -270,7 +270,7 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                         return QString::number(Params.Unknown(0));
                 }
 
-                else if (Params.Version() <= eCorruption)
+                else if (Params.Version() <= EGame::Corruption)
                 {
                     if (rkIndex.column() == 0)
                     {
@@ -453,7 +453,7 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
 
     if (Role == Qt::ForegroundRole)
     {
-        if (mShowNameValidity && mpRootProperty->ScriptTemplate()->Game() >= eEchoesDemo)
+        if (mShowNameValidity && mpRootProperty->ScriptTemplate()->Game() >= EGame::EchoesDemo)
         {
             IProperty *pProp = PropertyForIndex(rkIndex, true);
 

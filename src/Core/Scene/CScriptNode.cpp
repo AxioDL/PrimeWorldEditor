@@ -188,7 +188,7 @@ void CScriptNode::Draw(FRenderOptions Options, int /*ComponentIndex*/, ERenderCo
         else
         {
             // DKCR doesn't support world lighting yet, so light nodes that don't have ingame models with default lighting
-            if (Template()->Game() == eReturns && !mpInstance->HasInGameModel() && CGraphics::sLightMode == CGraphics::eWorldLighting)
+            if (Template()->Game() == EGame::DKCReturns && !mpInstance->HasInGameModel() && CGraphics::sLightMode == CGraphics::eWorldLighting)
             {
                 CGraphics::SetDefaultLighting();
                 CGraphics::sVertexBlock.COLOR0_Amb = CGraphics::skDefaultAmbientColor;
@@ -624,7 +624,7 @@ void CScriptNode::GeneratePosition()
 void CScriptNode::TestGameModeVisibility()
 {
     // Don't render if we don't have an ingame model, or if this is the Prime series and the instance is not active.
-    if ((Template()->Game() < eReturns && !mpInstance->IsActive()) || !mpInstance->HasInGameModel())
+    if ((Template()->Game() < EGame::DKCReturns && !mpInstance->IsActive()) || !mpInstance->HasInGameModel())
         mGameModeVisibility = eNotVisible;
 
     // If this is Returns, only render if the instance is active OR if it has a near visible activation.

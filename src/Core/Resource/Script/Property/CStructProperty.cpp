@@ -6,6 +6,14 @@ EPropertyType CStructProperty::Type() const
     return EPropertyType::Struct;
 }
 
+void CStructProperty::PostInitialize()
+{
+    IProperty::PostInitialize();
+
+    // All structs should have an archetype.
+    ASSERT( IsRootParent() || mpArchetype != nullptr );
+}
+
 u32 CStructProperty::DataSize() const
 {
     if (!mChildren.empty())
@@ -74,12 +82,9 @@ void CStructProperty::Serialize(IArchive& rArc)
     bool Atomic = IsAtomic();
     rArc << SerialParameter("Atomic", Atomic, SH_Optional, false);
 
-    if (rArc.IsReader())
+    if (rArc.IsReader() && Atomic)
     {
-        if (Atomic)
-            mFlags.SetFlag(EPropertyFlag::IsAtomic);
-        else
-            mFlags.ClearFlag(EPropertyFlag::IsAtomic);
+        mFlags.SetFlag(EPropertyFlag::IsAtomic);
     }
 
     // Serialize archetype
@@ -186,10 +191,4 @@ bool CStructProperty::ShouldSerialize() const
     }
 
     return false;
-}
-
-TString CStructProperty::GetTemplateFileName()
-{
-    ASSERT(IsArchetype() || mpArchetype);
-    return IsArchetype() ? mTemplateFileName : mpArchetype->GetTemplateFileName();
 }

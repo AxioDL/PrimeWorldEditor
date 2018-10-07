@@ -161,7 +161,7 @@ void CMaterialCooker::WriteMaterialPrime(IOutputStream& rOut)
     bool HasKonst = (NumKonst > 0);
     u32 Flags;
 
-    if (mVersion <= ePrime)
+    if (mVersion <= EGame::Prime)
         Flags = 0x1003;
     else
         Flags = 0x4002;
@@ -178,13 +178,13 @@ void CMaterialCooker::WriteMaterialPrime(IOutputStream& rOut)
     // Vertex description
     u32 VtxFlags = ConvertFromVertexDescription( mpMat->VtxDesc() );
 
-    if (mVersion < eEchoes)
+    if (mVersion < EGame::Echoes)
         VtxFlags &= 0x00FFFFFF;
 
     rOut.WriteLong(VtxFlags);
 
     // Echoes unknowns
-    if (mVersion == eEchoes)
+    if (mVersion == EGame::Echoes)
     {
         rOut.WriteLong(mpMat->EchoesUnknownA());
         rOut.WriteLong(mpMat->EchoesUnknownB());
@@ -359,10 +359,10 @@ void CMaterialCooker::WriteCookedMatSet(CMaterialSet *pSet, EGame Version, IOutp
 
     switch (Version)
     {
-    case ePrimeDemo:
-    case ePrime:
-    case eEchoesDemo:
-    case eEchoes:
+    case EGame::PrimeDemo:
+    case EGame::Prime:
+    case EGame::EchoesDemo:
+    case EGame::Echoes:
         Cooker.WriteMatSetPrime(rOut);
         break;
     }
@@ -376,10 +376,10 @@ void CMaterialCooker::WriteCookedMaterial(CMaterial *pMat, EGame Version, IOutpu
 
     switch (Version)
     {
-    case ePrimeDemo:
-    case ePrime:
-    case eEchoesDemo:
-    case eEchoes:
+    case EGame::PrimeDemo:
+    case EGame::Prime:
+    case EGame::EchoesDemo:
+    case EGame::Echoes:
         Cooker.WriteMaterialPrime(rOut);
         break;
     // TODO: Corruption/Uncooked

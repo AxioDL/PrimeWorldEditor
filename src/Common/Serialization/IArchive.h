@@ -342,6 +342,7 @@ public:
         eArVer_32BitBinarySize,
         eArVer_Refactor,
         eArVer_MapAttributes,
+        eArVer_GameEnumClass,
         // Insert new versions before this line
         eArVer_Max
     };
@@ -350,7 +351,7 @@ public:
     IArchive()
         : mFileVersion(0)
         , mArchiveVersion(skCurrentArchiveVersion)
-        , mGame(eUnknownGame)
+        , mGame(EGame::Invalid)
         , mArchiveFlags(0)
     {
         // hack to reduce allocations
@@ -364,7 +365,15 @@ public:
     {
         *this << SerialParameter("ArchiveVer",  mArchiveVersion,    SH_Attribute)
               << SerialParameter("FileVer",     mFileVersion,       SH_Attribute | SH_Optional,     (u16) 0)
-              << SerialParameter("Game",        mGame,              SH_Attribute | SH_Optional,     eUnknownGame);
+              << SerialParameter("Game",        mGame,              SH_Attribute | SH_Optional,     EGame::Invalid);
+
+        if (IsReader())
+        {
+            if (mArchiveVersion > skCurrentArchiveVersion)
+            {
+                mArchiveVersion = skCurrentArchiveVersion;
+            }
+        }
     }
 
 private:
@@ -765,22 +774,11 @@ public:
         return CSerialVersion(mArchiveVersion, mFileVersion, mGame);
     }
 
-    /** Returns the last object of a requested type in the parameter stack. Returns nullptr if the wasn't one.
-     *  This function will not return the current object being serialized. */
-    template<typename ValType>
-    ValType* FindParentObject() const
+    /** Utility function for class versioning */
+    u32 SerializeClassVersion(u32 CurrentVersion)
     {
-        for (int ParmIdx = mParmStack.size() - 2; ParmIdx >= 0; ParmIdx--)
-        {
-            const SParmStackEntry& kEntry = mParmStack[ParmIdx];
-
-            if (kEntry.TypeID == typeid(ValType).hash_code())
-            {
-                return static_cast<ValType*>(kEntry.pDataPointer);
-            }
-        }
-
-        return nullptr;
+        *this << SerialParameter("ClassVer", CurrentVersion, SH_Attribute | SH_Optional, (u32) 0);
+        return CurrentVersion;
     }
 };
 
@@ -794,7 +792,7 @@ class TIsPrimitive : std::conditional< SerialType<T,IArchive>::Type == SerialTyp
 #include <codegen/EnumReflection.h>
 
 template<typename T, typename = typename std::enable_if< std::is_enum<T>::value >::type>
-inline void Serialize(IArchive& Arc, T& Val)
+inline void DefaultEnumSerialize(IArchive& Arc, T& Val)
 {
     if (Arc.IsTextFormat())
     {
@@ -814,6 +812,12 @@ inline void Serialize(IArchive& Arc, T& Val)
     {
         Arc.SerializePrimitive((u32&) Val, 0);
     }
+}
+
+template<typename T, typename = typename std::enable_if< std::is_enum<T>::value >::type>
+inline void Serialize(IArchive& Arc, T& Val)
+{
+    DefaultEnumSerialize(Arc, Val);
 }
 #endif
 
@@ -964,16 +968,16 @@ inline void SerializeMap_Internal(IArchive& Arc, MapType& Map)
     }
 }
 
-template<typename KeyType, typename ValType>
-inline void Serialize(IArchive& Arc, std::map<KeyType, ValType>& Map)
+template<typename KeyType, typename ValType, typename HashFunc>
+inline void Serialize(IArchive& Arc, std::map<KeyType, ValType, HashFunc>& Map)
 {
-    SerializeMap_Internal<KeyType, ValType, std::map<KeyType, ValType> >(Arc, Map);
+    SerializeMap_Internal<KeyType, ValType, std::map<KeyType, ValType, HashFunc> >(Arc, Map);
 }
 
-template<typename KeyType, typename ValType>
-inline void Serialize(IArchive& Arc, std::unordered_map<KeyType, ValType>& Map)
+template<typename KeyType, typename ValType, typename HashFunc>
+inline void Serialize(IArchive& Arc, std::unordered_map<KeyType, ValType, HashFunc>& Map)
 {
-    SerializeMap_Internal<KeyType, ValType, std::unordered_map<KeyType, ValType> >(Arc, Map);
+    SerializeMap_Internal<KeyType, ValType, std::unordered_map<KeyType, ValType, HashFunc> >(Arc, Map);
 }
 
 // Smart pointer serialize methods

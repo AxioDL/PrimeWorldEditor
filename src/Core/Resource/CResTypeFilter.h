@@ -11,7 +11,7 @@ class CResTypeFilter
     std::set<EResType> mAcceptedTypes;
 
 public:
-    CResTypeFilter() { }
+    CResTypeFilter() : mGame(EGame::Invalid) { }
     CResTypeFilter(EGame Game, const TString& rkTypeList) { FromString(Game, rkTypeList); }
 
     void SetAcceptedTypes(EGame Game, const TStringList& rkTypes)

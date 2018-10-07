@@ -22,7 +22,7 @@ public:
     {
         if (InStruct.IsValid())
         {
-            if (Game <= ePrime)
+            if (Game <= EGame::Prime)
             {
                 mWorldLightingOptions = TEnumRef<EWorldLightingOptions>(InStruct.DataPointer(), InStruct.Property()->ChildByIndex(0x7));
                 mLightLayer = CIntRef(InStruct.DataPointer(), InStruct.Property()->ChildByIndex(0xD));

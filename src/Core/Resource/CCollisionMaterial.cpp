@@ -21,7 +21,7 @@ ECollisionFlag CCollisionMaterial::SurfaceType(EGame Game) const
     const ECollisionFlag* pkFlagArray;
     u32 Num;
 
-    if (Game <= ePrime)
+    if (Game <= EGame::Prime)
     {
         pkFlagArray = skPrimeTypeHierarchy;
         Num = sizeof(skPrimeTypeHierarchy) / sizeof(ECollisionFlag);
@@ -79,5 +79,5 @@ bool CCollisionMaterial::IsFloor() const
 
 bool CCollisionMaterial::IsUnstandable(EGame Game) const
 {
-    return HasFlag(eCF_JumpNotAllowed) || (Game >= eCorruptionProto && !HasFlag(eCF_Floor) && HasAnyFlags(eCF_Wall | eCF_Ceiling));
+    return HasFlag(eCF_JumpNotAllowed) || (Game >= EGame::CorruptionProto && !HasFlag(eCF_Floor) && HasAnyFlags(eCF_Wall | eCF_Ceiling));
 }

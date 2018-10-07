@@ -64,7 +64,7 @@ void CWorldInfoSidebar::OnActiveProjectChanged(CGameProject *pProj)
     // Add/remove widgets from the form layout based on the game. This is needed because
     // simply hiding the widgets causes a minor spacing issue. The only fix seems to be
     // actually entirely removing the widgets from the layout when not in use.
-    bool IsEchoes = pProj && (pProj->Game() == eEchoesDemo || pProj->Game() == eEchoes);
+    bool IsEchoes = pProj && (pProj->Game() == EGame::EchoesDemo || pProj->Game() == EGame::Echoes);
     mpUI->DarkWorldNameStringLabel->setHidden(!IsEchoes);
     mpUI->DarkWorldNameSelector->setHidden(!IsEchoes);
 
@@ -120,7 +120,7 @@ void CWorldInfoSidebar::OnWorldTreeClicked(QModelIndex Index)
 
     if (IsArea)
     {
-        int AreaIndex = Editor()->CurrentGame() == eReturns ? 0 : mModel.AreaIndexForIndex(RealIndex);
+        int AreaIndex = Editor()->CurrentGame() == EGame::DKCReturns ? 0 : mModel.AreaIndexForIndex(RealIndex);
         mpUI->AreaNameLabel->setText( TO_QSTRING(pWorld->AreaInGameName(AreaIndex)) );
         mpUI->AreaSelector->SetResource( pWorld->AreaResourceID(AreaIndex) );
         mpUI->AreaNameLineEdit->setText( TO_QSTRING(pWorld->AreaInternalName(AreaIndex)) );

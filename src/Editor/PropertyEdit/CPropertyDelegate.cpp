@@ -557,7 +557,7 @@ QWidget* CPropertyDelegate::CreateCharacterEditor(QWidget *pParent, const QModel
         CResourceSelector* pSelector = new CResourceSelector(pParent);
         pSelector->SetFrameVisible(false);
 
-        if (Params.Version() <= eEchoes)
+        if (Params.Version() <= EGame::Echoes)
             pSelector->SetTypeFilter(mpEditor->CurrentGame(), "ANCS");
         else
             pSelector->SetTypeFilter(mpEditor->CurrentGame(), "CHAR");
@@ -609,7 +609,7 @@ void CPropertyDelegate::SetCharacterEditorData(QWidget *pEditor, const QModelInd
 
     else if (Type == EPropertyType::Int && !pEditor->hasFocus())
     {
-        int UnkIndex = (Params.Version() <= eEchoes ? rkIndex.row() - 2 : rkIndex.row() - 1);
+        int UnkIndex = (Params.Version() <= EGame::Echoes ? rkIndex.row() - 2 : rkIndex.row() - 1);
         u32 Value = Params.Unknown(UnkIndex);
         static_cast<WIntegralSpinBox*>(pEditor)->setValue(Value);
     }
@@ -634,7 +634,7 @@ void CPropertyDelegate::SetCharacterModelData(QWidget *pEditor, const QModelInde
 
     else if (Type == EPropertyType::Int)
     {
-        int UnkIndex = (Params.Version() <= eEchoes ? rkIndex.row() - 2 : rkIndex.row() - 1);
+        int UnkIndex = (Params.Version() <= EGame::Echoes ? rkIndex.row() - 2 : rkIndex.row() - 1);
         Params.SetUnknown(UnkIndex, static_cast<WIntegralSpinBox*>(pEditor)->value() );
     }
 
@@ -651,13 +651,13 @@ void CPropertyDelegate::SetCharacterModelData(QWidget *pEditor, const QModelInde
 
 EPropertyType CPropertyDelegate::DetermineCharacterPropType(EGame Game, const QModelIndex& rkIndex) const
 {
-    if (Game <= eEchoes)
+    if (Game <= EGame::Echoes)
     {
         if      (rkIndex.row() == 0) return EPropertyType::Asset;
         else if (rkIndex.row() == 1) return EPropertyType::Choice;
         else if (rkIndex.row() == 2) return EPropertyType::Int;
     }
-    else if (Game <= eCorruption)
+    else if (Game <= EGame::Corruption)
     {
         if      (rkIndex.row() == 0) return EPropertyType::Asset;
         else if (rkIndex.row() == 1) return EPropertyType::Int;

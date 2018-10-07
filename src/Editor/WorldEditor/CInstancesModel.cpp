@@ -1,6 +1,7 @@
 #include "CInstancesModel.h"
 #include "Editor/UICommon.h"
 #include <Core/Resource/Script/CScriptLayer.h>
+#include <Core/Resource/Script/NGameList.h>
 #include <Core/Scene/CScriptNode.h>
 #include <QApplication>
 #include <QIcon>
@@ -364,10 +365,7 @@ void CInstancesModel::OnActiveProjectChanged(CGameProject *pProj)
     if (mModelType == eTypes)
     {
         if (pProj)
-        {
-            EGame ProjGame = pProj->Game();
-            mpCurrentGame = CGameTemplate::GetGameTemplate(ProjGame);
-        }
+            mpCurrentGame = NGameList::GetGameTemplate( pProj->Game() );
         else
             mpCurrentGame = nullptr;
 

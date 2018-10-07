@@ -137,7 +137,7 @@ CStructProperty* CLight::GetProperties() const
     if (!pProperties)
     {
         pProperties = (CStructProperty*) IProperty::CreateIntrinsic(EPropertyType::Struct,
-                                                                          ePrime,
+                                                                          EGame::Prime,
                                                                           0,
                                                                           "Light");
 

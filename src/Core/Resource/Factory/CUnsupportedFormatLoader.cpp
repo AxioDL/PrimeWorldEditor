@@ -9,12 +9,12 @@ void CUnsupportedFormatLoader::PerformCheating(IInputStream& rFile, EGame Game, 
     std::vector<u8> Data(rFile.Size() - rFile.Tell());
     rFile.ReadBytes(Data.data(), Data.size());
 
-    u32 MaxIndex = (Game <= eEchoes ? Data.size() - 3 : Data.size() - 7);
+    u32 MaxIndex = (Game <= EGame::Echoes ? Data.size() - 3 : Data.size() - 7);
     CAssetID ID;
 
     for (u32 iByte = 0; iByte < MaxIndex; iByte++)
     {
-        if (Game <= eEchoes)
+        if (Game <= EGame::Echoes)
         {
             ID = ( (Data[iByte+0] << 24) |
                    (Data[iByte+1] << 16) |
@@ -44,17 +44,17 @@ CAudioMacro* CUnsupportedFormatLoader::LoadCAUD(IInputStream& rCAUD, CResourceEn
     ASSERT(Magic == FOURCC('CAUD'));
 
     u32 Version = rCAUD.ReadLong();
-    EGame Game = (Version == 0x2 ? eCorruptionProto :
-                  Version == 0x9 ? eCorruption :
-                  Version == 0xE ? eReturns :
-                  eUnknownGame);
-    ASSERT(Game != eUnknownGame && Game == pEntry->Game());
+    EGame Game = (Version == 0x2 ? EGame::CorruptionProto :
+                  Version == 0x9 ? EGame::Corruption :
+                  Version == 0xE ? EGame::DKCReturns :
+                  EGame::Invalid);
+    ASSERT(Game != EGame::Invalid && Game == pEntry->Game());
 
     CAudioMacro *pMacro = new CAudioMacro(pEntry);
     pMacro->mMacroName = rCAUD.ReadString();
 
     // DKCR is missing the sample data size value, and the bulk of the format isn't well understood, unfortunately
-    if (Game == eReturns)
+    if (Game == EGame::DKCReturns)
     {
         std::list<CAssetID> AssetList;
         PerformCheating(rCAUD, pEntry->Game(), AssetList);
@@ -71,7 +71,7 @@ CAudioMacro* CUnsupportedFormatLoader::LoadCAUD(IInputStream& rCAUD, CResourceEn
     for (u32 iVol = 0; iVol < NumVolGroups; iVol++)
         rCAUD.ReadString();
 
-    u32 SkipAmt = (Game == eCorruptionProto ? 0x10 : 0x14);
+    u32 SkipAmt = (Game == EGame::CorruptionProto ? 0x10 : 0x14);
     rCAUD.Seek(SkipAmt, SEEK_CUR);
     u32 NumSamples = rCAUD.ReadLong();
 
@@ -237,9 +237,9 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadFRME(IInputStream& rFRME, CResou
     else if (Version == 4 || Version == 5 || Version == 0xD || Version == 0xE || Version == 0x10)
     {
         EGame Game;
-        if (Version == 4)           Game = eEchoes;
-        else if (Version == 0x10)   Game = eReturns;
-        else                        Game = eCorruption;
+        if (Version == 4)           Game = EGame::Echoes;
+        else if (Version == 0x10)   Game = EGame::DKCReturns;
+        else                        Game = EGame::Corruption;
 
         u32 NumDependencies = rFRME.ReadLong();
 
@@ -359,7 +359,7 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadHIER(IInputStream& rHIER, CResou
 
     // Note: For some reason this file still exists in MP3 and it's identical to MP2, including with 32-bit asset IDs.
     // Obviously we can't read 32-bit asset IDs in MP3, so this file should just be ignored.
-    if (pEntry->Game() > eEchoes)
+    if (pEntry->Game() > EGame::Echoes)
         return pOut;
 
     for (u32 iNode = 0; iNode < NumNodes; iNode++)
@@ -382,8 +382,8 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadHINT(IInputStream& rHINT, CResou
     u32 Version = rHINT.ReadLong();
     EGame Game;
 
-    if (Version == 0x1) Game = ePrime;
-    else if (Version == 0x3) Game = eCorruption;
+    if (Version == 0x1) Game = EGame::Prime;
+    else if (Version == 0x3) Game = EGame::Corruption;
 
     else
     {
@@ -402,7 +402,7 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadHINT(IInputStream& rHINT, CResou
         pGroup->AddDependency( CAssetID(rHINT, Game) ); // Pop-up STRG
         rHINT.Seek(0x4, SEEK_CUR); // Skip unknowns
 
-        if (Game <= eEchoes)
+        if (Game <= EGame::Echoes)
         {
             rHINT.Seek(0x4, SEEK_CUR);
             pGroup->AddDependency( CAssetID(rHINT, Game) ); // Target MLVL

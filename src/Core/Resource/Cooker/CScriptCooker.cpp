@@ -10,7 +10,7 @@ void CScriptCooker::WriteProperty(IOutputStream& rOut, IProperty* pProperty, boo
     u32 SizeOffset = 0, PropStart = 0;
     void* pData = (mpArrayItemData ? mpArrayItemData : mpObject->PropertyData());
 
-    if (mGame >= eEchoesDemo && !InAtomicStruct)
+    if (mGame >= EGame::EchoesDemo && !InAtomicStruct)
     {
         rOut.WriteLong(pProperty->ID());
         SizeOffset = rOut.Tell();
@@ -143,7 +143,7 @@ void CScriptCooker::WriteProperty(IOutputStream& rOut, IProperty* pProperty, boo
         }
         else
         {
-            if (mGame < eReturns)
+            if (mGame < EGame::DKCReturns)
             {
                 rOut.WriteShort(0);
                 rOut.WriteLong(0);
@@ -190,7 +190,7 @@ void CScriptCooker::WriteProperty(IOutputStream& rOut, IProperty* pProperty, boo
 
         if (!pStruct->IsAtomic())
         {
-            if (mGame <= ePrime)
+            if (mGame <= EGame::Prime)
                 rOut.WriteLong(PropertiesToWrite.size());
             else
                 rOut.WriteShort((u16) PropertiesToWrite.size());
@@ -238,7 +238,7 @@ void CScriptCooker::WriteInstance(IOutputStream& rOut, CScriptObject *pInstance)
 
     // Note the format is pretty much the same between games; the main difference is a
     // number of fields changed size between MP1 and 2, but they're still the same fields
-    bool IsPrime1 = (mGame <= ePrime);
+    bool IsPrime1 = (mGame <= EGame::Prime);
 
     u32 ObjectType = pInstance->ObjectTypeID();
     IsPrime1 ? rOut.WriteByte((u8) ObjectType) : rOut.WriteLong(ObjectType);
@@ -275,7 +275,7 @@ void CScriptCooker::WriteLayer(IOutputStream& rOut, CScriptLayer *pLayer)
 {
     ASSERT(pLayer->Area()->Game() == mGame);
 
-    rOut.WriteByte( mGame <= ePrime ? 0 : 1 ); // Version
+    rOut.WriteByte( mGame <= EGame::Prime ? 0 : 1 ); // Version
 
     u32 InstanceCountOffset = rOut.Tell();
     u32 NumWrittenInstances = 0;
@@ -291,7 +291,7 @@ void CScriptCooker::WriteLayer(IOutputStream& rOut, CScriptLayer *pLayer)
         if (mWriteGeneratedSeparately)
         {
             // GenericCreature instances in DKCR always write to both SCLY and SCGN
-            if (mGame == eReturns && pInstance->ObjectTypeID() == FOURCC('GCTR'))
+            if (mGame == EGame::DKCReturns && pInstance->ObjectTypeID() == FOURCC('GCTR'))
                 mGeneratedObjects.push_back(pInstance);
 
             // Instances receiving a Generate/Activate message (MP2) or a
@@ -302,7 +302,7 @@ void CScriptCooker::WriteLayer(IOutputStream& rOut, CScriptLayer *pLayer)
                 {
                     CLink *pLink = pInstance->Link(eIncoming, LinkIdx);
 
-                    if (mGame <= eEchoes)
+                    if (mGame <= EGame::Echoes)
                     {
                         if (pLink->State() == FOURCC('GRNT') && pLink->Message() == FOURCC('ACTV'))
                         {

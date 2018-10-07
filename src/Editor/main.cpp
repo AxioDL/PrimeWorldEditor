@@ -2,8 +2,8 @@
 #include "CUIRelay.h"
 #include "UICommon.h"
 #include <Common/Log.h>
-#include <Core/Resource/Factory/CTemplateLoader.h>
-#include <Core/Resource/Cooker/CTemplateWriter.h>
+
+#include <Core/Resource/Script/NGameList.h>
 
 #include <QApplication>
 #include <QIcon>
@@ -55,7 +55,6 @@ int main(int argc, char *argv[])
     DarkPalette.setColor(QPalette::HighlightedText, Qt::white);
     qApp->setPalette(DarkPalette);
 
-
     // Init log
     bool Initialized = Log::InitLog("primeworldeditor.log");
     if (!Initialized) QMessageBox::warning(0, "Error", "Couldn't open log file. Logging will not work for this session.");
@@ -71,12 +70,11 @@ int main(int argc, char *argv[])
         gpEditorStore->ConditionalSaveStore();
     }
 
-    // Load templates
-    CTemplateLoader::LoadGameList();
-    //CTemplateLoader::LoadAllGames();
-    //CTemplateWriter::SaveAllTemplates();
-
     // Execute application
     App.InitEditor();
-    return App.exec();
+    int ReturnValue = App.exec();
+
+    // Clean up
+    NGameList::Shutdown();
+    return ReturnValue;
 }

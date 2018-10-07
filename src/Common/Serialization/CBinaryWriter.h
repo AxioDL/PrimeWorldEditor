@@ -18,7 +18,7 @@ class CBinaryWriter : public IArchive
     bool mOwnsStream;
 
 public:
-    CBinaryWriter(const TString& rkFilename, u32 Magic, u16 FileVersion = 0, EGame Game = eUnknownGame)
+    CBinaryWriter(const TString& rkFilename, u32 Magic, u16 FileVersion = 0, EGame Game = EGame::Invalid)
         : IArchive()
         , mMagic(Magic)
         , mOwnsStream(true)
@@ -36,7 +36,7 @@ public:
         SerializeVersion();
     }
 
-    CBinaryWriter(IOutputStream *pStream, u16 FileVersion = 0, EGame Game = eUnknownGame)
+    CBinaryWriter(IOutputStream *pStream, u16 FileVersion = 0, EGame Game = EGame::Invalid)
         : IArchive()
         , mMagic(0)
         , mOwnsStream(false)

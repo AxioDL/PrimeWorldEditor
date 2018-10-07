@@ -29,6 +29,8 @@ enum class EPropertyFlag : u32
     IsAtomic					= 0x8,
     /** This is a property of a C++ class, not a script object */
     IsIntrinsic                 = 0x10,
+    /** Property has been modified, and needs to be resaved. Only valid on archetypes */
+    IsDirty                     = 0x20,
     /** We have cached whether the property name is correct */
     HasCachedNameCheck			= 0x40000000,
     /** The name of the property is a match for the property ID hash */
@@ -185,18 +187,20 @@ public:
     virtual void Serialize(IArchive& rArc);
     virtual void InitFromArchetype(IProperty* pOther);
     virtual bool ShouldSerialize() const;
-    virtual TString GetTemplateFileName();
     
     /** Utility methods */
     void Initialize(IProperty* pInParent, CScriptTemplate* pInTemplate, u32 InOffset);
     void* RawValuePtr(void* pData) const;
     IProperty* ChildByID(u32 ID) const;
     IProperty* ChildByIDString(const TIDString& rkIdString);
+    TString GetTemplateFileName();
     bool ShouldCook(void* pPropertyData) const;
     void SetName(const TString& rkNewName);
     void SetDescription(const TString& rkNewDescription);
     void SetSuffix(const TString& rkNewSuffix);
-    void SetPropertyFlags(FPropertyFlags FlagsToSet);
+    void MarkDirty();
+    void ClearDirtyFlag();
+    bool UsesNameMap();
     bool HasAccurateName();
 
     /** Accessors */
@@ -219,6 +223,7 @@ public:
     inline bool IsArrayArchetype() const    { return mFlags.HasFlag(EPropertyFlag::IsArrayArchetype); }
     inline bool IsAtomic() const            { return mFlags.HasFlag(EPropertyFlag::IsAtomic); }
     inline bool IsIntrinsic() const         { return mFlags.HasFlag(EPropertyFlag::IsIntrinsic); }
+    inline bool IsDirty() const             { return mFlags.HasFlag(EPropertyFlag::IsDirty); }
     inline bool IsRootParent() const        { return mpParent == nullptr; }
 
     /** Create */
@@ -337,7 +342,7 @@ protected:
     }
 
 public:
-    virtual EPropertyType Type() const           { return PropEnum; }
+    virtual EPropertyType Type() const              { return PropEnum; }
     virtual u32 DataSize() const                    { return sizeof(PropType); }
     virtual u32 DataAlignment() const               { return alignof(PropType); }
     virtual void Construct(void* pData) const       { new(ValuePtr(pData)) PropType(mDefaultValue); }
@@ -400,7 +405,7 @@ public:
         // on property types that don't have default values in the game executable.
         bool MakeOptional = false;
 
-        if (Game() <= ePrime || pArchetype != nullptr)
+        if (Game() <= EGame::Prime || pArchetype != nullptr)
         {
             MakeOptional = true;
         }

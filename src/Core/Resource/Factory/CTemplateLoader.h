@@ -1,6 +1,12 @@
 #ifndef CTEMPLATELOADER_H
 #define CTEMPLATELOADER_H
 
+// Old code! This is being kept around for now in case there is a reason to need to load the old templates.
+// Template loading is handled by the serializer now. This code should only be used if there is a reason that
+// the new templates need to be regenerated (i.e. if any data from the old templates is missing on the new ones).
+#define USE_LEGACY_TEMPLATE_LOADER 0
+
+#if USE_LEGACY_TEMPLATE_LOADER
 #include "Core/Resource/Script/CGameTemplate.h"
 #include "Core/Resource/Script/CScriptTemplate.h"
 #include "Core/Resource/Script/Property/IProperty.h"
@@ -53,5 +59,6 @@ public:
 
     static void SaveGameList();
 };
+#endif
 
 #endif // CTEMPLATELOADER_H

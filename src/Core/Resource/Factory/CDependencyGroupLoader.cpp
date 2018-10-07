@@ -8,7 +8,7 @@ EGame CDependencyGroupLoader::VersionTest(IInputStream& rDGRP, u32 DepCount)
     rDGRP.Seek(DepCount * 8, SEEK_CUR);
     u32 Remaining = rDGRP.Size() - rDGRP.Tell();
 
-    EGame Game = eCorruptionProto;
+    EGame Game = EGame::CorruptionProto;
 
     if (Remaining < 32)
     {
@@ -25,7 +25,7 @@ EGame CDependencyGroupLoader::VersionTest(IInputStream& rDGRP, u32 DepCount)
             }
         }
 
-        if (IsEOF) Game = ePrimeDemo;
+        if (IsEOF) Game = EGame::PrimeDemo;
     }
 
     rDGRP.Seek(Start, SEEK_SET);

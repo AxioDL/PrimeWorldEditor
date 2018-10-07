@@ -81,7 +81,7 @@ void CAreaLoader::ReadGeometryPrime()
         CModel *pModel = CModelLoader::LoadWorldModel(*mpMREA, *mpSectionMgr, *mpArea->mpMaterialSet, mVersion);
         FileModels.push_back(pModel);
 
-        if (mVersion <= ePrime)
+        if (mVersion <= EGame::Prime)
             mpArea->AddWorldModel(pModel);
 
         // For Echoes+, load surface mesh IDs, then skip to the start of the next mesh
@@ -101,7 +101,7 @@ void CAreaLoader::ReadGeometryPrime()
     }
 
     // Split meshes
-    if (mVersion >= eEchoesDemo)
+    if (mVersion >= EGame::EchoesDemo)
     {
         std::vector<CModel*> SplitModels;
         CModelLoader::BuildWorldMeshes(FileModels, SplitModels, true);
@@ -124,7 +124,7 @@ void CAreaLoader::ReadSCLYPrime()
         Log::FileError(mpMREA->GetSourceString(), mpMREA->Tell() - 4, "Invalid SCLY magic: " + SCLY.ToString());
         return;
     }
-    mpMREA->Seek(mVersion <= ePrime ? 4 : 1, SEEK_CUR); // Skipping unknown value which is always 1
+    mpMREA->Seek(mVersion <= EGame::Prime ? 4 : 1, SEEK_CUR); // Skipping unknown value which is always 1
 
     // Read layer sizes
     mNumLayers = mpMREA->ReadLong();
@@ -145,7 +145,7 @@ void CAreaLoader::ReadSCLYPrime()
     // SCGN
     CScriptLayer *pGenLayer = nullptr;
 
-    if (mVersion >= eEchoesDemo)
+    if (mVersion >= EGame::EchoesDemo)
     {
         mpSectionMgr->ToSection(mScriptGeneratorBlockNum);
         CFourCC SCGN = mpMREA->ReadFourCC();
@@ -252,7 +252,7 @@ void CAreaLoader::ReadHeaderEchoes()
     // This function reads the header for Echoes and the Echoes demo disc
     mpArea->mTransform = CTransform4f(*mpMREA);
     mNumMeshes = mpMREA->ReadLong();
-    if (mVersion == eEchoes) mNumLayers = mpMREA->ReadLong();
+    if (mVersion == EGame::Echoes) mNumLayers = mpMREA->ReadLong();
     u32 numBlocks = mpMREA->ReadLong();
 
     mGeometryBlockNum = mpMREA->ReadLong();
@@ -266,13 +266,13 @@ void CAreaLoader::ReadHeaderEchoes()
     mFFFFBlockNum = mpMREA->ReadLong();
     mPTLABlockNum = mpMREA->ReadLong();
     mEGMCBlockNum = mpMREA->ReadLong();
-    if (mVersion == eEchoes) mClusters.resize(mpMREA->ReadLong());
+    if (mVersion == EGame::Echoes) mClusters.resize(mpMREA->ReadLong());
     mpMREA->SeekToBoundary(32);
 
     mpSectionMgr = new CSectionMgrIn(numBlocks, mpMREA);
     mpMREA->SeekToBoundary(32);
 
-    if (mVersion == eEchoes)
+    if (mVersion == EGame::Echoes)
     {
         ReadCompressedBlocks();
         Decompress();
@@ -440,7 +440,7 @@ void CAreaLoader::ReadDependenciesCorruption()
 
         for (u32 DepIdx = 0; DepIdx < NumLayerDeps; DepIdx++)
         {
-            CAssetID AssetID(*mpMREA, eCorruption);
+            CAssetID AssetID(*mpMREA, EGame::Corruption);
             mpMREA->Skip(4);
             mpArea->mExtraLayerDeps[LayerIdx].push_back(AssetID);
         }
@@ -452,7 +452,7 @@ void CAreaLoader::ReadDependenciesCorruption()
 
     for (u32 DepIdx = 0; DepIdx < NumAreaDeps; DepIdx++)
     {
-        CAssetID AssetID(*mpMREA, eCorruption);
+        CAssetID AssetID(*mpMREA, EGame::Corruption);
         mpMREA->Skip(4);
         mpArea->mExtraAreaDeps.push_back(AssetID);
     }
@@ -562,7 +562,7 @@ void CAreaLoader::Decompress()
 {
     // This function decompresses compressed clusters into a buffer.
     // It should be called at the beginning of the first compressed cluster.
-    if (mVersion < eEchoes) return;
+    if (mVersion < EGame::Echoes) return;
 
     // Decompress clusters
     mpDecmpBuffer = new u8[mTotalDecmpSize];
@@ -699,7 +699,7 @@ void CAreaLoader::SetUpObjects(CScriptLayer *pGenLayer)
         }
 
         // Remove "-component" garbage from MP1 instance names
-        if (mVersion <= ePrime)
+        if (mVersion <= EGame::Prime)
         {
             TString InstanceName = pInst->InstanceName();
 
@@ -747,8 +747,8 @@ CGameArea* CAreaLoader::LoadMREA(IInputStream& MREA, CResourceEntry *pEntry)
 
     switch (Loader.mVersion)
     {
-        case ePrimeDemo:
-        case ePrime:
+        case EGame::PrimeDemo:
+        case EGame::Prime:
             Loader.ReadHeaderPrime();
             Loader.ReadGeometryPrime();
             Loader.ReadSCLYPrime();
@@ -756,7 +756,7 @@ CGameArea* CAreaLoader::LoadMREA(IInputStream& MREA, CResourceEntry *pEntry)
             Loader.ReadLightsPrime();
             Loader.ReadPATH();
             break;
-        case eEchoesDemo:
+        case EGame::EchoesDemo:
             Loader.ReadHeaderEchoes();
             Loader.ReadGeometryPrime();
             Loader.ReadSCLYPrime();
@@ -766,7 +766,7 @@ CGameArea* CAreaLoader::LoadMREA(IInputStream& MREA, CResourceEntry *pEntry)
             Loader.ReadPTLA();
             Loader.ReadEGMC();
             break;
-        case eEchoes:
+        case EGame::Echoes:
             Loader.ReadHeaderEchoes();
             Loader.ReadGeometryPrime();
             Loader.ReadSCLYEchoes();
@@ -776,7 +776,7 @@ CGameArea* CAreaLoader::LoadMREA(IInputStream& MREA, CResourceEntry *pEntry)
             Loader.ReadPTLA();
             Loader.ReadEGMC();
             break;
-        case eCorruptionProto:
+        case EGame::CorruptionProto:
             Loader.ReadHeaderCorruption();
             Loader.ReadGeometryPrime();
             Loader.ReadDependenciesCorruption();
@@ -787,14 +787,14 @@ CGameArea* CAreaLoader::LoadMREA(IInputStream& MREA, CResourceEntry *pEntry)
             Loader.ReadPTLA();
             Loader.ReadEGMC();
             break;
-        case eCorruption:
-        case eReturns:
+        case EGame::Corruption:
+        case EGame::DKCReturns:
             Loader.ReadHeaderCorruption();
             Loader.ReadGeometryCorruption();
             Loader.ReadDependenciesCorruption();
             Loader.ReadSCLYEchoes();
             Loader.ReadCollision();
-            if (Loader.mVersion == eCorruption)
+            if (Loader.mVersion == EGame::Corruption)
             {
                 Loader.ReadLightsCorruption();
                 Loader.ReadPATH();
@@ -817,13 +817,13 @@ EGame CAreaLoader::GetFormatVersion(u32 Version)
 {
     switch (Version)
     {
-        case 0xC: return ePrimeDemo;
-        case 0xF: return ePrime;
-        case 0x15: return eEchoesDemo;
-        case 0x19: return eEchoes;
-        case 0x1D: return eCorruptionProto;
-        case 0x1E: return eCorruption;
-        case 0x20: return eReturns;
-        default: return eUnknownGame;
+        case 0xC: return EGame::PrimeDemo;
+        case 0xF: return EGame::Prime;
+        case 0x15: return EGame::EchoesDemo;
+        case 0x19: return EGame::Echoes;
+        case 0x1D: return EGame::CorruptionProto;
+        case 0x1E: return EGame::Corruption;
+        case 0x20: return EGame::DKCReturns;
+        default: return EGame::Invalid;
     }
 }

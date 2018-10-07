@@ -40,7 +40,7 @@ void CCollisionNode::Draw(FRenderOptions /*Options*/, int /*ComponentIndex*/, ER
 
     // Turn off backface culling
     EGame Game = mpScene->ActiveArea()->Game();
-    bool ForceDisableBackfaceCull = (rkViewInfo.CollisionSettings.DrawBackfaces || Game == eReturns) && glIsEnabled(GL_CULL_FACE);
+    bool ForceDisableBackfaceCull = (rkViewInfo.CollisionSettings.DrawBackfaces || Game == EGame::DKCReturns) && glIsEnabled(GL_CULL_FACE);
 
     if (ForceDisableBackfaceCull)
         glDisable(GL_CULL_FACE);
@@ -66,11 +66,11 @@ void CCollisionNode::Draw(FRenderOptions /*Options*/, int /*ComponentIndex*/, ER
             if (rkViewInfo.CollisionSettings.HighlightMask != 0 && (rMat.RawFlags() & rkViewInfo.CollisionSettings.HighlightMask) == rkViewInfo.CollisionSettings.HighlightMask)
                 Tint *= CColor::skRed;
 
-            else if (Game != eReturns && rkViewInfo.CollisionSettings.TintWithSurfaceColor)
+            else if (Game != EGame::DKCReturns && rkViewInfo.CollisionSettings.TintWithSurfaceColor)
                 Tint *= rMat.SurfaceColor(Game);
 
-            bool IsFloor = (rkViewInfo.CollisionSettings.TintUnwalkableTris ? rMat.IsFloor() : true) || Game == eReturns;
-            bool IsUnstandable = (rkViewInfo.CollisionSettings.TintUnwalkableTris ? rMat.IsUnstandable(Game) : false) && Game != eReturns;
+            bool IsFloor = (rkViewInfo.CollisionSettings.TintUnwalkableTris ? rMat.IsFloor() : true) || Game == EGame::DKCReturns;
+            bool IsUnstandable = (rkViewInfo.CollisionSettings.TintUnwalkableTris ? rMat.IsUnstandable(Game) : false) && Game != EGame::DKCReturns;
             CDrawUtil::UseCollisionShader(IsFloor, IsUnstandable, Tint);
             pMesh->DrawMaterial(iMat, false);
 
@@ -86,7 +86,7 @@ void CCollisionNode::Draw(FRenderOptions /*Options*/, int /*ComponentIndex*/, ER
     // Draw collision bounds for area collision
     // note: right now checking parent is the best way to check whether this node is area collision instead of actor collision
     // actor collision will have a script node parent whereas area collision will have a root node parent
-    if (rkViewInfo.CollisionSettings.DrawAreaCollisionBounds && Parent()->NodeType() == eRootNode && Game != eReturns)
+    if (rkViewInfo.CollisionSettings.DrawAreaCollisionBounds && Parent()->NodeType() == eRootNode && Game != EGame::DKCReturns)
         CDrawUtil::DrawWireCube( mpCollision->MeshByIndex(0)->BoundingBox(), CColor::skRed );
 }
 

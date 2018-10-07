@@ -15,7 +15,7 @@ class CXMLWriter : public IArchive
     bool mSaved;
 
 public:
-    CXMLWriter(const TString& rkFileName, const TString& rkRootName, u16 FileVersion = 0, EGame Game = eUnknownGame)
+    CXMLWriter(const TString& rkFileName, const TString& rkRootName, u16 FileVersion = 0, EGame Game = EGame::Invalid)
         : IArchive()
         , mOutFilename(rkFileName)
         , mpAttributeName(nullptr)

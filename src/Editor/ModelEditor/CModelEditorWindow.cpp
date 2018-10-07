@@ -31,7 +31,7 @@ CModelEditorWindow::CModelEditorWindow(CModel *pModel, QWidget *pParent)
     , mIgnoreSignals(false)
 {
     ui->setupUi(this);
-    ui->ActionSave->setEnabled( pModel->Game() == ePrime ); // we don't support saving games later than MP1
+    ui->ActionSave->setEnabled( pModel->Game() == EGame::Prime ); // we don't support saving games later than MP1
     REPLACE_WINDOWTITLE_APPVARS;
 
     ui->Viewport->SetNode(mpCurrentModelNode);
@@ -740,7 +740,7 @@ void CModelEditorWindow::Import()
     }
 
     CModel *pModel = nullptr;
-    CMaterialSet *pSet = CMaterialLoader::ImportAssimpMaterials(pScene, ePrime);
+    CMaterialSet *pSet = CMaterialLoader::ImportAssimpMaterials(pScene, EGame::Prime);
     pModel = CModelLoader::ImportAssimpNode(pScene->mRootNode, pScene, *pSet);
 
     SetActiveModel(pModel);
