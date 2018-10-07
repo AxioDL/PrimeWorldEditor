@@ -39,10 +39,10 @@ void CCollisionLoader::ParseOBBNode(IInputStream& rDCLN)
 void CCollisionLoader::ReadPropertyFlags(IInputStream& rSrc)
 {
     CCollisionMaterial Material;
-    u64 RawFlags = (mVersion <= ePrime ? rSrc.ReadLong() : rSrc.ReadLongLong());
+    u64 RawFlags = (mVersion <= EGame::Prime ? rSrc.ReadLong() : rSrc.ReadLongLong());
     Material.mRawFlags = RawFlags;
 
-    if (mVersion <= ePrime)
+    if (mVersion <= EGame::Prime)
     {
         if (RawFlags & 0x00000001) Material |= eCF_Unknown;
         if (RawFlags & 0x00000002) Material |= eCF_Stone;
@@ -71,7 +71,7 @@ void CCollisionLoader::ReadPropertyFlags(IInputStream& rSrc)
         if (RawFlags & 0x80000000) Material |= eCF_Floor;
     }
 
-    else if (mVersion <= eCorruption)
+    else if (mVersion <= EGame::Corruption)
     {
         if (RawFlags & 0x00000001) Material |= eCF_Unknown;
         if (RawFlags & 0x00000002) Material |= eCF_Stone;
@@ -105,7 +105,7 @@ void CCollisionLoader::ReadPropertyFlags(IInputStream& rSrc)
         if (RawFlags & 0x0400000000000000) Material |= eCF_JumpNotAllowed;
     }
 
-    else if (mVersion == eReturns)
+    else if (mVersion == EGame::DKCReturns)
     {
         if (RawFlags & 0x10000000) Material |= eCF_FlippedTri;
     }
@@ -158,7 +158,7 @@ void CCollisionLoader::LoadCollisionIndices(IInputStream &rFile, bool BuildAABox
     }
 
     // Echoes introduces a new data chunk; don't know what it is yet, skipping for now
-    if (mVersion >= eEchoes)
+    if (mVersion >= EGame::Echoes)
     {
         u32 UnknownCount = rFile.ReadLong();
         rFile.Seek(UnknownCount * 2, SEEK_CUR);
@@ -236,12 +236,12 @@ CCollisionMeshGroup* CCollisionLoader::LoadDCLN(IInputStream& rDCLN, CResourceEn
         Loader.mpMesh = new CCollisionMesh;
         Loader.mpMesh->mOctreeLoaded = false;
 
-        if (Loader.mVersion == eReturns)
+        if (Loader.mVersion == EGame::DKCReturns)
             Loader.mpMesh->mAABox = CAABox(rDCLN);
 
         // Read indices and return
         rDCLN.Seek(0x4, SEEK_CUR);
-        Loader.LoadCollisionIndices(rDCLN, Loader.mVersion != eReturns);
+        Loader.LoadCollisionIndices(rDCLN, Loader.mVersion != EGame::DKCReturns);
         Loader.mpGroup->AddMesh(Loader.mpMesh);
 
         // Parse OBB tree
@@ -254,10 +254,10 @@ EGame CCollisionLoader::GetFormatVersion(u32 Version)
 {
     switch (Version)
     {
-    case 0x2: return ePrime;
-    case 0x3: return ePrime;
-    case 0x4: return eEchoes;
-    case 0x5: return eReturns;
-    default: return eUnknownGame;
+    case 0x2: return EGame::Prime;
+    case 0x3: return EGame::Prime;
+    case 0x4: return EGame::Echoes;
+    case 0x5: return EGame::DKCReturns;
+    default: return EGame::Invalid;
     }
 }

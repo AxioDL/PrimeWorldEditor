@@ -116,8 +116,8 @@ CAnimSet* CAnimSetLoader::LoadReturnsCHAR(IInputStream& rCHAR)
     for (u32 ModelIdx = 0; ModelIdx < NumModels; ModelIdx++)
     {
         rCHAR.ReadString();
-        CAssetID ModelID(rCHAR, eReturns);
-        CAssetID SkinID(rCHAR, eReturns);
+        CAssetID ModelID(rCHAR, EGame::DKCReturns);
+        CAssetID SkinID(rCHAR, EGame::DKCReturns);
         rCHAR.Skip(0x18);
 
         if (ModelIdx == 0)
@@ -138,7 +138,7 @@ CAnimSet* CAnimSetLoader::LoadReturnsCHAR(IInputStream& rCHAR)
     for (u32 AnimIdx = 0; AnimIdx < NumAnims; AnimIdx++)
     {
         TString AnimName = rCHAR.ReadString();
-        CAssetID AnimID(rCHAR, eReturns);
+        CAssetID AnimID(rCHAR, EGame::DKCReturns);
         rCHAR.Skip(0x25);
         rChar.DKDependencies.push_back(AnimID);
 
@@ -229,7 +229,7 @@ CAnimSet* CAnimSetLoader::LoadReturnsCHAR(IInputStream& rCHAR)
 
         for (u32 ResIdx = 0; ResIdx < NumResources; ResIdx++)
         {
-            CAssetID ResID(rCHAR, eReturns);
+            CAssetID ResID(rCHAR, EGame::DKCReturns);
             rCHAR.Skip(3);
             rChar.DKDependencies.push_back(ResID);
         }
@@ -293,7 +293,7 @@ void CAnimSetLoader::LoadParticleResourceData(IInputStream& rFile, SSetCharacter
     for (u32 iSwoosh = 0; iSwoosh < SwooshCount; iSwoosh++)
         pChar->SwooshParticles.push_back( CAssetID(rFile, mGame) );
 
-    if (CharVersion >= 6 && mGame <= eEchoes) rFile.Seek(0x4, SEEK_CUR);
+    if (CharVersion >= 6 && mGame <= EGame::Echoes) rFile.Seek(0x4, SEEK_CUR);
 
     u32 ElectricCount = rFile.ReadLong();
     pChar->ElectricParticles.reserve(ElectricCount);
@@ -301,7 +301,7 @@ void CAnimSetLoader::LoadParticleResourceData(IInputStream& rFile, SSetCharacter
     for (u32 iElec = 0; iElec < ElectricCount; iElec++)
         pChar->ElectricParticles.push_back( CAssetID(rFile, mGame) );
 
-    if (mGame >= eEchoes)
+    if (mGame >= EGame::Echoes)
     {
         u32 SpawnCount = rFile.ReadLong();
         pChar->SpawnParticles.reserve(SpawnCount);
@@ -311,7 +311,7 @@ void CAnimSetLoader::LoadParticleResourceData(IInputStream& rFile, SSetCharacter
     }
 
     rFile.Seek(0x4, SEEK_CUR);
-    if (mGame >= eEchoes) rFile.Seek(0x4, SEEK_CUR);
+    if (mGame >= EGame::Echoes) rFile.Seek(0x4, SEEK_CUR);
 }
 
 void CAnimSetLoader::LoadAnimationSet(IInputStream& rANCS)
@@ -379,7 +379,7 @@ void CAnimSetLoader::LoadAnimationSet(IInputStream& rANCS)
 
     // Skipping MP1 ANIM asset list
     // Events
-    if (mGame >= eEchoesDemo)
+    if (mGame >= EGame::EchoesDemo)
     {
         u32 EventDataCount = rANCS.ReadLong();
         pSet->mAnimEvents.reserve(EventDataCount);
@@ -410,7 +410,7 @@ void CAnimSetLoader::ProcessPrimitives()
     for (u32 iTrans = 0; iTrans < pSet->mHalfTransitions.size(); iTrans++)
         pSet->mHalfTransitions[iTrans].pMetaTrans->GetUniquePrimitives(UniquePrimitives);
 
-    if (mGame == eCorruptionProto || mGame == eCorruption)
+    if (mGame == EGame::CorruptionProto || mGame == EGame::Corruption)
     {
         CSourceAnimData *pAnimData = gpResourceStore->LoadResource<CSourceAnimData>( pSet->mCharacters[0].AnimDataID );
 
@@ -431,7 +431,7 @@ void CAnimSetLoader::ProcessPrimitives()
     }
 
     // Add used animation indices from the animset to the character's list
-    if (mGame <= eEchoes)
+    if (mGame <= EGame::Echoes)
     {
         // Add animations referenced by default transition
         if (pSet->mpDefaultTransition)
@@ -537,9 +537,9 @@ CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS, CResourceEntry *pEntry)
 
         pChar->ID = rANCS.ReadLong();
         u16 CharVersion = rANCS.ReadShort();
-        if (iNode == 0 && Loader.mGame == eUnknownGame)
+        if (iNode == 0 && Loader.mGame == EGame::Invalid)
         {
-            Loader.mGame = (CharVersion == 0xA) ? eEchoes : ePrime;
+            Loader.mGame = (CharVersion == 0xA) ? EGame::Echoes : EGame::Prime;
         }
         pChar->Name = rANCS.ReadString();
         pChar->pModel = gpResourceStore->LoadResource<CModel>(rANCS.ReadLong());
@@ -554,7 +554,7 @@ CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS, CResourceEntry *pEntry)
         for (u32 iAnim = 0; iAnim < AnimCount; iAnim++)
         {
             rANCS.Seek(0x4, SEEK_CUR);
-            if (Loader.mGame == ePrime) rANCS.Seek(0x1, SEEK_CUR);
+            if (Loader.mGame == EGame::Prime) rANCS.Seek(0x1, SEEK_CUR);
             rANCS.ReadString();
         }
 
@@ -584,8 +584,8 @@ CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS, CResourceEntry *pEntry)
                 CAssetID ParticleID(rANCS, e32Bit);
                 if (ParticleID.IsValid()) pChar->EffectParticles.push_back(ParticleID);
 
-                if (Loader.mGame == ePrime) rANCS.ReadString();
-                if (Loader.mGame == eEchoes) rANCS.Seek(0x4, SEEK_CUR);
+                if (Loader.mGame == EGame::Prime) rANCS.ReadString();
+                if (Loader.mGame == EGame::Echoes) rANCS.Seek(0x4, SEEK_CUR);
                 rANCS.Seek(0xC, SEEK_CUR);
             }
         }
@@ -604,7 +604,7 @@ CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS, CResourceEntry *pEntry)
             pChar->UsedAnimationIndices.insert(AnimIndex);
         }
 
-        if (Loader.mGame == eEchoes)
+        if (Loader.mGame == EGame::Echoes)
         {
             pChar->SpatialPrimitives = rANCS.ReadLong();
             rANCS.Seek(0x1, SEEK_CUR);
@@ -629,14 +629,14 @@ CAnimSet* CAnimSetLoader::LoadCHAR(IInputStream& rCHAR, CResourceEntry *pEntry)
 
     if (Check == 0x5 || Check == 0x3)
     {
-        Loader.mGame = eCorruption;
+        Loader.mGame = EGame::Corruption;
         Loader.pSet = new CAnimSet(pEntry);
         return Loader.LoadCorruptionCHAR(rCHAR);
     }
 
     if (Check == 0x59)
     {
-        Loader.mGame = eReturns;
+        Loader.mGame = EGame::DKCReturns;
         Loader.pSet = new CAnimSet(pEntry);
         return Loader.LoadReturnsCHAR(rCHAR);
     }

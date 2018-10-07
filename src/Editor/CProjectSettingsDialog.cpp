@@ -59,9 +59,10 @@ void CProjectSettingsDialog::ActiveProjectChanged(CGameProject *pProj)
 
         float BuildVer = pProj->BuildVersion();
         ERegion Region = pProj->Region();
+        TString RegionName = TEnumReflection<ERegion>::ConvertValueToString(Region);
         TString BuildName = pProj->GameInfo()->GetBuildName(BuildVer, Region);
         mpUI->BuildLineEdit->setText( QString("%1 (%2)").arg(BuildVer).arg( TO_QSTRING(BuildName) ) );
-        mpUI->RegionLineEdit->setText( TO_QSTRING(GetRegionName(Region)) );
+        mpUI->RegionLineEdit->setText( TO_QSTRING(RegionName) );
 
         // Banner info
         COpeningBanner Banner(pProj);

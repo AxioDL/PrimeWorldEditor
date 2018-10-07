@@ -22,6 +22,16 @@ QValidator::State CPropertyNameValidator::validate(QString& rInput, int&) const
         Hash.Hash( mpProperty->HashableTypeName() );
         u32 PropertyID = Hash.Digest();
 
+        if (PropertyID != mpProperty->ID())
+        {
+            if (mpProperty->Type() == EPropertyType::Int)
+            {
+                CCRC32 Hash2;
+                Hash2.Hash( rInput.toStdString().c_str() );
+                Hash2.Hash( "choice" );
+                PropertyID = Hash2.Digest();
+            }
+        }
         return ( PropertyID == mpProperty->ID() ? QValidator::Acceptable : QValidator::Invalid );
     }
 

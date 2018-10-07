@@ -7,24 +7,27 @@
 class CFourCC;
 class IArchive;
 
-// Note: A lot of code does inequality comparisons on EGame, ie. "if (Game <= eEchoes)", which means that the
-// enum values need to be in chronological order. It'd be more convenient if the values were fourCCs, but we can't do that.
-enum EGame
+//@todo I'm not really happy with EGame being in Common (would like Common to be more
+// generic so it's more reusable between different projects) but atm can't think of
+// any other decent way to integrate it with IArchive unfortunately
+enum class EGame
 {
-    ePrimeDemo,
-    ePrime,
-    eEchoesDemo,
-    eEchoes,
-    eCorruptionProto,
-    eCorruption,
-    eReturns,
-    eUnknownGame = -1
+    PrimeDemo,
+    Prime,
+    EchoesDemo,
+    Echoes,
+    CorruptionProto,
+    Corruption,
+    DKCReturns,
+    
+    Max,
+    Invalid = -1
 };
 
-CFourCC GetGameID(EGame Game);
-EGame GetGameForID(const CFourCC& rkID);
 TString GetGameName(EGame Game);
 TString GetGameShortName(EGame Game);
+CFourCC GameTo4CC(EGame Game);
+EGame GameFrom4CC(CFourCC GameId);
 void Serialize(IArchive& rArc, EGame& rGame);
 
 // ERegion
@@ -35,7 +38,5 @@ enum class ERegion
     JPN,
     Unknown = -1
 };
-const char* GetRegionName(ERegion Region);
-ERegion GetRegionForName(const char* pkName);
 
 #endif // EGAME_H

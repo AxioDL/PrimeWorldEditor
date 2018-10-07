@@ -56,7 +56,7 @@ CScriptExtra* CScriptExtra::CreateExtra(CScriptNode *pNode)
         case 0x53505041: // "SPPA" SplinePath (DKCR)
         case 0x5043544C: // "PCTL" PathControl (DKCR)
         case 0x434C5043: // "CLPC" ClingPathControl (DKCR)
-            if (pNode->Instance()->Area()->Game() == eReturns)
+            if (pNode->Instance()->Area()->Game() == EGame::DKCReturns)
                 pExtra = new CSplinePathExtra(pObj, pNode->Scene(), pNode);
             break;
 

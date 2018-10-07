@@ -3,6 +3,7 @@
 #include "CTemplateMimeData.h"
 #include "CWorldEditor.h"
 #include "Editor/Undo/UndoCommands.h"
+#include <Core/Resource/Script/NGameList.h>
 
 WCreateTab::WCreateTab(CWorldEditor *pEditor, QWidget *pParent /*= 0*/)
     : QWidget(pParent)
@@ -60,8 +61,8 @@ bool WCreateTab::eventFilter(QObject *pObj, QEvent *pEvent)
 // ************ PUBLIC SLOTS ************
 void WCreateTab::OnActiveProjectChanged(CGameProject *pProj)
 {
-    EGame Game = (pProj ? pProj->Game() : eUnknownGame);
-    CGameTemplate *pGame = CGameTemplate::GetGameTemplate(Game);
+    EGame Game = (pProj ? pProj->Game() : EGame::Invalid);
+    CGameTemplate *pGame = NGameList::GetGameTemplate(Game);
     ui->TemplateView->SetGame(pGame);
 }
 

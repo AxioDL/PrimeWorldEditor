@@ -46,7 +46,7 @@ public:
     {
         // STRGs can reference FONTs with the &font=; formatting tag and TXTRs with the &image=; tag
         CDependencyTree *pTree = new CDependencyTree();
-        EIDLength IDLength = (Game() <= eEchoes ? e32Bit : e64Bit);
+        EIDLength IDLength = (Game() <= EGame::Echoes ? e32Bit : e64Bit);
 
         for (u32 iLang = 0; iLang < mLangTables.size(); iLang++)
         {
@@ -77,7 +77,7 @@ public:
                     // Font
                     if (TagName == "font")
                     {
-                        if (Game() >= eCorruptionProto)
+                        if (Game() >= EGame::CorruptionProto)
                         {
                             ASSERT(ParamString.StartsWith("0x"));
                             ParamString = ParamString.ChopFront(2);
@@ -126,7 +126,7 @@ public:
                             {
                                 TString Param = *Iter;
 
-                                if (Game() >= eCorruptionProto)
+                                if (Game() >= EGame::CorruptionProto)
                                 {
                                     ASSERT(Param.StartsWith("0x"));
                                     Param = Param.ChopFront(2);

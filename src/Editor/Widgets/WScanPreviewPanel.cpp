@@ -45,7 +45,7 @@ void WScanPreviewPanel::SetResource(CResource *pRes)
             ui->ScanTypeLabel->setText("<b><font color=\"red\">Important</font></b>");
         else
         {
-            if (pScan->Game() <= ePrime)
+            if (pScan->Game() <= EGame::Prime)
                 ui->ScanTypeLabel->setText("<b><font color=\"#FF9030\">Normal</font></b>");
             else
                 ui->ScanTypeLabel->setText("<b><font color=\"#A0A0FF\">Normal</font></b>");
@@ -81,7 +81,7 @@ void WScanPreviewPanel::SetResource(CResource *pRes)
         ui->ScanTextWidget->SetResource(pScan->ScanText());
 
         // Show logbook category? (Yes on MP1, no on MP2+)
-        if (pScan->Game() <= ePrime)
+        if (pScan->Game() <= EGame::Prime)
         {
             ui->CategoryInfoLabel->show();
             ui->ScanCategoryLabel->show();

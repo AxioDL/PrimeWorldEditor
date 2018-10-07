@@ -109,11 +109,6 @@ public:
     {
         TTypedProperty::Serialize(rArc);
         rArc << SerialParameter("ItemArchetype", mpItemArchetype);
-
-        if (rArc.IsReader())
-        {
-            mpItemArchetype->SetPropertyFlags( EPropertyFlag::IsArrayArchetype );
-        }
     }
 
     virtual void SerializeValue(void* pData, IArchive& Arc) const

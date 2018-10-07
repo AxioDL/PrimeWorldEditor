@@ -4,6 +4,8 @@
 #include "Editor/UICommon.h"
 #include <Core/Resource/Factory/CTemplateLoader.h>
 #include <Core/Resource/Script/CGameTemplate.h>
+#include <Core/Resource/Script/NGameList.h>
+#include <Core/Resource/Script/NPropertyMap.h>
 
 CTemplateEditDialog::CTemplateEditDialog(IProperty *pProperty, QWidget *pParent)
     : QDialog(pParent)
@@ -22,7 +24,7 @@ CTemplateEditDialog::CTemplateEditDialog(IProperty *pProperty, QWidget *pParent)
     mpUI->NameLineEdit->setText(TO_QSTRING(pProperty->Name()));
     mpUI->DescriptionTextEdit->setPlainText(TO_QSTRING(pProperty->Description()));
 
-    if (mGame <= ePrime)
+    if (mGame <= EGame::Prime)
     {
         mpUI->TemplatesGroupBox->hide();
         mpUI->RenameAllCheckBox->setText("Rename all copies of this property");
@@ -32,12 +34,16 @@ CTemplateEditDialog::CTemplateEditDialog(IProperty *pProperty, QWidget *pParent)
 
     else
     {
-        CTemplateLoader::LoadAllGames();
+        NGameList::LoadAllGameTemplates();
+
+        //@FIXME
+#if 0
         std::vector<TString> TemplateList;
         CGameTemplate::XMLsUsingID(pProperty->ID(), TemplateList);
 
         for (u32 iTemp = 0; iTemp < TemplateList.size(); iTemp++)
             mpUI->TemplatesListWidget->addItem(TO_QSTRING(TemplateList[iTemp]));
+#endif
 
         mpUI->ValidityLabel->SetValidityText("Hash match! Property name is likely correct.", "Hash mismatch! Property name is likely wrong.");
         connect(mpUI->NameLineEdit, SIGNAL( SoftValidityChanged(bool) ), mpUI->ValidityLabel, SLOT( SetValid(bool) ) );
@@ -78,7 +84,6 @@ void CTemplateEditDialog::ApplyChanges()
 
     FindEquivalentProperties(mpProperty);
 
-    bool NeedsListResave = false;
     bool RenameAll = mpUI->RenameAllCheckBox->isChecked();
 
     TString NewName = TO_TSTRING(mpUI->NameLineEdit->text());
@@ -87,93 +92,31 @@ void CTemplateEditDialog::ApplyChanges()
     if (mOriginalName != NewName)
     {
         // Rename properties
-        if (RenameAll && (mGame >= eEchoesDemo || mpProperty->Archetype() != nullptr))
+        if (RenameAll && (mGame >= EGame::EchoesDemo || mpProperty->Archetype() != nullptr))
         {
-            CGameTemplate::RenameProperty(mpProperty, NewName);
-
-            // Add modified templates to pending resave list
-            const std::vector<IProperty*> *pList = CGameTemplate::TemplatesWithMatchingID(mpProperty);
-
-            if (pList)
-            {
-                for (u32 iTemp = 0; iTemp < pList->size(); iTemp++)
-                    AddTemplate( pList->at(iTemp) );
-            }
+            NPropertyMap::SetPropertyName(mpProperty, *NewName);
         }
-
-        mpProperty->SetName(NewName); // If mpTemplate has an overridden name then CGameTemplate::RenameProperty won't touch it
-
-        if (RenameAll && mGame >= eEchoesDemo)
-            NeedsListResave = true;
     }
 
     TString NewDescription = TO_TSTRING(mpUI->DescriptionTextEdit->toPlainText());
     UpdateDescription(NewDescription);
 
     // Resave templates
-    //FIXME
-/*    foreach (CScriptTemplate *pScript, mScriptTemplatesToResave)
-        CTemplateWriter::SaveScriptTemplate(pScript);
-
-    foreach (CStructTemplate *pStruct, mStructTemplatesToResave)
-        CTemplateWriter::SaveStructTemplate(pStruct);
-
-    if (NeedsListResave)
-        CTemplateWriter::SavePropertyList();*/
+    NPropertyMap::SaveMap();
+    CGameTemplate* pGameTemplate = NGameList::GetGameTemplate( mpProperty->Game() );
+    pGameTemplate->SaveGameTemplates();
 
     close();
 }
 
 // ************ PROTECTED ************
-void CTemplateEditDialog::AddTemplate(IProperty* pProp)
-{
-    IProperty* pArchetype = pProp->Archetype();
-
-    if (pArchetype)
-    {
-        pArchetype = pArchetype->RootParent();
-
-        switch (pArchetype->Type())
-        {
-
-        case EPropertyType::Struct:
-        {
-            CStructProperty* pStruct = TPropCast<CStructProperty>(pArchetype);
-            if (!mStructTemplatesToResave.contains(pStruct))
-            {
-                mStructTemplatesToResave << pStruct;
-            }
-            break;
-        }
-
-        default:
-            Log::Warning("Couldn't resave unsupported property archetype: " + TString( EnumValueName(pArchetype->Type()) ));
-            break;
-        }
-    }
-
-    else
-    {
-        CScriptTemplate *pScript = pProp->ScriptTemplate();
-
-        if (pScript && !mScriptTemplatesToResave.contains(pScript))
-        {
-            mScriptTemplatesToResave << pScript;
-        }
-
-        else
-        {
-            Log::Error("Can't determine where property " + pProp->IDString(true) + " comes from");
-        }
-    }
-}
-
 void CTemplateEditDialog::UpdateDescription(const TString& rkNewDesc)
 {
     mpProperty->SetDescription(rkNewDesc);
-    AddTemplate(mpProperty);
 
     // Update all copies of this property in memory with the new description
+    //@FIXME
+#if 0
     TString SourceFile = mpProperty->GetTemplateFileName();
 
     if (!SourceFile.IsEmpty())
@@ -196,15 +139,15 @@ void CTemplateEditDialog::UpdateDescription(const TString& rkNewDesc)
     foreach (IProperty* pProperty, mEquivalentProperties)
     {
         pProperty->SetDescription(rkNewDesc);
-        AddTemplate(pProperty);
     }
+#endif
 }
 
 void CTemplateEditDialog::FindEquivalentProperties(IProperty *pTemp)
 {
     //FIXME
     /*
-    if (mGame <= ePrime) return;
+    if (mGame <= EGame::Prime) return;
 
     // Find the equivalent version of this property in other games.
     CScriptTemplate *pScript = pTemp->ScriptTemplate();
@@ -237,7 +180,7 @@ void CTemplateEditDialog::FindEquivalentProperties(IProperty *pTemp)
 
         foreach (CGameTemplate *pGame, GameList)
         {
-            if (pGame == pTemp->GameTemplate() || pGame->Game() <= ePrime) continue;
+            if (pGame == pTemp->GameTemplate() || pGame->Game() <= EGame::Prime) continue;
             CScriptTemplate *pNewScript = pGame->TemplateByID(ObjectID);
 
             if (pNewScript)
@@ -254,7 +197,7 @@ void CTemplateEditDialog::FindEquivalentProperties(IProperty *pTemp)
     {
         foreach (CGameTemplate *pGame, GameList)
         {
-            if (pGame == pTemp->GameTemplate() || pGame->Game() <= ePrime) continue;
+            if (pGame == pTemp->GameTemplate() || pGame->Game() <= EGame::Prime) continue;
             CStructTemplate *pStruct = pGame->StructAtSource(Source);
 
             if (pStruct)

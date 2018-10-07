@@ -20,9 +20,9 @@ void CAreaAttributes::SetObject(CScriptObject *pObj)
     mGame = pTemplate->GameTemplate()->Game();
     mNeedSky = CBoolRef(pObj->PropertyData(), pProperties->ChildByIndex(1));
 
-    if (mGame == ePrime)
+    if (mGame == EGame::Prime)
         mOverrideSky = CAssetRef(pObj->PropertyData(), pProperties->ChildByIndex(7));
-    else if (mGame > ePrime)
+    else if (mGame > EGame::Prime)
         mOverrideSky = CAssetRef(pObj->PropertyData(), pProperties->ChildByID(0xD208C9FA));
 }
 

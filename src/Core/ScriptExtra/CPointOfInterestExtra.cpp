@@ -10,8 +10,8 @@ CPointOfInterestExtra::CPointOfInterestExtra(CScriptObject *pInstance, CScene *p
     // Fetch scan data property
     CStructProperty* pProperties = pInstance->Template()->Properties();
 
-    if (mGame <= ePrime)    mScanProperty = CAssetRef(pInstance->PropertyData(), pProperties->ChildByIDString("0x04:0x00"));
-    else                    mScanProperty = CAssetRef(pInstance->PropertyData(), pProperties->ChildByIDString("0xBDBEC295:0xB94E9BE7"));
+    if (mGame <= EGame::Prime)  mScanProperty = CAssetRef(pInstance->PropertyData(), pProperties->ChildByIDString("0x04:0x00"));
+    else                        mScanProperty = CAssetRef(pInstance->PropertyData(), pProperties->ChildByIDString("0xBDBEC295:0xB94E9BE7"));
 
     PropertyModified(mScanProperty.Property());
 }

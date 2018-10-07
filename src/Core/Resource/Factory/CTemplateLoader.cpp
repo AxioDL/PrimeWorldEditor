@@ -1,4 +1,6 @@
 #include "CTemplateLoader.h"
+
+#if USE_LEGACY_TEMPLATE_LOADER
 #include "CAreaLoader.h"
 #include "Core/Resource/Script/Property/Properties.h"
 #include <Common/FileUtil.h>
@@ -149,7 +151,7 @@ IProperty* CTemplateLoader::LoadProperty(XMLElement* pElem, CScriptTemplate* pSc
 
     if (!NameAttr.IsEmpty())
         Name = NameAttr;
-    else if (mGame >= eEchoesDemo)
+    else if (mGame >= EGame::EchoesDemo)
         Name = CGameTemplate::PropertyName(ID);
     else
     {
@@ -1402,3 +1404,5 @@ void CTemplateLoader::SaveGameList()
         }
     }
 }
+
+#endif

@@ -43,7 +43,7 @@ EGame CAnimationLoader::UncompressedCheckVersion()
     u32 Start = mpInput->Tell();
     bool Echoes = UncompressedCheckEchoes();
     mpInput->Seek(Start, SEEK_SET);
-    return (Echoes ? eEchoes : ePrime);
+    return (Echoes ? EGame::Echoes : EGame::Prime);
 }
 
 void CAnimationLoader::ReadUncompressedANIM()
@@ -75,13 +75,13 @@ void CAnimationLoader::ReadUncompressedANIM()
             NumBoneChannels++;
     }
 
-    if (mGame == eUnknownGame)
+    if (mGame == EGame::Invalid)
         mGame = UncompressedCheckVersion();
 
     // Echoes only - rotation channel indices
     std::vector<u8> RotationIndices;
 
-    if (mGame == eEchoes)
+    if (mGame == EGame::Echoes)
     {
         u32 NumRotationIndices = mpInput->ReadLong();
         RotationIndices.resize(NumRotationIndices);
@@ -125,7 +125,7 @@ void CAnimationLoader::ReadUncompressedANIM()
     // Echoes only - scale channel indices
     std::vector<u8> ScaleIndices;
 
-    if (mGame == eEchoes)
+    if (mGame == EGame::Echoes)
     {
         u32 NumScaleIndices = mpInput->ReadLong();
         ScaleIndices.resize(NumScaleIndices);
@@ -161,7 +161,7 @@ void CAnimationLoader::ReadUncompressedANIM()
     }
 
     // Read bone transforms
-    if (mGame == eEchoes)
+    if (mGame == EGame::Echoes)
     {
         mpInput->Seek(0x4, SEEK_CUR); // Skipping scale key count
         mpAnim->mScaleChannels.resize(NumScaleChannels);
@@ -197,7 +197,7 @@ void CAnimationLoader::ReadUncompressedANIM()
             mpAnim->mTranslationChannels[iTrans][iKey] = CVector3f(*mpInput);
     }
 
-    if (mGame == ePrime)
+    if (mGame == EGame::Prime)
     {
         mpAnim->mpEventData = gpResourceStore->LoadResource<CAnimEventData>(mpInput->ReadLong());
     }
@@ -208,10 +208,10 @@ void CAnimationLoader::ReadCompressedANIM()
     // Header
     mpInput->Seek(0x4, SEEK_CUR); // Skip alloc size
 
-    if (mGame == eUnknownGame)
-        mGame = (mpInput->PeekShort() == 0x0101 ? eEchoes : ePrime);
+    if (mGame == EGame::Invalid)
+        mGame = (mpInput->PeekShort() == 0x0101 ? EGame::Echoes : EGame::Prime);
 
-    if (mGame == ePrime)
+    if (mGame == EGame::Prime)
     {
         mpAnim->mpEventData = gpResourceStore->LoadResource<CAnimEventData>(mpInput->ReadLong());
         mpInput->Seek(0x4, SEEK_CUR); // Skip unknown
@@ -224,7 +224,7 @@ void CAnimationLoader::ReadCompressedANIM()
 
     mRotationDivisor = mpInput->ReadLong();
     mTranslationMultiplier = mpInput->ReadFloat();
-    if (mGame == eEchoes) mScaleMultiplier = mpInput->ReadFloat();
+    if (mGame == EGame::Echoes) mScaleMultiplier = mpInput->ReadFloat();
     u32 NumBoneChannels = mpInput->ReadLong();
     mpInput->Seek(0x4, SEEK_CUR); // Skip unknown value
 
@@ -238,7 +238,7 @@ void CAnimationLoader::ReadCompressedANIM()
         for (u32 iBit = 0; iBit < NumKeys; iBit++)
             mKeyFlags[iBit] = BitStream.ReadBit();
     }
-    mpInput->Seek(mGame == ePrime ? 0x8 : 0x4, SEEK_CUR);
+    mpInput->Seek(mGame == EGame::Prime ? 0x8 : 0x4, SEEK_CUR);
 
     // Read bone channel descriptors
     mCompressedChannels.resize(NumBoneChannels);
@@ -249,7 +249,7 @@ void CAnimationLoader::ReadCompressedANIM()
     for (u32 iChan = 0; iChan < NumBoneChannels; iChan++)
     {
         SCompressedChannel& rChan = mCompressedChannels[iChan];
-        rChan.BoneID = (mGame == ePrime ? mpInput->ReadLong() : mpInput->ReadByte());
+        rChan.BoneID = (mGame == EGame::Prime ? mpInput->ReadLong() : mpInput->ReadByte());
 
         // Read rotation parameters
         rChan.NumRotationKeys = mpInput->ReadShort();
@@ -284,7 +284,7 @@ void CAnimationLoader::ReadCompressedANIM()
         // Read scale parameters
         u8 ScaleIdx = 0xFF;
 
-        if (mGame == eEchoes)
+        if (mGame == EGame::Echoes)
         {
             rChan.NumScaleKeys = mpInput->ReadShort();
 
@@ -465,7 +465,7 @@ CQuaternion CAnimationLoader::DequantizeRotation(bool Sign, s16 X, s16 Y, s16 Z)
 CAnimation* CAnimationLoader::LoadANIM(IInputStream& rANIM, CResourceEntry *pEntry)
 {
     // MP3/DKCR unsupported
-    if (pEntry->Game() > eEchoes)
+    if (pEntry->Game() > EGame::Echoes)
         return new CAnimation(pEntry);
 
     u32 CompressionType = rANIM.ReadLong();

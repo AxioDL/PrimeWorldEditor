@@ -168,7 +168,7 @@ void CModelCooker::WriteModelPrime(IOutputStream& rOut)
             {
                 CVertex *pVert = &pPrimitive->Vertices[iVert];
 
-                if (mVersion == eEchoes)
+                if (mVersion == EGame::Echoes)
                 {
                     for (u32 iMtxAttribs = 0; iMtxAttribs < 8; iMtxAttribs++)
                         if (VtxAttribs & (ePosMtx << iMtxAttribs))
@@ -232,10 +232,10 @@ bool CModelCooker::CookCMDL(CModel *pModel, IOutputStream& rOut)
 
     switch (pModel->Game())
     {
-    case ePrimeDemo:
-    case ePrime:
-    case eEchoesDemo:
-    case eEchoes:
+    case EGame::PrimeDemo:
+    case EGame::Prime:
+    case EGame::EchoesDemo:
+    case EGame::Echoes:
         Cooker.WriteModelPrime(rOut);
         return true;
 
@@ -248,17 +248,17 @@ u32 CModelCooker::GetCMDLVersion(EGame Version)
 {
     switch (Version)
     {
-    case ePrimeDemo:
-    case ePrime:
+    case EGame::PrimeDemo:
+    case EGame::Prime:
         return 0x2;
-    case eEchoesDemo:
+    case EGame::EchoesDemo:
         return 0x3;
-    case eEchoes:
+    case EGame::Echoes:
         return 0x4;
-    case eCorruptionProto:
-    case eCorruption:
+    case EGame::CorruptionProto:
+    case EGame::Corruption:
         return 0x5;
-    case eReturns:
+    case EGame::DKCReturns:
         return 0xA;
     default:
         return 0;

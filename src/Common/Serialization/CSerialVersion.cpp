@@ -22,13 +22,13 @@ void CSerialVersion::Read(IInputStream& rInput)
     mArchiveVersion = rInput.ReadShort();
     mFileVersion = rInput.ReadShort();
     CFourCC GameID(rInput);
-    mGame = GetGameForID(GameID);
+    mGame = GameFrom4CC(GameID);
 }
 
 void CSerialVersion::Write(IOutputStream& rOutput)
 {
     rOutput.WriteShort(mArchiveVersion);
     rOutput.WriteShort(mFileVersion);
-    CFourCC GameID = GetGameID(mGame);
+    CFourCC GameID = GameTo4CC(mGame);
     GameID.Write(rOutput);
 }

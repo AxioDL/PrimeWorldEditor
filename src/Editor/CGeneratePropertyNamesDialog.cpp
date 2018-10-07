@@ -3,7 +3,8 @@
 
 #include "Editor/Widgets/CCheckableTreeWidgetItem.h"
 #include "UICommon.h"
-#include <Core/Resource/Factory/CTemplateLoader.h>
+#include <Core/Resource/Script/NGameList.h>
+#include <Core/Resource/Script/NPropertyMap.h>
 #include <QtConcurrent/QtConcurrent>
 #include <iterator>
 
@@ -85,7 +86,7 @@ void CGeneratePropertyNamesDialog::StartGeneration()
     mpUI->OutputTreeWidget->clear();
 
     // Load all templates so we can match as many properties as possible
-    CTemplateLoader::LoadAllGames();
+    NGameList::LoadAllGameTemplates();
 
     // Configure the generator
     SPropertyNameGenerationParameters Params;
@@ -225,13 +226,15 @@ void CGeneratePropertyNamesDialog::ApplyChanges()
         QTreeWidgetItem* pItem = mCheckedItems[ItemIdx];
         u32 ID = TO_TSTRING( pItem->text(2) ).ToInt32();
 
+        //FIXME
+#if 0
         QString NewName = pItem->text(0);
-        CGameTemplate::RenameProperty( ID, TO_TSTRING(NewName) );
+        NPropertyMap::SetPropertyName(::RenameProperty( ID, TO_TSTRING(NewName) );
         pItem->setText(3, NewName);
+#endif
     }
 
-    //FIXME
-//    CTemplateWriter::SavePropertyList();
+    NPropertyMap::SaveMap();
 }
 
 /** Check progress on name generation task and display results on the UI */
@@ -258,7 +261,7 @@ void CGeneratePropertyNamesDialog::CheckForNewResults()
             ColumnText << TO_QSTRING( rkName.Name )
                        << TO_QSTRING( rkName.Type )
                        << TO_QSTRING( TString::HexString(rkName.ID) )
-                       << TO_QSTRING( CGameTemplate::PropertyName(rkName.ID) );
+                       << TO_QSTRING( NPropertyMap::GetPropertyName(rkName.ID, *rkName.Type) );
 
             QTreeWidgetItem* pItem = new CCheckableTreeWidgetItem(pTreeWidget, ColumnText);
             pItem->setFlags(Qt::ItemIsEnabled |

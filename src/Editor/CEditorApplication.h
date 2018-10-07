@@ -51,7 +51,7 @@ public:
     inline CGameProject* ActiveProject() const              { return mpActiveProject; }
     inline CWorldEditor* WorldEditor() const                { return mpWorldEditor; }
     inline CProjectSettingsDialog* ProjectDialog() const    { return mpProjectDialog; }
-    inline EGame CurrentGame() const                        { return mpActiveProject ? mpActiveProject->Game() : eUnknownGame; }
+    inline EGame CurrentGame() const                        { return mpActiveProject ? mpActiveProject->Game() : EGame::Invalid; }
 
     inline void SetEditorTicksEnabled(bool Enabled)         { Enabled ? mRefreshTimer.start(gkTickFrequencyMS) : mRefreshTimer.stop(); }
     inline bool AreEditorTicksEnabled() const               { return mRefreshTimer.isActive(); }

@@ -59,7 +59,7 @@ QVariant CWorldTreeModel::data(const QModelIndex& rkIndex, int Role) const
             // are often missing, confusing, or just straight-up inaccurate, which makes the internal name a better
             // means of telling worlds apart.
             // For DKCR worlds, we only display the world name in the first column.
-            u32 InternalNameCol = (gpEdApp->ActiveProject()->Game() >= eCorruption ? 0 : 1);
+            u32 InternalNameCol = (gpEdApp->ActiveProject()->Game() >= EGame::Corruption ? 0 : 1);
 
             // Internal name
             if (rkIndex.column() == InternalNameCol)
@@ -83,7 +83,7 @@ QVariant CWorldTreeModel::data(const QModelIndex& rkIndex, int Role) const
             ASSERT(pWorld);
 
             TString AreaInternalName = pWorld->AreaInternalName(AreaIndex);
-            TString AreaInGameName = (gpEdApp->ActiveProject()->Game() == eReturns ? pWorld->InGameName() : pWorld->AreaInGameName( AreaIndexForIndex(rkIndex) ));
+            TString AreaInGameName = (gpEdApp->ActiveProject()->Game() == EGame::DKCReturns ? pWorld->InGameName() : pWorld->AreaInGameName( AreaIndexForIndex(rkIndex) ));
 
             // Return name
             if (rkIndex.column() == 1)
@@ -122,8 +122,8 @@ QVariant CWorldTreeModel::data(const QModelIndex& rkIndex, int Role) const
             {
                 EGame Game = gpEdApp->ActiveProject()->Game();
 
-                bool IsActiveWorld = (Game <= eCorruption && rkInfo.pWorld == pActiveWorld) ||
-                                   (Game == eReturns && rkInfo.Areas.contains(pActiveWorld->Entry()));
+                bool IsActiveWorld = (Game <= EGame::Corruption && rkInfo.pWorld == pActiveWorld) ||
+                                   (Game == EGame::DKCReturns && rkInfo.Areas.contains(pActiveWorld->Entry()));
 
                 if (IsActiveWorld)
                     Font.setBold(true);
@@ -169,7 +169,7 @@ bool CWorldTreeModel::IndexIsWorld(const QModelIndex& rkIndex) const
 
 int CWorldTreeModel::AreaIndexForIndex(const QModelIndex& rkIndex) const
 {
-    if (gpEdApp->ActiveProject()->Game() == eReturns)
+    if (gpEdApp->ActiveProject()->Game() == EGame::DKCReturns)
         return 0;
 
     else
@@ -184,7 +184,7 @@ CWorld* CWorldTreeModel::WorldForIndex(const QModelIndex& rkIndex) const
     ASSERT(rkIndex.isValid());
     const SWorldInfo& rkInfo = WorldInfoForIndex(rkIndex);
 
-    if (gpEdApp->ActiveProject()->Game() == eReturns && !IndexIsWorld(rkIndex))
+    if (gpEdApp->ActiveProject()->Game() == EGame::DKCReturns && !IndexIsWorld(rkIndex))
     {
         int AreaIndex = (int) rkIndex.internalId() & 0xFFFF;
         CResourceEntry *pEntry = rkInfo.Areas[AreaIndex];
@@ -219,7 +219,7 @@ void CWorldTreeModel::OnProjectChanged(CGameProject *pProj)
 
     if (pProj)
     {
-        if (pProj->Game() != eReturns)
+        if (pProj->Game() != EGame::DKCReturns)
         {
             // Metroid Prime series; fetch all world assets
             std::list<CAssetID> WorldIDs;
@@ -255,7 +255,7 @@ void CWorldTreeModel::OnProjectChanged(CGameProject *pProj)
             }
 
             // Sort in alphabetical order for MP3
-            if (pProj->Game() >= eCorruption)
+            if (pProj->Game() >= EGame::Corruption)
             {
                 qSort(mWorldList.begin(), mWorldList.end(), [](const SWorldInfo& rkA, const SWorldInfo& rkB) -> bool {
                     return (rkA.WorldName.toUpper() < rkB.WorldName.toUpper());

@@ -22,6 +22,7 @@
 #include <Common/Log.h>
 #include <Core/GameProject/CGameProject.h>
 #include <Core/Render/CDrawUtil.h>
+#include <Core/Resource/Script/NGameList.h>
 #include <Core/Scene/CSceneIterator.h>
 
 #include <QClipboard>
@@ -282,12 +283,12 @@ bool CWorldEditor::SetArea(CWorld *pWorld, int AreaIndex)
     // Update UI stuff
     UpdateWindowTitle();
 
-    CGameTemplate *pGame = CGameTemplate::GetGameTemplate(mpArea->Game());
+    CGameTemplate *pGame = NGameList::GetGameTemplate(mpArea->Game());
     mpLinkDialog->SetGame(pGame);
 
     QString AreaName = TO_QSTRING(mpWorld->AreaInGameName(AreaIndex));
 
-    if (CurrentGame() < eReturns)
+    if (CurrentGame() < EGame::DKCReturns)
         Log::Write("Loaded area: " + mpArea->Entry()->Name() + " (" + TO_TSTRING(AreaName) + ")");
     else
         Log::Write("Loaded level: World " + mpWorld->Entry()->Name() + " / Area " + mpArea->Entry()->Name() + " (" + TO_TSTRING(AreaName) + ")");
@@ -541,12 +542,12 @@ void CWorldEditor::OnActiveProjectChanged(CGameProject *pProj)
 {
     ui->ActionProjectSettings->setEnabled( pProj != nullptr );
     ui->ActionCloseProject->setEnabled( pProj != nullptr );
-    mpPoiMapAction->setVisible( pProj != nullptr && pProj->Game() >= eEchoesDemo && pProj->Game() <= eCorruption );
+    mpPoiMapAction->setVisible( pProj != nullptr && pProj->Game() >= EGame::EchoesDemo && pProj->Game() <= EGame::Corruption );
     ResetCamera();
     UpdateWindowTitle();
 
     // Default bloom to Fake Bloom for Metroid Prime 3; disable for other games
-    bool AllowBloom = (CurrentGame() == eCorruptionProto || CurrentGame() == eCorruption);
+    bool AllowBloom = (CurrentGame() == EGame::CorruptionProto || CurrentGame() == EGame::Corruption);
     AllowBloom ? SetFakeBloom() : SetNoBloom();
     ui->menuBloom->setEnabled(AllowBloom);
 
@@ -761,7 +762,7 @@ void CWorldEditor::UpdateWindowTitle()
         {
             WindowTitle += " - " + TO_QSTRING(mpWorld->InGameName());
 
-            if (mpArea && CurrentGame() < eReturns)
+            if (mpArea && CurrentGame() < EGame::DKCReturns)
                 WindowTitle += " - " + TO_QSTRING( mpWorld->AreaInGameName(mpArea->WorldIndex()) );
         }
     }

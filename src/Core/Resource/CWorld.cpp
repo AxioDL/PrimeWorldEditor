@@ -95,20 +95,20 @@ void CWorld::Serialize(IArchive& rArc)
     rArc << SerialParameter("Name", mName)
          << SerialParameter("NameString", mpWorldName);
 
-    if (rArc.Game() == eEchoesDemo || rArc.Game() == eEchoes)
+    if (rArc.Game() == EGame::EchoesDemo || rArc.Game() == EGame::Echoes)
         rArc << SerialParameter("DarkNameString", mpDarkWorldName);
 
     rArc << SerialParameter("WorldSaveInfo", mpSaveWorld)
          << SerialParameter("WorldMap", mpMapWorld)
          << SerialParameter("DefaultSkyModel", mpDefaultSkybox);
 
-    if (rArc.Game() >= eEchoesDemo && rArc.Game() <= eCorruption)
+    if (rArc.Game() >= EGame::EchoesDemo && rArc.Game() <= EGame::Corruption)
         rArc << SerialParameter("TempleKeyWorldIndex", mTempleKeyWorldIndex);
 
-    if (rArc.Game() == eReturns)
+    if (rArc.Game() == EGame::DKCReturns)
         rArc << SerialParameter("TimeAttackData", mTimeAttackData);
 
-    if (rArc.Game() == ePrime)
+    if (rArc.Game() == EGame::Prime)
         rArc << SerialParameter("MemoryRelays", mMemoryRelays);
 
     rArc << SerialParameter("Areas", mAreas);
@@ -165,7 +165,7 @@ void Serialize(IArchive& rArc, CWorld::SArea::SLayer& rLayer)
     rArc << SerialParameter("Name", rLayer.LayerName)
          << SerialParameter("Active", rLayer.Active);
 
-    if (rArc.Game() >= eCorruption)
+    if (rArc.Game() >= EGame::Corruption)
     {
         rArc << SerialParameter("StateID", rLayer.LayerStateID);
     }

@@ -2,6 +2,7 @@
 #include "CTemplateLoader.h"
 #include "Core/GameProject/CResourceStore.h"
 #include "Core/Resource/Script/CGameTemplate.h"
+#include "Core/Resource/Script/NGameList.h"
 #include "Core/Resource/Script/Property/CArrayProperty.h"
 #include "Core/Resource/Script/Property/CAssetProperty.h"
 #include "Core/Resource/Script/Property/CEnumProperty.h"
@@ -202,7 +203,7 @@ void CScriptLoader::ReadProperty(IProperty *pProp, u32 Size, IInputStream& rSCLY
     {
         CStructProperty* pStruct = TPropCast<CStructProperty>(pProp);
 
-        if (mVersion < eEchoesDemo)
+        if (mVersion < EGame::EchoesDemo)
             LoadStructMP1(rSCLY, pStruct);
         else
             LoadStructMP2(rSCLY, pStruct);
@@ -447,7 +448,7 @@ CScriptLayer* CScriptLoader::LoadLayer(IInputStream& rSCLY, CGameArea *pArea, EG
 
     CScriptLoader Loader;
     Loader.mVersion = Version;
-    Loader.mpGameTemplate = CGameTemplate::GetGameTemplate(Version);
+    Loader.mpGameTemplate = NGameList::GetGameTemplate(Version);
     Loader.mpArea = pArea;
 
     if (!Loader.mpGameTemplate)
@@ -456,10 +457,7 @@ CScriptLayer* CScriptLoader::LoadLayer(IInputStream& rSCLY, CGameArea *pArea, EG
         return nullptr;
     }
 
-    if (!Loader.mpGameTemplate->IsLoadedSuccessfully())
-        CTemplateLoader::LoadGameTemplates(Version);
-
-    if (Version <= ePrime)
+    if (Version <= EGame::Prime)
         return Loader.LoadLayerMP1(rSCLY);
     else
         return Loader.LoadLayerMP2(rSCLY);
@@ -470,8 +468,8 @@ CScriptObject* CScriptLoader::LoadInstance(IInputStream& rSCLY, CGameArea *pArea
     if (!rSCLY.IsValid()) return nullptr;
 
     CScriptLoader Loader;
-    Loader.mVersion = (ForceReturnsFormat ? eReturns : Version);
-    Loader.mpGameTemplate = CGameTemplate::GetGameTemplate(Version);
+    Loader.mVersion = (ForceReturnsFormat ? EGame::DKCReturns : Version);
+    Loader.mpGameTemplate = NGameList::GetGameTemplate(Version);
     Loader.mpArea = pArea;
     Loader.mpLayer = pLayer;
 
@@ -481,10 +479,7 @@ CScriptObject* CScriptLoader::LoadInstance(IInputStream& rSCLY, CGameArea *pArea
         return nullptr;
     }
 
-    if (!Loader.mpGameTemplate->IsLoadedSuccessfully())
-        CTemplateLoader::LoadGameTemplates(Version);
-
-    if (Loader.mVersion <= ePrime)
+    if (Loader.mVersion <= EGame::Prime)
         return Loader.LoadObjectMP1(rSCLY);
     else
         return Loader.LoadObjectMP2(rSCLY);

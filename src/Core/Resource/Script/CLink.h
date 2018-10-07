@@ -24,7 +24,7 @@ struct SState
 
     void Serialize(IArchive& Arc)
     {
-        if (Arc.Game() <= ePrime)
+        if (Arc.Game() <= EGame::Prime)
             Arc << SerialParameter("ID", ID, SH_Attribute | SH_HexDisplay);
         else
             Arc << SerialParameter("ID", ID_4CC, SH_Attribute);
@@ -51,7 +51,7 @@ struct SMessage
 
     void Serialize(IArchive& Arc)
     {
-        if (Arc.Game() <= ePrime)
+        if (Arc.Game() <= EGame::Prime)
             Arc << SerialParameter("ID", ID, SH_Attribute | SH_HexDisplay);
         else
             Arc << SerialParameter("ID", ID_4CC, SH_Attribute);

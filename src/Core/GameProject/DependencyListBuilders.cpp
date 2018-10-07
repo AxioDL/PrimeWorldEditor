@@ -3,7 +3,7 @@
 // ************ CCharacterUsageMap ************
 bool CCharacterUsageMap::IsCharacterUsed(const CAssetID& rkID, u32 CharacterIndex) const
 {
-    if (mpStore->Game() >= eCorruptionProto) return true;
+    if (mpStore->Game() >= EGame::CorruptionProto) return true;
     auto Find = mUsageMap.find(rkID);
     if (Find == mUsageMap.end()) return false;
 
@@ -214,7 +214,7 @@ void CPackageDependencyListBuilder::AddDependency(CResourceEntry *pCurEntry, con
 
     // Is this entry valid?
     bool IsValid =  ResType != eMidi &&
-                   (ResType != eAudioGroup || mGame >= eEchoesDemo) &&
+                   (ResType != eAudioGroup || mGame >= EGame::EchoesDemo) &&
                    (ResType != eWorld || !pCurEntry) &&
                    (ResType != eArea || !pCurEntry || pCurEntry->ResourceType() == eWorld);
 
@@ -232,7 +232,7 @@ void CPackageDependencyListBuilder::AddDependency(CResourceEntry *pCurEntry, con
     // New area - toggle duplicates and find character usages
     if (ResType == eArea)
     {
-        if (mGame <= eEchoes)
+        if (mGame <= EGame::Echoes)
             mCharacterUsageMap.FindUsagesForArea(mpWorld, pEntry);
 
         mAreaUsedAssets.clear();
@@ -417,7 +417,7 @@ void CAreaDependencyListBuilder::BuildDependencyList(std::list<CAssetID>& rAsset
                     CPropertyDependency *pDep = static_cast<CPropertyDependency*>(pInst->ChildByIndex(iDep));
 
                     // For MP3, exclude the CMDL/CSKR properties for the suit assets - only include default character assets
-                    if (mGame == eCorruption && mIsPlayerActor)
+                    if (mGame == EGame::Corruption && mIsPlayerActor)
                     {
                         TString PropID = pDep->PropertyID();
 
@@ -467,7 +467,7 @@ void CAreaDependencyListBuilder::AddDependency(const CAssetID& rkID, std::list<C
     EResType ResType = pEntry->ResourceType();
 
     // If this is an audio group, for MP1, save it in the output set. For MP2, treat audio groups as a normal dependency.
-    if (mGame <= ePrime && ResType == eAudioGroup)
+    if (mGame <= EGame::Prime && ResType == eAudioGroup)
     {
         if (pAudioGroupsOut)
             pAudioGroupsOut->insert(rkID);
@@ -534,7 +534,7 @@ void CAreaDependencyListBuilder::EvaluateDependencyNode(CResourceEntry *pCurEntr
     else if (Type == eDNT_SetCharacter)
     {
         // Note: For MP1/2 PlayerActor, always treat as if Empty Suit is the only used one
-        const u32 kEmptySuitIndex = (mGame >= eEchoesDemo ? 3 : 5);
+        const u32 kEmptySuitIndex = (mGame >= EGame::EchoesDemo ? 3 : 5);
 
         CSetCharacterDependency *pChar = static_cast<CSetCharacterDependency*>(pNode);
         u32 SetIndex = pChar->CharSetIndex();

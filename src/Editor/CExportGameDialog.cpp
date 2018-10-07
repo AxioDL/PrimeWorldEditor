@@ -24,7 +24,7 @@ CExportGameDialog::CExportGameDialog(const QString& rkIsoPath, const QString& rk
     , mpDisc(nullptr)
     , mpExporter(nullptr)
     , mDiscType(eDT_Normal)
-    , mGame(eUnknownGame)
+    , mGame(EGame::Invalid)
     , mRegion(ERegion::Unknown)
     , mBuildVer(0.f)
     , mWiiFrontend(false)
@@ -85,7 +85,7 @@ void CExportGameDialog::InitUI(QString ExportDir)
     mpUI->GameTitleLineEdit->setText( TO_QSTRING(mGameTitle) );
     mpUI->GameIdLineEdit->setText( TO_QSTRING(mGameID) );
     mpUI->BuildVersionLineEdit->setText( QString("%1 (%2)").arg(mBuildVer).arg( TO_QSTRING(GameInfo.GetBuildName(mBuildVer, mRegion)) ));
-    mpUI->RegionLineEdit->setText( GetRegionName(mRegion) );
+    mpUI->RegionLineEdit->setText( TEnumReflection<ERegion>::ConvertValueToString(mRegion) );
 
     // Disc tree widget
     nod::IPartition *pPartition = mpDisc->getDataPartition();
@@ -155,23 +155,23 @@ bool CExportGameDialog::ValidateGame()
             return false;
         }
 
-        mGame = ePrime;
+        mGame = EGame::Prime;
         break;
 
     case FOURCC('G2MX'):
         // Echoes, but also appears in the MP3 proto
         if (mGameID[4] == 'A' && mGameID[5] == 'B')
-            mGame = eCorruptionProto;
+            mGame = EGame::CorruptionProto;
         else
-            mGame = eEchoes;
+            mGame = EGame::Echoes;
         break;
 
     case FOURCC('RM3X'):
-        mGame = eCorruption;
+        mGame = EGame::Corruption;
         break;
 
     case FOURCC('SF8X'):
-        mGame = eReturns;
+        mGame = EGame::DKCReturns;
         break;
 
     case FOURCC('R3MX'):
@@ -187,13 +187,13 @@ bool CExportGameDialog::ValidateGame()
 
     case FOURCC('R3IX'):
         // MP1 Wii de Asobu
-        mGame = ePrime;
+        mGame = EGame::Prime;
         mDiscType = eDT_WiiDeAsobu;
         if (!RequestWiiPortGame()) return false;
         break;
 
     case FOURCC('R32X'):
-        mGame = eEchoes;
+        mGame = EGame::Echoes;
         mDiscType = eDT_WiiDeAsobu;
         if (!RequestWiiPortGame()) return false;
         break;
@@ -211,9 +211,9 @@ bool CExportGameDialog::RequestWiiPortGame()
     QDialog Dialog;
     Dialog.setWindowTitle("Select Game");
 
-    bool IsTrilogy = (mGame == eUnknownGame);
-    bool HasMP1 = (IsTrilogy || mGame == ePrime);
-    bool HasMP2 = (IsTrilogy || mGame == eEchoes);
+    bool IsTrilogy = (mGame == EGame::Invalid);
+    bool HasMP1 = (IsTrilogy || mGame == EGame::Prime);
+    bool HasMP2 = (IsTrilogy || mGame == EGame::Echoes);
     bool HasMP3 = IsTrilogy;
 
     QString GameName = (IsTrilogy ? "Metroid Prime: Trilogy" : "Wii de Asobu");
@@ -242,20 +242,20 @@ bool CExportGameDialog::RequestWiiPortGame()
         switch (ComboBox.currentIndex())
         {
         case 0:
-            mGame = eCorruption;
+            mGame = EGame::Corruption;
             mWiiFrontend = true;
             break;
 
         case 1:
-            mGame = (HasMP1 ? ePrime : eEchoes);
+            mGame = (HasMP1 ? EGame::Prime : EGame::Echoes);
             break;
 
         case 2:
-            mGame = eEchoes;
+            mGame = EGame::Echoes;
             break;
 
         case 3:
-            mGame = eCorruption;
+            mGame = EGame::Corruption;
             break;
         }
 
@@ -269,7 +269,7 @@ float CExportGameDialog::FindBuildVersion()
     ASSERT(mpDisc != nullptr);
 
     // MP1 demo build doesn't have a build version
-    if (mGame == ePrimeDemo) return 0.f;
+    if (mGame == EGame::PrimeDemo) return 0.f;
 
     // Get DOL buffer
     std::unique_ptr<uint8_t[]> pDolData = mpDisc->getDataPartition()->getDOLBuf();

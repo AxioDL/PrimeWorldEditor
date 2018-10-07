@@ -7,37 +7,61 @@
 namespace NBasics
 {
 
-/** Remove an element from a vector */
-template<typename T>
-bool VectorRemoveOne(std::vector<T>& Vector, const T& kElement)
+/** Remove an element from a container */
+template<typename T, typename ContainerT>
+bool ContainerRemoveOne(ContainerT& Container, const T& kElement)
 {
-    for (auto Iter = Vector.begin(); Iter != Vector.end(); Iter++)
+    for (auto Iter = Container.begin(); Iter != Container.end(); Iter++)
     {
         if (*Iter == kElement)
         {
-            Vector.erase(Iter);
+            Container.erase(Iter);
             return true;
         }
     }
     return false;
 }
 
-/** Remove all occurrences of an element from a vector. Returns the number of elements that were removed. */
 template<typename T>
-int VectorRemoveAll(std::vector<T>& Vector, const T& kElement)
+inline bool VectorRemoveOne(std::vector<T>& Vector, const T& kElement)
+{
+    return ContainerRemoveOne< T, std::vector<T> >(Vector, kElement);
+}
+
+template<typename T>
+inline bool ListRemoveOne(std::list<T>& List, const T& kElement)
+{
+    return ContainerRemoveOne< T, std::list<T> >(List, kElement);
+}
+
+/** Remove all occurrences of an element from a container. Returns the number of elements that were removed. */
+template<typename T, typename ContainerT>
+int ContainerRemoveAll(ContainerT& Container, const T& kElement)
 {
     int NumRemoved = 0;
 
-    for (auto Iter = Vector.begin(); Iter != Vector.end(); Iter++)
+    for (auto Iter = Container.begin(); Iter != Container.end(); Iter++)
     {
         if (*Iter == kElement)
         {
-            Iter = Vector.erase(Iter);
+            Iter = Container.erase(Iter);
             NumRemoved++;
         }
     }
 
     return NumRemoved;
+}
+
+template<typename T>
+inline int VectorRemoveAll(std::vector<T>& Vector, const T& kElement)
+{
+    return ContainerRemoveAll< T, std::vector<T> >(Vector, kElement);
+}
+
+template<typename T>
+inline int ListRemoveAll(std::list<T>& List, const T& kElement)
+{
+    return ContainerRemoveAll< T, std::list<T> >(List, kElement);
 }
 
 /** Returns whether the vector contains the given element */

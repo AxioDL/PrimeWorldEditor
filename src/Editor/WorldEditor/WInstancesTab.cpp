@@ -3,6 +3,7 @@
 
 #include "CWorldEditor.h"
 #include <Core/Resource/Script/CScriptLayer.h>
+#include <Core/Resource/Script/NGameList.h>
 #include <Core/Scene/CScene.h>
 #include <Core/Scene/CSceneIterator.h>
 
@@ -299,7 +300,7 @@ void WInstancesTab::OnHideAllExceptTypeAction()
     else
     {
         EGame Game = mpEditor->CurrentGame();
-        CGameTemplate *pGame = CGameTemplate::GetGameTemplate(Game);
+        CGameTemplate *pGame = NGameList::GetGameTemplate(Game);
 
         for (u32 iTemp = 0; iTemp < pGame->NumScriptTemplates(); iTemp++)
         {
@@ -330,7 +331,7 @@ void WInstancesTab::OnUnhideAllTypes()
     else
     {
         EGame Game = mpEditor->CurrentGame();
-        CGameTemplate *pGame = CGameTemplate::GetGameTemplate(Game);
+        CGameTemplate *pGame = NGameList::GetGameTemplate(Game);
 
         for (u32 iTemp = 0; iTemp < pGame->NumScriptTemplates(); iTemp++)
             pGame->TemplateByIndex(iTemp)->SetVisible(true);
@@ -364,7 +365,7 @@ void WInstancesTab::OnUnhideAll()
     if (TypesRoot.isValid())
     {
         EGame Game = mpEditor->CurrentGame();
-        CGameTemplate *pGame = CGameTemplate::GetGameTemplate(Game);
+        CGameTemplate *pGame = NGameList::GetGameTemplate(Game);
 
         for (u32 iTemp = 0; iTemp < pGame->NumScriptTemplates(); iTemp++)
             pGame->TemplateByIndex(iTemp)->SetVisible(true);

@@ -42,7 +42,7 @@ CDependencyTree* CGameArea::BuildDependencyTree() const
 
     pTree->AddDependency(mPathID);
 
-    if (Game() >= eEchoesDemo)
+    if (Game() >= EGame::EchoesDemo)
     {
         pTree->AddDependency(mPortalAreaID);
         pTree->AddDependency(mpPoiToWorldMap);
@@ -224,7 +224,7 @@ CScriptObject* CGameArea::SpawnInstance(CScriptTemplate *pTemplate,
     pInstance->SetRotation(rkRotation.ToEuler());
     pInstance->SetScale(rkScale);
     pInstance->SetName(pTemplate->Name());
-    if (pTemplate->Game() < eEchoesDemo) pInstance->SetActive(true);
+    if (pTemplate->Game() < EGame::EchoesDemo) pInstance->SetActive(true);
     pLayer->AddInstance(pInstance, SuggestedLayerIndex);
     mObjectMap[InstanceID] = pInstance;
     return pInstance;

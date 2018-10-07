@@ -127,6 +127,7 @@ private:
     };
     std::vector<SVolumeCondition> mVolumeConditions;
     bool mVisible;
+    bool mDirty;
 
 public:
     // Default constructor. Don't use. This is only here so the serializer doesn't complain
@@ -137,7 +138,7 @@ public:
     CScriptTemplate(CGameTemplate* pGame, u32 ObjectID, const TString& kFilePath);
     ~CScriptTemplate();
     void Serialize(IArchive& rArc);
-    void PostLoad();
+    void Save(bool Force = false);
     EGame Game() const;
 
     // Property Fetching
@@ -168,6 +169,8 @@ public:
     inline CStructProperty* LightParametersProperty() const     { return mpLightParametersProperty; }
 
     inline void SetVisible(bool Visible)    { mVisible = Visible; }
+    inline void MarkDirty()                 { mDirty = true; }
+    inline bool IsDirty() const             { return mDirty; }
 
     // Object Tracking
     u32 NumObjects() const;

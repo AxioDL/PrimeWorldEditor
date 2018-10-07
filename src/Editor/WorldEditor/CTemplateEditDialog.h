@@ -24,8 +24,6 @@ class CTemplateEditDialog : public QDialog
     bool mOriginalNameWasValid;
 
     // These members help track what templates need to be updated and resaved after the user clicks OK
-    QVector<CScriptTemplate*> mScriptTemplatesToResave;
-    QVector<CStructProperty*> mStructTemplatesToResave;
     QVector<IProperty*> mEquivalentProperties;
 
 public:
@@ -36,7 +34,6 @@ public slots:
     void ApplyChanges();
 
 protected:
-    void AddTemplate(IProperty* pProperty);
     void UpdateDescription(const TString& rkNewDesc);
     void FindEquivalentProperties(IProperty *pTemp);
 };

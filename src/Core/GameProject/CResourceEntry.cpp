@@ -618,7 +618,7 @@ CGameProject* CResourceEntry::Project() const
 
 EGame CResourceEntry::Game() const
 {
-    return mpStore ? mpStore->Game() : eUnknownGame;
+    return mpStore ? mpStore->Game() : EGame::Invalid;
 }
 
 void CResourceEntry::SetFlag(EResEntryFlag Flag)

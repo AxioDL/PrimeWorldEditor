@@ -37,12 +37,6 @@ void CFlagsProperty::InitFromArchetype(IProperty* pOther)
     mAllFlags = pOtherFlags->mAllFlags;
 }
 
-TString CFlagsProperty::GetTemplateFileName()
-{
-    ASSERT(IsArchetype() || mpArchetype);
-    return IsArchetype() ? mSourceFile : mpArchetype->GetTemplateFileName();
-}
-
 /**
  * Checks whether there are any unrecognized bits toggled on in the property value.
  * Returns the mask of any invalid bits. If all bits are valid, returns 0.

@@ -141,7 +141,7 @@ public:
         }
 
         // Animation dependencies
-        if (Game() <= eEchoes)
+        if (Game() <= EGame::Echoes)
         {
             for (u32 iAnim = 0; iAnim < mAnimations.size(); iAnim++)
             {
@@ -151,7 +151,7 @@ public:
             }
         }
 
-        else if (Game() <= eCorruption)
+        else if (Game() <= EGame::Corruption)
         {
             const SSetCharacter& rkChar = mCharacters[0];
             std::set<CAnimPrimitive> PrimitiveSet;
@@ -228,7 +228,7 @@ public:
     {
         ASSERT(Index >= 0 && Index < NumAnimations());
 
-        if (Game() <= ePrime)
+        if (Game() <= EGame::Prime)
         {
             const CAnimPrimitive& rkPrim = mAnimPrimitives[Index];
             return rkPrim.Animation() ? rkPrim.Animation()->EventData() : nullptr;

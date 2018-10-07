@@ -5,7 +5,7 @@
 #include <iostream>
 
 CAnimationParameters::CAnimationParameters()
-    : mGame(ePrime)
+    : mGame(EGame::Prime)
     , mCharIndex(0)
     , mAnimIndex(0)
     , mUnknown2(0)
@@ -30,20 +30,20 @@ CAnimationParameters::CAnimationParameters(IInputStream& rSCLY, EGame Game)
     , mUnknown2(0)
     , mUnknown3(0)
 {
-    if (Game <= eEchoes)
+    if (Game <= EGame::Echoes)
     {
         mCharacterID = CAssetID(rSCLY, Game);
         mCharIndex = rSCLY.ReadLong();
         mAnimIndex = rSCLY.ReadLong();
     }
 
-    else if (Game <= eCorruption)
+    else if (Game <= EGame::Corruption)
     {
         mCharacterID = CAssetID(rSCLY, Game);
         mAnimIndex = rSCLY.ReadLong();
     }
 
-    else if (Game == eReturns)
+    else if (Game == EGame::DKCReturns)
     {
         u8 Flags = rSCLY.ReadByte();
 
@@ -80,7 +80,7 @@ CAnimationParameters::CAnimationParameters(IInputStream& rSCLY, EGame Game)
 
 void CAnimationParameters::Write(IOutputStream& rSCLY)
 {
-    if (mGame <= eEchoes)
+    if (mGame <= EGame::Echoes)
     {
         if (mCharacterID.IsValid())
         {
@@ -96,7 +96,7 @@ void CAnimationParameters::Write(IOutputStream& rSCLY)
         }
     }
 
-    else if (mGame <= eCorruption)
+    else if (mGame <= EGame::Corruption)
     {
         if (mCharacterID.IsValid())
         {
@@ -144,12 +144,12 @@ void CAnimationParameters::Serialize(IArchive& rArc)
 
     rArc << SerialParameter("AnimationSetAsset", mCharacterID);
 
-    if (mGame <= eEchoes)
+    if (mGame <= EGame::Echoes)
         rArc << SerialParameter("CharacterID", mCharIndex);
 
     rArc << SerialParameter("AnimationID", mAnimIndex);
 
-    if (mGame >= eReturns)
+    if (mGame >= EGame::DKCReturns)
     {
         rArc << SerialParameter("Unknown0", mUnknown2)
              << SerialParameter("Unknown1", mUnknown3);

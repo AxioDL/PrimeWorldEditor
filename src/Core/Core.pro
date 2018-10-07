@@ -249,7 +249,9 @@ HEADERS += \
     Resource/Script/Property/CColorProperty.h \
     Resource/Script/Property/CStructProperty.h \
     Resource/Script/Property/CGuidProperty.h \
-    Resource/Script/CGameTemplate.h
+    Resource/Script/CGameTemplate.h \
+    Resource/Script/NPropertyMap.h \
+    Resource/Script/NGameList.h
 
 # Source Files
 SOURCES += \
@@ -359,7 +361,9 @@ SOURCES += \
     Resource/Script/Property/IProperty.cpp \
     Resource/Script/Property/CStructProperty.cpp \
     Resource/Script/Property/CFlagsProperty.cpp \
-    Resource/Script/CGameTemplate.cpp
+    Resource/Script/CGameTemplate.cpp \
+    Resource/Script/NPropertyMap.cpp \
+    Resource/Script/NGameList.cpp
 
 # Codegen
 CODEGEN_DIR = $$EXTERNALS_DIR/CodeGen

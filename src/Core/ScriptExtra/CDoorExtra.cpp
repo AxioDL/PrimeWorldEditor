@@ -9,7 +9,7 @@ CDoorExtra::CDoorExtra(CScriptObject* pInstance, CScene* pScene, CScriptNode* pP
     mShieldModelProp = CAssetRef(pInstance->PropertyData(), pProperties->ChildByID(0xB20CC271));
     if (mShieldModelProp.IsValid()) PropertyModified(mShieldModelProp.Property());
 
-    if (mGame >= eEchoes)
+    if (mGame >= EGame::Echoes)
     {
         mShieldColorProp = CColorRef(pInstance->PropertyData(), pProperties->ChildByID(0x47B4E863));
         if (mShieldColorProp.IsValid()) PropertyModified(mShieldColorProp.Property());

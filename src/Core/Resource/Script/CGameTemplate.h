@@ -28,84 +28,85 @@ struct SObjId
 
     void Serialize(IArchive& Arc)
     {
-        if (Arc.Game() <= ePrime)
+        if (Arc.Game() <= EGame::Prime)
             Arc.SerializePrimitive(ID, SH_HexDisplay);
         else
             Arc.SerializePrimitive(ID_4CC, 0);
     }
 };
 
+/** Struct holding a reference to a script object template */
+struct SScriptTemplatePath
+{
+    /** Script object ID */
+    SObjId ID;
+
+    /** File path to the template file, relative to the game directory */
+    TString Path;
+
+    /** Template in memory */
+    std::shared_ptr<CScriptTemplate> pTemplate;
+
+    /** Constructor */
+    SScriptTemplatePath()
+        : ID(0)
+    {}
+
+    SScriptTemplatePath(u32 InID, const TString& kInPath, CScriptTemplate* pInTemplate)
+        : ID(InID)
+        , Path(kInPath)
+        , pTemplate( std::shared_ptr<CScriptTemplate>(pInTemplate) )
+    {}
+
+    SScriptTemplatePath(const CFourCC& kInID, const TString& kInPath, CScriptTemplate* pInTemplate)
+        : ID(kInID)
+        , Path(kInPath)
+        , pTemplate( std::shared_ptr<CScriptTemplate>(pInTemplate) )
+    {}
+
+    /** Serializer */
+    void Serialize(IArchive& Arc)
+    {
+        Arc << SerialParameter("ID", ID, SH_Attribute)
+            << SerialParameter("Path", Path, SH_Attribute);
+    }
+};
+
+/** Struct holding a reference to a property template */
+struct SPropertyTemplatePath
+{
+    /** File path to the template file, relative to the game directory */
+    TString Path;
+
+    /** Template in memory */
+    std::shared_ptr<IProperty> pTemplate;
+
+    /** Constructor */
+    SPropertyTemplatePath()
+    {}
+
+    SPropertyTemplatePath(const TString& kInPath, IProperty* pInTemplate)
+        : Path(kInPath)
+        , pTemplate( std::shared_ptr<IProperty>(pInTemplate) )
+    {}
+
+    /** Serializer */
+    void Serialize(IArchive& Arc)
+    {
+        Arc << SerialParameter("Path", Path, SH_Attribute);
+    }
+};
+
+/** CGameTemplate - Per-game template data */
 class CGameTemplate
 {
     friend class CTemplateLoader;
     friend class CTemplateWriter;
 
-    /** Struct holding a reference to a script object template */
-    struct SScriptTemplatePath
-    {
-        /** Script object ID */
-        SObjId ID;
-
-        /** File path to the template file, relative to the game directory */
-        TString Path;
-
-        /** Template in memory */
-        std::shared_ptr<CScriptTemplate> pTemplate;
-
-        /** Constructor */
-        SScriptTemplatePath()
-            : ID(0)
-        {}
-
-        SScriptTemplatePath(u32 InID, const TString& kInPath, CScriptTemplate* pInTemplate)
-            : ID(InID)
-            , Path(kInPath)
-            , pTemplate( std::shared_ptr<CScriptTemplate>(pInTemplate) )
-        {}
-
-        SScriptTemplatePath(const CFourCC& kInID, const TString& kInPath, CScriptTemplate* pInTemplate)
-            : ID(kInID)
-            , Path(kInPath)
-            , pTemplate( std::shared_ptr<CScriptTemplate>(pInTemplate) )
-        {}
-
-        /** Serializer */
-        void Serialize(IArchive& Arc)
-        {
-            Arc << SerialParameter("ID", ID, SH_Attribute)
-                << SerialParameter("Path", Path, SH_Attribute);
-        }
-    };
-
-    /** Struct holding a reference to a property template */
-    struct SPropertyTemplatePath
-    {
-        /** File path to the template file, relative to the game directory */
-        TString Path;
-
-        /** Template in memory */
-        std::shared_ptr<IProperty> pTemplate;
-
-        /** Constructor */
-        SPropertyTemplatePath()
-        {}
-
-        SPropertyTemplatePath(const TString& kInPath, IProperty* pInTemplate)
-            : Path(kInPath)
-            , pTemplate( std::shared_ptr<IProperty>(pInTemplate) )
-        {}
-
-        /** Serializer */
-        void Serialize(IArchive& Arc)
-        {
-            Arc << SerialParameter("Path", Path, SH_Attribute);
-        }
-    };
-
     EGame mGame;
-    TString mGameName;
     TString mSourceFile;
     bool mFullyLoaded;
+    bool mDirty;
 
     /** Template arrays */
     std::map<SObjId,  SScriptTemplatePath>    mScriptTemplates;
@@ -114,26 +115,16 @@ class CGameTemplate
     std::map<SObjId, TString> mStates;
     std::map<SObjId, TString> mMessages;
 
-    struct SPropIDInfo
-    {
-        std::vector<TString> XMLList; // List of script/struct templates that use this ID
-        std::vector<IProperty*> PropertyList; // List of all properties that use this ID
-    };
-    static std::map<u32, SPropIDInfo> smIDMap;
-    static std::map<EGame, CGameTemplate*> smGameMap;
-    static std::map<u32, TString> smPropertyNames;
-    static u32 smGameListVersion;
-
-    void Internal_LoadScriptTemplate(SScriptTemplatePath& Path);
+    /** Internal function for loading a property template from a file. */
     void Internal_LoadPropertyTemplate(SPropertyTemplatePath& Path);
 
 public:
     CGameTemplate();
     void Serialize(IArchive& Arc);
-    void LoadSubTemplates();
-    void SaveSubTemplates();
-    void SaveScriptTemplate(CScriptTemplate* pTemplate);
-    void SavePropertyTemplate(IProperty* pProperty);
+    void Load(const TString& kFilePath);
+    void Save();
+    void SaveGameTemplates(bool ForceAll = false);
+
     u32 GameVersion(TString VersionName);
     CScriptTemplate* TemplateByID(u32 ObjectID);
     CScriptTemplate* TemplateByID(const CFourCC& ObjectID);
@@ -145,28 +136,15 @@ public:
     SMessage MessageByID(const CFourCC& MessageID);
     SMessage MessageByIndex(u32 Index);
     IProperty* FindPropertyArchetype(const TString& kTypeName);
-    TString GetGameDirectory(bool Absolute = false) const;
+    TString GetPropertyArchetypeFilePath(const TString& kTypeName);
+    TString GetGameDirectory() const;
 
     // Inline Accessors
     inline EGame Game() const               { return mGame; }
-    inline TString GameName() const         { return mGameName; }
     inline u32 NumScriptTemplates() const   { return mScriptTemplates.size(); }
     inline u32 NumStates() const            { return mStates.size(); }
     inline u32 NumMessages() const          { return mMessages.size(); }
     inline bool IsLoadedSuccessfully()      { return mFullyLoaded; }
-
-    // Static
-    static CGameTemplate* GetGameTemplate(EGame Game);
-    static std::list<CGameTemplate*> GameTemplateList();
-    static TString FindGameName(EGame Game);
-    static EGame FindGameForName(const TString& rkName);
-    static TString PropertyName(u32 PropertyID);
-    static u32 CreatePropertyID(IProperty *pTemp);
-    static void AddProperty(IProperty *pTemp, const TString& rkTemplateName = "");
-    static void RenameProperty(IProperty *pTemp, const TString& rkNewName);
-    static void RenameProperty(u32 ID, const TString& rkNewName);
-    static void XMLsUsingID(u32 ID, std::vector<TString>& rOutList);
-    static const std::vector<IProperty*>* TemplatesWithMatchingID(IProperty *pTemp);
 };
 
 #endif // CGAMETEMPLATE_H

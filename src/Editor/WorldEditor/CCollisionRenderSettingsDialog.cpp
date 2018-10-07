@@ -53,17 +53,17 @@ void CCollisionRenderSettingsDialog::SetupWidgets()
     mpUi->HideAiBlockCheckBox->setChecked(rSettings.HideMaterial.HasFlag(eCF_AiBlock));
 
     // Toggle visibility of game-exclusive widgets
-    mpUi->SurfaceTypeCheckBox->setHidden( Game == eReturns );
-    mpUi->StandableTrisCheckBox->setHidden( Game == eReturns );
-    mpUi->AreaBoundsCheckBox->setHidden( Game == eReturns );
-    mpUi->BackfacesCheckBox->setHidden( Game == eReturns );
+    mpUi->SurfaceTypeCheckBox->setHidden( Game == EGame::DKCReturns );
+    mpUi->StandableTrisCheckBox->setHidden( Game == EGame::DKCReturns );
+    mpUi->AreaBoundsCheckBox->setHidden( Game == EGame::DKCReturns );
+    mpUi->BackfacesCheckBox->setHidden( Game == EGame::DKCReturns );
 
-    mpUi->VisibilityGroupBox->setHidden( Game == eReturns );
-    mpUi->HideShootThruCheckBox->setHidden( Game == eReturns );
-    mpUi->HideCameraThruCheckBox->setHidden( Game == eReturns );
-    mpUi->HideScanThruCheckBox->setHidden( Game == eReturns );
-    mpUi->HideAiWalkThruCheckBox->setHidden( Game == eReturns );
-    mpUi->HideAiBlockCheckBox->setHidden( Game < eEchoesDemo || Game == eReturns );
+    mpUi->VisibilityGroupBox->setHidden( Game == EGame::DKCReturns );
+    mpUi->HideShootThruCheckBox->setHidden( Game == EGame::DKCReturns );
+    mpUi->HideCameraThruCheckBox->setHidden( Game == EGame::DKCReturns );
+    mpUi->HideScanThruCheckBox->setHidden( Game == EGame::DKCReturns );
+    mpUi->HideAiWalkThruCheckBox->setHidden( Game == EGame::DKCReturns );
+    mpUi->HideAiBlockCheckBox->setHidden( Game < EGame::EchoesDemo || Game == EGame::DKCReturns );
 }
 
 void CCollisionRenderSettingsDialog::OnHideMaskChanged(QString NewMask)

@@ -7,6 +7,8 @@
 
 #include "Core/Resource/Script/CGameTemplate.h"
 #include "Core/Resource/Script/CScriptTemplate.h"
+#include "Core/Resource/Script/NGameList.h"
+#include "Core/Resource/Script/NPropertyMap.h"
 
 /** IProperty */
 IProperty::IProperty(EGame Game)
@@ -25,7 +27,15 @@ IProperty::IProperty(EGame Game)
 void IProperty::_ClearChildren()
 {
     for (int ChildIdx = 0; ChildIdx < mChildren.size(); ChildIdx++)
+    {
+        // Unregister children from the name map. This has to be done before actually deleting them.
+        if (mChildren[ChildIdx]->UsesNameMap())
+        {
+            NPropertyMap::UnregisterProperty(mChildren[ChildIdx]);
+        }
+
         delete mChildren[ChildIdx];
+    }
 
     mChildren.clear();
 }
@@ -35,13 +45,17 @@ IProperty::~IProperty()
     // Remove from archetype
     if( mpArchetype != nullptr )
     {
+        // If you crash here, it most likely means this property was not added to the archetype's sub-instances list.
         NBasics::VectorRemoveOne(mpArchetype->mSubInstances, this);
     }
 
-    // If this is an archetype, all our sub-instances should have destructed first.
+    // If this is an archetype, make sure no sub-instances have a reference to us.
     if( IsArchetype() )
     {
-        ASSERT(mSubInstances.empty());
+        for( int SubIdx = 0; SubIdx < mSubInstances.size(); SubIdx++ )
+        {
+            mSubInstances[SubIdx]->mpArchetype = nullptr;
+        }
     }
 
     // Delete children
@@ -72,7 +86,7 @@ void IProperty::Serialize(IArchive& rArc)
 
         if (rArc.IsReader() && !ArchetypeName.IsEmpty())
         {
-            CGameTemplate* pGame = CGameTemplate::GetGameTemplate( Game() );
+            CGameTemplate* pGame = NGameList::GetGameTemplate( Game() );
             IProperty* pArchetype = pGame->FindPropertyArchetype(ArchetypeName);
 
             // The archetype must exist, or else the template file is malformed.
@@ -89,7 +103,7 @@ void IProperty::Serialize(IArchive& rArc)
     //
     // We can't currently tell if this property is atomic, as the flag hasn't been serialized and the parent
     // hasn't been set, but atomic sub-properties don't use hash IDs, so we can do a pseudo-check against the ID.
-    if (rArc.Game() <= ePrime || IsRootParent() || IsArrayArchetype() || mID <= 0xFF)
+    if (rArc.Game() <= EGame::Prime || IsRootParent() || IsArrayArchetype() || mID <= 0xFF)
     {
         rArc << SerialParameter("Name", mName, mpArchetype ? SH_Optional : 0, mpArchetype ? mpArchetype->mName : "");
     }
@@ -107,6 +121,8 @@ void IProperty::InitFromArchetype(IProperty* pOther)
 {
     //@todo maybe somehow use Serialize for this instead?
     mpArchetype = pOther;
+    mpArchetype->mSubInstances.push_back(this);
+
     mFlags = pOther->mFlags & EPropertyFlag::ArchetypeCopyFlags;
     mName = pOther->mName;
     mDescription = pOther->mDescription;
@@ -133,24 +149,6 @@ bool IProperty::ShouldSerialize() const
            mMaxVersion != mpArchetype->mMaxVersion;
 }
 
-TString IProperty::GetTemplateFileName()
-{
-    if (mpScriptTemplate)
-    {
-        return mpScriptTemplate->SourceFile();
-    }
-    else if (IsArchetype())
-    {
-        IProperty* pRootParent = RootParent();
-        ASSERT(pRootParent != this);
-        return pRootParent->GetTemplateFileName();
-    }
-    else
-    {
-        return mpArchetype->GetTemplateFileName();
-    }
-}
-
 void IProperty::Initialize(IProperty* pInParent, CScriptTemplate* pInTemplate, u32 InOffset)
 {
     // Make sure we only get initialized once.
@@ -160,12 +158,6 @@ void IProperty::Initialize(IProperty* pInParent, CScriptTemplate* pInTemplate, u
     mpParent = pInParent;
     mOffset = InOffset;
     mpScriptTemplate = pInTemplate;
-
-    // Look up property name if needed.
-    if (Game() >= eEchoesDemo && !IsRootParent() && !IsIntrinsic() && !mpParent->IsAtomic() && !IsArrayArchetype())
-    {
-        mName = CGameTemplate::PropertyName(mID);
-    }
 
     // Set any fields dependent on the parent...
     if (mpParent)
@@ -180,6 +172,21 @@ void IProperty::Initialize(IProperty* pInParent, CScriptTemplate* pInTemplate, u
         {
             mpPointerParent = mpParent->mpPointerParent;
         }
+
+        if (mpParent->Type() == EPropertyType::Array)
+        {
+            mFlags |= EPropertyFlag::IsArrayArchetype;
+        }
+    }
+    else if (!mpScriptTemplate)
+    {
+        mFlags |= EPropertyFlag::IsArchetype;
+    }
+
+    // Register the property if needed.
+    if (UsesNameMap())
+    {
+        NPropertyMap::RegisterProperty(this);
     }
 
     // Allow subclasses to handle any initialization tasks
@@ -259,7 +266,21 @@ IProperty* IProperty::ChildByIDString(const TIDString& rkIdString)
     }
 }
 
-bool IProperty::ShouldCook(void*pPropertyData) const
+TString IProperty::GetTemplateFileName()
+{
+    if (mpScriptTemplate)
+    {
+        return mpScriptTemplate->SourceFile();
+    }
+    else
+    {
+        CGameTemplate* pGameTemplate = NGameList::GetGameTemplate(Game());
+        IProperty* pTemplateRoot = (IsArchetype() ? RootParent() : mpArchetype);
+        return pGameTemplate->GetPropertyArchetypeFilePath( pTemplateRoot->Name() );
+    }
+}
+
+bool IProperty::ShouldCook(void* pPropertyData) const
 {
     switch (mCookPreference)
     {
@@ -270,7 +291,7 @@ bool IProperty::ShouldCook(void*pPropertyData) const
         return false;
 
     default:
-        return (Game() < eReturns ? true : !MatchesDefault(pPropertyData));
+        return (Game() < EGame::DKCReturns ? true : !MatchesDefault(pPropertyData));
     }
 }
 
@@ -278,28 +299,67 @@ void IProperty::SetName(const TString& rkNewName)
 {
     mName = rkNewName;
     mFlags.ClearFlag(EPropertyFlag::HasCachedNameCheck);
+
+    // in Echoes and on, since property names are referenced by ID, renaming a property
+    // doesn't directly affect the serialized data, so it doesn't need to be flagged dirty
+    if (mGame <= EGame::Prime)
+    {
+        MarkDirty();
+    }
 }
 
 void IProperty::SetDescription(const TString& rkNewDescription)
 {
     mDescription = rkNewDescription;
+    MarkDirty();
 }
 
 void IProperty::SetSuffix(const TString& rkNewSuffix)
 {
     mSuffix = rkNewSuffix;
+    MarkDirty();
 }
 
-void IProperty::SetPropertyFlags(FPropertyFlags FlagsToSet)
+void IProperty::MarkDirty()
 {
-    mFlags |= FlagsToSet;
+    // This property is either part of a script template, or a property archetype.
+    // Figure out which one, set the dirty flag as needed
+    if (mpScriptTemplate)
+    {
+        mpScriptTemplate->MarkDirty();
+    }
+    else
+    {
+        RootParent()->mFlags |= EPropertyFlag::IsDirty;
+    }
+}
+
+void IProperty::ClearDirtyFlag()
+{
+    if (!mpScriptTemplate)
+    {
+        RootParent()->mFlags &= ~EPropertyFlag::IsDirty;
+    }
+}
+
+bool IProperty::UsesNameMap()
+{
+    return Game() >= EGame::EchoesDemo &&
+            !IsRootParent() &&
+            !IsIntrinsic() &&
+            !mpParent->IsAtomic() && // Atomic properties can use the name map, but their children shouldn't
+            !IsArrayArchetype();
 }
 
 bool IProperty::HasAccurateName()
 {
     // Exceptions for the three hardcoded 4CC property IDs
-    if (mID == FOURCC('XFRM') || mID == FOURCC('INAM') || mID == FOURCC('ACTV'))
+    if (mID == FOURCC('XFRM') ||
+        mID == FOURCC('INAM') ||
+        mID == FOURCC('ACTV'))
+    {
         return true;
+    }
 
     // Children of atomic properties defer to parents. Intrinsic properties and array archetypes also defer to parents.
     if ( (mpParent && mpParent->IsAtomic()) || IsIntrinsic() || IsArrayArchetype() )
@@ -374,7 +434,6 @@ IProperty* IProperty::CreateCopy(IProperty* pArchetype)
 {
     IProperty* pOut = Create(pArchetype->Type(), pArchetype->mGame);
     pOut->InitFromArchetype(pArchetype);
-    pArchetype->mSubInstances.push_back(pOut);
     return pOut;
 }
 

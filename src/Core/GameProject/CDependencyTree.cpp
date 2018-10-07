@@ -4,6 +4,7 @@
 #include "Core/Resource/Script/CGameTemplate.h"
 #include "Core/Resource/Script/CScriptLayer.h"
 #include "Core/Resource/Script/CScriptObject.h"
+#include "Core/Resource/Script/NGameList.h"
 
 // ************ IDependencyNode ************
 IDependencyNode::~IDependencyNode()
@@ -203,7 +204,7 @@ void CScriptInstanceDependency::ParseStructDependencies(CScriptInstanceDependenc
             if (ID.IsValid())
             {
                 // Character sets are removed starting in MP3, so we only need char property dependencies in Echoes and earlier
-                if (pStruct->Game() <= eEchoes)
+                if (pStruct->Game() <= EGame::Echoes)
                 {
                     CCharPropertyDependency *pDep = new CCharPropertyDependency(pProp->IDString(true), ID, Params.CharacterIndex());
                     pInst->mChildren.push_back(pDep);
@@ -298,7 +299,7 @@ CSetAnimationDependency* CSetAnimationDependency::BuildTree(const CAnimSet *pkOw
         const CAnimPrimitive& rkPrim = *Iter;
         pTree->AddDependency(rkPrim.Animation());
 
-        if (pkOwnerSet->Game() >= eEchoesDemo)
+        if (pkOwnerSet->Game() >= EGame::EchoesDemo)
         {
             CAnimEventData *pEvents = pkOwnerSet->AnimationEventData(rkPrim.ID());
             ASSERT(pEvents && !pEvents->Entry());
@@ -345,7 +346,7 @@ void CAreaDependencyTree::AddScriptLayer(CScriptLayer *pLayer, const std::vector
         ASSERT(pTree != nullptr);
 
         // Note: MP2+ need to track all instances (not just instances with dependencies) to be able to build the layer module list
-        if (pTree->NumChildren() > 0 || pLayer->Area()->Game() >= eEchoesDemo)
+        if (pTree->NumChildren() > 0 || pLayer->Area()->Game() >= EGame::EchoesDemo)
         {
             mChildren.push_back(pTree);
             pTree->GetAllResourceReferences(UsedIDs);
@@ -360,7 +361,7 @@ void CAreaDependencyTree::AddScriptLayer(CScriptLayer *pLayer, const std::vector
 
 void CAreaDependencyTree::GetModuleDependencies(EGame Game, std::vector<TString>& rModuleDepsOut, std::vector<u32>& rModuleLayerOffsetsOut) const
 {
-    CGameTemplate *pGame = CGameTemplate::GetGameTemplate(Game);
+    CGameTemplate *pGame = NGameList::GetGameTemplate(Game);
 
     // Output module list will be split per-script layer
     // The output offset list contains two offsets per layer - start index and end index
