@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="UnknownStruct1" type="multi">
-    <properties>
-        <property ID="0x29C77D27" type="bool">
-            <default>false</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="EchoesDemo">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct1</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0x29C77D27">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,42 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="SpacePirateStruct" type="multi">
-    <properties>
-        <property ID="0xDD448CC9" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x8A834618" type="float">
-            <default>0.1</default>
-        </property>
-        <property ID="0xE9FD5A01" type="float">
-            <default>25.0</default>
-        </property>
-        <property ID="0xF04452F3" type="float">
-            <default>10.0</default>
-        </property>
-        <property ID="0xA3F3BE5D" type="float">
-            <default>45.0</default>
-        </property>
-        <property ID="0x071D8999" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xDB922374" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x51253BA3" type="asset" extensions="WPSC"/>
-        <property ID="0x10E3EFDD" type="asset" extensions="CAUD"/>
-        <struct ID="0xCEA30138" template="Structs/DamageInfo.xml"/>
-        <property ID="0x71587B45" type="float">
-            <default>0.2</default>
-        </property>
-        <property ID="0x7903312E" type="float">
-            <default>0.1</default>
-        </property>
-        <property ID="0xE9B7D4EE" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0xCA686731" type="float">
-            <default>0.5</default>
-        </property>
-        <struct ID="0xC8A1EAC8" template="Structs/DamageVulnerability.xml"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>SpacePirateStruct</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0xDD448CC9">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8A834618">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE9FD5A01">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF04452F3">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA3F3BE5D">
+                <DefaultValue>45.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x71D8999">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xDB922374">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x51253BA3">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x10E3EFDD">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0xCEA30138" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0x71587B45">
+                <DefaultValue>0.2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7903312E">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE9B7D4EE">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCA686731">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xC8A1EAC8" Archetype="DamageVulnerability"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

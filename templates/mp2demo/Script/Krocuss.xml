@@ -1,140 +1,144 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>Krocuss</name>
-    <modules>
-        <module>WallCrawler.rel</module>
-        <module>Krocuss.rel</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0xBE73724A" type="long">
-            <default>0</default>
-        </property>
-        <struct ID="0xB3774750" template="Structs/PatternedInfo.xml">
-            <properties>
-                <property ID="0x75DBB375">
-                    <default>25.0</default>
-                </property>
-                <property ID="0x6392404E">
-                    <default>3.0</default>
-                </property>
-                <property ID="0x020C78BB">
-                    <default>720.0</default>
-                </property>
-                <property ID="0x8DB77EE4">
-                    <default>5.0</default>
-                </property>
-                <property ID="0x513F04B8">
-                    <default>5.0</default>
-                </property>
-                <property ID="0x83DFC40F">
-                    <default>90.0</default>
-                </property>
-                <property ID="0x58434916">
-                    <default>4.0</default>
-                </property>
-                <property ID="0xFF77C96F">
-                    <default>20.0</default>
-                </property>
-                <struct ID="0xD756416E">
-                    <properties>
-                        <property ID="0x119FBD31">
-                            <default>9</default>
-                        </property>
-                        <property ID="0xF2D02613">
-                            <default>10.0</default>
-                        </property>
-                        <property ID="0x555FF80A">
-                            <default>5.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0xE0CDC7E3">
-                    <default>3.0</default>
-                </property>
-                <property ID="0x8A6AB139">
-                    <default>0.2</default>
-                </property>
-                <property ID="0x3011B5DF">
-                    <default>5.0</default>
-                </property>
-                <property ID="0xE287D8DD">
-                    <default>0.0</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <property ID="0x733BD27C" type="float">
-            <default>2.5</default>
-        </property>
-        <property ID="0xA72530E8" type="float">
-            <default>2.5</default>
-        </property>
-        <property ID="0xAC47C628" type="float">
-            <default>360.0</default>
-        </property>
-        <property ID="0x8E4F7B29" type="float">
-            <default>180.0</default>
-        </property>
-        <property ID="0x3D3C1B76" type="float">
-            <default>120.0</default>
-        </property>
-        <property ID="0xD5C25506" type="float">
-            <default>0.4</default>
-        </property>
-        <property ID="0x742EAB20" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x80A81909" type="float">
-            <default>0.02</default>
-        </property>
-        <property ID="0x8590483B" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x214E48A0" type="float">
-            <default>50.0</default>
-        </property>
-        <property ID="0xC3CC437F" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xF04CADCA" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x497D54E8" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x3371C963" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x22D37771" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0xBBEBED9E" type="float">
-            <default>1.0</default>
-        </property>
-        <struct ID="0x6BD144C8" template="Structs/DamageVulnerability.xml"/>
-        <property ID="0x4D20624B" type="color">
-            <default>1.0, 0.0, 0.0, 1.0</default>
-        </property>
-        <property ID="0xC3566114" type="asset" extensions="DPSC"/>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xB3774750:0xE25FB08C</animparams>
-            <model source="property">0x7E397FED:0xC0BA9E18</model>
-            <model source="property">0x7E397FED:0x6B1FBC3A</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="EchoesDemo">
+    <Modules>
+        <Element>WallCrawler.rel</Element>
+        <Element>Krocuss.rel</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>Krocuss</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Int" ID="0xBE73724A">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedInfo">
+                <SubProperties>
+                    <Element Type="Float" ID="0x75DBB375">
+                        <DefaultValue>25.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x6392404E">
+                        <DefaultValue>3.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x20C78BB">
+                        <DefaultValue>720.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x8DB77EE4">
+                        <DefaultValue>5.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x513F04B8">
+                        <DefaultValue>5.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x83DFC40F">
+                        <DefaultValue>90.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x58434916">
+                        <DefaultValue>4.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xFF77C96F">
+                        <DefaultValue>20.0</DefaultValue>
+                    </Element>
+                    <Element Type="Struct" ID="0xD756416E">
+                        <SubProperties>
+                            <Element Type="Int" ID="0x119FBD31">
+                                <DefaultValue>9</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0xF2D02613">
+                                <DefaultValue>10.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x555FF80A">
+                                <DefaultValue>5.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Float" ID="0xE0CDC7E3">
+                        <DefaultValue>3.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x8A6AB139">
+                        <DefaultValue>0.2</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x3011B5DF">
+                        <DefaultValue>5.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xE287D8DD">
+                        <DefaultValue>0.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Float" ID="0x733BD27C">
+                <DefaultValue>2.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA72530E8">
+                <DefaultValue>2.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAC47C628">
+                <DefaultValue>360.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8E4F7B29">
+                <DefaultValue>180.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3D3C1B76">
+                <DefaultValue>120.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD5C25506">
+                <DefaultValue>0.40000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x742EAB20">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x80A81909">
+                <DefaultValue>0.02</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8590483B">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x214E48A0">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xC3CC437F">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF04CADCA">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x497D54E8">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3371C963">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x22D37771">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBBEBED9E">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x6BD144C8" Archetype="DamageVulnerability"/>
+            <Element Type="Color" ID="0x4D20624B">
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xC3566114">
+                <TypeFilter>
+                    <Element>DPSC</Element>
+                </TypeFilter>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xB3774750:0xE25FB08C"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0xC0BA9E18"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0x6B1FBC3A"/>
+    </Assets>
+</ScriptObject>

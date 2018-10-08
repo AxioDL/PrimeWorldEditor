@@ -1,70 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>MysteryFlyer</name>
-    <modules>
-        <module>RSO_MysteryFlyer.rso</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0xB3774750" template="Structs/PatternedAI.xml">
-            <properties>
-                <struct ID="0xCF90D15E">
-                    <properties>
-                        <property ID="0x3A2D17E4">
-                            <default>2.0</default>
-                        </property>
-                    </properties>
-                </struct>
-            </properties>
-        </struct>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <struct ID="0x44080565" type="multi">
-            <properties>
-                <property ID="0x51253BA3" type="asset" extensions="WPSC"/>
-                <struct ID="0xCEA30138" template="Structs/DamageInfo.xml">
-                    <properties>
-                        <enum ID="0x445E00C8">
-                            <default>0xFFFFFFFF</default>
-                        </enum>
-                        <property ID="0xF2D02613">
-                            <default>5.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0x845EF489" type="float">
-                    <default>10.0</default>
-                </property>
-                <property ID="0xC75998AA" type="float">
-                    <default>2.0</default>
-                </property>
-                <property ID="0x01559F27" type="float">
-                    <default>5.0</default>
-                </property>
-                <property ID="0x5F3FFFD6" type="bool">
-                    <default>true</default>
-                </property>
-                <struct ID="0x5F669BA0" template="Structs/GrappleBlock.xml"/>
-                <struct ID="0xE2ACF76E" template="Structs/GrappleBlock.xml"/>
-                <struct ID="0x3F3A2EEB" template="Structs/GrappleBlock.xml"/>
-            </properties>
-        </struct>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xB3774750:0xA244C9D8</animparams>
-            <model source="property">0x7E397FED:0xBB52F0BE</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Corruption">
+    <Modules>
+        <Element>RSO_MysteryFlyer.rso</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>MysteryFlyer</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAI">
+                <SubProperties>
+                    <Element Type="Struct" ID="0xCF90D15E">
+                        <SubProperties>
+                            <Element Type="Float" ID="0x3A2D17E4">
+                                <DefaultValue>2.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Struct" ID="0x44080565" Archetype="MysteryFlyerData"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xB3774750:0xA244C9D8"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0xBB52F0BE"/>
+    </Assets>
+</ScriptObject>

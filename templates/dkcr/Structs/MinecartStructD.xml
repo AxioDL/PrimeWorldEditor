@@ -1,20 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="MinecartStructD" type="multi">
-    <properties>
-        <property ID="0x32152AB2" type="MayaSpline"/>
-        <struct ID="0x005E3BE9" template="Structs/UnknownStruct41.xml"/>
-        <struct ID="0x44FF1EF1" template="Structs/UnknownStruct41.xml"/>
-        <struct ID="0x7384AEA3" type="multi">
-            <properties>
-                <property ID="0x97E7D762" type="asset" extensions="CAUD"/>
-                <property ID="0x1173A5CC" type="asset" extensions="CAUD"/>
-                <property ID="0xDA2F7669" type="asset" extensions="CAUD"/>
-                <property ID="0xC72A46D1" type="asset" extensions="CAUD"/>
-                <property ID="0x0C769574" type="asset" extensions="CAUD"/>
-                <property ID="0x8AE2E7DA" type="asset" extensions="CAUD"/>
-                <property ID="0x41BE347F" type="asset" extensions="CAUD"/>
-                <property ID="0xB0E886AA" type="asset" extensions="CAUD"/>
-            </properties>
-        </struct>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>MinecartStructD</Name>
+        <SubProperties>
+            <Element Type="Spline" ID="0x32152AB2"/>
+            <Element Type="Struct" ID="0x5E3BE9" Archetype="UnknownStruct41"/>
+            <Element Type="Struct" ID="0x44FF1EF1" Archetype="UnknownStruct41"/>
+            <Element Type="Struct" ID="0x7384AEA3" Archetype="Sound"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

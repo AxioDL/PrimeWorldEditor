@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct29</Name>
+        <SubProperties>
+            <Element Type="Vector" ID="0xA322F51D">
+                <DefaultValue>
+                    <X>1.8</X>
+                    <Y>1.8</Y>
+                    <Z>1.8</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x528D951E">
+                <DefaultValue>150.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBEA96FB7">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0xA25B96E1"/>
+            <Element Type="Struct" ID="0xE1A78BD" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Enum" ID="0x119FBD31">
+                        <DefaultValue>0x7</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xF2D02613">
+                        <DefaultValue>30.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xEE1BE914">
+                        <DefaultValue>1.5</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x555FF80A">
+                        <DefaultValue>4.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x19C3D263" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Enum" ID="0x119FBD31">
+                        <DefaultValue>0x7</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xF2D02613">
+                        <DefaultValue>30.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xEE1BE914">
+                        <DefaultValue>1.5</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x555FF80A">
+                        <DefaultValue>6.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Float" ID="0xD8047CBA">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7B21E31A">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x18381479">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x15534429">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x4CCEB7AD">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xE41CB449">
+                <TypeFilter>
+                    <Element>SPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Sound" ID="0x6758BF01">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0x8D9E014F">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0xE35AE4BE">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0x9F7372B3">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0xDD69A116">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0xBF42C3EC">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x42ECA523" Archetype="DamageVulnerability"/>
+            <Element Type="Int" ID="0xEE69B993">
+                <DefaultValue>2</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x4B2DE673">
+                <DefaultValue>3</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2A7073CE">
+                <DefaultValue>80.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB0E85D53">
+                <DefaultValue>0.2</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x5616D5F1" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Enum" ID="0x119FBD31">
+                        <DefaultValue>0xB</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xF2D02613">
+                        <DefaultValue>20.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x555FF80A">
+                        <DefaultValue>10.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xED685533" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Enum" ID="0x119FBD31">
+                        <DefaultValue>0xB</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xF2D02613">
+                        <DefaultValue>10.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x555FF80A">
+                        <DefaultValue>5.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Asset" ID="0xD771EC43">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x2009A977">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x62AB33A2">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0xBAB98497" Archetype="IngBoostBallGuardianStruct">
+                <SubProperties>
+                    <Element Type="Float" ID="0x25D02BC5">
+                        <DefaultValue>15.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xABE99DE0">
+                        <DefaultValue>0.5</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xE2B23F03">
+                        <DefaultValue>90.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x2F845006">
+                        <DefaultValue>10.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x5D1626FB">
+                        <DefaultValue>2.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xBB76891A">
+                        <DefaultValue>5.0</DefaultValue>
+                    </Element>
+                    <Element Type="Int" ID="0x285D67AD">
+                        <DefaultValue>3</DefaultValue>
+                    </Element>
+                    <Element Type="Int" ID="0x6D5F242F">
+                        <DefaultValue>3</DefaultValue>
+                    </Element>
+                    <Element Type="Int" ID="0xE3FF2ED6">
+                        <DefaultValue>1</DefaultValue>
+                    </Element>
+                    <Element Type="Int" ID="0xA6FD6D54">
+                        <DefaultValue>5</DefaultValue>
+                    </Element>
+                    <Element Type="Int" ID="0xECB314B6">
+                        <DefaultValue>6</DefaultValue>
+                    </Element>
+                    <Element Type="Int" ID="0xA9B15734">
+                        <DefaultValue>10</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x1213A7D4">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xC19ED897">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xFE18A18F" Archetype="IngBoostBallGuardianStruct">
+                <SubProperties>
+                    <Element Type="Float" ID="0x25D02BC5">
+                        <DefaultValue>15.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xABE99DE0">
+                        <DefaultValue>0.5</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xE2B23F03">
+                        <DefaultValue>90.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x2F845006">
+                        <DefaultValue>10.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x5D1626FB">
+                        <DefaultValue>2.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xBB76891A">
+                        <DefaultValue>5.0</DefaultValue>
+                    </Element>
+                    <Element Type="Int" ID="0x285D67AD">
+                        <DefaultValue>3</DefaultValue>
+                    </Element>
+                    <Element Type="Int" ID="0x6D5F242F">
+                        <DefaultValue>3</DefaultValue>
+                    </Element>
+                    <Element Type="Int" ID="0xE3FF2ED6">
+                        <DefaultValue>1</DefaultValue>
+                    </Element>
+                    <Element Type="Int" ID="0xA6FD6D54">
+                        <DefaultValue>5</DefaultValue>
+                    </Element>
+                    <Element Type="Int" ID="0xECB314B6">
+                        <DefaultValue>6</DefaultValue>
+                    </Element>
+                    <Element Type="Int" ID="0xA9B15734">
+                        <DefaultValue>10</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x1213A7D4">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xC19ED897">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xC2784287" Archetype="IngBoostBallGuardianStruct">
+                <SubProperties>
+                    <Element Type="Float" ID="0x25D02BC5">
+                        <DefaultValue>15.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xABE99DE0">
+                        <DefaultValue>0.5</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xE2B23F03">
+                        <DefaultValue>90.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x2F845006">
+                        <DefaultValue>10.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x5D1626FB">
+                        <DefaultValue>2.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xBB76891A">
+                        <DefaultValue>5.0</DefaultValue>
+                    </Element>
+                    <Element Type="Int" ID="0x285D67AD">
+                        <DefaultValue>3</DefaultValue>
+                    </Element>
+                    <Element Type="Int" ID="0x6D5F242F">
+                        <DefaultValue>3</DefaultValue>
+                    </Element>
+                    <Element Type="Int" ID="0xE3FF2ED6">
+                        <DefaultValue>1</DefaultValue>
+                    </Element>
+                    <Element Type="Int" ID="0xA6FD6D54">
+                        <DefaultValue>5</DefaultValue>
+                    </Element>
+                    <Element Type="Int" ID="0xECB314B6">
+                        <DefaultValue>6</DefaultValue>
+                    </Element>
+                    <Element Type="Int" ID="0xA9B15734">
+                        <DefaultValue>10</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x1213A7D4">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xC19ED897">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

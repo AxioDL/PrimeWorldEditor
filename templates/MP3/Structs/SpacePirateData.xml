@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>SpacePirateData</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0x8E1E1586">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xA40CB847">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x7428A29F">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x87929C41">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x9A0CE9B2">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x4D61342A">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2D8264EA">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA6AF0C57">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x6697712A">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x97C95A99">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9579B1F2">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF89AB419">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xED9BF5A3">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xED69488F">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3CB99B1E">
+                <DefaultValue>1000.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x733DA88A">
+                <DefaultValue>8.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x3FDBE4A">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xDC36E745">
+                <DefaultValue>80.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4EAD288E">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xF11EC8EE">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x808576EE">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x6BC22735">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xA5912430" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Float" ID="0xF2D02613">
+                        <DefaultValue>10.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x555FF80A">
+                        <DefaultValue>5.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Float" ID="0x71587B45">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7903312E">
+                <DefaultValue>0.050000001</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x1B454A27">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB2AC2D96">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x615BB850">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x7B1F1541">
+                <DefaultValue>2</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x7A4B4AEA">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5BC6F1D5">
+                <DefaultValue>0.025</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x388BC31F">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4319C840">
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8AA60B6C">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x57E862AA">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xFCD4ED64">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFAA81D3A">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA90369E6">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2EB81206">
+                <DefaultValue>150.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2E75B93">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x881A3B5">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x38B6452E">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE3794994">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x54F66DA0">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x506C5C8A">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x159F33D6">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x524BC7E">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x256B394F">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x824DB7CE">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xE527CDE8">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x61E801D4">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF19B113E">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x80C6880F">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8358A6A">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA00204B0">
+                <DefaultValue>16.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x806C08D">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x17DB0CF2">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xC245A874">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xC192E357">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x1B412C4B">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Int" ID="0x8A36B5D5">
+                <DefaultValue>10000</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x34E20697">
+                <DefaultValue>1.5</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xC3B6103B" Archetype="SpacePirateWeaponData"/>
+            <Element Type="Struct" ID="0x4FDAB367" Archetype="SpacePirateStruct"/>
+            <Element Type="Struct" ID="0x37212693" Archetype="SpacePirateStruct"/>
+            <Element Type="Struct" ID="0x91B4CB73" Archetype="SpacePirateStruct"/>
+            <Element Type="Bool" ID="0x7C1DE29">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x4AEE5C47">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xD34F1323" Archetype="DamageVulnerability"/>
+            <Element Type="Struct" ID="0x8255F594" Archetype="DamageVulnerability"/>
+            <Element Type="Float" ID="0xD1D1648">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="AnimationSet" ID="0xC699AD35"/>
+            <Element Type="Struct" ID="0xBE1AFBC0" Archetype="GrappleData">
+                <SubProperties>
+                    <Element Type="Int" ID="0x5DCF91E1">
+                        <DefaultValue>1</DefaultValue>
+                    </Element>
+                    <Element Type="Bool" ID="0xB2BD2723">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Struct" ID="0x3F3A2EEB">
+                        <CookPreference>Never</CookPreference>
+                        <SubProperties>
+                            <Element Type="Int" ID="0x8BD240">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Float" ID="0x54178CB8">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Float" ID="0xDE38F04E">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Float" ID="0x9D0C992F">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Float" ID="0x8382CD42">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Bool" ID="0x8A40FD1B">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Bool" ID="0xA62BF627">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Enum" ID="0xF8A14C37">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Bool" ID="0x64FB595C">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Bool" ID="0x887FEFE">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Struct" ID="0x424928B3">
+                        <CookPreference>Never</CookPreference>
+                        <SubProperties>
+                            <Element Type="Int" ID="0x8BD240">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Float" ID="0x54178CB8">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Float" ID="0xDE38F04E">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Float" ID="0x9D0C992F">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Float" ID="0x8382CD42">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Bool" ID="0x8A40FD1B">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Bool" ID="0xA62BF627">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Enum" ID="0xF8A14C37">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Bool" ID="0x64FB595C">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Bool" ID="0x887FEFE">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Float" ID="0x5BBBE79E">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x426F2F60">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Asset" ID="0x771A3176">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0xEFD287D9">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x56F41CA8">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x4BDEE69A">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x598B045">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Int" ID="0x7648F63">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Asset" ID="0x71E83F06">
+                <TypeFilter>
+                    <Element>SCAN</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Bool" ID="0xFDE9C4DF">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xF18384D4" Archetype="HealthInfo">
+                <SubProperties>
+                    <Element Type="Float" ID="0xF0668919">
+                        <DefaultValue>100.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x3A2D17E4">
+                        <DefaultValue>5.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x896D5BD9" Archetype="DamageVulnerability"/>
+            <Element Type="Struct" ID="0xC13A3E1F" Archetype="DamageVulnerability"/>
+            <Element Type="Asset" ID="0x7579CC86">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x65D86552">
+                <TypeFilter>
+                    <Element>CSKR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x68002BD7">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xAD315C7C">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x42A25ED">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xE39B8B1E">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x356C166A">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x1CA4A298">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xDF44507E">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xD2C9A656">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xD4E26A8E">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Bool" ID="0x531A8C85">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x40A4EDF">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x5C572665">
+                <DefaultValue>2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCCA41D93">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x767F168E">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x89A5EDC8">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x668EC0A0">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x14950F43">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x761ED7AF">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

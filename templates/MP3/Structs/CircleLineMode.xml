@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>CircleLineMode</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x17386C2C" Archetype="GhorStructA"/>
+            <Element Type="Struct" ID="0xD171838C" Archetype="GhorStructA"/>
+            <Element Type="Struct" ID="0x17549CB" Archetype="GhorStructA"/>
+            <Element Type="Struct" ID="0x8F6BDC5" Archetype="GhorStructA"/>
+            <Element Type="Struct" ID="0x7B589DD6" Archetype="GhorStructA"/>
+            <Element Type="String" ID="0x9CE31FFA"/>
+            <Element Type="Struct" ID="0x7B71AE90" Archetype="DamageVulnerability"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

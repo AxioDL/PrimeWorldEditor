@@ -1,162 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>EmperorIngStage1</name>
-    <modules>
-        <module>EmperorIngStage1.rel</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0xB3774750" template="Structs/PatternedInfo.xml">
-            <properties>
-                <property ID="0x4BC4C4D9">
-                    <default>2</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <struct ID="0x4A1E493B" type="multi">
-            <properties>
-                <struct ID="0xB3C6398F" type="multi">
-                    <properties>
-                        <struct ID="0xCF90D15E" template="Structs/HealthInfo.xml"/>
-                        <struct ID="0x29DF61E1" template="Structs/DamageVulnerability.xml"/>
-                        <struct ID="0x8D7378A4" template="Structs/DamageVulnerability.xml"/>
-                        <struct ID="0x6C79054F" template="Structs/DamageVulnerability.xml"/>
-                        <struct ID="0x3C2D2492" template="Structs/DamageVulnerability.xml"/>
-                        <property ID="0x491C2657" type="float">
-                            <default>0.0</default>
-                        </property>
-                        <property ID="0xE19F4608" type="sound"/>
-                    </properties>
-                </struct>
-                <struct ID="0xF59F9A60" type="multi">
-                    <properties>
-                        <struct ID="0x337F9524" template="Structs/DamageInfo.xml"/>
-                    </properties>
-                </struct>
-                <struct ID="0xA1CDA0B6" type="multi">
-                    <properties>
-                        <property ID="0xEF485DB9" type="asset" extensions="WPSC"/>
-                        <struct ID="0x553B1339" template="Structs/DamageInfo.xml"/>
-                        <property ID="0x8F8C64A0" type="asset" extensions="PART"/>
-                    </properties>
-                </struct>
-                <struct ID="0x85F36473" type="multi">
-                    <properties>
-                        <property ID="0x4A7C4EC2" type="asset" extensions="PART"/>
-                        <property ID="0xF10B6EF6" type="character"/>
-                        <struct ID="0x946016A9" template="Structs/DamageInfo.xml"/>
-                        <property ID="0xECFAB026" type="long">
-                            <default>-1</default>
-                        </property>
-                        <property ID="0x94880277" type="long">
-                            <default>-1</default>
-                        </property>
-                        <property ID="0x1C3E84B6" type="sound"/>
-                        <property ID="0xA93F0198" type="sound"/>
-                    </properties>
-                </struct>
-                <struct ID="0xB4BC04C4" type="multi">
-                    <properties>
-                        <property ID="0xCEE68723" type="float">
-                            <default>0.0</default>
-                        </property>
-                        <property ID="0x01274D6E" type="long">
-                            <default>0</default>
-                        </property>
-                        <struct ID="0x8F4787CB" template="Structs/ShockWaveInfo.xml"/>
-                        <property ID="0x25AF490E" type="sound"/>
-                    </properties>
-                </struct>
-                <struct ID="0x8E6D20EC" type="multi">
-                    <properties>
-                        <struct ID="0x1598012A" template="Structs/PlasmaBeamInfo.xml">
-                            <properties>
-                                <property ID="0xC26C291C">
-                                    <default>500.0</default>
-                                </property>
-                                <property ID="0xEC773D1D">
-                                    <default>4.0</default>
-                                </property>
-                                <property ID="0xB02DE555">
-                                    <default>1.0</default>
-                                </property>
-                                <property ID="0x5180181E">
-                                    <default>20.0</default>
-                                </property>
-                                <property ID="0x72A96252">
-                                    <default>0.25</default>
-                                </property>
-                                <property ID="0xB8652FE4">
-                                    <default>2.0</default>
-                                </property>
-                                <property ID="0x1AFB2B73">
-                                    <default>0.498039, 0.498039, 0.498039, 0.498039</default>
-                                </property>
-                                <property ID="0x9FD338FC">
-                                    <default>0.6, 0.6, 0.0, 0.498039</default>
-                                </property>
-                            </properties>
-                        </struct>
-                        <struct ID="0x337F9524" template="Structs/DamageInfo.xml"/>
-                        <property ID="0x5F7C352E" type="sound"/>
-                    </properties>
-                </struct>
-                <property ID="0xA588AFD1" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0x905938B8" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0xB826317A" type="float">
-                    <default>0.0</default>
-                </property>
-                <struct ID="0x88232388" template="Structs/AudioPlaybackParms.xml"/>
-                <property ID="0xC36AE5CA" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0xD30D9BB9" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0xB02CD31F" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0xE5A7C358" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0x93357240" type="long">
-                    <default>-1</default>
-                </property>
-                <property ID="0x293A0C19" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0x31EBF869" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0xD78B5788" type="float">
-                    <default>0.0</default>
-                </property>
-            </properties>
-        </struct>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xB3774750:0xE25FB08C</animparams>
-            <animparams source="property">0x4A1E493B:0x85F36473:0xF10B6EF6</animparams>
-            <model source="property">0x7E397FED:0xC0BA9E18</model>
-            <model source="property">0x7E397FED:0x6B1FBC3A</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Echoes">
+    <Modules>
+        <Element>EmperorIngStage1.rel</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>EmperorIngStage1</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedInfo">
+                <SubProperties>
+                    <Element Type="Int" ID="0x4BC4C4D9">
+                        <DefaultValue>2</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Struct" ID="0x4A1E493B" Archetype="UnknownStruct25"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xB3774750:0xE25FB08C"/>
+        <Element Type="AnimParams" Source="Property" Location="0x4A1E493B:0x85F36473:0xF10B6EF6"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0xC0BA9E18"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0x6B1FBC3A"/>
+    </Assets>
+</ScriptObject>

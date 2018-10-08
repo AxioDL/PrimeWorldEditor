@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>CinematicBlend</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0xB5C367E9" Archetype="MotionInterpolationMethod"/>
+            <Element Type="Struct" ID="0xF74F8C89" Archetype="OrientationInterpolationMethod"/>
+            <Element Type="Struct" ID="0x18E6BED2" Archetype="FOVInterpolationMethod"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

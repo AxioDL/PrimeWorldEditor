@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct35</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x11CD076F">
+                <DefaultValue>90.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x55744160">
+                <TypeFilter>
+                    <Element>AFSM</Element>
+                    <Element>FSM2</Element>
+                </TypeFilter>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

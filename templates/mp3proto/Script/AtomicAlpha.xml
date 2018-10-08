@@ -1,45 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>AtomicAlpha</name>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <struct ID="0xB3774750" template="Structs/PatternedAITypedef.xml"/>
-        <property ID="0x1720B91F" type="asset" extensions="WPSC"/>
-        <property ID="0xC75F9516" type="asset" extensions="CMDL"/>
-        <struct ID="0xB48D5FE6" template="Structs/DamageInfo.xml"/>
-        <property ID="0x66BA009C" type="float">
-            <default>3.0</default>
-        </property>
-        <property ID="0x79DD66A9" type="float">
-            <default>2.0</default>
-        </property>
-        <property ID="0xBB4284EA" type="float">
-            <default>1.5</default>
-        </property>
-        <property ID="0x7017EDFC" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x2639F0B9" type="bool">
-            <default>true</default>
-        </property>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xB3774750:0xA244C9D8</animparams>
-            <model source="property">0xC75F9516</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="CorruptionProto">
+    <Properties Type="Struct">
+        <Name>AtomicAlpha</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAITypedef"/>
+            <Element Type="Asset" ID="0x1720B91F">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xC75F9516">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0xB48D5FE6" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0x66BA009C">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x79DD66A9">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBB4284EA">
+                <DefaultValue>1.5</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x7017EDFC">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x2639F0B9">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xB3774750:0xA244C9D8"/>
+        <Element Type="Model" Source="Property" Location="0xC75F9516"/>
+    </Assets>
+</ScriptObject>

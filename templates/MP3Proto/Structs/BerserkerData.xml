@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>BerserkerData</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0x76EBC21A">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC3E43D0E">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x74BFFA78" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0xBB7977B9" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0xF4E003C1" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0xE0DBF22F" Archetype="PlasmaBeamInfo"/>
+            <Element Type="Struct" ID="0x97321AF1" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0xFD5E7062">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBD110814">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3D947337">
+                <DefaultValue>45.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1A975A02">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x66BC855" Archetype="LaunchProjectileData"/>
+            <Element Type="Float" ID="0x67E0E4B4">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB7AD7067">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF7E20811">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4DB474B8">
+                <DefaultValue>45.0</DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0x68D3DAA4"/>
+            <Element Type="Float" ID="0x1B359207">
+                <DefaultValue>60.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC12F397A">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4BFEE56B">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8F3BE6E1">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xDD825DC3">
+                <DefaultValue>180.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xCB4F07C1">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x62901DA8">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x19F31D4E"/>
+            <Element Type="Asset" ID="0xCDA8F0F3"/>
+            <Element Type="Asset" ID="0x237C0374"/>
+            <Element Type="Struct" ID="0x9C8094F5" Archetype="GrappleData">
+                <SubProperties>
+                    <Element Type="Int" ID="0x5DCF91E1">
+                        <DefaultValue>1</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Float" ID="0x58B0EBEA">
+                <DefaultValue>60.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xA39E44FF" Archetype="DamageVulnerability"/>
+            <Element Type="Float" ID="0xE59DD61F">
+                <DefaultValue>1.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x869415A3">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC6DB6DD5">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xDC8D7887">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x58E6D9B8">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCF111A99">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x719FD06B" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0x92F0B2C7">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBC2F8F30">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x910AD1E0">
+                <DefaultValue>0.69999999</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4566B3EF">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xDCDDEBC0">
+                <DefaultValue>0.2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9A5D81FA">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6FE50D32">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x24F779CA">
+                <DefaultValue>0.80000001</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x896D5BD9" Archetype="DamageVulnerability"/>
+            <Element Type="Float" ID="0x83439084">
+                <DefaultValue>500.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x4547D34"/>
+            <Element Type="Asset" ID="0x82C00F9A"/>
+            <Element Type="Asset" ID="0x499CDC3F"/>
+            <Element Type="Asset" ID="0x5499EC87"/>
+            <Element Type="Asset" ID="0x9FC53F22"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

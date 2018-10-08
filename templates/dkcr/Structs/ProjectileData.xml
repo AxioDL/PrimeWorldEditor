@@ -1,54 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="ProjectileData" type="multi">
-    <properties>
-        <property ID="0xD4D4EDFA" type="float">
-            <default>30.0</default>
-        </property>
-        <property ID="0x9CBC24B1" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x7E2EA16C" type="bool">
-            <default>false</default>
-        </property>
-        <struct ID="0xDEFF74EA" template="Structs/DamageInfo.xml"/>
-        <property ID="0xEBEFB1A9" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xF0993BFE" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xA4692E9C" type="asset" extensions="PART"/>
-        <property ID="0xA06EDAF9" type="asset" extensions="PART"/>
-        <property ID="0xDE1565A9" type="asset" extensions="PART"/>
-        <property ID="0x05C67D0B" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xF7F7F6AF" type="asset" extensions="CAUD"/>
-        <property ID="0x2B258629" type="asset" extensions="CAUD"/>
-        <property ID="0xE1E66B24" type="asset" extensions="CAUD"/>
-        <enum ID="0xF4BF6637">
-            <default>0x482099A8</default>
-            <enumerators>
-                <enumerator ID="0x482099A8" name="Unknown 1"/>
-                <enumerator ID="0xEE13B592" name="Unknown 2"/>
-                <enumerator ID="0xFCEEA705" name="Unknown 3"/>
-            </enumerators>
-        </enum>
-        <property ID="0xA17C618D" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x469F8FB8" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xEC0828CE" type="vector3f">
-            <default>0.0, 0.0, 0.0</default>
-        </property>
-        <struct ID="0x0183DC71" type="multi">
-            <properties>
-                <struct ID="0xD6554C1A" template="Structs/UnknownStruct47.xml"/>
-                <struct ID="0xE59C4016" template="Structs/UnknownStruct47.xml"/>
-                <struct ID="0x2416759C" template="Structs/UnknownStruct47.xml"/>
-            </properties>
-        </struct>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>ProjectileData</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0xD4D4EDFA">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x9CBC24B1">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x7E2EA16C">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xDEFF74EA" Archetype="DamageInfo"/>
+            <Element Type="Bool" ID="0xEBEFB1A9">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xF0993BFE">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xA4692E9C">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xA06EDAF9">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xDE1565A9">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Bool" ID="0x5C67D0B">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xF7F7F6AF">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x2B258629">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xE1E66B24">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Enum" ID="0xF4BF6637">
+                <DefaultValue>0x482099A8</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x482099A8"/>
+                    <Element Name="Unknown 2" ID="0xEE13B592"/>
+                    <Element Name="Unknown 3" ID="0xFCEEA705"/>
+                </Values>
+            </Element>
+            <Element Type="Bool" ID="0xA17C618D">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x469F8FB8">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0xEC0828CE">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x183DC71" Archetype="UnknownStruct193"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

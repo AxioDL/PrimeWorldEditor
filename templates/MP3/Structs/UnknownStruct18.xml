@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct18</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0x4C28CD13">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x32A13DFD">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x57F7EFF9">
+                <TypeFilter>
+                    <Element>ELSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xFD132F70">
+                <TypeFilter>
+                    <Element>ELSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Int" ID="0x1299E29">
+                <DefaultValue>6</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x442BDDAB">
+                <DefaultValue>6</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x37304F48" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Float" ID="0xF2D02613">
+                        <DefaultValue>20.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x555FF80A">
+                        <DefaultValue>10.0</DefaultValue>
+                    </Element>
+                    <Element Type="Int" ID="0x7A3FE00D">
+                        <DefaultValue>2</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xC5528A8D" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Float" ID="0xF2D02613">
+                        <DefaultValue>20.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x555FF80A">
+                        <DefaultValue>10.0</DefaultValue>
+                    </Element>
+                    <Element Type="Int" ID="0x7A3FE00D">
+                        <DefaultValue>2</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Float" ID="0x4B59E590">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCB14D97C">
+                <DefaultValue>35.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x39FB7978">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC6A6B724">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4032C58A">
+                <DefaultValue>2.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8B6E162F">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x966B2697">
+                <DefaultValue>9.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

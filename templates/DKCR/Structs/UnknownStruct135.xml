@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct135</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0x9249D6B3">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="String" ID="0xB26283CE"/>
+            <Element Type="String" ID="0x24A80F03"/>
+            <Element Type="String" ID="0x945FB4EE"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

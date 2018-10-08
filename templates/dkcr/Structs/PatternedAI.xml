@@ -1,80 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="PatternedAI" type="multi">
-    <properties>
-        <property ID="0x75DBB375" type="float">
-            <default>150.0</default>
-        </property>
-        <struct ID="0x7B71AE90" template="Structs/DamageVulnerability.xml"/>
-        <struct ID="0xD756416E" template="Structs/DamageInfo.xml"/>
-        <property ID="0xE0CDC7E3" type="float">
-            <default>2.0</default>
-        </property>
-        <struct ID="0xCF90D15E" template="Structs/HealthInfo.xml"/>
-        <property ID="0x8A6AB139" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x3011B5DF" type="float">
-            <default>2.0</default>
-        </property>
-        <property ID="0x2E686C2A" type="vector3f">
-            <default>0.0, 0.0, 0.0</default>
-        </property>
-        <property ID="0xD9355674" type="float">
-            <default>0.1</default>
-        </property>
-        <property ID="0x88EA81DB" type="float">
-            <default>0.16</default>
-        </property>
-        <property ID="0xA244C9D8" type="character"/>
-        <property ID="0x1749405B" type="asset" extensions="FSMC"/>
-        <property ID="0x1B21EEB2" type="asset" extensions="FSMC"/>
-        <property ID="0x98169634" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x39A6DEC3" type="float">
-            <default>5.0</default>
-        </property>
-        <property ID="0x47DE2455" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xDFE74895" type="asset" extensions="PART"/>
-        <property ID="0xC88AD680" type="asset" extensions="CAUD"/>
-        <property ID="0x64C22667" type="asset" extensions="UNKN"/>
-        <property ID="0xFD8A9692" type="bool">
-            <default>true</default>
-        </property>
-        <property ID="0xE0644402" type="float">
-            <default>5.0</default>
-        </property>
-        <property ID="0x6392404E" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x020C78BB" type="float">
-            <default>120.0</default>
-        </property>
-        <property ID="0x6D892893" type="bool">
-            <default>true</default>
-        </property>
-        <property ID="0x8DB77EE4" type="float">
-            <default>100.0</default>
-        </property>
-        <property ID="0x513F04B8" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x83DFC40F" type="float">
-            <default>60.0</default>
-        </property>
-        <property ID="0x58434916" type="float">
-            <default>6.0</default>
-        </property>
-        <property ID="0xFF77C96F" type="float">
-            <default>11.0</default>
-        </property>
-        <property ID="0xB0CFE015" type="float">
-            <default>2.0</default>
-        </property>
-        <property ID="0xC80E329B" type="float">
-            <default>1.0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>PatternedAI</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x75DBB375">
+                <DefaultValue>150.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x7B71AE90" Archetype="DamageVulnerability"/>
+            <Element Type="Struct" ID="0xD756416E" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0xE0CDC7E3">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xCF90D15E" Archetype="HealthInfo"/>
+            <Element Type="Float" ID="0x8A6AB139">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3011B5DF">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x2E686C2A">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD9355674">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x88EA81DB">
+                <DefaultValue>0.16</DefaultValue>
+            </Element>
+            <Element Type="AnimationSet" ID="0xA244C9D8"/>
+            <Element Type="Asset" ID="0x1749405B">
+                <TypeFilter>
+                    <Element>FSMC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x1B21EEB2">
+                <TypeFilter>
+                    <Element>FSMC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Int" ID="0x98169634">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x39A6DEC3">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x47DE2455">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xDFE74895">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xC88AD680">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x64C22667"/>
+            <Element Type="Bool" ID="0xFD8A9692">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE0644402">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6392404E">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x20C78BB">
+                <DefaultValue>120.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x6D892893">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8DB77EE4">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x513F04B8">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x83DFC40F">
+                <DefaultValue>60.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x58434916">
+                <DefaultValue>6.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFF77C96F">
+                <DefaultValue>11.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB0CFE015">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC80E329B">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

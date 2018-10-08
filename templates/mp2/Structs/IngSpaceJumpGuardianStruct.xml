@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="IngSpaceJumpGuardianStruct" type="multi">
-    <properties>
-        <property ID="0xA77F6212" type="float">
-            <default>10.0</default>
-        </property>
-        <property ID="0x7EAF8D70" type="float">
-            <default>90.0</default>
-        </property>
-        <property ID="0x03698C10" type="float">
-            <default>33.299999</default>
-        </property>
-        <property ID="0xFD46B85C" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x3E370622" type="float">
-            <default>1500.0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>IngSpaceJumpGuardianStruct</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0xA77F6212">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7EAF8D70">
+                <DefaultValue>90.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3698C10">
+                <DefaultValue>33.299999</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFD46B85C">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3E370622">
+                <DefaultValue>1500.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

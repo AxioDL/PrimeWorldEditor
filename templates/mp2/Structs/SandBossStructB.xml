@@ -1,58 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="SandBossStructB" type="multi">
-    <properties>
-        <struct ID="0x337F9524" template="Structs/DamageInfo.xml">
-            <properties>
-                <enum ID="0x119FBD31">
-                    <default>0x0000000B</default>
-                </enum>
-                <property ID="0xF2D02613">
-                    <default>0.5</default>
-                </property>
-                <property ID="0x555FF80A">
-                    <default>10.0</default>
-                </property>
-            </properties>
-        </struct>
-        <property ID="0x8B51E23F" type="float">
-            <default>15.0</default>
-        </property>
-        <property ID="0x82BE06BA" type="float">
-            <default>3.0</default>
-        </property>
-        <property ID="0x1B57D422" type="float">
-            <default>2.0</default>
-        </property>
-        <property ID="0x060B9B84" type="float">
-            <default>50.0</default>
-        </property>
-        <property ID="0x3F5AF46F" type="float">
-            <default>50.0</default>
-        </property>
-        <property ID="0x42D842CD" type="float">
-            <default>50.0</default>
-        </property>
-        <property ID="0x52642B7E" type="float">
-            <default>2.0</default>
-        </property>
-        <property ID="0xFDA3EB4B" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x020C78BB" type="float">
-            <default>10.0</default>
-        </property>
-        <property ID="0x47CDE539" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x29D8744A" type="sound"/>
-        <property ID="0x8D4F3B88" type="long">
-            <default>1</default>
-        </property>
-        <property ID="0xBF88FE4F" type="float">
-            <default>3.0</default>
-        </property>
-        <property ID="0x74C702B3" type="float">
-            <default>1.0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>SandBossStructB</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x337F9524" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Enum" ID="0x119FBD31">
+                        <DefaultValue>0xB</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xF2D02613">
+                        <DefaultValue>0.5</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x555FF80A">
+                        <DefaultValue>10.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Float" ID="0x8B51E23F">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x82BE06BA">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1B57D422">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x60B9B84">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3F5AF46F">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x42D842CD">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x52642B7E">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFDA3EB4B">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x20C78BB">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x47CDE539">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0x29D8744A">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x8D4F3B88">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBF88FE4F">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x74C702B3">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

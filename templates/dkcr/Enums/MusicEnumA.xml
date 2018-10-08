@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<enum name="MusicEnumA">
-    <enumerators>
-        <enumerator ID="0x9EFE0717" name="Unknown 1"/>
-        <enumerator ID="0x28D5A7D7" name="Unknown 2"/>
-        <enumerator ID="0xD6A26606" name="Unknown 3"/>
-    </enumerators>
-</enum>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Enum">
+        <Name>MusicEnumA</Name>
+        <DefaultValue>0x0</DefaultValue>
+        <Values>
+            <Element Name="Unknown 1" ID="0x9EFE0717"/>
+            <Element Name="Unknown 2" ID="0x28D5A7D7"/>
+            <Element Name="Unknown 3" ID="0xD6A26606"/>
+        </Values>
+    </PropertyArchetype>
+</PropertyTemplate>

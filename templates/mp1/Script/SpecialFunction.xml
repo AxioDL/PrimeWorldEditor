@@ -1,72 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>SpecialFunction</name>
-    <properties>
-        <property ID="0x00" name="Name" type="string"/>
-        <property ID="0x01" name="Position" type="vector3f"/>
-        <property ID="0x02" name="Rotation" type="vector3f"/>
-        <enum ID="0x03" name="Function">
-            <enumerators>
-                <enumerator ID="0x00" name="Function 0"/>
-                <enumerator ID="0x01" name="Player Follow Locator"/>
-                <enumerator ID="0x02" name="Spinner Controller"/>
-                <enumerator ID="0x03" name="Object Follow Locator"/>
-                <enumerator ID="0x04" name="Function 4"/>
-                <enumerator ID="0x05" name="Inventory Activator"/>
-                <enumerator ID="0x06" name="Map Station"/>
-                <enumerator ID="0x07" name="Save Station"/>
-                <enumerator ID="0x08" name="Intro Boss Ring Controller"/>
-                <enumerator ID="0x09" name="View Frustum Tester (Unused)"/>
-                <enumerator ID="0x0A" name="Shot Spinner Controller"/>
-                <enumerator ID="0x0B" name="Escape Sequence"/>
-                <enumerator ID="0x0C" name="Boss Energy Bar"/>
-                <enumerator ID="0x0D" name="End Game"/>
-                <enumerator ID="0x0E" name="HUD Fade In"/>
-                <enumerator ID="0x0F" name="Cinematic Skip"/>
-                <enumerator ID="0x10" name="Script Layer Controller"/>
-                <enumerator ID="0x11" name="Rain Simulator"/>
-                <enumerator ID="0x12" name="Area Damage"/>
-                <enumerator ID="0x13" name="Object Follow Object (Unused)"/>
-                <enumerator ID="0x14" name="Redundant Hint System"/>
-                <enumerator ID="0x15" name="Drop Bomb"/>
-                <enumerator ID="0x16" name="Function 22"/>
-                <enumerator ID="0x17" name="Missile Station"/>
-                <enumerator ID="0x18" name="Billboard"/>
-                <enumerator ID="0x19" name="Player In Area Relay"/>
-                <enumerator ID="0x1A" name="HUD Target"/>
-                <enumerator ID="0x1B" name="Fog Fader"/>
-                <enumerator ID="0x1C" name="Enter Logbook Screen"/>
-                <enumerator ID="0x1D" name="Power Bomb Station"/>
-                <enumerator ID="0x1E" name="Ending"/>
-                <enumerator ID="0x1F" name="Fusion Relay"/>
-                <enumerator ID="0x20" name="Weapon Switch (PAL-only)"/>
-            </enumerators>
-        </enum>
-        <property ID="0x04" name="Unknown 1" type="string"/>
-        <property ID="0x05" name="Unknown 2" type="float"/>
-        <property ID="0x06" name="Unknown 3" type="float"/>
-        <property ID="0x07" name="Unknown 4" type="float"/>
-        <struct ID="0x08" name="LayerSwitch" template="Structs/LayerSwitch.xml"/>
-        <enum ID="0x09" name="Item" template="Enums/Item.xml"/>
-        <property ID="0x0A" name="Active" type="bool"/>
-        <property ID="0x0B" name="Unknown 5" type="float"/>
-        <property ID="0x0C" name="Used by SpinnerController 1" type="sound"/>
-        <property ID="0x0D" name="Used by SpinnerController 2" type="sound"/>
-        <property ID="0x0E" name="Used by SpinnerController 3" type="sound"/>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x00"/>
-            <property name="Position" ID="0x01"/>
-            <property name="Rotation" ID="0x02"/>
-            <property name="Active" ID="0x0A"/>
-        </properties>
-        <assets>
-            <billboard source="file">script/common/SpecialFunction.TXTR</billboard>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Prime">
+    <Properties Type="Struct">
+        <Name>SpecialFunction</Name>
+        <SubProperties>
+            <Element Type="String" ID="0x0">
+                <Name>Name</Name>
+            </Element>
+            <Element Type="Vector" ID="0x1">
+                <Name>Position</Name>
+            </Element>
+            <Element Type="Vector" ID="0x2">
+                <Name>Rotation</Name>
+            </Element>
+            <Element Type="Enum" ID="0x3">
+                <Name>Function</Name>
+                <Values>
+                    <Element Name="Function 0" ID="0x0"/>
+                    <Element Name="Player Follow Locator" ID="0x1"/>
+                    <Element Name="Spinner Controller" ID="0x2"/>
+                    <Element Name="Object Follow Locator" ID="0x3"/>
+                    <Element Name="Function 4" ID="0x4"/>
+                    <Element Name="Inventory Activator" ID="0x5"/>
+                    <Element Name="Map Station" ID="0x6"/>
+                    <Element Name="Save Station" ID="0x7"/>
+                    <Element Name="Intro Boss Ring Controller" ID="0x8"/>
+                    <Element Name="View Frustum Tester (Unused)" ID="0x9"/>
+                    <Element Name="Shot Spinner Controller" ID="0xA"/>
+                    <Element Name="Escape Sequence" ID="0xB"/>
+                    <Element Name="Boss Energy Bar" ID="0xC"/>
+                    <Element Name="End Game" ID="0xD"/>
+                    <Element Name="HUD Fade In" ID="0xE"/>
+                    <Element Name="Cinematic Skip" ID="0xF"/>
+                    <Element Name="Script Layer Controller" ID="0x10"/>
+                    <Element Name="Rain Simulator" ID="0x11"/>
+                    <Element Name="Area Damage" ID="0x12"/>
+                    <Element Name="Object Follow Object (Unused)" ID="0x13"/>
+                    <Element Name="Redundant Hint System" ID="0x14"/>
+                    <Element Name="Drop Bomb" ID="0x15"/>
+                    <Element Name="Function 22" ID="0x16"/>
+                    <Element Name="Missile Station" ID="0x17"/>
+                    <Element Name="Billboard" ID="0x18"/>
+                    <Element Name="Player In Area Relay" ID="0x19"/>
+                    <Element Name="HUD Target" ID="0x1A"/>
+                    <Element Name="Fog Fader" ID="0x1B"/>
+                    <Element Name="Enter Logbook Screen" ID="0x1C"/>
+                    <Element Name="Power Bomb Station" ID="0x1D"/>
+                    <Element Name="Ending" ID="0x1E"/>
+                    <Element Name="Fusion Relay" ID="0x1F"/>
+                    <Element Name="Weapon Switch (PAL-only)" ID="0x20"/>
+                </Values>
+            </Element>
+            <Element Type="String" ID="0x4">
+                <Name>Unknown 1</Name>
+            </Element>
+            <Element Type="Float" ID="0x5">
+                <Name>Unknown 2</Name>
+            </Element>
+            <Element Type="Float" ID="0x6">
+                <Name>Unknown 3</Name>
+            </Element>
+            <Element Type="Float" ID="0x7">
+                <Name>Unknown 4</Name>
+            </Element>
+            <Element Type="Struct" ID="0x8" Archetype="LayerSwitch"/>
+            <Element Type="Enum" ID="0x9" Archetype="Item"/>
+            <Element Type="Bool" ID="0xA">
+                <Name>Active</Name>
+            </Element>
+            <Element Type="Float" ID="0xB">
+                <Name>Unknown 5</Name>
+            </Element>
+            <Element Type="Sound" ID="0xC">
+                <Name>Used by SpinnerController 1</Name>
+            </Element>
+            <Element Type="Sound" ID="0xD">
+                <Name>Used by SpinnerController 2</Name>
+            </Element>
+            <Element Type="Sound" ID="0xE">
+                <Name>Used by SpinnerController 3</Name>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x00</NameProperty>
+        <PositionProperty>0x01</PositionProperty>
+        <RotationProperty>0x02</RotationProperty>
+        <ActiveProperty>0x0A</ActiveProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="Billboard" Source="File" Location="script/common/SpecialFunction.TXTR"/>
+    </Assets>
+</ScriptObject>

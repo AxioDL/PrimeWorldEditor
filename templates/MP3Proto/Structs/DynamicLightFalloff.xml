@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>DynamicLightFalloff</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0x456DF20C">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0x2F7C63A3"/>
+            <Element Type="Float" ID="0x1F6813F1">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x6D323EA3">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

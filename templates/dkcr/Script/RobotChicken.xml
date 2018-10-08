@@ -1,267 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>RobotChicken</name>
-    <modules>
-        <module>RSO_RobotChicken.rso</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml">
-            <properties>
-                <struct ID="0x5846524D">
-                    <properties>
-                        <property ID="0x01">
-                            <default>0.0, 0.0, -90.0</default>
-                        </property>
-                    </properties>
-                </struct>
-            </properties>
-        </struct>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <struct ID="0xB3774750" template="Structs/PatternedAI.xml">
-            <properties>
-                <struct ID="0x7B71AE90">
-                    <properties>
-                        <property ID="0x10F37815">
-                            <default>524322</default>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0xD756416E">
-                    <properties>
-                        <property ID="0xF2D02613">
-                            <default>1.0</default>
-                        </property>
-                        <property ID="0x26001979">
-                            <default>20.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0xCF90D15E">
-                    <properties>
-                        <property ID="0xF0668919">
-                            <default>1.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0x3011B5DF">
-                    <default>1.0</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x9E3B570E" type="multi">
-            <properties>
-                <property ID="0x26ECB939" type="bool">
-                    <default>true</default>
-                </property>
-                <property ID="0x2F2AE3E5" type="float">
-                    <default>55.0</default>
-                </property>
-                <property ID="0xEE382651" type="float">
-                    <default>0.3</default>
-                </property>
-                <property ID="0x46B65220" type="float">
-                    <default>3.0</default>
-                </property>
-                <property ID="0xAB417B5D" type="float">
-                    <default>6.0</default>
-                </property>
-                <property ID="0x0F4CB02A" type="float">
-                    <default>0.2</default>
-                </property>
-                <property ID="0x396BEDD2" type="float">
-                    <default>12.0</default>
-                </property>
-                <property ID="0xE564F7B4" type="float">
-                    <default>0.1</default>
-                </property>
-                <property ID="0x8699AC03" type="float">
-                    <default>4.0</default>
-                </property>
-                <property ID="0x663174BC" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0x68D787B4" type="float">
-                    <default>0.2</default>
-                </property>
-                <property ID="0x686E030B" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0xCDEABA73" type="float">
-                    <default>0.1</default>
-                </property>
-                <property ID="0x904C4375" type="float">
-                    <default>2.5</default>
-                </property>
-                <property ID="0xE2AEEBFB" type="long">
-                    <default>12</default>
-                </property>
-                <property ID="0x2144C2E2" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0xC9292D7B" type="long">
-                    <default>0</default>
-                </property>
-                <property ID="0x12CBCDB4" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0xF496803D" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0xCB065EA2" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x3A9808CF" type="asset" extensions="FSMC"/>
-                <property ID="0x06435AFF" type="long">
-                    <default>-1</default>
-                </property>
-                <property ID="0xB073B311" type="long">
-                    <default>-1</default>
-                </property>
-                <property ID="0x719345CF" type="long">
-                    <default>-1</default>
-                </property>
-                <property ID="0x5B203CBA" type="float">
-                    <default>12.0</default>
-                </property>
-                <property ID="0x0483A338" type="long">
-                    <default>-1</default>
-                </property>
-                <struct ID="0xE0DCFBBE" type="multi">
-                    <properties>
-                        <property ID="0xA35A8599" type="bool">
-                            <default>false</default>
-                        </property>
-                        <property ID="0xF8677DE6" type="bool">
-                            <default>false</default>
-                        </property>
-                        <property ID="0xF6B9A631" type="float">
-                            <default>1.0</default>
-                        </property>
-                        <property ID="0x9FB991FE" type="float">
-                            <default>0.5</default>
-                        </property>
-                        <property ID="0xF12D036B" type="float">
-                            <default>1.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0x2540A671" type="multi">
-                    <properties>
-                        <property ID="0xADFD4C91" type="long">
-                            <default>1</default>
-                        </property>
-                        <struct ID="0x8792726D" template="Structs/RobotChickenStructA.xml"/>
-                        <struct ID="0x229A1901" template="Structs/RobotChickenStructA.xml"/>
-                        <struct ID="0x419DC025" template="Structs/RobotChickenStructA.xml"/>
-                        <struct ID="0xB3FBC998" template="Structs/RobotChickenStructA.xml"/>
-                    </properties>
-                </struct>
-                <struct ID="0xAAC2F8DA" type="multi">
-                    <properties>
-                        <property ID="0x1B5993A1" type="bool">
-                            <default>false</default>
-                        </property>
-                        <property ID="0xF57D16E4" type="bool">
-                            <default>false</default>
-                        </property>
-                        <property ID="0xB646A87E" type="bool">
-                            <default>true</default>
-                        </property>
-                        <property ID="0x3818A74B" type="bool">
-                            <default>true</default>
-                        </property>
-                        <property ID="0xB95D2954" type="bool">
-                            <default>false</default>
-                        </property>
-                        <property ID="0x6551FC4A" type="bool">
-                            <default>false</default>
-                        </property>
-                        <property ID="0x1680A254" type="bool">
-                            <default>true</default>
-                        </property>
-                        <property ID="0xD8B884AD" type="bool">
-                            <default>false</default>
-                        </property>
-                        <property ID="0x493ADB56" type="bool">
-                            <default>false</default>
-                        </property>
-                        <property ID="0x1878FA08" type="float">
-                            <default>1.0</default>
-                        </property>
-                        <property ID="0x626FA43D" type="float">
-                            <default>1.0</default>
-                        </property>
-                        <struct ID="0xBC98748C" type="multi">
-                            <properties>
-                                <property ID="0x8102B827" type="bool">
-                                    <default>true</default>
-                                </property>
-                                <property ID="0xED936800" type="bool">
-                                    <default>true</default>
-                                </property>
-                                <property ID="0xA18ED7DE" type="bool">
-                                    <default>true</default>
-                                </property>
-                                <property ID="0x5C4FB14B" type="bool">
-                                    <default>true</default>
-                                </property>
-                                <property ID="0x4A52D20D" type="bool">
-                                    <default>true</default>
-                                </property>
-                                <property ID="0xBF311D46" type="bool">
-                                    <default>true</default>
-                                </property>
-                                <property ID="0x3400D01C" type="bool">
-                                    <default>true</default>
-                                </property>
-                                <property ID="0x2D88C50F" type="bool">
-                                    <default>true</default>
-                                </property>
-                                <property ID="0x0703BF8F" type="bool">
-                                    <default>false</default>
-                                </property>
-                                <property ID="0x2E0E6790" type="bool">
-                                    <default>false</default>
-                                </property>
-                            </properties>
-                        </struct>
-                    </properties>
-                </struct>
-                <struct ID="0x17C3E3EC" type="multi">
-                    <properties>
-                        <enum ID="0x97D30F8B" template="Enums/RobotChickenEnum.xml">
-                            <default>0x8C665F9A</default>
-                        </enum>
-                        <property ID="0xF0668919" type="float">
-                            <default>3.0</default>
-                        </property>
-                        <struct ID="0xFD1BC54F" template="Structs/RobotChickenStructB.xml"/>
-                        <struct ID="0x8BFEFC72" template="Structs/RobotChickenStructB.xml"/>
-                        <struct ID="0x108D16A6" template="Structs/RobotChickenStructB.xml"/>
-                        <struct ID="0x66348E08" template="Structs/RobotChickenStructB.xml"/>
-                        <struct ID="0xFD4764DC" template="Structs/RobotChickenStructB.xml"/>
-                        <struct ID="0x8BA25DE1" template="Structs/RobotChickenStructB.xml"/>
-                        <struct ID="0x10D1B735" template="Structs/RobotChickenStructB.xml"/>
-                    </properties>
-                </struct>
-            </properties>
-        </struct>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xB3774750:0xA244C9D8</animparams>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="DKCReturns">
+    <Modules>
+        <Element>RSO_RobotChicken.rso</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>RobotChicken</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties">
+                <SubProperties>
+                    <Element Type="Struct" ID="0x5846524D">
+                        <SubProperties>
+                            <Element Type="Vector" ID="0x1">
+                                <DefaultValue>
+                                    <X>0.0</X>
+                                    <Y>0.0</Y>
+                                    <Z>-90.0</Z>
+                                </DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAI">
+                <SubProperties>
+                    <Element Type="Struct" ID="0x7B71AE90">
+                        <SubProperties>
+                            <Element Type="Int" ID="0x10F37815">
+                                <DefaultValue>524322</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Struct" ID="0xD756416E">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xF2D02613">
+                                <DefaultValue>1.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x26001979">
+                                <DefaultValue>20.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Struct" ID="0xCF90D15E">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xF0668919">
+                                <DefaultValue>1.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Float" ID="0x3011B5DF">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x9E3B570E" Archetype="UnknownStruct259"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xB3774750:0xA244C9D8"/>
+    </Assets>
+</ScriptObject>

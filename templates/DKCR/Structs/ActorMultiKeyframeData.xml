@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>ActorMultiKeyframeData</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0x8DAA8422">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xE2DB9114" Archetype="ActorMultiKeyframeStruct"/>
+            <Element Type="Struct" ID="0x85D4C76" Archetype="ActorMultiKeyframeStruct"/>
+            <Element Type="Struct" ID="0xE70FFA97" Archetype="ActorMultiKeyframeStruct"/>
+            <Element Type="Struct" ID="0x621F0F3" Archetype="ActorMultiKeyframeStruct"/>
+            <Element Type="Struct" ID="0xE9734612" Archetype="ActorMultiKeyframeStruct"/>
+            <Element Type="Struct" ID="0x3F59B70" Archetype="ActorMultiKeyframeStruct"/>
+            <Element Type="Struct" ID="0xECA72D91" Archetype="ActorMultiKeyframeStruct"/>
+            <Element Type="Struct" ID="0x1AD889F9" Archetype="ActorMultiKeyframeStruct"/>
+            <Element Type="Struct" ID="0xF58A3F18" Archetype="ActorMultiKeyframeStruct"/>
+            <Element Type="Struct" ID="0xDA6BA7AD" Archetype="ActorMultiKeyframeStruct"/>
+            <Element Type="Struct" ID="0x3539114C" Archetype="ActorMultiKeyframeStruct"/>
+            <Element Type="Struct" ID="0xDFBFCC2E" Archetype="ActorMultiKeyframeStruct"/>
+            <Element Type="Struct" ID="0x30ED7ACF" Archetype="ActorMultiKeyframeStruct"/>
+            <Element Type="Struct" ID="0xD1C370AB" Archetype="ActorMultiKeyframeStruct"/>
+            <Element Type="Struct" ID="0x3E91C64A" Archetype="ActorMultiKeyframeStruct"/>
+            <Element Type="Struct" ID="0xD4171B28" Archetype="ActorMultiKeyframeStruct"/>
+            <Element Type="Struct" ID="0x3B45ADC9" Archetype="ActorMultiKeyframeStruct"/>
+            <Element Type="Struct" ID="0xCD3A09A1" Archetype="ActorMultiKeyframeStruct"/>
+            <Element Type="Struct" ID="0x2268BF40" Archetype="ActorMultiKeyframeStruct"/>
+            <Element Type="Struct" ID="0x793D2104" Archetype="ActorMultiKeyframeStruct"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

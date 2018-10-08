@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct65</Name>
+        <SubProperties>
+            <Element Type="Spline" ID="0xDCBFA4E6"/>
+            <Element Type="Enum" ID="0x1610EB13">
+                <DefaultValue>0xB7646F3</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0xB7646F3"/>
+                    <Element Name="Unknown 2" ID="0x6F4E831F"/>
+                </Values>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

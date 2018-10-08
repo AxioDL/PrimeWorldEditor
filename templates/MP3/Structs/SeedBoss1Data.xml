@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>SeedBoss1Data</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0xD3AD55B6">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xB33EB533" Archetype="HealthInfo"/>
+            <Element Type="Struct" ID="0x26FA460B" Archetype="DamageVulnerability"/>
+            <Element Type="Asset" ID="0xAD0DE5AC">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xFC128C15">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x299B8D33">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xA5BB98A6">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xF4A4F11F">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xC946D250">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x50EDAE7F">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x30969CFE">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xB25E271D">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x5D71B85C">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x3D0A8ADD">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x43223A97">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x9B76AD84">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xFB0D9F05">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x48EE50AD">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x85635B3B">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xE51869BA">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x5CEA873F">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xC288AE69">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xCDBD44E1">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x6AD6CBBA">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x3AB79847">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x27B30D35">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0xEC37E2FA" Archetype="DamageVulnerability"/>
+            <Element Type="Float" ID="0xCCCA3249">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x3CE6E482" Archetype="ShockWaveInfo"/>
+            <Element Type="Struct" ID="0x72E00501" Archetype="UnknownStruct60"/>
+            <Element Type="Struct" ID="0x1598012A" Archetype="PlasmaBeamInfo"/>
+            <Element Type="Struct" ID="0x98821996" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0xDD34C3C0" Archetype="DamageVulnerability"/>
+            <Element Type="Asset" ID="0x547B9A9A">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xEAF93057">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x36C067C2">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x261EEFE7" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0x818F810B" Archetype="ShockWaveInfo"/>
+            <Element Type="Struct" ID="0x7C9C3B51" Archetype="LaunchProjectileData">
+                <SubProperties>
+                    <Element Type="Float" ID="0x53AE4A7">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0xCF201BFA">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x88137FA8">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Bool" ID="0xB2D02323">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Vector" ID="0xF344C0B0">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x56B20B2">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0xF78469D6">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x730FE427" Archetype="HoverThenHomeProjectile"/>
+            <Element Type="Vector" ID="0x50924D3">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6414E848">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2A7A2DA7">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x4392C34A" Archetype="LaunchProjectileData">
+                <SubProperties>
+                    <Element Type="Float" ID="0x53AE4A7">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0xCF201BFA">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x88137FA8">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Bool" ID="0xB2D02323">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Vector" ID="0xF344C0B0">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x56B20B2">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0xF78469D6">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x868E4192" Archetype="HoverThenHomeProjectile"/>
+            <Element Type="Vector" ID="0xC8E16555">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x153C001B">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x473B730B">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xAEA60F24">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x38786921"/>
+            <Element Type="Struct" ID="0x9E63065F" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0x50AE6E55" Archetype="LaunchProjectileData">
+                <SubProperties>
+                    <Element Type="Float" ID="0x53AE4A7">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0xCF201BFA">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x88137FA8">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Bool" ID="0xB2D02323">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Vector" ID="0xF344C0B0">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x56B20B2">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0xF78469D6">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xC69F691A" Archetype="SeedBoss1HandData"/>
+            <Element Type="Color" ID="0x3196B2E7">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                    <A>0.0</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x77D3B386">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                    <A>0.0</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xA9BE1081">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                    <A>0.0</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x7CE5C47C">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                    <A>0.0</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xF9656C39">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                    <A>0.0</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xD7142AFE">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                    <A>0.0</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC3718EA0">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD6FA5A52">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x45694DB0" Archetype="SeedBoss1Stage"/>
+            <Element Type="Struct" ID="0x338C748D" Archetype="SeedBoss1Stage"/>
+            <Element Type="Struct" ID="0xA8FF9E59" Archetype="SeedBoss1Stage"/>
+            <Element Type="Struct" ID="0xDE4606F7" Archetype="SeedBoss1Stage"/>
+            <Element Type="Struct" ID="0x2883F972" Archetype="SeedBoss1Shield"/>
+            <Element Type="Struct" ID="0x40AC1FD4" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0x64588114">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x712D3274">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x50EC86C1">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x536B7493">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0xC2BE328D"/>
+            <Element Type="Struct" ID="0x22FDCA5" Archetype="ScannableParameters"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

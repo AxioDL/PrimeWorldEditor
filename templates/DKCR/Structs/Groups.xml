@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>Groups</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0x7F5DA3F">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x6954C4A6" Archetype="GenericCreatureStructD"/>
+            <Element Type="Struct" ID="0x9B03295E" Archetype="GenericCreatureStructD"/>
+            <Element Type="Struct" ID="0x7C1E8FC9" Archetype="GenericCreatureStructD"/>
+            <Element Type="Struct" ID="0xA4DDF4EF" Archetype="GenericCreatureStructD"/>
+            <Element Type="Struct" ID="0x43C05278" Archetype="GenericCreatureStructD"/>
+            <Element Type="Struct" ID="0xB197BF80" Archetype="GenericCreatureStructD"/>
+            <Element Type="Struct" ID="0x568A1917" Archetype="GenericCreatureStructD"/>
+            <Element Type="Struct" ID="0xDB604F8D" Archetype="GenericCreatureStructD"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

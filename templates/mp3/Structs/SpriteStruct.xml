@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="SpriteStruct" type="multi">
-    <properties>
-        <property ID="0xEDA47FF6" type="bool">
-            <default>false</default>
-        </property>
-        <struct ID="0x30613ECC" template="Structs/UnknownStruct10.xml"/>
-        <struct ID="0x19A98A3E" template="Structs/UnknownStruct10.xml"/>
-        <struct ID="0xB7C11BAF" template="Structs/UnknownStruct10.xml"/>
-        <struct ID="0x4A38E3DA" template="Structs/UnknownStruct10.xml"/>
-        <struct ID="0xE450724B" template="Structs/UnknownStruct10.xml"/>
-        <struct ID="0xCD98C6B9" template="Structs/UnknownStruct10.xml"/>
-        <struct ID="0x63F05728" template="Structs/UnknownStruct10.xml"/>
-        <struct ID="0xED1A3012" template="Structs/UnknownStruct10.xml"/>
-        <struct ID="0x4372A183" template="Structs/UnknownStruct10.xml"/>
-        <struct ID="0x2060E2F5" template="Structs/UnknownStruct10.xml"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>SpriteStruct</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0xEDA47FF6">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x30613ECC" Archetype="UnknownStruct10"/>
+            <Element Type="Struct" ID="0x19A98A3E" Archetype="UnknownStruct10"/>
+            <Element Type="Struct" ID="0xB7C11BAF" Archetype="UnknownStruct10"/>
+            <Element Type="Struct" ID="0x4A38E3DA" Archetype="UnknownStruct10"/>
+            <Element Type="Struct" ID="0xE450724B" Archetype="UnknownStruct10"/>
+            <Element Type="Struct" ID="0xCD98C6B9" Archetype="UnknownStruct10"/>
+            <Element Type="Struct" ID="0x63F05728" Archetype="UnknownStruct10"/>
+            <Element Type="Struct" ID="0xED1A3012" Archetype="UnknownStruct10"/>
+            <Element Type="Struct" ID="0x4372A183" Archetype="UnknownStruct10"/>
+            <Element Type="Struct" ID="0x2060E2F5" Archetype="UnknownStruct10"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

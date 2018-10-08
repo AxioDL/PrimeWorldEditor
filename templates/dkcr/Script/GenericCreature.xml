@@ -1,642 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>GenericCreature</name>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml">
-            <properties>
-                <struct ID="0x5846524D">
-                    <properties>
-                        <property ID="0x01">
-                            <default>0.0, 0.0, 90.0</default>
-                        </property>
-                    </properties>
-                </struct>
-            </properties>
-        </struct>
-        <struct ID="0xBF81C83E" template="Structs/ShadowData.xml"/>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <struct ID="0xB3774750" template="Structs/PatternedAI.xml">
-            <properties>
-                <struct ID="0x7B71AE90">
-                    <properties>
-                        <property ID="0x10F37815">
-                            <default>656426</default>
-                        </property>
-                        <property ID="0xF65FEEF8">
-                            <default>524304</default>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0xD756416E">
-                    <properties>
-                        <property ID="0xF2D02613">
-                            <default>1.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0xCF90D15E">
-                    <properties>
-                        <property ID="0xF0668919">
-                            <default>1.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0x3011B5DF">
-                    <default>1.0</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x633FA4A9" type="multi">
-            <properties>
-                <enum ID="0x0B3E0A3A">
-                    <default>0x0DDB5F41</default>
-                    <enumerators>
-                        <enumerator ID="0x0DDB5F41" name="Unknown 1"/>
-                        <enumerator ID="0x2FFDBA76" name="Unknown 2"/>
-                        <enumerator ID="0x526D62E4" name="Unknown 3"/>
-                        <enumerator ID="0xEEF648F8" name="Unknown 4"/>
-                    </enumerators>
-                </enum>
-                <property ID="0x019FF362" type="asset" extensions="RULE"/>
-                <property ID="0x52AB1F08" type="float">
-                    <default>0.1</default>
-                </property>
-                <property ID="0x4B004257" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x24E95D15" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x558147C0" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0xD342942F" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x17DD78DF" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0xF1BDD73E" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0x374C17BA" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0x490572F8" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x2F2AE3E5" type="float">
-                    <default>55.0</default>
-                </property>
-                <property ID="0x26ECB939" type="bool">
-                    <default>true</default>
-                </property>
-                <property ID="0x3C7DE892" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0xBBFE7D9B" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x6117E78F" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x6A1AF7F6" type="float">
-                    <default>60.0</default>
-                </property>
-                <property ID="0x689DF179" type="float">
-                    <default>720.0</default>
-                </property>
-                <property ID="0x0D1AEAED" type="float">
-                    <default>2.0</default>
-                </property>
-                <property ID="0x4BE864FD" type="float">
-                    <default>9.0</default>
-                </property>
-                <property ID="0xC2AEACD5" type="float">
-                    <default>1.5</default>
-                </property>
-                <property ID="0xD90E7C5C" type="float">
-                    <default>0.75</default>
-                </property>
-                <property ID="0x5EA8AC2B" type="long">
-                    <default>6</default>
-                </property>
-                <property ID="0x91FFEFED" type="bool">
-                    <default>true</default>
-                </property>
-                <property ID="0xA9B55C55" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0xF496803D" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0x43920481" type="long">
-                    <default>0</default>
-                </property>
-                <property ID="0x32FAB97E" type="long">
-                    <default>0</default>
-                </property>
-                <property ID="0x47649C1B" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0xE041BEE6" type="bool">
-                    <default>true</default>
-                </property>
-                <property ID="0xC339FBB5" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0xBC1A9077" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x7A91A063" type="bool">
-                    <default>false</default>
-                </property>
-                <enum ID="0x271F46A0">
-                    <default>0x935593F7</default>
-                    <enumerators>
-                        <enumerator ID="0x1A66BF31" name="Unknown 1"/>
-                        <enumerator ID="0x935593F7" name="Unknown 2"/>
-                        <enumerator ID="0xCF360497" name="Unknown 3"/>
-                    </enumerators>
-                </enum>
-                <property ID="0xF0993BFE" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0xA2671D83" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x936B2C8A" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0xFEFF7D43" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x756D7CC9" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0xC336A4EF" type="float">
-                    <default>0.5</default>
-                </property>
-                <property ID="0x89CF2281" type="asset" extensions="PART"/>
-                <property ID="0xEE727579" type="bool">
-                    <default>true</default>
-                </property>
-                <property ID="0x671429BC" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x26C15C60" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0x3EE78313" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0xEB61C9C1" type="bool">
-                    <default>true</default>
-                </property>
-                <property ID="0x1BF83306" type="bool">
-                    <default>false</default>
-                </property>
-                <struct ID="0x6B32E09E" type="multi">
-                    <properties>
-                        <property ID="0xEFA6FC75" type="long">
-                            <default>0</default>
-                        </property>
-                        <property ID="0x7992D8A1" type="asset" extensions="RULE"/>
-                        <property ID="0xFF06AA0F" type="asset" extensions="RULE"/>
-                        <property ID="0x345A79AA" type="asset" extensions="RULE"/>
-                        <property ID="0x295F4912" type="asset" extensions="RULE"/>
-                        <property ID="0xE2039AB7" type="asset" extensions="UNKN"/>
-                    </properties>
-                </struct>
-                <struct ID="0xB6AF2D99" type="multi">
-                    <properties>
-                        <property ID="0x5C9A798C" type="bool">
-                            <default>true</default>
-                        </property>
-                        <property ID="0x77869A76" type="bool">
-                            <default>false</default>
-                        </property>
-                        <property ID="0x7AEE0C0A" type="bool">
-                            <default>true</default>
-                        </property>
-                        <property ID="0xC26D7475" type="bool">
-                            <default>true</default>
-                        </property>
-                        <property ID="0xE8BE10DC" type="bool">
-                            <default>true</default>
-                        </property>
-                        <property ID="0x826952E9" type="bool">
-                            <default>false</default>
-                        </property>
-                        <property ID="0x78BADFC1" type="bool">
-                            <default>true</default>
-                        </property>
-                        <property ID="0x100EBF3A" type="bool">
-                            <default>false</default>
-                        </property>
-                        <enum ID="0x062249FB">
-                            <default>0xA5993091</default>
-                            <enumerators>
-                                <enumerator ID="0xA5993091" name="Unknown 1"/>
-                                <enumerator ID="0x58D91241" name="Unknown 2"/>
-                                <enumerator ID="0xDFCADFB2" name="Unknown 3"/>
-                            </enumerators>
-                        </enum>
-                        <property ID="0xBC2F0B41" type="float">
-                            <default>10.0</default>
-                        </property>
-                        <property ID="0xE7655628" type="float">
-                            <default>15.0</default>
-                        </property>
-                        <property ID="0xEBE02CD7" type="float">
-                            <default>25.0</default>
-                        </property>
-                        <property ID="0xF90A4FE9" type="float">
-                            <default>5.0</default>
-                        </property>
-                        <property ID="0x50C31684" type="bool">
-                            <default>false</default>
-                        </property>
-                        <property ID="0xD64EFF80" type="float">
-                            <default>0.0</default>
-                        </property>
-                        <property ID="0x1745DD26" type="float">
-                            <default>0.0</default>
-                        </property>
-                        <property ID="0x6A9AD7DF" type="bool">
-                            <default>false</default>
-                        </property>
-                        <property ID="0xF5495F77" type="float">
-                            <default>4.0</default>
-                            <cook_pref>always</cook_pref>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0xAE27F052" type="multi">
-                    <properties>
-                        <property ID="0x1F07FC49" type="long">
-                            <default>0</default>
-                        </property>
-                        <property ID="0xF54175C5" type="float">
-                            <default>0.0</default>
-                        </property>
-                        <property ID="0x73D5076B" type="float">
-                            <default>0.0</default>
-                        </property>
-                        <property ID="0xB889D4CE" type="float">
-                            <default>0.0</default>
-                        </property>
-                        <property ID="0xA58CE476" type="float">
-                            <default>0.0</default>
-                        </property>
-                        <property ID="0x6ED037D3" type="float">
-                            <default>0.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0x5400B556" type="multi">
-                    <properties>
-                        <property ID="0x2187C17E" type="long">
-                            <default>0</default>
-                        </property>
-                        <property ID="0x3D2EA760" type="float">
-                            <default>1.0</default>
-                        </property>
-                        <property ID="0xBBBAD5CE" type="float">
-                            <default>2.0</default>
-                        </property>
-                        <property ID="0x70E6066B" type="float">
-                            <default>3.0</default>
-                        </property>
-                        <property ID="0x6DE336D3" type="float">
-                            <default>4.0</default>
-                        </property>
-                        <property ID="0xA6BFE576" type="float">
-                            <default>5.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0x24F41DCB" type="multi">
-                    <properties>
-                        <property ID="0x041B3C2B" type="vector3f">
-                            <default>10.6062, 21.2127, 18.372</default>
-                        </property>
-                        <property ID="0x599EACD6" type="vector3f">
-                            <default>1.5, 21.2127, 18.372</default>
-                        </property>
-                        <property ID="0xF78C8AC7" type="vector3f">
-                            <default>0.0, 13.0, 0.0</default>
-                        </property>
-                        <property ID="0xB69BB541" type="vector3f">
-                            <default>0.0, 15.0, 0.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0x55C89B60" type="multi">
-                    <properties>
-                        <property ID="0x6950B5DA" type="long">
-                            <default>0</default>
-                        </property>
-                        <struct ID="0xD54D6FAD" template="Structs/GenericCreatureStructC.xml"/>
-                        <struct ID="0xAE53ED4E" template="Structs/GenericCreatureStructC.xml"/>
-                        <struct ID="0x31896ED0" template="Structs/GenericCreatureStructC.xml"/>
-                        <struct ID="0x586EE888" template="Structs/GenericCreatureStructC.xml"/>
-                        <struct ID="0xC7B46B16" template="Structs/GenericCreatureStructC.xml"/>
-                    </properties>
-                </struct>
-                <struct ID="0x1A5BA8DA" type="multi">
-                    <properties>
-                        <property ID="0x4D2AF7B7" type="long">
-                            <default>0</default>
-                        </property>
-                        <struct ID="0xD736382F" template="Structs/GenericCreatureStructB.xml"/>
-                        <struct ID="0xC64B5256" template="Structs/GenericCreatureStructB.xml"/>
-                        <struct ID="0x7FB089BE" template="Structs/GenericCreatureStructB.xml"/>
-                        <struct ID="0xE4B186A4" template="Structs/GenericCreatureStructB.xml"/>
-                        <struct ID="0x5D4A5D4C" template="Structs/GenericCreatureStructB.xml"/>
-                    </properties>
-                </struct>
-                <struct ID="0x68FD49AE" template="Structs/AnimGridModifierData.xml"/>
-                <struct ID="0x5D8916EA" type="multi">
-                    <properties>
-                        <property ID="0x51E5C747" type="bool">
-                            <default>false</default>
-                        </property>
-                        <property ID="0x4046688F" type="bool">
-                            <default>false</default>
-                        </property>
-                        <property ID="0x99037E15" type="bool">
-                            <default>false</default>
-                        </property>
-                        <property ID="0x48D6716B" type="vector3f">
-                            <default>0.0, 0.0, 0.0</default>
-                        </property>
-                        <property ID="0xF1F0EA1A" type="vector3f">
-                            <default>0.0, 0.0, 0.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0xE22FBDC4" type="multi">
-                    <properties>
-                        <property ID="0x9249D6B3" type="asset" extensions="CAUD"/>
-                        <property ID="0xB26283CE" type="string"/>
-                        <property ID="0x24A80F03" type="string"/>
-                        <property ID="0x945FB4EE" type="string"/>
-                    </properties>
-                </struct>
-                <property ID="0xC08E06AC" type="bool">
-                    <default>false</default>
-                </property>
-                <struct ID="0x2E42A623" type="multi">
-                    <properties>
-                        <property ID="0x217403AF" type="float">
-                            <default>0.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0xF4ACF493" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x8DFB1669" type="bool">
-                    <default>false</default>
-                </property>
-                <struct ID="0xB0CED792" type="multi">
-                    <properties>
-                        <property ID="0x9312FAB8" type="character"/>
-                    </properties>
-                </struct>
-            </properties>
-        </struct>
-        <struct ID="0x55A73403" type="multi">
-            <properties>
-                <struct ID="0xAB47975F" template="Structs/GenericCreatureStructA.xml">
-                    <properties>
-                        <enum ID="0x6403DAED">
-                            <default>0xCD3D7CB1</default>
-                        </enum>
-                    </properties>
-                </struct>
-                <struct ID="0x76D14EDA" template="Structs/GenericCreatureStructA.xml">
-                    <properties>
-                        <enum ID="0x6403DAED">
-                            <default>0xA819961D</default>
-                        </enum>
-                    </properties>
-                </struct>
-                <struct ID="0xCB1B2214" template="Structs/GenericCreatureStructA.xml">
-                    <properties>
-                        <enum ID="0x6403DAED">
-                            <default>0xC58D26AF</default>
-                        </enum>
-                    </properties>
-                </struct>
-                <struct ID="0x168DFB91" template="Structs/GenericCreatureStructA.xml">
-                    <properties>
-                        <enum ID="0x6403DAED">
-                            <default>0xA177EB37</default>
-                        </enum>
-                    </properties>
-                </struct>
-                <struct ID="0x6BFEFDC9" template="Structs/GenericCreatureStructA.xml">
-                    <properties>
-                        <enum ID="0x6403DAED">
-                            <default>0xC53C3ED5</default>
-                        </enum>
-                    </properties>
-                </struct>
-                <struct ID="0xB668244C" template="Structs/GenericCreatureStructA.xml"/>
-                <struct ID="0x0BA24882" template="Structs/GenericCreatureStructA.xml"/>
-            </properties>
-        </struct>
-        <struct ID="0x571EB1EF" type="multi">
-            <properties>
-                <property ID="0x94DD8979" type="long">
-                    <default>0</default>
-                    <cook_pref>always</cook_pref>
-                </property>
-                <struct ID="0x975DCEF7" template="Structs/GenericCreatureStructG.xml"/>
-                <struct ID="0x8ABB25C4" template="Structs/GenericCreatureStructF.xml"/>
-                <struct ID="0xF4D39593" template="Structs/TrackObjectModuleData.xml"/>
-                <struct ID="0x9D9CE325" type="multi">
-                    <properties>
-                        <enum ID="0x411D0552">
-                            <default>0xD4E949F7</default>
-                            <enumerators>
-                                <enumerator ID="0xD4E949F7" name="Unknown 1"/>
-                                <enumerator ID="0x2D8EBAA0" name="Unknown 2"/>
-                                <enumerator ID="0x013540CA" name="Unknown 3"/>
-                                <enumerator ID="0x8FE9C24B" name="Unknown 4"/>
-                            </enumerators>
-                        </enum>
-                        <struct ID="0xA46F7341" type="multi">
-                            <properties>
-                                <property ID="0xD4B4AD93" type="float">
-                                    <default>-1.0</default>
-                                </property>
-                                <property ID="0x035F1FD2" type="float">
-                                    <default>1.0</default>
-                                </property>
-                                <property ID="0x354D1781" type="float">
-                                    <default>-1.0</default>
-                                </property>
-                                <property ID="0xE2A6A5C0" type="float">
-                                    <default>1.0</default>
-                                </property>
-                            </properties>
-                        </struct>
-                        <struct ID="0x36538065" type="multi">
-                            <properties>
-                                <property ID="0x1C75F24D" type="long">
-                                    <default>-1</default>
-                                </property>
-                                <property ID="0x0C5C6CD8" type="long">
-                                    <default>-1</default>
-                                </property>
-                                <property ID="0xE845AC92" type="asset" extensions="CAUD"/>
-                                <property ID="0x16AD0423" type="asset" extensions="CAUD"/>
-                                <property ID="0xF8E94961" type="float">
-                                    <default>0.0</default>
-                                </property>
-                                <property ID="0x7F5497B7" type="float">
-                                    <default>0.0</default>
-                                </property>
-                                <property ID="0x99343856" type="float">
-                                    <default>0.0</default>
-                                </property>
-                            </properties>
-                        </struct>
-                    </properties>
-                </struct>
-                <struct ID="0x34A979A6" type="multi">
-                    <properties>
-                        <enum ID="0xD045A194">
-                            <default>0x87251F5B</default>
-                            <enumerators>
-                                <enumerator ID="0x87251F5B" name="Unknown 1"/>
-                                <enumerator ID="0x0BD566C5" name="Unknown 2"/>
-                            </enumerators>
-                        </enum>
-                        <property ID="0xB8D62DDF" type="float">
-                            <default>10.0</default>
-                        </property>
-                        <property ID="0x92708C7E" type="MayaSpline"/>
-                        <property ID="0xB956F379" type="float">
-                            <default>0.25</default>
-                        </property>
-                        <property ID="0x67A08F89" type="float">
-                            <default>5.0</default>
-                        </property>
-                        <property ID="0x0CD01C0E" type="asset" extensions="CAUD"/>
-                        <property ID="0xC6F229C6" type="asset" extensions="TXTR"/>
-                        <property ID="0x1B248C33" type="asset" extensions="TXTR"/>
-                        <struct ID="0x337F9524" template="Structs/DamageInfo.xml"/>
-                        <property ID="0xAA7AE2ED" type="float">
-                            <default>1.0</default>
-                        </property>
-                        <enum ID="0xA5A3EF63">
-                            <default>0xC01248C8</default>
-                            <enumerators>
-                                <enumerator ID="0xC01248C8" name="Unknown 1"/>
-                                <enumerator ID="0xF8138D72" name="Unknown 2"/>
-                                <enumerator ID="0xC5E5AF6F" name="Unknown 3"/>
-                            </enumerators>
-                        </enum>
-                        <property ID="0xABF9F6FD" type="float">
-                            <default>0.0</default>
-                        </property>
-                        <property ID="0xDB64ABE3" type="float">
-                            <default>0.0625</default>
-                        </property>
-                        <property ID="0x82054423" type="bool">
-                            <default>true</default>
-                        </property>
-                        <property ID="0xADD9A3B6" type="long">
-                            <default>4</default>
-                        </property>
-                        <property ID="0xE40723FF" type="float">
-                            <default>0.0</default>
-                        </property>
-                        <property ID="0x2F5BF05A" type="float">
-                            <default>0.5</default>
-                        </property>
-                        <property ID="0xA9CF82F4" type="float">
-                            <default>0.25</default>
-                        </property>
-                        <property ID="0x62935151" type="float">
-                            <default>0.75</default>
-                        </property>
-                    </properties>
-                </struct>
-            </properties>
-        </struct>
-        <struct ID="0x89916395" type="multi">
-            <properties>
-                <property ID="0x2539DE46" type="float">
-                    <default>0.0</default>
-                </property>
-                <struct ID="0x4AB7D5B8" type="multi">
-                    <properties>
-                        <property ID="0xFC8227A7" type="long">
-                            <default>0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0xFE257CE1" type="multi">
-                    <properties>
-                        <property ID="0x07F5DA3F" type="long">
-                            <default>0</default>
-                        </property>
-                        <struct ID="0x6954C4A6" template="Structs/GenericCreatureStructD.xml"/>
-                        <struct ID="0x9B03295E" template="Structs/GenericCreatureStructD.xml"/>
-                        <struct ID="0x7C1E8FC9" template="Structs/GenericCreatureStructD.xml"/>
-                        <struct ID="0xA4DDF4EF" template="Structs/GenericCreatureStructD.xml"/>
-                        <struct ID="0x43C05278" template="Structs/GenericCreatureStructD.xml"/>
-                        <struct ID="0xB197BF80" template="Structs/GenericCreatureStructD.xml"/>
-                        <struct ID="0x568A1917" template="Structs/GenericCreatureStructD.xml"/>
-                        <struct ID="0xDB604F8D" template="Structs/GenericCreatureStructD.xml"/>
-                    </properties>
-                </struct>
-                <struct ID="0xD78A4B1F" type="multi">
-                    <properties>
-                        <property ID="0x682AA3C9" type="long">
-                            <default>0</default>
-                        </property>
-                        <struct ID="0x124A32A3" template="Structs/GenericCreatureStructE.xml"/>
-                        <struct ID="0x56EB17BB" template="Structs/GenericCreatureStructE.xml"/>
-                        <struct ID="0x6A8BF4B3" template="Structs/GenericCreatureStructE.xml"/>
-                        <struct ID="0xDFA95D8B" template="Structs/GenericCreatureStructE.xml"/>
-                        <struct ID="0xE3C9BE83" template="Structs/GenericCreatureStructE.xml"/>
-                        <struct ID="0xA7689B9B" template="Structs/GenericCreatureStructE.xml"/>
-                        <struct ID="0x9B087893" template="Structs/GenericCreatureStructE.xml"/>
-                        <struct ID="0x165CCFAA" template="Structs/GenericCreatureStructE.xml"/>
-                        <struct ID="0x2A3C2CA2" template="Structs/GenericCreatureStructE.xml"/>
-                        <struct ID="0x20CD397A" template="Structs/GenericCreatureStructE.xml"/>
-                        <struct ID="0x1CADDA72" template="Structs/GenericCreatureStructE.xml"/>
-                        <struct ID="0x580CFF6A" template="Structs/GenericCreatureStructE.xml"/>
-                        <struct ID="0x646C1C62" template="Structs/GenericCreatureStructE.xml"/>
-                        <struct ID="0xD14EB55A" template="Structs/GenericCreatureStructE.xml"/>
-                        <struct ID="0xED2E5652" template="Structs/GenericCreatureStructE.xml"/>
-                        <struct ID="0xA98F734A" template="Structs/GenericCreatureStructE.xml"/>
-                    </properties>
-                </struct>
-            </properties>
-        </struct>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xB3774750:0xA244C9D8</animparams>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="DKCReturns">
+    <Properties Type="Struct">
+        <Name>GenericCreature</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties">
+                <SubProperties>
+                    <Element Type="Struct" ID="0x5846524D">
+                        <SubProperties>
+                            <Element Type="Vector" ID="0x1">
+                                <DefaultValue>
+                                    <X>0.0</X>
+                                    <Y>0.0</Y>
+                                    <Z>90.0</Z>
+                                </DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xBF81C83E" Archetype="ShadowData"/>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAI">
+                <SubProperties>
+                    <Element Type="Struct" ID="0x7B71AE90">
+                        <SubProperties>
+                            <Element Type="Int" ID="0x10F37815">
+                                <DefaultValue>656426</DefaultValue>
+                            </Element>
+                            <Element Type="Int" ID="0xF65FEEF8">
+                                <DefaultValue>524304</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Struct" ID="0xD756416E">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xF2D02613">
+                                <DefaultValue>1.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Struct" ID="0xCF90D15E">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xF0668919">
+                                <DefaultValue>1.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Float" ID="0x3011B5DF">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x633FA4A9" Archetype="GenericCreature"/>
+            <Element Type="Struct" ID="0x55A73403" Archetype="UnknownStruct137"/>
+            <Element Type="Struct" ID="0x571EB1EF" Archetype="UnknownStruct140"/>
+            <Element Type="Struct" ID="0x89916395" Archetype="RetronomeMessage"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xB3774750:0xA244C9D8"/>
+    </Assets>
+</ScriptObject>

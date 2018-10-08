@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>KongProxyData</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0x9445EEA3">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x80BC66EA">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x30060F67">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x2F026A4F">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x42AC42EA">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x653FBA4A">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x950A7B96">
+                <DefaultValue>9.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x39FB7978">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x14E317BD">
+                <DefaultValue>
+                    <X>32.0</X>
+                    <Y>12.0</Y>
+                    <Z>24.0</Z>
+                </DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

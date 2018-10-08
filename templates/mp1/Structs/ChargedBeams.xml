@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="ChargedBeams" type="multi">
-    <properties>
-        <enum ID="0x00" name="Power" template="Enums/VulnerabilityType.xml"/>
-        <enum ID="0x01" name="Ice" template="Enums/VulnerabilityType.xml"/>
-        <enum ID="0x02" name="Wave" template="Enums/VulnerabilityType.xml"/>
-        <enum ID="0x03" name="Plasma" template="Enums/VulnerabilityType.xml"/>
-        <enum ID="0x04" name="Phazon" template="Enums/VulnerabilityType.xml"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Prime">
+    <PropertyArchetype Type="Struct">
+        <Name>ChargedBeams</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0x0" Archetype="VulnerabilityType">
+                <Name>Power</Name>
+            </Element>
+            <Element Type="Enum" ID="0x1" Archetype="VulnerabilityType">
+                <Name>Ice</Name>
+            </Element>
+            <Element Type="Enum" ID="0x2" Archetype="VulnerabilityType">
+                <Name>Wave</Name>
+            </Element>
+            <Element Type="Enum" ID="0x3" Archetype="VulnerabilityType">
+                <Name>Plasma</Name>
+            </Element>
+            <Element Type="Enum" ID="0x4" Archetype="VulnerabilityType">
+                <Name>Phazon</Name>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

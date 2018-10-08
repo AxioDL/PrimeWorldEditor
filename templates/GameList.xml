@@ -1,34 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GameList version="4">
-    <properties>Properties.xml</properties>
-    <game>
-        <name>Metroid Prime</name>
-        <mrea>0x0F</mrea>
-        <master>mp1/MasterTemplate.xml</master>
-    </game>
-    <game>
-        <name>Metroid Prime 2: Echoes Bonus Disc</name>
-        <mrea>0x15</mrea>
-        <master>mp2demo/MasterTemplate.xml</master>
-    </game>
-    <game>
-        <name>Metroid Prime 2: Echoes</name>
-        <mrea>0x19</mrea>
-        <master>mp2/MasterTemplate.xml</master>
-    </game>
-    <game>
-        <name>Metroid Prime 3: Corruption E3 2006 Prototype Build</name>
-        <mrea>0x1D</mrea>
-        <master>mp3proto/MasterTemplate.xml</master>
-    </game>
-    <game>
-        <name>Metroid Prime 3: Corruption</name>
-        <mrea>0x1E</mrea>
-        <master>mp3/MasterTemplate.xml</master>
-    </game>
-    <game>
-        <name>Donkey Kong Country Returns</name>
-        <mrea>0x20</mrea>
-        <master>dkcr/MasterTemplate.xml</master>
-    </game>
+<GameList ArchiveVer="4">
+    <Game ID="Prime">
+        <Name>Metroid Prime</Name>
+        <GameTemplate>MP1/Game.xml</GameTemplate>
+    </Game>
+    <Game ID="EchoesDemo">
+        <Name>Metroid Prime 2: Echoes Bonus Disc</Name>
+        <GameTemplate>MP2Demo/Game.xml</GameTemplate>
+    </Game>
+    <Game ID="Echoes">
+        <Name>Metroid Prime 2: Echoes</Name>
+        <GameTemplate>MP2/Game.xml</GameTemplate>
+    </Game>
+    <Game ID="CorruptionProto">
+        <Name>Metroid Prime 3: Corruption E3 2006 Prototype Build</Name>
+        <GameTemplate>MP3Proto/Game.xml</GameTemplate>
+    </Game>
+    <Game ID="Corruption">
+        <Name>Metroid Prime 3: Corruption</Name>
+        <GameTemplate>MP3/Game.xml</GameTemplate>
+    </Game>
+    <Game ID="DKCReturns">
+        <Name>Donkey Kong Country Returns</Name>
+        <GameTemplate>DKCR/Game.xml</GameTemplate>
+    </Game>
 </GameList>

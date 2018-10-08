@@ -1,161 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>Cable</name>
-    <modules>
-        <module>RSO_ScriptCable.rso</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <struct ID="0x93B93DB9" type="multi">
-            <properties>
-                <property ID="0xFFE83B77" type="asset" extensions="SWHC"/>
-                <enum ID="0x3AFBE300">
-                    <default>0x2C8482EE</default>
-                    <enumerators>
-                        <enumerator ID="0x2C8482EE" name="Unknown 1"/>
-                        <enumerator ID="0x238DA295" name="Unknown 2"/>
-                        <enumerator ID="0x2701CF31" name="Unknown 3"/>
-                    </enumerators>
-                </enum>
-                <enum ID="0x4B3A87E6">
-                    <default>0xD6629DCA</default>
-                    <enumerators>
-                        <enumerator ID="0x944A8986" name="Unknown 1"/>
-                        <enumerator ID="0xD6629DCA" name="Unknown 2"/>
-                    </enumerators>
-                </enum>
-                <enum ID="0xCD578193">
-                    <default>0xB9B7640F</default>
-                    <enumerators>
-                        <enumerator ID="0xB9B7640F" name="Unknown 1"/>
-                        <enumerator ID="0xC1EC6DF9" name="Unknown 2"/>
-                        <enumerator ID="0xDD1CFE2B" name="Unknown 3"/>
-                    </enumerators>
-                </enum>
-                <property ID="0xB6A06760" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x6586EC98" type="long">
-                    <default>10</default>
-                </property>
-                <property ID="0x405E8F55" type="float">
-                    <default>4.0</default>
-                </property>
-                <property ID="0x11A73408" type="float">
-                    <default>4.0</default>
-                </property>
-                <enum ID="0x44EF4DAB" template="Enums/CableEnum.xml">
-                    <default>0x80DD21B4</default>
-                </enum>
-                <enum ID="0x034F377B" template="Enums/CableEnum.xml">
-                    <default>0x23363FD3</default>
-                </enum>
-                <enum ID="0x3E2F1ECB" template="Enums/CableEnum.xml">
-                    <default>0x24CF38F1</default>
-                </enum>
-                <property ID="0x833E4985" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0x8C73CB7C" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0xDDB5E1D1" type="bool">
-                    <default>false</default>
-                </property>
-                <struct ID="0x84843807" type="multi">
-                    <properties>
-                        <property ID="0x9E235C61" type="vector3f">
-                            <default>0.0, 0.0, -50.0</default>
-                        </property>
-                        <property ID="0x6AB0341A" type="float">
-                            <default>8000.0</default>
-                        </property>
-                        <property ID="0x43C02224" type="float">
-                            <default>1.2</default>
-                        </property>
-                        <property ID="0x446A33F5" type="float">
-                            <default>0.125</default>
-                        </property>
-                        <property ID="0x08B331CE" type="float">
-                            <default>0.85</default>
-                        </property>
-                        <property ID="0x91936B5E" type="float">
-                            <default>1.0</default>
-                        </property>
-                        <property ID="0x81D40910" type="float">
-                            <default>3000.0</default>
-                        </property>
-                        <property ID="0x16407ED9" type="float">
-                            <default>0.5</default>
-                        </property>
-                        <property ID="0x03E7B2B4" type="float">
-                            <default>5.0</default>
-                        </property>
-                        <property ID="0xE190F77D" type="asset" extensions="UNKN"/>
-                        <property ID="0xCE5D16C3" type="bool">
-                            <default>false</default>
-                        </property>
-                        <property ID="0xA99A0E33" type="bool">
-                            <default>false</default>
-                        </property>
-                        <property ID="0xE7B88D51" type="bool">
-                            <default>true</default>
-                        </property>
-                        <property ID="0x7DE2E6BA" type="bool">
-                            <default>false</default>
-                        </property>
-                        <property ID="0xE1107C4A" type="bool">
-                            <default>true</default>
-                        </property>
-                        <enum ID="0xB674EA3D">
-                            <default>0x902E534E</default>
-                            <enumerators>
-                                <enumerator ID="0x6851D062" name="Unknown 1"/>
-                                <enumerator ID="0x1DD8284C" name="Unknown 2"/>
-                                <enumerator ID="0x902E534E" name="Unknown 3"/>
-                            </enumerators>
-                        </enum>
-                        <property ID="0x96BB302A" type="vector3f">
-                            <default>0.0, 0.0, 1.0</default>
-                        </property>
-                        <property ID="0x4414D99C" type="float">
-                            <default>0.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0x6AD55D50" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0xEB5EE47C" type="float">
-                    <default>15.0</default>
-                </property>
-                <property ID="0xC25DC1B8" type="float">
-                    <default>0.0167</default>
-                </property>
-                <enum ID="0xA0ADD2DF">
-                    <default>0x23363FD3</default>
-                    <enumerators>
-                        <enumerator ID="0x80DD21B4" name="Unknown 1"/>
-                        <enumerator ID="0x23363FD3" name="Unknown 2"/>
-                    </enumerators>
-                </enum>
-            </properties>
-        </struct>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets/>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="DKCReturns">
+    <Modules>
+        <Element>RSO_ScriptCable.rso</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>Cable</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Struct" ID="0x93B93DB9" Archetype="CableProperties"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+</ScriptObject>

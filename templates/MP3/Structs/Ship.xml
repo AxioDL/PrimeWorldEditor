@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>Ship</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x398A3608" Archetype="PlayerInventoryItem"/>
+            <Element Type="Bool" ID="0xF9AEE109">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,124 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>DarkSamus</name>
-    <modules>
-        <module>RSO_DarkSamus.rso</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0x0214A7EB" type="multi">
-            <properties>
-                <property ID="0xB5049BBB" type="float">
-                    <default>80.0</default>
-                </property>
-                <property ID="0x3390E915" type="float">
-                    <default>60.0</default>
-                </property>
-                <property ID="0xF8CC3AB0" type="float">
-                    <default>40.0</default>
-                </property>
-                <property ID="0xE5C90A08" type="float">
-                    <default>20.0</default>
-                </property>
-                <property ID="0x2E95D9AD" type="float">
-                    <default>-1.0</default>
-                </property>
-                <property ID="0x21E4D323" type="asset" extensions="SCAN"/>
-                <property ID="0x00D1AA67" type="long">
-                    <default>0</default>
-                </property>
-                <property ID="0xA57B4FAC" type="long">
-                    <default>0</default>
-                </property>
-                <property ID="0x8836C426" type="long">
-                    <default>0</default>
-                </property>
-                <property ID="0xB87C5139" type="long">
-                    <default>0</default>
-                </property>
-                <property ID="0x9F566DB4" type="long">
-                    <default>0</default>
-                </property>
-                <property ID="0xA2AAC8E7" type="long">
-                    <default>0</default>
-                </property>
-                <property ID="0xF8ACA397" type="long">
-                    <default>0</default>
-                </property>
-                <property ID="0x80A0B2CB" type="long">
-                    <default>0</default>
-                </property>
-                <property ID="0x69ED492E" type="long">
-                    <default>0</default>
-                </property>
-                <property ID="0x90419A55" type="long">
-                    <default>0</default>
-                </property>
-                <property ID="0x761DB727" type="long">
-                    <default>0</default>
-                </property>
-                <property ID="0xDCB8AF1C" type="long">
-                    <default>0</default>
-                </property>
-                <property ID="0x9CFDDBA8" type="long">
-                    <default>0</default>
-                </property>
-                <property ID="0xF5056D9D" type="asset" extensions="WPSC"/>
-                <property ID="0x58DBCC52" type="asset" extensions="WPSC"/>
-                <property ID="0x3A6D3A64" type="asset" extensions="PART"/>
-                <property ID="0xF3D84488" type="asset" extensions="UNKN"/>
-                <property ID="0x49BE8A11" type="asset" extensions="PART"/>
-                <property ID="0xE8706E6E" type="asset" extensions="PART"/>
-                <struct ID="0x6CC7412A" template="Structs/PlasmaBeamInfo.xml"/>
-                <property ID="0xACFD8EA8" type="asset" extensions="WPSC"/>
-                <struct ID="0xE8FC7798" template="Structs/HoverThenHomeProjectile.xml"/>
-                <property ID="0x5377D4B5" type="character"/>
-                <property ID="0x4C8AEE6D" type="asset" extensions="PART"/>
-                <property ID="0x0B17536C" type="asset" extensions="SCAN"/>
-                <property ID="0x76C64459" type="asset" extensions="WPSC"/>
-                <struct ID="0xEC493F59" template="Structs/PlasmaBeamInfo.xml"/>
-                <property ID="0xD1D51E35" type="asset" extensions="WPSC"/>
-                <property ID="0x8E96E5E4" type="asset" extensions="PART"/>
-                <property ID="0x5B67A4E7" type="asset" extensions="TXTR"/>
-                <property ID="0x4F6E81A8" type="float">
-                    <default>100.0</default>
-                </property>
-                <property ID="0xE8F323F9" type="asset" extensions="UNKN"/>
-                <property ID="0x9049A2FB" type="asset" extensions="CAUD"/>
-                <property ID="0x8B8B33D9" type="asset" extensions="UNKN"/>
-                <property ID="0x09133ECD" type="asset" extensions="UNKN"/>
-                <property ID="0x3C67B14E" type="asset" extensions="UNKN"/>
-                <property ID="0xAF6889B0" type="asset" extensions="UNKN"/>
-                <property ID="0xA47E51D3" type="asset" extensions="UNKN"/>
-            </properties>
-        </struct>
-        <struct ID="0x02C43C41" template="Structs/DarkSamusData.xml"/>
-        <struct ID="0xB3774750" template="Structs/PatternedAI.xml"/>
-        <struct ID="0xDD042FE0" template="Structs/DarkSamusData.xml"/>
-        <struct ID="0x1464AE05" template="Structs/PatternedAI.xml"/>
-        <struct ID="0xD0621C92" template="Structs/DarkSamusData.xml"/>
-        <struct ID="0x24D00673" template="Structs/PatternedAI.xml"/>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0x0214A7EB:0x5377D4B5</animparams>
-            <animparams source="property">0xB3774750:0xA244C9D8</animparams>
-            <animparams source="property">0x1464AE05:0xA244C9D8</animparams>
-            <animparams source="property">0x24D00673:0xA244C9D8</animparams>
-            <model source="property">0x7E397FED:0xBB52F0BE</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Corruption">
+    <Modules>
+        <Element>RSO_DarkSamus.rso</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>DarkSamus</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0x214A7EB" Archetype="UnknownStruct27"/>
+            <Element Type="Struct" ID="0x2C43C41" Archetype="DarkSamusData"/>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAI"/>
+            <Element Type="Struct" ID="0xDD042FE0" Archetype="DarkSamusData"/>
+            <Element Type="Struct" ID="0x1464AE05" Archetype="PatternedAI"/>
+            <Element Type="Struct" ID="0xD0621C92" Archetype="DarkSamusData"/>
+            <Element Type="Struct" ID="0x24D00673" Archetype="PatternedAI"/>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0x0214A7EB:0x5377D4B5"/>
+        <Element Type="AnimParams" Source="Property" Location="0xB3774750:0xA244C9D8"/>
+        <Element Type="AnimParams" Source="Property" Location="0x1464AE05:0xA244C9D8"/>
+        <Element Type="AnimParams" Source="Property" Location="0x24D00673:0xA244C9D8"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0xBB52F0BE"/>
+    </Assets>
+</ScriptObject>

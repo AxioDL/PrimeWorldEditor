@@ -1,40 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>AreaAttributes</name>
-    <properties>
-        <property ID="0x00" name="Unknown" type="long">
-            <description>If set to anything other than 1, AreaAttributes will not work.</description>
-        </property>
-        <property ID="0x01" name="Show Skybox" type="bool"/>
-        <enum ID="0x02" name="Environmental Effect">
-            <enumerators>
-                <enumerator ID="0x00" name="None"/>
-                <enumerator ID="0x01" name="Snow"/>
-                <enumerator ID="0x02" name="Rain"/>
-                <enumerator ID="0x03" name="Bubbles"/>
-            </enumerators>
-        </enum>
-        <property ID="0x03" name="Initial Environmental Effect Density" type="float"/>
-        <property ID="0x04" name="Initial Thermal Heat Level" type="float"/>
-        <property ID="0x05" name="X-Ray Fog Distance" type="float"/>
-        <property ID="0x06" name="Initial World Lighting Level" type="float"/>
-        <property ID="0x07" name="Skybox Model" type="asset" extensions="CMDL"/>
-        <enum ID="0x08" name="Phazon Type">
-            <enumerators>
-                <enumerator ID="0x00" name="None"/>
-                <enumerator ID="0x01" name="Blue"/>
-                <enumerator ID="0x02" name="Orange"/>
-            </enumerators>
-        </enum>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties/>
-        <assets>
-            <billboard source="file">script/common/AreaAttributes.TXTR</billboard>
-        </assets>
-        <rotation_type>disabled</rotation_type>
-        <scale_type>disabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Prime">
+    <Properties Type="Struct">
+        <Name>AreaAttributes</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0x0">
+                <Name>Unknown</Name>
+                <Description>If set to anything other than 1, AreaAttributes will not work.</Description>
+            </Element>
+            <Element Type="Bool" ID="0x1">
+                <Name>Show Skybox</Name>
+            </Element>
+            <Element Type="Enum" ID="0x2">
+                <Name>Environmental Effect</Name>
+                <Values>
+                    <Element Name="None" ID="0x0"/>
+                    <Element Name="Snow" ID="0x1"/>
+                    <Element Name="Rain" ID="0x2"/>
+                    <Element Name="Bubbles" ID="0x3"/>
+                </Values>
+            </Element>
+            <Element Type="Float" ID="0x3">
+                <Name>Initial Environmental Effect Density</Name>
+            </Element>
+            <Element Type="Float" ID="0x4">
+                <Name>Initial Thermal Heat Level</Name>
+            </Element>
+            <Element Type="Float" ID="0x5">
+                <Name>X-Ray Fog Distance</Name>
+            </Element>
+            <Element Type="Float" ID="0x6">
+                <Name>Initial World Lighting Level</Name>
+            </Element>
+            <Element Type="Asset" ID="0x7">
+                <Name>Skybox Model</Name>
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Enum" ID="0x8">
+                <Name>Phazon Type</Name>
+                <Values>
+                    <Element Name="None" ID="0x0"/>
+                    <Element Name="Blue" ID="0x1"/>
+                    <Element Name="Orange" ID="0x2"/>
+                </Values>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <Assets>
+        <Element Type="Billboard" Source="File" Location="script/common/AreaAttributes.TXTR"/>
+    </Assets>
+    <RotationType>RotationDisabled</RotationType>
+    <ScaleType>ScaleDisabled</ScaleType>
+</ScriptObject>

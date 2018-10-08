@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct37</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0x6CEDF364">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x27A06F6A">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x233A5E40">
+                <DefaultValue>6.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xEF7C65AC">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x6C0F7AA3" Archetype="ShockWaveInfo"/>
+            <Element Type="Asset" ID="0x762CD5B7">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xD8AB76F0">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x145DEBEA">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0xD0B0F21F" Archetype="DamageInfo"/>
+            <Element Type="Asset" ID="0xA078586">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x78755DA3">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x74E1A041">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1F4E7C2C">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xEE6B6F47">
+                <DefaultValue>180.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3CE96C9D">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x950318F0" Archetype="DamageVulnerability"/>
+            <Element Type="Float" ID="0xBA694941">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xCFE37EBF">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0xDA3C9B32" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Enum" ID="0x119FBD31">
+                        <DefaultValue>0xB</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xF2D02613">
+                        <DefaultValue>5.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Asset" ID="0x8BECAB">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Sound" ID="0xF3AF8417">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xDADC5BC9">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xD402095F" Archetype="UnknownStruct36"/>
+            <Element Type="Struct" ID="0x4500F774" Archetype="SwampBossStage1Struct"/>
+            <Element Type="Struct" ID="0x3E1E7597" Archetype="SwampBossStage1Struct"/>
+            <Element Type="Struct" ID="0xA1C4F609" Archetype="SwampBossStage1Struct"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

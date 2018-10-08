@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="PuddleControlPhaseData" type="multi">
-    <properties>
-        <property ID="0x23E91E15" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x82403CBD" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x7EC9E6D9" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x8B51E23F" type="float">
-            <default>0.0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>PuddleControlPhaseData</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x23E91E15">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x82403CBD">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7EC9E6D9">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8B51E23F">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

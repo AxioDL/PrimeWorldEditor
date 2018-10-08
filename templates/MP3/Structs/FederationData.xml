@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>FederationData</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0x5C747710">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x6E58D714" Archetype="UnknownStruct29"/>
+            <Element Type="Bool" ID="0xF31FDAE">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

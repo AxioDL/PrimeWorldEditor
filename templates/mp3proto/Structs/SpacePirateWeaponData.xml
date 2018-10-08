@@ -1,88 +1,135 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="SpacePirateWeaponData" type="multi">
-    <properties>
-        <property ID="0xF1C823A6" type="bool">
-            <default>true</default>
-        </property>
-        <property ID="0xA3B45AB5" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xA93E9E12" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x01C62B32" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x71F8B8F4" type="bool">
-            <default>true</default>
-        </property>
-        <property ID="0xC7F4966C" type="bool">
-            <default>true</default>
-        </property>
-        <property ID="0x2245A396" type="asset" extensions="CMDL"/>
-        <property ID="0x25F822C4" type="float">
-            <default>15.0</default>
-        </property>
-        <property ID="0x765E3A20" type="float">
-            <default>50.0</default>
-        </property>
-        <struct ID="0x14D1A3A8" template="Structs/DamageInfo.xml"/>
-        <property ID="0x1319E077" type="asset" extensions="PART"/>
-        <property ID="0xD207FF0F" type="asset" extensions="PART"/>
-        <property ID="0x2B31C882" type="asset" extensions="PART"/>
-        <property ID="0x9A6BB47F" type="float">
-            <default>25.0</default>
-        </property>
-        <property ID="0xED086CE0" type="float">
-            <default>0.4</default>
-        </property>
-        <property ID="0x00FC6646" type="float">
-            <default>20.0</default>
-        </property>
-        <property ID="0xA7C8E63F" type="float">
-            <default>50.0</default>
-        </property>
-        <property ID="0xA7261CF9" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xB463FA52" type="float">
-            <default>45.0</default>
-        </property>
-        <property ID="0x223B58E8" type="float">
-            <default>45.0</default>
-        </property>
-        <property ID="0x454F16B1" type="long">
-            <default>2</default>
-        </property>
-        <property ID="0xDFADA7C3" type="asset" extensions="CAUD"/>
-        <property ID="0x554B3450" type="asset" extensions="CAUD"/>
-        <property ID="0x36D1B707" type="float">
-            <default>8.0</default>
-        </property>
-        <property ID="0xD2EE80B9" type="float">
-            <default>5.0</default>
-        </property>
-        <property ID="0x95C7F681" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x9E69BCFB" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x6C14CD39" type="asset" extensions="CAUD"/>
-        <property ID="0x92802BB3" type="asset" extensions="CAUD"/>
-        <property ID="0xBF95A130" type="color">
-            <default>0.0, 0.0, 1.0, 1.0</default>
-        </property>
-        <property ID="0x8B4A07D2" type="color">
-            <default>1.0, 0.0, 0.0, 1.0</default>
-        </property>
-        <property ID="0xF769F604" type="asset" extensions="PART"/>
-        <property ID="0x491BF41D" type="asset" extensions="UNKN"/>
-        <property ID="0x1FB988F2" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x32DCC4F9" type="float">
-            <default>0.0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>SpacePirateWeaponData</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0xF1C823A6">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xA3B45AB5">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xA93E9E12">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x1C62B32">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x71F8B8F4">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xC7F4966C">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x2245A396">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x25F822C4">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x765E3A20">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x14D1A3A8" Archetype="DamageInfo"/>
+            <Element Type="Asset" ID="0x1319E077">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xD207FF0F">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x2B31C882">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x9A6BB47F">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xED086CE0">
+                <DefaultValue>0.40000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFC6646">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA7C8E63F">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA7261CF9">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB463FA52">
+                <DefaultValue>45.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x223B58E8">
+                <DefaultValue>45.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x454F16B1">
+                <DefaultValue>2</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xDFADA7C3">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x554B3450">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x36D1B707">
+                <DefaultValue>8.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD2EE80B9">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x95C7F681">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9E69BCFB">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x6C14CD39">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x92802BB3">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Color" ID="0xBF95A130">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x8B4A07D2">
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xF769F604">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x491BF41D"/>
+            <Element Type="Float" ID="0x1FB988F2">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x32DCC4F9">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

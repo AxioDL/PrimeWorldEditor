@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>PhazonLeechData</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0x2A9A1751">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x50D4E6DD">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4638014F">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFE41F1AB">
+                <DefaultValue>0.69999999</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x96729B15">
+                <DefaultValue>0.89999998</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA822C334">
+                <DefaultValue>0.15000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD263977C">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x61634792">
+                <DefaultValue>35.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC657C7EB">
+                <DefaultValue>55.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC5E8886B">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x964E908F">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC9DB43B2">
+                <DefaultValue>-1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x371594CD">
+                <DefaultValue>-1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x32AB2D0F">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCA517218">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6F1DEB26">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x88BE5CB2">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xEC07A9BE">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x76E95D86">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x13BFC5DD">
+                <DefaultValue>7.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x3546F14F" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0x8976D3F6">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

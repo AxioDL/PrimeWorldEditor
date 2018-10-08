@@ -1,16 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="UnknownStruct27" type="multi">
-    <properties>
-        <property ID="0xB2F92674" type="asset" extensions="CAUD"/>
-        <property ID="0x12AA38C2" type="asset" extensions="CAUD"/>
-        <property ID="0x0CFE9AD0" type="asset" extensions="CAUD"/>
-        <property ID="0xE23FE8A7" type="asset" extensions="CAUD"/>
-        <property ID="0xDCD14611" type="asset" extensions="CAUD"/>
-        <property ID="0x4CFF2683" type="asset" extensions="CAUD"/>
-        <property ID="0x05032ED4" type="asset" extensions="CAUD"/>
-        <property ID="0x671DBFB5" type="asset" extensions="CAUD"/>
-        <property ID="0x4D07A2FF" type="asset" extensions="CAUD"/>
-        <property ID="0x8ED65283" type="asset" extensions="CAUD,STRG"/>
-        <property ID="0xAB5F1B54" type="asset" extensions="CAUD"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct27</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0xB2F92674">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x12AA38C2">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xCFE9AD0">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xE23FE8A7">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xDCD14611">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x4CFF2683">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x5032ED4">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x671DBFB5">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x4D07A2FF">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x8ED65283">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xAB5F1B54">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

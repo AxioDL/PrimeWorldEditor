@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct164</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0x806052CB">
+                <TypeFilter>
+                    <Element>FRME</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xEFC5A137">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x1F5B271D">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x449F5275">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x7049EE4D">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xA90107C6">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xFDB3AAC2">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x2A83FBBB" Archetype="UnknownStruct160"/>
+            <Element Type="Struct" ID="0x78673AB6" Archetype="UnknownStruct163"/>
+            <Element Type="Struct" ID="0x860139AD" Archetype="UnknownStruct26"/>
+            <Element Type="Struct" ID="0x6A598A9B" Archetype="UnknownStruct26"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

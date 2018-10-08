@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="LayerSwitch" type="single">
-    <properties>
-        <property ID="0x00" name="Room ID" type="asset" extensions="MREA"/>
-        <property ID="0x01" name="Layer no" type="long"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Prime">
+    <PropertyArchetype Type="Struct">
+        <Name>LayerSwitch</Name>
+        <Atomic>true</Atomic>
+        <SubProperties>
+            <Element Type="Asset" ID="0x0">
+                <Name>Room ID</Name>
+                <TypeFilter>
+                    <Element>MREA</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Int" ID="0x1">
+                <Name>Layer no</Name>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

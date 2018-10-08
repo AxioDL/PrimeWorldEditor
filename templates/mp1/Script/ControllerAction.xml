@@ -1,21 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>ControllerAction</name>
-    <properties>
-        <property ID="0x00" name="Name" type="string"/>
-        <property ID="0x01" name="Active" type="bool"/>
-        <enum ID="0x02" name="Action" template="Enums/PlayerAction.xml"/>
-        <property ID="0x03" name="Deactivate When Used" type="bool"/>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x00"/>
-            <property name="Active" ID="0x01"/>
-        </properties>
-        <assets/>
-        <rotation_type>disabled</rotation_type>
-        <scale_type>disabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Prime">
+    <Properties Type="Struct">
+        <Name>ControllerAction</Name>
+        <SubProperties>
+            <Element Type="String" ID="0x0">
+                <Name>Name</Name>
+            </Element>
+            <Element Type="Bool" ID="0x1">
+                <Name>Active</Name>
+            </Element>
+            <Element Type="Enum" ID="0x2" Archetype="PlayerAction">
+                <Name>Action</Name>
+            </Element>
+            <Element Type="Bool" ID="0x3">
+                <Name>Deactivate When Used</Name>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x00</NameProperty>
+        <ActiveProperty>0x01</ActiveProperty>
+    </EditorProperties>
+    <RotationType>RotationDisabled</RotationType>
+    <ScaleType>ScaleDisabled</ScaleType>
+</ScriptObject>

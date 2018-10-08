@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct132</Name>
+        <SubProperties>
+            <Element Type="Vector" ID="0x41B3C2B">
+                <DefaultValue>
+                    <X>10.6062</X>
+                    <Y>21.2127</Y>
+                    <Z>18.372</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x599EACD6">
+                <DefaultValue>
+                    <X>1.5</X>
+                    <Y>21.2127</Y>
+                    <Z>18.372</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0xF78C8AC7">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>13.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0xB69BB541">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>15.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

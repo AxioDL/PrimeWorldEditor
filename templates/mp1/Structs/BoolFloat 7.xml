@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<struct name="BoolFloat 7" type="single">
-    <properties>
-        <property ID="0x00" name="Unknown 43" type="bool"/>
-        <property ID="0x01" name="Unknown 44" type="float"/>
-    </properties>
-</struct>

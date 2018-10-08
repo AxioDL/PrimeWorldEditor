@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct15</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0xA4858F7D">
+                <DefaultValue>12.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA77F6212">
+                <DefaultValue>12.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x48EAC726">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB6921AC3">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xA5912430" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Enum" ID="0x119FBD31">
+                        <DefaultValue>0xB</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xF2D02613">
+                        <DefaultValue>20.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x555FF80A">
+                        <DefaultValue>10.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xA269EA39" Archetype="AudioPlaybackParms"/>
+            <Element Type="Struct" ID="0x4EB673BE" Archetype="AudioPlaybackParms"/>
+            <Element Type="Struct" ID="0x5EC7F2BA" Archetype="UnknownStruct12"/>
+            <Element Type="Struct" ID="0xE6C64015" Archetype="UnknownStruct13"/>
+            <Element Type="Struct" ID="0x18247AEC" Archetype="UnknownStruct14"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

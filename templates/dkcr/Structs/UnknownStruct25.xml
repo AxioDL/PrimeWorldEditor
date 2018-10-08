@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="UnknownStruct25" type="multi">
-    <properties>
-        <struct ID="0xD72E09E1" template="Structs/ClingPathControlStruct.xml"/>
-        <property ID="0xA55DACF6" type="asset" extensions="CAUD"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct25</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0xD72E09E1" Archetype="ClingPathControlStruct"/>
+            <Element Type="Asset" ID="0xA55DACF6">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

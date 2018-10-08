@@ -1,209 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>Berserker</name>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <struct ID="0x43BBB1DD" template="Structs/PatternedAITypedef.xml">
-            <properties>
-                <struct ID="0xD756416E">
-                    <properties>
-                        <property ID="0xF2D02613">
-                            <default>20.0</default>
-                        </property>
-                        <property ID="0x555FF80A">
-                            <default>10.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0xE0CDC7E3">
-                    <default>3.0</default>
-                </property>
-                <struct ID="0xCF90D15E">
-                    <properties>
-                        <property ID="0xF0668919">
-                            <default>1000.0</default>
-                        </property>
-                        <property ID="0x3A2D17E4">
-                            <default>5.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0xD9355674">
-                    <default>1.0</default>
-                </property>
-                <property ID="0x4BC4C4D9">
-                    <default>2</default>
-                </property>
-                <property ID="0x020C78BB">
-                    <default>180.0</default>
-                </property>
-                <property ID="0x8DB77EE4">
-                    <default>50.0</default>
-                </property>
-                <property ID="0x83DFC40F">
-                    <default>90.0</default>
-                </property>
-                <property ID="0x58434916">
-                    <default>4.0</default>
-                </property>
-                <property ID="0xB0CFE015">
-                    <default>1.0</default>
-                </property>
-                <property ID="0xC80E329B">
-                    <default>0.5</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x54F9FFA5" type="multi">
-            <properties>
-                <property ID="0x76EBC21A" type="bool">
-                    <default>true</default>
-                </property>
-                <property ID="0xC3E43D0E" type="float">
-                    <default>10.0</default>
-                </property>
-                <struct ID="0x74BFFA78" template="Structs/DamageInfo.xml"/>
-                <struct ID="0xBB7977B9" template="Structs/DamageInfo.xml"/>
-                <struct ID="0xF4E003C1" template="Structs/DamageInfo.xml"/>
-                <struct ID="0xE0DBF22F" template="Structs/PlasmaBeamInfo.xml"/>
-                <struct ID="0x97321AF1" template="Structs/DamageInfo.xml"/>
-                <property ID="0xFD5E7062" type="float">
-                    <default>25.0</default>
-                </property>
-                <property ID="0xBD110814" type="float">
-                    <default>100.0</default>
-                </property>
-                <property ID="0x3D947337" type="float">
-                    <default>45.0</default>
-                </property>
-                <property ID="0x1A975A02" type="float">
-                    <default>10.0</default>
-                </property>
-                <struct ID="0x066BC855" template="Structs/LaunchProjectileData.xml"/>
-                <property ID="0x67E0E4B4" type="float">
-                    <default>25.0</default>
-                </property>
-                <property ID="0xB7AD7067" type="float">
-                    <default>10.0</default>
-                </property>
-                <property ID="0xF7E20811" type="float">
-                    <default>25.0</default>
-                </property>
-                <property ID="0x4DB474B8" type="float">
-                    <default>45.0</default>
-                </property>
-                <property ID="0x68D3DAA4" type="MayaSpline"/>
-                <property ID="0x1B359207" type="float">
-                    <default>60.0</default>
-                </property>
-                <property ID="0xC12F397A" type="float">
-                    <default>20.0</default>
-                </property>
-                <property ID="0x4BFEE56B" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0x8F3BE6E1" type="float">
-                    <default>0.5</default>
-                </property>
-                <property ID="0xDD825DC3" type="float">
-                    <default>180.0</default>
-                </property>
-                <property ID="0xCB4F07C1" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x62901DA8" type="float">
-                    <default>0.5</default>
-                </property>
-                <property ID="0x19F31D4E" type="asset" extensions="UNKN"/>
-                <property ID="0xCDA8F0F3" type="asset" extensions="UNKN"/>
-                <property ID="0x237C0374" type="asset" extensions="UNKN"/>
-                <struct ID="0x9C8094F5" template="Structs/GrappleData.xml">
-                    <properties>
-                        <property ID="0x5DCF91E1">
-                            <default>1</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0x58B0EBEA" type="float">
-                    <default>60.0</default>
-                </property>
-                <struct ID="0xA39E44FF" template="Structs/DamageVulnerability.xml"/>
-                <property ID="0xE59DD61F" type="float">
-                    <default>1.25</default>
-                </property>
-                <property ID="0x869415A3" type="float">
-                    <default>5.0</default>
-                </property>
-                <property ID="0xC6DB6DD5" type="float">
-                    <default>25.0</default>
-                </property>
-                <property ID="0xDC8D7887" type="float">
-                    <default>5.0</default>
-                </property>
-                <property ID="0x58E6D9B8" type="float">
-                    <default>20.0</default>
-                </property>
-                <property ID="0xCF111A99" type="float">
-                    <default>20.0</default>
-                </property>
-                <struct ID="0x719FD06B" template="Structs/DamageInfo.xml"/>
-                <property ID="0x92F0B2C7" type="float">
-                    <default>20.0</default>
-                </property>
-                <property ID="0xBC2F8F30" type="float">
-                    <default>0.5</default>
-                </property>
-                <property ID="0x910AD1E0" type="float">
-                    <default>0.7</default>
-                </property>
-                <property ID="0x4566B3EF" type="float">
-                    <default>0.5</default>
-                </property>
-                <property ID="0xDCDDEBC0" type="float">
-                    <default>0.2</default>
-                </property>
-                <property ID="0x9A5D81FA" type="float">
-                    <default>0.1</default>
-                </property>
-                <property ID="0x6FE50D32" type="float">
-                    <default>0.1</default>
-                </property>
-                <property ID="0x24F779CA" type="float">
-                    <default>0.8</default>
-                </property>
-                <struct ID="0x896D5BD9" template="Structs/DamageVulnerability.xml"/>
-                <property ID="0x83439084" type="float">
-                    <default>500.0</default>
-                </property>
-                <property ID="0x04547D34" type="asset" extensions="UNKN"/>
-                <property ID="0x82C00F9A" type="asset" extensions="UNKN"/>
-                <property ID="0x499CDC3F" type="asset" extensions="UNKN"/>
-                <property ID="0x5499EC87" type="asset" extensions="UNKN"/>
-                <property ID="0x9FC53F22" type="asset" extensions="UNKN"/>
-            </properties>
-        </struct>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0x43BBB1DD:0xA244C9D8</animparams>
-            <model source="property">0x54F9FFA5:0x04547D34</model>
-            <model source="property">0x54F9FFA5:0x82C00F9A</model>
-            <model source="property">0x54F9FFA5:0x499CDC3F</model>
-            <model source="property">0x54F9FFA5:0x5499EC87</model>
-            <model source="property">0x54F9FFA5:0x9FC53F22</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="CorruptionProto">
+    <Properties Type="Struct">
+        <Name>Berserker</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Struct" ID="0x43BBB1DD" Archetype="PatternedAITypedef">
+                <SubProperties>
+                    <Element Type="Struct" ID="0xD756416E">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xF2D02613">
+                                <DefaultValue>20.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x555FF80A">
+                                <DefaultValue>10.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Float" ID="0xE0CDC7E3">
+                        <DefaultValue>3.0</DefaultValue>
+                    </Element>
+                    <Element Type="Struct" ID="0xCF90D15E">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xF0668919">
+                                <DefaultValue>1000.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x3A2D17E4">
+                                <DefaultValue>5.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Float" ID="0xD9355674">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                    <Element Type="Int" ID="0x4BC4C4D9">
+                        <DefaultValue>2</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x20C78BB">
+                        <DefaultValue>180.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x8DB77EE4">
+                        <DefaultValue>50.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x83DFC40F">
+                        <DefaultValue>90.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x58434916">
+                        <DefaultValue>4.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xB0CFE015">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xC80E329B">
+                        <DefaultValue>0.5</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x54F9FFA5" Archetype="BerserkerData"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0x43BBB1DD:0xA244C9D8"/>
+        <Element Type="Model" Source="Property" Location="0x54F9FFA5:0x04547D34"/>
+        <Element Type="Model" Source="Property" Location="0x54F9FFA5:0x82C00F9A"/>
+        <Element Type="Model" Source="Property" Location="0x54F9FFA5:0x499CDC3F"/>
+        <Element Type="Model" Source="Property" Location="0x54F9FFA5:0x5499EC87"/>
+        <Element Type="Model" Source="Property" Location="0x54F9FFA5:0x9FC53F22"/>
+    </Assets>
+</ScriptObject>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct198</Name>
+        <SubProperties>
+            <Element Type="Spline" ID="0x97F6EA79"/>
+            <Element Type="Spline" ID="0x4A6033FC"/>
+            <Element Type="Spline" ID="0xF7AA5F32"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

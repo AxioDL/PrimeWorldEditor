@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<enum name="Shape">
-    <enumerators>
-        <enumerator ID="0x482B22F1" name="Box"/>
-        <enumerator ID="0x779DB545" name="Box"/>
-        <enumerator ID="0x8392F5E4" name="Ellipsoid"/>
-        <enumerator ID="0x39ED7B8E" name="Cylinder"/>
-    </enumerators>
-</enum>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Enum">
+        <Name>Shape</Name>
+        <DefaultValue>0x0</DefaultValue>
+        <Values>
+            <Element Name="Box" ID="0x482B22F1"/>
+            <Element Name="Box" ID="0x779DB545"/>
+            <Element Name="Ellipsoid" ID="0x8392F5E4"/>
+            <Element Name="Cylinder" ID="0x39ED7B8E"/>
+        </Values>
+    </PropertyArchetype>
+</PropertyTemplate>

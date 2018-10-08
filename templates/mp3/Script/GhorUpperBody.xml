@@ -1,235 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>GhorUpperBody</name>
-    <modules>
-        <module>RSO_Ghor.rso</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <struct ID="0xB3774750" template="Structs/PatternedAI.xml"/>
-        <struct ID="0x42691490" template="Structs/AiDifficultySettings.xml"/>
-        <struct ID="0xFC135E9B" type="multi">
-            <properties>
-                <property ID="0x531A8C85" type="bool">
-                    <default>false</default>
-                </property>
-                <struct ID="0x832C442E" type="multi">
-                    <properties>
-                        <property ID="0xA8D0EE16" type="bool">
-                            <default>false</default>
-                        </property>
-                        <struct ID="0xA82B5DAA" template="Structs/GhorStructC.xml"/>
-                        <struct ID="0xC97013D0" template="Structs/DamageInfo.xml"/>
-                    </properties>
-                </struct>
-                <struct ID="0xA0D0963B" type="multi">
-                    <properties>
-                        <struct ID="0xFDEA5D06" template="Structs/GhorStructC.xml"/>
-                        <property ID="0x2BCD1D77" type="float">
-                            <default>10.0</default>
-                        </property>
-                        <property ID="0x7FEC6162" type="float">
-                            <default>50.0</default>
-                        </property>
-                        <property ID="0x39D64E40" type="MayaSpline"/>
-                        <property ID="0xFC336BED" type="MayaSpline"/>
-                        <property ID="0x60BDAA38" type="string"/>
-                        <property ID="0xC60B41B4" type="string"/>
-                        <property ID="0x67808780" type="string"/>
-                        <property ID="0x62771F66" type="asset" extensions="CAUD"/>
-                        <property ID="0xB75B8442" type="asset" extensions="CAUD"/>
-                    </properties>
-                </struct>
-                <struct ID="0x81CC0D22" type="multi">
-                    <properties>
-                        <struct ID="0x17386C2C" template="Structs/GhorStructA.xml"/>
-                        <struct ID="0xD171838C" template="Structs/GhorStructA.xml"/>
-                        <struct ID="0x017549CB" template="Structs/GhorStructA.xml"/>
-                        <struct ID="0x08F6BDC5" template="Structs/GhorStructA.xml"/>
-                        <struct ID="0x7B589DD6" template="Structs/GhorStructA.xml"/>
-                        <property ID="0x9CE31FFA" type="string"/>
-                        <struct ID="0x7B71AE90" template="Structs/DamageVulnerability.xml"/>
-                    </properties>
-                </struct>
-                <struct ID="0xD345F07F" template="Structs/GhorStructC.xml"/>
-                <property ID="0xC59D1A2D" type="string"/>
-                <struct ID="0x391A32AE" template="Structs/GhorStructC.xml"/>
-                <struct ID="0xAFB9313A" template="Structs/GhorStructC.xml"/>
-                <struct ID="0xBA4AD147" template="Structs/DamageVulnerability.xml"/>
-                <struct ID="0x305CDAD2" type="multi">
-                    <properties>
-                        <property ID="0xC2376579" type="asset" extensions="CMDL"/>
-                        <property ID="0x05032ED4" type="asset" extensions="CMDL"/>
-                        <property ID="0x671DBFB5" type="asset" extensions="CMDL"/>
-                        <property ID="0x828932C1" type="string"/>
-                        <property ID="0xBFF185FA" type="MayaSpline"/>
-                        <property ID="0x1C846646" type="MayaSpline"/>
-                        <property ID="0x2EB71B6B" type="float">
-                            <default>4.0</default>
-                        </property>
-                        <property ID="0x25BD39C0" type="float">
-                            <default>3.0</default>
-                        </property>
-                        <property ID="0xFD54C300" type="float">
-                            <default>5.0</default>
-                        </property>
-                        <property ID="0x7EF9A719" type="float">
-                            <default>100.0</default>
-                        </property>
-                        <property ID="0x257FE26E" type="float">
-                            <default>1.5</default>
-                        </property>
-                        <property ID="0x193C048F" type="float">
-                            <default>0.5</default>
-                        </property>
-                        <property ID="0x8105ECFD" type="float">
-                            <default>4.0</default>
-                        </property>
-                        <property ID="0x375F1663" type="asset" extensions="CAUD"/>
-                        <property ID="0x68A51ABB" type="asset" extensions="CAUD"/>
-                    </properties>
-                </struct>
-                <struct ID="0x810EC49A" template="Structs/GhorStructC.xml"/>
-                <struct ID="0x5B772F6D" type="multi">
-                    <properties>
-                        <property ID="0xEA4B88C8" type="float">
-                            <default>12.0</default>
-                        </property>
-                        <property ID="0xAA04F0BE" type="float">
-                            <default>40.0</default>
-                        </property>
-                        <property ID="0x59F8B6D0" type="float">
-                            <default>3.0</default>
-                        </property>
-                        <property ID="0x460020AA" type="float">
-                            <default>5.0</default>
-                        </property>
-                        <property ID="0x353ABF40" type="float">
-                            <default>8.0</default>
-                        </property>
-                        <property ID="0x2822A8FA" type="asset" extensions="CAUD"/>
-                        <property ID="0x95D26130" type="asset" extensions="CAUD"/>
-                        <property ID="0xBFB8336B" type="MayaSpline"/>
-                        <property ID="0xF79ADCA8" type="MayaSpline"/>
-                        <property ID="0x68454CB4" type="float">
-                            <default>20.0</default>
-                        </property>
-                        <property ID="0x34DDD21C" type="MayaSpline"/>
-                        <property ID="0x39705DD6" type="MayaSpline"/>
-                        <property ID="0xB2671C2A" type="long">
-                            <default>3</default>
-                        </property>
-                        <property ID="0x546DAB4C" type="float">
-                            <default>20.0</default>
-                        </property>
-                        <property ID="0xFBDCB40F" type="float">
-                            <default>10.0</default>
-                        </property>
-                        <property ID="0x0D225E0A" type="float">
-                            <default>3.0</default>
-                        </property>
-                        <property ID="0xCFD57029" type="float">
-                            <default>5.0</default>
-                        </property>
-                        <property ID="0x8F9A085F" type="float">
-                            <default>25.0</default>
-                        </property>
-                        <property ID="0xB619C33A" type="float">
-                            <default>1.0</default>
-                        </property>
-                        <property ID="0x5ECCB98C" type="float">
-                            <default>10.0</default>
-                        </property>
-                        <property ID="0x041ABBA6" type="float">
-                            <default>20.0</default>
-                        </property>
-                        <property ID="0xBEADF2E0" type="float">
-                            <default>10.0</default>
-                        </property>
-                        <property ID="0x625F214B" type="float">
-                            <default>25.0</default>
-                        </property>
-                        <property ID="0xC3E43D0E" type="float">
-                            <default>40.0</default>
-                        </property>
-                        <property ID="0x3E618127" type="float">
-                            <default>12.0</default>
-                        </property>
-                        <property ID="0x095080D9" type="asset" extensions="CAUD"/>
-                        <struct ID="0x0CFD3139" template="Structs/DamageInfo.xml"/>
-                        <property ID="0x8062D2F8" type="string"/>
-                        <property ID="0xBF26FCFB" type="float">
-                            <default>40.0</default>
-                        </property>
-                        <property ID="0xE64BD01E" type="float">
-                            <default>10.0</default>
-                        </property>
-                        <property ID="0xD8255983" type="float">
-                            <default>8.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0x0E07B299" template="Structs/GhorStructB.xml"/>
-                <struct ID="0x73E98B8F" template="Structs/GhorStructB.xml"/>
-                <property ID="0x15E3F283" type="asset" extensions="CAUD"/>
-                <property ID="0x79BFD886" type="string"/>
-                <property ID="0x337C4056" type="string"/>
-                <struct ID="0x3D43820C" template="Structs/HealthInfo.xml"/>
-                <struct ID="0x6ED9D988" template="Structs/HealthInfo.xml"/>
-                <struct ID="0xE97F12CB" template="Structs/HealthInfo.xml"/>
-                <property ID="0xD16B54F9" type="float">
-                    <default>10.0</default>
-                </property>
-                <property ID="0xB40C6FBF" type="float">
-                    <default>20.0</default>
-                </property>
-                <property ID="0x2443E8EC" type="color">
-                    <default>0.0, 0.0, 0.0, 0.0</default>
-                </property>
-                <property ID="0x888049BD" type="color">
-                    <default>0.0, 0.0, 0.0, 0.0</default>
-                </property>
-            </properties>
-        </struct>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xB3774750:0xA244C9D8</animparams>
-            <model source="property">0x7E397FED:0xBB52F0BE</model>
-            <model source="property">0xFC135E9B:0x832C442E:0xA82B5DAA:0xC27FFA8F</model>
-            <model source="property">0xFC135E9B:0xA0D0963B:0xFDEA5D06:0xC27FFA8F</model>
-            <model source="property">0xFC135E9B:0x81CC0D22:0x17386C2C:0xF8BEDB63</model>
-            <model source="property">0xFC135E9B:0x81CC0D22:0x17386C2C:0x1D5CCC2D</model>
-            <model source="property">0xFC135E9B:0x81CC0D22:0xD171838C:0xF8BEDB63</model>
-            <model source="property">0xFC135E9B:0x81CC0D22:0xD171838C:0x1D5CCC2D</model>
-            <model source="property">0xFC135E9B:0x81CC0D22:0x017549CB:0xF8BEDB63</model>
-            <model source="property">0xFC135E9B:0x81CC0D22:0x017549CB:0x1D5CCC2D</model>
-            <model source="property">0xFC135E9B:0x81CC0D22:0x08F6BDC5:0xF8BEDB63</model>
-            <model source="property">0xFC135E9B:0x81CC0D22:0x08F6BDC5:0x1D5CCC2D</model>
-            <model source="property">0xFC135E9B:0x81CC0D22:0x7B589DD6:0xF8BEDB63</model>
-            <model source="property">0xFC135E9B:0x81CC0D22:0x7B589DD6:0x1D5CCC2D</model>
-            <model source="property">0xFC135E9B:0xD345F07F:0xC27FFA8F</model>
-            <model source="property">0xFC135E9B:0x391A32AE:0xC27FFA8F</model>
-            <model source="property">0xFC135E9B:0xAFB9313A:0xC27FFA8F</model>
-            <model source="property">0xFC135E9B:0x305CDAD2:0xC2376579</model>
-            <model source="property">0xFC135E9B:0x305CDAD2:0x05032ED4</model>
-            <model source="property">0xFC135E9B:0x305CDAD2:0x671DBFB5</model>
-            <model source="property">0xFC135E9B:0x810EC49A:0xC27FFA8F</model>
-            <model source="property">0xFC135E9B:0x0E07B299:0xDAE21374:0x3D313DA6</model>
-            <model source="property">0xFC135E9B:0x73E98B8F:0xDAE21374:0x3D313DA6</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Corruption">
+    <Modules>
+        <Element>RSO_Ghor.rso</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>GhorUpperBody</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAI"/>
+            <Element Type="Struct" ID="0x42691490" Archetype="AiDifficultySettings"/>
+            <Element Type="Struct" ID="0xFC135E9B" Archetype="UnknownStruct42"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xB3774750:0xA244C9D8"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0xBB52F0BE"/>
+        <Element Type="Model" Source="Property" Location="0xFC135E9B:0x832C442E:0xA82B5DAA:0xC27FFA8F"/>
+        <Element Type="Model" Source="Property" Location="0xFC135E9B:0xA0D0963B:0xFDEA5D06:0xC27FFA8F"/>
+        <Element Type="Model" Source="Property" Location="0xFC135E9B:0x81CC0D22:0x17386C2C:0xF8BEDB63"/>
+        <Element Type="Model" Source="Property" Location="0xFC135E9B:0x81CC0D22:0x17386C2C:0x1D5CCC2D"/>
+        <Element Type="Model" Source="Property" Location="0xFC135E9B:0x81CC0D22:0xD171838C:0xF8BEDB63"/>
+        <Element Type="Model" Source="Property" Location="0xFC135E9B:0x81CC0D22:0xD171838C:0x1D5CCC2D"/>
+        <Element Type="Model" Source="Property" Location="0xFC135E9B:0x81CC0D22:0x017549CB:0xF8BEDB63"/>
+        <Element Type="Model" Source="Property" Location="0xFC135E9B:0x81CC0D22:0x017549CB:0x1D5CCC2D"/>
+        <Element Type="Model" Source="Property" Location="0xFC135E9B:0x81CC0D22:0x08F6BDC5:0xF8BEDB63"/>
+        <Element Type="Model" Source="Property" Location="0xFC135E9B:0x81CC0D22:0x08F6BDC5:0x1D5CCC2D"/>
+        <Element Type="Model" Source="Property" Location="0xFC135E9B:0x81CC0D22:0x7B589DD6:0xF8BEDB63"/>
+        <Element Type="Model" Source="Property" Location="0xFC135E9B:0x81CC0D22:0x7B589DD6:0x1D5CCC2D"/>
+        <Element Type="Model" Source="Property" Location="0xFC135E9B:0xD345F07F:0xC27FFA8F"/>
+        <Element Type="Model" Source="Property" Location="0xFC135E9B:0x391A32AE:0xC27FFA8F"/>
+        <Element Type="Model" Source="Property" Location="0xFC135E9B:0xAFB9313A:0xC27FFA8F"/>
+        <Element Type="Model" Source="Property" Location="0xFC135E9B:0x305CDAD2:0xC2376579"/>
+        <Element Type="Model" Source="Property" Location="0xFC135E9B:0x305CDAD2:0x05032ED4"/>
+        <Element Type="Model" Source="Property" Location="0xFC135E9B:0x305CDAD2:0x671DBFB5"/>
+        <Element Type="Model" Source="Property" Location="0xFC135E9B:0x810EC49A:0xC27FFA8F"/>
+        <Element Type="Model" Source="Property" Location="0xFC135E9B:0x0E07B299:0xDAE21374:0x3D313DA6"/>
+        <Element Type="Model" Source="Property" Location="0xFC135E9B:0x73E98B8F:0xDAE21374:0x3D313DA6"/>
+    </Assets>
+</ScriptObject>

@@ -1,55 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="ForestBossStructC" type="multi">
-    <properties>
-        <property ID="0xF726E5DA" type="vector3f">
-            <default>1.0, 1.0, 1.0</default>
-        </property>
-        <property ID="0x24426AEF" type="string"/>
-        <property ID="0x0D920DE2" type="string"/>
-        <property ID="0xF15B9FB8" type="string"/>
-        <property ID="0x1B5DFADF" type="asset" extensions="TXTR"/>
-        <property ID="0x271E2E58" type="asset" extensions="TXTR"/>
-        <property ID="0x749B5D80" type="string"/>
-        <property ID="0xAA719632" type="float">
-            <default>1.5</default>
-        </property>
-        <property ID="0xCB3FD764" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x5B604872" type="float">
-            <default>1.0</default>
-        </property>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <struct ID="0xB3774750" template="Structs/PatternedAI.xml">
-            <properties>
-                <struct ID="0x7B71AE90">
-                    <properties>
-                        <property ID="0x10F37815">
-                            <default>524322</default>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0xD756416E">
-                    <properties>
-                        <property ID="0xF2D02613">
-                            <default>1.0</default>
-                        </property>
-                        <property ID="0x26001979">
-                            <default>20.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0xCF90D15E">
-                    <properties>
-                        <property ID="0xF0668919">
-                            <default>1.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0x3011B5DF">
-                    <default>1.0</default>
-                </property>
-            </properties>
-        </struct>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>ForestBossStructC</Name>
+        <SubProperties>
+            <Element Type="Vector" ID="0xF726E5DA">
+                <DefaultValue>
+                    <X>1.0</X>
+                    <Y>1.0</Y>
+                    <Z>1.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x24426AEF"/>
+            <Element Type="String" ID="0xD920DE2"/>
+            <Element Type="String" ID="0xF15B9FB8"/>
+            <Element Type="Asset" ID="0x1B5DFADF">
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x271E2E58">
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="String" ID="0x749B5D80"/>
+            <Element Type="Float" ID="0xAA719632">
+                <DefaultValue>1.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCB3FD764">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5B604872">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAI">
+                <SubProperties>
+                    <Element Type="Struct" ID="0x7B71AE90">
+                        <SubProperties>
+                            <Element Type="Int" ID="0x10F37815">
+                                <DefaultValue>524322</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Struct" ID="0xD756416E">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xF2D02613">
+                                <DefaultValue>1.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x26001979">
+                                <DefaultValue>20.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Struct" ID="0xCF90D15E">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xF0668919">
+                                <DefaultValue>1.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Float" ID="0x3011B5DF">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,14 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="Transform" type="single">
-    <properties>
-        <property ID="0x00" name="Position" type="vector3f">
-            <default>0.0, 0.0, 0.0</default>
-        </property>
-        <property ID="0x01" name="Rotation" type="vector3f">
-            <default>0.0, 0.0, 0.0</default>
-        </property>
-        <property ID="0x02" name="Scale" type="vector3f">
-            <default>1.0, 1.0, 1.0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>Transform</Name>
+        <Atomic>true</Atomic>
+        <SubProperties>
+            <Element Type="Vector" ID="0x0">
+                <Name>Position</Name>
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x1">
+                <Name>Rotation</Name>
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x2">
+                <Name>Scale</Name>
+                <DefaultValue>
+                    <X>1.0</X>
+                    <Y>1.0</Y>
+                    <Z>1.0</Z>
+                </DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

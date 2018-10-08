@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct56</Name>
+        <SubProperties>
+            <Element Type="AnimationSet" ID="0xA3D63F44"/>
+            <Element Type="Float" ID="0x60AC7175">
+                <DefaultValue>1.3</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x205DB165">
+                <DefaultValue>3.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x45515B5E">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xC97013D0" Archetype="DamageInfo"/>
+            <Element Type="Asset" ID="0x36EEE791">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x845BD2EE">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x4FABA78A">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xE90069BD">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x6AB7C2F5">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

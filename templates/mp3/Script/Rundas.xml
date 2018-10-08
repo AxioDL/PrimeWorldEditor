@@ -1,232 +1,118 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>Rundas</name>
-    <modules>
-        <module>RSO_Rundas.rso</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0xA6790709" type="multi">
-            <properties>
-                <property ID="0x1A662787" type="asset" extensions="CMDL"/>
-                <property ID="0x6DCB001F" type="asset" extensions="CMDL"/>
-                <property ID="0xAC0B1EA5" type="asset" extensions="CMDL"/>
-                <property ID="0x508BF168" type="asset" extensions="CMDL"/>
-                <property ID="0x02E83A7C" type="asset" extensions="CMDL"/>
-                <property ID="0xE7C1049E" type="asset" extensions="CMDL"/>
-                <property ID="0x2C41E9A5" type="asset" extensions="CMDL"/>
-                <property ID="0x152658FE" type="asset" extensions="CMDL"/>
-                <property ID="0xE22A6DDA" type="asset" extensions="CMDL"/>
-                <property ID="0x1EAA8217" type="asset" extensions="CMDL"/>
-                <property ID="0x199A4CA5" type="asset" extensions="PART"/>
-                <property ID="0x9F0E3E0B" type="asset" extensions="PART"/>
-                <property ID="0x5452EDAE" type="asset" extensions="PART"/>
-                <property ID="0x4957DD16" type="asset" extensions="PART"/>
-                <property ID="0xA13303F4" type="asset" extensions="PART"/>
-                <property ID="0x3A2D1AA4" type="asset" extensions="WPSC"/>
-                <property ID="0xBCB9680A" type="asset" extensions="WPSC"/>
-                <property ID="0x77E5BBAF" type="asset" extensions="WPSC"/>
-                <property ID="0x6AE08B17" type="asset" extensions="WPSC"/>
-                <property ID="0x4584843B" type="asset" extensions="WPSC"/>
-                <property ID="0x03304D0B" type="asset" extensions="TXTR"/>
-                <property ID="0xC017CF42" type="asset" extensions="PART"/>
-                <property ID="0x17789D1C" type="asset" extensions="CMDL"/>
-                <property ID="0x8843CE6D" type="asset" extensions="PART"/>
-                <property ID="0xE039C4BD" type="asset" extensions="CMDL"/>
-                <property ID="0x09C8DB87" type="asset" extensions="PART"/>
-                <property ID="0xCBB55845" type="asset" extensions="PART"/>
-                <property ID="0xEDCCF9F6" type="asset" extensions="PART"/>
-                <property ID="0x9873172A" type="asset" extensions="PART"/>
-                <property ID="0x84C33DA6" type="asset" extensions="PART"/>
-                <property ID="0x96B50D90" type="asset" extensions="PART"/>
-                <property ID="0x757060D4" type="asset" extensions="WPSC"/>
-                <property ID="0xA2687CE4" type="asset" extensions="PART"/>
-                <property ID="0x24964375" type="asset" extensions="CAUD"/>
-                <property ID="0x1CC93984" type="float">
-                    <default>25.0</default>
-                </property>
-                <struct ID="0xF609C637" template="Structs/GrappleData.xml">
-                    <properties>
-                        <property ID="0xB2BD2723">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <struct ID="0x424928B3">
-                            <cook_pref>never</cook_pref>
-                            <properties>
-                                <property ID="0x008BD240">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                                <property ID="0x54178CB8">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                                <property ID="0xDE38F04E">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                                <property ID="0x9D0C992F">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                                <property ID="0x8382CD42">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                                <property ID="0x8A40FD1B">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                                <property ID="0xA62BF627">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                                <enum ID="0xF8A14C37">
-                                    <cook_pref>never</cook_pref>
-                                </enum>
-                                <property ID="0x64FB595C">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                                <property ID="0x0887FEFE">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                            </properties>
-                        </struct>
-                        <property ID="0x5BBBE79E">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x426F2F60">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x771A3176">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0xEFD287D9">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x56F41CA8">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x4BDEE69A">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x0598B045">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x07648F63">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0xAF284F76" type="asset" extensions="CAUD"/>
-                <property ID="0xD2B71804" type="asset" extensions="CAUD"/>
-                <property ID="0xF69BED49" type="asset" extensions="UNKN"/>
-                <property ID="0x3D6768D8" type="asset" extensions="SCAN"/>
-            </properties>
-        </struct>
-        <struct ID="0x9D90D49F" template="Structs/RundasData.xml"/>
-        <struct ID="0xB3774750" template="Structs/PatternedAI.xml">
-            <properties>
-                <property ID="0x58434916">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xFF77C96F">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xB0CFE015">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xC80E329B">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0x3FAE47EB">
-                    <default>100.0</default>
-                </property>
-                <property ID="0x13F0B18F">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0x7D5A0487">
-                    <cook_pref>never</cook_pref>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x877B2CE9" template="Structs/RundasData.xml"/>
-        <struct ID="0x1464AE05" template="Structs/PatternedAI.xml">
-            <properties>
-                <property ID="0x58434916">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xFF77C96F">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xB0CFE015">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xC80E329B">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0x3FAE47EB">
-                    <default>100.0</default>
-                </property>
-                <property ID="0x13F0B18F">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0x7D5A0487">
-                    <cook_pref>never</cook_pref>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0xCE6183D8" template="Structs/RundasData.xml"/>
-        <struct ID="0x24D00673" template="Structs/PatternedAI.xml">
-            <properties>
-                <property ID="0x58434916">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xFF77C96F">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xB0CFE015">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xC80E329B">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0x3FAE47EB">
-                    <default>100.0</default>
-                </property>
-                <property ID="0x13F0B18F">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0x7D5A0487">
-                    <cook_pref>never</cook_pref>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xB3774750:0xA244C9D8</animparams>
-            <animparams source="property">0x1464AE05:0xA244C9D8</animparams>
-            <animparams source="property">0x24D00673:0xA244C9D8</animparams>
-            <model source="property">0xA6790709:0x1A662787</model>
-            <model source="property">0xA6790709:0x6DCB001F</model>
-            <model source="property">0xA6790709:0xAC0B1EA5</model>
-            <model source="property">0xA6790709:0x508BF168</model>
-            <model source="property">0xA6790709:0x02E83A7C</model>
-            <model source="property">0xA6790709:0xE7C1049E</model>
-            <model source="property">0xA6790709:0x2C41E9A5</model>
-            <model source="property">0xA6790709:0x152658FE</model>
-            <model source="property">0xA6790709:0xE22A6DDA</model>
-            <model source="property">0xA6790709:0x1EAA8217</model>
-            <model source="property">0xA6790709:0x17789D1C</model>
-            <model source="property">0xA6790709:0xE039C4BD</model>
-            <model source="property">0x7E397FED:0xBB52F0BE</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Corruption">
+    <Modules>
+        <Element>RSO_Rundas.rso</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>Rundas</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0xA6790709" Archetype="UnknownStruct55"/>
+            <Element Type="Struct" ID="0x9D90D49F" Archetype="RundasData"/>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAI">
+                <SubProperties>
+                    <Element Type="Float" ID="0x58434916">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0xFF77C96F">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0xB0CFE015">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0xC80E329B">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x3FAE47EB">
+                        <DefaultValue>100.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x13F0B18F">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x7D5A0487">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x877B2CE9" Archetype="RundasData"/>
+            <Element Type="Struct" ID="0x1464AE05" Archetype="PatternedAI">
+                <SubProperties>
+                    <Element Type="Float" ID="0x58434916">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0xFF77C96F">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0xB0CFE015">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0xC80E329B">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x3FAE47EB">
+                        <DefaultValue>100.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x13F0B18F">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x7D5A0487">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xCE6183D8" Archetype="RundasData"/>
+            <Element Type="Struct" ID="0x24D00673" Archetype="PatternedAI">
+                <SubProperties>
+                    <Element Type="Float" ID="0x58434916">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0xFF77C96F">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0xB0CFE015">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0xC80E329B">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x3FAE47EB">
+                        <DefaultValue>100.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x13F0B18F">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x7D5A0487">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xB3774750:0xA244C9D8"/>
+        <Element Type="AnimParams" Source="Property" Location="0x1464AE05:0xA244C9D8"/>
+        <Element Type="AnimParams" Source="Property" Location="0x24D00673:0xA244C9D8"/>
+        <Element Type="Model" Source="Property" Location="0xA6790709:0x1A662787"/>
+        <Element Type="Model" Source="Property" Location="0xA6790709:0x6DCB001F"/>
+        <Element Type="Model" Source="Property" Location="0xA6790709:0xAC0B1EA5"/>
+        <Element Type="Model" Source="Property" Location="0xA6790709:0x508BF168"/>
+        <Element Type="Model" Source="Property" Location="0xA6790709:0x02E83A7C"/>
+        <Element Type="Model" Source="Property" Location="0xA6790709:0xE7C1049E"/>
+        <Element Type="Model" Source="Property" Location="0xA6790709:0x2C41E9A5"/>
+        <Element Type="Model" Source="Property" Location="0xA6790709:0x152658FE"/>
+        <Element Type="Model" Source="Property" Location="0xA6790709:0xE22A6DDA"/>
+        <Element Type="Model" Source="Property" Location="0xA6790709:0x1EAA8217"/>
+        <Element Type="Model" Source="Property" Location="0xA6790709:0x17789D1C"/>
+        <Element Type="Model" Source="Property" Location="0xA6790709:0xE039C4BD"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0xBB52F0BE"/>
+    </Assets>
+</ScriptObject>

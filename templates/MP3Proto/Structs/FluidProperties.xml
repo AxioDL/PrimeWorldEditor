@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>FluidProperties</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0xBE253B54">
+                <DefaultValue>0x54F30820</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x54F30820"/>
+                    <Element Name="Unknown 2" ID="0xDBDD553"/>
+                    <Element Name="Unknown 3" ID="0x47CB8D3E"/>
+                </Values>
+            </Element>
+            <Element Type="Bool" ID="0xB5E9859F">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x4817EAA7">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x3DDCA674">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x628F03DB">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4C60077E">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8518047A">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x41398D5">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.49803901</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x5A96218C">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.49803901</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x5E8B37DD">
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x31D987E">
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x5AA79C9F">
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x2F0645CF">
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x2421A2BF">
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x7C1E9B68"/>
+            <Element Type="Asset" ID="0x7A4B4685"/>
+            <Element Type="Float" ID="0xDD2F6DBD">
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF90DEDA5">
+                <DefaultValue>0.050000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF14E3A14">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x33EECDFD">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x244E9E6D" Archetype="LayerInfo"/>
+            <Element Type="Struct" ID="0xE75248E4" Archetype="LayerInfo"/>
+            <Element Type="Struct" ID="0x385E0D43" Archetype="LayerInfo"/>
+            <Element Type="Struct" ID="0xD369B640" Archetype="LayerInfo"/>
+            <Element Type="Struct" ID="0x6DDEA66D" Archetype="LayerInfo"/>
+            <Element Type="Color" ID="0x13B56C22">
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>1.0</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x856941FE">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x341EC63B">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x388E3C07">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x9C7950A4">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xBFB96EC0">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xC34A1DC9">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x66D466B5"/>
+            <Element Type="Asset" ID="0xB97CCEDE"/>
+            <Element Type="Asset" ID="0x9D407813"/>
+            <Element Type="Asset" ID="0x5507D0BF"/>
+            <Element Type="Color" ID="0xE578C0DD">
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>1.0</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB4B0FD8D">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB90DFF44">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF608D35C">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD8521C1C">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7DCE5DC2">
+                <DefaultValue>125.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x71819B3C">
+                <DefaultValue>150.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9B96C630">
+                <DefaultValue>300.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3425E83F">
+                <DefaultValue>0.30000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2293FDB0">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE9CF2E15">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x268846D6">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xEDD49573">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xFE3BC8F7">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xEF3BD8CF">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xFFCD72D7"/>
+            <Element Type="Bool" ID="0x822118B4">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x414379EA">
+                <DefaultValue>300</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

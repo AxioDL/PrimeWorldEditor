@@ -1,75 +1,94 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="DamageEffectData" type="multi">
-    <properties>
-        <property ID="0x3BBEEED2" type="vector3f">
-            <default>1.0, 1.0, 1.0</default>
-        </property>
-        <property ID="0x418D52D4" type="bool">
-            <default>false</default>
-        </property>
-        <struct ID="0x337F9524" template="Structs/DamageInfo.xml"/>
-        <property ID="0x8B51E23F" type="float">
-            <default>5.0</default>
-        </property>
-        <property ID="0xF3112AD9" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xD1EF7248" type="float">
-            <default>2.0</default>
-        </property>
-        <property ID="0xA93DE032" type="float">
-            <default>4.0</default>
-        </property>
-        <property ID="0x6392404E" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x6117E78F" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xDB1C71C2" type="float">
-            <default>0.5</default>
-        </property>
-        <property ID="0x23EE6C1D" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x2331D418" type="float">
-            <default>0.5</default>
-        </property>
-        <property ID="0xA884E63F" type="float">
-            <default>360.0</default>
-        </property>
-        <property ID="0xE4076E11" type="float">
-            <default>0.1</default>
-        </property>
-        <property ID="0xA863BAE2" type="bool">
-            <default>true</default>
-        </property>
-        <property ID="0xD1E5B042" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x441D8647" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xD5417338" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x6D1CE525" type="asset" extensions="PART"/>
-        <property ID="0x3EDF746B" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0xEA6D6548" type="vector3f">
-            <default>1.0, 1.0, 1.0</default>
-        </property>
-        <property ID="0xA55DACF6" type="asset" extensions="CAUD"/>
-        <property ID="0x78A661EF" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xF0993BFE" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x818D8DAE" type="bool">
-            <default>false</default>
-        </property>
-        <struct ID="0xB028DB0E" template="Structs/LightParameters.xml"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>DamageEffectData</Name>
+        <SubProperties>
+            <Element Type="Vector" ID="0x3BBEEED2">
+                <DefaultValue>
+                    <X>1.0</X>
+                    <Y>1.0</Y>
+                    <Z>1.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x418D52D4">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x337F9524" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0x8B51E23F">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF3112AD9">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD1EF7248">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA93DE032">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6392404E">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x6117E78F">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xDB1C71C2">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x23EE6C1D">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2331D418">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA884E63F">
+                <DefaultValue>360.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE4076E11">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xA863BAE2">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xD1E5B042">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x441D8647">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xD5417338">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x6D1CE525">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x3EDF746B">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0xEA6D6548">
+                <DefaultValue>
+                    <X>1.0</X>
+                    <Y>1.0</Y>
+                    <Z>1.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xA55DACF6">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Bool" ID="0x78A661EF">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xF0993BFE">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x818D8DAE">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xB028DB0E" Archetype="LightParameters"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

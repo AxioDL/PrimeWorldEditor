@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>CounterConditions</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0x1628F23A">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x49D5DD4">
+                <DefaultValue>2</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xBC213AB1">
+                <DefaultValue>3</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x21F60208">
+                <DefaultValue>4</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x994A656D">
+                <DefaultValue>5</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x8BFFCA83">
+                <DefaultValue>6</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x3343ADE6">
+                <DefaultValue>7</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x6B20BDB0">
+                <DefaultValue>8</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xD39CDAD5">
+                <DefaultValue>9</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x9215E813">
+                <DefaultValue>10</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

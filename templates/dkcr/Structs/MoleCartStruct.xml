@@ -1,25 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="MoleCartStruct" type="multi">
-    <properties>
-        <enum ID="0x6A06FAEE">
-            <default>0x4DE1561C</default>
-            <enumerators>
-                <enumerator ID="0x4DE1561C" name="Unknown 1"/>
-                <enumerator ID="0xD13CC81A" name="Unknown 2"/>
-            </enumerators>
-        </enum>
-        <property ID="0xD9635583" type="float">
-            <default>45.0</default>
-        </property>
-        <property ID="0x61DD3EB6" type="float">
-            <default>45.0</default>
-        </property>
-        <property ID="0x90AA341F" type="float">
-            <default>0.5</default>
-        </property>
-        <property ID="0xA55DACF6" type="asset" extensions="CAUD"/>
-        <property ID="0x8A939379" type="MayaSpline"/>
-        <property ID="0x0E727FC4" type="MayaSpline"/>
-        <property ID="0xF3FBE484" type="MayaSpline"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>MoleCartStruct</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0x6A06FAEE">
+                <DefaultValue>0x4DE1561C</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x4DE1561C"/>
+                    <Element Name="Unknown 2" ID="0xD13CC81A"/>
+                </Values>
+            </Element>
+            <Element Type="Float" ID="0xD9635583">
+                <DefaultValue>45.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x61DD3EB6">
+                <DefaultValue>45.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x90AA341F">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xA55DACF6">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Spline" ID="0x8A939379"/>
+            <Element Type="Spline" ID="0xE727FC4"/>
+            <Element Type="Spline" ID="0xF3FBE484"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,85 +1,222 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>Ridley</name>
-    <properties>
-        <property ID="0x00" name="Name" type="string"/>
-        <property ID="0x01" name="Position" type="vector3f"/>
-        <property ID="0x02" name="Rotation" type="vector3f"/>
-        <property ID="0x03" name="Scale" type="vector3f"/>
-        <struct ID="0x04" name="PatternedInfo" template="Structs/PatternedInfo.xml"/>
-        <struct ID="0x05" name="ActorParameters" template="Structs/ActorParameters.xml"/>
-        <property ID="0x06" name="Model 1" type="asset" extensions="CMDL"/>
-        <property ID="0x07" name="Model 2" type="asset" extensions="CMDL"/>
-        <property ID="0x08" name="Model 3" type="asset" extensions="CMDL"/>
-        <property ID="0x09" name="Model 4" type="asset" extensions="CMDL"/>
-        <property ID="0x0A" name="Model 5" type="asset" extensions="CMDL"/>
-        <property ID="0x0B" name="Model 6" type="asset" extensions="CMDL"/>
-        <property ID="0x0C" name="Model 7" type="asset" extensions="CMDL"/>
-        <property ID="0x0D" name="Model 8" type="asset" extensions="CMDL"/>
-        <property ID="0x0E" name="Model 9" type="asset" extensions="CMDL"/>
-        <property ID="0x0F" name="Model 10" type="asset" extensions="CMDL"/>
-        <property ID="0x10" name="Model 11" type="asset" extensions="CMDL"/>
-        <property ID="0x11" name="Model 12" type="asset" extensions="CMDL"/>
-        <property ID="0x12" name="Particle" type="asset" extensions="PART"/>
-        <property ID="0x13" name="Unknown 1" type="float"/>
-        <property ID="0x14" name="Unknown 2" type="float"/>
-        <property ID="0x15" name="Unknown 3" type="float"/>
-        <property ID="0x16" name="Unknown 4" type="float"/>
-        <property ID="0x17" name="WPSC 1" type="asset" extensions="WPSC"/>
-        <struct ID="0x18" name="DamageInfo 1" template="Structs/DamageInfo.xml"/>
-        <struct ID="0x19" name="RidleyStruct1" template="Structs/MP1-RidleyStruct1.xml"/>
-        <property ID="0x1A" name="Sound ID 1" type="sound"/>
-        <property ID="0x1B" name="WPSC 2" type="asset" extensions="WPSC"/>
-        <struct ID="0x1C" name="DamageInfo 2" template="Structs/DamageInfo.xml"/>
-        <struct ID="0x1D" name="RidleyStruct2 1" template="Structs/MP1-RidleyStruct2.xml"/>
-        <property ID="0x1E" name="WPSC 3" type="asset" extensions="WPSC"/>
-        <struct ID="0x1F" name="DamageInfo 3" template="Structs/DamageInfo.xml"/>
-        <struct ID="0x20" name="RidleyStruct2 2" template="Structs/MP1-RidleyStruct2.xml"/>
-        <property ID="0x21" name="Sound ID 2" type="sound"/>
-        <struct ID="0x22" name="DamageInfo 4" template="Structs/DamageInfo.xml"/>
-        <struct ID="0x23" name="RidleyStruct2 3" template="Structs/MP1-RidleyStruct2.xml"/>
-        <property ID="0x24" name="Unknown 18" type="float"/>
-        <property ID="0x25" name="Unknown 19" type="float"/>
-        <struct ID="0x26" name="DamageInfo 5" template="Structs/DamageInfo.xml"/>
-        <property ID="0x27" name="Unknown 20" type="float"/>
-        <struct ID="0x28" name="DamageInfo 6" template="Structs/DamageInfo.xml"/>
-        <property ID="0x29" name="Unknown 21" type="float"/>
-        <struct ID="0x2A" name="DamageInfo 7" template="Structs/DamageInfo.xml"/>
-        <property ID="0x2B" name="Unknown 22" type="float"/>
-        <property ID="0x2C" name="ELSC" type="asset" extensions="ELSC"/>
-        <property ID="0x2D" name="Unknown 23" type="float"/>
-        <property ID="0x2E" name="Sound ID 3" type="sound"/>
-        <struct ID="0x2F" name="DamageInfo 8" template="Structs/DamageInfo.xml"/>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x00"/>
-            <property name="Position" ID="0x01"/>
-            <property name="Rotation" ID="0x02"/>
-            <property name="Scale" ID="0x03"/>
-            <property name="Active" ID="0x04:0x1A"/>
-            <property name="LightParameters" ID="0x05:0x00"/>
-        </properties>
-        <assets>
-            <animparams source="property">0x04:0x19</animparams>
-            <model source="property">0x05:0x02</model>
-            <model source="property">0x05:0x04</model>
-            <model source="property">0x06</model>
-            <model source="property">0x07</model>
-            <model source="property">0x08</model>
-            <model source="property">0x09</model>
-            <model source="property">0x0A</model>
-            <model source="property">0x0B</model>
-            <model source="property">0x0C</model>
-            <model source="property">0x0D</model>
-            <model source="property">0x0E</model>
-            <model source="property">0x0F</model>
-            <model source="property">0x10</model>
-            <model source="property">0x11</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Prime">
+    <Properties Type="Struct">
+        <Name>Ridley</Name>
+        <SubProperties>
+            <Element Type="String" ID="0x0">
+                <Name>Name</Name>
+            </Element>
+            <Element Type="Vector" ID="0x1">
+                <Name>Position</Name>
+            </Element>
+            <Element Type="Vector" ID="0x2">
+                <Name>Rotation</Name>
+            </Element>
+            <Element Type="Vector" ID="0x3">
+                <Name>Scale</Name>
+            </Element>
+            <Element Type="Struct" ID="0x4" Archetype="PatternedInfo"/>
+            <Element Type="Struct" ID="0x5" Archetype="ActorParameters"/>
+            <Element Type="Asset" ID="0x6">
+                <Name>Model 1</Name>
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x7">
+                <Name>Model 2</Name>
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x8">
+                <Name>Model 3</Name>
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x9">
+                <Name>Model 4</Name>
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xA">
+                <Name>Model 5</Name>
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xB">
+                <Name>Model 6</Name>
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xC">
+                <Name>Model 7</Name>
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xD">
+                <Name>Model 8</Name>
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xE">
+                <Name>Model 9</Name>
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xF">
+                <Name>Model 10</Name>
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x10">
+                <Name>Model 11</Name>
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x11">
+                <Name>Model 12</Name>
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x12">
+                <Name>Particle</Name>
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x13">
+                <Name>Unknown 1</Name>
+            </Element>
+            <Element Type="Float" ID="0x14">
+                <Name>Unknown 2</Name>
+            </Element>
+            <Element Type="Float" ID="0x15">
+                <Name>Unknown 3</Name>
+            </Element>
+            <Element Type="Float" ID="0x16">
+                <Name>Unknown 4</Name>
+            </Element>
+            <Element Type="Asset" ID="0x17">
+                <Name>WPSC 1</Name>
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x18" Archetype="DamageInfo">
+                <Name>DamageInfo 1</Name>
+            </Element>
+            <Element Type="Struct" ID="0x19" Archetype="RidleyStruct1"/>
+            <Element Type="Sound" ID="0x1A">
+                <Name>Sound ID 1</Name>
+            </Element>
+            <Element Type="Asset" ID="0x1B">
+                <Name>WPSC 2</Name>
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x1C" Archetype="DamageInfo">
+                <Name>DamageInfo 2</Name>
+            </Element>
+            <Element Type="Struct" ID="0x1D" Archetype="RidleyStruct2">
+                <Name>RidleyStruct2 1</Name>
+            </Element>
+            <Element Type="Asset" ID="0x1E">
+                <Name>WPSC 3</Name>
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x1F" Archetype="DamageInfo">
+                <Name>DamageInfo 3</Name>
+            </Element>
+            <Element Type="Struct" ID="0x20" Archetype="RidleyStruct2">
+                <Name>RidleyStruct2 2</Name>
+            </Element>
+            <Element Type="Sound" ID="0x21">
+                <Name>Sound ID 2</Name>
+            </Element>
+            <Element Type="Struct" ID="0x22" Archetype="DamageInfo">
+                <Name>DamageInfo 4</Name>
+            </Element>
+            <Element Type="Struct" ID="0x23" Archetype="RidleyStruct2">
+                <Name>RidleyStruct2 3</Name>
+            </Element>
+            <Element Type="Float" ID="0x24">
+                <Name>Unknown 18</Name>
+            </Element>
+            <Element Type="Float" ID="0x25">
+                <Name>Unknown 19</Name>
+            </Element>
+            <Element Type="Struct" ID="0x26" Archetype="DamageInfo">
+                <Name>DamageInfo 5</Name>
+            </Element>
+            <Element Type="Float" ID="0x27">
+                <Name>Unknown 20</Name>
+            </Element>
+            <Element Type="Struct" ID="0x28" Archetype="DamageInfo">
+                <Name>DamageInfo 6</Name>
+            </Element>
+            <Element Type="Float" ID="0x29">
+                <Name>Unknown 21</Name>
+            </Element>
+            <Element Type="Struct" ID="0x2A" Archetype="DamageInfo">
+                <Name>DamageInfo 7</Name>
+            </Element>
+            <Element Type="Float" ID="0x2B">
+                <Name>Unknown 22</Name>
+            </Element>
+            <Element Type="Asset" ID="0x2C">
+                <Name>ELSC</Name>
+                <TypeFilter>
+                    <Element>ELSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x2D">
+                <Name>Unknown 23</Name>
+            </Element>
+            <Element Type="Sound" ID="0x2E">
+                <Name>Sound ID 3</Name>
+            </Element>
+            <Element Type="Struct" ID="0x2F" Archetype="DamageInfo">
+                <Name>DamageInfo 8</Name>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x00</NameProperty>
+        <PositionProperty>0x01</PositionProperty>
+        <RotationProperty>0x02</RotationProperty>
+        <ScaleProperty>0x03</ScaleProperty>
+        <ActiveProperty>0x04:0x1A</ActiveProperty>
+        <LightParametersProperty>0x05:0x00</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0x04:0x19"/>
+        <Element Type="Model" Source="Property" Location="0x05:0x02"/>
+        <Element Type="Model" Source="Property" Location="0x05:0x04"/>
+        <Element Type="Model" Source="Property" Location="0x06"/>
+        <Element Type="Model" Source="Property" Location="0x07"/>
+        <Element Type="Model" Source="Property" Location="0x08"/>
+        <Element Type="Model" Source="Property" Location="0x09"/>
+        <Element Type="Model" Source="Property" Location="0x0A"/>
+        <Element Type="Model" Source="Property" Location="0x0B"/>
+        <Element Type="Model" Source="Property" Location="0x0C"/>
+        <Element Type="Model" Source="Property" Location="0x0D"/>
+        <Element Type="Model" Source="Property" Location="0x0E"/>
+        <Element Type="Model" Source="Property" Location="0x0F"/>
+        <Element Type="Model" Source="Property" Location="0x10"/>
+        <Element Type="Model" Source="Property" Location="0x11"/>
+    </Assets>
+</ScriptObject>

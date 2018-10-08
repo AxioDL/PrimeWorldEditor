@@ -1,33 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="VolcanoBossBodyPartStructC" type="multi">
-    <properties>
-        <property ID="0x64543B0C" type="long">
-            <default>-1</default>
-            <cook_pref>always</cook_pref>
-        </property>
-        <property ID="0x1E67101C" type="long">
-            <default>-1</default>
-            <cook_pref>always</cook_pref>
-        </property>
-        <property ID="0xCB515E2A" type="long">
-            <default>-1</default>
-            <cook_pref>always</cook_pref>
-        </property>
-        <property ID="0xC762476C" type="long">
-            <default>-1</default>
-            <cook_pref>always</cook_pref>
-        </property>
-        <property ID="0xB6641BF0" type="long">
-            <default>-1</default>
-            <cook_pref>always</cook_pref>
-        </property>
-        <property ID="0x217A54B9" type="long">
-            <default>-1</default>
-            <cook_pref>always</cook_pref>
-        </property>
-        <property ID="0x8B30D933" type="long">
-            <default>-1</default>
-            <cook_pref>always</cook_pref>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>VolcanoBossBodyPartStructC</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0x64543B0C">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x1E67101C">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xCB515E2A">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xC762476C">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xB6641BF0">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x217A54B9">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x8B30D933">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>RundasData</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x1AEB498D">
+                <DefaultValue>90.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9C7F3B23">
+                <DefaultValue>72.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8F7F0613">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x1A662787">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x6DCB001F">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xAC0B1EA5">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x508BF168">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x2E83A7C">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xE7C1049E">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x2C41E9A5">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x152658FE">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xE22A6DDA">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x1EAA8217">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x896D5BD9" Archetype="DamageVulnerability"/>
+            <Element Type="Struct" ID="0x8D4A2668" Archetype="DamageInfo"/>
+            <Element Type="Asset" ID="0x199A4CA5">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x9F0E3E0B">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x5452EDAE">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x4957DD16">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xA13303F4">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x3A2D1AA4">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xBCB9680A">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x77E5BBAF">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x6AE08B17">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0xF41394F6">
+                <DefaultValue>6.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xB1B44917" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0x7FBC7E81" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0xFF944885">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x19F4E764">
+                <DefaultValue>6.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x50CB86E">
+                <DefaultValue>6.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE36C178F">
+                <DefaultValue>13.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x4584843B">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x3063BBF1" Archetype="DamageInfo"/>
+            <Element Type="Asset" ID="0x3304D0B">
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x17789D1C">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x5997EBE1" Archetype="DamageInfo"/>
+            <Element Type="Asset" ID="0x8843CE6D">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0xC922F0E0">
+                <DefaultValue>35.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2F425F01">
+                <DefaultValue>200.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3BE0A66B">
+                <DefaultValue>70.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3F196C78">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xE039C4BD">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x9C8DB87">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xCBB55845">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xEDCCF9F6">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x9873172A">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x84C33DA6">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x757060D4">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x78DF0B7D" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0xE4CD7924">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3056FFBA">
+                <DefaultValue>7.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x595E38D6">
+                <DefaultValue>18.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF586836F">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7312F1C1">
+                <DefaultValue>2.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6D0BA041">
+                <DefaultValue>14.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x39D7265E">
+                <DefaultValue>17.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF80FCAE2">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1CC93984">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xF609C637" Archetype="GrappleData"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

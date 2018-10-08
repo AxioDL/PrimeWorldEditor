@@ -1,81 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>FargullHatcher</name>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0xF55B70E6" type="multi">
-            <properties>
-                <property ID="0x0C36EB18" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x39DAC81E" type="float">
-                    <default>20.0</default>
-                </property>
-                <property ID="0xE29543EF" type="float">
-                    <default>20.0</default>
-                </property>
-                <property ID="0xF71E971D" type="float">
-                    <default>20.0</default>
-                </property>
-                <struct ID="0x537F9F4D" template="Structs/DamageVulnerability.xml"/>
-                <struct ID="0x2C746D2C" template="Structs/DamageInfo.xml"/>
-                <property ID="0xA5692479" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0x9F7CA9D1" type="long">
-                    <default>5</default>
-                </property>
-                <property ID="0xC3718EA0" type="float">
-                    <default>10.0</default>
-                </property>
-                <property ID="0xD6FA5A52" type="float">
-                    <default>20.0</default>
-                </property>
-                <property ID="0xFCDCAA4E" type="float">
-                    <default>0.5</default>
-                </property>
-                <property ID="0x248BC9F9" type="float">
-                    <default>2.0</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0xB3774750" template="Structs/PatternedAITypedef.xml">
-            <properties>
-                <struct ID="0xCF90D15E">
-                    <properties>
-                        <property ID="0xF0668919">
-                            <default>100.0</default>
-                        </property>
-                        <property ID="0x3A2D17E4">
-                            <default>2.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0xD9355674">
-                    <default>1.0</default>
-                </property>
-                <property ID="0x3FAE47EB">
-                    <default>100.0</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xB3774750:0xA244C9D8</animparams>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="CorruptionProto">
+    <Properties Type="Struct">
+        <Name>FargullHatcher</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0xF55B70E6" Archetype="FargullHatcherData"/>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAITypedef">
+                <SubProperties>
+                    <Element Type="Struct" ID="0xCF90D15E">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xF0668919">
+                                <DefaultValue>100.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x3A2D17E4">
+                                <DefaultValue>2.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Float" ID="0xD9355674">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x3FAE47EB">
+                        <DefaultValue>100.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xB3774750:0xA244C9D8"/>
+    </Assets>
+</ScriptObject>

@@ -1,42 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="BirdBossStruct" type="multi">
-    <properties>
-        <enum ID="0x97D30F8B" template="Enums/RobotChickenEnum.xml">
-            <default>0x8C665F9A</default>
-        </enum>
-        <property ID="0xF0668919" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x39FB7978" type="float">
-            <default>20.0</default>
-        </property>
-        <property ID="0x9EC4FC10" type="float">
-            <default>12.0</default>
-        </property>
-        <property ID="0x140EF2CC" type="float">
-            <default>12.0</default>
-        </property>
-        <property ID="0x40EC2D6F" type="long">
-            <default>2</default>
-        </property>
-        <property ID="0x11ACFD8E" type="long">
-            <default>2</default>
-        </property>
-        <property ID="0xE2217298" type="long">
-            <default>4</default>
-        </property>
-        <property ID="0xD87C0C65" type="float">
-            <default>0.5</default>
-        </property>
-        <property ID="0x8F5AB554" type="float">
-            <default>0.7</default>
-        </property>
-        <struct ID="0x67490FEE" template="Structs/UnknownStruct48.xml"/>
-        <struct ID="0xC41F8947" template="Structs/UnknownStruct48.xml"/>
-        <struct ID="0x13FD091F" template="Structs/UnknownStruct48.xml"/>
-        <struct ID="0x59C38254" template="Structs/UnknownStruct48.xml"/>
-        <struct ID="0x8E21020C" template="Structs/UnknownStruct48.xml"/>
-        <struct ID="0x2D7784A5" template="Structs/UnknownStruct48.xml"/>
-        <struct ID="0xFA9504FD" template="Structs/UnknownStruct48.xml"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>BirdBossStruct</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0x97D30F8B" Archetype="RobotChickenEnum">
+                <DefaultValue>0x8C665F9A</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF0668919">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x39FB7978">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9EC4FC10">
+                <DefaultValue>12.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x140EF2CC">
+                <DefaultValue>12.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x40EC2D6F">
+                <DefaultValue>2</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x11ACFD8E">
+                <DefaultValue>2</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xE2217298">
+                <DefaultValue>4</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD87C0C65">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8F5AB554">
+                <DefaultValue>0.69999999</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x67490FEE" Archetype="UnknownStruct48"/>
+            <Element Type="Struct" ID="0xC41F8947" Archetype="UnknownStruct48"/>
+            <Element Type="Struct" ID="0x13FD091F" Archetype="UnknownStruct48"/>
+            <Element Type="Struct" ID="0x59C38254" Archetype="UnknownStruct48"/>
+            <Element Type="Struct" ID="0x8E21020C" Archetype="UnknownStruct48"/>
+            <Element Type="Struct" ID="0x2D7784A5" Archetype="UnknownStruct48"/>
+            <Element Type="Struct" ID="0xFA9504FD" Archetype="UnknownStruct48"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

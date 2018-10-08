@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct63</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0x4131A2A">
+                <DefaultValue>0xAAF6CAA5</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0xAAF6CAA5"/>
+                    <Element Name="Unknown 2" ID="0x348DFB55"/>
+                    <Element Name="Unknown 3" ID="0x574C9EE0"/>
+                </Values>
+            </Element>
+            <Element Type="Bool" ID="0x868CFE92">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xF1943B5A">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x44BF1DC9">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x7C538ED3">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xFCD2A1A0">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x1AEC3E02">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xE0E4573D">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x21103EC1">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xC7C06435">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

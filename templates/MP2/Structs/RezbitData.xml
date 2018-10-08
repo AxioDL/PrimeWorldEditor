@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>RezbitData</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0xED69488F">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4A6C4B40">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x30D11671">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xC80BB6E4">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x5486319">
+                <TypeFilter>
+                    <Element>CSKR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x8980A469">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFFB37B81">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x448579CD">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD1D1648">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xA41F75EF">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0xA34E2D84" Archetype="AudioPlaybackParms"/>
+            <Element Type="Struct" ID="0x8C598E41" Archetype="AudioPlaybackParms"/>
+            <Element Type="Struct" ID="0xF4491ED5" Archetype="AudioPlaybackParms"/>
+            <Element Type="Struct" ID="0x7D832158" Archetype="AudioPlaybackParms"/>
+            <Element Type="Float" ID="0xAD120AD7">
+                <DefaultValue>12.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE70EF8A3">
+                <DefaultValue>1.2</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x6BF2FF60" Archetype="AudioPlaybackParms"/>
+            <Element Type="Float" ID="0x70E597D4">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x94980A67">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD02F08B0">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x53E84718">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6FBC1BF9">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xDC276015">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2CA3E9CD">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x75491CA">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x54F2892E">
+                <DefaultValue>40.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x600C5F40" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Enum" ID="0x119FBD31">
+                        <DefaultValue>0xB</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xF2D02613">
+                        <DefaultValue>20.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x555FF80A">
+                        <DefaultValue>5.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Asset" ID="0x2F11094B">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0xA1F350F5">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x28944183">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC7A69A59">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xBD3EB001" Archetype="AudioPlaybackParms"/>
+            <Element Type="Float" ID="0x9EDE657F">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCD787D9B">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4A7D3B04">
+                <DefaultValue>6.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x16869B57" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Enum" ID="0x119FBD31">
+                        <DefaultValue>0xB</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xF2D02613">
+                        <DefaultValue>20.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x555FF80A">
+                        <DefaultValue>5.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Int" ID="0x973D7CC3">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0xBB3F8A7B">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0x601F846D">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x64C7990D">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x376181E9">
+                <DefaultValue>40.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xBB58C088" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Enum" ID="0x119FBD31">
+                        <DefaultValue>0xB</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xF2D02613">
+                        <DefaultValue>20.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x555FF80A">
+                        <DefaultValue>5.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x7864CA32" Archetype="AudioPlaybackParms"/>
+            <Element Type="Struct" ID="0x59764DBB" Archetype="PlasmaBeamInfo">
+                <SubProperties>
+                    <Element Type="Float" ID="0xC26C291C">
+                        <DefaultValue>500.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xEC773D1D">
+                        <DefaultValue>4.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xB02DE555">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x5180181E">
+                        <DefaultValue>20.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x72A96252">
+                        <DefaultValue>0.25</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xB8652FE4">
+                        <DefaultValue>2.0</DefaultValue>
+                    </Element>
+                    <Element Type="Color" ID="0x1AFB2B73">
+                        <DefaultValue>
+                            <R>0.49803901</R>
+                            <G>0.49803901</G>
+                            <B>0.49803901</B>
+                            <A>0.49803901</A>
+                        </DefaultValue>
+                    </Element>
+                    <Element Type="Color" ID="0x9FD338FC">
+                        <DefaultValue>
+                            <R>0.60000002</R>
+                            <G>0.60000002</G>
+                            <B>0.0</B>
+                            <A>0.49803901</A>
+                        </DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xD34F1323" Archetype="DamageVulnerability"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

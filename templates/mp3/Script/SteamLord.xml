@@ -1,85 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>SteamLord</name>
-    <modules>
-        <module>RSO_SteamLord.rso</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0xB3774750" template="Structs/PatternedAI.xml"/>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <struct ID="0x01D5823C" type="multi">
-            <properties>
-                <property ID="0xE9553FFA" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x1C893F54" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x388BC31F" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0x4319C840" type="float">
-                    <default>0.25</default>
-                </property>
-                <property ID="0x3BCBE7E2" type="float">
-                    <default>2.0</default>
-                </property>
-                <property ID="0x91C8BA81" type="float">
-                    <default>10.0</default>
-                </property>
-                <property ID="0x47BE3298" type="float">
-                    <default>25.0</default>
-                </property>
-                <property ID="0xD4DEC629" type="float">
-                    <default>10.0</default>
-                </property>
-                <property ID="0x7A2BB377" type="float">
-                    <default>2.5</default>
-                </property>
-                <property ID="0x70130FE6" type="float">
-                    <default>5.0</default>
-                </property>
-                <property ID="0xFCC4E240" type="float">
-                    <default>5.0</default>
-                </property>
-                <property ID="0xB35F3997" type="float">
-                    <default>10.0</default>
-                </property>
-                <property ID="0xEBA0C5F7" type="float">
-                    <default>50.0</default>
-                </property>
-                <property ID="0x9F4E6A36" type="asset" extensions="ELSC"/>
-                <property ID="0x0DE136F7" type="asset" extensions="PART"/>
-                <property ID="0xBE36E228" type="asset" extensions="ELSC"/>
-                <property ID="0x24A4FC9E" type="asset" extensions="ELSC"/>
-                <property ID="0xE1F030D5" type="float">
-                    <default>15.0</default>
-                </property>
-                <property ID="0xFB72F91E" type="float">
-                    <default>5.0</default>
-                </property>
-                <struct ID="0xFE138B07" template="Structs/DamageInfo.xml"/>
-                <struct ID="0xAA19D1DC" template="Structs/DamageInfo.xml"/>
-            </properties>
-        </struct>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xB3774750:0xA244C9D8</animparams>
-            <model source="property">0x7E397FED:0xBB52F0BE</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Corruption">
+    <Modules>
+        <Element>RSO_SteamLord.rso</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>SteamLord</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAI"/>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Struct" ID="0x1D5823C" Archetype="SteamLordData"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xB3774750:0xA244C9D8"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0xBB52F0BE"/>
+    </Assets>
+</ScriptObject>

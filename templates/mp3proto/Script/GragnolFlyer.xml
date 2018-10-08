@@ -1,200 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>GragnolFlyer</name>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0xB3774750" template="Structs/PatternedAITypedef.xml">
-            <properties>
-                <struct ID="0xCF90D15E">
-                    <properties>
-                        <property ID="0xF0668919">
-                            <default>100.0</default>
-                        </property>
-                        <property ID="0x3A2D17E4">
-                            <default>2.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0x4BC4C4D9">
-                    <default>1</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <struct ID="0x47ED32F2" type="multi">
-            <properties>
-                <enum ID="0x2EF287F1">
-                    <default>0xF3CB1D35</default>
-                    <enumerators>
-                        <enumerator ID="0xF3CB1D35" name="Unknown 1"/>
-                        <enumerator ID="0x1D439140" name="Unknown 2"/>
-                        <enumerator ID="0xBA23F605" name="Unknown 3"/>
-                    </enumerators>
-                </enum>
-                <property ID="0x7AB4AB98" type="vector3f">
-                    <default>0.0, 0.0, 0.0</default>
-                </property>
-                <property ID="0x88FA2ACF" type="float">
-                    <default>20.0</default>
-                </property>
-                <property ID="0x1D159832" type="float">
-                    <default>120.0</default>
-                </property>
-                <struct ID="0x05015775" template="Structs/ElectricBeamInfo.xml"/>
-                <property ID="0x8F1DED1B" type="asset" extensions="UNKN"/>
-                <property ID="0x0B339FAC" type="asset" extensions="UNKN"/>
-                <property ID="0xF10EE8E2" type="float">
-                    <default>-1.0</default>
-                </property>
-                <property ID="0x7171BFC2" type="float">
-                    <default>5.0</default>
-                </property>
-                <struct ID="0x24265839" template="Structs/ElectricBeamInfo.xml">
-                    <properties>
-                        <struct ID="0x98821996">
-                            <properties>
-                                <property ID="0xF2D02613">
-                                    <default>5.0</default>
-                                </property>
-                            </properties>
-                        </struct>
-                        <property ID="0xC26C291C">
-                            <default>50.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0x845EF489" type="float">
-                    <default>10.0</default>
-                </property>
-                <property ID="0xC75998AA" type="float">
-                    <default>2.0</default>
-                </property>
-                <property ID="0xF6269D2E" type="float">
-                    <default>2.0</default>
-                </property>
-                <property ID="0x01559F27" type="float">
-                    <default>5.0</default>
-                </property>
-                <property ID="0xE74CF583" type="float">
-                    <default>5.0</default>
-                </property>
-                <property ID="0x176BD1F4" type="float">
-                    <default>2.0</default>
-                </property>
-                <property ID="0x02E00506" type="float">
-                    <default>10.0</default>
-                </property>
-                <struct ID="0xF609C637" template="Structs/GrappleData.xml">
-                    <properties>
-                        <property ID="0x5DCF91E1">
-                            <default>1</default>
-                        </property>
-                        <property ID="0x1A8DBEA7">
-                            <default>10.0</default>
-                        </property>
-                        <property ID="0xA439CA6A">
-                            <default>false</default>
-                        </property>
-                        <struct ID="0x5F669BA0">
-                            <properties>
-                                <property ID="0x54178CB8">
-                                    <default>90.0</default>
-                                </property>
-                                <property ID="0xDE38F04E">
-                                    <default>90.0</default>
-                                </property>
-                                <property ID="0xA62BF627">
-                                    <default>false</default>
-                                </property>
-                                <property ID="0x64FB595C">
-                                    <default>false</default>
-                                </property>
-                            </properties>
-                        </struct>
-                        <struct ID="0xE2ACF76E">
-                            <properties>
-                                <property ID="0x54178CB8">
-                                    <default>90.0</default>
-                                </property>
-                                <property ID="0xDE38F04E">
-                                    <default>90.0</default>
-                                </property>
-                                <property ID="0xA62BF627">
-                                    <default>false</default>
-                                </property>
-                                <property ID="0x64FB595C">
-                                    <default>false</default>
-                                </property>
-                            </properties>
-                        </struct>
-                        <struct ID="0x3F3A2EEB">
-                            <properties>
-                                <property ID="0x54178CB8">
-                                    <default>90.0</default>
-                                </property>
-                                <property ID="0xDE38F04E">
-                                    <default>90.0</default>
-                                </property>
-                                <property ID="0xA62BF627">
-                                    <default>false</default>
-                                </property>
-                                <property ID="0x64FB595C">
-                                    <default>false</default>
-                                </property>
-                            </properties>
-                        </struct>
-                        <struct ID="0x424928B3">
-                            <properties>
-                                <property ID="0x54178CB8">
-                                    <default>90.0</default>
-                                </property>
-                                <property ID="0xDE38F04E">
-                                    <default>90.0</default>
-                                </property>
-                                <property ID="0xA62BF627">
-                                    <default>false</default>
-                                </property>
-                                <property ID="0x64FB595C">
-                                    <default>false</default>
-                                </property>
-                            </properties>
-                        </struct>
-                        <struct ID="0x9FDFF136">
-                            <properties>
-                                <property ID="0x54178CB8">
-                                    <default>90.0</default>
-                                </property>
-                                <property ID="0xDE38F04E">
-                                    <default>90.0</default>
-                                </property>
-                                <property ID="0xA62BF627">
-                                    <default>false</default>
-                                </property>
-                                <property ID="0x64FB595C">
-                                    <default>false</default>
-                                </property>
-                            </properties>
-                        </struct>
-                    </properties>
-                </struct>
-            </properties>
-        </struct>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xB3774750:0xA244C9D8</animparams>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="CorruptionProto">
+    <Properties Type="Struct">
+        <Name>GragnolFlyer</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAITypedef">
+                <SubProperties>
+                    <Element Type="Struct" ID="0xCF90D15E">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xF0668919">
+                                <DefaultValue>100.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x3A2D17E4">
+                                <DefaultValue>2.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Int" ID="0x4BC4C4D9">
+                        <DefaultValue>1</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Struct" ID="0x47ED32F2" Archetype="GragnolFlyerData"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xB3774750:0xA244C9D8"/>
+    </Assets>
+</ScriptObject>

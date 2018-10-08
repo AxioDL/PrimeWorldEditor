@@ -1,8 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="UnknownStruct36" type="multi">
-    <properties>
-        <property ID="0xE0C67593" type="asset" extensions="CAUD"/>
-        <property ID="0xD9BED8D3" type="asset" extensions="CAUD"/>
-        <property ID="0xD01EAE75" type="asset" extensions="CAUD"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct36</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0xE0C67593">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xD9BED8D3">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xD01EAE75">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

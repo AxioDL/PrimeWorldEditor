@@ -1,107 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>PhazonPuffer</name>
-    <modules>
-        <module>RSO_PhazonPuffer.rso</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0xB3774750" template="Structs/PatternedAI.xml"/>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <struct ID="0x1BE8B2DB" type="multi">
-            <properties>
-                <property ID="0xDBD7B020" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0xF8EC7014" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x48D9482B" type="float">
-                    <default>2.0</default>
-                </property>
-                <property ID="0x363F4A77" type="float">
-                    <default>30.0</default>
-                </property>
-                <property ID="0x826BEC80" type="bool">
-                    <default>true</default>
-                </property>
-                <property ID="0x845EF489" type="float">
-                    <default>3.0</default>
-                </property>
-                <property ID="0x2B8130B7" type="float">
-                    <default>5.0</default>
-                </property>
-                <property ID="0x5A426481" type="float">
-                    <default>15.0</default>
-                </property>
-                <property ID="0x3B846868" type="float">
-                    <default>25.0</default>
-                </property>
-                <property ID="0x809644DC" type="float">
-                    <default>2.0</default>
-                </property>
-                <property ID="0x03336D49" type="float">
-                    <default>10.0</default>
-                </property>
-                <property ID="0x0D522C38" type="float">
-                    <default>1.0</default>
-                </property>
-                <struct ID="0x50AE6E55" template="Structs/LaunchProjectileData.xml">
-                    <properties>
-                        <property ID="0x053AE4A7">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0xCF201BFA">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x88137FA8">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0xB2D02323">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0xF344C0B0">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x056B20B2">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0xF78469D6">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0x7518CD46" type="asset" extensions="PART"/>
-                <struct ID="0x979D0CFA" type="multi">
-                    <properties>
-                        <property ID="0x49FAE143" type="asset" extensions="ELSC"/>
-                        <struct ID="0xF808C9EE" template="Structs/DamageInfo.xml"/>
-                    </properties>
-                </struct>
-                <struct ID="0x62AC6915" template="Structs/DamageInfo.xml"/>
-                <property ID="0x934E82B5" type="asset" extensions="PART"/>
-                <property ID="0x221A902D" type="asset" extensions="PART"/>
-                <property ID="0xF13FACAF" type="asset" extensions="PART"/>
-                <property ID="0xC4C39403" type="asset" extensions="CAUD"/>
-            </properties>
-        </struct>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xB3774750:0xA244C9D8</animparams>
-            <model source="property">0x7E397FED:0xBB52F0BE</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Corruption">
+    <Modules>
+        <Element>RSO_PhazonPuffer.rso</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>PhazonPuffer</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAI"/>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Struct" ID="0x1BE8B2DB" Archetype="UnknownStruct51"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xB3774750:0xA244C9D8"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0xBB52F0BE"/>
+    </Assets>
+</ScriptObject>

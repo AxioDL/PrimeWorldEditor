@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>GragnolFlyerData</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0x2EF287F1">
+                <DefaultValue>0xF3CB1D35</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0xF3CB1D35"/>
+                    <Element Name="Unknown 2" ID="0x1D439140"/>
+                    <Element Name="Unknown 3" ID="0xBA23F605"/>
+                </Values>
+            </Element>
+            <Element Type="Vector" ID="0x7AB4AB98">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x88FA2ACF">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1D159832">
+                <DefaultValue>120.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x5015775" Archetype="ElectricBeamInfo"/>
+            <Element Type="Asset" ID="0x8F1DED1B"/>
+            <Element Type="Asset" ID="0xB339FAC"/>
+            <Element Type="Float" ID="0xF10EE8E2">
+                <DefaultValue>-1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7171BFC2">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x24265839" Archetype="ElectricBeamInfo">
+                <SubProperties>
+                    <Element Type="Struct" ID="0x98821996">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xF2D02613">
+                                <DefaultValue>5.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Float" ID="0xC26C291C">
+                        <DefaultValue>50.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Float" ID="0x845EF489">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC75998AA">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF6269D2E">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1559F27">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE74CF583">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x176BD1F4">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2E00506">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xF609C637" Archetype="GrappleData">
+                <SubProperties>
+                    <Element Type="Int" ID="0x5DCF91E1">
+                        <DefaultValue>1</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x1A8DBEA7">
+                        <DefaultValue>10.0</DefaultValue>
+                    </Element>
+                    <Element Type="Bool" ID="0xA439CA6A">
+                        <DefaultValue>false</DefaultValue>
+                    </Element>
+                    <Element Type="Struct" ID="0x5F669BA0">
+                        <SubProperties>
+                            <Element Type="Float" ID="0x54178CB8">
+                                <DefaultValue>90.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0xDE38F04E">
+                                <DefaultValue>90.0</DefaultValue>
+                            </Element>
+                            <Element Type="Bool" ID="0xA62BF627">
+                                <DefaultValue>false</DefaultValue>
+                            </Element>
+                            <Element Type="Bool" ID="0x64FB595C">
+                                <DefaultValue>false</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Struct" ID="0xE2ACF76E">
+                        <SubProperties>
+                            <Element Type="Float" ID="0x54178CB8">
+                                <DefaultValue>90.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0xDE38F04E">
+                                <DefaultValue>90.0</DefaultValue>
+                            </Element>
+                            <Element Type="Bool" ID="0xA62BF627">
+                                <DefaultValue>false</DefaultValue>
+                            </Element>
+                            <Element Type="Bool" ID="0x64FB595C">
+                                <DefaultValue>false</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Struct" ID="0x3F3A2EEB">
+                        <SubProperties>
+                            <Element Type="Float" ID="0x54178CB8">
+                                <DefaultValue>90.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0xDE38F04E">
+                                <DefaultValue>90.0</DefaultValue>
+                            </Element>
+                            <Element Type="Bool" ID="0xA62BF627">
+                                <DefaultValue>false</DefaultValue>
+                            </Element>
+                            <Element Type="Bool" ID="0x64FB595C">
+                                <DefaultValue>false</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Struct" ID="0x424928B3">
+                        <SubProperties>
+                            <Element Type="Float" ID="0x54178CB8">
+                                <DefaultValue>90.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0xDE38F04E">
+                                <DefaultValue>90.0</DefaultValue>
+                            </Element>
+                            <Element Type="Bool" ID="0xA62BF627">
+                                <DefaultValue>false</DefaultValue>
+                            </Element>
+                            <Element Type="Bool" ID="0x64FB595C">
+                                <DefaultValue>false</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Struct" ID="0x9FDFF136">
+                        <SubProperties>
+                            <Element Type="Float" ID="0x54178CB8">
+                                <DefaultValue>90.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0xDE38F04E">
+                                <DefaultValue>90.0</DefaultValue>
+                            </Element>
+                            <Element Type="Bool" ID="0xA62BF627">
+                                <DefaultValue>false</DefaultValue>
+                            </Element>
+                            <Element Type="Bool" ID="0x64FB595C">
+                                <DefaultValue>false</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

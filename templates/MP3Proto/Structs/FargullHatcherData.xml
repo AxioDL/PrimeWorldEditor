@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>FargullHatcherData</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0xC36EB18">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x39DAC81E">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE29543EF">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF71E971D">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x537F9F4D" Archetype="DamageVulnerability"/>
+            <Element Type="Struct" ID="0x2C746D2C" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0xA5692479">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x9F7CA9D1">
+                <DefaultValue>5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC3718EA0">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD6FA5A52">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFCDCAA4E">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x248BC9F9">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

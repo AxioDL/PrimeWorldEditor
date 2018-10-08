@@ -1,14 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="PlayerActorStruct" type="multi">
-    <properties>
-        <property ID="0xF7FFBD07" type="asset" extensions="CMDL"/>
-        <property ID="0x0B616BAA" type="asset" extensions="CSKR"/>
-        <property ID="0x50340852" type="asset" extensions="CMDL"/>
-        <property ID="0x90AA341F" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x7C269EBC" type="float">
-            <default>1.0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>PlayerActorStruct</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0xF7FFBD07">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xB616BAA">
+                <TypeFilter>
+                    <Element>CSKR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x50340852">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x90AA341F">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7C269EBC">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

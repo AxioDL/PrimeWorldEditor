@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>ReptilicusHunterData</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0x217E944A">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xC81681A">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xE9553FFA">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x1C893F54">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x369D0874">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x91A9880D">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x11286BD3">
+                <DefaultValue>40.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB7E53921">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5867275B">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x388BC31F">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4319C840">
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x52BF617">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xFE842879">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x221C7EC1">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x41AF5EEB">
+                <DefaultValue>300.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCF887F1">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x18A9876B">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x164F8CA8">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCDF0DF4F">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF77E2AE2">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x14239438">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE6C24412">
+                <DefaultValue>7.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x583C1B1E">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA77F6212">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9579B1F2">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x9C5E7D6F" Archetype="ReptilicusHunterStruct"/>
+            <Element Type="Struct" ID="0xAA2BEE9A" Archetype="ReptilicusHunterStruct"/>
+            <Element Type="Struct" ID="0xE27A4E87" Archetype="ReptilicusHunterStruct"/>
+            <Element Type="Struct" ID="0x87B10A69" Archetype="CattleProd"/>
+            <Element Type="Struct" ID="0xD7548E97" Archetype="EnergyWhip"/>
+            <Element Type="Struct" ID="0x19A58C31" Archetype="Chakram"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

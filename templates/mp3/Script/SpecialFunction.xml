@@ -1,122 +1,118 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>SpecialFunction</name>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <enum ID="0xB8AFCF21">
-            <default>0x98C5AED7</default>
-            <enumerators>
-                <enumerator ID="0x98C5AED7" name="What"/>
-                <enumerator ID="0x0E578ADF" name="Function 1 (Unused)"/>
-                <enumerator ID="0x3D1A78AC" name="Function 2 (Unused)"/>
-                <enumerator ID="0x136F5286" name="Function 3 (Unused)"/>
-                <enumerator ID="0x370F508E" name="Boss Energy Bar"/>
-                <enumerator ID="0x29837C6C" name="Cinematic Skip"/>
-                <enumerator ID="0x49069735" name="Function 6 (Unused)"/>
-                <enumerator ID="0x002E5341" name="Credits"/>
-                <enumerator ID="0x9EB76DEE" name="Countdown Timer"/>
-                <enumerator ID="0x14B45D36" name="Function 9 (Unused)"/>
-                <enumerator ID="0x766ED410" name="Function 10 (Unused)"/>
-                <enumerator ID="0xD5D0EA93" name="Function 11 (Unused)"/>
-                <enumerator ID="0x7E025D14" name="End Game"/>
-                <enumerator ID="0x8838D84A" name="Game End Choice"/>
-                <enumerator ID="0x14A3B65C" name="Function 14 (Unused)"/>
-                <enumerator ID="0xBBFADF2F" name="Function 15 (Unused)"/>
-                <enumerator ID="0x2CB1471C" name="ExtraRenderClipPlane"/>
-                <enumerator ID="0xCFC89663" name="Function 17 (Unused)"/>
-                <enumerator ID="0xD871451E" name="Function 18 (Unused)"/>
-                <enumerator ID="0x661EC9E0" name="GameStateEnvVar"/>
-                <enumerator ID="0x1C7FDCAB" name="HUD Target"/>
-                <enumerator ID="0xA8B03E1A" name="Simple Hint"/>
-                <enumerator ID="0xE13871E3" name="Function 22 (Unused)"/>
-                <enumerator ID="0x90031E91" name="Launch Player"/>
-                <enumerator ID="0x2C1DC485" name="Map Station"/>
-                <enumerator ID="0xB5FC495C" name="Function 25 (Unused)"/>
-                <enumerator ID="0x96AB6130" name="Inventory thing"/>
-                <enumerator ID="0x698AAB1A" name="Modify Inventory"/>
-                <enumerator ID="0x83888007" name="Permanent Hypermode"/>
-                <enumerator ID="0xC15AB262" name="Function 29 (Unused)"/>
-                <enumerator ID="0x05FE350B" name="Object Follow something"/>
-                <enumerator ID="0x982A42A3" name="Object Follow Locator"/>
-                <enumerator ID="0x73810303" name="Object Follow Object"/>
-                <enumerator ID="0x9EAEB97A" name="Occlusion Relay"/>
-                <enumerator ID="0xF67ED189" name="Cockpit - Lights - Link To Player Arm"/>
-                <enumerator ID="0x6E8436F9" name="Function 35 (Unused)"/>
-                <enumerator ID="0x26F3971D" name="Function 36 (Unused)"/>
-                <enumerator ID="0xFF6D9BE6" name="Player Follow Locator"/>
-                <enumerator ID="0xFE41E1E9" name="Player In Area"/>
-                <enumerator ID="0x663F5984" name="RadarRangeOverride"/>
-                <enumerator ID="0x9BE4E305" name="Function 40 (Unused)"/>
-                <enumerator ID="0x78A2DA1C" name="Cockpit - Display Helmet On Map"/>
-                <enumerator ID="0xB528A4F0" name="Save Station / Checkpoint"/>
-                <enumerator ID="0x76D71609" name="Set armor for morph to Ghor"/>
-                <enumerator ID="0x8F226F1D" name="Set SuitType"/>
-                <enumerator ID="0x9349C56D" name="Inventory thing"/>
-                <enumerator ID="0x441AEE66" name="Function 46 (Unused)"/>
-                <enumerator ID="0xE5518864" name="Function 47 (Unused)"/>
-                <enumerator ID="0x502B7B92" name="Tin Can Score"/>
-                <enumerator ID="0x83B00647" name="Function 49 (Unused)"/>
-                <enumerator ID="0x7F0CE328" name="Function 50 (Unused)"/>
-                <enumerator ID="0x6FC986EA" name="Rotate Skybox"/>
-                <enumerator ID="0x529380DC" name="Waypoint Overrider"/>
-                <enumerator ID="0x5640B2F3" name="Phaaze Hypermode HUD Switch"/>
-                <enumerator ID="0x7E8C0D33" name="Static World Render Controller"/>
-                <enumerator ID="0xD7E2F62F" name="Sun Generator"/>
-                <enumerator ID="0xDFE51E86" name="Function 56 (Unused)"/>
-                <enumerator ID="0x129C99C0" name="View Frustum Tester"/>
-                <enumerator ID="0xF73614C9" name="Visor Blowout"/>
-                <enumerator ID="0xD0E2CA63" name="Function 59 (Unused)"/>
-                <enumerator ID="0x1E46D48C" name="Kill Player"/>
-            </enumerators>
-        </enum>
-        <property ID="0x9D7A576D" type="string"/>
-        <property ID="0x19028099" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x2C93AAF5" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xE7CF7950" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xFACA49E8" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xA734F8A5" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xB581574B" type="long">
-            <default>0</default>
-        </property>
-        <enum ID="0x3FA164BC" template="Enums/Item.xml">
-            <default>0xFB73F2B8</default>
-        </enum>
-        <property ID="0x5ECF8F67" type="asset" extensions="UNKN"/>
-        <property ID="0xD85BFDC9" type="asset" extensions="UNKN"/>
-        <property ID="0x13072E6C" type="asset" extensions="UNKN"/>
-        <enum ID="0x825E1E14">
-            <default>0xCC1DFCF5</default>
-            <enumerators>
-                <enumerator ID="0xCC1DFCF5" name="Unknown 1"/>
-                <enumerator ID="0xC5920CA3" name="Unknown 2"/>
-            </enumerators>
-        </enum>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-        </properties>
-        <assets>
-            <billboard source="file">script/common/SpecialFunction.TXTR</billboard>
-        </assets>
-        <preview_scale>0.5</preview_scale>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Corruption">
+    <Properties Type="Struct">
+        <Name>SpecialFunction</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Enum" ID="0xB8AFCF21">
+                <DefaultValue>0x98C5AED7</DefaultValue>
+                <Values>
+                    <Element Name="What" ID="0x98C5AED7"/>
+                    <Element Name="Function 1 (Unused)" ID="0xE578ADF"/>
+                    <Element Name="Function 2 (Unused)" ID="0x3D1A78AC"/>
+                    <Element Name="Function 3 (Unused)" ID="0x136F5286"/>
+                    <Element Name="Boss Energy Bar" ID="0x370F508E"/>
+                    <Element Name="Cinematic Skip" ID="0x29837C6C"/>
+                    <Element Name="Function 6 (Unused)" ID="0x49069735"/>
+                    <Element Name="Credits" ID="0x2E5341"/>
+                    <Element Name="Countdown Timer" ID="0x9EB76DEE"/>
+                    <Element Name="Function 9 (Unused)" ID="0x14B45D36"/>
+                    <Element Name="Function 10 (Unused)" ID="0x766ED410"/>
+                    <Element Name="Function 11 (Unused)" ID="0xD5D0EA93"/>
+                    <Element Name="End Game" ID="0x7E025D14"/>
+                    <Element Name="Game End Choice" ID="0x8838D84A"/>
+                    <Element Name="Function 14 (Unused)" ID="0x14A3B65C"/>
+                    <Element Name="Function 15 (Unused)" ID="0xBBFADF2F"/>
+                    <Element Name="ExtraRenderClipPlane" ID="0x2CB1471C"/>
+                    <Element Name="Function 17 (Unused)" ID="0xCFC89663"/>
+                    <Element Name="Function 18 (Unused)" ID="0xD871451E"/>
+                    <Element Name="GameStateEnvVar" ID="0x661EC9E0"/>
+                    <Element Name="HUD Target" ID="0x1C7FDCAB"/>
+                    <Element Name="Simple Hint" ID="0xA8B03E1A"/>
+                    <Element Name="Function 22 (Unused)" ID="0xE13871E3"/>
+                    <Element Name="Launch Player" ID="0x90031E91"/>
+                    <Element Name="Map Station" ID="0x2C1DC485"/>
+                    <Element Name="Function 25 (Unused)" ID="0xB5FC495C"/>
+                    <Element Name="Inventory thing" ID="0x96AB6130"/>
+                    <Element Name="Modify Inventory" ID="0x698AAB1A"/>
+                    <Element Name="Permanent Hypermode" ID="0x83888007"/>
+                    <Element Name="Function 29 (Unused)" ID="0xC15AB262"/>
+                    <Element Name="Object Follow something" ID="0x5FE350B"/>
+                    <Element Name="Object Follow Locator" ID="0x982A42A3"/>
+                    <Element Name="Object Follow Object" ID="0x73810303"/>
+                    <Element Name="Occlusion Relay" ID="0x9EAEB97A"/>
+                    <Element Name="Cockpit - Lights - Link To Player Arm" ID="0xF67ED189"/>
+                    <Element Name="Function 35 (Unused)" ID="0x6E8436F9"/>
+                    <Element Name="Function 36 (Unused)" ID="0x26F3971D"/>
+                    <Element Name="Player Follow Locator" ID="0xFF6D9BE6"/>
+                    <Element Name="Player In Area" ID="0xFE41E1E9"/>
+                    <Element Name="RadarRangeOverride" ID="0x663F5984"/>
+                    <Element Name="Function 40 (Unused)" ID="0x9BE4E305"/>
+                    <Element Name="Cockpit - Display Helmet On Map" ID="0x78A2DA1C"/>
+                    <Element Name="Save Station / Checkpoint" ID="0xB528A4F0"/>
+                    <Element Name="Set armor for morph to Ghor" ID="0x76D71609"/>
+                    <Element Name="Set SuitType" ID="0x8F226F1D"/>
+                    <Element Name="Inventory thing" ID="0x9349C56D"/>
+                    <Element Name="Function 46 (Unused)" ID="0x441AEE66"/>
+                    <Element Name="Function 47 (Unused)" ID="0xE5518864"/>
+                    <Element Name="Tin Can Score" ID="0x502B7B92"/>
+                    <Element Name="Function 49 (Unused)" ID="0x83B00647"/>
+                    <Element Name="Function 50 (Unused)" ID="0x7F0CE328"/>
+                    <Element Name="Rotate Skybox" ID="0x6FC986EA"/>
+                    <Element Name="Waypoint Overrider" ID="0x529380DC"/>
+                    <Element Name="Phaaze Hypermode HUD Switch" ID="0x5640B2F3"/>
+                    <Element Name="Static World Render Controller" ID="0x7E8C0D33"/>
+                    <Element Name="Sun Generator" ID="0xD7E2F62F"/>
+                    <Element Name="Function 56 (Unused)" ID="0xDFE51E86"/>
+                    <Element Name="View Frustum Tester" ID="0x129C99C0"/>
+                    <Element Name="Visor Blowout" ID="0xF73614C9"/>
+                    <Element Name="Function 59 (Unused)" ID="0xD0E2CA63"/>
+                    <Element Name="Kill Player" ID="0x1E46D48C"/>
+                </Values>
+            </Element>
+            <Element Type="String" ID="0x9D7A576D"/>
+            <Element Type="Float" ID="0x19028099">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2C93AAF5">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE7CF7950">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFACA49E8">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xA734F8A5">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xB581574B">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0x3FA164BC" Archetype="Item">
+                <DefaultValue>0xFB73F2B8</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x5ECF8F67"/>
+            <Element Type="Asset" ID="0xD85BFDC9"/>
+            <Element Type="Asset" ID="0x13072E6C"/>
+            <Element Type="Enum" ID="0x825E1E14">
+                <DefaultValue>0xCC1DFCF5</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0xCC1DFCF5"/>
+                    <Element Name="Unknown 2" ID="0xC5920CA3"/>
+                </Values>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="Billboard" Source="File" Location="script/common/SpecialFunction.TXTR"/>
+    </Assets>
+    <PreviewScale>0.5</PreviewScale>
+</ScriptObject>

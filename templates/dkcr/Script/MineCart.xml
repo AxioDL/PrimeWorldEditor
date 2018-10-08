@@ -1,179 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>MineCart</name>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml">
-            <properties>
-                <struct ID="0x5846524D">
-                    <properties>
-                        <property ID="0x01">
-                            <default>0.0, 0.0, -90.0</default>
-                        </property>
-                    </properties>
-                </struct>
-            </properties>
-        </struct>
-        <struct ID="0xB3774750" template="Structs/PatternedAI.xml">
-            <properties>
-                <property ID="0x8A6AB139">
-                    <default>0.7</default>
-                </property>
-                <property ID="0x3011B5DF">
-                    <default>1.0</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0xBF81C83E" template="Structs/ShadowData.xml"/>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <struct ID="0x0063F638" template="Structs/UnknownStruct.xml"/>
-        <struct ID="0x3C38498D" template="Structs/UnknownStruct45.xml"/>
-        <struct ID="0xF07BEC6D" template="Structs/MinecartStructA.xml"/>
-        <struct ID="0x98EFC863" template="Structs/MinecartStructD.xml"/>
-        <struct ID="0x978E5BD8" template="Structs/VehicleStructA.xml"/>
-        <struct ID="0x7F681411" template="Structs/VehicleStructB.xml"/>
-        <struct ID="0xD7326912" type="multi">
-            <properties>
-                <property ID="0x5BC9251C" type="float">
-                    <default>2.0</default>
-                </property>
-                <property ID="0x3F19EDDE" type="float">
-                    <default>0.7</default>
-                </property>
-                <property ID="0xFEE157D3" type="float">
-                    <default>1.2</default>
-                </property>
-                <property ID="0x39FB7978" type="float">
-                    <default>20.0</default>
-                </property>
-                <property ID="0x9EC4FC10" type="float">
-                    <default>30.0</default>
-                </property>
-                <property ID="0x0C5A9CCA" type="float">
-                    <default>30.0</default>
-                </property>
-                <property ID="0x666ABE89" type="float">
-                    <default>0.5</default>
-                </property>
-                <property ID="0xCB14D97C" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0x0185263E" type="float">
-                    <default>14.0</default>
-                </property>
-                <property ID="0x140EF2CC" type="float">
-                    <default>40.0</default>
-                </property>
-                <property ID="0x3C0276DF" type="bool">
-                    <default>true</default>
-                </property>
-                <property ID="0x7F63988A" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x59E05D7E" type="bool">
-                    <default>true</default>
-                </property>
-                <property ID="0x4E2630E9" type="bool">
-                    <default>true</default>
-                </property>
-                <property ID="0xE577B61B" type="bool">
-                    <default>true</default>
-                </property>
-                <property ID="0xDFDA5300" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0xCD60F18D" type="bool">
-                    <default>true</default>
-                </property>
-                <property ID="0x91FFEFED" type="bool">
-                    <default>true</default>
-                </property>
-                <property ID="0x17CB3C58" type="float">
-                    <default>35.0</default>
-                </property>
-                <property ID="0x85F74C0E" type="float">
-                    <default>35.0</default>
-                </property>
-                <property ID="0x2D64493A" type="float">
-                    <default>35.0</default>
-                </property>
-                <property ID="0xDCE9B37B" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0xAEF469E8" type="float">
-                    <default>0.2</default>
-                </property>
-                <property ID="0x6A4A7E46" type="float">
-                    <default>3.0</default>
-                </property>
-                <property ID="0x79320F08" type="float">
-                    <default>15.0</default>
-                </property>
-                <property ID="0xE85121C7" type="bool">
-                    <default>true</default>
-                </property>
-                <property ID="0x36B1ADD6" type="asset" extensions="CAUD"/>
-                <property ID="0xEFE4798F" type="MayaSpline"/>
-                <property ID="0x96D4F78B" type="MayaSpline"/>
-                <property ID="0x15001E0D" type="MayaSpline"/>
-                <property ID="0xE3A63100" type="asset" extensions="CAUD"/>
-                <property ID="0x3B016CFA" type="MayaSpline"/>
-                <property ID="0x00C95A55" type="MayaSpline"/>
-                <property ID="0x74FDFC73" type="MayaSpline"/>
-                <property ID="0xEBE660AF" type="asset" extensions="CAUD"/>
-                <property ID="0x0E2B82EC" type="asset" extensions="CAUD"/>
-                <property ID="0xD7C19141" type="long">
-                    <default>0</default>
-                </property>
-                <struct ID="0x8E1A08AF" template="Structs/MinecartStructC.xml"/>
-                <struct ID="0xF8FF3192" template="Structs/MinecartStructC.xml"/>
-                <struct ID="0x638CDB46" template="Structs/MinecartStructC.xml"/>
-                <struct ID="0x153543E8" template="Structs/MinecartStructC.xml"/>
-                <struct ID="0x8E46A93C" template="Structs/MinecartStructC.xml"/>
-                <struct ID="0xF8A39001" template="Structs/MinecartStructC.xml"/>
-                <property ID="0x6DBC0521" type="float">
-                    <default>30.0</default>
-                </property>
-                <property ID="0x63C41B74" type="float">
-                    <default>6.0</default>
-                </property>
-                <property ID="0xFBCE5FEA" type="float">
-                    <default>-6.0</default>
-                </property>
-                <property ID="0x3684450B" type="float">
-                    <default>0.66</default>
-                </property>
-                <property ID="0x34F413E7" type="float">
-                    <default>20.0</default>
-                </property>
-                <property ID="0xB16BEFAB" type="float">
-                    <default>16.5</default>
-                </property>
-                <property ID="0x0D669DB3" type="vector3f">
-                    <default>15.0, 0.0, 6.0</default>
-                </property>
-                <property ID="0xDCF467FA" type="float">
-                    <default>0.0</default>
-                </property>
-            </properties>
-        </struct>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xB3774750:0xA244C9D8</animparams>
-            <model source="property">0x98EFC863:0x005E3BE9:0x87B52F4C</model>
-            <model source="property">0x98EFC863:0x44FF1EF1:0x87B52F4C</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="DKCReturns">
+    <Properties Type="Struct">
+        <Name>MineCart</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties">
+                <SubProperties>
+                    <Element Type="Struct" ID="0x5846524D">
+                        <SubProperties>
+                            <Element Type="Vector" ID="0x1">
+                                <DefaultValue>
+                                    <X>0.0</X>
+                                    <Y>0.0</Y>
+                                    <Z>-90.0</Z>
+                                </DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAI">
+                <SubProperties>
+                    <Element Type="Float" ID="0x8A6AB139">
+                        <DefaultValue>0.69999999</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x3011B5DF">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xBF81C83E" Archetype="ShadowData"/>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Struct" ID="0x63F638" Archetype="UnknownStruct"/>
+            <Element Type="Struct" ID="0x3C38498D" Archetype="UnknownStruct45"/>
+            <Element Type="Struct" ID="0xF07BEC6D" Archetype="MinecartStructA"/>
+            <Element Type="Struct" ID="0x98EFC863" Archetype="MinecartStructD"/>
+            <Element Type="Struct" ID="0x978E5BD8" Archetype="VehicleStructA"/>
+            <Element Type="Struct" ID="0x7F681411" Archetype="VehicleStructB"/>
+            <Element Type="Struct" ID="0xD7326912" Archetype="UnknownStruct82"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xB3774750:0xA244C9D8"/>
+        <Element Type="Model" Source="Property" Location="0x98EFC863:0x005E3BE9:0x87B52F4C"/>
+        <Element Type="Model" Source="Property" Location="0x98EFC863:0x44FF1EF1:0x87B52F4C"/>
+    </Assets>
+</ScriptObject>

@@ -1,143 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>DigitalGuardianHead</name>
-    <modules>
-        <module>DigitalGuardian.rel</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0xB3774750" template="Structs/PatternedInfo.xml">
-            <properties>
-                <property ID="0x020C78BB">
-                    <default>360.0</default>
-                </property>
-                <property ID="0x58434916">
-                    <default>0.0</default>
-                </property>
-                <struct ID="0xCF90D15E">
-                    <properties>
-                        <property ID="0xF0668919">
-                            <default>150.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0x4BC4C4D9">
-                    <default>2</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <struct ID="0x0F4D73B7" type="multi">
-            <properties>
-                <property ID="0x07D8CC4F" type="asset" extensions="CMDL"/>
-                <property ID="0x0B5C3C1A" type="float">
-                    <default>60.0</default>
-                </property>
-                <property ID="0x00D74FC3" type="float">
-                    <default>20.0</default>
-                </property>
-                <property ID="0xE7DE8B82" type="float">
-                    <default>100.0</default>
-                </property>
-                <property ID="0x96E18283" type="float">
-                    <default>5.0</default>
-                </property>
-                <property ID="0x47A8ED8C" type="float">
-                    <default>30.0</default>
-                </property>
-                <property ID="0x20F87E5D" type="float">
-                    <default>5.0</default>
-                </property>
-                <property ID="0x75DC92BC" type="float">
-                    <default>1.25</default>
-                </property>
-                <property ID="0x9E1C3F6C" type="float">
-                    <default>5.0</default>
-                </property>
-                <property ID="0xCE2A481C" type="float">
-                    <default>2.0</default>
-                </property>
-                <property ID="0x8317610F" type="float">
-                    <default>30.0</default>
-                </property>
-                <property ID="0x27464886" type="asset" extensions="WPSC"/>
-                <struct ID="0x4EAF615F" template="Structs/DamageInfo.xml">
-                    <properties>
-                        <property ID="0x119FBD31">
-                            <default>9</default>
-                        </property>
-                        <property ID="0xF2D02613">
-                            <default>20.0</default>
-                        </property>
-                        <property ID="0x555FF80A">
-                            <default>10.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0x00F76D8F" type="long">
-                    <default>-1</default>
-                </property>
-                <property ID="0xD669F12C" type="asset" extensions="WPSC"/>
-                <struct ID="0x41177AC6" template="Structs/DamageInfo.xml">
-                    <properties>
-                        <property ID="0x119FBD31">
-                            <default>9</default>
-                        </property>
-                        <property ID="0xF2D02613">
-                            <default>20.0</default>
-                        </property>
-                        <property ID="0x555FF80A">
-                            <default>10.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0xDD411A0A" type="long">
-                    <default>-1</default>
-                </property>
-                <property ID="0xD187F05C" type="asset" extensions="WPSC"/>
-                <struct ID="0xA8C6106B" template="Structs/DamageInfo.xml">
-                    <properties>
-                        <property ID="0x119FBD31">
-                            <default>9</default>
-                        </property>
-                        <property ID="0xF2D02613">
-                            <default>20.0</default>
-                        </property>
-                        <property ID="0x555FF80A">
-                            <default>10.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0x39C9A901" type="long">
-                    <default>-1</default>
-                </property>
-                <struct ID="0x8F6732EA" template="Structs/DigitalGuardianHeadStruct.xml"/>
-                <struct ID="0x8E128141" template="Structs/DigitalGuardianHeadStruct.xml"/>
-                <struct ID="0xEA54B390" template="Structs/DigitalGuardianHeadStruct.xml"/>
-                <struct ID="0xBBD3E7A7" template="Structs/DigitalGuardianHeadStruct.xml"/>
-                <struct ID="0x48B46E55" template="Structs/DigitalGuardianHeadStruct.xml"/>
-                <struct ID="0x7352D60A" template="Structs/DamageVulnerability.xml"/>
-            </properties>
-        </struct>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xB3774750:0xE25FB08C</animparams>
-            <model source="property">0x7E397FED:0xC0BA9E18</model>
-            <model source="property">0x7E397FED:0x6B1FBC3A</model>
-            <model source="property">0x0F4D73B7:0x07D8CC4F</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="EchoesDemo">
+    <Modules>
+        <Element>DigitalGuardian.rel</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>DigitalGuardianHead</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedInfo">
+                <SubProperties>
+                    <Element Type="Float" ID="0x20C78BB">
+                        <DefaultValue>360.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x58434916">
+                        <DefaultValue>0.0</DefaultValue>
+                    </Element>
+                    <Element Type="Struct" ID="0xCF90D15E">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xF0668919">
+                                <DefaultValue>150.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Int" ID="0x4BC4C4D9">
+                        <DefaultValue>2</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Struct" ID="0xF4D73B7" Archetype="DigitalGuardianHeadData"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xB3774750:0xE25FB08C"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0xC0BA9E18"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0x6B1FBC3A"/>
+        <Element Type="Model" Source="Property" Location="0x0F4D73B7:0x07D8CC4F"/>
+    </Assets>
+</ScriptObject>

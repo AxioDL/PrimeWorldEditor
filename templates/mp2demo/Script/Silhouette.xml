@@ -1,47 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>Silhouette</name>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml">
-            <properties>
-                <struct ID="0x5846524D">
-                    <properties>
-                        <property ID="0x02">
-                            <default>2.0, 2.0, 2.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0x41435456">
-                    <default>false</default>
-                </property>
-            </properties>
-        </struct>
-        <property ID="0x82BAD3EE" type="float">
-            <default>0.5</default>
-        </property>
-        <property ID="0x8C8B3289" type="color">
-            <default>0.298039, 0.6, 1.0, 0.498039</default>
-        </property>
-        <property ID="0x90AA341F" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x7C269EBC" type="float">
-            <default>1.0</default>
-        </property>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-        </properties>
-        <assets/>
-        <preview_scale>0.5</preview_scale>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="EchoesDemo">
+    <Properties Type="Struct">
+        <Name>Silhouette</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties">
+                <SubProperties>
+                    <Element Type="Struct" ID="0x5846524D">
+                        <SubProperties>
+                            <Element Type="Vector" ID="0x2">
+                                <DefaultValue>
+                                    <X>2.0</X>
+                                    <Y>2.0</Y>
+                                    <Z>2.0</Z>
+                                </DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Bool" ID="0x41435456">
+                        <DefaultValue>false</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Float" ID="0x82BAD3EE">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x8C8B3289">
+                <DefaultValue>
+                    <R>0.29803899</R>
+                    <G>0.60000002</G>
+                    <B>1.0</B>
+                    <A>0.49803901</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x90AA341F">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7C269EBC">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+    <PreviewScale>0.5</PreviewScale>
+</ScriptObject>

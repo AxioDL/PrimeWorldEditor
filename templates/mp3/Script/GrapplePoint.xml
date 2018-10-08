@@ -1,156 +1,142 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>GrapplePoint</name>
-    <modules>
-        <module>RSO_ScriptGrapplePoint.rso</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0x6A2872D8" type="multi">
-            <properties>
-                <property ID="0x2BA7FABC" type="float">
-                    <default>5.0</default>
-                </property>
-                <property ID="0x7A5E41E1" type="float">
-                    <default>20.0</default>
-                </property>
-                <property ID="0x76104D9E" type="float">
-                    <default>180.0</default>
-                </property>
-                <property ID="0xBAA8A527" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x11B6A17A" type="bool">
-                    <default>false</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0xF609C637" template="Structs/GrappleData.xml">
-            <properties>
-                <struct ID="0x3F3A2EEB">
-                    <cook_pref>never</cook_pref>
-                    <properties>
-                        <property ID="0x008BD240">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x54178CB8">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0xDE38F04E">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x9D0C992F">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x8382CD42">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x8A40FD1B">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0xA62BF627">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <enum ID="0xF8A14C37">
-                            <cook_pref>never</cook_pref>
-                        </enum>
-                        <property ID="0x64FB595C">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x0887FEFE">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0x424928B3">
-                    <cook_pref>never</cook_pref>
-                    <properties>
-                        <property ID="0x008BD240">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x54178CB8">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0xDE38F04E">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x9D0C992F">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x8382CD42">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x8A40FD1B">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0xA62BF627">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <enum ID="0xF8A14C37">
-                            <cook_pref>never</cook_pref>
-                        </enum>
-                        <property ID="0x64FB595C">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x0887FEFE">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                    </properties>
-                </struct>
-            </properties>
-        </struct>
-        <property ID="0x01B1315C" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xF6B3C17F" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xC6869327" type="color">
-            <default>1.0, 1.0, 1.0, 1.0</default>
-        </property>
-        <property ID="0x3FA80592" type="color">
-            <default>1.0, 1.0, 1.0, 1.0</default>
-        </property>
-        <property ID="0x6371CDCF" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xA80B5F61" type="float">
-            <default>0.5</default>
-        </property>
-        <property ID="0x4789411B" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x6204350C" type="float">
-            <default>0.5</default>
-        </property>
-        <property ID="0xD23B2F30" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x02B1FA08" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x966525F0" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x5E139BC2" type="bool">
-            <default>false</default>
-        </property>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-        </properties>
-        <assets>
-            <billboard source="file">script/common/GrapplePoint.TXTR</billboard>
-        </assets>
-        <preview_scale>0.5</preview_scale>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Corruption">
+    <Modules>
+        <Element>RSO_ScriptGrapplePoint.rso</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>GrapplePoint</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0x6A2872D8" Archetype="GrappleInfo"/>
+            <Element Type="Struct" ID="0xF609C637" Archetype="GrappleData">
+                <SubProperties>
+                    <Element Type="Struct" ID="0x3F3A2EEB">
+                        <CookPreference>Never</CookPreference>
+                        <SubProperties>
+                            <Element Type="Int" ID="0x8BD240">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Float" ID="0x54178CB8">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Float" ID="0xDE38F04E">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Float" ID="0x9D0C992F">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Float" ID="0x8382CD42">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Bool" ID="0x8A40FD1B">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Bool" ID="0xA62BF627">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Enum" ID="0xF8A14C37">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Bool" ID="0x64FB595C">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Bool" ID="0x887FEFE">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Struct" ID="0x424928B3">
+                        <CookPreference>Never</CookPreference>
+                        <SubProperties>
+                            <Element Type="Int" ID="0x8BD240">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Float" ID="0x54178CB8">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Float" ID="0xDE38F04E">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Float" ID="0x9D0C992F">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Float" ID="0x8382CD42">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Bool" ID="0x8A40FD1B">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Bool" ID="0xA62BF627">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Enum" ID="0xF8A14C37">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Bool" ID="0x64FB595C">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Bool" ID="0x887FEFE">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Bool" ID="0x1B1315C">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xF6B3C17F">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xC6869327">
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>1.0</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x3FA80592">
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>1.0</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x6371CDCF">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA80B5F61">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4789411B">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6204350C">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD23B2F30">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x2B1FA08">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x966525F0">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x5E139BC2">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="Billboard" Source="File" Location="script/common/GrapplePoint.TXTR"/>
+    </Assets>
+    <PreviewScale>0.5</PreviewScale>
+</ScriptObject>

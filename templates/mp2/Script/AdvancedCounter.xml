@@ -1,63 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>AdvancedCounter</name>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0xFD179A6F" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x5B851589" type="long">
-            <default>10</default>
-        </property>
-        <property ID="0x7BEF45CA" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x1628F23A" type="long">
-            <default>1</default>
-        </property>
-        <property ID="0x049D5DD4" type="long">
-            <default>2</default>
-        </property>
-        <property ID="0xBC213AB1" type="long">
-            <default>3</default>
-        </property>
-        <property ID="0x21F60208" type="long">
-            <default>4</default>
-        </property>
-        <property ID="0x994A656D" type="long">
-            <default>5</default>
-        </property>
-        <property ID="0x8BFFCA83" type="long">
-            <default>6</default>
-        </property>
-        <property ID="0x3343ADE6" type="long">
-            <default>7</default>
-        </property>
-        <property ID="0x6B20BDB0" type="long">
-            <default>8</default>
-        </property>
-        <property ID="0xD39CDAD5" type="long">
-            <default>9</default>
-        </property>
-        <property ID="0x9215E813" type="long">
-            <default>10</default>
-        </property>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-        </properties>
-        <assets>
-            <billboard source="file">script/mp2/AdvancedCounter.TXTR</billboard>
-        </assets>
-        <preview_scale>0.5</preview_scale>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Echoes">
+    <Properties Type="Struct">
+        <Name>AdvancedCounter</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Int" ID="0xFD179A6F">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x5B851589">
+                <DefaultValue>10</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x7BEF45CA">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x1628F23A">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x49D5DD4">
+                <DefaultValue>2</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xBC213AB1">
+                <DefaultValue>3</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x21F60208">
+                <DefaultValue>4</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x994A656D">
+                <DefaultValue>5</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x8BFFCA83">
+                <DefaultValue>6</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x3343ADE6">
+                <DefaultValue>7</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x6B20BDB0">
+                <DefaultValue>8</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xD39CDAD5">
+                <DefaultValue>9</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x9215E813">
+                <DefaultValue>10</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="Billboard" Source="File" Location="script/mp2/AdvancedCounter.TXTR"/>
+    </Assets>
+    <PreviewScale>0.5</PreviewScale>
+</ScriptObject>

@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="BeatUpHandlerStruct" type="multi">
-    <properties>
-        <enum ID="0xB3E3E1E3" template="Enums/Item.xml">
-            <default>0xB22FD89B</default>
-        </enum>
-        <property ID="0x8FA67C9E" type="long">
-            <default>1</default>
-        </property>
-        <property ID="0x7A7B330E" type="float">
-            <default>0.0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>BeatUpHandlerStruct</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0xB3E3E1E3" Archetype="Item">
+                <DefaultValue>0xB22FD89B</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x8FA67C9E">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7A7B330E">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,230 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>OceanBridge</name>
-    <modules>
-        <module>RSO_OceanBridge.rso</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0xC27FFA8F" type="asset" extensions="CMDL"/>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <struct ID="0xB33F8CE5" type="multi">
-            <properties>
-                <property ID="0xE993145F" type="long">
-                    <default>0</default>
-                </property>
-                <property ID="0x69A2B08E" type="asset" extensions="CMDL"/>
-                <property ID="0xA2FE632B" type="asset" extensions="CMDL"/>
-                <property ID="0x246A1185" type="asset" extensions="CMDL"/>
-                <property ID="0xEF36C220" type="asset" extensions="UNKN"/>
-                <property ID="0xF233F298" type="asset" extensions="UNKN"/>
-                <property ID="0xF7AA5F32" type="MayaSpline"/>
-                <property ID="0xD0239F95" type="MayaSpline"/>
-                <property ID="0x5688683B" type="float">
-                    <default>-0.1</default>
-                </property>
-                <property ID="0xB0E8C7DA" type="float">
-                    <default>0.25</default>
-                </property>
-                <property ID="0x2323BA82" type="vector3f">
-                    <default>0.0, 0.0, 0.0</default>
-                </property>
-                <property ID="0x2E686C2A" type="vector3f">
-                    <default>0.0, 0.0, 0.0</default>
-                </property>
-                <property ID="0x6045BB7B" type="long">
-                    <default>4</default>
-                </property>
-                <property ID="0xFE69D67A" type="float">
-                    <default>0.05</default>
-                </property>
-                <property ID="0x847759BA" type="float">
-                    <default>12.0</default>
-                </property>
-                <property ID="0xE5B6B666" type="float">
-                    <default>0.75</default>
-                </property>
-                <property ID="0x03D61987" type="float">
-                    <default>2.5</default>
-                </property>
-                <property ID="0xC246B3CA" type="float">
-                    <default>0.5</default>
-                </property>
-                <property ID="0xBDBA191E" type="float">
-                    <default>7.0</default>
-                </property>
-                <property ID="0x75CE0C79" type="float">
-                    <default>7.0</default>
-                </property>
-                <property ID="0xE5D866F1" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0xB0946259" type="bool">
-                    <default>true</default>
-                </property>
-                <property ID="0x812AFC85" type="bool">
-                    <default>true</default>
-                </property>
-                <property ID="0x66AD2B98" type="float">
-                    <default>0.1</default>
-                </property>
-                <property ID="0x1D2D962D" type="float">
-                    <default>10.0</default>
-                </property>
-                <property ID="0x9DEE347A" type="long">
-                    <default>2</default>
-                </property>
-                <property ID="0x1F3EAD53" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x225E84E3" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x65FEFE33" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x589ED783" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0xEABE0B93" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0xD7DE2223" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x907E58F3" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0xAD1E7143" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x2F4EE692" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x122ECF22" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0xE6B1D780" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0xDBD1FE30" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x9C7184E0" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0xA111AD50" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x13317140" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x2E5158F0" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x69F12220" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x54910B90" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0xD6C19C41" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0xEBA1B5F1" type="bool">
-                    <default>false</default>
-                </property>
-                <struct ID="0x66A86577" template="Structs/OceanBridgeStructA.xml"/>
-                <struct ID="0xFDDB8FA3" template="Structs/OceanBridgeStructA.xml"/>
-                <struct ID="0x8B3EB69E" template="Structs/OceanBridgeStructA.xml"/>
-                <struct ID="0x104D5C4A" template="Structs/OceanBridgeStructA.xml"/>
-                <struct ID="0x66F4C4E4" template="Structs/OceanBridgeStructA.xml"/>
-                <struct ID="0xFD872E30" template="Structs/OceanBridgeStructA.xml"/>
-                <struct ID="0x8B62170D" template="Structs/OceanBridgeStructA.xml"/>
-                <struct ID="0x1011FDD9" template="Structs/OceanBridgeStructA.xml"/>
-                <struct ID="0x66112651" template="Structs/OceanBridgeStructA.xml"/>
-                <struct ID="0xFD62CC85" template="Structs/OceanBridgeStructA.xml"/>
-                <struct ID="0x17A09D5F" template="Structs/OceanBridgeStructA.xml"/>
-                <struct ID="0x8CD3778B" template="Structs/OceanBridgeStructA.xml"/>
-                <struct ID="0xFA364EB6" template="Structs/OceanBridgeStructA.xml"/>
-                <struct ID="0x6145A462" template="Structs/OceanBridgeStructA.xml"/>
-                <struct ID="0x17FC3CCC" template="Structs/OceanBridgeStructA.xml"/>
-                <struct ID="0x8C8FD618" template="Structs/OceanBridgeStructA.xml"/>
-                <struct ID="0xFA6AEF25" template="Structs/OceanBridgeStructA.xml"/>
-                <struct ID="0x611905F1" template="Structs/OceanBridgeStructA.xml"/>
-                <struct ID="0x1719DE79" template="Structs/OceanBridgeStructA.xml"/>
-                <struct ID="0x8C6A34AD" template="Structs/OceanBridgeStructA.xml"/>
-                <struct ID="0xDAFE5D7A" template="Structs/OceanBridgeStructB.xml"/>
-                <struct ID="0x418DB7AE" template="Structs/OceanBridgeStructB.xml"/>
-                <struct ID="0x37688E93" template="Structs/OceanBridgeStructB.xml"/>
-                <struct ID="0xAC1B6447" template="Structs/OceanBridgeStructB.xml"/>
-                <struct ID="0xDAA2FCE9" template="Structs/OceanBridgeStructB.xml"/>
-                <struct ID="0x41D1163D" template="Structs/OceanBridgeStructB.xml"/>
-                <struct ID="0x37342F00" template="Structs/OceanBridgeStructB.xml"/>
-                <struct ID="0xAC47C5D4" template="Structs/OceanBridgeStructB.xml"/>
-                <struct ID="0xDA471E5C" template="Structs/OceanBridgeStructB.xml"/>
-                <struct ID="0x4134F488" template="Structs/OceanBridgeStructB.xml"/>
-                <struct ID="0x3CE60D48" template="Structs/OceanBridgeStructB.xml"/>
-                <struct ID="0xA795E79C" template="Structs/OceanBridgeStructB.xml"/>
-                <struct ID="0xD170DEA1" template="Structs/OceanBridgeStructB.xml"/>
-                <struct ID="0x4A033475" template="Structs/OceanBridgeStructB.xml"/>
-                <struct ID="0x3CBAACDB" template="Structs/OceanBridgeStructB.xml"/>
-                <struct ID="0xA7C9460F" template="Structs/OceanBridgeStructB.xml"/>
-                <struct ID="0xD12C7F32" template="Structs/OceanBridgeStructB.xml"/>
-                <struct ID="0x4A5F95E6" template="Structs/OceanBridgeStructB.xml"/>
-                <struct ID="0x3C5F4E6E" template="Structs/OceanBridgeStructB.xml"/>
-                <struct ID="0xA72CA4BA" template="Structs/OceanBridgeStructB.xml"/>
-                <property ID="0xAAA1256D" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0xE7CA6050" type="asset" extensions="CAUD"/>
-                <property ID="0x5D4FBC07" type="asset" extensions="CAUD"/>
-                <property ID="0x0ED5E783" type="asset" extensions="UNKN"/>
-                <property ID="0xA3BAC487" type="asset" extensions="CAUD"/>
-                <property ID="0x4FE79727" type="asset" extensions="CAUD"/>
-                <property ID="0x1C7DCCA3" type="asset" extensions="UNKN"/>
-                <property ID="0x51ED297F" type="asset" extensions="CAUD"/>
-                <property ID="0xEAEFFC4B" type="asset" extensions="CAUD"/>
-                <property ID="0xB975A7CF" type="asset" extensions="UNKN"/>
-                <property ID="0xB6F08FE8" type="asset" extensions="CAUD"/>
-                <property ID="0x89E8256F" type="asset" extensions="CAUD"/>
-                <property ID="0xDA727EEB" type="asset" extensions="UNKN"/>
-                <property ID="0x6E33F4CE" type="asset" extensions="CAUD"/>
-                <property ID="0x7B8E2CD2" type="asset" extensions="CAUD"/>
-                <property ID="0x28147756" type="asset" extensions="UNKN"/>
-                <property ID="0x0093800D" type="asset" extensions="UNKN"/>
-                <property ID="0xCCBB7330" type="MayaSpline"/>
-                <property ID="0xAA62345F" type="MayaSpline"/>
-                <property ID="0x1852AF24" type="MayaSpline"/>
-                <property ID="0x0BA9A91C" type="MayaSpline"/>
-                <property ID="0x6FCC7DD4" type="MayaSpline"/>
-                <property ID="0x77C88CC7" type="MayaSpline"/>
-                <property ID="0x7B066BAC" type="MayaSpline"/>
-                <property ID="0x64FADEA2" type="MayaSpline"/>
-                <property ID="0x751BFE84" type="asset" extensions="CAUD"/>
-                <property ID="0x5EB113BF" type="asset" extensions="CAUD"/>
-                <property ID="0x3DBA2F5C" type="asset" extensions="CAUD"/>
-            </properties>
-        </struct>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <model source="property">0xC27FFA8F</model>
-            <model source="property">0xB33F8CE5:0x69A2B08E</model>
-            <model source="property">0xB33F8CE5:0xA2FE632B</model>
-            <model source="property">0xB33F8CE5:0x246A1185</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="DKCReturns">
+    <Modules>
+        <Element>RSO_OceanBridge.rso</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>OceanBridge</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Asset" ID="0xC27FFA8F">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Struct" ID="0xB33F8CE5" Archetype="OceanBridgeData"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="Model" Source="Property" Location="0xC27FFA8F"/>
+        <Element Type="Model" Source="Property" Location="0xB33F8CE5:0x69A2B08E"/>
+        <Element Type="Model" Source="Property" Location="0xB33F8CE5:0xA2FE632B"/>
+        <Element Type="Model" Source="Property" Location="0xB33F8CE5:0x246A1185"/>
+    </Assets>
+</ScriptObject>

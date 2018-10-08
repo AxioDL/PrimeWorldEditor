@@ -1,94 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>BarrelBalloon</name>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <struct ID="0x94F9C48D" type="multi">
-            <properties>
-                <property ID="0xF8B3ABE0" type="character"/>
-                <property ID="0x82DE5E29" type="string"/>
-                <property ID="0x1644AF87" type="string"/>
-                <property ID="0xDDB16979" type="float">
-                    <default>3.0</default>
-                </property>
-                <property ID="0x2B201845" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0xBF75E71F" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0xE87BB75C" type="float">
-                    <default>2.5</default>
-                </property>
-                <property ID="0x9545F9EF" type="float">
-                    <default>0.5</default>
-                </property>
-                <property ID="0x1BD4C955" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0x64ACDF7B" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0xCD6E33A5" type="float">
-                    <default>3.0</default>
-                </property>
-                <property ID="0xC3CDAFCB" type="float">
-                    <default>1.5</default>
-                </property>
-                <property ID="0x88BEFDEB" type="float">
-                    <default>2.2</default>
-                </property>
-                <property ID="0x228EE623" type="float">
-                    <default>0.2</default>
-                </property>
-                <property ID="0x7E31967C" type="float">
-                    <default>0.5</default>
-                </property>
-                <property ID="0xDCB3F50E" type="float">
-                    <default>0.5</default>
-                </property>
-                <property ID="0xBD917023" type="MayaSpline"/>
-                <property ID="0x7C8454BD" type="float">
-                    <default>2.0</default>
-                </property>
-                <property ID="0x42AC42EA" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0x9A27DDC3" type="float">
-                    <default>3.0</default>
-                </property>
-                <property ID="0x409618B6" type="float">
-                    <default>15.0</default>
-                </property>
-                <property ID="0x0EEFA478" type="float">
-                    <default>10.0</default>
-                </property>
-                <property ID="0x6B40ACEF" type="long">
-                    <default>0</default>
-                </property>
-                <property ID="0x2672E0BF" type="asset" extensions="PART"/>
-                <property ID="0xE4CD14F9" type="asset" extensions="CAUD"/>
-                <property ID="0x1A422994" type="asset" extensions="CAUD"/>
-                <property ID="0x59CD8DEE" type="asset" extensions="CAUD"/>
-            </properties>
-        </struct>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0x94F9C48D:0xF8B3ABE0</animparams>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="DKCReturns">
+    <Properties Type="Struct">
+        <Name>BarrelBalloon</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Struct" ID="0x94F9C48D" Archetype="BalloonBarrelData"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0x94F9C48D:0xF8B3ABE0"/>
+    </Assets>
+</ScriptObject>

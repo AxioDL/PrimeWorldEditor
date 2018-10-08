@@ -1,260 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>SteamDrone</name>
-    <modules>
-        <module>RSO_SteamDrone.rso</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0xB3774750" template="Structs/PatternedAI.xml"/>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <struct ID="0xA23F161C" type="multi">
-            <properties>
-                <struct ID="0xCCDD3ACA" template="Structs/FlyerMovementMode.xml"/>
-                <struct ID="0xFA2A173F" template="Structs/FlyerMovementMode.xml"/>
-                <property ID="0x635B60AA" type="asset" extensions="PART"/>
-                <property ID="0x88FA2ACF" type="float">
-                    <default>20.0</default>
-                </property>
-                <property ID="0x1D159832" type="float">
-                    <default>120.0</default>
-                </property>
-                <property ID="0x8AC503DE" type="long">
-                    <default>3</default>
-                </property>
-                <property ID="0x1874F2CB" type="float">
-                    <default>0.7</default>
-                </property>
-                <property ID="0x24937085" type="float">
-                    <default>15.0</default>
-                </property>
-                <property ID="0xCA5238BF" type="float">
-                    <default>10.0</default>
-                </property>
-                <property ID="0x290F8665" type="float">
-                    <default>25.0</default>
-                </property>
-                <property ID="0x7626EC89" type="float">
-                    <default>5.0</default>
-                </property>
-                <property ID="0xF4B60951" type="float">
-                    <default>3.0</default>
-                </property>
-                <property ID="0x271E49B4" type="float">
-                    <default>1.0</default>
-                </property>
-                <struct ID="0x72989547" template="Structs/LaunchProjectileData.xml">
-                    <properties>
-                        <property ID="0x053AE4A7">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0xCF201BFA">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x88137FA8">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0xB2D02323">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0xF344C0B0">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x056B20B2">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0xF78469D6">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0x53EAC4BA" template="Structs/LaunchProjectileData.xml">
-                    <properties>
-                        <property ID="0x053AE4A7">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0xCF201BFA">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x88137FA8">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0xB2D02323">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0xF344C0B0">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x056B20B2">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0xF78469D6">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0xF9DF1262" type="float">
-                    <default>2.0</default>
-                </property>
-                <property ID="0x3D69D750" type="float">
-                    <default>2.0</default>
-                </property>
-                <property ID="0x04D03B18" type="float">
-                    <default>2.0</default>
-                </property>
-                <struct ID="0xF609C637" template="Structs/GrappleData.xml">
-                    <properties>
-                        <property ID="0x5DCF91E1">
-                            <default>1</default>
-                        </property>
-                        <property ID="0xB2BD2723">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <struct ID="0x5F669BA0">
-                            <properties>
-                                <property ID="0x008BD240">
-                                    <default>1</default>
-                                </property>
-                            </properties>
-                        </struct>
-                        <struct ID="0x3F3A2EEB">
-                            <cook_pref>never</cook_pref>
-                            <properties>
-                                <property ID="0x008BD240">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                                <property ID="0x54178CB8">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                                <property ID="0xDE38F04E">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                                <property ID="0x9D0C992F">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                                <property ID="0x8382CD42">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                                <property ID="0x8A40FD1B">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                                <property ID="0xA62BF627">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                                <enum ID="0xF8A14C37">
-                                    <cook_pref>never</cook_pref>
-                                </enum>
-                                <property ID="0x64FB595C">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                                <property ID="0x0887FEFE">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                            </properties>
-                        </struct>
-                        <struct ID="0x424928B3">
-                            <cook_pref>never</cook_pref>
-                            <properties>
-                                <property ID="0x008BD240">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                                <property ID="0x54178CB8">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                                <property ID="0xDE38F04E">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                                <property ID="0x9D0C992F">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                                <property ID="0x8382CD42">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                                <property ID="0x8A40FD1B">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                                <property ID="0xA62BF627">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                                <enum ID="0xF8A14C37">
-                                    <cook_pref>never</cook_pref>
-                                </enum>
-                                <property ID="0x64FB595C">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                                <property ID="0x0887FEFE">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                            </properties>
-                        </struct>
-                        <property ID="0x5BBBE79E">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x426F2F60">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x771A3176">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0xEFD287D9">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x56F41CA8">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x4BDEE69A">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x0598B045">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x07648F63">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0x9AB0A987" type="long">
-                    <default>25</default>
-                </property>
-                <property ID="0x0C14253D" type="long">
-                    <default>25</default>
-                </property>
-                <property ID="0xD88ECC2F" type="long">
-                    <default>25</default>
-                </property>
-                <property ID="0x50B47D78" type="long">
-                    <default>25</default>
-                </property>
-                <property ID="0x549B098B" type="long">
-                    <default>25</default>
-                </property>
-                <property ID="0xD7C5C618" type="float">
-                    <default>5.0</default>
-                </property>
-                <property ID="0x0C7A95FF" type="float">
-                    <default>25.0</default>
-                </property>
-                <property ID="0xD83B8302" type="character"/>
-            </properties>
-        </struct>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xB3774750:0xA244C9D8</animparams>
-            <animparams source="property">0xA23F161C:0xD83B8302</animparams>
-            <model source="property">0x7E397FED:0xBB52F0BE</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Corruption">
+    <Modules>
+        <Element>RSO_SteamDrone.rso</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>SteamDrone</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAI"/>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Struct" ID="0xA23F161C" Archetype="UnknownStruct61"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xB3774750:0xA244C9D8"/>
+        <Element Type="AnimParams" Source="Property" Location="0xA23F161C:0xD83B8302"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0xBB52F0BE"/>
+    </Assets>
+</ScriptObject>

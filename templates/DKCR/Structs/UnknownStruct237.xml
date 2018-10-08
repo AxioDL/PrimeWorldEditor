@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct237</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0x65ECEB7A">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x62E1522A" Archetype="MoleTrainManagerStructA"/>
+            <Element Type="Struct" ID="0xD1757FE9" Archetype="MoleTrainManagerStructA"/>
+            <Element Type="Struct" ID="0xBFF964A8" Archetype="MoleTrainManagerStructA"/>
+            <Element Type="Struct" ID="0x6D2C222E" Archetype="MoleTrainManagerStructA"/>
+            <Element Type="Struct" ID="0x3A0396F" Archetype="MoleTrainManagerStructA"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

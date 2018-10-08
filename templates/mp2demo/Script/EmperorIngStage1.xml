@@ -1,70 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>EmperorIngStage1</name>
-    <modules>
-        <module>EmperorIngStage1.rel</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0xB3774750" template="Structs/PatternedInfo.xml">
-            <properties>
-                <property ID="0x4BC4C4D9">
-                    <default>2</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <struct ID="0x4A1E493B" type="multi">
-            <properties>
-                <struct ID="0xB3C6398F" type="multi">
-                    <properties>
-                        <struct ID="0xCF90D15E" template="Structs/HealthInfo.xml"/>
-                        <struct ID="0x29DF61E1" template="Structs/DamageVulnerability.xml"/>
-                        <struct ID="0x8D7378A4" template="Structs/DamageVulnerability.xml"/>
-                        <struct ID="0x6C79054F" template="Structs/DamageVulnerability.xml"/>
-                        <struct ID="0x3C2D2492" template="Structs/DamageVulnerability.xml"/>
-                        <property ID="0x491C2657" type="float">
-                            <default>0.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0xF59F9A60" type="multi">
-                    <properties>
-                        <struct ID="0x337F9524" template="Structs/DamageInfo.xml"/>
-                    </properties>
-                </struct>
-                <struct ID="0xA1CDA0B6" type="multi">
-                    <properties>
-                        <property ID="0xEF485DB9" type="asset" extensions="WPSC"/>
-                        <struct ID="0x553B1339" template="Structs/DamageInfo.xml"/>
-                    </properties>
-                </struct>
-                <property ID="0xA588AFD1" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0xE027F4C8" type="float">
-                    <default>0.0</default>
-                </property>
-            </properties>
-        </struct>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xB3774750:0xE25FB08C</animparams>
-            <model source="property">0x7E397FED:0xC0BA9E18</model>
-            <model source="property">0x7E397FED:0x6B1FBC3A</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="EchoesDemo">
+    <Modules>
+        <Element>EmperorIngStage1.rel</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>EmperorIngStage1</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedInfo">
+                <SubProperties>
+                    <Element Type="Int" ID="0x4BC4C4D9">
+                        <DefaultValue>2</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Struct" ID="0x4A1E493B" Archetype="UnknownStruct16"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xB3774750:0xE25FB08C"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0xC0BA9E18"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0x6B1FBC3A"/>
+    </Assets>
+</ScriptObject>

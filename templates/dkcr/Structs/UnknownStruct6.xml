@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="UnknownStruct6" type="multi">
-    <properties>
-        <enum ID="0x74059F59">
-            <default>0xD0808BD7</default>
-            <enumerators>
-                <enumerator ID="0xD0808BD7" name="Unknown 1"/>
-                <enumerator ID="0xD0A482B7" name="Unknown 2"/>
-                <enumerator ID="0xBE8C4417" name="Unknown 3"/>
-                <enumerator ID="0x07497303" name="Unknown 4"/>
-                <enumerator ID="0x3C9051BB" name="Unknown 5"/>
-                <enumerator ID="0x1D137B4B" name="Unknown 6"/>
-            </enumerators>
-        </enum>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct6</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0x74059F59">
+                <DefaultValue>0xD0808BD7</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0xD0808BD7"/>
+                    <Element Name="Unknown 2" ID="0xD0A482B7"/>
+                    <Element Name="Unknown 3" ID="0xBE8C4417"/>
+                    <Element Name="Unknown 4" ID="0x7497303"/>
+                    <Element Name="Unknown 5" ID="0x3C9051BB"/>
+                    <Element Name="Unknown 6" ID="0x1D137B4B"/>
+                </Values>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

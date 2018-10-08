@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct238</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x5D57FC7C">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE205412C">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3994BE14">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2D3C5998">
+                <DefaultValue>2.5</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x65ECEB7A">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x9AECDC44" Archetype="MoleTrainManagerStructB"/>
+            <Element Type="Struct" ID="0x2978F187" Archetype="MoleTrainManagerStructB"/>
+            <Element Type="Struct" ID="0x47F4EAC6" Archetype="MoleTrainManagerStructB"/>
+            <Element Type="Struct" ID="0x9521AC40" Archetype="MoleTrainManagerStructB"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

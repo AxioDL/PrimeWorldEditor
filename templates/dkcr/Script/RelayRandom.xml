@@ -1,52 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>RelayRandom</name>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0x3836C403" type="multi">
-            <properties>
-                <property ID="0x19A91B3B" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x54A2D2B1" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0xABBDD047" type="long">
-                    <default>50</default>
-                </property>
-                <property ID="0xF3FC6E53" type="long">
-                    <default>1</default>
-                </property>
-                <property ID="0xD4470962" type="long">
-                    <default>1</default>
-                </property>
-                <property ID="0xF50B11EB" type="long">
-                    <default>50</default>
-                </property>
-                <property ID="0xDC75ECF3" type="long">
-                    <default>50</default>
-                </property>
-                <property ID="0x432E9D73" type="bool">
-                    <default>false</default>
-                </property>
-            </properties>
-        </struct>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-        </properties>
-        <assets>
-            <billboard source="file">script/common/RandomRelay.TXTR</billboard>
-        </assets>
-        <preview_scale>0.5</preview_scale>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="DKCReturns">
+    <Properties Type="Struct">
+        <Name>RelayRandom</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0x3836C403" Archetype="UnknownStruct264"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="Billboard" Source="File" Location="script/common/RandomRelay.TXTR"/>
+    </Assets>
+    <PreviewScale>0.5</PreviewScale>
+</ScriptObject>

@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="UnknownStruct7" type="multi">
-    <properties>
-        <property ID="0x5405F708" type="asset" extensions="CMDL"/>
-        <property ID="0x6B62E419" type="string"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct7</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0x5405F708">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="String" ID="0x6B62E419"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

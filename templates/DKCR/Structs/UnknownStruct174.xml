@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct174</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0x806052CB">
+                <TypeFilter>
+                    <Element>FRME</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x73E2819B" Archetype="UnknownStruct27"/>
+            <Element Type="Asset" ID="0xA4F20C17">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x1CE76B90">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xBB19D2F3">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x39665BC8">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xE9336455">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x770BCD3B">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xE119319B">
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x800073B8" Archetype="IslandHudStruct"/>
+            <Element Type="Struct" ID="0x5F71338F" Archetype="IslandHudStruct"/>
+            <Element Type="Struct" ID="0x1BE492E" Archetype="IslandHudStruct"/>
+            <Element Type="Struct" ID="0x98E01824" Archetype="UnknownStruct170"/>
+            <Element Type="Struct" ID="0xF8E5788C" Archetype="UnknownStruct171"/>
+            <Element Type="Struct" ID="0x4983B29A" Archetype="UnknownStruct172"/>
+            <Element Type="Struct" ID="0x851BE4BE" Archetype="UnknownStruct173"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

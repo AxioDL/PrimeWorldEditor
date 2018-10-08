@@ -1,332 +1,335 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="SpawnPointStruct" type="multi">
-    <properties>
-        <property ID="0x9ACA45BC" type="long">
-            <default>1</default>
-        </property>
-        <property ID="0x92BB94B7" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x6BE340BA" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xC73B2C90" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xEFD4DABE" type="long">
-            <default>1</default>
-        </property>
-        <property ID="0x9B06BD3C" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x6D7172BF" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x16D89ACC" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xEA86A2B9" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x26A5E3C1" type="long">
-            <default>1</default>
-        </property>
-        <property ID="0x9DE8731D" type="long">
-            <default>1</default>
-        </property>
-        <property ID="0x3B0AB10B" type="long">
-            <default>1</default>
-        </property>
-        <property ID="0x95A30488" type="long">
-            <default>1</default>
-        </property>
-        <property ID="0x0AB603F7" type="long">
-            <default>1</default>
-        </property>
-        <property ID="0x4DA55282" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xB4FD868F" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x3EC5A9F5" type="long">
-            <default>1</default>
-        </property>
-        <property ID="0x8C98247D" type="long">
-            <default>1</default>
-        </property>
-        <property ID="0xBD8B547C" type="long">
-            <default>1</default>
-        </property>
-        <property ID="0x53387689" type="long">
-            <default>1</default>
-        </property>
-        <property ID="0x57EB9E8B" type="long">
-            <default>1</default>
-        </property>
-        <property ID="0xAEB34A86" type="long">
-            <default>1</default>
-        </property>
-        <property ID="0xFB33F2A1" type="long">
-            <default>1</default>
-        </property>
-        <property ID="0x4B15EB9A" type="long">
-            <default>1</default>
-        </property>
-        <property ID="0x44FBB19C" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xF55BE12C" type="long">
-            <default>1</default>
-        </property>
-        <property ID="0xBC25CAED" type="long">
-            <default>1</default>
-        </property>
-        <property ID="0x0A6B376F" type="long">
-            <default>1</default>
-        </property>
-        <property ID="0xD8A9BBCB" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x7D1C9685" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x8F6CDCF9" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x9DD97317" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x25651472" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xB8B22CCB" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x000E4BAE" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x12BBE440" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xAA078325" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xF2649373" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x4AD8F416" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xC271CFBC" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xD0C46052" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x68780737" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x6EFFCF82" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x7C4A606C" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xC4F60709" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xC20D622B" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xD0B8CDC5" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x6804AAA0" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x01C397F0" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xFC6F860C" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x161898DC" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xA6C29B8D" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xEC7FB0EF" type="long">
-            <default>5</default>
-        </property>
-        <property ID="0xFCECF744" type="long">
-            <default>5</default>
-        </property>
-        <property ID="0x32052F91" type="long">
-            <default>5</default>
-        </property>
-        <property ID="0x6E4038AB" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x14387AAB" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x068DD545" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xBE31B220" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x23E68A99" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x8ECB6665" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x92C402AB" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x7FE26363" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xD7F8586A" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x27D254AF" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x19926420" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xCE284C09" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xDEC999C3" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x66AE338E" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x210E495E" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x1C6E60EE" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xAE4EBCFE" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x5351DBA5" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x02DB9A0A" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x7B980651" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xE9861C49" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xFB33B3A7" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x438FD4C2" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xDE58EC7B" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x66E48B1E" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x745124F0" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xCCED4395" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x948E53C3" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xD438F8E4" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x89E950C4" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x2F0B92D2" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x81A22751" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xDB8F0E87" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xAF6F361A" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xAE8DEE81" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xD1FFB49F" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xBC51DE4B" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x88414F93" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xFBE21590" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xD0B6A007" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xC45848FE" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x92B916D7" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xA6257CD8" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x6BF24C24" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x32F5E918" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x1CE95541" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x5DD9004D" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xF64F1DBD" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x76000D1E" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x85AB52BC" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x711C150F" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x63A9BAE1" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xDB15DD84" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x46C2E53D" type="long">
-            <default>0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>SpawnPointStruct</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0x9ACA45BC">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x92BB94B7">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x6BE340BA">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xC73B2C90">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xEFD4DABE">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x9B06BD3C">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x6D7172BF">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x16D89ACC">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xEA86A2B9">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x26A5E3C1">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x9DE8731D">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x3B0AB10B">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x95A30488">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xAB603F7">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x4DA55282">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xB4FD868F">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x3EC5A9F5">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x8C98247D">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xBD8B547C">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x53387689">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x57EB9E8B">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xAEB34A86">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xFB33F2A1">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x4B15EB9A">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x44FBB19C">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xF55BE12C">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xBC25CAED">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xA6B376F">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xD8A9BBCB">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x7D1C9685">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x8F6CDCF9">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x9DD97317">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x25651472">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xB8B22CCB">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xE4BAE">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x12BBE440">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xAA078325">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xF2649373">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x4AD8F416">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xC271CFBC">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xD0C46052">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x68780737">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x6EFFCF82">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x7C4A606C">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xC4F60709">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xC20D622B">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xD0B8CDC5">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x6804AAA0">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x1C397F0">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xFC6F860C">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x161898DC">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xA6C29B8D">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xEC7FB0EF">
+                <DefaultValue>5</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xFCECF744">
+                <DefaultValue>5</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x32052F91">
+                <DefaultValue>5</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x6E4038AB">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x14387AAB">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x68DD545">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xBE31B220">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x23E68A99">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x8ECB6665">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x92C402AB">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x7FE26363">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xD7F8586A">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x27D254AF">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x19926420">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xCE284C09">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xDEC999C3">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x66AE338E">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x210E495E">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x1C6E60EE">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xAE4EBCFE">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x5351DBA5">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x2DB9A0A">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x7B980651">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xE9861C49">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xFB33B3A7">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x438FD4C2">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xDE58EC7B">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x66E48B1E">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x745124F0">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xCCED4395">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x948E53C3">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xD438F8E4">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x89E950C4">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x2F0B92D2">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x81A22751">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xDB8F0E87">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xAF6F361A">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xAE8DEE81">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xD1FFB49F">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xBC51DE4B">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x88414F93">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xFBE21590">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xD0B6A007">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xC45848FE">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x92B916D7">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xA6257CD8">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x6BF24C24">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x32F5E918">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x1CE95541">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x5DD9004D">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xF64F1DBD">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x76000D1E">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x85AB52BC">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x711C150F">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x63A9BAE1">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xDB15DD84">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x46C2E53D">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

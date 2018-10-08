@@ -1,60 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>MetroidAlpha</name>
-    <modules>
-        <module>Metroid.rel</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0xB3774750" template="Structs/PatternedInfo.xml"/>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <struct ID="0x411938AA" template="Structs/DamageVulnerability.xml"/>
-        <struct ID="0xD86EE93F" template="Structs/DamageVulnerability.xml"/>
-        <property ID="0x72439B39" type="float">
-            <default>5.0</default>
-        </property>
-        <property ID="0x3AF75FCC" type="float">
-            <default>40.0</default>
-        </property>
-        <property ID="0xA97EDC02" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x0D7E7E2C" type="float">
-            <default>0.5</default>
-        </property>
-        <property ID="0x03362858" type="float">
-            <default>10.0</default>
-        </property>
-        <property ID="0x2FE164C4" type="float">
-            <default>1.75</default>
-        </property>
-        <property ID="0x4C1F78F3" type="float">
-            <default>50.0</default>
-        </property>
-        <property ID="0x5F3F294C" type="float">
-            <default>100.0</default>
-        </property>
-        <property ID="0xFA51D735" type="long">
-            <default>0</default>
-        </property>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xB3774750:0xE25FB08C</animparams>
-            <model source="property">0x7E397FED:0xC0BA9E18</model>
-            <model source="property">0x7E397FED:0x6B1FBC3A</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="EchoesDemo">
+    <Modules>
+        <Element>Metroid.rel</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>MetroidAlpha</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedInfo"/>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Struct" ID="0x411938AA" Archetype="DamageVulnerability"/>
+            <Element Type="Struct" ID="0xD86EE93F" Archetype="DamageVulnerability"/>
+            <Element Type="Float" ID="0x72439B39">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3AF75FCC">
+                <DefaultValue>40.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA97EDC02">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD7E7E2C">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3362858">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2FE164C4">
+                <DefaultValue>1.75</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4C1F78F3">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5F3F294C">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xFA51D735">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xB3774750:0xE25FB08C"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0xC0BA9E18"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0x6B1FBC3A"/>
+    </Assets>
+</ScriptObject>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct41</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0xEA4B88C8">
+                <DefaultValue>12.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAA04F0BE">
+                <DefaultValue>40.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x59F8B6D0">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x460020AA">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x353ABF40">
+                <DefaultValue>8.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x2822A8FA">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x95D26130">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Spline" ID="0xBFB8336B"/>
+            <Element Type="Spline" ID="0xF79ADCA8"/>
+            <Element Type="Float" ID="0x68454CB4">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0x34DDD21C"/>
+            <Element Type="Spline" ID="0x39705DD6"/>
+            <Element Type="Int" ID="0xB2671C2A">
+                <DefaultValue>3</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x546DAB4C">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFBDCB40F">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD225E0A">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCFD57029">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8F9A085F">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB619C33A">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5ECCB98C">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x41ABBA6">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBEADF2E0">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x625F214B">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC3E43D0E">
+                <DefaultValue>40.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3E618127">
+                <DefaultValue>12.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x95080D9">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0xCFD3139" Archetype="DamageInfo"/>
+            <Element Type="String" ID="0x8062D2F8"/>
+            <Element Type="Float" ID="0xBF26FCFB">
+                <DefaultValue>40.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE64BD01E">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD8255983">
+                <DefaultValue>8.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

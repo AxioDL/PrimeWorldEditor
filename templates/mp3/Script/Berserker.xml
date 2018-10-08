@@ -1,114 +1,104 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>Berserker</name>
-    <modules>
-        <module>RSO_Berserker.rso</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <struct ID="0x43BBB1DD" template="Structs/PatternedAI.xml">
-            <properties>
-                <struct ID="0xD756416E">
-                    <properties>
-                        <property ID="0xF2D02613">
-                            <default>20.0</default>
-                        </property>
-                        <property ID="0x555FF80A">
-                            <default>10.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0xE0CDC7E3">
-                    <default>3.0</default>
-                </property>
-                <struct ID="0xCF90D15E">
-                    <properties>
-                        <property ID="0xF0668919">
-                            <default>1000.0</default>
-                        </property>
-                        <property ID="0x3A2D17E4">
-                            <default>5.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0xD9355674">
-                    <default>1.0</default>
-                </property>
-                <property ID="0x4BC4C4D9">
-                    <default>2</default>
-                </property>
-                <property ID="0x020C78BB">
-                    <default>180.0</default>
-                </property>
-                <property ID="0x8DB77EE4">
-                    <default>50.0</default>
-                </property>
-                <property ID="0x83DFC40F">
-                    <default>90.0</default>
-                </property>
-                <property ID="0x58434916">
-                    <default>4.0</default>
-                </property>
-                <property ID="0xB0CFE015">
-                    <default>1.0</default>
-                </property>
-                <property ID="0xC80E329B">
-                    <default>0.5</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x54F9FFA5" template="Structs/BerserkerData.xml"/>
-        <struct ID="0x2D8DC0AF" template="Structs/BerserkerData.xml"/>
-        <struct ID="0xE10CE828" template="Structs/BerserkerData.xml"/>
-        <struct ID="0x7B8C48C7" type="multi">
-            <properties>
-                <enum ID="0x2B082C6D" template="Enums/BerserkerEnum.xml">
-                    <default>0xF12A35C6</default>
-                </enum>
-            </properties>
-        </struct>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0x43BBB1DD:0xA244C9D8</animparams>
-            <model source="property">0x7E397FED:0xBB52F0BE</model>
-            <model source="property">0x54F9FFA5:0x04547D34</model>
-            <model source="property">0x54F9FFA5:0x82C00F9A</model>
-            <model source="property">0x54F9FFA5:0x499CDC3F</model>
-            <model source="property">0x54F9FFA5:0x5499EC87</model>
-            <model source="property">0x54F9FFA5:0x9FC53F22</model>
-            <model source="property">0x54F9FFA5:0x4AE57FEB</model>
-            <model source="property">0x54F9FFA5:0x650BA238</model>
-            <model source="property">0x54F9FFA5:0x68865410</model>
-            <model source="property">0x2D8DC0AF:0x04547D34</model>
-            <model source="property">0x2D8DC0AF:0x82C00F9A</model>
-            <model source="property">0x2D8DC0AF:0x499CDC3F</model>
-            <model source="property">0x2D8DC0AF:0x5499EC87</model>
-            <model source="property">0x2D8DC0AF:0x9FC53F22</model>
-            <model source="property">0x2D8DC0AF:0x4AE57FEB</model>
-            <model source="property">0x2D8DC0AF:0x650BA238</model>
-            <model source="property">0x2D8DC0AF:0x68865410</model>
-            <model source="property">0xE10CE828:0x04547D34</model>
-            <model source="property">0xE10CE828:0x82C00F9A</model>
-            <model source="property">0xE10CE828:0x499CDC3F</model>
-            <model source="property">0xE10CE828:0x5499EC87</model>
-            <model source="property">0xE10CE828:0x9FC53F22</model>
-            <model source="property">0xE10CE828:0x4AE57FEB</model>
-            <model source="property">0xE10CE828:0x650BA238</model>
-            <model source="property">0xE10CE828:0x68865410</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Corruption">
+    <Modules>
+        <Element>RSO_Berserker.rso</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>Berserker</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Struct" ID="0x43BBB1DD" Archetype="PatternedAI">
+                <SubProperties>
+                    <Element Type="Struct" ID="0xD756416E">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xF2D02613">
+                                <DefaultValue>20.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x555FF80A">
+                                <DefaultValue>10.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Float" ID="0xE0CDC7E3">
+                        <DefaultValue>3.0</DefaultValue>
+                    </Element>
+                    <Element Type="Struct" ID="0xCF90D15E">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xF0668919">
+                                <DefaultValue>1000.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x3A2D17E4">
+                                <DefaultValue>5.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Float" ID="0xD9355674">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                    <Element Type="Int" ID="0x4BC4C4D9">
+                        <DefaultValue>2</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x20C78BB">
+                        <DefaultValue>180.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x8DB77EE4">
+                        <DefaultValue>50.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x83DFC40F">
+                        <DefaultValue>90.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x58434916">
+                        <DefaultValue>4.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xB0CFE015">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xC80E329B">
+                        <DefaultValue>0.5</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x54F9FFA5" Archetype="BerserkerData"/>
+            <Element Type="Struct" ID="0x2D8DC0AF" Archetype="BerserkerData"/>
+            <Element Type="Struct" ID="0xE10CE828" Archetype="BerserkerData"/>
+            <Element Type="Struct" ID="0x7B8C48C7" Archetype="UnknownStruct21"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0x43BBB1DD:0xA244C9D8"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0xBB52F0BE"/>
+        <Element Type="Model" Source="Property" Location="0x54F9FFA5:0x04547D34"/>
+        <Element Type="Model" Source="Property" Location="0x54F9FFA5:0x82C00F9A"/>
+        <Element Type="Model" Source="Property" Location="0x54F9FFA5:0x499CDC3F"/>
+        <Element Type="Model" Source="Property" Location="0x54F9FFA5:0x5499EC87"/>
+        <Element Type="Model" Source="Property" Location="0x54F9FFA5:0x9FC53F22"/>
+        <Element Type="Model" Source="Property" Location="0x54F9FFA5:0x4AE57FEB"/>
+        <Element Type="Model" Source="Property" Location="0x54F9FFA5:0x650BA238"/>
+        <Element Type="Model" Source="Property" Location="0x54F9FFA5:0x68865410"/>
+        <Element Type="Model" Source="Property" Location="0x2D8DC0AF:0x04547D34"/>
+        <Element Type="Model" Source="Property" Location="0x2D8DC0AF:0x82C00F9A"/>
+        <Element Type="Model" Source="Property" Location="0x2D8DC0AF:0x499CDC3F"/>
+        <Element Type="Model" Source="Property" Location="0x2D8DC0AF:0x5499EC87"/>
+        <Element Type="Model" Source="Property" Location="0x2D8DC0AF:0x9FC53F22"/>
+        <Element Type="Model" Source="Property" Location="0x2D8DC0AF:0x4AE57FEB"/>
+        <Element Type="Model" Source="Property" Location="0x2D8DC0AF:0x650BA238"/>
+        <Element Type="Model" Source="Property" Location="0x2D8DC0AF:0x68865410"/>
+        <Element Type="Model" Source="Property" Location="0xE10CE828:0x04547D34"/>
+        <Element Type="Model" Source="Property" Location="0xE10CE828:0x82C00F9A"/>
+        <Element Type="Model" Source="Property" Location="0xE10CE828:0x499CDC3F"/>
+        <Element Type="Model" Source="Property" Location="0xE10CE828:0x5499EC87"/>
+        <Element Type="Model" Source="Property" Location="0xE10CE828:0x9FC53F22"/>
+        <Element Type="Model" Source="Property" Location="0xE10CE828:0x4AE57FEB"/>
+        <Element Type="Model" Source="Property" Location="0xE10CE828:0x650BA238"/>
+        <Element Type="Model" Source="Property" Location="0xE10CE828:0x68865410"/>
+    </Assets>
+</ScriptObject>

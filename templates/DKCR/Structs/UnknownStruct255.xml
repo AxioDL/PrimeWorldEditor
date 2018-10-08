@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct255</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0xADFD4C91">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x8792726D" Archetype="RobotChickenStructA"/>
+            <Element Type="Struct" ID="0x229A1901" Archetype="RobotChickenStructA"/>
+            <Element Type="Struct" ID="0x419DC025" Archetype="RobotChickenStructA"/>
+            <Element Type="Struct" ID="0xB3FBC998" Archetype="RobotChickenStructA"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

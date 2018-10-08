@@ -1,58 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>ContextSensitiveAction</name>
-    <modules>
-        <module>RSO_ScriptContextSensitiveAction.rso</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0xAACDB11C" type="long">
-            <default>-1</default>
-        </property>
-        <enum ID="0xB068F40B">
-            <default>0xE20A1F5E</default>
-            <enumerators>
-                <enumerator ID="0xE20A1F5E" name="Unknown 1"/>
-                <enumerator ID="0x28F8D0F2" name="Unknown 2"/>
-            </enumerators>
-        </enum>
-        <property ID="0xF9DFE01D" type="MayaSpline"/>
-        <enum ID="0xB8F60F9A">
-            <default>0x42F04E89</default>
-            <enumerators>
-                <enumerator ID="0x42F04E89" name="Unknown 1"/>
-                <enumerator ID="0x94175A6A" name="Unknown 2"/>
-                <enumerator ID="0xC9E4E21D" name="Unknown 3"/>
-            </enumerators>
-        </enum>
-        <enum ID="0x8972A86F">
-            <default>0xB44651B4</default>
-            <enumerators>
-                <enumerator ID="0xB44651B4" name="Unknown 1"/>
-                <enumerator ID="0x10019A43" name="Unknown 2"/>
-                <enumerator ID="0x66AA1A61" name="Unknown 3"/>
-            </enumerators>
-        </enum>
-        <property ID="0xBF0ADF40" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0xCA4016A1" type="bool">
-            <default>false</default>
-        </property>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-        </properties>
-        <assets/>
-        <preview_scale>0.5</preview_scale>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Corruption">
+    <Modules>
+        <Element>RSO_ScriptContextSensitiveAction.rso</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>ContextSensitiveAction</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Int" ID="0xAACDB11C">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0xB068F40B">
+                <DefaultValue>0xE20A1F5E</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0xE20A1F5E"/>
+                    <Element Name="Unknown 2" ID="0x28F8D0F2"/>
+                </Values>
+            </Element>
+            <Element Type="Spline" ID="0xF9DFE01D"/>
+            <Element Type="Enum" ID="0xB8F60F9A">
+                <DefaultValue>0x42F04E89</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x42F04E89"/>
+                    <Element Name="Unknown 2" ID="0x94175A6A"/>
+                    <Element Name="Unknown 3" ID="0xC9E4E21D"/>
+                </Values>
+            </Element>
+            <Element Type="Enum" ID="0x8972A86F">
+                <DefaultValue>0xB44651B4</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0xB44651B4"/>
+                    <Element Name="Unknown 2" ID="0x10019A43"/>
+                    <Element Name="Unknown 3" ID="0x66AA1A61"/>
+                </Values>
+            </Element>
+            <Element Type="Float" ID="0xBF0ADF40">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xCA4016A1">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+    <PreviewScale>0.5</PreviewScale>
+</ScriptObject>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct275</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0x97395EEA">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xFC8FBDB7" Archetype="TrainTrackManagerStructB"/>
+            <Element Type="Struct" ID="0x2F14A14C" Archetype="TrainTrackManagerStructB"/>
+            <Element Type="Struct" ID="0x619DAAE5" Archetype="TrainTrackManagerStructB"/>
+            <Element Type="Struct" ID="0x53539EFB" Archetype="TrainTrackManagerStructB"/>
+            <Element Type="Struct" ID="0x1DDA9552" Archetype="TrainTrackManagerStructB"/>
+            <Element Type="Struct" ID="0xCE4189A9" Archetype="TrainTrackManagerStructB"/>
+            <Element Type="Struct" ID="0x80C88200" Archetype="TrainTrackManagerStructB"/>
+            <Element Type="Struct" ID="0xABDDE195" Archetype="TrainTrackManagerStructB"/>
+            <Element Type="Struct" ID="0xE554EA3C" Archetype="TrainTrackManagerStructB"/>
+            <Element Type="Struct" ID="0x61E5D2A4" Archetype="TrainTrackManagerStructB"/>
+            <Element Type="Struct" ID="0x2F6CD90D" Archetype="TrainTrackManagerStructB"/>
+            <Element Type="Struct" ID="0xFCF7C5F6" Archetype="TrainTrackManagerStructB"/>
+            <Element Type="Struct" ID="0xB27ECE5F" Archetype="TrainTrackManagerStructB"/>
+            <Element Type="Struct" ID="0x80B0FA41" Archetype="TrainTrackManagerStructB"/>
+            <Element Type="Struct" ID="0xCE39F1E8" Archetype="TrainTrackManagerStructB"/>
+            <Element Type="Struct" ID="0x1DA2ED13" Archetype="TrainTrackManagerStructB"/>
+            <Element Type="Struct" ID="0x532BE6BA" Archetype="TrainTrackManagerStructB"/>
+            <Element Type="Struct" ID="0x783E852F" Archetype="TrainTrackManagerStructB"/>
+            <Element Type="Struct" ID="0x36B78E86" Archetype="TrainTrackManagerStructB"/>
+            <Element Type="Struct" ID="0x4B59622C" Archetype="TrainTrackManagerStructB"/>
+            <Element Type="Struct" ID="0x5D06985" Archetype="TrainTrackManagerStructB"/>
+            <Element Type="Struct" ID="0xD64B757E" Archetype="TrainTrackManagerStructB"/>
+            <Element Type="Struct" ID="0x98C27ED7" Archetype="TrainTrackManagerStructB"/>
+            <Element Type="Struct" ID="0xAA0C4AC9" Archetype="TrainTrackManagerStructB"/>
+            <Element Type="Struct" ID="0xE4854160" Archetype="TrainTrackManagerStructB"/>
+            <Element Type="Struct" ID="0x371E5D9B" Archetype="TrainTrackManagerStructB"/>
+            <Element Type="Struct" ID="0x79975632" Archetype="TrainTrackManagerStructB"/>
+            <Element Type="Struct" ID="0x528235A7" Archetype="TrainTrackManagerStructB"/>
+            <Element Type="Struct" ID="0x1C0B3E0E" Archetype="TrainTrackManagerStructB"/>
+            <Element Type="Struct" ID="0xE41DF06B" Archetype="TrainTrackManagerStructB"/>
+            <Element Type="Struct" ID="0xAA94FBC2" Archetype="TrainTrackManagerStructB"/>
+            <Element Type="Struct" ID="0x790FE739" Archetype="TrainTrackManagerStructB"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

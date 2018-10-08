@@ -1,46 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>AtomicAlpha</name>
-    <properties>
-        <property ID="0x00" name="Name" type="string"/>
-        <property ID="0x01" name="Position" type="vector3f"/>
-        <property ID="0x02" name="Rotation" type="vector3f"/>
-        <property ID="0x03" name="Scale" type="vector3f"/>
-        <struct ID="0x04" name="PatternedInfo" template="Structs/PatternedInfo.xml"/>
-        <struct ID="0x05" name="ActorParameters" template="Structs/ActorParameters.xml"/>
-        <property ID="0x06" name="WPSC" type="asset" extensions="WPSC"/>
-        <property ID="0x07" name="Bomb Model" type="asset" extensions="CMDL"/>
-        <struct ID="0x08" name="DamageInfo" template="Structs/DamageInfo.xml"/>
-        <property ID="0x09" name="Unknown 1" type="float"/>
-        <property ID="0x0A" name="Unknown 2" type="float"/>
-        <property ID="0x0B" name="Unknown 3" type="float"/>
-        <property ID="0x0C" name="Unknown 4" type="bool"/>
-        <property ID="0x0D" name="Unknown 5" type="bool"/>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x00"/>
-            <property name="Position" ID="0x01"/>
-            <property name="Rotation" ID="0x02"/>
-            <property name="Scale" ID="0x03"/>
-            <property name="Active" ID="0x04:0x1A"/>
-            <property name="LightParameters" ID="0x05:0x00"/>
-        </properties>
-        <assets>
-            <animparams source="property">0x04:0x19</animparams>
-            <model source="property">0x05:0x02</model>
-            <model source="property">0x05:0x04</model>
-            <model source="property">0x07</model>
-        </assets>
-        <attachments>
-            <attachment propertyID="0x07" locator="bomb1_LCTR"/>
-            <attachment propertyID="0x07" locator="bomb2_LCTR"/>
-            <attachment propertyID="0x07" locator="bomb3_LCTR"/>
-            <attachment propertyID="0x07" locator="bomb4_LCTR"/>
-        </attachments>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Prime">
+    <Properties Type="Struct">
+        <Name>AtomicAlpha</Name>
+        <SubProperties>
+            <Element Type="String" ID="0x0">
+                <Name>Name</Name>
+            </Element>
+            <Element Type="Vector" ID="0x1">
+                <Name>Position</Name>
+            </Element>
+            <Element Type="Vector" ID="0x2">
+                <Name>Rotation</Name>
+            </Element>
+            <Element Type="Vector" ID="0x3">
+                <Name>Scale</Name>
+            </Element>
+            <Element Type="Struct" ID="0x4" Archetype="PatternedInfo"/>
+            <Element Type="Struct" ID="0x5" Archetype="ActorParameters"/>
+            <Element Type="Asset" ID="0x6">
+                <Name>WPSC</Name>
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x7">
+                <Name>Bomb Model</Name>
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x8" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0x9">
+                <Name>Unknown 1</Name>
+            </Element>
+            <Element Type="Float" ID="0xA">
+                <Name>Unknown 2</Name>
+            </Element>
+            <Element Type="Float" ID="0xB">
+                <Name>Unknown 3</Name>
+            </Element>
+            <Element Type="Bool" ID="0xC">
+                <Name>Unknown 4</Name>
+            </Element>
+            <Element Type="Bool" ID="0xD">
+                <Name>Unknown 5</Name>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x00</NameProperty>
+        <PositionProperty>0x01</PositionProperty>
+        <RotationProperty>0x02</RotationProperty>
+        <ScaleProperty>0x03</ScaleProperty>
+        <ActiveProperty>0x04:0x1A</ActiveProperty>
+        <LightParametersProperty>0x05:0x00</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0x04:0x19"/>
+        <Element Type="Model" Source="Property" Location="0x05:0x02"/>
+        <Element Type="Model" Source="Property" Location="0x05:0x04"/>
+        <Element Type="Model" Source="Property" Location="0x07"/>
+    </Assets>
+    <Attachments>
+        <Element AttachProperty="0x07" LocatorName="bomb1_LCTR" AttachType="Attach"/>
+        <Element AttachProperty="0x07" LocatorName="bomb2_LCTR" AttachType="Attach"/>
+        <Element AttachProperty="0x07" LocatorName="bomb3_LCTR" AttachType="Attach"/>
+        <Element AttachProperty="0x07" LocatorName="bomb4_LCTR" AttachType="Attach"/>
+    </Attachments>
+</ScriptObject>

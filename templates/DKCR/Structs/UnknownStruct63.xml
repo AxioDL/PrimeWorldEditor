@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct63</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x348C9D90">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7A7DF6E3">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xE1E66B24">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Spline" ID="0xB413C45F"/>
+            <Element Type="Spline" ID="0x76C7464C"/>
+            <Element Type="Spline" ID="0x10E05AAF"/>
+            <Element Type="Asset" ID="0xB0C2F5F6">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Spline" ID="0xBD894993"/>
+            <Element Type="Spline" ID="0x5291EF7"/>
+            <Element Type="Spline" ID="0x4C20DEF3"/>
+            <Element Type="Asset" ID="0x259C0939">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xBE5F118D">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

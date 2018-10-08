@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="UnknownStruct37" type="multi">
-    <properties>
-        <property ID="0x520EBB68" type="character"/>
-        <property ID="0xE856FC2B" type="string"/>
-        <property ID="0x2662929F" type="bool">
-            <default>false</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct37</Name>
+        <SubProperties>
+            <Element Type="AnimationSet" ID="0x520EBB68"/>
+            <Element Type="String" ID="0xE856FC2B"/>
+            <Element Type="Bool" ID="0x2662929F">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Prime">
+    <PropertyArchetype Type="Struct">
+        <Name>PlayerHintStruct</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0x0">
+                <Name>Unknown 1</Name>
+            </Element>
+            <Element Type="Bool" ID="0x1">
+                <Name>Unknown 2</Name>
+                <Description>Inverts morph ball controls?</Description>
+            </Element>
+            <Element Type="Bool" ID="0x2">
+                <Name>Unknown 3</Name>
+            </Element>
+            <Element Type="Bool" ID="0x3">
+                <Name>Unknown 4</Name>
+            </Element>
+            <Element Type="Bool" ID="0x4">
+                <Name>Unknown 5</Name>
+                <Description>Affects Spider Ball controls in some situations.</Description>
+            </Element>
+            <Element Type="Bool" ID="0x5">
+                <Name>Disable Unmorph</Name>
+            </Element>
+            <Element Type="Bool" ID="0x6">
+                <Name>Disable Morph</Name>
+            </Element>
+            <Element Type="Bool" ID="0x7">
+                <Name>Disable Controls</Name>
+            </Element>
+            <Element Type="Bool" ID="0x8">
+                <Name>Disable Boost</Name>
+            </Element>
+            <Element Type="Bool" ID="0x9">
+                <Name>Activate Combat Visor</Name>
+            </Element>
+            <Element Type="Bool" ID="0xA">
+                <Name>Activate Scan Visor</Name>
+            </Element>
+            <Element Type="Bool" ID="0xB">
+                <Name>Activate Thermal Visor</Name>
+            </Element>
+            <Element Type="Bool" ID="0xC">
+                <Name>Activate X-Ray Visor</Name>
+            </Element>
+            <Element Type="Bool" ID="0xD">
+                <Name>Unknown 6</Name>
+            </Element>
+            <Element Type="Bool" ID="0xE">
+                <Name>Face Object On Unmorph</Name>
+                <Description>On state Play, send a Play message to the target object.</Description>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

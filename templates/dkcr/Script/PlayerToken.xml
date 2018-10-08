@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>PlayerToken</name>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0xC27FFA8F" type="asset" extensions="CMDL"/>
-        <property ID="0xA244C9D8" type="character"/>
-        <property ID="0xA9EB0FC8" type="character"/>
-        <property ID="0x0B30ECAE" type="character"/>
-        <property ID="0x7CA5B474" type="character"/>
-        <property ID="0xF9786405" type="long">
-            <default>-1</default>
-        </property>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <struct ID="0x2F7EC0A2" template="Structs/ScaleSplines.xml"/>
-        <struct ID="0x680E96EA" template="Structs/ScaleSplines.xml"/>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xA244C9D8</animparams>
-            <animparams source="property">0xA9EB0FC8</animparams>
-            <animparams source="property">0x0B30ECAE</animparams>
-            <animparams source="property">0x7CA5B474</animparams>
-            <model source="property">0xC27FFA8F</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="DKCReturns">
+    <Properties Type="Struct">
+        <Name>PlayerToken</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Asset" ID="0xC27FFA8F">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="AnimationSet" ID="0xA244C9D8"/>
+            <Element Type="AnimationSet" ID="0xA9EB0FC8"/>
+            <Element Type="AnimationSet" ID="0xB30ECAE"/>
+            <Element Type="AnimationSet" ID="0x7CA5B474"/>
+            <Element Type="Int" ID="0xF9786405">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Struct" ID="0x2F7EC0A2" Archetype="ScaleSplines"/>
+            <Element Type="Struct" ID="0x680E96EA" Archetype="ScaleSplines"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xA244C9D8"/>
+        <Element Type="AnimParams" Source="Property" Location="0xA9EB0FC8"/>
+        <Element Type="AnimParams" Source="Property" Location="0x0B30ECAE"/>
+        <Element Type="AnimParams" Source="Property" Location="0x7CA5B474"/>
+        <Element Type="Model" Source="Property" Location="0xC27FFA8F"/>
+    </Assets>
+</ScriptObject>

@@ -1,148 +1,260 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>DarkSamus</name>
-    <modules>
-        <module>DarkSamus.rel</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0xB3774750" template="Structs/PatternedInfo.xml">
-            <properties>
-                <property ID="0x8DB77EE4">
-                    <default>32.0</default>
-                </property>
-                <property ID="0x8A6AB139">
-                    <default>0.5</default>
-                </property>
-                <property ID="0x3011B5DF">
-                    <default>1.0</default>
-                </property>
-                <property ID="0x4BC4C4D9">
-                    <default>1</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <property ID="0x72EDEB7D" type="float">
-            <default>-1.0</default>
-        </property>
-        <property ID="0x74FA22F0" type="float">
-            <default>-1.0</default>
-        </property>
-        <property ID="0x1F468967" type="sound"/>
-        <property ID="0x1A08AADC" type="sound"/>
-        <property ID="0x6689925B" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x3863160B" type="asset" extensions="TXTR"/>
-        <property ID="0x2C6A3344" type="float">
-            <default>100.0</default>
-        </property>
-        <struct ID="0x4D790EE9" template="Structs/DamageInfo.xml"/>
-        <property ID="0x6D40AA56" type="asset" extensions="PART"/>
-        <property ID="0x9603A544" type="asset" extensions="PART"/>
-        <struct ID="0x8688F535" template="Structs/DamageInfo.xml"/>
-        <property ID="0x4AA5DD62" type="float">
-            <default>40.0</default>
-        </property>
-        <property ID="0x1AD7DC21" type="float">
-            <default>500.0</default>
-        </property>
-        <property ID="0xED30B0EF" type="asset" extensions="PART"/>
-        <property ID="0x855F0749" type="asset" extensions="WPSC"/>
-        <property ID="0x83A5517F" type="asset" extensions="WPSC"/>
-        <struct ID="0x8EA87062" template="Structs/DamageInfo.xml"/>
-        <property ID="0x378285B9" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xD242E25F" type="float">
-            <default>300.0</default>
-        </property>
-        <property ID="0xE00DB62D" type="asset" extensions="WPSC"/>
-        <struct ID="0xC4128792" template="Structs/DamageInfo.xml"/>
-        <property ID="0x1F1EF7A9" type="long">
-            <default>1</default>
-        </property>
-        <property ID="0xC4A1A44E" type="long">
-            <default>3</default>
-        </property>
-        <property ID="0x29DB4EE4" type="asset" extensions="WPSC"/>
-        <struct ID="0x26632B7E" template="Structs/DamageInfo.xml"/>
-        <property ID="0xF9104A69" type="asset" extensions="WPSC"/>
-        <struct ID="0xB5BA1FE7" template="Structs/DamageInfo.xml"/>
-        <property ID="0x7FFEB33D" type="asset" extensions="TXTR"/>
-        <property ID="0x8F70D3F2" type="float">
-            <default>10.0</default>
-        </property>
-        <property ID="0xF317F4D5" type="float">
-            <default>4.0</default>
-        </property>
-        <property ID="0xD2122711" type="asset" extensions="PART"/>
-        <struct ID="0x08C2BFE0" template="Structs/DamageInfo.xml"/>
-        <property ID="0x68B658F2" type="asset" extensions="CRSC"/>
-        <property ID="0xEA17CB66" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x0EF8DC15" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x072DF331" type="asset" extensions="CMDL"/>
-        <property ID="0xAA96399C" type="asset" extensions="CSKR"/>
-        <property ID="0xF148F728" type="character"/>
-        <struct ID="0xE18DC6FC" template="Structs/DamageInfo.xml"/>
-        <property ID="0xAC43BA34" type="asset" extensions="PART"/>
-        <property ID="0x449AA4AA" type="asset" extensions="SWHC"/>
-        <property ID="0x0345FA17" type="asset" extensions="SWHC"/>
-        <property ID="0x2C72576B" type="sound"/>
-        <property ID="0x9E02691C" type="sound"/>
-        <property ID="0x3433BC8B" type="asset" extensions="PART"/>
-        <struct ID="0x4841182B" template="Structs/AudioPlaybackParms.xml"/>
-        <property ID="0xA6C42023" type="asset" extensions="PART"/>
-        <property ID="0xD3593630" type="sound"/>
-        <property ID="0x908B06E9" type="asset" extensions="PART"/>
-        <property ID="0x494DE4A4" type="asset" extensions="PART"/>
-        <property ID="0xA861649F" type="sound"/>
-        <struct ID="0x18402AA9" template="Structs/DamageInfo.xml"/>
-        <property ID="0xE701DAEA" type="asset" extensions="PART"/>
-        <property ID="0xBF62B633" type="asset" extensions="WPSC"/>
-        <property ID="0x8D123FE9" type="asset" extensions="WPSC"/>
-        <struct ID="0x58769EB2" template="Structs/DamageInfo.xml"/>
-        <struct ID="0x4D8E735F" template="Structs/DamageInfo.xml">
-            <properties>
-                <enum ID="0x119FBD31">
-                    <default>0x0000000B</default>
-                </enum>
-                <property ID="0xF2D02613">
-                    <default>10.0</default>
-                </property>
-                <property ID="0xEE1BE914">
-                    <default>5.0</default>
-                </property>
-            </properties>
-        </struct>
-        <property ID="0x83106405" type="asset" extensions="PART"/>
-        <struct ID="0x8F3AF226" template="Structs/DamageInfo.xml"/>
-        <property ID="0xF60AC5CC" type="asset" extensions="SCAN"/>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xB3774750:0xE25FB08C</animparams>
-            <animparams source="property">0xF148F728</animparams>
-            <model source="property">0x7E397FED:0xC0BA9E18</model>
-            <model source="property">0x7E397FED:0x6B1FBC3A</model>
-            <model source="property">0x072DF331</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Echoes">
+    <Modules>
+        <Element>DarkSamus.rel</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>DarkSamus</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedInfo">
+                <SubProperties>
+                    <Element Type="Float" ID="0x8DB77EE4">
+                        <DefaultValue>32.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x8A6AB139">
+                        <DefaultValue>0.5</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x3011B5DF">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                    <Element Type="Int" ID="0x4BC4C4D9">
+                        <DefaultValue>1</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Float" ID="0x72EDEB7D">
+                <DefaultValue>-1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x74FA22F0">
+                <DefaultValue>-1.0</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0x1F468967">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0x1A08AADC">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x6689925B">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x3863160B">
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x2C6A3344">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x4D790EE9" Archetype="DamageInfo"/>
+            <Element Type="Asset" ID="0x6D40AA56">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x9603A544">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x8688F535" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0x4AA5DD62">
+                <DefaultValue>40.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1AD7DC21">
+                <DefaultValue>500.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xED30B0EF">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x855F0749">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x83A5517F">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x8EA87062" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0x378285B9">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD242E25F">
+                <DefaultValue>300.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xE00DB62D">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0xC4128792" Archetype="DamageInfo"/>
+            <Element Type="Int" ID="0x1F1EF7A9">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xC4A1A44E">
+                <DefaultValue>3</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x29DB4EE4">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x26632B7E" Archetype="DamageInfo"/>
+            <Element Type="Asset" ID="0xF9104A69">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0xB5BA1FE7" Archetype="DamageInfo"/>
+            <Element Type="Asset" ID="0x7FFEB33D">
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x8F70D3F2">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF317F4D5">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xD2122711">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x8C2BFE0" Archetype="DamageInfo"/>
+            <Element Type="Asset" ID="0x68B658F2">
+                <TypeFilter>
+                    <Element>CRSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Int" ID="0xEA17CB66">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xEF8DC15">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x72DF331">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xAA96399C">
+                <TypeFilter>
+                    <Element>CSKR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="AnimationSet" ID="0xF148F728"/>
+            <Element Type="Struct" ID="0xE18DC6FC" Archetype="DamageInfo"/>
+            <Element Type="Asset" ID="0xAC43BA34">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x449AA4AA">
+                <TypeFilter>
+                    <Element>SWHC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x345FA17">
+                <TypeFilter>
+                    <Element>SWHC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Sound" ID="0x2C72576B">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0x9E02691C">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x3433BC8B">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x4841182B" Archetype="AudioPlaybackParms"/>
+            <Element Type="Asset" ID="0xA6C42023">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Sound" ID="0xD3593630">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x908B06E9">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x494DE4A4">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Sound" ID="0xA861649F">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x18402AA9" Archetype="DamageInfo"/>
+            <Element Type="Asset" ID="0xE701DAEA">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xBF62B633">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x8D123FE9">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x58769EB2" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0x4D8E735F" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Enum" ID="0x119FBD31">
+                        <DefaultValue>0xB</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xF2D02613">
+                        <DefaultValue>10.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xEE1BE914">
+                        <DefaultValue>5.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Asset" ID="0x83106405">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x8F3AF226" Archetype="DamageInfo"/>
+            <Element Type="Asset" ID="0xF60AC5CC">
+                <TypeFilter>
+                    <Element>SCAN</Element>
+                </TypeFilter>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xB3774750:0xE25FB08C"/>
+        <Element Type="AnimParams" Source="Property" Location="0xF148F728"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0xC0BA9E18"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0x6B1FBC3A"/>
+        <Element Type="Model" Source="Property" Location="0x072DF331"/>
+    </Assets>
+</ScriptObject>

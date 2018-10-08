@@ -1,294 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>CameraHint</name>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0x42087650" type="long">
-            <default>50</default>
-        </property>
-        <property ID="0x8747552E" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x21D720A9" type="long">
-            <default>30853</default>
-        </property>
-        <struct ID="0x97A93F8F" type="multi">
-            <properties>
-                <property ID="0x09AB9627" type="long">
-                    <default>1</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0xD1BD5C40" type="multi">
-            <properties>
-                <enum ID="0xB7CD4710">
-                    <default>0xC239D6DB</default>
-                    <enumerators>
-                        <enumerator ID="0xC239D6DB" name="Unknown 1"/>
-                        <enumerator ID="0x29BA93E8" name="Unknown 2"/>
-                        <enumerator ID="0x93F79C1A" name="Unknown 3"/>
-                        <enumerator ID="0x59BFFB56" name="Unknown 4"/>
-                        <enumerator ID="0x10AB9150" name="Unknown 5"/>
-                        <enumerator ID="0x13B150BB" name="Unknown 6"/>
-                        <enumerator ID="0xACB5235F" name="Unknown 7"/>
-                    </enumerators>
-                </enum>
-                <property ID="0xB1B6CF33" type="long">
-                    <default>2</default>
-                </property>
-                <struct ID="0x501ED3A3" type="multi">
-                    <properties>
-                        <enum ID="0xE2AE470C">
-                            <default>0xB745A689</default>
-                            <enumerators>
-                                <enumerator ID="0xB745A689" name="Unknown 1"/>
-                            </enumerators>
-                        </enum>
-                        <property ID="0xC3BF43BE" type="float">
-                            <default>5.0</default>
-                        </property>
-                        <property ID="0xE7562BEE" type="float">
-                            <default>10.0</default>
-                        </property>
-                        <property ID="0x8033F9A3" type="float">
-                            <default>2.736</default>
-                        </property>
-                        <struct ID="0xB11D9E90" template="Structs/Convergence.xml">
-                            <properties>
-                                <struct ID="0x0CF33816">
-                                    <properties>
-                                        <property ID="0xACB1CDCB">
-                                            <default>0.01</default>
-                                        </property>
-                                    </properties>
-                                </struct>
-                            </properties>
-                        </struct>
-                        <struct ID="0x81D49C61" template="Structs/Convergence.xml">
-                            <properties>
-                                <struct ID="0x0CF33816">
-                                    <properties>
-                                        <property ID="0xB3823863">
-                                            <default>80.0</default>
-                                        </property>
-                                        <property ID="0xACB1CDCB">
-                                            <default>4.0</default>
-                                        </property>
-                                    </properties>
-                                </struct>
-                            </properties>
-                        </struct>
-                        <struct ID="0x51B11F91" template="Structs/Convergence.xml">
-                            <properties>
-                                <struct ID="0x0CF33816">
-                                    <properties>
-                                        <property ID="0xB3823863">
-                                            <default>30.0</default>
-                                        </property>
-                                        <property ID="0xACB1CDCB">
-                                            <default>8.0</default>
-                                        </property>
-                                        <property ID="0x74D11538">
-                                            <default>2.5</default>
-                                        </property>
-                                    </properties>
-                                </struct>
-                            </properties>
-                        </struct>
-                    </properties>
-                </struct>
-                <struct ID="0xBBDDC576" type="multi">
-                    <properties>
-                        <property ID="0x382A1973" type="float">
-                            <default>0.0</default>
-                        </property>
-                        <property ID="0xC3BF43BE" type="float">
-                            <default>0.0</default>
-                        </property>
-                        <property ID="0x8033F9A3" type="float">
-                            <default>0.0</default>
-                        </property>
-                        <struct ID="0x69114952" template="Structs/Convergence.xml"/>
-                    </properties>
-                </struct>
-                <struct ID="0xE8AB9BC8" type="multi">
-                    <properties>
-                        <property ID="0x259D3279" type="long">
-                            <default>0</default>
-                        </property>
-                        <enum ID="0x340E4CA3">
-                            <default>0xD25FBD92</default>
-                            <enumerators>
-                                <enumerator ID="0xD25FBD92" name="Unknown 1"/>
-                                <enumerator ID="0xB785F3ED" name="Unknown 2"/>
-                                <enumerator ID="0xAFF81F46" name="Unknown 3"/>
-                                <enumerator ID="0x0E2D0AE9" name="Unknown 4"/>
-                                <enumerator ID="0x25DCCDF3" name="Unknown 5"/>
-                            </enumerators>
-                        </enum>
-                        <struct ID="0x0AED5C7D" template="Structs/PathDetermination.xml"/>
-                        <property ID="0xC3BF43BE" type="float">
-                            <default>4.0</default>
-                        </property>
-                        <property ID="0x32F835EC" type="float">
-                            <default>3.0</default>
-                        </property>
-                        <struct ID="0x959108A5" template="Structs/Convergence.xml"/>
-                        <property ID="0x27E5F874" type="MayaSpline"/>
-                        <property ID="0x12861F7D" type="MayaSpline"/>
-                    </properties>
-                </struct>
-                <struct ID="0x9EC1DF0C" type="multi">
-                    <properties>
-                        <property ID="0xB8A6413A" type="long">
-                            <default>320</default>
-                        </property>
-                        <struct ID="0xA0FB9986" template="Structs/SpindlePositionInterpolant.xml"/>
-                        <struct ID="0x58079583" template="Structs/SpindlePositionInterpolant.xml"/>
-                        <struct ID="0xE44C1003" template="Structs/SpindlePositionInterpolant.xml"/>
-                        <struct ID="0x39936936" template="Structs/SpindlePositionInterpolant.xml"/>
-                        <struct ID="0x2D8C38B0" template="Structs/SpindlePositionInterpolant.xml"/>
-                        <struct ID="0x1D2A6188" template="Structs/SpindlePositionInterpolant.xml"/>
-                        <struct ID="0x91CC9F6A" template="Structs/SpindlePositionInterpolant.xml"/>
-                        <struct ID="0x905289AC" template="Structs/SpindlePositionInterpolant.xml"/>
-                        <struct ID="0xF5F6849D" template="Structs/SpindlePositionInterpolant.xml"/>
-                        <struct ID="0x7B66A7B4" template="Structs/SpindlePositionInterpolant.xml"/>
-                        <struct ID="0x68926CCD" template="Structs/SpindlePositionInterpolant.xml"/>
-                        <struct ID="0x3158FD3B" template="Structs/SpindlePositionInterpolant.xml"/>
-                    </properties>
-                </struct>
-                <struct ID="0xBBB2D1E6" type="multi">
-                    <properties>
-                        <property ID="0x9D99B2E3" type="long">
-                            <default>1</default>
-                        </property>
-                        <struct ID="0xE69C51D7" template="Structs/OffsetInterpolant.xml"/>
-                        <struct ID="0x959108A5" template="Structs/Convergence.xml"/>
-                    </properties>
-                </struct>
-                <struct ID="0x07D194AF" type="multi">
-                    <properties>
-                        <enum ID="0x70C78C3E">
-                            <default>0x95BBB57E</default>
-                            <enumerators>
-                                <enumerator ID="0x95BBB57E" name="Unknown 1"/>
-                                <enumerator ID="0x0876D71F" name="Unknown 2"/>
-                                <enumerator ID="0xEB977267" name="Unknown 3"/>
-                                <enumerator ID="0xDE0E1DF6" name="Unknown 4"/>
-                                <enumerator ID="0x53FC988F" name="Unknown 5"/>
-                            </enumerators>
-                        </enum>
-                        <struct ID="0x3769A209" template="Structs/OffsetInterpolant.xml"/>
-                    </properties>
-                </struct>
-            </properties>
-        </struct>
-        <struct ID="0x4BE3494B" type="multi">
-            <properties>
-                <property ID="0x22BD900D" type="long">
-                    <default>0</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0xEBC3E775" type="multi">
-            <properties>
-                <struct ID="0xC1547AF3" template="Structs/Convergence.xml"/>
-                <enum ID="0xB674EA3D">
-                    <default>0xB1059189</default>
-                    <enumerators>
-                        <enumerator ID="0xB1059189" name="Unknown 1"/>
-                        <enumerator ID="0x350BF1BC" name="Unknown 2"/>
-                        <enumerator ID="0x06145F03" name="Unknown 3"/>
-                    </enumerators>
-                </enum>
-            </properties>
-        </struct>
-        <struct ID="0x65FC11FF" template="Structs/CameraOrientation.xml"/>
-        <struct ID="0x00A7C38D" type="multi">
-            <properties>
-                <struct ID="0xFA698856" template="Structs/Convergence.xml"/>
-            </properties>
-        </struct>
-        <struct ID="0xFC126AD1" type="multi">
-            <properties>
-                <enum ID="0x19EA151B">
-                    <default>0xA93DE248</default>
-                    <enumerators>
-                        <enumerator ID="0xA93DE248" name="Unknown 1"/>
-                        <enumerator ID="0x97F935EE" name="Unknown 2"/>
-                        <enumerator ID="0x3A1B60FF" name="Unknown 3"/>
-                    </enumerators>
-                </enum>
-                <enum ID="0xD1E91886">
-                    <default>0x0D2CFE11</default>
-                    <enumerators>
-                        <enumerator ID="0x0D2CFE11" name="Unknown 1"/>
-                        <enumerator ID="0xD35AAB88" name="Unknown 2"/>
-                        <enumerator ID="0xAE296A71" name="Unknown 3"/>
-                    </enumerators>
-                </enum>
-                <property ID="0xCAFE3DA7" type="float">
-                    <default>60.0</default>
-                </property>
-                <property ID="0x972C0E20" type="MayaSpline"/>
-                <property ID="0x812CF888" type="MayaSpline"/>
-            </properties>
-        </struct>
-        <struct ID="0x764827D4" type="multi">
-            <properties>
-                <property ID="0x1D49D35C" type="long">
-                    <default>3</default>
-                </property>
-                <property ID="0xC22D6492" type="float">
-                    <default>100.0</default>
-                </property>
-                <property ID="0xE02022D5" type="float">
-                    <default>135.0</default>
-                </property>
-                <struct ID="0xA738790A" template="Structs/MotionInterpolationMethod.xml"/>
-                <struct ID="0xA768A18E" template="Structs/OrientationInterpolationMethod.xml"/>
-                <struct ID="0x3B8C7CB4" template="Structs/FOVInterpolationMethod.xml"/>
-                <property ID="0x058C1B1D" type="long">
-                    <default>3</default>
-                </property>
-                <property ID="0x943F8A27" type="float">
-                    <default>100.0</default>
-                </property>
-                <property ID="0x3127E68A" type="float">
-                    <default>135.0</default>
-                </property>
-                <struct ID="0x7FAC732A" template="Structs/MotionInterpolationMethod.xml"/>
-                <struct ID="0xDFAB73B6" template="Structs/OrientationInterpolationMethod.xml"/>
-                <struct ID="0xF391EDBC" template="Structs/FOVInterpolationMethod.xml"/>
-                <property ID="0x07A6C22C" type="long">
-                    <default>3</default>
-                </property>
-                <property ID="0xC4E74018" type="float">
-                    <default>100.0</default>
-                </property>
-                <property ID="0x28B3B4B5" type="float">
-                    <default>135.0</default>
-                </property>
-                <struct ID="0xBC723CAC" template="Structs/MotionInterpolationMethod.xml"/>
-                <struct ID="0xBE093676" template="Structs/OrientationInterpolationMethod.xml"/>
-                <struct ID="0x70754E15" template="Structs/FOVInterpolationMethod.xml"/>
-            </properties>
-        </struct>
-        <struct ID="0x95D0D437" template="Structs/InterpolationMethod.xml"/>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-        </properties>
-        <assets/>
-        <preview_scale>0.5</preview_scale>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Corruption">
+    <Properties Type="Struct">
+        <Name>CameraHint</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Int" ID="0x42087650">
+                <DefaultValue>50</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8747552E">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x21D720A9">
+                <DefaultValue>30853</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x97A93F8F" Archetype="CameraConstraints"/>
+            <Element Type="Struct" ID="0xD1BD5C40" Archetype="CameraPosition"/>
+            <Element Type="Struct" ID="0x4BE3494B" Archetype="CameraNavigation"/>
+            <Element Type="Struct" ID="0xEBC3E775" Archetype="CameraMotion"/>
+            <Element Type="Struct" ID="0x65FC11FF" Archetype="CameraOrientation"/>
+            <Element Type="Struct" ID="0xA7C38D" Archetype="CameraRotation"/>
+            <Element Type="Struct" ID="0xFC126AD1" Archetype="CameraFieldOfView"/>
+            <Element Type="Struct" ID="0x764827D4" Archetype="CameraInterpolation"/>
+            <Element Type="Struct" ID="0x95D0D437" Archetype="InterpolationMethod"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+    <PreviewScale>0.5</PreviewScale>
+</ScriptObject>

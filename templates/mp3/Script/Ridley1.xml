@@ -1,89 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>Ridley1</name>
-    <modules>
-        <module>RSO_Ridley1.rso</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0x5FD3DE4E" type="multi">
-            <properties>
-                <property ID="0xCCF0CC68" type="asset" extensions="PART"/>
-                <property ID="0x9CF6186B" type="asset" extensions="PART"/>
-                <property ID="0xAFA0D295" type="asset" extensions="PART"/>
-                <property ID="0xB93E46E5" type="asset" extensions="WPSC"/>
-                <struct ID="0x1AAE3DB5" template="Structs/PlasmaBeamInfo.xml"/>
-                <property ID="0xBF4F8D8C" type="asset" extensions="TXTR"/>
-                <property ID="0xAB46A8C3" type="float">
-                    <default>100.0</default>
-                </property>
-                <property ID="0xC89C34FD" type="asset" extensions="PART"/>
-                <property ID="0xB10F94C5" type="asset" extensions="PART"/>
-                <property ID="0x0BD56E50" type="asset" extensions="WPSC"/>
-                <property ID="0x67DD641E" type="asset" extensions="WPSC"/>
-                <property ID="0x51FB4542" type="asset" extensions="WPSC"/>
-                <property ID="0xCA7F8A50" type="asset" extensions="PART"/>
-                <property ID="0xC34287E4" type="asset" extensions="PART"/>
-                <property ID="0x6F888688" type="asset" extensions="TXTR"/>
-                <property ID="0x84E9CCC8" type="asset" extensions="CAUD"/>
-                <property ID="0xE13AB25F" type="asset" extensions="CAUD"/>
-                <property ID="0x79169D11" type="asset" extensions="CAUD"/>
-                <property ID="0x5037FAFB" type="asset" extensions="CAUD"/>
-                <property ID="0xBD8E8710" type="asset" extensions="CAUD"/>
-                <property ID="0x7802CBF0" type="float">
-                    <default>15.0</default>
-                </property>
-                <property ID="0x491096BE" type="asset" extensions="UNKN"/>
-                <property ID="0xDBF376A9" type="float">
-                    <default>25.0</default>
-                </property>
-                <property ID="0x6D56BC5B" type="asset" extensions="UNKN"/>
-                <property ID="0x4D0BFC69" type="asset" extensions="CAUD"/>
-                <property ID="0x8813C561" type="asset" extensions="UNKN"/>
-                <property ID="0xF1BF1C16" type="asset" extensions="UNKN"/>
-                <property ID="0x0436327D" type="float">
-                    <default>500.0</default>
-                </property>
-                <property ID="0x772B6EB8" type="asset" extensions="UNKN"/>
-                <property ID="0x154B5804" type="float">
-                    <default>250.0</default>
-                </property>
-                <property ID="0xBC77BD1D" type="asset" extensions="UNKN"/>
-                <property ID="0xACB083EC" type="float">
-                    <default>100.0</default>
-                </property>
-                <property ID="0x0CD1F3CF" type="asset" extensions="UNKN"/>
-                <property ID="0x5804032E" type="asset" extensions="UNKN"/>
-                <property ID="0xA48BDF63" type="asset" extensions="UNKN"/>
-                <property ID="0x1A058C4F" type="asset" extensions="UNKN"/>
-            </properties>
-        </struct>
-        <struct ID="0x3A80D135" template="Structs/Ridley1Data.xml"/>
-        <struct ID="0xB3774750" template="Structs/PatternedAI.xml"/>
-        <struct ID="0x1C1698F5" template="Structs/Ridley1Data.xml"/>
-        <struct ID="0x1464AE05" template="Structs/PatternedAI.xml"/>
-        <struct ID="0x1CF90C26" template="Structs/Ridley1Data.xml"/>
-        <struct ID="0x24D00673" template="Structs/PatternedAI.xml"/>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xB3774750:0xA244C9D8</animparams>
-            <animparams source="property">0x1464AE05:0xA244C9D8</animparams>
-            <animparams source="property">0x24D00673:0xA244C9D8</animparams>
-            <model source="property">0x7E397FED:0xBB52F0BE</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Corruption">
+    <Modules>
+        <Element>RSO_Ridley1.rso</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>Ridley1</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0x5FD3DE4E" Archetype="UnknownStruct53"/>
+            <Element Type="Struct" ID="0x3A80D135" Archetype="Ridley1Data"/>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAI"/>
+            <Element Type="Struct" ID="0x1C1698F5" Archetype="Ridley1Data"/>
+            <Element Type="Struct" ID="0x1464AE05" Archetype="PatternedAI"/>
+            <Element Type="Struct" ID="0x1CF90C26" Archetype="Ridley1Data"/>
+            <Element Type="Struct" ID="0x24D00673" Archetype="PatternedAI"/>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xB3774750:0xA244C9D8"/>
+        <Element Type="AnimParams" Source="Property" Location="0x1464AE05:0xA244C9D8"/>
+        <Element Type="AnimParams" Source="Property" Location="0x24D00673:0xA244C9D8"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0xBB52F0BE"/>
+    </Assets>
+</ScriptObject>

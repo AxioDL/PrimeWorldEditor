@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="EchoesDemo">
+    <PropertyArchetype Type="Struct">
+        <Name>Connection</Name>
+        <Atomic>true</Atomic>
+        <SubProperties>
+            <Element Type="Short" ID="0x0">
+                <Name>Connection Index</Name>
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Array" ID="0x1">
+                <Name>Activation Times</Name>
+                <ItemArchetype Type="Float" ID="0x0">
+                    <Name></Name>
+                    <DefaultValue>0.0</DefaultValue>
+                </ItemArchetype>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

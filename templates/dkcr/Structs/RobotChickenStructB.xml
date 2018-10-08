@@ -1,101 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="RobotChickenStructB" type="multi">
-    <properties>
-        <enum ID="0x07D939A1">
-            <default>0xB5C34B64</default>
-            <enumerators>
-                <enumerator ID="0xB5C34B64" name="Unknown 1"/>
-                <enumerator ID="0xCC1C74A4" name="Unknown 2"/>
-                <enumerator ID="0xE5A636A9" name="Unknown 3"/>
-                <enumerator ID="0xCD1F6C81" name="Unknown 4"/>
-                <enumerator ID="0x8AF5D531" name="Unknown 5"/>
-                <enumerator ID="0xCDF9585D" name="Unknown 6"/>
-                <enumerator ID="0xB695F517" name="Unknown 7"/>
-                <enumerator ID="0xA4B9FB6C" name="Unknown 8"/>
-                <enumerator ID="0x3DB0AAD6" name="Unknown 9"/>
-                <enumerator ID="0x4AB79A40" name="Unknown 10"/>
-                <enumerator ID="0xD4D30FE3" name="Unknown 11"/>
-                <enumerator ID="0xA3D43F75" name="Unknown 12"/>
-                <enumerator ID="0x3ADD6ECF" name="Unknown 13"/>
-                <enumerator ID="0x4DDA5E59" name="Unknown 14"/>
-                <enumerator ID="0xDD6543C8" name="Unknown 15"/>
-                <enumerator ID="0xAA62735E" name="Unknown 16"/>
-                <enumerator ID="0x6279A424" name="Unknown 17"/>
-                <enumerator ID="0xB2E0863D" name="Unknown 18"/>
-                <enumerator ID="0x2BE9D787" name="Unknown 19"/>
-                <enumerator ID="0x5CEEE711" name="Unknown 20"/>
-                <enumerator ID="0xC28A72B2" name="Unknown 21"/>
-                <enumerator ID="0xB58D4224" name="Unknown 22"/>
-                <enumerator ID="0x2C84139E" name="Unknown 23"/>
-                <enumerator ID="0x5B832308" name="Unknown 24"/>
-                <enumerator ID="0xCB3C3E99" name="Unknown 25"/>
-                <enumerator ID="0xBC3B0E0F" name="Unknown 26"/>
-                <enumerator ID="0x7E039C3B" name="Unknown 27"/>
-                <enumerator ID="0xC6A4C835" name="Unknown 28"/>
-            </enumerators>
-        </enum>
-        <property ID="0x968337AB" type="long">
-            <default>1</default>
-        </property>
-        <property ID="0x8308E359" type="long">
-            <default>1</default>
-        </property>
-        <struct ID="0xC69CCAAD" type="multi">
-            <properties>
-                <property ID="0xB335DB07" type="float">
-                    <default>2.0</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x154A2C64" type="multi">
-            <properties>
-                <property ID="0xB335DB07" type="float">
-                    <default>2.0</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x634FDDD1" template="Structs/UnknownStruct50.xml"/>
-        <struct ID="0xD1989E0D" type="multi">
-            <properties>
-                <property ID="0xB335DB07" type="float">
-                    <default>2.0</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x7887F42D" type="multi">
-            <properties>
-                <property ID="0xB335DB07" type="float">
-                    <default>2.0</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0xB29207A6" type="multi">
-            <properties>
-                <property ID="0xB335DB07" type="float">
-                    <default>2.0</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0xB4C4FD1C" template="Structs/UnknownStruct50.xml"/>
-        <struct ID="0xB61AFA3B" template="Structs/UnknownStruct50.xml"/>
-        <struct ID="0xB7AF0726" template="Structs/UnknownStruct50.xml"/>
-        <struct ID="0xB3A6F475" template="Structs/UnknownStruct50.xml"/>
-        <struct ID="0xB2130968" template="Structs/UnknownStruct50.xml"/>
-        <struct ID="0xB0CD0E4F" template="Structs/UnknownStruct50.xml"/>
-        <struct ID="0xB178F352" template="Structs/UnknownStruct50.xml"/>
-        <struct ID="0xB8DEE8E9" template="Structs/UnknownStruct50.xml"/>
-        <struct ID="0xB96B15F4" template="Structs/UnknownStruct50.xml"/>
-        <struct ID="0xB7A4789F" template="Structs/UnknownStruct50.xml"/>
-        <struct ID="0x4508EB0E" template="Structs/UnknownStruct50.xml"/>
-        <struct ID="0x47D6EC29" template="Structs/UnknownStruct50.xml"/>
-        <struct ID="0x46631134" template="Structs/UnknownStruct50.xml"/>
-        <struct ID="0x426AE267" template="Structs/UnknownStruct50.xml"/>
-        <struct ID="0x43DF1F7A" template="Structs/UnknownStruct50.xml"/>
-        <struct ID="0x4101185D" template="Structs/UnknownStruct50.xml"/>
-        <struct ID="0x40B4E540" template="Structs/UnknownStruct50.xml"/>
-        <struct ID="0x4912FEFB" template="Structs/UnknownStruct50.xml"/>
-        <struct ID="0x48A703E6" template="Structs/UnknownStruct50.xml"/>
-        <struct ID="0x44ECC5C1" template="Structs/UnknownStruct50.xml"/>
-        <struct ID="0x468B1161" template="Structs/UnknownStruct50.xml"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>RobotChickenStructB</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0x7D939A1">
+                <DefaultValue>0xB5C34B64</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0xB5C34B64"/>
+                    <Element Name="Unknown 2" ID="0xCC1C74A4"/>
+                    <Element Name="Unknown 3" ID="0xE5A636A9"/>
+                    <Element Name="Unknown 4" ID="0xCD1F6C81"/>
+                    <Element Name="Unknown 5" ID="0x8AF5D531"/>
+                    <Element Name="Unknown 6" ID="0xCDF9585D"/>
+                    <Element Name="Unknown 7" ID="0xB695F517"/>
+                    <Element Name="Unknown 8" ID="0xA4B9FB6C"/>
+                    <Element Name="Unknown 9" ID="0x3DB0AAD6"/>
+                    <Element Name="Unknown 10" ID="0x4AB79A40"/>
+                    <Element Name="Unknown 11" ID="0xD4D30FE3"/>
+                    <Element Name="Unknown 12" ID="0xA3D43F75"/>
+                    <Element Name="Unknown 13" ID="0x3ADD6ECF"/>
+                    <Element Name="Unknown 14" ID="0x4DDA5E59"/>
+                    <Element Name="Unknown 15" ID="0xDD6543C8"/>
+                    <Element Name="Unknown 16" ID="0xAA62735E"/>
+                    <Element Name="Unknown 17" ID="0x6279A424"/>
+                    <Element Name="Unknown 18" ID="0xB2E0863D"/>
+                    <Element Name="Unknown 19" ID="0x2BE9D787"/>
+                    <Element Name="Unknown 20" ID="0x5CEEE711"/>
+                    <Element Name="Unknown 21" ID="0xC28A72B2"/>
+                    <Element Name="Unknown 22" ID="0xB58D4224"/>
+                    <Element Name="Unknown 23" ID="0x2C84139E"/>
+                    <Element Name="Unknown 24" ID="0x5B832308"/>
+                    <Element Name="Unknown 25" ID="0xCB3C3E99"/>
+                    <Element Name="Unknown 26" ID="0xBC3B0E0F"/>
+                    <Element Name="Unknown 27" ID="0x7E039C3B"/>
+                    <Element Name="Unknown 28" ID="0xC6A4C835"/>
+                </Values>
+            </Element>
+            <Element Type="Int" ID="0x968337AB">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x8308E359">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xC69CCAAD" Archetype="UnknownStruct253"/>
+            <Element Type="Struct" ID="0x154A2C64" Archetype="UnknownStruct253"/>
+            <Element Type="Struct" ID="0x634FDDD1" Archetype="UnknownStruct50"/>
+            <Element Type="Struct" ID="0xD1989E0D" Archetype="UnknownStruct253"/>
+            <Element Type="Struct" ID="0x7887F42D" Archetype="UnknownStruct253"/>
+            <Element Type="Struct" ID="0xB29207A6" Archetype="UnknownStruct253"/>
+            <Element Type="Struct" ID="0xB4C4FD1C" Archetype="UnknownStruct50"/>
+            <Element Type="Struct" ID="0xB61AFA3B" Archetype="UnknownStruct50"/>
+            <Element Type="Struct" ID="0xB7AF0726" Archetype="UnknownStruct50"/>
+            <Element Type="Struct" ID="0xB3A6F475" Archetype="UnknownStruct50"/>
+            <Element Type="Struct" ID="0xB2130968" Archetype="UnknownStruct50"/>
+            <Element Type="Struct" ID="0xB0CD0E4F" Archetype="UnknownStruct50"/>
+            <Element Type="Struct" ID="0xB178F352" Archetype="UnknownStruct50"/>
+            <Element Type="Struct" ID="0xB8DEE8E9" Archetype="UnknownStruct50"/>
+            <Element Type="Struct" ID="0xB96B15F4" Archetype="UnknownStruct50"/>
+            <Element Type="Struct" ID="0xB7A4789F" Archetype="UnknownStruct50"/>
+            <Element Type="Struct" ID="0x4508EB0E" Archetype="UnknownStruct50"/>
+            <Element Type="Struct" ID="0x47D6EC29" Archetype="UnknownStruct50"/>
+            <Element Type="Struct" ID="0x46631134" Archetype="UnknownStruct50"/>
+            <Element Type="Struct" ID="0x426AE267" Archetype="UnknownStruct50"/>
+            <Element Type="Struct" ID="0x43DF1F7A" Archetype="UnknownStruct50"/>
+            <Element Type="Struct" ID="0x4101185D" Archetype="UnknownStruct50"/>
+            <Element Type="Struct" ID="0x40B4E540" Archetype="UnknownStruct50"/>
+            <Element Type="Struct" ID="0x4912FEFB" Archetype="UnknownStruct50"/>
+            <Element Type="Struct" ID="0x48A703E6" Archetype="UnknownStruct50"/>
+            <Element Type="Struct" ID="0x44ECC5C1" Archetype="UnknownStruct50"/>
+            <Element Type="Struct" ID="0x468B1161" Archetype="UnknownStruct50"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

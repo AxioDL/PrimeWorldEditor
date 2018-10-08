@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>SpindlePosition</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0xB8A6413A">
+                <DefaultValue>320</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xA0FB9986" Archetype="SpindlePositionInterpolant"/>
+            <Element Type="Struct" ID="0x58079583" Archetype="SpindlePositionInterpolant"/>
+            <Element Type="Struct" ID="0xE44C1003" Archetype="SpindlePositionInterpolant"/>
+            <Element Type="Struct" ID="0x39936936" Archetype="SpindlePositionInterpolant"/>
+            <Element Type="Struct" ID="0x2D8C38B0" Archetype="SpindlePositionInterpolant"/>
+            <Element Type="Struct" ID="0x1D2A6188" Archetype="SpindlePositionInterpolant"/>
+            <Element Type="Struct" ID="0x91CC9F6A" Archetype="SpindlePositionInterpolant"/>
+            <Element Type="Struct" ID="0x905289AC" Archetype="SpindlePositionInterpolant"/>
+            <Element Type="Struct" ID="0xF5F6849D" Archetype="SpindlePositionInterpolant"/>
+            <Element Type="Struct" ID="0x7B66A7B4" Archetype="SpindlePositionInterpolant"/>
+            <Element Type="Struct" ID="0x68926CCD" Archetype="SpindlePositionInterpolant"/>
+            <Element Type="Struct" ID="0x74DA08D9" Archetype="SpindlePositionInterpolant"/>
+            <Element Type="Struct" ID="0x3158FD3B" Archetype="SpindlePositionInterpolant"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

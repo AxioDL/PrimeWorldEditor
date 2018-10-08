@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>ShieldData</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0x5A15D127">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xCD420D23" Archetype="UnknownStruct42"/>
+            <Element Type="Struct" ID="0xBBA7341E" Archetype="UnknownStruct42"/>
+            <Element Type="Struct" ID="0x20D4DECA" Archetype="UnknownStruct42"/>
+            <Element Type="Struct" ID="0x566D4664" Archetype="UnknownStruct42"/>
+            <Element Type="Struct" ID="0xCD1EACB0" Archetype="UnknownStruct42"/>
+            <Element Type="Struct" ID="0xBBFB958D" Archetype="UnknownStruct42"/>
+            <Element Type="Struct" ID="0x20887F59" Archetype="UnknownStruct42"/>
+            <Element Type="Struct" ID="0x5688A4D1" Archetype="UnknownStruct42"/>
+            <Element Type="Struct" ID="0xCDFB4E05" Archetype="UnknownStruct42"/>
+            <Element Type="Struct" ID="0xEC7B7C4D" Archetype="UnknownStruct42"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

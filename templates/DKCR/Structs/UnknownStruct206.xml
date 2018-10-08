@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct206</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Struct" ID="0xA5CC2982" Archetype="ProjectileData"/>
+            <Element Type="Struct" ID="0xD90DAB09" Archetype="ProjectileRenderData"/>
+            <Element Type="Struct" ID="0x58D9785F" Archetype="ProjectileCollisionData"/>
+            <Element Type="Struct" ID="0x90DCEF98" Archetype="ProjectileMotionData"/>
+            <Element Type="Bool" ID="0xCC4284A2">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x50A7E94B" Archetype="ProjectileBounceData"/>
+            <Element Type="Vector" ID="0xF726E5DA">
+                <DefaultValue>
+                    <X>1.0</X>
+                    <Y>1.0</Y>
+                    <Z>1.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xEA0F134D" Archetype="UnknownStruct205"/>
+            <Element Type="Float" ID="0x3180D4F3">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

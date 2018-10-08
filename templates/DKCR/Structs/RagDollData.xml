@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>RagDollData</Name>
+        <SubProperties>
+            <Element Type="Vector" ID="0x9E235C61">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>-50.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6AB0341A">
+                <DefaultValue>8000.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x43C02224">
+                <DefaultValue>1.2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x446A33F5">
+                <DefaultValue>0.125</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8B331CE">
+                <DefaultValue>0.85000002</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x91936B5E">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x81D40910">
+                <DefaultValue>3000.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x16407ED9">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3E7B2B4">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xE190F77D"/>
+            <Element Type="Bool" ID="0xCE5D16C3">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xA99A0E33">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xE7B88D51">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x7DE2E6BA">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xE1107C4A">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0xB674EA3D">
+                <DefaultValue>0x902E534E</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x6851D062"/>
+                    <Element Name="Unknown 2" ID="0x1DD8284C"/>
+                    <Element Name="Unknown 3" ID="0x902E534E"/>
+                </Values>
+            </Element>
+            <Element Type="Vector" ID="0x96BB302A">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>1.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4414D99C">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

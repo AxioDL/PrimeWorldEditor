@@ -1,103 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>DefenseMechanoid</name>
-    <modules>
-        <module>RSO_DefenseMechanoid.rso</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0xF0CE5372" type="multi">
-            <properties>
-                <property ID="0x7FAB452A" type="asset" extensions="SCAN"/>
-                <property ID="0xC47A5224" type="asset" extensions="CMDL"/>
-                <property ID="0x38FABDE9" type="asset" extensions="CMDL"/>
-                <property ID="0x4BA2833E" type="asset" extensions="CMDL"/>
-                <property ID="0xC60FB911" type="asset" extensions="CMDL"/>
-                <property ID="0x537F8382" type="asset" extensions="PART"/>
-                <property ID="0x98D5883D" type="asset" extensions="PART"/>
-                <property ID="0xAD17A036" type="asset" extensions="PART"/>
-                <property ID="0x3FEF37BD" type="asset" extensions="PART"/>
-                <property ID="0xBD321538" type="asset" extensions="ELSC"/>
-                <property ID="0x70E97166" type="asset" extensions="WPSC"/>
-                <property ID="0x9EEF71C2" type="asset" extensions="WPSC"/>
-                <property ID="0xF98FDCC9" type="asset" extensions="PART"/>
-                <property ID="0xDBF176DD" type="asset" extensions="PART"/>
-                <property ID="0x7AF488B1" type="asset" extensions="PART"/>
-                <property ID="0xDD6BE17F" type="asset" extensions="PART"/>
-                <property ID="0x1CC93984" type="float">
-                    <default>40.0</default>
-                </property>
-                <struct ID="0xF609C637" template="Structs/GrappleData.xml">
-                    <properties>
-                        <property ID="0xB2BD2723">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x5BBBE79E">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x426F2F60">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x771A3176">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0xEFD287D9">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x56F41CA8">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x4BDEE69A">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x0598B045">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x07648F63">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0x2C558C5D" type="asset" extensions="CAUD"/>
-                <property ID="0xB3220B78" type="asset" extensions="CAUD"/>
-                <property ID="0xB4A84D85" type="asset" extensions="CAUD"/>
-                <property ID="0xFEF01104" type="asset" extensions="CAUD"/>
-                <property ID="0xEB8805BD" type="asset" extensions="CAUD"/>
-                <property ID="0x657327CD" type="asset" extensions="UNKN"/>
-                <property ID="0xA99CCB84" type="asset" extensions="UNKN"/>
-                <property ID="0xB60DF150" type="asset" extensions="UNKN"/>
-            </properties>
-        </struct>
-        <struct ID="0x5231ED05" template="Structs/DefenseMechanoidData.xml"/>
-        <struct ID="0xB3774750" template="Structs/PatternedAI.xml"/>
-        <struct ID="0x8E34B059" template="Structs/DefenseMechanoidData.xml"/>
-        <struct ID="0x1464AE05" template="Structs/PatternedAI.xml"/>
-        <struct ID="0x838EE838" template="Structs/DefenseMechanoidData.xml"/>
-        <struct ID="0x24D00673" template="Structs/PatternedAI.xml"/>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xB3774750:0xA244C9D8</animparams>
-            <animparams source="property">0x1464AE05:0xA244C9D8</animparams>
-            <animparams source="property">0x24D00673:0xA244C9D8</animparams>
-            <model source="property">0xF0CE5372:0xC47A5224</model>
-            <model source="property">0xF0CE5372:0x38FABDE9</model>
-            <model source="property">0xF0CE5372:0x4BA2833E</model>
-            <model source="property">0xF0CE5372:0xC60FB911</model>
-            <model source="property">0x7E397FED:0xBB52F0BE</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Corruption">
+    <Modules>
+        <Element>RSO_DefenseMechanoid.rso</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>DefenseMechanoid</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0xF0CE5372" Archetype="UnknownStruct26"/>
+            <Element Type="Struct" ID="0x5231ED05" Archetype="DefenseMechanoidData"/>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAI"/>
+            <Element Type="Struct" ID="0x8E34B059" Archetype="DefenseMechanoidData"/>
+            <Element Type="Struct" ID="0x1464AE05" Archetype="PatternedAI"/>
+            <Element Type="Struct" ID="0x838EE838" Archetype="DefenseMechanoidData"/>
+            <Element Type="Struct" ID="0x24D00673" Archetype="PatternedAI"/>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xB3774750:0xA244C9D8"/>
+        <Element Type="AnimParams" Source="Property" Location="0x1464AE05:0xA244C9D8"/>
+        <Element Type="AnimParams" Source="Property" Location="0x24D00673:0xA244C9D8"/>
+        <Element Type="Model" Source="Property" Location="0xF0CE5372:0xC47A5224"/>
+        <Element Type="Model" Source="Property" Location="0xF0CE5372:0x38FABDE9"/>
+        <Element Type="Model" Source="Property" Location="0xF0CE5372:0x4BA2833E"/>
+        <Element Type="Model" Source="Property" Location="0xF0CE5372:0xC60FB911"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0xBB52F0BE"/>
+    </Assets>
+</ScriptObject>

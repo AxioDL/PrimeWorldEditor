@@ -1,108 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>AreaNode</name>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0x4DEF7B9B" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xF1AE2F13" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xA6F8611C" type="bool">
-            <default>false</default>
-        </property>
-        <enum ID="0x8D3AB314">
-            <default>0x24E6FE6B</default>
-            <enumerators>
-                <enumerator ID="0x0BB40E5E" name="Start"/>
-                <enumerator ID="0x24E6FE6B" name="Stage"/>
-                <enumerator ID="0xFB8DD144" name="Boss"/>
-                <enumerator ID="0x060BCB31" name="Shop"/>
-                <enumerator ID="0xC8068C4F" name="Trophy"/>
-                <enumerator ID="0xA5355C31" name="Unknown"/>
-                <enumerator ID="0x0CA17800" name="Rocket"/>
-                <enumerator ID="0x9DFC67D1" name="Temple"/>
-            </enumerators>
-        </enum>
-        <property ID="0x6A02F05F" type="string"/>
-        <property ID="0x737631AD" type="asset" extensions="STRG"/>
-        <property ID="0x3B83DD31" type="asset" extensions="STRG"/>
-        <property ID="0x30CBDB68" type="long">
-            <default>0</default>
-            <description>Seems to affect the number displayed on the file select screen for "last completed stage"</description>
-        </property>
-        <property ID="0xF344C0B0" type="vector3f">
-            <default>0.0, 0.0, 0.0</default>
-        </property>
-        <property ID="0x2E686C2A" type="vector3f">
-            <default>0.0, 0.0, 0.0</default>
-        </property>
-        <property ID="0x0FC966DC" type="asset" extensions="DCLN"/>
-        <property ID="0x33CF5665" type="asset" extensions="UNKN"/>
-        <property ID="0xA244C9D8" type="character"/>
-        <property ID="0xB7CD213C" type="character"/>
-        <property ID="0x9F93BC3F" type="character"/>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <property ID="0x6A789BE3" type="asset" extensions="MLVL"/>
-        <struct ID="0xA9D29E32" type="multi">
-            <properties>
-                <property ID="0xA28B199D" type="asset" extensions="CAUD"/>
-                <property ID="0x003E7991" type="asset" extensions="CAUD"/>
-            </properties>
-        </struct>
-        <struct ID="0x86963E8A" type="multi">
-            <properties>
-                <property ID="0xFBB7BE45" type="color">
-                    <default>0.0, 0.0, 0.0, 1.0</default>
-                </property>
-                <property ID="0x0FBCE3FB" type="color">
-                    <default>0.0, 0.0, 0.0, 1.0</default>
-                </property>
-                <property ID="0x844AB6B0" type="color">
-                    <default>0.0, 0.0, 0.0, 1.0</default>
-                </property>
-                <property ID="0xA6E3187A" type="color">
-                    <default>1.0, 1.0, 1.0, 1.0</default>
-                </property>
-                <property ID="0x045C4906" type="color">
-                    <default>0.0, 0.0, 0.0, 1.0</default>
-                </property>
-                <property ID="0x9C403177" type="color">
-                    <default>0.0, 0.0, 0.0, 1.0</default>
-                </property>
-                <property ID="0x1F68F1B7" type="bool">
-                    <default>false</default>
-                    <description>This property was likely used in debug builds. It is not read by the game and has no ingame effect.</description>
-                </property>
-                <property ID="0x29463E36" type="character"/>
-                <property ID="0x103E9376" type="character"/>
-                <property ID="0x7024D89B" type="character"/>
-                <property ID="0x495C75DB" type="character"/>
-                <property ID="0x19080EBD" type="character"/>
-                <property ID="0x2070A3FD" type="character"/>
-            </properties>
-        </struct>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xA244C9D8</animparams>
-            <animparams source="property">0xB7CD213C</animparams>
-            <animparams source="property">0x9F93BC3F</animparams>
-            <animparams source="property">0x86963E8A:0x29463E36</animparams>
-            <animparams source="property">0x86963E8A:0x103E9376</animparams>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="DKCReturns">
+    <Properties Type="Struct">
+        <Name>AreaNode</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Bool" ID="0x4DEF7B9B">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xF1AE2F13">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xA6F8611C">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0x8D3AB314">
+                <DefaultValue>0x24E6FE6B</DefaultValue>
+                <Values>
+                    <Element Name="Start" ID="0xBB40E5E"/>
+                    <Element Name="Stage" ID="0x24E6FE6B"/>
+                    <Element Name="Boss" ID="0xFB8DD144"/>
+                    <Element Name="Shop" ID="0x60BCB31"/>
+                    <Element Name="Trophy" ID="0xC8068C4F"/>
+                    <Element Name="Unknown" ID="0xA5355C31"/>
+                    <Element Name="Rocket" ID="0xCA17800"/>
+                    <Element Name="Temple" ID="0x9DFC67D1"/>
+                </Values>
+            </Element>
+            <Element Type="String" ID="0x6A02F05F"/>
+            <Element Type="Asset" ID="0x737631AD">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x3B83DD31">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Int" ID="0x30CBDB68">
+                <Description>Seems to affect the number displayed on the file select screen for "last completed stage"</Description>
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0xF344C0B0">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x2E686C2A">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xFC966DC">
+                <TypeFilter>
+                    <Element>DCLN</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x33CF5665"/>
+            <Element Type="AnimationSet" ID="0xA244C9D8"/>
+            <Element Type="AnimationSet" ID="0xB7CD213C"/>
+            <Element Type="AnimationSet" ID="0x9F93BC3F"/>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Asset" ID="0x6A789BE3">
+                <TypeFilter>
+                    <Element>MLVL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0xA9D29E32" Archetype="UnknownStruct19"/>
+            <Element Type="Struct" ID="0x86963E8A" Archetype="UnknownStruct20"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xA244C9D8"/>
+        <Element Type="AnimParams" Source="Property" Location="0xB7CD213C"/>
+        <Element Type="AnimParams" Source="Property" Location="0x9F93BC3F"/>
+        <Element Type="AnimParams" Source="Property" Location="0x86963E8A:0x29463E36"/>
+        <Element Type="AnimParams" Source="Property" Location="0x86963E8A:0x103E9376"/>
+    </Assets>
+</ScriptObject>

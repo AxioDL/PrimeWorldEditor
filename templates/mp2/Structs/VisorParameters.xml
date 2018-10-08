@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="VisorParameters" type="multi">
-    <properties>
-        <property ID="0xFE9DC266" type="bool">
-            <default>false</default>
-        </property>
-        <bitfield ID="0xCA19E8C6">
-            <default>0x0000000F</default>
-            <flags>
-                <flag mask="0x00000001" name="Combat"/>
-                <flag mask="0x00000002" name="Scan"/>
-                <flag mask="0x00000004" name="Dark"/>
-                <flag mask="0x00000008" name="Echo"/>
-            </flags>
-        </bitfield>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>VisorParameters</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0xFE9DC266">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Flags" ID="0xCA19E8C6">
+                <DefaultValue>15</DefaultValue>
+                <Flags>
+                    <Element Name="Combat" Mask="0x1"/>
+                    <Element Name="Scan" Mask="0x2"/>
+                    <Element Name="Dark" Mask="0x4"/>
+                    <Element Name="Echo" Mask="0x8"/>
+                </Flags>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

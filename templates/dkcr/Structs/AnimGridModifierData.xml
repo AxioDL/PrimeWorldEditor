@@ -1,145 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="AnimGridModifierData" type="multi">
-    <properties>
-        <property ID="0xA1266897" type="long">
-            <default>-1</default>
-            <cook_pref>always</cook_pref>
-        </property>
-        <property ID="0x7BE67947" type="bool">
-            <default>true</default>
-        </property>
-        <property ID="0x6EF66FAA" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x4432CCD6" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xF0CC73C9" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x2B73202E" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xCFC6720E" type="bool">
-            <default>false</default>
-        </property>
-        <struct ID="0x900FB99C" template="Structs/UnknownStruct3.xml"/>
-        <enum ID="0x6F74F82F">
-            <default>0xE21173B7</default>
-            <enumerators>
-                <enumerator ID="0xE21173B7" name="Unknown 1"/>
-                <enumerator ID="0x22AD3DF8" name="Unknown 2"/>
-            </enumerators>
-        </enum>
-        <enum ID="0x611F9F41">
-            <default>0xD751E807</default>
-            <enumerators>
-                <enumerator ID="0xD751E807" name="Unknown 1"/>
-                <enumerator ID="0x4833201D" name="Unknown 2"/>
-                <enumerator ID="0x72A3F8CD" name="Unknown 3"/>
-                <enumerator ID="0xC18C49C9" name="Unknown 4"/>
-            </enumerators>
-        </enum>
-        <struct ID="0x42A7922C" type="multi">
-            <properties>
-                <property ID="0x5D28CCE5" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0x1FE2E0B4" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0x8239D04C" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0x9ADF7732" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x7FBFE9FD" type="bool">
-                    <default>true</default>
-                </property>
-                <property ID="0x6A54D863" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x17D5302A" type="float">
-                    <default>7.0</default>
-                </property>
-                <property ID="0xFA271B70" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x5C927FB2" type="float">
-                    <default>5.0</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0xE67EF99E" type="multi">
-            <properties>
-                <property ID="0xB297F186" type="float">
-                    <default>0.0</default>
-                    <cook_pref>always</cook_pref>
-                </property>
-                <property ID="0xCA3E85C5" type="float">
-                    <default>15.0</default>
-                </property>
-                <property ID="0x036DC8DD" type="float">
-                    <default>10.0</default>
-                </property>
-                <property ID="0x37A12336" type="float">
-                    <default>5.0</default>
-                </property>
-                <property ID="0x87F624CE" type="float">
-                    <default>15.0</default>
-                </property>
-                <property ID="0xC46A562B" type="float">
-                    <default>10.0</default>
-                </property>
-                <property ID="0x58D29F3F" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0xE0029E4A" type="float">
-                    <default>0.0</default>
-                </property>
-                <enum ID="0x69FC4177">
-                    <default>0xEC782F50</default>
-                    <enumerators>
-                        <enumerator ID="0xEC782F50" name="Unknown 1"/>
-                        <enumerator ID="0x41744CAE" name="Unknown 2"/>
-                        <enumerator ID="0xAF7A2D82" name="Unknown 3"/>
-                        <enumerator ID="0x1801E4F8" name="Unknown 4"/>
-                    </enumerators>
-                </enum>
-                <property ID="0xA57469D3" type="float">
-                    <default>6.0</default>
-                </property>
-                <property ID="0xE8BCC8D8" type="float">
-                    <default>6.0</default>
-                </property>
-                <property ID="0x5E300B3F" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x63564BA2" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0xFBC6C110" type="string"/>
-                <property ID="0x30C30368" type="bool">
-                    <default>false</default>
-                </property>
-                <enum ID="0x3C3862F3" template="Enums/UnknownEnum2.xml">
-                    <default>0x0291D74B</default>
-                </enum>
-                <enum ID="0x2F711429" template="Enums/UnknownEnum2.xml">
-                    <default>0x3BB45C07</default>
-                </enum>
-            </properties>
-        </struct>
-        <struct ID="0x7873EFD9" type="multi">
-            <properties>
-                <property ID="0x206DEA2E" type="float">
-                    <default>10.0</default>
-                </property>
-                <property ID="0xA57469D3" type="float">
-                    <default>6.0</default>
-                </property>
-            </properties>
-        </struct>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>AnimGridModifierData</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0xA1266897">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x7BE67947">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x6EF66FAA">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x4432CCD6">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF0CC73C9">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2B73202E">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xCFC6720E">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x900FB99C" Archetype="UnknownStruct3"/>
+            <Element Type="Enum" ID="0x6F74F82F">
+                <DefaultValue>0xE21173B7</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0xE21173B7"/>
+                    <Element Name="Unknown 2" ID="0x22AD3DF8"/>
+                </Values>
+            </Element>
+            <Element Type="Enum" ID="0x611F9F41">
+                <DefaultValue>0xD751E807</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0xD751E807"/>
+                    <Element Name="Unknown 2" ID="0x4833201D"/>
+                    <Element Name="Unknown 3" ID="0x72A3F8CD"/>
+                    <Element Name="Unknown 4" ID="0xC18C49C9"/>
+                </Values>
+            </Element>
+            <Element Type="Struct" ID="0x42A7922C" Archetype="UnknownStruct9"/>
+            <Element Type="Struct" ID="0xE67EF99E" Archetype="TrackPlayer"/>
+            <Element Type="Struct" ID="0x7873EFD9" Archetype="UnknownStruct10"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="PeanutStruct" type="multi">
-    <properties>
-        <struct ID="0xD72E09E1" template="Structs/ClingPathControlStruct.xml"/>
-        <property ID="0x5B60214F" type="asset" extensions="UNKN"/>
-        <property ID="0xA272ADE0" type="asset" extensions="UNKN"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>PeanutStruct</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0xD72E09E1" Archetype="ClingPathControlStruct"/>
+            <Element Type="Asset" ID="0x5B60214F"/>
+            <Element Type="Asset" ID="0xA272ADE0"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,31 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="IngPossessionData" type="multi">
-    <properties>
-        <property ID="0x888FA435" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xB68C0AA3" type="bool">
-            <default>true</default>
-        </property>
-        <property ID="0xAD54DA11" type="asset" extensions="CMDL"/>
-        <property ID="0xF5C66384" type="asset" extensions="CSKR"/>
-        <property ID="0x35A9792E" type="asset" extensions="SCAN"/>
-        <struct ID="0x1D852D4B" template="Structs/HealthInfo.xml">
-            <properties>
-                <property ID="0xF0668919">
-                    <default>150.0</default>
-                </property>
-                <property ID="0x3A2D17E4">
-                    <default>2.0</default>
-                </property>
-            </properties>
-        </struct>
-        <property ID="0x487E4F9A" type="float">
-            <default>2.0</default>
-        </property>
-        <property ID="0x2BEFC1BF" type="long">
-            <default>-1</default>
-        </property>
-        <struct ID="0x4AEEC093" template="Structs/DamageVulnerability.xml"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>IngPossessionData</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0x888FA435">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xB68C0AA3">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xAD54DA11">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xF5C66384">
+                <TypeFilter>
+                    <Element>CSKR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x35A9792E">
+                <TypeFilter>
+                    <Element>SCAN</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x1D852D4B" Archetype="HealthInfo">
+                <SubProperties>
+                    <Element Type="Float" ID="0xF0668919">
+                        <DefaultValue>150.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x3A2D17E4">
+                        <DefaultValue>2.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Float" ID="0x487E4F9A">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x2BEFC1BF">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x4AEEC093" Archetype="DamageVulnerability"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

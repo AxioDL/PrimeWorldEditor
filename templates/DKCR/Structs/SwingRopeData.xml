@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>SwingRopeData</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x7E20A7C9">
+                <DefaultValue>0.050000001</DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0x2C32472D">
+                <DefaultValue>0x757C86AB</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x757C86AB"/>
+                    <Element Name="Unknown 2" ID="0x57212EA7"/>
+                    <Element Name="Unknown 3" ID="0x334AD762"/>
+                </Values>
+            </Element>
+            <Element Type="Asset" ID="0xD9DF339A">
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xD1F65872">
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x3C5E2D90">
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0xD9635583">
+                <DefaultValue>45.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x92AC8836">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBF43E511">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xCE9E9178">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x5B5F1A7D">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x2C02F3CA">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8388E38B">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x9EE1B0B">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0x77C8CC96"/>
+            <Element Type="Float" ID="0x723A15A5">
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBECB0936">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x84594ED5">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x941EFAA0">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x36F40C13">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x1ACB67F5">
+                <DefaultValue>24</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x87EC81B">
+                <DefaultValue>24</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xB0C2AF7E">
+                <DefaultValue>24</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x2D1597C7">
+                <DefaultValue>24</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x95A9F0A2">
+                <DefaultValue>24</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x871C5F4C">
+                <DefaultValue>24</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x3FA03829">
+                <DefaultValue>24</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x67C3287F">
+                <DefaultValue>24</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xDF7F4F1A">
+                <DefaultValue>24</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x99C2D4A7">
+                <DefaultValue>24</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

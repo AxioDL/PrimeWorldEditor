@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>Inventory</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x52C779C0" Archetype="Misc"/>
+            <Element Type="Struct" ID="0xEF43B845" Archetype="Weapons"/>
+            <Element Type="Struct" ID="0x317D45BB" Archetype="Visors"/>
+            <Element Type="Struct" ID="0xED7F3B4A" Archetype="Ball"/>
+            <Element Type="Struct" ID="0x267F91E5" Archetype="Abilities"/>
+            <Element Type="Struct" ID="0x378E02B2" Archetype="HyperMode"/>
+            <Element Type="Struct" ID="0xE9C4A786" Archetype="Ship"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

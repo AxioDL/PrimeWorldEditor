@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="ModIncaData" type="multi">
-    <properties>
-        <property ID="0xF8DF6CD2" type="color">
-            <default>1.0, 1.0, 1.0, 1.0</default>
-        </property>
-        <property ID="0xC23011D9" type="MayaSpline"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>ModIncaData</Name>
+        <SubProperties>
+            <Element Type="Color" ID="0xF8DF6CD2">
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>1.0</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0xC23011D9"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

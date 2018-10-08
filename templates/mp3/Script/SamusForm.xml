@@ -1,118 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>SamusForm</name>
-    <modules>
-        <module>RSO_Gandrayda.rso</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <struct ID="0xB3774750" template="Structs/PatternedAI.xml">
-            <properties>
-                <property ID="0xE287D8DD">
-                    <default>0.0</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x7EFC051A" type="multi">
-            <properties>
-                <property ID="0x216ED1AD" type="asset" extensions="CMDL"/>
-                <property ID="0xB8BAA8C0" type="float">
-                    <default>4.0</default>
-                </property>
-                <property ID="0xE943139D" type="float">
-                    <default>6.0</default>
-                </property>
-                <property ID="0x2EDF3368" type="float">
-                    <default>3.0</default>
-                </property>
-                <property ID="0x7D792B8C" type="float">
-                    <default>5.0</default>
-                </property>
-                <property ID="0xFB825EAA" type="float">
-                    <default>5.0</default>
-                </property>
-                <property ID="0xBA95612C" type="float">
-                    <default>100.0</default>
-                </property>
-                <property ID="0xCE471A01" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0xAF2CB0A3" type="float">
-                    <default>70.0</default>
-                </property>
-                <property ID="0x4113FFD8" type="float">
-                    <default>0.65</default>
-                </property>
-                <property ID="0x2D8A9352" type="float">
-                    <default>9.0</default>
-                </property>
-                <struct ID="0x84605259" type="multi">
-                    <properties>
-                        <property ID="0xA3D63F44" type="character"/>
-                        <property ID="0x60AC7175" type="float">
-                            <default>1.3</default>
-                        </property>
-                        <property ID="0x205DB165" type="float">
-                            <default>3.5</default>
-                        </property>
-                        <property ID="0x45515B5E" type="float">
-                            <default>10.0</default>
-                        </property>
-                        <struct ID="0xC97013D0" template="Structs/DamageInfo.xml"/>
-                        <property ID="0x36EEE791" type="asset" extensions="PART"/>
-                        <property ID="0x845BD2EE" type="asset" extensions="PART"/>
-                        <property ID="0x4FABA78A" type="asset" extensions="CAUD"/>
-                        <property ID="0xE90069BD" type="asset" extensions="CAUD"/>
-                        <property ID="0x6AB7C2F5" type="asset" extensions="CAUD"/>
-                    </properties>
-                </struct>
-                <struct ID="0x889672F5" template="Structs/PlasmaBeamInfo.xml"/>
-                <struct ID="0x202AFAA4" template="Structs/DamageInfo.xml"/>
-                <property ID="0xE32082D1" type="float">
-                    <default>80.0</default>
-                </property>
-                <property ID="0xB71164A2" type="float">
-                    <default>80.0</default>
-                </property>
-                <property ID="0x3DC59B72" type="float">
-                    <default>20.0</default>
-                </property>
-                <property ID="0xBA9EB1D2" type="float">
-                    <default>72.0</default>
-                </property>
-                <property ID="0xF0397134" type="float">
-                    <default>90.0</default>
-                </property>
-                <property ID="0x5DAE4176" type="float">
-                    <default>30.0</default>
-                </property>
-                <struct ID="0x5F11893B" template="Structs/DamageInfo.xml"/>
-                <property ID="0xF3FA9B62" type="asset" extensions="ELSC"/>
-                <property ID="0xE0C37DFA" type="float">
-                    <default>14.0</default>
-                </property>
-            </properties>
-        </struct>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xB3774750:0xA244C9D8</animparams>
-            <animparams source="property">0x7EFC051A:0x84605259:0xA3D63F44</animparams>
-            <model source="property">0x7E397FED:0xBB52F0BE</model>
-            <model source="property">0x7EFC051A:0x216ED1AD</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Corruption">
+    <Modules>
+        <Element>RSO_Gandrayda.rso</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>SamusForm</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAI">
+                <SubProperties>
+                    <Element Type="Float" ID="0xE287D8DD">
+                        <DefaultValue>0.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x7EFC051A" Archetype="UnknownStruct57"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xB3774750:0xA244C9D8"/>
+        <Element Type="AnimParams" Source="Property" Location="0x7EFC051A:0x84605259:0xA3D63F44"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0xBB52F0BE"/>
+        <Element Type="Model" Source="Property" Location="0x7EFC051A:0x216ED1AD"/>
+    </Assets>
+</ScriptObject>

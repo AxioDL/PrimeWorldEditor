@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>KorbaSnatcherData</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0xA350F15A">
+                <DefaultValue>0.80000001</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xA2EFCADA">
+                <DefaultValue>5</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x37E9D29B">
+                <DefaultValue>8</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB827744F">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x10F2E81">
+                <DefaultValue>2.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF7E350DB">
+                <DefaultValue>2000.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC7EC3D7B">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5A571A0">
+                <DefaultValue>0.30000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8ABB2662">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4D6C440">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x973BF0CA">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

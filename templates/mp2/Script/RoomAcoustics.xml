@@ -1,181 +1,176 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>RoomAcoustics</name>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0xBD9EA266" type="long">
-            <default>117</default>
-        </property>
-        <property ID="0x86CF23F4" type="long">
-            <default>1</default>
-        </property>
-        <property ID="0xA00360CC" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x3263C26E" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xC5868061" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xC6F50032" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xCBA5555D" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x7319CF50" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x3DC3F16F" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xD5518B6C" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x26997CCB" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x121BDFAD" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xE8796BCE" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x24BBD5E4" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xFF31631B" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x4A5BBF90" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x9662498A" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x91855D62" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xD34D2029" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xDC78E83D" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x820B509E" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xE9A36031" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x62C49457" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xDA78F332" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xC8CD5CDC" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x7C14FF17" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xC4A89872" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xD61D379C" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x9F75987F" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x27C9FF1A" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x357C50F4" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xCF45711C" type="long">
-            <default>32000</default>
-        </property>
-        <property ID="0x626D1E9B" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x7D8EE273" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x83378E6A" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xF549D269" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x11FDAE16" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xA3C439C1" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x2DC70EFE" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xE2BD3706" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x5E29CEF8" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x35AE9F10" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x3E8D8694" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xF51A1D6A" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xBB1A0F34" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xEB009039" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x58096E0B" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x3D8CAD84" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x23C340F6" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x1E5A52B8" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x1D69BEC4" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x24538C4A" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xD5388116" type="float">
-            <default>200.0</default>
-        </property>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-        </properties>
-        <assets/>
-        <preview_scale>0.5</preview_scale>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Echoes">
+    <Properties Type="Struct">
+        <Name>RoomAcoustics</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Int" ID="0xBD9EA266">
+                <DefaultValue>117</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x86CF23F4">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xA00360CC">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x3263C26E">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC5868061">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC6F50032">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCBA5555D">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7319CF50">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3DC3F16F">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD5518B6C">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x26997CCB">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x121BDFAD">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE8796BCE">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x24BBD5E4">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xFF31631B">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x4A5BBF90">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9662498A">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x91855D62">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD34D2029">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xDC78E83D">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x820B509E">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xE9A36031">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x62C49457">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xDA78F332">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xC8CD5CDC">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x7C14FF17">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xC4A89872">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xD61D379C">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x9F75987F">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x27C9FF1A">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x357C50F4">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xCF45711C">
+                <DefaultValue>32000</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x626D1E9B">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x7D8EE273">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x83378E6A">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF549D269">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x11FDAE16">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA3C439C1">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2DC70EFE">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE2BD3706">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5E29CEF8">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x35AE9F10">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x3E8D8694">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xF51A1D6A">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBB1A0F34">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xEB009039">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x58096E0B">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x3D8CAD84">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x23C340F6">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1E5A52B8">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1D69BEC4">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x24538C4A">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD5388116">
+                <DefaultValue>200.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+    <PreviewScale>0.5</PreviewScale>
+</ScriptObject>
